@@ -12,6 +12,7 @@ export default function Calendar() {
     <>
       <CalendarHeader />
       <CalendarList
+        firstDay={1}
         theme={{
           calendarBackground: colors.background,
           monthTextColor: colors.calendarMonthNameColor,
