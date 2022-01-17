@@ -121,12 +121,12 @@ describe('convertPixeltoPixyJSON', () => {
       items: {
         '2021-12-14': {
           date: '2021-12-14',
-          rating: 'bad',
+          rating: 'extremely_bad',
           message: 'trennung laura',
         },
         '2021-12-15': {
           date: '2021-12-15',
-          rating: 'good',
+          rating: 'neutral',
           message: '',
         },
       }
