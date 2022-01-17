@@ -21,8 +21,7 @@
     "ios": {
       "bundleIdentifier": "com.devmood.pixymoodtracker",
       "buildNumber": "0.2.0",
-      "supportsTablet": false,
-      "usesIcloudStorage": true
+      "supportsTablet": false
     },
     "android": {
       "package": "com.devmood.pixymoodtracker",
