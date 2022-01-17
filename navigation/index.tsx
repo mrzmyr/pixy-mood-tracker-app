@@ -46,6 +46,9 @@ function RootNavigator() {
               style={{
                 padding: 10,
               }}
+              accessible={true}
+              accessibilityLabel={i18n.t('settings')}
+              accessibilityRole={'button'}
             >
               <Settings height={20} color={colors.text} />
             </Pressable>

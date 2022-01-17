@@ -8,14 +8,13 @@ export default function MenuListHeadline({ children }) {
     <Text style={{
       fontSize: 14,
       textTransform: 'uppercase',
-      color: colors.textInputText,
+      color: colors.textSecondary,
       padding: 0,
       borderRadius: 10,
       width: '100%',
       marginTop: 20,
       paddingLeft: 20,
       marginBottom: 5,
-      opacity: 0.5,
     }}>
       {children}
     </Text>

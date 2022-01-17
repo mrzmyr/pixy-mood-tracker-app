@@ -158,12 +158,11 @@ export default function SettingsScreen({ navigation }) {
               alignItems: 'center',
               marginTop: 10,
               marginBottom: 20,
-              opacity: 0.5,
               width: '90%',
             }}
           >
-            <Lock width={18} color={colors.text} />
-            <Text style={{ color: colors.text, marginTop: 5, textAlign: 'center' }}>
+            <Lock width={18} color={colors.textSecondary} />
+            <Text style={{ color: colors.textSecondary, marginTop: 5, textAlign: 'center' }}>
               {i18n.t('data_notice')}
             </Text>
           </View>
@@ -234,7 +233,7 @@ export default function SettingsScreen({ navigation }) {
             alignItems: 'center',
           }}
         >
-          <Text style={{ fontSize: 14, marginTop: 5, marginBottom: 40, color: colors.settingsText }}>{pkg.name} v{pkg.version}</Text>
+          <Text style={{ fontSize: 14, marginTop: 5, marginBottom: 40, color: colors.textSecondary }}>{pkg.name} v{pkg.version}</Text>
         </View>
       </ScrollView>
     </View>

@@ -4,6 +4,7 @@ const tintColorDark = '#fff';
 export default {
   light: {
     text: '#000',
+    textSecondary: '#666',
     background: '#fff',
     backgroundSecondary: '#F3f3f3',
     link: tintColorLight,
@@ -17,7 +18,9 @@ export default {
     menuListItemText: '#000',
     menuListItemIcon: '#000',
     menuListItemBorder: 'rgba(0,0,0,.05)',
+    calendarItemBorder: 'rgba(0,0,0,.05)',
     calendarItemBackground: '#EEE',
+    calendarItemTodayBackground: 'rgba(255,255,255,0.5)',
     calendarItemTextColor: 'rgba(0,0,0,0.5)',
     calendarWeekNameColor: '#000',
     calendarMonthNameColor: '#000',
@@ -34,8 +37,10 @@ export default {
     textInputLabel: '#999',
     textInputBorder: 'rgba(0,0,0,.05)',
     textInputBorderHighlight: tintColorLight,
-    settingsTitle: '#000',
-    settingsText: '#999',
+    tagErrorBackground: '#fed7d7',
+    tagErrorText: '#f44336',
+    tagSuccessBackground: '#c6f6d5',
+    tagSuccessText: '#1a9850',
     rating: {
       extremely_good: {
         background: '#1a9850',
@@ -69,6 +74,7 @@ export default {
   },
   dark: {
     text: '#fff',
+    textSecondary: '#666',
     background: '#111',
     backgroundSecondary: '#000',
     tint: tintColorDark,
@@ -77,6 +83,8 @@ export default {
     menuListItemText: '#FFF',
     menuListItemIcon: '#CCC',
     menuListItemBorder: 'rgba(255,255,255,.05)',
+    calendarItemBorder: 'rgba(255,255,255,0.3)',
+    calendarItemTodayBackground: 'rgba(255,255,255,0.4)',
     calendarItemBackground: '#1c1c1c',
     calendarItemTextColor: '#707070',
     calendarWeekNameColor: '#707070',
@@ -98,8 +106,10 @@ export default {
     textInputBorder: 'rgba(255,255,255,.05)',
     textInputBorderHighlight: '#2598fe',
     textInputLabel: '#666',
-    settingsTitle: '#FFF',
-    settingsText: '#666',
+    tagErrorBackground: '#fed7d7',
+    tagErrorText: '#f44336',
+    tagSuccessBackground: '#c6f6d5',
+    tagSuccessText: '#1a9850',
     rating: {
       extremely_good: {
         background: '#1a9850',

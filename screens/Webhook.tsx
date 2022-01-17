@@ -10,9 +10,11 @@ import { useSettings } from '../hooks/useSettings';
 import { useTranslation } from '../hooks/useTranslation';
 
 function Tag({ children, type }) {
+  const colors = useColors();
+  
   return (
     <View style={{
-      backgroundColor: type === 'success' ? '#c6f6d5' : '#fed7d7',
+      backgroundColor: type === 'success' ? colors.tagSuccessBackground : colors.tagErrorBackground,
       padding: 2,
       paddingLeft: 7,
       paddingRight: 7,
@@ -23,7 +25,7 @@ function Tag({ children, type }) {
         fontSize: 15, 
         color: '#333', 
         opacity: 0.8,
-        color: type === 'success' ? '#4caf50' : '#f44336',
+        color: type === 'success' ? colors.tagSuccessText : colors.tagErrorText,
       }}>
         {children}
       </Text>

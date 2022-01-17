@@ -1,17 +1,12 @@
 import dayjs from "dayjs";
 import { forwardRef, useEffect, useRef } from "react";
-import { ScrollView, Text, View } from "react-native";
+import { Text, View } from "react-native";
 import {
-  useScrollIntoView, wrapScrollView
+  useScrollIntoView
 } from 'react-native-scroll-into-view';
 import useColors from "../hooks/useColors";
 import CalendarDay from "./CalendarDay";
-import CalendarHeader from "./CalendarHeader";
 
-
-interface Week {
-  days: [];
-}
 
 function CalendarDayContainer({ 
   children,
@@ -63,6 +58,7 @@ const CalendarMonth = forwardRef(({
   date
 }, ref) => {
 
+  const colors = useColors();
   const daysInMonthCount = date.daysInMonth();
   let weeks = [[]];
   let weekIndex = 0;
@@ -83,6 +79,7 @@ const CalendarMonth = forwardRef(({
         textAlign: 'center',
         fontSize: 15,
         opacity: 0.5,
+        color: colors.calendarMonthNameColor,
       }}
       >{date.format('MMMM YYYY')}</Text>
       {weeks.map((week, index) => <CalendarWeek 
@@ -95,7 +92,9 @@ const CalendarMonth = forwardRef(({
   )
 })
 
-function Calendar() {
+export default function Calendar({
+  navigation
+}) {
   const currentMonth = dayjs();
 
   const pastMonths = [];
@@ -108,40 +107,19 @@ function Calendar() {
   const viewRef = useRef();
   
   useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      scrollIntoView(viewRef.current)
+    });
     scrollIntoView(viewRef.current)
-  }, [])
+
+    return unsubscribe;
+  }, [navigation]);
   
   return (
     <>
       {pastMonths.map(month => <CalendarMonth key={month} date={month} />)}
       <CalendarMonth date={currentMonth} ref={viewRef} />
       {futureMonths.map(month => <CalendarMonth key={month} date={month} />)}
-    </>
-  )
-}
-
-const CustomScrollView = wrapScrollView(ScrollView);
-
-export default function CalendarScreen() {
-  const colors = useColors()
-  
-  return (
-    <>
-      <CalendarHeader />
-      <CustomScrollView
-      style={{
-        marginTop: 0,
-        backgroundColor: colors.background,
-        paddingLeft: 15,
-        paddingRight: 15,
-      }}
-        scrollIntoViewOptions={{
-          animated: false,
-          align: 'center',
-        }}
-      >
-        <Calendar />
-      </CustomScrollView>
     </>
   )
 }

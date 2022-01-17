@@ -7,8 +7,7 @@ export default function TextInfo({ children }) {
   return (
     <Text style={{
       fontSize: 14,
-      color: colors.textInputText,
-      opacity: 0.5,
+      color: colors.textSecondary,
       padding: 15,
       paddingTop: 0,
       marginTop: 10,
