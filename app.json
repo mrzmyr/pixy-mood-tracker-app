@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "pixel-tracker",
-    "slug": "pixel-tracker",
-    "version": "1.0.0",
+    "name": "Pixy",
+    "slug": "pixy-mood-tracker",
+    "version": "0.1.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "myapp",
@@ -19,9 +19,14 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "bundleIdentifier": "com.devmood.pixymoodtracker",
+      "buildNumber": "0.1.0",
+      "supportsTablet": false
     },
     "android": {
+      "package": "com.devmood.pixymoodtracker",
+      "versionCode": 3,
+      "permissions": [],
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
@@ -29,6 +34,21 @@
     },
     "web": {
       "favicon": "./assets/images/favicon.png"
+    },
+    "plugins": [
+      "sentry-expo"
+    ],
+    "hooks": {
+      "postPublish": [
+        {
+          "file": "sentry-expo/upload-sourcemaps",
+          "config": {
+            "organization": "devmood",
+            "project": "devmood-pixy-development",
+            "authToken": "7d2e0b9d22df48d79ab9d4c998149eed007ca3544b4e44ef9de5793a5b3983a9"
+          }
+        }
+      ]
     }
   }
 }

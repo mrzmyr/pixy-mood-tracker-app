@@ -1,19 +1,134 @@
-const tintColorLight = '#2f95dc';
+const tintColorLight = '#2598fe';
 const tintColorDark = '#fff';
 
 export default {
   light: {
     text: '#000',
     background: '#fff',
+    backgroundSecondary: '#F3f3f3',
+    link: tintColorLight,
     tint: tintColorLight,
     tabIconDefault: '#ccc',
-    tabIconSelected: tintColorLight,
+    tabIconSelected: '#000',
+    logBackground: '#000',
+    logCardBackground: '#FFF',
+    logTitleColor: '#FFF',
+    menuListItemBackground: '#FFF',
+    menuListItemText: '#000',
+    menuListItemIcon: '#000',
+    menuListItemBorder: 'rgba(0,0,0,.05)',
+    calendarItemBackground: '#EEE',
+    calendarItemTextColor: 'rgba(0,0,0,0.5)',
+    calendarWeekNameColor: '#000',
+    calendarMonthNameColor: '#000',
+    calendarMonthNameBorderColor: '#EEE',
+    primaryLinkButtonText: tintColorLight,
+    secondaryLinkButtonText: 'rgba(0,0,0,0.5)',
+    primaryButtonBackground: tintColorLight,
+    primaryButtonTextColor: '#FFF',
+    secondaryButtonBackground: 'rgba(0,0,0,0.05)',
+    secondaryButtonTextColor: 'rgba(0,0,0,0.5)',
+    textInputBackground: '#FFF',
+    textInputText: '#333',
+    textInputPlaceholder: '#999',
+    textInputLabel: '#999',
+    textInputBorder: 'rgba(0,0,0,.05)',
+    textInputBorderHighlight: tintColorLight,
+    settingsTitle: '#000',
+    settingsText: '#999',
+    rating: {
+      extremely_good: {
+        background: '#1a9850',
+        text: 'rgba(255,255,255,1)',
+      },
+      very_good: {
+        background: '#91cf60',
+        text: 'rgba(255,255,255,1)',
+      },
+      good: {
+        background: '#d9ef8b',
+        text: 'rgba(0,0,0,0.8)',
+      },
+      neutral: {
+        background: '#ffffbf',
+        text: 'rgba(0,0,0,0.6)',
+      },
+      bad: {
+        background: '#fee08b',
+        text: 'rgba(0,0,0,0.8)',
+      },
+      very_bad: {
+        background: '#fc8d59',
+        text: 'rgba(255,255,255,1)',
+      },
+      extremely_bad: {
+        background: '#d73027',
+        text: 'rgba(255,255,255,1)',
+      },
+    }
   },
   dark: {
     text: '#fff',
-    background: '#000',
+    background: '#111',
+    backgroundSecondary: '#000',
     tint: tintColorDark,
     tabIconDefault: '#ccc',
-    tabIconSelected: tintColorDark,
+    menuListItemBackground: '#1D1D1D',
+    menuListItemText: '#FFF',
+    menuListItemIcon: '#CCC',
+    menuListItemBorder: 'rgba(255,255,255,.05)',
+    calendarItemBackground: '#1c1c1c',
+    calendarItemTextColor: '#707070',
+    calendarWeekNameColor: '#707070',
+    calendarMonthNameColor: '#707070',
+    calendarMonthNameBorderColor: '#333',
+    tabIconSelected: '#FFF',
+    logBackground: '#111',
+    logTitleColor: '#FFF',
+    logCardBackground: '#1c1c1c',
+    primaryButtonBackground: '#2598fe',
+    primaryButtonTextColor: '#FFF',
+    primaryLinkButtonText: '#2598fe',
+    secondaryLinkButtonText: 'rgba(255,255,255,0.5)',
+    secondaryButtonBackground: 'rgba(255,255,255,0.1)',
+    secondaryButtonTextColor: 'rgba(255,255,255,0.5)',
+    textInputBackground: '#1D1D1D',
+    textInputText: '#FFF',
+    textInputPlaceholder: '#333',
+    textInputBorder: 'rgba(255,255,255,.05)',
+    textInputBorderHighlight: '#2598fe',
+    textInputLabel: '#666',
+    settingsTitle: '#FFF',
+    settingsText: '#666',
+    rating: {
+      extremely_good: {
+        background: '#1a9850',
+        text: 'rgba(0,0,0,0.8)',
+      },
+      very_good: {
+        background: '#91cf60',
+        text: 'rgba(0,0,0,0.8)',
+      },
+      good: {
+        background: '#d9ef8b',
+        text: 'rgba(0,0,0,0.8)',
+      },
+      neutral: {
+        background: '#ffffbf',
+        text: 'rgba(0,0,0,0.8)',
+      },
+      bad: {
+        background: '#fee08b',
+        text: 'rgba(0,0,0,0.8)',
+      },
+      very_bad: {
+        background: '#fc8d59',
+        text: 'rgba(0,0,0,0.8)',
+      },
+      extremely_bad: {
+        background: '#d73027',
+        text: 'rgba(0,0,0,0.8)',
+      },
+    }
   },
 };

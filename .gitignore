@@ -12,3 +12,8 @@ web-build/
 
 # macOS
 .DS_Store
+assets/screenshots/*
+eas.json
+yarn-error.log
+coverage/*
+credentials/*
