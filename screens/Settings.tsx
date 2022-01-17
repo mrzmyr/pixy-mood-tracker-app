@@ -11,12 +11,14 @@ import TextInfo from '../components/TextInfo';
 import useColors from '../hooks/useColors';
 import { useLogs } from '../hooks/useLogs';
 import { useSettings } from '../hooks/useSettings';
+import { useTranslation } from '../hooks/useTranslation';
 import { convertPixeltoPixyJSON, getJSONSchemaType } from '../lib/utils';
 import pkg from '../package.json';
 
 let openShareDialogAsync = async (uri) => {
+  const i18n = useTranslation()
   if (!(await Sharing.isAvailableAsync())) {
-    alert(`Uh oh, sharing isn't available on your platform`);
+    alert(i18n.t('export_failed_title'));
     return;
   }
 
@@ -28,6 +30,8 @@ export default function SettingsScreen({ navigation }) {
   const { resetSettings } = useSettings()
   const colors = useColors()
 
+  const i18n = useTranslation()
+
   const exportEntries = async (items) => {
     const filename = `pixel-tracker-${dayjs().format('YYYY-MM-DD')}.json`;
     await FileSystem.writeAsStringAsync(FileSystem.documentDirectory + filename, JSON.stringify(items));
@@ -35,48 +39,61 @@ export default function SettingsScreen({ navigation }) {
   }
 
   const importEntries = async () => {
-    const doc = await DocumentPicker.getDocumentAsync({ 
-      type: "application/json", 
-      copyToCacheDirectory: true
-    });
-    const contents = await FileSystem.readAsStringAsync(doc.uri);
-    const json = JSON.parse(contents);
-    
-    const jsonSchemaType = getJSONSchemaType(json);
-    
-    if(jsonSchemaType === 'pixy') {
-      console.log('import pixy type')
-      dispatch({
-        type: 'import',
-        payload: json
-      })
-    } else if(jsonSchemaType === 'pixel') {
-      const payload = convertPixeltoPixyJSON(json);
-      console.log('import pixel type', payload)
-      dispatch({
-        type: 'import',
-        payload: payload
-      })
-    }
+    try {
+      const doc = await DocumentPicker.getDocumentAsync({ 
+        type: "application/json", 
+        copyToCacheDirectory: true
+      });
 
-    if(['pixy', 'pixel'].includes(jsonSchemaType)) {
+      if(doc.type === 'success') {
+        const contents = await FileSystem.readAsStringAsync(doc.uri);
+        const json = JSON.parse(contents);
+        
+        const jsonSchemaType = getJSONSchemaType(json);
+        
+        if(jsonSchemaType === 'pixy') {
+          dispatch({
+            type: 'import',
+            payload: json
+          })
+        } else if(jsonSchemaType === 'pixel') {
+          const payload = convertPixeltoPixyJSON(json);
+          dispatch({
+            type: 'import',
+            payload: payload
+          })
+        }
+
+        if(['pixy', 'pixel'].includes(jsonSchemaType)) {
+          Alert.alert(
+            i18n.t('import_success_title'),
+            i18n.t('import_success_message'),
+            [
+              {
+                text: i18n.t('ok'),
+                style: i18n.t('cancel'),
+              },
+            ],
+            { cancelable: false },
+          );
+        } else {
+          Alert.alert(
+            i18n.t('import_error_title'),
+            i18n.t('import_error_message'),
+            [
+              { text: i18n.t('ok'), onPress: () => {} }
+            ],
+            { cancelable: false }
+          )
+        }
+      }
+    } catch (error) {
+      console.error(error)
       Alert.alert(
-        'Import Successful',
-        `Your data from ${jsonSchemaType} App has been imported successfully.`,
+        i18n.t('import_error_title'),
+        i18n.t('import_error_message'),
         [
-          {
-            text: 'OK',
-            style: 'cancel',
-          },
-        ],
-        { cancelable: false },
-      );
-    } else {
-      Alert.alert(
-        'Invalid JSON',
-        'The JSON you selected does not contain the correct format.',
-        [
-          { text: 'OK', onPress: () => {} }
+          { text: i18n.t('ok'), onPress: () => {} }
         ],
         { cancelable: false }
       )
@@ -91,27 +108,28 @@ export default function SettingsScreen({ navigation }) {
   
   const askToReset = () => {
     Alert.alert(
-      'Reset Logs and Settings',
-      'This will reset all logs and settings.',
+      i18n.t('reset_data_confirm_title'),
+      i18n.t('reset_data_confirm_message'),
       [
         {
-          text: 'Reset',
+          text: i18n.t('reset'),
           onPress: () => {
             resetSettings()
             dispatch({ type: 'reset' })
             Alert.alert(
-              'Reset Successful',
-              'All logs and settings have been reset.',
-              [
-                { text: 'OK', onPress: () => {} }
-              ],
+              i18n.t('reset_data_success_title'),
+              i18n.t('reset_data_success_message'),
+              [{ 
+                text: i18n.t('ok'), 
+                onPress: () => {} 
+              }],
               { cancelable: false }
             )
           },
           style: "destructive"
         },
         { 
-          text: 'Cancel', 
+          text: i18n.t('cancel'), 
           onPress: () =>  {},
           style: "cancel"
         }
@@ -146,7 +164,7 @@ export default function SettingsScreen({ navigation }) {
           >
             <Lock width={18} color={colors.text} />
             <Text style={{ color: colors.text, marginTop: 5, textAlign: 'center' }}>
-              All data is stored on your device and only leaves your device when you decide to to so.
+              {i18n.t('data_notice')}
             </Text>
           </View>
         </View>
@@ -156,7 +174,7 @@ export default function SettingsScreen({ navigation }) {
           }}
         >
           <MenuListItem
-            title='Webbook'
+            title={i18n.t('webhook')}
             iconLeft={<Box width={18} color={colors.menuListItemIcon} />}
             onPress={() => navigation.navigate('WebhookScreen')}
             isLink
@@ -165,31 +183,31 @@ export default function SettingsScreen({ navigation }) {
         </MenuList>
         <MenuList style={{ marginTop: 20, }}>
           <MenuListItem
-            title='Import'
+            title={i18n.t('import')}
             onPress={importEntries}
             iconLeft={<Upload width={18} color={colors.menuListItemIcon} />}
           />
           <MenuListItem
-            title='Export'
+            title={i18n.t('export')}
             onPress={() => exportEntries(logs)}
             iconLeft={<Download width={18} color={colors.menuListItemIcon} />}
             isLast
           />
         </MenuList>
-        <TextInfo>Export all ratings with messages as a JSON file.</TextInfo>
+        <TextInfo>{i18n.t('export_help')}</TextInfo>
         <MenuList
           style={{
             marginTop: 20,
           }}
         >
           <MenuListItem
-            title='License'
+            title={i18n.t('licenses')}
             iconLeft={<Award width={18} color={colors.menuListItemIcon} />}
             onPress={() => navigation.navigate('LicenseScreen')}
             isLink
           />
           <MenuListItem
-            title='Rate this app'
+            title={i18n.t('rate_this_app')}
             onPress={() => askToRateApp()}
             iconLeft={<Star width={18} color={colors.menuListItemIcon} />}
             isLast
@@ -198,7 +216,7 @@ export default function SettingsScreen({ navigation }) {
 
         <MenuList style={{ marginTop: 20, }}>
           <MenuListItem
-            title='Reset all data & settings'
+            title={i18n.t('reset_data_button')}
             onPress={() => askToReset()}
             iconLeft={<Trash2 width={18} color='red' />}
             style={{
@@ -222,17 +240,3 @@ export default function SettingsScreen({ navigation }) {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: '80%',
-  },
-});

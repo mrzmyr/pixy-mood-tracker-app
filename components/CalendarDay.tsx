@@ -19,16 +19,14 @@ export default function CalendarDay({ date }) {
     <Pressable
       onPress={() => navigation.navigate('LogModal', { date: date.dateString })}
       style={({ pressed }) => [{
-        flex: 1, 
          opacity: pressed ? 0.5 : 1,
         justifyContent: 'flex-end',
         alignItems: 'flex-end',
         padding: 5,
         borderRadius: 3,
         backgroundColor: backgroundColor,
-        marginBottom: -10,
-        width: '90%',
-        height: 45,
+        width: '100%',
+        aspectRatio: 1,
       }]}
     >
     { message.length > 0 && 

@@ -16,10 +16,10 @@ export default function LicensesScreen({ navigation }) {
         backgroundColor: colors.background,
       }}>
         {licenses.data.body.map((license, index) => (
-          <View style={{
+          <View key={index} style={{
             marginTop: 20
           }}>
-            {license.map((item, index) => <Text style={{ color: colors.text, fontWeight: index === 0 ? 'bold' : 'normal' }}>{item}</Text>)}
+            {license.map((item, index) => <Text key={index} style={{ color: colors.text, fontWeight: index === 0 ? 'bold' : 'normal' }}>{item}</Text>)}
           </View>
         ))}
       </ScrollView>

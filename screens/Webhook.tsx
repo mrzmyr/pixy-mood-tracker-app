@@ -7,6 +7,7 @@ import MenuListItem from '../components/MenuListItem';
 import TextInfo from '../components/TextInfo';
 import useColors from '../hooks/useColors';
 import { useSettings } from '../hooks/useSettings';
+import { useTranslation } from '../hooks/useTranslation';
 
 function Tag({ children, type }) {
   return (
@@ -33,6 +34,7 @@ function Tag({ children, type }) {
 export default function WebhookScreen({ navigation }) {
   const { settings, setSettings } = useSettings()
   const colors = useColors()
+  const i18n = useTranslation()
 
   return (    
     <ScrollView>
@@ -44,7 +46,7 @@ export default function WebhookScreen({ navigation }) {
       >
       <MenuList>
         <MenuListItem
-          title='Webbook'
+          title={i18n.t('webhook')}
           iconRight={
             <Switch
               trackColor={{ false: '#767577', true: Platform.OS === 'ios' ? '#4ad461' : '#DDD' }}
@@ -61,7 +63,7 @@ export default function WebhookScreen({ navigation }) {
           isLast
         ></MenuListItem>
       </MenuList>
-      <TextInfo>Webhooks are used to send data to a HTTP endpoint via the POST method.</TextInfo>
+      <TextInfo>{i18n.t('webhook_help')}</TextInfo>
       { settings.webhookEnabled && 
         <View
           style={{
@@ -84,7 +86,7 @@ export default function WebhookScreen({ navigation }) {
                 color: colors.text,
                 marginLeft: 20,
               }}
-            >URL</Text>
+            >{i18n.t('webhook_url')}</Text>
             <TextInput 
               style={{
                 flex: 10,
@@ -93,13 +95,13 @@ export default function WebhookScreen({ navigation }) {
                 padding: 15,
                 paddingRight: 20,
               }}
-              placeholder='Webhook URL'
+              placeholder={i18n.t('webhook_url_placeholder')}
               value={settings.webhookUrl}
               onChange={event => setSettings(settings => ({ ...settings, webhookUrl: event.nativeEvent.text }))}
             />
           </View>
-          <TextInfo>This URL will be used to send the user input data.</TextInfo>
-          {settings.webhookHistory.length > 0 && <MenuListHeadline>History</MenuListHeadline>}
+          <TextInfo>{i18n.t('webhook_url_help')}</TextInfo>
+          {settings.webhookHistory.length > 0 && <MenuListHeadline>{i18n.t('webhook_history')}</MenuListHeadline>}
           <MenuList
             style={{
             }}
@@ -118,7 +120,7 @@ export default function WebhookScreen({ navigation }) {
                         marginRight: 10,
                       }}
                     >{entry?.date ? dayjs(entry.date).format('DD.MM.YYYY HH:mm:ss') : '-'}</Text>
-                    <Tag type={entry.isError ? 'error' : 'success'}>{entry.isError ? 'error' : 'success'}</Tag>
+                    <Tag type={entry.isError ? 'error' : 'success'}>{entry.isError ? i18n.t('webhook_status_error') : i18n.t('webhook_status_success')}</Tag>
                   </View>
                 }
                 icon={<ChevronRight width={18} color={colors.menuListItemIcon} />}

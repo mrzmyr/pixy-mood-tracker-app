@@ -23,7 +23,7 @@ export default {
     calendarMonthNameColor: '#000',
     calendarMonthNameBorderColor: '#EEE',
     primaryLinkButtonText: tintColorLight,
-    secondaryLinkButtonText: 'rgba(0,0,0,0.5)',
+    secondaryLinkButtonText: 'rgba(0,0,0,0.8)',
     primaryButtonBackground: tintColorLight,
     primaryButtonTextColor: '#FFF',
     secondaryButtonBackground: 'rgba(0,0,0,0.05)',

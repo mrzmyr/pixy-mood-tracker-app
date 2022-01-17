@@ -9,10 +9,57 @@ import LinkButton from '../components/LinkButton';
 import TextArea from '../components/TextArea';
 import useColors from '../hooks/useColors';
 import { useLogs } from '../hooks/useLogs';
+import { useTranslation } from '../hooks/useTranslation';
+
+function ModalHeader({
+  title = '',
+  right = null,
+  left = null,
+}) {
+  const colors = useColors()
+  
+  return (
+    <View
+    style={{
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      marginBottom: 30,
+    }}
+  >
+    <View style={{
+      justifyContent: 'flex-start',
+      flexDirection: 'row',
+    }}>
+      {left}
+    </View>
+    <View style={{
+      justifyContent: 'flex-start',
+      flexDirection: 'row',
+    }}>
+      <Text
+        style={{
+          fontSize: 16,
+          color: colors.text,
+          fontWeight: 'bold',
+        }}
+      >{title}</Text>
+    </View>
+    <View style={{
+      justifyContent: 'flex-end',
+      alignItems: 'center',
+      flexDirection: 'row',
+    }}>
+      {right}
+    </View>
+  </View>
+  )
+}
 
 export default function LogModal({ navigation, route }) {
   
   const colors = useColors()
+  const i18n = useTranslation()
   
   const defaultLogItem = {
     date: route.params.date,
@@ -27,7 +74,7 @@ export default function LogModal({ navigation, route }) {
 
   const save = () => {
     dispatch({
-      type: 'add', 
+      type: existingLogItem ? 'edit' : 'add',
       payload: logItem
     })
     navigation.navigate('CalendarScreen');
@@ -35,7 +82,7 @@ export default function LogModal({ navigation, route }) {
 
   const remove = () => {
     dispatch({
-      type: 'remove', 
+      type: 'delete', 
       payload: logItem
     })
     navigation.navigate('CalendarScreen');
@@ -62,40 +109,11 @@ export default function LogModal({ navigation, route }) {
     }}>
       {/* Use a light status bar on iOS to account for the black space above the modal */}
       <StatusBar style={Platform.OS === 'ios' ? 'light' : 'auto'} />
-      <View
-        style={{
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          marginBottom: 30,
-        }}
-      >
-        <View style={{
-          justifyContent: 'flex-start',
-          flexDirection: 'row',
-        }}>
-          <LinkButton onPress={cancel} type='secondary'>Cancel</LinkButton>
-        </View>
-        <View style={{
-          justifyContent: 'flex-start',
-          flexDirection: 'row',
-        }}>
-          <Text
-            style={{
-              fontSize: 16,
-              color: colors.text,
-              fontWeight: 'bold',
-            }}
-          >{dayjs(route.params.date).format('ddd, DD.MM.YYYY')}</Text>
-        </View>
-        <View style={{
-          justifyContent: 'flex-end',
-          alignItems: 'center',
-          flexDirection: 'row',
-        }}>
-          <LinkButton onPress={save}>Save</LinkButton>
-        </View>
-      </View>
+      <ModalHeader
+        title={dayjs(route.params.date).format('ddd, DD.MM.YYYY')}
+        right={<LinkButton onPress={save}>{i18n.t('save')}</LinkButton>}
+        left={<LinkButton onPress={cancel} type='secondary'>{i18n.t('cancel')}</LinkButton>}
+      />
       <View
         style={{
           display: 'flex',
@@ -115,7 +133,7 @@ export default function LogModal({ navigation, route }) {
       </View>
       <TextArea 
         onChange={setMessage}
-        placeholder='Some message about the day…'
+        placeholder={i18n.t('log_modal_message_placeholder')}
         value={logItem.message} 
         maxLength={280}
         autoFocus
@@ -128,7 +146,7 @@ export default function LogModal({ navigation, route }) {
           justifyContent: 'center',
         }}
       >
-        <LinkButton onPress={remove} type='secondary' icon={<Trash2 width={16} color={colors.secondaryLinkButtonText} />}>Delete</LinkButton>
+        <LinkButton onPress={remove} type='secondary' icon={<Trash2 width={16} color={colors.secondaryLinkButtonText} />}>{i18n.t('delete')}</LinkButton>
       </View>
       )}
     </View>

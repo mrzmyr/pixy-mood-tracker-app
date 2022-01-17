@@ -33,7 +33,13 @@ function reducer(state: LogsState, action: LogAction) {
     case 'add':
       state.items[action.payload.date] = action.payload;
       return { ...state }
-    case 'remove':
+    case 'edit':
+      state.items[action.payload.date] = {
+        ...state.items[action.payload.date],
+        ...action.payload
+      }
+      return { ...state }
+    case 'delete':
       delete state.items[action.payload.date]
       return { ...state }
     case 'reset':
@@ -52,7 +58,7 @@ function LogsProvider({children}: LogsProviderProps) {
   
   const reducerProxy = (state: LogsState, action: LogAction): LogsState => {
     const newState = reducer(state, action)
-    if(['add', 'remove', 'import'].includes(action.type)) {
+    if(['add', 'edit', 'delete', 'import'].includes(action.type)) {
       saveLogs(newState)
     }
     return newState
@@ -67,7 +73,7 @@ function LogsProvider({children}: LogsProviderProps) {
 
     if (
       settings.webhookEnabled &&
-      ['add', 'remove'].includes(action.type)
+      ['add', 'edit', 'delete'].includes(action.type)
     ) {
       const url = settings.webhookUrl
       const body = JSON.stringify(action)

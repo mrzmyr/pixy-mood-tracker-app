@@ -50,14 +50,46 @@ describe('useLogs()', () => {
     expect(result.current.state.items['2022-01-03'].message).toBe('test message')
   })
 
-  test('should remove', async () => {
+
+  test('should edit', async () => {
     const { result, waitForNextUpdate } = renderHook(() => useLogs(), { wrapper })
 
     await waitForNextUpdate()
 
     act(() => {
       result.current.dispatch({
-        type: 'remove',
+        type: 'add',
+        payload: {
+          date: '2022-01-03',
+          rating: 'neutral',
+          message: 'test message',
+        }
+      })
+    })
+
+    act(() => {
+      result.current.dispatch({
+        type: 'edit',
+        payload: {
+          date: '2022-01-03',
+          rating: 'good',
+          message: 'test message 3',
+        }
+      })
+    })
+
+    expect(result.current.state.items['2022-01-03'].rating).toBe('good')
+    expect(result.current.state.items['2022-01-03'].message).toBe('test message 3')
+  })
+
+  test('should delete', async () => {
+    const { result, waitForNextUpdate } = renderHook(() => useLogs(), { wrapper })
+
+    await waitForNextUpdate()
+
+    act(() => {
+      result.current.dispatch({
+        type: 'delete',
         payload: {
           date: '2022-01-03',
           rating: 'neutral',
@@ -76,7 +108,7 @@ describe('useLogs()', () => {
 
     act(() => {
       result.current.dispatch({
-        type: 'reset'
+        type: 'reset',
       })
     })
 

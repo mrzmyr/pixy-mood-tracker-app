@@ -6,6 +6,7 @@ import TextCode from '../components/TextCode';
 import TextHeadline from '../components/TextHeadline';
 import useColors from '../hooks/useColors';
 import { SettingsWebhookHistoryEntry, useSettings } from '../hooks/useSettings';
+import { useTranslation } from '../hooks/useTranslation';
 
 const DataEntyItem = ({ title, value }) => {
   const colors = useColors()
@@ -25,6 +26,7 @@ const DataEntyDivider = () => {
 
 export default function WebhookHistoryEntry({ navigation, route }) {
   const colors = useColors()
+  const i18n = useTranslation()
 
   const { entry }: { entry: SettingsWebhookHistoryEntry } = route.params
 
@@ -40,22 +42,24 @@ export default function WebhookHistoryEntry({ navigation, route }) {
       backgroundColor: colors.backgroundSecondary,
     }}>
 
-      <TextHeadline style={{ marginTop: 20, marginBottom: 20 }}>Request</TextHeadline>
+      <TextHeadline style={{ marginTop: 20, marginBottom: 20 }}>{i18n.t('webhook_entry_request')}</TextHeadline>
       <DataEntyList>
-        <DataEntyItem title='URL' value={entry.url} />
+        <DataEntyItem title={i18n.t('webhook_entry_url')} value={
+          <TextCode style={{ fontSize: 14 }}>{entry.url}</TextCode>
+        } />
         <DataEntyDivider />
-        <DataEntyItem title='Status Text' value={
+        <DataEntyItem title={i18n.t('webhook_entry_status_text')} value={
           <TextCode style={{ fontSize: 14 }}>{JSON.stringify(JSON.parse(entry.body), null, 2)}</TextCode>
         } />
       </DataEntyList>
       
-      <TextHeadline style={{ marginTop: 20, marginBottom: 20 }}>Response</TextHeadline>
+      <TextHeadline style={{ marginTop: 20, marginBottom: 20 }}>{i18n.t('webhook_entry_response')}</TextHeadline>
       <DataEntyList>
-        {!!entry.statusCode && <DataEntyItem title='Status Code' value={entry.statusCode} />}
+        {!!entry.statusCode && <DataEntyItem title={i18n.t('webhook_entry_status_code')} value={entry.statusCode} />}
         {!!entry.statusCode && !!entry.statusText && <DataEntyDivider />}
-        {!!entry.statusText && <DataEntyItem title='Status Text' value={entry.statusText} />}
+        {!!entry.statusText && <DataEntyItem title={i18n.t('webhook_entry_status_text')} value={entry.statusText} />}
         {!!entry.statusText && entry.isError && <DataEntyDivider />}
-        {entry.isError && <DataEntyItem title='Error Message' value={entry.errorMessage} />}
+        {entry.isError && <DataEntyItem title={i18n.t('webhook_entry_error_message')} value={entry.errorMessage} />}
       </DataEntyList>
     </View>
   );

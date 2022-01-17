@@ -8,6 +8,11 @@ export default function useCachedResources() {
   useEffect(() => {
     async function loadResourcesAndDataAsync() {
       try {
+        // await Font.loadAsync({
+        //   'sora-regular': require('../assets/fonts/Sora-Regular.ttf'),
+        //   'sora-bold': require('../assets/fonts/Sora-Bold.ttf'),
+        // });
+
         SplashScreen.preventAutoHideAsync();
       } catch (e) {
         // We might want to provide this error information to an error reporting service

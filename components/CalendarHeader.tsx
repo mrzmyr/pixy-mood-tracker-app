@@ -1,3 +1,4 @@
+import dayjs from "dayjs"
 import { Text, View } from "react-native"
 import useColors from "../hooks/useColors"
 
@@ -32,13 +33,13 @@ export default function CalendarHeader() {
       paddingTop: 10,
       paddingBottom: 10,
   }}>
-    <HeaderDay>Mon</HeaderDay>
-    <HeaderDay>Tue</HeaderDay>
-    <HeaderDay>Wed</HeaderDay>
-    <HeaderDay>Thu</HeaderDay>
-    <HeaderDay>Fri</HeaderDay>
-    <HeaderDay>Sat</HeaderDay>
-    <HeaderDay>Sun</HeaderDay>
+    <HeaderDay>{dayjs('2022-01-17').format('ddd')}</HeaderDay>
+    <HeaderDay>{dayjs('2022-01-18').format('ddd')}</HeaderDay>
+    <HeaderDay>{dayjs('2022-01-19').format('ddd')}</HeaderDay>
+    <HeaderDay>{dayjs('2022-01-20').format('ddd')}</HeaderDay>
+    <HeaderDay>{dayjs('2022-01-21').format('ddd')}</HeaderDay>
+    <HeaderDay>{dayjs('2022-01-22').format('ddd')}</HeaderDay>
+    <HeaderDay>{dayjs('2022-01-23').format('ddd')}</HeaderDay>
   </View>
   )
 }

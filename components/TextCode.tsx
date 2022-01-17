@@ -6,7 +6,7 @@ export default function TextCode({ style = {}, children }) {
   const fontFamily = Platform.OS === 'ios' ? 'Courier New' : 'monospace'
   return (
     <Text
-      style={[style, { fontFamily, color: colors.text }]}
+      style={[style, { fontFamily, color: colors.text, fontWeight: 'bold' }]}
     >
       {children}
     </Text>

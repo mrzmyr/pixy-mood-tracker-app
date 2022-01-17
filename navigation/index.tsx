@@ -12,6 +12,7 @@ import WebhookScreen from '../screens/Webhook';
 import WebhookHistoryEntryScreen from '../screens/WebhookHistoryEntry';
 import LicenseScreen from '../screens/Licenses';
 import LinkingConfiguration from './LinkingConfiguration';
+import { useTranslation } from '../hooks/useTranslation';
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
   return (
@@ -28,6 +29,7 @@ const Stack = createNativeStackNavigator();
 
 function RootNavigator() {
   const colors = useColors();
+  const i18n = useTranslation()
 
   return (
     <Stack.Navigator
@@ -37,7 +39,7 @@ function RootNavigator() {
         name="CalendarScreen"
         component={CalendarScreen}
         options={({ navigation }) => ({
-          title: 'Calendar',
+          title: i18n.t('calendar'),
           headerRight: () => (
             <Pressable
               onPress={() => navigation.navigate('SettingsScreen')}
@@ -57,10 +59,10 @@ function RootNavigator() {
       }}>
         <Stack.Screen name="LogModal" component={LogModal} />
       </Stack.Group>
-      <Stack.Screen name="SettingsScreen" component={SettingsScreen} options={{ title: 'Settings'}} />
-      <Stack.Screen name="WebhookScreen" component={WebhookScreen} options={{ title: 'Webhook'}} />
+      <Stack.Screen name="SettingsScreen" component={SettingsScreen} options={{ title: i18n.t('settings') }} />
+      <Stack.Screen name="WebhookScreen" component={WebhookScreen} options={{ title: i18n.t('webhook') }} />
       <Stack.Screen name="WebhookHistoryEntryScreen" component={WebhookHistoryEntryScreen} options={{ title: ''}} />
-      <Stack.Screen name="LicenseScreen" component={LicenseScreen} options={{ title: 'Licenses'}} />
+      <Stack.Screen name="LicenseScreen" component={LicenseScreen} options={{ title: i18n.t('licenses') }} />
     </Stack.Navigator>
   );
 }

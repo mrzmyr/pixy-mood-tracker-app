@@ -96,7 +96,7 @@ export function getJSONSchemaType(json: any): 'pixy' | 'pixel' | 'unknown' {
   const isPixySchema = pixySchemaValidator(json);
   const isPixelSchema = pixelSchemaValidator(json)
   
-  if (!isPixySchema) console.log(pixySchemaValidator.errors)
+  // if (!isPixySchema) console.log(pixySchemaValidator.errors)
   
   if (isPixySchema) {
     return 'pixy'
