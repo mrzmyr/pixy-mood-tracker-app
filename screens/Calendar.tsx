@@ -1,4 +1,5 @@
-import { ScrollView, View } from 'react-native';
+import { StatusBar } from 'expo-status-bar';
+import { Platform, ScrollView, View } from 'react-native';
 import { wrapScrollView } from 'react-native-scroll-into-view';
 import Calendar from '../components/Calendar';
 import CalendarHeader from '../components/CalendarHeader';
@@ -16,6 +17,7 @@ export default function CalendarScreen({ navigation }) {
       flexDirection: "column",
     }}>
       <CalendarHeader />
+      <StatusBar animated={true} style={Platform.OS === 'ios' ? 'auto' : 'light'} />
       <CustomScrollView
         style={{
           marginTop: 0,

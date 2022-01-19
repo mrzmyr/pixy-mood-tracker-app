@@ -108,7 +108,7 @@ export default function LogModal({ navigation, route }) {
       marginTop: Platform.OS === 'ios' ? 0 : 40,
     }}>
       {/* Use a light status bar on iOS to account for the black space above the modal */}
-      <StatusBar style={Platform.OS === 'ios' ? 'light' : 'auto'} />
+      <StatusBar animated={true} style={Platform.OS === 'ios' ? 'light' : 'auto'} />
       <ModalHeader
         title={dayjs(route.params.date).format('ddd, DD.MM.YYYY')}
         right={<LinkButton onPress={save}>{i18n.t('save')}</LinkButton>}
