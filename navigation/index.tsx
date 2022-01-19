@@ -4,20 +4,29 @@ import * as React from 'react';
 import { ColorSchemeName, Pressable } from 'react-native';
 import { Settings } from 'react-native-feather';
 import useColors from '../hooks/useColors';
+import { useTranslation } from '../hooks/useTranslation';
 import CalendarScreen from '../screens/Calendar';
+import LicenseScreen from '../screens/Licenses';
 import LogModal from '../screens/LogModal';
 import NotFoundScreen from '../screens/NotFound';
 import SettingsScreen from '../screens/Settings';
 import WebhookScreen from '../screens/Webhook';
 import WebhookHistoryEntryScreen from '../screens/WebhookHistoryEntry';
-import LicenseScreen from '../screens/Licenses';
-import LinkingConfiguration from './LinkingConfiguration';
-import { useTranslation } from '../hooks/useTranslation';
+
+const config = {
+  screens: {
+  },
+};
+
+const linking = {
+  prefixes: ['pixy://'],
+  config,
+};
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
   return (
     <NavigationContainer
-      linking={LinkingConfiguration}
+      linking={linking}
       theme={colorScheme === 'dark' ? DarkTheme : DefaultTheme}
     >
       <RootNavigator />
@@ -64,7 +73,7 @@ function RootNavigator() {
       </Stack.Group>
       <Stack.Screen name="SettingsScreen" component={SettingsScreen} options={{ title: i18n.t('settings') }} />
       <Stack.Screen name="WebhookScreen" component={WebhookScreen} options={{ title: i18n.t('webhook') }} />
-      <Stack.Screen name="WebhookHistoryEntryScreen" component={WebhookHistoryEntryScreen} options={{ title: ''}} />
+      <Stack.Screen name="WebhookHistoryEntryScreen" component={WebhookHistoryEntryScreen} options={{ title: '' }} />
       <Stack.Screen name="LicenseScreen" component={LicenseScreen} options={{ title: i18n.t('licenses') }} />
     </Stack.Navigator>
   );
