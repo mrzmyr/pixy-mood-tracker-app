@@ -107,12 +107,7 @@ export default function Calendar({
   const viewRef = useRef();
   
   useEffect(() => {
-    const unsubscribe = navigation.addListener('focus', () => {
-      scrollIntoView(viewRef.current)
-    });
     scrollIntoView(viewRef.current)
-
-    return unsubscribe;
   }, [navigation]);
   
   return (
