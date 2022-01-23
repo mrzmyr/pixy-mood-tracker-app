@@ -1,7 +1,19 @@
 import { Pressable, Text, View } from "react-native";
 import useColors from "../hooks/useColors";
 
-export default function LinkButton({ type = 'primary', onPress, children, style = {}, icon = null }) {
+export default function LinkButton({ 
+  type = 'primary', 
+  onPress, 
+  children, 
+  style = {}, 
+  icon = null 
+}: {
+  type?: 'primary' | 'secondary',
+  onPress: () => any,
+  children: React.ReactNode,
+  style?: React.CSSProperties,
+  icon?: React.ReactNode,
+}) {
   const colors = useColors();
   
   const textColor = {
@@ -23,7 +35,11 @@ export default function LinkButton({ type = 'primary', onPress, children, style 
       accessible={true}
     >
       {icon && <View style={{ marginRight: 5 }}>{icon}</View>}
-      <Text style={{ fontSize: 17, fontWeight: type === 'primary' ? 'bold' : 'normal', color: textColor }}>{children}</Text>
+      <Text style={{ 
+        fontSize: 17, 
+        fontWeight: type === 'primary' ? 'bold' : 'normal', 
+        color: textColor,
+      }}>{children}</Text>
     </Pressable>
   )
 }
