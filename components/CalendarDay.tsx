@@ -13,6 +13,8 @@ export default function CalendarDay({ date }) {
 
   const item = state.items[date.dateString] || {};
 
+  const isFutute = dayjs(date.dateString).isAfter(dayjs());
+  
   const backgroundColor = item.rating ? colors.rating[item.rating].background : colors.calendarItemBackground;
   const textColor = item.rating ? colors.rating[item.rating].text : colors.calendarItemTextColor;
   const message = item.message || '';
@@ -22,7 +24,7 @@ export default function CalendarDay({ date }) {
       <Pressable
         onPress={() => navigation.navigate('LogModal', { date: date.dateString })}
         style={({ pressed }) => [{
-          opacity: pressed ? 0.5 : 1,
+          opacity: isFutute ? 0.5 : pressed ? 0.8 : 1,
           justifyContent: 'flex-end',
           alignItems: 'flex-end',
           padding: 5,
