@@ -39,11 +39,14 @@ export default function WebhookScreen({ navigation }) {
   const i18n = useTranslation()
 
   return (    
-    <ScrollView>
+    <ScrollView
+      style={{
+        backgroundColor: colors.backgroundSecondary,
+      }}
+    >
       <View
         style={{
           padding: 20,
-          backgroundColor: colors.backgroundSecondary,
         }}
       >
       <MenuList>
