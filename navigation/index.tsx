@@ -73,7 +73,6 @@ function RootNavigator() {
       />
       <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
       <Stack.Group screenOptions={{ 
-        ...defaultOptions,
         presentation: 'modal',
         title: '',
         headerTransparent: true,
