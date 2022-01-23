@@ -15,6 +15,10 @@ function ModalHeader({
   title = '',
   right = null,
   left = null,
+}: {
+  title?: string,
+  right?: React.ReactNode,
+  left?: React.ReactNode,
 }) {
   const colors = useColors()
   
