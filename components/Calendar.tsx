@@ -26,7 +26,9 @@ function CalendarWeek({
   isFirst = false,
   isLast = false,
 }: {
-  days: Day[];
+  days: dayjs.Dayjs[];
+  isFirst?: boolean;
+  isLast?: boolean;
 }) {
   let justifyContent = "space-between";
   if(isFirst) justifyContent = 'flex-end';
@@ -44,7 +46,7 @@ function CalendarWeek({
     >
       {!isLast && emptyDays.map((day, index) => <CalendarDayContainer key={index} />)}
 
-      {days.map(day => <CalendarDayContainer key={day}><CalendarDay date={{
+      {days.map(day => <CalendarDayContainer key={day.toString()}><CalendarDay date={{
           dateString: day.format('YYYY-MM-DD'),
           day: day.date(),
       }} /></CalendarDayContainer>)}
@@ -56,6 +58,8 @@ function CalendarWeek({
 
 const CalendarMonth = forwardRef(({
   date
+}: {
+  date: dayjs.Dayjs;
 }, ref) => {
 
   const colors = useColors();
@@ -83,7 +87,7 @@ const CalendarMonth = forwardRef(({
       }}
       >{date.format('MMMM YYYY')}</Text>
       {weeks.map((week, index) => <CalendarWeek 
-        key={week}
+        key={week.toString()}
         isFirst={index === 0} 
         isLast={index === weeks.length - 1} 
         days={week} 
@@ -94,6 +98,8 @@ const CalendarMonth = forwardRef(({
 
 export default function Calendar({
   navigation
+}: {
+  navigation: any;
 }) {
   const currentMonth = dayjs();
 
@@ -112,9 +118,9 @@ export default function Calendar({
   
   return (
     <>
-      {pastMonths.map(month => <CalendarMonth key={month} date={month} />)}
+      {pastMonths.map(month => <CalendarMonth key={month.toString()} date={month} />)}
       <CalendarMonth date={currentMonth} ref={viewRef} />
-      {futureMonths.map(month => <CalendarMonth key={month} date={month} />)}
+      {futureMonths.map(month => <CalendarMonth key={month.toString()} date={month} />)}
     </>
   )
 }
