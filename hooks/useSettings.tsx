@@ -19,12 +19,14 @@ export interface SettingsState {
   webhookEnabled: Boolean,
   webhookUrl: string,
   webhookHistory: SettingsWebhookHistoryEntry[],
+  scaleType: 'ColorBrew-RdYlGn' | 'ColorBrew-PiYG',
 }
 
 const initialState: SettingsState = {
   webhookEnabled: false,
   webhookUrl: '',
-  webhookHistory: []
+  webhookHistory: [],
+  scaleType: 'ColorBrew-RdYlGn',
 }
 
 function SettingsProvider({children}: { children: React.ReactNode }) {
@@ -44,7 +46,13 @@ function SettingsProvider({children}: { children: React.ReactNode }) {
   useEffect(() => {
     const load = async () => {
       const json = await AsyncStorage.getItem(STORAGE_KEY)
-      if (json !== null) setSettings(JSON.parse(json))
+      if (json !== null) {
+        const newSettings: SettingsState = {
+          ...initialState,
+          ...JSON.parse(json)
+        }
+        setSettings(newSettings)
+      }
     }
 
     try {
@@ -55,7 +63,11 @@ function SettingsProvider({children}: { children: React.ReactNode }) {
     }
   }, [])
   
-  const value = { settings, setSettings: setSettingsProxy, resetSettings };
+  const value = { 
+    settings, 
+    setSettings: setSettingsProxy, 
+    resetSettings 
+  };
   
   return (
     <SettingsStateContext.Provider value={value}>
@@ -64,7 +76,11 @@ function SettingsProvider({children}: { children: React.ReactNode }) {
   )
 }
 
-function useSettings(): { settings: SettingsState, setSettings: (settings: SettingsState) => void, resetSettings: () => void } {
+function useSettings(): { 
+  settings: SettingsState, 
+  setSettings: (settings: SettingsState) => void, 
+  resetSettings: () => void,
+} {
   const context = useContext(SettingsStateContext)
   if (context === undefined) {
     throw new Error('useSettings must be used within a SettingsProvider')

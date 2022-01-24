@@ -3,13 +3,15 @@ import { StatusBar } from 'expo-status-bar';
 import { useState } from 'react';
 import { Platform, Text, View } from 'react-native';
 import { Trash2 } from 'react-native-feather';
-import ColorButton from '../components/ColorButton';
+import ColorButton from '../components/ScaleButton';
 import DismissKeyboard from '../components/DismisKeyboard';
 import LinkButton from '../components/LinkButton';
 import TextArea from '../components/TextArea';
 import useColors from '../hooks/useColors';
 import { useLogs } from '../hooks/useLogs';
 import { useTranslation } from '../hooks/useTranslation';
+import Scale from '../components/Scale';
+import { useSettings } from '../hooks/useSettings';
 
 function ModalHeader({
   title = '',
@@ -28,7 +30,7 @@ function ModalHeader({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        marginBottom: 30,
+        marginBottom: 20,
       }}
     >
     <View style={{
@@ -62,6 +64,7 @@ function ModalHeader({
 
 export default function LogModal({ navigation, route }) {
   
+  const { settings } = useSettings()
   const colors = useColors()
   const i18n = useTranslation()
   
@@ -99,8 +102,6 @@ export default function LogModal({ navigation, route }) {
 
   const setRating = rating => setLogItem(logItem => ({ ...logItem, rating }))
   const setMessage = message => setLogItem(logItem => ({ ...logItem, message }))
-
-  const ratingColors = colors.rating;
   
   return (
     <DismissKeyboard>
@@ -123,20 +124,14 @@ export default function LogModal({ navigation, route }) {
       />
       <View
         style={{
-          display: 'flex',
-          marginBottom: 10,
-          flexDirection: 'row',
-          justifyContent: 'space-between',
+          padding: 15,
         }}
       >
-        {Object.keys(ratingColors).reverse().map(key => (
-          <ColorButton 
-            key={key} 
-            isSelected={key === logItem.rating} 
-            onPress={() => setRating(key)} 
-            color={ratingColors[key].background}
-          />
-        ))}
+        <Scale
+          type={settings.scaleType}
+          value={logItem.rating}
+          onPress={setRating}
+        />
       </View>
       <TextArea 
         onChange={setMessage}
