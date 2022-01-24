@@ -17,3 +17,4 @@ eas.json
 yarn-error.log
 coverage/*
 credentials/*
+scripts/credentials.json
