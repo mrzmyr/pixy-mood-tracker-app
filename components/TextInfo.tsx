@@ -1,16 +1,22 @@
-import { Text } from "react-native";
+import { StyleProp, Text } from "react-native";
 import useColors from "../hooks/useColors";
 
-export default function TextInfo({ children }) {
+export default function TextInfo({
+  children,
+  style,
+}: {
+  children: React.ReactNode;
+  style?: StyleProp<Text>;
+}) {
   const colors = useColors();
   
   return (
-    <Text style={{
+    <Text style={[{
       fontSize: 14,
       color: colors.textSecondary,
       padding: 15,
       paddingTop: 0,
       marginTop: 10,
-    }}>{children}</Text>
+    }, style]}>{children}</Text>
   )
 }

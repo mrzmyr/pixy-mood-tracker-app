@@ -13,6 +13,14 @@ export default ({
   isLast = false,
   isLink = false,
   style = {} 
+}: {
+  title: string,
+  onPress?: () => void,
+  iconLeft?: React.ReactElement,
+  iconRight?: React.ReactElement,
+  isLast?: boolean | null,
+  isLink?: boolean | null,
+  style?: any,
 }) => {
   const colors = useColors()
   
