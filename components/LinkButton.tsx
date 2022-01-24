@@ -28,11 +28,12 @@ export default function LinkButton({
         alignItems: 'center',
         justifyContent: 'center',
         opacity: pressed ? 0.8 : 1,
-        paddingTop: 5,
-        paddingBottom: 5,
+        paddingTop: 10,
+        paddingBottom: 10,
+        paddingLeft: 15,
+        paddingRight: 15,
       }, style]}
       onPress={onPress}
-      accessible={true}
     >
       {icon && <View style={{ marginRight: 5 }}>{icon}</View>}
       <Text style={{ 

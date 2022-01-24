@@ -13,14 +13,12 @@ import SettingsScreen from '../screens/Settings';
 import WebhookScreen from '../screens/Webhook';
 import WebhookHistoryEntryScreen from '../screens/WebhookHistoryEntry';
 
-const config = {
-  screens: {
-  },
-};
-
 const linking = {
   prefixes: ['pixy://'],
-  config,
+  config: {
+    screens: {
+    },
+  },
 };
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
@@ -72,45 +70,49 @@ function RootNavigator() {
         })}
       />
       <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
+      
       <Stack.Group screenOptions={{ 
         presentation: 'modal',
         title: '',
-        headerTransparent: true,
+        headerShown: false,
       }}>
         <Stack.Screen name="LogModal" component={LogModal} />
       </Stack.Group>
-      <Stack.Screen 
-        name="SettingsScreen" 
-        component={SettingsScreen} 
-        options={{ 
+      
+      <Stack.Group
+        screenOptions={{ 
           ...defaultOptions,
-          title: i18n.t('settings'),
         }} 
-      />
-      <Stack.Screen 
-        name="WebhookScreen" 
-        component={WebhookScreen} 
-        options={{ 
-          ...defaultOptions,
-          title: i18n.t('webhook'),
-        }} 
-      />
-      <Stack.Screen 
-        name="WebhookHistoryEntryScreen" 
-        component={WebhookHistoryEntryScreen} 
-        options={{ 
-          ...defaultOptions,
-          title: '',
-        }} 
-      />
-      <Stack.Screen 
-        name="LicenseScreen" 
-        component={LicenseScreen} 
-        options={{ 
-          ...defaultOptions,
-          title: i18n.t('licenses'),
-        }} 
-      />
+      >
+        <Stack.Screen 
+          name="SettingsScreen" 
+          component={SettingsScreen} 
+          options={{ 
+            title: i18n.t('settings'),
+          }} 
+        />
+        <Stack.Screen 
+          name="WebhookScreen" 
+          component={WebhookScreen} 
+          options={{ 
+            title: i18n.t('webhook'),
+          }} 
+        />
+        <Stack.Screen 
+          name="WebhookHistoryEntryScreen" 
+          component={WebhookHistoryEntryScreen} 
+          options={{ 
+            title: '',
+          }} 
+        />
+        <Stack.Screen 
+          name="LicenseScreen" 
+          component={LicenseScreen} 
+          options={{ 
+            title: i18n.t('licenses'),
+          }} 
+        />
+      </Stack.Group>
     </Stack.Navigator>
   );
 }
