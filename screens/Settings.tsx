@@ -4,7 +4,7 @@ import * as FileSystem from 'expo-file-system';
 import * as Sharing from 'expo-sharing';
 import * as StoreReview from 'expo-store-review';
 import { Alert, ScrollView, Text, View } from 'react-native';
-import { Award, Box, Download, Grid, Lock, Star, Trash2, Upload } from 'react-native-feather';
+import { Award, Box, Download, Lock, Star, Trash2, Upload } from 'react-native-feather';
 import MenuList from '../components/MenuList';
 import MenuListItem from '../components/MenuListItem';
 import TextInfo from '../components/TextInfo';
@@ -180,7 +180,7 @@ export default function SettingsScreen({ navigation }) {
           />
           {/* <MenuListItem
             title={i18n.t('scales')}
-            iconLeft={<Grid width={18} color={colors.menuListItemIcon} />}
+            iconLeft={<Droplet width={18} color={colors.menuListItemIcon} />}
             onPress={() => navigation.navigate('ScalesScreen')}
             isLink
             isLast
