@@ -36,5 +36,7 @@
   "webhook_entry_status_text": "Текст статуса",
   "webhook_entry_status_code": "Код статуса",
   "webhook_entry_error_message": "Сообщение об ошибке",
-  "log_modal_message_placeholder": "Сообщение о дне…"
+  "log_modal_message_placeholder": "Сообщение о дне…",
+  "scales": "Цвета",
+  "scales_info": "Цвета используются для обозначения рейтинга в календаре. Ваш предыдущий рейтинг будет переключен на выбранный цвет."
 }

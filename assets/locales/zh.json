@@ -36,5 +36,7 @@
   "webhook_entry_status_text": "状态文本",
   "webhook_entry_status_code": "状态代码",
   "webhook_entry_error_message": "错误信息",
-  "log_modal_message_placeholder": "关于当天的一些信息…"
+  "log_modal_message_placeholder": "关于当天的一些信息…",
+  "scales": "颜色",
+  "scales_info": "颜色用于指示日历中的等级。您之前的评分将切换为所选颜色。"
 }

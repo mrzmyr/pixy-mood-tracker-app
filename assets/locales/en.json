@@ -36,5 +36,7 @@
   "webhook_entry_status_text": "Status Text",
   "webhook_entry_status_code": "Status Code",
   "webhook_entry_error_message": "Error Message",
-  "log_modal_message_placeholder": "Some message about the day…"
+  "log_modal_message_placeholder": "Some message about the day…",
+  "scales": "Colors",
+  "scales_info": "Colors are used to indicate the rating in the calendar. Your previous rating will be switched to the selected color."
 }
