@@ -112,6 +112,13 @@ function RootNavigator() {
           title: i18n.t('licenses'),
         }} 
       />
+        <Stack.Screen 
+          name="ScalesScreen" 
+          component={ScalesScreen} 
+          options={{ 
+            title: i18n.t('scales'),
+          }} 
+        />
     </Stack.Navigator>
   );
 }
