@@ -7,7 +7,7 @@ const STORAGE_KEY = 'PIXEL_TRACKER_LOGS'
 
 type LogsProviderProps = {children: React.ReactNode}
 
-interface LogItem {
+export interface LogItem {
   date: string;
   rating: 'extremely_good' | 'very_good' | 'good' | 'neutral' | 'bad' | 'very_bad' | 'extremely_bad';
   message: string;

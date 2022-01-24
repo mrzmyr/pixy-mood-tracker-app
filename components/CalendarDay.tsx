@@ -1,22 +1,29 @@
 import { useNavigation } from "@react-navigation/native";
 import dayjs from "dayjs";
-import { Pressable, Text, View } from "react-native"
+import { Pressable, Text, View } from "react-native";
 import { AlignLeft } from "react-native-feather";
-import useColors from "../hooks/useColors"
+import useColors from "../hooks/useColors";
 import { useLogs } from "../hooks/useLogs";
+import useScale from "../hooks/useScale";
+import { useSettings } from "../hooks/useSettings";
 import { invertColor } from "../lib/utils";
 
 export default function CalendarDay({ date }) {
   const { state } = useLogs();
   const colors = useColors();
   const navigation = useNavigation();
+  const { settings } = useSettings();
+  const { colors: scaleColors } = useScale(settings.scaleType)
 
   const item = state.items[date.dateString] || {};
-
   const isFutute = dayjs(date.dateString).isAfter(dayjs());
   
-  const backgroundColor = item.rating ? colors.rating[item.rating].background : colors.calendarItemBackground;
-  const textColor = item.rating ? colors.rating[item.rating].text : colors.calendarItemTextColor;
+  const backgroundColor = item.rating ? 
+    scaleColors[item.rating].background : 
+    colors.calendarItemBackground;
+  const textColor = item.rating ? 
+    scaleColors[item.rating].text : 
+    colors.calendarItemTextColor;
   const message = item.message || '';
   
   return (

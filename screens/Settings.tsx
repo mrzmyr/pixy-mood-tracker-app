@@ -3,8 +3,8 @@ import * as DocumentPicker from 'expo-document-picker';
 import * as FileSystem from 'expo-file-system';
 import * as Sharing from 'expo-sharing';
 import * as StoreReview from 'expo-store-review';
-import { Alert, Image, ScrollView, StyleSheet, Text, View } from 'react-native';
-import { Award, Box, Download, Lock, Menu, Star, Trash2, Upload } from 'react-native-feather';
+import { Alert, ScrollView, Text, View } from 'react-native';
+import { Award, Box, Download, Grid, Lock, Star, Trash2, Upload } from 'react-native-feather';
 import MenuList from '../components/MenuList';
 import MenuListItem from '../components/MenuListItem';
 import TextInfo from '../components/TextInfo';
@@ -177,8 +177,14 @@ export default function SettingsScreen({ navigation }) {
             iconLeft={<Box width={18} color={colors.menuListItemIcon} />}
             onPress={() => navigation.navigate('WebhookScreen')}
             isLink
-            isLast
           />
+          {/* <MenuListItem
+            title={i18n.t('scales')}
+            iconLeft={<Grid width={18} color={colors.menuListItemIcon} />}
+            onPress={() => navigation.navigate('ScalesScreen')}
+            isLink
+            isLast
+          /> */}
         </MenuList>
         <MenuList style={{ marginTop: 20, }}>
           <MenuListItem
