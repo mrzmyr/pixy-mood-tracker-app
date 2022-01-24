@@ -85,6 +85,16 @@ export default function SettingsScreen({ navigation }) {
         padding: 20,
       }}
       >
+        {typesNames.map(type => (
+            <Radio
+              key={type}
+              isSelected={type === scaleType}
+              onPress={() => setScaleType(type)}
+            >
+              <Scale type={type} />
+            </Radio>
+          )
+        )}
         <View
           style={{
             marginBottom: 10,
@@ -94,17 +104,6 @@ export default function SettingsScreen({ navigation }) {
         >
           <TextInfo>{i18n.t('scales_info')}</TextInfo>
         </View>
-        {typesNames.map(type => (
-            <Radio
-              isSelected={type === scaleType}
-              onPress={() => {
-                setScaleType(type)
-              }}
-            >
-              <Scale type={type} />
-            </Radio>
-          )
-        )}
       </ScrollView>
     </View>
   );
