@@ -11,6 +11,7 @@ import LogModal from '../screens/LogModal';
 import NotFoundScreen from '../screens/NotFound';
 import SettingsScreen from '../screens/Settings';
 import WebhookScreen from '../screens/Webhook';
+import ScalesScreen from '../screens/Scales';
 import WebhookHistoryEntryScreen from '../screens/WebhookHistoryEntry';
 
 const config = {
