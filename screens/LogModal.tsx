@@ -12,55 +12,7 @@ import { useLogs } from '../hooks/useLogs';
 import { useTranslation } from '../hooks/useTranslation';
 import Scale from '../components/Scale';
 import { useSettings } from '../hooks/useSettings';
-
-function ModalHeader({
-  title = '',
-  right = null,
-  left = null,
-}: {
-  title?: string,
-  right?: React.ReactNode,
-  left?: React.ReactNode,
-}) {
-  const colors = useColors()
-  
-  return (
-    <View
-      style={{
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        marginBottom: 20,
-      }}
-    >
-    <View style={{
-      justifyContent: 'flex-start',
-      flexDirection: 'row',
-    }}>
-      {left}
-    </View>
-    <View style={{
-      justifyContent: 'flex-start',
-      flexDirection: 'row',
-    }}>
-      <Text
-        style={{
-          fontSize: 16,
-          color: colors.text,
-          fontWeight: 'bold',
-        }}
-      >{title}</Text>
-    </View>
-    <View style={{
-      justifyContent: 'flex-end',
-      alignItems: 'center',
-      flexDirection: 'row',
-    }}>
-      {right}
-    </View>
-  </View>
-  )
-}
+import ModalHeader from '../components/ModalHeader';
 
 export default function LogModal({ navigation, route }) {
   
@@ -109,8 +61,8 @@ export default function LogModal({ navigation, route }) {
       flex: 1,
       justifyContent: 'flex-start',
       backgroundColor: colors.background,
-      paddingTop: 15,
-      paddingBottom: 15,
+      paddingTop: 20,
+      paddingBottom: 20,
       paddingLeft: 20,
       paddingRight: 20,
       marginTop: Platform.OS === 'ios' ? 0 : 40,
@@ -124,7 +76,7 @@ export default function LogModal({ navigation, route }) {
       />
       <View
         style={{
-          padding: 15,
+          width: '100%',
         }}
       >
         <Scale

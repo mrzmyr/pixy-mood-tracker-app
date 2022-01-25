@@ -21,12 +21,13 @@ export default function Scale({
         width: '100%',
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'center',
+        justifyContent: 'space-between',
       }}
     >
-      {Object.keys(colors).reverse().map(key => (
+      {Object.keys(colors).reverse().map((key, index) => (
         <ScaleButton 
           key={key} 
+          isFirst={index === 0}
           isSelected={key === value}
           onPress={onPress ? () => onPress(key) : null}
           color={colors[key].background}
