@@ -38,5 +38,6 @@
   "webhook_entry_error_message": "エラーメッセージ",
   "log_modal_message_placeholder": "その日のメッセージ…",
   "scales": "色",
-  "scales_info": "色は、カレンダーの評価を示すために使用されます。以前の評価が選択した色に切り替わります。"
+  "scales_info": "色は、カレンダーの評価を示すために使用されます。以前の評価が選択した色に切り替わります。",
+  "add": "追加"
 }

@@ -38,5 +38,6 @@
   "webhook_entry_error_message": "Fehlermeldung",
   "log_modal_message_placeholder": "Eine Nachricht über den Tag…",
   "scales": "Farben",
-  "scales_info": "Farben werden verwendet, um die Bewertung im Kalender anzuzeigen. Ihre vorherige Bewertung wird auf die ausgewählte Farbe umgestellt."
+  "scales_info": "Farben werden verwendet, um die Bewertung im Kalender anzuzeigen. Ihre vorherige Bewertung wird auf die ausgewählte Farbe umgestellt.",
+  "add": "Hinzufügen"
 }

@@ -38,5 +38,6 @@
   "webhook_entry_error_message": "Mensaje de error",
   "log_modal_message_placeholder": "Algún mensaje sobre el día…",
   "scales": "Colores",
-  "scales_info": "Los colores se utilizan para indicar la calificación en el calendario. Su calificación anterior se cambiará al color seleccionado."
+  "scales_info": "Los colores se utilizan para indicar la calificación en el calendario. Su calificación anterior se cambiará al color seleccionado.",
+  "add": "Agregar"
 }
