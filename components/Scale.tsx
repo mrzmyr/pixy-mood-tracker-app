@@ -11,7 +11,7 @@ export default function Scale({
 }: {
   type: SettingsState['scaleType'];
   value?: LogItem['rating'];
-  onPress?: null | ((key: string) => void),
+  onPress?: any,
 }) {
   const { colors } = useScale(type)
   

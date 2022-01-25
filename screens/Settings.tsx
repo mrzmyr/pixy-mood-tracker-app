@@ -9,13 +9,14 @@ import MenuList from '../components/MenuList';
 import MenuListItem from '../components/MenuListItem';
 import TextInfo from '../components/TextInfo';
 import useColors from '../hooks/useColors';
-import { useLogs } from '../hooks/useLogs';
+import { LogsState, useLogs } from '../hooks/useLogs';
 import { useSettings } from '../hooks/useSettings';
 import { useTranslation } from '../hooks/useTranslation';
 import { convertPixeltoPixyJSON, getJSONSchemaType } from '../lib/utils';
 import pkg from '../package.json';
+import { RootStackScreenProps } from '../types';
 
-let openShareDialogAsync = async (uri) => {
+let openShareDialogAsync = async (uri: string) => {
   const i18n = useTranslation()
   if (!(await Sharing.isAvailableAsync())) {
     alert(i18n.t('export_failed_title'));
@@ -23,20 +24,19 @@ let openShareDialogAsync = async (uri) => {
   }
 
   await Sharing.shareAsync(uri);
-}; 
+};
 
-export default function SettingsScreen({ navigation }) {
-  const { state: logs, dispatch } = useLogs()
+const exportState = async (state: LogsState) => {
+  const filename = `pixel-tracker-${dayjs().format('YYYY-MM-DD')}.json`;
+  await FileSystem.writeAsStringAsync(FileSystem.documentDirectory + filename, JSON.stringify(state));
+  openShareDialogAsync(FileSystem.documentDirectory + filename)
+}
+
+export default function SettingsScreen({ navigation }: RootStackScreenProps<'Settings'>) {
+  const { state, dispatch } = useLogs()
   const { resetSettings } = useSettings()
   const colors = useColors()
-
   const i18n = useTranslation()
-
-  const exportEntries = async (items) => {
-    const filename = `pixel-tracker-${dayjs().format('YYYY-MM-DD')}.json`;
-    await FileSystem.writeAsStringAsync(FileSystem.documentDirectory + filename, JSON.stringify(items));
-    openShareDialogAsync(FileSystem.documentDirectory + filename)
-  }
 
   const importEntries = async () => {
     try {
@@ -175,13 +175,13 @@ export default function SettingsScreen({ navigation }) {
           <MenuListItem
             title={i18n.t('webhook')}
             iconLeft={<Box width={18} color={colors.menuListItemIcon} />}
-            onPress={() => navigation.navigate('WebhookScreen')}
+            onPress={() => navigation.navigate('Webhook')}
             isLink
           />
           {/* <MenuListItem
             title={i18n.t('scales')}
             iconLeft={<Droplet width={18} color={colors.menuListItemIcon} />}
-            onPress={() => navigation.navigate('ScalesScreen')}
+            onPress={() => navigation.navigate('Scales')}
             isLink
             isLast
           /> */}
@@ -194,7 +194,7 @@ export default function SettingsScreen({ navigation }) {
           />
           <MenuListItem
             title={i18n.t('export')}
-            onPress={() => exportEntries(logs)}
+            onPress={() => exportState(state)}
             iconLeft={<Download width={18} color={colors.menuListItemIcon} />}
             isLast
           />
@@ -208,7 +208,7 @@ export default function SettingsScreen({ navigation }) {
           <MenuListItem
             title={i18n.t('licenses')}
             iconLeft={<Award width={18} color={colors.menuListItemIcon} />}
-            onPress={() => navigation.navigate('LicenseScreen')}
+            onPress={() => navigation.navigate('Licenses')}
             isLink
           />
           <MenuListItem

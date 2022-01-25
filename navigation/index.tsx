@@ -2,17 +2,18 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import * as React from 'react';
 import { ColorSchemeName, Pressable } from 'react-native';
-import { Settings } from 'react-native-feather';
+import { Settings as SettingsIcon } from 'react-native-feather';
 import useColors from '../hooks/useColors';
 import { useTranslation } from '../hooks/useTranslation';
-import CalendarScreen from '../screens/Calendar';
-import LicenseScreen from '../screens/Licenses';
+import Calendar from '../screens/Calendar';
+import Licenses from '../screens/Licenses';
 import LogModal from '../screens/LogModal';
-import NotFoundScreen from '../screens/NotFound';
-import ScalesScreen from '../screens/Scales';
-import SettingsScreen from '../screens/Settings';
-import WebhookScreen from '../screens/Webhook';
-import WebhookHistoryEntryScreen from '../screens/WebhookHistoryEntry';
+import NotFound from '../screens/NotFound';
+import Scales from '../screens/Scales';
+import Settings from '../screens/Settings';
+import Webhook from '../screens/Webhook';
+import WebhookHistoryEntry from '../screens/WebhookHistoryEntry';
+import { RootStackParamList } from '../types';
 
 const linking = {
   prefixes: ['pixy://'],
@@ -30,7 +31,7 @@ export default function Navigation() {
   );
 }
 
-const Stack = createNativeStackNavigator();
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
 function RootNavigator() {
   const colors = useColors();
@@ -45,17 +46,17 @@ function RootNavigator() {
 
   return (
     <Stack.Navigator
-      initialRouteName="CalendarScreen"
+      initialRouteName="Calendar"
     >
       <Stack.Screen
-        name="CalendarScreen"
-        component={CalendarScreen}
+        name="Calendar"
+        component={Calendar}
         options={({ navigation }) => ({
           ...defaultOptions,
           title: i18n.t('calendar'),
           headerRight: () => (
             <Pressable
-              onPress={() => navigation.navigate('SettingsScreen')}
+              onPress={() => navigation.navigate('Settings')}
               style={{
                 padding: 10,
               }}
@@ -63,19 +64,23 @@ function RootNavigator() {
               accessibilityLabel={i18n.t('settings')}
               accessibilityRole={'button'}
             >
-              <Settings height={20} color={colors.text} />
+              <SettingsIcon height={20} color={colors.text} />
             </Pressable>
           )
         })}
       />
-      <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
+
+      <Stack.Screen name="NotFound" component={NotFound} options={{ title: 'Oops!' }} />
       
       <Stack.Group screenOptions={{ 
-        presentation: 'modal',
         title: '',
+        presentation: 'modal',
         headerShown: false,
       }}>
-        <Stack.Screen name="LogModal" component={LogModal} />
+        <Stack.Screen 
+          name="LogModal" 
+          component={LogModal} 
+        />
       </Stack.Group>
       
       <Stack.Group
@@ -84,39 +89,36 @@ function RootNavigator() {
         }} 
       >
         <Stack.Screen 
-          name="SettingsScreen" 
-          component={SettingsScreen} 
+          name="Settings" 
+          component={Settings} 
           options={{ 
             title: i18n.t('settings'),
           }} 
         />
         <Stack.Screen 
-          name="WebhookScreen" 
-          component={WebhookScreen} 
+          name="Webhook" 
+          component={Webhook} 
           options={{ 
-            ...defaultOptions,
             title: i18n.t('webhook'),
           }} 
         />
         <Stack.Screen 
-          name="WebhookHistoryEntryScreen" 
-          component={WebhookHistoryEntryScreen} 
+          name="WebhookHistoryEntry" 
+          component={WebhookHistoryEntry} 
           options={{ 
-            ...defaultOptions,
             title: '',
           }} 
         />
         <Stack.Screen 
-          name="LicenseScreen" 
-          component={LicenseScreen} 
+          name="Licenses" 
+          component={Licenses} 
           options={{ 
-            ...defaultOptions,
             title: i18n.t('licenses'),
           }} 
         />
         <Stack.Screen 
-          name="ScalesScreen" 
-          component={ScalesScreen} 
+          name="Scales" 
+          component={Scales} 
           options={{ 
             title: i18n.t('scales'),
           }} 

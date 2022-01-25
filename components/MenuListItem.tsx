@@ -12,7 +12,7 @@ export default ({
   isLink = false,
   style = {} 
 }: {
-  title: string,
+  title: string | React.ReactElement,
   onPress?: () => void,
   iconLeft?: React.ReactElement | null,
   iconRight?: React.ReactElement | null,

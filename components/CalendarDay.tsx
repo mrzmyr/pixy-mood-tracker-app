@@ -8,7 +8,14 @@ import useScale from "../hooks/useScale";
 import { useSettings } from "../hooks/useSettings";
 import { invertColor } from "../lib/utils";
 
-export default function CalendarDay({ date }) {
+export default function CalendarDay({ 
+  date 
+}: {
+  date: {
+    dateString: string,
+    day: number,
+  },
+}) {
   const { state } = useLogs();
   const colors = useColors();
   const navigation = useNavigation();
@@ -41,7 +48,7 @@ export default function CalendarDay({ date }) {
           aspectRatio: 1,
         }]}
         accessible={true}
-        accessibilityLabel={`${dayjs(date).format('ddd, MMM D')}`}
+        accessibilityLabel={`${dayjs(date.dateString).format('ddd, MMM D')}`}
       >
           { message.length > 0 && 
             <View style={{

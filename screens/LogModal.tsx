@@ -9,17 +9,18 @@ import ModalHeader from '../components/ModalHeader';
 import Scale from '../components/Scale';
 import TextArea from '../components/TextArea';
 import useColors from '../hooks/useColors';
-import { useLogs } from '../hooks/useLogs';
+import { LogItem, useLogs } from '../hooks/useLogs';
 import { useSettings } from '../hooks/useSettings';
 import { useTranslation } from '../hooks/useTranslation';
+import { RootStackScreenProps } from '../types';
 
-export default function LogModal({ navigation, route }) {
+export default function LogModal({ navigation, route }: RootStackScreenProps<'LogModal'>) {
   
   const { settings } = useSettings()
   const colors = useColors()
   const i18n = useTranslation()
   
-  const defaultLogItem = {
+  const defaultLogItem: LogItem = {
     date: route.params.date,
     rating: 'neutral',
     message: '',
@@ -28,14 +29,14 @@ export default function LogModal({ navigation, route }) {
   const { state, dispatch } = useLogs()
 
   const existingLogItem = state?.items[route.params.date];
-  const [logItem, setLogItem] = useState(existingLogItem || defaultLogItem)
+  const [logItem, setLogItem] = useState<LogItem>(existingLogItem || defaultLogItem)
 
   const save = () => {
     dispatch({
       type: existingLogItem ? 'edit' : 'add',
       payload: logItem
     })
-    navigation.navigate('CalendarScreen');
+    navigation.navigate('Calendar');
   }
 
   const remove = () => {
@@ -43,16 +44,16 @@ export default function LogModal({ navigation, route }) {
       type: 'delete', 
       payload: logItem
     })
-    navigation.navigate('CalendarScreen');
+    navigation.navigate('Calendar');
   }
 
   const cancel = () => {
     setLogItem(defaultLogItem)
-    navigation.navigate('CalendarScreen');
+    navigation.navigate('Calendar');
   }
 
-  const setRating = rating => setLogItem(logItem => ({ ...logItem, rating }))
-  const setMessage = message => setLogItem(logItem => ({ ...logItem, message }))
+  const setRating = (rating: LogItem['rating']) => setLogItem(logItem => ({ ...logItem, rating }))
+  const setMessage = (message: LogItem['message']) => setLogItem(logItem => ({ ...logItem, message }))
   
   return (
     <DismissKeyboard>

@@ -1,16 +1,16 @@
 import dayjs from 'dayjs';
 import { ScrollView, Switch, Text, TextInput, View } from 'react-native';
-import { ChevronRight } from 'react-native-feather';
 import MenuList from '../components/MenuList';
 import MenuListHeadline from '../components/MenuListHeadline';
 import MenuListItem from '../components/MenuListItem';
 import Tag from '../components/Tag';
 import TextInfo from '../components/TextInfo';
 import useColors from '../hooks/useColors';
-import { useSettings } from '../hooks/useSettings';
+import { SettingsState, useSettings } from '../hooks/useSettings';
 import { useTranslation } from '../hooks/useTranslation';
+import { RootStackScreenProps } from '../types';
 
-export default function WebhookScreen({ navigation }) {
+export default function WebhookScreen({ navigation }: RootStackScreenProps<'Webhook'>) {
   const { settings, setSettings } = useSettings()
   const colors = useColors()
   const i18n = useTranslation()
@@ -33,7 +33,7 @@ export default function WebhookScreen({ navigation }) {
             <Switch
               trackColor={{ false: '#767577', true: Platform.OS === 'ios' ? '#4ad461' : '#DDD' }}
               ios_backgroundColor="#3e3e3e"
-              onValueChange={() => setSettings((settings) => ({ ...settings, webhookEnabled: !settings.webhookEnabled }))}
+              onValueChange={() => setSettings((settings: SettingsState) => ({ ...settings, webhookEnabled: !settings.webhookEnabled }))}
               value={settings.webhookEnabled}
               style={{
                 marginTop: -5,
@@ -41,7 +41,7 @@ export default function WebhookScreen({ navigation }) {
               }}
             />
           }
-          onPress={() => setSettings(settings => ({ ...settings, webhookEnabled: !settings.webhookEnabled }))}
+          onPress={() => setSettings((settings: SettingsState) => ({ ...settings, webhookEnabled: !settings.webhookEnabled }))}
           isLast
         ></MenuListItem>
       </MenuList>
@@ -79,7 +79,7 @@ export default function WebhookScreen({ navigation }) {
               }}
               placeholder={i18n.t('webhook_url_placeholder')}
               value={settings.webhookUrl}
-              onChange={event => setSettings(settings => ({ ...settings, webhookUrl: event.nativeEvent.text }))}
+              onChange={event => setSettings((settings: SettingsState) => ({ ...settings, webhookUrl: event.nativeEvent.text }))}
             />
           </View>
           <TextInfo>{i18n.t('webhook_url_help')}</TextInfo>
@@ -105,8 +105,7 @@ export default function WebhookScreen({ navigation }) {
                     <Tag type={entry.isError ? 'error' : 'success'}>{entry.isError ? i18n.t('webhook_status_error') : i18n.t('webhook_status_success')}</Tag>
                   </View>
                 }
-                icon={<ChevronRight width={18} color={colors.menuListItemIcon} />}
-                onPress={() => navigation.navigate('WebhookHistoryEntryScreen', { entry })}
+                onPress={() => navigation.navigate('WebhookHistoryEntry', { entry })}
                 isLast={index === settings.webhookHistory.length - 1}
                 isLink
               ></MenuListItem>

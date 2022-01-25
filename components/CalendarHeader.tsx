@@ -2,9 +2,13 @@ import dayjs from "dayjs"
 import { Text, View } from "react-native"
 import useColors from "../hooks/useColors"
 
-const HeaderDay = ({ children }) => {
+const HeaderDay = ({ 
+  children 
+}: {
+  children: string
+}) => {
   const colors = useColors()
-  return <View><Text style={{ color: colors.calendarMonthNameColor }}>{children}</Text></View>
+  return <Text style={{ color: colors.calendarMonthNameColor }}>{children}</Text>
 }
 
 export default function CalendarHeader() {

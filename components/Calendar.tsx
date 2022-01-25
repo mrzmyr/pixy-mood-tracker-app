@@ -46,10 +46,14 @@ function CalendarWeek({
     >
       {!isLast && emptyDays.map((day, index) => <CalendarDayContainer key={index} />)}
 
-      {days.map(day => <CalendarDayContainer key={day.toString()}><CalendarDay date={{
-          dateString: day.format('YYYY-MM-DD'),
-          day: day.date(),
-      }} /></CalendarDayContainer>)}
+      {days.map(day => (
+        <CalendarDayContainer key={day.toString()}>
+          <CalendarDay date={{
+            dateString: day.format('YYYY-MM-DD'),
+            day: day.date(),
+          }} />
+        </CalendarDayContainer>)
+      )}
       
       {isLast && emptyDays.map((day, index) => <CalendarDayContainer key={index} />)}
     </View>
