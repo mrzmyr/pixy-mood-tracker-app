@@ -2,6 +2,27 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.1.2](https://github.com/mrzmyr/pixy-mood-tracker/compare/v1.1.1...v1.1.2) (2022-01-25)
+
+
+### Bug Fixes
+
+* remove dotenv from translation script ([0394446](https://github.com/mrzmyr/pixy-mood-tracker/commit/039444658f7080ede4b6a26d8ef439031a9e08ac))
+
+
+### Styling
+
+* align font sizes ([fa77ea7](https://github.com/mrzmyr/pixy-mood-tracker/commit/fa77ea7d03df8c9684c6a5993a50c73c000cec4c))
+* fix typo in EN data notice ([a3a4d80](https://github.com/mrzmyr/pixy-mood-tracker/commit/a3a4d80d790b274da421b05bcb7b3999d4fe8d53))
+* **LogModal:** align element distances ([30943bf](https://github.com/mrzmyr/pixy-mood-tracker/commit/30943bfdc7fe0cb14887177e9ad718261b80a9d2))
+* **LogModal:** show 'add' on new entries (instead of 'save') ([334a138](https://github.com/mrzmyr/pixy-mood-tracker/commit/334a138b20055cf5efec53c20d8c2b1935ca965f))
+
+
+### Refactors
+
+* add types and move components to separate files ([b77ded7](https://github.com/mrzmyr/pixy-mood-tracker/commit/b77ded7419dff18838f5d65ef21dfa22af8a5613))
+* add types and realign route names ([483b258](https://github.com/mrzmyr/pixy-mood-tracker/commit/483b258b21cfad049195dc6f5dd13bf16068b06a))
+
 ### [1.1.1](https://github.com/mrzmyr/pixy-mood-tracker/compare/v1.1.0...v1.1.1) (2022-01-24)
 
 
