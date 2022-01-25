@@ -1,18 +1,17 @@
 import dayjs from 'dayjs';
 import { StatusBar } from 'expo-status-bar';
 import { useState } from 'react';
-import { Platform, Text, View } from 'react-native';
+import { Platform, View } from 'react-native';
 import { Trash2 } from 'react-native-feather';
-import ColorButton from '../components/ScaleButton';
 import DismissKeyboard from '../components/DismisKeyboard';
 import LinkButton from '../components/LinkButton';
+import ModalHeader from '../components/ModalHeader';
+import Scale from '../components/Scale';
 import TextArea from '../components/TextArea';
 import useColors from '../hooks/useColors';
 import { useLogs } from '../hooks/useLogs';
-import { useTranslation } from '../hooks/useTranslation';
-import Scale from '../components/Scale';
 import { useSettings } from '../hooks/useSettings';
-import ModalHeader from '../components/ModalHeader';
+import { useTranslation } from '../hooks/useTranslation';
 
 export default function LogModal({ navigation, route }) {
   

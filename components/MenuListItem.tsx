@@ -1,9 +1,7 @@
 import React from 'react';
-import { Text, View, Pressable } from 'react-native';
+import { Pressable, Text, View } from 'react-native';
 import { ChevronRight } from 'react-native-feather';
-import Colors from '../constants/Colors';
 import useColors from '../hooks/useColors';
-import useColorScheme from '../hooks/useColorScheme';
 
 export default ({ 
   title, 
@@ -16,8 +14,8 @@ export default ({
 }: {
   title: string,
   onPress?: () => void,
-  iconLeft?: React.ReactElement,
-  iconRight?: React.ReactElement,
+  iconLeft?: React.ReactElement | null,
+  iconRight?: React.ReactElement | null,
   isLast?: boolean | null,
   isLink?: boolean | null,
   style?: any,
@@ -27,8 +25,6 @@ export default ({
   return (
     <View
       style={{
-        // marginBottom: 5,
-        // backgroundColor: 'red',
         borderBottomWidth: isLast ? 0 : 1,
         borderBottomColor: colors.menuListItemBorder,
         marginRight: 20,

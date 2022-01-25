@@ -1,17 +1,22 @@
 import React from 'react';
-import { View } from 'react-native';
+import { StyleProp, View } from 'react-native';
 import useColors from '../hooks/useColors';
 
-export default ({ children, style = {} }) => {
+export default ({ 
+  children, 
+  style = null,
+}: {
+  children: React.ReactNode,
+  style?: any,
+}) => {
   const colors = useColors()
   
   return (
     <View
-      style={[style, {
-        // marginTop: 25,
+      style={[{
         backgroundColor: colors.menuListItemBackground,
         borderRadius: 10,
-      }]}
+      }, style]}
     >{children}</View>
   )
 };

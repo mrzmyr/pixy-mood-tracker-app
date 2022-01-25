@@ -6,7 +6,7 @@ export default function TextInfo({
   style,
 }: {
   children: React.ReactNode;
-  style?: StyleProp<Text>;
+  style?: any,
 }) {
   const colors = useColors();
   

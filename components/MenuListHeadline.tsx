@@ -1,7 +1,11 @@
 import { Text } from "react-native";
 import useColors from "../hooks/useColors";
 
-export default function MenuListHeadline({ children }) {
+export default function MenuListHeadline({ 
+  children
+}: {
+  children: React.ReactNode,
+}) {
   const colors = useColors();
   
   return (

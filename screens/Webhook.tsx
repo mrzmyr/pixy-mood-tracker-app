@@ -4,33 +4,11 @@ import { ChevronRight } from 'react-native-feather';
 import MenuList from '../components/MenuList';
 import MenuListHeadline from '../components/MenuListHeadline';
 import MenuListItem from '../components/MenuListItem';
+import Tag from '../components/Tag';
 import TextInfo from '../components/TextInfo';
 import useColors from '../hooks/useColors';
 import { useSettings } from '../hooks/useSettings';
 import { useTranslation } from '../hooks/useTranslation';
-
-function Tag({ children, type }) {
-  const colors = useColors();
-  
-  return (
-    <View style={{
-      backgroundColor: type === 'success' ? colors.tagSuccessBackground : colors.tagErrorBackground,
-      padding: 2,
-      paddingLeft: 7,
-      paddingRight: 7,
-      borderRadius: 5,
-      opacity: 0.8,
-    }}>
-      <Text style={{ 
-        fontSize: 14,
-        opacity: 0.8,
-        color: type === 'success' ? colors.tagSuccessText : colors.tagErrorText,
-      }}>
-        {children}
-      </Text>
-    </View>
-  )
-}
 
 export default function WebhookScreen({ navigation }) {
   const { settings, setSettings } = useSettings()
@@ -55,7 +33,7 @@ export default function WebhookScreen({ navigation }) {
             <Switch
               trackColor={{ false: '#767577', true: Platform.OS === 'ios' ? '#4ad461' : '#DDD' }}
               ios_backgroundColor="#3e3e3e"
-              onValueChange={() => setSettings(settings => ({ ...settings, webhookEnabled: !settings.webhookEnabled }))}
+              onValueChange={() => setSettings((settings) => ({ ...settings, webhookEnabled: !settings.webhookEnabled }))}
               value={settings.webhookEnabled}
               style={{
                 marginTop: -5,

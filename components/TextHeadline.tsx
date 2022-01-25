@@ -1,7 +1,13 @@
-import { Text } from "react-native"
+import { StyleProp, Text } from "react-native"
 import useColors from "../hooks/useColors"
 
-export default function TextHeadline({ children, style = {} }) {
+export default function TextHeadline({ 
+  children, 
+  style = null,
+}: {
+  children: React.ReactNode,
+  style?: any,
+}) {
   const colors = useColors()
   return (
     <Text

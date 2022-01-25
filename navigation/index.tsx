@@ -9,9 +9,9 @@ import CalendarScreen from '../screens/Calendar';
 import LicenseScreen from '../screens/Licenses';
 import LogModal from '../screens/LogModal';
 import NotFoundScreen from '../screens/NotFound';
+import ScalesScreen from '../screens/Scales';
 import SettingsScreen from '../screens/Settings';
 import WebhookScreen from '../screens/Webhook';
-import ScalesScreen from '../screens/Scales';
 import WebhookHistoryEntryScreen from '../screens/WebhookHistoryEntry';
 
 const linking = {
@@ -22,11 +22,9 @@ const linking = {
   },
 };
 
-export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
+export default function Navigation() {
   return (
-    <NavigationContainer
-      linking={linking}
-    >
+    <NavigationContainer linking={linking}>
       <RootNavigator />
     </NavigationContainer>
   );

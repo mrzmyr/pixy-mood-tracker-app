@@ -11,7 +11,7 @@ export default function LinkButton({
   type?: 'primary' | 'secondary',
   onPress: () => any,
   children: React.ReactNode,
-  style?: React.CSSProperties,
+  style?: any,
   icon?: React.ReactNode,
 }) {
   const colors = useColors();

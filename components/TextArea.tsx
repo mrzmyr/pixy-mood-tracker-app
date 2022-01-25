@@ -8,6 +8,12 @@ export default function TextArea({
   maxLength = 500,
   autoFocus = false,
   onChange = (text: string) => {}, 
+}: {
+  value?: string,
+  placeholder?: string,
+  maxLength?: number,
+  autoFocus?: boolean,
+  onChange?: (text: string) => void,
 }) {
   const colors = useColors()
 

@@ -1,4 +1,4 @@
-import { Pressable, Text, View } from "react-native";
+import { Pressable, StyleProp, Text, View } from "react-native";
 import useColors from "../hooks/useColors";
 
 export default function Button({ 
@@ -12,7 +12,7 @@ export default function Button({
   icon?: React.ReactNode,
   onPress?: () => void,
   children: React.ReactNode,
-  style?: any
+  style?: any,
 }) {
   const colors = useColors()
   
