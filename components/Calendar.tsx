@@ -81,7 +81,7 @@ const CalendarMonth = forwardRef(({
         margin: 10,
         marginTop: 20,
         textAlign: 'center',
-        fontSize: 15,
+        fontSize: 17,
         opacity: 0.5,
         color: colors.calendarMonthNameColor,
       }}

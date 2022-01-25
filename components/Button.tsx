@@ -43,7 +43,7 @@ export default function Button({
       onPress={onPress}
     >
       {icon && <View style={{ marginRight: children ? 10 : 0 }}>{icon}</View>}
-      <Text style={{ fontSize: 16, color: buttonColors?.text }}>{children}</Text>
+      <Text style={{ fontSize: 17, color: buttonColors?.text }}>{children}</Text>
     </Pressable>
   )
 }

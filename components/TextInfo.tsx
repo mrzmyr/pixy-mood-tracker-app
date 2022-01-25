@@ -12,7 +12,7 @@ export default function TextInfo({
   
   return (
     <Text style={[{
-      fontSize: 14,
+      fontSize: 13,
       color: colors.textSecondary,
       padding: 15,
       paddingTop: 0,

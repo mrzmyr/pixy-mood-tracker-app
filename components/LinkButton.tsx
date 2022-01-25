@@ -30,8 +30,8 @@ export default function LinkButton({
         opacity: pressed ? 0.8 : 1,
         paddingTop: 10,
         paddingBottom: 10,
-        paddingLeft: 15,
-        paddingRight: 15,
+        paddingLeft: 10,
+        paddingRight: 10,
       }, style]}
       onPress={onPress}
     >

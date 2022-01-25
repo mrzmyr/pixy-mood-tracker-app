@@ -58,7 +58,7 @@ export default function CalendarDay({ date }) {
           >
             <Text
               style={{
-                fontSize: 12,
+                fontSize: 14,
                 color: textColor,
               }}
             >{date.day}</Text>

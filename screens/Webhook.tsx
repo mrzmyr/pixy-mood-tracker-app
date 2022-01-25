@@ -22,8 +22,7 @@ function Tag({ children, type }) {
       opacity: 0.8,
     }}>
       <Text style={{ 
-        fontSize: 15, 
-        color: '#333', 
+        fontSize: 14,
         opacity: 0.8,
         color: type === 'success' ? colors.tagSuccessText : colors.tagErrorText,
       }}>

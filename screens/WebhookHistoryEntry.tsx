@@ -13,7 +13,7 @@ const DataEntyItem = ({ title, value }) => {
 
   return (
     <View>
-        <Text style={{ fontSize: 15, color: colors.text, opacity: 0.5 }}>{title}</Text>
+        <Text style={{ fontSize: 14, color: colors.text, opacity: 0.5 }}>{title}</Text>
         <Text style={{ fontSize: 17, color: colors.text, marginTop: 5, }}>{value}</Text>
     </View>
   )

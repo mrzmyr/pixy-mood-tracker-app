@@ -41,7 +41,7 @@ export default function TextArea({
           color: colors.textInputText,
           padding: 15,
           paddingTop: 15,
-          fontSize: 16,
+          fontSize: 17,
           height: 200,
           width: '100%',
           borderRadius: 5,
@@ -53,7 +53,7 @@ export default function TextArea({
         right: 10,
       }}>
         <Text style={{
-          fontSize: 16,
+          fontSize: 17,
           color: colors.textInputPlaceholder,
         }}>{maxLength - value.length}/{maxLength}</Text>
       </View>

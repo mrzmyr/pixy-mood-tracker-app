@@ -53,7 +53,7 @@ export default ({
         }}
       >
         {iconLeft && <View style={{ marginRight: 15 }}>{iconLeft}</View>}
-        {typeof(title) === 'string' && <Text style={{ fontSize: 16, color: style.color || colors.menuListItemText }}>{title}</Text>}
+        {typeof(title) === 'string' && <Text style={{ fontSize: 17, color: style.color || colors.menuListItemText }}>{title}</Text>}
         {typeof(title) !== 'string' && title}
       </View>
       {iconRight && <View style={{ }}>{iconRight}</View>}
