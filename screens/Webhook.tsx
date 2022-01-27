@@ -20,13 +20,13 @@ export default function WebhookScreen({ navigation }: RootStackScreenProps<'Webh
   const [enabled, setEnabled] = useState(settings.webhookEnabled)
   const [url, setUrl] = useState(settings.webhookUrl)
   
-  const debounced = useDebouncedCallback((value) => {
+  const debouncedSetUrl = useDebouncedCallback((value) => {
     setSettings((settings: SettingsState) => ({ ...settings, webhookUrl: value }))
   }, 200);
   
   const debouncedSetEnabled = useDebouncedCallback((value) => {
     setSettings((settings: SettingsState) => ({ ...settings, webhookEnabled: value }))
-  }, 200);
+  }, 50);
   
   return (
     <ScrollView
@@ -100,7 +100,7 @@ export default function WebhookScreen({ navigation }: RootStackScreenProps<'Webh
               value={url}
               onChange={event => {
                 setUrl(event.nativeEvent.text)
-                debounced(event.nativeEvent.text)
+                debouncedSetUrl(event.nativeEvent.text)
               }}
             />
           </View>
