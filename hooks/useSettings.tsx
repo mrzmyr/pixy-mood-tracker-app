@@ -40,7 +40,7 @@ function SettingsProvider({children}: { children: React.ReactNode }) {
   
   const resetSettings = () => {
     console.log('reset settings')
-    setSettings(initialState)
+    setSettingsProxy(initialState)
   }
   
   useEffect(() => {
