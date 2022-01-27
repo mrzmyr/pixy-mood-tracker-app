@@ -7,7 +7,6 @@ import {
 import useColors from "../hooks/useColors";
 import CalendarDay from "./CalendarDay";
 
-
 function CalendarDayContainer({ 
   children,
 }: {
@@ -70,7 +69,7 @@ const CalendarMonth = forwardRef(({
   const daysInMonthCount = date.daysInMonth();
   let weeks = [[]];
   let weekIndex = 0;
-
+  
   for (let i = 1; i <= daysInMonthCount; i++) {
     const prevDay = date.clone().set('date', i - 1)
     const day = date.clone().set('date', i);
@@ -82,14 +81,14 @@ const CalendarMonth = forwardRef(({
   return (
     <View ref={ref}>
       <Text
-      style={{
-        margin: 10,
-        marginTop: 20,
-        textAlign: 'center',
-        fontSize: 17,
-        opacity: 0.5,
-        color: colors.calendarMonthNameColor,
-      }}
+        style={{
+          margin: 10,
+          marginTop: 20,
+          textAlign: 'center',
+          fontSize: 17,
+          opacity: 0.5,
+          color: colors.calendarMonthNameColor,
+        }}
       >{date.format('MMMM YYYY')}</Text>
       {weeks.map((week, index) => <CalendarWeek 
         key={week.toString()}
