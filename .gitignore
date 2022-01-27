@@ -18,3 +18,6 @@ yarn-error.log
 coverage/*
 credentials/*
 scripts/credentials.json
+scripts/screenshots/*
+scripts/preview-templates/*
+scripts/preview-generated/*
