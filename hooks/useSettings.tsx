@@ -32,10 +32,19 @@ const initialState: SettingsState = {
 function SettingsProvider({children}: { children: React.ReactNode }) {
   const [settings, setSettings] = useState(initialState)
 
-  const setSettingsProxy = (settingsOrSettingsFunction: SettingsState | Function) => {
-    const newSettings = typeof settingsOrSettingsFunction === 'function' ? settingsOrSettingsFunction(settings) : settingsOrSettingsFunction;
+  const setSettingsProxy = async (settingsOrSettingsFunction: SettingsState | Function) => {
+    
+    const newSettings = typeof settingsOrSettingsFunction === 'function' ? 
+      settingsOrSettingsFunction(settings) : 
+      settingsOrSettingsFunction;
+
     setSettings(newSettings)
-    AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(newSettings))
+
+    try {
+      await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(newSettings))
+    } catch (e) {
+      console.error(e)
+    }
   }
   
   const resetSettings = () => {
