@@ -39,5 +39,18 @@
   "log_modal_message_placeholder": "Algún mensaje sobre el día…",
   "scales": "Colores",
   "scales_info": "Los colores se utilizan para indicar la calificación en el calendario. Su calificación anterior se cambiará al color seleccionado.",
-  "add": "Agregar"
+  "add": "Agregar",
+  "log_modal_message_example": "Hoy he encontrado una manera de reconectarme conmigo mismo.",
+  "previews_screen_1_title": [
+    "Sigue tu estado de ánimo",
+    "Un píxel a la vez"
+  ],
+  "previews_screen_2_title": [
+    "Webhook / Exportar",
+    "Apoyo"
+  ],
+  "previews_screen_3_title": [
+    "Luciendo genial en",
+    "Modo oscuro"
+  ]
 }

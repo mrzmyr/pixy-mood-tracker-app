@@ -38,6 +38,19 @@
   "webhook_entry_status_code": "Status Code",
   "webhook_entry_error_message": "Error Message",
   "log_modal_message_placeholder": "Some message about the day…",
+  "log_modal_message_example": "Today I have found a way to reconnect with myself.",
   "scales": "Colors",
-  "scales_info": "Colors are used to indicate the rating in the calendar. Your previous rating will be switched to the selected color."
+  "scales_info": "Colors are used to indicate the rating in the calendar. Your previous rating will be switched to the selected color.",
+  "previews_screen_1_title": [
+    "Track your mood", 
+    "One Pixel at a Time"
+  ],
+  "previews_screen_2_title": [
+    "Webhook / Export",
+    "Support"
+  ],
+  "previews_screen_3_title": [
+    "Looking great in",
+    "Dark Mode"
+  ]
 }

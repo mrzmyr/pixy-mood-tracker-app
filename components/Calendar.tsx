@@ -77,7 +77,6 @@ const CalendarMonth = forwardRef(({
     if(prevDay.week() !== day.week()) weekIndex++;
     if(!weeks[weekIndex]) weeks[weekIndex] = [];
     weeks[weekIndex].push(day);
-    if(day.day() === 0) weekIndex++;
   }
 
   return (

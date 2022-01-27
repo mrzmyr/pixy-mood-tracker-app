@@ -13,7 +13,8 @@ export default function Scale({
   value?: LogItem['rating'];
   onPress?: any,
 }) {
-  const { colors } = useScale(type)
+  let { colors, labels } = useScale(type)
+  labels = labels.reverse()
   
   return (
     <View
@@ -26,6 +27,7 @@ export default function Scale({
     >
       {Object.keys(colors).reverse().map((key, index) => (
         <ScaleButton 
+          accessibilityLabel={labels[index]}
           key={key} 
           isFirst={index === 0}
           isSelected={key === value}

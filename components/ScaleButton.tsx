@@ -5,14 +5,16 @@ import { invertColor } from "../lib/utils";
 export default function ScaleButton({ 
   color, 
   isSelected = false, 
+  accessibilityLabel,
   onPress,
 }: {
   color: string,
   isSelected?: boolean,
+  accessibilityLabel?: string,
   onPress: () => void,
 }) {
   return <Pressable
-    onPressIn={onPress}
+    onPress={onPress}
     style={{
       padding: 3,
       backgroundColor: color,
@@ -25,6 +27,7 @@ export default function ScaleButton({
       alignItems: 'center',
       maxWidth: 50,
     }}
+    accessibilityLabel={accessibilityLabel}
     accessible={true}
   >
     {

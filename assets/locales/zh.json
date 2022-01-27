@@ -39,5 +39,18 @@
   "log_modal_message_placeholder": "关于当天的一些信息…",
   "scales": "颜色",
   "scales_info": "颜色用于指示日历中的等级。您之前的评分将切换为所选颜色。",
-  "add": "添加"
+  "add": "添加",
+  "log_modal_message_example": "今天，我找到了与自己重新建立联系的方法。",
+  "previews_screen_1_title": [
+    "追踪你的心情",
+    "一次一个像素"
+  ],
+  "previews_screen_2_title": [
+    "网络挂钩/导出",
+    "支持"
+  ],
+  "previews_screen_3_title": [
+    "看起来很棒",
+    "黑暗模式"
+  ]
 }

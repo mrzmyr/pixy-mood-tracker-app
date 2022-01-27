@@ -39,5 +39,18 @@
   "log_modal_message_placeholder": "Eine Nachricht über den Tag…",
   "scales": "Farben",
   "scales_info": "Farben werden verwendet, um die Bewertung im Kalender anzuzeigen. Ihre vorherige Bewertung wird auf die ausgewählte Farbe umgestellt.",
-  "add": "Hinzufügen"
+  "add": "Hinzufügen",
+  "log_modal_message_example": "Heute habe ich einen Weg gefunden, mich wieder mit mir selbst zu verbinden.",
+  "previews_screen_1_title": [
+    "Verfolgen Sie Ihre Stimmung",
+    "Ein Pixel nach dem anderen"
+  ],
+  "previews_screen_2_title": [
+    "Webhook / Export",
+    "Unterstützung"
+  ],
+  "previews_screen_3_title": [
+    "Sieht toll aus",
+    "Dunkler Modus"
+  ]
 }

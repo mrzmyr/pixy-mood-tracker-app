@@ -39,5 +39,18 @@
   "log_modal_message_placeholder": "その日のメッセージ…",
   "scales": "色",
   "scales_info": "色は、カレンダーの評価を示すために使用されます。以前の評価が選択した色に切り替わります。",
-  "add": "追加"
+  "add": "追加",
+  "log_modal_message_example": "今日、私は自分自身と再接続する方法を見つけました。",
+  "previews_screen_1_title": [
+    "気分を追跡する",
+    "一度に1ピクセル"
+  ],
+  "previews_screen_2_title": [
+    "Webhook /エクスポート",
+    "サポート"
+  ],
+  "previews_screen_3_title": [
+    "で見栄え",
+    "ダークモード"
+  ]
 }
