@@ -15,7 +15,18 @@ export default function WebhookScreen({ navigation }: RootStackScreenProps<'Webh
   const colors = useColors()
   const i18n = useTranslation()
 
-  return (    
+  const [enabled, setEnabled] = useState(settings.webhookEnabled)
+  const [url, setUrl] = useState(settings.webhookUrl)
+  
+  const debounced = useDebouncedCallback((value) => {
+    setSettings((settings: SettingsState) => ({ ...settings, webhookUrl: value }))
+  }, 200);
+  
+  const debouncedSetEnabled = useDebouncedCallback((value) => {
+    setSettings((settings: SettingsState) => ({ ...settings, webhookEnabled: value }))
+  }, 200);
+  
+  return (
     <ScrollView
       style={{
         backgroundColor: colors.backgroundSecondary,
@@ -31,10 +42,11 @@ export default function WebhookScreen({ navigation }: RootStackScreenProps<'Webh
           title={i18n.t('webhook')}
           iconRight={
             <Switch
-              trackColor={{ false: '#767577', true: Platform.OS === 'ios' ? '#4ad461' : '#DDD' }}
-              ios_backgroundColor="#3e3e3e"
-              onValueChange={() => setSettings((settings: SettingsState) => ({ ...settings, webhookEnabled: !settings.webhookEnabled }))}
-              value={settings.webhookEnabled}
+              onValueChange={() => {
+                setEnabled(!enabled)
+                debouncedSetEnabled(!enabled)
+              }}
+              value={enabled}
               style={{
                 marginTop: -5,
                 marginBottom: -5,
@@ -42,7 +54,10 @@ export default function WebhookScreen({ navigation }: RootStackScreenProps<'Webh
               testID={`webhook-enabled`}
             />
           }
-          onPress={() => setSettings((settings: SettingsState) => ({ ...settings, webhookEnabled: !settings.webhookEnabled }))}
+          onPress={() => {
+            setEnabled(!enabled)
+            debouncedSetEnabled(!enabled)
+          }}
           isLast
         ></MenuListItem>
       </MenuList>
@@ -80,8 +95,11 @@ export default function WebhookScreen({ navigation }: RootStackScreenProps<'Webh
               }}
               testID={`webhook-url`}
               placeholder={i18n.t('webhook_url_placeholder')}
-              value={settings.webhookUrl}
-              onChange={event => setSettings((settings: SettingsState) => ({ ...settings, webhookUrl: event.nativeEvent.text }))}
+              value={url}
+              onChange={event => {
+                setUrl(event.nativeEvent.text)
+                debounced(event.nativeEvent.text)
+              }}
             />
           </View>
           <TextInfo>{i18n.t('webhook_url_help')}</TextInfo>
