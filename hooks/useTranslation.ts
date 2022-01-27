@@ -1,6 +1,7 @@
 import dayjs from 'dayjs';
 import * as Localization from 'expo-localization';
 import i18n from 'i18n-js';
+import localizedFormat from 'dayjs/plugin/localizedFormat'
 
 i18n.translations = {
   en: require('../assets/locales/en.json'),
@@ -34,6 +35,7 @@ if(locale in dayjs_locales) {
   dayjs.locale('en')
 }
 
+dayjs.extend(localizedFormat)
 
 export function useTranslation() {
   return i18n;

@@ -70,9 +70,7 @@ export default function LogModal({ navigation, route }: RootStackScreenProps<'Lo
       {/* Use a light status bar on iOS to account for the black space above the modal */}
       <StatusBar animated={true} style={Platform.OS === 'ios' ? 'light' : 'auto'} />
       <ModalHeader
-        title={dayjs(route.params.date).format('ddd, DD.MM.YYYY')}
-        right={<LinkButton onPress={save}>{existingLogItem ? i18n.t('save') : i18n.t('add')}</LinkButton>}
-        left={<LinkButton onPress={cancel} type='secondary'>{i18n.t('cancel')}</LinkButton>}
+        title={dayjs(route.params.date).format('ddd, L')}
       />
       <View
         style={{

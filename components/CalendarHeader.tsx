@@ -37,13 +37,13 @@ export default function CalendarHeader() {
       paddingTop: 10,
       paddingBottom: 10,
   }}>
-    <HeaderDay>{dayjs('2022-01-17').format('ddd')}</HeaderDay>
-    <HeaderDay>{dayjs('2022-01-18').format('ddd')}</HeaderDay>
-    <HeaderDay>{dayjs('2022-01-19').format('ddd')}</HeaderDay>
-    <HeaderDay>{dayjs('2022-01-20').format('ddd')}</HeaderDay>
-    <HeaderDay>{dayjs('2022-01-21').format('ddd')}</HeaderDay>
-    <HeaderDay>{dayjs('2022-01-22').format('ddd')}</HeaderDay>
-    <HeaderDay>{dayjs('2022-01-23').format('ddd')}</HeaderDay>
+    <HeaderDay>{dayjs().startOf('week').format('ddd')}</HeaderDay>
+    <HeaderDay>{dayjs().startOf('week').add(1, 'day').format('ddd')}</HeaderDay>
+    <HeaderDay>{dayjs().startOf('week').add(2, 'day').format('ddd')}</HeaderDay>
+    <HeaderDay>{dayjs().startOf('week').add(3, 'day').format('ddd')}</HeaderDay>
+    <HeaderDay>{dayjs().startOf('week').add(4, 'day').format('ddd')}</HeaderDay>
+    <HeaderDay>{dayjs().startOf('week').add(5, 'day').format('ddd')}</HeaderDay>
+    <HeaderDay>{dayjs().startOf('week').add(6, 'day').format('ddd')}</HeaderDay>
   </View>
   )
 }

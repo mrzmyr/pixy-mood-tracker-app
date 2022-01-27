@@ -101,7 +101,7 @@ export default function WebhookScreen({ navigation }: RootStackScreenProps<'Webh
                         color: colors.text,
                         marginRight: 10,
                       }}
-                    >{entry?.date ? dayjs(entry.date).format('DD.MM.YYYY HH:mm:ss') : '-'}</Text>
+                    >{entry?.date ? dayjs(entry.date).format('lll') : '-'}</Text>
                     <Tag type={entry.isError ? 'error' : 'success'}>{entry.isError ? i18n.t('webhook_status_error') : i18n.t('webhook_status_success')}</Tag>
                   </View>
                 }

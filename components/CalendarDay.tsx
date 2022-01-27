@@ -48,7 +48,7 @@ export default function CalendarDay({
           aspectRatio: 1,
         }]}
         accessible={true}
-        accessibilityLabel={`${dayjs(date.dateString).format('ddd, MMM D')}`}
+        accessibilityLabel={`${dayjs(date.dateString).format('LL')}`}
       >
           { message.length > 0 && 
             <View style={{

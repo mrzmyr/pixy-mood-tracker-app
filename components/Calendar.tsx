@@ -72,7 +72,9 @@ const CalendarMonth = forwardRef(({
   let weekIndex = 0;
 
   for (let i = 1; i <= daysInMonthCount; i++) {
+    const prevDay = date.clone().set('date', i - 1)
     const day = date.clone().set('date', i);
+    if(prevDay.week() !== day.week()) weekIndex++;
     if(!weeks[weekIndex]) weeks[weekIndex] = [];
     weeks[weekIndex].push(day);
     if(day.day() === 0) weekIndex++;

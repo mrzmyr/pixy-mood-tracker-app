@@ -31,7 +31,7 @@ export default function WebhookHistoryEntry({ navigation, route }) {
   const { entry }: { entry: SettingsWebhookHistoryEntry } = route.params
 
   useEffect(() => {
-    navigation.setOptions({ headerTitle: dayjs(entry.date).format('DD.MM.YYYY - HH:mm:ss') });
+    navigation.setOptions({ headerTitle: dayjs(entry.date).format('lll') });
   }, [])
 
   return (
