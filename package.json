@@ -56,7 +56,8 @@
     "react-native-scroll-into-view": "^2.0.2",
     "react-native-svg": "12.1.1",
     "react-native-web": "0.17.1",
-    "sentry-expo": "^4.0.0"
+    "sentry-expo": "^4.0.0",
+    "use-debounce": "^7.0.1"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
@@ -75,7 +76,9 @@
     "husky": "^7.0.4",
     "jest": "^26.6.3",
     "jest-expo": "~44.0.1",
+    "puppeteer": "^13.1.2",
     "react-test-renderer": "17.0.1",
+    "sharp": "^0.29.3",
     "standard-version": "^7.1.0",
     "standard-version-expo": "^1.0.3",
     "typescript": "~4.3.5"
