@@ -1,7 +1,7 @@
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import * as React from 'react';
-import { Pressable } from 'react-native';
+import { Platform, Pressable } from 'react-native';
 import { ArrowLeft, Settings as SettingsIcon } from 'react-native-feather';
 import useColors from '../hooks/useColors';
 import { useTranslation } from '../hooks/useTranslation';
@@ -72,7 +72,6 @@ function RootNavigator() {
     headerStyle: {
       backgroundColor: colors.background,
     },
-    headerShadowVisible: false,
   }
 
   return (
@@ -125,7 +124,7 @@ function RootNavigator() {
           component={Settings} 
           options={{ 
             title: i18n.t('settings'),
-            headerLeft: () => <BackButton testID={'settings-back-button'} />,
+            headerLeft: () => Platform.OS === 'ios' ? null : <BackButton testID={'settings-back-button'} />,
           }}
         />
         <Stack.Screen 
@@ -133,7 +132,7 @@ function RootNavigator() {
           component={Webhook} 
           options={{ 
             title: i18n.t('webhook'),
-            headerLeft: () => <BackButton testID={'webhook-back-button'} />,
+            headerLeft: () => Platform.OS === 'ios' ? null : <BackButton testID={'webhook-back-button'} />,
           }} 
         />
         <Stack.Screen 
@@ -141,7 +140,7 @@ function RootNavigator() {
           component={WebhookHistoryEntry} 
           options={{ 
             title: '',
-            headerLeft: () => <BackButton testID={'webhook-history-entry-back-button'} />,
+            headerLeft: () => Platform.OS === 'ios' ? null : <BackButton testID={'webhook-history-entry-back-button'} />,
           }} 
         />
         <Stack.Screen 
@@ -149,7 +148,7 @@ function RootNavigator() {
           component={Licenses} 
           options={{ 
             title: i18n.t('licenses'),
-            headerLeft: () => <BackButton testID={'licenses-back-button'} />,
+            headerLeft: () => Platform.OS === 'ios' ? null : <BackButton testID={'licenses-back-button'} />,
           }} 
         />
         <Stack.Screen 
@@ -157,7 +156,7 @@ function RootNavigator() {
           component={Scales} 
           options={{ 
             title: i18n.t('scales'),
-            headerLeft: () => <BackButton testID={'scales-back-button'} />,
+            headerLeft: () => Platform.OS === 'ios' ? null : <BackButton testID={'scales-back-button'} />,
           }} 
         />
       </Stack.Group>
