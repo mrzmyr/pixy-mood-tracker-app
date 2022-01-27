@@ -47,6 +47,7 @@ export default function CalendarDay({
           width: '100%',
           aspectRatio: 1,
         }]}
+        testID={`calendar-day-${date.dateString}`}
         accessible={true}
         accessibilityLabel={`${dayjs(date.dateString).format('LL')}`}
       >

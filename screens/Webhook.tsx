@@ -39,6 +39,7 @@ export default function WebhookScreen({ navigation }: RootStackScreenProps<'Webh
                 marginTop: -5,
                 marginBottom: -5,
               }}
+              testID={`webhook-enabled`}
             />
           }
           onPress={() => setSettings((settings: SettingsState) => ({ ...settings, webhookEnabled: !settings.webhookEnabled }))}
@@ -77,6 +78,7 @@ export default function WebhookScreen({ navigation }: RootStackScreenProps<'Webh
                 padding: 15,
                 paddingRight: 20,
               }}
+              testID={`webhook-url`}
               placeholder={i18n.t('webhook_url_placeholder')}
               value={settings.webhookUrl}
               onChange={event => setSettings((settings: SettingsState) => ({ ...settings, webhookUrl: event.nativeEvent.text }))}
@@ -105,7 +107,7 @@ export default function WebhookScreen({ navigation }: RootStackScreenProps<'Webh
                     <Tag type={entry.isError ? 'error' : 'success'}>{entry.isError ? i18n.t('webhook_status_error') : i18n.t('webhook_status_success')}</Tag>
                   </View>
                 }
-                onPress={() => navigation.navigate('WebhookHistoryEntry', { entry })}
+                testID={`webhook-history-entry-${index}`}
                 isLast={index === settings.webhookHistory.length - 1}
                 isLink
               ></MenuListItem>

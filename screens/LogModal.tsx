@@ -71,6 +71,8 @@ export default function LogModal({ navigation, route }: RootStackScreenProps<'Lo
       <StatusBar animated={true} style={Platform.OS === 'ios' ? 'light' : 'auto'} />
       <ModalHeader
         title={dayjs(route.params.date).format('ddd, L')}
+        right={<LinkButton testID='modal-submit' onPress={save}>{existingLogItem ? i18n.t('save') : i18n.t('add')}</LinkButton>}
+        left={<LinkButton testID='modal-cancel' onPress={cancel} type='secondary'>{i18n.t('cancel')}</LinkButton>}
       />
       <View
         style={{
@@ -84,6 +86,7 @@ export default function LogModal({ navigation, route }: RootStackScreenProps<'Lo
         />
       </View>
       <TextArea 
+        testID='modal-message'
         onChange={setMessage}
         placeholder={i18n.t('log_modal_message_placeholder')}
         value={logItem.message} 
@@ -102,6 +105,7 @@ export default function LogModal({ navigation, route }: RootStackScreenProps<'Lo
             onPress={remove} 
             type='secondary' 
             icon={<Trash2 width={16} color={colors.secondaryLinkButtonText} />}
+            testID='modal-delete'
           >{i18n.t('delete')}</LinkButton>
         </View>
       )}

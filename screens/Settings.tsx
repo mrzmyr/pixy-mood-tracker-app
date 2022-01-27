@@ -176,6 +176,7 @@ export default function SettingsScreen({ navigation }: RootStackScreenProps<'Set
             title={i18n.t('webhook')}
             iconLeft={<Box width={18} color={colors.menuListItemIcon} />}
             onPress={() => navigation.navigate('Webhook')}
+            testID='webhook'
             isLink
           />
           {/* <MenuListItem

@@ -5,12 +5,14 @@ import useColors from "../hooks/useColors";
 export default function TextArea({ 
   value = '',
   placeholder = '', 
+  testID,
   maxLength = 500,
   autoFocus = false,
   onChange = (text: string) => {}, 
 }: {
   value?: string,
   placeholder?: string,
+  testID?: string,
   maxLength?: number,
   autoFocus?: boolean,
   onChange?: (text: string) => void,
@@ -26,6 +28,7 @@ export default function TextArea({
       position: 'relative',
     }}>
       <TextInput
+        testID={testID}
         autoFocus={autoFocus}
         multiline
         numberOfLines={4}

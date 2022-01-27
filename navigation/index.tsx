@@ -1,8 +1,8 @@
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import * as React from 'react';
-import { ColorSchemeName, Pressable } from 'react-native';
-import { Settings as SettingsIcon } from 'react-native-feather';
+import { Pressable } from 'react-native';
+import { ArrowLeft, Settings as SettingsIcon } from 'react-native-feather';
 import useColors from '../hooks/useColors';
 import { useTranslation } from '../hooks/useTranslation';
 import Calendar from '../screens/Calendar';
@@ -33,6 +33,28 @@ export default function Navigation() {
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
+const BackButton = ({ 
+  testID,
+}: { 
+  testID?: string,
+}) => {
+  const navigation = useNavigation()
+  const colors = useColors()
+  
+  return (
+    <Pressable
+      style={{
+        padding: 15,
+        marginLeft: 5,
+      }}
+      onPress={() => navigation.goBack()}
+      testID={testID}
+    >
+      <ArrowLeft width={24} color={colors.text} />
+    </Pressable>
+  );
+}
+
 function RootNavigator() {
   const colors = useColors();
   const i18n = useTranslation()
@@ -56,6 +78,7 @@ function RootNavigator() {
           title: i18n.t('calendar'),
           headerRight: () => (
             <Pressable
+              testID='settings'
               onPress={() => navigation.navigate('Settings')}
               style={{
                 padding: 10,
@@ -93,13 +116,15 @@ function RootNavigator() {
           component={Settings} 
           options={{ 
             title: i18n.t('settings'),
-          }} 
+            headerLeft: () => <BackButton testID={'settings-back-button'} />,
+          }}
         />
         <Stack.Screen 
           name="Webhook" 
           component={Webhook} 
           options={{ 
             title: i18n.t('webhook'),
+            headerLeft: () => <BackButton testID={'webhook-back-button'} />,
           }} 
         />
         <Stack.Screen 
@@ -107,6 +132,7 @@ function RootNavigator() {
           component={WebhookHistoryEntry} 
           options={{ 
             title: '',
+            headerLeft: () => <BackButton testID={'webhook-history-entry-back-button'} />,
           }} 
         />
         <Stack.Screen 
@@ -114,6 +140,7 @@ function RootNavigator() {
           component={Licenses} 
           options={{ 
             title: i18n.t('licenses'),
+            headerLeft: () => <BackButton testID={'licenses-back-button'} />,
           }} 
         />
         <Stack.Screen 
@@ -121,6 +148,7 @@ function RootNavigator() {
           component={Scales} 
           options={{ 
             title: i18n.t('scales'),
+            headerLeft: () => <BackButton testID={'scales-back-button'} />,
           }} 
         />
       </Stack.Group>

@@ -10,7 +10,8 @@ export default ({
   iconRight = null,
   isLast = false,
   isLink = false,
-  style = {} 
+  style = {},
+  testID,
 }: {
   title: string | React.ReactElement,
   onPress?: () => void,
@@ -19,6 +20,7 @@ export default ({
   isLast?: boolean | null,
   isLink?: boolean | null,
   style?: any,
+  testID?: string,
 }) => {
   const colors = useColors()
   
@@ -41,6 +43,7 @@ export default ({
           paddingBottom: 15,
           opacity: pressed ? 0.5 : 1,
         }]}
+        testID={testID}
       >
       <View
         style={{

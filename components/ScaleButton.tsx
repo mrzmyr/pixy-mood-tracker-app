@@ -27,6 +27,7 @@ export default function ScaleButton({
       alignItems: 'center',
       maxWidth: 50,
     }}
+    testID={`scale-button-${accessibilityLabel}`}
     accessibilityLabel={accessibilityLabel}
     accessible={true}
   >

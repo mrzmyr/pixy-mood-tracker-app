@@ -6,13 +6,15 @@ export default function LinkButton({
   onPress, 
   children, 
   style = {}, 
-  icon = null 
+  icon = null,
+  testID,
 }: {
   type?: 'primary' | 'secondary',
   onPress: () => any,
   children: React.ReactNode,
   style?: any,
   icon?: React.ReactNode,
+  testID?: string,
 }) {
   const colors = useColors();
   
@@ -34,6 +36,7 @@ export default function LinkButton({
         paddingRight: 10,
       }, style]}
       onPress={onPress}
+      testID={testID}
     >
       {icon && <View style={{ marginRight: 5 }}>{icon}</View>}
       <Text style={{ 
