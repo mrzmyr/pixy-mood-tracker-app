@@ -86,24 +86,24 @@ function LogsProvider({children}: LogsProviderProps) {
         body,
       }).then(resp => {
         setSettings({ ...settings, 
-          webhookHistory: [...settings.webhookHistory, {
+          webhookHistory: [{
             date: new Date().toISOString(),
             url,
             body,
             statusCode: resp.status,
             statusText: resp.status === 200 ? 'OK' : resp.statusText,
             isError: false,
-          }]
+          }, ...settings.webhookHistory.slice(0, 20)]
         })
       }).catch(error => {
         setSettings({ ...settings, 
-          webhookHistory: [...settings.webhookHistory, {
+          webhookHistory: [{
             date: new Date().toISOString(),
             url,
             body,
             isError: true,
             errorMessage: error.message,
-          }]
+          }, ...settings.webhookHistory.slice(0, 20)]
         })
       })
     }
@@ -113,8 +113,10 @@ function LogsProvider({children}: LogsProviderProps) {
     const load = async () => {
       const data = await AsyncStorage.getItem(STORAGE_KEY)
       const json = JSON.parse(data)
-      if (getJSONSchemaType(json) === 'pixy') {
+        if (getJSONSchemaType(json) === 'pixy') {
         dispatch({ type: 'import', payload: json })
+      } else {
+        console.error('PIXY: unkown schema in local storage found')
       }
     }
 
