@@ -72,6 +72,7 @@ function RootNavigator() {
     headerStyle: {
       backgroundColor: colors.background,
     },
+    headerShadowVisible: Platform.OS !== 'web',
   }
 
   return (
