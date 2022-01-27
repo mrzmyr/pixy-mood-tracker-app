@@ -42,7 +42,7 @@
   "add": "Hinzufügen",
   "log_modal_message_example": "Heute habe ich einen Weg gefunden, mich wieder mit mir selbst zu verbinden.",
   "previews_screen_1_title": [
-    "Verfolgen Sie Ihre Stimmung",
+    "Tracke deine Stimmung",
     "Ein Pixel nach dem anderen"
   ],
   "previews_screen_2_title": [
@@ -51,6 +51,6 @@
   ],
   "previews_screen_3_title": [
     "Sieht toll aus",
-    "Dunkler Modus"
+    "Dark Mode"
   ]
 }
