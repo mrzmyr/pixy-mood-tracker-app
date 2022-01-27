@@ -19,6 +19,14 @@ const linking = {
   prefixes: ['pixy://'],
   config: {
     screens: {
+      Webhook: {
+        path: 'webhook',
+        screens: {
+          WebhookHistoryEntry: {
+            path: 'webhook/history/:date',
+          },
+        },
+      }
     },
   },
 };

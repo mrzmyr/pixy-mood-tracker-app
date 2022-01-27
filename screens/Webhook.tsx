@@ -1,5 +1,7 @@
 import dayjs from 'dayjs';
+import { useState } from 'react';
 import { ScrollView, Switch, Text, TextInput, View } from 'react-native';
+import { useDebouncedCallback } from 'use-debounce';
 import MenuList from '../components/MenuList';
 import MenuListHeadline from '../components/MenuListHeadline';
 import MenuListItem from '../components/MenuListItem';
@@ -125,6 +127,7 @@ export default function WebhookScreen({ navigation }: RootStackScreenProps<'Webh
                     <Tag type={entry.isError ? 'error' : 'success'}>{entry.isError ? i18n.t('webhook_status_error') : i18n.t('webhook_status_success')}</Tag>
                   </View>
                 }
+                onPress={() => navigation.navigate('WebhookHistoryEntry', { entry, date: entry.date })}
                 testID={`webhook-history-entry-${index}`}
                 isLast={index === settings.webhookHistory.length - 1}
                 isLink
