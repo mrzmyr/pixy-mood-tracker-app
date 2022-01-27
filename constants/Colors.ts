@@ -78,6 +78,7 @@ export default {
     tagErrorText: '#f44336',
     tagSuccessBackground: '#c6f6d5',
     tagSuccessText: '#1a9850',
+    switchThumbColor: '#333',
     scales
   },
   dark: {
@@ -118,6 +119,7 @@ export default {
     tagErrorText: '#f44336',
     tagSuccessBackground: '#c6f6d5',
     tagSuccessText: '#1a9850',
+    switchThumbColor: '#FFF',
     scales
   }
 };

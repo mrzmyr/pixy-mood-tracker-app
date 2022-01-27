@@ -71,7 +71,8 @@ function RootNavigator() {
     headerTintColor: colors.text,
     headerStyle: {
       backgroundColor: colors.background,
-    }
+    },
+    headerShadowVisible: false,
   }
 
   return (

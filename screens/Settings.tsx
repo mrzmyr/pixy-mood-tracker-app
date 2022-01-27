@@ -178,6 +178,7 @@ export default function SettingsScreen({ navigation }: RootStackScreenProps<'Set
             onPress={() => navigation.navigate('Webhook')}
             testID='webhook'
             isLink
+            isLast
           />
           {/* <MenuListItem
             title={i18n.t('scales')}

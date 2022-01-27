@@ -65,7 +65,6 @@ export default function LogModal({ navigation, route }: RootStackScreenProps<'Lo
       paddingBottom: 20,
       paddingLeft: 20,
       paddingRight: 20,
-      marginTop: Platform.OS === 'ios' ? 0 : 40,
     }}>
       {/* Use a light status bar on iOS to account for the black space above the modal */}
       <StatusBar animated={true} style={Platform.OS === 'ios' ? 'light' : 'auto'} />
