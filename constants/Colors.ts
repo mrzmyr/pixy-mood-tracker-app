@@ -100,10 +100,10 @@ export default {
     textInputBorder: tailwindGray['200'],
     textInputBorderHighlight: tintColorLight,
 
-    tagErrorBackground: '#fed7d7',
-    tagErrorText: '#f44336',
-    tagSuccessBackground: '#c6f6d5',
-    tagSuccessText: '#1a9850',
+    tagErrorBackground: '#FECDD3',
+    tagErrorText: '#9F1239',
+    tagSuccessBackground: '#BBF7D0',
+    tagSuccessText: '#14532D',
     switchThumbColor: '#333',
     scales
   },
@@ -128,11 +128,9 @@ export default {
     secondaryLinkButtonText: tailwindGray['400'],
     
     primaryButtonBackground: tintColorDark,
-    primaryButtonBorder: tintColorDark,
     primaryButtonTextColor: '#FFF',
 
     secondaryButtonBackground: tailwindGray['800'],
-    secondaryButtonBorder: tailwindGray['800'],
     secondaryButtonTextColor: tailwindGray['200'],
 
     textInputBackground: tailwindGray['800'],
@@ -142,10 +140,10 @@ export default {
     textInputBorderHighlight: tintColorDark,
     textInputLabel: tailwindGray['600'],
 
-    tagErrorBackground: '#fed7d7',
-    tagErrorText: '#f44336',
-    tagSuccessBackground: '#c6f6d5',
-    tagSuccessText: '#1a9850',
+    tagErrorBackground: '#9F1239',
+    tagErrorText: '#FECDD3',
+    tagSuccessBackground: '#14532D',
+    tagSuccessText: '#BBF7D0',
     switchThumbColor: '#FFF',
     scales
   }
