@@ -1,5 +1,29 @@
-const tintColorLight = '#2598fe';
-const tintColorDark = '#fff';
+
+const tailwindGray = {
+  '50': '#F9FAFB',
+  '100': '#F3F4F6',
+  '200': '#E5E7EB',
+  '300': '#D1D5DB',
+  '400': '#9CA3AF',
+  '500': '#6B7280',
+  '600': '#4B5563',
+  '700': '#374151',
+  '800': '#1F2937',
+  '900': '#111827',
+}
+
+const tailwindBlue = {
+  '50': '#EFF6FF',
+  '100': '#DBEAFE',
+  '200': '#BFDBFE',
+  '300': '#93C5FD',
+  '400': '#60A5FA',
+  '500': '#3B82F6',
+  '600': '#2563EB',
+  '700': '#1D4ED8',
+  '800': '#1E40AF',
+  '900': '#1E3A8A',
+}
 
 const scales: {
   [type: string]: {
@@ -38,42 +62,44 @@ const scales: {
   },
 };
 
+const tintColorLight = '#2598fe';
+const tintColorDark = '#2598fe';
+
 export default {
   light: {
     text: '#000',
-    textSecondary: '#666',
+    textSecondary: tailwindGray['500'],
     background: '#fff',
-    backgroundSecondary: '#F3f3f3',
+    backgroundSecondary: tailwindGray['100'],
     link: tintColorLight,
     tint: tintColorLight,
-    tabIconDefault: '#ccc',
-    tabIconSelected: '#000',
-    logBackground: '#000',
-    logCardBackground: '#FFF',
-    logTitleColor: '#FFF',
+
     menuListItemBackground: '#FFF',
     menuListItemText: '#000',
     menuListItemIcon: '#000',
-    menuListItemBorder: 'rgba(0,0,0,.05)',
-    calendarItemBorder: 'rgba(0,0,0,.05)',
-    calendarItemBackground: '#EEE',
-    calendarItemTodayBackground: 'rgba(255,255,255,0.5)',
-    calendarItemTextColor: 'rgba(0,0,0,0.5)',
+    menuListItemBorder: tailwindGray['100'],
+    
+    calendarItemBackground: tailwindGray['200'],
+    calendarItemTextColor: tailwindGray['500'],
     calendarWeekNameColor: '#000',
     calendarMonthNameColor: '#000',
-    calendarMonthNameBorderColor: '#EEE',
+    
     primaryLinkButtonText: tintColorLight,
-    secondaryLinkButtonText: 'rgba(0,0,0,0.8)',
+    secondaryLinkButtonText: tailwindGray['900'],
+
     primaryButtonBackground: tintColorLight,
     primaryButtonTextColor: '#FFF',
-    secondaryButtonBackground: 'rgba(0,0,0,0.05)',
-    secondaryButtonTextColor: 'rgba(0,0,0,0.5)',
+    
+    secondaryButtonBackground: tailwindGray['200'],
+    secondaryButtonTextColor: tailwindGray['800'],
+    
     textInputBackground: '#FFF',
-    textInputText: '#333',
-    textInputPlaceholder: '#999',
-    textInputLabel: '#999',
-    textInputBorder: 'rgba(0,0,0,.05)',
+    textInputText: tailwindGray['800'],
+    textInputPlaceholder: tailwindGray['400'],
+    textInputLabel: tailwindGray['300'],
+    textInputBorder: tailwindGray['200'],
     textInputBorderHighlight: tintColorLight,
+
     tagErrorBackground: '#fed7d7',
     tagErrorText: '#f44336',
     tagSuccessBackground: '#c6f6d5',
@@ -83,38 +109,39 @@ export default {
   },
   dark: {
     text: '#fff',
-    textSecondary: '#666',
-    background: '#111',
-    backgroundSecondary: '#000',
+    textSecondary: tailwindGray['500'],
+    background: tailwindGray['900'],
+    backgroundSecondary: tailwindGray['900'],
     tint: tintColorDark,
-    tabIconDefault: '#ccc',
-    menuListItemBackground: '#1D1D1D',
-    menuListItemText: '#FFF',
-    menuListItemIcon: '#CCC',
-    menuListItemBorder: 'rgba(255,255,255,.05)',
-    calendarItemBorder: 'rgba(255,255,255,0.3)',
-    calendarItemTodayBackground: 'rgba(255,255,255,0.4)',
-    calendarItemBackground: '#1c1c1c',
-    calendarItemTextColor: '#707070',
-    calendarWeekNameColor: '#707070',
-    calendarMonthNameColor: '#707070',
-    calendarMonthNameBorderColor: '#333',
-    tabIconSelected: '#FFF',
-    logBackground: '#111',
-    logTitleColor: '#FFF',
-    logCardBackground: '#1c1c1c',
-    primaryButtonBackground: '#2598fe',
+    
+    menuListItemBackground: tailwindGray['800'],
+    menuListItemText: tailwindGray['50'],
+    menuListItemIcon: tailwindGray['200'],
+    menuListItemBorder: tailwindGray['700'],
+    
+    calendarItemBackground: tailwindGray['800'],
+    calendarItemTextColor: tailwindGray['500'],
+    calendarWeekNameColor: tailwindGray['500'],
+    calendarMonthNameColor: tailwindGray['500'],
+    
+    primaryLinkButtonText: tintColorDark,
+    secondaryLinkButtonText: tailwindGray['400'],
+    
+    primaryButtonBackground: tintColorDark,
+    primaryButtonBorder: tintColorDark,
     primaryButtonTextColor: '#FFF',
-    primaryLinkButtonText: '#2598fe',
-    secondaryLinkButtonText: 'rgba(255,255,255,0.5)',
-    secondaryButtonBackground: 'rgba(255,255,255,0.1)',
-    secondaryButtonTextColor: 'rgba(255,255,255,0.5)',
-    textInputBackground: '#1D1D1D',
-    textInputText: '#FFF',
-    textInputPlaceholder: '#333',
-    textInputBorder: 'rgba(255,255,255,.05)',
-    textInputBorderHighlight: '#2598fe',
-    textInputLabel: '#666',
+
+    secondaryButtonBackground: tailwindGray['800'],
+    secondaryButtonBorder: tailwindGray['800'],
+    secondaryButtonTextColor: tailwindGray['200'],
+
+    textInputBackground: tailwindGray['800'],
+    textInputText: tailwindGray['200'],
+    textInputPlaceholder: tailwindGray['500'],
+    textInputBorder: tailwindGray['600'],
+    textInputBorderHighlight: tintColorDark,
+    textInputLabel: tailwindGray['600'],
+
     tagErrorBackground: '#fed7d7',
     tagErrorText: '#f44336',
     tagSuccessBackground: '#c6f6d5',

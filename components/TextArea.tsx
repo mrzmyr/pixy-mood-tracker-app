@@ -8,6 +8,8 @@ export default function TextArea({
   testID,
   maxLength = 500,
   autoFocus = false,
+  style,
+  containerStyle,
   onChange = (text: string) => {}, 
 }: {
   value?: string,
@@ -15,6 +17,8 @@ export default function TextArea({
   testID?: string,
   maxLength?: number,
   autoFocus?: boolean,
+  style?: React.CSSProperties,
+  containerStyle?: React.CSSProperties,
   onChange?: (text: string) => void,
 }) {
   const colors = useColors()
@@ -23,6 +27,7 @@ export default function TextArea({
   
   return (
     <View style={{
+      ...containerStyle,
       marginTop: 10,
       width: '100%',
       position: 'relative',
@@ -44,7 +49,8 @@ export default function TextArea({
         placeholderTextColor={colors.textInputPlaceholder}
         textAlignVertical={'top'}
         style={{
-          borderWidth: 2,
+          ...style,
+          borderWidth: 1,
           borderColor: colors.textInputBorder,
           backgroundColor: colors.textInputBackground,
           color: colors.textInputText,
