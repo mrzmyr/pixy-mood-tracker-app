@@ -97,6 +97,7 @@ export default function WebhookScreen({ navigation }: RootStackScreenProps<'Webh
               }}
               testID={`webhook-url`}
               placeholder={i18n.t('webhook_url_placeholder')}
+              placeholderTextColor={colors.textInputPlaceholder}
               value={url}
               onChange={event => {
                 setUrl(event.nativeEvent.text)
