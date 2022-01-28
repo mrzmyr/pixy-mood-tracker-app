@@ -52,5 +52,20 @@
   "previews_screen_3_title": [
     "में बहुत अच्छा लग रहा है",
     "डार्क मोड"
-  ]
+  ],
+  "issue": "मुद्दा",
+  "idea": "विचार",
+  "other": "अन्य",
+  "send_feedback_issue": "रिपोर्ट जारी करना",
+  "send_feedback_idea": "विचार सबमिट करें",
+  "feedback_modal_title": "प्रतिक्रिया भेजें",
+  "feedback_modal_description": "आपकी प्रतिक्रिया से मुझे यह समझने में बहुत मदद मिलती है कि आप ऐप का उपयोग कैसे करते हैं और मैं इसे कैसे बेहतर बना सकता हूं।",
+  "feedback_modal_textarea_placeholder": "मैंने वह देखा…",
+  "feedback_modal_send": "भेजना",
+  "feedback_modal_cancel": "रद्द करें",
+  "feedback_success_title": "फ़ीडबैक भेजा गया",
+  "feedback_success_message": "आपकी प्रतिक्रिया सफलतापूर्वक भेजी गई है।",
+  "feedback_error_title": "प्रतिक्रिया विफल",
+  "feedback_error_message": "आपका फ़ीडबैक भेजते समय कुछ गड़बड़ी हुई.",
+  "feedback_help": "यह ऐप एक व्यक्ति द्वारा विकसित किया गया है। मैं आपकी प्रतिक्रिया को बहुत महत्व देता हूं। यह मुझे बेहतर ढंग से समझने में मदद करता है कि आप ऐप का उपयोग कैसे करते हैं और मैं इसे कैसे सुधार सकता हूं।"
 }

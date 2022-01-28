@@ -52,5 +52,20 @@
   "previews_screen_3_title": [
     "ดูดีใน",
     "โหมดมืด"
-  ]
+  ],
+  "issue": "ปัญหา",
+  "idea": "ความคิด",
+  "other": "อื่น",
+  "send_feedback_issue": "รายงานปัญหา",
+  "send_feedback_idea": "ส่งไอเดีย",
+  "feedback_modal_title": "ส่งความคิดเห็น",
+  "feedback_modal_description": "ความคิดเห็นของคุณช่วยให้ฉันเข้าใจมากขึ้นว่าคุณใช้งานแอปอย่างไรและฉันจะปรับปรุงได้อย่างไร",
+  "feedback_modal_textarea_placeholder": "ฉันสังเกตว่า…",
+  "feedback_modal_send": "ส่ง",
+  "feedback_modal_cancel": "ยกเลิก",
+  "feedback_success_title": "ส่งคำติชมแล้ว",
+  "feedback_success_message": "ส่งความคิดเห็นของคุณเรียบร้อยแล้ว",
+  "feedback_error_title": "คำติชมล้มเหลว",
+  "feedback_error_message": "เกิดข้อผิดพลาดขณะส่งความคิดเห็นของคุณ",
+  "feedback_help": "แอพนี้พัฒนาโดยคนคนหนึ่ง ฉันให้ความสำคัญกับความคิดเห็นของคุณมาก ช่วยให้ฉันเข้าใจวิธีใช้งานแอปของคุณดีขึ้นและจะปรับปรุงได้อย่างไร"
 }

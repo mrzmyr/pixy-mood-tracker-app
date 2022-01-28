@@ -52,5 +52,20 @@
   "previews_screen_3_title": [
     "Vyzerať skvele",
     "Tmavý režim"
-  ]
+  ],
+  "issue": "Problém",
+  "idea": "Nápad",
+  "other": "Iné",
+  "send_feedback_issue": "Nahlásiť problém",
+  "send_feedback_idea": "Odoslať nápad",
+  "feedback_modal_title": "Poslať spätnú väzbu",
+  "feedback_modal_description": "Vaša spätná väzba mi veľmi pomáha lepšie pochopiť, ako aplikáciu používate a ako ju môžem zlepšiť.",
+  "feedback_modal_textarea_placeholder": "Všimol som si, že…",
+  "feedback_modal_send": "Odoslať",
+  "feedback_modal_cancel": "Zrušiť",
+  "feedback_success_title": "Spätná väzba bola odoslaná",
+  "feedback_success_message": "Vaša spätná väzba bola úspešne odoslaná.",
+  "feedback_error_title": "Spätná väzba zlyhala",
+  "feedback_error_message": "Pri odosielaní spätnej väzby sa vyskytla chyba.",
+  "feedback_help": "Túto aplikáciu vyvinula jedna osoba. Veľmi si vážim vašu spätnú väzbu. Pomáha mi to lepšie pochopiť, ako aplikáciu používate a ako ju môžem zlepšiť."
 }

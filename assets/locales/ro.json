@@ -52,5 +52,20 @@
   "previews_screen_3_title": [
     "Arata grozav in",
     "Modul întunecat"
-  ]
+  ],
+  "issue": "Problema",
+  "idea": "Idee",
+  "other": "Alte",
+  "send_feedback_issue": "Raportați o problemă",
+  "send_feedback_idea": "Trimiteți ideea",
+  "feedback_modal_title": "Trimite feedback",
+  "feedback_modal_description": "Feedbackul tău mă ajută foarte mult să înțeleg mai bine cum folosești aplicația și cum o pot îmbunătăți.",
+  "feedback_modal_textarea_placeholder": "Am observat ca…",
+  "feedback_modal_send": "Trimite",
+  "feedback_modal_cancel": "Anulare",
+  "feedback_success_title": "Feedback trimis",
+  "feedback_success_message": "Feedbackul dvs. a fost trimis cu succes.",
+  "feedback_error_title": "Feedback-ul nu a reușit",
+  "feedback_error_message": "A apărut o eroare la trimiterea feedback-ului dvs.",
+  "feedback_help": "Această aplicație este dezvoltată de o singură persoană. Apreciez foarte mult feedback-ul tău. Mă ajută să înțeleg mai bine cum folosești aplicația și cum o pot îmbunătăți."
 }

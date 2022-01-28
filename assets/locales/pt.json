@@ -52,5 +52,20 @@
   "previews_screen_3_title": [
     "Parecendo ótimo em",
     "Modo escuro"
-  ]
+  ],
+  "issue": "Emitir",
+  "idea": "Idéia",
+  "other": "De outros",
+  "send_feedback_issue": "Reportar problema",
+  "send_feedback_idea": "Enviar ideia",
+  "feedback_modal_title": "Enviar comentários",
+  "feedback_modal_description": "Seu feedback me ajuda muito a entender melhor como você usa o aplicativo e como posso melhorá-lo.",
+  "feedback_modal_textarea_placeholder": "Eu percebi isso…",
+  "feedback_modal_send": "Mandar",
+  "feedback_modal_cancel": "Cancelar",
+  "feedback_success_title": "Feedback enviado",
+  "feedback_success_message": "O seu comentário foi enviado com sucesso.",
+  "feedback_error_title": "Falha no feedback",
+  "feedback_error_message": "Algo deu errado ao enviar seu feedback.",
+  "feedback_help": "Este aplicativo é desenvolvido por uma pessoa. Eu valorizo muito o seu feedback. Isso me ajuda a entender melhor como você usa o aplicativo e como posso melhorá-lo."
 }

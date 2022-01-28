@@ -52,5 +52,20 @@
   "previews_screen_3_title": [
     "נראה נהדר בפנים",
     "מצב כהה"
-  ]
+  ],
+  "issue": "נושא",
+  "idea": "רַעְיוֹן",
+  "other": "אַחֵר",
+  "send_feedback_issue": "דווח על בעיה",
+  "send_feedback_idea": "שלח רעיון",
+  "feedback_modal_title": "שלח משוב",
+  "feedback_modal_description": "המשוב שלך עוזר לי מאוד להבין טוב יותר איך אתה משתמש באפליקציה וכיצד אני יכול לשפר אותה.",
+  "feedback_modal_textarea_placeholder": "שמתי לב לזה…",
+  "feedback_modal_send": "לִשְׁלוֹחַ",
+  "feedback_modal_cancel": "לְבַטֵל",
+  "feedback_success_title": "נשלח משוב",
+  "feedback_success_message": "המשוב שלך נשלח בהצלחה.",
+  "feedback_error_title": "המשוב נכשל",
+  "feedback_error_message": "משהו השתבש במהלך שליחת המשוב שלך.",
+  "feedback_help": "אפליקציה זו פותחה על ידי אדם אחד. אני מעריך מאוד את המשוב שלך. זה עוזר לי להבין טוב יותר איך אתה משתמש באפליקציה וכיצד אני יכול לשפר אותה."
 }

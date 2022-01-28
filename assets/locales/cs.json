@@ -52,5 +52,20 @@
   "previews_screen_3_title": [
     "Vypadá skvěle",
     "Tmavý režim"
-  ]
+  ],
+  "issue": "Problém",
+  "idea": "Idea",
+  "other": "jiný",
+  "send_feedback_issue": "Nahlásit problém",
+  "send_feedback_idea": "Odeslat nápad",
+  "feedback_modal_title": "Poslat zpětnou vazbu",
+  "feedback_modal_description": "Vaše zpětná vazba mi velmi pomáhá lépe porozumět tomu, jak aplikaci používáte a jak ji mohu zlepšit.",
+  "feedback_modal_textarea_placeholder": "Všimnul jsem si, že…",
+  "feedback_modal_send": "Poslat",
+  "feedback_modal_cancel": "zrušení",
+  "feedback_success_title": "Zpětná vazba byla odeslána",
+  "feedback_success_message": "Vaše zpětná vazba byla úspěšně odeslána.",
+  "feedback_error_title": "Zpětná vazba selhala",
+  "feedback_error_message": "Při odesílání zpětné vazby se něco pokazilo.",
+  "feedback_help": "Tuto aplikaci vyvíjí jedna osoba. Velmi si vážím vaší zpětné vazby. Pomáhá mi to lépe pochopit, jak aplikaci používáte a jak ji mohu zlepšit."
 }

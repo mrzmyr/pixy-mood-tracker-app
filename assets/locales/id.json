@@ -52,5 +52,20 @@
   "previews_screen_3_title": [
     "Tampak hebat di",
     "Mode Gelap"
-  ]
+  ],
+  "issue": "Masalah",
+  "idea": "Ide",
+  "other": "Lainnya",
+  "send_feedback_issue": "Laporkan Masalah",
+  "send_feedback_idea": "Kirim Ide",
+  "feedback_modal_title": "Kirim Umpan Balik",
+  "feedback_modal_description": "Umpan balik Anda sangat membantu saya untuk lebih memahami bagaimana Anda menggunakan aplikasi dan bagaimana saya dapat meningkatkannya.",
+  "feedback_modal_textarea_placeholder": "Aku tahu itu…",
+  "feedback_modal_send": "Mengirim",
+  "feedback_modal_cancel": "Membatalkan",
+  "feedback_success_title": "Umpan balik dikirim",
+  "feedback_success_message": "Umpan balik Anda berhasil dikirim.",
+  "feedback_error_title": "Umpan balik gagal",
+  "feedback_error_message": "Ada yang tidak beres saat mengirim masukan Anda.",
+  "feedback_help": "Aplikasi ini dikembangkan oleh satu orang. Saya sangat menghargai tanggapan Anda. Ini membantu saya lebih memahami bagaimana Anda menggunakan aplikasi dan bagaimana saya dapat meningkatkannya."
 }

@@ -52,5 +52,20 @@
   "previews_screen_3_title": [
     "看起来很棒",
     "黑暗模式"
-  ]
+  ],
+  "issue": "问题",
+  "idea": "主意",
+  "other": "其他",
+  "send_feedback_issue": "报告问题",
+  "send_feedback_idea": "提交想法",
+  "feedback_modal_title": "发送反馈",
+  "feedback_modal_description": "您的反馈有助于我更好地了解您如何使用该应用程序以及如何改进它。",
+  "feedback_modal_textarea_placeholder": "我注意到……",
+  "feedback_modal_send": "发送",
+  "feedback_modal_cancel": "取消",
+  "feedback_success_title": "已发送反馈",
+  "feedback_success_message": "您的反馈已成功发送。",
+  "feedback_error_title": "反馈失败",
+  "feedback_error_message": "发送您的反馈时出现问题。",
+  "feedback_help": "这个应用程序是由一个人开发的。我非常重视您的反馈。它可以帮助我更好地了解您如何使用该应用程序以及如何改进它。"
 }

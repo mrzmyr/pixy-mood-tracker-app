@@ -52,5 +52,20 @@
   "previews_screen_3_title": [
     "Näyttää hyvältä sisällä",
     "Tumma tila"
-  ]
+  ],
+  "issue": "Ongelma",
+  "idea": "Idea",
+  "other": "Muut",
+  "send_feedback_issue": "Ilmoita ongelmasta",
+  "send_feedback_idea": "Lähetä Idea",
+  "feedback_modal_title": "Lähetä palautetta",
+  "feedback_modal_description": "Palautteesi auttaa minua ymmärtämään paremmin, kuinka käytät sovellusta ja miten voin parantaa sitä.",
+  "feedback_modal_textarea_placeholder": "Huomasin sen…",
+  "feedback_modal_send": "Lähettää",
+  "feedback_modal_cancel": "Peruuttaa",
+  "feedback_success_title": "Palaute lähetetty",
+  "feedback_success_message": "Palautteesi lähetys onnistui.",
+  "feedback_error_title": "Palaute epäonnistui",
+  "feedback_error_message": "Jotain meni pieleen palautetta lähetettäessä.",
+  "feedback_help": "Tämän sovelluksen on kehittänyt yksi henkilö. Arvostan suuresti palautettasi. Se auttaa minua ymmärtämään paremmin, kuinka käytät sovellusta ja miten voin parantaa sitä."
 }

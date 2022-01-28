@@ -52,5 +52,20 @@
   "previews_screen_3_title": [
     "Izgleda sjajno unutra",
     "Tamni način rada"
-  ]
+  ],
+  "issue": "Problem",
+  "idea": "Ideja",
+  "other": "Ostalo",
+  "send_feedback_issue": "Prijavite problem",
+  "send_feedback_idea": "Pošaljite ideju",
+  "feedback_modal_title": "Pošalji povratne informacije",
+  "feedback_modal_description": "Vaše mi povratne informacije puno pomažu da bolje razumijem kako koristite aplikaciju i kako je mogu poboljšati.",
+  "feedback_modal_textarea_placeholder": "Primjetio sam to…",
+  "feedback_modal_send": "Poslati",
+  "feedback_modal_cancel": "Otkazati",
+  "feedback_success_title": "Povratne informacije poslane",
+  "feedback_success_message": "Vaše povratne informacije su uspješno poslane.",
+  "feedback_error_title": "Povratne informacije nisu uspjele",
+  "feedback_error_message": "Nešto je pošlo po zlu tijekom slanja povratnih informacija.",
+  "feedback_help": "Ovu aplikaciju razvila je jedna osoba. Jako cijenim vaše povratne informacije. Pomaže mi da bolje razumijem kako koristite aplikaciju i kako je mogu poboljšati."
 }

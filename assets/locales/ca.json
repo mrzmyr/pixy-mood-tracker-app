@@ -52,5 +52,20 @@
   "previews_screen_3_title": [
     "Es veu molt bé dins",
     "Mode fosc"
-  ]
+  ],
+  "issue": "Assumpte",
+  "idea": "Idea",
+  "other": "Altres",
+  "send_feedback_issue": "Informa d'un problema",
+  "send_feedback_idea": "Envia idea",
+  "feedback_modal_title": "Enviar comentaris",
+  "feedback_modal_description": "Els vostres comentaris m'ajuden molt a entendre millor com feu servir l'aplicació i com puc millorar-la.",
+  "feedback_modal_textarea_placeholder": "M'he adonat que…",
+  "feedback_modal_send": "Enviar",
+  "feedback_modal_cancel": "Cancel · lar",
+  "feedback_success_title": "Comentaris enviats",
+  "feedback_success_message": "La teva opinió s'ha enviat correctament.",
+  "feedback_error_title": "Els comentaris han fallat",
+  "feedback_error_message": "S'ha produït un error en enviar els vostres comentaris.",
+  "feedback_help": "Aquesta aplicació està desenvolupada per una sola persona. Valoro molt els teus comentaris. M'ajuda a entendre millor com feu servir l'aplicació i com puc millorar-la."
 }

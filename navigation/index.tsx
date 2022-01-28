@@ -2,8 +2,9 @@ import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import * as React from 'react';
 import { Platform, Pressable } from 'react-native';
-import { ArrowLeft, Settings as SettingsIcon } from 'react-native-feather';
+import { ArrowLeft, Flag, Settings as SettingsIcon } from 'react-native-feather';
 import useColors from '../hooks/useColors';
+import useFeedbackModal from '../hooks/useFeedbackModal';
 import { useTranslation } from '../hooks/useTranslation';
 import Calendar from '../screens/Calendar';
 import Licenses from '../screens/Licenses';
@@ -74,8 +75,11 @@ function RootNavigator() {
     },
     headerShadowVisible: Platform.OS !== 'web',
   }
+  const { show: showFeedbackModal, Modal } = useFeedbackModal();
 
   return (
+    <>
+    <Modal />
     <Stack.Navigator
       initialRouteName="Calendar"
     >
@@ -97,6 +101,20 @@ function RootNavigator() {
               accessibilityRole={'button'}
             >
               <SettingsIcon height={20} color={colors.text} />
+            </Pressable>
+          ),
+          headerLeft: () => (
+            <Pressable
+              testID='feedback'
+              onPress={() => showFeedbackModal({ type: 'issue' })}
+              style={{
+                padding: 10,
+              }}
+              accessible={true}
+              accessibilityLabel={i18n.t('feedback')}
+              accessibilityRole={'button'}
+            >
+              <Flag height={20} color={colors.text} />
             </Pressable>
           )
         })}
@@ -162,5 +180,6 @@ function RootNavigator() {
         />
       </Stack.Group>
     </Stack.Navigator>
+    </>
   );
 }

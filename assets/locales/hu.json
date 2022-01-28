@@ -52,5 +52,20 @@
   "previews_screen_3_title": [
     "Remekül néz ki",
     "Sötét mód"
-  ]
+  ],
+  "issue": "Probléma",
+  "idea": "Ötlet",
+  "other": "Egyéb",
+  "send_feedback_issue": "Probléma bejelentése",
+  "send_feedback_idea": "Ötlet benyújtása",
+  "feedback_modal_title": "Visszajelzés küldése",
+  "feedback_modal_description": "Visszajelzése sokat segít abban, hogy jobban megértsem, hogyan használja az alkalmazást, és hogyan tudnám javítani.",
+  "feedback_modal_textarea_placeholder": "Észrevettem…",
+  "feedback_modal_send": "Küld",
+  "feedback_modal_cancel": "Megszünteti",
+  "feedback_success_title": "Visszajelzés elküldve",
+  "feedback_success_message": "Visszajelzését sikeresen elküldtük.",
+  "feedback_error_title": "A visszajelzés sikertelen",
+  "feedback_error_message": "Hiba történt a visszajelzés elküldésekor.",
+  "feedback_help": "Ezt az alkalmazást egy személy fejlesztette ki. Nagyon értékelem visszajelzését. Segít jobban megérteni, hogyan használja az alkalmazást, és hogyan fejleszthetem azt."
 }

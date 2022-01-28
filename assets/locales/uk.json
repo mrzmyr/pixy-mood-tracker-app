@@ -52,5 +52,20 @@
   "previews_screen_3_title": [
     "Чудово виглядає в",
     "Темний режим"
-  ]
+  ],
+  "issue": "Проблема",
+  "idea": "Ідея",
+  "other": "Інший",
+  "send_feedback_issue": "Повідомити про проблему",
+  "send_feedback_idea": "Надіслати ідею",
+  "feedback_modal_title": "Надіслати відгук",
+  "feedback_modal_description": "Ваш відгук дуже допомагає мені краще зрозуміти, як ви використовуєте програму та як я можу її покращити.",
+  "feedback_modal_textarea_placeholder": "Я помітив що…",
+  "feedback_modal_send": "Надіслати",
+  "feedback_modal_cancel": "Скасувати",
+  "feedback_success_title": "Відгук надіслано",
+  "feedback_success_message": "Ваш відгук успішно надіслано.",
+  "feedback_error_title": "Не вдалося надіслати відгук",
+  "feedback_error_message": "Під час надсилання відгуку сталася помилка.",
+  "feedback_help": "Ця програма розроблена однією людиною. Я дуже ціную ваш відгук. Це допомагає мені краще зрозуміти, як ви використовуєте програму та як я можу її покращити."
 }

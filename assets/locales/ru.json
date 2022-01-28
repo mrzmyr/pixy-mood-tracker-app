@@ -52,5 +52,20 @@
   "previews_screen_3_title": [
     "Отлично выглядишь в",
     "Темный режим"
-  ]
+  ],
+  "issue": "Проблема",
+  "idea": "Идея",
+  "other": "Другой",
+  "send_feedback_issue": "Сообщить о проблеме",
+  "send_feedback_idea": "Отправить идею",
+  "feedback_modal_title": "Отправить отзыв",
+  "feedback_modal_description": "Ваши отзывы очень помогают мне лучше понять, как вы используете приложение и как я могу его улучшить.",
+  "feedback_modal_textarea_placeholder": "Я заметил, что…",
+  "feedback_modal_send": "Отправлять",
+  "feedback_modal_cancel": "Отмена",
+  "feedback_success_title": "Отзыв отправлен",
+  "feedback_success_message": "Ваш отзыв успешно отправлен.",
+  "feedback_error_title": "Ошибка обратной связи",
+  "feedback_error_message": "Что-то пошло не так при отправке вашего отзыва.",
+  "feedback_help": "Это приложение разработано одним человеком. Я очень ценю ваши отзывы. Это помогает мне лучше понять, как вы используете приложение и как я могу его улучшить."
 }

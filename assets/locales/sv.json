@@ -52,5 +52,20 @@
   "previews_screen_3_title": [
     "Ser bra ut i",
     "Mörkt läge"
-  ]
+  ],
+  "issue": "Problem",
+  "idea": "Aning",
+  "other": "Övrig",
+  "send_feedback_issue": "Rapportera problem",
+  "send_feedback_idea": "Skicka in idé",
+  "feedback_modal_title": "Skicka synpunkter",
+  "feedback_modal_description": "Din feedback hjälper mig mycket att bättre förstå hur du använder appen och hur jag kan förbättra den.",
+  "feedback_modal_textarea_placeholder": "Jag märkte det…",
+  "feedback_modal_send": "Skicka",
+  "feedback_modal_cancel": "Annullera",
+  "feedback_success_title": "Feedback har skickats",
+  "feedback_success_message": "Din feedback har skickats.",
+  "feedback_error_title": "Feedback misslyckades",
+  "feedback_error_message": "Något gick fel när du skickade din feedback.",
+  "feedback_help": "Denna app är utvecklad av en person. Jag värdesätter din feedback mycket. Det hjälper mig att bättre förstå hur du använder appen och hur jag kan förbättra den."
 }

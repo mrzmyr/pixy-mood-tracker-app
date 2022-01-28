@@ -52,5 +52,20 @@
   "previews_screen_3_title": [
     "Ziet er geweldig uit in",
     "Donkere modus"
-  ]
+  ],
+  "issue": "Probleem",
+  "idea": "Idee",
+  "other": "Ander",
+  "send_feedback_issue": "Probleem melden",
+  "send_feedback_idea": "Idee indienen",
+  "feedback_modal_title": "Feedback verzenden",
+  "feedback_modal_description": "Uw feedback helpt me veel om beter te begrijpen hoe u de app gebruikt en hoe ik deze kan verbeteren.",
+  "feedback_modal_textarea_placeholder": "Ik merkte dat…",
+  "feedback_modal_send": "Versturen",
+  "feedback_modal_cancel": "Annuleren",
+  "feedback_success_title": "Feedback verzonden",
+  "feedback_success_message": "Uw feedback is succesvol verzonden.",
+  "feedback_error_title": "Feedback mislukt",
+  "feedback_error_message": "Er is iets misgegaan bij het verzenden van uw feedback.",
+  "feedback_help": "Deze app is ontwikkeld door één persoon. Ik stel uw feedback zeer op prijs. Het helpt me beter te begrijpen hoe u de app gebruikt en hoe ik deze kan verbeteren."
 }

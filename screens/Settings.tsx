@@ -4,11 +4,12 @@ import * as FileSystem from 'expo-file-system';
 import * as Sharing from 'expo-sharing';
 import * as StoreReview from 'expo-store-review';
 import { Alert, ScrollView, Text, View } from 'react-native';
-import { Award, Box, Download, Lock, Star, Trash2, Upload } from 'react-native-feather';
+import { AlertTriangle, Award, Box, Download, Lock, MessageCircle, Star, Trash2, Upload } from 'react-native-feather';
 import MenuList from '../components/MenuList';
 import MenuListItem from '../components/MenuListItem';
 import TextInfo from '../components/TextInfo';
 import useColors from '../hooks/useColors';
+import useFeedbackModal from '../hooks/useFeedbackModal';
 import { LogsState, useLogs } from '../hooks/useLogs';
 import { useSettings } from '../hooks/useSettings';
 import { useTranslation } from '../hooks/useTranslation';
@@ -33,6 +34,7 @@ const exportState = async (state: LogsState) => {
 }
 
 export default function SettingsScreen({ navigation }: RootStackScreenProps<'Settings'>) {
+  const { show: showFeedbackModal, Modal } = useFeedbackModal();
   const { state, dispatch } = useLogs()
   const { resetSettings } = useSettings()
   const colors = useColors()
@@ -144,10 +146,11 @@ export default function SettingsScreen({ navigation }: RootStackScreenProps<'Set
       backgroundColor: colors.backgroundSecondary,
     }}>
       <ScrollView
-      style={{
-        padding: 20,
-      }}
+        style={{
+          padding: 20,
+        }}
       >
+        <Modal />
         <View
           style={{
             alignItems: 'center',
@@ -202,6 +205,24 @@ export default function SettingsScreen({ navigation }: RootStackScreenProps<'Set
           />
         </MenuList>
         <TextInfo>{i18n.t('export_help')}</TextInfo>
+        <MenuList
+          style={{
+            marginTop: 20,
+          }}
+        >
+          <MenuListItem
+            title={i18n.t('send_feedback_issue')}
+            onPress={() => showFeedbackModal({ type: 'issue' })}
+            iconLeft={<AlertTriangle width={18} color={colors.menuListItemIcon} />}
+          />
+          <MenuListItem
+            title={i18n.t('send_feedback_idea')}
+            onPress={() => showFeedbackModal({ type: 'idea' })}
+            iconLeft={<MessageCircle width={18} color={colors.menuListItemIcon} />}
+            isLast
+          />
+        </MenuList>
+        <TextInfo>{i18n.t('feedback_help')}</TextInfo>
         <MenuList
           style={{
             marginTop: 20,

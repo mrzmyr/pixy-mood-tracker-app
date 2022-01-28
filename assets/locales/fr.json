@@ -52,5 +52,20 @@
   "previews_screen_3_title": [
     "Belle dans",
     "Mode sombre"
-  ]
+  ],
+  "issue": "Publier",
+  "idea": "Idée",
+  "other": "Autre",
+  "send_feedback_issue": "Signaler un problème",
+  "send_feedback_idea": "Soumettre une idée",
+  "feedback_modal_title": "Envoyer des commentaires",
+  "feedback_modal_description": "Vos commentaires m'aident beaucoup à mieux comprendre comment vous utilisez l'application et comment je peux l'améliorer.",
+  "feedback_modal_textarea_placeholder": "J'ai remarqué ça…",
+  "feedback_modal_send": "Envoyer",
+  "feedback_modal_cancel": "Annuler",
+  "feedback_success_title": "Commentaires envoyés",
+  "feedback_success_message": "Vos commentaires ont bien été envoyé.",
+  "feedback_error_title": "L'évaluation a échoué",
+  "feedback_error_message": "Une erreur s'est produite lors de l'envoi de vos commentaires.",
+  "feedback_help": "Cette application est développée par une seule personne. J'apprécie beaucoup vos commentaires. Cela m'aide à mieux comprendre comment vous utilisez l'application et comment je peux l'améliorer."
 }

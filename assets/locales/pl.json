@@ -52,5 +52,20 @@
   "previews_screen_3_title": [
     "Wygląda świetnie w",
     "Tryb ciemny"
-  ]
+  ],
+  "issue": "Wydanie",
+  "idea": "Pomysł",
+  "other": "Inny",
+  "send_feedback_issue": "Zgłoś problem",
+  "send_feedback_idea": "Prześlij pomysł",
+  "feedback_modal_title": "Wyślij opinię",
+  "feedback_modal_description": "Twoja opinia bardzo mi pomaga, aby lepiej zrozumieć, w jaki sposób korzystasz z aplikacji i jak mogę ją ulepszyć.",
+  "feedback_modal_textarea_placeholder": "Zauważyłem to…",
+  "feedback_modal_send": "Wysłać",
+  "feedback_modal_cancel": "Anuluj",
+  "feedback_success_title": "Wysłano opinię",
+  "feedback_success_message": "Twoja opinia została pomyślnie wysłana.",
+  "feedback_error_title": "Opinia nie powiodła się",
+  "feedback_error_message": "Coś poszło nie tak podczas wysyłania opinii.",
+  "feedback_help": "Ta aplikacja została opracowana przez jedną osobę. Bardzo cenię twoją opinię. Pomaga mi lepiej zrozumieć, w jaki sposób korzystasz z aplikacji i jak mogę ją ulepszyć."
 }

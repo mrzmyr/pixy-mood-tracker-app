@@ -52,5 +52,20 @@
   "previews_screen_3_title": [
     "Ser flott ut i",
     "Mørk modus"
-  ]
+  ],
+  "issue": "Utgave",
+  "idea": "Idé",
+  "other": "Annen",
+  "send_feedback_issue": "Rapporter problem",
+  "send_feedback_idea": "Send inn idé",
+  "feedback_modal_title": "Send tilbakemelding",
+  "feedback_modal_description": "Tilbakemeldingen din hjelper meg mye med å forstå hvordan du bruker appen og hvordan jeg kan forbedre den.",
+  "feedback_modal_textarea_placeholder": "Jeg la merke til det…",
+  "feedback_modal_send": "Sende",
+  "feedback_modal_cancel": "Avbryt",
+  "feedback_success_title": "Tilbakemelding sendt",
+  "feedback_success_message": "Tilbakemeldingen din ble sendt.",
+  "feedback_error_title": "Tilbakemelding mislyktes",
+  "feedback_error_message": "Noe gikk galt under sending av tilbakemelding.",
+  "feedback_help": "Denne appen er utviklet av én person. Jeg setter stor pris på tilbakemeldingen din. Det hjelper meg å forstå hvordan du bruker appen og hvordan jeg kan forbedre den."
 }

@@ -52,5 +52,20 @@
   "previews_screen_3_title": [
     "harika görünüyorsun",
     "Karanlık Mod"
-  ]
+  ],
+  "issue": "Sorun",
+  "idea": "Fikir",
+  "other": "Diğer",
+  "send_feedback_issue": "Rapor bildir",
+  "send_feedback_idea": "Fikir Gönder",
+  "feedback_modal_title": "Geribildirim yolla",
+  "feedback_modal_description": "Geri bildiriminiz, uygulamayı nasıl kullandığınızı ve onu nasıl iyileştirebileceğimi daha iyi anlamama çok yardımcı oluyor.",
+  "feedback_modal_textarea_placeholder": "Onu farkettim…",
+  "feedback_modal_send": "Göndermek",
+  "feedback_modal_cancel": "İptal etmek",
+  "feedback_success_title": "Geri bildirim gönderildi",
+  "feedback_success_message": "Geri bildiriminiz başarıyla gönderildi.",
+  "feedback_error_title": "Geri bildirim başarısız oldu",
+  "feedback_error_message": "Geri bildiriminiz gönderilirken bir şeyler ters gitti.",
+  "feedback_help": "Bu uygulama bir kişi tarafından geliştirilmiştir. Geri bildiriminize çok değer veriyorum. Uygulamayı nasıl kullandığınızı ve onu nasıl geliştirebileceğimi daha iyi anlamama yardımcı oluyor."
 }

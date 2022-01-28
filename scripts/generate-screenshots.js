@@ -32,13 +32,14 @@ const iPhone_6_5_inch = {
   },
 }
 
+const DEBUG = false;
+
 const WEBHOOK_URL = 'https://webhook.site/8beac0d4-b750-4e3e-9af5-c75df5229904';
-const LANGUAGES = [
+const LANGUAGES = DEBUG ? ['en'] : [
   'ar', 'ca', 'zh', 'hr', 'cs', 'da', 'nl', 'en', 'fi', 'fr', 'de', 'el', 
   'he', 'hi', 'hu', 'id', 'it', 'ja', 'ko', 'ms', 'nn', 'pl', 'pt', 'ro', 
   'ru', 'sk', 'es', 'sv', 'th', 'tr', 'uk', 'vi'
 ];
-// const LANGUAGES = ['en'];
 
 const POSSIBLE_RATINGS = [
   'extremely_good',
@@ -86,6 +87,11 @@ const addData = async (page, message) => {
 const makeScreenshots = async (page, prefix) => {  
   const date = dayjs().format('YYYY-MM-DD');
 
+  await page.click('[data-testid="feedback"]');
+  await page.screenshot({ path: `${__dirname}/screenshots/${prefix}-feedback.png` });
+  await page.waitForSelector(`[data-testid="feedback-modal-issue"]`, { visible: true });
+  await page.click('[data-testid="feedback-modal-cancel"]'); // I don't know why this need 2 calls, but it works
+  
   // screenshot calendar
   await page.waitForSelector(`[data-testid="calendar-day-${date}"]`, { visible: true });
   await page.evaluate((date) => {
@@ -97,6 +103,7 @@ const makeScreenshots = async (page, prefix) => {
 
   // screenshot modal
   await page.click(`[data-testid="calendar-day-${date}"]`)
+  await page.waitForSelector(`[data-testid="modal-message"]`, { visible: true });
   await page.$eval('[data-testid="modal-message"]', e => e.blur());
   await page.screenshot({ path: `${__dirname}/screenshots/${prefix}-modal.png` });
   await page.click('[data-testid="modal-cancel"]');
@@ -145,7 +152,7 @@ const getExampleMessage = (languageKey) => {
 
 ;(async () => {
   const browser = await puppeteer.launch({
-    // headless: false
+    headless: !DEBUG
   });
   
   for(const l in LANGUAGES) {

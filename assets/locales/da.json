@@ -52,5 +52,20 @@
   "previews_screen_3_title": [
     "Ser godt ud i",
     "Mørk tilstand"
-  ]
+  ],
+  "issue": "Problem",
+  "idea": "Ide",
+  "other": "Andet",
+  "send_feedback_issue": "Rapportér problem",
+  "send_feedback_idea": "Send idé",
+  "feedback_modal_title": "Send feedback",
+  "feedback_modal_description": "Din feedback hjælper mig meget til bedre at forstå, hvordan du bruger appen, og hvordan jeg kan forbedre den.",
+  "feedback_modal_textarea_placeholder": "Det bemærkede jeg…",
+  "feedback_modal_send": "Sende",
+  "feedback_modal_cancel": "Afbestille",
+  "feedback_success_title": "Feedback sendt",
+  "feedback_success_message": "Din feedback blev sendt.",
+  "feedback_error_title": "Feedback mislykkedes",
+  "feedback_error_message": "Noget gik galt, mens du sendte din feedback.",
+  "feedback_help": "Denne app er udviklet af én person. Jeg værdsætter din feedback meget. Det hjælper mig med bedre at forstå, hvordan du bruger appen, og hvordan jeg kan forbedre den."
 }
