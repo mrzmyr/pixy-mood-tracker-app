@@ -5,13 +5,15 @@ import LoadingIndicator from "./LoadingIndicator";
 export default function Button({ 
   type = 'primary', 
   icon,
+  testID,
   onPress, 
   isLoading = false,
   children, 
-  style = {} 
+  style = {},
 }: {
   type?: 'primary' | 'secondary',
   icon?: React.ReactNode,
+  testID?: string,
   isLoading?: boolean,
   children: React.ReactNode,
   style?: any,
@@ -21,12 +23,10 @@ export default function Button({
   
   const buttonColors = {
     primary: {
-      border: colors.primaryButtonBorder,
       background: colors.primaryButtonBackground,
       text: colors.primaryButtonTextColor,
     },
     secondary: {
-      border: colors.secondaryButtonBorder,
       background: colors.secondaryButtonBackground,
       text: colors.secondaryButtonTextColor,
     },
@@ -44,11 +44,10 @@ export default function Button({
         borderRadius: 5,
         opacity: isLoading ? 0.5 : (pressed ? 0.8 : 1),
         backgroundColor: buttonColors?.background,
-        borderWidth: 1,
-        borderColor: buttonColors?.border,
       }, style]}
       onPress={onPress}
       disabled={isLoading}
+      testID={testID}
     >
       {isLoading ? (
         <LoadingIndicator size={20} color={buttonColors?.text} />
