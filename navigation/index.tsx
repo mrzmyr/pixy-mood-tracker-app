@@ -94,13 +94,14 @@ function RootNavigator() {
               testID='settings'
               onPress={() => navigation.navigate('Settings')}
               style={{
-                padding: 10,
+                padding: 15,
+                paddingTop: 10,
               }}
               accessible={true}
               accessibilityLabel={i18n.t('settings')}
               accessibilityRole={'button'}
             >
-              <SettingsIcon height={20} color={colors.text} />
+              <SettingsIcon height={22} color={colors.text} />
             </Pressable>
           ),
           headerLeft: () => (
@@ -108,13 +109,14 @@ function RootNavigator() {
               testID='feedback'
               onPress={() => showFeedbackModal({ type: 'issue' })}
               style={{
-                padding: 10,
+                padding: 15,
+                paddingTop: 10,
               }}
               accessible={true}
               accessibilityLabel={i18n.t('feedback')}
               accessibilityRole={'button'}
             >
-              <Flag height={20} color={colors.text} />
+              <Flag height={22} color={colors.text} />
             </Pressable>
           )
         })}
