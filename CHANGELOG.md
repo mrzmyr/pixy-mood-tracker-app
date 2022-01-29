@@ -2,6 +2,69 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.2.0](https://github.com/mrzmyr/pixy-mood-tracker/compare/v1.1.3...v1.2.0) (2022-01-29)
+
+
+### Features
+
+* add debounce to webhook enable and url ([93b41ad](https://github.com/mrzmyr/pixy-mood-tracker/commit/93b41ad8cdea4151a4830c6d20470c388c65c049))
+* add script to generate app store previews ([1711c09](https://github.com/mrzmyr/pixy-mood-tracker/commit/1711c0992906f487d409d65ac1ca57a35a6b2d44))
+* add script to generate screenshots ([7cd8cd3](https://github.com/mrzmyr/pixy-mood-tracker/commit/7cd8cd3b6142b25dc028a02576bf40394cf13ef0))
+* add support for a lot of languages ([7255f41](https://github.com/mrzmyr/pixy-mood-tracker/commit/7255f41b1826284ee74c6bb1ea766ca7d7f2b49d))
+* **Button:** add loading state ([8a4a503](https://github.com/mrzmyr/pixy-mood-tracker/commit/8a4a5030dcbcc8bc25c28dc94964cd2117f31979))
+* **Calendar:** add scroll back to today button on top and bottom ([2d38052](https://github.com/mrzmyr/pixy-mood-tracker/commit/2d3805202c3ca01df6a1e2eec2ad0bbfd8de2a0a))
+* **Calendar:** localize start of the week ([a83a00f](https://github.com/mrzmyr/pixy-mood-tracker/commit/a83a00fcd1fdf73e67e80b8f7dc97275dea91b43))
+* **generate-translations:** support for array language variables ([eccfdb1](https://github.com/mrzmyr/pixy-mood-tracker/commit/eccfdb1beaf39c870fc4842168e107da6dbce87d))
+* **LoadingIndicator:** add new component ([45dacce](https://github.com/mrzmyr/pixy-mood-tracker/commit/45dacce1fc82faf9af564c60864a2fe6f06e70d3))
+* **useFeedbackModal:** add feedback form ([9f54622](https://github.com/mrzmyr/pixy-mood-tracker/commit/9f54622eaa4554463789963bbd30ace23817501d))
+* **Webook:** add url param to webook history entry screen ([caff154](https://github.com/mrzmyr/pixy-mood-tracker/commit/caff15419d3cb89f6628196f99969933c2984e51))
+
+
+### Bug Fixes
+
+* add dev dependencies ([365bb58](https://github.com/mrzmyr/pixy-mood-tracker/commit/365bb580afbcb2cfee2546d0faaf70574f632c75))
+* **Button:** truncate button label ([e456cda](https://github.com/mrzmyr/pixy-mood-tracker/commit/e456cdaa1e7f8ece4483660ab68b0e73b7000eb8))
+* change translation for DE ([bc2bbe2](https://github.com/mrzmyr/pixy-mood-tracker/commit/bc2bbe2db6a7fd89b649534f8e153fee1ce58e8f))
+* ignore paths for generated images ([1927cfb](https://github.com/mrzmyr/pixy-mood-tracker/commit/1927cfb84e195f8a98166f7de120e18246b4c008))
+* **LoadingIndicator:** don't use useNativeDriver on web ([90a3f8c](https://github.com/mrzmyr/pixy-mood-tracker/commit/90a3f8c057f41370e7506b935c58f1f99cea2d2d))
+* **MenuListItem:** add truncate dots ([480eac9](https://github.com/mrzmyr/pixy-mood-tracker/commit/480eac90f7d7dc64de1be32978b30d83cb180375))
+* **MenuListItem:** fix alignment with switch ([5ff5ce5](https://github.com/mrzmyr/pixy-mood-tracker/commit/5ff5ce5db9c8eda32e5ce542e06e080688086245))
+* **Navigation:** show default back button on iOS ([15469bd](https://github.com/mrzmyr/pixy-mood-tracker/commit/15469bd89fbef8d83a1f72bcf8a2443f751a9fd4))
+* **Settings:** let reset write to local storage ([0512ee5](https://github.com/mrzmyr/pixy-mood-tracker/commit/0512ee5689e37596677927ca0147ea6164452749))
+* **useLogs:** slice webhook history (so it doesn't overflow) ([8d3e480](https://github.com/mrzmyr/pixy-mood-tracker/commit/8d3e4806c0df0793bf5db12bd773605c7e240e19))
+* **Webhook:** add correct placeholder color to webhook url input ([4c841e0](https://github.com/mrzmyr/pixy-mood-tracker/commit/4c841e05681d5cffd27445494ab15dcaa3f48b39))
+
+
+### Chore
+
+* invalidate and remove sentry auth token ([ef5a9a8](https://github.com/mrzmyr/pixy-mood-tracker/commit/ef5a9a80b9f0e017a0f1a77435ea5a47cacfc49d))
+
+
+### Tests
+
+* add test ids ([0dda073](https://github.com/mrzmyr/pixy-mood-tracker/commit/0dda07312a4b38bc313ca872380b30b86d51d360))
+
+
+### Refactors
+
+* **Button:** add types ([e9cf0a9](https://github.com/mrzmyr/pixy-mood-tracker/commit/e9cf0a99ce43066ddf72fe1cc3978ff787f0b950))
+* **Button:** remove border and add testID ([5f3d56a](https://github.com/mrzmyr/pixy-mood-tracker/commit/5f3d56aae4a01b4201fc597eccd499881c2a4dcf))
+* **Calendar:** line indentation ([a4f0df4](https://github.com/mrzmyr/pixy-mood-tracker/commit/a4f0df4acc0ec873dcf67ce0a09212ed5076e5ad))
+* **useSettings:** make accessing local storage safer ([c0ff775](https://github.com/mrzmyr/pixy-mood-tracker/commit/c0ff7752db49e1dbd6a775d9df5d3bfe7c931a2f))
+* **Webhook:** rename functions ([34efed5](https://github.com/mrzmyr/pixy-mood-tracker/commit/34efed5c3c419c09ce8ef82a24de52523ef0baa5))
+
+
+### Styling
+
+* add header shadow again (only hide on web) ([9ef5319](https://github.com/mrzmyr/pixy-mood-tracker/commit/9ef5319eb4ba2cb12c0970e304983b960a2949bc))
+* align tag colors with tailwind ([ddceefe](https://github.com/mrzmyr/pixy-mood-tracker/commit/ddceefe7784f1de07e67ea0418b5c3e8931123d6))
+* **Colors:** move from blue gray to black gray ([d21ee95](https://github.com/mrzmyr/pixy-mood-tracker/commit/d21ee95060f45a2eb257b198cfdc37505241a7ec))
+* little updates to the UI ([c59ff3e](https://github.com/mrzmyr/pixy-mood-tracker/commit/c59ff3eebd55c45d46fa3962cb22e177aab6c878))
+* **Navigation:** make icons bigger ([b2a3203](https://github.com/mrzmyr/pixy-mood-tracker/commit/b2a32031fc5dfe260565fd21b3e08c7b55e10bf2))
+* **Settings:** reduce one single 'send feedback' option ([e3c52f0](https://github.com/mrzmyr/pixy-mood-tracker/commit/e3c52f09bacd948f5f6985b64c138dfd563f5a4d))
+* unify colors selection with help of tailwind colors ([abee552](https://github.com/mrzmyr/pixy-mood-tracker/commit/abee552afa27bbe8bc5af9d073b786de4444597d))
+* **useFeedbackModal:** add emojis ([4d72b96](https://github.com/mrzmyr/pixy-mood-tracker/commit/4d72b966f20ba74f9f139673d8a26ab99c83e96b))
+
 ### [1.1.3](https://github.com/mrzmyr/pixy-mood-tracker/compare/v1.1.2...v1.1.3) (2022-01-25)
 
 
