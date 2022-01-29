@@ -1,6 +1,6 @@
 const {Translate} = require('@google-cloud/translate').v2;
 const fs = require('fs');
-const credentials = require('./credentials.json');
+const credentials = require('../credentials/google-cloud-service-account.json');
 
 const path = __dirname + '/../assets/locales/';
 const filesArray = fs.readdirSync(path).filter(file => fs.lstatSync(path+file).isFile())
