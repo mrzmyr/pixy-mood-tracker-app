@@ -1,4 +1,4 @@
-import { Animated, Easing } from "react-native";
+import { Animated, Easing, Platform } from "react-native";
 import { Loader } from "react-native-feather";
 
 export default function LoadingIndicator({
@@ -15,7 +15,7 @@ export default function LoadingIndicator({
       toValue: 1,
       duration: 2000,
       easing: Easing.linear,
-      useNativeDriver: true,
+      useNativeDriver: Platform.OS !== 'web',
     }),
     {iterations: -1},
   ).start();
