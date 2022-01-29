@@ -36,6 +36,7 @@ i18n.translations = {
   th: require('../assets/locales/th.json'),
   tr: require('../assets/locales/tr.json'),
   uk: require('../assets/locales/uk.json'),
+  vi: require('../assets/locales/vi.json'),
 };
 
 i18n.locale = Localization.locale;
@@ -73,6 +74,7 @@ const dayjs_locales = {
   th: require('dayjs/locale/th'),
   tr: require('dayjs/locale/tr'),
   uk: require('dayjs/locale/uk'),
+  vi: require('dayjs/locale/vi'),
 }
 
 let locale = Localization.locale;
