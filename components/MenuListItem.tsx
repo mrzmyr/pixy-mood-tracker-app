@@ -49,13 +49,14 @@ export default ({
         style={{
           flexDirection: 'row',
           alignItems: 'center',
+          flex: 1,
         }}
       >
         {iconLeft && <View style={{ marginRight: 15 }}>{iconLeft}</View>}
         {typeof(title) === 'string' && <Text style={{ flex: 1, fontSize: 17, color: style.color || colors.menuListItemText }} numberOfLines={1} >{title}</Text>}
         {typeof(title) !== 'string' && title}
       </View>
-      {iconRight && <View style={{ }}>{iconRight}</View>}
+      {iconRight && <View style={{ backgroundColor: 'blue' }}>{iconRight}</View>}
       {isLink && <ChevronRight width={18} color={colors.menuListItemIcon} />}
       </Pressable>
     </View>
