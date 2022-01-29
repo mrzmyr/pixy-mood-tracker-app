@@ -1,0 +1,19 @@
+title: Rastreador de estado de ánimo Pixy
+description: |
+  Pixy es un enfoque minimalista para rastrear su estado de ánimo dentro de un píxel por día.
+
+  Puede usarlo para rastrear su estado de ánimo y exportar sus datos a otros servicios.
+  Incluso admite webhooks para enviar los datos a sus terminales favoritos.
+
+  - Minimalismo: la aplicación está diseñada para ser lo más minimalista posible.
+  - Privacidad: los datos se almacenan solo en el dispositivo, por lo que usted es el único que tiene acceso a sus datos.
+  - Exportar: la aplicación está diseñada para exportar sus datos a JSON.
+  - Webhooks: la aplicación está diseñada para enviar sus datos a sus puntos finales favoritos.
+keywords: estado de ánimo,seguimiento,píxel,diario,diario,importación,exportación
+subtitle: Realice un seguimiento de su estado de ánimo con webhook y funcionalidad de exportación
+support_url: https://y99.notion.site/Pixy-Mood-Tracker-8e7b651127cd49f391113cb83510084d
+whats_new: |
+  - Agregar soporte para 31 idiomas
+  - Agregar nuevo formulario de comentarios
+  - Agregar botón de desplazamiento hacia atrás hasta hoy
+  - Localizar inicio de semana (domingo/lunes)

@@ -1,0 +1,19 @@
+title: Penjejak Mood Pixy
+subtitle: Jejaki mood anda dengan kefungsian webhook & eksport
+description: |
+  Pixy ialah pendekatan minimalis untuk menjejaki mood anda dalam satu piksel sehari.
+
+  Anda boleh menggunakannya untuk menjejaki mood anda dan mengeksport data anda ke perkhidmatan lain.
+  Ia malah menyokong webhooks untuk menghantar data ke titik akhir kegemaran anda.
+
+  - Minimalisme: Aplikasi ini direka bentuk seminimal mungkin.
+  - Privasi: Data disimpan pada peranti sahaja, jadi anda adalah satu-satunya yang mempunyai akses kepada data anda.
+  - Eksport: Aplikasi ini direka untuk mengeksport data anda ke JSON.
+  - Webhooks: Aplikasi ini direka untuk menghantar data anda ke titik akhir kegemaran anda.
+keywords: mood, penjejakan, piksel, jurnal, diari, import, eksport
+support_url: https://y99.notion.site/Pixy-Mood-Tracker-8e7b651127cd49f391113cb83510084d
+whats_new: |
+  - Tambah sokongan untuk 31 bahasa
+  - Tambahkan borang maklum balas baharu
+  - Tambah skrol kembali ke butang hari ini
+  - Setempatkan permulaan minggu (ahad/isnin)

@@ -1,0 +1,19 @@
+title: Pixy Ruh Hali Takibi
+subtitle: Web kancası ve dışa aktarma işleviyle ruh halinizi takip edin
+description: |
+  Pixy, ruh halinizi günde bir piksel içinde takip etmek için minimalist bir yaklaşımdır.
+
+  Ruh halinizi takip etmek ve verilerinizi diğer hizmetlere aktarmak için kullanabilirsiniz.
+  Verileri favori uç noktalarınıza göndermek için web kancalarını bile destekler.
+
+  - Minimalizm: Uygulama, olabildiğince minimalist olacak şekilde tasarlanmıştır.
+  - Gizlilik: Veriler yalnızca cihazda saklanır, bu nedenle verilerinize erişimi olan tek kişi sizsiniz.
+  - Dışa Aktar: Uygulama, verilerinizi JSON'a dışa aktarmak için tasarlanmıştır.
+  - Web kancaları: Uygulama, verilerinizi favori uç noktalarınıza göndermek için tasarlanmıştır.
+keywords: ruh hali,izleme,piksel,günlük,günlük,içe aktarma,dışa aktarma
+support_url: https://y99.notion.site/Pixy-Mood-Tracker-8e7b651127cd49f391113cb83510084d
+whats_new: |
+  - 31 dil için destek ekleyin
+  - Yeni geri bildirim formu ekleyin
+  - Bugüne geri kaydırma düğmesi ekleyin
+  - Haftanın başlangıcını yerelleştirin (pazar/pazartesi)

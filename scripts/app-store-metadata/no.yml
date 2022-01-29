@@ -1,0 +1,19 @@
+title: Pixy Mood Tracker
+subtitle: Spor humøret ditt med webhook- og eksportfunksjonalitet
+description: |
+  Pixy er en minimalistisk tilnærming for å spore humøret ditt innen én piksel om dagen.
+
+  Du kan bruke den til å spore humøret ditt og eksportere dataene dine til andre tjenester.
+  Den støtter til og med webhooks for å sende dataene til favorittendepunktene dine.
+
+  - Minimalisme: Appen er designet for å være så minimalistisk som mulig.
+  - Personvern: Dataene lagres kun på enheten, så du er den eneste som har tilgang til dataene dine.
+  - Eksporter: Appen er designet for å eksportere dataene dine til JSON.
+  - Webhooks: Appen er designet for å sende dataene dine til favorittendepunktene dine.
+keywords: humør, sporing, piksel, journal, dagbok, import, eksport
+support_url: https://y99.notion.site/Pixy-Mood-Tracker-8e7b651127cd49f391113cb83510084d
+whats_new: |
+  - Legg til støtte for 31 språk
+  - Legg til nytt tilbakemeldingsskjema
+  - Legg til rulle tilbake til i dag-knappen
+  - Lokaliser starten på uken (søndag/mandag)

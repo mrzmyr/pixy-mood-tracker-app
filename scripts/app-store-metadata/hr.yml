@@ -1,0 +1,19 @@
+title: Pixy Mood Tracker
+subtitle: Pratite svoje raspoloženje uz webhook i funkciju izvoza
+description: |
+  Pixy je minimalistički pristup za praćenje vašeg raspoloženja unutar jednog piksela dnevno.
+
+  Možete ga koristiti za praćenje raspoloženja i izvoz podataka na druge usluge.
+  Čak podržava i webhookove za slanje podataka na vaše omiljene krajnje točke.
+
+  - Minimalizam: Aplikacija je osmišljena tako da bude što je više moguće minimalistička.
+  - Privatnost: Podaci se pohranjuju samo na uređaju, tako da vi jedini imate pristup svojim podacima.
+  - Izvoz: Aplikacija je dizajnirana za izvoz vaših podataka u JSON.
+  - Webhooks: Aplikacija je dizajnirana za slanje vaših podataka na vaše omiljene krajnje točke.
+keywords: raspoloženje,praćenje,piksel,dnevnik,dnevnik,uvoz,izvoz
+support_url: https://y99.notion.site/Pixy-Mood-Tracker-8e7b651127cd49f391113cb83510084d
+whats_new: |
+  - Dodajte podršku za 31 jezik
+  - Dodajte novi obrazac za povratne informacije
+  - Dodaj gumb za pomicanje natrag na danas
+  - Lokalizirajte početak tjedna (nedjelja/ponedjeljak)

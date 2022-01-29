@@ -1,0 +1,10 @@
+title: Suivi de l'humeur de Pixy
+subtitle: Suivez votre humeur avec la fonctionnalité de webhook et d'exportation
+description: "Pixy est une approche minimaliste pour suivre votre humeur à moins d'un pixel par jour.\n\nVous pouvez l'utiliser pour suivre votre humeur et exporter vos données vers d'autres services.\nIl prend même en charge les webhooks pour envoyer les données à vos points de terminaison préférés.\n\n- Minimalisme\_: l'application est conçue pour être aussi minimaliste que possible.\n- Confidentialité\_: les données sont stockées sur l'appareil uniquement, vous êtes donc le seul à avoir accès à vos données.\n- Export : L'application est conçue pour exporter vos données vers JSON.\n- Webhooks\_: l'application est conçue pour envoyer vos données à vos points de terminaison préférés.\n"
+keywords: humeur, suivi, pixel, journal, journal intime, importation, exportation
+support_url: https://y99.notion.site/Pixy-Mood-Tracker-8e7b651127cd49f391113cb83510084d
+whats_new: |
+  - Ajout de la prise en charge de 31 langues
+  - Ajouter un nouveau formulaire de commentaires
+  - Ajouter un bouton de défilement vers aujourd'hui
+  - Localiser le début de la semaine (dimanche/lundi)

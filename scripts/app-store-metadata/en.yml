@@ -1,0 +1,19 @@
+title: Pixy Mood Tracker
+subtitle: Track your mood with webhook & export functionality
+whats_new: |
+  - Add support for 31 languages
+  - Add new feedback form
+  - Add scroll back to today button
+  - Localize start of the week (sunday/monday)
+description: |
+  Pixy is a minimalistic approach to track your mood within one pixel a day.
+
+  You can use it to track your mood and export your data to other services. 
+  It even supports webhooks to send the data to your favorite endpoints.
+
+  - Minimalism: The app is designed to be as minimalistic as possible.
+  - Privacy: The data is stored on the device only, so you are the only one with access to your data.
+  - Export: The app is designed to export your data to JSON.
+  - Webhooks: The app is designed to send your data to your favorite endpoints.
+keywords: mood,tracking,pixel,journal,diary,import,export
+support_url: https://y99.notion.site/Pixy-Mood-Tracker-8e7b651127cd49f391113cb83510084d

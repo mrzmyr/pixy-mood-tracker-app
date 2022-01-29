@@ -1,0 +1,19 @@
+title: Pixy Stimmungstracker
+subtitle: Verfolgen Sie Ihre Stimmung mit Webhook- und Exportfunktionen
+description: |
+  Pixy ist ein minimalistischer Ansatz, um Ihre Stimmung mit einem Pixel pro Tag zu verfolgen.
+
+  Sie können damit Ihre Stimmung verfolgen und Ihre Daten zu anderen Diensten exportieren.
+  Es unterstützt sogar Webhooks, um die Daten an Ihre bevorzugten Endpunkte zu senden.
+
+  - Minimalismus: Die App ist so minimalistisch wie möglich gestaltet.
+  - Datenschutz: Die Daten werden nur auf dem Gerät gespeichert, sodass nur Sie Zugriff auf Ihre Daten haben.
+  - Export: Die App wurde entwickelt, um Ihre Daten nach JSON zu exportieren.
+  - Webhooks: Die App wurde entwickelt, um Ihre Daten an Ihre bevorzugten Endpunkte zu senden.
+keywords: Stimmung, Tracking, Pixel, Tagebuch, Tagebuch, Import, Export
+support_url: https://y99.notion.site/Pixy-Mood-Tracker-8e7b651127cd49f391113cb83510084d
+whats_new: |
+  - Unterstützung für 31 Sprachen hinzufügen
+  - Neues Feedback-Formular hinzufügen
+  - Zurückblättern zum Heute-Button hinzufügen
+  - Wochenstart lokalisieren (Sonntag/Montag)

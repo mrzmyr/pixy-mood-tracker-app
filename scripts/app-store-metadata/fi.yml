@@ -1,0 +1,19 @@
+title: Pixy Mood Tracker
+subtitle: Seuraa mielialaasi webhook- ja vientitoimintojen avulla
+description: |
+  Pixy on minimalistinen tapa seurata mielialaasi yhden pikselin sisällä päivässä.
+
+  Sen avulla voit seurata mielialaasi ja viedä tietojasi muihin palveluihin.
+  Se tukee jopa webhookeja tietojen lähettämiseksi suosikkipäätepisteihisi.
+
+  - Minimalismi: Sovellus on suunniteltu mahdollisimman minimalistiseksi.
+  - Yksityisyys: Tiedot tallennetaan vain laitteelle, joten olet ainoa, jolla on pääsy tietoihisi.
+  - Vienti: Sovellus on suunniteltu viemään tietosi JSONiin.
+  - Webhooks: Sovellus on suunniteltu lähettämään tietosi suosikkipäätepisteihisi.
+keywords: mieliala,seuranta,pikseli,päiväkirja,päiväkirja,tuonti,vienti
+support_url: https://y99.notion.site/Pixy-Mood-Tracker-8e7b651127cd49f391113cb83510084d
+whats_new: |
+  - Lisää tuki 31 kielelle
+  - Lisää uusi palautelomake
+  - Lisää selaa takaisin tähän päivään -painike
+  - Lokalisoi viikon alku (sunnuntai/maanantai)
