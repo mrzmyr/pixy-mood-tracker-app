@@ -5,6 +5,8 @@ import {
   useScrollIntoView
 } from 'react-native-scroll-into-view';
 import useColors from "../hooks/useColors";
+import { useTranslation } from "../hooks/useTranslation";
+import Button from "./Button";
 import CalendarDay from "./CalendarDay";
 
 function CalendarDayContainer({ 
@@ -105,6 +107,7 @@ export default function Calendar({
 }: {
   navigation: any;
 }) {
+  const i18n = useTranslation()
   const currentMonth = dayjs();
 
   const pastMonths = [];
@@ -122,9 +125,26 @@ export default function Calendar({
   
   return (
     <>
+      <Button
+        onPress={() => scrollIntoView(viewRef.current, { animated: true })}
+        type="secondary"
+        testID="calendar-back-to-today-top"
+        style={{
+          marginTop: 20,
+        }}
+      >{i18n.t('back_to_today')}</Button>
       {pastMonths.map(month => <CalendarMonth key={month.toString()} date={month} />)}
       <CalendarMonth date={currentMonth} ref={viewRef} />
       {futureMonths.map(month => <CalendarMonth key={month.toString()} date={month} />)}
+      <Button
+        onPress={() => scrollIntoView(viewRef.current, { animated: true })}
+        type="secondary"
+        testID="calendar-back-to-today-top"
+        style={{
+          marginTop: 20,
+          marginBottom: 40,
+        }}
+      >{i18n.t('back_to_today')}</Button>
     </>
   )
 }

@@ -68,5 +68,6 @@
   "feedback_error_title": "Geri bildirim başarısız oldu",
   "feedback_error_message": "Geri bildiriminiz gönderilirken bir şeyler ters gitti.",
   "feedback_help": "Bu uygulama bir kişi tarafından geliştirilmiştir. Geri bildiriminize çok değer veriyorum. Uygulamayı nasıl kullandığınızı ve onu nasıl geliştirebileceğimi daha iyi anlamama yardımcı oluyor.",
-  "send_feedback": "Geribildirim yolla"
+  "send_feedback": "Geribildirim yolla",
+  "back_to_today": "bugüne dön"
 }

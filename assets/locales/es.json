@@ -68,5 +68,6 @@
   "feedback_error_title": "Comentarios fallidos",
   "feedback_error_message": "Algo salió mal al enviar sus comentarios.",
   "feedback_help": "Esta aplicación está desarrollada por una persona. Valoro mucho sus comentarios. Me ayuda a entender mejor cómo usas la aplicación y cómo puedo mejorarla.",
-  "send_feedback": "Enviar comentarios"
+  "send_feedback": "Enviar comentarios",
+  "back_to_today": "volver a hoy"
 }

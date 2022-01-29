@@ -68,5 +68,6 @@
   "feedback_error_title": "フィードバックに失敗しました",
   "feedback_error_message": "フィードバックの送信中に問題が発生しました。",
   "feedback_help": "このアプリは一人で開発されています。私はあなたのフィードバックをとても大切にしています。アプリの使い方と改善方法を理解するのに役立ちます。",
-  "send_feedback": "フィードバックを送信する"
+  "send_feedback": "フィードバックを送信する",
+  "back_to_today": "今日に戻る"
 }

@@ -68,5 +68,6 @@
   "feedback_error_title": "Rückmeldung fehlgeschlagen",
   "feedback_error_message": "Beim Senden Ihres Feedbacks ist etwas schief gelaufen.",
   "feedback_help": "Diese App wird von einer Person entwickelt. Ich schätze Ihr Feedback sehr. Es hilft mir, besser zu verstehen, wie Sie die App verwenden und wie ich sie verbessern kann.",
-  "send_feedback": "Feedback schicken"
+  "send_feedback": "Feedback schicken",
+  "back_to_today": "Zurück zu heute"
 }

@@ -68,5 +68,6 @@
   "feedback_error_title": "Umpan balik gagal",
   "feedback_error_message": "Ada yang tidak beres saat mengirim masukan Anda.",
   "feedback_help": "Aplikasi ini dikembangkan oleh satu orang. Saya sangat menghargai tanggapan Anda. Ini membantu saya lebih memahami bagaimana Anda menggunakan aplikasi dan bagaimana saya dapat meningkatkannya.",
-  "send_feedback": "Kirim Umpan Balik"
+  "send_feedback": "Kirim Umpan Balik",
+  "back_to_today": "Kembali ke hari ini"
 }

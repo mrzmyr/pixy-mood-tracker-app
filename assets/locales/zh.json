@@ -68,5 +68,6 @@
   "feedback_error_title": "反馈失败",
   "feedback_error_message": "发送您的反馈时出现问题。",
   "feedback_help": "这个应用程序是由一个人开发的。我非常重视您的反馈。它可以帮助我更好地了解您如何使用该应用程序以及如何改进它。",
-  "send_feedback": "发送反馈"
+  "send_feedback": "发送反馈",
+  "back_to_today": "回到今天"
 }
