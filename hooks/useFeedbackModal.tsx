@@ -1,7 +1,7 @@
 import * as Localization from 'expo-localization';
 import { useState } from 'react';
 import { Alert, Modal, Platform, Pressable, Text, View } from 'react-native';
-import { AlertTriangle, MessageCircle, MoreHorizontal } from 'react-native-feather';
+import { AlertTriangle, MessageCircle, MoreHorizontal, Sun } from 'react-native-feather';
 import Button from '../components/Button';
 import DismissKeyboard from '../components/DismisKeyboard';
 import TextArea from '../components/TextArea';
@@ -24,8 +24,10 @@ function TypeSelector({
       justifyContent: 'space-evenly',
       alignItems: 'center',
       marginBottom: 10,
+      width: '100%',
     }}>
       <Pressable style={({ pressed }) => ({
+        height: 100,
         opacity: pressed ? 0.8 : 1,
         borderRadius: 5,
         backgroundColor: colors.secondaryButtonBackground,
@@ -39,12 +41,13 @@ function TypeSelector({
         onPress={() => onPress('issue')}
         testID='feedback-modal-issue'
       >
-        <AlertTriangle width={32} height={32} strokeWidth={2} color={colors.secondaryButtonTextColor} />
+        <Text style={{ fontSize: 32 }}>⚠️</Text>
         <Text style={{ fontSize: 17, color: colors.secondaryButtonTextColor, marginTop: 5, textAlign: 'center' }}>
           {i18n.t('issue')}
         </Text>
       </Pressable>
       <Pressable style={({ pressed }) => ({
+        height: 100,
         opacity: pressed ? 0.8 : 1,
         borderRadius: 5,
         backgroundColor: colors.secondaryButtonBackground,
@@ -58,12 +61,13 @@ function TypeSelector({
         onPress={() => onPress('idea')}
         testID='feedback-modal-idea'
       >
-        <MessageCircle width={32} height={32} strokeWidth={2} color={colors.secondaryButtonTextColor} />
+        <Text style={{ fontSize: 32 }}>💡</Text>
         <Text style={{ fontSize: 17, color: colors.secondaryButtonTextColor, marginTop: 5, textAlign: 'center' }}>
           {i18n.t('idea')}
         </Text>
       </Pressable>
       <Pressable style={({ pressed }) => ({
+        height: 100,
         opacity: pressed ? 0.8 : 1,
         borderRadius: 5,
         backgroundColor: colors.secondaryButtonBackground,
@@ -163,19 +167,29 @@ export default function useFeedbackModal() {
           padding: 20,
           paddingTop: 40,
           backgroundColor: colors.background,
+          alignItems: 'center',
         }}>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'center',
+              alignItems: 'center',
+              marginBottom: 10,
+            }}
+          >
           <Text style={{
             fontWeight: 'bold',
-            marginBottom: 10,
             color: colors.text, 
             fontSize: 28,
           }}>
             {i18n.t('feedback_modal_title')}
           </Text>
+          </View>
           <Text style={{ 
             marginBottom: 30,
             color: colors.textSecondary, 
             fontSize: 15,
+            textAlign: 'center',
           }}>
             {i18n.t('feedback_modal_description')}
           </Text>
@@ -185,6 +199,7 @@ export default function useFeedbackModal() {
           />
           <View style={{
             flexDirection: 'row',
+            width: '100%',
           }}>
             <TextArea
               testID='feedback-modal-message'
@@ -198,6 +213,7 @@ export default function useFeedbackModal() {
           </View>
           <View style={{
             flexDirection: 'row',
+            width: '100%',
           }}>
             <Button
               testID='feedback-modal-cancel'
