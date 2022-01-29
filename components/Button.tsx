@@ -16,7 +16,7 @@ export default function Button({
   testID?: string,
   isLoading?: boolean,
   children: React.ReactNode,
-  style?: any,
+  style?: React.CSSProperties,
   onPress?: () => void,
 }) {
   const colors = useColors()
@@ -48,6 +48,7 @@ export default function Button({
       onPress={onPress}
       disabled={isLoading}
       testID={testID}
+      accessibilityRole={'button'}
     >
       {isLoading ? (
         <LoadingIndicator size={20} color={buttonColors?.text} />
