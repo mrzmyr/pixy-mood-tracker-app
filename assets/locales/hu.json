@@ -67,5 +67,6 @@
   "feedback_success_message": "Visszajelzését sikeresen elküldtük.",
   "feedback_error_title": "A visszajelzés sikertelen",
   "feedback_error_message": "Hiba történt a visszajelzés elküldésekor.",
-  "feedback_help": "Ezt az alkalmazást egy személy fejlesztette ki. Nagyon értékelem visszajelzését. Segít jobban megérteni, hogyan használja az alkalmazást, és hogyan fejleszthetem azt."
+  "feedback_help": "Ezt az alkalmazást egy személy fejlesztette ki. Nagyon értékelem visszajelzését. Segít jobban megérteni, hogyan használja az alkalmazást, és hogyan fejleszthetem azt.",
+  "send_feedback": "Visszajelzés küldése"
 }

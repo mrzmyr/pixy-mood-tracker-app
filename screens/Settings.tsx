@@ -4,7 +4,7 @@ import * as FileSystem from 'expo-file-system';
 import * as Sharing from 'expo-sharing';
 import * as StoreReview from 'expo-store-review';
 import { Alert, ScrollView, Text, View } from 'react-native';
-import { AlertTriangle, Award, Box, Download, Lock, MessageCircle, Star, Trash2, Upload } from 'react-native-feather';
+import { Award, Box, Download, Flag, Lock, Star, Trash2, Upload } from 'react-native-feather';
 import MenuList from '../components/MenuList';
 import MenuListItem from '../components/MenuListItem';
 import TextInfo from '../components/TextInfo';
@@ -211,14 +211,9 @@ export default function SettingsScreen({ navigation }: RootStackScreenProps<'Set
           }}
         >
           <MenuListItem
-            title={i18n.t('send_feedback_issue')}
+            title={i18n.t('send_feedback')}
             onPress={() => showFeedbackModal({ type: 'issue' })}
-            iconLeft={<AlertTriangle width={18} color={colors.menuListItemIcon} />}
-          />
-          <MenuListItem
-            title={i18n.t('send_feedback_idea')}
-            onPress={() => showFeedbackModal({ type: 'idea' })}
-            iconLeft={<MessageCircle width={18} color={colors.menuListItemIcon} />}
+            iconLeft={<Flag width={18} color={colors.menuListItemIcon} />}
             isLast
           />
         </MenuList>

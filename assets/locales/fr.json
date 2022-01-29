@@ -67,5 +67,6 @@
   "feedback_success_message": "Vos commentaires ont bien été envoyé.",
   "feedback_error_title": "L'évaluation a échoué",
   "feedback_error_message": "Une erreur s'est produite lors de l'envoi de vos commentaires.",
-  "feedback_help": "Cette application est développée par une seule personne. J'apprécie beaucoup vos commentaires. Cela m'aide à mieux comprendre comment vous utilisez l'application et comment je peux l'améliorer."
+  "feedback_help": "Cette application est développée par une seule personne. J'apprécie beaucoup vos commentaires. Cela m'aide à mieux comprendre comment vous utilisez l'application et comment je peux l'améliorer.",
+  "send_feedback": "Envoyer des commentaires"
 }

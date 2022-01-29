@@ -67,5 +67,6 @@
   "feedback_success_message": "Uw feedback is succesvol verzonden.",
   "feedback_error_title": "Feedback mislukt",
   "feedback_error_message": "Er is iets misgegaan bij het verzenden van uw feedback.",
-  "feedback_help": "Deze app is ontwikkeld door één persoon. Ik stel uw feedback zeer op prijs. Het helpt me beter te begrijpen hoe u de app gebruikt en hoe ik deze kan verbeteren."
+  "feedback_help": "Deze app is ontwikkeld door één persoon. Ik stel uw feedback zeer op prijs. Het helpt me beter te begrijpen hoe u de app gebruikt en hoe ik deze kan verbeteren.",
+  "send_feedback": "Feedback verzenden"
 }

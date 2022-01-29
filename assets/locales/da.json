@@ -67,5 +67,6 @@
   "feedback_success_message": "Din feedback blev sendt.",
   "feedback_error_title": "Feedback mislykkedes",
   "feedback_error_message": "Noget gik galt, mens du sendte din feedback.",
-  "feedback_help": "Denne app er udviklet af én person. Jeg værdsætter din feedback meget. Det hjælper mig med bedre at forstå, hvordan du bruger appen, og hvordan jeg kan forbedre den."
+  "feedback_help": "Denne app er udviklet af én person. Jeg værdsætter din feedback meget. Det hjælper mig med bedre at forstå, hvordan du bruger appen, og hvordan jeg kan forbedre den.",
+  "send_feedback": "Send feedback"
 }

@@ -67,5 +67,6 @@
   "feedback_success_message": "La teva opinió s'ha enviat correctament.",
   "feedback_error_title": "Els comentaris han fallat",
   "feedback_error_message": "S'ha produït un error en enviar els vostres comentaris.",
-  "feedback_help": "Aquesta aplicació està desenvolupada per una sola persona. Valoro molt els teus comentaris. M'ajuda a entendre millor com feu servir l'aplicació i com puc millorar-la."
+  "feedback_help": "Aquesta aplicació està desenvolupada per una sola persona. Valoro molt els teus comentaris. M'ajuda a entendre millor com feu servir l'aplicació i com puc millorar-la.",
+  "send_feedback": "Enviar comentaris"
 }

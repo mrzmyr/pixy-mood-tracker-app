@@ -67,5 +67,6 @@
   "feedback_success_message": "Tilbakemeldingen din ble sendt.",
   "feedback_error_title": "Tilbakemelding mislyktes",
   "feedback_error_message": "Noe gikk galt under sending av tilbakemelding.",
-  "feedback_help": "Denne appen er utviklet av én person. Jeg setter stor pris på tilbakemeldingen din. Det hjelper meg å forstå hvordan du bruker appen og hvordan jeg kan forbedre den."
+  "feedback_help": "Denne appen er utviklet av én person. Jeg setter stor pris på tilbakemeldingen din. Det hjelper meg å forstå hvordan du bruker appen og hvordan jeg kan forbedre den.",
+  "send_feedback": "Send tilbakemelding"
 }

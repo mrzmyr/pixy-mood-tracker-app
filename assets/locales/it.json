@@ -67,5 +67,6 @@
   "feedback_success_message": "Il tuo feedback è stato inviato correttamente.",
   "feedback_error_title": "Feedback fallito",
   "feedback_error_message": "Qualcosa è andato storto durante l'invio del feedback.",
-  "feedback_help": "Questa app è sviluppata da una sola persona. Apprezzo molto il tuo feedback. Mi aiuta a capire meglio come usi l'app e come posso migliorarla."
+  "feedback_help": "Questa app è sviluppata da una sola persona. Apprezzo molto il tuo feedback. Mi aiuta a capire meglio come usi l'app e come posso migliorarla.",
+  "send_feedback": "Invia feedback"
 }

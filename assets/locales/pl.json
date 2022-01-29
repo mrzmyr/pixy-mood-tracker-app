@@ -67,5 +67,6 @@
   "feedback_success_message": "Twoja opinia została pomyślnie wysłana.",
   "feedback_error_title": "Opinia nie powiodła się",
   "feedback_error_message": "Coś poszło nie tak podczas wysyłania opinii.",
-  "feedback_help": "Ta aplikacja została opracowana przez jedną osobę. Bardzo cenię twoją opinię. Pomaga mi lepiej zrozumieć, w jaki sposób korzystasz z aplikacji i jak mogę ją ulepszyć."
+  "feedback_help": "Ta aplikacja została opracowana przez jedną osobę. Bardzo cenię twoją opinię. Pomaga mi lepiej zrozumieć, w jaki sposób korzystasz z aplikacji i jak mogę ją ulepszyć.",
+  "send_feedback": "Wyślij opinię"
 }
