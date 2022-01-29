@@ -32,7 +32,7 @@ const iPhone_6_5_inch = {
   },
 }
 
-const DEBUG = false;
+const DEBUG = process.env.DEBUG || false;
 
 const WEBHOOK_URL = 'https://webhook.site/8beac0d4-b750-4e3e-9af5-c75df5229904';
 const LANGUAGES = DEBUG ? ['en'] : [
@@ -136,9 +136,10 @@ const makeDeviceScreenshots = async (browser, device, languageKey, mode) => {
   await page.goto('http://10.10.50.143:19006');
   
   prefix = `${device.slug}_${languageKey}_${mode}`;
-  console.log('Generating ', prefix);
+  console.time(`-> ${prefix} - screenshots`);
   await makeScreenshots(page, prefix)
   await page.close()
+  console.timeEnd(`-> ${prefix} - screenshots`);
 }
 
 const getExampleMessage = (languageKey) => {
@@ -154,10 +155,16 @@ const getExampleMessage = (languageKey) => {
   const browser = await puppeteer.launch({
     headless: !DEBUG
   });
+
+  console.time('total');
   
   for(const l in LANGUAGES) {
     const languageKey = LANGUAGES[l];
     
+    console.log()
+    console.log('LANGUAGE:', languageKey)
+    console.time(`==> ${languageKey}`);
+
     const page = await browser.newPage();
     const logs = generateLogs()
     await page.evaluateOnNewDocument(logs => {
@@ -165,8 +172,10 @@ const getExampleMessage = (languageKey) => {
       localStorage.setItem('PIXEL_TRACKER_LOGS', JSON.stringify(logs));
     }, logs);
     await page.goto('http://10.10.50.143:19006');
-    console.log('LANGUAGE', languageKey)
+
+    console.time(`-> ${languageKey} - add data`);
     await addData(page, getExampleMessage(languageKey));
+    console.timeEnd(`-> ${languageKey} - add data`);
 
     await makeDeviceScreenshots(browser, iPhone_5_5_inch, languageKey, 'light');
     await makeDeviceScreenshots(browser, iPhone_5_5_inch, languageKey, 'dark');
@@ -174,7 +183,11 @@ const getExampleMessage = (languageKey) => {
     await makeDeviceScreenshots(browser, iPhone_6_5_inch, languageKey, 'dark')
 
     await page.close()
+    console.timeEnd(`==> ${languageKey}`);
+    console.log()
   }
+
+  console.timeEnd('total');
 
   await browser.close();
 })();
