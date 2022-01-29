@@ -6,12 +6,11 @@
 
   <h3 align="center">Pixy Mood Tracker</h3>
 
+  <p align="center">Track your mood with webhook & export functionality.</p>
   <p align="center">
-    Track your mood with webhook & export functionality.
-    <br />
-    <a href="https://github.com/mrzmyr/pixy-mood-tracker/issues">Report Bug</a>
+    <a href="https://apps.apple.com/de/app/pixy-mood-tracker/id1605327124">Apple App Store</a>
     ·
-    <a href="https://github.com/mrzmyr/pixy-mood-tracker/issues">Request Feature</a>
+    <a href="https://play.google.com/store/apps/details?id=com.devmood.pixymoodtracker">Google Play Store</a>
   </p>
 </p>
 
@@ -37,24 +36,15 @@ This section should list any major frameworks that you built your project using.
 
 1. Clone the repo
 ```shell
-  git clone https://github.com/mrzmyr/pixy-mood-tracker.git
+$ git clone https://github.com/mrzmyr/pixy-mood-tracker.git
 ```
 2. Install dependencies
 ```shell
 $ yarn
 ```
 3. Start local server
-
-**Start App**
-
-iOS: iOS Simulator / iOS Phone required
 ```shell
-$ yarn run ios
-```
-
-Android: Android Emulator / Android Phone required
-```shell
-$ yarn run android
+$ yarn start
 ```
 
 **Release Version**
