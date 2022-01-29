@@ -67,7 +67,7 @@ const generateScreen = async ({
   textLines,
   filenamePrefix,
 }: PreviewScreen) => {
-  const filename = `${filenamePrefix}${languageCode}-${size}_${template}_${mode}_${screenName}`;
+  const filename = `${languageCode}-${size}-${filenamePrefix}-${template}_${mode}_${screenName}`;
   const tmpFilename = `${__dirname}/preview-generated/${filename}-tmp.png`;
   const outputFilename = `${__dirname}/preview-generated/${filename}.png`;
 
@@ -144,7 +144,7 @@ languageCodes.forEach((languageCode: string) => {
       mode: 'light',
       screenName: 'calendar',
       textLines: text.previews_screen_1_title,
-      filenamePrefix: `${languageCode}_1_`,
+      filenamePrefix: `1`,
     })
     generateScreen({
       size,
@@ -153,7 +153,7 @@ languageCodes.forEach((languageCode: string) => {
       mode: 'light',
       screenName: 'modal',
       textLines: [],
-      filenamePrefix: `${languageCode}_2_`,
+      filenamePrefix: `2`,
     })
     generateScreen({
       size,
@@ -162,7 +162,7 @@ languageCodes.forEach((languageCode: string) => {
       mode: 'light',
       screenName: 'settings',
       textLines: text.previews_screen_2_title,
-      filenamePrefix: `${languageCode}_3_`,
+      filenamePrefix: `3`,
     })
     generateScreen({
       size,
@@ -171,7 +171,7 @@ languageCodes.forEach((languageCode: string) => {
       mode: 'dark',
       screenName: 'calendar',
       textLines: [text.previews_screen_3_title[1]],
-      filenamePrefix: `${languageCode}_4_`,
+      filenamePrefix: `4`,
     })
   });
 });
