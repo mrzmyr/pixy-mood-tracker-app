@@ -7,6 +7,8 @@ import { LogsProvider } from './hooks/useLogs';
 import { SettingsProvider } from './hooks/useSettings';
 import Navigation from './navigation';
 
+import Localization from './lib/Localization';
+
 export default function App() {
   const isLoadingComplete = useCachedResources();
   const colorScheme = useColorScheme();
@@ -16,6 +18,8 @@ export default function App() {
     // enableInExpoDevelopment: true,
     debug: __DEV__,
   });
+
+  Localization.init();
 
   if (!isLoadingComplete) {
     return null;

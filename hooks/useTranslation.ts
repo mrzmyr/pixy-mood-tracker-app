@@ -1,8 +1,5 @@
-import dayjs from 'dayjs';
 import * as Localization from 'expo-localization';
 import i18n from 'i18n-js';
-import localizedFormat from 'dayjs/plugin/localizedFormat'
-import weekOfYear from 'dayjs/plugin/weekOfYear'
 
 i18n.translations = {
   ar: require('../assets/locales/ar.json'),
@@ -41,53 +38,6 @@ i18n.translations = {
 
 i18n.locale = Localization.locale;
 i18n.fallbacks = true;
-
-const dayjs_locales = {
-  ar: require('dayjs/locale/ar'),
-  ca: require('dayjs/locale/ca'),
-  zh: require('dayjs/locale/zh'),
-  hr: require('dayjs/locale/hr'),
-  cs: require('dayjs/locale/cs'),
-  da: require('dayjs/locale/da'),
-  nl: require('dayjs/locale/nl'),
-  en: require('dayjs/locale/en'),
-  fi: require('dayjs/locale/fi'),
-  fr: require('dayjs/locale/fr'),
-  de: require('dayjs/locale/de'),
-  el: require('dayjs/locale/el'),
-  he: require('dayjs/locale/he'),
-  hi: require('dayjs/locale/hi'),
-  hu: require('dayjs/locale/hu'),
-  id: require('dayjs/locale/id'),
-  it: require('dayjs/locale/it'),
-  ja: require('dayjs/locale/ja'),
-  ko: require('dayjs/locale/ko'),
-  ms: require('dayjs/locale/ms'),
-  nn: require('dayjs/locale/nn'),
-  pl: require('dayjs/locale/pl'),
-  pt: require('dayjs/locale/pt'),
-  ro: require('dayjs/locale/ro'),
-  ru: require('dayjs/locale/ru'),
-  sk: require('dayjs/locale/sk'),
-  es: require('dayjs/locale/es'),
-  sv: require('dayjs/locale/sv'),
-  th: require('dayjs/locale/th'),
-  tr: require('dayjs/locale/tr'),
-  uk: require('dayjs/locale/uk'),
-  vi: require('dayjs/locale/vi'),
-}
-
-let locale = Localization.locale;
-if(locale.includes('-')) locale = locale.split('-')[0];
-
-if(locale in dayjs_locales) {
-  dayjs.locale(locale)
-} else {
-  dayjs.locale('en')
-}
-
-dayjs.extend(weekOfYear)
-dayjs.extend(localizedFormat)
 
 export function useTranslation() {
   return i18n;
