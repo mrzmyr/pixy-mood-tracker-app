@@ -44,6 +44,7 @@ export default function WebhookScreen({ navigation }: RootStackScreenProps<'Webh
           title={i18n.t('webhook')}
           iconRight={
             <Switch
+              ios_backgroundColor={colors.backgroundSecondary}
               onValueChange={() => {
                 setEnabled(!enabled)
                 debouncedSetEnabled(!enabled)

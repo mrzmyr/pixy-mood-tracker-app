@@ -56,7 +56,7 @@ export default ({
         {typeof(title) === 'string' && <Text style={{ flex: 1, fontSize: 17, color: style.color || colors.menuListItemText }} numberOfLines={1} >{title}</Text>}
         {typeof(title) !== 'string' && title}
       </View>
-      {iconRight && <View style={{ backgroundColor: 'blue' }}>{iconRight}</View>}
+      {iconRight && <View>{iconRight}</View>}
       {isLink && <ChevronRight width={18} color={colors.menuListItemIcon} />}
       </Pressable>
     </View>
