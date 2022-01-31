@@ -85,7 +85,6 @@ export default {
     if(locale in dayjs_locales) {
       dayjs.locale(locale)
       if(dayjs.Ls[locale] && Localization.region !== null) {
-        console.log(Localization.region, getFirstDayOfWeek(Localization.region))
         dayjs.Ls[locale].weekStart = getFirstDayOfWeek(Localization.region);
       }
     } else {
