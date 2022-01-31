@@ -69,5 +69,6 @@
   "feedback_error_message": "Nešto je pošlo po zlu tijekom slanja povratnih informacija.",
   "feedback_help": "Ovu aplikaciju razvila je jedna osoba. Jako cijenim vaše povratne informacije. Pomaže mi da bolje razumijem kako koristite aplikaciju i kako je mogu poboljšati.",
   "send_feedback": "Pošalji povratne informacije",
-  "back_to_today": "Natrag na danas"
+  "back_to_today": "Natrag na danas",
+  "data": "Podaci"
 }

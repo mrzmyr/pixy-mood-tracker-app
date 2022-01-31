@@ -12,6 +12,7 @@ import LogModal from '../screens/LogModal';
 import NotFound from '../screens/NotFound';
 import Scales from '../screens/Scales';
 import Settings from '../screens/Settings';
+import Data from '../screens/Data';
 import Webhook from '../screens/Webhook';
 import WebhookHistoryEntry from '../screens/WebhookHistoryEntry';
 import { RootStackParamList } from '../types';
@@ -178,6 +179,14 @@ function RootNavigator() {
           options={{ 
             title: i18n.t('scales'),
             headerLeft: () => Platform.OS === 'ios' ? null : <BackButton testID={'scales-back-button'} />,
+          }} 
+        />
+        <Stack.Screen 
+          name="Data" 
+          component={Data} 
+          options={{ 
+            title: i18n.t('data'),
+            headerLeft: () => Platform.OS === 'ios' ? null : <BackButton testID={'data-back-button'} />,
           }} 
         />
       </Stack.Group>

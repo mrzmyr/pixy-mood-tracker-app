@@ -28,6 +28,7 @@ export type RootStackParamList = {
   Calendar: undefined,
   Modal: undefined;
   NotFound: undefined;
+  Data: undefined;
 };
 
 export type RootStackScreenProps<Screen extends keyof RootStackParamList> = NativeStackScreenProps<

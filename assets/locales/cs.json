@@ -69,5 +69,6 @@
   "feedback_error_message": "Při odesílání zpětné vazby se něco pokazilo.",
   "feedback_help": "Tuto aplikaci vyvíjí jedna osoba. Velmi si vážím vaší zpětné vazby. Pomáhá mi to lépe pochopit, jak aplikaci používáte a jak ji mohu zlepšit.",
   "send_feedback": "Poslat zpětnou vazbu",
-  "back_to_today": "Zpět k dnešku"
+  "back_to_today": "Zpět k dnešku",
+  "data": "Data"
 }

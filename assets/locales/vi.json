@@ -69,5 +69,6 @@
   "feedback_error_message": "Đã xảy ra sự cố khi gửi phản hồi của bạn.",
   "feedback_help": "Ứng dụng này được phát triển bởi một người. Tôi đánh giá cao phản hồi của bạn. Nó giúp tôi hiểu rõ hơn về cách bạn sử dụng ứng dụng và cách tôi có thể cải thiện nó.",
   "send_feedback": "Gửi thông tin phản hồi",
-  "back_to_today": "Quay lại ngày hôm nay"
+  "back_to_today": "Quay lại ngày hôm nay",
+  "data": "Dữ liệu"
 }

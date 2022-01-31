@@ -69,5 +69,6 @@
   "feedback_error_message": "A apărut o eroare la trimiterea feedback-ului dvs.",
   "feedback_help": "Această aplicație este dezvoltată de o singură persoană. Apreciez foarte mult feedback-ul tău. Mă ajută să înțeleg mai bine cum folosești aplicația și cum o pot îmbunătăți.",
   "send_feedback": "Trimite feedback",
-  "back_to_today": "Înapoi la ziua de azi"
+  "back_to_today": "Înapoi la ziua de azi",
+  "data": "Date"
 }

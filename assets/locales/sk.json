@@ -69,5 +69,6 @@
   "feedback_error_message": "Pri odosielaní spätnej väzby sa vyskytla chyba.",
   "feedback_help": "Túto aplikáciu vyvinula jedna osoba. Veľmi si vážim vašu spätnú väzbu. Pomáha mi to lepšie pochopiť, ako aplikáciu používate a ako ju môžem zlepšiť.",
   "send_feedback": "Poslať spätnú väzbu",
-  "back_to_today": "Späť k dnešku"
+  "back_to_today": "Späť k dnešku",
+  "data": "Údaje"
 }

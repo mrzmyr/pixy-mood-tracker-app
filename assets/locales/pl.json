@@ -69,5 +69,6 @@
   "feedback_error_message": "Coś poszło nie tak podczas wysyłania opinii.",
   "feedback_help": "Ta aplikacja została opracowana przez jedną osobę. Bardzo cenię twoją opinię. Pomaga mi lepiej zrozumieć, w jaki sposób korzystasz z aplikacji i jak mogę ją ulepszyć.",
   "send_feedback": "Wyślij opinię",
-  "back_to_today": "Powrót do dzisiaj"
+  "back_to_today": "Powrót do dzisiaj",
+  "data": "Dane"
 }

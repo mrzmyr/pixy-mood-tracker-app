@@ -69,5 +69,6 @@
   "feedback_error_message": "Qualcosa è andato storto durante l'invio del feedback.",
   "feedback_help": "Questa app è sviluppata da una sola persona. Apprezzo molto il tuo feedback. Mi aiuta a capire meglio come usi l'app e come posso migliorarla.",
   "send_feedback": "Invia feedback",
-  "back_to_today": "Ritorno ad oggi"
+  "back_to_today": "Ritorno ad oggi",
+  "data": "Dati"
 }
