@@ -2,7 +2,7 @@ import { ScrollView, Text, View } from 'react-native';
 import useColors from '../hooks/useColors';
 import licenses from '../licenses.json';
 
-export default function LicensesScreen({ navigation }) {
+export default function LicensesScreen() {
   const colors = useColors()
   
   return (
