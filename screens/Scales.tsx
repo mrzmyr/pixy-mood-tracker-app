@@ -1,11 +1,60 @@
 import { useEffect, useState } from 'react';
 import { Pressable, ScrollView, View } from 'react-native';
 import { Circle } from 'react-native-feather';
-import Scale from '../components/Scale';
 import TextInfo from '../components/TextInfo';
 import useColors from '../hooks/useColors';
 import { useSettings } from '../hooks/useSettings';
 import { useTranslation } from '../hooks/useTranslation';
+
+function ColorDot({
+  color,
+}: {
+  color: string;
+}) {
+  return (
+    <View
+      style={{
+        padding: 3,
+        backgroundColor: color,
+        flex: 1,
+        borderRadius: 5,
+        width: '100%',
+        aspectRatio: 1,
+        margin: 5,
+        justifyContent: 'center',
+        alignItems: 'center',
+        maxWidth: 50,
+      }}
+    />
+  )
+}
+
+function Scale({
+  type,
+}: {
+  type: string;
+}) {
+  const colors = useColors();
+  const scaleColors = colors.scales[type];
+  
+  return (
+    <View
+      style={{
+        width: '100%',
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+      }}
+    >
+      {Object.keys(scaleColors).reverse().map((key, index) => (
+        <ColorDot 
+          key={key} 
+          color={scaleColors[key].background}
+        />
+      ))}
+    </View>
+  )
+}
 
 function Radio({
   onPress,
@@ -21,14 +70,15 @@ function Radio({
   return (
     <Pressable
       onPress={onPress}
-      style={{
+      style={({ pressed }) => ({
         flexDirection: 'row',
         alignItems: 'center',
         marginBottom: 10,
         backgroundColor: colors.menuListItemBackground,
         padding: 10,
         borderRadius: 10,
-      }}
+        opacity: pressed ? 0.8 : 1,
+      })}
     >
       <View style={{ 
         width: '15%', 
@@ -69,6 +119,7 @@ export default function SettingsScreen({ navigation }) {
   const typesNames = [
     `ColorBrew-RdYlGn`,
     `ColorBrew-PiYG`,
+    'ColorBrew-BrBG',
   ]
 
   useEffect(() => {
