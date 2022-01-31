@@ -5,7 +5,7 @@ import DataEntyList from '../components/DataEntryList';
 import TextCode from '../components/TextCode';
 import TextHeadline from '../components/TextHeadline';
 import useColors from '../hooks/useColors';
-import { SettingsWebhookHistoryEntry, useSettings } from '../hooks/useSettings';
+import { SettingsWebhookHistoryEntry } from '../hooks/useSettings';
 import { useTranslation } from '../hooks/useTranslation';
 
 const DataEntyItem = ({ title, value }) => {
