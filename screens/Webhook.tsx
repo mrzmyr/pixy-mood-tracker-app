@@ -64,7 +64,6 @@ export default function WebhookScreen({ navigation }: RootStackScreenProps<'Webh
           isLast
         ></MenuListItem>
       </MenuList>
-      <TextInfo>{i18n.t('webhook_help')}</TextInfo>
       { settings.webhookEnabled && 
         <View
           style={{
@@ -112,7 +111,7 @@ export default function WebhookScreen({ navigation }: RootStackScreenProps<'Webh
             style={{
             }}
           >
-            { settings.webhookHistory.sort((a,b) => +new Date(b.date) - +new Date(a.date)).slice(0, 20).map((entry, index) => (
+            { settings.webhookHistory.sort((a,b) => +new Date(b.date) - +new Date(a.date)).map((entry, index) => (
               <MenuListItem
                 key={entry?.date}
                 title={
