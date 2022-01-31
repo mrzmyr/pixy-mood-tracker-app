@@ -80,7 +80,7 @@ function TypeSelector({
         onPress={() => onPress('other')}
         testID='feedback-modal-other'
       >
-        <MoreHorizontal width={32} height={32} strokeWidth={2} color={colors.secondaryButtonTextColor} />
+        <MoreHorizontal width={32} height={40} strokeWidth={2} color={colors.secondaryButtonTextColor} />
         <Text style={{ fontSize: 17, color: colors.secondaryButtonTextColor, marginTop: 5, textAlign: 'center' }}>
           {i18n.t('other')}
         </Text>
