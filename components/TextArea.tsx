@@ -10,6 +10,7 @@ export default function TextArea({
   autoFocus = false,
   style,
   containerStyle,
+  numberOfLines = 4,
   onChange = (text: string) => {}, 
 }: {
   value?: string,
@@ -19,6 +20,7 @@ export default function TextArea({
   autoFocus?: boolean,
   style?: React.CSSProperties,
   containerStyle?: React.CSSProperties,
+  numberOfLines?: number,
   onChange?: (text: string) => void,
 }) {
   const colors = useColors()
@@ -36,7 +38,7 @@ export default function TextArea({
         testID={testID}
         autoFocus={autoFocus}
         multiline
-        numberOfLines={4}
+        numberOfLines={numberOfLines}
         onChangeText={(text) => {
           const newText = text.substring(0, maxLength)
           onChange(newText)

@@ -42,7 +42,10 @@ function TypeSelector({
         testID='feedback-modal-issue'
       >
         <Text style={{ fontSize: 32 }}>⚠️</Text>
-        <Text style={{ fontSize: 17, color: colors.secondaryButtonTextColor, marginTop: 5, textAlign: 'center' }}>
+        <Text 
+          numberOfLines={1}
+          style={{ fontSize: 17, color: colors.secondaryButtonTextColor, marginTop: 5, textAlign: 'center' }}
+        >
           {i18n.t('issue')}
         </Text>
       </Pressable>
@@ -62,7 +65,10 @@ function TypeSelector({
         testID='feedback-modal-idea'
       >
         <Text style={{ fontSize: 32 }}>💡</Text>
-        <Text style={{ fontSize: 17, color: colors.secondaryButtonTextColor, marginTop: 5, textAlign: 'center' }}>
+        <Text 
+          numberOfLines={1}
+          style={{ fontSize: 17, color: colors.secondaryButtonTextColor, marginTop: 5, textAlign: 'center' }}
+        >
           {i18n.t('idea')}
         </Text>
       </Pressable>
@@ -81,7 +87,10 @@ function TypeSelector({
         testID='feedback-modal-other'
       >
         <MoreHorizontal width={32} height={40} strokeWidth={2} color={colors.secondaryButtonTextColor} />
-        <Text style={{ fontSize: 17, color: colors.secondaryButtonTextColor, marginTop: 5, textAlign: 'center' }}>
+        <Text 
+          numberOfLines={1}
+          style={{ fontSize: 17, color: colors.secondaryButtonTextColor, marginTop: 5, textAlign: 'center' }}
+        >
           {i18n.t('other')}
         </Text>
       </Pressable>
@@ -202,6 +211,7 @@ export default function useFeedbackModal() {
             width: '100%',
           }}>
             <TextArea
+              numberOfLines={3}
               testID='feedback-modal-message'
               containerStyle={{
                 marginBottom: 20,
