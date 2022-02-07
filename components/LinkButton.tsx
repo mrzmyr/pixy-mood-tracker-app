@@ -39,11 +39,16 @@ export default function LinkButton({
       testID={testID}
     >
       {icon && <View style={{ marginRight: 5 }}>{icon}</View>}
-      <Text style={{ 
-        fontSize: 17, 
-        fontWeight: type === 'primary' ? 'bold' : 'normal', 
-        color: textColor,
-      }}>{children}</Text>
+      <Text 
+        ellipsizeMode='tail' 
+        numberOfLines={1}
+        style={{ 
+          fontSize: 17, 
+          fontWeight: type === 'primary' ? 'bold' : 'normal', 
+          color: textColor,
+          textAlign: 'center',
+        }}
+      >{children}</Text>
     </Pressable>
   )
 }

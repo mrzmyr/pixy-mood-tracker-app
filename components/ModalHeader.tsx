@@ -24,18 +24,24 @@ export default function ModalHeader({
     <View style={{
       justifyContent: 'flex-start',
       flexDirection: 'row',
+      maxWidth: '25%',
     }}>
       {left}
     </View>
     <View style={{
-      justifyContent: 'flex-start',
+      justifyContent: 'center',
       flexDirection: 'row',
+      maxWidth: '50%',
     }}>
       <Text
+        numberOfLines={1}
+        ellipsizeMode='middle'
         style={{
           fontSize: 17,
           color: colors.text,
           fontWeight: '600',
+          width: '100%',
+          textAlign: 'center',
         }}
       >{title}</Text>
     </View>
@@ -43,6 +49,7 @@ export default function ModalHeader({
       justifyContent: 'flex-end',
       alignItems: 'center',
       flexDirection: 'row',
+      maxWidth: '25%',
     }}>
       {right}
     </View>
