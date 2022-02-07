@@ -2,6 +2,59 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.4.0](https://github.com/mrzmyr/pixy-mood-tracker/compare/v1.2.0...v1.4.0) (2022-02-07)
+
+
+### Features
+
+* add app store meta data to repository ([844f63c](https://github.com/mrzmyr/pixy-mood-tracker/commit/844f63c907f2928e9df1118cc8d3d4a1eff371f6))
+* add data menu item to settings ([6c78ff9](https://github.com/mrzmyr/pixy-mood-tracker/commit/6c78ff95b7ded9ec1579de0826f2cf83487301b0))
+* add new script to upload app store meta data ([b5ee51e](https://github.com/mrzmyr/pixy-mood-tracker/commit/b5ee51e63e9b95a6313f9fb3918394cf64f41c50))
+* add new translations script for app store metadata ([7853ea5](https://github.com/mrzmyr/pixy-mood-tracker/commit/7853ea5db49cb0d602a5f973ca40d3daaf0af835))
+* **Calendar:** add country specific week start ([93aee92](https://github.com/mrzmyr/pixy-mood-tracker/commit/93aee924e13c73bb6cf794ce869683c52c275484))
+
+
+### Bug Fixes
+
+* add vietnamnese support ([1202b48](https://github.com/mrzmyr/pixy-mood-tracker/commit/1202b48b014caac04900f385e7e026659d50c1d0))
+* **LogModal:** fix width of save/cancel on small devices ([6c6bdca](https://github.com/mrzmyr/pixy-mood-tracker/commit/6c6bdcadfd4edcac3a80a2deeee60233f896ebe7))
+* **Scales:** replace scale component with non pressable view ([30316be](https://github.com/mrzmyr/pixy-mood-tracker/commit/30316be493e94c8e11fccaf4fc0e850b324d8d8d))
+* **useFeedbackModal:** add elipsis and change number of lines to fit on small devices ([4bc8b74](https://github.com/mrzmyr/pixy-mood-tracker/commit/4bc8b743d78e2ef8da858f0fcfa14514a645ffba))
+* **useFeedbackModal:** fix height of option icon 'others' ([4c6d740](https://github.com/mrzmyr/pixy-mood-tracker/commit/4c6d7401820b7c1c1db2c9c6c77c798360238ea7))
+* **Webhook:** fix MenuListItem bg color in Webhook ([534e53a](https://github.com/mrzmyr/pixy-mood-tracker/commit/534e53a122e577ae3340f4dfbed3ca3109dbd921))
+* **Webhook:** remove slicing from history view ([1293970](https://github.com/mrzmyr/pixy-mood-tracker/commit/1293970b82d59e93ca5dbe61dc91a5029031f73e))
+
+
+### Refactors
+
+* add utilities for scripts ([0bd3363](https://github.com/mrzmyr/pixy-mood-tracker/commit/0bd3363ab06c0b76f112f577c0602051006d9456))
+* change screenshot prefix to better select ([140a16b](https://github.com/mrzmyr/pixy-mood-tracker/commit/140a16bd93df418a445d8d67e72413c2842fa8b5))
+* move credentials of script to ./credentials ([521f954](https://github.com/mrzmyr/pixy-mood-tracker/commit/521f954e91d530c6c9ab1ac79ea98e4c712b2fc3))
+* rename translation script ([09de3ee](https://github.com/mrzmyr/pixy-mood-tracker/commit/09de3ee5b5ef8e11a3b420420639ac8839944077))
+
+
+### Documentation
+
+* add app store links to readme ([0b5b0cf](https://github.com/mrzmyr/pixy-mood-tracker/commit/0b5b0cfd1d7c4c5c234f1fba95599c3abff74aa1))
+* add initial readme ([16694f4](https://github.com/mrzmyr/pixy-mood-tracker/commit/16694f4f6f3e48772220de3b705adeacadecd8a7))
+
+
+### Styling
+
+* **Settings:** change data icon ([ef08800](https://github.com/mrzmyr/pixy-mood-tracker/commit/ef08800a608f7634eb56aa9007f813785dd7e4d5))
+
+
+### Chore
+
+* add dev dependencies ([dcd5616](https://github.com/mrzmyr/pixy-mood-tracker/commit/dcd561670864bc664570a08d2b2343ae62661483))
+* add yarn lock ([e5826f4](https://github.com/mrzmyr/pixy-mood-tracker/commit/e5826f4d1fdf5f18f423162496c866d8da561e55))
+* change logging in generating screenshots script ([9f38d1c](https://github.com/mrzmyr/pixy-mood-tracker/commit/9f38d1c7c5c0960f6f6b10d54a41d07213e9239b))
+* **LicensesScreen:** remove param ([2079610](https://github.com/mrzmyr/pixy-mood-tracker/commit/2079610ef2bde8f82412d843f4d2b18b512c22d2))
+* remove colorScheme from App ([8baded9](https://github.com/mrzmyr/pixy-mood-tracker/commit/8baded9cc74247c0f55b6ba107fb5d76753e8864))
+* remove console log ([c987d6d](https://github.com/mrzmyr/pixy-mood-tracker/commit/c987d6db62359dfb3f15311b20227783f3e133dd))
+* remove import ([4e0142c](https://github.com/mrzmyr/pixy-mood-tracker/commit/4e0142c5736e75a35834f5be251b1dabf54fb6d1))
+* update expo dependencies ([dd39cc0](https://github.com/mrzmyr/pixy-mood-tracker/commit/dd39cc0cb82c2b325ed484e223afd1b9d8fc6a72))
+
 ## [1.2.0](https://github.com/mrzmyr/pixy-mood-tracker/compare/v1.1.3...v1.2.0) (2022-01-29)
 
 
