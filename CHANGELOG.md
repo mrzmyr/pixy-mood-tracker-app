@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.5.1](https://github.com/mrzmyr/pixy-mood-tracker/compare/v1.5.0...v1.5.1) (2022-03-08)
+
+
+### Bug Fixes
+
+* **Android:** enable scroll ([1f2820f](https://github.com/mrzmyr/pixy-mood-tracker/commit/1f2820f80007f702c7c93104a6636c69e0540f85))
+* **useColors:** adapt colors directly when switching color scheme ([d12f007](https://github.com/mrzmyr/pixy-mood-tracker/commit/d12f0078e79ad83d038648f448e48696ea4fc86c))
+
+
+### Chore
+
+* remove logs ([270a112](https://github.com/mrzmyr/pixy-mood-tracker/commit/270a1120f686e72ca9b949b92c6a569e0ded88c5))
+
 ## [1.5.0](https://github.com/mrzmyr/pixy-mood-tracker/compare/v1.4.0...v1.5.0) (2022-03-08)
 
 
