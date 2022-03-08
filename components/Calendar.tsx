@@ -124,7 +124,6 @@ export default function Calendar({
   }, [navigation]);
 
   const scrollToToday = () => {
-    console.log('yep')
     scrollIntoView(viewRef.current, { animated: true })
   }
   
