@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.5.0](https://github.com/mrzmyr/pixy-mood-tracker/compare/v1.4.0...v1.5.0) (2022-03-08)
+
+
+### Features
+
+* **LogModal:** change length of message to 512 ([3d561fc](https://github.com/mrzmyr/pixy-mood-tracker/commit/3d561fc9fc049706430be0fa500fe32cd2320076))
+
+
+### Chore
+
+* **deps:** update depencencies ([99e1215](https://github.com/mrzmyr/pixy-mood-tracker/commit/99e1215c057d85e16d4933c9f43c250032e377f9))
+
 ## [1.4.0](https://github.com/mrzmyr/pixy-mood-tracker/compare/v1.2.0...v1.4.0) (2022-02-07)
 
 
