@@ -4990,10 +4990,10 @@ expo-device@~4.1.0:
   dependencies:
     ua-parser-js "^0.7.19"
 
-expo-document-picker@~10.1.1:
-  version "10.1.2"
-  resolved "https://registry.yarnpkg.com/expo-document-picker/-/expo-document-picker-10.1.2.tgz#9c435b203ac84a5f5ae51d90392e96a7f18942d4"
-  integrity sha512-lhXz9XaW5oYbURwVYFmP0WhT19qpnWsmEmzv8McNwkt8srRhj/5/CV4xknxnWtFpTDala/3oooDfqCZ4lWQz5A==
+expo-document-picker@~10.1.3:
+  version "10.1.3"
+  resolved "https://registry.yarnpkg.com/expo-document-picker/-/expo-document-picker-10.1.3.tgz#68a82635e9473eb19f128193f1111e7400055a7d"
+  integrity sha512-JKARJBnQ5Aug92hg2MFKrM2LqiMQabcUBYJwBhwSuc0A7dNUeprw0hkaOK0D9Fk7Ae9t+flRX0N5R/aADek3HA==
   dependencies:
     "@expo/config-plugins" "^4.0.2"
     uuid "^3.3.2"
@@ -5011,10 +5011,10 @@ expo-file-system@~13.1.0:
     "@expo/config-plugins" "^4.0.2"
     uuid "^3.4.0"
 
-expo-file-system@~13.1.2:
-  version "13.1.2"
-  resolved "https://registry.yarnpkg.com/expo-file-system/-/expo-file-system-13.1.2.tgz#04112d95cf3bdc151894c31d17900c6ff5a4f1ed"
-  integrity sha512-TA0LZTi8ZlnmyB2q6rEuTEo7b63e2luBzNhR5h/ow2J55xxRTXQLeaoK9m69XgazLVq6Ys7wiJma/q+Hg38hrQ==
+expo-file-system@~13.1.4:
+  version "13.1.4"
+  resolved "https://registry.yarnpkg.com/expo-file-system/-/expo-file-system-13.1.4.tgz#08fc20d49b2182e1fd195d95c40cf7eddfe7bd91"
+  integrity sha512-/C2FKCzrdWuEt4m8Pzl9J4MhKgfU0denVLbqoKjidv8DnsLQrscFNlLhXuiooqWwsxB2OWAtGEVnPGJBWVuNEQ==
   dependencies:
     "@expo/config-plugins" "^4.0.2"
     uuid "^3.4.0"
