@@ -81,7 +81,7 @@ const CalendarMonth = forwardRef(({
   }
 
   return (
-    <View ref={ref}>
+    <View ref={ref} renderToHardwareTextureAndroid>
       <Text
         style={{
           margin: 10,
@@ -122,11 +122,16 @@ export default function Calendar({
   useEffect(() => {
     scrollIntoView(viewRef.current)
   }, [navigation]);
+
+  const scrollToToday = () => {
+    console.log('yep')
+    scrollIntoView(viewRef.current, { animated: true })
+  }
   
   return (
     <>
       <Button
-        onPress={() => scrollIntoView(viewRef.current, { animated: true })}
+        onPress={() => scrollToToday()}
         type="secondary"
         testID="calendar-back-to-today-top"
         style={{
@@ -137,7 +142,7 @@ export default function Calendar({
       <CalendarMonth date={currentMonth} ref={viewRef} />
       {futureMonths.map(month => <CalendarMonth key={month.toString()} date={month} />)}
       <Button
-        onPress={() => scrollIntoView(viewRef.current, { animated: true })}
+        onPress={() => scrollToToday()}
         type="secondary"
         testID="calendar-back-to-today-top"
         style={{
