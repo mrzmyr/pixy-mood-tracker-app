@@ -89,7 +89,7 @@ export default function LogModal({ navigation, route }: RootStackScreenProps<'Lo
         onChange={setMessage}
         placeholder={i18n.t('log_modal_message_placeholder')}
         value={logItem.message} 
-        maxLength={280}
+        maxLength={512}
         autoFocus
       />
       {existingLogItem && (
