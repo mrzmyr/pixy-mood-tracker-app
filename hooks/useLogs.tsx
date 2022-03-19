@@ -116,7 +116,7 @@ function LogsProvider({children}: LogsProviderProps) {
         if (getJSONSchemaType(json) === 'pixy') {
         dispatch({ type: 'import', payload: json })
       } else {
-        console.error('PIXY: unkown schema in local storage found')
+        console.log('PIXY: unkown schema in local storage found')
       }
     }
 
