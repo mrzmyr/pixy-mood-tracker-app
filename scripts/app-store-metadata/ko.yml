@@ -13,7 +13,4 @@ description: |
 keywords: 기분,추적,픽셀,일지,일기,가져오기,내보내기
 support_url: https://y99.notion.site/Pixy-Mood-Tracker-8e7b651127cd49f391113cb83510084d
 whats_new: |
-  - 31개 언어 지원 추가
-  - 새로운 피드백 양식 추가
-  - 오늘 버튼으로 다시 스크롤 추가
-  - 한 주의 시작 현지화(일요일/월요일)
+  - 메시지 길이를 512자로 확장

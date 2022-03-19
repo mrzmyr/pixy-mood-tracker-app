@@ -13,7 +13,4 @@ description: |
 keywords: suasana hati, pelacakan, piksel, jurnal, buku harian, impor, ekspor
 support_url: https://y99.notion.site/Pixy-Mood-Tracker-8e7b651127cd49f391113cb83510084d
 whats_new: |
-  - Tambahkan dukungan untuk 31 bahasa
-  - Tambahkan formulir umpan balik baru
-  - Tambahkan gulir kembali ke tombol hari ini
-  - Lokalisasi awal minggu (Minggu/Senin)
+  - Panjang pesan diperpanjang hingga 512 karakter

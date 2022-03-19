@@ -13,7 +13,4 @@ description: |
 keywords: Stimmung, Tracking, Pixel, Tagebuch, Tagebuch, Import, Export
 support_url: https://y99.notion.site/Pixy-Mood-Tracker-8e7b651127cd49f391113cb83510084d
 whats_new: |
-  - Unterstützung für 31 Sprachen hinzufügen
-  - Neues Feedback-Formular hinzufügen
-  - Zurückblättern zum Heute-Button hinzufügen
-  - Wochenstart lokalisieren (Sonntag/Montag)
+  - Erweiterte Nachrichtenlänge auf 512 Zeichen

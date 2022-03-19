@@ -13,7 +13,4 @@ description: |
 keywords: hangulat,követés,pixel,napló,napló,import,export
 support_url: https://y99.notion.site/Pixy-Mood-Tracker-8e7b651127cd49f391113cb83510084d
 whats_new: |
-  - Támogatás hozzáadása 31 nyelvhez
-  - Új visszajelzési űrlap hozzáadása
-  - Görgetés vissza a mai naphoz gomb hozzáadása
-  - A hét kezdetének lokalizálása (vasárnap/hétfő)
+  - Az üzenet hossza 512 karakterre bővült

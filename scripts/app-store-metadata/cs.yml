@@ -13,7 +13,4 @@ description: |
 keywords: nálada,sledování,pixel,deník,deník,import,export
 support_url: https://y99.notion.site/Pixy-Mood-Tracker-8e7b651127cd49f391113cb83510084d
 whats_new: |
-  - Přidejte podporu pro 31 jazyků
-  - Přidat nový formulář zpětné vazby
-  - Přidat tlačítko pro posun zpět na dnešek
-  - Lokalizovat začátek týdne (neděle/pondělí)
+  - Rozšířená délka zprávy na 512 znaků

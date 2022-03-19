@@ -13,7 +13,4 @@ description: |
 keywords: 心情,跟踪,像素,日记,日记,导入,导出
 support_url: https://y99.notion.site/Pixy-Mood-Tracker-8e7b651127cd49f391113cb83510084d
 whats_new: |
-  - 添加對 31 種語言的支持
-  - 添加新的反饋表
-  - 添加回滾到今天按鈕
-  - 本地化一周的開始（週日/週一）
+  - 消息長度擴展至 512 個字符

@@ -4,7 +4,4 @@ description: "Pixy est une approche minimaliste pour suivre votre humeur à moin
 keywords: humeur, suivi, pixel, journal, journal intime, importation, exportation
 support_url: https://y99.notion.site/Pixy-Mood-Tracker-8e7b651127cd49f391113cb83510084d
 whats_new: |
-  - Ajout de la prise en charge de 31 langues
-  - Ajouter un nouveau formulaire de commentaires
-  - Ajouter un bouton de défilement vers aujourd'hui
-  - Localiser le début de la semaine (dimanche/lundi)
+  - Longueur de message étendue à 512 caractères

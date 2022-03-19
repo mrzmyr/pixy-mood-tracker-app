@@ -1,10 +1,7 @@
 title: Pixy Mood Tracker
 subtitle: Track your mood with webhook & export functionality
 whats_new: |
-  - Add support for 31 languages
-  - Add new feedback form
-  - Add scroll back to today button
-  - Localize start of the week (sunday/monday)
+  - Extended message length to 512 characters
 description: |
   Pixy is a minimalistic approach to track your mood within one pixel a day.
 

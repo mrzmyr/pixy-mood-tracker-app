@@ -13,7 +13,4 @@ description: |
 keywords: stato d'animo, monitoraggio, pixel, diario, diario, importazione, esportazione
 support_url: https://y99.notion.site/Pixy-Mood-Tracker-8e7b651127cd49f391113cb83510084d
 whats_new: |
-  - Aggiungi il supporto per 31 lingue
-  - Aggiungi un nuovo modulo di feedback
-  - Aggiungi il pulsante per tornare a oggi
-  - Localizza inizio settimana (domenica/lunedì)
+  - Lunghezza del messaggio estesa a 512 caratteri

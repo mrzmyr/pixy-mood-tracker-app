@@ -13,7 +13,4 @@ description: |
 keywords: mood,tracking,pixel,journal,diary,import,export
 support_url: https://y99.notion.site/Pixy-Mood-Tracker-8e7b651127cd49f391113cb83510084d
 whats_new: |
-  - Add support for 31 languages
-  - Add new feedback form
-  - Add scroll back to today button
-  - Localize start of the week (sunday/monday)
+  - Extended message length to 512 characters
