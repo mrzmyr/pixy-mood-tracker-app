@@ -23,7 +23,7 @@ export default function CalendarDay({
   const { colors: scaleColors } = useScale(settings.scaleType)
 
   const item = state.items[date.dateString] || {};
-  const isFutute = dayjs(date.dateString).isAfter(dayjs());
+  const isFuture = dayjs(date.dateString).isAfter(dayjs());
   
   const backgroundColor = item.rating ? 
     scaleColors[item.rating].background : 
@@ -36,9 +36,9 @@ export default function CalendarDay({
   return (
     <>
       <Pressable
-        onPress={() => navigation.navigate('LogModal', { date: date.dateString })}
+        onPress={() => !isFuture ? navigation.navigate('LogModal', { date: date.dateString }) : () => {}}
         style={({ pressed }) => [{
-          opacity: isFutute ? 0.5 : pressed ? 0.8 : 1,
+          opacity: isFuture ? 0.5 : pressed ? 0.8 : 1,
           justifyContent: 'flex-end',
           alignItems: 'flex-end',
           padding: 5,
