@@ -2,6 +2,32 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.6.0](https://github.com/mrzmyr/pixy-mood-tracker/compare/v1.5.1...v1.6.0) (2022-03-19)
+
+
+### Features
+
+* **useFeedbackModal:** add os, version to feedback ([7656cc0](https://github.com/mrzmyr/pixy-mood-tracker/commit/7656cc063dd0c84fcfe2253af2f7f9fb7af4c174))
+
+
+### Bug Fixes
+
+* **Calendar:** noop on future day click ([c5ad137](https://github.com/mrzmyr/pixy-mood-tracker/commit/c5ad13779ec4e2118cf765dd78ece2d6bcb2dde3))
+* **useFeedbackModal:** fix max length ([be0b9bc](https://github.com/mrzmyr/pixy-mood-tracker/commit/be0b9bca58f14e32de46ca8422b5acb9683bf24f))
+
+
+### Styling
+
+* **useFeedbackModal:** move buttons to top ([ad37608](https://github.com/mrzmyr/pixy-mood-tracker/commit/ad376086045bd16f4519d88c7f8ccc8436fa00e4))
+
+
+### Chore
+
+* add apple and google meta uploader ([9c35dc2](https://github.com/mrzmyr/pixy-mood-tracker/commit/9c35dc2d4215d1f782a6c45de839962d78b938b0))
+* add possibility to force translate keys ([7c620ba](https://github.com/mrzmyr/pixy-mood-tracker/commit/7c620ba117d2b5af9e6d932edbfc943ea038bf6b))
+* remove console.error ([758387d](https://github.com/mrzmyr/pixy-mood-tracker/commit/758387d7c0eb6187776190cdaa5a9ab34949bcce))
+* update whats new ([f63493d](https://github.com/mrzmyr/pixy-mood-tracker/commit/f63493d2b65866c53556d2c4ed73627307910933))
+
 ### [1.5.1](https://github.com/mrzmyr/pixy-mood-tracker/compare/v1.5.0...v1.5.1) (2022-03-08)
 
 
