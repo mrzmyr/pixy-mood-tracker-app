@@ -1,3 +1,4 @@
+import * as Application from 'expo-application';
 import * as Localization from 'expo-localization';
 import { useState } from 'react';
 import { ActivityIndicator, Alert, Modal, Platform, Pressable, Text, View } from 'react-native';
@@ -131,6 +132,8 @@ export default function useFeedbackModal() {
       const body = {
         ...data,
         locale: Localization.locale,
+        version: Application.nativeBuildVersion,
+        os: Platform.OS,
         date: new Date().toISOString(),
         type,
         message
