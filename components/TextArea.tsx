@@ -10,7 +10,6 @@ export default function TextArea({
   autoFocus = false,
   style,
   containerStyle,
-  numberOfLines = 4,
   onChange = (text: string) => {}, 
 }: {
   value?: string,
@@ -20,7 +19,6 @@ export default function TextArea({
   autoFocus?: boolean,
   style?: React.CSSProperties,
   containerStyle?: React.CSSProperties,
-  numberOfLines?: number,
   onChange?: (text: string) => void,
 }) {
   const colors = useColors()
@@ -38,7 +36,6 @@ export default function TextArea({
         testID={testID}
         autoFocus={autoFocus}
         multiline
-        numberOfLines={numberOfLines}
         onChangeText={(text) => {
           const newText = text.substring(0, maxLength)
           onChange(newText)
@@ -46,7 +43,7 @@ export default function TextArea({
         }}
         value={text}
         editable
-        maxLength={280}
+        maxLength={maxLength}
         placeholder={placeholder}
         placeholderTextColor={colors.textInputPlaceholder}
         textAlignVertical={'top'}
@@ -59,7 +56,7 @@ export default function TextArea({
           padding: 15,
           paddingTop: 15,
           fontSize: 17,
-          height: 200,
+          height: 280,
           width: '100%',
           borderRadius: 5,
         }}
@@ -72,7 +69,7 @@ export default function TextArea({
         <Text style={{
           fontSize: 17,
           color: colors.textInputPlaceholder,
-        }}>{maxLength - value.length}/{maxLength}</Text>
+        }}>{maxLength - value.length}</Text>
       </View>
     </View>
   )

@@ -223,7 +223,6 @@ export default function useFeedbackModal() {
             width: '100%',
           }}>
             <TextArea
-              numberOfLines={3}
               testID='feedback-modal-message'
               containerStyle={{
                 marginBottom: 20,
