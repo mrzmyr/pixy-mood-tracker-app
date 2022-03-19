@@ -1,9 +1,10 @@
 import * as Localization from 'expo-localization';
 import { useState } from 'react';
-import { Alert, Modal, Platform, Pressable, Text, View } from 'react-native';
-import { AlertTriangle, MessageCircle, MoreHorizontal, Sun } from 'react-native-feather';
-import Button from '../components/Button';
+import { ActivityIndicator, Alert, Modal, Platform, Pressable, Text, View } from 'react-native';
+import { MoreHorizontal } from 'react-native-feather';
 import DismissKeyboard from '../components/DismisKeyboard';
+import LinkButton from '../components/LinkButton';
+import ModalHeader from '../components/ModalHeader';
 import TextArea from '../components/TextArea';
 import useColors from './useColors';
 import { useTranslation } from './useTranslation';
@@ -143,11 +144,12 @@ export default function useFeedbackModal() {
       })
       setIsLoading(false)
       if(resp.ok) {
+        setVisible(false)
         Alert.alert(
           i18n.t('feedback_success_title'),
           i18n.t('feedback_success_message'),
           [
-            { text: i18n.t('ok'), onPress: () => setVisible(false) }
+            { text: i18n.t('ok'), onPress: () => {} }
           ],
           { cancelable: false }
         )
@@ -169,31 +171,41 @@ export default function useFeedbackModal() {
         presentationStyle='pageSheet'
         onRequestClose={() => hide()}
         visible={visible}
+        style={{
+          position: 'relative'
+        }}
       >
+        {isLoading &&
+          <View style={{
+            flex: 1,
+            backgroundColor: colors.background,
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            justifyContent: 'center',
+            alignItems: 'center',
+            position: 'absolute',
+            zIndex: 99,
+          }}>
+            <ActivityIndicator />
+          </View>
+        }
         <DismissKeyboard>
         <View style={{
           flex: 1,
-          padding: 20,
-          paddingTop: 40,
+          justifyContent: 'flex-start',
           backgroundColor: colors.background,
-          alignItems: 'center',
+          paddingTop: 20,
+          paddingBottom: 20,
+          paddingLeft: 20,
+          paddingRight: 20,
         }}>
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'center',
-              alignItems: 'center',
-              marginBottom: 10,
-            }}
-          >
-          <Text style={{
-            fontWeight: 'bold',
-            color: colors.text, 
-            fontSize: 28,
-          }}>
-            {i18n.t('feedback_modal_title')}
-          </Text>
-          </View>
+          <ModalHeader
+            title={i18n.t('feedback_modal_title')}
+            left={<LinkButton testID='feedback-modal-cancel' onPress={hide} type='secondary'>{i18n.t('feedback_modal_cancel')}</LinkButton>}
+            right={<LinkButton testID='feedback-modal-submit' onPress={send}>{i18n.t('feedback_modal_send')}</LinkButton>}
+          />
           <Text style={{ 
             marginBottom: 30,
             color: colors.textSecondary, 
@@ -220,28 +232,6 @@ export default function useFeedbackModal() {
               onChange={(text) => setMessage(text)}
               placeholder={i18n.t('feedback_modal_textarea_placeholder')}
             />
-          </View>
-          <View style={{
-            flexDirection: 'row',
-            width: '100%',
-          }}>
-            <Button
-              testID='feedback-modal-cancel'
-              type='secondary'
-              onPress={() => hide()}
-              style={{
-                flex: 1,
-                marginRight: 15,
-              }}
-            >{i18n.t('feedback_modal_cancel')}</Button>
-            <Button
-              testID='feedback-modal-send'
-              onPress={() => send()}
-              style={{
-                flex: 1
-              }}
-              isLoading={isLoading}
-            >{i18n.t('feedback_modal_send')}</Button>
           </View>
         </View>
         </DismissKeyboard>
