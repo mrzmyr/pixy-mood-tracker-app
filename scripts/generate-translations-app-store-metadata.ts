@@ -9,6 +9,10 @@ const KEY_BLACK_LIST = [
   'support_url',
 ]
 
+const FORCE_TRANSLATE = [
+  'whats_new',
+]
+
 type MissingKeyMap = {
   [key: string]: string[]
 }
@@ -18,7 +22,10 @@ const missingKeyMap: MissingKeyMap = {};
 for(const localeKey of Object.keys(locales).filter(key => key !== 'en')) {
   for(const templateKey of Object.keys(locales.en)) {
     if(!missingKeyMap[localeKey]) missingKeyMap[localeKey] = [];
-    if(!Object.keys(locales[localeKey]).includes(templateKey)) {
+    if(
+      FORCE_TRANSLATE.includes(templateKey) ||
+      !Object.keys(locales[localeKey]).includes(templateKey)
+    ) {
       missingKeyMap[localeKey].push(templateKey);
     }
   }
