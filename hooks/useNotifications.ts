@@ -39,16 +39,10 @@ const useNotification = () => {
   }
 
   const schedule = async (options: NotificationRequestInput) => {
-    console.log('scheduleNotification', options);
     await Notifications.scheduleNotificationAsync(options);
   }
 
-  const unschedule = async (identifier: string) => {
-    await Notifications.cancelScheduledNotificationAsync(identifier);
-  }
-
   const cancelAll = async () => {
-    console.log('cancelNotifications');
     await Notifications.cancelAllScheduledNotificationsAsync()
   }
   
