@@ -1,13 +1,11 @@
 import * as StoreReview from 'expo-store-review';
 import { ScrollView, Text, View } from 'react-native';
-import { Award, Flag, Layers, Lock, Star } from 'react-native-feather';
+import { Award, Bell, Database, Flag, Lock, Star } from 'react-native-feather';
 import MenuList from '../components/MenuList';
 import MenuListItem from '../components/MenuListItem';
 import TextInfo from '../components/TextInfo';
 import useColors from '../hooks/useColors';
 import useFeedbackModal from '../hooks/useFeedbackModal';
-import { useLogs } from '../hooks/useLogs';
-import { useSettings } from '../hooks/useSettings';
 import { useTranslation } from '../hooks/useTranslation';
 import pkg from '../package.json';
 import { RootStackScreenProps } from '../types';
@@ -16,8 +14,6 @@ export default function SettingsScreen({ navigation }: RootStackScreenProps<'Set
   const { show: showFeedbackModal, Modal } = useFeedbackModal();
   const colors = useColors()
   const i18n = useTranslation()
-  const { settings } = useSettings()
-  const { state } = useLogs()
 
   const askToRateApp = async () => {
     if (await StoreReview.hasAction()) {
@@ -25,8 +21,6 @@ export default function SettingsScreen({ navigation }: RootStackScreenProps<'Set
     }
   }
 
-  // const moodOfTheWeek = state.items.
-  
   return (
     <View style={{ 
       flex: 1,
@@ -59,11 +53,18 @@ export default function SettingsScreen({ navigation }: RootStackScreenProps<'Set
         <MenuList style={{ marginTop: 20, }}>
           <MenuListItem
             title={i18n.t('data')}
-            iconLeft={<Layers width={18} color={colors.menuListItemIcon} />}
+            iconLeft={<Database width={18} color={colors.menuListItemIcon} />}
             onPress={() => navigation.navigate('Data')}
             testID='data'
-            isLast
             isLink
+          />
+          <MenuListItem
+            title={i18n.t('reminder')}
+            iconLeft={<Bell width={18} color={colors.menuListItemIcon} />}
+            onPress={() => navigation.navigate('Reminder')}
+            testID='reminder'
+            isLink
+            isLast
           />
           {/* <MenuListItem
             title={i18n.t('scales')}

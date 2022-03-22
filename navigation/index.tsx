@@ -1,6 +1,5 @@
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import * as React from 'react';
 import { Platform, Pressable } from 'react-native';
 import { ArrowLeft, Flag, Settings as SettingsIcon } from 'react-native-feather';
 import useColors from '../hooks/useColors';
@@ -8,6 +7,7 @@ import useFeedbackModal from '../hooks/useFeedbackModal';
 import { useTranslation } from '../hooks/useTranslation';
 import Calendar from '../screens/Calendar';
 import Licenses from '../screens/Licenses';
+import Reminder from '../screens/Reminder';
 import LogModal from '../screens/LogModal';
 import NotFound from '../screens/NotFound';
 import Scales from '../screens/Scales';
@@ -150,6 +150,14 @@ function RootNavigator() {
           }}
         />
         <Stack.Screen 
+          name="Reminder" 
+          component={Reminder}
+          options={{ 
+            title: i18n.t('reminder'),
+            headerLeft: () => Platform.OS === 'ios' ? null : <BackButton testID={'reminder-back-button'} />,
+          }}
+        />
+        <Stack.Screen
           name="Webhook" 
           component={Webhook} 
           options={{ 
