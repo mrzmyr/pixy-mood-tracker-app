@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.7.0](https://github.com/mrzmyr/pixy-mood-tracker/compare/v1.6.0...v1.7.0) (2022-03-22)
+
+
+### Features
+
+* **Reminder:** add reminders ([bd21e9c](https://github.com/mrzmyr/pixy-mood-tracker/commit/bd21e9c3885be645520082804cdf3d54cd203872))
+* **Reminder:** add reminders ([61137b1](https://github.com/mrzmyr/pixy-mood-tracker/commit/61137b130b85f2d6959969a3db73c117fe292324))
+
+
+### Chore
+
+* remove unschedule and console logs ([febeed4](https://github.com/mrzmyr/pixy-mood-tracker/commit/febeed4824e6905569bc89a67a4b884c1c86b6a1))
+* update whats new meta data ([fe98634](https://github.com/mrzmyr/pixy-mood-tracker/commit/fe986340bce7ba2a75e16a2267a6c5ae71369518))
+
 ## [1.6.0](https://github.com/mrzmyr/pixy-mood-tracker/compare/v1.5.1...v1.6.0) (2022-03-19)
 
 
