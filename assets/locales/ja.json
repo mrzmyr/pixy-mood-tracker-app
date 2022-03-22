@@ -70,5 +70,9 @@
   "feedback_help": "このアプリは一人で開発されています。私はあなたのフィードバックをとても大切にしています。アプリの使い方と改善方法を理解するのに役立ちます。",
   "send_feedback": "フィードバックを送信する",
   "back_to_today": "今日に戻る",
-  "data": "データ"
+  "data": "データ",
+  "reminder": "リマインダー",
+  "time": "時間",
+  "notification_reminder_title": "あなたの気分を追跡する",
+  "notification_reminder_body": "ここをタップして、今日の気分を追跡します。"
 }

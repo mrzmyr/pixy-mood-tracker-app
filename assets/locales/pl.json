@@ -70,5 +70,9 @@
   "feedback_help": "Ta aplikacja została opracowana przez jedną osobę. Bardzo cenię twoją opinię. Pomaga mi lepiej zrozumieć, w jaki sposób korzystasz z aplikacji i jak mogę ją ulepszyć.",
   "send_feedback": "Wyślij opinię",
   "back_to_today": "Powrót do dzisiaj",
-  "data": "Dane"
+  "data": "Dane",
+  "reminder": "Przypomnienie",
+  "time": "Czas",
+  "notification_reminder_title": "Śledź swój nastrój",
+  "notification_reminder_body": "Dotknij tutaj, aby śledzić swój dzisiejszy nastrój."
 }

@@ -70,5 +70,9 @@
   "feedback_help": "Ovu aplikaciju razvila je jedna osoba. Jako cijenim vaše povratne informacije. Pomaže mi da bolje razumijem kako koristite aplikaciju i kako je mogu poboljšati.",
   "send_feedback": "Pošalji povratne informacije",
   "back_to_today": "Natrag na danas",
-  "data": "Podaci"
+  "data": "Podaci",
+  "reminder": "Podsjetnik",
+  "time": "Vrijeme",
+  "notification_reminder_title": "Pratite svoje raspoloženje",
+  "notification_reminder_body": "Dodirnite ovdje da pratite svoje današnje raspoloženje."
 }

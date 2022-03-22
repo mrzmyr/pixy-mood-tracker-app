@@ -9,6 +9,8 @@
   "settings": "Settings",
   "webhook": "Webhook",
   "licenses": "Licenses",
+  "reminder": "Reminder",
+  "time": "Time",
   "data": "Data",
   "issue": "Issue",
   "idea": "Idea",
@@ -59,6 +61,8 @@
   "feedback_error_title": "Feedback failed",
   "feedback_error_message": "Something went wrong while sending your feedback.",
   "feedback_help": "This app is developed by one person. I value your feedback very much. It helps me better understand how you use the app and how I can improve it.",
+  "notification_reminder_title": "Track your mood",
+  "notification_reminder_body": "Tap here to track your todays mood.",
   "previews_screen_1_title": [
     "Track your mood", 
     "One Pixel at a Time"

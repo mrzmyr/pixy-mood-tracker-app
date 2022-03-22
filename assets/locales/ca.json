@@ -70,5 +70,9 @@
   "feedback_help": "Aquesta aplicació està desenvolupada per una sola persona. Valoro molt els teus comentaris. M'ajuda a entendre millor com feu servir l'aplicació i com puc millorar-la.",
   "send_feedback": "Enviar comentaris",
   "back_to_today": "Torna a l'actualitat",
-  "data": "Dades"
+  "data": "Dades",
+  "reminder": "Recordatori",
+  "time": "Temps",
+  "notification_reminder_title": "Feu un seguiment del vostre estat d'ànim",
+  "notification_reminder_body": "Toqueu aquí per fer un seguiment del vostre estat d'ànim d'avui."
 }

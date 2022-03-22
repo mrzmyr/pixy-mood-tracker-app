@@ -70,5 +70,9 @@
   "feedback_help": "Denne appen er utviklet av én person. Jeg setter stor pris på tilbakemeldingen din. Det hjelper meg å forstå hvordan du bruker appen og hvordan jeg kan forbedre den.",
   "send_feedback": "Send tilbakemelding",
   "back_to_today": "Tilbake til i dag",
-  "data": "Data"
+  "data": "Data",
+  "reminder": "Påminnelse",
+  "time": "Tid",
+  "notification_reminder_title": "Spor humøret ditt",
+  "notification_reminder_body": "Trykk her for å spore dagens humør."
 }

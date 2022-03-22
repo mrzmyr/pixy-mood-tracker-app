@@ -70,5 +70,9 @@
   "feedback_help": "Această aplicație este dezvoltată de o singură persoană. Apreciez foarte mult feedback-ul tău. Mă ajută să înțeleg mai bine cum folosești aplicația și cum o pot îmbunătăți.",
   "send_feedback": "Trimite feedback",
   "back_to_today": "Înapoi la ziua de azi",
-  "data": "Date"
+  "data": "Date",
+  "reminder": "Aducere aminte",
+  "time": "Timp",
+  "notification_reminder_title": "Urmăriți-vă starea de spirit",
+  "notification_reminder_body": "Atingeți aici pentru a vă urmări starea de spirit de astăzi."
 }

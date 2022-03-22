@@ -70,5 +70,9 @@
   "feedback_help": "Tämän sovelluksen on kehittänyt yksi henkilö. Arvostan suuresti palautettasi. Se auttaa minua ymmärtämään paremmin, kuinka käytät sovellusta ja miten voin parantaa sitä.",
   "send_feedback": "Lähetä palautetta",
   "back_to_today": "Takaisin tähän päivään",
-  "data": "Data"
+  "data": "Data",
+  "reminder": "Muistutus",
+  "time": "Aika",
+  "notification_reminder_title": "Seuraa mielialaasi",
+  "notification_reminder_body": "Napauta tätä seurataksesi tämän päivän mielialaasi."
 }

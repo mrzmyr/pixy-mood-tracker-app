@@ -70,5 +70,9 @@
   "feedback_help": "Bu uygulama bir kişi tarafından geliştirilmiştir. Geri bildiriminize çok değer veriyorum. Uygulamayı nasıl kullandığınızı ve onu nasıl geliştirebileceğimi daha iyi anlamama yardımcı oluyor.",
   "send_feedback": "Geribildirim yolla",
   "back_to_today": "bugüne dön",
-  "data": "Veri"
+  "data": "Veri",
+  "reminder": "Hatırlatma",
+  "time": "Zaman",
+  "notification_reminder_title": "Ruh halinizi takip edin",
+  "notification_reminder_body": "Bugünkü ruh halinizi takip etmek için buraya dokunun."
 }

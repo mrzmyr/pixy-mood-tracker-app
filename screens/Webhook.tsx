@@ -50,10 +50,6 @@ export default function WebhookScreen({ navigation }: RootStackScreenProps<'Webh
                 debouncedSetEnabled(!enabled)
               }}
               value={enabled}
-              style={{
-                marginTop: -5,
-                marginBottom: -5,
-              }}
               testID={`webhook-enabled`}
             />
           }

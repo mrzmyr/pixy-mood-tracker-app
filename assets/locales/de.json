@@ -70,5 +70,9 @@
   "feedback_help": "Diese App wird von einer Person entwickelt. Ich schätze Ihr Feedback sehr. Es hilft mir, besser zu verstehen, wie Sie die App verwenden und wie ich sie verbessern kann.",
   "send_feedback": "Feedback schicken",
   "back_to_today": "Zurück zu heute",
-  "data": "Daten"
+  "data": "Daten",
+  "reminder": "Erinnerung",
+  "time": "Zeit",
+  "notification_reminder_title": "Verfolgen Sie Ihre Stimmung",
+  "notification_reminder_body": "Tippen Sie hier, um Ihre heutige Stimmung zu verfolgen."
 }

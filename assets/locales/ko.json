@@ -70,5 +70,9 @@
   "feedback_help": "이 앱은 한 사람이 개발했습니다. 귀하의 피드백을 매우 소중하게 생각합니다. 귀하가 앱을 사용하는 방법과 개선할 수 있는 방법을 더 잘 이해하는 데 도움이 됩니다.",
   "send_feedback": "피드백 보내기",
   "back_to_today": "오늘로 돌아가기",
-  "data": "데이터"
+  "data": "데이터",
+  "reminder": "알림",
+  "time": "시간",
+  "notification_reminder_title": "기분 추적",
+  "notification_reminder_body": "오늘의 기분을 추적하려면 여기를 탭하세요."
 }

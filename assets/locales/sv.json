@@ -70,5 +70,9 @@
   "feedback_help": "Denna app är utvecklad av en person. Jag värdesätter din feedback mycket. Det hjälper mig att bättre förstå hur du använder appen och hur jag kan förbättra den.",
   "send_feedback": "Skicka synpunkter",
   "back_to_today": "Tillbaka till idag",
-  "data": "Data"
+  "data": "Data",
+  "reminder": "Påminnelse",
+  "time": "Tid",
+  "notification_reminder_title": "Spåra ditt humör",
+  "notification_reminder_body": "Tryck här för att spåra ditt humör idag."
 }

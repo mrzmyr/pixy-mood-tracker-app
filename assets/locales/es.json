@@ -70,5 +70,9 @@
   "feedback_help": "Esta aplicación está desarrollada por una persona. Valoro mucho sus comentarios. Me ayuda a entender mejor cómo usas la aplicación y cómo puedo mejorarla.",
   "send_feedback": "Enviar comentarios",
   "back_to_today": "volver a hoy",
-  "data": "Datos"
+  "data": "Datos",
+  "reminder": "Recordatorio",
+  "time": "Hora",
+  "notification_reminder_title": "Sigue tu estado de ánimo",
+  "notification_reminder_body": "Toque aquí para realizar un seguimiento de su estado de ánimo de hoy."
 }

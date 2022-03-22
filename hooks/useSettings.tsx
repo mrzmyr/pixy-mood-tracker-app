@@ -20,6 +20,8 @@ export interface SettingsState {
   webhookUrl: string,
   webhookHistory: SettingsWebhookHistoryEntry[],
   scaleType: 'ColorBrew-RdYlGn' | 'ColorBrew-PiYG',
+  reminderEnabled: Boolean,
+  reminderTime: string,
 }
 
 const initialState: SettingsState = {
@@ -27,6 +29,8 @@ const initialState: SettingsState = {
   webhookUrl: '',
   webhookHistory: [],
   scaleType: 'ColorBrew-RdYlGn',
+  reminderEnabled: false,
+  reminderTime: '18:00',
 }
 
 function SettingsProvider({children}: { children: React.ReactNode }) {

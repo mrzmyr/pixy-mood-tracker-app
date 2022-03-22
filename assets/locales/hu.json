@@ -70,5 +70,9 @@
   "feedback_help": "Ezt az alkalmazást egy személy fejlesztette ki. Nagyon értékelem visszajelzését. Segít jobban megérteni, hogyan használja az alkalmazást, és hogyan fejleszthetem azt.",
   "send_feedback": "Visszajelzés küldése",
   "back_to_today": "Vissza a mába",
-  "data": "Adat"
+  "data": "Adat",
+  "reminder": "Emlékeztető",
+  "time": "Idő",
+  "notification_reminder_title": "Kövesse nyomon a hangulatát",
+  "notification_reminder_body": "Koppintson ide a mai hangulat nyomon követéséhez."
 }

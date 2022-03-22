@@ -70,5 +70,9 @@
   "feedback_help": "Túto aplikáciu vyvinula jedna osoba. Veľmi si vážim vašu spätnú väzbu. Pomáha mi to lepšie pochopiť, ako aplikáciu používate a ako ju môžem zlepšiť.",
   "send_feedback": "Poslať spätnú väzbu",
   "back_to_today": "Späť k dnešku",
-  "data": "Údaje"
+  "data": "Údaje",
+  "reminder": "Pripomenutie",
+  "time": "čas",
+  "notification_reminder_title": "Sledujte svoju náladu",
+  "notification_reminder_body": "Klepnutím sem môžete sledovať svoju dnešnú náladu."
 }

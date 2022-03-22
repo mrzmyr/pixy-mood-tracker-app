@@ -70,5 +70,9 @@
   "feedback_help": "Cette application est développée par une seule personne. J'apprécie beaucoup vos commentaires. Cela m'aide à mieux comprendre comment vous utilisez l'application et comment je peux l'améliorer.",
   "send_feedback": "Envoyer des commentaires",
   "back_to_today": "Retour à aujourd'hui",
-  "data": "Données"
+  "data": "Données",
+  "reminder": "Rappel",
+  "time": "Temps",
+  "notification_reminder_title": "Suivez votre humeur",
+  "notification_reminder_body": "Appuyez ici pour suivre votre humeur du jour."
 }
