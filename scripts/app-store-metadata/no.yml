@@ -13,4 +13,5 @@ description: |
 keywords: humør, sporing, piksel, journal, dagbok, import, eksport
 support_url: https://y99.notion.site/Pixy-Mood-Tracker-8e7b651127cd49f391113cb83510084d
 whats_new: |
-  - Utvidet meldingslengde til 512 tegn
+  - Feilretting: maksimal lengde ble avbrutt tidligere enn 512
+  - Flytt knappen for tilbakemeldingen fra til toppen

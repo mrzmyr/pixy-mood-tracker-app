@@ -13,4 +13,5 @@ description: |
 keywords: mood,tracking,pixel,journal,diary,import,export
 support_url: https://y99.notion.site/Pixy-Mood-Tracker-8e7b651127cd49f391113cb83510084d
 whats_new: |
-  - Extended message length to 512 characters
+  - Bugfix: max length was cutting off earlier than 512
+  - Move button of the feedback from to top

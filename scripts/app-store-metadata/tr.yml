@@ -13,4 +13,5 @@ description: |
 keywords: ruh hali,izleme,piksel,günlük,günlük,içe aktarma,dışa aktarma
 support_url: https://y99.notion.site/Pixy-Mood-Tracker-8e7b651127cd49f391113cb83510084d
 whats_new: |
-  - 512 karaktere kadar genişletilmiş mesaj uzunluğu
+  - Hata düzeltmesi: maksimum uzunluk 512'den önce kesiliyor
+  - Geri bildirimin düğmesini en üste taşıyın

@@ -13,4 +13,5 @@ description: |
 keywords: tâm trạng, theo dõi, pixel, nhật ký, nhật ký, nhập, xuất
 support_url: https://y99.notion.site/Pixy-Mood-Tracker-8e7b651127cd49f391113cb83510084d
 whats_new: |
-  - Độ dài tin nhắn mở rộng lên 512 ký tự
+  - Sửa lỗi: độ dài tối đa đã bị cắt sớm hơn 512
+  - Di chuyển nút của phản hồi từ đầu đến đầu trang

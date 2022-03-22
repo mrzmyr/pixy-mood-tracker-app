@@ -13,4 +13,5 @@ description: |
 keywords: suasana hati, pelacakan, piksel, jurnal, buku harian, impor, ekspor
 support_url: https://y99.notion.site/Pixy-Mood-Tracker-8e7b651127cd49f391113cb83510084d
 whats_new: |
-  - Panjang pesan diperpanjang hingga 512 karakter
+  - Perbaikan bug: panjang maksimal terpotong lebih awal dari 512
+  - Pindahkan tombol umpan balik dari ke atas

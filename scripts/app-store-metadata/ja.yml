@@ -13,4 +13,5 @@ description: |
 keywords: 気分、追跡、ピクセル、ジャーナル、日記、インポート、エクスポート
 support_url: https://y99.notion.site/Pixy-Mood-Tracker-8e7b651127cd49f391113cb83510084d
 whats_new: |
-  -メッセージの長さを512文字に拡張
+  -バグ修正：最大長が512より前にカットオフされていました
+  -フィードバックのボタンを上に移動します

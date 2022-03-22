@@ -13,4 +13,5 @@ description: |
 keywords: estado de ánimo,seguimiento,píxel,diario,diario,importación,exportación
 support_url: https://y99.notion.site/Pixy-Mood-Tracker-8e7b651127cd49f391113cb83510084d
 whats_new: |
-  - Longitud extendida del mensaje a 512 caracteres
+  - Corrección de errores: la longitud máxima se cortaba antes de 512
+  - Mover el botón de la retroalimentación de arriba

@@ -13,4 +13,5 @@ description: |
 keywords: المزاج ، تتبع ، بكسل ، مجلة ، يوميات ، استيراد ، تصدير
 support_url: https://y99.notion.site/Pixy-Mood-Tracker-8e7b651127cd49f391113cb83510084d
 whats_new: |
-  - تمديد الرسالة إلى 512 حرفًا
+  - Bugfix: تم قطع الحد الأقصى للطول قبل 512
+  - زر نقل ردود الفعل من أعلى

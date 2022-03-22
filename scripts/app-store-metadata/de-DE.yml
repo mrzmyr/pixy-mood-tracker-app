@@ -13,4 +13,5 @@ description: |
 keywords: Stimmung, Tracking, Pixel, Tagebuch, Tagebuch, Import, Export
 support_url: https://y99.notion.site/Pixy-Mood-Tracker-8e7b651127cd49f391113cb83510084d
 whats_new: |
-  - Erweiterte Nachrichtenlänge auf 512 Zeichen
+  - Bugfix: maximale Länge wurde früher als 512 abgeschnitten
+  - Schaltfläche der Rückmeldung von nach oben verschieben

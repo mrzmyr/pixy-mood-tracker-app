@@ -13,4 +13,5 @@ description: |
 keywords: stemming,tracking,pixel,dagboek,dagboek,import,export
 support_url: https://y99.notion.site/Pixy-Mood-Tracker-8e7b651127cd49f391113cb83510084d
 whats_new: |
-  - Verlengde berichtlengte tot 512 tekens
+  - Bugfix: maximale lengte werd eerder afgesneden dan 512
+  - Verplaats de knop van de feedback van naar boven

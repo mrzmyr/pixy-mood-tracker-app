@@ -13,4 +13,5 @@ description: |
 keywords: 心情,跟踪,像素,日记,日记,导入,导出
 support_url: https://y99.notion.site/Pixy-Mood-Tracker-8e7b651127cd49f391113cb83510084d
 whats_new: |
-  - 消息長度擴展至 512 個字符
+  - 修正：最大長度在 512 之前被切斷
+  - 從頂部移動反饋按鈕
