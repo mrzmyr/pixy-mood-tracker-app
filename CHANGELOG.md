@@ -2,6 +2,40 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.8.0](https://github.com/mrzmyr/pixy-mood-tracker/compare/v1.7.0...v1.8.0) (2022-03-23)
+
+
+### Features
+
+* add haptics ([a95d281](https://github.com/mrzmyr/pixy-mood-tracker/commit/a95d2811d5d90fb130908f2bc0b4909a57f36622))
+* **Analytics:** add segment tracking ([ea125b9](https://github.com/mrzmyr/pixy-mood-tracker/commit/ea125b9b1b0c095e3ea7581006f01f25e031f4ad))
+* **Calendar:** change today indicator ([c059cd8](https://github.com/mrzmyr/pixy-mood-tracker/commit/c059cd82eb9365380b01f73d496ba7cdb8d51c4a))
+* **Log:** rename LogModal to Log ([a91783d](https://github.com/mrzmyr/pixy-mood-tracker/commit/a91783da1f1df8f18c9bdd61bdb0cb8d7feb541d))
+* **Privacy:** add privacy page ([8be20a4](https://github.com/mrzmyr/pixy-mood-tracker/commit/8be20a4122bbf3f6bfcbaae9b41d42f840293bfe))
+
+
+### Bug Fixes
+
+* **MenuListItem:** only vibrate when onPress given ([c40e364](https://github.com/mrzmyr/pixy-mood-tracker/commit/c40e36419086618067aede54ff019e6fc040f754))
+
+
+### Refactors
+
+* **MenuListItem:** no opacity change with switches ([412fdd0](https://github.com/mrzmyr/pixy-mood-tracker/commit/412fdd04f4e59af1585c7c2b64665d1f5e779321))
+* **Reminder:** move reminder to own component ([3f560c5](https://github.com/mrzmyr/pixy-mood-tracker/commit/3f560c5a81b2c8495c2ede9161ae9e8539adf16a))
+
+
+### Styling
+
+* **NotificationPreview:** update dark mode ([0c82f5f](https://github.com/mrzmyr/pixy-mood-tracker/commit/0c82f5ff554ffdfb410503940b39caf376aa5383))
+
+
+### Chore
+
+* add FORCE_KEYS to translation script ([3fdbcf9](https://github.com/mrzmyr/pixy-mood-tracker/commit/3fdbcf9c69132fb418425268fef9a89b712e57aa))
+* disable sentry warning ([2b0708d](https://github.com/mrzmyr/pixy-mood-tracker/commit/2b0708dcad41f51959faf35bfbc4ecd1813c7dd7))
+* install correct date picker version ([e86c98e](https://github.com/mrzmyr/pixy-mood-tracker/commit/e86c98e6e26acd751983f7242e490ca4d596ce0d))
+
 ## [1.7.0](https://github.com/mrzmyr/pixy-mood-tracker/compare/v1.6.0...v1.7.0) (2022-03-22)
 
 
