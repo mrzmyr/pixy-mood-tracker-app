@@ -1,6 +1,7 @@
 import { Pressable, Text, View } from "react-native";
 import useColors from "../hooks/useColors";
 import LoadingIndicator from "./LoadingIndicator";
+import * as Haptics from 'expo-haptics';
 
 export default function Button({ 
   type = 'primary', 
@@ -45,7 +46,10 @@ export default function Button({
         opacity: isLoading ? 0.5 : (pressed ? 0.8 : 1),
         backgroundColor: buttonColors?.background,
       }, style]}
-      onPress={onPress}
+      onPress={async () => {
+        await Haptics.selectionAsync()
+        onPress()
+      }}
       disabled={isLoading}
       testID={testID}
       accessibilityRole={'button'}

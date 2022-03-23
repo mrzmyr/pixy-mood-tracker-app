@@ -9,6 +9,7 @@ import ModalHeader from '../components/ModalHeader';
 import TextArea from '../components/TextArea';
 import useColors from './useColors';
 import { useTranslation } from './useTranslation';
+import * as Haptics from 'expo-haptics';
 
 function TypeSelector({
   selected,
@@ -28,19 +29,23 @@ function TypeSelector({
       marginBottom: 10,
       width: '100%',
     }}>
-      <Pressable style={({ pressed }) => ({
-        height: 100,
-        opacity: pressed ? 0.8 : 1,
-        borderRadius: 5,
-        backgroundColor: colors.secondaryButtonBackground,
-        flex: 1,
-        alignItems: 'center',
-        padding: 15,
-        marginRight: 10,
-        borderWidth: 1,
-        borderColor: selected === 'issue' ? colors.tint : colors.secondaryButtonBackground,
-      })}
-        onPress={() => onPress('issue')}
+      <Pressable 
+        style={({ pressed }) => ({
+          height: 100,
+          opacity: pressed ? 0.8 : 1,
+          borderRadius: 5,
+          backgroundColor: colors.secondaryButtonBackground,
+          flex: 1,
+          alignItems: 'center',
+          padding: 15,
+          marginRight: 10,
+          borderWidth: 1,
+          borderColor: selected === 'issue' ? colors.tint : colors.secondaryButtonBackground,
+        })}
+        onPress={async () => {
+          await Haptics.selectionAsync()
+          onPress('issue')
+        }}
         testID='feedback-modal-issue'
       >
         <Text style={{ fontSize: 32 }}>⚠️</Text>
@@ -51,19 +56,23 @@ function TypeSelector({
           {i18n.t('issue')}
         </Text>
       </Pressable>
-      <Pressable style={({ pressed }) => ({
-        height: 100,
-        opacity: pressed ? 0.8 : 1,
-        borderRadius: 5,
-        backgroundColor: colors.secondaryButtonBackground,
-        flex: 1,
-        alignItems: 'center',
-        padding: 15,
-        marginRight: 10,
-        borderWidth: 1,
-        borderColor: selected === 'idea' ? colors.tint : colors.secondaryButtonBackground,
-      })}
-        onPress={() => onPress('idea')}
+      <Pressable 
+        style={({ pressed }) => ({
+          height: 100,
+          opacity: pressed ? 0.8 : 1,
+          borderRadius: 5,
+          backgroundColor: colors.secondaryButtonBackground,
+          flex: 1,
+          alignItems: 'center',
+          padding: 15,
+          marginRight: 10,
+          borderWidth: 1,
+          borderColor: selected === 'idea' ? colors.tint : colors.secondaryButtonBackground,
+        })}
+        onPress={async () => {
+          await Haptics.selectionAsync()
+          onPress('idea')
+        }}
         testID='feedback-modal-idea'
       >
         <Text style={{ fontSize: 32 }}>💡</Text>
@@ -74,18 +83,22 @@ function TypeSelector({
           {i18n.t('idea')}
         </Text>
       </Pressable>
-      <Pressable style={({ pressed }) => ({
-        height: 100,
-        opacity: pressed ? 0.8 : 1,
-        borderRadius: 5,
-        backgroundColor: colors.secondaryButtonBackground,
-        flex: 1,
-        alignItems: 'center',
-        padding: 15,
-        borderWidth: 1,
-        borderColor: selected === 'other' ? colors.tint : colors.secondaryButtonBackground,
-      })}
-        onPress={() => onPress('other')}
+      <Pressable 
+        style={({ pressed }) => ({
+          height: 100,
+          opacity: pressed ? 0.8 : 1,
+          borderRadius: 5,
+          backgroundColor: colors.secondaryButtonBackground,
+          flex: 1,
+          alignItems: 'center',
+          padding: 15,
+          borderWidth: 1,
+          borderColor: selected === 'other' ? colors.tint : colors.secondaryButtonBackground,
+        })}
+        onPress={async () => {
+          await Haptics.selectionAsync()
+          onPress('other')
+        }}
         testID='feedback-modal-other'
       >
         <MoreHorizontal width={32} height={40} strokeWidth={2} color={colors.secondaryButtonTextColor} />

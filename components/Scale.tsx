@@ -3,6 +3,7 @@ import { LogItem } from "../hooks/useLogs";
 import useScale from "../hooks/useScale";
 import { SettingsState } from "../hooks/useSettings";
 import ScaleButton from "./ScaleButton";
+import * as Haptics from 'expo-haptics';
 
 export default function Scale({
   type,
@@ -31,7 +32,10 @@ export default function Scale({
           key={key} 
           isFirst={index === 0}
           isSelected={key === value}
-          onPress={onPress ? () => onPress(key) : null}
+          onPress={onPress ? async () => {
+            await Haptics.selectionAsync()
+            onPress(key) 
+          }: null}
           color={colors[key].background}
         />
       ))}

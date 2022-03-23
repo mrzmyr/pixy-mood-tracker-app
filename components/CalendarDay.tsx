@@ -7,6 +7,7 @@ import { useLogs } from "../hooks/useLogs";
 import useScale from "../hooks/useScale";
 import { useSettings } from "../hooks/useSettings";
 import { invertColor } from "../lib/utils";
+import * as Haptics from 'expo-haptics';
 
 export default function CalendarDay({ 
   date 
@@ -36,7 +37,10 @@ export default function CalendarDay({
   return (
     <>
       <Pressable
-        onPress={() => !isFuture ? navigation.navigate('LogModal', { date: date.dateString }) : () => {}}
+        onPress={!isFuture ? async () => {
+          await Haptics.selectionAsync()
+          navigation.navigate('LogModal', { date: date.dateString })
+         } : () => {}}
         style={({ pressed }) => [{
           opacity: isFuture ? 0.5 : pressed ? 0.8 : 1,
           justifyContent: 'flex-end',

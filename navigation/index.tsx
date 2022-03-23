@@ -17,6 +17,7 @@ import Data from '../screens/Data';
 import Webhook from '../screens/Webhook';
 import WebhookHistoryEntry from '../screens/WebhookHistoryEntry';
 import { RootStackParamList } from '../types';
+import * as Haptics from 'expo-haptics';
 
 const linking = {
   prefixes: ['pixy://'],
@@ -94,7 +95,10 @@ function RootNavigator() {
           headerRight: () => (
             <Pressable
               testID='settings'
-              onPress={() => navigation.navigate('Settings')}
+              onPress={async () => {
+                await Haptics.selectionAsync()
+                navigation.navigate('Settings')
+              }}
               style={{
                 padding: 15,
                 paddingTop: 10,
@@ -109,7 +113,10 @@ function RootNavigator() {
           headerLeft: () => (
             <Pressable
               testID='feedback'
-              onPress={() => showFeedbackModal({ type: 'issue' })}
+              onPress={async () => {
+                await Haptics.selectionAsync()
+                showFeedbackModal({ type: 'issue' })
+              }}
               style={{
                 padding: 15,
                 paddingTop: 10,

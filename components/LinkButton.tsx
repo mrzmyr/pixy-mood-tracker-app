@@ -1,5 +1,6 @@
 import { Pressable, Text, View } from "react-native";
 import useColors from "../hooks/useColors";
+import * as Haptics from 'expo-haptics';
 
 export default function LinkButton({ 
   type = 'primary', 
@@ -35,7 +36,10 @@ export default function LinkButton({
         paddingLeft: 10,
         paddingRight: 10,
       }, style]}
-      onPress={onPress}
+      onPress={async () => {
+        await Haptics.selectionAsync()
+        onPress()
+      }}
       testID={testID}
     >
       {icon && <View style={{ marginRight: 5 }}>{icon}</View>}
