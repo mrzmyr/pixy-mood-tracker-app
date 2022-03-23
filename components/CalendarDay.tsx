@@ -1,13 +1,12 @@
 import { useNavigation } from "@react-navigation/native";
 import dayjs from "dayjs";
+import * as Haptics from 'expo-haptics';
 import { Pressable, Text, View } from "react-native";
 import { AlignLeft } from "react-native-feather";
 import useColors from "../hooks/useColors";
 import { useLogs } from "../hooks/useLogs";
 import useScale from "../hooks/useScale";
 import { useSettings } from "../hooks/useSettings";
-import { invertColor } from "../lib/utils";
-import * as Haptics from 'expo-haptics';
 
 export default function CalendarDay({ 
   date 
@@ -33,6 +32,8 @@ export default function CalendarDay({
     scaleColors[item.rating].text : 
     colors.calendarItemTextColor;
   const message = item.message || '';
+  
+  const isToday = date.dateString === dayjs().format('YYYY-MM-DD');
   
   return (
     <>
@@ -65,30 +66,20 @@ export default function CalendarDay({
           }
           <View
             style={{
-              padding: 3,
+              padding: 2,
+              paddingLeft: 3,
+              paddingRight: 3,
+              borderRadius: 3,
+              backgroundColor: isToday ? colors.calendarItemTodayBackground : 'transparent',
             }}
           >
             <Text
               style={{
                 fontSize: 14,
-                color: textColor,
+                color: isToday ? colors.calendarItemTodayColor : textColor,
               }}
             >{date.day}</Text>
           </View>
-          { date.dateString === dayjs().format('YYYY-MM-DD') && <View style={{
-              top: 0,
-              left: 0,
-              right: 0,
-              bottom: 0,
-              aspectRatio: 1,
-              borderWidth: 1,
-              borderColor: invertColor(backgroundColor),
-              opacity: 0.5,
-              position: 'absolute',
-              borderRadius: 3,
-              margin: 2,
-            }} />
-          }
       </Pressable>
       </>
   );
