@@ -14,6 +14,8 @@ filesArray.forEach(file => {
   }
 });
 
+const FORCE_KEYS = []
+
 const missingKeys = {};
 
 const enKeys = Object.keys(locales.en);
@@ -22,7 +24,7 @@ enKeys.forEach(key => {
   // ['zh'].forEach(localeKey => {
   Object.keys(locales).forEach(localeKey => {
     if(!missingKeys[localeKey]) missingKeys[localeKey] = [];
-    if(!Object.keys(locales[localeKey]).includes(key)) {
+    if(!Object.keys(locales[localeKey]).includes(key) || FORCE_KEYS.includes(key)) {
       missingKeys[localeKey].push(key);
     }
   })
