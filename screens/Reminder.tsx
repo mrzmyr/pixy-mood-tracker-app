@@ -7,6 +7,7 @@ import MenuListItem from '../components/MenuListItem';
 import NotificationPreview from '../components/NotificationPreview';
 import useColors from '../hooks/useColors';
 import useNotification from '../hooks/useNotifications';
+import { useSegment } from '../hooks/useSegment';
 import { SettingsState, useSettings } from '../hooks/useSettings';
 import { useTranslation } from '../hooks/useTranslation';
 
@@ -23,6 +24,7 @@ export default function ReminderScreen() {
   const [reminderTime, setReminderTime] = useState(settings.reminderTime);
   const colors = useColors()
   const i18n = useTranslation()
+  const segment = useSegment()
   
   const hourAndMinute = reminderTime.split(':')
   const hour = parseInt(hourAndMinute[0])
@@ -37,6 +39,7 @@ export default function ReminderScreen() {
     if(!value) {
       await cancelAll()
     }
+    segment.track('reminder_enabled_change', { enabled: value })
     setReminderEnabled(value && has)
   }
   
@@ -64,6 +67,7 @@ export default function ReminderScreen() {
   }, [reminderEnabled, reminderTime])
   
   const onTimeChange = async (event: any, selectedDate: any) => {
+    segment.track('reminder_time_change', { time: dayjs(selectedDate).format('HH:mm') })
     setReminderTime(dayjs(selectedDate).format('HH:mm'))
   }
   
