@@ -1,6 +1,6 @@
 import * as Application from 'expo-application';
 import * as Localization from 'expo-localization';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { ActivityIndicator, Alert, Modal, Platform, Pressable, Text, View } from 'react-native';
 import { MoreHorizontal } from 'react-native-feather';
 import DismissKeyboard from '../components/DismisKeyboard';
@@ -10,13 +10,17 @@ import TextArea from '../components/TextArea';
 import useColors from './useColors';
 import { useTranslation } from './useTranslation';
 import * as Haptics from 'expo-haptics';
+import { useSegment } from './useSegment';
+import { debounce } from "lodash";
+
+type FeedackType = 'issue' | 'idea' | 'other'
 
 function TypeSelector({
   selected,
   onPress,
 }: {
-  selected: 'issue' | 'idea' | 'other',
-  onPress: (type: 'issue' | 'idea' | 'other') => void,
+  selected: FeedackType,
+  onPress: (type: FeedackType) => void,
 }) {
   const i18n = useTranslation()
   const colors = useColors()
@@ -117,37 +121,67 @@ export default function useFeedbackModal() {
   const colors = useColors()
   const [visible, setVisible] = useState(false)
   const i18n = useTranslation()
+  const segment = useSegment()
 
-  const [defaultType, setDefaultType] = useState<'issue' | 'idea' | 'other'>('issue')
+  const [defaultType, setDefaultType] = useState<FeedackType>('issue')
   
   const show = ({ 
     type = 'issue',
   }: {
-    type?: 'issue' | 'idea' | 'other',
+    type?: FeedackType,
   }) => {
+    segment.track('feedback_open')
     setDefaultType(type)
     setVisible(true)
   }
-  const hide = () => setVisible(false)
+  const hide = () => {
+    segment.track('feedback_close')
+    setVisible(false)
+  }
   
   const ModalElement = ({
     data = {},
   }: {
     data?: any,
   }) => {
-    const [type, setType] = useState<'issue' | 'idea' | 'other'>(defaultType)
+    const [type, setType] = useState<FeedackType>(defaultType)
     const [message, setMessage] = useState('')
     const [isLoading, setIsLoading] = useState(false)
 
+    const setTypeProxy = (type: FeedackType) => {
+      segment.track('feedback_type_change', { type })
+      setType(type)
+    }
+
+    const trackMessageChange = useCallback(debounce((message) => {
+      segment.track('feedback_message_change', { message })
+    }, 1000), []);
+    
+    const setMessageProxy = (message: string) => {
+      trackMessageChange(message)
+      setMessage(message)
+    }
+    
     const send = async () => {
       setIsLoading(true)
-      const url = 'https://f7e52509fce26bc860d05c9cffff8d87.m.pipedream.net'
-      const body = {
-        ...data,
+
+      const metaData = {
         locale: Localization.locale,
         version: Application.nativeBuildVersion,
         os: Platform.OS,
         date: new Date().toISOString(),
+      }
+      
+      segment.track('feedback_send', {
+        ...metaData,
+        type,
+        message
+      })
+
+      const url = 'https://f7e52509fce26bc860d05c9cffff8d87.m.pipedream.net'
+      const body = {
+        ...data,
+        ...metaData,
         type,
         message
       }
@@ -232,7 +266,7 @@ export default function useFeedbackModal() {
           </Text>
           <TypeSelector
             selected={type}
-            onPress={(type) => setType(type)}
+            onPress={(type) => setTypeProxy(type)}
           />
           <View style={{
             flexDirection: 'row',
@@ -244,7 +278,7 @@ export default function useFeedbackModal() {
                 marginBottom: 20,
               }}
               value={message}
-              onChange={(text) => setMessage(text)}
+              onChange={(text) => setMessageProxy(text)}
               placeholder={i18n.t('feedback_modal_textarea_placeholder')}
             />
           </View>

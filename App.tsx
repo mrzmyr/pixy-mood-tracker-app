@@ -1,12 +1,10 @@
 import { StatusBar } from 'expo-status-bar';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
 import * as Sentry from 'sentry-expo';
 import useCachedResources from './hooks/useCachedResources';
-import { LogsProvider } from './hooks/useLogs';
-import { SettingsProvider } from './hooks/useSettings';
 import Navigation from './navigation';
 
 import Localization from './lib/Localization';
+import Providers from './components/Providers';
 
 export default function App() {
   const isLoadingComplete = useCachedResources();
@@ -23,14 +21,10 @@ export default function App() {
     return null;
   } else {
     return (
-      <SafeAreaProvider>
-        <SettingsProvider>
-          <LogsProvider>
-            <Navigation />
-            <StatusBar />
-          </LogsProvider>
-        </SettingsProvider>
-      </SafeAreaProvider>
+      <Providers>
+        <Navigation />
+        <StatusBar />
+      </Providers>
     );
   }
 }

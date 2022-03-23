@@ -1,5 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { createContext, useContext, useEffect, useState } from "react";
+import 'react-native-get-random-values'
+import { v4 as uuidv4 } from 'uuid';
 
 const STORAGE_KEY = 'PIXEL_TRACKER_SETTINGS'
 
@@ -16,6 +18,7 @@ export interface SettingsWebhookHistoryEntry {
 }
 
 export interface SettingsState {
+  deviceId: string | null,
   webhookEnabled: Boolean,
   webhookUrl: string,
   webhookHistory: SettingsWebhookHistoryEntry[],
@@ -25,6 +28,7 @@ export interface SettingsState {
 }
 
 const initialState: SettingsState = {
+  deviceId: null,
   webhookEnabled: false,
   webhookUrl: '',
   webhookHistory: [],
@@ -64,7 +68,15 @@ function SettingsProvider({children}: { children: React.ReactNode }) {
           ...initialState,
           ...JSON.parse(json)
         }
+        if(newSettings.deviceId === null) {
+          newSettings.deviceId = uuidv4()
+        }
         setSettings(newSettings)
+      } else {
+        setSettingsProxy({
+          ...initialState,
+          deviceId: uuidv4(),
+        })
       }
     }
 

@@ -1,4 +1,4 @@
-import { Alert, ScrollView, Text, View } from 'react-native';
+import { Alert, ScrollView, Switch, Text, View } from 'react-native';
 import { Box, Download, Trash2, Upload } from 'react-native-feather';
 import MenuList from '../components/MenuList';
 import MenuListItem from '../components/MenuListItem';
@@ -14,6 +14,8 @@ import * as FileSystem from 'expo-file-system';
 import * as Sharing from 'expo-sharing';
 import dayjs from 'dayjs';
 import TextInfo from '../components/TextInfo';
+import { useSegment } from "../hooks/useSegment";
+import { useEffect, useState } from 'react';
 
 let openShareDialogAsync = async (uri: string) => {
   const i18n = useTranslation()
@@ -26,6 +28,8 @@ let openShareDialogAsync = async (uri: string) => {
 };
 
 const exportState = async (state: LogsState) => {
+  const segment = useSegment()
+  segment.track('data_export_started')
   const filename = `pixel-tracker-${dayjs().format('YYYY-MM-DD')}.json`;
   await FileSystem.writeAsStringAsync(FileSystem.documentDirectory + filename, JSON.stringify(state));
   openShareDialogAsync(FileSystem.documentDirectory + filename)
@@ -36,8 +40,20 @@ export default function DataScreen({ navigation }: RootStackScreenProps<'Data'>)
   const { resetSettings } = useSettings()
   const colors = useColors()
   const i18n = useTranslation()
+  const segment = useSegment()
+
+  const [isTrackingEnabled, setIsTrackingEnabled] = useState(false)
+
+  useEffect(() => {
+    const loadTracking = async () => {
+      setIsTrackingEnabled(await segment.isEnabled())
+    }
+    loadTracking()
+  }, [])
 
   const askToReset = () => {
+    segment.track('data_reset_asked')
+    
     Alert.alert(
       i18n.t('reset_data_confirm_title'),
       i18n.t('reset_data_confirm_message'),
@@ -52,7 +68,9 @@ export default function DataScreen({ navigation }: RootStackScreenProps<'Data'>)
               i18n.t('reset_data_success_message'),
               [{ 
                 text: i18n.t('ok'), 
-                onPress: () => {} 
+                onPress: () => {
+                  segment.track('data_reset_success')
+                } 
               }],
               { cancelable: false }
             )
@@ -61,7 +79,9 @@ export default function DataScreen({ navigation }: RootStackScreenProps<'Data'>)
         },
         { 
           text: i18n.t('cancel'), 
-          onPress: () =>  {},
+          onPress: () =>  {
+            segment.track('data_reset_cancel')
+          },
           style: "cancel"
         }
       ],
@@ -72,12 +92,15 @@ export default function DataScreen({ navigation }: RootStackScreenProps<'Data'>)
 
   const importEntries = async () => {
     try {
+      segment.track('data_import_start')
+      
       const doc = await DocumentPicker.getDocumentAsync({ 
         type: "application/json", 
         copyToCacheDirectory: true
       });
 
       if(doc.type === 'success') {
+        segment.track('data_import_success')
         const contents = await FileSystem.readAsStringAsync(doc.uri);
         const json = JSON.parse(contents);
         
@@ -120,6 +143,7 @@ export default function DataScreen({ navigation }: RootStackScreenProps<'Data'>)
         }
       }
     } catch (error) {
+      segment.track('data_import_error')
       console.error(error)
       Alert.alert(
         i18n.t('import_error_title'),
@@ -174,6 +198,24 @@ export default function DataScreen({ navigation }: RootStackScreenProps<'Data'>)
         />
       </MenuList>
       <TextInfo>{i18n.t('export_help')}</TextInfo>
+      <MenuList>
+        <MenuListItem
+          title={i18n.t('behavioral_data')}
+          iconRight={
+            <Switch
+              ios_backgroundColor={colors.backgroundSecondary}
+              onValueChange={() => {
+                segment.track('data_behavioral_toggle', { enabled: !isTrackingEnabled })
+                setIsTrackingEnabled(!isTrackingEnabled)
+                segment.disable()
+              }}
+              value={isTrackingEnabled}
+              testID={`behavioral-data-enabled`}
+            />
+          }
+          isLast
+        ></MenuListItem>
+      </MenuList>
       <MenuList style={{ marginTop: 20, }}>
         <MenuListItem
           title={i18n.t('reset_data_button')}

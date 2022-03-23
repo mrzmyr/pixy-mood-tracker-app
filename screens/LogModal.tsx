@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 import { StatusBar } from 'expo-status-bar';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { Platform, View } from 'react-native';
 import { Trash2 } from 'react-native-feather';
 import DismissKeyboard from '../components/DismisKeyboard';
@@ -13,12 +13,15 @@ import { LogItem, useLogs } from '../hooks/useLogs';
 import { useSettings } from '../hooks/useSettings';
 import { useTranslation } from '../hooks/useTranslation';
 import { RootStackScreenProps } from '../types';
+import { debounce } from "lodash";
+import { useSegment } from '../hooks/useSegment';
 
 export default function LogModal({ navigation, route }: RootStackScreenProps<'LogModal'>) {
   
   const { settings } = useSettings()
   const colors = useColors()
   const i18n = useTranslation()
+  const segment = useSegment()
   
   const defaultLogItem: LogItem = {
     date: route.params.date,
@@ -32,6 +35,7 @@ export default function LogModal({ navigation, route }: RootStackScreenProps<'Lo
   const [logItem, setLogItem] = useState<LogItem>(existingLogItem || defaultLogItem)
 
   const save = () => {
+    segment.track('log_saved')
     dispatch({
       type: existingLogItem ? 'edit' : 'add',
       payload: logItem
@@ -40,6 +44,7 @@ export default function LogModal({ navigation, route }: RootStackScreenProps<'Lo
   }
 
   const remove = () => {
+    segment.track('log_deleted')
     dispatch({
       type: 'delete', 
       payload: logItem
@@ -48,12 +53,20 @@ export default function LogModal({ navigation, route }: RootStackScreenProps<'Lo
   }
 
   const cancel = () => {
+    segment.track('log_cancled')
     setLogItem(defaultLogItem)
     navigation.navigate('Calendar');
   }
 
+  const trackMessageChange = useCallback(debounce(() => {
+    segment.track('log_message_changed')
+  }, 1000), []);
+
   const setRating = (rating: LogItem['rating']) => setLogItem(logItem => ({ ...logItem, rating }))
-  const setMessage = (message: LogItem['message']) => setLogItem(logItem => ({ ...logItem, message }))
+  const setMessage = (message: LogItem['message']) => {
+    trackMessageChange()
+    setLogItem(logItem => ({ ...logItem, message }))
+  }
   
   return (
     <DismissKeyboard>

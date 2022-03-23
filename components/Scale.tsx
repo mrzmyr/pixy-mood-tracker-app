@@ -4,6 +4,7 @@ import useScale from "../hooks/useScale";
 import { SettingsState } from "../hooks/useSettings";
 import ScaleButton from "./ScaleButton";
 import * as Haptics from 'expo-haptics';
+import { useSegment } from "../hooks/useSegment";
 
 export default function Scale({
   type,
@@ -16,6 +17,7 @@ export default function Scale({
 }) {
   let { colors, labels } = useScale(type)
   labels = labels.reverse()
+  const segment = useSegment()
   
   return (
     <View
@@ -34,6 +36,9 @@ export default function Scale({
           isSelected={key === value}
           onPress={onPress ? async () => {
             await Haptics.selectionAsync()
+            segment.track('log_rating_changed', {
+              label: labels[index]
+            })
             onPress(key) 
           }: null}
           color={colors[key].background}

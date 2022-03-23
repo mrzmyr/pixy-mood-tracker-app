@@ -18,6 +18,7 @@ import Webhook from '../screens/Webhook';
 import WebhookHistoryEntry from '../screens/WebhookHistoryEntry';
 import { RootStackParamList } from '../types';
 import * as Haptics from 'expo-haptics';
+import { useSegment } from "../hooks/useSegment";
 
 const linking = {
   prefixes: ['pixy://'],
@@ -71,6 +72,9 @@ function RootNavigator() {
   const colors = useColors();
   const i18n = useTranslation()
 
+  const segment = useSegment()
+  segment.initialize()
+
   const defaultOptions = {
     headerTintColor: colors.text,
     headerStyle: {
@@ -85,6 +89,11 @@ function RootNavigator() {
     <Modal />
     <Stack.Navigator
       initialRouteName="Calendar"
+      screenListeners={{
+        state: (e) => {
+          segment.screen(e.data.state.routes[e.data.state.routes.length - 1].name)
+        },
+      }}
     >
       <Stack.Screen
         name="Calendar"

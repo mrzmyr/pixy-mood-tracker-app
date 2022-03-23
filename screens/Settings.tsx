@@ -6,6 +6,7 @@ import MenuListItem from '../components/MenuListItem';
 import TextInfo from '../components/TextInfo';
 import useColors from '../hooks/useColors';
 import useFeedbackModal from '../hooks/useFeedbackModal';
+import { useSegment } from '../hooks/useSegment';
 import { useTranslation } from '../hooks/useTranslation';
 import pkg from '../package.json';
 import { RootStackScreenProps } from '../types';
@@ -14,8 +15,11 @@ export default function SettingsScreen({ navigation }: RootStackScreenProps<'Set
   const { show: showFeedbackModal, Modal } = useFeedbackModal();
   const colors = useColors()
   const i18n = useTranslation()
+  const segment = useSegment()
 
   const askToRateApp = async () => {
+    segment.track('rate_app')
+    
     if (await StoreReview.hasAction()) {
       StoreReview.requestReview()
     }

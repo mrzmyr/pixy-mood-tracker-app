@@ -8,6 +8,7 @@ import MenuListItem from '../components/MenuListItem';
 import Tag from '../components/Tag';
 import TextInfo from '../components/TextInfo';
 import useColors from '../hooks/useColors';
+import { useSegment } from '../hooks/useSegment';
 import { SettingsState, useSettings } from '../hooks/useSettings';
 import { useTranslation } from '../hooks/useTranslation';
 import { RootStackScreenProps } from '../types';
@@ -16,6 +17,7 @@ export default function WebhookScreen({ navigation }: RootStackScreenProps<'Webh
   const { settings, setSettings } = useSettings()
   const colors = useColors()
   const i18n = useTranslation()
+  const segment = useSegment()
 
   const [enabled, setEnabled] = useState(settings.webhookEnabled)
   const [url, setUrl] = useState(settings.webhookUrl)
@@ -46,6 +48,7 @@ export default function WebhookScreen({ navigation }: RootStackScreenProps<'Webh
             <Switch
               ios_backgroundColor={colors.backgroundSecondary}
               onValueChange={() => {
+                segment.track('webhook_toggle', { enabled: !enabled })
                 setEnabled(!enabled)
                 debouncedSetEnabled(!enabled)
               }}
@@ -92,6 +95,7 @@ export default function WebhookScreen({ navigation }: RootStackScreenProps<'Webh
               placeholderTextColor={colors.textInputPlaceholder}
               value={url}
               onChange={event => {
+                segment.track('webhook_url_change')
                 setUrl(event.nativeEvent.text)
                 debouncedSetUrl(event.nativeEvent.text)
               }}
