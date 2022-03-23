@@ -9,7 +9,7 @@ export default function NotificationPreview() {
   return (
     <View style={{
       flexDirection: 'row',
-      backgroundColor: colors.background,
+      backgroundColor: colors.notificationBackground,
       borderRadius: 15,
       padding: 10,
       height: 90,

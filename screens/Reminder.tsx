@@ -1,4 +1,4 @@
-import RNDateTimePicker from '@react-native-community/datetimepicker';
+import DateTimePicker from '@react-native-community/datetimepicker';
 import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
 import { ScrollView, Switch, View } from 'react-native';
@@ -91,7 +91,7 @@ export default function ReminderScreen() {
                 ios_backgroundColor={colors.backgroundSecondary}
                 onValueChange={() => onEnabledChange(!reminderEnabled)}
                 value={reminderEnabled}
-                testID={`reminder-enabled`}
+                testID='reminder-enabled'
               />
             }
             isLast={!reminderEnabled}
@@ -99,10 +99,10 @@ export default function ReminderScreen() {
           { reminderEnabled &&
             <MenuListItem
               title={i18n.t('time')}
-              onPress={() => onEnabledChange(!reminderEnabled)}
               iconRight={
-                <RNDateTimePicker
-                  style={{flex: 1, height: 35, width: '100%' }} 
+                <DateTimePicker
+                  testID="reminder-time"
+                  style={{ width: '100%', height: 35 }} 
                   mode="time" 
                   display="clock" 
                   value={timeDate}

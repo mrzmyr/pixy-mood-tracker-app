@@ -79,6 +79,8 @@ export default {
     menuListItemIcon: '#000',
     menuListItemBorder: tailwindGray['100'],
     
+    notificationBackground: '#FFF',
+    
     calendarItemBackground: tailwindGray['200'],
     calendarItemTextColor: tailwindGray['500'],
     calendarWeekNameColor: '#000',
@@ -118,6 +120,8 @@ export default {
     menuListItemText: tailwindGray['50'],
     menuListItemIcon: tailwindGray['200'],
     menuListItemBorder: tailwindGray['700'],
+
+    notificationBackground: tailwindGray['800'],
     
     calendarItemBackground: tailwindGray['800'],
     calendarItemTextColor: tailwindGray['500'],
