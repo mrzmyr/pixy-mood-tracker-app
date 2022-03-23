@@ -36,8 +36,10 @@ export default ({
     >
       <Pressable
         onPress={async () => {
-          await Haptics.selectionAsync()
-          onPress()
+          if(onPress !== null) {
+            await Haptics.selectionAsync()
+            onPress()
+          }
         }}
         style={({ pressed }) => [{
           flexDirection: "row",
