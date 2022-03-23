@@ -8,7 +8,7 @@ import { useTranslation } from '../hooks/useTranslation';
 import Calendar from '../screens/Calendar';
 import Licenses from '../screens/Licenses';
 import Reminder from '../screens/Reminder';
-import LogModal from '../screens/LogModal';
+import Log from '../screens/Log';
 import NotFound from '../screens/NotFound';
 import Scales from '../screens/Scales';
 import Settings from '../screens/Settings';
@@ -148,8 +148,8 @@ function RootNavigator() {
         headerShown: false,
       }}>
         <Stack.Screen 
-          name="LogModal" 
-          component={LogModal} 
+          name="Log" 
+          component={Log} 
         />
       </Stack.Group>
       

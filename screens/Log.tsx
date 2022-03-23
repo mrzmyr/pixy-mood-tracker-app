@@ -16,7 +16,7 @@ import { RootStackScreenProps } from '../types';
 import { debounce } from "lodash";
 import { useSegment } from '../hooks/useSegment';
 
-export default function LogModal({ navigation, route }: RootStackScreenProps<'LogModal'>) {
+export default function Log({ navigation, route }: RootStackScreenProps<'Log'>) {
   
   const { settings } = useSettings()
   const colors = useColors()

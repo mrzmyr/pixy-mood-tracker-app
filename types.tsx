@@ -21,7 +21,7 @@ export type RootStackParamList = {
   WebhookHistoryEntry: {
     entry: any,
   },
-  LogModal: {
+  Log: {
     date: string,
   },
   Licenses: undefined,

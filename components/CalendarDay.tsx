@@ -40,7 +40,7 @@ export default function CalendarDay({
       <Pressable
         onPress={!isFuture ? async () => {
           await Haptics.selectionAsync()
-          navigation.navigate('LogModal', { date: date.dateString })
+          navigation.navigate('Log', { date: date.dateString })
          } : () => {}}
         style={({ pressed }) => [{
           opacity: isFuture ? 0.5 : pressed ? 0.8 : 1,
