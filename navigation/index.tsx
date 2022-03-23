@@ -12,6 +12,7 @@ import LogModal from '../screens/LogModal';
 import NotFound from '../screens/NotFound';
 import Scales from '../screens/Scales';
 import Settings from '../screens/Settings';
+import Privacy from '../screens/Privacy';
 import Data from '../screens/Data';
 import Webhook from '../screens/Webhook';
 import WebhookHistoryEntry from '../screens/WebhookHistoryEntry';
@@ -155,6 +156,14 @@ function RootNavigator() {
           options={{ 
             title: i18n.t('reminder'),
             headerLeft: () => Platform.OS === 'ios' ? null : <BackButton testID={'reminder-back-button'} />,
+          }}
+        />
+        <Stack.Screen 
+          name="Privacy" 
+          component={Privacy}
+          options={{ 
+            title: i18n.t('privacy'),
+            headerLeft: () => Platform.OS === 'ios' ? null : <BackButton testID={'privacy-back-button'} />,
           }}
         />
         <Stack.Screen

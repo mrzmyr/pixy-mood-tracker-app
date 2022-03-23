@@ -1,6 +1,6 @@
 import * as StoreReview from 'expo-store-review';
 import { ScrollView, Text, View } from 'react-native';
-import { Award, Bell, Database, Flag, Lock, Star } from 'react-native-feather';
+import { Award, Bell, Database, Flag, Lock, Shield, Star } from 'react-native-feather';
 import MenuList from '../components/MenuList';
 import MenuListItem from '../components/MenuListItem';
 import TextInfo from '../components/TextInfo';
@@ -96,6 +96,12 @@ export default function SettingsScreen({ navigation }: RootStackScreenProps<'Set
             title={i18n.t('rate_this_app')}
             onPress={() => askToRateApp()}
             iconLeft={<Star width={18} color={colors.menuListItemIcon} />}
+          />
+          <MenuListItem
+            title={i18n.t('privacy')}
+            onPress={() => navigation.navigate('Privacy')}
+            iconLeft={<Shield width={18} color={colors.menuListItemIcon} />}
+            isLink
           />
           <MenuListItem
             title={i18n.t('licenses')}
