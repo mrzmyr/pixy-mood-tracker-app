@@ -13,7 +13,7 @@ export default function App() {
 
   Sentry.init({
     dsn: 'https://d98d0f519b324d9cb0c947b8f29cd0cf@o1112922.ingest.sentry.io/6142792',
-    // enableInExpoDevelopment: true,
+    enableInExpoDevelopment: false,
     debug: __DEV__,
   });
 
