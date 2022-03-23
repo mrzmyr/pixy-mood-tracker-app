@@ -1,9 +1,10 @@
 import RNDateTimePicker from '@react-native-community/datetimepicker';
 import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
-import { Image, ScrollView, Switch, Text, View } from 'react-native';
+import { ScrollView, Switch, View } from 'react-native';
 import MenuList from '../components/MenuList';
 import MenuListItem from '../components/MenuListItem';
+import NotificationPreview from '../components/NotificationPreview';
 import useColors from '../hooks/useColors';
 import useNotification from '../hooks/useNotifications';
 import { SettingsState, useSettings } from '../hooks/useSettings';
@@ -16,12 +17,10 @@ export default function ReminderScreen() {
     hasPermission, 
     schedule, 
     cancelAll,
-    getScheduled,
   } = useNotification()
 
   const [reminderEnabled, setReminderEnabled] = useState(settings.reminderEnabled);
   const [reminderTime, setReminderTime] = useState(settings.reminderTime);
-  const [nextNotification, setNextNotification] = useState(null);
   const colors = useColors()
   const i18n = useTranslation()
   
@@ -79,50 +78,10 @@ export default function ReminderScreen() {
         padding: 20,
       }}>
         <View style={{
-          flexDirection: 'row',
-          backgroundColor: colors.background,
-          borderRadius: 15,
-          padding: 10,
-          marginBottom: 20,
-          height: 90,
           opacity: reminderEnabled ? 1 : 0.5,
-          justifyContent: 'center',
-          alignItems: 'center',
+          marginBottom: 20,
         }}>
-          <View style={{
-            backgroundColor: 'white',
-            width: 48,
-            height: 48,
-            borderRadius: 10,
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}>
-            <Image 
-              style={{
-                flex: 1,
-                alignSelf: 'stretch',
-                width: undefined,
-                height: undefined
-              }}
-              source={require('../assets/images/icon-notification.png')} 
-              resizeMode="contain"
-            />
-          </View>
-          <View style={{
-            flex: 1,
-            justifyContent: 'center',
-            marginLeft: 10,
-          }}>
-            <View style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'space-between'
-            }}>
-              <View><Text style={{ color: colors.text, fontSize: 17, fontWeight: 'bold' }}>{i18n.t('notification_reminder_title')}</Text></View>
-              <View><Text style={{ color: colors.textSecondary, fontSize: 16, marginRight: 5 }}>5 min ago</Text></View>
-            </View>
-            <View><Text style={{ color: colors.text, fontSize: 17, marginTop: 5 }}>{i18n.t('notification_reminder_body')}</Text></View>
-          </View>
+          <NotificationPreview />
         </View>
         <MenuList>
           <MenuListItem
