@@ -5,7 +5,7 @@ import useColors from '../hooks/useColors';
 
 export default ({ 
   title, 
-  onPress = () => {},
+  onPress = null,
   iconLeft = null,
   iconRight = null,
   isLast = false,
@@ -14,7 +14,7 @@ export default ({
   testID,
 }: {
   title: string | React.ReactElement,
-  onPress?: () => void,
+  onPress?: any | null,
   iconLeft?: React.ReactElement | null,
   iconRight?: React.ReactElement | null,
   isLast?: boolean | null,
@@ -23,7 +23,7 @@ export default ({
   testID?: string,
 }) => {
   const colors = useColors()
-  
+
   return (
     <View
       style={{
@@ -41,7 +41,7 @@ export default ({
           justifyContent: 'space-between',
           paddingTop: 15,
           paddingBottom: 15,
-          opacity: pressed ? 0.5 : 1,
+          opacity: pressed && onPress !== null ? 0.5 : 1,
         }]}
         testID={testID}
       >

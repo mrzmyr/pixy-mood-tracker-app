@@ -53,10 +53,6 @@ export default function WebhookScreen({ navigation }: RootStackScreenProps<'Webh
               testID={`webhook-enabled`}
             />
           }
-          onPress={() => {
-            setEnabled(!enabled)
-            debouncedSetEnabled(!enabled)
-          }}
           isLast
         ></MenuListItem>
       </MenuList>
