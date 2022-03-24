@@ -1,6 +1,9 @@
 import * as Segment from 'expo-analytics-segment';
 import { createContext, useContext, useEffect, useState } from "react";
 import { useSettings } from './useSettings';
+import Constants from 'expo-constants';
+import * as Device from 'expo-device';
+import * as Localization from 'expo-localization';
 
 const SegmentContext = createContext(undefined)
 
@@ -23,13 +26,22 @@ function SegmentProvider({
   const [isIdentified, setIsIdentified] = useState(false)
 
   useEffect(() => {
+    const traits = {
+      userId: settings.deviceId,
+      appVersion: Constants?.manifest?.version,
+      deviceModel: Device.modelName,
+      osName: Device.osName,
+      osVersion: Device.osVersion,
+      locale: Localization.locale,
+    }
+    
     if(settings.deviceId !== null && !isIdentified) {
       if(__DEV__) {
-        console.log('useSegment: identify', settings.deviceId)
+        console.log('useSegment: identify', traits)
         return;
       }
 
-      Segment.identify(settings.deviceId)
+      Segment.identifyWithTraits(settings.deviceId, traits)
       setIsIdentified(true)
     }
   }, [settings.deviceId])
