@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.8.2](https://github.com/mrzmyr/pixy-mood-tracker/compare/v1.8.1...v1.8.2) (2022-03-24)
+
+
+### Features
+
+* **Anayltics:** add meta data to `identiy` call ([ffaada5](https://github.com/mrzmyr/pixy-mood-tracker/commit/ffaada571ce8faff057b12b82ad97fb13cd7c062))
+
+
+### Refactors
+
+* **colors:** use `useTheme`for colors ([cd1822f](https://github.com/mrzmyr/pixy-mood-tracker/commit/cd1822fc5290bb99ecba3a0847a1494c6ab5a1c9))
+
+
+### Styling
+
+* **Calendar:** change calendar today in darkmode ([4ce23e7](https://github.com/mrzmyr/pixy-mood-tracker/commit/4ce23e74b2723df8d6c9a12fd4c6d6ac5b1e74c6))
+
 ### [1.8.1](https://github.com/mrzmyr/pixy-mood-tracker/compare/v1.8.0...v1.8.1) (2022-03-23)
 
 
