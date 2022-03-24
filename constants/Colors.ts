@@ -125,8 +125,8 @@ export default {
 
     notificationBackground: tailwindGray['800'],
     
-    calendarItemTodayBackground: tailwindGray['900'],
-    calendarItemTodayColor: tailwindGray['500'],
+    calendarItemTodayBackground: tailwindGray['500'],
+    calendarItemTodayColor: tailwindGray['900'],
     calendarItemBackground: tailwindGray['800'],
     calendarItemTextColor: tailwindGray['500'],
     calendarWeekNameColor: tailwindGray['500'],
