@@ -2,7 +2,7 @@ import React from 'react';
 import { Pressable, Text, View } from 'react-native';
 import { ChevronRight } from 'react-native-feather';
 import useColors from '../hooks/useColors';
-import * as Haptics from 'expo-haptics';
+import useHaptics from '../hooks/useHaptics';
 
 export default ({ 
   title, 
@@ -24,6 +24,7 @@ export default ({
   testID?: string,
 }) => {
   const colors = useColors()
+  const haptics = useHaptics()
 
   return (
     <View
@@ -37,7 +38,7 @@ export default ({
       <Pressable
         onPress={async () => {
           if(onPress !== null) {
-            await Haptics.selectionAsync()
+            await haptics.selection()
             onPress()
           }
         }}

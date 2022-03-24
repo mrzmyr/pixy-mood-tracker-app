@@ -1,7 +1,7 @@
 import { Pressable, Text, View } from "react-native";
 import useColors from "../hooks/useColors";
 import LoadingIndicator from "./LoadingIndicator";
-import * as Haptics from 'expo-haptics';
+import useHaptics from "../hooks/useHaptics";
 
 export default function Button({ 
   type = 'primary', 
@@ -21,6 +21,7 @@ export default function Button({
   onPress?: () => void,
 }) {
   const colors = useColors()
+  const haptics = useHaptics()
   
   const buttonColors = {
     primary: {
@@ -47,7 +48,7 @@ export default function Button({
         backgroundColor: buttonColors?.background,
       }, style]}
       onPress={async () => {
-        await Haptics.selectionAsync()
+        await haptics.selection()
         onPress()
       }}
       disabled={isLoading}

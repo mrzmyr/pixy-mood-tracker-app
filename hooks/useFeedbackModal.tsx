@@ -1,5 +1,6 @@
 import * as Application from 'expo-application';
 import * as Localization from 'expo-localization';
+import { debounce } from "lodash";
 import { useCallback, useState } from 'react';
 import { ActivityIndicator, Alert, Modal, Platform, Pressable, Text, View } from 'react-native';
 import { MoreHorizontal } from 'react-native-feather';
@@ -8,10 +9,9 @@ import LinkButton from '../components/LinkButton';
 import ModalHeader from '../components/ModalHeader';
 import TextArea from '../components/TextArea';
 import useColors from './useColors';
-import { useTranslation } from './useTranslation';
-import * as Haptics from 'expo-haptics';
+import useHaptics from './useHaptics';
 import { useSegment } from './useSegment';
-import { debounce } from "lodash";
+import { useTranslation } from './useTranslation';
 
 type FeedackType = 'issue' | 'idea' | 'other'
 
@@ -24,6 +24,7 @@ function TypeSelector({
 }) {
   const i18n = useTranslation()
   const colors = useColors()
+  const haptics = useHaptics()
 
   return (
     <View style={{
@@ -47,7 +48,7 @@ function TypeSelector({
           borderColor: selected === 'issue' ? colors.tint : colors.secondaryButtonBackground,
         })}
         onPress={async () => {
-          await Haptics.selectionAsync()
+          await haptics.selection()
           onPress('issue')
         }}
         testID='feedback-modal-issue'
@@ -74,7 +75,7 @@ function TypeSelector({
           borderColor: selected === 'idea' ? colors.tint : colors.secondaryButtonBackground,
         })}
         onPress={async () => {
-          await Haptics.selectionAsync()
+          await haptics.selection()
           onPress('idea')
         }}
         testID='feedback-modal-idea'
@@ -100,7 +101,7 @@ function TypeSelector({
           borderColor: selected === 'other' ? colors.tint : colors.secondaryButtonBackground,
         })}
         onPress={async () => {
-          await Haptics.selectionAsync()
+          await haptics.selection()
           onPress('other')
         }}
         testID='feedback-modal-other'

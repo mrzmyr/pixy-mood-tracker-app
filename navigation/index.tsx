@@ -1,25 +1,25 @@
-import { NavigationContainer, useNavigation, useTheme } from '@react-navigation/native';
+import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Platform, Pressable, useColorScheme } from 'react-native';
 import { ArrowLeft, Flag, Settings as SettingsIcon } from 'react-native-feather';
+import Colors from '../constants/Colors';
 import useColors from '../hooks/useColors';
 import useFeedbackModal from '../hooks/useFeedbackModal';
+import useHaptics from '../hooks/useHaptics';
+import { useSegment } from "../hooks/useSegment";
 import { useTranslation } from '../hooks/useTranslation';
 import Calendar from '../screens/Calendar';
+import Data from '../screens/Data';
 import Licenses from '../screens/Licenses';
-import Reminder from '../screens/Reminder';
 import Log from '../screens/Log';
 import NotFound from '../screens/NotFound';
+import Privacy from '../screens/Privacy';
+import Reminder from '../screens/Reminder';
 import Scales from '../screens/Scales';
 import Settings from '../screens/Settings';
-import Privacy from '../screens/Privacy';
-import Data from '../screens/Data';
 import Webhook from '../screens/Webhook';
 import WebhookHistoryEntry from '../screens/WebhookHistoryEntry';
 import { RootStackParamList } from '../types';
-import * as Haptics from 'expo-haptics';
-import { useSegment } from "../hooks/useSegment";
-import Colors from '../constants/Colors';
 
 const linking = {
   prefixes: ['pixy://'],
@@ -87,6 +87,7 @@ const BackButton = ({
 function RootNavigator() {
   const colors = useColors();
   const i18n = useTranslation()
+  const haptics = useHaptics()
 
   const segment = useSegment()
   segment.initialize()
@@ -121,7 +122,7 @@ function RootNavigator() {
             <Pressable
               testID='settings'
               onPress={async () => {
-                await Haptics.selectionAsync()
+                await haptics.selection()
                 navigation.navigate('Settings')
               }}
               style={{
@@ -139,7 +140,7 @@ function RootNavigator() {
             <Pressable
               testID='feedback'
               onPress={async () => {
-                await Haptics.selectionAsync()
+                await haptics.selection()
                 showFeedbackModal({ type: 'issue' })
               }}
               style={{
