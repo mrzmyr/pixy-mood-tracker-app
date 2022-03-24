@@ -1,15 +1,6 @@
-import Colors from "../constants/Colors";
-import { Appearance } from 'react-native';
-import { useState } from "react";
+import { useTheme } from "@react-navigation/native";
 
 export default function useColors() {
-  const colorScheme = Appearance.getColorScheme();
-  const [colors, setColors] = useState(Colors[colorScheme]);
-  
-  Appearance.addChangeListener(() => {
-    const colorScheme = Appearance.getColorScheme();
-    setColors(Colors[colorScheme]);
-  })
-
+  const { colors } = useTheme();
   return colors;
 }

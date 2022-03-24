@@ -1,6 +1,6 @@
-import { NavigationContainer, useNavigation } from '@react-navigation/native';
+import { NavigationContainer, useNavigation, useTheme } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { Platform, Pressable } from 'react-native';
+import { Platform, Pressable, useColorScheme } from 'react-native';
 import { ArrowLeft, Flag, Settings as SettingsIcon } from 'react-native-feather';
 import useColors from '../hooks/useColors';
 import useFeedbackModal from '../hooks/useFeedbackModal';
@@ -19,6 +19,7 @@ import WebhookHistoryEntry from '../screens/WebhookHistoryEntry';
 import { RootStackParamList } from '../types';
 import * as Haptics from 'expo-haptics';
 import { useSegment } from "../hooks/useSegment";
+import Colors from '../constants/Colors';
 
 const linking = {
   prefixes: ['pixy://'],
@@ -37,8 +38,23 @@ const linking = {
 };
 
 export default function Navigation() {
+  const scheme = useColorScheme();
+  
   return (
-    <NavigationContainer linking={linking}>
+    <NavigationContainer 
+      linking={linking}
+      theme={scheme === 'dark' ? { 
+        dark: true,
+        colors: {
+          ...Colors.dark,
+        }
+      } : {
+        dark: false,
+        colors: {
+          ...Colors.light,
+        }
+      }}
+    >
       <RootNavigator />
     </NavigationContainer>
   );
