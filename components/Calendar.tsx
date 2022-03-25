@@ -1,18 +1,17 @@
-import { useNavigation, useTheme } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
+import dayjs from "dayjs";
 import { forwardRef, memo, useCallback, useEffect, useMemo, useRef } from "react";
 import { Text, View } from "react-native";
 import {
   useScrollIntoView
 } from 'react-native-scroll-into-view';
-import Colors from "../constants/Colors";
 import useColors from "../hooks/useColors";
 import { LogItem, useLogs } from "../hooks/useLogs";
 import { useTranslation } from "../hooks/useTranslation";
 import Button from "./Button";
 import CalendarDay from "./CalendarDay";
-import dayjs from "dayjs";
 
-const CalendarDayContainer = memo((({ 
+const CalendarDayContainer = ({ 
   children,
 }: {
   children?: React.ReactNode;
@@ -23,7 +22,7 @@ const CalendarDayContainer = memo((({
       margin: 3,
     }}>{children}</View>
   )
-}))
+}
 
 const CalendarWeek = memo(({
   days,
@@ -37,7 +36,7 @@ const CalendarWeek = memo(({
   isLast?: boolean;
 }) => {
   const navigation = useNavigation()
-  
+
   let justifyContent = "space-between";
   if(isFirst) justifyContent = 'flex-end';
   if(isLast) justifyContent = 'flex-start';
@@ -48,7 +47,7 @@ const CalendarWeek = memo(({
   const daysMap = days.map(dateString => {
     const day = dayjs(dateString);
     return {
-      number: day.date(), 
+      number: day.date(),
       dateString,
       item: items.find(item => item.date === dateString),
       isToday: dayjs(dateString).isSame(dayjs(), 'day'),
@@ -73,7 +72,7 @@ const CalendarWeek = memo(({
         <CalendarDayContainer key={day.dateString}>
           <CalendarDay 
             dateString={day.dateString}
-            item={day.item}
+            rating={day.item?.rating}
             day={day.number}
             isToday={day.isToday}
             isFuture={day.isFuture}
@@ -165,8 +164,14 @@ export default function Calendar({
       dateString: month.format('YYYY-MM-DD'),
       items: useMemo(() => Object.keys(state.items)
         .filter(dateString => dayjs(dateString).isSame(month, 'month'))
-        .map(dateString => state.items[dateString]), [JSON.stringify(Object.keys(state.items)
-          .filter(dateString => dayjs(dateString).isSame(month, 'month')))])
+        .map(dateString => state.items[dateString]), 
+        [
+          JSON.stringify(
+            Object.keys(state.items)
+              .filter(dateString => dayjs(dateString).isSame(month, 'month'))
+              .map(dateString => state.items[dateString])
+          )
+        ])
     });
   }
 

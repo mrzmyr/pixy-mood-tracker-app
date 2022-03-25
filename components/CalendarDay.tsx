@@ -1,9 +1,7 @@
-import { useNavigation, useTheme } from "@react-navigation/native";
 import dayjs from "dayjs";
-import { memo, useCallback } from "react";
+import { memo } from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 import { AlignLeft } from "react-native-feather";
-import Colors from "../constants/Colors";
 import useColors from "../hooks/useColors";
 import useHaptics from "../hooks/useHaptics";
 import { LogItem } from "../hooks/useLogs";
@@ -13,7 +11,7 @@ import { useSettings } from "../hooks/useSettings";
 export default memo(function CalendarDay({ 
   dateString,
   day,
-  item = {},
+  rating,
   isToday,
   isFuture,
   hasText,
@@ -21,25 +19,22 @@ export default memo(function CalendarDay({
 }: {
   dateString: string,
   day: number,
-  item: LogItem | {},
+  rating?: LogItem["rating"],
   isToday: boolean,
   isFuture: boolean,
   hasText: boolean,
   onPress: any,
 }) {
   const colors = useColors();
-  // const navigation = useNavigation();
   const haptics = useHaptics();
   const { settings } = useSettings();
   const { colors: scaleColors } = useScale(settings.scaleType)
 
-  // console.log('render', dateString);
-  
-  const backgroundColor = item.rating ? 
-    scaleColors[item.rating].background : 
+  const backgroundColor = rating ? 
+    scaleColors[rating].background : 
     colors.calendarItemBackground;
-  const textColor = item.rating ? 
-    scaleColors[item.rating].text : 
+  const textColor = rating ? 
+    scaleColors[rating].text : 
     colors.calendarItemTextColor;
   
   return (
