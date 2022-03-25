@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.9.5](https://github.com/mrzmyr/pixy-mood-tracker/compare/v1.9.4...v1.9.5) (2022-03-25)
+
+
+### Chore
+
+* add appStoreUrl and playStoreUrl ([7483522](https://github.com/mrzmyr/pixy-mood-tracker/commit/7483522fb08c9c738de83fc8862bb237b70f6607))
+
+
+### Styling
+
+* update privacy content ([87d4178](https://github.com/mrzmyr/pixy-mood-tracker/commit/87d417863d3f85c3fa115786b047c85b862e0be6))
+
 ### [1.9.4](https://github.com/mrzmyr/pixy-mood-tracker/compare/v1.9.3...v1.9.4) (2022-03-25)
 
 
