@@ -3,7 +3,8 @@ import * as Localization from 'expo-localization';
 import { debounce } from "lodash";
 import { useCallback, useState } from 'react';
 import { ActivityIndicator, Alert, Modal, Platform, Pressable, Text, View } from 'react-native';
-import { AlertTriangle, MoreHorizontal, Sun, Tool } from 'react-native-feather';
+import { AlertTriangle, MoreHorizontal, Sun } from 'react-native-feather';
+import Button from '../components/Button';
 import DismissKeyboard from '../components/DismisKeyboard';
 import LinkButton from '../components/LinkButton';
 import ModalHeader from '../components/ModalHeader';
@@ -54,7 +55,7 @@ function TypeSelector({
         }}
         testID='feedback-modal-issue'
       >
-        <AlertTriangle width={40} color={colors.secondaryButtonTextColor} />
+        <AlertTriangle height={35} color={colors.secondaryButtonTextColor} />
         <Text 
           numberOfLines={1}
           style={{ fontSize: 17, color: colors.secondaryButtonTextColor, marginTop: 10, textAlign: 'center' }}
@@ -82,7 +83,7 @@ function TypeSelector({
         }}
         testID='feedback-modal-idea'
       >
-        <Sun width={40} color={colors.secondaryButtonTextColor} />
+        <Sun height={35} color={colors.secondaryButtonTextColor} />
         <Text 
           numberOfLines={1}
           style={{ fontSize: 17, color: colors.secondaryButtonTextColor, marginTop: 10, textAlign: 'center' }}
@@ -109,7 +110,7 @@ function TypeSelector({
         }}
         testID='feedback-modal-other'
       >
-        <MoreHorizontal width={40} color={colors.secondaryButtonTextColor} />
+        <MoreHorizontal height={35} color={colors.secondaryButtonTextColor} />
         <Text 
           numberOfLines={1}
           style={{ fontSize: 17, color: colors.secondaryButtonTextColor, marginTop: 10, textAlign: 'center' }}
@@ -258,7 +259,7 @@ export default function useFeedbackModal() {
           <ModalHeader
             title={i18n.t('feedback_modal_title')}
             left={<LinkButton testID='feedback-modal-cancel' onPress={hide} type='secondary'>{i18n.t('feedback_modal_cancel')}</LinkButton>}
-            right={<LinkButton testID='feedback-modal-submit' onPress={send}>{i18n.t('feedback_modal_send')}</LinkButton>}
+            right={<Button testID='feedback-modal-submit' onPress={send}>{i18n.t('feedback_modal_send')}</Button>}
           />
           <Text style={{ 
             marginBottom: 30,
