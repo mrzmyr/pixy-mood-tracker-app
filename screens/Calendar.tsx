@@ -17,7 +17,6 @@ export default function CalendarScreen({ navigation }) {
       flexDirection: "column",
     }}>
       <CalendarHeader />
-      <StatusBar animated={true} style={Platform.OS === 'ios' ? 'auto' : 'light'} />
       <CustomScrollView
         style={{
           marginTop: 0,
