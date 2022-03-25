@@ -15,6 +15,7 @@ import { useTranslation } from '../hooks/useTranslation';
 import { RootStackScreenProps } from '../types';
 import { debounce } from "lodash";
 import { useSegment } from '../hooks/useSegment';
+import Button from '../components/Button';
 
 export default function Log({ navigation, route }: RootStackScreenProps<'Log'>) {
   
@@ -83,7 +84,7 @@ export default function Log({ navigation, route }: RootStackScreenProps<'Log'>) 
       <StatusBar animated={true} style={Platform.OS === 'ios' ? 'light' : 'auto'} />
       <ModalHeader
         title={dayjs(route.params.date).format('ddd, L')}
-        right={<LinkButton testID='modal-submit' onPress={save}>{existingLogItem ? i18n.t('save') : i18n.t('add')}</LinkButton>}
+        right={<Button testID='modal-submit' onPress={save}>{existingLogItem ? i18n.t('save') : i18n.t('add')}</Button>}
         left={<LinkButton testID='modal-cancel' onPress={cancel} type='secondary'>{i18n.t('cancel')}</LinkButton>}
       />
       <View
