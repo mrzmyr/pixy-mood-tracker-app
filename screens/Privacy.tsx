@@ -1,5 +1,6 @@
 import * as WebBrowser from 'expo-web-browser';
-import { ScrollView, Text, View } from 'react-native';
+import { ScrollView, View } from 'react-native';
+import { Shield } from 'react-native-feather';
 import Markdown from 'react-native-markdown-display';
 import LinkButton from '../components/LinkButton';
 import useColors from '../hooks/useColors';
@@ -31,6 +32,13 @@ export default function PrivacyScreen() {
         <View style={{
           paddingBottom: 80,
         }}>
+          <View style={{
+            justifyContent: 'center',
+            alignItems: 'center',
+            padding: 20,
+          }}>
+            <Shield fill={colors.background} color={colors.text} width={80} height={30} />
+          </View>
           <Markdown style={{
             body: {color: colors.text, fontSize: 16, lineHeight: 24 },
             heading3: { fontWeight: 'bold', fontSize: 21, lineHeight: 28, marginBottom: 0, marginTop: 20 },
