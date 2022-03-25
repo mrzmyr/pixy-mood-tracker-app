@@ -97,7 +97,7 @@ export default {
     secondaryButtonBackground: tailwindGray['200'],
     secondaryButtonTextColor: tailwindGray['800'],
     
-    textInputBackground: '#FFF',
+    textInputBackground: tailwindGray['100'],
     textInputText: tailwindGray['800'],
     textInputPlaceholder: tailwindGray['400'],
     textInputLabel: tailwindGray['300'],
