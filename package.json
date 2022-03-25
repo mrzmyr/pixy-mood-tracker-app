@@ -84,6 +84,7 @@
     "@types/react": "~17.0.21",
     "@types/react-native": "~0.64.12",
     "@types/uuid": "^8.3.4",
+    "cypress": "^9.5.2",
     "googleapis": "^92.0.0",
     "husky": "^7.0.4",
     "jest": "^26.6.3",

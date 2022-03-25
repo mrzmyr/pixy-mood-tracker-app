@@ -60,6 +60,9 @@ export default memo(function CalendarDay({
         testID={`calendar-day-${dateString}`}
         accessible={true}
         accessibilityLabel={`${dayjs(dateString).format('LL')}`}
+        dataSet={{ 
+          rating: rating ? rating : 'none',
+        }}
       >
           { hasText && 
             <View style={{

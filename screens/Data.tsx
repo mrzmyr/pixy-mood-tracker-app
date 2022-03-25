@@ -1,21 +1,21 @@
-import { Alert, ScrollView, Switch, Text, View } from 'react-native';
+import dayjs from 'dayjs';
+import * as DocumentPicker from 'expo-document-picker';
+import * as FileSystem from 'expo-file-system';
+import * as Sharing from 'expo-sharing';
+import { useEffect, useState } from 'react';
+import { Alert, Platform, ScrollView, Switch, View } from 'react-native';
 import { Box, Download, Trash2, Upload } from 'react-native-feather';
 import MenuList from '../components/MenuList';
 import MenuListItem from '../components/MenuListItem';
+import TextInfo from '../components/TextInfo';
 import useColors from '../hooks/useColors';
 import { LogsState, useLogs } from '../hooks/useLogs';
+import { useSegment } from "../hooks/useSegment";
 import { useSettings } from '../hooks/useSettings';
 import { useTranslation } from '../hooks/useTranslation';
 import { convertPixeltoPixyJSON, getJSONSchemaType } from '../lib/utils';
 import { RootStackScreenProps } from '../types';
 
-import * as DocumentPicker from 'expo-document-picker';
-import * as FileSystem from 'expo-file-system';
-import * as Sharing from 'expo-sharing';
-import dayjs from 'dayjs';
-import TextInfo from '../components/TextInfo';
-import { useSegment } from "../hooks/useSegment";
-import { useEffect, useState } from 'react';
 
 let openShareDialogAsync = async (uri: string) => {
   const i18n = useTranslation()
@@ -28,8 +28,8 @@ let openShareDialogAsync = async (uri: string) => {
 };
 
 const exportState = async (state: LogsState) => {
-  const segment = useSegment()
-  segment.track('data_export_started')
+  if(Platform.OS === 'web') return;
+  
   const filename = `pixel-tracker-${dayjs().format('YYYY-MM-DD')}.json`;
   await FileSystem.writeAsStringAsync(FileSystem.documentDirectory + filename, JSON.stringify(state));
   openShareDialogAsync(FileSystem.documentDirectory + filename)
@@ -53,6 +53,11 @@ export default function DataScreen({ navigation }: RootStackScreenProps<'Data'>)
 
   const askToReset = () => {
     segment.track('data_reset_asked')
+    if(Platform.OS === 'web') {
+      resetSettings()
+      dispatch({ type: 'reset' })
+      return;
+    }
     
     Alert.alert(
       i18n.t('reset_data_confirm_title'),
@@ -63,14 +68,13 @@ export default function DataScreen({ navigation }: RootStackScreenProps<'Data'>)
           onPress: () => {
             resetSettings()
             dispatch({ type: 'reset' })
+            segment.track('data_reset_success')
             Alert.alert(
               i18n.t('reset_data_success_title'),
               i18n.t('reset_data_success_message'),
               [{ 
                 text: i18n.t('ok'), 
-                onPress: () => {
-                  segment.track('data_reset_success')
-                } 
+                onPress: () => {} 
               }],
               { cancelable: false }
             )
@@ -192,7 +196,10 @@ export default function DataScreen({ navigation }: RootStackScreenProps<'Data'>)
         />
         <MenuListItem
           title={i18n.t('export')}
-          onPress={() => exportState(state)}
+          onPress={() => {
+            segment.track('data_export_started')
+            exportState(state)
+          }}
           iconLeft={<Download width={18} color={colors.menuListItemIcon} />}
           isLast
         />
@@ -218,6 +225,7 @@ export default function DataScreen({ navigation }: RootStackScreenProps<'Data'>)
       </MenuList>
       <MenuList style={{ marginTop: 20, }}>
         <MenuListItem
+          testID='reset-data'
           title={i18n.t('reset_data_button')}
           onPress={() => askToReset()}
           iconLeft={<Trash2 width={18} color='red' />}

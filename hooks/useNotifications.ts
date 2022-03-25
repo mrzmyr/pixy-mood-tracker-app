@@ -1,6 +1,9 @@
+import { Platform } from 'react-native';
 import * as Device from 'expo-device';
 import * as Notifications from 'expo-notifications';
-import { NotificationRequestInput, SchedulableNotificationTriggerInput } from 'expo-notifications';
+import { NotificationRequestInput } from 'expo-notifications';
+
+const isWeb = Platform.OS === 'web';
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -46,7 +49,13 @@ const useNotification = () => {
     await Notifications.cancelAllScheduledNotificationsAsync()
   }
   
-  return {
+  return isWeb ? {
+    hasPermission: () => true,
+    askForPermission: () => {},
+    schedule: () => {},
+    cancelAll: () => {},
+    getScheduled: () => {},
+  } : {
     hasPermission,
     askForPermission,
     schedule,
