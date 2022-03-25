@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.9.3](https://github.com/mrzmyr/pixy-mood-tracker/compare/v1.9.2...v1.9.3) (2022-03-25)
+
+
+### Refactors
+
+* **Calendar:** split week, month, calendar ([3370565](https://github.com/mrzmyr/pixy-mood-tracker/commit/33705656640a8f5cef8377a39d59b4c76c012178))
+
+
+### Tests
+
+* **Cypress:** add cypress ([75f1f5f](https://github.com/mrzmyr/pixy-mood-tracker/commit/75f1f5f47829d3c02226be3b5730660c5ca068c7))
+
+
+### Performance
+
+* **Licenses:** only render markdown ([029c470](https://github.com/mrzmyr/pixy-mood-tracker/commit/029c470fbe4c1c369806335529ccfe7b8e7740f6))
+
 ### [1.9.2](https://github.com/mrzmyr/pixy-mood-tracker/compare/v1.9.1...v1.9.2) (2022-03-25)
 
 ### [1.9.1](https://github.com/mrzmyr/pixy-mood-tracker/compare/v1.9.0...v1.9.1) (2022-03-25)
