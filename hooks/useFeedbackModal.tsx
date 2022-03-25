@@ -82,7 +82,7 @@ function TypeSelector({
         }}
         testID='feedback-modal-idea'
       >
-        <Tool width={40} color={colors.secondaryButtonTextColor} />
+        <Sun width={40} color={colors.secondaryButtonTextColor} />
         <Text 
           numberOfLines={1}
           style={{ fontSize: 17, color: colors.secondaryButtonTextColor, marginTop: 10, textAlign: 'center' }}
