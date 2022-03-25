@@ -1,9 +1,12 @@
 import { ScrollView, Text, View } from 'react-native';
+import Markdown from 'react-native-markdown-display';
 import useColors from '../hooks/useColors';
 import licenses from '../licenses.json';
 
 export default function LicensesScreen() {
   const colors = useColors()
+  
+  const text = licenses.data.body.map((license, index) => license.map((item, index) => index === 0 ? `**${item}**` : item).join('\n')).join('\n\n')
   
   return (
     <View
@@ -13,15 +16,17 @@ export default function LicensesScreen() {
     >
       <ScrollView style={{ 
         padding: 20,
-        backgroundColor: colors.background,
+        backgroundColor: colors.backgroundSecondary,
       }}>
-        {licenses.data.body.map((license, index) => (
-          <View key={index} style={{
+          <View style={{
             marginTop: 20
           }}>
-            {license.map((item, index) => <Text key={index} style={{ color: colors.text, fontWeight: index === 0 ? 'bold' : 'normal' }}>{item}</Text>)}
+            <Markdown style={{
+              body: {color: colors.text, fontSize: 17, lineHeight: 24 },
+            }}>
+              {text}
+            </Markdown>
           </View>
-        ))}
       </ScrollView>
     </View>
   );
