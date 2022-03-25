@@ -2,6 +2,41 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.8.3](https://github.com/mrzmyr/pixy-mood-tracker/compare/v1.8.2...v1.8.3) (2022-03-25)
+
+
+### Bug Fixes
+
+* **Web:** built abstraction for web ui ([b0ab61b](https://github.com/mrzmyr/pixy-mood-tracker/commit/b0ab61b6c33bd212ca39cbbc8ade5b7f17b53df1))
+
+
+### Performance
+
+* **Calendar:** ⚡️ make fast ([495e161](https://github.com/mrzmyr/pixy-mood-tracker/commit/495e161c0d8667f762f6645ea7169e1a8e5443c0))
+
+
+### Refactors
+
+* remove header from calendar screen ([87a5264](https://github.com/mrzmyr/pixy-mood-tracker/commit/87a5264fd02563a815ec41ecf279c74a8039f326))
+
+
+### Chore
+
+* add haptics to scales ([a3abb72](https://github.com/mrzmyr/pixy-mood-tracker/commit/a3abb72247c0df3882578e32d26aa74d9aa59b65))
+* only run sentry in prod ([259c690](https://github.com/mrzmyr/pixy-mood-tracker/commit/259c690ddef99bbdbfd9037965d51b0c28266073))
+
+
+### Styling
+
+* **Calendar:** change opactiy of future days ([9cdabec](https://github.com/mrzmyr/pixy-mood-tracker/commit/9cdabec1fd6c4b66615b4c9f0ce99ea8581ca949))
+* **Feedback:** change idea icon ([d4cfe30](https://github.com/mrzmyr/pixy-mood-tracker/commit/d4cfe3079d5aa42b7800358e361e92a92e36e91f))
+* **Feedback:** change idea icon ([9b52a95](https://github.com/mrzmyr/pixy-mood-tracker/commit/9b52a95ea36b102705cc147adb0a0f2b738dc680))
+* **Feedback:** update icons ([c7004ed](https://github.com/mrzmyr/pixy-mood-tracker/commit/c7004ed9a9a91d67329ec4d4565f85998c681d7e))
+* **Log:** button with border ([14578e9](https://github.com/mrzmyr/pixy-mood-tracker/commit/14578e9a791304af6c462f6e34dfed9646675f8b))
+* **Log:** new scale design ([7cec03b](https://github.com/mrzmyr/pixy-mood-tracker/commit/7cec03b90b8f8e182917231279f35bfc7acd0bf9))
+* **Privacy:** add shield ([681f375](https://github.com/mrzmyr/pixy-mood-tracker/commit/681f3756bdc818018f3bf1f45e209503d425bc8e))
+* **TextInput:** change bg in light mode ([8b5dcd6](https://github.com/mrzmyr/pixy-mood-tracker/commit/8b5dcd67fff45208eddab88845c9cfda820b913a))
+
 ### [1.8.2](https://github.com/mrzmyr/pixy-mood-tracker/compare/v1.8.1...v1.8.2) (2022-03-24)
 
 
