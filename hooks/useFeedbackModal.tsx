@@ -3,7 +3,7 @@ import * as Localization from 'expo-localization';
 import { debounce } from "lodash";
 import { useCallback, useState } from 'react';
 import { ActivityIndicator, Alert, Modal, Platform, Pressable, Text, View } from 'react-native';
-import { MoreHorizontal } from 'react-native-feather';
+import { AlertTriangle, MoreHorizontal, Sun, Tool } from 'react-native-feather';
 import DismissKeyboard from '../components/DismisKeyboard';
 import LinkButton from '../components/LinkButton';
 import ModalHeader from '../components/ModalHeader';
@@ -42,6 +42,7 @@ function TypeSelector({
           backgroundColor: colors.secondaryButtonBackground,
           flex: 1,
           alignItems: 'center',
+          justifyContent: 'center',
           padding: 15,
           marginRight: 10,
           borderWidth: 1,
@@ -53,10 +54,10 @@ function TypeSelector({
         }}
         testID='feedback-modal-issue'
       >
-        <Text style={{ fontSize: 32 }}>⚠️</Text>
+        <AlertTriangle width={40} color={colors.secondaryButtonTextColor} />
         <Text 
           numberOfLines={1}
-          style={{ fontSize: 17, color: colors.secondaryButtonTextColor, marginTop: 5, textAlign: 'center' }}
+          style={{ fontSize: 17, color: colors.secondaryButtonTextColor, marginTop: 10, textAlign: 'center' }}
         >
           {i18n.t('issue')}
         </Text>
@@ -69,6 +70,7 @@ function TypeSelector({
           backgroundColor: colors.secondaryButtonBackground,
           flex: 1,
           alignItems: 'center',
+          justifyContent: 'center',
           padding: 15,
           marginRight: 10,
           borderWidth: 1,
@@ -80,10 +82,10 @@ function TypeSelector({
         }}
         testID='feedback-modal-idea'
       >
-        <Text style={{ fontSize: 32 }}>💡</Text>
+        <Tool width={40} color={colors.secondaryButtonTextColor} />
         <Text 
           numberOfLines={1}
-          style={{ fontSize: 17, color: colors.secondaryButtonTextColor, marginTop: 5, textAlign: 'center' }}
+          style={{ fontSize: 17, color: colors.secondaryButtonTextColor, marginTop: 10, textAlign: 'center' }}
         >
           {i18n.t('idea')}
         </Text>
@@ -96,6 +98,7 @@ function TypeSelector({
           backgroundColor: colors.secondaryButtonBackground,
           flex: 1,
           alignItems: 'center',
+          justifyContent: 'center',
           padding: 15,
           borderWidth: 1,
           borderColor: selected === 'other' ? colors.tint : colors.secondaryButtonBackground,
@@ -106,10 +109,10 @@ function TypeSelector({
         }}
         testID='feedback-modal-other'
       >
-        <MoreHorizontal width={32} height={40} strokeWidth={2} color={colors.secondaryButtonTextColor} />
+        <MoreHorizontal width={40} color={colors.secondaryButtonTextColor} />
         <Text 
           numberOfLines={1}
-          style={{ fontSize: 17, color: colors.secondaryButtonTextColor, marginTop: 5, textAlign: 'center' }}
+          style={{ fontSize: 17, color: colors.secondaryButtonTextColor, marginTop: 10, textAlign: 'center' }}
         >
           {i18n.t('other')}
         </Text>
