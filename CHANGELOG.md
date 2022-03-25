@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.9.4](https://github.com/mrzmyr/pixy-mood-tracker/compare/v1.9.3...v1.9.4) (2022-03-25)
+
+
+### Bug Fixes
+
+* **Reminder:** update to latest datepicker version ([68c73ca](https://github.com/mrzmyr/pixy-mood-tracker/commit/68c73ca8c085f0161b65ae20d6754c91eb062103))
+
 ### [1.9.3](https://github.com/mrzmyr/pixy-mood-tracker/compare/v1.9.2...v1.9.3) (2022-03-25)
 
 
