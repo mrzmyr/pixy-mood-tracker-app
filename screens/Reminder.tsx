@@ -1,7 +1,7 @@
-import DateTimePicker from '@react-native-community/datetimepicker';
 import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
 import { ScrollView, Switch, View } from 'react-native';
+import Clock from '../components/Clock';
 import MenuList from '../components/MenuList';
 import MenuListItem from '../components/MenuListItem';
 import NotificationPreview from '../components/NotificationPreview';
@@ -104,14 +104,11 @@ export default function ReminderScreen() {
             <MenuListItem
               title={i18n.t('time')}
               iconRight={
-                <DateTimePicker
-                  testID="reminder-time"
-                  style={{ width: '100%', height: 35 }} 
-                  mode="time" 
-                  display="clock" 
-                  value={timeDate}
+                <Clock
                   onChange={onTimeChange}
-                />}
+                  timeDate={timeDate}
+                />
+              }
               isLast
             ></MenuListItem>
           }
