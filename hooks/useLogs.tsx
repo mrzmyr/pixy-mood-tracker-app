@@ -1,7 +1,8 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { createContext, useContext, useEffect, useReducer } from "react";
+import { createContext, useCallback, useContext, useEffect, useReducer } from "react";
 import { getJSONSchemaType } from '../lib/utils';
 import { useSettings } from './useSettings';
+import useWebhook from './useWebhook';
 
 const STORAGE_KEY = 'PIXEL_TRACKER_LOGS'
 
@@ -19,14 +20,14 @@ export interface LogsState {
   };
 }
 
-interface LogAction {
+export interface LogAction {
   type: string;
   payload?: LogsState | LogItem;
 }
 
 const LogsContext = createContext(undefined)
 
-function reducer(state: LogsState, action: LogAction) {
+function reducer(state: LogsState, action: LogAction): LogsState {
   switch (action.type) {
     case 'import':
       return { ...action.payload };
@@ -54,7 +55,8 @@ async function saveLogs(state: LogsState) {
 }
 
 function LogsProvider({children}: LogsProviderProps) {
-  const { settings, setSettings } = useSettings()
+  const webhook = useWebhook()
+  const { settings } = useSettings()
   
   const reducerProxy = (state: LogsState, action: LogAction): LogsState => {
     const newState = reducer(state, action)
@@ -67,47 +69,13 @@ function LogsProvider({children}: LogsProviderProps) {
   const [state, dispatch] = useReducer(reducerProxy, {
     items: {}
   })
-
-  const dispatchProxy = (action: LogAction) => {
+  
+  const dispatchProxy = useCallback((action: LogAction) => {
     dispatch(action)
-
-    if (
-      settings.webhookEnabled &&
-      ['add', 'edit', 'delete'].includes(action.type)
-    ) {
-      const url = settings.webhookUrl
-      const body = JSON.stringify(action)
-
-      fetch(url, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body,
-      }).then(resp => {
-        setSettings({ ...settings, 
-          webhookHistory: [{
-            date: new Date().toISOString(),
-            url,
-            body,
-            statusCode: resp.status,
-            statusText: resp.status === 200 ? 'OK' : resp.statusText,
-            isError: false,
-          }, ...settings.webhookHistory.slice(0, 20)]
-        })
-      }).catch(error => {
-        setSettings({ ...settings, 
-          webhookHistory: [{
-            date: new Date().toISOString(),
-            url,
-            body,
-            isError: true,
-            errorMessage: error.message,
-          }, ...settings.webhookHistory.slice(0, 20)]
-        })
-      })
+    if(settings.webhookEnabled) {
+      webhook.run(action)
     }
-  }
+  }, [])
 
   useEffect(() => {
     const load = async () => {

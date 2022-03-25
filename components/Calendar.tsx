@@ -1,42 +1,64 @@
-import dayjs from "dayjs";
-import { forwardRef, useEffect, useRef } from "react";
+import { useNavigation, useTheme } from "@react-navigation/native";
+import { forwardRef, memo, useCallback, useEffect, useMemo, useRef } from "react";
 import { Text, View } from "react-native";
 import {
   useScrollIntoView
 } from 'react-native-scroll-into-view';
+import Colors from "../constants/Colors";
 import useColors from "../hooks/useColors";
+import { LogItem, useLogs } from "../hooks/useLogs";
 import { useTranslation } from "../hooks/useTranslation";
 import Button from "./Button";
 import CalendarDay from "./CalendarDay";
+import dayjs from "dayjs";
 
-function CalendarDayContainer({ 
+const CalendarDayContainer = memo((({ 
   children,
 }: {
   children?: React.ReactNode;
-}) {
+}) => {
   return (
     <View style={{
       flex: 7,
       margin: 3,
     }}>{children}</View>
   )
-}
+}))
 
-function CalendarWeek({
+const CalendarWeek = memo(({
   days,
+  items,
   isFirst = false,
   isLast = false,
 }: {
-  days: dayjs.Dayjs[];
+  days: string[];
+  items: LogItem[];
   isFirst?: boolean;
   isLast?: boolean;
-}) {
+}) => {
+  const navigation = useNavigation()
+  
   let justifyContent = "space-between";
   if(isFirst) justifyContent = 'flex-end';
   if(isLast) justifyContent = 'flex-start';
   
   const emptyDays = [];
   for (let i = 0; i < 7 - days.length; i++) emptyDays.push(null);
+
+  const daysMap = days.map(dateString => {
+    const day = dayjs(dateString);
+    return {
+      number: day.date(), 
+      dateString,
+      item: items.find(item => item.date === dateString),
+      isToday: dayjs(dateString).isSame(dayjs(), 'day'),
+      isFuture: day.isAfter(dayjs()),
+    }
+  });
+
+  const onPress = useCallback((dateString) => {
+    navigation.navigate('Log', { date: dateString })
+  }, [navigation])
   
   return (
     <View
@@ -47,38 +69,60 @@ function CalendarWeek({
     >
       {!isLast && emptyDays.map((day, index) => <CalendarDayContainer key={index} />)}
 
-      {days.map(day => (
-        <CalendarDayContainer key={day.toString()}>
-          <CalendarDay date={{
-            dateString: day.format('YYYY-MM-DD'),
-            day: day.date(),
-          }} />
+      {daysMap.map(day => (
+        <CalendarDayContainer key={day.dateString}>
+          <CalendarDay 
+            dateString={day.dateString}
+            item={day.item}
+            day={day.number}
+            isToday={day.isToday}
+            isFuture={day.isFuture}
+            hasText={day.item?.message?.length > 0}
+            onPress={onPress}
+          />
         </CalendarDayContainer>)
       )}
       
       {isLast && emptyDays.map((day, index) => <CalendarDayContainer key={index} />)}
     </View>
   )
+})
+
+interface WeekEntry {
+  days: string[];
+  items: LogItem[];
 }
 
 const CalendarMonth = forwardRef(({
-  date
+  dateString,
+  items,
 }: {
-  date: dayjs.Dayjs;
+  dateString: string;
+  items?: LogItem[];
 }, ref) => {
 
+  const date = dayjs(dateString);
   const colors = useColors();
   const daysInMonthCount = date.daysInMonth();
-  let weeks = [[]];
-  let weekIndex = 0;
-  
-  for (let i = 1; i <= daysInMonthCount; i++) {
-    const prevDay = date.clone().set('date', i - 1)
-    const day = date.clone().set('date', i);
-    if(prevDay.week() !== day.week()) weekIndex++;
-    if(!weeks[weekIndex]) weeks[weekIndex] = [];
-    weeks[weekIndex].push(day);
-  }
+  let weeks: WeekEntry[] = useMemo(() => {
+    
+    let weeks: WeekEntry[] = []
+    let weekIndex = 0;
+    
+    for (let i = 1; i <= daysInMonthCount; i++) {
+      const prevDay = date.clone().set('date', i - 1)
+      const day = date.clone().set('date', i);
+      if(prevDay.week() !== day.week()) weekIndex++;
+      if(!weeks[weekIndex]) weeks[weekIndex] = { days: [], items: [] };
+      weeks[weekIndex].days.push(day.format('YYYY-MM-DD'));
+      if(items) {
+        const dayItems = items.filter(item => dayjs(item.date).isSame(day, 'day'));
+        weeks[weekIndex].items.push(...dayItems);
+      }
+    }
+
+    return weeks;
+  }, [items]);
 
   return (
     <View ref={ref} renderToHardwareTextureAndroid>
@@ -92,12 +136,15 @@ const CalendarMonth = forwardRef(({
           color: colors.calendarMonthNameColor,
         }}
       >{date.format('MMMM YYYY')}</Text>
-      {weeks.map((week, index) => <CalendarWeek 
-        key={week.toString()}
-        isFirst={index === 0} 
-        isLast={index === weeks.length - 1} 
-        days={week} 
-      />)}
+      {weeks.map((week, index) => (
+        <CalendarWeek 
+          key={index}
+          isFirst={index === 0} 
+          isLast={index === weeks.length - 1} 
+          days={week.days}
+          items={week.items}
+        />
+      ))}
     </View>
   )
 })
@@ -107,15 +154,30 @@ export default function Calendar({
 }: {
   navigation: any;
 }) {
+  const { state } = useLogs()
   const i18n = useTranslation()
-  const currentMonth = dayjs();
+  const today = dayjs();
 
-  const pastMonths = [];
-  for (let i = 12; i >= 1; i--) pastMonths.push(dayjs().subtract(i, 'month'));
+  const months = [];
+  for (let i = -6; i <= 0; i++) {
+    const month = today.clone().add(i, 'month').startOf('month');
+    months.push({
+      dateString: month.format('YYYY-MM-DD'),
+      items: useMemo(() => Object.keys(state.items)
+        .filter(dateString => dayjs(dateString).isSame(month, 'month'))
+        .map(dateString => state.items[dateString]), [JSON.stringify(Object.keys(state.items)
+          .filter(dateString => dayjs(dateString).isSame(month, 'month')))])
+    });
+  }
 
-  const futureMonths = [];
-  for (let i = 1; i <= 12; i++) futureMonths.push(dayjs().add(i, 'month'));
-
+  const futureMonths = []
+  for (let i = 1; i <= 1; i++) {
+    const month = today.clone().add(i, 'month').startOf('month');
+    futureMonths.push({
+      dateString: month.format('YYYY-MM-DD')
+    });
+  }
+  
   const scrollIntoView = useScrollIntoView();
   const viewRef = useRef();
   
@@ -126,7 +188,7 @@ export default function Calendar({
   const scrollToToday = () => {
     scrollIntoView(viewRef.current, { animated: true })
   }
-  
+
   return (
     <>
       <Button
@@ -137,18 +199,21 @@ export default function Calendar({
           marginTop: 20,
         }}
       >{i18n.t('back_to_today')}</Button>
-      {pastMonths.map(month => <CalendarMonth key={month.toString()} date={month} />)}
-      <CalendarMonth date={currentMonth} ref={viewRef} />
-      {futureMonths.map(month => <CalendarMonth key={month.toString()} date={month} />)}
-      <Button
-        onPress={() => scrollToToday()}
-        type="secondary"
-        testID="calendar-back-to-today-top"
-        style={{
-          marginTop: 20,
-          marginBottom: 40,
-        }}
-      >{i18n.t('back_to_today')}</Button>
+      {months.map(({ dateString, items }) => (
+        <CalendarMonth 
+          key={dateString} 
+          dateString={dateString} 
+          ref={dayjs().isSame(dateString, 'month') ? viewRef : null}
+          items={items} 
+        />
+      ))}
+      {futureMonths.map(({ dateString }) => (
+        <CalendarMonth 
+          key={dateString} 
+          dateString={dateString} 
+          ref={dayjs().isSame(dateString, 'month') ? viewRef : null}
+        />
+      ))}
     </>
   )
 }
