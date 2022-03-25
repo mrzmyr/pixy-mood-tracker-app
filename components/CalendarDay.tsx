@@ -1,3 +1,4 @@
+import chroma from "chroma-js"
 import dayjs from "dayjs";
 import { memo } from "react";
 import { Text, TouchableOpacity, View } from "react-native";
@@ -70,17 +71,21 @@ export default memo(function CalendarDay({
           }
           <View
             style={{
-              padding: 2,
-              paddingLeft: 3,
-              paddingRight: 3,
-              borderRadius: 3,
-              backgroundColor: isToday ? colors.calendarItemTodayBackground : 'transparent',
+              padding: 3,
+              paddingLeft: 4,
+              paddingRight: 4,
+              borderRadius: 100,
+              backgroundColor: isToday ? 
+                (chroma(backgroundColor).luminance() < 0.6 ? 'rgba(255,255,255,0.5)' : 'rgba(0,0,0,0.15)') : 
+                'transparent',
             }}
           >
             <Text
               style={{
                 fontSize: 14,
-                color: isToday ? colors.calendarItemTodayColor : textColor,
+                color: isToday ? 
+                (chroma(backgroundColor).luminance() > 0.6 ? 'black' : 'black') :
+                textColor,
               }}
             >{day}</Text>
           </View>
