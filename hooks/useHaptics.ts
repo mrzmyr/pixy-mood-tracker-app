@@ -4,7 +4,7 @@ import * as Haptics from 'expo-haptics';
 const useHaptics = () => {
   return {
     selection: async () => {
-      if(Platform.OS !== 'web') {
+      if(Platform.OS === 'ios') {
         await Haptics.selectionAsync();
       }
     }
