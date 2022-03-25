@@ -1,4 +1,4 @@
-import { Image, Text, View } from "react-native"
+import { Image, Platform, Text, View } from "react-native"
 import useColors from "../hooks/useColors"
 import { useTranslation } from "../hooks/useTranslation"
 
@@ -23,6 +23,7 @@ export default function NotificationPreview() {
         borderRadius: 10,
         alignItems: 'center',
         justifyContent: 'center',
+        margin: 4,
       }}>
         <Image 
           style={{
@@ -46,7 +47,9 @@ export default function NotificationPreview() {
           justifyContent: 'space-between'
         }}>
           <View><Text style={{ color: colors.text, fontSize: 17, fontWeight: 'bold' }}>{i18n.t('notification_reminder_title')}</Text></View>
-          <View><Text style={{ color: colors.textSecondary, fontSize: 16, marginRight: 5 }}>5 min ago</Text></View>
+          {Platform.OS === 'ios' &&
+            <View><Text style={{ color: colors.textSecondary, fontSize: 16, marginRight: 5 }}>5 min ago</Text></View>
+          }
         </View>
         <View><Text style={{ color: colors.text, fontSize: 17, marginTop: 5 }}>{i18n.t('notification_reminder_body')}</Text></View>
       </View>

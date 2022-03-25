@@ -1,6 +1,6 @@
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { Platform, Pressable, useColorScheme } from 'react-native';
+import { Platform, Pressable, useColorScheme, View } from 'react-native';
 import { ArrowLeft, Flag, Settings as SettingsIcon } from 'react-native-feather';
 import Colors from '../constants/Colors';
 import useColors from '../hooks/useColors';
@@ -99,6 +99,13 @@ function RootNavigator() {
     },
     headerShadowVisible: Platform.OS !== 'web',
   }
+
+  const stackScreenOptions = {}
+  
+  if(Platform.OS === 'android') {
+    stackScreenOptions.animation = 'none'
+  }
+
   const { show: showFeedbackModal, Modal } = useFeedbackModal();
 
   return (
@@ -111,6 +118,7 @@ function RootNavigator() {
           segment.screen(e.data.state.routes[e.data.state.routes.length - 1].name)
         },
       }}
+      screenOptions={stackScreenOptions}
     >
       <Stack.Screen
         name="Calendar"
@@ -119,41 +127,30 @@ function RootNavigator() {
           ...defaultOptions,
           title: i18n.t('calendar'),
           headerRight: () => (
-            <Pressable
-              testID='settings'
-              onPress={async () => {
-                await haptics.selection()
-                navigation.navigate('Settings')
-              }}
+            <View
               style={{
-                padding: 15,
-                paddingTop: 10,
+                flexDirection: 'row',
+                justifyContent: 'space-between',
               }}
-              accessible={true}
-              accessibilityLabel={i18n.t('settings')}
-              accessibilityRole={'button'}
             >
-              <SettingsIcon height={22} color={colors.text} />
-            </Pressable>
+              <Pressable
+                testID='settings'
+                onPress={async () => {
+                  await haptics.selection()
+                  navigation.navigate('Settings')
+                }}
+                style={{
+                  padding: 15,
+                  paddingTop: 10,
+                }}
+                accessible={true}
+                accessibilityLabel={i18n.t('settings')}
+                accessibilityRole={'button'}
+              >
+                <SettingsIcon height={22} color={colors.text} />
+              </Pressable>
+            </View>
           ),
-          headerLeft: () => (
-            <Pressable
-              testID='feedback'
-              onPress={async () => {
-                await haptics.selection()
-                showFeedbackModal({ type: 'issue' })
-              }}
-              style={{
-                padding: 15,
-                paddingTop: 10,
-              }}
-              accessible={true}
-              accessibilityLabel={i18n.t('feedback')}
-              accessibilityRole={'button'}
-            >
-              <Flag height={22} color={colors.text} />
-            </Pressable>
-          )
         })}
       />
 

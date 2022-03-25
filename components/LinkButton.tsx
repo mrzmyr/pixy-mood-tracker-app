@@ -12,7 +12,7 @@ export default function LinkButton({
 }: {
   type?: 'primary' | 'secondary',
   onPress: () => any,
-  children: React.ReactNode,
+  children?: React.ReactNode,
   style?: any,
   icon?: React.ReactNode,
   testID?: string,
@@ -44,16 +44,18 @@ export default function LinkButton({
       testID={testID}
     >
       {icon && <View style={{ marginRight: 5 }}>{icon}</View>}
-      <Text 
-        ellipsizeMode='tail' 
-        numberOfLines={1}
-        style={{ 
-          fontSize: 17, 
-          fontWeight: type === 'primary' ? 'bold' : 'normal', 
-          color: textColor,
-          textAlign: 'center',
-        }}
-      >{children}</Text>
+      {children &&
+        <Text 
+          ellipsizeMode='tail' 
+          numberOfLines={1}
+          style={{ 
+            fontSize: 17, 
+            fontWeight: type === 'primary' ? 'bold' : 'normal', 
+            color: textColor,
+            textAlign: 'center',
+          }}
+        >{children}</Text>
+      }
     </Pressable>
   )
 }

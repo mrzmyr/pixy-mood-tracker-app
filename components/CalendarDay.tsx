@@ -71,9 +71,10 @@ export default memo(function CalendarDay({
           }
           <View
             style={{
+              justifyContent: 'center',
+              alignItems: 'center',
               padding: 3,
-              paddingLeft: 4,
-              paddingRight: 4,
+              aspectRatio: 1,
               borderRadius: 100,
               backgroundColor: isToday ? 
                 (chroma(backgroundColor).luminance() < 0.6 ? 'rgba(255,255,255,0.5)' : 'rgba(0,0,0,0.15)') : 

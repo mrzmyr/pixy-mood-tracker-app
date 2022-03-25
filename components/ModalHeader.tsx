@@ -18,7 +18,7 @@ export default function ModalHeader({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        marginBottom: 20,
+        marginBottom: 10,
       }}
     >
     <View style={{

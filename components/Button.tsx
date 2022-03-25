@@ -37,7 +37,7 @@ export default function Button({
   return (
     <Pressable
       style={({ pressed }) => [{
-        padding: 12,
+        padding: 15,
         paddingRight: 15,
         paddingLeft: 15,
         alignItems: 'center',

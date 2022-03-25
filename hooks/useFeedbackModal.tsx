@@ -3,7 +3,7 @@ import * as Localization from 'expo-localization';
 import { debounce } from "lodash";
 import { useCallback, useState } from 'react';
 import { ActivityIndicator, Alert, Modal, Platform, Pressable, Text, View } from 'react-native';
-import { AlertTriangle, MoreHorizontal, Sun } from 'react-native-feather';
+import { AlertTriangle, MoreHorizontal, Send, Sun, X } from 'react-native-feather';
 import Button from '../components/Button';
 import DismissKeyboard from '../components/DismisKeyboard';
 import LinkButton from '../components/LinkButton';
@@ -37,7 +37,6 @@ function TypeSelector({
     }}>
       <Pressable 
         style={({ pressed }) => ({
-          height: 100,
           opacity: pressed ? 0.8 : 1,
           borderRadius: 5,
           backgroundColor: colors.secondaryButtonBackground,
@@ -48,6 +47,7 @@ function TypeSelector({
           marginRight: 10,
           borderWidth: 1,
           borderColor: selected === 'issue' ? colors.tint : colors.secondaryButtonBackground,
+          maxHeight: 100,
         })}
         onPress={async () => {
           await haptics.selection()
@@ -55,17 +55,21 @@ function TypeSelector({
         }}
         testID='feedback-modal-issue'
       >
-        <AlertTriangle height={35} color={colors.secondaryButtonTextColor} />
         <Text 
           numberOfLines={1}
-          style={{ fontSize: 17, color: colors.secondaryButtonTextColor, marginTop: 10, textAlign: 'center' }}
+          style={{ fontSize: 32, color: colors.secondaryButtonTextColor, textAlign: 'center' }}
+        >
+          ⚠️
+        </Text>
+        <Text 
+          numberOfLines={1}
+          style={{ fontSize: 17, color: colors.secondaryButtonTextColor, marginTop: 5, textAlign: 'center' }}
         >
           {i18n.t('issue')}
         </Text>
       </Pressable>
       <Pressable 
         style={({ pressed }) => ({
-          height: 100,
           opacity: pressed ? 0.8 : 1,
           borderRadius: 5,
           backgroundColor: colors.secondaryButtonBackground,
@@ -76,6 +80,7 @@ function TypeSelector({
           marginRight: 10,
           borderWidth: 1,
           borderColor: selected === 'idea' ? colors.tint : colors.secondaryButtonBackground,
+          maxHeight: 100,
         })}
         onPress={async () => {
           await haptics.selection()
@@ -83,17 +88,21 @@ function TypeSelector({
         }}
         testID='feedback-modal-idea'
       >
-        <Sun height={35} color={colors.secondaryButtonTextColor} />
         <Text 
           numberOfLines={1}
-          style={{ fontSize: 17, color: colors.secondaryButtonTextColor, marginTop: 10, textAlign: 'center' }}
+          style={{ fontSize: 32, color: colors.secondaryButtonTextColor, textAlign: 'center' }}
+        >
+          💡
+        </Text>
+        <Text 
+          numberOfLines={1}
+          style={{ fontSize: 17, color: colors.secondaryButtonTextColor, marginTop: 5, textAlign: 'center' }}
         >
           {i18n.t('idea')}
         </Text>
       </Pressable>
       <Pressable 
         style={({ pressed }) => ({
-          height: 100,
           opacity: pressed ? 0.8 : 1,
           borderRadius: 5,
           backgroundColor: colors.secondaryButtonBackground,
@@ -103,6 +112,7 @@ function TypeSelector({
           padding: 15,
           borderWidth: 1,
           borderColor: selected === 'other' ? colors.tint : colors.secondaryButtonBackground,
+          maxHeight: 100,
         })}
         onPress={async () => {
           await haptics.selection()
@@ -110,10 +120,10 @@ function TypeSelector({
         }}
         testID='feedback-modal-other'
       >
-        <MoreHorizontal height={35} color={colors.secondaryButtonTextColor} />
+        <MoreHorizontal height={40} color={colors.secondaryButtonTextColor} />
         <Text 
           numberOfLines={1}
-          style={{ fontSize: 17, color: colors.secondaryButtonTextColor, marginTop: 10, textAlign: 'center' }}
+          style={{ fontSize: 17, color: colors.secondaryButtonTextColor, marginTop: 5, textAlign: 'center' }}
         >
           {i18n.t('other')}
         </Text>
@@ -257,14 +267,22 @@ export default function useFeedbackModal() {
           paddingRight: 20,
         }}>
           <ModalHeader
-            title={i18n.t('feedback_modal_title')}
-            left={<LinkButton testID='feedback-modal-cancel' onPress={hide} type='secondary'>{i18n.t('feedback_modal_cancel')}</LinkButton>}
-            right={<Button testID='feedback-modal-submit' onPress={send}>{i18n.t('feedback_modal_send')}</Button>}
+            left={<LinkButton testID='feedback-modal-cancel' onPress={hide} type='secondary' icon={<X height={24} color={colors.text} />} />}
           />
+          <Text style={{ 
+            marginBottom: 10,
+            color: colors.text, 
+            fontSize: 32,
+            textAlign: 'center',
+            fontWeight: 'bold',
+          }}>
+            {i18n.t('feedback_modal_title')}
+          </Text>
           <Text style={{ 
             marginBottom: 30,
             color: colors.textSecondary, 
             fontSize: 15,
+            lineHeight: 20,
             textAlign: 'center',
           }}>
             {i18n.t('feedback_modal_description')}
@@ -282,11 +300,20 @@ export default function useFeedbackModal() {
               containerStyle={{
                 marginBottom: 20,
               }}
+              style={{
+                height: 180,
+              }}
               value={message}
               onChange={(text) => setMessageProxy(text)}
               placeholder={i18n.t('feedback_modal_textarea_placeholder')}
             />
           </View>
+          <Button 
+            testID='feedback-modal-submit' 
+            onPress={send}
+          >
+            {i18n.t('feedback_modal_send')}
+          </Button>
         </View>
         </DismissKeyboard>
       </Modal>

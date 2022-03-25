@@ -48,7 +48,6 @@ export default function TextArea({
         placeholderTextColor={colors.textInputPlaceholder}
         textAlignVertical={'top'}
         style={{
-          ...style,
           backgroundColor: colors.textInputBackground,
           color: colors.textInputText,
           padding: 15,
@@ -57,6 +56,7 @@ export default function TextArea({
           height: 280,
           width: '100%',
           borderRadius: 5,
+          ...style,
         }}
       />
       <View style={{

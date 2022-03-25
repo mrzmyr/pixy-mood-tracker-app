@@ -58,7 +58,6 @@
   "feedback_modal_description": "Your feedback helps me a lot to better understand how you use the app and how I can improve it.",
   "feedback_modal_textarea_placeholder": "I noticed that…",
   "feedback_modal_send": "Send",
-  "feedback_modal_cancel": "Cancel",
   "feedback_success_title": "Feedback sent",
   "feedback_success_message": "Your feedback was successfully sent.",
   "feedback_error_title": "Feedback failed",
