@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
-import { Pressable, ScrollView, View } from 'react-native';
+import { ScrollView, TouchableOpacity, View } from 'react-native';
 import { Circle } from 'react-native-feather';
 import TextInfo from '../components/TextInfo';
 import useColors from '../hooks/useColors';
+import useHaptics from '../hooks/useHaptics';
 import { useSettings } from '../hooks/useSettings';
 import { useTranslation } from '../hooks/useTranslation';
 
@@ -68,18 +69,19 @@ function Radio({
   const colors = useColors()
   
   return (
-    <Pressable
+    <TouchableOpacity
+      activeOpacity={0.8}
       onPress={onPress}
-      style={({ pressed }) => ({
+      style={{
         flexDirection: 'row',
         alignItems: 'center',
         marginBottom: 10,
         backgroundColor: colors.menuListItemBackground,
         padding: 10,
         borderRadius: 10,
-        opacity: pressed ? 0.8 : 1,
-      })}
+      }}
     >
+      <>
       <View style={{ 
         width: '15%', 
         justifyContent: 'center', 
@@ -105,7 +107,8 @@ function Radio({
       >
         {children}
       </View>
-    </Pressable>
+      </>
+    </TouchableOpacity>
   )
 }
 
@@ -113,6 +116,7 @@ export default function SettingsScreen({ navigation }) {
   const { setSettings, settings } = useSettings()
   const i18n = useTranslation()
   const colors = useColors()
+  const haptics = useHaptics()
   
   const [scaleType, setScaleType] = useState(settings.scaleType)
   
@@ -140,7 +144,10 @@ export default function SettingsScreen({ navigation }) {
             <Radio
               key={type}
               isSelected={type === scaleType}
-              onPress={() => setScaleType(type)}
+              onPress={async () => {
+                await haptics.selection()
+                setScaleType(type)
+              }}
             >
               <Scale type={type} />
             </Radio>
