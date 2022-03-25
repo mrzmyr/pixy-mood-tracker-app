@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.9.1](https://github.com/mrzmyr/pixy-mood-tracker/compare/v1.9.0...v1.9.1) (2022-03-25)
+
+
+### Bug Fixes
+
+* **Android:** add reminder clock for ios and android ([1b2c2ba](https://github.com/mrzmyr/pixy-mood-tracker/commit/1b2c2ba1b9bad589321ea79b6bbbc70394e50253))
+* **Android:** only vibrate on iOS ([eae7d71](https://github.com/mrzmyr/pixy-mood-tracker/commit/eae7d71581637bac76b4bea37562432f8ef9ebb7))
+
+
+### Styling
+
+* **Calendar:** today indicator adapt to bg color ([1120f9f](https://github.com/mrzmyr/pixy-mood-tracker/commit/1120f9faa5bd7771c3ea45150b4539567a160950))
+* design update ([ec8dc9d](https://github.com/mrzmyr/pixy-mood-tracker/commit/ec8dc9db84284b29845acea486e08e3ff7169a54))
+
+
+### Chore
+
+* change privacy text ([98b80e5](https://github.com/mrzmyr/pixy-mood-tracker/commit/98b80e59b26973af00e3cd28f81b607708d644e2))
+
 ## [1.9.0](https://github.com/mrzmyr/pixy-mood-tracker/compare/v1.8.3...v1.9.0) (2022-03-25)
 
 
