@@ -49,8 +49,6 @@ export default function TextArea({
         textAlignVertical={'top'}
         style={{
           ...style,
-          borderWidth: 1,
-          borderColor: colors.textInputBorder,
           backgroundColor: colors.textInputBackground,
           color: colors.textInputText,
           padding: 15,

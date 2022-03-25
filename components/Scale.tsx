@@ -1,11 +1,10 @@
 import { View } from "react-native";
+import useHaptics from "../hooks/useHaptics";
 import { LogItem } from "../hooks/useLogs";
 import useScale from "../hooks/useScale";
+import { useSegment } from "../hooks/useSegment";
 import { SettingsState } from "../hooks/useSettings";
 import ScaleButton from "./ScaleButton";
-import * as Haptics from 'expo-haptics';
-import { useSegment } from "../hooks/useSegment";
-import useHaptics from "../hooks/useHaptics";
 
 export default function Scale({
   type,
@@ -35,6 +34,7 @@ export default function Scale({
           accessibilityLabel={labels[index]}
           key={key} 
           isFirst={index === 0}
+          isLast={index === labels.length - 1}
           isSelected={key === value}
           onPress={onPress ? async () => {
             await haptics.selection()

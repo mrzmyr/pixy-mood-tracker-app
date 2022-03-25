@@ -59,7 +59,7 @@ export default memo(function CalendarDay({
           backgroundColor: backgroundColor,
           width: '100%',
           aspectRatio: 1,
-          opacity: isFuture ? 0.5 : 1,
+          opacity: isFuture ? 0.3 : 1,
         }}
         testID={`calendar-day-${dateString}`}
         accessible={true}
