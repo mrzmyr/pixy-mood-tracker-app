@@ -72,7 +72,7 @@ describe('Calendar should', () => {
     cy.get(`[data-testid="calendar-day-${today}"]`).should('have.attr', 'data-rating', 'none')
   })
 
-  it.only('reset data', () => {
+  it('reset data', () => {
     cy.track({
       date: today,
       rating: POSSIBLE_RATINGS[3],
