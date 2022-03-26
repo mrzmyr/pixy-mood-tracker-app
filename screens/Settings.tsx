@@ -1,3 +1,4 @@
+import * as Linking from 'expo-linking';
 import * as StoreReview from 'expo-store-review';
 import { ScrollView, Text, View } from 'react-native';
 import { Award, Bell, Database, Flag, Lock, Shield, Star } from 'react-native-feather';
@@ -19,10 +20,8 @@ export default function SettingsScreen({ navigation }: RootStackScreenProps<'Set
 
   const askToRateApp = async () => {
     segment.track('rate_app')
-    
-    if (await StoreReview.hasAction()) {
-      StoreReview.requestReview()
-    }
+    Linking.openURL(StoreReview.storeUrl())
+  }
   }
 
   return (
