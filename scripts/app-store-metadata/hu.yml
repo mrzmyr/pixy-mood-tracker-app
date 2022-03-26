@@ -13,5 +13,6 @@ description: |
 keywords: hangulat,követés,pixel,napló,napló,import,export
 support_url: https://y99.notion.site/Pixy-Mood-Tracker-8e7b651127cd49f391113cb83510084d
 whats_new: |
-  - Hibajavítás: a maximális hossz 512-nél korábban volt levágva
-  - Mozgassa a visszajelzés gombját felülről
+  - Tervezés frissítve
+  - Emlékeztető hozzáadva
+  - Adatvédelmi oldal hozzáadva

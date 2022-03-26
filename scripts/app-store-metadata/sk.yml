@@ -13,5 +13,6 @@ description: |
 keywords: nálada,sledovanie,pixel,denník,denník,import,export
 support_url: https://y99.notion.site/Pixy-Mood-Tracker-8e7b651127cd49f391113cb83510084d
 whats_new: |
-  - Oprava chyby: maximálna dĺžka bola skrátená skôr ako 512
-  - Presuňte tlačidlo spätnej väzby zhora
+  - Dizajn bol aktualizovaný
+  - Pripomenutie pridané
+  - Pridaná stránka ochrany osobných údajov

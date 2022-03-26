@@ -13,5 +13,6 @@ description: |
 keywords: starea de spirit, urmărirea, pixelul, jurnalul, jurnalul, importul, exportul
 support_url: https://y99.notion.site/Pixy-Mood-Tracker-8e7b651127cd49f391113cb83510084d
 whats_new: |
-  - Bugfix: lungimea maximă a fost întreruptă mai devreme de 512
-  - Mutați butonul de feedback de sus
+  - Design actualizat
+  - A fost adăugat un memento
+  - A fost adăugată pagina de confidențialitate

@@ -13,5 +13,6 @@ description: |
 keywords: estat d'ànim, seguiment, píxel, diari, diari, importació, exportació
 support_url: https://y99.notion.site/Pixy-Mood-Tracker-8e7b651127cd49f391113cb83510084d
 whats_new: |
-  - Correcció d'errors: la longitud màxima es va tallar abans de 512
-  - Mou el botó de la retroalimentació de cap a dalt
+  - Disseny actualitzat
+  - S'ha afegit un recordatori
+  - S'ha afegit la pàgina de privadesa

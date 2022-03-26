@@ -13,5 +13,6 @@ description: |
 keywords: nastrój, śledzenie, piksel, dziennik, pamiętnik, import, eksport
 support_url: https://y99.notion.site/Pixy-Mood-Tracker-8e7b651127cd49f391113cb83510084d
 whats_new: |
-  - Bugfix: maksymalna długość została obcięta wcześniej niż 512
-  - Przenieś przycisk opinii z góry na górę
+  - Zaktualizowany projekt
+  - Dodano przypomnienie
+  - Dodano stronę prywatności

@@ -13,5 +13,6 @@ description: |
 keywords: humör, spårning, pixel, journal, dagbok, import, export
 support_url: https://y99.notion.site/Pixy-Mood-Tracker-8e7b651127cd49f391113cb83510084d
 whats_new: |
-  - Bugfix: maxlängden avbröts tidigare än 512
-  - Flytta knappen för feedback uppifrån
+  - Design uppdaterad
+  - Påminnelse tillagd
+  - Sekretesssida tillagd

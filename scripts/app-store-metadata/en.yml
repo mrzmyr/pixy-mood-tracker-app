@@ -1,8 +1,9 @@
 title: Pixy Mood Tracker
 subtitle: Track your mood with webhook & export functionality
 whats_new: |
-  - Bugfix: max length was cutting off earlier than 512
-  - Move button of the feedback from to top
+  - Design updated
+  - Reminder added
+  - Privacy page added
 description: |
   Pixy is a minimalistic approach to track your mood within one pixel a day.
 

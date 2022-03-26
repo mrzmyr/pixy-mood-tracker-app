@@ -13,5 +13,6 @@ description: |
 keywords: humør, sporing, pixel, journal, dagbog, import, eksport
 support_url: https://y99.notion.site/Pixy-Mood-Tracker-8e7b651127cd49f391113cb83510084d
 whats_new: |
-  - Bugfix: max længde blev afskåret tidligere end 512
-  - Flyt knappen for feedback fra toppen
+  - Design opdateret
+  - Påmindelse tilføjet
+  - Privatlivsside tilføjet

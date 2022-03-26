@@ -13,5 +13,6 @@ description: |
 keywords: 기분,추적,픽셀,일지,일기,가져오기,내보내기
 support_url: https://y99.notion.site/Pixy-Mood-Tracker-8e7b651127cd49f391113cb83510084d
 whats_new: |
-  - 버그픽스: 최대 길이가 512보다 일찍 잘림
-  - 피드백의 버튼을 위에서 위로 이동
+  - 디자인 업데이트
+  - 알림이 추가되었습니다.
+  - 개인정보 페이지 추가
