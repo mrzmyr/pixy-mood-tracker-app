@@ -3,7 +3,7 @@ import * as Localization from 'expo-localization';
 import { debounce } from "lodash";
 import { useCallback, useState } from 'react';
 import { ActivityIndicator, Alert, Modal, Platform, Pressable, Text, View } from 'react-native';
-import { AlertTriangle, MoreHorizontal, Send, Sun, X } from 'react-native-feather';
+import { MoreHorizontal, X } from 'react-native-feather';
 import Button from '../components/Button';
 import DismissKeyboard from '../components/DismisKeyboard';
 import LinkButton from '../components/LinkButton';

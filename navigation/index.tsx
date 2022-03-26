@@ -106,11 +106,8 @@ function RootNavigator() {
     stackScreenOptions.animation = 'none'
   }
 
-  const { show: showFeedbackModal, Modal } = useFeedbackModal();
-
   return (
     <>
-    <Modal />
     <Stack.Navigator
       initialRouteName="Calendar"
       screenListeners={{
