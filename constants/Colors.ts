@@ -126,7 +126,7 @@ const light: IColors = {
   secondaryButtonBackground: tailwindGray['200'],
   secondaryButtonTextColor: tailwindGray['800'],
   
-  textInputBackground: tailwindGray['100'],
+  textInputBackground: '#FFF',
   textInputText: tailwindGray['800'],
   textInputPlaceholder: tailwindGray['400'],
   textInputLabel: tailwindGray['300'],

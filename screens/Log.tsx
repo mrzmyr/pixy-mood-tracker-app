@@ -72,7 +72,7 @@ export default function Log({ navigation, route }: RootStackScreenProps<'Log'>) 
       <View style={{
         flex: 1,
         justifyContent: 'flex-start',
-        backgroundColor: colors.background,
+        backgroundColor: colors.backgroundSecondary,
         paddingTop: 20 + (Platform.OS === 'android' ? StatusBar.currentHeight : 0),
         paddingBottom: 20,
         paddingLeft: 20,
