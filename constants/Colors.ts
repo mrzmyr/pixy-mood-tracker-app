@@ -61,6 +61,10 @@ export interface IColors {
   link: string;
   tint: string;
 
+  passcodeDotBackground: string;
+  passcodePadBackground: string,
+  passcodePadBackgroundActive: string,
+  
   menuListItemBackground: string;
   menuListItemText: string;
   menuListItemIcon: string;
@@ -104,6 +108,10 @@ const light: IColors = {
   backgroundSecondary: tailwindGray['100'],
   link: tintColorLight,
   tint: tintColorLight,
+
+  passcodeDotBackground: tailwindGray['300'],
+  passcodePadBackground: tailwindGray['200'],
+  passcodePadBackgroundActive: tailwindGray['400'],
 
   menuListItemBackground: '#FFF',
   menuListItemText: '#000',
@@ -149,6 +157,10 @@ const dark: IColors = {
   link: tintColorLight,
   tint: tintColorDark,
   
+  passcodeDotBackground: tailwindGray['600'],
+  passcodePadBackground: tailwindGray['800'],
+  passcodePadBackgroundActive: tailwindGray['700'],
+
   menuListItemBackground: tailwindGray['800'],
   menuListItemText: tailwindGray['50'],
   menuListItemIcon: tailwindGray['200'],

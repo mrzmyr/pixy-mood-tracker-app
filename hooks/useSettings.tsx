@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { createContext, useContext, useEffect, useState } from "react";
-import 'react-native-get-random-values'
+import 'react-native-get-random-values';
 import { v4 as uuidv4 } from 'uuid';
 
 const STORAGE_KEY = 'PIXEL_TRACKER_SETTINGS'
@@ -19,6 +19,8 @@ export interface SettingsWebhookHistoryEntry {
 
 export interface SettingsState {
   deviceId: string | null,
+  passcodeEnabled: boolean,
+  passcode: string | null,
   webhookEnabled: Boolean,
   webhookUrl: string,
   webhookHistory: SettingsWebhookHistoryEntry[],
@@ -29,15 +31,19 @@ export interface SettingsState {
 
 const initialState: SettingsState = {
   deviceId: null,
+  passcodeEnabled: false,
+  passcode: null,
   webhookEnabled: false,
   webhookUrl: '',
   webhookHistory: [],
   scaleType: 'ColorBrew-RdYlGn',
   reminderEnabled: false,
   reminderTime: '18:00',
+  loaded: false,
 }
 
 function SettingsProvider({children}: { children: React.ReactNode }) {
+  const [loaded , setLoaded] = useState(false)
   const [settings, setSettings] = useState(initialState)
 
   const setSettingsProxy = async (settingsOrSettingsFunction: SettingsState | Function) => {
@@ -87,9 +93,16 @@ function SettingsProvider({children}: { children: React.ReactNode }) {
       // console.log('Error loading settings', e)
     }
   }, [])
+
+  useEffect(() => {
+    if(settings.deviceId !== null) {
+      setLoaded(true)
+    }
+  }, [settings.deviceId])
   
   const value = { 
     settings, 
+    loaded,
     setSettings: setSettingsProxy, 
     resetSettings 
   };
@@ -103,6 +116,7 @@ function SettingsProvider({children}: { children: React.ReactNode }) {
 
 function useSettings(): { 
   settings: SettingsState, 
+  loaded: boolean,
   setSettings: (settings: SettingsState) => void, 
   resetSettings: () => void,
 } {

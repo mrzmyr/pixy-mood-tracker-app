@@ -1,29 +1,50 @@
 import * as Linking from 'expo-linking';
 import * as StoreReview from 'expo-store-review';
-import { ScrollView, Text, View } from 'react-native';
-import { Award, Bell, Database, Flag, Lock, Shield, Star } from 'react-native-feather';
+import { useEffect, useState } from 'react';
+import { ScrollView, Switch, Text, View } from 'react-native';
+import { Award, Bell, Database, Flag, Lock, Shield, Star, Unlock } from 'react-native-feather';
 import MenuList from '../components/MenuList';
 import MenuListItem from '../components/MenuListItem';
 import TextInfo from '../components/TextInfo';
 import useColors from '../hooks/useColors';
 import useFeedbackModal from '../hooks/useFeedbackModal';
+import usePasscodeModal from '../hooks/usePasscodeModal';
 import { useSegment } from '../hooks/useSegment';
+import { useSettings } from '../hooks/useSettings';
 import { useTranslation } from '../hooks/useTranslation';
 import pkg from '../package.json';
 import { RootStackScreenProps } from '../types';
 
 export default function SettingsScreen({ navigation }: RootStackScreenProps<'Settings'>) {
-  const { show: showFeedbackModal, Modal } = useFeedbackModal();
+  const { settings, setSettings } = useSettings()
   const colors = useColors()
   const i18n = useTranslation()
   const segment = useSegment()
+  const [passcodeEnabled, setPasscodeEnabled] = useState(settings.passcodeEnabled);
+
+  const { show: showFeedbackModal, Modal: FeedbackModal } = useFeedbackModal();
+  const { show: showPasscodeModal, hide: hidePasscodeModal, Modal: PasscodeModal } = usePasscodeModal({
+    mode: 'create',
+    onSubmit: (code) => {
+      setPasscodeEnabled(true);
+      hidePasscodeModal();
+      setSettings({ ...settings, passcode: code, passcodeEnabled: true });
+      segment.track('passcode_set');
+      return true;
+    }
+  });
 
   const askToRateApp = async () => {
     segment.track('rate_app')
-    Linking.openURL(StoreReview.storeUrl())
-  }
+
+    const storeUrl = StoreReview.storeUrl();
+    if(storeUrl !== null) Linking.openURL(storeUrl)
   }
 
+  useEffect(() => {
+    setSettings((settings: SettingsState) => ({ ...settings, passcodeEnabled }))
+  }, [passcodeEnabled])
+  
   return (
     <View style={{ 
       flex: 1,
@@ -34,7 +55,8 @@ export default function SettingsScreen({ navigation }: RootStackScreenProps<'Set
           padding: 20,
         }}
       >
-        <Modal />
+        <FeedbackModal />
+        <PasscodeModal />
         <View
           style={{
             alignItems: 'center',
@@ -47,7 +69,7 @@ export default function SettingsScreen({ navigation }: RootStackScreenProps<'Set
               width: '90%',
             }}
           >
-            <Lock width={18} color={colors.textSecondary} />
+            <Shield width={18} color={colors.textSecondary} />
             <Text style={{ color: colors.textSecondary, marginTop: 5, textAlign: 'center' }}>
               {i18n.t('data_notice')}
             </Text>
@@ -67,6 +89,29 @@ export default function SettingsScreen({ navigation }: RootStackScreenProps<'Set
             onPress={() => navigation.navigate('Reminder')}
             testID='reminder'
             isLink
+          />
+          <MenuListItem
+            title={i18n.t('passcode')}
+            iconLeft={
+              passcodeEnabled ? 
+              <Lock width={18} color={colors.menuListItemIcon} /> :
+              <Unlock width={18} color={colors.menuListItemIcon} />
+            }
+            iconRight={
+              <Switch
+                ios_backgroundColor={colors.backgroundSecondary}
+                onValueChange={() => {
+                  segment.track('passcode_toggle', { enabled: !passcodeEnabled })
+                  if(!passcodeEnabled) showPasscodeModal()
+                  if(passcodeEnabled) {
+                    setPasscodeEnabled(false)
+                  }
+                }}
+                value={passcodeEnabled}
+                testID={`passcode-enabled`}
+              />
+            }
+            testID='passcode'
             isLast
           />
           {/* <MenuListItem

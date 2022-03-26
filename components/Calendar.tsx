@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-import { useEffect, useMemo, useRef } from "react";
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import {
   useScrollIntoView
 } from 'react-native-scroll-into-view';
@@ -44,11 +44,13 @@ export default function Calendar({
   }
   
   const scrollIntoView = useScrollIntoView();
-  const viewRef = useRef();
+  const viewRef = useRef(null);
   
   useEffect(() => {
-    scrollIntoView(viewRef.current)
-  }, [navigation]);
+    if(viewRef.current !== null) {
+      setTimeout(() => scrollIntoView(viewRef.current), 100);
+    }
+  }, [viewRef.current]);
 
   const scrollToToday = () => {
     scrollIntoView(viewRef.current, { animated: true })

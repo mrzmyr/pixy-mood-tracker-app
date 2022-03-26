@@ -2,6 +2,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { SegmentProvider } from '../hooks/useSegment';
 import { LogsProvider } from '../hooks/useLogs';
 import { SettingsProvider } from '../hooks/useSettings';
+import { PasscodeProvider } from '../hooks/usePasscode';
 
 const Providers = ({ 
   children
@@ -11,11 +12,13 @@ const Providers = ({
   return (
     <SafeAreaProvider>
       <SettingsProvider>
-        <SegmentProvider>
-          <LogsProvider>
-            {children}
-          </LogsProvider>
-        </SegmentProvider>
+        <PasscodeProvider>
+          <SegmentProvider>
+            <LogsProvider>
+              {children}
+            </LogsProvider>
+          </SegmentProvider>
+        </PasscodeProvider>
       </SettingsProvider>
     </SafeAreaProvider>
   )
