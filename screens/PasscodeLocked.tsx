@@ -65,7 +65,7 @@ export default function PasscodeLocked() {
     <SafeAreaView
       style={{
         flex: 1,
-        backgroundColor: colors.backgroundSecondary,
+        backgroundColor: colors.background,
         paddingTop: StatusBar.currentHeight,
       }}
     >
@@ -90,7 +90,7 @@ export default function PasscodeLocked() {
               alignItems: 'center',
               width: 70,
               height: 70,
-              backgroundColor: colors.background,
+              backgroundColor: colors.backgroundSecondary,
               borderRadius: 9999,
             }}>
               <Lock color={colors.text} width={40} height={30} />

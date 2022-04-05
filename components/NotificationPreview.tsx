@@ -48,7 +48,7 @@ export default function NotificationPreview() {
         }}>
           <View><Text style={{ color: colors.text, fontSize: 17, fontWeight: 'bold' }}>{i18n.t('notification_reminder_title')}</Text></View>
           {Platform.OS === 'ios' &&
-            <View><Text style={{ color: colors.textSecondary, fontSize: 16, marginRight: 5 }}>5 min ago</Text></View>
+            <View><Text style={{ color: colors.textSecondary, fontSize: 16, marginRight: 5 }}>Now</Text></View>
           }
         </View>
         <View><Text style={{ color: colors.text, fontSize: 17, marginTop: 5 }}>{i18n.t('notification_reminder_body')}</Text></View>

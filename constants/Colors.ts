@@ -72,6 +72,7 @@ export interface IColors {
   
   notificationBackground: string;
   
+  calendarBackground: string;
   calendarItemBackground: string;
   calendarItemTextColor: string;
   calendarWeekNameColor: string;
@@ -104,8 +105,8 @@ export interface IColors {
 const light: IColors = {
   text: '#000',
   textSecondary: tailwindGray['500'],
-  background: '#fff',
-  backgroundSecondary: tailwindGray['100'],
+  background: tailwindGray['100'],
+  backgroundSecondary: tailwindGray['300'],
   link: tintColorLight,
   tint: tintColorLight,
 
@@ -120,6 +121,7 @@ const light: IColors = {
   
   notificationBackground: '#FFF',
   
+  calendarBackground: '#FFF',
   calendarItemBackground: tailwindGray['200'],
   calendarItemTextColor: tailwindGray['500'],
   calendarWeekNameColor: '#000',
@@ -152,7 +154,7 @@ const light: IColors = {
 const dark: IColors = {
   text: '#fff',
   textSecondary: tailwindGray['500'],
-  background: tailwindGray['900'],
+  background: '#000',
   backgroundSecondary: tailwindGray['900'],
   link: tintColorLight,
   tint: tintColorDark,
@@ -161,14 +163,15 @@ const dark: IColors = {
   passcodePadBackground: tailwindGray['800'],
   passcodePadBackgroundActive: tailwindGray['700'],
 
-  menuListItemBackground: tailwindGray['800'],
+  menuListItemBackground: tailwindGray['900'],
   menuListItemText: tailwindGray['50'],
   menuListItemIcon: tailwindGray['200'],
-  menuListItemBorder: tailwindGray['700'],
+  menuListItemBorder: tailwindGray['800'],
 
-  notificationBackground: tailwindGray['800'],
+  notificationBackground: tailwindGray['900'],
   
-  calendarItemBackground: tailwindGray['800'],
+  calendarBackground: '#000',
+  calendarItemBackground: tailwindGray['900'],
   calendarItemTextColor: tailwindGray['500'],
   calendarWeekNameColor: tailwindGray['500'],
   calendarMonthNameColor: tailwindGray['500'],

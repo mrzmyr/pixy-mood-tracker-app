@@ -75,7 +75,7 @@ export default function ReminderScreen() {
     <View
       style={{
         flex: 1,
-        backgroundColor: colors.backgroundSecondary,
+        backgroundColor: colors.background,
       }}
     >
       <ScrollView style={{ 

@@ -33,7 +33,7 @@ export default function WebhookScreen({ navigation }: RootStackScreenProps<'Webh
   return (
     <ScrollView
       style={{
-        backgroundColor: colors.backgroundSecondary,
+        backgroundColor: colors.background,
       }}
     >
       <View

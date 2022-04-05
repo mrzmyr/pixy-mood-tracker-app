@@ -23,7 +23,7 @@ export default function PrivacyScreen() {
     <View
       style={{
         flex: 1,
-        backgroundColor: colors.backgroundSecondary,
+        backgroundColor: colors.background,
       }}
     >
       <ScrollView style={{ 
@@ -37,7 +37,7 @@ export default function PrivacyScreen() {
             alignItems: 'center',
             padding: 20,
           }}>
-            <Shield fill={colors.background} color={colors.text} width={80} height={30} />
+            <Shield color={colors.text} width={80} height={30} />
           </View>
           <Markdown style={{
             body: {color: colors.text, fontSize: 16, lineHeight: 24 },

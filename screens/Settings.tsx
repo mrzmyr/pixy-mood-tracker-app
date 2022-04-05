@@ -58,7 +58,7 @@ export default function SettingsScreen({ navigation }: RootStackScreenProps<'Set
   return (
     <View style={{ 
       flex: 1,
-      backgroundColor: colors.backgroundSecondary,
+      backgroundColor: colors.background,
     }}>
       <ScrollView
         style={{

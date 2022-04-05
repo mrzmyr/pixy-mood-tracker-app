@@ -19,7 +19,7 @@ export default function CalendarScreen({ navigation }) {
       <CustomScrollView
         style={{
           marginTop: 0,
-          backgroundColor: colors.background,
+          backgroundColor: colors.calendarBackground,
           paddingLeft: 15,
           paddingRight: 15,
         }}

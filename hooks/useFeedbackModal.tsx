@@ -261,7 +261,7 @@ export default function useFeedbackModal() {
         <View style={{
           flex: 1,
           justifyContent: 'flex-start',
-          backgroundColor: colors.backgroundSecondary,
+          backgroundColor: colors.background,
           paddingTop: 20,
           paddingBottom: 20,
           paddingLeft: 20,

@@ -16,7 +16,7 @@ export default function LicensesScreen() {
     >
       <ScrollView style={{ 
         padding: 20,
-        backgroundColor: colors.backgroundSecondary,
+        backgroundColor: colors.background,
       }}>
           <View style={{
             marginTop: 20
