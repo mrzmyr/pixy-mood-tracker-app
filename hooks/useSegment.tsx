@@ -15,6 +15,7 @@ interface SegmentState {
   initialize: () => void,
   track: (event: string, properties?: any) => void,
   screen: (screenName: string, properties?: any) => void,
+  identify: (properties?: {}) => void
 }
 
 function SegmentProvider({
@@ -25,8 +26,8 @@ function SegmentProvider({
   const { settings } = useSettings()
 
   const [isIdentified, setIsIdentified] = useState(false)
-
-  useEffect(() => {
+  
+  const identify = (properties?: any) => {
     const traits = {
       userId: settings.deviceId,
       appVersion: Constants?.manifest?.version,
@@ -34,18 +35,28 @@ function SegmentProvider({
       osName: Device.osName,
       osVersion: Device.osVersion,
       locale: Localization.locale,
+
+      passcodeEnabled: settings.passcodeEnabled,
+      settingsReminderEnabled: settings.reminderEnabled,
+      settingsReminderTime: settings.reminderTime,
+      settingsScaleType: settings.scaleType,
+      settingsWebhookEnabled: settings.webhookEnabled,
+      ...properties,
+    }
+
+    if(__DEV__ || Platform.OS === 'web') {
+      console.log('useSegment: identify', traits)
+      return;
+    }
+
+    if(settings.deviceId === null) {
+      console.warn('useSegment: deviceId is null, cannot identify')
+      return;
     }
     
-    if(settings.deviceId !== null && !isIdentified) {
-      if(__DEV__ || Platform.OS === 'web') {
-        console.log('useSegment: identify', traits)
-        return;
-      }
-
-      Segment.identifyWithTraits(settings.deviceId, traits)
-      setIsIdentified(true)
-    }
-  }, [settings.deviceId])
+    Segment.identifyWithTraits(settings.deviceId, traits)
+    setIsIdentified(true)
+  }
   
   const value: SegmentState = {
     enable: () => {
@@ -90,8 +101,15 @@ function SegmentProvider({
       Segment.screenWithProperties(screenName, {
         userId: settings.deviceId
       })
-    }
+    },
+    identify
   }
+
+  useEffect(() => {
+    if(!isIdentified && settings.deviceId !== null) {
+      identify()
+    }
+  }, [settings.deviceId])
   
   return (
     <SegmentContext.Provider value={value}>

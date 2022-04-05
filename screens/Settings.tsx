@@ -23,18 +23,9 @@ export default function SettingsScreen({ navigation }: RootStackScreenProps<'Set
   const segment = useSegment()
   const [passcodeEnabled, setPasscodeEnabled] = useState(settings.passcodeEnabled);
   const [supportedSecurityLevel, setSupportedSecurityLevel] = useState<LocalAuthentication.SecurityLevel>(0);
+  const passcodeSupported = supportedSecurityLevel > 0;
 
   const { show: showFeedbackModal, Modal: FeedbackModal } = useFeedbackModal();
-  const { show: showPasscodeModal, hide: hidePasscodeModal, Modal: PasscodeModal } = usePasscodeModal({
-    mode: 'create',
-    onSubmit: (code) => {
-      setPasscodeEnabled(true);
-      hidePasscodeModal();
-      setSettings({ ...settings, passcode: code, passcodeEnabled: true });
-      segment.track('passcode_set');
-      return true;
-    }
-  });
 
   const askToRateApp = async () => {
     segment.track('rate_app')
@@ -44,6 +35,7 @@ export default function SettingsScreen({ navigation }: RootStackScreenProps<'Set
   }
 
   useEffect(() => {
+    segment.track('passcode_enable', { enabled: passcodeEnabled })
     setSettings((settings: SettingsState) => ({ ...settings, passcodeEnabled }))
   }, [passcodeEnabled])
 
@@ -66,7 +58,6 @@ export default function SettingsScreen({ navigation }: RootStackScreenProps<'Set
         }}
       >
         <FeedbackModal />
-        <PasscodeModal />
         <View
           style={{
             alignItems: 'center',
@@ -100,10 +91,9 @@ export default function SettingsScreen({ navigation }: RootStackScreenProps<'Set
             testID='reminder'
             isLink
           />
-          {
-          supportedSecurityLevel > 0 && (
           <MenuListItem
             title={i18n.t('passcode')}
+            deactivated={!passcodeSupported}
             iconLeft={
               passcodeEnabled ? 
               <Lock width={18} color={colors.menuListItemIcon} /> :
@@ -112,6 +102,7 @@ export default function SettingsScreen({ navigation }: RootStackScreenProps<'Set
             iconRight={
               <Switch
                 ios_backgroundColor={colors.backgroundSecondary}
+                disabled={!passcodeSupported}
                 onValueChange={() => {
                   segment.track('passcode_toggle', { enabled: !passcodeEnabled })
                   if(passcodeEnabled) {
@@ -129,7 +120,6 @@ export default function SettingsScreen({ navigation }: RootStackScreenProps<'Set
             testID='passcode'
             isLast
           />
-          )}
           {/* <MenuListItem
             title={i18n.t('scales')}
             iconLeft={<Droplet width={18} color={colors.menuListItemIcon} />}

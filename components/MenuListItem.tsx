@@ -11,6 +11,7 @@ export default ({
   iconRight = null,
   isLast = false,
   isLink = false,
+  deactivated = false,
   style = {},
   testID,
 }: {
@@ -20,6 +21,7 @@ export default ({
   iconRight?: React.ReactElement | null,
   isLast?: boolean | null,
   isLink?: boolean | null,
+  deactivated?: boolean,
   style?: any,
   testID?: string,
 }) => {
@@ -34,11 +36,12 @@ export default ({
         marginRight: 20,
         marginLeft: 20,
         maxHeight: 55,
+        opacity: deactivated ? 0.5 : 1,
       }}
     >
       <Pressable
         onPress={async () => {
-          if(onPress !== null) {
+          if(onPress !== null && !deactivated) {
             await haptics.selection()
             onPress()
           }
