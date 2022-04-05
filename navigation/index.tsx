@@ -1,5 +1,6 @@
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import * as LocalAuthentication from 'expo-local-authentication';
 import { useEffect } from 'react';
 import { Platform, Pressable, useColorScheme, View } from 'react-native';
 import { ArrowLeft, Settings as SettingsIcon } from 'react-native-feather';
@@ -8,14 +9,13 @@ import useColors from '../hooks/useColors';
 import useHaptics from '../hooks/useHaptics';
 import { usePasscode } from '../hooks/usePasscode';
 import { useSegment } from "../hooks/useSegment";
-import { useSettings } from '../hooks/useSettings';
 import { useTranslation } from '../hooks/useTranslation';
 import Calendar from '../screens/Calendar';
+import PasscodeLocked from '../screens/PasscodeLocked';
 import Data from '../screens/Data';
 import Licenses from '../screens/Licenses';
 import Log from '../screens/Log';
 import NotFound from '../screens/NotFound';
-import Passcode from '../screens/Passcode';
 import Privacy from '../screens/Privacy';
 import Reminder from '../screens/Reminder';
 import Scales from '../screens/Scales';
@@ -88,7 +88,6 @@ const BackButton = ({
 }
 
 function RootNavigator() {
-  const { loaded } = useSettings()
   const colors = useColors();
   const i18n = useTranslation()
   const haptics = useHaptics()
@@ -113,8 +112,8 @@ function RootNavigator() {
     segment.initialize()
   }, [])
 
-  if(!loaded) return null;
-  
+  if(passcode.isEnabled === null) return null;
+
   return (
     (passcode.isEnabled && !passcode.isAuthenticated) ? (
       <Stack.Navigator
@@ -122,9 +121,11 @@ function RootNavigator() {
           animation: 'none'
         }}
       >
-        <Stack.Screen options={{
-          headerShown: false
-        }} name="Passcode" component={Passcode} />
+        <Stack.Screen 
+          options={{ headerShown: false }} 
+          name="PasscodeLocked" 
+          component={PasscodeLocked} 
+        />
       </Stack.Navigator>
     ) : (
       <Stack.Navigator

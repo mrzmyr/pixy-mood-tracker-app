@@ -1,5 +1,4 @@
-import { StatusBar } from 'expo-status-bar';
-import { Platform, ScrollView, View } from 'react-native';
+import { ScrollView, View } from 'react-native';
 import { wrapScrollView } from 'react-native-scroll-into-view';
 import Calendar from '../components/Calendar';
 import CalendarHeader from '../components/CalendarHeader';

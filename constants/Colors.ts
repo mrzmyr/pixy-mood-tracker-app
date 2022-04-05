@@ -126,7 +126,7 @@ const light: IColors = {
   calendarMonthNameColor: '#000',
   
   primaryLinkButtonText: tintColorLight,
-  secondaryLinkButtonText: tailwindGray['900'],
+  secondaryLinkButtonText: tailwindGray['500'],
 
   primaryButtonBackground: tintColorLight,
   primaryButtonTextColor: '#FFF',

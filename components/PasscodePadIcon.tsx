@@ -19,6 +19,7 @@ export const PasscodePadIcon = ({
         width: 80,
         height: 80,
         opacity: pressed ? 0.5 : 1,
+        margin: 10,
       })}
     >
 

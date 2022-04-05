@@ -1,4 +1,5 @@
 import * as Linking from 'expo-linking';
+import * as LocalAuthentication from 'expo-local-authentication';
 import * as StoreReview from 'expo-store-review';
 import { useEffect, useState } from 'react';
 import { ScrollView, Switch, Text, View } from 'react-native';
@@ -21,6 +22,7 @@ export default function SettingsScreen({ navigation }: RootStackScreenProps<'Set
   const i18n = useTranslation()
   const segment = useSegment()
   const [passcodeEnabled, setPasscodeEnabled] = useState(settings.passcodeEnabled);
+  const [supportedSecurityLevel, setSupportedSecurityLevel] = useState<LocalAuthentication.SecurityLevel>(0);
 
   const { show: showFeedbackModal, Modal: FeedbackModal } = useFeedbackModal();
   const { show: showPasscodeModal, hide: hidePasscodeModal, Modal: PasscodeModal } = usePasscodeModal({
@@ -44,6 +46,14 @@ export default function SettingsScreen({ navigation }: RootStackScreenProps<'Set
   useEffect(() => {
     setSettings((settings: SettingsState) => ({ ...settings, passcodeEnabled }))
   }, [passcodeEnabled])
+
+  useEffect(() => {
+    LocalAuthentication
+      .getEnrolledLevelAsync()
+      .then(level => {
+        setSupportedSecurityLevel(level)
+      })
+  })
   
   return (
     <View style={{ 
@@ -90,6 +100,8 @@ export default function SettingsScreen({ navigation }: RootStackScreenProps<'Set
             testID='reminder'
             isLink
           />
+          {
+          supportedSecurityLevel > 0 && (
           <MenuListItem
             title={i18n.t('passcode')}
             iconLeft={
@@ -102,9 +114,12 @@ export default function SettingsScreen({ navigation }: RootStackScreenProps<'Set
                 ios_backgroundColor={colors.backgroundSecondary}
                 onValueChange={() => {
                   segment.track('passcode_toggle', { enabled: !passcodeEnabled })
-                  if(!passcodeEnabled) showPasscodeModal()
                   if(passcodeEnabled) {
                     setPasscodeEnabled(false)
+                  } else {
+                    LocalAuthentication.authenticateAsync().then((result) => {
+                      setPasscodeEnabled(result.success)
+                    })
                   }
                 }}
                 value={passcodeEnabled}
@@ -114,6 +129,7 @@ export default function SettingsScreen({ navigation }: RootStackScreenProps<'Set
             testID='passcode'
             isLast
           />
+          )}
           {/* <MenuListItem
             title={i18n.t('scales')}
             iconLeft={<Droplet width={18} color={colors.menuListItemIcon} />}

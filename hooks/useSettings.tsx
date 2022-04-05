@@ -19,7 +19,7 @@ export interface SettingsWebhookHistoryEntry {
 
 export interface SettingsState {
   deviceId: string | null,
-  passcodeEnabled: boolean,
+  passcodeEnabled: boolean | null,
   passcode: string | null,
   webhookEnabled: Boolean,
   webhookUrl: string,
@@ -31,7 +31,7 @@ export interface SettingsState {
 
 const initialState: SettingsState = {
   deviceId: null,
-  passcodeEnabled: false,
+  passcodeEnabled: null,
   passcode: null,
   webhookEnabled: false,
   webhookUrl: '',
@@ -39,11 +39,9 @@ const initialState: SettingsState = {
   scaleType: 'ColorBrew-RdYlGn',
   reminderEnabled: false,
   reminderTime: '18:00',
-  loaded: false,
 }
 
 function SettingsProvider({children}: { children: React.ReactNode }) {
-  const [loaded , setLoaded] = useState(false)
   const [settings, setSettings] = useState(initialState)
 
   const setSettingsProxy = async (settingsOrSettingsFunction: SettingsState | Function) => {
@@ -88,21 +86,13 @@ function SettingsProvider({children}: { children: React.ReactNode }) {
 
     try {
       load()
-      // console.log('Loaded settings')
     } catch(e) {
-      // console.log('Error loading settings', e)
+      console.log('Error loading settings', e)
     }
   }, [])
 
-  useEffect(() => {
-    if(settings.deviceId !== null) {
-      setLoaded(true)
-    }
-  }, [settings.deviceId])
-  
   const value = { 
     settings, 
-    loaded,
     setSettings: setSettingsProxy, 
     resetSettings 
   };
@@ -116,7 +106,6 @@ function SettingsProvider({children}: { children: React.ReactNode }) {
 
 function useSettings(): { 
   settings: SettingsState, 
-  loaded: boolean,
   setSettings: (settings: SettingsState) => void, 
   resetSettings: () => void,
 } {

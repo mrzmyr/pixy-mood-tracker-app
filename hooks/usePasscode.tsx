@@ -1,13 +1,14 @@
 import { createContext, useContext, useEffect, useRef, useState } from "react";
 import { AppState } from "react-native";
 import { useSettings } from './useSettings';
+import * as LocalAuthentication from 'expo-local-authentication';
 
 const PasscodeContext = createContext(undefined)
 
 interface PasscodeState {
   isAuthenticated: boolean
   setIsAuthenticated: (isAuthenticated: boolean) => void
-  isEnabled: boolean
+  isEnabled: boolean | null
 }
 
 function PasscodeProvider({
@@ -16,15 +17,24 @@ function PasscodeProvider({
   children: React.ReactNode
 }) {
   const { settings } = useSettings()
-  const [isAuthenticated, setIsAuthenticated] = useState(false)
+  const [isAuthenticated, setIsAuthenticated] = useState<PasscodeState['isAuthenticated']>(false)
+  const [isEnabled, setIsEnabled] = useState<PasscodeState['isEnabled']>(null)
   
   const appState = useRef(AppState.currentState);
   const [appStateVisible, setAppStateVisible] = useState(appState.current);
 
   useEffect(() => {
+    if(isEnabled && !isAuthenticated) {
+      LocalAuthentication.authenticateAsync().then((result) => {
+        setIsAuthenticated(result.success)
+      })
+    }
+  }, [isAuthenticated])
+  
+  useEffect(() => {
     const subscription = AppState.addEventListener("change", nextAppState => {
       if (
-        appState.current.match(/inactive|background/) &&
+        appState.current.match(/background/) &&
         nextAppState === "active"
       ) {
         setIsAuthenticated(false)
@@ -32,17 +42,20 @@ function PasscodeProvider({
 
       appState.current = nextAppState;
       setAppStateVisible(appState.current);
-      console.log("AppState", appState.current);
     });
 
     return () => {
-      subscription.remove();
+      if(subscription && subscription.remove) subscription.remove();
     };
   }, []);
 
+  useEffect(() => {
+    setIsEnabled(settings.passcodeEnabled)
+  }, [settings.passcodeEnabled])
+
   const value: PasscodeState = {
     isAuthenticated,
-    isEnabled: settings.passcodeEnabled,
+    isEnabled,
     setIsAuthenticated,
   };
 

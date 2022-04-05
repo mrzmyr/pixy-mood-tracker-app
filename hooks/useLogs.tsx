@@ -90,9 +90,8 @@ function LogsProvider({children}: LogsProviderProps) {
 
     try {
       load()
-      // console.log('loading successful')
     } catch(e) {
-      // console.log('loading errored', e)
+      console.log('loading logs errored', e)
     }
   }, [])
   
