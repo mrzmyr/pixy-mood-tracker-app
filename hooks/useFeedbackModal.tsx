@@ -2,7 +2,8 @@ import * as Application from 'expo-application';
 import * as Localization from 'expo-localization';
 import { debounce } from "lodash";
 import { useCallback, useState } from 'react';
-import { ActivityIndicator, Alert, Modal, Platform, Pressable, Text, View } from 'react-native';
+import { Alert } from '../components/Alert';
+import { ActivityIndicator, Modal, Platform, Pressable, Text, View } from 'react-native';
 import { MoreHorizontal, X } from 'react-native-feather';
 import Button from '../components/Button';
 import DismissKeyboard from '../components/DismisKeyboard';
@@ -260,7 +261,7 @@ export default function useFeedbackModal() {
         <View style={{
           flex: 1,
           justifyContent: 'flex-start',
-          backgroundColor: colors.background,
+          backgroundColor: colors.backgroundSecondary,
           paddingTop: 20,
           paddingBottom: 20,
           paddingLeft: 20,

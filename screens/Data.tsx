@@ -3,8 +3,9 @@ import * as DocumentPicker from 'expo-document-picker';
 import * as FileSystem from 'expo-file-system';
 import * as Sharing from 'expo-sharing';
 import { useEffect, useState } from 'react';
-import { Alert, Platform, ScrollView, Switch, View } from 'react-native';
+import { Platform, ScrollView, Switch, View } from 'react-native';
 import { Box, Download, Trash2, Upload } from 'react-native-feather';
+import { Alert } from '../components/Alert';
 import MenuList from '../components/MenuList';
 import MenuListItem from '../components/MenuListItem';
 import TextInfo from '../components/TextInfo';
@@ -15,7 +16,6 @@ import { useSettings } from '../hooks/useSettings';
 import { useTranslation } from '../hooks/useTranslation';
 import { convertPixeltoPixyJSON, getJSONSchemaType } from '../lib/utils';
 import { RootStackScreenProps } from '../types';
-
 
 let openShareDialogAsync = async (uri: string) => {
   const i18n = useTranslation()
@@ -28,8 +28,10 @@ let openShareDialogAsync = async (uri: string) => {
 };
 
 const exportState = async (state: LogsState) => {
-  if(Platform.OS === 'web') return;
-  
+  if(Platform.OS === 'web') {
+    return Alert.alert('Not supported on web');
+  }
+
   const filename = `pixel-tracker-${dayjs().format('YYYY-MM-DD')}.json`;
   await FileSystem.writeAsStringAsync(FileSystem.documentDirectory + filename, JSON.stringify(state));
   openShareDialogAsync(FileSystem.documentDirectory + filename)
