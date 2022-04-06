@@ -91,7 +91,7 @@ export default function SettingsScreen({ navigation }: RootStackScreenProps<'Set
             testID='reminder'
             isLink
           />
-          <MenuListItem
+          {/* <MenuListItem
             title={i18n.t('passcode')}
             deactivated={!passcodeSupported}
             iconLeft={
@@ -119,7 +119,7 @@ export default function SettingsScreen({ navigation }: RootStackScreenProps<'Set
             }
             testID='passcode'
             isLast
-          />
+          /> */}
           {/* <MenuListItem
             title={i18n.t('scales')}
             iconLeft={<Droplet width={18} color={colors.menuListItemIcon} />}

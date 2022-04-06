@@ -112,22 +112,22 @@ function RootNavigator() {
     segment.initialize()
   }, [])
 
-  if(passcode.isEnabled === null) return null;
+  // if(passcode.isEnabled === null) return null;
 
   return (
-    (passcode.isEnabled && !passcode.isAuthenticated) ? (
-      <Stack.Navigator
-        screenOptions={{
-          animation: 'none'
-        }}
-      >
-        <Stack.Screen 
-          options={{ headerShown: false }} 
-          name="PasscodeLocked" 
-          component={PasscodeLocked} 
-        />
-      </Stack.Navigator>
-    ) : (
+    // (passcode.isEnabled && !passcode.isAuthenticated) ? (
+    //   <Stack.Navigator
+    //     screenOptions={{
+    //       animation: 'none'
+    //     }}
+    //   >
+    //     <Stack.Screen 
+    //       options={{ headerShown: false }} 
+    //       name="PasscodeLocked" 
+    //       component={PasscodeLocked} 
+    //     />
+    //   </Stack.Navigator>
+    // ) : (
       <Stack.Navigator
         initialRouteName="Calendar"
         screenListeners={{
@@ -256,6 +256,6 @@ function RootNavigator() {
           />
         </Stack.Group>
       </Stack.Navigator>
-    )
+    // )
   );
 }
