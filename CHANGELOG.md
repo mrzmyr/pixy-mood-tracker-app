@@ -2,6 +2,46 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.10.0](https://github.com/mrzmyr/pixy-mood-tracker/compare/v1.9.5...v1.10.0) (2022-04-06)
+
+
+### Features
+
+* **Passcode:** add passcode ([8cee384](https://github.com/mrzmyr/pixy-mood-tracker/commit/8cee3843aca10afa40f07b21f4b245da56b19b0b))
+* **Passcode:** deactive state if not supported on device ([f7d932e](https://github.com/mrzmyr/pixy-mood-tracker/commit/f7d932e12e3cdd3215a80758b4630bb495171426))
+* **Passcode:** use native passcode over custom screen ([0e32aa5](https://github.com/mrzmyr/pixy-mood-tracker/commit/0e32aa5828d6e2da51e6f775744382700157cd95))
+* **Web:** add alert web compatibility ([0150c33](https://github.com/mrzmyr/pixy-mood-tracker/commit/0150c33e411038ce9cf97082730882acf741e2f5))
+
+
+### Bug Fixes
+
+* **Android:** fix height of toggle menulistitems ([a7ce5de](https://github.com/mrzmyr/pixy-mood-tracker/commit/a7ce5de2c8df0a8f520dd8ce6d0e753e0f6c54d8))
+* redirect to app store for 'rate this app' ([646c3ac](https://github.com/mrzmyr/pixy-mood-tracker/commit/646c3ac05f887dbfa5593f180bc68af4829e7a4f))
+
+
+### Tests
+
+* fix .only ([966dd7e](https://github.com/mrzmyr/pixy-mood-tracker/commit/966dd7ee59405b29496923981763ea062327111d))
+
+
+### Refactors
+
+* **Colors:** add types ([d6aa250](https://github.com/mrzmyr/pixy-mood-tracker/commit/d6aa2507b38290bf894cab441488182fa8f1aeb1))
+
+
+### Chore
+
+* add whats_new to metadata ([38a9846](https://github.com/mrzmyr/pixy-mood-tracker/commit/38a98465ae625992c1cf951191691637ed519b75))
+* disable entry in development ([b9c70ee](https://github.com/mrzmyr/pixy-mood-tracker/commit/b9c70eeb35b1bfd5be586a04444133d94032afde))
+* remove unused vars ([6aaaac8](https://github.com/mrzmyr/pixy-mood-tracker/commit/6aaaac874eeeaf4f65439e2d7dac8254ec7f1419))
+* update licenses ([41f79c6](https://github.com/mrzmyr/pixy-mood-tracker/commit/41f79c685bd09c414b5ad5837c116667d58f0fdc))
+
+
+### Styling
+
+* **Log:** update bg colors ([2c27f03](https://github.com/mrzmyr/pixy-mood-tracker/commit/2c27f0355407296c1744f33acf69fc32d21f0a95))
+* update dark mode ([2394303](https://github.com/mrzmyr/pixy-mood-tracker/commit/23943034b240957f5af27bf9bd52346a7ffacb48))
+
 ### [1.9.5](https://github.com/mrzmyr/pixy-mood-tracker/compare/v1.9.4...v1.9.5) (2022-03-25)
 
 
