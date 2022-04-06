@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.10.1](https://github.com/mrzmyr/pixy-mood-tracker/compare/v1.10.0...v1.10.1) (2022-04-06)
+
+
+### Bug Fixes
+
+* **Passcode:** remove passcode feature ([2235cbb](https://github.com/mrzmyr/pixy-mood-tracker/commit/2235cbbe534aebe44725892c7db274c0ba4bcc1d))
+
 ## [1.10.0](https://github.com/mrzmyr/pixy-mood-tracker/compare/v1.9.5...v1.10.0) (2022-04-06)
 
 
