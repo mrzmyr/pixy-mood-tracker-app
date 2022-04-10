@@ -77,6 +77,20 @@
   "notification_reminder_body": "Toque aqui para acompanhar seu humor de hoje.",
   "privacy": "Privacidade",
   "privacy_policy": "Política de Privacidade",
-  "privacy_content": "O Pixy oferece a capacidade de refletir sobre o seu dia e armazenar informações potencialmente confidenciais. Quero ser o mais transparente possível no uso de seus dados. Então, deixe-me explicar como os dados são usados e por que seus dados estão seguros.\n\n### Não temos acesso às suas informações rastreadas\n\nSeus dados são salvos localmente em seu dispositivo. Ele nunca é compartilhado com ninguém, exceto se você optar por exportá-lo ou usar a funcionalidade de webhook.\n\n### Registros de erros\n\n**Para encontrar problemas e manter a estabilidade, analisamos os registros de erros relatados.**\n\nColetamos logs de erros com o provedor de serviços Sentry. Dá-nos a possibilidade de ver a hora, a tela aberta e o tipo do dispositivo. Usamos isso para reproduzir o erro e fornecer uma correção.\n\n### Dados comportamentais\n\nQuando você abre uma tela ou altera uma configuração, isso será enviado para uma de nossas ferramentas de análise. Esses dados são enviados totalmente anonimizados. Nenhum dos seus dados pessoais é enviado. Por exemplo, se Laura Birmingham acompanha seu humor. Vemos apenas que o usuário 101029 fez esta ação. Nunca coletamos nenhum texto que você armazena no aplicativo.\n\nUsamos o Posthog Cloud para coletar e visualizar e dados. Ajuda-nos a compreender melhor as tendências e a encontrar áreas de melhoria.\n\n\n---------\n\nSe você tiver alguma dúvida ou preocupação, mande-me uma linha para [moritz@devmood.com](mailto:moritz@devmood.com).\n\n**Eu uso este aplicativo sozinho e nunca gostaria de compartilhar dados pessoais com nenhum desenvolvedor.**\n\n*Você pode encontrar toda a política de privacidade aqui.*",
-  "behavioral_data": "Dados comportamentais"
+  "privacy_content": "O Pixy oferece a capacidade de refletir sobre o seu dia e armazenar informações potencialmente confidenciais. Quero ser o mais transparente possível no uso de seus dados. Então, deixe-me explicar como os dados são usados e por que seus dados estão seguros.\n\n### Não temos acesso às suas informações rastreadas\n\nSeus dados são salvos localmente em seu dispositivo. Ele nunca é compartilhado com ninguém, exceto se você optar por exportá-lo ou usar a funcionalidade de webhook.\n\n### Registros de erros\n\n**Para encontrar problemas e manter a estabilidade, analisamos os registros de erros relatados.**\n\nColetamos logs de erros com o provedor de serviços Sentry. Dá-nos a possibilidade de ver a hora, a tela aberta e o tipo do dispositivo. Usamos isso para reproduzir o erro e fornecer uma correção.\n\n### Dados comportamentais\n\nQuando você abre uma tela ou altera uma configuração, isso será enviado para uma de nossas ferramentas de análise. Esses dados são enviados totalmente anonimizados. Nenhum dos seus dados pessoais é enviado. Por exemplo, se Laura Birmingham acompanha seu humor. Vemos apenas que o usuário 101029 fez esta ação. Nunca coletaremos nenhum texto que você armazene no aplicativo.\n\nUsamos o Posthog Cloud para coletar e visualizar dados. Ajuda-nos a compreender melhor as tendências e a encontrar áreas de melhoria.\n\n\n---------\n\nSe você tiver alguma dúvida ou preocupação, mande-me uma linha para [moritz@devmood.com](mailto:moritz@devmood.com).\n\n**Eu uso este aplicativo sozinho e nunca gostaria de compartilhar dados pessoais com nenhum desenvolvedor.**\n\n*Você pode encontrar toda a política de privacidade aqui.*",
+  "behavioral_data": "Dados comportamentais",
+  "passcode": "Senha",
+  "passcode_title_create": "Defina sua senha",
+  "passcode_title_confirm": "digite sua senha",
+  "passcode_locked_title": "O aplicativo está bloqueado",
+  "passcode_locked_message": "Por favor, digite sua senha.",
+  "passcode_forgot": "Esqueceu sua senha?",
+  "passcode_forgot_description": "Infelizmente, não podemos redefinir sua senha. Se você perdeu sua senha, não há como recuperar seus dados.",
+  "passcode_forgot_cancel": "Cancelar",
+  "passcode_forgot_reset": "Excluir todos os meus dados",
+  "passcode_forgot_reset_confirm": "Tem certeza?",
+  "passcode_forgot_reset_confirm_description": "Isso apagará todos os seus dados e configurações para este aplicativo.",
+  "passcode_forgot_reset_confirm_reset": "Sim, excluir todos os meus dados",
+  "passcode_forgot_reset_confirm_cancel": "Cancelar",
+  "passcode_retry": "Digite a senha"
 }

@@ -77,6 +77,20 @@
   "notification_reminder_body": "Dodirnite ovdje da pratite svoje današnje raspoloženje.",
   "privacy": "Privatnost",
   "privacy_policy": "Politika privatnosti",
-  "privacy_content": "Pixy vam daje mogućnost razmišljanja o svom danu i pohranjivanja potencijalno osjetljivih informacija. Želim biti što transparentniji u korištenju vaših podataka. Dopustite mi da objasnim kako se podaci koriste i zašto su vaši podaci sigurni.\n\n### Nemamo pristup vašim praćenim podacima\n\nVaši se podaci spremaju lokalno na vašem uređaju. Nikada se ne dijeli ni s kim osim što odaberete da ga izvezete ili koristite funkciju webhooka.\n\n### Zapisnici pogrešaka\n\n**Da bismo pronašli probleme i održali stabilnost, gledamo prijavljene zapisnike pogrešaka.**\n\nPrikupljamo zapisnike pogrešaka s davateljem usluga Sentry. Daje nam mogućnost da vidimo vrijeme, otvoren ekran i vrstu uređaja. Koristimo to za reprodukciju pogreške i za ispravljanje.\n\n### Podaci o ponašanju\n\nKada otvorite zaslon ili promijenite postavku, to će biti poslano jednom od naših analitičkih alata. Ovi se podaci šalju potpuno anonimizirani. Nijedan od vaših osobnih podataka se ne šalje. Na primjer, ako Laura Birmingham prati svoje raspoloženje. Vidimo samo da je korisnik 101029 napravio ovu radnju. Nikada ne prikupljamo tekst koji pohranjujete u aplikaciji.\n\nKoristimo Posthog Cloud za prikupljanje, vizualizaciju i podatke. Pomaže nam bolje razumjeti trendove i pronaći područja za poboljšanje.\n\n\n---------\n\nAko imate bilo kakvih pitanja ili nedoumica, javite mi se na [moritz@devmood.com](mailto:moritz@devmood.com).\n\n**Sam koristim ovu aplikaciju i nikada ne bih želio dijeliti osobne podatke ni s jednim razvojnim programerom.**\n\n*Cijelu politiku privatnosti možete pronaći ovdje.*",
-  "behavioral_data": "Podaci o ponašanju"
+  "privacy_content": "Pixy vam daje mogućnost razmišljanja o svom danu i pohranjivanja potencijalno osjetljivih informacija. Želim biti što transparentniji u korištenju vaših podataka. Dopustite mi da objasnim kako se podaci koriste i zašto su vaši podaci sigurni.\n\n### Nemamo pristup vašim praćenim podacima\n\nVaši se podaci spremaju lokalno na vašem uređaju. Nikada se ne dijeli ni s kim osim što odaberete da ga izvezete ili koristite funkciju webhooka.\n\n### Zapisnici pogrešaka\n\n**Da bismo pronašli probleme i održali stabilnost, gledamo prijavljene zapisnike pogrešaka.**\n\nPrikupljamo zapisnike pogrešaka s davateljem usluga Sentry. Daje nam mogućnost da vidimo vrijeme, otvoren ekran i vrstu uređaja. Koristimo to za reprodukciju pogreške i za ispravljanje.\n\n### Podaci o ponašanju\n\nKada otvorite zaslon ili promijenite postavku, to će biti poslano jednom od naših analitičkih alata. Ovi se podaci šalju potpuno anonimizirani. Nijedan od vaših osobnih podataka se ne šalje. Na primjer, ako Laura Birmingham prati svoje raspoloženje. Vidimo samo da je korisnik 101029 napravio ovu radnju. Nikada nećemo prikupiti tekst koji pohranite u aplikaciji.\n\nKoristimo Posthog Cloud za prikupljanje i vizualizaciju podataka. Pomaže nam bolje razumjeti trendove i pronaći područja za poboljšanje.\n\n\n---------\n\nAko imate bilo kakvih pitanja ili nedoumica, javite mi se na [moritz@devmood.com](mailto:moritz@devmood.com).\n\n**Sam koristim ovu aplikaciju i nikada ne bih želio dijeliti osobne podatke ni s jednim razvojnim programerom.**\n\n*Cijelu politiku privatnosti možete pronaći ovdje.*",
+  "behavioral_data": "Podaci o ponašanju",
+  "passcode": "Lozinka",
+  "passcode_title_create": "Postavite svoju lozinku",
+  "passcode_title_confirm": "Unesite svoju lozinku",
+  "passcode_locked_title": "Aplikacija je zaključana",
+  "passcode_locked_message": "Unesite svoju lozinku.",
+  "passcode_forgot": "Zaboravili ste lozinku?",
+  "passcode_forgot_description": "Nažalost, ne možemo poništiti vašu lozinku. Ako ste izgubili šifru, nema načina da povratite svoje podatke.",
+  "passcode_forgot_cancel": "Otkazati",
+  "passcode_forgot_reset": "Izbriši sve moje podatke",
+  "passcode_forgot_reset_confirm": "Jesi li siguran?",
+  "passcode_forgot_reset_confirm_description": "Ovo će izbrisati sve vaše podatke i postavke za ovu aplikaciju.",
+  "passcode_forgot_reset_confirm_reset": "Da, izbriši sve moje podatke",
+  "passcode_forgot_reset_confirm_cancel": "Otkazati",
+  "passcode_retry": "Unesite šifru"
 }

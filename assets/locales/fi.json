@@ -77,6 +77,20 @@
   "notification_reminder_body": "Napauta tätä seurataksesi tämän päivän mielialaasi.",
   "privacy": "Yksityisyys",
   "privacy_policy": "Tietosuojakäytäntö",
-  "privacy_content": "Pixy antaa sinulle mahdollisuuden pohtia päivääsi ja tallentaa mahdollisesti arkaluonteisia tietoja. Haluan olla mahdollisimman avoin tietojesi käytössä. Joten anna minun selittää, miten tietoja käytetään ja miksi tietosi ovat turvallisia.\n\n### Meillä ei ole pääsyä seurantatietoihisi\n\nTietosi tallennetaan paikallisesti laitteellesi. Sitä ei koskaan jaeta kenellekään, paitsi että päätät viedä sen tai käyttää webhook-toimintoa.\n\n### Virhelokit\n\n**Tarkastelemme raportoituja virhelokeja ongelmien löytämiseksi ja vakauden ylläpitämiseksi.**\n\nKeräämme virhelokeja palveluntarjoajan Sentryn kanssa. Se antaa meille mahdollisuuden nähdä kellonajan, avatun näytön ja laitteen tyypin. Käytämme tätä toistaaksemme virheen ja tarjotaksemme korjauksen.\n\n### Käyttäytymistiedot\n\nKun avaat näytön tai muutat asetusta, tämä lähetetään johonkin analytiikkatyökaluistamme. Nämä tiedot lähetetään täysin anonymisoituina. Mitään henkilötietojasi ei lähetetä. Esimerkiksi, jos Laura Birmingham seuraa hänen mielialaansa. Näemme vain, että käyttäjä 101029 teki tämän toiminnon. Emme koskaan kerää sovellukseen tallentamaasi tekstiä.\n\nKäytämme Posthog Cloudia tietojen keräämiseen ja visualisoimiseen. Se auttaa meitä ymmärtämään paremmin trendejä ja löytämään kehittämiskohteita.\n\n\n----------\n\nJos sinulla on kysyttävää tai huolenaiheita, lähetä minulle viesti osoitteeseen [moritz@devmood.com](mailto:moritz@devmood.com).\n\n**Käytän tätä sovellusta itse, enkä koskaan halua jakaa henkilötietoja kenenkään kehittäjän kanssa.**\n\n* Löydät koko tietosuojakäytännön täältä.*",
-  "behavioral_data": "Käyttäytymistiedot"
+  "privacy_content": "Pixy antaa sinulle mahdollisuuden pohtia päivääsi ja tallentaa mahdollisesti arkaluonteisia tietoja. Haluan olla mahdollisimman avoin tietojesi käytössä. Joten anna minun selittää, miten tietoja käytetään ja miksi tietosi ovat turvallisia.\n\n### Meillä ei ole pääsyä seurantatietoihisi\n\nTietosi tallennetaan paikallisesti laitteellesi. Sitä ei koskaan jaeta kenellekään, paitsi että päätät viedä sen tai käyttää webhook-toimintoa.\n\n### Virhelokit\n\n**Tarkastelemme raportoituja virhelokeja ongelmien löytämiseksi ja vakauden ylläpitämiseksi.**\n\nKeräämme virhelokeja palveluntarjoajan Sentryn kanssa. Se antaa meille mahdollisuuden nähdä kellonajan, avatun näytön ja laitteen tyypin. Käytämme tätä toistaaksemme virheen ja tarjotaksemme korjauksen.\n\n### Käyttäytymistiedot\n\nKun avaat näytön tai muutat asetusta, tämä lähetetään johonkin analytiikkatyökaluistamme. Nämä tiedot lähetetään täysin anonymisoituina. Mitään henkilötietojasi ei lähetetä. Esimerkiksi, jos Laura Birmingham seuraa hänen mielialaansa. Näemme vain, että käyttäjä 101029 teki tämän toiminnon. Emme koskaan kerää sovellukseen tallentamaasi tekstiä.\n\nKäytämme Posthog Cloudia tietojen keräämiseen ja visualisointiin. Se auttaa meitä ymmärtämään paremmin trendejä ja löytämään kehittämiskohteita.\n\n\n----------\n\nJos sinulla on kysyttävää tai huolenaiheita, lähetä minulle viesti osoitteeseen [moritz@devmood.com](mailto:moritz@devmood.com).\n\n**Käytän tätä sovellusta itse, enkä koskaan halua jakaa henkilötietoja kenenkään kehittäjän kanssa.**\n\n* Löydät koko tietosuojakäytännön täältä.*",
+  "behavioral_data": "Käyttäytymistiedot",
+  "passcode": "Pääsykoodi",
+  "passcode_title_create": "Aseta salasanasi",
+  "passcode_title_confirm": "Anna salasanasi",
+  "passcode_locked_title": "Sovellus on lukittu",
+  "passcode_locked_message": "Anna salasanasi.",
+  "passcode_forgot": "Unohditko pääsykoodisi?",
+  "passcode_forgot_description": "Valitettavasti emme voi nollata salasanaasi. Jos kadotit salasanasi, tietojasi ei voi palauttaa.",
+  "passcode_forgot_cancel": "Peruuttaa",
+  "passcode_forgot_reset": "Poista kaikki tietoni",
+  "passcode_forgot_reset_confirm": "Oletko varma?",
+  "passcode_forgot_reset_confirm_description": "Tämä poistaa kaikki tämän sovelluksen tietosi ja asetuksesi.",
+  "passcode_forgot_reset_confirm_reset": "Kyllä, poista kaikki tietoni",
+  "passcode_forgot_reset_confirm_cancel": "Peruuttaa",
+  "passcode_retry": "Anna pääsykoodi"
 }

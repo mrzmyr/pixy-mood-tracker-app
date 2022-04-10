@@ -77,6 +77,20 @@
   "notification_reminder_body": "Klepnutím sem môžete sledovať svoju dnešnú náladu.",
   "privacy": "Ochrana osobných údajov",
   "privacy_policy": "Zásady ochrany osobných údajov",
-  "privacy_content": "Pixy vám dáva možnosť premýšľať o svojom dni a uchovávať potenciálne citlivé informácie. Chcem byť pri používaní vašich údajov čo najtransparentnejší. Dovoľte mi teda vysvetliť, ako sa údaje používajú a prečo sú vaše údaje v bezpečí.\n\n### Nemáme prístup k vašim sledovaným informáciám\n\nVaše údaje sú uložené lokálne vo vašom zariadení. Nikdy sa nezdieľa s nikým okrem toho, že sa rozhodnete exportovať ho alebo použiť funkciu webhooku.\n\n### Protokoly chýb\n\n**Aby sme našli problémy a zachovali stabilitu, pozeráme sa na nahlásené protokoly chýb.**\n\nZhromažďujeme protokoly chýb s poskytovateľom služieb Sentry. Poskytuje nám možnosť vidieť čas, otvorenú obrazovku a typ zariadenia. Používame to na reprodukciu chyby a poskytnutie opravy.\n\n### Údaje o správaní\n\nKeď otvoríte obrazovku alebo zmeníte nastavenie, odošle sa to do jedného z našich analytických nástrojov. Tieto údaje sa odosielajú úplne anonymizované. Žiadne z vašich osobných údajov sa neodosielajú. Napríklad, ak Laura Birmingham sleduje jej náladu. Vidíme len, že túto akciu vykonal používateľ 101029. Nikdy nezhromažďujeme žiadny text, ktorý uložíte do aplikácie.\n\nNa zhromažďovanie a vizualizáciu údajov používame Posthog Cloud. Pomáha nám to lepšie porozumieť trendom a nájsť oblasti na zlepšenie.\n\n\n---------\n\nAk máte nejaké otázky alebo obavy, napíšte mi na [moritz@devmood.com](mailto:moritz@devmood.com).\n\n**Túto aplikáciu používam sám a nikdy by som nechcel zdieľať osobné údaje so žiadnym vývojárom.**\n\n*Celé pravidlá ochrany osobných údajov nájdete tu.*",
-  "behavioral_data": "Údaje o správaní"
+  "privacy_content": "Pixy vám dáva možnosť premýšľať o svojom dni a uchovávať potenciálne citlivé informácie. Chcem byť pri používaní vašich údajov čo najtransparentnejší. Dovoľte mi teda vysvetliť, ako sa údaje používajú a prečo sú vaše údaje v bezpečí.\n\n### Nemáme prístup k vašim sledovaným informáciám\n\nVaše údaje sú uložené lokálne vo vašom zariadení. Nikdy sa nezdieľa s nikým okrem toho, že sa rozhodnete exportovať ho alebo použiť funkciu webhooku.\n\n### Protokoly chýb\n\n**Aby sme našli problémy a zachovali stabilitu, pozeráme sa na nahlásené protokoly chýb.**\n\nZhromažďujeme protokoly chýb s poskytovateľom služieb Sentry. Poskytuje nám možnosť vidieť čas, otvorenú obrazovku a typ zariadenia. Používame to na reprodukciu chyby a poskytnutie opravy.\n\n### Údaje o správaní\n\nKeď otvoríte obrazovku alebo zmeníte nastavenie, odošle sa to do jedného z našich analytických nástrojov. Tieto údaje sa odosielajú úplne anonymizované. Žiadne z vašich osobných údajov sa neodosielajú. Napríklad, ak Laura Birmingham sleduje jej náladu. Vidíme len, že túto akciu vykonal používateľ 101029. Nikdy nebudeme zhromažďovať žiadny text, ktorý uložíte do aplikácie.\n\nNa zhromažďovanie a vizualizáciu údajov používame Posthog Cloud. Pomáha nám to lepšie porozumieť trendom a nájsť oblasti na zlepšenie.\n\n\n---------\n\nAk máte nejaké otázky alebo obavy, napíšte mi na [moritz@devmood.com] (mailto:moritz@devmood.com).\n\n**Túto aplikáciu používam sám a nikdy by som nechcel zdieľať osobné údaje so žiadnym vývojárom.**\n\n*Celé pravidlá ochrany osobných údajov nájdete tu.*",
+  "behavioral_data": "Údaje o správaní",
+  "passcode": "Vstupný kód",
+  "passcode_title_create": "Nastavte si prístupový kód",
+  "passcode_title_confirm": "Zadajte prístupový kód",
+  "passcode_locked_title": "Aplikácia je uzamknutá",
+  "passcode_locked_message": "Zadajte prístupový kód.",
+  "passcode_forgot": "Zabudli ste heslo?",
+  "passcode_forgot_description": "Ľutujeme, ale nemôžeme resetovať váš prístupový kód. Ak ste stratili prístupový kód, neexistuje spôsob, ako obnoviť údaje.",
+  "passcode_forgot_cancel": "Zrušiť",
+  "passcode_forgot_reset": "Vymazať všetky moje údaje",
+  "passcode_forgot_reset_confirm": "Si si istý?",
+  "passcode_forgot_reset_confirm_description": "Týmto sa vymažú všetky vaše údaje a nastavenia pre túto aplikáciu.",
+  "passcode_forgot_reset_confirm_reset": "Áno, vymazať všetky moje údaje",
+  "passcode_forgot_reset_confirm_cancel": "Zrušiť",
+  "passcode_retry": "Zadajte prístupový kód"
 }

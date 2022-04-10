@@ -77,6 +77,20 @@
   "notification_reminder_body": "点击此处跟踪您今天的心情。",
   "privacy": "隐私",
   "privacy_policy": "隐私政策",
-  "privacy_content": "Pixy 使您能够反思您的一天并存储潜在的敏感信息。我希望尽可能透明地使用您的数据。因此，让我解释一下如何使用数据以及为什么您的数据是安全的。\n\n### 我们无权访问您的跟踪信息\n\n您的数据本地保存在您的设备上。它永远不会共享给任何人，除非您选择导出它或使用 webhook 功能。\n\n### 错误日志\n\n**为了发现问题并保持稳定性，我们会查看报告的错误日志。**\n\n我们通过服务提供商 Sentry 收集错误日志。它使我们能够查看时间、打开的屏幕和设备类型。我们使用它来重现错误并提供修复。\n\n### 行为数据\n\n当您打开屏幕或更改设置时，这将被发送到我们的分析工具之一。此数据完全匿名发送。不会发送您的任何个人数据。例如，如果 Laura Birmingham 跟踪她的情绪。我们只看到用户 101029 做了这个动作。我们从不收集您存储在应用程序中的任何文本。\n\n我们使用 Posthog Cloud 来收集和可视化数据。它有助于我们更好地了解趋势并找到改进的领域。\n\n\n---------\n\n如果您有任何问题或疑虑，请发送邮件至 [moritz@devmood.com](mailto:moritz@devmood.com)。\n\n**我自己使用这个应用程序，我永远不想与任何开发者共享个人数据。**\n\n*您可以在这里找到完整的隐私政策。*",
-  "behavioral_data": "行为数据"
+  "privacy_content": "Pixy 使您能够反思您的一天并存储潜在的敏感信息。我希望尽可能透明地使用您的数据。因此，让我解释一下如何使用数据以及为什么您的数据是安全的。\n\n### 我们无权访问您的跟踪信息\n\n您的数据本地保存在您的设备上。它永远不会共享给任何人，除非您选择导出它或使用 webhook 功能。\n\n### 错误日志\n\n**为了发现问题并保持稳定性，我们会查看报告的错误日志。**\n\n我们通过服务提供商 Sentry 收集错误日志。它使我们能够查看时间、打开的屏幕和设备类型。我们使用它来重现错误并提供修复。\n\n### 行为数据\n\n当您打开屏幕或更改设置时，这将被发送到我们的分析工具之一。此数据完全匿名发送。不会发送您的任何个人数据。例如，如果 Laura Birmingham 跟踪她的情绪。我们只看到用户 101029 做了这个动作。我们永远不会收集您存储在应用程序中的任何文本。\n\n我们使用 Posthog Cloud 来收集和可视化数据。它有助于我们更好地了解趋势并找到改进的领域。\n\n\n---------\n\n如果您有任何问题或疑虑，请发送邮件至 [moritz@devmood.com](mailto:moritz@devmood.com)。\n\n**我自己使用这个应用程序，我永远不想与任何开发者共享个人数据。**\n\n*您可以在这里找到完整的隐私政策。*",
+  "behavioral_data": "行为数据",
+  "passcode": "密码",
+  "passcode_title_create": "设置您的密码",
+  "passcode_title_confirm": "输入您的密码",
+  "passcode_locked_title": "应用程序被锁定",
+  "passcode_locked_message": "请输入您的密码。",
+  "passcode_forgot": "忘记密码？",
+  "passcode_forgot_description": "很遗憾，我们无法重置您的密码。如果您丢失了密码，则无法恢复您的数据。",
+  "passcode_forgot_cancel": "取消",
+  "passcode_forgot_reset": "删除我的所有数据",
+  "passcode_forgot_reset_confirm": "你确定吗？",
+  "passcode_forgot_reset_confirm_description": "这将清除您为此应用程序的所有数据和设置。",
+  "passcode_forgot_reset_confirm_reset": "是的，删除我的所有数据",
+  "passcode_forgot_reset_confirm_cancel": "取消",
+  "passcode_retry": "输入密码"
 }

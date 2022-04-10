@@ -77,6 +77,20 @@
   "notification_reminder_body": "Tryck här för att spåra ditt humör idag.",
   "privacy": "Integritet",
   "privacy_policy": "Integritetspolicy",
-  "privacy_content": "Pixy ger dig möjligheten att reflektera över din dag och lagra potentiellt känslig information. Jag vill vara så transparent som möjligt om användningen av din data. Så låt mig förklara hur data används och varför din data är säker.\n\n### Vi har inte tillgång till din spårade information\n\nDin data sparas lokalt på din enhet. Det delas aldrig med någon förutom att du väljer att exportera det eller använda webhook-funktionen.\n\n### Felloggar\n\n**För att hitta problem och bibehålla stabilitet tittar vi på rapporterade felloggar.**\n\nVi samlar in felloggar hos tjänsteleverantören Sentry. Det ger oss möjlighet att se tiden, skärmen öppnad och typen av enhet. Vi använder detta för att återskapa felet och för att fixa det.\n\n### Beteendedata\n\nNär du öppnar en skärm eller ändrar en inställning kommer detta att skickas till ett av våra analysverktyg. Dessa uppgifter skickas helt anonymt. Ingen av dina personuppgifter skickas. Till exempel om Laura Birmingham spårar hennes humör. Vi ser bara att användaren 101029 gjorde denna åtgärd. Vi samlar aldrig in någon text du lagrar i appen.\n\nVi använder Posthog Cloud för att samla in och visualisera och data. Det hjälper oss att bättre förstå trender och hitta förbättringsområden.\n\n\n----------\n\nOm du har några frågor eller funderingar, kontakta mig på [moritz@devmood.com](mailto:moritz@devmood.com).\n\n**Jag använder den här appen själv och jag skulle aldrig vilja dela personlig information med någon utvecklare.**\n\n*Du hittar hela integritetspolicyn här.*",
-  "behavioral_data": "Beteendedata"
+  "privacy_content": "Pixy ger dig möjligheten att reflektera över din dag och lagra potentiellt känslig information. Jag vill vara så transparent som möjligt om användningen av din data. Så låt mig förklara hur data används och varför din data är säker.\n\n### Vi har inte tillgång till din spårade information\n\nDin data sparas lokalt på din enhet. Den delas aldrig med någon förutom att du väljer att exportera den eller använda webhook-funktionen.\n\n### Felloggar\n\n**För att hitta problem och bibehålla stabilitet tittar vi på rapporterade felloggar.**\n\nVi samlar in felloggar hos tjänsteleverantören Sentry. Det ger oss möjlighet att se tiden, skärmen öppnad och typen av enhet. Vi använder detta för att återskapa felet och för att fixa det.\n\n### Beteendedata\n\nNär du öppnar en skärm eller ändrar en inställning kommer detta att skickas till ett av våra analysverktyg. Dessa uppgifter skickas helt anonymt. Ingen av dina personuppgifter skickas. Till exempel om Laura Birmingham spårar hennes humör. Vi ser bara att användaren 101029 gjorde denna åtgärd. Vi kommer aldrig att samla in någon text du lagrar i appen.\n\nVi använder Posthog Cloud för att samla in och visualisera data. Det hjälper oss att bättre förstå trender och hitta förbättringsområden.\n\n\n----------\n\nOm du har några frågor eller funderingar, kontakta mig på [moritz@devmood.com](mailto:moritz@devmood.com).\n\n**Jag använder den här appen själv och jag skulle aldrig vilja dela personlig information med någon utvecklare.**\n\n*Du hittar hela integritetspolicyn här.*",
+  "behavioral_data": "Beteendedata",
+  "passcode": "Lösenord",
+  "passcode_title_create": "Ställ in ditt lösenord",
+  "passcode_title_confirm": "Ange ditt lösenord",
+  "passcode_locked_title": "Appen är låst",
+  "passcode_locked_message": "Vänligen ange ditt lösenord.",
+  "passcode_forgot": "Har du glömt ditt lösenord?",
+  "passcode_forgot_description": "Tyvärr kan vi inte återställa ditt lösenord. Om du tappade bort ditt lösenord finns det inget sätt att återställa dina data.",
+  "passcode_forgot_cancel": "Avbryt",
+  "passcode_forgot_reset": "Radera all min data",
+  "passcode_forgot_reset_confirm": "Är du säker?",
+  "passcode_forgot_reset_confirm_description": "Detta kommer att radera alla dina data och inställningar för den här appen.",
+  "passcode_forgot_reset_confirm_reset": "Ja, radera all min data",
+  "passcode_forgot_reset_confirm_cancel": "Avbryt",
+  "passcode_retry": "Ange lösenord"
 }

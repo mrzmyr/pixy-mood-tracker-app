@@ -77,6 +77,20 @@
   "notification_reminder_body": "Dotknij tutaj, aby śledzić swój dzisiejszy nastrój.",
   "privacy": "Prywatność",
   "privacy_policy": "Polityka prywatności",
-  "privacy_content": "Pixy daje Ci możliwość zastanowienia się nad swoim dniem i przechowywania potencjalnie poufnych informacji. Chcę być jak najbardziej przejrzysty w korzystaniu z Twoich danych. Pozwól, że wyjaśnię, w jaki sposób dane są wykorzystywane i dlaczego Twoje dane są bezpieczne.\n\n### Nie mamy dostępu do Twoich śledzonych informacji\n\nTwoje dane są zapisywane lokalnie na Twoim urządzeniu. Nigdy nie są udostępniane nikomu, chyba że zdecydujesz się je wyeksportować lub użyć funkcji webhooka.\n\n### Dzienniki błędów\n\n**Aby znaleźć problemy i zachować stabilność, sprawdzamy zgłoszone dzienniki błędów.**\n\nZbieramy logi błędów z usługodawcą Sentry. Daje nam możliwość zobaczenia godziny, otwartego ekranu i typu urządzenia. Używamy tego do odtworzenia błędu i dostarczenia poprawki.\n\n### Dane behawioralne\n\nGdy otworzysz ekran lub zmienisz ustawienie, zostanie to przesłane do jednego z naszych narzędzi analitycznych. Dane te są przesyłane całkowicie anonimowo. Żadne z Twoich danych osobowych nie są wysyłane. Na przykład, jeśli Laura Birmingham śledzi jej nastrój. Widzimy tylko, że użytkownik 101029 wykonał tę akcję. Nigdy nie gromadzimy żadnego tekstu, który przechowujesz w aplikacji.\n\nUżywamy Posthog Cloud do zbierania i wizualizacji danych. Pomaga nam lepiej zrozumieć trendy i znaleźć obszary do poprawy.\n\n\n---------\n\nJeśli masz jakieś pytania lub wątpliwości, napisz do mnie na adres [moritz@devmood.com](mailto:moritz@devmood.com).\n\n**Korzystam z tej aplikacji samodzielnie i nigdy nie chciałbym udostępniać danych osobowych żadnemu programiście.**\n\n*Cała polityka prywatności znajduje się tutaj.*",
-  "behavioral_data": "Dane behawioralne"
+  "privacy_content": "Pixy daje Ci możliwość zastanowienia się nad swoim dniem i przechowywania potencjalnie poufnych informacji. Chcę być jak najbardziej przejrzysty w korzystaniu z Twoich danych. Pozwól, że wyjaśnię, w jaki sposób dane są wykorzystywane i dlaczego Twoje dane są bezpieczne.\n\n### Nie mamy dostępu do Twoich śledzonych informacji\n\nTwoje dane są zapisywane lokalnie na Twoim urządzeniu. Nigdy nie są udostępniane nikomu, chyba że zdecydujesz się je wyeksportować lub użyć funkcji webhooka.\n\n### Dzienniki błędów\n\n**Aby znaleźć problemy i zachować stabilność, sprawdzamy zgłoszone dzienniki błędów.**\n\nZbieramy logi błędów z usługodawcą Sentry. Daje nam możliwość zobaczenia godziny, otwartego ekranu i typu urządzenia. Używamy tego do odtworzenia błędu i dostarczenia poprawki.\n\n### Dane behawioralne\n\nGdy otworzysz ekran lub zmienisz ustawienie, zostanie to przesłane do jednego z naszych narzędzi analitycznych. Dane te są przesyłane całkowicie anonimowo. Żadne z Twoich danych osobowych nie są wysyłane. Na przykład, jeśli Laura Birmingham śledzi jej nastrój. Widzimy tylko, że użytkownik 101029 wykonał tę akcję. Nigdy nie zbierzemy żadnego tekstu, który przechowujesz w aplikacji.\n\nUżywamy Posthog Cloud do zbierania i wizualizacji danych. Pomaga nam lepiej zrozumieć trendy i znaleźć obszary do poprawy.\n\n\n---------\n\nJeśli masz jakieś pytania lub wątpliwości, napisz do mnie na adres [moritz@devmood.com](mailto:moritz@devmood.com).\n\n**Korzystam z tej aplikacji samodzielnie i nigdy nie chciałbym udostępniać danych osobowych żadnemu programiście.**\n\n*Cała polityka prywatności znajduje się tutaj.*",
+  "behavioral_data": "Dane behawioralne",
+  "passcode": "Kod dostępu",
+  "passcode_title_create": "Ustaw swoje hasło",
+  "passcode_title_confirm": "Wpisz swoje hasło",
+  "passcode_locked_title": "Aplikacja jest zablokowana",
+  "passcode_locked_message": "Wprowadź swoje hasło.",
+  "passcode_forgot": "Zapomniałeś hasła?",
+  "passcode_forgot_description": "Niestety nie możemy zresetować Twojego hasła. Jeśli zgubiłeś hasło, nie ma możliwości odzyskania danych.",
+  "passcode_forgot_cancel": "Anulować",
+  "passcode_forgot_reset": "Usuń wszystkie moje dane",
+  "passcode_forgot_reset_confirm": "Jesteś pewny?",
+  "passcode_forgot_reset_confirm_description": "Spowoduje to usunięcie wszystkich danych i ustawień tej aplikacji.",
+  "passcode_forgot_reset_confirm_reset": "Tak, usuń wszystkie moje dane",
+  "passcode_forgot_reset_confirm_cancel": "Anulować",
+  "passcode_retry": "Wprowadź kod dostępu"
 }
