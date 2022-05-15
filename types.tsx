@@ -31,6 +31,7 @@ export type RootStackParamList = {
   Data: undefined;
   Reminder: undefined;
   Privacy: undefined;
+  ReminderModal: undefined;
   PasscodeLocked: undefined;
 };
 
