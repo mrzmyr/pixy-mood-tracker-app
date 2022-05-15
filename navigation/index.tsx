@@ -1,6 +1,5 @@
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import * as LocalAuthentication from 'expo-local-authentication';
 import { useEffect } from 'react';
 import { Platform, Pressable, useColorScheme, View } from 'react-native';
 import { ArrowLeft, Settings as SettingsIcon } from 'react-native-feather';
@@ -11,13 +10,13 @@ import { usePasscode } from '../hooks/usePasscode';
 import { useSegment } from "../hooks/useSegment";
 import { useTranslation } from '../hooks/useTranslation';
 import Calendar from '../screens/Calendar';
-import PasscodeLocked from '../screens/PasscodeLocked';
 import Data from '../screens/Data';
 import Licenses from '../screens/Licenses';
 import Log from '../screens/Log';
 import NotFound from '../screens/NotFound';
 import Privacy from '../screens/Privacy';
 import Reminder from '../screens/Reminder';
+import ReminderModal from '../screens/ReminderModal';
 import Scales from '../screens/Scales';
 import Settings from '../screens/Settings';
 import Webhook from '../screens/Webhook';
@@ -182,6 +181,17 @@ function RootNavigator() {
           <Stack.Screen 
             name="Log" 
             component={Log} 
+          />
+        </Stack.Group>
+
+        <Stack.Group screenOptions={{ 
+          title: '',
+          presentation: 'modal',
+          headerShown: false,
+        }}>
+          <Stack.Screen 
+            name="ReminderModal" 
+            component={ReminderModal} 
           />
         </Stack.Group>
         
