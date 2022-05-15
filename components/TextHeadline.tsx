@@ -1,4 +1,4 @@
-import { StyleProp, Text } from "react-native"
+import { Text } from "react-native"
 import useColors from "../hooks/useColors"
 
 export default function TextHeadline({ 
