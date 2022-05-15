@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 import { debounce } from "lodash";
 import { useCallback, useState } from 'react';
-import { Platform, StatusBar, View } from 'react-native';
+import { Alert, Platform, StatusBar, View } from 'react-native';
 import { Trash2, X } from 'react-native-feather';
 import DismissKeyboard from '../components/DismisKeyboard';
 import LinkButton from '../components/LinkButton';
@@ -39,7 +39,13 @@ export default function Log({ navigation, route }: RootStackScreenProps<'Log'>) 
       type: existingLogItem ? 'edit' : 'add',
       payload: logItem
     })
-    navigation.navigate('Calendar');
+
+    if(Object.keys(state.items).length > 1 || settings.reminderEnabled) {
+      navigation.navigate('Calendar');
+    } else {
+      segment.track('reminder_modal_open')
+      navigation.navigate('ReminderModal');
+    }
   }
 
   const remove = () => {
