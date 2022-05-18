@@ -92,5 +92,8 @@
   "passcode_forgot_reset_confirm_description": "Hiermee worden al uw gegevens en instellingen voor deze app gewist.",
   "passcode_forgot_reset_confirm_reset": "Ja, verwijder al mijn gegevens",
   "passcode_forgot_reset_confirm_cancel": "Annuleren",
-  "passcode_retry": "Voer uw toegangscode in"
+  "passcode_retry": "Voer uw toegangscode in",
+  "reminder_modal_title": "Maak er een routine van?",
+  "reminder_modal_body": "Stel een dagelijkse herinneringsmelding in, zodat je nooit je bijgehouden pixel mist.",
+  "reminder_modal_footer": "Nog niet overtuigd? Geen zorgen, je kunt de herinnering later instellen in de app-instellingen."
 }

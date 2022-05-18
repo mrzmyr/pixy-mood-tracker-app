@@ -92,5 +92,8 @@
   "passcode_forgot_reset_confirm_description": "פעולה זו תמחק את כל הנתונים וההגדרות שלך עבור האפליקציה הזו.",
   "passcode_forgot_reset_confirm_reset": "כן, מחק את כל הנתונים שלי",
   "passcode_forgot_reset_confirm_cancel": "לְבַטֵל",
-  "passcode_retry": "הזן קוד סיסמה"
+  "passcode_retry": "הזן קוד סיסמה",
+  "reminder_modal_title": "להפוך את זה לשגרה?",
+  "reminder_modal_body": "הגדר הודעת תזכורת יומית, כך שלעולם לא תחמיץ את הפיקסל שלך במעקב.",
+  "reminder_modal_footer": "עוד לא השתכנעתם? אל דאגה אתה יכול להגדיר את התזכורת בהגדרות האפליקציה מאוחר יותר."
 }

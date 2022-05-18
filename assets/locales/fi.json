@@ -92,5 +92,8 @@
   "passcode_forgot_reset_confirm_description": "Tämä poistaa kaikki tämän sovelluksen tietosi ja asetuksesi.",
   "passcode_forgot_reset_confirm_reset": "Kyllä, poista kaikki tietoni",
   "passcode_forgot_reset_confirm_cancel": "Peruuttaa",
-  "passcode_retry": "Anna pääsykoodi"
+  "passcode_retry": "Anna pääsykoodi",
+  "reminder_modal_title": "Tee siitä rutiini?",
+  "reminder_modal_body": "Aseta päivittäinen muistutusilmoitus, jotta et koskaan menetä seurattua pikseliä.",
+  "reminder_modal_footer": "Etkö ole vielä vakuuttunut? Ei hätää, voit määrittää muistutuksen myöhemmin sovelluksen asetuksista."
 }

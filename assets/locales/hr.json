@@ -92,5 +92,8 @@
   "passcode_forgot_reset_confirm_description": "Ovo će izbrisati sve vaše podatke i postavke za ovu aplikaciju.",
   "passcode_forgot_reset_confirm_reset": "Da, izbriši sve moje podatke",
   "passcode_forgot_reset_confirm_cancel": "Otkazati",
-  "passcode_retry": "Unesite šifru"
+  "passcode_retry": "Unesite šifru",
+  "reminder_modal_title": "Učiniti to rutinom?",
+  "reminder_modal_body": "Postavite dnevnu obavijest o podsjetniku kako nikada ne biste propustili svoj praćeni piksel.",
+  "reminder_modal_footer": "Još niste uvjereni? Bez brige, možete kasnije postaviti podsjetnik u postavkama aplikacije."
 }

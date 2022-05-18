@@ -92,5 +92,8 @@
   "passcode_forgot_reset_confirm_description": "Aceasta vă va șterge toate datele și setările pentru această aplicație.",
   "passcode_forgot_reset_confirm_reset": "Da, șterge toate datele mele",
   "passcode_forgot_reset_confirm_cancel": "Anulare",
-  "passcode_retry": "Introduceți codul de acces"
+  "passcode_retry": "Introduceți codul de acces",
+  "reminder_modal_title": "Să o faci o rutină?",
+  "reminder_modal_body": "Configurați o notificare zilnică de memento, astfel încât să nu pierdeți niciodată pixelul urmărit.",
+  "reminder_modal_footer": "Nu esti inca convins? Nu vă faceți griji, puteți configura mai târziu mementoul în setările aplicației."
 }

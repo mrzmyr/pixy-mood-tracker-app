@@ -92,5 +92,8 @@
   "passcode_forgot_reset_confirm_description": "سيؤدي هذا إلى مسح جميع بياناتك وإعداداتك لهذا التطبيق.",
   "passcode_forgot_reset_confirm_reset": "نعم ، احذف جميع بياناتي",
   "passcode_forgot_reset_confirm_cancel": "يلغي",
-  "passcode_retry": "أدخل رمز المرور"
+  "passcode_retry": "أدخل رمز المرور",
+  "reminder_modal_title": "جعله جبلا؟",
+  "reminder_modal_body": "قم بإعداد إشعار تذكير يومي ، حتى لا تفوتك وحدة البكسل المتعقبة.",
+  "reminder_modal_footer": "غير مقتنع بعد؟ لا تقلق ، يمكنك إعداد التذكير في إعدادات التطبيق لاحقًا."
 }

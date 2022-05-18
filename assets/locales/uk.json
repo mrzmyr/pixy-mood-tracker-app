@@ -92,5 +92,8 @@
   "passcode_forgot_reset_confirm_description": "Буде видалено всі ваші дані та налаштування для цієї програми.",
   "passcode_forgot_reset_confirm_reset": "Так, видалити всі мої дані",
   "passcode_forgot_reset_confirm_cancel": "Скасувати",
-  "passcode_retry": "Введіть пароль"
+  "passcode_retry": "Введіть пароль",
+  "reminder_modal_title": "Зробити це рутиною?",
+  "reminder_modal_body": "Налаштуйте щоденне сповіщення про нагадування, щоб ніколи не пропустити відстежений піксель.",
+  "reminder_modal_footer": "Ще не переконалися? Не хвилюйтеся, ви можете пізніше налаштувати нагадування в налаштуваннях програми."
 }

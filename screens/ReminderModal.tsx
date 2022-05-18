@@ -50,7 +50,7 @@ export default function ReminderModal({ navigation }: RootStackScreenProps<'Remi
               color: colors.text,
               textAlign: 'center',
             }}
-          >Make it a rountine?</Text>
+          >{i18n.t('reminder_modal_title')}</Text>
           <Text
             style={{
               fontSize: 17,
@@ -62,7 +62,7 @@ export default function ReminderModal({ navigation }: RootStackScreenProps<'Remi
               width: '80%',
               marginBottom: '20%',
             }}
-          >Set up a daily reminder notification, so you never miss your tracked pixel.</Text>
+          >{i18n.t('reminder_modal_body')}</Text>
           <Reminder />
         </View>
         <View>
@@ -76,7 +76,7 @@ export default function ReminderModal({ navigation }: RootStackScreenProps<'Remi
                 marginRight: 'auto',
                 width: '80%',
               }}
-            >Not convinced yet? No worries you can set up the reminder in the app settings later.</Text>
+            >{i18n.t('reminder_modal_footer')}</Text>
         </View>
       </View>
     </View>

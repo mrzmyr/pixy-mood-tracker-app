@@ -92,5 +92,8 @@
   "passcode_forgot_reset_confirm_description": "Isso apagará todos os seus dados e configurações para este aplicativo.",
   "passcode_forgot_reset_confirm_reset": "Sim, excluir todos os meus dados",
   "passcode_forgot_reset_confirm_cancel": "Cancelar",
-  "passcode_retry": "Digite a senha"
+  "passcode_retry": "Digite a senha",
+  "reminder_modal_title": "Torná-lo uma rotina?",
+  "reminder_modal_body": "Configure uma notificação de lembrete diária, para que você nunca perca seu pixel rastreado.",
+  "reminder_modal_footer": "Ainda não está convencido? Não se preocupe, você pode configurar o lembrete nas configurações do aplicativo mais tarde."
 }

@@ -92,5 +92,8 @@
   "passcode_forgot_reset_confirm_description": "Esto borrará todos sus datos y configuraciones para esta aplicación.",
   "passcode_forgot_reset_confirm_reset": "Sí, borrar todos mis datos",
   "passcode_forgot_reset_confirm_cancel": "Cancelar",
-  "passcode_retry": "Introduce un código de acceso"
+  "passcode_retry": "Introduce un código de acceso",
+  "reminder_modal_title": "¿Hacerlo una rutina?",
+  "reminder_modal_body": "Configure una notificación de recordatorio diaria, para que nunca pierda su píxel rastreado.",
+  "reminder_modal_footer": "¿Aún no estás convencido? No se preocupe, puede configurar el recordatorio en la configuración de la aplicación más tarde."
 }

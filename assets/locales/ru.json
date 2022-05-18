@@ -92,5 +92,8 @@
   "passcode_forgot_reset_confirm_description": "Это удалит все ваши данные и настройки для этого приложения.",
   "passcode_forgot_reset_confirm_reset": "Да, удалить все мои данные",
   "passcode_forgot_reset_confirm_cancel": "Отмена",
-  "passcode_retry": "Введите пароль"
+  "passcode_retry": "Введите пароль",
+  "reminder_modal_title": "Сделать это рутиной?",
+  "reminder_modal_body": "Настройте ежедневное напоминание, чтобы не пропустить отслеживаемый пиксель.",
+  "reminder_modal_footer": "Еще не убедились? Не беспокойтесь, вы можете настроить напоминание в настройках приложения позже."
 }

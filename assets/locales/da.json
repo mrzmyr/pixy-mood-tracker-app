@@ -92,5 +92,8 @@
   "passcode_forgot_reset_confirm_description": "Dette vil slette alle dine data og indstillinger for denne app.",
   "passcode_forgot_reset_confirm_reset": "Ja, slet alle mine data",
   "passcode_forgot_reset_confirm_cancel": "Afbestille",
-  "passcode_retry": "Indtast adgangskode"
+  "passcode_retry": "Indtast adgangskode",
+  "reminder_modal_title": "Gøre det til en rundgang?",
+  "reminder_modal_body": "Konfigurer en daglig påmindelse, så du aldrig går glip af din sporede pixel.",
+  "reminder_modal_footer": "Ikke overbevist endnu? Ingen bekymringer, du kan konfigurere påmindelsen i appindstillingerne senere."
 }

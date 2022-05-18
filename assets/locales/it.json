@@ -92,5 +92,8 @@
   "passcode_forgot_reset_confirm_description": "Questo cancellerà tutti i tuoi dati e le impostazioni per questa app.",
   "passcode_forgot_reset_confirm_reset": "Sì, elimina tutti i miei dati",
   "passcode_forgot_reset_confirm_cancel": "Annulla",
-  "passcode_retry": "Inserire il codice di accesso"
+  "passcode_retry": "Inserire il codice di accesso",
+  "reminder_modal_title": "Farne una routine?",
+  "reminder_modal_body": "Imposta una notifica di promemoria giornaliera, così non perderai mai il tuo pixel tracciato.",
+  "reminder_modal_footer": "Non sei ancora convinto? Nessun problema, puoi impostare il promemoria nelle impostazioni dell'app in un secondo momento."
 }

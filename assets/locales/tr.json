@@ -92,5 +92,8 @@
   "passcode_forgot_reset_confirm_description": "Bu, bu uygulama için tüm verilerinizi ve ayarlarınızı siler.",
   "passcode_forgot_reset_confirm_reset": "Evet, tüm verilerimi sil",
   "passcode_forgot_reset_confirm_cancel": "İptal etmek",
-  "passcode_retry": "Şifreyi gir"
+  "passcode_retry": "Şifreyi gir",
+  "reminder_modal_title": "Rutin yap?",
+  "reminder_modal_body": "Günlük bir hatırlatıcı bildirimi ayarlayın, böylece izlenen pikselinizi asla kaçırmazsınız.",
+  "reminder_modal_footer": "Henüz ikna olmadınız mı? Endişelenmeyin, hatırlatıcıyı daha sonra uygulama ayarlarından ayarlayabilirsiniz."
 }

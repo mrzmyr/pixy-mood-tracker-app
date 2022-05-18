@@ -92,5 +92,8 @@
   "passcode_forgot_reset_confirm_description": "Tím vymažete všechna vaše data a nastavení pro tuto aplikaci.",
   "passcode_forgot_reset_confirm_reset": "Ano, smazat všechna moje data",
   "passcode_forgot_reset_confirm_cancel": "zrušení",
-  "passcode_retry": "Zadejte přístupový kód"
+  "passcode_retry": "Zadejte přístupový kód",
+  "reminder_modal_title": "Udělat z toho rutinu?",
+  "reminder_modal_body": "Nastavte si denní upozornění, abyste nikdy nezmeškali sledovaný pixel.",
+  "reminder_modal_footer": "Ještě nejste přesvědčeni? Bez obav můžete připomenutí nastavit v nastavení aplikace později."
 }

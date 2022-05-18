@@ -92,5 +92,8 @@
   "passcode_forgot_reset_confirm_description": "이 앱의 모든 데이터와 설정이 지워집니다.",
   "passcode_forgot_reset_confirm_reset": "예, 모든 데이터를 삭제합니다.",
   "passcode_forgot_reset_confirm_cancel": "취소",
-  "passcode_retry": "비밀번호 입력"
+  "passcode_retry": "비밀번호 입력",
+  "reminder_modal_title": "일상으로 만들까?",
+  "reminder_modal_body": "추적된 픽셀을 놓치지 않도록 일일 알림 알림을 설정하세요.",
+  "reminder_modal_footer": "아직 확신하지 못하셨나요? 나중에 앱 설정에서 미리 알림을 설정할 수 있으니 걱정하지 마세요."
 }

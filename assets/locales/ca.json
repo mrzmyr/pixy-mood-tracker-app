@@ -92,5 +92,8 @@
   "passcode_forgot_reset_confirm_description": "Això esborrarà totes les dades i la configuració d'aquesta aplicació.",
   "passcode_forgot_reset_confirm_reset": "Sí, elimina totes les meves dades",
   "passcode_forgot_reset_confirm_cancel": "Cancel · lar",
-  "passcode_retry": "Introduïu la contrasenya"
+  "passcode_retry": "Introduïu la contrasenya",
+  "reminder_modal_title": "Fer-ho una rutina?",
+  "reminder_modal_body": "Configureu una notificació de recordatori diària perquè mai us perdeu el vostre píxel de seguiment.",
+  "reminder_modal_footer": "Encara no estàs convençut? No us preocupeu, podeu configurar el recordatori a la configuració de l'aplicació més tard."
 }

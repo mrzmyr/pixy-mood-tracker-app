@@ -92,5 +92,8 @@
   "passcode_forgot_reset_confirm_description": "これにより、このアプリのすべてのデータと設定が消去されます。",
   "passcode_forgot_reset_confirm_reset": "はい、すべてのデータを削除します",
   "passcode_forgot_reset_confirm_cancel": "キャンセル",
-  "passcode_retry": "パスコードを入力してください"
+  "passcode_retry": "パスコードを入力してください",
+  "reminder_modal_title": "それをルーチンにしますか？",
+  "reminder_modal_body": "追跡されたピクセルを見逃さないように、毎日のリマインダー通知を設定します。",
+  "reminder_modal_footer": "まだ納得していませんか？後でアプリの設定でリマインダーを設定できる心配はありません。"
 }

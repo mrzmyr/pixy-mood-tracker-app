@@ -92,5 +92,8 @@
   "passcode_forgot_reset_confirm_description": "การดำเนินการนี้จะลบข้อมูลและการตั้งค่าทั้งหมดของคุณสำหรับแอปนี้",
   "passcode_forgot_reset_confirm_reset": "ใช่ ลบข้อมูลทั้งหมดของฉัน",
   "passcode_forgot_reset_confirm_cancel": "ยกเลิก",
-  "passcode_retry": "ใส่รหัสผ่าน"
+  "passcode_retry": "ใส่รหัสผ่าน",
+  "reminder_modal_title": "ทำเป็นกิจวัตร?",
+  "reminder_modal_body": "ตั้งค่าการแจ้งเตือนรายวัน เพื่อให้คุณไม่พลาดพิกเซลที่ติดตาม",
+  "reminder_modal_footer": "ยังไม่มั่นใจ? ไม่ต้องกังวล คุณสามารถตั้งค่าการเตือนความจำในการตั้งค่าแอพได้ในภายหลัง"
 }

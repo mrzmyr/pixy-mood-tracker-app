@@ -92,5 +92,8 @@
   "passcode_forgot_reset_confirm_description": "Cela effacera toutes vos données et paramètres pour cette application.",
   "passcode_forgot_reset_confirm_reset": "Oui, supprimer toutes mes données",
   "passcode_forgot_reset_confirm_cancel": "Annuler",
-  "passcode_retry": "Entrer le mot de passe"
+  "passcode_retry": "Entrer le mot de passe",
+  "reminder_modal_title": "En faire une routine ?",
+  "reminder_modal_body": "Configurez une notification de rappel quotidienne pour ne jamais manquer votre pixel suivi.",
+  "reminder_modal_footer": "Pas encore convaincu ? Pas de soucis, vous pouvez configurer le rappel dans les paramètres de l'application plus tard."
 }

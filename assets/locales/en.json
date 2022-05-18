@@ -80,6 +80,9 @@
   "passcode_forgot_reset_confirm_reset": "Yes, delete all my data",
   "passcode_forgot_reset_confirm_cancel": "Cancel",
   "passcode_retry": "Enter Passcode",
+  "reminder_modal_title": "Make it a rountine?",
+  "reminder_modal_body": "Set up a daily reminder notification, so you never miss your tracked pixel.",
+  "reminder_modal_footer": "Not convinced yet? No worries you can set up the reminder in the app settings later.",
   "previews_screen_1_title": [
     "Track your mood",
     "One Pixel at a Time"

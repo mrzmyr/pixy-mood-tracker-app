@@ -92,5 +92,8 @@
   "passcode_forgot_reset_confirm_description": "Dadurch werden alle Ihre Daten und Einstellungen für diese App gelöscht.",
   "passcode_forgot_reset_confirm_reset": "Ja, alle meine Daten löschen",
   "passcode_forgot_reset_confirm_cancel": "Absagen",
-  "passcode_retry": "Passwort eingeben"
+  "passcode_retry": "Passwort eingeben",
+  "reminder_modal_title": "Machen Sie es zur Routine?",
+  "reminder_modal_body": "Richten Sie eine tägliche Erinnerungsbenachrichtigung ein, damit Sie Ihr nachverfolgtes Pixel nie verpassen.",
+  "reminder_modal_footer": "Noch nicht überzeugt? Keine Sorge, Sie können die Erinnerung später in den App-Einstellungen einrichten."
 }

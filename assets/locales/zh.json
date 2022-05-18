@@ -92,5 +92,8 @@
   "passcode_forgot_reset_confirm_description": "这将清除您为此应用程序的所有数据和设置。",
   "passcode_forgot_reset_confirm_reset": "是的，删除我的所有数据",
   "passcode_forgot_reset_confirm_cancel": "取消",
-  "passcode_retry": "输入密码"
+  "passcode_retry": "输入密码",
+  "reminder_modal_title": "让它成为例行公事？",
+  "reminder_modal_body": "设置每日提醒通知，这样您就不会错过跟踪的像素。",
+  "reminder_modal_footer": "还不相信？不用担心，您可以稍后在应用程序设置中设置提醒。"
 }

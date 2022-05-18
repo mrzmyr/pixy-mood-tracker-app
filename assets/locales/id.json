@@ -92,5 +92,8 @@
   "passcode_forgot_reset_confirm_description": "Ini akan menghapus semua data dan pengaturan Anda untuk aplikasi ini.",
   "passcode_forgot_reset_confirm_reset": "Ya, hapus semua data saya",
   "passcode_forgot_reset_confirm_cancel": "Membatalkan",
-  "passcode_retry": "Masukkan Kode Sandi"
+  "passcode_retry": "Masukkan Kode Sandi",
+  "reminder_modal_title": "Menjadikannya rutin?",
+  "reminder_modal_body": "Siapkan pemberitahuan pengingat harian, sehingga Anda tidak akan pernah melewatkan piksel yang dilacak.",
+  "reminder_modal_footer": "Belum yakin? Jangan khawatir Anda dapat mengatur pengingat di pengaturan aplikasi nanti."
 }

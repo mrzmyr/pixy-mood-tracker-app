@@ -92,5 +92,8 @@
   "passcode_forgot_reset_confirm_description": "Ini akan memadamkan semua data dan tetapan anda untuk apl ini.",
   "passcode_forgot_reset_confirm_reset": "Ya, padamkan semua data saya",
   "passcode_forgot_reset_confirm_cancel": "Batal",
-  "passcode_retry": "Masukkan Kod Laluan"
+  "passcode_retry": "Masukkan Kod Laluan",
+  "reminder_modal_title": "Jadikan ia sebagai rutin?",
+  "reminder_modal_body": "Sediakan pemberitahuan peringatan harian, supaya anda tidak terlepas piksel jejak anda.",
+  "reminder_modal_footer": "Belum yakin? Jangan risau anda boleh menyediakan peringatan dalam tetapan apl kemudian."
 }

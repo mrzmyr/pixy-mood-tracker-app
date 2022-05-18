@@ -92,5 +92,8 @@
   "passcode_forgot_reset_confirm_description": "Spowoduje to usunięcie wszystkich danych i ustawień tej aplikacji.",
   "passcode_forgot_reset_confirm_reset": "Tak, usuń wszystkie moje dane",
   "passcode_forgot_reset_confirm_cancel": "Anulować",
-  "passcode_retry": "Wprowadź kod dostępu"
+  "passcode_retry": "Wprowadź kod dostępu",
+  "reminder_modal_title": "Czy to rutyna?",
+  "reminder_modal_body": "Ustaw codzienne powiadomienie o przypomnieniu, aby nigdy nie przegapić śledzonego piksela.",
+  "reminder_modal_footer": "Nie jesteś jeszcze przekonany? Nie martw się, możesz później skonfigurować przypomnienie w ustawieniach aplikacji."
 }

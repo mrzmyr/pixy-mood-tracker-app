@@ -92,5 +92,8 @@
   "passcode_forgot_reset_confirm_description": "Detta kommer att radera alla dina data och inställningar för den här appen.",
   "passcode_forgot_reset_confirm_reset": "Ja, radera all min data",
   "passcode_forgot_reset_confirm_cancel": "Avbryt",
-  "passcode_retry": "Ange lösenord"
+  "passcode_retry": "Ange lösenord",
+  "reminder_modal_title": "Göra det till en vardag?",
+  "reminder_modal_body": "Ställ in en daglig påminnelse så att du aldrig missar din spårade pixel.",
+  "reminder_modal_footer": "Inte övertygad än? Inga bekymmer, du kan ställa in påminnelsen i appinställningarna senare."
 }

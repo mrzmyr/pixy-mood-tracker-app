@@ -92,5 +92,8 @@
   "passcode_forgot_reset_confirm_description": "Thao tác này sẽ xóa tất cả dữ liệu và cài đặt của bạn cho ứng dụng này.",
   "passcode_forgot_reset_confirm_reset": "Có, xóa tất cả dữ liệu của tôi",
   "passcode_forgot_reset_confirm_cancel": "Hủy bỏ",
-  "passcode_retry": "Nhập mật mã"
+  "passcode_retry": "Nhập mật mã",
+  "reminder_modal_title": "Biến nó thành một rountine?",
+  "reminder_modal_body": "Thiết lập thông báo nhắc nhở hàng ngày để bạn không bao giờ bỏ lỡ pixel được theo dõi của mình.",
+  "reminder_modal_footer": "Bạn chưa thuyết phục? Đừng lo lắng, bạn có thể thiết lập lời nhắc trong cài đặt ứng dụng sau này."
 }

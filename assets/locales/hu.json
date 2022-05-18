@@ -92,5 +92,8 @@
   "passcode_forgot_reset_confirm_description": "Ezzel törli az alkalmazás összes adatát és beállítását.",
   "passcode_forgot_reset_confirm_reset": "Igen, töröljem az összes adatomat",
   "passcode_forgot_reset_confirm_cancel": "Megszünteti",
-  "passcode_retry": "Írja be a jelszót"
+  "passcode_retry": "Írja be a jelszót",
+  "reminder_modal_title": "Rutinná tenni?",
+  "reminder_modal_body": "Állítson be napi emlékeztetőt, hogy soha ne maradjon le a követett pixelről.",
+  "reminder_modal_footer": "Még nem győzött meg? Ne aggódjon, később beállíthatja az emlékeztetőt az alkalmazás beállításaiban."
 }

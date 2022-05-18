@@ -92,5 +92,8 @@
   "passcode_forgot_reset_confirm_description": "Dette vil slette alle dine data og innstillinger for denne appen.",
   "passcode_forgot_reset_confirm_reset": "Ja, slett alle dataene mine",
   "passcode_forgot_reset_confirm_cancel": "Avbryt",
-  "passcode_retry": "Skriv inn passord"
+  "passcode_retry": "Skriv inn passord",
+  "reminder_modal_title": "Gjøre det til en rutine?",
+  "reminder_modal_body": "Sett opp en daglig påminnelse, slik at du aldri går glipp av den sporede pikselen din.",
+  "reminder_modal_footer": "Ikke overbevist ennå? Ingen grunn til bekymring, du kan sette opp påminnelsen i appinnstillingene senere."
 }
