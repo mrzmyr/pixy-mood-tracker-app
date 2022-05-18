@@ -1,8 +1,10 @@
 import dayjs from "dayjs";
-import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef } from "react";
+import { Text, View } from "react-native";
 import {
   useScrollIntoView
 } from 'react-native-scroll-into-view';
+import useColors from "../hooks/useColors";
 import { useLogs } from "../hooks/useLogs";
 import { useTranslation } from "../hooks/useTranslation";
 import Button from "./Button";
@@ -13,6 +15,7 @@ export default function Calendar({
 }: {
   navigation: any;
 }) {
+  const colors = useColors()
   const { state } = useLogs()
   const i18n = useTranslation()
   const today = dayjs();
@@ -57,7 +60,11 @@ export default function Calendar({
   }
 
   return (
-    <>
+    <View
+      style={{
+        paddingBottom: 40,
+      }}
+    >
       <Button
         onPress={() => scrollToToday()}
         type="secondary"
@@ -81,6 +88,15 @@ export default function Calendar({
           ref={dayjs().isSame(dateString, 'month') ? viewRef : null}
         />
       ))}
-    </>
+      <Text
+        style={{
+          paddingTop: 80,
+          marginBottom: -80,
+          textAlign: 'center',
+          fontSize: 15,
+          color: colors.textSecondary,
+        }}
+      >🙏 The future will be great.</Text>
+    </View>
   )
 }

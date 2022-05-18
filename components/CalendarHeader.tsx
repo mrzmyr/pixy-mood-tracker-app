@@ -8,7 +8,7 @@ const HeaderDay = ({
   children: string
 }) => {
   const colors = useColors()
-  return <Text style={{ color: colors.calendarMonthNameColor }}>{children}</Text>
+  return <Text style={{ fontSize: 12, color: colors.calendarMonthNameColor }}>{children}</Text>
 }
 
 export default function CalendarHeader() {
@@ -18,7 +18,6 @@ export default function CalendarHeader() {
     <View style={{
       width: '100%',
       backgroundColor: colors.background,
-      // backgroundColor: 'red',
       alignSelf: 'center',
       shadowColor: 'rgba(0, 0, 0, 0.6)',
       shadowOffset: {
@@ -34,8 +33,8 @@ export default function CalendarHeader() {
       flexDirection: 'row',
       paddingLeft: 15,
       paddingRight: 15,
-      paddingTop: 10,
-      paddingBottom: 10,
+      paddingTop: 4,
+      paddingBottom: 4,
   }}>
     <HeaderDay>{dayjs().startOf('week').format('ddd')}</HeaderDay>
     <HeaderDay>{dayjs().startOf('week').add(1, 'day').format('ddd')}</HeaderDay>

@@ -125,7 +125,7 @@ const light: IColors = {
   calendarItemBackground: tailwindGray['200'],
   calendarItemTextColor: tailwindGray['500'],
   calendarWeekNameColor: '#000',
-  calendarMonthNameColor: '#000',
+  calendarMonthNameColor: '#666',
   
   primaryLinkButtonText: tintColorLight,
   secondaryLinkButtonText: tailwindGray['500'],
