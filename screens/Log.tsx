@@ -40,11 +40,14 @@ export default function Log({ navigation, route }: RootStackScreenProps<'Log'>) 
       payload: logItem
     })
 
-    if(Object.keys(state.items).length > 1 || settings.reminderEnabled) {
-      navigation.navigate('Calendar');
-    } else {
+    if(
+      Object.keys(state.items).length === 2 &&
+      !settings.reminderEnabled
+    ) {
       segment.track('reminder_modal_open')
       navigation.navigate('ReminderModal');
+    } else {
+      navigation.navigate('Calendar');
     }
   }
 

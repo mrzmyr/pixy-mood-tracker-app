@@ -1,7 +1,10 @@
 import { Platform, StatusBar, Text, View } from 'react-native';
+import { X } from 'react-native-feather';
 import Button from '../components/Button';
 import CouchDreaming from '../components/CouchDreaming';
 import LinkButton from '../components/LinkButton';
+import ModalHeader from '../components/ModalHeader';
+import Reminder from '../components/Reminder';
 import useColors from '../hooks/useColors';
 import { useLogs } from '../hooks/useLogs';
 import { useSegment } from '../hooks/useSegment';
@@ -14,8 +17,8 @@ export default function ReminderModal({ navigation }: RootStackScreenProps<'Remi
   const i18n = useTranslation()
   const segment = useSegment()
 
-  const cancel = () => {
-    segment.track('reminder_modal_remind_me_later')
+  const close = () => {
+    segment.track('reminder_modal_close')
     navigation.navigate('Calendar');
   }
   
@@ -29,48 +32,52 @@ export default function ReminderModal({ navigation }: RootStackScreenProps<'Remi
       paddingLeft: 20,
       paddingRight: 20,
     }}>
+      <ModalHeader
+        left={<LinkButton testID='reminder-modal-cancel' onPress={close} type='secondary' icon={<X height={24} color={colors.text} />} />}
+      />
       <View
         style={{
           width: '100%',
+          height: '100%',
+          justifyContent: 'space-around'
         }}
       >
-        <Text
-          style={{
-            fontSize: 32,
-            fontWeight: 'bold',
-            color: colors.text,
-            textAlign: 'center',
-            marginBottom: 10,
-          }}
-        >Want to make it a rountine?</Text>
-
-        <View style={{
-          alignItems: 'center',
-          justifyContent: 'center',
-          marginBottom: 20,
-        }}>
-          <View
+        <View>
+          <Text
             style={{
-              width: '90%',
+              fontSize: 38,
+              fontWeight: 'bold',
+              color: colors.text,
+              textAlign: 'center',
             }}
-          >
-            <CouchDreaming />
-          </View>
+          >Make it a rountine?</Text>
+          <Text
+            style={{
+              fontSize: 17,
+              color: colors.text,
+              textAlign: 'center',
+              marginTop: '5%',
+              marginLeft: 'auto',
+              marginRight: 'auto',
+              width: '80%',
+              marginBottom: '20%',
+            }}
+          >Set up a daily reminder notification, so you never miss your tracked pixel.</Text>
+          <Reminder />
         </View>
-            
-        <Button>Turn on Notification</Button>
-        <LinkButton style={{ marginTop: 20 }} type='secondary' onPress={() => cancel()}>Remind me later</LinkButton>
-        <Text
-          style={{
-            fontSize: 14,
-            color: colors.textSecondary,
-            marginLeft: 'auto',
-            marginRight: 'auto',
-            textAlign: 'center',
-            marginTop: 20,
-            width: '90%'
-          }}
-        >No worries, you can change this anytime in the app settings.</Text>
+        <View>
+          <Text
+              style={{
+                fontSize: 15,
+                color: colors.textSecondary,
+                opacity: 0.5,
+                textAlign: 'center',
+                marginLeft: 'auto',
+                marginRight: 'auto',
+                width: '80%',
+              }}
+            >Not convinced yet? No worries you can set up the reminder in the app settings later.</Text>
+        </View>
       </View>
     </View>
   );
