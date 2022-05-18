@@ -2,6 +2,34 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.11.0](https://github.com/mrzmyr/pixy-mood-tracker/compare/v1.10.1...v1.11.0) (2022-05-18)
+
+
+### Features
+
+* add reminder modal ([904aa0c](https://github.com/mrzmyr/pixy-mood-tracker/commit/904aa0c993882b92eebd04adb46a3de361cebe94))
+* **Reminder:** add reminder translations ([2e402a8](https://github.com/mrzmyr/pixy-mood-tracker/commit/2e402a8c50851c14395d262c80c0a403b4564a11))
+* **Reminder:** show permission request on second tracking ([3e17345](https://github.com/mrzmyr/pixy-mood-tracker/commit/3e1734530ce0e6c2941a1b1f0acd44dc3ea8f539))
+
+
+### Bug Fixes
+
+* isLast for reminder settings ([c027c31](https://github.com/mrzmyr/pixy-mood-tracker/commit/c027c318365b98c9b17a94f9197ed227f96bdb3a))
+
+
+### Styling
+
+* make calendar header smaller ([264d57d](https://github.com/mrzmyr/pixy-mood-tracker/commit/264d57d80547a896a8b06cd1715b5455f8d437b0))
+* **Privacy:** fix typo ([9455daa](https://github.com/mrzmyr/pixy-mood-tracker/commit/9455daa39eb0402db081ec82630e6016250b3284))
+
+
+### Chore
+
+* **deps-dev:** bump standard-version from 7.1.0 to 9.5.0 ([fcb823c](https://github.com/mrzmyr/pixy-mood-tracker/commit/fcb823c9998e3aa79f3c1baf6269fd14c8e1fb4a))
+* remove unused var ([a912ef8](https://github.com/mrzmyr/pixy-mood-tracker/commit/a912ef846a545f2425c58bc20993a1cb5613dfa1))
+* remove unused var ([f1542ae](https://github.com/mrzmyr/pixy-mood-tracker/commit/f1542aeffe37a79165a5e25d0dd7963fd93be6fd))
+* update deps ([2546ce4](https://github.com/mrzmyr/pixy-mood-tracker/commit/2546ce491f75f3e68eee35e64282cb4c619577ea))
+
 ### [1.10.1](https://github.com/mrzmyr/pixy-mood-tracker/compare/v1.10.0...v1.10.1) (2022-04-06)
 
 
