@@ -89,6 +89,7 @@ export default function SettingsScreen({ navigation }: RootStackScreenProps<'Set
             iconLeft={<Bell width={18} color={colors.menuListItemIcon} />}
             onPress={() => navigation.navigate('Reminder')}
             testID='reminder'
+            isLast
             isLink
           />
           {/* <MenuListItem
