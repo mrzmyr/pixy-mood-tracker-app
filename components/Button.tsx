@@ -33,13 +33,13 @@ export default function Button({
       text: colors.secondaryButtonTextColor,
     },
   }[type];
-  
+
   return (
     <Pressable
       style={({ pressed }) => [{
-        padding: 15,
-        paddingRight: 15,
-        paddingLeft: 15,
+        padding: 16,
+        paddingRight: 16,
+        paddingLeft: 16,
         alignItems: 'center',
         justifyContent: 'center',
         flexDirection: 'row',

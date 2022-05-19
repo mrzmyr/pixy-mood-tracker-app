@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 import { debounce } from "lodash";
 import { useCallback, useState } from 'react';
-import { Alert, Platform, StatusBar, View } from 'react-native';
+import { Platform, StatusBar, View } from 'react-native';
 import { Trash2, X } from 'react-native-feather';
 import DismissKeyboard from '../components/DismisKeyboard';
 import LinkButton from '../components/LinkButton';
@@ -15,7 +15,7 @@ import { useSettings } from '../hooks/useSettings';
 import { useTranslation } from '../hooks/useTranslation';
 import { RootStackScreenProps } from '../types';
 
-export default function Log({ navigation, route }: RootStackScreenProps<'Log'>) {
+export const LogModal = ({ navigation, route }: RootStackScreenProps<'Log'>) => {
   
   const { settings } = useSettings()
   const colors = useColors()

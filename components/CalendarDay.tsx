@@ -41,6 +41,7 @@ export default memo(function CalendarDay({
   return (
     <>
       <TouchableOpacity
+        disabled={isFuture || !onPress}
         onPress={async () => {
           if(!isFuture) {
             await haptics.selection()
@@ -52,10 +53,9 @@ export default memo(function CalendarDay({
           alignItems: 'flex-end',
           padding: 5,
           borderRadius: 3,
-          backgroundColor: backgroundColor,
+          backgroundColor: isFuture ? colors.calendarItemBackgroundFuture : backgroundColor,
           width: '100%',
           aspectRatio: 1,
-          opacity: isFuture ? 0.5 : 1,
         }}
         testID={`calendar-day-${dateString}`}
         accessible={true}
@@ -87,6 +87,7 @@ export default memo(function CalendarDay({
             <Text
               style={{
                 fontSize: 14,
+                opacity: isFuture ? 0.5 : 1,
                 color: isToday ? 
                 (chroma(backgroundColor).luminance() > 0.6 ? 'black' : 'black') :
                 textColor,

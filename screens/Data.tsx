@@ -37,7 +37,7 @@ const exportState = async (state: LogsState) => {
   openShareDialogAsync(FileSystem.documentDirectory + filename)
 }
 
-export default function DataScreen({ navigation }: RootStackScreenProps<'Data'>) {
+export const DataScreen = ({ navigation }: RootStackScreenProps<'Data'>) => {
   const { state, dispatch } = useLogs()
   const { resetSettings } = useSettings()
   const colors = useColors()

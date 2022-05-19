@@ -7,7 +7,7 @@ import useColors from '../hooks/useColors';
 import { useSegment } from '../hooks/useSegment';
 import { useTranslation } from '../hooks/useTranslation';
 
-export default function PrivacyScreen() {
+export const PrivacyScreen = () => {
   const colors = useColors()
   const i18n = useTranslation()
   const segment = useSegment()

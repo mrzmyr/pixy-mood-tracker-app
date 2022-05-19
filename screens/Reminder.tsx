@@ -2,7 +2,7 @@ import { ScrollView, View } from 'react-native';
 import Reminder from '../components/Reminder';
 import useColors from '../hooks/useColors';
 
-export default function ReminderScreen() {
+export const ReminderScreen = () => {
   const colors = useColors()
   
   return (

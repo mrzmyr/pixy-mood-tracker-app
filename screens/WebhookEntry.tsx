@@ -5,7 +5,7 @@ import DataEntyList from '../components/DataEntryList';
 import TextCode from '../components/TextCode';
 import TextHeadline from '../components/TextHeadline';
 import useColors from '../hooks/useColors';
-import { SettingsWebhookHistoryEntry } from '../hooks/useSettings';
+import { SettingsWebhookEntry } from '../hooks/useSettings';
 import { useTranslation } from '../hooks/useTranslation';
 
 const DataEntyItem = ({ title, value }) => {
@@ -24,11 +24,11 @@ const DataEntyDivider = () => {
   return <View style={{ height: 1, backgroundColor: colors.menuListItemBorder, marginTop: 10, marginBottom: 10 }}></View>
 }
 
-export default function WebhookHistoryEntry({ navigation, route }) {
+export const WebhookEntryScreen = ({ navigation, route }) => {
   const colors = useColors()
   const i18n = useTranslation()
 
-  const { entry }: { entry: SettingsWebhookHistoryEntry } = route.params
+  const { entry }: { entry: SettingsWebhookEntry } = route.params
 
   useEffect(() => {
     navigation.setOptions({ headerTitle: dayjs(entry.date).format('lll') });

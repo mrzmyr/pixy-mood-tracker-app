@@ -1,27 +1,23 @@
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useEffect } from 'react';
-import { Platform, Pressable, useColorScheme, View } from 'react-native';
-import { ArrowLeft, Settings as SettingsIcon } from 'react-native-feather';
+import { Platform, Pressable, Text, useColorScheme } from 'react-native';
+import { ArrowLeft, Calendar as CalendarIcon, PieChart, Settings as SettingsIcon } from 'react-native-feather';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 import Colors from '../constants/Colors';
 import useColors from '../hooks/useColors';
 import useHaptics from '../hooks/useHaptics';
 import { usePasscode } from '../hooks/usePasscode';
 import { useSegment } from "../hooks/useSegment";
 import { useTranslation } from '../hooks/useTranslation';
-import Calendar from '../screens/Calendar';
-import Data from '../screens/Data';
-import Licenses from '../screens/Licenses';
-import Log from '../screens/Log';
-import NotFound from '../screens/NotFound';
-import Privacy from '../screens/Privacy';
-import Reminder from '../screens/Reminder';
-import ReminderModal from '../screens/ReminderModal';
-import Scales from '../screens/Scales';
-import Settings from '../screens/Settings';
-import Webhook from '../screens/Webhook';
-import WebhookHistoryEntry from '../screens/WebhookHistoryEntry';
+import {
+  CalendarScreen, DataScreen, LicensesScreen, LogModal, NotFoundScreen, PrivacyScreen, ReminderModal, ReminderScreen, ScaleScreen, SettingsScreen, StatisticsScreen, WebhookEntryScreen, WebhookScreen
+} from '../screens';
 import { RootStackParamList } from '../types';
+
+import { enableScreens } from 'react-native-screens';
+enableScreens();
 
 const linking = {
   prefixes: ['pixy://'],
@@ -30,7 +26,7 @@ const linking = {
       Webhook: {
         path: 'webhook',
         screens: {
-          WebhookHistoryEntry: {
+          WebhookEntry: {
             path: 'webhook/history/:date',
           },
         },
@@ -86,6 +82,78 @@ const BackButton = ({
   );
 }
 
+const Tab = createBottomTabNavigator();
+
+const BottomTabs = () => {
+  const colors = useColors();
+  const i18n = useTranslation()
+  const haptics = useHaptics()
+
+  const defaultOptions = {
+    headerTintColor: colors.text,
+    headerStyle: {
+      backgroundColor: colors.background,
+      shadowColor: 'transparent',
+      borderBottomWidth: 1,
+      borderBottomColor: colors.headerBorder,
+    },
+    headerShadowVisible: Platform.OS !== 'web',
+    tabBarStyle: {
+      borderTopColor: colors.headerBorder,
+    },
+  }
+  
+  return (
+    <Tab.Navigator
+      initialRouteName="Statistics"
+      screenOptions={({ route }) => ({
+        headerStyle: {
+          borderBottomColor: '#fff',
+        },
+      })}
+    >
+      <Tab.Screen
+        name="Statistics"
+        component={StatisticsScreen}
+        options={({ navigation }) => ({
+          ...defaultOptions,
+          tabBarLabel: ({ color, position, focused }) => (
+            <Text style={{ fontSize: 11, color: focused ? colors.tabsIconActive : colors.tabsIconInactive }}>{i18n.t('statistics')}</Text>
+          ),
+          tabBarIcon: ({ color, size, focused }) => <PieChart width={20} color={focused ? colors.tabsIconActive : colors.tabsIconInactive} />,
+          headerShown: false,
+          title: i18n.t('statistics'),
+        })}
+      />
+      <Tab.Screen
+        name="Calendar"
+        component={CalendarScreen}
+        options={({ navigation }) => ({
+          ...defaultOptions,
+          headerShown: false,
+          tabBarLabel: ({ color, position, focused }) => (
+            <Text style={{ fontSize: 11, color: focused ? colors.tabsIconActive : colors.tabsIconInactive }}>{i18n.t('calendar')}</Text>
+          ),
+          tabBarIcon: ({ color, size, focused }) => <CalendarIcon width={20} color={focused ? colors.tabsIconActive : colors.tabsIconInactive} />,
+          title: i18n.t('calendar'),
+        })}
+      />
+      <Tab.Screen
+        name="Settings"
+        component={SettingsScreen}
+        options={({ navigation }) => ({
+          ...defaultOptions,
+          tabBarLabel: ({ color, position, focused }) => (
+            <Text style={{ fontSize: 11, color: focused ? colors.tabsIconActive : colors.tabsIconInactive }}>{i18n.t('settings')}</Text>
+          ),
+          tabBarIcon: ({ color, size, focused }) => <SettingsIcon width={20} color={focused ? colors.tabsIconActive : colors.tabsIconInactive} />,
+          title: i18n.t('settings'),
+        })}
+      />
+    </Tab.Navigator>
+  );
+}
+
 function RootNavigator() {
   const colors = useColors();
   const i18n = useTranslation()
@@ -114,6 +182,7 @@ function RootNavigator() {
   // if(passcode.isEnabled === null) return null;
 
   return (
+      
     // (passcode.isEnabled && !passcode.isAuthenticated) ? (
     //   <Stack.Navigator
     //     screenOptions={{
@@ -127,6 +196,7 @@ function RootNavigator() {
     //     />
     //   </Stack.Navigator>
     // ) : (
+    <SafeAreaProvider>
       <Stack.Navigator
         initialRouteName="Calendar"
         screenListeners={{
@@ -137,41 +207,12 @@ function RootNavigator() {
         screenOptions={stackScreenOptions}
       >
         <Stack.Screen
-          name="Calendar"
-          component={Calendar}
-          options={({ navigation }) => ({
-            ...defaultOptions,
-            animation: 'none',
-            title: i18n.t('calendar'),
-            headerRight: () => (
-              <View
-                style={{
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
-                }}
-              >
-                <Pressable
-                  testID='settings'
-                  onPress={async () => {
-                    await haptics.selection()
-                    navigation.navigate('Settings')
-                  }}
-                  style={{
-                    padding: 15,
-                    paddingTop: 10,
-                  }}
-                  accessible={true}
-                  accessibilityLabel={i18n.t('settings')}
-                  accessibilityRole={'button'}
-                >
-                  <SettingsIcon height={22} color={colors.text} />
-                </Pressable>
-              </View>
-            ),
-          })}
+          name="BottomTabs"
+          component={BottomTabs}
+          options={{ headerShown: false }}
         />
 
-        <Stack.Screen name="NotFound" component={NotFound} options={{ title: 'Oops!' }} />
+        <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
         
         <Stack.Group screenOptions={{ 
           title: '',
@@ -180,7 +221,7 @@ function RootNavigator() {
         }}>
           <Stack.Screen 
             name="Log" 
-            component={Log} 
+            component={LogModal} 
           />
         </Stack.Group>
 
@@ -202,7 +243,7 @@ function RootNavigator() {
         >
           <Stack.Screen 
             name="Settings" 
-            component={Settings} 
+            component={SettingsScreen} 
             options={{ 
               title: i18n.t('settings'),
               headerLeft: () => Platform.OS === 'ios' ? null : <BackButton testID={'settings-back-button'} />,
@@ -210,7 +251,7 @@ function RootNavigator() {
           />
           <Stack.Screen 
             name="Reminder" 
-            component={Reminder}
+            component={ReminderScreen}
             options={{ 
               title: i18n.t('reminder'),
               headerLeft: () => Platform.OS === 'ios' ? null : <BackButton testID={'reminder-back-button'} />,
@@ -218,7 +259,7 @@ function RootNavigator() {
           />
           <Stack.Screen 
             name="Privacy" 
-            component={Privacy}
+            component={PrivacyScreen}
             options={{ 
               title: i18n.t('privacy'),
               headerLeft: () => Platform.OS === 'ios' ? null : <BackButton testID={'privacy-back-button'} />,
@@ -226,15 +267,15 @@ function RootNavigator() {
           />
           <Stack.Screen
             name="Webhook" 
-            component={Webhook} 
+            component={WebhookScreen} 
             options={{ 
               title: i18n.t('webhook'),
               headerLeft: () => Platform.OS === 'ios' ? null : <BackButton testID={'webhook-back-button'} />,
             }} 
           />
           <Stack.Screen 
-            name="WebhookHistoryEntry" 
-            component={WebhookHistoryEntry} 
+            name="WebhookEntry" 
+            component={WebhookEntryScreen} 
             options={{ 
               title: '',
               headerLeft: () => Platform.OS === 'ios' ? null : <BackButton testID={'webhook-history-entry-back-button'} />,
@@ -242,7 +283,7 @@ function RootNavigator() {
           />
           <Stack.Screen 
             name="Licenses" 
-            component={Licenses} 
+            component={LicensesScreen} 
             options={{ 
               title: i18n.t('licenses'),
               headerLeft: () => Platform.OS === 'ios' ? null : <BackButton testID={'licenses-back-button'} />,
@@ -250,7 +291,7 @@ function RootNavigator() {
           />
           <Stack.Screen 
             name="Scales" 
-            component={Scales} 
+            component={ScaleScreen} 
             options={{ 
               title: i18n.t('scales'),
               headerLeft: () => Platform.OS === 'ios' ? null : <BackButton testID={'scales-back-button'} />,
@@ -258,7 +299,7 @@ function RootNavigator() {
           />
           <Stack.Screen 
             name="Data" 
-            component={Data} 
+            component={DataScreen} 
             options={{ 
               title: i18n.t('data'),
               headerLeft: () => Platform.OS === 'ios' ? null : <BackButton testID={'data-back-button'} />,
@@ -266,6 +307,7 @@ function RootNavigator() {
           />
         </Stack.Group>
       </Stack.Navigator>
+      </SafeAreaProvider>
     // )
   );
 }

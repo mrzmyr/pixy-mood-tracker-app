@@ -1,18 +1,14 @@
 import { Platform, StatusBar, Text, View } from 'react-native';
 import { X } from 'react-native-feather';
-import Button from '../components/Button';
-import CouchDreaming from '../components/CouchDreaming';
 import LinkButton from '../components/LinkButton';
 import ModalHeader from '../components/ModalHeader';
 import Reminder from '../components/Reminder';
 import useColors from '../hooks/useColors';
-import { useLogs } from '../hooks/useLogs';
 import { useSegment } from '../hooks/useSegment';
-import { useSettings } from '../hooks/useSettings';
 import { useTranslation } from '../hooks/useTranslation';
 import { RootStackScreenProps } from '../types';
 
-export default function ReminderModal({ navigation }: RootStackScreenProps<'ReminderModal'>) {
+export const ReminderModal = ({ navigation }: RootStackScreenProps<'ReminderModal'>) => {
   const colors = useColors()
   const i18n = useTranslation()
   const segment = useSegment()

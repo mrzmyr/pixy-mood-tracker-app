@@ -2,21 +2,20 @@ import * as Linking from 'expo-linking';
 import * as LocalAuthentication from 'expo-local-authentication';
 import * as StoreReview from 'expo-store-review';
 import { useEffect, useState } from 'react';
-import { ScrollView, Switch, Text, View } from 'react-native';
-import { Award, Bell, Database, Flag, Lock, Shield, Star, Unlock } from 'react-native-feather';
+import { ScrollView, Text, View } from 'react-native';
+import { Award, Bell, Database, Flag, Shield, Star } from 'react-native-feather';
 import MenuList from '../components/MenuList';
 import MenuListItem from '../components/MenuListItem';
 import TextInfo from '../components/TextInfo';
 import useColors from '../hooks/useColors';
 import useFeedbackModal from '../hooks/useFeedbackModal';
-import usePasscodeModal from '../hooks/usePasscodeModal';
 import { useSegment } from '../hooks/useSegment';
 import { useSettings } from '../hooks/useSettings';
 import { useTranslation } from '../hooks/useTranslation';
 import pkg from '../package.json';
 import { RootStackScreenProps } from '../types';
 
-export default function SettingsScreen({ navigation }: RootStackScreenProps<'Settings'>) {
+export const SettingsScreen = ({ navigation }: RootStackScreenProps<'Settings'>) => {
   const { settings, setSettings } = useSettings()
   const colors = useColors()
   const i18n = useTranslation()

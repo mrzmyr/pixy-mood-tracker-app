@@ -1,6 +1,6 @@
 import dayjs from "dayjs";
 import { useEffect, useMemo, useRef } from "react";
-import { Text, View } from "react-native";
+import { Platform, Text, View } from "react-native";
 import {
   useScrollIntoView
 } from 'react-native-scroll-into-view';
@@ -91,6 +91,7 @@ export default function Calendar({
       <Text
         style={{
           paddingTop: 80,
+          paddingBottom: Platform.OS === 'ios' ? 0 : 40,
           marginBottom: -80,
           textAlign: 'center',
           fontSize: 15,

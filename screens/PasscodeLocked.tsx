@@ -8,7 +8,7 @@ import { usePasscode } from '../hooks/usePasscode';
 import { useSegment } from '../hooks/useSegment';
 import { useTranslation } from '../hooks/useTranslation';
 
-export default function PasscodeLocked() {
+export const PasscodeLocked = () => {
   const colors = useColors()
   const i18n = useTranslation()
   const segment = useSegment()

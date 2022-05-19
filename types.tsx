@@ -18,7 +18,7 @@ export type RootStackParamList = {
   Settings: undefined,
   Scales: undefined,
   Webhook: undefined,
-  WebhookHistoryEntry: {
+  WebhookEntry: {
     entry: any,
   },
   Log: {

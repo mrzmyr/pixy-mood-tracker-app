@@ -21,17 +21,17 @@ const CalendarDayContainer = ({
 const CalendarWeek = memo(({
   days,
   items,
+  onPress = null,
   isFirst = false,
   isLast = false,
 }: {
   days: string[];
   items: LogItem[];
+  onPress?: (dateString: string) => void;
   isFirst?: boolean;
   isLast?: boolean;
 }) => {
-  const navigation = useNavigation()
-
-  let justifyContent = "space-between";
+  let justifyContent = "space-around";
   if(isFirst) justifyContent = 'flex-end';
   if(isLast) justifyContent = 'flex-start';
   
@@ -48,16 +48,14 @@ const CalendarWeek = memo(({
       isFuture: day.isAfter(dayjs()),
     }
   });
-
-  const onPress = useCallback((dateString) => {
-    navigation.navigate('Log', { date: dateString })
-  }, [navigation])
   
   return (
     <View
       style={{
         flexDirection: "row",
-        justifyContent,
+        justifyContent: 'space-around',
+        marginLeft: -4,
+        marginRight: -4,
       }}
     >
       {!isLast && emptyDays.map((day, index) => <CalendarDayContainer key={index} />)}

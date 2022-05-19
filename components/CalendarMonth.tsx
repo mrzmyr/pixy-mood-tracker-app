@@ -1,5 +1,6 @@
+import { useNavigation } from "@react-navigation/native";
 import dayjs from "dayjs";
-import { forwardRef, useMemo } from "react";
+import { forwardRef, useCallback, useMemo } from "react";
 import { Text, View } from "react-native";
 import useColors from "../hooks/useColors";
 import { LogItem } from "../hooks/useLogs";
@@ -14,13 +15,15 @@ const CalendarMonth = forwardRef(({
   dateString,
   items,
 }: {
+  navigation: any;
   dateString: string;
   items?: LogItem[];
 }, ref) => {
-
+  const navigation = useNavigation()
   const date = dayjs(dateString);
   const colors = useColors();
   const daysInMonthCount = date.daysInMonth();
+
   let weeks: WeekEntry[] = useMemo(() => {
     
     let weeks: WeekEntry[] = []
@@ -41,20 +44,24 @@ const CalendarMonth = forwardRef(({
     return weeks;
   }, [items]);
 
+  const onPress = useCallback((dateString) => {
+    navigation.navigate('Log', { date: dateString })
+  }, [navigation])
+  
   return (
     <View ref={ref} renderToHardwareTextureAndroid>
       <Text
         style={{
-          margin: 10,
-          marginTop: 20,
+          margin: 12,
+          marginTop: 16,
           textAlign: 'center',
           fontSize: 17,
-          opacity: 0.5,
           color: colors.calendarMonthNameColor,
         }}
       >{date.format('MMMM YYYY')}</Text>
       {weeks.map((week, index) => (
         <CalendarWeek 
+          onPress={onPress}
           key={index}
           isFirst={index === 0} 
           isLast={index === weeks.length - 1} 

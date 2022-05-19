@@ -3,7 +3,7 @@ import { usePasscode } from '../hooks/usePasscode';
 import { useSegment } from '../hooks/useSegment';
 import { useSettings } from '../hooks/useSettings';
 
-export default function PasscodeScreen() {
+export const PasscodeScreen = () => {
   const passcode = usePasscode()
   const { settings } = useSettings()
   const segment = useSegment()

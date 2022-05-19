@@ -7,7 +7,7 @@ const STORAGE_KEY = 'PIXEL_TRACKER_SETTINGS'
 
 const SettingsStateContext = createContext(undefined)
 
-export interface SettingsWebhookHistoryEntry {
+export interface SettingsWebhookEntry {
   url: string,
   date: string,
   body: string,
@@ -23,7 +23,7 @@ export interface SettingsState {
   passcode: string | null,
   webhookEnabled: Boolean,
   webhookUrl: string,
-  webhookHistory: SettingsWebhookHistoryEntry[],
+  webhookHistory: SettingsWebhookEntry[],
   scaleType: 'ColorBrew-RdYlGn' | 'ColorBrew-PiYG',
   reminderEnabled: Boolean,
   reminderTime: string,

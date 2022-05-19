@@ -3,7 +3,7 @@ import Markdown from 'react-native-markdown-display';
 import useColors from '../hooks/useColors';
 import licenses from '../licenses.json';
 
-export default function LicensesScreen() {
+export const LicensesScreen = () => {
   const colors = useColors()
   
   const text = licenses.data.body.map((license, index) => license.map((item, index) => index === 0 ? `**${item}**` : item).join('\n')).join('\n\n')

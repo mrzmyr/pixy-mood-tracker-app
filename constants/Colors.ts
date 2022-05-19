@@ -11,7 +11,7 @@ const tailwindGray = {
   '900': '#171717',
 }
 
-interface Scales {
+export interface Scales {
   [type: string]: {
     [rating: string]: {
       background: string;
@@ -61,6 +61,12 @@ export interface IColors {
   link: string;
   tint: string;
 
+  cardBackground: string;
+
+  headerBorder: string,
+  tabsIconActive: string,
+  tabsIconInactive: string;
+  
   passcodeDotBackground: string;
   passcodePadBackground: string,
   passcodePadBackgroundActive: string,
@@ -74,6 +80,7 @@ export interface IColors {
   
   calendarBackground: string;
   calendarItemBackground: string;
+  calendarItemBackgroundFuture: string;
   calendarItemTextColor: string;
   calendarWeekNameColor: string;
   calendarMonthNameColor: string;
@@ -110,6 +117,12 @@ const light: IColors = {
   link: tintColorLight,
   tint: tintColorLight,
 
+  cardBackground: '#fff',
+
+  headerBorder: tailwindGray['300'],
+  tabsIconActive: tailwindGray['900'],
+  tabsIconInactive: tailwindGray['400'],
+  
   passcodeDotBackground: tailwindGray['300'],
   passcodePadBackground: tailwindGray['200'],
   passcodePadBackgroundActive: tailwindGray['400'],
@@ -121,11 +134,12 @@ const light: IColors = {
   
   notificationBackground: '#FFF',
   
-  calendarBackground: '#FFF',
-  calendarItemBackground: tailwindGray['200'],
+  calendarBackground: tailwindGray['100'],
+  calendarItemBackground: '#FFF',
+  calendarItemBackgroundFuture: tailwindGray['50'],
   calendarItemTextColor: tailwindGray['500'],
-  calendarWeekNameColor: '#000',
-  calendarMonthNameColor: '#666',
+  calendarWeekNameColor: tailwindGray['700'],
+  calendarMonthNameColor: tailwindGray['400'],
   
   primaryLinkButtonText: tintColorLight,
   secondaryLinkButtonText: tailwindGray['500'],
@@ -159,6 +173,12 @@ const dark: IColors = {
   link: tintColorLight,
   tint: tintColorDark,
   
+  cardBackground: tailwindGray['900'],
+  
+  headerBorder: tailwindGray['800'],
+  tabsIconActive: tailwindGray['400'],
+  tabsIconInactive: tailwindGray['600'],
+  
   passcodeDotBackground: tailwindGray['600'],
   passcodePadBackground: tailwindGray['800'],
   passcodePadBackgroundActive: tailwindGray['700'],
@@ -172,6 +192,7 @@ const dark: IColors = {
   
   calendarBackground: '#000',
   calendarItemBackground: tailwindGray['900'],
+  calendarItemBackgroundFuture: tailwindGray['900'],
   calendarItemTextColor: tailwindGray['500'],
   calendarWeekNameColor: tailwindGray['500'],
   calendarMonthNameColor: tailwindGray['500'],

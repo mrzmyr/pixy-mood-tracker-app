@@ -1,4 +1,5 @@
 import { ScrollView, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { wrapScrollView } from 'react-native-scroll-into-view';
 import Calendar from '../components/Calendar';
 import CalendarHeader from '../components/CalendarHeader';
@@ -6,22 +7,23 @@ import useColors from '../hooks/useColors';
 
 const CustomScrollView = wrapScrollView(ScrollView);
 
-export default function CalendarScreen({ navigation }) {
+export const CalendarScreen = ({ navigation }) => {
   const colors = useColors()
+  const insets = useSafeAreaInsets();
+
   
   return (
     <View style={{
       flex: 1,
-      justifyContent: "center",
       flexDirection: "column",
+      paddingTop: insets.top,
     }}>
       <CalendarHeader />
       <CustomScrollView
         style={{
-          marginTop: 0,
           backgroundColor: colors.calendarBackground,
-          paddingLeft: 15,
-          paddingRight: 15,
+          paddingLeft: 16,
+          paddingRight: 16,
         }}
         scrollIntoViewOptions={{
           animated: false,

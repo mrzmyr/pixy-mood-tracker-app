@@ -13,7 +13,7 @@ import { SettingsState, useSettings } from '../hooks/useSettings';
 import { useTranslation } from '../hooks/useTranslation';
 import { RootStackScreenProps } from '../types';
 
-export default function WebhookScreen({ navigation }: RootStackScreenProps<'Webhook'>) {
+export const WebhookScreen = ({ navigation }: RootStackScreenProps<'Webhook'>) => {
   const { settings, setSettings } = useSettings()
   const colors = useColors()
   const i18n = useTranslation()
@@ -124,7 +124,7 @@ export default function WebhookScreen({ navigation }: RootStackScreenProps<'Webh
                     <Tag type={entry.isError ? 'error' : 'success'}>{entry.isError ? i18n.t('webhook_status_error') : i18n.t('webhook_status_success')}</Tag>
                   </View>
                 }
-                onPress={() => navigation.navigate('WebhookHistoryEntry', { entry, date: entry.date })}
+                onPress={() => navigation.navigate('WebhookEntry', { entry, date: entry.date })}
                 testID={`webhook-history-entry-${index}`}
                 isLast={index === settings.webhookHistory.length - 1}
                 isLink

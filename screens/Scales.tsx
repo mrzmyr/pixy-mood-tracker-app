@@ -112,7 +112,7 @@ function Radio({
   )
 }
 
-export default function SettingsScreen({ navigation }) {
+export const ScaleScreen = ({ navigation }) => {
   const { setSettings, settings } = useSettings()
   const i18n = useTranslation()
   const colors = useColors()
