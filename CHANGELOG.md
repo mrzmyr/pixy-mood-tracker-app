@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.12.1](https://github.com/mrzmyr/pixy-mood-tracker/compare/v1.12.0...v1.12.1) (2022-05-26)
+
+
+### Bug Fixes
+
+* update org id for sentry ([aa03a6c](https://github.com/mrzmyr/pixy-mood-tracker/commit/aa03a6ca61a3d6232187cf5458a8b2597406fb45))
+
 ## [1.12.0](https://github.com/mrzmyr/pixy-mood-tracker/compare/v1.11.0...v1.12.0) (2022-05-19)
 
 
