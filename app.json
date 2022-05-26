@@ -49,7 +49,7 @@
         {
           "file": "sentry-expo/upload-sourcemaps",
           "config": {
-            "organization": "devmood",
+            "organization": "devmood-1",
             "project": "devmood-pixy-development",
             "authToken": "6b6aca9906cd4b979c4228cec3314a273187d134d2e9481ab4733b6b97784eb1"
           }
