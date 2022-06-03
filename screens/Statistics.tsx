@@ -1,26 +1,31 @@
 import dayjs from 'dayjs';
 import { useState } from 'react';
-import { Pressable, ScrollView, Text, View } from 'react-native';
+import { Dimensions, Pressable, ScrollView, Text, View, ViewStyle } from 'react-native';
+import { ChevronLeft, ChevronRight } from 'react-native-feather';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Button from '../components/Button';
+import ModalHeader from '../components/ModalHeader';
 import { FactSheet } from '../components/Statistics/FactSheet';
 import { PeopleList } from '../components/Statistics/PeopleList';
-import { PlacesList } from '../components/Statistics/PlacesList';
 import useColors from '../hooks/useColors';
 import useFeedbackModal from '../hooks/useFeedbackModal';
 import useHaptics from "../hooks/useHaptics";
 import { LogItem, useLogs } from '../hooks/useLogs';
 import useScale from '../hooks/useScale';
 import { useSettings } from '../hooks/useSettings';
+import { VictoryPie } from "victory-native";
+
 var relativeTime = require('dayjs/plugin/relativeTime')
 dayjs.extend(relativeTime)
 
 const SmallButton = ({
   children,
   onPress,
+  style,
 }: {
   children: React.ReactNode,
-  onPress: () => void
+  onPress: () => void,
+  style?: ViewStyle,
 }) => {
   const colors = useColors()
   const haptics = useHaptics()
@@ -36,6 +41,7 @@ const SmallButton = ({
         flexDirection: 'row',
         borderRadius: 5,
         opacity: pressed ? 0.8 : 1,
+        ...style,
       }]}
       onPress={async () => {
         await haptics.selection()
@@ -75,9 +81,6 @@ export const StatisticsScreen = ({ navigation }) => {
 
   const lastMonthStart = dayjs().subtract(1, 'month').startOf('month')
   const lastMonthEnd = dayjs().subtract(1, 'month').endOf('month')
-
-  let lastBadDay: LogItem = null;
-  let lastGoodDay: LogItem = null;
   
   const items = Object.keys(state.items).filter(key => {
     return (
@@ -85,27 +88,6 @@ export const StatisticsScreen = ({ navigation }) => {
       dayjs(state.items[key].date).isBefore(thisMonthEnd)
     )
   }).map(key => state.items[key])
-
-  Object
-    .keys(state.items)
-    .sort((a,b) => {
-      const aDate = dayjs(a)
-      const bDate = dayjs(b)
-      if (aDate.isBefore(bDate)) return -1
-      if (aDate.isAfter(bDate)) return 1
-      return 0
-    })
-    .forEach(key => {
-      const item = state.items[key]
-
-      if(['very_bad', 'extremely_bad'].includes(item.rating)) {
-        lastBadDay = item;
-      }
-
-      if(['very_good', 'extremely_good'].includes(item.rating)) {
-        lastGoodDay = item;
-      }
-    })
 
   Object
     .keys(items)
@@ -162,6 +144,11 @@ export const StatisticsScreen = ({ navigation }) => {
   
   const { settings } = useSettings()
   let { colors: scaleColors } = useScale(settings.scaleType)
+
+  const keys = ['extremely_good', 'very_good', 'good', 'neutral', 'bad', 'very_bad', 'extremely_bad']
+  
+  const chartData = keys.map((r, i) => ({ key: r, order: i, x: r.split('_').join(' '), y: ratings[r] || 0 }))
+  console.log(ratings, chartData)
   
   return (
     <View
@@ -174,25 +161,37 @@ export const StatisticsScreen = ({ navigation }) => {
       <ScrollView style={{
         padding: 20,
       }}>
+          <ModalHeader
+            title={currentMonth.format('MMMM YYYY')}
+            right={
+              <SmallButton
+                style={{
+                  opacity: currentMonth.isSame(dayjs().startOf('month'), 'month') ? 0.5 : 1,
+                }}
+                onPress={() => {
+                  if(!currentMonth.isSame(dayjs().startOf('month'), 'month')) {
+                    setCurrentMonth(currentMonth.add(1, 'month'))
+                  }
+                }}
+              >
+                <ChevronRight width={24} height={24} color={colors.secondaryButtonTextColor} />
+              </SmallButton>
+            }
+            left={
+              <SmallButton
+                onPress={() => setCurrentMonth(currentMonth.subtract(1, 'month'))}
+              >
+                <ChevronLeft width={24} height={24} color={colors.secondaryButtonTextColor} />
+              </SmallButton>
+            }
+          />
+        
         <View
           style={{
             flex: 1,
             paddingBottom: insets.bottom + 50,
           }}
         >
-          <View style={{
-            flex: 1,
-            justifyContent: 'flex-start',
-            backgroundColor: colors.background,
-          }}>
-            <Text style={{
-              fontSize: 24,
-              fontWeight: 'bold',
-              marginBottom: 16,
-              color: colors.text,
-            }}>{dayjs().format('MMMM YYYY')}</Text>
-          </View>
-
           <View
             style={{
               flexDirection: 'row',
@@ -212,49 +211,7 @@ export const StatisticsScreen = ({ navigation }) => {
             />
           </View>
 
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              margin: -5,
-            }}
-          >
-            {lastGoodDay && (
-              <FactSheet
-                color={colors.textSecondary}
-                title='Last Good Day'
-                body={dayjs().to(dayjs(lastGoodDay.date))}
-              />
-            )}
-            {lastBadDay && (
-              <FactSheet
-                color={colors.textSecondary}
-                title='Last Bad Day'
-                body={dayjs().to(dayjs(lastBadDay.date))}
-              />
-            )}
-          </View>
-
-          {/* <ModalHeader
-            title={currentMonth.format('MMMM YYYY')}
-            right={
-              <SmallButton
-                onPress={() => setCurrentMonth(currentMonth.add(1, 'month'))}
-              >
-                <ChevronRight width={24} height={24} color={colors.secondaryButtonTextColor} />
-              </SmallButton>
-            }
-            left={
-              <SmallButton
-                onPress={() => setCurrentMonth(currentMonth.subtract(1, 'month'))}
-              >
-                <ChevronLeft width={24} height={24} color={colors.secondaryButtonTextColor} />
-              </SmallButton>
-            }
-          /> */}
-
         <PeopleList items={items} />
-        <PlacesList items={items} />
 
         <View style={{
           marginTop: 32,
