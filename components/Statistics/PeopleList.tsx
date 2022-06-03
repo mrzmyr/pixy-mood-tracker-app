@@ -2,6 +2,7 @@ import nlp from 'compromise'
 import { Text, View } from 'react-native'
 import useColors from '../../hooks/useColors'
 import { LogItem } from "../../hooks/useLogs"
+import { useTranslation } from '../../hooks/useTranslation'
 import { ListEntry } from './ListEntry'
 
 export const PeopleList = ({
@@ -9,6 +10,7 @@ export const PeopleList = ({
 }: {
   items: LogItem[]
 }) => {
+  const { locale } = useTranslation();
   const colors = useColors()
   const text = Object.keys(items).map(key => items[key].message).join('.')
   const post_text = text.toLowerCase().replaceAll(',', '').replace(/[0-9]/g, '.')
@@ -27,8 +29,13 @@ export const PeopleList = ({
       count: peopleCounts[name]
     }))
     .slice(0, 5)
-  
-  if(mostUsedPersons.length < 3) return null
+
+  const localPrefix = locale.split('-')[0]
+
+  if(
+    mostUsedPersons.length < 3 ||
+    !['en', 'de'].includes(localPrefix)
+  ) return null
     
   return (
     <View
