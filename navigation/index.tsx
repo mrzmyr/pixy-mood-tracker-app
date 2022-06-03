@@ -105,7 +105,7 @@ const BottomTabs = () => {
   
   return (
     <Tab.Navigator
-      initialRouteName="Statistics"
+      initialRouteName="Calendar"
       screenOptions={({ route }) => ({
         headerStyle: {
           borderBottomColor: '#fff',
@@ -201,7 +201,13 @@ function RootNavigator() {
         initialRouteName="Calendar"
         screenListeners={{
           state: (e) => {
-            segment.screen(e.data.state.routes[e.data.state.routes.length - 1].name)
+            const path = e.data.state.routes.map(r => {
+              if(r.state) {
+                return `${r.name} > ${r.state.routeNames[r.state.index]}`
+              }
+              return r.name
+            }).join('');
+            segment.screen(path)
           },
         }}
         screenOptions={stackScreenOptions}
