@@ -9,7 +9,9 @@
     "web": "expo start --web",
     "eject": "expo eject",
     "test": "jest --watchAll --env=jsdom",
-    "license": "yarn licenses list --json --no-progress > licenses.json"
+    "licenses": "yarn licenses list --json --no-progress > licenses.json",
+    "translate-app": "node scripts/generate-translations-app.js",
+    "translate-metadata": "ts-node scripts/generate-translations-app-store-metadata"
   },
   "jest": {
     "preset": "jest-expo",
