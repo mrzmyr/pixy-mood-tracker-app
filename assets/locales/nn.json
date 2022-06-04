@@ -95,5 +95,11 @@
   "passcode_retry": "Skriv inn passord",
   "reminder_modal_title": "Gjøre det til en rutine?",
   "reminder_modal_body": "Sett opp en daglig påminnelse, slik at du aldri går glipp av den sporede pikselen din.",
-  "reminder_modal_footer": "Ikke overbevist ennå? Ingen grunn til bekymring, du kan sette opp påminnelsen i appinnstillingene senere."
+  "reminder_modal_footer": "Ikke overbevist ennå? Ingen grunn til bekymring, du kan sette opp påminnelsen i appinnstillingene senere.",
+  "statistics": "Statistikk",
+  "log_modal_message_placeholder_1": "Hva var det beste som skjedde med deg i dag?",
+  "log_modal_message_placeholder_2": "Hva gjorde i dag unik?",
+  "log_modal_message_placeholder_3": "Hvem gjorde dagen din bedre i dag?",
+  "log_modal_message_placeholder_4": "Når følte du deg autentisk i dag?",
+  "log_modal_message_placeholder_5": "Når følte du deg utfordret i dag?"
 }

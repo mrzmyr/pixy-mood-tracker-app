@@ -95,5 +95,11 @@
   "passcode_retry": "Entrer le mot de passe",
   "reminder_modal_title": "En faire une routine ?",
   "reminder_modal_body": "Configurez une notification de rappel quotidienne pour ne jamais manquer votre pixel suivi.",
-  "reminder_modal_footer": "Pas encore convaincu ? Pas de soucis, vous pouvez configurer le rappel dans les paramètres de l'application plus tard."
+  "reminder_modal_footer": "Pas encore convaincu ? Pas de soucis, vous pouvez configurer le rappel dans les paramètres de l'application plus tard.",
+  "statistics": "Statistiques",
+  "log_modal_message_placeholder_1": "Quelle est la meilleure chose qui vous soit arrivée aujourd'hui ?",
+  "log_modal_message_placeholder_2": "Qu'est-ce qui rend aujourd'hui unique ?",
+  "log_modal_message_placeholder_3": "Qui a rendu votre journée meilleure aujourd'hui ?",
+  "log_modal_message_placeholder_4": "Quand vous êtes-vous senti authentique aujourd'hui ?",
+  "log_modal_message_placeholder_5": "Quand vous êtes-vous senti interpellé aujourd'hui ?"
 }

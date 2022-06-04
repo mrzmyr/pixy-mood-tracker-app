@@ -95,5 +95,11 @@
   "passcode_retry": "Introduce un código de acceso",
   "reminder_modal_title": "¿Hacerlo una rutina?",
   "reminder_modal_body": "Configure una notificación de recordatorio diaria, para que nunca pierda su píxel rastreado.",
-  "reminder_modal_footer": "¿Aún no estás convencido? No se preocupe, puede configurar el recordatorio en la configuración de la aplicación más tarde."
+  "reminder_modal_footer": "¿Aún no estás convencido? No se preocupe, puede configurar el recordatorio en la configuración de la aplicación más tarde.",
+  "statistics": "Estadísticas",
+  "log_modal_message_placeholder_1": "¿Qué fue lo mejor que te pasó hoy?",
+  "log_modal_message_placeholder_2": "¿Qué hizo que hoy fuera único?",
+  "log_modal_message_placeholder_3": "¿Quién mejoró tu día hoy?",
+  "log_modal_message_placeholder_4": "¿Cuándo te sentiste auténtico hoy?",
+  "log_modal_message_placeholder_5": "¿Cuándo te sentiste desafiado hoy?"
 }

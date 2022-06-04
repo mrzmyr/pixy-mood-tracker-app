@@ -95,5 +95,11 @@
   "passcode_retry": "Zadejte přístupový kód",
   "reminder_modal_title": "Udělat z toho rutinu?",
   "reminder_modal_body": "Nastavte si denní upozornění, abyste nikdy nezmeškali sledovaný pixel.",
-  "reminder_modal_footer": "Ještě nejste přesvědčeni? Bez obav můžete připomenutí nastavit v nastavení aplikace později."
+  "reminder_modal_footer": "Ještě nejste přesvědčeni? Bez obav můžete připomenutí nastavit v nastavení aplikace později.",
+  "statistics": "Statistika",
+  "log_modal_message_placeholder_1": "Co nejlepšího se ti dnes stalo?",
+  "log_modal_message_placeholder_2": "Čím byl dnešní den výjimečný?",
+  "log_modal_message_placeholder_3": "Kdo ti dnes zlepšil den?",
+  "log_modal_message_placeholder_4": "Kdy jste se dnes cítil autenticky?",
+  "log_modal_message_placeholder_5": "Kdy jste se dnes cítil/a výzvou?"
 }

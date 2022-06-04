@@ -95,5 +95,11 @@
   "passcode_retry": "Unesite šifru",
   "reminder_modal_title": "Učiniti to rutinom?",
   "reminder_modal_body": "Postavite dnevnu obavijest o podsjetniku kako nikada ne biste propustili svoj praćeni piksel.",
-  "reminder_modal_footer": "Još niste uvjereni? Bez brige, možete kasnije postaviti podsjetnik u postavkama aplikacije."
+  "reminder_modal_footer": "Još niste uvjereni? Bez brige, možete kasnije postaviti podsjetnik u postavkama aplikacije.",
+  "statistics": "Statistika",
+  "log_modal_message_placeholder_1": "Što je bilo najbolje što ti se dogodilo danas?",
+  "log_modal_message_placeholder_2": "Što je danas učinilo jedinstvenim?",
+  "log_modal_message_placeholder_3": "Tko ti je danas uljepšao dan?",
+  "log_modal_message_placeholder_4": "Kada ste se danas osjećali autentično?",
+  "log_modal_message_placeholder_5": "Kada ste se danas osjećali izazovom?"
 }

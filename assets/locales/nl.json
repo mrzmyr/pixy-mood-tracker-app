@@ -95,5 +95,11 @@
   "passcode_retry": "Voer uw toegangscode in",
   "reminder_modal_title": "Maak er een routine van?",
   "reminder_modal_body": "Stel een dagelijkse herinneringsmelding in, zodat je nooit je bijgehouden pixel mist.",
-  "reminder_modal_footer": "Nog niet overtuigd? Geen zorgen, je kunt de herinnering later instellen in de app-instellingen."
+  "reminder_modal_footer": "Nog niet overtuigd? Geen zorgen, je kunt de herinnering later instellen in de app-instellingen.",
+  "statistics": "Statistieken",
+  "log_modal_message_placeholder_1": "Wat is het beste dat je vandaag is overkomen?",
+  "log_modal_message_placeholder_2": "Wat maakte vandaag uniek?",
+  "log_modal_message_placeholder_3": "Wie heeft jouw dag vandaag beter gemaakt?",
+  "log_modal_message_placeholder_4": "Wanneer voelde je je vandaag authentiek?",
+  "log_modal_message_placeholder_5": "Wanneer voelde je je vandaag uitgedaagd?"
 }

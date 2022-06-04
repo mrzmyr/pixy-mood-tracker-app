@@ -95,5 +95,11 @@
   "passcode_retry": "Digite a senha",
   "reminder_modal_title": "Torná-lo uma rotina?",
   "reminder_modal_body": "Configure uma notificação de lembrete diária, para que você nunca perca seu pixel rastreado.",
-  "reminder_modal_footer": "Ainda não está convencido? Não se preocupe, você pode configurar o lembrete nas configurações do aplicativo mais tarde."
+  "reminder_modal_footer": "Ainda não está convencido? Não se preocupe, você pode configurar o lembrete nas configurações do aplicativo mais tarde.",
+  "statistics": "Estatisticas",
+  "log_modal_message_placeholder_1": "Qual foi a melhor coisa que aconteceu com você hoje?",
+  "log_modal_message_placeholder_2": "O que tornou o dia de hoje único?",
+  "log_modal_message_placeholder_3": "Quem fez o seu dia melhor hoje?",
+  "log_modal_message_placeholder_4": "Quando você se sentiu autêntico hoje?",
+  "log_modal_message_placeholder_5": "Quando você se sentiu desafiado hoje?"
 }

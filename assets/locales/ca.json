@@ -95,5 +95,11 @@
   "passcode_retry": "Introduïu la contrasenya",
   "reminder_modal_title": "Fer-ho una rutina?",
   "reminder_modal_body": "Configureu una notificació de recordatori diària perquè mai us perdeu el vostre píxel de seguiment.",
-  "reminder_modal_footer": "Encara no estàs convençut? No us preocupeu, podeu configurar el recordatori a la configuració de l'aplicació més tard."
+  "reminder_modal_footer": "Encara no estàs convençut? No us preocupeu, podeu configurar el recordatori a la configuració de l'aplicació més tard.",
+  "statistics": "Estadístiques",
+  "log_modal_message_placeholder_1": "Què va ser el millor que t'ha passat avui?",
+  "log_modal_message_placeholder_2": "Què va fer únic avui?",
+  "log_modal_message_placeholder_3": "Qui ha millorat el teu dia avui?",
+  "log_modal_message_placeholder_4": "Quan t'has sentit autèntic avui?",
+  "log_modal_message_placeholder_5": "Quan t'has sentit desafiat avui?"
 }

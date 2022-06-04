@@ -95,5 +95,11 @@
   "passcode_retry": "パスコードを入力してください",
   "reminder_modal_title": "それをルーチンにしますか？",
   "reminder_modal_body": "追跡されたピクセルを見逃さないように、毎日のリマインダー通知を設定します。",
-  "reminder_modal_footer": "まだ納得していませんか？後でアプリの設定でリマインダーを設定できる心配はありません。"
+  "reminder_modal_footer": "まだ納得していませんか？後でアプリの設定でリマインダーを設定できる心配はありません。",
+  "statistics": "統計学",
+  "log_modal_message_placeholder_1": "今日あなたに起こった最高のことは何でしたか？",
+  "log_modal_message_placeholder_2": "今日のユニークな点は何ですか？",
+  "log_modal_message_placeholder_3": "今日は誰があなたの一日を良くしましたか？",
+  "log_modal_message_placeholder_4": "今日はいつ本物だと感じましたか？",
+  "log_modal_message_placeholder_5": "今日はいつ挑戦されたと感じましたか？"
 }

@@ -95,5 +95,11 @@
   "passcode_retry": "Passwort eingeben",
   "reminder_modal_title": "Machen Sie es zur Routine?",
   "reminder_modal_body": "Richten Sie eine tägliche Erinnerungsbenachrichtigung ein, damit Sie Ihr nachverfolgtes Pixel nie verpassen.",
-  "reminder_modal_footer": "Noch nicht überzeugt? Keine Sorge, Sie können die Erinnerung später in den App-Einstellungen einrichten."
+  "reminder_modal_footer": "Noch nicht überzeugt? Keine Sorge, Sie können die Erinnerung später in den App-Einstellungen einrichten.",
+  "statistics": "Statistiken",
+  "log_modal_message_placeholder_1": "Was war das Beste, was dir heute passiert ist?",
+  "log_modal_message_placeholder_2": "Was hat heute einzigartig gemacht?",
+  "log_modal_message_placeholder_3": "Wer hat deinen Tag heute besser gemacht?",
+  "log_modal_message_placeholder_4": "Wann hast du dich heute authentisch gefühlt?",
+  "log_modal_message_placeholder_5": "Wann haben Sie sich heute herausgefordert gefühlt?"
 }

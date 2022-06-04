@@ -95,5 +95,11 @@
   "passcode_retry": "输入密码",
   "reminder_modal_title": "让它成为例行公事？",
   "reminder_modal_body": "设置每日提醒通知，这样您就不会错过跟踪的像素。",
-  "reminder_modal_footer": "还不相信？不用担心，您可以稍后在应用程序设置中设置提醒。"
+  "reminder_modal_footer": "还不相信？不用担心，您可以稍后在应用程序设置中设置提醒。",
+  "statistics": "统计数据",
+  "log_modal_message_placeholder_1": "今天发生在你身上的最好的事情是什么？",
+  "log_modal_message_placeholder_2": "是什么让今天与众不同？",
+  "log_modal_message_placeholder_3": "谁让你今天过得更好？",
+  "log_modal_message_placeholder_4": "你今天什么时候觉得真实？",
+  "log_modal_message_placeholder_5": "你今天什么时候感到挑战？"
 }

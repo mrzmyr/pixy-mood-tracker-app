@@ -95,5 +95,11 @@
   "passcode_retry": "Írja be a jelszót",
   "reminder_modal_title": "Rutinná tenni?",
   "reminder_modal_body": "Állítson be napi emlékeztetőt, hogy soha ne maradjon le a követett pixelről.",
-  "reminder_modal_footer": "Még nem győzött meg? Ne aggódjon, később beállíthatja az emlékeztetőt az alkalmazás beállításaiban."
+  "reminder_modal_footer": "Még nem győzött meg? Ne aggódjon, később beállíthatja az emlékeztetőt az alkalmazás beállításaiban.",
+  "statistics": "Statisztika",
+  "log_modal_message_placeholder_1": "Mi volt a legjobb dolog, ami ma történt veled?",
+  "log_modal_message_placeholder_2": "Mi tette egyedivé a mai napot?",
+  "log_modal_message_placeholder_3": "Ki tette jobbá a mai napodat?",
+  "log_modal_message_placeholder_4": "Mikor érezted ma magad hitelesnek?",
+  "log_modal_message_placeholder_5": "Mikor érezted magad kihívásnak ma?"
 }

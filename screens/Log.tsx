@@ -15,6 +15,8 @@ import { useSettings } from '../hooks/useSettings';
 import { useTranslation } from '../hooks/useTranslation';
 import { RootStackScreenProps } from '../types';
 
+const randomInt = (min, max) => Math.floor(Math.random() * (max - min + 1) + min);
+
 export const LogModal = ({ navigation, route }: RootStackScreenProps<'Log'>) => {
   
   const { settings } = useSettings()
@@ -106,7 +108,7 @@ export const LogModal = ({ navigation, route }: RootStackScreenProps<'Log'>) => 
         <TextArea 
           testID='modal-message'
           onChange={setMessage}
-          placeholder={i18n.t('log_modal_message_placeholder')}
+          placeholder={i18n.t(`log_modal_message_placeholder_${randomInt(1, 5)}`)}
           value={logItem.message} 
           maxLength={512}
           autoFocus

@@ -95,5 +95,11 @@
   "passcode_retry": "הזן קוד סיסמה",
   "reminder_modal_title": "להפוך את זה לשגרה?",
   "reminder_modal_body": "הגדר הודעת תזכורת יומית, כך שלעולם לא תחמיץ את הפיקסל שלך במעקב.",
-  "reminder_modal_footer": "עוד לא השתכנעתם? אל דאגה אתה יכול להגדיר את התזכורת בהגדרות האפליקציה מאוחר יותר."
+  "reminder_modal_footer": "עוד לא השתכנעתם? אל דאגה אתה יכול להגדיר את התזכורת בהגדרות האפליקציה מאוחר יותר.",
+  "statistics": "סטָטִיסטִיקָה",
+  "log_modal_message_placeholder_1": "מה הדבר הכי טוב שקרה לך היום?",
+  "log_modal_message_placeholder_2": "מה הפך את היום לייחודי?",
+  "log_modal_message_placeholder_3": "מי עשה לך את היום טוב יותר היום?",
+  "log_modal_message_placeholder_4": "מתי הרגשת אותנטית היום?",
+  "log_modal_message_placeholder_5": "מתי הרגשת מאתגרת היום?"
 }

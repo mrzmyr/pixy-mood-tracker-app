@@ -95,5 +95,11 @@
   "passcode_retry": "أدخل رمز المرور",
   "reminder_modal_title": "جعله جبلا؟",
   "reminder_modal_body": "قم بإعداد إشعار تذكير يومي ، حتى لا تفوتك وحدة البكسل المتعقبة.",
-  "reminder_modal_footer": "غير مقتنع بعد؟ لا تقلق ، يمكنك إعداد التذكير في إعدادات التطبيق لاحقًا."
+  "reminder_modal_footer": "غير مقتنع بعد؟ لا تقلق ، يمكنك إعداد التذكير في إعدادات التطبيق لاحقًا.",
+  "statistics": "إحصائيات",
+  "log_modal_message_placeholder_1": "ما هو أفضل شيء حدث لك اليوم؟",
+  "log_modal_message_placeholder_2": "ما الذي جعل اليوم فريدًا؟",
+  "log_modal_message_placeholder_3": "من جعل يومك أفضل اليوم؟",
+  "log_modal_message_placeholder_4": "متى شعرت بالأصالة اليوم؟",
+  "log_modal_message_placeholder_5": "متى شعرت بالتحدي اليوم؟"
 }

@@ -95,5 +95,11 @@
   "passcode_retry": "비밀번호 입력",
   "reminder_modal_title": "일상으로 만들까?",
   "reminder_modal_body": "추적된 픽셀을 놓치지 않도록 일일 알림 알림을 설정하세요.",
-  "reminder_modal_footer": "아직 확신하지 못하셨나요? 나중에 앱 설정에서 미리 알림을 설정할 수 있으니 걱정하지 마세요."
+  "reminder_modal_footer": "아직 확신하지 못하셨나요? 나중에 앱 설정에서 미리 알림을 설정할 수 있으니 걱정하지 마세요.",
+  "statistics": "통계",
+  "log_modal_message_placeholder_1": "오늘 당신에게 일어난 가장 좋은 일은 무엇이었습니까?",
+  "log_modal_message_placeholder_2": "무엇이 오늘을 특별하게 만들었을까?",
+  "log_modal_message_placeholder_3": "누가 오늘 당신의 하루를 더 좋게 만들었습니까?",
+  "log_modal_message_placeholder_4": "오늘 언제 진정성을 느꼈습니까?",
+  "log_modal_message_placeholder_5": "오늘은 언제 도전을 느꼈나요?"
 }

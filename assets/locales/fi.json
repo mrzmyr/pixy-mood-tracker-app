@@ -95,5 +95,11 @@
   "passcode_retry": "Anna pääsykoodi",
   "reminder_modal_title": "Tee siitä rutiini?",
   "reminder_modal_body": "Aseta päivittäinen muistutusilmoitus, jotta et koskaan menetä seurattua pikseliä.",
-  "reminder_modal_footer": "Etkö ole vielä vakuuttunut? Ei hätää, voit määrittää muistutuksen myöhemmin sovelluksen asetuksista."
+  "reminder_modal_footer": "Etkö ole vielä vakuuttunut? Ei hätää, voit määrittää muistutuksen myöhemmin sovelluksen asetuksista.",
+  "statistics": "Tilastot",
+  "log_modal_message_placeholder_1": "Mikä oli parasta mitä sinulle tapahtui tänään?",
+  "log_modal_message_placeholder_2": "Mikä teki päivästä ainutlaatuisen?",
+  "log_modal_message_placeholder_3": "Kuka teki päivästäsi paremman tänään?",
+  "log_modal_message_placeholder_4": "Milloin tunsit olosi autenttiseksi tänään?",
+  "log_modal_message_placeholder_5": "Milloin tunsit olosi haasteelliseksi tänään?"
 }

@@ -95,5 +95,11 @@
   "passcode_retry": "Masukkan Kod Laluan",
   "reminder_modal_title": "Jadikan ia sebagai rutin?",
   "reminder_modal_body": "Sediakan pemberitahuan peringatan harian, supaya anda tidak terlepas piksel jejak anda.",
-  "reminder_modal_footer": "Belum yakin? Jangan risau anda boleh menyediakan peringatan dalam tetapan apl kemudian."
+  "reminder_modal_footer": "Belum yakin? Jangan risau anda boleh menyediakan peringatan dalam tetapan apl kemudian.",
+  "statistics": "Perangkaan",
+  "log_modal_message_placeholder_1": "Apakah perkara terbaik yang berlaku kepada anda hari ini?",
+  "log_modal_message_placeholder_2": "Apa yang menjadikan hari ini unik?",
+  "log_modal_message_placeholder_3": "Siapa yang membuat hari anda lebih baik hari ini?",
+  "log_modal_message_placeholder_4": "Bilakah anda berasa asli hari ini?",
+  "log_modal_message_placeholder_5": "Bilakah anda berasa tercabar hari ini?"
 }

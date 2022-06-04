@@ -95,5 +95,11 @@
   "passcode_retry": "Şifreyi gir",
   "reminder_modal_title": "Rutin yap?",
   "reminder_modal_body": "Günlük bir hatırlatıcı bildirimi ayarlayın, böylece izlenen pikselinizi asla kaçırmazsınız.",
-  "reminder_modal_footer": "Henüz ikna olmadınız mı? Endişelenmeyin, hatırlatıcıyı daha sonra uygulama ayarlarından ayarlayabilirsiniz."
+  "reminder_modal_footer": "Henüz ikna olmadınız mı? Endişelenmeyin, hatırlatıcıyı daha sonra uygulama ayarlarından ayarlayabilirsiniz.",
+  "statistics": "İstatistik",
+  "log_modal_message_placeholder_1": "Bugün başına gelen en güzel şey neydi?",
+  "log_modal_message_placeholder_2": "Bugünü benzersiz kılan neydi?",
+  "log_modal_message_placeholder_3": "Bugün gününüzü kim güzelleştirdi?",
+  "log_modal_message_placeholder_4": "Bugün ne zaman otantik hissettin?",
+  "log_modal_message_placeholder_5": "Bugün ne zaman zorlandın?"
 }
