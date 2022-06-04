@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.13.0](https://github.com/mrzmyr/pixy-mood-tracker/compare/v1.12.1...v1.13.0) (2022-06-04)
+
+
+### Features
+
+* **Log:** add different placeholder questions ([491506a](https://github.com/mrzmyr/pixy-mood-tracker/commit/491506aa7a61e84a38a0026f412f0da3ef986b47))
+* restrict `PeopleList` to en or de locale ([9412696](https://github.com/mrzmyr/pixy-mood-tracker/commit/94126967b05ed3e100e2fb837f9bd69f909092ba))
+* statistics add month selector ([ad36137](https://github.com/mrzmyr/pixy-mood-tracker/commit/ad36137fbcff5242c8334130b66e5cd78618c549))
+
+
+### Bug Fixes
+
+* change default route to Calendar ([eeafcbd](https://github.com/mrzmyr/pixy-mood-tracker/commit/eeafcbd1738f03b8c68118eee4af103f443d53b2))
+
+
+### Chore
+
+* add translate scripts to package.json ([8eca521](https://github.com/mrzmyr/pixy-mood-tracker/commit/8eca5213793e4d916e4fdd6352a868d5685a223c))
+
 ### [1.12.1](https://github.com/mrzmyr/pixy-mood-tracker/compare/v1.12.0...v1.12.1) (2022-05-26)
 
 

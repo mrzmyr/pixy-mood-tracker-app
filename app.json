@@ -2,7 +2,7 @@
   "expo": {
     "name": "Pixy",
     "slug": "pixy-mood-tracker",
-    "version": "1.12.1",
+    "version": "1.13.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "pixy",
@@ -20,7 +20,7 @@
     ],
     "ios": {
       "bundleIdentifier": "com.devmood.pixymoodtracker",
-      "buildNumber": "1.12.1",
+      "buildNumber": "1.13.0",
       "supportsTablet": false,
       "appStoreUrl": "https://apps.apple.com/de/app/pixy-mood-tracker/id1605327124",
       "infoPlist": {
@@ -29,7 +29,7 @@
     },
     "android": {
       "package": "com.devmood.pixymoodtracker",
-      "versionCode": 440011201,
+      "versionCode": 440011300,
       "permissions": [],
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
