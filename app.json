@@ -45,17 +45,6 @@
       "sentry-expo",
       "expo-notifications"
     ],
-    "hooks": {
-      "postPublish": [
-        {
-          "file": "sentry-expo/upload-sourcemaps",
-          "config": {
-            "organization": "devmood-1",
-            "project": "devmood-pixy-development"
-          }
-        }
-      ]
-    },
     "runtimeVersion": {
       "policy": "sdkVersion"
     }
