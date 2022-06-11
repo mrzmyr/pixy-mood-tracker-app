@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.13.1](https://github.com/mrzmyr/pixy-mood-tracker/compare/v1.13.0...v1.13.1) (2022-06-11)
+
+
+### Chore
+
+* add .env to .gitignore ([24b987b](https://github.com/mrzmyr/pixy-mood-tracker/commit/24b987bd7833451c5182d798f624e37a6c7a0d7c))
+* remove sentry auth token ([c4979ff](https://github.com/mrzmyr/pixy-mood-tracker/commit/c4979ffbfc89c6300d6d2cf9e3830d23a1928c26))
+* remove sentry postPublish hook for sourcemaps ([20f9725](https://github.com/mrzmyr/pixy-mood-tracker/commit/20f9725cc611d19f71ad4905ed2a3ee2b256551e))
+* update to eas builds ([65544d0](https://github.com/mrzmyr/pixy-mood-tracker/commit/65544d02e1fcf3fe5ce89bf410cfaf0cb1cee636))
+* update yarn lock ([ce3ccfc](https://github.com/mrzmyr/pixy-mood-tracker/commit/ce3ccfc6364e7f9e96db194bf95141fa2106c3a3))
+
 ## [1.13.0](https://github.com/mrzmyr/pixy-mood-tracker/compare/v1.12.1...v1.13.0) (2022-06-04)
 
 
