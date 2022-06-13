@@ -57,6 +57,7 @@
   "log_modal_message_placeholder_3": "Who made your day better today?",
   "log_modal_message_placeholder_4": "When did you feel authentic today?",
   "log_modal_message_placeholder_5": "When did you feel challenged today?",
+  "log_modal_message_placeholder_6": "What are you looking for in the future?",
   "log_modal_message_example": "Today I have found a way to reconnect with myself.",
   "scales": "Colors",
   "scales_info": "Colors are used to indicate the rating in the calendar. Your previous rating will be switched to the selected color.",
@@ -85,7 +86,7 @@
   "passcode_forgot_reset_confirm_reset": "Yes, delete all my data",
   "passcode_forgot_reset_confirm_cancel": "Cancel",
   "passcode_retry": "Enter Passcode",
-  "reminder_modal_title": "Make it a rountine?",
+  "reminder_modal_title": "Make it a routine?",
   "reminder_modal_body": "Set up a daily reminder notification, so you never miss your tracked pixel.",
   "reminder_modal_footer": "Not convinced yet? No worries you can set up the reminder in the app settings later.",
   "previews_screen_1_title": [

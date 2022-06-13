@@ -108,7 +108,7 @@ export const LogModal = ({ navigation, route }: RootStackScreenProps<'Log'>) => 
         <TextArea 
           testID='modal-message'
           onChange={setMessage}
-          placeholder={i18n.t(`log_modal_message_placeholder_${randomInt(1, 5)}`)}
+          placeholder={i18n.t(`log_modal_message_placeholder_${randomInt(1, 6)}`)}
           value={logItem.message} 
           maxLength={512}
           autoFocus

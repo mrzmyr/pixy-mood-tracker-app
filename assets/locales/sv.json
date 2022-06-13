@@ -93,7 +93,7 @@
   "passcode_forgot_reset_confirm_reset": "Ja, radera all min data",
   "passcode_forgot_reset_confirm_cancel": "Avbryt",
   "passcode_retry": "Ange lösenord",
-  "reminder_modal_title": "Göra det till en vardag?",
+  "reminder_modal_title": "Göra det till en rutin?",
   "reminder_modal_body": "Ställ in en daglig påminnelse så att du aldrig missar din spårade pixel.",
   "reminder_modal_footer": "Inte övertygad än? Inga bekymmer, du kan ställa in påminnelsen i appinställningarna senare.",
   "statistics": "Statistik",
@@ -101,5 +101,6 @@
   "log_modal_message_placeholder_2": "Vad gjorde idag unik?",
   "log_modal_message_placeholder_3": "Vem gjorde din dag bättre idag?",
   "log_modal_message_placeholder_4": "När kände du dig äkta idag?",
-  "log_modal_message_placeholder_5": "När kände du dig utmanad idag?"
+  "log_modal_message_placeholder_5": "När kände du dig utmanad idag?",
+  "log_modal_message_placeholder_6": "Vad letar du efter i framtiden?"
 }

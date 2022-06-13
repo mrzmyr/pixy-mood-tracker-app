@@ -93,7 +93,7 @@
   "passcode_forgot_reset_confirm_reset": "Ya, hapus semua data saya",
   "passcode_forgot_reset_confirm_cancel": "Membatalkan",
   "passcode_retry": "Masukkan Kode Sandi",
-  "reminder_modal_title": "Menjadikannya rutin?",
+  "reminder_modal_title": "Jadikan rutinitas?",
   "reminder_modal_body": "Siapkan pemberitahuan pengingat harian, sehingga Anda tidak akan pernah melewatkan piksel yang dilacak.",
   "reminder_modal_footer": "Belum yakin? Jangan khawatir Anda dapat mengatur pengingat di pengaturan aplikasi nanti.",
   "statistics": "Statistik",
@@ -101,5 +101,6 @@
   "log_modal_message_placeholder_2": "Apa yang membuat hari ini unik?",
   "log_modal_message_placeholder_3": "Siapa yang membuat harimu lebih baik hari ini?",
   "log_modal_message_placeholder_4": "Kapan Anda merasa otentik hari ini?",
-  "log_modal_message_placeholder_5": "Kapan Anda merasa tertantang hari ini?"
+  "log_modal_message_placeholder_5": "Kapan Anda merasa tertantang hari ini?",
+  "log_modal_message_placeholder_6": "Apa yang kamu cari di masa depan?"
 }

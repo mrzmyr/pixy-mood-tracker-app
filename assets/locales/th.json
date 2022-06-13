@@ -93,7 +93,7 @@
   "passcode_forgot_reset_confirm_reset": "ใช่ ลบข้อมูลทั้งหมดของฉัน",
   "passcode_forgot_reset_confirm_cancel": "ยกเลิก",
   "passcode_retry": "ใส่รหัสผ่าน",
-  "reminder_modal_title": "ทำเป็นกิจวัตร?",
+  "reminder_modal_title": "ทำให้เป็นกิจวัตร?",
   "reminder_modal_body": "ตั้งค่าการแจ้งเตือนรายวัน เพื่อให้คุณไม่พลาดพิกเซลที่ติดตาม",
   "reminder_modal_footer": "ยังไม่มั่นใจ? ไม่ต้องกังวล คุณสามารถตั้งค่าการเตือนความจำในการตั้งค่าแอพได้ในภายหลัง",
   "statistics": "สถิติ",
@@ -101,5 +101,6 @@
   "log_modal_message_placeholder_2": "อะไรที่ทำให้วันนี้ไม่เหมือนใคร?",
   "log_modal_message_placeholder_3": "ใครทำให้วันของคุณดีขึ้นในวันนี้?",
   "log_modal_message_placeholder_4": "วันนี้คุณรู้สึกจริงใจเมื่อไหร่?",
-  "log_modal_message_placeholder_5": "วันนี้คุณรู้สึกท้าทายเมื่อไหร่?"
+  "log_modal_message_placeholder_5": "วันนี้คุณรู้สึกท้าทายเมื่อไหร่?",
+  "log_modal_message_placeholder_6": "คุณกำลังมองหาอะไรในอนาคต?"
 }

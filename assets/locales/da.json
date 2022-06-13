@@ -93,7 +93,7 @@
   "passcode_forgot_reset_confirm_reset": "Ja, slet alle mine data",
   "passcode_forgot_reset_confirm_cancel": "Afbestille",
   "passcode_retry": "Indtast adgangskode",
-  "reminder_modal_title": "Gøre det til en rundgang?",
+  "reminder_modal_title": "Gøre det til en rutine?",
   "reminder_modal_body": "Konfigurer en daglig påmindelse, så du aldrig går glip af din sporede pixel.",
   "reminder_modal_footer": "Ikke overbevist endnu? Ingen bekymringer, du kan konfigurere påmindelsen i appindstillingerne senere.",
   "statistics": "Statistikker",
@@ -101,5 +101,6 @@
   "log_modal_message_placeholder_2": "Hvad gjorde i dag unik?",
   "log_modal_message_placeholder_3": "Hvem gjorde din dag bedre i dag?",
   "log_modal_message_placeholder_4": "Hvornår følte du dig autentisk i dag?",
-  "log_modal_message_placeholder_5": "Hvornår følte du dig udfordret i dag?"
+  "log_modal_message_placeholder_5": "Hvornår følte du dig udfordret i dag?",
+  "log_modal_message_placeholder_6": "Hvad leder du efter i fremtiden?"
 }

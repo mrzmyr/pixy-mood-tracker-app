@@ -93,7 +93,7 @@
   "passcode_forgot_reset_confirm_reset": "Có, xóa tất cả dữ liệu của tôi",
   "passcode_forgot_reset_confirm_cancel": "Hủy bỏ",
   "passcode_retry": "Nhập mật mã",
-  "reminder_modal_title": "Biến nó thành một rountine?",
+  "reminder_modal_title": "Biến nó thành một thói quen?",
   "reminder_modal_body": "Thiết lập thông báo nhắc nhở hàng ngày để bạn không bao giờ bỏ lỡ pixel được theo dõi của mình.",
   "reminder_modal_footer": "Bạn chưa thuyết phục? Đừng lo lắng, bạn có thể thiết lập lời nhắc trong cài đặt ứng dụng sau này.",
   "statistics": "Số liệu thống kê",
@@ -101,5 +101,6 @@
   "log_modal_message_placeholder_2": "Điều gì đã làm cho ngày hôm nay trở nên độc đáo?",
   "log_modal_message_placeholder_3": "Ai đã làm cho ngày hôm nay của bạn tốt hơn?",
   "log_modal_message_placeholder_4": "Khi nào bạn cảm thấy xác thực ngày hôm nay?",
-  "log_modal_message_placeholder_5": "Khi nào bạn cảm thấy bị thử thách ngày hôm nay?"
+  "log_modal_message_placeholder_5": "Khi nào bạn cảm thấy bị thử thách ngày hôm nay?",
+  "log_modal_message_placeholder_6": "Bạn đang tìm kiếm điều gì trong tương lai?"
 }

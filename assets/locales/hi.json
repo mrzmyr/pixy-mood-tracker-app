@@ -93,7 +93,7 @@
   "passcode_forgot_reset_confirm_reset": "हाँ, मेरा सारा डेटा मिटा दो",
   "passcode_forgot_reset_confirm_cancel": "रद्द करना",
   "passcode_retry": "पासकोड दर्ज करें",
-  "reminder_modal_title": "इसे नियमित करें?",
+  "reminder_modal_title": "इसे एक दिनचर्या बनाओ?",
   "reminder_modal_body": "एक दैनिक अनुस्मारक सूचना सेट करें, ताकि आप अपने ट्रैक किए गए पिक्सेल को कभी न छोड़ें।",
   "reminder_modal_footer": "अभी तक आश्वस्त नहीं हैं? कोई चिंता नहीं आप बाद में ऐप सेटिंग में रिमाइंडर सेट कर सकते हैं।",
   "statistics": "आंकड़े",
@@ -101,5 +101,6 @@
   "log_modal_message_placeholder_2": "आज क्या खास बना दिया?",
   "log_modal_message_placeholder_3": "आज आपके दिन को किसने बेहतर बनाया?",
   "log_modal_message_placeholder_4": "आज आपको कब प्रामाणिक लगा?",
-  "log_modal_message_placeholder_5": "आज आपने कब चुनौती महसूस की?"
+  "log_modal_message_placeholder_5": "आज आपने कब चुनौती महसूस की?",
+  "log_modal_message_placeholder_6": "आप भविष्य में क्या ढूंढ रहे हैं?"
 }
