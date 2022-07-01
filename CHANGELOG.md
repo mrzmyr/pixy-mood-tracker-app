@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.14.0](https://github.com/mrzmyr/pixy-mood-tracker/compare/v1.13.1...v1.14.0) (2022-07-01)
+
+
+### Features
+
+* remove max length ([c3eaa9a](https://github.com/mrzmyr/pixy-mood-tracker/commit/c3eaa9a0cb8ddac0ddca1b96f932ce8b1b477bf9))
+
+
+### Bug Fixes
+
+* rountine to routine ([d04e2e9](https://github.com/mrzmyr/pixy-mood-tracker/commit/d04e2e94b21bf013a9ace6fa52e33e04ecfd90a7))
+
 ### [1.13.1](https://github.com/mrzmyr/pixy-mood-tracker/compare/v1.13.0...v1.13.1) (2022-06-11)
 
 
