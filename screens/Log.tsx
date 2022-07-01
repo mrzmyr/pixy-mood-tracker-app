@@ -110,7 +110,7 @@ export const LogModal = ({ navigation, route }: RootStackScreenProps<'Log'>) => 
           onChange={setMessage}
           placeholder={i18n.t(`log_modal_message_placeholder_${randomInt(1, 6)}`)}
           value={logItem.message} 
-          maxLength={512}
+          maxLength={10000}
           autoFocus
         />
         {existingLogItem && (

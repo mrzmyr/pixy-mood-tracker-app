@@ -59,16 +59,6 @@ export default function TextArea({
           ...style,
         }}
       />
-      <View style={{
-        position: 'absolute',
-        bottom: 10,
-        right: 10,
-      }}>
-        <Text style={{
-          fontSize: 17,
-          color: colors.textInputPlaceholder,
-        }}>{maxLength - value.length}</Text>
-      </View>
     </View>
   )
 }
