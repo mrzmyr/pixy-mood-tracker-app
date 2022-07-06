@@ -102,5 +102,10 @@
   "log_modal_message_placeholder_3": "Qui ha millorat el teu dia avui?",
   "log_modal_message_placeholder_4": "Quan t'has sentit autèntic avui?",
   "log_modal_message_placeholder_5": "Quan t'has sentit desafiat avui?",
-  "log_modal_message_placeholder_6": "Què busques en el futur?"
+  "log_modal_message_placeholder_6": "Què busques en el futur?",
+  "statistics_last_12_months": "Últims 12 mesos",
+  "statistics_experimental_title": "Actualment les estadístiques són experimentals.",
+  "statistics_experimental_body": "Teniu algunes estadístiques que voleu saber sobre el vostre seguiment? Si us plau, envia'm la teva idea. Els vaig llegir tots. Si afegeixes les teves dades de contacte et respondré.",
+  "statistics_experimental_button": "Enviar comentaris",
+  "statistics_experimental_not_enough_data": "No hi ha prou dades"
 }

@@ -102,5 +102,10 @@
   "log_modal_message_placeholder_3": "Siapa yang membuat harimu lebih baik hari ini?",
   "log_modal_message_placeholder_4": "Kapan Anda merasa otentik hari ini?",
   "log_modal_message_placeholder_5": "Kapan Anda merasa tertantang hari ini?",
-  "log_modal_message_placeholder_6": "Apa yang kamu cari di masa depan?"
+  "log_modal_message_placeholder_6": "Apa yang kamu cari di masa depan?",
+  "statistics_last_12_months": "12 bulan terakhir",
+  "statistics_experimental_title": "Statistik saat ini eksperimental.",
+  "statistics_experimental_body": "Apakah Anda memiliki beberapa wawasan yang ingin Anda ketahui tentang pelacakan Anda? Tolong kirimkan saya ide Anda. Saya membaca semua orang dari mereka. Jika Anda menambahkan detail kontak Anda, saya akan menjawab Anda.",
+  "statistics_experimental_button": "Kirim Umpan Balik",
+  "statistics_experimental_not_enough_data": "Data tidak cukup"
 }

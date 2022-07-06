@@ -102,5 +102,10 @@
   "log_modal_message_placeholder_3": "¿Quién mejoró tu día hoy?",
   "log_modal_message_placeholder_4": "¿Cuándo te sentiste auténtico hoy?",
   "log_modal_message_placeholder_5": "¿Cuándo te sentiste desafiado hoy?",
-  "log_modal_message_placeholder_6": "¿Qué estás buscando en el futuro?"
+  "log_modal_message_placeholder_6": "¿Qué estás buscando en el futuro?",
+  "statistics_last_12_months": "últimos 12 meses",
+  "statistics_experimental_title": "Las estadísticas son actualmente experimentales.",
+  "statistics_experimental_body": "¿Tiene algunas ideas que desea saber sobre su seguimiento? Por favor envíeme su idea. Leí cada uno de ellos. Si agregas tus datos de contacto te responderé.",
+  "statistics_experimental_button": "Enviar comentarios",
+  "statistics_experimental_not_enough_data": "No hay suficientes datos"
 }

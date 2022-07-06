@@ -102,5 +102,10 @@
   "log_modal_message_placeholder_3": "आज आपके दिन को किसने बेहतर बनाया?",
   "log_modal_message_placeholder_4": "आज आपको कब प्रामाणिक लगा?",
   "log_modal_message_placeholder_5": "आज आपने कब चुनौती महसूस की?",
-  "log_modal_message_placeholder_6": "आप भविष्य में क्या ढूंढ रहे हैं?"
+  "log_modal_message_placeholder_6": "आप भविष्य में क्या ढूंढ रहे हैं?",
+  "statistics_last_12_months": "पिछले 12 महीने",
+  "statistics_experimental_title": "सांख्यिकी वर्तमान में प्रयोगात्मक हैं।",
+  "statistics_experimental_body": "क्या आपके पास कुछ अंतर्दृष्टि है जो आप अपनी ट्रैकिंग के बारे में जानना चाहते हैं? कृपया मुझे अपना विचार भेजें। मैंने उनमें से सभी को पढ़ा। यदि आप अपना संपर्क विवरण जोड़ते हैं तो मैं आपको उत्तर दूंगा।",
+  "statistics_experimental_button": "प्रतिक्रिया भेजें",
+  "statistics_experimental_not_enough_data": "पर्याप्त डेटा नहीं"
 }

@@ -102,5 +102,10 @@
   "log_modal_message_placeholder_3": "Cine ți-a făcut ziua mai bună astăzi?",
   "log_modal_message_placeholder_4": "Când te-ai simțit autentic astăzi?",
   "log_modal_message_placeholder_5": "Când te-ai simțit provocat astăzi?",
-  "log_modal_message_placeholder_6": "Ce cauți în viitor?"
+  "log_modal_message_placeholder_6": "Ce cauți în viitor?",
+  "statistics_last_12_months": "Ultimele 12 luni",
+  "statistics_experimental_title": "Statisticile sunt în prezent experimentale.",
+  "statistics_experimental_body": "Aveți câteva informații pe care doriți să le aflați despre urmărirea dvs.? Vă rog să-mi trimiteți ideea dvs. Le-am citit pe toți. Daca adaugi datele tale de contact iti voi raspunde.",
+  "statistics_experimental_button": "Trimite feedback",
+  "statistics_experimental_not_enough_data": "Nu sunt suficiente date"
 }

@@ -102,5 +102,10 @@
   "log_modal_message_placeholder_3": "Ki tette jobbá a mai napodat?",
   "log_modal_message_placeholder_4": "Mikor érezted ma magad hitelesnek?",
   "log_modal_message_placeholder_5": "Mikor érezted magad kihívásnak ma?",
-  "log_modal_message_placeholder_6": "Mit keresel a jövőben?"
+  "log_modal_message_placeholder_6": "Mit keresel a jövőben?",
+  "statistics_last_12_months": "Az elmúlt 12 hónap",
+  "statistics_experimental_title": "A statisztikák jelenleg kísérleti jellegűek.",
+  "statistics_experimental_body": "Van néhány meglátása, amit tudni szeretne a nyomon követéséről? Kérem, küldje el ötleteit. Mindegyiket elolvastam. Ha megadja az elérhetőségeit, válaszolok.",
+  "statistics_experimental_button": "Visszajelzés küldése",
+  "statistics_experimental_not_enough_data": "Nincs elég adat"
 }

@@ -102,5 +102,10 @@
   "log_modal_message_placeholder_3": "Wie heeft jouw dag vandaag beter gemaakt?",
   "log_modal_message_placeholder_4": "Wanneer voelde je je vandaag authentiek?",
   "log_modal_message_placeholder_5": "Wanneer voelde je je vandaag uitgedaagd?",
-  "log_modal_message_placeholder_6": "Wat zoek je in de toekomst?"
+  "log_modal_message_placeholder_6": "Wat zoek je in de toekomst?",
+  "statistics_last_12_months": "Afgelopen 12 maanden",
+  "statistics_experimental_title": "Statistieken zijn momenteel experimenteel.",
+  "statistics_experimental_body": "Heeft u enkele inzichten die u wilt weten over uw tracking? Stuur me je idee. Ik heb ze allemaal gelezen. Als u uw contactgegevens toevoegt, zal ik u antwoorden.",
+  "statistics_experimental_button": "Feedback verzenden",
+  "statistics_experimental_not_enough_data": "Niet genoeg data"
 }

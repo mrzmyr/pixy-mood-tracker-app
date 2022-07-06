@@ -89,6 +89,11 @@
   "reminder_modal_title": "Make it a routine?",
   "reminder_modal_body": "Set up a daily reminder notification, so you never miss your tracked pixel.",
   "reminder_modal_footer": "Not convinced yet? No worries you can set up the reminder in the app settings later.",
+  "statistics_last_12_months": "Last 12 months",
+  "statistics_experimental_title": "Statistics are currently experimental.",
+  "statistics_experimental_body": "Do you have some insights you want to know about your tracking? Please send me your idea. I read everyone of them. If you add your contact details I will answer you.",
+  "statistics_experimental_button": "Send Feedback",
+  "statistics_experimental_not_enough_data": "Not enough data",
   "previews_screen_1_title": [
     "Track your mood",
     "One Pixel at a Time"

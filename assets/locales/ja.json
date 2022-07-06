@@ -102,5 +102,10 @@
   "log_modal_message_placeholder_3": "今日は誰があなたの一日を良くしましたか？",
   "log_modal_message_placeholder_4": "今日はいつ本物だと感じましたか？",
   "log_modal_message_placeholder_5": "今日はいつ挑戦されたと感じましたか？",
-  "log_modal_message_placeholder_6": "今後何をお探しですか？"
+  "log_modal_message_placeholder_6": "今後何をお探しですか？",
+  "statistics_last_12_months": "過去12か月",
+  "statistics_experimental_title": "統計は現在実験的です。",
+  "statistics_experimental_body": "追跡について知りたい洞察がありますか？あなたのアイデアを送ってください。私はそれらのすべてを読みました。あなたがあなたの連絡先の詳細を追加するならば、私はあなたに答えます。",
+  "statistics_experimental_button": "フィードバックを送信する",
+  "statistics_experimental_not_enough_data": "データが足りません"
 }

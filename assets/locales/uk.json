@@ -102,5 +102,10 @@
   "log_modal_message_placeholder_3": "Хто зробив сьогодні ваш день кращим?",
   "log_modal_message_placeholder_4": "Коли ви відчули себе справжнім сьогодні?",
   "log_modal_message_placeholder_5": "Коли ви відчули виклик сьогодні?",
-  "log_modal_message_placeholder_6": "Що ти шукаєш у майбутньому?"
+  "log_modal_message_placeholder_6": "Що ти шукаєш у майбутньому?",
+  "statistics_last_12_months": "Останні 12 місяців",
+  "statistics_experimental_title": "Наразі статистика експериментальна.",
+  "statistics_experimental_body": "У вас є якісь відомості про відстеження, які ви хочете знати? Будь ласка, надішліть мені свою ідею. Я прочитав усі з них. Якщо ви додасте свої контакти, я вам відповім.",
+  "statistics_experimental_button": "Надіслати відгук",
+  "statistics_experimental_not_enough_data": "Недостатньо даних"
 }

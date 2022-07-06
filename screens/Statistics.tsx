@@ -1,22 +1,15 @@
 import dayjs from 'dayjs';
+import { t } from 'i18n-js';
 import { useState } from 'react';
-import { Dimensions, Pressable, ScrollView, Text, View, ViewStyle } from 'react-native';
-import { ChevronLeft, ChevronRight } from 'react-native-feather';
+import { Pressable, ScrollView, Text, View, ViewStyle } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Button from '../components/Button';
-import ModalHeader from '../components/ModalHeader';
-import { FactSheet } from '../components/Statistics/FactSheet';
-import { PeopleList } from '../components/Statistics/PeopleList';
 import useColors from '../hooks/useColors';
 import useFeedbackModal from '../hooks/useFeedbackModal';
 import useHaptics from "../hooks/useHaptics";
 import { LogItem, useLogs } from '../hooks/useLogs';
 import useScale from '../hooks/useScale';
 import { useSettings } from '../hooks/useSettings';
-import { VictoryPie } from "victory-native";
-
-var relativeTime = require('dayjs/plugin/relativeTime')
-dayjs.extend(relativeTime)
 
 const SmallButton = ({
   children,
@@ -67,6 +60,22 @@ export const StatisticsScreen = ({ navigation }) => {
   const lastWeekItems: LogItem[] = []
 
   const [currentMonth, setCurrentMonth] = useState(dayjs().startOf('month'))
+  
+  const lastYearItems = {}
+  const lastYearRatings = {}
+  for (let i = 0; i < 12; i++) {
+    const month = dayjs().subtract(i, 'month').startOf('month')
+    const monthName = month.format('YYYY-MM-DD')
+    const monthItems = Object.keys(state.items).filter(date => dayjs(date).isSame(month, 'month')).map(date => state.items[date])
+    lastYearItems[monthName] = monthItems
+    if(!lastYearRatings[monthName]) lastYearRatings[monthName] = {}
+    lastYearRatings[monthName]._total = 0;
+    monthItems.forEach((item) => {
+      if(!lastYearRatings[monthName][item.rating]) lastYearRatings[monthName][item.rating] = 0
+      lastYearRatings[monthName][item.rating]++
+      lastYearRatings[monthName]._total += 1
+    })
+  }
 
   const thisMonthStart = currentMonth.startOf('month')
   const thisMonthEnd = currentMonth.endOf('month')
@@ -130,26 +139,11 @@ export const StatisticsScreen = ({ navigation }) => {
     })
 
   const total = Object.keys(ratings).reduce((acc, key) => acc + ratings[key], 0)
-
-  let totalGoodDays = 0;
-  if(ratings['extremely_good']) totalGoodDays += ratings['extremely_good']
-  if(ratings['very_good']) totalGoodDays += ratings['very_good']
-  if(ratings['good']) totalGoodDays += ratings['good']
-  let totalBadDays = 0;
-  if(ratings['extremely_bad']) totalBadDays += ratings['extremely_bad']
-  if(ratings['very_bad']) totalBadDays += ratings['very_bad']
-  if(ratings['bad']) totalBadDays += ratings['bad']
-  let totalNeutralDays = 0;
-  if(ratings['neutral']) totalNeutralDays += ratings['neutral']
-  
   const { settings } = useSettings()
   let { colors: scaleColors } = useScale(settings.scaleType)
 
   const keys = ['extremely_good', 'very_good', 'good', 'neutral', 'bad', 'very_bad', 'extremely_bad']
-  
-  const chartData = keys.map((r, i) => ({ key: r, order: i, x: r.split('_').join(' '), y: ratings[r] || 0 }))
-  console.log(ratings, chartData)
-  
+
   return (
     <View
       style={{
@@ -161,7 +155,7 @@ export const StatisticsScreen = ({ navigation }) => {
       <ScrollView style={{
         padding: 20,
       }}>
-          <ModalHeader
+          {/* <ModalHeader
             title={currentMonth.format('MMMM YYYY')}
             right={
               <SmallButton
@@ -185,54 +179,113 @@ export const StatisticsScreen = ({ navigation }) => {
               </SmallButton>
             }
           />
-        
+         */}
         <View
           style={{
             flex: 1,
             paddingBottom: insets.bottom + 50,
           }}
         >
-          <View
+          <Text
             style={{
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              margin: -5,
+              fontSize: 32,
+              color: colors.text,
+              fontWeight: 'bold',
+              marginTop: 32,
+              marginBottom: 24,
             }}
-          >
-            <FactSheet
-              color={scaleColors.very_good}
-              title='Good Days'
-              body={`${totalGoodDays}`}
-            />
-            <FactSheet
-              color={scaleColors.very_bad}
-              title='Bad Days'
-              body={`${totalBadDays}`}
-            />
+          >{t('statistics_last_12_months')}</Text>
+          <View>
+            {Object.keys(lastYearRatings).map((date, index) => (
+            <View
+              key={index}
+              style={{
+                marginBottom:16,
+                paddingTop: 12,
+                paddingBottom: 16,
+                paddingLeft: 16,
+                paddingRight: 16,
+                backgroundColor: colors.cardBackground,
+                borderRadius: 8,
+              }}
+            >
+              <Text
+                style={{
+                  fontSize: 17,
+                  color: colors.text,
+                  fontWeight: 'bold',
+                  marginBottom: 24,
+                }}
+              >{dayjs(date).format('MMMM, YYYY')}</Text>
+              {lastYearRatings[date]._total < 1 ? (
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    flex: 1,
+                  }}
+                >
+                  <Text
+                    style={{
+                      fontSize: 15,
+                      color: colors.textSecondary,
+                      opacity: 0.5,
+                      marginBottom: 8,
+                    }}
+                  >
+                    {t('statistics_experimental_not_enough_data')}
+                  </Text>
+                </View>
+              ) : (
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    borderRadius: 4,
+                    overflow: 'hidden',
+                  }}
+                >
+                  {keys.map(key => (
+                    <View
+                      key={key}
+                      style={{
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        height: 32,
+                        width: `${lastYearRatings[date][key] / lastYearRatings[date]._total * 100}%`,
+                        backgroundColor: scaleColors[key].background,
+                      }}
+                    >
+                    </View>
+                  ))}
+                </View>
+              )}
+            </View>
+            ))}
           </View>
-
-        <PeopleList items={items} />
 
         <View style={{
           marginTop: 32,
+          padding: 8,
         }}>
           <Text style={{
             fontSize: 17,
             marginBottom: 8,
             fontWeight: 'bold',
             color: colors.text
-          }}>⚠️ Statistics are currently experimental.</Text>
+          }}>⚠️ {t('statistics_experimental_title')}</Text>
           <Text style={{
             fontSize: 15,
             marginBottom: 16,
+            lineHeight: 22,
             color: colors.textSecondary
-          }}>Do you have some insights you want to know about your tracking? Please send me your idea. I read everyone of them. If you add your contact details I will answer you.</Text>
+          }}>{t('statistics_experimental_body')}</Text>
           <Button
             onPress={() => {
               showFeedbackModal({ type: 'idea' })
             }}
-            type='secondary'
-          >Send Feedback</Button>
+            type='primary'
+          >{t('statistics_experimental_button')}</Button>
         </View>
         </View>
       </ScrollView>

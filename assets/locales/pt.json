@@ -102,5 +102,10 @@
   "log_modal_message_placeholder_3": "Quem fez o seu dia melhor hoje?",
   "log_modal_message_placeholder_4": "Quando você se sentiu autêntico hoje?",
   "log_modal_message_placeholder_5": "Quando você se sentiu desafiado hoje?",
-  "log_modal_message_placeholder_6": "O que você está procurando no futuro?"
+  "log_modal_message_placeholder_6": "O que você está procurando no futuro?",
+  "statistics_last_12_months": "Últimos 12 meses",
+  "statistics_experimental_title": "As estatísticas são atualmente experimentais.",
+  "statistics_experimental_body": "Você tem algumas informações que deseja saber sobre seu rastreamento? Por favor, me envie sua ideia. Eu li todos eles. Se você adicionar seus dados de contato eu vou te responder.",
+  "statistics_experimental_button": "Enviar comentários",
+  "statistics_experimental_not_enough_data": "Não há dados suficientes"
 }

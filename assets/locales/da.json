@@ -102,5 +102,10 @@
   "log_modal_message_placeholder_3": "Hvem gjorde din dag bedre i dag?",
   "log_modal_message_placeholder_4": "Hvornår følte du dig autentisk i dag?",
   "log_modal_message_placeholder_5": "Hvornår følte du dig udfordret i dag?",
-  "log_modal_message_placeholder_6": "Hvad leder du efter i fremtiden?"
+  "log_modal_message_placeholder_6": "Hvad leder du efter i fremtiden?",
+  "statistics_last_12_months": "Sidste 12 måneder",
+  "statistics_experimental_title": "Statistik er i øjeblikket eksperimentel.",
+  "statistics_experimental_body": "Har du nogle indsigter, du gerne vil vide om din sporing? Send mig venligst din idé. Jeg læste dem alle sammen. Hvis du tilføjer dine kontaktoplysninger, svarer jeg dig.",
+  "statistics_experimental_button": "Send feedback",
+  "statistics_experimental_not_enough_data": "Ikke nok data"
 }

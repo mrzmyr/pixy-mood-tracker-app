@@ -102,5 +102,10 @@
   "log_modal_message_placeholder_3": "Tko ti je danas uljepšao dan?",
   "log_modal_message_placeholder_4": "Kada ste se danas osjećali autentično?",
   "log_modal_message_placeholder_5": "Kada ste se danas osjećali izazovom?",
-  "log_modal_message_placeholder_6": "Što tražite u budućnosti?"
+  "log_modal_message_placeholder_6": "Što tražite u budućnosti?",
+  "statistics_last_12_months": "Zadnjih 12 mjeseci",
+  "statistics_experimental_title": "Statistika je trenutno eksperimentalna.",
+  "statistics_experimental_body": "Imate li neke uvide koje želite znati o svom praćenju? Pošaljite mi svoju ideju. Pročitao sam sve od njih. Ako dodate svoje podatke za kontakt, odgovorit ću vam.",
+  "statistics_experimental_button": "Pošalji povratne informacije",
+  "statistics_experimental_not_enough_data": "Nema dovoljno podataka"
 }

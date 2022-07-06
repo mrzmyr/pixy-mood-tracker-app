@@ -102,5 +102,10 @@
   "log_modal_message_placeholder_3": "Siapa yang membuat hari anda lebih baik hari ini?",
   "log_modal_message_placeholder_4": "Bilakah anda berasa asli hari ini?",
   "log_modal_message_placeholder_5": "Bilakah anda berasa tercabar hari ini?",
-  "log_modal_message_placeholder_6": "Apa yang anda cari pada masa hadapan?"
+  "log_modal_message_placeholder_6": "Apa yang anda cari pada masa hadapan?",
+  "statistics_last_12_months": "12 bulan lepas",
+  "statistics_experimental_title": "Statistik pada masa ini adalah percubaan.",
+  "statistics_experimental_body": "Adakah anda mempunyai beberapa cerapan yang ingin anda ketahui tentang penjejakan anda? Sila hantar saya idea anda. Saya membaca semua orang daripada mereka. Jika anda menambah butiran hubungan anda, saya akan menjawab anda.",
+  "statistics_experimental_button": "Hantar maklumbalas",
+  "statistics_experimental_not_enough_data": "Tidak cukup data"
 }

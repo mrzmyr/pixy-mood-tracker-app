@@ -102,5 +102,10 @@
   "log_modal_message_placeholder_3": "谁让你今天过得更好？",
   "log_modal_message_placeholder_4": "你今天什么时候觉得真实？",
   "log_modal_message_placeholder_5": "你今天什么时候感到挑战？",
-  "log_modal_message_placeholder_6": "你在未来寻找什么？"
+  "log_modal_message_placeholder_6": "你在未来寻找什么？",
+  "statistics_last_12_months": "过去 12 个月",
+  "statistics_experimental_title": "统计数据目前是实验性的。",
+  "statistics_experimental_body": "您是否想了解有关跟踪的一些见解？请把你的想法发给我。我读了他们每一个人。如果您添加您的联系方式，我会回复您。",
+  "statistics_experimental_button": "发送反馈",
+  "statistics_experimental_not_enough_data": "没有足够的数据"
 }

@@ -102,5 +102,10 @@
   "log_modal_message_placeholder_3": "من جعل يومك أفضل اليوم؟",
   "log_modal_message_placeholder_4": "متى شعرت بالأصالة اليوم؟",
   "log_modal_message_placeholder_5": "متى شعرت بالتحدي اليوم؟",
-  "log_modal_message_placeholder_6": "ما الذي تبحث عنه في المستقبل؟"
+  "log_modal_message_placeholder_6": "ما الذي تبحث عنه في المستقبل؟",
+  "statistics_last_12_months": "آخر 12 شهرًا",
+  "statistics_experimental_title": "الإحصائيات تجريبية حاليًا.",
+  "statistics_experimental_body": "هل لديك بعض الأفكار التي تريد معرفتها حول التتبع الخاص بك؟ من فضلك أرسل لي فكرتك. قرأت كل واحد منهم. إذا قمت بإضافة تفاصيل الاتصال الخاصة بك فسأجيب عليك.",
+  "statistics_experimental_button": "ارسل رأيك",
+  "statistics_experimental_not_enough_data": "لا توجد بيانات كافية"
 }

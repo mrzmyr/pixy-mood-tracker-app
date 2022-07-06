@@ -102,5 +102,10 @@
   "log_modal_message_placeholder_3": "Kdo ti dnes zlepšil den?",
   "log_modal_message_placeholder_4": "Kdy jste se dnes cítil autenticky?",
   "log_modal_message_placeholder_5": "Kdy jste se dnes cítil/a výzvou?",
-  "log_modal_message_placeholder_6": "Co hledáš do budoucna?"
+  "log_modal_message_placeholder_6": "Co hledáš do budoucna?",
+  "statistics_last_12_months": "Posledních 12 měsíců",
+  "statistics_experimental_title": "Statistiky jsou v současné době experimentální.",
+  "statistics_experimental_body": "Máte nějaké postřehy, které byste chtěli vědět o svém sledování? Pošlete mi prosím svůj nápad. Četl jsem všechny. Pokud doplníte své kontaktní údaje, odpovím Vám.",
+  "statistics_experimental_button": "Poslat zpětnou vazbu",
+  "statistics_experimental_not_enough_data": "Nedostatek dat"
 }

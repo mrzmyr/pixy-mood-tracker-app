@@ -102,5 +102,10 @@
   "log_modal_message_placeholder_3": "ใครทำให้วันของคุณดีขึ้นในวันนี้?",
   "log_modal_message_placeholder_4": "วันนี้คุณรู้สึกจริงใจเมื่อไหร่?",
   "log_modal_message_placeholder_5": "วันนี้คุณรู้สึกท้าทายเมื่อไหร่?",
-  "log_modal_message_placeholder_6": "คุณกำลังมองหาอะไรในอนาคต?"
+  "log_modal_message_placeholder_6": "คุณกำลังมองหาอะไรในอนาคต?",
+  "statistics_last_12_months": "12 เดือนที่ผ่านมา",
+  "statistics_experimental_title": "สถิติกำลังอยู่ในช่วงทดลอง",
+  "statistics_experimental_body": "คุณมีข้อมูลเชิงลึกที่คุณต้องการทราบเกี่ยวกับการติดตามของคุณหรือไม่? กรุณาส่งความคิดของคุณมาให้ฉัน ฉันอ่านทุกคนของพวกเขา หากคุณเพิ่มรายละเอียดการติดต่อของคุณ ฉันจะตอบคุณ",
+  "statistics_experimental_button": "ส่งความคิดเห็น",
+  "statistics_experimental_not_enough_data": "ข้อมูลไม่เพียงพอ"
 }

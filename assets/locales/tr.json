@@ -102,5 +102,10 @@
   "log_modal_message_placeholder_3": "Bugün gününüzü kim güzelleştirdi?",
   "log_modal_message_placeholder_4": "Bugün ne zaman otantik hissettin?",
   "log_modal_message_placeholder_5": "Bugün ne zaman zorlandın?",
-  "log_modal_message_placeholder_6": "Gelecekte ne arıyorsunuz?"
+  "log_modal_message_placeholder_6": "Gelecekte ne arıyorsunuz?",
+  "statistics_last_12_months": "Son 12 ay",
+  "statistics_experimental_title": "İstatistikler şu anda deneyseldir.",
+  "statistics_experimental_body": "İzlemeniz hakkında bilmek istediğiniz bazı öngörüleriniz mi var? Lütfen bana fikrinizi gönderin. Hepsini okudum. İletişim bilgilerinizi eklerseniz size cevap vereceğim.",
+  "statistics_experimental_button": "Geribildirim yolla",
+  "statistics_experimental_not_enough_data": "yeterli veri yok"
 }

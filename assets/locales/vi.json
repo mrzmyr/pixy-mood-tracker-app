@@ -102,5 +102,10 @@
   "log_modal_message_placeholder_3": "Ai đã làm cho ngày hôm nay của bạn tốt hơn?",
   "log_modal_message_placeholder_4": "Khi nào bạn cảm thấy xác thực ngày hôm nay?",
   "log_modal_message_placeholder_5": "Khi nào bạn cảm thấy bị thử thách ngày hôm nay?",
-  "log_modal_message_placeholder_6": "Bạn đang tìm kiếm điều gì trong tương lai?"
+  "log_modal_message_placeholder_6": "Bạn đang tìm kiếm điều gì trong tương lai?",
+  "statistics_last_12_months": "12 tháng qua",
+  "statistics_experimental_title": "Thống kê hiện đang thử nghiệm.",
+  "statistics_experimental_body": "Bạn có một số thông tin chi tiết muốn biết về việc theo dõi của mình không? Hãy gửi cho tôi ý tưởng của bạn. Tôi đọc tất cả mọi người trong số họ. Nếu bạn thêm chi tiết liên hệ của bạn, tôi sẽ trả lời bạn.",
+  "statistics_experimental_button": "Gửi phản hồi",
+  "statistics_experimental_not_enough_data": "Không đủ dữ liệu"
 }

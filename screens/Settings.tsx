@@ -173,7 +173,7 @@ export const SettingsScreen = ({ navigation }: RootStackScreenProps<'Settings'>)
             alignItems: 'center',
           }}
         >
-          <Text style={{ fontSize: 14, marginTop: 5, marginBottom: 40, color: colors.textSecondary }}>{pkg.name} v{pkg.version}</Text>
+          <Text style={{ fontSize: 14, marginTop: 5, marginBottom: 40, color: colors.textSecondary }}>Pixy v{pkg.version}</Text>
         </View>
       </ScrollView>
     </View>

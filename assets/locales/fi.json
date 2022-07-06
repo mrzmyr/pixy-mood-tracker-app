@@ -102,5 +102,10 @@
   "log_modal_message_placeholder_3": "Kuka teki päivästäsi paremman tänään?",
   "log_modal_message_placeholder_4": "Milloin tunsit olosi autenttiseksi tänään?",
   "log_modal_message_placeholder_5": "Milloin tunsit olosi haasteelliseksi tänään?",
-  "log_modal_message_placeholder_6": "Mitä etsit tulevaisuudessa?"
+  "log_modal_message_placeholder_6": "Mitä etsit tulevaisuudessa?",
+  "statistics_last_12_months": "Viimeiset 12 kuukautta",
+  "statistics_experimental_title": "Tilastot ovat tällä hetkellä kokeellisia.",
+  "statistics_experimental_body": "Onko sinulla joitain oivalluksia, joita haluat tietää seurannastasi? Ole hyvä ja lähetä minulle ideasi. Luin niistä kaikki. Jos lisäät yhteystietosi, vastaan sinulle.",
+  "statistics_experimental_button": "Lähetä palautetta",
+  "statistics_experimental_not_enough_data": "Ei tarpeeksi dataa"
 }

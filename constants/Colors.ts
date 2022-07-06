@@ -112,7 +112,7 @@ export interface IColors {
 const light: IColors = {
   text: '#000',
   textSecondary: tailwindGray['500'],
-  background: tailwindGray['100'],
+  background: '#F2F1F6',
   backgroundSecondary: tailwindGray['300'],
   link: tintColorLight,
   tint: tintColorLight,
