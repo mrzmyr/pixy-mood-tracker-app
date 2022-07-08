@@ -137,6 +137,7 @@ export const SettingsScreen = ({ navigation }: RootStackScreenProps<'Settings'>)
             title={i18n.t('send_feedback')}
             onPress={() => showFeedbackModal({ type: 'issue' })}
             iconLeft={<Flag width={18} color={colors.menuListItemIcon} />}
+            testID='send_feedback'
             isLast
           />
         </MenuList>

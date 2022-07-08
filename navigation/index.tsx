@@ -12,7 +12,19 @@ import { usePasscode } from '../hooks/usePasscode';
 import { useSegment } from "../hooks/useSegment";
 import { useTranslation } from '../hooks/useTranslation';
 import {
-  CalendarScreen, DataScreen, LicensesScreen, LogModal, NotFoundScreen, PrivacyScreen, ReminderModal, ReminderScreen, ScaleScreen, SettingsScreen, StatisticsScreen, WebhookEntryScreen, WebhookScreen
+  CalendarScreen, 
+  DataScreen, 
+  LicensesScreen, 
+  LogModal, 
+  NotFoundScreen, 
+  PrivacyScreen, 
+  ReminderModal, 
+  ReminderScreen, 
+  ScaleScreen, 
+  SettingsScreen, 
+  StatisticsScreen, 
+  WebhookEntryScreen, 
+  WebhookScreen
 } from '../screens';
 import { RootStackParamList } from '../types';
 
@@ -117,6 +129,7 @@ const BottomTabs = () => {
         component={StatisticsScreen}
         options={({ navigation }) => ({
           ...defaultOptions,
+          tabBarTestID: 'statistics',
           tabBarLabel: ({ color, position, focused }) => (
             <Text style={{ fontSize: 11, color: focused ? colors.tabsIconActive : colors.tabsIconInactive }}>{i18n.t('statistics')}</Text>
           ),
@@ -131,6 +144,7 @@ const BottomTabs = () => {
         options={({ navigation }) => ({
           ...defaultOptions,
           headerShown: false,
+          tabBarTestID: 'calendar',
           tabBarLabel: ({ color, position, focused }) => (
             <Text style={{ fontSize: 11, color: focused ? colors.tabsIconActive : colors.tabsIconInactive }}>{i18n.t('calendar')}</Text>
           ),
@@ -143,6 +157,7 @@ const BottomTabs = () => {
         component={SettingsScreen}
         options={({ navigation }) => ({
           ...defaultOptions,
+          tabBarTestID: 'settings',
           tabBarLabel: ({ color, position, focused }) => (
             <Text style={{ fontSize: 11, color: focused ? colors.tabsIconActive : colors.tabsIconInactive }}>{i18n.t('settings')}</Text>
           ),

@@ -208,6 +208,7 @@ export const StatisticsScreen = ({ navigation }) => {
                 backgroundColor: colors.cardBackground,
                 borderRadius: 8,
               }}
+              testID={`statistics-item-${index}`}
             >
               <Text
                 style={{
