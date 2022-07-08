@@ -21,7 +21,7 @@ export default function Calendar({
   const today = dayjs();
 
   const months = [];
-  for (let i = -6; i <= 0; i++) {
+  for (let i = -12; i <= 0; i++) {
     const month = today.clone().add(i, 'month').startOf('month');
     months.push({
       dateString: month.format('YYYY-MM-DD'),
