@@ -70,12 +70,12 @@ function LogsProvider({children}: LogsProviderProps) {
     items: {}
   })
   
-  const dispatchProxy = useCallback((action: LogAction) => {
+  const dispatchProxy = (action: LogAction) => {
     dispatch(action)
     if(settings.webhookEnabled) {
       webhook.run(action)
     }
-  }, [])
+  }
 
   useEffect(() => {
     const load = async () => {
