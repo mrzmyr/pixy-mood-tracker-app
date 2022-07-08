@@ -24,7 +24,7 @@
   "export": "Viedä",
   "export_failed_title": "Vienti epäonnistui",
   "export_help": "Vie kaikki arviot, joissa on viestejä, JSON-tiedostona",
-  "webhook_help": "Webhookeja käytetään tietojen lähettämiseen HTTTP-päätepisteisiin.",
+  "webhook_help": "Webhookeja käytetään tietojen lähettämiseen HTTP-päätepisteisiin.",
   "webhook_url": "URL-osoite",
   "webhook_url_placeholder": "https://example.com/",
   "webhook_url_help": "Tätä URL-osoitetta käytetään tietojen lähettämiseen webhookiisi.",

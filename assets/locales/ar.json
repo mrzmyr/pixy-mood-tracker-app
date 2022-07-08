@@ -24,7 +24,7 @@
   "export": "يصدر",
   "export_failed_title": "فشل التصدير",
   "export_help": "تصدير جميع التصنيفات مع الرسائل كملف JSON",
-  "webhook_help": "تُستخدم خطاطيف الويب لإرسال البيانات إلى نقاط نهاية HTTTP.",
+  "webhook_help": "تُستخدم خطاطيف الويب لإرسال البيانات إلى نقاط نهاية HTTP.",
   "webhook_url": "URL",
   "webhook_url_placeholder": "https://example.com/",
   "webhook_url_help": "سيتم استخدام عنوان URL هذا لإرسال البيانات إلى خطاف الويب الخاص بك.",

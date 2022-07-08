@@ -24,7 +24,7 @@
   "export": "내 보내다",
   "export_failed_title": "내보내기 실패",
   "export_help": "메시지가 포함된 모든 평가를 JSON 파일로 내보내기",
-  "webhook_help": "Webhook은 HTTTP 끝점에 데이터를 보내는 데 사용됩니다.",
+  "webhook_help": "Webhook은 HTTP 끝점에 데이터를 보내는 데 사용됩니다.",
   "webhook_url": "URL",
   "webhook_url_placeholder": "https://example.com/",
   "webhook_url_help": "이 URL은 웹훅으로 데이터를 보내는 데 사용됩니다.",

@@ -24,7 +24,7 @@
   "export": "Eksport",
   "export_failed_title": "Eksport gagal",
   "export_help": "Eksport semua penilaian dengan mesej sebagai fail JSON",
-  "webhook_help": "Webhooks digunakan untuk menghantar data ke titik akhir HTTTP.",
+  "webhook_help": "Webhooks digunakan untuk menghantar data ke titik akhir HTTP.",
   "webhook_url": "URL",
   "webhook_url_placeholder": "https://example.com/",
   "webhook_url_help": "URL ini akan digunakan untuk menghantar data ke webhook anda.",

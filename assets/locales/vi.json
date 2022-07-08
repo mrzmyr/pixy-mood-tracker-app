@@ -24,7 +24,7 @@
   "export": "Xuất khẩu",
   "export_failed_title": "Xuất không thành công",
   "export_help": "Xuất tất cả xếp hạng với tin nhắn dưới dạng tệp JSON",
-  "webhook_help": "Webhook được sử dụng để gửi dữ liệu đến các điểm cuối HTTTP.",
+  "webhook_help": "Webhook được sử dụng để gửi dữ liệu đến các điểm cuối HTTP.",
   "webhook_url": "URL",
   "webhook_url_placeholder": "https://example.com/",
   "webhook_url_help": "URL này sẽ được sử dụng để gửi dữ liệu đến webhook của bạn.",

@@ -23,7 +23,7 @@
   "export": "导出",
   "export_failed_title": "导出失败",
   "export_help": "以JSON文件形式导出所有带有信息的评分",
-  "webhook_help": "Webhooks用于发送数据到HTTTP端点。",
+  "webhook_help": "Webhooks用于发送数据到HTTP端点。",
   "webhook_url": "网址",
   "webhook_url_placeholder": "https://example.com/",
   "webhook_url_help": "这个URL将被用来发送数据到你的webhook。",

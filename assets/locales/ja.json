@@ -23,7 +23,7 @@
   "export": "輸出",
   "export_failed_title": "エクスポートに失敗しました",
   "export_help": "メッセージを含むすべての評価をJSONファイルとしてエクスポートする",
-  "webhook_help": "Webhookは、HTTTPエンドポイントにデータを送信するために使用されます。",
+  "webhook_help": "Webhookは、HTTPエンドポイントにデータを送信するために使用されます。",
   "webhook_url": "URL",
   "webhook_url_placeholder": "https://example.com/",
   "webhook_url_help": "このURLは、Webhookにデータを送信するために使用されます。",

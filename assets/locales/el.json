@@ -24,7 +24,7 @@
   "export": "Εξαγωγή",
   "export_failed_title": "Η εξαγωγή απέτυχε",
   "export_help": "Εξαγωγή όλων των αξιολογήσεων με μηνύματα ως αρχείο JSON",
-  "webhook_help": "Τα webhook χρησιμοποιούνται για την αποστολή δεδομένων σε τελικά σημεία HTTTP.",
+  "webhook_help": "Τα webhook χρησιμοποιούνται για την αποστολή δεδομένων σε τελικά σημεία HTTP.",
   "webhook_url": "URL",
   "webhook_url_placeholder": "https://example.com/",
   "webhook_url_help": "Αυτή η διεύθυνση URL θα χρησιμοποιηθεί για την αποστολή δεδομένων στο webhook σας.",

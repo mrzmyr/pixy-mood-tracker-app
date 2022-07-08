@@ -23,7 +23,7 @@
   "export": "Экспорт",
   "export_failed_title": "Экспорт не удался",
   "export_help": "Экспорт всех рейтингов с сообщениями в файл JSON",
-  "webhook_help": "Webhooks используются для отправки данных на конечные точки HTTTP.",
+  "webhook_help": "Webhooks используются для отправки данных на конечные точки HTTP.",
   "webhook_url": "URL",
   "webhook_url_placeholder": "https://example.com/",
   "webhook_url_help": "Этот URL будет использоваться для отправки данных на ваш webhook.",

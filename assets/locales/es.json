@@ -23,7 +23,7 @@
   "export": "Exportar",
   "export_failed_title": "Exportación fallida",
   "export_help": "Exportar todas las valoraciones con mensajes como archivo JSON",
-  "webhook_help": "Los webhooks se utilizan para enviar datos a los endpoints HTTTP.",
+  "webhook_help": "Los webhooks se utilizan para enviar datos a los endpoints HTTP.",
   "webhook_url": "URL",
   "webhook_url_placeholder": "https://example.com/",
   "webhook_url_help": "Esta URL se utilizará para enviar datos a su webhook.",

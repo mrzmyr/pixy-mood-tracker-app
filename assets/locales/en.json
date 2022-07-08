@@ -39,7 +39,7 @@
   "export": "Export",
   "export_failed_title": "Export failed",
   "export_help": "Export all ratings with messages as a JSON file",
-  "webhook_help": "Webhooks are used to send data to HTTTP endpoints.",
+  "webhook_help": "Webhooks are used to send data to HTTP endpoints.",
   "webhook_url": "URL",
   "webhook_url_placeholder": "https://example.com/",
   "webhook_url_help": "This URL will be used to send data to your webhook.",

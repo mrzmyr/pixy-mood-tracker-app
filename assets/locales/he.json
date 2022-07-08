@@ -24,7 +24,7 @@
   "export": "יְצוּא",
   "export_failed_title": "הייצוא נכשל",
   "export_help": "ייצא את כל הדירוגים עם הודעות כקובץ JSON",
-  "webhook_help": "Webhooks משמשים לשליחת נתונים לנקודות קצה HTTTP.",
+  "webhook_help": "Webhooks משמשים לשליחת נתונים לנקודות קצה HTTP.",
   "webhook_url": "כתובת אתר",
   "webhook_url_placeholder": "https://example.com/",
   "webhook_url_help": "כתובת האתר הזו תשמש לשליחת נתונים ל-webhook שלך.",

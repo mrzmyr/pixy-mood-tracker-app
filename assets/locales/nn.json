@@ -24,7 +24,7 @@
   "export": "Eksport",
   "export_failed_title": "Eksporten mislyktes",
   "export_help": "Eksporter alle vurderinger med meldinger som en JSON-fil",
-  "webhook_help": "Webhooks brukes til å sende data til HTTTP-endepunkter.",
+  "webhook_help": "Webhooks brukes til å sende data til HTTP-endepunkter.",
   "webhook_url": "URL",
   "webhook_url_placeholder": "https://example.com/",
   "webhook_url_help": "Denne URL-en vil bli brukt til å sende data til din webhook.",
