@@ -11,7 +11,8 @@
     "test": "jest --watchAll --env=jsdom",
     "licenses": "yarn licenses list --json --no-progress > licenses.json",
     "translate-app": "node scripts/generate-translations-app.js",
-    "translate-metadata": "ts-node scripts/generate-translations-app-store-metadata"
+    "translate-metadata": "ts-node scripts/generate-translations-app-store-metadata",
+    "generate-screenshots": "node scripts/generate-screenshots.js"
   },
   "jest": {
     "preset": "jest-expo",
