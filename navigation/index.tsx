@@ -99,7 +99,6 @@ const Tab = createBottomTabNavigator();
 const BottomTabs = () => {
   const colors = useColors();
   const i18n = useTranslation()
-  const haptics = useHaptics()
 
   const defaultOptions = {
     headerTintColor: colors.text,
@@ -157,6 +156,7 @@ const BottomTabs = () => {
         component={SettingsScreen}
         options={({ navigation }) => ({
           ...defaultOptions,
+          headerShown: false,
           tabBarTestID: 'settings',
           tabBarLabel: ({ color, position, focused }) => (
             <Text style={{ fontSize: 11, color: focused ? colors.tabsIconActive : colors.tabsIconInactive }}>{i18n.t('settings')}</Text>
@@ -172,9 +172,8 @@ const BottomTabs = () => {
 function RootNavigator() {
   const colors = useColors();
   const i18n = useTranslation()
-  const haptics = useHaptics()
-  const passcode = usePasscode()
   const segment = useSegment()
+  // const passcode = usePasscode()
 
   const defaultOptions = {
     headerTintColor: colors.text,
@@ -213,7 +212,6 @@ function RootNavigator() {
     // ) : (
     <SafeAreaProvider>
       <Stack.Navigator
-        initialRouteName="Calendar"
         screenListeners={{
           state: (e) => {
             const path = e.data.state.routes.map(r => {

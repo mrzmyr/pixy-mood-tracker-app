@@ -3,8 +3,8 @@ import * as DocumentPicker from 'expo-document-picker';
 import * as FileSystem from 'expo-file-system';
 import * as Sharing from 'expo-sharing';
 import { useEffect, useState } from 'react';
-import { Platform, ScrollView, Switch, View } from 'react-native';
-import { Box, Download, Trash2, Upload } from 'react-native-feather';
+import { Platform, ScrollView, Switch, Text, View } from 'react-native';
+import { Box, Download, Shield, Trash2, Upload } from 'react-native-feather';
 import { Alert } from '../components/Alert';
 import MenuList from '../components/MenuList';
 import MenuListItem from '../components/MenuListItem';
@@ -58,6 +58,7 @@ export const DataScreen = ({ navigation }: RootStackScreenProps<'Data'>) => {
     if(Platform.OS === 'web') {
       resetSettings()
       dispatch({ type: 'reset' })
+      alert(i18n.t('reset_data_success_message'))
       return;
     }
     
@@ -170,8 +171,23 @@ export const DataScreen = ({ navigation }: RootStackScreenProps<'Data'>) => {
       <ScrollView
         style={{
           padding: 20,
+          flex: 1,
         }}
       >
+      <View
+        style={{
+          alignItems: 'center',
+          marginTop: 10,
+          marginBottom: 10,
+          paddingLeft: 20,
+          paddingRight: 20,
+        }}
+      >
+        <Shield width={18} color={colors.textSecondary} />
+        <Text style={{ color: colors.textSecondary, marginTop: 5, textAlign: 'center' }}>
+          {i18n.t('data_notice')}
+        </Text>
+      </View>
       <MenuList style={{ marginTop: 20, }}>
         <MenuListItem
           title={i18n.t('webhook')}

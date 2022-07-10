@@ -4,6 +4,7 @@ import * as StoreReview from 'expo-store-review';
 import { useEffect, useState } from 'react';
 import { ScrollView, Text, View } from 'react-native';
 import { Award, Bell, Database, Flag, Shield, Star } from 'react-native-feather';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import MenuList from '../components/MenuList';
 import MenuListItem from '../components/MenuListItem';
 import TextInfo from '../components/TextInfo';
@@ -16,7 +17,9 @@ import pkg from '../package.json';
 import { RootStackScreenProps } from '../types';
 
 export const SettingsScreen = ({ navigation }: RootStackScreenProps<'Settings'>) => {
+  const insets = useSafeAreaInsets();
   const { settings, setSettings } = useSettings()
+  const { t } = useTranslation()
   const colors = useColors()
   const i18n = useTranslation()
   const segment = useSegment()
@@ -48,6 +51,7 @@ export const SettingsScreen = ({ navigation }: RootStackScreenProps<'Settings'>)
   
   return (
     <View style={{ 
+      paddingTop: insets.top,
       flex: 1,
       backgroundColor: colors.background,
     }}>
@@ -57,25 +61,16 @@ export const SettingsScreen = ({ navigation }: RootStackScreenProps<'Settings'>)
         }}
       >
         <FeedbackModal />
-        <View
-          style={{
-            alignItems: 'center',
-          }}
-        >
-          <View
+        <Text
             style={{
-              alignItems: 'center',
-              marginTop: 10,
-              width: '90%',
+              fontSize: 32,
+              color: colors.text,
+              fontWeight: 'bold',
+              marginTop: 32,
+              marginBottom: 18,
             }}
-          >
-            <Shield width={18} color={colors.textSecondary} />
-            <Text style={{ color: colors.textSecondary, marginTop: 5, textAlign: 'center' }}>
-              {i18n.t('data_notice')}
-            </Text>
-          </View>
-        </View>
-        <MenuList style={{ marginTop: 20, }}>
+          >{t('settings')}</Text>
+        <MenuList>
           <MenuListItem
             title={i18n.t('data')}
             iconLeft={<Database width={18} color={colors.menuListItemIcon} />}
