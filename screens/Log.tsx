@@ -36,7 +36,11 @@ export const LogModal = ({ navigation, route }: RootStackScreenProps<'Log'>) => 
   const [logItem, setLogItem] = useState<LogItem>(existingLogItem || defaultLogItem)
 
   const save = () => {
-    segment.track('log_saved')
+    segment.track('log_saved', {
+      messageLength: logItem.message.length,
+      rating: logItem.rating,
+    })
+
     dispatch({
       type: existingLogItem ? 'edit' : 'add',
       payload: logItem
@@ -69,7 +73,9 @@ export const LogModal = ({ navigation, route }: RootStackScreenProps<'Log'>) => 
   }
 
   const trackMessageChange = useCallback(debounce(() => {
-    segment.track('log_message_changed')
+    segment.track('log_message_changed', {
+      messageLength: logItem.message.length
+    })
   }, 1000), []);
 
   const setRating = (rating: LogItem['rating']) => setLogItem(logItem => ({ ...logItem, rating }))
