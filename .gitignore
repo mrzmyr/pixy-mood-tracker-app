@@ -10,8 +10,8 @@ npm-debug.*
 *.orig.*
 web-build/
 
-# macOS
 .DS_Store
+.env
 assets/screenshots/*
 eas.json
 yarn-error.log
@@ -21,4 +21,4 @@ scripts/credentials.json
 scripts/screenshots/*
 scripts/preview-templates/*
 scripts/preview-generated/*
-.env
+scripts/data/*

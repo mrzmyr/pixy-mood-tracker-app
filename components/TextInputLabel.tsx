@@ -8,8 +8,8 @@ export default function Label({ children }) {
     style={{
       fontSize: 14,
       color: colors.textInputLabel,
-      marginTop: 10,
-      marginBottom: 5,
+      marginTop: 8,
+      marginBottom: 4,
       fontWeight: 'bold',
     }}
   >{children}</Text>

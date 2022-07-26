@@ -1,21 +1,75 @@
 import dayjs from 'dayjs';
+import { t } from 'i18n-js';
 import { debounce } from "lodash";
-import { useCallback, useState } from 'react';
-import { Platform, StatusBar, View } from 'react-native';
-import { Trash2, X } from 'react-native-feather';
+import { useCallback, useEffect, useRef } from 'react';
+import { Pressable, Text, View } from 'react-native';
+import { Edit2, Plus, Trash2 } from 'react-native-feather';
 import DismissKeyboard from '../components/DismisKeyboard';
 import LinkButton from '../components/LinkButton';
 import ModalHeader from '../components/ModalHeader';
 import Scale from '../components/Scale';
 import TextArea from '../components/TextArea';
 import useColors from '../hooks/useColors';
+import useHaptics from '../hooks/useHaptics';
 import { LogItem, useLogs } from '../hooks/useLogs';
 import { useSegment } from '../hooks/useSegment';
 import { useSettings } from '../hooks/useSettings';
+import { useTemporaryLog } from '../hooks/useTemporaryLog';
 import { useTranslation } from '../hooks/useTranslation';
 import { RootStackScreenProps } from '../types';
 
 const randomInt = (min, max) => Math.floor(Math.random() * (max - min + 1) + min);
+
+const TagEdit = ({
+  tempLog,
+  onPress
+}) => {
+  const colors = useColors()
+  const { t } = useTranslation()
+  
+  return (
+    <Pressable
+      style={({ pressed }) => [{
+        paddingTop: 8,
+        paddingBottom: 8,
+        paddingLeft: 16,
+        paddingRight: 16,
+        justifyContent: 'center',
+        alignItems: 'center',
+        flexDirection: 'row',
+        borderRadius: 100,
+        backgroundColor: colors.tagsBackground,
+        marginRight: 8,
+        marginBottom: 8,
+      }]}
+      onPress={onPress}
+      testID={'log-tags-edit'}
+      accessibilityRole={'button'}
+    >
+      {
+        tempLog.data.tags && tempLog.data.tags?.length > 0 ? (
+          <Edit2 
+            color={colors.tagsText} 
+            width={17}
+            style={{ margin: -4, marginRight: 8, }} 
+          />
+        ) : (
+          <Plus 
+            color={colors.tagsText}
+            width={17}
+            style={{ margin: -4, marginRight: 8, }} 
+          />
+        )
+      }
+      <Text 
+        style={{ 
+          color: colors.tagsText,
+          fontSize: 17,
+        }}
+      >{tempLog.data.tags && tempLog.data.tags?.length > 0 ? t('tags_edit') : t('tags_add')}</Text>
+    </Pressable>
+  )
+}
 
 export const LogModal = ({ navigation, route }: RootStackScreenProps<'Log'>) => {
   
@@ -23,27 +77,39 @@ export const LogModal = ({ navigation, route }: RootStackScreenProps<'Log'>) => 
   const colors = useColors()
   const i18n = useTranslation()
   const segment = useSegment()
+  const haptics = useHaptics()
+  
+  const { state, dispatch } = useLogs()
+  const tempLog = useTemporaryLog();
   
   const defaultLogItem: LogItem = {
     date: route.params.date,
     rating: 'neutral',
     message: '',
-  };
-
-  const { state, dispatch } = useLogs()
-
+    tags: [],
+  }
+  
   const existingLogItem = state?.items[route.params.date];
-  const [logItem, setLogItem] = useState<LogItem>(existingLogItem || defaultLogItem)
 
+  useEffect(() => {
+    tempLog.set(existingLogItem || defaultLogItem)
+  }, [])
+
+  const onClose = () => {
+    tempLog.reset()
+  }
+  
   const save = () => {
     segment.track('log_saved', {
-      messageLength: logItem.message.length,
-      rating: logItem.rating,
+      date: tempLog.data.date,
+      messageLength: tempLog.data.message.length,
+      rating: tempLog.data.rating,
+      tagsCount: tempLog.data.tags?.length,
     })
 
     dispatch({
       type: existingLogItem ? 'edit' : 'add',
-      payload: logItem
+      payload: tempLog.data
     })
 
     if(
@@ -55,86 +121,161 @@ export const LogModal = ({ navigation, route }: RootStackScreenProps<'Log'>) => 
     } else {
       navigation.navigate('Calendar');
     }
+
+    onClose()
   }
 
   const remove = () => {
     segment.track('log_deleted')
     dispatch({
       type: 'delete', 
-      payload: logItem
+      payload: tempLog.data
     })
     navigation.navigate('Calendar');
+    onClose()
   }
 
   const cancel = () => {
     segment.track('log_cancled')
-    setLogItem(defaultLogItem)
     navigation.navigate('Calendar');
+    onClose()
   }
 
   const trackMessageChange = useCallback(debounce(() => {
     segment.track('log_message_changed', {
-      messageLength: logItem.message.length
+      messageLength: tempLog.data.message.length
     })
   }, 1000), []);
 
-  const setRating = (rating: LogItem['rating']) => setLogItem(logItem => ({ ...logItem, rating }))
+  const setRating = (rating: LogItem['rating']) => tempLog.set((logItem) => ({ ...logItem, rating }))
   const setMessage = (message: LogItem['message']) => {
     trackMessageChange()
-    setLogItem(logItem => ({ ...logItem, message }))
+    tempLog.set(logItem => ({ ...logItem, message }))
   }
+  
+  const placeholder = useRef(i18n.t(`log_modal_message_placeholder_${randomInt(1, 6)}`))
   
   return (
     <DismissKeyboard>
       <View style={{
         flex: 1,
         justifyContent: 'flex-start',
-        backgroundColor: colors.background,
-        paddingTop: 20 + (Platform.OS === 'android' ? StatusBar.currentHeight : 0),
+        backgroundColor: colors.logBackground,
         paddingBottom: 20,
-        paddingLeft: 20,
-        paddingRight: 20,
       }}>
         <ModalHeader
           title={dayjs(route.params.date).format('ddd, L')}
-          right={<LinkButton testID='modal-submit' onPress={save}>{existingLogItem ? i18n.t('save') : i18n.t('add')}</LinkButton>}
-          left={<LinkButton testID='modal-cancel' onPress={cancel} type='secondary' icon={<X height={24} color={colors.text} />} />}
+          left={
+            <LinkButton 
+              testID='modal-cancel' 
+              onPress={cancel} 
+              type='primary' 
+            >{t('cancel')}</LinkButton>
+          }
+          right={
+            <LinkButton 
+              textStyle={{ fontWeight: 'bold' }} 
+              testID='modal-submit' 
+              onPress={save}
+            >{existingLogItem ? i18n.t('save') : i18n.t('add')}</LinkButton>}
         />
         <View
           style={{
-            width: '100%',
+            paddingTop: 8,
+            paddingLeft: 16,
+            paddingRight: 16,
           }}
         >
-          <Scale
-            type={settings.scaleType}
-            value={logItem.rating}
-            onPress={setRating}
-          />
-        </View>
-        <TextArea 
-          testID='modal-message'
-          onChange={setMessage}
-          placeholder={i18n.t(`log_modal_message_placeholder_${randomInt(1, 6)}`)}
-          value={logItem.message} 
-          maxLength={10000}
-          autoFocus
-        />
-        {existingLogItem && (
           <View
             style={{
-              marginTop: 20,
-              flexDirection: 'row',
-              justifyContent: 'center',
+              width: '100%',
+              marginTop: 8,
             }}
           >
-            <LinkButton 
-              onPress={remove} 
-              type='secondary' 
-              icon={<Trash2 width={16} color={colors.secondaryLinkButtonText} />}
-              testID='modal-delete'
-            >{i18n.t('delete')}</LinkButton>
+            <Scale
+              type={settings.scaleType}
+              value={tempLog.data.rating}
+              onPress={setRating}
+            />
           </View>
-        )}
+
+          <TextArea
+            testID='modal-message'
+            onChange={setMessage}
+            placeholder={placeholder.current}
+            value={tempLog.data.message}
+            maxLength={10 * 1000}
+            autoFocus
+          />
+
+          <Pressable
+            onPress={async () => {
+              await haptics.selection()
+              navigation.navigate('TagsModal', {
+                initialTags: tempLog.data.tags,
+              })
+            }}
+          >
+            <View style={{
+              flexDirection: 'row',
+              flexWrap: 'wrap',
+              alignItems: 'flex-start',
+              justifyContent: 'flex-start',
+              marginTop: 16,
+              paddingBottom: 8,
+            }}>
+              {tempLog.data?.tags && tempLog.data.tags.map(tag => (
+                <View key={tag.id} style={{
+                  paddingTop: 8,
+                  paddingBottom: 8,
+                  paddingLeft: 16,
+                  paddingRight: 16,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  flexDirection: 'row',
+                  borderRadius: 100,
+                  marginRight: 4,
+                  marginBottom: 4,
+                  backgroundColor: colors.tags[tag.color]?.background,
+                }}>
+                  <Text style={{
+                    color: colors.tags[tag.color]?.text,
+                    fontSize: 17,
+                  }}>{tag.title}</Text>
+                </View>
+              ))}
+              <View>
+                <TagEdit 
+                  tempLog={tempLog}
+                  onPress={async () => {
+                    await haptics.selection()
+                    navigation.navigate('TagsModal', {
+                      initialTags: tempLog.data.tags,
+                    })
+                  }}
+                />
+              </View>
+            </View>
+          </Pressable>
+
+
+          {existingLogItem && (
+            <View
+              style={{
+                marginTop: 20,
+                flexDirection: 'row',
+                justifyContent: 'center',
+              }}
+            >
+              <LinkButton 
+                onPress={remove} 
+                type='secondary' 
+                icon={<Trash2 width={16} color={colors.secondaryLinkButtonText} />}
+                testID='modal-delete'
+              >{i18n.t('delete')}</LinkButton>
+            </View>
+          )}
+        </View>
       </View>
     </DismissKeyboard>
   );

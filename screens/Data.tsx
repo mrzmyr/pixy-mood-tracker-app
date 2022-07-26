@@ -3,9 +3,8 @@ import * as DocumentPicker from 'expo-document-picker';
 import * as FileSystem from 'expo-file-system';
 import * as Sharing from 'expo-sharing';
 import { useEffect, useState } from 'react';
-import { Platform, ScrollView, Switch, Text, View } from 'react-native';
+import { Alert, Platform, ScrollView, Switch, Text, View } from 'react-native';
 import { Box, Download, Shield, Trash2, Upload } from 'react-native-feather';
-import { Alert } from '../components/Alert';
 import MenuList from '../components/MenuList';
 import MenuListItem from '../components/MenuListItem';
 import TextInfo from '../components/TextInfo';
@@ -39,7 +38,7 @@ const exportState = async (state: LogsState) => {
 
 export const DataScreen = ({ navigation }: RootStackScreenProps<'Data'>) => {
   const { state, dispatch } = useLogs()
-  const { resetSettings } = useSettings()
+  const { resetSettings, setSettings } = useSettings()
   const colors = useColors()
   const i18n = useTranslation()
   const segment = useSegment()
@@ -95,7 +94,6 @@ export const DataScreen = ({ navigation }: RootStackScreenProps<'Data'>) => {
       { cancelable: true }
     );
   }
-
 
   const importEntries = async () => {
     try {
@@ -232,6 +230,10 @@ export const DataScreen = ({ navigation }: RootStackScreenProps<'Data'>) => {
               onValueChange={() => {
                 segment.track('data_behavioral_toggle', { enabled: !isTrackingEnabled })
                 setIsTrackingEnabled(!isTrackingEnabled)
+                setSettings((settings) => ({
+                  ...settings,
+                  trackBehaviour: !isTrackingEnabled
+                }))
                 segment.disable()
               }}
               value={isTrackingEnabled}

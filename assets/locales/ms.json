@@ -107,5 +107,14 @@
   "statistics_experimental_title": "Statistik pada masa ini adalah percubaan.",
   "statistics_experimental_body": "Adakah anda mempunyai beberapa cerapan yang ingin anda ketahui tentang penjejakan anda? Sila hantar saya idea anda. Saya membaca semua orang daripada mereka. Jika anda menambah butiran hubungan anda, saya akan menjawab anda.",
   "statistics_experimental_button": "Hantar maklumbalas",
-  "statistics_experimental_not_enough_data": "Tidak cukup data"
+  "statistics_experimental_not_enough_data": "Tidak cukup data",
+  "send": "Hantar",
+  "color": "Warna",
+  "title": "Tajuk",
+  "tags_empty": "Teg akan dipaparkan di sini",
+  "tags_add": "Tambah Tag",
+  "tags_add_placeholder": "#hari besar",
+  "tags_edit": "Edit Teg",
+  "delete_tag_confirm_title": "Padam tag",
+  "delete_tag_confirm_message": "Teg akan dialih keluar daripada semua entri. Tindakan ini tidak boleh dibuat asal."
 }

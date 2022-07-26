@@ -1,37 +1,45 @@
-import { Text, View } from "react-native"
+import { Text, View, ViewStyle } from "react-native"
 import useColors from "../hooks/useColors"
 
 export default function ModalHeader({
   title = '',
   right = null,
   left = null,
+  style = {},
 }: {
   title?: string,
   right?: React.ReactNode,
   left?: React.ReactNode,
+  style?: ViewStyle,
 }) {
   const colors = useColors()
   
   return (
     <View
-      style={{
+      style={[{
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        marginBottom: 10,
-      }}
+        paddingTop: 8,
+        paddingLeft: 8,
+        paddingRight: 8,
+        paddingBottom: 8,
+        backgroundColor: colors.logHeaderBackground,
+        borderBottomColor: colors.logHeaderBorder,
+        borderBottomWidth: 1,
+      }, style]}
     >
     <View style={{
       justifyContent: 'flex-start',
       flexDirection: 'row',
-      maxWidth: '25%',
+      width: '25%',
     }}>
-      {left}
+      {left ? left : null}
     </View>
     <View style={{
       justifyContent: 'center',
       flexDirection: 'row',
-      maxWidth: '50%',
+      width: '50%',
     }}>
       <Text
         numberOfLines={1}
@@ -49,7 +57,7 @@ export default function ModalHeader({
       justifyContent: 'flex-end',
       alignItems: 'center',
       flexDirection: 'row',
-      maxWidth: '25%',
+      width: '25%',
     }}>
       {right}
     </View>

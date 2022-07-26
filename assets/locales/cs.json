@@ -107,5 +107,14 @@
   "statistics_experimental_title": "Statistiky jsou v současné době experimentální.",
   "statistics_experimental_body": "Máte nějaké postřehy, které byste chtěli vědět o svém sledování? Pošlete mi prosím svůj nápad. Četl jsem všechny. Pokud doplníte své kontaktní údaje, odpovím Vám.",
   "statistics_experimental_button": "Poslat zpětnou vazbu",
-  "statistics_experimental_not_enough_data": "Nedostatek dat"
+  "statistics_experimental_not_enough_data": "Nedostatek dat",
+  "send": "Poslat",
+  "color": "Barva",
+  "title": "Titul",
+  "tags_empty": "Zde se zobrazí štítky",
+  "tags_add": "Přidat značku",
+  "tags_add_placeholder": "#velký den",
+  "tags_edit": "Upravit značky",
+  "delete_tag_confirm_title": "Smazat značku",
+  "delete_tag_confirm_message": "Štítek bude odstraněn ze všech záznamů. Tuto akci nelze vrátit zpět."
 }

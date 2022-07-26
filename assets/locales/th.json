@@ -107,5 +107,14 @@
   "statistics_experimental_title": "สถิติกำลังอยู่ในช่วงทดลอง",
   "statistics_experimental_body": "คุณมีข้อมูลเชิงลึกที่คุณต้องการทราบเกี่ยวกับการติดตามของคุณหรือไม่? กรุณาส่งความคิดของคุณมาให้ฉัน ฉันอ่านทุกคนของพวกเขา หากคุณเพิ่มรายละเอียดการติดต่อของคุณ ฉันจะตอบคุณ",
   "statistics_experimental_button": "ส่งความคิดเห็น",
-  "statistics_experimental_not_enough_data": "ข้อมูลไม่เพียงพอ"
+  "statistics_experimental_not_enough_data": "ข้อมูลไม่เพียงพอ",
+  "send": "ส่ง",
+  "color": "สี",
+  "title": "ชื่อ",
+  "tags_empty": "แท็กจะแสดงขึ้นที่นี่",
+  "tags_add": "เพิ่มแท็ก",
+  "tags_add_placeholder": "#วันสำคัญ",
+  "tags_edit": "แก้ไขแท็ก",
+  "delete_tag_confirm_title": "ลบแท็ก",
+  "delete_tag_confirm_message": "แท็กจะถูกลบออกจากรายการทั้งหมด การดำเนินการนี้ไม่สามารถยกเลิกได้"
 }

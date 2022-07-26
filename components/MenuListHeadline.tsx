@@ -14,11 +14,11 @@ export default function MenuListHeadline({
       textTransform: 'uppercase',
       color: colors.textSecondary,
       padding: 0,
-      borderRadius: 10,
+      borderRadius: 8,
       width: '100%',
-      marginTop: 20,
-      paddingLeft: 20,
-      marginBottom: 5,
+      marginTop: 16,
+      paddingLeft: 16,
+      marginBottom: 8,
     }}>
       {children}
     </Text>

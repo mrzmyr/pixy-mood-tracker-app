@@ -107,5 +107,14 @@
   "statistics_experimental_title": "הסטטיסטיקה היא כרגע ניסיוני.",
   "statistics_experimental_body": "האם יש לך כמה תובנות שאתה רוצה לדעת על המעקב שלך? בבקשה שלח לי את הרעיון שלך. קראתי את כולם. אם תוסיף את פרטי ההתקשרות שלך אני אענה לך.",
   "statistics_experimental_button": "שלח משוב",
-  "statistics_experimental_not_enough_data": "אין מספיק נתונים"
+  "statistics_experimental_not_enough_data": "אין מספיק נתונים",
+  "send": "לִשְׁלוֹחַ",
+  "color": "צֶבַע",
+  "title": "כותרת",
+  "tags_empty": "תגים יופיעו כאן",
+  "tags_add": "הוסף תגית",
+  "tags_add_placeholder": "#יום גדול",
+  "tags_edit": "ערוך תגיות",
+  "delete_tag_confirm_title": "מחק תג",
+  "delete_tag_confirm_message": "התג יוסר מכל הערכים. לא ניתן לבטל פעולה זו."
 }

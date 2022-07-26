@@ -107,5 +107,14 @@
   "statistics_experimental_title": "统计数据目前是实验性的。",
   "statistics_experimental_body": "您是否想了解有关跟踪的一些见解？请把你的想法发给我。我读了他们每一个人。如果您添加您的联系方式，我会回复您。",
   "statistics_experimental_button": "发送反馈",
-  "statistics_experimental_not_enough_data": "没有足够的数据"
+  "statistics_experimental_not_enough_data": "没有足够的数据",
+  "send": "发送",
+  "color": "颜色",
+  "title": "标题",
+  "tags_empty": "标签将显示在此处",
+  "tags_add": "添加标签",
+  "tags_add_placeholder": "＃重要的日子",
+  "tags_edit": "编辑标签",
+  "delete_tag_confirm_title": "删除标签",
+  "delete_tag_confirm_message": "该标签将从所有条目中删除。此操作无法撤消。"
 }

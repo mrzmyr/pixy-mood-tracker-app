@@ -7,6 +7,12 @@ const STORAGE_KEY = 'PIXEL_TRACKER_SETTINGS'
 
 const SettingsStateContext = createContext(undefined)
 
+export type Tag = {
+  id: string;
+  title: string;
+  color: 'slate' | 'stone' | 'red' | 'orange' | 'amber' | 'yellow' | 'lime' | 'green' | 'teal' | 'sky' | 'blue' | 'indigo' | 'purple' | 'pink';
+}
+
 export interface SettingsWebhookEntry {
   url: string,
   date: string,
@@ -27,6 +33,8 @@ export interface SettingsState {
   scaleType: 'ColorBrew-RdYlGn' | 'ColorBrew-PiYG',
   reminderEnabled: Boolean,
   reminderTime: string,
+  trackBehaviour: boolean,
+  tags: Tag[],
 }
 
 const initialState: SettingsState = {
@@ -39,6 +47,28 @@ const initialState: SettingsState = {
   scaleType: 'ColorBrew-RdYlGn',
   reminderEnabled: false,
   reminderTime: '18:00',
+  trackBehaviour: true,
+  tags: [{
+    id: '1',
+    title: 'Struggles ☔️',
+    color: 'purple',
+  }, {
+    id: '2',
+    title: 'Happy ☺️',
+    color: 'orange',
+  }, {
+    id: '3',
+    title: 'Work 💼',
+    color: 'sky',
+  }, {
+    id: '4',
+    title: 'Exercise 🏃',
+    color: 'green',
+  }, {
+    id: '5',
+    title: 'Friends 🤗',
+    color: 'yellow',
+  }],
 }
 
 function SettingsProvider({children}: { children: React.ReactNode }) {

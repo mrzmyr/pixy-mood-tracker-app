@@ -1,15 +1,4 @@
-const tailwindGray = {
-  '50': '#FAFAFA',
-  '100': '#F5F5F5',
-  '200': '#E5E5E5',
-  '300': '#D4D4D4',
-  '400': '#A3A3A3',
-  '500': '#737373',
-  '600': '#525252',
-  '700': '#404040',
-  '800': '#262626',
-  '900': '#171717',
-}
+import colors from './TailwindColors';
 
 export interface Scales {
   [type: string]: {
@@ -50,8 +39,40 @@ const scales: Scales = {
   },
 };
 
-const tintColorLight = '#2598fe';
-const tintColorDark = '#2598fe';
+type TagColors = {
+  [tag: string]: {
+    title: string;
+    dot: string;
+    background: string;
+    text: string;
+    border: string;
+  }
+}
+
+const tagsDark: TagColors = {}
+const tagsLight: TagColors = {}
+
+const tagColorNames = ['slate', 'stone', 'red', 'orange', 'amber', 'yellow', 'lime', 'green', 'teal', 'sky', 'blue', 'indigo', 'purple', 'pink'];
+
+tagColorNames.map(color => {
+  tagsDark[color] = {
+    title: color,
+    dot: colors[color]['500'],
+    background: colors[color]['800'],
+    text: colors[color]['400'],
+    border: colors[color]['600'],
+  }
+  tagsLight[color] = {
+    title: color,
+    dot: colors[color]['400'],
+    background: colors[color]['200'],
+    text: colors[color]['800'],
+    border: colors[color]['400'],
+  }
+})
+
+const tintColorLight = '#3c82f5';
+const tintColorDark = '#1c5eff';
 
 export interface IColors {
   text: string;
@@ -61,6 +82,17 @@ export interface IColors {
   link: string;
   tint: string;
 
+  logHeaderBackground: string;
+  logHeaderBorder: string;
+  logBackground: string;
+
+  tagsBackground: string;
+  tagsBackgroundSecondary: string;
+  tagsText: string;
+  tagsTextSecondary: string;
+  
+  feedbackBackground: string;
+  
   cardBackground: string;
 
   headerBorder: string,
@@ -89,10 +121,16 @@ export interface IColors {
   secondaryLinkButtonText: string;
 
   primaryButtonBackground: string;
-  primaryButtonTextColor: string;
+  primaryButtonText: string;
+  primaryButtonBorder: string;
+
+  primaryButtonBackgroundDisabled: string;
+  primaryButtonTextDisabled: string;
+  primaryButtonBorderDisabled: string;
   
   secondaryButtonBackground: string;
-  secondaryButtonTextColor: string;
+  secondaryButtonText: string;
+  secondaryButtonBorder: string;
   
   textInputBackground: string;
   textInputText: string;
@@ -105,120 +143,176 @@ export interface IColors {
   tagErrorText: string;
   tagSuccessBackground: string;
   tagSuccessText: string;
+
+  checkboxBackground: string;
+  checkboxBorder: string;
+  checkboxText: string;
+  checkboxCheckedBackground: string;
+  checkboxCheckedBorder: string;
+  checkboxCheckedText: string;
+    
   switchThumbColor: string;
   scales: Scales;
+  tags: TagColors;
 }
 
 const light: IColors = {
   text: '#000',
-  textSecondary: tailwindGray['500'],
-  background: '#F2F1F6',
-  backgroundSecondary: tailwindGray['300'],
+  textSecondary: colors.neutral[500],
+  background: colors.neutral[100],
+  backgroundSecondary: colors.neutral[300],
   link: tintColorLight,
   tint: tintColorLight,
 
+  logHeaderBackground: colors.neutral[50],
+  logHeaderBorder: colors.neutral[200],
+  logBackground: '#FFF',
+
+  tagsBackground: tintColorLight,
+  tagsText: '#FFF',
+
+  feedbackBackground: '#FFF',
+  
   cardBackground: '#fff',
 
-  headerBorder: tailwindGray['300'],
-  tabsIconActive: tailwindGray['900'],
-  tabsIconInactive: tailwindGray['400'],
+  headerBorder: colors.neutral[300],
+  tabsIconActive: colors.neutral[900],
+  tabsIconInactive: colors.neutral[400],
   
-  passcodeDotBackground: tailwindGray['300'],
-  passcodePadBackground: tailwindGray['200'],
-  passcodePadBackgroundActive: tailwindGray['400'],
+  passcodeDotBackground: colors.neutral[300],
+  passcodePadBackground: colors.neutral[200],
+  passcodePadBackgroundActive: colors.neutral[400],
 
   menuListItemBackground: '#FFF',
   menuListItemText: '#000',
   menuListItemIcon: '#000',
-  menuListItemBorder: tailwindGray['100'],
+  menuListItemBorder: colors.neutral[100],
   
   notificationBackground: '#FFF',
   
-  calendarBackground: tailwindGray['100'],
+  calendarBackground: colors.neutral[100],
   calendarItemBackground: '#FFF',
-  calendarItemBackgroundFuture: tailwindGray['50'],
-  calendarItemTextColor: tailwindGray['500'],
-  calendarWeekNameColor: tailwindGray['700'],
-  calendarMonthNameColor: tailwindGray['400'],
+  calendarItemBackgroundFuture: colors.neutral[50],
+  calendarItemTextColor: colors.neutral[500],
+  calendarWeekNameColor: colors.neutral[400],
+  calendarMonthNameColor: colors.neutral[400],
   
   primaryLinkButtonText: tintColorLight,
-  secondaryLinkButtonText: tailwindGray['500'],
+  secondaryLinkButtonText: colors.neutral[500],
 
-  primaryButtonBackground: tintColorLight,
-  primaryButtonTextColor: '#FFF',
+  primaryButtonBackground: colors.blue[700],
+  primaryButtonText: '#FFF',
+  primaryButtonBorder: colors.blue[700],
+
+  primaryButtonBackgroundDisabled: colors.neutral[300],
+  primaryButtonTextDisabled: colors.neutral[500],
+  primaryButtonBorderDisabled: colors.neutral[300],
   
-  secondaryButtonBackground: tailwindGray['200'],
-  secondaryButtonTextColor: tailwindGray['800'],
+  secondaryButtonBackground: colors.neutral[200],
+  secondaryButtonText: colors.neutral[800],
+  secondaryButtonBorder: colors.neutral[100],
   
-  textInputBackground: '#FFF',
-  textInputText: tailwindGray['800'],
-  textInputPlaceholder: tailwindGray['400'],
-  textInputLabel: tailwindGray['300'],
-  textInputBorder: tailwindGray['200'],
+  textInputBackground: '#f2f2f2',
+  textInputText: colors.neutral[800],
+  textInputPlaceholder: colors.neutral[400],
+  textInputLabel: colors.neutral[300],
+  textInputBorder: '#f2f2f2',
   textInputBorderHighlight: tintColorLight,
 
   tagErrorBackground: '#FECDD3',
   tagErrorText: '#9F1239',
   tagSuccessBackground: '#BBF7D0',
   tagSuccessText: '#14532D',
+
+  checkboxBackground: colors.neutral[100],
+  checkboxBorder: colors.neutral[300],
+  checkboxText: '#000',
+  checkboxCheckedBackground: tintColorLight,
+  checkboxCheckedBorder: tintColorLight,
+  checkboxCheckedText: '#FFF',
+  
   switchThumbColor: '#333',
   scales,
+  tags: tagsLight,
 }
 
 const dark: IColors = {
   text: '#fff',
-  textSecondary: tailwindGray['500'],
+  textSecondary: colors.neutral[500],
   background: '#000',
-  backgroundSecondary: tailwindGray['900'],
+  backgroundSecondary: colors.neutral[900],
   link: tintColorLight,
   tint: tintColorDark,
-  
-  cardBackground: tailwindGray['900'],
-  
-  headerBorder: tailwindGray['800'],
-  tabsIconActive: tailwindGray['400'],
-  tabsIconInactive: tailwindGray['600'],
-  
-  passcodeDotBackground: tailwindGray['600'],
-  passcodePadBackground: tailwindGray['800'],
-  passcodePadBackgroundActive: tailwindGray['700'],
 
-  menuListItemBackground: tailwindGray['900'],
-  menuListItemText: tailwindGray['50'],
-  menuListItemIcon: tailwindGray['200'],
-  menuListItemBorder: tailwindGray['800'],
+  logHeaderBackground: colors.neutral[900],
+  logHeaderBorder: colors.neutral[800],
+  logBackground: '#000',
 
-  notificationBackground: tailwindGray['900'],
+  tagsBackground: tintColorDark,
+  tagsText: '#fff',
+
+  feedbackBackground: '#000',
+  
+  cardBackground: colors.neutral[900],
+  
+  headerBorder: colors.neutral[800],
+  tabsIconActive: colors.neutral[400],
+  tabsIconInactive: colors.neutral[600],
+  
+  passcodeDotBackground: colors.neutral[600],
+  passcodePadBackground: colors.neutral[800],
+  passcodePadBackgroundActive: colors.neutral[700],
+
+  menuListItemBackground: colors.neutral[900],
+  menuListItemText: colors.neutral[50],
+  menuListItemIcon: colors.neutral[200],
+  menuListItemBorder: colors.neutral[800],
+
+  notificationBackground: colors.neutral[900],
   
   calendarBackground: '#000',
-  calendarItemBackground: tailwindGray['900'],
-  calendarItemBackgroundFuture: tailwindGray['900'],
-  calendarItemTextColor: tailwindGray['500'],
-  calendarWeekNameColor: tailwindGray['500'],
-  calendarMonthNameColor: tailwindGray['500'],
+  calendarItemBackground: colors.neutral[800],
+  calendarItemBackgroundFuture: colors.neutral[900],
+  calendarItemTextColor: colors.neutral[400],
+  calendarWeekNameColor: colors.neutral[500],
+  calendarMonthNameColor: colors.neutral[500],
   
   primaryLinkButtonText: tintColorDark,
-  secondaryLinkButtonText: tailwindGray['400'],
+  secondaryLinkButtonText: colors.neutral[400],
   
   primaryButtonBackground: tintColorDark,
-  primaryButtonTextColor: '#FFF',
+  primaryButtonText: '#FFF',
+  primaryButtonBorder: tintColorDark,
 
-  secondaryButtonBackground: tailwindGray['800'],
-  secondaryButtonTextColor: tailwindGray['200'],
+  primaryButtonBackgroundDisabled: colors.neutral[800],
+  primaryButtonTextDisabled: colors.neutral[400],
+  primaryButtonBorderDisabled: colors.neutral[800],
 
-  textInputBackground: tailwindGray['800'],
-  textInputText: tailwindGray['200'],
-  textInputPlaceholder: tailwindGray['500'],
-  textInputBorder: tailwindGray['600'],
+  secondaryButtonBackground: colors.neutral[800],
+  secondaryButtonText: colors.neutral[200],
+
+  textInputBackground: colors.neutral[900],
+  textInputText: colors.neutral[200],
+  textInputPlaceholder: colors.neutral[500],
+  textInputBorder: colors.neutral[900],
   textInputBorderHighlight: tintColorDark,
-  textInputLabel: tailwindGray['600'],
+  textInputLabel: colors.neutral[600],
 
   tagErrorBackground: '#9F1239',
   tagErrorText: '#FECDD3',
   tagSuccessBackground: '#14532D',
   tagSuccessText: '#BBF7D0',
+
+  checkboxBackground: colors.neutral[800],
+  checkboxBorder: colors.neutral[700],
+  checkboxText: '#000',
+  checkboxCheckedBackground: tintColorDark,
+  checkboxCheckedBorder: tintColorDark,
+  checkboxCheckedText: '#FFF',
+  
   switchThumbColor: '#FFF',
-  scales
+  scales,
+  tags: tagsDark,
 }
 
 export default {

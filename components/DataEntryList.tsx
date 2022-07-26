@@ -12,7 +12,7 @@ export default function DataEntyList({ children }) {
         paddingRight: 20,
         paddingTop: 10,
         paddingBottom: 10,
-        borderRadius: 10,
+        borderRadius: 8,
       }}
     >
     {children}

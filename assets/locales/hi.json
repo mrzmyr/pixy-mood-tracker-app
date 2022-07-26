@@ -107,5 +107,14 @@
   "statistics_experimental_title": "सांख्यिकी वर्तमान में प्रयोगात्मक हैं।",
   "statistics_experimental_body": "क्या आपके पास कुछ अंतर्दृष्टि है जो आप अपनी ट्रैकिंग के बारे में जानना चाहते हैं? कृपया मुझे अपना विचार भेजें। मैंने उनमें से सभी को पढ़ा। यदि आप अपना संपर्क विवरण जोड़ते हैं तो मैं आपको उत्तर दूंगा।",
   "statistics_experimental_button": "प्रतिक्रिया भेजें",
-  "statistics_experimental_not_enough_data": "पर्याप्त डेटा नहीं"
+  "statistics_experimental_not_enough_data": "पर्याप्त डेटा नहीं",
+  "send": "भेजना",
+  "color": "रंग",
+  "title": "शीर्षक",
+  "tags_empty": "टैग यहां दिखाई देंगे",
+  "tags_add": "टैग जोड़ो",
+  "tags_add_placeholder": "#बड़ा दिन",
+  "tags_edit": "जोड़ संपादित करें",
+  "delete_tag_confirm_title": "टैग हटाएं",
+  "delete_tag_confirm_message": "टैग सभी प्रविष्टियों से हटा दिया जाएगा। इस क्रिया को पूर्ववत नहीं किया जा सकता है।"
 }

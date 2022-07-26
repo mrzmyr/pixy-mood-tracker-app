@@ -107,5 +107,14 @@
   "statistics_experimental_title": "Las estadísticas son actualmente experimentales.",
   "statistics_experimental_body": "¿Tiene algunas ideas que desea saber sobre su seguimiento? Por favor envíeme su idea. Leí cada uno de ellos. Si agregas tus datos de contacto te responderé.",
   "statistics_experimental_button": "Enviar comentarios",
-  "statistics_experimental_not_enough_data": "No hay suficientes datos"
+  "statistics_experimental_not_enough_data": "No hay suficientes datos",
+  "send": "Enviar",
+  "color": "Color",
+  "title": "Título",
+  "tags_empty": "Las etiquetas aparecerán aquí",
+  "tags_add": "Añadir etiqueta",
+  "tags_add_placeholder": "#gran día",
+  "tags_edit": "Editar etiquetas",
+  "delete_tag_confirm_title": "Eliminar etiqueta",
+  "delete_tag_confirm_message": "La etiqueta se eliminará de todas las entradas. Esta acción no se puede deshacer."
 }

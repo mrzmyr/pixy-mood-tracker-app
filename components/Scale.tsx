@@ -43,7 +43,8 @@ export default function Scale({
             })
             onPress(key) 
           }: null}
-          color={colors[key].background}
+          backgroundColor={colors[key].background}
+          textColor={colors[key].text}
         />
       ))}
     </View>

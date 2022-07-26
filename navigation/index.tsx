@@ -29,6 +29,7 @@ import {
 import { RootStackParamList } from '../types';
 
 import { enableScreens } from 'react-native-screens';
+import { TagsModal } from '../screens/Tags';
 enableScreens();
 
 const linking = {
@@ -241,6 +242,17 @@ function RootNavigator() {
           <Stack.Screen 
             name="Log" 
             component={LogModal} 
+          />
+        </Stack.Group>
+
+        <Stack.Group screenOptions={{ 
+          title: '',
+          presentation: 'modal',
+          headerShown: false,
+        }}>
+          <Stack.Screen 
+            name="TagsModal" 
+            component={TagsModal} 
           />
         </Stack.Group>
 

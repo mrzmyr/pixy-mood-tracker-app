@@ -107,5 +107,14 @@
   "statistics_experimental_title": "Statistik är för närvarande experimentell.",
   "statistics_experimental_body": "Har du några insikter du vill veta om din spårning? Skicka mig din idé. Jag läste alla av dem. Om du lägger till dina kontaktuppgifter så svarar jag dig.",
   "statistics_experimental_button": "Skicka synpunkter",
-  "statistics_experimental_not_enough_data": "Inte tillräckligt med data"
+  "statistics_experimental_not_enough_data": "Inte tillräckligt med data",
+  "send": "Skicka",
+  "color": "Färg",
+  "title": "Titel",
+  "tags_empty": "Taggar kommer att dyka upp här",
+  "tags_add": "Lägg till tagg",
+  "tags_add_placeholder": "#stor dag",
+  "tags_edit": "Redigera taggar",
+  "delete_tag_confirm_title": "Ta bort tagg",
+  "delete_tag_confirm_message": "Taggen kommer att tas bort från alla poster. Denna åtgärd kan inte ångras."
 }

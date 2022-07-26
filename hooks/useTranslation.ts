@@ -22,7 +22,7 @@ i18n.translations = {
   ja: require('../assets/locales/ja.json'),
   ko: require('../assets/locales/ko.json'),
   ms: require('../assets/locales/ms.json'),
-  nn: require('../assets/locales/nn.json'),
+  nn: require('../assets/locales/no.json'),
   pl: require('../assets/locales/pl.json'),
   pt: require('../assets/locales/pt.json'),
   ro: require('../assets/locales/ro.json'),

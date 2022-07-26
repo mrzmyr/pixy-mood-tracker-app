@@ -107,5 +107,14 @@
   "statistics_experimental_title": "As estatísticas são atualmente experimentais.",
   "statistics_experimental_body": "Você tem algumas informações que deseja saber sobre seu rastreamento? Por favor, me envie sua ideia. Eu li todos eles. Se você adicionar seus dados de contato eu vou te responder.",
   "statistics_experimental_button": "Enviar comentários",
-  "statistics_experimental_not_enough_data": "Não há dados suficientes"
+  "statistics_experimental_not_enough_data": "Não há dados suficientes",
+  "send": "Mandar",
+  "color": "Cor",
+  "title": "Título",
+  "tags_empty": "As tags serão exibidas aqui",
+  "tags_add": "Adicionar etiqueta",
+  "tags_add_placeholder": "#Grande dia",
+  "tags_edit": "Editar etiquetas",
+  "delete_tag_confirm_title": "Excluir etiqueta",
+  "delete_tag_confirm_message": "A tag será removida de todas as entradas. Essa ação não pode ser desfeita."
 }

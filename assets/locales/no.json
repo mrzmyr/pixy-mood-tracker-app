@@ -107,5 +107,14 @@
   "statistics_experimental_title": "Statistikken er for tiden eksperimentell.",
   "statistics_experimental_body": "Har du noen innsikt du vil vite om sporingen din? Send meg ideen din. Jeg leste alle av dem. Hvis du legger til kontaktinformasjonen din, svarer jeg deg.",
   "statistics_experimental_button": "Send tilbakemelding",
-  "statistics_experimental_not_enough_data": "Ikke nok data"
+  "statistics_experimental_not_enough_data": "Ikke nok data",
+  "send": "Sende",
+  "color": "Farge",
+  "title": "Tittel",
+  "tags_empty": "Tagger vil vises her",
+  "tags_add": "Legg til tag",
+  "tags_add_placeholder": "#stor dag",
+  "tags_edit": "Rediger tagger",
+  "delete_tag_confirm_title": "Slett tag",
+  "delete_tag_confirm_message": "Tagget vil bli fjernet fra alle oppføringer. Denne handlingen kan ikke angres."
 }

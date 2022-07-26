@@ -81,7 +81,7 @@ describe('getJSONSchemaType', () => {
         "emotions" : [
     
         ],
-        "notes" : "trennung laura",
+        "notes" : "",
         "date" : "2021-12-14"
       },
       {
@@ -105,7 +105,7 @@ describe('convertPixeltoPixyJSON', () => {
         "emotions" : [
     
         ],
-        "notes" : "trennung laura",
+        "notes" : "",
         "date" : "2021-12-14"
       },
       {
@@ -122,7 +122,7 @@ describe('convertPixeltoPixyJSON', () => {
         '2021-12-14': {
           date: '2021-12-14',
           rating: 'extremely_bad',
-          message: 'trennung laura',
+          message: '',
         },
         '2021-12-15': {
           date: '2021-12-15',

@@ -9,6 +9,7 @@ export default function Button({
   testID,
   onPress, 
   isLoading = false,
+  disabled = false,
   children, 
   style = {},
 }: {
@@ -16,6 +17,7 @@ export default function Button({
   icon?: React.ReactNode,
   testID?: string,
   isLoading?: boolean,
+  disabled?: boolean,
   children: React.ReactNode,
   style?: React.CSSProperties,
   onPress?: () => void,
@@ -26,11 +28,16 @@ export default function Button({
   const buttonColors = {
     primary: {
       background: colors.primaryButtonBackground,
-      text: colors.primaryButtonTextColor,
+      text: colors.primaryButtonText,
+      border: colors.primaryButtonBorder,
+      disabledBackground: colors.primaryButtonBackgroundDisabled,
+      disabledText: colors.primaryButtonTextDisabled,
+      disabledBorder: colors.primaryButtonBorderDisabled,
     },
     secondary: {
       background: colors.secondaryButtonBackground,
-      text: colors.secondaryButtonTextColor,
+      text: colors.secondaryButtonText,
+      border: colors.secondaryButtonBorder,
     },
   }[type];
 
@@ -43,15 +50,17 @@ export default function Button({
         alignItems: 'center',
         justifyContent: 'center',
         flexDirection: 'row',
-        borderRadius: 5,
-        opacity: isLoading ? 0.5 : (pressed ? 0.8 : 1),
-        backgroundColor: buttonColors?.background,
+        borderRadius: 8,
+        opacity: disabled ? 0.5 : (pressed ? 0.8 : 1),
+        backgroundColor: disabled ? buttonColors.disabledBackground : buttonColors.background,
+        borderWidth: 2,
+        borderColor: disabled ? buttonColors.disabledBorder : buttonColors?.border,
       }, style]}
       onPress={async () => {
         await haptics.selection()
         onPress()
       }}
-      disabled={isLoading}
+      disabled={disabled}
       testID={testID}
       accessibilityRole={'button'}
     >
@@ -60,7 +69,14 @@ export default function Button({
       ) : (
         <>
         {icon && <View style={{ marginRight: children ? 10 : 0 }}>{icon}</View>}
-        <Text style={{ fontSize: 17, color: buttonColors?.text }} numberOfLines={1}>{children}</Text>
+        <Text 
+          style={{ 
+            fontSize: 17, 
+            color: disabled ? buttonColors.disabledText : buttonColors.text,
+            fontWeight: 'bold' 
+          }} 
+          numberOfLines={1}
+        >{children}</Text>
         </>
       )}
     </Pressable>

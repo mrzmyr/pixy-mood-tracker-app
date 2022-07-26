@@ -1,7 +1,6 @@
 import * as LocalAuthentication from 'expo-local-authentication';
-import { SafeAreaView, ScrollView, StatusBar, Text, View } from 'react-native';
+import { Alert, SafeAreaView, ScrollView, StatusBar, Text, View } from 'react-native';
 import { Lock } from 'react-native-feather';
-import { Alert } from '../components/Alert';
 import LinkButton from '../components/LinkButton';
 import useColors from '../hooks/useColors';
 import { usePasscode } from '../hooks/usePasscode';

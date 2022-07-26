@@ -107,5 +107,14 @@
   "statistics_experimental_title": "Statistiken sind derzeit experimentell.",
   "statistics_experimental_body": "Hast du Sachen im Kopf, die du über deine Stimmung wissen möchtest? Bitte sende mir deine Idee! Ich lese jede. Wenn du deine Kontaktdaten angibst antworte ich dir.",
   "statistics_experimental_button": "Feedback abschicken",
-  "statistics_experimental_not_enough_data": "nicht genug Daten"
+  "statistics_experimental_not_enough_data": "nicht genug Daten",
+  "send": "Senden",
+  "color": "Farbe",
+  "title": "Titel",
+  "tags_empty": "Tags werden hier angezeigt",
+  "tags_add": "Tag hinzufügen",
+  "tags_add_placeholder": "#großer Tag",
+  "tags_edit": "Stichworte bearbeiten",
+  "delete_tag_confirm_title": "Markierung löschen",
+  "delete_tag_confirm_message": "Das Tag wird aus allen Einträgen entfernt. Diese Aktion kann nicht rückgängig gemacht werden."
 }

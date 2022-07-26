@@ -1,6 +1,5 @@
-import { useNavigation } from "@react-navigation/native";
 import dayjs from "dayjs";
-import { memo, useCallback } from "react";
+import { memo } from "react";
 import { View } from "react-native";
 import { LogItem } from "../hooks/useLogs";
 import CalendarDay from "./CalendarDay";
@@ -62,9 +61,10 @@ const CalendarWeek = memo(({
 
       {daysMap.map(day => (
         <CalendarDayContainer key={day.dateString}>
-          <CalendarDay 
+          <CalendarDay
             dateString={day.dateString}
             rating={day.item?.rating}
+            tags={day.item?.tags}
             day={day.number}
             isToday={day.isToday}
             isFuture={day.isFuture}

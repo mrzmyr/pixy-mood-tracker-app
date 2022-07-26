@@ -107,5 +107,14 @@
   "statistics_experimental_title": "統計は現在実験的です。",
   "statistics_experimental_body": "追跡について知りたい洞察がありますか？あなたのアイデアを送ってください。私はそれらのすべてを読みました。あなたがあなたの連絡先の詳細を追加するならば、私はあなたに答えます。",
   "statistics_experimental_button": "フィードバックを送信する",
-  "statistics_experimental_not_enough_data": "データが足りません"
+  "statistics_experimental_not_enough_data": "データが足りません",
+  "send": "送信",
+  "color": "色",
+  "title": "題名",
+  "tags_empty": "タグはここに表示されます",
+  "tags_add": "タグ付けする",
+  "tags_add_placeholder": "＃重要な日",
+  "tags_edit": "タグを編集する",
+  "delete_tag_confirm_title": "タグを削除する",
+  "delete_tag_confirm_message": "タグはすべてのエントリから削除されます。このアクションは元に戻せません。"
 }

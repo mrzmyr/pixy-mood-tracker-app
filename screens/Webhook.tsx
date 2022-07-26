@@ -70,7 +70,7 @@ export const WebhookScreen = ({ navigation }: RootStackScreenProps<'Webhook'>) =
               flexDirection: 'row',
               justifyContent: 'space-between',
               alignItems: 'center',
-              backgroundColor: colors.textInputBackground,
+              backgroundColor: colors.menuListItemBackground,
               borderRadius: 10,
             }}
           >

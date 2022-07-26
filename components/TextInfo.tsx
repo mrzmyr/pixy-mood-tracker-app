@@ -1,4 +1,4 @@
-import { StyleProp, Text } from "react-native";
+import { Text } from "react-native";
 import useColors from "../hooks/useColors";
 
 export default function TextInfo({
@@ -14,7 +14,7 @@ export default function TextInfo({
     <Text style={[{
       fontSize: 13,
       color: colors.textSecondary,
-      padding: 15,
+      padding: 16,
       paddingTop: 0,
       marginTop: 10,
     }, style]}>{children}</Text>

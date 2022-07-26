@@ -18,7 +18,7 @@ function ColorDot({
         padding: 3,
         backgroundColor: color,
         flex: 1,
-        borderRadius: 5,
+        borderRadius: 8,
         width: '100%',
         aspectRatio: 1,
         margin: 5,

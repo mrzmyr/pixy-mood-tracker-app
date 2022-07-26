@@ -107,5 +107,14 @@
   "statistics_experimental_title": "İstatistikler şu anda deneyseldir.",
   "statistics_experimental_body": "İzlemeniz hakkında bilmek istediğiniz bazı öngörüleriniz mi var? Lütfen bana fikrinizi gönderin. Hepsini okudum. İletişim bilgilerinizi eklerseniz size cevap vereceğim.",
   "statistics_experimental_button": "Geribildirim yolla",
-  "statistics_experimental_not_enough_data": "yeterli veri yok"
+  "statistics_experimental_not_enough_data": "yeterli veri yok",
+  "send": "Göndermek",
+  "color": "Renk",
+  "title": "Başlık",
+  "tags_empty": "Etiketler burada görünecek",
+  "tags_add": "Etiket Ekle",
+  "tags_add_placeholder": "#büyük gün",
+  "tags_edit": "Etiketleri Düzenle",
+  "delete_tag_confirm_title": "Etiketi sil",
+  "delete_tag_confirm_message": "Etiket tüm girişlerden kaldırılacaktır. Bu işlem geri alınamaz."
 }

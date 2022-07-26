@@ -16,7 +16,7 @@ export default function Tag({
       padding: 2,
       paddingLeft: 7,
       paddingRight: 7,
-      borderRadius: 5,
+      borderRadius: 8,
       opacity: 0.8,
     }}>
       <Text style={{ 

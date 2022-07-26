@@ -1,5 +1,4 @@
-import { Platform, StatusBar, Text, View } from 'react-native';
-import { X } from 'react-native-feather';
+import { Text, View } from 'react-native';
 import LinkButton from '../components/LinkButton';
 import ModalHeader from '../components/ModalHeader';
 import Reminder from '../components/Reminder';
@@ -10,7 +9,7 @@ import { RootStackScreenProps } from '../types';
 
 export const ReminderModal = ({ navigation }: RootStackScreenProps<'ReminderModal'>) => {
   const colors = useColors()
-  const i18n = useTranslation()
+  const { t } = useTranslation()
   const segment = useSegment()
 
   const close = () => {
@@ -23,19 +22,32 @@ export const ReminderModal = ({ navigation }: RootStackScreenProps<'ReminderModa
       flex: 1,
       justifyContent: 'flex-start',
       backgroundColor: colors.background,
-      paddingTop: 20 + (Platform.OS === 'android' ? StatusBar.currentHeight : 0),
-      paddingBottom: 20,
-      paddingLeft: 20,
-      paddingRight: 20,
     }}>
       <ModalHeader
-        left={<LinkButton testID='reminder-modal-cancel' onPress={close} type='secondary' icon={<X height={24} color={colors.text} />} />}
+        left={
+          <LinkButton 
+            testID='reminder-modal-cancel' 
+            onPress={close} 
+            type='primary'
+          >{t('cancel')}</LinkButton>
+        }
+        right={
+          <LinkButton
+            testID='reminder-modal-save'
+            onPress={close}
+            type='primary'
+            textStyle={{
+              fontWeight: 'bold',
+            }}
+          >{t('save')}</LinkButton>
+        }
       />
       <View
         style={{
           width: '100%',
           height: '100%',
-          justifyContent: 'space-around'
+          justifyContent: 'space-around',
+          padding: 16,
         }}
       >
         <View>
@@ -46,7 +58,7 @@ export const ReminderModal = ({ navigation }: RootStackScreenProps<'ReminderModa
               color: colors.text,
               textAlign: 'center',
             }}
-          >{i18n.t('reminder_modal_title')}</Text>
+          >{t('reminder_modal_title')}</Text>
           <Text
             style={{
               fontSize: 17,
@@ -58,7 +70,7 @@ export const ReminderModal = ({ navigation }: RootStackScreenProps<'ReminderModa
               width: '80%',
               marginBottom: '20%',
             }}
-          >{i18n.t('reminder_modal_body')}</Text>
+          >{t('reminder_modal_body')}</Text>
           <Reminder />
         </View>
         <View>
@@ -72,7 +84,7 @@ export const ReminderModal = ({ navigation }: RootStackScreenProps<'ReminderModa
                 marginRight: 'auto',
                 width: '80%',
               }}
-            >{i18n.t('reminder_modal_footer')}</Text>
+            >{t('reminder_modal_footer')}</Text>
         </View>
       </View>
     </View>

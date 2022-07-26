@@ -107,5 +107,14 @@
   "statistics_experimental_title": "Tilastot ovat tällä hetkellä kokeellisia.",
   "statistics_experimental_body": "Onko sinulla joitain oivalluksia, joita haluat tietää seurannastasi? Ole hyvä ja lähetä minulle ideasi. Luin niistä kaikki. Jos lisäät yhteystietosi, vastaan sinulle.",
   "statistics_experimental_button": "Lähetä palautetta",
-  "statistics_experimental_not_enough_data": "Ei tarpeeksi dataa"
+  "statistics_experimental_not_enough_data": "Ei tarpeeksi dataa",
+  "send": "Lähettää",
+  "color": "Väri",
+  "title": "Otsikko",
+  "tags_empty": "Tunnisteet näkyvät täällä",
+  "tags_add": "Lisää merkintä",
+  "tags_add_placeholder": "#suuri päivä",
+  "tags_edit": "Muokkaa tunnisteita",
+  "delete_tag_confirm_title": "Poista tunniste",
+  "delete_tag_confirm_message": "Tunniste poistetaan kaikista merkinnöistä. Tätä toimintoa ei voi kumota."
 }

@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleProp, View } from 'react-native';
+import { StyleProp, View, ViewStyle } from 'react-native';
 import useColors from '../hooks/useColors';
 
 export default ({ 
@@ -7,7 +7,7 @@ export default ({
   style = null,
 }: {
   children: React.ReactNode,
-  style?: any,
+  style?: ViewStyle,
 }) => {
   const colors = useColors()
   
@@ -15,7 +15,7 @@ export default ({
     <View
       style={[{
         backgroundColor: colors.menuListItemBackground,
-        borderRadius: 10,
+        borderRadius: 8,
       }, style]}
     >{children}</View>
   )

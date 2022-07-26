@@ -107,5 +107,14 @@
   "statistics_experimental_title": "Le statistiche sono attualmente sperimentali.",
   "statistics_experimental_body": "Hai delle informazioni che vuoi sapere sul tuo monitoraggio? Per favore, mandami la tua idea. Li ho letti tutti. Se aggiungi i tuoi recapiti ti rispondo.",
   "statistics_experimental_button": "Invia feedback",
-  "statistics_experimental_not_enough_data": "Dati insufficienti"
+  "statistics_experimental_not_enough_data": "Dati insufficienti",
+  "send": "Inviare",
+  "color": "Colore",
+  "title": "Titolo",
+  "tags_empty": "I tag verranno visualizzati qui",
+  "tags_add": "Aggiungi Tag",
+  "tags_add_placeholder": "#grande giorno",
+  "tags_edit": "Modificare i tag",
+  "delete_tag_confirm_title": "Elimina etichetta",
+  "delete_tag_confirm_message": "Il tag verrà rimosso da tutte le voci. Questa azione non può essere annullata."
 }

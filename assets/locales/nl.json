@@ -107,5 +107,14 @@
   "statistics_experimental_title": "Statistieken zijn momenteel experimenteel.",
   "statistics_experimental_body": "Heeft u enkele inzichten die u wilt weten over uw tracking? Stuur me je idee. Ik heb ze allemaal gelezen. Als u uw contactgegevens toevoegt, zal ik u antwoorden.",
   "statistics_experimental_button": "Feedback verzenden",
-  "statistics_experimental_not_enough_data": "Niet genoeg data"
+  "statistics_experimental_not_enough_data": "Niet genoeg data",
+  "send": "Versturen",
+  "color": "Kleur",
+  "title": "Titel",
+  "tags_empty": "Tags verschijnen hier",
+  "tags_add": "Tag toevoegen",
+  "tags_add_placeholder": "#grote dag",
+  "tags_edit": "Bewerk-tags",
+  "delete_tag_confirm_title": "Tag verwijderen",
+  "delete_tag_confirm_message": "De tag wordt uit alle inzendingen verwijderd. Deze actie kan niet ongedaan gemaakt worden."
 }

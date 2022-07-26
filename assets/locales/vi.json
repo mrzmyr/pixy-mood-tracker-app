@@ -107,5 +107,14 @@
   "statistics_experimental_title": "Thống kê hiện đang thử nghiệm.",
   "statistics_experimental_body": "Bạn có một số thông tin chi tiết muốn biết về việc theo dõi của mình không? Hãy gửi cho tôi ý tưởng của bạn. Tôi đọc tất cả mọi người trong số họ. Nếu bạn thêm chi tiết liên hệ của bạn, tôi sẽ trả lời bạn.",
   "statistics_experimental_button": "Gửi phản hồi",
-  "statistics_experimental_not_enough_data": "Không đủ dữ liệu"
+  "statistics_experimental_not_enough_data": "Không đủ dữ liệu",
+  "send": "Gửi",
+  "color": "Màu sắc",
+  "title": "Tiêu đề",
+  "tags_empty": "Các thẻ sẽ hiển thị ở đây",
+  "tags_add": "Thêm thẻ",
+  "tags_add_placeholder": "#ngày trọng đại",
+  "tags_edit": "Chỉnh sửa thẻ",
+  "delete_tag_confirm_title": "Xóa thẻ",
+  "delete_tag_confirm_message": "Thẻ sẽ bị xóa khỏi tất cả các mục nhập. Hành động này không thể được hoàn tác."
 }

@@ -107,5 +107,14 @@
   "statistics_experimental_title": "Les statistiques sont actuellement expérimentales.",
   "statistics_experimental_body": "Avez-vous des informations à connaître sur votre suivi ? S'il vous plaît envoyez-moi votre idée. J'ai lu chacun d'entre eux. Si vous ajoutez vos coordonnées, je vous répondrai.",
   "statistics_experimental_button": "Envoyer des commentaires",
-  "statistics_experimental_not_enough_data": "Pas assez de données"
+  "statistics_experimental_not_enough_data": "Pas assez de données",
+  "send": "Envoyer",
+  "color": "Couleur",
+  "title": "Titre",
+  "tags_empty": "Les balises s'afficheront ici",
+  "tags_add": "Ajouter une étiquette",
+  "tags_add_placeholder": "#grand jour",
+  "tags_edit": "Étiquettes d'édition",
+  "delete_tag_confirm_title": "Supprimer la balise",
+  "delete_tag_confirm_message": "La balise sera supprimée de toutes les entrées. Cette action ne peut pas être annulée."
 }

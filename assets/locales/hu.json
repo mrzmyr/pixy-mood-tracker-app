@@ -107,5 +107,14 @@
   "statistics_experimental_title": "A statisztikák jelenleg kísérleti jellegűek.",
   "statistics_experimental_body": "Van néhány meglátása, amit tudni szeretne a nyomon követéséről? Kérem, küldje el ötleteit. Mindegyiket elolvastam. Ha megadja az elérhetőségeit, válaszolok.",
   "statistics_experimental_button": "Visszajelzés küldése",
-  "statistics_experimental_not_enough_data": "Nincs elég adat"
+  "statistics_experimental_not_enough_data": "Nincs elég adat",
+  "send": "Küld",
+  "color": "Szín",
+  "title": "Cím",
+  "tags_empty": "A címkék itt jelennek meg",
+  "tags_add": "Címke hozzáadása",
+  "tags_add_placeholder": "#nagy nap",
+  "tags_edit": "Címkék szerkesztése",
+  "delete_tag_confirm_title": "Címke törlése",
+  "delete_tag_confirm_message": "A címke minden bejegyzésből el lesz távolítva. Ez a művelet nem visszavonható."
 }

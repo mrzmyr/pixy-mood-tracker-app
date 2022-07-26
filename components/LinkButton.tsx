@@ -1,4 +1,4 @@
-import { Pressable, Text, View } from "react-native";
+import { Pressable, PressableProps, Text, TextProps, View } from "react-native";
 import useColors from "../hooks/useColors";
 import useHaptics from "../hooks/useHaptics";
 
@@ -7,13 +7,15 @@ export default function LinkButton({
   onPress, 
   children, 
   style = {}, 
+  textStyle = {},
   icon = null,
   testID,
 }: {
   type?: 'primary' | 'secondary',
   onPress: () => any,
   children?: React.ReactNode,
-  style?: any,
+  style?: PressableProps['style'],
+  textStyle?: TextProps['style'],
   icon?: React.ReactNode,
   testID?: string,
 }) {
@@ -32,10 +34,10 @@ export default function LinkButton({
         alignItems: 'center',
         justifyContent: 'center',
         opacity: pressed ? 0.8 : 1,
-        paddingTop: 10,
-        paddingBottom: 10,
-        paddingLeft: 10,
-        paddingRight: 10,
+        paddingTop: 8,
+        paddingBottom: 8,
+        paddingLeft: 8,
+        paddingRight: 8,
       }, style]}
       onPress={async () => {
         await haptics.selection()
@@ -50,9 +52,10 @@ export default function LinkButton({
           numberOfLines={1}
           style={{ 
             fontSize: 17, 
-            fontWeight: type === 'primary' ? 'bold' : 'normal', 
+            fontWeight:'normal', 
             color: textColor,
             textAlign: 'center',
+            ...textStyle,
           }}
         >{children}</Text>
       }

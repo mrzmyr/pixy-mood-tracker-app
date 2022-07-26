@@ -11,11 +11,11 @@ export const CalendarScreen = ({ navigation }) => {
   const colors = useColors()
   const insets = useSafeAreaInsets();
 
-  
   return (
     <View style={{
       flex: 1,
       flexDirection: "column",
+      alignItems: "center",
       paddingTop: insets.top,
     }}>
       <CalendarHeader />
@@ -24,6 +24,7 @@ export const CalendarScreen = ({ navigation }) => {
           backgroundColor: colors.calendarBackground,
           paddingLeft: 16,
           paddingRight: 16,
+          width: '100%',
         }}
         scrollIntoViewOptions={{
           animated: false,

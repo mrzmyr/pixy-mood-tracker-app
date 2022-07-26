@@ -107,5 +107,14 @@
   "statistics_experimental_title": "Actualment les estadístiques són experimentals.",
   "statistics_experimental_body": "Teniu algunes estadístiques que voleu saber sobre el vostre seguiment? Si us plau, envia'm la teva idea. Els vaig llegir tots. Si afegeixes les teves dades de contacte et respondré.",
   "statistics_experimental_button": "Enviar comentaris",
-  "statistics_experimental_not_enough_data": "No hi ha prou dades"
+  "statistics_experimental_not_enough_data": "No hi ha prou dades",
+  "send": "Enviar",
+  "color": "Color",
+  "title": "Títol",
+  "tags_empty": "Les etiquetes es mostraran aquí",
+  "tags_add": "Afegeix una etiqueta",
+  "tags_add_placeholder": "#gran dia",
+  "tags_edit": "Edita les etiquetes",
+  "delete_tag_confirm_title": "Suprimeix l'etiqueta",
+  "delete_tag_confirm_message": "L'etiqueta s'eliminarà de totes les entrades. Aquesta acció no es pot desfer."
 }

@@ -2,10 +2,8 @@ import * as Application from 'expo-application';
 import * as Localization from 'expo-localization';
 import { debounce } from "lodash";
 import { useCallback, useState } from 'react';
-import { Alert } from '../components/Alert';
-import { ActivityIndicator, Modal, Platform, Pressable, Text, View } from 'react-native';
-import { MoreHorizontal, X } from 'react-native-feather';
-import Button from '../components/Button';
+import { ActivityIndicator, Alert, Modal, Platform, Pressable, Text, View } from 'react-native';
+import { MoreHorizontal } from 'react-native-feather';
 import DismissKeyboard from '../components/DismisKeyboard';
 import LinkButton from '../components/LinkButton';
 import ModalHeader from '../components/ModalHeader';
@@ -39,7 +37,7 @@ function TypeSelector({
       <Pressable 
         style={({ pressed }) => ({
           opacity: pressed ? 0.8 : 1,
-          borderRadius: 5,
+          borderRadius: 8,
           backgroundColor: colors.secondaryButtonBackground,
           flex: 1,
           alignItems: 'center',
@@ -58,13 +56,18 @@ function TypeSelector({
       >
         <Text 
           numberOfLines={1}
-          style={{ fontSize: 32, color: colors.secondaryButtonTextColor, textAlign: 'center' }}
+          style={{ fontSize: 32, color: colors.secondaryButtonText, textAlign: 'center' }}
         >
           ⚠️
         </Text>
         <Text 
           numberOfLines={1}
-          style={{ fontSize: 17, color: colors.secondaryButtonTextColor, marginTop: 5, textAlign: 'center' }}
+          style={{ 
+            fontSize: 17, 
+            color: colors.secondaryButtonText, 
+            marginTop: 5, 
+            textAlign: 'center' 
+          }}
         >
           {i18n.t('issue')}
         </Text>
@@ -72,7 +75,7 @@ function TypeSelector({
       <Pressable 
         style={({ pressed }) => ({
           opacity: pressed ? 0.8 : 1,
-          borderRadius: 5,
+          borderRadius: 8,
           backgroundColor: colors.secondaryButtonBackground,
           flex: 1,
           alignItems: 'center',
@@ -91,13 +94,18 @@ function TypeSelector({
       >
         <Text 
           numberOfLines={1}
-          style={{ fontSize: 32, color: colors.secondaryButtonTextColor, textAlign: 'center' }}
+          style={{ fontSize: 32, color: colors.secondaryButtonText, textAlign: 'center' }}
         >
           💡
         </Text>
         <Text 
           numberOfLines={1}
-          style={{ fontSize: 17, color: colors.secondaryButtonTextColor, marginTop: 5, textAlign: 'center' }}
+          style={{ 
+            fontSize: 17, 
+            color: colors.secondaryButtonText, 
+            marginTop: 5, 
+            textAlign: 'center' 
+          }}
         >
           {i18n.t('idea')}
         </Text>
@@ -105,7 +113,7 @@ function TypeSelector({
       <Pressable 
         style={({ pressed }) => ({
           opacity: pressed ? 0.8 : 1,
-          borderRadius: 5,
+          borderRadius: 8,
           backgroundColor: colors.secondaryButtonBackground,
           flex: 1,
           alignItems: 'center',
@@ -121,10 +129,10 @@ function TypeSelector({
         }}
         testID='feedback-modal-other'
       >
-        <MoreHorizontal height={40} color={colors.secondaryButtonTextColor} />
+        <MoreHorizontal height={40} color={colors.secondaryButtonText} />
         <Text 
           numberOfLines={1}
-          style={{ fontSize: 17, color: colors.secondaryButtonTextColor, marginTop: 5, textAlign: 'center' }}
+          style={{ fontSize: 17, color: colors.secondaryButtonText, marginTop: 5, textAlign: 'center' }}
         >
           {i18n.t('other')}
         </Text>
@@ -138,6 +146,7 @@ export default function useFeedbackModal() {
   const [visible, setVisible] = useState(false)
   const i18n = useTranslation()
   const segment = useSegment()
+  const { t } = useTranslation()
 
   const [defaultType, setDefaultType] = useState<FeedackType>('issue')
   
@@ -244,7 +253,7 @@ export default function useFeedbackModal() {
         {isLoading &&
           <View style={{
             flex: 1,
-            backgroundColor: colors.background,
+            backgroundColor: colors.feedbackBackground,
             top: 0,
             left: 0,
             right: 0,
@@ -261,60 +270,73 @@ export default function useFeedbackModal() {
         <View style={{
           flex: 1,
           justifyContent: 'flex-start',
-          backgroundColor: colors.background,
-          paddingTop: 20,
-          paddingBottom: 20,
-          paddingLeft: 20,
-          paddingRight: 20,
+          backgroundColor: colors.feedbackBackground,
         }}>
           <ModalHeader
-            left={<LinkButton testID='feedback-modal-cancel' onPress={hide} type='secondary' icon={<X height={24} color={colors.text} />} />}
+            left={
+              <LinkButton 
+                testID='feedback-modal-cancel' 
+                onPress={hide} 
+                type='primary' 
+              >{t('cancel')}</LinkButton>
+            }
+            right={
+              <LinkButton 
+                testID='feedback-modal-cancel' 
+                onPress={send} 
+                type='primary'
+                textStyle={{
+                  fontWeight: 'bold',
+                }}
+              >{t('send')}</LinkButton>
+            }
           />
-          <Text style={{ 
-            marginBottom: 10,
-            color: colors.text, 
-            fontSize: 32,
-            textAlign: 'center',
-            fontWeight: 'bold',
-          }}>
-            {i18n.t('feedback_modal_title')}
-          </Text>
-          <Text style={{ 
-            marginBottom: 30,
-            color: colors.textSecondary, 
-            fontSize: 15,
-            lineHeight: 20,
-            textAlign: 'center',
-          }}>
-            {i18n.t('feedback_modal_description')}
-          </Text>
-          <TypeSelector
-            selected={type}
-            onPress={(type) => setTypeProxy(type)}
-          />
-          <View style={{
-            flexDirection: 'row',
-            width: '100%',
-          }}>
-            <TextArea
-              testID='feedback-modal-message'
-              containerStyle={{
-                marginBottom: 20,
-              }}
-              style={{
-                height: 180,
-              }}
-              value={message}
-              onChange={(text) => setMessageProxy(text)}
-              placeholder={i18n.t('feedback_modal_textarea_placeholder')}
-            />
-          </View>
-          <Button 
-            testID='feedback-modal-submit' 
-            onPress={send}
+          <View
+            style={{
+              padding: 16,
+            }}
           >
-            {i18n.t('feedback_modal_send')}
-          </Button>
+            <Text style={{ 
+              marginTop: 17,
+              marginBottom: 8,
+              color: colors.text, 
+              fontSize: 32,
+              textAlign: 'center',
+              fontWeight: 'bold',
+            }}>
+              {i18n.t('feedback_modal_title')}
+            </Text>
+            <Text style={{ 
+              marginBottom: 30,
+              color: colors.textSecondary, 
+              fontSize: 15,
+              lineHeight: 20,
+              textAlign: 'center',
+            }}>
+              {i18n.t('feedback_modal_description')}
+            </Text>
+            <TypeSelector
+              selected={type}
+              onPress={(type) => setTypeProxy(type)}
+            />
+            <View style={{
+              flexDirection: 'row',
+              width: '100%',
+            }}>
+              <TextArea
+                testID='feedback-modal-message'
+                containerStyle={{
+                  marginBottom: 20,
+                }}
+                style={{
+                  height: 180,
+                }}
+                value={message}
+                onChange={(text) => setMessageProxy(text)}
+                placeholder={i18n.t('feedback_modal_textarea_placeholder')}
+              />
+            </View>
+          </View>
         </View>
         </DismissKeyboard>
       </Modal>

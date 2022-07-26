@@ -22,8 +22,6 @@ export default function TextArea({
   onChange?: (text: string) => void,
 }) {
   const colors = useColors()
-
-  const [text, setText] = useState(value)
   
   return (
     <View style={{
@@ -39,23 +37,24 @@ export default function TextArea({
         onChangeText={(text) => {
           const newText = text.substring(0, maxLength)
           onChange(newText)
-          setText(newText)
         }}
-        value={text}
+        value={value}
         editable
         maxLength={maxLength}
         placeholder={placeholder}
         placeholderTextColor={colors.textInputPlaceholder}
         textAlignVertical={'top'}
         style={{
+          borderWidth: 1,
+          borderColor: colors.textInputBorder,
           backgroundColor: colors.textInputBackground,
           color: colors.textInputText,
-          padding: 15,
-          paddingTop: 15,
+          paddingTop: 16,
+          padding: 16,
           fontSize: 17,
-          height: 280,
+          height: 220,
           width: '100%',
-          borderRadius: 5,
+          borderRadius: 8,
           ...style,
         }}
       />

@@ -97,7 +97,7 @@ const MonthItem = ({
         <View
           style={{
             flexDirection: 'row',
-            borderRadius: 4,
+            borderRadius: 8,
             overflow: 'hidden',
           }}
         >

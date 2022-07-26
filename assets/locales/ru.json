@@ -107,5 +107,14 @@
   "statistics_experimental_title": "Статистика пока экспериментальная.",
   "statistics_experimental_body": "Есть ли у вас какие-либо идеи, которые вы хотите знать о вашем отслеживании? Пожалуйста, пришлите мне вашу идею. Я прочитал каждый из них. Если вы добавите свои контактные данные, я отвечу вам.",
   "statistics_experimental_button": "Отправить отзыв",
-  "statistics_experimental_not_enough_data": "Недостаточно данных"
+  "statistics_experimental_not_enough_data": "Недостаточно данных",
+  "send": "Отправлять",
+  "color": "Цвет",
+  "title": "Заголовок",
+  "tags_empty": "Теги будут отображаться здесь",
+  "tags_add": "Добавить метку",
+  "tags_add_placeholder": "#Большой день",
+  "tags_edit": "Редактировать теги",
+  "delete_tag_confirm_title": "Удалить тег",
+  "delete_tag_confirm_message": "Тег будет удален из всех записей. Это действие не может быть отменено."
 }

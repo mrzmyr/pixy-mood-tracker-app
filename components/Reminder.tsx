@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
-import { Switch, View } from 'react-native';
+import { Switch, Text, View } from 'react-native';
 import Clock from '../components/Clock';
 import MenuList from '../components/MenuList';
 import MenuListItem from '../components/MenuListItem';
@@ -93,16 +93,37 @@ const Reminder = () => {
           isLast={!reminderEnabled}
         ></MenuListItem>
         { reminderEnabled &&
-          <MenuListItem
-            title={i18n.t('time')}
-            iconRight={
+          <View
+            style={{
+              padding: 16,
+              flexDirection: 'row',
+              alignItems: 'center',
+              width: '100%',
+            }}
+          >
+            <View
+              style={{
+                flex: 1,
+              }}
+            >
+              <Text
+                style={{
+                  color: colors.text,
+                  fontSize: 17,
+                }}
+              >{i18n.t('time')}</Text>
+            </View>
+            <View
+              style={{
+                flex: 1,
+              }}
+            >
               <Clock
                 onChange={onTimeChange}
                 timeDate={timeDate}
               />
-            }
-            isLast
-          ></MenuListItem>
+            </View>
+          </View>
         }
       </MenuList>
     </View>

@@ -93,7 +93,7 @@ Project Link: [https://github.com/mrzmyr/pixy-mood-tracker](https://github.com/m
 | Japanese | ja |
 | Korean | ko |
 | Malay | ms |
-| Norwegian | nn |
+| Norwegian | no |
 | Polish | pl |
 | Portuguese | pt |
 | Romanian | ro |

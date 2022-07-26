@@ -1,7 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { createContext, useCallback, useContext, useEffect, useReducer } from "react";
+import { createContext, useContext, useEffect, useReducer } from "react";
 import { getJSONSchemaType } from '../lib/utils';
-import { useSettings } from './useSettings';
+import { Tag, useSettings } from './useSettings';
 import useWebhook from './useWebhook';
 
 const STORAGE_KEY = 'PIXEL_TRACKER_LOGS'
@@ -12,6 +12,7 @@ export interface LogItem {
   date: string;
   rating: 'extremely_good' | 'very_good' | 'good' | 'neutral' | 'bad' | 'very_bad' | 'extremely_bad';
   message: string;
+  tags: Tag[];
 }
 
 export interface LogsState {
@@ -22,7 +23,7 @@ export interface LogsState {
 
 export interface LogAction {
   type: string;
-  payload?: LogsState | LogItem;
+  payload?: LogsState & LogItem;
 }
 
 const LogsContext = createContext(undefined)

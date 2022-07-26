@@ -37,7 +37,7 @@ const DEBUG = process.env.DEBUG || false;
 const WEBHOOK_URL = 'https://webhook.site/8beac0d4-b750-4e3e-9af5-c75df5229904';
 const LANGUAGES = DEBUG ? ['en'] : [
   'ar', 'ca', 'zh', 'hr', 'cs', 'da', 'nl', 'en', 'fi', 'fr', 'de', 'el', 
-  'he', 'hi', 'hu', 'id', 'it', 'ja', 'ko', 'ms', 'nn', 'pl', 'pt', 'ro', 
+  'he', 'hi', 'hu', 'id', 'it', 'ja', 'ko', 'ms', 'no', 'pl', 'pt', 'ro', 
   'ru', 'sk', 'es', 'sv', 'th', 'tr', 'uk', 'vi'
 ];
 
@@ -68,15 +68,17 @@ const generateLogs = () => {
 
 const addData = async (page, message) => {
   await page.click('[data-testid="settings"]')
+  await page.click('[data-testid="data"]')
   await page.click('[data-testid="webhook"]')
   await page.click('[data-testid="webhook-enabled"]')
   await page.waitForSelector('[data-testid="webhook-url"]', { visible: true })
   await page.type('[data-testid="webhook-url"]', WEBHOOK_URL)
   await page.click('[data-testid="webhook-back-button"]')
-  await page.click('[data-testid="settings-back-button"]')
+  await page.click('[data-testid="data-back-button"]')
   
   const rating = 'very_good'
   const date = dayjs().format('YYYY-MM-DD');
+  await page.click('[data-testid="calendar"]')
   await page.click(`[data-testid="calendar-day-${date}"]`)
   await page.waitForSelector(`[data-testid="scale-button-${rating}"]`, { visible: true })
   await page.click(`[data-testid="scale-button-${rating}"]`);
@@ -84,15 +86,17 @@ const addData = async (page, message) => {
   await page.click('[data-testid="modal-submit"]');
 }
 
-const makeScreenshots = async (page, prefix) => {  
+const makeScreenshots = async (page, prefix) => {
   const date = dayjs().format('YYYY-MM-DD');
 
-  await page.click('[data-testid="feedback"]');
+  await page.click('[data-testid="settings"]')
+  await page.click('[data-testid="send_feedback"]');
   await page.screenshot({ path: `${__dirname}/screenshots/${prefix}-feedback.png` });
   await page.waitForSelector(`[data-testid="feedback-modal-issue"]`, { visible: true });
   await page.click('[data-testid="feedback-modal-cancel"]'); // I don't know why this need 2 calls, but it works
   
   // screenshot calendar
+  await page.click('[data-testid="calendar"]')
   await page.waitForSelector(`[data-testid="calendar-day-${date}"]`, { visible: true });
   await page.evaluate((date) => {
     document.querySelector(`[data-testid="calendar-day-${date}"]`).scrollIntoView({
@@ -112,7 +116,17 @@ const makeScreenshots = async (page, prefix) => {
   await page.click('[data-testid="settings"]')
   await page.screenshot({ path: `${__dirname}/screenshots/${prefix}-settings.png` });
 
+  await page.waitForTimeout(3000*1000);
+
+  // screenshot statistics
+  await page.goto('http://localhost:19006/BottomTabs/Statistics');
+  await page.waitForSelector(`[data-testid="statistics-item-0"]`, { visible: true });
+  await page.screenshot({ path: `${__dirname}/screenshots/${prefix}-statistics.png` });
+  
+  await page.waitForTimeout(3000*1000);
+  
   // screenshot webhook
+  await page.click('[data-testid="data"]')
   await page.click('[data-testid="webhook"]')
   await page.screenshot({ path: `${__dirname}/screenshots/${prefix}-webhook.png` });
 
@@ -122,7 +136,7 @@ const makeScreenshots = async (page, prefix) => {
 
   await page.click('[data-testid="webhook-history-entry-back-button"]')
   await page.click('[data-testid="webhook-back-button"]')
-  await page.click('[data-testid="settings-back-button"]')
+  await page.click('[data-testid="data-back-button"]')
 }
 
 const makeDeviceScreenshots = async (browser, device, languageKey, mode) => {
@@ -133,7 +147,7 @@ const makeDeviceScreenshots = async (browser, device, languageKey, mode) => {
     Object.defineProperty(navigator, "language", { get: () => language });
   }, languageKey);
   
-  await page.goto('http://10.10.50.143:19006');
+  await page.goto('http://localhost:19006');
   
   prefix = `${device.slug}_${languageKey}_${mode}`;
   console.time(`-> ${prefix} - screenshots`);
@@ -153,7 +167,7 @@ const getExampleMessage = (languageKey) => {
 
 ;(async () => {
   const browser = await puppeteer.launch({
-    headless: !DEBUG
+    headless: false,
   });
 
   console.time('total');
@@ -171,7 +185,7 @@ const getExampleMessage = (languageKey) => {
       localStorage.clear();
       localStorage.setItem('PIXEL_TRACKER_LOGS', JSON.stringify(logs));
     }, logs);
-    await page.goto('http://10.10.50.143:19006');
+    await page.goto('http://localhost:19006');
 
     console.time(`-> ${languageKey} - add data`);
     await addData(page, getExampleMessage(languageKey));

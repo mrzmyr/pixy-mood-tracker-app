@@ -1,18 +1,50 @@
-import chroma from "chroma-js"
+import chroma from "chroma-js";
 import dayjs from "dayjs";
 import { memo } from "react";
-import { Text, TouchableOpacity, View } from "react-native";
+import { Text, TouchableOpacity, useColorScheme, View } from "react-native";
 import { AlignLeft } from "react-native-feather";
 import useColors from "../hooks/useColors";
 import useHaptics from "../hooks/useHaptics";
 import { LogItem } from "../hooks/useLogs";
-import useScale from "../hooks/useScale";
-import { useSettings } from "../hooks/useSettings";
+import { Tag } from "../hooks/useSettings";
+
+const TextIndicator = ({
+  textColor,
+}: {
+  textColor: string;
+}) => (
+  <View style={{
+    opacity: 0.5,
+  }}><AlignLeft color={textColor} width={10} height={10} /></View>
+)
+
+const TagIndicator = ({
+  tag,
+  borderColor,
+}) => {
+  const colors = useColors();
+  
+  return (
+    <View
+      key={tag.id}
+      style={{
+        width: 7,
+        height: 7,
+        margin: 1,
+        borderRadius: 100,
+        backgroundColor: colors.tags[tag.color]?.dot,
+        borderWidth: 1,
+        borderColor: borderColor,
+      }}
+    />
+  )
+}
 
 export default memo(function CalendarDay({ 
   dateString,
   day,
   rating,
+  tags,
   isToday,
   isFuture,
   hasText,
@@ -20,6 +52,7 @@ export default memo(function CalendarDay({
 }: {
   dateString: string,
   day: number,
+  tags: LogItem['tags'],
   rating?: LogItem["rating"],
   isToday: boolean,
   isFuture: boolean,
@@ -28,14 +61,13 @@ export default memo(function CalendarDay({
 }) {
   const colors = useColors();
   const haptics = useHaptics();
-  const { settings } = useSettings();
-  const { colors: scaleColors } = useScale(settings.scaleType)
+  let colorScheme = useColorScheme();
 
   const backgroundColor = rating ? 
-    scaleColors[rating].background : 
+    colors.scales['ColorBrew-RdYlGn'][rating].background : 
     colors.calendarItemBackground;
   const textColor = rating ? 
-    scaleColors[rating].text : 
+    colors.scales['ColorBrew-RdYlGn'][rating].text : 
     colors.calendarItemTextColor;
   
   return (
@@ -49,13 +81,20 @@ export default memo(function CalendarDay({
           }
         }}
         style={{
-          justifyContent: 'flex-end',
-          alignItems: 'flex-end',
-          padding: 5,
-          borderRadius: 3,
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
+          padding: 4,
+          borderRadius: 8,
           backgroundColor: isFuture ? colors.calendarItemBackgroundFuture : backgroundColor,
           width: '100%',
           aspectRatio: 1,
+          borderWidth: 2,
+          borderColor: colorScheme === 'light' ? 
+            chroma(backgroundColor).darken(0.4).hex() :
+            isFuture ? 
+              colors.calendarItemBackgroundFuture : 
+              chroma(backgroundColor).brighten(0.5).hex(),
         }}
         testID={`calendar-day-${dateString}`}
         accessible={true}
@@ -64,36 +103,68 @@ export default memo(function CalendarDay({
           rating: rating ? rating : 'none',
         }}
       >
-          { hasText && 
-            <View style={{
-              position: "absolute",
-              top: 5,
-              right: 5,
-              opacity: 0.5,
-            }}><AlignLeft color={textColor} width={10} height={10} /></View>
-          }
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            height: '50%',
+            width: '100%',
+          }}
+        >
+          <View style={{
+            flexDirection: 'row',
+            width: '70%',
+            flexWrap: 'wrap',
+          }}>
+            { tags?.length > 0 && tags.slice(0, 4).map((tag: Tag) => (
+              <TagIndicator 
+                key={tag.id} 
+                tag={tag} 
+                borderColor={chroma(backgroundColor).luminance() < 0.6 ? 'rgba(255,255,255,0.8)' : 'rgba(0,0,0,0.2)'}
+              />
+            ))}
+          </View>
+          <View
+            style={{
+              width: '30%',
+              justifyContent: 'flex-start',
+              alignItems: 'center',
+            }}
+          >
+            { hasText && <TextIndicator textColor={textColor} />}
+          </View>
+        </View>
+        <View
+          style={{
+            width: '100%',
+            height: '50%',
+            flexDirection: 'row',
+            justifyContent: 'flex-end',
+          }}
+        >
           <View
             style={{
               justifyContent: 'center',
               alignItems: 'center',
-              padding: 3,
-              aspectRatio: 1,
+              minHeight: 20,
+              minWidth: 20,
               borderRadius: 100,
               backgroundColor: isToday ? 
-                (chroma(backgroundColor).luminance() < 0.6 ? 'rgba(255,255,255,0.5)' : 'rgba(0,0,0,0.15)') : 
-                'transparent',
+                (chroma(backgroundColor).luminance() < 0.6 ? 
+                  'rgba(255,255,255,0.5)' : 
+                  'rgba(0,0,0,0.15)'
+                ) : 'transparent',
             }}
           >
             <Text
               style={{
-                fontSize: 14,
-                opacity: isFuture ? 0.5 : 1,
-                color: isToday ? 
-                (chroma(backgroundColor).luminance() > 0.6 ? 'black' : 'black') :
-                textColor,
+                fontSize: 12,
+                opacity: isFuture ? 0.3 : 1,
+                color: isToday ? '#000' : textColor,
               }}
             >{day}</Text>
           </View>
+        </View>
       </TouchableOpacity>
       </>
   );

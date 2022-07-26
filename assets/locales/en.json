@@ -4,7 +4,10 @@
   "add": "Add",
   "cancel": "Cancel",
   "delete": "Delete",
+  "send": "Send",
   "reset": "Reset",
+  "color": "Color",
+  "title": "Title",
   "calendar": "Calendar",
   "settings": "Settings",
   "webhook": "Webhook",
@@ -94,6 +97,12 @@
   "statistics_experimental_body": "Do you have some insights you want to know about your tracking? Please send me your idea. I read everyone of them. If you add your contact details I will answer you.",
   "statistics_experimental_button": "Send Feedback",
   "statistics_experimental_not_enough_data": "Not enough data",
+  "tags_empty": "Tags will show up here",
+  "tags_add": "Add Tag",
+  "tags_add_placeholder": "#bigday",
+  "tags_edit": "Edit Tags",
+  "delete_tag_confirm_title": "Delete tag",
+  "delete_tag_confirm_message": "The tag will be removed from all entries. This action cannot be undone.",
   "previews_screen_1_title": [
     "Track your mood",
     "One Pixel at a Time"

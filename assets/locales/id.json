@@ -107,5 +107,14 @@
   "statistics_experimental_title": "Statistik saat ini eksperimental.",
   "statistics_experimental_body": "Apakah Anda memiliki beberapa wawasan yang ingin Anda ketahui tentang pelacakan Anda? Tolong kirimkan saya ide Anda. Saya membaca semua orang dari mereka. Jika Anda menambahkan detail kontak Anda, saya akan menjawab Anda.",
   "statistics_experimental_button": "Kirim Umpan Balik",
-  "statistics_experimental_not_enough_data": "Data tidak cukup"
+  "statistics_experimental_not_enough_data": "Data tidak cukup",
+  "send": "Kirim",
+  "color": "Warna",
+  "title": "Judul",
+  "tags_empty": "Tag akan muncul di sini",
+  "tags_add": "Tambahkan Tandai",
+  "tags_add_placeholder": "#hari besar",
+  "tags_edit": "Edit Tag",
+  "delete_tag_confirm_title": "Hapus tanda",
+  "delete_tag_confirm_message": "Tag akan dihapus dari semua entri. Tindakan ini tidak bisa dibatalkan."
 }

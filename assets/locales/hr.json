@@ -107,5 +107,14 @@
   "statistics_experimental_title": "Statistika je trenutno eksperimentalna.",
   "statistics_experimental_body": "Imate li neke uvide koje želite znati o svom praćenju? Pošaljite mi svoju ideju. Pročitao sam sve od njih. Ako dodate svoje podatke za kontakt, odgovorit ću vam.",
   "statistics_experimental_button": "Pošalji povratne informacije",
-  "statistics_experimental_not_enough_data": "Nema dovoljno podataka"
+  "statistics_experimental_not_enough_data": "Nema dovoljno podataka",
+  "send": "Poslati",
+  "color": "Boja",
+  "title": "Titula",
+  "tags_empty": "Oznake će se pojaviti ovdje",
+  "tags_add": "Dodaj oznaku",
+  "tags_add_placeholder": "#veliki dan",
+  "tags_edit": "Uredi oznake",
+  "delete_tag_confirm_title": "Izbriši oznaku",
+  "delete_tag_confirm_message": "Oznaka će biti uklonjena sa svih unosa. Ova se radnja ne može poništiti."
 }

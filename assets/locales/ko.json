@@ -107,5 +107,14 @@
   "statistics_experimental_title": "통계는 현재 실험적입니다.",
   "statistics_experimental_body": "추적에 대해 알고 싶은 통찰력이 있습니까? 아이디어를 보내주세요. 나는 그들 모두를 읽었다. 연락처를 추가해주시면 답변드리겠습니다.",
   "statistics_experimental_button": "피드백 보내기",
-  "statistics_experimental_not_enough_data": "데이터가 충분하지 않습니다"
+  "statistics_experimental_not_enough_data": "데이터가 충분하지 않습니다",
+  "send": "보내다",
+  "color": "색깔",
+  "title": "제목",
+  "tags_empty": "태그가 여기에 표시됩니다.",
+  "tags_add": "태그 추가",
+  "tags_add_placeholder": "#빅데이",
+  "tags_edit": "태그 편집",
+  "delete_tag_confirm_title": "태그 삭제",
+  "delete_tag_confirm_message": "태그는 모든 항목에서 제거됩니다. 이 작업은 취소할 수 없습니다."
 }

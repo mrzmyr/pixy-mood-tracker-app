@@ -19,7 +19,7 @@ const Clock = ({
       flexDirection: 'row',
       alignItems: 'center',
       backgroundColor: colors.backgroundSecondary,
-      borderRadius: 5,
+      borderRadius: 8,
       paddingLeft: 10,
       paddingRight: 10,
       paddingTop: 5,
