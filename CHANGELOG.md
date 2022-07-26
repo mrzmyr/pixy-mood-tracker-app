@@ -2,6 +2,28 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.16.0](https://github.com/mrzmyr/pixy-mood-tracker/compare/v1.15.0...v1.16.0) (2022-07-26)
+
+
+### Features
+
+* add tags ([1ce9c5d](https://github.com/mrzmyr/pixy-mood-tracker/commit/1ce9c5dcd98f1236eed21722280debd5000c6fc1))
+* log message length ([8c25e3e](https://github.com/mrzmyr/pixy-mood-tracker/commit/8c25e3e870fa940ea84c4a6def211fde4b36a387))
+* remove settings header ([a9064b7](https://github.com/mrzmyr/pixy-mood-tracker/commit/a9064b7ac112a2b839a7d888eb1a32cfbe3c2847))
+* show 12 month in past ([26a5250](https://github.com/mrzmyr/pixy-mood-tracker/commit/26a52500741ac2ef51f42755a6b5d7e21aa91386))
+
+
+### Bug Fixes
+
+* typo HTTTP ([67dc649](https://github.com/mrzmyr/pixy-mood-tracker/commit/67dc649729896f3468e9ea508aeacec33d7993a1))
+* **useLogs:** run webhooks ([1e66dad](https://github.com/mrzmyr/pixy-mood-tracker/commit/1e66dad2850dd835238197cef607ac56c102d2c9))
+
+
+### Chore
+
+* add generate screenshot command ([212d7de](https://github.com/mrzmyr/pixy-mood-tracker/commit/212d7de4af651b42c4a4d6f80385c4f99d009a7e))
+* add test ids ([3b06d48](https://github.com/mrzmyr/pixy-mood-tracker/commit/3b06d483092a5ad35771a2db91863fc06818a0ef))
+
 ## [1.15.0](https://github.com/mrzmyr/pixy-mood-tracker/compare/v1.14.0...v1.15.0) (2022-07-06)
 
 
