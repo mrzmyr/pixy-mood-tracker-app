@@ -57,6 +57,7 @@ export default ({
           paddingBottom: 12,
           minHeight: 55,
           width: '100%',
+          opacity: pressed ? 0.7 : 1,
         }]}
         testID={testID}
       >

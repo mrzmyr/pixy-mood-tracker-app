@@ -16,7 +16,7 @@ export default function TextInfo({
       color: colors.textSecondary,
       padding: 16,
       paddingTop: 0,
-      marginTop: 10,
+      marginTop: 8,
     }, style]}>{children}</Text>
   )
 }
