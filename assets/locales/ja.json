@@ -116,5 +116,11 @@
   "tags_add_placeholder": "＃重要な日",
   "tags_edit": "タグを編集する",
   "delete_tag_confirm_title": "タグを削除する",
-  "delete_tag_confirm_message": "タグはすべてのエントリから削除されます。このアクションは元に戻せません。"
+  "delete_tag_confirm_message": "タグはすべてのエントリから削除されます。このアクションは元に戻せません。",
+  "feedback_modal_help": "回答を希望される場合は、連絡先情報を残してください。",
+  "tags_default_1_title": "幸せ",
+  "tags_default_2_title": "闘争",
+  "tags_default_3_title": "仕事",
+  "tags_default_4_title": "エクササイズ",
+  "tags_default_5_title": "友達"
 }

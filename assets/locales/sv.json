@@ -116,5 +116,11 @@
   "tags_add_placeholder": "#stor dag",
   "tags_edit": "Redigera taggar",
   "delete_tag_confirm_title": "Ta bort tagg",
-  "delete_tag_confirm_message": "Taggen kommer att tas bort från alla poster. Denna åtgärd kan inte ångras."
+  "delete_tag_confirm_message": "Taggen kommer att tas bort från alla poster. Denna åtgärd kan inte ångras.",
+  "feedback_modal_help": "Lämna dina kontaktuppgifter om du vill att jag ska svara dig.",
+  "tags_default_1_title": "Lycklig",
+  "tags_default_2_title": "Kamper",
+  "tags_default_3_title": "Arbete",
+  "tags_default_4_title": "Träning",
+  "tags_default_5_title": "Vänner"
 }

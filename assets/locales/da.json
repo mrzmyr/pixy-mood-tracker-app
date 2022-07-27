@@ -116,5 +116,11 @@
   "tags_add_placeholder": "#stor dag",
   "tags_edit": "Rediger tags",
   "delete_tag_confirm_title": "Slet tag",
-  "delete_tag_confirm_message": "Tagget vil blive fjernet fra alle poster. Denne handling kan ikke fortrydes."
+  "delete_tag_confirm_message": "Tagget vil blive fjernet fra alle poster. Denne handling kan ikke fortrydes.",
+  "feedback_modal_help": "Efterlad dine kontaktoplysninger, hvis du vil have mig til at svare dig.",
+  "tags_default_1_title": "Lykkelig",
+  "tags_default_2_title": "Kampe",
+  "tags_default_3_title": "Arbejde",
+  "tags_default_4_title": "Dyrke motion",
+  "tags_default_5_title": "Venner"
 }

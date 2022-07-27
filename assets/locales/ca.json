@@ -116,5 +116,11 @@
   "tags_add_placeholder": "#gran dia",
   "tags_edit": "Edita les etiquetes",
   "delete_tag_confirm_title": "Suprimeix l'etiqueta",
-  "delete_tag_confirm_message": "L'etiqueta s'eliminarà de totes les entrades. Aquesta acció no es pot desfer."
+  "delete_tag_confirm_message": "L'etiqueta s'eliminarà de totes les entrades. Aquesta acció no es pot desfer.",
+  "feedback_modal_help": "Deixa la teva informació de contacte si vols que et conteste.",
+  "tags_default_1_title": "Feliç",
+  "tags_default_2_title": "Lluites",
+  "tags_default_3_title": "Treballar",
+  "tags_default_4_title": "Exercici",
+  "tags_default_5_title": "Amics"
 }

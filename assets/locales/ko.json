@@ -116,5 +116,11 @@
   "tags_add_placeholder": "#빅데이",
   "tags_edit": "태그 편집",
   "delete_tag_confirm_title": "태그 삭제",
-  "delete_tag_confirm_message": "태그는 모든 항목에서 제거됩니다. 이 작업은 취소할 수 없습니다."
+  "delete_tag_confirm_message": "태그는 모든 항목에서 제거됩니다. 이 작업은 취소할 수 없습니다.",
+  "feedback_modal_help": "답변을 원하시면 연락처를 남겨주세요.",
+  "tags_default_1_title": "행복하다",
+  "tags_default_2_title": "투쟁",
+  "tags_default_3_title": "일하다",
+  "tags_default_4_title": "운동",
+  "tags_default_5_title": "친구들"
 }

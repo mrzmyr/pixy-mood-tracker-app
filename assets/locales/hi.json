@@ -116,5 +116,11 @@
   "tags_add_placeholder": "#बड़ा दिन",
   "tags_edit": "जोड़ संपादित करें",
   "delete_tag_confirm_title": "टैग हटाएं",
-  "delete_tag_confirm_message": "टैग सभी प्रविष्टियों से हटा दिया जाएगा। इस क्रिया को पूर्ववत नहीं किया जा सकता है।"
+  "delete_tag_confirm_message": "टैग सभी प्रविष्टियों से हटा दिया जाएगा। इस क्रिया को पूर्ववत नहीं किया जा सकता है।",
+  "feedback_modal_help": "अपनी संपर्क जानकारी छोड़ दें यदि आप चाहते हैं कि मैं आपको उत्तर दूं।",
+  "tags_default_1_title": "प्रसन्न",
+  "tags_default_2_title": "संघर्ष",
+  "tags_default_3_title": "काम",
+  "tags_default_4_title": "व्यायाम",
+  "tags_default_5_title": "मित्र"
 }

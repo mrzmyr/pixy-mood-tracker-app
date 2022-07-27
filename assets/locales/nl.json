@@ -116,5 +116,11 @@
   "tags_add_placeholder": "#grote dag",
   "tags_edit": "Bewerk-tags",
   "delete_tag_confirm_title": "Tag verwijderen",
-  "delete_tag_confirm_message": "De tag wordt uit alle inzendingen verwijderd. Deze actie kan niet ongedaan gemaakt worden."
+  "delete_tag_confirm_message": "De tag wordt uit alle inzendingen verwijderd. Deze actie kan niet ongedaan gemaakt worden.",
+  "feedback_modal_help": "Laat uw contactgegevens achter als u wilt dat ik u antwoord.",
+  "tags_default_1_title": "Gelukkig",
+  "tags_default_2_title": "strijd",
+  "tags_default_3_title": "Werk",
+  "tags_default_4_title": "Oefening",
+  "tags_default_5_title": "Vrienden"
 }

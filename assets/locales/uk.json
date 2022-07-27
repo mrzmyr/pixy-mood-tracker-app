@@ -116,5 +116,11 @@
   "tags_add_placeholder": "#великий день",
   "tags_edit": "Редагувати теги",
   "delete_tag_confirm_title": "Видалити тег",
-  "delete_tag_confirm_message": "Тег буде видалено з усіх записів. Цю дію не можна скасувати."
+  "delete_tag_confirm_message": "Тег буде видалено з усіх записів. Цю дію не можна скасувати.",
+  "feedback_modal_help": "Залиште свою контактну інформацію, якщо хочете, щоб я вам відповів.",
+  "tags_default_1_title": "Щаслива",
+  "tags_default_2_title": "бореться",
+  "tags_default_3_title": "Робота",
+  "tags_default_4_title": "Вправа",
+  "tags_default_5_title": "друзі"
 }

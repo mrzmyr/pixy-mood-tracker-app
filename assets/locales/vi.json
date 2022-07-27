@@ -116,5 +116,11 @@
   "tags_add_placeholder": "#ngày trọng đại",
   "tags_edit": "Chỉnh sửa thẻ",
   "delete_tag_confirm_title": "Xóa thẻ",
-  "delete_tag_confirm_message": "Thẻ sẽ bị xóa khỏi tất cả các mục nhập. Hành động này không thể được hoàn tác."
+  "delete_tag_confirm_message": "Thẻ sẽ bị xóa khỏi tất cả các mục nhập. Hành động này không thể được hoàn tác.",
+  "feedback_modal_help": "Để lại thông tin liên hệ của bạn nếu bạn muốn tôi trả lời bạn.",
+  "tags_default_1_title": "Vui mừng",
+  "tags_default_2_title": "Đấu tranh",
+  "tags_default_3_title": "Công việc",
+  "tags_default_4_title": "Tập thể dục",
+  "tags_default_5_title": "Bạn bè"
 }

@@ -116,5 +116,11 @@
   "tags_add_placeholder": "#μεγάλη μέρα",
   "tags_edit": "Επεξεργασία ετικετών",
   "delete_tag_confirm_title": "Διαγραφή ετικέτας",
-  "delete_tag_confirm_message": "Η ετικέτα θα αφαιρεθεί από όλες τις καταχωρήσεις. Αυτή η πράξη δε μπορεί να αναιρεθεί."
+  "delete_tag_confirm_message": "Η ετικέτα θα αφαιρεθεί από όλες τις καταχωρήσεις. Αυτή η πράξη δε μπορεί να αναιρεθεί.",
+  "feedback_modal_help": "Αφήστε τα στοιχεία επικοινωνίας σας αν θέλετε να σας απαντήσω.",
+  "tags_default_1_title": "Χαρούμενος",
+  "tags_default_2_title": "Αγώνες",
+  "tags_default_3_title": "Δουλειά",
+  "tags_default_4_title": "Ασκηση",
+  "tags_default_5_title": "Οι φιλοι"
 }

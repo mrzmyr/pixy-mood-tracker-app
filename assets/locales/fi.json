@@ -116,5 +116,11 @@
   "tags_add_placeholder": "#suuri päivä",
   "tags_edit": "Muokkaa tunnisteita",
   "delete_tag_confirm_title": "Poista tunniste",
-  "delete_tag_confirm_message": "Tunniste poistetaan kaikista merkinnöistä. Tätä toimintoa ei voi kumota."
+  "delete_tag_confirm_message": "Tunniste poistetaan kaikista merkinnöistä. Tätä toimintoa ei voi kumota.",
+  "feedback_modal_help": "Jätä yhteystietosi, jos haluat minun vastaavan sinulle.",
+  "tags_default_1_title": "Onnellinen",
+  "tags_default_2_title": "Kamppailut",
+  "tags_default_3_title": "Työ",
+  "tags_default_4_title": "Harjoittele",
+  "tags_default_5_title": "Ystävät"
 }

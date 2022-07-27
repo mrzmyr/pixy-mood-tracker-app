@@ -66,6 +66,7 @@
   "scales_info": "Colors are used to indicate the rating in the calendar. Your previous rating will be switched to the selected color.",
   "feedback_modal_title": "Send Feedback",
   "feedback_modal_description": "Your feedback helps me a lot to better understand how you use the app and how I can improve it.",
+  "feedback_modal_help": "Leave your contact information if you would like me to answer you.",
   "feedback_modal_textarea_placeholder": "I noticed that…",
   "feedback_modal_send": "Send",
   "feedback_success_title": "Feedback sent",
@@ -103,6 +104,11 @@
   "tags_edit": "Edit Tags",
   "delete_tag_confirm_title": "Delete tag",
   "delete_tag_confirm_message": "The tag will be removed from all entries. This action cannot be undone.",
+  "tags_default_1_title": "Happy",
+  "tags_default_2_title": "Struggles",
+  "tags_default_3_title": "Work",
+  "tags_default_4_title": "Exercise",
+  "tags_default_5_title": "Friends",
   "previews_screen_1_title": [
     "Track your mood",
     "One Pixel at a Time"

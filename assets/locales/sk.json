@@ -116,5 +116,11 @@
   "tags_add_placeholder": "#veľký deň",
   "tags_edit": "Upraviť značky",
   "delete_tag_confirm_title": "Odstrániť značku",
-  "delete_tag_confirm_message": "Značka bude odstránená zo všetkých záznamov. Túto akciu nie je možné vrátiť späť."
+  "delete_tag_confirm_message": "Značka bude odstránená zo všetkých záznamov. Túto akciu nie je možné vrátiť späť.",
+  "feedback_modal_help": "Zanechajte svoje kontaktné údaje, ak chcete, aby som vám odpovedal.",
+  "tags_default_1_title": "Šťasný",
+  "tags_default_2_title": "Bojuje",
+  "tags_default_3_title": "Práca",
+  "tags_default_4_title": "Cvičenie",
+  "tags_default_5_title": "Priatelia"
 }

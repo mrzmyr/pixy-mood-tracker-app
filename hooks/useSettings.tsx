@@ -2,6 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { createContext, useContext, useEffect, useState } from "react";
 import 'react-native-get-random-values';
 import { v4 as uuidv4 } from 'uuid';
+import { useTranslation } from './useTranslation';
 
 const STORAGE_KEY = 'PIXEL_TRACKER_SETTINGS'
 
@@ -37,41 +38,43 @@ export interface SettingsState {
   tags: Tag[],
 }
 
-const initialState: SettingsState = {
-  deviceId: null,
-  passcodeEnabled: null,
-  passcode: null,
-  webhookEnabled: false,
-  webhookUrl: '',
-  webhookHistory: [],
-  scaleType: 'ColorBrew-RdYlGn',
-  reminderEnabled: false,
-  reminderTime: '18:00',
-  trackBehaviour: true,
-  tags: [{
-    id: '1',
-    title: 'Struggles ☔️',
-    color: 'purple',
-  }, {
-    id: '2',
-    title: 'Happy ☺️',
-    color: 'orange',
-  }, {
-    id: '3',
-    title: 'Work 💼',
-    color: 'sky',
-  }, {
-    id: '4',
-    title: 'Exercise 🏃',
-    color: 'green',
-  }, {
-    id: '5',
-    title: 'Friends 🤗',
-    color: 'yellow',
-  }],
-}
-
 function SettingsProvider({children}: { children: React.ReactNode }) {
+  const { t } = useTranslation()
+  
+  const initialState: SettingsState = {
+    deviceId: null,
+    passcodeEnabled: null,
+    passcode: null,
+    webhookEnabled: false,
+    webhookUrl: '',
+    webhookHistory: [],
+    scaleType: 'ColorBrew-RdYlGn',
+    reminderEnabled: false,
+    reminderTime: '18:00',
+    trackBehaviour: true,
+    tags: [{
+      id: '1',
+      title: `${t('tags_default_1_title')} 🥳`,
+      color: 'orange',
+    }, {
+      id: '2',
+      title: `${t('tags_default_2_title')} ☔️`,
+      color: 'purple',
+    }, {
+      id: '3',
+      title: `${t('tags_default_3_title')} 💼`,
+      color: 'sky',
+    }, {
+      id: '4',
+      title: `${t('tags_default_4_title')} 🏃`,
+      color: 'green',
+    }, {
+      id: '5',
+      title: `${t('tags_default_5_title')} 🤗`,
+      color: 'yellow',
+    }],
+  }
+  
   const [settings, setSettings] = useState(initialState)
 
   const setSettingsProxy = async (settingsOrSettingsFunction: SettingsState | Function) => {

@@ -116,5 +116,11 @@
   "tags_add_placeholder": "#büyük gün",
   "tags_edit": "Etiketleri Düzenle",
   "delete_tag_confirm_title": "Etiketi sil",
-  "delete_tag_confirm_message": "Etiket tüm girişlerden kaldırılacaktır. Bu işlem geri alınamaz."
+  "delete_tag_confirm_message": "Etiket tüm girişlerden kaldırılacaktır. Bu işlem geri alınamaz.",
+  "feedback_modal_help": "Size cevap vermemi isterseniz iletişim bilgilerinizi bırakın.",
+  "tags_default_1_title": "Mutlu",
+  "tags_default_2_title": "mücadeleler",
+  "tags_default_3_title": "İş",
+  "tags_default_4_title": "Egzersiz yapmak",
+  "tags_default_5_title": "Arkadaşlar"
 }

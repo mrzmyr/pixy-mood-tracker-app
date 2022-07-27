@@ -116,5 +116,11 @@
   "tags_add_placeholder": "#วันสำคัญ",
   "tags_edit": "แก้ไขแท็ก",
   "delete_tag_confirm_title": "ลบแท็ก",
-  "delete_tag_confirm_message": "แท็กจะถูกลบออกจากรายการทั้งหมด การดำเนินการนี้ไม่สามารถยกเลิกได้"
+  "delete_tag_confirm_message": "แท็กจะถูกลบออกจากรายการทั้งหมด การดำเนินการนี้ไม่สามารถยกเลิกได้",
+  "feedback_modal_help": "ฝากข้อมูลติดต่อของคุณไว้ถ้าคุณต้องการให้ฉันตอบคุณ",
+  "tags_default_1_title": "มีความสุข",
+  "tags_default_2_title": "การต่อสู้",
+  "tags_default_3_title": "ทำงาน",
+  "tags_default_4_title": "ออกกำลังกาย",
+  "tags_default_5_title": "เพื่อน"
 }

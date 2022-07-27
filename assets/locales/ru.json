@@ -116,5 +116,11 @@
   "tags_add_placeholder": "#Большой день",
   "tags_edit": "Редактировать теги",
   "delete_tag_confirm_title": "Удалить тег",
-  "delete_tag_confirm_message": "Тег будет удален из всех записей. Это действие не может быть отменено."
+  "delete_tag_confirm_message": "Тег будет удален из всех записей. Это действие не может быть отменено.",
+  "feedback_modal_help": "Оставьте свои контактные данные, если хотите, чтобы я вам ответил.",
+  "tags_default_1_title": "Счастливый",
+  "tags_default_2_title": "Борьба",
+  "tags_default_3_title": "Работа",
+  "tags_default_4_title": "Упражнение",
+  "tags_default_5_title": "Друзья"
 }

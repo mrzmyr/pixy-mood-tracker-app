@@ -39,6 +39,7 @@ const TagEdit = ({
         flexDirection: 'row',
         borderRadius: 100,
         backgroundColor: colors.tagsBackground,
+        opacity: pressed ? 0.8 : 1,
         marginRight: 8,
         marginBottom: 8,
       }]}
@@ -177,7 +178,7 @@ export const LogModal = ({ navigation, route }: RootStackScreenProps<'Log'>) => 
               textStyle={{ fontWeight: 'bold' }} 
               testID='modal-submit' 
               onPress={save}
-            >{existingLogItem ? i18n.t('save') : i18n.t('add')}</LinkButton>}
+            >{i18n.t('save')}</LinkButton>}
         />
         <View
           style={{

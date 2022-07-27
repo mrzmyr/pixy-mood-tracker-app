@@ -116,5 +116,11 @@
   "tags_add_placeholder": "#يوم حافل",
   "tags_edit": "تعديل العلامات",
   "delete_tag_confirm_title": "حذف العلامة",
-  "delete_tag_confirm_message": "ستتم إزالة العلامة من جميع الإدخالات. لا يمكن التراجع عن هذا الإجراء."
+  "delete_tag_confirm_message": "ستتم إزالة العلامة من جميع الإدخالات. لا يمكن التراجع عن هذا الإجراء.",
+  "feedback_modal_help": "اترك معلومات الاتصال الخاصة بك إذا كنت تريد مني الرد عليك.",
+  "tags_default_1_title": "سعيدة",
+  "tags_default_2_title": "النضالات",
+  "tags_default_3_title": "عمل",
+  "tags_default_4_title": "ممارسه الرياضه",
+  "tags_default_5_title": "أصدقاء"
 }

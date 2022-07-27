@@ -116,5 +116,11 @@
   "tags_add_placeholder": "#stor dag",
   "tags_edit": "Rediger tagger",
   "delete_tag_confirm_title": "Slett tag",
-  "delete_tag_confirm_message": "Tagget vil bli fjernet fra alle oppføringer. Denne handlingen kan ikke angres."
+  "delete_tag_confirm_message": "Tagget vil bli fjernet fra alle oppføringer. Denne handlingen kan ikke angres.",
+  "feedback_modal_help": "Legg igjen kontaktinformasjonen din hvis du vil at jeg skal svare deg.",
+  "tags_default_1_title": "Lykkelig",
+  "tags_default_2_title": "Kamper",
+  "tags_default_3_title": "Arbeid",
+  "tags_default_4_title": "Trening",
+  "tags_default_5_title": "Venner"
 }

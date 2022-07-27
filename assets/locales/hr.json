@@ -116,5 +116,11 @@
   "tags_add_placeholder": "#veliki dan",
   "tags_edit": "Uredi oznake",
   "delete_tag_confirm_title": "Izbriši oznaku",
-  "delete_tag_confirm_message": "Oznaka će biti uklonjena sa svih unosa. Ova se radnja ne može poništiti."
+  "delete_tag_confirm_message": "Oznaka će biti uklonjena sa svih unosa. Ova se radnja ne može poništiti.",
+  "feedback_modal_help": "Ostavite svoje kontakt podatke ako želite da Vam odgovorim.",
+  "tags_default_1_title": "Sretan",
+  "tags_default_2_title": "Borbe",
+  "tags_default_3_title": "Raditi",
+  "tags_default_4_title": "Vježbajte",
+  "tags_default_5_title": "Prijatelji"
 }

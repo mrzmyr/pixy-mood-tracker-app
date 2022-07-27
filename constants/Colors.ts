@@ -59,7 +59,7 @@ tagColorNames.map(color => {
     title: color,
     dot: colors[color]['500'],
     background: colors[color]['800'],
-    text: colors[color]['400'],
+    text: colors[color]['300'],
     border: colors[color]['600'],
   }
   tagsLight[color] = {
@@ -71,8 +71,8 @@ tagColorNames.map(color => {
   }
 })
 
-const tintColorLight = '#3c82f5';
-const tintColorDark = '#1c5eff';
+const tintColorLight = '#007aff';
+const tintColorDark = '#0a84ff';
 
 export interface IColors {
   text: string;
@@ -190,7 +190,7 @@ const light: IColors = {
   
   notificationBackground: '#FFF',
   
-  calendarBackground: colors.neutral[100],
+  calendarBackground: colors.neutral[50],
   calendarItemBackground: '#FFF',
   calendarItemBackgroundFuture: colors.neutral[50],
   calendarItemTextColor: colors.neutral[500],
@@ -200,9 +200,9 @@ const light: IColors = {
   primaryLinkButtonText: tintColorLight,
   secondaryLinkButtonText: colors.neutral[500],
 
-  primaryButtonBackground: colors.blue[700],
+  primaryButtonBackground: tintColorLight,
   primaryButtonText: '#FFF',
-  primaryButtonBorder: colors.blue[700],
+  primaryButtonBorder: tintColorLight,
 
   primaryButtonBackgroundDisabled: colors.neutral[300],
   primaryButtonTextDisabled: colors.neutral[500],
@@ -210,13 +210,13 @@ const light: IColors = {
   
   secondaryButtonBackground: colors.neutral[200],
   secondaryButtonText: colors.neutral[800],
-  secondaryButtonBorder: colors.neutral[100],
+  secondaryButtonBorder: colors.neutral[200],
   
-  textInputBackground: '#f2f2f2',
+  textInputBackground: colors.neutral[200],
   textInputText: colors.neutral[800],
   textInputPlaceholder: colors.neutral[400],
   textInputLabel: colors.neutral[300],
-  textInputBorder: '#f2f2f2',
+  textInputBorder: colors.neutral[200],
   textInputBorderHighlight: tintColorLight,
 
   tagErrorBackground: '#FECDD3',

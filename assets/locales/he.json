@@ -116,5 +116,11 @@
   "tags_add_placeholder": "#יום גדול",
   "tags_edit": "ערוך תגיות",
   "delete_tag_confirm_title": "מחק תג",
-  "delete_tag_confirm_message": "התג יוסר מכל הערכים. לא ניתן לבטל פעולה זו."
+  "delete_tag_confirm_message": "התג יוסר מכל הערכים. לא ניתן לבטל פעולה זו.",
+  "feedback_modal_help": "השאר את פרטי הקשר שלך אם תרצה שאענה לך.",
+  "tags_default_1_title": "שַׂמֵחַ",
+  "tags_default_2_title": "מאבקים",
+  "tags_default_3_title": "עֲבוֹדָה",
+  "tags_default_4_title": "תרגיל",
+  "tags_default_5_title": "חברים"
 }

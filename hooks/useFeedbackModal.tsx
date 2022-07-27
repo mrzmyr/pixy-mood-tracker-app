@@ -44,7 +44,7 @@ function TypeSelector({
           justifyContent: 'center',
           padding: 15,
           marginRight: 10,
-          borderWidth: 1,
+          borderWidth: 2,
           borderColor: selected === 'issue' ? colors.tint : colors.secondaryButtonBackground,
           maxHeight: 100,
         })}
@@ -82,7 +82,7 @@ function TypeSelector({
           justifyContent: 'center',
           padding: 15,
           marginRight: 10,
-          borderWidth: 1,
+          borderWidth: 2,
           borderColor: selected === 'idea' ? colors.tint : colors.secondaryButtonBackground,
           maxHeight: 100,
         })}
@@ -119,7 +119,7 @@ function TypeSelector({
           alignItems: 'center',
           justifyContent: 'center',
           padding: 15,
-          borderWidth: 1,
+          borderWidth: 2,
           borderColor: selected === 'other' ? colors.tint : colors.secondaryButtonBackground,
           maxHeight: 100,
         })}
@@ -326,7 +326,7 @@ export default function useFeedbackModal() {
               <TextArea
                 testID='feedback-modal-message'
                 containerStyle={{
-                  marginBottom: 20,
+                  marginBottom: 8,
                 }}
                 style={{
                   height: 180,
@@ -336,6 +336,13 @@ export default function useFeedbackModal() {
                 placeholder={i18n.t('feedback_modal_textarea_placeholder')}
               />
             </View>
+            <Text style={[{
+              fontSize: 14,
+              color: colors.textSecondary,
+              padding: 8,
+              paddingTop: 0,
+              marginTop: 4,
+            }]}>{i18n.t('feedback_modal_help')}</Text>
           </View>
         </View>
         </DismissKeyboard>

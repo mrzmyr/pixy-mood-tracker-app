@@ -116,5 +116,11 @@
   "tags_add_placeholder": "#hari besar",
   "tags_edit": "Edit Teg",
   "delete_tag_confirm_title": "Padam tag",
-  "delete_tag_confirm_message": "Teg akan dialih keluar daripada semua entri. Tindakan ini tidak boleh dibuat asal."
+  "delete_tag_confirm_message": "Teg akan dialih keluar daripada semua entri. Tindakan ini tidak boleh dibuat asal.",
+  "feedback_modal_help": "Tinggalkan maklumat hubungan anda jika anda ingin saya menjawab anda.",
+  "tags_default_1_title": "gembira",
+  "tags_default_2_title": "Perjuangan",
+  "tags_default_3_title": "Kerja",
+  "tags_default_4_title": "Senaman",
+  "tags_default_5_title": "Kawan-kawan"
 }

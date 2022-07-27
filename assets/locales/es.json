@@ -116,5 +116,11 @@
   "tags_add_placeholder": "#gran día",
   "tags_edit": "Editar etiquetas",
   "delete_tag_confirm_title": "Eliminar etiqueta",
-  "delete_tag_confirm_message": "La etiqueta se eliminará de todas las entradas. Esta acción no se puede deshacer."
+  "delete_tag_confirm_message": "La etiqueta se eliminará de todas las entradas. Esta acción no se puede deshacer.",
+  "feedback_modal_help": "Déjanos tus datos de contacto si quieres que te responda.",
+  "tags_default_1_title": "Contento",
+  "tags_default_2_title": "luchas",
+  "tags_default_3_title": "Trabajar",
+  "tags_default_4_title": "Ejercicio",
+  "tags_default_5_title": "Amigos"
 }

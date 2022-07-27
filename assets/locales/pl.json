@@ -116,5 +116,11 @@
   "tags_add_placeholder": "#wielki dzień",
   "tags_edit": "Edytuj tagi",
   "delete_tag_confirm_title": "Usuń tag",
-  "delete_tag_confirm_message": "Tag zostanie usunięty ze wszystkich wpisów. Tej czynności nie można cofnąć."
+  "delete_tag_confirm_message": "Tag zostanie usunięty ze wszystkich wpisów. Tej czynności nie można cofnąć.",
+  "feedback_modal_help": "Zostaw swoje dane kontaktowe, jeśli chcesz, abym Ci odpowiedział.",
+  "tags_default_1_title": "Szczęśliwy",
+  "tags_default_2_title": "Zmagania",
+  "tags_default_3_title": "Praca",
+  "tags_default_4_title": "Ćwiczenie",
+  "tags_default_5_title": "Przyjaciele"
 }

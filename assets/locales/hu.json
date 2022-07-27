@@ -116,5 +116,11 @@
   "tags_add_placeholder": "#nagy nap",
   "tags_edit": "Címkék szerkesztése",
   "delete_tag_confirm_title": "Címke törlése",
-  "delete_tag_confirm_message": "A címke minden bejegyzésből el lesz távolítva. Ez a művelet nem visszavonható."
+  "delete_tag_confirm_message": "A címke minden bejegyzésből el lesz távolítva. Ez a művelet nem visszavonható.",
+  "feedback_modal_help": "Ha szeretné, hogy válaszoljak, hagyja meg elérhetőségét.",
+  "tags_default_1_title": "Boldog",
+  "tags_default_2_title": "Küzdelmek",
+  "tags_default_3_title": "Munka",
+  "tags_default_4_title": "Gyakorlat",
+  "tags_default_5_title": "Barátok"
 }
