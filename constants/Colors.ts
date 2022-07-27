@@ -151,6 +151,10 @@ export interface IColors {
   checkboxCheckedBorder: string;
   checkboxCheckedText: string;
     
+  statisticsBackground: string;
+  statisticsCardBackground: string;
+  statisticsLine: string;
+  
   switchThumbColor: string;
   scales: Scales;
   tags: TagColors;
@@ -231,6 +235,10 @@ const light: IColors = {
   checkboxCheckedBorder: tintColorLight,
   checkboxCheckedText: '#FFF',
   
+  statisticsBackground: colors.neutral[100],
+  statisticsCardBackground: '#FFF',
+  statisticsLine: '#000',
+  
   switchThumbColor: '#333',
   scales,
   tags: tagsLight,
@@ -309,6 +317,10 @@ const dark: IColors = {
   checkboxCheckedBackground: tintColorDark,
   checkboxCheckedBorder: tintColorDark,
   checkboxCheckedText: '#FFF',
+
+  statisticsBackground: '#000',
+  statisticsCardBackground: colors.neutral[900],
+  statisticsLine: '#FFF',
   
   switchThumbColor: '#FFF',
   scales,

@@ -114,7 +114,7 @@
   "tags_empty": "תגים יופיעו כאן",
   "tags_add": "הוסף תגית",
   "tags_add_placeholder": "#יום גדול",
-  "tags_edit": "ערוך תגיות",
+  "tags_edit": "לַעֲרוֹך",
   "delete_tag_confirm_title": "מחק תג",
   "delete_tag_confirm_message": "התג יוסר מכל הערכים. לא ניתן לבטל פעולה זו.",
   "feedback_modal_help": "השאר את פרטי הקשר שלך אם תרצה שאענה לך.",
@@ -122,5 +122,6 @@
   "tags_default_2_title": "מאבקים",
   "tags_default_3_title": "עֲבוֹדָה",
   "tags_default_4_title": "תרגיל",
-  "tags_default_5_title": "חברים"
+  "tags_default_5_title": "חברים",
+  "statistics_title": "סטָטִיסטִיקָה"
 }

@@ -114,7 +114,7 @@
   "tags_empty": "Teg akan dipaparkan di sini",
   "tags_add": "Tambah Tag",
   "tags_add_placeholder": "#hari besar",
-  "tags_edit": "Edit Teg",
+  "tags_edit": "Sunting",
   "delete_tag_confirm_title": "Padam tag",
   "delete_tag_confirm_message": "Teg akan dialih keluar daripada semua entri. Tindakan ini tidak boleh dibuat asal.",
   "feedback_modal_help": "Tinggalkan maklumat hubungan anda jika anda ingin saya menjawab anda.",
@@ -122,5 +122,6 @@
   "tags_default_2_title": "Perjuangan",
   "tags_default_3_title": "Kerja",
   "tags_default_4_title": "Senaman",
-  "tags_default_5_title": "Kawan-kawan"
+  "tags_default_5_title": "Kawan-kawan",
+  "statistics_title": "Perangkaan"
 }

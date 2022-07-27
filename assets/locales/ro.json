@@ -114,7 +114,7 @@
   "tags_empty": "Etichetele vor apărea aici",
   "tags_add": "Adaugă etichetă",
   "tags_add_placeholder": "#zi mare",
-  "tags_edit": "Etichete de editare",
+  "tags_edit": "Editați | ×",
   "delete_tag_confirm_title": "Ștergeți eticheta",
   "delete_tag_confirm_message": "Eticheta va fi eliminată din toate intrările. Această acțiune nu poate fi anulată.",
   "feedback_modal_help": "Lăsați-vă informațiile de contact dacă doriți să vă răspund.",
@@ -122,5 +122,6 @@
   "tags_default_2_title": "Lupte",
   "tags_default_3_title": "Muncă",
   "tags_default_4_title": "Exercițiu",
-  "tags_default_5_title": "Prieteni"
+  "tags_default_5_title": "Prieteni",
+  "statistics_title": "Statistici"
 }

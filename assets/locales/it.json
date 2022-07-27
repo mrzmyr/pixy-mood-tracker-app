@@ -114,7 +114,7 @@
   "tags_empty": "I tag verranno visualizzati qui",
   "tags_add": "Aggiungi Tag",
   "tags_add_placeholder": "#grande giorno",
-  "tags_edit": "Modificare i tag",
+  "tags_edit": "Modificare",
   "delete_tag_confirm_title": "Elimina etichetta",
   "delete_tag_confirm_message": "Il tag verrà rimosso da tutte le voci. Questa azione non può essere annullata.",
   "feedback_modal_help": "Lascia le tue informazioni di contatto se vuoi che ti risponda.",
@@ -122,5 +122,6 @@
   "tags_default_2_title": "Lotte",
   "tags_default_3_title": "Opera",
   "tags_default_4_title": "Esercizio",
-  "tags_default_5_title": "Gli amici"
+  "tags_default_5_title": "Gli amici",
+  "statistics_title": "Statistiche"
 }

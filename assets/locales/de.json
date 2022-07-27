@@ -114,7 +114,7 @@
   "tags_empty": "Stichwörter werden hier angezeigt",
   "tags_add": "Stichwort hinzufügen",
   "tags_add_placeholder": "#großertag",
-  "tags_edit": "Stichwörter bearbeiten",
+  "tags_edit": "Bearbeiten",
   "delete_tag_confirm_title": "Stichwort löschen",
   "delete_tag_confirm_message": "Das Stichwort wird aus allen Einträgen entfernt. Diese Aktion kann nicht rückgängig gemacht werden.",
   "feedback_modal_help": "Hinterlassen Sie Ihre Kontaktdaten, wenn Sie möchten, dass ich Ihnen antworte.",
@@ -122,5 +122,6 @@
   "tags_default_2_title": "Kämpfe",
   "tags_default_3_title": "Arbeit",
   "tags_default_4_title": "Übung",
-  "tags_default_5_title": "Freunde"
+  "tags_default_5_title": "Freunde",
+  "statistics_title": "Statistiken"
 }

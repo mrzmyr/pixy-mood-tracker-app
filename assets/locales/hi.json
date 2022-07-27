@@ -114,7 +114,7 @@
   "tags_empty": "टैग यहां दिखाई देंगे",
   "tags_add": "टैग जोड़ो",
   "tags_add_placeholder": "#बड़ा दिन",
-  "tags_edit": "जोड़ संपादित करें",
+  "tags_edit": "संपादन करना",
   "delete_tag_confirm_title": "टैग हटाएं",
   "delete_tag_confirm_message": "टैग सभी प्रविष्टियों से हटा दिया जाएगा। इस क्रिया को पूर्ववत नहीं किया जा सकता है।",
   "feedback_modal_help": "अपनी संपर्क जानकारी छोड़ दें यदि आप चाहते हैं कि मैं आपको उत्तर दूं।",
@@ -122,5 +122,6 @@
   "tags_default_2_title": "संघर्ष",
   "tags_default_3_title": "काम",
   "tags_default_4_title": "व्यायाम",
-  "tags_default_5_title": "मित्र"
+  "tags_default_5_title": "मित्र",
+  "statistics_title": "आंकड़े"
 }

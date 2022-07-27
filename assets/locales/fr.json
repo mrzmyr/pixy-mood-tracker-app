@@ -114,7 +114,7 @@
   "tags_empty": "Les balises s'afficheront ici",
   "tags_add": "Ajouter une étiquette",
   "tags_add_placeholder": "#grand jour",
-  "tags_edit": "Étiquettes d'édition",
+  "tags_edit": "Éditer",
   "delete_tag_confirm_title": "Supprimer la balise",
   "delete_tag_confirm_message": "La balise sera supprimée de toutes les entrées. Cette action ne peut pas être annulée.",
   "feedback_modal_help": "Laissez vos coordonnées si vous souhaitez que je vous réponde.",
@@ -122,5 +122,6 @@
   "tags_default_2_title": "Luttes",
   "tags_default_3_title": "Travailler",
   "tags_default_4_title": "Exercer",
-  "tags_default_5_title": "Amis"
+  "tags_default_5_title": "Amis",
+  "statistics_title": "Statistiques"
 }

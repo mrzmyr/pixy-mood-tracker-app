@@ -114,7 +114,7 @@
   "tags_empty": "Tunnisteet näkyvät täällä",
   "tags_add": "Lisää merkintä",
   "tags_add_placeholder": "#suuri päivä",
-  "tags_edit": "Muokkaa tunnisteita",
+  "tags_edit": "Muokata",
   "delete_tag_confirm_title": "Poista tunniste",
   "delete_tag_confirm_message": "Tunniste poistetaan kaikista merkinnöistä. Tätä toimintoa ei voi kumota.",
   "feedback_modal_help": "Jätä yhteystietosi, jos haluat minun vastaavan sinulle.",
@@ -122,5 +122,6 @@
   "tags_default_2_title": "Kamppailut",
   "tags_default_3_title": "Työ",
   "tags_default_4_title": "Harjoittele",
-  "tags_default_5_title": "Ystävät"
+  "tags_default_5_title": "Ystävät",
+  "statistics_title": "Tilastot"
 }

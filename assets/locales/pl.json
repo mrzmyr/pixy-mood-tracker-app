@@ -114,7 +114,7 @@
   "tags_empty": "Tutaj pojawią się tagi",
   "tags_add": "Dodaj tag",
   "tags_add_placeholder": "#wielki dzień",
-  "tags_edit": "Edytuj tagi",
+  "tags_edit": "Edytować",
   "delete_tag_confirm_title": "Usuń tag",
   "delete_tag_confirm_message": "Tag zostanie usunięty ze wszystkich wpisów. Tej czynności nie można cofnąć.",
   "feedback_modal_help": "Zostaw swoje dane kontaktowe, jeśli chcesz, abym Ci odpowiedział.",
@@ -122,5 +122,6 @@
   "tags_default_2_title": "Zmagania",
   "tags_default_3_title": "Praca",
   "tags_default_4_title": "Ćwiczenie",
-  "tags_default_5_title": "Przyjaciele"
+  "tags_default_5_title": "Przyjaciele",
+  "statistics_title": "Statystyka"
 }

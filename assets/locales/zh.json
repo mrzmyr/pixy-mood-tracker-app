@@ -114,7 +114,7 @@
   "tags_empty": "标签将显示在此处",
   "tags_add": "添加标签",
   "tags_add_placeholder": "＃重要的日子",
-  "tags_edit": "编辑标签",
+  "tags_edit": "编辑",
   "delete_tag_confirm_title": "删除标签",
   "delete_tag_confirm_message": "该标签将从所有条目中删除。此操作无法撤消。",
   "feedback_modal_help": "如果您希望我回答您，请留下您的联系方式。",
@@ -122,5 +122,6 @@
   "tags_default_2_title": "斗争",
   "tags_default_3_title": "工作",
   "tags_default_4_title": "锻炼",
-  "tags_default_5_title": "朋友们"
+  "tags_default_5_title": "朋友们",
+  "statistics_title": "统计数据"
 }

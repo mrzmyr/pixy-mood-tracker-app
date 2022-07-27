@@ -114,7 +114,7 @@
   "tags_empty": "Taggar kommer att dyka upp här",
   "tags_add": "Lägg till tagg",
   "tags_add_placeholder": "#stor dag",
-  "tags_edit": "Redigera taggar",
+  "tags_edit": "Redigera",
   "delete_tag_confirm_title": "Ta bort tagg",
   "delete_tag_confirm_message": "Taggen kommer att tas bort från alla poster. Denna åtgärd kan inte ångras.",
   "feedback_modal_help": "Lämna dina kontaktuppgifter om du vill att jag ska svara dig.",
@@ -122,5 +122,6 @@
   "tags_default_2_title": "Kamper",
   "tags_default_3_title": "Arbete",
   "tags_default_4_title": "Träning",
-  "tags_default_5_title": "Vänner"
+  "tags_default_5_title": "Vänner",
+  "statistics_title": "Statistik"
 }

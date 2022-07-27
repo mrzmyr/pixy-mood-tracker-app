@@ -114,7 +114,7 @@
   "tags_empty": "Tag akan muncul di sini",
   "tags_add": "Tambahkan Tandai",
   "tags_add_placeholder": "#hari besar",
-  "tags_edit": "Edit Tag",
+  "tags_edit": "Sunting",
   "delete_tag_confirm_title": "Hapus tanda",
   "delete_tag_confirm_message": "Tag akan dihapus dari semua entri. Tindakan ini tidak bisa dibatalkan.",
   "feedback_modal_help": "Tinggalkan informasi kontak Anda jika Anda ingin saya menjawab Anda.",
@@ -122,5 +122,6 @@
   "tags_default_2_title": "Perjuangan",
   "tags_default_3_title": "Kerja",
   "tags_default_4_title": "Latihan",
-  "tags_default_5_title": "Teman-teman"
+  "tags_default_5_title": "Teman-teman",
+  "statistics_title": "Statistik"
 }
