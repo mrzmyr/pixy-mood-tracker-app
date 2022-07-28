@@ -85,16 +85,16 @@ export default memo(function CalendarDay({
           justifyContent: 'center',
           alignItems: 'center',
           padding: 4,
-          borderRadius: 8,
+          borderRadius: 6,
           backgroundColor: isFuture ? colors.calendarItemBackgroundFuture : backgroundColor,
           width: '100%',
           aspectRatio: 1,
           borderWidth: 2,
           borderColor: colorScheme === 'light' ? 
-            chroma(backgroundColor).darken(0.4).hex() :
-            isFuture ? 
-              colors.calendarItemBackgroundFuture : 
-              chroma(backgroundColor).brighten(0.5).hex(),
+            chroma(backgroundColor).darken(0.4).hex() : 
+              isFuture ? 
+              chroma(backgroundColor).brighten(0.1).hex() :
+              chroma(backgroundColor).brighten(0.8).hex(),
         }}
         testID={`calendar-day-${dateString}`}
         accessible={true}

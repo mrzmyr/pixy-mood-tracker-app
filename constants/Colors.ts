@@ -91,6 +91,7 @@ export interface IColors {
   tagsText: string;
   tagsTextSecondary: string;
   
+  feedbackSelectionBackground: string;
   feedbackBackground: string;
   
   cardBackground: string;
@@ -117,8 +118,8 @@ export interface IColors {
   calendarWeekNameColor: string;
   calendarMonthNameColor: string;
   
-  primaryLinkButtonText: string;
-  secondaryLinkButtonText: string;
+  linkButtonText: string;
+  linkButtonDisabledText: string;
 
   primaryButtonBackground: string;
   primaryButtonText: string;
@@ -158,6 +159,7 @@ export interface IColors {
   switchThumbColor: string;
   scales: Scales;
   tags: TagColors;
+  palette: any;
 }
 
 const light: IColors = {
@@ -175,6 +177,7 @@ const light: IColors = {
   tagsBackground: tintColorLight,
   tagsText: '#FFF',
 
+  feedbackSelectionBackground: colors.neutral[100],
   feedbackBackground: '#FFF',
   
   cardBackground: '#fff',
@@ -201,8 +204,8 @@ const light: IColors = {
   calendarWeekNameColor: colors.neutral[400],
   calendarMonthNameColor: colors.neutral[400],
   
-  primaryLinkButtonText: tintColorLight,
-  secondaryLinkButtonText: colors.neutral[500],
+  linkButtonText: tintColorLight,
+  linkButtonDisabledText: colors.neutral[400],
 
   primaryButtonBackground: tintColorLight,
   primaryButtonText: '#FFF',
@@ -216,11 +219,11 @@ const light: IColors = {
   secondaryButtonText: colors.neutral[800],
   secondaryButtonBorder: colors.neutral[200],
   
-  textInputBackground: colors.neutral[200],
+  textInputBackground: colors.neutral[100],
   textInputText: colors.neutral[800],
   textInputPlaceholder: colors.neutral[400],
   textInputLabel: colors.neutral[300],
-  textInputBorder: colors.neutral[200],
+  textInputBorder: colors.neutral[100],
   textInputBorderHighlight: tintColorLight,
 
   tagErrorBackground: '#FECDD3',
@@ -242,6 +245,7 @@ const light: IColors = {
   switchThumbColor: '#333',
   scales,
   tags: tagsLight,
+  palette: colors,
 }
 
 const dark: IColors = {
@@ -259,6 +263,7 @@ const dark: IColors = {
   tagsBackground: tintColorDark,
   tagsText: '#fff',
 
+  feedbackSelectionBackground: colors.neutral[900],
   feedbackBackground: '#000',
   
   cardBackground: colors.neutral[900],
@@ -280,13 +285,13 @@ const dark: IColors = {
   
   calendarBackground: '#000',
   calendarItemBackground: colors.neutral[800],
-  calendarItemBackgroundFuture: colors.neutral[900],
+  calendarItemBackgroundFuture: '#000',
   calendarItemTextColor: colors.neutral[400],
   calendarWeekNameColor: colors.neutral[500],
   calendarMonthNameColor: colors.neutral[500],
   
-  primaryLinkButtonText: tintColorDark,
-  secondaryLinkButtonText: colors.neutral[400],
+  linkButtonText: tintColorLight,
+  linkButtonDisabledText: colors.neutral[400],
   
   primaryButtonBackground: tintColorDark,
   primaryButtonText: '#FFF',
@@ -325,6 +330,7 @@ const dark: IColors = {
   switchThumbColor: '#FFF',
   scales,
   tags: tagsDark,
+  palette: colors,
 }
 
 export default {

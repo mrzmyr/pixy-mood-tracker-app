@@ -38,14 +38,14 @@ function TypeSelector({
         style={({ pressed }) => ({
           opacity: pressed ? 0.8 : 1,
           borderRadius: 8,
-          backgroundColor: colors.secondaryButtonBackground,
+          backgroundColor: colors.feedbackSelectionBackground,
           flex: 1,
           alignItems: 'center',
           justifyContent: 'center',
           padding: 15,
           marginRight: 10,
           borderWidth: 2,
-          borderColor: selected === 'issue' ? colors.tint : colors.secondaryButtonBackground,
+          borderColor: selected === 'issue' ? colors.tint : colors.feedbackSelectionBackground,
           maxHeight: 100,
         })}
         onPress={async () => {
@@ -76,14 +76,14 @@ function TypeSelector({
         style={({ pressed }) => ({
           opacity: pressed ? 0.8 : 1,
           borderRadius: 8,
-          backgroundColor: colors.secondaryButtonBackground,
+          backgroundColor: colors.feedbackSelectionBackground,
           flex: 1,
           alignItems: 'center',
           justifyContent: 'center',
           padding: 15,
           marginRight: 10,
           borderWidth: 2,
-          borderColor: selected === 'idea' ? colors.tint : colors.secondaryButtonBackground,
+          borderColor: selected === 'idea' ? colors.tint : colors.feedbackSelectionBackground,
           maxHeight: 100,
         })}
         onPress={async () => {
@@ -114,13 +114,13 @@ function TypeSelector({
         style={({ pressed }) => ({
           opacity: pressed ? 0.8 : 1,
           borderRadius: 8,
-          backgroundColor: colors.secondaryButtonBackground,
+          backgroundColor: colors.feedbackSelectionBackground,
           flex: 1,
           alignItems: 'center',
           justifyContent: 'center',
           padding: 15,
           borderWidth: 2,
-          borderColor: selected === 'other' ? colors.tint : colors.secondaryButtonBackground,
+          borderColor: selected === 'other' ? colors.tint : colors.feedbackSelectionBackground,
           maxHeight: 100,
         })}
         onPress={async () => {
@@ -277,7 +277,7 @@ export default function useFeedbackModal() {
               <LinkButton 
                 testID='feedback-modal-cancel' 
                 onPress={hide} 
-                type='primary' 
+                type='secondary' 
               >{t('cancel')}</LinkButton>
             }
             right={
@@ -285,9 +285,7 @@ export default function useFeedbackModal() {
                 testID='feedback-modal-cancel' 
                 onPress={send} 
                 type='primary'
-                textStyle={{
-                  fontWeight: 'bold',
-                }}
+                disabled={!message.length}
               >{t('send')}</LinkButton>
             }
           />

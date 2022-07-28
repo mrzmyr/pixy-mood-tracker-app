@@ -175,13 +175,11 @@ export const TagsModal = ({ navigation, route }: RootStackScreenProps<'Log'>) =>
         right={
           <LinkButton 
             testID='tags-modal-submit' 
-            textStyle={{
-              fontWeight: 'bold',
-            }}
             onPress={() => {
               onSave()
               navigation.goBack();
             }}
+            type='primary'
           >{t('save')}</LinkButton>
         }
         left={
@@ -190,7 +188,8 @@ export const TagsModal = ({ navigation, route }: RootStackScreenProps<'Log'>) =>
             onPress={() => {
               navigation.goBack();
             }}
-          >{t('cancel')}</LinkButton>
+            type='secondary'
+            >{t('cancel')}</LinkButton>
         }
       />
       <ScrollView

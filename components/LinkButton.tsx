@@ -10,6 +10,7 @@ export default function LinkButton({
   textStyle = {},
   icon = null,
   testID,
+  disabled,
 }: {
   type?: 'primary' | 'secondary',
   onPress: () => any,
@@ -18,14 +19,10 @@ export default function LinkButton({
   textStyle?: TextProps['style'],
   icon?: React.ReactNode,
   testID?: string,
+  disabled?: boolean
 }) {
   const colors = useColors();
   const haptics = useHaptics();
-  
-  const textColor = {
-    primary: colors.primaryLinkButtonText,
-    secondary: colors.secondaryLinkButtonText,
-  }[type];
   
   return (
     <Pressable
@@ -40,8 +37,10 @@ export default function LinkButton({
         paddingRight: 8,
       }, style]}
       onPress={async () => {
-        await haptics.selection()
-        onPress()
+        if(!disabled) {
+          await haptics.selection()
+          onPress()
+        }
       }}
       testID={testID}
     >
@@ -52,8 +51,8 @@ export default function LinkButton({
           numberOfLines={1}
           style={{ 
             fontSize: 17, 
-            fontWeight:'normal', 
-            color: textColor,
+            fontWeight: type === 'primary' ? 'bold' : 'normal', 
+            color: disabled ? colors.linkButtonDisabledText : colors.linkButtonText ,
             textAlign: 'center',
             ...textStyle,
           }}

@@ -28,7 +28,7 @@ export const ReminderModal = ({ navigation }: RootStackScreenProps<'ReminderModa
           <LinkButton 
             testID='reminder-modal-cancel' 
             onPress={close} 
-            type='primary'
+            type='secondary'
           >{t('cancel')}</LinkButton>
         }
         right={
@@ -36,9 +36,6 @@ export const ReminderModal = ({ navigation }: RootStackScreenProps<'ReminderModa
             testID='reminder-modal-save'
             onPress={close}
             type='primary'
-            textStyle={{
-              fontWeight: 'bold',
-            }}
           >{t('save')}</LinkButton>
         }
       />

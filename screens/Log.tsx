@@ -4,6 +4,7 @@ import { debounce } from "lodash";
 import { useCallback, useEffect, useRef } from 'react';
 import { Pressable, Text, View } from 'react-native';
 import { Edit2, Plus, Trash2 } from 'react-native-feather';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import DismissKeyboard from '../components/DismisKeyboard';
 import LinkButton from '../components/LinkButton';
 import ModalHeader from '../components/ModalHeader';
@@ -52,13 +53,13 @@ const TagEdit = ({
           <Edit2 
             color={colors.tagsText} 
             width={17}
-            style={{ margin: -4, marginRight: 8, }} 
+            style={{ margin: -4, marginRight: 4, }} 
           />
         ) : (
           <Plus 
             color={colors.tagsText}
             width={17}
-            style={{ margin: -4, marginRight: 8, }} 
+            style={{ margin: -4, marginRight: 4, }} 
           />
         )
       }
@@ -155,6 +156,7 @@ export const LogModal = ({ navigation, route }: RootStackScreenProps<'Log'>) => 
   }
   
   const placeholder = useRef(i18n.t(`log_modal_message_placeholder_${randomInt(1, 6)}`))
+  const insets = useSafeAreaInsets();
   
   return (
     <DismissKeyboard>
@@ -170,14 +172,14 @@ export const LogModal = ({ navigation, route }: RootStackScreenProps<'Log'>) => 
             <LinkButton 
               testID='modal-cancel' 
               onPress={cancel} 
-              type='primary' 
+              type='secondary' 
             >{t('cancel')}</LinkButton>
           }
           right={
             <LinkButton 
-              textStyle={{ fontWeight: 'bold' }} 
               testID='modal-submit' 
               onPress={save}
+              type='primary' 
             >{i18n.t('save')}</LinkButton>}
         />
         <View
@@ -185,97 +187,105 @@ export const LogModal = ({ navigation, route }: RootStackScreenProps<'Log'>) => 
             paddingTop: 8,
             paddingLeft: 16,
             paddingRight: 16,
+            flex: 1,
           }}
         >
           <View
             style={{
-              width: '100%',
-              marginTop: 8,
+              flex: 1,
             }}
           >
-            <Scale
-              type={settings.scaleType}
-              value={tempLog.data.rating}
-              onPress={setRating}
-            />
-          </View>
-
-          <TextArea
-            testID='modal-message'
-            onChange={setMessage}
-            placeholder={placeholder.current}
-            value={tempLog.data.message}
-            maxLength={10 * 1000}
-            autoFocus
-          />
-
-          <Pressable
-            onPress={async () => {
-              await haptics.selection()
-              navigation.navigate('TagsModal', {
-                initialTags: tempLog.data.tags,
-              })
-            }}
-          >
-            <View style={{
-              flexDirection: 'row',
-              flexWrap: 'wrap',
-              alignItems: 'flex-start',
-              justifyContent: 'flex-start',
-              marginTop: 16,
-              paddingBottom: 8,
-            }}>
-              {tempLog.data?.tags && tempLog.data.tags.map(tag => (
-                <View key={tag.id} style={{
-                  paddingTop: 8,
-                  paddingBottom: 8,
-                  paddingLeft: 16,
-                  paddingRight: 16,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  flexDirection: 'row',
-                  borderRadius: 100,
-                  marginRight: 4,
-                  marginBottom: 4,
-                  backgroundColor: colors.tags[tag.color]?.background,
-                }}>
-                  <Text style={{
-                    color: colors.tags[tag.color]?.text,
-                    fontSize: 17,
-                  }}>{tag.title}</Text>
-                </View>
-              ))}
-              <View>
-                <TagEdit 
-                  tempLog={tempLog}
-                  onPress={async () => {
-                    await haptics.selection()
-                    navigation.navigate('TagsModal', {
-                      initialTags: tempLog.data.tags,
-                    })
-                  }}
-                />
-              </View>
-            </View>
-          </Pressable>
-
-
-          {existingLogItem && (
             <View
               style={{
-                marginTop: 20,
-                flexDirection: 'row',
-                justifyContent: 'center',
+                width: '100%',
+                marginTop: 8,
               }}
             >
-              <LinkButton 
-                onPress={remove} 
-                type='secondary' 
-                icon={<Trash2 width={16} color={colors.secondaryLinkButtonText} />}
-                testID='modal-delete'
-              >{i18n.t('delete')}</LinkButton>
+              <Scale
+                type={settings.scaleType}
+                value={tempLog.data.rating}
+                onPress={setRating}
+              />
             </View>
-          )}
+
+            <TextArea
+              testID='modal-message'
+              onChange={setMessage}
+              placeholder={placeholder.current}
+              value={tempLog.data.message}
+              maxLength={10 * 1000}
+              autoFocus
+            />
+
+            <Pressable
+              onPress={async () => {
+                await haptics.selection()
+                navigation.navigate('TagsModal', {
+                  initialTags: tempLog.data.tags,
+                })
+              }}
+            >
+              <View style={{
+                flexDirection: 'row',
+                flexWrap: 'wrap',
+                alignItems: 'flex-start',
+                justifyContent: 'flex-start',
+                marginTop: 16,
+                paddingBottom: 8,
+              }}>
+                {tempLog.data?.tags && tempLog.data.tags.map(tag => (
+                  <View key={tag.id} style={{
+                    paddingTop: 8,
+                    paddingBottom: 8,
+                    paddingLeft: 16,
+                    paddingRight: 16,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    flexDirection: 'row',
+                    borderRadius: 100,
+                    marginRight: 4,
+                    marginBottom: 4,
+                    backgroundColor: colors.tags[tag.color]?.background,
+                  }}>
+                    <Text style={{
+                      color: colors.tags[tag.color]?.text,
+                      fontSize: 17,
+                    }}>{tag.title}</Text>
+                  </View>
+                ))}
+                <View>
+                  <TagEdit 
+                    tempLog={tempLog}
+                    onPress={async () => {
+                      await haptics.selection()
+                      navigation.navigate('TagsModal', {
+                        initialTags: tempLog.data.tags,
+                      })
+                    }}
+                  />
+                </View>
+              </View>
+            </Pressable>
+          </View>
+
+          <View>
+            {existingLogItem && (
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'center',
+                  marginBottom:  insets.bottom,
+                }}
+              >
+                <LinkButton 
+                  onPress={remove} 
+                  type='secondary' 
+                  icon={<Trash2 width={17} color={colors.linkButtonText} />}
+                  testID='modal-delete'
+                >{i18n.t('delete')}</LinkButton>
+              </View>
+            )}
+          </View>
         </View>
       </View>
     </DismissKeyboard>
