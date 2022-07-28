@@ -119,9 +119,9 @@
   "delete_tag_confirm_message": "Das Stichwort wird aus allen Einträgen entfernt. Diese Aktion kann nicht rückgängig gemacht werden.",
   "feedback_modal_help": "Hinterlassen Sie Ihre Kontaktdaten, wenn Sie möchten, dass ich Ihnen antworte.",
   "tags_default_1_title": "Glücklich",
-  "tags_default_2_title": "Kämpfe",
+  "tags_default_2_title": "Schwierig",
   "tags_default_3_title": "Arbeit",
-  "tags_default_4_title": "Übung",
+  "tags_default_4_title": "Sport",
   "tags_default_5_title": "Freunde",
   "statistics_title": "Statistiken"
 }
