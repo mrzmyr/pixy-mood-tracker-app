@@ -99,6 +99,8 @@ export interface IColors {
   headerBorder: string,
   tabsIconActive: string,
   tabsIconInactive: string;
+  tabsTextActive: string;
+  tabsTextInactive: string;
   
   passcodeDotBackground: string;
   passcodePadBackground: string,
@@ -185,6 +187,8 @@ const light: IColors = {
   headerBorder: colors.neutral[300],
   tabsIconActive: colors.neutral[900],
   tabsIconInactive: colors.neutral[400],
+  tabsTextActive: colors.neutral[900],
+  tabsTextInactive: colors.neutral[400],
   
   passcodeDotBackground: colors.neutral[300],
   passcodePadBackground: colors.neutral[200],
@@ -271,6 +275,8 @@ const dark: IColors = {
   headerBorder: colors.neutral[800],
   tabsIconActive: colors.neutral[400],
   tabsIconInactive: colors.neutral[600],
+  tabsTextActive: colors.neutral[400],
+  tabsTextInactive: colors.neutral[600],
   
   passcodeDotBackground: colors.neutral[600],
   passcodePadBackground: colors.neutral[800],

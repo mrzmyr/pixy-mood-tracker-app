@@ -32,14 +32,14 @@ export default function ModalHeader({
     <View style={{
       justifyContent: 'flex-start',
       flexDirection: 'row',
-      width: '25%',
+      width: '30%',
     }}>
       {left ? left : null}
     </View>
     <View style={{
       justifyContent: 'center',
       flexDirection: 'row',
-      width: '50%',
+      width: '40%',
     }}>
       <Text
         numberOfLines={1}
@@ -57,7 +57,7 @@ export default function ModalHeader({
       justifyContent: 'flex-end',
       alignItems: 'center',
       flexDirection: 'row',
-      width: '25%',
+      width: '30%',
     }}>
       {right}
     </View>

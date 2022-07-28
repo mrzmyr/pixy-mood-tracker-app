@@ -2,6 +2,7 @@ import { isEqual } from 'lodash';
 import { useEffect, useRef, useState } from 'react';
 import { Alert, Keyboard, Platform, Pressable, ScrollView, Text, View } from 'react-native';
 import { Trash2 } from 'react-native-feather';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { v4 as uuidv4 } from 'uuid';
 import Button from '../../components/Button';
 import { Checkbox } from '../../components/Checkbox';
@@ -29,6 +30,7 @@ export const TagsModal = ({ navigation, route }: RootStackScreenProps<'Log'>) =>
   const tempLog = useTemporaryLog();
   const { t } = useTranslation()
   const { state: { items }, dispatch } = useLogs();
+  const insets = useSafeAreaInsets();
 
   const scrollView = useRef(null)
   
@@ -169,6 +171,7 @@ export const TagsModal = ({ navigation, route }: RootStackScreenProps<'Log'>) =>
       flex: 1,
       justifyContent: 'flex-start',
       backgroundColor: colors.background,
+      marginTop: Platform.OS === 'android' ? insets.top : 0,
     }}>
       <ModalHeader
         title={'Tags'}

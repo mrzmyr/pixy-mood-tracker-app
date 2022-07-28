@@ -2,28 +2,25 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useEffect } from 'react';
-import { Platform, Pressable, Text, useColorScheme } from 'react-native';
-import { ArrowLeft, Calendar as CalendarIcon, PieChart, Settings as SettingsIcon } from 'react-native-feather';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { Platform, Pressable, Text, useColorScheme, View } from 'react-native';
+import ConfettiCannon from 'react-native-confetti-cannon';
+import { ArrowLeft, Calendar as CalendarIcon, Settings as SettingsIcon } from 'react-native-feather';
+import { SafeAreaProvider, useSafeAreaInsets } from 'react-native-safe-area-context';
 import Colors from '../constants/Colors';
 import useColors from '../hooks/useColors';
-import useHaptics from '../hooks/useHaptics';
-import { usePasscode } from '../hooks/usePasscode';
 import { useSegment } from "../hooks/useSegment";
 import { useTranslation } from '../hooks/useTranslation';
 import {
-  CalendarScreen, 
-  DataScreen, 
-  LicensesScreen, 
-  LogModal, 
-  NotFoundScreen, 
-  PrivacyScreen, 
-  ReminderModal, 
-  ReminderScreen, 
-  ScaleScreen, 
-  SettingsScreen, 
-  StatisticsScreen, 
-  WebhookEntryScreen, 
+  CalendarScreen,
+  DataScreen,
+  LicensesScreen,
+  LogModal,
+  NotFoundScreen,
+  PrivacyScreen,
+  ReminderModal,
+  ReminderScreen,
+  ScaleScreen,
+  SettingsScreen, WebhookEntryScreen,
   WebhookScreen
 } from '../screens';
 import { RootStackParamList } from '../types';
@@ -72,6 +69,91 @@ export default function Navigation() {
 }
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
+
+
+const ROUTES = [
+  // {
+  //   name: 'Statistics',
+  //   component: StatisticsScreen,
+  //   icon: PieChart,
+  //   path: 'statistics',
+  // },
+  {
+    name: 'Calendar',
+    component: CalendarScreen,
+    icon: CalendarIcon,
+    path: 'calendar',
+  },
+  {
+    name: 'Settings',
+    component: SettingsScreen,
+    icon: SettingsIcon,
+    path: 'settings',
+  }
+];
+
+function MyTabBar({ state, descriptors, navigation }) {
+  const colors = useColors()
+  const insets = useSafeAreaInsets();
+  
+  return (
+    <View 
+      style={{ 
+        flexDirection: 'row',
+        paddingTop: 4,
+        marginBottom: insets.bottom,
+        borderTopColor: colors.headerBorder,
+        borderTopWidth: 1,
+      }}
+    >
+      {state.routes.map((route, index) => {
+        const { options } = descriptors[route.key];
+        const label = route.name;
+        const isFocused = state.index === index;
+
+        const onPress = () => {
+          const event = navigation.emit({
+            type: 'tabPress',
+            target: route.key,
+            canPreventDefault: true,
+          });
+
+          if (!isFocused && !event.defaultPrevented) {
+            // The `merge: true` option makes sure that the params inside the tab screen are preserved
+            navigation.navigate({ name: route.name, merge: true });
+          }
+        };
+
+        const Icon = ROUTES.find(r => r.name === route.name)?.icon;
+
+        return (
+          <Pressable
+            key={route.key}
+            accessibilityRole="button"
+            accessibilityState={isFocused ? { selected: true } : {}}
+            accessibilityLabel={options.tabBarAccessibilityLabel}
+            testID={options.tabBarTestID}
+            onPress={onPress}
+            style={{ 
+              flex: 1,
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          >
+            <Icon width={20} color={isFocused ? colors.tabsIconActive : colors.tabsIconInactive} />
+            <Text 
+              style={{ 
+                color: isFocused ? colors.tabsTextActive : colors.tabsTextInactive,
+                fontSize: 14,
+                marginTop: 4,
+              }}
+            >{label}</Text>
+          </Pressable>
+        );
+      })}
+    </View>
+  );
+}
 
 const BackButton = ({ 
   testID,
@@ -123,6 +205,7 @@ const BottomTabs = () => {
           borderBottomColor: '#fff',
         },
       })}
+      tabBar={props => <MyTabBar {...props} />}
     >
       {/* <Tab.Screen
         name="Statistics"
@@ -130,10 +213,6 @@ const BottomTabs = () => {
         options={({ navigation }) => ({
           ...defaultOptions,
           tabBarTestID: 'statistics',
-          tabBarLabel: ({ color, position, focused }) => (
-            <Text style={{ fontSize: 11, color: focused ? colors.tabsIconActive : colors.tabsIconInactive }}>{i18n.t('statistics')}</Text>
-          ),
-          tabBarIcon: ({ color, size, focused }) => <PieChart width={20} color={focused ? colors.tabsIconActive : colors.tabsIconInactive} />,
           headerShown: false,
           title: i18n.t('statistics'),
         })}
@@ -145,10 +224,6 @@ const BottomTabs = () => {
           ...defaultOptions,
           headerShown: false,
           tabBarTestID: 'calendar',
-          tabBarLabel: ({ color, position, focused }) => (
-            <Text style={{ fontSize: 11, color: focused ? colors.tabsIconActive : colors.tabsIconInactive }}>{i18n.t('calendar')}</Text>
-          ),
-          tabBarIcon: ({ color, size, focused }) => <CalendarIcon width={20} color={focused ? colors.tabsIconActive : colors.tabsIconInactive} />,
           title: i18n.t('calendar'),
         })}
       />
@@ -159,10 +234,6 @@ const BottomTabs = () => {
           ...defaultOptions,
           headerShown: false,
           tabBarTestID: 'settings',
-          tabBarLabel: ({ color, position, focused }) => (
-            <Text style={{ fontSize: 11, color: focused ? colors.tabsIconActive : colors.tabsIconInactive }}>{i18n.t('settings')}</Text>
-          ),
-          tabBarIcon: ({ color, size, focused }) => <SettingsIcon width={20} color={focused ? colors.tabsIconActive : colors.tabsIconInactive} />,
           title: i18n.t('settings'),
         })}
       />
@@ -234,34 +305,35 @@ function RootNavigator() {
 
         <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
         
-        <Stack.Group screenOptions={{ 
-          title: '',
-          presentation: 'modal',
-          headerShown: false,
-        }}>
+        <Stack.Group 
+          screenOptions={{ 
+            title: '',
+            presentation: 'modal',
+            headerShown: false,
+          }}>
           <Stack.Screen 
             name="Log" 
             component={LogModal} 
           />
         </Stack.Group>
 
-        <Stack.Group screenOptions={{ 
-          title: '',
-          presentation: 'modal',
-          headerShown: false,
-        }}>
-          <Stack.Screen 
+        <Stack.Group 
+          screenOptions={{ 
+            presentation: 'modal',
+            headerShown: false,
+          }}>
+            <Stack.Screen 
             name="TagsModal" 
             component={TagsModal} 
           />
         </Stack.Group>
 
-        <Stack.Group screenOptions={{ 
-          title: '',
-          presentation: 'modal',
-          headerShown: false,
-        }}>
-          <Stack.Screen 
+        <Stack.Group 
+          screenOptions={{ 
+            presentation: 'modal',
+            headerShown: false,
+          }}>
+            <Stack.Screen 
             name="ReminderModal" 
             component={ReminderModal} 
           />
@@ -338,7 +410,7 @@ function RootNavigator() {
           />
         </Stack.Group>
       </Stack.Navigator>
-      </SafeAreaProvider>
+    </SafeAreaProvider>
     // )
   );
 }

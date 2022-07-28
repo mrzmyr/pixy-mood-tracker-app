@@ -2,7 +2,7 @@ import dayjs from 'dayjs';
 import { t } from 'i18n-js';
 import { debounce } from "lodash";
 import { useCallback, useEffect, useRef } from 'react';
-import { Pressable, Text, View } from 'react-native';
+import { Platform, Pressable, ScrollView, Text, View } from 'react-native';
 import { Edit2, Plus, Trash2 } from 'react-native-feather';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import DismissKeyboard from '../components/DismisKeyboard';
@@ -80,7 +80,8 @@ export const LogModal = ({ navigation, route }: RootStackScreenProps<'Log'>) => 
   const i18n = useTranslation()
   const segment = useSegment()
   const haptics = useHaptics()
-  
+  const insets = useSafeAreaInsets();
+
   const { state, dispatch } = useLogs()
   const tempLog = useTemporaryLog();
   
@@ -149,14 +150,15 @@ export const LogModal = ({ navigation, route }: RootStackScreenProps<'Log'>) => 
     })
   }, 1000), []);
 
-  const setRating = (rating: LogItem['rating']) => tempLog.set((logItem) => ({ ...logItem, rating }))
+  const setRating = (rating: LogItem['rating']) => {
+    tempLog.set((logItem) => ({ ...logItem, rating }))
+  }
   const setMessage = (message: LogItem['message']) => {
     trackMessageChange()
     tempLog.set(logItem => ({ ...logItem, message }))
   }
   
   const placeholder = useRef(i18n.t(`log_modal_message_placeholder_${randomInt(1, 6)}`))
-  const insets = useSafeAreaInsets();
   
   return (
     <DismissKeyboard>
@@ -165,6 +167,7 @@ export const LogModal = ({ navigation, route }: RootStackScreenProps<'Log'>) => 
         justifyContent: 'flex-start',
         backgroundColor: colors.logBackground,
         paddingBottom: 20,
+        marginTop: Platform.OS === 'android' ? insets.top : 0,
       }}>
         <ModalHeader
           title={dayjs(route.params.date).format('ddd, L')}
@@ -182,7 +185,8 @@ export const LogModal = ({ navigation, route }: RootStackScreenProps<'Log'>) => 
               type='primary' 
             >{i18n.t('save')}</LinkButton>}
         />
-        <View
+        <ScrollView
+          keyboardShouldPersistTaps='handled'
           style={{
             paddingTop: 8,
             paddingLeft: 16,
@@ -286,7 +290,7 @@ export const LogModal = ({ navigation, route }: RootStackScreenProps<'Log'>) => 
               </View>
             )}
           </View>
-        </View>
+        </ScrollView>
       </View>
     </DismissKeyboard>
   );

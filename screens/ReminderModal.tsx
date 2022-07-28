@@ -1,4 +1,5 @@
-import { Text, View } from 'react-native';
+import { Platform, Text, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import LinkButton from '../components/LinkButton';
 import ModalHeader from '../components/ModalHeader';
 import Reminder from '../components/Reminder';
@@ -11,6 +12,7 @@ export const ReminderModal = ({ navigation }: RootStackScreenProps<'ReminderModa
   const colors = useColors()
   const { t } = useTranslation()
   const segment = useSegment()
+  const insets = useSafeAreaInsets();
 
   const close = () => {
     segment.track('reminder_modal_close')
@@ -22,6 +24,7 @@ export const ReminderModal = ({ navigation }: RootStackScreenProps<'ReminderModa
       flex: 1,
       justifyContent: 'flex-start',
       backgroundColor: colors.background,
+      marginTop: Platform.OS === 'android' ? insets.top : 0,
     }}>
       <ModalHeader
         left={

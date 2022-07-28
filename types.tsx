@@ -15,6 +15,7 @@ declare global {
 }
 
 export type RootStackParamList = {
+  BottomTabs: undefined,
   Settings: undefined,
   Scales: undefined,
   Webhook: undefined,
@@ -33,6 +34,7 @@ export type RootStackParamList = {
   Privacy: undefined;
   ReminderModal: undefined;
   PasscodeLocked: undefined;
+  TagsModal: undefined;
 };
 
 export type RootStackScreenProps<Screen extends keyof RootStackParamList> = NativeStackScreenProps<

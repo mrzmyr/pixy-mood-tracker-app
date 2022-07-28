@@ -1,4 +1,4 @@
-import { Image, Text, View } from "react-native"
+import { Image, Platform, Text, View } from "react-native"
 import useColors from "../hooks/useColors"
 import { useTranslation } from "../hooks/useTranslation"
 
@@ -10,20 +10,12 @@ export default function NotificationPreview() {
     <View style={{
       flexDirection: 'row',
       backgroundColor: colors.notificationBackground,
-      borderRadius: 15,
-      padding: 4,
-      paddingTop: 4,
-      paddingBottom: 4,
+      padding: 8,
+      paddingTop: Platform.OS === 'android' ? 12 : 8,
+      paddingBottom: Platform.OS === 'android' ? 12 : 8,
       justifyContent: 'center',
       alignItems: 'center',
-      shadowColor: "#000",
-      shadowOffset: {
-        width: 0,
-        height: 7,
-      },
-      shadowOpacity: 0.1,
-      shadowRadius: 10,
-      elevation: 5,
+      borderRadius: 16,
     }}>
       <View style={{
         backgroundColor: 'white',
@@ -55,7 +47,7 @@ export default function NotificationPreview() {
           alignItems: 'center',
           justifyContent: 'space-between'
         }}>
-          <View><Text style={{ color: colors.text, fontSize: 15, fontWeight: 'bold' }}>{i18n.t('notification_reminder_title')}</Text></View>
+          <View><Text style={{ color: colors.text, fontSize: 17, fontWeight: 'bold' }}>{i18n.t('notification_reminder_title')}</Text></View>
         </View>
         <View><Text style={{ color: colors.text, fontSize: 15, marginTop: 2 }}>{i18n.t('notification_reminder_body')}</Text></View>
       </View>
