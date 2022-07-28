@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.17.0](https://github.com/mrzmyr/pixy-mood-tracker/compare/v1.16.0...v1.17.0) (2022-07-28)
+
+
+### Features
+
+* add pressed states ([bd03356](https://github.com/mrzmyr/pixy-mood-tracker/commit/bd03356fec885eb2473d9bc9f73a5266ce5b6498))
+* add statistic charts ([3f8193a](https://github.com/mrzmyr/pixy-mood-tracker/commit/3f8193a97f96b73b736dbb5ea28f975d15fc7a9b))
+* add translations of initial tags ([c40ce22](https://github.com/mrzmyr/pixy-mood-tracker/commit/c40ce22d1e35e8014577bdef7b3ea33398788e1b))
+* android fixes ([72cd13e](https://github.com/mrzmyr/pixy-mood-tracker/commit/72cd13e8862e67193a5859a2a5f24a98fae1e6f9))
+* change `de` default tags ([341a03c](https://github.com/mrzmyr/pixy-mood-tracker/commit/341a03cf3f499bd3299340b2bd315575093a35a7))
+* design updates ([9f384c9](https://github.com/mrzmyr/pixy-mood-tracker/commit/9f384c9dedf1d1d130aece2bf8ff0c2b46fbecb9))
+* move statistics to own screen component and hide it from the user ([90bfaa0](https://github.com/mrzmyr/pixy-mood-tracker/commit/90bfaa0e7d303e23fe0e0187a767e10dadce7879))
+
 ## [1.16.0](https://github.com/mrzmyr/pixy-mood-tracker/compare/v1.15.0...v1.16.0) (2022-07-26)
 
 
