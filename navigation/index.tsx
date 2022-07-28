@@ -124,7 +124,7 @@ const BottomTabs = () => {
         },
       })}
     >
-      <Tab.Screen
+      {/* <Tab.Screen
         name="Statistics"
         component={StatisticsScreen}
         options={({ navigation }) => ({
@@ -137,7 +137,7 @@ const BottomTabs = () => {
           headerShown: false,
           title: i18n.t('statistics'),
         })}
-      />
+      /> */}
       <Tab.Screen
         name="Calendar"
         component={CalendarScreen}
