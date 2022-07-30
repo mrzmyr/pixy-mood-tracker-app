@@ -123,5 +123,11 @@
   "tags_default_3_title": "Kerja",
   "tags_default_4_title": "Senaman",
   "tags_default_5_title": "Kawan-kawan",
-  "statistics_title": "Perangkaan"
+  "statistics_title": "Perangkaan",
+  "new": "Baru",
+  "tags_feedback_title": "Memperkenalkan: Tag",
+  "tags_feedback_body": "Teg ialah cara baharu untuk mengkategorikan data anda. Anda boleh menambah sehingga 30 teg unik pada entri anda. Mereka dirancang untuk digunakan dalam statistik pada masa hadapan. Sila hantar maklum balas anda kepada saya di bawah. Saya membaca setiap mesej daripada awak.",
+  "tags_feedback_question": "Bagaimanakah anda menyukai ciri teg baharu?",
+  "tags_feedback_placeholder": "Butiran tentang maklum balas anda… (pilihan)",
+  "tags_feedback_button": "Hantar maklumbalas"
 }

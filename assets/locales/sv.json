@@ -123,5 +123,11 @@
   "tags_default_3_title": "Arbete",
   "tags_default_4_title": "Träning",
   "tags_default_5_title": "Vänner",
-  "statistics_title": "Statistik"
+  "statistics_title": "Statistik",
+  "new": "Ny",
+  "tags_feedback_title": "Introduktion: Taggar",
+  "tags_feedback_body": "Taggar är ett nytt sätt att kategorisera din data. Du kan lägga till upp till 30 unika taggar till dina bidrag. De är planerade att användas i statistik i framtiden. Skicka mig din feedback nedan. Jag läser vartenda meddelande från dig.",
+  "tags_feedback_question": "Vad tycker du om den nya taggarfunktionen?",
+  "tags_feedback_placeholder": "Detaljer om din feedback... (valfritt)",
+  "tags_feedback_button": "Skicka synpunkter"
 }

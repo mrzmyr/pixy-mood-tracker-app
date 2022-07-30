@@ -123,5 +123,11 @@
   "tags_default_3_title": "仕事",
   "tags_default_4_title": "エクササイズ",
   "tags_default_5_title": "友達",
-  "statistics_title": "統計学"
+  "statistics_title": "統計学",
+  "new": "新しい",
+  "tags_feedback_title": "紹介：タグ",
+  "tags_feedback_body": "タグは、データを分類するための新しい方法です。エントリには最大30個の一意のタグを追加できます。将来的には統計に利用する予定です。以下にフィードバックを送ってください。私はあなたからのすべてのメッセージを読みました。",
+  "tags_feedback_question": "新しいタグ機能はどうですか？",
+  "tags_feedback_placeholder": "フィードバックの詳細…（オプション）",
+  "tags_feedback_button": "フィードバックを送信する"
 }

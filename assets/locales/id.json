@@ -123,5 +123,11 @@
   "tags_default_3_title": "Kerja",
   "tags_default_4_title": "Latihan",
   "tags_default_5_title": "Teman-teman",
-  "statistics_title": "Statistik"
+  "statistics_title": "Statistik",
+  "new": "Baru",
+  "tags_feedback_title": "Memperkenalkan: Tag",
+  "tags_feedback_body": "Tag adalah cara baru untuk mengkategorikan data Anda. Anda dapat menambahkan hingga 30 tag unik ke entri Anda. Mereka direncanakan untuk digunakan dalam statistik di masa depan. Kirimkan saya tanggapan Anda di bawah ini. Aku membaca setiap pesan darimu.",
+  "tags_feedback_question": "Bagaimana Anda menyukai fitur tag baru?",
+  "tags_feedback_placeholder": "Detail tentang umpan balik Anda… (opsional)",
+  "tags_feedback_button": "Kirim Umpan Balik"
 }

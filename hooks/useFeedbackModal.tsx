@@ -8,12 +8,11 @@ import DismissKeyboard from '../components/DismisKeyboard';
 import LinkButton from '../components/LinkButton';
 import ModalHeader from '../components/ModalHeader';
 import TextArea from '../components/TextArea';
+import { FeedackType, useFeedback } from './useFeedback';
 import useColors from './useColors';
 import useHaptics from './useHaptics';
 import { useSegment } from './useSegment';
 import { useTranslation } from './useTranslation';
-
-type FeedackType = 'issue' | 'idea' | 'other'
 
 function TypeSelector({
   selected,
@@ -146,6 +145,7 @@ export default function useFeedbackModal() {
   const [visible, setVisible] = useState(false)
   const i18n = useTranslation()
   const segment = useSegment()
+  const feedback = useFeedback()
   const { t } = useTranslation()
 
   const [defaultType, setDefaultType] = useState<FeedackType>('issue')
@@ -203,41 +203,18 @@ export default function useFeedbackModal() {
         message
       })
 
-      const url = 'https://f7e52509fce26bc860d05c9cffff8d87.m.pipedream.net'
-      const body = {
-        ...data,
-        ...metaData,
+      feedback.send({
         type,
-        message
-      }
-      const resp = await fetch(url, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(body),
-      })
-      setIsLoading(false)
-      if(resp.ok) {
+        message,
+        source: 'modal',
+        onCancel: () => {
+          setVisible(false)
+        }
+      }).then(resp => {
         setVisible(false)
-        Alert.alert(
-          i18n.t('feedback_success_title'),
-          i18n.t('feedback_success_message'),
-          [
-            { text: i18n.t('ok'), onPress: () => {} }
-          ],
-          { cancelable: false }
-        )
-      } else {
-        Alert.alert(
-          i18n.t('feedback_error_title'),
-          i18n.t('feedback_error_message'),
-          [
-            { text: i18n.t('ok'), onPress: () => setVisible(false) }
-          ],
-          { cancelable: false }
-        )
-      }
+      }).finally(() => {
+        setIsLoading(false)
+      })
     }
     
     return (

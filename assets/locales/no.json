@@ -123,5 +123,11 @@
   "tags_default_3_title": "Arbeid",
   "tags_default_4_title": "Trening",
   "tags_default_5_title": "Venner",
-  "statistics_title": "Statistikk"
+  "statistics_title": "Statistikk",
+  "new": "Ny",
+  "tags_feedback_title": "Introduserer: Tags",
+  "tags_feedback_body": "Tagger er en ny måte å kategorisere dataene dine på. Du kan legge til opptil 30 unike tagger til oppføringene dine. De er planlagt brukt i statistikk i fremtiden. Send meg din tilbakemelding nedenfor. Jeg leser hver eneste melding fra deg.",
+  "tags_feedback_question": "Hvordan liker du den nye tags-funksjonen?",
+  "tags_feedback_placeholder": "Detaljer om tilbakemeldingen din... (valgfritt)",
+  "tags_feedback_button": "Send tilbakemelding"
 }

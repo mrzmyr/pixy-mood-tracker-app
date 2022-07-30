@@ -123,5 +123,11 @@
   "tags_default_3_title": "일하다",
   "tags_default_4_title": "운동",
   "tags_default_5_title": "친구들",
-  "statistics_title": "통계"
+  "statistics_title": "통계",
+  "new": "새로운",
+  "tags_feedback_title": "소개: 태그",
+  "tags_feedback_body": "태그는 데이터를 분류하는 새로운 방법입니다. 항목에 최대 30개의 고유한 태그를 추가할 수 있습니다. 향후 통계에 활용될 예정입니다. 아래에 의견을 보내주세요. 나는 당신의 모든 메시지를 읽었습니다.",
+  "tags_feedback_question": "새로운 태그 기능이 마음에 드시나요?",
+  "tags_feedback_placeholder": "피드백에 대한 세부정보… (선택 사항)",
+  "tags_feedback_button": "피드백 보내기"
 }

@@ -123,5 +123,11 @@
   "tags_default_3_title": "Munka",
   "tags_default_4_title": "Gyakorlat",
   "tags_default_5_title": "Barátok",
-  "statistics_title": "Statisztika"
+  "statistics_title": "Statisztika",
+  "new": "Új",
+  "tags_feedback_title": "Bemutatjuk: Címkék",
+  "tags_feedback_body": "A címkék új módszert jelentenek az adatok kategorizálására. Legfeljebb 30 egyedi címkét adhat hozzá bejegyzéseihez. A tervek szerint a jövőben a statisztikákban is felhasználják őket. Kérjük, küldje el visszajelzését alább. Minden egyes üzenetet elolvasok tőled.",
+  "tags_feedback_question": "Hogy tetszik az új címkék funkció?",
+  "tags_feedback_placeholder": "A visszajelzés részletei… (nem kötelező)",
+  "tags_feedback_button": "Visszajelzés küldése"
 }

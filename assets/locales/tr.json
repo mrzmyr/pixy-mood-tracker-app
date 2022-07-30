@@ -123,5 +123,11 @@
   "tags_default_3_title": "İş",
   "tags_default_4_title": "Egzersiz yapmak",
   "tags_default_5_title": "Arkadaşlar",
-  "statistics_title": "İstatistik"
+  "statistics_title": "İstatistik",
+  "new": "Yeni",
+  "tags_feedback_title": "Tanıtımı: Etiketler",
+  "tags_feedback_body": "Etiketler, verilerinizi kategorilere ayırmanın yeni bir yoludur. Girişlerinize en fazla 30 benzersiz etiket ekleyebilirsiniz. Gelecekte istatistiklerde kullanılması planlanmaktadır. Lütfen bana geri bildiriminizi aşağıdan gönderin. Senden gelen her mesajı okuyorum.",
+  "tags_feedback_question": "Yeni etiketler özelliğini beğendiniz mi?",
+  "tags_feedback_placeholder": "Geri bildiriminizle ilgili ayrıntılar… (isteğe bağlı)",
+  "tags_feedback_button": "Geribildirim yolla"
 }

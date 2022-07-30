@@ -123,5 +123,11 @@
   "tags_default_3_title": "工作",
   "tags_default_4_title": "锻炼",
   "tags_default_5_title": "朋友们",
-  "statistics_title": "统计数据"
+  "statistics_title": "统计数据",
+  "new": "新的",
+  "tags_feedback_title": "介绍：标签",
+  "tags_feedback_body": "标签是一种对数据进行分类的新方法。您最多可以为您的条目添加 30 个唯一标签。它们计划在未来用于统计。请在下面向我发送您的反馈。我读了你的每一条信息。",
+  "tags_feedback_question": "您觉得新标签功能如何？",
+  "tags_feedback_placeholder": "有关您的反馈的详细信息……（可选）",
+  "tags_feedback_button": "发送反馈"
 }

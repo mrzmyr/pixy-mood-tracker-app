@@ -123,5 +123,11 @@
   "tags_default_3_title": "عمل",
   "tags_default_4_title": "ممارسه الرياضه",
   "tags_default_5_title": "أصدقاء",
-  "statistics_title": "إحصائيات"
+  "statistics_title": "إحصائيات",
+  "new": "جديد",
+  "tags_feedback_title": "تقديم: العلامات",
+  "tags_feedback_body": "العلامات هي طريقة جديدة لتصنيف بياناتك. يمكنك إضافة ما يصل إلى 30 علامة فريدة إلى إدخالاتك. تم التخطيط لاستخدامها في الإحصاء في المستقبل. من فضلك أرسل لي ملاحظاتك أدناه. قرأت كل رسالة منك.",
+  "tags_feedback_question": "كيف تحب ميزة العلامات الجديدة؟",
+  "tags_feedback_placeholder": "تفاصيل حول ملاحظاتك ... (اختياري)",
+  "tags_feedback_button": "ارسل رأيك"
 }

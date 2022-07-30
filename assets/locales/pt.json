@@ -123,5 +123,11 @@
   "tags_default_3_title": "Trabalhar",
   "tags_default_4_title": "Exercício",
   "tags_default_5_title": "Amigos",
-  "statistics_title": "Estatisticas"
+  "statistics_title": "Estatisticas",
+  "new": "Novo",
+  "tags_feedback_title": "Apresentando: Tags",
+  "tags_feedback_body": "As tags são uma nova maneira de categorizar seus dados. Você pode adicionar até 30 tags exclusivas às suas entradas. Eles estão planejados para serem usados em estatísticas no futuro. Por favor, envie-me seu feedback abaixo. Eu li cada mensagem sua.",
+  "tags_feedback_question": "Como você gosta do novo recurso de tags?",
+  "tags_feedback_placeholder": "Detalhes sobre seu feedback… (opcional)",
+  "tags_feedback_button": "Enviar comentários"
 }

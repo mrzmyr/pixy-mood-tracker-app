@@ -123,5 +123,11 @@
   "tags_default_3_title": "Công việc",
   "tags_default_4_title": "Tập thể dục",
   "tags_default_5_title": "Bạn bè",
-  "statistics_title": "Số liệu thống kê"
+  "statistics_title": "Số liệu thống kê",
+  "new": "Mới",
+  "tags_feedback_title": "Giới thiệu: Thẻ",
+  "tags_feedback_body": "Thẻ là một cách mới để phân loại dữ liệu của bạn. Bạn có thể thêm tối đa 30 thẻ duy nhất vào mục nhập của mình. Chúng được lên kế hoạch sử dụng trong thống kê trong tương lai. Vui lòng gửi cho tôi phản hồi của bạn bên dưới. Tôi đọc từng tin nhắn từ bạn.",
+  "tags_feedback_question": "Bạn thích tính năng thẻ mới như thế nào?",
+  "tags_feedback_placeholder": "Thông tin chi tiết về phản hồi của bạn… (tùy chọn)",
+  "tags_feedback_button": "Gửi phản hồi"
 }

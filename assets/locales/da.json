@@ -123,5 +123,11 @@
   "tags_default_3_title": "Arbejde",
   "tags_default_4_title": "Dyrke motion",
   "tags_default_5_title": "Venner",
-  "statistics_title": "Statistikker"
+  "statistics_title": "Statistikker",
+  "new": "Ny",
+  "tags_feedback_title": "Introduktion: Tags",
+  "tags_feedback_body": "Tags er en ny måde at kategorisere dine data på. Du kan tilføje op til 30 unikke tags til dine poster. De er planlagt til at blive brugt i statistik i fremtiden. Send mig venligst din feedback nedenfor. Jeg læser hver eneste besked fra dig.",
+  "tags_feedback_question": "Hvordan kan du lide den nye tags-funktion?",
+  "tags_feedback_placeholder": "Detaljer om din feedback... (valgfrit)",
+  "tags_feedback_button": "Send feedback"
 }

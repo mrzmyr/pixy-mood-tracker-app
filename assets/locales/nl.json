@@ -123,5 +123,11 @@
   "tags_default_3_title": "Werk",
   "tags_default_4_title": "Oefening",
   "tags_default_5_title": "Vrienden",
-  "statistics_title": "Statistieken"
+  "statistics_title": "Statistieken",
+  "new": "Nieuw",
+  "tags_feedback_title": "Even voorstellen: Tags",
+  "tags_feedback_body": "Tags zijn een nieuwe manier om uw gegevens te categoriseren. U kunt maximaal 30 unieke tags aan uw inzendingen toevoegen. Het is de bedoeling dat ze in de toekomst in statistieken worden gebruikt. Stuur mij hieronder uw feedback. Ik heb elk bericht van je gelezen.",
+  "tags_feedback_question": "Wat vind je van de nieuwe functie voor tags?",
+  "tags_feedback_placeholder": "Details over uw feedback... (optioneel)",
+  "tags_feedback_button": "Feedback verzenden"
 }

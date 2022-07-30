@@ -123,5 +123,11 @@
   "tags_default_3_title": "Treballar",
   "tags_default_4_title": "Exercici",
   "tags_default_5_title": "Amics",
-  "statistics_title": "Estadístiques"
+  "statistics_title": "Estadístiques",
+  "new": "Nou",
+  "tags_feedback_title": "Presentació: Etiquetes",
+  "tags_feedback_body": "Les etiquetes són una nova manera de classificar les vostres dades. Podeu afegir fins a 30 etiquetes úniques a les vostres entrades. Està previst que s'utilitzin en estadístiques en el futur. Envieu-me els vostres comentaris a continuació. He llegit cada missatge teu.",
+  "tags_feedback_question": "Què us sembla la nova funció d'etiquetes?",
+  "tags_feedback_placeholder": "Detalls sobre els vostres comentaris... (opcional)",
+  "tags_feedback_button": "Enviar comentaris"
 }

@@ -123,5 +123,11 @@
   "tags_default_3_title": "Práca",
   "tags_default_4_title": "Cvičenie",
   "tags_default_5_title": "Priatelia",
-  "statistics_title": "Štatistiky"
+  "statistics_title": "Štatistiky",
+  "new": "Nový",
+  "tags_feedback_title": "Predstavujeme: Tagy",
+  "tags_feedback_body": "Štítky predstavujú nový spôsob kategorizácie údajov. K svojim záznamom môžete pridať až 30 jedinečných značiek. V budúcnosti sa plánuje ich využitie v štatistike. Pošlite mi svoj názor nižšie. Čítam každú jednu správu od teba.",
+  "tags_feedback_question": "Ako sa vám páči nová funkcia značiek?",
+  "tags_feedback_placeholder": "Podrobnosti o vašej spätnej väzbe... (voliteľné)",
+  "tags_feedback_button": "Poslať spätnú väzbu"
 }

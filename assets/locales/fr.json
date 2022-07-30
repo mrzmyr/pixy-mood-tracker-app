@@ -123,5 +123,11 @@
   "tags_default_3_title": "Travailler",
   "tags_default_4_title": "Exercer",
   "tags_default_5_title": "Amis",
-  "statistics_title": "Statistiques"
+  "statistics_title": "Statistiques",
+  "new": "Nouveau",
+  "tags_feedback_title": "Présentation : Balises",
+  "tags_feedback_body": "Les balises sont une nouvelle façon de catégoriser vos données. Vous pouvez ajouter jusqu'à 30 balises uniques à vos entrées. Il est prévu de les utiliser dans les statistiques à l'avenir. Veuillez m'envoyer vos commentaires ci-dessous. J'ai lu chacun de vos messages.",
+  "tags_feedback_question": "Aimez-vous la nouvelle fonctionnalité de balises ?",
+  "tags_feedback_placeholder": "Détails sur vos commentaires… (facultatif)",
+  "tags_feedback_button": "Envoyer des commentaires"
 }

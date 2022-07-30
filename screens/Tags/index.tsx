@@ -1,7 +1,8 @@
 import { isEqual } from 'lodash';
 import { useEffect, useRef, useState } from 'react';
-import { Alert, Keyboard, Platform, Pressable, ScrollView, Text, View } from 'react-native';
+import { Alert, Keyboard, Platform, Pressable, Text, View } from 'react-native';
 import { Trash2 } from 'react-native-feather';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { v4 as uuidv4 } from 'uuid';
 import Button from '../../components/Button';
@@ -19,6 +20,7 @@ import { useTemporaryLog } from '../../hooks/useTemporaryLog';
 import { useTranslation } from '../../hooks/useTranslation';
 import { RootStackScreenProps } from '../../types';
 import { ColorInput } from './ColorInput';
+import { FeedbackSection } from './FeedbackSection';
 import { TitleInput } from './TitleInput';
 
 export const TagsModal = ({ navigation, route }: RootStackScreenProps<'Log'>) => {
@@ -32,7 +34,7 @@ export const TagsModal = ({ navigation, route }: RootStackScreenProps<'Log'>) =>
   const { state: { items }, dispatch } = useLogs();
   const insets = useSafeAreaInsets();
 
-  const scrollView = useRef(null)
+  const scrollRef = useRef(null)
   
   const [keyboardShown, setKeyboardShown] = useState(false)
   const [tags, setTags] = useState<Tag[]>(settings.tags);
@@ -44,34 +46,34 @@ export const TagsModal = ({ navigation, route }: RootStackScreenProps<'Log'>) =>
     color: Object.keys(colors.tags)[0] as Tag['color'],
   });
   
-  useEffect(() => {
-    if(
-      Platform.OS === 'ios' &&
-      keyboardShown && 
-      scrollView.current
-    ) {
-      scrollView.current.scrollToEnd()
-    }
-  }, [keyboardShown])
+  // useEffect(() => {
+  //   if(
+  //     Platform.OS === 'ios' &&
+  //     keyboardShown && 
+  //     scrollRef.current
+  //   ) {
+  //     scrollRef.current.scrollToEnd()
+  //   }
+  // }, [keyboardShown])
   
   useEffect(() => {
     if(tempLog.data.tags?.length > 0) {
       setSelectedTagIds(tempLog.data.tags?.map(tag => tag.id))
     }
 
-    const showSubscription = Keyboard.addListener('keyboardWillShow', () => {
-      console.log('keyboardWillShow')
-      setKeyboardShown(true)
-    })
+    // const showSubscription = Keyboard.addListener('keyboardWillShow', () => {
+    //   console.log('keyboardWillShow')
+    //   setKeyboardShown(true)
+    // })
 
-    const hideSubscription = Keyboard.addListener('keyboardWillHide', () => {
-      setKeyboardShown(false)
-    })
+    // const hideSubscription = Keyboard.addListener('keyboardWillHide', () => {
+    //   setKeyboardShown(false)
+    // })
     
-    return () => {
-      showSubscription.remove()
-      hideSubscription.remove()
-    }
+    // return () => {
+    //   showSubscription.remove()
+    //   hideSubscription.remove()
+    // }
   }, [])
 
   const onDelete = (id: Tag['id']) => {
@@ -108,8 +110,14 @@ export const TagsModal = ({ navigation, route }: RootStackScreenProps<'Log'>) =>
   
   const askToDelete = (tag: Tag) => {
     haptics.selection()
+
+    const regexEmoji = /\p{Emoji}/u;
     
-    segment.track('delete_tag_asked')
+    segment.track('delete_tag_ask', {
+      titleLength: tag.title,
+      color: tag.color,
+      containsEmoji: regexEmoji.test(tag.title),      
+    })
 
     if(Platform.OS === 'web') {
       alert(i18n.t('delete_tag_confirm_title'))
@@ -124,7 +132,6 @@ export const TagsModal = ({ navigation, route }: RootStackScreenProps<'Log'>) =>
         {
           text: i18n.t('delete'),
           onPress: () => {
-            const regexEmoji = /\p{Emoji}/u;
             segment.track('tag_delete_success', {
               titleLength: tag.title,
               color: tag.color,
@@ -147,6 +154,8 @@ export const TagsModal = ({ navigation, route }: RootStackScreenProps<'Log'>) =>
   }
 
   const onSubmitTag = () => {
+    if(tags.length >= 30) return;
+    
     const regexEmoji = /\p{Emoji}/u;
     
     segment.track('tag_submit_success', {
@@ -170,7 +179,7 @@ export const TagsModal = ({ navigation, route }: RootStackScreenProps<'Log'>) =>
     <View style={{
       flex: 1,
       justifyContent: 'flex-start',
-      backgroundColor: colors.background,
+      backgroundColor: colors.logBackground,
       marginTop: Platform.OS === 'android' ? insets.top : 0,
     }}>
       <ModalHeader
@@ -195,16 +204,17 @@ export const TagsModal = ({ navigation, route }: RootStackScreenProps<'Log'>) =>
             >{t('cancel')}</LinkButton>
         }
       />
-      <ScrollView
+      <KeyboardAwareScrollView
         keyboardShouldPersistTaps='handled'
-        ref={scrollView}
         style={{
           flex: 1,
         }}
+        ref={scrollRef}
       >
         <View
           style={{
             marginBottom: keyboardShown && Platform.OS === 'ios' ? 400 : 0,
+            backgroundColor: colors.background,
           }}
         >
           <View
@@ -355,13 +365,30 @@ export const TagsModal = ({ navigation, route }: RootStackScreenProps<'Log'>) =>
             <Button 
               type='primary'
               onPress={onSubmitTag}
-              disabled={tempTag.title.length < 1}
+              disabled={tempTag.title.length < 1 || tags.length >= 30}
             >
               <Text>{t('tags_add')}</Text>
             </Button>
           </View>
+
+          <View
+            style={{
+              marginTop: 16,
+              borderTopColor: colors.logHeaderBorder,
+              borderTopWidth: 1,
+              paddingTop: 32,
+              paddingBottom: 64,
+              paddingLeft: 16,
+              paddingRight: 16,
+              backgroundColor: colors.logBackground,
+            }}
+          >
+            <FeedbackSection
+              scrollToEnd={() => scrollRef.current.scrollToEnd({ animated: true })}
+            />
+          </View>
         </View>
-      </ScrollView>
+      </KeyboardAwareScrollView>
     </View>
   );
 }

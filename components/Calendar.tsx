@@ -9,6 +9,7 @@ import { useLogs } from "../hooks/useLogs";
 import { useTranslation } from "../hooks/useTranslation";
 import Button from "./Button";
 import CalendarMonth from "./CalendarMonth";
+import LinkButton from "./LinkButton";
 
 export default function Calendar({
   navigation
@@ -51,7 +52,9 @@ export default function Calendar({
   
   useEffect(() => {
     if(viewRef.current !== null) {
-      setTimeout(() => scrollIntoView(viewRef.current), 100);
+      setTimeout(() => {
+        scrollIntoView(viewRef.current)
+      }, 100);
     }
   }, [viewRef.current]);
 
@@ -65,14 +68,19 @@ export default function Calendar({
         paddingBottom: 40,
       }}
     >
-      <Button
-        onPress={() => scrollToToday()}
-        type="secondary"
-        testID="calendar-back-to-today-top"
+      <View
         style={{
-          marginTop: 20,
+          marginTop: 32,
+          paddingBottom: 16,
+          marginBottom: 16,
         }}
-      >{i18n.t('back_to_today')}</Button>
+      >
+        <LinkButton
+          onPress={() => scrollToToday()}
+          type="primary"
+          testID="calendar-back-to-today-top"
+        >{i18n.t('back_to_today')}</LinkButton>
+      </View>
       {months.map(({ dateString, items }) => (
         <CalendarMonth 
           key={dateString} 

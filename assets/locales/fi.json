@@ -123,5 +123,11 @@
   "tags_default_3_title": "Työ",
   "tags_default_4_title": "Harjoittele",
   "tags_default_5_title": "Ystävät",
-  "statistics_title": "Tilastot"
+  "statistics_title": "Tilastot",
+  "new": "Uusi",
+  "tags_feedback_title": "Esittelyssä: Tunnisteet",
+  "tags_feedback_body": "Tunnisteet ovat uusi tapa luokitella tietosi. Voit lisätä merkintöihisi jopa 30 yksilöllistä tunnistetta. Niitä on tarkoitus käyttää jatkossa tilastoissa. Lähetä minulle palautetta alle. Luen jokaisen viestin sinulta.",
+  "tags_feedback_question": "Mitä pidät uudesta tunnisteominaisuudesta?",
+  "tags_feedback_placeholder": "Lisätietoja palautteestasi… (valinnainen)",
+  "tags_feedback_button": "Lähetä palautetta"
 }

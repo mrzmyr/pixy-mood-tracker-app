@@ -123,5 +123,11 @@
   "tags_default_3_title": "Opera",
   "tags_default_4_title": "Esercizio",
   "tags_default_5_title": "Gli amici",
-  "statistics_title": "Statistiche"
+  "statistics_title": "Statistiche",
+  "new": "Nuovo",
+  "tags_feedback_title": "Presentazione: tag",
+  "tags_feedback_body": "I tag sono un nuovo modo per classificare i tuoi dati. Puoi aggiungere fino a 30 tag univoci alle tue voci. Sono pianificati per essere utilizzati nelle statistiche in futuro. Per favore inviami il tuo feedback qui sotto. Ho letto ogni tuo singolo messaggio.",
+  "tags_feedback_question": "Ti piace la nuova funzionalità dei tag?",
+  "tags_feedback_placeholder": "Dettagli sul tuo feedback... (facoltativo)",
+  "tags_feedback_button": "Invia feedback"
 }

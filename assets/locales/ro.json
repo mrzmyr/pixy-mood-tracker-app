@@ -123,5 +123,11 @@
   "tags_default_3_title": "Muncă",
   "tags_default_4_title": "Exercițiu",
   "tags_default_5_title": "Prieteni",
-  "statistics_title": "Statistici"
+  "statistics_title": "Statistici",
+  "new": "Nou",
+  "tags_feedback_title": "Prezentarea: Etichete",
+  "tags_feedback_body": "Etichetele sunt o nouă modalitate de a vă clasifica datele. Puteți adăuga până la 30 de etichete unice la intrările dvs. Ele sunt planificate pentru a fi utilizate în statistici în viitor. Vă rugăm să-mi trimiteți feedback-ul dvs. mai jos. Am citit fiecare mesaj de la tine.",
+  "tags_feedback_question": "Cum vă place noua funcție de etichete?",
+  "tags_feedback_placeholder": "Detalii despre feedback-ul dvs.... (opțional)",
+  "tags_feedback_button": "Trimite feedback"
 }

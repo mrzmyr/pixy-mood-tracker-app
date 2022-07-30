@@ -4,7 +4,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useEffect } from 'react';
 import { Platform, Pressable, Text, useColorScheme, View } from 'react-native';
 import ConfettiCannon from 'react-native-confetti-cannon';
-import { ArrowLeft, Calendar as CalendarIcon, Settings as SettingsIcon } from 'react-native-feather';
+import { ArrowLeft, Calendar as CalendarIcon, PieChart, Settings as SettingsIcon } from 'react-native-feather';
 import { SafeAreaProvider, useSafeAreaInsets } from 'react-native-safe-area-context';
 import Colors from '../constants/Colors';
 import useColors from '../hooks/useColors';
@@ -20,7 +20,7 @@ import {
   ReminderModal,
   ReminderScreen,
   ScaleScreen,
-  SettingsScreen, WebhookEntryScreen,
+  SettingsScreen, StatisticsScreen, WebhookEntryScreen,
   WebhookScreen
 } from '../screens';
 import { RootStackParamList } from '../types';
@@ -72,12 +72,12 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 
 
 const ROUTES = [
-  // {
-  //   name: 'Statistics',
-  //   component: StatisticsScreen,
-  //   icon: PieChart,
-  //   path: 'statistics',
-  // },
+  {
+    name: 'Statistics',
+    component: StatisticsScreen,
+    icon: PieChart,
+    path: 'statistics',
+  },
   {
     name: 'Calendar',
     component: CalendarScreen,
@@ -207,16 +207,16 @@ const BottomTabs = () => {
       })}
       tabBar={props => <MyTabBar {...props} />}
     >
-      {/* <Tab.Screen
+      <Tab.Screen
         name="Statistics"
         component={StatisticsScreen}
         options={({ navigation }) => ({
           ...defaultOptions,
-          tabBarTestID: 'statistics',
           headerShown: false,
+          tabBarTestID: 'statistics',
           title: i18n.t('statistics'),
         })}
-      /> */}
+      />
       <Tab.Screen
         name="Calendar"
         component={CalendarScreen}
@@ -309,6 +309,7 @@ function RootNavigator() {
           screenOptions={{ 
             title: '',
             presentation: 'modal',
+            gestureEnabled: false,
             headerShown: false,
           }}>
           <Stack.Screen 

@@ -10,8 +10,6 @@ export const FeedbackSection = () => {
 
   return (
     <View style={{
-      marginTop: 32,
-      padding: 8,
     }}>
       <FeedbackModal />
       <Text style={{
@@ -19,7 +17,7 @@ export const FeedbackSection = () => {
         marginBottom: 8,
         fontWeight: 'bold',
         color: colors.text
-      }}>⚠️ {t('statistics_experimental_title')}</Text>
+      }}>😱🚀 {t('statistics_experimental_title')}</Text>
       <Text style={{
         fontSize: 15,
         marginBottom: 16,

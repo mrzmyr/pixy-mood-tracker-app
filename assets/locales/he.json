@@ -123,5 +123,11 @@
   "tags_default_3_title": "עֲבוֹדָה",
   "tags_default_4_title": "תרגיל",
   "tags_default_5_title": "חברים",
-  "statistics_title": "סטָטִיסטִיקָה"
+  "statistics_title": "סטָטִיסטִיקָה",
+  "new": "חָדָשׁ",
+  "tags_feedback_title": "היכרות עם: תגיות",
+  "tags_feedback_body": "תגים הם דרך חדשה לסווג את הנתונים שלך. אתה יכול להוסיף עד 30 תגים ייחודיים לערכים שלך. הם מתוכננים לשמש בסטטיסטיקה בעתיד. אנא שלח לי את המשוב שלך למטה. קראתי כל הודעה ממך.",
+  "tags_feedback_question": "איך אתה אוהב את תכונת התגים החדשה?",
+  "tags_feedback_placeholder": "פרטים על המשוב שלך... (אופציונלי)",
+  "tags_feedback_button": "שלח משוב"
 }

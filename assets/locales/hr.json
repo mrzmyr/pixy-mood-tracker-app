@@ -123,5 +123,11 @@
   "tags_default_3_title": "Raditi",
   "tags_default_4_title": "Vježbajte",
   "tags_default_5_title": "Prijatelji",
-  "statistics_title": "Statistika"
+  "statistics_title": "Statistika",
+  "new": "Novi",
+  "tags_feedback_title": "Predstavljamo: oznake",
+  "tags_feedback_body": "Oznake su novi način kategoriziranja vaših podataka. Svojim unosima možete dodati do 30 jedinstvenih oznaka. U budućnosti se planiraju koristiti u statistici. Pošaljite mi povratne informacije u nastavku. Čitam svaku tvoju poruku.",
+  "tags_feedback_question": "Kako vam se sviđaju nove značajke oznaka?",
+  "tags_feedback_placeholder": "Pojedinosti o vašim povratnim informacijama... (nije obavezno)",
+  "tags_feedback_button": "Pošalji povratne informacije"
 }
