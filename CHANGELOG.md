@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.18.1](https://github.com/mrzmyr/pixy-mood-tracker/compare/v1.18.0...v1.18.1) (2022-07-30)
+
+
+### Bug Fixes
+
+* update lang files ([b9383bd](https://github.com/mrzmyr/pixy-mood-tracker/commit/b9383bdb34dcb31b68942427aabc53f4918bae06))
+
 ## [1.18.0](https://github.com/mrzmyr/pixy-mood-tracker/compare/v1.17.0...v1.18.0) (2022-07-30)
 
 
