@@ -104,7 +104,7 @@
     "jsonwebtoken": "^8.5.1",
     "puppeteer": "^13.1.2",
     "react-test-renderer": "17.0.1",
-    "sharp": "^0.29.3",
+    "sharp": "^0.30.5",
     "standard-version": "^9.5.0",
     "standard-version-expo": "^1.0.3",
     "typescript": "~4.3.5"
