@@ -129,5 +129,8 @@
   "tags_feedback_body": "Tag adalah cara baru untuk mengkategorikan data Anda. Anda dapat menambahkan hingga 30 tag unik ke entri Anda. Mereka direncanakan untuk digunakan dalam statistik di masa depan. Kirimkan saya tanggapan Anda di bawah ini. Aku membaca setiap pesan darimu.",
   "tags_feedback_question": "Bagaimana Anda menyukai fitur tag baru?",
   "tags_feedback_placeholder": "Detail tentang umpan balik Anda… (opsional)",
-  "tags_feedback_button": "Kirim Umpan Balik"
+  "tags_feedback_button": "Kirim Umpan Balik",
+  "import_confirm_title": "Impor data",
+  "import_confirm_message": "Yakin ingin mengimpor data? Ini akan menimpa semua entri dan pengaturan yang ada.",
+  "import_confirm_ok": "Impor"
 }

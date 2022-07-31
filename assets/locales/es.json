@@ -129,5 +129,8 @@
   "tags_feedback_body": "Las etiquetas son una nueva forma de categorizar sus datos. Puede agregar hasta 30 etiquetas únicas a sus entradas. Está previsto que se utilicen en estadísticas en el futuro. Por favor envíeme sus comentarios a continuación. Leo cada uno de tus mensajes.",
   "tags_feedback_question": "¿Qué te parece la nueva función de etiquetas?",
   "tags_feedback_placeholder": "Detalles sobre sus comentarios... (opcional)",
-  "tags_feedback_button": "Enviar comentarios"
+  "tags_feedback_button": "Enviar comentarios",
+  "import_confirm_title": "Datos de importacion",
+  "import_confirm_message": "¿Estás seguro de que quieres importar datos? Esto sobrescribirá todas las entradas y configuraciones existentes.",
+  "import_confirm_ok": "Importar"
 }

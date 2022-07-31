@@ -129,5 +129,8 @@
   "tags_feedback_body": "Tunnisteet ovat uusi tapa luokitella tietosi. Voit lisätä merkintöihisi jopa 30 yksilöllistä tunnistetta. Niitä on tarkoitus käyttää jatkossa tilastoissa. Lähetä minulle palautetta alle. Luen jokaisen viestin sinulta.",
   "tags_feedback_question": "Mitä pidät uudesta tunnisteominaisuudesta?",
   "tags_feedback_placeholder": "Lisätietoja palautteestasi… (valinnainen)",
-  "tags_feedback_button": "Lähetä palautetta"
+  "tags_feedback_button": "Lähetä palautetta",
+  "import_confirm_title": "Tuo tiedot",
+  "import_confirm_message": "Haluatko varmasti tuoda tietoja? Tämä korvaa kaikki olemassa olevat merkinnäsi ja asetukset.",
+  "import_confirm_ok": "Tuonti"
 }

@@ -23,7 +23,7 @@ export interface LogsState {
 
 export interface LogAction {
   type: string;
-  payload?: LogsState & LogItem;
+  payload?: LogsState | LogItem;
 }
 
 const LogsContext = createContext(undefined)

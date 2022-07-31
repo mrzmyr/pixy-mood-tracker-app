@@ -129,5 +129,8 @@
   "tags_feedback_body": "标签是一种对数据进行分类的新方法。您最多可以为您的条目添加 30 个唯一标签。它们计划在未来用于统计。请在下面向我发送您的反馈。我读了你的每一条信息。",
   "tags_feedback_question": "您觉得新标签功能如何？",
   "tags_feedback_placeholder": "有关您的反馈的详细信息……（可选）",
-  "tags_feedback_button": "发送反馈"
+  "tags_feedback_button": "发送反馈",
+  "import_confirm_title": "导入数据",
+  "import_confirm_message": "您确定要导入数据吗？这将覆盖您现有的所有条目和设置。",
+  "import_confirm_ok": "进口"
 }

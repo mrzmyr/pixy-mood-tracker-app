@@ -129,5 +129,8 @@
   "tags_feedback_body": "Tags sind eine neue Möglichkeit, Ihre Daten zu kategorisieren. Sie können Ihren Einträgen bis zu 30 eindeutige Tags hinzufügen. Sie sollen zukünftig in Statistiken verwendet werden. Bitte senden Sie mir unten Ihr Feedback. Ich lese jede einzelne Nachricht von dir.",
   "tags_feedback_question": "Wie gefällt Ihnen die neue Tag-Funktion?",
   "tags_feedback_placeholder": "Details zu Ihrem Feedback… (optional)",
-  "tags_feedback_button": "Feedback abschicken"
+  "tags_feedback_button": "Feedback abschicken",
+  "import_confirm_title": "Daten importieren",
+  "import_confirm_message": "Sind Sie sicher, dass Sie Daten importieren möchten? Dadurch werden alle Ihre bestehenden Einträge und Einstellungen überschrieben.",
+  "import_confirm_ok": "Importieren"
 }

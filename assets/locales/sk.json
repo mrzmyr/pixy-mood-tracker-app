@@ -129,5 +129,8 @@
   "tags_feedback_body": "Štítky predstavujú nový spôsob kategorizácie údajov. K svojim záznamom môžete pridať až 30 jedinečných značiek. V budúcnosti sa plánuje ich využitie v štatistike. Pošlite mi svoj názor nižšie. Čítam každú jednu správu od teba.",
   "tags_feedback_question": "Ako sa vám páči nová funkcia značiek?",
   "tags_feedback_placeholder": "Podrobnosti o vašej spätnej väzbe... (voliteľné)",
-  "tags_feedback_button": "Poslať spätnú väzbu"
+  "tags_feedback_button": "Poslať spätnú väzbu",
+  "import_confirm_title": "Importujte údaje",
+  "import_confirm_message": "Naozaj chcete importovať údaje? Tým sa prepíšu všetky vaše existujúce záznamy a nastavenia.",
+  "import_confirm_ok": "Importovať"
 }

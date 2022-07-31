@@ -129,5 +129,8 @@
   "tags_feedback_body": "I tag sono un nuovo modo per classificare i tuoi dati. Puoi aggiungere fino a 30 tag univoci alle tue voci. Sono pianificati per essere utilizzati nelle statistiche in futuro. Per favore inviami il tuo feedback qui sotto. Ho letto ogni tuo singolo messaggio.",
   "tags_feedback_question": "Ti piace la nuova funzionalità dei tag?",
   "tags_feedback_placeholder": "Dettagli sul tuo feedback... (facoltativo)",
-  "tags_feedback_button": "Invia feedback"
+  "tags_feedback_button": "Invia feedback",
+  "import_confirm_title": "Importa dati",
+  "import_confirm_message": "Sei sicuro di voler importare i dati? Questo sovrascriverà tutte le voci e le impostazioni esistenti.",
+  "import_confirm_ok": "Importare"
 }

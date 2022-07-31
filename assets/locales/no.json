@@ -129,5 +129,8 @@
   "tags_feedback_body": "Tagger er en ny måte å kategorisere dataene dine på. Du kan legge til opptil 30 unike tagger til oppføringene dine. De er planlagt brukt i statistikk i fremtiden. Send meg din tilbakemelding nedenfor. Jeg leser hver eneste melding fra deg.",
   "tags_feedback_question": "Hvordan liker du den nye tags-funksjonen?",
   "tags_feedback_placeholder": "Detaljer om tilbakemeldingen din... (valgfritt)",
-  "tags_feedback_button": "Send tilbakemelding"
+  "tags_feedback_button": "Send tilbakemelding",
+  "import_confirm_title": "Importer data",
+  "import_confirm_message": "Er du sikker på at du vil importere data? Dette vil overskrive alle eksisterende oppføringer og innstillinger.",
+  "import_confirm_ok": "Import"
 }

@@ -129,5 +129,8 @@
   "tags_feedback_body": "Oznake su novi način kategoriziranja vaših podataka. Svojim unosima možete dodati do 30 jedinstvenih oznaka. U budućnosti se planiraju koristiti u statistici. Pošaljite mi povratne informacije u nastavku. Čitam svaku tvoju poruku.",
   "tags_feedback_question": "Kako vam se sviđaju nove značajke oznaka?",
   "tags_feedback_placeholder": "Pojedinosti o vašim povratnim informacijama... (nije obavezno)",
-  "tags_feedback_button": "Pošalji povratne informacije"
+  "tags_feedback_button": "Pošalji povratne informacije",
+  "import_confirm_title": "Uvoz podataka",
+  "import_confirm_message": "Jeste li sigurni da želite uvesti podatke? Ovo će prebrisati sve vaše postojeće unose i postavke.",
+  "import_confirm_ok": "Uvoz"
 }

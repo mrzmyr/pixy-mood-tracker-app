@@ -129,5 +129,8 @@
   "tags_feedback_body": "Tagi to nowy sposób kategoryzowania danych. Do swoich wpisów możesz dodać do 30 unikalnych tagów. Planuje się ich wykorzystanie w statystykach w przyszłości. Proszę o przesłanie opinii poniżej. Czytam każdą wiadomość od ciebie.",
   "tags_feedback_question": "Jak podoba Ci się nowa funkcja tagów?",
   "tags_feedback_placeholder": "Szczegóły Twojej opinii… (opcjonalnie)",
-  "tags_feedback_button": "Wyślij opinię"
+  "tags_feedback_button": "Wyślij opinię",
+  "import_confirm_title": "Zaimportować dane",
+  "import_confirm_message": "Czy na pewno chcesz zaimportować dane? Spowoduje to nadpisanie wszystkich istniejących wpisów i ustawień.",
+  "import_confirm_ok": "Import"
 }

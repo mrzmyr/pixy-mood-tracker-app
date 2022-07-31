@@ -129,5 +129,8 @@
   "tags_feedback_body": "Tags zijn een nieuwe manier om uw gegevens te categoriseren. U kunt maximaal 30 unieke tags aan uw inzendingen toevoegen. Het is de bedoeling dat ze in de toekomst in statistieken worden gebruikt. Stuur mij hieronder uw feedback. Ik heb elk bericht van je gelezen.",
   "tags_feedback_question": "Wat vind je van de nieuwe functie voor tags?",
   "tags_feedback_placeholder": "Details over uw feedback... (optioneel)",
-  "tags_feedback_button": "Feedback verzenden"
+  "tags_feedback_button": "Feedback verzenden",
+  "import_confirm_title": "Data importeren",
+  "import_confirm_message": "Weet u zeker dat u gegevens wilt importeren? Hiermee worden al uw bestaande invoer en instellingen overschreven.",
+  "import_confirm_ok": "Importeren"
 }

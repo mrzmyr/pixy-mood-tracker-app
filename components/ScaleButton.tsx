@@ -1,7 +1,6 @@
 import chroma from "chroma-js";
 import { Pressable, Text, useColorScheme } from "react-native";
 import { Check } from "react-native-feather";
-import { invertColor } from "../lib/utils";
 
 export default function ScaleButton({ 
   backgroundColor, 

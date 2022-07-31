@@ -129,5 +129,8 @@
   "tags_feedback_body": "Etichetele sunt o nouă modalitate de a vă clasifica datele. Puteți adăuga până la 30 de etichete unice la intrările dvs. Ele sunt planificate pentru a fi utilizate în statistici în viitor. Vă rugăm să-mi trimiteți feedback-ul dvs. mai jos. Am citit fiecare mesaj de la tine.",
   "tags_feedback_question": "Cum vă place noua funcție de etichete?",
   "tags_feedback_placeholder": "Detalii despre feedback-ul dvs.... (opțional)",
-  "tags_feedback_button": "Trimite feedback"
+  "tags_feedback_button": "Trimite feedback",
+  "import_confirm_title": "Importă date",
+  "import_confirm_message": "Sigur doriți să importați date? Acest lucru va suprascrie toate intrările și setările existente.",
+  "import_confirm_ok": "Import"
 }

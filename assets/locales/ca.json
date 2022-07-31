@@ -129,5 +129,8 @@
   "tags_feedback_body": "Les etiquetes són una nova manera de classificar les vostres dades. Podeu afegir fins a 30 etiquetes úniques a les vostres entrades. Està previst que s'utilitzin en estadístiques en el futur. Envieu-me els vostres comentaris a continuació. He llegit cada missatge teu.",
   "tags_feedback_question": "Què us sembla la nova funció d'etiquetes?",
   "tags_feedback_placeholder": "Detalls sobre els vostres comentaris... (opcional)",
-  "tags_feedback_button": "Enviar comentaris"
+  "tags_feedback_button": "Enviar comentaris",
+  "import_confirm_title": "Importa dades",
+  "import_confirm_message": "Esteu segur que voleu importar dades? Això sobreescriurà totes les entrades i configuracions existents.",
+  "import_confirm_ok": "Importar"
 }
