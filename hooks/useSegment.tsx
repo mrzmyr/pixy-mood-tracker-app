@@ -36,11 +36,12 @@ function SegmentProvider({
       osVersion: Device.osVersion,
       locale: Localization.locale,
 
-      passcodeEnabled: settings.passcodeEnabled,
+      settingsPasscodeEnabled: settings.passcodeEnabled,
       settingsReminderEnabled: settings.reminderEnabled,
       settingsReminderTime: settings.reminderTime,
       settingsScaleType: settings.scaleType,
       settingsWebhookEnabled: settings.webhookEnabled,
+      settingsTagsCount: settings.tags?.length,
       ...properties,
     }
 
