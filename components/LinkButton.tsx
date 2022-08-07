@@ -1,6 +1,7 @@
 import { Pressable, PressableProps, Text, TextProps, View } from "react-native";
 import useColors from "../hooks/useColors";
 import useHaptics from "../hooks/useHaptics";
+import * as FeatherIcons from 'react-native-feather';
 
 export default function LinkButton({ 
   type = 'primary', 
@@ -12,17 +13,25 @@ export default function LinkButton({
   testID,
   disabled,
 }: {
-  type?: 'primary' | 'secondary',
+  type?: 'primary' | 'secondary' | 'danger',
   onPress: () => any,
   children?: React.ReactNode,
   style?: PressableProps['style'],
   textStyle?: TextProps['style'],
-  icon?: React.ReactNode,
+  icon?: keyof typeof FeatherIcons,
   testID?: string,
   disabled?: boolean
 }) {
   const colors = useColors();
   const haptics = useHaptics();
+  
+  const color = {
+    primary: disabled ? colors.linkButtonTextPrimaryDisabled : colors.linkButtonTextPrimary,
+    secondary: disabled ? colors.linkButtonTextSecondaryDisabled : colors.linkButtonTextSecondary,
+    danger: disabled ? colors.linkButtonTextDangerDisabled : colors.linkButtonTextDanger,
+  }[type]
+
+  const Icon = FeatherIcons[icon as keyof typeof FeatherIcons];
   
   return (
     <Pressable
@@ -44,7 +53,11 @@ export default function LinkButton({
       }}
       testID={testID}
     >
-      {icon && <View style={{ marginRight: 5 }}>{icon}</View>}
+      {icon && (
+        <View style={{ marginRight: 5 }}>
+          <Icon width={17} color={color} />
+        </View>
+      )}
       {children &&
         <Text 
           ellipsizeMode='tail' 
@@ -52,7 +65,7 @@ export default function LinkButton({
           style={{ 
             fontSize: 17, 
             fontWeight: type === 'primary' ? 'bold' : 'normal', 
-            color: disabled ? colors.linkButtonDisabledText : colors.linkButtonText ,
+            color: color,
             textAlign: 'center',
             ...textStyle,
           }}

@@ -120,8 +120,12 @@ export interface IColors {
   calendarWeekNameColor: string;
   calendarMonthNameColor: string;
   
-  linkButtonText: string;
-  linkButtonDisabledText: string;
+  linkButtonTextPrimary: string;
+  linkButtonTextPrimaryDisabled: string;
+  linkButtonTextSecondary: string;
+  linkButtonTextSecondaryDisabled: string;
+  linkButtonTextDanger: string;
+  linkButtonTextDangerDisabled: string;
 
   primaryButtonBackground: string;
   primaryButtonText: string;
@@ -208,8 +212,12 @@ const light: IColors = {
   calendarWeekNameColor: colors.neutral[400],
   calendarMonthNameColor: colors.neutral[400],
   
-  linkButtonText: tintColorLight,
-  linkButtonDisabledText: colors.neutral[400],
+  linkButtonTextPrimary: tintColorLight,
+  linkButtonTextPrimaryDisabled: colors.neutral[400],
+  linkButtonTextSecondary: tintColorLight,
+  linkButtonTextSecondaryDisabled: colors.neutral[400],
+  linkButtonTextDanger: colors.red[500],
+  linkButtonTextDangerDisabled: colors.neutral[400],
 
   primaryButtonBackground: tintColorLight,
   primaryButtonText: '#FFF',
@@ -296,8 +304,12 @@ const dark: IColors = {
   calendarWeekNameColor: colors.neutral[500],
   calendarMonthNameColor: colors.neutral[500],
   
-  linkButtonText: tintColorLight,
-  linkButtonDisabledText: colors.neutral[400],
+  linkButtonTextPrimary: tintColorLight,
+  linkButtonTextPrimaryDisabled: colors.neutral[400],
+  linkButtonTextSecondary: tintColorLight,
+  linkButtonTextSecondaryDisabled: colors.neutral[400],
+  linkButtonTextDanger: colors.red[500],
+  linkButtonTextDangerDisabled: colors.neutral[400],
   
   primaryButtonBackground: tintColorDark,
   primaryButtonText: '#FFF',

@@ -18,6 +18,7 @@ import { useSettings } from '../hooks/useSettings';
 import { useTemporaryLog } from '../hooks/useTemporaryLog';
 import { useTranslation } from '../hooks/useTranslation';
 import { RootStackScreenProps } from '../types';
+import { Alert } from 'react-native';
 
 const randomInt = (min, max) => Math.floor(Math.random() * (max - min + 1) + min);
 
@@ -128,6 +129,28 @@ export const LogModal = ({ navigation, route }: RootStackScreenProps<'Log'>) => 
     onClose()
   }
 
+  const askToRemove = () => {
+    return new Promise((resolve, reject) => {
+      Alert.alert(
+        t('delete_confirm_title'),
+        t('delete_confirm_message'),
+        [
+          {
+            text: t('delete'),
+            onPress: () => resolve({}),
+            style: "destructive"
+          },
+          { 
+            text: t('cancel'), 
+            onPress: () => reject(),
+            style: "cancel"
+          }
+        ],
+        { cancelable: true }
+      );
+    })
+  }
+  
   const remove = () => {
     segment.track('log_deleted')
     dispatch({
@@ -282,9 +305,15 @@ export const LogModal = ({ navigation, route }: RootStackScreenProps<'Log'>) => 
                 }}
               >
                 <LinkButton 
-                  onPress={remove} 
-                  type='secondary' 
-                  icon={<Trash2 width={17} color={colors.linkButtonText} />}
+                  onPress={() => {
+                    if(tempLog.data.message.length > 0) {
+                      askToRemove().then(() => remove())
+                    } else {
+                      remove()
+                    }
+                  }} 
+                  type='danger' 
+                  icon={'Trash2'}
                   testID='modal-delete'
                 >{i18n.t('delete')}</LinkButton>
               </View>

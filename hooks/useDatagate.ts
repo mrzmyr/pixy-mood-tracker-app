@@ -3,7 +3,7 @@ import * as DocumentPicker from 'expo-document-picker';
 import * as FileSystem from 'expo-file-system';
 import * as Sharing from 'expo-sharing';
 import { Alert, Platform } from 'react-native';
-import { convertPixeltoPixyJSON, getJSONSchemaType } from '../lib/utils';
+import { getJSONSchemaType } from '../lib/utils';
 import { LogsState, useLogs } from './useLogs';
 import { useSegment } from './useSegment';
 import { SettingsState, useSettings } from './useSettings';
