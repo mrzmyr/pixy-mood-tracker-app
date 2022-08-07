@@ -1,9 +1,10 @@
 import * as Linking from 'expo-linking';
 import * as LocalAuthentication from 'expo-local-authentication';
 import * as StoreReview from 'expo-store-review';
+import * as WebBrowser from 'expo-web-browser';
 import { useEffect, useState } from 'react';
 import { ScrollView, Text, View } from 'react-native';
-import { Award, Bell, Database, Flag, Shield, Star } from 'react-native-feather';
+import { ArrowUpCircle, Award, Bell, BookOpen, Database, Flag, Shield, Star } from 'react-native-feather';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import MenuList from '../components/MenuList';
 import MenuListItem from '../components/MenuListItem';
@@ -128,6 +129,24 @@ export const SettingsScreen = ({ navigation }: RootStackScreenProps<'Settings'>)
             marginTop: 20,
           }}
         >
+          <MenuListItem
+            title={i18n.t('vote_features')}
+            onPress={async () => {
+              segment.track('vote_features')
+              await WebBrowser.openBrowserAsync('https://pixy.hellonext.co/embed/b/feedback?no_header=true');
+            }}
+            iconLeft={<ArrowUpCircle width={18} color={colors.menuListItemIcon} />}
+            testID='vote_features'
+          />
+          <MenuListItem
+            title={i18n.t('changelog')}
+            onPress={async () => {
+              segment.track('changelog')
+              await WebBrowser.openBrowserAsync('https://pixy.hellonext.co/embed/c?no_header=true');
+            }}
+            iconLeft={<BookOpen width={18} color={colors.menuListItemIcon} />}
+            testID='vote_features'
+          />
           <MenuListItem
             title={i18n.t('send_feedback')}
             onPress={() => showFeedbackModal({ type: 'issue' })}
