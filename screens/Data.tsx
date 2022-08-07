@@ -70,7 +70,7 @@ export const DataScreen = ({ navigation }: RootStackScreenProps<'Data'>) => {
         /> */}
       </MenuList>
       <TextInfo>{i18n.t('webhook_help')}</TextInfo>
-      <MenuList style={{ marginTop: 20, }}>
+      <MenuList style={{ marginTop: 16, }}>
         <MenuListItem
           title={i18n.t('import')}
           onPress={() => datagate.openImportDialog()}
@@ -106,7 +106,7 @@ export const DataScreen = ({ navigation }: RootStackScreenProps<'Data'>) => {
           isLast
         ></MenuListItem>
       </MenuList>
-      <MenuList style={{ marginTop: 20, }}>
+      <MenuList style={{ marginTop: 16, }}>
         <MenuListItem
           testID='reset-data'
           title={i18n.t('reset_data_button')}
