@@ -30,6 +30,12 @@ export default ({
   const colors = useColors()
   const haptics = useHaptics()
 
+  iconRight = iconRight || null
+
+  if(isLink) {
+    iconRight = <ChevronRight width={18} color={colors.menuListItemIcon} />;
+  }
+
   return (
     <View
       style={{
@@ -87,16 +93,15 @@ export default ({
               justifyContent: 'center', 
               width: '100%',
               maxHeight: 55,
-            // backgroundColor: 'green'
             }}
           >{children}</View>
         )}
-        {(iconRight || isLink) && (
+        {(iconRight) && (
           <View style={{ 
             flex: 1, 
             justifyContent: 'center', 
             alignItems: 'flex-end',
-          }}>{iconRight || <ChevronRight width={18} color={colors.menuListItemIcon} />}</View>
+          }}>{iconRight}</View>
         )}
       </Pressable>
     </View>
