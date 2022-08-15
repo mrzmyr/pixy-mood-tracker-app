@@ -2,6 +2,45 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.19.0](https://github.com/mrzmyr/pixy-mood-tracker/compare/v1.18.0...v1.19.0) (2022-08-15)
+
+
+### Features
+
+* add alert for delete ([fd91719](https://github.com/mrzmyr/pixy-mood-tracker/commit/fd9171919dcd23323f98ee21b7611c46a636e1e7))
+* add changelog and vote features ([2f610c0](https://github.com/mrzmyr/pixy-mood-tracker/commit/2f610c0f452fce178dad8c8aa932d766db717bd5))
+* add settings import/export ([592b885](https://github.com/mrzmyr/pixy-mood-tracker/commit/592b88539f60ea384a39ad0f9a16e634f882af4b))
+* add test data generator ([5039453](https://github.com/mrzmyr/pixy-mood-tracker/commit/50394536b8b239463b8975187680387924d1bf9e))
+* align spacing ([7369ef1](https://github.com/mrzmyr/pixy-mood-tracker/commit/7369ef1c9f040bcbec426d9612b9ed11ca7bf30d))
+* track tags count in settings ([19c823c](https://github.com/mrzmyr/pixy-mood-tracker/commit/19c823c53b104d3c566d0d361f0caef311fea65f))
+* update docs screenshots ([e50fafb](https://github.com/mrzmyr/pixy-mood-tracker/commit/e50fafb6af4f4cf1d760f2595e208102eac7edc1))
+* update email address ([01599e7](https://github.com/mrzmyr/pixy-mood-tracker/commit/01599e767c3776534139bbef46292c60effc4cb1))
+
+
+### Bug Fixes
+
+* de translation ([ad51d9d](https://github.com/mrzmyr/pixy-mood-tracker/commit/ad51d9da36c52e1c7fe18a5f94941c6e7c2c0258))
+* update lang files ([fe43f98](https://github.com/mrzmyr/pixy-mood-tracker/commit/fe43f9889fb7332411884e06597c0347bcfd3f75))
+
+
+### Chore
+
+* **deps-dev:** bump sharp from 0.29.3 to 0.30.5 ([6407a9b](https://github.com/mrzmyr/pixy-mood-tracker/commit/6407a9b90807d2523dd9add3b670aac8a76ec29e))
+* **deps:** bump jpeg-js from 0.4.3 to 0.4.4 ([024aee0](https://github.com/mrzmyr/pixy-mood-tracker/commit/024aee0ee109f7c0a6dd8787b57cbfb6730cb344))
+* **release:** 1.18.1 ([4f33a97](https://github.com/mrzmyr/pixy-mood-tracker/commit/4f33a973b4c99c212637b9a92b5e8187d85a6f1d))
+* update deps ([8aa8120](https://github.com/mrzmyr/pixy-mood-tracker/commit/8aa81207aa6b5dbc90b9911eb4ebc36947990cf0))
+* update lock file ([f166df8](https://github.com/mrzmyr/pixy-mood-tracker/commit/f166df88c1d70833293289e4daadc53e54a01587))
+
+
+### Documentation
+
+* add feature image ([88695a8](https://github.com/mrzmyr/pixy-mood-tracker/commit/88695a878103a219390ee2c99826cb2898f5064a))
+
+
+### Refactors
+
+* update MenuListItem ([6fb238e](https://github.com/mrzmyr/pixy-mood-tracker/commit/6fb238e921a978e5f8649e844cb1c13f1fdc30b9))
+
 ### [1.18.1](https://github.com/mrzmyr/pixy-mood-tracker/compare/v1.18.0...v1.18.1) (2022-07-30)
 
 
