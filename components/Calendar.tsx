@@ -12,9 +12,11 @@ import CalendarMonth from "./CalendarMonth";
 import LinkButton from "./LinkButton";
 
 export default function Calendar({
-  navigation
+  navigation,
+  jumpIntoView,
 }: {
   navigation: any;
+  jumpIntoView: (ref: any) => void;
 }) {
   const colors = useColors()
   const { state } = useLogs()
@@ -52,9 +54,7 @@ export default function Calendar({
   
   useEffect(() => {
     if(viewRef.current !== null) {
-      setTimeout(() => {
-        scrollIntoView(viewRef.current)
-      }, 100);
+      jumpIntoView(viewRef.current)
     }
   }, [viewRef.current]);
 
