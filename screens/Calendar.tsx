@@ -1,11 +1,10 @@
 import { useState } from 'react';
-import { ScrollView, View } from 'react-native';
+import { Dimensions, ScrollView, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { wrapScrollView } from 'react-native-scroll-into-view';
 import Calendar from '../components/Calendar';
 import CalendarHeader from '../components/CalendarHeader';
 import useColors from '../hooks/useColors';
-import { Dimensions } from 'react-native';
 
 const CustomScrollView = wrapScrollView(ScrollView);
 
@@ -43,9 +42,6 @@ export const CalendarScreen = ({ navigation }) => {
         }}
         contentOffset={{ y: offsetY }}
       >
-        <View>
-
-        </View>
         <Calendar jumpIntoView={jumpIntoView} navigation={navigation} />
       </CustomScrollView>
     </View>
