@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.20.0](https://github.com/mrzmyr/pixy-mood-tracker/compare/v1.19.0...v1.20.0) (2022-08-21)
+
+
+### Features
+
+* improve initial scroll speed ([e213b3e](https://github.com/mrzmyr/pixy-mood-tracker/commit/e213b3ea6ca1e2e1f4a2dd1034497f015d2022be))
+* prefix setting event names ([cf7a21c](https://github.com/mrzmyr/pixy-mood-tracker/commit/cf7a21c7a060badfafd338355dc643007928b287))
+
+
+### Chore
+
+* cleanup ([b2f1961](https://github.com/mrzmyr/pixy-mood-tracker/commit/b2f19615778c77bb9cb6c3c2a59000b6587487dc))
+
 ## [1.19.0](https://github.com/mrzmyr/pixy-mood-tracker/compare/v1.18.0...v1.19.0) (2022-08-15)
 
 
