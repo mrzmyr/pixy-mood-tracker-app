@@ -132,7 +132,7 @@ export const SettingsScreen = ({ navigation }: RootStackScreenProps<'Settings'>)
           <MenuListItem
             title={i18n.t('vote_features')}
             onPress={async () => {
-              segment.track('vote_features')
+              segment.track('settings_vote_features')
               await WebBrowser.openBrowserAsync('https://pixy.hellonext.co/embed/b/feedback?no_header=true');
             }}
             iconLeft={<ArrowUpCircle width={18} color={colors.menuListItemIcon} />}
@@ -141,11 +141,11 @@ export const SettingsScreen = ({ navigation }: RootStackScreenProps<'Settings'>)
           <MenuListItem
             title={i18n.t('changelog')}
             onPress={async () => {
-              segment.track('changelog')
+              segment.track('settings_changelog')
               await WebBrowser.openBrowserAsync('https://pixy.hellonext.co/embed/c?no_header=true');
             }}
             iconLeft={<BookOpen width={18} color={colors.menuListItemIcon} />}
-            testID='vote_features'
+            testID='changelog'
           />
           <MenuListItem
             title={i18n.t('send_feedback')}
