@@ -2,12 +2,13 @@ import dayjs from 'dayjs';
 import { t } from 'i18n-js';
 import { debounce } from "lodash";
 import { useCallback, useEffect, useRef } from 'react';
-import { Platform, Pressable, ScrollView, Text, View } from 'react-native';
-import { Edit2, Plus, Trash2 } from 'react-native-feather';
+import { Alert, Platform, Pressable, ScrollView, Text, View } from 'react-native';
+import { Edit2, Plus } from 'react-native-feather';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import DismissKeyboard from '../components/DismisKeyboard';
 import LinkButton from '../components/LinkButton';
 import ModalHeader from '../components/ModalHeader';
+import Tag from '../components/Tag';
 import Scale from '../components/Scale';
 import TextArea from '../components/TextArea';
 import useColors from '../hooks/useColors';
@@ -18,7 +19,6 @@ import { useSettings } from '../hooks/useSettings';
 import { useTemporaryLog } from '../hooks/useTemporaryLog';
 import { useTranslation } from '../hooks/useTranslation';
 import { RootStackScreenProps } from '../types';
-import { Alert } from 'react-native';
 
 const randomInt = (min, max) => Math.floor(Math.random() * (max - min + 1) + min);
 
@@ -108,7 +108,10 @@ export const LogModal = ({ navigation, route }: RootStackScreenProps<'Log'>) => 
       date: tempLog.data.date,
       messageLength: tempLog.data.message.length,
       rating: tempLog.data.rating,
-      tagsCount: tempLog.data.tags?.length,
+      tags: tempLog.data.tags.map(tag => ({
+        ...tag,
+        title: undefined
+      })),
     })
 
     dispatch({
@@ -174,6 +177,9 @@ export const LogModal = ({ navigation, route }: RootStackScreenProps<'Log'>) => 
   }, 1000), []);
 
   const setRating = (rating: LogItem['rating']) => {
+    segment.track('log_rating_changed', {
+      label: rating
+    })
     tempLog.set((logItem) => ({ ...logItem, rating }))
   }
   const setMessage = (message: LogItem['message']) => {
@@ -235,14 +241,20 @@ export const LogModal = ({ navigation, route }: RootStackScreenProps<'Log'>) => 
               />
             </View>
 
-            <TextArea
-              testID='modal-message'
-              onChange={setMessage}
-              placeholder={placeholder.current}
-              value={tempLog.data.message}
-              maxLength={10 * 1000}
-              autoFocus
-            />
+            <View
+              style={{
+                marginTop: 8,
+              }}
+            >
+              <TextArea
+                testID='modal-message'
+                onChange={setMessage}
+                placeholder={placeholder.current}
+                value={tempLog.data.message}
+                maxLength={10 * 1000}
+                autoFocus
+              />
+            </View>
 
             <Pressable
               onPress={async () => {
@@ -261,24 +273,7 @@ export const LogModal = ({ navigation, route }: RootStackScreenProps<'Log'>) => 
                 paddingBottom: 8,
               }}>
                 {tempLog.data?.tags && tempLog.data.tags.map(tag => (
-                  <View key={tag.id} style={{
-                    paddingTop: 8,
-                    paddingBottom: 8,
-                    paddingLeft: 16,
-                    paddingRight: 16,
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    flexDirection: 'row',
-                    borderRadius: 100,
-                    marginRight: 4,
-                    marginBottom: 4,
-                    backgroundColor: colors.tags[tag.color]?.background,
-                  }}>
-                    <Text style={{
-                      color: colors.tags[tag.color]?.text,
-                      fontSize: 17,
-                    }}>{tag.title}</Text>
-                  </View>
+                  <Tag colorName={tag.color} key={tag.id} title={tag.title} />
                 ))}
                 <View>
                   <TagEdit 

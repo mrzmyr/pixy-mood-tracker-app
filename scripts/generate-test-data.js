@@ -3,6 +3,13 @@ const fs = require('fs');
 const _ = require('lodash');
 
 const RATINGS = ['extremely_good', 'very_good', 'good', 'neutral', 'bad', 'very_bad']
+const MESSAGES = [
+  'I love it with mom',
+  'I laughed a lot',
+  'I with something would happen',
+  'Leared something new',
+  'Bold experience',
+];
 
 const generate = () => {
   
@@ -46,7 +53,7 @@ const generate = () => {
     items[date] = {
       date,
       rating: _.sample(RATINGS),
-      message: 'Today I learned how to make pancakes! 🥞',
+      message: `${_.sample(MESSAGES)}`,
       tags: Math.random() > 0.5 ? _.sampleSize(settings.tags, _.random(0, settings.tags.length)) : [],
     }
   }

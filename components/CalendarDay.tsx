@@ -46,7 +46,8 @@ export default memo(function CalendarDay({
   rating,
   tags,
   isToday,
-  isFuture,
+  isFiltered,
+  isDisabled,
   hasText,
   onPress,
 }: {
@@ -55,7 +56,8 @@ export default memo(function CalendarDay({
   tags: LogItem['tags'],
   rating?: LogItem["rating"],
   isToday: boolean,
-  isFuture: boolean,
+  isDisabled: boolean,
+  isFiltered: boolean,
   hasText: boolean,
   onPress: any,
 }) {
@@ -63,19 +65,31 @@ export default memo(function CalendarDay({
   const haptics = useHaptics();
   let colorScheme = useColorScheme();
 
-  const backgroundColor = rating ? 
-    colors.scales['ColorBrew-RdYlGn'][rating].background : 
-    colors.calendarItemBackground;
-  const textColor = rating ? 
-    colors.scales['ColorBrew-RdYlGn'][rating].text : 
-    colors.calendarItemTextColor;
+  const backgroundColor = (
+    isFiltered ? (
+      colors.calendarBackground
+    ) : (
+      rating ? 
+        colors.scales['ColorBrew-RdYlGn'][rating].background : 
+        colors.calendarItemBackground
+    )
+  )
+  const textColor = (
+    isFiltered ? (
+      colors.text
+    ) : (
+      rating ? 
+        colors.scales['ColorBrew-RdYlGn'][rating].text : 
+        colors.calendarItemTextColor
+    )
+  )
   
   return (
     <>
       <TouchableOpacity
-        disabled={isFuture || !onPress}
+        disabled={isDisabled || !onPress}
         onPress={async () => {
-          if(!isFuture) {
+          if(!isDisabled) {
             await haptics.selection()
             onPress(dateString)
           }
@@ -86,13 +100,13 @@ export default memo(function CalendarDay({
           alignItems: 'center',
           padding: 4,
           borderRadius: 6,
-          backgroundColor: isFuture ? colors.calendarItemBackgroundFuture : backgroundColor,
+          backgroundColor: isDisabled || isFiltered ? colors.calendarItemBackgroundFuture : backgroundColor,
           width: '100%',
           aspectRatio: 1,
           borderWidth: 2,
           borderColor: colorScheme === 'light' ? 
             chroma(backgroundColor).darken(0.4).hex() : 
-              isFuture ? 
+            isDisabled || isFiltered ? 
               chroma(backgroundColor).brighten(0.1).hex() :
               chroma(backgroundColor).brighten(0.8).hex(),
         }}
@@ -111,7 +125,7 @@ export default memo(function CalendarDay({
             width: '100%',
           }}
         >
-          <View style={{
+          {/* <View style={{
             flexDirection: 'row',
             width: '70%',
             flexWrap: 'wrap',
@@ -123,7 +137,7 @@ export default memo(function CalendarDay({
                 borderColor={chroma(backgroundColor).luminance() < 0.6 ? 'rgba(255,255,255,0.8)' : 'rgba(0,0,0,0.2)'}
               />
             ))}
-          </View>
+          </View> */}
           <View
             style={{
               width: '30%',
@@ -159,7 +173,7 @@ export default memo(function CalendarDay({
             <Text
               style={{
                 fontSize: 12,
-                opacity: isFuture ? 0.3 : 1,
+                opacity: isDisabled || isFiltered ? 0.3 : 1,
                 color: isToday ? '#000' : textColor,
               }}
             >{day}</Text>

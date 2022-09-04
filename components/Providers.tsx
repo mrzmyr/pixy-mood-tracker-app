@@ -4,6 +4,7 @@ import { LogsProvider } from '../hooks/useLogs';
 import { SettingsProvider } from '../hooks/useSettings';
 import { PasscodeProvider } from '../hooks/usePasscode';
 import { TemporaryLogProvider } from '../hooks/useTemporaryLog';
+import { CalendarFiltersProvider } from '../hooks/useCalendarFilters';
 
 const Providers = ({ 
   children
@@ -17,7 +18,9 @@ const Providers = ({
           <SegmentProvider>
             <LogsProvider>
               <TemporaryLogProvider>
-                {children}
+                <CalendarFiltersProvider>
+                  {children}
+                </CalendarFiltersProvider>
               </TemporaryLogProvider>
             </LogsProvider>
           </SegmentProvider>

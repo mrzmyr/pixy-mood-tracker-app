@@ -1,34 +1,70 @@
-import { Text, View, ViewStyle } from "react-native";
+import { Pressable, Text, TouchableOpacity, View } from "react-native";
+import { Check } from "react-native-feather";
 import useColors from "../hooks/useColors";
 
-export default function Tag({ 
-  children, 
-  type,
-  style
+const Checkbox = ({
+  colorName,
+  checked,
 }: {
-  children: React.ReactNode,
-  type: 'success' | 'error',
-  style?: ViewStyle,
+  colorName: string;
+  checked: boolean;
+}) => {
+  const colors = useColors();
+
+  return (
+    <View
+      style={{
+        padding: 4,
+        borderWidth: 2,
+        borderColor: checked ? colors.tags[colorName]?.background : colors.tags[colorName]?.border,
+        width: 22,
+        height: 22,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 4,
+        backgroundColor: checked ? colors.tags[colorName]?.background : colors.tags[colorName]?.text,
+      }}
+    >
+      {checked && <Check strokeWidth={3} width={12} color={colors.tags[colorName]?.text} />}
+    </View>
+  );
+};
+
+export default function Tag({ 
+  colorName,
+  title,
+  selected = false,
+  onPress,
+}: {
+  colorName: string,
+  title: string,
+  selected?: boolean,
+  onPress?: () => void,
 }) {
   const colors = useColors();
   
   return (
-    <View style={{
-      backgroundColor: type === 'success' ? colors.tagSuccessBackground : colors.tagErrorBackground,
-      padding: 2,
-      paddingLeft: 7,
-      paddingRight: 7,
-      borderRadius: 8,
-      opacity: 0.8,
-      ...style,
-    }}>
-      <Text style={{ 
-        fontSize: 14,
-        opacity: 0.8,
-        color: type === 'success' ? colors.tagSuccessText : colors.tagErrorText,
-      }}>
-        {children}
-      </Text>
-    </View>
+    <TouchableOpacity 
+      activeOpacity={0.8}
+      style={{
+        paddingTop: 8,
+        paddingBottom: 8,
+        paddingLeft: 16,
+        paddingRight: 16,
+        justifyContent: 'center',
+        alignItems: 'center',
+        flexDirection: 'row',
+        borderRadius: 100,
+        marginRight: 4,
+        marginBottom: 4,
+        backgroundColor: selected ? colors.tags[colorName]?.text : colors.tags[colorName]?.background,
+      }}
+      onPress={onPress}
+    >
+      <Text style={{
+        color: selected ? colors.tags[colorName]?.background : colors.tags[colorName]?.text,
+        fontSize: 17,
+      }}>{title}</Text>
+    </TouchableOpacity>
   )
 }

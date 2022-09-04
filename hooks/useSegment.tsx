@@ -41,7 +41,10 @@ function SegmentProvider({
       settingsReminderTime: settings.reminderTime,
       settingsScaleType: settings.scaleType,
       settingsWebhookEnabled: settings.webhookEnabled,
-      settingsTagsCount: settings.tags?.length,
+      settingsTags: settings.tags.map(tag => ({
+        ...tag,
+        title: undefined
+      })),
       ...properties,
     }
 
