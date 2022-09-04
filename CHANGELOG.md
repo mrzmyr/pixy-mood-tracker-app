@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.21.0](https://github.com/mrzmyr/pixy-mood-tracker/compare/v1.20.0...v1.21.0) (2022-09-04)
+
+
+### Features
+
+* add first prototype of filters ([1fd9dcb](https://github.com/mrzmyr/pixy-mood-tracker/commit/1fd9dcb28a619ac666922ffb8a82eebebdca5423))
+* translate formal to informal german ([082f35f](https://github.com/mrzmyr/pixy-mood-tracker/commit/082f35f5847a7c4838d3b1e6b130fcaaf848cc20))
+* update adaptive image for android ([4e4632e](https://github.com/mrzmyr/pixy-mood-tracker/commit/4e4632e5356dce528d8e63640646e9eb910cdf69))
+
 ## [1.20.0](https://github.com/mrzmyr/pixy-mood-tracker/compare/v1.19.0...v1.20.0) (2022-08-21)
 
 
