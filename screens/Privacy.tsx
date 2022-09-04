@@ -27,7 +27,7 @@ export const PrivacyScreen = () => {
       }}
     >
       <ScrollView style={{ 
-        padding: 20,
+        padding: 16,
       }}>
         <View style={{
           paddingBottom: 80,
@@ -35,7 +35,7 @@ export const PrivacyScreen = () => {
           <View style={{
             justifyContent: 'center',
             alignItems: 'center',
-            padding: 20,
+            padding: 16,
           }}>
             <Shield color={colors.text} width={80} height={30} />
           </View>
@@ -52,7 +52,7 @@ export const PrivacyScreen = () => {
           
           <LinkButton
             style={{
-              marginTop: 20,
+              marginTop: 16,
             }}
             onPress={_handlePressButtonAsync}
           >{i18n.t('privacy_policy')}</LinkButton>

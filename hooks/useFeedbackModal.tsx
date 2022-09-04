@@ -297,6 +297,7 @@ export default function useFeedbackModal() {
             <View style={{
               flexDirection: 'row',
               width: '100%',
+              marginTop: 8,
             }}>
               <TextArea
                 testID='feedback-modal-message'

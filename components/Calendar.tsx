@@ -7,7 +7,6 @@ import {
 import useColors from "../hooks/useColors";
 import { useLogs } from "../hooks/useLogs";
 import { useTranslation } from "../hooks/useTranslation";
-import Button from "./Button";
 import CalendarMonth from "./CalendarMonth";
 import LinkButton from "./LinkButton";
 

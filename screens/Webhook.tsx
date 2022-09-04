@@ -5,7 +5,7 @@ import { useDebouncedCallback } from 'use-debounce';
 import MenuList from '../components/MenuList';
 import MenuListHeadline from '../components/MenuListHeadline';
 import MenuListItem from '../components/MenuListItem';
-import Tag from '../components/Tag';
+import Indicator from '../components/Indicator';
 import TextInfo from '../components/TextInfo';
 import useColors from '../hooks/useColors';
 import { useSegment } from '../hooks/useSegment';
@@ -121,7 +121,7 @@ export const WebhookScreen = ({ navigation }: RootStackScreenProps<'Webhook'>) =
                         marginRight: 10,
                       }}
                     >{entry?.date ? dayjs(entry.date).format('lll') : '-'}</Text>
-                    <Tag type={entry.isError ? 'error' : 'success'}>{entry.isError ? i18n.t('webhook_status_error') : i18n.t('webhook_status_success')}</Tag>
+                    <Indicator type={entry.isError ? 'error' : 'success'}>{entry.isError ? i18n.t('webhook_status_error') : i18n.t('webhook_status_success')}</Indicator>
                   </View>
                 }
                 onPress={() => navigation.navigate('WebhookEntry', { entry, date: entry.date })}

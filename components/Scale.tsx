@@ -2,7 +2,6 @@ import { View } from "react-native";
 import useHaptics from "../hooks/useHaptics";
 import { LogItem } from "../hooks/useLogs";
 import useScale from "../hooks/useScale";
-import { useSegment } from "../hooks/useSegment";
 import { SettingsState } from "../hooks/useSettings";
 import ScaleButton from "./ScaleButton";
 
@@ -12,12 +11,11 @@ export default function Scale({
   onPress = null,
 }: {
   type: SettingsState['scaleType'];
-  value?: LogItem['rating'];
+  value?: LogItem['rating'] | LogItem['rating'][];
   onPress?: any,
 }) {
   let { colors, labels } = useScale(type)
   labels = labels.reverse()
-  const segment = useSegment()
   const haptics = useHaptics()
   
   return (
@@ -29,24 +27,28 @@ export default function Scale({
         justifyContent: 'space-between',
       }}
     >
-      {Object.keys(colors).reverse().map((key, index) => (
-        <ScaleButton 
-          accessibilityLabel={labels[index]}
-          key={key} 
-          isFirst={index === 0}
-          isLast={index === labels.length - 1}
-          isSelected={key === value}
-          onPress={onPress ? async () => {
-            await haptics.selection()
-            segment.track('log_rating_changed', {
-              label: labels[index]
-            })
-            onPress(key) 
-          }: null}
-          backgroundColor={colors[key].background}
-          textColor={colors[key].text}
-        />
-      ))}
+      {Object.keys(colors).reverse().map((key, index) => {
+
+        const isSelected = Array.isArray(value) ? 
+          value.includes(key as LogItem['rating']) : 
+          value === key
+
+        return (
+          <ScaleButton 
+            accessibilityLabel={labels[index]}
+            key={key} 
+            isFirst={index === 0}
+            isLast={index === labels.length - 1}
+            isSelected={isSelected}
+            onPress={onPress ? async () => {
+              await haptics.selection()
+              onPress(key)
+            }: null}
+            backgroundColor={colors[key].background}
+            textColor={colors[key].text}
+          />
+        );
+      })}
     </View>
   )
 }

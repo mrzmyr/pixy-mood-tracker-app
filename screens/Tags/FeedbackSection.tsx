@@ -2,7 +2,7 @@ import { t } from 'i18n-js';
 import { useEffect, useState } from 'react';
 import { ActivityIndicator, Image, Pressable, Text, View } from 'react-native';
 import Button from '../../components/Button';
-import Tag from '../../components/Tag';
+import Indicator from '../../components/Indicator';
 import TextArea from '../../components/TextArea';
 import useColors from '../../hooks/useColors';
 import { useFeedback } from '../../hooks/useFeedback';
@@ -109,7 +109,7 @@ export const FeedbackSection = ({
           fontWeight: 'bold',
           color: colors.text,
         }}>😍🎉 {t('tags_feedback_title')}</Text>
-        <Tag type="success">{t('new')}</Tag>
+        <Indicator type="success">{t('new')}</Indicator>
       </View>
       <Text style={{
         fontSize: 15,
@@ -150,15 +150,21 @@ export const FeedbackSection = ({
       </View>
       { selected && (
         <View>
-          <TextArea 
-            placeholder={t('tags_feedback_placeholder')}
-            value={text}
-            onChange={setText}
+          <View
             style={{
-              marginBottom: 16,
-              height: 100,
+              marginTop: 8,
             }}
-          />
+          >
+            <TextArea 
+              placeholder={t('tags_feedback_placeholder')}
+              value={text}
+              onChange={setText}
+              style={{
+                marginBottom: 16,
+                height: 100,
+              }}
+            />
+          </View>
           { loading ? (
             <View style={{
               flexDirection: 'row',

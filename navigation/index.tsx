@@ -3,7 +3,6 @@ import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useEffect } from 'react';
 import { Platform, Pressable, Text, useColorScheme, View } from 'react-native';
-import ConfettiCannon from 'react-native-confetti-cannon';
 import { ArrowLeft, Calendar as CalendarIcon, PieChart, Settings as SettingsIcon } from 'react-native-feather';
 import { SafeAreaProvider, useSafeAreaInsets } from 'react-native-safe-area-context';
 import Colors from '../constants/Colors';
@@ -26,7 +25,10 @@ import {
 import { RootStackParamList } from '../types';
 
 import { enableScreens } from 'react-native-screens';
+import LinkButton from '../components/LinkButton';
+import { useCalendarFilters } from '../hooks/useCalendarFilters';
 import { TagsModal } from '../screens/Tags';
+
 enableScreens();
 
 const linking = {
@@ -182,6 +184,7 @@ const Tab = createBottomTabNavigator();
 const BottomTabs = () => {
   const colors = useColors();
   const i18n = useTranslation()
+  const calendarFilters = useCalendarFilters()
 
   const defaultOptions = {
     headerTintColor: colors.text,
@@ -222,7 +225,21 @@ const BottomTabs = () => {
         component={CalendarScreen}
         options={({ navigation }) => ({
           ...defaultOptions,
-          headerShown: false,
+          headerRight: () => (
+            <View style={{ paddingRight: 16 }}>
+              <LinkButton 
+                onPress={() => {
+                  if(calendarFilters.isOpen) {
+                    calendarFilters.close()
+                  } else {
+                    calendarFilters.open()
+                  }
+                }} 
+                testID="filters" 
+                type='secondary'
+              >Filters{calendarFilters.isFiltering ? `(${calendarFilters.filterCount})` : ''}</LinkButton>
+            </View>
+          ),
           tabBarTestID: 'calendar',
           title: i18n.t('calendar'),
         })}

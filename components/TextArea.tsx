@@ -26,7 +26,6 @@ export default function TextArea({
   return (
     <View style={{
       ...containerStyle,
-      marginTop: 10,
       width: '100%',
       position: 'relative',
     }}>
