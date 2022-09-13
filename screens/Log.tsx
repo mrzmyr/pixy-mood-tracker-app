@@ -113,6 +113,27 @@ export const LogModal = ({ navigation, route }: RootStackScreenProps<'Log'>) => 
         title: undefined
       })),
     })
+    if(existingLogItem) {
+      segment.track('log_changed', {
+        date: tempLog.data.date,
+        messageLength: tempLog.data.message.length,
+        rating: tempLog.data.rating,
+        tags: tempLog.data.tags.map(tag => ({
+          ...tag,
+          title: undefined
+        })),
+      })
+    } else {
+      segment.track('log_created', {
+        date: tempLog.data.date,
+        messageLength: tempLog.data.message.length,
+        rating: tempLog.data.rating,
+        tags: tempLog.data.tags.map(tag => ({
+          ...tag,
+          title: undefined
+        })),
+      })
+    }
 
     dispatch({
       type: existingLogItem ? 'edit' : 'add',
