@@ -31,7 +31,7 @@ const initialState: CalendarFiltersData = {
   text: '',
   ratings: [],
   tagIds: [],
-  isOpen: true,
+  isOpen: false,
   isFiltering: false,
   filterCount: 0,
 }
@@ -57,7 +57,7 @@ function CalendarFiltersProvider({
     })
   }
   
-  const value: Value = { 
+  const value: Value = {
     data, 
     set: _setData,
     reset: () => setData(initialState),
@@ -66,7 +66,7 @@ function CalendarFiltersProvider({
     validate: (log: LogItem) => {
       const matchesText = log.message.toLowerCase().includes(data.text.toLowerCase())
       const matchesRatings = data.ratings.includes(log.rating)
-      const tagIds = log.tags.map(tag => tag.id)
+      const tagIds = log?.tags?.map(tag => tag.id)
       const matchesTags = _.difference(data.tagIds, tagIds).length === 0;
 
       const conditions = []
