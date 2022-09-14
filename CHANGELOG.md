@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.22.1](https://github.com/mrzmyr/pixy-mood-tracker/compare/v1.22.0...v1.22.1) (2022-09-14)
+
+
+### Bug Fixes
+
+* **Filters:** migration tolerance bug ([ffd9ef0](https://github.com/mrzmyr/pixy-mood-tracker/commit/ffd9ef0f4aa0fa9c8d20e88c77700f0fc9fe9212))
+
 ## [1.22.0](https://github.com/mrzmyr/pixy-mood-tracker/compare/v1.20.0...v1.22.0) (2022-09-13)
 
 
