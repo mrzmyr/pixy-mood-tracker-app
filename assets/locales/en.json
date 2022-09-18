@@ -122,16 +122,18 @@
   "tags_default_3_title": "Work",
   "tags_default_4_title": "Exercise",
   "tags_default_5_title": "Friends",
-  "previews_screen_1_title": [
-    "Track your mood",
-    "One Pixel at a Time"
-  ],
-  "previews_screen_2_title": [
-    "Webhook / Export",
-    "Support"
-  ],
-  "previews_screen_3_title": [
-    "Looking great in",
-    "Dark Mode"
-  ]
+  "statistics_subtitle": "Your last two weeks",
+  "statistics_description": "These are your trends from the last two weeks",
+  "statistics_no_data": "Track a few more days\n to unlock your first statistics.",
+  "statistics_category_mood": "Mood",
+  "statistics_mood_avg_title": "Your mood appears with {{rating_percentage}}% to be mostly {{rating_word}}.",
+  "statistics_mood_avg_positive": "positive",
+  "statistics_mood_avg_neutral": "neutral",
+  "statistics_mood_avg_negative": "negative",
+  "statistics_mood_peaks_title_singular": "Your mood peaked {{rating_word}} one time.",
+  "statistics_mood_peaks_title_plural": "Your mood peaked {{rating_word}} {{rating_count}} times.",
+  "statistics_mood_peaks_positive": "positively",
+  "statistics_mood_peaks_negative": "negatively",
+  "statistics_feedback_question": "Is this helpful?",
+  "statistics_feedback_success": "Thank you!"
 }

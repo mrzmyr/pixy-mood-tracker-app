@@ -161,6 +161,14 @@ export interface IColors {
   statisticsBackground: string;
   statisticsCardBackground: string;
   statisticsLine: string;
+  statisticsFeedbackBorder: string;
+  statisticsFeedbackText: string;
+  statisticsWeekdayText: string;
+  statisticsWeekdayBorder: string;
+  statisticsCalendarDotBackground: string;
+  statisticsCalendarDotText: string;
+  statisticsNoDataBorder: string;
+  statisticsNoDataText: string;
   
   switchThumbColor: string;
   scales: Scales;
@@ -253,7 +261,15 @@ const light: IColors = {
   statisticsBackground: colors.neutral[100],
   statisticsCardBackground: '#FFF',
   statisticsLine: '#000',
-  
+  statisticsFeedbackBorder: colors.neutral[200],
+  statisticsFeedbackText: colors.neutral[400],
+  statisticsWeekdayText: colors.neutral[400],
+  statisticsWeekdayBorder: colors.neutral[200],
+  statisticsCalendarDotBackground: colors.neutral[200],
+  statisticsCalendarDotText: colors.neutral[400],
+  statisticsNoDataBorder: colors.neutral[300],
+  statisticsNoDataText: colors.neutral[400],
+
   switchThumbColor: '#333',
   scales,
   tags: tagsLight,
@@ -344,6 +360,14 @@ const dark: IColors = {
   statisticsBackground: '#000',
   statisticsCardBackground: colors.neutral[900],
   statisticsLine: '#FFF',
+  statisticsFeedbackBorder: colors.neutral[800],
+  statisticsFeedbackText: colors.neutral[600],
+  statisticsWeekdayText: colors.neutral[800],
+  statisticsWeekdayBorder: colors.neutral[800],
+  statisticsCalendarDotBackground: colors.neutral[800],
+  statisticsCalendarDotText: colors.neutral[200],
+  statisticsNoDataBorder: colors.neutral[200],
+  statisticsNoDataText: colors.neutral[400],
   
   switchThumbColor: '#FFF',
   scales,
