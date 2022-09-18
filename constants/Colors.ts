@@ -362,7 +362,7 @@ const dark: IColors = {
   statisticsLine: '#FFF',
   statisticsFeedbackBorder: colors.neutral[800],
   statisticsFeedbackText: colors.neutral[600],
-  statisticsWeekdayText: colors.neutral[800],
+  statisticsWeekdayText: colors.neutral[600],
   statisticsWeekdayBorder: colors.neutral[800],
   statisticsCalendarDotBackground: colors.neutral[800],
   statisticsCalendarDotText: colors.neutral[200],
