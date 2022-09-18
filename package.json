@@ -32,10 +32,9 @@
     "@react-navigation/bottom-tabs": "^6.3.1",
     "@react-navigation/native": "^6.0.2",
     "@react-navigation/native-stack": "^6.1.0",
-    "@sentry/react-native": "^3.4.2",
+    "@sentry/react-native": "^4.3.1",
     "ajv": "^8.8.2",
     "chroma-js": "^2.4.2",
-    "compromise": "^14.1.2",
     "dayjs": "^1.10.7",
     "expo": "~44.0.0",
     "expo-analytics-segment": "~11.1.2",
@@ -77,8 +76,7 @@
     "react-native-web": "0.17.1",
     "sentry-expo": "^4.0.0",
     "use-debounce": "^7.0.1",
-    "uuid": "^8.3.2",
-    "victory-native": "^36.5.3"
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
@@ -94,8 +92,8 @@
     "@types/i18n-js": "^3.8.2",
     "@types/jest": "^27.4.0",
     "@types/lodash": "^4.14.180",
-    "@types/react": "~17.0.21",
-    "@types/react-native": "~0.64.12",
+    "@types/react": "^18.0.20",
+    "@types/react-native": "^0.70.1",
     "@types/uuid": "^8.3.4",
     "cypress": "^9.5.2",
     "fast-csv": "^4.3.6",
