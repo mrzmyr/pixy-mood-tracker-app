@@ -29,7 +29,7 @@ const send = ({
     source,
   }
 
-  const url = 'https://f7e52509fce26bc860d05c9cffff8d87.m.pipedream.net'
+  const url = 'https://eocfnkx0gbrjzvp.m.pipedream.net'
 
   return fetch(url, {
     method: 'POST',
