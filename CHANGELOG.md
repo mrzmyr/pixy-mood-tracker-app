@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.23.0](https://github.com/mrzmyr/pixy-mood-tracker/compare/v1.22.1...v1.23.0) (2022-09-18)
+
+
+### Features
+
+* add 3 new statistic cards ([fc2d4f4](https://github.com/mrzmyr/pixy-mood-tracker/commit/fc2d4f49482aa65821ac7138059cbdf52b06248a))
+
+
+### Chore
+
+* update deps ([b1989d1](https://github.com/mrzmyr/pixy-mood-tracker/commit/b1989d1b3c4fc261935d9ce1da43a9467fd7bae7))
+* update privacy link ([9178012](https://github.com/mrzmyr/pixy-mood-tracker/commit/9178012625318dc071e18fc26a68e1d53d81d655))
+
 ### [1.22.1](https://github.com/mrzmyr/pixy-mood-tracker/compare/v1.22.0...v1.22.1) (2022-09-14)
 
 
