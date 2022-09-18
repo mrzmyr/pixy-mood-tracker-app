@@ -42,12 +42,14 @@ export const MoodAvgCard = ({
     return null;
   }
   
+  const percentage = Math.round(rating[rating_highest] / rating_total * 100)
+  
   return (
     <Card
       subtitle={t('statistics_category_mood')}
       title={t('statistics_mood_avg_title', {
         rating_word: t(`statistics_mood_avg_${rating_highest}`),
-        rating_percentage: Math.round(rating[rating_highest] / rating_total * 100),
+        rating_percentage: percentage,
       })}
     >
       <View
@@ -75,7 +77,7 @@ export const MoodAvgCard = ({
           );
         })}
       </View>
-      <CardFeedback type='mood_avg' />
+      <CardFeedback type='mood_avg' details={{ percentage, rating }} />
     </Card>
   );
 };

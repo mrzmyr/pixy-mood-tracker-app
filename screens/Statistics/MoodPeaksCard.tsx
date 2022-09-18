@@ -188,7 +188,7 @@ const MoodPeakCard = ({
         <BodyWeek start={dayjs().subtract(2, 'week')} items={peaks} />
         <BodyWeek start={dayjs().subtract(1, 'week')} items={peaks} />
       </View>
-      <CardFeedback type='mood_peaks' />
+      <CardFeedback type='mood_peaks' details={{ rating_peaks, type }} />
     </Card>
   )
 }

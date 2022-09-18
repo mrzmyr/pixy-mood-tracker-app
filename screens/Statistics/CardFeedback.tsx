@@ -51,9 +51,11 @@ const CardFeedbackEmoji = ({ image, onPress }) => {
   )
 }
 export const CardFeedback = ({
-  type
+  type,
+  details
 }: {
   type: 'mood_avg' | 'mood_peaks';
+  details: any;
 }) => {
   const segment = useSegment();
   const colors = useColors();
@@ -65,7 +67,7 @@ export const CardFeedback = ({
 
   const handleFeedback = (emoji) => {
     setLoading(true);
-    const message = `${type}:  ${emoji}`;
+    const message = `${type}:  ${emoji} \n ${JSON.stringify(details)}`;
 
     send({
       type: 'emoji',
