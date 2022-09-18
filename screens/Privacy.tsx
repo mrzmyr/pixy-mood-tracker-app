@@ -13,7 +13,7 @@ export const PrivacyScreen = () => {
   const segment = useSegment()
   
   const _handlePressButtonAsync = async () => {
-    await WebBrowser.openBrowserAsync('https://y99.notion.site/Privacy-Policy-236e2f58ea48429e8cfa07c16536f3df', {
+    await WebBrowser.openBrowserAsync('https://pixy.day/privacy', {
       readerMode: true
     });
     segment.track('privacy_policy_opened')
