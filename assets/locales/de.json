@@ -102,7 +102,7 @@
   "tags_empty": "Stichwörter werden hier angezeigt",
   "tags_add": "Stichwort hinzufügen",
   "tags_add_placeholder": "#großertag",
-  "tags_edit": "Bearbeiten",
+  "tags_edit": "Stichworte bearbeiten",
   "delete_tag_confirm_title": "Stichwort löschen",
   "delete_tag_confirm_message": "Das Stichwort wird aus allen Einträgen entfernt. Diese Aktion kann nicht rückgängig gemacht werden.",
   "feedback_modal_help": "Schreib mir gerne deine Kontaktdaten, wenn du möchtest, dass ich dir antworte.",
@@ -142,5 +142,9 @@
   "calendar_filters": "Filtern",
   "calendar_filters_reset": "Alles löschen",
   "calendar_filters_results": "Ergebnisse",
-  "calendar_filters_search": "Suchen"
+  "calendar_filters_search": "Suchen",
+  "today": "Heute",
+  "log_rating_question": "Wie war dein Tag?",
+  "log_tags_question": "Fügen Sie Tags zu Ihrem Tag hinzu",
+  "log_note_question": "Schreiben Sie über Ihren Tag…"
 }

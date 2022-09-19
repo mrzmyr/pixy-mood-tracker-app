@@ -114,7 +114,7 @@
   "tags_empty": "Taggar kommer att dyka upp här",
   "tags_add": "Lägg till tagg",
   "tags_add_placeholder": "#stor dag",
-  "tags_edit": "Redigera",
+  "tags_edit": "Redigera taggar",
   "delete_tag_confirm_title": "Ta bort tagg",
   "delete_tag_confirm_message": "Taggen kommer att tas bort från alla poster. Denna åtgärd kan inte ångras.",
   "feedback_modal_help": "Lämna dina kontaktuppgifter om du vill att jag ska svara dig.",
@@ -154,5 +154,9 @@
   "calendar_filters": "Filter",
   "calendar_filters_reset": "Rensa alla",
   "calendar_filters_results": "Resultat",
-  "calendar_filters_search": "Sök"
+  "calendar_filters_search": "Sök",
+  "today": "I dag",
+  "log_rating_question": "Hur var din dag?",
+  "log_tags_question": "Lägg till taggar till din dag",
+  "log_note_question": "Skriv om din dag..."
 }

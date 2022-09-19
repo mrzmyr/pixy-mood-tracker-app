@@ -114,7 +114,7 @@
   "tags_empty": "תגים יופיעו כאן",
   "tags_add": "הוסף תגית",
   "tags_add_placeholder": "#יום גדול",
-  "tags_edit": "לַעֲרוֹך",
+  "tags_edit": "ערוך תגיות",
   "delete_tag_confirm_title": "מחק תג",
   "delete_tag_confirm_message": "התג יוסר מכל הערכים. לא ניתן לבטל פעולה זו.",
   "feedback_modal_help": "השאר את פרטי הקשר שלך אם תרצה שאענה לך.",
@@ -154,5 +154,9 @@
   "calendar_filters": "מסננים",
   "calendar_filters_reset": "נקה הכל",
   "calendar_filters_results": "תוצאות",
-  "calendar_filters_search": "לחפש"
+  "calendar_filters_search": "לחפש",
+  "today": "היום",
+  "log_rating_question": "איך עבר עליך היום?",
+  "log_tags_question": "הוסף תגים ליום שלך",
+  "log_note_question": "כתבו על היום שלכם..."
 }

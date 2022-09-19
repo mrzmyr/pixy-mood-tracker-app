@@ -114,7 +114,7 @@
   "tags_empty": "标签将显示在此处",
   "tags_add": "添加标签",
   "tags_add_placeholder": "＃重要的日子",
-  "tags_edit": "编辑",
+  "tags_edit": "编辑标签",
   "delete_tag_confirm_title": "删除标签",
   "delete_tag_confirm_message": "该标签将从所有条目中删除。此操作无法撤消。",
   "feedback_modal_help": "如果您希望我回答您，请留下您的联系方式。",
@@ -154,5 +154,9 @@
   "calendar_filters": "过滤器",
   "calendar_filters_reset": "全部清除",
   "calendar_filters_results": "结果",
-  "calendar_filters_search": "搜索"
+  "calendar_filters_search": "搜索",
+  "today": "今天",
+  "log_rating_question": "你今天过得怎么样？",
+  "log_tags_question": "为您的一天添加标签",
+  "log_note_question": "写下你的一天……"
 }

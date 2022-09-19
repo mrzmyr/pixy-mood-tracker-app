@@ -54,6 +54,7 @@ export default function TextArea({
           height: 220,
           width: '100%',
           borderRadius: 8,
+          lineHeight: 24,
           ...style,
         }}
       />

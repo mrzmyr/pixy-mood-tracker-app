@@ -114,7 +114,7 @@
   "tags_empty": "سوف تظهر العلامات هنا",
   "tags_add": "إضافة علامة",
   "tags_add_placeholder": "#يوم حافل",
-  "tags_edit": "يحرر",
+  "tags_edit": "تعديل العلامات",
   "delete_tag_confirm_title": "حذف العلامة",
   "delete_tag_confirm_message": "ستتم إزالة العلامة من جميع الإدخالات. لا يمكن التراجع عن هذا الإجراء.",
   "feedback_modal_help": "اترك معلومات الاتصال الخاصة بك إذا كنت تريد مني الرد عليك.",
@@ -154,5 +154,9 @@
   "calendar_filters": "المرشحات",
   "calendar_filters_reset": "امسح الكل",
   "calendar_filters_results": "نتائج",
-  "calendar_filters_search": "يبحث"
+  "calendar_filters_search": "يبحث",
+  "today": "اليوم",
+  "log_rating_question": "كيف كان يومك؟",
+  "log_tags_question": "أضف علامات إلى يومك",
+  "log_note_question": "اكتب عن يومك ..."
 }

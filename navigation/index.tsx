@@ -340,8 +340,9 @@ function RootNavigator() {
           screenOptions={{ 
             presentation: 'modal',
             headerShown: false,
-          }}>
-            <Stack.Screen 
+          }}
+        >
+          <Stack.Screen 
             name="TagsModal" 
             component={TagsModal} 
           />

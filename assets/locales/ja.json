@@ -114,7 +114,7 @@
   "tags_empty": "タグはここに表示されます",
   "tags_add": "タグ付けする",
   "tags_add_placeholder": "＃重要な日",
-  "tags_edit": "編集",
+  "tags_edit": "タグの編集",
   "delete_tag_confirm_title": "タグを削除する",
   "delete_tag_confirm_message": "タグはすべてのエントリから削除されます。このアクションは元に戻せません。",
   "feedback_modal_help": "回答を希望される場合は、連絡先情報を残してください。",
@@ -154,5 +154,9 @@
   "calendar_filters": "フィルター",
   "calendar_filters_reset": "すべてクリア",
   "calendar_filters_results": "結果",
-  "calendar_filters_search": "探す"
+  "calendar_filters_search": "探す",
+  "today": "今日",
+  "log_rating_question": "あなたの一日はどうでした？",
+  "log_tags_question": "1 日にタグを追加する",
+  "log_note_question": "あなたの一日について書いてください…"
 }

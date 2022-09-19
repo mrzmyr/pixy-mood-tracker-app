@@ -114,7 +114,7 @@
   "tags_empty": "แท็กจะแสดงขึ้นที่นี่",
   "tags_add": "เพิ่มแท็ก",
   "tags_add_placeholder": "#วันสำคัญ",
-  "tags_edit": "แก้ไข",
+  "tags_edit": "แก้ไขแท็ก",
   "delete_tag_confirm_title": "ลบแท็ก",
   "delete_tag_confirm_message": "แท็กจะถูกลบออกจากรายการทั้งหมด การดำเนินการนี้ไม่สามารถยกเลิกได้",
   "feedback_modal_help": "ฝากข้อมูลติดต่อของคุณไว้ถ้าคุณต้องการให้ฉันตอบคุณ",
@@ -154,5 +154,9 @@
   "calendar_filters": "ตัวกรอง",
   "calendar_filters_reset": "ลบทั้งหมด",
   "calendar_filters_results": "ผลลัพธ์",
-  "calendar_filters_search": "ค้นหา"
+  "calendar_filters_search": "ค้นหา",
+  "today": "วันนี้",
+  "log_rating_question": "วันนี้เป็นไงบ้าง",
+  "log_tags_question": "เพิ่มแท็กให้กับวันของคุณ",
+  "log_note_question": "เขียนเกี่ยวกับวันของคุณ..."
 }

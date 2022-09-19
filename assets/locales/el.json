@@ -114,7 +114,7 @@
   "tags_empty": "Οι ετικέτες θα εμφανίζονται εδώ",
   "tags_add": "Προσθήκη ετικέτας",
   "tags_add_placeholder": "#μεγάλη μέρα",
-  "tags_edit": "Επεξεργασία",
+  "tags_edit": "Επεξεργασία ετικετών",
   "delete_tag_confirm_title": "Διαγραφή ετικέτας",
   "delete_tag_confirm_message": "Η ετικέτα θα αφαιρεθεί από όλες τις καταχωρήσεις. Αυτή η πράξη δε μπορεί να αναιρεθεί.",
   "feedback_modal_help": "Αφήστε τα στοιχεία επικοινωνίας σας αν θέλετε να σας απαντήσω.",
@@ -154,5 +154,9 @@
   "calendar_filters": "Φίλτρα",
   "calendar_filters_reset": "Τα καθαρίζω όλα",
   "calendar_filters_results": "Αποτελέσματα",
-  "calendar_filters_search": "Αναζήτηση"
+  "calendar_filters_search": "Αναζήτηση",
+  "today": "Σήμερα",
+  "log_rating_question": "Πώς ήταν η μέρα σου?",
+  "log_tags_question": "Προσθέστε ετικέτες στην ημέρα σας",
+  "log_note_question": "Γράψε για τη μέρα σου…"
 }

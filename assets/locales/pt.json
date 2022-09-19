@@ -114,7 +114,7 @@
   "tags_empty": "As tags serão exibidas aqui",
   "tags_add": "Adicionar etiqueta",
   "tags_add_placeholder": "#Grande dia",
-  "tags_edit": "Editar",
+  "tags_edit": "Editar etiquetas",
   "delete_tag_confirm_title": "Excluir etiqueta",
   "delete_tag_confirm_message": "A tag será removida de todas as entradas. Essa ação não pode ser desfeita.",
   "feedback_modal_help": "Deixe seu contato caso queira que eu responda.",
@@ -154,5 +154,9 @@
   "calendar_filters": "Filtros",
   "calendar_filters_reset": "Limpar tudo",
   "calendar_filters_results": "Resultados",
-  "calendar_filters_search": "Procurar"
+  "calendar_filters_search": "Procurar",
+  "today": "Hoje",
+  "log_rating_question": "Como foi o seu dia?",
+  "log_tags_question": "Adicione tags ao seu dia",
+  "log_note_question": "Escreva sobre o seu dia…"
 }

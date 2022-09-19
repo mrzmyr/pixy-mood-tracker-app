@@ -114,7 +114,7 @@
   "tags_empty": "Les balises s'afficheront ici",
   "tags_add": "Ajouter une étiquette",
   "tags_add_placeholder": "#grand jour",
-  "tags_edit": "Éditer",
+  "tags_edit": "Étiquettes d'édition",
   "delete_tag_confirm_title": "Supprimer la balise",
   "delete_tag_confirm_message": "La balise sera supprimée de toutes les entrées. Cette action ne peut pas être annulée.",
   "feedback_modal_help": "Laissez vos coordonnées si vous souhaitez que je vous réponde.",
@@ -154,5 +154,9 @@
   "calendar_filters": "Filtres",
   "calendar_filters_reset": "Tout effacer",
   "calendar_filters_results": "Résultats",
-  "calendar_filters_search": "Chercher"
+  "calendar_filters_search": "Chercher",
+  "today": "Aujourd'hui",
+  "log_rating_question": "Comment s'est passée ta journée?",
+  "log_tags_question": "Ajoutez des balises à votre journée",
+  "log_note_question": "Racontez votre journée…"
 }

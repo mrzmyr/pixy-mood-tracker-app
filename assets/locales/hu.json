@@ -114,7 +114,7 @@
   "tags_empty": "A címkék itt jelennek meg",
   "tags_add": "Címke hozzáadása",
   "tags_add_placeholder": "#nagy nap",
-  "tags_edit": "Szerkesztés",
+  "tags_edit": "Címkék szerkesztése",
   "delete_tag_confirm_title": "Címke törlése",
   "delete_tag_confirm_message": "A címke minden bejegyzésből el lesz távolítva. Ez a művelet nem visszavonható.",
   "feedback_modal_help": "Ha szeretné, hogy válaszoljak, hagyja meg elérhetőségét.",
@@ -154,5 +154,9 @@
   "calendar_filters": "Szűrők",
   "calendar_filters_reset": "Mindent kitöröl",
   "calendar_filters_results": "Eredmények",
-  "calendar_filters_search": "Keresés"
+  "calendar_filters_search": "Keresés",
+  "today": "Ma",
+  "log_rating_question": "Milyen volt a napod?",
+  "log_tags_question": "Adjon hozzá címkéket a napjához",
+  "log_note_question": "Írj a napodról…"
 }

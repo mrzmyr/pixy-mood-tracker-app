@@ -114,7 +114,7 @@
   "tags_empty": "Tags verschijnen hier",
   "tags_add": "Tag toevoegen",
   "tags_add_placeholder": "#grote dag",
-  "tags_edit": "Bewerk",
+  "tags_edit": "Bewerk-tags",
   "delete_tag_confirm_title": "Tag verwijderen",
   "delete_tag_confirm_message": "De tag wordt uit alle inzendingen verwijderd. Deze actie kan niet ongedaan gemaakt worden.",
   "feedback_modal_help": "Laat uw contactgegevens achter als u wilt dat ik u antwoord.",
@@ -154,5 +154,9 @@
   "calendar_filters": "Filters",
   "calendar_filters_reset": "Wis alles",
   "calendar_filters_results": "Resultaten",
-  "calendar_filters_search": "Zoeken"
+  "calendar_filters_search": "Zoeken",
+  "today": "Vandaag",
+  "log_rating_question": "Hoe was je dag?",
+  "log_tags_question": "Voeg tags toe aan je dag",
+  "log_note_question": "Schrijf over je dag..."
 }

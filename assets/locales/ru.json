@@ -114,7 +114,7 @@
   "tags_empty": "Теги будут отображаться здесь",
   "tags_add": "Добавить метку",
   "tags_add_placeholder": "#Большой день",
-  "tags_edit": "Редактировать",
+  "tags_edit": "Редактировать теги",
   "delete_tag_confirm_title": "Удалить тег",
   "delete_tag_confirm_message": "Тег будет удален из всех записей. Это действие не может быть отменено.",
   "feedback_modal_help": "Оставьте свои контактные данные, если хотите, чтобы я вам ответил.",
@@ -154,5 +154,9 @@
   "calendar_filters": "Фильтры",
   "calendar_filters_reset": "Очистить все",
   "calendar_filters_results": "Полученные результаты",
-  "calendar_filters_search": "Поиск"
+  "calendar_filters_search": "Поиск",
+  "today": "Сегодня",
+  "log_rating_question": "Как прошел день?",
+  "log_tags_question": "Добавляйте теги в свой день",
+  "log_note_question": "Напишите о своем дне…"
 }

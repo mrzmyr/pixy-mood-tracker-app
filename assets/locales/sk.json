@@ -114,7 +114,7 @@
   "tags_empty": "Tu sa zobrazia značky",
   "tags_add": "Pridať značku",
   "tags_add_placeholder": "#veľký deň",
-  "tags_edit": "Upraviť",
+  "tags_edit": "Upraviť značky",
   "delete_tag_confirm_title": "Odstrániť značku",
   "delete_tag_confirm_message": "Značka bude odstránená zo všetkých záznamov. Túto akciu nie je možné vrátiť späť.",
   "feedback_modal_help": "Zanechajte svoje kontaktné údaje, ak chcete, aby som vám odpovedal.",
@@ -154,5 +154,9 @@
   "calendar_filters": "Filtre",
   "calendar_filters_reset": "Zmazať všetko",
   "calendar_filters_results": "Výsledky",
-  "calendar_filters_search": "Vyhľadávanie"
+  "calendar_filters_search": "Vyhľadávanie",
+  "today": "Dnes",
+  "log_rating_question": "Aký bol tvoj deň?",
+  "log_tags_question": "Pridajte štítky do svojho dňa",
+  "log_note_question": "Napíšte o svojom dni…"
 }

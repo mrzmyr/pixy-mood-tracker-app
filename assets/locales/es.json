@@ -114,7 +114,7 @@
   "tags_empty": "Las etiquetas aparecerán aquí",
   "tags_add": "Añadir etiqueta",
   "tags_add_placeholder": "#gran día",
-  "tags_edit": "Editar",
+  "tags_edit": "Editar etiquetas",
   "delete_tag_confirm_title": "Eliminar etiqueta",
   "delete_tag_confirm_message": "La etiqueta se eliminará de todas las entradas. Esta acción no se puede deshacer.",
   "feedback_modal_help": "Déjanos tus datos de contacto si quieres que te responda.",
@@ -154,5 +154,9 @@
   "calendar_filters": "filtros",
   "calendar_filters_reset": "Limpiar todo",
   "calendar_filters_results": "Resultados",
-  "calendar_filters_search": "Búsqueda"
+  "calendar_filters_search": "Búsqueda",
+  "today": "Este Dia",
+  "log_rating_question": "¿Cómo estuvo su día?",
+  "log_tags_question": "Agrega etiquetas a tu día",
+  "log_note_question": "Escribe sobre tu día…"
 }

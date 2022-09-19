@@ -114,7 +114,7 @@
   "tags_empty": "Tunnisteet näkyvät täällä",
   "tags_add": "Lisää merkintä",
   "tags_add_placeholder": "#suuri päivä",
-  "tags_edit": "Muokata",
+  "tags_edit": "Muokkaa tunnisteita",
   "delete_tag_confirm_title": "Poista tunniste",
   "delete_tag_confirm_message": "Tunniste poistetaan kaikista merkinnöistä. Tätä toimintoa ei voi kumota.",
   "feedback_modal_help": "Jätä yhteystietosi, jos haluat minun vastaavan sinulle.",
@@ -154,5 +154,9 @@
   "calendar_filters": "Suodattimet",
   "calendar_filters_reset": "Tyhjennä",
   "calendar_filters_results": "Tulokset",
-  "calendar_filters_search": "Hae"
+  "calendar_filters_search": "Hae",
+  "today": "Tänään",
+  "log_rating_question": "Millainen päiväsi oli?",
+  "log_tags_question": "Lisää tunnisteita päivääsi",
+  "log_note_question": "Kirjoita päivästäsi…"
 }

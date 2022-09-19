@@ -6,7 +6,7 @@ import { Tag } from "./useSettings";
 
 const CalendarFiltersStateContext = createContext(undefined)
 
-type CalendarFiltersData = {
+export type CalendarFiltersData = {
   text: string,
   ratings: LogItem['rating'][],
   tagIds: Tag['id'][],

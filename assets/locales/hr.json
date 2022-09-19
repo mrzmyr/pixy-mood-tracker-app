@@ -114,7 +114,7 @@
   "tags_empty": "Oznake će se pojaviti ovdje",
   "tags_add": "Dodaj oznaku",
   "tags_add_placeholder": "#veliki dan",
-  "tags_edit": "Uredi",
+  "tags_edit": "Uredi oznake",
   "delete_tag_confirm_title": "Izbriši oznaku",
   "delete_tag_confirm_message": "Oznaka će biti uklonjena sa svih unosa. Ova se radnja ne može poništiti.",
   "feedback_modal_help": "Ostavite svoje kontakt podatke ako želite da Vam odgovorim.",
@@ -154,5 +154,9 @@
   "calendar_filters": "Filteri",
   "calendar_filters_reset": "Očistiti sve",
   "calendar_filters_results": "Rezultati",
-  "calendar_filters_search": "traži"
+  "calendar_filters_search": "traži",
+  "today": "Danas",
+  "log_rating_question": "Kakav ti je bio dan?",
+  "log_tags_question": "Dodajte oznake svom danu",
+  "log_note_question": "Pišite o svom danu…"
 }

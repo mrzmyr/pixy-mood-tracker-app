@@ -109,7 +109,7 @@
   "tags_empty": "Tags will show up here",
   "tags_add": "Add Tag",
   "tags_add_placeholder": "#bigday",
-  "tags_edit": "Edit",
+  "tags_edit": "Edit Tags",
   "tags_feedback_title": "Introducing: Tags",
   "tags_feedback_body": "Tags are a new way to categorize your data. You can add up to 30 unique tags to your entries. They are planned to be used in statistics in the future. Please send me your feedback below. I read every single message from you.",
   "tags_feedback_question": "How do you like the new tags feature?",
@@ -139,5 +139,9 @@
   "calendar_filters": "Filters",
   "calendar_filters_reset": "Clear all",
   "calendar_filters_results": "Results",
-  "calendar_filters_search": "Search"
+  "calendar_filters_search": "Search",
+  "today": "Today",
+  "log_rating_question": "How was your day?",
+  "log_tags_question": "Add tags to your day",
+  "log_note_question": "Write about your day…"
 }

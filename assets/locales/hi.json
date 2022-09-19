@@ -114,7 +114,7 @@
   "tags_empty": "टैग यहां दिखाई देंगे",
   "tags_add": "टैग जोड़ो",
   "tags_add_placeholder": "#बड़ा दिन",
-  "tags_edit": "संपादन करना",
+  "tags_edit": "जोड़ संपादित करें",
   "delete_tag_confirm_title": "टैग हटाएं",
   "delete_tag_confirm_message": "टैग सभी प्रविष्टियों से हटा दिया जाएगा। इस क्रिया को पूर्ववत नहीं किया जा सकता है।",
   "feedback_modal_help": "अपनी संपर्क जानकारी छोड़ दें यदि आप चाहते हैं कि मैं आपको उत्तर दूं।",
@@ -154,5 +154,9 @@
   "calendar_filters": "फिल्टर",
   "calendar_filters_reset": "सभी साफ करें",
   "calendar_filters_results": "परिणाम",
-  "calendar_filters_search": "खोज"
+  "calendar_filters_search": "खोज",
+  "today": "आज",
+  "log_rating_question": "आपका दिन कैसा रहा?",
+  "log_tags_question": "अपने दिन में टैग जोड़ें",
+  "log_note_question": "अपने दिन के बारे में लिखें..."
 }

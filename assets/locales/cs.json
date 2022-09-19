@@ -114,7 +114,7 @@
   "tags_empty": "Zde se zobrazí štítky",
   "tags_add": "Přidat značku",
   "tags_add_placeholder": "#velký den",
-  "tags_edit": "Upravit",
+  "tags_edit": "Upravit značky",
   "delete_tag_confirm_title": "Smazat značku",
   "delete_tag_confirm_message": "Štítek bude odstraněn ze všech záznamů. Tuto akci nelze vrátit zpět.",
   "feedback_modal_help": "Zanechte své kontaktní údaje, pokud chcete, abych vám odpověděl.",
@@ -154,5 +154,9 @@
   "calendar_filters": "Filtry",
   "calendar_filters_reset": "Vymazat vše",
   "calendar_filters_results": "Výsledek",
-  "calendar_filters_search": "Vyhledávání"
+  "calendar_filters_search": "Vyhledávání",
+  "today": "Dnes",
+  "log_rating_question": "jaký jsi měl den?",
+  "log_tags_question": "Přidejte štítky do svého dne",
+  "log_note_question": "Napište o svém dni…"
 }

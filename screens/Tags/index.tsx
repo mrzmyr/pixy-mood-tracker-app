@@ -20,7 +20,6 @@ import { useTemporaryLog } from '../../hooks/useTemporaryLog';
 import { useTranslation } from '../../hooks/useTranslation';
 import { RootStackScreenProps } from '../../types';
 import { ColorInput } from './ColorInput';
-import { FeedbackSection } from './FeedbackSection';
 import { TitleInput } from './TitleInput';
 
 export const TagsModal = ({ navigation, route }: RootStackScreenProps<'Log'>) => {
@@ -46,34 +45,10 @@ export const TagsModal = ({ navigation, route }: RootStackScreenProps<'Log'>) =>
     color: Object.keys(colors.tags)[0] as Tag['color'],
   });
   
-  // useEffect(() => {
-  //   if(
-  //     Platform.OS === 'ios' &&
-  //     keyboardShown && 
-  //     scrollRef.current
-  //   ) {
-  //     scrollRef.current.scrollToEnd()
-  //   }
-  // }, [keyboardShown])
-  
   useEffect(() => {
     if(tempLog.data.tags?.length > 0) {
       setSelectedTagIds(tempLog.data.tags?.map(tag => tag.id))
     }
-
-    // const showSubscription = Keyboard.addListener('keyboardWillShow', () => {
-    //   console.log('keyboardWillShow')
-    //   setKeyboardShown(true)
-    // })
-
-    // const hideSubscription = Keyboard.addListener('keyboardWillHide', () => {
-    //   setKeyboardShown(false)
-    // })
-    
-    // return () => {
-    //   showSubscription.remove()
-    //   hideSubscription.remove()
-    // }
   }, [])
 
   const onDelete = (id: Tag['id']) => {
@@ -179,7 +154,7 @@ export const TagsModal = ({ navigation, route }: RootStackScreenProps<'Log'>) =>
     <View style={{
       flex: 1,
       justifyContent: 'flex-start',
-      backgroundColor: colors.logBackground,
+      backgroundColor: colors.background,
       marginTop: Platform.OS === 'android' ? insets.top : 0,
     }}>
       <ModalHeader
@@ -360,6 +335,7 @@ export const TagsModal = ({ navigation, route }: RootStackScreenProps<'Log'>) =>
             style={{
               marginTop: -8,
               padding: 16,
+              marginBottom: insets.bottom,
             }}
           >
             <Button 
@@ -369,23 +345,6 @@ export const TagsModal = ({ navigation, route }: RootStackScreenProps<'Log'>) =>
             >
               <Text>{t('tags_add')}</Text>
             </Button>
-          </View>
-
-          <View
-            style={{
-              marginTop: 16,
-              borderTopColor: colors.logHeaderBorder,
-              borderTopWidth: 1,
-              paddingTop: 32,
-              paddingBottom: 64,
-              paddingLeft: 16,
-              paddingRight: 16,
-              backgroundColor: colors.logBackground,
-            }}
-          >
-            <FeedbackSection
-              scrollToEnd={() => scrollRef.current.scrollToEnd({ animated: true })}
-            />
           </View>
         </View>
       </KeyboardAwareScrollView>

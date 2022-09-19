@@ -1,7 +1,7 @@
 import { IScale } from './Scales';
 import colors from './TailwindColors';
 
-import scales from './Scales'
+import scales from './Scales';
 
 type TagColors = {
   [tag: string]: {
@@ -46,9 +46,23 @@ export interface IColors {
   link: string;
   tint: string;
 
+  keyboardToolbarIcon: string;
+  keyboardToolbarBackground: string;
+  
   logHeaderBackground: string;
   logHeaderBorder: string;
+  logHeaderText: string;
   logBackground: string;
+
+  stepperBackground: string;
+  stepperBackgroundActive: string;
+
+  logTagBackground: string;
+  logTagText: string;
+  logTagBorder: string;
+  logTagBackgroundActive: string;
+  logTagTextActive: string;
+  logTagBorderActive: string;
 
   tagsBackground: string;
   tagsBackgroundSecondary: string;
@@ -150,9 +164,23 @@ const light: IColors = {
   link: tintColorLight,
   tint: tintColorLight,
 
+  keyboardToolbarIcon: colors.neutral[500],
+  keyboardToolbarBackground: colors.neutral[200],
+  
   logHeaderBackground: colors.neutral[50],
   logHeaderBorder: colors.neutral[200],
-  logBackground: '#FFF',
+  logHeaderText: colors.neutral[500],
+  logBackground: colors.neutral[100],
+  
+  logTagBackground: colors.white,
+  logTagText: colors.neutral[800],
+  logTagBorder: colors.white,
+  logTagBackgroundActive: colors.blue[100],
+  logTagTextActive: colors.blue[600],
+  logTagBorderActive: colors.blue[600],
+  
+  stepperBackground: colors.neutral[300],
+  stepperBackgroundActive: colors.neutral[700],
 
   tagsBackground: tintColorLight,
   tagsText: '#FFF',
@@ -205,7 +233,7 @@ const light: IColors = {
   secondaryButtonText: colors.neutral[800],
   secondaryButtonBorder: colors.neutral[200],
   
-  textInputBackground: colors.neutral[100],
+  textInputBackground: colors.neutral[200],
   textInputText: colors.neutral[800],
   textInputPlaceholder: colors.neutral[400],
   textInputLabel: colors.neutral[300],
@@ -252,9 +280,23 @@ const dark: IColors = {
   link: tintColorLight,
   tint: tintColorDark,
 
+  keyboardToolbarIcon: colors.neutral[500],
+  keyboardToolbarBackground: colors.neutral[200],
+  
   logHeaderBackground: colors.neutral[900],
   logHeaderBorder: colors.neutral[800],
-  logBackground: '#000',
+  logHeaderText: colors.neutral[500],
+  logBackground: colors.neutral[900],
+  
+  logTagBackground: colors.neutral[900],
+  logTagText: colors.neutral[200],
+  logTagBorder: colors.neutral[800],
+  logTagBackgroundActive: colors.blue[900],
+  logTagTextActive: colors.blue[100],
+  logTagBorderActive: colors.blue[600],
+  
+  stepperBackground: colors.neutral[800],
+  stepperBackgroundActive: colors.neutral[600],
 
   tagsBackground: tintColorDark,
   tagsText: '#fff',

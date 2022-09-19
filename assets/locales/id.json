@@ -114,7 +114,7 @@
   "tags_empty": "Tag akan muncul di sini",
   "tags_add": "Tambahkan Tandai",
   "tags_add_placeholder": "#hari besar",
-  "tags_edit": "Sunting",
+  "tags_edit": "Edit Tag",
   "delete_tag_confirm_title": "Hapus tanda",
   "delete_tag_confirm_message": "Tag akan dihapus dari semua entri. Tindakan ini tidak bisa dibatalkan.",
   "feedback_modal_help": "Tinggalkan informasi kontak Anda jika Anda ingin saya menjawab Anda.",
@@ -154,5 +154,9 @@
   "calendar_filters": "Filter",
   "calendar_filters_reset": "Bersihkan semua",
   "calendar_filters_results": "Hasil",
-  "calendar_filters_search": "Mencari"
+  "calendar_filters_search": "Mencari",
+  "today": "Hari ini",
+  "log_rating_question": "Apa kabar hari ini?",
+  "log_tags_question": "Tambahkan tag ke hari Anda",
+  "log_note_question": "Tulis tentang harimu…"
 }

@@ -114,7 +114,7 @@
   "tags_empty": "태그가 여기에 표시됩니다.",
   "tags_add": "태그 추가",
   "tags_add_placeholder": "#빅데이",
-  "tags_edit": "편집하다",
+  "tags_edit": "태그 편집",
   "delete_tag_confirm_title": "태그 삭제",
   "delete_tag_confirm_message": "태그는 모든 항목에서 제거됩니다. 이 작업은 취소할 수 없습니다.",
   "feedback_modal_help": "답변을 원하시면 연락처를 남겨주세요.",
@@ -154,5 +154,9 @@
   "calendar_filters": "필터",
   "calendar_filters_reset": "모두 지우기",
   "calendar_filters_results": "결과",
-  "calendar_filters_search": "검색"
+  "calendar_filters_search": "검색",
+  "today": "오늘",
+  "log_rating_question": "오늘 어땠나요?",
+  "log_tags_question": "하루에 태그 추가",
+  "log_note_question": "당신의 하루에 대해 쓰십시오 ..."
 }

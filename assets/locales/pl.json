@@ -114,7 +114,7 @@
   "tags_empty": "Tutaj pojawią się tagi",
   "tags_add": "Dodaj tag",
   "tags_add_placeholder": "#wielki dzień",
-  "tags_edit": "Edytować",
+  "tags_edit": "Edytuj tagi",
   "delete_tag_confirm_title": "Usuń tag",
   "delete_tag_confirm_message": "Tag zostanie usunięty ze wszystkich wpisów. Tej czynności nie można cofnąć.",
   "feedback_modal_help": "Zostaw swoje dane kontaktowe, jeśli chcesz, abym Ci odpowiedział.",
@@ -154,5 +154,9 @@
   "calendar_filters": "Filtry",
   "calendar_filters_reset": "Wyczyść wszystko",
   "calendar_filters_results": "Wyniki",
-  "calendar_filters_search": "Szukaj"
+  "calendar_filters_search": "Szukaj",
+  "today": "Dziś",
+  "log_rating_question": "Jak ci minął dzień?",
+  "log_tags_question": "Dodaj tagi do swojego dnia",
+  "log_note_question": "Napisz o swoim dniu…"
 }

@@ -114,7 +114,7 @@
   "tags_empty": "Tags vil dukke op her",
   "tags_add": "Tilføj tag",
   "tags_add_placeholder": "#stor dag",
-  "tags_edit": "Redigere",
+  "tags_edit": "Rediger tags",
   "delete_tag_confirm_title": "Slet tag",
   "delete_tag_confirm_message": "Tagget vil blive fjernet fra alle poster. Denne handling kan ikke fortrydes.",
   "feedback_modal_help": "Efterlad dine kontaktoplysninger, hvis du vil have mig til at svare dig.",
@@ -154,5 +154,9 @@
   "calendar_filters": "Filtre",
   "calendar_filters_reset": "Slet alt",
   "calendar_filters_results": "Resultater",
-  "calendar_filters_search": "Søg"
+  "calendar_filters_search": "Søg",
+  "today": "I dag",
+  "log_rating_question": "Hvordan var din dag?",
+  "log_tags_question": "Tilføj tags til din dag",
+  "log_note_question": "Skriv om din dag..."
 }

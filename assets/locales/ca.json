@@ -114,7 +114,7 @@
   "tags_empty": "Les etiquetes es mostraran aquí",
   "tags_add": "Afegeix una etiqueta",
   "tags_add_placeholder": "#gran dia",
-  "tags_edit": "Edita",
+  "tags_edit": "Edita les etiquetes",
   "delete_tag_confirm_title": "Suprimeix l'etiqueta",
   "delete_tag_confirm_message": "L'etiqueta s'eliminarà de totes les entrades. Aquesta acció no es pot desfer.",
   "feedback_modal_help": "Deixa la teva informació de contacte si vols que et conteste.",
@@ -154,5 +154,9 @@
   "calendar_filters": "Filtres",
   "calendar_filters_reset": "Esborra-ho tot",
   "calendar_filters_results": "Resultats",
-  "calendar_filters_search": "Cerca"
+  "calendar_filters_search": "Cerca",
+  "today": "Avui",
+  "log_rating_question": "Com ha anat el dia?",
+  "log_tags_question": "Afegeix etiquetes al teu dia",
+  "log_note_question": "Escriu sobre el teu dia..."
 }
