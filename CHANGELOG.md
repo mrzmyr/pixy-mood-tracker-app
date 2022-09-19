@@ -2,6 +2,34 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.24.0](https://github.com/mrzmyr/pixy-mood-tracker/compare/v1.23.0...v1.24.0) (2022-09-19)
+
+
+### Features
+
+* add langvars for filter feature ([5b1068f](https://github.com/mrzmyr/pixy-mood-tracker/commit/5b1068f4f91635f13e2273387cf77c3d2dcfb172))
+* add new log screen ([04015e5](https://github.com/mrzmyr/pixy-mood-tracker/commit/04015e5a1aeb9f094d44127e4e87202fba07d8c5))
+* add tracking ([2204467](https://github.com/mrzmyr/pixy-mood-tracker/commit/22044679e567220f85d4940864c12044b65e585d))
+* align colors ([d14283f](https://github.com/mrzmyr/pixy-mood-tracker/commit/d14283f85af4eae8eb5ed6db5582aecbdbf026a3))
+* align DE translations ([fba3267](https://github.com/mrzmyr/pixy-mood-tracker/commit/fba32670053208de75407313f9b60f14c82caab4))
+* filter tags when filtering ([f2fb987](https://github.com/mrzmyr/pixy-mood-tracker/commit/f2fb98776872c3119045826380a2169f4a130a1c))
+* fine tune dark mode ([80bec65](https://github.com/mrzmyr/pixy-mood-tracker/commit/80bec6544247cc06314d33f73a46dda8c0f56d99))
+* reanable tags in calendar ([91f9603](https://github.com/mrzmyr/pixy-mood-tracker/commit/91f9603373b56a0a738218a2516ab59b6f8c9b9f))
+* remove neutral from mood avg statistic card ([65a56d9](https://github.com/mrzmyr/pixy-mood-tracker/commit/65a56d9ac14c070319b60ed6222da3ba67bd966a))
+* track details in statistics feedback ([a8fc666](https://github.com/mrzmyr/pixy-mood-tracker/commit/a8fc666e673b2c5b0f0fca94dd7ad43f13995966))
+* update colors 😱 ([9c80b35](https://github.com/mrzmyr/pixy-mood-tracker/commit/9c80b35f5b4b1ecd7eb6c0d67ea04ef6e3c35eea))
+
+
+### Bug Fixes
+
+* dark mode statistics ([f921065](https://github.com/mrzmyr/pixy-mood-tracker/commit/f921065a8b94f06991c5ff968a6d8ab35e77707c))
+
+
+### Chore
+
+* remove unused component ([005dc86](https://github.com/mrzmyr/pixy-mood-tracker/commit/005dc86143aae0d1e4474ae7345abf6b8e887ca7))
+* update feedback url ([28c8aee](https://github.com/mrzmyr/pixy-mood-tracker/commit/28c8aeee8af4bfbb7b3e1908d6d1d1b1247550d0))
+
 ## [1.23.0](https://github.com/mrzmyr/pixy-mood-tracker/compare/v1.22.1...v1.23.0) (2022-09-18)
 
 
