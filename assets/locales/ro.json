@@ -139,8 +139,8 @@
   "delete_confirm_message": "Sigur doriți să ștergeți această intrare?",
   "statistics_subtitle": "Ultimele tale două săptămâni",
   "statistics_description": "Acestea sunt tendințele tale din ultimele două săptămâni",
-  "statistics_no_data": "Urmăriți încă câteva zile\n pentru a vă debloca primele statistici.",
-  "statistics_category_mood": "Starea de spirit",
+  "statistics_no_data": "Adăugați încă {{count}} zile în ultimele două săptămâni pentru a debloca primele statistici.",
+  "mood": "Starea de spirit",
   "statistics_mood_avg_title": "Starea ta de spirit pare cu {{rating_percentage}}% a fi în mare parte {{rating_word}}.",
   "statistics_mood_avg_positive": "pozitiv",
   "statistics_mood_avg_neutral": "neutru",
@@ -150,5 +150,9 @@
   "statistics_mood_peaks_positive": "pozitiv",
   "statistics_mood_peaks_negative": "negativ",
   "statistics_feedback_question": "Este de ajutor?",
-  "statistics_feedback_success": "Mulțumesc!"
+  "statistics_feedback_success": "Mulțumesc!",
+  "calendar_filters": "Filtre",
+  "calendar_filters_reset": "Curata tot",
+  "calendar_filters_results": "Rezultate",
+  "calendar_filters_search": "Căutare"
 }

@@ -139,8 +139,8 @@
   "delete_confirm_message": "Voulez-vous vraiment supprimer cette entrée ?",
   "statistics_subtitle": "Vos deux dernières semaines",
   "statistics_description": "Ce sont vos tendances des deux dernières semaines",
-  "statistics_no_data": "Suivez encore quelques jours\n pour débloquer vos premières statistiques.",
-  "statistics_category_mood": "Ambiance",
+  "statistics_no_data": "Ajoutez {{count}} jours supplémentaires au cours de vos deux dernières semaines pour déverrouiller vos premières statistiques.",
+  "mood": "Ambiance",
   "statistics_mood_avg_title": "Votre humeur apparaît avec {{rating_percentage}} % pour être principalement {{rating_word}}.",
   "statistics_mood_avg_positive": "positif",
   "statistics_mood_avg_neutral": "neutre",
@@ -150,5 +150,9 @@
   "statistics_mood_peaks_positive": "positivement",
   "statistics_mood_peaks_negative": "négativement",
   "statistics_feedback_question": "Est-ce utile ?",
-  "statistics_feedback_success": "Merci!"
+  "statistics_feedback_success": "Merci!",
+  "calendar_filters": "Filtres",
+  "calendar_filters_reset": "Tout effacer",
+  "calendar_filters_results": "Résultats",
+  "calendar_filters_search": "Chercher"
 }

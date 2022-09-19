@@ -139,8 +139,8 @@
   "delete_confirm_message": "คุณแน่ใจหรือไม่ว่าต้องการลบรายการนี้",
   "statistics_subtitle": "สองสัปดาห์ที่ผ่านมาของคุณ",
   "statistics_description": "นี่คือเทรนด์ของคุณในสองสัปดาห์ที่ผ่านมา",
-  "statistics_no_data": "ติดตามอีกไม่กี่วัน\n เพื่อปลดล็อกสถิติแรกของคุณ",
-  "statistics_category_mood": "อารมณ์",
+  "statistics_no_data": "เพิ่ม {{count}} วันภายในสองสัปดาห์ที่ผ่านมาเพื่อปลดล็อกสถิติแรกของคุณ",
+  "mood": "อารมณ์",
   "statistics_mood_avg_title": "อารมณ์ของคุณมี {{rating_percentage}}% เป็นส่วนใหญ่ {{rating_word}}",
   "statistics_mood_avg_positive": "เชิงบวก",
   "statistics_mood_avg_neutral": "เป็นกลาง",
@@ -150,5 +150,9 @@
   "statistics_mood_peaks_positive": "ในแง่บวก",
   "statistics_mood_peaks_negative": "ในทางลบ",
   "statistics_feedback_question": "สิ่งนี้มีประโยชน์หรือไม่?",
-  "statistics_feedback_success": "ขอขอบคุณ!"
+  "statistics_feedback_success": "ขอขอบคุณ!",
+  "calendar_filters": "ตัวกรอง",
+  "calendar_filters_reset": "ลบทั้งหมด",
+  "calendar_filters_results": "ผลลัพธ์",
+  "calendar_filters_search": "ค้นหา"
 }

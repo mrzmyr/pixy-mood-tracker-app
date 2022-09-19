@@ -139,8 +139,8 @@
   "delete_confirm_message": "هل أنت متأكد أنك تريد حذف هذا الإدخال؟",
   "statistics_subtitle": "آخر أسبوعين لك",
   "statistics_description": "هذه هي اتجاهاتك من الأسبوعين الماضيين",
-  "statistics_no_data": "تتبع بضعة أيام أخرى\n لفتح إحصائياتك الأولى.",
-  "statistics_category_mood": "مزاج",
+  "statistics_no_data": "أضف {{count}} أيام أخرى خلال الأسبوعين الأخيرين لكشف عن إحصائياتك الأولى.",
+  "mood": "مزاج",
   "statistics_mood_avg_title": "يبدو حالتك المزاجية بنسبة {{rating_percentage}}٪ في الغالب {{rating_word}}.",
   "statistics_mood_avg_positive": "إيجابي",
   "statistics_mood_avg_neutral": "محايد",
@@ -150,5 +150,9 @@
   "statistics_mood_peaks_positive": "بشكل ايجابي",
   "statistics_mood_peaks_negative": "سلبا",
   "statistics_feedback_question": "هل هذا مفيد؟",
-  "statistics_feedback_success": "شكرًا لك!"
+  "statistics_feedback_success": "شكرًا لك!",
+  "calendar_filters": "المرشحات",
+  "calendar_filters_reset": "امسح الكل",
+  "calendar_filters_results": "نتائج",
+  "calendar_filters_search": "يبحث"
 }

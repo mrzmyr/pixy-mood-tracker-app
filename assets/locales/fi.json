@@ -139,8 +139,8 @@
   "delete_confirm_message": "Haluatko varmasti poistaa tämän merkinnän?",
   "statistics_subtitle": "Viimeiset kaksi viikkoasi",
   "statistics_description": "Nämä ovat trendisi kahden viime viikon ajalta",
-  "statistics_no_data": "Seuraa vielä muutama päivä\n avataksesi ensimmäiset tilastosi.",
-  "statistics_category_mood": "Mieliala",
+  "statistics_no_data": "Lisää {{count}} päivää lisää viimeisen kahden viikon aikana avataksesi ensimmäiset tilastosi.",
+  "mood": "Mieliala",
   "statistics_mood_avg_title": "Mieliallasi näyttää olevan {{rating_percentage}} % enimmäkseen {{rating_word}}.",
   "statistics_mood_avg_positive": "positiivinen",
   "statistics_mood_avg_neutral": "neutraali",
@@ -150,5 +150,9 @@
   "statistics_mood_peaks_positive": "positiivisesti",
   "statistics_mood_peaks_negative": "negatiivisesti",
   "statistics_feedback_question": "Onko tästä apua?",
-  "statistics_feedback_success": "Kiitos!"
+  "statistics_feedback_success": "Kiitos!",
+  "calendar_filters": "Suodattimet",
+  "calendar_filters_reset": "Tyhjennä",
+  "calendar_filters_results": "Tulokset",
+  "calendar_filters_search": "Hae"
 }

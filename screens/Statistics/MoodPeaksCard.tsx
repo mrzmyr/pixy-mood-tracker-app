@@ -171,7 +171,7 @@ const MoodPeakCard = ({
   
   return (
     <Card
-      subtitle={t('statistics_category_mood')}
+      subtitle={t('mood')}
       title={t(rating_peaks > 1 ? 'statistics_mood_peaks_title_plural' : 'statistics_mood_peaks_title_singular', {
         rating_word: t(`statistics_mood_peaks_${type}`),
         rating_count: rating_peaks,

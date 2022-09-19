@@ -139,8 +139,8 @@
   "delete_confirm_message": "क्या आप वाकई इस प्रविष्टि को हटाना चाहते हैं?",
   "statistics_subtitle": "आपके पिछले दो सप्ताह",
   "statistics_description": "ये पिछले दो हफ़्तों के आपके रुझान हैं",
-  "statistics_no_data": "कुछ और दिन ट्रैक करें\n अपने पहले आंकड़े अनलॉक करने के लिए।",
-  "statistics_category_mood": "मनोदशा",
+  "statistics_no_data": "अपने पहले आंकड़े अनलॉक करने के लिए अपने पिछले दो सप्ताहों में {{count}} और दिन जोड़ें।",
+  "mood": "मनोदशा",
   "statistics_mood_avg_title": "आपका मूड {{rating_percentage}}% के साथ ज़्यादातर {{rating_word}} लगता है।",
   "statistics_mood_avg_positive": "सकारात्मक",
   "statistics_mood_avg_neutral": "तटस्थ",
@@ -150,5 +150,9 @@
   "statistics_mood_peaks_positive": "सकारात्मक",
   "statistics_mood_peaks_negative": "नकारात्मक",
   "statistics_feedback_question": "क्या यह मददगार है?",
-  "statistics_feedback_success": "आपको धन्यवाद!"
+  "statistics_feedback_success": "आपको धन्यवाद!",
+  "calendar_filters": "फिल्टर",
+  "calendar_filters_reset": "सभी साफ करें",
+  "calendar_filters_results": "परिणाम",
+  "calendar_filters_search": "खोज"
 }

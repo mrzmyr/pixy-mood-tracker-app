@@ -139,8 +139,8 @@
   "delete_confirm_message": "Tem certeza de que deseja excluir esta entrada?",
   "statistics_subtitle": "Suas últimas duas semanas",
   "statistics_description": "Estas são as suas tendências das últimas duas semanas",
-  "statistics_no_data": "Acompanhe mais alguns dias\n para desbloquear suas primeiras estatísticas.",
-  "statistics_category_mood": "Humor",
+  "statistics_no_data": "Adicione mais {{count}} dias nas últimas duas semanas para desbloquear suas primeiras estatísticas.",
+  "mood": "Humor",
   "statistics_mood_avg_title": "Seu humor aparece com {{rating_percentage}}% como sendo principalmente {{rating_word}}.",
   "statistics_mood_avg_positive": "positivo",
   "statistics_mood_avg_neutral": "neutro",
@@ -150,5 +150,9 @@
   "statistics_mood_peaks_positive": "positivamente",
   "statistics_mood_peaks_negative": "negativamente",
   "statistics_feedback_question": "Isso é útil?",
-  "statistics_feedback_success": "Obrigada!"
+  "statistics_feedback_success": "Obrigada!",
+  "calendar_filters": "Filtros",
+  "calendar_filters_reset": "Limpar tudo",
+  "calendar_filters_results": "Resultados",
+  "calendar_filters_search": "Procurar"
 }

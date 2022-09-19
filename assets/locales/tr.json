@@ -139,8 +139,8 @@
   "delete_confirm_message": "Bu girişi silmek istediğinizden emin misiniz?",
   "statistics_subtitle": "son iki haftan",
   "statistics_description": "Bunlar son iki haftadaki trendleriniz",
-  "statistics_no_data": "Birkaç gün daha takip et\n İlk istatistiklerinizin kilidini açmak için.",
-  "statistics_category_mood": "Mod",
+  "statistics_no_data": "İlk istatistiklerinizin kilidini açmak için son iki haftanıza {{count}} gün daha ekleyin.",
+  "mood": "Mod",
   "statistics_mood_avg_title": "Ruh haliniz %{{rating_percentage}} ile çoğunlukla {{rating_word}} olarak görünüyor.",
   "statistics_mood_avg_positive": "pozitif",
   "statistics_mood_avg_neutral": "doğal",
@@ -150,5 +150,9 @@
   "statistics_mood_peaks_positive": "olumlu",
   "statistics_mood_peaks_negative": "olumsuz",
   "statistics_feedback_question": "Bu yardımcı olur mu?",
-  "statistics_feedback_success": "Teşekkürler!"
+  "statistics_feedback_success": "Teşekkürler!",
+  "calendar_filters": "Filtreler",
+  "calendar_filters_reset": "Hepsini temizle",
+  "calendar_filters_results": "Sonuçlar",
+  "calendar_filters_search": "Arama"
 }

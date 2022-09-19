@@ -139,8 +139,8 @@
   "delete_confirm_message": "このエントリを削除してもよろしいですか?",
   "statistics_subtitle": "過去 2 週間",
   "statistics_description": "過去 2 週間の傾向です",
-  "statistics_no_data": "あと数日追跡する\n 最初の統計のロックを解除します。",
-  "statistics_category_mood": "ムード",
+  "statistics_no_data": "過去 2 週間以内に {{count}} 日追加して、最初の統計情報をアンロックしてください。",
+  "mood": "ムード",
   "statistics_mood_avg_title": "あなたの気分は {{rating_percentage}}% でほぼ {{rating_word}} であることがわかります。",
   "statistics_mood_avg_positive": "ポジティブ",
   "statistics_mood_avg_neutral": "中性",
@@ -150,5 +150,9 @@
   "statistics_mood_peaks_positive": "積極的に",
   "statistics_mood_peaks_negative": "否定的に",
   "statistics_feedback_question": "これは役に立ちましたか？",
-  "statistics_feedback_success": "ありがとうございました！"
+  "statistics_feedback_success": "ありがとうございました！",
+  "calendar_filters": "フィルター",
+  "calendar_filters_reset": "すべてクリア",
+  "calendar_filters_results": "結果",
+  "calendar_filters_search": "探す"
 }

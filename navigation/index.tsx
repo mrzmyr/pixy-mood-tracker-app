@@ -97,6 +97,7 @@ const ROUTES = [
 function MyTabBar({ state, descriptors, navigation }) {
   const colors = useColors()
   const insets = useSafeAreaInsets();
+  const { t } = useTranslation()
   
   return (
     <View 
@@ -149,7 +150,7 @@ function MyTabBar({ state, descriptors, navigation }) {
                 fontSize: 14,
                 marginTop: 4,
               }}
-            >{label}</Text>
+            >{t(label.toLowerCase())}</Text>
           </Pressable>
         );
       })}
@@ -183,7 +184,7 @@ const Tab = createBottomTabNavigator();
 
 const BottomTabs = () => {
   const colors = useColors();
-  const i18n = useTranslation()
+  const { t } = useTranslation()
   const calendarFilters = useCalendarFilters()
 
   const defaultOptions = {
@@ -217,7 +218,7 @@ const BottomTabs = () => {
           ...defaultOptions,
           headerShown: false,
           tabBarTestID: 'statistics',
-          title: i18n.t('statistics'),
+          title: t('statistics'),
         })}
       />
       <Tab.Screen
@@ -237,11 +238,11 @@ const BottomTabs = () => {
                 }} 
                 testID="filters" 
                 type='secondary'
-              >Filters{calendarFilters.isFiltering ? `(${calendarFilters.filterCount})` : ''}</LinkButton>
+              >{t('calendar_filters')} {calendarFilters.isFiltering ? `(${calendarFilters.filterCount})` : ''}</LinkButton>
             </View>
           ),
           tabBarTestID: 'calendar',
-          title: i18n.t('calendar'),
+          title: t('calendar'),
         })}
       />
       <Tab.Screen
@@ -251,7 +252,7 @@ const BottomTabs = () => {
           ...defaultOptions,
           headerShown: false,
           tabBarTestID: 'settings',
-          title: i18n.t('settings'),
+          title: t('settings'),
         })}
       />
     </Tab.Navigator>

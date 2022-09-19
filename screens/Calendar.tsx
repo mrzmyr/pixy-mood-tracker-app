@@ -13,6 +13,7 @@ import { useSettings } from '../hooks/useSettings';
 import { Keyboard } from 'react-native'
 import LinkButton from '../components/LinkButton';
 import { useLogs } from '../hooks/useLogs';
+import { useTranslation } from '../hooks/useTranslation';
 
 const CustomScrollView = wrapScrollView(ScrollView);
 
@@ -23,6 +24,7 @@ export const CalendarScreen = ({ navigation }) => {
   const windowHeight = Dimensions.get('window').height;
   const calendarFilters = useCalendarFilters()
   const [offsetY, setOffsetY] = useState(0);
+  const { t } = useTranslation();
 
   const searchResultsCount = useMemo(() => {
     return Object.values(logs.items).filter(item => calendarFilters.validate(item)).length
@@ -157,7 +159,7 @@ export const CalendarScreen = ({ navigation }) => {
               }}
             >
               <TextInput
-                placeholder="Search"
+                placeholder={t('calendar_filters_search')}
                 value={calendarFilters.data.text}
                 style={{
                   borderWidth: 1,
@@ -183,7 +185,7 @@ export const CalendarScreen = ({ navigation }) => {
                 marginBottom: 16,
               }}
             >
-              <TextHeadline style={{ marginBottom: 12 }}>Mood</TextHeadline>
+              <TextHeadline style={{ marginBottom: 12 }}>{t('mood')}</TextHeadline>
               <Scale value={calendarFilters.data.ratings} onPress={onPressRating} type={settings.scaleType} />
             </View>
             <TextHeadline style={{ marginBottom: 12 }}>Tags</TextHeadline>
@@ -221,7 +223,7 @@ export const CalendarScreen = ({ navigation }) => {
                     text: '',
                   })
                 }}
-              >Clear All</LinkButton>
+              >{t('calendar_filters_reset')}</LinkButton>
             </View>
             {calendarFilters.isFiltering && (
               <View
@@ -232,7 +234,7 @@ export const CalendarScreen = ({ navigation }) => {
                   alignItems: 'center',
                 }}
               >
-                <Text style={{ color: colors.textSecondary, opacity: 0.5 }}>{searchResultsCount} Results</Text>
+                <Text style={{ color: colors.textSecondary, opacity: 0.5 }}>{searchResultsCount} {t('calendar_filters_results')}</Text>
               </View>
             )}
           </BottomSheetScrollView>

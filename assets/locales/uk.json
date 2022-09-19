@@ -139,8 +139,8 @@
   "delete_confirm_message": "Ви впевнені, що бажаєте видалити цей запис?",
   "statistics_subtitle": "Ваші останні два тижні",
   "statistics_description": "Це ваші тренди за останні два тижні",
-  "statistics_no_data": "Слідкуйте ще кілька днів\n щоб розблокувати вашу першу статистику.",
-  "statistics_category_mood": "Настрій",
+  "statistics_no_data": "Додайте ще {{count}} днів протягом останніх двох тижнів, щоб отримати першу статистику.",
+  "mood": "Настрій",
   "statistics_mood_avg_title": "Ваш настрій {{rating_percentage}}% здебільшого {{rating_word}}.",
   "statistics_mood_avg_positive": "позитивний",
   "statistics_mood_avg_neutral": "нейтральний",
@@ -150,5 +150,9 @@
   "statistics_mood_peaks_positive": "позитивно",
   "statistics_mood_peaks_negative": "негативно",
   "statistics_feedback_question": "Це корисно?",
-  "statistics_feedback_success": "Дякую!"
+  "statistics_feedback_success": "Дякую!",
+  "calendar_filters": "Фільтри",
+  "calendar_filters_reset": "Очистити все",
+  "calendar_filters_results": "Результати",
+  "calendar_filters_search": "Пошук"
 }

@@ -50,6 +50,7 @@ const CalendarWeek = memo(({
       isToday: dayjs(dateString).isSame(dayjs(), 'day'),
       isFuture: day.isAfter(dayjs()),
       isFiltered: calendarFilters.isFiltering && item && !calendarFilters.validate(item),
+      isFiltering: calendarFilters.isFiltering,
     }
   });
   
@@ -72,6 +73,7 @@ const CalendarWeek = memo(({
             day={day.number}
             isToday={day.isToday}
             isFiltered={day.isFiltered}
+            isFiltering={day.isFiltering}
             isFuture={day.isFuture}
             hasText={day.item?.message?.length > 0}
             onPress={onPress}

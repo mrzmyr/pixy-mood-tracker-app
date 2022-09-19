@@ -139,8 +139,8 @@
   "delete_confirm_message": "Er du sikker på at du vil slette denne oppføringen?",
   "statistics_subtitle": "De to siste ukene dine",
   "statistics_description": "Dette er dine trender fra de siste to ukene",
-  "statistics_no_data": "Følg noen dager til\n for å låse opp din første statistikk.",
-  "statistics_category_mood": "Humør",
+  "statistics_no_data": "Legg til {{count}} dager til i løpet av de siste to ukene for å låse opp din første statistikk.",
+  "mood": "Humør",
   "statistics_mood_avg_title": "Humøret ditt ser ut til å være {{rating_percentage}} % for å være stort sett {{rating_word}}.",
   "statistics_mood_avg_positive": "positivt",
   "statistics_mood_avg_neutral": "nøytral",
@@ -150,5 +150,9 @@
   "statistics_mood_peaks_positive": "positivt",
   "statistics_mood_peaks_negative": "negativt",
   "statistics_feedback_question": "Er dette nyttig?",
-  "statistics_feedback_success": "Takk skal du ha!"
+  "statistics_feedback_success": "Takk skal du ha!",
+  "calendar_filters": "Filtre",
+  "calendar_filters_reset": "Slett alt",
+  "calendar_filters_results": "Resultater",
+  "calendar_filters_search": "Søk"
 }

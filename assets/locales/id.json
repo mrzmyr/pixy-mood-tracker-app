@@ -139,8 +139,8 @@
   "delete_confirm_message": "Anda yakin ingin menghapus entri ini?",
   "statistics_subtitle": "Dua minggu terakhirmu",
   "statistics_description": "Ini adalah tren Anda dari dua minggu terakhir",
-  "statistics_no_data": "Lacak beberapa hari lagi\n untuk membuka statistik pertama Anda.",
-  "statistics_category_mood": "Suasana hati",
+  "statistics_no_data": "Tambahkan {{count}} hari lagi dalam dua minggu terakhir untuk membuka statistik pertama Anda.",
+  "mood": "Suasana hati",
   "statistics_mood_avg_title": "Suasana hati Anda muncul dengan {{rating_percentage}}% sebagian besar {{rating_word}}.",
   "statistics_mood_avg_positive": "positif",
   "statistics_mood_avg_neutral": "netral",
@@ -150,5 +150,9 @@
   "statistics_mood_peaks_positive": "positif",
   "statistics_mood_peaks_negative": "negatif",
   "statistics_feedback_question": "Apakah ini membantu?",
-  "statistics_feedback_success": "Terima kasih!"
+  "statistics_feedback_success": "Terima kasih!",
+  "calendar_filters": "Filter",
+  "calendar_filters_reset": "Bersihkan semua",
+  "calendar_filters_results": "Hasil",
+  "calendar_filters_search": "Mencari"
 }

@@ -139,8 +139,8 @@
   "delete_confirm_message": "Weet u zeker dat u dit item wilt verwijderen?",
   "statistics_subtitle": "Je laatste twee weken",
   "statistics_description": "Dit zijn jouw trends van de afgelopen twee weken",
-  "statistics_no_data": "Volg nog een paar dagen\n om uw eerste statistieken te ontgrendelen.",
-  "statistics_category_mood": "Stemming",
+  "statistics_no_data": "Voeg in de afgelopen twee weken nog {{count}} dagen toe om uw eerste statistieken te ontgrendelen.",
+  "mood": "Stemming",
   "statistics_mood_avg_title": "Je stemming lijkt met {{rating_percentage}}% meestal {{rating_word}} te zijn.",
   "statistics_mood_avg_positive": "positief",
   "statistics_mood_avg_neutral": "neutrale",
@@ -150,5 +150,9 @@
   "statistics_mood_peaks_positive": "positief",
   "statistics_mood_peaks_negative": "negatief",
   "statistics_feedback_question": "Is dit nuttig?",
-  "statistics_feedback_success": "Dank je!"
+  "statistics_feedback_success": "Dank je!",
+  "calendar_filters": "Filters",
+  "calendar_filters_reset": "Wis alles",
+  "calendar_filters_results": "Resultaten",
+  "calendar_filters_search": "Zoeken"
 }

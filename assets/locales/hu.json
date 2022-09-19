@@ -139,8 +139,8 @@
   "delete_confirm_message": "Biztosan törli ezt a bejegyzést?",
   "statistics_subtitle": "Az utolsó két heted",
   "statistics_description": "Ezek az Ön trendjei az elmúlt két hétből",
-  "statistics_no_data": "Kövesse nyomon még néhány napot\n az első statisztikák feloldásához.",
-  "statistics_category_mood": "Hangulat",
+  "statistics_no_data": "Adjon hozzá még {{count}} napot az elmúlt két héthez, hogy feloldja az első statisztikákat.",
+  "mood": "Hangulat",
   "statistics_mood_avg_title": "A hangulatod {{rating_percentage}}%-kal többnyire {{rating_word}}.",
   "statistics_mood_avg_positive": "pozitív",
   "statistics_mood_avg_neutral": "semleges",
@@ -150,5 +150,9 @@
   "statistics_mood_peaks_positive": "pozitívan",
   "statistics_mood_peaks_negative": "negatívan",
   "statistics_feedback_question": "Ez hasznos?",
-  "statistics_feedback_success": "Köszönöm!"
+  "statistics_feedback_success": "Köszönöm!",
+  "calendar_filters": "Szűrők",
+  "calendar_filters_reset": "Mindent kitöröl",
+  "calendar_filters_results": "Eredmények",
+  "calendar_filters_search": "Keresés"
 }

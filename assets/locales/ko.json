@@ -139,8 +139,8 @@
   "delete_confirm_message": "이 항목을 삭제하시겠습니까?",
   "statistics_subtitle": "지난 2주",
   "statistics_description": "지난 2주 동안의 트렌드입니다.",
-  "statistics_no_data": "며칠 더 추적\n 첫 번째 통계의 잠금을 해제합니다.",
-  "statistics_category_mood": "분위기",
+  "statistics_no_data": "첫 번째 통계를 잠금 해제하려면 지난 2주 동안 {{count}}일을 더 추가하세요.",
+  "mood": "분위기",
   "statistics_mood_avg_title": "귀하의 기분은 {{rating_percentage}}%로 대부분 {{rating_word}}로 나타납니다.",
   "statistics_mood_avg_positive": "긍정적인",
   "statistics_mood_avg_neutral": "중립적",
@@ -150,5 +150,9 @@
   "statistics_mood_peaks_positive": "전적으로",
   "statistics_mood_peaks_negative": "부정적으로",
   "statistics_feedback_question": "도움이 되나요?",
-  "statistics_feedback_success": "고맙습니다!"
+  "statistics_feedback_success": "고맙습니다!",
+  "calendar_filters": "필터",
+  "calendar_filters_reset": "모두 지우기",
+  "calendar_filters_results": "결과",
+  "calendar_filters_search": "검색"
 }

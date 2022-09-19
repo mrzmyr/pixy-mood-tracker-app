@@ -45,7 +45,7 @@ export const MoodAvgCard = ({
   
   return (
     <Card
-      subtitle={t('statistics_category_mood')}
+      subtitle={t('mood')}
       title={t('statistics_mood_avg_title', {
         rating_word: t(`statistics_mood_avg_${rating_highest}`),
         rating_percentage: percentage,

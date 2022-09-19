@@ -139,8 +139,8 @@
   "delete_confirm_message": "Är du säker på att du vill ta bort den här posten?",
   "statistics_subtitle": "Dina sista två veckor",
   "statistics_description": "Det här är dina trender från de senaste två veckorna",
-  "statistics_no_data": "Spåra några dagar till\n för att låsa upp din första statistik.",
-  "statistics_category_mood": "Humör",
+  "statistics_no_data": "Lägg till {{count}} dagar till under de senaste två veckorna för att låsa upp din första statistik.",
+  "mood": "Humör",
   "statistics_mood_avg_title": "Ditt humör visas med {{rating_percentage}}% för att vara mestadels {{rating_word}}.",
   "statistics_mood_avg_positive": "positiv",
   "statistics_mood_avg_neutral": "neutral",
@@ -150,5 +150,9 @@
   "statistics_mood_peaks_positive": "positivt",
   "statistics_mood_peaks_negative": "negativt",
   "statistics_feedback_question": "Är detta användbart?",
-  "statistics_feedback_success": "Tack!"
+  "statistics_feedback_success": "Tack!",
+  "calendar_filters": "Filter",
+  "calendar_filters_reset": "Rensa alla",
+  "calendar_filters_results": "Resultat",
+  "calendar_filters_search": "Sök"
 }

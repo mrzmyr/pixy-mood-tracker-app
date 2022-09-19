@@ -139,8 +139,8 @@
   "delete_confirm_message": "Είστε βέβαιοι ότι θέλετε να διαγράψετε αυτήν την καταχώρηση;",
   "statistics_subtitle": "Οι τελευταίες σου δύο εβδομάδες",
   "statistics_description": "Αυτές είναι οι τάσεις σου τις τελευταίες δύο εβδομάδες",
-  "statistics_no_data": "Παρακολούθηση λίγες μέρες ακόμα\n για να ξεκλειδώσετε τα πρώτα σας στατιστικά.",
-  "statistics_category_mood": "Διάθεση",
+  "statistics_no_data": "Προσθέστε {{count}} ακόμη ημέρες μέσα στις δύο τελευταίες εβδομάδες για να ξεκλειδώσετε τα πρώτα σας στατιστικά στοιχεία.",
+  "mood": "Διάθεση",
   "statistics_mood_avg_title": "Η διάθεσή σας εμφανίζεται με {{rating_percentage}}% να είναι κυρίως {{rating_word}}.",
   "statistics_mood_avg_positive": "θετικός",
   "statistics_mood_avg_neutral": "ουδέτερος",
@@ -150,5 +150,9 @@
   "statistics_mood_peaks_positive": "θετικώς",
   "statistics_mood_peaks_negative": "αρνητικά",
   "statistics_feedback_question": "Είναι αυτό χρήσιμο;",
-  "statistics_feedback_success": "Ευχαριστώ!"
+  "statistics_feedback_success": "Ευχαριστώ!",
+  "calendar_filters": "Φίλτρα",
+  "calendar_filters_reset": "Τα καθαρίζω όλα",
+  "calendar_filters_results": "Αποτελέσματα",
+  "calendar_filters_search": "Αναζήτηση"
 }

@@ -46,6 +46,7 @@ export const Card = ({
         <Text 
           style={{
             letterSpacing: -0.1,
+            lineHeight: 24,
             fontSize: 17,
             fontWeight: 'bold',
             color: colors.text,

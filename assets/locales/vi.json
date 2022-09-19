@@ -139,8 +139,8 @@
   "delete_confirm_message": "Bạn có chắc chắn muốn xóa mục này không?",
   "statistics_subtitle": "Hai tuần qua của bạn",
   "statistics_description": "Đây là những xu hướng của bạn trong hai tuần qua",
-  "statistics_no_data": "Theo dõi một vài ngày nữa\n để mở khóa số liệu thống kê đầu tiên của bạn.",
-  "statistics_category_mood": "Khí sắc",
+  "statistics_no_data": "Thêm {{count}} ngày nữa trong vòng hai tuần qua để mở khóa thống kê đầu tiên của bạn.",
+  "mood": "Khí sắc",
   "statistics_mood_avg_title": "Tâm trạng của bạn xuất hiện với {{rating_percentage}}% chủ yếu là {{rating_word}}.",
   "statistics_mood_avg_positive": "tích cực",
   "statistics_mood_avg_neutral": "Trung tính",
@@ -150,5 +150,9 @@
   "statistics_mood_peaks_positive": "tích cực",
   "statistics_mood_peaks_negative": "tiêu cực",
   "statistics_feedback_question": "Điều này có hữu ích không?",
-  "statistics_feedback_success": "Cảm ơn bạn!"
+  "statistics_feedback_success": "Cảm ơn bạn!",
+  "calendar_filters": "Bộ lọc",
+  "calendar_filters_reset": "Quet sạch tât cả",
+  "calendar_filters_results": "Kết quả",
+  "calendar_filters_search": "Tìm kiếm"
 }

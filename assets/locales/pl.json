@@ -139,8 +139,8 @@
   "delete_confirm_message": "Czy na pewno chcesz usunąć ten wpis?",
   "statistics_subtitle": "Twoje ostatnie dwa tygodnie",
   "statistics_description": "Oto Twoje trendy z ostatnich dwóch tygodni",
-  "statistics_no_data": "Śledź jeszcze kilka dni\n aby odblokować swoje pierwsze statystyki.",
-  "statistics_category_mood": "Nastrój",
+  "statistics_no_data": "Dodaj jeszcze {{count}} dni w ciągu ostatnich dwóch tygodni, aby odblokować swoje pierwsze statystyki.",
+  "mood": "Nastrój",
   "statistics_mood_avg_title": "Twój nastrój wygląda na {{rating_percentage}}%, aby w większości składać się z {{rating_word}}.",
   "statistics_mood_avg_positive": "pozytywny",
   "statistics_mood_avg_neutral": "neutralny",
@@ -150,5 +150,9 @@
   "statistics_mood_peaks_positive": "pozytywnie",
   "statistics_mood_peaks_negative": "ujemnie",
   "statistics_feedback_question": "Czy to jest pomocne?",
-  "statistics_feedback_success": "Dziękuję Ci!"
+  "statistics_feedback_success": "Dziękuję Ci!",
+  "calendar_filters": "Filtry",
+  "calendar_filters_reset": "Wyczyść wszystko",
+  "calendar_filters_results": "Wyniki",
+  "calendar_filters_search": "Szukaj"
 }

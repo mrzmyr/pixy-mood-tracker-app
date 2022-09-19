@@ -139,8 +139,8 @@
   "delete_confirm_message": "Esteu segur que voleu suprimir aquesta entrada?",
   "statistics_subtitle": "Les teves dues darreres setmanes",
   "statistics_description": "Aquestes són les teves tendències de les dues darreres setmanes",
-  "statistics_no_data": "Seguiu uns quants dies més\n per desbloquejar les teves primeres estadístiques.",
-  "statistics_category_mood": "Estat d'ànim",
+  "statistics_no_data": "Afegeix {{count}} dies més durant les dues últimes setmanes per desbloquejar les teves primeres estadístiques.",
+  "mood": "Estat d'ànim",
   "statistics_mood_avg_title": "El vostre estat d'ànim apareix amb un {{rating_percentage}}% que és majoritàriament {{rating_word}}.",
   "statistics_mood_avg_positive": "positiu",
   "statistics_mood_avg_neutral": "neutre",
@@ -150,5 +150,9 @@
   "statistics_mood_peaks_positive": "positivament",
   "statistics_mood_peaks_negative": "negativament",
   "statistics_feedback_question": "Això és útil?",
-  "statistics_feedback_success": "Gràcies!"
+  "statistics_feedback_success": "Gràcies!",
+  "calendar_filters": "Filtres",
+  "calendar_filters_reset": "Esborra-ho tot",
+  "calendar_filters_results": "Resultats",
+  "calendar_filters_search": "Cerca"
 }

@@ -46,6 +46,7 @@ export default memo(function CalendarDay({
   rating,
   isToday,
   isFiltered,
+  isFiltering,
   isFuture,
   hasText,
   onPress,
@@ -55,6 +56,7 @@ export default memo(function CalendarDay({
   rating?: LogItem["rating"],
   isToday: boolean,
   isFuture: boolean,
+  isFiltering: boolean,
   isFiltered: boolean,
   hasText: boolean,
   onPress: any,
@@ -87,7 +89,7 @@ export default memo(function CalendarDay({
       <TouchableOpacity
         disabled={isFuture || !onPress}
         onPress={async () => {
-          if(!isFuture) {
+          if(!isFuture && !isFiltering) {
             await haptics.selection()
             onPress(dateString)
           }
@@ -98,23 +100,24 @@ export default memo(function CalendarDay({
           alignItems: 'center',
           padding: 4,
           borderRadius: 8,
-          backgroundColor: isFuture || isFiltered ? colors.calendarItemBackgroundFuture : backgroundColor,
+          backgroundColor: isFuture || isFiltered || (!rating && isFiltering) ? colors.calendarItemBackgroundFuture : backgroundColor,
           width: '100%',
           aspectRatio: 1,
           borderWidth: 2,
-          borderStyle: !isFuture && !rating ? 'dotted' : 'solid',
-          borderColor: colorScheme === 'light' ? 
-            chroma(backgroundColor).darken(0.4).hex() : 
-            isFuture || isFiltered ? 
-              chroma(backgroundColor).brighten(0.1).hex() :
-              chroma(backgroundColor).brighten(0.8).hex(),
+          borderStyle: !isFuture && !rating && !isFiltering ? 'dotted' : 'solid',
+          borderColor: 
+          (!rating && !isFiltered && isFiltering) ? colors.calendarBackground :
+            (colorScheme === 'light' ? 
+              chroma(backgroundColor).darken(0.4).hex() : 
+              isFuture || isFiltered ? 
+                chroma(backgroundColor).brighten(0.1).hex() :
+                chroma(backgroundColor).brighten(0.8).hex()
+              ),
         }}
         testID={`calendar-day-${dateString}`}
         accessible={true}
         accessibilityLabel={`${dayjs(dateString).format('LL')}`}
-        dataSet={{ 
-          rating: rating ? rating : 'none',
-        }}
+        activeOpacity={isFiltering ? 1 : 0.8}
       >
         <View
           style={{
@@ -162,7 +165,7 @@ export default memo(function CalendarDay({
               minHeight: 20,
               minWidth: 20,
               borderRadius: 100,
-              backgroundColor: isToday ? 
+              backgroundColor: isToday && (!rating && isFiltering) ? 
                 (chroma(backgroundColor).luminance() < 0.6 ? 
                   'rgba(255,255,255,0.5)' : 
                   'rgba(0,0,0,0.15)'
@@ -172,8 +175,8 @@ export default memo(function CalendarDay({
             <Text
               style={{
                 fontSize: 12,
-                opacity: isFuture || isFiltered ? 0.3 : 1,
-                color: isToday ? '#000' : textColor,
+                opacity: isFuture || isFiltered || (!rating && isFiltering) ? 0.3 : 1,
+                color: isToday && (!rating && isFiltering) ? '#000' : textColor,
               }}
             >{day}</Text>
           </View>
