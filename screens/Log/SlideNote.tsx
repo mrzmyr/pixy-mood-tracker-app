@@ -1,13 +1,11 @@
-import { useKeyboard } from "@react-native-community/hooks";
 import { useRef } from "react";
 import { View } from "react-native";
-import { Check } from "react-native-feather";
 import DismissKeyboard from "../../components/DismisKeyboard";
 import TextArea from "../../components/TextArea";
 import useColors from "../../hooks/useColors";
+import { LogItem } from "../../hooks/useLogs";
 import { useTemporaryLog } from "../../hooks/useTemporaryLog";
 import { useTranslation } from "../../hooks/useTranslation";
-import { FloatButton } from "./FloatButton";
 import { SlideHeadline } from "./SlideHeadline";
 
 const randomInt = (min, max) => Math.floor(Math.random() * (max - min + 1) + min);
@@ -15,29 +13,15 @@ const randomInt = (min, max) => Math.floor(Math.random() * (max - min + 1) + min
 const MAX_LENGTH = 10 * 1000;
 
 export const SlideNote = ({
-  save
+  onChange
 }: {
-  save: () => void
+  onChange: (text: LogItem['message']) => void
 }) => {
   const colors = useColors();
   const tempLog = useTemporaryLog();
   const { t } = useTranslation()
 
   const placeholder = useRef(t(`log_modal_message_placeholder_${randomInt(1, 6)}`))
-
-  const onChange = (text: string) => {
-    tempLog.set(data => ({
-      ...data,
-      message: text
-    }))
-  }
-  const keyboard = useKeyboard()
-
-  const nextButton = (
-    <FloatButton onPress={() => save()}>
-      <Check color={colors.primaryButtonText} width={24} />
-    </FloatButton>
-  )
 
   return (
     <>

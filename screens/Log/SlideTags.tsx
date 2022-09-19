@@ -3,13 +3,13 @@ import { ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import useColors from "../../hooks/useColors";
 import useHaptics from "../../hooks/useHaptics";
-import { useSettings } from "../../hooks/useSettings";
+import { Tag, useSettings } from "../../hooks/useSettings";
 import { useTemporaryLog } from "../../hooks/useTemporaryLog";
 import { useTranslation } from "../../hooks/useTranslation";
 import { SlideHeadline } from "./SlideHeadline";
 import { TagEdit } from "./TagEdit";
 
-function Tag({ 
+function TagLabel({ 
   title,
   selected = false,
   color,
@@ -61,7 +61,9 @@ function Tag({
 
 
 export const SlideTags = ({
+  onChange
 }: {
+  onChange: (tags: Tag[]) => void,
 }) => {
   const colors = useColors();
   const tempLog = useTemporaryLog();
@@ -101,14 +103,12 @@ export const SlideTags = ({
           }}
         >
             {settings?.tags && settings.tags.map(tag => (
-              <Tag 
+              <TagLabel 
                 onPress={() => {
-                  tempLog.set(data => ({
-                    ...data,
-                    tags: tempLog?.data?.tags.map(d => d.id).includes(tag.id) ? 
-                      data.tags.filter(t => t.id !== tag.id) : 
-                      [...data.tags, tag]
-                  }))
+                  const newTags = tempLog?.data?.tags.map(d => d.id).includes(tag.id) ? 
+                    tempLog?.data?.tags.filter(t => t.id !== tag.id) : 
+                    [...tempLog?.data.tags, tag]
+                  onChange(newTags)
                 }}
                 color={colors.tags[tag.color].dot}
                 selected={tempLog?.data?.tags.map(d => d.id).includes(tag.id)} 
@@ -120,9 +120,7 @@ export const SlideTags = ({
               <TagEdit 
                 onPress={async () => {
                   await haptics.selection()
-                  navigation.navigate('TagsModal', {
-                    initialTags: tempLog?.data?.tags,
-                  })
+                  navigation.navigate('TagsModal')
                 }}
               />
             </View>

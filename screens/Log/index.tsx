@@ -156,17 +156,31 @@ export const LogModal = ({ navigation, route }: RootStackScreenProps<'Log'>) => 
     trackMessageChange()
     tempLog.set(logItem => ({ ...logItem, message }))
   }
-  
-  const placeholder = useRef(i18n.t(`log_modal_message_placeholder_${randomInt(1, 6)}`))
+  const setTags = (tags: LogItem['tags']) => {
+    segment.track('log_tags_changed', {
+      tags: tags.map(tag => ({
+        ...tag,
+        title: undefined
+      }))
+    })
+    tempLog.set(logItem => ({ ...logItem, tags }))
+  }
 
-  const [slideIndex, setSlideIndex] = useState(0)
   const _carousel = useRef(null);
+  const [slideIndex, setSlideIndex] = useState(0)
   const [touched, setTouched] = useState(false)
   
   const slides = [
-    <SlideRating next={() => _carousel.current.next()} />,
-    <SlideTags next={() => _carousel.current.next()} />,
-    <SlideNote save={() => save()} />,
+    <SlideRating 
+      onChange={(rating) => {
+        if(tempLog.data.rating !== rating) {
+          setTimeout(() => _carousel.current.next(), 200)
+        }
+        setRating(rating)
+      }}
+    />,
+    <SlideTags onChange={setTags} />,
+    <SlideNote onChange={setMessage} />,
   ]
   
   return (

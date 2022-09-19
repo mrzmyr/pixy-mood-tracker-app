@@ -9,9 +9,9 @@ import { SlideRatingButton } from "./SlideRatingButton";
 const keys = ['extremely_good', 'very_good', 'good', 'neutral', 'bad', 'very_bad', 'extremely_bad'];
 
 export const SlideRating = ({
-  next
+  onChange,
 }: {
-  next: () => void;
+  onChange: (rating: LogItem['rating']) => void;
 }) => {
   const colors = useColors();
   const tempLog = useTemporaryLog();
@@ -51,13 +51,7 @@ export const SlideRating = ({
               key={key}
               rating={key as LogItem['rating']}
               selected={tempLog.data.rating === key} 
-              onPress={() => {
-                if(tempLog.data.rating !== key) next(key)
-                tempLog.set(data => ({
-                  ...data,
-                  rating: key
-                }))
-              }}
+              onPress={() => onChange(key as LogItem['rating'])}
             />
           ))}
         </View>
