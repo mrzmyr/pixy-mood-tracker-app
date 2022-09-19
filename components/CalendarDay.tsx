@@ -44,19 +44,17 @@ export default memo(function CalendarDay({
   dateString,
   day,
   rating,
-  tags,
   isToday,
   isFiltered,
-  isDisabled,
+  isFuture,
   hasText,
   onPress,
 }: {
   dateString: string,
   day: number,
-  tags: LogItem['tags'],
   rating?: LogItem["rating"],
   isToday: boolean,
-  isDisabled: boolean,
+  isFuture: boolean,
   isFiltered: boolean,
   hasText: boolean,
   onPress: any,
@@ -87,9 +85,9 @@ export default memo(function CalendarDay({
   return (
     <>
       <TouchableOpacity
-        disabled={isDisabled || !onPress}
+        disabled={isFuture || !onPress}
         onPress={async () => {
-          if(!isDisabled) {
+          if(!isFuture) {
             await haptics.selection()
             onPress(dateString)
           }
@@ -99,14 +97,15 @@ export default memo(function CalendarDay({
           justifyContent: 'center',
           alignItems: 'center',
           padding: 4,
-          borderRadius: 6,
-          backgroundColor: isDisabled || isFiltered ? colors.calendarItemBackgroundFuture : backgroundColor,
+          borderRadius: 8,
+          backgroundColor: isFuture || isFiltered ? colors.calendarItemBackgroundFuture : backgroundColor,
           width: '100%',
           aspectRatio: 1,
           borderWidth: 2,
+          borderStyle: !isFuture && !rating ? 'dotted' : 'solid',
           borderColor: colorScheme === 'light' ? 
             chroma(backgroundColor).darken(0.4).hex() : 
-            isDisabled || isFiltered ? 
+            isFuture || isFiltered ? 
               chroma(backgroundColor).brighten(0.1).hex() :
               chroma(backgroundColor).brighten(0.8).hex(),
         }}
@@ -173,7 +172,7 @@ export default memo(function CalendarDay({
             <Text
               style={{
                 fontSize: 12,
-                opacity: isDisabled || isFiltered ? 0.3 : 1,
+                opacity: isFuture || isFiltered ? 0.3 : 1,
                 color: isToday ? '#000' : textColor,
               }}
             >{day}</Text>

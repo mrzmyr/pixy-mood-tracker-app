@@ -30,7 +30,7 @@ export const Card = ({
           style={{
             fontSize: 14,
             fontWeight: 'bold',
-            color: colors.textSecondary,
+            color: colors.statisticsCardSubtitle,
           }}
         >
           {subtitle}

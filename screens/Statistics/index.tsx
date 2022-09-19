@@ -17,11 +17,6 @@ export const StatisticsScreen = ({ navigation }) => {
     const date = new Date(item.date)
     return date.getTime() > new Date().getTime() - 1000 * 60 * 60 * 24 * 14
   })
-  
-  const cards = [
-    MoodAvgCard({ items }),
-    MoodPeaksCard({ items }),
-  ]
 
   return (
     <View
@@ -42,7 +37,6 @@ export const StatisticsScreen = ({ navigation }) => {
         >
           <Text
             style={{
-              letterSpacing: -0.5,
               fontSize: 32,
               color: colors.text,
               fontWeight: 'bold',
@@ -51,7 +45,6 @@ export const StatisticsScreen = ({ navigation }) => {
           >{t('statistics_title')}</Text>
           <Text
             style={{
-              letterSpacing: -0.1,
               fontSize: 17,
               color: colors.text,
               fontWeight: '600',
@@ -66,7 +59,7 @@ export const StatisticsScreen = ({ navigation }) => {
             }}
           >{t('statistics_description')}</Text>
 
-          {cards.every(card => card === null) && (
+          {items.length < 5 && (
             <View
               style={{
                 flex: 1,
@@ -75,7 +68,7 @@ export const StatisticsScreen = ({ navigation }) => {
                 borderWidth: 1,
                 borderColor: colors.statisticsNoDataBorder,
                 borderStyle: 'dashed',
-                marginTop: 16,
+                marginTop: 32,
                 padding: 16,
                 borderRadius: 8,
                 minHeight: 120,
@@ -88,11 +81,11 @@ export const StatisticsScreen = ({ navigation }) => {
                   textAlign: 'center',
                   lineHeight: 24,
                 }}
-              >{t('statistics_no_data', { count: 3 - items.length })}</Text>
+              >{t('statistics_no_data', { count: 5 - items.length })}</Text>
             </View>
           )}
 
-          {!cards.every(card => card === null) && (
+          {items.length >= 5 && (
             <>
               <MoodAvgCard items={items} />
               <MoodPeaksCard items={items} />

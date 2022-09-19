@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ActivityIndicator, Image, Text, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, Image, Pressable, Text, TouchableOpacity, View } from 'react-native';
 import useColors from '../../hooks/useColors';
 import { useFeedback } from '../../hooks/useFeedback';
 import { useSegment } from '../../hooks/useSegment';
@@ -23,11 +23,11 @@ const EMOJI_SCALE_IMAGES = [{
   disabled: require(`../../assets/images/emojis/thumbs-down_1f44e-disabled.png`)
 }]
 
-const CardFeedbackEmoji = ({ image, onPress }) => {
+const CardFeedbackEmoji = ({ image, onPress, selected }) => {
   const colors = useColors()
 
   return (
-    <TouchableOpacity
+    <Pressable
       style={{
         flexDirection: 'row',
         alignItems: 'center',
@@ -41,13 +41,13 @@ const CardFeedbackEmoji = ({ image, onPress }) => {
         borderRadius: 4,
       }}
       onPress={onPress}
-      activeOpacity={0.8}
     >
       <Image style={{ 
+        opacity: selected ? 1 : colors.statisticsFeedbackEmojiOpacity,
         width: 20, 
         height: 20,
       }} source={image} />
-    </TouchableOpacity>
+    </Pressable>
   )
 }
 export const CardFeedback = ({
@@ -63,10 +63,12 @@ export const CardFeedback = ({
   const { send } = useFeedback();
 
   const [feedbackSent, setFeedbackSent] = useState(false);
+  const [emojiSelected, setEmojiSelected] = useState(null);
   const [loading, setLoading] = useState(false);
 
   const handleFeedback = (emoji) => {
     setLoading(true);
+    setEmojiSelected(emoji);
     const message = `${type}:  ${emoji} \n ${JSON.stringify(details)}`;
 
     send({
@@ -78,6 +80,7 @@ export const CardFeedback = ({
         setFeedbackSent(true);
       })
       .catch(() => {
+        setEmojiSelected(null);
         setFeedbackSent(false);
       })
       .finally(() => {
@@ -107,8 +110,9 @@ export const CardFeedback = ({
           style={{
             letterSpacing: -0.1,
             fontSize: 14,
-            fontWeight: '600',
             color: colors.statisticsFeedbackText,
+            paddingTop: 8,
+            paddingBottom: 8,
           }}
         >
           {!feedbackSent ? t('statistics_feedback_question') : t('statistics_feedback_success')}
@@ -124,7 +128,7 @@ export const CardFeedback = ({
           <ActivityIndicator size="small" color={colors.text} />
         </View>
       )}
-      {!feedbackSent && !loading && (
+      {!feedbackSent && (
         <View
           style={{
             flexDirection: 'row',
@@ -134,7 +138,8 @@ export const CardFeedback = ({
           {EMOJI_SCALE_IMAGES.map((emojiScale, index) => (
             <CardFeedbackEmoji
               key={index}
-              image={emojiScale.disabled}
+              selected={emojiSelected === emojiScale.emoji}
+              image={emojiSelected === emojiScale.emoji ? emojiScale.active : emojiScale.disabled}
               onPress={() => handleFeedback(emojiScale.emoji)}
             />
           ))}

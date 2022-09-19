@@ -1,52 +1,7 @@
+import { IScale } from './Scales';
 import colors from './TailwindColors';
 
-export interface Scales {
-  [type: string]: {
-    [rating: string]: {
-      background: string;
-      text: string;
-    }
-  }
-}
-
-const scales: Scales = {
-  'ColorBrew-RdYlGn': {
-    extremely_good: { background: '#10B981', text: '#DCFCE7', },
-    very_good: { background: '#34D399', text: '#F0FDF4', },
-    good: { background: '#A7F3D0', text: '#15803D', },
-    neutral: { background: '#E2E8F0', text: '#334155', },
-    bad: { background: '#FFEDD5', text: '#92400E', },
-    very_bad: { background: '#FED7AA', text: '#9A3412', },
-    extremely_bad: { background: '#F97316', text: '#FFF7ED', },
-  },
-  'ColorBrew-RdYlGn-old': {
-    extremely_good: { background: '#1a9850', text: 'rgba(255,255,255,1)', },
-    very_good: { background: '#91cf60', text: 'rgba(255,255,255,1)', },
-    good: { background: '#d9ef8b', text: 'rgba(0,0,0,0.8)', },
-    neutral: { background: '#ffffbf', text: 'rgba(0,0,0,0.6)', },
-    bad: { background: '#fee08b', text: 'rgba(0,0,0,0.8)', },
-    very_bad: { background: '#fc8d59', text: 'rgba(255,255,255,1)', },
-    extremely_bad: { background: '#d73027', text: 'rgba(255,255,255,1)', },
-  },
-  'ColorBrew-PiYG': {
-    extremely_good: { background: '#4d9221', text: 'rgba(255,255,255,1)', },
-    very_good: { background: '#a1d76a', text: 'rgba(255,255,255,1)', },
-    good: { background: '#e6f5d0', text: 'rgba(0,0,0,0.8)', },
-    neutral: { background: '#f7f7f7', text: 'rgba(0,0,0,0.6)', },
-    bad: { background: '#fde0ef', text: 'rgba(0,0,0,0.8)', },
-    very_bad: { background: '#e9a3c9', text: 'rgba(255,255,255,1)', },
-    extremely_bad: { background: '#c51b7d', text: 'rgba(255,255,255,1)', },
-  },
-  'ColorBrew-BrBG': {
-    extremely_good: { background: '#01665e', text: 'rgba(255,255,255,1)', },
-    very_good: { background: '#5ab4ac', text: 'rgba(255,255,255,1)', },
-    good: { background: '#c7eae5', text: 'rgba(0,0,0,0.8)', },
-    neutral: { background: '#f5f5f5', text: 'rgba(0,0,0,0.6)', },
-    bad: { background: '#f6e8c3', text: 'rgba(0,0,0,0.8)', },
-    very_bad: { background: '#d8b365', text: 'rgba(255,255,255,1)', },
-    extremely_bad: { background: '#8c510a', text: 'rgba(255,255,255,1)', },
-  },
-};
+import scales from './Scales'
 
 type TagColors = {
   [tag: string]: {
@@ -169,7 +124,8 @@ export interface IColors {
     
   statisticsBackground: string;
   statisticsCardBackground: string;
-  statisticsLine: string;
+  statisticsCardSubtitle: string;
+  statisticsFeedbackEmojiOpacity: number;
   statisticsFeedbackBorder: string;
   statisticsFeedbackText: string;
   statisticsWeekdayText: string;
@@ -180,7 +136,7 @@ export interface IColors {
   statisticsNoDataText: string;
   
   switchThumbColor: string;
-  scales: Scales;
+  scales: IScale;
   tags: TagColors;
   palette: any;
 }
@@ -224,7 +180,7 @@ const light: IColors = {
   
   calendarBackground: colors.neutral[50],
   calendarItemBackground: '#FFF',
-  calendarItemBackgroundFuture: colors.neutral[50],
+  calendarItemBackgroundFuture: colors.gray[50],
   calendarItemTextColor: colors.neutral[500],
   calendarWeekNameColor: colors.neutral[400],
   calendarMonthNameColor: colors.neutral[400],
@@ -269,7 +225,8 @@ const light: IColors = {
   
   statisticsBackground: colors.neutral[100],
   statisticsCardBackground: '#FFF',
-  statisticsLine: '#000',
+  statisticsCardSubtitle: colors.neutral[500],
+  statisticsFeedbackEmojiOpacity: 1,
   statisticsFeedbackBorder: colors.neutral[200],
   statisticsFeedbackText: colors.neutral[400],
   statisticsWeekdayText: colors.neutral[400],
@@ -280,7 +237,7 @@ const light: IColors = {
   statisticsNoDataText: colors.neutral[400],
 
   switchThumbColor: '#333',
-  scales,
+  scales: scales.light,
   tags: tagsLight,
   palette: colors,
 }
@@ -323,9 +280,9 @@ const dark: IColors = {
   notificationBackground: colors.neutral[900],
   
   calendarBackground: '#000',
-  calendarItemBackground: colors.neutral[800],
+  calendarItemBackground: colors.neutral[900],
   calendarItemBackgroundFuture: '#000',
-  calendarItemTextColor: colors.neutral[400],
+  calendarItemTextColor: colors.neutral[300],
   calendarWeekNameColor: colors.neutral[500],
   calendarMonthNameColor: colors.neutral[500],
   
@@ -368,18 +325,19 @@ const dark: IColors = {
 
   statisticsBackground: '#000',
   statisticsCardBackground: colors.neutral[900],
-  statisticsLine: '#FFF',
+  statisticsCardSubtitle: colors.neutral[400],
+  statisticsFeedbackEmojiOpacity: 0.6,
   statisticsFeedbackBorder: colors.neutral[800],
-  statisticsFeedbackText: colors.neutral[600],
-  statisticsWeekdayText: colors.neutral[600],
+  statisticsFeedbackText: colors.neutral[500],
+  statisticsWeekdayText: colors.neutral[400],
   statisticsWeekdayBorder: colors.neutral[800],
   statisticsCalendarDotBackground: colors.neutral[800],
-  statisticsCalendarDotText: colors.neutral[200],
-  statisticsNoDataBorder: colors.neutral[200],
-  statisticsNoDataText: colors.neutral[400],
+  statisticsCalendarDotText: colors.neutral[600],
+  statisticsNoDataBorder: colors.neutral[800],
+  statisticsNoDataText: colors.neutral[700],
   
   switchThumbColor: '#FFF',
-  scales,
+  scales: scales.dark,
   tags: tagsDark,
   palette: colors,
 }
