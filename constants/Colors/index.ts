@@ -123,6 +123,7 @@ export interface IColors {
   checkboxCheckedText: string;
     
   statisticsBackground: string;
+  statisticsDescription: string;
   statisticsCardBackground: string;
   statisticsCardSubtitle: string;
   statisticsFeedbackEmojiOpacity: number;
@@ -224,11 +225,12 @@ const light: IColors = {
   checkboxCheckedText: '#FFF',
   
   statisticsBackground: colors.neutral[100],
+  statisticsDescription: colors.neutral[500],
   statisticsCardBackground: '#FFF',
   statisticsCardSubtitle: colors.neutral[500],
   statisticsFeedbackEmojiOpacity: 1,
   statisticsFeedbackBorder: colors.neutral[200],
-  statisticsFeedbackText: colors.neutral[400],
+  statisticsFeedbackText: colors.neutral[500],
   statisticsWeekdayText: colors.neutral[400],
   statisticsWeekdayBorder: colors.neutral[200],
   statisticsCalendarDotBackground: colors.neutral[200],
@@ -324,6 +326,7 @@ const dark: IColors = {
   checkboxCheckedText: '#FFF',
 
   statisticsBackground: '#000',
+  statisticsDescription: colors.neutral[500],
   statisticsCardBackground: colors.neutral[900],
   statisticsCardSubtitle: colors.neutral[400],
   statisticsFeedbackEmojiOpacity: 0.6,

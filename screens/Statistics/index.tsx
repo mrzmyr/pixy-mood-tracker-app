@@ -45,16 +45,18 @@ export const StatisticsScreen = ({ navigation }) => {
           >{t('statistics_title')}</Text>
           <Text
             style={{
+              letterSpacing: -0.1,
               fontSize: 17,
               color: colors.text,
-              fontWeight: '600',
+              fontWeight: '700',
               marginTop: 16,
             }}
           >{t('statistics_subtitle')}</Text>
           <Text
             style={{
-              fontSize: 17,
-              color: colors.textSecondary,
+              letterSpacing: -0.1,
+              fontSize: 15,
+              color: colors.statisticsDescription,
               marginTop: 4,
             }}
           >{t('statistics_description')}</Text>
