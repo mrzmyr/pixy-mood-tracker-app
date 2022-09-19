@@ -218,7 +218,10 @@ export const LogModal = ({ navigation, route }: RootStackScreenProps<'Log'>) => 
                   }}
                   onPress={async () => {
                     await haptics.selection()
-                    if(tempLog.data.message.length > 0) {
+                    if(
+                      tempLog.data.message.length > 0 ||
+                      tempLog.data?.tags.length > 0
+                    ) {
                       askToRemove().then(() => remove())
                     } else {
                       remove()
