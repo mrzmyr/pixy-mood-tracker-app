@@ -3,6 +3,7 @@ import dayjs from "dayjs";
 import { memo } from "react";
 import { Text, TouchableOpacity, useColorScheme, View } from "react-native";
 import { AlignLeft } from "react-native-feather";
+import { CalendarFiltersData } from "../hooks/useCalendarFilters";
 import useColors from "../hooks/useColors";
 import useHaptics from "../hooks/useHaptics";
 import { LogItem } from "../hooks/useLogs";
@@ -48,6 +49,7 @@ export default memo(function CalendarDay({
   tags,
   isFiltered,
   isFiltering,
+  filters,
   isFuture,
   hasText,
   onPress,
@@ -57,6 +59,7 @@ export default memo(function CalendarDay({
   rating?: LogItem["rating"],
   isToday: boolean,
   tags: Tag[],
+  filters: CalendarFiltersData,
   isFuture: boolean,
   isFiltering: boolean,
   isFiltered: boolean,
@@ -91,7 +94,7 @@ export default memo(function CalendarDay({
       <TouchableOpacity
         disabled={isFuture || !onPress}
         onPress={async () => {
-          if(!isFuture && !isFiltering) {
+          if(!isFuture) {
             await haptics.selection()
             onPress(dateString)
           }
@@ -134,7 +137,14 @@ export default memo(function CalendarDay({
             width: '70%',
             flexWrap: 'wrap',
           }}>
-            { tags?.length > 0 && tags.slice(0, 4).map((tag: Tag) => (
+            { tags?.length > 0 && !isFiltering && tags.slice(0, 4).map((tag: Tag) => (
+              <TagIndicator 
+                key={tag.id} 
+                tag={tag} 
+                borderColor={chroma(backgroundColor).luminance() < 0.6 ? 'rgba(255,255,255,0.8)' : 'rgba(0,0,0,0.2)'}
+              />
+            ))}
+            { tags?.length > 0 && isFiltering && !isFiltered && tags.slice(0, 4).filter(tag => filters.tagIds.includes(tag.id)).map((tag: Tag) => (
               <TagIndicator 
                 key={tag.id} 
                 tag={tag} 

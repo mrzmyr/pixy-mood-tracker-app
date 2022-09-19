@@ -75,6 +75,7 @@ const CalendarWeek = memo(({
             isToday={day.isToday}
             isFiltered={day.isFiltered}
             isFiltering={day.isFiltering}
+            filters={calendarFilters.data}
             isFuture={day.isFuture}
             hasText={day.item?.message?.length > 0}
             onPress={onPress}
