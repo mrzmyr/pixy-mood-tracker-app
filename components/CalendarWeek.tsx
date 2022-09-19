@@ -70,6 +70,7 @@ const CalendarWeek = memo(({
           <CalendarDay
             dateString={day.dateString}
             rating={day.item?.rating}
+            tags={day.item?.tags}
             day={day.number}
             isToday={day.isToday}
             isFiltered={day.isFiltered}

@@ -45,6 +45,7 @@ export default memo(function CalendarDay({
   day,
   rating,
   isToday,
+  tags,
   isFiltered,
   isFiltering,
   isFuture,
@@ -55,6 +56,7 @@ export default memo(function CalendarDay({
   day: number,
   rating?: LogItem["rating"],
   isToday: boolean,
+  tags: Tag[],
   isFuture: boolean,
   isFiltering: boolean,
   isFiltered: boolean,
@@ -127,7 +129,7 @@ export default memo(function CalendarDay({
             width: '100%',
           }}
         >
-          {/* <View style={{
+          <View style={{
             flexDirection: 'row',
             width: '70%',
             flexWrap: 'wrap',
@@ -139,7 +141,7 @@ export default memo(function CalendarDay({
                 borderColor={chroma(backgroundColor).luminance() < 0.6 ? 'rgba(255,255,255,0.8)' : 'rgba(0,0,0,0.2)'}
               />
             ))}
-          </View> */}
+          </View>
           <View
             style={{
               width: '30%',
