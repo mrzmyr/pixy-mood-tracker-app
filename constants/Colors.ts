@@ -11,6 +11,15 @@ export interface Scales {
 
 const scales: Scales = {
   'ColorBrew-RdYlGn': {
+    extremely_good: { background: '#10B981', text: '#DCFCE7', },
+    very_good: { background: '#34D399', text: '#F0FDF4', },
+    good: { background: '#A7F3D0', text: '#15803D', },
+    neutral: { background: '#E2E8F0', text: '#334155', },
+    bad: { background: '#FFEDD5', text: '#92400E', },
+    very_bad: { background: '#FED7AA', text: '#9A3412', },
+    extremely_bad: { background: '#F97316', text: '#FFF7ED', },
+  },
+  'ColorBrew-RdYlGn-old': {
     extremely_good: { background: '#1a9850', text: 'rgba(255,255,255,1)', },
     very_good: { background: '#91cf60', text: 'rgba(255,255,255,1)', },
     good: { background: '#d9ef8b', text: 'rgba(0,0,0,0.8)', },
