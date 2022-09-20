@@ -2,7 +2,7 @@ import dayjs from 'dayjs';
 import { t } from 'i18n-js';
 import { debounce } from "lodash";
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { Alert, Dimensions, Pressable, Text, View } from 'react-native';
+import { Alert, Dimensions, Keyboard, Pressable, Text, View } from 'react-native';
 import { Trash, X } from 'react-native-feather';
 import Carousel from 'react-native-reanimated-carousel';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -204,7 +204,15 @@ export const LogModal = ({ navigation, route }: RootStackScreenProps<'Log'>) => 
         )}
         <Stepper count={slides.length} index={slideIndex} />
         <SlideHeader
-          left={<Text style={{ fontSize: 17, fontWeight: '600', color: colors.logHeaderText }}>{dayjs(route.params.date).isSame(dayjs(), 'day') ? t('today') : dayjs(route.params.date).format('ddd, L')}</Text>}
+          left={
+            <Text 
+              style={{ 
+                fontSize: 17,
+                fontWeight: '600',
+                color: colors.logHeaderText 
+              }}
+            >{dayjs(route.params.date).isSame(dayjs(), 'day') ? t('today') : dayjs(route.params.date).format('dddd, L')}</Text>
+          }
           right={
             <View
               style={{
@@ -253,8 +261,16 @@ export const LogModal = ({ navigation, route }: RootStackScreenProps<'Log'>) => 
             width={Dimensions.get('window').width - 40}
             ref={_carousel}
             data={slides}
-            onSnapToItem={(index) => {
+            onScrollBegin={() => {
+              if(slideIndex === 2) {
+                Keyboard.dismiss()
+              }
               setTouched(true)
+            }}
+            onScrollEnd={(index) => {
+              if(index !== 2) {
+                Keyboard.dismiss()
+              }
               setSlideIndex(index)
             }}
             renderItem={({ index }) => slides[index]}

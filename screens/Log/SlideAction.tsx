@@ -25,7 +25,7 @@ export const SlideAction = ({
   const [shouldMove, setShouldMove] = useState(false)
   
   useEffect(() => {
-    const r1 = Keyboard.addListener('keyboardDidShow', () => setShouldMove(true))
+    const r1 = Keyboard.addListener('keyboardWillShow', () => setShouldMove(true))
     const r2 = Keyboard.addListener('keyboardWillHide', () => setShouldMove(false))
 
     return () => {

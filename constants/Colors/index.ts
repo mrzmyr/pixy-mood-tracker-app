@@ -348,7 +348,7 @@ const dark: IColors = {
   secondaryButtonBackground: colors.neutral[800],
   secondaryButtonText: colors.neutral[200],
 
-  textInputBackground: colors.neutral[900],
+  textInputBackground: colors.neutral[800],
   textInputText: colors.neutral[200],
   textInputPlaceholder: colors.neutral[500],
   textInputBorder: colors.neutral[900],

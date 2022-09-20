@@ -24,40 +24,33 @@ export default function TextArea({
   const colors = useColors()
   
   return (
-    <View style={{
-      ...containerStyle,
-      width: '100%',
-      position: 'relative',
-    }}>
-      <TextInput
-        testID={testID}
-        autoFocus={autoFocus}
-        multiline
-        onChangeText={(text) => {
-          const newText = text.substring(0, maxLength)
-          onChange(newText)
-        }}
-        value={value}
-        editable
-        maxLength={maxLength}
-        placeholder={placeholder}
-        placeholderTextColor={colors.textInputPlaceholder}
-        textAlignVertical={'top'}
-        style={{
-          borderWidth: 1,
-          borderColor: colors.textInputBorder,
-          backgroundColor: colors.textInputBackground,
-          color: colors.textInputText,
-          paddingTop: 16,
-          padding: 16,
-          fontSize: 17,
-          height: 220,
-          width: '100%',
-          borderRadius: 8,
-          lineHeight: 24,
-          ...style,
-        }}
-      />
-    </View>
+    <TextInput
+      testID={testID}
+      autoFocus={autoFocus}
+      multiline
+      onChangeText={(text) => {
+        const newText = text.substring(0, maxLength)
+        onChange(newText)
+      }}
+      value={value}
+      editable
+      maxLength={maxLength}
+      placeholder={placeholder}
+      placeholderTextColor={colors.textInputPlaceholder}
+      textAlignVertical={'top'}
+      style={{
+        borderWidth: 1,
+        borderColor: colors.textInputBorder,
+        backgroundColor: colors.textInputBackground,
+        color: colors.textInputText,
+        paddingTop: 16,
+        padding: 16,
+        fontSize: 17,
+        height: 220,
+        width: '100%',
+        borderRadius: 8,
+        ...style,
+      }}
+    />
   )
 }

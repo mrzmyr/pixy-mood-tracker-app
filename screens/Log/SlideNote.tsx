@@ -1,5 +1,5 @@
-import { useRef } from "react";
-import { View } from "react-native";
+import { useEffect, useRef, useState } from "react";
+import { Keyboard, View } from "react-native";
 import DismissKeyboard from "../../components/DismisKeyboard";
 import TextArea from "../../components/TextArea";
 import useColors from "../../hooks/useColors";
@@ -23,6 +23,18 @@ export const SlideNote = ({
 
   const placeholder = useRef(t(`log_modal_message_placeholder_${randomInt(1, 6)}`))
 
+  const [shouldExpand, setShouldExpand] = useState(false);
+  
+  useEffect(() => {
+    const r1 = Keyboard.addListener('keyboardWillShow', () => setShouldExpand(true))
+    const r2 = Keyboard.addListener('keyboardWillHide', () => setShouldExpand(false))
+
+    return () => {
+      r1.remove()
+      r2.remove()
+    }
+  }, [])
+  
   return (
     <>
       <DismissKeyboard>
@@ -35,7 +47,7 @@ export const SlideNote = ({
           <View
             style={{
               flex: 1,
-              marginTop: 64,
+              marginTop: 32,
             }}
           >
             <View
@@ -58,9 +70,21 @@ export const SlideNote = ({
                 value={tempLog.data.message}
                 onChange={onChange}
                 maxLength={MAX_LENGTH}
+                style={{
+                  flex: 1,
+                  marginBottom: 0,
+                  height: !shouldExpand ? '100%' : 240,
+                }}
               />
             </View>
           </View>
+          <View
+            style={{
+              height: 50,
+              width: 50,
+              marginBottom: 32,
+            }}
+          />
         </View>
       </DismissKeyboard>
     </>
