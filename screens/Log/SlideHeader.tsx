@@ -10,7 +10,8 @@ export const SlideHeader = ({
     <View style={{
       flexDirection: 'row',
       justifyContent: 'space-between',
-      marginTop: 16,
+      alignItems: 'center',
+      marginTop: -16,
     }}>
       <View
         style={{
@@ -21,7 +22,6 @@ export const SlideHeader = ({
       >{left}</View>
       <View
         style={{
-          flex: 1,
           alignItems: 'flex-end',
           justifyContent: 'center',
         }}

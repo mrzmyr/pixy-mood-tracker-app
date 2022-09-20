@@ -1,11 +1,12 @@
-import { View } from 'react-native';
+import { Pressable, View } from 'react-native';
 import useColors from '../../hooks/useColors';
 
 export const Stepper = ({
-  count, index
+  count, index, scrollTo,
 }: {
   count: number;
   index: number;
+  scrollTo: ({ index }) => void;
 }) => {
   const colors = useColors();
   const steps = [...Array(count).keys()];
@@ -15,20 +16,32 @@ export const Stepper = ({
       flexDirection: 'row',
       alignItems: 'center',
       width: '100%',
+      paddingBottom: 8,
     }}>
       {steps.map((step) => (
-        <View
+        <Pressable
           key={step}
           style={{
-            height: 4,
+            paddingTop: 20,
             flexDirection: 'row',
             alignItems: 'center',
             flex: 4,
-            borderRadius: 100,
-            marginRight: step === steps.length - 1 ? 0 : 16,
-            backgroundColor: step === index ? colors.stepperBackgroundActive : colors.stepperBackground,
+            paddingLeft: step === 0 ? 0 : 8,
+            paddingRight: step === steps.length - 1 ? 0 : 8,
+            paddingBottom: 16,
+            overflow: 'hidden',
           }}
-        ></View>
+          onPress={() => {
+            scrollTo({ index: step });
+          }}
+        >
+          <View style={{
+            width: '100%',
+            height: 8,
+            borderRadius: 100,
+            backgroundColor: step === index ? colors.stepperBackgroundActive : colors.stepperBackground,
+          }} />
+        </Pressable>
       ))}
     </View>
   );

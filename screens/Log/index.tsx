@@ -2,8 +2,9 @@ import dayjs from 'dayjs';
 import { t } from 'i18n-js';
 import { debounce } from "lodash";
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { Alert, Dimensions, Keyboard, Pressable, Text, View } from 'react-native';
+import { Alert, Dimensions, Keyboard, Platform, Pressable, Text, View } from 'react-native';
 import { Trash, X } from 'react-native-feather';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import Carousel from 'react-native-reanimated-carousel';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import useColors from '../../hooks/useColors';
@@ -183,35 +184,49 @@ export const LogModal = ({ navigation, route }: RootStackScreenProps<'Log'>) => 
     <SlideNote onChange={setMessage} />,
   ]
   
+  const onScrollEnd = (index) => {
+    if(index !== 2) {
+      Keyboard.dismiss()
+    }
+    setSlideIndex(index)
+  }
+  
   return (
     <View style={{ 
       flex: 1,
       backgroundColor: colors.logBackground,
+      position: 'relative',
     }}>
       <View
         style={{
           flex: 1,
+          paddingTop: Platform.OS === 'android' ? insets.top : 0,
           padding: 20,
         }}
       >
-        {(slideIndex !== 0 || touched) && (
-          <SlideAction 
-            slides={slides} 
-            slideIndex={slideIndex} 
-            save={save} 
-            next={() => _carousel.current.next()} 
-          />
-        )}
-        <Stepper count={slides.length} index={slideIndex} />
+        <Stepper 
+          count={slides.length} 
+          index={slideIndex} 
+          scrollTo={({ index }) => {
+            _carousel.current.scrollTo({ index, animated: true })
+            onScrollEnd(index)
+          }}
+        />
         <SlideHeader
           left={
-            <Text 
-              style={{ 
-                fontSize: 17,
-                fontWeight: '600',
-                color: colors.logHeaderText 
+            <View
+              style={{
+                flexDirection: 'row',
               }}
-            >{dayjs(route.params.date).isSame(dayjs(), 'day') ? t('today') : dayjs(route.params.date).format('dddd, L')}</Text>
+            >
+              <Text 
+                style={{ 
+                  fontSize: 17,
+                  fontWeight: '600',
+                  color: colors.logHeaderText,
+                }}
+              >{dayjs(route.params.date).isSame(dayjs(), 'day') ? t('today') : dayjs(route.params.date).format('dddd, L')}</Text>
+            </View>
           }
           right={
             <View
@@ -222,7 +237,8 @@ export const LogModal = ({ navigation, route }: RootStackScreenProps<'Log'>) => 
               {existingLogItem && (
                 <Pressable
                   style={{
-                    marginRight: 16,
+                    marginRight: 8,
+                    padding: 8,
                   }}
                   onPress={async () => {
                     await haptics.selection()
@@ -240,6 +256,9 @@ export const LogModal = ({ navigation, route }: RootStackScreenProps<'Log'>) => 
                 </Pressable>
               )}
               <Pressable
+                style={{
+                  padding: 8,
+                }}
                 onPress={async () => {
                   await haptics.selection()
                   cancel()
@@ -256,27 +275,35 @@ export const LogModal = ({ navigation, route }: RootStackScreenProps<'Log'>) => 
             flexDirection: 'column',
           }}
         >
-          <Carousel
-            loop={false}
-            width={Dimensions.get('window').width - 40}
-            ref={_carousel}
-            data={slides}
-            onScrollBegin={() => {
-              if(slideIndex === 2) {
-                Keyboard.dismiss()
-              }
-              setTouched(true)
-            }}
-            onScrollEnd={(index) => {
-              if(index !== 2) {
-                Keyboard.dismiss()
-              }
-              setSlideIndex(index)
-            }}
-            renderItem={({ index }) => slides[index]}
-          />
+          <GestureHandlerRootView>
+            <Carousel
+              loop={false}
+              width={Dimensions.get('window').width - 40}
+              ref={_carousel}
+              data={slides}
+              onScrollBegin={() => {
+                if(slideIndex === 2) {
+                  Keyboard.dismiss()
+                }
+                setTouched(true)
+              }}
+              onScrollEnd={onScrollEnd}
+              renderItem={({ index }) => slides[index]}
+              panGestureHandlerProps={{
+                activeOffsetX: [-10, 10],
+              }}
+            />
+          </GestureHandlerRootView>
         </View>
       </View>
+      {(slideIndex !== 0 || touched) && (
+        <SlideAction 
+          slides={slides} 
+          slideIndex={slideIndex} 
+          save={save} 
+          next={() => _carousel.current.next()} 
+        />
+      )}
     </View>
   )
 }

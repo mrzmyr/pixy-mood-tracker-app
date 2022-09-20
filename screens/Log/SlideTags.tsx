@@ -77,28 +77,28 @@ export const SlideTags = ({
     <View style={{ 
       flex: 1, 
       width: '100%',
+      marginTop: 32,
     }}>
+      <View
+        style={{
+          width: '100%',
+          marginBottom: 8,
+        }}
+      >
+        <SlideHeadline>{t('log_tags_question')}</SlideHeadline>
+      </View>
       <ScrollView
         style={{
           flex: 1,
-          marginTop: 32,
         }}
       >
-        <View
-          style={{
-            width: '100%',
-          }}
-        >
-          <SlideHeadline>{t('log_tags_question')}</SlideHeadline>
-        </View>
-
         <View
           style={{
             flexDirection: 'row',
             flexWrap: 'wrap',
             alignItems: 'flex-start',
             justifyContent: 'flex-start',
-            marginTop: 16,
+            marginTop: 8,
             paddingBottom: insets.bottom,
           }}
         >
