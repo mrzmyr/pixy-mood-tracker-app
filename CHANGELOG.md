@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.25.0](https://github.com/mrzmyr/pixy-mood-tracker/compare/v1.24.0...v1.25.0) (2022-09-20)
+
+
+### Features
+
+* change statistics title ([b0df168](https://github.com/mrzmyr/pixy-mood-tracker/commit/b0df1683199ce4c07b9a7dae3eb37118fa3068ca))
+* don't delete entries with tags ([6780d07](https://github.com/mrzmyr/pixy-mood-tracker/commit/6780d0744a3923f221541f39592ead446523a7cd))
+* improve UX of new logging experience ([4a7f4d3](https://github.com/mrzmyr/pixy-mood-tracker/commit/4a7f4d3ebeb00cc89bfe6525510f3900c71ae533))
+
 ## [1.24.0](https://github.com/mrzmyr/pixy-mood-tracker/compare/v1.23.0...v1.24.0) (2022-09-19)
 
 
