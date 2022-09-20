@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.26.0](https://github.com/mrzmyr/pixy-mood-tracker/compare/v1.25.0...v1.26.0) (2022-09-20)
+
+
+### Features
+
+* improve DE translation ([3ba847a](https://github.com/mrzmyr/pixy-mood-tracker/commit/3ba847a18396eac9b0b8e312c9bfe6ec03dcc192))
+
+
+### Bug Fixes
+
+* fix android issues on logging experience ([67df499](https://github.com/mrzmyr/pixy-mood-tracker/commit/67df499c586b5f3d51bccf186ec6548de83442c3))
+
+
+### Chore
+
+* remove cypress ([b8cc45e](https://github.com/mrzmyr/pixy-mood-tracker/commit/b8cc45e0894cc10e57d00c532c3b9da4db2f8c88))
+
 ## [1.25.0](https://github.com/mrzmyr/pixy-mood-tracker/compare/v1.24.0...v1.25.0) (2022-09-20)
 
 
