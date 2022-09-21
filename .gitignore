@@ -22,3 +22,6 @@ scripts/screenshots/*
 scripts/preview-templates/*
 scripts/preview-generated/*
 scripts/data/*
+
+build-*.ipa
+build-*.aab
