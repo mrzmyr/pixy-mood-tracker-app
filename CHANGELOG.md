@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.27.0](https://github.com/mrzmyr/pixy-mood-tracker/compare/v1.26.0...v1.27.0) (2022-09-21)
+
+
+### Features
+
+* update colors & spacings for small phones ([e5f0af2](https://github.com/mrzmyr/pixy-mood-tracker/commit/e5f0af2c5cb1f53fc25742e76fd8ed9dcaef297d))
+
+
+### Bug Fixes
+
+* multiple bug fixes ([40835d4](https://github.com/mrzmyr/pixy-mood-tracker/commit/40835d419c11e3cc6c89bfe945397be47a30f123))
+
+
+### Chore
+
+* ignore builds ([9ee705f](https://github.com/mrzmyr/pixy-mood-tracker/commit/9ee705f025cd3d67b11260e204296d73d20284e4))
+
 ## [1.26.0](https://github.com/mrzmyr/pixy-mood-tracker/compare/v1.25.0...v1.26.0) (2022-09-20)
 
 
