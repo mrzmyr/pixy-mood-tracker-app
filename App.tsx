@@ -5,6 +5,7 @@ import Navigation from './navigation';
 
 import Localization from './lib/Localization';
 import Providers from './components/Providers';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 export default function App() {
   const isLoadingComplete = useCachedResources();
@@ -22,10 +23,12 @@ export default function App() {
     return null;
   } else {
     return (
-      <Providers>
-        <Navigation />
-        <StatusBar />
-      </Providers>
+      <GestureHandlerRootView style={{ flex: 1 }}>
+        <Providers>
+          <Navigation />
+          <StatusBar />
+        </Providers>
+      </GestureHandlerRootView>
     );
   }
 }

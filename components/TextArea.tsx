@@ -1,5 +1,4 @@
-import { useState } from "react";
-import { Text, TextInput, View } from "react-native";
+import { TextInput } from "react-native";
 import useColors from "../hooks/useColors";
 
 export default function TextArea({ 
@@ -33,7 +32,6 @@ export default function TextArea({
         onChange(newText)
       }}
       value={value}
-      editable
       maxLength={maxLength}
       placeholder={placeholder}
       placeholderTextColor={colors.textInputPlaceholder}
@@ -46,7 +44,7 @@ export default function TextArea({
         paddingTop: 16,
         padding: 16,
         fontSize: 17,
-        height: 220,
+        height: 500,
         width: '100%',
         borderRadius: 8,
         ...style,

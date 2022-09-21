@@ -2,7 +2,7 @@ import dayjs from 'dayjs';
 import { t } from 'i18n-js';
 import { debounce } from "lodash";
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { Alert, Dimensions, Keyboard, Platform, Pressable, Text, View } from 'react-native';
+import { Alert, Dimensions, Keyboard, Platform, Pressable, Text, TextInput, View } from 'react-native';
 import { Trash, X } from 'react-native-feather';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import Carousel from 'react-native-reanimated-carousel';
@@ -13,7 +13,6 @@ import { LogItem, useLogs } from '../../hooks/useLogs';
 import { useSegment } from '../../hooks/useSegment';
 import { useSettings } from '../../hooks/useSettings';
 import { useTemporaryLog } from '../../hooks/useTemporaryLog';
-import { useTranslation } from '../../hooks/useTranslation';
 import { RootStackScreenProps } from '../../types';
 import { SlideAction } from './SlideAction';
 import { SlideHeader } from './SlideHeader';
@@ -22,13 +21,10 @@ import { SlideRating } from './SlideRating';
 import { SlideTags } from './SlideTags';
 import { Stepper } from './Stepper';
 
-const randomInt = (min, max) => Math.floor(Math.random() * (max - min + 1) + min);
-
 export const LogModal = ({ navigation, route }: RootStackScreenProps<'Log'>) => {
   
   const { settings } = useSettings()
   const colors = useColors()
-  const i18n = useTranslation()
   const segment = useSegment()
   const haptics = useHaptics()
   const insets = useSafeAreaInsets();
@@ -275,25 +271,20 @@ export const LogModal = ({ navigation, route }: RootStackScreenProps<'Log'>) => 
             flexDirection: 'column',
           }}
         >
-          <GestureHandlerRootView>
-            <Carousel
-              loop={false}
-              width={Dimensions.get('window').width - 40}
-              ref={_carousel}
-              data={slides}
-              onScrollBegin={() => {
-                if(slideIndex === 2) {
-                  Keyboard.dismiss()
-                }
-                setTouched(true)
-              }}
-              onScrollEnd={onScrollEnd}
-              renderItem={({ index }) => slides[index]}
-              panGestureHandlerProps={{
-                activeOffsetX: [-10, 10],
-              }}
-            />
-          </GestureHandlerRootView>
+          <Carousel
+            loop={false}
+            width={Dimensions.get('window').width - 40}
+            ref={_carousel}
+            data={slides}
+            onScrollBegin={() => {
+              setTouched(true)
+            }}
+            onScrollEnd={onScrollEnd}
+            renderItem={({ index }) => slides[index]}
+            panGestureHandlerProps={{
+              activeOffsetX: [-10, 10],
+            }}
+          />
         </View>
       </View>
       {(slideIndex !== 0 || touched) && (

@@ -57,17 +57,20 @@ export interface IColors {
   stepperBackground: string;
   stepperBackgroundActive: string;
 
-  logTagBackground: string;
-  logTagText: string;
-  logTagBorder: string;
-  logTagBackgroundActive: string;
-  logTagTextActive: string;
-  logTagBorderActive: string;
+  tagBackground: string;
+  tagText: string;
+  tagBorder: string;
+  tagBackgroundActive: string;
+  tagTextActive: string;
+  tagBorderActive: string;
 
-  tagsBackground: string;
-  tagsBackgroundSecondary: string;
-  tagsText: string;
-  tagsTextSecondary: string;
+  miniButtonBackground: string;
+  miniButtonText: string;
+
+  bottomSheetHeaderBackground: string;
+  bottomSheetBackground: string;
+  bottomSheetHeaderBorder: string;
+  bottomSheetHandle: string;
   
   feedbackSelectionBackground: string;
   feedbackBackground: string;
@@ -172,18 +175,23 @@ const light: IColors = {
   logHeaderText: colors.neutral[500],
   logBackground: colors.neutral[100],
   
-  logTagBackground: colors.white,
-  logTagText: colors.neutral[800],
-  logTagBorder: colors.white,
-  logTagBackgroundActive: colors.blue[100],
-  logTagTextActive: colors.blue[600],
-  logTagBorderActive: colors.blue[600],
+  tagBackground: colors.white,
+  tagText: colors.neutral[800],
+  tagBorder: colors.white,
+  tagBackgroundActive: colors.blue[100],
+  tagTextActive: colors.blue[600],
+  tagBorderActive: colors.blue[600],
   
   stepperBackground: colors.neutral[300],
   stepperBackgroundActive: colors.neutral[700],
 
-  tagsBackground: tintColorLight,
-  tagsText: '#FFF',
+  miniButtonBackground: tintColorLight,
+  miniButtonText: '#FFF',
+
+  bottomSheetHeaderBackground: colors.neutral[50],
+  bottomSheetBackground: colors.neutral[100],
+  bottomSheetHeaderBorder: colors.neutral[200],
+  bottomSheetHandle: 'rgba(255, 255, 255, 0.5)',
 
   feedbackSelectionBackground: colors.neutral[100],
   feedbackBackground: '#FFF',
@@ -288,18 +296,23 @@ const dark: IColors = {
   logHeaderText: colors.neutral[500],
   logBackground: colors.neutral[900],
   
-  logTagBackground: colors.neutral[900],
-  logTagText: colors.neutral[200],
-  logTagBorder: colors.neutral[800],
-  logTagBackgroundActive: colors.blue[900],
-  logTagTextActive: colors.blue[100],
-  logTagBorderActive: colors.blue[600],
+  tagBackground: colors.neutral[900],
+  tagText: colors.neutral[200],
+  tagBorder: colors.neutral[800],
+  tagBackgroundActive: colors.blue[900],
+  tagTextActive: colors.blue[100],
+  tagBorderActive: colors.blue[600],
   
   stepperBackground: colors.neutral[800],
   stepperBackgroundActive: colors.neutral[600],
 
-  tagsBackground: tintColorDark,
-  tagsText: '#fff',
+  miniButtonBackground: tintColorDark,
+  miniButtonText: '#fff',
+
+  bottomSheetHeaderBackground: colors.neutral[900],
+  bottomSheetBackground: colors.neutral[900],
+  bottomSheetHeaderBorder: colors.neutral[800],
+  bottomSheetHandle: 'rgba(255, 255, 255, 0.5)',
 
   feedbackSelectionBackground: colors.neutral[900],
   feedbackBackground: '#000',
@@ -347,6 +360,7 @@ const dark: IColors = {
 
   secondaryButtonBackground: colors.neutral[800],
   secondaryButtonText: colors.neutral[200],
+  secondaryButtonBorder: colors.neutral[800],
 
   textInputBackground: colors.neutral[800],
   textInputText: colors.neutral[200],

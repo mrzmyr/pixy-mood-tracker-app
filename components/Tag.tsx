@@ -1,15 +1,15 @@
-import { Text, TouchableOpacity } from "react-native";
+import { Text, TouchableOpacity, View } from "react-native";
 import useColors from "../hooks/useColors";
 
 export default function Tag({ 
-  colorName,
   title,
   selected = false,
+  colorName,
   onPress,
 }: {
-  colorName: string,
   title: string,
   selected?: boolean,
+  colorName: string,
   onPress?: () => void,
 }) {
   const colors = useColors();
@@ -26,14 +26,25 @@ export default function Tag({
         alignItems: 'center',
         flexDirection: 'row',
         borderRadius: 100,
-        marginRight: 4,
-        marginBottom: 4,
-        backgroundColor: selected ? colors.tags[colorName]?.text : colors.tags[colorName]?.background,
+        marginRight: 8,
+        marginBottom: 8,
+        backgroundColor: selected ? colors.tagBackgroundActive : colors.tagBackground,
+        borderWidth: 1,
+        borderColor: selected ? colors.tagBorderActive : colors.tagBorder,
       }}
       onPress={onPress}
     >
+      <View 
+        style={{
+          width: 8,
+          height: 8,
+          borderRadius: 8,
+          marginRight: 10,
+          backgroundColor: colors.tags[colorName].dot,
+        }}
+      />
       <Text style={{
-        color: selected ? colors.tags[colorName]?.background : colors.tags[colorName]?.text,
+        color: selected ? colors.tagTextActive : colors.tagText,
         fontSize: 17,
       }}>{title}</Text>
     </TouchableOpacity>
