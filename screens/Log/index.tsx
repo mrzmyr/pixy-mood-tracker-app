@@ -167,8 +167,14 @@ export const LogModal = ({ navigation, route }: RootStackScreenProps<'Log'>) => 
   const [slideIndex, setSlideIndex] = useState(0)
   const [touched, setTouched] = useState(false)
   
+  let marginTop = 32;
+
+  if(Dimensions.get('screen').height < 800) marginTop = 32;
+  if(Dimensions.get('screen').height < 700) marginTop = 16;
+  
   const slides = [
-    <SlideRating 
+    <SlideRating
+      marginTop={marginTop}
       onChange={(rating) => {
         if(tempLog.data.rating !== rating) {
           setTimeout(() => _carousel.current.next(), 200)
@@ -176,8 +182,8 @@ export const LogModal = ({ navigation, route }: RootStackScreenProps<'Log'>) => 
         setRating(rating)
       }}
     />,
-    <SlideTags onChange={setTags} />,
-    <SlideNote onChange={setMessage} />,
+    <SlideTags marginTop={marginTop} onChange={setTags} />,
+    <SlideNote marginTop={marginTop} onChange={setMessage} />,
   ]
   
   const onScrollEnd = (index) => {

@@ -1,4 +1,4 @@
-import { View } from "react-native";
+import { Dimensions, View } from "react-native";
 import useColors from "../../hooks/useColors";
 import { LogItem } from "../../hooks/useLogs";
 import { useTemporaryLog } from "../../hooks/useTemporaryLog";
@@ -9,14 +9,16 @@ import { SlideRatingButton } from "./SlideRatingButton";
 const keys = ['extremely_good', 'very_good', 'good', 'neutral', 'bad', 'very_bad', 'extremely_bad'];
 
 export const SlideRating = ({
+  marginTop,
   onChange,
 }: {
+  marginTop: number;
   onChange: (rating: LogItem['rating']) => void;
 }) => {
   const colors = useColors();
   const tempLog = useTemporaryLog();
   const { t } = useTranslation()
-
+  
   return (
     <View style={{ 
       flex: 1, 
@@ -26,7 +28,7 @@ export const SlideRating = ({
       <View
         style={{
           flex: 1,
-          marginTop: 64,
+          marginTop
         }}
       >
         <View

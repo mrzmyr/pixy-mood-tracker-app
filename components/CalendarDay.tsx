@@ -76,7 +76,7 @@ export default memo(function CalendarDay({
     ) : (
       rating ? 
         colors.scales['ColorBrew-RdYlGn'][rating].background : 
-        colors.calendarItemBackground
+        colors.scales['ColorBrew-RdYlGn'].empty.background
     )
   )
   const textColor = (
@@ -85,7 +85,7 @@ export default memo(function CalendarDay({
     ) : (
       rating ? 
         colors.scales['ColorBrew-RdYlGn'][rating].text : 
-        colors.calendarItemTextColor
+        colors.scales['ColorBrew-RdYlGn'].empty.text
     )
   )
   
@@ -108,12 +108,12 @@ export default memo(function CalendarDay({
           backgroundColor: isFuture || isFiltered || (!rating && isFiltering) ? colors.calendarItemBackgroundFuture : backgroundColor,
           width: '100%',
           aspectRatio: 1,
-          borderWidth: 2,
+          borderWidth: rating === undefined && !isFuture ? 2 : 0,
           borderStyle: !isFuture && !rating && !isFiltering ? 'dotted' : 'solid',
           borderColor: 
           (!rating && !isFiltered && isFiltering) ? colors.calendarBackground :
             (colorScheme === 'light' ? 
-              chroma(backgroundColor).darken(0.4).hex() : 
+              chroma(backgroundColor).darken(0.7).hex() : 
               isFuture || isFiltered ? 
                 chroma(backgroundColor).brighten(0.1).hex() :
                 chroma(backgroundColor).brighten(0.8).hex()
@@ -137,20 +137,13 @@ export default memo(function CalendarDay({
             width: '70%',
             flexWrap: 'wrap',
           }}>
-            { tags?.length > 0 && !isFiltering && tags.slice(0, 4).map((tag: Tag) => (
+            {/* { tags?.length > 0 && !isFiltering && tags.slice(0, 4).map((tag: Tag) => (
               <TagIndicator 
                 key={tag.id} 
                 tag={tag} 
                 borderColor={chroma(backgroundColor).luminance() < 0.6 ? 'rgba(255,255,255,0.8)' : 'rgba(0,0,0,0.2)'}
               />
-            ))}
-            { tags?.length > 0 && isFiltering && !isFiltered && tags.slice(0, 4).filter(tag => filters.tagIds.includes(tag.id)).map((tag: Tag) => (
-              <TagIndicator 
-                key={tag.id} 
-                tag={tag} 
-                borderColor={chroma(backgroundColor).luminance() < 0.6 ? 'rgba(255,255,255,0.8)' : 'rgba(0,0,0,0.2)'}
-              />
-            ))}
+            ))} */}
           </View>
           <View
             style={{

@@ -13,8 +13,10 @@ const randomInt = (min, max) => Math.floor(Math.random() * (max - min + 1) + min
 const MAX_LENGTH = 10 * 1000;
 
 export const SlideNote = ({
+  marginTop,
   onChange
 }: {
+  marginTop: number;
   onChange: (text: LogItem['message']) => void
 }) => {
   const colors = useColors();
@@ -47,7 +49,7 @@ export const SlideNote = ({
           <View
             style={{
               flex: 1,
-              marginTop: 32,
+              marginTop: marginTop,
             }}
           >
             <View

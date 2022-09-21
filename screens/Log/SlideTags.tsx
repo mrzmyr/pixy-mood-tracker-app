@@ -11,8 +11,10 @@ import { MiniButton } from "./MiniButton";
 import { SlideHeadline } from "./SlideHeadline";
 
 export const SlideTags = ({
+  marginTop,
   onChange
 }: {
+  marginTop: number;
   onChange: (tags: ITag[]) => void,
 }) => {
   const colors = useColors();
@@ -27,7 +29,7 @@ export const SlideTags = ({
     <View style={{ 
       flex: 1, 
       width: '100%',
-      marginTop: 32,
+      marginTop,
     }}>
       <View
         style={{

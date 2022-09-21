@@ -11,13 +11,14 @@ export interface IScale {
 
 const light: IScale = {
   'ColorBrew-RdYlGn': {
-    extremely_good: { background: colors.emerald[500], text: colors.emerald[50], },
-    very_good: { background: colors.emerald[400], text: colors.emerald[50], },
-    good: { background: colors.emerald[200], text: colors.emerald[800], },
-    neutral: { background: colors.neutral[200], text: colors.neutral[800], },
-    bad: { background: colors.orange[100], text: colors.orange[800], },
-    very_bad: { background: colors.orange[200], text: colors.orange[800], },
-    extremely_bad: { background: colors.orange[500], text: colors.orange[50], },
+    extremely_good: { background: colors.emerald[600], text: 'white', },
+    very_good: { background: colors.emerald[400], text: 'white', },
+    good: { background: colors.emerald[200], text: 'black', },
+    neutral: { background: colors.neutral[200], text: colors.neutral[600], },
+    bad: { background: colors.orange[100], text: 'black', },
+    very_bad: { background: colors.orange[300], text: 'black', },
+    extremely_bad: { background: colors.red[500], text: 'white', },
+    empty: { background: colors.neutral[100], text: 'black', },
   },
   'ColorBrew-RdYlGn-old': {
     extremely_good: { background: '#1a9850', text: 'rgba(255,255,255,1)', },
@@ -50,13 +51,14 @@ const light: IScale = {
 
 const dark: IScale = {
   'ColorBrew-RdYlGn': {
-    extremely_good: { background: colors.emerald[600], text: colors.emerald[50], },
-    very_good: { background: colors.emerald[700], text: colors.emerald[50], },
-    good: { background: colors.emerald[800], text: colors.emerald[50], },
-    neutral: { background: colors.neutral[700], text: colors.neutral[50], },
-    bad: { background: colors.amber[800], text: colors.amber[50], },
-    very_bad: { background: colors.amber[700], text: colors.amber[50], },
-    extremely_bad: { background: colors.amber[600], text: colors.amber[50], },
+    extremely_good: { background: colors.emerald[600], text: 'white', },
+    very_good: { background: colors.emerald[400], text: 'black', },
+    good: { background: colors.emerald[200], text: 'black', },
+    neutral: { background: colors.neutral[800], text: 'white', },
+    bad: { background: colors.orange[100], text: 'black', },
+    very_bad: { background: colors.orange[300], text: 'black', },
+    extremely_bad: { background: colors.red[600], text: 'white', },
+    empty: {  background: colors.neutral[900], text: 'white', },
   },
   'ColorBrew-RdYlGn-old': {
     extremely_good: { background: '#1a9850', text: 'rgba(255,255,255,1)', },
