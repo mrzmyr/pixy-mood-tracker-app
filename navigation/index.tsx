@@ -103,7 +103,6 @@ function MyTabBar({ state, descriptors, navigation }) {
     <View 
       style={{ 
         flexDirection: 'row',
-        paddingTop: 4,
         marginBottom: insets.bottom,
         borderTopColor: colors.headerBorder,
         borderTopWidth: 1,
@@ -143,12 +142,22 @@ function MyTabBar({ state, descriptors, navigation }) {
               alignItems: 'center',
             }}
           >
+            <View
+              style={{
+                backgroundColor: isFocused ? colors.tabsTextActive : 'transparent',
+                width: '50%',
+                height: 2,
+                marginTop: -1,
+                marginBottom: 4,
+              }}
+            />
             <Icon width={20} color={isFocused ? colors.tabsIconActive : colors.tabsIconInactive} />
             <Text 
               style={{ 
                 color: isFocused ? colors.tabsTextActive : colors.tabsTextInactive,
                 fontSize: 14,
-                marginTop: 4,
+                fontWeight: '600',
+                marginTop: 2,
               }}
             >{t(label.toLowerCase())}</Text>
           </Pressable>
