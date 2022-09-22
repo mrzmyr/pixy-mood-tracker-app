@@ -2,8 +2,6 @@ import { useNavigation } from "@react-navigation/native";
 import { ScrollView, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Tag from "../../components/Tag";
-import useColors from "../../hooks/useColors";
-import useHaptics from "../../hooks/useHaptics";
 import { Tag as ITag, useSettings } from "../../hooks/useSettings";
 import { useTemporaryLog } from "../../hooks/useTemporaryLog";
 import { useTranslation } from "../../hooks/useTranslation";
@@ -17,10 +15,8 @@ export const SlideTags = ({
   marginTop: number;
   onChange: (tags: ITag[]) => void,
 }) => {
-  const colors = useColors();
   const tempLog = useTemporaryLog();
   const { t } = useTranslation()
-  const haptics = useHaptics()
   const { settings } = useSettings()
   const navigation = useNavigation()
   const insets = useSafeAreaInsets();
@@ -57,7 +53,6 @@ export const SlideTags = ({
             {settings?.tags && settings.tags.map(tag => (
               <Tag 
                 onPress={async () => {
-                  await haptics.selection()
                   const newTags = tempLog?.data?.tags.map(d => d.id).includes(tag.id) ? 
                     tempLog?.data?.tags.filter(t => t.id !== tag.id) : 
                     [...tempLog?.data.tags, tag]
@@ -71,8 +66,7 @@ export const SlideTags = ({
             ))}
             <View>
               <MiniButton 
-                onPress={async () => {
-                  await haptics.selection()
+                onPress={() => {
                   navigation.navigate('TagsModal')
                 }}
               />

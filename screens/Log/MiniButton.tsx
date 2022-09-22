@@ -1,6 +1,7 @@
 import { Pressable, Text } from 'react-native';
 import { Edit2 } from 'react-native-feather';
 import useColors from '../../hooks/useColors';
+import useHaptics from '../../hooks/useHaptics';
 import { useTranslation } from '../../hooks/useTranslation';
 
 export const MiniButton = ({
@@ -8,6 +9,7 @@ export const MiniButton = ({
 }) => {
   const colors = useColors();
   const { t } = useTranslation();
+  const haptics = useHaptics();
 
   return (
     <Pressable
@@ -25,7 +27,10 @@ export const MiniButton = ({
         marginRight: 8,
         marginBottom: 8,
       }]}
-      onPress={onPress}
+      onPress={async () => {
+        await haptics.selection()
+        onPress?.();
+      }}
       testID={'log-tags-edit'}
       accessibilityRole={'button'}
     >

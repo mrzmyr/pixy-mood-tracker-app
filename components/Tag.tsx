@@ -1,5 +1,6 @@
 import { Text, TouchableOpacity, View } from "react-native";
 import useColors from "../hooks/useColors";
+import useHaptics from "../hooks/useHaptics";
 
 export default function Tag({ 
   title,
@@ -13,6 +14,7 @@ export default function Tag({
   onPress?: () => void,
 }) {
   const colors = useColors();
+  const haptics = useHaptics();
   
   return (
     <TouchableOpacity 
@@ -32,7 +34,10 @@ export default function Tag({
         borderWidth: 1,
         borderColor: selected ? colors.tagBorderActive : colors.tagBorder,
       }}
-      onPress={onPress}
+      onPress={async () => {
+        await haptics.selection();
+        onPress?.();
+      }}
     >
       <View 
         style={{
