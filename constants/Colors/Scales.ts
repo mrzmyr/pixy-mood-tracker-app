@@ -5,6 +5,7 @@ export interface IScale {
     [rating: string]: {
       background: string;
       text: string;
+      border?: string;
     }
   }
 }
@@ -13,10 +14,10 @@ const light: IScale = {
   'ColorBrew-RdYlGn': {
     extremely_good: { background: colors.emerald[600], text: 'white', },
     very_good: { background: colors.emerald[400], text: 'white', },
-    good: { background: colors.emerald[200], text: 'black', },
+    good: { background: colors.emerald[200], text: colors.emerald[900], },
     neutral: { background: colors.neutral[200], text: colors.neutral[600], },
-    bad: { background: colors.orange[100], text: 'black', },
-    very_bad: { background: colors.orange[300], text: 'black', },
+    bad: { background: colors.orange[100], text: colors.orange[900], },
+    very_bad: { background: colors.orange[300], text: colors.orange[900], },
     extremely_bad: { background: colors.red[500], text: 'white', },
     empty: { background: colors.neutral[100], text: 'black', },
   },
@@ -55,10 +56,10 @@ const dark: IScale = {
     very_good: { background: colors.emerald[400], text: 'black', },
     good: { background: colors.emerald[200], text: 'black', },
     neutral: { background: colors.neutral[800], text: 'white', },
-    bad: { background: colors.orange[100], text: 'black', },
+    bad: { background: colors.amber[200], text: 'black', },
     very_bad: { background: colors.orange[300], text: 'black', },
-    extremely_bad: { background: colors.red[600], text: 'white', },
-    empty: {  background: colors.neutral[900], text: 'white', },
+    extremely_bad: { background: colors.red[500], text: 'white', },
+    empty: {  background: colors.neutral[900], border: colors.neutral[600], text: 'white', },
   },
   'ColorBrew-RdYlGn-old': {
     extremely_good: { background: '#1a9850', text: 'rgba(255,255,255,1)', },

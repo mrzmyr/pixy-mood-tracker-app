@@ -6,7 +6,15 @@ import { useTranslation } from "../../hooks/useTranslation";
 import { SlideHeadline } from "./SlideHeadline";
 import { SlideRatingButton } from "./SlideRatingButton";
 
-const keys = ['extremely_good', 'very_good', 'good', 'neutral', 'bad', 'very_bad', 'extremely_bad'];
+const keys = [
+  'extremely_good',
+  'very_good',
+  'good',
+  'neutral',
+  'bad',
+  'very_bad',
+  'extremely_bad',
+]
 
 export const SlideRating = ({
   marginTop,

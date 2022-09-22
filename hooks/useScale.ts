@@ -15,8 +15,13 @@ export default function useScale(
     'extremely_bad',
   ]
 
+  const scaleColors = {}
+  labels.forEach((label, index) => {
+    scaleColors[label] = colors.scales[type][label]
+  })
+
   return {
-    colors: colors.scales[type],
+    colors: scaleColors,
     labels
   }
 }

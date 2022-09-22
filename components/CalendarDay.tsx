@@ -116,7 +116,7 @@ export default memo(function CalendarDay({
               chroma(backgroundColor).darken(0.7).hex() : 
               isFuture || isFiltered ? 
                 chroma(backgroundColor).brighten(0.1).hex() :
-                chroma(backgroundColor).brighten(0.8).hex()
+                colors.scales['ColorBrew-RdYlGn'].empty.border
               ),
         }}
         testID={`calendar-day-${dateString}`}
@@ -170,10 +170,10 @@ export default memo(function CalendarDay({
               minHeight: 20,
               minWidth: 20,
               borderRadius: 100,
-              backgroundColor: isToday && (!rating && isFiltering) ? 
-                (chroma(backgroundColor).luminance() < 0.6 ? 
-                  'rgba(255,255,255,0.5)' : 
-                  'rgba(0,0,0,0.15)'
+              backgroundColor: isToday ? 
+                (chroma(backgroundColor).luminance() < 0.5 ? 
+                  'rgba(255,255,255,0.7)' : 
+                  'rgba(0,0,0,0.5)'
                 ) : 'transparent',
             }}
           >
@@ -181,7 +181,11 @@ export default memo(function CalendarDay({
               style={{
                 fontSize: 12,
                 opacity: isFuture || isFiltered || (!rating && isFiltering) ? 0.3 : 1,
-                color: isToday && (!rating && isFiltering) ? '#000' : textColor,
+                color: isToday ?
+                  (chroma(backgroundColor).luminance() < 0.5 ? 
+                    'black' :
+                    'white'
+                  ) : textColor,
               }}
             >{day}</Text>
           </View>

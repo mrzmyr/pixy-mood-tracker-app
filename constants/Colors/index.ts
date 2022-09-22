@@ -199,9 +199,9 @@ const light: IColors = {
   cardBackground: '#fff',
 
   headerBorder: colors.neutral[300],
-  tabsIconActive: colors.neutral[900],
+  tabsIconActive: tintColorLight,
   tabsIconInactive: colors.neutral[400],
-  tabsTextActive: colors.neutral[900],
+  tabsTextActive: tintColorLight,
   tabsTextInactive: colors.neutral[400],
   
   passcodeDotBackground: colors.neutral[300],
@@ -293,7 +293,7 @@ const dark: IColors = {
   
   logHeaderBackground: colors.neutral[900],
   logHeaderBorder: colors.neutral[800],
-  logHeaderText: colors.neutral[500],
+  logHeaderText: colors.neutral[300],
   logBackground: colors.neutral[900],
   
   tagBackground: colors.neutral[900],
@@ -320,9 +320,9 @@ const dark: IColors = {
   cardBackground: colors.neutral[900],
   
   headerBorder: colors.neutral[800],
-  tabsIconActive: colors.neutral[400],
+  tabsIconActive: tintColorDark,
   tabsIconInactive: colors.neutral[600],
-  tabsTextActive: colors.neutral[400],
+  tabsTextActive: tintColorDark,
   tabsTextInactive: colors.neutral[600],
   
   passcodeDotBackground: colors.neutral[600],

@@ -28,6 +28,7 @@ import { enableScreens } from 'react-native-screens';
 import LinkButton from '../components/LinkButton';
 import { useCalendarFilters } from '../hooks/useCalendarFilters';
 import { TagsModal } from '../screens/Tags';
+import useHaptics from '../hooks/useHaptics';
 
 enableScreens();
 
@@ -97,6 +98,7 @@ const ROUTES = [
 function MyTabBar({ state, descriptors, navigation }) {
   const colors = useColors()
   const insets = useSafeAreaInsets();
+  const haptics = useHaptics();
   const { t } = useTranslation()
   
   return (
@@ -135,7 +137,10 @@ function MyTabBar({ state, descriptors, navigation }) {
             accessibilityState={isFocused ? { selected: true } : {}}
             accessibilityLabel={options.tabBarAccessibilityLabel}
             testID={options.tabBarTestID}
-            onPress={onPress}
+            onPress={async () => {
+              await haptics.selection();
+              onPress?.();
+            }}
             style={{ 
               flex: 1,
               justifyContent: 'center',

@@ -22,7 +22,7 @@ export const CalendarBottomSheet = () => {
   }, [logs, calendarFilters])
   
   const bottomSheetRef = useRef(null);
-  const snapPoints = useMemo(() => ['25%', '50%', '90%'], []);
+  const snapPoints = useMemo(() => ['30%', '50%', '90%'], []);
   
   useEffect(() => {
     if(calendarFilters.isOpen) {
@@ -74,7 +74,7 @@ export const CalendarBottomSheet = () => {
           width: 0,
           height: 11,
         },
-        shadowOpacity: 1,
+        shadowOpacity: calendarFilters.isOpen ? 1 : 0,
         shadowRadius: 14.78,
         
         elevation: 22,

@@ -1,7 +1,8 @@
 import { useState } from 'react';
-import { ActivityIndicator, Image, Pressable, Text, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, Image, Pressable, Text, View } from 'react-native';
 import useColors from '../../hooks/useColors';
 import { useFeedback } from '../../hooks/useFeedback';
+import useHaptics from '../../hooks/useHaptics';
 import { useSegment } from '../../hooks/useSegment';
 import { useTranslation } from '../../hooks/useTranslation';
 
@@ -24,6 +25,7 @@ const EMOJI_SCALE_IMAGES = [{
 }]
 
 const CardFeedbackEmoji = ({ image, onPress, selected }) => {
+  const haptics = useHaptics()
   const colors = useColors()
 
   return (
@@ -40,7 +42,10 @@ const CardFeedbackEmoji = ({ image, onPress, selected }) => {
         marginLeft: 8,
         borderRadius: 4,
       }}
-      onPress={onPress}
+      onPress={async () => {
+        await haptics.selection()
+        onPress?.()
+      }}
     >
       <Image style={{ 
         opacity: selected ? 1 : colors.statisticsFeedbackEmojiOpacity,
