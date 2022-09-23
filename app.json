@@ -31,15 +31,14 @@
     "android": {
       "package": "com.devmood.pixymoodtracker",
       "versionCode": 440012700,
+      "allowBackup": false,
       "permissions": [],
+      "icon": "./assets/images/icon.png",
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
+        "foregroundImage": "./assets/images/adaptive-icon.svg",
         "backgroundColor": "#ffffff"
       },
       "playStoreUrl": "https://play.google.com/store/apps/details?id=com.devmood.pixymoodtracker"
-    },
-    "web": {
-      "favicon": "./assets/images/favicon.png"
     },
     "plugins": [
       "sentry-expo",
