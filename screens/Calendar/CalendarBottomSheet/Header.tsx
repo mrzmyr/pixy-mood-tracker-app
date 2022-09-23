@@ -15,9 +15,10 @@ export const Header = () => {
         flex: 1,
         flexDirection: 'row',
         alignItems: 'center',
+        justifyContent: 'space-between',
         width: '100%',
-        paddingLeft: 16,
-        paddingRight: 16,
+        paddingLeft: 20,
+        paddingRight: 20,
         paddingTop: 8,
         paddingBottom: 8,
         borderTopEndRadius: 20,
@@ -27,14 +28,10 @@ export const Header = () => {
         borderBottomWidth: 1,
       }}
     >
-      <View style={{
-        flex: 1,
-      }}></View>
       <Text
         style={{
           flex: 1,
-          fontSize: 17,
-          textAlign: 'center',
+          fontSize: 20,
           fontWeight: 'bold',
           color: colors.text,
         }}

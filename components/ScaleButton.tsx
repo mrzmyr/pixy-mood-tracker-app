@@ -28,7 +28,6 @@ export default function ScaleButton({
         borderColor: colorScheme === 'light' ? 
           chroma(backgroundColor).darken(0.4).hex() : 
           chroma(backgroundColor).brighten(0.5).hex(),
-        borderWidth: 2,
         backgroundColor: backgroundColor,
         opacity: pressed ? 0.8 : 1,
         flex: 7,

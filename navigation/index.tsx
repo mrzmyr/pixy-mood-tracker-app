@@ -160,9 +160,10 @@ function MyTabBar({ state, descriptors, navigation }) {
             <Text 
               style={{ 
                 color: isFocused ? colors.tabsTextActive : colors.tabsTextInactive,
-                fontSize: 14,
-                fontWeight: '600',
+                fontSize: 12,
+                fontWeight: '700',
                 marginTop: 2,
+                marginBottom: 4,
               }}
             >{t(label.toLowerCase())}</Text>
           </Pressable>
