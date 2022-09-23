@@ -158,5 +158,9 @@
   "today": "Tänään",
   "log_rating_question": "Millainen päiväsi oli?",
   "log_tags_question": "Lisää tunnisteita päivääsi",
-  "log_note_question": "Kirjoita päivästäsi…"
+  "log_note_question": "Kirjoita päivästäsi…",
+  "log_reminder_question": "Päivittäinen muistutus",
+  "log_reminder_descprition": "Määritä päivittäinen muistutusilmoitus, jotta et koskaan menetä seurattua pikseliä.",
+  "log_reminder_enabled": "Ota Muistutus käyttöön",
+  "log_reminder_later": "Ehkä myöhemmin"
 }

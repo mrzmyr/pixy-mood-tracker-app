@@ -158,5 +158,9 @@
   "today": "היום",
   "log_rating_question": "איך עבר עליך היום?",
   "log_tags_question": "הוסף תגים ליום שלך",
-  "log_note_question": "כתבו על היום שלכם..."
+  "log_note_question": "כתבו על היום שלכם...",
+  "log_reminder_question": "תזכורת יומית",
+  "log_reminder_descprition": "הגדר הודעת תזכורת יומית, כך שלעולם לא תחמיץ את הפיקסל שלך במעקב.",
+  "log_reminder_enabled": "אפשר תזכורת",
+  "log_reminder_later": "אולי אחר כך"
 }

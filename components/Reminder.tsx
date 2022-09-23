@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
-import { Switch, Text, View } from 'react-native';
+import { Platform, Switch, Text, View } from 'react-native';
 import Clock from '../components/Clock';
 import MenuList from '../components/MenuList';
 import MenuListItem from '../components/MenuListItem';
@@ -46,24 +46,22 @@ const Reminder = () => {
   useEffect(() => {
     (async () => {
       await cancelAll()
-      await schedule({
-        content: {
-          title: i18n.t('notification_reminder_title'),
-          body: i18n.t('notification_reminder_body'),
-        },
-        trigger: {
-          repeats: true,
-          hour: hour,
-          minute: minute,
-        },
-      })
+      if(reminderEnabled) {
+        await schedule({
+          trigger: {
+            repeats: true,
+            hour: hour,
+            minute: minute,
+          },
+        })
+      }
+      
+      setSettings((settings: SettingsState) => ({
+        ...settings, 
+        reminderEnabled,
+        reminderTime,
+      }))
     })()
-    
-    setSettings((settings: SettingsState) => ({
-      ...settings, 
-      reminderEnabled,
-      reminderTime,
-    }))
   }, [reminderEnabled, reminderTime])
   
   const onTimeChange = async (event: any, selectedDate: any) => {
@@ -76,6 +74,7 @@ const Reminder = () => {
       <View style={{
         opacity: reminderEnabled ? 1 : 0.5,
         marginBottom: 20,
+        padding: 4,
       }}>
         <NotificationPreview />
       </View>
@@ -84,7 +83,6 @@ const Reminder = () => {
           title={i18n.t('reminder')}
           iconRight={
             <Switch
-              ios_backgroundColor={colors.backgroundSecondary}
               onValueChange={() => onEnabledChange(!reminderEnabled)}
               value={reminderEnabled}
               testID='reminder-enabled'
@@ -115,7 +113,7 @@ const Reminder = () => {
             </View>
             <View
               style={{
-                flex: 1,
+                flex: Platform.OS === 'ios' ? 1 : 0,
               }}
             >
               <Clock

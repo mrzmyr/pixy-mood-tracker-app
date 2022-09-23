@@ -1,7 +1,8 @@
-import { Platform } from 'react-native';
 import * as Device from 'expo-device';
 import * as Notifications from 'expo-notifications';
-import { NotificationRequestInput } from 'expo-notifications';
+import { NotificationContentInput, NotificationTriggerInput } from 'expo-notifications';
+import { Platform } from 'react-native';
+import { useTranslation } from './useTranslation';
 
 const isWeb = Platform.OS === 'web';
 
@@ -14,7 +15,8 @@ Notifications.setNotificationHandler({
 });
 
 const useNotification = () => {    
-
+  const { t } = useTranslation();
+  
   const getScheduled = async () => {
     return await Notifications.getAllScheduledNotificationsAsync();
   }
@@ -41,8 +43,17 @@ const useNotification = () => {
     }
   }
 
-  const schedule = async (options: NotificationRequestInput) => {
-    await Notifications.scheduleNotificationAsync(options);
+  const schedule = async (options?: {
+    content?: NotificationContentInput;
+    trigger: NotificationTriggerInput;
+  }) => {
+    await Notifications.scheduleNotificationAsync({
+      content: {
+        title: t('notification_reminder_title'),
+        body: t('notification_reminder_body'),
+      },
+      ...options,
+    });
   }
 
   const cancelAll = async () => {

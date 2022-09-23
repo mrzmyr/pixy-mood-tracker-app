@@ -158,5 +158,9 @@
   "today": "Dziś",
   "log_rating_question": "Jak ci minął dzień?",
   "log_tags_question": "Dodaj tagi do swojego dnia",
-  "log_note_question": "Napisz o swoim dniu…"
+  "log_note_question": "Napisz o swoim dniu…",
+  "log_reminder_question": "Codzienne przypomnienie",
+  "log_reminder_descprition": "Ustaw codzienne powiadomienie o przypomnieniu, aby nigdy nie przegapić śledzonego piksela.",
+  "log_reminder_enabled": "Włączone przypomnienie",
+  "log_reminder_later": "Może później"
 }

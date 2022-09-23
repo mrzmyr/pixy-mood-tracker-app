@@ -158,5 +158,9 @@
   "today": "Hari ini",
   "log_rating_question": "Apa kabar hari ini?",
   "log_tags_question": "Tambahkan tag ke hari Anda",
-  "log_note_question": "Tulis tentang harimu…"
+  "log_note_question": "Tulis tentang harimu…",
+  "log_reminder_question": "Pengingat Harian",
+  "log_reminder_descprition": "Siapkan pemberitahuan pengingat harian, sehingga Anda tidak akan pernah melewatkan piksel yang dilacak.",
+  "log_reminder_enabled": "Aktifkan Pengingat",
+  "log_reminder_later": "Mungkin nanti"
 }

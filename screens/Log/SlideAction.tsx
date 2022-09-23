@@ -7,15 +7,11 @@ import useHaptics from "../../hooks/useHaptics"
 import { FloatButton } from "./FloatButton"
 
 export const SlideAction = ({
-  slideIndex,
-  slides,
-  next,
-  save,
+  type,
+  onPress
 }: {
-  slideIndex: number,
-  slides: any[],
-  next: () => void,
-  save: () => void,
+  type: 'next' | 'save' | 'hidden'
+  onPress?: () => void
 }) => {
   const haptics = useHaptics()
   const colors = useColors()
@@ -33,6 +29,8 @@ export const SlideAction = ({
     }
   }, [])
 
+  if(type === 'hidden') return null
+  
   return (
     <View
       style={{
@@ -50,16 +48,13 @@ export const SlideAction = ({
       <FloatButton 
         onPress={async () => {
           await haptics.selection()
-          if(slideIndex === slides.length - 1) {
-            save()
-          } else {
-            next()
-          }
+          onPress?.()
         }}
       >
-        {slideIndex === slides.length - 1 ? (
+        { type === 'save' && (
           <Check color={colors.primaryButtonText} width={24} />
-        ) : (
+        )}
+        { type === 'next' && (
           <ArrowRight color={colors.primaryButtonText} width={24} />
         )}
       </FloatButton>

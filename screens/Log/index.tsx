@@ -18,6 +18,7 @@ import { SlideAction } from './SlideAction';
 import { SlideHeader } from './SlideHeader';
 import { SlideNote } from './SlideNote';
 import { SlideRating } from './SlideRating';
+import { SlideReminder } from './SlideReminder';
 import { SlideTags } from './SlideTags';
 import { Stepper } from './Stepper';
 
@@ -50,6 +51,10 @@ export const LogModal = ({ navigation, route }: RootStackScreenProps<'Log'>) => 
   }
   
   const save = () => {
+    if(tempLog.data.rating === null) {
+      tempLog.data.rating = 'neutral'
+    }
+    
     segment.track('log_saved', {
       date: tempLog.data.date,
       messageLength: tempLog.data.message.length,
@@ -86,17 +91,8 @@ export const LogModal = ({ navigation, route }: RootStackScreenProps<'Log'>) => 
       payload: tempLog.data
     })
 
-    if(
-      Object.keys(state.items).length === 2 &&
-      !settings.reminderEnabled
-    ) {
-      segment.track('reminder_modal_open')
-      navigation.navigate('ReminderModal');
-    } else {
-      navigation.navigate('Calendar');
-    }
-
     onClose()
+    navigation.navigate('Calendar');
   }
 
   const askToRemove = () => {
@@ -172,19 +168,46 @@ export const LogModal = ({ navigation, route }: RootStackScreenProps<'Log'>) => 
   if(Dimensions.get('screen').height < 800) marginTop = 32;
   if(Dimensions.get('screen').height < 700) marginTop = 16;
   
-  const slides = [
-    <SlideRating
-      marginTop={marginTop}
-      onChange={(rating) => {
-        if(tempLog.data.rating !== rating) {
-          setTimeout(() => _carousel.current.next(), 200)
-        }
-        setRating(rating)
-      }}
-    />,
-    <SlideTags marginTop={marginTop} onChange={setTags} />,
-    <SlideNote marginTop={marginTop} onChange={setMessage} />,
+  const content = [{
+      slide: (
+        <SlideRating
+          marginTop={marginTop}
+          onChange={(rating) => {
+            if(tempLog.data.rating !== rating) {
+              setTimeout(() => _carousel.current.next(), 200)
+            }
+            setRating(rating)
+          }}
+        />
+      ),
+      action: <SlideAction type="next" onPress={() => _carousel.current.next()} />
+    }, {
+      slide: <SlideTags marginTop={marginTop} onChange={setTags} />,
+      action: <SlideAction type="next" onPress={() => _carousel.current.next()} />
+    }, {
+      slide: <SlideNote marginTop={marginTop} onChange={setMessage} />,
+      action: <SlideAction type="save" onPress={save} />
+    }
   ]
+
+  if(
+    Object.keys(state.items).length === 2 &&
+    !settings.reminderEnabled
+  ) {
+    content[2].action = <SlideAction type="next" onPress={() => _carousel.current.next()} />
+    content.push({
+      slide: (
+        <SlideReminder 
+          onPress={async () => {
+            await navigation.navigate('Calendar');
+            save()
+          }}
+          marginTop={marginTop} 
+        />
+      ),
+      action: <SlideAction type="hidden" />
+    })
+  }
   
   const onScrollEnd = (index) => {
     if(index !== 2) {
@@ -192,6 +215,7 @@ export const LogModal = ({ navigation, route }: RootStackScreenProps<'Log'>) => 
     }
     setSlideIndex(index)
   }
+
   
   return (
     <View style={{ 
@@ -207,7 +231,7 @@ export const LogModal = ({ navigation, route }: RootStackScreenProps<'Log'>) => 
         }}
       >
         <Stepper 
-          count={slides.length} 
+          count={content.length} 
           index={slideIndex} 
           scrollTo={({ index }) => {
             _carousel.current.scrollTo({ index, animated: true })
@@ -281,26 +305,19 @@ export const LogModal = ({ navigation, route }: RootStackScreenProps<'Log'>) => 
             loop={false}
             width={Dimensions.get('window').width - 40}
             ref={_carousel}
-            data={slides}
+            data={content}
             onScrollBegin={() => {
               setTouched(true)
             }}
             onScrollEnd={onScrollEnd}
-            renderItem={({ index }) => slides[index]}
+            renderItem={({ index }) => content[index].slide}
             panGestureHandlerProps={{
               activeOffsetX: [-10, 10],
             }}
           />
         </View>
       </View>
-      {(slideIndex !== 0 || touched) && (
-        <SlideAction 
-          slides={slides} 
-          slideIndex={slideIndex} 
-          save={save} 
-          next={() => _carousel.current.next()} 
-        />
-      )}
+      {(slideIndex !== 0 || touched) && content[slideIndex] && content[slideIndex].action}
     </View>
   )
 }

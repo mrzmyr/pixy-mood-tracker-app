@@ -143,5 +143,9 @@
   "today": "Today",
   "log_rating_question": "How was your day?",
   "log_tags_question": "Add tags to your day",
-  "log_note_question": "Write about your day…"
+  "log_note_question": "Write about your day…",
+  "log_reminder_question": "Daily Reminder",
+  "log_reminder_descprition": "Set up a daily reminder notification, so you never miss your tracked pixel.",
+  "log_reminder_enabled": "Enable Reminder",
+  "log_reminder_later": "Maybe later"
 }

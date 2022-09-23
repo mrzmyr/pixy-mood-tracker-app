@@ -158,5 +158,9 @@
   "today": "오늘",
   "log_rating_question": "오늘 어땠나요?",
   "log_tags_question": "하루에 태그 추가",
-  "log_note_question": "당신의 하루에 대해 쓰십시오 ..."
+  "log_note_question": "당신의 하루에 대해 쓰십시오 ...",
+  "log_reminder_question": "일일 알림",
+  "log_reminder_descprition": "추적된 픽셀을 놓치지 않도록 일일 알림 알림을 설정하세요.",
+  "log_reminder_enabled": "미리 알림 활성화",
+  "log_reminder_later": "나중에"
 }

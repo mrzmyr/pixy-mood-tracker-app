@@ -146,5 +146,9 @@
   "today": "Heute",
   "log_rating_question": "Wie war dein Tag?",
   "log_tags_question": "Tags hinzufügen",
-  "log_note_question": "Schreib' über deinen Tag…"
+  "log_note_question": "Schreib' über deinen Tag…",
+  "log_reminder_question": "Tägliche Erinnerung",
+  "log_reminder_descprition": "Richten Sie eine tägliche Erinnerungsbenachrichtigung ein, damit Sie Ihr nachverfolgtes Pixel nie verpassen.",
+  "log_reminder_enabled": "Erinnerung aktivieren",
+  "log_reminder_later": "Vielleicht später"
 }

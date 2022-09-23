@@ -158,5 +158,9 @@
   "today": "Astăzi",
   "log_rating_question": "Cum a fost ziua voastră?",
   "log_tags_question": "Adaugă etichete zilei tale",
-  "log_note_question": "Scrie despre ziua ta..."
+  "log_note_question": "Scrie despre ziua ta...",
+  "log_reminder_question": "Memento zilnic",
+  "log_reminder_descprition": "Configurați o notificare zilnică de memento, astfel încât să nu pierdeți niciodată pixelul urmărit.",
+  "log_reminder_enabled": "Activați Memento",
+  "log_reminder_later": "Poate mai târziu"
 }

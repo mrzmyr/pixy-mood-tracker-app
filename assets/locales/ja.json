@@ -158,5 +158,9 @@
   "today": "今日",
   "log_rating_question": "あなたの一日はどうでした？",
   "log_tags_question": "1 日にタグを追加する",
-  "log_note_question": "あなたの一日について書いてください…"
+  "log_note_question": "あなたの一日について書いてください…",
+  "log_reminder_question": "毎日のリマインダー",
+  "log_reminder_descprition": "毎日のリマインダー通知を設定して、追跡されたピクセルを見逃さないようにします。",
+  "log_reminder_enabled": "リマインダーを有効にする",
+  "log_reminder_later": "たぶん後で"
 }

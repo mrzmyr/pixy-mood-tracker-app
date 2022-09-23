@@ -158,5 +158,9 @@
   "today": "Σήμερα",
   "log_rating_question": "Πώς ήταν η μέρα σου?",
   "log_tags_question": "Προσθέστε ετικέτες στην ημέρα σας",
-  "log_note_question": "Γράψε για τη μέρα σου…"
+  "log_note_question": "Γράψε για τη μέρα σου…",
+  "log_reminder_question": "Καθημερινή Υπενθύμιση",
+  "log_reminder_descprition": "Ρυθμίστε μια καθημερινή ειδοποίηση υπενθύμισης, ώστε να μην χάνετε ποτέ το pixel που παρακολουθείτε.",
+  "log_reminder_enabled": "Ενεργοποίηση Υπενθύμισης",
+  "log_reminder_later": "Ισως αργότερα"
 }

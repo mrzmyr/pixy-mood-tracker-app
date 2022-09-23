@@ -158,5 +158,9 @@
   "today": "I dag",
   "log_rating_question": "Hvordan var dagen din?",
   "log_tags_question": "Legg til tagger på dagen din",
-  "log_note_question": "Skriv om dagen din..."
+  "log_note_question": "Skriv om dagen din...",
+  "log_reminder_question": "Daglig påminnelse",
+  "log_reminder_descprition": "Sett opp en daglig påminnelse, slik at du aldri går glipp av den sporede pikselen din.",
+  "log_reminder_enabled": "Aktiver påminnelse",
+  "log_reminder_later": "Kanskje senere"
 }

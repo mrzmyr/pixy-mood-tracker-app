@@ -158,5 +158,9 @@
   "today": "Ma",
   "log_rating_question": "Milyen volt a napod?",
   "log_tags_question": "Adjon hozzá címkéket a napjához",
-  "log_note_question": "Írj a napodról…"
+  "log_note_question": "Írj a napodról…",
+  "log_reminder_question": "Napi emlékeztető",
+  "log_reminder_descprition": "Állítson be napi emlékeztetőt, hogy soha ne maradjon le a követett képpontról.",
+  "log_reminder_enabled": "Emlékeztető engedélyezése",
+  "log_reminder_later": "Talán később"
 }

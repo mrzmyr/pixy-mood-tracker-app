@@ -158,5 +158,9 @@
   "today": "วันนี้",
   "log_rating_question": "วันนี้เป็นไงบ้าง",
   "log_tags_question": "เพิ่มแท็กให้กับวันของคุณ",
-  "log_note_question": "เขียนเกี่ยวกับวันของคุณ..."
+  "log_note_question": "เขียนเกี่ยวกับวันของคุณ...",
+  "log_reminder_question": "เตือนความจำรายวัน",
+  "log_reminder_descprition": "ตั้งค่าการแจ้งเตือนรายวัน เพื่อให้คุณไม่พลาดพิกเซลที่ติดตาม",
+  "log_reminder_enabled": "เปิดใช้งานการเตือนความจำ",
+  "log_reminder_later": "ไว้ก่อน"
 }

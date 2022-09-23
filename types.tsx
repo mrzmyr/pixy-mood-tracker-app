@@ -4,7 +4,7 @@
  */
 
 import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
-import { CompositeScreenProps, NavigatorScreenParams } from '@react-navigation/native';
+import { CompositeScreenProps } from '@react-navigation/native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 
 declare global {
@@ -32,7 +32,6 @@ export type RootStackParamList = {
   Data: undefined;
   Reminder: undefined;
   Privacy: undefined;
-  ReminderModal: undefined;
   PasscodeLocked: undefined;
   TagsModal: undefined;
 };

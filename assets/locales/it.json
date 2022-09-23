@@ -158,5 +158,9 @@
   "today": "In data odierna",
   "log_rating_question": "Com'è stata la tua giornata?",
   "log_tags_question": "Aggiungi tag alla tua giornata",
-  "log_note_question": "Scrivi della tua giornata..."
+  "log_note_question": "Scrivi della tua giornata...",
+  "log_reminder_question": "Promemoria giornaliero",
+  "log_reminder_descprition": "Imposta una notifica di promemoria giornaliera, così non perderai mai il tuo pixel tracciato.",
+  "log_reminder_enabled": "Abilita promemoria",
+  "log_reminder_later": "Forse più tardi"
 }

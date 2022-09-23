@@ -158,5 +158,9 @@
   "today": "今天",
   "log_rating_question": "你今天过得怎么样？",
   "log_tags_question": "为您的一天添加标签",
-  "log_note_question": "写下你的一天……"
+  "log_note_question": "写下你的一天……",
+  "log_reminder_question": "每日提醒",
+  "log_reminder_descprition": "设置每日提醒通知，这样您就不会错过跟踪的像素。",
+  "log_reminder_enabled": "启用提醒",
+  "log_reminder_later": "也许以后"
 }

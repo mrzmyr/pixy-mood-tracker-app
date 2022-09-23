@@ -158,5 +158,9 @@
   "today": "Aujourd'hui",
   "log_rating_question": "Comment s'est passée ta journée?",
   "log_tags_question": "Ajoutez des balises à votre journée",
-  "log_note_question": "Racontez votre journée…"
+  "log_note_question": "Racontez votre journée…",
+  "log_reminder_question": "Rappel quotidien",
+  "log_reminder_descprition": "Configurez une notification de rappel quotidienne pour ne jamais manquer votre pixel suivi.",
+  "log_reminder_enabled": "Activer rappel",
+  "log_reminder_later": "Peut-être plus tard"
 }

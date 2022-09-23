@@ -158,5 +158,9 @@
   "today": "Hôm nay",
   "log_rating_question": "Ngày hôm nay của bạn thế nào?",
   "log_tags_question": "Thêm thẻ vào ngày của bạn",
-  "log_note_question": "Viết về ngày của bạn…"
+  "log_note_question": "Viết về ngày của bạn…",
+  "log_reminder_question": "Nhắc nhở hàng ngày",
+  "log_reminder_descprition": "Thiết lập thông báo nhắc nhở hàng ngày để bạn không bao giờ bỏ lỡ pixel được theo dõi của mình.",
+  "log_reminder_enabled": "Cho phép nhắc nhở",
+  "log_reminder_later": "Có lẽ sau"
 }

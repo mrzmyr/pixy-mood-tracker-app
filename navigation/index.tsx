@@ -16,7 +16,6 @@ import {
   LogModal,
   NotFoundScreen,
   PrivacyScreen,
-  ReminderModal,
   ReminderScreen,
   ScaleScreen,
   SettingsScreen, StatisticsScreen, WebhookEntryScreen,
@@ -360,17 +359,6 @@ function RootNavigator() {
           <Stack.Screen 
             name="TagsModal" 
             component={TagsModal} 
-          />
-        </Stack.Group>
-
-        <Stack.Group 
-          screenOptions={{ 
-            presentation: 'modal',
-            headerShown: false,
-          }}>
-            <Stack.Screen 
-            name="ReminderModal" 
-            component={ReminderModal} 
           />
         </Stack.Group>
         

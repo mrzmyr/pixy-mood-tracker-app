@@ -158,5 +158,9 @@
   "today": "आज",
   "log_rating_question": "आपका दिन कैसा रहा?",
   "log_tags_question": "अपने दिन में टैग जोड़ें",
-  "log_note_question": "अपने दिन के बारे में लिखें..."
+  "log_note_question": "अपने दिन के बारे में लिखें...",
+  "log_reminder_question": "दैनिक अनुस्मारक",
+  "log_reminder_descprition": "एक दैनिक अनुस्मारक सूचना सेट करें, ताकि आप अपने ट्रैक किए गए पिक्सेल को कभी न छोड़ें।",
+  "log_reminder_enabled": "अनुस्मारक सक्षम करें",
+  "log_reminder_later": "शायद बाद में"
 }

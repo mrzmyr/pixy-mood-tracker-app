@@ -158,5 +158,9 @@
   "today": "اليوم",
   "log_rating_question": "كيف كان يومك؟",
   "log_tags_question": "أضف علامات إلى يومك",
-  "log_note_question": "اكتب عن يومك ..."
+  "log_note_question": "اكتب عن يومك ...",
+  "log_reminder_question": "مذكر يومي",
+  "log_reminder_descprition": "قم بإعداد إشعار تذكير يومي ، حتى لا تفوتك وحدة البكسل المتعقبة.",
+  "log_reminder_enabled": "تفعيل التذكير",
+  "log_reminder_later": "ربما في وقت لاحق"
 }

@@ -5,7 +5,6 @@ export * from './Log';
 export * from './NotFound';
 export * from './Privacy';
 export * from './Reminder';
-export * from './ReminderModal';
 export * from './Scales';
 export * from './Settings';
 export * from './Statistics';

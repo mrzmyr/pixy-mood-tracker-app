@@ -158,5 +158,9 @@
   "today": "I dag",
   "log_rating_question": "Hur var din dag?",
   "log_tags_question": "Lägg till taggar till din dag",
-  "log_note_question": "Skriv om din dag..."
+  "log_note_question": "Skriv om din dag...",
+  "log_reminder_question": "Daglig påminnelse",
+  "log_reminder_descprition": "Ställ in en daglig påminnelse så att du aldrig missar din spårade pixel.",
+  "log_reminder_enabled": "Aktivera påminnelse",
+  "log_reminder_later": "Kanske senare"
 }

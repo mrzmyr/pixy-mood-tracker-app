@@ -158,5 +158,9 @@
   "today": "Bugün",
   "log_rating_question": "Günün nasıldı?",
   "log_tags_question": "Gününüze etiket ekleyin",
-  "log_note_question": "Günün hakkında Yaz…"
+  "log_note_question": "Günün hakkında Yaz…",
+  "log_reminder_question": "Günlük hatırlatma",
+  "log_reminder_descprition": "Günlük bir hatırlatıcı bildirimi ayarlayın, böylece izlenen pikselinizi asla kaçırmazsınız.",
+  "log_reminder_enabled": "Hatırlatıcıyı Etkinleştir",
+  "log_reminder_later": "Belki sonra"
 }

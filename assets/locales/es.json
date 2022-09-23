@@ -158,5 +158,9 @@
   "today": "Este Dia",
   "log_rating_question": "¿Cómo estuvo su día?",
   "log_tags_question": "Agrega etiquetas a tu día",
-  "log_note_question": "Escribe sobre tu día…"
+  "log_note_question": "Escribe sobre tu día…",
+  "log_reminder_question": "Recordatorio diario",
+  "log_reminder_descprition": "Configure una notificación de recordatorio diaria, para que nunca pierda su píxel rastreado.",
+  "log_reminder_enabled": "Habilitar recordatorio",
+  "log_reminder_later": "Quizas mas tarde"
 }

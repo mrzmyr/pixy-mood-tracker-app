@@ -158,5 +158,9 @@
   "today": "Сегодня",
   "log_rating_question": "Как прошел день?",
   "log_tags_question": "Добавляйте теги в свой день",
-  "log_note_question": "Напишите о своем дне…"
+  "log_note_question": "Напишите о своем дне…",
+  "log_reminder_question": "Ежедневное напоминание",
+  "log_reminder_descprition": "Настройте ежедневное напоминание, чтобы не пропустить отслеживаемый пиксель.",
+  "log_reminder_enabled": "Включить напоминание",
+  "log_reminder_later": "Может быть позже"
 }

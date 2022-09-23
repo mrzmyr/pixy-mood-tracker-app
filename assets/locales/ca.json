@@ -158,5 +158,9 @@
   "today": "Avui",
   "log_rating_question": "Com ha anat el dia?",
   "log_tags_question": "Afegeix etiquetes al teu dia",
-  "log_note_question": "Escriu sobre el teu dia..."
+  "log_note_question": "Escriu sobre el teu dia...",
+  "log_reminder_question": "Recordatori diari",
+  "log_reminder_descprition": "Configureu una notificació de recordatori diària perquè mai us perdeu el vostre píxel de seguiment.",
+  "log_reminder_enabled": "Activa el recordatori",
+  "log_reminder_later": "Potser després"
 }

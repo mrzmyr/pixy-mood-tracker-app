@@ -158,5 +158,9 @@
   "today": "Hoje",
   "log_rating_question": "Como foi o seu dia?",
   "log_tags_question": "Adicione tags ao seu dia",
-  "log_note_question": "Escreva sobre o seu dia…"
+  "log_note_question": "Escreva sobre o seu dia…",
+  "log_reminder_question": "Lembrete Diario",
+  "log_reminder_descprition": "Configure uma notificação de lembrete diária, para que você nunca perca seu pixel rastreado.",
+  "log_reminder_enabled": "Ativar lembrete",
+  "log_reminder_later": "Talvez mais tarde"
 }

@@ -158,5 +158,9 @@
   "today": "Dnes",
   "log_rating_question": "Aký bol tvoj deň?",
   "log_tags_question": "Pridajte štítky do svojho dňa",
-  "log_note_question": "Napíšte o svojom dni…"
+  "log_note_question": "Napíšte o svojom dni…",
+  "log_reminder_question": "Denná pripomienka",
+  "log_reminder_descprition": "Nastavte si denné upozornenie, aby ste nikdy nezmeškali sledovaný pixel.",
+  "log_reminder_enabled": "Povoliť pripomenutie",
+  "log_reminder_later": "Možno neskôr"
 }
