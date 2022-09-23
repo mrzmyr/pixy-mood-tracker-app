@@ -2,6 +2,27 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.28.0](https://github.com/mrzmyr/pixy-mood-tracker/compare/v1.27.0...v1.28.0) (2022-09-23)
+
+
+### Features
+
+* add haptics ([405965e](https://github.com/mrzmyr/pixy-mood-tracker/commit/405965e4a5ff72751f8e4ed61f8c826435145dd2))
+* add reminder slide ([3b44915](https://github.com/mrzmyr/pixy-mood-tracker/commit/3b4491509518da95eb9c3059f2294f3427656658))
+* add tint to navigation bottom ([b8ca819](https://github.com/mrzmyr/pixy-mood-tracker/commit/b8ca819cdc4c9d97c2896c84d6dc3d79df68cb83))
+* align colors and add haptics ([4bd9bfc](https://github.com/mrzmyr/pixy-mood-tracker/commit/4bd9bfc373a3be533dcd654565a80048003de1cd))
+* update icon ([eea6a0a](https://github.com/mrzmyr/pixy-mood-tracker/commit/eea6a0ab4a7477b565a29fb7490f638ca549356e))
+
+
+### Bug Fixes
+
+* update android icon ([0543e60](https://github.com/mrzmyr/pixy-mood-tracker/commit/0543e60eb7267d0a38c64a8b2171e362fd255962))
+
+
+### Styling
+
+* update colors ([d8d0683](https://github.com/mrzmyr/pixy-mood-tracker/commit/d8d06832d03d70937d46822ad39f1649c4b8f774))
+
 ## [1.27.0](https://github.com/mrzmyr/pixy-mood-tracker/compare/v1.26.0...v1.27.0) (2022-09-21)
 
 
