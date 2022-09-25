@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.29.0](https://github.com/mrzmyr/pixy-mood-tracker/compare/v1.28.0...v1.29.0) (2022-09-25)
+
+
+### Features
+
+* add email to feedback & tags statistics ([206eca4](https://github.com/mrzmyr/pixy-mood-tracker/commit/206eca4470b47fe6e7f96ddd75581c766e9990c1))
+* add onboarding ([6fb9bdc](https://github.com/mrzmyr/pixy-mood-tracker/commit/6fb9bdc06e6081db1d57a54cdbebd3a3fe6932a3))
+
 ## [1.28.0](https://github.com/mrzmyr/pixy-mood-tracker/compare/v1.27.0...v1.28.0) (2022-09-23)
 
 
