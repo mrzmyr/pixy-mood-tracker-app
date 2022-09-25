@@ -5,7 +5,7 @@ import Button from '../../components/Button';
 import useColors from '../../hooks/useColors';
 import { useTranslation } from '../../hooks/useTranslation';
 
-const ListItem = ({ children }) => {
+const ListItem = ({ children, delay }) => {
   const colors = useColors();
 
   return (
@@ -16,7 +16,7 @@ const ListItem = ({ children }) => {
         alignItems: 'flex-start',
         marginBottom: 8,
       }}
-      entering={FadeInRight}
+      entering={FadeInRight.delay(delay)}
     >
       <View
         style={{
@@ -97,11 +97,11 @@ export const PrivacySlide = ({
             >
               {t(`onboarding_step_5_title`)}
             </Text>
-            <ListItem>{t(`onboarding_step_5_body_1`)}</ListItem>
-            <ListItem>{t(`onboarding_step_5_body_2`)}</ListItem>
-            <ListItem>{t(`onboarding_step_5_body_3`)}</ListItem>
-            <ListItem>{t(`onboarding_step_5_body_4`)}</ListItem>
-            <ListItem>{t(`onboarding_step_5_body_5`)}</ListItem>
+            <ListItem delay={100}>{t(`onboarding_step_5_body_1`)}</ListItem>
+            <ListItem delay={200}>{t(`onboarding_step_5_body_2`)}</ListItem>
+            <ListItem delay={300}>{t(`onboarding_step_5_body_3`)}</ListItem>
+            <ListItem delay={400}>{t(`onboarding_step_5_body_4`)}</ListItem>
+            <ListItem delay={500}>{t(`onboarding_step_5_body_5`)}</ListItem>
           </View>
           <View
             style={{

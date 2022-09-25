@@ -4,7 +4,7 @@ import useColors from '../../hooks/useColors';
 import { useTranslation } from '../../hooks/useTranslation';
 import { HeaderImage } from './HeaderImage';
 import { HeaderNavigation } from "./HeaderNavigation";
-import Animated, { FadeInRight } from 'react-native-reanimated'; 
+import Animated, { FadeIn } from 'react-native-reanimated'; 
 import Clock from '../../components/Clock';
 import useNotification from '../../hooks/useNotifications';
 import { useState } from 'react';
@@ -114,7 +114,7 @@ export const ReminderSlide = ({
           alignItems: 'center',
           flex: 1,
         }}
-        entering={FadeInRight.duration(500)}
+        entering={FadeIn.duration(800)}
       >
         <HeaderImage
           index={index}
@@ -139,7 +139,7 @@ export const ReminderSlide = ({
             style={{
               flex: 1,
             }}
-            entering={FadeInRight.duration(500)}
+            entering={FadeIn.duration(800)}
           >
             <Body index={index} />
             <View

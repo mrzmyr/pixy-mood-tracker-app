@@ -1,4 +1,5 @@
 import { Text, View } from 'react-native';
+import Animated, { FadeInUp } from 'react-native-reanimated';
 import Button from '../../components/Button';
 import useColors from '../../hooks/useColors';
 import { useTranslation } from '../../hooks/useTranslation';
@@ -13,7 +14,12 @@ export const IndexSlide = ({
   const colors = useColors();
 
   return (
-    <>
+    <Animated.View
+      style={{
+        flex: 1,
+      }}
+      entering={FadeInUp.duration(1200)}
+    >
       <View
         style={{
           flex: 1,
@@ -86,6 +92,6 @@ export const IndexSlide = ({
           </View>
         </View>
       </View>
-    </>
+    </Animated.View>
   );
 };

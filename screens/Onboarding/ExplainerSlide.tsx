@@ -4,7 +4,7 @@ import useColors from '../../hooks/useColors';
 import { useTranslation } from '../../hooks/useTranslation';
 import { HeaderImage } from './HeaderImage';
 import { HeaderNavigation } from "./HeaderNavigation";
-import Animated, { FadeInRight } from 'react-native-reanimated'; 
+import Animated, { FadeIn } from 'react-native-reanimated'; 
 
 const Body = ({ index }: { index: number }) => {
   const colors = useColors()
@@ -70,7 +70,7 @@ export const ExplainerSlide = ({
             alignItems: 'center',
             flex: 1,
           }}
-          entering={FadeInRight.duration(500)}
+          entering={FadeIn.duration(800)}
         >
         <HeaderImage
           index={index}
@@ -99,7 +99,7 @@ export const ExplainerSlide = ({
             style={{
               flex: 1,
             }}
-            entering={FadeInRight.duration(500)}
+            entering={FadeIn.duration(800)}
           >
             <Body index={index} />
           </Animated.View>
