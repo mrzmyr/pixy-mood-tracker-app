@@ -59,7 +59,7 @@ export const CardFeedback = ({
   type,
   details
 }: {
-  type: 'mood_avg' | 'mood_peaks';
+  type: 'mood_avg' | 'mood_peaks' | 'tags_peaks' | 'tags_distribution';
   details: any;
 }) => {
   const segment = useSegment();

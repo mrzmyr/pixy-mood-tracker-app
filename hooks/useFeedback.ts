@@ -9,12 +9,14 @@ export type FeedbackSource = 'tags' | 'modal' | 'statistics';
 const send = ({
   type,
   message,
+  email,
   source,
   onOk = () => {},
   onCancel = () => {},
 }: {
   type: FeedackType;
   source: FeedbackSource;
+  email?: string;
   message: string;
   onOk?: () => void;
   onCancel?: () => void;
@@ -39,7 +41,8 @@ const send = ({
     body: JSON.stringify({
       ...metaData,
       type,
-      message
+      message,
+      email,
     }),
   }).then(resp => {
     if(resp.ok) {

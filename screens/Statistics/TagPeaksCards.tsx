@@ -1,0 +1,205 @@
+import dayjs, { Dayjs } from 'dayjs';
+import _ from 'lodash';
+import { Text, View } from 'react-native';
+import { Card } from '../../components/Statistics/Card';
+import { IColors, TagColorName } from '../../constants/Colors';
+import useColors from '../../hooks/useColors';
+import { LogItem } from '../../hooks/useLogs';
+import useScale from '../../hooks/useScale';
+import { Tag as ITag, useSettings } from '../../hooks/useSettings';
+import { useTranslation } from '../../hooks/useTranslation';
+import { CardFeedback } from './CardFeedback';
+
+const DayDot = ({
+  isHighlighted,
+  colorName,
+  date,
+}: {
+  date: Date,
+  isHighlighted: boolean,
+  colorName: TagColorName,
+}) => {
+  const colors = useColors()
+  
+  const color = isHighlighted ? colors.tags[colorName] : {
+    background: colors.statisticsCalendarDotBackground,
+    text: colors.statisticsCalendarDotText,
+  };
+  
+  return (
+    <View
+      style={{
+        width: '100%',
+        aspectRatio: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 100,
+        backgroundColor: color?.background,
+        maxWidth: 32,
+        maxHeight: 32,
+      }}
+    >
+      <Text
+        style={{
+          color: color?.text,
+          fontWeight: '600',
+        }}
+      >{dayjs(date).format('DD')}</Text>
+    </View>
+  )
+}
+  
+
+const HeaderDay = ({ 
+  children 
+}: {
+  children: string
+}) => {
+  const colors = useColors()
+  return (
+    <View
+      style={{
+        flex: 7,
+      }}
+    >
+     <Text 
+      style={{ 
+        fontSize: 14,
+        fontWeight: '600',
+        color: colors.statisticsWeekdayText,
+        textAlign: 'center',
+      }}
+      >{children}</Text>
+    </View>
+  )
+}
+
+const HeaderWeek = () => {
+  const colors = useColors()
+
+  return (
+    <View
+      style={{
+        width: '100%',
+      }}
+    >
+      <View style={{
+        flexDirection: "row",
+        justifyContent: 'space-around',
+        borderTopColor: colors.statisticsWeekdayBorder,
+        borderTopWidth: 1,
+        borderBottomColor: colors.statisticsWeekdayBorder,
+        borderBottomWidth: 1,
+        paddingTop: 8,
+        paddingBottom: 8,
+      }}>
+      <HeaderDay>{dayjs().startOf('week').format('ddd')}</HeaderDay>
+      <HeaderDay>{dayjs().startOf('week').add(1, 'day').format('ddd')}</HeaderDay>
+      <HeaderDay>{dayjs().startOf('week').add(2, 'day').format('ddd')}</HeaderDay>
+      <HeaderDay>{dayjs().startOf('week').add(3, 'day').format('ddd')}</HeaderDay>
+      <HeaderDay>{dayjs().startOf('week').add(4, 'day').format('ddd')}</HeaderDay>
+      <HeaderDay>{dayjs().startOf('week').add(5, 'day').format('ddd')}</HeaderDay>
+      <HeaderDay>{dayjs().startOf('week').add(6, 'day').format('ddd')}</HeaderDay>
+    </View>
+  </View>
+  )
+}
+
+const BodyWeek = ({
+  items,
+  tag,
+  start,
+}: {
+  items: LogItem[],
+  tag: ITag,
+  start: Dayjs,
+}) => {
+  const days = [1, 2, 3, 4, 5, 6, 7]
+  
+  return (
+    <View
+      style={{
+        width: '100%',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        marginTop: 16,
+      }}
+    >
+      {days.map((day, index) => {
+        const date = dayjs(start).add(day, 'day').toDate()
+        const item = items.find(item => dayjs(item.date).isSame(date, 'day'))
+        const isHighlighted = item?.tags?.map(d => d.id).includes(tag?.id)
+        return (
+          <View
+            key={index}
+            style={{
+              flex: 7,
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
+            <DayDot 
+              date={date} 
+              isHighlighted={isHighlighted} 
+              colorName={tag?.color}
+            />
+          </View>
+        )
+      })}
+    </View>
+  )
+}
+
+const TagPeaksCard = ({
+  items,
+  tag,
+}: {
+  items: LogItem[]
+  tag: ITag
+}) => {
+  const { t } = useTranslation();
+
+  const peaks = items.filter(item => item?.tags?.map(d => d.id).includes(tag?.id))
+  
+  return (
+    <Card
+      subtitle={t('tags')}
+      title={t('statistics_tag_peaks_title', {
+        title: tag?.title,
+        count: peaks.length,
+      })}
+    >
+      <View
+        style={{
+          flexDirection: 'column',
+          alignItems: 'center',
+          width: '100%',
+        }}
+      >
+        <HeaderWeek />
+        <BodyWeek start={dayjs().subtract(2, 'week')} items={peaks} tag={tag} />
+        <BodyWeek start={dayjs().subtract(1, 'week')} items={peaks} tag={tag} />
+      </View>
+      <CardFeedback type='tags_peaks' details={{ count: peaks.length }} />
+    </Card>
+  )
+}
+
+export const TagPeaksCards = ({
+  items,
+}: {
+  items: LogItem[]
+}) => {
+  const { settings } = useSettings()
+  
+  const distribution = _.countBy(items.flatMap(item => item?.tags?.map(tag => tag?.id)))
+  const tags = Object.keys(distribution)
+    .filter(key => distribution[key] >= 5)
+    .map(key => settings.tags.find(tag => tag.id === key))
+
+  return (
+    <>
+      {tags.map((tag, index) => <TagPeaksCard key={index} items={items} tag={tag} />)}
+    </>
+  );
+};

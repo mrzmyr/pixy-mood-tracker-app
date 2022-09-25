@@ -151,7 +151,7 @@ export const LogModal = ({ navigation, route }: RootStackScreenProps<'Log'>) => 
   }
   const setTags = (tags: LogItem['tags']) => {
     segment.track('log_tags_changed', {
-      tags: tags.map(tag => ({
+      tags: tags?.map(tag => ({
         ...tag,
         title: undefined
       }))

@@ -332,7 +332,9 @@ function RootNavigator() {
         <Stack.Screen
           name="BottomTabs"
           component={BottomTabs}
-          options={{ headerShown: false }}
+          options={{ 
+            headerShown: false,
+          }}
         />
 
         <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
@@ -365,6 +367,7 @@ function RootNavigator() {
         <Stack.Group
           screenOptions={{ 
             ...defaultOptions,
+            headerBackTitle: '',
           }} 
         >
           <Stack.Screen 
@@ -381,7 +384,7 @@ function RootNavigator() {
             options={{ 
               title: i18n.t('reminder'),
               headerLeft: () => Platform.OS === 'ios' ? null : <BackButton testID={'reminder-back-button'} />,
-            }}
+          }}
           />
           <Stack.Screen 
             name="Privacy" 

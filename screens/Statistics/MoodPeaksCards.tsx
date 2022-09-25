@@ -1,4 +1,4 @@
-import dayjs from 'dayjs';
+import dayjs, { Dayjs } from 'dayjs';
 import { Text, View } from 'react-native';
 import { Card } from '../../components/Statistics/Card';
 import useColors from '../../hooks/useColors';
@@ -116,12 +116,8 @@ const BodyWeek = ({
   start,
 }: {
   items: LogItem[],
-  start: Date,
+  start: Dayjs,
 }) => {
-  const colors = useColors()
-  const { settings } = useSettings()
-  const scale = useScale(settings.scaleType)
-
   const days = [1, 2, 3, 4, 5, 6, 7]
   
   return (

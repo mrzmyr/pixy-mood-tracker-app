@@ -50,16 +50,16 @@ export const SlideTags = ({
             paddingBottom: insets.bottom,
           }}
         >
-            {settings?.tags && settings.tags.map(tag => (
+            {settings?.tags && settings?.tags?.map(tag => (
               <Tag 
                 onPress={async () => {
-                  const newTags = tempLog?.data?.tags.map(d => d.id).includes(tag.id) ? 
+                  const newTags = tempLog?.data?.tags?.map(d => d.id).includes(tag.id) ? 
                     tempLog?.data?.tags.filter(t => t.id !== tag.id) : 
                     [...tempLog?.data.tags, tag]
                   onChange(newTags)
                 }}
                 colorName={tag.color}
-                selected={tempLog?.data?.tags.map(d => d.id).includes(tag.id)} 
+                selected={tempLog?.data?.tags?.map(d => d.id).includes(tag.id)} 
                 key={tag.id} 
                 title={tag.title} 
               />

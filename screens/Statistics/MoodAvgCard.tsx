@@ -37,10 +37,6 @@ export const MoodAvgCard = ({
   const ratings_total = rating_distribution.reduce((acc, item) => acc + item.count, 0);
   const rating_highest = Object.keys(rating).reduce((a, b) => rating[a] > rating[b] ? a : b);
 
-  if(rating_total < 5) {
-    return null;
-  }
-  
   const percentage = Math.round(rating[rating_highest] / rating_total * 100)
   
   return (

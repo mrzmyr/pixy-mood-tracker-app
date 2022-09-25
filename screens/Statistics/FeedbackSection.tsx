@@ -17,7 +17,7 @@ export const FeedbackSection = () => {
         marginBottom: 8,
         fontWeight: 'bold',
         color: colors.text
-      }}>😱🚀 {t('statistics_experimental_title')}</Text>
+      }}>🤨 {t('statistics_experimental_title')}</Text>
       <Text style={{
         fontSize: 15,
         marginBottom: 16,

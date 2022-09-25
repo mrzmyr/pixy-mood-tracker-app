@@ -1,7 +1,6 @@
 import { View } from 'react-native';
 import Tag from '../../../components/Tag';
 import TextHeadline from '../../../components/TextHeadline';
-import useColors from '../../../hooks/useColors';
 import { Tag as ITag } from '../../../hooks/useSettings';
 
 export const TagsSection = ({
@@ -21,7 +20,7 @@ export const TagsSection = ({
           flexWrap: 'wrap',
         }}
       >
-        {tags.map((tag) => (
+        {tags?.map((tag) => (
           <Tag
             selected={selectedTags.map(d => d.id).includes(tag.id)}
             onPress={() => onSelect(tag)}

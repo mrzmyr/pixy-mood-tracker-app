@@ -3,8 +3,11 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import useColors from '../../hooks/useColors';
 import { useLogs } from '../../hooks/useLogs';
 import { useTranslation } from '../../hooks/useTranslation';
+import { FeedbackSection } from './FeedbackSection';
 import { MoodAvgCard } from './MoodAvgCard';
-import { MoodPeaksCard } from './MoodPeaksCard';
+import { MoodPeaksCard } from './MoodPeaksCards';
+import { TagPeaksCards } from './TagPeaksCards';
+import { TagsDistributionCard } from './TagsDistributionCard';
 
 export const StatisticsScreen = ({ navigation }) => {
   const insets = useSafeAreaInsets();
@@ -85,7 +88,16 @@ export const StatisticsScreen = ({ navigation }) => {
             </>
           )}
 
-          {/* <FeedbackSection /> */}
+          <TagsDistributionCard items={items} />
+          <TagPeaksCards items={items} />
+
+          <View
+            style={{
+              marginTop: 32,
+            }}
+          >
+            <FeedbackSection />
+          </View>
         </View>
       </ScrollView>
     </View>

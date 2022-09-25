@@ -1,15 +1,14 @@
 import * as Application from 'expo-application';
 import * as Localization from 'expo-localization';
-import { debounce } from "lodash";
-import { useCallback, useState } from 'react';
-import { ActivityIndicator, Alert, Modal, Platform, Pressable, Text, View } from 'react-native';
+import { useState } from 'react';
+import { ActivityIndicator, Modal, Platform, Pressable, Text, TextInput, View } from 'react-native';
 import { MoreHorizontal } from 'react-native-feather';
 import DismissKeyboard from '../components/DismisKeyboard';
 import LinkButton from '../components/LinkButton';
 import ModalHeader from '../components/ModalHeader';
 import TextArea from '../components/TextArea';
-import { FeedackType, useFeedback } from './useFeedback';
 import useColors from './useColors';
+import { FeedackType, useFeedback } from './useFeedback';
 import useHaptics from './useHaptics';
 import { useSegment } from './useSegment';
 import { useTranslation } from './useTranslation';
@@ -171,19 +170,15 @@ export default function useFeedbackModal() {
   }) => {
     const [type, setType] = useState<FeedackType>(defaultType)
     const [message, setMessage] = useState('')
+    const [email, setEmail] = useState('')
     const [isLoading, setIsLoading] = useState(false)
 
     const setTypeProxy = (type: FeedackType) => {
       segment.track('feedback_type_change', { type })
       setType(type)
     }
-
-    const trackMessageChange = useCallback(debounce((message) => {
-      segment.track('feedback_message_change', { message })
-    }, 1000), []);
     
     const setMessageProxy = (message: string) => {
-      trackMessageChange(message)
       setMessage(message)
     }
     
@@ -200,12 +195,14 @@ export default function useFeedbackModal() {
       segment.track('feedback_send', {
         ...metaData,
         type,
-        message
+        message,
+        email
       })
 
       feedback.send({
         type,
         message,
+        email,
         source: 'modal',
         onCancel: () => {
           setVisible(false)
@@ -299,6 +296,28 @@ export default function useFeedbackModal() {
               width: '100%',
               marginTop: 8,
             }}>
+              <TextInput
+                style={{
+                  flex: 1,
+                  backgroundColor: colors.textInputBackground,
+                  borderRadius: 8,
+                  padding: 16,
+                  color: colors.text,
+                  fontSize: 17,
+                }}
+                autoComplete='email'
+                keyboardType='email-address'
+                placeholderTextColor={colors.textInputPlaceholder}
+                value={email}
+                onChangeText={(text) => setEmail(text)}
+                placeholder={i18n.t('feedback_modal_email_placeholder')}
+              />
+            </View>
+            <View style={{
+              flexDirection: 'row',
+              width: '100%',
+              marginTop: 8,
+            }}>
               <TextArea
                 testID='feedback-modal-message'
                 containerStyle={{
@@ -309,7 +328,7 @@ export default function useFeedbackModal() {
                 }}
                 value={message}
                 onChange={(text) => setMessageProxy(text)}
-                placeholder={i18n.t('feedback_modal_textarea_placeholder')}
+                placeholder={i18n.t('feedback_modal_message_placeholder')}
               />
             </View>
             <Text style={[{
