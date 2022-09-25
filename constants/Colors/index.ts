@@ -152,6 +152,22 @@ export interface IColors {
   statisticsCalendarDotText: string;
   statisticsNoDataBorder: string;
   statisticsNoDataText: string;
+
+  onboardingTitle: string;
+  onboardingBody: string;
+
+  onboardingTopBackground: string;
+  onboardingBottomBackground: string;
+  onboardingBottomBorder: string;
+  onboardingPaginationText: string;
+  onboardingPaginationDotActive: string;
+  onboardingPaginationDotInactive: string;
+
+  onboardingListItemText: string;
+  onboardingListItemDot: string;
+
+  onboardingPrivacyBadgeBackground: string;
+  onboardingPrivacyBadgeVector: string;
   
   switchThumbColor: string;
   scales: IScale;
@@ -224,7 +240,7 @@ const light: IColors = {
   
   linkButtonTextPrimary: tintColorLight,
   linkButtonTextPrimaryDisabled: colors.neutral[400],
-  linkButtonTextSecondary: tintColorLight,
+  linkButtonTextSecondary: colors.neutral[500],
   linkButtonTextSecondaryDisabled: colors.neutral[400],
   linkButtonTextDanger: colors.red[500],
   linkButtonTextDangerDisabled: colors.neutral[400],
@@ -273,6 +289,22 @@ const light: IColors = {
   statisticsCalendarDotText: colors.neutral[400],
   statisticsNoDataBorder: colors.neutral[300],
   statisticsNoDataText: colors.neutral[400],
+
+  onboardingTitle: colors.black,
+  onboardingBody: colors.neutral[700],
+  
+  onboardingTopBackground: colors.neutral[900],
+  onboardingBottomBackground: colors.neutral[100],
+  onboardingBottomBorder: colors.neutral[300],
+  onboardingPaginationText: colors.neutral[500],
+  onboardingPaginationDotActive: colors.neutral[500],
+  onboardingPaginationDotInactive: colors.neutral[300],
+
+  onboardingListItemDot: colors.neutral[500],
+  onboardingListItemText: colors.neutral[700],
+
+  onboardingPrivacyBadgeBackground: colors.black,
+  onboardingPrivacyBadgeVector: colors.white,
 
   switchThumbColor: '#333',
   scales: scales.light,
@@ -345,7 +377,7 @@ const dark: IColors = {
   
   linkButtonTextPrimary: tintColorLight,
   linkButtonTextPrimaryDisabled: colors.neutral[400],
-  linkButtonTextSecondary: tintColorLight,
+  linkButtonTextSecondary: colors.neutral[500],
   linkButtonTextSecondaryDisabled: colors.neutral[400],
   linkButtonTextDanger: colors.red[500],
   linkButtonTextDangerDisabled: colors.neutral[400],
@@ -394,6 +426,21 @@ const dark: IColors = {
   statisticsCalendarDotText: colors.neutral[600],
   statisticsNoDataBorder: colors.neutral[800],
   statisticsNoDataText: colors.neutral[700],
+  
+  onboardingTitle: colors.white,
+  onboardingBody: colors.neutral[300],
+  
+  onboardingTopBackground: colors.neutral[900],
+  onboardingBottomBackground: colors.neutral[800],
+  onboardingBottomBorder: colors.neutral[700],
+  onboardingPaginationText: colors.neutral[300],
+  onboardingPaginationDotActive: colors.neutral[300],
+  onboardingPaginationDotInactive: colors.neutral[700],
+
+  onboardingPrivacyBadgeBackground: colors.white,
+  onboardingPrivacyBadgeVector: colors.neutral[900],
+  onboardingListItemDot: colors.neutral[700],
+  onboardingListItemText: colors.neutral[300],
   
   switchThumbColor: '#FFF',
   scales: scales.dark,

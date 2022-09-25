@@ -1,6 +1,7 @@
 import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
 import { Platform, Switch, Text, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Clock from '../components/Clock';
 import MenuList from '../components/MenuList';
 import MenuListItem from '../components/MenuListItem';
@@ -25,6 +26,7 @@ const Reminder = () => {
   const colors = useColors()
   const i18n = useTranslation()
   const segment = useSegment()
+  const insets = useSafeAreaInsets()
   
   const hourAndMinute = reminderTime.split(':')
   const hour = parseInt(hourAndMinute[0])

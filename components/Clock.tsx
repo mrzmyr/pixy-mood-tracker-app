@@ -1,13 +1,15 @@
 import dayjs from "dayjs";
-import { Pressable, Text } from "react-native";
+import { Pressable, Text, ViewStyle } from "react-native";
 import useColors from "../hooks/useColors";
 
 const Clock = ({
   timeDate,
-  onChange
+  onChange,
+  style,
 }: {
   timeDate: Date;
   onChange: any;
+  style?: ViewStyle;
 }) => {
   const colors = useColors()
   

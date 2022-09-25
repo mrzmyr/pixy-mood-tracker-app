@@ -251,7 +251,7 @@ export default function useFeedbackModal() {
               <LinkButton 
                 testID='feedback-modal-cancel' 
                 onPress={hide} 
-                type='secondary' 
+                type='primary' 
               >{t('cancel')}</LinkButton>
             }
             right={

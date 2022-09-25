@@ -175,7 +175,7 @@ export const TagsModal = ({ navigation, route }: RootStackScreenProps<'Log'>) =>
             onPress={() => {
               navigation.goBack();
             }}
-            type='secondary'
+            type='primary'
             >{t('cancel')}</LinkButton>
         }
       />

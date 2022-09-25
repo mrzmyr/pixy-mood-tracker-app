@@ -11,10 +11,8 @@ import CalendarMonth from "./CalendarMonth";
 import LinkButton from "./LinkButton";
 
 export default function Calendar({
-  navigation,
   jumpIntoView,
 }: {
-  navigation: any;
   jumpIntoView: (ref: any) => void;
 }) {
   const colors = useColors()

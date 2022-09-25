@@ -16,6 +16,7 @@ declare global {
 
 export type RootStackParamList = {
   BottomTabs: undefined,
+  Onboarding: undefined,
   Settings: undefined,
   Scales: undefined,
   Webhook: undefined,

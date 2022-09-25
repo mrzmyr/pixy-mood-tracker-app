@@ -69,7 +69,7 @@ export default memo(function CalendarDay({
   const colors = useColors();
   const haptics = useHaptics();
   let colorScheme = useColorScheme();
-
+  
   const backgroundColor = (
     isFiltered ? (
       colors.calendarBackground
@@ -88,7 +88,7 @@ export default memo(function CalendarDay({
         colors.scales['ColorBrew-RdYlGn'].empty.text
     )
   )
-  
+
   return (
     <>
       <TouchableOpacity

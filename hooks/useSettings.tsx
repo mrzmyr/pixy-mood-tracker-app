@@ -35,6 +35,7 @@ export interface SettingsState {
   reminderEnabled: Boolean,
   reminderTime: string,
   trackBehaviour: boolean,
+  actionsDone: string[],
   tags: Tag[],
 }
 
@@ -52,6 +53,7 @@ function SettingsProvider({children}: { children: React.ReactNode }) {
     reminderEnabled: false,
     reminderTime: '18:00',
     trackBehaviour: true,
+    actionsDone: [],
     tags: [{
       id: '1',
       title: `${t('tags_default_1_title')} 🥳`,

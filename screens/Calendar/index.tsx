@@ -16,7 +16,9 @@ export const CalendarScreen = ({ navigation }) => {
 
   const jumpIntoView = (ref: View) => {
     ref.measure((x, y, width, height, pageX, pageY) => {
-      setOffsetY(pageY - (windowHeight / 4));
+      if(pageY !== undefined) {
+        setOffsetY(pageY - (windowHeight / 4));
+      }
     })
   }
   
@@ -38,7 +40,7 @@ export const CalendarScreen = ({ navigation }) => {
         }}
         contentOffset={{ y: offsetY }}
       >
-        <Calendar jumpIntoView={jumpIntoView} navigation={navigation} />
+        <Calendar jumpIntoView={jumpIntoView} />
       </CustomScrollView>
       <CalendarBottomSheet />
     </View>

@@ -44,7 +44,7 @@ export const Header = () => {
       >
         <LinkButton
           disabled={!calendarFilters.isFiltering}
-          type='secondary'
+          type='primary'
           style={{
             paddingLeft: 8,
             paddingRight: 8,

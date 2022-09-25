@@ -26,8 +26,10 @@ import { RootStackParamList } from '../types';
 import { enableScreens } from 'react-native-screens';
 import LinkButton from '../components/LinkButton';
 import { useCalendarFilters } from '../hooks/useCalendarFilters';
-import { TagsModal } from '../screens/Tags';
 import useHaptics from '../hooks/useHaptics';
+import { useSettings } from '../hooks/useSettings';
+import { Onboarding } from '../screens/Onboarding';
+import { TagsModal } from '../screens/Tags';
 
 enableScreens();
 
@@ -251,7 +253,7 @@ const BottomTabs = () => {
                   }
                 }} 
                 testID="filters" 
-                type='secondary'
+                type='primary'
               >{t('calendar_filters')} {calendarFilters.isFiltering ? `(${calendarFilters.filterCount})` : ''}</LinkButton>
             </View>
           ),
@@ -277,6 +279,8 @@ function RootNavigator() {
   const colors = useColors();
   const i18n = useTranslation()
   const segment = useSegment()
+  const { settings } = useSettings()
+  const navigation = useNavigation()
   // const passcode = usePasscode()
 
   const defaultOptions = {
@@ -295,6 +299,10 @@ function RootNavigator() {
   
   useEffect(() => {
     segment.initialize()
+
+    if(!settings.actionsDone.includes('onboarding')) {
+      navigation.navigate('Onboarding')
+    }
   }, [])
 
   // if(passcode.isEnabled === null) return null;
@@ -328,6 +336,7 @@ function RootNavigator() {
           },
         }}
         screenOptions={stackScreenOptions}
+        initialRouteName="BottomTabs"
       >
         <Stack.Screen
           name="BottomTabs"
@@ -345,10 +354,25 @@ function RootNavigator() {
             presentation: 'modal',
             gestureEnabled: false,
             headerShown: false,
-          }}>
+          }}
+        >
           <Stack.Screen 
             name="Log" 
             component={LogModal} 
+          />
+        </Stack.Group>
+
+        <Stack.Group 
+          screenOptions={{ 
+            title: '',
+            presentation: 'modal',
+            gestureEnabled: false,
+            headerShown: false,
+          }}
+        >
+          <Stack.Screen 
+            name="Onboarding" 
+            component={Onboarding} 
           />
         </Stack.Group>
 

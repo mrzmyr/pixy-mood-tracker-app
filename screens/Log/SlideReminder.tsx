@@ -69,7 +69,6 @@ export const SlideReminder = ({
     await enable()
     onPress()
   }
-
   
   return (
     <View style={{ 
@@ -143,7 +142,7 @@ export const SlideReminder = ({
                 style={{
                   marginBottom: 8,
                 }}
-              >{t('log_reminder_enabled')}</Button>
+              >{t('log_reminder_enable')}</Button>
               <LinkButton 
                 type="secondary"
                 onPress={onLater}

@@ -4,7 +4,7 @@ import * as StoreReview from 'expo-store-review';
 import * as WebBrowser from 'expo-web-browser';
 import { useEffect, useState } from 'react';
 import { ScrollView, Text, View } from 'react-native';
-import { ArrowUpCircle, Award, Bell, BookOpen, Database, Flag, Shield, Star } from 'react-native-feather';
+import { ArrowUpCircle, Award, Bell, BookOpen, Database, Flag, Shield, Smartphone, Star } from 'react-native-feather';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import MenuList from '../components/MenuList';
 import MenuListItem from '../components/MenuListItem';
@@ -176,7 +176,11 @@ export const SettingsScreen = ({ navigation }: RootStackScreenProps<'Settings'>)
             title={i18n.t('licenses')}
             iconLeft={<Award width={18} color={colors.menuListItemIcon} />}
             onPress={() => navigation.navigate('Licenses')}
-            isLink
+          />
+          <MenuListItem
+            title={`${i18n.t('onboarding')}`}
+            iconLeft={<Smartphone width={18} color={colors.menuListItemIcon} />}
+            onPress={() => navigation.navigate('Onboarding')}
             isLast
           />
         </MenuList>

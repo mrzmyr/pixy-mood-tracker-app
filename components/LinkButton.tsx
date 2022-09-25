@@ -64,7 +64,6 @@ export default function LinkButton({
           numberOfLines={1}
           style={{ 
             fontSize: 17, 
-            fontWeight: type === 'primary' ? 'bold' : 'normal', 
             color: color,
             textAlign: 'center',
             ...textStyle,
