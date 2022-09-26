@@ -6,9 +6,10 @@ import { useSettings } from '../../../hooks/useSettings';
 import { useTranslation } from '../../../hooks/useTranslation';
 
 export const RatingSection = ({
-  value, onChange,
+  value, 
+  onChange,
 }: {
-  value: LogItem['rating'];
+  value: LogItem['rating'][];
   onChange: (value: LogItem['rating']) => void;
 }) => {
   const { settings } = useSettings();

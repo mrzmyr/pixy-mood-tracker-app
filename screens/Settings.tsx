@@ -40,7 +40,7 @@ export const SettingsScreen = ({ navigation }: RootStackScreenProps<'Settings'>)
 
   useEffect(() => {
     segment.track('passcode_enable', { enabled: passcodeEnabled })
-    setSettings((settings: SettingsState) => ({ ...settings, passcodeEnabled }))
+    setSettings((settings) => ({ ...settings, passcodeEnabled }))
   }, [passcodeEnabled])
 
   useEffect(() => {

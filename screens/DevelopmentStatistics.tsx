@@ -87,7 +87,7 @@ export const DevelopmentStatistics = () => {
           >{Object.keys(state.items).length}</Card>
           <Card
             title={t('development_statistics_days_tagged')}
-          >{Object.values(state.items).filter(d => d.tags.length > 0).length}</Card>
+          >{Object.values(state.items).filter(d => d?.tags?.length > 0).length}</Card>
         </View>
         <View style={{
           flexDirection: 'row',
@@ -99,7 +99,7 @@ export const DevelopmentStatistics = () => {
             style={{
               marginRight: 16,
             }}
-          >{settings.tags.length}</Card>
+          >{settings?.tags.length}</Card>
           <Card
             title={t('development_statistics_words_total')}
           >{words_total}</Card>
