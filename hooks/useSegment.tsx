@@ -5,6 +5,7 @@ import Constants from 'expo-constants';
 import * as Device from 'expo-device';
 import * as Localization from 'expo-localization';
 import { Platform } from 'react-native';
+import _ from 'lodash';
 
 const SegmentContext = createContext(undefined)
 
@@ -42,10 +43,7 @@ function SegmentProvider({
       settingsScaleType: settings.scaleType,
       settingsWebhookEnabled: settings.webhookEnabled,
       settingsActionsDone: settings.actionsDone,
-      settingsTags: settings.tags.map(tag => ({
-        ...tag,
-        title: undefined
-      })),
+      settingsTags: settings.tags.map(tag => _.omit(tag, 'title')),
       ...properties,
     }
 

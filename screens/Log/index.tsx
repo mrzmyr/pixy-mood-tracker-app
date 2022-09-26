@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 import { t } from 'i18n-js';
-import { debounce } from "lodash";
+import _, { debounce } from "lodash";
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { Alert, Dimensions, Keyboard, Platform, Pressable, Text, TextInput, View } from 'react-native';
 import { Trash, X } from 'react-native-feather';
@@ -51,39 +51,23 @@ export const LogModal = ({ navigation, route }: RootStackScreenProps<'Log'>) => 
   }
   
   const save = () => {
+    const eventData = {
+      date: tempLog.data.date,
+      messageLength: tempLog.data.message.length,
+      rating: tempLog.data.rating,
+      tags: tempLog?.data?.tags.map(tag => _.omit(tag, 'title')),
+    }
+    
     if(tempLog.data.rating === null) {
       tempLog.data.rating = 'neutral'
     }
     
-    segment.track('log_saved', {
-      date: tempLog.data.date,
-      messageLength: tempLog.data.message.length,
-      rating: tempLog.data.rating,
-      tags: tempLog?.data?.tags.map(tag => ({
-        ...tag,
-        title: undefined
-      })),
-    })
+    segment.track('log_saved', eventData)
+
     if(existingLogItem) {
-      segment.track('log_changed', {
-        date: tempLog.data.date,
-        messageLength: tempLog.data.message.length,
-        rating: tempLog.data.rating,
-        tags: tempLog?.data?.tags.map(tag => ({
-          ...tag,
-          title: undefined
-        })),
-      })
+      segment.track('log_changed', eventData)
     } else {
-      segment.track('log_created', {
-        date: tempLog.data.date,
-        messageLength: tempLog.data.message.length,
-        rating: tempLog.data.rating,
-        tags: tempLog?.data?.tags.map(tag => ({
-          ...tag,
-          title: undefined
-        })),
-      })
+      segment.track('log_created', eventData)
     }
 
     dispatch({
@@ -151,10 +135,7 @@ export const LogModal = ({ navigation, route }: RootStackScreenProps<'Log'>) => 
   }
   const setTags = (tags: LogItem['tags']) => {
     segment.track('log_tags_changed', {
-      tags: tags?.map(tag => ({
-        ...tag,
-        title: undefined
-      }))
+      tags: tags?.map(tag => _.omit(tag, 'title'))
     })
     tempLog.set(logItem => ({ ...logItem, tags }))
   }
