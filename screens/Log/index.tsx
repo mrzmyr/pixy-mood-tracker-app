@@ -5,6 +5,7 @@ import { ReactElement, useEffect, useRef, useState } from 'react';
 import { Alert, Dimensions, Keyboard, Platform, View } from 'react-native';
 import Carousel from 'react-native-reanimated-carousel';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { QUESTIONS_PULL_URL } from '../../constants/API';
 import useColors from '../../hooks/useColors';
 import { LogItem, useLogs } from '../../hooks/useLogs';
 import { useSegment } from '../../hooks/useSegment';
@@ -46,7 +47,7 @@ export const LogModal = ({ navigation, route }: RootStackScreenProps<'Log'>) => 
   useEffect(() => {
     tempLog.set(existingLogItem || defaultLogItem)
 
-    fetch('http://10.10.50.143:3000/api/questions')
+    fetch(QUESTIONS_PULL_URL)
       .then(response => response.json())
       .then(data => {
         const question = data.find((question: IQuestion) => {
