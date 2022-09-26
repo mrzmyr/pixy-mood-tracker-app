@@ -28,7 +28,7 @@ export const FeedbackSection = () => {
         onPress={() => {
           showFeedbackModal({ type: 'idea' });
         }}
-        type='primary'
+        type='secondary'
       >{t('statistics_experimental_button')}</Button>
     </View>
   );

@@ -191,5 +191,19 @@
   "onboarding_step_5_body_4": "Dine data vil som standard kun blive gemt på denne enhed.",
   "onboarding_step_5_body_5": "Du kan til enhver tid eksportere eller slette dine data.",
   "onboarding_step_5_button": "Forstået",
-  "onboarding": "Onboarding"
+  "onboarding": "Onboarding",
+  "log_question_button": "Gemme",
+  "settings_app": "App",
+  "settings_development": "Udvikling",
+  "settings_development_statistics": "Statistik for nørder",
+  "development_statistics_days_logged": "Dage logget",
+  "development_statistics_days_tagged": "Dage tagget",
+  "development_statistics_tags_unique": "Unikke tags",
+  "development_statistics_words_total": "Ord skrevet",
+  "development_statistics_reset_questions": "Nulstil spørgsmål",
+  "development_statistics_reset_questions_description": "Klik kun her, hvis du ved, hvad du laver.",
+  "cancel_confirm_title": "Er du sikker?",
+  "cancel_confirm_message": "Dine ændringer vil gå tabt.",
+  "keep_editing": "Fortsæt med at redigere",
+  "discard_changes": "Kassér ændringer"
 }

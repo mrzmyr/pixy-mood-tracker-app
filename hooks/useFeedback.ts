@@ -1,12 +1,13 @@
 import * as Application from 'expo-application';
 import * as Localization from 'expo-localization';
 import { Alert, Platform } from 'react-native';
+import { FEEDBACK_URL } from '../constants/API';
 import { useTranslation } from './useTranslation';
 
 export type FeedackType = 'issue' | 'idea' | 'other' | 'emoji';
 export type FeedbackSource = 'tags' | 'modal' | 'statistics';
 
-const send = ({
+const send = async ({
   type,
   message,
   email,
@@ -31,9 +32,7 @@ const send = ({
     source,
   }
 
-  const url = 'https://eocfnkx0gbrjzvp.m.pipedream.net'
-
-  return fetch(url, {
+  return fetch(FEEDBACK_URL, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

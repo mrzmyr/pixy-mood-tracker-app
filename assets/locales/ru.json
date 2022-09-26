@@ -191,5 +191,19 @@
   "onboarding_step_5_body_4": "По умолчанию ваши данные будут храниться только на этом устройстве.",
   "onboarding_step_5_body_5": "Вы можете экспортировать или удалить свои данные в любое время.",
   "onboarding_step_5_button": "Понял",
-  "onboarding": "Онбординг"
+  "onboarding": "Онбординг",
+  "log_question_button": "Сохранять",
+  "settings_app": "Приложение",
+  "settings_development": "Разработка",
+  "settings_development_statistics": "Статистика для ботаников",
+  "development_statistics_days_logged": "Зарегистрировано дней",
+  "development_statistics_days_tagged": "Отмеченные дни",
+  "development_statistics_tags_unique": "Уникальные теги",
+  "development_statistics_words_total": "Слова написаны",
+  "development_statistics_reset_questions": "Сбросить вопросы",
+  "development_statistics_reset_questions_description": "Нажмите здесь, только если вы знаете, что делаете.",
+  "cancel_confirm_title": "Ты уверен?",
+  "cancel_confirm_message": "Ваши изменения будут потеряны.",
+  "keep_editing": "Продолжайте редактировать",
+  "discard_changes": "Отменить изменения"
 }

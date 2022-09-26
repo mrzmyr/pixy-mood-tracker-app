@@ -191,5 +191,19 @@
   "onboarding_step_5_body_4": "默认情况下，您的数据将仅存储在此设备上。",
   "onboarding_step_5_body_5": "您可以随时导出或删除您的数据。",
   "onboarding_step_5_button": "明白了",
-  "onboarding": "入职"
+  "onboarding": "入职",
+  "log_question_button": "节省",
+  "settings_app": "应用程序",
+  "settings_development": "发展",
+  "settings_development_statistics": "书呆子的统计数据",
+  "development_statistics_days_logged": "记录天数",
+  "development_statistics_days_tagged": "标记的天数",
+  "development_statistics_tags_unique": "独特的标签",
+  "development_statistics_words_total": "写的字",
+  "development_statistics_reset_questions": "重置问题",
+  "development_statistics_reset_questions_description": "如果您知道自己在做什么，请单击此处。",
+  "cancel_confirm_title": "你确定吗？",
+  "cancel_confirm_message": "您的更改将丢失。",
+  "keep_editing": "继续编辑",
+  "discard_changes": "放弃更改"
 }

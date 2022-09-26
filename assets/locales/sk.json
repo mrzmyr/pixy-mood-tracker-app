@@ -191,5 +191,19 @@
   "onboarding_step_5_body_4": "Vaše údaje budú predvolene uložené iba v tomto zariadení.",
   "onboarding_step_5_body_5": "Svoje údaje môžete kedykoľvek exportovať alebo vymazať.",
   "onboarding_step_5_button": "Rozumel",
-  "onboarding": "Prihlásenie"
+  "onboarding": "Prihlásenie",
+  "log_question_button": "Uložiť",
+  "settings_app": "App",
+  "settings_development": "rozvoj",
+  "settings_development_statistics": "Štatistiky pre Nerds",
+  "development_statistics_days_logged": "Prihlásené dni",
+  "development_statistics_days_tagged": "Označené dni",
+  "development_statistics_tags_unique": "Jedinečné značky",
+  "development_statistics_words_total": "Slová napísané",
+  "development_statistics_reset_questions": "Obnoviť otázky",
+  "development_statistics_reset_questions_description": "Kliknite sem len vtedy, ak viete, čo robíte.",
+  "cancel_confirm_title": "Si si istý?",
+  "cancel_confirm_message": "Vaše zmeny sa stratia.",
+  "keep_editing": "Pokračujte v úpravách",
+  "discard_changes": "Zrušiť zmeny"
 }

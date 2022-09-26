@@ -191,5 +191,19 @@
   "onboarding_step_5_body_4": "Vaše data budou ve výchozím nastavení uložena pouze v tomto zařízení.",
   "onboarding_step_5_body_5": "Svá data můžete kdykoli exportovat nebo smazat.",
   "onboarding_step_5_button": "Rozuměl",
-  "onboarding": "Registrace"
+  "onboarding": "Registrace",
+  "log_question_button": "Uložit",
+  "settings_app": "Aplikace",
+  "settings_development": "Rozvoj",
+  "settings_development_statistics": "Statistiky pro pitomce",
+  "development_statistics_days_logged": "Zaznamenané dny",
+  "development_statistics_days_tagged": "Označené dny",
+  "development_statistics_tags_unique": "Jedinečné značky",
+  "development_statistics_words_total": "Slova napsaná",
+  "development_statistics_reset_questions": "Resetovat otázky",
+  "development_statistics_reset_questions_description": "Klikněte sem, pouze pokud víte, co děláte.",
+  "cancel_confirm_title": "Jsi si jistá?",
+  "cancel_confirm_message": "Vaše změny budou ztraceny.",
+  "keep_editing": "Pokračujte v úpravách",
+  "discard_changes": "Zrušit změny"
 }

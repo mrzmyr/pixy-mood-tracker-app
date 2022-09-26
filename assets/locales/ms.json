@@ -191,5 +191,19 @@
   "onboarding_step_5_body_4": "Data anda akan disimpan hanya pada peranti ini secara lalai.",
   "onboarding_step_5_body_5": "Anda boleh mengeksport atau memadam data anda pada bila-bila masa.",
   "onboarding_step_5_button": "Faham",
-  "onboarding": "Onboarding"
+  "onboarding": "Onboarding",
+  "log_question_button": "Jimat",
+  "settings_app": "Aplikasi",
+  "settings_development": "Pembangunan",
+  "settings_development_statistics": "Statistik untuk Nerds",
+  "development_statistics_days_logged": "Hari dilog",
+  "development_statistics_days_tagged": "Hari ditandakan",
+  "development_statistics_tags_unique": "Tag Unik",
+  "development_statistics_words_total": "Perkataan yang ditulis",
+  "development_statistics_reset_questions": "Tetapkan semula soalan",
+  "development_statistics_reset_questions_description": "Hanya klik di sini jika anda tahu apa yang anda lakukan.",
+  "cancel_confirm_title": "Adakah anda pasti?",
+  "cancel_confirm_message": "Perubahan anda akan hilang.",
+  "keep_editing": "Teruskan Mengedit",
+  "discard_changes": "Membuang perubahan"
 }

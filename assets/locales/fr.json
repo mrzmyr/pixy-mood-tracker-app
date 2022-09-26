@@ -191,5 +191,19 @@
   "onboarding_step_5_body_4": "Vos données seront stockées uniquement sur cet appareil par défaut.",
   "onboarding_step_5_body_5": "Vous pouvez exporter ou supprimer vos données à tout moment.",
   "onboarding_step_5_button": "Entendu",
-  "onboarding": "Intégration"
+  "onboarding": "Intégration",
+  "log_question_button": "sauvegarder",
+  "settings_app": "Application",
+  "settings_development": "Développement",
+  "settings_development_statistics": "Statistiques pour les nerds",
+  "development_statistics_days_logged": "Jours enregistrés",
+  "development_statistics_days_tagged": "Jours tagués",
+  "development_statistics_tags_unique": "Balises uniques",
+  "development_statistics_words_total": "Mots écrits",
+  "development_statistics_reset_questions": "Réinitialiser les questions",
+  "development_statistics_reset_questions_description": "Ne cliquez ici que si vous savez ce que vous faites.",
+  "cancel_confirm_title": "Êtes-vous sûr?",
+  "cancel_confirm_message": "Vos modifications seront perdues.",
+  "keep_editing": "Continuez à éditer",
+  "discard_changes": "Annuler les modifications"
 }

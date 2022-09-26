@@ -191,5 +191,19 @@
   "onboarding_step_5_body_4": "הנתונים שלך יאוחסנו רק במכשיר זה כברירת מחדל.",
   "onboarding_step_5_body_5": "אתה יכול לייצא או למחוק את הנתונים שלך בכל עת.",
   "onboarding_step_5_button": "מובן",
-  "onboarding": "עלייה למטוס"
+  "onboarding": "עלייה למטוס",
+  "log_question_button": "להציל",
+  "settings_app": "אפליקציה",
+  "settings_development": "התפתחות",
+  "settings_development_statistics": "סטטיסטיקה עבור חנונים",
+  "development_statistics_days_logged": "ימים נרשמו",
+  "development_statistics_days_tagged": "ימים מתויגים",
+  "development_statistics_tags_unique": "תגים ייחודיים",
+  "development_statistics_words_total": "מילים כתובות",
+  "development_statistics_reset_questions": "אפס שאלות",
+  "development_statistics_reset_questions_description": "לחץ כאן רק אם אתה יודע מה אתה עושה.",
+  "cancel_confirm_title": "האם אתה בטוח?",
+  "cancel_confirm_message": "השינויים שלך יאבדו.",
+  "keep_editing": "תמשיך לערוך",
+  "discard_changes": "בטל שינויים"
 }

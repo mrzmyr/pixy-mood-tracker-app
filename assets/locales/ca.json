@@ -191,5 +191,19 @@
   "onboarding_step_5_body_4": "Les teves dades només s'emmagatzemaran en aquest dispositiu de manera predeterminada.",
   "onboarding_step_5_body_5": "Podeu exportar o suprimir les vostres dades en qualsevol moment.",
   "onboarding_step_5_button": "Entès",
-  "onboarding": "En l'embarcament"
+  "onboarding": "En l'embarcament",
+  "log_question_button": "Desa",
+  "settings_app": "App",
+  "settings_development": "Desenvolupament",
+  "settings_development_statistics": "Estadístiques per a nerds",
+  "development_statistics_days_logged": "Dies registrats",
+  "development_statistics_days_tagged": "Dies etiquetats",
+  "development_statistics_tags_unique": "Etiquetes úniques",
+  "development_statistics_words_total": "Paraules escrites",
+  "development_statistics_reset_questions": "Restablir preguntes",
+  "development_statistics_reset_questions_description": "Només fes clic aquí si saps què estàs fent.",
+  "cancel_confirm_title": "Estàs segur?",
+  "cancel_confirm_message": "Els vostres canvis es perdran.",
+  "keep_editing": "Continua editant",
+  "discard_changes": "Descartar els canvis"
 }

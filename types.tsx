@@ -35,6 +35,7 @@ export type RootStackParamList = {
   Privacy: undefined;
   PasscodeLocked: undefined;
   TagsModal: undefined;
+  DevelopmentStatistics: undefined;
 };
 
 export type RootStackScreenProps<Screen extends keyof RootStackParamList> = NativeStackScreenProps<

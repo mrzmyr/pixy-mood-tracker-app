@@ -191,5 +191,19 @@
   "onboarding_step_5_body_4": "Dataene dine lagres kun på denne enheten som standard.",
   "onboarding_step_5_body_5": "Du kan eksportere eller slette dataene dine når som helst.",
   "onboarding_step_5_button": "Forstått",
-  "onboarding": "Onboarding"
+  "onboarding": "Onboarding",
+  "log_question_button": "Lagre",
+  "settings_app": "App",
+  "settings_development": "Utvikling",
+  "settings_development_statistics": "Statistikk for nerder",
+  "development_statistics_days_logged": "Dager logget",
+  "development_statistics_days_tagged": "Dager merket",
+  "development_statistics_tags_unique": "Unike tagger",
+  "development_statistics_words_total": "Ord skrevet",
+  "development_statistics_reset_questions": "Tilbakestill spørsmål",
+  "development_statistics_reset_questions_description": "Bare klikk her hvis du vet hva du gjør.",
+  "cancel_confirm_title": "Er du sikker?",
+  "cancel_confirm_message": "Endringene dine vil gå tapt.",
+  "keep_editing": "Fortsett å redigere",
+  "discard_changes": "Forkaste endringer"
 }

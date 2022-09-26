@@ -7,7 +7,7 @@ import { CalendarFiltersData } from "../hooks/useCalendarFilters";
 import useColors from "../hooks/useColors";
 import useHaptics from "../hooks/useHaptics";
 import { LogItem } from "../hooks/useLogs";
-import { Tag } from "../hooks/useSettings";
+import { Tag, useSettings } from "../hooks/useSettings";
 
 const TextIndicator = ({
   textColor,
@@ -69,14 +69,15 @@ export default memo(function CalendarDay({
   const colors = useColors();
   const haptics = useHaptics();
   let colorScheme = useColorScheme();
+  const { settings } = useSettings();
   
   const backgroundColor = (
     isFiltered ? (
       colors.calendarBackground
     ) : (
       rating ? 
-        colors.scales['ColorBrew-RdYlGn'][rating].background : 
-        colors.scales['ColorBrew-RdYlGn'].empty.background
+        colors.scales[settings.scaleType][rating].background : 
+        colors.scales[settings.scaleType].empty.background
     )
   )
   const textColor = (
@@ -84,8 +85,8 @@ export default memo(function CalendarDay({
       colors.text
     ) : (
       rating ? 
-        colors.scales['ColorBrew-RdYlGn'][rating].text : 
-        colors.scales['ColorBrew-RdYlGn'].empty.text
+        colors.scales[settings.scaleType][rating].text : 
+        colors.scales[settings.scaleType].empty.text
     )
   )
 

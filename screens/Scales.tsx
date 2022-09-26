@@ -18,10 +18,10 @@ function ColorDot({
         padding: 3,
         backgroundColor: color,
         flex: 1,
-        borderRadius: 8,
+        borderRadius: 4,
         width: '100%',
         aspectRatio: 1,
-        margin: 5,
+        margin: 4,
         justifyContent: 'center',
         alignItems: 'center',
         maxWidth: 50,
@@ -77,7 +77,7 @@ function Radio({
         alignItems: 'center',
         marginBottom: 10,
         backgroundColor: colors.menuListItemBackground,
-        padding: 10,
+        padding: 16,
         borderRadius: 10,
       }}
     >
@@ -122,6 +122,7 @@ export const ScaleScreen = ({ navigation }) => {
   
   const typesNames = [
     `ColorBrew-RdYlGn`,
+    `ColorBrew-RdYlGn-old`,
     `ColorBrew-PiYG`,
     'ColorBrew-BrBG',
   ]
@@ -133,7 +134,7 @@ export const ScaleScreen = ({ navigation }) => {
   return (
     <View style={{ 
       flex: 1,
-      backgroundColor: colors.backgroundSecondary,
+      backgroundColor: colors.background,
     }}>
       <ScrollView
       style={{
@@ -155,7 +156,7 @@ export const ScaleScreen = ({ navigation }) => {
         )}
         <View
           style={{
-            marginBottom: 10,
+            marginBottom: 8,
             justifyContent: 'center',
             alignItems: 'center',
           }}

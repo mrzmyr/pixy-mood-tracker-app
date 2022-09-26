@@ -152,6 +152,7 @@
   "log_reminder_descprition": "Set up a daily reminder notification, so you never miss your tracked pixel.",
   "log_reminder_enable": "Enable Reminder",
   "log_reminder_later": "Maybe later",
+  "log_question_button": "Save",
   "onboarding_skip": "Skip",
   "onboarding_next": "Next",
   "onboarding_step_0_title": "Welcome 👋",
@@ -175,5 +176,18 @@
   "onboarding_step_5_body_4": "Your data will be stored only on this device by default.",
   "onboarding_step_5_body_5": "You can export or delete your data at any time.",
   "onboarding_step_5_button": "Understood",
-  "onboarding": "Onboarding"
+  "onboarding": "Onboarding",
+  "settings_app": "App",
+  "settings_development": "Development",
+  "settings_development_statistics": "Statistics for Nerds",
+  "development_statistics_days_logged": "Days logged",
+  "development_statistics_days_tagged": "Days tagged",
+  "development_statistics_tags_unique": "Unique Tags",
+  "development_statistics_words_total": "Words written",
+  "development_statistics_reset_questions": "Reset questions",
+  "development_statistics_reset_questions_description": "Only click here if you know what you are doing.",
+  "cancel_confirm_title": "Are you sure?",
+  "cancel_confirm_message": "Your changes will be lost.",
+  "keep_editing": "Keep Editing",
+  "discard_changes": "Discard Changes"
 }

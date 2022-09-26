@@ -191,5 +191,19 @@
   "onboarding_step_5_body_4": "Din data lagras endast på den här enheten som standard.",
   "onboarding_step_5_body_5": "Du kan exportera eller radera din data när som helst.",
   "onboarding_step_5_button": "Förstått",
-  "onboarding": "Onboarding"
+  "onboarding": "Onboarding",
+  "log_question_button": "Spara",
+  "settings_app": "App",
+  "settings_development": "Utveckling",
+  "settings_development_statistics": "Statistik för nördar",
+  "development_statistics_days_logged": "Dagar loggade",
+  "development_statistics_days_tagged": "Dagar taggade",
+  "development_statistics_tags_unique": "Unika taggar",
+  "development_statistics_words_total": "Ord skrivna",
+  "development_statistics_reset_questions": "Återställ frågor",
+  "development_statistics_reset_questions_description": "Klicka bara här om du vet vad du gör.",
+  "cancel_confirm_title": "Är du säker?",
+  "cancel_confirm_message": "Dina ändringar kommer att gå förlorade.",
+  "keep_editing": "Fortsätt redigera",
+  "discard_changes": "Ignorera ändringar"
 }

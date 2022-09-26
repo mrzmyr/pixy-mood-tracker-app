@@ -1,22 +1,21 @@
 import dayjs from 'dayjs';
 import { t } from 'i18n-js';
-import _, { debounce } from "lodash";
-import { useCallback, useEffect, useRef, useState } from 'react';
-import { Alert, Dimensions, Keyboard, Platform, Pressable, Text, TextInput, View } from 'react-native';
-import { Trash, X } from 'react-native-feather';
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import _ from "lodash";
+import { ReactElement, useEffect, useRef, useState } from 'react';
+import { Alert, Dimensions, Keyboard, Platform, View } from 'react-native';
 import Carousel from 'react-native-reanimated-carousel';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import useColors from '../../hooks/useColors';
-import useHaptics from '../../hooks/useHaptics';
 import { LogItem, useLogs } from '../../hooks/useLogs';
 import { useSegment } from '../../hooks/useSegment';
 import { useSettings } from '../../hooks/useSettings';
 import { useTemporaryLog } from '../../hooks/useTemporaryLog';
+import { useTranslation } from '../../hooks/useTranslation';
 import { RootStackScreenProps } from '../../types';
 import { SlideAction } from './SlideAction';
 import { SlideHeader } from './SlideHeader';
 import { SlideNote } from './SlideNote';
+import { IQuestion, SlideQuestion } from './SlideQuestion';
 import { SlideRating } from './SlideRating';
 import { SlideReminder } from './SlideReminder';
 import { SlideTags } from './SlideTags';
@@ -24,14 +23,14 @@ import { Stepper } from './Stepper';
 
 export const LogModal = ({ navigation, route }: RootStackScreenProps<'Log'>) => {
   
-  const { settings } = useSettings()
+  const { settings, hasActionDone } = useSettings()
   const colors = useColors()
   const segment = useSegment()
-  const haptics = useHaptics()
   const insets = useSafeAreaInsets();
 
   const { state, dispatch } = useLogs()
   const tempLog = useTemporaryLog();
+  const { language } = useTranslation();
   
   const defaultLogItem: LogItem = {
     date: route.params.date,
@@ -42,8 +41,25 @@ export const LogModal = ({ navigation, route }: RootStackScreenProps<'Log'>) => 
   
   const existingLogItem = state?.items[route.params.date];
 
+  const [question, setQuestion] = useState<IQuestion | null>(null);
+  
   useEffect(() => {
     tempLog.set(existingLogItem || defaultLogItem)
+
+    fetch('http://10.10.50.143:3000/api/questions')
+      .then(response => response.json())
+      .then(data => {
+        const question = data.find((question: IQuestion) => {
+          return (
+            !hasActionDone(`question_slide_${question.id}`) &&
+            question.text[language]
+          )
+        })
+        if(question) {
+          setQuestion(question)
+        }
+      })
+      .catch(error => console.log(error))
   }, [])
 
   const onClose = () => {
@@ -101,6 +117,29 @@ export const LogModal = ({ navigation, route }: RootStackScreenProps<'Log'>) => 
     })
   }
   
+
+  const askToCancel = () => {
+    return new Promise((resolve, reject) => {
+      Alert.alert(
+        t('cancel_confirm_title'),
+        t('cancel_confirm_message'),
+        [
+          {
+            text: t('discard_changes'),
+            onPress: () => resolve({}),
+            style: "destructive"
+          },
+          { 
+            text: t('keep_editing'), 
+            onPress: () => reject(),
+            style: "cancel"
+          }
+        ],
+        { cancelable: true }
+      );
+    })
+  }
+  
   const remove = () => {
     segment.track('log_deleted')
     dispatch({
@@ -117,22 +156,17 @@ export const LogModal = ({ navigation, route }: RootStackScreenProps<'Log'>) => 
     onClose()
   }
 
-  const trackMessageChange = useCallback(debounce(() => {
-    segment.track('log_message_changed', {
-      messageLength: tempLog.data.message.length
-    })
-  }, 1000), []);
-
   const setRating = (rating: LogItem['rating']) => {
     segment.track('log_rating_changed', {
       label: rating
     })
     tempLog.set((logItem) => ({ ...logItem, rating }))
   }
+
   const setMessage = (message: LogItem['message']) => {
-    trackMessageChange()
     tempLog.set(logItem => ({ ...logItem, message }))
   }
+
   const setTags = (tags: LogItem['tags']) => {
     segment.track('log_tags_changed', {
       tags: tags?.map(tag => _.omit(tag, 'title'))
@@ -149,7 +183,10 @@ export const LogModal = ({ navigation, route }: RootStackScreenProps<'Log'>) => 
   if(Dimensions.get('screen').height < 800) marginTop = 32;
   if(Dimensions.get('screen').height < 700) marginTop = 16;
   
-  const content = [{
+  const content: {
+    slide: ReactElement,
+    action?: ReactElement,
+  }[] = [{
       slide: (
         <SlideRating
           marginTop={marginTop}
@@ -161,13 +198,10 @@ export const LogModal = ({ navigation, route }: RootStackScreenProps<'Log'>) => 
           }}
         />
       ),
-      action: <SlideAction type="next" onPress={() => _carousel.current.next()} />
     }, {
       slide: <SlideTags marginTop={marginTop} onChange={setTags} />,
-      action: <SlideAction type="next" onPress={() => _carousel.current.next()} />
     }, {
       slide: <SlideNote marginTop={marginTop} onChange={setMessage} />,
-      action: <SlideAction type="save" onPress={save} />
     }
   ]
 
@@ -175,10 +209,25 @@ export const LogModal = ({ navigation, route }: RootStackScreenProps<'Log'>) => 
     Object.keys(state.items).length === 2 &&
     !settings.reminderEnabled
   ) {
-    content[2].action = <SlideAction type="next" onPress={() => _carousel.current.next()} />
     content.push({
       slide: (
         <SlideReminder 
+          onPress={async () => {
+            await navigation.navigate('Calendar');
+            save()
+          }}
+          marginTop={marginTop} 
+        />
+      ),
+      action: <SlideAction type="hidden" />
+    })
+  }
+
+  if(Object.keys(state.items).length % 2 === 0 && question !== null) {
+    content.push({
+      slide: (
+        <SlideQuestion
+          question={question}
           onPress={async () => {
             await navigation.navigate('Calendar');
             save()
@@ -197,6 +246,11 @@ export const LogModal = ({ navigation, route }: RootStackScreenProps<'Log'>) => 
     setSlideIndex(index)
   }
 
+  const tempLogHasChanges = tempLog.data.message.length > 0 || tempLog.data?.tags.length > 0
+  const existingLogItemHasChanges = (
+    tempLog.data.message.length !== existingLogItem?.message.length || 
+    tempLog.data?.tags.length !== existingLogItem?.tags.length
+  )
   
   return (
     <View style={{ 
@@ -220,61 +274,28 @@ export const LogModal = ({ navigation, route }: RootStackScreenProps<'Log'>) => 
           }}
         />
         <SlideHeader
-          left={
-            <View
-              style={{
-                flexDirection: 'row',
-              }}
-            >
-              <Text 
-                style={{ 
-                  fontSize: 17,
-                  fontWeight: '600',
-                  color: colors.logHeaderText,
-                }}
-              >{dayjs(route.params.date).isSame(dayjs(), 'day') ? t('today') : dayjs(route.params.date).format('dddd, L')}</Text>
-            </View>
-          }
-          right={
-            <View
-              style={{
-                flexDirection: 'row',
-              }}
-            >
-              {existingLogItem && (
-                <Pressable
-                  style={{
-                    marginRight: 8,
-                    padding: 8,
-                  }}
-                  onPress={async () => {
-                    await haptics.selection()
-                    if(
-                      tempLog.data.message.length > 0 ||
-                      tempLog.data?.tags.length > 0
-                    ) {
-                      askToRemove().then(() => remove())
-                    } else {
-                      remove()
-                    }
-                  }} 
-                >
-                  <Trash color={colors.logHeaderText} width={24} height={24} />
-                </Pressable>
-              )}
-              <Pressable
-                style={{
-                  padding: 8,
-                }}
-                onPress={async () => {
-                  await haptics.selection()
-                  cancel()
-                }}
-              >
-                <X color={colors.logHeaderText} width={24} height={24} />
-              </Pressable>
-            </View>
-          }
+          title={dayjs(route.params.date).isSame(dayjs(), 'day') ? t('today') : dayjs(route.params.date).format('dddd, L')}
+          isDeleteable={existingLogItem !== undefined}
+          onClose={() => {
+            if(
+              !existingLogItem && tempLogHasChanges ||
+              !!existingLogItem && existingLogItemHasChanges
+            ) {
+              askToCancel().then(() => cancel()).catch(() => {})
+            } else {
+              cancel()
+            }
+          }}
+          onDelete={() => {
+            if(
+              tempLog.data.message.length > 0 ||
+              tempLog.data?.tags.length > 0
+            ) {
+              askToRemove().then(() => remove())
+            } else {
+              remove()
+            }
+          }}
         />
         <View
           style={{
@@ -298,7 +319,15 @@ export const LogModal = ({ navigation, route }: RootStackScreenProps<'Log'>) => 
           />
         </View>
       </View>
-      {(slideIndex !== 0 || touched) && content[slideIndex] && content[slideIndex].action}
+      {(slideIndex !== 0 || touched) && content[slideIndex] && (
+        content[slideIndex].action || (
+          slideIndex === content.length - 1 ? (
+            <SlideAction type="save" onPress={save} />
+          ) : (
+            <SlideAction type="next" onPress={() => _carousel.current.next()} />
+          )
+        )
+      )}
     </View>
   )
 }

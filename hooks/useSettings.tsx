@@ -135,7 +135,16 @@ function SettingsProvider({children}: { children: React.ReactNode }) {
   const value = { 
     settings, 
     setSettings: setSettingsProxy, 
-    resetSettings 
+    resetSettings,
+    hasActionDone: (action: string) => settings.actionsDone.includes(action),
+    addActionDone: (action: string) => {
+      setSettingsProxy((settings: SettingsState) => {
+        return {
+          ...settings,
+          actionsDone: [...settings.actionsDone, action],
+        }
+      })
+    }
   };
   
   return (
@@ -147,8 +156,10 @@ function SettingsProvider({children}: { children: React.ReactNode }) {
 
 function useSettings(): { 
   settings: SettingsState, 
-  setSettings: (settings: SettingsState) => void, 
+  setSettings: (settings: SettingsState | ((settings: SettingsState) => void)) => void, 
   resetSettings: () => void,
+  addActionDone: (action: string) => void,
+  hasActionDone: (action: string) => boolean,
 } {
   const context = useContext(SettingsStateContext)
   if (context === undefined) {

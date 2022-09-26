@@ -191,5 +191,19 @@
   "onboarding_step_5_body_4": "귀하의 데이터는 기본적으로 이 기기에만 저장됩니다.",
   "onboarding_step_5_body_5": "언제든지 데이터를 내보내거나 삭제할 수 있습니다.",
   "onboarding_step_5_button": "이해했다",
-  "onboarding": "온보딩"
+  "onboarding": "온보딩",
+  "log_question_button": "구하다",
+  "settings_app": "앱",
+  "settings_development": "개발",
+  "settings_development_statistics": "괴짜를 위한 통계",
+  "development_statistics_days_logged": "기록된 일수",
+  "development_statistics_days_tagged": "태그된 날짜",
+  "development_statistics_tags_unique": "고유 태그",
+  "development_statistics_words_total": "쓰여진 단어",
+  "development_statistics_reset_questions": "질문 재설정",
+  "development_statistics_reset_questions_description": "무엇을 하고 있는지 알고 있는 경우에만 여기를 클릭하십시오.",
+  "cancel_confirm_title": "확실합니까?",
+  "cancel_confirm_message": "변경 사항이 손실됩니다.",
+  "keep_editing": "계속 편집",
+  "discard_changes": "변경 사항을 취소"
 }

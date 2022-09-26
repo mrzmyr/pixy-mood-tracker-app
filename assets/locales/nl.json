@@ -191,5 +191,19 @@
   "onboarding_step_5_body_4": "Uw gegevens worden standaard alleen op dit apparaat opgeslagen.",
   "onboarding_step_5_body_5": "U kunt uw gegevens op elk moment exporteren of verwijderen.",
   "onboarding_step_5_button": "Begrepen",
-  "onboarding": "Onboarding"
+  "onboarding": "Onboarding",
+  "log_question_button": "Opslaan",
+  "settings_app": "App",
+  "settings_development": "Ontwikkeling",
+  "settings_development_statistics": "Statistieken voor nerds",
+  "development_statistics_days_logged": "Dagen gelogd",
+  "development_statistics_days_tagged": "Dagen getagd",
+  "development_statistics_tags_unique": "Unieke tags",
+  "development_statistics_words_total": "Woorden geschreven",
+  "development_statistics_reset_questions": "Vragen resetten",
+  "development_statistics_reset_questions_description": "Klik hier alleen als je weet wat je doet.",
+  "cancel_confirm_title": "Weet je het zeker?",
+  "cancel_confirm_message": "Uw wijzigingen gaan verloren.",
+  "keep_editing": "Blijf bewerken",
+  "discard_changes": "Veranderingen ongedaan maken"
 }

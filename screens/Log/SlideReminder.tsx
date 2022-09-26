@@ -1,10 +1,10 @@
-import RNDateTimePicker from '@react-native-community/datetimepicker';
 import dayjs from 'dayjs';
 import { useState } from 'react';
 import { Platform, Text, View } from 'react-native';
 import { Bell } from 'react-native-feather';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Button from '../../components/Button';
+import Clock from '../../components/Clock';
 import LinkButton from '../../components/LinkButton';
 import useColors from '../../hooks/useColors';
 import useNotification from '../../hooks/useNotifications';
@@ -108,6 +108,18 @@ export const SlideReminder = ({
             maxWidth: 300,
           }}
         >{t('log_reminder_descprition')}</Text>
+        <View
+          style={{
+            width: Platform.OS === 'ios' ? 80 : 65,
+            justifyContent: 'center',
+            paddingTop: 16,
+          }}
+        >
+          <Clock 
+            timeDate={time}
+            onChange={(event, date) => setTime(date)}
+          />
+        </View>
       </View>
       <View
         style={{
@@ -120,15 +132,7 @@ export const SlideReminder = ({
             justifyContent: 'center',
           }}
         >
-          {Platform.OS === 'ios' && (
-            <RNDateTimePicker 
-              locale={locale}
-              value={time} 
-              onChange={(event, date) => setTime(date)} 
-              display="spinner" 
-              mode="time" 
-            />
-          )}
+
         </View>
         <View
           style={{

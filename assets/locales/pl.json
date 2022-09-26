@@ -191,5 +191,19 @@
   "onboarding_step_5_body_4": "Twoje dane będą domyślnie przechowywane tylko na tym urządzeniu.",
   "onboarding_step_5_body_5": "W każdej chwili możesz wyeksportować lub usunąć swoje dane.",
   "onboarding_step_5_button": "Zrozumiany",
-  "onboarding": "Proces wdrażania do firmy nowego pracownika"
+  "onboarding": "Proces wdrażania do firmy nowego pracownika",
+  "log_question_button": "Ratować",
+  "settings_app": "Aplikacja",
+  "settings_development": "Rozwój",
+  "settings_development_statistics": "Statystyki dla frajerów",
+  "development_statistics_days_logged": "Zarejestrowane dni",
+  "development_statistics_days_tagged": "Oznaczone dni",
+  "development_statistics_tags_unique": "Unikalne tagi",
+  "development_statistics_words_total": "Słowa napisane",
+  "development_statistics_reset_questions": "Resetuj pytania",
+  "development_statistics_reset_questions_description": "Kliknij tutaj tylko wtedy, gdy wiesz, co robisz.",
+  "cancel_confirm_title": "Jesteś pewny?",
+  "cancel_confirm_message": "Twoje zmiany zostaną utracone.",
+  "keep_editing": "Kontynuuj edycję",
+  "discard_changes": "Odrzucać zmiany"
 }

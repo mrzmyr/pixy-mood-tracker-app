@@ -191,5 +191,19 @@
   "onboarding_step_5_body_4": "ข้อมูลของคุณจะถูกเก็บไว้ในอุปกรณ์นี้โดยค่าเริ่มต้นเท่านั้น",
   "onboarding_step_5_body_5": "คุณสามารถส่งออกหรือลบข้อมูลของคุณได้ตลอดเวลา",
   "onboarding_step_5_button": "เข้าใจแล้ว",
-  "onboarding": "การเริ่มต้นใช้งาน"
+  "onboarding": "การเริ่มต้นใช้งาน",
+  "log_question_button": "บันทึก",
+  "settings_app": "แอป",
+  "settings_development": "การพัฒนา",
+  "settings_development_statistics": "สถิติสำหรับเนิร์ด",
+  "development_statistics_days_logged": "วันที่เข้าสู่ระบบ",
+  "development_statistics_days_tagged": "วันที่ติดแท็ก",
+  "development_statistics_tags_unique": "แท็กที่ไม่ซ้ำ",
+  "development_statistics_words_total": "คำที่เขียน",
+  "development_statistics_reset_questions": "รีเซ็ตคำถาม",
+  "development_statistics_reset_questions_description": "คลิกที่นี่หากคุณรู้ว่าคุณกำลังทำอะไรอยู่",
+  "cancel_confirm_title": "คุณแน่ใจไหม?",
+  "cancel_confirm_message": "การเปลี่ยนแปลงของคุณจะสูญหาย",
+  "keep_editing": "แก้ไขต่อไป",
+  "discard_changes": "ยกเลิกการเปลี่ยนแปลง"
 }

@@ -40,5 +40,8 @@ i18n.locale = Localization.locale;
 i18n.fallbacks = true;
 
 export function useTranslation() {
-  return i18n;
+  return {
+    ...i18n,
+    language: i18n.locale.split('-')[0],
+  };
 }

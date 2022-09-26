@@ -191,5 +191,19 @@
   "onboarding_step_5_body_4": "Dữ liệu của bạn sẽ chỉ được lưu trữ trên thiết bị này theo mặc định.",
   "onboarding_step_5_body_5": "Bạn có thể xuất hoặc xóa dữ liệu của mình bất kỳ lúc nào.",
   "onboarding_step_5_button": "Hiểu",
-  "onboarding": "Giới thiệu"
+  "onboarding": "Giới thiệu",
+  "log_question_button": "Tiết kiệm",
+  "settings_app": "Ứng dụng",
+  "settings_development": "Sự phát triển",
+  "settings_development_statistics": "Thống kê cho Nerds",
+  "development_statistics_days_logged": "Số ngày được ghi lại",
+  "development_statistics_days_tagged": "Ngày được gắn thẻ",
+  "development_statistics_tags_unique": "Thẻ duy nhất",
+  "development_statistics_words_total": "Các từ được viết",
+  "development_statistics_reset_questions": "Đặt lại câu hỏi",
+  "development_statistics_reset_questions_description": "Chỉ nhấp vào đây nếu bạn biết bạn đang làm gì.",
+  "cancel_confirm_title": "Bạn có chắc không?",
+  "cancel_confirm_message": "Các thay đổi của bạn sẽ bị mất.",
+  "keep_editing": "Tiếp tục chỉnh sửa",
+  "discard_changes": "Loại bỏ những thay đổi"
 }

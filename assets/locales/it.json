@@ -191,5 +191,19 @@
   "onboarding_step_5_body_4": "I tuoi dati verranno archiviati solo su questo dispositivo per impostazione predefinita.",
   "onboarding_step_5_body_5": "Puoi esportare o eliminare i tuoi dati in qualsiasi momento.",
   "onboarding_step_5_button": "Inteso",
-  "onboarding": "Onboarding"
+  "onboarding": "Onboarding",
+  "log_question_button": "Salva",
+  "settings_app": "App",
+  "settings_development": "Sviluppo",
+  "settings_development_statistics": "Statistiche per nerd",
+  "development_statistics_days_logged": "Giorni registrati",
+  "development_statistics_days_tagged": "Giorni contrassegnati",
+  "development_statistics_tags_unique": "Tag Unici",
+  "development_statistics_words_total": "Parole scritte",
+  "development_statistics_reset_questions": "Reimposta domande",
+  "development_statistics_reset_questions_description": "Clicca qui solo se sai cosa stai facendo.",
+  "cancel_confirm_title": "Sei sicuro?",
+  "cancel_confirm_message": "Le tue modifiche andranno perse.",
+  "keep_editing": "Continua a modificare",
+  "discard_changes": "Non salvare le modifiche"
 }

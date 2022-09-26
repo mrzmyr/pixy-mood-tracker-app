@@ -191,5 +191,19 @@
   "onboarding_step_5_body_4": "Τα δεδομένα σας θα αποθηκεύονται μόνο σε αυτήν τη συσκευή από προεπιλογή.",
   "onboarding_step_5_body_5": "Μπορείτε να εξαγάγετε ή να διαγράψετε τα δεδομένα σας ανά πάσα στιγμή.",
   "onboarding_step_5_button": "Κατανοητό",
-  "onboarding": "Ενσωμάτωση"
+  "onboarding": "Ενσωμάτωση",
+  "log_question_button": "Αποθηκεύσετε",
+  "settings_app": "App",
+  "settings_development": "Ανάπτυξη",
+  "settings_development_statistics": "Στατιστικά για Nerds",
+  "development_statistics_days_logged": "Ημέρες καταγεγραμμένες",
+  "development_statistics_days_tagged": "Ημέρες με ετικέτα",
+  "development_statistics_tags_unique": "Μοναδικές Ετικέτες",
+  "development_statistics_words_total": "Λέξεις γραμμένες",
+  "development_statistics_reset_questions": "Επαναφορά ερωτήσεων",
+  "development_statistics_reset_questions_description": "Κάντε κλικ εδώ μόνο εάν ξέρετε τι κάνετε.",
+  "cancel_confirm_title": "Είσαι σίγουρος?",
+  "cancel_confirm_message": "Οι αλλαγές σας θα χαθούν.",
+  "keep_editing": "Συνεχίστε την επεξεργασία",
+  "discard_changes": "Απορρίψετε τις αλλαγές"
 }

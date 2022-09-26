@@ -191,5 +191,19 @@
   "onboarding_step_5_body_4": "Datele dvs. vor fi stocate numai pe acest dispozitiv în mod implicit.",
   "onboarding_step_5_body_5": "Puteți exporta sau șterge datele oricând.",
   "onboarding_step_5_button": "Înțeles",
-  "onboarding": "La imbarcare"
+  "onboarding": "La imbarcare",
+  "log_question_button": "Salvați",
+  "settings_app": "App",
+  "settings_development": "Dezvoltare",
+  "settings_development_statistics": "Statistici pentru tocilari",
+  "development_statistics_days_logged": "Zile înregistrate",
+  "development_statistics_days_tagged": "Zile etichetate",
+  "development_statistics_tags_unique": "Etichete unice",
+  "development_statistics_words_total": "Cuvinte scrise",
+  "development_statistics_reset_questions": "Resetați întrebările",
+  "development_statistics_reset_questions_description": "Faceți clic aici doar dacă știți ce faceți.",
+  "cancel_confirm_title": "Esti sigur?",
+  "cancel_confirm_message": "Modificările tale se vor pierde.",
+  "keep_editing": "Continuați să editați",
+  "discard_changes": "Renunțați la modificări"
 }

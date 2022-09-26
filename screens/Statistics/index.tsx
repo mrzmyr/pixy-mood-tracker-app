@@ -82,6 +82,20 @@ export const StatisticsScreen = ({ navigation }) => {
           )}
 
           {items.length >= 5 && (
+            <View
+              style={{
+                marginTop: 32,
+                backgroundColor: colors.statisticsCardBackground,
+                paddingVertical: 16,
+                paddingHorizontal: 20,
+                borderRadius: 8,
+              }}
+            >
+              <FeedbackSection />
+            </View>
+          )}
+
+          {items.length >= 5 && (
             <>
               <MoodAvgCard items={items} />
               <MoodPeaksCard items={items} />
@@ -90,14 +104,6 @@ export const StatisticsScreen = ({ navigation }) => {
 
           <TagsDistributionCard items={items} />
           <TagPeaksCards items={items} />
-
-          <View
-            style={{
-              marginTop: 32,
-            }}
-          >
-            <FeedbackSection />
-          </View>
         </View>
       </ScrollView>
     </View>

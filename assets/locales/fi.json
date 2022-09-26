@@ -191,5 +191,19 @@
   "onboarding_step_5_body_4": "Tietosi tallennetaan oletuksena vain tälle laitteelle.",
   "onboarding_step_5_body_5": "Voit viedä tai poistaa tietosi milloin tahansa.",
   "onboarding_step_5_button": "Ymmärsi",
-  "onboarding": "Perehdytys"
+  "onboarding": "Perehdytys",
+  "log_question_button": "Tallentaa",
+  "settings_app": "Sovellus",
+  "settings_development": "Kehitys",
+  "settings_development_statistics": "Tilastot nörteille",
+  "development_statistics_days_logged": "Päivät kirjattu",
+  "development_statistics_days_tagged": "Päivät merkitty",
+  "development_statistics_tags_unique": "Ainutlaatuiset tunnisteet",
+  "development_statistics_words_total": "kirjoitetut sanat",
+  "development_statistics_reset_questions": "Nollaa kysymykset",
+  "development_statistics_reset_questions_description": "Napsauta tätä vain, jos tiedät mitä olet tekemässä.",
+  "cancel_confirm_title": "Oletko varma?",
+  "cancel_confirm_message": "Muutokset menetetään.",
+  "keep_editing": "Jatka muokkaamista",
+  "discard_changes": "Hylkää muutokset"
 }

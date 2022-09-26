@@ -191,5 +191,19 @@
   "onboarding_step_5_body_4": "Data Anda hanya akan disimpan di perangkat ini secara default.",
   "onboarding_step_5_body_5": "Anda dapat mengekspor atau menghapus data Anda kapan saja.",
   "onboarding_step_5_button": "Dipahami",
-  "onboarding": "Orientasi"
+  "onboarding": "Orientasi",
+  "log_question_button": "Menyimpan",
+  "settings_app": "Aplikasi",
+  "settings_development": "Perkembangan",
+  "settings_development_statistics": "Statistik untuk Nerd",
+  "development_statistics_days_logged": "Hari dicatat",
+  "development_statistics_days_tagged": "Hari ditandai",
+  "development_statistics_tags_unique": "Tag Unik",
+  "development_statistics_words_total": "Kata-kata tertulis",
+  "development_statistics_reset_questions": "Setel ulang pertanyaan",
+  "development_statistics_reset_questions_description": "Hanya klik di sini jika Anda tahu apa yang Anda lakukan.",
+  "cancel_confirm_title": "Apa kamu yakin?",
+  "cancel_confirm_message": "Perubahan Anda akan hilang.",
+  "keep_editing": "Terus Mengedit",
+  "discard_changes": "Membuang perubahan"
 }

@@ -191,5 +191,19 @@
   "onboarding_step_5_body_4": "Adatai alapértelmezés szerint csak ezen az eszközön lesznek tárolva.",
   "onboarding_step_5_body_5": "Adatait bármikor exportálhatja vagy törölheti.",
   "onboarding_step_5_button": "Megértve",
-  "onboarding": "Beszállás"
+  "onboarding": "Beszállás",
+  "log_question_button": "Megment",
+  "settings_app": "App",
+  "settings_development": "Fejlődés",
+  "settings_development_statistics": "Statisztikák nerdeknek",
+  "development_statistics_days_logged": "Napok naplózva",
+  "development_statistics_days_tagged": "Napok megjelölve",
+  "development_statistics_tags_unique": "Egyedi címkék",
+  "development_statistics_words_total": "Írott szavak",
+  "development_statistics_reset_questions": "Kérdések visszaállítása",
+  "development_statistics_reset_questions_description": "Csak akkor kattintson ide, ha tudja, mit csinál.",
+  "cancel_confirm_title": "biztos vagy ebben?",
+  "cancel_confirm_message": "A módosítások elvesznek.",
+  "keep_editing": "Folytassa a szerkesztést",
+  "discard_changes": "Módosítások elvetése"
 }

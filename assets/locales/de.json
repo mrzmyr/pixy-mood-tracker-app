@@ -179,5 +179,19 @@
   "onboarding_step_5_body_4": "Deine Daten werden standardmäßig nur auf diesem Gerät gespeichert.",
   "onboarding_step_5_body_5": "Du kannst deine Daten jederzeit exportieren oder löschen.",
   "onboarding_step_5_button": "Verstanden",
-  "onboarding": "Onboarding"
+  "onboarding": "Onboarding",
+  "log_question_button": "Speichern",
+  "settings_app": "App",
+  "settings_development": "Entwicklung",
+  "settings_development_statistics": "Statistiken für Nerds",
+  "development_statistics_days_logged": "Tage protokolliert",
+  "development_statistics_days_tagged": "Tage getaggt",
+  "development_statistics_tags_unique": "Tags insgesamt",
+  "development_statistics_words_total": "Wörter geschrieben",
+  "development_statistics_reset_questions": "Fragen zurücksetzen",
+  "development_statistics_reset_questions_description": "Klicke hier nur, wenn du weißt, was du tust.",
+  "cancel_confirm_title": "Bist du dir sicher?",
+  "cancel_confirm_message": "Deine Änderungen gehen verloren.",
+  "keep_editing": "Weiter bearbeiten",
+  "discard_changes": "Änderungen verwerfen"
 }

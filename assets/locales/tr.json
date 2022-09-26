@@ -191,5 +191,19 @@
   "onboarding_step_5_body_4": "Verileriniz varsayılan olarak yalnızca bu cihazda depolanacaktır.",
   "onboarding_step_5_body_5": "Verilerinizi istediğiniz zaman dışa aktarabilir veya silebilirsiniz.",
   "onboarding_step_5_button": "Anladım",
-  "onboarding": "İlk Katılım"
+  "onboarding": "İlk Katılım",
+  "log_question_button": "Kaydetmek",
+  "settings_app": "Uygulama",
+  "settings_development": "Gelişim",
+  "settings_development_statistics": "İnekler için İstatistikler",
+  "development_statistics_days_logged": "Gün sayısı",
+  "development_statistics_days_tagged": "etiketlenen günler",
+  "development_statistics_tags_unique": "Benzersiz Etiketler",
+  "development_statistics_words_total": "Yazılan kelimeler",
+  "development_statistics_reset_questions": "Soruları sıfırla",
+  "development_statistics_reset_questions_description": "Sadece ne yaptığınızı biliyorsanız buraya tıklayın.",
+  "cancel_confirm_title": "Emin misin?",
+  "cancel_confirm_message": "Değişiklikleriniz kaybolacak.",
+  "keep_editing": "Düzenlemeye Devam Et",
+  "discard_changes": "Değişiklikleri gözardı et"
 }

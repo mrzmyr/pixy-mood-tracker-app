@@ -191,5 +191,19 @@
   "onboarding_step_5_body_4": "Vaši će podaci prema zadanim postavkama biti pohranjeni samo na ovom uređaju.",
   "onboarding_step_5_body_5": "Svoje podatke možete izvesti ili izbrisati u bilo kojem trenutku.",
   "onboarding_step_5_button": "Razumijem",
-  "onboarding": "Ukrcavanje"
+  "onboarding": "Ukrcavanje",
+  "log_question_button": "Uštedjeti",
+  "settings_app": "aplikacija",
+  "settings_development": "Razvoj",
+  "settings_development_statistics": "Statistika za štrebere",
+  "development_statistics_days_logged": "Zabilježeni dani",
+  "development_statistics_days_tagged": "Dani označeni",
+  "development_statistics_tags_unique": "Jedinstvene oznake",
+  "development_statistics_words_total": "Riječi napisane",
+  "development_statistics_reset_questions": "Poništi pitanja",
+  "development_statistics_reset_questions_description": "Kliknite ovdje samo ako znate što radite.",
+  "cancel_confirm_title": "Jesi li siguran?",
+  "cancel_confirm_message": "Vaše će promjene biti izgubljene.",
+  "keep_editing": "Nastavite s uređivanjem",
+  "discard_changes": "Odbaciti promjene"
 }

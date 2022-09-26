@@ -191,5 +191,19 @@
   "onboarding_step_5_body_4": "За умовчанням ваші дані зберігатимуться лише на цьому пристрої.",
   "onboarding_step_5_body_5": "Ви можете будь-коли експортувати або видалити свої дані.",
   "onboarding_step_5_button": "Зрозумів",
-  "onboarding": "Онбордінг"
+  "onboarding": "Онбордінг",
+  "log_question_button": "зберегти",
+  "settings_app": "додаток",
+  "settings_development": "розвиток",
+  "settings_development_statistics": "Статистика для ботанів",
+  "development_statistics_days_logged": "Зареєстровано днів",
+  "development_statistics_days_tagged": "Дні позначено",
+  "development_statistics_tags_unique": "Унікальні теги",
+  "development_statistics_words_total": "Слова написані",
+  "development_statistics_reset_questions": "Скинути питання",
+  "development_statistics_reset_questions_description": "Натисніть тут, лише якщо знаєте, що робите.",
+  "cancel_confirm_title": "Ти впевнений?",
+  "cancel_confirm_message": "Ваші зміни буде втрачено.",
+  "keep_editing": "Продовжуйте редагувати",
+  "discard_changes": "Скасувати зміни"
 }

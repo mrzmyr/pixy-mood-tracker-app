@@ -191,5 +191,19 @@
   "onboarding_step_5_body_4": "سيتم تخزين البيانات الخاصة بك فقط على هذا الجهاز بشكل افتراضي.",
   "onboarding_step_5_body_5": "يمكنك تصدير أو حذف البيانات الخاصة بك في أي وقت.",
   "onboarding_step_5_button": "مفهوم",
-  "onboarding": "على متن الطائرة"
+  "onboarding": "على متن الطائرة",
+  "log_question_button": "يحفظ",
+  "settings_app": "تطبيق",
+  "settings_development": "تطوير",
+  "settings_development_statistics": "إحصائيات المهووسين",
+  "development_statistics_days_logged": "الأيام المسجلة",
+  "development_statistics_days_tagged": "الأيام المعلمة",
+  "development_statistics_tags_unique": "العلامات الفريدة",
+  "development_statistics_words_total": "كلمات مكتوبة",
+  "development_statistics_reset_questions": "إعادة الأسئلة",
+  "development_statistics_reset_questions_description": "انقر هنا فقط إذا كنت تعرف ما تفعله.",
+  "cancel_confirm_title": "هل أنت واثق؟",
+  "cancel_confirm_message": "ستفقد تغييراتك.",
+  "keep_editing": "استمر في التحرير",
+  "discard_changes": "تجاهل التغييرات"
 }

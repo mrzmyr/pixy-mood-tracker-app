@@ -191,5 +191,19 @@
   "onboarding_step_5_body_4": "आपका डेटा डिफ़ॉल्ट रूप से केवल इसी डिवाइस पर संग्रहीत किया जाएगा।",
   "onboarding_step_5_body_5": "आप किसी भी समय अपना डेटा निर्यात या हटा सकते हैं।",
   "onboarding_step_5_button": "समझा",
-  "onboarding": "ज्ञानप्राप्ति"
+  "onboarding": "ज्ञानप्राप्ति",
+  "log_question_button": "बचाना",
+  "settings_app": "अनुप्रयोग",
+  "settings_development": "विकास",
+  "settings_development_statistics": "Nerds . के लिए सांख्यिकी",
+  "development_statistics_days_logged": "दिन लॉग",
+  "development_statistics_days_tagged": "टैग किए गए दिन",
+  "development_statistics_tags_unique": "अद्वितीय टैग",
+  "development_statistics_words_total": "लिखे गए शब्द",
+  "development_statistics_reset_questions": "प्रश्नों को रीसेट करें",
+  "development_statistics_reset_questions_description": "केवल यहाँ क्लिक करें यदि आप जानते हैं कि आप क्या कर रहे हैं।",
+  "cancel_confirm_title": "क्या आपको यकीन है?",
+  "cancel_confirm_message": "आपके परिवर्तन खो जाएंगे।",
+  "keep_editing": "संपादन करते रहें",
+  "discard_changes": "परिवर्तनों को निरस्त करें"
 }

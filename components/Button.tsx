@@ -13,7 +13,7 @@ export default function Button({
   children, 
   style = {},
 }: {
-  type?: 'primary' | 'secondary',
+  type?: 'primary' | 'secondary' | 'danger',
   icon?: React.ReactNode,
   testID?: string,
   isLoading?: boolean,
@@ -38,6 +38,11 @@ export default function Button({
       background: colors.secondaryButtonBackground,
       text: colors.secondaryButtonText,
       border: colors.secondaryButtonBorder,
+    },
+    danger: {
+      background: colors.dangerButtonBackground,
+      text: colors.dangerButtonText,
+      border: colors.dangerButtonBorder,
     },
   }[type];
 

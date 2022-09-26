@@ -30,6 +30,7 @@ import useHaptics from '../hooks/useHaptics';
 import { useSettings } from '../hooks/useSettings';
 import { Onboarding } from '../screens/Onboarding';
 import { TagsModal } from '../screens/Tags';
+import { DevelopmentStatistics } from '../screens/DevelopmentStatistics';
 
 enableScreens();
 
@@ -279,7 +280,7 @@ function RootNavigator() {
   const colors = useColors();
   const i18n = useTranslation()
   const segment = useSegment()
-  const { settings } = useSettings()
+  const { settings, hasActionDone } = useSettings()
   const navigation = useNavigation()
   // const passcode = usePasscode()
 
@@ -302,12 +303,16 @@ function RootNavigator() {
   }, [])
 
   useEffect(() => {
-    if(settings.loaded && !settings.actionsDone.includes('onboarding')) {
+    if(settings.loaded && !hasActionDone('onboarding')) {
       navigation.navigate('Onboarding')
     }
   }, [settings.loaded])
 
 
+  const defaultPageOptions = {
+    headerLeft: () => Platform.OS === 'ios' ? null : <BackButton testID={'settings-back-button'} />
+  }
+  
   // if(passcode.isEnabled === null) return null;
 
   return (
@@ -402,7 +407,7 @@ function RootNavigator() {
             component={SettingsScreen} 
             options={{ 
               title: i18n.t('settings'),
-              headerLeft: () => Platform.OS === 'ios' ? null : <BackButton testID={'settings-back-button'} />,
+              ...defaultPageOptions,
             }}
           />
           <Stack.Screen 
@@ -410,7 +415,7 @@ function RootNavigator() {
             component={ReminderScreen}
             options={{ 
               title: i18n.t('reminder'),
-              headerLeft: () => Platform.OS === 'ios' ? null : <BackButton testID={'reminder-back-button'} />,
+              ...defaultPageOptions,
           }}
           />
           <Stack.Screen 
@@ -418,7 +423,7 @@ function RootNavigator() {
             component={PrivacyScreen}
             options={{ 
               title: i18n.t('privacy'),
-              headerLeft: () => Platform.OS === 'ios' ? null : <BackButton testID={'privacy-back-button'} />,
+              ...defaultPageOptions,
             }}
           />
           <Stack.Screen
@@ -426,7 +431,7 @@ function RootNavigator() {
             component={WebhookScreen} 
             options={{ 
               title: i18n.t('webhook'),
-              headerLeft: () => Platform.OS === 'ios' ? null : <BackButton testID={'webhook-back-button'} />,
+              ...defaultPageOptions,
             }} 
           />
           <Stack.Screen 
@@ -434,7 +439,7 @@ function RootNavigator() {
             component={WebhookEntryScreen} 
             options={{ 
               title: '',
-              headerLeft: () => Platform.OS === 'ios' ? null : <BackButton testID={'webhook-history-entry-back-button'} />,
+              ...defaultPageOptions,
             }} 
           />
           <Stack.Screen 
@@ -442,7 +447,7 @@ function RootNavigator() {
             component={LicensesScreen} 
             options={{ 
               title: i18n.t('licenses'),
-              headerLeft: () => Platform.OS === 'ios' ? null : <BackButton testID={'licenses-back-button'} />,
+              ...defaultPageOptions,
             }} 
           />
           <Stack.Screen 
@@ -450,7 +455,7 @@ function RootNavigator() {
             component={ScaleScreen} 
             options={{ 
               title: i18n.t('scales'),
-              headerLeft: () => Platform.OS === 'ios' ? null : <BackButton testID={'scales-back-button'} />,
+              ...defaultPageOptions,
             }} 
           />
           <Stack.Screen 
@@ -458,7 +463,15 @@ function RootNavigator() {
             component={DataScreen} 
             options={{ 
               title: i18n.t('data'),
-              headerLeft: () => Platform.OS === 'ios' ? null : <BackButton testID={'data-back-button'} />,
+              ...defaultPageOptions,
+            }} 
+          />
+          <Stack.Screen 
+            name="DevelopmentStatistics" 
+            component={DevelopmentStatistics} 
+            options={{ 
+              title: i18n.t('settings_development_statistics'),
+              ...defaultPageOptions,
             }} 
           />
         </Stack.Group>

@@ -16,7 +16,7 @@ export default function MenuListHeadline({
       padding: 0,
       borderRadius: 8,
       width: '100%',
-      marginTop: 16,
+      marginTop: 32,
       paddingLeft: 16,
       marginBottom: 8,
     }}>

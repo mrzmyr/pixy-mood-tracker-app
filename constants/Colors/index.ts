@@ -38,144 +38,7 @@ tagColorNames.map(color => {
 const tintColorLight = '#007aff';
 const tintColorDark = '#0a84ff';
 
-export interface IColors {
-  text: string;
-  textSecondary: string;
-  background: string;
-  backgroundSecondary: string;
-  link: string;
-  tint: string;
-
-  keyboardToolbarIcon: string;
-  keyboardToolbarBackground: string;
-  
-  logHeaderBackground: string;
-  logHeaderBorder: string;
-  logHeaderText: string;
-  logBackground: string;
-
-  stepperBackground: string;
-  stepperBackgroundActive: string;
-
-  tagBackground: string;
-  tagText: string;
-  tagBorder: string;
-  tagBackgroundActive: string;
-  tagTextActive: string;
-  tagBorderActive: string;
-
-  miniButtonBackground: string;
-  miniButtonText: string;
-
-  bottomSheetHeaderBackground: string;
-  bottomSheetBackground: string;
-  bottomSheetHeaderBorder: string;
-  bottomSheetHandle: string;
-  
-  feedbackSelectionBackground: string;
-  feedbackBackground: string;
-  
-  cardBackground: string;
-
-  headerBorder: string,
-  tabsIconActive: string,
-  tabsIconInactive: string;
-  tabsTextActive: string;
-  tabsTextInactive: string;
-  
-  passcodeDotBackground: string;
-  passcodePadBackground: string,
-  passcodePadBackgroundActive: string,
-  
-  menuListItemBackground: string;
-  menuListItemText: string;
-  menuListItemIcon: string;
-  menuListItemBorder: string;
-  
-  notificationBackground: string;
-  
-  calendarBackground: string;
-  calendarItemBackground: string;
-  calendarItemBackgroundFuture: string;
-  calendarItemTextColor: string;
-  calendarWeekNameColor: string;
-  calendarMonthNameColor: string;
-  
-  linkButtonTextPrimary: string;
-  linkButtonTextPrimaryDisabled: string;
-  linkButtonTextSecondary: string;
-  linkButtonTextSecondaryDisabled: string;
-  linkButtonTextDanger: string;
-  linkButtonTextDangerDisabled: string;
-
-  primaryButtonBackground: string;
-  primaryButtonText: string;
-  primaryButtonBorder: string;
-
-  primaryButtonBackgroundDisabled: string;
-  primaryButtonTextDisabled: string;
-  primaryButtonBorderDisabled: string;
-  
-  secondaryButtonBackground: string;
-  secondaryButtonText: string;
-  secondaryButtonBorder: string;
-  
-  textInputBackground: string;
-  textInputText: string;
-  textInputPlaceholder: string;
-  textInputLabel: string;
-  textInputBorder: string;
-  textInputBorderHighlight: string;
-
-  tagErrorBackground: string;
-  tagErrorText: string;
-  tagSuccessBackground: string;
-  tagSuccessText: string;
-
-  checkboxBackground: string;
-  checkboxBorder: string;
-  checkboxText: string;
-  checkboxCheckedBackground: string;
-  checkboxCheckedBorder: string;
-  checkboxCheckedText: string;
-    
-  statisticsBackground: string;
-  statisticsDescription: string;
-  statisticsCardBackground: string;
-  statisticsCardSubtitle: string;
-  statisticsFeedbackEmojiOpacity: number;
-  statisticsFeedbackBorder: string;
-  statisticsFeedbackText: string;
-  statisticsWeekdayText: string;
-  statisticsWeekdayBorder: string;
-  statisticsCalendarDotBackground: string;
-  statisticsCalendarDotText: string;
-  statisticsNoDataBorder: string;
-  statisticsNoDataText: string;
-
-  onboardingTitle: string;
-  onboardingBody: string;
-
-  onboardingTopBackground: string;
-  onboardingBottomBackground: string;
-  onboardingBottomBorder: string;
-  onboardingPaginationText: string;
-  onboardingPaginationDotActive: string;
-  onboardingPaginationDotInactive: string;
-
-  onboardingListItemText: string;
-  onboardingListItemDot: string;
-
-  onboardingPrivacyBadgeBackground: string;
-  onboardingPrivacyBadgeVector: string;
-  
-  switchThumbColor: string;
-  scales: IScale;
-  tags: TagColors;
-  palette: any;
-}
-
-const light: IColors = {
+const light = {
   text: '#000',
   textSecondary: colors.neutral[500],
   background: colors.neutral[100],
@@ -190,6 +53,10 @@ const light: IColors = {
   logHeaderBorder: colors.neutral[200],
   logHeaderText: colors.neutral[500],
   logBackground: colors.neutral[100],
+
+  logActionBackground: colors.neutral[200],
+  logActionBorder: tintColorLight,
+  logActionText: colors.neutral[500],
   
   tagBackground: colors.white,
   tagText: colors.neutral[800],
@@ -257,6 +124,10 @@ const light: IColors = {
   secondaryButtonText: colors.neutral[800],
   secondaryButtonBorder: colors.neutral[200],
   
+  dangerButtonBackground: colors.neutral[200],
+  dangerButtonText: colors.red[500],
+  dangerButtonBorder: colors.neutral[200],
+  
   textInputBackground: colors.neutral[200],
   textInputText: colors.neutral[800],
   textInputPlaceholder: colors.neutral[400],
@@ -312,7 +183,15 @@ const light: IColors = {
   palette: colors,
 }
 
-const dark: IColors = {
+export type IColors = typeof light & {
+  scales: typeof scales.light
+  tags: typeof tagsLight
+}
+
+const dark: IColors & {
+  scales: typeof scales.dark
+  tags: typeof tagsDark
+} = {
   text: '#fff',
   textSecondary: colors.neutral[500],
   background: '#000',
@@ -327,6 +206,10 @@ const dark: IColors = {
   logHeaderBorder: colors.neutral[800],
   logHeaderText: colors.neutral[300],
   logBackground: colors.neutral[900],
+
+  logActionBackground: colors.neutral[800],
+  logActionBorder: tintColorLight,
+  logActionText: colors.neutral[300],
   
   tagBackground: colors.neutral[900],
   tagText: colors.neutral[200],
@@ -393,6 +276,10 @@ const dark: IColors = {
   secondaryButtonBackground: colors.neutral[800],
   secondaryButtonText: colors.neutral[200],
   secondaryButtonBorder: colors.neutral[800],
+
+  dangerButtonBackground: colors.neutral[800],
+  dangerButtonText: colors.red[500],
+  dangerButtonBorder: colors.neutral[800],
 
   textInputBackground: colors.neutral[800],
   textInputText: colors.neutral[200],

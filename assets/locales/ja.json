@@ -191,5 +191,19 @@
   "onboarding_step_5_body_4": "デフォルトでは、データはこのデバイスにのみ保存されます。",
   "onboarding_step_5_body_5": "データはいつでもエクスポートまたは削除できます。",
   "onboarding_step_5_button": "了解した",
-  "onboarding": "オンボーディング"
+  "onboarding": "オンボーディング",
+  "log_question_button": "保存",
+  "settings_app": "アプリ",
+  "settings_development": "発達",
+  "settings_development_statistics": "オタクのための統計",
+  "development_statistics_days_logged": "記録された日数",
+  "development_statistics_days_tagged": "タグ付けされた日",
+  "development_statistics_tags_unique": "ユニークなタグ",
+  "development_statistics_words_total": "書かれた言葉",
+  "development_statistics_reset_questions": "質問をリセット",
+  "development_statistics_reset_questions_description": "自分が何をしているのかわかっている場合にのみ、ここをクリックしてください。",
+  "cancel_confirm_title": "本気ですか？",
+  "cancel_confirm_message": "変更は失われます。",
+  "keep_editing": "編集を続ける",
+  "discard_changes": "変更を破棄"
 }

@@ -4,9 +4,10 @@ import * as StoreReview from 'expo-store-review';
 import * as WebBrowser from 'expo-web-browser';
 import { useEffect, useState } from 'react';
 import { ScrollView, Text, View } from 'react-native';
-import { ArrowUpCircle, Award, Bell, BookOpen, Database, Flag, Shield, Smartphone, Star } from 'react-native-feather';
+import { ArrowUpCircle, Award, Bell, BookOpen, Database, Flag, PieChart, Shield, Smartphone, Star } from 'react-native-feather';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import MenuList from '../components/MenuList';
+import MenuListHeadline from '../components/MenuListHeadline';
 import MenuListItem from '../components/MenuListItem';
 import TextInfo from '../components/TextInfo';
 import useColors from '../hooks/useColors';
@@ -84,8 +85,8 @@ export const SettingsScreen = ({ navigation }: RootStackScreenProps<'Settings'>)
             iconLeft={<Bell width={18} color={colors.menuListItemIcon} />}
             onPress={() => navigation.navigate('Reminder')}
             testID='reminder'
-            isLast
             isLink
+            isLast
           />
           {/* <MenuListItem
             title={i18n.t('passcode')}
@@ -126,9 +127,29 @@ export const SettingsScreen = ({ navigation }: RootStackScreenProps<'Settings'>)
         </MenuList>
         <MenuList
           style={{
-            marginTop: 20,
+            marginTop: 16,
           }}
         >
+          <MenuListItem
+            title={i18n.t('send_feedback')}
+            onPress={() => showFeedbackModal({ type: 'issue' })}
+            iconLeft={<Flag width={18} color={colors.menuListItemIcon} />}
+            testID='send_feedback'
+            isLast
+          />
+        </MenuList>
+        <TextInfo>{i18n.t('feedback_help')}</TextInfo>
+
+        <MenuListHeadline>{t('settings_app')}</MenuListHeadline>
+        <MenuList
+          style={{
+          }}
+        >
+          <MenuListItem
+            title={i18n.t('rate_this_app')}
+            onPress={() => askToRateApp()}
+            iconLeft={<Star width={18} color={colors.menuListItemIcon} />}
+          />
           <MenuListItem
             title={i18n.t('vote_features')}
             onPress={async () => {
@@ -148,39 +169,33 @@ export const SettingsScreen = ({ navigation }: RootStackScreenProps<'Settings'>)
             testID='changelog'
           />
           <MenuListItem
-            title={i18n.t('send_feedback')}
-            onPress={() => showFeedbackModal({ type: 'issue' })}
-            iconLeft={<Flag width={18} color={colors.menuListItemIcon} />}
-            testID='send_feedback'
-            isLast
-          />
-        </MenuList>
-        <TextInfo>{i18n.t('feedback_help')}</TextInfo>
-        <MenuList
-          style={{
-            marginTop: 20,
-          }}
-        >
-          <MenuListItem
-            title={i18n.t('rate_this_app')}
-            onPress={() => askToRateApp()}
-            iconLeft={<Star width={18} color={colors.menuListItemIcon} />}
-          />
-          <MenuListItem
             title={i18n.t('privacy')}
             onPress={() => navigation.navigate('Privacy')}
             iconLeft={<Shield width={18} color={colors.menuListItemIcon} />}
             isLink
+            isLast
           />
+        </MenuList>
+
+        <MenuListHeadline>{t('settings_development')}</MenuListHeadline>
+        <MenuList
+          style={{
+          }}
+        >
           <MenuListItem
-            title={i18n.t('licenses')}
-            iconLeft={<Award width={18} color={colors.menuListItemIcon} />}
-            onPress={() => navigation.navigate('Licenses')}
+            title={`${i18n.t('settings_development_statistics')}`}
+            iconLeft={<PieChart width={18} color={colors.menuListItemIcon} />}
+            onPress={() => navigation.navigate('DevelopmentStatistics')}
           />
           <MenuListItem
             title={`${i18n.t('onboarding')}`}
             iconLeft={<Smartphone width={18} color={colors.menuListItemIcon} />}
             onPress={() => navigation.navigate('Onboarding')}
+          />
+          <MenuListItem
+            title={i18n.t('licenses')}
+            iconLeft={<Award width={18} color={colors.menuListItemIcon} />}
+            onPress={() => navigation.navigate('Licenses')}
             isLast
           />
         </MenuList>
