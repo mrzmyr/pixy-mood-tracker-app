@@ -1,7 +1,7 @@
 import * as Application from 'expo-application';
 import { useState } from "react";
 import { Platform, Pressable, Text, View } from "react-native";
-import { QUESTION_URL } from '../../constants/API';
+import { QUESTION_SUBMIT_URL } from '../../constants/API';
 import useColors from "../../hooks/useColors";
 import useHaptics from "../../hooks/useHaptics";
 import { useSettings } from "../../hooks/useSettings";
@@ -130,7 +130,7 @@ export const SlideQuestion = ({
       os: Platform.OS,
     }
     
-    return fetch(QUESTION_URL, {
+    return fetch(QUESTION_SUBMIT_URL, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
