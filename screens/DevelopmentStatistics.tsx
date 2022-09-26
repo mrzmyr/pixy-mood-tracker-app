@@ -1,6 +1,9 @@
 import { useEffect } from 'react';
 import { ScrollView, Text, View, ViewStyle } from 'react-native';
 import Button from '../components/Button';
+import MenuList from '../components/MenuList';
+import MenuListHeadline from '../components/MenuListHeadline';
+import MenuListItem from '../components/MenuListItem';
 import TextInfo from '../components/TextInfo';
 import useColors from '../hooks/useColors';
 import { useLogs } from '../hooks/useLogs';
@@ -99,11 +102,24 @@ export const DevelopmentStatistics = () => {
             style={{
               marginRight: 16,
             }}
-          >{settings?.tags.length}</Card>
+          >{settings?.tags?.length}</Card>
           <Card
             title={t('development_statistics_words_total')}
           >{words_total}</Card>
         </View>
+        <MenuListHeadline>Actions Done</MenuListHeadline>
+        <MenuList
+          style={{
+          }}
+        >
+          {settings.actionsDone.map((action, i) => (
+            <MenuListItem
+              key={i}
+              title={action}
+              isLast={i === settings.actionsDone.length - 1}
+            />
+          ))}
+        </MenuList>
         <Button
           type='danger'
           style={{
