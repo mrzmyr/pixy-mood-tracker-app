@@ -43,7 +43,10 @@ function SegmentProvider({
       settingsScaleType: settings.scaleType,
       settingsWebhookEnabled: settings.webhookEnabled,
       settingsActionsDone: settings.actionsDone,
-      settingsTags: settings.tags.map(tag => _.omit(tag, 'title')),
+      settingsTags: settings.tags.map(tag => ({
+        ...(_.omit(tag, 'title')),
+        tagLength: tag.title.length,
+      })),
       ...properties,
     }
 

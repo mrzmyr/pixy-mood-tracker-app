@@ -92,7 +92,15 @@ export const TagsDistributionCard = ({
           </View>
         )}
       </View>
-      <CardFeedback type='tags_distribution' details={{ count: itemsWithTags.length, tags: tags.map(d => _.omit(d.details, 'title')) }} />
+      <CardFeedback 
+        type='tags_distribution' 
+        details={{ 
+          count: itemsWithTags.length, 
+          tags: tags.map(tag => ({
+            ...(_.omit(tag.details, 'title')),
+            tagLength: tag.details.title.length,
+          })),
+        }} />
     </Card>
   );
 };

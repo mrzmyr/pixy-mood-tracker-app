@@ -72,7 +72,11 @@ export const LogModal = ({ navigation, route }: RootStackScreenProps<'Log'>) => 
       date: tempLog.data.date,
       messageLength: tempLog.data.message.length,
       rating: tempLog.data.rating,
-      tags: tempLog?.data?.tags.map(tag => _.omit(tag, 'title')),
+      tags: tempLog?.data?.tags?.map(tag => ({
+        ...(_.omit(tag, 'title')),
+        tagLength: tag.title.length,
+      })),
+      tagsCount: tempLog?.data?.tags?.length,
     }
     
     if(tempLog.data.rating === null) {
@@ -170,7 +174,10 @@ export const LogModal = ({ navigation, route }: RootStackScreenProps<'Log'>) => 
 
   const setTags = (tags: LogItem['tags']) => {
     segment.track('log_tags_changed', {
-      tags: tags?.map(tag => _.omit(tag, 'title'))
+      tags: tags?.map(tag => ({
+        ...(_.omit(tag, 'title')),
+        tagLength: tag.title.length,
+      })),
     })
     tempLog.set(logItem => ({ ...logItem, tags }))
   }
@@ -247,10 +254,10 @@ export const LogModal = ({ navigation, route }: RootStackScreenProps<'Log'>) => 
     setSlideIndex(index)
   }
 
-  const tempLogHasChanges = tempLog.data.message.length > 0 || tempLog.data?.tags.length > 0
+  const tempLogHasChanges = tempLog.data.message.length > 0 || tempLog.data?.tags?.length > 0
   const existingLogItemHasChanges = (
     tempLog.data.message.length !== existingLogItem?.message.length || 
-    tempLog.data?.tags.length !== existingLogItem?.tags.length
+    tempLog.data?.tags?.length !== existingLogItem?.tags?.length
   )
   
   return (
