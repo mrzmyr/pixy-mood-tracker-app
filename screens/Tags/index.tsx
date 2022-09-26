@@ -1,3 +1,4 @@
+import { useKeyboard } from '@react-native-community/hooks';
 import { isEqual } from 'lodash';
 import { useEffect, useRef, useState } from 'react';
 import { Alert, Keyboard, Platform, Pressable, Text, View } from 'react-native';
@@ -35,7 +36,6 @@ export const TagsModal = ({ navigation, route }: RootStackScreenProps<'Log'>) =>
 
   const scrollRef = useRef(null)
   
-  const [keyboardShown, setKeyboardShown] = useState(false)
   const [tags, setTags] = useState<Tag[]>(settings.tags);
   const [selectedTagIds, setSelectedTagIds] = useState<Tag['id'][]>([]);
 
@@ -180,6 +180,7 @@ export const TagsModal = ({ navigation, route }: RootStackScreenProps<'Log'>) =>
         }
       />
       <KeyboardAwareScrollView
+        extraScrollHeight={Platform.OS === 'android' ? 0 : 100}
         keyboardShouldPersistTaps='handled'
         style={{
           flex: 1,
@@ -188,7 +189,6 @@ export const TagsModal = ({ navigation, route }: RootStackScreenProps<'Log'>) =>
       >
         <View
           style={{
-            marginBottom: keyboardShown && Platform.OS === 'ios' ? 400 : 0,
             backgroundColor: colors.background,
           }}
         >
