@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.31.0](https://github.com/mrzmyr/pixy-mood-tracker/compare/v1.30.2...v1.31.0) (2022-09-26)
+
+
+### Features
+
+* add tagLength to analytics ([66f654b](https://github.com/mrzmyr/pixy-mood-tracker/commit/66f654b2a1b5ce61fecb8d6bc18606049de89137))
+* show actions done in statistics for nerds ([565c130](https://github.com/mrzmyr/pixy-mood-tracker/commit/565c130cce6d7199335d3482214788a1fd1d90d4))
+
+
+### Bug Fixes
+
+* `tags` key acccess ([892b49f](https://github.com/mrzmyr/pixy-mood-tracker/commit/892b49fdb2b213d16b7e88d31d8b0e62dbfff007))
+* filter tags distribution statistics ([192c1de](https://github.com/mrzmyr/pixy-mood-tracker/commit/192c1de110f75d799cb5fec26423e072c033f96c))
+* import for older backups ([5f1594c](https://github.com/mrzmyr/pixy-mood-tracker/commit/5f1594cd9e647ff3f5e4d03f1048df93451d7aa1))
+* question submit url include was missing ([c1d2aff](https://github.com/mrzmyr/pixy-mood-tracker/commit/c1d2affd402c40776fd185963ffb9e97d125e620))
+
 ### [1.30.2](https://github.com/mrzmyr/pixy-mood-tracker/compare/v1.30.1...v1.30.2) (2022-09-26)
 
 
