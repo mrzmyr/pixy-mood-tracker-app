@@ -84,7 +84,7 @@ export const StatisticsScreen = ({ navigation }) => {
           {items.length >= 5 && (
             <View
               style={{
-                marginTop: 32,
+                marginTop: 16,
                 backgroundColor: colors.statisticsCardBackground,
                 paddingVertical: 16,
                 paddingHorizontal: 20,
