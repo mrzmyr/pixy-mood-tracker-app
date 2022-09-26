@@ -46,8 +46,8 @@ export const TagsModal = ({ navigation, route }: RootStackScreenProps<'Log'>) =>
   });
   
   useEffect(() => {
-    if(tempLog.data.tags?.length > 0) {
-      setSelectedTagIds(tempLog.data.tags?.map(tag => tag.id))
+    if(tempLog?.data?.tags?.length > 0) {
+      setSelectedTagIds(tempLog?.data?.tags?.map(tag => tag.id))
     }
   }, [])
 
