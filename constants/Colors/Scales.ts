@@ -56,7 +56,7 @@ const dark: IScale = {
     very_good: { background: colors.emerald[400], text: 'black', },
     good: { background: colors.emerald[200], text: 'black', },
     neutral: { background: colors.neutral[700], text: 'white', },
-    bad: { background: colors.amber[200], text: 'black', },
+    bad: { background: colors.amber[100], text: 'black', },
     very_bad: { background: colors.orange[300], text: 'black', },
     extremely_bad: { background: colors.red[500], text: 'white', },
     empty: {  background: colors.neutral[900], border: colors.neutral[600], text: 'white', },
