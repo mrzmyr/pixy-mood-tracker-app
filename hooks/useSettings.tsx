@@ -25,6 +25,7 @@ export interface SettingsWebhookEntry {
 }
 
 export interface SettingsState {
+  loaded: boolean;
   deviceId: string | null,
   passcodeEnabled: boolean | null,
   passcode: string | null,
@@ -43,6 +44,7 @@ function SettingsProvider({children}: { children: React.ReactNode }) {
   const { t } = useTranslation()
   
   const initialState: SettingsState = {
+    loaded: false,
     deviceId: null,
     passcodeEnabled: null,
     passcode: null,
@@ -110,11 +112,15 @@ function SettingsProvider({children}: { children: React.ReactNode }) {
         if(newSettings.deviceId === null) {
           newSettings.deviceId = uuidv4()
         }
-        setSettings(newSettings)
+        setSettings({
+          ...newSettings,
+          loaded: true,
+        })
       } else {
         setSettingsProxy({
           ...initialState,
           deviceId: uuidv4(),
+          loaded: true,
         })
       }
     }

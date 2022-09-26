@@ -299,11 +299,14 @@ function RootNavigator() {
   
   useEffect(() => {
     segment.initialize()
+  }, [])
 
-    if(!settings.actionsDone.includes('onboarding')) {
+  useEffect(() => {
+    if(settings.loaded && !settings.actionsDone.includes('onboarding')) {
       navigation.navigate('Onboarding')
     }
-  }, [])
+  }, [settings.loaded])
+
 
   // if(passcode.isEnabled === null) return null;
 
