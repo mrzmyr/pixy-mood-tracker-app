@@ -2,6 +2,27 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.30.0](https://github.com/mrzmyr/pixy-mood-tracker/compare/v1.29.1...v1.30.0) (2022-09-26)
+
+
+### Features
+
+* add `loaded` to settings ([f277f0b](https://github.com/mrzmyr/pixy-mood-tracker/commit/f277f0be655577c4587ed7d1310fb3570b31e531))
+* add question slide and more ([79e631f](https://github.com/mrzmyr/pixy-mood-tracker/commit/79e631fe1cb55df2a706467dec60e119af68a4af))
+* update bad dark mode color ([d9b859e](https://github.com/mrzmyr/pixy-mood-tracker/commit/d9b859e730c6e0745ce67a636268631ae54a5496))
+* update intro en text ([8eda317](https://github.com/mrzmyr/pixy-mood-tracker/commit/8eda317913456f7123347a7a5324b150cd9d296f))
+
+
+### Bug Fixes
+
+* remove tags `title` from tags_distribution feedback report ([84ba01e](https://github.com/mrzmyr/pixy-mood-tracker/commit/84ba01e1229af9a5ee3d2286e27326c5dd321631))
+* scrolling keyboard tags view ([e8e0c51](https://github.com/mrzmyr/pixy-mood-tracker/commit/e8e0c51522a29715692dd0ca115792b86011f5a9))
+
+
+### Refactors
+
+* use lodash for omitting tags titles ([07cf99e](https://github.com/mrzmyr/pixy-mood-tracker/commit/07cf99ef7806f03be85580c7c412c83d68ae5146))
+
 ### [1.29.1](https://github.com/mrzmyr/pixy-mood-tracker/compare/v1.29.0...v1.29.1) (2022-09-25)
 
 
