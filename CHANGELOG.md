@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.30.2](https://github.com/mrzmyr/pixy-mood-tracker/compare/v1.30.1...v1.30.2) (2022-09-26)
+
+
+### Bug Fixes
+
+* fix API questions urkl ([a7ca74a](https://github.com/mrzmyr/pixy-mood-tracker/commit/a7ca74aa22e84f508fa0c188c4a0376422fceacd))
+* spacing in statistics ([66a4655](https://github.com/mrzmyr/pixy-mood-tracker/commit/66a465560085a4e87266f987b061047e6b728c8a))
+
 ### [1.30.1](https://github.com/mrzmyr/pixy-mood-tracker/compare/v1.30.0...v1.30.1) (2022-09-26)
 
 
