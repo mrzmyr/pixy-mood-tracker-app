@@ -196,6 +196,7 @@ export const TagPeaksCards = ({
   const tags = Object.keys(distribution)
     .filter(key => distribution[key] >= 5)
     .map(key => settings.tags.find(tag => tag.id === key))
+    .filter(tag => tag)
 
   return (
     <>
