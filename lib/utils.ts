@@ -1,7 +1,9 @@
 import { LogsState } from './../hooks/useLogs';
 import Ajv from "ajv"
 
-const ajv = new Ajv();
+const ajv = new Ajv({
+  allErrors: true
+});
 
 ajv.addFormat('date', {
   validate: (dateTimeString: string) => /^[0-9]{4}-[0-9]{2}-[0-9]{2}$/.test(dateTimeString)
@@ -110,7 +112,6 @@ const pixy_schema = {
           },
         },
       },
-      additionalProperties: false,
     },
   },
   additionalProperties: false,
@@ -118,8 +119,12 @@ const pixy_schema = {
 
 export function getJSONSchemaType(json: any): 'pixy' | 'unknown' {
   const pixySchemaValidator = ajv.compile(pixy_schema);
+
+  const isValid = pixySchemaValidator(json);
   
-  return pixySchemaValidator(json) ? 'pixy' : 'unknown';
+  if(pixySchemaValidator.errors) console.log(pixySchemaValidator.errors)
+  
+  return isValid ? 'pixy' : 'unknown';
 }
 
 export function convertPixeltoPixyJSON(data): LogsState {

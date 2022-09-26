@@ -24,6 +24,8 @@ export interface SettingsWebhookEntry {
   errorMessage?: string,
 }
 
+// ATTENTION: If you change the settings state, you need to update
+// the export variables also in the DataGate
 export interface SettingsState {
   loaded: boolean;
   deviceId: string | null,
@@ -100,6 +102,14 @@ function SettingsProvider({children}: { children: React.ReactNode }) {
     console.log('reset settings')
     setSettingsProxy(initialState)
   }
+
+  const importSettings = (settings: SettingsState) => {
+    console.log('import settings')
+    setSettingsProxy({
+      ...initialState,
+      ...settings,
+    })
+  }
   
   useEffect(() => {
     const load = async () => {
@@ -136,7 +146,8 @@ function SettingsProvider({children}: { children: React.ReactNode }) {
     settings, 
     setSettings: setSettingsProxy, 
     resetSettings,
-    hasActionDone: (action: string) => settings.actionsDone.includes(action),
+    importSettings,
+    hasActionDone: (action: string) => settings?.actionsDone?.includes(action),
     addActionDone: (action: string) => {
       setSettingsProxy((settings: SettingsState) => {
         return {
@@ -158,6 +169,7 @@ function useSettings(): {
   settings: SettingsState, 
   setSettings: (settings: SettingsState | ((settings: SettingsState) => void)) => void, 
   resetSettings: () => void,
+  importSettings: (settings: SettingsState) => void,
   addActionDone: (action: string) => void,
   hasActionDone: (action: string) => boolean,
 } {

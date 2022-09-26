@@ -2,6 +2,7 @@ import dayjs from 'dayjs';
 import * as DocumentPicker from 'expo-document-picker';
 import * as FileSystem from 'expo-file-system';
 import * as Sharing from 'expo-sharing';
+import _ from 'lodash';
 import { Alert, Platform } from 'react-native';
 import { getJSONSchemaType } from '../lib/utils';
 import { LogsState, useLogs } from './useLogs';
@@ -22,7 +23,7 @@ let openShareDialogAsync = async (uri: string) => {
 export const useDatagate = () => {
   const { state, dispatch } = useLogs()
   const { t } = useTranslation()
-  const { resetSettings, setSettings, settings } = useSettings()
+  const { resetSettings, importSettings, settings } = useSettings()
 
   const segment = useSegment() 
   
@@ -36,7 +37,7 @@ export const useDatagate = () => {
         items: data.items
       },
     })
-    setSettings(data.settings)
+    importSettings(data.settings)
   }
   
   const askToImport = () => {
@@ -177,9 +178,17 @@ export const useDatagate = () => {
     const data = {
       items: state.items,
       settings: {
-        ...settings,
-        deviceId: undefined,
-      },
+        passcodeEnabled: settings.passcodeEnabled,
+        passcode: settings.passcode,
+        webhookEnabled: settings.webhookEnabled,
+        webhookUrl: settings.webhookUrl,
+        webhookHistory: settings.webhookHistory,
+        scaleType: settings.scaleType,
+        reminderEnabled: settings.reminderEnabled,
+        reminderTime: settings.reminderTime,
+        trackBehaviour: settings.trackBehaviour,
+        tags: settings.tags,
+      }
     }
 
     console.log(data)
