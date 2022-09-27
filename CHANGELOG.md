@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.32.0](https://github.com/mrzmyr/pixy-mood-tracker/compare/v1.31.0...v1.32.0) (2022-09-27)
+
+
+### Features
+
+* add view log ([d7e1cfc](https://github.com/mrzmyr/pixy-mood-tracker/commit/d7e1cfc6782bbd118e121e93d20b84d0c6af8b7d))
+* highlight today in statistics ([6062623](https://github.com/mrzmyr/pixy-mood-tracker/commit/60626232d6fbdcd30e458eb72f8291e3adbcee2b))
+* update settings actions done ([ba574ca](https://github.com/mrzmyr/pixy-mood-tracker/commit/ba574ca622ec820403ef9c2b6769f703f64de32b))
+
+
+### Bug Fixes
+
+* licenses as link in settings ([035a90b](https://github.com/mrzmyr/pixy-mood-tracker/commit/035a90b1e5633dd23210002f1e8f300ba594f067))
+
+
+### Performance
+
+* fix licenses performance issues ([08c31bb](https://github.com/mrzmyr/pixy-mood-tracker/commit/08c31bbd2a4e7b13878dc535074f937a82aa2c6d))
+
 ## [1.31.0](https://github.com/mrzmyr/pixy-mood-tracker/compare/v1.30.2...v1.31.0) (2022-09-26)
 
 
