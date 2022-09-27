@@ -151,7 +151,7 @@ export const LogView = ({ navigation, route }: RootStackScreenProps<'LogView'>) 
               {item?.message?.length > 0 ? (
                 <View
                   style={{
-                    backgroundColor: colors.cardBackground,
+                    backgroundColor: colors.logCardBackground,
                     borderRadius: 8,
                     padding: 16,
                     width: '100%',

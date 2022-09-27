@@ -369,6 +369,15 @@ function RootNavigator() {
             name="LogEdit" 
             component={LogEdit} 
           />
+        </Stack.Group>
+
+        <Stack.Group 
+          screenOptions={{ 
+            title: '',
+            presentation: 'modal',
+            headerShown: false,
+          }}
+        >
           <Stack.Screen 
             name="LogView" 
             component={LogView} 

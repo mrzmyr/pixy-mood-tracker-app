@@ -1,4 +1,3 @@
-import { IScale } from './Scales';
 import colors from './TailwindColors';
 
 import scales from './Scales';
@@ -53,6 +52,7 @@ const light = {
   logHeaderBorder: colors.neutral[200],
   logHeaderText: colors.neutral[500],
   logBackground: colors.neutral[100],
+  logCardBackground: colors.white,
 
   logActionBackground: colors.neutral[200],
   logActionBorder: tintColorLight,
@@ -207,6 +207,7 @@ const dark: IColors & {
   logHeaderBorder: colors.neutral[800],
   logHeaderText: colors.neutral[300],
   logBackground: colors.neutral[900],
+  logCardBackground: colors.neutral[800],
 
   logActionBackground: colors.neutral[800],
   logActionBorder: tintColorLight,
