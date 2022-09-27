@@ -33,19 +33,12 @@ export const LogEdit = ({ navigation, route }: RootStackScreenProps<'LogEdit'>) 
   const tempLog = useTemporaryLog();
   const { language } = useTranslation();
   
-  const defaultLogItem: LogItem = {
-    date: route.params.date,
-    rating: null,
-    message: '',
-    tags: [],
-  }
-  
   const existingLogItem = state?.items[route.params.date];
 
   const [question, setQuestion] = useState<IQuestion | null>(null);
   
   useEffect(() => {
-    tempLog.set(existingLogItem || defaultLogItem)
+    if(existingLogItem) tempLog.set(existingLogItem)
 
     fetch(QUESTIONS_PULL_URL)
       .then(response => response.json())
@@ -253,10 +246,15 @@ export const LogEdit = ({ navigation, route }: RootStackScreenProps<'LogEdit'>) 
     setSlideIndex(index)
   }
 
-  const tempLogHasChanges = tempLog.data.message.length > 0 || tempLog.data?.tags?.length > 0
+  const tempLogHasChanges = (
+    tempLog.data.message.length > 0 || 
+    tempLog.data?.tags?.length > 0 ||
+    tempLog.data.rating !== null
+  )
   const existingLogItemHasChanges = (
     tempLog.data.message.length !== existingLogItem?.message.length || 
-    tempLog.data?.tags?.length !== existingLogItem?.tags?.length
+    tempLog.data?.tags?.length !== existingLogItem?.tags?.length ||
+    tempLog.data.rating !== existingLogItem?.rating
   )
   
   return (

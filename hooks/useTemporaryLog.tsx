@@ -12,7 +12,7 @@ type Value = {
 
 const initialState: LogItem = {
   date: dayjs().format('YYYY-MM-DD'),
-  rating: 'neutral',
+  rating: null,
   message: '',
   tags: [],
 }
