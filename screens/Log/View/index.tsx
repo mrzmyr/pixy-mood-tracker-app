@@ -22,7 +22,7 @@ export const LogView = ({ navigation, route }: RootStackScreenProps<'LogView'>) 
 
   const close = () => {
     segment.track('log_close')
-    navigation.navigate('Calendar');
+    navigation.popToTop()
   }
 
   const edit = () => {
@@ -36,7 +36,7 @@ export const LogView = ({ navigation, route }: RootStackScreenProps<'LogView'>) 
       type: 'delete', 
       payload: item
     })
-    navigation.navigate('Calendar');
+    navigation.popToTop()
   }
 
   const askToRemove = () => {

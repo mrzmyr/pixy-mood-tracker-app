@@ -63,8 +63,9 @@ export const LogEdit = ({ navigation, route }: RootStackScreenProps<'LogEdit'>) 
       .catch(error => console.log(error))
   }, [])
 
-  const onClose = () => {
+  const close = async () => {
     tempLog.reset()
+    navigation.popToTop();
   }
   
   const save = () => {
@@ -96,8 +97,7 @@ export const LogEdit = ({ navigation, route }: RootStackScreenProps<'LogEdit'>) 
       payload: tempLog.data
     })
 
-    onClose()
-    navigation.navigate('Calendar');
+    close()
   }
 
   const askToRemove = () => {
@@ -150,14 +150,12 @@ export const LogEdit = ({ navigation, route }: RootStackScreenProps<'LogEdit'>) 
       type: 'delete', 
       payload: tempLog.data
     })
-    navigation.navigate('Calendar');
-    onClose()
+    close()
   }
 
   const cancel = () => {
     segment.track('log_cancled')
-    navigation.navigate('Calendar');
-    onClose()
+    close()
   }
 
   const setRating = (rating: LogItem['rating']) => {
@@ -220,7 +218,6 @@ export const LogEdit = ({ navigation, route }: RootStackScreenProps<'LogEdit'>) 
       slide: (
         <SlideReminder 
           onPress={async () => {
-            await navigation.navigate('Calendar');
             save()
           }}
           marginTop={marginTop} 
@@ -240,7 +237,6 @@ export const LogEdit = ({ navigation, route }: RootStackScreenProps<'LogEdit'>) 
         <SlideQuestion
           question={question}
           onPress={async () => {
-            await navigation.navigate('Calendar');
             save()
           }}
           marginTop={marginTop} 

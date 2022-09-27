@@ -74,7 +74,6 @@ const CalendarWeek = memo(({
   });
   
   const onPress = useCallback((day: DayMapItem) => {
-    console.log('onPress', day.hasContent)
     if(day.hasContent) {
       navigation.navigate('LogView', { date: day.dateString });
     } else {

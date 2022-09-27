@@ -1,5 +1,6 @@
+import { useNavigation } from '@react-navigation/native';
 import dayjs, { Dayjs } from 'dayjs';
-import { Text, View } from 'react-native';
+import { Text, TouchableOpacity, View } from 'react-native';
 import { Card } from '../../components/Statistics/Card';
 import useColors from '../../hooks/useColors';
 import { LogItem } from '../../hooks/useLogs';
@@ -23,6 +24,7 @@ const DayDot = ({
   const colors = useColors()
   const { settings } = useSettings()
   const scale = useScale(settings.scaleType)
+  const navigation = useNavigation()
 
   const color = scale.colors[rating] ? {
     bg: scale.colors[rating].background,
@@ -35,7 +37,7 @@ const DayDot = ({
   };
   
   return (
-    <View
+    <TouchableOpacity
       style={{
         width: '100%',
         aspectRatio: 1,
@@ -48,6 +50,12 @@ const DayDot = ({
         borderColor: color?.border,
         borderWidth: dayjs(date).isSame(dayjs(), 'day') ? 2 : 0,
       }}
+      activeOpacity={0.8}
+      onPress={() => {
+        navigation.navigate('LogView', {
+          date: dayjs(date).format('YYYY-MM-DD'),
+        })
+      }}
     >
       <Text
         style={{
@@ -55,7 +63,7 @@ const DayDot = ({
           fontWeight: '600',
         }}
       >{dayjs(date).format('DD')}</Text>
-    </View>
+    </TouchableOpacity>
   )
 }
   

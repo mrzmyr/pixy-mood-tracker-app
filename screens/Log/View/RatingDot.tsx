@@ -22,7 +22,7 @@ export const RatingDot = ({
         padding: 4,
         borderRadius: 8,
         backgroundColor: backgroundColor,
-        width: 56,
+        width: 46,
         aspectRatio: 1,
       }} />
   );
