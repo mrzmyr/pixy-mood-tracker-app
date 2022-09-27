@@ -9,7 +9,7 @@
     "web": "expo start --web",
     "eject": "expo eject",
     "test": "jest --watchAll --env=jsdom",
-    "licenses": "yarn licenses list --json --no-progress > licenses.json",
+    "disclaimer": "echo \"export default \\`$(yarn licenses generate-disclaimer | sed 's/\\`/\\\\`/g')\\`\" > disclaimer.js",
     "build": "eas build --platform ios --local && eas build --platform android --local",
     "translate-app": "node scripts/generate-translations-app.js",
     "translate-metadata": "ts-node scripts/generate-translations-app-store-metadata",

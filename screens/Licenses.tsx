@@ -1,33 +1,42 @@
-import { ScrollView, Text, View } from 'react-native';
-import Markdown from 'react-native-markdown-display';
+import { Text, View, VirtualizedList } from 'react-native';
+import disclaimer from '../disclaimer';
 import useColors from '../hooks/useColors';
-import licenses from '../licenses.json';
 
 export const LicensesScreen = () => {
   const colors = useColors()
-  
-  const text = licenses.data.body.map((license, index) => license.map((item, index) => index === 0 ? `**${item}**` : item).join('\n')).join('\n\n')
+  const slices = disclaimer.split('-----');
   
   return (
     <View
       style={{
         flex: 1,
+        backgroundColor: colors.background,
       }}
     >
-      <ScrollView style={{ 
-        padding: 20,
-        backgroundColor: colors.background,
-      }}>
-          <View style={{
-            marginTop: 20
-          }}>
-            <Markdown style={{
-              body: {color: colors.text, fontSize: 17, lineHeight: 24 },
-            }}>
-              {text}
-            </Markdown>
-          </View>
-      </ScrollView>
+      <VirtualizedList
+        style={{
+          padding: 16,
+        }}
+        data={slices}
+        initialNumToRender={4}
+        renderItem={({ item }) => (
+          <Text
+            key={item.key}
+            style={{
+              color: colors.text,
+              fontSize: 14,
+            }}
+          >
+            {item.value}
+          </Text>
+        )}
+        keyExtractor={item => item.key}
+        getItemCount={slices => slices.length}
+        getItem={(data, index) => ({
+          key: index,
+          value: data[index],
+        })}
+      />
     </View>
   );
 }
