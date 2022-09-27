@@ -196,6 +196,7 @@ export const SettingsScreen = ({ navigation }: RootStackScreenProps<'Settings'>)
             title={i18n.t('licenses')}
             iconLeft={<Award width={18} color={colors.menuListItemIcon} />}
             onPress={() => navigation.navigate('Licenses')}
+            isLink
             isLast
           />
         </MenuList>
