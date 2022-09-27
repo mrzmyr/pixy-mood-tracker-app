@@ -205,5 +205,6 @@
   "cancel_confirm_title": "Estàs segur?",
   "cancel_confirm_message": "Els vostres canvis es perdran.",
   "keep_editing": "Continua editant",
-  "discard_changes": "Descartar els canvis"
+  "discard_changes": "Descartar els canvis",
+  "development_statistics_reset_actions": "Restablir accions"
 }

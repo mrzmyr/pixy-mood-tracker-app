@@ -205,5 +205,6 @@
   "cancel_confirm_title": "क्या आपको यकीन है?",
   "cancel_confirm_message": "आपके परिवर्तन खो जाएंगे।",
   "keep_editing": "संपादन करते रहें",
-  "discard_changes": "परिवर्तनों को निरस्त करें"
+  "discard_changes": "परिवर्तनों को निरस्त करें",
+  "development_statistics_reset_actions": "कार्रवाई रीसेट करें"
 }

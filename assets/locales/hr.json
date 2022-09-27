@@ -205,5 +205,6 @@
   "cancel_confirm_title": "Jesi li siguran?",
   "cancel_confirm_message": "Vaše će promjene biti izgubljene.",
   "keep_editing": "Nastavite s uređivanjem",
-  "discard_changes": "Odbaciti promjene"
+  "discard_changes": "Odbaciti promjene",
+  "development_statistics_reset_actions": "Poništavanje radnji"
 }

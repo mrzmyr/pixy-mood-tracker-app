@@ -205,5 +205,6 @@
   "cancel_confirm_title": "Är du säker?",
   "cancel_confirm_message": "Dina ändringar kommer att gå förlorade.",
   "keep_editing": "Fortsätt redigera",
-  "discard_changes": "Ignorera ändringar"
+  "discard_changes": "Ignorera ändringar",
+  "development_statistics_reset_actions": "Återställ åtgärder"
 }

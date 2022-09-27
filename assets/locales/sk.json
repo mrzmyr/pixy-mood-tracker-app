@@ -205,5 +205,6 @@
   "cancel_confirm_title": "Si si istý?",
   "cancel_confirm_message": "Vaše zmeny sa stratia.",
   "keep_editing": "Pokračujte v úpravách",
-  "discard_changes": "Zrušiť zmeny"
+  "discard_changes": "Zrušiť zmeny",
+  "development_statistics_reset_actions": "Obnoviť akcie"
 }

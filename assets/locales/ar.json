@@ -205,5 +205,6 @@
   "cancel_confirm_title": "هل أنت واثق؟",
   "cancel_confirm_message": "ستفقد تغييراتك.",
   "keep_editing": "استمر في التحرير",
-  "discard_changes": "تجاهل التغييرات"
+  "discard_changes": "تجاهل التغييرات",
+  "development_statistics_reset_actions": "إعادة الإجراءات"
 }

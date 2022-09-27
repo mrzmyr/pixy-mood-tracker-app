@@ -205,5 +205,6 @@
   "cancel_confirm_title": "Weet je het zeker?",
   "cancel_confirm_message": "Uw wijzigingen gaan verloren.",
   "keep_editing": "Blijf bewerken",
-  "discard_changes": "Veranderingen ongedaan maken"
+  "discard_changes": "Veranderingen ongedaan maken",
+  "development_statistics_reset_actions": "Reset acties"
 }

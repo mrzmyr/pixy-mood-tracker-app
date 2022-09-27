@@ -15,7 +15,7 @@ const StatisticsSlide = ({ ...props }) => <ExplainerSlide {...props} />;
 const FiltersSlide = ({ ...props }) => <ExplainerSlide {...props} />;
 
 export const Onboarding = ({ navigation }: RootStackScreenProps<'Onboarding'>) => {
-  const { setSettings } = useSettings()
+  const { addActionDone } = useSettings()
   const colors = useColors()
   const segment = useSegment()
   const insets = useSafeAreaInsets()
@@ -28,19 +28,13 @@ export const Onboarding = ({ navigation }: RootStackScreenProps<'Onboarding'>) =
   }
 
   const finish = () => {
-    setSettings(settings => ({
-      ...settings,
-      actionsDone: [...settings.actionsDone, 'onboarding'],
-    }))
+    addActionDone('onboarding')
     segment.track('onboarding_finished')
     navigation.navigate('BottomTabs')
   }
 
   const skip = () => {
-    setSettings(settings => ({
-      ...settings,
-      actionsDone: [...settings.actionsDone, 'onboarding'],
-    }))
+    addActionDone('onboarding')
     navigation.navigate('BottomTabs')
     segment.track('onboarding_skipped', { index })
   }

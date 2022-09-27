@@ -205,5 +205,6 @@
   "cancel_confirm_title": "Êtes-vous sûr?",
   "cancel_confirm_message": "Vos modifications seront perdues.",
   "keep_editing": "Continuez à éditer",
-  "discard_changes": "Annuler les modifications"
+  "discard_changes": "Annuler les modifications",
+  "development_statistics_reset_actions": "Actions de réinitialisation"
 }

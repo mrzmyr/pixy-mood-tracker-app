@@ -205,5 +205,6 @@
   "cancel_confirm_title": "Είσαι σίγουρος?",
   "cancel_confirm_message": "Οι αλλαγές σας θα χαθούν.",
   "keep_editing": "Συνεχίστε την επεξεργασία",
-  "discard_changes": "Απορρίψετε τις αλλαγές"
+  "discard_changes": "Απορρίψετε τις αλλαγές",
+  "development_statistics_reset_actions": "Επαναφορά ενεργειών"
 }

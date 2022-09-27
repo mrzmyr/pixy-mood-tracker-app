@@ -205,5 +205,6 @@
   "cancel_confirm_title": "Oletko varma?",
   "cancel_confirm_message": "Muutokset menetetään.",
   "keep_editing": "Jatka muokkaamista",
-  "discard_changes": "Hylkää muutokset"
+  "discard_changes": "Hylkää muutokset",
+  "development_statistics_reset_actions": "Nollaa toiminnot"
 }

@@ -205,5 +205,6 @@
   "cancel_confirm_title": "Er du sikker?",
   "cancel_confirm_message": "Dine ændringer vil gå tabt.",
   "keep_editing": "Fortsæt med at redigere",
-  "discard_changes": "Kassér ændringer"
+  "discard_changes": "Kassér ændringer",
+  "development_statistics_reset_actions": "Nulstil handlinger"
 }

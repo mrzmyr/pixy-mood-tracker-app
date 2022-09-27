@@ -1,5 +1,5 @@
 import React from 'react';
-import { Pressable, Text, View } from 'react-native';
+import { Pressable, Text, View, ViewStyle } from 'react-native';
 import { ChevronRight } from 'react-native-feather';
 import useColors from '../hooks/useColors';
 import useHaptics from '../hooks/useHaptics';
@@ -24,7 +24,7 @@ export default ({
   isLast?: boolean | null,
   isLink?: boolean | null,
   deactivated?: boolean,
-  style?: any,
+  style?: ViewStyle,
   testID?: string,
 }) => {
   const colors = useColors()
@@ -64,6 +64,7 @@ export default ({
           minHeight: 55,
           width: '100%',
           opacity: pressed ? 0.7 : 1,
+          ...style,
         }]}
         testID={testID}
       >

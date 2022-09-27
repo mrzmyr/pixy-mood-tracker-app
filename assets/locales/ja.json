@@ -205,5 +205,6 @@
   "cancel_confirm_title": "本気ですか？",
   "cancel_confirm_message": "変更は失われます。",
   "keep_editing": "編集を続ける",
-  "discard_changes": "変更を破棄"
+  "discard_changes": "変更を破棄",
+  "development_statistics_reset_actions": "アクションのリセット"
 }

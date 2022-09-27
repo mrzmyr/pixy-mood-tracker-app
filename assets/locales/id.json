@@ -205,5 +205,6 @@
   "cancel_confirm_title": "Apa kamu yakin?",
   "cancel_confirm_message": "Perubahan Anda akan hilang.",
   "keep_editing": "Terus Mengedit",
-  "discard_changes": "Membuang perubahan"
+  "discard_changes": "Membuang perubahan",
+  "development_statistics_reset_actions": "Setel ulang tindakan"
 }

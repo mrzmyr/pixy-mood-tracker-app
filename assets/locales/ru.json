@@ -205,5 +205,6 @@
   "cancel_confirm_title": "Ты уверен?",
   "cancel_confirm_message": "Ваши изменения будут потеряны.",
   "keep_editing": "Продолжайте редактировать",
-  "discard_changes": "Отменить изменения"
+  "discard_changes": "Отменить изменения",
+  "development_statistics_reset_actions": "Сбросить действия"
 }

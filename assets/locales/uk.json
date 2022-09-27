@@ -205,5 +205,6 @@
   "cancel_confirm_title": "Ти впевнений?",
   "cancel_confirm_message": "Ваші зміни буде втрачено.",
   "keep_editing": "Продовжуйте редагувати",
-  "discard_changes": "Скасувати зміни"
+  "discard_changes": "Скасувати зміни",
+  "development_statistics_reset_actions": "Скинути дії"
 }

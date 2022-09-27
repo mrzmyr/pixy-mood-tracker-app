@@ -205,5 +205,6 @@
   "cancel_confirm_title": "Bạn có chắc không?",
   "cancel_confirm_message": "Các thay đổi của bạn sẽ bị mất.",
   "keep_editing": "Tiếp tục chỉnh sửa",
-  "discard_changes": "Loại bỏ những thay đổi"
+  "discard_changes": "Loại bỏ những thay đổi",
+  "development_statistics_reset_actions": "Đặt lại các hành động"
 }

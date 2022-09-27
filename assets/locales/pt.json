@@ -205,5 +205,6 @@
   "cancel_confirm_title": "Tem certeza?",
   "cancel_confirm_message": "Suas alterações serão perdidas.",
   "keep_editing": "Continue editando",
-  "discard_changes": "Descartar mudanças"
+  "discard_changes": "Descartar mudanças",
+  "development_statistics_reset_actions": "Redefinir ações"
 }

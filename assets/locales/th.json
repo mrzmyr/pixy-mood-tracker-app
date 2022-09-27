@@ -205,5 +205,6 @@
   "cancel_confirm_title": "คุณแน่ใจไหม?",
   "cancel_confirm_message": "การเปลี่ยนแปลงของคุณจะสูญหาย",
   "keep_editing": "แก้ไขต่อไป",
-  "discard_changes": "ยกเลิกการเปลี่ยนแปลง"
+  "discard_changes": "ยกเลิกการเปลี่ยนแปลง",
+  "development_statistics_reset_actions": "รีเซ็ตการกระทำ"
 }

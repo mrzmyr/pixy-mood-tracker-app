@@ -205,5 +205,6 @@
   "cancel_confirm_title": "Esti sigur?",
   "cancel_confirm_message": "Modificările tale se vor pierde.",
   "keep_editing": "Continuați să editați",
-  "discard_changes": "Renunțați la modificări"
+  "discard_changes": "Renunțați la modificări",
+  "development_statistics_reset_actions": "Resetați acțiunile"
 }

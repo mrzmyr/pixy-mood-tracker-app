@@ -38,8 +38,13 @@ export interface SettingsState {
   reminderEnabled: Boolean,
   reminderTime: string,
   trackBehaviour: boolean,
-  actionsDone: string[],
+  actionsDone: IAction[],
   tags: Tag[],
+}
+
+interface IAction {
+  title: string,
+  date: string,
 }
 
 function SettingsProvider({children}: { children: React.ReactNode }) {
@@ -147,13 +152,16 @@ function SettingsProvider({children}: { children: React.ReactNode }) {
     setSettings: setSettingsProxy, 
     resetSettings,
     importSettings,
-    hasActionDone: (action: string) => settings?.actionsDone?.includes(action),
-    addActionDone: (action: string) => {
-      setSettingsProxy((settings: SettingsState) => {
-        return {
-          ...settings,
-          actionsDone: [...settings.actionsDone, action],
-        }
+    hasActionDone: (actionTitle: IAction['title']) => {
+      return settings.actionsDone.some(action => action.title === actionTitle)
+    },
+    addActionDone: (actionTitle: IAction['title']) => {
+      setSettingsProxy({
+        ...settings,
+        actionsDone: [...settings.actionsDone, {
+          title: actionTitle,
+          date: new Date().toISOString(),
+        }],
       })
     }
   };
@@ -170,8 +178,8 @@ function useSettings(): {
   setSettings: (settings: SettingsState | ((settings: SettingsState) => void)) => void, 
   resetSettings: () => void,
   importSettings: (settings: SettingsState) => void,
-  addActionDone: (action: string) => void,
-  hasActionDone: (action: string) => boolean,
+  addActionDone: (action: IAction['title']) => void,
+  hasActionDone: (actionTitle: IAction['title']) => boolean,
 } {
   const context = useContext(SettingsStateContext)
   if (context === undefined) {

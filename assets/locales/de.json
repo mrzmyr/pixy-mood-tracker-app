@@ -193,5 +193,6 @@
   "cancel_confirm_title": "Bist du dir sicher?",
   "cancel_confirm_message": "Deine Änderungen gehen verloren.",
   "keep_editing": "Weiter bearbeiten",
-  "discard_changes": "Änderungen verwerfen"
+  "discard_changes": "Änderungen verwerfen",
+  "development_statistics_reset_actions": "Aktionen zurücksetzen"
 }

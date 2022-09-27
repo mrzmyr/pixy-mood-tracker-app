@@ -205,5 +205,6 @@
   "cancel_confirm_title": "확실합니까?",
   "cancel_confirm_message": "변경 사항이 손실됩니다.",
   "keep_editing": "계속 편집",
-  "discard_changes": "변경 사항을 취소"
+  "discard_changes": "변경 사항을 취소",
+  "development_statistics_reset_actions": "재설정 작업"
 }

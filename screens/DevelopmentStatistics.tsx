@@ -1,3 +1,4 @@
+import dayjs from 'dayjs';
 import { useEffect } from 'react';
 import { ScrollView, Text, View, ViewStyle } from 'react-native';
 import Button from '../components/Button';
@@ -114,10 +115,15 @@ export const DevelopmentStatistics = () => {
         >
           {settings.actionsDone.map((action, i) => (
             <MenuListItem
+              style={{
+                flexDirection: 'column',
+              }}
               key={i}
-              title={action}
+              title={action.title}
               isLast={i === settings.actionsDone.length - 1}
-            />
+            >
+              <Text style={{ color: colors.textSecondary, fontSize: 14, marginTop: 4, }}>{dayjs(action.date).format('DD.MM.YYYY - HH:mm')}</Text>
+            </MenuListItem>
           ))}
         </MenuList>
         <Button
@@ -128,10 +134,22 @@ export const DevelopmentStatistics = () => {
           onPress={() => {
             setSettings(settings => ({
               ...settings,
-              actionsDone: settings.actionsDone.filter(action => !action.startsWith('question_slide_'))
+              actionsDone: settings.actionsDone.filter(action => !action.title.startsWith('question_slide_'))
             }))
           }}
         >{t('development_statistics_reset_questions')}</Button>
+        <Button
+          type='danger'
+          style={{
+            marginTop: 16,
+          }}
+          onPress={() => {
+            setSettings(settings => ({
+              ...settings,
+              actionsDone: []
+            }))
+          }}
+        >{t('development_statistics_reset_actions')}</Button>
         <TextInfo>{t('development_statistics_reset_questions_description')}</TextInfo>
       </ScrollView>
     </View>

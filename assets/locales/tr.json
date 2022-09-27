@@ -205,5 +205,6 @@
   "cancel_confirm_title": "Emin misin?",
   "cancel_confirm_message": "Değişiklikleriniz kaybolacak.",
   "keep_editing": "Düzenlemeye Devam Et",
-  "discard_changes": "Değişiklikleri gözardı et"
+  "discard_changes": "Değişiklikleri gözardı et",
+  "development_statistics_reset_actions": "Eylemleri sıfırla"
 }

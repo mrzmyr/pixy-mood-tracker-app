@@ -205,5 +205,6 @@
   "cancel_confirm_title": "你确定吗？",
   "cancel_confirm_message": "您的更改将丢失。",
   "keep_editing": "继续编辑",
-  "discard_changes": "放弃更改"
+  "discard_changes": "放弃更改",
+  "development_statistics_reset_actions": "重置操作"
 }
