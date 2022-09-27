@@ -35,10 +35,17 @@ export const LogEdit = ({ navigation, route }: RootStackScreenProps<'LogEdit'>) 
   
   const existingLogItem = state?.items[route.params.date];
 
+  const defaultLogItem: LogItem = {
+    date: route.params.date,
+    rating: null,
+    message: '',
+    tags: [],
+  }
+
   const [question, setQuestion] = useState<IQuestion | null>(null);
   
   useEffect(() => {
-    if(existingLogItem) tempLog.set(existingLogItem)
+    tempLog.set(existingLogItem || defaultLogItem)
 
     fetch(QUESTIONS_PULL_URL)
       .then(response => response.json())
