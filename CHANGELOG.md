@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.33.0](https://github.com/mrzmyr/pixy-mood-tracker/compare/v1.32.0...v1.33.0) (2022-09-27)
+
+
+### Features
+
+* click on calendar day dot in statistics to open log view ([900467c](https://github.com/mrzmyr/pixy-mood-tracker/commit/900467ca085dc21f6f761c16a4947b9fb5e772ee))
+* prevent discarding when rating was changed ([7afedca](https://github.com/mrzmyr/pixy-mood-tracker/commit/7afedcaedbfc86ef4165c709b829a023f7f89630))
+
+
+### Styling
+
+* update colors ([ee9142f](https://github.com/mrzmyr/pixy-mood-tracker/commit/ee9142f52a882ab6cfa6c7e6a9f7a38361f522ec))
+
 ## [1.32.0](https://github.com/mrzmyr/pixy-mood-tracker/compare/v1.31.0...v1.32.0) (2022-09-27)
 
 
