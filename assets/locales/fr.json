@@ -206,5 +206,8 @@
   "cancel_confirm_message": "Vos modifications seront perdues.",
   "keep_editing": "Continuez à éditer",
   "discard_changes": "Annuler les modifications",
-  "development_statistics_reset_actions": "Actions de réinitialisation"
+  "development_statistics_reset_actions": "Actions de réinitialisation",
+  "view_log_message": "Mots",
+  "view_log_message_empty": "Une journée mystérieuse, puisqu'elle n'a rien à révéler d'elle-même.",
+  "edit": "Éditer"
 }

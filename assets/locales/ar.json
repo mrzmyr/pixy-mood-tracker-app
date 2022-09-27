@@ -206,5 +206,8 @@
   "cancel_confirm_message": "ستفقد تغييراتك.",
   "keep_editing": "استمر في التحرير",
   "discard_changes": "تجاهل التغييرات",
-  "development_statistics_reset_actions": "إعادة الإجراءات"
+  "development_statistics_reset_actions": "إعادة الإجراءات",
+  "view_log_message": "كلمات",
+  "view_log_message_empty": "يوم غامض ، لأنه ليس لديه ما يكشف عن نفسه.",
+  "edit": "يحرر"
 }

@@ -3,14 +3,14 @@ import { useState } from 'react';
 import { Platform, Text, View } from 'react-native';
 import { Bell } from 'react-native-feather';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import Button from '../../components/Button';
-import Clock from '../../components/Clock';
-import LinkButton from '../../components/LinkButton';
-import useColors from '../../hooks/useColors';
-import useNotification from '../../hooks/useNotifications';
-import { useSegment } from '../../hooks/useSegment';
-import { SettingsState, useSettings } from '../../hooks/useSettings';
-import { useTranslation } from '../../hooks/useTranslation';
+import Button from '../../../components/Button';
+import Clock from '../../../components/Clock';
+import LinkButton from '../../../components/LinkButton';
+import useColors from '../../../hooks/useColors';
+import useNotification from '../../../hooks/useNotifications';
+import { useSegment } from '../../../hooks/useSegment';
+import { SettingsState, useSettings } from '../../../hooks/useSettings';
+import { useTranslation } from '../../../hooks/useTranslation';
 import { SlideHeadline } from './SlideHeadline';
 
 export const SlideReminder = ({
@@ -20,7 +20,7 @@ export const SlideReminder = ({
   marginTop: number;
   onPress?: () => void;
 }) => {
-  const { t, locale } = useTranslation()
+  const { t } = useTranslation()
   const { setSettings } = useSettings()
   const insets = useSafeAreaInsets();
   const segment = useSegment()

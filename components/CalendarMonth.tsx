@@ -19,7 +19,6 @@ const CalendarMonth = forwardRef(({
   dateString: string;
   items?: LogItem[];
 }, ref) => {
-  const navigation = useNavigation()
   const date = dayjs(dateString);
   const colors = useColors();
   const daysInMonthCount = date.daysInMonth();
@@ -43,10 +42,6 @@ const CalendarMonth = forwardRef(({
 
     return weeks;
   }, [items]);
-
-  const onPress = useCallback((dateString) => {
-    navigation.navigate('Log', { date: dateString })
-  }, [navigation])
   
   return (
     <View ref={ref} renderToHardwareTextureAndroid>
@@ -60,8 +55,7 @@ const CalendarMonth = forwardRef(({
         }}
       >{date.format('MMMM YYYY')}</Text>
       {weeks.map((week, index) => (
-        <CalendarWeek 
-          onPress={onPress}
+        <CalendarWeek
           key={index}
           isFirst={index === 0} 
           isLast={index === weeks.length - 1} 

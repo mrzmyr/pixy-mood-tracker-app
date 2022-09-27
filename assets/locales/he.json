@@ -206,5 +206,8 @@
   "cancel_confirm_message": "השינויים שלך יאבדו.",
   "keep_editing": "תמשיך לערוך",
   "discard_changes": "בטל שינויים",
-  "development_statistics_reset_actions": "אפס פעולות"
+  "development_statistics_reset_actions": "אפס פעולות",
+  "view_log_message": "מילים",
+  "view_log_message_empty": "יום מסתורי, שכן אין לו מה לחשוף על עצמו.",
+  "edit": "לַעֲרוֹך"
 }

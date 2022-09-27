@@ -1,5 +1,5 @@
 import { TouchableOpacity } from "react-native"
-import useColors from "../../hooks/useColors"
+import useColors from "../../../hooks/useColors"
 
 export const FloatButton = ({
   onPress,

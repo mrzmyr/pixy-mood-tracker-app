@@ -206,5 +206,8 @@
   "cancel_confirm_message": "Endringene dine vil gå tapt.",
   "keep_editing": "Fortsett å redigere",
   "discard_changes": "Forkaste endringer",
-  "development_statistics_reset_actions": "Tilbakestill handlinger"
+  "development_statistics_reset_actions": "Tilbakestill handlinger",
+  "view_log_message": "Ord",
+  "view_log_message_empty": "En mystisk dag, siden den ikke har noe å avsløre om seg selv.",
+  "edit": "Redigere"
 }

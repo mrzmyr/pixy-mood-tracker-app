@@ -206,5 +206,8 @@
   "cancel_confirm_message": "Muutokset menetetään.",
   "keep_editing": "Jatka muokkaamista",
   "discard_changes": "Hylkää muutokset",
-  "development_statistics_reset_actions": "Nollaa toiminnot"
+  "development_statistics_reset_actions": "Nollaa toiminnot",
+  "view_log_message": "Sanat",
+  "view_log_message_empty": "Salaperäinen päivä, koska sillä ei ole itsestään paljastettavaa.",
+  "edit": "Muokata"
 }

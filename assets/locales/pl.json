@@ -206,5 +206,8 @@
   "cancel_confirm_message": "Twoje zmiany zostaną utracone.",
   "keep_editing": "Kontynuuj edycję",
   "discard_changes": "Odrzucać zmiany",
-  "development_statistics_reset_actions": "Zresetuj działania"
+  "development_statistics_reset_actions": "Zresetuj działania",
+  "view_log_message": "Słowa",
+  "view_log_message_empty": "Tajemniczy dzień, bo nie ma o sobie nic do wyjawienia.",
+  "edit": "Edytować"
 }

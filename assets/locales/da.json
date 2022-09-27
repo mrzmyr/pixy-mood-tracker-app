@@ -206,5 +206,8 @@
   "cancel_confirm_message": "Dine ændringer vil gå tabt.",
   "keep_editing": "Fortsæt med at redigere",
   "discard_changes": "Kassér ændringer",
-  "development_statistics_reset_actions": "Nulstil handlinger"
+  "development_statistics_reset_actions": "Nulstil handlinger",
+  "view_log_message": "Ord",
+  "view_log_message_empty": "En mystisk dag, da den ikke har noget at afsløre om sig selv.",
+  "edit": "Redigere"
 }

@@ -206,5 +206,8 @@
   "cancel_confirm_message": "您的更改将丢失。",
   "keep_editing": "继续编辑",
   "discard_changes": "放弃更改",
-  "development_statistics_reset_actions": "重置操作"
+  "development_statistics_reset_actions": "重置操作",
+  "view_log_message": "字",
+  "view_log_message_empty": "一个神秘的日子，因为它没有什么可透露的。",
+  "edit": "编辑"
 }

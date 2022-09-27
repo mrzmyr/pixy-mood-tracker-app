@@ -206,5 +206,8 @@
   "cancel_confirm_message": "Modificările tale se vor pierde.",
   "keep_editing": "Continuați să editați",
   "discard_changes": "Renunțați la modificări",
-  "development_statistics_reset_actions": "Resetați acțiunile"
+  "development_statistics_reset_actions": "Resetați acțiunile",
+  "view_log_message": "Cuvinte",
+  "view_log_message_empty": "O zi misterioasă, din moment ce nu are nimic de dezvăluit despre ea însăși.",
+  "edit": "Editați | ×"
 }

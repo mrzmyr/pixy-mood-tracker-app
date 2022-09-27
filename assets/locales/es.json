@@ -206,5 +206,8 @@
   "cancel_confirm_message": "Sus cambios se perderán.",
   "keep_editing": "Seguir editando",
   "discard_changes": "Descartar los cambios",
-  "development_statistics_reset_actions": "Restablecer acciones"
+  "development_statistics_reset_actions": "Restablecer acciones",
+  "view_log_message": "Palabras",
+  "view_log_message_empty": "Un día misterioso, ya que no tiene nada que revelar sobre sí mismo.",
+  "edit": "Editar"
 }

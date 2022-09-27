@@ -206,5 +206,8 @@
   "cancel_confirm_message": "Vaše će promjene biti izgubljene.",
   "keep_editing": "Nastavite s uređivanjem",
   "discard_changes": "Odbaciti promjene",
-  "development_statistics_reset_actions": "Poništavanje radnji"
+  "development_statistics_reset_actions": "Poništavanje radnji",
+  "view_log_message": "riječi",
+  "view_log_message_empty": "Tajanstven dan, jer nema što otkriti o sebi.",
+  "edit": "Uredi"
 }

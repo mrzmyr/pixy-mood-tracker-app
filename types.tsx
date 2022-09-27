@@ -23,9 +23,6 @@ export type RootStackParamList = {
   WebhookEntry: {
     entry: any,
   },
-  Log: {
-    date: string,
-  },
   Licenses: undefined,
   Calendar: undefined,
   Modal: undefined;
@@ -36,6 +33,12 @@ export type RootStackParamList = {
   PasscodeLocked: undefined;
   TagsModal: undefined;
   DevelopmentStatistics: undefined;
+  LogView: {
+    date: string,
+  },
+  LogEdit: {
+    date: string,
+  },
 };
 
 export type RootStackScreenProps<Screen extends keyof RootStackParamList> = NativeStackScreenProps<

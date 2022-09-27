@@ -1,11 +1,11 @@
 import { useNavigation } from "@react-navigation/native";
 import { ScrollView, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import Tag from "../../components/Tag";
-import { Tag as ITag, useSettings } from "../../hooks/useSettings";
-import { useTemporaryLog } from "../../hooks/useTemporaryLog";
-import { useTranslation } from "../../hooks/useTranslation";
-import { MiniButton } from "./MiniButton";
+import Tag from "../../../components/Tag";
+import { Tag as ITag, useSettings } from "../../../hooks/useSettings";
+import { useTemporaryLog } from "../../../hooks/useTemporaryLog";
+import { useTranslation } from "../../../hooks/useTranslation";
+import { MiniButton } from "../MiniButton";
 import { SlideHeadline } from "./SlideHeadline";
 
 export const SlideTags = ({

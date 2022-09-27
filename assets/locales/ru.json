@@ -206,5 +206,8 @@
   "cancel_confirm_message": "Ваши изменения будут потеряны.",
   "keep_editing": "Продолжайте редактировать",
   "discard_changes": "Отменить изменения",
-  "development_statistics_reset_actions": "Сбросить действия"
+  "development_statistics_reset_actions": "Сбросить действия",
+  "view_log_message": "Слова",
+  "view_log_message_empty": "Таинственный день, так как ему нечего о себе рассказать.",
+  "edit": "Редактировать"
 }

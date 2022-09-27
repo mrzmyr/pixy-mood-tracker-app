@@ -206,5 +206,8 @@
   "cancel_confirm_message": "A módosítások elvesznek.",
   "keep_editing": "Folytassa a szerkesztést",
   "discard_changes": "Módosítások elvetése",
-  "development_statistics_reset_actions": "Műveletek visszaállítása"
+  "development_statistics_reset_actions": "Műveletek visszaállítása",
+  "view_log_message": "Szavak",
+  "view_log_message_empty": "Titokzatos nap, hiszen nincs mit elárulnia magáról.",
+  "edit": "Szerkesztés"
 }

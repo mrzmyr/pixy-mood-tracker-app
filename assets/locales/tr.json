@@ -206,5 +206,8 @@
   "cancel_confirm_message": "Değişiklikleriniz kaybolacak.",
   "keep_editing": "Düzenlemeye Devam Et",
   "discard_changes": "Değişiklikleri gözardı et",
-  "development_statistics_reset_actions": "Eylemleri sıfırla"
+  "development_statistics_reset_actions": "Eylemleri sıfırla",
+  "view_log_message": "Kelimeler",
+  "view_log_message_empty": "Gizemli bir gün, çünkü kendisi hakkında açığa vuracak hiçbir şeyi yok.",
+  "edit": "Düzenlemek"
 }

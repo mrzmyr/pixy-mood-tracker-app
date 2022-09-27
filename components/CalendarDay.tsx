@@ -1,6 +1,6 @@
 import chroma from "chroma-js";
 import dayjs from "dayjs";
-import { memo } from "react";
+import { memo, useCallback } from "react";
 import { Text, TouchableOpacity, useColorScheme, View } from "react-native";
 import { AlignLeft } from "react-native-feather";
 import { CalendarFiltersData } from "../hooks/useCalendarFilters";

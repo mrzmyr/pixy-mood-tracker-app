@@ -1,5 +1,5 @@
 import { Text, TextStyle } from 'react-native';
-import useColors from '../../hooks/useColors';
+import useColors from '../../../hooks/useColors';
 
 export const SlideHeadline = ({
   children, style,

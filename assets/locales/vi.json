@@ -206,5 +206,8 @@
   "cancel_confirm_message": "Các thay đổi của bạn sẽ bị mất.",
   "keep_editing": "Tiếp tục chỉnh sửa",
   "discard_changes": "Loại bỏ những thay đổi",
-  "development_statistics_reset_actions": "Đặt lại các hành động"
+  "development_statistics_reset_actions": "Đặt lại các hành động",
+  "view_log_message": "Từ ngữ",
+  "view_log_message_empty": "Một ngày bí ẩn, vì nó không có gì để tiết lộ về chính nó.",
+  "edit": "Chỉnh sửa"
 }

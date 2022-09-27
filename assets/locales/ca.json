@@ -206,5 +206,8 @@
   "cancel_confirm_message": "Els vostres canvis es perdran.",
   "keep_editing": "Continua editant",
   "discard_changes": "Descartar els canvis",
-  "development_statistics_reset_actions": "Restablir accions"
+  "development_statistics_reset_actions": "Restablir accions",
+  "view_log_message": "Paraules",
+  "view_log_message_empty": "Un dia misteriós, ja que no té res a revelar sobre si mateix.",
+  "edit": "Edita"
 }

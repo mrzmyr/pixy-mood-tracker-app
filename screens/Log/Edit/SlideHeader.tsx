@@ -1,7 +1,7 @@
 import { Pressable, Text, View } from 'react-native';
 import { Trash, X } from 'react-native-feather';
-import useColors from '../../hooks/useColors';
-import useHaptics from '../../hooks/useHaptics';
+import useColors from '../../../hooks/useColors';
+import useHaptics from '../../../hooks/useHaptics';
 
 export const SlideHeader = ({
   title,

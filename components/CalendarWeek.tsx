@@ -1,5 +1,6 @@
+import { useNavigation } from "@react-navigation/native";
 import dayjs from "dayjs";
-import { memo } from "react";
+import { memo, useCallback } from "react";
 import { View } from "react-native";
 import { useCalendarFilters } from "../hooks/useCalendarFilters";
 import { LogItem } from "../hooks/useLogs";
@@ -18,10 +19,21 @@ const CalendarDayContainer = ({
   )
 }
 
+type DayMapItem = {
+  number: number;
+  dateString: string;
+  isToday: boolean;
+  isFuture: boolean;
+  hasText: boolean;
+  isFiltered: boolean;
+  isFiltering: boolean;
+  hasContent: boolean;
+  item: LogItem;
+}
+
 const CalendarWeek = memo(({
   days,
   items,
-  onPress = null,
   isFirst = false,
   isLast = false,
 }: {
@@ -35,12 +47,13 @@ const CalendarWeek = memo(({
   if(isFirst) justifyContent = 'flex-end';
   if(isLast) justifyContent = 'flex-start';
 
+  const navigation = useNavigation()
   const calendarFilters = useCalendarFilters();
   
   const emptyDays = [];
   for (let i = 0; i < 7 - days.length; i++) emptyDays.push(null);
 
-  const daysMap = days.map(dateString => {
+  const daysMap: DayMapItem[] = days.map(dateString => {
     const day = dayjs(dateString);
     const item = items.find(item => item.date === dateString);
     return {
@@ -51,8 +64,23 @@ const CalendarWeek = memo(({
       isFuture: day.isAfter(dayjs()),
       isFiltered: calendarFilters.isFiltering && item && !calendarFilters.validate(item),
       isFiltering: calendarFilters.isFiltering,
+      hasText: item?.message.length > 0,
+      hasContent: (
+        item?.message?.length > 0 ||
+        item?.tags?.length > 0 ||
+        item?.rating !== undefined
+      )
     }
   });
+  
+  const onPress = useCallback((day: DayMapItem) => {
+    console.log('onPress', day.hasContent)
+    if(day.hasContent) {
+      navigation.navigate('LogView', { date: day.dateString });
+    } else {
+      navigation.navigate('LogEdit', { date: day.dateString });
+    }
+  }, [navigation]);
   
   return (
     <View
@@ -78,7 +106,7 @@ const CalendarWeek = memo(({
             filters={calendarFilters.data}
             isFuture={day.isFuture}
             hasText={day.item?.message?.length > 0}
-            onPress={onPress}
+            onPress={() => onPress(day)}
           />
         </CalendarDayContainer>)
       )}

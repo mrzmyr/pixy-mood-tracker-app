@@ -206,5 +206,8 @@
   "cancel_confirm_message": "การเปลี่ยนแปลงของคุณจะสูญหาย",
   "keep_editing": "แก้ไขต่อไป",
   "discard_changes": "ยกเลิกการเปลี่ยนแปลง",
-  "development_statistics_reset_actions": "รีเซ็ตการกระทำ"
+  "development_statistics_reset_actions": "รีเซ็ตการกระทำ",
+  "view_log_message": "คำ",
+  "view_log_message_empty": "วันลึกลับ เพราะมันไม่มีอะไรจะเปิดเผยเกี่ยวกับตัวมันเอง",
+  "edit": "แก้ไข"
 }

@@ -13,7 +13,8 @@ import {
   CalendarScreen,
   DataScreen,
   LicensesScreen,
-  LogModal,
+  LogEdit,
+  LogView,
   NotFoundScreen,
   PrivacyScreen,
   ReminderScreen,
@@ -365,8 +366,12 @@ function RootNavigator() {
           }}
         >
           <Stack.Screen 
-            name="Log" 
-            component={LogModal} 
+            name="LogEdit" 
+            component={LogEdit} 
+          />
+          <Stack.Screen 
+            name="LogView" 
+            component={LogView} 
           />
         </Stack.Group>
 

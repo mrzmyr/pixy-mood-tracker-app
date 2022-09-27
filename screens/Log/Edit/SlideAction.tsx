@@ -2,8 +2,8 @@ import { useKeyboard } from "@react-native-community/hooks"
 import { useEffect, useState } from "react"
 import { Keyboard, View } from "react-native"
 import { ArrowRight, Check } from "react-native-feather"
-import useColors from "../../hooks/useColors"
-import useHaptics from "../../hooks/useHaptics"
+import useColors from "../../../hooks/useColors"
+import useHaptics from "../../../hooks/useHaptics"
 import { FloatButton } from "./FloatButton"
 
 export const SlideAction = ({

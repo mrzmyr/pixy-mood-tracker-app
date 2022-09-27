@@ -1,8 +1,8 @@
 import { Dimensions, View } from "react-native";
-import useColors from "../../hooks/useColors";
-import { LogItem } from "../../hooks/useLogs";
-import { useTemporaryLog } from "../../hooks/useTemporaryLog";
-import { useTranslation } from "../../hooks/useTranslation";
+import useColors from "../../../hooks/useColors";
+import { LogItem } from "../../../hooks/useLogs";
+import { useTemporaryLog } from "../../../hooks/useTemporaryLog";
+import { useTranslation } from "../../../hooks/useTranslation";
 import { SlideHeadline } from "./SlideHeadline";
 import { SlideRatingButton } from "./SlideRatingButton";
 

@@ -206,5 +206,8 @@
   "cancel_confirm_message": "Dina ändringar kommer att gå förlorade.",
   "keep_editing": "Fortsätt redigera",
   "discard_changes": "Ignorera ändringar",
-  "development_statistics_reset_actions": "Återställ åtgärder"
+  "development_statistics_reset_actions": "Återställ åtgärder",
+  "view_log_message": "Ord",
+  "view_log_message_empty": "En mystisk dag, eftersom den inte har något att avslöja om sig själv.",
+  "edit": "Redigera"
 }

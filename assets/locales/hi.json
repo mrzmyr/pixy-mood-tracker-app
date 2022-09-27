@@ -206,5 +206,8 @@
   "cancel_confirm_message": "आपके परिवर्तन खो जाएंगे।",
   "keep_editing": "संपादन करते रहें",
   "discard_changes": "परिवर्तनों को निरस्त करें",
-  "development_statistics_reset_actions": "कार्रवाई रीसेट करें"
+  "development_statistics_reset_actions": "कार्रवाई रीसेट करें",
+  "view_log_message": "शब्दों",
+  "view_log_message_empty": "एक रहस्यमय दिन, क्योंकि इसमें अपने बारे में बताने के लिए कुछ भी नहीं है।",
+  "edit": "संपादन करना"
 }

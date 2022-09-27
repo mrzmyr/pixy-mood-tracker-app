@@ -206,5 +206,8 @@
   "cancel_confirm_message": "Perubahan Anda akan hilang.",
   "keep_editing": "Terus Mengedit",
   "discard_changes": "Membuang perubahan",
-  "development_statistics_reset_actions": "Setel ulang tindakan"
+  "development_statistics_reset_actions": "Setel ulang tindakan",
+  "view_log_message": "Kata-kata",
+  "view_log_message_empty": "Hari yang misterius, karena tidak ada yang bisa diungkapkan tentang dirinya sendiri.",
+  "edit": "Sunting"
 }

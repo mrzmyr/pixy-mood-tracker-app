@@ -1,9 +1,9 @@
 import { TouchableOpacity, useColorScheme, View } from 'react-native';
 import { Check } from 'react-native-feather';
-import useHaptics from '../../hooks/useHaptics';
-import { LogItem } from '../../hooks/useLogs';
-import useScale from '../../hooks/useScale';
-import { useSettings } from '../../hooks/useSettings';
+import useHaptics from '../../../hooks/useHaptics';
+import { LogItem } from '../../../hooks/useLogs';
+import useScale from '../../../hooks/useScale';
+import { useSettings } from '../../../hooks/useSettings';
 
 export const SlideRatingButton = ({
   rating, selected, onPress

@@ -1,11 +1,11 @@
 import * as Application from 'expo-application';
 import { useState } from "react";
 import { Platform, Pressable, Text, View } from "react-native";
-import { QUESTION_SUBMIT_URL } from '../../constants/API';
-import useColors from "../../hooks/useColors";
-import useHaptics from "../../hooks/useHaptics";
-import { useSettings } from "../../hooks/useSettings";
-import { useTranslation } from "../../hooks/useTranslation";
+import { QUESTION_SUBMIT_URL } from '../../../constants/API';
+import useColors from "../../../hooks/useColors";
+import useHaptics from "../../../hooks/useHaptics";
+import { useSettings } from "../../../hooks/useSettings";
+import { useTranslation } from "../../../hooks/useTranslation";
 import { SlideHeadline } from "./SlideHeadline";
 
 export interface IQuestion {

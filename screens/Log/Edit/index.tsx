@@ -5,14 +5,14 @@ import { ReactElement, useEffect, useRef, useState } from 'react';
 import { Alert, Dimensions, Keyboard, Platform, View } from 'react-native';
 import Carousel from 'react-native-reanimated-carousel';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { QUESTIONS_PULL_URL } from '../../constants/API';
-import useColors from '../../hooks/useColors';
-import { LogItem, useLogs } from '../../hooks/useLogs';
-import { useSegment } from '../../hooks/useSegment';
-import { useSettings } from '../../hooks/useSettings';
-import { useTemporaryLog } from '../../hooks/useTemporaryLog';
-import { useTranslation } from '../../hooks/useTranslation';
-import { RootStackScreenProps } from '../../types';
+import { QUESTIONS_PULL_URL } from '../../../constants/API';
+import useColors from '../../../hooks/useColors';
+import { LogItem, useLogs } from '../../../hooks/useLogs';
+import { useSegment } from '../../../hooks/useSegment';
+import { useSettings } from '../../../hooks/useSettings';
+import { useTemporaryLog } from '../../../hooks/useTemporaryLog';
+import { useTranslation } from '../../../hooks/useTranslation';
+import { RootStackScreenProps } from '../../../types';
 import { SlideAction } from './SlideAction';
 import { SlideHeader } from './SlideHeader';
 import { SlideNote } from './SlideNote';
@@ -22,7 +22,7 @@ import { SlideReminder } from './SlideReminder';
 import { SlideTags } from './SlideTags';
 import { Stepper } from './Stepper';
 
-export const LogModal = ({ navigation, route }: RootStackScreenProps<'Log'>) => {
+export const LogEdit = ({ navigation, route }: RootStackScreenProps<'LogEdit'>) => {
   
   const { settings, hasActionDone } = useSettings()
   const colors = useColors()
@@ -121,7 +121,6 @@ export const LogModal = ({ navigation, route }: RootStackScreenProps<'Log'>) => 
       );
     })
   }
-  
 
   const askToCancel = () => {
     return new Promise((resolve, reject) => {
@@ -231,7 +230,11 @@ export const LogModal = ({ navigation, route }: RootStackScreenProps<'Log'>) => 
     })
   }
 
-  if(Object.keys(state.items).length % 2 === 0 && question !== null) {
+  if(
+    Object.keys(state.items).length % 2 === 0 && 
+    question !== null &&
+    existingLogItem === undefined
+  ) {
     content.push({
       slide: (
         <SlideQuestion

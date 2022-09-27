@@ -206,5 +206,8 @@
   "cancel_confirm_message": "Vaše změny budou ztraceny.",
   "keep_editing": "Pokračujte v úpravách",
   "discard_changes": "Zrušit změny",
-  "development_statistics_reset_actions": "Resetovat akce"
+  "development_statistics_reset_actions": "Resetovat akce",
+  "view_log_message": "Slova",
+  "view_log_message_empty": "Tajemný den, protože o sobě nemá co prozradit.",
+  "edit": "Upravit"
 }

@@ -1,11 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import { Keyboard, View } from "react-native";
-import DismissKeyboard from "../../components/DismisKeyboard";
-import TextArea from "../../components/TextArea";
-import useColors from "../../hooks/useColors";
-import { LogItem } from "../../hooks/useLogs";
-import { useTemporaryLog } from "../../hooks/useTemporaryLog";
-import { useTranslation } from "../../hooks/useTranslation";
+import DismissKeyboard from "../../../components/DismisKeyboard";
+import TextArea from "../../../components/TextArea";
+import useColors from "../../../hooks/useColors";
+import { LogItem } from "../../../hooks/useLogs";
+import { useTemporaryLog } from "../../../hooks/useTemporaryLog";
+import { useTranslation } from "../../../hooks/useTranslation";
 import { SlideHeadline } from "./SlideHeadline";
 
 const randomInt = (min, max) => Math.floor(Math.random() * (max - min + 1) + min);
