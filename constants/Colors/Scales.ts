@@ -45,13 +45,13 @@ const light = {
 
 const dark: typeof light = {
   'ColorBrew-RdYlGn': {
-    extremely_good: { background: colors.emerald[600], text: 'white', },
-    very_good: { background: colors.emerald[400], text: 'black', },
-    good: { background: colors.emerald[200], text: 'black', },
+    extremely_good: { background: colors.emerald[600], text: colors.emerald[100], },
+    very_good: { background: colors.emerald[400], text: colors.emerald[900], },
+    good: { background: colors.emerald[200], text: colors.emerald[900], },
     neutral: { background: colors.neutral[700], text: 'white', },
-    bad: { background: colors.amber[100], text: 'black', },
-    very_bad: { background: colors.orange[300], text: 'black', },
-    extremely_bad: { background: colors.red[500], text: 'white', },
+    bad: { background: colors.amber[100], text: colors.amber[900], },
+    very_bad: { background: colors.orange[300], text: colors.amber[900], },
+    extremely_bad: { background: colors.red[500], text: colors.red[100], },
     empty: {  background: colors.neutral[900], border: colors.neutral[600], text: 'white', },
   },
   'ColorBrew-RdYlGn-old': {
@@ -85,6 +85,8 @@ const dark: typeof light = {
     empty: {  background: colors.neutral[900], border: colors.neutral[600], text: 'white', },
   },
 };
+
+export type IScaleColors = keyof typeof light;
 
 export default {
   dark,

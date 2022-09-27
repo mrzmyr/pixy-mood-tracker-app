@@ -27,9 +27,11 @@ const DayDot = ({
   const color = scale.colors[rating] ? {
     bg: scale.colors[rating].background,
     text: scale.colors[rating].text,
+    border: scale.colors[rating].text,
   } : {
     bg: colors.statisticsCalendarDotBackground,
     text: colors.statisticsCalendarDotText,
+    border: colors.statisticsCalendarDotBorder,
   };
   
   return (
@@ -43,6 +45,8 @@ const DayDot = ({
         backgroundColor: color.bg,
         maxWidth: 32,
         maxHeight: 32,
+        borderColor: color?.border,
+        borderWidth: dayjs(date).isSame(dayjs(), 'day') ? 2 : 0,
       }}
     >
       <Text
@@ -99,13 +103,13 @@ const HeaderWeek = () => {
         paddingTop: 8,
         paddingBottom: 8,
       }}>
-      <HeaderDay>{dayjs().startOf('week').format('ddd')}</HeaderDay>
-      <HeaderDay>{dayjs().startOf('week').add(1, 'day').format('ddd')}</HeaderDay>
-      <HeaderDay>{dayjs().startOf('week').add(2, 'day').format('ddd')}</HeaderDay>
-      <HeaderDay>{dayjs().startOf('week').add(3, 'day').format('ddd')}</HeaderDay>
-      <HeaderDay>{dayjs().startOf('week').add(4, 'day').format('ddd')}</HeaderDay>
-      <HeaderDay>{dayjs().startOf('week').add(5, 'day').format('ddd')}</HeaderDay>
-      <HeaderDay>{dayjs().startOf('week').add(6, 'day').format('ddd')}</HeaderDay>
+      <HeaderDay>{dayjs().add(0, 'day').format('ddd')}</HeaderDay>
+      <HeaderDay>{dayjs().add(-1, 'day').format('ddd')}</HeaderDay>
+      <HeaderDay>{dayjs().add(-2, 'day').format('ddd')}</HeaderDay>
+      <HeaderDay>{dayjs().add(-3, 'day').format('ddd')}</HeaderDay>
+      <HeaderDay>{dayjs().add(-4, 'day').format('ddd')}</HeaderDay>
+      <HeaderDay>{dayjs().add(-5, 'day').format('ddd')}</HeaderDay>
+      <HeaderDay>{dayjs().add(-6, 'day').format('ddd')}</HeaderDay>
     </View>
   </View>
   )

@@ -157,7 +157,8 @@ const light = {
   statisticsWeekdayText: colors.neutral[400],
   statisticsWeekdayBorder: colors.neutral[200],
   statisticsCalendarDotBackground: colors.neutral[200],
-  statisticsCalendarDotText: colors.neutral[400],
+  statisticsCalendarDotText: colors.neutral[500],
+  statisticsCalendarDotBorder: colors.neutral[400],
   statisticsNoDataBorder: colors.neutral[300],
   statisticsNoDataText: colors.neutral[400],
 
@@ -311,6 +312,7 @@ const dark: IColors & {
   statisticsWeekdayBorder: colors.neutral[800],
   statisticsCalendarDotBackground: colors.neutral[800],
   statisticsCalendarDotText: colors.neutral[600],
+  statisticsCalendarDotBorder: colors.neutral[700],
   statisticsNoDataBorder: colors.neutral[800],
   statisticsNoDataText: colors.neutral[700],
   

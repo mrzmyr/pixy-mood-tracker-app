@@ -2,10 +2,8 @@ import dayjs, { Dayjs } from 'dayjs';
 import _ from 'lodash';
 import { Text, View } from 'react-native';
 import { Card } from '../../components/Statistics/Card';
-import { IColors, TagColorName } from '../../constants/Colors';
 import useColors from '../../hooks/useColors';
 import { LogItem } from '../../hooks/useLogs';
-import useScale from '../../hooks/useScale';
 import { Tag as ITag, useSettings } from '../../hooks/useSettings';
 import { useTranslation } from '../../hooks/useTranslation';
 import { CardFeedback } from './CardFeedback';
@@ -17,13 +15,14 @@ const DayDot = ({
 }: {
   date: Date,
   isHighlighted: boolean,
-  colorName: TagColorName,
+  colorName: string,
 }) => {
   const colors = useColors()
   
   const color = isHighlighted ? colors.tags[colorName] : {
     background: colors.statisticsCalendarDotBackground,
     text: colors.statisticsCalendarDotText,
+    border: colors.statisticsCalendarDotBorder,
   };
   
   return (
@@ -37,6 +36,8 @@ const DayDot = ({
         backgroundColor: color?.background,
         maxWidth: 32,
         maxHeight: 32,
+        borderColor: color?.border,
+        borderWidth: dayjs(date).isSame(dayjs(), 'day') ? 2 : 0,
       }}
     >
       <Text
@@ -49,7 +50,6 @@ const DayDot = ({
   )
 }
   
-
 const HeaderDay = ({ 
   children 
 }: {
@@ -93,13 +93,13 @@ const HeaderWeek = () => {
         paddingTop: 8,
         paddingBottom: 8,
       }}>
-      <HeaderDay>{dayjs().startOf('week').format('ddd')}</HeaderDay>
-      <HeaderDay>{dayjs().startOf('week').add(1, 'day').format('ddd')}</HeaderDay>
-      <HeaderDay>{dayjs().startOf('week').add(2, 'day').format('ddd')}</HeaderDay>
-      <HeaderDay>{dayjs().startOf('week').add(3, 'day').format('ddd')}</HeaderDay>
-      <HeaderDay>{dayjs().startOf('week').add(4, 'day').format('ddd')}</HeaderDay>
-      <HeaderDay>{dayjs().startOf('week').add(5, 'day').format('ddd')}</HeaderDay>
-      <HeaderDay>{dayjs().startOf('week').add(6, 'day').format('ddd')}</HeaderDay>
+      <HeaderDay>{dayjs().add(0, 'day').format('ddd')}</HeaderDay>
+      <HeaderDay>{dayjs().add(-1, 'day').format('ddd')}</HeaderDay>
+      <HeaderDay>{dayjs().add(-2, 'day').format('ddd')}</HeaderDay>
+      <HeaderDay>{dayjs().add(-3, 'day').format('ddd')}</HeaderDay>
+      <HeaderDay>{dayjs().add(-4, 'day').format('ddd')}</HeaderDay>
+      <HeaderDay>{dayjs().add(-5, 'day').format('ddd')}</HeaderDay>
+      <HeaderDay>{dayjs().add(-6, 'day').format('ddd')}</HeaderDay>
     </View>
   </View>
   )
