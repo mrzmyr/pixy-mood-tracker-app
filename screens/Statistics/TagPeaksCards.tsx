@@ -4,6 +4,7 @@ import _ from 'lodash';
 import { Text, TouchableOpacity, View } from 'react-native';
 import { Card } from '../../components/Statistics/Card';
 import useColors from '../../hooks/useColors';
+import useHaptics from '../../hooks/useHaptics';
 import { LogItem } from '../../hooks/useLogs';
 import { Tag as ITag, useSettings } from '../../hooks/useSettings';
 import { useTranslation } from '../../hooks/useTranslation';
@@ -19,6 +20,7 @@ const DayDot = ({
   colorName: string,
 }) => {
   const colors = useColors()
+  const haptics = useHaptics()
   const navigation = useNavigation()
   
   const color = isHighlighted ? colors.tags[colorName] : {
@@ -42,7 +44,8 @@ const DayDot = ({
         borderWidth: dayjs(date).isSame(dayjs(), 'day') ? 2 : 0,
       }}
       activeOpacity={0.8}
-      onPress={() => {
+      onPress={async () => {
+        await haptics.selection()
         navigation.navigate('LogView', {
           date: dayjs(date).format('YYYY-MM-DD'),
         })
@@ -82,7 +85,7 @@ const HeaderDay = ({
   )
 }
 
-const HeaderWeek = () => {
+const HeaderWeek = ({ start }) => {
   const colors = useColors()
 
   return (

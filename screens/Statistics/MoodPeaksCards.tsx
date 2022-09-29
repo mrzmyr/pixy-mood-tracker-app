@@ -3,6 +3,7 @@ import dayjs, { Dayjs } from 'dayjs';
 import { Text, TouchableOpacity, View } from 'react-native';
 import { Card } from '../../components/Statistics/Card';
 import useColors from '../../hooks/useColors';
+import useHaptics from '../../hooks/useHaptics';
 import { LogItem } from '../../hooks/useLogs';
 import useScale from '../../hooks/useScale';
 import { useSettings } from '../../hooks/useSettings';
@@ -25,6 +26,7 @@ const DayDot = ({
   const { settings } = useSettings()
   const scale = useScale(settings.scaleType)
   const navigation = useNavigation()
+  const haptics = useHaptics()
 
   const color = scale.colors[rating] ? {
     bg: scale.colors[rating].background,
@@ -51,7 +53,8 @@ const DayDot = ({
         borderWidth: dayjs(date).isSame(dayjs(), 'day') ? 2 : 0,
       }}
       activeOpacity={0.8}
-      onPress={() => {
+      onPress={async () => {
+        await haptics.selection()
         navigation.navigate('LogView', {
           date: dayjs(date).format('YYYY-MM-DD'),
         })
