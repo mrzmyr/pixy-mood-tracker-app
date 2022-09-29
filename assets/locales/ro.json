@@ -166,7 +166,7 @@
   "feedback_modal_email_placeholder": "E-mail (opțional)",
   "feedback_modal_message_placeholder": "Am observat ca…",
   "tags": "Etichete",
-  "statistics_tag_peaks_title": "{{title}} a fost etichetat foarte des cu {{count}} ori.",
+  "statistics_tag_peaks_title": "a fost etichetat deosebit de des cu {{count}} ori.",
   "statistics_tags_distribution_title": "{{count} zile au fost etichetate.",
   "onboarding_skip": "Ocolire",
   "onboarding_next": "Următorul",

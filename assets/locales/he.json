@@ -166,7 +166,7 @@
   "feedback_modal_email_placeholder": "אימייל (אופציונלי)",
   "feedback_modal_message_placeholder": "שמתי לב לזה…",
   "tags": "תגים",
-  "statistics_tag_peaks_title": "{{title}} תויג לעתים קרובות במיוחד עם {{count}} פעמים.",
+  "statistics_tag_peaks_title": "תויג לעתים קרובות במיוחד עם {{count}} פעמים.",
   "statistics_tags_distribution_title": "{{count} ימים תויגו.",
   "onboarding_skip": "לדלג",
   "onboarding_next": "הַבָּא",

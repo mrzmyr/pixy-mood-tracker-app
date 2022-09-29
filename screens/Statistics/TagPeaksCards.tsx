@@ -114,6 +114,7 @@ const TagPeaksCard = ({
   items: LogItem[]
   tag: ITag
 }) => {
+  const colors = useColors()
   const { t } = useTranslation();
 
   const peaks = items.filter(item => item?.tags?.map(d => d.id).includes(tag?.id))
@@ -121,10 +122,26 @@ const TagPeaksCard = ({
   return (
     <Card
       subtitle={t('tags')}
-      title={t('statistics_tag_peaks_title', {
-        title: tag?.title,
-        count: peaks.length,
-      })}
+      title={<>
+        <Text
+          style={{
+            fontSize: 17,
+            color: colors.text,
+            fontWeight: 'bold',
+          }}
+        >
+        <Text
+          style={{
+            fontSize: 17,
+            color: colors.tags[tag?.color].text,
+          }}
+        >{tag?.title}&nbsp;</Text>
+        {t('statistics_tag_peaks_title', {
+          title: tag?.title,
+          count: peaks.length,
+        })}
+        </Text>
+      </>}
     >
       <View
         style={{

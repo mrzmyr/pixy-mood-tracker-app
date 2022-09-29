@@ -166,7 +166,7 @@
   "feedback_modal_email_placeholder": "E-mail (valgfrit)",
   "feedback_modal_message_placeholder": "Det bemærkede jeg…",
   "tags": "Tags",
-  "statistics_tag_peaks_title": "{{title}} blev tagget særligt ofte med {{count}} gange.",
+  "statistics_tag_peaks_title": "blev tagget særligt ofte med {{count}} gange.",
   "statistics_tags_distribution_title": "{{count} dage blev tagget.",
   "onboarding_skip": "Springe",
   "onboarding_next": "Næste",

@@ -166,7 +166,7 @@
   "feedback_modal_email_placeholder": "E-mail opcional)",
   "feedback_modal_message_placeholder": "Eu percebi isso…",
   "tags": "Tag",
-  "statistics_tag_peaks_title": "{{title}} foi marcado com frequência com {{count}} vezes.",
+  "statistics_tag_peaks_title": "foi marcado com frequência com {{count}} vezes.",
   "statistics_tags_distribution_title": "{{count} dias foram marcados.",
   "onboarding_skip": "Pular",
   "onboarding_next": "Próximo",

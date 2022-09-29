@@ -166,7 +166,7 @@
   "feedback_modal_email_placeholder": "E-mail (voliteľné)",
   "feedback_modal_message_placeholder": "Všimol som si, že…",
   "tags": "Tagy",
-  "statistics_tag_peaks_title": "{{title}} bol označený obzvlášť často s {{count}}-krát.",
+  "statistics_tag_peaks_title": "bol označený obzvlášť často {{count}}-krát.",
   "statistics_tags_distribution_title": "Označené dni: {{count}.",
   "onboarding_skip": "Preskočiť",
   "onboarding_next": "Ďalšie",

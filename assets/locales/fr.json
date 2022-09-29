@@ -166,7 +166,7 @@
   "feedback_modal_email_placeholder": "E-mail (facultatif)",
   "feedback_modal_message_placeholder": "J'ai remarqué ça…",
   "tags": "Mots clés",
-  "statistics_tag_peaks_title": "{{title}} a été tagué particulièrement souvent avec {{count}} fois.",
+  "statistics_tag_peaks_title": "a été marqué particulièrement souvent avec {{count}} fois.",
   "statistics_tags_distribution_title": "{{count} jours ont été marqués.",
   "onboarding_skip": "Sauter",
   "onboarding_next": "Prochain",

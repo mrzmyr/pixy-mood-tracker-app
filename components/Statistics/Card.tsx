@@ -1,3 +1,4 @@
+import _ from "lodash"
 import { Text, View } from "react-native"
 import useColors from "../../hooks/useColors"
 
@@ -43,17 +44,19 @@ export const Card = ({
           marginBottom: 16,
         }}
       >
-        <Text 
-          style={{
-            letterSpacing: -0.1,
-            lineHeight: 24,
-            fontSize: 17,
-            fontWeight: 'bold',
-            color: colors.text,
-          }}
-        >
-          {title}
-        </Text>
+        {_.isString(title) ? (
+          <Text 
+            style={{
+              letterSpacing: -0.1,
+              lineHeight: 24,
+              fontSize: 17,
+              fontWeight: 'bold',
+              color: colors.text,
+            }}
+          >
+            {title}
+          </Text>
+        ) : title}
       </View>
       <View style={{
         flexDirection: 'column',

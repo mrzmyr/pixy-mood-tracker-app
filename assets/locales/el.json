@@ -166,7 +166,7 @@
   "feedback_modal_email_placeholder": "Email (προαιρετικό)",
   "feedback_modal_message_placeholder": "Παρατήρησα ότι…",
   "tags": "Ετικέτες",
-  "statistics_tag_peaks_title": "Ο χρήστης {{title}} επισημάνθηκε ιδιαίτερα συχνά με {{count}} φορές.",
+  "statistics_tag_peaks_title": "επισημάνθηκε ιδιαίτερα συχνά με {{count}} φορές.",
   "statistics_tags_distribution_title": "{{count} ημέρες επισημάνθηκαν.",
   "onboarding_skip": "Παραλείπω",
   "onboarding_next": "Επόμενο",

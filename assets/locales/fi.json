@@ -166,7 +166,7 @@
   "feedback_modal_email_placeholder": "Sähköposti (valinnainen)",
   "feedback_modal_message_placeholder": "Huomasin sen…",
   "tags": "Tunnisteet",
-  "statistics_tag_peaks_title": "{{title}} merkittiin erityisen usein {{count}} kertaa.",
+  "statistics_tag_peaks_title": "merkittiin erityisen usein {{count}} kertaa.",
   "statistics_tags_distribution_title": "{{count} päivää merkittiin.",
   "onboarding_skip": "Ohita",
   "onboarding_next": "Seuraava",

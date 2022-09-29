@@ -166,7 +166,7 @@
   "feedback_modal_email_placeholder": "E-posta isteğe bağlı)",
   "feedback_modal_message_placeholder": "Onu farkettim…",
   "tags": "Etiketler",
-  "statistics_tag_peaks_title": "{{title}}, özellikle sık sık {{count}} kez etiketlendi.",
+  "statistics_tag_peaks_title": "özellikle sık sık {{count}} kez etiketlendi.",
   "statistics_tags_distribution_title": "{{count} gün etiketlendi.",
   "onboarding_skip": "Atlamak",
   "onboarding_next": "Sonraki",

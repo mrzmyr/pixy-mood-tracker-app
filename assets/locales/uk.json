@@ -166,7 +166,7 @@
   "feedback_modal_email_placeholder": "Електронна адреса (необов'язково)",
   "feedback_modal_message_placeholder": "Я помітив що…",
   "tags": "Теги",
-  "statistics_tag_peaks_title": "{{title}} особливо часто позначали {{count}} разів.",
+  "statistics_tag_peaks_title": "особливо часто позначався {{count}} разів.",
   "statistics_tags_distribution_title": "Позначено {{count} днів.",
   "onboarding_skip": "Пропустити",
   "onboarding_next": "Далі",

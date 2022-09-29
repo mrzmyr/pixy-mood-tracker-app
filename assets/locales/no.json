@@ -166,7 +166,7 @@
   "feedback_modal_email_placeholder": "E-post (valgfritt)",
   "feedback_modal_message_placeholder": "Jeg la merke til det…",
   "tags": "Tagger",
-  "statistics_tag_peaks_title": "{{title}} ble merket spesielt ofte med {{count}} ganger.",
+  "statistics_tag_peaks_title": "ble merket spesielt ofte med {{count}} ganger.",
   "statistics_tags_distribution_title": "{{count} dager ble merket.",
   "onboarding_skip": "Hopp over",
   "onboarding_next": "Neste",
