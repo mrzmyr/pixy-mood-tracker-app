@@ -9,6 +9,7 @@ import { LogItem } from '../../hooks/useLogs';
 import { Tag as ITag, useSettings } from '../../hooks/useSettings';
 import { useTranslation } from '../../hooks/useTranslation';
 import { CardFeedback } from './CardFeedback';
+import { HeaderWeek } from './HeaderWeek';
 
 const DayDot = ({
   isHighlighted,
@@ -58,61 +59,6 @@ const DayDot = ({
         }}
       >{dayjs(date).format('DD')}</Text>
     </TouchableOpacity>
-  )
-}
-  
-const HeaderDay = ({ 
-  children 
-}: {
-  children: string
-}) => {
-  const colors = useColors()
-  return (
-    <View
-      style={{
-        flex: 7,
-      }}
-    >
-     <Text 
-      style={{ 
-        fontSize: 14,
-        fontWeight: '600',
-        color: colors.statisticsWeekdayText,
-        textAlign: 'center',
-      }}
-      >{children}</Text>
-    </View>
-  )
-}
-
-const HeaderWeek = ({ start }) => {
-  const colors = useColors()
-
-  return (
-    <View
-      style={{
-        width: '100%',
-      }}
-    >
-      <View style={{
-        flexDirection: "row",
-        justifyContent: 'space-around',
-        borderTopColor: colors.statisticsWeekdayBorder,
-        borderTopWidth: 1,
-        borderBottomColor: colors.statisticsWeekdayBorder,
-        borderBottomWidth: 1,
-        paddingTop: 8,
-        paddingBottom: 8,
-      }}>
-      <HeaderDay>{dayjs().add(0, 'day').format('ddd')}</HeaderDay>
-      <HeaderDay>{dayjs().add(-1, 'day').format('ddd')}</HeaderDay>
-      <HeaderDay>{dayjs().add(-2, 'day').format('ddd')}</HeaderDay>
-      <HeaderDay>{dayjs().add(-3, 'day').format('ddd')}</HeaderDay>
-      <HeaderDay>{dayjs().add(-4, 'day').format('ddd')}</HeaderDay>
-      <HeaderDay>{dayjs().add(-5, 'day').format('ddd')}</HeaderDay>
-      <HeaderDay>{dayjs().add(-6, 'day').format('ddd')}</HeaderDay>
-    </View>
-  </View>
   )
 }
 
