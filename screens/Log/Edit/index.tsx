@@ -22,6 +22,12 @@ import { SlideReminder } from './SlideReminder';
 import { SlideTags } from './SlideTags';
 import { Stepper } from './Stepper';
 
+const SLIDE_INDEX_MAPPING = {
+  rating: 0,
+  tags: 1,
+  message: 2,
+}
+
 export const LogEdit = ({ navigation, route }: RootStackScreenProps<'LogEdit'>) => {
   
   const { settings, hasActionDone } = useSettings()
@@ -179,8 +185,10 @@ export const LogEdit = ({ navigation, route }: RootStackScreenProps<'LogEdit'>) 
     tempLog.set(logItem => ({ ...logItem, tags }))
   }
 
+  const initialIndex = SLIDE_INDEX_MAPPING[route.params.slide] || 0
+  
   const _carousel = useRef(null);
-  const [slideIndex, setSlideIndex] = useState(0)
+  const [slideIndex, setSlideIndex] = useState(initialIndex)
   const [touched, setTouched] = useState(false)
   
   let marginTop = 32;
@@ -320,6 +328,7 @@ export const LogEdit = ({ navigation, route }: RootStackScreenProps<'LogEdit'>) 
             width={Dimensions.get('window').width - 40}
             ref={_carousel}
             data={content}
+            defaultIndex={slideIndex}
             onScrollBegin={() => {
               setTouched(true)
             }}

@@ -1,12 +1,13 @@
 import dayjs from 'dayjs';
 import { t } from 'i18n-js';
-import { Alert, Platform, ScrollView, Text, View } from 'react-native';
+import { Alert, Platform, Pressable, ScrollView, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Tag from '../../../components/Tag';
 import useColors from '../../../hooks/useColors';
+import useHaptics from '../../../hooks/useHaptics';
 import { useLogs } from '../../../hooks/useLogs';
 import { useSegment } from '../../../hooks/useSegment';
-import { RootStackScreenProps } from '../../../types';
+import { RootStackParamList, RootStackScreenProps } from '../../../types';
 import { Header } from './Header';
 import { Headline } from './Headline';
 import { RatingDot } from './RatingDot';
@@ -15,6 +16,7 @@ export const LogView = ({ navigation, route }: RootStackScreenProps<'LogView'>) 
   const colors = useColors()
   const segment = useSegment()
   const insets = useSafeAreaInsets();
+  const haptics = useHaptics();
 
   const { state, dispatch } = useLogs()
   
@@ -25,9 +27,9 @@ export const LogView = ({ navigation, route }: RootStackScreenProps<'LogView'>) 
     navigation.popToTop()
   }
 
-  const edit = () => {
+  const edit = (slide: RootStackParamList['LogEdit']['slide']) => {
     segment.track('log_edit')
-    navigation.navigate('LogEdit', { date: route.params.date });
+    navigation.navigate('LogEdit', { date: route.params.date, slide });
   }
   
   const remove = () => {
@@ -60,7 +62,7 @@ export const LogView = ({ navigation, route }: RootStackScreenProps<'LogView'>) 
       );
     })
   }
-
+  
   return (
     <View style={{ 
       flex: 1,
@@ -85,7 +87,7 @@ export const LogView = ({ navigation, route }: RootStackScreenProps<'LogView'>) 
               remove()
             }
           }}
-          onEdit={edit}
+          onEdit={() => edit('rating')}
         />
         <ScrollView
           style={{
@@ -104,7 +106,7 @@ export const LogView = ({ navigation, route }: RootStackScreenProps<'LogView'>) 
                 flexDirection: 'row',
               }}
             >
-              {item?.rating && <RatingDot rating={item?.rating} />}
+              {item?.rating && <RatingDot onPress={() => edit('rating')} rating={item?.rating} />}
             </View>
           </View>
           <View
@@ -124,7 +126,8 @@ export const LogView = ({ navigation, route }: RootStackScreenProps<'LogView'>) 
                   colorName={tag.color}
                   selected={false} 
                   key={tag.id} 
-                  title={tag.title} 
+                  title={tag.title}
+                  onPress={() => edit('tags')}
                 />
               )) : (
                 <View
@@ -149,23 +152,33 @@ export const LogView = ({ navigation, route }: RootStackScreenProps<'LogView'>) 
               }}
             >
               {item?.message?.length > 0 ? (
-                <View
+                <Pressable
+                  onPress={async () => {
+                    await haptics.selection()
+                    edit('message')
+                  }}
                   style={{
-                    backgroundColor: colors.logCardBackground,
-                    borderRadius: 8,
-                    padding: 16,
                     width: '100%',
                   }}
                 >
-                  <Text
+                  <View
                     style={{
-                      fontSize: 17,
-                      color: colors.text,
-                      lineHeight: 23,
+                      backgroundColor: colors.logCardBackground,
+                      borderRadius: 8,
+                      padding: 16,
                       width: '100%',
                     }}
-                  >{item.message}</Text>
-                </View>
+                  >
+                    <Text
+                      style={{
+                        fontSize: 17,
+                        color: colors.text,
+                        lineHeight: 23,
+                        width: '100%',
+                      }}
+                    >{item.message}</Text>
+                  </View>
+                </Pressable>
               ) : (
                 <View
                   style={{

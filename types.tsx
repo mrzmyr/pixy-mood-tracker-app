@@ -38,6 +38,7 @@ export type RootStackParamList = {
   },
   LogEdit: {
     date: string,
+    slide: 'rating' | 'tags' | 'message',
   },
 };
 
