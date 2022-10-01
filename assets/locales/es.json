@@ -167,7 +167,7 @@
   "feedback_modal_message_placeholder": "Me di cuenta que…",
   "tags": "Etiquetas",
   "statistics_tag_peaks_title": "fue etiquetado particularmente a menudo con {{count}} veces.",
-  "statistics_tags_distribution_title": "Se etiquetaron {{count} días.",
+  "statistics_tags_distribution_title": "En las últimas 2 semanas, se etiquetaron {{count}} días.",
   "onboarding_skip": "Saltar",
   "onboarding_next": "próximo",
   "onboarding_step_0_title": "Bienvenido a Pixy",

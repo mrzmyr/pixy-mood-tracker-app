@@ -167,7 +167,7 @@
   "feedback_modal_message_placeholder": "Primjetio sam to…",
   "tags": "Oznake",
   "statistics_tag_peaks_title": "posebno je često označen s {{count}} puta.",
-  "statistics_tags_distribution_title": "Označeno je {{count} dana.",
+  "statistics_tags_distribution_title": "U zadnja 2 tjedna označeno je {{count}} dana.",
   "onboarding_skip": "Preskočiti",
   "onboarding_next": "Sljedeći",
   "onboarding_step_0_title": "Dobrodošli u Pixy",

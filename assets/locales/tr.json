@@ -167,7 +167,7 @@
   "feedback_modal_message_placeholder": "Onu farkettim…",
   "tags": "Etiketler",
   "statistics_tag_peaks_title": "özellikle sık sık {{count}} kez etiketlendi.",
-  "statistics_tags_distribution_title": "{{count} gün etiketlendi.",
+  "statistics_tags_distribution_title": "Son 2 hafta içinde {{count}} gün etiketlendi.",
   "onboarding_skip": "Atlamak",
   "onboarding_next": "Sonraki",
   "onboarding_step_0_title": "Pixy'ye hoş geldiniz",

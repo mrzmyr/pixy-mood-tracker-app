@@ -167,7 +167,7 @@
   "feedback_modal_message_placeholder": "Jag märkte det…",
   "tags": "Taggar",
   "statistics_tag_peaks_title": "taggades särskilt ofta med {{count}} gånger.",
-  "statistics_tags_distribution_title": "{{count} dagar taggades.",
+  "statistics_tags_distribution_title": "Under de senaste 2 veckorna har {{count}} dagar taggats.",
   "onboarding_skip": "Hoppa",
   "onboarding_next": "Nästa",
   "onboarding_step_0_title": "Välkommen till Pixy",

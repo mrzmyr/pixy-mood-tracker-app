@@ -155,7 +155,7 @@
   "feedback_modal_message_placeholder": "Ich habe bemerkt, dass…",
   "tags": "Stichworte",
   "statistics_tag_peaks_title": "wurde besonders oft mit {{count}} mal getaggt.",
-  "statistics_tags_distribution_title": "{{count} Tage wurden markiert.",
+  "statistics_tags_distribution_title": "In den letzten 2 Wochen, wurden {{count}} Tage getaggt.",
   "onboarding_skip": "Überspringen",
   "onboarding_next": "Weiter",
   "onboarding_step_0_title": "Willkommen 👋",

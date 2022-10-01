@@ -167,7 +167,7 @@
   "feedback_modal_message_placeholder": "Ho notato che…",
   "tags": "Tag",
   "statistics_tag_peaks_title": "è stato taggato particolarmente spesso con {{count}} volte.",
-  "statistics_tags_distribution_title": "{{count} giorni sono stati taggati.",
+  "statistics_tags_distribution_title": "Nelle ultime 2 settimane sono stati taggati {{count}} giorni.",
   "onboarding_skip": "Saltare",
   "onboarding_next": "Prossimo",
   "onboarding_step_0_title": "Benvenuto in Pixy",

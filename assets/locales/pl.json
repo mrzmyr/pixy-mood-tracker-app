@@ -167,7 +167,7 @@
   "feedback_modal_message_placeholder": "Zauważyłem to…",
   "tags": "Tagi",
   "statistics_tag_peaks_title": "był szczególnie często oznaczony {{count}} razy.",
-  "statistics_tags_distribution_title": "{{count} dni zostały oznaczone.",
+  "statistics_tags_distribution_title": "W ciągu ostatnich 2 tygodni oznaczono {{count}} dni.",
   "onboarding_skip": "Pomijać",
   "onboarding_next": "Następny",
   "onboarding_step_0_title": "Witamy w Pixy",

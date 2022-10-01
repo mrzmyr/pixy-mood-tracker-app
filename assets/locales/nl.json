@@ -167,7 +167,7 @@
   "feedback_modal_message_placeholder": "Ik merkte dat…",
   "tags": "Tags",
   "statistics_tag_peaks_title": "werd bijzonder vaak getagd met {{count}} keer.",
-  "statistics_tags_distribution_title": "{{count} dagen zijn getagd.",
+  "statistics_tags_distribution_title": "In de afgelopen 2 weken zijn {{count}} dagen getagd.",
   "onboarding_skip": "Overslaan",
   "onboarding_next": "Volgende",
   "onboarding_step_0_title": "Welkom bij Pixy",

@@ -167,7 +167,7 @@
   "feedback_modal_message_placeholder": "Všimnul jsem si, že…",
   "tags": "Tagy",
   "statistics_tag_peaks_title": "byl označen zvláště často {{count}}krát.",
-  "statistics_tags_distribution_title": "Bylo označeno {{count} dní.",
+  "statistics_tags_distribution_title": "Za poslední 2 týdny bylo označeno {{count}} dní.",
   "onboarding_skip": "Přeskočit",
   "onboarding_next": "další",
   "onboarding_step_0_title": "Vítejte v Pixy",

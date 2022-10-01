@@ -167,7 +167,7 @@
   "feedback_modal_message_placeholder": "Észrevettem…",
   "tags": "Címkék",
   "statistics_tag_peaks_title": "különösen gyakran megcímkézték {{count}} alkalommal.",
-  "statistics_tags_distribution_title": "{{count} napot jelöltek meg.",
+  "statistics_tags_distribution_title": "Az elmúlt 2 hétben {{count}} napot jelöltek meg.",
   "onboarding_skip": "Kihagyás",
   "onboarding_next": "Következő",
   "onboarding_step_0_title": "Üdvözöljük a Pixy-ben",

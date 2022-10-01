@@ -167,7 +167,7 @@
   "feedback_modal_message_placeholder": "Jeg la merke til det…",
   "tags": "Tagger",
   "statistics_tag_peaks_title": "ble merket spesielt ofte med {{count}} ganger.",
-  "statistics_tags_distribution_title": "{{count} dager ble merket.",
+  "statistics_tags_distribution_title": "I løpet av de siste 2 ukene har {{count}} dager blitt merket.",
   "onboarding_skip": "Hopp over",
   "onboarding_next": "Neste",
   "onboarding_step_0_title": "Velkommen til Pixy",

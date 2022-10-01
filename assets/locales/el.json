@@ -167,7 +167,7 @@
   "feedback_modal_message_placeholder": "Παρατήρησα ότι…",
   "tags": "Ετικέτες",
   "statistics_tag_peaks_title": "επισημάνθηκε ιδιαίτερα συχνά με {{count}} φορές.",
-  "statistics_tags_distribution_title": "{{count} ημέρες επισημάνθηκαν.",
+  "statistics_tags_distribution_title": "Τις τελευταίες 2 εβδομάδες, επισημάνθηκαν {{count}} ημέρες.",
   "onboarding_skip": "Παραλείπω",
   "onboarding_next": "Επόμενο",
   "onboarding_step_0_title": "Καλώς ήρθατε στο Pixy",

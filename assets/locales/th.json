@@ -167,7 +167,7 @@
   "feedback_modal_message_placeholder": "ฉันสังเกตว่า…",
   "tags": "แท็ก",
   "statistics_tag_peaks_title": "ถูกแท็กบ่อยครั้งเป็นพิเศษด้วย {{count}} ครั้ง",
-  "statistics_tags_distribution_title": "{{count} วันถูกแท็ก",
+  "statistics_tags_distribution_title": "ในช่วง 2 สัปดาห์ที่ผ่านมา {{count}} วันถูกแท็ก",
   "onboarding_skip": "ข้าม",
   "onboarding_next": "ต่อไป",
   "onboarding_step_0_title": "ยินดีต้อนรับสู่ Pixy",

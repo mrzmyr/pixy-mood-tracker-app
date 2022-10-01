@@ -167,7 +167,7 @@
   "feedback_modal_message_placeholder": "Aku tahu itu…",
   "tags": "Tag",
   "statistics_tag_peaks_title": "sering ditandai dengan {{count}} kali.",
-  "statistics_tags_distribution_title": "{{count} hari telah ditandai.",
+  "statistics_tags_distribution_title": "Dalam 2 minggu terakhir, {{count}} hari diberi tag.",
   "onboarding_skip": "Melewati",
   "onboarding_next": "Lanjut",
   "onboarding_step_0_title": "Selamat datang di Pixy",

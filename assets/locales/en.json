@@ -139,7 +139,7 @@
   "statistics_feedback_question": "Is this helpful?",
   "statistics_feedback_success": "Thank you!",
   "statistics_tag_peaks_title": "was tagged particularly often with {{count}} times.",
-  "statistics_tags_distribution_title": "{{count} days were tagged.",
+  "statistics_tags_distribution_title": "In the last 2 weeks, {{count}} days were tagged.",
   "calendar_filters": "Filters",
   "calendar_filters_reset": "Clear",
   "calendar_filters_results": "Results",

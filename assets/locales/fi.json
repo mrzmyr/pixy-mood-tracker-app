@@ -167,7 +167,7 @@
   "feedback_modal_message_placeholder": "Huomasin sen…",
   "tags": "Tunnisteet",
   "statistics_tag_peaks_title": "merkittiin erityisen usein {{count}} kertaa.",
-  "statistics_tags_distribution_title": "{{count} päivää merkittiin.",
+  "statistics_tags_distribution_title": "Viimeisten 2 viikon aikana on merkitty {{count}} päivää.",
   "onboarding_skip": "Ohita",
   "onboarding_next": "Seuraava",
   "onboarding_step_0_title": "Tervetuloa Pixyyn",

@@ -167,7 +167,7 @@
   "feedback_modal_message_placeholder": "Eu percebi isso…",
   "tags": "Tag",
   "statistics_tag_peaks_title": "foi marcado com frequência com {{count}} vezes.",
-  "statistics_tags_distribution_title": "{{count} dias foram marcados.",
+  "statistics_tags_distribution_title": "Nas últimas 2 semanas, {{count}} dias foram marcados.",
   "onboarding_skip": "Pular",
   "onboarding_next": "Próximo",
   "onboarding_step_0_title": "Bem-vindo ao Pixy",

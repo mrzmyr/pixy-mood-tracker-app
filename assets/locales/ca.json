@@ -167,7 +167,7 @@
   "feedback_modal_message_placeholder": "Em vaig adonar que…",
   "tags": "Etiquetes",
   "statistics_tag_peaks_title": "s'ha etiquetat especialment sovint amb {{count}} vegades.",
-  "statistics_tags_distribution_title": "S'han etiquetat {{count} dies.",
+  "statistics_tags_distribution_title": "Durant les dues darreres setmanes, s'han etiquetat {{count}} dies.",
   "onboarding_skip": "Omet",
   "onboarding_next": "Pròxim",
   "onboarding_step_0_title": "Benvingut a Pixy",

@@ -167,7 +167,7 @@
   "feedback_modal_message_placeholder": "मैंने गौर किया…",
   "tags": "टैग",
   "statistics_tag_peaks_title": "विशेष रूप से अक्सर {{गिनती}} बार टैग किया गया था।",
-  "statistics_tags_distribution_title": "{{गिनती} दिनों को टैग किया गया था।",
+  "statistics_tags_distribution_title": "पिछले 2 हफ़्तों में, {{गिनती}} दिनों को टैग किया गया था।",
   "onboarding_skip": "छोड़ें",
   "onboarding_next": "अगला",
   "onboarding_step_0_title": "पिक्सी में आपका स्वागत है",

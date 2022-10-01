@@ -167,7 +167,7 @@
   "feedback_modal_message_placeholder": "שמתי לב לזה…",
   "tags": "תגים",
   "statistics_tag_peaks_title": "תויג לעתים קרובות במיוחד עם {{count}} פעמים.",
-  "statistics_tags_distribution_title": "{{count} ימים תויגו.",
+  "statistics_tags_distribution_title": "בשבועיים האחרונים תויגו {{count}} ימים.",
   "onboarding_skip": "לדלג",
   "onboarding_next": "הַבָּא",
   "onboarding_step_0_title": "ברוכים הבאים לפיקסי",
