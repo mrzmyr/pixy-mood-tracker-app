@@ -100,7 +100,7 @@ const light = {
   
   calendarBackground: colors.neutral[50],
   calendarItemBackground: '#FFF',
-  calendarItemBackgroundFuture: colors.gray[50],
+  calendarItemBackgroundFuture: colors.neutral[50],
   calendarItemTextColor: colors.neutral[500],
   calendarWeekNameColor: colors.neutral[400],
   calendarMonthNameColor: colors.neutral[400],
@@ -161,6 +161,9 @@ const light = {
   statisticsCalendarDotBorder: colors.neutral[400],
   statisticsNoDataBorder: colors.neutral[300],
   statisticsNoDataText: colors.neutral[400],
+  statisticsLinePrimary: colors.neutral[600],
+  statisticsLineMuted: colors.neutral[200],
+  statisticsLineHighlight: tintColorLight,
 
   onboardingTitle: colors.black,
   onboardingBody: colors.neutral[700],
