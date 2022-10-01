@@ -2,6 +2,31 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.34.0](https://github.com/mrzmyr/pixy-mood-tracker/compare/v1.33.1...v1.34.0) (2022-10-01)
+
+
+### Features
+
+* add colors to tags statistics headline ([bed7551](https://github.com/mrzmyr/pixy-mood-tracker/commit/bed755109e40151f0055ace7390103d2fe5ec092))
+* add first prototype of mood chart ([01b5d54](https://github.com/mrzmyr/pixy-mood-tracker/commit/01b5d54af3312d0179eb8b58490555295c5d38a9))
+* add haptics to calendardot in statistics ([a87abb7](https://github.com/mrzmyr/pixy-mood-tracker/commit/a87abb76c77bb65ae773605c666de1cb96a4f7e6))
+* add neutral to mood avg ([b29b10f](https://github.com/mrzmyr/pixy-mood-tracker/commit/b29b10f8e366d307165e944b4f6b5de4e0a64772))
+* support direct opening slides in log edit view ([f82d5a3](https://github.com/mrzmyr/pixy-mood-tracker/commit/f82d5a3aa3382b602039eed2ba69e6bcc265b1ce))
+* update screen tracking ([9d0897b](https://github.com/mrzmyr/pixy-mood-tracker/commit/9d0897b46532225f90e63eab6e0f32b57dde1f6d))
+* use pkg for android version ([886edb3](https://github.com/mrzmyr/pixy-mood-tracker/commit/886edb34e943e13bcb35b71d3cf82573ed184a34))
+
+
+### Bug Fixes
+
+* calendar statistics week header ([ed41c7f](https://github.com/mrzmyr/pixy-mood-tracker/commit/ed41c7f26a33c94c37715ff99aa684f33bfe1fc4))
+
+
+### Styling
+
+* log view action icons smaller ([8d2c5bb](https://github.com/mrzmyr/pixy-mood-tracker/commit/8d2c5bb017fe0517ffedd494468239dde727e771))
+* update color of future calendar day entries ([004879e](https://github.com/mrzmyr/pixy-mood-tracker/commit/004879e3f136322081cb0000c79d76ab9a5552fc))
+* update headline for tags distribution ([7db4fcc](https://github.com/mrzmyr/pixy-mood-tracker/commit/7db4fcc8700585fad335e494cd70e0c6ba937449))
+
 ### [1.33.1](https://github.com/mrzmyr/pixy-mood-tracker/compare/v1.33.0...v1.33.1) (2022-09-27)
 
 
