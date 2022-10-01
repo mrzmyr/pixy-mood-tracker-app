@@ -66,7 +66,7 @@ export const Header = ({
               onEdit();
             }}
           >
-            <Edit color={colors.logHeaderText} width={24} height={24} />
+            <Edit color={colors.logHeaderText} width={22} height={22} />
           </Pressable>
           <Pressable
             style={{
@@ -77,7 +77,7 @@ export const Header = ({
               onDelete();
             }}
           >
-            <Trash color={colors.logHeaderText} width={24} height={24} />
+            <Trash color={colors.logHeaderText} width={22} height={22} />
           </Pressable>
           <Pressable
             style={{
@@ -88,7 +88,7 @@ export const Header = ({
               onClose();
             }}
           >
-            <X color={colors.logHeaderText} width={24} height={24} />
+            <X color={colors.logHeaderText} width={22} height={22} />
           </Pressable>
         </View>
       </View>
