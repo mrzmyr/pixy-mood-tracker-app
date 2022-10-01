@@ -335,13 +335,13 @@ function RootNavigator() {
       <Stack.Navigator
         screenListeners={{
           state: (e) => {
-            const path = e.data.state.routes.map(r => {
+            const routes = e.data.state.routes.map(r => {
               if(r.state) {
                 return `${r.name} > ${r.state.routeNames[r.state.index]}`
               }
               return r.name
-            }).join('');
-            segment.screen(path)
+            });
+            segment.screen(routes.join(' > '), { routes })
           },
         }}
         screenOptions={stackScreenOptions}
