@@ -6,6 +6,7 @@ import * as Device from 'expo-device';
 import * as Localization from 'expo-localization';
 import { Platform } from 'react-native';
 import _ from 'lodash';
+import pkg from '../package.json';
 
 const SegmentContext = createContext(undefined)
 
@@ -31,7 +32,7 @@ function SegmentProvider({
   const identify = (properties?: any) => {
     const traits = {
       userId: settings.deviceId,
-      appVersion: Constants?.manifest?.version,
+      appVersion: pkg.version,
       deviceModel: Device.modelName,
       osName: Device.osName,
       osVersion: Device.osVersion,
@@ -98,14 +99,15 @@ function SegmentProvider({
         userId: settings.deviceId
       })
     },
-    screen: (screenName: string) => {
+    screen: (screenName: string, properties?: any) => {
       if(__DEV__ || Platform.OS === 'web') {
-        console.log('useSegment: screen', screenName)
+        console.log('useSegment: screen', screenName, properties)
         return;
       }
 
       Segment.screenWithProperties(screenName, {
-        userId: settings.deviceId
+        userId: settings.deviceId,
+        ...properties,
       })
     },
     identify
