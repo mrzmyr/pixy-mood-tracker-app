@@ -17,10 +17,7 @@
 ## About The Project
 
 <p align="center">
-  <img src="./docs/screen-1.png" width="200px">
-  <img src="./docs/screen-2.png" width="200px">
-  <img src="./docs/screen-3.png" width="200px">
-  <img src="./docs/screen-4.png" width="200px">
+  <img src="./docs/screen-1.png" width="400px">
 </p>
 
 ### Built With
