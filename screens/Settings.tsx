@@ -86,6 +86,12 @@ export const SettingsScreen = ({ navigation }: RootStackScreenProps<'Settings'>)
             onPress={() => navigation.navigate('Reminder')}
             testID='reminder'
             isLink
+          />
+          <MenuListItem
+            title={i18n.t('privacy')}
+            onPress={() => navigation.navigate('Privacy')}
+            iconLeft={<Shield width={18} color={colors.menuListItemIcon} />}
+            isLink
             isLast
           />
           {/* <MenuListItem
@@ -146,11 +152,6 @@ export const SettingsScreen = ({ navigation }: RootStackScreenProps<'Settings'>)
           }}
         >
           <MenuListItem
-            title={i18n.t('rate_this_app')}
-            onPress={() => askToRateApp()}
-            iconLeft={<Star width={18} color={colors.menuListItemIcon} />}
-          />
-          <MenuListItem
             title={i18n.t('vote_features')}
             onPress={async () => {
               segment.track('settings_vote_features')
@@ -169,10 +170,9 @@ export const SettingsScreen = ({ navigation }: RootStackScreenProps<'Settings'>)
             testID='changelog'
           />
           <MenuListItem
-            title={i18n.t('privacy')}
-            onPress={() => navigation.navigate('Privacy')}
-            iconLeft={<Shield width={18} color={colors.menuListItemIcon} />}
-            isLink
+            title={i18n.t('rate_this_app')}
+            onPress={() => askToRateApp()}
+            iconLeft={<Star width={18} color={colors.menuListItemIcon} />}
             isLast
           />
         </MenuList>
