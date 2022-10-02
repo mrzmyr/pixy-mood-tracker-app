@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.35.0](https://github.com/mrzmyr/pixy-mood-tracker/compare/v1.34.0...v1.35.0) (2022-10-02)
+
+
+### Features
+
+* add disabled state for floating button ([f2656f1](https://github.com/mrzmyr/pixy-mood-tracker/commit/f2656f1fec87dbc9736c6bc3acf649f3db0dfa2d))
+* remove data notice ([8021131](https://github.com/mrzmyr/pixy-mood-tracker/commit/8021131376b1ba5bb973ad3ec826f252aa8c56c2))
+* update settings order ([c3b6f46](https://github.com/mrzmyr/pixy-mood-tracker/commit/c3b6f46107dfc8363e579ec948e36948021ced5d))
+
+
+### Bug Fixes
+
+* render error when question is shown ([e84ff71](https://github.com/mrzmyr/pixy-mood-tracker/commit/e84ff71d714ccfbdf7dee5053078a6f9b822123c))
+
 ## [1.34.0](https://github.com/mrzmyr/pixy-mood-tracker/compare/v1.33.1...v1.34.0) (2022-10-01)
 
 
