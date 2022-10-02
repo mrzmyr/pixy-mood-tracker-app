@@ -3,9 +3,11 @@ import useColors from "../../../hooks/useColors"
 
 export const FloatButton = ({
   onPress,
+  disabled,
   children,
 }: {
   onPress: () => void
+  disabled?: boolean
   children?: React.ReactNode
 }) => {
   const colors = useColors()
@@ -18,7 +20,7 @@ export const FloatButton = ({
         width: 54,
         height: 54,
         borderRadius: 100,
-        backgroundColor: colors.primaryButtonBackground,
+        backgroundColor: disabled ? colors.primaryButtonBackgroundDisabled : colors.primaryButtonBackground,
         justifyContent: 'center',
         alignItems: 'center',
       }}

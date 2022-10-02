@@ -8,9 +8,11 @@ import { FloatButton } from "./FloatButton"
 
 export const SlideAction = ({
   type,
-  onPress
+  disabled,
+  onPress,
 }: {
   type: 'next' | 'save' | 'hidden'
+  disabled?: boolean
   onPress?: () => void
 }) => {
   const haptics = useHaptics()
@@ -47,15 +49,17 @@ export const SlideAction = ({
     >
       <FloatButton 
         onPress={async () => {
+          if(disabled) return
           await haptics.selection()
           onPress?.()
         }}
+        disabled={disabled}
       >
         { type === 'save' && (
-          <Check color={colors.primaryButtonText} width={24} />
+          <Check color={disabled ? colors.primaryButtonTextDisabled : colors.primaryButtonText} width={24} />
         )}
         { type === 'next' && (
-          <ArrowRight color={colors.primaryButtonText} width={24} />
+          <ArrowRight color={disabled ? colors.primaryButtonTextDisabled : colors.primaryButtonText} width={24} />
         )}
       </FloatButton>
     </View>
