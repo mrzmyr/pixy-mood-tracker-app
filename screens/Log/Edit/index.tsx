@@ -328,7 +328,7 @@ export const LogEdit = ({ navigation, route }: RootStackScreenProps<'LogEdit'>) 
             width={Dimensions.get('window').width - 40}
             ref={_carousel}
             data={content}
-            defaultIndex={slideIndex}
+            defaultIndex={Math.min(slideIndex, content.length - 1)}
             onScrollBegin={() => {
               setTouched(true)
             }}
