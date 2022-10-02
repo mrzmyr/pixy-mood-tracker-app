@@ -38,20 +38,6 @@ export const DataScreen = ({ navigation }: RootStackScreenProps<'Data'>) => {
           flex: 1,
         }}
       >
-      <View
-        style={{
-          alignItems: 'center',
-          marginTop: 10,
-          marginBottom: 10,
-          paddingLeft: 20,
-          paddingRight: 20,
-        }}
-      >
-        <Shield width={18} color={colors.textSecondary} />
-        <Text style={{ color: colors.textSecondary, marginTop: 5, textAlign: 'center' }}>
-          {i18n.t('data_notice')}
-        </Text>
-      </View>
       <MenuList style={{ marginTop: 20, }}>
         <MenuListItem
           title={i18n.t('webhook')}
