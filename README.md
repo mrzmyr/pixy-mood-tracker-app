@@ -6,7 +6,7 @@
 
   <h3 align="center">Pixy Mood Tracker</h3>
 
-  <p align="center">Track your mood with webhook & export functionality.</p>
+  <p align="center">Minimalistic app to track your mood within one pixel a day.</p>
   <p align="center">
     <a href="https://apps.apple.com/de/app/pixy-mood-tracker/id1605327124">Apple App Store</a>
     ·
