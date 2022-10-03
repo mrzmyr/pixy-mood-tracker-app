@@ -20,14 +20,10 @@ import { RootStackScreenProps } from '../types';
 
 export const SettingsScreen = ({ navigation }: RootStackScreenProps<'Settings'>) => {
   const insets = useSafeAreaInsets();
-  const { settings, setSettings } = useSettings()
   const { t } = useTranslation()
   const colors = useColors()
   const i18n = useTranslation()
   const segment = useSegment()
-  const [passcodeEnabled, setPasscodeEnabled] = useState(settings.passcodeEnabled);
-  const [supportedSecurityLevel, setSupportedSecurityLevel] = useState<LocalAuthentication.SecurityLevel>(0);
-  const passcodeSupported = supportedSecurityLevel > 0;
 
   const { show: showFeedbackModal, Modal: FeedbackModal } = useFeedbackModal();
 
@@ -38,18 +34,23 @@ export const SettingsScreen = ({ navigation }: RootStackScreenProps<'Settings'>)
     if(storeUrl !== null) Linking.openURL(storeUrl)
   }
 
-  useEffect(() => {
-    segment.track('passcode_enable', { enabled: passcodeEnabled })
-    setSettings((settings) => ({ ...settings, passcodeEnabled }))
-  }, [passcodeEnabled])
+  // const { settings, setSettings } = useSettings()
+  // const passcodeSupported = supportedSecurityLevel > 0;
+  // const [passcodeEnabled, setPasscodeEnabled] = useState(settings.passcodeEnabled);
+  // const [supportedSecurityLevel, setSupportedSecurityLevel] = useState<LocalAuthentication.SecurityLevel>(0);
 
-  useEffect(() => {
-    LocalAuthentication
-      .getEnrolledLevelAsync()
-      .then(level => {
-        setSupportedSecurityLevel(level)
-      })
-  })
+  // useEffect(() => {
+  //   segment.track('passcode_enable', { enabled: passcodeEnabled })
+  //   setSettings((settings) => ({ ...settings, passcodeEnabled }))
+  // }, [passcodeEnabled])
+
+  // useEffect(() => {
+  //   LocalAuthentication
+  //     .getEnrolledLevelAsync()
+  //     .then(level => {
+  //       setSupportedSecurityLevel(level)
+  //     })
+  // })
   
   return (
     <View style={{ 

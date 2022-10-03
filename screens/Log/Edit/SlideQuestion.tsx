@@ -1,4 +1,3 @@
-import * as Application from 'expo-application';
 import { useState } from "react";
 import { Platform, Pressable, Text, View } from "react-native";
 import { QUESTION_SUBMIT_URL } from '../../../constants/API';
@@ -6,6 +5,7 @@ import useColors from "../../../hooks/useColors";
 import useHaptics from "../../../hooks/useHaptics";
 import { useSettings } from "../../../hooks/useSettings";
 import { useTranslation } from "../../../hooks/useTranslation";
+import pkg from '../../../package.json';
 import { SlideHeadline } from "./SlideHeadline";
 
 export interface IQuestion {
@@ -110,6 +110,7 @@ export const SlideQuestion = ({
 }) => {
   const { language, locale } = useTranslation()
   const { addActionDone } = useSettings()
+  const { settings } = useSettings()
   
   const [selectedIds, setSelectedIds] = useState<string[]>([])
   
@@ -126,24 +127,29 @@ export const SlideQuestion = ({
     
     const metaData = {
       locale: locale,
-      version: Application.nativeBuildVersion,
+      version: pkg.version,
       os: Platform.OS,
+      deviceId: settings.deviceId,
     }
     
+    const body = {
+      date: new Date().toISOString(),
+      language,
+      question_text,
+      answer_texts,
+      answer_ids: answers.map(answer => answer.id).join(', '),
+      question,
+      ...metaData,
+    }
+
+    console.log('Sending Question Feedback', body)
+
     return fetch(QUESTION_SUBMIT_URL, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({
-        date: new Date().toISOString(),
-        language,
-        question_text,
-        answer_texts,
-        answer_ids: answers.map(answer => answer.id).join(', '),
-        question,
-        ...metaData,
-      }),
+      body: JSON.stringify(body),
     })
     .then(() => {
       addActionDone(`question_slide_${question.id}`)

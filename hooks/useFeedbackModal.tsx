@@ -1,5 +1,3 @@
-import * as Application from 'expo-application';
-import * as Localization from 'expo-localization';
 import { useState } from 'react';
 import { ActivityIndicator, Modal, Platform, Pressable, Text, TextInput, View } from 'react-native';
 import { MoreHorizontal } from 'react-native-feather';
@@ -184,20 +182,6 @@ export default function useFeedbackModal() {
     
     const send = async () => {
       setIsLoading(true)
-
-      const metaData = {
-        locale: Localization.locale,
-        version: Application.nativeBuildVersion,
-        os: Platform.OS,
-        date: new Date().toISOString(),
-      }
-      
-      segment.track('feedback_send', {
-        ...metaData,
-        type,
-        message,
-        email
-      })
 
       feedback.send({
         type,
