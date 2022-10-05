@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Platform, Text, View } from 'react-native';
+import { Platform, ScrollView, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Button from '../../components/Button';
 import LinkButton from '../../components/LinkButton';
@@ -43,7 +43,7 @@ export const Tags = ({ navigation, route }: RootStackScreenProps<'Tags'>) => {
           >{t('done')}</LinkButton>
         }
       />
-      <View
+      <ScrollView
         style={{
           flex: 1,
         }}
@@ -96,7 +96,13 @@ export const Tags = ({ navigation, route }: RootStackScreenProps<'Tags'>) => {
           >{t('create_tag')}</Button>
           </View>
         </View>
-      </View>
+        <View 
+          style={{
+            width: '100%',
+            height: insets.bottom + 32,
+          }}
+        />
+      </ScrollView>
     </View>
   );
 }

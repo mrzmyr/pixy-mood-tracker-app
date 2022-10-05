@@ -4,6 +4,7 @@ import { Check } from 'react-native-feather';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { v4 as uuidv4 } from 'uuid';
 import Button from '../components/Button';
+import DismissKeyboard from '../components/DismisKeyboard';
 import LinkButton from '../components/LinkButton';
 import ModalHeader from '../components/ModalHeader';
 import TextInputLabel from '../components/TextInputLabel';
@@ -39,12 +40,12 @@ export const TagEdit = ({ navigation, route }: RootStackScreenProps<'TagEdit'>) 
     const newItems = Object.keys(items)
       .map(key => {
         const item = items[key];
-        const tags = item.tags.map(itemTag => {
+        const tags = item?.tags?.map(itemTag => {
           if (itemTag.id === tag.id) {
             return tag;
           }
           return itemTag;
-        })
+        }) || [];
         return {
           ...item,
           tags
@@ -109,20 +110,21 @@ export const TagEdit = ({ navigation, route }: RootStackScreenProps<'TagEdit'>) 
       tags: settings.tags.filter((tag: ITag) => tag.id !== id) 
     }))
 
-    const changingItems = Object.keys(state.items)
-      .filter((itemDate) => {
-        const tagIds = state.items[itemDate].tags?.map((tag: ITag) => tag.id) || []
-        return tagIds.includes(id);
-      })
-
-    changingItems.map(itemDate => {
-      dispatch({
-        type: 'edit',
-        payload: {
-          ...state.items[itemDate],
-          tags: state.items[itemDate].tags?.filter((tag: ITag) => tag.id !== id) || [],
+    const newItems = Object.keys(items)
+      .map(key => {
+        const item = items[key];
+        const tags = item?.tags?.filter(itemTag => itemTag.id !== id) || [];
+        return {
+          ...item,
+          tags
         }
       })
+
+    dispatch({
+      type: 'batchEdit',
+      payload: {
+        items: newItems
+      }
     })
 
     navigation.goBack()
@@ -134,117 +136,119 @@ export const TagEdit = ({ navigation, route }: RootStackScreenProps<'TagEdit'>) 
   }
   
   return (
-    <View style={{
-      flex: 1,
-      justifyContent: 'flex-start',
-      backgroundColor: colors.background,
-      marginTop: Platform.OS === 'android' ? insets.top : 0,
-    }}>
-      <ModalHeader
-        title={t('edit_tag')}
-        right={
-          <LinkButton 
-            testID='tags-modal-submit' 
-            onPress={() => {
-              navigation.goBack();
-            }}
-            type='primary'
-          >{t('save')}</LinkButton>
-        }
-        left={
-          <LinkButton 
-            testID='tags-modal-cancel' 
-            onPress={() => {
-              navigation.goBack();
-            }}
-            type='primary'
-            >{t('cancel')}</LinkButton>
-        }
-      />
-        <View 
-          style={{ 
-            flex: 1, 
-            padding: 20,
-          }}
-        >
-        <TextInputLabel>{t('title')}</TextInputLabel>
-        <TextInput
-          autoCorrect={false}
-          style={{
-            fontSize: 17,
-            color: colors.textInputText,
-            backgroundColor: colors.textInputBackground,
-            width: '100%',
-            padding: 16,
-            borderRadius: 8,
-          }}
-          placeholder={t('tags_add_placeholder')}
-          placeholderTextColor={colors.textInputPlaceholder}
-          maxLength={30}
-          value={tag.title}
-          onChangeText={text => {
-            setTag(tag => ({
-              ...tag,
-              title: text,
-            }))
-          }}
+    <DismissKeyboard>
+      <View style={{
+        flex: 1,
+        justifyContent: 'flex-start',
+        backgroundColor: colors.background,
+        marginTop: Platform.OS === 'android' ? insets.top : 0,
+      }}>
+        <ModalHeader
+          title={t('edit_tag')}
+          right={
+            <LinkButton 
+              onPress={onSubmit}
+              disabled={tag.title.length === 0 || tag.title.length > 30}
+              type='primary'
+            >{t('save')}</LinkButton>
+          }
+          left={
+            <LinkButton 
+              onPress={() => {
+                navigation.goBack();
+              }}
+              type='primary'
+              >{t('cancel')}</LinkButton>
+          }
         />
-        <TextInputLabel>{t('color')}</TextInputLabel>
-        <View
-          style={{
-            flexDirection: 'row',
-            flexWrap: 'wrap',
-            alignItems: 'center',
-            width: '100%',
-            padding: 16,
-            backgroundColor: colors.cardBackground,
-            borderRadius: 16,
-          }}
-        >
-          {COLOR_NAMES.map(colorName => (
-            <TouchableOpacity
-              key={colorName}
+          <View 
+            style={{ 
+              flex: 1, 
+              padding: 20,
+            }}
+          >
+          <TextInputLabel>{t('title')}</TextInputLabel>
+          <TextInput
+            autoCorrect={false}
+            style={{
+              fontSize: 17,
+              color: colors.textInputText,
+              backgroundColor: colors.textInputBackground,
+              width: '100%',
+              padding: 16,
+              borderRadius: 8,
+            }}
+            placeholder={t('tags_add_placeholder')}
+            placeholderTextColor={colors.textInputPlaceholder}
+            maxLength={30}
+            value={tag.title}
+            onChangeText={text => {
+              setTag(tag => ({
+                ...tag,
+                title: text,
+              }))
+            }}
+          />
+          <TextInputLabel>{t('color')}</TextInputLabel>
+          <View
+            style={{
+              flexDirection: 'row',
+              flexWrap: 'wrap',
+              alignItems: 'center',
+              width: '100%',
+              padding: 16,
+              backgroundColor: colors.cardBackground,
+              borderRadius: 16,
+            }}
+          >
+            {COLOR_NAMES.map(colorName => (
+              <TouchableOpacity
+                key={colorName}
+                style={{
+                  flex: 1,
+                  flexBasis: `${(100 / 7) - 2}%`,
+                  maxWidth: `${(100 / 7) - 2}%`,
+                  aspectRatio: 1,
+                  borderRadius: 100,
+                  backgroundColor: colors.tags[colorName].dot,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  margin: '1%',
+                }}
+                onPress={async () => {
+                  await haptics.selection();
+                  setTag(tag => ({
+                    ...tag,
+                    color: colorName,
+                  }));
+                }}
+                activeOpacity={0.8}
+              >
+                {tag.color === colorName && (
+                  <Check width={20} height={20} color={colors.tags[colorName].text} />
+                )}
+              </TouchableOpacity>
+            ))}
+          </View>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'center',
+              alignItems: 'center',
+              marginTop: 16,
+            }}
+          >
+            <Button
               style={{
                 flex: 1,
-                flexBasis: `${(100 / 7) - 2}%`,
-                maxWidth: `${(100 / 7) - 2}%`,
-                aspectRatio: 1,
-                borderRadius: 100,
-                backgroundColor: colors.tags[colorName].dot,
-                justifyContent: 'center',
-                alignItems: 'center',
-                margin: '1%',
+                width: '100%',
               }}
-              onPress={async () => {
-                await haptics.selection();
-                setTag(tag => ({
-                  ...tag,
-                  color: colorName,
-                }));
-              }}
-              activeOpacity={0.8}
-            >
-              {tag.color === colorName && (
-                <Check width={20} height={20} color={colors.tags[colorName].text} />
-              )}
-            </TouchableOpacity>
-          ))}
+              onPress={() => askToDelete(tag)}
+              type='danger'
+            >{t('delete')}</Button>
+          </View>
         </View>
-        <Button
-          style={{
-            marginTop: 16,
-          }}
-          onPress={onSubmit}
-          disabled={tag.title.length === 0 || tag.title.length > 30}
-        >{t('save')}</Button>
-        <Button
-          style={{
-            marginTop: 12,
-          }}
-          onPress={() => askToDelete(tag)}
-          type='danger'
-        >{t('delete')}</Button>
       </View>
-    </View>
+    </DismissKeyboard>
   );
 }
