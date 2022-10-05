@@ -122,7 +122,7 @@ const light = {
   primaryButtonBorderDisabled: colors.neutral[300],
   
   secondaryButtonBackground: colors.neutral[200],
-  secondaryButtonText: colors.neutral[800],
+  secondaryButtonText: colors.neutral[900],
   secondaryButtonBorder: colors.neutral[200],
   
   dangerButtonBackground: colors.neutral[200],
@@ -161,7 +161,7 @@ const light = {
   statisticsCalendarDotText: colors.neutral[500],
   statisticsCalendarDotBorder: colors.neutral[400],
   statisticsNoDataBorder: colors.neutral[300],
-  statisticsNoDataText: colors.neutral[400],
+  statisticsNoDataText: colors.neutral[500],
   statisticsLinePrimary: colors.neutral[600],
   statisticsLineMuted: colors.neutral[200],
   statisticsLineHighlight: tintColorLight,
@@ -320,6 +320,10 @@ const dark: IColors & {
   statisticsCalendarDotBorder: colors.neutral[700],
   statisticsNoDataBorder: colors.neutral[800],
   statisticsNoDataText: colors.neutral[700],
+
+  statisticsLinePrimary: colors.neutral[200],
+  statisticsLineMuted: colors.neutral[500],
+  statisticsLineHighlight: tintColorDark,
   
   onboardingTitle: colors.white,
   onboardingBody: colors.neutral[300],

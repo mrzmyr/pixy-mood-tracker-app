@@ -1,48 +1,46 @@
 import dayjs from "dayjs";
 import { createContext, useContext, useState } from "react";
-import { LogItem } from './useLogs';
+import { LogItem } from "./useLogs";
 
-const TemporaryLogStateContext = createContext(undefined)
+const TemporaryLogStateContext = createContext(undefined);
 
 type Value = {
   data: LogItem;
   set: (log: LogItem) => void;
   reset: () => void;
-}
+};
 
 const initialState: LogItem = {
-  date: dayjs().format('YYYY-MM-DD'),
+  date: dayjs().format("YYYY-MM-DD"),
   rating: null,
-  message: '',
+  message: "",
   tags: [],
-}
+};
 
-function TemporaryLogProvider({
-  children
-}: { 
-  children: React.ReactNode 
-}) {
-  const [temporaryLog, setTemporaryLog] = useState<LogItem>(initialState)
+function TemporaryLogProvider({ children }: { children: React.ReactNode }) {
+  const [temporaryLog, setTemporaryLog] = useState<LogItem>(initialState);
 
-  const value: Value = { 
-    data: temporaryLog, 
+  const value: Value = {
+    data: temporaryLog,
     set: setTemporaryLog,
-    reset: () => setTemporaryLog(initialState)
+    reset: () => setTemporaryLog(initialState),
   };
-  
+
   return (
     <TemporaryLogStateContext.Provider value={value}>
       {children}
     </TemporaryLogStateContext.Provider>
-  )
+  );
 }
 
 function useTemporaryLog(): Value {
-  const context = useContext(TemporaryLogStateContext)
+  const context = useContext(TemporaryLogStateContext);
   if (context === undefined) {
-    throw new Error('useTemporaryLog must be used within a TemporaryLogProvider')
+    throw new Error(
+      "useTemporaryLog must be used within a TemporaryLogProvider"
+    );
   }
-  return context
+  return context;
 }
 
 export { TemporaryLogProvider, useTemporaryLog };

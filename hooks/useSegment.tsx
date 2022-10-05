@@ -1,12 +1,11 @@
 import * as Segment from 'expo-analytics-segment';
-import { createContext, useContext, useEffect, useState } from "react";
-import { useSettings } from './useSettings';
-import Constants from 'expo-constants';
 import * as Device from 'expo-device';
 import * as Localization from 'expo-localization';
-import { Platform } from 'react-native';
 import _ from 'lodash';
+import { createContext, useContext, useEffect, useState } from "react";
+import { Platform } from 'react-native';
 import pkg from '../package.json';
+import { useSettings } from './useSettings';
 
 const SegmentContext = createContext(undefined)
 

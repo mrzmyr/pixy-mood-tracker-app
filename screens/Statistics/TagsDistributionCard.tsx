@@ -2,41 +2,23 @@ import _ from 'lodash';
 import { Text, View } from 'react-native';
 import { Card } from '../../components/Statistics/Card';
 import useColors from '../../hooks/useColors';
-import { LogItem } from '../../hooks/useLogs';
-import { useSettings } from '../../hooks/useSettings';
+import { TagsDistributionData } from '../../hooks/useStatistics';
 import { useTranslation } from '../../hooks/useTranslation';
 import { CardFeedback } from './CardFeedback';
 
 export const TagsDistributionCard = ({
-  items,
+  data,
 }: {
-  items: LogItem[]
+  data: TagsDistributionData
 }) => {
   const colors = useColors()
-  const { settings } = useSettings();
   const { t } = useTranslation();
-
-  const distribution = _.countBy(items.flatMap(item => item?.tags?.map(tag => tag?.id)))
-  const tags = Object.keys(distribution)
-    .map(key => ({
-      details: settings.tags.find(tag => tag.id === key),
-      id: key,
-      count: distribution[key]
-    }))
-    .sort((a, b) => b.count - a.count)
-    .filter(tag => tag.details !== undefined)
-
-  const itemsWithTags = items.filter(item => item?.tags?.length > 0)
-
-  if(itemsWithTags.length < 5) {
-    return null;
-  }
   
   return (
     <Card
       subtitle={t('mood')}
       title={t('statistics_tags_distribution_title', {
-        count: itemsWithTags.length,
+        count: data.itemsCount,
       })}
     >
       <View
@@ -45,7 +27,7 @@ export const TagsDistributionCard = ({
           marginBottom: 8,
         }}
       >
-        {tags.slice(0, 5).map(tag => {
+        {data.tags.slice(0, 5).map(tag => {
           return (
             <View
               key={tag?.details?.id}
@@ -61,7 +43,7 @@ export const TagsDistributionCard = ({
                 style={{
                   backgroundColor: colors.tags[tag?.details?.color]?.background,
                   height: 24,
-                  width: tag.count / tags[0].count * 100 + '%',
+                  width: tag.count / data.tags[0].count * 100 + '%',
                   borderRadius: 4,
                   position: 'absolute',
                 }}
@@ -77,7 +59,7 @@ export const TagsDistributionCard = ({
             </View>
           );
         })}
-        {tags.length > 5 && (
+        {data.tags.length > 5 && (
           <View
             style={{
               marginTop: 8,
@@ -88,15 +70,15 @@ export const TagsDistributionCard = ({
                 fontSize: 14,
                 color: colors.textSecondary,
               }}
-            >And {tags.length - 5} more</Text>
+            >And {data.tags.length - 5} more</Text>
           </View>
         )}
       </View>
       <CardFeedback 
         type='tags_distribution' 
         details={{ 
-          count: itemsWithTags.length, 
-          tags: tags.map(tag => ({
+          count: data.itemsCount, 
+          tags: data.tags.map(tag => ({
             ...(_.omit(tag.details, 'title')),
             tagLength: tag.details.title.length,
           })),

@@ -1,12 +1,12 @@
 import { useNavigation } from '@react-navigation/native';
 import dayjs, { Dayjs } from 'dayjs';
-import _ from 'lodash';
 import { Text, TouchableOpacity, View } from 'react-native';
 import { Card } from '../../components/Statistics/Card';
 import useColors from '../../hooks/useColors';
 import useHaptics from '../../hooks/useHaptics';
 import { LogItem } from '../../hooks/useLogs';
-import { Tag as ITag, useSettings } from '../../hooks/useSettings';
+import { Tag as ITag } from '../../hooks/useSettings';
+import { TagsPeakData } from '../../hooks/useStatistics';
 import { useTranslation } from '../../hooks/useTranslation';
 import { CardFeedback } from './CardFeedback';
 import { HeaderWeek } from './HeaderWeek';
@@ -108,16 +108,12 @@ const BodyWeek = ({
 }
 
 const TagPeaksCard = ({
-  items,
   tag,
 }: {
-  items: LogItem[]
-  tag: ITag
+  tag: TagsPeakData['tags'][0],
 }) => {
   const colors = useColors()
   const { t } = useTranslation();
-
-  const peaks = items.filter(item => item?.tags?.map(d => d.id).includes(tag?.id))
   
   return (
     <Card
@@ -138,7 +134,7 @@ const TagPeaksCard = ({
         >{tag?.title}&nbsp;</Text>
         {t('statistics_tag_peaks_title', {
           title: tag?.title,
-          count: peaks.length,
+          count: tag.items.length,
         })}
         </Text>
       </>}
@@ -151,30 +147,22 @@ const TagPeaksCard = ({
         }}
       >
         <HeaderWeek />
-        <BodyWeek start={dayjs().subtract(2, 'week')} items={peaks} tag={tag} />
-        <BodyWeek start={dayjs().subtract(1, 'week')} items={peaks} tag={tag} />
+        <BodyWeek start={dayjs().subtract(2, 'week')} items={tag.items} tag={tag} />
+        <BodyWeek start={dayjs().subtract(1, 'week')} items={tag.items} tag={tag} />
       </View>
-      <CardFeedback type='tags_peaks' details={{ count: peaks.length }} />
+      <CardFeedback type='tags_peaks' details={{ count: tag.items.length }} />
     </Card>
   )
 }
 
 export const TagPeaksCards = ({
-  items,
+  data
 }: {
-  items: LogItem[]
+  data: TagsPeakData
 }) => {
-  const { settings } = useSettings()
-  
-  const distribution = _.countBy(items.flatMap(item => item?.tags?.map(tag => tag?.id)))
-  const tags = Object.keys(distribution)
-    .filter(key => distribution[key] >= 5)
-    .map(key => settings.tags.find(tag => tag.id === key))
-    .filter(tag => tag)
-
   return (
     <>
-      {tags.map((tag, index) => <TagPeaksCard key={index} items={items} tag={tag} />)}
+      {data.tags.map((tag, index) => <TagPeaksCard key={index} tag={tag} />)}
     </>
   );
 };

@@ -4,6 +4,7 @@ import useColors from '../../hooks/useColors';
 import { useFeedback } from '../../hooks/useFeedback';
 import useHaptics from '../../hooks/useHaptics';
 import { useSegment } from '../../hooks/useSegment';
+import { STATISTIC_TYPES } from '../../hooks/useStatistics';
 import { useTranslation } from '../../hooks/useTranslation';
 
 const EMOJI_SCALE_IMAGES = [{
@@ -59,7 +60,7 @@ export const CardFeedback = ({
   type,
   details
 }: {
-  type: 'mood_avg' | 'mood_peaks' | 'tags_peaks' | 'tags_distribution';
+  type: typeof STATISTIC_TYPES[number],
   details: any;
 }) => {
   const segment = useSegment();

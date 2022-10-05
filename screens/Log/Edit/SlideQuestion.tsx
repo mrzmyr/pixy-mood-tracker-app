@@ -144,6 +144,12 @@ export const SlideQuestion = ({
 
     console.log('Sending Question Feedback', body)
 
+    if(__DEV__) {
+      console.log('Not sending Question Feedback in dev mode')
+      addActionDone(`question_slide_${question.id}`)
+      return
+    }
+    
     return fetch(QUESTION_SUBMIT_URL, {
       method: 'POST',
       headers: {

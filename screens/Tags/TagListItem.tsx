@@ -56,7 +56,7 @@ export const TagListItem = ({
           style={{
           }}
         >
-          <Edit2 width={22} color={colors.tint} />
+          <Edit2 width={20} color={colors.tint} />
         </View>
       </View>
     </MenuListItem>

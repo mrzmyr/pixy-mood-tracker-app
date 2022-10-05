@@ -1,5 +1,6 @@
 import { useNavigation } from '@react-navigation/native';
 import dayjs, { Dayjs } from 'dayjs';
+import _ from 'lodash';
 import { Text, TouchableOpacity, View } from 'react-native';
 import { Card } from '../../components/Statistics/Card';
 import useColors from '../../hooks/useColors';
@@ -7,6 +8,7 @@ import useHaptics from '../../hooks/useHaptics';
 import { LogItem } from '../../hooks/useLogs';
 import useScale from '../../hooks/useScale';
 import { useSettings } from '../../hooks/useSettings';
+import { MoodPeaksNegativeData, MoodPeaksPositiveData } from '../../hooks/useStatistics';
 import { useTranslation } from '../../hooks/useTranslation';
 import { CardFeedback } from './CardFeedback';
 import { HeaderWeek } from './HeaderWeek';
@@ -109,28 +111,21 @@ const BodyWeek = ({
   )
 }
 
-const MoodPeakCard = ({
-  items,
+export const MoodPeaksCard = ({
+  data,
   type
 }: {
   type: 'positive' | 'negative'
-  items: LogItem[]
+  data: MoodPeaksNegativeData | MoodPeaksPositiveData
 }) => {
   const { t } = useTranslation();
-
-  const peaks = items.filter(item => keys[type].includes(item.rating))
-  const rating_peaks = Object.values(items).filter(item => keys[type].includes(item.rating)).length;
-
-  if(rating_peaks === 0) {
-    return null;
-  }
   
   return (
     <Card
       subtitle={t('mood')}
-      title={t(rating_peaks > 1 ? 'statistics_mood_peaks_title_plural' : 'statistics_mood_peaks_title_singular', {
+      title={t(data.items.length > 1 ? 'statistics_mood_peaks_title_plural' : 'statistics_mood_peaks_title_singular', {
         rating_word: t(`statistics_mood_peaks_${type}`),
-        rating_count: rating_peaks,
+        rating_count: data.items.length,
       })}
     >
       <View
@@ -141,23 +136,18 @@ const MoodPeakCard = ({
         }}
       >
         <HeaderWeek />
-        <BodyWeek start={dayjs().subtract(2, 'week')} items={peaks} />
-        <BodyWeek start={dayjs().subtract(1, 'week')} items={peaks} />
+        <BodyWeek start={dayjs().subtract(2, 'week')} items={data.items} />
+        <BodyWeek start={dayjs().subtract(1, 'week')} items={data.items} />
       </View>
-      <CardFeedback type='mood_peaks' details={{ rating_peaks, type }} />
+      <CardFeedback type={`mood_peaks_${type}`} details={{
+        items: _.omit(data.items.map(item => {
+          return {
+            ...item,
+            tags: _.omit(item.tags, ['title']),
+          }
+        }), ['message']),
+        rating_count: data.items.length,
+      }} />
     </Card>
   )
 }
-
-export const MoodPeaksCard = ({
-  items,
-}: {
-  items: LogItem[]
-}) => {
-  return (
-    <>
-      <MoodPeakCard items={items} type='positive' />
-      <MoodPeakCard items={items} type='negative' />
-    </>
-  );
-};

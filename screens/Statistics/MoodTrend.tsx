@@ -146,7 +146,7 @@ const Chart = ({
   )
 }
 
-export const MoodChart = ({
+export const MoodTrend = ({
   items,
 }: {
   items: LogItem[]
