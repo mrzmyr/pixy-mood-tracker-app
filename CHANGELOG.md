@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.36.0](https://github.com/mrzmyr/pixy-mood-tracker/compare/v1.35.0...v1.36.0) (2022-10-05)
+
+
+### Features
+
+* add `deviceId` to analytics ([137459b](https://github.com/mrzmyr/pixy-mood-tracker/commit/137459b28d08aaa885f9ae61ec2fbbadbaf69fb0))
+* add tags rename and move tag create to modal ([b85a4a1](https://github.com/mrzmyr/pixy-mood-tracker/commit/b85a4a15d3ed3d6281fba0ca40b92aacd85c87c8))
+* move statistics to `useStatistics` ([4c65db9](https://github.com/mrzmyr/pixy-mood-tracker/commit/4c65db9baa08a772f9beb7996180c5233a89e877))
+* update readme preview images ([016d851](https://github.com/mrzmyr/pixy-mood-tracker/commit/016d85191ed0057b99a8320936c37218b67e63c7))
+
+
+### Documentation
+
+* update docs preview image ([d4ec552](https://github.com/mrzmyr/pixy-mood-tracker/commit/d4ec5521d46b801510d141144df50f4fefd93ff3))
+* update slogan ([388029c](https://github.com/mrzmyr/pixy-mood-tracker/commit/388029c239630dc7c94447518b6a97bfd9528d3a))
+
 ## [1.35.0](https://github.com/mrzmyr/pixy-mood-tracker/compare/v1.34.0...v1.35.0) (2022-10-02)
 
 
