@@ -209,5 +209,9 @@
   "development_statistics_reset_actions": "Resetovat akce",
   "view_log_message": "Slova",
   "view_log_message_empty": "Tajemný den, protože o sobě nemá co prozradit.",
-  "edit": "Upravit"
+  "edit": "Upravit",
+  "create": "Vytvořit",
+  "done": "Hotovo",
+  "create_tag": "Vytvořit značku",
+  "edit_tag": "Upravit značku"
 }

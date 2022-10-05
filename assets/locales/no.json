@@ -209,5 +209,9 @@
   "development_statistics_reset_actions": "Tilbakestill handlinger",
   "view_log_message": "Ord",
   "view_log_message_empty": "En mystisk dag, siden den ikke har noe å avsløre om seg selv.",
-  "edit": "Redigere"
+  "edit": "Redigere",
+  "create": "Skape",
+  "done": "Ferdig",
+  "create_tag": "Opprett tag",
+  "edit_tag": "Rediger tag"
 }

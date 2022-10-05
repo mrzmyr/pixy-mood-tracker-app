@@ -209,5 +209,9 @@
   "development_statistics_reset_actions": "Tetapkan semula tindakan",
   "view_log_message": "perkataan",
   "view_log_message_empty": "Hari yang misteri, kerana ia tidak mempunyai apa-apa untuk mendedahkan tentang dirinya.",
-  "edit": "Sunting"
+  "edit": "Sunting",
+  "create": "Buat",
+  "done": "Selesai",
+  "create_tag": "Cipta Tag",
+  "edit_tag": "Edit teg"
 }

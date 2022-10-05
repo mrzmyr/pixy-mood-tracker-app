@@ -1,155 +1,30 @@
-import { useKeyboard } from '@react-native-community/hooks';
-import { isEqual } from 'lodash';
-import { useEffect, useRef, useState } from 'react';
-import { Alert, Keyboard, Platform, Pressable, Text, View } from 'react-native';
-import { Trash2 } from 'react-native-feather';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { useEffect, useState } from 'react';
+import { Platform, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { v4 as uuidv4 } from 'uuid';
 import Button from '../../components/Button';
-import { Checkbox } from '../../components/Checkbox';
 import LinkButton from '../../components/LinkButton';
 import MenuList from '../../components/MenuList';
-import MenuListItem from '../../components/MenuListItem';
 import ModalHeader from '../../components/ModalHeader';
 import useColors from '../../hooks/useColors';
-import useHaptics from '../../hooks/useHaptics';
-import { useLogs } from '../../hooks/useLogs';
-import { useSegment } from '../../hooks/useSegment';
 import { Tag, useSettings } from '../../hooks/useSettings';
-import { useTemporaryLog } from '../../hooks/useTemporaryLog';
 import { useTranslation } from '../../hooks/useTranslation';
 import { RootStackScreenProps } from '../../types';
-import { ColorInput } from './ColorInput';
-import { TitleInput } from './TitleInput';
+import { TagListItem } from './TagListItem';
 
-export const TagsModal = ({ navigation, route }: RootStackScreenProps<'Log'>) => {
-  const haptics = useHaptics()
-  const { settings, setSettings } = useSettings()
+export const Tags = ({ navigation, route }: RootStackScreenProps<'Tags'>) => {
+  const { settings } = useSettings()
   const colors = useColors()
-  const i18n = useTranslation()
-  const segment = useSegment()
-  const tempLog = useTemporaryLog();
   const { t } = useTranslation()
-  const { state: { items }, dispatch } = useLogs();
   const insets = useSafeAreaInsets();
 
-  const scrollRef = useRef(null)
-  
   const [tags, setTags] = useState<Tag[]>(settings.tags);
-  const [selectedTagIds, setSelectedTagIds] = useState<Tag['id'][]>([]);
 
-  const [tempTag, setTempTag] = useState<Tag>({
-    id: uuidv4(),
-    title: '',
-    color: Object.keys(colors.tags)[0] as Tag['color'],
-  });
-  
-  useEffect(() => {
-    if(tempLog?.data?.tags?.length > 0) {
-      setSelectedTagIds(tempLog?.data?.tags?.map(tag => tag.id))
-    }
-  }, [])
+  useEffect(() => setTags(settings.tags), [JSON.stringify(settings.tags)])
 
-  const onDelete = (id: Tag['id']) => {
-    const newTags = tags.filter((tag: Tag) => tag.id !== id)
-    
-    setSelectedTagIds(selectedTagIds.filter((tagId: Tag['id']) => tagId !== id))
-    setTags(newTags)
-    setSettings(settings => ({ ...settings, tags: newTags }))
-
-    const changingItems = Object.keys(items)
-      .filter((itemDate) => {
-        const tagIds = items[itemDate].tags?.map((tag: Tag) => tag.id) || []
-        return tagIds.includes(id);
-      })
-
-    changingItems.map(itemDate => {
-      dispatch({
-        type: 'edit',
-        payload: {
-          ...items[itemDate],
-          tags: items[itemDate].tags?.filter((tag: Tag) => tag.id !== id) || [],
-        }
-      })
-    })
+  const onEdit = async (tag: Tag) => {
+    navigation.navigate('TagEdit', { tag })
   }
 
-  const onSave = () => {
-    tempLog.set(log => ({ ...log, tags: tags.filter(tag => selectedTagIds.includes(tag.id)) }))
-    // performance: don't save if tags are the same
-    if(!isEqual(tags, settings.tags)) {
-      setSettings(settings => ({ ...settings, tags }))
-    }
-  }
-  
-  const askToDelete = (tag: Tag) => {
-    haptics.selection()
-
-    const regexEmoji = /\p{Emoji}/u;
-    
-    segment.track('delete_tag_ask', {
-      titleLength: tag.title,
-      color: tag.color,
-      containsEmoji: regexEmoji.test(tag.title),      
-    })
-
-    if(Platform.OS === 'web') {
-      alert(i18n.t('delete_tag_confirm_title'))
-      onDelete(tag.id)
-      return;
-    }
-    
-    Alert.alert(
-      i18n.t('delete_tag_confirm_title'),
-      i18n.t('delete_tag_confirm_message'),
-      [
-        {
-          text: i18n.t('delete'),
-          onPress: () => {
-            segment.track('tag_delete_success', {
-              titleLength: tag.title,
-              color: tag.color,
-              containsEmoji: regexEmoji.test(tag.title),      
-            })
-            onDelete(tag.id)
-          },
-          style: "destructive"
-        },
-        { 
-          text: i18n.t('cancel'), 
-          onPress: () =>  {
-            segment.track('tag_delete_cancelled')
-          },
-          style: "cancel"
-        }
-      ],
-      { cancelable: true }
-    );
-  }
-
-  const onSubmitTag = () => {
-    if(tags.length >= 30) return;
-    
-    const regexEmoji = /\p{Emoji}/u;
-    
-    segment.track('tag_submit_success', {
-      titleLength: tempTag.title.length,
-      color: tempTag.color,
-      containsEmoji: regexEmoji.test(tempTag.title)
-    })
-    
-    setTags([...tags, tempTag])
-    setSelectedTagIds([...selectedTagIds, tempTag.id])
-    setTempTag({
-      id: uuidv4(),
-      title: '',
-      color: Object.keys(colors.tags)[0] as Tag['color'],
-    })
-
-    Keyboard.dismiss();
-  }
-  
   return (
     <View style={{
       flex: 1,
@@ -158,34 +33,20 @@ export const TagsModal = ({ navigation, route }: RootStackScreenProps<'Log'>) =>
       marginTop: Platform.OS === 'android' ? insets.top : 0,
     }}>
       <ModalHeader
-        title={'Tags'}
+        title={t('tags')}
         right={
-          <LinkButton 
-            testID='tags-modal-submit' 
-            onPress={() => {
-              onSave()
-              navigation.goBack();
-            }}
-            type='primary'
-          >{t('save')}</LinkButton>
-        }
-        left={
-          <LinkButton 
-            testID='tags-modal-cancel' 
+          <LinkButton
             onPress={() => {
               navigation.goBack();
             }}
             type='primary'
-            >{t('cancel')}</LinkButton>
+          >{t('done')}</LinkButton>
         }
       />
-      <KeyboardAwareScrollView
-        extraScrollHeight={Platform.OS === 'android' ? 0 : 100}
-        keyboardShouldPersistTaps='handled'
+      <View
         style={{
           flex: 1,
         }}
-        ref={scrollRef}
       >
         <View
           style={{
@@ -199,7 +60,7 @@ export const TagsModal = ({ navigation, route }: RootStackScreenProps<'Log'>) =>
               paddingRight: 16,
             }}
           >
-            { tags.length < 1 && (
+            {settings.tags.length < 1 && (
               <View
                 style={{
                   padding: 32,
@@ -216,138 +77,26 @@ export const TagsModal = ({ navigation, route }: RootStackScreenProps<'Log'>) =>
               </View>
             )}
             <MenuList>
-              {tags.map((tag, index) => (
-                <MenuListItem
-                  key={`${tag}-${index}`}
-                  onPress={() => {
-                    if (selectedTagIds.includes(tag.id)) {
-                      setSelectedTagIds(selectedTagIds.filter(id => id !== tag.id))
-                    } else {
-                      setSelectedTagIds([...selectedTagIds, tag.id])
-                    }
-                  }}
+              {settings.tags.map((tag, index) => (
+                <TagListItem
+                  key={tag.id}
+                  tag={tag}
                   isLast={index === tags.length - 1}
-                >
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      alignItems: 'center',
-                      justifyContent: 'flex-start',
-                    }}
-                  >
-                    <View
-                      style={{
-                        flex: 1,
-                      }}
-                    >
-                      {selectedTagIds.includes(tag.id) ? 
-                        <Checkbox checked={true} /> :
-                        <Checkbox checked={false} />
-                      }
-                    </View>
-                    <View
-                      style={{
-                        flex: 8,
-                        flexDirection: 'row',
-                        alignItems: 'center',
-                        justifyContent: 'flex-start',
-                      }}
-                    >
-                      <Text style={{
-                        fontSize: 17,
-                        color: colors.text,
-                      }}>{tag.title}</Text>
-                      <View
-                        style={{
-                          width: 10,
-                          height: 10,
-                          borderRadius: 100,
-                          backgroundColor: colors.tags[tag.color].dot,
-                          marginLeft: 8,
-                        }}
-                      />
-                    </View>
-                    <View
-                      style={{
-                        flex: 1,
-                      }}
-                    >
-                      <Pressable onPress={() => askToDelete(tag)}>
-                        <Trash2 width={22} color={colors.tint} />
-                      </Pressable>
-                    </View>
-                  </View>
-                </MenuListItem>
+                  onPress={() => onEdit(tag)}
+                />
               ))}
             </MenuList>
-          </View>
-          <Text
+          <Button
             style={{
-              paddingLeft: 32,
-              paddingRight: 32,
-              paddingTop: 32,
-              color: colors.textSecondary,
+              marginTop: 16,
             }}
-          >
-            {t('tags_add')}
-          </Text>
-          <MenuList
-            style={{
-              marginTop: 8,
-              marginLeft: 16,
-              marginRight: 16,
+            onPress={() => {
+              navigation.navigate('TagCreate')
             }}
-          >
-            <View
-              style={{
-                padding: 16,
-                paddingBottom: 0,
-              }}
-            >
-              <View
-                style={{
-                  borderBottomColor: colors.menuListItemBorder,
-                  borderBottomWidth: 1,
-                  paddingBottom: 8,
-                }}
-              >
-                <ColorInput
-                  value={tempTag.color}
-                  onChange={(colorName) => setTempTag(tag => ({ ...tag, color: colorName }))}
-                />
-              </View>
-            </View>
-            <View
-              style={{
-                padding: 16,
-              }}
-            >
-              <TitleInput
-                value={tempTag.title}
-                onChange={text => {
-                  setTempTag(tag => ({ ...tag, title: text }))
-                }}
-                onSubmit={onSubmitTag}
-              />
-            </View>
-          </MenuList>
-          <View
-            style={{
-              marginTop: -8,
-              padding: 16,
-              marginBottom: insets.bottom,
-            }}
-          >
-            <Button 
-              type='primary'
-              onPress={onSubmitTag}
-              disabled={tempTag.title.length < 1 || tags.length >= 30}
-            >
-              <Text>{t('tags_add')}</Text>
-            </Button>
+          >{t('create_tag')}</Button>
           </View>
         </View>
-      </KeyboardAwareScrollView>
+      </View>
     </View>
   );
 }

@@ -209,5 +209,9 @@
   "development_statistics_reset_actions": "Poništavanje radnji",
   "view_log_message": "riječi",
   "view_log_message_empty": "Tajanstven dan, jer nema što otkriti o sebi.",
-  "edit": "Uredi"
+  "edit": "Uredi",
+  "create": "Stvoriti",
+  "done": "Gotovo",
+  "create_tag": "Stvori oznaku",
+  "edit_tag": "Uredi oznaku"
 }

@@ -209,5 +209,9 @@
   "development_statistics_reset_actions": "Скинути дії",
   "view_log_message": "Слова",
   "view_log_message_empty": "Таємничий день, оскільки він не має про що розповісти.",
-  "edit": "Редагувати"
+  "edit": "Редагувати",
+  "create": "Створити",
+  "done": "Готово",
+  "create_tag": "Створити тег",
+  "edit_tag": "Редагувати тег"
 }

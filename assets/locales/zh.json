@@ -209,5 +209,9 @@
   "development_statistics_reset_actions": "重置操作",
   "view_log_message": "字",
   "view_log_message_empty": "一个神秘的日子，因为它没有什么可透露的。",
-  "edit": "编辑"
+  "edit": "编辑",
+  "create": "创造",
+  "done": "完毕",
+  "create_tag": "创建标签",
+  "edit_tag": "编辑标签"
 }

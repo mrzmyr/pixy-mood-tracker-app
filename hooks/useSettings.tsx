@@ -5,13 +5,21 @@ import { v4 as uuidv4 } from 'uuid';
 import { useTranslation } from './useTranslation';
 
 const STORAGE_KEY = 'PIXEL_TRACKER_SETTINGS'
+export const COLOR_NAMES = ['slate', 'stone', 'red', 'orange', 'amber', 'yellow', 'lime', 'green', 'emerald', 'teal', 'cyan', 'sky', 'blue', 'indigo', 'violet', 'purple', 'fuchsia', 'pink', 'rose']
+
+export const SCALE_TYPES = [
+  'ColorBrew-RdYlGn',
+  'ColorBrew-RdYlGn-old',
+  'ColorBrew-PiYG',
+  'ColorBrew-BrBG',
+]
 
 const SettingsStateContext = createContext(undefined)
 
 export type Tag = {
   id: string;
   title: string;
-  color: 'slate' | 'stone' | 'red' | 'orange' | 'amber' | 'yellow' | 'lime' | 'green' | 'teal' | 'sky' | 'blue' | 'indigo' | 'purple' | 'pink';
+  color: typeof COLOR_NAMES[number];
 }
 
 export interface SettingsWebhookEntry {
@@ -34,7 +42,7 @@ export interface SettingsState {
   webhookEnabled: Boolean,
   webhookUrl: string,
   webhookHistory: SettingsWebhookEntry[],
-  scaleType: 'ColorBrew-RdYlGn' | 'ColorBrew-PiYG',
+  scaleType: typeof SCALE_TYPES[number],
   reminderEnabled: Boolean,
   reminderTime: string,
   trackBehaviour: boolean,

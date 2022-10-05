@@ -209,5 +209,9 @@
   "development_statistics_reset_actions": "Resetați acțiunile",
   "view_log_message": "Cuvinte",
   "view_log_message_empty": "O zi misterioasă, din moment ce nu are nimic de dezvăluit despre ea însăși.",
-  "edit": "Editați | ×"
+  "edit": "Editați | ×",
+  "create": "Crea",
+  "done": "Terminat",
+  "create_tag": "Creați etichetă",
+  "edit_tag": "Editați eticheta"
 }

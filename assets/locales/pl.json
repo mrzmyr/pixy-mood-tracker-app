@@ -209,5 +209,9 @@
   "development_statistics_reset_actions": "Zresetuj działania",
   "view_log_message": "Słowa",
   "view_log_message_empty": "Tajemniczy dzień, bo nie ma o sobie nic do wyjawienia.",
-  "edit": "Edytować"
+  "edit": "Edytować",
+  "create": "Tworzyć",
+  "done": "Gotowe",
+  "create_tag": "Utwórz tag",
+  "edit_tag": "Edytuj tag"
 }

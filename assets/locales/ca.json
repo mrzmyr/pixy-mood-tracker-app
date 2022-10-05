@@ -209,5 +209,9 @@
   "development_statistics_reset_actions": "Restablir accions",
   "view_log_message": "Paraules",
   "view_log_message_empty": "Un dia misteriós, ja que no té res a revelar sobre si mateix.",
-  "edit": "Edita"
+  "edit": "Edita",
+  "create": "Crear",
+  "done": "Fet",
+  "create_tag": "Crea una etiqueta",
+  "edit_tag": "Edita l'etiqueta"
 }

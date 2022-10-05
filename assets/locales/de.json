@@ -197,5 +197,9 @@
   "development_statistics_reset_actions": "Aktionen zurücksetzen",
   "view_log_message": "Wörter",
   "view_log_message_empty": "Ein mysteriöser Tag, der allem Anschein nachm noch nichts über sich verrät.",
-  "edit": "Bearbeiten"
+  "edit": "Bearbeiten",
+  "create": "Schaffen",
+  "done": "Fertig",
+  "create_tag": "Tag erstellen",
+  "edit_tag": "Tag bearbeiten"
 }

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Dimensions, View } from 'react-native';
+import { Dimensions, Platform, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { wrapScrollView } from 'react-native-scroll-into-view';
 import Calendar from '../../components/Calendar';
@@ -42,7 +42,9 @@ export const CalendarScreen = ({ navigation }) => {
       >
         <Calendar jumpIntoView={jumpIntoView} />
       </CustomScrollView>
-      <CalendarBottomSheet />
+      {Platform.OS !== 'web' && (
+        <CalendarBottomSheet />
+      )}
     </View>
   )
 }

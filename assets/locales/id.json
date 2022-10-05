@@ -209,5 +209,9 @@
   "development_statistics_reset_actions": "Setel ulang tindakan",
   "view_log_message": "Kata-kata",
   "view_log_message_empty": "Hari yang misterius, karena tidak ada yang bisa diungkapkan tentang dirinya sendiri.",
-  "edit": "Sunting"
+  "edit": "Sunting",
+  "create": "Membuat",
+  "done": "Selesai",
+  "create_tag": "Buat Tag",
+  "edit_tag": "Edit tanda"
 }

@@ -1,6 +1,7 @@
 import colors from './TailwindColors';
 
 import scales from './Scales';
+import { COLOR_NAMES } from '../../hooks/useSettings';
 
 type TagColors = {
   [tag: string]: {
@@ -15,7 +16,7 @@ type TagColors = {
 const tagsDark: TagColors = {}
 const tagsLight: TagColors = {}
 
-const tagColorNames = ['slate', 'stone', 'red', 'orange', 'amber', 'yellow', 'lime', 'green', 'teal', 'sky', 'blue', 'indigo', 'purple', 'pink'];
+const tagColorNames = COLOR_NAMES;
 
 tagColorNames.map(color => {
   tagsDark[color] = {
@@ -131,7 +132,7 @@ const light = {
   textInputBackground: colors.neutral[200],
   textInputText: colors.neutral[800],
   textInputPlaceholder: colors.neutral[400],
-  textInputLabel: colors.neutral[300],
+  textInputLabel: colors.neutral[700],
   textInputBorder: colors.neutral[100],
   textInputBorderHighlight: tintColorLight,
 
@@ -197,7 +198,7 @@ const dark: IColors & {
   tags: typeof tagsDark
 } = {
   text: '#fff',
-  textSecondary: colors.neutral[500],
+  textSecondary: colors.neutral[400],
   background: '#000',
   backgroundSecondary: colors.neutral[900],
   link: tintColorLight,
@@ -279,7 +280,7 @@ const dark: IColors & {
   primaryButtonBorderDisabled: colors.neutral[800],
 
   secondaryButtonBackground: colors.neutral[800],
-  secondaryButtonText: colors.neutral[200],
+  secondaryButtonText: 'white',
   secondaryButtonBorder: colors.neutral[800],
 
   dangerButtonBackground: colors.neutral[800],
@@ -291,7 +292,7 @@ const dark: IColors & {
   textInputPlaceholder: colors.neutral[500],
   textInputBorder: colors.neutral[900],
   textInputBorderHighlight: tintColorDark,
-  textInputLabel: colors.neutral[600],
+  textInputLabel: colors.neutral[500],
 
   tagErrorBackground: '#9F1239',
   tagErrorText: '#FECDD3',

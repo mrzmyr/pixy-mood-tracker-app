@@ -209,5 +209,9 @@
   "development_statistics_reset_actions": "إعادة الإجراءات",
   "view_log_message": "كلمات",
   "view_log_message_empty": "يوم غامض ، لأنه ليس لديه ما يكشف عن نفسه.",
-  "edit": "يحرر"
+  "edit": "يحرر",
+  "create": "خلق",
+  "done": "فعله",
+  "create_tag": "إنشاء علامة",
+  "edit_tag": "تحرير العلامة"
 }

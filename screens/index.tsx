@@ -11,3 +11,5 @@ export * from './Settings';
 export * from './Statistics';
 export * from './Webhook';
 export * from './WebhookEntry';
+export * from './TagEdit';
+export * from './TagCreate';

@@ -209,5 +209,9 @@
   "development_statistics_reset_actions": "Obnoviť akcie",
   "view_log_message": "Slová",
   "view_log_message_empty": "Tajomný deň, keďže o sebe nemá čo prezradiť.",
-  "edit": "Upraviť"
+  "edit": "Upraviť",
+  "create": "Vytvorte",
+  "done": "hotový",
+  "create_tag": "Vytvoriť značku",
+  "edit_tag": "Upraviť značku"
 }

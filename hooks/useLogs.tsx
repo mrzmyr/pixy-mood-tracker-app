@@ -23,7 +23,7 @@ export interface LogsState {
 
 export interface LogAction {
   type: string;
-  payload?: LogsState | LogItem;
+  payload?: LogsState & LogItem;
 }
 
 const LogsContext = createContext(undefined)
@@ -40,6 +40,14 @@ function reducer(state: LogsState, action: LogAction): LogsState {
         ...state.items[action.payload.date],
         ...action.payload
       }
+      return { ...state }
+    case 'batchEdit':
+      action.payload.items.forEach((item: LogItem) => {
+        state.items[item.date] = {
+          ...state.items[item.date],
+          ...item
+        }
+      })
       return { ...state }
     case 'delete':
       delete state.items[action.payload.date]

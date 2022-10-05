@@ -209,5 +209,9 @@
   "development_statistics_reset_actions": "재설정 작업",
   "view_log_message": "단어",
   "view_log_message_empty": "자신에 대해 공개할 것이 없기 때문에 신비로운 날.",
-  "edit": "편집하다"
+  "edit": "편집하다",
+  "create": "만들다",
+  "done": "완료",
+  "create_tag": "태그 생성",
+  "edit_tag": "태그 수정"
 }

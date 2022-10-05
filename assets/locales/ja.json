@@ -209,5 +209,9 @@
   "development_statistics_reset_actions": "アクションのリセット",
   "view_log_message": "言葉",
   "view_log_message_empty": "それ自体について明らかにすることは何もないので、神秘的な日。",
-  "edit": "編集"
+  "edit": "編集",
+  "create": "作成",
+  "done": "終わり",
+  "create_tag": "タグを作成",
+  "edit_tag": "タグを編集"
 }

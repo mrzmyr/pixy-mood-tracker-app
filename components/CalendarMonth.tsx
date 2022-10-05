@@ -1,23 +1,25 @@
-import { useNavigation } from "@react-navigation/native";
 import dayjs from "dayjs";
-import { forwardRef, useCallback, useMemo } from "react";
+import { forwardRef, memo, useMemo } from "react";
 import { Text, View } from "react-native";
 import useColors from "../hooks/useColors";
 import { LogItem } from "../hooks/useLogs";
-import CalendarWeek from './CalendarWeek'
+import { SettingsState } from "../hooks/useSettings";
+import CalendarWeek from './CalendarWeek';
 
 interface WeekEntry {
   days: string[];
   items: LogItem[];
 }
 
-const CalendarMonth = forwardRef(({
+const CalendarMonth = memo(forwardRef(({
   dateString,
   items,
+  scaleType,
 }: {
   navigation: any;
   dateString: string;
   items?: LogItem[];
+  scaleType: SettingsState["scaleType"];
 }, ref) => {
   const date = dayjs(dateString);
   const colors = useColors();
@@ -56,6 +58,7 @@ const CalendarMonth = forwardRef(({
       >{date.format('MMMM YYYY')}</Text>
       {weeks.map((week, index) => (
         <CalendarWeek
+          scaleType={scaleType}
           key={index}
           isFirst={index === 0} 
           isLast={index === weeks.length - 1} 
@@ -65,6 +68,6 @@ const CalendarMonth = forwardRef(({
       ))}
     </View>
   )
-})
+}))
 
 export default CalendarMonth;

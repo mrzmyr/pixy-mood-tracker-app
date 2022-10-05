@@ -3,7 +3,9 @@ import dayjs from "dayjs";
 import { memo, useCallback } from "react";
 import { View } from "react-native";
 import { useCalendarFilters } from "../hooks/useCalendarFilters";
+import useColors from "../hooks/useColors";
 import { LogItem } from "../hooks/useLogs";
+import { SettingsState } from "../hooks/useSettings";
 import CalendarDay from "./CalendarDay";
 
 const CalendarDayContainer = ({ 
@@ -22,6 +24,8 @@ const CalendarDayContainer = ({
 type DayMapItem = {
   number: number;
   dateString: string;
+  backgroundColor: string;
+  textColor: string;
   isToday: boolean;
   isFuture: boolean;
   hasText: boolean;
@@ -36,13 +40,16 @@ const CalendarWeek = memo(({
   items,
   isFirst = false,
   isLast = false,
+  scaleType,
 }: {
   days: string[];
   items: LogItem[];
   onPress?: (dateString: string) => void;
   isFirst?: boolean;
   isLast?: boolean;
+  scaleType: SettingsState["scaleType"];
 }) => {
+  const colors = useColors()
   let justifyContent = "space-around";
   if(isFirst) justifyContent = 'flex-end';
   if(isLast) justifyContent = 'flex-start';
@@ -56,20 +63,22 @@ const CalendarWeek = memo(({
   const daysMap: DayMapItem[] = days.map(dateString => {
     const day = dayjs(dateString);
     const item = items.find(item => item.date === dateString);
+    const isFiltered = calendarFilters.isFiltering && item && !calendarFilters.validate(item)
+    
     return {
       number: day.date(),
       dateString,
       item,
       isToday: dayjs(dateString).isSame(dayjs(), 'day'),
       isFuture: day.isAfter(dayjs()),
-      isFiltered: calendarFilters.isFiltering && item && !calendarFilters.validate(item),
+      isFiltered,
       isFiltering: calendarFilters.isFiltering,
       hasText: item?.message.length > 0,
       hasContent: (
         item?.message?.length > 0 ||
         item?.tags?.length > 0 ||
         item?.rating !== undefined
-      )
+      ),
     }
   });
   
@@ -97,7 +106,6 @@ const CalendarWeek = memo(({
           <CalendarDay
             dateString={day.dateString}
             rating={day.item?.rating}
-            tags={day.item?.tags}
             day={day.number}
             isToday={day.isToday}
             isFiltered={day.isFiltered}
@@ -105,6 +113,7 @@ const CalendarWeek = memo(({
             filters={calendarFilters.data}
             isFuture={day.isFuture}
             hasText={day.item?.message?.length > 0}
+            scaleType={scaleType}
             onPress={() => onPress(day)}
           />
         </CalendarDayContainer>)

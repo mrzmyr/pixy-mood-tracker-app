@@ -209,5 +209,9 @@
   "development_statistics_reset_actions": "รีเซ็ตการกระทำ",
   "view_log_message": "คำ",
   "view_log_message_empty": "วันลึกลับ เพราะมันไม่มีอะไรจะเปิดเผยเกี่ยวกับตัวมันเอง",
-  "edit": "แก้ไข"
+  "edit": "แก้ไข",
+  "create": "สร้าง",
+  "done": "เสร็จแล้ว",
+  "create_tag": "สร้างแท็ก",
+  "edit_tag": "แก้ไขแท็ก"
 }

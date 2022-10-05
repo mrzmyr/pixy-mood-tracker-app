@@ -209,5 +209,9 @@
   "development_statistics_reset_actions": "Eylemleri sıfırla",
   "view_log_message": "Kelimeler",
   "view_log_message_empty": "Gizemli bir gün, çünkü kendisi hakkında açığa vuracak hiçbir şeyi yok.",
-  "edit": "Düzenlemek"
+  "edit": "Düzenlemek",
+  "create": "Oluşturmak",
+  "done": "Tamamlandı",
+  "create_tag": "Etiket Oluştur",
+  "edit_tag": "Etiketi düzenle"
 }

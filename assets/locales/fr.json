@@ -209,5 +209,9 @@
   "development_statistics_reset_actions": "Actions de réinitialisation",
   "view_log_message": "Mots",
   "view_log_message_empty": "Une journée mystérieuse, puisqu'elle n'a rien à révéler d'elle-même.",
-  "edit": "Éditer"
+  "edit": "Éditer",
+  "create": "Créer",
+  "done": "Fait",
+  "create_tag": "Créer une balise",
+  "edit_tag": "Modifier la balise"
 }

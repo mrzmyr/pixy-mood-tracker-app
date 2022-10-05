@@ -219,8 +219,9 @@ export const LogEdit = ({ navigation, route }: RootStackScreenProps<'LogEdit'>) 
   ]
 
   if(
-    Object.keys(state.items).length === 2 &&
-    !settings.reminderEnabled
+    Object.keys(state.items).length === 1 &&
+    !settings.reminderEnabled &&
+    existingLogItem === undefined
   ) {
     content.push({
       slide: (

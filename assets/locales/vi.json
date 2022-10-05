@@ -209,5 +209,9 @@
   "development_statistics_reset_actions": "Đặt lại các hành động",
   "view_log_message": "Từ ngữ",
   "view_log_message_empty": "Một ngày bí ẩn, vì nó không có gì để tiết lộ về chính nó.",
-  "edit": "Chỉnh sửa"
+  "edit": "Chỉnh sửa",
+  "create": "Tạo ra",
+  "done": "Xong",
+  "create_tag": "Tạo thẻ",
+  "edit_tag": "Thẻ chỉnh sửa"
 }

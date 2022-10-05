@@ -67,7 +67,7 @@ export const SlideTags = ({
             <View>
               <MiniButton 
                 onPress={() => {
-                  navigation.navigate('TagsModal')
+                  navigation.navigate('Tags')
                 }}
               />
             </View>

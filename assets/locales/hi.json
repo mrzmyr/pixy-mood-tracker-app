@@ -209,5 +209,9 @@
   "development_statistics_reset_actions": "कार्रवाई रीसेट करें",
   "view_log_message": "शब्दों",
   "view_log_message_empty": "एक रहस्यमय दिन, क्योंकि इसमें अपने बारे में बताने के लिए कुछ भी नहीं है।",
-  "edit": "संपादन करना"
+  "edit": "संपादन करना",
+  "create": "सृजन करना",
+  "done": "पूर्ण",
+  "create_tag": "टैग बनाएं",
+  "edit_tag": "टैग संपादित करें"
 }

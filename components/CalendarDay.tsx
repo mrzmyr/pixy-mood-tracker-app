@@ -1,13 +1,12 @@
 import chroma from "chroma-js";
-import dayjs from "dayjs";
-import { memo, useCallback } from "react";
+import { memo } from "react";
 import { Text, TouchableOpacity, useColorScheme, View } from "react-native";
 import { AlignLeft } from "react-native-feather";
 import { CalendarFiltersData } from "../hooks/useCalendarFilters";
 import useColors from "../hooks/useColors";
 import useHaptics from "../hooks/useHaptics";
 import { LogItem } from "../hooks/useLogs";
-import { Tag, useSettings } from "../hooks/useSettings";
+import { SettingsState } from "../hooks/useSettings";
 
 const TextIndicator = ({
   textColor,
@@ -19,34 +18,12 @@ const TextIndicator = ({
   }}><AlignLeft color={textColor} width={10} height={10} /></View>
 )
 
-const TagIndicator = ({
-  tag,
-  borderColor,
-}) => {
-  const colors = useColors();
-  
-  return (
-    <View
-      key={tag.id}
-      style={{
-        width: 7,
-        height: 7,
-        margin: 1,
-        borderRadius: 100,
-        backgroundColor: colors.tags[tag.color]?.dot,
-        borderWidth: 1,
-        borderColor: borderColor,
-      }}
-    />
-  )
-}
-
 export default memo(function CalendarDay({ 
   dateString,
   day,
   rating,
+  scaleType,
   isToday,
-  tags,
   isFiltered,
   isFiltering,
   filters,
@@ -57,8 +34,8 @@ export default memo(function CalendarDay({
   dateString: string,
   day: number,
   rating?: LogItem["rating"],
+  scaleType: SettingsState["scaleType"],
   isToday: boolean,
-  tags: Tag[],
   filters: CalendarFiltersData,
   isFuture: boolean,
   isFiltering: boolean,
@@ -68,28 +45,36 @@ export default memo(function CalendarDay({
 }) {
   const colors = useColors();
   const haptics = useHaptics();
-  let colorScheme = useColorScheme();
-  const { settings } = useSettings();
-  
-  const backgroundColor = (
+
+  let backgroundColor = (
     isFiltered ? (
       colors.calendarBackground
     ) : (
       rating ? 
-        colors.scales[settings.scaleType][rating].background : 
-        colors.scales[settings.scaleType].empty.background
+        colors.scales[scaleType][rating].background : 
+        colors.scales[scaleType].empty.background
     )
   )
+
+  if(isFuture || isFiltered || (!rating && isFiltering)) {
+    backgroundColor = colors.calendarItemBackgroundFuture;
+  }
+
   const textColor = (
     isFiltered ? (
       colors.text
     ) : (
       rating ? 
-        colors.scales[settings.scaleType][rating].text : 
-        colors.scales[settings.scaleType].empty.text
+        colors.scales[scaleType][rating].text : 
+        colors.scales[scaleType].empty.text
     )
   )
 
+  let borderColor = 'transparent';
+  if(!isFiltering && !rating) {
+    borderColor = colors.scales[scaleType].empty.border
+  }
+  
   return (
     <>
       <TouchableOpacity
@@ -106,23 +91,13 @@ export default memo(function CalendarDay({
           alignItems: 'center',
           padding: 4,
           borderRadius: 8,
-          backgroundColor: isFuture || isFiltered || (!rating && isFiltering) ? colors.calendarItemBackgroundFuture : backgroundColor,
+          backgroundColor: backgroundColor,
           width: '100%',
           aspectRatio: 1,
           borderWidth: rating === undefined && !isFuture ? 2 : 0,
           borderStyle: !isFuture && !rating && !isFiltering ? 'dotted' : 'solid',
-          borderColor: 
-          (!rating && !isFiltered && isFiltering) ? colors.calendarBackground :
-            (colorScheme === 'light' ? 
-              chroma(backgroundColor).darken(0.7).hex() : 
-              isFuture || isFiltered ? 
-                chroma(backgroundColor).brighten(0.1).hex() :
-                colors.scales['ColorBrew-RdYlGn'].empty.border
-              ),
+          borderColor: borderColor,
         }}
-        testID={`calendar-day-${dateString}`}
-        accessible={true}
-        accessibilityLabel={`${dayjs(dateString).format('LL')}`}
         activeOpacity={isFiltering ? 1 : 0.8}
       >
         <View
@@ -133,19 +108,6 @@ export default memo(function CalendarDay({
             width: '100%',
           }}
         >
-          <View style={{
-            flexDirection: 'row',
-            width: '70%',
-            flexWrap: 'wrap',
-          }}>
-            {/* { tags?.length > 0 && !isFiltering && tags.slice(0, 4).map((tag: Tag) => (
-              <TagIndicator 
-                key={tag.id} 
-                tag={tag} 
-                borderColor={chroma(backgroundColor).luminance() < 0.6 ? 'rgba(255,255,255,0.8)' : 'rgba(0,0,0,0.2)'}
-              />
-            ))} */}
-          </View>
           <View
             style={{
               width: '30%',
@@ -153,7 +115,7 @@ export default memo(function CalendarDay({
               alignItems: 'center',
             }}
           >
-            { hasText && <TextIndicator textColor={textColor} />}
+            { hasText && !isFiltering && <TextIndicator textColor={textColor} />}
           </View>
         </View>
         <View
@@ -181,7 +143,7 @@ export default memo(function CalendarDay({
             <Text
               style={{
                 fontSize: 12,
-                opacity: isFuture || isFiltered || (!rating && isFiltering) ? 0.3 : 1,
+                opacity: !isToday && (isFuture || isFiltered || (!rating && isFiltering)) ? 0.3 : 1,
                 color: isToday ?
                   (chroma(backgroundColor).luminance() < 0.5 ? 
                     'black' :

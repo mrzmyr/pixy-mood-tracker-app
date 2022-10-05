@@ -6,6 +6,7 @@ import {
 } from 'react-native-scroll-into-view';
 import useColors from "../hooks/useColors";
 import { useLogs } from "../hooks/useLogs";
+import { useSettings } from "../hooks/useSettings";
 import { useTranslation } from "../hooks/useTranslation";
 import CalendarMonth from "./CalendarMonth";
 import LinkButton from "./LinkButton";
@@ -19,6 +20,7 @@ export default function Calendar({
   const { state } = useLogs()
   const i18n = useTranslation()
   const today = dayjs();
+  const { settings } = useSettings()
 
   const months = [];
   for (let i = -12; i <= 0; i++) {
@@ -80,6 +82,7 @@ export default function Calendar({
       </View>
       {months.map(({ dateString, items }) => (
         <CalendarMonth 
+          scaleType={settings.scaleType}
           key={dateString} 
           dateString={dateString} 
           ref={dayjs().isSame(dateString, 'month') ? viewRef : null}
@@ -88,6 +91,7 @@ export default function Calendar({
       ))}
       {futureMonths.map(({ dateString }) => (
         <CalendarMonth 
+          scaleType={settings.scaleType}
           key={dateString} 
           dateString={dateString} 
           ref={dayjs().isSame(dateString, 'month') ? viewRef : null}

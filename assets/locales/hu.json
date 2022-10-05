@@ -209,5 +209,9 @@
   "development_statistics_reset_actions": "Műveletek visszaállítása",
   "view_log_message": "Szavak",
   "view_log_message_empty": "Titokzatos nap, hiszen nincs mit elárulnia magáról.",
-  "edit": "Szerkesztés"
+  "edit": "Szerkesztés",
+  "create": "Teremt",
+  "done": "Kész",
+  "create_tag": "Címke létrehozása",
+  "edit_tag": "Címke szerkesztése"
 }

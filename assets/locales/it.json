@@ -209,5 +209,9 @@
   "development_statistics_reset_actions": "Reimposta le azioni",
   "view_log_message": "Parole",
   "view_log_message_empty": "Un giorno misterioso, poiché non ha nulla da svelare su se stesso.",
-  "edit": "Modificare"
+  "edit": "Modificare",
+  "create": "Creare",
+  "done": "Fatto",
+  "create_tag": "Crea etichetta",
+  "edit_tag": "Modifica tag"
 }

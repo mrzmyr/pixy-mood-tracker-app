@@ -209,5 +209,9 @@
   "development_statistics_reset_actions": "אפס פעולות",
   "view_log_message": "מילים",
   "view_log_message_empty": "יום מסתורי, שכן אין לו מה לחשוף על עצמו.",
-  "edit": "לַעֲרוֹך"
+  "edit": "לַעֲרוֹך",
+  "create": "לִיצוֹר",
+  "done": "בוצע",
+  "create_tag": "צור תג",
+  "edit_tag": "ערוך תג"
 }

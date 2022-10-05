@@ -209,5 +209,9 @@
   "development_statistics_reset_actions": "Reset acties",
   "view_log_message": "Woorden",
   "view_log_message_empty": "Een mysterieuze dag, omdat het niets over zichzelf te onthullen heeft.",
-  "edit": "Bewerk"
+  "edit": "Bewerk",
+  "create": "Creëren",
+  "done": "Gedaan",
+  "create_tag": "Tag maken",
+  "edit_tag": "Bewerk label"
 }

@@ -20,7 +20,9 @@ import {
   ReminderScreen,
   ScaleScreen,
   SettingsScreen, StatisticsScreen, WebhookEntryScreen,
-  WebhookScreen
+  WebhookScreen,
+  TagEdit,
+  TagCreate,
 } from '../screens';
 import { RootStackParamList } from '../types';
 
@@ -30,7 +32,7 @@ import { useCalendarFilters } from '../hooks/useCalendarFilters';
 import useHaptics from '../hooks/useHaptics';
 import { useSettings } from '../hooks/useSettings';
 import { Onboarding } from '../screens/Onboarding';
-import { TagsModal } from '../screens/Tags';
+import { Tags } from '../screens/Tags';
 import { DevelopmentStatistics } from '../screens/DevelopmentStatistics';
 
 enableScreens();
@@ -397,16 +399,23 @@ function RootNavigator() {
             component={Onboarding} 
           />
         </Stack.Group>
-
         <Stack.Group 
           screenOptions={{ 
-            presentation: 'modal',
+            presentation: 'formSheet',
             headerShown: false,
           }}
         >
           <Stack.Screen 
-            name="TagsModal" 
-            component={TagsModal} 
+            name="Tags" 
+            component={Tags} 
+          />
+          <Stack.Screen 
+            name="TagCreate" 
+            component={TagCreate}
+          />
+          <Stack.Screen 
+            name="TagEdit" 
+            component={TagEdit}
           />
         </Stack.Group>
         
