@@ -63,7 +63,9 @@ export default function Button({
       }, style]}
       onPress={async () => {
         await haptics.selection()
-        onPress()
+        if(!disabled) {
+          onPress()
+        }
       }}
       disabled={disabled}
       testID={testID}
