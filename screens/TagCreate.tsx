@@ -10,8 +10,9 @@ import ModalHeader from '../components/ModalHeader';
 import TextInputLabel from '../components/TextInputLabel';
 import useColors from '../hooks/useColors';
 import useHaptics from '../hooks/useHaptics';
+import { useLogs } from '../hooks/useLogs';
 import { useSegment } from '../hooks/useSegment';
-import { COLOR_NAMES, Tag as ITag, useSettings } from '../hooks/useSettings';
+import { COLOR_NAMES, Tag as ITag } from '../hooks/useSettings';
 import { useTranslation } from '../hooks/useTranslation';
 import { RootStackScreenProps } from '../types';
 
@@ -23,7 +24,7 @@ export const TagCreate = ({ navigation, route }: RootStackScreenProps<'TagCreate
   const haptics = useHaptics()
   const insets = useSafeAreaInsets();
   const segment = useSegment()
-  const { setSettings } = useSettings()
+  const logs = useLogs()
   
   const [tempTag, setTempTag] = useState<ITag>({
     id: uuidv4(),
@@ -32,8 +33,6 @@ export const TagCreate = ({ navigation, route }: RootStackScreenProps<'TagCreate
   });
   
   const onCreate = () => {
-    if (tempTag.title.length >= 30) return;
-
     segment.track('tag_create', {
       titleLength: tempTag.title.length,
       color: tempTag.color,
@@ -46,10 +45,7 @@ export const TagCreate = ({ navigation, route }: RootStackScreenProps<'TagCreate
       color: Object.keys(colors.tags)[0] as ITag['color'],
     })
 
-    setSettings(settings => ({
-      ...settings,
-      tags: [...settings.tags, tempTag]
-    }))
+    logs.createTag(tempTag)
 
     navigation.goBack();
   }
@@ -59,7 +55,7 @@ export const TagCreate = ({ navigation, route }: RootStackScreenProps<'TagCreate
       <View style={{
         flex: 1,
         justifyContent: 'flex-start',
-        backgroundColor: colors.background,
+        backgroundColor: colors.logBackground,
         marginTop: Platform.OS === 'android' ? insets.top : 0,
       }}>
         <ModalHeader

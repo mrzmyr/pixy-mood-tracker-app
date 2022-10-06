@@ -23,8 +23,7 @@ export const TagEdit = ({ navigation, route }: RootStackScreenProps<'TagEdit'>) 
   const colors = useColors()
   const haptics = useHaptics()
   const insets = useSafeAreaInsets();
-  const { setSettings } = useSettings()
-  const { state: { items }, dispatch } = useLogs()
+  const logs = useLogs()
   const segment = useSegment()
   
   const tagExists = route.params.tag !== undefined;
@@ -36,37 +35,6 @@ export const TagEdit = ({ navigation, route }: RootStackScreenProps<'TagEdit'>) 
   
   const [tag, setTag] = useState(tagExists ? route.params.tag : defaultTag);
   
-  const edit = () => {
-    const newItems = Object.keys(items)
-      .map(key => {
-        const item = items[key];
-        const tags = item?.tags?.map(itemTag => {
-          if (itemTag.id === tag.id) {
-            return tag;
-          }
-          return itemTag;
-        }) || [];
-        return {
-          ...item,
-          tags
-        }
-      })
-
-    dispatch({
-      type: 'batchEdit',
-      payload: {
-        items: newItems
-      }
-    })
-
-    setSettings(settings => ({
-      ...settings,
-      tags: settings.tags.map((itemTag: ITag) => {
-        return (itemTag.id === tag.id ? tag : itemTag)
-      }
-    )}))
-  }
-
   const askToDelete = async (tag: ITag) => {
     await haptics.selection()
     
@@ -105,33 +73,12 @@ export const TagEdit = ({ navigation, route }: RootStackScreenProps<'TagEdit'>) 
   }
   
   const onDelete = (id: ITag['id']) => {
-    setSettings(settings => ({ 
-      ...settings, 
-      tags: settings.tags.filter((tag: ITag) => tag.id !== id) 
-    }))
-
-    const newItems = Object.keys(items)
-      .map(key => {
-        const item = items[key];
-        const tags = item?.tags?.filter(itemTag => itemTag.id !== id) || [];
-        return {
-          ...item,
-          tags
-        }
-      })
-
-    dispatch({
-      type: 'batchEdit',
-      payload: {
-        items: newItems
-      }
-    })
-
+    logs.deleteTag(id)
     navigation.goBack()
   }
   
-  const onSubmit = () => {
-    edit()
+  const onSubmit = (tag: ITag) => {
+    logs.updateTag(tag)
     navigation.goBack();
   }
   
@@ -140,14 +87,14 @@ export const TagEdit = ({ navigation, route }: RootStackScreenProps<'TagEdit'>) 
       <View style={{
         flex: 1,
         justifyContent: 'flex-start',
-        backgroundColor: colors.background,
+        backgroundColor: colors.logBackground,
         marginTop: Platform.OS === 'android' ? insets.top : 0,
       }}>
         <ModalHeader
           title={t('edit_tag')}
           right={
             <LinkButton 
-              onPress={onSubmit}
+              onPress={() => onSubmit(tag)}
               disabled={tag.title.length === 0 || tag.title.length > 30}
               type='primary'
             >{t('save')}</LinkButton>

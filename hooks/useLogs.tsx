@@ -1,18 +1,16 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { createContext, useContext, useEffect, useReducer } from "react";
 import { getJSONSchemaType } from '../lib/utils';
-import { Tag, useSettings } from './useSettings';
+import { Tag as ITag, useSettings } from './useSettings';
 import useWebhook from './useWebhook';
 
 const STORAGE_KEY = 'PIXEL_TRACKER_LOGS'
-
-type LogsProviderProps = {children: React.ReactNode}
 
 export interface LogItem {
   date: string;
   rating: 'extremely_good' | 'very_good' | 'good' | 'neutral' | 'bad' | 'very_bad' | 'extremely_bad';
   message: string;
-  tags: Tag[];
+  tags: ITag[];
 }
 
 export interface LogsState {
@@ -63,9 +61,13 @@ async function saveLogs(state: LogsState) {
   await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(state));
 }
 
-function LogsProvider({children}: LogsProviderProps) {
+function LogsProvider({
+  children
+}: {
+  children: React.ReactNode
+}) {
   const webhook = useWebhook()
-  const { settings } = useSettings()
+  const { settings, setSettings } = useSettings()
   
   const reducerProxy = (state: LogsState, action: LogAction): LogsState => {
     const newState = reducer(state, action)
@@ -106,7 +108,66 @@ function LogsProvider({children}: LogsProviderProps) {
   
   const value = {
     state, 
-    dispatch: dispatchProxy
+    dispatch: dispatchProxy,
+    createTag: (tag: ITag) => {
+      setSettings(settings => ({
+        ...settings,
+        tags: [...settings.tags, tag]
+      }))
+    },
+    updateTag: (tag: ITag) => {
+      const newItems = Object.keys(state.items)
+        .map(key => {
+          const item = state.items[key];
+          const tags = item?.tags?.map(itemTag => {
+            if (itemTag.id === tag.id) {
+              return tag;
+            }
+            return itemTag;
+          }) || [];
+          return {
+            ...item,
+            tags
+          }
+        })
+
+      dispatch({
+        type: 'batchEdit',
+        payload: {
+          items: newItems
+        }
+      })
+
+      setSettings(settings => ({
+        ...settings,
+        tags: settings.tags.map((itemTag: ITag) => {
+          return (itemTag.id === tag.id ? tag : itemTag)
+        }
+      )}))
+    },
+    deleteTag: (id: ITag['id']) => {
+      setSettings(settings => ({ 
+      ...settings, 
+        tags: settings.tags.filter((tag: ITag) => tag.id !== id) 
+      }))
+  
+      const newItems = Object.keys(state.items)
+        .map(key => {
+          const item = state.items[key];
+          const tags = item?.tags?.filter(itemTag => itemTag.id !== id) || [];
+          return {
+            ...item,
+            tags
+          }
+        })
+  
+      dispatchProxy({
+        type: 'batchEdit',
+        payload: {
+          items: newItems
+        }
+      })
+    }
   };
   
   return (
@@ -116,7 +177,13 @@ function LogsProvider({children}: LogsProviderProps) {
   )
 }
 
-function useLogs(): { state: LogsState, dispatch: (action: LogAction) => void } {
+function useLogs(): { 
+  state: LogsState, 
+  dispatch: (action: LogAction) => void
+  createTag: (tag: ITag) => void
+  updateTag: (tag: ITag) => void
+  deleteTag: (id: ITag['id']) => void
+} {
   const context = useContext(LogsContext)
   if (context === undefined) {
     throw new Error('useLogs must be used within a LogsProvider')
