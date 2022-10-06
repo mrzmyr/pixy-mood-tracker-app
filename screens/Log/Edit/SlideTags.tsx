@@ -1,5 +1,5 @@
 import { useNavigation } from "@react-navigation/native";
-import { ScrollView, View } from "react-native";
+import { ScrollView, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Tag from "../../../components/Tag";
 import { Tag as ITag, useSettings } from "../../../hooks/useSettings";
@@ -7,6 +7,8 @@ import { useTemporaryLog } from "../../../hooks/useTemporaryLog";
 import { useTranslation } from "../../../hooks/useTranslation";
 import { MiniButton } from "../MiniButton";
 import { SlideHeadline } from "./SlideHeadline";
+import { LinearGradient } from 'expo-linear-gradient';
+import useColors from "../../../hooks/useColors";
 
 export const SlideTags = ({
   marginTop,
@@ -20,6 +22,7 @@ export const SlideTags = ({
   const { settings } = useSettings()
   const navigation = useNavigation()
   const insets = useSafeAreaInsets();
+  const colors = useColors()
 
   return (
     <View style={{ 
@@ -35,6 +38,28 @@ export const SlideTags = ({
       >
         <SlideHeadline>{t('log_tags_question')}</SlideHeadline>
       </View>
+      <LinearGradient
+        pointerEvents="none"
+        colors={[colors.logBackground, 'rgba(255,255,255,0)']}
+        style={{
+          position: 'absolute',
+          height: 24,
+          top: 32,
+          zIndex: 1,
+          width: '100%',
+        }}
+      />
+      <LinearGradient
+        colors={['rgba(255,255,255,0)', colors.logBackground]}
+        style={{
+          position: 'absolute',
+          height: 32,
+          bottom: 0,
+          zIndex: 1,
+          width: '100%',
+        }}
+        pointerEvents="none"
+      />
       <ScrollView
         style={{
           flex: 1,
@@ -46,7 +71,7 @@ export const SlideTags = ({
             flexWrap: 'wrap',
             alignItems: 'flex-start',
             justifyContent: 'flex-start',
-            marginTop: 8,
+            marginTop: 16,
             paddingBottom: insets.bottom,
           }}
         >
@@ -71,6 +96,12 @@ export const SlideTags = ({
                 }}
               />
             </View>
+            <View
+              style={{
+                height: 50 - insets.bottom + 8,
+                width: '100%',
+              }}
+            />
         </View>
       </ScrollView>
     </View>

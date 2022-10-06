@@ -40,7 +40,7 @@ export const TagListItem = ({
               borderRadius: 100,
               backgroundColor: colors.tags[tag.color].dot,
               marginRight: 16,
-              marginLeft: 8,
+              marginLeft: 4,
             }}
           />
           <Text
