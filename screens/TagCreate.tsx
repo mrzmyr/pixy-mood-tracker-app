@@ -60,14 +60,6 @@ export const TagCreate = ({ navigation, route }: RootStackScreenProps<'TagCreate
       }}>
         <ModalHeader
           title={t('create_tag')}
-          right={
-            <LinkButton 
-              onPress={() => {
-                navigation.goBack();
-              }}
-              type='primary'
-            >{t('save')}</LinkButton>
-          }
           left={
             <LinkButton 
               onPress={() => {
@@ -83,7 +75,6 @@ export const TagCreate = ({ navigation, route }: RootStackScreenProps<'TagCreate
               padding: 20,
             }}
           >
-          <TextInputLabel>{t('title')}</TextInputLabel>
           <TextInput
             autoCorrect={false}
             style={{
@@ -93,6 +84,7 @@ export const TagCreate = ({ navigation, route }: RootStackScreenProps<'TagCreate
               width: '100%',
               padding: 16,
               borderRadius: 8,
+              marginBottom: 16,
             }}
             placeholder={t('tags_add_placeholder')}
             placeholderTextColor={colors.textInputPlaceholder}
@@ -105,7 +97,6 @@ export const TagCreate = ({ navigation, route }: RootStackScreenProps<'TagCreate
               }))
             }}
           />
-          <TextInputLabel>{t('color')}</TextInputLabel>
           <View
             style={{
               flexDirection: 'row',

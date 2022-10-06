@@ -114,7 +114,6 @@ export const TagEdit = ({ navigation, route }: RootStackScreenProps<'TagEdit'>) 
               padding: 20,
             }}
           >
-          <TextInputLabel>{t('title')}</TextInputLabel>
           <TextInput
             autoCorrect={false}
             style={{
@@ -124,6 +123,7 @@ export const TagEdit = ({ navigation, route }: RootStackScreenProps<'TagEdit'>) 
               width: '100%',
               padding: 16,
               borderRadius: 8,
+              marginBottom: 16,
             }}
             placeholder={t('tags_add_placeholder')}
             placeholderTextColor={colors.textInputPlaceholder}
@@ -136,7 +136,6 @@ export const TagEdit = ({ navigation, route }: RootStackScreenProps<'TagEdit'>) 
               }))
             }}
           />
-          <TextInputLabel>{t('color')}</TextInputLabel>
           <View
             style={{
               flexDirection: 'row',
