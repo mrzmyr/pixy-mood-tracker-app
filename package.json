@@ -10,10 +10,9 @@
     "eject": "expo eject",
     "test": "jest --watchAll --env=jsdom",
     "disclaimer": "echo \"export default \\`$(yarn licenses generate-disclaimer | sed 's/\\`/\\\\`/g')\\`\" > disclaimer.js",
-    "build": "eas build --platform ios --local && eas build --platform android --local",
-    "translate-app": "node scripts/generate-translations-app.js",
-    "translate-metadata": "ts-node scripts/generate-translations-app-store-metadata",
-    "generate-screenshots": "node scripts/generate-screenshots.js"
+    "build": "eas build -p ios --local && eas build -p android --local",
+    "submit": "eas submit -p ios --path $(ls -t *.ipa | head -1) && eas submit -p android --path $(ls -t *.aab | head -1)",
+    "translate-app": "node scripts/generate-translations-app.js"
   },
   "jest": {
     "preset": "jest-expo",
