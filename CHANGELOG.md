@@ -2,6 +2,32 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.36.2](https://github.com/mrzmyr/pixy-mood-tracker/compare/v1.36.1...v1.36.2) (2022-10-06)
+
+
+### Bug Fixes
+
+* do not allow onPress func when Button is disabled ([42c3bfb](https://github.com/mrzmyr/pixy-mood-tracker/commit/42c3bfb7bc837d94bd7c2cbb1f46e861b9aaf17f))
+* reload statistics only if items changed ([18ede0c](https://github.com/mrzmyr/pixy-mood-tracker/commit/18ede0ca283d9c5914e4530ad6bbc4687ad5675d))
+* remove tag from tempLog when deleted ([86c7c45](https://github.com/mrzmyr/pixy-mood-tracker/commit/86c7c450dfd87adee80e521a72dc9aab1f359793))
+
+
+### Refactors
+
+* move function to useLogs ([4f10b3b](https://github.com/mrzmyr/pixy-mood-tracker/commit/4f10b3bf0e9d113882bf2ce51a33d94ca08463ed))
+
+
+### Styling
+
+* add gradient etc ([bfc374c](https://github.com/mrzmyr/pixy-mood-tracker/commit/bfc374c4b7e9a75db490c824c4c27efd9633db17))
+* rename trends to highlights ([5ab7e5f](https://github.com/mrzmyr/pixy-mood-tracker/commit/5ab7e5f2e8738873719b645182ee97a35bdfa828))
+* tag edit / create ([5bde02a](https://github.com/mrzmyr/pixy-mood-tracker/commit/5bde02a915ecd2cf51abeac1467f00b79e9f09bc))
+
+
+### Chore
+
+* update deps ([c6454c7](https://github.com/mrzmyr/pixy-mood-tracker/commit/c6454c736cec128f067a51189e74e907487bba0b))
+
 ### [1.36.1](https://github.com/mrzmyr/pixy-mood-tracker/compare/v1.36.0...v1.36.1) (2022-10-05)
 
 
