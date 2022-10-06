@@ -78,7 +78,7 @@ export const HighlightsSection = ({ items }: { items: LogItem[] }) => {
             marginTop: 32,
           }}
         >
-          <ActivityIndicator />
+          <ActivityIndicator color={colors.loadingIndicator} />
         </View>
       ) : (
         <>

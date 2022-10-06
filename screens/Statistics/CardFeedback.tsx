@@ -131,7 +131,7 @@ export const CardFeedback = ({
           alignItems: 'center',
           marginBottom: 8,
         }}>
-          <ActivityIndicator size="small" color={colors.text} />
+          <ActivityIndicator size={'small'} color={colors.loadingIndicator} />
         </View>
       )}
       {!feedbackSent && (

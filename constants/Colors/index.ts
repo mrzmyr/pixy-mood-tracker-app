@@ -46,6 +46,8 @@ const light = {
   link: tintColorLight,
   tint: tintColorLight,
 
+  loadingIndicator: colors.neutral[500],
+
   keyboardToolbarIcon: colors.neutral[500],
   keyboardToolbarBackground: colors.neutral[200],
   

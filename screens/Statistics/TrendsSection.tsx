@@ -30,7 +30,7 @@ export const TrendsSection = () => {
             marginTop: 32,
           }}
         >
-          <ActivityIndicator />
+          <ActivityIndicator color={colors.loadingIndicator} />
         </View>
       ) : (
         <>

@@ -63,7 +63,7 @@ export const StatisticsHighlights = ({ navigation }) => {
                 marginTop: 32,
               }}
             > 
-              <ActivityIndicator />
+              <ActivityIndicator color={colors.loadingIndicator} />
             </View>
           ) : (
             <>

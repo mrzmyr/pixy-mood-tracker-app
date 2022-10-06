@@ -221,7 +221,7 @@ export default function useFeedbackModal() {
             position: 'absolute',
             zIndex: 99,
           }}>
-            <ActivityIndicator />
+            <ActivityIndicator size={'small'} color={colors.loadingIndicator} />
           </View>
         }
         <DismissKeyboard>
