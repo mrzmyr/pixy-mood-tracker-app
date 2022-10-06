@@ -70,9 +70,12 @@ export const LogEdit = ({ navigation, route }: RootStackScreenProps<'LogEdit'>) 
   }, [])
 
   useEffect(() => {
+    if(tempLog.data === null) return;
+    
     // delete all tags that are not in the settings
-    const tags = tempLog.data.tags.filter(tag => settings.tags.find(t => t.id === tag.id))
-    tempLog.set((tempLog) => ({ ...tempLog, tags }))
+    const settingTagIds = settings.tags.map(tag => tag.id)
+    const tags = tempLog.data.tags.filter(tag => settingTagIds.includes(tag.id))
+    tempLog.set(tempLog => ({ ...tempLog, tags }))
   }, [JSON.stringify(settings.tags)])
 
   const close = async () => {
@@ -267,17 +270,6 @@ export const LogEdit = ({ navigation, route }: RootStackScreenProps<'LogEdit'>) 
     }
     setSlideIndex(index)
   }
-
-  const tempLogHasChanges = (
-    tempLog.data.message.length > 0 || 
-    tempLog.data?.tags?.length > 0 ||
-    tempLog.data.rating !== null
-  )
-  const existingLogItemHasChanges = (
-    tempLog.data.message.length !== existingLogItem?.message.length || 
-    tempLog.data?.tags?.length !== existingLogItem?.tags?.length ||
-    tempLog.data.rating !== existingLogItem?.rating
-  )
   
   return (
     <View style={{ 
@@ -304,6 +296,17 @@ export const LogEdit = ({ navigation, route }: RootStackScreenProps<'LogEdit'>) 
           title={dayjs(route.params.date).isSame(dayjs(), 'day') ? t('today') : dayjs(route.params.date).format('dddd, L')}
           isDeleteable={existingLogItem !== undefined}
           onClose={() => {
+            const tempLogHasChanges = (
+              tempLog.data.message.length > 0 || 
+              tempLog.data?.tags?.length > 0 ||
+              tempLog.data.rating !== null
+            )
+            const existingLogItemHasChanges = (
+              tempLog.data.message.length !== existingLogItem?.message.length || 
+              tempLog.data?.tags?.length !== existingLogItem?.tags?.length ||
+              tempLog.data.rating !== existingLogItem?.rating
+            )
+            
             if(
               !existingLogItem && tempLogHasChanges ||
               !!existingLogItem && existingLogItemHasChanges

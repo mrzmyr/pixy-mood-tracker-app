@@ -10,12 +10,7 @@ type Value = {
   reset: () => void;
 };
 
-const initialState: LogItem = {
-  date: dayjs().format("YYYY-MM-DD"),
-  rating: null,
-  message: "",
-  tags: [],
-};
+const initialState: LogItem | null = null;
 
 function TemporaryLogProvider({ children }: { children: React.ReactNode }) {
   const [temporaryLog, setTemporaryLog] = useState<LogItem>(initialState);

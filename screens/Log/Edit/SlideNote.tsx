@@ -69,7 +69,7 @@ export const SlideNote = ({
             >
               <TextArea
                 placeholder={placeholder.current}
-                value={tempLog.data.message}
+                value={tempLog?.data?.message}
                 onChange={onChange}
                 maxLength={MAX_LENGTH}
                 style={{

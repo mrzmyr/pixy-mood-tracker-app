@@ -60,7 +60,7 @@ export const SlideRating = ({
             <SlideRatingButton
               key={key}
               rating={key as LogItem['rating']}
-              selected={tempLog.data.rating === key} 
+              selected={tempLog?.data?.rating === key} 
               onPress={() => onChange(key as LogItem['rating'])}
             />
           ))}
