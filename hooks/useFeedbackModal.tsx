@@ -253,7 +253,7 @@ export default function useFeedbackModal() {
             }}
           >
             <Text style={{ 
-              marginTop: 17,
+              marginTop: 16,
               marginBottom: 8,
               color: colors.text, 
               fontSize: 32,

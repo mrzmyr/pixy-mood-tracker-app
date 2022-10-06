@@ -56,6 +56,7 @@ const light = {
   logHeaderText: colors.neutral[500],
   logBackground: colors.neutral[100],
   logCardBackground: colors.white,
+  logBackgroundTransparent: 'rgba(245,245,245, 0)',
 
   logActionBackground: colors.neutral[200],
   logActionBorder: tintColorLight,
@@ -79,8 +80,8 @@ const light = {
   bottomSheetHeaderBorder: colors.neutral[200],
   bottomSheetHandle: 'rgba(255, 255, 255, 0.5)',
 
-  feedbackSelectionBackground: colors.neutral[100],
-  feedbackBackground: '#FFF',
+  feedbackSelectionBackground: colors.neutral[200],
+  feedbackBackground: colors.neutral[100],
   
   cardBackground: '#fff',
 
@@ -206,6 +207,8 @@ const dark: IColors & {
   link: tintColorLight,
   tint: tintColorDark,
 
+  loadingIndicator: '#fff',
+
   keyboardToolbarIcon: colors.neutral[500],
   keyboardToolbarBackground: colors.neutral[200],
   
@@ -214,6 +217,7 @@ const dark: IColors & {
   logHeaderText: colors.neutral[300],
   logBackground: colors.neutral[900],
   logCardBackground: colors.neutral[800],
+  logBackgroundTransparent: 'rgba(28,25,23, 0)',
 
   logActionBackground: colors.neutral[800],
   logActionBorder: tintColorLight,
@@ -237,8 +241,8 @@ const dark: IColors & {
   bottomSheetHeaderBorder: colors.neutral[800],
   bottomSheetHandle: 'rgba(255, 255, 255, 0.5)',
 
-  feedbackSelectionBackground: colors.neutral[900],
-  feedbackBackground: '#000',
+  feedbackSelectionBackground: colors.neutral[800],
+  feedbackBackground: colors.neutral[900],
   
   cardBackground: colors.neutral[900],
   

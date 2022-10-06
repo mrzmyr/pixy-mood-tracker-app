@@ -46,7 +46,7 @@ export const Tags = ({ navigation, route }: RootStackScreenProps<'Tags'>) => {
       />
       <LinearGradient
         pointerEvents="none"
-        colors={['rgba(255,255,255,0)', colors.logBackground, colors.logBackground]}
+        colors={[colors.logBackgroundTransparent, colors.logBackground, colors.logBackground]}
         style={{
           position: 'absolute',
           height: 120 + insets.bottom,

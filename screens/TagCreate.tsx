@@ -7,7 +7,7 @@ import Button from '../components/Button';
 import DismissKeyboard from '../components/DismisKeyboard';
 import LinkButton from '../components/LinkButton';
 import ModalHeader from '../components/ModalHeader';
-import TextInputLabel from '../components/TextInputLabel';
+import { MAX_TAG_LENGTH, MIN_TAG_LENGTH } from '../constants/Config';
 import useColors from '../hooks/useColors';
 import useHaptics from '../hooks/useHaptics';
 import { useLogs } from '../hooks/useLogs';
@@ -88,7 +88,7 @@ export const TagCreate = ({ navigation, route }: RootStackScreenProps<'TagCreate
             }}
             placeholder={t('tags_add_placeholder')}
             placeholderTextColor={colors.textInputPlaceholder}
-            maxLength={30}
+            maxLength={MAX_TAG_LENGTH}
             value={tempTag.title}
             onChangeText={text => {
               setTempTag(tempTag => ({
@@ -142,7 +142,7 @@ export const TagCreate = ({ navigation, route }: RootStackScreenProps<'TagCreate
               marginTop: 16,
             }}
             onPress={onCreate}
-            disabled={tempTag.title.length === 0 || tempTag.title.length > 30}
+            disabled={tempTag.title.length < MIN_TAG_LENGTH || tempTag.title.length > MAX_TAG_LENGTH}
           >{t('create')}</Button>
         </View>
       </View>

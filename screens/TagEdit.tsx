@@ -7,12 +7,12 @@ import Button from '../components/Button';
 import DismissKeyboard from '../components/DismisKeyboard';
 import LinkButton from '../components/LinkButton';
 import ModalHeader from '../components/ModalHeader';
-import TextInputLabel from '../components/TextInputLabel';
+import { MAX_TAG_LENGTH, MIN_TAG_LENGTH } from '../constants/Config';
 import useColors from '../hooks/useColors';
 import useHaptics from '../hooks/useHaptics';
 import { useLogs } from '../hooks/useLogs';
 import { useSegment } from '../hooks/useSegment';
-import { COLOR_NAMES, Tag as ITag, useSettings } from '../hooks/useSettings';
+import { COLOR_NAMES, Tag as ITag } from '../hooks/useSettings';
 import { useTranslation } from '../hooks/useTranslation';
 import { RootStackScreenProps } from '../types';
 
@@ -92,13 +92,6 @@ export const TagEdit = ({ navigation, route }: RootStackScreenProps<'TagEdit'>) 
       }}>
         <ModalHeader
           title={t('edit_tag')}
-          right={
-            <LinkButton 
-              onPress={() => onSubmit(tag)}
-              disabled={tag.title.length === 0 || tag.title.length > 30}
-              type='primary'
-            >{t('save')}</LinkButton>
-          }
           left={
             <LinkButton 
               onPress={() => {
@@ -127,7 +120,7 @@ export const TagEdit = ({ navigation, route }: RootStackScreenProps<'TagEdit'>) 
             }}
             placeholder={t('tags_add_placeholder')}
             placeholderTextColor={colors.textInputPlaceholder}
-            maxLength={30}
+            maxLength={MAX_TAG_LENGTH}
             value={tag.title}
             onChangeText={text => {
               setTag(tag => ({
@@ -142,9 +135,6 @@ export const TagEdit = ({ navigation, route }: RootStackScreenProps<'TagEdit'>) 
               flexWrap: 'wrap',
               alignItems: 'center',
               width: '100%',
-              padding: 16,
-              backgroundColor: colors.cardBackground,
-              borderRadius: 16,
             }}
           >
             {COLOR_NAMES.map(colorName => (
@@ -171,22 +161,29 @@ export const TagEdit = ({ navigation, route }: RootStackScreenProps<'TagEdit'>) 
                 activeOpacity={0.8}
               >
                 {tag.color === colorName && (
-                  <Check width={20} height={20} color={colors.tags[colorName].text} />
+                  <Check width={20} height={20} color={colors.palette.white} />
                 )}
               </TouchableOpacity>
             ))}
           </View>
           <View
             style={{
-              flexDirection: 'row',
               justifyContent: 'center',
               alignItems: 'center',
-              marginTop: 16,
+              marginTop: 32,
             }}
           >
             <Button
               style={{
-                flex: 1,
+                width: '100%',
+              }}
+              onPress={() => onSubmit(tag)}
+              type='primary'
+              disabled={tag.title.length < MIN_TAG_LENGTH || tag.title.length > MAX_TAG_LENGTH}
+            >{t('save')}</Button>
+            <Button
+              style={{
+                marginTop: 12,
                 width: '100%',
               }}
               onPress={() => askToDelete(tag)}

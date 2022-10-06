@@ -40,7 +40,7 @@ export const SlideTags = ({
       </View>
       <LinearGradient
         pointerEvents="none"
-        colors={[colors.logBackground, 'rgba(255,255,255,0)']}
+        colors={[colors.logBackground, colors.logBackgroundTransparent]}
         style={{
           position: 'absolute',
           height: 24,
@@ -50,7 +50,7 @@ export const SlideTags = ({
         }}
       />
       <LinearGradient
-        colors={['rgba(255,255,255,0)', colors.logBackground]}
+        colors={[colors.logBackgroundTransparent, colors.logBackground]}
         style={{
           position: 'absolute',
           height: 32,
