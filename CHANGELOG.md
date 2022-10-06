@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.37.1](https://github.com/mrzmyr/pixy-mood-tracker/compare/v1.37.0...v1.37.1) (2022-10-06)
+
+
+### Bug Fixes
+
+* loading indicator on android ([cc91f60](https://github.com/mrzmyr/pixy-mood-tracker/commit/cc91f603bbf4d50da4a8f37ef0b682959ce49b42))
+
+
+### Styling
+
+* show button on top of tags edit list ([2608b4d](https://github.com/mrzmyr/pixy-mood-tracker/commit/2608b4d6a900e60220e84561c9f9c2a3ba491825))
+
+
+### Chore
+
+* add bump command ([7258ed5](https://github.com/mrzmyr/pixy-mood-tracker/commit/7258ed5e3bf589214154bf7ce29d06e5759170f0))
+
 ## [1.37.0](https://github.com/mrzmyr/pixy-mood-tracker/compare/v1.36.2...v1.37.0) (2022-10-06)
 
 
