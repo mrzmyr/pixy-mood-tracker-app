@@ -215,5 +215,13 @@
   "create_tag": "Luo tunniste",
   "edit_tag": "Muokkaa tunnistetta",
   "statistics_mood_chart_improved": "Keskimääräinen mielialasi on parantunut viimeisen 2 viikon aikana.",
-  "statistics_mood_chart_declined": "Viimeisten 2 viikon aikana keskimääräinen mielialasi on laskenut."
+  "statistics_mood_chart_declined": "Viimeisten 2 viikon aikana keskimääräinen mielialasi on laskenut.",
+  "statistics_highlights": "Kohokohdat",
+  "statistics_highlights_description": "Parin viime viikon kohokohdat",
+  "statistics_highlights_more": "Näytä kaikki kohokohdat",
+  "statistics_trends": "Trendit",
+  "statistics_trends_description": "Trendisi kahden viime viikon ajalta",
+  "statistics_trends_more": "Näytä kaikki trendit",
+  "statistics_2_week_highlights": "Viimeiset 2 viikkoa",
+  "statistics_no_highlights": "Tällä hetkellä mitkään kohokohdat eivät ole tärkeitä, mutta voit aina siirtyä Näytä kaikki kohokohdat -kohtaan."
 }

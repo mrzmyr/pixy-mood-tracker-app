@@ -6,7 +6,7 @@ import useColors from '../../hooks/useColors';
 import useHaptics from '../../hooks/useHaptics';
 import { LogItem } from '../../hooks/useLogs';
 import { Tag as ITag } from '../../hooks/useSettings';
-import { TagsPeakData } from '../../hooks/useStatistics';
+import { TagsPeakData } from '../../hooks/useStatistics/TagsPeaks';
 import { useTranslation } from '../../hooks/useTranslation';
 import { CardFeedback } from './CardFeedback';
 import { HeaderWeek } from './HeaderWeek';
@@ -107,7 +107,7 @@ const BodyWeek = ({
   )
 }
 
-const TagPeaksCard = ({
+export const TagPeaksCard = ({
   tag,
 }: {
   tag: TagsPeakData['tags'][0],
@@ -129,7 +129,7 @@ const TagPeaksCard = ({
         <Text
           style={{
             fontSize: 17,
-            color: colors.tags[tag?.color].text,
+            color: colors.tags[tag?.color]?.text,
           }}
         >{tag?.title}&nbsp;</Text>
         {t('statistics_tag_peaks_title', {
@@ -154,15 +154,3 @@ const TagPeaksCard = ({
     </Card>
   )
 }
-
-export const TagPeaksCards = ({
-  data
-}: {
-  data: TagsPeakData
-}) => {
-  return (
-    <>
-      {data.tags.map((tag, index) => <TagPeaksCard key={index} tag={tag} />)}
-    </>
-  );
-};

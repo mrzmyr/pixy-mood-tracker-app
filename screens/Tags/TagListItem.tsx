@@ -38,7 +38,7 @@ export const TagListItem = ({
               width: 10,
               height: 10,
               borderRadius: 100,
-              backgroundColor: colors.tags[tag.color].dot,
+              backgroundColor: colors.tags[tag?.color]?.dot,
               marginRight: 16,
               marginLeft: 4,
             }}

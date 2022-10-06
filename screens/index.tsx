@@ -13,3 +13,4 @@ export * from './Webhook';
 export * from './WebhookEntry';
 export * from './TagEdit';
 export * from './TagCreate';
+export * from './Statistics/Highlights';

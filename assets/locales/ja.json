@@ -215,5 +215,13 @@
   "create_tag": "タグを作成",
   "edit_tag": "タグを編集",
   "statistics_mood_chart_improved": "過去 2 週間で、平均的な気分が改善しました。",
-  "statistics_mood_chart_declined": "過去 2 週間で、あなたの平均的な気分は低下しました。"
+  "statistics_mood_chart_declined": "過去 2 週間で、あなたの平均的な気分は低下しました。",
+  "statistics_highlights": "ハイライト",
+  "statistics_highlights_description": "過去 2 週間のハイライト",
+  "statistics_highlights_more": "すべてのハイライトを表示",
+  "statistics_trends": "トレンド",
+  "statistics_trends_description": "過去 2 週間の傾向",
+  "statistics_trends_more": "すべてのトレンドを表示",
+  "statistics_2_week_highlights": "過去 2 週間",
+  "statistics_no_highlights": "現在、関連するハイライトはありませんが、いつでも [すべてのハイライトを表示] に移動できます。"
 }

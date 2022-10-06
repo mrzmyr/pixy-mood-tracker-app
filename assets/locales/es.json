@@ -215,5 +215,13 @@
   "create_tag": "Crear etiqueta",
   "edit_tag": "Editar etiqueta",
   "statistics_mood_chart_improved": "En las últimas 2 semanas, su estado de ánimo promedio mejoró.",
-  "statistics_mood_chart_declined": "En las últimas 2 semanas, su estado de ánimo promedio disminuyó."
+  "statistics_mood_chart_declined": "En las últimas 2 semanas, su estado de ánimo promedio disminuyó.",
+  "statistics_highlights": "Reflejos",
+  "statistics_highlights_description": "Lo más destacado de las últimas dos semanas",
+  "statistics_highlights_more": "Mostrar todos los aspectos destacados",
+  "statistics_trends": "Tendencias",
+  "statistics_trends_description": "Tus tendencias de las últimas dos semanas",
+  "statistics_trends_more": "Mostrar todas las tendencias",
+  "statistics_2_week_highlights": "últimas 2 semanas",
+  "statistics_no_highlights": "Actualmente no hay destacados relevantes, pero siempre puede ir a 'Mostrar todos los destacados'."
 }

@@ -215,5 +215,13 @@
   "create_tag": "Cipta Tag",
   "edit_tag": "Edit teg",
   "statistics_mood_chart_improved": "Dalam 2 minggu lepas, mood purata anda bertambah baik.",
-  "statistics_mood_chart_declined": "Dalam 2 minggu lepas, purata mood anda merosot."
+  "statistics_mood_chart_declined": "Dalam 2 minggu lepas, purata mood anda merosot.",
+  "statistics_highlights": "Sorotan",
+  "statistics_highlights_description": "Sorotan anda dari dua minggu lepas",
+  "statistics_highlights_more": "Tunjukkan Semua Sorotan",
+  "statistics_trends": "Trend",
+  "statistics_trends_description": "Aliran anda dari dua minggu lepas",
+  "statistics_trends_more": "Tunjukkan Semua Trend",
+  "statistics_2_week_highlights": "2 minggu lepas",
+  "statistics_no_highlights": "Pada masa ini tiada sorotan berkaitan, tetapi anda sentiasa boleh pergi ke 'Tunjukkan semua sorotan'."
 }

@@ -215,5 +215,13 @@
   "create_tag": "Skapa tagg",
   "edit_tag": "Redigera tagg",
   "statistics_mood_chart_improved": "Under de senaste 2 veckorna har ditt genomsnittliga humör förbättrats.",
-  "statistics_mood_chart_declined": "Under de senaste 2 veckorna har ditt genomsnittliga humör minskat."
+  "statistics_mood_chart_declined": "Under de senaste 2 veckorna har ditt genomsnittliga humör minskat.",
+  "statistics_highlights": "Höjdpunkter",
+  "statistics_highlights_description": "Dina höjdpunkter från de senaste två veckorna",
+  "statistics_highlights_more": "Visa alla höjdpunkter",
+  "statistics_trends": "Trender",
+  "statistics_trends_description": "Dina trender från de senaste två veckorna",
+  "statistics_trends_more": "Visa alla trender",
+  "statistics_2_week_highlights": "Senaste 2 veckorna",
+  "statistics_no_highlights": "För närvarande är inga höjdpunkter relevanta, men du kan alltid gå till \"Visa alla höjdpunkter\"."
 }

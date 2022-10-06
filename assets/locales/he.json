@@ -215,5 +215,13 @@
   "create_tag": "צור תג",
   "edit_tag": "ערוך תג",
   "statistics_mood_chart_improved": "בשבועיים האחרונים, מצב הרוח הממוצע שלך השתפר.",
-  "statistics_mood_chart_declined": "בשבועיים האחרונים מצב הרוח הממוצע שלך ירד."
+  "statistics_mood_chart_declined": "בשבועיים האחרונים מצב הרוח הממוצע שלך ירד.",
+  "statistics_highlights": "עיקרי הדברים",
+  "statistics_highlights_description": "הדגשים שלך מהשבועיים האחרונים",
+  "statistics_highlights_more": "הצג את כל ההדגשות",
+  "statistics_trends": "טרנדים",
+  "statistics_trends_description": "הטרנדים שלך מהשבועיים האחרונים",
+  "statistics_trends_more": "הצג את כל המגמות",
+  "statistics_2_week_highlights": "שבועיים אחרונים",
+  "statistics_no_highlights": "נכון לעכשיו אין דגשים רלוונטיים, אבל תמיד אפשר ללכת ל'הצג את כל ההדגשות'."
 }

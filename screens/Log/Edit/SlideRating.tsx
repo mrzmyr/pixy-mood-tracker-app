@@ -1,4 +1,4 @@
-import { Dimensions, View } from "react-native";
+import { View } from "react-native";
 import useColors from "../../../hooks/useColors";
 import { LogItem } from "../../../hooks/useLogs";
 import { useTemporaryLog } from "../../../hooks/useTemporaryLog";

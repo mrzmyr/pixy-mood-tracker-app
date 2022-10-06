@@ -215,5 +215,13 @@
   "create_tag": "สร้างแท็ก",
   "edit_tag": "แก้ไขแท็ก",
   "statistics_mood_chart_improved": "ในช่วง 2 สัปดาห์ที่ผ่านมา อารมณ์เฉลี่ยของคุณดีขึ้น",
-  "statistics_mood_chart_declined": "ในช่วง 2 สัปดาห์ที่ผ่านมา อารมณ์เฉลี่ยของคุณลดลง"
+  "statistics_mood_chart_declined": "ในช่วง 2 สัปดาห์ที่ผ่านมา อารมณ์เฉลี่ยของคุณลดลง",
+  "statistics_highlights": "ไฮไลท์",
+  "statistics_highlights_description": "ไฮไลท์ของคุณในช่วงสองสัปดาห์ที่ผ่านมา",
+  "statistics_highlights_more": "แสดงไฮไลท์ทั้งหมด",
+  "statistics_trends": "เทรนด์",
+  "statistics_trends_description": "เทรนด์ของคุณในช่วงสองสัปดาห์ที่ผ่านมา",
+  "statistics_trends_more": "แสดงเทรนด์ทั้งหมด",
+  "statistics_2_week_highlights": "2 สัปดาห์ที่ผ่านมา",
+  "statistics_no_highlights": "ขณะนี้ไม่มีไฮไลท์ที่เกี่ยวข้อง แต่คุณสามารถไปที่ 'แสดงไฮไลท์ทั้งหมด' ได้ตลอดเวลา"
 }

@@ -20,6 +20,7 @@ import {
   ReminderScreen,
   ScaleScreen,
   SettingsScreen, StatisticsScreen, WebhookEntryScreen,
+  StatisticsHighlights,
   WebhookScreen,
   TagEdit,
   TagCreate,
@@ -419,6 +420,21 @@ function RootNavigator() {
           />
         </Stack.Group>
         
+        <Stack.Group
+          screenOptions={{ 
+            ...defaultOptions,
+            headerBackTitle: '',
+          }} 
+        >
+          <Stack.Screen 
+            name="StatisticsHighlights"
+            component={StatisticsHighlights}
+            options={{ 
+              title: i18n.t('statistics_highlights'),
+              ...defaultPageOptions,
+            }}
+          />
+        </Stack.Group>
         <Stack.Group
           screenOptions={{ 
             ...defaultOptions,

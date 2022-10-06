@@ -34,6 +34,7 @@ export type RootStackParamList = {
   PasscodeLocked: undefined;
   Tags: undefined;
   DevelopmentStatistics: undefined;
+  StatisticsHighlights: undefined;
   LogView: {
     date: string,
   },

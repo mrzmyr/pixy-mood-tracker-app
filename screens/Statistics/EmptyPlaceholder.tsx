@@ -1,6 +1,8 @@
 import { Text, View } from 'react-native';
 import useColors from '../../hooks/useColors';
 import { useTranslation } from '../../hooks/useTranslation';
+import { Subtitle } from './Subtitle';
+import { Title } from './Title';
 
 export const EmptyPlaceholder = ({
   count
@@ -14,25 +16,33 @@ export const EmptyPlaceholder = ({
     <View
       style={{
         flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderWidth: 1,
-        borderColor: colors.statisticsNoDataBorder,
-        borderStyle: 'dashed',
-        marginTop: 32,
-        padding: 16,
-        borderRadius: 8,
-        minHeight: 120,
       }}
     >
-      <Text
+      <Title>{t('statistics_highlights')}</Title>
+      <Subtitle>{t('statistics_highlights_description')}</Subtitle>
+      <View
         style={{
-          fontSize: 17,
-          color: colors.statisticsNoDataText,
-          textAlign: 'center',
-          lineHeight: 24,
+          flex: 1,
+          justifyContent: 'center',
+          alignItems: 'center',
+          borderWidth: 1,
+          borderColor: colors.statisticsNoDataBorder,
+          borderStyle: 'dashed',
+          padding: 16,
+          borderRadius: 8,
+          minHeight: 120,
+          marginTop: 16,
         }}
-      >{t('statistics_no_data', { count })}</Text>
+      >
+        <Text
+          style={{
+            fontSize: 17,
+            color: colors.statisticsNoDataText,
+            textAlign: 'center',
+            lineHeight: 24,
+          }}
+        >{t('statistics_no_data', { count })}</Text>
+      </View>
     </View>
   );
 };

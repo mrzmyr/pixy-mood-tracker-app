@@ -203,5 +203,13 @@
   "create_tag": "Tag erstellen",
   "edit_tag": "Tag bearbeiten",
   "statistics_mood_chart_improved": "In den letzten 2 Wochen hat sich Ihre durchschnittliche Stimmung verbessert.",
-  "statistics_mood_chart_declined": "In den letzten 2 Wochen hat sich Ihre durchschnittliche Stimmung verschlechtert."
+  "statistics_mood_chart_declined": "In den letzten 2 Wochen hat sich Ihre durchschnittliche Stimmung verschlechtert.",
+  "statistics_highlights": "Höhepunkte",
+  "statistics_highlights_description": "Ihre Highlights der letzten zwei Wochen",
+  "statistics_highlights_more": "Alle Highlights anzeigen",
+  "statistics_trends": "Tendenzen",
+  "statistics_trends_description": "Ihre Trends der letzten zwei Wochen",
+  "statistics_trends_more": "Alle Trends anzeigen",
+  "statistics_2_week_highlights": "Letzte 2 Wochen",
+  "statistics_no_highlights": "Derzeit sind keine Highlights relevant, aber Sie können jederzeit zu „Alle Highlights anzeigen“ gehen."
 }

@@ -8,15 +8,10 @@ import useHaptics from '../../hooks/useHaptics';
 import { LogItem } from '../../hooks/useLogs';
 import useScale from '../../hooks/useScale';
 import { useSettings } from '../../hooks/useSettings';
-import { MoodPeaksNegativeData, MoodPeaksPositiveData } from '../../hooks/useStatistics';
+import { MoodPeaksNegativeData, MoodPeaksPositiveData } from '../../hooks/useStatistics/MoodPeaks';
 import { useTranslation } from '../../hooks/useTranslation';
 import { CardFeedback } from './CardFeedback';
 import { HeaderWeek } from './HeaderWeek';
-
-const keys = {
-  positive: ['extremely_good', 'very_good'],
-  negative: ['very_bad', 'extremely_bad'],
-}
 
 const DayDot = ({
   date,

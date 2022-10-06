@@ -215,5 +215,13 @@
   "create_tag": "创建标签",
   "edit_tag": "编辑标签",
   "statistics_mood_chart_improved": "在过去 2 周内，您的平均情绪有所改善。",
-  "statistics_mood_chart_declined": "在过去 2 周内，您的平均情绪有所下降。"
+  "statistics_mood_chart_declined": "在过去 2 周内，您的平均情绪有所下降。",
+  "statistics_highlights": "强调",
+  "statistics_highlights_description": "过去两周的亮点",
+  "statistics_highlights_more": "显示所有亮点",
+  "statistics_trends": "趋势",
+  "statistics_trends_description": "过去两周的趋势",
+  "statistics_trends_more": "显示所有趋势",
+  "statistics_2_week_highlights": "过去 2 周",
+  "statistics_no_highlights": "目前没有相关的亮点，但您始终可以转到“显示所有亮点”。"
 }

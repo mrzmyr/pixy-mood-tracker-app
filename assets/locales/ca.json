@@ -215,5 +215,13 @@
   "create_tag": "Crea una etiqueta",
   "edit_tag": "Edita l'etiqueta",
   "statistics_mood_chart_improved": "En les últimes 2 setmanes, el teu estat d'ànim mitjà ha millorat.",
-  "statistics_mood_chart_declined": "En les últimes 2 setmanes, el teu estat d'ànim mitjà ha disminuït."
+  "statistics_mood_chart_declined": "En les últimes 2 setmanes, el teu estat d'ànim mitjà ha disminuït.",
+  "statistics_highlights": "Destacats",
+  "statistics_highlights_description": "Els teus moments més destacats de les dues darreres setmanes",
+  "statistics_highlights_more": "Mostra tots els aspectes destacats",
+  "statistics_trends": "Tendències",
+  "statistics_trends_description": "Les teves tendències de les dues darreres setmanes",
+  "statistics_trends_more": "Mostra totes les tendències",
+  "statistics_2_week_highlights": "Últimes 2 setmanes",
+  "statistics_no_highlights": "Actualment, no hi ha cap mena destacada rellevant, però sempre podeu anar a \"Mostra tots els elements destacats\"."
 }

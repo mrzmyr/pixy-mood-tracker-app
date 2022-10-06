@@ -215,5 +215,13 @@
   "create_tag": "Créer une balise",
   "edit_tag": "Modifier la balise",
   "statistics_mood_chart_improved": "Au cours des 2 dernières semaines, votre humeur moyenne s'est améliorée.",
-  "statistics_mood_chart_declined": "Au cours des 2 dernières semaines, votre humeur moyenne a diminué."
+  "statistics_mood_chart_declined": "Au cours des 2 dernières semaines, votre humeur moyenne a diminué.",
+  "statistics_highlights": "Points forts",
+  "statistics_highlights_description": "Vos temps forts des deux dernières semaines",
+  "statistics_highlights_more": "Afficher tous les faits saillants",
+  "statistics_trends": "Les tendances",
+  "statistics_trends_description": "Vos tendances des deux dernières semaines",
+  "statistics_trends_more": "Afficher toutes les tendances",
+  "statistics_2_week_highlights": "2 dernières semaines",
+  "statistics_no_highlights": "Actuellement, aucun temps fort n'est pertinent, mais vous pouvez toujours accéder à \"Afficher tous les temps forts\"."
 }

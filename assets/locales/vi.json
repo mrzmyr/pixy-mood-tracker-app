@@ -215,5 +215,13 @@
   "create_tag": "Tạo thẻ",
   "edit_tag": "Thẻ chỉnh sửa",
   "statistics_mood_chart_improved": "Trong 2 tuần gần đây, tâm trạng trung bình của bạn được cải thiện.",
-  "statistics_mood_chart_declined": "Trong 2 tuần gần đây, tâm trạng trung bình của bạn giảm sút."
+  "statistics_mood_chart_declined": "Trong 2 tuần gần đây, tâm trạng trung bình của bạn giảm sút.",
+  "statistics_highlights": "Điểm nổi bật",
+  "statistics_highlights_description": "Điểm nổi bật của bạn trong hai tuần qua",
+  "statistics_highlights_more": "Hiển thị tất cả các điểm nổi bật",
+  "statistics_trends": "Xu hướng",
+  "statistics_trends_description": "Xu hướng của bạn trong hai tuần qua",
+  "statistics_trends_more": "Hiển thị tất cả các xu hướng",
+  "statistics_2_week_highlights": "2 tuần trước",
+  "statistics_no_highlights": "Hiện tại không có điểm nổi bật nào có liên quan, nhưng bạn luôn có thể đi tới 'Hiển thị tất cả điểm nổi bật'."
 }

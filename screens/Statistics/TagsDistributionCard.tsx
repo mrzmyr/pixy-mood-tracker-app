@@ -2,7 +2,7 @@ import _ from 'lodash';
 import { Text, View } from 'react-native';
 import { Card } from '../../components/Statistics/Card';
 import useColors from '../../hooks/useColors';
-import { TagsDistributionData } from '../../hooks/useStatistics';
+import { TagsDistributionData } from '../../hooks/useStatistics/TagsDistribution';
 import { useTranslation } from '../../hooks/useTranslation';
 import { CardFeedback } from './CardFeedback';
 

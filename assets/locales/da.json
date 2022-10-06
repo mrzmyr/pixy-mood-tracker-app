@@ -215,5 +215,13 @@
   "create_tag": "Opret tag",
   "edit_tag": "Rediger tag",
   "statistics_mood_chart_improved": "I de sidste 2 uger er dit gennemsnitlige humør forbedret.",
-  "statistics_mood_chart_declined": "I de sidste 2 uger er dit gennemsnitlige humør faldet."
+  "statistics_mood_chart_declined": "I de sidste 2 uger er dit gennemsnitlige humør faldet.",
+  "statistics_highlights": "Højdepunkter",
+  "statistics_highlights_description": "Dine højdepunkter fra de sidste to uger",
+  "statistics_highlights_more": "Vis alle højdepunkter",
+  "statistics_trends": "Trends",
+  "statistics_trends_description": "Dine trends fra de sidste to uger",
+  "statistics_trends_more": "Vis alle trends",
+  "statistics_2_week_highlights": "Sidste 2 uger",
+  "statistics_no_highlights": "På nuværende tidspunkt er ingen højdepunkter relevante, men du kan altid gå til 'Vis alle højdepunkter'."
 }

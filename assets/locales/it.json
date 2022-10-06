@@ -215,5 +215,13 @@
   "create_tag": "Crea etichetta",
   "edit_tag": "Modifica tag",
   "statistics_mood_chart_improved": "Nelle ultime 2 settimane, il tuo umore medio è migliorato.",
-  "statistics_mood_chart_declined": "Nelle ultime 2 settimane, il tuo umore medio è diminuito."
+  "statistics_mood_chart_declined": "Nelle ultime 2 settimane, il tuo umore medio è diminuito.",
+  "statistics_highlights": "Mette in risalto",
+  "statistics_highlights_description": "I tuoi momenti salienti delle ultime due settimane",
+  "statistics_highlights_more": "Mostra tutti i punti salienti",
+  "statistics_trends": "Tendenze",
+  "statistics_trends_description": "Le tue tendenze delle ultime due settimane",
+  "statistics_trends_more": "Mostra tutte le tendenze",
+  "statistics_2_week_highlights": "Ultime 2 settimane",
+  "statistics_no_highlights": "Al momento nessun highlight è rilevante, ma puoi sempre andare su \"Mostra tutti i momenti salienti\"."
 }

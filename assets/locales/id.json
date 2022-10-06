@@ -215,5 +215,13 @@
   "create_tag": "Buat Tag",
   "edit_tag": "Edit tanda",
   "statistics_mood_chart_improved": "Dalam 2 minggu terakhir, rata-rata suasana hati Anda membaik.",
-  "statistics_mood_chart_declined": "Dalam 2 minggu terakhir, rata-rata mood Anda menurun."
+  "statistics_mood_chart_declined": "Dalam 2 minggu terakhir, rata-rata mood Anda menurun.",
+  "statistics_highlights": "Highlight",
+  "statistics_highlights_description": "Sorotan Anda dari dua minggu terakhir",
+  "statistics_highlights_more": "Tampilkan Semua Sorotan",
+  "statistics_trends": "Tren",
+  "statistics_trends_description": "Tren Anda dari dua minggu terakhir",
+  "statistics_trends_more": "Tampilkan Semua Tren",
+  "statistics_2_week_highlights": "2 minggu terakhir",
+  "statistics_no_highlights": "Saat ini tidak ada sorotan yang relevan, tetapi Anda selalu dapat membuka 'Tampilkan semua sorotan'."
 }

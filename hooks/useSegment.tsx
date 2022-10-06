@@ -19,6 +19,8 @@ interface SegmentState {
   identify: (properties?: {}) => void
 }
 
+const DEBUG = false
+
 function SegmentProvider({
   children
 }: {
@@ -51,7 +53,7 @@ function SegmentProvider({
     }
 
     if(__DEV__ || Platform.OS === 'web') {
-      console.log('useSegment: identify', traits)
+      if(DEBUG) console.log('useSegment: identify', traits)
       return;
     }
 
@@ -79,7 +81,7 @@ function SegmentProvider({
     },
     initialize: async () => {
       if(__DEV__ || Platform.OS === 'web') {
-        console.log('useSegment: initialize')
+        if(DEBUG) console.log('useSegment: initialize')
         return;
       }
       Segment.initialize({
@@ -89,7 +91,7 @@ function SegmentProvider({
     },
     track: (eventName: string, properties?: any) => {
       if(__DEV__ || Platform.OS === 'web') {
-        console.log('useSegment: track', eventName, properties)
+        if(DEBUG) console.log('useSegment: track', eventName, properties)
         return;
       }
 
@@ -100,7 +102,7 @@ function SegmentProvider({
     },
     screen: (screenName: string, properties?: any) => {
       if(__DEV__ || Platform.OS === 'web') {
-        console.log('useSegment: screen', screenName, properties)
+        if(DEBUG) console.log('useSegment: screen', screenName, properties)
         return;
       }
 

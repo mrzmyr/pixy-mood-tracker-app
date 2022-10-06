@@ -215,5 +215,13 @@
   "create_tag": "Címke létrehozása",
   "edit_tag": "Címke szerkesztése",
   "statistics_mood_chart_improved": "Az elmúlt 2 hétben átlagos hangulata javult.",
-  "statistics_mood_chart_declined": "Az elmúlt 2 hétben az átlagos hangulata csökkent."
+  "statistics_mood_chart_declined": "Az elmúlt 2 hétben az átlagos hangulata csökkent.",
+  "statistics_highlights": "Kiemelések",
+  "statistics_highlights_description": "Az elmúlt két hét legfontosabb eseményei",
+  "statistics_highlights_more": "Összes kiemelés megjelenítése",
+  "statistics_trends": "Trendek",
+  "statistics_trends_description": "Az elmúlt két hét trendjei",
+  "statistics_trends_more": "Összes trend megjelenítése",
+  "statistics_2_week_highlights": "Az elmúlt 2 hét",
+  "statistics_no_highlights": "Jelenleg egyetlen kiemelés sem releváns, de bármikor léphet az „Összes kiemelés megjelenítése” lehetőségre."
 }

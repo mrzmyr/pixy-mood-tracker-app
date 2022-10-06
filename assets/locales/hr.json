@@ -215,5 +215,13 @@
   "create_tag": "Stvori oznaku",
   "edit_tag": "Uredi oznaku",
   "statistics_mood_chart_improved": "U posljednja 2 tjedna vaše se prosječno raspoloženje popravilo.",
-  "statistics_mood_chart_declined": "U zadnja 2 tjedna vaše prosječno raspoloženje se smanjilo."
+  "statistics_mood_chart_declined": "U zadnja 2 tjedna vaše prosječno raspoloženje se smanjilo.",
+  "statistics_highlights": "Naglasci",
+  "statistics_highlights_description": "Vaši istaknuti događaji u posljednja dva tjedna",
+  "statistics_highlights_more": "Prikaži sve istaknute stavke",
+  "statistics_trends": "Trendovi",
+  "statistics_trends_description": "Vaši trendovi u posljednja dva tjedna",
+  "statistics_trends_more": "Prikaži sve trendove",
+  "statistics_2_week_highlights": "Zadnja 2 tjedna",
+  "statistics_no_highlights": "Trenutačno nijedno istaknuto nije relevantno, ali uvijek možete otići na 'Prikaži sve istaknuto'."
 }

@@ -1,4 +1,3 @@
-import dayjs from "dayjs";
 import { createContext, useContext, useState } from "react";
 import { LogItem } from "./useLogs";
 

@@ -215,5 +215,13 @@
   "create_tag": "Vytvořit značku",
   "edit_tag": "Upravit značku",
   "statistics_mood_chart_improved": "Za poslední 2 týdny se vaše průměrná nálada zlepšila.",
-  "statistics_mood_chart_declined": "Za poslední 2 týdny vaše průměrná nálada klesla."
+  "statistics_mood_chart_declined": "Za poslední 2 týdny vaše průměrná nálada klesla.",
+  "statistics_highlights": "Zvýraznění",
+  "statistics_highlights_description": "Vaše to nejlepší za poslední dva týdny",
+  "statistics_highlights_more": "Zobrazit vše",
+  "statistics_trends": "Trendy",
+  "statistics_trends_description": "Vaše trendy za poslední dva týdny",
+  "statistics_trends_more": "Zobrazit všechny trendy",
+  "statistics_2_week_highlights": "Poslední 2 týdny",
+  "statistics_no_highlights": "V současné době nejsou relevantní žádná zvýraznění, ale vždy můžete přejít na „Zobrazit všechna zvýraznění“."
 }

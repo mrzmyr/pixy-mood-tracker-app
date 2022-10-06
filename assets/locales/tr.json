@@ -215,5 +215,13 @@
   "create_tag": "Etiket Oluştur",
   "edit_tag": "Etiketi düzenle",
   "statistics_mood_chart_improved": "Son 2 haftada ortalama ruh haliniz düzeldi.",
-  "statistics_mood_chart_declined": "Son 2 hafta içinde, ortalama ruh haliniz düştü."
+  "statistics_mood_chart_declined": "Son 2 hafta içinde, ortalama ruh haliniz düştü.",
+  "statistics_highlights": "Öne Çıkanlar",
+  "statistics_highlights_description": "Son iki haftadaki öne çıkanlarınız",
+  "statistics_highlights_more": "Tüm Öne Çıkanları Göster",
+  "statistics_trends": "Trendler",
+  "statistics_trends_description": "Son iki haftadaki trendleriniz",
+  "statistics_trends_more": "Tüm Trendleri Göster",
+  "statistics_2_week_highlights": "Son 2 hafta",
+  "statistics_no_highlights": "Şu anda hiçbir önemli nokta alakalı değil, ancak her zaman 'Tüm öne çıkanları göster' seçeneğine gidebilirsiniz."
 }

@@ -215,5 +215,13 @@
   "create_tag": "Tag maken",
   "edit_tag": "Bewerk label",
   "statistics_mood_chart_improved": "In de afgelopen 2 weken is uw gemiddelde stemming verbeterd.",
-  "statistics_mood_chart_declined": "In de afgelopen 2 weken is uw gemiddelde stemming afgenomen."
+  "statistics_mood_chart_declined": "In de afgelopen 2 weken is uw gemiddelde stemming afgenomen.",
+  "statistics_highlights": "Hoogtepunten",
+  "statistics_highlights_description": "Je hoogtepunten van de afgelopen twee weken",
+  "statistics_highlights_more": "Toon alle hoogtepunten",
+  "statistics_trends": "Trends",
+  "statistics_trends_description": "Jouw trends van de afgelopen twee weken",
+  "statistics_trends_more": "Toon alle trends",
+  "statistics_2_week_highlights": "Afgelopen 2 weken",
+  "statistics_no_highlights": "Momenteel zijn er geen highlights relevant, maar je kunt altijd naar 'Toon alle highlights' gaan."
 }

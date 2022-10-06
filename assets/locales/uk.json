@@ -215,5 +215,13 @@
   "create_tag": "Створити тег",
   "edit_tag": "Редагувати тег",
   "statistics_mood_chart_improved": "За останні 2 тижні ваш середній настрій покращився.",
-  "statistics_mood_chart_declined": "За останні 2 тижні ваш середній настрій погіршився."
+  "statistics_mood_chart_declined": "За останні 2 тижні ваш середній настрій погіршився.",
+  "statistics_highlights": "Основні моменти",
+  "statistics_highlights_description": "Ваші найкращі моменти за останні два тижні",
+  "statistics_highlights_more": "Показати всі основні моменти",
+  "statistics_trends": "Тенденції",
+  "statistics_trends_description": "Ваші тенденції за останні два тижні",
+  "statistics_trends_more": "Показати всі тренди",
+  "statistics_2_week_highlights": "Останні 2 тижні",
+  "statistics_no_highlights": "Наразі немає актуальних виділень, але ви завжди можете перейти до «Показати всі основні моменти»."
 }

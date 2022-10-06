@@ -215,5 +215,13 @@
   "create_tag": "Creați etichetă",
   "edit_tag": "Editați eticheta",
   "statistics_mood_chart_improved": "În ultimele 2 săptămâni, starea ta de spirit medie s-a îmbunătățit.",
-  "statistics_mood_chart_declined": "În ultimele 2 săptămâni, starea ta de spirit medie a scăzut."
+  "statistics_mood_chart_declined": "În ultimele 2 săptămâni, starea ta de spirit medie a scăzut.",
+  "statistics_highlights": "Repere",
+  "statistics_highlights_description": "Cele mai importante momente din ultimele două săptămâni",
+  "statistics_highlights_more": "Afișați toate cele mai importante",
+  "statistics_trends": "Tendințe",
+  "statistics_trends_description": "Tendințele tale din ultimele două săptămâni",
+  "statistics_trends_more": "Afișați toate tendințele",
+  "statistics_2_week_highlights": "Ultimele 2 saptamani",
+  "statistics_no_highlights": "Momentan, nicio evidențiere nu este relevantă, dar poți oricând să mergi la „Afișează toate evidențierile”."
 }

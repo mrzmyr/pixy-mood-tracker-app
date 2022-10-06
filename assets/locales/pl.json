@@ -215,5 +215,13 @@
   "create_tag": "Utwórz tag",
   "edit_tag": "Edytuj tag",
   "statistics_mood_chart_improved": "W ciągu ostatnich 2 tygodni poprawił się Twój średni nastrój.",
-  "statistics_mood_chart_declined": "W ciągu ostatnich 2 tygodni Twój średni nastrój się pogorszył."
+  "statistics_mood_chart_declined": "W ciągu ostatnich 2 tygodni Twój średni nastrój się pogorszył.",
+  "statistics_highlights": "Przegląd najważniejszych wydarzeń",
+  "statistics_highlights_description": "Twoje najważniejsze wydarzenia z ostatnich dwóch tygodni",
+  "statistics_highlights_more": "Pokaż wszystkie najważniejsze informacje",
+  "statistics_trends": "Trendy",
+  "statistics_trends_description": "Twoje trendy z ostatnich dwóch tygodni",
+  "statistics_trends_more": "Pokaż wszystkie trendy",
+  "statistics_2_week_highlights": "Ostatnie 2 tygodnie",
+  "statistics_no_highlights": "Obecnie żadne najciekawsze momenty nie są istotne, ale zawsze możesz przejść do opcji „Pokaż wszystkie najciekawsze momenty”."
 }

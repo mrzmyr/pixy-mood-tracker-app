@@ -1,47 +1,18 @@
 import dayjs from 'dayjs';
-import _ from 'lodash';
-import { View } from 'react-native';
-import Svg, { Circle, Line, Rect, Text } from 'react-native-svg';
+import { Text, View } from 'react-native';
+import Svg, { Circle, Line } from 'react-native-svg';
 import { Card } from '../../components/Statistics/Card';
 import useColors from '../../hooks/useColors';
-import { LogItem } from '../../hooks/useLogs';
+import { MoodTrendData, SCALE_RANGE, SCALE_TYPE } from '../../hooks/useStatistics/MoodTrendData';
 import { useTranslation } from '../../hooks/useTranslation';
 import { CardFeedback } from './CardFeedback';
-
-export const keys = ['extremely_good', 'very_good', 'good', 'neutral', 'bad', 'very_bad', 'extremely_bad']
-
-const RATING_MAPPING = {
-  extremely_good: 6,
-  very_good: 5,
-  good: 4,
-  neutral: 3,
-  bad: 2,
-  very_bad: 1,
-  extremely_bad: 0,
-}
-
-const getNextDot = (date, days, data) => {
-  for(let i = 1; i < days.length; i++) {
-    const currentDate = dayjs(date).add(i, 'day').format('YYYY-MM-DD')
-    const item = data[currentDate]
-    
-    if(item) {
-      return {
-        ...item,
-        xIndex: i,
-      }
-    }
-  }
-
-  return null;
-}
 
 const Chart = ({
   height,
   data,
 }: {
   height: number,
-  data: (LogItem & { value: number })[],
+  data: MoodTrendData,
 }) => {
   const colors = useColors()
   
@@ -49,83 +20,68 @@ const Chart = ({
   const maxY = 6;
   
   const relativeY = (value: number) => {
-    return padding + ((height - padding * 2) - (value / maxY) * (height - padding * 2))
+    return Math.floor(padding + ((height - padding * 2) - (value / maxY) * (height - padding * 2)))
   }
   
-  const days = []
-  for (let i = 14; i >= 0; i--) {
-    days.push(dayjs().subtract(i, 'day').format('YYYY-MM-DD'))
-  }
+  const scaleItemCount = data.ratingsPeriode1.length + data.ratingsPeriode2.length;
+  const scaleItems = [
+    ...data.ratingsPeriode1,
+    ...data.ratingsPeriode2,
+  ]
   
   const dots = {}
-  data.forEach((item, index) => dots[item.date] = item)
-
-  const items_periode_1 = data
-    .filter(item => (
-      dayjs(item.date).isAfter(dayjs().subtract(14, 'day')) && 
-      dayjs(item.date).isBefore(dayjs().subtract(7, 'day'))
-    ))
-    .map(item => ({
-      ...item,
-      value: RATING_MAPPING[item.rating],
-    }))
-
-  const items_periode_2 = data
-    .filter(item => dayjs(item.date).isAfter(dayjs().subtract(7, 'day')))
-    .map(item => ({
-      ...item,
-      value: RATING_MAPPING[item.rating],
-    }))
+  data.items.forEach((item, index) => dots[item.date] = item)
   
-  const avg_periode_1 = items_periode_1.reduce((acc, item) => acc + item.value, 0) / items_periode_1.length
-  const avg_periode_2 = items_periode_2.reduce((acc, item) => acc + item.value, 0) / items_periode_2.length
-  
-  const width = (height * 3);
-  const itemWidth = width / days.length;
+  const width = (height * 4);
+  const itemWidth = width / scaleItemCount;
+
+  console.log('scaleItems', data.avgPeriod1, data.avgPeriod2)
   
   return (
     <Svg
       width={'100%'}
       height={height}
       viewBox={`0 0 ${width} ${height}`}
+      style={{
+        // backgroundColor: 'yellow',
+      }}
     >
-      {days.map((dateString, index) => {
-        const item = data.find(item => item.date === dateString)
-        const nextDot = getNextDot(dateString, days, dots)
+      {scaleItems.map((item, index) => {
         const x = Math.floor(index * itemWidth + itemWidth / 2)
         const y = relativeY(item?.value)
+        const yNext = scaleItems[index + 1]?.value ? relativeY(scaleItems[index + 1]?.value) : null;
 
-        return item && (
+        return item?.value && (
           <>
-            {nextDot && (
+            {yNext && (
               <Line 
-                key={`l-${dateString}`} 
+                key={`l-${item.date}`} 
                 x1={x} 
                 y1={y}
-                x2={x + (itemWidth * nextDot.xIndex)}
-                y2={relativeY(nextDot?.value)}
+                x2={x + itemWidth}
+                y2={yNext}
                 stroke={colors.statisticsLineMuted} 
                 strokeWidth={2}
               />
             )}
             <Circle
-              key={`d-${dateString}`}
+              key={`d-${item.date}`}
               cx={x}
               cy={y}
               r="3"
               strokeWidth={2}
               stroke={item ? colors.statisticsLineMuted : 'red'} 
-              fill={colors.statisticsCardBackground} 
+              fill={colors.statisticsCardBackground}
             />
           </>
         )
       })}
       {/* Line for periode_1 */}
       <Line 
-        x1={itemWidth} 
-        y1={relativeY(avg_periode_1)} 
-        x2={items_periode_1.length * itemWidth} 
-        y2={relativeY(avg_periode_1)} 
+        x1={itemWidth / 2} 
+        y1={relativeY(data.avgPeriod1)} 
+        x2={data.ratingsPeriode1.length * itemWidth + itemWidth / 2} 
+        y2={relativeY(data.avgPeriod1)}
         strokeOpacity={0.8}
         strokeWidth={3}
         stroke={colors.statisticsLinePrimary}
@@ -133,10 +89,10 @@ const Chart = ({
       />
       {/* Line for periode_2 */}
       <Line 
-        x1={items_periode_1.length * itemWidth} 
-        y1={relativeY(avg_periode_2)} 
-        x2={days.length * itemWidth - itemWidth / 2}
-        y2={relativeY(avg_periode_2)} 
+        x1={data.ratingsPeriode1.length * itemWidth + itemWidth / 2} 
+        y1={relativeY(data.avgPeriod2)} 
+        x2={scaleItemCount * itemWidth - itemWidth / 2}
+        y2={relativeY(data.avgPeriod2)} 
         strokeOpacity={0.8}
         strokeWidth={3}
         stroke={colors.tint} 
@@ -147,56 +103,34 @@ const Chart = ({
 }
 
 export const MoodTrend = ({
-  items,
+  data,
 }: {
-  items: LogItem[]
+  data: MoodTrendData
 }) => {
+  const colors = useColors()
   const { t } = useTranslation();
-
-  const items_periode_1 = items
-    .filter(item => (
-      dayjs(item.date).isAfter(dayjs().subtract(14, 'day')) && 
-      dayjs(item.date).isBefore(dayjs().subtract(7, 'day'))
-    ))
-    .map(item => ({
-      ...item,
-      value: RATING_MAPPING[item.rating],
-    }))
-
-  const items_periode_2 = items
-    .filter(item => dayjs(item.date).isAfter(dayjs().subtract(7, 'day')))
-    .map(item => ({
-      ...item,
-      value: RATING_MAPPING[item.rating],
-    }))
-
-  const avg_periode_1 = items_periode_1.reduce((acc, item) => acc + item.value, 0) / items_periode_1.length
-  const avg_periode_2 = items_periode_2.reduce((acc, item) => acc + item.value, 0) / items_periode_2.length
-
-  const diff = Math.abs(avg_periode_1 - avg_periode_2)
-
-  if(diff < 0.7 || items.length < 10) {
-    return null;
-  }
   
   return (
     <Card
       subtitle={t('mood')}
-      title={t(`statistics_mood_chart_${avg_periode_1 < avg_periode_2 ? 'improved' : 'declined'}`)}
+      title={t(`statistics_mood_chart_${data.status}`)}
     >
       <View
         style={{
-          flexDirection: 'row',
-          alignItems: 'center',
+          justifyContent: 'flex-start',
         }}
       >
         <Chart
-          data={items.map(item => ({
-            ...item,
-            value: RATING_MAPPING[item.rating],
-          }))}
+          data={data}
           height={100}
         />
+        <Text 
+          style={{
+            fontSize: 14,
+            color: colors.textSecondary,
+            marginTop: 8,
+          }}
+        >{SCALE_RANGE}-{SCALE_TYPE} avg</Text>
       </View>
       <CardFeedback type='mood_avg' details={{}} />
     </Card>

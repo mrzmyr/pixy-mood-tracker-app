@@ -124,7 +124,7 @@
   "tags_default_4_title": "Exercise",
   "tags_default_5_title": "Friends",
   "statistics_subtitle": "Your last two weeks",
-  "statistics_description": "These are your highlights from the last two weeks",
+  "statistics_description": "Your highlights from the last two weeks",
   "statistics_no_data": "Add {{count}} more days within your last two weeks to unlock your first statistics.",
   "mood": "Mood",
   "tags": "Tags",
@@ -199,5 +199,13 @@
   "create_tag": "Create Tag",
   "edit_tag": "Edit Tag",
   "statistics_mood_chart_improved": "In the last 2 weeks, your average mood improved.",
-  "statistics_mood_chart_declined": "In the last 2 weeks, your average mood declined."
+  "statistics_mood_chart_declined": "In the last 2 weeks, your average mood declined.",
+  "statistics_highlights": "Highlights",
+  "statistics_highlights_description": "Your highlights from the last two weeks",
+  "statistics_highlights_more": "Show All Highlights",
+  "statistics_trends": "Trends",
+  "statistics_trends_description": "Your trends from the last two weeks",
+  "statistics_trends_more": "Show All Trends",
+  "statistics_2_week_highlights": "Last 2 weeks",
+  "statistics_no_highlights": "Currently no highlights are relevant, but you can always go to 'Show all highlights'."
 }

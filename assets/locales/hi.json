@@ -215,5 +215,13 @@
   "create_tag": "टैग बनाएं",
   "edit_tag": "टैग संपादित करें",
   "statistics_mood_chart_improved": "पिछले 2 हफ़्तों में, आपके औसत मूड में सुधार हुआ है।",
-  "statistics_mood_chart_declined": "पिछले 2 हफ़्तों में, आपके औसत मिजाज में गिरावट आई है।"
+  "statistics_mood_chart_declined": "पिछले 2 हफ़्तों में, आपके औसत मिजाज में गिरावट आई है।",
+  "statistics_highlights": "हाइलाइट",
+  "statistics_highlights_description": "पिछले दो हफ़्तों के आपके मुख्य अंश",
+  "statistics_highlights_more": "सभी हाइलाइट दिखाएं",
+  "statistics_trends": "प्रवृत्तियों",
+  "statistics_trends_description": "पिछले दो हफ़्तों के आपके रुझान",
+  "statistics_trends_more": "सभी रुझान दिखाएं",
+  "statistics_2_week_highlights": "पिछले 2 सप्ताह",
+  "statistics_no_highlights": "वर्तमान में कोई हाइलाइट प्रासंगिक नहीं है, लेकिन आप हमेशा 'सभी हाइलाइट दिखाएं' पर जा सकते हैं।"
 }

@@ -215,5 +215,13 @@
   "create_tag": "إنشاء علامة",
   "edit_tag": "تحرير العلامة",
   "statistics_mood_chart_improved": "في الأسبوعين الماضيين ، تحسن مزاجك المتوسط.",
-  "statistics_mood_chart_declined": "في الأسبوعين الماضيين ، انخفض متوسط مزاجك."
+  "statistics_mood_chart_declined": "في الأسبوعين الماضيين ، انخفض متوسط مزاجك.",
+  "statistics_highlights": "يسلط الضوء",
+  "statistics_highlights_description": "النقاط البارزة الخاصة بك من الأسبوعين الماضيين",
+  "statistics_highlights_more": "إظهار كافة التمييزات",
+  "statistics_trends": "اتجاهات",
+  "statistics_trends_description": "اتجاهاتك من الأسبوعين الماضيين",
+  "statistics_trends_more": "إظهار كافة الاتجاهات",
+  "statistics_2_week_highlights": "آخر أسبوعين",
+  "statistics_no_highlights": "في الوقت الحالي ، لا توجد ميزات بارزة ذات صلة ، ولكن يمكنك دائمًا الانتقال إلى \"إظهار كافة العناصر المميزة\"."
 }

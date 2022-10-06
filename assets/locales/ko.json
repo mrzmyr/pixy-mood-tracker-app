@@ -215,5 +215,13 @@
   "create_tag": "태그 생성",
   "edit_tag": "태그 수정",
   "statistics_mood_chart_improved": "지난 2주 동안 평균 기분이 개선되었습니다.",
-  "statistics_mood_chart_declined": "지난 2주 동안 평균 기분이 떨어졌습니다."
+  "statistics_mood_chart_declined": "지난 2주 동안 평균 기분이 떨어졌습니다.",
+  "statistics_highlights": "하이라이트",
+  "statistics_highlights_description": "지난 2주 동안의 하이라이트",
+  "statistics_highlights_more": "모든 하이라이트 표시",
+  "statistics_trends": "트렌드",
+  "statistics_trends_description": "지난 2주 동안의 동향",
+  "statistics_trends_more": "모든 트렌드 표시",
+  "statistics_2_week_highlights": "지난 2주",
+  "statistics_no_highlights": "현재 관련 하이라이트가 없지만 언제든지 '모든 하이라이트 표시'로 이동할 수 있습니다."
 }

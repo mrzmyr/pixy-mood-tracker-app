@@ -2,7 +2,7 @@ import { View } from 'react-native';
 import { Card } from '../../components/Statistics/Card';
 import useScale from '../../hooks/useScale';
 import { useSettings } from '../../hooks/useSettings';
-import { MoodAvgData } from '../../hooks/useStatistics';
+import { MoodAvgData } from '../../hooks/useStatistics/MoodAvg';
 import { useTranslation } from '../../hooks/useTranslation';
 import { CardFeedback } from './CardFeedback';
 

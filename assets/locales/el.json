@@ -215,5 +215,13 @@
   "create_tag": "Δημιουργία ετικέτας",
   "edit_tag": "Επεξεργασία ετικέτας",
   "statistics_mood_chart_improved": "Τις τελευταίες 2 εβδομάδες, η μέση διάθεσή σας βελτιώθηκε.",
-  "statistics_mood_chart_declined": "Τις τελευταίες 2 εβδομάδες, η μέση διάθεσή σας μειώθηκε."
+  "statistics_mood_chart_declined": "Τις τελευταίες 2 εβδομάδες, η μέση διάθεσή σας μειώθηκε.",
+  "statistics_highlights": "Καλύτερες στιγμές",
+  "statistics_highlights_description": "Τα κυριότερα σημεία σας από τις δύο τελευταίες εβδομάδες",
+  "statistics_highlights_more": "Εμφάνιση όλων των επισημάνσεων",
+  "statistics_trends": "Τάσεις",
+  "statistics_trends_description": "Οι τάσεις σας από τις δύο τελευταίες εβδομάδες",
+  "statistics_trends_more": "Εμφάνιση όλων των τάσεων",
+  "statistics_2_week_highlights": "Τελευταίες 2 εβδομάδες",
+  "statistics_no_highlights": "Προς το παρόν, δεν υπάρχουν σχετικές επισημάνσεις, αλλά μπορείτε πάντα να μεταβείτε στο \"Εμφάνιση όλων των επισημάνσεων\"."
 }

@@ -215,5 +215,13 @@
   "create_tag": "Создать тег",
   "edit_tag": "Изменить тег",
   "statistics_mood_chart_improved": "За последние 2 недели ваше среднее настроение улучшилось.",
-  "statistics_mood_chart_declined": "За последние 2 недели ваше среднее настроение ухудшилось."
+  "statistics_mood_chart_declined": "За последние 2 недели ваше среднее настроение ухудшилось.",
+  "statistics_highlights": "Особенности",
+  "statistics_highlights_description": "Ваши основные моменты за последние две недели",
+  "statistics_highlights_more": "Показать все основные моменты",
+  "statistics_trends": "Тенденции",
+  "statistics_trends_description": "Ваши тренды за последние две недели",
+  "statistics_trends_more": "Показать все тренды",
+  "statistics_2_week_highlights": "Последние 2 недели",
+  "statistics_no_highlights": "В настоящее время нет актуальных основных моментов, но вы всегда можете выбрать «Показать все основные моменты»."
 }
