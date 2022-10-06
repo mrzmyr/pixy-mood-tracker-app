@@ -1,9 +1,9 @@
-import { useNavigationState } from '@react-navigation/native';
-import { useEffect } from 'react';
+import _ from 'lodash';
+import { useEffect, useState } from 'react';
 import { ActivityIndicator, ScrollView, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import useColors from '../../hooks/useColors';
-import { useLogs } from '../../hooks/useLogs';
+import { LogItem, useLogs } from '../../hooks/useLogs';
 import { useSegment } from '../../hooks/useSegment';
 import { useStatistics } from '../../hooks/useStatistics';
 import { useTranslation } from '../../hooks/useTranslation';
@@ -24,21 +24,29 @@ export const StatisticsScreen = ({ navigation }) => {
   const segment = useSegment()
   const { state } = useLogs()
 
+  const [prevItems, setPrevItems] = useState<LogItem[]>([])
+  
   // times of the last two weeks
   const items = Object.values(state.items).filter(item => {
     const date = new Date(item.date)
     return date.getTime() > new Date().getTime() - 1000 * 60 * 60 * 24 * 14
   })
   
+  const itemsChanged = !_.isEqual(prevItems, items)
+  
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
-      if(items.length >= MIN_LOGS_COUNT) {
+      if(
+        items.length >= MIN_LOGS_COUNT && 
+        itemsChanged
+      ) {
+        setPrevItems(items)
         statistics.load()
       }
     });
 
     return unsubscribe;
-  }, [navigation]);
+  }, [navigation, itemsChanged]);
 
   useEffect(() => {
     const cards = []
