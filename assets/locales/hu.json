@@ -138,7 +138,7 @@
   "delete_confirm_title": "Bejegyzés törlése",
   "delete_confirm_message": "Biztosan törli ezt a bejegyzést?",
   "statistics_subtitle": "Az utolsó két heted",
-  "statistics_description": "Ezek az Ön trendjei az elmúlt két hétből",
+  "statistics_description": "Ezek az Ön legfontosabb eseményei az elmúlt két hétből",
   "statistics_no_data": "Adjon hozzá még {{count}} napot az elmúlt két héthez, hogy feloldja az első statisztikákat.",
   "mood": "Hangulat",
   "statistics_mood_avg_title": "A hangulatod {{rating_percentage}}%-kal többnyire {{rating_word}}.",
@@ -177,7 +177,7 @@
   "onboarding_step_1_title": "Naptár",
   "onboarding_step_1_body": "A naptárnézet az Ön otthona a Pixy-nél. Segít áttekintést tartani a képpontjaival követett összes napról. Egy nap megérintésével új bejegyzéseket adhat hozzá.",
   "onboarding_step_2_title": "Statisztika",
-  "onboarding_step_2_body": "A statisztikai nézet segít a hangulati trendek azonosításában. Támogatják az átlagos áttekintést, a csúcsérzékelést és a korrelációs elemzést.",
+  "onboarding_step_2_body": "A statisztikai nézet segít azonosítani a hangulatod legfontosabb pontjait. Támogatják az átlagos áttekintést, a csúcsérzékelést és a korrelációs elemzést.",
   "onboarding_step_3_title": "Szűrők",
   "onboarding_step_3_body": "A szűrők segítenek megtalálni a konkrét bejegyzéseket. Szűrhet hangulat, címkék alapján, vagy kereshet konkrét szavakra.",
   "onboarding_step_4_title": "Napi emlékeztető",
@@ -213,5 +213,7 @@
   "create": "Teremt",
   "done": "Kész",
   "create_tag": "Címke létrehozása",
-  "edit_tag": "Címke szerkesztése"
+  "edit_tag": "Címke szerkesztése",
+  "statistics_mood_chart_improved": "Az elmúlt 2 hétben átlagos hangulata javult.",
+  "statistics_mood_chart_declined": "Az elmúlt 2 hétben az átlagos hangulata csökkent."
 }

@@ -138,7 +138,7 @@
   "delete_confirm_title": "Elimina voce",
   "delete_confirm_message": "Sei sicuro di voler eliminare questa voce?",
   "statistics_subtitle": "Le tue ultime due settimane",
-  "statistics_description": "Queste sono le tue tendenze delle ultime due settimane",
+  "statistics_description": "Questi sono i momenti salienti delle ultime due settimane",
   "statistics_no_data": "Aggiungi {{count}} giorni in più nelle ultime due settimane per sbloccare le prime statistiche.",
   "mood": "Stato d'animo",
   "statistics_mood_avg_title": "Il tuo umore con il {{rating_percentage}}% sembra essere principalmente {{rating_word}}.",
@@ -177,7 +177,7 @@
   "onboarding_step_1_title": "Calendario",
   "onboarding_step_1_body": "La visualizzazione del calendario è la tua casa su Pixy. Ti aiuta a mantenere una panoramica di tutti i giorni che hai monitorato con i tuoi pixel. Puoi aggiungere nuove voci toccando un giorno.",
   "onboarding_step_2_title": "Statistiche",
-  "onboarding_step_2_body": "La visualizzazione delle statistiche ti aiuta a identificare le tendenze nel tuo umore. Supportano la panoramica media, il rilevamento dei picchi e l'analisi della correlazione.",
+  "onboarding_step_2_body": "La visualizzazione delle statistiche ti aiuta a identificare i momenti salienti del tuo umore. Supportano la panoramica media, il rilevamento dei picchi e l'analisi della correlazione.",
   "onboarding_step_3_title": "Filtri",
   "onboarding_step_3_body": "I filtri ti aiutano a trovare voci specifiche. Puoi filtrare per stato d'animo, tag o cercare parole specifiche.",
   "onboarding_step_4_title": "Promemoria giornaliero",
@@ -213,5 +213,7 @@
   "create": "Creare",
   "done": "Fatto",
   "create_tag": "Crea etichetta",
-  "edit_tag": "Modifica tag"
+  "edit_tag": "Modifica tag",
+  "statistics_mood_chart_improved": "Nelle ultime 2 settimane, il tuo umore medio è migliorato.",
+  "statistics_mood_chart_declined": "Nelle ultime 2 settimane, il tuo umore medio è diminuito."
 }

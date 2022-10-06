@@ -138,7 +138,7 @@
   "delete_confirm_title": "Izbriši unos",
   "delete_confirm_message": "Jeste li sigurni da želite izbrisati ovaj unos?",
   "statistics_subtitle": "Vaša zadnja dva tjedna",
-  "statistics_description": "Ovo su vaši trendovi u posljednja dva tjedna",
+  "statistics_description": "Ovo su vaši najzanimljiviji događaji u posljednja dva tjedna",
   "statistics_no_data": "Dodajte još {{count}} dana unutar posljednja dva tjedna da otključate svoju prvu statistiku.",
   "mood": "Raspoloženje",
   "statistics_mood_avg_title": "Čini se da je vaše raspoloženje {{rating_percentage}}% uglavnom {{rating_word}}.",
@@ -177,7 +177,7 @@
   "onboarding_step_1_title": "Kalendar",
   "onboarding_step_1_body": "Kalendarski prikaz je vaš dom u Pixyju. Pomaže vam da zadržite pregled svih dana koje ste pratili svojim pikselima. Možete dodati nove unose dodirom na dan.",
   "onboarding_step_2_title": "Statistika",
-  "onboarding_step_2_body": "Statistički prikaz vam pomaže da prepoznate trendove u vašem raspoloženju. Podržavaju pregled prosjeka, otkrivanje vršnih vrijednosti i analizu korelacije.",
+  "onboarding_step_2_body": "Statistički prikaz vam pomaže da prepoznate vrhunce u vašem raspoloženju. Podržavaju pregled prosjeka, otkrivanje vršnih vrijednosti i analizu korelacije.",
   "onboarding_step_3_title": "Filteri",
   "onboarding_step_3_body": "Filtri vam pomažu pronaći određene unose. Možete filtrirati prema raspoloženju, oznakama ili tražiti određene riječi.",
   "onboarding_step_4_title": "Dnevni podsjetnik",
@@ -213,5 +213,7 @@
   "create": "Stvoriti",
   "done": "Gotovo",
   "create_tag": "Stvori oznaku",
-  "edit_tag": "Uredi oznaku"
+  "edit_tag": "Uredi oznaku",
+  "statistics_mood_chart_improved": "U posljednja 2 tjedna vaše se prosječno raspoloženje popravilo.",
+  "statistics_mood_chart_declined": "U zadnja 2 tjedna vaše prosječno raspoloženje se smanjilo."
 }

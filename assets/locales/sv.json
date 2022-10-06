@@ -138,7 +138,7 @@
   "delete_confirm_title": "Ta bort inlägg",
   "delete_confirm_message": "Är du säker på att du vill ta bort den här posten?",
   "statistics_subtitle": "Dina sista två veckor",
-  "statistics_description": "Det här är dina trender från de senaste två veckorna",
+  "statistics_description": "Det här är dina höjdpunkter från de senaste två veckorna",
   "statistics_no_data": "Lägg till {{count}} dagar till under de senaste två veckorna för att låsa upp din första statistik.",
   "mood": "Humör",
   "statistics_mood_avg_title": "Ditt humör visas med {{rating_percentage}}% för att vara mestadels {{rating_word}}.",
@@ -177,7 +177,7 @@
   "onboarding_step_1_title": "Kalender",
   "onboarding_step_1_body": "Kalendervyn är ditt hem på Pixy. Det hjälper dig att ha en överblick över alla dagar du spårat med dina pixlar. Du kan lägga till nya poster genom att trycka på en dag.",
   "onboarding_step_2_title": "Statistik",
-  "onboarding_step_2_body": "Statistikvyn hjälper dig att identifiera trender i ditt humör. De stöder genomsnittlig översikt, toppdetektion och korrelationsanalys.",
+  "onboarding_step_2_body": "Statistikvyn hjälper dig att identifiera höjdpunkter i ditt humör. De stöder genomsnittlig översikt, toppdetektion och korrelationsanalys.",
   "onboarding_step_3_title": "Filter",
   "onboarding_step_3_body": "Filtren hjälper dig att hitta specifika poster. Du kan filtrera efter humör, taggar eller söka efter specifika ord.",
   "onboarding_step_4_title": "Daglig påminnelse",
@@ -213,5 +213,7 @@
   "create": "Skapa",
   "done": "Gjort",
   "create_tag": "Skapa tagg",
-  "edit_tag": "Redigera tagg"
+  "edit_tag": "Redigera tagg",
+  "statistics_mood_chart_improved": "Under de senaste 2 veckorna har ditt genomsnittliga humör förbättrats.",
+  "statistics_mood_chart_declined": "Under de senaste 2 veckorna har ditt genomsnittliga humör minskat."
 }

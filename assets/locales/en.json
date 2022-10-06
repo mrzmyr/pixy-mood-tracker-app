@@ -124,7 +124,7 @@
   "tags_default_4_title": "Exercise",
   "tags_default_5_title": "Friends",
   "statistics_subtitle": "Your last two weeks",
-  "statistics_description": "These are your trends from the last two weeks",
+  "statistics_description": "These are your highlights from the last two weeks",
   "statistics_no_data": "Add {{count}} more days within your last two weeks to unlock your first statistics.",
   "mood": "Mood",
   "tags": "Tags",
@@ -162,7 +162,7 @@
   "onboarding_step_1_title": "Calendar",
   "onboarding_step_1_body": "The calendar view is your home at Pixy. It helps you to keep an overview of all days you tracked with your pixels. You can add new entries by tapping on a day.",
   "onboarding_step_2_title": "Statistics",
-  "onboarding_step_2_body": "The statistics view helps you to identify trends in your mood. They support average overview, peak detection and correlation analysis.",
+  "onboarding_step_2_body": "The statistics view helps you to identify highlights in your mood. They support average overview, peak detection and correlation analysis.",
   "onboarding_step_3_title": "Filters",
   "onboarding_step_3_body": "The filters help you to find specific entries. You can filter by mood, tags, or search for specific words.",
   "onboarding_step_4_title": "Daily Reminder",
@@ -197,5 +197,7 @@
   "create": "Create",
   "done": "Done",
   "create_tag": "Create Tag",
-  "edit_tag": "Edit Tag"
+  "edit_tag": "Edit Tag",
+  "statistics_mood_chart_improved": "In the last 2 weeks, your average mood improved.",
+  "statistics_mood_chart_declined": "In the last 2 weeks, your average mood declined."
 }

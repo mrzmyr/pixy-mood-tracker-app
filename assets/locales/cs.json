@@ -138,7 +138,7 @@
   "delete_confirm_title": "Smazat záznam",
   "delete_confirm_message": "Opravdu chcete tento záznam smazat?",
   "statistics_subtitle": "Vaše poslední dva týdny",
-  "statistics_description": "Toto jsou vaše trendy za poslední dva týdny",
+  "statistics_description": "Toto jsou vaše nejdůležitější události za poslední dva týdny",
   "statistics_no_data": "Přidejte {{count}} dalších dní během posledních dvou týdnů, abyste odemkli své první statistiky.",
   "mood": "Nálada",
   "statistics_mood_avg_title": "Vaše nálada se zobrazuje s {{rating_percentage}} % většinou {{rating_word}}.",
@@ -177,7 +177,7 @@
   "onboarding_step_1_title": "Kalendář",
   "onboarding_step_1_body": "Zobrazení kalendáře je vaším domovem v Pixy. Pomůže vám udržet si přehled o všech dnech, které jste sledovali pomocí svých pixelů. Klepnutím na den můžete přidat nové položky.",
   "onboarding_step_2_title": "Statistika",
-  "onboarding_step_2_body": "Zobrazení statistik vám pomůže identifikovat trendy vaší nálady. Podporují průměrný přehled, detekci píku a korelační analýzu.",
+  "onboarding_step_2_body": "Zobrazení statistik vám pomůže identifikovat nejdůležitější momenty vaší nálady. Podporují průměrný přehled, detekci píku a korelační analýzu.",
   "onboarding_step_3_title": "Filtry",
   "onboarding_step_3_body": "Filtry vám pomohou najít konkrétní položky. Můžete filtrovat podle nálady, značek nebo vyhledávat konkrétní slova.",
   "onboarding_step_4_title": "Denní připomenutí",
@@ -213,5 +213,7 @@
   "create": "Vytvořit",
   "done": "Hotovo",
   "create_tag": "Vytvořit značku",
-  "edit_tag": "Upravit značku"
+  "edit_tag": "Upravit značku",
+  "statistics_mood_chart_improved": "Za poslední 2 týdny se vaše průměrná nálada zlepšila.",
+  "statistics_mood_chart_declined": "Za poslední 2 týdny vaše průměrná nálada klesla."
 }

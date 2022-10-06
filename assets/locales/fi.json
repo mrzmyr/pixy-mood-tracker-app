@@ -138,7 +138,7 @@
   "delete_confirm_title": "Poista merkintä",
   "delete_confirm_message": "Haluatko varmasti poistaa tämän merkinnän?",
   "statistics_subtitle": "Viimeiset kaksi viikkoasi",
-  "statistics_description": "Nämä ovat trendisi kahden viime viikon ajalta",
+  "statistics_description": "Nämä ovat kohokohdat viimeisen kahden viikon ajalta",
   "statistics_no_data": "Lisää {{count}} päivää lisää viimeisen kahden viikon aikana avataksesi ensimmäiset tilastosi.",
   "mood": "Mieliala",
   "statistics_mood_avg_title": "Mieliallasi näyttää olevan {{rating_percentage}} % enimmäkseen {{rating_word}}.",
@@ -177,7 +177,7 @@
   "onboarding_step_1_title": "Kalenteri",
   "onboarding_step_1_body": "Kalenterinäkymä on kotisi Pixyssä. Sen avulla voit pitää yleiskuvan kaikista pikseleilläsi seuranneista päivistä. Voit lisätä uusia merkintöjä napauttamalla päivää.",
   "onboarding_step_2_title": "Tilastot",
-  "onboarding_step_2_body": "Tilastonäkymä auttaa sinua tunnistamaan mielialaasi trendit. Ne tukevat keskimääräistä yleiskuvaa, huippujen havaitsemista ja korrelaatioanalyysiä.",
+  "onboarding_step_2_body": "Tilastonäkymä auttaa sinua tunnistamaan tunnelmasi kohokohdat. Ne tukevat keskimääräistä yleiskuvaa, huippujen havaitsemista ja korrelaatioanalyysiä.",
   "onboarding_step_3_title": "Suodattimet",
   "onboarding_step_3_body": "Suodattimet auttavat sinua löytämään tiettyjä merkintöjä. Voit suodattaa mielialan, tunnisteiden tai etsiä tiettyjä sanoja.",
   "onboarding_step_4_title": "Päivittäinen muistutus",
@@ -213,5 +213,7 @@
   "create": "Luoda",
   "done": "Tehty",
   "create_tag": "Luo tunniste",
-  "edit_tag": "Muokkaa tunnistetta"
+  "edit_tag": "Muokkaa tunnistetta",
+  "statistics_mood_chart_improved": "Keskimääräinen mielialasi on parantunut viimeisen 2 viikon aikana.",
+  "statistics_mood_chart_declined": "Viimeisten 2 viikon aikana keskimääräinen mielialasi on laskenut."
 }

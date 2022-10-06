@@ -138,7 +138,7 @@
   "delete_confirm_title": "Slett inngang",
   "delete_confirm_message": "Er du sikker på at du vil slette denne oppføringen?",
   "statistics_subtitle": "De to siste ukene dine",
-  "statistics_description": "Dette er dine trender fra de siste to ukene",
+  "statistics_description": "Dette er høydepunktene dine fra de siste to ukene",
   "statistics_no_data": "Legg til {{count}} dager til i løpet av de siste to ukene for å låse opp din første statistikk.",
   "mood": "Humør",
   "statistics_mood_avg_title": "Humøret ditt ser ut til å være {{rating_percentage}} % for å være stort sett {{rating_word}}.",
@@ -177,7 +177,7 @@
   "onboarding_step_1_title": "Kalender",
   "onboarding_step_1_body": "Kalendervisningen er ditt hjem på Pixy. Det hjelper deg å holde oversikt over alle dagene du har sporet med piksler. Du kan legge til nye oppføringer ved å trykke på en dag.",
   "onboarding_step_2_title": "Statistikk",
-  "onboarding_step_2_body": "Statistikkvisningen hjelper deg med å identifisere trender i humøret ditt. De støtter gjennomsnittlig oversikt, toppdeteksjon og korrelasjonsanalyse.",
+  "onboarding_step_2_body": "Statistikkvisningen hjelper deg med å identifisere høydepunkter i humøret ditt. De støtter gjennomsnittlig oversikt, toppdeteksjon og korrelasjonsanalyse.",
   "onboarding_step_3_title": "Filtre",
   "onboarding_step_3_body": "Filtrene hjelper deg med å finne spesifikke oppføringer. Du kan filtrere etter humør, tagger eller søke etter spesifikke ord.",
   "onboarding_step_4_title": "Daglig påminnelse",
@@ -213,5 +213,7 @@
   "create": "Skape",
   "done": "Ferdig",
   "create_tag": "Opprett tag",
-  "edit_tag": "Rediger tag"
+  "edit_tag": "Rediger tag",
+  "statistics_mood_chart_improved": "I løpet av de siste 2 ukene har det gjennomsnittlige humøret ditt forbedret seg.",
+  "statistics_mood_chart_declined": "I løpet av de siste 2 ukene har gjennomsnittlig humør falt."
 }

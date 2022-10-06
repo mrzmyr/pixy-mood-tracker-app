@@ -138,7 +138,7 @@
   "delete_confirm_title": "Esborra l'entrada",
   "delete_confirm_message": "Esteu segur que voleu suprimir aquesta entrada?",
   "statistics_subtitle": "Les teves dues darreres setmanes",
-  "statistics_description": "Aquestes són les teves tendències de les dues darreres setmanes",
+  "statistics_description": "Aquests són els vostres moments destacats de les dues darreres setmanes",
   "statistics_no_data": "Afegeix {{count}} dies més durant les dues últimes setmanes per desbloquejar les teves primeres estadístiques.",
   "mood": "Estat d'ànim",
   "statistics_mood_avg_title": "El vostre estat d'ànim apareix amb un {{rating_percentage}}% que és majoritàriament {{rating_word}}.",
@@ -177,7 +177,7 @@
   "onboarding_step_1_title": "Calendari",
   "onboarding_step_1_body": "La vista del calendari és la vostra llar a Pixy. Us ajuda a tenir una visió general de tots els dies que heu fet un seguiment amb els vostres píxels. Podeu afegir noves entrades tocant un dia.",
   "onboarding_step_2_title": "Estadístiques",
-  "onboarding_step_2_body": "La vista d'estadístiques us ajuda a identificar les tendències del vostre estat d'ànim. Admeten la visió general mitjana, la detecció de pics i l'anàlisi de correlació.",
+  "onboarding_step_2_body": "La vista d'estadístiques us ajuda a identificar els aspectes més destacats del vostre estat d'ànim. Admeten la visió general mitjana, la detecció de pics i l'anàlisi de correlació.",
   "onboarding_step_3_title": "Filtres",
   "onboarding_step_3_body": "Els filtres us ajuden a trobar entrades específiques. Podeu filtrar per estat d'ànim, etiquetes o cercar paraules específiques.",
   "onboarding_step_4_title": "Recordatori diari",
@@ -213,5 +213,7 @@
   "create": "Crear",
   "done": "Fet",
   "create_tag": "Crea una etiqueta",
-  "edit_tag": "Edita l'etiqueta"
+  "edit_tag": "Edita l'etiqueta",
+  "statistics_mood_chart_improved": "En les últimes 2 setmanes, el teu estat d'ànim mitjà ha millorat.",
+  "statistics_mood_chart_declined": "En les últimes 2 setmanes, el teu estat d'ànim mitjà ha disminuït."
 }

@@ -138,7 +138,7 @@
   "delete_confirm_title": "Usuń wpis",
   "delete_confirm_message": "Czy na pewno chcesz usunąć ten wpis?",
   "statistics_subtitle": "Twoje ostatnie dwa tygodnie",
-  "statistics_description": "Oto Twoje trendy z ostatnich dwóch tygodni",
+  "statistics_description": "Oto Twoje najważniejsze wydarzenia z ostatnich dwóch tygodni",
   "statistics_no_data": "Dodaj jeszcze {{count}} dni w ciągu ostatnich dwóch tygodni, aby odblokować swoje pierwsze statystyki.",
   "mood": "Nastrój",
   "statistics_mood_avg_title": "Twój nastrój wygląda na {{rating_percentage}}%, aby w większości składać się z {{rating_word}}.",
@@ -177,7 +177,7 @@
   "onboarding_step_1_title": "Kalendarz",
   "onboarding_step_1_body": "Widok kalendarza to Twój dom w Pixy. Pomaga zachować przegląd wszystkich dni śledzonych za pomocą pikseli. Możesz dodać nowe wpisy, dotykając dzień.",
   "onboarding_step_2_title": "Statystyka",
-  "onboarding_step_2_body": "Widok statystyk pomaga identyfikować trendy w Twoim nastroju. Wspierają przegląd średnich, wykrywanie szczytów i analizę korelacji.",
+  "onboarding_step_2_body": "Widok statystyk pomaga zidentyfikować najciekawsze momenty w Twoim nastroju. Wspierają przegląd średnich, wykrywanie szczytów i analizę korelacji.",
   "onboarding_step_3_title": "Filtry",
   "onboarding_step_3_body": "Filtry pomagają znaleźć określone wpisy. Możesz filtrować według nastroju, tagów lub wyszukiwać określone słowa.",
   "onboarding_step_4_title": "Codzienne przypomnienie",
@@ -213,5 +213,7 @@
   "create": "Tworzyć",
   "done": "Gotowe",
   "create_tag": "Utwórz tag",
-  "edit_tag": "Edytuj tag"
+  "edit_tag": "Edytuj tag",
+  "statistics_mood_chart_improved": "W ciągu ostatnich 2 tygodni poprawił się Twój średni nastrój.",
+  "statistics_mood_chart_declined": "W ciągu ostatnich 2 tygodni Twój średni nastrój się pogorszył."
 }

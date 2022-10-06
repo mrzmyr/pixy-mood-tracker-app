@@ -126,7 +126,7 @@
   "delete_confirm_title": "Eintrag löschen",
   "delete_confirm_message": "Möchten Sie diesen Eintrag wirklich löschen?",
   "statistics_subtitle": "Deine letzten zwei Wochen",
-  "statistics_description": "Das hier sind Trends der deiner letzten zwei Wochen",
+  "statistics_description": "Das sind Ihre Highlights der letzten zwei Wochen",
   "statistics_no_data": "Fügen Sie innerhalb Ihrer letzten zwei Wochen {{count}} weitere Tage hinzu, um Ihre ersten Statistiken freizuschalten.",
   "mood": "Stimmung",
   "statistics_mood_avg_title": "Deine Stimmung scheint mit {{rating_percentage}} % überwiegend {{rating_word}} zu sein.",
@@ -165,7 +165,7 @@
   "onboarding_step_1_title": "Kalender",
   "onboarding_step_1_body": "Die Kalenderansicht ist dein Zuhause bei Pixy. Sie hilft dir, den Überblick über alle Tage zu behalten, die du mit deinen Pixeln getrackt hast. Du kannst neue Einträge hinzufügen, indem du auf einen Tag tippst.",
   "onboarding_step_2_title": "Statistiken",
-  "onboarding_step_2_body": "Die Statistikansicht hilft dir, Trends in deiner Stimmung zu erkennen. Pixy gibt dabei Aufschluss durch Durchschnittsübersichten, Höhepunkt-Erkennungen und Korrelationsanalysen.",
+  "onboarding_step_2_body": "Die Statistiken helfen dir dabei, Highlights zu erkennen. Sie geben Aufschluss über Durchschnittswerte, Höhepunkte und Korrelationsanalysen.",
   "onboarding_step_3_title": "Filter",
   "onboarding_step_3_body": "Die Filter helfen dir, bestimmte Einträge zu finden. Du kannst nach Stimmung und Tags filtern oder nach bestimmten Wörtern suchen.",
   "onboarding_step_4_title": "Tägliche Erinnerung",
@@ -201,5 +201,7 @@
   "create": "Schaffen",
   "done": "Fertig",
   "create_tag": "Tag erstellen",
-  "edit_tag": "Tag bearbeiten"
+  "edit_tag": "Tag bearbeiten",
+  "statistics_mood_chart_improved": "In den letzten 2 Wochen hat sich Ihre durchschnittliche Stimmung verbessert.",
+  "statistics_mood_chart_declined": "In den letzten 2 Wochen hat sich Ihre durchschnittliche Stimmung verschlechtert."
 }

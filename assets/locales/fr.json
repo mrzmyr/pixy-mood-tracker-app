@@ -138,7 +138,7 @@
   "delete_confirm_title": "Supprimer l'entrée",
   "delete_confirm_message": "Voulez-vous vraiment supprimer cette entrée ?",
   "statistics_subtitle": "Vos deux dernières semaines",
-  "statistics_description": "Ce sont vos tendances des deux dernières semaines",
+  "statistics_description": "Voici vos faits saillants des deux dernières semaines",
   "statistics_no_data": "Ajoutez {{count}} jours supplémentaires au cours de vos deux dernières semaines pour déverrouiller vos premières statistiques.",
   "mood": "Ambiance",
   "statistics_mood_avg_title": "Votre humeur apparaît avec {{rating_percentage}} % pour être principalement {{rating_word}}.",
@@ -177,7 +177,7 @@
   "onboarding_step_1_title": "Calendrier",
   "onboarding_step_1_body": "La vue du calendrier est votre maison chez Pixy. Il vous aide à garder une vue d'ensemble de tous les jours que vous avez suivis avec vos pixels. Vous pouvez ajouter de nouvelles entrées en appuyant sur un jour.",
   "onboarding_step_2_title": "Statistiques",
-  "onboarding_step_2_body": "La vue des statistiques vous aide à identifier les tendances de votre humeur. Ils prennent en charge la vue d'ensemble moyenne, la détection des pics et l'analyse de corrélation.",
+  "onboarding_step_2_body": "La vue des statistiques vous aide à identifier les moments forts de votre humeur. Ils prennent en charge la vue d'ensemble moyenne, la détection des pics et l'analyse de corrélation.",
   "onboarding_step_3_title": "Filtres",
   "onboarding_step_3_body": "Les filtres vous aident à trouver des entrées spécifiques. Vous pouvez filtrer par humeur, tags ou rechercher des mots spécifiques.",
   "onboarding_step_4_title": "Rappel quotidien",
@@ -213,5 +213,7 @@
   "create": "Créer",
   "done": "Fait",
   "create_tag": "Créer une balise",
-  "edit_tag": "Modifier la balise"
+  "edit_tag": "Modifier la balise",
+  "statistics_mood_chart_improved": "Au cours des 2 dernières semaines, votre humeur moyenne s'est améliorée.",
+  "statistics_mood_chart_declined": "Au cours des 2 dernières semaines, votre humeur moyenne a diminué."
 }

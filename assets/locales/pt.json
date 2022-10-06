@@ -138,7 +138,7 @@
   "delete_confirm_title": "Excluir entrada",
   "delete_confirm_message": "Tem certeza de que deseja excluir esta entrada?",
   "statistics_subtitle": "Suas últimas duas semanas",
-  "statistics_description": "Estas são as suas tendências das últimas duas semanas",
+  "statistics_description": "Estes são os seus destaques das últimas duas semanas",
   "statistics_no_data": "Adicione mais {{count}} dias nas últimas duas semanas para desbloquear suas primeiras estatísticas.",
   "mood": "Humor",
   "statistics_mood_avg_title": "Seu humor aparece com {{rating_percentage}}% como sendo principalmente {{rating_word}}.",
@@ -177,7 +177,7 @@
   "onboarding_step_1_title": "Calendário",
   "onboarding_step_1_body": "A visualização do calendário é a sua casa no Pixy. Ele ajuda você a manter uma visão geral de todos os dias que você rastreou com seus pixels. Você pode adicionar novas entradas tocando em um dia.",
   "onboarding_step_2_title": "Estatisticas",
-  "onboarding_step_2_body": "A visualização de estatísticas ajuda você a identificar tendências em seu humor. Eles suportam visão geral média, detecção de pico e análise de correlação.",
+  "onboarding_step_2_body": "A visualização de estatísticas ajuda você a identificar destaques em seu humor. Eles suportam visão geral média, detecção de pico e análise de correlação.",
   "onboarding_step_3_title": "Filtros",
   "onboarding_step_3_body": "Os filtros ajudam você a encontrar entradas específicas. Você pode filtrar por humor, tags ou pesquisar palavras específicas.",
   "onboarding_step_4_title": "Lembrete Diario",
@@ -213,5 +213,7 @@
   "create": "Crio",
   "done": "Feito",
   "create_tag": "Criar etiqueta",
-  "edit_tag": "Editar etiqueta"
+  "edit_tag": "Editar etiqueta",
+  "statistics_mood_chart_improved": "Nas últimas 2 semanas, seu humor médio melhorou.",
+  "statistics_mood_chart_declined": "Nas últimas 2 semanas, seu humor médio diminuiu."
 }

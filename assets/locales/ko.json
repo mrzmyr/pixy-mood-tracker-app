@@ -138,7 +138,7 @@
   "delete_confirm_title": "항목 삭제",
   "delete_confirm_message": "이 항목을 삭제하시겠습니까?",
   "statistics_subtitle": "지난 2주",
-  "statistics_description": "지난 2주 동안의 트렌드입니다.",
+  "statistics_description": "지난 2주 동안의 하이라이트입니다.",
   "statistics_no_data": "첫 번째 통계를 잠금 해제하려면 지난 2주 동안 {{count}}일을 더 추가하세요.",
   "mood": "분위기",
   "statistics_mood_avg_title": "귀하의 기분은 {{rating_percentage}}%로 대부분 {{rating_word}}로 나타납니다.",
@@ -177,7 +177,7 @@
   "onboarding_step_1_title": "달력",
   "onboarding_step_1_body": "캘린더 보기는 Pixy의 집입니다. 픽셀로 추적한 모든 날짜의 개요를 유지하는 데 도움이 됩니다. 날짜를 탭하여 새 항목을 추가할 수 있습니다.",
   "onboarding_step_2_title": "통계",
-  "onboarding_step_2_body": "통계 보기는 기분의 추세를 식별하는 데 도움이 됩니다. 평균 개요, 피크 감지 및 상관 관계 분석을 지원합니다.",
+  "onboarding_step_2_body": "통계 보기는 기분의 하이라이트를 식별하는 데 도움이 됩니다. 평균 개요, 피크 감지 및 상관 관계 분석을 지원합니다.",
   "onboarding_step_3_title": "필터",
   "onboarding_step_3_body": "필터는 특정 항목을 찾는 데 도움이 됩니다. 기분, 태그로 필터링하거나 특정 단어를 검색할 수 있습니다.",
   "onboarding_step_4_title": "일일 알림",
@@ -213,5 +213,7 @@
   "create": "만들다",
   "done": "완료",
   "create_tag": "태그 생성",
-  "edit_tag": "태그 수정"
+  "edit_tag": "태그 수정",
+  "statistics_mood_chart_improved": "지난 2주 동안 평균 기분이 개선되었습니다.",
+  "statistics_mood_chart_declined": "지난 2주 동안 평균 기분이 떨어졌습니다."
 }

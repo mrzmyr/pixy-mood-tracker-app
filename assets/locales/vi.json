@@ -138,7 +138,7 @@
   "delete_confirm_title": "Xóa mục nhập",
   "delete_confirm_message": "Bạn có chắc chắn muốn xóa mục này không?",
   "statistics_subtitle": "Hai tuần qua của bạn",
-  "statistics_description": "Đây là những xu hướng của bạn trong hai tuần qua",
+  "statistics_description": "Đây là những điểm nổi bật của bạn trong hai tuần qua",
   "statistics_no_data": "Thêm {{count}} ngày nữa trong vòng hai tuần qua để mở khóa thống kê đầu tiên của bạn.",
   "mood": "Khí sắc",
   "statistics_mood_avg_title": "Tâm trạng của bạn xuất hiện với {{rating_percentage}}% chủ yếu là {{rating_word}}.",
@@ -177,7 +177,7 @@
   "onboarding_step_1_title": "Lịch",
   "onboarding_step_1_body": "Chế độ xem lịch là nhà của bạn tại Pixy. Nó giúp bạn có cái nhìn tổng quan về tất cả các ngày bạn đã theo dõi với pixel của mình. Bạn có thể thêm các mục mới bằng cách nhấn vào một ngày.",
   "onboarding_step_2_title": "Số liệu thống kê",
-  "onboarding_step_2_body": "Chế độ xem thống kê giúp bạn xác định xu hướng trong tâm trạng của mình. Chúng hỗ trợ tổng quan trung bình, phát hiện đỉnh và phân tích tương quan.",
+  "onboarding_step_2_body": "Chế độ xem thống kê giúp bạn xác định những điểm nổi bật trong tâm trạng của mình. Chúng hỗ trợ tổng quan trung bình, phát hiện đỉnh và phân tích tương quan.",
   "onboarding_step_3_title": "Bộ lọc",
   "onboarding_step_3_body": "Bộ lọc giúp bạn tìm các mục cụ thể. Bạn có thể lọc theo tâm trạng, thẻ hoặc tìm kiếm các từ cụ thể.",
   "onboarding_step_4_title": "Nhắc nhở hàng ngày",
@@ -213,5 +213,7 @@
   "create": "Tạo ra",
   "done": "Xong",
   "create_tag": "Tạo thẻ",
-  "edit_tag": "Thẻ chỉnh sửa"
+  "edit_tag": "Thẻ chỉnh sửa",
+  "statistics_mood_chart_improved": "Trong 2 tuần gần đây, tâm trạng trung bình của bạn được cải thiện.",
+  "statistics_mood_chart_declined": "Trong 2 tuần gần đây, tâm trạng trung bình của bạn giảm sút."
 }

@@ -138,7 +138,7 @@
   "delete_confirm_title": "Invoer verwijderen",
   "delete_confirm_message": "Weet u zeker dat u dit item wilt verwijderen?",
   "statistics_subtitle": "Je laatste twee weken",
-  "statistics_description": "Dit zijn jouw trends van de afgelopen twee weken",
+  "statistics_description": "Dit zijn je hoogtepunten van de afgelopen twee weken",
   "statistics_no_data": "Voeg in de afgelopen twee weken nog {{count}} dagen toe om uw eerste statistieken te ontgrendelen.",
   "mood": "Stemming",
   "statistics_mood_avg_title": "Je stemming lijkt met {{rating_percentage}}% meestal {{rating_word}} te zijn.",
@@ -177,7 +177,7 @@
   "onboarding_step_1_title": "Kalender",
   "onboarding_step_1_body": "De kalenderweergave is je thuis bij Pixy. Het helpt je om een overzicht te houden van alle dagen die je hebt bijgehouden met je pixels. U kunt nieuwe items toevoegen door op een dag te tikken.",
   "onboarding_step_2_title": "Statistieken",
-  "onboarding_step_2_body": "De statistiekenweergave helpt u trends in uw stemming te identificeren. Ze ondersteunen gemiddeld overzicht, piekdetectie en correlatieanalyse.",
+  "onboarding_step_2_body": "De statistiekenweergave helpt u hoogtepunten in uw stemming te identificeren. Ze ondersteunen gemiddeld overzicht, piekdetectie en correlatieanalyse.",
   "onboarding_step_3_title": "Filters",
   "onboarding_step_3_body": "De filters helpen u om specifieke vermeldingen te vinden. U kunt filteren op stemming, tags of zoeken op specifieke woorden.",
   "onboarding_step_4_title": "Dagelijkse herinnering",
@@ -213,5 +213,7 @@
   "create": "Creëren",
   "done": "Gedaan",
   "create_tag": "Tag maken",
-  "edit_tag": "Bewerk label"
+  "edit_tag": "Bewerk label",
+  "statistics_mood_chart_improved": "In de afgelopen 2 weken is uw gemiddelde stemming verbeterd.",
+  "statistics_mood_chart_declined": "In de afgelopen 2 weken is uw gemiddelde stemming afgenomen."
 }

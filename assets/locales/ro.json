@@ -138,7 +138,7 @@
   "delete_confirm_title": "Ștergeți intrarea",
   "delete_confirm_message": "Sigur doriți să ștergeți această intrare?",
   "statistics_subtitle": "Ultimele tale două săptămâni",
-  "statistics_description": "Acestea sunt tendințele tale din ultimele două săptămâni",
+  "statistics_description": "Acestea sunt cele mai importante momente din ultimele două săptămâni",
   "statistics_no_data": "Adăugați încă {{count}} zile în ultimele două săptămâni pentru a debloca primele statistici.",
   "mood": "Starea de spirit",
   "statistics_mood_avg_title": "Starea ta de spirit pare cu {{rating_percentage}}% a fi în mare parte {{rating_word}}.",
@@ -177,7 +177,7 @@
   "onboarding_step_1_title": "Calendar",
   "onboarding_step_1_body": "Vizualizarea calendarului este casa ta la Pixy. Vă ajută să păstrați o imagine de ansamblu asupra tuturor zilelor pe care le-ați urmărit cu pixelii dvs. Puteți adăuga intrări noi atingând o zi.",
   "onboarding_step_2_title": "Statistici",
-  "onboarding_step_2_body": "Vizualizarea cu statistici vă ajută să identificați tendințele de dispoziție. Aceștia acceptă vizualizarea medie, detectarea vârfurilor și analiza corelației.",
+  "onboarding_step_2_body": "Vizualizarea cu statistici vă ajută să identificați momentele evidențiate ale dispoziției dvs. Aceștia acceptă vizualizarea medie, detectarea vârfurilor și analiza corelației.",
   "onboarding_step_3_title": "Filtre",
   "onboarding_step_3_body": "Filtrele vă ajută să găsiți intrări specifice. Puteți filtra după dispoziție, etichete sau puteți căuta anumite cuvinte.",
   "onboarding_step_4_title": "Memento zilnic",
@@ -213,5 +213,7 @@
   "create": "Crea",
   "done": "Terminat",
   "create_tag": "Creați etichetă",
-  "edit_tag": "Editați eticheta"
+  "edit_tag": "Editați eticheta",
+  "statistics_mood_chart_improved": "În ultimele 2 săptămâni, starea ta de spirit medie s-a îmbunătățit.",
+  "statistics_mood_chart_declined": "În ultimele 2 săptămâni, starea ta de spirit medie a scăzut."
 }

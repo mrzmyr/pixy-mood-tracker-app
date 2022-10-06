@@ -138,7 +138,7 @@
   "delete_confirm_title": "Padam entri",
   "delete_confirm_message": "Adakah anda pasti mahu memadamkan entri ini?",
   "statistics_subtitle": "Dua minggu terakhir anda",
-  "statistics_description": "Ini adalah trend anda dari dua minggu lepas",
+  "statistics_description": "Ini adalah sorotan anda dari dua minggu lepas",
   "statistics_no_data": "Tambahkan {{count}} lagi hari dalam dua minggu terakhir anda untuk membuka kunci statistik pertama anda.",
   "mood": "Mood",
   "statistics_mood_avg_title": "Suasana anda kelihatan dengan {{rating_percentage}}% kebanyakannya {{rating_word}}.",
@@ -177,7 +177,7 @@
   "onboarding_step_1_title": "Kalendar",
   "onboarding_step_1_body": "Paparan kalendar ialah rumah anda di Pixy. Ia membantu anda menyimpan gambaran keseluruhan semua hari yang anda jejak dengan piksel anda. Anda boleh menambah entri baharu dengan mengetik pada hari.",
   "onboarding_step_2_title": "Perangkaan",
-  "onboarding_step_2_body": "Paparan statistik membantu anda mengenal pasti arah aliran dalam mood anda. Mereka menyokong gambaran keseluruhan purata, pengesanan puncak dan analisis korelasi.",
+  "onboarding_step_2_body": "Paparan statistik membantu anda mengenal pasti sorotan dalam mood anda. Mereka menyokong gambaran keseluruhan purata, pengesanan puncak dan analisis korelasi.",
   "onboarding_step_3_title": "Penapis",
   "onboarding_step_3_body": "Penapis membantu anda mencari entri tertentu. Anda boleh menapis mengikut mood, teg atau mencari perkataan tertentu.",
   "onboarding_step_4_title": "Peringatan Harian",
@@ -213,5 +213,7 @@
   "create": "Buat",
   "done": "Selesai",
   "create_tag": "Cipta Tag",
-  "edit_tag": "Edit teg"
+  "edit_tag": "Edit teg",
+  "statistics_mood_chart_improved": "Dalam 2 minggu lepas, mood purata anda bertambah baik.",
+  "statistics_mood_chart_declined": "Dalam 2 minggu lepas, purata mood anda merosot."
 }

@@ -138,7 +138,7 @@
   "delete_confirm_title": "Hapus entri",
   "delete_confirm_message": "Anda yakin ingin menghapus entri ini?",
   "statistics_subtitle": "Dua minggu terakhirmu",
-  "statistics_description": "Ini adalah tren Anda dari dua minggu terakhir",
+  "statistics_description": "Ini adalah sorotan Anda dari dua minggu terakhir",
   "statistics_no_data": "Tambahkan {{count}} hari lagi dalam dua minggu terakhir untuk membuka statistik pertama Anda.",
   "mood": "Suasana hati",
   "statistics_mood_avg_title": "Suasana hati Anda muncul dengan {{rating_percentage}}% sebagian besar {{rating_word}}.",
@@ -177,7 +177,7 @@
   "onboarding_step_1_title": "Kalender",
   "onboarding_step_1_body": "Tampilan kalender adalah rumah Anda di Pixy. Ini membantu Anda menyimpan ikhtisar semua hari yang Anda lacak dengan piksel Anda. Anda dapat menambahkan entri baru dengan mengetuk hari.",
   "onboarding_step_2_title": "Statistik",
-  "onboarding_step_2_body": "Tampilan statistik membantu Anda mengidentifikasi tren dalam suasana hati Anda. Mereka mendukung gambaran rata-rata, deteksi puncak dan analisis korelasi.",
+  "onboarding_step_2_body": "Tampilan statistik membantu Anda mengidentifikasi sorotan dalam suasana hati Anda. Mereka mendukung gambaran rata-rata, deteksi puncak dan analisis korelasi.",
   "onboarding_step_3_title": "Filter",
   "onboarding_step_3_body": "Filter membantu Anda menemukan entri tertentu. Anda dapat memfilter menurut suasana hati, tag, atau mencari kata-kata tertentu.",
   "onboarding_step_4_title": "Pengingat Harian",
@@ -213,5 +213,7 @@
   "create": "Membuat",
   "done": "Selesai",
   "create_tag": "Buat Tag",
-  "edit_tag": "Edit tanda"
+  "edit_tag": "Edit tanda",
+  "statistics_mood_chart_improved": "Dalam 2 minggu terakhir, rata-rata suasana hati Anda membaik.",
+  "statistics_mood_chart_declined": "Dalam 2 minggu terakhir, rata-rata mood Anda menurun."
 }

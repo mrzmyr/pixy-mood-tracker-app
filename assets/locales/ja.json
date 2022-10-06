@@ -138,7 +138,7 @@
   "delete_confirm_title": "記入を消す",
   "delete_confirm_message": "このエントリを削除してもよろしいですか?",
   "statistics_subtitle": "過去 2 週間",
-  "statistics_description": "過去 2 週間の傾向です",
+  "statistics_description": "過去 2 週間のハイライトです",
   "statistics_no_data": "過去 2 週間以内に {{count}} 日追加して、最初の統計情報をアンロックしてください。",
   "mood": "ムード",
   "statistics_mood_avg_title": "あなたの気分は {{rating_percentage}}% でほぼ {{rating_word}} であることがわかります。",
@@ -177,7 +177,7 @@
   "onboarding_step_1_title": "カレンダー",
   "onboarding_step_1_body": "カレンダー ビューは Pixy のホームです。ピクセルで追跡したすべての日の概要を維持するのに役立ちます。日付をタップすると、新しいエントリを追加できます。",
   "onboarding_step_2_title": "統計学",
-  "onboarding_step_2_body": "統計ビューは、気分の傾向を特定するのに役立ちます。平均概要、ピーク検出、相関分析をサポートしています。",
+  "onboarding_step_2_body": "統計ビューは、気分のハイライトを特定するのに役立ちます。平均概要、ピーク検出、相関分析をサポートしています。",
   "onboarding_step_3_title": "フィルター",
   "onboarding_step_3_body": "フィルタは、特定のエントリを見つけるのに役立ちます。ムードやタグでフィルタリングしたり、特定の単語を検索したりできます。",
   "onboarding_step_4_title": "毎日のリマインダー",
@@ -213,5 +213,7 @@
   "create": "作成",
   "done": "終わり",
   "create_tag": "タグを作成",
-  "edit_tag": "タグを編集"
+  "edit_tag": "タグを編集",
+  "statistics_mood_chart_improved": "過去 2 週間で、平均的な気分が改善しました。",
+  "statistics_mood_chart_declined": "過去 2 週間で、あなたの平均的な気分は低下しました。"
 }

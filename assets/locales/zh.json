@@ -138,7 +138,7 @@
   "delete_confirm_title": "删除条目",
   "delete_confirm_message": "您确定要删除此条目吗？",
   "statistics_subtitle": "你的最后两周",
-  "statistics_description": "这些是你过去两周的趋势",
+  "statistics_description": "这些是你过去两周的亮点",
   "statistics_no_data": "在过去两周内再增加 {{count}} 天，以解锁您的第一个统计信息。",
   "mood": "情绪",
   "statistics_mood_avg_title": "您的情绪以 {{rating_percentage}}% 显示大部分是 {{rating_word}}。",
@@ -177,7 +177,7 @@
   "onboarding_step_1_title": "日历",
   "onboarding_step_1_body": "日历视图是您在 Pixy 的家。它可以帮助您了解使用像素跟踪的所有天数。您可以通过点击一天来添加新条目。",
   "onboarding_step_2_title": "统计数据",
-  "onboarding_step_2_body": "统计视图可帮助您识别情绪趋势。它们支持平均概览、峰值检测和相关分析。",
+  "onboarding_step_2_body": "统计视图可帮助您识别情绪中的亮点。它们支持平均概览、峰值检测和相关分析。",
   "onboarding_step_3_title": "过滤器",
   "onboarding_step_3_body": "过滤器可帮助您查找特定条目。您可以按心情、标签或搜索特定字词进行过滤。",
   "onboarding_step_4_title": "每日提醒",
@@ -213,5 +213,7 @@
   "create": "创造",
   "done": "完毕",
   "create_tag": "创建标签",
-  "edit_tag": "编辑标签"
+  "edit_tag": "编辑标签",
+  "statistics_mood_chart_improved": "在过去 2 周内，您的平均情绪有所改善。",
+  "statistics_mood_chart_declined": "在过去 2 周内，您的平均情绪有所下降。"
 }

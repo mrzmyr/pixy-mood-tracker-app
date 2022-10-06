@@ -138,7 +138,7 @@
   "delete_confirm_title": "Girişi sil",
   "delete_confirm_message": "Bu girişi silmek istediğinizden emin misiniz?",
   "statistics_subtitle": "son iki haftan",
-  "statistics_description": "Bunlar son iki haftadaki trendleriniz",
+  "statistics_description": "Bunlar, son iki haftadaki öne çıkanlarınız",
   "statistics_no_data": "İlk istatistiklerinizin kilidini açmak için son iki haftanıza {{count}} gün daha ekleyin.",
   "mood": "Mod",
   "statistics_mood_avg_title": "Ruh haliniz %{{rating_percentage}} ile çoğunlukla {{rating_word}} olarak görünüyor.",
@@ -177,7 +177,7 @@
   "onboarding_step_1_title": "Takvim",
   "onboarding_step_1_body": "Takvim görünümü, Pixy'deki evinizdir. Piksellerinizle izlediğiniz tüm günlerin bir özetini tutmanıza yardımcı olur. Bir güne dokunarak yeni girişler ekleyebilirsiniz.",
   "onboarding_step_2_title": "İstatistik",
-  "onboarding_step_2_body": "İstatistik görünümü, ruh halinizdeki eğilimleri belirlemenize yardımcı olur. Ortalama genel bakışı, tepe tespiti ve korelasyon analizini desteklerler.",
+  "onboarding_step_2_body": "İstatistik görünümü, ruh halinizdeki önemli noktaları belirlemenize yardımcı olur. Ortalama genel bakışı, tepe tespiti ve korelasyon analizini desteklerler.",
   "onboarding_step_3_title": "Filtreler",
   "onboarding_step_3_body": "Filtreler, belirli girişleri bulmanıza yardımcı olur. Ruh halinize, etiketlere göre filtreleyebilir veya belirli kelimeleri arayabilirsiniz.",
   "onboarding_step_4_title": "Günlük hatırlatma",
@@ -213,5 +213,7 @@
   "create": "Oluşturmak",
   "done": "Tamamlandı",
   "create_tag": "Etiket Oluştur",
-  "edit_tag": "Etiketi düzenle"
+  "edit_tag": "Etiketi düzenle",
+  "statistics_mood_chart_improved": "Son 2 haftada ortalama ruh haliniz düzeldi.",
+  "statistics_mood_chart_declined": "Son 2 hafta içinde, ortalama ruh haliniz düştü."
 }

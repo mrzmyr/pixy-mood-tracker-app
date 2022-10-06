@@ -138,7 +138,7 @@
   "delete_confirm_title": "Eliminar la entrada",
   "delete_confirm_message": "¿Está seguro de que desea eliminar esta entrada?",
   "statistics_subtitle": "Tus últimas dos semanas",
-  "statistics_description": "Estas son tus tendencias de las últimas dos semanas",
+  "statistics_description": "Estos son los aspectos más destacados de las últimas dos semanas.",
   "statistics_no_data": "Agregue {{count}} días más dentro de sus últimas dos semanas para desbloquear sus primeras estadísticas.",
   "mood": "Estado animico",
   "statistics_mood_avg_title": "Su estado de ánimo aparece con un {{rating_percentage}}% mayormente {{rating_word}}.",
@@ -177,7 +177,7 @@
   "onboarding_step_1_title": "Calendario",
   "onboarding_step_1_body": "La vista de calendario es tu hogar en Pixy. Le ayuda a mantener una visión general de todos los días que rastreó con sus píxeles. Puede agregar nuevas entradas tocando un día.",
   "onboarding_step_2_title": "Estadísticas",
-  "onboarding_step_2_body": "La vista de estadísticas te ayuda a identificar tendencias en tu estado de ánimo. Admiten una descripción general promedio, detección de picos y análisis de correlación.",
+  "onboarding_step_2_body": "La vista de estadísticas le ayuda a identificar aspectos destacados de su estado de ánimo. Admiten una descripción general promedio, detección de picos y análisis de correlación.",
   "onboarding_step_3_title": "filtros",
   "onboarding_step_3_body": "Los filtros le ayudan a encontrar entradas específicas. Puede filtrar por estado de ánimo, etiquetas o buscar palabras específicas.",
   "onboarding_step_4_title": "Recordatorio diario",
@@ -213,5 +213,7 @@
   "create": "Crear",
   "done": "Hecho",
   "create_tag": "Crear etiqueta",
-  "edit_tag": "Editar etiqueta"
+  "edit_tag": "Editar etiqueta",
+  "statistics_mood_chart_improved": "En las últimas 2 semanas, su estado de ánimo promedio mejoró.",
+  "statistics_mood_chart_declined": "En las últimas 2 semanas, su estado de ánimo promedio disminuyó."
 }
