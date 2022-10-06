@@ -1,3 +1,4 @@
+import { LinearGradient } from 'expo-linear-gradient';
 import { useEffect, useState } from 'react';
 import { Platform, ScrollView, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -43,6 +44,38 @@ export const Tags = ({ navigation, route }: RootStackScreenProps<'Tags'>) => {
           >{t('done')}</LinkButton>
         }
       />
+      <LinearGradient
+        pointerEvents="none"
+        colors={['rgba(255,255,255,0)', colors.logBackground, colors.logBackground]}
+        style={{
+          position: 'absolute',
+          height: 120 + insets.bottom,
+          bottom: 0,
+          zIndex: 1,
+          width: '100%',
+        }}
+      />
+      <View
+        style={{
+          flexDirection: 'row',
+          justifyContent: 'center',
+          alignItems: 'center',
+          paddingHorizontal: 20,
+          position: 'absolute',
+          bottom: insets.bottom + 16,
+          zIndex: 2,
+        }}
+      >
+        <Button
+          style={{
+            marginTop: 16,
+            width: '100%',
+          }}
+          onPress={() => {
+            navigation.navigate('TagCreate')
+          }}
+        >{t('create_tag')}</Button>
+      </View>
       <ScrollView
         style={{
           flex: 1,
@@ -76,7 +109,11 @@ export const Tags = ({ navigation, route }: RootStackScreenProps<'Tags'>) => {
                 >{t('tags_empty')}. 👻</Text>
               </View>
             )}
-            <MenuList>
+            <MenuList
+              style={{
+                marginBottom: 40
+              }}
+            >
               {settings.tags.map((tag, index) => (
                 <TagListItem
                   key={tag.id}
@@ -86,20 +123,12 @@ export const Tags = ({ navigation, route }: RootStackScreenProps<'Tags'>) => {
                 />
               ))}
             </MenuList>
-          <Button
-            style={{
-              marginTop: 16,
-            }}
-            onPress={() => {
-              navigation.navigate('TagCreate')
-            }}
-          >{t('create_tag')}</Button>
           </View>
         </View>
         <View 
           style={{
             width: '100%',
-            height: insets.bottom + 32,
+            height: insets.bottom + 56,
           }}
         />
       </ScrollView>
