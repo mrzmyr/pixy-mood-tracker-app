@@ -69,6 +69,12 @@ export const LogEdit = ({ navigation, route }: RootStackScreenProps<'LogEdit'>) 
       .catch(error => console.log(error))
   }, [])
 
+  useEffect(() => {
+    // delete all tags that are not in the settings
+    const tags = tempLog.data.tags.filter(tag => settings.tags.find(t => t.id === tag.id))
+    tempLog.set((tempLog) => ({ ...tempLog, tags }))
+  }, [JSON.stringify(settings.tags)])
+
   const close = async () => {
     tempLog.reset()
     navigation.popToTop();
