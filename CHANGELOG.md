@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.37.0](https://github.com/mrzmyr/pixy-mood-tracker/compare/v1.36.2...v1.37.0) (2022-10-06)
+
+
+### Features
+
+* add statistics highlights and refactor statistics ([d9f7cf3](https://github.com/mrzmyr/pixy-mood-tracker/commit/d9f7cf37fc1e7bb9097f3aded78fae81a3ae200e))
+
+
+### Bug Fixes
+
+* tags not highlighted ([70c5908](https://github.com/mrzmyr/pixy-mood-tracker/commit/70c5908cc6823bd76eba3d666bbb1b1bde6cdc43))
+
+
+### Chore
+
+* add submit command ([2497522](https://github.com/mrzmyr/pixy-mood-tracker/commit/2497522d954dc0b917e431e505bfba2b5168aa42))
+
 ### [1.36.2](https://github.com/mrzmyr/pixy-mood-tracker/compare/v1.36.1...v1.36.2) (2022-10-06)
 
 
