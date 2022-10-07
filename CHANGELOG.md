@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.38.1](https://github.com/mrzmyr/pixy-mood-tracker/compare/v1.38.0...v1.38.1) (2022-10-07)
+
+
+### Bug Fixes
+
+* make tagging possible again ([7f52e91](https://github.com/mrzmyr/pixy-mood-tracker/commit/7f52e91cdbb65779c6ae92c23fe298a39bc4f376))
+
 ## [1.38.0](https://github.com/mrzmyr/pixy-mood-tracker/compare/v1.37.1...v1.38.0) (2022-10-07)
 
 
