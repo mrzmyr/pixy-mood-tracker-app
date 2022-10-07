@@ -16,7 +16,7 @@ export const UserDataImportList = () => {
 
   const [loadedUserIds, setLoadedUserIds] = useState<string[]>([])
   
-  const loadUsers = () => {
+  const loadUsers = () => {    
     fetch("http://10.10.50.143:3000/persons", {
       headers: {
         "Content-Type": "application/json",
@@ -26,6 +26,9 @@ export const UserDataImportList = () => {
       .then((res) => {
         setUsers(res);
         setLoadedUserIds([])
+      })
+      .catch(() => {
+        console.log("Error: Didn't load user list");
       })
   }
   
@@ -44,6 +47,7 @@ export const UserDataImportList = () => {
         title={'Reload'}
         iconLeft={<Repeat width={18} color={colors.menuListItemIcon} />}
         onPress={() => loadUsers()}
+        isLast
       />
     </MenuList>
     <MenuList
