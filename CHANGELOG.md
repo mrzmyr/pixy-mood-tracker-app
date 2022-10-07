@@ -2,6 +2,27 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.39.0](https://github.com/mrzmyr/pixy-mood-tracker/compare/v1.38.1...v1.39.0) (2022-10-07)
+
+
+### Features
+
+* add haptics to onboarding ([fd7d78d](https://github.com/mrzmyr/pixy-mood-tracker/commit/fd7d78dd4ab2fdaff38458f4178e051353da643d))
+
+
+### Bug Fixes
+
+* 7 instead of 8 days min for statistics ([2dc30aa](https://github.com/mrzmyr/pixy-mood-tracker/commit/2dc30aa5d005f56e89b9b38165a0b0a924db1657))
+* analytixs posthog ([5874a91](https://github.com/mrzmyr/pixy-mood-tracker/commit/5874a910f384e925465eff5771c10b2cb6c4618a))
+* onboarding skip ([acfec3b](https://github.com/mrzmyr/pixy-mood-tracker/commit/acfec3b51375eca5a9a48e11c33c2da44977733c))
+
+
+### Styling
+
+* black gradient blackground ([eba5a21](https://github.com/mrzmyr/pixy-mood-tracker/commit/eba5a2126f40b7f7796edb622338ea6ebea08d37))
+* few small style updates ([486b9ba](https://github.com/mrzmyr/pixy-mood-tracker/commit/486b9ba3be2aa9dd9768c8f41c93c87fc7b7c99b))
+* update user data list ([cf770aa](https://github.com/mrzmyr/pixy-mood-tracker/commit/cf770aafdb30003e2811a26b51fb384786f522a2))
+
 ### [1.38.1](https://github.com/mrzmyr/pixy-mood-tracker/compare/v1.38.0...v1.38.1) (2022-10-07)
 
 
