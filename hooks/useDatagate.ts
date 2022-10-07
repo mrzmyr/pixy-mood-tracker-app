@@ -173,6 +173,26 @@ export const useDatagate = () => {
       { cancelable: true }
     );
   }
+
+  const importData = async (data) => {
+    const jsonSchemaType = getJSONSchemaType(data);
+
+    if(jsonSchemaType === 'pixy') {
+      _import(data)
+    } else {
+      segment.track('data_import_error', {
+        reason: 'invalid_json_schema',
+      })
+      Alert.alert(
+        t('import_error_title'),
+        t('import_error_message'),
+        [
+          { text: t('ok'), onPress: () => {} }
+        ],
+        { cancelable: false }
+      )
+    }
+  }
   
   const openExportDialog = async () => {
     const data = {
@@ -207,6 +227,7 @@ export const useDatagate = () => {
   return {
     openExportDialog,
     openImportDialog,
+    importData,
     openResetDialog,
   }
 }

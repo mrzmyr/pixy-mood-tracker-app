@@ -20,7 +20,7 @@ export const getTagsPeaksData = (items: LogItem[], settingsTags: Tag[]): TagsPea
       ...settingsTags.find((tag) => tag.id === key),
       items: items.filter((item) => item.tags?.find((tag) => tag.id === key)),
     }))
-    .filter((tag) => tag);
+    .filter((tag) => tag && tag.items.length > 0);
 
   return { 
     tags,

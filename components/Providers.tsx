@@ -15,7 +15,7 @@ const Providers = ({
   return (
     <SafeAreaProvider>
       <SettingsProvider>
-        <PasscodeProvider>
+        {/* <PasscodeProvider> */}
           <SegmentProvider>
             <LogsProvider>
               <TemporaryLogProvider>
@@ -27,7 +27,7 @@ const Providers = ({
               </TemporaryLogProvider>
             </LogsProvider>
           </SegmentProvider>
-        </PasscodeProvider>
+        {/* </PasscodeProvider> */}
       </SettingsProvider>
     </SafeAreaProvider>
   )

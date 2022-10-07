@@ -2,18 +2,19 @@ import * as Linking from 'expo-linking';
 import * as StoreReview from 'expo-store-review';
 import * as WebBrowser from 'expo-web-browser';
 import { ScrollView, Text, View } from 'react-native';
-import { ArrowUpCircle, Award, Bell, BookOpen, Database, Flag, PieChart, Shield, Smartphone, Star, Tag } from 'react-native-feather';
+import { ArrowUpCircle, Award, Bell, BookOpen, Database, Flag, PieChart, Shield, Smartphone, Star, Tag, UploadCloud } from 'react-native-feather';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import MenuList from '../components/MenuList';
-import MenuListHeadline from '../components/MenuListHeadline';
-import MenuListItem from '../components/MenuListItem';
-import TextInfo from '../components/TextInfo';
-import useColors from '../hooks/useColors';
-import useFeedbackModal from '../hooks/useFeedbackModal';
-import { useSegment } from '../hooks/useSegment';
-import { useTranslation } from '../hooks/useTranslation';
-import pkg from '../package.json';
-import { RootStackScreenProps } from '../types';
+import MenuList from '../../components/MenuList';
+import MenuListHeadline from '../../components/MenuListHeadline';
+import MenuListItem from '../../components/MenuListItem';
+import TextInfo from '../../components/TextInfo';
+import useColors from '../../hooks/useColors';
+import useFeedbackModal from '../../hooks/useFeedbackModal';
+import { useSegment } from '../../hooks/useSegment';
+import { useTranslation } from '../../hooks/useTranslation';
+import pkg from '../../package.json';
+import { RootStackScreenProps } from '../../types';
+import { UserDataImportList } from './UserData';
 
 export const SettingsScreen = ({ navigation }: RootStackScreenProps<'Settings'>) => {
   const insets = useSafeAreaInsets();
@@ -208,6 +209,8 @@ export const SettingsScreen = ({ navigation }: RootStackScreenProps<'Settings'>)
         >
           <Text style={{ fontSize: 14, marginTop: 5, marginBottom: 40, color: colors.textSecondary }}>Pixy v{pkg.version}</Text>
         </View>
+
+        {__DEV__ && <UserDataImportList />}
       </ScrollView>
     </View>
   );
