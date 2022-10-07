@@ -18,7 +18,7 @@ export const getTagsPeaksData = (items: LogItem[], settingsTags: Tag[]): TagsPea
     .filter((key) => distribution[key] >= MIN_PEAKS)
     .map((key) => ({
       ...settingsTags.find((tag) => tag.id === key),
-      items: items.filter((item) => item.tags?.find((tag) => tag.id === key)),
+      items: items.filter((item) => item?.tags?.find((tag) => tag.id === key)),
     }))
     .filter((tag) => tag && tag.items.length > 0);
 

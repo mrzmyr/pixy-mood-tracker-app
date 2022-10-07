@@ -136,7 +136,7 @@ const light = {
   textInputText: colors.neutral[800],
   textInputPlaceholder: colors.neutral[400],
   textInputLabel: colors.neutral[700],
-  textInputBorder: colors.neutral[100],
+  textInputBorder: colors.neutral[200],
   textInputBorderHighlight: tintColorLight,
 
   tagErrorBackground: '#FECDD3',

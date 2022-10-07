@@ -1,6 +1,5 @@
 import { useNavigation } from '@react-navigation/native';
 import dayjs, { Dayjs } from 'dayjs';
-import _ from 'lodash';
 import { Text, TouchableOpacity, View } from 'react-native';
 import { Card } from '../../components/Statistics/Card';
 import useColors from '../../hooks/useColors';
@@ -135,13 +134,7 @@ export const MoodPeaksCard = ({
         <BodyWeek start={dayjs().subtract(1, 'week')} items={data.items} />
       </View>
       <CardFeedback type={`mood_peaks_${type}`} details={{
-        items: _.omit(data.items.map(item => {
-          return {
-            ...item,
-            tags: _.omit(item.tags, ['title']),
-          }
-        }), ['message']),
-        rating_count: data.items.length,
+        items_count: data.items.length,
       }} />
     </Card>
   )

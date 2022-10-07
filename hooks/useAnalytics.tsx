@@ -5,6 +5,7 @@ import { PostHogProvider, usePostHog } from 'posthog-react-native';
 import { createContext, useContext, useEffect, useState } from "react";
 import { POSTHOG_API_KEY } from '../constants/API';
 import pkg from '../package.json';
+import { useAnonymizer } from './useAnonymizer';
 import { useSettings } from './useSettings';
 
 const AnalyticsContext = createContext(undefined)
@@ -29,6 +30,8 @@ function AnalyticsProvider({
   const { settings } = useSettings()
   const posthog = usePostHog()
 
+  const { anonymizeTag } = useAnonymizer()
+  
   const [isIdentified, setIsIdentified] = useState(false)
 
   const identify = (properties?: any) => {
@@ -46,10 +49,7 @@ function AnalyticsProvider({
       settingsScaleType: settings.scaleType,
       settingsWebhookEnabled: settings.webhookEnabled,
       settingsActionsDone: settings.actionsDone,
-      settingsTags: settings.tags.map(tag => ({
-        ...(_.omit(tag, 'title')),
-        tagLength: tag.title.length,
-      })),
+      settingsTags: settings.tags.map(tag => anonymizeTag(tag)),
       ...properties,
     }
 

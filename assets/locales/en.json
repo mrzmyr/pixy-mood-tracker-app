@@ -137,7 +137,7 @@
   "statistics_mood_peaks_positive": "positively",
   "statistics_mood_peaks_negative": "negatively",
   "statistics_feedback_question": "Is this helpful?",
-  "statistics_feedback_success": "Thank you!",
+  "statistics_feedback_thanks": "Thank you!",
   "statistics_tag_peaks_title": "was tagged particularly often with {{count}} times.",
   "statistics_tags_distribution_title": "In the last 2 weeks, {{count}} days were tagged.",
   "calendar_filters": "Filters",
@@ -207,5 +207,6 @@
   "statistics_trends_description": "Your trends from the last two weeks",
   "statistics_trends_more": "Show All Trends",
   "statistics_2_week_highlights": "Last 2 weeks",
-  "statistics_no_highlights": "Currently no highlights are relevant, but you can always go to 'Show all highlights'."
+  "statistics_no_highlights": "Currently no highlights are relevant, but you can always go to 'Show all highlights'.",
+  "statistics_feedback_placeholder": "How could it be more helpful? (optional)"
 }

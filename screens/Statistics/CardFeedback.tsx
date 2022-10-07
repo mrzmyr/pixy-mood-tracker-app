@@ -1,11 +1,15 @@
 import { useState } from 'react';
-import { ActivityIndicator, Image, Pressable, Text, View } from 'react-native';
-import useColors from '../../hooks/useColors';
-import { useFeedback } from '../../hooks/useFeedback';
-import useHaptics from '../../hooks/useHaptics';
+import { ActivityIndicator, Image, Platform, Pressable, Text, View } from 'react-native';
+import Button from '../../components/Button';
+import TextArea from '../../components/TextArea';
+import { STATISTICS_FEEDBACK_URL } from '../../constants/API';
 import { useAnalytics } from '../../hooks/useAnalytics';
+import useColors from '../../hooks/useColors';
+import useHaptics from '../../hooks/useHaptics';
+import { useSettings } from '../../hooks/useSettings';
 import { STATISTIC_TYPES } from '../../hooks/useStatistics';
 import { useTranslation } from '../../hooks/useTranslation';
+import pkg from '../../package.json';
 
 const EMOJI_SCALE_IMAGES = [{
   emoji: '😍',
@@ -65,45 +69,80 @@ export const CardFeedback = ({
 }) => {
   const analytics = useAnalytics();
   const colors = useColors();
-  const { t } = useTranslation();
-  const { send } = useFeedback();
+  const { t, locale } = useTranslation();
+  const { settings } = useSettings()
 
   const [feedbackSent, setFeedbackSent] = useState(false);
   const [emojiSelected, setEmojiSelected] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  const handleFeedback = (emoji) => {
-    setLoading(true);
-    setEmojiSelected(emoji);
-    const message = `${type}:  ${emoji} \n ${JSON.stringify(details)}`;
+  const [comment, setComment] = useState('');
+  const [showTextInput, setShowTextInput] = useState(false);
 
-    send({
-      type: 'emoji',
-      source: 'statistics',
-      message: message,
+  const onSendDone = () => {
+    setLoading(false);
+    setShowTextInput(false)
+    setFeedbackSent(true)
+    setEmojiSelected(null)
+
+    setTimeout(() => {
+      setFeedbackSent(false)
+    }, 5000)
+  }
+  
+  const send = async (emoji) => {
+    setLoading(true);
+
+    const metaData = {
+      date: new Date().toISOString(),
+      locale: locale,
+      version: pkg.version,
+      os: Platform.OS,
+      deviceId: __DEV__ ? '__DEV__' : settings.deviceId,
+    }
+    
+    const body = {
+      type,
+      emoji,
+      comment,
+      details,
+      ...metaData,
+    }
+
+    console.log('Sending statistics feedback', body);
+    
+    return fetch(STATISTICS_FEEDBACK_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(body),
     })
-      .then(() => {
-        setFeedbackSent(true);
-      })
-      .catch(() => {
-        setEmojiSelected(null);
-        setFeedbackSent(false);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-    analytics.track('statistics_feedback_send', {
-      text: message,
-      emoji: emoji,
-    });
+    .finally(() => onSendDone())
+  }
+  
+  const handleFeedback = (emoji) => {
+    if(loading) return;
+    
+    setEmojiSelected(emoji);
+
+    if(emoji === emojiSelected) {
+      setEmojiSelected(null)
+      setShowTextInput(false)
+      return;
+    }
+
+    if(['👎', '😴'].includes(emoji)) {
+      setShowTextInput(true);
+    } else {
+      send(emoji);
+    }
   };
 
   return (
     <View
       style={{
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between',
+        flexDirection: 'column',
         marginTop: 16,
         paddingTop: 16,
         borderTopWidth: 1,
@@ -111,44 +150,80 @@ export const CardFeedback = ({
         width: '100%',
       }}
     >
-      {!loading && (
-        <Text
-          style={{
-            letterSpacing: -0.1,
-            fontSize: 14,
-            color: colors.statisticsFeedbackText,
-            paddingTop: 8,
-            paddingBottom: 8,
-          }}
-        >
-          {!feedbackSent ? t('statistics_feedback_question') : t('statistics_feedback_success')}
-        </Text>
-      )}
-      {loading && (
-        <View style={{
+      <View
+        style={{
           flexDirection: 'row',
-          justifyContent: 'center',
           alignItems: 'center',
-          marginBottom: 8,
-        }}>
-          <ActivityIndicator size={'small'} color={colors.loadingIndicator} />
-        </View>
-      )}
-      {!feedbackSent && (
+          justifyContent: 'space-between',
+        }}
+      >
+        {!loading && (
+          <>
+            <Text
+              style={{
+                letterSpacing: -0.1,
+                fontSize: 14,
+                color: colors.statisticsFeedbackText,
+                paddingTop: 8,
+                paddingBottom: 8,
+              }}
+            >
+              {!feedbackSent ? t('statistics_feedback_question') : `😘 ${t('statistics_feedback_thanks')}`}
+            </Text>
+          </>
+        )}
+        {loading && (
+          <View style={{
+            flexDirection: 'row',
+            justifyContent: 'center',
+            alignItems: 'center',
+            marginBottom: 8,
+          }}>
+            <ActivityIndicator size={'small'} color={colors.loadingIndicator} />
+          </View>
+        )}
+        {!feedbackSent && (
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+            }}
+          >
+            {EMOJI_SCALE_IMAGES.map((emojiScale, index) => (
+              <CardFeedbackEmoji
+                key={index}
+                selected={emojiSelected === emojiScale.emoji}
+                image={emojiSelected === emojiScale.emoji ? emojiScale.active : emojiScale.disabled}
+                onPress={() => handleFeedback(emojiScale.emoji)}
+              />
+            ))}
+          </View>
+        )}
+      </View>
+      {showTextInput && !loading && (
         <View
           style={{
-            flexDirection: 'row',
-            alignItems: 'center',
+            marginTop: 8,
           }}
         >
-          {EMOJI_SCALE_IMAGES.map((emojiScale, index) => (
-            <CardFeedbackEmoji
-              key={index}
-              selected={emojiSelected === emojiScale.emoji}
-              image={emojiSelected === emojiScale.emoji ? emojiScale.active : emojiScale.disabled}
-              onPress={() => handleFeedback(emojiScale.emoji)}
-            />
-          ))}
+          <TextArea
+            placeholder={t('statistics_feedback_placeholder')}
+            value={comment}
+            onChange={setComment}
+            style={{
+              paddingTop: 12,
+              padding: 12,
+              marginTop: 8,
+              borderRadius: 8,
+              height: 100,
+            }}
+          />
+          <Button
+            onPress={() => send(emojiSelected)}
+            style={{
+              marginTop: 8,
+            }}
+          >{t('send')}</Button>
         </View>
       )}
     </View>

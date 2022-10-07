@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import { Text, View } from 'react-native';
 import { Card } from '../../components/Statistics/Card';
+import { useAnonymizer } from '../../hooks/useAnonymizer';
 import useColors from '../../hooks/useColors';
 import { TagsDistributionData } from '../../hooks/useStatistics/TagsDistribution';
 import { useTranslation } from '../../hooks/useTranslation';
@@ -13,6 +14,7 @@ export const TagsDistributionCard = ({
 }) => {
   const colors = useColors()
   const { t } = useTranslation();
+  const { anonymizeTag } = useAnonymizer()
   
   return (
     <Card
@@ -78,10 +80,7 @@ export const TagsDistributionCard = ({
         type='tags_distribution' 
         details={{ 
           count: data.itemsCount, 
-          tags: data.tags.map(tag => ({
-            ...(_.omit(tag.details, 'title')),
-            tagLength: tag.details.title.length,
-          })),
+          tags: data.tags.map(tag => anonymizeTag(tag.details))
         }} />
     </Card>
   );

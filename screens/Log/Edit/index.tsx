@@ -21,6 +21,7 @@ import { SlideRating } from './SlideRating';
 import { SlideReminder } from './SlideReminder';
 import { SlideTags } from './SlideTags';
 import { Stepper } from './Stepper';
+import { useAnonymizer } from '../../../hooks/useAnonymizer';
 
 const SLIDE_INDEX_MAPPING = {
   rating: 0,
@@ -38,6 +39,7 @@ export const LogEdit = ({ navigation, route }: RootStackScreenProps<'LogEdit'>) 
   const { state, dispatch } = useLogs()
   const tempLog = useTemporaryLog();
   const { language } = useTranslation();
+  const { anonymizeTag } = useAnonymizer()
   
   const existingLogItem = state?.items[route.params.date];
 
@@ -94,10 +96,7 @@ export const LogEdit = ({ navigation, route }: RootStackScreenProps<'LogEdit'>) 
       date: tempLog.data.date,
       messageLength: tempLog.data.message.length,
       rating: tempLog.data.rating,
-      tags: tempLog?.data?.tags?.map(tag => ({
-        ...(_.omit(tag, 'title')),
-        tagLength: tag.title.length,
-      })),
+      tags: tempLog?.data?.tags?.map(tag => anonymizeTag(tag)) || [],
       tagsCount: tempLog?.data?.tags?.length,
     }
     
@@ -192,10 +191,7 @@ export const LogEdit = ({ navigation, route }: RootStackScreenProps<'LogEdit'>) 
 
   const setTags = (tags: LogItem['tags']) => {
     analytics.track('log_tags_changed', {
-      tags: tags?.map(tag => ({
-        ...(_.omit(tag, 'title')),
-        tagLength: tag.title.length,
-      })),
+      tags: tags?.map(tag => anonymizeTag(tag.id)) || [],
     })
     tempLog.set(logItem => ({ ...logItem, tags }))
   }
