@@ -23,7 +23,7 @@
   "import_error_message": "Datoteka koju ste odabrali ne sadrži ispravan format.",
   "export": "Izvoz",
   "export_failed_title": "Izvoz nije uspio",
-  "export_help": "Izvezite sve ocjene s porukama kao JSON datoteku",
+  "export_help": "Izvezite sve podatke kao JSON datoteku",
   "webhook_help": "Webhookovi se koriste za slanje podataka na krajnje točke HTTP-a.",
   "webhook_url": "URL",
   "webhook_url_placeholder": "https://example.com/",
@@ -39,7 +39,7 @@
   "webhook_entry_error_message": "Poruka o pogrešci",
   "log_modal_message_placeholder": "Neka poruka o danu...",
   "scales": "Boje",
-  "scales_info": "Boje se koriste za označavanje ocjene u kalendaru. Vaša prethodna ocjena će se prebaciti na odabranu boju.",
+  "scales_info": "Boje se koriste za označavanje raspoloženja u kalendaru. Vaše prethodno raspoloženje bit će prebačeno u odabranu boju.",
   "log_modal_message_example": "Danas sam pronašao način da se ponovno povežem sa sobom.",
   "previews_screen_1_title": [
     "Pratite svoje raspoloženje",
@@ -223,5 +223,6 @@
   "statistics_trends_description": "Vaši trendovi u posljednja dva tjedna",
   "statistics_trends_more": "Prikaži sve trendove",
   "statistics_2_week_highlights": "Zadnja 2 tjedna",
-  "statistics_no_highlights": "Trenutačno nijedno istaknuto nije relevantno, ali uvijek možete otići na 'Prikaži sve istaknuto'."
+  "statistics_no_highlights": "Trenutačno nijedno istaknuto nije relevantno, ali uvijek možete otići na 'Prikaži sve istaknuto'.",
+  "statistics_feedback_placeholder": "Kako može biti korisnije? (neobavezno)"
 }

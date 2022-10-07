@@ -23,7 +23,7 @@
   "import_error_message": "Le fichier que vous avez sélectionné ne contient pas le bon format.",
   "export": "Exportation",
   "export_failed_title": "Échec de l'exportation",
-  "export_help": "Exportez toutes les évaluations avec des messages sous forme de fichier JSON",
+  "export_help": "Exporter toutes les données sous forme de fichier JSON",
   "webhook_help": "Les webhooks sont utilisés pour envoyer des données aux points de terminaison HTTP.",
   "webhook_url": "URL",
   "webhook_url_placeholder": "https://exemple.com/",
@@ -39,7 +39,7 @@
   "webhook_entry_error_message": "Message d'erreur",
   "log_modal_message_placeholder": "Quelques messages sur la journée...",
   "scales": "Couleurs",
-  "scales_info": "Les couleurs sont utilisées pour indiquer la note dans le calendrier. Votre évaluation précédente sera remplacée par la couleur sélectionnée.",
+  "scales_info": "Les couleurs sont utilisées pour indiquer l'ambiance dans le calendrier. Votre humeur précédente sera remplacée par la couleur sélectionnée.",
   "log_modal_message_example": "Aujourd'hui, j'ai trouvé un moyen de me reconnecter à moi-même.",
   "previews_screen_1_title": [
     "Suivez votre humeur",
@@ -223,5 +223,6 @@
   "statistics_trends_description": "Vos tendances des deux dernières semaines",
   "statistics_trends_more": "Afficher toutes les tendances",
   "statistics_2_week_highlights": "2 dernières semaines",
-  "statistics_no_highlights": "Actuellement, aucun temps fort n'est pertinent, mais vous pouvez toujours accéder à \"Afficher tous les temps forts\"."
+  "statistics_no_highlights": "Actuellement, aucun temps fort n'est pertinent, mais vous pouvez toujours accéder à \"Afficher tous les temps forts\".",
+  "statistics_feedback_placeholder": "Comment pourrait-il être plus utile ? (optionnel)"
 }

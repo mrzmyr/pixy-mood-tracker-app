@@ -22,7 +22,7 @@
   "import_error_message": "您选择的文件不包含正确的格式。",
   "export": "导出",
   "export_failed_title": "导出失败",
-  "export_help": "以JSON文件形式导出所有带有信息的评分",
+  "export_help": "将所有数据导出为 JSON 文件",
   "webhook_help": "Webhooks用于发送数据到HTTP端点。",
   "webhook_url": "网址",
   "webhook_url_placeholder": "https://example.com/",
@@ -38,7 +38,7 @@
   "webhook_entry_error_message": "错误信息",
   "log_modal_message_placeholder": "关于当天的一些信息…",
   "scales": "颜色",
-  "scales_info": "颜色用于指示日历中的等级。您之前的评分将切换为所选颜色。",
+  "scales_info": "颜色用于指示日历中的情绪。您之前的心情将切换为所选颜色。",
   "add": "添加",
   "log_modal_message_example": "今天，我找到了与自己重新建立联系的方法。",
   "previews_screen_1_title": [
@@ -223,5 +223,6 @@
   "statistics_trends_description": "过去两周的趋势",
   "statistics_trends_more": "显示所有趋势",
   "statistics_2_week_highlights": "过去 2 周",
-  "statistics_no_highlights": "目前没有相关的亮点，但您始终可以转到“显示所有亮点”。"
+  "statistics_no_highlights": "目前没有相关的亮点，但您始终可以转到“显示所有亮点”。",
+  "statistics_feedback_placeholder": "怎么可能更有帮助？ （可选的）"
 }

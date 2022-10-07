@@ -22,7 +22,7 @@
   "import_error_message": "आपके द्वारा चुनी गई फ़ाइल में सही प्रारूप नहीं है।",
   "export": "निर्यात",
   "export_failed_title": "निर्यात विफल",
-  "export_help": "संदेशों के साथ सभी रेटिंग को JSON फ़ाइल के रूप में निर्यात करें",
+  "export_help": "सभी डेटा को JSON फ़ाइल के रूप में निर्यात करें",
   "webhook_help": "Webhooks का उपयोग HTTP समापन बिंदुओं पर डेटा भेजने के लिए किया जाता है।",
   "webhook_url": "यूआरएल",
   "webhook_url_placeholder": "https://example.com/",
@@ -38,7 +38,7 @@
   "webhook_entry_error_message": "त्रुटि संदेश",
   "log_modal_message_placeholder": "दिन के बारे में कुछ संदेश …",
   "scales": "रंग की",
-  "scales_info": "कैलेंडर में रेटिंग को दर्शाने के लिए रंगों का उपयोग किया जाता है। आपकी पिछली रेटिंग को चयनित रंग में बदल दिया जाएगा।",
+  "scales_info": "कैलेंडर में मूड को दर्शाने के लिए रंगों का उपयोग किया जाता है। आपका पिछला मूड चयनित रंग में बदल जाएगा।",
   "add": "जोड़ें",
   "log_modal_message_example": "आज मुझे अपने आप से जुड़ने का एक तरीका मिल गया है।",
   "previews_screen_1_title": [
@@ -223,5 +223,6 @@
   "statistics_trends_description": "पिछले दो हफ़्तों के आपके रुझान",
   "statistics_trends_more": "सभी रुझान दिखाएं",
   "statistics_2_week_highlights": "पिछले 2 सप्ताह",
-  "statistics_no_highlights": "वर्तमान में कोई हाइलाइट प्रासंगिक नहीं है, लेकिन आप हमेशा 'सभी हाइलाइट दिखाएं' पर जा सकते हैं।"
+  "statistics_no_highlights": "वर्तमान में कोई हाइलाइट प्रासंगिक नहीं है, लेकिन आप हमेशा 'सभी हाइलाइट दिखाएं' पर जा सकते हैं।",
+  "statistics_feedback_placeholder": "यह और अधिक सहायक कैसे हो सकता है? (वैकल्पिक)"
 }

@@ -22,7 +22,7 @@
   "import_error_message": "El archivo que ha seleccionado no contiene el formato correcto.",
   "export": "Exportar",
   "export_failed_title": "Exportación fallida",
-  "export_help": "Exportar todas las valoraciones con mensajes como archivo JSON",
+  "export_help": "Exportar todos los datos como un archivo JSON",
   "webhook_help": "Los webhooks se utilizan para enviar datos a los endpoints HTTP.",
   "webhook_url": "URL",
   "webhook_url_placeholder": "https://example.com/",
@@ -38,7 +38,7 @@
   "webhook_entry_error_message": "Mensaje de error",
   "log_modal_message_placeholder": "Algún mensaje sobre el día…",
   "scales": "Colores",
-  "scales_info": "Los colores se utilizan para indicar la calificación en el calendario. Su calificación anterior se cambiará al color seleccionado.",
+  "scales_info": "Los colores se utilizan para indicar el estado de ánimo en el calendario. Su estado de ánimo anterior cambiará al color seleccionado.",
   "add": "Agregar",
   "log_modal_message_example": "Hoy he encontrado una manera de reconectarme conmigo mismo.",
   "previews_screen_1_title": [
@@ -223,5 +223,6 @@
   "statistics_trends_description": "Tus tendencias de las últimas dos semanas",
   "statistics_trends_more": "Mostrar todas las tendencias",
   "statistics_2_week_highlights": "últimas 2 semanas",
-  "statistics_no_highlights": "Actualmente no hay destacados relevantes, pero siempre puede ir a 'Mostrar todos los destacados'."
+  "statistics_no_highlights": "Actualmente no hay destacados relevantes, pero siempre puede ir a 'Mostrar todos los destacados'.",
+  "statistics_feedback_placeholder": "¿Cómo podría ser más útil? (opcional)"
 }

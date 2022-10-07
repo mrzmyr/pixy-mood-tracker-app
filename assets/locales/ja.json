@@ -22,7 +22,7 @@
   "import_error_message": "選択したファイルに正しい形式が含まれていません。",
   "export": "輸出",
   "export_failed_title": "エクスポートに失敗しました",
-  "export_help": "メッセージを含むすべての評価をJSONファイルとしてエクスポートする",
+  "export_help": "すべてのデータを JSON ファイルとしてエクスポート",
   "webhook_help": "Webhookは、HTTPエンドポイントにデータを送信するために使用されます。",
   "webhook_url": "URL",
   "webhook_url_placeholder": "https://example.com/",
@@ -38,7 +38,7 @@
   "webhook_entry_error_message": "エラーメッセージ",
   "log_modal_message_placeholder": "その日のメッセージ…",
   "scales": "色",
-  "scales_info": "色は、カレンダーの評価を示すために使用されます。以前の評価が選択した色に切り替わります。",
+  "scales_info": "カレンダーの雰囲気を色で表現。以前の気分が選択した色に切り替わります。",
   "add": "追加",
   "log_modal_message_example": "今日、私は自分自身と再接続する方法を見つけました。",
   "previews_screen_1_title": [
@@ -223,5 +223,6 @@
   "statistics_trends_description": "過去 2 週間の傾向",
   "statistics_trends_more": "すべてのトレンドを表示",
   "statistics_2_week_highlights": "過去 2 週間",
-  "statistics_no_highlights": "現在、関連するハイライトはありませんが、いつでも [すべてのハイライトを表示] に移動できます。"
+  "statistics_no_highlights": "現在、関連するハイライトはありませんが、いつでも [すべてのハイライトを表示] に移動できます。",
+  "statistics_feedback_placeholder": "どうすればもっと役立つでしょうか？ (オプション)"
 }

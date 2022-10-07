@@ -23,7 +23,7 @@
   "import_error_message": "El fitxer que heu seleccionat no conté el format correcte.",
   "export": "Exporta",
   "export_failed_title": "Ha fallat l'exportació",
-  "export_help": "Exporteu totes les puntuacions amb missatges com a fitxer JSON",
+  "export_help": "Exporteu totes les dades com a fitxer JSON",
   "webhook_help": "Els webhooks s'utilitzen per enviar dades a punts finals HTTP.",
   "webhook_url": "URL",
   "webhook_url_placeholder": "https://example.com/",
@@ -39,7 +39,7 @@
   "webhook_entry_error_message": "Missatge d'error",
   "log_modal_message_placeholder": "Un missatge sobre el dia...",
   "scales": "Colors",
-  "scales_info": "Els colors s'utilitzen per indicar la qualificació al calendari. La vostra puntuació anterior canviarà al color seleccionat.",
+  "scales_info": "Els colors s'utilitzen per indicar l'estat d'ànim al calendari. El vostre estat d'ànim anterior es canviarà al color seleccionat.",
   "log_modal_message_example": "Avui he trobat una manera de reconnectar amb mi mateix.",
   "previews_screen_1_title": [
     "Feu un seguiment del vostre estat d'ànim",
@@ -223,5 +223,6 @@
   "statistics_trends_description": "Les teves tendències de les dues darreres setmanes",
   "statistics_trends_more": "Mostra totes les tendències",
   "statistics_2_week_highlights": "Últimes 2 setmanes",
-  "statistics_no_highlights": "Actualment, no hi ha cap mena destacada rellevant, però sempre podeu anar a \"Mostra tots els elements destacats\"."
+  "statistics_no_highlights": "Actualment, no hi ha cap mena destacada rellevant, però sempre podeu anar a \"Mostra tots els elements destacats\".",
+  "statistics_feedback_placeholder": "Com podria ser més útil? (opcional)"
 }

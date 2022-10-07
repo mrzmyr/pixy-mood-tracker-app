@@ -23,7 +23,7 @@
   "import_error_message": "Vybratý súbor neobsahuje správny formát.",
   "export": "Export",
   "export_failed_title": "Export zlyhal",
-  "export_help": "Exportujte všetky hodnotenia so správami ako súbor JSON",
+  "export_help": "Exportujte všetky údaje ako súbor JSON",
   "webhook_help": "Webhooky sa používajú na odosielanie údajov do koncových bodov HTTP.",
   "webhook_url": "URL",
   "webhook_url_placeholder": "https://example.com/",
@@ -39,7 +39,7 @@
   "webhook_entry_error_message": "Chybná správa",
   "log_modal_message_placeholder": "Pár správ o dni...",
   "scales": "Farby",
-  "scales_info": "Farby sa používajú na označenie hodnotenia v kalendári. Vaše predchádzajúce hodnotenie sa prepne na zvolenú farbu.",
+  "scales_info": "Farby sa používajú na označenie nálady v kalendári. Vaša predchádzajúca nálada sa prepne na zvolenú farbu.",
   "log_modal_message_example": "Dnes som našiel spôsob, ako sa znovu spojiť sám so sebou.",
   "previews_screen_1_title": [
     "Sledujte svoju náladu",
@@ -223,5 +223,6 @@
   "statistics_trends_description": "Vaše trendy za posledné dva týždne",
   "statistics_trends_more": "Zobraziť všetky trendy",
   "statistics_2_week_highlights": "Posledné 2 týždne",
-  "statistics_no_highlights": "Momentálne nie sú relevantné žiadne zvýraznenia, ale vždy môžete prejsť na „Zobraziť všetky zvýraznenia“."
+  "statistics_no_highlights": "Momentálne nie sú relevantné žiadne zvýraznenia, ale vždy môžete prejsť na „Zobraziť všetky zvýraznenia“.",
+  "statistics_feedback_placeholder": "Ako by to mohlo byť užitočnejšie? (voliteľné)"
 }

@@ -266,13 +266,6 @@ export const LogEdit = ({ navigation, route }: RootStackScreenProps<'LogEdit'>) 
     })
   }
   
-  const onScrollEnd = (index) => {
-    if(index !== 2) {
-      Keyboard.dismiss()
-    }
-    setSlideIndex(index)
-  }
-  
   return (
     <View style={{ 
       flex: 1,
@@ -291,7 +284,7 @@ export const LogEdit = ({ navigation, route }: RootStackScreenProps<'LogEdit'>) 
           index={slideIndex} 
           scrollTo={({ index }) => {
             _carousel.current.scrollTo({ index, animated: true })
-            onScrollEnd(index)
+            setSlideIndex(index)
           }}
         />
         <SlideHeader
@@ -340,11 +333,14 @@ export const LogEdit = ({ navigation, route }: RootStackScreenProps<'LogEdit'>) 
             width={Dimensions.get('window').width - 40}
             ref={_carousel}
             data={content}
-            defaultIndex={Math.min(slideIndex, content.length - 1)}
+            defaultIndex={Math.min(initialIndex, content.length - 1)}
+            onProgressChange={(relativeProgress, absoluteProgress) => {
+              setSlideIndex(Math.round(absoluteProgress))
+            }}
             onScrollBegin={() => {
               setTouched(true)
             }}
-            onScrollEnd={onScrollEnd}
+            // onScrollEnd={onScrollEnd}
             renderItem={({ index }) => content[index].slide}
             panGestureHandlerProps={{
               activeOffsetX: [-10, 10],
@@ -357,7 +353,12 @@ export const LogEdit = ({ navigation, route }: RootStackScreenProps<'LogEdit'>) 
           slideIndex === content.length - 1 ? (
             <SlideAction type="save" onPress={save} />
           ) : (
-            <SlideAction type="next" onPress={() => _carousel.current.next()} />
+            <SlideAction type="next" onPress={() => {
+              if(slideIndex + 1 === content.length - 1) {
+                Keyboard.dismiss()
+              }
+              _carousel.current.next()
+            }} />
           )
         )
       )}

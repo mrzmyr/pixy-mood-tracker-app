@@ -106,13 +106,14 @@ export const SlideReminder = ({
             textAlign: 'center',
             marginTop: 8,
             maxWidth: 300,
+            lineHeight: 24,
           }}
         >{t('log_reminder_descprition')}</Text>
         <View
           style={{
             width: Platform.OS === 'ios' ? 80 : 65,
             justifyContent: 'center',
-            paddingTop: 16,
+            paddingTop: 24,
           }}
         >
           <Clock 

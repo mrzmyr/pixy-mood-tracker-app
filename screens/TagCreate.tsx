@@ -103,9 +103,6 @@ export const TagCreate = ({ navigation, route }: RootStackScreenProps<'TagCreate
               flexWrap: 'wrap',
               alignItems: 'center',
               width: '100%',
-              padding: 16,
-              backgroundColor: colors.cardBackground,
-              borderRadius: 16,
             }}
           >
             {COLOR_NAMES.map(colorName => (
@@ -139,7 +136,7 @@ export const TagCreate = ({ navigation, route }: RootStackScreenProps<'TagCreate
           </View>
           <Button
             style={{
-              marginTop: 16,
+              marginTop: 32,
             }}
             onPress={onCreate}
             disabled={tempTag.title.length < MIN_TAG_LENGTH || tempTag.title.length > MAX_TAG_LENGTH}

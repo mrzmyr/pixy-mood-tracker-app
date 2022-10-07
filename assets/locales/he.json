@@ -23,7 +23,7 @@
   "import_error_message": "הקובץ שבחרת אינו מכיל את הפורמט הנכון.",
   "export": "יְצוּא",
   "export_failed_title": "הייצוא נכשל",
-  "export_help": "ייצא את כל הדירוגים עם הודעות כקובץ JSON",
+  "export_help": "ייצא את כל הנתונים כקובץ JSON",
   "webhook_help": "Webhooks משמשים לשליחת נתונים לנקודות קצה HTTP.",
   "webhook_url": "כתובת אתר",
   "webhook_url_placeholder": "https://example.com/",
@@ -39,7 +39,7 @@
   "webhook_entry_error_message": "הודעת שגיאה",
   "log_modal_message_placeholder": "קצת הודעה על היום...",
   "scales": "צבעים",
-  "scales_info": "צבעים משמשים לציון הדירוג בלוח השנה. הדירוג הקודם שלך יועבר לצבע שנבחר.",
+  "scales_info": "צבעים משמשים לציון מצב הרוח בלוח השנה. מצב הרוח הקודם שלך יועבר לצבע שנבחר.",
   "log_modal_message_example": "היום מצאתי דרך להתחבר לעצמי מחדש.",
   "previews_screen_1_title": [
     "עקוב אחר מצב הרוח שלך",
@@ -223,5 +223,6 @@
   "statistics_trends_description": "הטרנדים שלך מהשבועיים האחרונים",
   "statistics_trends_more": "הצג את כל המגמות",
   "statistics_2_week_highlights": "שבועיים אחרונים",
-  "statistics_no_highlights": "נכון לעכשיו אין דגשים רלוונטיים, אבל תמיד אפשר ללכת ל'הצג את כל ההדגשות'."
+  "statistics_no_highlights": "נכון לעכשיו אין דגשים רלוונטיים, אבל תמיד אפשר ללכת ל'הצג את כל ההדגשות'.",
+  "statistics_feedback_placeholder": "איך זה יכול להיות מועיל יותר? (אופציונאלי)"
 }

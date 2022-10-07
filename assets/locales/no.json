@@ -23,7 +23,7 @@
   "import_error_message": "Filen du valgte inneholder ikke riktig format.",
   "export": "Eksport",
   "export_failed_title": "Eksporten mislyktes",
-  "export_help": "Eksporter alle vurderinger med meldinger som en JSON-fil",
+  "export_help": "Eksporter alle data som en JSON-fil",
   "webhook_help": "Webhooks brukes til å sende data til HTTP-endepunkter.",
   "webhook_url": "URL",
   "webhook_url_placeholder": "https://example.com/",
@@ -39,7 +39,7 @@
   "webhook_entry_error_message": "Feilmelding",
   "log_modal_message_placeholder": "Litt melding om dagen...",
   "scales": "Farger",
-  "scales_info": "Farger brukes for å angi vurderingen i kalenderen. Din forrige vurdering vil bli byttet til den valgte fargen.",
+  "scales_info": "Farger brukes for å indikere stemningen i kalenderen. Din forrige stemning vil bli byttet til den valgte fargen.",
   "log_modal_message_example": "I dag har jeg funnet en måte å få kontakt med meg selv på igjen.",
   "previews_screen_1_title": [
     "Spor humøret ditt",
@@ -223,5 +223,6 @@
   "statistics_trends_description": "Dine trender fra de siste to ukene",
   "statistics_trends_more": "Vis alle trender",
   "statistics_2_week_highlights": "Siste 2 uker",
-  "statistics_no_highlights": "Foreløpig er ingen høydepunkter relevante, men du kan alltid gå til 'Vis alle høydepunkter'."
+  "statistics_no_highlights": "Foreløpig er ingen høydepunkter relevante, men du kan alltid gå til 'Vis alle høydepunkter'.",
+  "statistics_feedback_placeholder": "Hvordan kan det være mer nyttig? (valgfri)"
 }

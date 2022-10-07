@@ -5,10 +5,11 @@ import { Tag as ITag, useSettings } from './useSettings';
 import useWebhook from './useWebhook';
 
 const STORAGE_KEY = 'PIXEL_TRACKER_LOGS'
+export const RATING_KEYS = ['extremely_good', 'very_good', 'good', 'neutral', 'bad', 'very_bad', 'extremely_bad']
 
 export interface LogItem {
   date: string;
-  rating: 'extremely_good' | 'very_good' | 'good' | 'neutral' | 'bad' | 'very_bad' | 'extremely_bad';
+  rating: typeof RATING_KEYS[number];
   message: string;
   tags: ITag[];
 }

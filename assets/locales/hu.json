@@ -23,7 +23,7 @@
   "import_error_message": "A kiválasztott fájl nem a megfelelő formátumot tartalmazza.",
   "export": "Export",
   "export_failed_title": "Nem sikerült exportálni",
-  "export_help": "Az összes üzenetet tartalmazó értékelés exportálása JSON-fájlként",
+  "export_help": "Exportálja az összes adatot JSON-fájlként",
   "webhook_help": "A webhookot arra használják, hogy adatokat küldjenek a HTTP-végpontokhoz.",
   "webhook_url": "URL",
   "webhook_url_placeholder": "https://example.com/",
@@ -39,7 +39,7 @@
   "webhook_entry_error_message": "Hiba üzenet",
   "log_modal_message_placeholder": "Néhány üzenet a napról…",
   "scales": "Színek",
-  "scales_info": "A naptárban a színek jelzik az értékelést. Az előző értékelés a kiválasztott színre vált.",
+  "scales_info": "A színek a hangulat jelzésére szolgálnak a naptárban. Az előző hangulat a kiválasztott színre vált.",
   "log_modal_message_example": "Ma megtaláltam a módját, hogy újra kapcsolatba lépjek önmagammal.",
   "previews_screen_1_title": [
     "Kövesse nyomon a hangulatát",
@@ -223,5 +223,6 @@
   "statistics_trends_description": "Az elmúlt két hét trendjei",
   "statistics_trends_more": "Összes trend megjelenítése",
   "statistics_2_week_highlights": "Az elmúlt 2 hét",
-  "statistics_no_highlights": "Jelenleg egyetlen kiemelés sem releváns, de bármikor léphet az „Összes kiemelés megjelenítése” lehetőségre."
+  "statistics_no_highlights": "Jelenleg egyetlen kiemelés sem releváns, de bármikor léphet az „Összes kiemelés megjelenítése” lehetőségre.",
+  "statistics_feedback_placeholder": "Hogyan lehetne hasznosabb? (választható)"
 }

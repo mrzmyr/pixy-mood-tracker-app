@@ -23,7 +23,7 @@
   "import_error_message": "Fail yang anda pilih tidak mengandungi format yang betul.",
   "export": "Eksport",
   "export_failed_title": "Eksport gagal",
-  "export_help": "Eksport semua penilaian dengan mesej sebagai fail JSON",
+  "export_help": "Eksport semua data sebagai fail JSON",
   "webhook_help": "Webhooks digunakan untuk menghantar data ke titik akhir HTTP.",
   "webhook_url": "URL",
   "webhook_url_placeholder": "https://example.com/",
@@ -39,7 +39,7 @@
   "webhook_entry_error_message": "Mesej Ralat",
   "log_modal_message_placeholder": "Beberapa mesej tentang hari…",
   "scales": "Warna",
-  "scales_info": "Warna digunakan untuk menunjukkan penilaian dalam kalendar. Penilaian anda sebelum ini akan ditukar kepada warna yang dipilih.",
+  "scales_info": "Warna digunakan untuk menunjukkan mood dalam kalendar. Mood anda sebelum ini akan ditukar kepada warna yang dipilih.",
   "log_modal_message_example": "Hari ini saya telah menemui cara untuk berhubung semula dengan diri saya sendiri.",
   "previews_screen_1_title": [
     "Jejaki mood anda",
@@ -223,5 +223,6 @@
   "statistics_trends_description": "Aliran anda dari dua minggu lepas",
   "statistics_trends_more": "Tunjukkan Semua Trend",
   "statistics_2_week_highlights": "2 minggu lepas",
-  "statistics_no_highlights": "Pada masa ini tiada sorotan berkaitan, tetapi anda sentiasa boleh pergi ke 'Tunjukkan semua sorotan'."
+  "statistics_no_highlights": "Pada masa ini tiada sorotan berkaitan, tetapi anda sentiasa boleh pergi ke 'Tunjukkan semua sorotan'.",
+  "statistics_feedback_placeholder": "Bagaimanakah ia boleh lebih membantu? (pilihan)"
 }

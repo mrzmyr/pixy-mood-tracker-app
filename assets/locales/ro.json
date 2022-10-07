@@ -23,7 +23,7 @@
   "import_error_message": "Fișierul pe care l-ați selectat nu conține formatul corect.",
   "export": "Export",
   "export_failed_title": "Exportul nu a reușit",
-  "export_help": "Exportați toate evaluările cu mesaje ca fișier JSON",
+  "export_help": "Exportați toate datele ca fișier JSON",
   "webhook_help": "Webhook-urile sunt folosite pentru a trimite date către punctele finale HTTP.",
   "webhook_url": "URL",
   "webhook_url_placeholder": "https://example.com/",
@@ -39,7 +39,7 @@
   "webhook_entry_error_message": "Mesaj de eroare",
   "log_modal_message_placeholder": "Câteva mesaje despre ziua...",
   "scales": "Culori",
-  "scales_info": "Culorile sunt folosite pentru a indica evaluarea din calendar. Evaluarea anterioară va fi schimbată la culoarea selectată.",
+  "scales_info": "Culorile sunt folosite pentru a indica starea de spirit din calendar. Starea ta anterioară va fi schimbată la culoarea selectată.",
   "log_modal_message_example": "Astăzi am găsit o modalitate de a reconecta cu mine însumi.",
   "previews_screen_1_title": [
     "Urmăriți-vă starea de spirit",
@@ -223,5 +223,6 @@
   "statistics_trends_description": "Tendințele tale din ultimele două săptămâni",
   "statistics_trends_more": "Afișați toate tendințele",
   "statistics_2_week_highlights": "Ultimele 2 saptamani",
-  "statistics_no_highlights": "Momentan, nicio evidențiere nu este relevantă, dar poți oricând să mergi la „Afișează toate evidențierile”."
+  "statistics_no_highlights": "Momentan, nicio evidențiere nu este relevantă, dar poți oricând să mergi la „Afișează toate evidențierile”.",
+  "statistics_feedback_placeholder": "Cum ar putea fi mai util? (optional)"
 }

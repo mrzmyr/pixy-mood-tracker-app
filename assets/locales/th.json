@@ -23,7 +23,7 @@
   "import_error_message": "ไฟล์ที่คุณเลือกไม่มีรูปแบบที่ถูกต้อง",
   "export": "ส่งออก",
   "export_failed_title": "ส่งออกไม่สำเร็จ",
-  "export_help": "ส่งออกการให้คะแนนทั้งหมดด้วยข้อความเป็นไฟล์ JSON",
+  "export_help": "ส่งออกข้อมูลทั้งหมดเป็นไฟล์ JSON",
   "webhook_help": "Webhooks ใช้เพื่อส่งข้อมูลไปยังปลายทาง HTTP",
   "webhook_url": "URL",
   "webhook_url_placeholder": "https://example.com/",
@@ -39,7 +39,7 @@
   "webhook_entry_error_message": "ข้อความผิดพลาด",
   "log_modal_message_placeholder": "บางข้อความเกี่ยวกับวันนี้...",
   "scales": "สี",
-  "scales_info": "ใช้สีเพื่อแสดงการให้คะแนนในปฏิทิน คะแนนก่อนหน้าของคุณจะถูกเปลี่ยนเป็นสีที่เลือก",
+  "scales_info": "ใช้สีเพื่อแสดงอารมณ์ในปฏิทิน อารมณ์ก่อนหน้าของคุณจะถูกเปลี่ยนเป็นสีที่เลือก",
   "log_modal_message_example": "วันนี้ฉันได้พบวิธีที่จะเชื่อมต่อกับตัวเองอีกครั้ง",
   "previews_screen_1_title": [
     "ติดตามอารมณ์ของคุณ",
@@ -223,5 +223,6 @@
   "statistics_trends_description": "เทรนด์ของคุณในช่วงสองสัปดาห์ที่ผ่านมา",
   "statistics_trends_more": "แสดงเทรนด์ทั้งหมด",
   "statistics_2_week_highlights": "2 สัปดาห์ที่ผ่านมา",
-  "statistics_no_highlights": "ขณะนี้ไม่มีไฮไลท์ที่เกี่ยวข้อง แต่คุณสามารถไปที่ 'แสดงไฮไลท์ทั้งหมด' ได้ตลอดเวลา"
+  "statistics_no_highlights": "ขณะนี้ไม่มีไฮไลท์ที่เกี่ยวข้อง แต่คุณสามารถไปที่ 'แสดงไฮไลท์ทั้งหมด' ได้ตลอดเวลา",
+  "statistics_feedback_placeholder": "มันจะมีประโยชน์มากขึ้นได้อย่างไร? (ไม่จำเป็น)"
 }

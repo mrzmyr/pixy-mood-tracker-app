@@ -23,7 +23,7 @@
   "import_error_message": "Filen du valde innehåller inte rätt format.",
   "export": "Exportera",
   "export_failed_title": "Exporten misslyckades",
-  "export_help": "Exportera alla betyg med meddelanden som en JSON-fil",
+  "export_help": "Exportera all data som en JSON-fil",
   "webhook_help": "Webhooks används för att skicka data till HTTP-slutpunkter.",
   "webhook_url": "URL",
   "webhook_url_placeholder": "https://example.com/",
@@ -39,7 +39,7 @@
   "webhook_entry_error_message": "Felmeddelande",
   "log_modal_message_placeholder": "Lite meddelande om dagen...",
   "scales": "Färger",
-  "scales_info": "Färger används för att ange betyget i kalendern. Ditt tidigare betyg kommer att ändras till den valda färgen.",
+  "scales_info": "Färger används för att indikera stämningen i kalendern. Ditt tidigare humör kommer att ändras till den valda färgen.",
   "log_modal_message_example": "Idag har jag hittat ett sätt att återknyta kontakten med mig själv.",
   "previews_screen_1_title": [
     "Spåra ditt humör",
@@ -223,5 +223,6 @@
   "statistics_trends_description": "Dina trender från de senaste två veckorna",
   "statistics_trends_more": "Visa alla trender",
   "statistics_2_week_highlights": "Senaste 2 veckorna",
-  "statistics_no_highlights": "För närvarande är inga höjdpunkter relevanta, men du kan alltid gå till \"Visa alla höjdpunkter\"."
+  "statistics_no_highlights": "För närvarande är inga höjdpunkter relevanta, men du kan alltid gå till \"Visa alla höjdpunkter\".",
+  "statistics_feedback_placeholder": "Hur kan det vara mer användbart? (frivillig)"
 }

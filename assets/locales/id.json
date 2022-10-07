@@ -23,7 +23,7 @@
   "import_error_message": "File yang Anda pilih tidak berisi format yang benar.",
   "export": "Ekspor",
   "export_failed_title": "Ekspor gagal",
-  "export_help": "Ekspor semua peringkat dengan pesan sebagai file JSON",
+  "export_help": "Ekspor semua data sebagai file JSON",
   "webhook_help": "Webhook digunakan untuk mengirim data ke titik akhir HTTP.",
   "webhook_url": "URL",
   "webhook_url_placeholder": "https://contoh.com/",
@@ -39,7 +39,7 @@
   "webhook_entry_error_message": "Pesan eror",
   "log_modal_message_placeholder": "Beberapa pesan tentang hari…",
   "scales": "warna",
-  "scales_info": "Warna digunakan untuk menunjukkan peringkat di kalender. Peringkat Anda sebelumnya akan dialihkan ke warna yang dipilih.",
+  "scales_info": "Warna digunakan untuk menunjukkan suasana hati dalam kalender. Suasana hati Anda sebelumnya akan dialihkan ke warna yang dipilih.",
   "log_modal_message_example": "Hari ini saya telah menemukan cara untuk berhubungan kembali dengan diri saya sendiri.",
   "previews_screen_1_title": [
     "Lacak suasana hati Anda",
@@ -223,5 +223,6 @@
   "statistics_trends_description": "Tren Anda dari dua minggu terakhir",
   "statistics_trends_more": "Tampilkan Semua Tren",
   "statistics_2_week_highlights": "2 minggu terakhir",
-  "statistics_no_highlights": "Saat ini tidak ada sorotan yang relevan, tetapi Anda selalu dapat membuka 'Tampilkan semua sorotan'."
+  "statistics_no_highlights": "Saat ini tidak ada sorotan yang relevan, tetapi Anda selalu dapat membuka 'Tampilkan semua sorotan'.",
+  "statistics_feedback_placeholder": "Bagaimana itu bisa lebih membantu? (opsional)"
 }

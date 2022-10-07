@@ -23,7 +23,7 @@
   "import_error_message": "Wybrany plik nie ma prawidłowego formatu.",
   "export": "Eksport",
   "export_failed_title": "Eksport nie powiódł się",
-  "export_help": "Eksportuj wszystkie oceny z wiadomościami jako plik JSON",
+  "export_help": "Eksportuj wszystkie dane jako plik JSON",
   "webhook_help": "Webhooki służą do wysyłania danych do punktów końcowych HTTPTP.",
   "webhook_url": "URL",
   "webhook_url_placeholder": "https://example.com/",
@@ -39,7 +39,7 @@
   "webhook_entry_error_message": "Komunikat o błędzie",
   "log_modal_message_placeholder": "Jakaś wiadomość o dniu…",
   "scales": "Zabarwienie",
-  "scales_info": "Kolory służą do wskazania oceny w kalendarzu. Twoja poprzednia ocena zostanie zmieniona na wybrany kolor.",
+  "scales_info": "Kolory służą do wskazywania nastroju w kalendarzu. Twój poprzedni nastrój zostanie przełączony na wybrany kolor.",
   "log_modal_message_example": "Dziś znalazłem sposób na ponowne połączenie się ze sobą.",
   "previews_screen_1_title": [
     "Śledź swój nastrój",
@@ -223,5 +223,6 @@
   "statistics_trends_description": "Twoje trendy z ostatnich dwóch tygodni",
   "statistics_trends_more": "Pokaż wszystkie trendy",
   "statistics_2_week_highlights": "Ostatnie 2 tygodnie",
-  "statistics_no_highlights": "Obecnie żadne najciekawsze momenty nie są istotne, ale zawsze możesz przejść do opcji „Pokaż wszystkie najciekawsze momenty”."
+  "statistics_no_highlights": "Obecnie żadne najciekawsze momenty nie są istotne, ale zawsze możesz przejść do opcji „Pokaż wszystkie najciekawsze momenty”.",
+  "statistics_feedback_placeholder": "Jak mogłoby to być bardziej pomocne? (opcjonalny)"
 }

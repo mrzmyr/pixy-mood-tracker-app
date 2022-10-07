@@ -2,7 +2,7 @@ import * as Linking from 'expo-linking';
 import * as StoreReview from 'expo-store-review';
 import * as WebBrowser from 'expo-web-browser';
 import { ScrollView, Text, View } from 'react-native';
-import { ArrowUpCircle, Award, Bell, BookOpen, Database, Flag, PieChart, Shield, Smartphone, Star } from 'react-native-feather';
+import { ArrowUpCircle, Award, Bell, BookOpen, Database, Droplet, Flag, PieChart, Shield, Smartphone, Star } from 'react-native-feather';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import MenuList from '../../components/MenuList';
 import MenuListHeadline from '../../components/MenuListHeadline';
@@ -85,14 +85,15 @@ export const SettingsScreen = ({ navigation }: RootStackScreenProps<'Settings'>)
             onPress={() => navigation.navigate('Reminder')}
             testID='reminder'
             isLink
-          />
-          <MenuListItem
-            title={i18n.t('privacy')}
-            onPress={() => navigation.navigate('Privacy')}
-            iconLeft={<Shield width={18} color={colors.menuListItemIcon} />}
-            isLink
             isLast
           />
+          {/* <MenuListItem
+            title={i18n.t('scales')}
+            iconLeft={<Droplet width={18} color={colors.menuListItemIcon} />}
+            onPress={() => navigation.navigate('Scales')}
+            isLink
+            isLast
+          /> */}
           {/* <MenuListItem
             title={i18n.t('passcode')}
             deactivated={!passcodeSupported}
@@ -122,13 +123,7 @@ export const SettingsScreen = ({ navigation }: RootStackScreenProps<'Settings'>)
             testID='passcode'
             isLast
           /> */}
-          {/* <MenuListItem
-            title={i18n.t('scales')}
-            iconLeft={<Droplet width={18} color={colors.menuListItemIcon} />}
-            onPress={() => navigation.navigate('Scales')}
-            isLink
-            isLast
-          /> */}
+
         </MenuList>
         <MenuList
           style={{
@@ -172,6 +167,12 @@ export const SettingsScreen = ({ navigation }: RootStackScreenProps<'Settings'>)
             title={i18n.t('rate_this_app')}
             onPress={() => askToRateApp()}
             iconLeft={<Star width={18} color={colors.menuListItemIcon} />}
+          />
+          <MenuListItem
+            title={i18n.t('privacy')}
+            onPress={() => navigation.navigate('Privacy')}
+            iconLeft={<Shield width={18} color={colors.menuListItemIcon} />}
+            isLink
             isLast
           />
         </MenuList>

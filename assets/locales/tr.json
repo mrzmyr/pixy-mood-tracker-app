@@ -23,7 +23,7 @@
   "import_error_message": "Seçtiğiniz dosya doğru formatı içermiyor.",
   "export": "İhracat",
   "export_failed_title": "Dışa aktarılamadı",
-  "export_help": "Mesajlarla birlikte tüm derecelendirmeleri bir JSON dosyası olarak dışa aktarın",
+  "export_help": "Tüm verileri bir JSON dosyası olarak dışa aktarın",
   "webhook_help": "Web kancaları, HTTP uç noktalarına veri göndermek için kullanılır.",
   "webhook_url": "URL",
   "webhook_url_placeholder": "https://example.com/",
@@ -39,7 +39,7 @@
   "webhook_entry_error_message": "Hata mesajı",
   "log_modal_message_placeholder": "Güne dair bir mesaj…",
   "scales": "Renkler",
-  "scales_info": "Renkler, takvimdeki derecelendirmeyi belirtmek için kullanılır. Önceki derecelendirmeniz seçilen renge değiştirilecektir.",
+  "scales_info": "Renkler, takvimdeki ruh halini belirtmek için kullanılır. Önceki ruh haliniz seçilen renge geçecektir.",
   "log_modal_message_example": "Bugün kendimle yeniden bağlantı kurmanın bir yolunu buldum.",
   "previews_screen_1_title": [
     "Ruh halinizi takip edin",
@@ -223,5 +223,6 @@
   "statistics_trends_description": "Son iki haftadaki trendleriniz",
   "statistics_trends_more": "Tüm Trendleri Göster",
   "statistics_2_week_highlights": "Son 2 hafta",
-  "statistics_no_highlights": "Şu anda hiçbir önemli nokta alakalı değil, ancak her zaman 'Tüm öne çıkanları göster' seçeneğine gidebilirsiniz."
+  "statistics_no_highlights": "Şu anda hiçbir önemli nokta alakalı değil, ancak her zaman 'Tüm öne çıkanları göster' seçeneğine gidebilirsiniz.",
+  "statistics_feedback_placeholder": "Nasıl daha yararlı olabilir? (isteğe bağlı)"
 }

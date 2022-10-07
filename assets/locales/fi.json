@@ -23,7 +23,7 @@
   "import_error_message": "Valitsemasi tiedosto ei sisällä oikeaa muotoa.",
   "export": "Viedä",
   "export_failed_title": "Vienti epäonnistui",
-  "export_help": "Vie kaikki arviot, joissa on viestejä, JSON-tiedostona",
+  "export_help": "Vie kaikki tiedot JSON-tiedostona",
   "webhook_help": "Webhookeja käytetään tietojen lähettämiseen HTTP-päätepisteisiin.",
   "webhook_url": "URL-osoite",
   "webhook_url_placeholder": "https://example.com/",
@@ -39,7 +39,7 @@
   "webhook_entry_error_message": "Virheviesti",
   "log_modal_message_placeholder": "Vähän viestiä päivästä...",
   "scales": "värit",
-  "scales_info": "Kalenterin arvosanan ilmaisemiseen käytetään värejä. Edellinen arviosi vaihdetaan valittuun väriin.",
+  "scales_info": "Kalenterin tunnelmaa käytetään väreillä. Edellinen mielialasi vaihtuu valittuun väriin.",
   "log_modal_message_example": "Tänään olen löytänyt tavan saada yhteys itseeni uudelleen.",
   "previews_screen_1_title": [
     "Seuraa mielialaasi",
@@ -223,5 +223,6 @@
   "statistics_trends_description": "Trendisi kahden viime viikon ajalta",
   "statistics_trends_more": "Näytä kaikki trendit",
   "statistics_2_week_highlights": "Viimeiset 2 viikkoa",
-  "statistics_no_highlights": "Tällä hetkellä mitkään kohokohdat eivät ole tärkeitä, mutta voit aina siirtyä Näytä kaikki kohokohdat -kohtaan."
+  "statistics_no_highlights": "Tällä hetkellä mitkään kohokohdat eivät ole tärkeitä, mutta voit aina siirtyä Näytä kaikki kohokohdat -kohtaan.",
+  "statistics_feedback_placeholder": "Miten se voisi olla hyödyllisempää? (valinnainen)"
 }

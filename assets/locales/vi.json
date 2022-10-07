@@ -23,7 +23,7 @@
   "import_error_message": "Tệp bạn đã chọn không có định dạng chính xác.",
   "export": "Xuất khẩu",
   "export_failed_title": "Xuất không thành công",
-  "export_help": "Xuất tất cả xếp hạng với tin nhắn dưới dạng tệp JSON",
+  "export_help": "Xuất tất cả dữ liệu dưới dạng tệp JSON",
   "webhook_help": "Webhook được sử dụng để gửi dữ liệu đến các điểm cuối HTTP.",
   "webhook_url": "URL",
   "webhook_url_placeholder": "https://example.com/",
@@ -39,7 +39,7 @@
   "webhook_entry_error_message": "Thông báo lỗi",
   "log_modal_message_placeholder": "Một số thông điệp về ngày…",
   "scales": "Màu sắc",
-  "scales_info": "Màu sắc được sử dụng để biểu thị xếp hạng trong lịch. Đánh giá trước đó của bạn sẽ được chuyển sang màu đã chọn.",
+  "scales_info": "Màu sắc được sử dụng để biểu thị tâm trạng trong lịch. Tâm trạng trước đó của bạn sẽ được chuyển sang màu đã chọn.",
   "log_modal_message_example": "Hôm nay tôi đã tìm ra cách để kết nối lại với chính mình.",
   "previews_screen_1_title": [
     "Theo dõi tâm trạng của bạn",
@@ -223,5 +223,6 @@
   "statistics_trends_description": "Xu hướng của bạn trong hai tuần qua",
   "statistics_trends_more": "Hiển thị tất cả các xu hướng",
   "statistics_2_week_highlights": "2 tuần trước",
-  "statistics_no_highlights": "Hiện tại không có điểm nổi bật nào có liên quan, nhưng bạn luôn có thể đi tới 'Hiển thị tất cả điểm nổi bật'."
+  "statistics_no_highlights": "Hiện tại không có điểm nổi bật nào có liên quan, nhưng bạn luôn có thể đi tới 'Hiển thị tất cả điểm nổi bật'.",
+  "statistics_feedback_placeholder": "Làm thế nào nó có thể hữu ích hơn? (không bắt buộc)"
 }

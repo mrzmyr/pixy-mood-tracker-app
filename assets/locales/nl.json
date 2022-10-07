@@ -23,7 +23,7 @@
   "import_error_message": "Het door u geselecteerde bestand heeft niet het juiste formaat.",
   "export": "Exporteren",
   "export_failed_title": "Export mislukt",
-  "export_help": "Exporteer alle beoordelingen met berichten als JSON-bestand",
+  "export_help": "Exporteer alle gegevens als een JSON-bestand",
   "webhook_help": "Webhooks worden gebruikt om gegevens naar HTTP-eindpunten te verzenden.",
   "webhook_url": "URL",
   "webhook_url_placeholder": "https://voorbeeld.com/",
@@ -39,7 +39,7 @@
   "webhook_entry_error_message": "Foutmelding",
   "log_modal_message_placeholder": "Een bericht over de dag...",
   "scales": "kleuren",
-  "scales_info": "Er worden kleuren gebruikt om de beoordeling in de kalender aan te geven. Uw vorige beoordeling wordt omgezet naar de geselecteerde kleur.",
+  "scales_info": "Kleuren worden gebruikt om de stemming in de kalender aan te geven. Je vorige stemming wordt overgeschakeld naar de geselecteerde kleur.",
   "log_modal_message_example": "Vandaag heb ik een manier gevonden om weer in contact te komen met mezelf.",
   "previews_screen_1_title": [
     "Volg je humeur",
@@ -223,5 +223,6 @@
   "statistics_trends_description": "Jouw trends van de afgelopen twee weken",
   "statistics_trends_more": "Toon alle trends",
   "statistics_2_week_highlights": "Afgelopen 2 weken",
-  "statistics_no_highlights": "Momenteel zijn er geen highlights relevant, maar je kunt altijd naar 'Toon alle highlights' gaan."
+  "statistics_no_highlights": "Momenteel zijn er geen highlights relevant, maar je kunt altijd naar 'Toon alle highlights' gaan.",
+  "statistics_feedback_placeholder": "Hoe kan het nuttiger zijn? (optioneel)"
 }

@@ -2,8 +2,10 @@ import { useEffect, useState } from 'react';
 import { ScrollView, TouchableOpacity, View } from 'react-native';
 import { Circle } from 'react-native-feather';
 import TextInfo from '../components/TextInfo';
+import { useAnalytics } from '../hooks/useAnalytics';
 import useColors from '../hooks/useColors';
 import useHaptics from '../hooks/useHaptics';
+import { RATING_KEYS } from '../hooks/useLogs';
 import { useSettings } from '../hooks/useSettings';
 import { useTranslation } from '../hooks/useTranslation';
 
@@ -47,7 +49,7 @@ function Scale({
         justifyContent: 'space-between',
       }}
     >
-      {Object.keys(scaleColors).reverse().map((key, index) => (
+      {RATING_KEYS.map((key, index) => (
         <ColorDot 
           key={key} 
           color={scaleColors[key].background}
@@ -117,6 +119,7 @@ export const ScaleScreen = ({ navigation }) => {
   const i18n = useTranslation()
   const colors = useColors()
   const haptics = useHaptics()
+  const analytics = useAnalytics()
   
   const [scaleType, setScaleType] = useState(settings.scaleType)
   
@@ -129,6 +132,7 @@ export const ScaleScreen = ({ navigation }) => {
 
   useEffect(() => {
     setSettings(settings => ({  ...settings, scaleType }))
+    analytics.track('colors_scale_changed', { scaleType })
   }, [scaleType])
 
   return (

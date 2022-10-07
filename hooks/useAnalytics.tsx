@@ -18,7 +18,7 @@ interface AnaylticsState {
 }
 
 export const TRACKING_ENABLED = !__DEV__;
-const DEBUG = false
+const DEBUG = true
 
 function AnalyticsProvider({
   children

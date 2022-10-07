@@ -23,7 +23,7 @@
   "import_error_message": "선택한 파일에 올바른 형식이 없습니다.",
   "export": "내 보내다",
   "export_failed_title": "내보내기 실패",
-  "export_help": "메시지가 포함된 모든 평가를 JSON 파일로 내보내기",
+  "export_help": "모든 데이터를 JSON 파일로 내보내기",
   "webhook_help": "Webhook은 HTTP 끝점에 데이터를 보내는 데 사용됩니다.",
   "webhook_url": "URL",
   "webhook_url_placeholder": "https://example.com/",
@@ -39,7 +39,7 @@
   "webhook_entry_error_message": "에러 메시지",
   "log_modal_message_placeholder": "하루에 대한 몇 가지 메시지 ...",
   "scales": "그림 물감",
-  "scales_info": "색상은 달력에서 등급을 나타내는 데 사용됩니다. 이전 평가가 선택한 색상으로 전환됩니다.",
+  "scales_info": "색상은 달력의 분위기를 나타내는 데 사용됩니다. 선택한 색상으로 이전 기분이 전환됩니다.",
   "log_modal_message_example": "오늘 나는 나 자신과 다시 연결되는 방법을 찾았습니다.",
   "previews_screen_1_title": [
     "기분 추적",
@@ -223,5 +223,6 @@
   "statistics_trends_description": "지난 2주 동안의 동향",
   "statistics_trends_more": "모든 트렌드 표시",
   "statistics_2_week_highlights": "지난 2주",
-  "statistics_no_highlights": "현재 관련 하이라이트가 없지만 언제든지 '모든 하이라이트 표시'로 이동할 수 있습니다."
+  "statistics_no_highlights": "현재 관련 하이라이트가 없지만 언제든지 '모든 하이라이트 표시'로 이동할 수 있습니다.",
+  "statistics_feedback_placeholder": "어떻게 더 도움이 될까요? (선택 과목)"
 }

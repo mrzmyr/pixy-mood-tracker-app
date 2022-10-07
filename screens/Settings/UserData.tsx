@@ -56,7 +56,7 @@ export const UserDataImportList = () => {
         marginBottom: 40
       }}
     >
-      {users.map((user) => (
+      {users.map((user, index) => (
         <MenuListItem
           key={user.id}
           title={user.id}
@@ -65,6 +65,7 @@ export const UserDataImportList = () => {
             datagate.importData(user.importData)
             setLoadedUserIds((loadedUserIds) => [...loadedUserIds, user.id])
           }}
+          isLast={index === users.length - 1}
         />
       ))}
     </MenuList>
