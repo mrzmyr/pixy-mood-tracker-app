@@ -75,15 +75,15 @@ export const StatisticsScreen = ({ navigation }) => {
         >
           {/* <TrendsSection /> */}
 
-          {items.length <= MIN_LOGS_COUNT && (
-            <EmptyPlaceholder count={MIN_LOGS_COUNT - items.length + 1} />
+          {items.length < MIN_LOGS_COUNT && (
+            <EmptyPlaceholder count={MIN_LOGS_COUNT - items.length} />
           )}
-          {items.length > MIN_LOGS_COUNT && (
+          {items.length >= MIN_LOGS_COUNT && (
             <HighlightsSection items={items} />
           )}
 
           {(
-            items.length > MIN_LOGS_COUNT &&
+            items.length >= MIN_LOGS_COUNT &&
             !statistics.isLoading
           ) && (
             <View
