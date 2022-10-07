@@ -13,7 +13,7 @@ export const useAnonymizer = () => {
   const anonymizeTag = (tag: Tag): AnonmizedTag => {
     return {
       ..._.omit(tag, 'title'),
-      titleLength: tag.title.length,
+      titleLength: tag?.title?.length,
     }
   }
   const anonymizeItem = (item: LogItem): AnonmizedLogItem => {
