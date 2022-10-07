@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Check, CheckCircle, Repeat, UploadCloud } from "react-native-feather";
+import { CheckCircle, Repeat, UploadCloud } from "react-native-feather";
 import MenuList from "../../components/MenuList";
 import MenuListHeadline from "../../components/MenuListHeadline";
 import MenuListItem from "../../components/MenuListItem";
@@ -43,9 +43,7 @@ export const UserDataImportList = () => {
       <MenuListItem
         title={'Reload'}
         iconLeft={<Repeat width={18} color={colors.menuListItemIcon} />}
-        onPress={() => {
-          
-        }}
+        onPress={() => loadUsers()}
       />
     </MenuList>
     <MenuList

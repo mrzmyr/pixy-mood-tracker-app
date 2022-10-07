@@ -3,9 +3,8 @@ import * as Sentry from 'sentry-expo';
 import useCachedResources from './hooks/useCachedResources';
 import Navigation from './navigation';
 
-import Localization from './lib/Localization';
-import Providers from './components/Providers';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import Localization from './lib/Localization';
 
 export default function App() {
   const isLoadingComplete = useCachedResources();
@@ -24,10 +23,8 @@ export default function App() {
   } else {
     return (
       <GestureHandlerRootView style={{ flex: 1 }}>
-        <Providers>
-          <Navigation />
-          <StatusBar />
-        </Providers>
+        <Navigation />
+        <StatusBar />
       </GestureHandlerRootView>
     );
   }

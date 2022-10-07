@@ -23,6 +23,8 @@ export const STATISTIC_TYPES = [
 type StatisticType = typeof STATISTIC_TYPES[number];
 
 interface StatisticsState {
+  loaded: boolean;
+  itemsCount: number;
   moodAvgData: MoodAvgData;
   moodPeaksPositiveData: MoodPeaksPositiveData;
   moodPeaksNegativeData: MoodPeaksNegativeData;
@@ -48,6 +50,8 @@ export function StatisticsProvider({
   const [isLoading, setIsLoading] = useState(false);
   const [prevItems, setPrevItems] = useState<LogItem[]>([]);
   const [state, setState] = useState<StatisticsState>({
+    loaded: false,
+    itemsCount: 0,
     moodAvgData: defaultMoodAvgData,
     moodPeaksPositiveData: defaultMoodPeaksPositiveData,
     moodPeaksNegativeData: defaultMoodPeaksNegativeData,
@@ -85,6 +89,8 @@ export function StatisticsProvider({
     const moodTrendData = getMoodTrendData(Object.values(logs.state.items));
 
     const newState = {
+      loaded: true,
+      itemsCount: itemsLastTwoWeeks.length,
       moodAvgData,
       moodPeaksPositiveData,
       moodPeaksNegativeData,

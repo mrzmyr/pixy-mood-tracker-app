@@ -1,14 +1,13 @@
 import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
 import { Platform, Switch, Text, View } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Clock from '../components/Clock';
 import MenuList from '../components/MenuList';
 import MenuListItem from '../components/MenuListItem';
 import NotificationPreview from '../components/NotificationPreview';
+import { useAnalytics } from '../hooks/useAnalytics';
 import useColors from '../hooks/useColors';
 import useNotification from '../hooks/useNotifications';
-import { useSegment } from '../hooks/useSegment';
 import { SettingsState, useSettings } from '../hooks/useSettings';
 import { useTranslation } from '../hooks/useTranslation';
 
@@ -25,8 +24,7 @@ const Reminder = () => {
   const [reminderTime, setReminderTime] = useState(settings.reminderTime);
   const colors = useColors()
   const i18n = useTranslation()
-  const segment = useSegment()
-  const insets = useSafeAreaInsets()
+  const analytics = useAnalytics()
   
   const hourAndMinute = reminderTime.split(':')
   const hour = parseInt(hourAndMinute[0])
@@ -41,7 +39,7 @@ const Reminder = () => {
     if(!value) {
       await cancelAll()
     }
-    segment.track('reminder_enabled_change', { enabled: value })
+    analytics.track('reminder_enabled_change', { enabled: value })
     setReminderEnabled(value && has)
   }
   
@@ -67,7 +65,7 @@ const Reminder = () => {
   }, [reminderEnabled, reminderTime])
   
   const onTimeChange = async (event: any, selectedDate: any) => {
-    segment.track('reminder_time_change', { time: dayjs(selectedDate).format('HH:mm') })
+    analytics.track('reminder_time_change', { time: dayjs(selectedDate).format('HH:mm') })
     setReminderTime(dayjs(selectedDate).format('HH:mm'))
   }
   

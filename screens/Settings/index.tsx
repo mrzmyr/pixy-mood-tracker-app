@@ -2,7 +2,7 @@ import * as Linking from 'expo-linking';
 import * as StoreReview from 'expo-store-review';
 import * as WebBrowser from 'expo-web-browser';
 import { ScrollView, Text, View } from 'react-native';
-import { ArrowUpCircle, Award, Bell, BookOpen, Database, Flag, PieChart, Shield, Smartphone, Star, Tag, UploadCloud } from 'react-native-feather';
+import { ArrowUpCircle, Award, Bell, BookOpen, Database, Flag, PieChart, Shield, Smartphone, Star } from 'react-native-feather';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import MenuList from '../../components/MenuList';
 import MenuListHeadline from '../../components/MenuListHeadline';
@@ -10,7 +10,7 @@ import MenuListItem from '../../components/MenuListItem';
 import TextInfo from '../../components/TextInfo';
 import useColors from '../../hooks/useColors';
 import useFeedbackModal from '../../hooks/useFeedbackModal';
-import { useSegment } from '../../hooks/useSegment';
+import { useAnalytics } from '../../hooks/useAnalytics';
 import { useTranslation } from '../../hooks/useTranslation';
 import pkg from '../../package.json';
 import { RootStackScreenProps } from '../../types';
@@ -21,12 +21,12 @@ export const SettingsScreen = ({ navigation }: RootStackScreenProps<'Settings'>)
   const { t } = useTranslation()
   const colors = useColors()
   const i18n = useTranslation()
-  const segment = useSegment()
+  const analytics = useAnalytics()
 
   const { show: showFeedbackModal, Modal: FeedbackModal } = useFeedbackModal();
 
   const askToRateApp = async () => {
-    segment.track('rate_app')
+    analytics.track('rate_app')
 
     const storeUrl = StoreReview.storeUrl();
     if(storeUrl !== null) Linking.openURL(storeUrl)
@@ -38,7 +38,7 @@ export const SettingsScreen = ({ navigation }: RootStackScreenProps<'Settings'>)
   // const [supportedSecurityLevel, setSupportedSecurityLevel] = useState<LocalAuthentication.SecurityLevel>(0);
 
   // useEffect(() => {
-  //   segment.track('passcode_enable', { enabled: passcodeEnabled })
+  //   analytics.track('passcode_enable', { enabled: passcodeEnabled })
   //   setSettings((settings) => ({ ...settings, passcodeEnabled }))
   // }, [passcodeEnabled])
 
@@ -106,7 +106,7 @@ export const SettingsScreen = ({ navigation }: RootStackScreenProps<'Settings'>)
                 ios_backgroundColor={colors.backgroundSecondary}
                 disabled={!passcodeSupported}
                 onValueChange={() => {
-                  segment.track('passcode_toggle', { enabled: !passcodeEnabled })
+                  analytics.track('passcode_toggle', { enabled: !passcodeEnabled })
                   if(passcodeEnabled) {
                     setPasscodeEnabled(false)
                   } else {
@@ -153,7 +153,7 @@ export const SettingsScreen = ({ navigation }: RootStackScreenProps<'Settings'>)
           <MenuListItem
             title={i18n.t('vote_features')}
             onPress={async () => {
-              segment.track('settings_vote_features')
+              analytics.track('settings_vote_features')
               await WebBrowser.openBrowserAsync('https://pixy.hellonext.co/embed/b/feedback?no_header=true');
             }}
             iconLeft={<ArrowUpCircle width={18} color={colors.menuListItemIcon} />}
@@ -162,7 +162,7 @@ export const SettingsScreen = ({ navigation }: RootStackScreenProps<'Settings'>)
           <MenuListItem
             title={i18n.t('changelog')}
             onPress={async () => {
-              segment.track('settings_changelog')
+              analytics.track('settings_changelog')
               await WebBrowser.openBrowserAsync('https://pixy.hellonext.co/embed/c?no_header=true');
             }}
             iconLeft={<BookOpen width={18} color={colors.menuListItemIcon} />}

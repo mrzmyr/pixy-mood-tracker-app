@@ -8,7 +8,7 @@ import MenuListItem from '../components/MenuListItem';
 import Indicator from '../components/Indicator';
 import TextInfo from '../components/TextInfo';
 import useColors from '../hooks/useColors';
-import { useSegment } from '../hooks/useSegment';
+import { useAnalytics } from '../hooks/useAnalytics';
 import { SettingsState, useSettings } from '../hooks/useSettings';
 import { useTranslation } from '../hooks/useTranslation';
 import { RootStackScreenProps } from '../types';
@@ -17,7 +17,7 @@ export const WebhookScreen = ({ navigation }: RootStackScreenProps<'Webhook'>) =
   const { settings, setSettings } = useSettings()
   const colors = useColors()
   const i18n = useTranslation()
-  const segment = useSegment()
+  const analytics = useAnalytics()
 
   const [enabled, setEnabled] = useState(settings.webhookEnabled)
   const [url, setUrl] = useState(settings.webhookUrl)
@@ -48,7 +48,7 @@ export const WebhookScreen = ({ navigation }: RootStackScreenProps<'Webhook'>) =
             <Switch
               ios_backgroundColor={colors.backgroundSecondary}
               onValueChange={() => {
-                segment.track('webhook_toggle', { enabled: !enabled })
+                analytics.track('webhook_toggle', { enabled: !enabled })
                 setEnabled(!enabled)
                 debouncedSetEnabled(!enabled)
               }}
@@ -95,7 +95,7 @@ export const WebhookScreen = ({ navigation }: RootStackScreenProps<'Webhook'>) =
               placeholderTextColor={colors.textInputPlaceholder}
               value={url}
               onChange={event => {
-                segment.track('webhook_url_change')
+                analytics.track('webhook_url_change')
                 setUrl(event.nativeEvent.text)
                 debouncedSetUrl(event.nativeEvent.text)
               }}

@@ -1,12 +1,12 @@
-import { useEffect, useState } from 'react';
-import { ScrollView, Switch, Text, View } from 'react-native';
-import { Box, Download, Shield, Trash2, Upload } from 'react-native-feather';
+import { useState } from 'react';
+import { ScrollView, Switch, View } from 'react-native';
+import { Box, Download, Trash2, Upload } from 'react-native-feather';
 import MenuList from '../components/MenuList';
 import MenuListItem from '../components/MenuListItem';
 import TextInfo from '../components/TextInfo';
+import { useAnalytics } from "../hooks/useAnalytics";
 import useColors from '../hooks/useColors';
 import { useDatagate } from '../hooks/useDatagate';
-import { useSegment } from "../hooks/useSegment";
 import { useSettings } from '../hooks/useSettings';
 import { useTranslation } from '../hooks/useTranslation';
 import { RootStackScreenProps } from '../types';
@@ -15,18 +15,11 @@ export const DataScreen = ({ navigation }: RootStackScreenProps<'Data'>) => {
   const { setSettings } = useSettings()
   const colors = useColors()
   const i18n = useTranslation()
-  const segment = useSegment()
+  const analytics = useAnalytics()
   const datagate = useDatagate()
 
-  const [isTrackingEnabled, setIsTrackingEnabled] = useState(false)
-
-  useEffect(() => {
-    const loadTracking = async () => {
-      setIsTrackingEnabled(await segment.isEnabled())
-    }
-    loadTracking()
-  }, [])
-
+  const [isTrackingEnabled, setIsTrackingEnabled] = useState(analytics.isEnabled())
+  
   return (
     <View style={{ 
       flex: 1,
@@ -77,13 +70,17 @@ export const DataScreen = ({ navigation }: RootStackScreenProps<'Data'>) => {
             <Switch
               ios_backgroundColor={colors.backgroundSecondary}
               onValueChange={() => {
-                segment.track('data_behavioral_toggle', { enabled: !isTrackingEnabled })
+                analytics.track('data_behavioral_toggle', { enabled: !isTrackingEnabled })
                 setIsTrackingEnabled(!isTrackingEnabled)
                 setSettings((settings) => ({
                   ...settings,
-                  trackBehaviour: !isTrackingEnabled
+                  analyticsEnabled: !isTrackingEnabled
                 }))
-                segment.disable()
+                if(!isTrackingEnabled) {
+                  analytics.enable()
+                } else {
+                  analytics.disable()
+                }
               }}
               value={isTrackingEnabled}
               testID={`behavioral-data-enabled`}
@@ -96,7 +93,15 @@ export const DataScreen = ({ navigation }: RootStackScreenProps<'Data'>) => {
         <MenuListItem
           testID='reset-data'
           title={i18n.t('reset_data_button')}
-          onPress={() => datagate.openResetDialog()}
+          onPress={() => {
+            datagate
+              .openResetDialog()
+              .then(() => {
+                analytics.reset()
+                setIsTrackingEnabled(analytics.isEnabled())
+              })
+              .catch((e) => console.log(e))
+          }}
           iconLeft={<Trash2 width={18} color='red' />}
           style={{
             color: 'red'

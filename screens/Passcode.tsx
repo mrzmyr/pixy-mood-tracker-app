@@ -1,23 +1,23 @@
 import { PasscodeView } from '../components/PasscodeView';
 import { usePasscode } from '../hooks/usePasscode';
-import { useSegment } from '../hooks/useSegment';
+import { useAnalytics } from '../hooks/useAnalytics';
 import { useSettings } from '../hooks/useSettings';
 
 export const PasscodeScreen = () => {
   const passcode = usePasscode()
   const { settings } = useSettings()
-  const segment = useSegment()
+  const analytics = useAnalytics()
 
   return (
     <PasscodeView
       mode='confirm'
       onSubmit={(code) => {
         if(settings.passcode !== code) {
-          segment.track('passcode_failed');
+          analytics.track('passcode_failed');
           return false;
         }
 
-        segment.track('passcode_confirmed');
+        analytics.track('passcode_confirmed');
         
         passcode.setIsAuthenticated(true)
         return true;

@@ -8,7 +8,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { QUESTIONS_PULL_URL } from '../../../constants/API';
 import useColors from '../../../hooks/useColors';
 import { LogItem, useLogs } from '../../../hooks/useLogs';
-import { useSegment } from '../../../hooks/useSegment';
+import { useAnalytics } from '../../../hooks/useAnalytics';
 import { useSettings } from '../../../hooks/useSettings';
 import { useTemporaryLog } from '../../../hooks/useTemporaryLog';
 import { useTranslation } from '../../../hooks/useTranslation';
@@ -32,7 +32,7 @@ export const LogEdit = ({ navigation, route }: RootStackScreenProps<'LogEdit'>) 
   
   const { settings, hasActionDone } = useSettings()
   const colors = useColors()
-  const segment = useSegment()
+  const analytics = useAnalytics()
   const insets = useSafeAreaInsets();
 
   const { state, dispatch } = useLogs()
@@ -51,6 +51,8 @@ export const LogEdit = ({ navigation, route }: RootStackScreenProps<'LogEdit'>) 
   const [question, setQuestion] = useState<IQuestion | null>(null);
   
   useEffect(() => {
+    let isMounted = true;
+    
     tempLog.set(existingLogItem || defaultLogItem)
 
     fetch(QUESTIONS_PULL_URL)
@@ -62,11 +64,15 @@ export const LogEdit = ({ navigation, route }: RootStackScreenProps<'LogEdit'>) 
             question.text[language]
           )
         })
-        if(question) {
+        if(question && isMounted) {
           setQuestion(question)
         }
       })
       .catch(error => console.log(error))
+
+      return () => {
+        isMounted = false;
+      }
   }, [])
 
   useEffect(() => {
@@ -99,12 +105,12 @@ export const LogEdit = ({ navigation, route }: RootStackScreenProps<'LogEdit'>) 
       tempLog.data.rating = 'neutral'
     }
     
-    segment.track('log_saved', eventData)
+    analytics.track('log_saved', eventData)
 
     if(existingLogItem) {
-      segment.track('log_changed', eventData)
+      analytics.track('log_changed', eventData)
     } else {
-      segment.track('log_created', eventData)
+      analytics.track('log_created', eventData)
     }
 
     dispatch({
@@ -160,7 +166,7 @@ export const LogEdit = ({ navigation, route }: RootStackScreenProps<'LogEdit'>) 
   }
   
   const remove = () => {
-    segment.track('log_deleted')
+    analytics.track('log_deleted')
     dispatch({
       type: 'delete', 
       payload: tempLog.data
@@ -169,12 +175,12 @@ export const LogEdit = ({ navigation, route }: RootStackScreenProps<'LogEdit'>) 
   }
 
   const cancel = () => {
-    segment.track('log_cancled')
+    analytics.track('log_cancled')
     close()
   }
 
   const setRating = (rating: LogItem['rating']) => {
-    segment.track('log_rating_changed', {
+    analytics.track('log_rating_changed', {
       label: rating
     })
     tempLog.set((logItem) => ({ ...logItem, rating }))
@@ -185,7 +191,7 @@ export const LogEdit = ({ navigation, route }: RootStackScreenProps<'LogEdit'>) 
   }
 
   const setTags = (tags: LogItem['tags']) => {
-    segment.track('log_tags_changed', {
+    analytics.track('log_tags_changed', {
       tags: tags?.map(tag => ({
         ...(_.omit(tag, 'title')),
         tagLength: tag.title.length,

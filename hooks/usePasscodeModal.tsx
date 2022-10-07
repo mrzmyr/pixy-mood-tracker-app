@@ -2,7 +2,7 @@ import { useCallback, useState } from 'react';
 import { Modal, Platform, SafeAreaView } from 'react-native';
 import { PasscodeView } from '../components/PasscodeView';
 import useColors from './useColors';
-import { useSegment } from './useSegment';
+import { useAnalytics } from './useAnalytics';
 
 export default function usePasscodeModal({
   mode,
@@ -15,15 +15,15 @@ export default function usePasscodeModal({
 }) {
   const colors = useColors()
   const [isVisibile, setIsVisibile] = useState(visible)
-  const segment = useSegment()
+  const analytics = useAnalytics()
 
   const show = () => {
-    segment.track('passcode_modal_show')
+    analytics.track('passcode_modal_show')
     setIsVisibile(true)
   }
 
   const hide = () => {
-    segment.track('passcode_modal_hide')
+    analytics.track('passcode_modal_hide')
     setIsVisibile(false)
   }
   

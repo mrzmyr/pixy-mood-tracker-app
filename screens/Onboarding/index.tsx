@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import useColors from '../../hooks/useColors';
-import { useSegment } from "../../hooks/useSegment";
+import { useAnalytics } from "../../hooks/useAnalytics";
 import { useSettings } from '../../hooks/useSettings';
 import { RootStackScreenProps } from '../../types';
 import { ExplainerSlide } from './ExplainerSlide';
@@ -17,32 +17,32 @@ const FiltersSlide = ({ ...props }) => <ExplainerSlide {...props} />;
 export const Onboarding = ({ navigation }: RootStackScreenProps<'Onboarding'>) => {
   const { addActionDone } = useSettings()
   const colors = useColors()
-  const segment = useSegment()
+  const analytics = useAnalytics()
   const insets = useSafeAreaInsets()
 
   const [index, _setIndex] = useState(0)
 
   const setIndex = (index: number) => {
     _setIndex(index)
-    segment.track('onboarding_slide', { index })
+    analytics.track('onboarding_slide', { index })
   }
 
   const finish = () => {
     addActionDone('onboarding')
-    segment.track('onboarding_finished')
+    analytics.track('onboarding_finished')
     navigation.navigate('BottomTabs')
   }
 
   const skip = () => {
     addActionDone('onboarding')
     navigation.navigate('BottomTabs')
-    segment.track('onboarding_skipped', { index })
+    analytics.track('onboarding_skipped', { index })
   }
   
   const slides = [
     <IndexSlide 
       onPress={(answer) => {
-        segment.track('onboarding_question_1', { 
+        analytics.track('onboarding_question_1', { 
           answer: answer === 0 ? 
             'used_mood_tracker_before' : 
             'never_used_mood_tracker' 

@@ -8,7 +8,7 @@ import Clock from '../../../components/Clock';
 import LinkButton from '../../../components/LinkButton';
 import useColors from '../../../hooks/useColors';
 import useNotification from '../../../hooks/useNotifications';
-import { useSegment } from '../../../hooks/useSegment';
+import { useAnalytics } from '../../../hooks/useAnalytics';
 import { SettingsState, useSettings } from '../../../hooks/useSettings';
 import { useTranslation } from '../../../hooks/useTranslation';
 import { SlideHeadline } from './SlideHeadline';
@@ -23,7 +23,7 @@ export const SlideReminder = ({
   const { t } = useTranslation()
   const { setSettings } = useSettings()
   const insets = useSafeAreaInsets();
-  const segment = useSegment()
+  const analytics = useAnalytics()
   const colors = useColors()
 
   const { 
@@ -60,12 +60,12 @@ export const SlideReminder = ({
   }
   
   const onLater = () => {
-    segment.track('log_reminder_later')
+    analytics.track('log_reminder_later')
     onPress()
   }
 
   const onEnable = async () => {
-    segment.track('log_reminder_enable')
+    analytics.track('log_reminder_enable')
     await enable()
     onPress()
   }

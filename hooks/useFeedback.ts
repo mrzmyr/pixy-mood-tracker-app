@@ -2,7 +2,7 @@ import * as Localization from 'expo-localization';
 import { Alert, Platform } from 'react-native';
 import { FEEDBACK_URL } from '../constants/API';
 import pkg from '../package.json';
-import { useSegment } from './useSegment';
+import { useAnalytics } from './useAnalytics';
 import { useSettings } from './useSettings';
 import { useTranslation } from './useTranslation';
 
@@ -11,7 +11,7 @@ export type FeedbackSource = 'tags' | 'modal' | 'statistics';
 
 export const useFeedback = () => {
   const { settings } = useSettings();
-  const segment = useSegment()
+  const analytics = useAnalytics()
 
   const send = async ({
     type,
@@ -46,7 +46,7 @@ export const useFeedback = () => {
       email,
     }
     
-    segment.track('feedback_send', body)
+    analytics.track('feedback_send', body)
   
     return fetch(FEEDBACK_URL, {
       method: 'POST',

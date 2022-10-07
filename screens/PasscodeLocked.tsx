@@ -4,24 +4,24 @@ import { Lock } from 'react-native-feather';
 import LinkButton from '../components/LinkButton';
 import useColors from '../hooks/useColors';
 import { usePasscode } from '../hooks/usePasscode';
-import { useSegment } from '../hooks/useSegment';
+import { useAnalytics } from '../hooks/useAnalytics';
 import { useTranslation } from '../hooks/useTranslation';
 
 export const PasscodeLocked = () => {
   const colors = useColors()
   const i18n = useTranslation()
-  const segment = useSegment()
+  const analytics = useAnalytics()
   const passcode = usePasscode()
   
   const retry = async () => {
-    segment.track('passcode_try')
+    analytics.track('passcode_try')
     LocalAuthentication.authenticateAsync().then((result) => {
       passcode.setIsAuthenticated(result.success)
     })
   };
 
   const forgot = () => {
-    segment.track('passcode_forgot')
+    analytics.track('passcode_forgot')
     
     Alert.alert(
       i18n.t('passcode_forgot'), 

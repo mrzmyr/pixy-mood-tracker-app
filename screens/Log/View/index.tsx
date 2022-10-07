@@ -6,7 +6,7 @@ import Tag from '../../../components/Tag';
 import useColors from '../../../hooks/useColors';
 import useHaptics from '../../../hooks/useHaptics';
 import { useLogs } from '../../../hooks/useLogs';
-import { useSegment } from '../../../hooks/useSegment';
+import { useAnalytics } from '../../../hooks/useAnalytics';
 import { RootStackParamList, RootStackScreenProps } from '../../../types';
 import { Header } from './Header';
 import { Headline } from './Headline';
@@ -14,7 +14,7 @@ import { RatingDot } from './RatingDot';
 
 export const LogView = ({ navigation, route }: RootStackScreenProps<'LogView'>) => {
   const colors = useColors()
-  const segment = useSegment()
+  const analytics = useAnalytics()
   const insets = useSafeAreaInsets();
   const haptics = useHaptics();
 
@@ -23,17 +23,17 @@ export const LogView = ({ navigation, route }: RootStackScreenProps<'LogView'>) 
   const item = state?.items[route.params.date];
 
   const close = () => {
-    segment.track('log_close')
+    analytics.track('log_close')
     navigation.popToTop()
   }
 
   const edit = (slide: RootStackParamList['LogEdit']['slide']) => {
-    segment.track('log_edit')
+    analytics.track('log_edit')
     navigation.navigate('LogEdit', { date: route.params.date, slide });
   }
   
   const remove = () => {
-    segment.track('log_deleted')
+    analytics.track('log_deleted')
     dispatch({
       type: 'delete', 
       payload: item

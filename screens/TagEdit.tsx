@@ -11,7 +11,7 @@ import { MAX_TAG_LENGTH, MIN_TAG_LENGTH } from '../constants/Config';
 import useColors from '../hooks/useColors';
 import useHaptics from '../hooks/useHaptics';
 import { useLogs } from '../hooks/useLogs';
-import { useSegment } from '../hooks/useSegment';
+import { useAnalytics } from '../hooks/useAnalytics';
 import { COLOR_NAMES, Tag as ITag } from '../hooks/useSettings';
 import { useTranslation } from '../hooks/useTranslation';
 import { RootStackScreenProps } from '../types';
@@ -24,7 +24,7 @@ export const TagEdit = ({ navigation, route }: RootStackScreenProps<'TagEdit'>) 
   const haptics = useHaptics()
   const insets = useSafeAreaInsets();
   const logs = useLogs()
-  const segment = useSegment()
+  const analytics = useAnalytics()
   
   const tagExists = route.params.tag !== undefined;
   const defaultTag = tagExists ? route.params.tag : {
@@ -38,7 +38,7 @@ export const TagEdit = ({ navigation, route }: RootStackScreenProps<'TagEdit'>) 
   const askToDelete = async (tag: ITag) => {
     await haptics.selection()
     
-    segment.track('delete_tag_ask', {
+    analytics.track('delete_tag_ask', {
       titleLength: tag.title,
       color: tag.color,
       containsEmoji: REGEX_EMOJI.test(tag.title),
@@ -51,7 +51,7 @@ export const TagEdit = ({ navigation, route }: RootStackScreenProps<'TagEdit'>) 
         {
           text: t('delete'),
           onPress: () => {
-            segment.track('tag_delete_success', {
+            analytics.track('tag_delete_success', {
               titleLength: tag.title,
               color: tag.color,
               containsEmoji: REGEX_EMOJI.test(tag.title),      
@@ -63,7 +63,7 @@ export const TagEdit = ({ navigation, route }: RootStackScreenProps<'TagEdit'>) 
         { 
           text: t('cancel'), 
           onPress: () =>  {
-            segment.track('tag_delete_cancelled')
+            analytics.track('tag_delete_cancelled')
           },
           style: "cancel"
         }

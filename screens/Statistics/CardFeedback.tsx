@@ -3,7 +3,7 @@ import { ActivityIndicator, Image, Pressable, Text, View } from 'react-native';
 import useColors from '../../hooks/useColors';
 import { useFeedback } from '../../hooks/useFeedback';
 import useHaptics from '../../hooks/useHaptics';
-import { useSegment } from '../../hooks/useSegment';
+import { useAnalytics } from '../../hooks/useAnalytics';
 import { STATISTIC_TYPES } from '../../hooks/useStatistics';
 import { useTranslation } from '../../hooks/useTranslation';
 
@@ -63,7 +63,7 @@ export const CardFeedback = ({
   type: typeof STATISTIC_TYPES[number],
   details: any;
 }) => {
-  const segment = useSegment();
+  const analytics = useAnalytics();
   const colors = useColors();
   const { t } = useTranslation();
   const { send } = useFeedback();
@@ -92,7 +92,7 @@ export const CardFeedback = ({
       .finally(() => {
         setLoading(false);
       });
-    segment.track('statistics_feedback_send', {
+    analytics.track('statistics_feedback_send', {
       text: message,
       emoji: emoji,
     });

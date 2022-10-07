@@ -11,7 +11,7 @@ import { MAX_TAG_LENGTH, MIN_TAG_LENGTH } from '../constants/Config';
 import useColors from '../hooks/useColors';
 import useHaptics from '../hooks/useHaptics';
 import { useLogs } from '../hooks/useLogs';
-import { useSegment } from '../hooks/useSegment';
+import { useAnalytics } from '../hooks/useAnalytics';
 import { COLOR_NAMES, Tag as ITag } from '../hooks/useSettings';
 import { useTranslation } from '../hooks/useTranslation';
 import { RootStackScreenProps } from '../types';
@@ -23,7 +23,7 @@ export const TagCreate = ({ navigation, route }: RootStackScreenProps<'TagCreate
   const colors = useColors()
   const haptics = useHaptics()
   const insets = useSafeAreaInsets();
-  const segment = useSegment()
+  const analytics = useAnalytics()
   const logs = useLogs()
   
   const [tempTag, setTempTag] = useState<ITag>({
@@ -33,7 +33,7 @@ export const TagCreate = ({ navigation, route }: RootStackScreenProps<'TagCreate
   });
   
   const onCreate = () => {
-    segment.track('tag_create', {
+    analytics.track('tag_create', {
       titleLength: tempTag.title.length,
       color: tempTag.color,
       containsEmoji: REGEX_EMOJI.test(tempTag.title)

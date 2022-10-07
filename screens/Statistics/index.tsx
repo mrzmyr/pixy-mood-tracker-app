@@ -3,7 +3,6 @@ import { RefreshControl, ScrollView, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import useColors from '../../hooks/useColors';
 import { useLogs } from '../../hooks/useLogs';
-import { useSegment } from '../../hooks/useSegment';
 import { useStatistics } from '../../hooks/useStatistics';
 import { EmptyPlaceholder } from './EmptyPlaceholder';
 import { FeedbackSection } from './FeedbackSection';
@@ -15,7 +14,6 @@ export const StatisticsScreen = ({ navigation }) => {
   const insets = useSafeAreaInsets();
   const colors = useColors()
   const statistics = useStatistics()
-  const segment = useSegment()
   const { state } = useLogs()
 
   const [refreshing, setRefreshing] = useState(false);

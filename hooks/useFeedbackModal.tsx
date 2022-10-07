@@ -8,7 +8,7 @@ import TextArea from '../components/TextArea';
 import useColors from './useColors';
 import { FeedackType, useFeedback } from './useFeedback';
 import useHaptics from './useHaptics';
-import { useSegment } from './useSegment';
+import { useAnalytics } from './useAnalytics';
 import { useTranslation } from './useTranslation';
 
 function TypeSelector({
@@ -141,7 +141,7 @@ export default function useFeedbackModal() {
   const colors = useColors()
   const [visible, setVisible] = useState(false)
   const i18n = useTranslation()
-  const segment = useSegment()
+  const analytics = useAnalytics()
   const feedback = useFeedback()
   const { t } = useTranslation()
 
@@ -152,12 +152,12 @@ export default function useFeedbackModal() {
   }: {
     type?: FeedackType,
   }) => {
-    segment.track('feedback_open')
+    analytics.track('feedback_open')
     setDefaultType(type)
     setVisible(true)
   }
   const hide = () => {
-    segment.track('feedback_close')
+    analytics.track('feedback_close')
     setVisible(false)
   }
   
@@ -172,7 +172,7 @@ export default function useFeedbackModal() {
     const [isLoading, setIsLoading] = useState(false)
 
     const setTypeProxy = (type: FeedackType) => {
-      segment.track('feedback_type_change', { type })
+      analytics.track('feedback_type_change', { type })
       setType(type)
     }
     

@@ -4,10 +4,9 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useEffect } from 'react';
 import { Platform, Pressable, Text, useColorScheme, View } from 'react-native';
 import { ArrowLeft, Calendar as CalendarIcon, PieChart, Settings as SettingsIcon } from 'react-native-feather';
-import { SafeAreaProvider, useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Colors from '../constants/Colors';
 import useColors from '../hooks/useColors';
-import { useSegment } from "../hooks/useSegment";
 import { useTranslation } from '../hooks/useTranslation';
 import {
   CalendarScreen,
@@ -19,22 +18,19 @@ import {
   PrivacyScreen,
   ReminderScreen,
   ScaleScreen,
-  SettingsScreen, StatisticsScreen, WebhookEntryScreen,
-  StatisticsHighlights,
-  WebhookScreen,
-  TagEdit,
-  TagCreate,
+  SettingsScreen, StatisticsHighlights, StatisticsScreen, TagCreate, TagEdit, WebhookEntryScreen, WebhookScreen
 } from '../screens';
 import { RootStackParamList } from '../types';
 
 import { enableScreens } from 'react-native-screens';
 import LinkButton from '../components/LinkButton';
+import Providers from '../components/Providers';
 import { useCalendarFilters } from '../hooks/useCalendarFilters';
 import useHaptics from '../hooks/useHaptics';
 import { useSettings } from '../hooks/useSettings';
+import { DevelopmentStatistics } from '../screens/DevelopmentStatistics';
 import { Onboarding } from '../screens/Onboarding';
 import { Tags } from '../screens/Tags';
-import { DevelopmentStatistics } from '../screens/DevelopmentStatistics';
 
 enableScreens();
 
@@ -72,7 +68,9 @@ export default function Navigation() {
         }
       }}
     >
-      <RootNavigator />
+      <Providers>
+        <RootNavigator />
+      </Providers>
     </NavigationContainer>
   );
 }
@@ -283,7 +281,6 @@ const BottomTabs = () => {
 function RootNavigator() {
   const colors = useColors();
   const i18n = useTranslation()
-  const segment = useSegment()
   const { settings, hasActionDone } = useSettings()
   const navigation = useNavigation()
   // const passcode = usePasscode()
@@ -302,10 +299,6 @@ function RootNavigator() {
     stackScreenOptions.animation = 'none'
   }
   
-  useEffect(() => {
-    segment.initialize()
-  }, [])
-
   useEffect(() => {
     if(settings.loaded && !hasActionDone('onboarding')) {
       navigation.navigate('Onboarding')
@@ -334,19 +327,7 @@ function RootNavigator() {
     //     />
     //   </Stack.Navigator>
     // ) : (
-    <SafeAreaProvider>
       <Stack.Navigator
-        screenListeners={{
-          state: (e) => {
-            const routes = e.data.state.routes.map(r => {
-              if(r.state) {
-                return `${r.name} > ${r.state.routeNames[r.state.index]}`
-              }
-              return r.name
-            });
-            segment.screen(routes.join(' > '), { routes })
-          },
-        }}
         screenOptions={stackScreenOptions}
         initialRouteName="BottomTabs"
       >
@@ -515,7 +496,6 @@ function RootNavigator() {
           />
         </Stack.Group>
       </Stack.Navigator>
-    </SafeAreaProvider>
     // )
   );
 }
