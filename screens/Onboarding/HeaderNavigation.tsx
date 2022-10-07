@@ -1,6 +1,7 @@
 import { Text, TouchableOpacity, View } from 'react-native';
 import { ArrowLeft } from 'react-native-feather';
 import useColors from '../../hooks/useColors';
+import useHaptics from '../../hooks/useHaptics';
 import { useTranslation } from '../../hooks/useTranslation';
 import { HeaderPagination } from "./HeaderPagination";
 
@@ -13,6 +14,7 @@ export const HeaderNavigation = ({
   setIndex: (index: number) => void;
   onSkip: () => void;
 }) => {
+  const haptics = useHaptics()
   const { t } = useTranslation();
   const colors = useColors();
 
@@ -32,13 +34,16 @@ export const HeaderNavigation = ({
           padding: 16,
           marginLeft: -16,
         }}
-        onPress={() => setIndex(index - 1)}
+        onPress={async () => {
+          await haptics.selection()
+          setIndex(index - 1)
+        }}
       >
         <ArrowLeft
           width={24}
           height={24}
           color={colors.onboardingPaginationText}
-          onPress={() => setIndex(index - 1)} />
+        />
       </TouchableOpacity>
       <HeaderPagination index={index} />
       <TouchableOpacity
@@ -55,7 +60,10 @@ export const HeaderNavigation = ({
             fontSize: 17,
             fontWeight: '600',
           }}
-          onPress={() => onSkip()}
+          onPress={async () => {
+            await haptics.selection()
+            onSkip()
+          }}
         >
           {t('onboarding_skip')}
         </Text>
