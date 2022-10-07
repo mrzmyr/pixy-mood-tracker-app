@@ -63,12 +63,6 @@ export const DevelopmentStatistics = () => {
   
   const words_total = Object.values(state.items).map(d => d.message.split(' ').length).reduce((a, b) => a + b, 0)
   
-  useEffect(() => {
-
-    console.log(settings.actionsDone)
-    
-  }, [settings.actionsDone])
-  
   return (
     <View
       style={{

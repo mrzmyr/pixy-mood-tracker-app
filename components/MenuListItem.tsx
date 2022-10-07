@@ -63,7 +63,7 @@ export default ({
           paddingBottom: 8,
           minHeight: 50,
           width: '100%',
-          opacity: pressed ? 0.7 : 1,
+          opacity: pressed && onPress ? 0.7 : 1,
           ...style,
         }]}
         testID={testID}

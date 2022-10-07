@@ -1,9 +1,7 @@
 import * as Device from 'expo-device';
 import * as Localization from 'expo-localization';
-import _ from 'lodash';
-import { PostHogProvider, usePostHog } from 'posthog-react-native';
+import { usePostHog } from 'posthog-react-native';
 import { createContext, useContext, useEffect, useState } from "react";
-import { POSTHOG_API_KEY } from '../constants/API';
 import pkg from '../package.json';
 import { useAnonymizer } from './useAnonymizer';
 import { useSettings } from './useSettings';
@@ -14,7 +12,7 @@ interface AnaylticsState {
   enable: () => void,
   disable: () => void,
   reset: () => void,
-  isEnabled: () => boolean,
+  isEnabled: boolean,
   track: (event: string, properties?: any) => void,
   identify: (properties?: {}) => void
 }
@@ -27,12 +25,13 @@ function AnalyticsProvider({
 }: {
   children: React.ReactNode
 }) {
-  const { settings } = useSettings()
+  const { settings, setSettings } = useSettings()
   const posthog = usePostHog()
 
   const { anonymizeTag } = useAnonymizer()
   
   const [isIdentified, setIsIdentified] = useState(false)
+  const [isEnabled, setIsEnabled] = useState(TRACKING_ENABLED)
 
   const identify = (properties?: any) => {
     const traits = {
@@ -71,14 +70,24 @@ function AnalyticsProvider({
     identify,
     enable: () => {
       posthog.optIn()
+      setIsEnabled(posthog.optedOut === false)
+      setSettings((settings) => ({
+        ...settings,
+        analyticsEnabled: true
+      }))
     },
     disable: () => {
       posthog.optOut()
+      setIsEnabled(posthog.optedOut === false)
+      setSettings((settings) => ({
+        ...settings,
+        analyticsEnabled: false
+      }))
     },
     reset: () => {
       if(DEBUG) console.log('useAnalytics: reset')
       posthog.reset()
-      console.log(posthog.optedOut)
+      setIsEnabled(posthog.optedOut === false)
     },
     track: (eventName: string, properties?: any) => {
       if(DEBUG) console.log('useAnalytics: track', eventName, properties)
@@ -90,7 +99,7 @@ function AnalyticsProvider({
         userId: settings.deviceId
       })
     },
-    isEnabled: () => posthog.optedOut === false,
+    isEnabled
   }
 
   useEffect(() => {
@@ -100,16 +109,9 @@ function AnalyticsProvider({
   }, [settings.deviceId])
   
   return (
-    <PostHogProvider 
-      apiKey={POSTHOG_API_KEY} 
-      options={{
-        host: 'https://app.posthog.com',
-      }}
-    >
-      <AnalyticsContext.Provider value={value}>
-        {children}
-      </AnalyticsContext.Provider>
-    </PostHogProvider>
+    <AnalyticsContext.Provider value={value}>
+      {children}
+    </AnalyticsContext.Provider>
   )
 }
 
