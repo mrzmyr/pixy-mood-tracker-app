@@ -30,12 +30,12 @@ export const Onboarding = ({ navigation }: RootStackScreenProps<'Onboarding'>) =
   const finish = () => {
     addActionDone('onboarding')
     analytics.track('onboarding_finished')
-    navigation.navigate('BottomTabs')
+    navigation.popToTop()
   }
 
   const skip = () => {
     addActionDone('onboarding')
-    navigation.navigate('BottomTabs')
+    navigation.popToTop()
     analytics.track('onboarding_skipped', { index })
   }
   
