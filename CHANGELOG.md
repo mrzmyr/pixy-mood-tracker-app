@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.38.0](https://github.com/mrzmyr/pixy-mood-tracker/compare/v1.37.1...v1.38.0) (2022-10-07)
+
+
+### Features
+
+* add comment field to statistics feedback ([09a63c3](https://github.com/mrzmyr/pixy-mood-tracker/commit/09a63c3ec8538c4ff4f213d8e07ae13b58f7033b))
+* add quick user imports ([6508860](https://github.com/mrzmyr/pixy-mood-tracker/commit/6508860e8fc00e9045576343e2f2236d7bb9fb7c))
+* replace segment with posthog ([88376ad](https://github.com/mrzmyr/pixy-mood-tracker/commit/88376adb19e748b445ce4fff29af62f8c6e83923))
+
+
+### Styling
+
+* update tag edit / create and linear gradients ([1d6fb76](https://github.com/mrzmyr/pixy-mood-tracker/commit/1d6fb76d68a120e987ade3d2186cf2ed981308cb))
+
 ### [1.37.1](https://github.com/mrzmyr/pixy-mood-tracker/compare/v1.37.0...v1.37.1) (2022-10-06)
 
 
