@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Platform, View } from 'react-native';
+import { Dimensions, Platform, useWindowDimensions, View } from 'react-native';
 import { ChevronDown } from 'react-native-feather';
 import { ScrollView } from 'react-native-gesture-handler';
 import Animated, { FadeIn, FadeOut } from 'react-native-reanimated';
@@ -15,9 +15,12 @@ export const CalendarScreen = ({ navigation }) => {
   const colors = useColors()
   const calendarFilters = useCalendarFilters();
 
+  const window = useWindowDimensions()
   const [scrollOffset, setScrollOffset] = useState(null);
 
+  const calendarRef = useRef(null);
   const scrollRef = useRef(null);
+  const calendarHeight = useRef(0);
   
   useEffect(() => {
     if(scrollRef.current) {
@@ -25,13 +28,24 @@ export const CalendarScreen = ({ navigation }) => {
     }
   }, [scrollRef])
 
+  useEffect(() => {
+    if(calendarRef.current) {
+      calendarRef.current.measure((x, y, width, height) => {
+        calendarHeight.current = height;
+      })
+    }
+  }, [calendarRef])
+
   return (
     <View style={{
       flex: 1,
     }}>
       <CalendarHeader />
-      
-      {scrollOffset !== null && scrollOffset < 3400 && (
+      {(
+        scrollOffset !== null && 
+        scrollOffset < calendarHeight.current - window.height &&
+        !calendarFilters.isOpen
+      ) && (
         <Animated.View
           style={{
             position: 'absolute',
@@ -67,7 +81,7 @@ export const CalendarScreen = ({ navigation }) => {
         {Platform.OS === 'web' && calendarFilters.isOpen && (
           <Body />
         )}
-        <Calendar />
+        <Calendar ref={calendarRef} />
       </ScrollView>
       {Platform.OS !== 'web' && (
         <CalendarBottomSheet />

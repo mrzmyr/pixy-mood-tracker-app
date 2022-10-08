@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { ActivityIndicator, View } from "react-native";
 import { CheckCircle, Repeat, UploadCloud } from "react-native-feather";
 import MenuList from "../../components/MenuList";
 import MenuListHeadline from "../../components/MenuListHeadline";
@@ -15,8 +16,11 @@ export const UserDataImportList = () => {
   const datagate = useDatagate()
 
   const [loadedUserIds, setLoadedUserIds] = useState<string[]>([])
+  const [loading, setLoading] = useState(false)
   
   const loadUsers = () => {    
+    setLoading(true)
+
     fetch("http://10.10.50.143:3000/persons", {
       headers: {
         "Content-Type": "application/json",
@@ -29,6 +33,9 @@ export const UserDataImportList = () => {
       })
       .catch(() => {
         console.log("Error: Didn't load user list");
+      })
+      .finally(() => {
+        setLoading(false)
       })
   }
   
@@ -56,7 +63,17 @@ export const UserDataImportList = () => {
         marginBottom: 40
       }}
     >
-      {users.map((user, index) => (
+        {loading && (
+          <View style={{
+            flexDirection: 'row',
+            justifyContent: 'center',
+            alignItems: 'center',
+            marginBottom: 8,
+          }}>
+            <ActivityIndicator size={'small'} color={colors.loadingIndicator} />
+          </View>
+        )}
+      {!loading && users.map((user, index) => (
         <MenuListItem
           key={user.id}
           title={user.id}

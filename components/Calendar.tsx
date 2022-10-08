@@ -1,13 +1,13 @@
 import dayjs from "dayjs";
 import _ from "lodash";
-import React, { useMemo } from "react";
+import React, { forwardRef, useMemo } from "react";
 import { Platform, Text, View } from "react-native";
 import useColors from "../hooks/useColors";
 import { useLogs } from "../hooks/useLogs";
 import { useSettings } from "../hooks/useSettings";
 import CalendarMonth from "./CalendarMonth";
 
-export const Calendar = () => {
+export const Calendar = forwardRef(({}, ref: React.RefObject<View>) => {
   const colors = useColors()
   const { state } = useLogs()
   const today = dayjs();
@@ -41,6 +41,7 @@ export const Calendar = () => {
 
   return (
     <View
+      ref={ref}
       style={{
         paddingBottom: 40,
       }}
@@ -65,4 +66,4 @@ export const Calendar = () => {
       >🙏 The future will be great.</Text>
     </View>
   )
-}
+})
