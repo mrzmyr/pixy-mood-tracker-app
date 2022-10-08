@@ -15,7 +15,7 @@ export const CalendarScreen = ({ navigation }) => {
   const colors = useColors()
   const calendarFilters = useCalendarFilters();
 
-  const [scrollOffset, setScrollOffset] = useState(0);
+  const [scrollOffset, setScrollOffset] = useState(null);
 
   const scrollRef = useRef(null);
   
@@ -31,7 +31,7 @@ export const CalendarScreen = ({ navigation }) => {
     }}>
       <CalendarHeader />
       
-      {scrollOffset < 3400 && (
+      {scrollOffset !== null && scrollOffset < 3400 && (
         <Animated.View
           style={{
             position: 'absolute',
@@ -58,7 +58,7 @@ export const CalendarScreen = ({ navigation }) => {
           paddingRight: 16,
           width: '100%',
         }}
-        scrollEventThrottle={16}
+        scrollEventThrottle={100}
         onScroll={e => {
           setScrollOffset(e.nativeEvent.contentOffset.y);
         }}
