@@ -2,6 +2,30 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.40.0](https://github.com/mrzmyr/pixy-mood-tracker/compare/v1.39.0...v1.40.0) (2022-10-08)
+
+
+### Features
+
+* scroll bottom button & perf improvement ([c8dfd03](https://github.com/mrzmyr/pixy-mood-tracker/commit/c8dfd0374f3bfccc0255cd672241b72ef7b50d89))
+* use calendar height as reference for scroll up float button ([ac2fd1d](https://github.com/mrzmyr/pixy-mood-tracker/commit/ac2fd1d855ebc98cb71306d7c02252fd4c6ded6e))
+
+
+### Performance
+
+* improve scrolling speed ([8d6574e](https://github.com/mrzmyr/pixy-mood-tracker/commit/8d6574e59a1d94c14a99e50c12dce82e0769a8a5))
+
+
+### Refactors
+
+* revert calendar day changes ([7b999aa](https://github.com/mrzmyr/pixy-mood-tracker/commit/7b999aa2d8f400a61843f185791fa41e7b8b8078))
+
+
+### Chore
+
+* perf & clean ups ([ee41e7e](https://github.com/mrzmyr/pixy-mood-tracker/commit/ee41e7eb56315193c5144ac111e5e190cb6756c8))
+* remove deps ([160cd1a](https://github.com/mrzmyr/pixy-mood-tracker/commit/160cd1a1d580a84141fe4730e9788b271f9c7cdc))
+
 ## [1.39.0](https://github.com/mrzmyr/pixy-mood-tracker/compare/v1.38.1...v1.39.0) (2022-10-07)
 
 
