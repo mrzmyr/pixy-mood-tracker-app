@@ -1,5 +1,5 @@
 import _ from "lodash";
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { LogItem, useLogs } from './useLogs';
 import { Tag } from "./useSettings";
 
@@ -45,8 +45,8 @@ function CalendarFiltersProvider({
   const logs = useLogs();
   const [data, setData] = useState<CalendarFiltersData>(initialState)
   const [isOpen, setIsOpen] = useState(false)
-
-  const _validate = (item: LogItem, data: CalendarFiltersData) => {
+  
+  const _isMatching = (item: LogItem, data: CalendarFiltersData) => {
     const matchesText = item.message.toLowerCase().includes(data.text.toLowerCase())
     const matchesRatings = data.ratings.includes(item.rating)
     const tagIds = item?.tags?.map(tag => tag.id)
@@ -61,22 +61,24 @@ function CalendarFiltersProvider({
     return conditions.every(condition => condition)
   }
   
+  const _getFilteredItems = (data): LogItem[] => {
+    return Object.entries(logs.state.items)
+      .filter(([_, item]) => !_isMatching(item, data))
+      .map(([_, item]) => item)
+  }
+  
   const _setData = (data: CalendarFiltersData) => {
     const isFiltering = (
       data.text !== '' ||
       data.ratings.length !== 0 ||
       data.tagIds.length !== 0
     );
-    
-    const filteredItems = Object.entries(logs.state.items)
-      .filter(([_, item]) => !_validate(item, data))
-      .map(([_, item]) => item)
 
     const filterCount = (data.text !== '' ? 1 : 0) + data.ratings.length + data.tagIds.length;
       
     setData({
       ...data,
-      filteredItems,
+      filteredItems: _getFilteredItems(data),
       isFiltering,
       filterCount,
     })

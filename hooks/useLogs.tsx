@@ -117,7 +117,6 @@ function LogsProvider({
       
       Object.entries(state.items)
         .forEach(([date, item]: [string, LogItem]) => {
-          console.log(item.tags)
           if(item?.tags?.some(t => t.id === tag.id)) {
             const tags = item.tags.map(t => t.id === tag.id ? tag : t)
             item.tags = tags

@@ -31,14 +31,6 @@ export const Calendar = forwardRef(({}, ref: React.RefObject<View>) => {
     });
   }
 
-  const futureMonths = []
-  for (let i = 1; i <= 1; i++) {
-    const month = today.clone().add(i, 'month').startOf('month');
-    futureMonths.push({
-      dateString: month.format('YYYY-MM-DD')
-    });
-  }
-
   return (
     <View
       ref={ref}

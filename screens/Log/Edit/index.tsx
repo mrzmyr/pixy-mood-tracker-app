@@ -191,7 +191,7 @@ export const LogEdit = ({ navigation, route }: RootStackScreenProps<'LogEdit'>) 
 
   const setTags = (tags: LogItem['tags']) => {
     analytics.track('log_tags_changed', {
-      tags: tags?.map(tag => anonymizeTag(tag.id)) || [],
+      tags: tags?.map(tag => anonymizeTag(tag)) || [],
     })
     tempLog.set(logItem => ({ ...logItem, tags }))
   }
@@ -265,6 +265,14 @@ export const LogEdit = ({ navigation, route }: RootStackScreenProps<'LogEdit'>) 
       action: <SlideAction type="hidden" />
     })
   }
+
+  const isMounted = useRef(true)
+
+  useEffect(() => {
+    return () => {
+      isMounted.current = false
+    }
+  }, [])
   
   return (
     <View style={{ 
@@ -335,7 +343,9 @@ export const LogEdit = ({ navigation, route }: RootStackScreenProps<'LogEdit'>) 
             data={content}
             defaultIndex={Math.min(initialIndex, content.length - 1)}
             onProgressChange={(relativeProgress, absoluteProgress) => {
-              setSlideIndex(Math.round(absoluteProgress))
+              if(isMounted.current) {
+                setSlideIndex(Math.round(absoluteProgress))
+              }
             }}
             onScrollBegin={() => {
               setTouched(true)

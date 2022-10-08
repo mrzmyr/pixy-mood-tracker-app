@@ -23,10 +23,7 @@ export const CalendarBottomSheet = () => {
   const handleSheetChanges = (index: number) => {
     if(index === -1) {
       Keyboard.dismiss()
-      calendarFilters.set({
-        ...calendarFilters.data,
-        isOpen: false,
-      })
+      calendarFilters.close()
     }
   };
   
