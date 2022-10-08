@@ -3,23 +3,11 @@ import { useEffect, useMemo, useRef } from 'react';
 import { Keyboard, View } from 'react-native';
 import { useCalendarFilters } from '../../../hooks/useCalendarFilters';
 import useColors from '../../../hooks/useColors';
-import { useLogs } from '../../../hooks/useLogs';
-import { useSettings } from '../../../hooks/useSettings';
-import { Header } from './Header';
-import { RatingSection } from './RatingSection';
-import { ResultsSection } from './ResultsSection';
-import { SearchInputSection } from './SearchInputSection';
-import { TagsSection } from './TagsSection';
+import { Body } from './Body';
 
 export const CalendarBottomSheet = () => {
   const colors = useColors()
-  const { settings } = useSettings()
-  const { state: logs } = useLogs();
   const calendarFilters = useCalendarFilters()
-
-  const searchResultsCount = useMemo(() => {
-    return Object.values(logs.items).filter(item => calendarFilters.validate(item)).length
-  }, [logs, calendarFilters])
   
   const bottomSheetRef = useRef(null);
   const snapPoints = useMemo(() => ['30%', '50%', '90%'], []);
@@ -41,24 +29,6 @@ export const CalendarBottomSheet = () => {
       })
     }
   };
-
-  const onPressTag = (tag) => {
-    calendarFilters.set({
-      ...calendarFilters.data,
-      tagIds: calendarFilters.data.tagIds.includes(tag.id) ? 
-        calendarFilters.data.tagIds.filter(t => t !== tag.id) : 
-        [...calendarFilters.data.tagIds, tag.id]
-    })
-  }
-
-  const onPressRating = (rating) => {
-    calendarFilters.set({
-      ...calendarFilters.data,
-      ratings: calendarFilters.data.ratings.includes(rating) ? 
-        calendarFilters.data.ratings.filter(r => r !== rating) : 
-        [...calendarFilters.data.ratings, rating]
-    })
-  }
   
   return (
     <BottomSheet
@@ -106,34 +76,7 @@ export const CalendarBottomSheet = () => {
       <BottomSheetScrollView
         keyboardShouldPersistTaps='handled'
       >
-        <Header />
-        <View
-          style={{
-            padding: 16,
-          }}
-        >
-          <SearchInputSection 
-            value={calendarFilters.data.text}
-            onChange={(text) => {
-              calendarFilters.set({
-                ...calendarFilters.data,
-                text,
-              })
-            }}
-          />
-          <RatingSection
-            value={calendarFilters.data.ratings}
-            onChange={onPressRating}
-          />
-          <TagsSection
-            tags={settings.tags}
-            selectedTags={settings.tags.filter(tag => calendarFilters.data.tagIds.includes(tag.id))}
-            onSelect={onPressTag}
-          />
-          <ResultsSection
-            count={searchResultsCount}
-          />
-        </View>
+        <Body />
       </BottomSheetScrollView>
     </BottomSheet>
   )

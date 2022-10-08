@@ -224,5 +224,6 @@
   "statistics_trends_more": "Mostra totes les tendències",
   "statistics_2_week_highlights": "Últimes 2 setmanes",
   "statistics_no_highlights": "Actualment, no hi ha cap mena destacada rellevant, però sempre podeu anar a \"Mostra tots els elements destacats\".",
-  "statistics_feedback_placeholder": "Com podria ser més útil? (opcional)"
+  "statistics_feedback_placeholder": "Com podria ser més útil? (opcional)",
+  "tags_reached_max": "Heu assolit el màxim de {{max_count}} etiquetes. Si us plau, suprimiu algunes etiquetes per afegir-ne de noves."
 }

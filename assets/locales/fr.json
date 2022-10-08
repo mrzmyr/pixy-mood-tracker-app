@@ -224,5 +224,6 @@
   "statistics_trends_more": "Afficher toutes les tendances",
   "statistics_2_week_highlights": "2 dernières semaines",
   "statistics_no_highlights": "Actuellement, aucun temps fort n'est pertinent, mais vous pouvez toujours accéder à \"Afficher tous les temps forts\".",
-  "statistics_feedback_placeholder": "Comment pourrait-il être plus utile ? (optionnel)"
+  "statistics_feedback_placeholder": "Comment pourrait-il être plus utile ? (optionnel)",
+  "tags_reached_max": "Vous avez atteint le maximum de {{max_count}} balises. Veuillez supprimer certaines balises pour en ajouter de nouvelles."
 }

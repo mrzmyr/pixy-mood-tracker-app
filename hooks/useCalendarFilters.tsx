@@ -1,7 +1,6 @@
-import dayjs from "dayjs";
 import _ from "lodash";
 import { createContext, useContext, useState } from "react";
-import { LogItem } from './useLogs';
+import { LogItem, useLogs } from './useLogs';
 import { Tag } from "./useSettings";
 
 const CalendarFiltersStateContext = createContext(undefined)
@@ -11,8 +10,9 @@ export type CalendarFiltersData = {
   ratings: LogItem['rating'][],
   tagIds: Tag['id'][],
   isOpen: boolean,
-  isFiltering: boolean,
-  filterCount: number,
+  filteredItems: LogItem[];
+  filterCount: number;
+  isFiltering: boolean;
 }
 
 type Value = {
@@ -21,10 +21,10 @@ type Value = {
   reset: () => void;
   open: () => void;
   close: () => void;
-  validate: (log: LogItem) => boolean;
   isOpen: boolean;
-  isFiltering: boolean;
   filterCount: number;
+  isFiltering: boolean;
+  filteredItems: LogItem[];
 }
 
 const initialState: CalendarFiltersData = {
@@ -34,6 +34,7 @@ const initialState: CalendarFiltersData = {
   isOpen: false,
   isFiltering: false,
   filterCount: 0,
+  filteredItems: [],
 }
 
 function CalendarFiltersProvider({
@@ -41,8 +42,25 @@ function CalendarFiltersProvider({
 }: { 
   children: React.ReactNode 
 }) {
+  const logs = useLogs();
   const [data, setData] = useState<CalendarFiltersData>(initialState)
+  const [isOpen, setIsOpen] = useState(false)
 
+  const _validate = (item: LogItem, data: CalendarFiltersData) => {
+    const matchesText = item.message.toLowerCase().includes(data.text.toLowerCase())
+    const matchesRatings = data.ratings.includes(item.rating)
+    const tagIds = item?.tags?.map(tag => tag.id)
+    const matchesTags = _.difference(data.tagIds, tagIds).length === 0;
+
+    const conditions = []
+
+    if(data.text !== '') conditions.push(matchesText)
+    if(data.ratings.length !== 0) conditions.push(matchesRatings)
+    if(data.tagIds.length !== 0) conditions.push(matchesTags)
+
+    return conditions.every(condition => condition)
+  }
+  
   const _setData = (data: CalendarFiltersData) => {
     const isFiltering = (
       data.text !== '' ||
@@ -50,10 +68,17 @@ function CalendarFiltersProvider({
       data.tagIds.length !== 0
     );
     
+    const filteredItems = Object.entries(logs.state.items)
+      .filter(([_, item]) => !_validate(item, data))
+      .map(([_, item]) => item)
+
+    const filterCount = (data.text !== '' ? 1 : 0) + data.ratings.length + data.tagIds.length;
+      
     setData({
       ...data,
+      filteredItems,
       isFiltering,
-      filterCount: (data.text !== '' ? 1 : 0) + data.ratings.length + data.tagIds.length,
+      filterCount,
     })
   }
   
@@ -61,25 +86,12 @@ function CalendarFiltersProvider({
     data, 
     set: _setData,
     reset: () => setData(initialState),
-    open: () => setData({ ...data, isOpen: true }),
-    close: () => setData({ ...data, isOpen: false }),
-    validate: (log: LogItem) => {
-      const matchesText = log.message.toLowerCase().includes(data.text.toLowerCase())
-      const matchesRatings = data.ratings.includes(log.rating)
-      const tagIds = log?.tags?.map(tag => tag.id)
-      const matchesTags = _.difference(data.tagIds, tagIds).length === 0;
-
-      const conditions = []
-
-      if(data.text !== '') conditions.push(matchesText)
-      if(data.ratings.length !== 0) conditions.push(matchesRatings)
-      if(data.tagIds.length !== 0) conditions.push(matchesTags)
-
-      return conditions.every(condition => condition)
-    },
+    open: () => setIsOpen(true),
+    close: () => setIsOpen(false),
+    filteredItems: data.filteredItems,
     isFiltering: data.isFiltering,
     filterCount: data.filterCount,
-    isOpen: data.isOpen,
+    isOpen,
   };
   
   return (

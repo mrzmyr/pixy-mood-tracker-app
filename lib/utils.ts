@@ -1,5 +1,6 @@
 import { LogsState } from './../hooks/useLogs';
 import Ajv from "ajv"
+import { COLOR_NAMES } from '../hooks/useSettings';
 
 const ajv = new Ajv({
   allErrors: true
@@ -106,7 +107,7 @@ const pixy_schema = {
               },
               color: {
                 type: "string",
-                enum: ["slate","stone","red","orange","amber","yellow","lime","green","teal","sky","blue","indigo","purple","pink"]
+                enum: COLOR_NAMES
               },
             },
           },

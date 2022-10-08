@@ -224,5 +224,6 @@
   "statistics_trends_more": "Zobrazit všechny trendy",
   "statistics_2_week_highlights": "Poslední 2 týdny",
   "statistics_no_highlights": "V současné době nejsou relevantní žádná zvýraznění, ale vždy můžete přejít na „Zobrazit všechna zvýraznění“.",
-  "statistics_feedback_placeholder": "Jak by to mohlo být užitečnější? (volitelný)"
+  "statistics_feedback_placeholder": "Jak by to mohlo být užitečnější? (volitelný)",
+  "tags_reached_max": "Dosáhli jste maximálního počtu {{max_count}} značek. Chcete-li přidat nové, odstraňte některé značky."
 }

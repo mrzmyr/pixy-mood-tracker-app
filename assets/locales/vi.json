@@ -224,5 +224,6 @@
   "statistics_trends_more": "Hiển thị tất cả các xu hướng",
   "statistics_2_week_highlights": "2 tuần trước",
   "statistics_no_highlights": "Hiện tại không có điểm nổi bật nào có liên quan, nhưng bạn luôn có thể đi tới 'Hiển thị tất cả điểm nổi bật'.",
-  "statistics_feedback_placeholder": "Làm thế nào nó có thể hữu ích hơn? (không bắt buộc)"
+  "statistics_feedback_placeholder": "Làm thế nào nó có thể hữu ích hơn? (không bắt buộc)",
+  "tags_reached_max": "Bạn đã đạt đến tối đa {{max_count}} thẻ. Vui lòng xóa một số thẻ để thêm thẻ mới."
 }

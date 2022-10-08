@@ -224,5 +224,6 @@
   "statistics_trends_more": "Összes trend megjelenítése",
   "statistics_2_week_highlights": "Az elmúlt 2 hét",
   "statistics_no_highlights": "Jelenleg egyetlen kiemelés sem releváns, de bármikor léphet az „Összes kiemelés megjelenítése” lehetőségre.",
-  "statistics_feedback_placeholder": "Hogyan lehetne hasznosabb? (választható)"
+  "statistics_feedback_placeholder": "Hogyan lehetne hasznosabb? (választható)",
+  "tags_reached_max": "Elérte a maximális {{max_count}} címkét. Kérjük, töröljön néhány címkét újak hozzáadásához."
 }

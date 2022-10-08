@@ -224,5 +224,6 @@
   "statistics_trends_more": "Toon alle trends",
   "statistics_2_week_highlights": "Afgelopen 2 weken",
   "statistics_no_highlights": "Momenteel zijn er geen highlights relevant, maar je kunt altijd naar 'Toon alle highlights' gaan.",
-  "statistics_feedback_placeholder": "Hoe kan het nuttiger zijn? (optioneel)"
+  "statistics_feedback_placeholder": "Hoe kan het nuttiger zijn? (optioneel)",
+  "tags_reached_max": "Je hebt het maximum van {{max_count}} tags bereikt. Verwijder enkele tags om nieuwe toe te voegen."
 }

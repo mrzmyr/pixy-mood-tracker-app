@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Alert, Platform, TextInput, TouchableOpacity, View } from 'react-native';
+import { Platform, TextInput, TouchableOpacity, View } from 'react-native';
 import { Check } from 'react-native-feather';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { v4 as uuidv4 } from 'uuid';
@@ -15,6 +15,7 @@ import { useAnalytics } from '../hooks/useAnalytics';
 import { COLOR_NAMES, Tag as ITag } from '../hooks/useSettings';
 import { useTranslation } from '../hooks/useTranslation';
 import { RootStackScreenProps } from '../types';
+import Alert from '../components/Alert';
 
 const REGEX_EMOJI = /\p{Emoji}/u;
 

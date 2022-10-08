@@ -224,5 +224,6 @@
   "statistics_trends_more": "แสดงเทรนด์ทั้งหมด",
   "statistics_2_week_highlights": "2 สัปดาห์ที่ผ่านมา",
   "statistics_no_highlights": "ขณะนี้ไม่มีไฮไลท์ที่เกี่ยวข้อง แต่คุณสามารถไปที่ 'แสดงไฮไลท์ทั้งหมด' ได้ตลอดเวลา",
-  "statistics_feedback_placeholder": "มันจะมีประโยชน์มากขึ้นได้อย่างไร? (ไม่จำเป็น)"
+  "statistics_feedback_placeholder": "มันจะมีประโยชน์มากขึ้นได้อย่างไร? (ไม่จำเป็น)",
+  "tags_reached_max": "คุณมีแท็กถึงจำนวนสูงสุด {{max_count}} แท็กแล้ว โปรดลบบางแท็กเพื่อเพิ่มแท็กใหม่"
 }

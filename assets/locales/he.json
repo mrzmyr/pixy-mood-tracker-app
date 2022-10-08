@@ -224,5 +224,6 @@
   "statistics_trends_more": "הצג את כל המגמות",
   "statistics_2_week_highlights": "שבועיים אחרונים",
   "statistics_no_highlights": "נכון לעכשיו אין דגשים רלוונטיים, אבל תמיד אפשר ללכת ל'הצג את כל ההדגשות'.",
-  "statistics_feedback_placeholder": "איך זה יכול להיות מועיל יותר? (אופציונאלי)"
+  "statistics_feedback_placeholder": "איך זה יכול להיות מועיל יותר? (אופציונאלי)",
+  "tags_reached_max": "הגעת למקסימום של {{max_count}} תגים. אנא מחק כמה תגים כדי להוסיף חדשים."
 }

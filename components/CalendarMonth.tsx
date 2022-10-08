@@ -1,26 +1,25 @@
 import dayjs from "dayjs";
-import { forwardRef, memo, useMemo } from "react";
+import React, { memo, useMemo } from "react";
 import { Text, View } from "react-native";
 import useColors from "../hooks/useColors";
 import { LogItem } from "../hooks/useLogs";
 import { SettingsState } from "../hooks/useSettings";
-import CalendarWeek from './CalendarWeek';
+import { CalendarWeek } from './CalendarWeek';
 
 interface WeekEntry {
   days: string[];
-  items: LogItem[];
+  items: Omit<LogItem, 'tags'>[];
 }
 
-const CalendarMonth = memo(forwardRef(({
+const CalendarMonth = memo(({
   dateString,
   items,
   scaleType,
 }: {
-  navigation: any;
   dateString: string;
-  items?: LogItem[];
+  items?: Omit<LogItem, 'tags'>[];
   scaleType: SettingsState["scaleType"];
-}, ref) => {
+}) => {
   const date = dayjs(dateString);
   const colors = useColors();
   const daysInMonthCount = date.daysInMonth();
@@ -45,8 +44,11 @@ const CalendarMonth = memo(forwardRef(({
     return weeks;
   }, [items]);
   
+  
   return (
-    <View ref={ref} renderToHardwareTextureAndroid>
+    <View 
+      renderToHardwareTextureAndroid
+    >
       <Text
         style={{
           margin: 12,
@@ -68,6 +70,6 @@ const CalendarMonth = memo(forwardRef(({
       ))}
     </View>
   )
-}))
+})
 
 export default CalendarMonth;

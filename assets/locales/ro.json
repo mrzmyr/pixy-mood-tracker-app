@@ -224,5 +224,6 @@
   "statistics_trends_more": "Afișați toate tendințele",
   "statistics_2_week_highlights": "Ultimele 2 saptamani",
   "statistics_no_highlights": "Momentan, nicio evidențiere nu este relevantă, dar poți oricând să mergi la „Afișează toate evidențierile”.",
-  "statistics_feedback_placeholder": "Cum ar putea fi mai util? (optional)"
+  "statistics_feedback_placeholder": "Cum ar putea fi mai util? (optional)",
+  "tags_reached_max": "Ați atins numărul maxim de {{max_count}} etichete. Vă rugăm să ștergeți câteva etichete pentru a adăuga altele noi."
 }

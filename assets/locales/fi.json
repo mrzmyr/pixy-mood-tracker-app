@@ -224,5 +224,6 @@
   "statistics_trends_more": "Näytä kaikki trendit",
   "statistics_2_week_highlights": "Viimeiset 2 viikkoa",
   "statistics_no_highlights": "Tällä hetkellä mitkään kohokohdat eivät ole tärkeitä, mutta voit aina siirtyä Näytä kaikki kohokohdat -kohtaan.",
-  "statistics_feedback_placeholder": "Miten se voisi olla hyödyllisempää? (valinnainen)"
+  "statistics_feedback_placeholder": "Miten se voisi olla hyödyllisempää? (valinnainen)",
+  "tags_reached_max": "Olet saavuttanut enimmäismäärän {{max_count}} tagia. Poista joitakin tunnisteita lisätäksesi uusia."
 }

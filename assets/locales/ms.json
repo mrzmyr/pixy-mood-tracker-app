@@ -224,5 +224,6 @@
   "statistics_trends_more": "Tunjukkan Semua Trend",
   "statistics_2_week_highlights": "2 minggu lepas",
   "statistics_no_highlights": "Pada masa ini tiada sorotan berkaitan, tetapi anda sentiasa boleh pergi ke 'Tunjukkan semua sorotan'.",
-  "statistics_feedback_placeholder": "Bagaimanakah ia boleh lebih membantu? (pilihan)"
+  "statistics_feedback_placeholder": "Bagaimanakah ia boleh lebih membantu? (pilihan)",
+  "tags_reached_max": "Anda mencapai maksimum {{max_count}} teg. Sila padamkan beberapa teg untuk menambah yang baharu."
 }

@@ -1,4 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import _ from 'lodash';
 import { createContext, useContext, useEffect, useReducer } from "react";
 import { getJSONSchemaType } from '../lib/utils';
 import { Tag as ITag, useSettings } from './useSettings';
@@ -41,13 +42,8 @@ function reducer(state: LogsState, action: LogAction): LogsState {
       }
       return { ...state }
     case 'batchEdit':
-      action.payload.items.forEach((item: LogItem) => {
-        state.items[item.date] = {
-          ...state.items[item.date],
-          ...item
-        }
-      })
-      return { ...state }
+      state.items = action.payload.items
+      return state
     case 'delete':
       delete state.items[action.payload.date]
       return { ...state }
@@ -117,19 +113,16 @@ function LogsProvider({
       }))
     },
     updateTag: (tag: ITag) => {
-      const newItems = Object.keys(state.items)
-        .map(key => {
-          const item = state.items[key];
-          const tags = item?.tags?.map(itemTag => {
-            if (itemTag.id === tag.id) {
-              return tag;
-            }
-            return itemTag;
-          }) || [];
-          return {
-            ...item,
-            tags
+      const newItems = {};
+      
+      Object.entries(state.items)
+        .forEach(([date, item]: [string, LogItem]) => {
+          console.log(item.tags)
+          if(item?.tags?.some(t => t.id === tag.id)) {
+            const tags = item.tags.map(t => t.id === tag.id ? tag : t)
+            item.tags = tags
           }
+          newItems[date] = item;
         })
 
       dispatch({
@@ -151,15 +144,16 @@ function LogsProvider({
       ...settings, 
         tags: settings.tags.filter((tag: ITag) => tag.id !== id) 
       }))
+
+      const newItems = {};
   
-      const newItems = Object.keys(state.items)
-        .map(key => {
-          const item = state.items[key];
-          const tags = item?.tags?.filter(itemTag => itemTag.id !== id) || [];
-          return {
-            ...item,
-            tags
+      Object.entries(state.items)
+        .forEach(([date, item]: [string, LogItem]) => {
+          if(state.items[date]?.tags?.some((tag: ITag) => tag.id === id)) {
+            const tags = item?.tags?.filter(itemTag => itemTag.id !== id) || [];
+            item.tags = tags;
           }
+          newItems[date] = item;
         })
   
       dispatchProxy({

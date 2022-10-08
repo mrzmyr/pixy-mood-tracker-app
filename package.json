@@ -75,7 +75,6 @@
     "react-native-reanimated-carousel": "^3.0.5",
     "react-native-safe-area-context": "3.3.2",
     "react-native-screens": "~3.10.1",
-    "react-native-scroll-into-view": "^2.0.2",
     "react-native-svg": "12.1.1",
     "react-native-web": "0.17.1",
     "sentry-expo": "^4.0.0",

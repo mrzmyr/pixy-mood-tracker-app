@@ -224,5 +224,6 @@
   "statistics_trends_more": "Pokaż wszystkie trendy",
   "statistics_2_week_highlights": "Ostatnie 2 tygodnie",
   "statistics_no_highlights": "Obecnie żadne najciekawsze momenty nie są istotne, ale zawsze możesz przejść do opcji „Pokaż wszystkie najciekawsze momenty”.",
-  "statistics_feedback_placeholder": "Jak mogłoby to być bardziej pomocne? (opcjonalny)"
+  "statistics_feedback_placeholder": "Jak mogłoby to być bardziej pomocne? (opcjonalny)",
+  "tags_reached_max": "Osiągnięto maksymalną liczbę {{max_count}} tagów. Usuń niektóre tagi, aby dodać nowe."
 }

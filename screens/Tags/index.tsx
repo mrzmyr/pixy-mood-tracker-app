@@ -6,6 +6,7 @@ import Button from '../../components/Button';
 import LinkButton from '../../components/LinkButton';
 import MenuList from '../../components/MenuList';
 import ModalHeader from '../../components/ModalHeader';
+import { MAX_TAGS } from '../../constants/Config';
 import useColors from '../../hooks/useColors';
 import { Tag, useSettings } from '../../hooks/useSettings';
 import { useTranslation } from '../../hooks/useTranslation';
@@ -44,38 +45,45 @@ export const Tags = ({ navigation, route }: RootStackScreenProps<'Tags'>) => {
           >{t('done')}</LinkButton>
         }
       />
-      <LinearGradient
-        pointerEvents="none"
-        colors={[colors.logBackgroundTransparent, colors.background, colors.background]}
-        style={{
-          position: 'absolute',
-          height: 120 + insets.bottom,
-          bottom: 0,
-          zIndex: 1,
-          width: '100%',
-        }}
-      />
-      <View
-        style={{
-          flexDirection: 'row',
-          justifyContent: 'center',
-          alignItems: 'center',
-          paddingHorizontal: 20,
-          position: 'absolute',
-          bottom: insets.bottom + 16,
-          zIndex: 2,
-        }}
-      >
-        <Button
-          style={{
-            marginTop: 16,
-            width: '100%',
-          }}
-          onPress={() => {
-            navigation.navigate('TagCreate')
-          }}
-        >{t('create_tag')}</Button>
-      </View>
+      {
+        tags.length < MAX_TAGS && (
+          <>
+            <LinearGradient
+              pointerEvents="none"
+              colors={[colors.logBackgroundTransparent, colors.background, colors.background]}
+              style={{
+                position: 'absolute',
+                height: 120 + insets.bottom,
+                bottom: 0,
+                zIndex: 1,
+                width: '100%',
+              }}
+            />
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'center',
+                alignItems: 'center',
+                paddingHorizontal: 16,
+                position: 'absolute',
+                bottom: insets.bottom + 16,
+                width: '100%',
+                zIndex: 2,
+              }}
+            >
+              <Button
+                style={{
+                  marginTop: 16,
+                  width: '100%',
+                }}
+                onPress={() => {
+                  navigation.navigate('TagCreate')
+                }}
+              >{t('create_tag')}</Button>
+            </View>
+          </>
+        )
+      }
       <ScrollView
         style={{
           flex: 1,
@@ -86,6 +94,27 @@ export const Tags = ({ navigation, route }: RootStackScreenProps<'Tags'>) => {
             backgroundColor: colors.background,
           }}
         >
+          { tags.length >= MAX_TAGS && (
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'center',
+                alignItems: 'center',
+                backgroundColor: colors.cardBackground,
+                padding: 16,
+                marginTop: 16,
+                marginHorizontal: 16,
+                borderRadius: 8,
+              }}
+            >
+              <Text
+                style={{
+                  color: colors.text,
+                  fontSize: 17,
+                }}
+              >{t('tags_reached_max', { max_count: MAX_TAGS })}</Text>
+            </View>
+          )}
           <View
             style={{
               paddingTop: 16,

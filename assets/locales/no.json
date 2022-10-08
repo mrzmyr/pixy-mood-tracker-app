@@ -224,5 +224,6 @@
   "statistics_trends_more": "Vis alle trender",
   "statistics_2_week_highlights": "Siste 2 uker",
   "statistics_no_highlights": "Foreløpig er ingen høydepunkter relevante, men du kan alltid gå til 'Vis alle høydepunkter'.",
-  "statistics_feedback_placeholder": "Hvordan kan det være mer nyttig? (valgfri)"
+  "statistics_feedback_placeholder": "Hvordan kan det være mer nyttig? (valgfri)",
+  "tags_reached_max": "Du har nådd det maksimale antallet {{max_count}} tagger. Vennligst slett noen tagger for å legge til nye."
 }

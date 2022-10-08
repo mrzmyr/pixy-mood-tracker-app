@@ -3,7 +3,6 @@ import dayjs from "dayjs";
 import { memo, useCallback } from "react";
 import { View } from "react-native";
 import { useCalendarFilters } from "../hooks/useCalendarFilters";
-import useColors from "../hooks/useColors";
 import { LogItem } from "../hooks/useLogs";
 import { SettingsState } from "../hooks/useSettings";
 import CalendarDay from "./CalendarDay";
@@ -24,18 +23,16 @@ const CalendarDayContainer = ({
 type DayMapItem = {
   number: number;
   dateString: string;
-  backgroundColor: string;
-  textColor: string;
   isToday: boolean;
   isFuture: boolean;
   hasText: boolean;
   isFiltered: boolean;
   isFiltering: boolean;
   hasContent: boolean;
-  item: LogItem;
+  item: Omit<LogItem, 'tags'>;
 }
 
-const CalendarWeek = memo(({
+export const CalendarWeek = memo(({
   days,
   items,
   isFirst = false,
@@ -43,13 +40,12 @@ const CalendarWeek = memo(({
   scaleType,
 }: {
   days: string[];
-  items: LogItem[];
+  items: Omit<LogItem, 'tags'>[];
   onPress?: (dateString: string) => void;
   isFirst?: boolean;
   isLast?: boolean;
   scaleType: SettingsState["scaleType"];
 }) => {
-  const colors = useColors()
   let justifyContent = "space-around";
   if(isFirst) justifyContent = 'flex-end';
   if(isLast) justifyContent = 'flex-start';
@@ -63,7 +59,7 @@ const CalendarWeek = memo(({
   const daysMap: DayMapItem[] = days.map(dateString => {
     const day = dayjs(dateString);
     const item = items.find(item => item.date === dateString);
-    const isFiltered = calendarFilters.isFiltering && item && !calendarFilters.validate(item)
+    const isFiltered = calendarFilters.filteredItems.map(item => item.date).includes(dateString);
     
     return {
       number: day.date(),
@@ -76,7 +72,6 @@ const CalendarWeek = memo(({
       hasText: item?.message.length > 0,
       hasContent: (
         item?.message?.length > 0 ||
-        item?.tags?.length > 0 ||
         item?.rating !== undefined
       ),
     }
@@ -88,7 +83,7 @@ const CalendarWeek = memo(({
     } else {
       navigation.navigate('LogEdit', { date: day.dateString });
     }
-  }, [navigation]);
+  }, []);
   
   return (
     <View
@@ -110,7 +105,6 @@ const CalendarWeek = memo(({
             isToday={day.isToday}
             isFiltered={day.isFiltered}
             isFiltering={day.isFiltering}
-            filters={calendarFilters.data}
             isFuture={day.isFuture}
             hasText={day.item?.message?.length > 0}
             scaleType={scaleType}
@@ -123,5 +117,3 @@ const CalendarWeek = memo(({
     </View>
   )
 })
-
-export default CalendarWeek;

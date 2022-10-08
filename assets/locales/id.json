@@ -224,5 +224,6 @@
   "statistics_trends_more": "Tampilkan Semua Tren",
   "statistics_2_week_highlights": "2 minggu terakhir",
   "statistics_no_highlights": "Saat ini tidak ada sorotan yang relevan, tetapi Anda selalu dapat membuka 'Tampilkan semua sorotan'.",
-  "statistics_feedback_placeholder": "Bagaimana itu bisa lebih membantu? (opsional)"
+  "statistics_feedback_placeholder": "Bagaimana itu bisa lebih membantu? (opsional)",
+  "tags_reached_max": "Anda mencapai maksimum {{max_count}} tag. Hapus beberapa tag untuk menambahkan yang baru."
 }

@@ -212,5 +212,6 @@
   "statistics_trends_more": "Alle Trends anzeigen",
   "statistics_2_week_highlights": "Letzte 2 Wochen",
   "statistics_no_highlights": "Derzeit sind keine Highlights relevant, aber Sie können jederzeit zu „Alle Highlights anzeigen“ gehen.",
-  "statistics_feedback_placeholder": "Wie könnte es hilfreicher sein? (Optional)"
+  "statistics_feedback_placeholder": "Wie könnte es hilfreicher sein? (Optional)",
+  "tags_reached_max": "Sie haben das Maximum von {{max_count}} Tags erreicht. Bitte löschen Sie einige Tags, um neue hinzuzufügen."
 }

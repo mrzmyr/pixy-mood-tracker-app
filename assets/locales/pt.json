@@ -224,5 +224,6 @@
   "statistics_trends_more": "Mostrar todas as tendências",
   "statistics_2_week_highlights": "Últimas 2 semanas",
   "statistics_no_highlights": "Atualmente, nenhum destaque é relevante, mas você sempre pode acessar 'Mostrar todos os destaques'.",
-  "statistics_feedback_placeholder": "Como poderia ser mais útil? (opcional)"
+  "statistics_feedback_placeholder": "Como poderia ser mais útil? (opcional)",
+  "tags_reached_max": "Você atingiu o máximo de {{max_count}} tags. Exclua algumas tags para adicionar novas."
 }

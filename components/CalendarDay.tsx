@@ -1,8 +1,7 @@
 import chroma from "chroma-js";
-import { memo } from "react";
-import { Text, TouchableOpacity, useColorScheme, View } from "react-native";
+import { memo, useCallback, useMemo } from "react";
+import { Text, TouchableOpacity, View } from "react-native";
 import { AlignLeft } from "react-native-feather";
-import { CalendarFiltersData } from "../hooks/useCalendarFilters";
 import useColors from "../hooks/useColors";
 import useHaptics from "../hooks/useHaptics";
 import { LogItem } from "../hooks/useLogs";
@@ -26,7 +25,6 @@ export default memo(function CalendarDay({
   isToday,
   isFiltered,
   isFiltering,
-  filters,
   isFuture,
   hasText,
   onPress,
@@ -36,7 +34,6 @@ export default memo(function CalendarDay({
   rating?: LogItem["rating"],
   scaleType: SettingsState["scaleType"],
   isToday: boolean,
-  filters: CalendarFiltersData,
   isFuture: boolean,
   isFiltering: boolean,
   isFiltered: boolean,
@@ -46,45 +43,89 @@ export default memo(function CalendarDay({
   const colors = useColors();
   const haptics = useHaptics();
 
-  let backgroundColor = (
-    isFiltered ? (
-      colors.calendarBackground
-    ) : (
-      rating ? 
-        colors.scales[scaleType][rating].background : 
-        colors.scales[scaleType].empty.background
+  let backgroundColor = useMemo(() => {
+    let bgcolor = (
+      isFiltered ? (
+        colors.calendarBackground
+      ) : (
+        rating ? 
+          colors.scales[scaleType][rating].background : 
+          colors.scales[scaleType].empty.background
+      )
     )
-  )
 
-  if(isFuture || isFiltered || (!rating && isFiltering)) {
-    backgroundColor = colors.calendarItemBackgroundFuture;
-  }
+    if(isFuture || isFiltered || (!rating && isFiltering)) {
+      bgcolor = colors.calendarItemBackgroundFuture;
+    }
 
-  const textColor = (
-    isFiltered ? (
-      colors.text
-    ) : (
-      rating ? 
-        colors.scales[scaleType][rating].text : 
-        colors.scales[scaleType].empty.text
+    return bgcolor;
+  }, [colors, isFiltered, rating, scaleType]);
+
+  const textColor = useMemo(() => {
+    let textColor = (
+      isFiltered ? (
+        colors.text
+      ) : (
+        rating ? 
+          colors.scales[scaleType][rating].text : 
+          colors.scales[scaleType].empty.text
+      )
     )
-  )
+    
+    return textColor;
+  }, [colors, isFiltered, rating, scaleType]);
 
-  let borderColor = 'transparent';
-  if(!isFiltering && !rating) {
-    borderColor = colors.scales[scaleType].empty.border
-  }
+  const borderColor = useMemo(() => {
+    let borderColor = 'transparent';
+
+    if(!isFiltering && !rating) {
+      borderColor = colors.scales[scaleType].empty.border
+    }
+
+    return borderColor;
+  }, [colors, isFiltering, rating, scaleType]);
+
+  const borderWidth = useMemo(() => rating === undefined && !isFuture ? 2 : 0, [isFuture, rating]);
+  const borderStyle = useMemo(() => !isFuture && !rating && !isFiltering ? 'dotted' : 'solid', [isFuture, rating, isFiltering]);
+
+  const _onPress = useCallback(async () => {
+    if(!isFuture) {
+      await haptics.selection()
+      onPress(dateString)
+    }
+  }, [dateString, isFuture, onPress])
+
+  const _TextIndicator = useMemo(() => hasText && !isFiltering ? <TextIndicator textColor={textColor} /> : null, [hasText, isFiltering, textColor]);
+  
+  const todayIndicaorBackgroundColor = useMemo(() => {
+    return (
+      isToday ?
+        (chroma(backgroundColor).luminance() < 0.5 ? 'rgba(255,255,255,0.7)' : 'rgba(0,0,0,0.5)') : 
+        'transparent'
+    )
+  }, [backgroundColor, isToday]);
+
+  const todayTextIndicatorColor = useMemo(() => {
+    return (
+      isToday ?
+      (chroma(backgroundColor).luminance() < 0.5 ? 
+        'black' :
+        'white'
+      ) : textColor
+    )
+  }, [backgroundColor, isToday, textColor]);
+
+  const todayTextIndicatorOpacity = useMemo(() => {
+    return !isToday && (isFuture || isFiltered || (!rating && isFiltering)) ? 0.3 : 1
+  }, [isToday, isFuture, isFiltered, rating, isFiltering]);
+  
+  const activeOpacity = useMemo(() => isFiltering ? 1 : 0.8, [isFiltering]);
   
   return (
     <>
       <TouchableOpacity
         disabled={isFuture || !onPress}
-        onPress={async () => {
-          if(!isFuture) {
-            await haptics.selection()
-            onPress(dateString)
-          }
-        }}
+        onPress={_onPress}
         style={{
           flexDirection: 'column',
           justifyContent: 'center',
@@ -94,11 +135,11 @@ export default memo(function CalendarDay({
           backgroundColor: backgroundColor,
           width: '100%',
           aspectRatio: 1,
-          borderWidth: rating === undefined && !isFuture ? 2 : 0,
-          borderStyle: !isFuture && !rating && !isFiltering ? 'dotted' : 'solid',
-          borderColor: borderColor,
+          borderWidth,
+          borderStyle,
+          borderColor,
         }}
-        activeOpacity={isFiltering ? 1 : 0.8}
+        activeOpacity={activeOpacity}
       >
         <View
           style={{
@@ -115,7 +156,7 @@ export default memo(function CalendarDay({
               alignItems: 'center',
             }}
           >
-            { hasText && !isFiltering && <TextIndicator textColor={textColor} />}
+            {_TextIndicator}
           </View>
         </View>
         <View
@@ -133,22 +174,14 @@ export default memo(function CalendarDay({
               minHeight: 20,
               minWidth: 20,
               borderRadius: 100,
-              backgroundColor: isToday ? 
-                (chroma(backgroundColor).luminance() < 0.5 ? 
-                  'rgba(255,255,255,0.7)' : 
-                  'rgba(0,0,0,0.5)'
-                ) : 'transparent',
+              backgroundColor: todayIndicaorBackgroundColor
             }}
           >
             <Text
               style={{
                 fontSize: 12,
-                opacity: !isToday && (isFuture || isFiltered || (!rating && isFiltering)) ? 0.3 : 1,
-                color: isToday ?
-                  (chroma(backgroundColor).luminance() < 0.5 ? 
-                    'black' :
-                    'white'
-                  ) : textColor,
+                opacity: todayTextIndicatorOpacity,
+                color: todayTextIndicatorColor,
               }}
             >{day}</Text>
           </View>

@@ -52,6 +52,7 @@ const translate = async (text, target) => {
       const key = missingKeys[localeKey][index]
       if(!result[localeKey]) result[localeKey] = {}
       console.log('translating…', locales.en[key], localeKey, key, localeKey)
+      console.log('')
       if(Array.isArray(locales.en[key])) {
         const translations = await Promise.all(locales.en[key].map(text => translate(text, localeKey)))
         console.log(translations)

@@ -224,5 +224,6 @@
   "statistics_trends_more": "إظهار كافة الاتجاهات",
   "statistics_2_week_highlights": "آخر أسبوعين",
   "statistics_no_highlights": "في الوقت الحالي ، لا توجد ميزات بارزة ذات صلة ، ولكن يمكنك دائمًا الانتقال إلى \"إظهار كافة العناصر المميزة\".",
-  "statistics_feedback_placeholder": "كيف يمكن أن يكون أكثر فائدة؟ (اختياري)"
+  "statistics_feedback_placeholder": "كيف يمكن أن يكون أكثر فائدة؟ (اختياري)",
+  "tags_reached_max": "لقد وصلت إلى الحد الأقصى من العلامات وهو {{max_count}}. يرجى حذف بعض العلامات لإضافة أخرى جديدة."
 }

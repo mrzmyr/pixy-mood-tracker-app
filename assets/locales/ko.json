@@ -224,5 +224,6 @@
   "statistics_trends_more": "모든 트렌드 표시",
   "statistics_2_week_highlights": "지난 2주",
   "statistics_no_highlights": "현재 관련 하이라이트가 없지만 언제든지 '모든 하이라이트 표시'로 이동할 수 있습니다.",
-  "statistics_feedback_placeholder": "어떻게 더 도움이 될까요? (선택 과목)"
+  "statistics_feedback_placeholder": "어떻게 더 도움이 될까요? (선택 과목)",
+  "tags_reached_max": "최대 {{max_count}}개의 태그에 도달했습니다. 새 태그를 추가하려면 일부 태그를 삭제하세요."
 }
