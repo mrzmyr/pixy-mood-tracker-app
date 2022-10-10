@@ -1,4 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import dayjs from 'dayjs';
 import _ from 'lodash';
 import { createContext, useContext, useEffect, useReducer } from "react";
 import { getJSONSchemaType } from '../lib/utils';
@@ -112,6 +113,21 @@ function LogsProvider({
         tags: [...settings.tags, tag]
       }))
     },
+    getItemsCoverage() {
+      let itemsCoverage = 0;
+    
+      const itemsSorted = Object.keys(state.items).sort((a, b) => {
+        return new Date(state.items[a].date).getTime() - new Date(state.items[b].date).getTime()
+      })
+    
+      if(itemsSorted.length > 0) {
+        const firstItemDate = new Date(itemsSorted[0])
+        const days = dayjs().diff(firstItemDate, 'day')
+        itemsCoverage = Math.round((itemsSorted.length / days) * 100)
+      }
+    
+      return itemsCoverage
+    },
     updateTag: (tag: ITag) => {
       const newItems = {};
       
@@ -174,6 +190,7 @@ function LogsProvider({
 function useLogs(): { 
   state: LogsState, 
   dispatch: (action: LogAction) => void
+  getItemsCoverage: () => number
   createTag: (tag: ITag) => void
   updateTag: (tag: ITag) => void
   deleteTag: (id: ITag['id']) => void

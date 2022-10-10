@@ -29,8 +29,8 @@ const Providers = ({
           }}
         >
         {/* <PasscodeProvider> */}
-          <AnalyticsProvider>
-            <LogsProvider>
+          <LogsProvider>
+            <AnalyticsProvider>
               <TemporaryLogProvider>
                 <CalendarFiltersProvider>
                   <StatisticsProvider>
@@ -38,8 +38,8 @@ const Providers = ({
                   </StatisticsProvider>
                 </CalendarFiltersProvider>
               </TemporaryLogProvider>
-            </LogsProvider>
-          </AnalyticsProvider>
+            </AnalyticsProvider>
+          </LogsProvider>
         </PostHogProvider>
         {/* </PasscodeProvider> */}
       </SettingsProvider>

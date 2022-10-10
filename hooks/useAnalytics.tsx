@@ -4,6 +4,7 @@ import { usePostHog } from 'posthog-react-native';
 import { createContext, useContext, useEffect, useState } from "react";
 import pkg from '../package.json';
 import { useAnonymizer } from './useAnonymizer';
+import { useLogs } from './useLogs';
 import { useSettings } from './useSettings';
 
 const AnalyticsContext = createContext(undefined)
@@ -26,13 +27,14 @@ function AnalyticsProvider({
   children: React.ReactNode
 }) {
   const { settings, setSettings } = useSettings()
+  const logs = useLogs()
   const posthog = usePostHog()
 
   const { anonymizeTag } = useAnonymizer()
   
   const [isIdentified, setIsIdentified] = useState(false)
   const [isEnabled, setIsEnabled] = useState(TRACKING_ENABLED)
-
+  
   const identify = (properties?: any) => {
     const traits = {
       userId: settings.deviceId,
@@ -49,6 +51,11 @@ function AnalyticsProvider({
       settingsWebhookEnabled: settings.webhookEnabled,
       settingsActionsDone: settings.actionsDone,
       settingsTags: settings.tags.map(tag => anonymizeTag(tag)),
+      settingsTagsCount: settings.tags.length,
+      
+      itemsCount: Object.values(logs.state.items).length,
+      itemsCoverage: logs.getItemsCoverage(),
+      
       ...properties,
     }
 
