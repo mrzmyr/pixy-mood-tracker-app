@@ -180,7 +180,7 @@ export const TagEdit = ({ navigation, route }: RootStackScreenProps<'TagEdit'>) 
               }}
               onPress={() => onSubmit(tag)}
               type='primary'
-              disabled={tag.title.length < MIN_TAG_LENGTH || tag.title.length > MAX_TAG_LENGTH}
+              disabled={tag?.title?.length < MIN_TAG_LENGTH || tag?.title?.length > MAX_TAG_LENGTH}
             >{t('save')}</Button>
             <Button
               style={{
