@@ -29,28 +29,30 @@ const Card = ({
         borderRadius: 8,
         padding: 16,
         flex: 1,
+        height: '100%',
         ...style,
       }}
     >
       <Text
         style={{
-          fontSize: 14,
-          fontWeight: 'bold',
-          color: colors.textSecondary,
-          marginBottom: 8,
-        }}
-      >
-        {title}
-      </Text>
-      <Text
-        style={{
           fontSize: 20,
           fontWeight: 'bold',
           color: colors.text,
+          marginBottom: 8,
         }}
       >
         {children}
       </Text>
+      <Text
+        style={{
+          fontSize: 14,
+          fontWeight: 'bold',
+          color: colors.textSecondary,
+        }}
+      >
+        {title}
+      </Text>
+
     </View>
   )
 }
@@ -58,7 +60,7 @@ const Card = ({
 export const DevelopmentStatistics = () => {
   const { t } = useTranslation()
   const colors = useColors()
-  const { state } = useLogs()
+  const { state, getItemsCoverage } = useLogs()
   const { settings, setSettings } = useSettings()
   
   const words_total = Object.values(state.items).map(d => d.message.split(' ').length).reduce((a, b) => a + b, 0)
@@ -84,8 +86,10 @@ export const DevelopmentStatistics = () => {
             }}
           >{Object.keys(state.items).length}</Card>
           <Card
-            title={t('development_statistics_days_tagged')}
-          >{Object.values(state.items).filter(d => d?.tags?.length > 0).length}</Card>
+            title={t('development_statistics_items_coverage')}
+            style={{
+            }}
+          >{getItemsCoverage()}%</Card>
         </View>
         <View style={{
           flexDirection: 'row',
@@ -98,6 +102,15 @@ export const DevelopmentStatistics = () => {
               marginRight: 16,
             }}
           >{settings?.tags?.length}</Card>
+          <Card
+            title={t('development_statistics_days_tagged')}
+          >{Object.values(state.items).filter(d => d?.tags?.length > 0).length}</Card>
+        </View>
+        <View style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          marginTop: 16,
+        }}>
           <Card
             title={t('development_statistics_words_total')}
           >{words_total}</Card>
@@ -145,6 +158,29 @@ export const DevelopmentStatistics = () => {
           }}
         >{t('development_statistics_reset_actions')}</Button>
         <TextInfo>{t('development_statistics_reset_questions_description')}</TextInfo>
+        <MenuListHeadline>Tags</MenuListHeadline>
+        <MenuList
+          style={{
+          }}
+        >
+          {settings.tags.map((tag, i) => (
+            <MenuListItem
+              style={{
+                flexDirection: 'column',
+              }}
+              key={i}
+              title={tag.title}
+              isLast={i === settings.tags.length - 1}
+            >
+              <Text style={{ color: colors.textSecondary, fontSize: 14, marginTop: 4 }}>{tag.id}</Text>
+            </MenuListItem>
+          ))}
+        </MenuList>
+        <View 
+          style={{
+            height: 100,
+          }}
+        />
       </ScrollView>
     </View>
   );
