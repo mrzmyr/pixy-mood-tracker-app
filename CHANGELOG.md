@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.42.1](https://github.com/mrzmyr/pixy-mood-tracker/compare/v1.42.0...v1.42.1) (2022-10-10)
+
+
+### Bug Fixes
+
+* save when resetting data ([8d9bba1](https://github.com/mrzmyr/pixy-mood-tracker/commit/8d9bba1a76c3607a384b2c7474ab10ce258c1945))
+
+
+### Chore
+
+* change access on hasText ([8c1cc66](https://github.com/mrzmyr/pixy-mood-tracker/commit/8c1cc66c16f7225021857462830d4c0ab9b3640f))
+
 ## [1.42.0](https://github.com/mrzmyr/pixy-mood-tracker/compare/v1.41.0...v1.42.0) (2022-10-10)
 
 
