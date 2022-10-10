@@ -10,7 +10,11 @@
     "splash": {
       "image": "./assets/images/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#ffffff",
+      "dark": {
+        "image": "./assets/images/splash.png",
+        "backgroundColor": "#171717"
+      }
     },
     "updates": {
       "fallbackToCacheTimeout": 0,
@@ -26,6 +30,12 @@
       "appStoreUrl": "https://apps.apple.com/de/app/pixy-mood-tracker/id1605327124",
       "infoPlist": {
         "NSFaceIDUsageDescription": "Pixy uses Face ID to lock the app and protect your data."
+      },
+      "splash": {
+        "dark": {
+          "image": "./assets/images/splash.png",
+          "backgroundColor": "#171717"
+        }
       }
     },
     "android": {
@@ -37,6 +47,12 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
+      },
+      "splash": {
+        "dark": {
+          "image": "./assets/images/splash.png",
+          "backgroundColor": "#171717"
+        }
       },
       "playStoreUrl": "https://play.google.com/store/apps/details?id=com.devmood.pixymoodtracker"
     },
