@@ -5,7 +5,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { useTranslation } from './useTranslation';
 
 const STORAGE_KEY = 'PIXEL_TRACKER_SETTINGS'
-export const COLOR_NAMES = ['slate', 'stone', 'red', 'orange', 'amber', 'yellow', 'lime', 'green', 'emerald', 'teal', 'cyan', 'sky', 'blue', 'indigo', 'violet', 'purple', 'fuchsia', 'pink', 'rose']
+export const COLOR_NAMES = ['slate', 'red', 'orange', 'amber', 'yellow', 'lime', 'green', 'emerald', 'teal', 'cyan', 'sky', 'blue', 'indigo', 'violet', 'purple', 'fuchsia', 'pink', 'rose']
 
 export const SCALE_TYPES = [
   'ColorBrew-RdYlGn',
