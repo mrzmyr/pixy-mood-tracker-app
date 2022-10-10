@@ -44,7 +44,7 @@ export const getTagsDistributionTrendData = (
 
   // if tags exist inside the settings tags
   const filteredItems = items.filter((item) =>
-    item.tags.some((tag) => settingsTags.some((d) => d.id === tag.id))
+    item?.tags?.some((tag) => settingsTags.some((d) => d.id === tag.id))
   );
 
   if(filteredItems.length === 0) {
