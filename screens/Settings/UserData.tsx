@@ -6,6 +6,7 @@ import MenuListHeadline from "../../components/MenuListHeadline";
 import MenuListItem from "../../components/MenuListItem";
 import useColors from "../../hooks/useColors";
 import { useDatagate } from "../../hooks/useDatagate";
+import { useSettings } from "../../hooks/useSettings";
 
 export const UserDataImportList = () => {
   const [users, setUsers] = useState<{
@@ -14,6 +15,7 @@ export const UserDataImportList = () => {
   }[]>([]);
   const colors = useColors()
   const datagate = useDatagate()
+  const { addActionDone, hasActionDone } = useSettings()
 
   const [loadedUserIds, setLoadedUserIds] = useState<string[]>([])
   const [loading, setLoading] = useState(false)
@@ -63,16 +65,17 @@ export const UserDataImportList = () => {
         marginBottom: 40
       }}
     >
-        {loading && (
-          <View style={{
-            flexDirection: 'row',
-            justifyContent: 'center',
-            alignItems: 'center',
-            marginBottom: 8,
-          }}>
-            <ActivityIndicator size={'small'} color={colors.loadingIndicator} />
-          </View>
-        )}
+      {loading && (
+        <View style={{
+          flexDirection: 'row',
+          justifyContent: 'center',
+          alignItems: 'center',
+          marginBottom: 8,
+          padding: 16,
+        }}>
+          <ActivityIndicator size={'small'} color={colors.loadingIndicator} />
+        </View>
+      )}
       {!loading && users.map((user, index) => (
         <MenuListItem
           key={user.id}
@@ -80,6 +83,9 @@ export const UserDataImportList = () => {
           iconLeft={loadedUserIds.includes(user.id) ? <CheckCircle width={18} color={colors.palette.green[500]} /> : <UploadCloud width={18} color={colors.menuListItemIcon} />}
           onPress={() => {
             datagate.importData(user.importData)
+            if(!hasActionDone('onboarding')) {
+              addActionDone('onboarding')
+            }
             setLoadedUserIds((loadedUserIds) => [...loadedUserIds, user.id])
           }}
           isLast={index === users.length - 1}
