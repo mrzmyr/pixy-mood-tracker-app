@@ -2,6 +2,37 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.41.0](https://github.com/mrzmyr/pixy-mood-tracker/compare/v1.40.0...v1.41.0) (2022-10-10)
+
+
+### Features
+
+* add % logged to dev stats ([84401da](https://github.com/mrzmyr/pixy-mood-tracker/commit/84401da711d0de3e0e3ba951ca161f4c9a80ef93))
+* add dark mode splash screen ([ab22215](https://github.com/mrzmyr/pixy-mood-tracker/commit/ab22215619f3aabf06a06429ae229886a965211a))
+* add tags trends ([5eda424](https://github.com/mrzmyr/pixy-mood-tracker/commit/5eda424259f54943cfcb4678d34fc2c65722c318))
+* add tracking counts for filters ([7288694](https://github.com/mrzmyr/pixy-mood-tracker/commit/7288694c712e96dc244495428fb86ab284d1260c))
+* add tracking for filtering ([2f5b011](https://github.com/mrzmyr/pixy-mood-tracker/commit/2f5b011fa6d2b8d035a2e839e717d6477eb4e5b1))
+* prevent onboarding when using fake data ([b76bac0](https://github.com/mrzmyr/pixy-mood-tracker/commit/b76bac07843f01d1ea4c9a003f6ff29ef5ea1613))
+* track itemsCoverage and itemsCount ([9a41681](https://github.com/mrzmyr/pixy-mood-tracker/commit/9a41681b83a9e9cbdc6b86633c42f17a6e329099))
+
+
+### Bug Fixes
+
+* debounce filter tracking ([d721080](https://github.com/mrzmyr/pixy-mood-tracker/commit/d7210806cdc97908b197115f6525c57f1eafca27))
+* prevent access violation ([75373ef](https://github.com/mrzmyr/pixy-mood-tracker/commit/75373efb18154c3a402c58c1d1c6af787bf6a687))
+* prevent access violation ([db801d8](https://github.com/mrzmyr/pixy-mood-tracker/commit/db801d8a3e9fcbe3047d02ac22509b40cbb5a51b))
+* remove stone as tag color ([ab6a22a](https://github.com/mrzmyr/pixy-mood-tracker/commit/ab6a22a531b0e025333f534c935a805deb36c2f8))
+
+
+### Styling
+
+* isLink on settings ([53d0492](https://github.com/mrzmyr/pixy-mood-tracker/commit/53d0492b8a50aabee6ce179e3bb8ba79de6ef989))
+
+
+### Chore
+
+* remove console.logs ([402aed6](https://github.com/mrzmyr/pixy-mood-tracker/commit/402aed675d66a3725094a88d7935c5d9662f47b7))
+
 ## [1.40.0](https://github.com/mrzmyr/pixy-mood-tracker/compare/v1.39.0...v1.40.0) (2022-10-08)
 
 
