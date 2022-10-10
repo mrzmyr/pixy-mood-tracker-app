@@ -14,8 +14,14 @@ export const getTagsPeaksData = (items: LogItem[], settingsTags: Tag[]): TagsPea
   const distribution = _.countBy(
     items.flatMap((item) => item?.tags?.map((tag) => tag?.id))
   );
+  
   const tags = Object.keys(distribution)
-    .filter((key) => distribution[key] >= MIN_PEAKS)
+    .filter((key) => {
+      return (
+        distribution[key] >= MIN_PEAKS &&
+        settingsTags.find((tag) => tag.id === key)
+      )
+    })
     .map((key) => ({
       ...settingsTags.find((tag) => tag.id === key),
       items: items.filter((item) => item?.tags?.find((tag) => tag.id === key)),
