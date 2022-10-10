@@ -45,7 +45,7 @@ export default function Tag({
           height: 8,
           borderRadius: 8,
           marginRight: 10,
-          backgroundColor: colors.tags[colorName].dot,
+          backgroundColor: colors.tags[colorName]?.dot,
         }}
       />
       <Text style={{

@@ -20,6 +20,11 @@ let openShareDialogAsync = async (uri: string) => {
   await Sharing.shareAsync(uri);
 };
 
+interface ImportData {
+  items: LogsState["items"];
+  settings: SettingsState;
+}
+
 export const useDatagate = () => {
   const { state, dispatch } = useLogs();
   const { t } = useTranslation();
@@ -27,10 +32,43 @@ export const useDatagate = () => {
 
   const analytics = useAnalytics();
 
-  const _import = (data: {
-    items: LogsState["items"];
-    settings: SettingsState;
-  }) => {
+  const migrateData = (data: ImportData): ImportData => {
+    const { items, settings } = data;
+
+    const newItems = {}
+    
+    Object.values(items).forEach((item) => {
+      const newItem = { ...item };
+      if (item?.tags) {
+        newItem.tags = item.tags.map((tag) => {
+          const newTag = { ...tag };
+          if (tag.color === 'stone') {
+            newTag.color = 'slate'; 
+          }
+          return newTag;
+        });
+      }
+      newItems[item.date] = newItem;
+    });
+
+    const newSettings = { ...settings };
+    if (settings.tags) {
+      newSettings.tags = settings.tags.map((tag) => { 
+        const newTag = { ...tag };
+        if (tag.color === 'stone') {
+          newTag.color = 'slate'; 
+        }
+        return newTag;
+      });
+    }
+
+    return {
+      items: newItems,
+      settings: newSettings,
+    };
+  };
+  
+  const _import = (data: ImportData) => {    
     dispatch({
       type: "import",
       payload: {
@@ -77,8 +115,8 @@ export const useDatagate = () => {
             analytics.track("data_import_success");
             const contents = await FileSystem.readAsStringAsync(doc.uri);
             const data = JSON.parse(contents);
-
-            const jsonSchemaType = getJSONSchemaType(data);
+            const migratedData = migrateData(data);
+            const jsonSchemaType = getJSONSchemaType(migratedData);
 
             if (jsonSchemaType === "pixy") {
               Alert.alert(
@@ -91,8 +129,8 @@ export const useDatagate = () => {
                 ],
                 { cancelable: false }
               );
-              _import(data);
-              resolve(data);
+              _import(migratedData);
+              resolve(migratedData);
             } else {
               analytics.track("data_import_error", {
                 reason: "invalid_json_schema",
@@ -176,10 +214,11 @@ export const useDatagate = () => {
   };
 
   const importData = async (data) => {
-    const jsonSchemaType = getJSONSchemaType(data);
+    const migratedData = migrateData(data);
+    const jsonSchemaType = getJSONSchemaType(migratedData);
 
     if (jsonSchemaType === "pixy") {
-      _import(data);
+      _import(migratedData);
     } else {
       analytics.track("data_import_error", {
         reason: "invalid_json_schema",
