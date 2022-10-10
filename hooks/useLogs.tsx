@@ -27,6 +27,10 @@ export interface LogAction {
   payload?: LogsState & LogItem;
 }
 
+const initialState: LogsState = {
+  items: {}
+}
+
 const LogsContext = createContext(undefined)
 
 function reducer(state: LogsState, action: LogAction): LogsState {
@@ -49,7 +53,9 @@ function reducer(state: LogsState, action: LogAction): LogsState {
       delete state.items[action.payload.date]
       return { ...state }
     case 'reset':
-      return { items: {} }
+      return {
+        ...initialState
+      }
     default:
       throw new Error(`Unhandled action type: ${action.type}`)
   }
@@ -69,15 +75,13 @@ function LogsProvider({
   
   const reducerProxy = (state: LogsState, action: LogAction): LogsState => {
     const newState = reducer(state, action)
-    if(['add', 'edit', 'delete', 'import'].includes(action.type)) {
+    if(['add', 'edit', 'delete', 'import', 'reset'].includes(action.type)) {
       saveLogs(newState)
     }
     return newState
   }
   
-  const [state, dispatch] = useReducer(reducerProxy, {
-    items: {}
-  })
+  const [state, dispatch] = useReducer(reducerProxy, initialState)
   
   const dispatchProxy = (action: LogAction) => {
     dispatch(action)
