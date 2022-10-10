@@ -1,5 +1,6 @@
 import _ from "lodash";
 import { createContext, useContext, useState } from "react";
+import { useDebouncedCallback } from "use-debounce";
 import { useAnalytics } from "./useAnalytics";
 import { LogItem, useLogs } from './useLogs';
 import { Tag } from "./useSettings";
@@ -48,6 +49,14 @@ function CalendarFiltersProvider({
   const [data, setData] = useState<CalendarFiltersData>(initialState)
   const [isOpen, setIsOpen] = useState(false)
   
+  const trackFilter = useDebouncedCallback(() => {
+    analytics.track('calendar_filter_filtered', {
+      textLength: data.text.length,
+      ratings: data.ratings,
+      tagIds: data.tagIds,
+    })
+  }, 200);
+  
   const _isMatching = (item: LogItem, data: CalendarFiltersData) => {
     const matchesText = item.message.toLowerCase().includes(data.text.toLowerCase())
     const matchesRatings = data.ratings.includes(item.rating)
@@ -89,11 +98,7 @@ function CalendarFiltersProvider({
   const value: Value = {
     data, 
     set: data => {
-      analytics.track('calendar_filter_filtered', {
-        textLength: data.text.length,
-        ratings: data.ratings,
-        tagIds: data.tagIds,
-      })
+      trackFilter()
       _setData(data)
     },
     reset: () => {
