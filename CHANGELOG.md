@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.42.0](https://github.com/mrzmyr/pixy-mood-tracker/compare/v1.41.0...v1.42.0) (2022-10-10)
+
+
+### Features
+
+* add data migration ([4e1a2df](https://github.com/mrzmyr/pixy-mood-tracker/commit/4e1a2dff282331f76335d81485d7e020666d37bc))
+
+
+### Bug Fixes
+
+* access violation ([c0f5c35](https://github.com/mrzmyr/pixy-mood-tracker/commit/c0f5c3531092b93932ff248cb46208ba93a33123))
+
 ## [1.41.0](https://github.com/mrzmyr/pixy-mood-tracker/compare/v1.40.0...v1.41.0) (2022-10-10)
 
 
