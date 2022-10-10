@@ -60,9 +60,6 @@ export const getTagsDistributionTrendData = (
 
     _items.forEach((item) => {
       item.tags.forEach((tag) => {
-        if (!distributionPeriode1[tag.id]?.count) {
-          console.log(tag.id, distributionPeriode1[tag.id]);
-        }
         distributionPeriode1[tag.id].count++;
       });
     });

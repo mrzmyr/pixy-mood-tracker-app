@@ -87,10 +87,11 @@ function LogsProvider({
   }
 
   useEffect(() => {
+
     const load = async () => {
       const data = await AsyncStorage.getItem(STORAGE_KEY)
       const json = JSON.parse(data)
-        if (getJSONSchemaType(json) === 'pixy') {
+      if (getJSONSchemaType(json) === 'pixy') {
         dispatch({ type: 'import', payload: json })
       } else {
         console.log('PIXY: unkown schema in local storage found')

@@ -17,8 +17,6 @@ export const TrendsSection = () => {
   const statistics = useStatistics();
   const { t } = useTranslation();
 
-  console.log(statistics.isAvailable("tags_distribution_trend"), 'isAvailable')
-  
   return (
     <>
       <Title>{t("statistics_trends")}</Title>

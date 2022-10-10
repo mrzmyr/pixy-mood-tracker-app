@@ -35,8 +35,6 @@ const Chart = ({
   const width = (height * 4);
   const itemWidth = width / scaleItemCount;
 
-  console.log('scaleItems', data.avgPeriod1, data.avgPeriod2)
-  
   return (
     <Svg
       width={'100%'}
