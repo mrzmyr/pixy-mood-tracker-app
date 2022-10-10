@@ -106,7 +106,7 @@ export const CalendarWeek = memo(({
             isFiltered={day.isFiltered}
             isFiltering={day.isFiltering}
             isFuture={day.isFuture}
-            hasText={day.item?.message?.length > 0}
+            hasText={day.hasText}
             scaleType={scaleType}
             onPress={() => onPress(day)}
           />
