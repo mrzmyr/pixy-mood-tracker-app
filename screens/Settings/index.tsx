@@ -183,14 +183,15 @@ export const SettingsScreen = ({ navigation }: RootStackScreenProps<'Settings'>)
           }}
         >
           <MenuListItem
-            title={`${i18n.t('settings_development_statistics')}`}
-            iconLeft={<PieChart width={18} color={colors.menuListItemIcon} />}
-            onPress={() => navigation.navigate('DevelopmentStatistics')}
-          />
-          <MenuListItem
             title={`${i18n.t('onboarding')}`}
             iconLeft={<Smartphone width={18} color={colors.menuListItemIcon} />}
             onPress={() => navigation.navigate('Onboarding')}
+          />
+          <MenuListItem
+            title={`${i18n.t('settings_development_statistics')}`}
+            iconLeft={<PieChart width={18} color={colors.menuListItemIcon} />}
+            onPress={() => navigation.navigate('DevelopmentStatistics')}
+            isLink
           />
           <MenuListItem
             title={i18n.t('licenses')}
