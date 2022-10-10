@@ -225,5 +225,9 @@
   "statistics_2_week_highlights": "Posledné 2 týždne",
   "statistics_no_highlights": "Momentálne nie sú relevantné žiadne zvýraznenia, ale vždy môžete prejsť na „Zobraziť všetky zvýraznenia“.",
   "statistics_feedback_placeholder": "Ako by to mohlo byť užitočnejšie? (voliteľné)",
-  "tags_reached_max": "Dosiahli ste maximálny počet {{max_count}} značiek. Ak chcete pridať nové, odstráňte niektoré značky."
+  "tags_reached_max": "Dosiahli ste maximálny počet {{max_count}} značiek. Ak chcete pridať nové, odstráňte niektoré značky.",
+  "development_statistics_items_coverage": "Prihlásené od prvého dňa",
+  "statistics_tags_distribution_trend_prefix": "Označujete",
+  "statistics_tags_distribution_trend_increase_suffix": "častejšie",
+  "statistics_tags_distribution_trend_decrease_suffix": "menej často"
 }

@@ -225,5 +225,9 @@
   "statistics_2_week_highlights": "שבועיים אחרונים",
   "statistics_no_highlights": "נכון לעכשיו אין דגשים רלוונטיים, אבל תמיד אפשר ללכת ל'הצג את כל ההדגשות'.",
   "statistics_feedback_placeholder": "איך זה יכול להיות מועיל יותר? (אופציונאלי)",
-  "tags_reached_max": "הגעת למקסימום של {{max_count}} תגים. אנא מחק כמה תגים כדי להוסיף חדשים."
+  "tags_reached_max": "הגעת למקסימום של {{max_count}} תגים. אנא מחק כמה תגים כדי להוסיף חדשים.",
+  "development_statistics_items_coverage": "נרשם מהיום הראשון",
+  "statistics_tags_distribution_trend_prefix": "אתה מתייג",
+  "statistics_tags_distribution_trend_increase_suffix": "לעתים קרובות יותר",
+  "statistics_tags_distribution_trend_decrease_suffix": "לעתים רחוקות"
 }

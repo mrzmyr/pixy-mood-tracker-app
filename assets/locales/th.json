@@ -225,5 +225,9 @@
   "statistics_2_week_highlights": "2 สัปดาห์ที่ผ่านมา",
   "statistics_no_highlights": "ขณะนี้ไม่มีไฮไลท์ที่เกี่ยวข้อง แต่คุณสามารถไปที่ 'แสดงไฮไลท์ทั้งหมด' ได้ตลอดเวลา",
   "statistics_feedback_placeholder": "มันจะมีประโยชน์มากขึ้นได้อย่างไร? (ไม่จำเป็น)",
-  "tags_reached_max": "คุณมีแท็กถึงจำนวนสูงสุด {{max_count}} แท็กแล้ว โปรดลบบางแท็กเพื่อเพิ่มแท็กใหม่"
+  "tags_reached_max": "คุณมีแท็กถึงจำนวนสูงสุด {{max_count}} แท็กแล้ว โปรดลบบางแท็กเพื่อเพิ่มแท็กใหม่",
+  "development_statistics_items_coverage": "เข้าสู่ระบบตั้งแต่วันแรก",
+  "statistics_tags_distribution_trend_prefix": "คุณกำลังแท็ก",
+  "statistics_tags_distribution_trend_increase_suffix": "บ่อยขึ้น",
+  "statistics_tags_distribution_trend_decrease_suffix": "ไม่บ่อย"
 }

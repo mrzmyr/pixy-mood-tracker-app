@@ -225,5 +225,9 @@
   "statistics_2_week_highlights": "Ultimele 2 saptamani",
   "statistics_no_highlights": "Momentan, nicio evidențiere nu este relevantă, dar poți oricând să mergi la „Afișează toate evidențierile”.",
   "statistics_feedback_placeholder": "Cum ar putea fi mai util? (optional)",
-  "tags_reached_max": "Ați atins numărul maxim de {{max_count}} etichete. Vă rugăm să ștergeți câteva etichete pentru a adăuga altele noi."
+  "tags_reached_max": "Ați atins numărul maxim de {{max_count}} etichete. Vă rugăm să ștergeți câteva etichete pentru a adăuga altele noi.",
+  "development_statistics_items_coverage": "Conectat din prima zi",
+  "statistics_tags_distribution_trend_prefix": "Etichetezi",
+  "statistics_tags_distribution_trend_increase_suffix": "mai des",
+  "statistics_tags_distribution_trend_decrease_suffix": "mai rar"
 }

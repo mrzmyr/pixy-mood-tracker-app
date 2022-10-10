@@ -225,5 +225,9 @@
   "statistics_2_week_highlights": "Viimeiset 2 viikkoa",
   "statistics_no_highlights": "Tällä hetkellä mitkään kohokohdat eivät ole tärkeitä, mutta voit aina siirtyä Näytä kaikki kohokohdat -kohtaan.",
   "statistics_feedback_placeholder": "Miten se voisi olla hyödyllisempää? (valinnainen)",
-  "tags_reached_max": "Olet saavuttanut enimmäismäärän {{max_count}} tagia. Poista joitakin tunnisteita lisätäksesi uusia."
+  "tags_reached_max": "Olet saavuttanut enimmäismäärän {{max_count}} tagia. Poista joitakin tunnisteita lisätäksesi uusia.",
+  "development_statistics_items_coverage": "Kirjattu ensimmäisestä päivästä lähtien",
+  "statistics_tags_distribution_trend_prefix": "Merkitset",
+  "statistics_tags_distribution_trend_increase_suffix": "useammin",
+  "statistics_tags_distribution_trend_decrease_suffix": "ei niin usein"
 }

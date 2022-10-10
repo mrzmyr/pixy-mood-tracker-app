@@ -225,5 +225,9 @@
   "statistics_2_week_highlights": "آخر أسبوعين",
   "statistics_no_highlights": "في الوقت الحالي ، لا توجد ميزات بارزة ذات صلة ، ولكن يمكنك دائمًا الانتقال إلى \"إظهار كافة العناصر المميزة\".",
   "statistics_feedback_placeholder": "كيف يمكن أن يكون أكثر فائدة؟ (اختياري)",
-  "tags_reached_max": "لقد وصلت إلى الحد الأقصى من العلامات وهو {{max_count}}. يرجى حذف بعض العلامات لإضافة أخرى جديدة."
+  "tags_reached_max": "لقد وصلت إلى الحد الأقصى من العلامات وهو {{max_count}}. يرجى حذف بعض العلامات لإضافة أخرى جديدة.",
+  "development_statistics_items_coverage": "تم تسجيله منذ اليوم الأول",
+  "statistics_tags_distribution_trend_prefix": "أنت تقوم بوضع علامات",
+  "statistics_tags_distribution_trend_increase_suffix": "في كثير من الأحيان",
+  "statistics_tags_distribution_trend_decrease_suffix": "كثير من الأحيان أقل"
 }

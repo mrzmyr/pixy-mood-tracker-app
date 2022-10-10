@@ -32,7 +32,7 @@ export const MoodAvgCard = ({
           borderRadius: 4,
         }}
       >
-        {data.distribution.reverse().map(item => {
+        {Array.from(data.distribution).reverse().map(item => {
           return (
             <View
               key={item.key}

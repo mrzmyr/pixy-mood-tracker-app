@@ -225,5 +225,9 @@
   "statistics_2_week_highlights": "Senaste 2 veckorna",
   "statistics_no_highlights": "För närvarande är inga höjdpunkter relevanta, men du kan alltid gå till \"Visa alla höjdpunkter\".",
   "statistics_feedback_placeholder": "Hur kan det vara mer användbart? (frivillig)",
-  "tags_reached_max": "Du nådde det maximala antalet {{max_count}} taggar. Ta bort några taggar för att lägga till nya."
+  "tags_reached_max": "Du nådde det maximala antalet {{max_count}} taggar. Ta bort några taggar för att lägga till nya.",
+  "development_statistics_items_coverage": "Loggat sedan första dagen",
+  "statistics_tags_distribution_trend_prefix": "Du taggar",
+  "statistics_tags_distribution_trend_increase_suffix": "oftare",
+  "statistics_tags_distribution_trend_decrease_suffix": "mindre ofta"
 }

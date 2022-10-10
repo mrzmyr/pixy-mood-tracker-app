@@ -225,5 +225,9 @@
   "statistics_2_week_highlights": "過去 2 週間",
   "statistics_no_highlights": "現在、関連するハイライトはありませんが、いつでも [すべてのハイライトを表示] に移動できます。",
   "statistics_feedback_placeholder": "どうすればもっと役立つでしょうか？ (オプション)",
-  "tags_reached_max": "最大 {{max_count}} タグに達しました。新しいタグを追加するには、いくつかのタグを削除してください。"
+  "tags_reached_max": "最大 {{max_count}} タグに達しました。新しいタグを追加するには、いくつかのタグを削除してください。",
+  "development_statistics_items_coverage": "初日から記録",
+  "statistics_tags_distribution_trend_prefix": "タグ付けしています",
+  "statistics_tags_distribution_trend_increase_suffix": "より頻繁に",
+  "statistics_tags_distribution_trend_decrease_suffix": "頻度は低いものの"
 }

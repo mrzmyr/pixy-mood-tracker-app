@@ -225,5 +225,9 @@
   "statistics_2_week_highlights": "पिछले 2 सप्ताह",
   "statistics_no_highlights": "वर्तमान में कोई हाइलाइट प्रासंगिक नहीं है, लेकिन आप हमेशा 'सभी हाइलाइट दिखाएं' पर जा सकते हैं।",
   "statistics_feedback_placeholder": "यह और अधिक सहायक कैसे हो सकता है? (वैकल्पिक)",
-  "tags_reached_max": "आप अधिकतम {{max_count}} टैग तक पहुंच गए हैं। नए जोड़ने के लिए कृपया कुछ टैग हटाएं।"
+  "tags_reached_max": "आप अधिकतम {{max_count}} टैग तक पहुंच गए हैं। नए जोड़ने के लिए कृपया कुछ टैग हटाएं।",
+  "development_statistics_items_coverage": "पहले दिन से लॉग इन किया",
+  "statistics_tags_distribution_trend_prefix": "आप टैग कर रहे हैं",
+  "statistics_tags_distribution_trend_increase_suffix": "अक्सर",
+  "statistics_tags_distribution_trend_decrease_suffix": "कम अक्सर"
 }

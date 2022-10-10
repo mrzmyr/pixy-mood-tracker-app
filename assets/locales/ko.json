@@ -225,5 +225,9 @@
   "statistics_2_week_highlights": "지난 2주",
   "statistics_no_highlights": "현재 관련 하이라이트가 없지만 언제든지 '모든 하이라이트 표시'로 이동할 수 있습니다.",
   "statistics_feedback_placeholder": "어떻게 더 도움이 될까요? (선택 과목)",
-  "tags_reached_max": "최대 {{max_count}}개의 태그에 도달했습니다. 새 태그를 추가하려면 일부 태그를 삭제하세요."
+  "tags_reached_max": "최대 {{max_count}}개의 태그에 도달했습니다. 새 태그를 추가하려면 일부 태그를 삭제하세요.",
+  "development_statistics_items_coverage": "첫날부터 기록됨",
+  "statistics_tags_distribution_trend_prefix": "태그하는 중",
+  "statistics_tags_distribution_trend_increase_suffix": "더 자주",
+  "statistics_tags_distribution_trend_decrease_suffix": "덜 자주"
 }

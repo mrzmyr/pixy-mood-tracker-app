@@ -225,5 +225,9 @@
   "statistics_2_week_highlights": "Últimas 2 semanas",
   "statistics_no_highlights": "Atualmente, nenhum destaque é relevante, mas você sempre pode acessar 'Mostrar todos os destaques'.",
   "statistics_feedback_placeholder": "Como poderia ser mais útil? (opcional)",
-  "tags_reached_max": "Você atingiu o máximo de {{max_count}} tags. Exclua algumas tags para adicionar novas."
+  "tags_reached_max": "Você atingiu o máximo de {{max_count}} tags. Exclua algumas tags para adicionar novas.",
+  "development_statistics_items_coverage": "Registrado desde o primeiro dia",
+  "statistics_tags_distribution_trend_prefix": "Você está marcando",
+  "statistics_tags_distribution_trend_increase_suffix": "mais frequentemente",
+  "statistics_tags_distribution_trend_decrease_suffix": "menos frequentemente"
 }

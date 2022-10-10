@@ -225,5 +225,9 @@
   "statistics_2_week_highlights": "Son 2 hafta",
   "statistics_no_highlights": "Şu anda hiçbir önemli nokta alakalı değil, ancak her zaman 'Tüm öne çıkanları göster' seçeneğine gidebilirsiniz.",
   "statistics_feedback_placeholder": "Nasıl daha yararlı olabilir? (isteğe bağlı)",
-  "tags_reached_max": "Maksimum {{max_count}} etikete ulaştınız. Yenilerini eklemek için lütfen bazı etiketleri silin."
+  "tags_reached_max": "Maksimum {{max_count}} etikete ulaştınız. Yenilerini eklemek için lütfen bazı etiketleri silin.",
+  "development_statistics_items_coverage": "İlk günden beri kayıtlı",
+  "statistics_tags_distribution_trend_prefix": "etiketliyorsunuz",
+  "statistics_tags_distribution_trend_increase_suffix": "daha sık",
+  "statistics_tags_distribution_trend_decrease_suffix": "daha az sıklıkta"
 }

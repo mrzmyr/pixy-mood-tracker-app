@@ -213,5 +213,9 @@
   "statistics_2_week_highlights": "Letzte 2 Wochen",
   "statistics_no_highlights": "Derzeit sind keine Highlights relevant, aber Sie können jederzeit zu „Alle Highlights anzeigen“ gehen.",
   "statistics_feedback_placeholder": "Wie könnte es hilfreicher sein? (Optional)",
-  "tags_reached_max": "Sie haben das Maximum von {{max_count}} Tags erreicht. Bitte löschen Sie einige Tags, um neue hinzuzufügen."
+  "tags_reached_max": "Du hast das Maximum von {{max_count}} Tags erreicht. Bitte lösche einige Tags, um neue hinzuzufügen.",
+  "development_statistics_items_coverage": "Seit dem ersten Tag protokolliert",
+  "statistics_tags_distribution_trend_prefix": "Du taggst",
+  "statistics_tags_distribution_trend_increase_suffix": "öfters",
+  "statistics_tags_distribution_trend_decrease_suffix": "weniger oft"
 }

@@ -225,5 +225,9 @@
   "statistics_2_week_highlights": "2 tuần trước",
   "statistics_no_highlights": "Hiện tại không có điểm nổi bật nào có liên quan, nhưng bạn luôn có thể đi tới 'Hiển thị tất cả điểm nổi bật'.",
   "statistics_feedback_placeholder": "Làm thế nào nó có thể hữu ích hơn? (không bắt buộc)",
-  "tags_reached_max": "Bạn đã đạt đến tối đa {{max_count}} thẻ. Vui lòng xóa một số thẻ để thêm thẻ mới."
+  "tags_reached_max": "Bạn đã đạt đến tối đa {{max_count}} thẻ. Vui lòng xóa một số thẻ để thêm thẻ mới.",
+  "development_statistics_items_coverage": "Đã ghi nhật ký kể từ ngày đầu tiên",
+  "statistics_tags_distribution_trend_prefix": "Bạn đang gắn thẻ",
+  "statistics_tags_distribution_trend_increase_suffix": "thương xuyên hơn",
+  "statistics_tags_distribution_trend_decrease_suffix": "ít hơn thường lệ"
 }

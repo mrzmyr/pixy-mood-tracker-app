@@ -169,6 +169,9 @@ const light = {
   statisticsLineMuted: colors.neutral[200],
   statisticsLineHighlight: tintColorLight,
 
+  statisticsTagsTrendMutedBackground: colors.neutral[200],
+  statisticsTagsTrendMutedText: colors.neutral[800],
+
   onboardingTitle: colors.black,
   onboardingBody: colors.neutral[700],
   
@@ -326,6 +329,9 @@ const dark: IColors & {
   statisticsCalendarDotBorder: colors.neutral[700],
   statisticsNoDataBorder: colors.neutral[800],
   statisticsNoDataText: colors.neutral[700],
+
+  statisticsTagsTrendMutedBackground: colors.neutral[800],
+  statisticsTagsTrendMutedText: colors.neutral[500],
 
   statisticsLinePrimary: colors.neutral[200],
   statisticsLineMuted: colors.neutral[500],

@@ -225,5 +225,9 @@
   "statistics_2_week_highlights": "Ostatnie 2 tygodnie",
   "statistics_no_highlights": "Obecnie żadne najciekawsze momenty nie są istotne, ale zawsze możesz przejść do opcji „Pokaż wszystkie najciekawsze momenty”.",
   "statistics_feedback_placeholder": "Jak mogłoby to być bardziej pomocne? (opcjonalny)",
-  "tags_reached_max": "Osiągnięto maksymalną liczbę {{max_count}} tagów. Usuń niektóre tagi, aby dodać nowe."
+  "tags_reached_max": "Osiągnięto maksymalną liczbę {{max_count}} tagów. Usuń niektóre tagi, aby dodać nowe.",
+  "development_statistics_items_coverage": "Zalogowany od pierwszego dnia",
+  "statistics_tags_distribution_trend_prefix": "Tagujesz",
+  "statistics_tags_distribution_trend_increase_suffix": "częściej",
+  "statistics_tags_distribution_trend_decrease_suffix": "rzadziej"
 }

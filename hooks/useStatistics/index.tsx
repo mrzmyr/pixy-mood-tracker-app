@@ -4,8 +4,9 @@ import { LogItem, useLogs } from "../useLogs";
 import { useSettings } from "../useSettings";
 import { defaultMoodAvgData, getMoodAvgData, MoodAvgData } from "./MoodAvg";
 import { defaultMoodPeaksNegativeData, defaultMoodPeaksPositiveData, getMoodPeaksNegativeData, getMoodPeaksPositiveData, MoodPeaksNegativeData, MoodPeaksPositiveData } from "./MoodPeaks";
-import { defaultMoodTrendData, getMoodTrendData, MoodTrendData } from "./MoodTrendData";
+import { defaultMoodTrendData, getMoodTrendData, MoodTrendData } from "./MoodTrend";
 import { defaultTagsDistributionData, getTagsDistributionData, TagsDistributionData } from "./TagsDistribution";
+import { defaultTagsDistributionTrendData, getTagsDistributionTrendData, TagsDistributionTrendData } from "./TagsDistributionTrend";
 import { getTagsPeaksData, TagsPeakData } from "./TagsPeaks";
 
 const DELAY_LOADING = 1 * 1000;
@@ -30,7 +31,10 @@ interface StatisticsState {
   moodPeaksNegativeData: MoodPeaksNegativeData;
   tagsPeaksData: TagsPeakData;
   tagsDistributionData: TagsDistributionData;
-  moodTrendData: MoodTrendData;
+  trends: {
+    moodData: MoodTrendData;
+    tagsDistributionData: TagsDistributionTrendData;
+  }
 }
 
 interface Value {
@@ -48,7 +52,9 @@ export function StatisticsProvider({
   const logs = useLogs()
   const { settings } = useSettings();
   const [isLoading, setIsLoading] = useState(false);
-  const [prevItems, setPrevItems] = useState<LogItem[]>([]);
+  const [prevHighlightItems, setPrevHighlightItems] = useState<LogItem[]>([]);
+  const [prevTrendsItems, setPrevTrendsItems] = useState<LogItem[]>([]);
+
   const [state, setState] = useState<StatisticsState>({
     loaded: false,
     itemsCount: 0,
@@ -59,7 +65,10 @@ export function StatisticsProvider({
     tagsPeaksData: {
       tags: [],
     },
-    moodTrendData: defaultMoodTrendData,
+    trends: {
+      moodData: defaultMoodTrendData,
+      tagsDistributionData: defaultTagsDistributionTrendData,
+    }
   });
 
   const load = ({
@@ -67,39 +76,50 @@ export function StatisticsProvider({
   }: {
     force?: boolean;
   }) => {
-    const itemsLastTwoWeeks = Object.values(logs.state.items).filter(item => {
+    const highlightItems = Object.values(logs.state.items).filter(item => {
       const date = new Date(item.date)
       return date.getTime() > new Date().getTime() - 1000 * 60 * 60 * 24 * 14
     })
+    const trendsItems = Object.values(logs.state.items)
     
-    const itemsChanged = !_.isEqual(prevItems, itemsLastTwoWeeks)
+    const highlightItemsChanged = !_.isEqual(prevHighlightItems, highlightItems)
+    const trendsItemsChanged = !_.isEqual(prevTrendsItems, trendsItems)
 
-    if(!itemsChanged && !force) {
+    if(
+      !highlightItemsChanged &&
+      !trendsItemsChanged && 
+      !force
+    ) {
       return;
     }
     
     setIsLoading(true);
 
-    const moodAvgData = getMoodAvgData(itemsLastTwoWeeks);
-    const moodPeaksPositiveData = getMoodPeaksPositiveData(itemsLastTwoWeeks);
-    const moodPeaksNegativeData = getMoodPeaksNegativeData(itemsLastTwoWeeks);
-    const tagsPeaksData = getTagsPeaksData(itemsLastTwoWeeks, settings.tags);
-    const tagsDistributionData = getTagsDistributionData(itemsLastTwoWeeks, settings.tags);
+    const moodAvgData = getMoodAvgData(highlightItems);
+    const moodPeaksPositiveData = getMoodPeaksPositiveData(highlightItems);
+    const moodPeaksNegativeData = getMoodPeaksNegativeData(highlightItems);
+    const tagsPeaksData = getTagsPeaksData(highlightItems, settings.tags);
+    const tagsDistributionData = getTagsDistributionData(highlightItems, settings.tags);
 
-    const moodTrendData = getMoodTrendData(Object.values(logs.state.items));
+    const moodTrendData = getMoodTrendData(trendsItems);
+    const tagsDistributionTrendData = getTagsDistributionTrendData(trendsItems, settings.tags);
 
     const newState = {
       loaded: true,
-      itemsCount: itemsLastTwoWeeks.length,
+      itemsCount: highlightItems.length,
       moodAvgData,
       moodPeaksPositiveData,
       moodPeaksNegativeData,
       tagsPeaksData,
       tagsDistributionData,
-      moodTrendData,
+      trends: {
+        moodData: moodTrendData,
+        tagsDistributionData: tagsDistributionTrendData,
+      }
     }
     
-    setPrevItems(itemsLastTwoWeeks)
+    setPrevHighlightItems(highlightItems)
+    setPrevTrendsItems(trendsItems)
     setState(newState);
 
     setTimeout(() => {
@@ -124,6 +144,9 @@ export function StatisticsProvider({
     }
     if (type === "tags_distribution") {
       return state.tagsDistributionData?.itemsCount > 0;
+    }
+    if(type === "tags_distribution_trend") {
+      return state.trends.tagsDistributionData.tags.length > 0;
     }
     if(type === 'mood_trend') {
       // check if there are at least 14 items per month

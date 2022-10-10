@@ -225,5 +225,9 @@
   "statistics_2_week_highlights": "Zadnja 2 tjedna",
   "statistics_no_highlights": "Trenutačno nijedno istaknuto nije relevantno, ali uvijek možete otići na 'Prikaži sve istaknuto'.",
   "statistics_feedback_placeholder": "Kako može biti korisnije? (neobavezno)",
-  "tags_reached_max": "Dosegli ste maksimum od {{max_count}} oznaka. Molimo izbrišite neke oznake da dodate nove."
+  "tags_reached_max": "Dosegli ste maksimum od {{max_count}} oznaka. Molimo izbrišite neke oznake da dodate nove.",
+  "development_statistics_items_coverage": "Prijavljen od prvog dana",
+  "statistics_tags_distribution_trend_prefix": "Ti označavaš",
+  "statistics_tags_distribution_trend_increase_suffix": "češće",
+  "statistics_tags_distribution_trend_decrease_suffix": "rjeđe"
 }

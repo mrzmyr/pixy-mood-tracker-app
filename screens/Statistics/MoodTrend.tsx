@@ -3,7 +3,7 @@ import { Text, View } from 'react-native';
 import Svg, { Circle, Line } from 'react-native-svg';
 import { Card } from '../../components/Statistics/Card';
 import useColors from '../../hooks/useColors';
-import { MoodTrendData, SCALE_RANGE, SCALE_TYPE } from '../../hooks/useStatistics/MoodTrendData';
+import { MoodTrendData, SCALE_RANGE, SCALE_TYPE } from '../../hooks/useStatistics/MoodTrend';
 import { useTranslation } from '../../hooks/useTranslation';
 import { CardFeedback } from './CardFeedback';
 

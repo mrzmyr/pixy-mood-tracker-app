@@ -225,5 +225,9 @@
   "statistics_2_week_highlights": "2 minggu lepas",
   "statistics_no_highlights": "Pada masa ini tiada sorotan berkaitan, tetapi anda sentiasa boleh pergi ke 'Tunjukkan semua sorotan'.",
   "statistics_feedback_placeholder": "Bagaimanakah ia boleh lebih membantu? (pilihan)",
-  "tags_reached_max": "Anda mencapai maksimum {{max_count}} teg. Sila padamkan beberapa teg untuk menambah yang baharu."
+  "tags_reached_max": "Anda mencapai maksimum {{max_count}} teg. Sila padamkan beberapa teg untuk menambah yang baharu.",
+  "development_statistics_items_coverage": "Dilog sejak hari pertama",
+  "statistics_tags_distribution_trend_prefix": "Anda menandakan",
+  "statistics_tags_distribution_trend_increase_suffix": "lebih kerap",
+  "statistics_tags_distribution_trend_decrease_suffix": "kurang kerap"
 }

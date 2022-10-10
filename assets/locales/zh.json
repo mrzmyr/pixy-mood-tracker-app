@@ -225,5 +225,9 @@
   "statistics_2_week_highlights": "过去 2 周",
   "statistics_no_highlights": "目前没有相关的亮点，但您始终可以转到“显示所有亮点”。",
   "statistics_feedback_placeholder": "怎么可能更有帮助？ （可选的）",
-  "tags_reached_max": "您已达到 {{max_count}} 个标签的上限。请删除一些标签以添加新标签。"
+  "tags_reached_max": "您已达到 {{max_count}} 个标签的上限。请删除一些标签以添加新标签。",
+  "development_statistics_items_coverage": "从第一天开始记录",
+  "statistics_tags_distribution_trend_prefix": "你在标记",
+  "statistics_tags_distribution_trend_increase_suffix": "更经常",
+  "statistics_tags_distribution_trend_decrease_suffix": "不经常"
 }

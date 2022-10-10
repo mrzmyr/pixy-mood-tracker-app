@@ -18,7 +18,7 @@ export const TagsDistributionCard = ({
   
   return (
     <Card
-      subtitle={t('mood')}
+      subtitle={t('tags')}
       title={t('statistics_tags_distribution_title', {
         count: data.itemsCount,
       })}

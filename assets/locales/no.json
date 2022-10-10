@@ -225,5 +225,9 @@
   "statistics_2_week_highlights": "Siste 2 uker",
   "statistics_no_highlights": "Foreløpig er ingen høydepunkter relevante, men du kan alltid gå til 'Vis alle høydepunkter'.",
   "statistics_feedback_placeholder": "Hvordan kan det være mer nyttig? (valgfri)",
-  "tags_reached_max": "Du har nådd det maksimale antallet {{max_count}} tagger. Vennligst slett noen tagger for å legge til nye."
+  "tags_reached_max": "Du har nådd det maksimale antallet {{max_count}} tagger. Vennligst slett noen tagger for å legge til nye.",
+  "development_statistics_items_coverage": "Logget siden første dag",
+  "statistics_tags_distribution_trend_prefix": "Du tagger",
+  "statistics_tags_distribution_trend_increase_suffix": "oftere",
+  "statistics_tags_distribution_trend_decrease_suffix": "sjeldnere"
 }

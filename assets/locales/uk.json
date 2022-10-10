@@ -225,5 +225,9 @@
   "statistics_2_week_highlights": "Останні 2 тижні",
   "statistics_no_highlights": "Наразі немає актуальних виділень, але ви завжди можете перейти до «Показати всі основні моменти».",
   "statistics_feedback_placeholder": "Як це може бути більш корисним? (необов'язково)",
-  "tags_reached_max": "Ви досягли максимальної кількості тегів ({{max_count}}). Будь ласка, видаліть деякі теги, щоб додати нові."
+  "tags_reached_max": "Ви досягли максимальної кількості тегів ({{max_count}}). Будь ласка, видаліть деякі теги, щоб додати нові.",
+  "development_statistics_items_coverage": "Зареєстровано з першого дня",
+  "statistics_tags_distribution_trend_prefix": "Ви додаєте теги",
+  "statistics_tags_distribution_trend_increase_suffix": "частіше",
+  "statistics_tags_distribution_trend_decrease_suffix": "менш часто"
 }

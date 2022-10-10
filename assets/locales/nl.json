@@ -225,5 +225,9 @@
   "statistics_2_week_highlights": "Afgelopen 2 weken",
   "statistics_no_highlights": "Momenteel zijn er geen highlights relevant, maar je kunt altijd naar 'Toon alle highlights' gaan.",
   "statistics_feedback_placeholder": "Hoe kan het nuttiger zijn? (optioneel)",
-  "tags_reached_max": "Je hebt het maximum van {{max_count}} tags bereikt. Verwijder enkele tags om nieuwe toe te voegen."
+  "tags_reached_max": "Je hebt het maximum van {{max_count}} tags bereikt. Verwijder enkele tags om nieuwe toe te voegen.",
+  "development_statistics_items_coverage": "Sinds de eerste dag ingelogd",
+  "statistics_tags_distribution_trend_prefix": "Je tagt",
+  "statistics_tags_distribution_trend_increase_suffix": "vaker",
+  "statistics_tags_distribution_trend_decrease_suffix": "minder vaak"
 }
