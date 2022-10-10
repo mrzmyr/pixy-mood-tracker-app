@@ -50,10 +50,11 @@ function CalendarFiltersProvider({
   const [isOpen, setIsOpen] = useState(false)
   
   const trackFilter = useDebouncedCallback(() => {
-    analytics.track('calendar_filter_filtered', {
+    analytics.track('calendar_filters_filtered', {
       textLength: data.text.length,
       ratings: data.ratings,
-      tagIds: data.tagIds,
+      ratingsCount: data.ratings.length,
+      tagsCount: data.tagIds.length,
     })
   }, 200);
   
