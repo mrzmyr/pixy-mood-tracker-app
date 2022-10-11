@@ -1,7 +1,6 @@
 import React, { forwardRef } from 'react';
 import { View } from 'react-native';
 import useColors from '../hooks/useColors';
-import * as Animatable from 'react-native-animatable';
 
 export const PasscodeDots = forwardRef(({
   code,
@@ -11,7 +10,7 @@ export const PasscodeDots = forwardRef(({
   const colors = useColors();
 
   return (
-    <Animatable.View ref={ref}>
+    <View ref={ref}>
       <View
         style={{
           flexDirection: 'row',
@@ -54,6 +53,6 @@ export const PasscodeDots = forwardRef(({
           aspectRatio: 1,
         }}></View>
       </View>
-    </Animatable.View>
+    </View>
   );
 });
