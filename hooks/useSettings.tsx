@@ -164,13 +164,14 @@ function SettingsProvider({children}: { children: React.ReactNode }) {
       return settings.actionsDone.some(action => action.title === actionTitle)
     },
     addActionDone: (actionTitle: IAction['title']) => {
-      setSettingsProxy({
+      console.log('addActionDone', actionTitle)
+      setSettingsProxy(settings => ({
         ...settings,
         actionsDone: [...settings.actionsDone, {
           title: actionTitle,
           date: new Date().toISOString(),
         }],
-      })
+      }))
     }
   };
   
