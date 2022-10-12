@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { Dimensions, Platform, useWindowDimensions, View } from 'react-native';
 import { ChevronDown } from 'react-native-feather';
 import { ScrollView } from 'react-native-gesture-handler';
@@ -16,7 +16,7 @@ export const CalendarScreen = ({ navigation }) => {
   const calendarFilters = useCalendarFilters();
 
   const window = useWindowDimensions()
-  const [scrollOffset, setScrollOffset] = useState(null);
+  const [scrollOffset, setScrollOffset] = useState(0);
 
   const calendarRef = useRef(null);
   const scrollRef = useRef(null);
@@ -42,7 +42,6 @@ export const CalendarScreen = ({ navigation }) => {
     }}>
       <CalendarHeader />
       {(
-        scrollOffset !== null && 
         scrollOffset < calendarHeight.current - window.height &&
         !calendarFilters.isOpen
       ) && (
@@ -73,7 +72,10 @@ export const CalendarScreen = ({ navigation }) => {
           width: '100%',
         }}
         scrollEventThrottle={100}
-        onScroll={e => {
+        onMomentumScrollEnd={(e) => {
+          setScrollOffset(e.nativeEvent.contentOffset.y)
+        }}
+        onScrollEndDrag={e => {
           setScrollOffset(e.nativeEvent.contentOffset.y);
         }}
         ref={scrollRef}
