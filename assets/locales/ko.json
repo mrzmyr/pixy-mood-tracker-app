@@ -7,7 +7,6 @@
   "reset": "초기화",
   "calendar": "달력",
   "settings": "설정",
-  "webhook": "웹훅",
   "licenses": "라이선스",
   "data_notice": "모든 데이터는 장치에 저장되며 사용자가 결정할 때만 장치를 떠납니다.",
   "rate_this_app": "이 앱을 평가 해주세요",
@@ -24,35 +23,10 @@
   "export": "내 보내다",
   "export_failed_title": "내보내기 실패",
   "export_help": "모든 데이터를 JSON 파일로 내보내기",
-  "webhook_help": "Webhook은 HTTP 끝점에 데이터를 보내는 데 사용됩니다.",
-  "webhook_url": "URL",
-  "webhook_url_placeholder": "https://example.com/",
-  "webhook_url_help": "이 URL은 웹훅으로 데이터를 보내는 데 사용됩니다.",
-  "webhook_history": "역사",
-  "webhook_status_success": "성공",
-  "webhook_status_error": "오류",
-  "webhook_entry_url": "URL",
-  "webhook_entry_request": "요구",
-  "webhook_entry_response": "응답",
-  "webhook_entry_status_text": "상태 텍스트",
-  "webhook_entry_status_code": "상태 코드",
-  "webhook_entry_error_message": "에러 메시지",
   "log_modal_message_placeholder": "하루에 대한 몇 가지 메시지 ...",
   "scales": "그림 물감",
   "scales_info": "색상은 달력의 분위기를 나타내는 데 사용됩니다. 선택한 색상으로 이전 기분이 전환됩니다.",
   "log_modal_message_example": "오늘 나는 나 자신과 다시 연결되는 방법을 찾았습니다.",
-  "previews_screen_1_title": [
-    "기분 추적",
-    "한 번에 하나의 픽셀"
-  ],
-  "previews_screen_2_title": [
-    "웹훅/내보내기",
-    "지원하다"
-  ],
-  "previews_screen_3_title": [
-    "멋진 모습",
-    "다크 모드"
-  ],
   "issue": "문제",
   "idea": "아이디어",
   "other": "다른",

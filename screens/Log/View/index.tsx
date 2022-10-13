@@ -1,12 +1,13 @@
 import dayjs from 'dayjs';
 import { t } from 'i18n-js';
-import { Alert, Platform, Pressable, ScrollView, Text, View } from 'react-native';
+import { Platform, Pressable, ScrollView, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import Alert from '../../../components/Alert';
 import Tag from '../../../components/Tag';
+import { useAnalytics } from '../../../hooks/useAnalytics';
 import useColors from '../../../hooks/useColors';
 import useHaptics from '../../../hooks/useHaptics';
-import { useLogs } from '../../../hooks/useLogs';
-import { useAnalytics } from '../../../hooks/useAnalytics';
+import { useLogState, useLogUpdater } from '../../../hooks/useLogs';
 import { RootStackParamList, RootStackScreenProps } from '../../../types';
 import { Header } from './Header';
 import { Headline } from './Headline';
@@ -18,9 +19,10 @@ export const LogView = ({ navigation, route }: RootStackScreenProps<'LogView'>) 
   const insets = useSafeAreaInsets();
   const haptics = useHaptics();
 
-  const { state, dispatch } = useLogs()
+  const logState = useLogState()
+  const logUpdater = useLogUpdater()
   
-  const item = state?.items[route.params.date];
+  const item = logState?.items[route.params.date];
 
   const close = () => {
     analytics.track('log_close')
@@ -34,10 +36,7 @@ export const LogView = ({ navigation, route }: RootStackScreenProps<'LogView'>) 
   
   const remove = () => {
     analytics.track('log_deleted')
-    dispatch({
-      type: 'delete', 
-      payload: item
-    })
+    logUpdater.deleteLog(item)
     navigation.popToTop()
   }
 

@@ -1,13 +1,27 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import dayjs from 'dayjs';
-import _ from 'lodash';
-import { createContext, useContext, useEffect, useReducer } from "react";
-import { getJSONSchemaType } from '../lib/utils';
-import { Tag as ITag, useSettings } from './useSettings';
-import useWebhook from './useWebhook';
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import _ from "lodash";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useReducer,
+} from "react";
+import { getJSONSchemaType } from "../lib/utils";
+import { Tag as ITag } from "./useTags";
 
-const STORAGE_KEY = 'PIXEL_TRACKER_LOGS'
-export const RATING_KEYS = ['extremely_good', 'very_good', 'good', 'neutral', 'bad', 'very_bad', 'extremely_bad']
+const STORAGE_KEY = "PIXEL_TRACKER_LOGS";
+
+export const RATING_KEYS = [
+  "extremely_good",
+  "very_good",
+  "good",
+  "neutral",
+  "bad",
+  "very_bad",
+  "extremely_bad",
+];
 
 export interface LogItem {
   date: string;
@@ -17,194 +31,173 @@ export interface LogItem {
 }
 
 export interface LogsState {
+  loaded?: boolean;
   items: {
     [id: string]: LogItem;
   };
 }
 
-export interface LogAction {
-  type: string;
-  payload?: LogsState & LogItem;
+type LogAction = |
+  { type: "import"; payload: LogsState } |
+  { type: "add"; payload: LogItem } |
+  { type: "edit"; payload: Partial<LogItem> } |
+  { type: "batchEdit"; payload: { items: { [id: string]: LogItem } } } |
+  { type: "delete"; payload: LogItem } |
+  { type: "reset" }
+
+interface UpdaterValue {
+  addLog: (item: LogItem) => void;
+  editLog: (item: Partial<LogItem>) => void;
+  updateLogs: (items: LogsState["items"]) => void;
+  deleteLog: (item: LogItem) => void;
+  reset: () => void;
+  import: (data: LogsState) => void;
 }
 
-const initialState: LogsState = {
-  items: {}
-}
+interface StateValue extends LogsState {}
 
-const LogsContext = createContext(undefined)
+const INITIAL_STATE: LogsState = {
+  loaded: false,
+  items: {},
+};
+
+const LogStateContext = createContext(undefined);
+const LogUpdaterContext = createContext(undefined);
 
 function reducer(state: LogsState, action: LogAction): LogsState {
   switch (action.type) {
-    case 'import':
-      return { ...action.payload };
-    case 'add':
+    case "import":
+      return {
+        ...action.payload as LogsState,
+        loaded: true,
+      };
+    case "add":
       state.items[action.payload.date] = action.payload;
-      return { ...state }
-    case 'edit':
+      return { ...state };
+    case "edit":
       state.items[action.payload.date] = {
         ...state.items[action.payload.date],
-        ...action.payload
-      }
-      return { ...state }
-    case 'batchEdit':
-      state.items = action.payload.items
-      return state
-    case 'delete':
-      delete state.items[action.payload.date]
-      return { ...state }
-    case 'reset':
+        ...action.payload,
+      };
+      return { ...state };
+    case "batchEdit":
+      state.items = action.payload.items;
+      return state;
+    case "delete":
+      delete state.items[action.payload.date];
+      return { ...state };
+    case "reset":
       return {
-        ...initialState
-      }
+        ...INITIAL_STATE,
+        loaded: true,
+      };
     default:
-      throw new Error(`Unhandled action type: ${action.type}`)
+      throw new Error(`Unhandled action type: ${action}`);
   }
 }
 
-async function saveLogs(state: LogsState) {
-  await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+async function store(state: Omit<LogsState, "loaded">) {
+  try {
+    await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  } catch (e) {
+    console.error(e);
+  }
 }
 
-function LogsProvider({
-  children
-}: {
-  children: React.ReactNode
-}) {
-  const webhook = useWebhook()
-  const { settings, setSettings } = useSettings()
-  
-  const reducerProxy = (state: LogsState, action: LogAction): LogsState => {
-    const newState = reducer(state, action)
-    if(['add', 'edit', 'delete', 'import', 'reset'].includes(action.type)) {
-      saveLogs(newState)
+const load = async (): Promise<LogsState> => {
+  try {
+    const data = await AsyncStorage.getItem(STORAGE_KEY);
+    const json = JSON.parse(data);
+    if (getJSONSchemaType(json) === "pixy") {
+      return {
+        ...json,
+        loaded: true,
+      };
     }
-    return newState
+  } catch (e) {
+    console.error(e);
   }
-  
-  const [state, dispatch] = useReducer(reducerProxy, initialState)
-  
-  const dispatchProxy = (action: LogAction) => {
-    dispatch(action)
-    if(settings.webhookEnabled) {
-      webhook.run(action)
-    }
-  }
+
+  return {
+    ...INITIAL_STATE,
+    loaded: true,
+  };
+};
+
+function LogsProvider({ children }: { children: React.ReactNode }) {
+  const [state, dispatch] = useReducer(reducer, INITIAL_STATE);
 
   useEffect(() => {
-
-    const load = async () => {
-      const data = await AsyncStorage.getItem(STORAGE_KEY)
-      const json = JSON.parse(data)
-      if (getJSONSchemaType(json) === 'pixy') {
-        dispatch({ type: 'import', payload: json })
-      } else {
-        console.log('PIXY: unkown schema in local storage found')
-      }
-    }
-
-    try {
-      load()
-    } catch(e) {
-      console.log('loading logs errored', e)
-    }
-  }, [])
-  
-  const value = {
-    state, 
-    dispatch: dispatchProxy,
-    createTag: (tag: ITag) => {
-      setSettings(settings => ({
-        ...settings,
-        tags: [...settings.tags, tag]
-      }))
-    },
-    getItemsCoverage() {
-      let itemsCoverage = 0;
-    
-      const itemsSorted = Object.keys(state.items).sort((a, b) => {
-        return new Date(state.items[a].date).getTime() - new Date(state.items[b].date).getTime()
-      })
-    
-      if(itemsSorted.length > 0) {
-        const firstItemDate = new Date(itemsSorted[0])
-        const days = dayjs().diff(firstItemDate, 'day')
-        itemsCoverage = Math.round((itemsSorted.length / days) * 100)
-      }
-    
-      return itemsCoverage
-    },
-    updateTag: (tag: ITag) => {
-      const newItems = {};
-      
-      Object.entries(state.items)
-        .forEach(([date, item]: [string, LogItem]) => {
-          if(item?.tags?.some(t => t.id === tag.id)) {
-            const tags = item.tags.map(t => t.id === tag.id ? tag : t)
-            item.tags = tags
-          }
-          newItems[date] = item;
-        })
-
+    (async () => {
+      const value = await load();
       dispatch({
-        type: 'batchEdit',
-        payload: {
-          items: newItems
-        }
-      })
+        type: "import",
+        payload: value,
+      });
+    })();
+  }, []);
 
-      setSettings(settings => ({
-        ...settings,
-        tags: settings.tags.map((itemTag: ITag) => {
-          return (itemTag.id === tag.id ? tag : itemTag)
-        }
-      )}))
-    },
-    deleteTag: (id: ITag['id']) => {
-      setSettings(settings => ({ 
-      ...settings, 
-        tags: settings.tags.filter((tag: ITag) => tag.id !== id) 
-      }))
-
-      const newItems = {};
-  
-      Object.entries(state.items)
-        .forEach(([date, item]: [string, LogItem]) => {
-          if(state.items[date]?.tags?.some((tag: ITag) => tag.id === id)) {
-            const tags = item?.tags?.filter(itemTag => itemTag.id !== id) || [];
-            item.tags = tags;
-          }
-          newItems[date] = item;
-        })
-  
-      dispatchProxy({
-        type: 'batchEdit',
-        payload: {
-          items: newItems
-        }
-      })
+  useEffect(() => {
+    if (state.loaded) {
+      store(_.omit(state, "loaded"));
     }
-  };
-  
+  }, [JSON.stringify(state)]);
+
+  const importState = useCallback((data: LogsState) => {
+    dispatch({
+      type: "import",
+      payload: data,
+    });
+  }, []);
+
+  const addLog = useCallback((payload: LogItem) => dispatch({ type: "add", payload, }), []);
+  const editLog = useCallback((payload: Partial<LogItem>) => dispatch({ type: "edit", payload, }), []);
+  const updateLogs = useCallback((items: LogsState["items"]) => dispatch({ type: "batchEdit", payload: { items } }), []);
+  const deleteLog = useCallback((payload: LogItem) => dispatch({ type: "delete", payload, }), []);
+  const reset = useCallback(() => dispatch({ type: "reset" }), []);
+
+  const updaterValue: UpdaterValue = useMemo(
+    () => ({
+      addLog,
+      editLog,
+      updateLogs,
+      deleteLog,
+      reset,
+      import: importState,
+    }),
+    [addLog, editLog, updateLogs, deleteLog, reset, importState]
+  );
+
+  const stateValue: StateValue = useMemo(
+    () => ({
+      ...state,
+    }),
+    [JSON.stringify(state)]
+  );
+
   return (
-    <LogsContext.Provider value={value}>
-      {children}
-    </LogsContext.Provider>
-  )
+    <LogStateContext.Provider value={stateValue}>
+      <LogUpdaterContext.Provider value={updaterValue}>
+        {children}
+      </LogUpdaterContext.Provider>
+    </LogStateContext.Provider>
+  );
 }
 
-function useLogs(): { 
-  state: LogsState, 
-  dispatch: (action: LogAction) => void
-  getItemsCoverage: () => number
-  createTag: (tag: ITag) => void
-  updateTag: (tag: ITag) => void
-  deleteTag: (id: ITag['id']) => void
-} {
-  const context = useContext(LogsContext)
+function useLogState(): StateValue {
+  const context = useContext(LogStateContext);
   if (context === undefined) {
-    throw new Error('useLogs must be used within a LogsProvider')
+    throw new Error("useLogState must be used within a LogsProvider");
   }
-  return context
+  return context;
 }
 
-export { LogsProvider, useLogs };
+function useLogUpdater(): UpdaterValue {
+  const context = useContext(LogUpdaterContext);
+  if (context === undefined) {
+    throw new Error("useLogUpdater must be used within a LogsProvider");
+  }
+  return context;
+}
+
+export { LogsProvider, useLogState, useLogUpdater };

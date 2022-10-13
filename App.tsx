@@ -1,3 +1,4 @@
+import './wdyr.js'
 import { StatusBar } from 'expo-status-bar';
 import * as Sentry from 'sentry-expo';
 import useCachedResources from './hooks/useCachedResources';

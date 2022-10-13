@@ -2,10 +2,11 @@ import { useNavigation } from '@react-navigation/native';
 import dayjs, { Dayjs } from 'dayjs';
 import { Text, TouchableOpacity, View } from 'react-native';
 import { Card } from '../../components/Statistics/Card';
+import { DATE_FORMAT } from '../../constants/Config';
 import useColors from '../../hooks/useColors';
 import useHaptics from '../../hooks/useHaptics';
 import { LogItem } from '../../hooks/useLogs';
-import { Tag as ITag } from '../../hooks/useSettings';
+import { Tag as ITag } from '../../hooks/useTags';
 import { TagsPeakData } from '../../hooks/useStatistics/TagsPeaks';
 import { useTranslation } from '../../hooks/useTranslation';
 import { CardFeedback } from './CardFeedback';
@@ -48,7 +49,7 @@ const DayDot = ({
       onPress={async () => {
         await haptics.selection()
         navigation.navigate('LogView', {
-          date: dayjs(date).format('YYYY-MM-DD'),
+          date: dayjs(date).format(DATE_FORMAT),
         })
       }}
     >

@@ -28,24 +28,6 @@ export const DataScreen = ({ navigation }: RootStackScreenProps<'Data'>) => {
           flex: 1,
         }}
       >
-      <MenuList style={{ marginTop: 20, }}>
-        <MenuListItem
-          title={i18n.t('webhook')}
-          iconLeft={<Box width={18} color={colors.menuListItemIcon} />}
-          onPress={() => navigation.navigate('Webhook')}
-          testID='webhook'
-          isLink
-          isLast
-        />
-        {/* <MenuListItem
-          title={i18n.t('scales')}
-          iconLeft={<Droplet width={18} color={colors.menuListItemIcon} />}
-          onPress={() => navigation.navigate('Scales')}
-          isLink
-          isLast
-        /> */}
-      </MenuList>
-      <TextInfo>{i18n.t('webhook_help')}</TextInfo>
       <MenuList style={{ marginTop: 16, }}>
         <MenuListItem
           title={i18n.t('import')}

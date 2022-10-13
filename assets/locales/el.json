@@ -7,7 +7,6 @@
   "reset": "Επαναφορά",
   "calendar": "Ημερολόγιο",
   "settings": "Ρυθμίσεις",
-  "webhook": "Webhook",
   "licenses": "Άδειες",
   "data_notice": "Όλα τα δεδομένα αποθηκεύονται στη συσκευή σας και φεύγουν από τη συσκευή σας μόνο όταν το αποφασίσετε.",
   "rate_this_app": "Βαθμολόγησε αυτήν την εφαρμογή",
@@ -24,35 +23,10 @@
   "export": "Εξαγωγή",
   "export_failed_title": "Η εξαγωγή απέτυχε",
   "export_help": "Εξαγωγή όλων των δεδομένων ως αρχείο JSON",
-  "webhook_help": "Τα webhook χρησιμοποιούνται για την αποστολή δεδομένων σε τελικά σημεία HTTP.",
-  "webhook_url": "URL",
-  "webhook_url_placeholder": "https://example.com/",
-  "webhook_url_help": "Αυτή η διεύθυνση URL θα χρησιμοποιηθεί για την αποστολή δεδομένων στο webhook σας.",
-  "webhook_history": "Ιστορία",
-  "webhook_status_success": "Επιτυχία",
-  "webhook_status_error": "Λάθος",
-  "webhook_entry_url": "URL",
-  "webhook_entry_request": "Αίτηση",
-  "webhook_entry_response": "Απάντηση",
-  "webhook_entry_status_text": "Κείμενο κατάστασης",
-  "webhook_entry_status_code": "Κωδικός κατάστασης",
-  "webhook_entry_error_message": "Μήνυμα λάθους",
   "log_modal_message_placeholder": "Μερικά μηνύματα για την ημέρα…",
   "scales": "Χρωματιστά",
   "scales_info": "Τα χρώματα χρησιμοποιούνται για να υποδείξουν τη διάθεση στο ημερολόγιο. Η προηγούμενη διάθεσή σας θα αλλάξει στο επιλεγμένο χρώμα.",
   "log_modal_message_example": "Σήμερα βρήκα έναν τρόπο να επανασυνδεθώ με τον εαυτό μου.",
-  "previews_screen_1_title": [
-    "Παρακολουθήστε τη διάθεσή σας",
-    "Ένα εικονοστοιχείο τη φορά"
-  ],
-  "previews_screen_2_title": [
-    "Webhook / Εξαγωγή",
-    "Υποστήριξη"
-  ],
-  "previews_screen_3_title": [
-    "Φαίνεται υπέροχο μέσα",
-    "Σκοτεινή λειτουργία"
-  ],
   "issue": "Θέμα",
   "idea": "Ιδέα",
   "other": "Αλλα",

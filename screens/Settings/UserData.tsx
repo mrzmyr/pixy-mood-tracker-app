@@ -44,6 +44,14 @@ export const UserDataImportList = () => {
   useEffect(() => {
     loadUsers()
   }, [])
+
+  const onPress = (user) => {
+    datagate.importData(user.importData)
+    if(!hasActionDone('onboarding')) {
+      addActionDone('onboarding')
+    }
+    setLoadedUserIds((loadedUserIds) => [...loadedUserIds, user.id])
+  }
   
   return (
     <>
@@ -81,13 +89,7 @@ export const UserDataImportList = () => {
           key={user.id}
           title={user.id}
           iconLeft={loadedUserIds.includes(user.id) ? <CheckCircle width={18} color={colors.palette.green[500]} /> : <UploadCloud width={18} color={colors.menuListItemIcon} />}
-          onPress={() => {
-            datagate.importData(user.importData)
-            if(!hasActionDone('onboarding')) {
-              addActionDone('onboarding')
-            }
-            setLoadedUserIds((loadedUserIds) => [...loadedUserIds, user.id])
-          }}
+          onPress={() => onPress(user)}
           isLast={index === users.length - 1}
         />
       ))}

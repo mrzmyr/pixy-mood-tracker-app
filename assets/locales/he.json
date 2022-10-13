@@ -7,7 +7,6 @@
   "reset": "אִתחוּל",
   "calendar": "לוּחַ שָׁנָה",
   "settings": "הגדרות",
-  "webhook": "Webhook",
   "licenses": "רישיונות",
   "data_notice": "כל הנתונים מאוחסנים במכשיר שלך ועוזבים את המכשיר שלך רק כאשר אתה מחליט לעשות זאת.",
   "rate_this_app": "דרג את האפליקציה הזו",
@@ -24,35 +23,10 @@
   "export": "יְצוּא",
   "export_failed_title": "הייצוא נכשל",
   "export_help": "ייצא את כל הנתונים כקובץ JSON",
-  "webhook_help": "Webhooks משמשים לשליחת נתונים לנקודות קצה HTTP.",
-  "webhook_url": "כתובת אתר",
-  "webhook_url_placeholder": "https://example.com/",
-  "webhook_url_help": "כתובת האתר הזו תשמש לשליחת נתונים ל-webhook שלך.",
-  "webhook_history": "הִיסטוֹרִיָה",
-  "webhook_status_success": "הַצלָחָה",
-  "webhook_status_error": "שְׁגִיאָה",
-  "webhook_entry_url": "כתובת אתר",
-  "webhook_entry_request": "בַּקָשָׁה",
-  "webhook_entry_response": "תְגוּבָה",
-  "webhook_entry_status_text": "טקסט סטטוס",
-  "webhook_entry_status_code": "קוד סטטוס",
-  "webhook_entry_error_message": "הודעת שגיאה",
   "log_modal_message_placeholder": "קצת הודעה על היום...",
   "scales": "צבעים",
   "scales_info": "צבעים משמשים לציון מצב הרוח בלוח השנה. מצב הרוח הקודם שלך יועבר לצבע שנבחר.",
   "log_modal_message_example": "היום מצאתי דרך להתחבר לעצמי מחדש.",
-  "previews_screen_1_title": [
-    "עקוב אחר מצב הרוח שלך",
-    "פיקסל אחד בכל פעם"
-  ],
-  "previews_screen_2_title": [
-    "Webhook / ייצוא",
-    "תמיכה"
-  ],
-  "previews_screen_3_title": [
-    "נראה נהדר בפנים",
-    "מצב כהה"
-  ],
   "issue": "נושא",
   "idea": "רַעְיוֹן",
   "other": "אַחֵר",

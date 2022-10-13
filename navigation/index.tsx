@@ -1,7 +1,7 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { useEffect } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 import { Platform, Pressable, Text, useColorScheme, View } from 'react-native';
 import { ArrowLeft, Calendar as CalendarIcon, PieChart, Settings as SettingsIcon } from 'react-native-feather';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -9,7 +9,6 @@ import Colors from '../constants/Colors';
 import useColors from '../hooks/useColors';
 import { useTranslation } from '../hooks/useTranslation';
 import {
-  CalendarScreen,
   DataScreen,
   LicensesScreen,
   LogEdit,
@@ -18,7 +17,7 @@ import {
   PrivacyScreen,
   ReminderScreen,
   ScaleScreen,
-  SettingsScreen, StatisticsHighlights, StatisticsScreen, TagCreate, TagEdit, WebhookEntryScreen, WebhookScreen
+  SettingsScreen, StatisticsHighlights, StatisticsScreen, TagCreate, TagEdit,
 } from '../screens';
 import { RootStackParamList } from '../types';
 
@@ -31,6 +30,7 @@ import { useSettings } from '../hooks/useSettings';
 import { DevelopmentStatistics } from '../screens/DevelopmentStatistics';
 import { Onboarding } from '../screens/Onboarding';
 import { Tags } from '../screens/Tags';
+import CalendarScreen from '../screens/Calendar';
 
 enableScreens();
 
@@ -38,14 +38,6 @@ const linking = {
   prefixes: ['pixy://'],
   config: {
     screens: {
-      Webhook: {
-        path: 'webhook',
-        screens: {
-          WebhookEntry: {
-            path: 'webhook/history/:date',
-          },
-        },
-      }
     },
   },
 };
@@ -133,18 +125,24 @@ function MyTabBar({ state, descriptors, navigation }) {
         };
 
         const Icon = ROUTES.find(r => r.name === route.name)?.icon;
-
+        
+        const accessibilityState = useMemo(() => ({
+          selected: isFocused,
+        }), [isFocused]);
+        
+        const _onPress = useCallback(async () => {
+          await haptics.selection();
+          onPress?.();
+        }, [onPress, haptics]);
+        
         return (
           <Pressable
             key={route.key}
             accessibilityRole="button"
-            accessibilityState={isFocused ? { selected: true } : {}}
+            accessibilityState={accessibilityState}
             accessibilityLabel={options.tabBarAccessibilityLabel}
             testID={options.tabBarTestID}
-            onPress={async () => {
-              await haptics.selection();
-              onPress?.();
-            }}
+            onPress={_onPress}
             style={{ 
               flex: 1,
               justifyContent: 'center',
@@ -445,22 +443,6 @@ function RootNavigator() {
               title: i18n.t('privacy'),
               ...defaultPageOptions,
             }}
-          />
-          <Stack.Screen
-            name="Webhook" 
-            component={WebhookScreen} 
-            options={{ 
-              title: i18n.t('webhook'),
-              ...defaultPageOptions,
-            }} 
-          />
-          <Stack.Screen 
-            name="WebhookEntry" 
-            component={WebhookEntryScreen} 
-            options={{ 
-              title: '',
-              ...defaultPageOptions,
-            }} 
           />
           <Stack.Screen 
             name="Licenses" 

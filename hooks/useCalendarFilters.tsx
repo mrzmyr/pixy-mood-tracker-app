@@ -1,9 +1,8 @@
 import _ from "lodash";
-import { createContext, useContext, useState } from "react";
-import { useDebouncedCallback } from "use-debounce";
+import { createContext, useCallback, useContext, useMemo, useState } from "react";
 import { useAnalytics } from "./useAnalytics";
-import { LogItem, useLogs } from './useLogs';
-import { Tag } from "./useSettings";
+import { LogItem, useLogState } from './useLogs';
+import { Tag } from "./useTags";
 
 const CalendarFiltersStateContext = createContext(undefined)
 
@@ -24,9 +23,6 @@ type Value = {
   open: () => void;
   close: () => void;
   isOpen: boolean;
-  filterCount: number;
-  isFiltering: boolean;
-  filteredItems: LogItem[];
 }
 
 const initialState: CalendarFiltersData = {
@@ -45,18 +41,9 @@ function CalendarFiltersProvider({
   children: React.ReactNode 
 }) {
   const analytics = useAnalytics()
-  const logs = useLogs();
+  const logState = useLogState()
   const [data, setData] = useState<CalendarFiltersData>(initialState)
   const [isOpen, setIsOpen] = useState(false)
-  
-  const trackFilter = useDebouncedCallback(() => {
-    analytics.track('calendar_filters_filtered', {
-      textLength: data.text.length,
-      ratings: data.ratings,
-      ratingsCount: data.ratings.length,
-      tagsCount: data.tagIds.length,
-    })
-  }, 200);
   
   const _isMatching = (item: LogItem, data: CalendarFiltersData) => {
     const matchesText = item.message.toLowerCase().includes(data.text.toLowerCase())
@@ -74,9 +61,7 @@ function CalendarFiltersProvider({
   }
   
   const _getFilteredItems = (data): LogItem[] => {
-    return Object.entries(logs.state.items)
-      .filter(([_, item]) => !_isMatching(item, data))
-      .map(([_, item]) => item)
+    return Object.values(logState.items).filter((item) => !_isMatching(item, data))
   }
   
   const _setData = (data: CalendarFiltersData) => {
@@ -96,29 +81,39 @@ function CalendarFiltersProvider({
     })
   }
   
-  const value: Value = {
+  const set = useCallback((data: CalendarFiltersData) => {
+    analytics.track('calendar_filters_filtered', {
+      textLength: data.text.length,
+      ratings: data.ratings,
+      ratingsCount: data.ratings.length,
+      tagsCount: data.tagIds.length,
+    })
+    _setData(data)
+  }, [analytics])
+
+  const reset = useCallback(() => {
+    analytics.track('calendar_filters_reset')
+    setData(initialState)
+  }, [])
+
+  const open = useCallback(() => {
+    analytics.track('calendar_filters_opened')
+    setIsOpen(true)
+  }, [])
+
+  const close = useCallback(() => {
+    analytics.track('calendar_filters_closed')
+    setIsOpen(false)
+  }, [])
+  
+  const value: Value = useMemo(() => ({
     data, 
-    set: data => {
-      trackFilter()
-      _setData(data)
-    },
-    reset: () => {
-      analytics.track('calendar_filters_reset')
-      setData(initialState)
-    },
-    open: () => {
-      analytics.track('calendar_filters_opened')
-      setIsOpen(true)
-    },
-    close: () => {
-      analytics.track('calendar_filters_closed')
-      setIsOpen(false)
-    },
-    filteredItems: data.filteredItems,
-    isFiltering: data.isFiltering,
-    filterCount: data.filterCount,
+    set,
+    reset,
+    open,
+    close,
     isOpen,
-  };
+  }), [JSON.stringify(data), set, reset, open, close, isOpen])
   
   return (
     <CalendarFiltersStateContext.Provider value={value}>

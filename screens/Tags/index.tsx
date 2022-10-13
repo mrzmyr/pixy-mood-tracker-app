@@ -1,5 +1,4 @@
 import { LinearGradient } from 'expo-linear-gradient';
-import { useEffect, useState } from 'react';
 import { Platform, ScrollView, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Button from '../../components/Button';
@@ -8,20 +7,16 @@ import MenuList from '../../components/MenuList';
 import ModalHeader from '../../components/ModalHeader';
 import { MAX_TAGS } from '../../constants/Config';
 import useColors from '../../hooks/useColors';
-import { Tag, useSettings } from '../../hooks/useSettings';
+import { Tag, useTagsState } from '../../hooks/useTags';
 import { useTranslation } from '../../hooks/useTranslation';
 import { RootStackScreenProps } from '../../types';
 import { TagListItem } from './TagListItem';
 
 export const Tags = ({ navigation, route }: RootStackScreenProps<'Tags'>) => {
-  const { settings } = useSettings()
   const colors = useColors()
   const { t } = useTranslation()
   const insets = useSafeAreaInsets();
-
-  const [tags, setTags] = useState<Tag[]>(settings.tags);
-
-  useEffect(() => setTags(settings.tags), [JSON.stringify(settings.tags)])
+  const { tags } = useTagsState()
 
   const onEdit = async (tag: Tag) => {
     navigation.navigate('TagEdit', { tag })
@@ -122,7 +117,7 @@ export const Tags = ({ navigation, route }: RootStackScreenProps<'Tags'>) => {
               paddingRight: 16,
             }}
           >
-            {settings.tags.length < 1 && (
+            {tags.length < 1 && (
               <View
                 style={{
                   padding: 32,
@@ -143,7 +138,7 @@ export const Tags = ({ navigation, route }: RootStackScreenProps<'Tags'>) => {
                 marginBottom: 40
               }}
             >
-              {settings.tags.map((tag, index) => (
+              {tags.map((tag, index) => (
                 <TagListItem
                   key={tag.id}
                   tag={tag}

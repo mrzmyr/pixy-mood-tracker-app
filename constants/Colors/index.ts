@@ -1,7 +1,7 @@
 import colors from './TailwindColors';
 
 import scales from './Scales';
-import { COLOR_NAMES } from '../../hooks/useSettings';
+import { TAG_COLOR_NAMES } from '../Config';
 
 type TagColors = {
   [tag: string]: {
@@ -16,7 +16,7 @@ type TagColors = {
 const tagsDark: TagColors = {}
 const tagsLight: TagColors = {}
 
-const tagColorNames = COLOR_NAMES;
+const tagColorNames = TAG_COLOR_NAMES;
 
 tagColorNames.map(color => {
   tagsDark[color] = {

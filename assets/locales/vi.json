@@ -7,7 +7,6 @@
   "reset": "Cài lại",
   "calendar": "Lịch",
   "settings": "Cài đặt",
-  "webhook": "Webhook",
   "licenses": "Giấy phép",
   "data_notice": "Tất cả dữ liệu được lưu trữ trên thiết bị của bạn và chỉ rời khỏi thiết bị của bạn khi bạn quyết định.",
   "rate_this_app": "Đánh giá ứng dụng này",
@@ -24,35 +23,10 @@
   "export": "Xuất khẩu",
   "export_failed_title": "Xuất không thành công",
   "export_help": "Xuất tất cả dữ liệu dưới dạng tệp JSON",
-  "webhook_help": "Webhook được sử dụng để gửi dữ liệu đến các điểm cuối HTTP.",
-  "webhook_url": "URL",
-  "webhook_url_placeholder": "https://example.com/",
-  "webhook_url_help": "URL này sẽ được sử dụng để gửi dữ liệu đến webhook của bạn.",
-  "webhook_history": "Môn lịch sử",
-  "webhook_status_success": "Thành công",
-  "webhook_status_error": "Lỗi",
-  "webhook_entry_url": "URL",
-  "webhook_entry_request": "Yêu cầu",
-  "webhook_entry_response": "Phản ứng",
-  "webhook_entry_status_text": "Văn bản trạng thái",
-  "webhook_entry_status_code": "Mã trạng thái",
-  "webhook_entry_error_message": "Thông báo lỗi",
   "log_modal_message_placeholder": "Một số thông điệp về ngày…",
   "scales": "Màu sắc",
   "scales_info": "Màu sắc được sử dụng để biểu thị tâm trạng trong lịch. Tâm trạng trước đó của bạn sẽ được chuyển sang màu đã chọn.",
   "log_modal_message_example": "Hôm nay tôi đã tìm ra cách để kết nối lại với chính mình.",
-  "previews_screen_1_title": [
-    "Theo dõi tâm trạng của bạn",
-    "Một điểm ảnh tại một thời điểm"
-  ],
-  "previews_screen_2_title": [
-    "Webhook / Xuất",
-    "Hỗ trợ"
-  ],
-  "previews_screen_3_title": [
-    "Nhìn tuyệt vời trong",
-    "Chế độ tối"
-  ],
   "issue": "Vấn đề",
   "idea": "Ý kiến",
   "other": "Khác",

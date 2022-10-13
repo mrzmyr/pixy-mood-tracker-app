@@ -7,7 +7,6 @@
   "reset": "Resetiraj",
   "calendar": "Kalendar",
   "settings": "Postavke",
-  "webhook": "Webhook",
   "licenses": "Licence",
   "data_notice": "Svi se podaci pohranjuju na vašem uređaju i napuštaju vaš uređaj samo kada to odlučite.",
   "rate_this_app": "Ocijeni ovu aplikaciju",
@@ -24,35 +23,10 @@
   "export": "Izvoz",
   "export_failed_title": "Izvoz nije uspio",
   "export_help": "Izvezite sve podatke kao JSON datoteku",
-  "webhook_help": "Webhookovi se koriste za slanje podataka na krajnje točke HTTP-a.",
-  "webhook_url": "URL",
-  "webhook_url_placeholder": "https://example.com/",
-  "webhook_url_help": "Ovaj URL će se koristiti za slanje podataka na vaš webhook.",
-  "webhook_history": "Povijest",
-  "webhook_status_success": "Uspjeh",
-  "webhook_status_error": "Greška",
-  "webhook_entry_url": "URL",
-  "webhook_entry_request": "Zahtjev",
-  "webhook_entry_response": "Odgovor",
-  "webhook_entry_status_text": "Tekst statusa",
-  "webhook_entry_status_code": "Statusni kod",
-  "webhook_entry_error_message": "Poruka o pogrešci",
   "log_modal_message_placeholder": "Neka poruka o danu...",
   "scales": "Boje",
   "scales_info": "Boje se koriste za označavanje raspoloženja u kalendaru. Vaše prethodno raspoloženje bit će prebačeno u odabranu boju.",
   "log_modal_message_example": "Danas sam pronašao način da se ponovno povežem sa sobom.",
-  "previews_screen_1_title": [
-    "Pratite svoje raspoloženje",
-    "Jedan po jedan piksel"
-  ],
-  "previews_screen_2_title": [
-    "Webhook / Izvoz",
-    "Podrška"
-  ],
-  "previews_screen_3_title": [
-    "Izgleda sjajno unutra",
-    "Tamni način rada"
-  ],
   "issue": "Problem",
   "idea": "Ideja",
   "other": "Ostalo",

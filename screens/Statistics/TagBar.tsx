@@ -1,6 +1,6 @@
 import { Text, View } from "react-native";
+import { TAG_COLOR_NAMES } from "../../constants/Config";
 import useColors from "../../hooks/useColors";
-import { COLOR_NAMES } from "../../hooks/useSettings";
 
 export const TagBar = ({
   children,
@@ -13,7 +13,7 @@ export const TagBar = ({
   children: any;
   width: string;
   muted?: boolean;
-  colorName?: typeof COLOR_NAMES[number];
+  colorName?: typeof TAG_COLOR_NAMES[number];
   size: 'small' | 'large';
   label: string;
 }) => {

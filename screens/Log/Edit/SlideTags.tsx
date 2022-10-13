@@ -2,13 +2,14 @@ import { useNavigation } from "@react-navigation/native";
 import { ScrollView, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Tag from "../../../components/Tag";
-import { Tag as ITag, useSettings } from "../../../hooks/useSettings";
+import { Tag as ITag } from "../../../hooks/useTags";
 import { useTemporaryLog } from "../../../hooks/useTemporaryLog";
 import { useTranslation } from "../../../hooks/useTranslation";
 import { MiniButton } from "../MiniButton";
 import { SlideHeadline } from "./SlideHeadline";
 import { LinearGradient } from 'expo-linear-gradient';
 import useColors from "../../../hooks/useColors";
+import { useTagsState } from "../../../hooks/useTags";
 
 export const SlideTags = ({
   marginTop,
@@ -19,10 +20,10 @@ export const SlideTags = ({
 }) => {
   const tempLog = useTemporaryLog();
   const { t } = useTranslation()
-  const { settings } = useSettings()
   const navigation = useNavigation()
   const insets = useSafeAreaInsets();
   const colors = useColors()
+  const { tags } = useTagsState()
 
   return (
     <View style={{ 
@@ -75,7 +76,7 @@ export const SlideTags = ({
             paddingBottom: insets.bottom,
           }}
         >
-            {settings?.tags && settings?.tags?.map(tag => (
+            {tags?.map(tag => (
               <Tag 
                 onPress={async () => {
                   const newTags = tempLog?.data?.tags?.map(d => d.id).includes(tag.id) ? 

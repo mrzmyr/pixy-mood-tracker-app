@@ -7,7 +7,6 @@
   "reset": "Nollaa",
   "calendar": "Kalenteri",
   "settings": "asetukset",
-  "webhook": "Webhook",
   "licenses": "Lisenssit",
   "data_notice": "Kaikki tiedot tallennetaan laitteellesi ja poistuvat laitteeltasi vain, kun päätät niin.",
   "rate_this_app": "Arvostele tämä sovellus",
@@ -24,35 +23,10 @@
   "export": "Viedä",
   "export_failed_title": "Vienti epäonnistui",
   "export_help": "Vie kaikki tiedot JSON-tiedostona",
-  "webhook_help": "Webhookeja käytetään tietojen lähettämiseen HTTP-päätepisteisiin.",
-  "webhook_url": "URL-osoite",
-  "webhook_url_placeholder": "https://example.com/",
-  "webhook_url_help": "Tätä URL-osoitetta käytetään tietojen lähettämiseen webhookiisi.",
-  "webhook_history": "Historia",
-  "webhook_status_success": "Menestys",
-  "webhook_status_error": "Virhe",
-  "webhook_entry_url": "URL-osoite",
-  "webhook_entry_request": "Pyyntö",
-  "webhook_entry_response": "Vastaus",
-  "webhook_entry_status_text": "Tilateksti",
-  "webhook_entry_status_code": "Tilakoodi",
-  "webhook_entry_error_message": "Virheviesti",
   "log_modal_message_placeholder": "Vähän viestiä päivästä...",
   "scales": "värit",
   "scales_info": "Kalenterin tunnelmaa käytetään väreillä. Edellinen mielialasi vaihtuu valittuun väriin.",
   "log_modal_message_example": "Tänään olen löytänyt tavan saada yhteys itseeni uudelleen.",
-  "previews_screen_1_title": [
-    "Seuraa mielialaasi",
-    "Pikseli kerrallaan"
-  ],
-  "previews_screen_2_title": [
-    "Webhook / Vie",
-    "Tuki"
-  ],
-  "previews_screen_3_title": [
-    "Näyttää hyvältä sisällä",
-    "Tumma tila"
-  ],
   "issue": "Ongelma",
   "idea": "Idea",
   "other": "Muut",

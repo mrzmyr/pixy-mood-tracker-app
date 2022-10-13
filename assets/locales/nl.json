@@ -7,7 +7,6 @@
   "reset": "Resetten",
   "calendar": "Kalender",
   "settings": "Instellingen",
-  "webhook": "webhook",
   "licenses": "Licenties",
   "data_notice": "Alle gegevens worden op uw apparaat opgeslagen en verlaten uw apparaat alleen wanneer u dat wilt.",
   "rate_this_app": "Beoordeel deze app",
@@ -24,35 +23,10 @@
   "export": "Exporteren",
   "export_failed_title": "Export mislukt",
   "export_help": "Exporteer alle gegevens als een JSON-bestand",
-  "webhook_help": "Webhooks worden gebruikt om gegevens naar HTTP-eindpunten te verzenden.",
-  "webhook_url": "URL",
-  "webhook_url_placeholder": "https://voorbeeld.com/",
-  "webhook_url_help": "Deze URL wordt gebruikt om gegevens naar uw webhook te sturen.",
-  "webhook_history": "Geschiedenis",
-  "webhook_status_success": "Succes",
-  "webhook_status_error": "Fout",
-  "webhook_entry_url": "URL",
-  "webhook_entry_request": "Verzoek",
-  "webhook_entry_response": "Antwoord",
-  "webhook_entry_status_text": "Statustekst",
-  "webhook_entry_status_code": "Status code",
-  "webhook_entry_error_message": "Foutmelding",
   "log_modal_message_placeholder": "Een bericht over de dag...",
   "scales": "kleuren",
   "scales_info": "Kleuren worden gebruikt om de stemming in de kalender aan te geven. Je vorige stemming wordt overgeschakeld naar de geselecteerde kleur.",
   "log_modal_message_example": "Vandaag heb ik een manier gevonden om weer in contact te komen met mezelf.",
-  "previews_screen_1_title": [
-    "Volg je humeur",
-    "Eén pixel per keer"
-  ],
-  "previews_screen_2_title": [
-    "Webhook / Exporteren",
-    "Steun"
-  ],
-  "previews_screen_3_title": [
-    "Ziet er geweldig uit in",
-    "Donkere modus"
-  ],
   "issue": "Probleem",
   "idea": "Idee",
   "other": "Ander",

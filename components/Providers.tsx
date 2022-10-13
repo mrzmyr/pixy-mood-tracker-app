@@ -6,6 +6,7 @@ import { CalendarFiltersProvider } from '../hooks/useCalendarFilters';
 import { LogsProvider } from '../hooks/useLogs';
 import { SettingsProvider } from '../hooks/useSettings';
 import { StatisticsProvider } from '../hooks/useStatistics';
+import { TagsProvider } from '../hooks/useTags';
 import { TemporaryLogProvider } from '../hooks/useTemporaryLog';
 
 const Providers = ({ 
@@ -30,15 +31,17 @@ const Providers = ({
         >
         {/* <PasscodeProvider> */}
           <LogsProvider>
-            <AnalyticsProvider>
-              <TemporaryLogProvider>
-                <CalendarFiltersProvider>
-                  <StatisticsProvider>
-                    {children}
-                  </StatisticsProvider>
-                </CalendarFiltersProvider>
-              </TemporaryLogProvider>
-            </AnalyticsProvider>
+            <TagsProvider>
+              <AnalyticsProvider>
+                <TemporaryLogProvider>
+                  <CalendarFiltersProvider>
+                    <StatisticsProvider>
+                      {children}
+                    </StatisticsProvider>
+                  </CalendarFiltersProvider>
+                </TemporaryLogProvider>
+              </AnalyticsProvider>
+            </TagsProvider>
           </LogsProvider>
         </PostHogProvider>
         {/* </PasscodeProvider> */}

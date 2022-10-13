@@ -7,7 +7,6 @@
   "reset": "Tetapkan semula",
   "calendar": "Kalendar",
   "settings": "tetapan",
-  "webhook": "Webhook",
   "licenses": "Lesen",
   "data_notice": "Semua data disimpan pada peranti anda dan hanya meninggalkan peranti anda apabila anda memutuskan untuk melakukannya.",
   "rate_this_app": "Nilaikan apl ini",
@@ -24,35 +23,10 @@
   "export": "Eksport",
   "export_failed_title": "Eksport gagal",
   "export_help": "Eksport semua data sebagai fail JSON",
-  "webhook_help": "Webhooks digunakan untuk menghantar data ke titik akhir HTTP.",
-  "webhook_url": "URL",
-  "webhook_url_placeholder": "https://example.com/",
-  "webhook_url_help": "URL ini akan digunakan untuk menghantar data ke webhook anda.",
-  "webhook_history": "Sejarah",
-  "webhook_status_success": "Kejayaan",
-  "webhook_status_error": "ralat",
-  "webhook_entry_url": "URL",
-  "webhook_entry_request": "Permintaan",
-  "webhook_entry_response": "Respon",
-  "webhook_entry_status_text": "Teks Status",
-  "webhook_entry_status_code": "Kod Status",
-  "webhook_entry_error_message": "Mesej Ralat",
   "log_modal_message_placeholder": "Beberapa mesej tentang hari…",
   "scales": "Warna",
   "scales_info": "Warna digunakan untuk menunjukkan mood dalam kalendar. Mood anda sebelum ini akan ditukar kepada warna yang dipilih.",
   "log_modal_message_example": "Hari ini saya telah menemui cara untuk berhubung semula dengan diri saya sendiri.",
-  "previews_screen_1_title": [
-    "Jejaki mood anda",
-    "Satu Piksel pada Satu Masa"
-  ],
-  "previews_screen_2_title": [
-    "Webhook / Eksport",
-    "Sokongan"
-  ],
-  "previews_screen_3_title": [
-    "Nampak hebat dalam",
-    "Mod Gelap"
-  ],
   "issue": "Isu",
   "idea": "Idea",
   "other": "Lain-lain",

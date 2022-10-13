@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { Pressable, Text, View, ViewStyle } from 'react-native';
 import { ChevronRight } from 'react-native-feather';
 import useColors from '../hooks/useColors';
@@ -36,6 +36,13 @@ export default ({
     iconRight = <ChevronRight width={18} color={colors.menuListItemIcon} />;
   }
 
+  const _onPress = useCallback(async () => {
+    if(onPress !== null && !deactivated) {
+      await haptics.selection()
+      onPress()
+    }
+  }, [onPress, deactivated, haptics])
+  
   return (
     <View
       style={{
@@ -49,12 +56,7 @@ export default ({
       }}
     >
       <Pressable
-        onPress={async () => {
-          if(onPress !== null && !deactivated) {
-            await haptics.selection()
-            onPress()
-          }
-        }}
+        onPress={_onPress}
         style={({ pressed }) => [{
           flexDirection: "row",
           alignItems: 'center',

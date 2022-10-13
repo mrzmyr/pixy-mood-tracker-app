@@ -7,7 +7,6 @@
   "reset": "Mengatur ulang",
   "calendar": "Kalender",
   "settings": "Pengaturan",
-  "webhook": "Webhook",
   "licenses": "Lisensi",
   "data_notice": "Semua data disimpan di perangkat Anda dan hanya meninggalkan perangkat saat Anda memutuskan untuk melakukannya.",
   "rate_this_app": "Nilai aplikasi ini",
@@ -24,35 +23,10 @@
   "export": "Ekspor",
   "export_failed_title": "Ekspor gagal",
   "export_help": "Ekspor semua data sebagai file JSON",
-  "webhook_help": "Webhook digunakan untuk mengirim data ke titik akhir HTTP.",
-  "webhook_url": "URL",
-  "webhook_url_placeholder": "https://contoh.com/",
-  "webhook_url_help": "URL ini akan digunakan untuk mengirim data ke webhook Anda.",
-  "webhook_history": "Sejarah",
-  "webhook_status_success": "Kesuksesan",
-  "webhook_status_error": "Kesalahan",
-  "webhook_entry_url": "URL",
-  "webhook_entry_request": "Meminta",
-  "webhook_entry_response": "Tanggapan",
-  "webhook_entry_status_text": "Teks Status",
-  "webhook_entry_status_code": "Kode status",
-  "webhook_entry_error_message": "Pesan eror",
   "log_modal_message_placeholder": "Beberapa pesan tentang hari…",
   "scales": "warna",
   "scales_info": "Warna digunakan untuk menunjukkan suasana hati dalam kalender. Suasana hati Anda sebelumnya akan dialihkan ke warna yang dipilih.",
   "log_modal_message_example": "Hari ini saya telah menemukan cara untuk berhubungan kembali dengan diri saya sendiri.",
-  "previews_screen_1_title": [
-    "Lacak suasana hati Anda",
-    "Satu Piksel Sekaligus"
-  ],
-  "previews_screen_2_title": [
-    "Webhook / Ekspor",
-    "Mendukung"
-  ],
-  "previews_screen_3_title": [
-    "Tampak hebat di",
-    "Mode Gelap"
-  ],
   "issue": "Masalah",
   "idea": "Ide",
   "other": "Lainnya",

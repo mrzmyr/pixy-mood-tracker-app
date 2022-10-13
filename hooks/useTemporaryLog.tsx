@@ -5,7 +5,7 @@ const TemporaryLogStateContext = createContext(undefined);
 
 type Value = {
   data: LogItem;
-  set: (log: LogItem) => void;
+  set: (log: LogItem | ((log: LogItem) => void)) => void;
   reset: () => void;
 };
 

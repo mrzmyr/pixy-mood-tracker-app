@@ -7,7 +7,6 @@
   "reset": "Resetowanie",
   "calendar": "Kalendarz",
   "settings": "Ustawienia",
-  "webhook": "Webhook",
   "licenses": "Licencje",
   "data_notice": "Wszystkie dane są przechowywane na Twoim urządzeniu i opuszczają je tylko wtedy, gdy zdecydujesz się na to.",
   "rate_this_app": "Oceń tę aplikację",
@@ -24,35 +23,10 @@
   "export": "Eksport",
   "export_failed_title": "Eksport nie powiódł się",
   "export_help": "Eksportuj wszystkie dane jako plik JSON",
-  "webhook_help": "Webhooki służą do wysyłania danych do punktów końcowych HTTPTP.",
-  "webhook_url": "URL",
-  "webhook_url_placeholder": "https://example.com/",
-  "webhook_url_help": "Ten adres URL będzie używany do wysyłania danych do Twojego webhooka.",
-  "webhook_history": "Historia",
-  "webhook_status_success": "Powodzenie",
-  "webhook_status_error": "Błąd",
-  "webhook_entry_url": "URL",
-  "webhook_entry_request": "Wniosek",
-  "webhook_entry_response": "Odpowiedź",
-  "webhook_entry_status_text": "Tekst stanu",
-  "webhook_entry_status_code": "Kod statusu",
-  "webhook_entry_error_message": "Komunikat o błędzie",
   "log_modal_message_placeholder": "Jakaś wiadomość o dniu…",
   "scales": "Zabarwienie",
   "scales_info": "Kolory służą do wskazywania nastroju w kalendarzu. Twój poprzedni nastrój zostanie przełączony na wybrany kolor.",
   "log_modal_message_example": "Dziś znalazłem sposób na ponowne połączenie się ze sobą.",
-  "previews_screen_1_title": [
-    "Śledź swój nastrój",
-    "Jeden piksel na raz"
-  ],
-  "previews_screen_2_title": [
-    "Webhook / Eksport",
-    "Wsparcie"
-  ],
-  "previews_screen_3_title": [
-    "Wygląda świetnie w",
-    "Tryb ciemny"
-  ],
   "issue": "Wydanie",
   "idea": "Pomysł",
   "other": "Inny",

@@ -7,7 +7,6 @@
   "reset": "Ripristina",
   "calendar": "Calendario",
   "settings": "Impostazioni",
-  "webhook": "Webhook",
   "licenses": "Licenze",
   "data_notice": "Tutti i dati vengono archiviati sul tuo dispositivo e lasciano il tuo dispositivo solo quando lo decidi.",
   "rate_this_app": "Valuta questa applicazione",
@@ -24,35 +23,10 @@
   "export": "Esportare",
   "export_failed_title": "Esportazione non riuscita",
   "export_help": "Esporta tutti i dati come file JSON",
-  "webhook_help": "I webhook vengono utilizzati per inviare dati agli endpoint HTTP.",
-  "webhook_url": "URL",
-  "webhook_url_placeholder": "https://esempio.com/",
-  "webhook_url_help": "Questo URL verrà utilizzato per inviare dati al tuo webhook.",
-  "webhook_history": "Storia",
-  "webhook_status_success": "Successo",
-  "webhook_status_error": "Errore",
-  "webhook_entry_url": "URL",
-  "webhook_entry_request": "Richiesta",
-  "webhook_entry_response": "Risposta",
-  "webhook_entry_status_text": "Testo di stato",
-  "webhook_entry_status_code": "Codice di stato",
-  "webhook_entry_error_message": "Messaggio di errore",
   "log_modal_message_placeholder": "Qualche messaggio sulla giornata...",
   "scales": "Colori",
   "scales_info": "I colori sono usati per indicare l'atmosfera nel calendario. Il tuo stato d'animo precedente passerà al colore selezionato.",
   "log_modal_message_example": "Oggi ho trovato un modo per riconnettermi con me stesso.",
-  "previews_screen_1_title": [
-    "Tieni traccia del tuo umore",
-    "Un pixel alla volta"
-  ],
-  "previews_screen_2_title": [
-    "Webhook / Esporta",
-    "Supporto"
-  ],
-  "previews_screen_3_title": [
-    "Sembra fantastico dentro",
-    "Modalità scura"
-  ],
   "issue": "Problema",
   "idea": "Idea",
   "other": "Altro",

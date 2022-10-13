@@ -69,7 +69,7 @@ function PasscodeProvider({
 function usePasscode(): PasscodeState {
   const context = useContext(PasscodeContext)
   if (context === undefined) {
-    throw new Error('useLogs must be used within a LogsProvider')
+    throw new Error('usePasscode must be used within a PasscodeProvider')
   }
   return context
 }

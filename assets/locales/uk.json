@@ -7,7 +7,6 @@
   "reset": "Скинути",
   "calendar": "Календар",
   "settings": "Налаштування",
-  "webhook": "Webhook",
   "licenses": "Ліцензії",
   "data_notice": "Усі дані зберігаються на вашому пристрої й залишають пристрій лише тоді, коли ви вирішите це зробити.",
   "rate_this_app": "Оцініть цей додаток",
@@ -24,35 +23,10 @@
   "export": "Експорт",
   "export_failed_title": "Помилка експорту",
   "export_help": "Експортуйте всі дані як файл JSON",
-  "webhook_help": "Вебхуки використовуються для надсилання даних на кінцеві точки HTTP.",
-  "webhook_url": "URL",
-  "webhook_url_placeholder": "https://example.com/",
-  "webhook_url_help": "Ця URL-адреса використовуватиметься для надсилання даних на ваш веб-хук.",
-  "webhook_history": "Історія",
-  "webhook_status_success": "Успіх",
-  "webhook_status_error": "Помилка",
-  "webhook_entry_url": "URL",
-  "webhook_entry_request": "Запит",
-  "webhook_entry_response": "Відповідь",
-  "webhook_entry_status_text": "Текст статусу",
-  "webhook_entry_status_code": "Код статусу",
-  "webhook_entry_error_message": "Повідомлення про помилку",
   "log_modal_message_placeholder": "Трохи повідомлення про день…",
   "scales": "Кольори",
   "scales_info": "Кольори використовуються для позначення настрою в календарі. Ваш попередній настрій буде змінено на вибраний колір.",
   "log_modal_message_example": "Сьогодні я знайшов спосіб відновити контакт із собою.",
-  "previews_screen_1_title": [
-    "Слідкуйте за своїм настроєм",
-    "Один піксель за раз"
-  ],
-  "previews_screen_2_title": [
-    "Webhook / Експорт",
-    "Підтримка"
-  ],
-  "previews_screen_3_title": [
-    "Чудово виглядає в",
-    "Темний режим"
-  ],
   "issue": "Проблема",
   "idea": "Ідея",
   "other": "Інший",

@@ -1,11 +1,13 @@
+import dayjs from 'dayjs';
 import * as Device from 'expo-device';
 import * as Localization from 'expo-localization';
 import { usePostHog } from 'posthog-react-native';
 import { createContext, useContext, useEffect, useState } from "react";
 import pkg from '../package.json';
 import { useAnonymizer } from './useAnonymizer';
-import { useLogs } from './useLogs';
+import { LogItem, useLogState } from './useLogs';
 import { useSettings } from './useSettings';
+import { useTagsState } from './useTags';
 
 const AnalyticsContext = createContext(undefined)
 
@@ -21,14 +23,31 @@ interface AnaylticsState {
 export const TRACKING_ENABLED = !__DEV__;
 const DEBUG = true
 
+const getItemsCoverage = (items: LogItem[]) => {
+  let itemsCoverage = 0;
+
+  const itemsSorted = Object.keys(items).sort((a, b) => {
+    return new Date(items[a].date).getTime() - new Date(items[b].date).getTime()
+  })
+
+  if(itemsSorted.length > 0) {
+    const firstItemDate = new Date(itemsSorted[0])
+    const days = dayjs().diff(firstItemDate, 'day')
+    itemsCoverage = Math.round((itemsSorted.length / days) * 100)
+  }
+
+  return itemsCoverage
+}
+
 function AnalyticsProvider({
   children
 }: {
   children: React.ReactNode
 }) {
   const { settings, setSettings } = useSettings()
-  const logs = useLogs()
+  const logState = useLogState()
   const posthog = usePostHog()
+  const { tags } = useTagsState()
 
   const { anonymizeTag } = useAnonymizer()
   
@@ -48,13 +67,13 @@ function AnalyticsProvider({
       settingsReminderEnabled: settings.reminderEnabled,
       settingsReminderTime: settings.reminderTime,
       settingsScaleType: settings.scaleType,
-      settingsWebhookEnabled: settings.webhookEnabled,
       settingsActionsDone: settings.actionsDone,
-      settingsTags: settings.tags.map(tag => anonymizeTag(tag)),
-      settingsTagsCount: settings.tags.length,
+
+      tags: tags.map(tag => anonymizeTag(tag)),
+      tagsCount: tags.length,
       
-      itemsCount: Object.values(logs.state.items).length,
-      itemsCoverage: logs.getItemsCoverage(),
+      itemsCount: Object.values(logState.items).length,
+      itemsCoverage: getItemsCoverage(Object.values(logState.items)),
       
       ...properties,
     }
@@ -121,7 +140,6 @@ function AnalyticsProvider({
     </AnalyticsContext.Provider>
   )
 }
-
 
 function useAnalytics(): AnaylticsState {
   const context = useContext(AnalyticsContext)

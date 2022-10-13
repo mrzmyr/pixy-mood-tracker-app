@@ -7,7 +7,6 @@
   "reset": "Nullstille",
   "calendar": "Kalender",
   "settings": "Innstillinger",
-  "webhook": "Webhook",
   "licenses": "Lisenser",
   "data_notice": "All data lagres på enheten din og forlater enheten bare når du bestemmer deg for det.",
   "rate_this_app": "Ranger denne appen",
@@ -24,35 +23,10 @@
   "export": "Eksport",
   "export_failed_title": "Eksporten mislyktes",
   "export_help": "Eksporter alle data som en JSON-fil",
-  "webhook_help": "Webhooks brukes til å sende data til HTTP-endepunkter.",
-  "webhook_url": "URL",
-  "webhook_url_placeholder": "https://example.com/",
-  "webhook_url_help": "Denne URL-en vil bli brukt til å sende data til din webhook.",
-  "webhook_history": "Historie",
-  "webhook_status_success": "Suksess",
-  "webhook_status_error": "Feil",
-  "webhook_entry_url": "URL",
-  "webhook_entry_request": "Be om",
-  "webhook_entry_response": "Respons",
-  "webhook_entry_status_text": "Statustekst",
-  "webhook_entry_status_code": "Statuskode",
-  "webhook_entry_error_message": "Feilmelding",
   "log_modal_message_placeholder": "Litt melding om dagen...",
   "scales": "Farger",
   "scales_info": "Farger brukes for å indikere stemningen i kalenderen. Din forrige stemning vil bli byttet til den valgte fargen.",
   "log_modal_message_example": "I dag har jeg funnet en måte å få kontakt med meg selv på igjen.",
-  "previews_screen_1_title": [
-    "Spor humøret ditt",
-    "Én piksel om gangen"
-  ],
-  "previews_screen_2_title": [
-    "Webhook / Eksporter",
-    "Brukerstøtte"
-  ],
-  "previews_screen_3_title": [
-    "Ser flott ut i",
-    "Mørk modus"
-  ],
   "issue": "Utgave",
   "idea": "Idé",
   "other": "Annen",

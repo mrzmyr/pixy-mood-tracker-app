@@ -1,4 +1,3 @@
-export * from './Calendar';
 export * from './Data';
 export * from './Licenses';
 export * from './Log/Edit';
@@ -9,8 +8,6 @@ export * from './Reminder';
 export * from './Scales';
 export * from './Settings';
 export * from './Statistics';
-export * from './Webhook';
-export * from './WebhookEntry';
 export * from './TagEdit';
 export * from './TagCreate';
 export * from './Statistics/Highlights';

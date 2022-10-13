@@ -7,7 +7,6 @@
   "reset": "Sıfırla",
   "calendar": "Takvim",
   "settings": "Ayarlar",
-  "webhook": "Web kancası",
   "licenses": "lisanslar",
   "data_notice": "Tüm veriler cihazınızda saklanır ve yalnızca siz karar verdiğinizde cihazınızdan ayrılır.",
   "rate_this_app": "Bu uygulamayı oyla",
@@ -24,35 +23,10 @@
   "export": "İhracat",
   "export_failed_title": "Dışa aktarılamadı",
   "export_help": "Tüm verileri bir JSON dosyası olarak dışa aktarın",
-  "webhook_help": "Web kancaları, HTTP uç noktalarına veri göndermek için kullanılır.",
-  "webhook_url": "URL",
-  "webhook_url_placeholder": "https://example.com/",
-  "webhook_url_help": "Bu URL, web kancanıza veri göndermek için kullanılacaktır.",
-  "webhook_history": "Tarih",
-  "webhook_status_success": "Başarı",
-  "webhook_status_error": "Hata",
-  "webhook_entry_url": "URL",
-  "webhook_entry_request": "Rica etmek",
-  "webhook_entry_response": "Tepki",
-  "webhook_entry_status_text": "Durum Metni",
-  "webhook_entry_status_code": "Durum kodu",
-  "webhook_entry_error_message": "Hata mesajı",
   "log_modal_message_placeholder": "Güne dair bir mesaj…",
   "scales": "Renkler",
   "scales_info": "Renkler, takvimdeki ruh halini belirtmek için kullanılır. Önceki ruh haliniz seçilen renge geçecektir.",
   "log_modal_message_example": "Bugün kendimle yeniden bağlantı kurmanın bir yolunu buldum.",
-  "previews_screen_1_title": [
-    "Ruh halinizi takip edin",
-    "Bir Seferde Bir Piksel"
-  ],
-  "previews_screen_2_title": [
-    "Web kancası / Dışa Aktarma",
-    "Destek"
-  ],
-  "previews_screen_3_title": [
-    "harika görünüyorsun",
-    "Karanlık Mod"
-  ],
   "issue": "Sorun",
   "idea": "Fikir",
   "other": "Diğer",

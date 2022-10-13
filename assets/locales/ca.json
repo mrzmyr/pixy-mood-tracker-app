@@ -7,7 +7,6 @@
   "reset": "Restableix",
   "calendar": "Calendari",
   "settings": "Configuració",
-  "webhook": "Webhook",
   "licenses": "Llicències",
   "data_notice": "Totes les dades s'emmagatzemen al dispositiu i només surten del dispositiu quan ho decideixes.",
   "rate_this_app": "Valora aquesta app",
@@ -24,35 +23,10 @@
   "export": "Exporta",
   "export_failed_title": "Ha fallat l'exportació",
   "export_help": "Exporteu totes les dades com a fitxer JSON",
-  "webhook_help": "Els webhooks s'utilitzen per enviar dades a punts finals HTTP.",
-  "webhook_url": "URL",
-  "webhook_url_placeholder": "https://example.com/",
-  "webhook_url_help": "Aquest URL s'utilitzarà per enviar dades al vostre webhook.",
-  "webhook_history": "Història",
-  "webhook_status_success": "Èxit",
-  "webhook_status_error": "Error",
-  "webhook_entry_url": "URL",
-  "webhook_entry_request": "Sol·licitud",
-  "webhook_entry_response": "Resposta",
-  "webhook_entry_status_text": "Text d'estat",
-  "webhook_entry_status_code": "Codi d'estat",
-  "webhook_entry_error_message": "Missatge d'error",
   "log_modal_message_placeholder": "Un missatge sobre el dia...",
   "scales": "Colors",
   "scales_info": "Els colors s'utilitzen per indicar l'estat d'ànim al calendari. El vostre estat d'ànim anterior es canviarà al color seleccionat.",
   "log_modal_message_example": "Avui he trobat una manera de reconnectar amb mi mateix.",
-  "previews_screen_1_title": [
-    "Feu un seguiment del vostre estat d'ànim",
-    "Un píxel a la vegada"
-  ],
-  "previews_screen_2_title": [
-    "Webhook / Exportació",
-    "Suport"
-  ],
-  "previews_screen_3_title": [
-    "Es veu molt bé dins",
-    "Mode fosc"
-  ],
   "issue": "Assumpte",
   "idea": "Idea",
   "other": "Altres",

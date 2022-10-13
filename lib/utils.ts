@@ -1,6 +1,6 @@
 import { LogsState } from './../hooks/useLogs';
 import Ajv from "ajv"
-import { COLOR_NAMES } from '../hooks/useSettings';
+import { TAG_COLOR_NAMES } from '../constants/Config';
 
 const ajv = new Ajv({
   allErrors: true
@@ -14,6 +14,9 @@ const pixy_schema = {
   type: "object",
   required: ["items"],
   properties: {
+    version: {
+      type: "string",
+    },
     items: {
       type: "object",
       patternProperties: {
@@ -36,6 +39,24 @@ const pixy_schema = {
       },
       additionalProperties: false,
     },
+    tags: {
+      type: "array",
+      items: {
+        type: "object",
+        properties: {
+          id: {
+            type: "string",
+          },
+          title: {
+            type: "string",
+          },
+          color: {
+            type: "string",
+            enum: TAG_COLOR_NAMES
+          },
+        },
+      },
+    },
     settings: {
       type: "object",
       properties: {
@@ -44,41 +65,6 @@ const pixy_schema = {
         },
         passcode: {
           type: ["string", "null"],
-        },
-        webhookEnabled: {
-          type: ["boolean"],
-        },
-        webhookUrl: {
-          type: ["string"],
-        },
-        webhookHistory: {
-          type: "array",
-          items: {
-            type: "object",
-            properties: {
-              url: {
-                type: "string",
-              },
-              date: {
-                type: "string",
-              },
-              body: {
-                type: "string",
-              },
-              statusCode: {
-                type: "number",
-              },
-              statusText: {
-                type: "string",
-              },
-              isError: {
-                type: "boolean",
-              },
-              errorMessage: {
-                type: "string",
-              },
-            },
-          },
         },
         scaleType: {
           type: "string",
@@ -93,24 +79,6 @@ const pixy_schema = {
         },
         trackBehaviour: {
           type: ["boolean", "null"],
-        },
-        tags: {
-          type: "array",
-          items: {
-            type: "object",
-            properties: {
-              id: {
-                type: "string",
-              },
-              title: {
-                type: "string",
-              },
-              color: {
-                type: "string",
-                enum: COLOR_NAMES
-              },
-            },
-          },
         },
       },
     },
@@ -151,3 +119,4 @@ export function convertPixeltoPixyJSON(data): LogsState {
 
   return pixy
 }
+

@@ -30,21 +30,23 @@ const SCALE_RANGE = 8;
 
 export const getTagsDistributionTrendData = (
   items: LogItem[],
-  settingsTags: Tag[]
+  tags: Tag[]
 ): TagsDistributionTrendData => {
   const distributionPeriode1: TagCounter = _.zipObject(
-    settingsTags.map((d) => d.id),
-    settingsTags.map((d) => ({ ...d, count: 0 }))
+    tags.map((d) => d.id),
+    tags.map((d) => ({ ...d, count: 0 }))
   );
 
   const distributionPeriode2: TagCounter = _.zipObject(
-    settingsTags.map((d) => d.id),
-    settingsTags.map((d) => ({ ...d, count: 0 }))
+    tags.map((d) => d.id),
+    tags.map((d) => ({ ...d, count: 0 }))
   );
+
+  console.log(distributionPeriode1)
 
   // if tags exist inside the settings tags
   const filteredItems = items.filter((item) =>
-    item?.tags?.some((tag) => settingsTags.some((d) => d.id === tag.id))
+    item?.tags?.some((tag) => tags.some((d) => d.id === tag.id))
   );
 
   if(filteredItems.length === 0) {
@@ -79,7 +81,7 @@ export const getTagsDistributionTrendData = (
     });
   }
 
-  const tags = settingsTags
+  const _tags = tags
     .map((tag) => ({
       ...tag,
       periode1Count: distributionPeriode1[tag.id].count,
@@ -104,6 +106,6 @@ export const getTagsDistributionTrendData = (
     });
 
   return {
-    tags,
+    tags: _tags
   };
 };

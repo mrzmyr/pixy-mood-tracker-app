@@ -7,12 +7,11 @@ import Button from '../components/Button';
 import DismissKeyboard from '../components/DismisKeyboard';
 import LinkButton from '../components/LinkButton';
 import ModalHeader from '../components/ModalHeader';
-import { MAX_TAG_LENGTH, MIN_TAG_LENGTH } from '../constants/Config';
+import { MAX_TAG_LENGTH, MIN_TAG_LENGTH, TAG_COLOR_NAMES } from '../constants/Config';
+import { useAnalytics } from '../hooks/useAnalytics';
 import useColors from '../hooks/useColors';
 import useHaptics from '../hooks/useHaptics';
-import { useLogs } from '../hooks/useLogs';
-import { useAnalytics } from '../hooks/useAnalytics';
-import { COLOR_NAMES, Tag as ITag } from '../hooks/useSettings';
+import { Tag as ITag, useTagsUpdater } from '../hooks/useTags';
 import { useTranslation } from '../hooks/useTranslation';
 import { RootStackScreenProps } from '../types';
 
@@ -24,7 +23,7 @@ export const TagCreate = ({ navigation, route }: RootStackScreenProps<'TagCreate
   const haptics = useHaptics()
   const insets = useSafeAreaInsets();
   const analytics = useAnalytics()
-  const logs = useLogs()
+  const tagsUpdater = useTagsUpdater()
   
   const [tempTag, setTempTag] = useState<ITag>({
     id: uuidv4(),
@@ -45,7 +44,7 @@ export const TagCreate = ({ navigation, route }: RootStackScreenProps<'TagCreate
       color: Object.keys(colors.tags)[0] as ITag['color'],
     })
 
-    logs.createTag(tempTag)
+    tagsUpdater.createTag(tempTag)
 
     navigation.goBack();
   }
@@ -105,7 +104,7 @@ export const TagCreate = ({ navigation, route }: RootStackScreenProps<'TagCreate
               width: '100%',
             }}
           >
-            {COLOR_NAMES.map(colorName => (
+            {TAG_COLOR_NAMES.map(colorName => (
               <TouchableOpacity
                 key={colorName}
                 style={{

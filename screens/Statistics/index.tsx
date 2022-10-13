@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { RefreshControl, ScrollView, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import useColors from '../../hooks/useColors';
-import { useLogs } from '../../hooks/useLogs';
+import { useLogState } from '../../hooks/useLogs';
 import { useStatistics } from '../../hooks/useStatistics';
 import { EmptyPlaceholder } from './EmptyPlaceholder';
 import { FeedbackSection } from './FeedbackSection';
@@ -14,12 +14,12 @@ export const StatisticsScreen = ({ navigation }) => {
   const insets = useSafeAreaInsets();
   const colors = useColors()
   const statistics = useStatistics()
-  const { state } = useLogs()
+  const logState = useLogState()
 
   const [refreshing, setRefreshing] = useState(false);
 
   // times of the last two weeks
-  const items = Object.values(state.items).filter(item => {
+  const items = Object.values(logState.items).filter(item => {
     const date = new Date(item.date)
     return date.getTime() > new Date().getTime() - 1000 * 60 * 60 * 24 * 14
   })

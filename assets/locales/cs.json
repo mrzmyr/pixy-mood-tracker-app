@@ -7,7 +7,6 @@
   "reset": "Resetovat",
   "calendar": "Kalendář",
   "settings": "Nastavení",
-  "webhook": "Webhook",
   "licenses": "licence",
   "data_notice": "Všechna data jsou uložena ve vašem zařízení a opouštějí vaše zařízení pouze tehdy, když se tak rozhodnete.",
   "rate_this_app": "Ohodnoťte tuto aplikaci",
@@ -24,35 +23,10 @@
   "export": "Vývozní",
   "export_failed_title": "Export se nezdařil",
   "export_help": "Exportujte všechna data jako soubor JSON",
-  "webhook_help": "Webhooky se používají k odesílání dat do koncových bodů HTTP.",
-  "webhook_url": "URL",
-  "webhook_url_placeholder": "https://example.com/",
-  "webhook_url_help": "Tato adresa URL bude použita k odesílání dat do vašeho webhooku.",
-  "webhook_history": "Dějiny",
-  "webhook_status_success": "Úspěch",
-  "webhook_status_error": "Chyba",
-  "webhook_entry_url": "URL",
-  "webhook_entry_request": "Žádost",
-  "webhook_entry_response": "Odezva",
-  "webhook_entry_status_text": "Stavový text",
-  "webhook_entry_status_code": "Stavový kód",
-  "webhook_entry_error_message": "Chybové hlášení",
   "log_modal_message_placeholder": "Nějaká zpráva o dni…",
   "scales": "Barvy",
   "scales_info": "Barvy se používají k označení nálady v kalendáři. Vaše předchozí nálada se přepne na vybranou barvu.",
   "log_modal_message_example": "Dnes jsem našel způsob, jak se znovu spojit sám se sebou.",
-  "previews_screen_1_title": [
-    "Sledujte svou náladu",
-    "Jeden pixel po druhém"
-  ],
-  "previews_screen_2_title": [
-    "Webhook / Export",
-    "Podpěra, podpora"
-  ],
-  "previews_screen_3_title": [
-    "Vypadá skvěle",
-    "Tmavý režim"
-  ],
   "issue": "Problém",
   "idea": "Idea",
   "other": "jiný",

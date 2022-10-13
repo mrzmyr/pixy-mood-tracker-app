@@ -7,7 +7,6 @@
   "reset": "Visszaállítás",
   "calendar": "Naptár",
   "settings": "Beállítások",
-  "webhook": "Webhook",
   "licenses": "Licencek",
   "data_notice": "Minden adat az eszközén tárolódik, és csak akkor hagyja el az eszközt, amikor úgy dönt.",
   "rate_this_app": "Értékeld ezt az alkalmazást",
@@ -24,35 +23,10 @@
   "export": "Export",
   "export_failed_title": "Nem sikerült exportálni",
   "export_help": "Exportálja az összes adatot JSON-fájlként",
-  "webhook_help": "A webhookot arra használják, hogy adatokat küldjenek a HTTP-végpontokhoz.",
-  "webhook_url": "URL",
-  "webhook_url_placeholder": "https://example.com/",
-  "webhook_url_help": "Ezt az URL-t használjuk adatok küldésére a webhookba.",
-  "webhook_history": "Történelem",
-  "webhook_status_success": "Siker",
-  "webhook_status_error": "Hiba",
-  "webhook_entry_url": "URL",
-  "webhook_entry_request": "Kérés",
-  "webhook_entry_response": "Válasz",
-  "webhook_entry_status_text": "Állapot szöveg",
-  "webhook_entry_status_code": "Állapotkód",
-  "webhook_entry_error_message": "Hiba üzenet",
   "log_modal_message_placeholder": "Néhány üzenet a napról…",
   "scales": "Színek",
   "scales_info": "A színek a hangulat jelzésére szolgálnak a naptárban. Az előző hangulat a kiválasztott színre vált.",
   "log_modal_message_example": "Ma megtaláltam a módját, hogy újra kapcsolatba lépjek önmagammal.",
-  "previews_screen_1_title": [
-    "Kövesse nyomon a hangulatát",
-    "Egy pixel egyszerre"
-  ],
-  "previews_screen_2_title": [
-    "Webhook / Exportálás",
-    "Támogatás"
-  ],
-  "previews_screen_3_title": [
-    "Remekül néz ki",
-    "Sötét mód"
-  ],
   "issue": "Probléma",
   "idea": "Ötlet",
   "other": "Egyéb",

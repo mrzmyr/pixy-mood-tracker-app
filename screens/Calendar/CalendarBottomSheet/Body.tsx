@@ -1,33 +1,46 @@
-import { View } from 'react-native';
-import { useCalendarFilters } from '../../../hooks/useCalendarFilters';
-import { useSettings } from '../../../hooks/useSettings';
-import { Header } from './Header';
-import { RatingSection } from './RatingSection';
-import { ResultsSection } from './ResultsSection';
-import { SearchInputSection } from './SearchInputSection';
-import { TagsSection } from './TagsSection';
+import _ from "lodash";
+import { useCallback, useState } from "react";
+import { View } from "react-native";
+import { useCalendarFilters } from "../../../hooks/useCalendarFilters";
+import { useTagsState } from "../../../hooks/useTags";
+import { Header } from "./Header";
+import { RatingSection } from "./RatingSection";
+import { ResultsSection } from "./ResultsSection";
+import { SearchInputSection } from "./SearchInputSection";
+import { TagsSection } from "./TagsSection";
 
 export const Body = () => {
   const calendarFilters = useCalendarFilters();
-  const { settings } = useSettings();
+  const { tags } = useTagsState();
+
+  const [searchText, setSearchText] = useState("");
 
   const onPressTag = (tag) => {
     calendarFilters.set({
       ...calendarFilters.data,
-      tagIds: calendarFilters.data.tagIds.includes(tag.id) ?
-        calendarFilters.data.tagIds.filter(t => t !== tag.id) :
-        [...calendarFilters.data.tagIds, tag.id]
+      tagIds: calendarFilters.data.tagIds.includes(tag.id)
+        ? calendarFilters.data.tagIds.filter((t) => t !== tag.id)
+        : [...calendarFilters.data.tagIds, tag.id],
     });
   };
 
   const onPressRating = (rating) => {
     calendarFilters.set({
       ...calendarFilters.data,
-      ratings: calendarFilters.data.ratings.includes(rating) ?
-        calendarFilters.data.ratings.filter(r => r !== rating) :
-        [...calendarFilters.data.ratings, rating]
+      ratings: calendarFilters.data.ratings.includes(rating)
+        ? calendarFilters.data.ratings.filter((r) => r !== rating)
+        : [...calendarFilters.data.ratings, rating],
     });
   };
+
+  const onTextChange = (text) => {
+    calendarFilters.set({
+      ...calendarFilters.data,
+      text,
+    });
+  };
+
+  const debounceOnTextChange = useCallback(_.debounce(onTextChange, 200), []);
 
   return (
     <>
@@ -38,23 +51,25 @@ export const Body = () => {
         }}
       >
         <SearchInputSection
-          value={calendarFilters.data.text}
+          value={searchText}
           onChange={(text) => {
-            calendarFilters.set({
-              ...calendarFilters.data,
-              text,
-            });
-          }} />
+            setSearchText(text);
+            debounceOnTextChange(text);
+          }}
+        />
         <RatingSection
           value={calendarFilters.data.ratings}
-          onChange={onPressRating} />
+          onChange={onPressRating}
+        />
         <TagsSection
-          tags={settings.tags}
-          selectedTags={settings.tags.filter(tag => calendarFilters.data.tagIds.includes(tag.id))}
-          onSelect={onPressTag} />
-        {calendarFilters.filteredItems.length !== 0 && (
-          <ResultsSection
-            count={calendarFilters.filteredItems.length} />
+          tags={tags}
+          selectedTags={tags.filter((tag) =>
+            calendarFilters.data.tagIds.includes(tag.id)
+          )}
+          onSelect={onPressTag}
+        />
+        {calendarFilters.data.filteredItems.length !== 0 && (
+          <ResultsSection count={calendarFilters.data.filteredItems.length} />
         )}
       </View>
     </>

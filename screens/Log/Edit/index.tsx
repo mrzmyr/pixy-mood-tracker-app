@@ -1,15 +1,17 @@
 import dayjs from 'dayjs';
 import { t } from 'i18n-js';
-import _ from "lodash";
 import { ReactElement, useEffect, useRef, useState } from 'react';
-import { Alert, Dimensions, Keyboard, Platform, View } from 'react-native';
+import { Dimensions, Keyboard, Platform, View } from 'react-native';
 import Carousel from 'react-native-reanimated-carousel';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import Alert from '../../../components/Alert';
 import { QUESTIONS_PULL_URL } from '../../../constants/API';
-import useColors from '../../../hooks/useColors';
-import { LogItem, useLogs } from '../../../hooks/useLogs';
 import { useAnalytics } from '../../../hooks/useAnalytics';
+import { useAnonymizer } from '../../../hooks/useAnonymizer';
+import useColors from '../../../hooks/useColors';
+import { LogItem, useLogState, useLogUpdater } from '../../../hooks/useLogs';
 import { useSettings } from '../../../hooks/useSettings';
+import { useTagsState } from '../../../hooks/useTags';
 import { useTemporaryLog } from '../../../hooks/useTemporaryLog';
 import { useTranslation } from '../../../hooks/useTranslation';
 import { RootStackScreenProps } from '../../../types';
@@ -21,7 +23,6 @@ import { SlideRating } from './SlideRating';
 import { SlideReminder } from './SlideReminder';
 import { SlideTags } from './SlideTags';
 import { Stepper } from './Stepper';
-import { useAnonymizer } from '../../../hooks/useAnonymizer';
 
 const SLIDE_INDEX_MAPPING = {
   rating: 0,
@@ -35,13 +36,15 @@ export const LogEdit = ({ navigation, route }: RootStackScreenProps<'LogEdit'>) 
   const colors = useColors()
   const analytics = useAnalytics()
   const insets = useSafeAreaInsets();
+  const { tags } = useTagsState()
 
-  const { state, dispatch } = useLogs()
+  const logUpdater = useLogUpdater()
+  const logState = useLogState()
   const tempLog = useTemporaryLog();
   const { language } = useTranslation();
   const { anonymizeTag } = useAnonymizer()
   
-  const existingLogItem = state?.items[route.params.date];
+  const existingLogItem = logState?.items[route.params.date];
 
   const defaultLogItem: LogItem = {
     date: route.params.date,
@@ -81,10 +84,10 @@ export const LogEdit = ({ navigation, route }: RootStackScreenProps<'LogEdit'>) 
     if(tempLog.data === null) return;
     
     // delete all tags that are not in the settings
-    const settingTagIds = settings.tags.map(tag => tag.id)
-    const tags = tempLog.data.tags.filter(tag => settingTagIds.includes(tag.id))
-    tempLog.set(tempLog => ({ ...tempLog, tags }))
-  }, [JSON.stringify(settings.tags)])
+    const settingTagIds = tags.map(tag => tag.id)
+    const _tags = tempLog.data.tags.filter(tag => settingTagIds.includes(tag.id))
+    tempLog.set(tempLog => ({ ...tempLog, tags: _tags }))
+  }, [JSON.stringify(tags)])
 
   const close = async () => {
     tempLog.reset()
@@ -108,14 +111,11 @@ export const LogEdit = ({ navigation, route }: RootStackScreenProps<'LogEdit'>) 
 
     if(existingLogItem) {
       analytics.track('log_changed', eventData)
+      logUpdater.editLog(tempLog.data)
     } else {
       analytics.track('log_created', eventData)
+      logUpdater.addLog(tempLog.data)
     }
-
-    dispatch({
-      type: existingLogItem ? 'edit' : 'add',
-      payload: tempLog.data
-    })
 
     close()
   }
@@ -166,10 +166,7 @@ export const LogEdit = ({ navigation, route }: RootStackScreenProps<'LogEdit'>) 
   
   const remove = () => {
     analytics.track('log_deleted')
-    dispatch({
-      type: 'delete', 
-      payload: tempLog.data
-    })
+    logUpdater.deleteLog(tempLog.data)
     close()
   }
 
@@ -230,7 +227,7 @@ export const LogEdit = ({ navigation, route }: RootStackScreenProps<'LogEdit'>) 
   ]
 
   if(
-    Object.keys(state.items).length === 1 &&
+    Object.keys(logState.items).length === 1 &&
     !settings.reminderEnabled &&
     existingLogItem === undefined
   ) {
@@ -248,7 +245,7 @@ export const LogEdit = ({ navigation, route }: RootStackScreenProps<'LogEdit'>) 
   }
 
   if(
-    Object.keys(state.items).length % 2 === 0 && 
+    Object.keys(logState.items).length % 2 === 0 && 
     question !== null &&
     existingLogItem === undefined
   ) {

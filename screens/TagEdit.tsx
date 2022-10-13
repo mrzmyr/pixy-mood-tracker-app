@@ -3,19 +3,18 @@ import { Platform, TextInput, TouchableOpacity, View } from 'react-native';
 import { Check } from 'react-native-feather';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { v4 as uuidv4 } from 'uuid';
+import Alert from '../components/Alert';
 import Button from '../components/Button';
 import DismissKeyboard from '../components/DismisKeyboard';
 import LinkButton from '../components/LinkButton';
 import ModalHeader from '../components/ModalHeader';
-import { MAX_TAG_LENGTH, MIN_TAG_LENGTH } from '../constants/Config';
+import { MAX_TAG_LENGTH, MIN_TAG_LENGTH, TAG_COLOR_NAMES } from '../constants/Config';
+import { useAnalytics } from '../hooks/useAnalytics';
 import useColors from '../hooks/useColors';
 import useHaptics from '../hooks/useHaptics';
-import { useLogs } from '../hooks/useLogs';
-import { useAnalytics } from '../hooks/useAnalytics';
-import { COLOR_NAMES, Tag as ITag } from '../hooks/useSettings';
+import { Tag as ITag, useTagsUpdater } from '../hooks/useTags';
 import { useTranslation } from '../hooks/useTranslation';
 import { RootStackScreenProps } from '../types';
-import Alert from '../components/Alert';
 
 const REGEX_EMOJI = /\p{Emoji}/u;
 
@@ -24,7 +23,7 @@ export const TagEdit = ({ navigation, route }: RootStackScreenProps<'TagEdit'>) 
   const colors = useColors()
   const haptics = useHaptics()
   const insets = useSafeAreaInsets();
-  const logs = useLogs()
+  const tagsUpdater = useTagsUpdater()
   const analytics = useAnalytics()
   
   const tagExists = route.params.tag !== undefined;
@@ -57,7 +56,7 @@ export const TagEdit = ({ navigation, route }: RootStackScreenProps<'TagEdit'>) 
               color: tag.color,
               containsEmoji: REGEX_EMOJI.test(tag.title),      
             })
-            onDelete(tag.id)
+            onDelete(tag)
           },
           style: "destructive"
         },
@@ -73,13 +72,13 @@ export const TagEdit = ({ navigation, route }: RootStackScreenProps<'TagEdit'>) 
     );
   }
   
-  const onDelete = (id: ITag['id']) => {
-    logs.deleteTag(id)
+  const onDelete = (tag: ITag) => {
+    tagsUpdater.deleteTag(tag)
     navigation.goBack()
   }
   
   const onSubmit = (tag: ITag) => {
-    logs.updateTag(tag)
+    tagsUpdater.updateTag(tag)
     navigation.goBack();
   }
   
@@ -138,7 +137,7 @@ export const TagEdit = ({ navigation, route }: RootStackScreenProps<'TagEdit'>) 
               width: '100%',
             }}
           >
-            {COLOR_NAMES.map(colorName => (
+            {TAG_COLOR_NAMES.map(colorName => (
               <TouchableOpacity
                 key={colorName}
                 style={{

@@ -6,7 +6,7 @@
 import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
 import { CompositeScreenProps } from '@react-navigation/native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { Tag as ITag } from './hooks/useSettings';
+import { Tag as ITag } from './hooks/useTags';
 
 declare global {
   namespace ReactNavigation {
@@ -20,10 +20,6 @@ export type RootStackParamList = {
   Onboarding: undefined,
   Settings: undefined,
   Scales: undefined,
-  Webhook: undefined,
-  WebhookEntry: {
-    entry: any,
-  },
   Licenses: undefined,
   Calendar: undefined,
   Modal: undefined;

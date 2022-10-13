@@ -1,6 +1,6 @@
 import _ from "lodash";
 import { LogItem } from "../useLogs";
-import { Tag } from "../useSettings";
+import { Tag } from "../useTags";
 
 export interface TagsDistributionData {
   tags: {
@@ -16,13 +16,13 @@ export const defaultTagsDistributionData: TagsDistributionData = {
   itemsCount: 0,
 }
 
-export const getTagsDistributionData = (items: LogItem[], settingsTags: Tag[]): TagsDistributionData => {
+export const getTagsDistributionData = (items: LogItem[], tags: Tag[]): TagsDistributionData => {
   const distribution = _.countBy(
     items.flatMap((item) => item?.tags?.map((tag) => tag?.id))
   );
-  const tags = Object.keys(distribution)
+  const _tags = Object.keys(distribution)
     .map((key) => ({
-      details: settingsTags.find((tag) => tag.id === key),
+      details: tags.find((tag) => tag.id === key),
       id: key,
       count: distribution[key],
     }))
@@ -32,7 +32,7 @@ export const getTagsDistributionData = (items: LogItem[], settingsTags: Tag[]): 
   const itemsWithTags = items.filter((item) => item?.tags?.length > 0);
 
   return {
-    tags,
+    tags: _tags,
     itemsCount: itemsWithTags.length,
   };
 };

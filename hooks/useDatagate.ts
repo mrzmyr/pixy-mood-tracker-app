@@ -2,12 +2,14 @@ import dayjs from "dayjs";
 import * as DocumentPicker from "expo-document-picker";
 import * as FileSystem from "expo-file-system";
 import * as Sharing from "expo-sharing";
-import _ from "lodash";
 import { Alert, Platform } from "react-native";
+import { migrateImportData } from "../helpers/Migration";
 import { getJSONSchemaType } from "../lib/utils";
-import { LogsState, useLogs } from "./useLogs";
+import pkg from '../package.json';
 import { useAnalytics } from "./useAnalytics";
-import { SettingsState, useSettings } from "./useSettings";
+import { useLogState, useLogUpdater } from "./useLogs";
+import { useSettings } from "./useSettings";
+import { useTagsState, useTagsUpdater } from "./useTags";
 import { useTranslation } from "./useTranslation";
 
 let openShareDialogAsync = async (uri: string) => {
@@ -20,61 +22,19 @@ let openShareDialogAsync = async (uri: string) => {
   await Sharing.shareAsync(uri);
 };
 
-interface ImportData {
-  items: LogsState["items"];
-  settings: SettingsState;
-}
-
 export const useDatagate = () => {
-  const { state, dispatch } = useLogs();
+  const logState = useLogState();
+  const logUpdater = useLogUpdater();
+  const { tags } = useTagsState();
+  const tagsUpdater = useTagsUpdater();
   const { t } = useTranslation();
   const { resetSettings, importSettings, settings } = useSettings();
 
   const analytics = useAnalytics();
 
-  const migrateData = (data: ImportData): ImportData => {
-    const { items, settings } = data;
-
-    const newItems = {}
-    
-    Object.values(items).forEach((item) => {
-      const newItem = { ...item };
-      if (item?.tags) {
-        newItem.tags = item.tags.map((tag) => {
-          const newTag = { ...tag };
-          if (tag.color === 'stone') {
-            newTag.color = 'slate'; 
-          }
-          return newTag;
-        });
-      }
-      newItems[item.date] = newItem;
-    });
-
-    const newSettings = { ...settings };
-    if (settings.tags) {
-      newSettings.tags = settings.tags.map((tag) => { 
-        const newTag = { ...tag };
-        if (tag.color === 'stone') {
-          newTag.color = 'slate'; 
-        }
-        return newTag;
-      });
-    }
-
-    return {
-      items: newItems,
-      settings: newSettings,
-    };
-  };
-  
-  const _import = (data: ImportData) => {    
-    dispatch({
-      type: "import",
-      payload: {
-        items: data.items,
-      },
-    });
+  const _import = (data) => {
+    logUpdater.import(data);
+    tagsUpdater.import({ tags: data.settings.tags });
     importSettings(data.settings);
   };
 
@@ -115,7 +75,7 @@ export const useDatagate = () => {
             analytics.track("data_import_success");
             const contents = await FileSystem.readAsStringAsync(doc.uri);
             const data = JSON.parse(contents);
-            const migratedData = migrateData(data);
+            const migratedData = migrateImportData(data);
             const jsonSchemaType = getJSONSchemaType(migratedData);
 
             if (jsonSchemaType === "pixy") {
@@ -163,7 +123,7 @@ export const useDatagate = () => {
 
   const resetData = () => {
     resetSettings();
-    dispatch({ type: "reset" });
+    logUpdater.reset();
   };
 
   const openResetDialog = async () => {
@@ -184,7 +144,7 @@ export const useDatagate = () => {
             onPress: () => {
               resetData();
               analytics.track("data_reset_success");
-              resolve({})
+              resolve({});
               Alert.alert(
                 t("reset_data_success_title"),
                 t("reset_data_success_message"),
@@ -203,7 +163,7 @@ export const useDatagate = () => {
             text: t("cancel"),
             onPress: () => {
               analytics.track("data_reset_cancel");
-              reject()
+              reject();
             },
             style: "cancel",
           },
@@ -214,7 +174,7 @@ export const useDatagate = () => {
   };
 
   const importData = async (data) => {
-    const migratedData = migrateData(data);
+    const migratedData = migrateImportData(data);
     const jsonSchemaType = getJSONSchemaType(migratedData);
 
     if (jsonSchemaType === "pixy") {
@@ -234,22 +194,18 @@ export const useDatagate = () => {
 
   const openExportDialog = async () => {
     const data = {
-      items: state.items,
+      version: pkg.version,
+      items: logState.items,
+      tags: tags,
       settings: {
         passcodeEnabled: settings.passcodeEnabled,
         passcode: settings.passcode,
-        webhookEnabled: settings.webhookEnabled,
-        webhookUrl: settings.webhookUrl,
-        webhookHistory: settings.webhookHistory,
         scaleType: settings.scaleType,
         reminderEnabled: settings.reminderEnabled,
         reminderTime: settings.reminderTime,
         trackBehaviour: settings.trackBehaviour,
-        tags: settings.tags,
       },
     };
-
-    console.log(data);
 
     analytics.track("data_export_started");
 
@@ -257,7 +213,7 @@ export const useDatagate = () => {
       return Alert.alert("Not supported on web");
     }
 
-    const filename = `pixel-tracker-${dayjs().format("YYYY-MM-DD")}.json`;
+    const filename = `pixel-tracker-${dayjs().format("YYYY-MM-DD")}${__DEV__ ? '-DEV' : ''}.json`;
     await FileSystem.writeAsStringAsync(
       FileSystem.documentDirectory + filename,
       JSON.stringify(data)
