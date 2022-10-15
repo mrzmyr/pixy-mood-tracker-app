@@ -46,7 +46,9 @@ export const LogEdit = ({ navigation, route }: RootStackScreenProps<'LogEdit'>) 
   
   const existingLogItem = logState?.items[route.params.date];
 
-  const defaultLogItem: LogItem = {
+  const defaultLogItem: Omit<LogItem, 'rating'> & {
+    rating: LogItem['rating'] | null
+  } = {
     date: route.params.date,
     rating: null,
     message: '',

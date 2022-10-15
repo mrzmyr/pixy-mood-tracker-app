@@ -1,5 +1,6 @@
 import { useNavigation } from "@react-navigation/native";
 import { LinearGradient } from 'expo-linear-gradient';
+import _ from "lodash";
 import { ScrollView, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Tag from "../../../components/Tag";
@@ -85,7 +86,7 @@ export const SlideTags = ({
                     const newTags = tempLog?.data?.tags?.map(d => d.id).includes(tag.id) ? 
                       tempLog?.data?.tags.filter(t => t.id !== tag.id) : 
                       [...tempLog?.data.tags || [], tag]
-                    onChange(newTags)
+                    onChange(newTags.map(t => _.omit(t, ['title', 'color'])))
                   }}
                   title={_tag.title}
                   colorName={_tag.color}
