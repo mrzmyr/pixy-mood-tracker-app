@@ -15,7 +15,7 @@ export default function Scale({
   onPress?: any,
 }) {
   let { colors, labels } = useScale(type)
-  labels = labels.reverse()
+  labels = [...labels.reverse()]
   const haptics = useHaptics()
   
   return (
@@ -40,10 +40,12 @@ export default function Scale({
             isFirst={index === 0}
             isLast={index === labels.length - 1}
             isSelected={isSelected}
-            onPress={onPress ? async () => {
-              await haptics.selection()
-              onPress(key)
-            }: null}
+            onPress={async () => {
+              if(onPress) {
+                await haptics.selection()
+                onPress(key)
+              }
+            }}
             backgroundColor={colors[key].background}
             textColor={colors[key].text}
           />

@@ -45,11 +45,7 @@ describe("MigrationHelper", () => {
   test("should `migrateImportData`", async () => {
     const newData = migrateImportData(testImportData);
 
-    expect(newData).toEqual({
-      settings: { ...INITIAL_STATE },
-      tags: [...testTags],
-      items: {...testItems},
-    });
+    expect(newData).toEqual(testImportData);
   });
 
   test("should `migrateImportData` rewrite tag colors", async () => {
