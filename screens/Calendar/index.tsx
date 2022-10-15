@@ -22,15 +22,19 @@ const CalendarScreen = memo(function CalendarScreen() {
 
   useEffect(() => {
     if (calendarRef.current) {
-      scrollRef.current.scrollToEnd({ animated: false });
+      setTimeout(() => {
+        scrollRef.current.scrollToEnd({ animated: false });
+      }, 0)
     }
   }, [calendarRef]);
 
   useEffect(() => {
     if (calendarRef.current) {
-      calendarRef.current.measure((x, y, width, height) => {
-        calendarHeight.current = height;
-      });
+      setTimeout(() => {
+        calendarRef.current.measure((x, y, width, height) => {
+          calendarHeight.current = height;
+        });
+      }, 0)
     }
   }, [calendarRef]);
 

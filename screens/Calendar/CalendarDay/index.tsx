@@ -2,7 +2,7 @@ import { useNavigation } from "@react-navigation/native";
 import chroma from "chroma-js";
 import dayjs from "dayjs";
 import { memo, useCallback, useMemo, useRef } from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Pressable, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { useStyle } from "react-native-style-utilities";
 import { DATE_FORMAT } from "../../../constants/Config";
 import useColors from "../../../hooks/useColors";
@@ -127,16 +127,11 @@ const CalendarDay = memo(function CalendarDay({
     }
   }, [dateString, isFuture, onPress])
   
-  const activeOpacity = useMemo(() => (
-    isFuture ? 1 : 0.5
-  ), [isFuture])
-  
   return (
-    <TouchableOpacity
+    <Pressable
       disabled={isFuture}
       onPress={onPressHandler}
       style={containerStyles}
-      activeOpacity={activeOpacity}
     >
       <View
         style={styles.textIndicatorParent1}
@@ -154,7 +149,7 @@ const CalendarDay = memo(function CalendarDay({
           <Text style={dayNumberTextStyles}>{day}</Text>
         </View>
       </View>
-    </TouchableOpacity>
+    </Pressable>
   );
 })
 
