@@ -15,7 +15,7 @@ export default function Scale({
   onPress?: any,
 }) {
   let { colors, labels } = useScale(type)
-  labels = [...labels.reverse()]
+  const _labels = labels.slice().reverse()
   const haptics = useHaptics()
   
   return (
@@ -35,10 +35,10 @@ export default function Scale({
 
         return (
           <ScaleButton 
-            accessibilityLabel={labels[index]}
+            accessibilityLabel={_labels[index]}
             key={key} 
             isFirst={index === 0}
-            isLast={index === labels.length - 1}
+            isLast={index === _labels.length - 1}
             isSelected={isSelected}
             onPress={async () => {
               if(onPress) {
