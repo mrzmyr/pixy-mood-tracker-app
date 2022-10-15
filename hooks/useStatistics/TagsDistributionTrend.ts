@@ -42,8 +42,6 @@ export const getTagsDistributionTrendData = (
     tags.map((d) => ({ ...d, count: 0 }))
   );
 
-  console.log(distributionPeriode1)
-
   // if tags exist inside the settings tags
   const filteredItems = items.filter((item) =>
     item?.tags?.some((tag) => tags.some((d) => d.id === tag.id))
