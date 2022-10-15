@@ -64,7 +64,6 @@ const CalendarWeek = memo(function CalendarWeek({
 
   const emptyDays = useMemo(() => {
     const emptyDays: null[] = [];
-    if(!days) console.log('NO DAYS', items);
     for (let i = 0; i < 7 - days.length; i++) emptyDays.push(null);
     return emptyDays;
   }, [days]);

@@ -104,7 +104,6 @@ const load = async (): Promise<LogsState | null> => {
   try {
     const data = await AsyncStorage.getItem(STORAGE_KEY);
     if(data === null) return null;
-    console.log(data)
     return JSON.parse(data);
   } catch (e) {
     console.error(e);
