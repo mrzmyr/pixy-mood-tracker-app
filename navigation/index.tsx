@@ -5,7 +5,6 @@ import { useCallback, useEffect, useMemo } from 'react';
 import { Platform, Pressable, Text, useColorScheme, View } from 'react-native';
 import { ArrowLeft, Calendar as CalendarIcon, PieChart, Settings as SettingsIcon } from 'react-native-feather';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import Colors from '../constants/Colors';
 import useColors from '../hooks/useColors';
 import { useTranslation } from '../hooks/useTranslation';
 import {
@@ -17,7 +16,7 @@ import {
   PrivacyScreen,
   ReminderScreen,
   ScaleScreen,
-  SettingsScreen, StatisticsHighlights, StatisticsScreen, TagCreate, TagEdit,
+  SettingsScreen, StatisticsHighlights, StatisticsScreen, TagCreate, TagEdit
 } from '../screens';
 import { RootStackParamList } from '../types';
 
@@ -27,38 +26,35 @@ import Providers from '../components/Providers';
 import { useCalendarFilters } from '../hooks/useCalendarFilters';
 import useHaptics from '../hooks/useHaptics';
 import { useSettings } from '../hooks/useSettings';
+import CalendarScreen from '../screens/Calendar';
 import { DevelopmentStatistics } from '../screens/DevelopmentStatistics';
 import { Onboarding } from '../screens/Onboarding';
 import { Tags } from '../screens/Tags';
-import CalendarScreen from '../screens/Calendar';
+import { NAVIGATION_LINKING } from '../constants/Config';
+import Colors from '../constants/Colors';
+import { useAnalytics } from '../hooks/useAnalytics';
+import { useLogState } from '../hooks/useLogs';
+import { useTagsState } from '../hooks/useTags';
+import { useAnonymizer } from '../hooks/useAnonymizer';
+import { getItemsCoverage } from '../lib/utils';
 
 enableScreens();
 
-const linking = {
-  prefixes: ['pixy://'],
-  config: {
-    screens: {
-    },
-  },
-};
-
 export default function Navigation() {
   const scheme = useColorScheme();
-  
+
   return (
     <NavigationContainer 
-      linking={linking}
-      theme={scheme === 'dark' ? { 
-        dark: true,
-        colors: {
-          ...Colors.dark,
+      linking={NAVIGATION_LINKING}
+      theme={
+        scheme === 'dark' ? {
+          dark: true,
+          colors: Colors.dark,
+        } : {
+          dark: false,
+          colors: Colors.light,
         }
-      } : {
-        dark: false,
-        colors: {
-          ...Colors.light,
-        }
-      }}
+      }
     >
       <Providers>
         <RootNavigator />
@@ -255,7 +251,7 @@ const BottomTabs = () => {
                 }} 
                 testID="filters" 
                 type='primary'
-              >{t('calendar_filters')} {calendarFilters.isFiltering ? `(${calendarFilters.filterCount})` : ''}</LinkButton>
+              >{t('calendar_filters')} {calendarFilters.data.isFiltering ? `(${calendarFilters.data.filterCount})` : ''}</LinkButton>
             </View>
           ),
           tabBarTestID: 'calendar',
@@ -281,6 +277,10 @@ function RootNavigator() {
   const i18n = useTranslation()
   const { settings, hasActionDone } = useSettings()
   const navigation = useNavigation()
+  const analytics = useAnalytics()
+  const logState = useLogState();
+  const { tags } = useTagsState();
+  const { anonymizeTag } = useAnonymizer();
   // const passcode = usePasscode()
 
   const defaultOptions = {
@@ -300,6 +300,15 @@ function RootNavigator() {
   useEffect(() => {
     if(settings.loaded && !hasActionDone('onboarding')) {
       navigation.navigate('Onboarding')
+    }
+    if(settings.loaded && !analytics.isIdentified) {
+      analytics.identify({
+        tags: tags.map(tag => anonymizeTag(tag)),
+        tagsCount: tags.length,
+        
+        itemsCount: Object.values(logState.items).length,
+        itemsCoverage: getItemsCoverage(Object.values(logState.items)),
+      })
     }
   }, [settings.loaded])
 

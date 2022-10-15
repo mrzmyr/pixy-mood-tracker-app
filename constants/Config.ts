@@ -25,3 +25,13 @@ export const TAG_COLOR_NAMES = [
   "pink",
   "rose",
 ];
+
+export const TRACKING_ENABLED = !__DEV__;
+
+export const NAVIGATION_LINKING = {
+  prefixes: ['pixy://'],
+  config: {
+    screens: {
+    },
+  },
+};

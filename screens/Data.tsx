@@ -34,6 +34,13 @@ export const DataScreen = ({ navigation }: RootStackScreenProps<'Data'>) => {
           onPress={() => datagate.openImportDialog()}
           iconLeft={<Upload width={18} color={colors.menuListItemIcon} />}
         />
+        {__DEV__ && (
+          <MenuListItem
+            title={i18n.t('import') + ' (DEV)'}
+            onPress={() => datagate.openDEVImportDialog()}
+            iconLeft={<Upload width={18} color={colors.menuListItemIcon} />}
+          />
+        )}
         <MenuListItem
           title={i18n.t('export')}
           onPress={() => datagate.openExportDialog()}

@@ -1,15 +1,14 @@
 import { useNavigation } from "@react-navigation/native";
-import { ScrollView, Text, View } from "react-native";
+import { LinearGradient } from 'expo-linear-gradient';
+import { ScrollView, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Tag from "../../../components/Tag";
-import { Tag as ITag } from "../../../hooks/useTags";
+import useColors from "../../../hooks/useColors";
+import { Tag as ITag, useTagsState } from "../../../hooks/useTags";
 import { useTemporaryLog } from "../../../hooks/useTemporaryLog";
 import { useTranslation } from "../../../hooks/useTranslation";
 import { MiniButton } from "../MiniButton";
 import { SlideHeadline } from "./SlideHeadline";
-import { LinearGradient } from 'expo-linear-gradient';
-import useColors from "../../../hooks/useColors";
-import { useTagsState } from "../../../hooks/useTags";
 
 export const SlideTags = ({
   marginTop,
@@ -76,20 +75,25 @@ export const SlideTags = ({
             paddingBottom: insets.bottom,
           }}
         >
-            {tags?.map(tag => (
-              <Tag 
-                onPress={async () => {
-                  const newTags = tempLog?.data?.tags?.map(d => d.id).includes(tag.id) ? 
-                    tempLog?.data?.tags.filter(t => t.id !== tag.id) : 
-                    [...tempLog?.data.tags, tag]
-                  onChange(newTags)
-                }}
-                colorName={tag.color}
-                selected={tempLog?.data?.tags?.map(d => d.id).includes(tag.id)} 
-                key={tag.id} 
-                title={tag.title} 
-              />
-            ))}
+            {tags?.map(tag => {
+              const _tag = tags.find(t => t.id === tag.id)
+              if(!_tag) return null;
+              
+              return (
+                <Tag 
+                  onPress={async () => {
+                    const newTags = tempLog?.data?.tags?.map(d => d.id).includes(tag.id) ? 
+                      tempLog?.data?.tags.filter(t => t.id !== tag.id) : 
+                      [...tempLog?.data.tags || [], tag]
+                    onChange(newTags)
+                  }}
+                  title={_tag.title}
+                  colorName={_tag.color}
+                  selected={tempLog?.data?.tags?.map(d => d.id).includes(tag.id)} 
+                  key={tag.id} 
+                />
+              )
+            })}
             <View>
               <MiniButton 
                 onPress={() => {

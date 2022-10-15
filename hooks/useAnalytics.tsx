@@ -1,59 +1,43 @@
-import dayjs from 'dayjs';
-import * as Device from 'expo-device';
-import * as Localization from 'expo-localization';
-import { usePostHog } from 'posthog-react-native';
+import * as Device from "expo-device";
+import * as Localization from "expo-localization";
+import { usePostHog } from "posthog-react-native";
 import { createContext, useContext, useEffect, useState } from "react";
-import pkg from '../package.json';
-import { useAnonymizer } from './useAnonymizer';
-import { LogItem, useLogState } from './useLogs';
-import { useSettings } from './useSettings';
-import { useTagsState } from './useTags';
+import pkg from "../package.json";
+import { useSettings } from "./useSettings";
 
-const AnalyticsContext = createContext(undefined)
+const AnalyticsContext = createContext(undefined);
 
 interface AnaylticsState {
-  enable: () => void,
-  disable: () => void,
-  reset: () => void,
-  isEnabled: boolean,
-  track: (event: string, properties?: any) => void,
-  identify: (properties?: {}) => void
+  enable: () => void;
+  disable: () => void;
+  reset: () => void;
+  track: (event: string, properties?: any) => void;
+  identify: (properties?: {}) => void;
+  isIdentified: boolean;
+  isEnabled: boolean;
 }
 
-export const TRACKING_ENABLED = !__DEV__;
-const DEBUG = true
-
-const getItemsCoverage = (items: LogItem[]) => {
-  let itemsCoverage = 0;
-
-  const itemsSorted = Object.keys(items).sort((a, b) => {
-    return new Date(items[a].date).getTime() - new Date(items[b].date).getTime()
-  })
-
-  if(itemsSorted.length > 0) {
-    const firstItemDate = new Date(itemsSorted[0])
-    const days = dayjs().diff(firstItemDate, 'day')
-    itemsCoverage = Math.round((itemsSorted.length / days) * 100)
-  }
-
-  return itemsCoverage
+interface AnalyticsProviderProps {
+  enabled: boolean;
 }
+
+const DEBUG = false;
 
 function AnalyticsProvider({
-  children
+  children,
+  options = {
+    enabled: false,
+  },
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
+  options?: AnalyticsProviderProps;
 }) {
-  const { settings, setSettings } = useSettings()
-  const logState = useLogState()
-  const posthog = usePostHog()
-  const { tags } = useTagsState()
+  const { settings, setSettings } = useSettings();
+  const posthog = usePostHog();
 
-  const { anonymizeTag } = useAnonymizer()
-  
-  const [isIdentified, setIsIdentified] = useState(false)
-  const [isEnabled, setIsEnabled] = useState(TRACKING_ENABLED)
-  
+  const [isIdentified, setIsIdentified] = useState(false);
+  const [isEnabled, setIsEnabled] = useState(options.enabled);
+
   const identify = (properties?: any) => {
     const traits = {
       userId: settings.deviceId,
@@ -69,84 +53,81 @@ function AnalyticsProvider({
       settingsScaleType: settings.scaleType,
       settingsActionsDone: settings.actionsDone,
 
-      tags: tags.map(tag => anonymizeTag(tag)),
-      tagsCount: tags.length,
-      
-      itemsCount: Object.values(logState.items).length,
-      itemsCoverage: getItemsCoverage(Object.values(logState.items)),
-      
       ...properties,
-    }
+    };
 
-    
-    if(DEBUG) console.log('useAnalytics: identify', traits)
+    if (DEBUG) console.log("useAnalytics: identify", traits);
 
-    if(!TRACKING_ENABLED) return;
+    if (!options.enabled) return;
 
     if(settings.deviceId === null) {
       console.warn('useAnalytics: deviceId is null, cannot identify')
       return;
     }
-    
-    posthog.identify(settings.deviceId, traits)
-    setIsIdentified(true)
-  }
-  
+
+    posthog!.identify(settings.deviceId, traits);
+    setIsIdentified(true);
+  };
+
   const value: AnaylticsState = {
     identify,
     enable: () => {
-      posthog.optIn()
-      setIsEnabled(posthog.optedOut === false)
+      posthog!.optIn();
+      setIsEnabled(true);
       setSettings((settings) => ({
         ...settings,
-        analyticsEnabled: true
-      }))
+        analyticsEnabled: true,
+      }));
     },
     disable: () => {
-      posthog.optOut()
-      setIsEnabled(posthog.optedOut === false)
+      posthog!.optOut();
+      setIsEnabled(false);
       setSettings((settings) => ({
         ...settings,
-        analyticsEnabled: false
-      }))
+        analyticsEnabled: false,
+      }));
     },
     reset: () => {
-      if(DEBUG) console.log('useAnalytics: reset')
-      posthog.reset()
-      setIsEnabled(posthog.optedOut === false)
+      posthog!.reset();
+      setIsEnabled(true);
+      setSettings((settings) => ({
+        ...settings,
+        analyticsEnabled: true,
+      }));
     },
     track: (eventName: string, properties?: any) => {
-      if(DEBUG) console.log('useAnalytics: track', eventName, properties)
+      if (DEBUG) console.log("useAnalytics: track", eventName, properties);
 
-      if(!TRACKING_ENABLED) return;
+      if (!options.enabled) return;
 
-      posthog.capture(eventName, {
+      posthog!.capture(eventName, {
         ...properties,
-        userId: settings.deviceId
-      })
+        userId: settings.deviceId,
+      });
     },
-    isEnabled
-  }
+    isIdentified,
+    isEnabled,
+  };
 
   useEffect(() => {
-    if(!isIdentified && settings.deviceId !== null) {
-      identify()
+    if (!isIdentified && settings.deviceId !== null) {
+      identify();
     }
-  }, [settings.deviceId])
-  
+  }, [settings.deviceId]);
+
   return (
     <AnalyticsContext.Provider value={value}>
       {children}
     </AnalyticsContext.Provider>
-  )
+  );
 }
 
 function useAnalytics(): AnaylticsState {
-  const context = useContext(AnalyticsContext)
+  const context = useContext(AnalyticsContext);
   if (context === undefined) {
-    throw new Error('useAnalytics must be used within a AnalyticsProvider')
+    throw new Error("useAnalytics must be used within a AnalyticsProvider");
   }
-  return context
+  return context;
 }
 
 export { AnalyticsProvider, useAnalytics };

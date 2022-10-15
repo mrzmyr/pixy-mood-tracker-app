@@ -8,6 +8,7 @@ import { useAnalytics } from '../../../hooks/useAnalytics';
 import useColors from '../../../hooks/useColors';
 import useHaptics from '../../../hooks/useHaptics';
 import { useLogState, useLogUpdater } from '../../../hooks/useLogs';
+import { useTagsState } from '../../../hooks/useTags';
 import { RootStackParamList, RootStackScreenProps } from '../../../types';
 import { Header } from './Header';
 import { Headline } from './Headline';
@@ -19,6 +20,7 @@ export const LogView = ({ navigation, route }: RootStackScreenProps<'LogView'>) 
   const insets = useSafeAreaInsets();
   const haptics = useHaptics();
 
+  const { tags } = useTagsState()
   const logState = useLogState()
   const logUpdater = useLogUpdater()
   
@@ -79,7 +81,7 @@ export const LogView = ({ navigation, route }: RootStackScreenProps<'LogView'>) 
           onDelete={async () => {
             if(
               item.message.length > 0 ||
-              item?.tags.length > 0
+              item?.tags && item?.tags.length > 0
             ) {
               askToRemove().then(() => remove())
             } else {
@@ -120,15 +122,21 @@ export const LogView = ({ navigation, route }: RootStackScreenProps<'LogView'>) 
                 flexWrap: 'wrap',
               }}
             >
-              {(item?.tags && item?.tags?.length) ? item?.tags?.map(tag => (
-                <Tag 
-                  colorName={tag.color}
-                  selected={false} 
-                  key={tag.id} 
-                  title={tag.title}
-                  onPress={() => edit('tags')}
-                />
-              )) : (
+              {(item?.tags && item?.tags?.length) ? item?.tags?.map(tag => {
+                const _tag = tags.find(t => t.id === tag.id);
+                
+                if(!_tag) return null;
+                
+                return (
+                  <Tag 
+                    selected={false} 
+                    key={tag.id}
+                    title={_tag.title}
+                    colorName={_tag.color}
+                    onPress={() => edit('tags')}
+                  />
+                )
+              }) : (
                 <View
                   style={{
                     padding: 8,

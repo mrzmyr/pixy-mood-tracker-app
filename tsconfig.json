@@ -2,6 +2,7 @@
   "extends": "expo/tsconfig.base",
   "noImplicitAny": false,
   "compilerOptions": {
+    "strictNullChecks": true,
     "strict": false
   }
 }

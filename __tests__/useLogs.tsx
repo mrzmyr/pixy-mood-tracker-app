@@ -1,6 +1,7 @@
-import { renderHook, act } from '@testing-library/react-hooks'
-import { LogsProvider, useLogs } from '../hooks/useLogs'
-import { SettingsProvider, useSettings } from '../hooks/useSettings'
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import { act, renderHook } from '@testing-library/react-hooks'
+import { LogsProvider, LogsState, STORAGE_KEY, useLogState, useLogUpdater } from '../hooks/useLogs'
+import { SettingsProvider } from '../hooks/useSettings'
 
 const wrapper = ({ children }) => (
   <SettingsProvider>
@@ -8,110 +9,196 @@ const wrapper = ({ children }) => (
   </SettingsProvider>
 )
 
+const testItems: LogsState['items'] = {
+  '2022-01-01': {
+    date: '2022-01-01',
+    rating: 'neutral',
+    message: 'test message',
+    tags: []
+  },
+  '2022-01-02': {
+    date: '2022-01-02',
+    rating: 'neutral',
+    message: '🦄',
+    tags: [{
+      id: '1',
+      title: 'test tag',
+      color: 'lime'
+    }, {
+      id: '2',
+      title: 'test tag 2',
+      color: 'slate'
+    }]
+  }
+}
+
+const _renderHook = () => {
+  return renderHook(() => ({
+    state: useLogState(),
+    updater: useLogUpdater()
+  }), { wrapper })
+}
+
+const _console_error = console.error
+
 describe('useLogs()', () => {
 
-  test('should import', () => {
-    const { result } = renderHook(() => useLogs(), { wrapper })
+  beforeEach(async () => {
+    console.error = jest.fn()
+  })
+  
+  afterEach(async () => {
+    console.error = _console_error
+    const keys = await AsyncStorage.getAllKeys()
+    await AsyncStorage.multiRemove(keys)
+  });
+  
+  test('should have `loaded` prop', async () => {
+    const hook = _renderHook()
+    expect(hook.result.current.state.loaded).toBe(false)
 
-    act(() => {
-      result.current.dispatch({
-        type: 'import',
-        payload: {
-          items: {
-            '2022-01-01': {
-              date: '2022-01-01',
-              rating: 'neutral',
-              message: 'test message',
-            }
-          }
-        }
-      })
-    })
+    // run useEffect for loading async storage
+    await hook.waitForNextUpdate()
 
-    expect(result.current.state.items['2022-01-01'].message).toBe('test message')
+    expect(hook.result.current.state.loaded).toBe(true)
   })
 
-  test('should add', async () => {
-    const { result, waitForNextUpdate } = renderHook(() => useLogs(), { wrapper })
+  test('should load `state` from async storage', async () => {
+    AsyncStorage.setItem(STORAGE_KEY, JSON.stringify({ items: testItems }))
 
-    await waitForNextUpdate()
-
-    act(() => {
-      result.current.dispatch({
-        type: 'add',
-        payload: {
-          date: '2022-01-03',
-          rating: 'neutral',
-          message: 'test message',
-        }
-      })
-    })
-
-    expect(result.current.state.items['2022-01-03'].message).toBe('test message')
+    const hook = _renderHook()
+    await hook.waitForNextUpdate()
+    
+    expect(hook.result.current.state.items).toEqual(testItems)
   })
 
-
-  test('should edit', async () => {
-    const { result, waitForNextUpdate } = renderHook(() => useLogs(), { wrapper })
-
-    await waitForNextUpdate()
-
-    act(() => {
-      result.current.dispatch({
-        type: 'add',
-        payload: {
-          date: '2022-01-03',
-          rating: 'neutral',
-          message: 'test message',
-        }
-      })
-    })
-
-    act(() => {
-      result.current.dispatch({
-        type: 'edit',
-        payload: {
-          date: '2022-01-03',
-          rating: 'good',
-          message: 'test message 3',
-        }
-      })
-    })
-
-    expect(result.current.state.items['2022-01-03'].rating).toBe('good')
-    expect(result.current.state.items['2022-01-03'].message).toBe('test message 3')
+  test('should initiate `state` with empty `items` when async storage is empty', async () => {
+    const hook = _renderHook()
+    await hook.waitForNextUpdate()
+    expect(hook.result.current.state.items).toEqual({})
   })
 
-  test('should delete', async () => {
-    const { result, waitForNextUpdate } = renderHook(() => useLogs(), { wrapper })
+  test('should initiate `state` with empty `items` when async storage is falsely', async () => {
+    AsyncStorage.setItem(STORAGE_KEY, '🐇')
+    const hook = _renderHook()
+    await hook.waitForNextUpdate()
+    expect(console.error).toHaveBeenCalled();
+  })
 
-    await waitForNextUpdate()
-
-    act(() => {
-      result.current.dispatch({
-        type: 'delete',
-        payload: {
-          date: '2022-01-03',
-          rating: 'neutral',
-          message: 'test message',
-        }
+  test('should import', async () => {
+    const hook = _renderHook()
+    await hook.waitForNextUpdate()
+    
+    await act(() => {
+      hook.result.current.updater.import({
+        items: testItems
       })
     })
 
-    expect(result.current.state.items['2020-01-02']).toBe(undefined)
+    expect(hook.result.current.state.items).toEqual(testItems)
+  })
+
+  test('should addLog', async () => {
+    const hook = _renderHook()
+    await hook.waitForNextUpdate()
+    
+    const itemsArr = Object.values(testItems)
+    
+    await act(() => {
+      hook.result.current.updater.addLog(itemsArr[0])
+    })
+
+    expect(hook.result.current.state.items)
+      .toEqual({
+        [itemsArr[0].date]: itemsArr[0]
+      })
+  })
+
+  test('should editLog', async () => {
+    const hook = _renderHook()
+    await hook.waitForNextUpdate()
+    
+    const itemsArr = Object.values(testItems)
+    const itemEdited = {
+      ...itemsArr[0],
+      message: 'edited message',
+      tags: [{
+        id: '4',
+        title: 'tag title',
+        color: 'lime'
+      }]
+    }
+    
+    await act(() => hook.result.current.updater.addLog(itemsArr[0]))
+    await act(() => hook.result.current.updater.editLog(itemEdited))
+
+    expect(hook.result.current.state.items).toEqual({
+      [itemsArr[0].date]: itemEdited
+    })
+  })
+
+  test('should updateLogs', async () => {
+    AsyncStorage.setItem(STORAGE_KEY, JSON.stringify({ items: {} }))
+
+    const hook = _renderHook()
+    await hook.waitForNextUpdate()
+    
+    const itemsClone = { ...testItems }
+    const itemsArr = Object.values(itemsClone)
+    const itemsEdited = {
+      [itemsArr[0].date]: {
+        ...itemsArr[0],
+        message: 'edited message',
+        tags: [{
+          id: '1',
+          title: 'tag title',
+          color: 'lime'
+        }]
+      },
+      [itemsArr[1].date]: {
+        ...itemsArr[1],
+        message: 'edited message 2',
+        tags: [{
+          id: '1',
+          title: 'tag title',
+          color: 'slate',
+        }]
+      }
+    }
+
+    expect(hook.result.current.state.items).toEqual({})
+
+    await act(() => hook.result.current.updater.updateLogs(itemsEdited))
+
+    expect(hook.result.current.state.items).toEqual(itemsEdited)
+  })
+
+  test('should deleteLog', async () => {
+    const hook = _renderHook()
+    await hook.waitForNextUpdate()
+    
+    const itemsArr = Object.values(testItems)
+    
+    await act(() => hook.result.current.updater.addLog(itemsArr[0]))
+    await act(() => hook.result.current.updater.addLog(itemsArr[1]))
+    await act(() => hook.result.current.updater.deleteLog(itemsArr[0]))
+
+    expect(hook.result.current.state.items).toEqual({
+      [itemsArr[1].date]: itemsArr[1]
+    })
   })
 
   test('should reset', async () => {
-    const { result, waitForNextUpdate } = renderHook(() => useLogs(), { wrapper })
+    AsyncStorage.setItem(STORAGE_KEY, JSON.stringify({ items: {} }))
 
-    await waitForNextUpdate()
+    const hook = _renderHook()
+    await hook.waitForNextUpdate()
 
-    act(() => {
-      result.current.dispatch({
-        type: 'reset',
-      })
-    })
-
-    expect(Object.keys(result.current.state.items).length).toBe(0)
+    await act(() => hook.result.current.updater.updateLogs(testItems))
+    expect(hook.result.current.state.items).toEqual(testItems)
+    
+    await act(() => hook.result.current.updater.reset())
+    expect(hook.result.current.state.items).toEqual({})
   })
+
 })

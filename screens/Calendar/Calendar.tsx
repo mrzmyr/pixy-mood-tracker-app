@@ -4,7 +4,7 @@ import React, { forwardRef, memo, useMemo } from "react";
 import { Platform, StyleSheet, Text, View } from "react-native";
 import { useCalendarFilters } from "../../hooks/useCalendarFilters";
 import useColors from "../../hooks/useColors";
-import { useLogState } from "../../hooks/useLogs";
+import { LogItem, useLogState } from "../../hooks/useLogs";
 import { useSettings } from "../../hooks/useSettings";
 import CalendarMonth from "./CalendarMonth";
 
@@ -17,8 +17,8 @@ dayjs.extend(isSameOrBefore)
 dayjs.extend(isSameOrAfter)
 
 const MONTH_COUNT = 12;
-const MONTH_ITEMS = []
-const MONTH_ITEMS_FILTERED = []
+const MONTH_ITEMS: (Omit<LogItem, 'message'> & { messageLength: number })[][] = []
+const MONTH_ITEMS_FILTERED: LogItem[][] = []
 
 for(let i = 0; i < MONTH_COUNT; i++) {
   MONTH_ITEMS.push([])
@@ -78,7 +78,7 @@ const Calendar = memo(forwardRef(function Calendar({}, ref: React.RefObject<View
       color: colors.textSecondary,
     }
   ], [colors])
-  
+
   return (
     <View
       ref={ref}

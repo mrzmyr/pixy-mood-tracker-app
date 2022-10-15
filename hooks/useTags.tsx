@@ -2,11 +2,12 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import _ from 'lodash';
 import { createContext, useCallback, useContext, useEffect, useMemo, useReducer } from "react";
 import { TAG_COLOR_NAMES } from '../constants/Config';
+import { useAnalytics } from './useAnalytics';
 import { LogItem, useLogState, useLogUpdater } from './useLogs';
 import { useSettings } from './useSettings';
 import { useTranslation } from './useTranslation';
 
-const STORAGE_KEY = 'PIXEL_TRACKER_TAGS'
+export const STORAGE_KEY = 'PIXEL_TRACKER_TAGS'
 
 export type Tag = {
   id: string;
@@ -22,7 +23,7 @@ interface State {
 type StateAction = 
   | { type: 'add', payload: Tag }
   | { type: 'edit', payload: Tag }
-  | { type: 'delete', payload: Tag }
+  | { type: 'delete', payload: Tag['id'] }
   | { type: 'import', payload: State }
   | { type: 'reset', payload: State }
 
@@ -32,7 +33,7 @@ interface StateValue extends State {
 interface UpdaterValue {
   createTag: (tag: Tag) => void
   updateTag: (tag: Tag) => void
-  deleteTag: (tag: Tag) => void
+  deleteTag: (tagId: Tag['id']) => void
   reset: () => void
   import: (data: State) => void
 }
@@ -41,8 +42,6 @@ const TagsStateContext = createContext(undefined)
 const TagsUpdaterContext = createContext(undefined)
 
 async function store(state: Omit<State, 'loaded'>) {
-  console.log('store', state);
-  
   try {
     await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(state));
   } catch (e) {
@@ -50,7 +49,7 @@ async function store(state: Omit<State, 'loaded'>) {
   }
 }
 
-const load = async (initialState: State): Promise<State> => {
+const load = async (initialState: State): Promise<State | null> => {
   try {
     const data = await AsyncStorage.getItem(STORAGE_KEY)
 
@@ -72,7 +71,6 @@ const load = async (initialState: State): Promise<State> => {
 const reducer = (state: State, action: StateAction): State => {
   switch (action.type) {
     case 'import':
-      console.log('import tags', action.payload);
       return {
         ...action.payload,
         loaded: true
@@ -85,15 +83,13 @@ const reducer = (state: State, action: StateAction): State => {
       state.tags[index] = action.payload;
       return { ...state }
     case 'delete':
-      state.tags = state.tags.filter(tag => tag.id !== action.payload.id);
+      state.tags = state.tags.filter(tag => tag.id !== action.payload);
       return { ...state }
     case 'reset':
       return {
         ...action.payload,
         loaded: true
       }
-    default:
-      throw new Error(`Unhandled action type: ${action}`)
   }
 }
 
@@ -138,6 +134,7 @@ function TagsProvider({
     ]
   }
   
+  const analytics = useAnalytics()
   const [state, dispatch] = useReducer(reducer, INITIAL_STATE)
   
   const stateValue: StateValue = useMemo(() => state, [JSON.stringify(state)])
@@ -161,15 +158,15 @@ function TagsProvider({
     logsUpdater.updateLogs(newItems)
   }, [dispatch, logsState.items, logsUpdater])
 
-  const deleteTag = useCallback((tag: Tag) => {
-    dispatch({ type: 'delete', payload: tag })
+  const deleteTag = useCallback((tagId: Tag['id']) => {
+    dispatch({ type: 'delete', payload: tagId })
 
     const newItems = {};
 
     Object.entries(logsState.items)
       .forEach(([date, item]: [string, LogItem]) => {
-        if(logsState.items[date]?.tags?.some((_tag: Tag) => _tag.id === tag.id)) {
-          const tags = item?.tags?.filter(itemTag => itemTag.id !== tag.id) || [];
+        if(logsState.items[date]?.tags?.some((tag: Tag) => tag.id === tagId)) {
+          const tags = item?.tags?.filter(itemTag => itemTag.id !== tagId) || [];
           item.tags = tags;
         }
         newItems[date] = item;
@@ -195,8 +192,10 @@ function TagsProvider({
     (async () => {
       const json = await load(INITIAL_STATE)
       if(json !== null) {
+        analytics.track('tags_loaded', { source: 'tags_async_storage' })
         dispatch({ type: 'import', payload: json })
       } else if(settings?.tags) {
+        analytics.track('tags_loaded', { source: 'settings_async_storage' })
         dispatch({
           type: 'import', 
           payload: {
@@ -204,6 +203,7 @@ function TagsProvider({
           }
         })
       } else {
+        analytics.track('tags_loaded', { source: 'initial' })
         dispatch({ type: 'reset', payload: INITIAL_STATE })     
       }
     })();

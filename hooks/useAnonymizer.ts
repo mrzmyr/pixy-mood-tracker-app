@@ -1,12 +1,13 @@
 import _ from "lodash";
 import { LogItem } from "./useLogs";
-import { Tag } from "./useSettings";
+import { Tag } from "./useTags";
 
 interface AnonmizedTag extends Omit<Tag, "title"> {
   titleLength: number;
 }
 interface AnonmizedLogItem extends Omit<LogItem, 'tags' | 'message'> {
-  tags: AnonmizedTag[]
+  tags?: AnonmizedTag[]
+  messageLength: number;
 }
 
 export const useAnonymizer = () => {
@@ -17,12 +18,16 @@ export const useAnonymizer = () => {
     }
   }
   const anonymizeItem = (item: LogItem): AnonmizedLogItem => {
-    const tags: AnonmizedTag[] = item?.tags?.map(anonymizeTag) || [];
-    return _.omit({
+    const resultItem: AnonmizedLogItem = _.omit({
       ...item,
-      tags,
       messageLength: item.message.length,
-    }, ['message'])
+    }, ['message', 'tags']);
+
+    if (item?.tags) {
+      resultItem.tags = item.tags.map(anonymizeTag)
+    }
+    
+    return resultItem
   }
   return {
     anonymizeTag,

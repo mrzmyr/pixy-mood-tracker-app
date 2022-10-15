@@ -6,12 +6,13 @@ import {
   useContext,
   useEffect,
   useMemo,
-  useReducer,
+  useReducer
 } from "react";
-import { getJSONSchemaType } from "../lib/utils";
+import { getJSONSchemaType } from "../helpers/Import";
+import { AtLeast } from "../types";
 import { Tag as ITag } from "./useTags";
 
-const STORAGE_KEY = "PIXEL_TRACKER_LOGS";
+export const STORAGE_KEY = "PIXEL_TRACKER_LOGS";
 
 export const RATING_KEYS = [
   "extremely_good",
@@ -27,7 +28,7 @@ export interface LogItem {
   date: string;
   rating: typeof RATING_KEYS[number];
   message: string;
-  tags: ITag[];
+  tags?: ITag[];
 }
 
 export interface LogsState {
@@ -40,12 +41,12 @@ export interface LogsState {
 type LogAction = |
   { type: "import"; payload: LogsState } |
   { type: "add"; payload: LogItem } |
-  { type: "edit"; payload: Partial<LogItem> } |
+  { type: "edit"; payload: AtLeast<LogItem, 'date'> } |
   { type: "batchEdit"; payload: { items: { [id: string]: LogItem } } } |
   { type: "delete"; payload: LogItem } |
-  { type: "reset" }
-
-interface UpdaterValue {
+  { type: "reset", payload: LogsState };
+ 
+export interface UpdaterValue {
   addLog: (item: LogItem) => void;
   editLog: (item: Partial<LogItem>) => void;
   updateLogs: (items: LogsState["items"]) => void;
@@ -55,11 +56,6 @@ interface UpdaterValue {
 }
 
 interface StateValue extends LogsState {}
-
-const INITIAL_STATE: LogsState = {
-  loaded: false,
-  items: {},
-};
 
 const LogStateContext = createContext(undefined);
 const LogUpdaterContext = createContext(undefined);
@@ -82,17 +78,17 @@ function reducer(state: LogsState, action: LogAction): LogsState {
       return { ...state };
     case "batchEdit":
       state.items = action.payload.items;
-      return state;
+      return {
+        ...state,
+      };
     case "delete":
       delete state.items[action.payload.date];
       return { ...state };
     case "reset":
       return {
-        ...INITIAL_STATE,
+        ...action.payload,
         loaded: true,
       };
-    default:
-      throw new Error(`Unhandled action type: ${action}`);
   }
 }
 
@@ -104,36 +100,43 @@ async function store(state: Omit<LogsState, "loaded">) {
   }
 }
 
-const load = async (): Promise<LogsState> => {
+const load = async (): Promise<LogsState | null> => {
   try {
     const data = await AsyncStorage.getItem(STORAGE_KEY);
-    const json = JSON.parse(data);
-    if (getJSONSchemaType(json) === "pixy") {
-      return {
-        ...json,
-        loaded: true,
-      };
-    }
+    if(data === null) return null;
+    console.log(data)
+    return JSON.parse(data);
   } catch (e) {
     console.error(e);
   }
 
-  return {
-    ...INITIAL_STATE,
-    loaded: true,
-  };
+  return null
 };
 
 function LogsProvider({ children }: { children: React.ReactNode }) {
+  const INITIAL_STATE: LogsState = {
+    loaded: false,
+    items: {},
+  };
+  
   const [state, dispatch] = useReducer(reducer, INITIAL_STATE);
 
   useEffect(() => {
     (async () => {
       const value = await load();
-      dispatch({
-        type: "import",
-        payload: value,
-      });
+      if(value !== null) {
+        dispatch({
+          type: "import",
+          payload: value,
+        });
+      } else {
+        dispatch({
+          type: "import",
+          payload: {
+            ...INITIAL_STATE,
+          },
+        });
+      }
     })();
   }, []);
 
@@ -151,10 +154,10 @@ function LogsProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const addLog = useCallback((payload: LogItem) => dispatch({ type: "add", payload, }), []);
-  const editLog = useCallback((payload: Partial<LogItem>) => dispatch({ type: "edit", payload, }), []);
+  const editLog = useCallback((payload: AtLeast<LogItem, 'date'>) => dispatch({ type: "edit", payload, }), []);
   const updateLogs = useCallback((items: LogsState["items"]) => dispatch({ type: "batchEdit", payload: { items } }), []);
   const deleteLog = useCallback((payload: LogItem) => dispatch({ type: "delete", payload, }), []);
-  const reset = useCallback(() => dispatch({ type: "reset" }), []);
+  const reset = useCallback(() => dispatch({ type: "reset", payload: INITIAL_STATE }), []);
 
   const updaterValue: UpdaterValue = useMemo(
     () => ({

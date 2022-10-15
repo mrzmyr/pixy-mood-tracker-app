@@ -11,7 +11,7 @@ import "react-native-get-random-values";
 import { v4 as uuidv4 } from "uuid";
 import { Tag } from "./useTags";
 
-const STORAGE_KEY = "PIXEL_TRACKER_SETTINGS";
+export const STORAGE_KEY = "PIXEL_TRACKER_SETTINGS";
 
 export const SCALE_TYPES = [
   "ColorBrew-RdYlGn",
@@ -32,9 +32,12 @@ export interface SettingsState {
   scaleType: typeof SCALE_TYPES[number];
   reminderEnabled: Boolean;
   reminderTime: string;
-  trackBehaviour: boolean;
+  analyticsEnabled: boolean;
   actionsDone: IAction[];
-  tags?: Tag[]
+
+  // remove in previous version
+  trackBehaviour?: boolean; // replaced with analyticsEnabled
+  tags?: Tag[] // moved to useTags()
 }
 
 interface IAction {
@@ -50,7 +53,7 @@ const store = async (settings: Omit<SettingsState, 'loaded'>) => {
   }
 };
 
-const load = async (): Promise<SettingsState> => {
+const load = async (): Promise<SettingsState | null> => {
   try {
     const value = await AsyncStorage.getItem(STORAGE_KEY);
     if (value !== null) {
@@ -69,46 +72,49 @@ const load = async (): Promise<SettingsState> => {
   return null;
 };
 
-function SettingsProvider({ children }: { children: React.ReactNode }) {
-  const initialState: SettingsState = {
-    loaded: false,
-    deviceId: null,
-    passcodeEnabled: null,
-    passcode: null,
-    scaleType: "ColorBrew-RdYlGn",
-    reminderEnabled: false,
-    reminderTime: "18:00",
-    trackBehaviour: true,
-    actionsDone: [],
-  };
+export const INITIAL_STATE: SettingsState = {
+  loaded: false,
+  deviceId: null,
+  passcodeEnabled: null,
+  passcode: null,
+  scaleType: "ColorBrew-RdYlGn",
+  reminderEnabled: false,
+  reminderTime: "18:00",
+  analyticsEnabled: true,
+  actionsDone: [],
+};
 
-  const [settings, setSettings] = useState<SettingsState>(initialState);
+function SettingsProvider({ children }: { children: React.ReactNode }) {
+
+  const [settings, setSettings] = useState<SettingsState>(INITIAL_STATE);
 
   const resetSettings = useCallback(() => {
-    console.log("reset settings");
-    setSettings(initialState);
-  }, [initialState]);
+    setSettings({
+      ...INITIAL_STATE,
+      deviceId: uuidv4(),
+      loaded: true,
+    });
+  }, [INITIAL_STATE]);
 
   const importSettings = useCallback((settings: SettingsState) => {
-      console.log("import settings", settings);
       setSettings({
-        ...initialState,
+        ...INITIAL_STATE,
         ...settings,
       });
-  }, [initialState]);
+  }, [INITIAL_STATE]);
 
   useEffect(() => {
     (async () => {
       const json = await load();
       if(json !== null) {
         setSettings({
-          ...initialState,
+          ...INITIAL_STATE,
           ...json,
           loaded: true,
         });
       } else {
         setSettings({
-          ...initialState,
+          ...INITIAL_STATE,
           deviceId: uuidv4(),
           loaded: true,
         });
@@ -123,7 +129,6 @@ function SettingsProvider({ children }: { children: React.ReactNode }) {
   }, [JSON.stringify(settings)]);
 
   const addActionDone = useCallback((actionTitle: IAction["title"]) => {
-    console.log("addActionDone", actionTitle);
     setSettings((settings) => ({
       ...settings,
       actionsDone: [
@@ -164,7 +169,7 @@ function SettingsProvider({ children }: { children: React.ReactNode }) {
 function useSettings(): {
   settings: SettingsState;
   setSettings: (
-    settings: SettingsState | ((settings: SettingsState) => void)
+    settings: SettingsState | ((settings: SettingsState) => SettingsState)
   ) => void;
   resetSettings: () => void;
   importSettings: (settings: SettingsState) => void;

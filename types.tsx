@@ -6,6 +6,7 @@
 import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
 import { CompositeScreenProps } from '@react-navigation/native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import Colors from './constants/Colors';
 import { Tag as ITag } from './hooks/useTags';
 
 declare global {
@@ -14,6 +15,8 @@ declare global {
     }
   }
 }
+
+export type AtLeast<T, K extends keyof T> = Partial<T> & Pick<T, K>
 
 export type RootStackParamList = {
   BottomTabs: undefined,

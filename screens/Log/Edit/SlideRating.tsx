@@ -1,20 +1,10 @@
 import { View } from "react-native";
 import useColors from "../../../hooks/useColors";
-import { LogItem } from "../../../hooks/useLogs";
+import { LogItem, RATING_KEYS } from "../../../hooks/useLogs";
 import { useTemporaryLog } from "../../../hooks/useTemporaryLog";
 import { useTranslation } from "../../../hooks/useTranslation";
 import { SlideHeadline } from "./SlideHeadline";
 import { SlideRatingButton } from "./SlideRatingButton";
-
-const keys = [
-  'extremely_good',
-  'very_good',
-  'good',
-  'neutral',
-  'bad',
-  'very_bad',
-  'extremely_bad',
-]
 
 export const SlideRating = ({
   marginTop,
@@ -56,7 +46,7 @@ export const SlideRating = ({
             width: '100%',
           }}
         >
-          {keys.map((key, index) => (
+          {RATING_KEYS.map((key, index) => (
             <SlideRatingButton
               key={key}
               rating={key as LogItem['rating']}

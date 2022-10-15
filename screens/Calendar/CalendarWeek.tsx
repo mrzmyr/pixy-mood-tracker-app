@@ -19,8 +19,8 @@ const CalendarDayContainer = memo(({
 
 type DayMapItem = {
   dateString: string;
-  rating: LogItem["rating"];
-  messageLength: number
+  rating: LogItem["rating"] | undefined;
+  messageLength: number | undefined;
   isFiltered: boolean;
   isFiltering: boolean;
 }
@@ -51,7 +51,7 @@ const CalendarWeek = memo(function CalendarWeek({
   if(isLast) justifyContent = 'flex-start';
 
   const days = useMemo(() => {
-    const days = [];
+    const days: string[] = [];
     let date = dayjs(startDate);
 
     while(date.isSameOrBefore(endDate, 'day')) {
@@ -63,7 +63,7 @@ const CalendarWeek = memo(function CalendarWeek({
   }, [startDate, endDate])
 
   const emptyDays = useMemo(() => {
-    const emptyDays = [];
+    const emptyDays: null[] = [];
     if(!days) console.log('NO DAYS', items);
     for (let i = 0; i < 7 - days.length; i++) emptyDays.push(null);
     return emptyDays;

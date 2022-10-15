@@ -11,7 +11,7 @@
     "test": "jest --watchAll --env=jsdom",
     "disclaimer": "echo \"export default \\`$(yarn licenses generate-disclaimer | sed 's/\\`/\\\\`/g')\\`\" > disclaimer.js",
     "bump": "npx standard-version",
-    "build": "eas build -p ios --local && eas build -p android --local",
+    "build": "eas build -p ios --local --output=.builds && eas build -p android --local --output=.builds",
     "submit": "eas submit -p ios --path $(ls -t *.ipa | head -1) && eas submit -p android --path $(ls -t *.aab | head -1)",
     "translate-app": "node scripts/generate-translations-app.js"
   },
@@ -19,7 +19,8 @@
     "preset": "jest-expo",
     "collectCoverage": false,
     "collectCoverageFrom": [
-      "**/*.{js,jsx,ts,tsx}",
+      "./hooks/*.{js,jsx,ts,tsx}",
+      "./helpers/*.{js,jsx,ts,tsx}",
       "!**/coverage/**",
       "!**/node_modules/**",
       "!**/babel.config.js",

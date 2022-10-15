@@ -15,6 +15,8 @@ import CalendarWeek from "./CalendarWeek";
 dayjs.extend(isSameOrBefore);
 dayjs.extend(isSameOrAfter);
 
+type MinimalLogItem = Omit<LogItem, "message"> & { messageLength: number };
+
 const CalendarMonth = memo(function CalendarMonth({
   dateString,
   items,
@@ -23,15 +25,15 @@ const CalendarMonth = memo(function CalendarMonth({
   isFiltering,
 }: {
   dateString: string;
-  items?: Omit<LogItem, "tags">[];
+  items?: MinimalLogItem[];
   scaleType: SettingsState["scaleType"];
   filteredItems: CalendarFiltersData["filteredItems"];
   isFiltering: CalendarFiltersData["isFiltering"];
 }) {
   const colors = useColors();
 
-  const WEEK_ITEMS = useRef([[], [], [], []]);
-  const WEEK_ITEMS_FILTERED = useRef([[], [], [], []]);
+  const WEEK_ITEMS = useRef<MinimalLogItem[][]>([[], [], [], []]);
+  const WEEK_ITEMS_FILTERED = useRef<LogItem[][]>([[], [], [], []]);
   const date = dayjs(dateString);
 
   const weekItems = useMemo(() => {
@@ -44,7 +46,7 @@ const CalendarMonth = memo(function CalendarMonth({
           dayjs(item.date).isSameOrAfter(start, "day") &&
           dayjs(item.date).isSameOrBefore(end, "day")
       );
-      if (!_.isEqual(WEEK_ITEMS.current[i], _items)) {
+      if (!_.isEqual(WEEK_ITEMS.current[i], _items) && _items !== undefined) {
         WEEK_ITEMS.current[i] = _items;
       }
     }

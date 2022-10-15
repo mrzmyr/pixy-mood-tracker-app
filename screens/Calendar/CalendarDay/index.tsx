@@ -30,8 +30,10 @@ const CalendarDay = memo(function CalendarDay({
   const haptics = useHaptics();
   const navigation = useNavigation();
 
+  const _isFiltered = (!isFiltered && isFiltering)
+  
   const day = useMemo(() => dayjs(dateString).date(), [dateString]);
-  const hasText = messageLength > 0;
+  const hasText = messageLength ? messageLength > 0 : false;
   
   const isFuture = useMemo(() => {
     return dayjs(dateString).isAfter(dayjs(), 'day');
@@ -42,10 +44,10 @@ const CalendarDay = memo(function CalendarDay({
   }, [dateString, dayjs().format(DATE_FORMAT)]);
   
   const backgroundColor = useMemo(() => (
-    isFuture || isFiltered || (!rating && isFiltering) ? 
+    isFuture || _isFiltered || (!rating && isFiltering) ? 
       colors.calendarItemBackgroundFuture :
       (
-        isFiltered ? (
+        _isFiltered ? (
           colors.calendarBackground
         ) : (
           rating ? 
@@ -53,7 +55,7 @@ const CalendarDay = memo(function CalendarDay({
             colors.scales[scaleType].empty.background
         )
       )
-  ), [colors, isFuture, isFiltered, isFiltering, rating, scaleType]);
+  ), [colors, isFuture, _isFiltered, isFiltering, rating, scaleType]);
   
   const containerStyles = useStyle(() => [
     styles.container, 
@@ -66,7 +68,7 @@ const CalendarDay = memo(function CalendarDay({
   ], [rating, isFuture, isFiltering, scaleType, backgroundColor, colors])
 
   const textColor = useMemo(() => (
-  isFiltered ? (
+    _isFiltered ? (
       colors.text
     ) : (
       rating ? 
@@ -93,14 +95,22 @@ const CalendarDay = memo(function CalendarDay({
   const dayNumberTextStyles = useStyle(() => [
     {
       fontSize: 12,
-      opacity: !isToday && (isFuture || isFiltered || (!rating && isFiltering)) ? 0.3 : 1,
-      color: isToday ?
-        (chroma(backgroundColor).luminance() < 0.5 ? 
-          'black' :
-          'white'
-        ) : textColor,
+      opacity: !isToday && (isFuture || _isFiltered || (!rating && isFiltering)) ? 0.3 : 1,
+      color: (
+        _isFiltered && !isToday ? 
+          colors.text
+        : (
+          isToday ?
+          (
+            chroma(backgroundColor).luminance() < 0.5 ? 
+            'black' :
+            'white'
+          ) : 
+          textColor
+        )
+      )
     }
-  ], [isToday, isFuture, isFiltered, isFiltering, rating, backgroundColor, textColor])
+  ], [isToday, isFuture, _isFiltered, isFiltering, rating, backgroundColor, textColor])
   
   const onPress = useCallback((dateString: string) => {
     if(rating !== undefined) {

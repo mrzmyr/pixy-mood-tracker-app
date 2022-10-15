@@ -6,11 +6,13 @@ import { Tag } from "./useTags";
 
 const CalendarFiltersStateContext = createContext(undefined)
 
-export type CalendarFiltersData = {
+interface FiltersData {
   text: string,
   ratings: LogItem['rating'][],
   tagIds: Tag['id'][],
-  isOpen: boolean,
+}
+
+export interface CalendarFiltersData extends FiltersData {
   filteredItems: LogItem[];
   filterCount: number;
   isFiltering: boolean;
@@ -18,7 +20,7 @@ export type CalendarFiltersData = {
 
 type Value = {
   data: CalendarFiltersData;
-  set: (data: CalendarFiltersData) => void;
+  set: (data: FiltersData) => void;
   reset: () => void;
   open: () => void;
   close: () => void;
@@ -29,7 +31,6 @@ const initialState: CalendarFiltersData = {
   text: '',
   ratings: [],
   tagIds: [],
-  isOpen: false,
   isFiltering: false,
   filterCount: 0,
   filteredItems: [],
@@ -51,7 +52,7 @@ function CalendarFiltersProvider({
     const tagIds = item?.tags?.map(tag => tag.id)
     const matchesTags = _.difference(data.tagIds, tagIds).length === 0;
 
-    const conditions = []
+    const conditions: boolean[] = []
 
     if(data.text !== '') conditions.push(matchesText)
     if(data.ratings.length !== 0) conditions.push(matchesRatings)
@@ -61,10 +62,17 @@ function CalendarFiltersProvider({
   }
   
   const _getFilteredItems = (data): LogItem[] => {
-    return Object.values(logState.items).filter((item) => !_isMatching(item, data))
+    return Object.values(logState.items).filter((item) => _isMatching(item, data))
   }
   
-  const _setData = (data: CalendarFiltersData) => {
+  const set = useCallback((data: FiltersData) => {
+    analytics.track('calendar_filters_filtered', {
+      textLength: data.text.length,
+      ratings: data.ratings,
+      ratingsCount: data.ratings.length,
+      tagsCount: data.tagIds.length,
+    })
+    
     const isFiltering = (
       data.text !== '' ||
       data.ratings.length !== 0 ||
@@ -79,16 +87,6 @@ function CalendarFiltersProvider({
       isFiltering,
       filterCount,
     })
-  }
-  
-  const set = useCallback((data: CalendarFiltersData) => {
-    analytics.track('calendar_filters_filtered', {
-      textLength: data.text.length,
-      ratings: data.ratings,
-      ratingsCount: data.ratings.length,
-      tagsCount: data.tagIds.length,
-    })
-    _setData(data)
   }, [analytics])
 
   const reset = useCallback(() => {

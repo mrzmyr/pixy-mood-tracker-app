@@ -1,16 +1,25 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import dayjs from "dayjs";
 import * as DocumentPicker from "expo-document-picker";
 import * as FileSystem from "expo-file-system";
 import * as Sharing from "expo-sharing";
 import { Alert, Platform } from "react-native";
+import { getJSONSchemaType, ImportData } from "../helpers/Import";
 import { migrateImportData } from "../helpers/Migration";
-import { getJSONSchemaType } from "../lib/utils";
 import pkg from '../package.json';
 import { useAnalytics } from "./useAnalytics";
-import { useLogState, useLogUpdater } from "./useLogs";
-import { useSettings } from "./useSettings";
-import { useTagsState, useTagsUpdater } from "./useTags";
+import { LogsState, STORAGE_KEY as STORAGE_KEY_LOGS, useLogState, useLogUpdater } from "./useLogs";
+import { SettingsState, STORAGE_KEY as STORAGE_KEY_SETTINGS, useSettings } from "./useSettings";
+import { STORAGE_KEY as STORAGE_KEY_TAGS } from "./useTags";
+import { Tag, useTagsState, useTagsUpdater } from "./useTags";
 import { useTranslation } from "./useTranslation";
+
+type ExportData = {
+  version: string;
+  tags: Tag[];
+  items: LogsState['items'];
+  settings: Omit<SettingsState, 'loaded' | 'deviceId'>;
+}
 
 let openShareDialogAsync = async (uri: string) => {
   const i18n = useTranslation();
@@ -20,6 +29,16 @@ let openShareDialogAsync = async (uri: string) => {
   }
 
   await Sharing.shareAsync(uri);
+};
+
+const _dangourlyImportDirectlyToAsyncStorage = async (data: ImportData) => {
+  AsyncStorage.setItem(STORAGE_KEY_LOGS, JSON.stringify({
+    items: data.items,
+  }));
+  AsyncStorage.setItem(STORAGE_KEY_TAGS, JSON.stringify({
+    tags: data.tags,
+  }));
+  AsyncStorage.setItem(STORAGE_KEY_SETTINGS, JSON.stringify(data.settings));
 };
 
 export const useDatagate = () => {
@@ -32,9 +51,13 @@ export const useDatagate = () => {
 
   const analytics = useAnalytics();
 
-  const _import = (data) => {
-    logUpdater.import(data);
-    tagsUpdater.import({ tags: data.settings.tags });
+  const _import = (data: ImportData) => {
+    logUpdater.import({
+      items: data.items,
+    });
+    tagsUpdater.import({ 
+      tags: data.settings.tags || data.tags || [] 
+    });
     importSettings(data.settings);
   };
 
@@ -173,7 +196,7 @@ export const useDatagate = () => {
     });
   };
 
-  const importData = async (data) => {
+  const importData = async (data: ImportData) => {
     const migratedData = migrateImportData(data);
     const jsonSchemaType = getJSONSchemaType(migratedData);
 
@@ -193,7 +216,7 @@ export const useDatagate = () => {
   };
 
   const openExportDialog = async () => {
-    const data = {
+    const data: ExportData = {
       version: pkg.version,
       items: logState.items,
       tags: tags,
@@ -204,6 +227,8 @@ export const useDatagate = () => {
         reminderEnabled: settings.reminderEnabled,
         reminderTime: settings.reminderTime,
         trackBehaviour: settings.trackBehaviour,
+        analyticsEnabled: settings.analyticsEnabled,
+        actionsDone: settings.actionsDone,
       },
     };
 
@@ -221,10 +246,73 @@ export const useDatagate = () => {
     return openShareDialogAsync(FileSystem.documentDirectory + filename);
   };
 
+  const openDEVImportDialog = async () => {
+    return new Promise(async (resolve, reject) => {
+      askToImport().then(async () => {
+        try {
+          analytics.track("data_import_start");
+
+          const doc = await DocumentPicker.getDocumentAsync({
+            type: "application/json",
+            copyToCacheDirectory: true,
+          });
+
+          if (doc.type === "success") {
+            analytics.track("data_import_success");
+            const contents = await FileSystem.readAsStringAsync(doc.uri);
+            const data = JSON.parse(contents);
+            const migratedData = migrateImportData(data);
+            const jsonSchemaType = getJSONSchemaType(migratedData);
+
+            if (jsonSchemaType === "pixy") {
+              Alert.alert(
+                t("import_success_title"),
+                t("import_success_message"),
+                [
+                  {
+                    text: t("ok"),
+                  },
+                ],
+                { cancelable: false }
+              );
+              _dangourlyImportDirectlyToAsyncStorage(migratedData);
+              resolve(migratedData);
+            } else {
+              analytics.track("data_import_error", {
+                reason: "invalid_json_schema",
+              });
+              Alert.alert(
+                t("import_error_title"),
+                t("import_error_message"),
+                [{ text: t("ok"), onPress: () => {} }],
+                { cancelable: false }
+              );
+              reject();
+            }
+          }
+        } catch (error) {
+          analytics.track("data_import_error", {
+            reason: "document_picker_error",
+          });
+          console.error(error);
+          Alert.alert(
+            t("import_error_title"),
+            t("import_error_message"),
+            [{ text: t("ok"), onPress: () => {} }],
+            { cancelable: false }
+          );
+          reject();
+        }
+      });
+    });
+  };
+
+  
   return {
     openExportDialog,
     openImportDialog,
     importData,
     openResetDialog,
+    openDEVImportDialog,
   };
 };

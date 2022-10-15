@@ -4,6 +4,7 @@ import { CheckCircle, Repeat, UploadCloud } from "react-native-feather";
 import MenuList from "../../components/MenuList";
 import MenuListHeadline from "../../components/MenuListHeadline";
 import MenuListItem from "../../components/MenuListItem";
+import { ImportData } from "../../helpers/Import";
 import useColors from "../../hooks/useColors";
 import { useDatagate } from "../../hooks/useDatagate";
 import { useSettings } from "../../hooks/useSettings";
@@ -11,7 +12,7 @@ import { useSettings } from "../../hooks/useSettings";
 export const UserDataImportList = () => {
   const [users, setUsers] = useState<{
     id: string;
-    importData: any;
+    importData: ImportData;
   }[]>([]);
   const colors = useColors()
   const datagate = useDatagate()

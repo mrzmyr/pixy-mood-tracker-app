@@ -73,7 +73,7 @@ export const TagEdit = ({ navigation, route }: RootStackScreenProps<'TagEdit'>) 
   }
   
   const onDelete = (tag: ITag) => {
-    tagsUpdater.deleteTag(tag)
+    tagsUpdater.deleteTag(tag.id)
     navigation.goBack()
   }
   

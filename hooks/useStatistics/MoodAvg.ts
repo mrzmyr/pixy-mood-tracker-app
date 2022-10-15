@@ -1,4 +1,4 @@
-import { LogItem } from "../useLogs";
+import { LogItem, RATING_KEYS } from "../useLogs";
 
 export interface MoodAvgData {
   ratingHighestKey: LogItem["rating"];
@@ -18,15 +18,7 @@ export const defaultMoodAvgData: MoodAvgData = {
 }
 
 export const getMoodAvgData = (items: LogItem[]): MoodAvgData => {
-  const keys: LogItem["rating"][] = [
-    "extremely_good",
-    "very_good",
-    "good",
-    "neutral",
-    "bad",
-    "very_bad",
-    "extremely_bad",
-  ];
+  const keys: LogItem["rating"][] = [...RATING_KEYS]
 
   const rating_negative = Object.values(items).filter((item) =>
     ["bad", "very_bad", "extremely_bad"].includes(item.rating)
