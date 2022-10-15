@@ -11,10 +11,10 @@
   "data_notice": "모든 데이터는 장치에 저장되며 사용자가 결정할 때만 장치를 떠납니다.",
   "rate_this_app": "이 앱을 평가 해주세요",
   "reset_data_button": "모든 데이터 및 설정 재설정",
-  "reset_data_confirm_title": "모든 데이터 및 설정 재설정",
-  "reset_data_confirm_message": "모든 데이터와 설정을 재설정하시겠습니까?",
-  "reset_data_success_title": "데이터 및 설정 재설정",
-  "reset_data_success_message": "모든 데이터와 설정이 재설정되었습니다.",
+  "reset_data_confirm_title": "초기화",
+  "reset_data_confirm_message": "모든 항목과 태그를 재설정하시겠습니까?",
+  "reset_data_success_title": "초기화",
+  "reset_data_success_message": "모든 데이터가 재설정되었습니다.",
   "import": "수입",
   "import_success_title": "가져오기 성공",
   "import_success_message": "데이터를 성공적으로 가져왔습니다.",
@@ -203,5 +203,11 @@
   "development_statistics_items_coverage": "첫날부터 기록됨",
   "statistics_tags_distribution_trend_prefix": "태그하는 중",
   "statistics_tags_distribution_trend_increase_suffix": "더 자주",
-  "statistics_tags_distribution_trend_decrease_suffix": "덜 자주"
+  "statistics_tags_distribution_trend_decrease_suffix": "덜 자주",
+  "reset_factory_button": "데이터 및 설정 재설정",
+  "reset_factory_description": "설정에는 미리 알림, 색상 및 온보딩이 포함됩니다.",
+  "reset_factory_success_title": "초기화",
+  "reset_factory_success_message": "모든 데이터와 설정이 재설정되었습니다.",
+  "reset_factory_confirm_title": "모든 데이터 및 설정 재설정",
+  "reset_factory_confirm_message": "모든 데이터와 설정을 재설정하시겠습니까?"
 }

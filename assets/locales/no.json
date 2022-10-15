@@ -11,10 +11,10 @@
   "data_notice": "All data lagres på enheten din og forlater enheten bare når du bestemmer deg for det.",
   "rate_this_app": "Ranger denne appen",
   "reset_data_button": "Tilbakestill alle data og innstillinger",
-  "reset_data_confirm_title": "Tilbakestill alle data og innstillinger",
-  "reset_data_confirm_message": "Er du sikker på at du vil tilbakestille alle data og innstillinger?",
-  "reset_data_success_title": "Data og innstillinger tilbakestilt",
-  "reset_data_success_message": "Alle data og innstillinger er tilbakestilt.",
+  "reset_data_confirm_title": "Nullstille",
+  "reset_data_confirm_message": "Er du sikker på at du vil tilbakestille alle oppføringer og tagger?",
+  "reset_data_success_title": "Nullstille",
+  "reset_data_success_message": "Alle data er tilbakestilt.",
   "import": "Import",
   "import_success_title": "Importen var vellykket",
   "import_success_message": "Dataene dine har blitt importert.",
@@ -203,5 +203,11 @@
   "development_statistics_items_coverage": "Logget siden første dag",
   "statistics_tags_distribution_trend_prefix": "Du tagger",
   "statistics_tags_distribution_trend_increase_suffix": "oftere",
-  "statistics_tags_distribution_trend_decrease_suffix": "sjeldnere"
+  "statistics_tags_distribution_trend_decrease_suffix": "sjeldnere",
+  "reset_factory_button": "Tilbakestill data og innstillinger",
+  "reset_factory_description": "Innstillinger inkluderer påminnelse, farger og onboarding.",
+  "reset_factory_success_title": "Nullstille",
+  "reset_factory_success_message": "Alle data og innstillinger er tilbakestilt.",
+  "reset_factory_confirm_title": "Tilbakestill alle data og innstillinger",
+  "reset_factory_confirm_message": "Er du sikker på at du vil tilbakestille alle data og innstillinger?"
 }

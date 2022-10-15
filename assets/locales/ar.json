@@ -11,10 +11,10 @@
   "data_notice": "يتم تخزين جميع البيانات على جهازك ولا تترك جهازك إلا عندما تقرر ذلك.",
   "rate_this_app": "قيم هذا التطبيق",
   "reset_data_button": "إعادة تعيين كافة البيانات والإعدادات",
-  "reset_data_confirm_title": "إعادة تعيين كافة البيانات والإعدادات",
-  "reset_data_confirm_message": "هل أنت متأكد أنك تريد إعادة تعيين كافة البيانات والإعدادات؟",
-  "reset_data_success_title": "إعادة تعيين البيانات والإعدادات",
-  "reset_data_success_message": "تمت إعادة ضبط جميع البيانات والإعدادات.",
+  "reset_data_confirm_title": "إعادة ضبط",
+  "reset_data_confirm_message": "هل أنت متأكد أنك تريد إعادة تعيين كافة الإدخالات والعلامات؟",
+  "reset_data_success_title": "إعادة ضبط",
+  "reset_data_success_message": "تمت إعادة تعيين كافة البيانات.",
   "import": "يستورد",
   "import_success_title": "نجح الاستيراد",
   "import_success_message": "تم استيراد البيانات الخاصة بك بنجاح.",
@@ -203,5 +203,11 @@
   "development_statistics_items_coverage": "تم تسجيله منذ اليوم الأول",
   "statistics_tags_distribution_trend_prefix": "أنت تقوم بوضع علامات",
   "statistics_tags_distribution_trend_increase_suffix": "في كثير من الأحيان",
-  "statistics_tags_distribution_trend_decrease_suffix": "كثير من الأحيان أقل"
+  "statistics_tags_distribution_trend_decrease_suffix": "كثير من الأحيان أقل",
+  "reset_factory_button": "إعادة تعيين البيانات والإعدادات",
+  "reset_factory_description": "تشمل الإعدادات التذكير والألوان والإعداد.",
+  "reset_factory_success_title": "إعادة ضبط",
+  "reset_factory_success_message": "تمت إعادة ضبط جميع البيانات والإعدادات.",
+  "reset_factory_confirm_title": "إعادة تعيين كافة البيانات والإعدادات",
+  "reset_factory_confirm_message": "هل أنت متأكد أنك تريد إعادة تعيين كافة البيانات والإعدادات؟"
 }

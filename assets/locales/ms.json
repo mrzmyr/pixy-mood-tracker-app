@@ -11,10 +11,10 @@
   "data_notice": "Semua data disimpan pada peranti anda dan hanya meninggalkan peranti anda apabila anda memutuskan untuk melakukannya.",
   "rate_this_app": "Nilaikan apl ini",
   "reset_data_button": "Tetapkan semula semua data & tetapan",
-  "reset_data_confirm_title": "Tetapkan semula semua data & tetapan",
-  "reset_data_confirm_message": "Adakah anda pasti mahu menetapkan semula semua data dan tetapan?",
-  "reset_data_success_title": "Tetapan semula data & tetapan",
-  "reset_data_success_message": "Semua data dan tetapan telah ditetapkan semula.",
+  "reset_data_confirm_title": "Tetapkan semula",
+  "reset_data_confirm_message": "Adakah anda pasti mahu menetapkan semula semua entri dan teg?",
+  "reset_data_success_title": "Tetapkan semula",
+  "reset_data_success_message": "Semua data telah ditetapkan semula.",
   "import": "Import",
   "import_success_title": "Import berjaya",
   "import_success_message": "Data anda telah berjaya diimport.",
@@ -203,5 +203,11 @@
   "development_statistics_items_coverage": "Dilog sejak hari pertama",
   "statistics_tags_distribution_trend_prefix": "Anda menandakan",
   "statistics_tags_distribution_trend_increase_suffix": "lebih kerap",
-  "statistics_tags_distribution_trend_decrease_suffix": "kurang kerap"
+  "statistics_tags_distribution_trend_decrease_suffix": "kurang kerap",
+  "reset_factory_button": "Tetapkan semula data & tetapan",
+  "reset_factory_description": "Tetapan termasuk peringatan, warna dan onboarding.",
+  "reset_factory_success_title": "Tetapkan semula",
+  "reset_factory_success_message": "Semua data dan tetapan telah ditetapkan semula.",
+  "reset_factory_confirm_title": "Tetapkan semula semua data & tetapan",
+  "reset_factory_confirm_message": "Adakah anda pasti mahu menetapkan semula semua data dan tetapan?"
 }

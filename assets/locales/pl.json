@@ -11,10 +11,10 @@
   "data_notice": "Wszystkie dane są przechowywane na Twoim urządzeniu i opuszczają je tylko wtedy, gdy zdecydujesz się na to.",
   "rate_this_app": "Oceń tę aplikację",
   "reset_data_button": "Zresetuj wszystkie dane i ustawienia",
-  "reset_data_confirm_title": "Zresetuj wszystkie dane i ustawienia",
-  "reset_data_confirm_message": "Czy na pewno chcesz zresetować wszystkie dane i ustawienia?",
-  "reset_data_success_title": "Resetowanie danych i ustawień",
-  "reset_data_success_message": "Wszystkie dane i ustawienia zostały zresetowane.",
+  "reset_data_confirm_title": "Resetowanie",
+  "reset_data_confirm_message": "Czy na pewno chcesz zresetować wszystkie wpisy i tagi?",
+  "reset_data_success_title": "Resetowanie",
+  "reset_data_success_message": "Wszystkie dane zostały zresetowane.",
   "import": "Import",
   "import_success_title": "Importowanie powiodło się",
   "import_success_message": "Twoje dane zostały pomyślnie zaimportowane.",
@@ -203,5 +203,11 @@
   "development_statistics_items_coverage": "Zalogowany od pierwszego dnia",
   "statistics_tags_distribution_trend_prefix": "Tagujesz",
   "statistics_tags_distribution_trend_increase_suffix": "częściej",
-  "statistics_tags_distribution_trend_decrease_suffix": "rzadziej"
+  "statistics_tags_distribution_trend_decrease_suffix": "rzadziej",
+  "reset_factory_button": "Zresetuj dane i ustawienia",
+  "reset_factory_description": "Ustawienia obejmują przypomnienie, kolory i wprowadzenie.",
+  "reset_factory_success_title": "Resetowanie",
+  "reset_factory_success_message": "Wszystkie dane i ustawienia zostały zresetowane.",
+  "reset_factory_confirm_title": "Zresetuj wszystkie dane i ustawienia",
+  "reset_factory_confirm_message": "Czy na pewno chcesz zresetować wszystkie dane i ustawienia?"
 }

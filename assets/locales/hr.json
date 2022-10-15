@@ -11,10 +11,10 @@
   "data_notice": "Svi se podaci pohranjuju na vašem uređaju i napuštaju vaš uređaj samo kada to odlučite.",
   "rate_this_app": "Ocijeni ovu aplikaciju",
   "reset_data_button": "Poništite sve podatke i postavke",
-  "reset_data_confirm_title": "Poništite sve podatke i postavke",
-  "reset_data_confirm_message": "Jeste li sigurni da želite poništiti sve podatke i postavke?",
-  "reset_data_success_title": "Podaci i postavke resetirani",
-  "reset_data_success_message": "Svi podaci i postavke su poništeni.",
+  "reset_data_confirm_title": "Resetiraj",
+  "reset_data_confirm_message": "Jeste li sigurni da želite poništiti sve unose i oznake?",
+  "reset_data_success_title": "Resetiraj",
+  "reset_data_success_message": "Svi podaci su poništeni.",
   "import": "Uvoz",
   "import_success_title": "Uvoz uspješan",
   "import_success_message": "Vaši su podaci uspješno uvezeni.",
@@ -203,5 +203,11 @@
   "development_statistics_items_coverage": "Prijavljen od prvog dana",
   "statistics_tags_distribution_trend_prefix": "Ti označavaš",
   "statistics_tags_distribution_trend_increase_suffix": "češće",
-  "statistics_tags_distribution_trend_decrease_suffix": "rjeđe"
+  "statistics_tags_distribution_trend_decrease_suffix": "rjeđe",
+  "reset_factory_button": "Ponovno postavljanje podataka i postavki",
+  "reset_factory_description": "Postavke uključuju podsjetnik, boje i integraciju.",
+  "reset_factory_success_title": "Resetiraj",
+  "reset_factory_success_message": "Svi podaci i postavke su poništeni.",
+  "reset_factory_confirm_title": "Resetiraj sve podatke i postavke",
+  "reset_factory_confirm_message": "Jeste li sigurni da želite poništiti sve podatke i postavke?"
 }

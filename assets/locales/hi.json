@@ -10,10 +10,10 @@
   "data_notice": "सभी डेटा आपके डिवाइस पर संग्रहीत किया जाता है और जब आप ऐसा करने का निर्णय लेते हैं तो केवल आपके डिवाइस को छोड़ देता है।",
   "rate_this_app": "इस ऐप्लिकेशन को रेट करे",
   "reset_data_button": "सभी डेटा और सेटिंग रीसेट करें",
-  "reset_data_confirm_title": "सभी डेटा और सेटिंग रीसेट करें",
-  "reset_data_confirm_message": "क्या आप वाकई सभी डेटा और सेटिंग रीसेट करना चाहते हैं?",
-  "reset_data_success_title": "डेटा और सेटिंग रीसेट",
-  "reset_data_success_message": "सभी डेटा और सेटिंग्स को रीसेट कर दिया गया है।",
+  "reset_data_confirm_title": "रीसेट",
+  "reset_data_confirm_message": "क्या आप वाकई सभी प्रविष्टियां और टैग रीसेट करना चाहते हैं?",
+  "reset_data_success_title": "रीसेट",
+  "reset_data_success_message": "सभी डेटा रीसेट कर दिया गया है।",
   "import": "आयात",
   "import_success_title": "आयात सफल",
   "import_success_message": "आपका डेटा सफलतापूर्वक आयात कर लिया गया है।",
@@ -203,5 +203,11 @@
   "development_statistics_items_coverage": "पहले दिन से लॉग इन किया",
   "statistics_tags_distribution_trend_prefix": "आप टैग कर रहे हैं",
   "statistics_tags_distribution_trend_increase_suffix": "अक्सर",
-  "statistics_tags_distribution_trend_decrease_suffix": "कम अक्सर"
+  "statistics_tags_distribution_trend_decrease_suffix": "कम अक्सर",
+  "reset_factory_button": "डेटा और सेटिंग रीसेट करें",
+  "reset_factory_description": "सेटिंग्स में रिमाइंडर, रंग और ऑनबोर्डिंग शामिल हैं।",
+  "reset_factory_success_title": "रीसेट",
+  "reset_factory_success_message": "सभी डेटा और सेटिंग्स को रीसेट कर दिया गया है।",
+  "reset_factory_confirm_title": "सभी डेटा और सेटिंग रीसेट करें",
+  "reset_factory_confirm_message": "क्या आप वाकई सभी डेटा और सेटिंग रीसेट करना चाहते हैं?"
 }

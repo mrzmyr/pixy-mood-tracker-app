@@ -1,7 +1,7 @@
 import { usePostHog } from 'posthog-react-native';
 import { useEffect, useState } from 'react';
 import { ScrollView, Switch, View } from 'react-native';
-import { Box, Download, Trash2, Upload } from 'react-native-feather';
+import { Box, Download, Trash, Trash2, Upload } from 'react-native-feather';
 import MenuList from '../components/MenuList';
 import MenuListItem from '../components/MenuListItem';
 import TextInfo from '../components/TextInfo';
@@ -81,19 +81,30 @@ export const DataScreen = ({ navigation }: RootStackScreenProps<'Data'>) => {
           title={i18n.t('reset_data_button')}
           onPress={() => {
             datagate
-              .openResetDialog()
-              .then(() => {
-                analytics.reset()
-              })
+              .openResetDialog('data')
               .catch((e) => console.log(e))
           }}
-          iconLeft={<Trash2 width={18} color='red' />}
+          iconLeft={<Trash width={18} color='red' />}
+          style={{
+            color: 'red'
+          }}
+        />
+        <MenuListItem
+          testID='reset-factory'
+          title={i18n.t('reset_factory_button')}
+          onPress={() => {
+            datagate
+              .openResetDialog('factory')
+              .catch((e) => console.log(e))
+          }}
+          iconLeft={<Trash width={18} color='red' />}
           style={{
             color: 'red'
           }}
           isLast
         />
       </MenuList>
+      <TextInfo>{i18n.t('reset_factory_description')}</TextInfo>
     </ScrollView>
   </View>
   );

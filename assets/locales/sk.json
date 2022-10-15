@@ -11,10 +11,10 @@
   "data_notice": "Všetky údaje sú uložené vo vašom zariadení a opúšťajú vaše zariadenie iba vtedy, keď sa tak rozhodnete.",
   "rate_this_app": "Ohodnoť túto aplikáciu",
   "reset_data_button": "Obnovte všetky údaje a nastavenia",
-  "reset_data_confirm_title": "Obnovte všetky údaje a nastavenia",
-  "reset_data_confirm_message": "Naozaj chcete obnoviť všetky údaje a nastavenia?",
-  "reset_data_success_title": "Obnovenie údajov a nastavení",
-  "reset_data_success_message": "Všetky údaje a nastavenia boli resetované.",
+  "reset_data_confirm_title": "Resetovať",
+  "reset_data_confirm_message": "Naozaj chcete obnoviť všetky položky a značky?",
+  "reset_data_success_title": "Resetovať",
+  "reset_data_success_message": "Všetky údaje boli resetované.",
   "import": "Importovať",
   "import_success_title": "Import bol úspešný",
   "import_success_message": "Vaše údaje boli úspešne importované.",
@@ -203,5 +203,11 @@
   "development_statistics_items_coverage": "Prihlásené od prvého dňa",
   "statistics_tags_distribution_trend_prefix": "Označujete",
   "statistics_tags_distribution_trend_increase_suffix": "častejšie",
-  "statistics_tags_distribution_trend_decrease_suffix": "menej často"
+  "statistics_tags_distribution_trend_decrease_suffix": "menej často",
+  "reset_factory_button": "Obnoviť údaje a nastavenia",
+  "reset_factory_description": "Nastavenia zahŕňajú pripomenutie, farby a registráciu.",
+  "reset_factory_success_title": "Resetovať",
+  "reset_factory_success_message": "Všetky údaje a nastavenia boli resetované.",
+  "reset_factory_confirm_title": "Obnovte všetky údaje a nastavenia",
+  "reset_factory_confirm_message": "Naozaj chcete obnoviť všetky údaje a nastavenia?"
 }

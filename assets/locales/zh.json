@@ -10,10 +10,10 @@
   "data_notice": "所有数据都存储在你的设备上，只有当你决定离开你的设备时才会离开。",
   "rate_this_app": "给这个应用程序评分",
   "reset_data_button": "重置所有数据和设置",
-  "reset_data_confirm_title": "重置所有数据和设置",
-  "reset_data_confirm_message": "你确定要重置所有的数据和设置吗？",
-  "reset_data_success_title": "重置数据和设置",
-  "reset_data_success_message": "所有数据和设置已被重置。",
+  "reset_data_confirm_title": "重置",
+  "reset_data_confirm_message": "您确定要重置所有条目和标签吗？",
+  "reset_data_success_title": "重置",
+  "reset_data_success_message": "所有数据均已重置。",
   "import": "导入",
   "import_success_title": "导入成功",
   "import_success_message": "您的数据已被成功导入。",
@@ -203,5 +203,11 @@
   "development_statistics_items_coverage": "从第一天开始记录",
   "statistics_tags_distribution_trend_prefix": "你在标记",
   "statistics_tags_distribution_trend_increase_suffix": "更经常",
-  "statistics_tags_distribution_trend_decrease_suffix": "不经常"
+  "statistics_tags_distribution_trend_decrease_suffix": "不经常",
+  "reset_factory_button": "重置数据和设置",
+  "reset_factory_description": "设置包括提醒、颜色和入职。",
+  "reset_factory_success_title": "重置",
+  "reset_factory_success_message": "所有数据和设置均已重置。",
+  "reset_factory_confirm_title": "重置所有数据和设置",
+  "reset_factory_confirm_message": "您确定要重置所有数据和设置吗？"
 }

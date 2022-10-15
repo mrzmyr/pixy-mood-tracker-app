@@ -11,10 +11,10 @@
   "data_notice": "Toutes les données sont stockées sur votre appareil et ne quittent votre appareil que lorsque vous le décidez.",
   "rate_this_app": "Évaluer l'application",
   "reset_data_button": "Réinitialiser toutes les données et paramètres",
-  "reset_data_confirm_title": "Réinitialiser toutes les données et paramètres",
-  "reset_data_confirm_message": "Voulez-vous vraiment réinitialiser toutes les données et tous les paramètres ?",
-  "reset_data_success_title": "Réinitialisation des données et des paramètres",
-  "reset_data_success_message": "Toutes les données et tous les paramètres ont été réinitialisés.",
+  "reset_data_confirm_title": "Réinitialiser",
+  "reset_data_confirm_message": "Voulez-vous vraiment réinitialiser toutes les entrées et balises ?",
+  "reset_data_success_title": "Réinitialiser",
+  "reset_data_success_message": "Toutes les données ont été réinitialisées.",
   "import": "Importer",
   "import_success_title": "Importation réussie",
   "import_success_message": "Vos données ont été importées avec succès.",
@@ -203,5 +203,11 @@
   "development_statistics_items_coverage": "Connecté depuis le premier jour",
   "statistics_tags_distribution_trend_prefix": "Vous taguez",
   "statistics_tags_distribution_trend_increase_suffix": "plus souvent",
-  "statistics_tags_distribution_trend_decrease_suffix": "moins souvent"
+  "statistics_tags_distribution_trend_decrease_suffix": "moins souvent",
+  "reset_factory_button": "Réinitialiser les données et les paramètres",
+  "reset_factory_description": "Les paramètres incluent le rappel, les couleurs et l'intégration.",
+  "reset_factory_success_title": "Réinitialiser",
+  "reset_factory_success_message": "Toutes les données et tous les paramètres ont été réinitialisés.",
+  "reset_factory_confirm_title": "Réinitialiser toutes les données et paramètres",
+  "reset_factory_confirm_message": "Voulez-vous vraiment réinitialiser toutes les données et tous les paramètres ?"
 }

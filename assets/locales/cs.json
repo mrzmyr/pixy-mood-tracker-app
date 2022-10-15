@@ -11,10 +11,10 @@
   "data_notice": "Všechna data jsou uložena ve vašem zařízení a opouštějí vaše zařízení pouze tehdy, když se tak rozhodnete.",
   "rate_this_app": "Ohodnoťte tuto aplikaci",
   "reset_data_button": "Obnovte všechna data a nastavení",
-  "reset_data_confirm_title": "Obnovte všechna data a nastavení",
-  "reset_data_confirm_message": "Opravdu chcete obnovit všechna data a nastavení?",
-  "reset_data_success_title": "Data a nastavení resetována",
-  "reset_data_success_message": "Všechna data a nastavení byla resetována.",
+  "reset_data_confirm_title": "Resetovat",
+  "reset_data_confirm_message": "Opravdu chcete obnovit všechny položky a štítky?",
+  "reset_data_success_title": "Resetovat",
+  "reset_data_success_message": "Všechna data byla resetována.",
   "import": "Import",
   "import_success_title": "Import byl úspěšný",
   "import_success_message": "Vaše data byla úspěšně importována.",
@@ -203,5 +203,11 @@
   "development_statistics_items_coverage": "Přihlášeno od prvního dne",
   "statistics_tags_distribution_trend_prefix": "Označujete",
   "statistics_tags_distribution_trend_increase_suffix": "častěji",
-  "statistics_tags_distribution_trend_decrease_suffix": "méně často"
+  "statistics_tags_distribution_trend_decrease_suffix": "méně často",
+  "reset_factory_button": "Resetovat data a nastavení",
+  "reset_factory_description": "Mezi nastavení patří připomenutí, barvy a registrace.",
+  "reset_factory_success_title": "Resetovat",
+  "reset_factory_success_message": "Všechna data a nastavení byla resetována.",
+  "reset_factory_confirm_title": "Obnovte všechna data a nastavení",
+  "reset_factory_confirm_message": "Opravdu chcete obnovit všechna data a nastavení?"
 }

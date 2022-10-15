@@ -10,10 +10,10 @@
   "data_notice": "Todos los datos se almacenan en tu dispositivo y sólo salen de él cuando tú lo decides.",
   "rate_this_app": "Valora esta aplicación",
   "reset_data_button": "Restablecer todos los datos y ajustes",
-  "reset_data_confirm_title": "Restablecer todos los datos y ajustes",
-  "reset_data_confirm_message": "¿Estás seguro de que quieres restablecer todos los datos y ajustes?",
-  "reset_data_success_title": "Restablecer datos y ajustes",
-  "reset_data_success_message": "Se han restablecido todos los datos y ajustes.",
+  "reset_data_confirm_title": "Reiniciar",
+  "reset_data_confirm_message": "¿Está seguro de que desea restablecer todas las entradas y etiquetas?",
+  "reset_data_success_title": "Reiniciar",
+  "reset_data_success_message": "Todos los datos han sido reiniciados.",
   "import": "Importar",
   "import_success_title": "Importar con éxito",
   "import_success_message": "Sus datos se han importado con éxito.",
@@ -203,5 +203,11 @@
   "development_statistics_items_coverage": "Registrado desde el primer día",
   "statistics_tags_distribution_trend_prefix": "estas etiquetando",
   "statistics_tags_distribution_trend_increase_suffix": "más a menudo",
-  "statistics_tags_distribution_trend_decrease_suffix": "con menos frecuencia"
+  "statistics_tags_distribution_trend_decrease_suffix": "con menos frecuencia",
+  "reset_factory_button": "Restablecer datos y configuraciones",
+  "reset_factory_description": "Las configuraciones incluyen recordatorios, colores e incorporación.",
+  "reset_factory_success_title": "Reiniciar",
+  "reset_factory_success_message": "Se han restablecido todos los datos y configuraciones.",
+  "reset_factory_confirm_title": "Restablecer todos los datos y configuraciones",
+  "reset_factory_confirm_message": "¿Está seguro de que desea restablecer todos los datos y configuraciones?"
 }

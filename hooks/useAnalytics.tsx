@@ -73,10 +73,10 @@ function AnalyticsProvider({
     identify,
     enable: () => {
       posthog!.optIn();
-      setIsEnabled(true);
+      setIsEnabled(options.enabled);
       setSettings((settings) => ({
         ...settings,
-        analyticsEnabled: true,
+        analyticsEnabled: options.enabled,
       }));
     },
     disable: () => {
@@ -89,10 +89,10 @@ function AnalyticsProvider({
     },
     reset: () => {
       posthog!.reset();
-      setIsEnabled(true);
+      setIsEnabled(options.enabled);
       setSettings((settings) => ({
         ...settings,
-        analyticsEnabled: true,
+        analyticsEnabled: options.enabled,
       }));
     },
     track: (eventName: string, properties?: any) => {

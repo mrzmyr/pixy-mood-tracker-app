@@ -11,10 +11,10 @@
   "data_notice": "Totes les dades s'emmagatzemen al dispositiu i només surten del dispositiu quan ho decideixes.",
   "rate_this_app": "Valora aquesta app",
   "reset_data_button": "Restableix totes les dades i la configuració",
-  "reset_data_confirm_title": "Restableix totes les dades i la configuració",
-  "reset_data_confirm_message": "Esteu segur que voleu restablir totes les dades i la configuració?",
-  "reset_data_success_title": "Restabliment de dades i configuració",
-  "reset_data_success_message": "S'han restablert totes les dades i la configuració.",
+  "reset_data_confirm_title": "Restableix",
+  "reset_data_confirm_message": "Esteu segur que voleu restablir totes les entrades i etiquetes?",
+  "reset_data_success_title": "Restableix",
+  "reset_data_success_message": "S'han restablert totes les dades.",
   "import": "Importar",
   "import_success_title": "Importació correcta",
   "import_success_message": "Les vostres dades s'han importat correctament.",
@@ -203,5 +203,11 @@
   "development_statistics_items_coverage": "Registrat des del primer dia",
   "statistics_tags_distribution_trend_prefix": "Estàs etiquetant",
   "statistics_tags_distribution_trend_increase_suffix": "més sovint",
-  "statistics_tags_distribution_trend_decrease_suffix": "menys sovint"
+  "statistics_tags_distribution_trend_decrease_suffix": "menys sovint",
+  "reset_factory_button": "Restableix les dades i la configuració",
+  "reset_factory_description": "La configuració inclou recordatoris, colors i incorporació.",
+  "reset_factory_success_title": "Restableix",
+  "reset_factory_success_message": "S'han restablert totes les dades i la configuració.",
+  "reset_factory_confirm_title": "Restableix totes les dades i la configuració",
+  "reset_factory_confirm_message": "Esteu segur que voleu restablir totes les dades i la configuració?"
 }

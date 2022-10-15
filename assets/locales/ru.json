@@ -10,10 +10,10 @@
   "data_notice": "Все данные хранятся на вашем устройстве и покидают его только по вашему решению.",
   "rate_this_app": "Оцените это приложение",
   "reset_data_button": "Сброс всех данных и настроек",
-  "reset_data_confirm_title": "Сброс всех данных и настроек",
-  "reset_data_confirm_message": "Вы уверены, что хотите сбросить все данные и настройки?",
-  "reset_data_success_title": "Сброс данных и настроек",
-  "reset_data_success_message": "Все данные и настройки были сброшены.",
+  "reset_data_confirm_title": "Перезагрузить",
+  "reset_data_confirm_message": "Вы уверены, что хотите сбросить все записи и теги?",
+  "reset_data_success_title": "Перезагрузить",
+  "reset_data_success_message": "Все данные были сброшены.",
   "import": "Импорт",
   "import_success_title": "Импорт прошел успешно",
   "import_success_message": "Ваши данные были успешно импортированы.",
@@ -203,5 +203,11 @@
   "development_statistics_items_coverage": "Зарегистрирован с первого дня",
   "statistics_tags_distribution_trend_prefix": "Вы отмечаете",
   "statistics_tags_distribution_trend_increase_suffix": "чаще",
-  "statistics_tags_distribution_trend_decrease_suffix": "менее часто"
+  "statistics_tags_distribution_trend_decrease_suffix": "менее часто",
+  "reset_factory_button": "Сбросить данные и настройки",
+  "reset_factory_description": "Настройки включают напоминания, цвета и онбординг.",
+  "reset_factory_success_title": "Перезагрузить",
+  "reset_factory_success_message": "Все данные и настройки сброшены.",
+  "reset_factory_confirm_title": "Сбросить все данные и настройки",
+  "reset_factory_confirm_message": "Вы уверены, что хотите сбросить все данные и настройки?"
 }

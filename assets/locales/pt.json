@@ -11,10 +11,10 @@
   "data_notice": "Todos os dados são armazenados no seu dispositivo e só saem do seu dispositivo quando você decidir.",
   "rate_this_app": "Avalie este aplicativo",
   "reset_data_button": "Redefinir todos os dados e configurações",
-  "reset_data_confirm_title": "Redefinir todos os dados e configurações",
-  "reset_data_confirm_message": "Tem certeza de que deseja redefinir todos os dados e configurações?",
-  "reset_data_success_title": "Redefinição de dados e configurações",
-  "reset_data_success_message": "Todos os dados e configurações foram redefinidos.",
+  "reset_data_confirm_title": "Redefinir",
+  "reset_data_confirm_message": "Tem certeza de que deseja redefinir todas as entradas e tags?",
+  "reset_data_success_title": "Redefinir",
+  "reset_data_success_message": "Todos os dados foram redefinidos.",
   "import": "Importar",
   "import_success_title": "Importação bem-sucedida",
   "import_success_message": "Seus dados foram importados com sucesso.",
@@ -203,5 +203,11 @@
   "development_statistics_items_coverage": "Registrado desde o primeiro dia",
   "statistics_tags_distribution_trend_prefix": "Você está marcando",
   "statistics_tags_distribution_trend_increase_suffix": "mais frequentemente",
-  "statistics_tags_distribution_trend_decrease_suffix": "menos frequentemente"
+  "statistics_tags_distribution_trend_decrease_suffix": "menos frequentemente",
+  "reset_factory_button": "Redefinir dados e configurações",
+  "reset_factory_description": "As configurações incluem lembrete, cores e integração.",
+  "reset_factory_success_title": "Redefinir",
+  "reset_factory_success_message": "Todos os dados e configurações foram redefinidos.",
+  "reset_factory_confirm_title": "Redefinir todos os dados e configurações",
+  "reset_factory_confirm_message": "Tem certeza de que deseja redefinir todos os dados e configurações?"
 }

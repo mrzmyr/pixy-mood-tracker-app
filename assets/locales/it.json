@@ -11,10 +11,10 @@
   "data_notice": "Tutti i dati vengono archiviati sul tuo dispositivo e lasciano il tuo dispositivo solo quando lo decidi.",
   "rate_this_app": "Valuta questa applicazione",
   "reset_data_button": "Ripristina tutti i dati e le impostazioni",
-  "reset_data_confirm_title": "Ripristina tutti i dati e le impostazioni",
-  "reset_data_confirm_message": "Sei sicuro di voler ripristinare tutti i dati e le impostazioni?",
-  "reset_data_success_title": "Dati e impostazioni ripristinati",
-  "reset_data_success_message": "Tutti i dati e le impostazioni sono stati ripristinati.",
+  "reset_data_confirm_title": "Ripristina",
+  "reset_data_confirm_message": "Sei sicuro di voler reimpostare tutte le voci e i tag?",
+  "reset_data_success_title": "Ripristina",
+  "reset_data_success_message": "Tutti i dati sono stati ripristinati.",
   "import": "Importare",
   "import_success_title": "Importazione riuscita",
   "import_success_message": "I tuoi dati sono stati importati con successo.",
@@ -203,5 +203,11 @@
   "development_statistics_items_coverage": "Registrato dal primo giorno",
   "statistics_tags_distribution_trend_prefix": "Stai taggando",
   "statistics_tags_distribution_trend_increase_suffix": "più spesso",
-  "statistics_tags_distribution_trend_decrease_suffix": "meno spesso"
+  "statistics_tags_distribution_trend_decrease_suffix": "meno spesso",
+  "reset_factory_button": "Ripristina dati e impostazioni",
+  "reset_factory_description": "Le impostazioni includono promemoria, colori e onboarding.",
+  "reset_factory_success_title": "Ripristina",
+  "reset_factory_success_message": "Tutti i dati e le impostazioni sono stati ripristinati.",
+  "reset_factory_confirm_title": "Ripristina tutti i dati e le impostazioni",
+  "reset_factory_confirm_message": "Sei sicuro di voler ripristinare tutti i dati e le impostazioni?"
 }

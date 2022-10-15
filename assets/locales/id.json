@@ -11,10 +11,10 @@
   "data_notice": "Semua data disimpan di perangkat Anda dan hanya meninggalkan perangkat saat Anda memutuskan untuk melakukannya.",
   "rate_this_app": "Nilai aplikasi ini",
   "reset_data_button": "Setel ulang semua data & pengaturan",
-  "reset_data_confirm_title": "Setel ulang semua data & pengaturan",
-  "reset_data_confirm_message": "Apakah Anda yakin ingin menyetel ulang semua data dan setelan?",
-  "reset_data_success_title": "Pengaturan ulang data & pengaturan",
-  "reset_data_success_message": "Semua data dan pengaturan telah diatur ulang.",
+  "reset_data_confirm_title": "Mengatur ulang",
+  "reset_data_confirm_message": "Apakah Anda yakin ingin menyetel ulang semua entri dan tag?",
+  "reset_data_success_title": "Mengatur ulang",
+  "reset_data_success_message": "Semua data telah diatur ulang.",
   "import": "Impor",
   "import_success_title": "Impor berhasil",
   "import_success_message": "Data Anda telah berhasil diimpor.",
@@ -203,5 +203,11 @@
   "development_statistics_items_coverage": "Tercatat sejak hari pertama",
   "statistics_tags_distribution_trend_prefix": "Anda menandai",
   "statistics_tags_distribution_trend_increase_suffix": "lebih sering",
-  "statistics_tags_distribution_trend_decrease_suffix": "lebih jarang"
+  "statistics_tags_distribution_trend_decrease_suffix": "lebih jarang",
+  "reset_factory_button": "Setel ulang data & pengaturan",
+  "reset_factory_description": "Pengaturan termasuk pengingat, warna, dan orientasi.",
+  "reset_factory_success_title": "Mengatur ulang",
+  "reset_factory_success_message": "Semua data dan pengaturan telah diatur ulang.",
+  "reset_factory_confirm_title": "Setel ulang semua data & pengaturan",
+  "reset_factory_confirm_message": "Apakah Anda yakin ingin menyetel ulang semua data dan setelan?"
 }

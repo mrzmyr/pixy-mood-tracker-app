@@ -11,10 +11,10 @@
   "data_notice": "כל הנתונים מאוחסנים במכשיר שלך ועוזבים את המכשיר שלך רק כאשר אתה מחליט לעשות זאת.",
   "rate_this_app": "דרג את האפליקציה הזו",
   "reset_data_button": "אפס את כל הנתונים וההגדרות",
-  "reset_data_confirm_title": "אפס את כל הנתונים וההגדרות",
-  "reset_data_confirm_message": "האם אתה בטוח שברצונך לאפס את כל הנתונים וההגדרות?",
-  "reset_data_success_title": "איפוס נתונים והגדרות",
-  "reset_data_success_message": "כל הנתונים וההגדרות אופסו.",
+  "reset_data_confirm_title": "אִתחוּל",
+  "reset_data_confirm_message": "האם אתה בטוח שברצונך לאפס את כל הערכים והתגים?",
+  "reset_data_success_title": "אִתחוּל",
+  "reset_data_success_message": "כל הנתונים אופסו.",
   "import": "יְבוּא",
   "import_success_title": "הייבוא הצליח",
   "import_success_message": "הנתונים שלך יובאו בהצלחה.",
@@ -203,5 +203,11 @@
   "development_statistics_items_coverage": "נרשם מהיום הראשון",
   "statistics_tags_distribution_trend_prefix": "אתה מתייג",
   "statistics_tags_distribution_trend_increase_suffix": "לעתים קרובות יותר",
-  "statistics_tags_distribution_trend_decrease_suffix": "לעתים רחוקות"
+  "statistics_tags_distribution_trend_decrease_suffix": "לעתים רחוקות",
+  "reset_factory_button": "אפס נתונים והגדרות",
+  "reset_factory_description": "ההגדרות כוללות תזכורת, צבעים וכניסה למטוס.",
+  "reset_factory_success_title": "אִתחוּל",
+  "reset_factory_success_message": "כל הנתונים וההגדרות אופסו.",
+  "reset_factory_confirm_title": "אפס את כל הנתונים וההגדרות",
+  "reset_factory_confirm_message": "האם אתה בטוח שברצונך לאפס את כל הנתונים וההגדרות?"
 }

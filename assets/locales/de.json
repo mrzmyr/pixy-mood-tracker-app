@@ -10,10 +10,10 @@
   "data_notice": "Deine Daten nur auf diesem Gerät gespeichert.",
   "rate_this_app": "App bewerten",
   "reset_data_button": "Alle Daten & Einstellungen zurücksetzen",
-  "reset_data_confirm_title": "Daten und Einstellungen zurücksetzen",
-  "reset_data_confirm_message": "Bist du sicher, dass du alle Daten und Einstellungen zurücksetzen möchtest?",
-  "reset_data_success_title": "Daten und Einstellungen zurücksetzen",
-  "reset_data_success_message": "Alle Daten und Einstellungen wurden zurückgesetzt.",
+  "reset_data_confirm_title": "Zurücksetzen",
+  "reset_data_confirm_message": "Möchten Sie wirklich alle Einträge und Tags zurücksetzen?",
+  "reset_data_success_title": "Zurücksetzen",
+  "reset_data_success_message": "Alle Daten wurden zurückgesetzt.",
   "import": "Importieren",
   "import_success_title": "Import erfolgreich",
   "import_success_message": "Daten wurden erfolgreich importiert.",
@@ -203,5 +203,11 @@
   "development_statistics_items_coverage": "Seit dem ersten Tag protokolliert",
   "statistics_tags_distribution_trend_prefix": "Du taggst",
   "statistics_tags_distribution_trend_increase_suffix": "öfters",
-  "statistics_tags_distribution_trend_decrease_suffix": "weniger oft"
+  "statistics_tags_distribution_trend_decrease_suffix": "weniger oft",
+  "reset_factory_button": "Daten und Einstellungen zurücksetzen",
+  "reset_factory_description": "Zu den Einstellungen gehören Erinnerung, Farben und Onboarding.",
+  "reset_factory_success_title": "Zurücksetzen",
+  "reset_factory_success_message": "Alle Daten und Einstellungen wurden zurückgesetzt.",
+  "reset_factory_confirm_title": "Alle Daten & Einstellungen zurücksetzen",
+  "reset_factory_confirm_message": "Möchten Sie wirklich alle Daten und Einstellungen zurücksetzen?"
 }

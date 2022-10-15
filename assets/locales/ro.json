@@ -11,10 +11,10 @@
   "data_notice": "Toate datele sunt stocate pe dispozitivul dvs. și părăsesc dispozitivul numai atunci când decideți.",
   "rate_this_app": "Evalueaza aceasta aplicatie",
   "reset_data_button": "Resetați toate datele și setările",
-  "reset_data_confirm_title": "Resetați toate datele și setările",
-  "reset_data_confirm_message": "Sigur doriți să resetați toate datele și setările?",
-  "reset_data_success_title": "Date și setări resetate",
-  "reset_data_success_message": "Toate datele și setările au fost resetate.",
+  "reset_data_confirm_title": "Resetați",
+  "reset_data_confirm_message": "Sigur doriți să resetați toate intrările și etichetele?",
+  "reset_data_success_title": "Resetați",
+  "reset_data_success_message": "Toate datele au fost resetate.",
   "import": "Import",
   "import_success_title": "Import cu succes",
   "import_success_message": "Datele dvs. au fost importate cu succes.",
@@ -203,5 +203,11 @@
   "development_statistics_items_coverage": "Conectat din prima zi",
   "statistics_tags_distribution_trend_prefix": "Etichetezi",
   "statistics_tags_distribution_trend_increase_suffix": "mai des",
-  "statistics_tags_distribution_trend_decrease_suffix": "mai rar"
+  "statistics_tags_distribution_trend_decrease_suffix": "mai rar",
+  "reset_factory_button": "Resetați datele și setările",
+  "reset_factory_description": "Setările includ memento, culori și integrare.",
+  "reset_factory_success_title": "Resetați",
+  "reset_factory_success_message": "Toate datele și setările au fost resetate.",
+  "reset_factory_confirm_title": "Resetați toate datele și setările",
+  "reset_factory_confirm_message": "Sigur doriți să resetați toate datele și setările?"
 }

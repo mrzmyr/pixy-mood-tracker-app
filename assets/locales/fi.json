@@ -11,10 +11,10 @@
   "data_notice": "Kaikki tiedot tallennetaan laitteellesi ja poistuvat laitteeltasi vain, kun päätät niin.",
   "rate_this_app": "Arvostele tämä sovellus",
   "reset_data_button": "Nollaa kaikki tiedot ja asetukset",
-  "reset_data_confirm_title": "Nollaa kaikki tiedot ja asetukset",
-  "reset_data_confirm_message": "Haluatko varmasti nollata kaikki tiedot ja asetukset?",
-  "reset_data_success_title": "Tiedot ja asetukset nollattu",
-  "reset_data_success_message": "Kaikki tiedot ja asetukset on nollattu.",
+  "reset_data_confirm_title": "Nollaa",
+  "reset_data_confirm_message": "Haluatko varmasti nollata kaikki merkinnät ja tunnisteet?",
+  "reset_data_success_title": "Nollaa",
+  "reset_data_success_message": "Kaikki tiedot on nollattu.",
   "import": "Tuonti",
   "import_success_title": "Tuonti onnistui",
   "import_success_message": "Tietosi on tuotu onnistuneesti.",
@@ -203,5 +203,11 @@
   "development_statistics_items_coverage": "Kirjattu ensimmäisestä päivästä lähtien",
   "statistics_tags_distribution_trend_prefix": "Merkitset",
   "statistics_tags_distribution_trend_increase_suffix": "useammin",
-  "statistics_tags_distribution_trend_decrease_suffix": "ei niin usein"
+  "statistics_tags_distribution_trend_decrease_suffix": "ei niin usein",
+  "reset_factory_button": "Nollaa tiedot ja asetukset",
+  "reset_factory_description": "Asetuksiin kuuluvat muistutus, värit ja käyttöönotto.",
+  "reset_factory_success_title": "Nollaa",
+  "reset_factory_success_message": "Kaikki tiedot ja asetukset on nollattu.",
+  "reset_factory_confirm_title": "Nollaa kaikki tiedot ja asetukset",
+  "reset_factory_confirm_message": "Haluatko varmasti nollata kaikki tiedot ja asetukset?"
 }

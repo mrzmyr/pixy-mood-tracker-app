@@ -11,10 +11,10 @@
   "data_notice": "Alle gegevens worden op uw apparaat opgeslagen en verlaten uw apparaat alleen wanneer u dat wilt.",
   "rate_this_app": "Beoordeel deze app",
   "reset_data_button": "Alle gegevens en instellingen resetten",
-  "reset_data_confirm_title": "Alle gegevens en instellingen resetten",
-  "reset_data_confirm_message": "Weet je zeker dat je alle gegevens en instellingen wilt resetten?",
-  "reset_data_success_title": "Gegevens en instellingen resetten",
-  "reset_data_success_message": "Alle gegevens en instellingen zijn gereset.",
+  "reset_data_confirm_title": "Resetten",
+  "reset_data_confirm_message": "Weet u zeker dat u alle vermeldingen en tags opnieuw wilt instellen?",
+  "reset_data_success_title": "Resetten",
+  "reset_data_success_message": "Alle gegevens zijn gereset.",
   "import": "Importeren",
   "import_success_title": "Import succesvol",
   "import_success_message": "Uw gegevens zijn succesvol geïmporteerd.",
@@ -203,5 +203,11 @@
   "development_statistics_items_coverage": "Sinds de eerste dag ingelogd",
   "statistics_tags_distribution_trend_prefix": "Je tagt",
   "statistics_tags_distribution_trend_increase_suffix": "vaker",
-  "statistics_tags_distribution_trend_decrease_suffix": "minder vaak"
+  "statistics_tags_distribution_trend_decrease_suffix": "minder vaak",
+  "reset_factory_button": "Gegevens en instellingen resetten",
+  "reset_factory_description": "Instellingen omvatten herinnering, kleuren en onboarding.",
+  "reset_factory_success_title": "Resetten",
+  "reset_factory_success_message": "Alle gegevens en instellingen zijn gereset.",
+  "reset_factory_confirm_title": "Alle gegevens en instellingen resetten",
+  "reset_factory_confirm_message": "Weet je zeker dat je alle gegevens en instellingen wilt resetten?"
 }

@@ -14,6 +14,8 @@ import { STORAGE_KEY as STORAGE_KEY_TAGS } from "./useTags";
 import { Tag, useTagsState, useTagsUpdater } from "./useTags";
 import { useTranslation } from "./useTranslation";
 
+type ResetType = "factory" | "data"
+
 type ExportData = {
   version: string;
   tags: Tag[];
@@ -31,16 +33,6 @@ let openShareDialogAsync = async (uri: string) => {
   await Sharing.shareAsync(uri);
 };
 
-const _dangourlyImportDirectlyToAsyncStorage = async (data: ImportData) => {
-  AsyncStorage.setItem(STORAGE_KEY_LOGS, JSON.stringify({
-    items: data.items,
-  }));
-  AsyncStorage.setItem(STORAGE_KEY_TAGS, JSON.stringify({
-    tags: data.tags,
-  }));
-  AsyncStorage.setItem(STORAGE_KEY_SETTINGS, JSON.stringify(data.settings));
-};
-
 export const useDatagate = () => {
   const logState = useLogState();
   const logUpdater = useLogUpdater();
@@ -51,14 +43,52 @@ export const useDatagate = () => {
 
   const analytics = useAnalytics();
 
-  const _import = (data: ImportData) => {
-    logUpdater.import({
+  const dangerouslyImportDirectlyToAsyncStorage = async (data: ImportData) => {
+    await AsyncStorage.removeItem(STORAGE_KEY_TAGS);
+    await AsyncStorage.setItem(STORAGE_KEY_LOGS, JSON.stringify({
       items: data.items,
-    });
-    tagsUpdater.import({ 
-      tags: data.settings.tags || data.tags || [] 
-    });
-    importSettings(data.settings);
+    }));
+    await AsyncStorage.setItem(STORAGE_KEY_SETTINGS, JSON.stringify({
+      ...data.settings,
+      actionsDone: [{
+        date: new Date().toISOString(),
+        title: 'onboarding',
+      }],
+      // tags: data.tags
+    }));
+  };
+
+  const _import = async (data: ImportData, options: { muted: boolean } = { muted: false }) => {
+    const migratedData = migrateImportData(data);
+    const jsonSchemaType = getJSONSchemaType(migratedData);
+
+    if (jsonSchemaType === "pixy") {
+      logUpdater.import({
+        items: data.items,
+      });
+      tagsUpdater.import({ 
+        tags: data.settings.tags || data.tags || [] 
+      });
+      importSettings(data.settings);
+      if(!options.muted) showImportSuccess()
+      analytics.track("data_import_success");
+    } else {
+      if(!options.muted) showImportError()
+      analytics.track("data_import_error", {
+        reason: "invalid_json_schema"
+      });
+    }
+  };
+  
+  const resetData = () => {
+    logUpdater.reset();
+    tagsUpdater.reset();
+  }
+  
+  const factoryReset = () => {
+    resetData()
+    resetSettings();
+    analytics.reset()
   };
 
   const askToImport = () => {
@@ -83,6 +113,28 @@ export const useDatagate = () => {
     });
   };
 
+  const showImportSuccess = () => {
+    Alert.alert(
+      t("import_success_title"),
+      t("import_success_message"),
+      [
+        {
+          text: t("ok"),
+        },
+      ],
+      { cancelable: false }
+    );
+  }
+  
+  const showImportError = () => {
+    Alert.alert(
+      t("import_error_title"),
+      t("import_error_message"),
+      [{ text: t("ok"), onPress: () => {} }],
+      { cancelable: false }
+    );
+  }
+
   const openImportDialog = async () => {
     return new Promise(async (resolve, reject) => {
       askToImport().then(async () => {
@@ -98,94 +150,38 @@ export const useDatagate = () => {
             analytics.track("data_import_success");
             const contents = await FileSystem.readAsStringAsync(doc.uri);
             const data = JSON.parse(contents);
-            const migratedData = migrateImportData(data);
-            const jsonSchemaType = getJSONSchemaType(migratedData);
 
-            if (jsonSchemaType === "pixy") {
-              Alert.alert(
-                t("import_success_title"),
-                t("import_success_message"),
-                [
-                  {
-                    text: t("ok"),
-                  },
-                ],
-                { cancelable: false }
-              );
-              _import(migratedData);
-              resolve(migratedData);
-            } else {
-              analytics.track("data_import_error", {
-                reason: "invalid_json_schema",
-              });
-              Alert.alert(
-                t("import_error_title"),
-                t("import_error_message"),
-                [{ text: t("ok"), onPress: () => {} }],
-                { cancelable: false }
-              );
-              reject();
-            }
+            _import(data);
+            resolve(data);              
+            reject();
           }
         } catch (error) {
+          showImportError()
           analytics.track("data_import_error", {
-            reason: "document_picker_error",
+            reason: "document_picker_error"
           });
-          console.error(error);
-          Alert.alert(
-            t("import_error_title"),
-            t("import_error_message"),
-            [{ text: t("ok"), onPress: () => {} }],
-            { cancelable: false }
-          );
           reject();
         }
       });
     });
   };
 
-  const resetData = () => {
-    resetSettings();
-    logUpdater.reset();
-  };
-
-  const openResetDialog = async () => {
-    analytics.track("data_reset_asked");
-    if (Platform.OS === "web") {
-      resetData();
-      alert(t("reset_data_success_message"));
-      return Promise.resolve();
-    }
-
+  const askToReset = (type: ResetType) => {
     return new Promise((resolve, reject) => {
       Alert.alert(
-        t("reset_data_confirm_title"),
-        t("reset_data_confirm_message"),
+        t(`reset_${type}_confirm_title`),
+        t(`reset_${type}_confirm_message`),
         [
           {
             text: t("reset"),
             onPress: () => {
-              resetData();
-              analytics.track("data_reset_success");
               resolve({});
-              Alert.alert(
-                t("reset_data_success_title"),
-                t("reset_data_success_message"),
-                [
-                  {
-                    text: t("ok"),
-                    onPress: () => {},
-                  },
-                ],
-                { cancelable: false }
-              );
             },
             style: "destructive",
           },
           {
             text: t("cancel"),
             onPress: () => {
-              analytics.track("data_reset_cancel");
               reject();
             },
             style: "cancel",
@@ -194,25 +190,46 @@ export const useDatagate = () => {
         { cancelable: true }
       );
     });
-  };
+  }
+  
+  const showResetSuccess = (type: ResetType) => {
+    Alert.alert(
+      t(`reset_${type}_success_title`),
+      t(`reset_${type}_success_message`),
+      [
+        {
+          text: t("ok"),
+          onPress: () => {},
+        },
+      ],
+      { cancelable: false }
+    );
+  }
 
-  const importData = async (data: ImportData) => {
-    const migratedData = migrateImportData(data);
-    const jsonSchemaType = getJSONSchemaType(migratedData);
+  const openResetDialog = async (type: ResetType) => {
+    analytics.track("data_reset_asked");
 
-    if (jsonSchemaType === "pixy") {
-      _import(migratedData);
-    } else {
-      analytics.track("data_import_error", {
-        reason: "invalid_json_schema",
-      });
-      Alert.alert(
-        t("import_error_title"),
-        t("import_error_message"),
-        [{ text: t("ok"), onPress: () => {} }],
-        { cancelable: false }
-      );
+    if (Platform.OS === "web") {
+      factoryReset();
+      alert(t("reset_data_success_message"));
+      return Promise.resolve();
     }
+
+    askToReset(type)
+      .then(() => {
+        if(type === 'factory') {
+          factoryReset();
+        } else {
+          resetData();
+        }
+        analytics.track("data_reset_success", {
+          type
+        });
+        showResetSuccess(type)
+      })
+      .catch(() => {
+        analytics.track("data_reset_cancel");
+      })
   };
 
   const openExportDialog = async () => {
@@ -247,72 +264,25 @@ export const useDatagate = () => {
   };
 
   const openDEVImportDialog = async () => {
-    return new Promise(async (resolve, reject) => {
-      askToImport().then(async () => {
-        try {
-          analytics.track("data_import_start");
-
-          const doc = await DocumentPicker.getDocumentAsync({
-            type: "application/json",
-            copyToCacheDirectory: true,
-          });
-
-          if (doc.type === "success") {
-            analytics.track("data_import_success");
-            const contents = await FileSystem.readAsStringAsync(doc.uri);
-            const data = JSON.parse(contents);
-            const migratedData = migrateImportData(data);
-            const jsonSchemaType = getJSONSchemaType(migratedData);
-
-            if (jsonSchemaType === "pixy") {
-              Alert.alert(
-                t("import_success_title"),
-                t("import_success_message"),
-                [
-                  {
-                    text: t("ok"),
-                  },
-                ],
-                { cancelable: false }
-              );
-              _dangourlyImportDirectlyToAsyncStorage(migratedData);
-              resolve(migratedData);
-            } else {
-              analytics.track("data_import_error", {
-                reason: "invalid_json_schema",
-              });
-              Alert.alert(
-                t("import_error_title"),
-                t("import_error_message"),
-                [{ text: t("ok"), onPress: () => {} }],
-                { cancelable: false }
-              );
-              reject();
-            }
-          }
-        } catch (error) {
-          analytics.track("data_import_error", {
-            reason: "document_picker_error",
-          });
-          console.error(error);
-          Alert.alert(
-            t("import_error_title"),
-            t("import_error_message"),
-            [{ text: t("ok"), onPress: () => {} }],
-            { cancelable: false }
-          );
-          reject();
-        }
-      });
+    const doc = await DocumentPicker.getDocumentAsync({
+      type: "application/json",
+      copyToCacheDirectory: true,
     });
-  };
 
+    if (doc.type === "success") {
+      const contents = await FileSystem.readAsStringAsync(doc.uri);
+      const data = JSON.parse(contents);
+      dangerouslyImportDirectlyToAsyncStorage(data);
+    }
+  };
   
   return {
     openExportDialog,
     openImportDialog,
-    importData,
     openResetDialog,
     openDEVImportDialog,
+    import: _import,
+    factoryReset,
+    resetData,
   };
 };

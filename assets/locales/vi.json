@@ -11,10 +11,10 @@
   "data_notice": "Tất cả dữ liệu được lưu trữ trên thiết bị của bạn và chỉ rời khỏi thiết bị của bạn khi bạn quyết định.",
   "rate_this_app": "Đánh giá ứng dụng này",
   "reset_data_button": "Đặt lại tất cả dữ liệu và cài đặt",
-  "reset_data_confirm_title": "Đặt lại tất cả dữ liệu và cài đặt",
-  "reset_data_confirm_message": "Bạn có chắc chắn muốn đặt lại tất cả dữ liệu và cài đặt không?",
-  "reset_data_success_title": "Đặt lại dữ liệu và cài đặt",
-  "reset_data_success_message": "Tất cả dữ liệu và cài đặt đã được đặt lại.",
+  "reset_data_confirm_title": "Cài lại",
+  "reset_data_confirm_message": "Bạn có chắc chắn muốn đặt lại tất cả các mục nhập và thẻ không?",
+  "reset_data_success_title": "Cài lại",
+  "reset_data_success_message": "Tất cả dữ liệu đã được đặt lại.",
   "import": "Nhập khẩu",
   "import_success_title": "Nhập thành công",
   "import_success_message": "Dữ liệu của bạn đã được nhập thành công.",
@@ -203,5 +203,11 @@
   "development_statistics_items_coverage": "Đã ghi nhật ký kể từ ngày đầu tiên",
   "statistics_tags_distribution_trend_prefix": "Bạn đang gắn thẻ",
   "statistics_tags_distribution_trend_increase_suffix": "thương xuyên hơn",
-  "statistics_tags_distribution_trend_decrease_suffix": "ít hơn thường lệ"
+  "statistics_tags_distribution_trend_decrease_suffix": "ít hơn thường lệ",
+  "reset_factory_button": "Đặt lại dữ liệu và cài đặt",
+  "reset_factory_description": "Cài đặt bao gồm lời nhắc, màu sắc và giới thiệu.",
+  "reset_factory_success_title": "Cài lại",
+  "reset_factory_success_message": "Tất cả dữ liệu và cài đặt đã được đặt lại.",
+  "reset_factory_confirm_title": "Đặt lại tất cả dữ liệu và cài đặt",
+  "reset_factory_confirm_message": "Bạn có chắc chắn muốn đặt lại tất cả dữ liệu và cài đặt không?"
 }

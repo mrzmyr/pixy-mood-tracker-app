@@ -11,10 +11,10 @@
   "data_notice": "Tüm veriler cihazınızda saklanır ve yalnızca siz karar verdiğinizde cihazınızdan ayrılır.",
   "rate_this_app": "Bu uygulamayı oyla",
   "reset_data_button": "Tüm verileri ve ayarları sıfırla",
-  "reset_data_confirm_title": "Tüm verileri ve ayarları sıfırla",
-  "reset_data_confirm_message": "Tüm verileri ve ayarları sıfırlamak istediğinizden emin misiniz?",
-  "reset_data_success_title": "Veri ve ayarlar sıfırlandı",
-  "reset_data_success_message": "Tüm veriler ve ayarlar sıfırlandı.",
+  "reset_data_confirm_title": "Sıfırla",
+  "reset_data_confirm_message": "Tüm girişleri ve etiketleri sıfırlamak istediğinizden emin misiniz?",
+  "reset_data_success_title": "Sıfırla",
+  "reset_data_success_message": "Tüm veriler sıfırlandı.",
   "import": "İçe aktarmak",
   "import_success_title": "İçe aktarma başarılı",
   "import_success_message": "Verileriniz başarıyla içe aktarıldı.",
@@ -203,5 +203,11 @@
   "development_statistics_items_coverage": "İlk günden beri kayıtlı",
   "statistics_tags_distribution_trend_prefix": "etiketliyorsunuz",
   "statistics_tags_distribution_trend_increase_suffix": "daha sık",
-  "statistics_tags_distribution_trend_decrease_suffix": "daha az sıklıkta"
+  "statistics_tags_distribution_trend_decrease_suffix": "daha az sıklıkta",
+  "reset_factory_button": "Verileri ve ayarları sıfırla",
+  "reset_factory_description": "Ayarlar hatırlatıcı, renkler ve işe alım içerir.",
+  "reset_factory_success_title": "Sıfırla",
+  "reset_factory_success_message": "Tüm veriler ve ayarlar sıfırlandı.",
+  "reset_factory_confirm_title": "Tüm verileri ve ayarları sıfırla",
+  "reset_factory_confirm_message": "Tüm verileri ve ayarları sıfırlamak istediğinizden emin misiniz?"
 }

@@ -11,10 +11,10 @@
   "data_notice": "All data lagras på din enhet och lämnar din enhet bara när du bestämmer dig för det.",
   "rate_this_app": "Betygsätt denna app",
   "reset_data_button": "Återställ alla data och inställningar",
-  "reset_data_confirm_title": "Återställ alla data och inställningar",
-  "reset_data_confirm_message": "Är du säker på att du vill återställa alla data och inställningar?",
-  "reset_data_success_title": "Data & inställningar återställs",
-  "reset_data_success_message": "Alla data och inställningar har återställts.",
+  "reset_data_confirm_title": "Återställa",
+  "reset_data_confirm_message": "Är du säker på att du vill återställa alla poster och taggar?",
+  "reset_data_success_title": "Återställa",
+  "reset_data_success_message": "All data har återställts.",
   "import": "Importera",
   "import_success_title": "Importen lyckades",
   "import_success_message": "Din data har importerats.",
@@ -203,5 +203,11 @@
   "development_statistics_items_coverage": "Loggat sedan första dagen",
   "statistics_tags_distribution_trend_prefix": "Du taggar",
   "statistics_tags_distribution_trend_increase_suffix": "oftare",
-  "statistics_tags_distribution_trend_decrease_suffix": "mindre ofta"
+  "statistics_tags_distribution_trend_decrease_suffix": "mindre ofta",
+  "reset_factory_button": "Återställ data och inställningar",
+  "reset_factory_description": "Inställningar inkluderar påminnelse, färger och onboarding.",
+  "reset_factory_success_title": "Återställa",
+  "reset_factory_success_message": "Alla data och inställningar har återställts.",
+  "reset_factory_confirm_title": "Återställ alla data och inställningar",
+  "reset_factory_confirm_message": "Är du säker på att du vill återställa alla data och inställningar?"
 }

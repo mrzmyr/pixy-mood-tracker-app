@@ -11,10 +11,10 @@
   "data_notice": "Alle data gemmes på din enhed og forlader kun din enhed, når du beslutter dig for det.",
   "rate_this_app": "Bedøm denne app",
   "reset_data_button": "Nulstil alle data og indstillinger",
-  "reset_data_confirm_title": "Nulstil alle data og indstillinger",
-  "reset_data_confirm_message": "Er du sikker på, at du vil nulstille alle data og indstillinger?",
-  "reset_data_success_title": "Nulstilling af data og indstillinger",
-  "reset_data_success_message": "Alle data og indstillinger er blevet nulstillet.",
+  "reset_data_confirm_title": "Nulstil",
+  "reset_data_confirm_message": "Er du sikker på, at du vil nulstille alle poster og tags?",
+  "reset_data_success_title": "Nulstil",
+  "reset_data_success_message": "Alle data er blevet nulstillet.",
   "import": "Importere",
   "import_success_title": "Importen lykkedes",
   "import_success_message": "Dine data er blevet importeret.",
@@ -203,5 +203,11 @@
   "development_statistics_items_coverage": "Logget siden første dag",
   "statistics_tags_distribution_trend_prefix": "Du tagger",
   "statistics_tags_distribution_trend_increase_suffix": "oftere",
-  "statistics_tags_distribution_trend_decrease_suffix": "sjældnere"
+  "statistics_tags_distribution_trend_decrease_suffix": "sjældnere",
+  "reset_factory_button": "Nulstil data og indstillinger",
+  "reset_factory_description": "Indstillinger inkluderer påmindelse, farver og onboarding.",
+  "reset_factory_success_title": "Nulstil",
+  "reset_factory_success_message": "Alle data og indstillinger er blevet nulstillet.",
+  "reset_factory_confirm_title": "Nulstil alle data og indstillinger",
+  "reset_factory_confirm_message": "Er du sikker på, at du vil nulstille alle data og indstillinger?"
 }

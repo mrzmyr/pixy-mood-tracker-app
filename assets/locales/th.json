@@ -11,10 +11,10 @@
   "data_notice": "ข้อมูลทั้งหมดจะถูกเก็บไว้ในอุปกรณ์ของคุณและออกจากอุปกรณ์ของคุณเมื่อคุณตัดสินใจเท่านั้น",
   "rate_this_app": "ให้คะแนนแอปนี้",
   "reset_data_button": "รีเซ็ตข้อมูลและการตั้งค่าทั้งหมด",
-  "reset_data_confirm_title": "รีเซ็ตข้อมูลและการตั้งค่าทั้งหมด",
-  "reset_data_confirm_message": "คุณแน่ใจหรือไม่ว่าต้องการรีเซ็ตข้อมูลและการตั้งค่าทั้งหมด",
-  "reset_data_success_title": "รีเซ็ตข้อมูลและการตั้งค่า",
-  "reset_data_success_message": "รีเซ็ตข้อมูลและการตั้งค่าทั้งหมดแล้ว",
+  "reset_data_confirm_title": "รีเซ็ต",
+  "reset_data_confirm_message": "คุณแน่ใจหรือไม่ว่าต้องการรีเซ็ตรายการและแท็กทั้งหมด",
+  "reset_data_success_title": "รีเซ็ต",
+  "reset_data_success_message": "รีเซ็ตข้อมูลทั้งหมดแล้ว",
   "import": "นำเข้า",
   "import_success_title": "นำเข้าสำเร็จ",
   "import_success_message": "ข้อมูลของคุณได้รับการนำเข้าเรียบร้อยแล้ว",
@@ -203,5 +203,11 @@
   "development_statistics_items_coverage": "เข้าสู่ระบบตั้งแต่วันแรก",
   "statistics_tags_distribution_trend_prefix": "คุณกำลังแท็ก",
   "statistics_tags_distribution_trend_increase_suffix": "บ่อยขึ้น",
-  "statistics_tags_distribution_trend_decrease_suffix": "ไม่บ่อย"
+  "statistics_tags_distribution_trend_decrease_suffix": "ไม่บ่อย",
+  "reset_factory_button": "รีเซ็ตข้อมูลและการตั้งค่า",
+  "reset_factory_description": "การตั้งค่ารวมถึงการเตือนความจำ สี และการเริ่มต้นใช้งาน",
+  "reset_factory_success_title": "รีเซ็ต",
+  "reset_factory_success_message": "รีเซ็ตข้อมูลและการตั้งค่าทั้งหมดแล้ว",
+  "reset_factory_confirm_title": "รีเซ็ตข้อมูลและการตั้งค่าทั้งหมด",
+  "reset_factory_confirm_message": "คุณแน่ใจหรือไม่ว่าต้องการรีเซ็ตข้อมูลและการตั้งค่าทั้งหมด"
 }

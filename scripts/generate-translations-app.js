@@ -14,7 +14,7 @@ filesArray.forEach(file => {
   }
 });
 
-const FORCE_KEYS = []
+const FORCE_KEYS = ['reset_data_confirm_title', 'reset_data_confirm_message', 'reset_data_success_title', 'reset_data_success_message']
 
 const missingKeys = {};
 

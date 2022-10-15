@@ -11,10 +11,10 @@
   "data_notice": "Усі дані зберігаються на вашому пристрої й залишають пристрій лише тоді, коли ви вирішите це зробити.",
   "rate_this_app": "Оцініть цей додаток",
   "reset_data_button": "Скидання всіх даних і налаштувань",
-  "reset_data_confirm_title": "Скидання всіх даних і налаштувань",
-  "reset_data_confirm_message": "Ви впевнені, що хочете скинути всі дані та налаштування?",
-  "reset_data_success_title": "Скидання даних і налаштувань",
-  "reset_data_success_message": "Усі дані та налаштування скинуто.",
+  "reset_data_confirm_title": "Скинути",
+  "reset_data_confirm_message": "Ви впевнені, що бажаєте скинути всі записи та теги?",
+  "reset_data_success_title": "Скинути",
+  "reset_data_success_message": "Усі дані скинуто.",
   "import": "Імпорт",
   "import_success_title": "Імпорт успішно",
   "import_success_message": "Ваші дані успішно імпортовано.",
@@ -203,5 +203,11 @@
   "development_statistics_items_coverage": "Зареєстровано з першого дня",
   "statistics_tags_distribution_trend_prefix": "Ви додаєте теги",
   "statistics_tags_distribution_trend_increase_suffix": "частіше",
-  "statistics_tags_distribution_trend_decrease_suffix": "менш часто"
+  "statistics_tags_distribution_trend_decrease_suffix": "менш часто",
+  "reset_factory_button": "Скидання даних і налаштувань",
+  "reset_factory_description": "Налаштування включають нагадування, кольори та адаптацію.",
+  "reset_factory_success_title": "Скинути",
+  "reset_factory_success_message": "Усі дані та налаштування скинуто.",
+  "reset_factory_confirm_title": "Скинути всі дані та налаштування",
+  "reset_factory_confirm_message": "Ви впевнені, що бажаєте скинути всі дані та налаштування?"
 }

@@ -11,10 +11,10 @@
   "data_notice": "Όλα τα δεδομένα αποθηκεύονται στη συσκευή σας και φεύγουν από τη συσκευή σας μόνο όταν το αποφασίσετε.",
   "rate_this_app": "Βαθμολόγησε αυτήν την εφαρμογή",
   "reset_data_button": "Επαναφέρετε όλα τα δεδομένα και τις ρυθμίσεις",
-  "reset_data_confirm_title": "Επαναφέρετε όλα τα δεδομένα και τις ρυθμίσεις",
-  "reset_data_confirm_message": "Είστε βέβαιοι ότι θέλετε να επαναφέρετε όλα τα δεδομένα και τις ρυθμίσεις;",
-  "reset_data_success_title": "Επαναφορά δεδομένων και ρυθμίσεων",
-  "reset_data_success_message": "Όλα τα δεδομένα και οι ρυθμίσεις έχουν επαναφερθεί.",
+  "reset_data_confirm_title": "Επαναφορά",
+  "reset_data_confirm_message": "Είστε βέβαιοι ότι θέλετε να επαναφέρετε όλες τις καταχωρήσεις και τις ετικέτες;",
+  "reset_data_success_title": "Επαναφορά",
+  "reset_data_success_message": "Έγινε επαναφορά όλων των δεδομένων.",
   "import": "Εισαγωγή",
   "import_success_title": "Επιτυχής εισαγωγή",
   "import_success_message": "Τα δεδομένα σας εισήχθησαν με επιτυχία.",
@@ -203,5 +203,11 @@
   "development_statistics_items_coverage": "Εγγράφηκε από την πρώτη μέρα",
   "statistics_tags_distribution_trend_prefix": "Κάνετε tag",
   "statistics_tags_distribution_trend_increase_suffix": "πιο συχνά",
-  "statistics_tags_distribution_trend_decrease_suffix": "λιγότερο συχνά"
+  "statistics_tags_distribution_trend_decrease_suffix": "λιγότερο συχνά",
+  "reset_factory_button": "Επαναφορά δεδομένων και ρυθμίσεων",
+  "reset_factory_description": "Οι ρυθμίσεις περιλαμβάνουν υπενθύμιση, χρώματα και ενσωμάτωση.",
+  "reset_factory_success_title": "Επαναφορά",
+  "reset_factory_success_message": "Έχουν γίνει επαναφορά όλων των δεδομένων και των ρυθμίσεων.",
+  "reset_factory_confirm_title": "Επαναφέρετε όλα τα δεδομένα και τις ρυθμίσεις",
+  "reset_factory_confirm_message": "Είστε βέβαιοι ότι θέλετε να επαναφέρετε όλα τα δεδομένα και τις ρυθμίσεις;"
 }
