@@ -2,6 +2,53 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.43.0](https://github.com/mrzmyr/pixy-mood-tracker/compare/v1.42.1...v1.43.0) (2022-10-16)
+
+
+### Features
+
+* add colors ([aa3a26b](https://github.com/mrzmyr/pixy-mood-tracker/commit/aa3a26b768f6522b7b440949a3b00ab353374e06))
+* initial commit ([411dabc](https://github.com/mrzmyr/pixy-mood-tracker/commit/411dabc90a7b4d6b225e7732b64174fe44b5bdf9))
+* save tag id only ([c9838de](https://github.com/mrzmyr/pixy-mood-tracker/commit/c9838de91b514a59df83177911ed6917344e11b4))
+
+
+### Bug Fixes
+
+* add actions done not updating settings ([93f42e1](https://github.com/mrzmyr/pixy-mood-tracker/commit/93f42e1c6955529dbfcde79072d39c84078e0a16))
+* bottom sheet title ([ebccc58](https://github.com/mrzmyr/pixy-mood-tracker/commit/ebccc58eabec2e516a3551817a75f710f809e802))
+* reverse in filters ([0611243](https://github.com/mrzmyr/pixy-mood-tracker/commit/0611243b396554547d46cb02d3c8d04c5d9a3aff))
+* scroll down ([8f3ba18](https://github.com/mrzmyr/pixy-mood-tracker/commit/8f3ba1813472cf55c9f69b2fb06ce18e41ec95a0))
+* statistics layout issues ([f6c8d32](https://github.com/mrzmyr/pixy-mood-tracker/commit/f6c8d323d57f4198e79fbc38f569d48fe1174f99))
+
+
+### Performance
+
+* improve scrolling on calendar ([96da47a](https://github.com/mrzmyr/pixy-mood-tracker/commit/96da47a0033272028de81488031b2fd17a2c0dc5))
+
+
+### Tests
+
+* add tests ([3f6d307](https://github.com/mrzmyr/pixy-mood-tracker/commit/3f6d307e7bb7a802bf74082f76c3bdd4385c54de))
+* fix tests ([f20496b](https://github.com/mrzmyr/pixy-mood-tracker/commit/f20496bca2fabfa4b7d866c3424b80473b44bde3))
+
+
+### Chore
+
+* remove console.log ([b826d07](https://github.com/mrzmyr/pixy-mood-tracker/commit/b826d07438e46e3888505a954701449e910a7204))
+* remove console.log ([f2cc41e](https://github.com/mrzmyr/pixy-mood-tracker/commit/f2cc41ead38c8802ad06105366a4e772403b59c7))
+* remove obsolete scripts ([8b802e9](https://github.com/mrzmyr/pixy-mood-tracker/commit/8b802e93e3570c3bd02b142cf5609b75168493df))
+
+
+### Refactors
+
+* introduce `storage` helper ([367f13c](https://github.com/mrzmyr/pixy-mood-tracker/commit/367f13c5149396fb2cdfe5b8e4538a0da49c5113))
+* update data import and split reset in factory and data ([85b71a6](https://github.com/mrzmyr/pixy-mood-tracker/commit/85b71a612a037fa5eba1fb458f3c525c6b9b8dd1))
+
+
+### Styling
+
+* add loading indicator for calendar ([2886143](https://github.com/mrzmyr/pixy-mood-tracker/commit/2886143f5ced29907e41846aa6da6835c80fcd7b))
+
 ### [1.42.1](https://github.com/mrzmyr/pixy-mood-tracker/compare/v1.42.0...v1.42.1) (2022-10-10)
 
 

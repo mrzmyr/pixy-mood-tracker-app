@@ -1,6 +1,6 @@
 {
   "name": "pixel-tracker",
-  "version": "1.42.1",
+  "version": "1.43.0",
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
     "start": "expo start",
@@ -11,7 +11,7 @@
     "test": "jest --watchAll --env=jsdom",
     "disclaimer": "echo \"export default \\`$(yarn licenses generate-disclaimer | sed 's/\\`/\\\\`/g')\\`\" > disclaimer.js",
     "bump": "npx standard-version",
-    "build": "eas build -p ios --local --output=.builds && eas build -p android --local --output=.builds",
+    "build": "eas build -p ios --local && eas build -p android --local",
     "submit": "eas submit -p ios --path $(ls -t *.ipa | head -1) && eas submit -p android --path $(ls -t *.aab | head -1)",
     "translate-app": "node scripts/generate-translations-app.js"
   },
@@ -62,6 +62,7 @@
     "expo-updates": "~0.14.6",
     "expo-web-browser": "~11.0.0",
     "i18n-js": "^3.8.0",
+    "jotai": "^1.8.5",
     "lodash": "^4.17.21",
     "posthog-react-native": "^2.1.1",
     "react": "18.0.0",
