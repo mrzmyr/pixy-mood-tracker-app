@@ -1,4 +1,3 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import _ from "lodash";
 import {
   createContext,
@@ -8,7 +7,7 @@ import {
   useMemo,
   useReducer
 } from "react";
-import { getJSONSchemaType } from "../helpers/Import";
+import { load, store } from "../helpers/storage";
 import { AtLeast } from "../types";
 import { Tag as ITag } from "./useTags";
 
@@ -92,26 +91,6 @@ function reducer(state: LogsState, action: LogAction): LogsState {
   }
 }
 
-async function store(state: Omit<LogsState, "loaded">) {
-  try {
-    await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-  } catch (e) {
-    console.error(e);
-  }
-}
-
-const load = async (): Promise<LogsState | null> => {
-  try {
-    const data = await AsyncStorage.getItem(STORAGE_KEY);
-    if(data === null) return null;
-    return JSON.parse(data);
-  } catch (e) {
-    console.error(e);
-  }
-
-  return null
-};
-
 function LogsProvider({ children }: { children: React.ReactNode }) {
   const INITIAL_STATE: LogsState = {
     loaded: false,
@@ -122,7 +101,7 @@ function LogsProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     (async () => {
-      const value = await load();
+      const value = await load<LogsState>(STORAGE_KEY);
       if(value !== null) {
         dispatch({
           type: "import",
@@ -141,7 +120,7 @@ function LogsProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     if (state.loaded) {
-      store(_.omit(state, "loaded"));
+      store<Omit<LogsState, 'loaded'>>(STORAGE_KEY, _.omit(state, "loaded"));
     }
   }, [JSON.stringify(state)]);
 

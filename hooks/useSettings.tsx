@@ -1,4 +1,3 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import _ from "lodash";
 import {
   createContext,
@@ -9,6 +8,7 @@ import {
 } from "react";
 import "react-native-get-random-values";
 import { v4 as uuidv4 } from "uuid";
+import { load, store } from "../helpers/storage";
 import { Tag } from "./useTags";
 
 export const STORAGE_KEY = "PIXEL_TRACKER_SETTINGS";
@@ -45,33 +45,6 @@ interface IAction {
   date: string;
 }
 
-const store = async (settings: Omit<SettingsState, 'loaded'>) => {
-  try {
-    await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(settings));
-  } catch (e) {
-    console.error(e);
-  }
-};
-
-const load = async (): Promise<SettingsState | null> => {
-  try {
-    const value = await AsyncStorage.getItem(STORAGE_KEY);
-    if (value !== null) {
-      const newValue = {
-        ...JSON.parse(value),
-      };
-      if (newValue.deviceId === null) {
-        newValue.deviceId = uuidv4();
-      }
-      return newValue;
-    }
-  } catch (e) {
-    console.error(e);
-  }
-
-  return null;
-};
-
 export const INITIAL_STATE: SettingsState = {
   loaded: false,
   deviceId: null,
@@ -105,7 +78,7 @@ function SettingsProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     (async () => {
-      const json = await load();
+      const json = await load(STORAGE_KEY);
       if(json !== null) {
         setSettings({
           ...INITIAL_STATE,
@@ -124,7 +97,7 @@ function SettingsProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     if (settings.loaded) {
-      store(_.omit(settings, 'loaded'));
+      store(STORAGE_KEY, _.omit(settings, 'loaded'));
     }
   }, [JSON.stringify(settings)]);
 

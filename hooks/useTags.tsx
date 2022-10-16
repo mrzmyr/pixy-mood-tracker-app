@@ -1,7 +1,7 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import _ from 'lodash';
 import { createContext, useCallback, useContext, useEffect, useMemo, useReducer } from "react";
 import { TAG_COLOR_NAMES } from '../constants/Config';
+import { load, store } from '../helpers/storage';
 import { useAnalytics } from './useAnalytics';
 import { LogItem, useLogState, useLogUpdater } from './useLogs';
 import { useSettings } from './useSettings';
@@ -40,32 +40,6 @@ interface UpdaterValue {
 
 const TagsStateContext = createContext(undefined)
 const TagsUpdaterContext = createContext(undefined)
-
-async function store(state: Omit<State, 'loaded'>) {
-  try {
-    await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-  } catch (e) {
-    console.error(e);
-  }
-}
-
-const load = async (): Promise<State | null> => {
-  try {
-    const data = await AsyncStorage.getItem(STORAGE_KEY)
-
-    if(data !== null) {
-      const json = JSON.parse(data)
-      return {
-        ...json,
-        loaded: true
-      }
-    }
-  } catch (e) {
-    console.error(e);
-  }
-
-  return null;
-}
 
 const reducer = (state: State, action: StateAction): State => {
   switch (action.type) {
@@ -189,7 +163,7 @@ function TagsProvider({
     if(!settings.loaded) return;
     
     (async () => {
-      const json = await load()
+      const json = await load<State>(STORAGE_KEY)
       if(json !== null) {
         analytics.track('tags_loaded', { source: 'tags_async_storage' })
         dispatch({ type: 'import', payload: json })
@@ -210,7 +184,7 @@ function TagsProvider({
 
   useEffect(() => {
     if(state.loaded) {
-      store(_.omit(state, 'loaded'))
+      store<Omit<State, 'loaded'>>(STORAGE_KEY, _.omit(state, 'loaded'))
     }
   }, [JSON.stringify(state)])
   
