@@ -21,12 +21,12 @@ const CalendarScreen = memo(function CalendarScreen() {
   const calendarHeight = useRef(0);
 
   useEffect(() => {
-    if (calendarRef.current) {
+    if (scrollRef.current) {
       setTimeout(() => {
         scrollRef.current.scrollToEnd({ animated: false });
       }, 0)
     }
-  }, [calendarRef]);
+  }, [scrollRef]);
 
   useEffect(() => {
     if (calendarRef.current) {

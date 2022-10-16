@@ -38,12 +38,11 @@ export const Header = () => {
       >{t('calendar_filters')}</Text>
       <View
         style={{
-          flex: 1,
           flexWrap: 'wrap',
         }}
       >
         <LinkButton
-          disabled={!calendarFilters.isFiltering}
+          disabled={!calendarFilters.data.isFiltering}
           type='primary'
           style={{
             paddingLeft: 8,

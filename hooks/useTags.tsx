@@ -49,14 +49,13 @@ async function store(state: Omit<State, 'loaded'>) {
   }
 }
 
-const load = async (initialState: State): Promise<State | null> => {
+const load = async (): Promise<State | null> => {
   try {
     const data = await AsyncStorage.getItem(STORAGE_KEY)
 
     if(data !== null) {
       const json = JSON.parse(data)
       return {
-        ...initialState,
         ...json,
         loaded: true
       }
@@ -190,7 +189,7 @@ function TagsProvider({
     if(!settings.loaded) return;
     
     (async () => {
-      const json = await load(INITIAL_STATE)
+      const json = await load()
       if(json !== null) {
         analytics.track('tags_loaded', { source: 'tags_async_storage' })
         dispatch({ type: 'import', payload: json })
