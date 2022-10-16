@@ -8,35 +8,34 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import useColors from '../hooks/useColors';
 import { useTranslation } from '../hooks/useTranslation';
 import {
+  ColorsScreen,
   DataScreen,
   LicensesScreen,
   LogEdit,
   LogView,
   NotFoundScreen,
   PrivacyScreen,
-  ReminderScreen,
-  ScaleScreen,
-  SettingsScreen, StatisticsHighlights, StatisticsScreen, TagCreate, TagEdit
+  ReminderScreen, SettingsScreen, StatisticsHighlights, StatisticsScreen, TagCreate, TagEdit
 } from '../screens';
 import { RootStackParamList } from '../types';
 
 import { enableScreens } from 'react-native-screens';
 import LinkButton from '../components/LinkButton';
 import Providers from '../components/Providers';
+import Colors from '../constants/Colors';
+import { NAVIGATION_LINKING } from '../constants/Config';
+import { useAnalytics } from '../hooks/useAnalytics';
+import { useAnonymizer } from '../hooks/useAnonymizer';
 import { useCalendarFilters } from '../hooks/useCalendarFilters';
 import useHaptics from '../hooks/useHaptics';
+import { useLogState } from '../hooks/useLogs';
 import { useSettings } from '../hooks/useSettings';
+import { useTagsState } from '../hooks/useTags';
+import { getItemsCoverage } from '../lib/utils';
 import CalendarScreen from '../screens/Calendar';
 import { DevelopmentStatistics } from '../screens/DevelopmentStatistics';
 import { Onboarding } from '../screens/Onboarding';
 import { Tags } from '../screens/Tags';
-import { NAVIGATION_LINKING } from '../constants/Config';
-import Colors from '../constants/Colors';
-import { useAnalytics } from '../hooks/useAnalytics';
-import { useLogState } from '../hooks/useLogs';
-import { useTagsState } from '../hooks/useTags';
-import { useAnonymizer } from '../hooks/useAnonymizer';
-import { getItemsCoverage } from '../lib/utils';
 
 enableScreens();
 
@@ -462,10 +461,10 @@ function RootNavigator() {
             }} 
           />
           <Stack.Screen 
-            name="Scales" 
-            component={ScaleScreen} 
+            name="Colors" 
+            component={ColorsScreen} 
             options={{ 
-              title: i18n.t('scales'),
+              title: i18n.t('colors'),
               ...defaultPageOptions,
             }} 
           />

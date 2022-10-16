@@ -209,5 +209,7 @@
   "reset_factory_success_title": "אִתחוּל",
   "reset_factory_success_message": "כל הנתונים וההגדרות אופסו.",
   "reset_factory_confirm_title": "אפס את כל הנתונים וההגדרות",
-  "reset_factory_confirm_message": "האם אתה בטוח שברצונך לאפס את כל הנתונים וההגדרות?"
+  "reset_factory_confirm_message": "האם אתה בטוח שברצונך לאפס את כל הנתונים וההגדרות?",
+  "colors": "צבעים",
+  "colors_info": "צבעים משמשים לציון מצב הרוח בלוח השנה. מצב הרוח הקודם שלך יועבר לצבע שנבחר."
 }

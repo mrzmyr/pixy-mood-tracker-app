@@ -209,5 +209,7 @@
   "reset_factory_success_title": "Ripristina",
   "reset_factory_success_message": "Tutti i dati e le impostazioni sono stati ripristinati.",
   "reset_factory_confirm_title": "Ripristina tutti i dati e le impostazioni",
-  "reset_factory_confirm_message": "Sei sicuro di voler ripristinare tutti i dati e le impostazioni?"
+  "reset_factory_confirm_message": "Sei sicuro di voler ripristinare tutti i dati e le impostazioni?",
+  "colors": "Colori",
+  "colors_info": "I colori sono usati per indicare l'atmosfera nel calendario. Il tuo stato d'animo precedente passerà al colore selezionato."
 }

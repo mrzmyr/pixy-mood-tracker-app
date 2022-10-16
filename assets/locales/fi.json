@@ -209,5 +209,7 @@
   "reset_factory_success_title": "Nollaa",
   "reset_factory_success_message": "Kaikki tiedot ja asetukset on nollattu.",
   "reset_factory_confirm_title": "Nollaa kaikki tiedot ja asetukset",
-  "reset_factory_confirm_message": "Haluatko varmasti nollata kaikki tiedot ja asetukset?"
+  "reset_factory_confirm_message": "Haluatko varmasti nollata kaikki tiedot ja asetukset?",
+  "colors": "värit",
+  "colors_info": "Kalenterin tunnelmaa käytetään väreillä. Edellinen mielialasi vaihtuu valittuun väriin."
 }

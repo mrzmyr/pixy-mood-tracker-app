@@ -209,5 +209,7 @@
   "reset_factory_success_title": "Återställa",
   "reset_factory_success_message": "Alla data och inställningar har återställts.",
   "reset_factory_confirm_title": "Återställ alla data och inställningar",
-  "reset_factory_confirm_message": "Är du säker på att du vill återställa alla data och inställningar?"
+  "reset_factory_confirm_message": "Är du säker på att du vill återställa alla data och inställningar?",
+  "colors": "Färger",
+  "colors_info": "Färger används för att indikera stämningen i kalendern. Ditt tidigare humör kommer att ändras till den valda färgen."
 }

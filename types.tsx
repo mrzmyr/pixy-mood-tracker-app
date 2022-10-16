@@ -22,7 +22,7 @@ export type RootStackParamList = {
   BottomTabs: undefined,
   Onboarding: undefined,
   Settings: undefined,
-  Scales: undefined,
+  Colors: undefined,
   Licenses: undefined,
   Calendar: undefined,
   Modal: undefined;

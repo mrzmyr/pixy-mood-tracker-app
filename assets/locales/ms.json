@@ -209,5 +209,7 @@
   "reset_factory_success_title": "Tetapkan semula",
   "reset_factory_success_message": "Semua data dan tetapan telah ditetapkan semula.",
   "reset_factory_confirm_title": "Tetapkan semula semua data & tetapan",
-  "reset_factory_confirm_message": "Adakah anda pasti mahu menetapkan semula semua data dan tetapan?"
+  "reset_factory_confirm_message": "Adakah anda pasti mahu menetapkan semula semua data dan tetapan?",
+  "colors": "Warna",
+  "colors_info": "Warna digunakan untuk menunjukkan mood dalam kalendar. Mood anda sebelum ini akan ditukar kepada warna yang dipilih."
 }

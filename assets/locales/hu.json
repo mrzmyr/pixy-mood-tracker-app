@@ -209,5 +209,7 @@
   "reset_factory_success_title": "Visszaállítás",
   "reset_factory_success_message": "Minden adat és beállítás visszaállításra került.",
   "reset_factory_confirm_title": "Állítsa vissza az összes adatot és beállítást",
-  "reset_factory_confirm_message": "Biztosan visszaállítja az összes adatot és beállítást?"
+  "reset_factory_confirm_message": "Biztosan visszaállítja az összes adatot és beállítást?",
+  "colors": "Színek",
+  "colors_info": "A színek a hangulat jelzésére szolgálnak a naptárban. Az előző hangulat a kiválasztott színre vált."
 }

@@ -5,7 +5,7 @@ export * from './Log/View';
 export * from './NotFound';
 export * from './Privacy';
 export * from './Reminder';
-export * from './Scales';
+export * from './Colors';
 export * from './Settings';
 export * from './Statistics';
 export * from './TagEdit';

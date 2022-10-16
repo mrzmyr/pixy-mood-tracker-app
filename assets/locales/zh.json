@@ -209,5 +209,7 @@
   "reset_factory_success_title": "重置",
   "reset_factory_success_message": "所有数据和设置均已重置。",
   "reset_factory_confirm_title": "重置所有数据和设置",
-  "reset_factory_confirm_message": "您确定要重置所有数据和设置吗？"
+  "reset_factory_confirm_message": "您确定要重置所有数据和设置吗？",
+  "colors": "颜色",
+  "colors_info": "颜色用于指示日历中的情绪。您之前的心情将切换为所选颜色。"
 }

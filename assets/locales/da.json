@@ -209,5 +209,7 @@
   "reset_factory_success_title": "Nulstil",
   "reset_factory_success_message": "Alle data og indstillinger er blevet nulstillet.",
   "reset_factory_confirm_title": "Nulstil alle data og indstillinger",
-  "reset_factory_confirm_message": "Er du sikker på, at du vil nulstille alle data og indstillinger?"
+  "reset_factory_confirm_message": "Er du sikker på, at du vil nulstille alle data og indstillinger?",
+  "colors": "Farver",
+  "colors_info": "Farver bruges til at angive stemningen i kalenderen. Dit tidligere humør vil blive skiftet til den valgte farve."
 }

@@ -209,5 +209,7 @@
   "reset_factory_success_title": "Cài lại",
   "reset_factory_success_message": "Tất cả dữ liệu và cài đặt đã được đặt lại.",
   "reset_factory_confirm_title": "Đặt lại tất cả dữ liệu và cài đặt",
-  "reset_factory_confirm_message": "Bạn có chắc chắn muốn đặt lại tất cả dữ liệu và cài đặt không?"
+  "reset_factory_confirm_message": "Bạn có chắc chắn muốn đặt lại tất cả dữ liệu và cài đặt không?",
+  "colors": "Màu sắc",
+  "colors_info": "Màu sắc được sử dụng để biểu thị tâm trạng trong lịch. Tâm trạng trước đó của bạn sẽ được chuyển sang màu đã chọn."
 }

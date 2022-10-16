@@ -85,15 +85,14 @@ export const SettingsScreen = ({ navigation }: RootStackScreenProps<'Settings'>)
             onPress={() => navigation.navigate('Reminder')}
             testID='reminder'
             isLink
-            isLast
           />
-          {/* <MenuListItem
-            title={i18n.t('scales')}
+          <MenuListItem
+            title={i18n.t('colors')}
             iconLeft={<Droplet width={18} color={colors.menuListItemIcon} />}
-            onPress={() => navigation.navigate('Scales')}
+            onPress={() => navigation.navigate('Colors')}
             isLink
             isLast
-          /> */}
+          />
           {/* <MenuListItem
             title={i18n.t('passcode')}
             deactivated={!passcodeSupported}

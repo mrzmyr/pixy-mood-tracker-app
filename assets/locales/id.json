@@ -209,5 +209,7 @@
   "reset_factory_success_title": "Mengatur ulang",
   "reset_factory_success_message": "Semua data dan pengaturan telah diatur ulang.",
   "reset_factory_confirm_title": "Setel ulang semua data & pengaturan",
-  "reset_factory_confirm_message": "Apakah Anda yakin ingin menyetel ulang semua data dan setelan?"
+  "reset_factory_confirm_message": "Apakah Anda yakin ingin menyetel ulang semua data dan setelan?",
+  "colors": "warna",
+  "colors_info": "Warna digunakan untuk menunjukkan suasana hati dalam kalender. Suasana hati Anda sebelumnya akan dialihkan ke warna yang dipilih."
 }

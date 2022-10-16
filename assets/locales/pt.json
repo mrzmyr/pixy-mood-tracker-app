@@ -209,5 +209,7 @@
   "reset_factory_success_title": "Redefinir",
   "reset_factory_success_message": "Todos os dados e configurações foram redefinidos.",
   "reset_factory_confirm_title": "Redefinir todos os dados e configurações",
-  "reset_factory_confirm_message": "Tem certeza de que deseja redefinir todos os dados e configurações?"
+  "reset_factory_confirm_message": "Tem certeza de que deseja redefinir todos os dados e configurações?",
+  "colors": "Cores",
+  "colors_info": "As cores são usadas para indicar o humor no calendário. Seu humor anterior será alterado para a cor selecionada."
 }

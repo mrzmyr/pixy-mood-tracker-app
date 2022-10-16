@@ -209,5 +209,7 @@
   "reset_factory_success_title": "Resetowanie",
   "reset_factory_success_message": "Wszystkie dane i ustawienia zostały zresetowane.",
   "reset_factory_confirm_title": "Zresetuj wszystkie dane i ustawienia",
-  "reset_factory_confirm_message": "Czy na pewno chcesz zresetować wszystkie dane i ustawienia?"
+  "reset_factory_confirm_message": "Czy na pewno chcesz zresetować wszystkie dane i ustawienia?",
+  "colors": "Zabarwienie",
+  "colors_info": "Kolory służą do wskazywania nastroju w kalendarzu. Twój poprzedni nastrój zostanie przełączony na wybrany kolor."
 }

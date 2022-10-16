@@ -209,5 +209,7 @@
   "reset_factory_success_title": "Réinitialiser",
   "reset_factory_success_message": "Toutes les données et tous les paramètres ont été réinitialisés.",
   "reset_factory_confirm_title": "Réinitialiser toutes les données et paramètres",
-  "reset_factory_confirm_message": "Voulez-vous vraiment réinitialiser toutes les données et tous les paramètres ?"
+  "reset_factory_confirm_message": "Voulez-vous vraiment réinitialiser toutes les données et tous les paramètres ?",
+  "colors": "Couleurs",
+  "colors_info": "Les couleurs sont utilisées pour indiquer l'ambiance dans le calendrier. Votre humeur précédente sera remplacée par la couleur sélectionnée."
 }

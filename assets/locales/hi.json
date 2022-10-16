@@ -209,5 +209,7 @@
   "reset_factory_success_title": "रीसेट",
   "reset_factory_success_message": "सभी डेटा और सेटिंग्स को रीसेट कर दिया गया है।",
   "reset_factory_confirm_title": "सभी डेटा और सेटिंग रीसेट करें",
-  "reset_factory_confirm_message": "क्या आप वाकई सभी डेटा और सेटिंग रीसेट करना चाहते हैं?"
+  "reset_factory_confirm_message": "क्या आप वाकई सभी डेटा और सेटिंग रीसेट करना चाहते हैं?",
+  "colors": "रंग की",
+  "colors_info": "कैलेंडर में मूड को दर्शाने के लिए रंगों का उपयोग किया जाता है। आपका पिछला मूड चयनित रंग में बदल जाएगा।"
 }

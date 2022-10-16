@@ -114,7 +114,7 @@ function Radio({
   )
 }
 
-export const ScaleScreen = ({ navigation }) => {
+export const ColorsScreen = ({ navigation }) => {
   const { setSettings, settings } = useSettings()
   const i18n = useTranslation()
   const colors = useColors()
@@ -126,8 +126,8 @@ export const ScaleScreen = ({ navigation }) => {
   const typesNames = [
     `ColorBrew-RdYlGn`,
     `ColorBrew-RdYlGn-old`,
-    `ColorBrew-PiYG`,
-    'ColorBrew-BrBG',
+    // `ColorBrew-PiYG`,
+    // 'ColorBrew-BrBG',
   ]
 
   useEffect(() => {
@@ -165,7 +165,7 @@ export const ScaleScreen = ({ navigation }) => {
             alignItems: 'center',
           }}
         >
-          <TextInfo>{i18n.t('scales_info')}</TextInfo>
+          <TextInfo>{i18n.t('colors_info')}</TextInfo>
         </View>
       </ScrollView>
     </View>

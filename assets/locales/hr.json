@@ -209,5 +209,7 @@
   "reset_factory_success_title": "Resetiraj",
   "reset_factory_success_message": "Svi podaci i postavke su poništeni.",
   "reset_factory_confirm_title": "Resetiraj sve podatke i postavke",
-  "reset_factory_confirm_message": "Jeste li sigurni da želite poništiti sve podatke i postavke?"
+  "reset_factory_confirm_message": "Jeste li sigurni da želite poništiti sve podatke i postavke?",
+  "colors": "Boje",
+  "colors_info": "Boje se koriste za označavanje raspoloženja u kalendaru. Vaše prethodno raspoloženje bit će prebačeno u odabranu boju."
 }
