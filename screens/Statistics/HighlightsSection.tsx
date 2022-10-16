@@ -109,7 +109,11 @@ export const HighlightsSection = ({ items }: { items: LogItem[] }) => {
           <ActivityIndicator color={colors.loadingIndicator} />
         </View>
       ) : (
-        <>
+        <View
+          style={{
+            flex: 1,
+          }}
+        >
           {(
             !showMoodAvg &&
             !showMoodPeaksPositve &&
@@ -194,7 +198,7 @@ export const HighlightsSection = ({ items }: { items: LogItem[] }) => {
               }
             />
           </MenuList>
-        </>
+        </View>
       )}
     </>
   );

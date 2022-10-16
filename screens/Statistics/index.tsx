@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { RefreshControl, ScrollView, View } from 'react-native';
+import { Platform, RefreshControl, ScrollView, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import useColors from '../../hooks/useColors';
 import { useLogState } from '../../hooks/useLogs';
@@ -43,63 +43,59 @@ export const StatisticsScreen = ({ navigation }) => {
   }, [statistics.isLoading])
   
   return (
-    <View
+    <ScrollView 
       style={{
         paddingTop: insets.top,
         flex: 1,
-        backgroundColor: colors.statisticsBackground
+        backgroundColor: colors.statisticsBackground,
+        padding: 20,
       }}
-    >
-      <ScrollView 
-        style={{
-          padding: 20,
-        }}
-        refreshControl={
-          <RefreshControl
-            refreshing={refreshing}
-            onRefresh={() => {
-              if(items.length >= MIN_LOGS_COUNT) {
-                statistics.load({
-                  force: true
-                })
-              }
-            }}
-          />
-        }
-      >
-        <View
-          style={{
-            flex: 1,
-            paddingBottom: insets.bottom + 50,
+      refreshControl={
+        Platform.OS !== 'web' ? (
+        <RefreshControl
+          refreshing={refreshing}
+          onRefresh={() => {
+            if(items.length >= MIN_LOGS_COUNT) {
+              statistics.load({
+                force: true
+              })
+            }
           }}
-        >
-          {/* <TrendsSection /> */}
+        />
+        ) : undefined
+      }
+    >
+      <View
+        style={{
+          paddingBottom: insets.bottom + 50,
+        }}
+      >
+        {/* <TrendsSection /> */}
 
-          {items.length < MIN_LOGS_COUNT && (
-            <EmptyPlaceholder count={MIN_LOGS_COUNT - items.length} />
-          )}
-          {items.length >= MIN_LOGS_COUNT && (
-            <HighlightsSection items={items} />
-          )}
+        {items.length < MIN_LOGS_COUNT && (
+          <EmptyPlaceholder count={MIN_LOGS_COUNT - items.length} />
+        )}
+        {items.length >= MIN_LOGS_COUNT && (
+          <HighlightsSection items={items} />
+        )}
 
-          {(
-            items.length >= MIN_LOGS_COUNT &&
-            !statistics.isLoading
-          ) && (
-            <View
-              style={{
-                marginTop: 32,
-                backgroundColor: colors.statisticsCardBackground,
-                paddingVertical: 16,
-                paddingHorizontal: 20,
-                borderRadius: 8,
-              }}
-            >
-              <FeedbackSection />
-            </View>
-          )}
-        </View>
-      </ScrollView>
-    </View>
+        {(
+          items.length >= MIN_LOGS_COUNT &&
+          !statistics.isLoading
+        ) && (
+          <View
+            style={{
+              marginTop: 32,
+              backgroundColor: colors.statisticsCardBackground,
+              paddingVertical: 16,
+              paddingHorizontal: 20,
+              borderRadius: 8,
+            }}
+          >
+            <FeedbackSection />
+          </View>
+        )}
+      </View>
+    </ScrollView>
   );
 }

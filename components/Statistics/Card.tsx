@@ -11,7 +11,6 @@ export const Card = ({
   
   return (
     <View style={{
-      flex: 1,
       paddingTop: 16,
       paddingBottom: 16,
       paddingLeft: 20,
