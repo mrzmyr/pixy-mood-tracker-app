@@ -1,5 +1,5 @@
 import React, { memo, useEffect, useRef, useState } from "react";
-import { Platform, useWindowDimensions, View } from "react-native";
+import { ActivityIndicator, Platform, useWindowDimensions, View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import Calendar from "./Calendar";
 import { useCalendarFilters } from "../../hooks/useCalendarFilters";
@@ -8,10 +8,14 @@ import { CalendarBottomSheet } from "./CalendarBottomSheet";
 import { Body } from "./CalendarBottomSheet/Body";
 import CalendarHeader from "./CalendarHeader";
 import { ScrollToBottomButton } from "./ScrollToBottomButton";
+import { useLogState } from "../../hooks/useLogs";
+import { useSettings } from "../../hooks/useSettings";
 
 const CalendarScreen = memo(function CalendarScreen() {
   const colors = useColors();
 
+  const { settings } = useSettings();
+  const logState = useLogState()
   const calendarFilters = useCalendarFilters();
   const window = useWindowDimensions();
   const [scrollOffset, setScrollOffset] = useState(0);
@@ -26,7 +30,7 @@ const CalendarScreen = memo(function CalendarScreen() {
         scrollRef.current.scrollToEnd({ animated: false });
       }, 0)
     }
-  }, [scrollRef]);
+  }, [calendarRef, scrollRef, settings.loaded, logState.loaded]);
 
   useEffect(() => {
     if (calendarRef.current) {
@@ -36,8 +40,16 @@ const CalendarScreen = memo(function CalendarScreen() {
         });
       }, 0)
     }
-  }, [calendarRef]);
-
+  }, [calendarRef, scrollRef, settings.loaded, logState.loaded]);
+  
+  if(!settings.loaded || !logState.loaded) {
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <ActivityIndicator size="small" color={colors.text} />
+      </View>
+    )
+  }
+  
   return (
     <View
       style={{
