@@ -208,20 +208,17 @@ export const useDatagate = () => {
 
   const openResetDialog = async (type: ResetType) => {
     analytics.track("data_reset_asked");
+    const resetFn = type === "factory" ? factoryReset : resetData;
 
     if (Platform.OS === "web") {
-      factoryReset();
+      resetFn()
       alert(t("reset_data_success_message"));
       return Promise.resolve();
     }
 
-    askToReset(type)
+    return askToReset(type)
       .then(() => {
-        if(type === 'factory') {
-          factoryReset();
-        } else {
-          resetData();
-        }
+        resetFn()
         analytics.track("data_reset_success", {
           type
         });
