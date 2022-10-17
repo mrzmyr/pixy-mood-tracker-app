@@ -170,19 +170,11 @@ export function StatisticsProvider({
       return state.trends.tagsDistributionData.tags.length > 0;
     }
     if (type === "mood_trend") {
-      // check if there are at least 14 items per month
-      // for(let i = 1; i <= 6; i++) {
-      //   const monthStart = dayjs().subtract(i, 'month').startOf('month')
-      //   const monthEnd = dayjs().subtract(i, 'month').endOf('month')
-      //   const items = state.moodTrendData.items.filter(item => (
-      //     dayjs(item.date).isAfter(monthStart) &&
-      //     dayjs(item.date).isBefore(monthEnd)
-      //   ))
-      //   if(items.length < 14) {
-      //     return false
-      //   }
-      // }
-      return true;
+      return (
+        state.trends.moodData.avgPeriod1 > 0 &&
+        state.trends.moodData.avgPeriod2 > 0 &&
+        state.trends.moodData.diff > 0
+      )
     }
     return false;
   };
