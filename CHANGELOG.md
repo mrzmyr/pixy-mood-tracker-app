@@ -2,6 +2,31 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.44.0](https://github.com/mrzmyr/pixy-mood-tracker/compare/v1.43.0...v1.44.0) (2022-10-17)
+
+
+### Features
+
+* enable mood trend on trends section ([3d5c3e0](https://github.com/mrzmyr/pixy-mood-tracker/commit/3d5c3e0404a5ef841d574df1237c9f2bb84e88f7))
+* track `statistics_feedback` ([2f1fea5](https://github.com/mrzmyr/pixy-mood-tracker/commit/2f1fea564ff4196b4b8dbbeede904e19bbf33dc0))
+* track logs size ([2d2eae9](https://github.com/mrzmyr/pixy-mood-tracker/commit/2d2eae91ee6a8c13913fa0e30ba4021ff37bf526))
+
+
+### Bug Fixes
+
+* add mood_trend `isAvailable` condition ([b798e4c](https://github.com/mrzmyr/pixy-mood-tracker/commit/b798e4c95f432c4322accaef117df821880b39d9))
+* return promise on export modal ([acf70c6](https://github.com/mrzmyr/pixy-mood-tracker/commit/acf70c6ca21228385875a102984507c9eb9c4996))
+* reverse on mood avg keys ([d5c7a38](https://github.com/mrzmyr/pixy-mood-tracker/commit/d5c7a38daef2bd314e8747013e8b8859192e729e))
+* set settings loaded true when imported ([d657f5a](https://github.com/mrzmyr/pixy-mood-tracker/commit/d657f5a199d3245121aa02b54f4414281f45b962))
+* **Statistics:** add SafeAreaView ([60fe41f](https://github.com/mrzmyr/pixy-mood-tracker/commit/60fe41fd83095db696623d86892583b4f713c4e2))
+* tracking `statistics_all_highlights` ([58e9fee](https://github.com/mrzmyr/pixy-mood-tracker/commit/58e9fee243e4b7c0ff405c1ae5430070715247b4))
+* ts error on MenuListItem color textStyle ([ce4e6d7](https://github.com/mrzmyr/pixy-mood-tracker/commit/ce4e6d7c07a643991580516f818024ce2645f79b))
+
+
+### Tests
+
+* add tests for datagate and other data related operations ([ccf565e](https://github.com/mrzmyr/pixy-mood-tracker/commit/ccf565eff6251d19a68c82b086140a7f1389bb83))
+
 ## [1.43.0](https://github.com/mrzmyr/pixy-mood-tracker/compare/v1.42.1...v1.43.0) (2022-10-16)
 
 
