@@ -73,6 +73,7 @@ function SettingsProvider({ children }: { children: React.ReactNode }) {
       setSettings({
         ...INITIAL_STATE,
         ...settings,
+        loaded: true,
       });
   }, [INITIAL_STATE]);
 
