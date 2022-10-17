@@ -1,3 +1,4 @@
+import { Buffer } from "buffer";
 import _ from "lodash";
 import {
   createContext,
@@ -9,6 +10,7 @@ import {
 } from "react";
 import { load, store } from "../helpers/storage";
 import { AtLeast } from "../types";
+import { useAnalytics } from "./useAnalytics";
 import { Tag as ITag } from "./useTags";
 
 export const STORAGE_KEY = "PIXEL_TRACKER_LOGS";
@@ -92,6 +94,8 @@ function reducer(state: LogsState, action: LogAction): LogsState {
 }
 
 function LogsProvider({ children }: { children: React.ReactNode }) {
+  const analyitcs = useAnalytics()
+  
   const INITIAL_STATE: LogsState = {
     loaded: false,
     items: {},
@@ -102,6 +106,9 @@ function LogsProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     (async () => {
       const value = await load<LogsState>(STORAGE_KEY);
+      const size = Buffer.byteLength(JSON.stringify(value))
+      const megaBytes = Math.round(size / 1024 / 1024 * 100) / 100;
+      analyitcs.track('loaded_logs', { size: megaBytes, unit: 'mb' })
       if(value !== null) {
         dispatch({
           type: "import",
