@@ -35,14 +35,14 @@ export const TrendsSection = () => {
         </View>
       ) : (
         <>
-          {/* {statistics.isAvailable("mood_trend") && (
+          {statistics.isAvailable("mood_trend") && (
             <MoodTrend data={statistics.state.trends.moodData} />
-          )} */}
+          )}
 
           {statistics.isAvailable("tags_distribution_trend") && (
             <>
-              {statistics.state.trends.tagsDistributionData.tags.map((tag) => (
-                <TagsDistributionTrend tag={tag} />
+              {statistics.state.trends.tagsDistributionData.tags.map((tag, index) => (
+                <TagsDistributionTrend key={index} tag={tag} />
               ))}
             </>
           )}
