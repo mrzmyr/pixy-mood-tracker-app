@@ -18,7 +18,7 @@ export const defaultMoodAvgData: MoodAvgData = {
 }
 
 export const getMoodAvgData = (items: LogItem[]): MoodAvgData => {
-  const keys: LogItem["rating"][] = [...RATING_KEYS]
+  const keys: LogItem["rating"][] = [...RATING_KEYS].reverse()
 
   const rating_negative = Object.values(items).filter((item) =>
     ["bad", "very_bad", "extremely_bad"].includes(item.rating)
