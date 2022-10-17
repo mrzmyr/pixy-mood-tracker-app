@@ -45,7 +45,7 @@ describe('useSettings()', () => {
     expect(hook.result.current.state.settings.loaded).toBe(true)
   })
 
-  test('should load from settings async storage', async () => {
+  test('should load from settings async storage & initialize device id if missing', async () => {
     AsyncStorage.setItem(STORAGE_KEY, JSON.stringify({ 
       ...INITIAL_STATE,
       reminderTime: '12:00',
@@ -53,6 +53,7 @@ describe('useSettings()', () => {
     const hook = _renderHook()
     await hook.waitForNextUpdate()
     expect(hook.result.current.state.settings.reminderTime).toBe('12:00')
+    expect(hook.result.current.state.settings.deviceId).toBe(STATIC_DEVICE_ID)
   })
 
   test('should initiate with empty `settings` when async storage is empty', async () => {

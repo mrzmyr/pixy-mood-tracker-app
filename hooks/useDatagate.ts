@@ -3,15 +3,15 @@ import dayjs from "dayjs";
 import * as DocumentPicker from "expo-document-picker";
 import * as FileSystem from "expo-file-system";
 import * as Sharing from "expo-sharing";
+import _ from "lodash";
 import { Alert, Platform } from "react-native";
 import { getJSONSchemaType, ImportData } from "../helpers/Import";
 import { migrateImportData } from "../helpers/Migration";
 import pkg from '../package.json';
 import { useAnalytics } from "./useAnalytics";
 import { LogsState, STORAGE_KEY as STORAGE_KEY_LOGS, useLogState, useLogUpdater } from "./useLogs";
-import { SettingsState, STORAGE_KEY as STORAGE_KEY_SETTINGS, useSettings } from "./useSettings";
-import { STORAGE_KEY as STORAGE_KEY_TAGS } from "./useTags";
-import { Tag, useTagsState, useTagsUpdater } from "./useTags";
+import { ExportSettings, STORAGE_KEY as STORAGE_KEY_SETTINGS, useSettings } from "./useSettings";
+import { STORAGE_KEY as STORAGE_KEY_TAGS, Tag, useTagsState, useTagsUpdater } from "./useTags";
 import { useTranslation } from "./useTranslation";
 
 type ResetType = "factory" | "data"
@@ -20,20 +20,16 @@ type ExportData = {
   version: string;
   tags: Tag[];
   items: LogsState['items'];
-  settings: Omit<SettingsState, 'loaded' | 'deviceId'>;
+  settings: ExportSettings;
 }
 
-let openShareDialogAsync = async (uri: string) => {
-  const i18n = useTranslation();
-  if (!(await Sharing.isAvailableAsync())) {
-    alert(i18n.t("export_failed_title"));
-    return;
-  }
-
-  await Sharing.shareAsync(uri);
-};
-
-export const useDatagate = () => {
+export const useDatagate = (): {
+  openExportDialog: () => Promise<void>;
+  openImportDialog: () => Promise<void>;
+  import: (data: ImportData) => Promise<void>;
+  openDangerousImportDirectlyToAsyncStorageDialog: () => Promise<void>;
+  openResetDialog: (type: ResetType) => Promise<void>;
+} => {
   const logState = useLogState();
   const logUpdater = useLogUpdater();
   const { tags } = useTagsState();
@@ -59,17 +55,17 @@ export const useDatagate = () => {
   };
 
   const _import = async (data: ImportData, options: { muted: boolean } = { muted: false }) => {
-    const migratedData = migrateImportData(data);
-    const jsonSchemaType = getJSONSchemaType(migratedData);
+    const jsonSchemaType = getJSONSchemaType(data);
 
     if (jsonSchemaType === "pixy") {
+      const migratedData = migrateImportData(data);
       logUpdater.import({
-        items: data.items,
+        items: migratedData.items,
       });
       tagsUpdater.import({ 
-        tags: data.settings.tags || data.tags || [] 
+        tags: migratedData.settings.tags || migratedData.tags || [] 
       });
-      importSettings(data.settings);
+      importSettings(migratedData.settings);
       if(!options.muted) showImportSuccess()
       analytics.track("data_import_success");
     } else {
@@ -135,37 +131,6 @@ export const useDatagate = () => {
     );
   }
 
-  const openImportDialog = async () => {
-    return new Promise(async (resolve, reject) => {
-      askToImport().then(async () => {
-        try {
-          analytics.track("data_import_start");
-
-          const doc = await DocumentPicker.getDocumentAsync({
-            type: "application/json",
-            copyToCacheDirectory: true,
-          });
-
-          if (doc.type === "success") {
-            analytics.track("data_import_success");
-            const contents = await FileSystem.readAsStringAsync(doc.uri);
-            const data = JSON.parse(contents);
-
-            _import(data);
-            resolve(data);              
-            reject();
-          }
-        } catch (error) {
-          showImportError()
-          analytics.track("data_import_error", {
-            reason: "document_picker_error"
-          });
-          reject();
-        }
-      });
-    });
-  };
-
   const askToReset = (type: ResetType) => {
     return new Promise((resolve, reject) => {
       Alert.alert(
@@ -174,16 +139,12 @@ export const useDatagate = () => {
         [
           {
             text: t("reset"),
-            onPress: () => {
-              resolve({});
-            },
+            onPress: () => resolve({}),
             style: "destructive",
           },
           {
             text: t("cancel"),
-            onPress: () => {
-              reject();
-            },
+            onPress: () => reject(),
             style: "cancel",
           },
         ],
@@ -205,6 +166,33 @@ export const useDatagate = () => {
       { cancelable: false }
     );
   }
+
+  const openImportDialog = async (): Promise<void> => {
+    return askToImport()
+      .then(async () => {
+        try {
+          analytics.track("data_import_start");
+
+          const doc = await DocumentPicker.getDocumentAsync({
+            type: "application/json",
+            copyToCacheDirectory: true,
+          });
+
+          if (doc.type === "success") {
+            analytics.track("data_import_success");
+            const contents = await FileSystem.readAsStringAsync(doc.uri);
+            const data = JSON.parse(contents);
+
+            _import(data);
+          }
+        } catch (error) {
+          showImportError()
+          analytics.track("data_import_error", {
+            reason: "document_picker_error"
+          });
+        }
+      })
+  };
 
   const openResetDialog = async (type: ResetType) => {
     analytics.track("data_reset_asked");
@@ -253,14 +241,21 @@ export const useDatagate = () => {
     }
 
     const filename = `pixel-tracker-${dayjs().format("YYYY-MM-DD")}${__DEV__ ? '-DEV' : ''}.json`;
+
     await FileSystem.writeAsStringAsync(
       FileSystem.documentDirectory + filename,
       JSON.stringify(data)
     );
-    return openShareDialogAsync(FileSystem.documentDirectory + filename);
+
+    if (!(await Sharing.isAvailableAsync())) {
+      alert(t("export_failed_title"));
+      return;
+    }
+  
+    return Sharing.shareAsync(FileSystem.documentDirectory + filename);
   };
 
-  const openDEVImportDialog = async () => {
+  const openDangerousImportDirectlyToAsyncStorageDialog = async () => {
     const doc = await DocumentPicker.getDocumentAsync({
       type: "application/json",
       copyToCacheDirectory: true,
@@ -277,9 +272,7 @@ export const useDatagate = () => {
     openExportDialog,
     openImportDialog,
     openResetDialog,
-    openDEVImportDialog,
     import: _import,
-    factoryReset,
-    resetData,
+    openDangerousImportDirectlyToAsyncStorageDialog,
   };
 };

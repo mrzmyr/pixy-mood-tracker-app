@@ -29,7 +29,10 @@ export interface LogItem {
   date: string;
   rating: typeof RATING_KEYS[number];
   message: string;
-  tags?: ITag[];
+  tags?: (ITag & {
+    title?: string;
+    color?: string;
+  })[];
 }
 
 export interface LogsState {

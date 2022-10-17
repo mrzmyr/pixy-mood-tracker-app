@@ -9,6 +9,10 @@ describe('getJSONSchemaType', () => {
           date: '2022-01-23',
           rating: 'extremely_good',
           message: 'test message',
+          tags: [
+            { id: 'bb65f208-4e4c-11ed-bdc3-0242ac120002' },
+            { id: 'a8e3f89d-4dd3-43f9-8275-2c291f080392' },
+          ]
         }
       },
       settings: {

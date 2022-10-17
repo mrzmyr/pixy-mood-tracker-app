@@ -40,6 +40,8 @@ export interface SettingsState {
   tags?: Tag[] // moved to useTags()
 }
 
+export type ExportSettings = Omit<SettingsState, 'loaded' | 'deviceId'>;
+
 interface IAction {
   title: string;
   date: string;
@@ -79,8 +81,11 @@ function SettingsProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     (async () => {
-      const json = await load(STORAGE_KEY);
+      const json = await load<SettingsState>(STORAGE_KEY);
       if(json !== null) {
+        if(!json.deviceId) {
+          json.deviceId = uuidv4();
+        }
         setSettings({
           ...INITIAL_STATE,
           ...json,
@@ -146,7 +151,7 @@ function useSettings(): {
     settings: SettingsState | ((settings: SettingsState) => SettingsState)
   ) => void;
   resetSettings: () => void;
-  importSettings: (settings: SettingsState) => void;
+  importSettings: (settings: ExportSettings) => void;
   addActionDone: (action: IAction["title"]) => void;
   hasActionDone: (actionTitle: IAction["title"]) => boolean;
 } {

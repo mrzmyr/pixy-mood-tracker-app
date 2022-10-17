@@ -1,14 +1,14 @@
 import Ajv, { JSONSchemaType } from "ajv";
 import { TAG_COLOR_NAMES } from '../constants/Config';
-import { SettingsState } from "../hooks/useSettings";
 import { Tag } from "../hooks/useTags";
 import { LogsState, RATING_KEYS } from './../hooks/useLogs';
+import { ExportSettings } from './../hooks/useSettings';
 
 export interface ImportData {
   version: string;
   items: LogsState["items"];
   tags?: Tag[];
-  settings: SettingsState;
+  settings: ExportSettings
 }
 
 const ajv = new Ajv({
@@ -60,7 +60,7 @@ const pixy_schema: JSONSchemaType<ImportData> = {
                     enum: TAG_COLOR_NAMES
                   }
                 },
-                required: ["id", "title", "color"]
+                required: ["id"]
               }
             }
           }

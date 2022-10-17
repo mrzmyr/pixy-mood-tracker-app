@@ -21,11 +21,3 @@ export const load = async <ReturnValue>(key: string): Promise<ReturnValue | null
 
   return null
 };
-
-export const clearAll = async () => {
-  try {
-    await AsyncStorage.clear();
-  } catch (e) {
-    console.error(e);
-  }
-}

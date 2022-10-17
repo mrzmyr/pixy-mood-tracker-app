@@ -36,8 +36,8 @@ export const DataScreen = ({ navigation }: RootStackScreenProps<'Data'>) => {
         />
         {__DEV__ && (
           <MenuListItem
-            title={i18n.t('import') + ' (DEV)'}
-            onPress={() => datagate.openDEVImportDialog()}
+            title={'Dangerously Import Directly To AsyncStorage'}
+            onPress={() => datagate.openDangerousImportDirectlyToAsyncStorageDialog()}
             iconLeft={<Upload width={18} color={colors.menuListItemIcon} />}
           />
         )}
