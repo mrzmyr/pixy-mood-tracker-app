@@ -31,6 +31,16 @@ const light = {
     extremely_bad: { background: '#c51b7d', text: 'rgba(255,255,255,1)', },
     empty: { background: colors.neutral[100], border: colors.neutral[300], text: 'black', },
   },
+  'ColorBrew-PuOr': {
+    extremely_good: { background: '#b35806', text: 'rgba(255,255,255,1)', },
+    very_good: { background: '#f1a340', text: 'rgba(0,0,0,0.8)', },
+    good: { background: '#fee0b6', text: 'rgba(0,0,0,0.8)', },
+    neutral: { background: colors.neutral[200], text: 'rgba(0,0,0,0.8)', },
+    bad: { background: '#d8daeb', text: 'rgba(0,0,0,0.8)', },
+    very_bad: { background: '#998ec3', text: 'rgba(0,0,0,0.8)', },
+    extremely_bad: { background: '#542788', text: 'rgba(255,255,255,1)', },
+    empty: { background: colors.neutral[100], border: colors.neutral[300], text: 'black', },
+  },
   'ColorBrew-BrBG': {
     extremely_good: { background: '#01665e', text: 'rgba(255,255,255,1)', },
     very_good: { background: '#5ab4ac', text: 'rgba(255,255,255,1)', },
@@ -64,6 +74,16 @@ const dark: typeof light = {
     very_bad: { background: '#fc8d59', text: 'black', },
     extremely_bad: { background: '#d73027', text: 'rgba(255,255,255,1)', },
     empty: {  background: colors.neutral[900], border: colors.neutral[600], text: 'white', },
+  },
+  'ColorBrew-PuOr': {
+    extremely_good: { background: '#b35806', text: 'rgba(255,255,255,1)', },
+    very_good: { background: '#f1a340', text: 'rgba(0,0,0,0.8)', },
+    good: { background: '#fee0b6', text: 'rgba(0,0,0,0.8)', },
+    neutral: { background: colors.neutral[200], text: 'rgba(0,0,0,0.8)', },
+    bad: { background: '#d8daeb', text: 'rgba(0,0,0,0.8)', },
+    very_bad: { background: '#998ec3', text: 'rgba(0,0,0,0.8)', },
+    extremely_bad: { background: '#542788', text: 'rgba(255,255,255,1)', },
+    empty: { background: colors.neutral[100], border: colors.neutral[300], text: 'black', },
   },
   'ColorBrew-PiYG': {
     extremely_good: { background: '#4d9221', text: 'rgba(255,255,255,1)', },
