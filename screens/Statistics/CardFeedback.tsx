@@ -110,6 +110,8 @@ export const CardFeedback = ({
     }
 
     console.log('Sending statistics feedback', body);
+
+    analytics.track('statistics_feedback', body);
     
     return fetch(STATISTICS_FEEDBACK_URL, {
       method: 'POST',
