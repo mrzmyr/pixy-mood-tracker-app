@@ -67,7 +67,7 @@ export const StatisticsHighlights = ({ navigation }) => {
       cards.tags_distribution_item_count = statistics.state.tagsDistributionData.itemsCount
     }
     
-    analytics.track('statistics_relevant_highlights', {
+    analytics.track('statistics_all_highlights', {
       itemsCount: statistics.state.itemsCount,
       ...cards
     })
