@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Platform, RefreshControl, ScrollView, View } from 'react-native';
+import { Platform, RefreshControl, SafeAreaView, ScrollView, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import useColors from '../../hooks/useColors';
 import { useLogState } from '../../hooks/useLogs';
@@ -7,6 +7,7 @@ import { useStatistics } from '../../hooks/useStatistics';
 import { EmptyPlaceholder } from './EmptyPlaceholder';
 import { FeedbackSection } from './FeedbackSection';
 import { HighlightsSection } from './HighlightsSection';
+import { TrendsSection } from './TrendsSection';
 
 const MIN_LOGS_COUNT = 7;
 
@@ -43,59 +44,64 @@ export const StatisticsScreen = ({ navigation }) => {
   }, [statistics.isLoading])
   
   return (
-    <ScrollView 
+    <SafeAreaView
       style={{
-        paddingTop: insets.top,
         flex: 1,
-        backgroundColor: colors.statisticsBackground,
-        padding: 20,
       }}
-      refreshControl={
-        Platform.OS !== 'web' ? (
-        <RefreshControl
-          refreshing={refreshing}
-          onRefresh={() => {
-            if(items.length >= MIN_LOGS_COUNT) {
-              statistics.load({
-                force: true
-              })
-            }
-          }}
-        />
-        ) : undefined
-      }
     >
-      <View
+      <ScrollView 
         style={{
-          paddingBottom: insets.bottom + 50,
+          flex: 1,
+          backgroundColor: colors.statisticsBackground,
+          padding: 20,
         }}
-      >
-        {/* <TrendsSection /> */}
-
-        {items.length < MIN_LOGS_COUNT && (
-          <EmptyPlaceholder count={MIN_LOGS_COUNT - items.length} />
-        )}
-        {items.length >= MIN_LOGS_COUNT && (
-          <HighlightsSection items={items} />
-        )}
-
-        {(
-          items.length >= MIN_LOGS_COUNT &&
-          !statistics.isLoading
-        ) && (
-          <View
-            style={{
-              marginTop: 32,
-              backgroundColor: colors.statisticsCardBackground,
-              paddingVertical: 16,
-              paddingHorizontal: 20,
-              borderRadius: 8,
+        refreshControl={
+          Platform.OS !== 'web' ? (
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={() => {
+              if(items.length >= MIN_LOGS_COUNT) {
+                statistics.load({
+                  force: true
+                })
+              }
             }}
-          >
-            <FeedbackSection />
-          </View>
-        )}
-      </View>
-    </ScrollView>
+          />
+          ) : undefined
+        }
+      >
+        <View
+          style={{
+            paddingBottom: insets.bottom + 50,
+          }}
+        >
+          {/* <TrendsSection /> */}
+
+          {items.length < MIN_LOGS_COUNT && (
+            <EmptyPlaceholder count={MIN_LOGS_COUNT - items.length} />
+          )}
+          {items.length >= MIN_LOGS_COUNT && (
+            <HighlightsSection items={items} />
+          )}
+
+          {(
+            items.length >= MIN_LOGS_COUNT &&
+            !statistics.isLoading
+          ) && (
+            <View
+              style={{
+                marginTop: 32,
+                backgroundColor: colors.statisticsCardBackground,
+                paddingVertical: 16,
+                paddingHorizontal: 20,
+                borderRadius: 8,
+              }}
+            >
+              <FeedbackSection />
+            </View>
+          )}
+        </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 }
