@@ -78,6 +78,27 @@ describe("useAnalytics()", () => {
     console.error = _console_error;
   });
 
+  test("should `isEnabled` = true initially", async () => {
+    const { result } = _renderHook();
+
+    expect(result.current.settingsState.settings.analyticsEnabled).toBe(true);
+    expect(result.current.state.isEnabled).toBe(true);
+  });
+
+  test("should `isEnabled` = false if disabled in settings", async () => {
+    const hook = _renderHook();
+    await hook.waitForNextUpdate();
+
+    await act(async () => {
+      hook.result.current.settingsState.setSettings({
+        ...hook.result.current.settingsState.settings,
+        analyticsEnabled: false,
+      });
+    });
+
+    expect(hook.result.current.state.isEnabled).toBe(false);
+  });
+  
   test("should `identify`", async () => {
     
     AsyncStorage.setItem(

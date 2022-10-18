@@ -36,8 +36,10 @@ function AnalyticsProvider({
   const posthog = usePostHog();
 
   const [isIdentified, setIsIdentified] = useState(false);
-  const [isEnabled, setIsEnabled] = useState(options.enabled);
+  const [isEnabled, setIsEnabled] = useState(settings.analyticsEnabled);
 
+  useEffect(() => setIsEnabled(settings.analyticsEnabled), [settings.analyticsEnabled])
+  
   const identify = (properties?: any) => {
     const traits = {
       userId: settings.deviceId,
@@ -56,6 +58,8 @@ function AnalyticsProvider({
       ...properties,
     };
 
+    if(!isEnabled) return;
+    
     if (DEBUG) console.log("useAnalytics: identify", traits);
 
     if (!options.enabled) return;
@@ -73,10 +77,10 @@ function AnalyticsProvider({
     identify,
     enable: () => {
       posthog!.optIn();
-      setIsEnabled(options.enabled);
+      setIsEnabled(true);
       setSettings((settings) => ({
         ...settings,
-        analyticsEnabled: options.enabled,
+        analyticsEnabled: true,
       }));
     },
     disable: () => {
@@ -89,13 +93,15 @@ function AnalyticsProvider({
     },
     reset: () => {
       posthog!.reset();
-      setIsEnabled(options.enabled);
+      setIsEnabled(true);
       setSettings((settings) => ({
         ...settings,
-        analyticsEnabled: options.enabled,
+        analyticsEnabled: true,
       }));
     },
     track: (eventName: string, properties?: any) => {
+      if(!isEnabled) return;
+
       if (DEBUG) console.log("useAnalytics: track", eventName, properties);
 
       if (!options.enabled) return;

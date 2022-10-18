@@ -115,6 +115,11 @@ const _renderHook = () => {
 
 const _console_error = console.error;
 
+
+jest.mock('react-native-onesignal', () => ({
+  removeExternalUserId: jest.fn()
+}));
+
 describe("useLogs()", () => {
   beforeEach(async () => {
     console.error = jest.fn();

@@ -52,12 +52,8 @@ export const DataScreen = ({ navigation }: RootStackScreenProps<'Data'>) => {
       <MenuList>
         <MenuListItem
           title={i18n.t('behavioral_data')}
-          style={{
-            opacity: __DEV__ ? 0.5 : 1,
-          }}
           iconRight={
             <Switch
-              disabled={__DEV__}
               ios_backgroundColor={colors.backgroundSecondary}
               onValueChange={() => {
                 analytics.track('analytics_toggle', { enabled: !analytics.isEnabled })
@@ -74,7 +70,6 @@ export const DataScreen = ({ navigation }: RootStackScreenProps<'Data'>) => {
           isLast
         />
       </MenuList>
-      {__DEV__ && <TextInfo>Tracking is disabled per default in development.</TextInfo>}
       <MenuList style={{ marginTop: 16, }}>
         <MenuListItem
           testID='reset-data'

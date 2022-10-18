@@ -27,7 +27,7 @@ const Providers = ({ children }: { children: React.ReactNode }) => {
             captureScreens: TRACKING_ENABLED,
           }}
         >
-          <AnalyticsProvider>
+          <AnalyticsProvider options={{ enabled: TRACKING_ENABLED }}>
             <LogsProvider>
               <TagsProvider>
                 <TemporaryLogProvider>
