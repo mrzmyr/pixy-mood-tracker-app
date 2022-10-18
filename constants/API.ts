@@ -1,7 +1,9 @@
 export const FEEDBACK_URL = `https://eocfnkx0gbrjzvp.m.pipedream.net`
 export const STATISTICS_FEEDBACK_URL = `https://eoupo57tzejgnqq.m.pipedream.net`
 export const QUESTION_SUBMIT_URL = `https://eod7mfqgj8fcpa1.m.pipedream.net`
-export const QUESTIONS_PULL_URL = `https://pixy.day/api/questions`
+export const QUESTIONS_PULL_URL = __DEV__ ?
+`https://pixy.day/api/questions` :
+`https://pixy.day/api/questions`
 
 export const POSTHOG_API_KEY = __DEV__ ? 
   `phc_mEJoueVh7YOc5dPgnx69dmHaPjrRHdUoFcLg25P53km` :

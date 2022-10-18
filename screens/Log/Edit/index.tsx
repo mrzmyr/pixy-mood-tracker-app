@@ -23,6 +23,8 @@ import { SlideRating } from './SlideRating';
 import { SlideReminder } from './SlideReminder';
 import { SlideTags } from './SlideTags';
 import { Stepper } from './Stepper';
+import semver from 'semver'
+import pkg from '../../../package.json';
 
 const SLIDE_INDEX_MAPPING = {
   rating: 0,
@@ -66,9 +68,14 @@ export const LogEdit = ({ navigation, route }: RootStackScreenProps<'LogEdit'>) 
       .then(response => response.json())
       .then(data => {
         const question = data.find((question: IQuestion) => {
+          const satisfiesVersion = question.appVersion ? semver.satisfies(pkg.version, question.appVersion) : true
+          const hasBeenAnswered = hasActionDone(`question_slide_${question.id}`)
+          const isInMyLanguage = question.text[language] !== undefined
+
           return (
-            !hasActionDone(`question_slide_${question.id}`) &&
-            question.text[language]
+            satisfiesVersion &&
+            !hasBeenAnswered &&
+            isInMyLanguage
           )
         })
         if(question && isMounted) {
@@ -247,7 +254,6 @@ export const LogEdit = ({ navigation, route }: RootStackScreenProps<'LogEdit'>) 
   }
 
   if(
-    Object.keys(logState.items).length % 2 === 0 && 
     question !== null &&
     existingLogItem === undefined
   ) {
@@ -255,10 +261,7 @@ export const LogEdit = ({ navigation, route }: RootStackScreenProps<'LogEdit'>) 
       slide: (
         <SlideQuestion
           question={question}
-          onPress={async () => {
-            save()
-          }}
-          marginTop={marginTop} 
+          onPress={save}
         />
       ),
       action: <SlideAction type="hidden" />

@@ -10,6 +10,7 @@ import { SlideHeadline } from "./SlideHeadline";
 
 export interface IQuestion {
   id: string;
+  appVersion: string;
   text: {
     en: string;
     de?: string;
@@ -100,11 +101,9 @@ const AnswerSelector = ({
 }
 
 export const SlideQuestion = ({
-  marginTop,
   question,
   onPress,
 }: {
-  marginTop,
   question: IQuestion,
   onPress: () => void,
 }) => {
