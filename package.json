@@ -3,7 +3,7 @@
   "version": "1.44.0",
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
-    "start": "expo start",
+    "start": "expo start --dev-client",
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
@@ -11,7 +11,11 @@
     "test": "jest --watchAll --env=jsdom",
     "disclaimer": "echo \"export default \\`$(yarn licenses generate-disclaimer | sed 's/\\`/\\\\`/g')\\`\" > disclaimer.js",
     "bump": "npx standard-version",
-    "build": "eas build -p ios --local && eas build -p android --local",
+    "build:ios:dev": "eas build -p ios --local --profile=development",
+    "build:android:dev": "eas build -p android --local --profile=development",
+    "buiild:ios:prod": "eas build -p ios --local --profile=production",
+    "build:android:prod": "eas build -p android --local --profile=production",
+    "build": "eas build -p ios --local --profile=production && eas build -p android --local --profile=production",
     "submit": "eas submit -p ios --path $(ls -t *.ipa | head -1) && eas submit -p android --path $(ls -t *.aab | head -1)",
     "translate-app": "node scripts/generate-translations-app.js"
   },
@@ -45,6 +49,7 @@
     "expo-application": "~4.2.2",
     "expo-asset": "~8.6.1",
     "expo-constants": "~13.2.4",
+    "expo-dev-client": "~1.3.1",
     "expo-device": "~4.3.0",
     "expo-document-picker": "~10.3.0",
     "expo-file-system": "~14.1.0",
@@ -79,6 +84,7 @@
     "react-native-style-utilities": "^1.0.1",
     "react-native-svg": "12.3.0",
     "react-native-web": "~0.18.7",
+    "semver": "^7.3.8",
     "sentry-expo": "~5.0.0",
     "use-debounce": "^7.0.1",
     "uuid": "^8.3.2"
@@ -86,6 +92,7 @@
   "devDependencies": {
     "@babel/core": "^7.18.6",
     "@babel/preset-react": "^7.18.6",
+    "@expo/config-types": "^46.0.2",
     "@google-cloud/translate": "^6.3.1",
     "@testing-library/dom": "^8.11.1",
     "@testing-library/jest-native": "^4.0.4",
