@@ -44,7 +44,7 @@ export default function TextArea({
         paddingTop: 16,
         padding: 16,
         fontSize: 17,
-        height: 500,
+        height: '100%',
         width: '100%',
         borderRadius: 8,
         ...style,
