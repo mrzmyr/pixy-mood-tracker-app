@@ -10,6 +10,7 @@ export function Scale({
 }) {
   const colors = useColors();
   const scaleColors = colors.scales[type];
+  const scaleKeys = RATING_KEYS.slice().reverse()
 
   return (
     <View
@@ -20,7 +21,7 @@ export function Scale({
         justifyContent: 'space-between',
       }}
     >
-      {RATING_KEYS.map((key, index) => (
+      {scaleKeys.map((key, index) => (
         <ColorDot
           key={key}
           color={scaleColors[key].background} />

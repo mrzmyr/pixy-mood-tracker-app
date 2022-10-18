@@ -211,5 +211,6 @@
   "reset_factory_confirm_title": "Restablecer todos los datos y configuraciones",
   "reset_factory_confirm_message": "¿Está seguro de que desea restablecer todos los datos y configuraciones?",
   "colors": "Colores",
-  "colors_info": "Los colores se utilizan para indicar el estado de ánimo en el calendario. Su estado de ánimo anterior cambiará al color seleccionado."
+  "colors_info": "Los colores se utilizan para indicar el estado de ánimo en el calendario. Su estado de ánimo anterior cambiará al color seleccionado.",
+  "colors_reset": "Restablecen a los predeterminados"
 }

@@ -211,5 +211,6 @@
   "reset_factory_confirm_title": "すべてのデータと設定をリセットする",
   "reset_factory_confirm_message": "すべてのデータと設定をリセットしてもよろしいですか?",
   "colors": "色",
-  "colors_info": "カレンダーの雰囲気を色で表現。以前の気分が選択した色に切り替わります。"
+  "colors_info": "カレンダーの雰囲気を色で表現。以前の気分が選択した色に切り替わります。",
+  "colors_reset": "デフォルトにリセット"
 }

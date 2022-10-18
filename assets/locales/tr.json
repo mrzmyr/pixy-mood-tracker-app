@@ -211,5 +211,6 @@
   "reset_factory_confirm_title": "Tüm verileri ve ayarları sıfırla",
   "reset_factory_confirm_message": "Tüm verileri ve ayarları sıfırlamak istediğinizden emin misiniz?",
   "colors": "Renkler",
-  "colors_info": "Renkler, takvimdeki ruh halini belirtmek için kullanılır. Önceki ruh haliniz seçilen renge geçecektir."
+  "colors_info": "Renkler, takvimdeki ruh halini belirtmek için kullanılır. Önceki ruh haliniz seçilen renge geçecektir.",
+  "colors_reset": "Varsayılana sıfırla"
 }

@@ -211,5 +211,6 @@
   "reset_factory_confirm_title": "Tilbakestill alle data og innstillinger",
   "reset_factory_confirm_message": "Er du sikker på at du vil tilbakestille alle data og innstillinger?",
   "colors": "Farger",
-  "colors_info": "Farger brukes for å indikere stemningen i kalenderen. Din forrige stemning vil bli byttet til den valgte fargen."
+  "colors_info": "Farger brukes for å indikere stemningen i kalenderen. Din forrige stemning vil bli byttet til den valgte fargen.",
+  "colors_reset": "Tilbakestill til standard"
 }

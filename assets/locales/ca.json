@@ -211,5 +211,6 @@
   "reset_factory_confirm_title": "Restableix totes les dades i la configuració",
   "reset_factory_confirm_message": "Esteu segur que voleu restablir totes les dades i la configuració?",
   "colors": "Colors",
-  "colors_info": "Els colors s'utilitzen per indicar l'estat d'ànim al calendari. El vostre estat d'ànim anterior es canviarà al color seleccionat."
+  "colors_info": "Els colors s'utilitzen per indicar l'estat d'ànim al calendari. El vostre estat d'ànim anterior es canviarà al color seleccionat.",
+  "colors_reset": "Restableix els valors predeterminats"
 }

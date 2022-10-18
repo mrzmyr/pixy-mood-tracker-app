@@ -211,5 +211,6 @@
   "reset_factory_confirm_title": "Obnovte všetky údaje a nastavenia",
   "reset_factory_confirm_message": "Naozaj chcete obnoviť všetky údaje a nastavenia?",
   "colors": "Farby",
-  "colors_info": "Farby sa používajú na označenie nálady v kalendári. Vaša predchádzajúca nálada sa prepne na zvolenú farbu."
+  "colors_info": "Farby sa používajú na označenie nálady v kalendári. Vaša predchádzajúca nálada sa prepne na zvolenú farbu.",
+  "colors_reset": "Obnoviť pôvodné nastavenia"
 }

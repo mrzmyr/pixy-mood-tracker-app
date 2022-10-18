@@ -211,5 +211,6 @@
   "reset_factory_confirm_title": "Resetați toate datele și setările",
   "reset_factory_confirm_message": "Sigur doriți să resetați toate datele și setările?",
   "colors": "Culori",
-  "colors_info": "Culorile sunt folosite pentru a indica starea de spirit din calendar. Starea ta anterioară va fi schimbată la culoarea selectată."
+  "colors_info": "Culorile sunt folosite pentru a indica starea de spirit din calendar. Starea ta anterioară va fi schimbată la culoarea selectată.",
+  "colors_reset": "Resetare la valorile implicite"
 }

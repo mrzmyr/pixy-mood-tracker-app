@@ -211,5 +211,6 @@
   "reset_factory_confirm_title": "Alle Daten & Einstellungen zurücksetzen",
   "reset_factory_confirm_message": "Möchten Sie wirklich alle Daten und Einstellungen zurücksetzen?",
   "colors": "Farben",
-  "colors_info": "Farben werden verwendet, um die Stimmung im Kalender anzuzeigen. Ihre vorherige Stimmung wird auf die ausgewählte Farbe umgestellt."
+  "colors_info": "Farben werden verwendet, um die Stimmung im Kalender anzuzeigen. Ihre vorherige Stimmung wird auf die ausgewählte Farbe umgestellt.",
+  "colors_reset": "Zurücksetzen"
 }

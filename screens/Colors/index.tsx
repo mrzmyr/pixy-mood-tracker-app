@@ -1,9 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { ScrollView, View } from 'react-native';
+import MenuList from '../../components/MenuList';
+import MenuListHeadline from '../../components/MenuListHeadline';
+import MenuListItem from '../../components/MenuListItem';
 import TextInfo from '../../components/TextInfo';
 import { useAnalytics } from '../../hooks/useAnalytics';
 import useColors from '../../hooks/useColors';
-import useHaptics from '../../hooks/useHaptics';
 import { useSettings } from '../../hooks/useSettings';
 import { useTranslation } from '../../hooks/useTranslation';
 import { Radio } from './Radio';
@@ -11,26 +13,38 @@ import { Scale } from './Scale';
 
 export const ColorsScreen = ({ navigation }) => {
   const { setSettings, settings } = useSettings()
-  const i18n = useTranslation()
+  const { t } = useTranslation()
   const colors = useColors()
-  const haptics = useHaptics()
   const analytics = useAnalytics()
   
   const [scaleType, setScaleType] = useState(settings.scaleType)
   
-  const typesNames = [
-    `ColorBrew-RdYlGn`,
-    `ColorBrew-RdYlGn-old`,
-    `ColorBrew-PuOr`,
-    // `ColorBrew-PiYG`,
-    // 'ColorBrew-BrBG',
-  ]
+  const typesNames = [{
+    id: `ColorBrew-RdYlGn`,
+    disabled: false,
+  }, {
+    id: `ColorBrew-RdYlGn-old`,
+    disabled: false,
+  }, {
+    id: `ColorBrew-PuOr`,
+    disabled: true,
+  }, {
+    id: `ColorBrew-BrBG`,
+    disabled: true,
+  }, {
+    id: `ColorBrew-RdYG`,
+    disabled: false,
+  }]
 
   useEffect(() => {
     setSettings(settings => ({  ...settings, scaleType }))
     analytics.track('colors_scale_changed', { scaleType })
   }, [scaleType])
 
+  const onSelect = useCallback((id) => {
+    setScaleType(id)
+  }, [])
+  
   return (
     <View style={{ 
       flex: 1,
@@ -41,19 +55,34 @@ export const ColorsScreen = ({ navigation }) => {
         padding: 20,
       }}
       >
-        {typesNames.map(type => (
+        {typesNames.filter(d => !d.disabled).map(type => (
             <Radio
-              key={type}
-              isSelected={type === scaleType}
-              onPress={async () => {
-                await haptics.selection()
-                setScaleType(type)
-              }}
+              key={type.id}
+              isSelected={type.id === scaleType}
+              onPress={() => onSelect(type.id)}
+              isDisabled={type.disabled}
             >
-              <Scale type={type} />
+              <Scale type={type.id} />
             </Radio>
           )
         )}
+        <TextInfo>{t('colors_info')}</TextInfo>
+        <MenuListHeadline>Coming Soon…</MenuListHeadline>
+        <View
+          style={{
+          }}
+        >
+          {typesNames.filter(d => d.disabled).map(type => (
+            <Radio
+              key={type.id}
+              isSelected={type.id === scaleType}
+              onPress={() => onSelect(type.id)}
+              isDisabled={type.disabled}
+            >
+              <Scale type={type.id} />
+            </Radio>
+          ))}
+        </View>
         <View
           style={{
             marginBottom: 8,
@@ -61,8 +90,20 @@ export const ColorsScreen = ({ navigation }) => {
             alignItems: 'center',
           }}
         >
-          <TextInfo>{i18n.t('colors_info')}</TextInfo>
         </View>
+        <MenuList
+          style={{
+            marginTop: 16,
+          }}
+        >
+          <MenuListItem
+            title={t('colors_reset')}
+            onPress={() => {
+              setScaleType(typesNames[0].id)
+            }}
+            isLast
+          />
+        </MenuList>
       </ScrollView>
     </View>
   );

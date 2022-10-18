@@ -211,5 +211,6 @@
   "reset_factory_confirm_title": "모든 데이터 및 설정 재설정",
   "reset_factory_confirm_message": "모든 데이터와 설정을 재설정하시겠습니까?",
   "colors": "그림 물감",
-  "colors_info": "색상은 달력의 분위기를 나타내는 데 사용됩니다. 선택한 색상으로 이전 기분이 전환됩니다."
+  "colors_info": "색상은 달력의 분위기를 나타내는 데 사용됩니다. 선택한 색상으로 이전 기분이 전환됩니다.",
+  "colors_reset": "기본값으로 재설정"
 }

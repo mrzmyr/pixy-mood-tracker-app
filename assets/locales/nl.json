@@ -211,5 +211,6 @@
   "reset_factory_confirm_title": "Alle gegevens en instellingen resetten",
   "reset_factory_confirm_message": "Weet je zeker dat je alle gegevens en instellingen wilt resetten?",
   "colors": "Kleuren",
-  "colors_info": "Kleuren worden gebruikt om de stemming in de kalender aan te geven. Je vorige stemming wordt overgeschakeld naar de geselecteerde kleur."
+  "colors_info": "Kleuren worden gebruikt om de stemming in de kalender aan te geven. Je vorige stemming wordt overgeschakeld naar de geselecteerde kleur.",
+  "colors_reset": "Reset naar standaard"
 }

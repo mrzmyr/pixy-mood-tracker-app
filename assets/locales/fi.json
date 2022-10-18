@@ -211,5 +211,6 @@
   "reset_factory_confirm_title": "Nollaa kaikki tiedot ja asetukset",
   "reset_factory_confirm_message": "Haluatko varmasti nollata kaikki tiedot ja asetukset?",
   "colors": "värit",
-  "colors_info": "Kalenterin tunnelmaa käytetään väreillä. Edellinen mielialasi vaihtuu valittuun väriin."
+  "colors_info": "Kalenterin tunnelmaa käytetään väreillä. Edellinen mielialasi vaihtuu valittuun väriin.",
+  "colors_reset": "Palauta oletusarvo"
 }
