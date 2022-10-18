@@ -26,6 +26,10 @@ export const TAG_COLOR_NAMES = [
   "rose",
 ];
 
+export const ONE_SIGNAL_APP_ID = __DEV__ ? 
+  '327083eb-0d08-4756-9198-e3a74b44c749' :
+  'af6f9231-d9b0-4b52-9ab9-ef16e437718e';
+
 export const TRACKING_ENABLED = !__DEV__;
 
 export const NAVIGATION_LINKING = {

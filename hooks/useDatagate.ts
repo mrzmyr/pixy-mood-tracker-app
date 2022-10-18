@@ -3,8 +3,8 @@ import dayjs from "dayjs";
 import * as DocumentPicker from "expo-document-picker";
 import * as FileSystem from "expo-file-system";
 import * as Sharing from "expo-sharing";
-import _ from "lodash";
 import { Alert, Platform } from "react-native";
+import OneSignal from 'react-native-onesignal';
 import { getJSONSchemaType, ImportData } from "../helpers/Import";
 import { migrateImportData } from "../helpers/Migration";
 import pkg from '../package.json';
@@ -85,6 +85,7 @@ export const useDatagate = (): {
     resetData()
     resetSettings();
     analytics.reset()
+    OneSignal.removeExternalUserId();
   };
 
   const askToImport = () => {

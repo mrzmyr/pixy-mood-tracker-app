@@ -1,4 +1,4 @@
-import { ExpoConfig } from '@expo/config-types';
+import { ExpoConfig, ConfigContext } from '@expo/config';
 import pkg from './package.json';
 
 const CONFIG = {
@@ -59,6 +59,12 @@ const CONFIG = {
     "playStoreUrl": "https://play.google.com/store/apps/details?id=com.devmood.pixymoodtracker"
   },
   "plugins": [
+    [
+      "onesignal-expo-plugin",
+      {
+        mode: "development",
+      }
+    ],
     "sentry-expo",
     "expo-notifications",
     [
@@ -66,7 +72,7 @@ const CONFIG = {
       {
         "appleTeamId": "8VVNC4724B"
       }
-    ]
+    ],
   ],
   "runtimeVersion": {
     "policy": "sdkVersion"
@@ -78,7 +84,7 @@ const CONFIG = {
   }
 }
 
-export default ({ config }): ExpoConfig => {
+export default ({ config }: ConfigContext): ExpoConfig => {
   const _config = { ...CONFIG };
   
   const isDevClient = process.env.DEV_CLIENT === 'true';

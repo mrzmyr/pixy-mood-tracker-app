@@ -8624,7 +8624,7 @@ internal-slot@^1.0.3:
     has "^1.0.3"
     side-channel "^1.0.4"
 
-invariant@^2.2.4:
+invariant@^2.2.2, invariant@^2.2.4:
   version "2.2.4"
   resolved "https://registry.yarnpkg.com/invariant/-/invariant-2.2.4.tgz#610f3c92c9359ce1db616e538008d23ff35158e6"
   integrity sha512-phJfQVBuaJM5raOpJjSfkiD6BpbCE4Ns//LaXl6wGYtUBY83nWS6Rf9tXm2e8VaK60JEjYldbPif/A2B1C2gNA==
@@ -11409,6 +11409,13 @@ once@^1.3.0, once@^1.3.1, once@^1.4.0:
   dependencies:
     wrappy "1"
 
+onesignal-expo-plugin@^1.1.2:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/onesignal-expo-plugin/-/onesignal-expo-plugin-1.1.2.tgz#8e6a6369b78ddf1494821a64b0467ebe9f8ba109"
+  integrity sha512-Ls1NxUEfnM5CB5xsM0SfUCo8yY0rbWIRwc48tWxIrsYGVBf8892qG/mYaiZjSsvk7IAagejrazQOM1u9Lp6F0w==
+  dependencies:
+    xcode "^3.0.1"
+
 onetime@^2.0.0:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/onetime/-/onetime-2.0.1.tgz#067428230fd67443b2794b22bba528b6867962d4"
@@ -12765,6 +12772,13 @@ react-native-markdown-display@^7.0.0-alpha.2:
     markdown-it "^10.0.0"
     prop-types "^15.7.2"
     react-native-fit-image "^1.5.5"
+
+react-native-onesignal@^4.4.1:
+  version "4.4.1"
+  resolved "https://registry.yarnpkg.com/react-native-onesignal/-/react-native-onesignal-4.4.1.tgz#c79c94ea8622012adcd3d1e36ba91be6fa126453"
+  integrity sha512-vbS0E2TO5KljT0l1nAce04aOZF6FLv9oUaliffhFQR92oTHAbwNmwwMpxZF6CIcNANDDKkYtKPw5h7baUxmQdw==
+  dependencies:
+    invariant "^2.2.2"
 
 react-native-reanimated-carousel@^3.0.5:
   version "3.0.5"

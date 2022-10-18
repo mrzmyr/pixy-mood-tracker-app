@@ -1,10 +1,8 @@
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { useCallback, useEffect, useMemo } from 'react';
-import { Platform, Pressable, Text, useColorScheme, View } from 'react-native';
-import { ArrowLeft, Calendar as CalendarIcon, PieChart, Settings as SettingsIcon } from 'react-native-feather';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useEffect } from 'react';
+import { Platform, useColorScheme } from 'react-native';
+import OneSignal from 'react-native-onesignal';
 import useColors from '../hooks/useColors';
 import { useTranslation } from '../hooks/useTranslation';
 import {
@@ -15,27 +13,25 @@ import {
   LogView,
   NotFoundScreen,
   PrivacyScreen,
-  ReminderScreen, SettingsScreen, StatisticsHighlights, StatisticsScreen, TagCreate, TagEdit
+  ReminderScreen, SettingsScreen, StatisticsHighlights, TagCreate, TagEdit
 } from '../screens';
 import { RootStackParamList } from '../types';
 
 import { enableScreens } from 'react-native-screens';
-import LinkButton from '../components/LinkButton';
 import Providers from '../components/Providers';
 import Colors from '../constants/Colors';
-import { NAVIGATION_LINKING } from '../constants/Config';
+import { NAVIGATION_LINKING, ONE_SIGNAL_APP_ID } from '../constants/Config';
 import { useAnalytics } from '../hooks/useAnalytics';
 import { useAnonymizer } from '../hooks/useAnonymizer';
-import { useCalendarFilters } from '../hooks/useCalendarFilters';
-import useHaptics from '../hooks/useHaptics';
 import { useLogState } from '../hooks/useLogs';
 import { useSettings } from '../hooks/useSettings';
 import { useTagsState } from '../hooks/useTags';
 import { getItemsCoverage } from '../lib/utils';
-import CalendarScreen from '../screens/Calendar';
 import { DevelopmentStatistics } from '../screens/DevelopmentStatistics';
 import { Onboarding } from '../screens/Onboarding';
 import { Tags } from '../screens/Tags';
+import { BackButton } from './BackButton';
+import { BottomTabs } from './BottomTabs';
 
 enableScreens();
 
@@ -64,213 +60,6 @@ export default function Navigation() {
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
-
-const ROUTES = [
-  {
-    name: 'Statistics',
-    component: StatisticsScreen,
-    icon: PieChart,
-    path: 'statistics',
-  },
-  {
-    name: 'Calendar',
-    component: CalendarScreen,
-    icon: CalendarIcon,
-    path: 'calendar',
-  },
-  {
-    name: 'Settings',
-    component: SettingsScreen,
-    icon: SettingsIcon,
-    path: 'settings',
-  }
-];
-
-function MyTabBar({ state, descriptors, navigation }) {
-  const colors = useColors()
-  const insets = useSafeAreaInsets();
-  const haptics = useHaptics();
-  const { t } = useTranslation()
-  
-  return (
-    <View 
-      style={{ 
-        flexDirection: 'row',
-        marginBottom: insets.bottom,
-        borderTopColor: colors.headerBorder,
-        borderTopWidth: 1,
-      }}
-    >
-      {state.routes.map((route, index) => {
-        const { options } = descriptors[route.key];
-        const label = route.name;
-        const isFocused = state.index === index;
-
-        const onPress = () => {
-          const event = navigation.emit({
-            type: 'tabPress',
-            target: route.key,
-            canPreventDefault: true,
-          });
-
-          if (!isFocused && !event.defaultPrevented) {
-            // The `merge: true` option makes sure that the params inside the tab screen are preserved
-            navigation.navigate({ name: route.name, merge: true });
-          }
-        };
-
-        const Icon = ROUTES.find(r => r.name === route.name)?.icon;
-        
-        const accessibilityState = useMemo(() => ({
-          selected: isFocused,
-        }), [isFocused]);
-        
-        const _onPress = useCallback(async () => {
-          await haptics.selection();
-          onPress?.();
-        }, [onPress, haptics]);
-        
-        return (
-          <Pressable
-            key={route.key}
-            accessibilityRole="button"
-            accessibilityState={accessibilityState}
-            accessibilityLabel={options.tabBarAccessibilityLabel}
-            testID={options.tabBarTestID}
-            onPress={_onPress}
-            style={{ 
-              flex: 1,
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}
-          >
-            <View
-              style={{
-                backgroundColor: isFocused ? colors.tabsTextActive : 'transparent',
-                width: '50%',
-                height: 2,
-                marginTop: -1,
-                marginBottom: 4,
-              }}
-            />
-            <Icon width={20} color={isFocused ? colors.tabsIconActive : colors.tabsIconInactive} />
-            <Text 
-              style={{ 
-                color: isFocused ? colors.tabsTextActive : colors.tabsTextInactive,
-                fontSize: 12,
-                fontWeight: '700',
-                marginTop: 2,
-                marginBottom: 4,
-              }}
-            >{t(label.toLowerCase())}</Text>
-          </Pressable>
-        );
-      })}
-    </View>
-  );
-}
-
-const BackButton = ({ 
-  testID,
-}: { 
-  testID?: string,
-}) => {
-  const navigation = useNavigation()
-  const colors = useColors()
-  
-  return (
-    <Pressable
-      style={{
-        padding: 15,
-        marginLeft: 5,
-      }}
-      onPress={() => navigation.goBack()}
-      testID={testID}
-    >
-      <ArrowLeft width={24} color={colors.text} />
-    </Pressable>
-  );
-}
-
-const Tab = createBottomTabNavigator();
-
-const BottomTabs = () => {
-  const colors = useColors();
-  const { t } = useTranslation()
-  const calendarFilters = useCalendarFilters()
-
-  const defaultOptions = {
-    headerTintColor: colors.text,
-    headerStyle: {
-      backgroundColor: colors.background,
-      shadowColor: 'transparent',
-      borderBottomWidth: 1,
-      borderBottomColor: colors.headerBorder,
-    },
-    headerShadowVisible: Platform.OS !== 'web',
-    tabBarStyle: {
-      borderTopColor: colors.headerBorder,
-    },
-  }
-  
-  return (
-    <Tab.Navigator
-      initialRouteName="Calendar"
-      screenOptions={({ route }) => ({
-        headerStyle: {
-          borderBottomColor: '#fff',
-        },
-      })}
-      tabBar={props => <MyTabBar {...props} />}
-    >
-      <Tab.Screen
-        name="Statistics"
-        component={StatisticsScreen}
-        options={({ navigation }) => ({
-          ...defaultOptions,
-          headerShown: false,
-          tabBarTestID: 'statistics',
-          title: t('statistics'),
-        })}
-      />
-      <Tab.Screen
-        name="Calendar"
-        component={CalendarScreen}
-        options={({ navigation }) => ({
-          ...defaultOptions,
-          headerRight: () => (
-            <View style={{ paddingRight: 16 }}>
-              <LinkButton 
-                onPress={() => {
-                  if(calendarFilters.isOpen) {
-                    calendarFilters.close()
-                  } else {
-                    calendarFilters.open()
-                  }
-                }} 
-                testID="filters" 
-                type='primary'
-              >{t('calendar_filters')} {calendarFilters.data.isFiltering ? `(${calendarFilters.data.filterCount})` : ''}</LinkButton>
-            </View>
-          ),
-          tabBarTestID: 'calendar',
-          title: t('calendar'),
-        })}
-      />
-      <Tab.Screen
-        name="Settings"
-        component={SettingsScreen}
-        options={({ navigation }) => ({
-          ...defaultOptions,
-          headerShown: false,
-          tabBarTestID: 'settings',
-          title: t('settings'),
-        })}
-      />
-    </Tab.Navigator>
-  );
-}
-
 function RootNavigator() {
   const colors = useColors();
   const i18n = useTranslation()
@@ -297,6 +86,12 @@ function RootNavigator() {
   }
   
   useEffect(() => {
+    OneSignal.setAppId(ONE_SIGNAL_APP_ID);
+    
+    if(settings.loaded) {
+      OneSignal.setExternalUserId(settings.deviceId)
+    }
+    
     if(settings.loaded && !hasActionDone('onboarding')) {
       navigation.navigate('Onboarding')
     }
