@@ -2,6 +2,38 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.45.0](https://github.com/mrzmyr/pixy-mood-tracker/compare/v1.44.0...v1.45.0) (2022-10-19)
+
+
+### Features
+
+* add `dev-client` ([8a04b73](https://github.com/mrzmyr/pixy-mood-tracker/commit/8a04b739c47d6fa630dc8f05be0892b808602629))
+* add new colors ([318c8df](https://github.com/mrzmyr/pixy-mood-tracker/commit/318c8dffcb07113e22628d6195ab7cf44cb86413))
+* add one more color ([1acf977](https://github.com/mrzmyr/pixy-mood-tracker/commit/1acf977de50cae5eaf0ad211366dc70b45586782))
+* add OneSignal ([bf05d63](https://github.com/mrzmyr/pixy-mood-tracker/commit/bf05d632a01eab87ef4555f9a4a99dd30c4854c3))
+* appVersion condition on questions ([6f3a1fa](https://github.com/mrzmyr/pixy-mood-tracker/commit/6f3a1fae553b337f5b63b315d38b6e1cc241f68f))
+* **TagsDistribution:** click to open filter view ([74dcdd9](https://github.com/mrzmyr/pixy-mood-tracker/commit/74dcdd91e21b6229c316f4770d414b793c55058e))
+* update dev icon ([26e22a6](https://github.com/mrzmyr/pixy-mood-tracker/commit/26e22a635a5dfedf95751cb0c983a496da1c6fd9))
+
+
+### Bug Fixes
+
+* fix trackingEnabled from settings ([be03481](https://github.com/mrzmyr/pixy-mood-tracker/commit/be03481102a38abd09acebd1a6fc11e3bbf853b0))
+* scroll issue in feedback form ([567fe28](https://github.com/mrzmyr/pixy-mood-tracker/commit/567fe288e571b2705fdbbf1360678044da0311bd))
+
+
+### Refactors
+
+* add `useQuestioner` ([5e4650b](https://github.com/mrzmyr/pixy-mood-tracker/commit/5e4650b16f601635672c22336b5984ad4854da0a))
+* move alerts to prompts helper ([805d99d](https://github.com/mrzmyr/pixy-mood-tracker/commit/805d99d0657d8a9f228f4a5b38afdc47c3fb2d26))
+* move useTranslation to helpers ([53422a8](https://github.com/mrzmyr/pixy-mood-tracker/commit/53422a82e2c4a5006c7e3458f0c17d98343e0e79))
+
+
+### Chore
+
+* add build for simulator command ([c1f378b](https://github.com/mrzmyr/pixy-mood-tracker/commit/c1f378b4e535f8efb4331ebdfd177be3aeeae600))
+* show info about build ([cc8d378](https://github.com/mrzmyr/pixy-mood-tracker/commit/cc8d37868188537c3ee0aedcdc5353eb09bc4fb4))
+
 ## [1.44.0](https://github.com/mrzmyr/pixy-mood-tracker/compare/v1.43.0...v1.44.0) (2022-10-17)
 
 
