@@ -4,12 +4,12 @@ import { ReactElement, useEffect, useRef, useState } from 'react';
 import { Dimensions, Keyboard, Platform, View } from 'react-native';
 import Carousel from 'react-native-reanimated-carousel';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import Alert from '../../../components/Alert';
-import { QUESTIONS_PULL_URL } from '../../../constants/API';
+import { askToCancel, askToRemove } from '../../../helpers/prompts';
 import { useAnalytics } from '../../../hooks/useAnalytics';
 import { useAnonymizer } from '../../../hooks/useAnonymizer';
 import useColors from '../../../hooks/useColors';
 import { LogItem, useLogState, useLogUpdater } from '../../../hooks/useLogs';
+import { IQuestion, useQuestioner } from '../../../hooks/useQuestioner';
 import { useSettings } from '../../../hooks/useSettings';
 import { useTagsState } from '../../../hooks/useTags';
 import { useTemporaryLog } from '../../../hooks/useTemporaryLog';
@@ -17,15 +17,11 @@ import { RootStackScreenProps } from '../../../types';
 import { SlideAction } from './SlideAction';
 import { SlideHeader } from './SlideHeader';
 import { SlideNote } from './SlideNote';
-import { IQuestion, SlideQuestion } from './SlideQuestion';
+import { SlideQuestion } from './SlideQuestion';
 import { SlideRating } from './SlideRating';
 import { SlideReminder } from './SlideReminder';
 import { SlideTags } from './SlideTags';
 import { Stepper } from './Stepper';
-import semver from 'semver'
-import pkg from '../../../package.json';
-import { language } from '../../../helpers/translation';
-import { askToCancel, askToRemove } from '../../../helpers/prompts';
 
 const SLIDE_INDEX_MAPPING = {
   rating: 0,
@@ -35,11 +31,12 @@ const SLIDE_INDEX_MAPPING = {
 
 export const LogEdit = ({ navigation, route }: RootStackScreenProps<'LogEdit'>) => {
   
-  const { settings, hasActionDone } = useSettings()
+  const { settings } = useSettings()
   const colors = useColors()
   const analytics = useAnalytics()
   const insets = useSafeAreaInsets();
   const { tags } = useTagsState()
+  const questioner = useQuestioner()
 
   const logUpdater = useLogUpdater()
   const logState = useLogState()
@@ -47,54 +44,24 @@ export const LogEdit = ({ navigation, route }: RootStackScreenProps<'LogEdit'>) 
   const { anonymizeTag } = useAnonymizer()
   
   const existingLogItem = logState?.items[route.params.date];
-
-  const defaultLogItem: Omit<LogItem, 'rating'> & {
-    rating: LogItem['rating'] | null
-  } = {
+  const defaultLogItem = {
+    ...tempLog.data,
     date: route.params.date,
-    rating: null,
-    message: '',
-    tags: [],
   }
 
   const [question, setQuestion] = useState<IQuestion | null>(null);
   
   useEffect(() => {
-    let isMounted = true;
-    
     tempLog.set(existingLogItem || defaultLogItem)
-
-    fetch(QUESTIONS_PULL_URL)
-      .then(response => response.json())
-      .then(data => {
-        const question = data.find((question: IQuestion) => {
-          const satisfiesVersion = question.appVersion ? semver.satisfies(pkg.version, question.appVersion) : true
-          const hasBeenAnswered = hasActionDone(`question_slide_${question.id}`)
-          const isInMyLanguage = question.text[language] !== undefined
-
-          return (
-            satisfiesVersion &&
-            !hasBeenAnswered &&
-            isInMyLanguage
-          )
-        })
-        if(question && isMounted) {
-          setQuestion(question)
-        }
-      })
-      .catch(error => console.log(error))
-
-      return () => {
-        isMounted = false;
-      }
+    questioner.getQuestion().then(setQuestion)
   }, [])
 
   useEffect(() => {
-    if(tempLog.data === null) return;
+    if(tempLog.data.date === null) return;
     
     // delete all tags that are not in the settings
     const settingTagIds = tags.map(tag => tag.id)
-    const _tags = tempLog.data.tags.filter(tag => settingTagIds.includes(tag.id))
+    const _tags = tempLog?.data?.tags?.filter(tag => settingTagIds.includes(tag.id))
     tempLog.set(tempLog => ({ ...tempLog, tags: _tags }))
   }, [JSON.stringify(tags)])
 
@@ -105,14 +72,14 @@ export const LogEdit = ({ navigation, route }: RootStackScreenProps<'LogEdit'>) 
   
   const save = () => {
     const eventData = {
-      date: tempLog.data.date,
-      messageLength: tempLog.data.message.length,
-      rating: tempLog.data.rating,
+      date: tempLog?.data?.date,
+      messageLength: tempLog?.data?.message.length,
+      rating: tempLog?.data?.rating,
       tags: tempLog?.data?.tags?.map(tag => anonymizeTag(tag)) || [],
       tagsCount: tempLog?.data?.tags?.length,
     }
     
-    if(tempLog.data.rating === null) {
+    if(tempLog?.data?.rating === null) {
       tempLog.data.rating = 'neutral'
     }
     
@@ -120,10 +87,10 @@ export const LogEdit = ({ navigation, route }: RootStackScreenProps<'LogEdit'>) 
 
     if(existingLogItem) {
       analytics.track('log_changed', eventData)
-      logUpdater.editLog(tempLog.data)
+      logUpdater.editLog(tempLog.data as LogItem)
     } else {
       analytics.track('log_created', eventData)
-      logUpdater.addLog(tempLog.data)
+      logUpdater.addLog(tempLog.data as LogItem)
     }
 
     close()
@@ -131,7 +98,7 @@ export const LogEdit = ({ navigation, route }: RootStackScreenProps<'LogEdit'>) 
 
   const remove = () => {
     analytics.track('log_deleted')
-    logUpdater.deleteLog(tempLog.data)
+    logUpdater.deleteLog(tempLog.data as LogItem)
     close()
   }
 
@@ -164,10 +131,17 @@ export const LogEdit = ({ navigation, route }: RootStackScreenProps<'LogEdit'>) 
   const [slideIndex, setSlideIndex] = useState(initialIndex)
   const [touched, setTouched] = useState(false)
   
-  let marginTop = 32;
+  const next = () => {
+    if(slideIndex + 1 === content.length - 1) {
+      Keyboard.dismiss()
+    }
 
-  if(Dimensions.get('screen').height < 800) marginTop = 32;
-  if(Dimensions.get('screen').height < 700) marginTop = 16;
+    if(slideIndex + 1 === content.length) {
+      save()
+    } else {
+      _carousel.current.next()
+    }
+  }
   
   const content: {
     slide: ReactElement,
@@ -175,7 +149,6 @@ export const LogEdit = ({ navigation, route }: RootStackScreenProps<'LogEdit'>) 
   }[] = [{
       slide: (
         <SlideRating
-          marginTop={marginTop}
           onChange={(rating) => {
             if(tempLog.data.rating !== rating) {
               setTimeout(() => _carousel.current.next(), 200)
@@ -185,9 +158,9 @@ export const LogEdit = ({ navigation, route }: RootStackScreenProps<'LogEdit'>) 
         />
       ),
     }, {
-      slide: <SlideTags marginTop={marginTop} onChange={setTags} />,
+      slide: <SlideTags onChange={setTags} />,
     }, {
-      slide: <SlideNote marginTop={marginTop} onChange={setMessage} />,
+      slide: <SlideNote onChange={setMessage} />,
     }
   ]
 
@@ -199,10 +172,7 @@ export const LogEdit = ({ navigation, route }: RootStackScreenProps<'LogEdit'>) 
     content.push({
       slide: (
         <SlideReminder 
-          onPress={async () => {
-            save()
-          }}
-          marginTop={marginTop} 
+          onPress={next}
         />
       ),
       action: <SlideAction type="hidden" />
@@ -217,7 +187,7 @@ export const LogEdit = ({ navigation, route }: RootStackScreenProps<'LogEdit'>) 
       slide: (
         <SlideQuestion
           question={question}
-          onPress={save}
+          onPress={next}
         />
       ),
       action: <SlideAction type="hidden" />
@@ -231,6 +201,10 @@ export const LogEdit = ({ navigation, route }: RootStackScreenProps<'LogEdit'>) 
       isMounted.current = false
     }
   }, [])
+  
+  const onScrollEnd = () => {
+    Keyboard.dismiss()
+  }
   
   return (
     <View style={{ 
@@ -257,16 +231,8 @@ export const LogEdit = ({ navigation, route }: RootStackScreenProps<'LogEdit'>) 
           title={dayjs(route.params.date).isSame(dayjs(), 'day') ? t('today') : dayjs(route.params.date).format('dddd, L')}
           isDeleteable={existingLogItem !== undefined}
           onClose={() => {
-            const tempLogHasChanges = (
-              tempLog.data.message.length > 0 || 
-              tempLog.data?.tags?.length > 0 ||
-              tempLog.data.rating !== null
-            )
-            const existingLogItemHasChanges = (
-              tempLog.data.message.length !== existingLogItem?.message.length || 
-              tempLog.data?.tags?.length !== existingLogItem?.tags?.length ||
-              tempLog.data.rating !== existingLogItem?.rating
-            )
+            const tempLogHasChanges = tempLog.hasChanged()
+            const existingLogItemHasChanges = tempLog.hasDifference(existingLogItem)
             
             if(
               !existingLogItem && tempLogHasChanges ||
@@ -308,7 +274,7 @@ export const LogEdit = ({ navigation, route }: RootStackScreenProps<'LogEdit'>) 
             onScrollBegin={() => {
               setTouched(true)
             }}
-            // onScrollEnd={onScrollEnd}
+            onScrollEnd={onScrollEnd}
             renderItem={({ index }) => content[index].slide}
             panGestureHandlerProps={{
               activeOffsetX: [-10, 10],
@@ -319,14 +285,9 @@ export const LogEdit = ({ navigation, route }: RootStackScreenProps<'LogEdit'>) 
       {(slideIndex !== 0 || touched) && content[slideIndex] && (
         content[slideIndex].action || (
           slideIndex === content.length - 1 ? (
-            <SlideAction type="save" onPress={save} />
+            <SlideAction type="save" onPress={next} />
           ) : (
-            <SlideAction type="next" onPress={() => {
-              if(slideIndex + 1 === content.length - 1) {
-                Keyboard.dismiss()
-              }
-              _carousel.current.next()
-            }} />
+            <SlideAction type="next" onPress={next} />
           )
         )
       )}

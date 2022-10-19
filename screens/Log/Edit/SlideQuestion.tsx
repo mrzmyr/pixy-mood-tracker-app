@@ -1,30 +1,10 @@
 import { useState } from "react";
-import { Platform, Pressable, Text, View } from "react-native";
-import { QUESTION_SUBMIT_URL } from '../../../constants/API';
-import { language, locale } from "../../../helpers/translation";
+import { Pressable, Text, View } from "react-native";
+import { language } from "../../../helpers/translation";
 import useColors from "../../../hooks/useColors";
 import useHaptics from "../../../hooks/useHaptics";
-import { useSettings } from "../../../hooks/useSettings";
-import pkg from '../../../package.json';
+import { IQuestion, useQuestioner } from "../../../hooks/useQuestioner";
 import { SlideHeadline } from "./SlideHeadline";
-
-export interface IQuestion {
-  id: string;
-  appVersion: string;
-  text: {
-    en: string;
-    de?: string;
-  };
-  type: 'single' | 'multiple';
-  answers: {
-    id: string;
-    emoji: string;
-    text: {
-      en: string;
-      de?: string;
-    } | null;
-  }[]
-}
 
 const AnswerSelector = ({
   answer,
@@ -106,62 +86,13 @@ export const SlideQuestion = ({
   question: IQuestion,
   onPress: () => void,
 }) => {
-  const { addActionDone } = useSettings()
-  const { settings } = useSettings()
+  const questioner = useQuestioner()
   
   const [selectedIds, setSelectedIds] = useState<string[]>([])
-  
-  const question_text = question.text[language] || question.text['en'];
-  
-  const send = async (answers) => {
-    const answer_texts = answers.map(answer => {
-      if(answer.text[language]) {
-        return `${answer.emoji} ${answer.text[language]}`
-      } else {
-        `${answer.emoji} ${answer.text['en']}`
-      }
-    }).join(', ')
     
-    const metaData = {
-      locale: locale,
-      version: pkg.version,
-      os: Platform.OS,
-      deviceId: settings.deviceId,
-    }
-    
-    const body = {
-      date: new Date().toISOString(),
-      language,
-      question_text,
-      answer_texts,
-      answer_ids: answers.map(answer => answer.id).join(', '),
-      question,
-      ...metaData,
-    }
-
-    console.log('Sending Question Feedback', body)
-
-    if(__DEV__) {
-      console.log('Not sending Question Feedback in dev mode')
-      addActionDone(`question_slide_${question.id}`)
-      return
-    }
-    
-    return fetch(QUESTION_SUBMIT_URL, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(body),
-    })
-    .then(() => {
-      addActionDone(`question_slide_${question.id}`)
-    })
-  }
-  
   const onAnswer = (answer: IQuestion['answers'][0]) => {
     setSelectedIds([answer.id])
-    send([answer])
+    questioner.submit(question, [answer])
     onPress()
   }
   
@@ -177,7 +108,7 @@ export const SlideQuestion = ({
           justifyContent: 'center',
         }}
       >
-        <SlideHeadline>{question.text[language] || question.text['en']}</SlideHeadline>
+        <SlideHeadline>{question.text[language] || question.text.en}</SlideHeadline>
         <View
           style={{
             padding: 32,

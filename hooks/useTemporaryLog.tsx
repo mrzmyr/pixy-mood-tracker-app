@@ -3,21 +3,47 @@ import { LogItem } from "./useLogs";
 
 const TemporaryLogStateContext = createContext(undefined);
 
+type State = Omit<LogItem, 'rating' | 'date'> & {
+  rating: LogItem['rating'] | null
+  date: LogItem['date'] | null
+}
+
 type Value = {
-  data: LogItem;
-  set: (log: LogItem | ((log: LogItem) => void)) => void;
+  data: State;
+  set: (log: State | ((log: State) => void)) => void;
   reset: () => void;
+  hasChanged: () => boolean;
+  hasDifference: (log: LogItem) => boolean;
 };
 
-const initialState: LogItem | null = null;
+const initialState: State = {
+  message: "",
+  rating: null,
+  tags: [],
+  date: null,
+};
 
 function TemporaryLogProvider({ children }: { children: React.ReactNode }) {
-  const [temporaryLog, setTemporaryLog] = useState<LogItem>(initialState);
+  const [temporaryLog, setTemporaryLog] = useState<State>(initialState);
 
   const value: Value = {
     data: temporaryLog,
     set: setTemporaryLog,
     reset: () => setTemporaryLog(initialState),
+    hasChanged: () => {
+      return (
+        temporaryLog.message.length > 0 || 
+        temporaryLog?.tags?.length > 0 ||
+        temporaryLog.rating !== null
+      )
+    },
+    hasDifference: (log: LogItem) => {
+      return (
+        temporaryLog.message.length !== log?.message.length || 
+        temporaryLog?.tags?.length !== log?.tags?.length ||
+        temporaryLog.rating !== log?.rating
+      )
+    }
   };
 
   return (
