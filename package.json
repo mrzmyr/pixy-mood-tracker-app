@@ -11,6 +11,7 @@
     "test": "jest --watchAll --env=jsdom",
     "disclaimer": "echo \"export default \\`$(yarn licenses generate-disclaimer | sed 's/\\`/\\\\`/g')\\`\" > disclaimer.js",
     "bump": "npx standard-version",
+    "build:ios:simulator": "eas build -p ios --local --profile=simulator",
     "build:ios:dev": "eas build -p ios --local --profile=development",
     "build:android:dev": "eas build -p android --local --profile=development",
     "buiild:ios:prod": "eas build -p ios --local --profile=production",
