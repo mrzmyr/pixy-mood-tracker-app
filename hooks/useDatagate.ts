@@ -7,6 +7,7 @@ import { Alert, Platform } from "react-native";
 import OneSignal from 'react-native-onesignal';
 import { getJSONSchemaType, ImportData } from "../helpers/Import";
 import { migrateImportData } from "../helpers/Migration";
+import { askToImport, askToReset, showImportError, showImportSuccess, showResetSuccess } from "../helpers/prompts";
 import { t } from "../helpers/translation";
 import pkg from '../package.json';
 import { useAnalytics } from "./useAnalytics";
@@ -87,86 +88,6 @@ export const useDatagate = (): {
     OneSignal.removeExternalUserId();
   };
 
-  const askToImport = () => {
-    return new Promise((resolve, reject) => {
-      Alert.alert(
-        t("import_confirm_title"),
-        t("import_confirm_message"),
-        [
-          {
-            text: t("import_confirm_ok"),
-            onPress: () => resolve({}),
-            style: "destructive",
-          },
-          {
-            text: t("cancel"),
-            onPress: () => reject(),
-            style: "cancel",
-          },
-        ],
-        { cancelable: true }
-      );
-    });
-  };
-
-  const showImportSuccess = () => {
-    Alert.alert(
-      t("import_success_title"),
-      t("import_success_message"),
-      [
-        {
-          text: t("ok"),
-        },
-      ],
-      { cancelable: false }
-    );
-  }
-  
-  const showImportError = () => {
-    Alert.alert(
-      t("import_error_title"),
-      t("import_error_message"),
-      [{ text: t("ok"), onPress: () => {} }],
-      { cancelable: false }
-    );
-  }
-
-  const askToReset = (type: ResetType) => {
-    return new Promise((resolve, reject) => {
-      Alert.alert(
-        t(`reset_${type}_confirm_title`),
-        t(`reset_${type}_confirm_message`),
-        [
-          {
-            text: t("reset"),
-            onPress: () => resolve({}),
-            style: "destructive",
-          },
-          {
-            text: t("cancel"),
-            onPress: () => reject(),
-            style: "cancel",
-          },
-        ],
-        { cancelable: true }
-      );
-    });
-  }
-  
-  const showResetSuccess = (type: ResetType) => {
-    Alert.alert(
-      t(`reset_${type}_success_title`),
-      t(`reset_${type}_success_message`),
-      [
-        {
-          text: t("ok"),
-          onPress: () => {},
-        },
-      ],
-      { cancelable: false }
-    );
-  }
-
   const openImportDialog = async (): Promise<void> => {
     return askToImport()
       .then(async () => {
@@ -204,13 +125,13 @@ export const useDatagate = (): {
       return Promise.resolve();
     }
 
-    return askToReset(type)
+    return askToReset<ResetType>(type)
       .then(() => {
         resetFn()
         analytics.track("data_reset_success", {
           type
         });
-        showResetSuccess(type)
+        showResetSuccess<ResetType>(type)
       })
       .catch(() => {
         analytics.track("data_reset_cancel");

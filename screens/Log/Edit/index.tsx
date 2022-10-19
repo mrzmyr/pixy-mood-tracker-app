@@ -25,6 +25,7 @@ import { Stepper } from './Stepper';
 import semver from 'semver'
 import pkg from '../../../package.json';
 import { language } from '../../../helpers/translation';
+import { askToCancel, askToRemove } from '../../../helpers/prompts';
 
 const SLIDE_INDEX_MAPPING = {
   rating: 0,
@@ -128,50 +129,6 @@ export const LogEdit = ({ navigation, route }: RootStackScreenProps<'LogEdit'>) 
     close()
   }
 
-  const askToRemove = () => {
-    return new Promise((resolve, reject) => {
-      Alert.alert(
-        t('delete_confirm_title'),
-        t('delete_confirm_message'),
-        [
-          {
-            text: t('delete'),
-            onPress: () => resolve({}),
-            style: "destructive"
-          },
-          { 
-            text: t('cancel'), 
-            onPress: () => reject(),
-            style: "cancel"
-          }
-        ],
-        { cancelable: true }
-      );
-    })
-  }
-
-  const askToCancel = () => {
-    return new Promise((resolve, reject) => {
-      Alert.alert(
-        t('cancel_confirm_title'),
-        t('cancel_confirm_message'),
-        [
-          {
-            text: t('discard_changes'),
-            onPress: () => resolve({}),
-            style: "destructive"
-          },
-          { 
-            text: t('keep_editing'), 
-            onPress: () => reject(),
-            style: "cancel"
-          }
-        ],
-        { cancelable: true }
-      );
-    })
-  }
-  
   const remove = () => {
     analytics.track('log_deleted')
     logUpdater.deleteLog(tempLog.data)
