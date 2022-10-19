@@ -1,7 +1,6 @@
 import { Platform, Text, View } from 'react-native';
 import Button from '../../components/Button';
 import useColors from '../../hooks/useColors';
-import { useTranslation } from '../../hooks/useTranslation';
 import { HeaderImage } from './HeaderImage';
 import { HeaderNavigation } from "./HeaderNavigation";
 import Animated, { FadeIn } from 'react-native-reanimated'; 
@@ -12,10 +11,10 @@ import dayjs from 'dayjs';
 import { SettingsState, useSettings } from '../../hooks/useSettings';
 import { useAnalytics } from '../../hooks/useAnalytics';
 import LinkButton from '../../components/LinkButton';
+import { t } from '../../helpers/translation';
 
 const Body = ({ index }: { index: number }) => {
   const colors = useColors()
-  const { t } = useTranslation()
 
   return (
     <View
@@ -57,7 +56,6 @@ export const ReminderSlide = ({
   onSkip: () => void;
 }) => {
   const colors = useColors()
-  const { t } = useTranslation();
   const { setSettings } = useSettings()
   const analytics = useAnalytics()
 

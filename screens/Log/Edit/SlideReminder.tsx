@@ -10,21 +10,20 @@ import useColors from '../../../hooks/useColors';
 import useNotification from '../../../hooks/useNotifications';
 import { useAnalytics } from '../../../hooks/useAnalytics';
 import { SettingsState, useSettings } from '../../../hooks/useSettings';
-import { useTranslation } from '../../../hooks/useTranslation';
 import { SlideHeadline } from './SlideHeadline';
+import { getLogEditMarginTop } from '../../../helpers/responsive';
+import { t } from '../../../helpers/translation';
 
 export const SlideReminder = ({
-  marginTop,
   onPress,
 }: {
-  marginTop: number;
   onPress?: () => void;
 }) => {
-  const { t } = useTranslation()
   const { setSettings } = useSettings()
   const insets = useSafeAreaInsets();
   const analytics = useAnalytics()
   const colors = useColors()
+  const marginTop = getLogEditMarginTop()
 
   const { 
     askForPermission, 

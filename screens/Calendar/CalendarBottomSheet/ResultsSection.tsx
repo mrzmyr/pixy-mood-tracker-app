@@ -1,13 +1,12 @@
 import { Text, View } from 'react-native';
+import { t } from '../../../helpers/translation';
 import useColors from '../../../hooks/useColors';
-import { useTranslation } from '../../../hooks/useTranslation';
 
 export const ResultsSection = ({
   count
 }: {
   count: number;
 }) => {
-  const { t } = useTranslation();
   const colors = useColors();
 
   return (

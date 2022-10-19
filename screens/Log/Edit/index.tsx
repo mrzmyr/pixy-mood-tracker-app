@@ -13,7 +13,6 @@ import { LogItem, useLogState, useLogUpdater } from '../../../hooks/useLogs';
 import { useSettings } from '../../../hooks/useSettings';
 import { useTagsState } from '../../../hooks/useTags';
 import { useTemporaryLog } from '../../../hooks/useTemporaryLog';
-import { useTranslation } from '../../../hooks/useTranslation';
 import { RootStackScreenProps } from '../../../types';
 import { SlideAction } from './SlideAction';
 import { SlideHeader } from './SlideHeader';
@@ -25,6 +24,7 @@ import { SlideTags } from './SlideTags';
 import { Stepper } from './Stepper';
 import semver from 'semver'
 import pkg from '../../../package.json';
+import { language } from '../../../helpers/translation';
 
 const SLIDE_INDEX_MAPPING = {
   rating: 0,
@@ -43,7 +43,6 @@ export const LogEdit = ({ navigation, route }: RootStackScreenProps<'LogEdit'>) 
   const logUpdater = useLogUpdater()
   const logState = useLogState()
   const tempLog = useTemporaryLog();
-  const { language } = useTranslation();
   const { anonymizeTag } = useAnonymizer()
   
   const existingLogItem = logState?.items[route.params.date];

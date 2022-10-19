@@ -2,13 +2,15 @@ import { Pressable, Text } from 'react-native';
 import { Edit2 } from 'react-native-feather';
 import useColors from '../../hooks/useColors';
 import useHaptics from '../../hooks/useHaptics';
-import { useTranslation } from '../../hooks/useTranslation';
 
 export const MiniButton = ({
-  onPress
+  onPress,
+  children,
+}: {
+  onPress: () => void,
+  children: React.ReactNode,
 }) => {
   const colors = useColors();
-  const { t } = useTranslation();
   const haptics = useHaptics();
 
   return (
@@ -43,7 +45,7 @@ export const MiniButton = ({
           color: colors.miniButtonText,
           fontSize: 17,
         }}
-      >{t('tags_edit')}</Text>
+      >{children}</Text>
     </Pressable>
   );
 };

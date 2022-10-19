@@ -1,10 +1,10 @@
 import * as Localization from 'expo-localization';
 import { Alert, Platform } from 'react-native';
 import { FEEDBACK_URL } from '../constants/API';
+import { t } from '../helpers/translation';
 import pkg from '../package.json';
 import { useAnalytics } from './useAnalytics';
 import { useSettings } from './useSettings';
-import { useTranslation } from './useTranslation';
 
 export type FeedackType = 'issue' | 'idea' | 'other' | 'emoji';
 export type FeedbackSource = 'tags' | 'modal' | 'statistics';
@@ -28,8 +28,6 @@ export const useFeedback = () => {
     onOk?: () => void;
     onCancel?: () => void;
   }) => {
-    const { t } = useTranslation()
-    
     const metaData = {
       locale: Localization.locale,
       version: pkg.version,

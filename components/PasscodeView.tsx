@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react';
 import { Text, View } from 'react-native';
+import { t } from '../helpers/translation';
 import useColors from '../hooks/useColors';
-import { useTranslation } from '../hooks/useTranslation';
 import LinkButton from './LinkButton';
 import { PasscodeDots } from './PasscodeDots';
 import { PasscodePad } from './PasscodePad';
@@ -17,7 +17,6 @@ export const PasscodeView = ({
 }) => {
   const [code, setCode] = useState('')
   const colors = useColors();
-  const i18n = useTranslation()
 
   const ref = useRef(null);
   const bounce = () => ref.current.shake();
@@ -41,7 +40,7 @@ export const PasscodeView = ({
           color: colors.text,
           marginBottom: 20,
           fontWeight: 'bold'
-        }}>{i18n.t(`passcode_title_${mode}`)}</Text>
+        }}>{t(`passcode_title_${mode}`)}</Text>
         
         <View
           style={{
@@ -85,7 +84,7 @@ export const PasscodeView = ({
             color: colors.text,
             marginTop: 20,
             textAlign: 'center'
-          }}>{i18n.t(`passcode_forgot`)}</LinkButton>
+          }}>{t(`passcode_forgot`)}</LinkButton>
       </View>
     </View>
   );

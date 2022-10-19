@@ -1,8 +1,8 @@
 import { Text, View } from "react-native";
 import { Card } from "../../components/Statistics/Card";
+import { t } from "../../helpers/translation";
 import useColors from "../../hooks/useColors";
 import { TagsDistributionTrendData } from "../../hooks/useStatistics/TagsDistributionTrend";
-import { useTranslation } from "../../hooks/useTranslation";
 import { CardFeedback } from "./CardFeedback";
 import { TagBar } from "./TagBar";
 
@@ -11,7 +11,6 @@ export const TagsDistributionTrend = ({
 }: {
   tag: TagsDistributionTrendData["tags"][number];
 }) => {
-  const { t } = useTranslation();
   const colors = useColors();
 
   return (

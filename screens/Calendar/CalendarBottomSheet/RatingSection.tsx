@@ -1,9 +1,9 @@
 import { View } from 'react-native';
 import Scale from '../../../components/Scale';
 import TextHeadline from '../../../components/TextHeadline';
+import { t } from '../../../helpers/translation';
 import { LogItem } from '../../../hooks/useLogs';
 import { useSettings } from '../../../hooks/useSettings';
-import { useTranslation } from '../../../hooks/useTranslation';
 
 export const RatingSection = ({
   value, 
@@ -13,7 +13,6 @@ export const RatingSection = ({
   onChange: (value: LogItem['rating']) => void;
 }) => {
   const { settings } = useSettings();
-  const { t } = useTranslation();
 
   return (
     <View

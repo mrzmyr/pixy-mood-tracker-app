@@ -6,15 +6,14 @@ import LinkButton from '../../components/LinkButton';
 import MenuList from '../../components/MenuList';
 import ModalHeader from '../../components/ModalHeader';
 import { MAX_TAGS } from '../../constants/Config';
+import { t } from '../../helpers/translation';
 import useColors from '../../hooks/useColors';
 import { Tag, useTagsState } from '../../hooks/useTags';
-import { useTranslation } from '../../hooks/useTranslation';
 import { RootStackScreenProps } from '../../types';
 import { TagListItem } from './TagListItem';
 
 export const Tags = ({ navigation, route }: RootStackScreenProps<'Tags'>) => {
   const colors = useColors()
-  const { t } = useTranslation()
   const insets = useSafeAreaInsets();
   const { tags } = useTagsState()
 

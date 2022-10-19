@@ -1,10 +1,9 @@
 import { Image, Platform, Text, View } from "react-native"
+import { t } from "../helpers/translation"
 import useColors from "../hooks/useColors"
-import { useTranslation } from "../hooks/useTranslation"
 
 export default function NotificationPreview() {
   const colors = useColors()
-  const i18n = useTranslation()
   
   return (
     <View style={{
@@ -47,9 +46,9 @@ export default function NotificationPreview() {
           alignItems: 'center',
           justifyContent: 'space-between'
         }}>
-          <View><Text style={{ color: colors.text, fontSize: 17, fontWeight: 'bold' }}>{i18n.t('notification_reminder_title')}</Text></View>
+          <View><Text style={{ color: colors.text, fontSize: 17, fontWeight: 'bold' }}>{t('notification_reminder_title')}</Text></View>
         </View>
-        <View><Text style={{ color: colors.text, fontSize: 15, marginTop: 2 }}>{i18n.t('notification_reminder_body')}</Text></View>
+        <View><Text style={{ color: colors.text, fontSize: 15, marginTop: 2 }}>{t('notification_reminder_body')}</Text></View>
       </View>
     </View>
   )

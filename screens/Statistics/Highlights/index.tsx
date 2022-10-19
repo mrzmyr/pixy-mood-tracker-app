@@ -4,19 +4,18 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import useColors from '../../../hooks/useColors';
 import { useAnalytics } from '../../../hooks/useAnalytics';
 import { useStatistics } from '../../../hooks/useStatistics';
-import { useTranslation } from '../../../hooks/useTranslation';
 import { MoodAvgCard } from '../MoodAvgCard';
 import { MoodPeaksCard } from '../MoodPeaksCards';
 import { TagPeaksCard } from '../TagPeaksCards';
 import { TagsDistributionCard } from '../TagsDistributionCard';
 import { Title } from '../Title';
 import { MoodAvgData } from '../../../hooks/useStatistics/MoodAvg';
+import { t } from '../../../helpers/translation';
 
 export const StatisticsHighlights = ({ navigation }) => {
   const insets = useSafeAreaInsets();
   const colors = useColors()
   const analytics = useAnalytics();
-  const { t } = useTranslation();
   const statistics = useStatistics()
 
   const showMoodAvg = statistics.isAvailable("mood_avg")

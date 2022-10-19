@@ -5,11 +5,10 @@ import Markdown from 'react-native-markdown-display';
 import LinkButton from '../components/LinkButton';
 import useColors from '../hooks/useColors';
 import { useAnalytics } from '../hooks/useAnalytics';
-import { useTranslation } from '../hooks/useTranslation';
+import { t } from '../helpers/translation';
 
 export const PrivacyScreen = () => {
   const colors = useColors()
-  const i18n = useTranslation()
   const analytics = useAnalytics()
   
   const _handlePressButtonAsync = async () => {
@@ -47,7 +46,7 @@ export const PrivacyScreen = () => {
             hr: { backgroundColor: colors.text, marginTop: 20, marginBottom: 20, opacity: 0.2 },
             em: { color: colors.text, opacity: 0.5, fontStyle: 'normal' },
           }}>
-            {i18n.t('privacy_content')}
+            {t('privacy_content')}
           </Markdown>
           
           <LinkButton
@@ -55,7 +54,7 @@ export const PrivacyScreen = () => {
               marginTop: 16,
             }}
             onPress={_handlePressButtonAsync}
-          >{i18n.t('privacy_policy')}</LinkButton>
+          >{t('privacy_policy')}</LinkButton>
         </View>
       </ScrollView>
     </View>

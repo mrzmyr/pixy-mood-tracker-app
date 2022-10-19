@@ -12,19 +12,17 @@ import DismissKeyboard from "../../components/DismisKeyboard";
 import LinkButton from "../../components/LinkButton";
 import ModalHeader from "../../components/ModalHeader";
 import TextArea from "../../components/TextArea";
+import { t } from "../../helpers/translation";
 import { useAnalytics } from "../useAnalytics";
 import useColors from "../useColors";
 import { FeedackType, useFeedback } from "../useFeedback";
-import { useTranslation } from "../useTranslation";
 import { TypeSelector } from "./TypeSelector";
 
 export default function useFeedbackModal() {
   const colors = useColors();
   const [visible, setVisible] = useState(false);
-  const i18n = useTranslation();
   const analytics = useAnalytics();
   const feedback = useFeedback();
-  const { t } = useTranslation();
 
   const [defaultType, setDefaultType] = useState<FeedackType>("issue");
 
@@ -154,7 +152,7 @@ export default function useFeedbackModal() {
                     fontWeight: 'bold',
                     textAlign: 'center'
                   }}>
-                    {i18n.t('feedback_modal_title')}
+                    {t('feedback_modal_title')}
                   </Text>
                   <Text
                     style={{
@@ -166,7 +164,7 @@ export default function useFeedbackModal() {
                     textAlign: 'center'
                     }}
                   >
-                    {i18n.t("feedback_modal_description")}
+                    {t("feedback_modal_description")}
                   </Text>
                   <TypeSelector
                     selected={type}
@@ -193,7 +191,7 @@ export default function useFeedbackModal() {
                       placeholderTextColor={colors.textInputPlaceholder}
                       value={email}
                       onChangeText={(text) => setEmail(text)}
-                      placeholder={i18n.t("feedback_modal_email_placeholder")}
+                      placeholder={t("feedback_modal_email_placeholder")}
                     />
                   </View>
                   <View
@@ -217,7 +215,7 @@ export default function useFeedbackModal() {
                       }}
                       value={message}
                       onChange={(text) => setMessageProxy(text)}
-                      placeholder={i18n.t("feedback_modal_message_placeholder")}
+                      placeholder={t("feedback_modal_message_placeholder")}
                     />
                     <Text
                       style={[
@@ -230,7 +228,7 @@ export default function useFeedbackModal() {
                         },
                       ]}
                     >
-                      {i18n.t("feedback_modal_help")}
+                      {t("feedback_modal_help")}
                     </Text>
                   </View>
                 </View>

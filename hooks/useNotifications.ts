@@ -2,7 +2,7 @@ import * as Device from 'expo-device';
 import * as Notifications from 'expo-notifications';
 import { NotificationContentInput, NotificationTriggerInput } from 'expo-notifications';
 import { Platform } from 'react-native';
-import { useTranslation } from './useTranslation';
+import { t } from '../helpers/translation';
 
 const isWeb = Platform.OS === 'web';
 
@@ -15,8 +15,6 @@ Notifications.setNotificationHandler({
 });
 
 const useNotification = () => {    
-  const { t } = useTranslation();
-  
   const getScheduled = async () => {
     return await Notifications.getAllScheduledNotificationsAsync();
   }

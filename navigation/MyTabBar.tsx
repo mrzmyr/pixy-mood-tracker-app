@@ -2,9 +2,9 @@ import { useCallback, useMemo } from 'react';
 import { Pressable, Text, View } from 'react-native';
 import { Calendar as CalendarIcon, PieChart, Settings as SettingsIcon } from 'react-native-feather';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { t } from '../helpers/translation';
 import useColors from '../hooks/useColors';
 import useHaptics from '../hooks/useHaptics';
-import { useTranslation } from '../hooks/useTranslation';
 import { SettingsScreen, StatisticsScreen } from '../screens';
 import CalendarScreen from '../screens/Calendar';
 
@@ -34,7 +34,6 @@ export function MyTabBar({ state, descriptors, navigation }) {
   const colors = useColors();
   const insets = useSafeAreaInsets();
   const haptics = useHaptics();
-  const { t } = useTranslation();
 
   return (
     <View

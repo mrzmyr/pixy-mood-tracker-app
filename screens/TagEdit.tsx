@@ -9,17 +9,16 @@ import DismissKeyboard from '../components/DismisKeyboard';
 import LinkButton from '../components/LinkButton';
 import ModalHeader from '../components/ModalHeader';
 import { MAX_TAG_LENGTH, MIN_TAG_LENGTH, TAG_COLOR_NAMES } from '../constants/Config';
+import { t } from '../helpers/translation';
 import { useAnalytics } from '../hooks/useAnalytics';
 import useColors from '../hooks/useColors';
 import useHaptics from '../hooks/useHaptics';
 import { Tag as ITag, useTagsUpdater } from '../hooks/useTags';
-import { useTranslation } from '../hooks/useTranslation';
 import { RootStackScreenProps } from '../types';
 
 const REGEX_EMOJI = /\p{Emoji}/u;
 
 export const TagEdit = ({ navigation, route }: RootStackScreenProps<'TagEdit'>) => {
-  const { t } = useTranslation()
   const colors = useColors()
   const haptics = useHaptics()
   const insets = useSafeAreaInsets();

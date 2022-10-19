@@ -11,16 +11,14 @@ import TextInfo from '../../components/TextInfo';
 import useColors from '../../hooks/useColors';
 import useFeedbackModal from '../../hooks/useFeedbackModal';
 import { useAnalytics } from '../../hooks/useAnalytics';
-import { useTranslation } from '../../hooks/useTranslation';
 import pkg from '../../package.json';
 import { RootStackScreenProps } from '../../types';
 import { UserDataImportList } from './UserData';
+import { t } from '../../helpers/translation';
 
 export const SettingsScreen = ({ navigation }: RootStackScreenProps<'Settings'>) => {
   const insets = useSafeAreaInsets();
-  const { t } = useTranslation()
   const colors = useColors()
-  const i18n = useTranslation()
   const analytics = useAnalytics()
 
   const { show: showFeedbackModal, Modal: FeedbackModal } = useFeedbackModal();
@@ -73,28 +71,28 @@ export const SettingsScreen = ({ navigation }: RootStackScreenProps<'Settings'>)
           >{t('settings')}</Text>
         <MenuList>
           <MenuListItem
-            title={i18n.t('data')}
+            title={t('data')}
             iconLeft={<Database width={18} color={colors.menuListItemIcon} />}
             onPress={() => navigation.navigate('Data')}
             testID='data'
             isLink
           />
           <MenuListItem
-            title={i18n.t('reminder')}
+            title={t('reminder')}
             iconLeft={<Bell width={18} color={colors.menuListItemIcon} />}
             onPress={() => navigation.navigate('Reminder')}
             testID='reminder'
             isLink
           />
           <MenuListItem
-            title={i18n.t('colors')}
+            title={t('colors')}
             iconLeft={<Droplet width={18} color={colors.menuListItemIcon} />}
             onPress={() => navigation.navigate('Colors')}
             isLink
             isLast
           />
           {/* <MenuListItem
-            title={i18n.t('passcode')}
+            title={t('passcode')}
             deactivated={!passcodeSupported}
             iconLeft={
               passcodeEnabled ? 
@@ -130,14 +128,14 @@ export const SettingsScreen = ({ navigation }: RootStackScreenProps<'Settings'>)
           }}
         >
           <MenuListItem
-            title={i18n.t('send_feedback')}
+            title={t('send_feedback')}
             onPress={() => showFeedbackModal({ type: 'issue' })}
             iconLeft={<Flag width={18} color={colors.menuListItemIcon} />}
             testID='send_feedback'
             isLast
           />
         </MenuList>
-        <TextInfo>{i18n.t('feedback_help')}</TextInfo>
+        <TextInfo>{t('feedback_help')}</TextInfo>
 
         <MenuList
           style={{
@@ -145,7 +143,7 @@ export const SettingsScreen = ({ navigation }: RootStackScreenProps<'Settings'>)
           }}
         >
           <MenuListItem
-            title={i18n.t('vote_features')}
+            title={t('vote_features')}
             onPress={async () => {
               analytics.track('settings_vote_features')
               await WebBrowser.openBrowserAsync('https://pixy.hellonext.co/embed/b/feedback?no_header=true');
@@ -154,7 +152,7 @@ export const SettingsScreen = ({ navigation }: RootStackScreenProps<'Settings'>)
             testID='vote_features'
           />
           <MenuListItem
-            title={i18n.t('changelog')}
+            title={t('changelog')}
             onPress={async () => {
               analytics.track('settings_changelog')
               await WebBrowser.openBrowserAsync('https://pixy.hellonext.co/embed/c?no_header=true');
@@ -163,12 +161,12 @@ export const SettingsScreen = ({ navigation }: RootStackScreenProps<'Settings'>)
             testID='changelog'
           />
           <MenuListItem
-            title={i18n.t('rate_this_app')}
+            title={t('rate_this_app')}
             onPress={() => askToRateApp()}
             iconLeft={<Star width={18} color={colors.menuListItemIcon} />}
           />
           <MenuListItem
-            title={i18n.t('privacy')}
+            title={t('privacy')}
             onPress={() => navigation.navigate('Privacy')}
             iconLeft={<Shield width={18} color={colors.menuListItemIcon} />}
             isLink
@@ -182,18 +180,18 @@ export const SettingsScreen = ({ navigation }: RootStackScreenProps<'Settings'>)
           }}
         >
           <MenuListItem
-            title={`${i18n.t('onboarding')}`}
+            title={`${t('onboarding')}`}
             iconLeft={<Smartphone width={18} color={colors.menuListItemIcon} />}
             onPress={() => navigation.navigate('Onboarding')}
           />
           <MenuListItem
-            title={`${i18n.t('settings_development_statistics')}`}
+            title={`${t('settings_development_statistics')}`}
             iconLeft={<PieChart width={18} color={colors.menuListItemIcon} />}
             onPress={() => navigation.navigate('DevelopmentStatistics')}
             isLink
           />
           <MenuListItem
-            title={i18n.t('licenses')}
+            title={t('licenses')}
             iconLeft={<Award width={18} color={colors.menuListItemIcon} />}
             onPress={() => navigation.navigate('Licenses')}
             isLink

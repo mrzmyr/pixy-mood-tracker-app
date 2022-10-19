@@ -3,12 +3,12 @@ import { ActivityIndicator, Image, Platform, Pressable, Text, View } from 'react
 import Button from '../../components/Button';
 import TextArea from '../../components/TextArea';
 import { STATISTICS_FEEDBACK_URL } from '../../constants/API';
+import { locale, t } from '../../helpers/translation';
 import { useAnalytics } from '../../hooks/useAnalytics';
 import useColors from '../../hooks/useColors';
 import useHaptics from '../../hooks/useHaptics';
 import { useSettings } from '../../hooks/useSettings';
 import { STATISTIC_TYPES } from '../../hooks/useStatistics';
-import { useTranslation } from '../../hooks/useTranslation';
 import pkg from '../../package.json';
 
 const EMOJI_SCALE_IMAGES = [{
@@ -69,7 +69,6 @@ export const CardFeedback = ({
 }) => {
   const analytics = useAnalytics();
   const colors = useColors();
-  const { t, locale } = useTranslation();
   const { settings } = useSettings()
 
   const [feedbackSent, setFeedbackSent] = useState(false);

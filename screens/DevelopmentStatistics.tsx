@@ -5,11 +5,11 @@ import MenuList from "../components/MenuList";
 import MenuListHeadline from "../components/MenuListHeadline";
 import MenuListItem from "../components/MenuListItem";
 import TextInfo from "../components/TextInfo";
+import { t } from "../helpers/translation";
 import useColors from "../hooks/useColors";
 import { useLogState } from "../hooks/useLogs";
 import { useSettings } from "../hooks/useSettings";
 import { useTagsState } from "../hooks/useTags";
-import { useTranslation } from "../hooks/useTranslation";
 
 const Card = ({
   title,
@@ -57,7 +57,6 @@ const Card = ({
 };
 
 export const DevelopmentStatistics = () => {
-  const { t } = useTranslation();
   const colors = useColors();
   const logState = useLogState();
   const { tags } = useTagsState()

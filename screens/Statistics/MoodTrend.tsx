@@ -1,10 +1,9 @@
-import dayjs from 'dayjs';
 import { Text, View } from 'react-native';
 import Svg, { Circle, Line } from 'react-native-svg';
 import { Card } from '../../components/Statistics/Card';
+import { t } from '../../helpers/translation';
 import useColors from '../../hooks/useColors';
 import { MoodTrendData, SCALE_RANGE, SCALE_TYPE } from '../../hooks/useStatistics/MoodTrend';
-import { useTranslation } from '../../hooks/useTranslation';
 import { CardFeedback } from './CardFeedback';
 
 const Chart = ({
@@ -106,7 +105,6 @@ export const MoodTrend = ({
   data: MoodTrendData
 }) => {
   const colors = useColors()
-  const { t } = useTranslation();
   
   return (
     <Card

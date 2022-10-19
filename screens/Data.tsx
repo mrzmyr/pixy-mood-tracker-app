@@ -1,19 +1,16 @@
-import { usePostHog } from 'posthog-react-native';
-import { useEffect, useState } from 'react';
 import { ScrollView, Switch, View } from 'react-native';
-import { Box, Download, Trash, Trash2, Upload } from 'react-native-feather';
+import { Download, Trash, Upload } from 'react-native-feather';
 import MenuList from '../components/MenuList';
 import MenuListItem from '../components/MenuListItem';
 import TextInfo from '../components/TextInfo';
+import { t } from '../helpers/translation';
 import { useAnalytics } from "../hooks/useAnalytics";
 import useColors from '../hooks/useColors';
 import { useDatagate } from '../hooks/useDatagate';
-import { useTranslation } from '../hooks/useTranslation';
 import { RootStackScreenProps } from '../types';
 
 export const DataScreen = ({ navigation }: RootStackScreenProps<'Data'>) => {
   const colors = useColors()
-  const i18n = useTranslation()
   const analytics = useAnalytics()
   const datagate = useDatagate()
 
@@ -30,7 +27,7 @@ export const DataScreen = ({ navigation }: RootStackScreenProps<'Data'>) => {
       >
       <MenuList style={{ marginTop: 16, }}>
         <MenuListItem
-          title={i18n.t('import')}
+          title={t('import')}
           onPress={() => datagate.openImportDialog()}
           iconLeft={<Upload width={18} color={colors.menuListItemIcon} />}
         />
@@ -42,16 +39,16 @@ export const DataScreen = ({ navigation }: RootStackScreenProps<'Data'>) => {
           />
         )}
         <MenuListItem
-          title={i18n.t('export')}
+          title={t('export')}
           onPress={() => datagate.openExportDialog()}
           iconLeft={<Download width={18} color={colors.menuListItemIcon} />}
           isLast
         />
       </MenuList>
-      <TextInfo>{i18n.t('export_help')}</TextInfo>
+      <TextInfo>{t('export_help')}</TextInfo>
       <MenuList>
         <MenuListItem
-          title={i18n.t('behavioral_data')}
+          title={t('behavioral_data')}
           iconRight={
             <Switch
               ios_backgroundColor={colors.backgroundSecondary}
@@ -73,7 +70,7 @@ export const DataScreen = ({ navigation }: RootStackScreenProps<'Data'>) => {
       <MenuList style={{ marginTop: 16, }}>
         <MenuListItem
           testID='reset-data'
-          title={i18n.t('reset_data_button')}
+          title={t('reset_data_button')}
           onPress={() => {
             datagate
               .openResetDialog('data')
@@ -86,7 +83,7 @@ export const DataScreen = ({ navigation }: RootStackScreenProps<'Data'>) => {
         />
         <MenuListItem
           testID='reset-factory'
-          title={i18n.t('reset_factory_button')}
+          title={t('reset_factory_button')}
           onPress={() => {
             datagate
               .openResetDialog('factory')
@@ -99,7 +96,7 @@ export const DataScreen = ({ navigation }: RootStackScreenProps<'Data'>) => {
           isLast
         />
       </MenuList>
-      <TextInfo>{i18n.t('reset_factory_description')}</TextInfo>
+      <TextInfo>{t('reset_factory_description')}</TextInfo>
     </ScrollView>
   </View>
   );

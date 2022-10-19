@@ -3,9 +3,9 @@ import { ActivityIndicator, View } from "react-native";
 import { TrendingUp } from "react-native-feather";
 import MenuList from "../../components/MenuList";
 import MenuListItem from "../../components/MenuListItem";
+import { t } from "../../helpers/translation";
 import useColors from "../../hooks/useColors";
 import { useStatistics } from "../../hooks/useStatistics";
-import { useTranslation } from "../../hooks/useTranslation";
 import { MoodTrend } from "./MoodTrend";
 import { Subtitle } from "./Subtitle";
 import { TagsDistributionTrend } from "./TagsDistributionTrend";
@@ -15,7 +15,6 @@ export const TrendsSection = () => {
   const colors = useColors();
   const navigation = useNavigation();
   const statistics = useStatistics();
-  const { t } = useTranslation();
 
   return (
     <>

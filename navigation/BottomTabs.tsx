@@ -1,18 +1,17 @@
 import { Platform, View } from 'react-native';
 import useColors from '../hooks/useColors';
-import { useTranslation } from '../hooks/useTranslation';
 import { SettingsScreen, StatisticsScreen } from '../screens';
 import LinkButton from '../components/LinkButton';
 import { useCalendarFilters } from '../hooks/useCalendarFilters';
 import CalendarScreen from '../screens/Calendar';
 import { MyTabBar } from "./MyTabBar";
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { t } from '../helpers/translation';
 
 const Tab = createBottomTabNavigator();
 
 export const BottomTabs = () => {
   const colors = useColors();
-  const { t } = useTranslation();
   const calendarFilters = useCalendarFilters();
 
   const defaultOptions = {

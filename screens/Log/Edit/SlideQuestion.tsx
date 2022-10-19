@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { Platform, Pressable, Text, View } from "react-native";
 import { QUESTION_SUBMIT_URL } from '../../../constants/API';
+import { language, locale } from "../../../helpers/translation";
 import useColors from "../../../hooks/useColors";
 import useHaptics from "../../../hooks/useHaptics";
 import { useSettings } from "../../../hooks/useSettings";
-import { useTranslation } from "../../../hooks/useTranslation";
 import pkg from '../../../package.json';
 import { SlideHeadline } from "./SlideHeadline";
 
@@ -35,7 +35,6 @@ const AnswerSelector = ({
   selected: boolean;
   onPress: (answer) => void;
 }) => {
-  const { language } = useTranslation()
   const colors = useColors();
   const haptics = useHaptics();
   
@@ -107,7 +106,6 @@ export const SlideQuestion = ({
   question: IQuestion,
   onPress: () => void,
 }) => {
-  const { language, locale } = useTranslation()
   const { addActionDone } = useSettings()
   const { settings } = useSettings()
   

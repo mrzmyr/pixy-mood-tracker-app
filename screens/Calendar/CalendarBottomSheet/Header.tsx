@@ -1,12 +1,11 @@
 import { Text, View } from "react-native"
 import LinkButton from "../../../components/LinkButton"
+import { t } from "../../../helpers/translation"
 import { useCalendarFilters } from "../../../hooks/useCalendarFilters"
 import useColors from "../../../hooks/useColors"
-import { useTranslation } from "../../../hooks/useTranslation"
 
 export const Header = () => {
   const calendarFilters = useCalendarFilters()
-  const { t } = useTranslation()
   const colors = useColors()
   
   return (

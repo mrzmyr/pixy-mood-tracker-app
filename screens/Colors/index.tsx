@@ -4,16 +4,15 @@ import MenuList from '../../components/MenuList';
 import MenuListHeadline from '../../components/MenuListHeadline';
 import MenuListItem from '../../components/MenuListItem';
 import TextInfo from '../../components/TextInfo';
+import { t } from '../../helpers/translation';
 import { useAnalytics } from '../../hooks/useAnalytics';
 import useColors from '../../hooks/useColors';
 import { useSettings } from '../../hooks/useSettings';
-import { useTranslation } from '../../hooks/useTranslation';
 import { Radio } from './Radio';
 import { Scale } from './Scale';
 
 export const ColorsScreen = ({ navigation }) => {
   const { setSettings, settings } = useSettings()
-  const { t } = useTranslation()
   const colors = useColors()
   const analytics = useAnalytics()
   

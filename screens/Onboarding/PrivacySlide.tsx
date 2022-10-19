@@ -2,8 +2,8 @@ import { Text, View } from 'react-native';
 import { Lock } from 'react-native-feather';
 import Animated, { FadeInRight } from 'react-native-reanimated'; 
 import Button from '../../components/Button';
+import { t } from '../../helpers/translation';
 import useColors from '../../hooks/useColors';
-import { useTranslation } from '../../hooks/useTranslation';
 
 const ListItem = ({ children, delay }) => {
   const colors = useColors();
@@ -47,7 +47,6 @@ export const PrivacySlide = ({
 }: {
   onPress: () => void;
 }) => {
-  const { t } = useTranslation();
   const colors = useColors();
 
   return (

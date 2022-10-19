@@ -8,7 +8,6 @@ import useColors from "../../hooks/useColors";
 import { LogItem } from "../../hooks/useLogs";
 import { useAnalytics } from "../../hooks/useAnalytics";
 import { useStatistics } from "../../hooks/useStatistics";
-import { useTranslation } from "../../hooks/useTranslation";
 import { MoodAvgCard } from "./MoodAvgCard";
 import { MoodPeaksCard } from "./MoodPeaksCards";
 import { Subtitle } from "./Subtitle";
@@ -16,13 +15,13 @@ import { TagPeaksCard } from "./TagPeaksCards";
 import { TagsDistributionCard } from "./TagsDistributionCard";
 import { Title } from "./Title";
 import { MoodAvgData } from "../../hooks/useStatistics/MoodAvg";
+import { t } from "../../helpers/translation";
 
 export const HighlightsSection = ({ items }: { items: LogItem[] }) => {
   const colors = useColors();
   const navigation = useNavigation();
   const analytics = useAnalytics();
   const statistics = useStatistics();
-  const { t } = useTranslation();
   
   const showMoodAvg =
     statistics.isAvailable("mood_avg") &&

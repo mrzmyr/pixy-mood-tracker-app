@@ -3,8 +3,8 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useEffect } from 'react';
 import { Platform, useColorScheme } from 'react-native';
 import OneSignal from 'react-native-onesignal';
+import * as Sentry from 'sentry-expo';
 import useColors from '../hooks/useColors';
-import { useTranslation } from '../hooks/useTranslation';
 import {
   ColorsScreen,
   DataScreen,
@@ -21,6 +21,7 @@ import { enableScreens } from 'react-native-screens';
 import Providers from '../components/Providers';
 import Colors from '../constants/Colors';
 import { NAVIGATION_LINKING, ONE_SIGNAL_APP_ID } from '../constants/Config';
+import { initializeDayjs, t } from '../helpers/translation';
 import { useAnalytics } from '../hooks/useAnalytics';
 import { useAnonymizer } from '../hooks/useAnonymizer';
 import { useLogState } from '../hooks/useLogs';
@@ -62,7 +63,6 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 
 function RootNavigator() {
   const colors = useColors();
-  const i18n = useTranslation()
   const { settings, hasActionDone } = useSettings()
   const navigation = useNavigation()
   const analytics = useAnalytics()
@@ -103,6 +103,15 @@ function RootNavigator() {
         itemsCount: Object.values(logState.items).length,
         itemsCoverage: getItemsCoverage(Object.values(logState.items)),
       })
+    }
+
+    initializeDayjs();
+
+    if(!__DEV__) {
+      Sentry.init({
+        dsn: 'https://d98d0f519b324d9cb0c947b8f29cd0cf@o1112922.ingest.sentry.io/6142792',
+        enableInExpoDevelopment: false,
+      });
     }
   }, [settings.loaded])
 
@@ -212,7 +221,7 @@ function RootNavigator() {
             name="StatisticsHighlights"
             component={StatisticsHighlights}
             options={{ 
-              title: i18n.t('statistics_highlights'),
+              title: t('statistics_highlights'),
               ...defaultPageOptions,
             }}
           />
@@ -227,7 +236,7 @@ function RootNavigator() {
             name="Settings" 
             component={SettingsScreen} 
             options={{ 
-              title: i18n.t('settings'),
+              title: t('settings'),
               ...defaultPageOptions,
             }}
           />
@@ -235,7 +244,7 @@ function RootNavigator() {
             name="Reminder" 
             component={ReminderScreen}
             options={{ 
-              title: i18n.t('reminder'),
+              title: t('reminder'),
               ...defaultPageOptions,
           }}
           />
@@ -243,7 +252,7 @@ function RootNavigator() {
             name="Privacy" 
             component={PrivacyScreen}
             options={{ 
-              title: i18n.t('privacy'),
+              title: t('privacy'),
               ...defaultPageOptions,
             }}
           />
@@ -251,7 +260,7 @@ function RootNavigator() {
             name="Licenses" 
             component={LicensesScreen} 
             options={{ 
-              title: i18n.t('licenses'),
+              title: t('licenses'),
               ...defaultPageOptions,
             }} 
           />
@@ -259,7 +268,7 @@ function RootNavigator() {
             name="Colors" 
             component={ColorsScreen} 
             options={{ 
-              title: i18n.t('colors'),
+              title: t('colors'),
               ...defaultPageOptions,
             }} 
           />
@@ -267,7 +276,7 @@ function RootNavigator() {
             name="Data" 
             component={DataScreen} 
             options={{ 
-              title: i18n.t('data'),
+              title: t('data'),
               ...defaultPageOptions,
             }} 
           />
@@ -275,7 +284,7 @@ function RootNavigator() {
             name="DevelopmentStatistics" 
             component={DevelopmentStatistics} 
             options={{ 
-              title: i18n.t('settings_development_statistics'),
+              title: t('settings_development_statistics'),
               ...defaultPageOptions,
             }} 
           />

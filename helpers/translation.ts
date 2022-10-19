@@ -1,7 +1,43 @@
 import * as Localization from 'expo-localization';
+import i18n from 'i18n-js';
 import dayjs from 'dayjs';
 import localizedFormat from 'dayjs/plugin/localizedFormat'
 import weekOfYear from 'dayjs/plugin/weekOfYear'
+
+i18n.translations = {
+  ar: require('../assets/locales/ar.json'),
+  ca: require('../assets/locales/ca.json'),
+  zh: require('../assets/locales/zh.json'),
+  hr: require('../assets/locales/hr.json'),
+  cs: require('../assets/locales/cs.json'),
+  da: require('../assets/locales/da.json'),
+  nl: require('../assets/locales/nl.json'),
+  en: require('../assets/locales/en.json'),
+  fi: require('../assets/locales/fi.json'),
+  fr: require('../assets/locales/fr.json'),
+  de: require('../assets/locales/de.json'),
+  el: require('../assets/locales/el.json'),
+  he: require('../assets/locales/he.json'),
+  hi: require('../assets/locales/hi.json'),
+  hu: require('../assets/locales/hu.json'),
+  id: require('../assets/locales/id.json'),
+  it: require('../assets/locales/it.json'),
+  ja: require('../assets/locales/ja.json'),
+  ko: require('../assets/locales/ko.json'),
+  ms: require('../assets/locales/ms.json'),
+  nn: require('../assets/locales/no.json'),
+  pl: require('../assets/locales/pl.json'),
+  pt: require('../assets/locales/pt.json'),
+  ro: require('../assets/locales/ro.json'),
+  ru: require('../assets/locales/ru.json'),
+  sk: require('../assets/locales/sk.json'),
+  es: require('../assets/locales/es.json'),
+  sv: require('../assets/locales/sv.json'),
+  th: require('../assets/locales/th.json'),
+  tr: require('../assets/locales/tr.json'),
+  uk: require('../assets/locales/uk.json'),
+  vi: require('../assets/locales/vi.json'),
+};
 
 // https://unicode.org/Public/cldr/37/core.zip
 const firstDayOfWeek = {
@@ -66,7 +102,13 @@ const dayjs_locales = {
   vi: require('dayjs/locale/vi'),
 }
 
-const getFirstDayOfWeek = (region: string): number => {
+i18n.locale = Localization.locale;
+i18n.fallbacks = true;
+
+export const locale = i18n.locale;
+export const language = i18n.locale.split('-')[0];
+
+const _getFirstDayOfWeek = (region: string): number => {
   for(const dayStr in firstDayOfWeek) {
     let dayNumber = parseInt(dayStr)
     if(firstDayOfWeek[dayNumber].includes(region)) {
@@ -77,21 +119,23 @@ const getFirstDayOfWeek = (region: string): number => {
   return 1;
 }
 
-export default {
-  init: () => {
-    let locale = Localization.locale;
-    if(locale.includes('-')) locale = locale.split('-')[0];
-    
-    if(locale in dayjs_locales) {
-      dayjs.locale(locale)
-      if(dayjs.Ls[locale] && Localization.region !== null) {
-        dayjs.Ls[locale].weekStart = getFirstDayOfWeek(Localization.region);
-      }
-    } else {
-      dayjs.locale('en')
+export const initializeDayjs = () => {
+  let locale = Localization.locale;
+  if(locale.includes('-')) locale = locale.split('-')[0];
+  
+  if(locale in dayjs_locales) {
+    dayjs.locale(locale)
+    if(dayjs.Ls[locale] && Localization.region !== null) {
+      dayjs.Ls[locale].weekStart = _getFirstDayOfWeek(Localization.region);
     }
-    
-    dayjs.extend(weekOfYear)
-    dayjs.extend(localizedFormat)
+  } else {
+    dayjs.locale('en')
   }
+  
+  dayjs.extend(weekOfYear)
+  dayjs.extend(localizedFormat)
 }
+
+export const t = (key: string, options?: any) => {
+  return i18n.t(key, options);
+};

@@ -1,21 +1,21 @@
 import { View } from "react-native";
+import { getLogEditMarginTop } from "../../../helpers/responsive";
+import { t } from "../../../helpers/translation";
 import useColors from "../../../hooks/useColors";
 import { LogItem, RATING_KEYS } from "../../../hooks/useLogs";
 import { useTemporaryLog } from "../../../hooks/useTemporaryLog";
-import { useTranslation } from "../../../hooks/useTranslation";
 import { SlideHeadline } from "./SlideHeadline";
 import { SlideRatingButton } from "./SlideRatingButton";
 
 export const SlideRating = ({
-  marginTop,
   onChange,
 }: {
-  marginTop: number;
   onChange: (rating: LogItem['rating']) => void;
 }) => {
   const colors = useColors();
   const tempLog = useTemporaryLog();
-  const { t } = useTranslation()
+
+  const marginTop = getLogEditMarginTop()
   
   return (
     <View style={{ 

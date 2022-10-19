@@ -1,9 +1,9 @@
 import { View } from 'react-native';
 import { Card } from '../../components/Statistics/Card';
+import { t } from '../../helpers/translation';
 import useScale from '../../hooks/useScale';
 import { useSettings } from '../../hooks/useSettings';
 import { MoodAvgData } from '../../hooks/useStatistics/MoodAvg';
-import { useTranslation } from '../../hooks/useTranslation';
 import { CardFeedback } from './CardFeedback';
 
 export const MoodAvgCard = ({
@@ -13,7 +13,6 @@ export const MoodAvgCard = ({
 }) => {
   const { settings } = useSettings();
   const scale = useScale(settings.scaleType);
-  const { t } = useTranslation();
   
   return (
     <Card

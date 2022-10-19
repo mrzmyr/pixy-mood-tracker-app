@@ -3,13 +3,13 @@ import dayjs, { Dayjs } from 'dayjs';
 import { Text, TouchableOpacity, View } from 'react-native';
 import { Card } from '../../components/Statistics/Card';
 import { DATE_FORMAT } from '../../constants/Config';
+import { t } from '../../helpers/translation';
 import useColors from '../../hooks/useColors';
 import useHaptics from '../../hooks/useHaptics';
 import { LogItem } from '../../hooks/useLogs';
 import useScale from '../../hooks/useScale';
 import { useSettings } from '../../hooks/useSettings';
 import { MoodPeaksNegativeData, MoodPeaksPositiveData } from '../../hooks/useStatistics/MoodPeaks';
-import { useTranslation } from '../../hooks/useTranslation';
 import { CardFeedback } from './CardFeedback';
 import { HeaderWeek } from './HeaderWeek';
 
@@ -113,8 +113,6 @@ export const MoodPeaksCard = ({
   type: 'positive' | 'negative'
   data: MoodPeaksNegativeData | MoodPeaksPositiveData
 }) => {
-  const { t } = useTranslation();
-  
   return (
     <Card
       subtitle={t('mood')}

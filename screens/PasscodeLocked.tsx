@@ -5,11 +5,10 @@ import LinkButton from '../components/LinkButton';
 import useColors from '../hooks/useColors';
 import { usePasscode } from '../hooks/usePasscode';
 import { useAnalytics } from '../hooks/useAnalytics';
-import { useTranslation } from '../hooks/useTranslation';
+import { t } from '../helpers/translation';
 
 export const PasscodeLocked = () => {
   const colors = useColors()
-  const i18n = useTranslation()
   const analytics = useAnalytics()
   const passcode = usePasscode()
   
@@ -24,27 +23,27 @@ export const PasscodeLocked = () => {
     analytics.track('passcode_forgot')
     
     Alert.alert(
-      i18n.t('passcode_forgot'), 
-      i18n.t('passcode_forgot_description'),
+      t('passcode_forgot'), 
+      t('passcode_forgot_description'),
       [
         {
-          text: i18n.t('passcode_forgot_cancel'),
+          text: t('passcode_forgot_cancel'),
           style: 'cancel',
         },
         {
-          text: i18n.t('passcode_forgot_reset'),
+          text: t('passcode_forgot_reset'),
           style: 'destructive',
           onPress: () => {
             Alert.alert(
-              i18n.t('passcode_forgot_reset_confirm'), 
-              i18n.t('passcode_forgot_reset_confirm_description'),
+              t('passcode_forgot_reset_confirm'), 
+              t('passcode_forgot_reset_confirm_description'),
               [
                 {
-                  text: i18n.t('passcode_forgot_reset_confirm_cancel'),
+                  text: t('passcode_forgot_reset_confirm_cancel'),
                   style: 'cancel',
                 },
                 {
-                  text: i18n.t('passcode_forgot_reset_confirm_reset'),
+                  text: t('passcode_forgot_reset_confirm_reset'),
                   style: 'destructive',
                   onPress: () => {
                     passcode.setIsAuthenticated(true)
@@ -100,20 +99,20 @@ export const PasscodeLocked = () => {
               textAlign: 'center',
               color: colors.text,
               marginBottom: 10,
-            }}>{i18n.t('passcode_locked_title')}</Text>
+            }}>{t('passcode_locked_title')}</Text>
 
             <Text style={{
               fontSize: 17,
               textAlign: 'center',
               color: colors.textSecondary,
-            }}>{i18n.t('passcode_locked_message')}</Text>
+            }}>{t('passcode_locked_message')}</Text>
             
             <LinkButton
               style={{
                 marginTop: 20,
               }}
               onPress={retry}
-            >{i18n.t('passcode_retry')}</LinkButton>
+            >{t('passcode_retry')}</LinkButton>
           </View>
           <View style={{
             height: '10%',
@@ -124,7 +123,7 @@ export const PasscodeLocked = () => {
                 marginTop: 20,
               }}
               onPress={forgot}
-            >{i18n.t('passcode_forgot')}</LinkButton>
+            >{t('passcode_forgot')}</LinkButton>
           </View>
         </View>
       </ScrollView>

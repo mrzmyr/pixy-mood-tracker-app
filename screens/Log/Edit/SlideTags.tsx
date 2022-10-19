@@ -4,27 +4,27 @@ import _ from "lodash";
 import { ScrollView, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Tag from "../../../components/Tag";
+import { getLogEditMarginTop } from "../../../helpers/responsive";
+import { t } from "../../../helpers/translation";
 import useColors from "../../../hooks/useColors";
 import { Tag as ITag, useTagsState } from "../../../hooks/useTags";
 import { useTemporaryLog } from "../../../hooks/useTemporaryLog";
-import { useTranslation } from "../../../hooks/useTranslation";
 import { MiniButton } from "../MiniButton";
 import { SlideHeadline } from "./SlideHeadline";
 
 export const SlideTags = ({
-  marginTop,
   onChange
 }: {
-  marginTop: number;
   onChange: (tags: ITag[]) => void,
 }) => {
   const tempLog = useTemporaryLog();
-  const { t } = useTranslation()
   const navigation = useNavigation()
   const insets = useSafeAreaInsets();
   const colors = useColors()
   const { tags } = useTagsState()
 
+  const marginTop = getLogEditMarginTop()
+  
   return (
     <View style={{ 
       flex: 1, 
@@ -100,7 +100,7 @@ export const SlideTags = ({
                 onPress={() => {
                   navigation.navigate('Tags')
                 }}
-              />
+              >{t('tags_edit')}</MiniButton>
             </View>
             <View
               style={{

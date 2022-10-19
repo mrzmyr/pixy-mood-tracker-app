@@ -2,10 +2,10 @@ import _ from 'lodash';
 import { createContext, useCallback, useContext, useEffect, useMemo, useReducer } from "react";
 import { TAG_COLOR_NAMES } from '../constants/Config';
 import { load, store } from '../helpers/storage';
+import { t } from '../helpers/translation';
 import { useAnalytics } from './useAnalytics';
 import { LogItem, useLogState, useLogUpdater } from './useLogs';
 import { useSettings } from './useSettings';
-import { useTranslation } from './useTranslation';
 
 export const STORAGE_KEY = 'PIXEL_TRACKER_TAGS'
 
@@ -71,7 +71,6 @@ function TagsProvider({
 }: {
   children: React.ReactNode
 }) {
-  const { t } = useTranslation();
   const { settings } = useSettings()
   const logsUpdater = useLogUpdater()
   const logsState = useLogState()

@@ -1,8 +1,8 @@
 import { Text, View } from 'react-native';
 import Animated, { FadeInUp } from 'react-native-reanimated';
 import Button from '../../components/Button';
+import { t } from '../../helpers/translation';
 import useColors from '../../hooks/useColors';
-import { useTranslation } from '../../hooks/useTranslation';
 import { HeaderImage } from './HeaderImage';
 
 export const IndexSlide = ({
@@ -10,7 +10,6 @@ export const IndexSlide = ({
 }: {
   onPress: (answer: number) => void;
 }) => {
-  const { t } = useTranslation();
   const colors = useColors();
 
   return (

@@ -1,6 +1,6 @@
 import { Text, View } from 'react-native';
+import { t } from '../../helpers/translation';
 import useColors from '../../hooks/useColors';
-import { useTranslation } from '../../hooks/useTranslation';
 import { Subtitle } from './Subtitle';
 import { Title } from './Title';
 
@@ -9,7 +9,6 @@ export const EmptyPlaceholder = ({
 }: {
   count: number;
 }) => {
-  const { t } = useTranslation();
   const colors = useColors();
 
   return (

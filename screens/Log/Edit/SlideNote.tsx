@@ -2,10 +2,11 @@ import { useEffect, useRef, useState } from "react";
 import { Keyboard, View } from "react-native";
 import DismissKeyboard from "../../../components/DismisKeyboard";
 import TextArea from "../../../components/TextArea";
+import { getLogEditMarginTop } from "../../../helpers/responsive";
+import { t } from "../../../helpers/translation";
 import useColors from "../../../hooks/useColors";
 import { LogItem } from "../../../hooks/useLogs";
 import { useTemporaryLog } from "../../../hooks/useTemporaryLog";
-import { useTranslation } from "../../../hooks/useTranslation";
 import { SlideHeadline } from "./SlideHeadline";
 
 const randomInt = (min, max) => Math.floor(Math.random() * (max - min + 1) + min);
@@ -13,15 +14,13 @@ const randomInt = (min, max) => Math.floor(Math.random() * (max - min + 1) + min
 const MAX_LENGTH = 10 * 1000;
 
 export const SlideNote = ({
-  marginTop,
   onChange
 }: {
-  marginTop: number;
   onChange: (text: LogItem['message']) => void
 }) => {
   const colors = useColors();
   const tempLog = useTemporaryLog();
-  const { t } = useTranslation()
+  const marginTop = getLogEditMarginTop()
 
   const placeholder = useRef(t(`log_modal_message_placeholder_${randomInt(1, 6)}`))
 

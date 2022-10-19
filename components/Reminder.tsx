@@ -5,11 +5,11 @@ import Clock from '../components/Clock';
 import MenuList from '../components/MenuList';
 import MenuListItem from '../components/MenuListItem';
 import NotificationPreview from '../components/NotificationPreview';
+import { t } from '../helpers/translation';
 import { useAnalytics } from '../hooks/useAnalytics';
 import useColors from '../hooks/useColors';
 import useNotification from '../hooks/useNotifications';
 import { SettingsState, useSettings } from '../hooks/useSettings';
-import { useTranslation } from '../hooks/useTranslation';
 
 const Reminder = () => {
   const { setSettings, settings } = useSettings()
@@ -23,7 +23,6 @@ const Reminder = () => {
   const [reminderEnabled, setReminderEnabled] = useState(settings.reminderEnabled);
   const [reminderTime, setReminderTime] = useState(settings.reminderTime);
   const colors = useColors()
-  const i18n = useTranslation()
   const analytics = useAnalytics()
   
   const hourAndMinute = reminderTime.split(':')
@@ -80,7 +79,7 @@ const Reminder = () => {
       </View>
       <MenuList>
         <MenuListItem
-          title={i18n.t('reminder')}
+          title={t('reminder')}
           iconRight={
             <Switch
               onValueChange={() => onEnabledChange(!reminderEnabled)}
@@ -109,7 +108,7 @@ const Reminder = () => {
                   color: colors.text,
                   fontSize: 17,
                 }}
-              >{i18n.t('time')}</Text>
+              >{t('time')}</Text>
             </View>
             <View
               style={{

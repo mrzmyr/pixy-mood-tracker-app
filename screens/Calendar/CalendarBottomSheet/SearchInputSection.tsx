@@ -1,7 +1,7 @@
 import { Pressable, TextInput, View } from 'react-native';
 import useColors from '../../../hooks/useColors';
-import { useTranslation } from '../../../hooks/useTranslation';
 import { Search, XCircle } from 'react-native-feather';
+import { t } from '../../../helpers/translation';
 
 export const SearchInputSection = ({
   value, onChange,
@@ -10,7 +10,6 @@ export const SearchInputSection = ({
   onChange: (text: string) => void;
 }) => {
   const colors = useColors();
-  const { t } = useTranslation();
 
   return (
     <View

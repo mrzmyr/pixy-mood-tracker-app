@@ -8,9 +8,9 @@ import useHaptics from '../../hooks/useHaptics';
 import { LogItem } from '../../hooks/useLogs';
 import { Tag as ITag } from '../../hooks/useTags';
 import { TagsPeakData } from '../../hooks/useStatistics/TagsPeaks';
-import { useTranslation } from '../../hooks/useTranslation';
 import { CardFeedback } from './CardFeedback';
 import { HeaderWeek } from './HeaderWeek';
+import { t } from '../../helpers/translation';
 
 const DayDot = ({
   isHighlighted,
@@ -114,7 +114,6 @@ export const TagPeaksCard = ({
   tag: TagsPeakData['tags'][0],
 }) => {
   const colors = useColors()
-  const { t } = useTranslation();
   
   return (
     <Card

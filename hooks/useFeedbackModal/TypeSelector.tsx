@@ -1,9 +1,9 @@
 import { Pressable, Text, View } from 'react-native';
 import { MoreHorizontal } from 'react-native-feather';
+import { t } from '../../helpers/translation';
 import useColors from '../useColors';
 import { FeedackType } from '../useFeedback';
 import useHaptics from '../useHaptics';
-import { useTranslation } from '../useTranslation';
 
 export function TypeSelector({
   selected, onPress,
@@ -11,7 +11,6 @@ export function TypeSelector({
   selected: FeedackType;
   onPress: (type: FeedackType) => void;
 }) {
-  const i18n = useTranslation();
   const colors = useColors();
   const haptics = useHaptics();
 
@@ -58,7 +57,7 @@ export function TypeSelector({
             textAlign: 'center'
           }}
         >
-          {i18n.t('issue')}
+          {t('issue')}
         </Text>
       </Pressable>
       <Pressable
@@ -96,7 +95,7 @@ export function TypeSelector({
             textAlign: 'center'
           }}
         >
-          {i18n.t('idea')}
+          {t('idea')}
         </Text>
       </Pressable>
       <Pressable
@@ -123,7 +122,7 @@ export function TypeSelector({
           numberOfLines={1}
           style={{ fontSize: 17, color: colors.secondaryButtonText, marginTop: 5, textAlign: 'center' }}
         >
-          {i18n.t('other')}
+          {t('other')}
         </Text>
       </Pressable>
     </View>

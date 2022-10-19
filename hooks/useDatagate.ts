@@ -7,12 +7,12 @@ import { Alert, Platform } from "react-native";
 import OneSignal from 'react-native-onesignal';
 import { getJSONSchemaType, ImportData } from "../helpers/Import";
 import { migrateImportData } from "../helpers/Migration";
+import { t } from "../helpers/translation";
 import pkg from '../package.json';
 import { useAnalytics } from "./useAnalytics";
 import { LogsState, STORAGE_KEY as STORAGE_KEY_LOGS, useLogState, useLogUpdater } from "./useLogs";
 import { ExportSettings, STORAGE_KEY as STORAGE_KEY_SETTINGS, useSettings } from "./useSettings";
 import { STORAGE_KEY as STORAGE_KEY_TAGS, Tag, useTagsState, useTagsUpdater } from "./useTags";
-import { useTranslation } from "./useTranslation";
 
 type ResetType = "factory" | "data"
 
@@ -34,7 +34,6 @@ export const useDatagate = (): {
   const logUpdater = useLogUpdater();
   const { tags } = useTagsState();
   const tagsUpdater = useTagsUpdater();
-  const { t } = useTranslation();
   const { resetSettings, importSettings, settings } = useSettings();
 
   const analytics = useAnalytics();
