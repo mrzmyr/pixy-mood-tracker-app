@@ -100,5 +100,14 @@ export default ({ config }: ConfigContext): ExpoConfig => {
   _config.ios.buildNumber = pkg.version;
   _config.android.versionCode = parseInt('4400' + pkg.version.split('.').join(''));
 
+  console.log(`============== BUILDING ==============`);
+  console.log(``);
+  console.log(`- Name: ${_config.name}`);
+  console.log(`- Version: ${_config.version}`);
+  console.log(`- Bundle Identifier: ${_config.ios.bundleIdentifier}`);
+  console.log(`- Package: ${_config.android.package}`);
+  console.log(``);
+  console.log(`======================================`);
+
   return _config;
 };
