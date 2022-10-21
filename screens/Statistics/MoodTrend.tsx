@@ -39,9 +39,6 @@ const Chart = ({
       width={'100%'}
       height={height}
       viewBox={`0 0 ${width} ${height}`}
-      style={{
-        // backgroundColor: 'yellow',
-      }}
     >
       {scaleItems.map((item, index) => {
         const x = Math.floor(index * itemWidth + itemWidth / 2)
