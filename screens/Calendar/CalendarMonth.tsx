@@ -1,4 +1,4 @@
-import dayjs from "dayjs";
+import dayjs, { Dayjs } from "dayjs";
 import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
 import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
 import _ from "lodash";
@@ -32,15 +32,47 @@ const CalendarMonth = memo(function CalendarMonth({
 }) {
   const colors = useColors();
 
-  const WEEK_ITEMS = useRef<MinimalLogItem[][]>([[], [], [], []]);
-  const WEEK_ITEMS_FILTERED = useRef<LogItem[][]>([[], [], [], []]);
   const date = dayjs(dateString);
+
+  const WEEK_ITEMS = useRef<MinimalLogItem[][]>([]);
+  const WEEK_ITEMS_FILTERED = useRef<LogItem[][]>([]);
+  const DATES: { start: Dayjs; end: Dayjs }[] = [];
+
+  // count the weeks in the month and create an array with start and end dates for each week
+  const monthStart = date.startOf("month");
+  const monthEnd = date.endOf("month");
+
+  const weekStart = monthStart.startOf("week");
+  const weekEnd = monthEnd.endOf("week");
+
+  const weeks = weekEnd.diff(weekStart, "week") + 1;
+
+  for (let i = 0; i < weeks; i++) {
+    let start = weekStart.add(i, "week");
+    let end = start.endOf("week");
+
+    if (start.isBefore(monthStart)) {
+      start = monthStart;
+    }
+
+    if (end.isAfter(monthEnd)) {
+      end = monthEnd;
+    }
+
+    DATES.push({ start, end });
+
+    WEEK_ITEMS.current[i] = [];
+    WEEK_ITEMS_FILTERED.current[i] = [];
+  }
 
   const weekItems = useMemo(() => {
     for (let i = 0; i < WEEK_ITEMS.current.length; i++) {
       const start =
         i === 0 ? date : date.clone().add(i, "week").startOf("week");
-      const end = date.startOf("month").add(i, "week").endOf("week");
+      const end =
+        i === WEEK_ITEMS.current.length - 1
+          ? date.clone().endOf("month")
+          : date.startOf("month").add(i, "week").endOf("week");
       const _items = items?.filter(
         (item) =>
           dayjs(item.date).isSameOrAfter(start, "day") &&
@@ -90,20 +122,8 @@ const CalendarMonth = memo(function CalendarMonth({
         <CalendarWeek
           scaleType={scaleType}
           key={index}
-          startDate={
-            index === 0
-              ? date.format(DATE_FORMAT)
-              : date
-                  .clone()
-                  .add(index, "week")
-                  .startOf("week")
-                  .format(DATE_FORMAT)
-          }
-          endDate={date
-            .startOf("month")
-            .add(index, "week")
-            .endOf("week")
-            .format(DATE_FORMAT)}
+          startDate={DATES[index].start.format(DATE_FORMAT)}
+          endDate={DATES[index].end.format(DATE_FORMAT)}
           isFirst={index === 0}
           isLast={index === WEEK_ITEMS.current.length - 1}
           items={weekItems[index]}
