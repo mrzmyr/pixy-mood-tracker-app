@@ -4,8 +4,6 @@ import { load, store } from '../helpers/storage';
 const TEST_KEY = 'test-key';
 
 describe('Storage', () => {
-  beforeAll
-  
   it('should `load`', async () => {
     AsyncStorage.getItem = jest.fn().mockReturnValueOnce(Promise.resolve('{"test": "test"}'));
     const result = await load(TEST_KEY);
