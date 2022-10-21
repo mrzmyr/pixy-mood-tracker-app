@@ -50,7 +50,7 @@ export const useDatagate = (): {
         date: new Date().toISOString(),
         title: 'onboarding',
       }],
-      // tags: data.tags
+      tags: data.tags
     }));
   };
 
