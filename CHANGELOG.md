@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.46.1](https://github.com/mrzmyr/pixy-mood-tracker/compare/v1.46.0...v1.46.1) (2022-10-21)
+
+
+### Bug Fixes
+
+* calendar shwoing no items for one screen ([46ed427](https://github.com/mrzmyr/pixy-mood-tracker/commit/46ed427f0d189522169d5d7e5b3dd60ff71ff1f7))
+* remove yellow bg in feedback modal ([186aa4c](https://github.com/mrzmyr/pixy-mood-tracker/commit/186aa4cdc5373f4dfcd9fbbe29b284f371a3b443))
+
+
+### Chore
+
+* remove comments ([df0d865](https://github.com/mrzmyr/pixy-mood-tracker/commit/df0d8650ff72e1a23c7468d938ad18090dd801a4))
+
 ## [1.46.0](https://github.com/mrzmyr/pixy-mood-tracker/compare/v1.45.1...v1.46.0) (2022-10-21)
 
 
