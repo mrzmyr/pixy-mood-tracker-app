@@ -87,7 +87,6 @@ export default function useFeedbackModal() {
             behavior={Platform.OS === "ios" ? "padding" : "height"}
             style={{
               flex: 1,
-              backgroundColor: "yellow",
             }}
           >
             {isLoading && (
