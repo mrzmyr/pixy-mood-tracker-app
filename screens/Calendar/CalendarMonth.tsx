@@ -2,7 +2,7 @@ import dayjs, { Dayjs } from "dayjs";
 import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
 import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
 import _ from "lodash";
-import React, { memo, useMemo, useRef } from "react";
+import React, { memo, useMemo } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { useStyle } from "react-native-style-utilities";
 import { DATE_FORMAT } from "../../constants/Config";
@@ -34,9 +34,9 @@ const CalendarMonth = memo(function CalendarMonth({
 
   const date = dayjs(dateString);
 
-  const WEEK_ITEMS = useRef<MinimalLogItem[][]>([]);
-  const WEEK_ITEMS_FILTERED = useRef<LogItem[][]>([]);
-  const DATES: { start: Dayjs; end: Dayjs }[] = [];
+  const WEEK_ITEMS: MinimalLogItem[][] = [];
+  const WEEK_ITEMS_FILTERED: LogItem[][] = [];
+  const WEEK_DATES: { start: Dayjs; end: Dayjs }[] = [];
 
   // count the weeks in the month and create an array with start and end dates for each week
   const monthStart = date.startOf("month");
@@ -59,50 +59,40 @@ const CalendarMonth = memo(function CalendarMonth({
       end = monthEnd;
     }
 
-    DATES.push({ start, end });
-
-    WEEK_ITEMS.current[i] = [];
-    WEEK_ITEMS_FILTERED.current[i] = [];
+    WEEK_DATES.push({ start, end });
+    WEEK_ITEMS[i] = [];
+    WEEK_ITEMS_FILTERED[i] = [];
   }
 
   const weekItems = useMemo(() => {
-    for (let i = 0; i < WEEK_ITEMS.current.length; i++) {
-      const start =
-        i === 0 ? date : date.clone().add(i, "week").startOf("week");
-      const end =
-        i === WEEK_ITEMS.current.length - 1
-          ? date.clone().endOf("month")
-          : date.startOf("month").add(i, "week").endOf("week");
+    for (let i = 0; i < WEEK_DATES.length; i++) {
       const _items = items?.filter(
         (item) =>
-          dayjs(item.date).isSameOrAfter(start, "day") &&
-          dayjs(item.date).isSameOrBefore(end, "day")
+          dayjs(item.date).isSameOrAfter(WEEK_DATES[i].start, "day") &&
+          dayjs(item.date).isSameOrBefore(WEEK_DATES[i].end, "day")
       );
-      if (!_.isEqual(WEEK_ITEMS.current[i], _items) && _items !== undefined) {
-        WEEK_ITEMS.current[i] = _items;
+      if (!_.isEqual(WEEK_ITEMS[i], _items) && _items !== undefined) {
+        WEEK_ITEMS[i] = _items;
       }
     }
 
-    return WEEK_ITEMS.current;
+    return WEEK_ITEMS;
   }, [JSON.stringify(items), dateString]);
 
   const weekItemsFiltered = useMemo(() => {
-    for (let i = 0; i < WEEK_ITEMS.current.length; i++) {
-      const start =
-        i === 0 ? date : date.clone().add(i, "week").startOf("week");
-      const end = date.startOf("month").add(i, "week").endOf("week");
+    for (let i = 0; i < WEEK_DATES.length; i++) {
       const _filteredItems = filteredItems?.filter(
         (item) =>
-          dayjs(item.date).isSameOrAfter(start, "day") &&
-          dayjs(item.date).isSameOrBefore(end, "day")
+          dayjs(item.date).isSameOrAfter(WEEK_DATES[i].start, "day") &&
+          dayjs(item.date).isSameOrBefore(WEEK_DATES[i].end, "day")
       );
 
-      if (!_.isEqual(WEEK_ITEMS_FILTERED.current[i], _filteredItems)) {
-        WEEK_ITEMS_FILTERED.current[i] = _filteredItems;
+      if (!_.isEqual(WEEK_ITEMS_FILTERED[i], _filteredItems)) {
+        WEEK_ITEMS_FILTERED[i] = _filteredItems;
       }
     }
 
-    return WEEK_ITEMS_FILTERED.current;
+    return WEEK_ITEMS_FILTERED;
   }, [JSON.stringify(filteredItems)]);
 
   const textStyles = useStyle(
@@ -118,14 +108,14 @@ const CalendarMonth = memo(function CalendarMonth({
   return (
     <View renderToHardwareTextureAndroid>
       <Text style={textStyles}>{dayjs(dateString).format("MMMM YYYY")}</Text>
-      {WEEK_ITEMS.current.map((_, index) => (
+      {WEEK_DATES.map((_, index) => (
         <CalendarWeek
           scaleType={scaleType}
           key={index}
-          startDate={DATES[index].start.format(DATE_FORMAT)}
-          endDate={DATES[index].end.format(DATE_FORMAT)}
+          startDate={WEEK_DATES[index].start.format(DATE_FORMAT)}
+          endDate={WEEK_DATES[index].end.format(DATE_FORMAT)}
           isFirst={index === 0}
-          isLast={index === WEEK_ITEMS.current.length - 1}
+          isLast={index === WEEK_ITEMS.length - 1}
           items={weekItems[index]}
           filteredItems={weekItemsFiltered[index]}
           isFiltering={isFiltering}
