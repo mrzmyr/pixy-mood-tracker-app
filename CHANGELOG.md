@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.46.0](https://github.com/mrzmyr/pixy-mood-tracker/compare/v1.45.1...v1.46.0) (2022-10-21)
+
+
+### Features
+
+* add zustand ([0b73518](https://github.com/mrzmyr/pixy-mood-tracker/commit/0b7351809301e0faf09bc94d1134c140156c34a2))
+
+
+### Bug Fixes
+
+* days in month view ([d9e2ef9](https://github.com/mrzmyr/pixy-mood-tracker/commit/d9e2ef98cbaae63a057bad711df1c06a05b70e54))
+* import tags dangerouslyImportDirectlyToAsyncStorage ([f0de097](https://github.com/mrzmyr/pixy-mood-tracker/commit/f0de097127f5847681a2726983d3963dac4e5f1a))
+
 ### [1.45.1](https://github.com/mrzmyr/pixy-mood-tracker/compare/v1.45.0...v1.45.1) (2022-10-19)
 
 
