@@ -33,11 +33,11 @@ describe('useSettings()', () => {
     await AsyncStorage.clear()
     console.error = jest.fn()
   })
-  
+
   afterEach(() => {
     console.error = _console_error
   });
-  
+
   test('should have `loaded` prop', async () => {
     const hook = _renderHook()
     expect(hook.result.current.state.settings.loaded).toBe(false)
@@ -46,7 +46,7 @@ describe('useSettings()', () => {
   })
 
   test('should load from settings async storage & initialize device id if missing', async () => {
-    AsyncStorage.setItem(STORAGE_KEY, JSON.stringify({ 
+    AsyncStorage.setItem(STORAGE_KEY, JSON.stringify({
       ...INITIAL_STATE,
       reminderTime: '12:00',
     }))
@@ -73,7 +73,7 @@ describe('useSettings()', () => {
   test('should import', async () => {
     const hook = _renderHook()
     await hook.waitForNextUpdate()
-    
+
     await act(() => {
       hook.result.current.state.importSettings({
         ...INITIAL_STATE,
@@ -87,7 +87,7 @@ describe('useSettings()', () => {
   test('should addActionDone', async () => {
     const hook = _renderHook()
     await hook.waitForNextUpdate()
-    
+
     await act(() => {
       hook.result.current.state.addActionDone('test')
     })
@@ -96,7 +96,31 @@ describe('useSettings()', () => {
       title: 'test',
       date: expect.any(String)
     }]
-    
+
+    expect(hook.result.current.state.settings.actionsDone).toEqual(ACTIONS_DONE)
+    expect(JSON.parse(await AsyncStorage.getItem(STORAGE_KEY))).toEqual({
+      ..._.omit(LOADED_STATE, 'loaded'),
+      actionsDone: ACTIONS_DONE,
+    });
+  })
+
+  test('should not addActionDone when it already exists', async () => {
+    const hook = _renderHook()
+    await hook.waitForNextUpdate()
+
+    await act(() => {
+      hook.result.current.state.addActionDone('test')
+    })
+
+    await act(() => {
+      hook.result.current.state.addActionDone('test')
+    })
+
+    const ACTIONS_DONE = [{
+      title: 'test',
+      date: expect.any(String)
+    }]
+
     expect(hook.result.current.state.settings.actionsDone).toEqual(ACTIONS_DONE)
     expect(JSON.parse(await AsyncStorage.getItem(STORAGE_KEY))).toEqual({
       ..._.omit(LOADED_STATE, 'loaded'),
@@ -107,7 +131,7 @@ describe('useSettings()', () => {
   test('should hasActionDone', async () => {
     const hook = _renderHook()
     await hook.waitForNextUpdate()
-    
+
     await act(() => {
       hook.result.current.state.addActionDone('test')
     })
@@ -119,7 +143,7 @@ describe('useSettings()', () => {
   test('should resetSettings', async () => {
     const hook = _renderHook()
     await hook.waitForNextUpdate()
-    
+
     await act(() => {
       hook.result.current.state.resetSettings()
     })

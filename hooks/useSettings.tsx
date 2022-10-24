@@ -13,7 +13,7 @@ import { Tag } from "./useTags";
 
 export const STORAGE_KEY = "PIXEL_TRACKER_SETTINGS";
 
-export const SCALE_TYPES = [
+const SCALE_TYPES = [
   "ColorBrew-RdYlGn",
   "ColorBrew-RdYlGn-old",
   "ColorBrew-PiYG",
@@ -72,18 +72,18 @@ function SettingsProvider({ children }: { children: React.ReactNode }) {
   }, [INITIAL_STATE]);
 
   const importSettings = useCallback((settings: SettingsState) => {
-      setSettings({
-        ...INITIAL_STATE,
-        ...settings,
-        loaded: true,
-      });
+    setSettings({
+      ...INITIAL_STATE,
+      ...settings,
+      loaded: true,
+    });
   }, [INITIAL_STATE]);
 
   useEffect(() => {
     (async () => {
       const json = await load<SettingsState>(STORAGE_KEY);
-      if(json !== null) {
-        if(!json.deviceId) {
+      if (json !== null) {
+        if (!json.deviceId) {
           json.deviceId = uuidv4();
         }
         setSettings({
@@ -108,6 +108,10 @@ function SettingsProvider({ children }: { children: React.ReactNode }) {
   }, [JSON.stringify(settings)]);
 
   const addActionDone = useCallback((actionTitle: IAction["title"]) => {
+    if (hasActionDone(actionTitle)) {
+      return;
+    }
+
     setSettings((settings) => ({
       ...settings,
       actionsDone: [
@@ -118,7 +122,7 @@ function SettingsProvider({ children }: { children: React.ReactNode }) {
         },
       ],
     }));
-  }, []);
+  }, [settings.actionsDone]);
 
   const hasActionDone = useCallback(
     (actionTitle: IAction["title"]) => {
