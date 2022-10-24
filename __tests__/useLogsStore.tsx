@@ -35,8 +35,11 @@ describe('useLogStore()', () => {
 
   beforeEach(async () => {
     jest.restoreAllMocks();
+    useLogStore.setState({
+      items: {},
+    })
   })
-  
+
   test('should set `_hasHydrated` on hydration', async () => {
     const hook = _renderHook()
 
@@ -45,7 +48,7 @@ describe('useLogStore()', () => {
 
   test('should load `state` from async storage (if not migrated)', async () => {
     AsyncStorage.getItem = jest.fn().mockImplementation((key) => {
-      if(key === 'PIXEL_TRACKER_LOGS') {
+      if (key === 'PIXEL_TRACKER_LOGS') {
         return Promise.resolve(JSON.stringify({
           items: testItems
         }))
@@ -54,15 +57,15 @@ describe('useLogStore()', () => {
     })
 
     await useLogStore.persist.rehydrate()
-    
+
     const hook = _renderHook()
-    
+
     expect(hook.result.current.items).toEqual(testItems)
   })
 
   test('should load `state` from zustand (if migrated)', async () => {
     AsyncStorage.getItem = jest.fn().mockImplementation((key) => {
-      if(key === 'PIXEL_TRACKER_LOGS_ZUSTAND') {
+      if (key === 'PIXEL_TRACKER_LOGS_ZUSTAND') {
         return Promise.resolve(JSON.stringify({
           version: 0,
           state: {
@@ -72,7 +75,7 @@ describe('useLogStore()', () => {
       }
       return Promise.resolve(undefined)
     })
-    
+
     await useLogStore.persist.rehydrate()
 
     const hook = _renderHook()
@@ -97,13 +100,13 @@ describe('useLogStore()', () => {
 
   test('should addLog', async () => {
     const hook = _renderHook()
-    
+
     const itemsArr = Object.values(testItems)
-    
+
     await act(() => {
       hook.result.current.addLog(itemsArr[0])
     })
-    
+
     expect(hook.result.current.items)
       .toEqual({
         [itemsArr[0].date]: itemsArr[0]
@@ -112,31 +115,33 @@ describe('useLogStore()', () => {
 
   test('should editLog', async () => {
     const hook = _renderHook()
-    
+
     const itemsArr = Object.values(testItems)
     const itemEdited = {
       ...itemsArr[0],
-      message: 'edited message',
+      message: 'edited message 🧡',
       tags: [{
         id: '4',
         title: 'tag title',
         color: 'lime'
       }]
     }
-    
+
+    expect(hook.result.current.items).toEqual({})
+
     await act(() => hook.result.current.addLog(itemsArr[0]))
     await act(() => hook.result.current.editLog(itemEdited))
 
     expect(hook.result.current.items).toEqual({
       [itemsArr[0].date]: itemEdited
     })
+
   })
 
   test('should updateLogs', async () => {
     const hook = _renderHook()
-    
-    const itemsClone = _.clone(testItems)
-    const itemsArr = Object.values(itemsClone)
+
+    const itemsArr = Object.values(testItems)
     const itemsEdited = {
       [itemsArr[0].date]: {
         ...itemsArr[0],
@@ -167,9 +172,11 @@ describe('useLogStore()', () => {
 
   test('should deleteLog', async () => {
     const hook = _renderHook()
-    
+
+    expect(hook.result.current.items).toEqual({})
+
     const itemsArr = Object.values(testItems)
-    
+
     await act(() => hook.result.current.addLog(itemsArr[0]))
     await act(() => hook.result.current.addLog(itemsArr[1]))
     await act(() => hook.result.current.deleteLog(itemsArr[0]))
@@ -181,7 +188,7 @@ describe('useLogStore()', () => {
 
   test('should reset', async () => {
     AsyncStorage.getItem = jest.fn().mockImplementation((key) => {
-      if(key === 'PIXEL_TRACKER_LOGS_ZUSTAND') {
+      if (key === 'PIXEL_TRACKER_LOGS_ZUSTAND') {
         return Promise.resolve(JSON.stringify({
           version: 0,
           state: {
@@ -196,7 +203,7 @@ describe('useLogStore()', () => {
     const hook = _renderHook()
 
     expect(hook.result.current.items).toEqual(testItems)
-    
+
     await act(() => hook.result.current.reset())
 
     expect(hook.result.current.items).toEqual({})

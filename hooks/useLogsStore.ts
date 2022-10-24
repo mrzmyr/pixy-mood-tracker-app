@@ -1,6 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import _ from "lodash";
-import { useMemo } from "react";
 import create from "zustand";
 import { persist } from "zustand/middleware";
 import { AtLeast } from "../types";
@@ -84,14 +83,13 @@ const store = (set, get) => ({
 
   addLog: (payload) =>
     set((state) => {
-      get().items[payload.date] = payload;
+      state.items[payload.date] = payload;
       return state;
     }),
   editLog: (payload) =>
     set((state) => {
-      const prevState = get();
-      prevState.items[payload.date] = {
-        ...prevState.items[payload.date],
+      state.items[payload.date] = {
+        ...state.items[payload.date],
         ...payload,
       };
       return state;
@@ -99,10 +97,9 @@ const store = (set, get) => ({
   updateLogs: (payload) =>
     set((state) => {
       const prevState = get();
-      for(const key in payload) {
+      for (const key in payload) {
         prevState.items[key] = payload[key]
       }
-      console.log(prevState.items)
       return prevState;
     }),
   deleteLog: (payload) =>
@@ -110,12 +107,14 @@ const store = (set, get) => ({
       delete state.items[payload.date];
       return state;
     }),
-  reset: () => {
-    storage.clear()
-    set(INITIAL_STATE)
+  reset: async () => {
+    await storage.clear()
+    set({
+      ...INITIAL_STATE,
+    })
   },
 });
 
 const storeProps = persist<State>(store, storageProps);
 
-export const useLogStore = create<State>(storeProps);
+export const useLogStore = create<State>()(storeProps)
