@@ -7,6 +7,7 @@ import CalendarScreen from '../screens/Calendar';
 import { MyTabBar } from "./MyTabBar";
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { t } from '../helpers/translation';
+import { Filter } from 'react-native-feather';
 
 const Tab = createBottomTabNavigator();
 
@@ -64,7 +65,10 @@ export const BottomTabs = () => {
                 }}
                 testID="filters"
                 type='primary'
-              >{t('calendar_filters')} {calendarFilters.data.isFiltering ? `(${calendarFilters.data.filterCount})` : ''}</LinkButton>
+                icon="Filter"
+              >
+                {t('calendar_filters')} {calendarFilters.data.isFiltering ? `(${calendarFilters.data.filterCount})` : ''}
+              </LinkButton>
             </View>
           ),
           tabBarTestID: 'calendar',
