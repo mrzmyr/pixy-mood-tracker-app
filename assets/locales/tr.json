@@ -126,7 +126,7 @@
   "statistics_feedback_question": "Bu yardımcı olur mu?",
   "statistics_feedback_thanks": "Teşekkürler!",
   "calendar_filters": "Filtreler",
-  "calendar_filters_reset": "Hepsini temizle",
+  "calendar_filters_reset": "Sıfırla",
   "calendar_filters_results": "Sonuçlar",
   "calendar_filters_search": "Arama",
   "today": "Bugün",
@@ -212,5 +212,6 @@
   "reset_factory_confirm_message": "Tüm verileri ve ayarları sıfırlamak istediğinizden emin misiniz?",
   "colors": "Renkler",
   "colors_info": "Renkler, takvimdeki ruh halini belirtmek için kullanılır. Önceki ruh haliniz seçilen renge geçecektir.",
-  "colors_reset": "Varsayılana sıfırla"
+  "colors_reset": "Varsayılana sıfırla",
+  "calendar_bottom_hint": "Gelecek harika olacak."
 }

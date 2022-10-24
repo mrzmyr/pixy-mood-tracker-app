@@ -126,7 +126,7 @@
   "statistics_feedback_question": "Är detta användbart?",
   "statistics_feedback_thanks": "Tack!",
   "calendar_filters": "Filter",
-  "calendar_filters_reset": "Rensa alla",
+  "calendar_filters_reset": "Återställa",
   "calendar_filters_results": "Resultat",
   "calendar_filters_search": "Sök",
   "today": "I dag",
@@ -212,5 +212,6 @@
   "reset_factory_confirm_message": "Är du säker på att du vill återställa alla data och inställningar?",
   "colors": "Färger",
   "colors_info": "Färger används för att indikera stämningen i kalendern. Ditt tidigare humör kommer att ändras till den valda färgen.",
-  "colors_reset": "Återställ till standard"
+  "colors_reset": "Återställ till standard",
+  "calendar_bottom_hint": "Framtiden kommer att bli stor."
 }

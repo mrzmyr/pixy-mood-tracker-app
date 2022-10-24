@@ -126,7 +126,7 @@
   "statistics_feedback_question": "هل هذا مفيد؟",
   "statistics_feedback_thanks": "شكرًا لك!",
   "calendar_filters": "المرشحات",
-  "calendar_filters_reset": "امسح الكل",
+  "calendar_filters_reset": "إعادة ضبط",
   "calendar_filters_results": "نتائج",
   "calendar_filters_search": "يبحث",
   "today": "اليوم",
@@ -212,5 +212,6 @@
   "reset_factory_confirm_message": "هل أنت متأكد أنك تريد إعادة تعيين كافة البيانات والإعدادات؟",
   "colors": "الألوان",
   "colors_info": "تستخدم الألوان للإشارة إلى الحالة المزاجية في التقويم. سيتم تبديل حالتك المزاجية السابقة إلى اللون المحدد.",
-  "colors_reset": "إعادة تعيين إلى الافتراضي"
+  "colors_reset": "إعادة تعيين إلى الافتراضي",
+  "calendar_bottom_hint": "المستقبل سيكون رائعا."
 }

@@ -126,7 +126,7 @@
   "statistics_feedback_question": "Je li ovo korisno?",
   "statistics_feedback_thanks": "Hvala vam!",
   "calendar_filters": "Filteri",
-  "calendar_filters_reset": "Očistiti sve",
+  "calendar_filters_reset": "Resetiraj",
   "calendar_filters_results": "Rezultati",
   "calendar_filters_search": "traži",
   "today": "Danas",
@@ -212,5 +212,6 @@
   "reset_factory_confirm_message": "Jeste li sigurni da želite poništiti sve podatke i postavke?",
   "colors": "Boje",
   "colors_info": "Boje se koriste za označavanje raspoloženja u kalendaru. Vaše prethodno raspoloženje bit će prebačeno u odabranu boju.",
-  "colors_reset": "Vrati na zadano"
+  "colors_reset": "Vrati na zadano",
+  "calendar_bottom_hint": "Budućnost će biti sjajna."
 }

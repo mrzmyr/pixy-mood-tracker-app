@@ -126,7 +126,7 @@
   "statistics_feedback_question": "これは役に立ちましたか？",
   "statistics_feedback_thanks": "ありがとうございました！",
   "calendar_filters": "フィルター",
-  "calendar_filters_reset": "すべてクリア",
+  "calendar_filters_reset": "リセット",
   "calendar_filters_results": "結果",
   "calendar_filters_search": "探す",
   "today": "今日",
@@ -212,5 +212,6 @@
   "reset_factory_confirm_message": "すべてのデータと設定をリセットしてもよろしいですか?",
   "colors": "色",
   "colors_info": "カレンダーの雰囲気を色で表現。以前の気分が選択した色に切り替わります。",
-  "colors_reset": "デフォルトにリセット"
+  "colors_reset": "デフォルトにリセット",
+  "calendar_bottom_hint": "未来は素晴らしいものになるでしょう。"
 }

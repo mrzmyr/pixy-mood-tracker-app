@@ -126,7 +126,7 @@
   "statistics_feedback_question": "Điều này có hữu ích không?",
   "statistics_feedback_thanks": "Cảm ơn bạn!",
   "calendar_filters": "Bộ lọc",
-  "calendar_filters_reset": "Quet sạch tât cả",
+  "calendar_filters_reset": "Cài lại",
   "calendar_filters_results": "Kết quả",
   "calendar_filters_search": "Tìm kiếm",
   "today": "Hôm nay",
@@ -212,5 +212,6 @@
   "reset_factory_confirm_message": "Bạn có chắc chắn muốn đặt lại tất cả dữ liệu và cài đặt không?",
   "colors": "Màu sắc",
   "colors_info": "Màu sắc được sử dụng để biểu thị tâm trạng trong lịch. Tâm trạng trước đó của bạn sẽ được chuyển sang màu đã chọn.",
-  "colors_reset": "Đặt lại về mặc định"
+  "colors_reset": "Đặt lại về mặc định",
+  "calendar_bottom_hint": "Tương lai sẽ rất tuyệt."
 }

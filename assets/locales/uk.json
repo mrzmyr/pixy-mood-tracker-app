@@ -126,7 +126,7 @@
   "statistics_feedback_question": "Це корисно?",
   "statistics_feedback_thanks": "Дякую!",
   "calendar_filters": "Фільтри",
-  "calendar_filters_reset": "Очистити все",
+  "calendar_filters_reset": "Скинути",
   "calendar_filters_results": "Результати",
   "calendar_filters_search": "Пошук",
   "today": "Сьогодні",
@@ -212,5 +212,6 @@
   "reset_factory_confirm_message": "Ви впевнені, що бажаєте скинути всі дані та налаштування?",
   "colors": "Кольори",
   "colors_info": "Кольори використовуються для позначення настрою в календарі. Ваш попередній настрій буде змінено на вибраний колір.",
-  "colors_reset": "Скинути до замовчування"
+  "colors_reset": "Скинути до замовчування",
+  "calendar_bottom_hint": "Майбутнє буде чудовим."
 }

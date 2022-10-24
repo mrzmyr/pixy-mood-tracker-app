@@ -126,7 +126,7 @@
   "statistics_feedback_question": "Est-ce utile ?",
   "statistics_feedback_thanks": "Merci!",
   "calendar_filters": "Filtres",
-  "calendar_filters_reset": "Tout effacer",
+  "calendar_filters_reset": "Réinitialiser",
   "calendar_filters_results": "Résultats",
   "calendar_filters_search": "Chercher",
   "today": "Aujourd'hui",
@@ -212,5 +212,6 @@
   "reset_factory_confirm_message": "Voulez-vous vraiment réinitialiser toutes les données et tous les paramètres ?",
   "colors": "Couleurs",
   "colors_info": "Les couleurs sont utilisées pour indiquer l'ambiance dans le calendrier. Votre humeur précédente sera remplacée par la couleur sélectionnée.",
-  "colors_reset": "Réinitialiser par défaut"
+  "colors_reset": "Réinitialiser par défaut",
+  "calendar_bottom_hint": "L'avenir sera grand."
 }

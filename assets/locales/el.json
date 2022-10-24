@@ -126,7 +126,7 @@
   "statistics_feedback_question": "Είναι αυτό χρήσιμο;",
   "statistics_feedback_thanks": "Ευχαριστώ!",
   "calendar_filters": "Φίλτρα",
-  "calendar_filters_reset": "Τα καθαρίζω όλα",
+  "calendar_filters_reset": "Επαναφορά",
   "calendar_filters_results": "Αποτελέσματα",
   "calendar_filters_search": "Αναζήτηση",
   "today": "Σήμερα",
@@ -212,5 +212,6 @@
   "reset_factory_confirm_message": "Είστε βέβαιοι ότι θέλετε να επαναφέρετε όλα τα δεδομένα και τις ρυθμίσεις;",
   "colors": "Χρωματιστά",
   "colors_info": "Τα χρώματα χρησιμοποιούνται για να υποδείξουν τη διάθεση στο ημερολόγιο. Η προηγούμενη διάθεσή σας θα αλλάξει στο επιλεγμένο χρώμα.",
-  "colors_reset": "Επαναφορά στο προκαθορισμένο"
+  "colors_reset": "Επαναφορά στο προκαθορισμένο",
+  "calendar_bottom_hint": "Το μέλλον θα είναι υπέροχο."
 }

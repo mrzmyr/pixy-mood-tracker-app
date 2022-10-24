@@ -126,7 +126,7 @@
   "statistics_feedback_question": "Apakah ini membantu?",
   "statistics_feedback_thanks": "Terima kasih!",
   "calendar_filters": "Filter",
-  "calendar_filters_reset": "Bersihkan semua",
+  "calendar_filters_reset": "Mengatur ulang",
   "calendar_filters_results": "Hasil",
   "calendar_filters_search": "Mencari",
   "today": "Hari ini",
@@ -212,5 +212,6 @@
   "reset_factory_confirm_message": "Apakah Anda yakin ingin menyetel ulang semua data dan setelan?",
   "colors": "warna",
   "colors_info": "Warna digunakan untuk menunjukkan suasana hati dalam kalender. Suasana hati Anda sebelumnya akan dialihkan ke warna yang dipilih.",
-  "colors_reset": "Setel ulang ke default"
+  "colors_reset": "Setel ulang ke default",
+  "calendar_bottom_hint": "Masa depan akan hebat."
 }

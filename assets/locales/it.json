@@ -126,7 +126,7 @@
   "statistics_feedback_question": "Questo è utile?",
   "statistics_feedback_thanks": "Grazie!",
   "calendar_filters": "Filtri",
-  "calendar_filters_reset": "Cancella tutto",
+  "calendar_filters_reset": "Ripristina",
   "calendar_filters_results": "Risultati",
   "calendar_filters_search": "Ricerca",
   "today": "In data odierna",
@@ -212,5 +212,6 @@
   "reset_factory_confirm_message": "Sei sicuro di voler ripristinare tutti i dati e le impostazioni?",
   "colors": "Colori",
   "colors_info": "I colori sono usati per indicare l'atmosfera nel calendario. Il tuo stato d'animo precedente passerà al colore selezionato.",
-  "colors_reset": "Riportare alle condizioni originali"
+  "colors_reset": "Riportare alle condizioni originali",
+  "calendar_bottom_hint": "Il futuro sarà fantastico."
 }

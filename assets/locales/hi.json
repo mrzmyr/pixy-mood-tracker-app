@@ -126,7 +126,7 @@
   "statistics_feedback_question": "क्या यह मददगार है?",
   "statistics_feedback_thanks": "आपको धन्यवाद!",
   "calendar_filters": "फिल्टर",
-  "calendar_filters_reset": "सभी साफ करें",
+  "calendar_filters_reset": "रीसेट",
   "calendar_filters_results": "परिणाम",
   "calendar_filters_search": "खोज",
   "today": "आज",
@@ -212,5 +212,6 @@
   "reset_factory_confirm_message": "क्या आप वाकई सभी डेटा और सेटिंग रीसेट करना चाहते हैं?",
   "colors": "रंग की",
   "colors_info": "कैलेंडर में मूड को दर्शाने के लिए रंगों का उपयोग किया जाता है। आपका पिछला मूड चयनित रंग में बदल जाएगा।",
-  "colors_reset": "डिफ़ॉल्ट पर रीसेट"
+  "colors_reset": "डिफ़ॉल्ट पर रीसेट",
+  "calendar_bottom_hint": "भविष्य बहुत अच्छा होगा।"
 }

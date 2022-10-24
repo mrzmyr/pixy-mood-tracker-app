@@ -126,7 +126,7 @@
   "statistics_feedback_question": "Adakah ini membantu?",
   "statistics_feedback_thanks": "Terima kasih!",
   "calendar_filters": "Penapis",
-  "calendar_filters_reset": "Kosongkan semua",
+  "calendar_filters_reset": "Tetapkan semula",
   "calendar_filters_results": "Keputusan",
   "calendar_filters_search": "Cari",
   "today": "Hari ini",
@@ -212,5 +212,6 @@
   "reset_factory_confirm_message": "Adakah anda pasti mahu menetapkan semula semua data dan tetapan?",
   "colors": "Warna",
   "colors_info": "Warna digunakan untuk menunjukkan mood dalam kalendar. Mood anda sebelum ini akan ditukar kepada warna yang dipilih.",
-  "colors_reset": "Tetapkan semula kepada lalai"
+  "colors_reset": "Tetapkan semula kepada lalai",
+  "calendar_bottom_hint": "Masa depan akan menjadi hebat."
 }

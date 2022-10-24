@@ -126,7 +126,7 @@
   "statistics_feedback_question": "Això és útil?",
   "statistics_feedback_thanks": "Gràcies!",
   "calendar_filters": "Filtres",
-  "calendar_filters_reset": "Esborra-ho tot",
+  "calendar_filters_reset": "Restableix",
   "calendar_filters_results": "Resultats",
   "calendar_filters_search": "Cerca",
   "today": "Avui",
@@ -212,5 +212,6 @@
   "reset_factory_confirm_message": "Esteu segur que voleu restablir totes les dades i la configuració?",
   "colors": "Colors",
   "colors_info": "Els colors s'utilitzen per indicar l'estat d'ànim al calendari. El vostre estat d'ànim anterior es canviarà al color seleccionat.",
-  "colors_reset": "Restableix els valors predeterminats"
+  "colors_reset": "Restableix els valors predeterminats",
+  "calendar_bottom_hint": "El futur serà gran."
 }

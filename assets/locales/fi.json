@@ -126,7 +126,7 @@
   "statistics_feedback_question": "Onko tästä apua?",
   "statistics_feedback_thanks": "Kiitos!",
   "calendar_filters": "Suodattimet",
-  "calendar_filters_reset": "Tyhjennä",
+  "calendar_filters_reset": "Nollaa",
   "calendar_filters_results": "Tulokset",
   "calendar_filters_search": "Hae",
   "today": "Tänään",
@@ -212,5 +212,6 @@
   "reset_factory_confirm_message": "Haluatko varmasti nollata kaikki tiedot ja asetukset?",
   "colors": "värit",
   "colors_info": "Kalenterin tunnelmaa käytetään väreillä. Edellinen mielialasi vaihtuu valittuun väriin.",
-  "colors_reset": "Palauta oletusarvo"
+  "colors_reset": "Palauta oletusarvo",
+  "calendar_bottom_hint": "Tulevaisuus tulee olemaan hieno."
 }

@@ -126,7 +126,7 @@
   "statistics_feedback_question": "Este de ajutor?",
   "statistics_feedback_thanks": "Mulțumesc!",
   "calendar_filters": "Filtre",
-  "calendar_filters_reset": "Curata tot",
+  "calendar_filters_reset": "Resetați",
   "calendar_filters_results": "Rezultate",
   "calendar_filters_search": "Căutare",
   "today": "Astăzi",
@@ -212,5 +212,6 @@
   "reset_factory_confirm_message": "Sigur doriți să resetați toate datele și setările?",
   "colors": "Culori",
   "colors_info": "Culorile sunt folosite pentru a indica starea de spirit din calendar. Starea ta anterioară va fi schimbată la culoarea selectată.",
-  "colors_reset": "Resetare la valorile implicite"
+  "colors_reset": "Resetare la valorile implicite",
+  "calendar_bottom_hint": "Viitorul va fi grozav."
 }

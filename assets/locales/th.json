@@ -126,7 +126,7 @@
   "statistics_feedback_question": "สิ่งนี้มีประโยชน์หรือไม่?",
   "statistics_feedback_thanks": "ขอขอบคุณ!",
   "calendar_filters": "ตัวกรอง",
-  "calendar_filters_reset": "ลบทั้งหมด",
+  "calendar_filters_reset": "รีเซ็ต",
   "calendar_filters_results": "ผลลัพธ์",
   "calendar_filters_search": "ค้นหา",
   "today": "วันนี้",
@@ -212,5 +212,6 @@
   "reset_factory_confirm_message": "คุณแน่ใจหรือไม่ว่าต้องการรีเซ็ตข้อมูลและการตั้งค่าทั้งหมด",
   "colors": "สี",
   "colors_info": "ใช้สีเพื่อแสดงอารมณ์ในปฏิทิน อารมณ์ก่อนหน้าของคุณจะถูกเปลี่ยนเป็นสีที่เลือก",
-  "colors_reset": "รีเซ็ตเป็นค่าเริ่มต้น"
+  "colors_reset": "รีเซ็ตเป็นค่าเริ่มต้น",
+  "calendar_bottom_hint": "อนาคตจะยิ่งใหญ่"
 }

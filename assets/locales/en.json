@@ -52,7 +52,7 @@
   "export_failed_title": "Export failed",
   "export_help": "Export all data as a JSON file",
   "vote_features": "Vote Features",
-  "changelog": "Changelog",
+  "changelog": "What's new",
   "log_modal_message_placeholder_1": "What was the best thing that happened to you today?",
   "log_modal_message_placeholder_2": "What made today unique?",
   "log_modal_message_placeholder_3": "Who made your day better today?",
@@ -134,7 +134,7 @@
   "statistics_tag_peaks_title": "was tagged particularly often with {{count}} times.",
   "statistics_tags_distribution_title": "In the last 2 weeks, {{count}} days were tagged.",
   "calendar_filters": "Filters",
-  "calendar_filters_reset": "Clear",
+  "calendar_filters_reset": "Reset",
   "calendar_filters_results": "Results",
   "calendar_filters_search": "Search",
   "today": "Today",
@@ -206,5 +206,6 @@
   "statistics_2_week_highlights": "Last 2 weeks",
   "statistics_no_highlights": "Currently no highlights are relevant, but you can always go to 'Show all highlights'.",
   "statistics_feedback_placeholder": "How could it be more helpful? (optional)",
-  "tags_reached_max": "You reached the maximum of {{max_count}} tags. Please delete some tags to add new ones."
+  "tags_reached_max": "You reached the maximum of {{max_count}} tags. Please delete some tags to add new ones.",
+  "calendar_bottom_hint": "The future will be great."
 }

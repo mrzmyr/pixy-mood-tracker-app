@@ -126,7 +126,7 @@
   "statistics_feedback_question": "Is dit nuttig?",
   "statistics_feedback_thanks": "Dank je!",
   "calendar_filters": "Filters",
-  "calendar_filters_reset": "Wis alles",
+  "calendar_filters_reset": "Resetten",
   "calendar_filters_results": "Resultaten",
   "calendar_filters_search": "Zoeken",
   "today": "Vandaag",
@@ -212,5 +212,6 @@
   "reset_factory_confirm_message": "Weet je zeker dat je alle gegevens en instellingen wilt resetten?",
   "colors": "Kleuren",
   "colors_info": "Kleuren worden gebruikt om de stemming in de kalender aan te geven. Je vorige stemming wordt overgeschakeld naar de geselecteerde kleur.",
-  "colors_reset": "Reset naar standaard"
+  "colors_reset": "Reset naar standaard",
+  "calendar_bottom_hint": "De toekomst zal geweldig zijn."
 }

@@ -126,7 +126,7 @@
   "statistics_feedback_question": "도움이 되나요?",
   "statistics_feedback_thanks": "고맙습니다!",
   "calendar_filters": "필터",
-  "calendar_filters_reset": "모두 지우기",
+  "calendar_filters_reset": "초기화",
   "calendar_filters_results": "결과",
   "calendar_filters_search": "검색",
   "today": "오늘",
@@ -212,5 +212,6 @@
   "reset_factory_confirm_message": "모든 데이터와 설정을 재설정하시겠습니까?",
   "colors": "그림 물감",
   "colors_info": "색상은 달력의 분위기를 나타내는 데 사용됩니다. 선택한 색상으로 이전 기분이 전환됩니다.",
-  "colors_reset": "기본값으로 재설정"
+  "colors_reset": "기본값으로 재설정",
+  "calendar_bottom_hint": "미래는 훌륭할 것입니다."
 }

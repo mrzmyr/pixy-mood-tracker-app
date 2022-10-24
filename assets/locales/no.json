@@ -126,7 +126,7 @@
   "statistics_feedback_question": "Er dette nyttig?",
   "statistics_feedback_thanks": "Takk skal du ha!",
   "calendar_filters": "Filtre",
-  "calendar_filters_reset": "Slett alt",
+  "calendar_filters_reset": "Nullstille",
   "calendar_filters_results": "Resultater",
   "calendar_filters_search": "Søk",
   "today": "I dag",
@@ -212,5 +212,6 @@
   "reset_factory_confirm_message": "Er du sikker på at du vil tilbakestille alle data og innstillinger?",
   "colors": "Farger",
   "colors_info": "Farger brukes for å indikere stemningen i kalenderen. Din forrige stemning vil bli byttet til den valgte fargen.",
-  "colors_reset": "Tilbakestill til standard"
+  "colors_reset": "Tilbakestill til standard",
+  "calendar_bottom_hint": "Fremtiden vil være stor."
 }

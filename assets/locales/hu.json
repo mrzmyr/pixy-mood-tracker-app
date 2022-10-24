@@ -126,7 +126,7 @@
   "statistics_feedback_question": "Ez hasznos?",
   "statistics_feedback_thanks": "Köszönöm!",
   "calendar_filters": "Szűrők",
-  "calendar_filters_reset": "Mindent kitöröl",
+  "calendar_filters_reset": "Visszaállítás",
   "calendar_filters_results": "Eredmények",
   "calendar_filters_search": "Keresés",
   "today": "Ma",
@@ -212,5 +212,6 @@
   "reset_factory_confirm_message": "Biztosan visszaállítja az összes adatot és beállítást?",
   "colors": "Színek",
   "colors_info": "A színek a hangulat jelzésére szolgálnak a naptárban. Az előző hangulat a kiválasztott színre vált.",
-  "colors_reset": "Visszaállítás alapértelmezettre"
+  "colors_reset": "Visszaállítás alapértelmezettre",
+  "calendar_bottom_hint": "A jövő nagyszerű lesz."
 }

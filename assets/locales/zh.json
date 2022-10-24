@@ -126,7 +126,7 @@
   "statistics_feedback_question": "这有帮助吗？",
   "statistics_feedback_thanks": "谢谢！",
   "calendar_filters": "过滤器",
-  "calendar_filters_reset": "全部清除",
+  "calendar_filters_reset": "重置",
   "calendar_filters_results": "结果",
   "calendar_filters_search": "搜索",
   "today": "今天",
@@ -212,5 +212,6 @@
   "reset_factory_confirm_message": "您确定要重置所有数据和设置吗？",
   "colors": "颜色",
   "colors_info": "颜色用于指示日历中的情绪。您之前的心情将切换为所选颜色。",
-  "colors_reset": "重置为默认"
+  "colors_reset": "重置为默认",
+  "calendar_bottom_hint": "未来会很棒。"
 }

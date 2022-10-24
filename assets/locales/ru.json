@@ -126,7 +126,7 @@
   "statistics_feedback_question": "Это полезно?",
   "statistics_feedback_thanks": "Благодарю вас!",
   "calendar_filters": "Фильтры",
-  "calendar_filters_reset": "Очистить все",
+  "calendar_filters_reset": "Перезагрузить",
   "calendar_filters_results": "Полученные результаты",
   "calendar_filters_search": "Поиск",
   "today": "Сегодня",
@@ -212,5 +212,6 @@
   "reset_factory_confirm_message": "Вы уверены, что хотите сбросить все данные и настройки?",
   "colors": "Цвета",
   "colors_info": "Цвета используются для обозначения настроения в календаре. Ваше предыдущее настроение переключится на выбранный цвет.",
-  "colors_reset": "Восстановление значений по умолчанию"
+  "colors_reset": "Восстановление значений по умолчанию",
+  "calendar_bottom_hint": "Будущее будет прекрасным."
 }

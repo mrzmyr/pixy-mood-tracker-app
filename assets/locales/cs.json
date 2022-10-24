@@ -126,7 +126,7 @@
   "statistics_feedback_question": "Je to užitečné?",
   "statistics_feedback_thanks": "Děkuji!",
   "calendar_filters": "Filtry",
-  "calendar_filters_reset": "Vymazat vše",
+  "calendar_filters_reset": "Resetovat",
   "calendar_filters_results": "Výsledek",
   "calendar_filters_search": "Vyhledávání",
   "today": "Dnes",
@@ -212,5 +212,6 @@
   "reset_factory_confirm_message": "Opravdu chcete obnovit všechna data a nastavení?",
   "colors": "Barvy",
   "colors_info": "Barvy se používají k označení nálady v kalendáři. Vaše předchozí nálada se přepne na vybranou barvu.",
-  "colors_reset": "Obnovit do základního nastavení"
+  "colors_reset": "Obnovit do základního nastavení",
+  "calendar_bottom_hint": "Budoucnost bude skvělá."
 }

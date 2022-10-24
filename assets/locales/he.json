@@ -126,7 +126,7 @@
   "statistics_feedback_question": "האם זה מועיל?",
   "statistics_feedback_thanks": "תודה!",
   "calendar_filters": "מסננים",
-  "calendar_filters_reset": "נקה הכל",
+  "calendar_filters_reset": "אִתחוּל",
   "calendar_filters_results": "תוצאות",
   "calendar_filters_search": "לחפש",
   "today": "היום",
@@ -212,5 +212,6 @@
   "reset_factory_confirm_message": "האם אתה בטוח שברצונך לאפס את כל הנתונים וההגדרות?",
   "colors": "צבעים",
   "colors_info": "צבעים משמשים לציון מצב הרוח בלוח השנה. מצב הרוח הקודם שלך יועבר לצבע שנבחר.",
-  "colors_reset": "אפס לברירת המחדל"
+  "colors_reset": "אפס לברירת המחדל",
+  "calendar_bottom_hint": "העתיד יהיה גדול."
 }
