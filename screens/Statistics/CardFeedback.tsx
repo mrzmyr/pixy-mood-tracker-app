@@ -10,6 +10,7 @@ import useHaptics from '../../hooks/useHaptics';
 import { useSettings } from '../../hooks/useSettings';
 import { STATISTIC_TYPES } from '../../hooks/useStatistics';
 import pkg from '../../package.json';
+import * as StoreReview from 'expo-store-review';
 
 const EMOJI_SCALE_IMAGES = [{
   emoji: '😍',
@@ -52,9 +53,9 @@ const CardFeedbackEmoji = ({ image, onPress, selected }) => {
         onPress?.()
       }}
     >
-      <Image style={{ 
+      <Image style={{
         opacity: selected ? 1 : colors.statisticsFeedbackEmojiOpacity,
-        width: 20, 
+        width: 20,
         height: 20,
       }} source={image} />
     </Pressable>
@@ -88,7 +89,7 @@ export const CardFeedback = ({
       setFeedbackSent(false)
     }, 5000)
   }
-  
+
   const send = async (emoji) => {
     setLoading(true);
 
@@ -99,7 +100,7 @@ export const CardFeedback = ({
       os: Platform.OS,
       deviceId: __DEV__ ? '__DEV__' : settings.deviceId,
     }
-    
+
     const body = {
       type,
       emoji,
@@ -111,7 +112,7 @@ export const CardFeedback = ({
     console.log('Sending statistics feedback', body);
 
     analytics.track('statistics_feedback', body);
-    
+
     return fetch(STATISTICS_FEEDBACK_URL, {
       method: 'POST',
       headers: {
@@ -119,24 +120,27 @@ export const CardFeedback = ({
       },
       body: JSON.stringify(body),
     })
-    .finally(() => onSendDone())
+      .finally(() => onSendDone())
   }
-  
-  const handleFeedback = (emoji) => {
-    if(loading) return;
-    
+
+  const handleFeedback = async (emoji) => {
+    if (loading) return;
+
     setEmojiSelected(emoji);
 
-    if(emoji === emojiSelected) {
+    if (emoji === emojiSelected) {
       setEmojiSelected(null)
       setShowTextInput(false)
       return;
     }
 
-    if(['👎', '😴'].includes(emoji)) {
+    if (['👎', '😴'].includes(emoji)) {
       setShowTextInput(true);
     } else {
       send(emoji);
+      if (await StoreReview.hasAction()) {
+        StoreReview.requestReview()
+      }
     }
   };
 

@@ -17,11 +17,11 @@ const AnswerSelector = ({
 }) => {
   const colors = useColors();
   const haptics = useHaptics();
-  
+
   const answerText = answer.text[language] || answer.text['en'];
-  
+
   return (
-    <Pressable 
+    <Pressable
       style={({ pressed }) => ({
         opacity: pressed ? 0.8 : 1,
         borderRadius: 8,
@@ -46,35 +46,35 @@ const AnswerSelector = ({
           justifyContent: 'center',
         }}
       >
-        <Text 
+        <Text
           numberOfLines={1}
-          style={{ 
-            fontSize: 32, 
+          style={{
+            fontSize: 32,
             textAlign: 'center',
           }}
         >
           {answer.emoji}
         </Text>
       </View>
-        {![undefined, '', null].includes(answerText) && (
-          <View
+      {![undefined, '', null].includes(answerText) && (
+        <View
+          style={{
+            alignItems: 'center',
+            justifyContent: 'center',
+            marginTop: 8,
+          }}
+        >
+          <Text
             style={{
-              alignItems: 'center',
-              justifyContent: 'center',
-              marginTop: 8, 
+              fontSize: 17,
+              color: colors.logActionText,
+              textAlign: 'center',
             }}
           >
-            <Text 
-              style={{ 
-                fontSize: 17, 
-                color: colors.logActionText, 
-                textAlign: 'center',
-              }}
-            >
-              {answerText}
-            </Text>
-          </View>
-        )}
+            {answerText}
+          </Text>
+        </View>
+      )}
     </Pressable>
   )
 }
@@ -87,18 +87,18 @@ export const SlideQuestion = ({
   onPress: () => void,
 }) => {
   const questioner = useQuestioner()
-  
+
   const [selectedIds, setSelectedIds] = useState<string[]>([])
-    
+
   const onAnswer = (answer: IQuestion['answers'][0]) => {
     setSelectedIds([answer.id])
     questioner.submit(question, [answer])
     onPress()
   }
-  
+
   return (
-    <View style={{ 
-      flex: 1, 
+    <View style={{
+      flex: 1,
       width: '100%',
     }}>
       <View
@@ -115,7 +115,7 @@ export const SlideQuestion = ({
           }}
         >
           <View style={{
-            flexDirection: 'row', 
+            flexDirection: 'row',
           }}>
             {question.answers.slice(0, 2).map((answer) => (
               <AnswerSelector
@@ -128,7 +128,7 @@ export const SlideQuestion = ({
           </View>
           <View style={{
             marginTop: 16,
-            flexDirection: 'row', 
+            flexDirection: 'row',
           }}>
             {question.answers.slice(2, 4).map((answer) => (
               <AnswerSelector

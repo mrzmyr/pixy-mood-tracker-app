@@ -12,7 +12,7 @@ export const SlideHeadline = ({
   return (
     <Text style={{
       color: colors.text,
-      fontSize: 24,
+      fontSize: 20,
       fontWeight: 'bold',
     }}>{children}</Text>
   );

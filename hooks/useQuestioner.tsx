@@ -5,6 +5,7 @@ import pkg from '../package.json'
 import { useSettings } from "./useSettings"
 import { language, locale } from "../helpers/translation"
 import { Platform } from "react-native"
+import { useLogState } from "./useLogs"
 
 export interface IQuestion {
   id: string;
@@ -25,9 +26,10 @@ export interface IQuestion {
 }
 
 export const useQuestioner = () => {
+  const logs = useLogState()
   const { hasActionDone, addActionDone, settings } = useSettings()
   const isMounted = useRef(false)
-  
+
   const getQuestion = (): Promise<IQuestion | null> => {
     return fetch(QUESTIONS_PULL_URL)
       .then(response => response.json())
@@ -35,9 +37,11 @@ export const useQuestioner = () => {
         const question = data.find((question: IQuestion) => {
           const satisfiesVersion = question.appVersion ? semver.satisfies(pkg.version, question.appVersion) : true
           const hasBeenAnswered = hasActionDone(`question_slide_${question.id}`)
-          const isInMyLanguage = question.text[language] !== undefined
+          const isInMyLanguage = question.text[language] !== undefined;
+          const minItemsTracked = Object.values(logs.items).length >= 3;
 
           return (
+            minItemsTracked &&
             satisfiesVersion &&
             !hasBeenAnswered &&
             isInMyLanguage
@@ -54,20 +58,20 @@ export const useQuestioner = () => {
     const question_text = question.text[language] || question.text['en'];
 
     const answer_texts = answers.map(answer => {
-      if(answer?.text[language]) {
+      if (answer?.text[language]) {
         return `${answer.emoji} ${answer.text[language]}`
       } else {
         `${answer.emoji} ${answer?.text?.en}`
       }
     }).join(', ')
-    
+
     const metaData = {
       locale: locale,
       version: pkg.version,
       os: Platform.OS,
       deviceId: settings.deviceId,
     }
-    
+
     const body = {
       date: new Date().toISOString(),
       language,
@@ -85,7 +89,7 @@ export const useQuestioner = () => {
     //   addActionDone(`question_slide_${question.id}`)
     //   return
     // }
-    
+
     return fetch(QUESTION_SUBMIT_URL, {
       method: 'POST',
       headers: {
@@ -93,17 +97,17 @@ export const useQuestioner = () => {
       },
       body: JSON.stringify(body),
     })
-    .then(() => {
-      addActionDone(`question_slide_${question.id}`)
-    })
+      .then(() => {
+        addActionDone(`question_slide_${question.id}`)
+      })
   }
-  
+
   useEffect(() => {
     return () => {
       isMounted.current = false
     }
   }, [])
-  
+
   return {
     getQuestion,
     submit
