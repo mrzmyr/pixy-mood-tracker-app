@@ -6,6 +6,7 @@ import { useSettings } from "./useSettings"
 import { language, locale } from "../helpers/translation"
 import { Platform } from "react-native"
 import { useLogState } from "./useLogs"
+import { useAnalytics } from "./useAnalytics"
 
 export interface IQuestion {
   id: string;
@@ -27,6 +28,7 @@ export interface IQuestion {
 
 export const useQuestioner = () => {
   const logs = useLogState()
+  const analytics = useAnalytics()
   const { hasActionDone, addActionDone, settings } = useSettings()
   const isMounted = useRef(false)
 
@@ -81,6 +83,13 @@ export const useQuestioner = () => {
       question,
       ...metaData,
     }
+
+    analytics.track('questioner_submit', {
+      question_id: question.id,
+      answer_ids: answers.map(answer => answer.id).join(', '),
+      question_text,
+      answer_texts,
+    })
 
     console.log('Sending Question Feedback', body)
 
