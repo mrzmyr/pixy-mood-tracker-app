@@ -2,6 +2,28 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.47.0](https://github.com/mrzmyr/pixy-mood-tracker/compare/v1.46.1...v1.47.0) (2022-10-25)
+
+
+### Features
+
+* add filter icon ([b99bd60](https://github.com/mrzmyr/pixy-mood-tracker/commit/b99bd601ab2d247f535325b885b4c9ed6137ceb7))
+* add questioner_submit ([e29192c](https://github.com/mrzmyr/pixy-mood-tracker/commit/e29192cf19e8d19466fc7decfa2da9d7d3640a29))
+* ask for review after positive feedback on statistics ([b6b32bc](https://github.com/mrzmyr/pixy-mood-tracker/commit/b6b32bcfd0f37b52b9fc078d50110c7b828fa2ce))
+* remove formal language from DE translation ([1e92139](https://github.com/mrzmyr/pixy-mood-tracker/commit/1e92139bea60d0874d1b842cd7cff7669a719926))
+* translate calendar hint ([edbb722](https://github.com/mrzmyr/pixy-mood-tracker/commit/edbb722ceb3e3b788d633d2c79ad0f5534bf242a))
+* **useSettings:** should not addActionDone when it already exists ([0191a3b](https://github.com/mrzmyr/pixy-mood-tracker/commit/0191a3b91b4c6c866455629a1f786fbb2d002416))
+
+
+### Tests
+
+* fix tests for useLogsStore ([fc924a3](https://github.com/mrzmyr/pixy-mood-tracker/commit/fc924a30fd9e7d74eaa8f13c797a7e277d48c5f7))
+
+
+### Refactors
+
+* move change log and vote features url to config ([cdfe12d](https://github.com/mrzmyr/pixy-mood-tracker/commit/cdfe12d48c41b76353f94bd261f52565c5965897))
+
 ### [1.46.1](https://github.com/mrzmyr/pixy-mood-tracker/compare/v1.46.0...v1.46.1) (2022-10-21)
 
 
