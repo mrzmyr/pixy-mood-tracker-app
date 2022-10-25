@@ -8,13 +8,14 @@ import MenuList from '../../components/MenuList';
 import MenuListHeadline from '../../components/MenuListHeadline';
 import MenuListItem from '../../components/MenuListItem';
 import TextInfo from '../../components/TextInfo';
+import { CHANGELOG_URL, FEEDBACK_FEATURES_URL } from '../../constants/Config';
+import { t } from '../../helpers/translation';
+import { useAnalytics } from '../../hooks/useAnalytics';
 import useColors from '../../hooks/useColors';
 import useFeedbackModal from '../../hooks/useFeedbackModal';
-import { useAnalytics } from '../../hooks/useAnalytics';
 import pkg from '../../package.json';
 import { RootStackScreenProps } from '../../types';
 import { UserDataImportList } from './UserData';
-import { t } from '../../helpers/translation';
 
 export const SettingsScreen = ({ navigation }: RootStackScreenProps<'Settings'>) => {
   const insets = useSafeAreaInsets();
@@ -27,7 +28,7 @@ export const SettingsScreen = ({ navigation }: RootStackScreenProps<'Settings'>)
     analytics.track('rate_app')
 
     const storeUrl = StoreReview.storeUrl();
-    if(storeUrl !== null) Linking.openURL(storeUrl)
+    if (storeUrl !== null) Linking.openURL(storeUrl)
   }
 
   // const { settings, setSettings } = useSettings()
@@ -47,9 +48,9 @@ export const SettingsScreen = ({ navigation }: RootStackScreenProps<'Settings'>)
   //       setSupportedSecurityLevel(level)
   //     })
   // })
-  
+
   return (
-    <View style={{ 
+    <View style={{
       paddingTop: insets.top,
       flex: 1,
       backgroundColor: colors.background,
@@ -61,14 +62,14 @@ export const SettingsScreen = ({ navigation }: RootStackScreenProps<'Settings'>)
       >
         <FeedbackModal />
         <Text
-            style={{
-              fontSize: 32,
-              color: colors.text,
-              fontWeight: 'bold',
-              marginTop: 32,
-              marginBottom: 18,
-            }}
-          >{t('settings')}</Text>
+          style={{
+            fontSize: 32,
+            color: colors.text,
+            fontWeight: 'bold',
+            marginTop: 32,
+            marginBottom: 18,
+          }}
+        >{t('settings')}</Text>
         <MenuList>
           <MenuListItem
             title={t('data')}
@@ -146,7 +147,7 @@ export const SettingsScreen = ({ navigation }: RootStackScreenProps<'Settings'>)
             title={t('vote_features')}
             onPress={async () => {
               analytics.track('settings_vote_features')
-              await WebBrowser.openBrowserAsync('https://pixy.hellonext.co/embed/b/feedback?no_header=true');
+              await WebBrowser.openBrowserAsync(FEEDBACK_FEATURES_URL);
             }}
             iconLeft={<ArrowUpCircle width={18} color={colors.menuListItemIcon} />}
             testID='vote_features'
@@ -155,7 +156,7 @@ export const SettingsScreen = ({ navigation }: RootStackScreenProps<'Settings'>)
             title={t('changelog')}
             onPress={async () => {
               analytics.track('settings_changelog')
-              await WebBrowser.openBrowserAsync('https://pixy.hellonext.co/embed/c?no_header=true');
+              await WebBrowser.openBrowserAsync(CHANGELOG_URL);
             }}
             iconLeft={<BookOpen width={18} color={colors.menuListItemIcon} />}
             testID='changelog'
