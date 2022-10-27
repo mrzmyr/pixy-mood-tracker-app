@@ -139,7 +139,12 @@ export const CardFeedback = ({
     } else {
       send(emoji);
       if (await StoreReview.hasAction()) {
-        StoreReview.requestReview()
+        analytics.track('statistics_feedback_store_review_request');
+        StoreReview.requestReview().then(() => {
+          analytics.track('statistics_feedback_store_review_done');
+        }).catch(() => {
+          analytics.track('statistics_feedback_store_review_error');
+        })
       }
     }
   };
