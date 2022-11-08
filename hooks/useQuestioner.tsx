@@ -84,12 +84,7 @@ export const useQuestioner = () => {
       ...metaData,
     }
 
-    analytics.track('questioner_submit', {
-      question_id: question.id,
-      answer_ids: answers.map(answer => answer.id).join(', '),
-      question_text,
-      answer_texts,
-    })
+    analytics.track('questioner_submit', body)
 
     console.log('Sending Question Feedback', body)
 
