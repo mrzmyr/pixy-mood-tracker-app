@@ -197,6 +197,8 @@
   "statistics_tags_distribution_trend_prefix": "You're tagging",
   "statistics_tags_distribution_trend_increase_suffix": "more often",
   "statistics_tags_distribution_trend_decrease_suffix": "less often",
+  "statistics_tags_distribution_this_month": "This Month",
+  "statistics_tags_distribution_last_month": "Last Month",
   "statistics_highlights": "Highlights",
   "statistics_highlights_description": "Your highlights from the last two weeks",
   "statistics_highlights_more": "Show All Highlights",
