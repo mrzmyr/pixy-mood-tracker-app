@@ -23,7 +23,7 @@ export const LogView = ({ navigation, route }: RootStackScreenProps<'LogView'>) 
   const { tags } = useTagsState()
   const logState = useLogState()
   const logUpdater = useLogUpdater()
-  
+
   const item = logState?.items[route.params.date];
 
   const close = () => {
@@ -35,10 +35,10 @@ export const LogView = ({ navigation, route }: RootStackScreenProps<'LogView'>) 
     analytics.track('log_edit')
     navigation.navigate('LogEdit', { date: route.params.date, slide });
   }
-  
+
   const remove = () => {
     analytics.track('log_deleted')
-    logUpdater.deleteLog(item)
+    logUpdater.deleteLog(item.id)
     navigation.popToTop()
   }
 
@@ -53,8 +53,8 @@ export const LogView = ({ navigation, route }: RootStackScreenProps<'LogView'>) 
             onPress: () => resolve({}),
             style: "destructive"
           },
-          { 
-            text: t('cancel'), 
+          {
+            text: t('cancel'),
             onPress: () => reject(),
             style: "cancel"
           }
@@ -63,9 +63,9 @@ export const LogView = ({ navigation, route }: RootStackScreenProps<'LogView'>) 
       );
     })
   }
-  
+
   return (
-    <View style={{ 
+    <View style={{
       flex: 1,
       backgroundColor: colors.logBackground,
     }}>
@@ -79,7 +79,7 @@ export const LogView = ({ navigation, route }: RootStackScreenProps<'LogView'>) 
           title={dayjs(route.params.date).isSame(dayjs(), 'day') ? t('today') : dayjs(route.params.date).format('ddd, L')}
           onClose={close}
           onDelete={async () => {
-            if(
+            if (
               item.message.length > 0 ||
               item?.tags && item?.tags.length > 0
             ) {
@@ -124,12 +124,12 @@ export const LogView = ({ navigation, route }: RootStackScreenProps<'LogView'>) 
             >
               {(item?.tags && item?.tags?.length) ? item?.tags?.map(tag => {
                 const _tag = tags.find(t => t.id === tag.id);
-                
-                if(!_tag) return null;
-                
+
+                if (!_tag) return null;
+
                 return (
-                  <Tag 
-                    selected={false} 
+                  <Tag
+                    selected={false}
                     key={tag.id}
                     title={_tag.title}
                     colorName={_tag.color}
@@ -192,16 +192,16 @@ export const LogView = ({ navigation, route }: RootStackScreenProps<'LogView'>) 
                     padding: 8,
                   }}
                 >
-                  <Text style={{ 
-                    color: colors.textSecondary, 
-                    fontSize: 17, 
+                  <Text style={{
+                    color: colors.textSecondary,
+                    fontSize: 17,
                     lineHeight: 24,
                   }}>{t('view_log_message_empty')}</Text>
                 </View>
               )}
             </View>
           </View>
-          <View 
+          <View
             style={{
               height: insets.bottom
             }}

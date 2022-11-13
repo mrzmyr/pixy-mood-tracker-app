@@ -30,7 +30,7 @@ const SLIDE_INDEX_MAPPING = {
 }
 
 export const LogEdit = ({ navigation, route }: RootStackScreenProps<'LogEdit'>) => {
-  
+
   const { settings } = useSettings()
   const colors = useColors()
   const analytics = useAnalytics()
@@ -42,7 +42,7 @@ export const LogEdit = ({ navigation, route }: RootStackScreenProps<'LogEdit'>) 
   const logState = useLogState()
   const tempLog = useTemporaryLog();
   const { anonymizeTag } = useAnonymizer()
-  
+
   const existingLogItem = logState?.items[route.params.date];
   const defaultLogItem = {
     ...tempLog.data,
@@ -50,15 +50,15 @@ export const LogEdit = ({ navigation, route }: RootStackScreenProps<'LogEdit'>) 
   }
 
   const [question, setQuestion] = useState<IQuestion | null>(null);
-  
+
   useEffect(() => {
     tempLog.set(existingLogItem || defaultLogItem)
     questioner.getQuestion().then(setQuestion)
   }, [])
 
   useEffect(() => {
-    if(tempLog.data.date === null) return;
-    
+    if (tempLog.data.date === null) return;
+
     // delete all tags that are not in the settings
     const settingTagIds = tags.map(tag => tag.id)
     const _tags = tempLog?.data?.tags?.filter(tag => settingTagIds.includes(tag.id))
@@ -69,7 +69,7 @@ export const LogEdit = ({ navigation, route }: RootStackScreenProps<'LogEdit'>) 
     tempLog.reset()
     navigation.popToTop();
   }
-  
+
   const save = () => {
     const eventData = {
       date: tempLog?.data?.date,
@@ -78,14 +78,14 @@ export const LogEdit = ({ navigation, route }: RootStackScreenProps<'LogEdit'>) 
       tags: tempLog?.data?.tags?.map(tag => anonymizeTag(tag)) || [],
       tagsCount: tempLog?.data?.tags?.length,
     }
-    
-    if(tempLog?.data?.rating === null) {
+
+    if (tempLog?.data?.rating === null) {
       tempLog.data.rating = 'neutral'
     }
-    
+
     analytics.track('log_saved', eventData)
 
-    if(existingLogItem) {
+    if (existingLogItem) {
       analytics.track('log_changed', eventData)
       logUpdater.editLog(tempLog.data as LogItem)
     } else {
@@ -98,7 +98,7 @@ export const LogEdit = ({ navigation, route }: RootStackScreenProps<'LogEdit'>) 
 
   const remove = () => {
     analytics.track('log_deleted')
-    logUpdater.deleteLog(tempLog.data as LogItem)
+    logUpdater.deleteLog(tempLog.data.id)
     close()
   }
 
@@ -126,52 +126,52 @@ export const LogEdit = ({ navigation, route }: RootStackScreenProps<'LogEdit'>) 
   }
 
   const initialIndex = SLIDE_INDEX_MAPPING[route.params.slide] || 0
-  
+
   const _carousel = useRef(null);
   const [slideIndex, setSlideIndex] = useState(initialIndex)
   const [touched, setTouched] = useState(false)
-  
+
   const next = () => {
-    if(slideIndex + 1 === content.length - 1) {
+    if (slideIndex + 1 === content.length - 1) {
       Keyboard.dismiss()
     }
 
-    if(slideIndex + 1 === content.length) {
+    if (slideIndex + 1 === content.length) {
       save()
     } else {
       _carousel.current.next()
     }
   }
-  
+
   const content: {
     slide: ReactElement,
     action?: ReactElement,
   }[] = [{
-      slide: (
-        <SlideRating
-          onChange={(rating) => {
-            if(tempLog.data.rating !== rating) {
-              setTimeout(() => _carousel.current.next(), 200)
-            }
-            setRating(rating)
-          }}
-        />
-      ),
-    }, {
-      slide: <SlideTags onChange={setTags} />,
-    }, {
-      slide: <SlideNote onChange={setMessage} />,
-    }
-  ]
+    slide: (
+      <SlideRating
+        onChange={(rating) => {
+          if (tempLog.data.rating !== rating) {
+            setTimeout(() => _carousel.current.next(), 200)
+          }
+          setRating(rating)
+        }}
+      />
+    ),
+  }, {
+    slide: <SlideTags onChange={setTags} />,
+  }, {
+    slide: <SlideNote onChange={setMessage} />,
+  }
+    ]
 
-  if(
+  if (
     Object.keys(logState.items).length === 1 &&
     !settings.reminderEnabled &&
     existingLogItem === undefined
   ) {
     content.push({
       slide: (
-        <SlideReminder 
+        <SlideReminder
           onPress={next}
         />
       ),
@@ -179,7 +179,7 @@ export const LogEdit = ({ navigation, route }: RootStackScreenProps<'LogEdit'>) 
     })
   }
 
-  if(
+  if (
     question !== null &&
     existingLogItem === undefined
   ) {
@@ -201,13 +201,13 @@ export const LogEdit = ({ navigation, route }: RootStackScreenProps<'LogEdit'>) 
       isMounted.current = false
     }
   }, [])
-  
+
   const onScrollEnd = () => {
     Keyboard.dismiss()
   }
-  
+
   return (
-    <View style={{ 
+    <View style={{
       flex: 1,
       backgroundColor: colors.logBackground,
       position: 'relative',
@@ -219,9 +219,9 @@ export const LogEdit = ({ navigation, route }: RootStackScreenProps<'LogEdit'>) 
           padding: 20,
         }}
       >
-        <Stepper 
-          count={content.length} 
-          index={slideIndex} 
+        <Stepper
+          count={content.length}
+          index={slideIndex}
           scrollTo={({ index }) => {
             _carousel.current.scrollTo({ index, animated: true })
             setSlideIndex(index)
@@ -233,18 +233,18 @@ export const LogEdit = ({ navigation, route }: RootStackScreenProps<'LogEdit'>) 
           onClose={() => {
             const tempLogHasChanges = tempLog.hasChanged()
             const existingLogItemHasChanges = tempLog.hasDifference(existingLogItem)
-            
-            if(
+
+            if (
               !existingLogItem && tempLogHasChanges ||
               !!existingLogItem && existingLogItemHasChanges
             ) {
-              askToCancel().then(() => cancel()).catch(() => {})
+              askToCancel().then(() => cancel()).catch(() => { })
             } else {
               cancel()
             }
           }}
           onDelete={() => {
-            if(
+            if (
               tempLog.data.message.length > 0 ||
               tempLog.data?.tags.length > 0
             ) {
@@ -267,7 +267,7 @@ export const LogEdit = ({ navigation, route }: RootStackScreenProps<'LogEdit'>) 
             data={content}
             defaultIndex={Math.min(initialIndex, content.length - 1)}
             onProgressChange={(relativeProgress, absoluteProgress) => {
-              if(isMounted.current) {
+              if (isMounted.current) {
                 setSlideIndex(Math.round(absoluteProgress))
               }
             }}
