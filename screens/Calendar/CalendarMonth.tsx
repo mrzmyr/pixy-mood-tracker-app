@@ -1,41 +1,24 @@
 import dayjs, { Dayjs } from "dayjs";
-import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
-import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
-import _ from "lodash";
-import React, { memo, useMemo } from "react";
+import React, { memo } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { useStyle } from "react-native-style-utilities";
 import { DATE_FORMAT } from "../../constants/Config";
-import { CalendarFiltersData } from "../../hooks/useCalendarFilters";
 import useColors from "../../hooks/useColors";
-import { LogItem } from "../../hooks/useLogs";
-import { SettingsState } from "../../hooks/useSettings";
 import CalendarWeek from "./CalendarWeek";
-
-dayjs.extend(isSameOrBefore);
-dayjs.extend(isSameOrAfter);
-
-type MinimalLogItem = Omit<LogItem, "message"> & { messageLength: number };
 
 const CalendarMonth = memo(function CalendarMonth({
   dateString,
-  items,
-  scaleType,
-  filteredItems,
-  isFiltering,
+  renderDay,
 }: {
   dateString: string;
-  items?: MinimalLogItem[];
-  scaleType: SettingsState["scaleType"];
-  filteredItems: CalendarFiltersData["filteredItems"];
-  isFiltering: CalendarFiltersData["isFiltering"];
+  renderDay: (props: {
+    date: string;
+  }) => React.ReactElement;
 }) {
   const colors = useColors();
 
   const date = dayjs(dateString);
 
-  const WEEK_ITEMS: MinimalLogItem[][] = [];
-  const WEEK_ITEMS_FILTERED: LogItem[][] = [];
   const WEEK_DATES: { start: Dayjs; end: Dayjs }[] = [];
 
   // count the weeks in the month and create an array with start and end dates for each week
@@ -60,40 +43,7 @@ const CalendarMonth = memo(function CalendarMonth({
     }
 
     WEEK_DATES.push({ start, end });
-    WEEK_ITEMS[i] = [];
-    WEEK_ITEMS_FILTERED[i] = [];
   }
-
-  const weekItems = useMemo(() => {
-    for (let i = 0; i < WEEK_DATES.length; i++) {
-      const _items = items?.filter(
-        (item) =>
-          dayjs(item.date).isSameOrAfter(WEEK_DATES[i].start, "day") &&
-          dayjs(item.date).isSameOrBefore(WEEK_DATES[i].end, "day")
-      );
-      if (!_.isEqual(WEEK_ITEMS[i], _items) && _items !== undefined) {
-        WEEK_ITEMS[i] = _items;
-      }
-    }
-
-    return WEEK_ITEMS;
-  }, [JSON.stringify(items), dateString]);
-
-  const weekItemsFiltered = useMemo(() => {
-    for (let i = 0; i < WEEK_DATES.length; i++) {
-      const _filteredItems = filteredItems?.filter(
-        (item) =>
-          dayjs(item.date).isSameOrAfter(WEEK_DATES[i].start, "day") &&
-          dayjs(item.date).isSameOrBefore(WEEK_DATES[i].end, "day")
-      );
-
-      if (!_.isEqual(WEEK_ITEMS_FILTERED[i], _filteredItems)) {
-        WEEK_ITEMS_FILTERED[i] = _filteredItems;
-      }
-    }
-
-    return WEEK_ITEMS_FILTERED;
-  }, [JSON.stringify(filteredItems)]);
 
   const textStyles = useStyle(
     () => [
@@ -110,15 +60,12 @@ const CalendarMonth = memo(function CalendarMonth({
       <Text style={textStyles}>{dayjs(dateString).format("MMMM YYYY")}</Text>
       {WEEK_DATES.map((_, index) => (
         <CalendarWeek
-          scaleType={scaleType}
           key={index}
           startDate={WEEK_DATES[index].start.format(DATE_FORMAT)}
           endDate={WEEK_DATES[index].end.format(DATE_FORMAT)}
           isFirst={index === 0}
-          isLast={index === WEEK_ITEMS.length - 1}
-          items={weekItems[index]}
-          filteredItems={weekItemsFiltered[index]}
-          isFiltering={isFiltering}
+          isLast={index === WEEK_DATES.length - 1}
+          renderDay={renderDay}
         />
       ))}
     </View>
