@@ -32,13 +32,5 @@ export const ONE_SIGNAL_APP_ID = __DEV__ ?
 
 export const TRACKING_ENABLED = !__DEV__;
 
-export const NAVIGATION_LINKING = {
-  prefixes: ['pixy://'],
-  config: {
-    screens: {
-    },
-  },
-};
-
 export const CHANGELOG_URL = 'https://pixy.hellonext.co/embed/c?no_header=true'
 export const FEEDBACK_FEATURES_URL = 'https://pixy.hellonext.co/embed/b/feedback?no_header=true'

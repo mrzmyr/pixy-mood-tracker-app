@@ -1,7 +1,7 @@
 import { Pressable, Text, View } from 'react-native';
 import { Trash, X } from 'react-native-feather';
-import useColors from '../../../hooks/useColors';
-import useHaptics from '../../../hooks/useHaptics';
+import useColors from "../../hooks/useColors";
+import useHaptics from "../../hooks/useHaptics";
 
 export const SlideHeader = ({
   title,
@@ -16,7 +16,7 @@ export const SlideHeader = ({
 }) => {
   const haptics = useHaptics();
   const colors = useColors()
-  
+
   return (
     <View style={{
       flexDirection: 'row',
@@ -36,8 +36,8 @@ export const SlideHeader = ({
             flexDirection: 'row',
           }}
         >
-          <Text 
-            style={{ 
+          <Text
+            style={{
               fontSize: 17,
               fontWeight: '600',
               color: colors.logHeaderText,
@@ -64,8 +64,8 @@ export const SlideHeader = ({
               }}
               onPress={async () => {
                 await haptics.selection()
-                onDelete()
-              }} 
+                onDelete?.()
+              }}
             >
               <Trash color={colors.logHeaderText} width={24} height={24} />
             </Pressable>
@@ -76,7 +76,7 @@ export const SlideHeader = ({
             }}
             onPress={async () => {
               await haptics.selection()
-              onClose()
+              onClose?.()
             }}
           >
             <X color={colors.logHeaderText} width={24} height={24} />

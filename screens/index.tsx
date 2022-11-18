@@ -1,5 +1,6 @@
 export * from './Data';
 export * from './Licenses';
+export * from './Log/Create';
 export * from './Log/Edit';
 export * from './Log/View';
 export * from './NotFound';

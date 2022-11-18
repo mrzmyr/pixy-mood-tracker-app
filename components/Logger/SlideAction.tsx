@@ -2,9 +2,9 @@ import { useKeyboard } from "@react-native-community/hooks"
 import { useEffect, useState } from "react"
 import { Keyboard, View } from "react-native"
 import { ArrowRight, Check } from "react-native-feather"
-import useColors from "../../../hooks/useColors"
-import useHaptics from "../../../hooks/useHaptics"
-import { FloatButton } from "../../../components/FloatButton"
+import useColors from "../../hooks/useColors"
+import useHaptics from "../../hooks/useHaptics"
+import { FloatButton } from "../../components/FloatButton"
 
 export const SlideAction = ({
   type,
@@ -20,7 +20,7 @@ export const SlideAction = ({
   const keyboard = useKeyboard()
 
   const [shouldMove, setShouldMove] = useState(false)
-  
+
   useEffect(() => {
     const r1 = Keyboard.addListener('keyboardWillShow', () => setShouldMove(true))
     const r2 = Keyboard.addListener('keyboardWillHide', () => setShouldMove(false))
@@ -31,8 +31,8 @@ export const SlideAction = ({
     }
   }, [])
 
-  if(type === 'hidden') return null
-  
+  if (type === 'hidden') return null
+
   return (
     <View
       style={{
@@ -47,18 +47,18 @@ export const SlideAction = ({
         zIndex: 999,
       }}
     >
-      <FloatButton 
+      <FloatButton
         onPress={async () => {
-          if(disabled) return
+          if (disabled) return
           await haptics.selection()
           onPress?.()
         }}
         disabled={disabled}
       >
-        { type === 'save' && (
+        {type === 'save' && (
           <Check color={disabled ? colors.primaryButtonTextDisabled : colors.primaryButtonText} width={24} />
         )}
-        { type === 'next' && (
+        {type === 'next' && (
           <ArrowRight color={disabled ? colors.primaryButtonTextDisabled : colors.primaryButtonText} width={24} />
         )}
       </FloatButton>

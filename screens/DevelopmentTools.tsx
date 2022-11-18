@@ -56,7 +56,7 @@ const Card = ({
   );
 };
 
-export const DevelopmentStatistics = () => {
+export const DevelopmentTools = () => {
   const colors = useColors();
   const logState = useLogState();
   const { tags } = useTagsState()

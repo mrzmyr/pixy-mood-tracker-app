@@ -1,12 +1,6 @@
-/**
- * Learn more about using TypeScript with React Navigation:
- * https://reactnavigation.org/docs/typescript/
- */
-
 import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
 import { CompositeScreenProps } from '@react-navigation/native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import Colors from './constants/Colors';
 import { Tag as ITag } from './hooks/useTags';
 
 declare global {
@@ -19,32 +13,44 @@ declare global {
 export type AtLeast<T, K extends keyof T> = Partial<T> & Pick<T, K>
 
 export type RootStackParamList = {
-  BottomTabs: undefined,
+  tabs: undefined,
   Onboarding: undefined,
   Settings: undefined,
   Colors: undefined,
   Licenses: undefined,
   Calendar: undefined,
-  Modal: undefined;
   NotFound: undefined;
   Data: undefined;
   Reminder: undefined;
   Privacy: undefined;
-  PasscodeLocked: undefined;
+  // PasscodeLocked: undefined;
   Tags: undefined;
-  DevelopmentStatistics: undefined;
+  DevelopmentTools: undefined;
+
+  Statistics: undefined;
   StatisticsHighlights: undefined;
+  StatisticsYear: {
+    date: string;
+  };
+  StatisticsMonth: {
+    date: string;
+  };
+
+  LogCreate: {
+    date: string;
+  }
   LogView: {
-    date: string,
+    id: string;
   },
+  LogEdit: {
+    id: string,
+    step?: 'rating' | 'tags' | 'message',
+  },
+
   TagEdit: {
     tag?: ITag,
   },
   TagCreate: undefined,
-  LogEdit: {
-    date: string,
-    slide?: 'rating' | 'tags' | 'message',
-  },
 };
 
 export type RootStackScreenProps<Screen extends keyof RootStackParamList> = NativeStackScreenProps<

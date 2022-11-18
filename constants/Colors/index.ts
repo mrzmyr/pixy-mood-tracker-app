@@ -50,7 +50,7 @@ const light = {
 
   keyboardToolbarIcon: colors.neutral[500],
   keyboardToolbarBackground: colors.neutral[200],
-  
+
   logHeaderBackground: colors.neutral[50],
   logHeaderBorder: colors.neutral[200],
   logHeaderText: colors.neutral[500],
@@ -61,14 +61,14 @@ const light = {
   logActionBackground: colors.neutral[200],
   logActionBorder: tintColorLight,
   logActionText: colors.neutral[500],
-  
+
   tagBackground: colors.white,
   tagText: colors.neutral[800],
   tagBorder: colors.white,
   tagBackgroundActive: colors.blue[100],
   tagTextActive: colors.blue[600],
   tagBorderActive: colors.blue[600],
-  
+
   stepperBackground: colors.neutral[300],
   stepperBackgroundActive: colors.neutral[700],
 
@@ -82,15 +82,16 @@ const light = {
 
   feedbackSelectionBackground: colors.neutral[200],
   feedbackBackground: colors.neutral[100],
-  
+
   cardBackground: '#fff',
+  cardBorder: colors.neutral[200],
 
   headerBorder: colors.neutral[300],
   tabsIconActive: tintColorLight,
   tabsIconInactive: colors.neutral[400],
   tabsTextActive: tintColorLight,
   tabsTextInactive: colors.neutral[400],
-  
+
   passcodeDotBackground: colors.neutral[300],
   passcodePadBackground: colors.neutral[200],
   passcodePadBackgroundActive: colors.neutral[400],
@@ -99,16 +100,16 @@ const light = {
   menuListItemText: '#000',
   menuListItemIcon: '#000',
   menuListItemBorder: colors.neutral[100],
-  
+
   notificationBackground: '#FFF',
-  
+
   calendarBackground: colors.neutral[50],
   calendarItemBackground: '#FFF',
   calendarItemBackgroundFuture: colors.neutral[50],
   calendarItemTextColor: colors.neutral[500],
   calendarWeekNameColor: colors.neutral[400],
   calendarMonthNameColor: colors.neutral[400],
-  
+
   linkButtonTextPrimary: tintColorLight,
   linkButtonTextPrimaryDisabled: colors.neutral[400],
   linkButtonTextSecondary: colors.neutral[500],
@@ -123,15 +124,16 @@ const light = {
   primaryButtonBackgroundDisabled: colors.neutral[300],
   primaryButtonTextDisabled: colors.neutral[500],
   primaryButtonBorderDisabled: colors.neutral[300],
-  
+
   secondaryButtonBackground: colors.neutral[200],
   secondaryButtonText: colors.neutral[900],
   secondaryButtonBorder: colors.neutral[200],
-  
+  secondaryButtonBorderDisabled: colors.neutral[300],
+
   dangerButtonBackground: colors.neutral[200],
   dangerButtonText: colors.red[500],
   dangerButtonBorder: colors.neutral[200],
-  
+
   textInputBackground: colors.neutral[200],
   textInputText: colors.neutral[800],
   textInputPlaceholder: colors.neutral[400],
@@ -150,7 +152,7 @@ const light = {
   checkboxCheckedBackground: tintColorLight,
   checkboxCheckedBorder: tintColorLight,
   checkboxCheckedText: '#FFF',
-  
+
   statisticsBackground: colors.neutral[100],
   statisticsDescription: colors.neutral[500],
   statisticsCardBackground: '#FFF',
@@ -165,16 +167,21 @@ const light = {
   statisticsCalendarDotBorder: colors.neutral[400],
   statisticsNoDataBorder: colors.neutral[300],
   statisticsNoDataText: colors.neutral[500],
-  statisticsLinePrimary: colors.neutral[600],
-  statisticsLineMuted: colors.neutral[200],
+
+  statisticsLinePrimary: colors.neutral[400],
+  statisticsLineMuted: colors.neutral[300],
   statisticsLineHighlight: tintColorLight,
+  statisticsLegendText: colors.neutral[400],
 
   statisticsTagsTrendMutedBackground: colors.neutral[200],
   statisticsTagsTrendMutedText: colors.neutral[800],
 
+  yearPixelsEmptyDot: colors.neutral[200],
+  yearPixelsLegendText: colors.neutral[400],
+
   onboardingTitle: colors.black,
   onboardingBody: colors.neutral[700],
-  
+
   onboardingTopBackground: colors.neutral[900],
   onboardingBottomBackground: colors.neutral[100],
   onboardingBottomBorder: colors.neutral[300],
@@ -214,7 +221,7 @@ const dark: IColors & {
 
   keyboardToolbarIcon: colors.neutral[500],
   keyboardToolbarBackground: colors.neutral[200],
-  
+
   logHeaderBackground: colors.neutral[900],
   logHeaderBorder: colors.neutral[800],
   logHeaderText: colors.neutral[300],
@@ -225,14 +232,14 @@ const dark: IColors & {
   logActionBackground: colors.neutral[800],
   logActionBorder: tintColorLight,
   logActionText: colors.neutral[300],
-  
+
   tagBackground: colors.neutral[900],
   tagText: colors.neutral[200],
   tagBorder: colors.neutral[800],
   tagBackgroundActive: colors.blue[900],
   tagTextActive: colors.blue[100],
   tagBorderActive: colors.blue[600],
-  
+
   stepperBackground: colors.neutral[800],
   stepperBackgroundActive: colors.neutral[600],
 
@@ -246,15 +253,16 @@ const dark: IColors & {
 
   feedbackSelectionBackground: colors.neutral[800],
   feedbackBackground: colors.neutral[900],
-  
+
   cardBackground: colors.neutral[900],
-  
+  cardBorder: colors.neutral[800],
+
   headerBorder: colors.neutral[800],
   tabsIconActive: tintColorDark,
   tabsIconInactive: colors.neutral[600],
   tabsTextActive: tintColorDark,
   tabsTextInactive: colors.neutral[600],
-  
+
   passcodeDotBackground: colors.neutral[600],
   passcodePadBackground: colors.neutral[800],
   passcodePadBackgroundActive: colors.neutral[700],
@@ -265,21 +273,21 @@ const dark: IColors & {
   menuListItemBorder: colors.neutral[800],
 
   notificationBackground: colors.neutral[900],
-  
+
   calendarBackground: '#000',
   calendarItemBackground: colors.neutral[900],
   calendarItemBackgroundFuture: '#000',
   calendarItemTextColor: colors.neutral[300],
   calendarWeekNameColor: colors.neutral[500],
   calendarMonthNameColor: colors.neutral[500],
-  
+
   linkButtonTextPrimary: tintColorLight,
   linkButtonTextPrimaryDisabled: colors.neutral[400],
   linkButtonTextSecondary: colors.neutral[500],
   linkButtonTextSecondaryDisabled: colors.neutral[400],
   linkButtonTextDanger: colors.red[500],
   linkButtonTextDangerDisabled: colors.neutral[400],
-  
+
   primaryButtonBackground: tintColorDark,
   primaryButtonText: '#FFF',
   primaryButtonBorder: tintColorDark,
@@ -291,6 +299,7 @@ const dark: IColors & {
   secondaryButtonBackground: colors.neutral[800],
   secondaryButtonText: 'white',
   secondaryButtonBorder: colors.neutral[800],
+  secondaryButtonBorderDisabled: colors.neutral[800],
 
   dangerButtonBackground: colors.neutral[800],
   dangerButtonText: colors.red[500],
@@ -336,10 +345,14 @@ const dark: IColors & {
   statisticsLinePrimary: colors.neutral[200],
   statisticsLineMuted: colors.neutral[500],
   statisticsLineHighlight: tintColorDark,
-  
+  statisticsLegendText: colors.neutral[600],
+
+  yearPixelsEmptyDot: colors.neutral[800],
+  yearPixelsLegendText: colors.neutral[500],
+
   onboardingTitle: colors.white,
   onboardingBody: colors.neutral[300],
-  
+
   onboardingTopBackground: colors.neutral[900],
   onboardingBottomBackground: colors.neutral[800],
   onboardingBottomBorder: colors.neutral[700],
@@ -351,7 +364,7 @@ const dark: IColors & {
   onboardingPrivacyBadgeVector: colors.neutral[900],
   onboardingListItemDot: colors.neutral[700],
   onboardingListItemText: colors.neutral[300],
-  
+
   switchThumbColor: '#FFF',
   scales: scales.dark,
   tags: tagsDark,

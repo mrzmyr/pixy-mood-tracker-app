@@ -2,7 +2,6 @@ import { View } from 'react-native';
 import { Card } from '../../components/Statistics/Card';
 import { t } from '../../helpers/translation';
 import useScale from '../../hooks/useScale';
-import { useSettings } from '../../hooks/useSettings';
 import { MoodAvgData } from '../../hooks/useStatistics/MoodAvg';
 import { CardFeedback } from './CardFeedback';
 
@@ -11,9 +10,8 @@ export const MoodAvgCard = ({
 }: {
   data: MoodAvgData
 }) => {
-  const { settings } = useSettings();
-  const scale = useScale(settings.scaleType);
-  
+  const scale = useScale();
+
   return (
     <Card
       subtitle={t('mood')}
@@ -47,12 +45,12 @@ export const MoodAvgCard = ({
           );
         })}
       </View>
-      <CardFeedback 
+      <CardFeedback
         type='mood_avg'
-        details={{ 
+        details={{
           percentage: data.ratingHighestPercentage,
           data: data.distribution,
-        }} 
+        }}
       />
     </Card>
   );

@@ -54,7 +54,7 @@ export default function LinkButton({
     }
   }, [disabled, haptics, onPress]);
 
-  
+
   return (
     <TouchableOpacity
       style={containerStyle}
@@ -81,10 +81,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    paddingTop: 8,
-    paddingBottom: 8,
-    paddingLeft: 8,
-    paddingRight: 8,
+    padding: 8,
   },
   text: {
     fontSize: 17,

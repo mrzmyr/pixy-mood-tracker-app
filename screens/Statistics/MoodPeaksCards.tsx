@@ -1,5 +1,6 @@
 import { useNavigation } from '@react-navigation/native';
 import dayjs, { Dayjs } from 'dayjs';
+import _ from 'lodash';
 import { Text, TouchableOpacity, View } from 'react-native';
 import { Card } from '../../components/Statistics/Card';
 import { DATE_FORMAT } from '../../constants/Config';
@@ -8,34 +9,32 @@ import useColors from '../../hooks/useColors';
 import useHaptics from '../../hooks/useHaptics';
 import { LogItem } from '../../hooks/useLogs';
 import useScale from '../../hooks/useScale';
-import { useSettings } from '../../hooks/useSettings';
 import { MoodPeaksNegativeData, MoodPeaksPositiveData } from '../../hooks/useStatistics/MoodPeaks';
 import { CardFeedback } from './CardFeedback';
 import { HeaderWeek } from './HeaderWeek';
 
 const DayDot = ({
   date,
-  rating,
+  item,
 }: {
   date: Date,
-  rating: LogItem['rating'],
+  item: LogItem | undefined,
 }) => {
   const colors = useColors()
-  const { settings } = useSettings()
-  const scale = useScale(settings.scaleType)
+  const scale = useScale()
   const navigation = useNavigation()
   const haptics = useHaptics()
 
-  const color = scale.colors[rating] ? {
-    bg: scale.colors[rating].background,
-    text: scale.colors[rating].text,
-    border: scale.colors[rating].text,
+  const color = item ? {
+    bg: scale.colors[item?.rating].background,
+    text: scale.colors[item?.rating].text,
+    border: scale.colors[item?.rating].text,
   } : {
     bg: colors.statisticsCalendarDotBackground,
     text: colors.statisticsCalendarDotText,
     border: colors.statisticsCalendarDotBorder,
   };
-  
+
   return (
     <TouchableOpacity
       style={{
@@ -49,12 +48,14 @@ const DayDot = ({
         maxHeight: 32,
         borderColor: color?.border,
         borderWidth: dayjs(date).isSame(dayjs(), 'day') ? 2 : 0,
+        opacity: dayjs(date).isAfter(dayjs(), 'day') ? 0.5 : 1,
       }}
       activeOpacity={0.8}
       onPress={async () => {
+        if (!item) return;
         await haptics.selection()
         navigation.navigate('LogView', {
-          date: dayjs(date).format(DATE_FORMAT),
+          id: item?.id,
         })
       }}
     >
@@ -76,7 +77,7 @@ const BodyWeek = ({
   start: Dayjs,
 }) => {
   const days = [1, 2, 3, 4, 5, 6, 7]
-  
+
   return (
     <View
       style={{
@@ -98,8 +99,43 @@ const BodyWeek = ({
               justifyContent: 'center',
             }}
           >
-            <DayDot date={date} rating={item?.rating} />
+            <DayDot date={date} item={item} />
           </View>
+        )
+      })}
+    </View>
+  )
+}
+
+export const MoodPeaksContent = ({
+  data,
+  startDate,
+  endDate,
+}: {
+  data: MoodPeaksPositiveData | MoodPeaksNegativeData,
+  startDate: string,
+  endDate: string,
+}) => {
+  const weekCount = dayjs(endDate).diff(dayjs(startDate), 'week')
+
+  return (
+    <View
+      style={{
+        flexDirection: 'column',
+        alignItems: 'center',
+        width: '100%',
+      }}
+    >
+      <HeaderWeek />
+      {_.range(weekCount).map((week, index) => {
+        const weekStart = dayjs(startDate).add(week, 'week')
+
+        return (
+          <BodyWeek
+            key={index}
+            items={data.items}
+            start={weekStart}
+          />
         )
       })}
     </View>
@@ -108,30 +144,28 @@ const BodyWeek = ({
 
 export const MoodPeaksCard = ({
   data,
-  type
+  type,
+  startDate,
+  endDate,
 }: {
   type: 'positive' | 'negative'
   data: MoodPeaksNegativeData | MoodPeaksPositiveData
+  startDate: string,
+  endDate: string,
 }) => {
   return (
     <Card
       subtitle={t('mood')}
       title={t(data.items.length > 1 ? 'statistics_mood_peaks_title_plural' : 'statistics_mood_peaks_title_singular', {
-        rating_word: t(`statistics_mood_peaks_${type}`),
+        rating_word: t(`statistics_mood_peaks_${type}_direction`),
         rating_count: data.items.length,
       })}
     >
-      <View
-        style={{
-          flexDirection: 'column',
-          alignItems: 'center',
-          width: '100%',
-        }}
-      >
-        <HeaderWeek />
-        <BodyWeek start={dayjs().subtract(2, 'week')} items={data.items} />
-        <BodyWeek start={dayjs().subtract(1, 'week')} items={data.items} />
-      </View>
+      <MoodPeaksContent
+        data={data}
+        startDate={startDate}
+        endDate={endDate}
+      />
       <CardFeedback type={`mood_peaks_${type}`} details={{
         items_count: data.items.length,
       }} />

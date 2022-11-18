@@ -1,15 +1,18 @@
 import useColors from "./useColors"
 import { RATING_KEYS } from "./useLogs"
-import { SettingsState } from "./useSettings"
+import { SettingsState, useSettings } from "./useSettings"
 
 export default function useScale(
-  type: SettingsState['scaleType']
+  type?: SettingsState['scaleType']
 ) {
   const colors = useColors()
+  const { settings } = useSettings()
+
+  const _type = type || settings.scaleType
 
   const scaleColors = {}
   RATING_KEYS.forEach((label, index) => {
-    scaleColors[label] = colors.scales[type][label]
+    scaleColors[label] = colors.scales[_type][label]
   })
 
   return {

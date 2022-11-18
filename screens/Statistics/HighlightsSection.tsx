@@ -5,7 +5,7 @@ import { Activity } from "react-native-feather";
 import MenuList from "../../components/MenuList";
 import MenuListItem from "../../components/MenuListItem";
 import useColors from "../../hooks/useColors";
-import { LogItem } from "../../hooks/useLogs";
+import { LogItem, useLogState } from "../../hooks/useLogs";
 import { useAnalytics } from "../../hooks/useAnalytics";
 import { useStatistics } from "../../hooks/useStatistics";
 import { MoodAvgCard } from "./MoodAvgCard";
@@ -16,13 +16,17 @@ import { TagsDistributionCard } from "./TagsDistributionCard";
 import { Title } from "./Title";
 import { MoodAvgData } from "../../hooks/useStatistics/MoodAvg";
 import { t } from "../../helpers/translation";
+import dayjs from "dayjs";
+import { DATE_FORMAT } from "../../constants/Config";
+import { RatingDistribution } from "./RatingDistribution";
 
 export const HighlightsSection = ({ items }: { items: LogItem[] }) => {
   const colors = useColors();
   const navigation = useNavigation();
   const analytics = useAnalytics();
   const statistics = useStatistics();
-  
+  const logState = useLogState();
+
   const showMoodAvg =
     statistics.isAvailable("mood_avg") &&
     statistics.state.moodAvgData.ratingHighestPercentage > 60;
@@ -43,9 +47,12 @@ export const HighlightsSection = ({ items }: { items: LogItem[] }) => {
     statistics.isAvailable("tags_distribution") &&
     statistics.state.tagsDistributionData.itemsCount >= 10;
 
+  const showRatingDistribution =
+    Object.values(logState.items).filter((item) => dayjs(item.date).isAfter(dayjs().subtract(7, "day"))).length >= 4
+
   useEffect(() => {
-    if(!statistics.state.loaded) return;
-    
+    if (!statistics.state.loaded) return;
+
     const cards: {
       mood_avg_show: boolean;
       mood_avg_type?: MoodAvgData['ratingHighestKey']
@@ -59,38 +66,44 @@ export const HighlightsSection = ({ items }: { items: LogItem[] }) => {
       tags_distribution_show: boolean;
       tags_distribution_tag_count?: number;
       tags_distribution_item_count?: number
+      rating_distribution_show: boolean;
+      rating_distribution_item_count?: number
     } = {
       mood_avg_show: showMoodAvg,
       mood_peaks_positive_show: showMoodPeaksPositve,
       mood_peaks_negative_show: showMoodPeaksNegative,
       tags_peaks_show: showTagPeaks,
       tags_distribution_show: showTagsDistribution,
+      rating_distribution_show: showRatingDistribution
     }
-    
-    if(showMoodAvg) {
+
+    if (showMoodAvg) {
       cards.mood_avg_type = statistics.state.moodAvgData.ratingHighestKey
       cards.mood_avg_percentage = statistics.state.moodAvgData.ratingHighestPercentage
     }
-    if(showMoodPeaksPositve) {
+    if (showMoodPeaksPositve) {
       cards.mood_peaks_positive_count = statistics.state.moodPeaksPositiveData.items.length
     }
-    if(showMoodPeaksNegative) {
+    if (showMoodPeaksNegative) {
       cards.mood_peaks_negative_count = statistics.state.moodPeaksNegativeData.items.length
     }
-    if(showTagPeaks) {
+    if (showTagPeaks) {
       cards.tags_peaks_count = statistics.state.tagsPeaksData.tags.length
     }
-    if(showTagsDistribution) {
+    if (showTagsDistribution) {
       cards.tags_distribution_tag_count = statistics.state.tagsDistributionData.tags.length
       cards.tags_distribution_item_count = statistics.state.tagsDistributionData.itemsCount
     }
-    
+    if (showRatingDistribution) {
+      cards.rating_distribution_item_count = Object.values(logState.items).filter((item) => dayjs(item.date).isAfter(dayjs().subtract(7, "day"))).length
+    }
+
     analytics.track('statistics_relevant_highlights', {
       itemsCount: statistics.state.itemsCount,
       ...cards
     })
   }, [JSON.stringify(statistics.state)])
-    
+
   return (
     <>
       <Title>{t("statistics_highlights")}</Title>
@@ -117,32 +130,40 @@ export const HighlightsSection = ({ items }: { items: LogItem[] }) => {
             !showMoodAvg &&
             !showMoodPeaksPositve &&
             !showMoodPeaksNegative &&
-            !showTagPeaks && 
-            !showTagsDistribution
+            !showTagPeaks &&
+            !showTagsDistribution &&
+            !showRatingDistribution
           ) && (
-            <View
-              style={{
-                flex: 1,
-                justifyContent: "center",
-                alignItems: "center",
-                marginTop: 16,
-                padding: 16,
-                paddingVertical: 32,
-                borderWidth: 1,
-                borderColor: colors.statisticsNoDataBorder,
-                borderStyle: "dashed",
-              }}
-            >
-              <Text
+              <View
                 style={{
-                  color: colors.textSecondary,
-                  fontSize: 17,
-                  textAlign: "center",
+                  flex: 1,
+                  justifyContent: "center",
+                  alignItems: "center",
+                  marginTop: 16,
+                  padding: 16,
+                  paddingVertical: 32,
+                  borderWidth: 1,
+                  borderColor: colors.statisticsNoDataBorder,
+                  borderStyle: "dashed",
                 }}
               >
-                {t("statistics_no_highlights")}
-              </Text>
-            </View>
+                <Text
+                  style={{
+                    color: colors.textSecondary,
+                    fontSize: 17,
+                    textAlign: "center",
+                  }}
+                >
+                  {t("statistics_no_highlights")}
+                </Text>
+              </View>
+            )}
+
+          {showRatingDistribution && (
+            <RatingDistribution
+              title={'Your mood over the last 2 weeks'}
+              startDate={dayjs().subtract(14, "days").format(DATE_FORMAT)}
+            />
           )}
 
           {showMoodAvg && <MoodAvgCard data={statistics.state.moodAvgData} />}
@@ -151,6 +172,8 @@ export const HighlightsSection = ({ items }: { items: LogItem[] }) => {
             <MoodPeaksCard
               data={statistics.state.moodPeaksPositiveData}
               type="positive"
+              startDate={dayjs().subtract(14, "days").format(DATE_FORMAT)}
+              endDate={dayjs().format(DATE_FORMAT)}
             />
           )}
 
@@ -158,6 +181,8 @@ export const HighlightsSection = ({ items }: { items: LogItem[] }) => {
             <MoodPeaksCard
               data={statistics.state.moodPeaksNegativeData}
               type="negative"
+              startDate={dayjs().subtract(14, "days").format(DATE_FORMAT)}
+              endDate={dayjs().format(DATE_FORMAT)}
             />
           )}
 
@@ -192,7 +217,7 @@ export const HighlightsSection = ({ items }: { items: LogItem[] }) => {
                 <Activity
                   width={18}
                   height={18}
-                  color={colors.palette.amber[500]}
+                  color={colors.text}
                 />
               }
             />

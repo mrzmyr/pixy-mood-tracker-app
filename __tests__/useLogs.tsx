@@ -3,6 +3,7 @@ import { act, renderHook } from '@testing-library/react-hooks'
 import { AnalyticsProvider } from '../hooks/useAnalytics'
 import { LogsProvider, LogsState, STORAGE_KEY, useLogState, useLogUpdater } from '../hooks/useLogs'
 import { SettingsProvider } from '../hooks/useSettings'
+import { _generateItem } from './Streaks'
 
 const wrapper = ({ children }) => (
   <SettingsProvider>
@@ -13,13 +14,13 @@ const wrapper = ({ children }) => (
 )
 
 const testItems: LogsState['items'] = {
-  '2022-01-01': {
+  '2022-01-01': _generateItem({
     date: '2022-01-01',
     rating: 'neutral',
     message: 'test message',
     tags: []
-  },
-  '2022-01-02': {
+  }),
+  '2022-01-02': _generateItem({
     date: '2022-01-02',
     rating: 'neutral',
     message: '🦄',
@@ -32,7 +33,7 @@ const testItems: LogsState['items'] = {
       title: 'test tag 2',
       color: 'slate'
     }]
-  }
+  }),
 }
 
 const _renderHook = () => {
@@ -49,13 +50,13 @@ describe('useLogs()', () => {
   beforeEach(async () => {
     console.error = jest.fn()
   })
-  
+
   afterEach(async () => {
     console.error = _console_error
     const keys = await AsyncStorage.getAllKeys()
     await AsyncStorage.multiRemove(keys)
   });
-  
+
   test('should have `loaded` prop', async () => {
     const hook = _renderHook()
     expect(hook.result.current.state.loaded).toBe(false)
@@ -71,7 +72,7 @@ describe('useLogs()', () => {
 
     const hook = _renderHook()
     await hook.waitForNextUpdate()
-    
+
     expect(hook.result.current.state.items).toEqual(testItems)
   })
 
@@ -91,7 +92,7 @@ describe('useLogs()', () => {
   test('should import', async () => {
     const hook = _renderHook()
     await hook.waitForNextUpdate()
-    
+
     await act(() => {
       hook.result.current.updater.import({
         items: testItems
@@ -104,9 +105,9 @@ describe('useLogs()', () => {
   test('should addLog', async () => {
     const hook = _renderHook()
     await hook.waitForNextUpdate()
-    
+
     const itemsArr = Object.values(testItems)
-    
+
     await act(() => {
       hook.result.current.updater.addLog(itemsArr[0])
     })
@@ -120,7 +121,7 @@ describe('useLogs()', () => {
   test('should editLog', async () => {
     const hook = _renderHook()
     await hook.waitForNextUpdate()
-    
+
     const itemsArr = Object.values(testItems)
     const itemEdited = {
       ...itemsArr[0],
@@ -131,7 +132,7 @@ describe('useLogs()', () => {
         color: 'lime'
       }]
     }
-    
+
     await act(() => hook.result.current.updater.addLog(itemsArr[0]))
     await act(() => hook.result.current.updater.editLog(itemEdited))
 
@@ -145,7 +146,7 @@ describe('useLogs()', () => {
 
     const hook = _renderHook()
     await hook.waitForNextUpdate()
-    
+
     const itemsClone = { ...testItems }
     const itemsArr = Object.values(itemsClone)
     const itemsEdited = {
@@ -179,12 +180,12 @@ describe('useLogs()', () => {
   test('should deleteLog', async () => {
     const hook = _renderHook()
     await hook.waitForNextUpdate()
-    
+
     const itemsArr = Object.values(testItems)
-    
+
     await act(() => hook.result.current.updater.addLog(itemsArr[0]))
     await act(() => hook.result.current.updater.addLog(itemsArr[1]))
-    await act(() => hook.result.current.updater.deleteLog(itemsArr[0]))
+    await act(() => hook.result.current.updater.deleteLog(itemsArr[0].id))
 
     expect(hook.result.current.state.items).toEqual({
       [itemsArr[1].date]: itemsArr[1]
@@ -199,7 +200,7 @@ describe('useLogs()', () => {
 
     await act(() => hook.result.current.updater.updateLogs(testItems))
     expect(hook.result.current.state.items).toEqual(testItems)
-    
+
     await act(() => hook.result.current.updater.reset())
     expect(hook.result.current.state.items).toEqual({})
   })

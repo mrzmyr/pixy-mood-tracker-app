@@ -1,13 +1,12 @@
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Platform, View } from 'react-native';
+import LinkButton from '../components/LinkButton';
+import { t } from '../helpers/translation';
+import { useCalendarFilters } from '../hooks/useCalendarFilters';
 import useColors from '../hooks/useColors';
 import { SettingsScreen, StatisticsScreen } from '../screens';
-import LinkButton from '../components/LinkButton';
-import { useCalendarFilters } from '../hooks/useCalendarFilters';
 import CalendarScreen from '../screens/Calendar';
 import { MyTabBar } from "./MyTabBar";
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { t } from '../helpers/translation';
-import { Filter } from 'react-native-feather';
 
 const Tab = createBottomTabNavigator();
 

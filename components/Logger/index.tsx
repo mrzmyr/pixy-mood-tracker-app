@@ -1,19 +1,20 @@
+import { useNavigation } from '@react-navigation/native';
 import dayjs from 'dayjs';
 import { t } from 'i18n-js';
 import { ReactElement, useEffect, useRef, useState } from 'react';
 import { Dimensions, Keyboard, Platform, View } from 'react-native';
 import Carousel from 'react-native-reanimated-carousel';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { askToCancel, askToRemove } from '../../../helpers/prompts';
-import { useAnalytics } from '../../../hooks/useAnalytics';
-import { useAnonymizer } from '../../../hooks/useAnonymizer';
-import useColors from '../../../hooks/useColors';
-import { LogItem, useLogState, useLogUpdater } from '../../../hooks/useLogs';
-import { IQuestion, useQuestioner } from '../../../hooks/useQuestioner';
-import { useSettings } from '../../../hooks/useSettings';
-import { useTagsState } from '../../../hooks/useTags';
-import { useTemporaryLog } from '../../../hooks/useTemporaryLog';
-import { RootStackScreenProps } from '../../../types';
+import { DATE_FORMAT } from '../../constants/Config';
+import { askToCancel, askToRemove } from '../../helpers/prompts';
+import { useAnalytics } from '../../hooks/useAnalytics';
+import { useAnonymizer } from '../../hooks/useAnonymizer';
+import useColors from '../../hooks/useColors';
+import { LogItem, useLogState, useLogUpdater } from '../../hooks/useLogs';
+import { IQuestion, useQuestioner } from '../../hooks/useQuestioner';
+import { useSettings } from '../../hooks/useSettings';
+import { useTagsState } from '../../hooks/useTags';
+import { useTemporaryLog } from '../../hooks/useTemporaryLog';
 import { SlideAction } from './SlideAction';
 import { SlideHeader } from './SlideHeader';
 import { SlideNote } from './SlideNote';
@@ -29,8 +30,16 @@ const SLIDE_INDEX_MAPPING = {
   message: 2,
 }
 
-export const LogEdit = ({ navigation, route }: RootStackScreenProps<'LogEdit'>) => {
-
+export const Logger = ({
+  id,
+  date,
+  initialStep
+}: {
+  id?: LogItem['id']
+  date?: string;
+  initialStep?: keyof typeof SLIDE_INDEX_MAPPING;
+}) => {
+  const navigation = useNavigation();
   const { settings } = useSettings()
   const colors = useColors()
   const analytics = useAnalytics()
@@ -43,16 +52,22 @@ export const LogEdit = ({ navigation, route }: RootStackScreenProps<'LogEdit'>) 
   const tempLog = useTemporaryLog();
   const { anonymizeTag } = useAnonymizer()
 
-  const existingLogItem = logState?.items[route.params.date];
+  const existingLogItem: LogItem | null = id ? Object.values(logState?.items).find(item => item.id === id) || null : null
   const defaultLogItem = {
     ...tempLog.data,
-    date: route.params.date,
+    date: date || dayjs().format(DATE_FORMAT),
   }
+
+  const isEditing = existingLogItem !== null;
 
   const [question, setQuestion] = useState<IQuestion | null>(null);
 
   useEffect(() => {
-    tempLog.set(existingLogItem || defaultLogItem)
+    if (existingLogItem !== null) {
+      tempLog.set(existingLogItem)
+    } else {
+      tempLog.set(defaultLogItem)
+    }
     questioner.getQuestion().then(setQuestion)
   }, [])
 
@@ -67,7 +82,7 @@ export const LogEdit = ({ navigation, route }: RootStackScreenProps<'LogEdit'>) 
 
   const close = async () => {
     tempLog.reset()
-    navigation.popToTop();
+    navigation.goBack();
   }
 
   const save = () => {
@@ -125,7 +140,7 @@ export const LogEdit = ({ navigation, route }: RootStackScreenProps<'LogEdit'>) 
     tempLog.set(logItem => ({ ...logItem, tags }))
   }
 
-  const initialIndex = SLIDE_INDEX_MAPPING[route.params.slide] || 0
+  const initialIndex = SLIDE_INDEX_MAPPING[initialStep || 'rating']
 
   const _carousel = useRef(null);
   const [slideIndex, setSlideIndex] = useState(initialIndex)
@@ -167,7 +182,7 @@ export const LogEdit = ({ navigation, route }: RootStackScreenProps<'LogEdit'>) 
   if (
     Object.keys(logState.items).length === 1 &&
     !settings.reminderEnabled &&
-    existingLogItem === undefined
+    !isEditing
   ) {
     content.push({
       slide: (
@@ -181,7 +196,7 @@ export const LogEdit = ({ navigation, route }: RootStackScreenProps<'LogEdit'>) 
 
   if (
     question !== null &&
-    existingLogItem === undefined
+    !isEditing
   ) {
     content.push({
       slide: (
@@ -228,11 +243,11 @@ export const LogEdit = ({ navigation, route }: RootStackScreenProps<'LogEdit'>) 
           }}
         />
         <SlideHeader
-          title={dayjs(route.params.date).isSame(dayjs(), 'day') ? t('today') : dayjs(route.params.date).format('dddd, L')}
-          isDeleteable={existingLogItem !== undefined}
+          title={dayjs(date).isSame(dayjs(), 'day') ? t('today') : dayjs(date).format('dddd, L')}
+          isDeleteable={isEditing}
           onClose={() => {
             const tempLogHasChanges = tempLog.hasChanged()
-            const existingLogItemHasChanges = tempLog.hasDifference(existingLogItem)
+            const existingLogItemHasChanges = existingLogItem ? tempLog.hasDifference(existingLogItem) : false
 
             if (
               !existingLogItem && tempLogHasChanges ||

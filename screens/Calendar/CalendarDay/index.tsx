@@ -11,13 +11,14 @@ import { LogItem } from "../../../hooks/useLogs";
 import { SettingsState } from "../../../hooks/useSettings";
 import { TextIndicator } from "./TextIndicator";
 
-const CalendarDay = memo(function CalendarDay({ 
+const CalendarDay = memo(function CalendarDay({
   dateString,
   rating,
   messageLength,
   scaleType,
   isFiltered,
   isFiltering,
+  onPress,
 }: {
   dateString: string,
   rating?: LogItem["rating"],
@@ -25,16 +26,16 @@ const CalendarDay = memo(function CalendarDay({
   scaleType: SettingsState["scaleType"],
   isFiltering: boolean,
   isFiltered: boolean,
+  onPress: () => void,
 }) {
   const colors = useColors();
   const haptics = useHaptics();
-  const navigation = useNavigation();
 
   const _isFiltered = (!isFiltered && isFiltering)
-  
+
   const day = useMemo(() => dayjs(dateString).date(), [dateString]);
   const hasText = messageLength ? messageLength > 0 : false;
-  
+
   const isFuture = useMemo(() => {
     return dayjs(dateString).isAfter(dayjs(), 'day');
   }, [dateString, dayjs().format(DATE_FORMAT)]);
@@ -42,24 +43,24 @@ const CalendarDay = memo(function CalendarDay({
   const isToday = useMemo(() => {
     return dayjs(dateString).isSame(dayjs(), 'day');
   }, [dateString, dayjs().format(DATE_FORMAT)]);
-  
+
   const backgroundColor = useMemo(() => (
-    isFuture || _isFiltered || (!rating && isFiltering) ? 
+    isFuture || _isFiltered || (!rating && isFiltering) ?
       colors.calendarItemBackgroundFuture :
       (
         _isFiltered ? (
           colors.calendarBackground
         ) : (
-          rating ? 
-            colors.scales[scaleType][rating].background : 
+          rating ?
+            colors.scales[scaleType][rating].background :
             colors.scales[scaleType].empty.background
         )
       )
   ), [colors, isFuture, _isFiltered, isFiltering, rating, scaleType]);
-  
+
   const containerStyles = useStyle(() => [
-    styles.container, 
-    { 
+    styles.container,
+    {
       backgroundColor: backgroundColor,
       borderWidth: rating === undefined && !isFuture ? 2 : 0,
       borderStyle: !isFuture && !rating && !isFiltering ? 'dotted' : 'solid',
@@ -71,16 +72,16 @@ const CalendarDay = memo(function CalendarDay({
     _isFiltered ? (
       colors.text
     ) : (
-      rating ? 
-        colors.scales[scaleType][rating].text : 
+      rating ?
+        colors.scales[scaleType][rating].text :
         colors.scales[scaleType].empty.text
     )
   ), [rating, scaleType, colors])
 
   const dayNumberBackgroundColor = useMemo(() => (
-    isToday ? 
-      (chroma(backgroundColor).luminance() < 0.5 ? 
-        'rgba(255,255,255,0.7)' : 
+    isToday ?
+      (chroma(backgroundColor).luminance() < 0.5 ?
+        'rgba(255,255,255,0.7)' :
         'rgba(0,0,0,0.5)'
       ) : 'transparent'
   ), [isToday, backgroundColor])
@@ -97,40 +98,32 @@ const CalendarDay = memo(function CalendarDay({
       fontSize: 12,
       opacity: !isToday && (isFuture || _isFiltered || (!rating && isFiltering)) ? 0.3 : 1,
       color: (
-        _isFiltered && !isToday ? 
+        _isFiltered && !isToday ?
           colors.text
-        : (
-          isToday ?
-          (
-            chroma(backgroundColor).luminance() < 0.5 ? 
-            'black' :
-            'white'
-          ) : 
-          textColor
-        )
+          : (
+            isToday ?
+              (
+                chroma(backgroundColor).luminance() < 0.5 ?
+                  'black' :
+                  'white'
+              ) :
+              textColor
+          )
       )
     }
   ], [isToday, isFuture, _isFiltered, isFiltering, rating, backgroundColor, textColor])
-  
-  const onPress = useCallback((dateString: string) => {
-    if(rating !== undefined) {
-      navigation.navigate('LogView', { date: dateString });
-    } else {
-      navigation.navigate('LogEdit', { date: dateString });
-    }
-  }, [rating, navigation])
-  
-  const onPressHandler = useCallback(() => {
-    if(!isFuture) {
+
+  const _onPress = useCallback(() => {
+    if (!isFuture) {
       haptics.selection()
-      onPress(dateString)
+      onPress()
     }
   }, [dateString, isFuture, onPress])
-  
+
   return (
     <Pressable
       disabled={isFuture}
-      onPress={onPressHandler}
+      onPress={_onPress}
       style={containerStyles}
     >
       <View
@@ -139,7 +132,7 @@ const CalendarDay = memo(function CalendarDay({
         <View
           style={styles.textIndicatorParent2}
         >
-          { hasText && !isFiltering && (
+          {hasText && !isFiltering && (
             <TextIndicator textColor={textColor} />
           )}
         </View>

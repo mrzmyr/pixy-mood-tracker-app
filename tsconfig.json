@@ -3,6 +3,7 @@
   "noImplicitAny": false,
   "compilerOptions": {
     "strictNullChecks": true,
-    "strict": false
+    "strict": false,
+    "module": "esnext"
   }
 }

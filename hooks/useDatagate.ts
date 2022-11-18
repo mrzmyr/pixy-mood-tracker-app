@@ -27,7 +27,7 @@ type ExportData = {
 export const useDatagate = (): {
   openExportDialog: () => Promise<void>;
   openImportDialog: () => Promise<void>;
-  import: (data: ImportData) => Promise<void>;
+  import: (data: ImportData, options: { muted: boolean }) => Promise<void>;
   openDangerousImportDirectlyToAsyncStorageDialog: () => Promise<void>;
   openResetDialog: (type: ResetType) => Promise<void>;
 } => {
@@ -62,25 +62,25 @@ export const useDatagate = (): {
       logUpdater.import({
         items: migratedData.items,
       });
-      tagsUpdater.import({ 
-        tags: migratedData.settings.tags || migratedData.tags || [] 
+      tagsUpdater.import({
+        tags: migratedData.settings.tags || migratedData.tags || []
       });
       importSettings(migratedData.settings);
-      if(!options.muted) showImportSuccess()
+      if (!options.muted) showImportSuccess()
       analytics.track("data_import_success");
     } else {
-      if(!options.muted) showImportError()
+      if (!options.muted) showImportError()
       analytics.track("data_import_error", {
         reason: "invalid_json_schema"
       });
     }
   };
-  
+
   const resetData = () => {
     logUpdater.reset();
     tagsUpdater.reset();
   }
-  
+
   const factoryReset = () => {
     resetData()
     resetSettings();
@@ -172,7 +172,7 @@ export const useDatagate = (): {
       alert(t("export_failed_title"));
       return;
     }
-  
+
     return Sharing.shareAsync(FileSystem.documentDirectory + filename);
   };
 
@@ -188,7 +188,7 @@ export const useDatagate = (): {
       dangerouslyImportDirectlyToAsyncStorage(data);
     }
   };
-  
+
   return {
     openExportDialog,
     openImportDialog,

@@ -1,5 +1,4 @@
 import dayjs from "dayjs";
-import _ from "lodash";
 import React, { forwardRef, memo, useCallback, useMemo } from "react";
 import { Platform, StyleSheet, Text, View } from "react-native";
 import { useCalendarFilters } from "../../hooks/useCalendarFilters";
@@ -8,13 +7,13 @@ import { LogItem, useLogState } from "../../hooks/useLogs";
 import { useSettings } from "../../hooks/useSettings";
 import CalendarMonth from "./CalendarMonth";
 
-import { useStyle } from "react-native-style-utilities";
-import { t } from "../../helpers/translation";
-import { DATE_FORMAT } from "../../constants/Config";
-import CalendarDay from "./CalendarDay";
 import { useNavigation } from "@react-navigation/native";
+import { useStyle } from "react-native-style-utilities";
+import { DATE_FORMAT } from "../../constants/Config";
+import { t } from "../../helpers/translation";
+import CalendarDay from "./CalendarDay";
 
-const MONTH_COUNT = 6;
+const MONTH_COUNT = 12;
 const MONTH_DATES: string[] = []
 
 for (let i = MONTH_COUNT; i >= 0; i--) {
@@ -25,7 +24,6 @@ const Calendar = memo(forwardRef(function Calendar({ }, ref: React.RefObject<Vie
   const navigation = useNavigation();
   const colors = useColors()
   const logState = useLogState()
-  const today = dayjs();
   const { settings } = useSettings()
   const calendarFilters = useCalendarFilters()
 
@@ -42,16 +40,18 @@ const Calendar = memo(forwardRef(function Calendar({ }, ref: React.RefObject<Vie
 
   const onPressDay = useCallback((date: string, item: LogItem) => {
     if (item) {
-      navigation.navigate('LogView', { date })
+      navigation.navigate('LogView', { id: item.id })
     } else {
-      navigation.navigate('LogEdit', { date })
+      navigation.navigate('LogCreate', { date })
     }
   }, [navigation])
 
   return (
     <View
       ref={ref}
-      style={styles.container}
+      style={{
+        paddingBottom: 80,
+      }}
     >
       {MONTH_DATES.map((date, index) => (
         <CalendarMonth
@@ -81,13 +81,10 @@ const Calendar = memo(forwardRef(function Calendar({ }, ref: React.RefObject<Vie
 }))
 
 const styles = StyleSheet.create({
-  container: {
-    paddingBottom: 40,
-  },
   bottomText: {
-    paddingTop: 80,
+    paddingTop: 140,
     paddingBottom: Platform.OS === 'ios' ? 0 : 40,
-    marginBottom: -80,
+    marginBottom: -120,
     textAlign: 'center',
     fontSize: 15,
   }

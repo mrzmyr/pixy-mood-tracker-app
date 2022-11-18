@@ -1,9 +1,9 @@
 import { View } from "react-native";
-import { getLogEditMarginTop } from "../../../helpers/responsive";
-import { t } from "../../../helpers/translation";
-import useColors from "../../../hooks/useColors";
-import { LogItem, RATING_KEYS } from "../../../hooks/useLogs";
-import { useTemporaryLog } from "../../../hooks/useTemporaryLog";
+import { getLogEditMarginTop } from "../../helpers/responsive";
+import { t } from "../../helpers/translation";
+import useColors from "../../hooks/useColors";
+import { LogItem, RATING_KEYS } from "../../hooks/useLogs";
+import { useTemporaryLog } from "../../hooks/useTemporaryLog";
 import { SlideHeadline } from "./SlideHeadline";
 import { SlideRatingButton } from "./SlideRatingButton";
 
@@ -16,10 +16,10 @@ export const SlideRating = ({
   const tempLog = useTemporaryLog();
 
   const marginTop = getLogEditMarginTop()
-  
+
   return (
-    <View style={{ 
-      flex: 1, 
+    <View style={{
+      flex: 1,
       backgroundColor: colors.logBackground,
       width: '100%',
     }}>
@@ -50,7 +50,7 @@ export const SlideRating = ({
             <SlideRatingButton
               key={key}
               rating={key as LogItem['rating']}
-              selected={tempLog?.data?.rating === key} 
+              selected={tempLog?.data?.rating === key}
               onPress={() => onChange(key as LogItem['rating'])}
             />
           ))}

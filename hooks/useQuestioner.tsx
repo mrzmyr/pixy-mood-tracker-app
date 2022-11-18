@@ -52,7 +52,10 @@ export const useQuestioner = () => {
 
         return question || null
       })
-      .catch(error => console.log(error))
+      .catch(error => {
+        console.log(error)
+        return null;
+      })
   }
 
   const submit = (question: IQuestion, answers: IQuestion['answers']) => {

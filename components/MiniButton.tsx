@@ -1,7 +1,7 @@
 import { Pressable, Text } from 'react-native';
 import { Edit2 } from 'react-native-feather';
-import useColors from '../../hooks/useColors';
-import useHaptics from '../../hooks/useHaptics';
+import useColors from '../hooks/useColors';
+import useHaptics from '../hooks/useHaptics';
 
 export const MiniButton = ({
   onPress,

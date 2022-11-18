@@ -35,7 +35,7 @@ export interface SettingsState {
   analyticsEnabled: boolean;
   actionsDone: IAction[];
 
-  // remove in previous version
+  // removed in previous version
   trackBehaviour?: boolean; // replaced with analyticsEnabled
   tags?: Tag[] // moved to useTags()
 }

@@ -16,6 +16,7 @@ import {
 } from "../hooks/useLogs";
 import { ExportSettings, INITIAL_STATE, SettingsProvider, useSettings } from "../hooks/useSettings";
 import { Tag, TagsProvider, useTagsState, useTagsUpdater } from "../hooks/useTags";
+import { _generateItem } from "./Streaks";
 
 const wrapper = ({ children }) => (
   <SettingsProvider>
@@ -28,13 +29,13 @@ const wrapper = ({ children }) => (
 );
 
 const testItems: LogsState["items"] = {
-  "2022-01-01": {
+  "2022-01-01": _generateItem({
     date: "2022-01-01",
     rating: "neutral",
     message: "test message",
     tags: [],
-  },
-  "2022-01-02": {
+  }),
+  "2022-01-02": _generateItem({
     date: "2022-01-02",
     rating: "neutral",
     message: "🦄",
@@ -50,7 +51,7 @@ const testItems: LogsState["items"] = {
         color: "slate",
       },
     ],
-  },
+  })
 };
 
 const initalTags = [
@@ -147,13 +148,13 @@ describe("useLogs()", () => {
       settings: testSettings,
       tags: testTags
     }));
-    
+
     await hook.waitForNextUpdate();
 
     await act(() => {
       hook.result.current.datagate.openImportDialog();
     })
-    
+
     Alert.alert.mock.calls[0][2][0].onPress()
 
     await hook.waitForNextUpdate();
@@ -179,7 +180,7 @@ describe("useLogs()", () => {
     jest.spyOn(Alert, 'alert');
     jest.spyOn(FileSystem, 'writeAsStringAsync').mockResolvedValueOnce('file://something.json');
     jest.spyOn(Sharing, 'shareAsync');
-    
+
     await hook.waitForNextUpdate();
 
     await act(() => {
@@ -191,7 +192,7 @@ describe("useLogs()", () => {
     await act(() => {
       hook.result.current.datagate.openExportDialog();
     })
-    
+
     const calledJson = FileSystem.writeAsStringAsync.mock.calls[0][1];
     const expectedJson = {
       version: pkg.version,
@@ -228,7 +229,7 @@ describe("useLogs()", () => {
 
     expect(Alert.alert).toBeCalled();
     expect(hook.result.current.logState).toEqual({
-      loaded: true, 
+      loaded: true,
       items: {}
     });
     expect(hook.result.current.tagsState).toEqual({

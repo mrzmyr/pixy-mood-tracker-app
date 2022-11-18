@@ -1,7 +1,6 @@
 import _ from "lodash";
 import { createContext, useContext, useState } from "react";
 import { LogItem, useLogState } from "../useLogs";
-import { useSettings } from "../useSettings";
 import { useTagsState } from "../useTags";
 import { defaultMoodAvgData, getMoodAvgData, MoodAvgData } from "./MoodAvg";
 import {
@@ -17,6 +16,7 @@ import {
   getMoodTrendData,
   MoodTrendData
 } from "./MoodTrend";
+import { defaultStreaksData, getCurrentStreak, getLongestStreak, StreaksData } from "./Streaks";
 import {
   defaultTagsDistributionData,
   getTagsDistributionData,
@@ -51,6 +51,7 @@ interface StatisticsState {
   moodPeaksNegativeData: MoodPeaksNegativeData;
   tagsPeaksData: TagsPeakData;
   tagsDistributionData: TagsDistributionData;
+  streaks: StreaksData;
   trends: {
     moodData: MoodTrendData;
     tagsDistributionData: TagsDistributionTrendData;
@@ -82,6 +83,7 @@ export function StatisticsProvider({
     moodPeaksPositiveData: defaultMoodPeaksPositiveData,
     moodPeaksNegativeData: defaultMoodPeaksNegativeData,
     tagsDistributionData: defaultTagsDistributionData,
+    streaks: defaultStreaksData,
     tagsPeaksData: {
       tags: [],
     },
@@ -133,6 +135,10 @@ export function StatisticsProvider({
       moodPeaksNegativeData,
       tagsPeaksData,
       tagsDistributionData,
+      streaks: {
+        longest: getLongestStreak(Object.values(logState.items)),
+        current: getCurrentStreak(Object.values(logState.items)),
+      },
       trends: {
         moodData: moodTrendData,
         tagsDistributionData: tagsDistributionTrendData,

@@ -1,6 +1,7 @@
 import { t } from 'i18n-js';
 import { Text, View } from 'react-native';
 import Button from '../../components/Button';
+import LinkButton from '../../components/LinkButton';
 import useColors from '../../hooks/useColors';
 import useFeedbackModal from '../../hooks/useFeedbackModal';
 
@@ -9,8 +10,15 @@ export const FeedbackSection = () => {
   const { show: showFeedbackModal, Modal: FeedbackModal } = useFeedbackModal();
 
   return (
-    <View style={{
-    }}>
+    <View
+      style={{
+        marginTop: 32,
+        backgroundColor: colors.cardBackground,
+        paddingVertical: 16,
+        paddingHorizontal: 20,
+        borderRadius: 8,
+      }}
+    >
       <FeedbackModal />
       <Text style={{
         fontSize: 17,
@@ -24,12 +32,26 @@ export const FeedbackSection = () => {
         lineHeight: 22,
         color: colors.textSecondary
       }}>{t('statistics_experimental_body')}</Text>
-      <Button
-        onPress={() => {
-          showFeedbackModal({ type: 'idea' });
+      <View
+        style={{
+          flexWrap: 'wrap',
+          marginHorizontal: -20,
+          paddingHorizontal: 12,
+          marginBottom: -16,
+          paddingBottom: 8,
+          paddingTop: 8,
+          borderTopColor: colors.cardBorder,
+          borderTopWidth: 1,
         }}
-        type='secondary'
-      >{t('statistics_experimental_button')}</Button>
+      >
+        <LinkButton
+          style={{
+          }}
+          onPress={() => {
+            showFeedbackModal({ type: 'idea' });
+          }}
+        >{t('statistics_experimental_button')}</LinkButton>
+      </View>
     </View>
   );
 };

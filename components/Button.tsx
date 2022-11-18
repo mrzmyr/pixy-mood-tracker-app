@@ -2,18 +2,19 @@ import { Pressable, Text, View } from "react-native";
 import useColors from "../hooks/useColors";
 import LoadingIndicator from "./LoadingIndicator";
 import useHaptics from "../hooks/useHaptics";
+import _ from "lodash";
 
-export default function Button({ 
-  type = 'primary', 
+export default function Button({
+  type = 'primary',
   icon,
   testID,
-  onPress, 
+  onPress,
   isLoading = false,
   disabled = false,
-  children, 
+  children,
   style = {},
 }: {
-  type?: 'primary' | 'secondary' | 'danger',
+  type?: 'primary' | 'secondary' | 'danger' | 'inverse';
   icon?: React.ReactNode,
   testID?: string,
   isLoading?: boolean,
@@ -24,7 +25,7 @@ export default function Button({
 }) {
   const colors = useColors()
   const haptics = useHaptics()
-  
+
   const buttonColors = {
     primary: {
       background: colors.primaryButtonBackground,
@@ -38,6 +39,7 @@ export default function Button({
       background: colors.secondaryButtonBackground,
       text: colors.secondaryButtonText,
       border: colors.secondaryButtonBorder,
+      disabledBorder: colors.secondaryButtonBorderDisabled,
     },
     danger: {
       background: colors.dangerButtonBackground,
@@ -56,15 +58,15 @@ export default function Button({
         justifyContent: 'center',
         flexDirection: 'row',
         borderRadius: 8,
-        opacity: disabled ? 0.5 : (pressed ? 0.8 : 1),
+        opacity: disabled ? 0.5 : (pressed ? 0.6 : 1),
         backgroundColor: disabled ? buttonColors.disabledBackground : buttonColors.background,
         borderWidth: 2,
         borderColor: disabled ? buttonColors.disabledBorder : buttonColors?.border,
       }, style]}
       onPress={async () => {
         await haptics.selection()
-        if(!disabled) {
-          onPress()
+        if (!disabled) {
+          onPress?.()
         }
       }}
       disabled={disabled}
@@ -75,15 +77,17 @@ export default function Button({
         <LoadingIndicator size={20} color={buttonColors?.text} />
       ) : (
         <>
-        {icon && <View style={{ marginRight: children ? 10 : 0 }}>{icon}</View>}
-        <Text 
-          style={{ 
-            fontSize: 17, 
-            color: disabled ? buttonColors.disabledText : buttonColors.text,
-            fontWeight: 'bold' 
-          }} 
-          numberOfLines={1}
-        >{children}</Text>
+          {icon && <View style={{ marginRight: children ? 8 : 0 }}>{icon}</View>}
+          {_.isString(children) ? (
+            <Text
+              style={{
+                fontSize: 17,
+                color: disabled ? buttonColors.disabledText : buttonColors.text,
+                fontWeight: 'bold'
+              }}
+              numberOfLines={1}
+            >{children}</Text>
+          ) : children}
         </>
       )}
     </Pressable>

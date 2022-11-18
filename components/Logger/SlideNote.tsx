@@ -1,12 +1,12 @@
 import { useEffect, useRef, useState } from "react";
 import { Keyboard, View } from "react-native";
-import DismissKeyboard from "../../../components/DismisKeyboard";
-import TextArea from "../../../components/TextArea";
-import { getLogEditMarginTop } from "../../../helpers/responsive";
-import { t } from "../../../helpers/translation";
-import useColors from "../../../hooks/useColors";
-import { LogItem } from "../../../hooks/useLogs";
-import { useTemporaryLog } from "../../../hooks/useTemporaryLog";
+import DismissKeyboard from "../../components/DismisKeyboard";
+import TextArea from "../../components/TextArea";
+import { getLogEditMarginTop } from "../../helpers/responsive";
+import { t } from "../../helpers/translation";
+import useColors from "../../hooks/useColors";
+import { LogItem } from "../../hooks/useLogs";
+import { useTemporaryLog } from "../../hooks/useTemporaryLog";
 import { SlideHeadline } from "./SlideHeadline";
 
 const randomInt = (min, max) => Math.floor(Math.random() * (max - min + 1) + min);
@@ -25,7 +25,7 @@ export const SlideNote = ({
   const placeholder = useRef(t(`log_modal_message_placeholder_${randomInt(1, 6)}`))
 
   const [shouldExpand, setShouldExpand] = useState(false);
-  
+
   useEffect(() => {
     const r1 = Keyboard.addListener('keyboardWillShow', () => setShouldExpand(true))
     const r2 = Keyboard.addListener('keyboardWillHide', () => setShouldExpand(false))
@@ -35,12 +35,12 @@ export const SlideNote = ({
       r2.remove()
     }
   }, [])
-  
+
   return (
     <>
       <DismissKeyboard>
-        <View style={{ 
-          flex: 1, 
+        <View style={{
+          flex: 1,
           backgroundColor: colors.logBackground,
           width: '100%',
           position: 'relative',

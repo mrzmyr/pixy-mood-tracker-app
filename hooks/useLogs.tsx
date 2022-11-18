@@ -18,15 +18,17 @@ import { Tag as ITag } from "./useTags";
 
 export const STORAGE_KEY = "PIXEL_TRACKER_LOGS";
 
-export const RATING_KEYS = [
-  "extremely_good",
-  "very_good",
-  "good",
-  "neutral",
-  "bad",
-  "very_bad",
-  "extremely_bad",
-];
+export const RATING_MAPPING = {
+  extremely_good: 6,
+  very_good: 5,
+  good: 4,
+  neutral: 3,
+  bad: 2,
+  very_bad: 1,
+  extremely_bad: 0,
+}
+
+export const RATING_KEYS = Object.keys(RATING_MAPPING) as (keyof typeof RATING_MAPPING)[]
 
 export interface LogItem {
   id: string;
@@ -72,10 +74,10 @@ const LogUpdaterContext = createContext<UpdaterValue>(undefined as any);
 function reducer(state: LogsState, action: LogAction): LogsState {
   switch (action.type) {
     case "import":
-      return {
+      return migrate({
         ...action.payload as LogsState,
         loaded: true,
-      };
+      })
     case "add":
       state.items[action.payload.date] = action.payload;
       return { ...state };
@@ -145,7 +147,7 @@ function LogsProvider({ children }: { children: React.ReactNode }) {
       if (value !== null) {
         dispatch({
           type: "import",
-          payload: migrate(value),
+          payload: value,
         });
       } else {
         dispatch({

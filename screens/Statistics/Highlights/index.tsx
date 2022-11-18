@@ -11,6 +11,8 @@ import { TagsDistributionCard } from '../TagsDistributionCard';
 import { Title } from '../Title';
 import { MoodAvgData } from '../../../hooks/useStatistics/MoodAvg';
 import { t } from '../../../helpers/translation';
+import dayjs from 'dayjs';
+import { DATE_FORMAT } from '../../../constants/Config';
 
 export const StatisticsHighlights = ({ navigation }) => {
   const insets = useSafeAreaInsets();
@@ -23,10 +25,10 @@ export const StatisticsHighlights = ({ navigation }) => {
   const showMoodPeaksNegative = statistics.isAvailable("mood_peaks_negative")
   const showTagPeaks = statistics.isAvailable("tags_peaks")
   const showTagsDistribution = statistics.isAvailable("tags_distribution")
-  
+
   useEffect(() => {
-    if(!statistics.state.loaded) return;
-    
+    if (!statistics.state.loaded) return;
+
     const cards: {
       mood_avg_show: boolean;
       mood_avg_type?: MoodAvgData['ratingHighestKey']
@@ -47,31 +49,31 @@ export const StatisticsHighlights = ({ navigation }) => {
       tags_peaks_show: showTagPeaks,
       tags_distribution_show: showTagsDistribution,
     }
-    
-    if(showMoodAvg) {
+
+    if (showMoodAvg) {
       cards.mood_avg_type = statistics.state.moodAvgData.ratingHighestKey
       cards.mood_avg_percentage = statistics.state.moodAvgData.ratingHighestPercentage
     }
-    if(showMoodPeaksPositve) {
+    if (showMoodPeaksPositve) {
       cards.mood_peaks_positive_count = statistics.state.moodPeaksPositiveData.items.length
     }
-    if(showMoodPeaksNegative) {
+    if (showMoodPeaksNegative) {
       cards.mood_peaks_negative_count = statistics.state.moodPeaksNegativeData.items.length
     }
-    if(showTagPeaks) {
+    if (showTagPeaks) {
       cards.tags_peaks_count = statistics.state.tagsPeaksData.tags.length
     }
-    if(showTagsDistribution) {
+    if (showTagsDistribution) {
       cards.tags_distribution_tag_count = statistics.state.tagsDistributionData.tags.length
       cards.tags_distribution_item_count = statistics.state.tagsDistributionData.itemsCount
     }
-    
+
     analytics.track('statistics_all_highlights', {
       itemsCount: statistics.state.itemsCount,
       ...cards
     })
   }, [JSON.stringify(statistics.state)])
-  
+
   return (
     <View
       style={{
@@ -98,7 +100,7 @@ export const StatisticsHighlights = ({ navigation }) => {
                 alignItems: 'center',
                 marginTop: 32,
               }}
-            > 
+            >
               <ActivityIndicator color={colors.loadingIndicator} />
             </View>
           ) : (
@@ -108,11 +110,21 @@ export const StatisticsHighlights = ({ navigation }) => {
               )}
 
               {statistics.isAvailable('mood_peaks_positive') && (
-                <MoodPeaksCard data={statistics.state.moodPeaksPositiveData} type="positive" />
+                <MoodPeaksCard
+                  data={statistics.state.moodPeaksPositiveData}
+                  type="positive"
+                  startDate={dayjs().subtract(14, 'day').format(DATE_FORMAT)}
+                  endDate={dayjs().format(DATE_FORMAT)}
+                />
               )}
 
               {statistics.isAvailable('mood_peaks_negative') && (
-                <MoodPeaksCard data={statistics.state.moodPeaksNegativeData} type="negative" />
+                <MoodPeaksCard
+                  data={statistics.state.moodPeaksNegativeData}
+                  type="negative"
+                  startDate={dayjs().subtract(14, 'day').format(DATE_FORMAT)}
+                  endDate={dayjs().format(DATE_FORMAT)}
+                />
               )}
 
               {statistics.isAvailable('tags_distribution') && (

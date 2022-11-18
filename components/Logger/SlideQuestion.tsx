@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { Pressable, Text, View } from "react-native";
-import { language } from "../../../helpers/translation";
-import useColors from "../../../hooks/useColors";
-import useHaptics from "../../../hooks/useHaptics";
-import { IQuestion, useQuestioner } from "../../../hooks/useQuestioner";
+import { language } from "../../helpers/translation";
+import useColors from "../../hooks/useColors";
+import useHaptics from "../../hooks/useHaptics";
+import { IQuestion, useQuestioner } from "../../hooks/useQuestioner";
 import { SlideHeadline } from "./SlideHeadline";
 
 const AnswerSelector = ({
@@ -18,7 +18,7 @@ const AnswerSelector = ({
   const colors = useColors();
   const haptics = useHaptics();
 
-  const answerText = answer.text[language] || answer.text['en'];
+  const answerText = answer.text ? answer.text[language] || answer.text['en'] : null;
 
   return (
     <Pressable

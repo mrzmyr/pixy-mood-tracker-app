@@ -123,9 +123,10 @@ export const SettingsScreen = ({ navigation }: RootStackScreenProps<'Settings'>)
           /> */}
 
         </MenuList>
+
+        <MenuListHeadline>{t('settings_feedback')}</MenuListHeadline>
         <MenuList
           style={{
-            marginTop: 16,
           }}
         >
           <MenuListItem
@@ -138,9 +139,9 @@ export const SettingsScreen = ({ navigation }: RootStackScreenProps<'Settings'>)
         </MenuList>
         <TextInfo>{t('feedback_help')}</TextInfo>
 
+        <MenuListHeadline>{t('settings_about')}</MenuListHeadline>
         <MenuList
           style={{
-            marginTop: 16,
           }}
         >
           <MenuListItem

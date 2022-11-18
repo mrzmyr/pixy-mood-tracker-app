@@ -39,14 +39,12 @@ const CardFeedbackEmoji = ({ image, onPress, selected }) => {
       style={{
         flexDirection: 'row',
         alignItems: 'center',
-        borderWidth: 1,
         paddingLeft: 10,
         paddingRight: 10,
         paddingTop: 8,
         paddingBottom: 8,
-        borderColor: colors.statisticsFeedbackBorder,
-        marginLeft: 8,
-        borderRadius: 4,
+        borderRadius: 8,
+        backgroundColor: colors.secondaryButtonBackground,
       }}
       onPress={async () => {
         await haptics.selection()
@@ -63,10 +61,10 @@ const CardFeedbackEmoji = ({ image, onPress, selected }) => {
 }
 export const CardFeedback = ({
   type,
-  details
+  details = {},
 }: {
   type: typeof STATISTIC_TYPES[number],
-  details: any;
+  details?: any;
 }) => {
   const analytics = useAnalytics();
   const colors = useColors();
@@ -153,11 +151,15 @@ export const CardFeedback = ({
     <View
       style={{
         flexDirection: 'column',
-        marginTop: 16,
-        paddingTop: 16,
+        marginTop: 32,
+        paddingTop: 8,
         borderTopWidth: 1,
-        borderTopColor: colors.statisticsFeedbackBorder,
-        width: '100%',
+        borderTopColor: colors.cardBorder,
+        marginLeft: -20,
+        marginRight: -20,
+        paddingLeft: 20,
+        paddingRight: 20,
+        marginBottom: -8,
       }}
     >
       <View
@@ -171,7 +173,6 @@ export const CardFeedback = ({
           <>
             <Text
               style={{
-                letterSpacing: -0.1,
                 fontSize: 14,
                 color: colors.statisticsFeedbackText,
                 paddingTop: 8,
@@ -200,12 +201,18 @@ export const CardFeedback = ({
             }}
           >
             {EMOJI_SCALE_IMAGES.map((emojiScale, index) => (
-              <CardFeedbackEmoji
-                key={index}
-                selected={emojiSelected === emojiScale.emoji}
-                image={emojiSelected === emojiScale.emoji ? emojiScale.active : emojiScale.disabled}
-                onPress={() => handleFeedback(emojiScale.emoji)}
-              />
+              <View
+                style={{
+                  marginRight: index === EMOJI_SCALE_IMAGES.length - 1 ? 0 : 8,
+                }}
+              >
+                <CardFeedbackEmoji
+                  key={index}
+                  selected={emojiSelected === emojiScale.emoji}
+                  image={emojiSelected === emojiScale.emoji ? emojiScale.active : emojiScale.disabled}
+                  onPress={() => handleFeedback(emojiScale.emoji)}
+                />
+              </View>
             ))}
           </View>
         )}

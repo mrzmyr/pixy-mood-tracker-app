@@ -24,22 +24,28 @@ export const LogView = ({ navigation, route }: RootStackScreenProps<'LogView'>) 
   const logState = useLogState()
   const logUpdater = useLogUpdater()
 
-  const item = logState?.items[route.params.date];
+  const item = Object.values(logState?.items).find(i => i.id === route.params.id)
+
+  if (!item) {
+    return (
+      <View style={{ flex: 1, backgroundColor: colors.background }} />
+    )
+  };
 
   const close = () => {
     analytics.track('log_close')
-    navigation.popToTop()
+    navigation.goBack()
   }
 
-  const edit = (slide: RootStackParamList['LogEdit']['slide']) => {
+  const edit = (step: RootStackParamList['LogEdit']['step']) => {
     analytics.track('log_edit')
-    navigation.navigate('LogEdit', { date: route.params.date, slide });
+    navigation.navigate('LogEdit', { id: item.id, step });
   }
 
   const remove = () => {
     analytics.track('log_deleted')
     logUpdater.deleteLog(item.id)
-    navigation.popToTop()
+    navigation.goBack()
   }
 
   const askToRemove = () => {
@@ -76,7 +82,7 @@ export const LogView = ({ navigation, route }: RootStackScreenProps<'LogView'>) 
         }}
       >
         <Header
-          title={dayjs(route.params.date).isSame(dayjs(), 'day') ? t('today') : dayjs(route.params.date).format('ddd, L')}
+          title={dayjs(item.createdAt).isSame(dayjs(), 'day') ? t('today') : dayjs(item.createdAt).format('ddd, L')}
           onClose={close}
           onDelete={async () => {
             if (

@@ -3,16 +3,16 @@ import { useState } from 'react';
 import { Platform, Text, View } from 'react-native';
 import { Bell } from 'react-native-feather';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import Button from '../../../components/Button';
-import Clock from '../../../components/Clock';
-import LinkButton from '../../../components/LinkButton';
-import useColors from '../../../hooks/useColors';
-import useNotification from '../../../hooks/useNotifications';
-import { useAnalytics } from '../../../hooks/useAnalytics';
-import { SettingsState, useSettings } from '../../../hooks/useSettings';
+import Button from '../../components/Button';
+import Clock from '../../components/Clock';
+import LinkButton from '../../components/LinkButton';
+import useColors from '../../hooks/useColors';
+import useNotification from '../../hooks/useNotifications';
+import { useAnalytics } from '../../hooks/useAnalytics';
+import { SettingsState, useSettings } from '../../hooks/useSettings';
 import { SlideHeadline } from './SlideHeadline';
-import { getLogEditMarginTop } from '../../../helpers/responsive';
-import { t } from '../../../helpers/translation';
+import { getLogEditMarginTop } from '../../helpers/responsive';
+import { t } from '../../helpers/translation';
 
 export const SlideReminder = ({
   onPress,
@@ -25,18 +25,18 @@ export const SlideReminder = ({
   const colors = useColors()
   const marginTop = getLogEditMarginTop()
 
-  const { 
-    askForPermission, 
-    hasPermission, 
-    schedule, 
+  const {
+    askForPermission,
+    hasPermission,
+    schedule,
     cancelAll,
   } = useNotification()
-  
+
   const [time, setTime] = useState(dayjs().hour(20).minute(0).second(0).toDate());
-  
+
   const enable = async () => {
     const has = await hasPermission()
-    if(!has) {
+    if (!has) {
       await askForPermission()
     }
 
@@ -51,27 +51,27 @@ export const SlideReminder = ({
       })
 
       setSettings((settings: SettingsState) => ({
-        ...settings, 
+        ...settings,
         reminderEnabled: true,
         reminderTime: dayjs(time).format('HH:mm'),
       }))
     })()
   }
-  
+
   const onLater = () => {
     analytics.track('log_reminder_later')
-    onPress()
+    onPress?.()
   }
 
   const onEnable = async () => {
     analytics.track('log_reminder_enable')
     await enable()
-    onPress()
+    onPress?.()
   }
-  
+
   return (
-    <View style={{ 
-      flex: 1, 
+    <View style={{
+      flex: 1,
       width: '100%',
       marginTop,
     }}>
@@ -115,7 +115,7 @@ export const SlideReminder = ({
             paddingTop: 24,
           }}
         >
-          <Clock 
+          <Clock
             timeDate={time}
             onChange={(event, date) => setTime(date)}
           />
@@ -140,22 +140,22 @@ export const SlideReminder = ({
             paddingBottom: insets.bottom,
           }}
         >
-            <View>
-              <Button 
-                onPress={onEnable}
-                style={{
-                  marginBottom: 8,
-                }}
-              >{t('log_reminder_enable')}</Button>
-              <LinkButton 
-                type="secondary"
-                onPress={onLater}
-                style={{
-                  paddingTop: 16,
-                  paddingBottom: 16,
-                }}
-              >{t('log_reminder_later')}</LinkButton>
-            </View>
+          <View>
+            <Button
+              onPress={onEnable}
+              style={{
+                marginBottom: 8,
+              }}
+            >{t('log_reminder_enable')}</Button>
+            <LinkButton
+              type="secondary"
+              onPress={onLater}
+              style={{
+                paddingTop: 16,
+                paddingBottom: 16,
+              }}
+            >{t('log_reminder_later')}</LinkButton>
+          </View>
         </View>
       </View>
     </View>
