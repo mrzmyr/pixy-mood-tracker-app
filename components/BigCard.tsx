@@ -3,6 +3,7 @@ import { useRef } from "react";
 import { Image, Text, View, ViewStyle } from "react-native";
 import { Share } from 'react-native-feather';
 import { captureRef } from "react-native-view-shot";
+import { useAnalytics } from '../hooks/useAnalytics';
 import useColors from "../hooks/useColors";
 import LinkButton from './LinkButton';
 
@@ -79,22 +80,32 @@ export const BigCard = ({
   subtitle,
   children,
   isShareable,
+  analyticsId,
 }: {
   title: string,
   subtitle: string,
   children: React.ReactNode,
   isShareable?: boolean,
+  analyticsId?: string,
 }) => {
   const colors = useColors();
   const viewRef = useRef(null)
+  const analytics = useAnalytics();
 
   const share = () => {
     captureRef(viewRef)
       .then((uri) => {
-        console.log("Image saved to", uri)
         Sharing.shareAsync("file://" + uri, {
           dialogTitle: 'Hey I use this app called "Pixy Mood Tracker" and I wanted to share this with you!',
-        });
+        })
+          .then(() => {
+            analytics.track('statstics_shared', {
+              type: analyticsId,
+            });
+          })
+          .catch((error) => {
+            console.log(error)
+          })
       })
       .catch((error) => console.error("Oops, snapshot failed", error))
   }

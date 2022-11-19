@@ -149,6 +149,7 @@ export const RatingCount = ({
       title={title}
       subtitle={subtitle}
       isShareable
+      analyticsId="rating-count"
     >
       {total < 1 && (
         <NotEnoughDataOverlay />

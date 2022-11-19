@@ -21,7 +21,7 @@ interface AnalyticsProviderProps {
   enabled: boolean;
 }
 
-const DEBUG = false;
+const DEBUG = true;
 
 function AnalyticsProvider({
   children,
@@ -39,7 +39,7 @@ function AnalyticsProvider({
   const [isEnabled, setIsEnabled] = useState(settings.analyticsEnabled);
 
   useEffect(() => setIsEnabled(settings.analyticsEnabled), [settings.analyticsEnabled])
-  
+
   const identify = (properties?: any) => {
     const traits = {
       userId: settings.deviceId,
@@ -58,13 +58,13 @@ function AnalyticsProvider({
       ...properties,
     };
 
-    if(!isEnabled) return;
-    
+    if (!isEnabled) return;
+
     if (DEBUG) console.log("useAnalytics: identify", traits);
 
     if (!options.enabled) return;
 
-    if(settings.deviceId === null) {
+    if (settings.deviceId === null) {
       console.warn('useAnalytics: deviceId is null, cannot identify')
       return;
     }
@@ -100,7 +100,7 @@ function AnalyticsProvider({
       }));
     },
     track: (eventName: string, properties?: any) => {
-      if(!isEnabled) return;
+      if (!isEnabled) return;
 
       if (DEBUG) console.log("useAnalytics: track", eventName, properties);
 

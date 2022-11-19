@@ -28,6 +28,7 @@ export const RatingDistribution = ({
       title={t('statistics_rating_distribution')}
       subtitle={t('statistics_rating_distribution_description', { date: date.format('MMMM, YYYY') })}
       isShareable={true}
+      analyticsId="rating-distribution"
     >
       {validatedData.length < 1 && (
         <NotEnoughDataOverlay />

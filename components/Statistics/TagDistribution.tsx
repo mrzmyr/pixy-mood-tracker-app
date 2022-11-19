@@ -26,6 +26,7 @@ export const TagDistribution = ({
       title={title}
       subtitle={subtitle}
       isShareable={true}
+      analyticsId="tag-distribution"
     >
       {data.tags.length < 1 && (
         <NotEnoughDataOverlay />

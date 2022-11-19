@@ -59,6 +59,7 @@ const YearDotsCard = ({
       title={t('year_in_pixels')}
       subtitle={t('year_in_pixels_description', { date: date.format('YYYY') })}
       isShareable={true}
+      analyticsId="year-in-pixels"
     >
       <>
         <View
