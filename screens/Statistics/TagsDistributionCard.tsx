@@ -36,7 +36,6 @@ export const TagDistributionContent = ({
     <View
       style={{
         flexDirection: 'column',
-        marginBottom: 8,
       }}
     >
       {data.tags.slice(0, limit).map(tag => {

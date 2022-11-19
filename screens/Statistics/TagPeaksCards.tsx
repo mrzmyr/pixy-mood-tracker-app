@@ -1,39 +1,40 @@
 import { useNavigation } from '@react-navigation/native';
 import dayjs, { Dayjs } from 'dayjs';
-import { Text, TouchableOpacity, View } from 'react-native';
+import { Pressable, Text, TouchableOpacity, View } from 'react-native';
 import { Card } from '../../components/Statistics/Card';
-import { DATE_FORMAT } from '../../constants/Config';
+import { t } from '../../helpers/translation';
 import useColors from '../../hooks/useColors';
 import useHaptics from '../../hooks/useHaptics';
 import { LogItem } from '../../hooks/useLogs';
-import { Tag as ITag } from '../../hooks/useTags';
 import { TagsPeakData } from '../../hooks/useStatistics/TagsPeaks';
+import { Tag as ITag } from '../../hooks/useTags';
 import { CardFeedback } from './CardFeedback';
 import { HeaderWeek } from './HeaderWeek';
-import { t } from '../../helpers/translation';
 
 const DayDot = ({
+  date,
   isHighlighted,
   colorName,
-  date,
+  item,
 }: {
-  date: Date,
+  date: Dayjs,
   isHighlighted: boolean,
   colorName: string,
+  item: LogItem | undefined,
 }) => {
   const colors = useColors()
   const haptics = useHaptics()
   const navigation = useNavigation()
-  
+
   const color = isHighlighted ? colors.tags[colorName] : {
     background: colors.statisticsCalendarDotBackground,
     text: colors.statisticsCalendarDotText,
     border: colors.statisticsCalendarDotBorder,
   };
-  
+
   return (
-    <TouchableOpacity
-      style={{
+    <Pressable
+      style={({ pressed }) => ({
         width: '100%',
         aspectRatio: 1,
         justifyContent: 'center',
@@ -43,13 +44,15 @@ const DayDot = ({
         maxWidth: 32,
         maxHeight: 32,
         borderColor: color?.border,
-        borderWidth: dayjs(date).isSame(dayjs(), 'day') ? 2 : 0,
-      }}
-      activeOpacity={0.8}
+        borderWidth: date.isSame(dayjs(), 'day') ? 2 : 0,
+        opacity: pressed ? 0.8 : 1,
+      })}
       onPress={async () => {
+        if (!item) return;
+
         await haptics.selection()
         navigation.navigate('LogView', {
-          date: dayjs(date).format(DATE_FORMAT),
+          id: item.id,
         })
       }}
     >
@@ -58,8 +61,8 @@ const DayDot = ({
           color: color?.text,
           fontWeight: '600',
         }}
-      >{dayjs(date).format('DD')}</Text>
-    </TouchableOpacity>
+      >{date.format('DD')}</Text>
+    </Pressable>
   )
 }
 
@@ -73,7 +76,7 @@ const BodyWeek = ({
   start: Dayjs,
 }) => {
   const days = [1, 2, 3, 4, 5, 6, 7]
-  
+
   return (
     <View
       style={{
@@ -84,9 +87,10 @@ const BodyWeek = ({
       }}
     >
       {days.map((day, index) => {
-        const date = dayjs(start).add(day, 'day').toDate()
+        const date = dayjs(start).add(day, 'day')
         const item = items.find(item => dayjs(item.date).isSame(date, 'day'))
-        const isHighlighted = item?.tags?.map(d => d.id).includes(tag?.id)
+        const isHighlighted = item?.tags?.map(d => d.id).includes(tag?.id) ?? false
+
         return (
           <View
             key={index}
@@ -96,9 +100,10 @@ const BodyWeek = ({
               justifyContent: 'center',
             }}
           >
-            <DayDot 
-              date={date} 
-              isHighlighted={isHighlighted} 
+            <DayDot
+              date={date}
+              isHighlighted={isHighlighted}
+              item={item}
               colorName={tag?.color}
             />
           </View>
@@ -114,7 +119,7 @@ export const TagPeaksCard = ({
   tag: TagsPeakData['tags'][0],
 }) => {
   const colors = useColors()
-  
+
   return (
     <Card
       subtitle={t('tags')}
@@ -126,16 +131,16 @@ export const TagPeaksCard = ({
             fontWeight: 'bold',
           }}
         >
-        <Text
-          style={{
-            fontSize: 17,
-            color: colors.tags[tag?.color]?.text,
-          }}
-        >{tag?.title}&nbsp;</Text>
-        {t('statistics_tag_peaks_title', {
-          title: tag?.title,
-          count: tag.items.length,
-        })}
+          <Text
+            style={{
+              fontSize: 17,
+              color: colors.tags[tag?.color]?.text,
+            }}
+          >{tag?.title}&nbsp;</Text>
+          {t('statistics_tag_peaks_title', {
+            title: tag?.title,
+            count: tag.items.length,
+          })}
         </Text>
       </>}
     >
@@ -144,6 +149,7 @@ export const TagPeaksCard = ({
           flexDirection: 'column',
           alignItems: 'center',
           width: '100%',
+          marginBottom: 8,
         }}
       >
         <HeaderWeek />

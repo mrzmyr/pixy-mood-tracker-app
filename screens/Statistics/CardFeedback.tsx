@@ -151,7 +151,7 @@ export const CardFeedback = ({
     <View
       style={{
         flexDirection: 'column',
-        marginTop: 32,
+        marginTop: 16,
         paddingTop: 8,
         borderTopWidth: 1,
         borderTopColor: colors.cardBorder,

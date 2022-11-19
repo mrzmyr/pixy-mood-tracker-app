@@ -124,6 +124,7 @@ export const MoodPeaksContent = ({
         flexDirection: 'column',
         alignItems: 'center',
         width: '100%',
+        marginBottom: 8,
       }}
     >
       <HeaderWeek />

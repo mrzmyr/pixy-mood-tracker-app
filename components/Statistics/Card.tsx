@@ -8,7 +8,7 @@ export const Card = ({
   children,
 }) => {
   const colors = useColors()
-  
+
   return (
     <View style={{
       paddingTop: 16,
@@ -26,7 +26,7 @@ export const Card = ({
           marginBottom: 8,
         }}
       >
-        <Text 
+        <Text
           style={{
             fontSize: 14,
             fontWeight: 'bold',
@@ -44,7 +44,7 @@ export const Card = ({
         }}
       >
         {_.isString(title) ? (
-          <Text 
+          <Text
             style={{
               letterSpacing: -0.1,
               lineHeight: 24,
