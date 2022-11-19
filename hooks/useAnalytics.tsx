@@ -21,7 +21,7 @@ interface AnalyticsProviderProps {
   enabled: boolean;
 }
 
-const DEBUG = true;
+const DEBUG = false;
 
 function AnalyticsProvider({
   children,
