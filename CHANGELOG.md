@@ -2,6 +2,48 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.49.0](https://github.com/mrzmyr/pixy-mood-tracker/compare/v1.48.0...v1.49.0) (2022-11-19)
+
+
+### Features
+
+* add month/year report + more 🚀 ([f3ca92d](https://github.com/mrzmyr/pixy-mood-tracker/commit/f3ca92d6d2108749c313e0b2bbc6554b2e3050ed))
+* style updates empty states for statistics ([d5bc838](https://github.com/mrzmyr/pixy-mood-tracker/commit/d5bc83833ce652c4fb7cbbf3c701085b9f3d4df9))
+* track meta data on questions ([77a5b19](https://github.com/mrzmyr/pixy-mood-tracker/commit/77a5b19744e3153a0013cc18fadd3f21c50dea5e))
+* track statistics sharing ([6e3603f](https://github.com/mrzmyr/pixy-mood-tracker/commit/6e3603fb8bf8b45d9a85048efa3537cc81b9c1d7))
+* update ip in dev for user data ([91bace0](https://github.com/mrzmyr/pixy-mood-tracker/commit/91bace0c59753beac722b17fffd68eb657884e0a))
+* update langs ([4249aed](https://github.com/mrzmyr/pixy-mood-tracker/commit/4249aedd547683cd3c0696fcf43946cc36eb75d4))
+
+
+### Bug Fixes
+
+* replace `TouchableOpacity` with `Pressable` in `LinkButton` ([c52f06e](https://github.com/mrzmyr/pixy-mood-tracker/commit/c52f06ed4f23b19c381b933f93d4cf8a57ac3efc)), closes [#14](https://github.com/mrzmyr/pixy-mood-tracker/issues/14)
+
+
+### Refactors
+
+* add `id` and `createdAt` to items in logs ([00ac9a7](https://github.com/mrzmyr/pixy-mood-tracker/commit/00ac9a74afca54ee07650a9803047268c74b55fa))
+
+
+### Performance
+
+* simplify calendar render ([326c562](https://github.com/mrzmyr/pixy-mood-tracker/commit/326c562803fcb8a87d86782c99786c58e5b5ecda))
+
+
+### Styling
+
+* fix spacing for statistics card ([664c23a](https://github.com/mrzmyr/pixy-mood-tracker/commit/664c23a2064214eca5e7725a4eb72063cebd17af))
+* move today add button up ([e40acc7](https://github.com/mrzmyr/pixy-mood-tracker/commit/e40acc73717a6aff638a0fa9f2bcf7ee60105efb))
+
+
+### Chore
+
+* **deps:** bump loader-utils from 1.4.0 to 1.4.2 ([89e75ff](https://github.com/mrzmyr/pixy-mood-tracker/commit/89e75ff28f92d60d7e5906b095c3f0df51598d3b))
+* **deps:** bump react-native-reanimated from 2.9.1 to 2.10.0 ([c957d20](https://github.com/mrzmyr/pixy-mood-tracker/commit/c957d204a27a15e2e2523a15891cbb852c221b1d))
+* disable debugging ([84317f7](https://github.com/mrzmyr/pixy-mood-tracker/commit/84317f71c53d828e250cb0643d0e9b2a1fcd6bc5))
+* fix build and user data ip ([febb3e2](https://github.com/mrzmyr/pixy-mood-tracker/commit/febb3e24dfa79ea59958688f4d300903e1e07d9d))
+* ignore apk builds ([aa52454](https://github.com/mrzmyr/pixy-mood-tracker/commit/aa52454abe77522d30d4aa5cbe0bf479956b59c3))
+
 ## [1.48.0](https://github.com/mrzmyr/pixy-mood-tracker/compare/v1.47.0...v1.48.0) (2022-10-27)
 
 
