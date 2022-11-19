@@ -1,11 +1,10 @@
-import { useCallback } from "react";
 import {
+  Pressable,
   StyleSheet,
-  Text, TouchableOpacityProps,
-  View
+  Text, View,
+  ViewStyle
 } from "react-native";
 import * as FeatherIcons from "react-native-feather";
-import { TouchableOpacity } from "react-native-gesture-handler";
 import { useStyle } from "react-native-style-utilities";
 import useColors from "../hooks/useColors";
 import useHaptics from "../hooks/useHaptics";
@@ -22,8 +21,8 @@ export default function LinkButton({
   type?: "primary" | "secondary" | "danger";
   onPress: () => any;
   children?: React.ReactNode;
-  style?: TouchableOpacityProps["style"];
-  icon?: keyof typeof FeatherIcons;
+  style?: ViewStyle;
+  icon?: keyof typeof FeatherIcons | null;
   testID?: string;
   disabled?: boolean;
 }) {
@@ -44,23 +43,29 @@ export default function LinkButton({
 
   const Icon = FeatherIcons[icon as keyof typeof FeatherIcons];
 
-  const containerStyle = useStyle(() => [styles.container, style], [style]);
   const textStyle = useStyle(() => [styles.text, { color }], [color]);
 
-  const _onPress = useCallback(async () => {
+  const _onPress = () => {
+    console.log("LinkButton: onPress");
     if (!disabled) {
-      await haptics.selection();
+      haptics.selection();
       onPress();
     }
-  }, [disabled, haptics, onPress]);
+  }
 
 
   return (
-    <TouchableOpacity
-      style={containerStyle}
+    <Pressable
+      style={({ pressed }) => [{
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "center",
+        padding: 8,
+        opacity: disabled ? 0.5 : pressed ? 0.8 : 1,
+        ...style,
+      }]}
       onPress={_onPress}
       testID={testID}
-      activeOpacity={disabled ? 1 : 0.8}
     >
       {icon && (
         <View style={styles.iconContainer}>
@@ -72,7 +77,7 @@ export default function LinkButton({
           {children}
         </Text>
       )}
-    </TouchableOpacity>
+    </Pressable>
   );
 }
 
