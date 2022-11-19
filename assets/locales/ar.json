@@ -235,5 +235,11 @@
   "promo_card_month_title": "أصبح {{month}} جاهزًا",
   "promo_card_year_title": "{{year}} الخاصة بك ، متصورة",
   "statistics_mood_peaks_positive": "أكثر الأيام إيجابية",
-  "statistics_mood_peaks_negative": "معظم الأيام السلبية"
+  "statistics_mood_peaks_negative": "معظم الأيام السلبية",
+  "statistics_not_enough_data": "لا توجد بيانات كافية.\n أضف المزيد من الإدخالات وافتح هذا الرسم البياني.",
+  "statistics_rating_distribution_highlights_title": "مزاجك خلال الـ 14 يومًا الماضية",
+  "entries": "إدخالات",
+  "tags_used": "العلامات المستخدمة",
+  "words_written": "كلمات مكتوبة",
+  "days_tagged": "الأيام المعلمة"
 }

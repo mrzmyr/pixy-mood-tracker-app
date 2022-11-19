@@ -58,17 +58,24 @@ export const Header = ({
           flexWrap: 'wrap',
         }}
       >
-        <LinkButton
+        <View
           style={{
-            padding: 16,
-            margin: -16,
-          }}
-          onPress={() => {
-            navigation.goBack();
+            flexDirection: 'row',
+            alignItems: 'center',
           }}
         >
-          <ArrowLeft width={24} height={24} color={colors.palette.white} />
-        </LinkButton>
+          <LinkButton
+            style={{
+              padding: 16,
+              margin: -16,
+            }}
+            onPress={() => {
+              navigation.goBack();
+            }}
+          >
+            <ArrowLeft width={24} height={24} color={colors.palette.white} />
+          </LinkButton>
+        </View>
       </View>
       <View
         style={{

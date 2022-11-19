@@ -235,5 +235,11 @@
   "promo_card_month_title": "{{month}} của bạn đã sẵn sàng",
   "promo_card_year_title": "{{year}} của bạn, được ảo hóa",
   "statistics_mood_peaks_positive": "Những ngày tích cực nhất",
-  "statistics_mood_peaks_negative": "Những ngày tiêu cực nhất"
+  "statistics_mood_peaks_negative": "Những ngày tiêu cực nhất",
+  "statistics_not_enough_data": "Không đủ dữ liệu.\n Thêm nhiều mục hơn và mở khóa biểu đồ này.",
+  "statistics_rating_distribution_highlights_title": "Tâm trạng của bạn trong 14 ngày qua",
+  "entries": "Mục",
+  "tags_used": "Thẻ đã sử dụng",
+  "words_written": "Chữ viết",
+  "days_tagged": "Ngày được gắn thẻ"
 }

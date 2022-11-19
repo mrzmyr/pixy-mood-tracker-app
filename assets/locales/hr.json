@@ -235,5 +235,11 @@
   "promo_card_month_title": "Vaš {{month}} je spreman",
   "promo_card_year_title": "Vaša {{year}}, vizualizirana",
   "statistics_mood_peaks_positive": "Najpozitivniji dani",
-  "statistics_mood_peaks_negative": "Većina negativnih dana"
+  "statistics_mood_peaks_negative": "Većina negativnih dana",
+  "statistics_not_enough_data": "Nema dovoljno podataka.\n Dodajte više unosa i otključajte ovaj grafikon.",
+  "statistics_rating_distribution_highlights_title": "Vaše raspoloženje u zadnjih 14 dana",
+  "entries": "Upisi",
+  "tags_used": "Korištene oznake",
+  "words_written": "Riječi napisane",
+  "days_tagged": "Dani označeni"
 }

@@ -7,13 +7,13 @@ import { t } from '../../helpers/translation';
 import useColors from '../../hooks/useColors';
 import { useLogState } from '../../hooks/useLogs';
 import { RootStackScreenProps } from '../../types';
-import { RatingCount } from '../StatisticsYear/RatingCount';
+import { RatingCount } from '../../components/Statistics/RatingCount';
 import { Header } from './Header';
 import { MoodPeaks } from './MoodPeaks';
 import { Navigation } from './Navigation';
 import { RatingDistribution } from './RatingDistribution';
 import { Stats } from './Stats';
-import { TagDistribution } from './TagDistribution';
+import { TagDistribution } from '../../components/Statistics/TagDistribution';
 
 export const StatisticsMonthScreen = ({ navigation, route }: RootStackScreenProps<'StatisticsMonth'>) => {
   const colors = useColors()
@@ -71,8 +71,18 @@ export const StatisticsMonthScreen = ({ navigation, route }: RootStackScreenProp
           />
           <Stats items={items} prevItems={prevItems} />
           <RatingDistribution date={date} items={items} />
-          <RatingCount items={items} date={date} />
-          <TagDistribution date={date} items={items} />
+          <RatingCount
+            title={t('mood_count')}
+            subtitle={t('mood_count_description', { date: dayjs(date).format('MMMM, YYYY') })}
+            items={items}
+            date={date}
+          />
+          <TagDistribution
+            title={t('statistics_most_used_tags')}
+            subtitle={t('statistics_most_used_tags_description', { date: date.format('MMMM, YYYY') })}
+            date={date}
+            items={items}
+          />
           <MoodPeaks items={items} date={date} />
         </View>
       </ScrollView>

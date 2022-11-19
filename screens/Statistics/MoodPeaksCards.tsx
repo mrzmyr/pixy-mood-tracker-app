@@ -1,9 +1,8 @@
 import { useNavigation } from '@react-navigation/native';
 import dayjs, { Dayjs } from 'dayjs';
 import _ from 'lodash';
-import { Text, TouchableOpacity, View } from 'react-native';
+import { Pressable, Text, View } from 'react-native';
 import { Card } from '../../components/Statistics/Card';
-import { DATE_FORMAT } from '../../constants/Config';
 import { t } from '../../helpers/translation';
 import useColors from '../../hooks/useColors';
 import useHaptics from '../../hooks/useHaptics';
@@ -35,9 +34,11 @@ const DayDot = ({
     border: colors.statisticsCalendarDotBorder,
   };
 
+  const isFuture = dayjs(date).isAfter(dayjs(), 'day')
+
   return (
-    <TouchableOpacity
-      style={{
+    <Pressable
+      style={({ pressed }) => ({
         width: '100%',
         aspectRatio: 1,
         justifyContent: 'center',
@@ -48,9 +49,8 @@ const DayDot = ({
         maxHeight: 32,
         borderColor: color?.border,
         borderWidth: dayjs(date).isSame(dayjs(), 'day') ? 2 : 0,
-        opacity: dayjs(date).isAfter(dayjs(), 'day') ? 0.5 : 1,
-      }}
-      activeOpacity={0.8}
+        opacity: pressed ? 0.8 : isFuture ? 0.5 : 1,
+      })}
       onPress={async () => {
         if (!item) return;
         await haptics.selection()
@@ -65,7 +65,7 @@ const DayDot = ({
           fontWeight: '600',
         }}
       >{dayjs(date).format('DD')}</Text>
-    </TouchableOpacity>
+    </Pressable>
   )
 }
 

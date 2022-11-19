@@ -1,11 +1,11 @@
-import dayjs, { Dayjs } from "dayjs"
+import { Dayjs } from "dayjs"
 import { Text, View } from "react-native"
-import { BigCard } from "../../components/BigCard"
-import { t } from "../../helpers/translation"
 import useColors from "../../hooks/useColors"
 import { LogItem, RATING_KEYS } from "../../hooks/useLogs"
 import useScale from "../../hooks/useScale"
-import { CardFeedback } from "../Statistics/CardFeedback"
+import { CardFeedback } from "../../screens/Statistics/CardFeedback"
+import { NotEnoughDataOverlay } from "../../screens/StatisticsMonth/NotEnoughDataOverlay"
+import { BigCard } from "../BigCard"
 
 const Bar = ({
   height,
@@ -35,28 +35,20 @@ const Bar = ({
   )
 }
 
-export const RatingCount = ({
-  date,
-  items,
+const RatingCountContent = ({
+  data,
 }: {
-  date: Dayjs
-  items: LogItem[]
+  data: {
+    values: {
+      [key: string]: number
+    },
+    total: number,
+  }
 }) => {
   const colors = useColors()
 
-  const ratingCounts = RATING_KEYS.reduce((acc, ratingKey) => {
-    acc[ratingKey] = items.filter(item => item.rating === ratingKey).length
-    return acc
-  }, {})
-
-  const total = Object.values(ratingCounts).reduce((acc: number, count: number) => acc + count, 0)
-
   return (
-    <BigCard
-      title={t('mood_count')}
-      subtitle={t('mood_count_description', { date: dayjs(date).format('YYYY') })}
-      isShareable
-    >
+    <>
       <View
         style={{
           flexDirection: 'row',
@@ -72,7 +64,7 @@ export const RatingCount = ({
           <Bar
             key={`rating-bar-${ratingName}`}
             // @ts-ignore
-            height={ratingCounts[ratingName] / total * 400}
+            height={data.values[ratingName] / data.total * 400}
             ratingName={ratingName}
           />
         ))}
@@ -93,6 +85,7 @@ export const RatingCount = ({
               flex: RATING_KEYS.length,
               marginHorizontal: 2,
             }}
+            key={`rating-count-${ratingName}`}
           >
             <Text
               key={`text-${ratingName}`}
@@ -100,22 +93,82 @@ export const RatingCount = ({
                 width: '100%',
                 marginTop: 8,
                 color: colors.text,
-                opacity: ratingCounts[ratingName] === 0 ? 0.3 : 1,
+                opacity: data.values[ratingName] === 0 ? 0.3 : 1,
                 textAlign: "center",
                 fontSize: 12,
                 fontWeight: "bold",
               }}
-            >{ratingCounts[ratingName]}x</Text>
+            >{data.values[ratingName]}x</Text>
           </View>
         ))}
       </View>
-      {/* <CardFeedback
+    </>
+  )
+}
+
+export const RatingCount = ({
+  title,
+  subtitle,
+  date,
+  items,
+}: {
+  title: string,
+  subtitle: string,
+  date: Dayjs
+  items: LogItem[]
+}) => {
+  const ratingCounts: {
+    [key: string]: number
+  } = RATING_KEYS.reduce((acc, ratingKey) => {
+    acc[ratingKey] = items.filter(item => item.rating === ratingKey).length
+    return acc
+  }, {})
+
+  const total = Object.values(ratingCounts).reduce((acc: number, count: number) => acc + count, 0) || 0
+
+  const data = {
+    values: ratingCounts,
+    total,
+  }
+
+  const dummyData = {
+    values: {
+      extremely_bad: 2,
+      very_bad: 1,
+      bad: 2,
+      neutral: 4,
+      good: 3,
+      very_good: 5,
+      extremely_good: 1,
+    },
+    total: 18,
+  }
+
+  return (
+    <BigCard
+      title={title}
+      subtitle={subtitle}
+      isShareable
+    >
+      {total < 1 && (
+        <NotEnoughDataOverlay />
+      )}
+      {total > 14 ? (
+        <RatingCountContent
+          data={data}
+        />
+      ) : (
+        <RatingCountContent
+          data={dummyData}
+        />
+      )}
+      <CardFeedback
         type="mood_count"
         details={{
           rating_counts: ratingCounts,
           total,
         }}
-      /> */}
+      />
     </BigCard>
   )
 }

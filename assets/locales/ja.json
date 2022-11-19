@@ -235,5 +235,11 @@
   "promo_card_month_title": "{{month}}の準備ができました",
   "promo_card_year_title": "あなたの{{year}}、視覚化",
   "statistics_mood_peaks_positive": "最もポジティブな日",
-  "statistics_mood_peaks_negative": "最もネガティブな日"
+  "statistics_mood_peaks_negative": "最もネガティブな日",
+  "statistics_not_enough_data": "十分なデータがありません。\n さらにエントリを追加して、このチャートのロックを解除してください。",
+  "statistics_rating_distribution_highlights_title": "過去 14 日間の気分",
+  "entries": "エントリー",
+  "tags_used": "使用したタグ",
+  "words_written": "書かれた言葉",
+  "days_tagged": "タグ付けされた日"
 }

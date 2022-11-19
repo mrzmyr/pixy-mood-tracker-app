@@ -46,13 +46,11 @@ export default function LinkButton({
   const textStyle = useStyle(() => [styles.text, { color }], [color]);
 
   const _onPress = () => {
-    console.log("LinkButton: onPress");
     if (!disabled) {
       haptics.selection();
       onPress();
     }
   }
-
 
   return (
     <Pressable

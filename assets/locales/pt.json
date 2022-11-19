@@ -235,5 +235,11 @@
   "promo_card_month_title": "Seu {{month}} está pronto",
   "promo_card_year_title": "Seu {{year}}, visualizado",
   "statistics_mood_peaks_positive": "Dias mais positivos",
-  "statistics_mood_peaks_negative": "Dias mais negativos"
+  "statistics_mood_peaks_negative": "Dias mais negativos",
+  "statistics_not_enough_data": "Não há dados suficientes.\n Adicione mais entradas e desbloqueie este gráfico.",
+  "statistics_rating_distribution_highlights_title": "Seu humor nos últimos 14 dias",
+  "entries": "entradas",
+  "tags_used": "Tags usadas",
+  "words_written": "palavras escritas",
+  "days_tagged": "Dias marcados"
 }

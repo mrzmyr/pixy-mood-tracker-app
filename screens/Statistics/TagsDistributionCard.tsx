@@ -101,15 +101,12 @@ export const TagsDistributionCard = ({
   return (
     <Card
       subtitle={t('tags')}
-      title={t('statistics_tags_distribution_title', {
-        count: data.itemsCount,
-      })}
+      title={t('statistics_tags_distribution_title')}
     >
       <TagDistributionContent data={data} />
       <CardFeedback
         type='tags_distribution'
         details={{
-          count: data.itemsCount,
           tags: data.tags.map(tag => anonymizeTag(tag.details))
         }} />
     </Card>

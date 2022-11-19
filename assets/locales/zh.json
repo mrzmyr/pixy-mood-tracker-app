@@ -235,5 +235,11 @@
   "promo_card_month_title": "您的 {{month}} 已准备就绪",
   "promo_card_year_title": "您的 {{year}}，可视化",
   "statistics_mood_peaks_positive": "最积极的日子",
-  "statistics_mood_peaks_negative": "最消极的日子"
+  "statistics_mood_peaks_negative": "最消极的日子",
+  "statistics_not_enough_data": "没有足够的数据。\n 添加更多条目并解锁此图表。",
+  "statistics_rating_distribution_highlights_title": "您过去 14 天的心情",
+  "entries": "条目",
+  "tags_used": "使用的标签",
+  "words_written": "写的字",
+  "days_tagged": "标记天数"
 }

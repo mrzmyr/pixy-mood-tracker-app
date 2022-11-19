@@ -16,12 +16,12 @@ export const Grid = ({
           <Line
             key={`l-${rating}-${index}`}
             x1={0}
-            y1={y}
+            y1={y - 1}
             x2={width}
             y2={y}
-            stroke={colors.statisticsLineMuted}
+            stroke={colors.statisticsGridLine}
             strokeWidth={1}
-            strokeDasharray="4 4"
+            strokeDasharray={[4, 4]}
           />
         );
       })}

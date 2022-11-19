@@ -226,14 +226,20 @@
   "statistics_rating_distribution": "Stimmungstrend",
   "statistics_rating_distribution_description": "Dein Stimmungstrend im {{date}}",
   "statistics_mood_peaks_positive_description": "Beste Tage im {{date}}",
-  "statistics_mood_peaks_negative_description": "Die schlimmsten Tage im {{date}}",
+  "statistics_mood_peaks_negative_description": "Schlimmsten Tage im {{date}}",
   "year_in_pixels": "Jahr in Pixeln",
   "year_in_pixels_description": "Durchschnittliche Stimmung an jedem Tag in {{date}}",
   "mood_count": "Anzahl Stimmungen",
-  "mood_count_description": "Deine Stimmungsverteilung im {{date}}",
+  "mood_count_description": "Deine Stimmungsverteilung {{date}}",
   "add_today_entry": "Heute eintragen",
   "promo_card_month_title": "Dein {{month}} steht bereit",
   "promo_card_year_title": "Dein {{year}}, visualisiert",
   "statistics_mood_peaks_positive": "Positive Tage",
-  "statistics_mood_peaks_negative": "Negative Tage"
+  "statistics_mood_peaks_negative": "Negative Tage",
+  "statistics_not_enough_data": "Noch nicht genug Einträge.\nFüge welche hinzu und schalte diese Statistik frei.",
+  "statistics_rating_distribution_highlights_title": "Ihre Stimmung in den letzten 14 Tagen",
+  "entries": "Einträge",
+  "tags_used": "Tags verwendet",
+  "words_written": "Wörter geschrieben",
+  "days_tagged": "Tage getaggt"
 }

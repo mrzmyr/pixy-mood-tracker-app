@@ -111,10 +111,11 @@ export const PromoCardYear = ({
         >
           <Text
             style={{
-              fontSize: 24,
+              fontSize: 20,
               fontWeight: 'bold',
               color: colors.palette.white,
               marginTop: 8,
+              lineHeight: 26,
             }}
           >
             {title}

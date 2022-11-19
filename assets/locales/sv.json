@@ -235,5 +235,11 @@
   "promo_card_month_title": "Din {{month}} är klar",
   "promo_card_year_title": "Din {{year}}, visualiserad",
   "statistics_mood_peaks_positive": "Mest positiva dagar",
-  "statistics_mood_peaks_negative": "Mest negativa dagar"
+  "statistics_mood_peaks_negative": "Mest negativa dagar",
+  "statistics_not_enough_data": "Inte tillräckligt med data.\n Lägg till fler poster och lås upp det här diagrammet.",
+  "statistics_rating_distribution_highlights_title": "Ditt humör under de senaste 14 dagarna",
+  "entries": "Inlägg",
+  "tags_used": "Taggar används",
+  "words_written": "Ord skrivna",
+  "days_tagged": "Dagar taggade"
 }

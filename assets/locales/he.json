@@ -235,5 +235,11 @@
   "promo_card_month_title": "ה-{{month}} שלך מוכן",
   "promo_card_year_title": "{{year}} שלך, חזותי",
   "statistics_mood_peaks_positive": "הימים הכי חיוביים",
-  "statistics_mood_peaks_negative": "הימים השליליים ביותר"
+  "statistics_mood_peaks_negative": "הימים השליליים ביותר",
+  "statistics_not_enough_data": "אין מספיק נתונים.\n הוסף ערכים נוספים ובטל את הנעילה של תרשים זה.",
+  "statistics_rating_distribution_highlights_title": "מצב הרוח שלך במהלך 14 הימים האחרונים",
+  "entries": "ערכים",
+  "tags_used": "נעשה שימוש בתגים",
+  "words_written": "מילים כתובות",
+  "days_tagged": "ימים מתויגים"
 }

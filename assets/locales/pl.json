@@ -235,5 +235,11 @@
   "promo_card_month_title": "Twój {{month}} jest gotowy",
   "promo_card_year_title": "Twój {{year}}, wizualizacja",
   "statistics_mood_peaks_positive": "Najbardziej pozytywne dni",
-  "statistics_mood_peaks_negative": "Najbardziej negatywne dni"
+  "statistics_mood_peaks_negative": "Najbardziej negatywne dni",
+  "statistics_not_enough_data": "Niewystarczające dane.\n Dodaj więcej wpisów i odblokuj ten wykres.",
+  "statistics_rating_distribution_highlights_title": "Twój nastrój w ciągu ostatnich 14 dni",
+  "entries": "Wpisy",
+  "tags_used": "Używane tagi",
+  "words_written": "Słowa napisane",
+  "days_tagged": "Dni oznaczone"
 }

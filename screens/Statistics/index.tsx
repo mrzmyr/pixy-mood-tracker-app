@@ -56,142 +56,148 @@ export const StatisticsScreen = ({ navigation }: RootStackScreenProps<'Statistic
     }
   }, [statistics.isLoading])
 
+  const isBeginningOfMonth = dayjs().isBetween(dayjs().startOf('month'), dayjs().startOf('month').add(3, 'day'), null, '[]')
+  const isDecember = dayjs().month() === 11
+
   return (
-    <SafeAreaView
-      style={{
-        flex: 1,
-      }}
+    <ScrollView
+      refreshControl={
+        Platform.OS !== 'web' ? (
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={() => {
+              if (items.length >= MIN_LOGS_COUNT) {
+                statistics.load({
+                  force: true
+                })
+              }
+            }}
+          />
+        ) : undefined
+      }
     >
-      <ScrollView
+      <View
         style={{
-          flex: 1,
-          backgroundColor: colors.statisticsBackground,
-          padding: 20,
+          backgroundColor: colors.background,
+          paddingHorizontal: 20,
+          paddingTop: insets.top + 20,
+          paddingBottom: insets.bottom + 50,
         }}
-        refreshControl={
-          Platform.OS !== 'web' ? (
-            <RefreshControl
-              refreshing={refreshing}
-              onRefresh={() => {
-                if (items.length >= MIN_LOGS_COUNT) {
-                  statistics.load({
-                    force: true
-                  })
-                }
-              }}
-            />
-          ) : undefined
-        }
       >
-        <View
-          style={{
-            paddingBottom: insets.bottom + 50,
-          }}
-        >
-          <Text
+        {/* <Text
             style={{
               fontSize: 32,
               color: colors.text,
               fontWeight: 'bold',
               marginTop: 32,
             }}
-          >{t('statistics')}</Text>
+          >{t('statistics')}</Text> */}
 
-          {(items.length >= MIN_LOGS_COUNT) &&
-            statistics.isLoading ? (
-            <View
-              style={{
-                flex: 1,
-                justifyContent: "center",
-                alignItems: "center",
-                marginTop: 32,
-              }}
-            >
-              <ActivityIndicator color={colors.loadingIndicator} />
-            </View>
-          ) : (
-            <>
-              {/* <View
+        {statistics.isLoading ? (
+          <View
+            style={{
+              flex: 1,
+              justifyContent: "center",
+              alignItems: "center",
+              marginTop: 32,
+            }}
+          >
+            <ActivityIndicator color={colors.loadingIndicator} />
+          </View>
+        ) : (
+          <>
+            {(
+              items.length >= MIN_LOGS_COUNT &&
+              isDecember || isBeginningOfMonth
+            ) && (
+                <>
+                  {/* <View
                 style={{
                   marginTop: 16,
                 }}
               >
                 <StreaksCard />
               </View> */}
-              {dayjs().isSame(dayjs().set('month', 11), 'month') && (
-                <View
-                  style={{
-                    marginBottom: 16,
-                  }}
-                >
-                  <PromoCardYear
-                    title={t('promo_card_year_title', { year: dayjs().format('YYYY') })}
-                    onPress={() => navigation.navigate('StatisticsYear', { date: dayjs().startOf('year').format(DATE_FORMAT) })}
-                  />
-                </View>
+                  <View
+                    style={{
+                      marginBottom: 16,
+                    }}
+                  >
+                    {isDecember && (
+                      <View
+                        style={{
+                        }}
+                      >
+                        <PromoCardYear
+                          title={t('promo_card_year_title', { year: dayjs().format('YYYY') })}
+                          onPress={() => navigation.navigate('StatisticsYear', { date: dayjs().startOf('year').format(DATE_FORMAT) })}
+                        />
+                      </View>
+                    )}
+                    {isBeginningOfMonth && (
+                      <View
+                        style={{
+                          marginTop: isDecember ? 16 : 0,
+                        }}
+                      >
+                        <PromoCardMonth
+                          title={t('promo_card_month_title', { month: dayjs().subtract(1, 'month').format('MMMM') })}
+                          onPress={() => navigation.navigate('StatisticsMonth', { date: dayjs().subtract(1, 'month').startOf('month').format(DATE_FORMAT) })}
+                        />
+                      </View>
+                    )}
+                  </View>
+                </>
               )}
-              {true && (
-                <View
-                  style={{
-                    marginTop: 8,
-                  }}
-                >
-                  <PromoCardMonth
-                    title={t('promo_card_month_title', { month: dayjs().format('MMMM') })}
-                    onPress={() => navigation.navigate('StatisticsMonth', { date: dayjs().startOf('month').format(DATE_FORMAT) })}
-                  />
-                </View>
-              )}
+          </>
+        )}
+
+        {/* <TrendsSection /> */}
+
+        {items.length < MIN_LOGS_COUNT && (
+          <EmptyPlaceholder count={MIN_LOGS_COUNT - items.length} />
+        )}
+        {items.length >= MIN_LOGS_COUNT && (
+          <HighlightsSection items={items} />
+        )}
+
+        {(
+          items.length >= MIN_LOGS_COUNT &&
+          statistics.isLoading === false
+        ) && (
+            <>
+              <MenuListHeadline>{t('more_statistics')}</MenuListHeadline>
+              <MenuList
+                style={{
+                }}
+              >
+                <MenuListItem
+                  title={t('month_report')}
+                  onPress={() => navigation.navigate('StatisticsMonth', { date: dayjs().startOf('month').format(DATE_FORMAT) })}
+                  iconLeft={<Moon width={18} fill={colors.palette.indigo[500]} color={colors.palette.indigo[500]} />}
+                  isLink
+                />
+                <MenuListItem
+                  title={t('year_report')}
+                  onPress={() => navigation.navigate('StatisticsYear', { date: dayjs().startOf('year').format(DATE_FORMAT) })}
+                  iconLeft={<Star width={18} fill={colors.palette.amber[500]} color={colors.palette.amber[500]} />}
+                  isLink
+                  isLast
+                />
+              </MenuList>
             </>
           )}
 
-          {/* <TrendsSection /> */}
+        {(
+          items.length >= MIN_LOGS_COUNT &&
+          !statistics.isLoading
+        ) && (
+            <>
 
-          {items.length < MIN_LOGS_COUNT && (
-            <EmptyPlaceholder count={MIN_LOGS_COUNT - items.length} />
+              <FeedbackSection />
+            </>
           )}
-          {items.length >= MIN_LOGS_COUNT && (
-            <HighlightsSection items={items} />
-          )}
-
-          {(
-            items.length >= MIN_LOGS_COUNT &&
-            statistics.isLoading === false
-          ) && (
-              <>
-                <MenuListHeadline>{t('more_statistics')}</MenuListHeadline>
-                <MenuList
-                  style={{
-                  }}
-                >
-                  <MenuListItem
-                    title={t('month_report')}
-                    onPress={() => navigation.navigate('StatisticsMonth', { date: dayjs().startOf('month').format(DATE_FORMAT) })}
-                    iconLeft={<Moon width={18} fill={colors.palette.indigo[500]} color={colors.palette.indigo[500]} />}
-                    isLink
-                  />
-                  <MenuListItem
-                    title={t('year_report')}
-                    onPress={() => navigation.navigate('StatisticsYear', { date: dayjs().startOf('year').format(DATE_FORMAT) })}
-                    iconLeft={<Star width={18} fill={colors.palette.amber[500]} color={colors.palette.amber[500]} />}
-                    isLink
-                    isLast
-                  />
-                </MenuList>
-              </>
-            )}
-
-          {(
-            items.length >= MIN_LOGS_COUNT &&
-            !statistics.isLoading
-          ) && (
-              <>
-
-                <FeedbackSection />
-              </>
-            )}
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+      </View>
+    </ScrollView>
   );
 }

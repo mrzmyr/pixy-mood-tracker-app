@@ -202,12 +202,12 @@ export const CardFeedback = ({
           >
             {EMOJI_SCALE_IMAGES.map((emojiScale, index) => (
               <View
+                key={`emoji-feedback-${emojiScale.emoji}`}
                 style={{
                   marginRight: index === EMOJI_SCALE_IMAGES.length - 1 ? 0 : 8,
                 }}
               >
                 <CardFeedbackEmoji
-                  key={index}
                   selected={emojiSelected === emojiScale.emoji}
                   image={emojiSelected === emojiScale.emoji ? emojiScale.active : emojiScale.disabled}
                   onPress={() => handleFeedback(emojiScale.emoji)}
@@ -221,6 +221,7 @@ export const CardFeedback = ({
         <View
           style={{
             marginTop: 8,
+            marginBottom: 16,
           }}
         >
           <TextArea

@@ -235,5 +235,11 @@
   "promo_card_month_title": "Je {{month}} is klaar",
   "promo_card_year_title": "Uw {{year}}, gevisualiseerd",
   "statistics_mood_peaks_positive": "Meest positieve dagen",
-  "statistics_mood_peaks_negative": "De meeste negatieve dagen"
+  "statistics_mood_peaks_negative": "De meeste negatieve dagen",
+  "statistics_not_enough_data": "Niet genoeg data.\n Voeg meer items toe en ontgrendel deze grafiek.",
+  "statistics_rating_distribution_highlights_title": "Je stemming over de afgelopen 14 dagen",
+  "entries": "Inzendingen",
+  "tags_used": "Labels gebruikt",
+  "words_written": "Woorden geschreven",
+  "days_tagged": "Dagen getagd"
 }

@@ -235,5 +235,11 @@
   "promo_card_month_title": "Váš {{month}} je připraven",
   "promo_card_year_title": "Váš {{year}}, vizualizováno",
   "statistics_mood_peaks_positive": "Nejpozitivnější dny",
-  "statistics_mood_peaks_negative": "Nejnegativnější dny"
+  "statistics_mood_peaks_negative": "Nejnegativnější dny",
+  "statistics_not_enough_data": "Nedostatek dat.\n Přidejte další položky a odemkněte tento graf.",
+  "statistics_rating_distribution_highlights_title": "Vaše nálada za posledních 14 dní",
+  "entries": "Příspěvky",
+  "tags_used": "Použité štítky",
+  "words_written": "Slova napsaná",
+  "days_tagged": "Označené dny"
 }

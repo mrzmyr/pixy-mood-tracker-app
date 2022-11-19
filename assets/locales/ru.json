@@ -235,5 +235,11 @@
   "promo_card_month_title": "Ваш {{month}} готов",
   "promo_card_year_title": "Ваш {{year}}, визуализированный",
   "statistics_mood_peaks_positive": "Самые позитивные дни",
-  "statistics_mood_peaks_negative": "Самые негативные дни"
+  "statistics_mood_peaks_negative": "Самые негативные дни",
+  "statistics_not_enough_data": "Недостаточно данных.\n Добавьте больше записей и разблокируйте эту диаграмму.",
+  "statistics_rating_distribution_highlights_title": "Ваше настроение за последние 14 дней",
+  "entries": "Записи",
+  "tags_used": "Используемые теги",
+  "words_written": "Слова написаны",
+  "days_tagged": "Отмеченные дни"
 }

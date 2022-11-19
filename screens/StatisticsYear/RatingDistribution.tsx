@@ -8,6 +8,9 @@ import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
 import { BigCard } from '../../components/BigCard';
 import { RatingChart } from '../../components/RatingChart';
 import { CardFeedback } from '../Statistics/CardFeedback';
+import { NotEnoughDataOverlay } from '../StatisticsMonth/NotEnoughDataOverlay';
+import { useRef } from 'react';
+import _ from 'lodash';
 
 dayjs.extend(isSameOrAfter);
 
@@ -22,7 +25,14 @@ export const RatingDistributionYear = ({
     return dayjs(item.date).isSame(date, 'year')
   })
 
+  const dataDummy = useRef(_.range(0, 11).map((i) => ({
+    key: dayjs().month(i).format('MMM')[0],
+    count: _.random(3, 6),
+    value: _.random(1, 6),
+  })))
+
   const data = getRatingDistributionForYear(items)
+  const validatedData = data.filter(d => d.value !== null)
 
   const width = Dimensions.get('window').width - 80;
   const height = width / 2;
@@ -33,17 +43,21 @@ export const RatingDistributionYear = ({
       subtitle={t('statistics_rating_distribution_description', { date: date.format('YYYY') })}
       isShareable={true}
     >
-      <View
-        style={{
-          justifyContent: 'flex-start',
-        }}
-      >
+      {validatedData.length < 1 && (
+        <NotEnoughDataOverlay />
+      )}
+      {validatedData.length > 5 ? (
         <RatingChart
           data={data}
           height={height}
-          width={width}
-        />
-      </View>
+          width={width} />
+      ) : (
+        <RatingChart
+          data={dataDummy.current}
+          height={height}
+          width={width} />
+      )}
+
       <CardFeedback
         type='rating_distribution_year'
         details={data}

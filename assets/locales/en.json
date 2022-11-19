@@ -228,6 +228,12 @@
   "mood_count": "Mood Count",
   "mood_count_description": "Your moods distribution in {{date}}",
   "add_today_entry": "Add today's entry",
-  "promo_card_month_title": "Your {{month}} is ready",
-  "promo_card_year_title": "Your {{year}}, vizualized"
+  "promo_card_month_title": "Your {{month}}\n is ready",
+  "promo_card_year_title": "Your {{year}}, vizualized",
+  "statistics_not_enough_data": "Not enough data.\n Add more entries and unlock this chart.",
+  "statistics_rating_distribution_highlights_title": "Your mood over the last 14 days",
+  "entries": "Entries",
+  "tags_used": "Tags used",
+  "words_written": "Words written",
+  "days_tagged": "Days tagged"
 }

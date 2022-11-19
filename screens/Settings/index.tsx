@@ -189,7 +189,7 @@ export const SettingsScreen = ({ navigation }: RootStackScreenProps<'Settings'>)
           <MenuListItem
             title={`${t('settings_development_statistics')}`}
             iconLeft={<PieChart width={18} color={colors.menuListItemIcon} />}
-            onPress={() => navigation.navigate('DevelopmentStatistics')}
+            onPress={() => navigation.navigate('DevelopmentTools')}
             isLink
           />
           <MenuListItem

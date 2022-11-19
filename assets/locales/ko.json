@@ -235,5 +235,11 @@
   "promo_card_month_title": "{{month}} 준비 완료",
   "promo_card_year_title": "당신의 {{year}}, 시각화",
   "statistics_mood_peaks_positive": "가장 긍정적인 날",
-  "statistics_mood_peaks_negative": "가장 부정적인 날"
+  "statistics_mood_peaks_negative": "가장 부정적인 날",
+  "statistics_not_enough_data": "데이터가 충분하지 않습니다.\n 더 많은 항목을 추가하고 이 차트의 잠금을 해제하십시오.",
+  "statistics_rating_distribution_highlights_title": "지난 14일 동안의 기분",
+  "entries": "항목",
+  "tags_used": "사용된 태그",
+  "words_written": "쓰여진 단어",
+  "days_tagged": "태그된 날짜"
 }

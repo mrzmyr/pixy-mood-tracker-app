@@ -235,5 +235,11 @@
   "promo_card_month_title": "{{month}} dvs. este gata",
   "promo_card_year_title": "{{year}}, vizualizat",
   "statistics_mood_peaks_positive": "Cele mai pozitive zile",
-  "statistics_mood_peaks_negative": "Cele mai negative zile"
+  "statistics_mood_peaks_negative": "Cele mai negative zile",
+  "statistics_not_enough_data": "Nu sunt suficiente date.\n Adăugați mai multe intrări și deblocați această diagramă.",
+  "statistics_rating_distribution_highlights_title": "Starea ta de spirit din ultimele 14 zile",
+  "entries": "Intrări",
+  "tags_used": "Etichetele folosite",
+  "words_written": "Cuvinte scrise",
+  "days_tagged": "Zile etichetate"
 }

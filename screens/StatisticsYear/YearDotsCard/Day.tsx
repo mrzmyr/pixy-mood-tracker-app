@@ -3,13 +3,17 @@ import React from "react";
 import { View } from "react-native";
 import { DATE_FORMAT } from "../../../constants/Config";
 import useColors from "../../../hooks/useColors";
-import { useLogState } from "../../../hooks/useLogs";
+import { LogItem } from "../../../hooks/useLogs";
 import useScale from "../../../hooks/useScale";
 
-export const Day = ({ date }) => {
+export const Day = ({
+  date,
+  item
+}: {
+  date: string;
+  item: LogItem | undefined;
+}) => {
   const colors = useColors();
-  const logState = useLogState();
-  const item = logState.items[date];
   const scale = useScale();
 
   return (

@@ -4,6 +4,8 @@ import dayjs from 'dayjs';
 import localizedFormat from 'dayjs/plugin/localizedFormat'
 import weekOfYear from 'dayjs/plugin/weekOfYear'
 
+import en from '../assets/locales/en.json';
+
 i18n.translations = {
   ar: require('../assets/locales/ar.json'),
   ca: require('../assets/locales/ca.json'),
@@ -43,18 +45,18 @@ i18n.translations = {
 const firstDayOfWeek = {
   // sunday
   0: [
-    'AG', 'AS', 'AU', 'BD', 'BR', 'BS', 'BT', 'BW', 'BZ', 'CA', 'CN', 'CO', 'DM', 'DO', 'ET', 
-    'GT', 'GU', 'HK', 'HN', 'ID', 'IL', 'IN', 'JM', 'JP', 'KE', 'KH', 'KR', 'LA', 'MH', 'MM', 
-    'MO', 'MT', 'MX', 'MZ', 'NI', 'NP', 'PA', 'PE', 'PH', 'PK', 'PR', 'PT', 'PY', 'SA', 'SG', 
+    'AG', 'AS', 'AU', 'BD', 'BR', 'BS', 'BT', 'BW', 'BZ', 'CA', 'CN', 'CO', 'DM', 'DO', 'ET',
+    'GT', 'GU', 'HK', 'HN', 'ID', 'IL', 'IN', 'JM', 'JP', 'KE', 'KH', 'KR', 'LA', 'MH', 'MM',
+    'MO', 'MT', 'MX', 'MZ', 'NI', 'NP', 'PA', 'PE', 'PH', 'PK', 'PR', 'PT', 'PY', 'SA', 'SG',
     'SV', 'TH', 'TT', 'TW', 'UM', 'US', 'VE', 'VI', 'WS', 'YE', 'ZA', 'ZW'
   ],
   // monday
   1: [
-    '001', 'AD', 'AI', 'AL', 'AM', 'AN', 'AR', 'AT', 'AX', 'AZ', 'BA', 'BE', 'BG', 'BM', 'BN', 
-    'BY', 'CH', 'CL', 'CM', 'CR', 'CY', 'CZ', 'DE', 'DK', 'EC', 'EE', 'ES', 'FI', 'FJ', 'FO', 
-    'FR', 'GB', 'GE', 'GF', 'GP', 'GR', 'HR', 'HU', 'IE', 'IS', 'IT', 'KG', 'KZ', 'LB', 'LI', 
-    'LK', 'LT', 'LU', 'LV', 'MC', 'MD', 'ME', 'MK', 'MN', 'MQ', 'MY', 'NL', 'NO', 'NZ', 'PL', 
-    'RE', 'RO', 'RS', 'RU', 'SE', 'SI', 'SK', 'SM', 'TJ', 'TM', 'TR', 'UA', 'UY', 'UZ', 'VA', 
+    '001', 'AD', 'AI', 'AL', 'AM', 'AN', 'AR', 'AT', 'AX', 'AZ', 'BA', 'BE', 'BG', 'BM', 'BN',
+    'BY', 'CH', 'CL', 'CM', 'CR', 'CY', 'CZ', 'DE', 'DK', 'EC', 'EE', 'ES', 'FI', 'FJ', 'FO',
+    'FR', 'GB', 'GE', 'GF', 'GP', 'GR', 'HR', 'HU', 'IE', 'IS', 'IT', 'KG', 'KZ', 'LB', 'LI',
+    'LK', 'LT', 'LU', 'LV', 'MC', 'MD', 'ME', 'MK', 'MN', 'MQ', 'MY', 'NL', 'NO', 'NZ', 'PL',
+    'RE', 'RO', 'RS', 'RU', 'SE', 'SI', 'SK', 'SM', 'TJ', 'TM', 'TR', 'UA', 'UY', 'UZ', 'VA',
     'VN', 'XK'
   ],
   // saturday
@@ -109,9 +111,9 @@ export const locale = i18n.locale;
 export const language = i18n.locale.split('-')[0];
 
 const _getFirstDayOfWeek = (region: string): number => {
-  for(const dayStr in firstDayOfWeek) {
+  for (const dayStr in firstDayOfWeek) {
     let dayNumber = parseInt(dayStr)
-    if(firstDayOfWeek[dayNumber].includes(region)) {
+    if (firstDayOfWeek[dayNumber].includes(region)) {
       return dayNumber;
     }
   }
@@ -121,21 +123,21 @@ const _getFirstDayOfWeek = (region: string): number => {
 
 export const initializeDayjs = () => {
   let locale = Localization.locale;
-  if(locale.includes('-')) locale = locale.split('-')[0];
-  
-  if(locale in dayjs_locales) {
+  if (locale.includes('-')) locale = locale.split('-')[0];
+
+  if (locale in dayjs_locales) {
     dayjs.locale(locale)
-    if(dayjs.Ls[locale] && Localization.region !== null) {
+    if (dayjs.Ls[locale] && Localization.region !== null) {
       dayjs.Ls[locale].weekStart = _getFirstDayOfWeek(Localization.region);
     }
   } else {
     dayjs.locale('en')
   }
-  
+
   dayjs.extend(weekOfYear)
   dayjs.extend(localizedFormat)
 }
 
-export const t = (key: string, options?: any) => {
+export const t = (key: keyof typeof en, options?: any) => {
   return i18n.t(key, options);
 };

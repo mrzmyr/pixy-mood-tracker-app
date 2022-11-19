@@ -235,5 +235,11 @@
   "promo_card_month_title": "A {{month}} készen áll",
   "promo_card_year_title": "Az Ön {{year}}, vizualizálva",
   "statistics_mood_peaks_positive": "A legpozitívabb napok",
-  "statistics_mood_peaks_negative": "A legtöbb negatív nap"
+  "statistics_mood_peaks_negative": "A legtöbb negatív nap",
+  "statistics_not_enough_data": "Nincs elég adat.\n Adjon hozzá további bejegyzéseket, és oldja fel a diagram zárolását.",
+  "statistics_rating_distribution_highlights_title": "Hangulatod az elmúlt 14 napban",
+  "entries": "Bejegyzés",
+  "tags_used": "Használt címkék",
+  "words_written": "Írott szavak",
+  "days_tagged": "Napok megjelölve"
 }

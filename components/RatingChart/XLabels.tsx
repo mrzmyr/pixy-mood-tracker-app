@@ -24,18 +24,17 @@ export const XLabels = ({
     const _x = x(index);
 
     const Label = (
-      <>
-        <Text
-          x={_x}
-          y={y}
-          fontSize="14"
-          fill={colors.statisticsLegendText}
-          textAnchor="middle"
-          alignmentBaseline='center'
-        >
-          {item.key}
-        </Text>
-      </>
+      <Text
+        x={_x}
+        y={y}
+        fontSize="14"
+        fill={colors.statisticsLegendText}
+        textAnchor="middle"
+        alignmentBaseline='center'
+        key={`xlabel-${index}`}
+      >
+        {item.key}
+      </Text>
     );
 
     return shouldLabel(index) ? Label : null;

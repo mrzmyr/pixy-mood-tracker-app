@@ -1,3 +1,4 @@
+import dayjs from "dayjs";
 import _ from "lodash";
 import { createContext, useContext, useState } from "react";
 import { LogItem, useLogState } from "../useLogs";
@@ -95,8 +96,7 @@ export function StatisticsProvider({
 
   const load = ({ force = false }: { force?: boolean }) => {
     const highlightItems = Object.values(logState.items).filter((item) => {
-      const date = new Date(item.date);
-      return date.getTime() > new Date().getTime() - 1000 * 60 * 60 * 24 * 14;
+      return dayjs(item.date).isAfter(dayjs().subtract(14, "day"));
     });
     const trendsItems = Object.values(logState.items);
 
@@ -170,7 +170,7 @@ export function StatisticsProvider({
       return state.tagsPeaksData?.tags.length > 0;
     }
     if (type === "tags_distribution") {
-      return state.tagsDistributionData?.itemsCount > 0;
+      return state.tagsDistributionData?.tags.length > 0;
     }
     if (type === "tags_distribution_trend") {
       return state.trends.tagsDistributionData.tags.length > 0;

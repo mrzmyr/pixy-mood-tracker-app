@@ -172,6 +172,7 @@ const light = {
   statisticsLineMuted: colors.neutral[300],
   statisticsLineHighlight: tintColorLight,
   statisticsLegendText: colors.neutral[400],
+  statisticsGridLine: colors.neutral[200],
 
   statisticsTagsTrendMutedBackground: colors.neutral[200],
   statisticsTagsTrendMutedText: colors.neutral[800],
@@ -342,10 +343,11 @@ const dark: IColors & {
   statisticsTagsTrendMutedBackground: colors.neutral[800],
   statisticsTagsTrendMutedText: colors.neutral[500],
 
-  statisticsLinePrimary: colors.neutral[200],
+  statisticsLinePrimary: colors.white,
   statisticsLineMuted: colors.neutral[500],
   statisticsLineHighlight: tintColorDark,
   statisticsLegendText: colors.neutral[600],
+  statisticsGridLine: colors.neutral[700],
 
   yearPixelsEmptyDot: colors.neutral[800],
   yearPixelsLegendText: colors.neutral[500],

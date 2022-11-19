@@ -235,5 +235,11 @@
   "promo_card_month_title": "Il tuo {{month}} è pronto",
   "promo_card_year_title": "Il tuo {{year}}, visualizzato",
   "statistics_mood_peaks_positive": "I giorni più positivi",
-  "statistics_mood_peaks_negative": "I giorni più negativi"
+  "statistics_mood_peaks_negative": "I giorni più negativi",
+  "statistics_not_enough_data": "Dati insufficienti.\n Aggiungi più voci e sblocca questo grafico.",
+  "statistics_rating_distribution_highlights_title": "Il tuo umore negli ultimi 14 giorni",
+  "entries": "Inserimenti",
+  "tags_used": "Tag utilizzati",
+  "words_written": "Parole scritte",
+  "days_tagged": "Giorni contrassegnati"
 }

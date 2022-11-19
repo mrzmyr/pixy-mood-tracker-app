@@ -2,18 +2,22 @@ import { Dayjs } from "dayjs";
 import React, { ReactNode } from "react";
 import { View } from "react-native";
 import { DATE_FORMAT } from "../../../constants/Config";
+import { LogItem } from "../../../hooks/useLogs";
 import { Day } from "./Day";
 import { YAxis } from "./YAxis";
 
-export const Row = ({ date, dayCount }: {
+export const Row = ({ date, dayCount, items }: {
   date: Dayjs;
   dayCount: number;
+  items: LogItem[];
 }) => {
 
   const months: ReactNode[] = [];
 
   for (let i = 0; i < 12; i++) {
     const _date = date.add(i, "month").add(dayCount, 'day').format(DATE_FORMAT);
+    const item = items.find(item => item.date === _date);
+
     months.push(
       <View
         key={i}
@@ -24,7 +28,7 @@ export const Row = ({ date, dayCount }: {
           paddingHorizontal: 4,
         }}
       >
-        <Day date={_date} />
+        <Day date={_date} item={item} />
       </View>
     );
   }

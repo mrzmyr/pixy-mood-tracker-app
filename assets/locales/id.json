@@ -235,5 +235,11 @@
   "promo_card_month_title": "{{month}} Anda sudah siap",
   "promo_card_year_title": "{{year}} Anda, divisualisasikan",
   "statistics_mood_peaks_positive": "Hari Paling Positif",
-  "statistics_mood_peaks_negative": "Hari Paling Negatif"
+  "statistics_mood_peaks_negative": "Hari Paling Negatif",
+  "statistics_not_enough_data": "Tidak cukup data.\n Tambahkan lebih banyak entri dan buka bagan ini.",
+  "statistics_rating_distribution_highlights_title": "Suasana hati Anda selama 14 hari terakhir",
+  "entries": "Entri",
+  "tags_used": "Tag digunakan",
+  "words_written": "Kata-kata tertulis",
+  "days_tagged": "Hari ditandai"
 }

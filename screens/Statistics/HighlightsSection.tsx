@@ -43,9 +43,7 @@ export const HighlightsSection = ({ items }: { items: LogItem[] }) => {
     statistics.isAvailable("tags_peaks") &&
     statistics.state.tagsPeaksData.tags.filter((tag) => tag.items.length > 5).length > 0;
 
-  const showTagsDistribution =
-    statistics.isAvailable("tags_distribution") &&
-    statistics.state.tagsDistributionData.itemsCount >= 10;
+  const showTagsDistribution = statistics.isAvailable("tags_distribution")
 
   const showRatingDistribution =
     Object.values(logState.items).filter((item) => dayjs(item.date).isAfter(dayjs().subtract(7, "day"))).length >= 4
@@ -92,7 +90,6 @@ export const HighlightsSection = ({ items }: { items: LogItem[] }) => {
     }
     if (showTagsDistribution) {
       cards.tags_distribution_tag_count = statistics.state.tagsDistributionData.tags.length
-      cards.tags_distribution_item_count = statistics.state.tagsDistributionData.itemsCount
     }
     if (showRatingDistribution) {
       cards.rating_distribution_item_count = Object.values(logState.items).filter((item) => dayjs(item.date).isAfter(dayjs().subtract(7, "day"))).length
@@ -161,7 +158,7 @@ export const HighlightsSection = ({ items }: { items: LogItem[] }) => {
 
           {showRatingDistribution && (
             <RatingDistribution
-              title={'Your mood over the last 2 weeks'}
+              title={t("statistics_rating_distribution_highlights_title")}
               startDate={dayjs().subtract(14, "days").format(DATE_FORMAT)}
             />
           )}

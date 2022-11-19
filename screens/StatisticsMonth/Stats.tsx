@@ -1,4 +1,5 @@
 import { View } from 'react-native';
+import { t } from '../../helpers/translation';
 import { LogItem } from '../../hooks/useLogs';
 import { StatsCard } from "./StatsCard";
 
@@ -26,7 +27,7 @@ export const Stats = ({
       >
         <StatsCard
           title={`${items.length}`}
-          subtitle={`Entries`}
+          subtitle={t('entries')}
           trendType={items.length > prevItems.length ? 'up' : 'down'}
           trendValue={Math.abs(items.length - prevItems.length)}
           style={{
@@ -35,7 +36,7 @@ export const Stats = ({
           }} />
         <StatsCard
           title={`${words}`}
-          subtitle={`Words written`}
+          subtitle={t('words_written')}
           trendType={words > prevWords ? 'up' : 'down'}
           trendValue={Math.abs(words - prevWords)}
           style={{
@@ -49,7 +50,7 @@ export const Stats = ({
       >
         <StatsCard
           title={`${tags}`}
-          subtitle={`Tags used`}
+          subtitle={t('tags_used')}
           trendType={tags > prevTags ? 'up' : 'down'}
           trendValue={Math.abs(tags - prevTags)}
           style={{
@@ -59,7 +60,7 @@ export const Stats = ({
           }} />
         <StatsCard
           title={`${itemsTagged}`}
-          subtitle={`Days tagged`}
+          subtitle={t('days_tagged')}
           trendType={itemsTagged > prevItemsTagged ? 'up' : 'down'}
           trendValue={Math.abs(itemsTagged - prevItemsTagged)}
           style={{

@@ -235,5 +235,11 @@
   "promo_card_month_title": "{{month}} on valmis",
   "promo_card_year_title": "Sinun {{year}} visualisoituna",
   "statistics_mood_peaks_positive": "Positiivisimmat päivät",
-  "statistics_mood_peaks_negative": "Useimmat negatiiviset päivät"
+  "statistics_mood_peaks_negative": "Useimmat negatiiviset päivät",
+  "statistics_not_enough_data": "Ei tarpeeksi dataa.\n Lisää merkintöjä ja avaa tämä kaavio.",
+  "statistics_rating_distribution_highlights_title": "Mieliallasi viimeisten 14 päivän aikana",
+  "entries": "merkinnät",
+  "tags_used": "Tunnisteita käytetty",
+  "words_written": "kirjoitetut sanat",
+  "days_tagged": "Päivät merkitty"
 }

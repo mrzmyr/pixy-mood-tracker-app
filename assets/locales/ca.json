@@ -235,5 +235,11 @@
   "promo_card_month_title": "El vostre {{month}} està llest",
   "promo_card_year_title": "El teu {{year}}, visualitzat",
   "statistics_mood_peaks_positive": "Els dies més positius",
-  "statistics_mood_peaks_negative": "Els dies més negatius"
+  "statistics_mood_peaks_negative": "Els dies més negatius",
+  "statistics_not_enough_data": "No hi ha prou dades.\n Afegeix més entrades i desbloqueja aquest gràfic.",
+  "statistics_rating_distribution_highlights_title": "El teu estat d'ànim durant els últims 14 dies",
+  "entries": "Entrades",
+  "tags_used": "Etiquetes utilitzades",
+  "words_written": "Paraules escrites",
+  "days_tagged": "Dies etiquetats"
 }

@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { Dimensions, Pressable, Text, View } from 'react-native';
+import { Dimensions, Text, View } from 'react-native';
 import { ArrowLeft, Moon } from 'react-native-feather';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import LinkButton from '../../components/LinkButton';
@@ -57,17 +57,22 @@ export const Header = ({
           flexWrap: 'wrap',
         }}
       >
-        <LinkButton
+        <View
           style={{
-            padding: 16,
-            margin: -16,
-          }}
-          onPress={() => {
-            navigation.goBack();
+            flexDirection: 'row',
+            alignItems: 'center',
           }}
         >
-          <ArrowLeft width={24} height={24} color={colors.palette.white} />
-        </LinkButton>
+          <LinkButton
+            style={{
+            }}
+            onPress={() => {
+              navigation.goBack();
+            }}
+          >
+            <ArrowLeft width={24} height={24} color={colors.palette.white} />
+          </LinkButton>
+        </View>
       </View>
       <View
         style={{

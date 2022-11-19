@@ -1,7 +1,6 @@
-import Svg, { Circle, Path, Polyline, Rect, Use } from 'react-native-svg';
+import Svg, { Circle, Polyline } from 'react-native-svg';
 import useColors from '../../hooks/useColors';
 import { RATING_KEYS } from '../../hooks/useLogs';
-import useScale from '../../hooks/useScale';
 import { Grid } from './Grid';
 import { XLabels } from './XLabels';
 import { YLabels } from './YLabels';
@@ -21,7 +20,8 @@ export const RatingChart = ({
 }) => {
   const colors = useColors();
 
-  const paddingRight = 16;
+  const paddingRight = 8;
+  const paddingLeft = 8;
   const maxY = 6;
 
   const scaleItemCount = data.length;
@@ -34,7 +34,7 @@ export const RatingChart = ({
   const YLegendWidth = 32;
 
   const _height = Math.round(height / RATING_KEYS.length) * RATING_KEYS.length;
-  const _width = width - YLegendWidth - paddingRight;
+  const _width = width - YLegendWidth - paddingRight - paddingLeft;
 
   const rowHeight = Math.round(height / RATING_KEYS.length);
   const outerHeight = _height + XLegendHeight + rowHeight * 1;
@@ -47,7 +47,7 @@ export const RatingChart = ({
   };
 
   const relativeX = (index: number) => {
-    return Math.floor(index * itemWidth + itemWidth / 2) + YLegendWidth;
+    return Math.floor(index * itemWidth + itemWidth / 2) + YLegendWidth + paddingLeft;
   };
 
   const polygonPoints = scaleItems.map((item, index) => {
@@ -117,27 +117,25 @@ export const RatingChart = ({
         points={polygonPoints}
       />
 
-      {scaleItems.map((item, index) => {
+      {/* {scaleItems.map((item, index) => {
         if (item.value === null) return;
 
         const x = relativeX(index);
         const y = relativeY(item.value);
 
         return (
-          <>
-            <Circle
-              id={`c-${item.key}`}
-              key={`d-${item.key}`}
-              cx={x}
-              cy={y + rowHeight / 2}
-              r="3"
-              strokeWidth={2}
-              stroke={colors.statisticsLinePrimary}
-              fill={colors.cardBackground}
-            />
-          </>
+          <Circle
+            id={`c-${item.key}`}
+            key={`d-${item.key}`}
+            cx={x}
+            cy={y + rowHeight / 2}
+            r="3"
+            strokeWidth={2}
+            stroke={colors.statisticsLinePrimary}
+            fill={colors.cardBackground}
+          />
         );
-      })}
+      })} */}
     </Svg>
   );
 };

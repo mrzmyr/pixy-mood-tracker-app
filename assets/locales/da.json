@@ -235,5 +235,11 @@
   "promo_card_month_title": "Din {{month}} er klar",
   "promo_card_year_title": "Din {{year}}, visualiseret",
   "statistics_mood_peaks_positive": "Mest positive dage",
-  "statistics_mood_peaks_negative": "Mest negative dage"
+  "statistics_mood_peaks_negative": "Mest negative dage",
+  "statistics_not_enough_data": "Ikke nok data.\n Tilføj flere poster og lås op for dette diagram.",
+  "statistics_rating_distribution_highlights_title": "Dit humør i løbet af de sidste 14 dage",
+  "entries": "Indgange",
+  "tags_used": "Tags brugt",
+  "words_written": "Ord skrevet",
+  "days_tagged": "Dage tagget"
 }

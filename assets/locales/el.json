@@ -235,5 +235,11 @@
   "promo_card_month_title": "Το {{month}} σας είναι έτοιμο",
   "promo_card_year_title": "Το {{year}} σας, οπτικοποιήθηκε",
   "statistics_mood_peaks_positive": "Οι πιο θετικές μέρες",
-  "statistics_mood_peaks_negative": "Οι πιο αρνητικές μέρες"
+  "statistics_mood_peaks_negative": "Οι πιο αρνητικές μέρες",
+  "statistics_not_enough_data": "Δεν υπάρχουν αρκετά δεδομένα.\n Προσθέστε περισσότερες καταχωρήσεις και ξεκλειδώστε αυτό το γράφημα.",
+  "statistics_rating_distribution_highlights_title": "Η διάθεσή σας τις τελευταίες 14 ημέρες",
+  "entries": "Συμμετοχές",
+  "tags_used": "Χρησιμοποιούνται ετικέτες",
+  "words_written": "Λέξεις γραμμένες",
+  "days_tagged": "Ημέρες με ετικέτα"
 }

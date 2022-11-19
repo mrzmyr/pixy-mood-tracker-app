@@ -235,5 +235,11 @@
   "promo_card_month_title": "आपका {{month}} तैयार है",
   "promo_card_year_title": "आपका {{year}}, विज़ुअलाइज्ड",
   "statistics_mood_peaks_positive": "सबसे सकारात्मक दिन",
-  "statistics_mood_peaks_negative": "सबसे नकारात्मक दिन"
+  "statistics_mood_peaks_negative": "सबसे नकारात्मक दिन",
+  "statistics_not_enough_data": "पर्याप्त डेटा नहीं।\n अधिक प्रविष्टियाँ जोड़ें और इस चार्ट को अनलॉक करें।",
+  "statistics_rating_distribution_highlights_title": "पिछले 14 दिनों में आपका मिजाज",
+  "entries": "प्रविष्टियां",
+  "tags_used": "टैग का इस्तेमाल किया",
+  "words_written": "शब्द लिखे हैं",
+  "days_tagged": "दिन टैग किए गए"
 }

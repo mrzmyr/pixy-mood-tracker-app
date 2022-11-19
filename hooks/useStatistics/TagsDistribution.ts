@@ -8,13 +8,53 @@ export interface TagsDistributionData {
     details: Tag;
     count: number;
   }[];
-  itemsCount: number;
 }
 
 export const defaultTagsDistributionData: TagsDistributionData = {
   tags: [],
-  itemsCount: 0,
 }
+
+export const dummyTagsDistributionData: TagsDistributionData = {
+  tags: [
+    {
+      id: "1",
+      details: {
+        id: "1",
+        title: "Tag 1",
+        color: 'yellow',
+      },
+      count: 10,
+    },
+    {
+      id: "2",
+      details: {
+        id: "2",
+        title: "Tag 2",
+        color: 'red',
+      },
+      count: 5,
+    },
+    {
+      id: "3",
+      details: {
+        id: "3",
+        title: "Tag 3",
+        color: 'blue',
+      },
+      count: 3,
+    },
+    {
+      id: "4",
+      details: {
+        id: "4",
+        title: "Tag 4",
+        color: 'green',
+      },
+      count: 2,
+    },
+  ],
+}
+
 
 export const getTagsDistributionData = (items: LogItem[], tags: Tag[]): TagsDistributionData => {
   const distribution = _.countBy(
@@ -29,10 +69,7 @@ export const getTagsDistributionData = (items: LogItem[], tags: Tag[]): TagsDist
     .filter((tag) => tag.details !== undefined)
     .sort((a, b) => b.count - a.count);
 
-  const itemsWithTags = items.filter((item) => item?.tags?.length > 0);
-
   return {
     tags: _tags,
-    itemsCount: itemsWithTags.length,
   };
 };

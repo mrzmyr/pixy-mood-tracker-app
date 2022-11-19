@@ -235,5 +235,11 @@
   "promo_card_month_title": "{{month}} ayınız hazır",
   "promo_card_year_title": "{{year}}, görselleştirildi",
   "statistics_mood_peaks_positive": "En Pozitif Günler",
-  "statistics_mood_peaks_negative": "En Olumsuz Günler"
+  "statistics_mood_peaks_negative": "En Olumsuz Günler",
+  "statistics_not_enough_data": "Yeterli veri yok.\n Daha fazla giriş ekleyin ve bu tablonun kilidini açın.",
+  "statistics_rating_distribution_highlights_title": "Son 14 gündeki ruh haliniz",
+  "entries": "Girdileri",
+  "tags_used": "Kullanılan etiketler",
+  "words_written": "Yazılan kelimeler",
+  "days_tagged": "gün etiketlendi"
 }

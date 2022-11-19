@@ -6,8 +6,9 @@ import { t } from '../../helpers/translation';
 import useColors from '../../hooks/useColors';
 import { useLogState } from '../../hooks/useLogs';
 import { RootStackScreenProps } from '../../types';
+import { TagDistribution } from '../../components/Statistics/TagDistribution';
 import { Header } from './Header';
-import { RatingCount } from './RatingCount';
+import { RatingCount } from '../../components/Statistics/RatingCount';
 import { RatingDistributionYear } from './RatingDistribution';
 import YearDotsCard from './YearDotsCard';
 
@@ -43,12 +44,23 @@ export const StatisticsYearScreen = ({ route }: RootStackScreenProps<'Statistics
           paddingBottom: insets.bottom + 16,
         }}
       >
-        <RatingCount date={date} items={items} />
+        <RatingCount
+          title={t('mood_count')}
+          subtitle={t('mood_count_description', { date: dayjs(date).format('YYYY') })}
+          date={date}
+          items={items}
+        />
         <RatingDistributionYear
           date={date}
         />
         <YearDotsCard
           date={date}
+        />
+        <TagDistribution
+          title={t('statistics_most_used_tags')}
+          subtitle={t('statistics_most_used_tags_description', { date: date.format('YYYY') })}
+          date={date}
+          items={items}
         />
       </View>
     </ScrollView>

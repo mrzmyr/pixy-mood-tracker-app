@@ -235,5 +235,11 @@
   "promo_card_month_title": "Votre {{month}} est prêt",
   "promo_card_year_title": "Votre {{year}}, visualisée",
   "statistics_mood_peaks_positive": "Jours les plus positifs",
-  "statistics_mood_peaks_negative": "Jours les plus négatifs"
+  "statistics_mood_peaks_negative": "Jours les plus négatifs",
+  "statistics_not_enough_data": "Pas assez de données.\n Ajoutez plus d'entrées et déverrouillez ce graphique.",
+  "statistics_rating_distribution_highlights_title": "Votre humeur au cours des 14 derniers jours",
+  "entries": "Entrées",
+  "tags_used": "Balises utilisées",
+  "words_written": "Mots écrits",
+  "days_tagged": "Jours tagués"
 }
