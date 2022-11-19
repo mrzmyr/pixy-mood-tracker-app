@@ -67,7 +67,7 @@ const TodayEntryButton = memo(({
           position: "relative",
           zIndex: 2,
           width: "100%",
-          marginBottom: 16,
+          marginBottom: 32,
         }}
       >
         <Button
