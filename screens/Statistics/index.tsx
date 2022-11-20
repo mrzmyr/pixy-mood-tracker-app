@@ -96,7 +96,7 @@ export const StatisticsScreen = ({ navigation }: RootStackScreenProps<'Statistic
           backgroundColor: colors.background,
           paddingHorizontal: 20,
           paddingTop: insets.top + 20,
-          paddingBottom: insets.bottom + 50,
+          paddingBottom: insets.bottom + 20,
         }}
       >
         {/* <Text
@@ -164,8 +164,16 @@ export const StatisticsScreen = ({ navigation }: RootStackScreenProps<'Statistic
         )}
 
         {(
-          items.length >= MIN_LOGS_COUNT &&
-          statistics.isLoading === false
+          items.length >= MIN_LOGS_COUNT
+        ) && (
+            <>
+
+              <FeedbackSection />
+            </>
+          )}
+
+        {(
+          items.length >= MIN_LOGS_COUNT
         ) && (
             <>
               <MenuListHeadline>{t('more_statistics')}</MenuListHeadline>
@@ -190,15 +198,6 @@ export const StatisticsScreen = ({ navigation }: RootStackScreenProps<'Statistic
             </>
           )}
 
-        {(
-          items.length >= MIN_LOGS_COUNT &&
-          !statistics.isLoading
-        ) && (
-            <>
-
-              <FeedbackSection />
-            </>
-          )}
       </View>
     </ScrollView>
   );

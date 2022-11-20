@@ -1,6 +1,5 @@
 import { t } from 'i18n-js';
 import { Text, View } from 'react-native';
-import Button from '../../components/Button';
 import LinkButton from '../../components/LinkButton';
 import useColors from '../../hooks/useColors';
 import useFeedbackModal from '../../hooks/useFeedbackModal';
@@ -12,7 +11,7 @@ export const FeedbackSection = () => {
   return (
     <View
       style={{
-        marginTop: 32,
+        marginTop: 16,
         backgroundColor: colors.cardBackground,
         paddingVertical: 16,
         paddingHorizontal: 20,
