@@ -1,24 +1,24 @@
 import { useNavigation } from "@react-navigation/native";
+import dayjs from "dayjs";
 import { useEffect } from "react";
-import { ActivityIndicator, Text, View } from "react-native";
+import { Text, View } from "react-native";
 import { Activity } from "react-native-feather";
 import MenuList from "../../components/MenuList";
 import MenuListItem from "../../components/MenuListItem";
+import { DATE_FORMAT } from "../../constants/Config";
+import { t } from "../../helpers/translation";
+import { useAnalytics } from "../../hooks/useAnalytics";
 import useColors from "../../hooks/useColors";
 import { LogItem, useLogState } from "../../hooks/useLogs";
-import { useAnalytics } from "../../hooks/useAnalytics";
 import { useStatistics } from "../../hooks/useStatistics";
+import { MoodAvgData } from "../../hooks/useStatistics/MoodAvg";
 import { MoodAvgCard } from "./MoodAvgCard";
 import { MoodPeaksCard } from "./MoodPeaksCards";
+import { RatingDistribution } from "./RatingDistribution";
 import { Subtitle } from "./Subtitle";
 import { TagPeaksCard } from "./TagPeaksCards";
 import { TagsDistributionCard } from "./TagsDistributionCard";
 import { Title } from "./Title";
-import { MoodAvgData } from "../../hooks/useStatistics/MoodAvg";
-import { t } from "../../helpers/translation";
-import dayjs from "dayjs";
-import { DATE_FORMAT } from "../../constants/Config";
-import { RatingDistribution } from "./RatingDistribution";
 
 export const HighlightsSection = ({ items }: { items: LogItem[] }) => {
   const colors = useColors();
@@ -106,121 +106,108 @@ export const HighlightsSection = ({ items }: { items: LogItem[] }) => {
       <Title>{t("statistics_highlights")}</Title>
       <Subtitle>{t("statistics_highlights_description")}</Subtitle>
 
-      {statistics.isLoading ? (
-        <View
-          style={{
-            flex: 1,
-            justifyContent: "center",
-            alignItems: "center",
-            marginTop: 32,
-          }}
-        >
-          <ActivityIndicator color={colors.loadingIndicator} />
-        </View>
-      ) : (
-        <View
-          style={{
-            flex: 1,
-          }}
-        >
-          {(
-            !showMoodAvg &&
-            !showMoodPeaksPositve &&
-            !showMoodPeaksNegative &&
-            !showTagPeaks &&
-            !showTagsDistribution &&
-            !showRatingDistribution
-          ) && (
-              <View
+      <View
+        style={{
+          flex: 1,
+        }}
+      >
+        {(
+          !showMoodAvg &&
+          !showMoodPeaksPositve &&
+          !showMoodPeaksNegative &&
+          !showTagPeaks &&
+          !showTagsDistribution &&
+          !showRatingDistribution
+        ) && (
+            <View
+              style={{
+                flex: 1,
+                justifyContent: "center",
+                alignItems: "center",
+                marginTop: 16,
+                padding: 16,
+                paddingVertical: 32,
+                borderWidth: 1,
+                borderColor: colors.statisticsNoDataBorder,
+                borderStyle: "dashed",
+              }}
+            >
+              <Text
                 style={{
-                  flex: 1,
-                  justifyContent: "center",
-                  alignItems: "center",
-                  marginTop: 16,
-                  padding: 16,
-                  paddingVertical: 32,
-                  borderWidth: 1,
-                  borderColor: colors.statisticsNoDataBorder,
-                  borderStyle: "dashed",
+                  color: colors.textSecondary,
+                  fontSize: 17,
+                  textAlign: "center",
                 }}
               >
-                <Text
-                  style={{
-                    color: colors.textSecondary,
-                    fontSize: 17,
-                    textAlign: "center",
-                  }}
-                >
-                  {t("statistics_no_highlights")}
-                </Text>
-              </View>
-            )}
-
-          {showRatingDistribution && (
-            <RatingDistribution
-              title={t("statistics_rating_distribution_highlights_title")}
-              startDate={dayjs().subtract(14, "days").format(DATE_FORMAT)}
-            />
+                {t("statistics_no_highlights")}
+              </Text>
+            </View>
           )}
 
-          {showMoodAvg && <MoodAvgCard data={statistics.state.moodAvgData} />}
+        {showRatingDistribution && (
+          <RatingDistribution
+            title={t("statistics_rating_distribution_highlights_title")}
+            startDate={dayjs().subtract(14, "days").format(DATE_FORMAT)}
+          />
+        )}
 
-          {showMoodPeaksPositve && (
-            <MoodPeaksCard
-              data={statistics.state.moodPeaksPositiveData}
-              type="positive"
-              startDate={dayjs().subtract(14, "days").format(DATE_FORMAT)}
-              endDate={dayjs().format(DATE_FORMAT)}
-            />
-          )}
+        {showMoodAvg && <MoodAvgCard data={statistics.state.moodAvgData} />}
 
-          {showMoodPeaksNegative && (
-            <MoodPeaksCard
-              data={statistics.state.moodPeaksNegativeData}
-              type="negative"
-              startDate={dayjs().subtract(14, "days").format(DATE_FORMAT)}
-              endDate={dayjs().format(DATE_FORMAT)}
-            />
-          )}
+        {showMoodPeaksPositve && (
+          <MoodPeaksCard
+            data={statistics.state.moodPeaksPositiveData}
+            type="positive"
+            startDate={dayjs().subtract(14, "days").format(DATE_FORMAT)}
+            endDate={dayjs().format(DATE_FORMAT)}
+          />
+        )}
 
-          {showTagsDistribution && (
-            <TagsDistributionCard
-              data={statistics.state.tagsDistributionData}
-            />
-          )}
+        {showMoodPeaksNegative && (
+          <MoodPeaksCard
+            data={statistics.state.moodPeaksNegativeData}
+            type="negative"
+            startDate={dayjs().subtract(14, "days").format(DATE_FORMAT)}
+            endDate={dayjs().format(DATE_FORMAT)}
+          />
+        )}
 
-          {showTagPeaks && (
-            <>
-              {statistics.state.tagsPeaksData.tags
-                .sort((a, b) => b.items.length - a.items.length)
-                .filter((tag) => tag.items.length > 5)
-                .map((tag, index) => (
-                  <TagPeaksCard key={index} tag={tag} />
-                ))}
-            </>
-          )}
+        {showTagsDistribution && (
+          <TagsDistributionCard
+            data={statistics.state.tagsDistributionData}
+          />
+        )}
 
-          <MenuList
-            style={{
-              marginTop: 16,
-            }}
-          >
-            <MenuListItem
-              title={t("statistics_highlights_more")}
-              isLink
-              isLast
-              onPress={() => navigation.navigate("StatisticsHighlights")}
-              iconLeft={
-                <Activity
-                  width={18}
-                  height={18}
-                  color={colors.text}
-                />
-              }
-            />
-          </MenuList>
-        </View>
-      )}
+        {showTagPeaks && (
+          <>
+            {statistics.state.tagsPeaksData.tags
+              .sort((a, b) => b.items.length - a.items.length)
+              .filter((tag) => tag.items.length > 5)
+              .map((tag, index) => (
+                <TagPeaksCard key={index} tag={tag} />
+              ))}
+          </>
+        )}
+
+        <MenuList
+          style={{
+            marginTop: 16,
+          }}
+        >
+          <MenuListItem
+            title={t("statistics_highlights_more")}
+            isLink
+            isLast
+            onPress={() => navigation.navigate("StatisticsHighlights")}
+            iconLeft={
+              <Activity
+                width={18}
+                height={18}
+                color={colors.text}
+              />
+            }
+          />
+        </MenuList>
+      </View>
     </>
   );
 };

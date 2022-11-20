@@ -59,6 +59,21 @@ export const StatisticsScreen = ({ navigation }: RootStackScreenProps<'Statistic
   const isBeginningOfMonth = dayjs().isBetween(dayjs().startOf('month'), dayjs().startOf('month').add(3, 'day'), null, '[]')
   const isDecember = dayjs().month() === 11
 
+  if (statistics.isLoading) {
+    return (
+      <View
+        style={{
+          flex: 1,
+          justifyContent: "center",
+          alignItems: "center",
+          marginTop: 32,
+        }}
+      >
+        <ActivityIndicator color={colors.loadingIndicator} />
+      </View>
+    )
+  }
+
   return (
     <ScrollView
       refreshControl={
@@ -93,64 +108,51 @@ export const StatisticsScreen = ({ navigation }: RootStackScreenProps<'Statistic
             }}
           >{t('statistics')}</Text> */}
 
-        {statistics.isLoading ? (
-          <View
-            style={{
-              flex: 1,
-              justifyContent: "center",
-              alignItems: "center",
-              marginTop: 32,
-            }}
-          >
-            <ActivityIndicator color={colors.loadingIndicator} />
-          </View>
-        ) : (
-          <>
-            {(
-              items.length >= MIN_LOGS_COUNT &&
-              isDecember || isBeginningOfMonth
-            ) && (
-                <>
-                  {/* <View
+        <>
+          {(
+            items.length >= MIN_LOGS_COUNT &&
+            isDecember || isBeginningOfMonth
+          ) && (
+              <>
+                {/* <View
                 style={{
                   marginTop: 16,
                 }}
               >
                 <StreaksCard />
               </View> */}
-                  <View
-                    style={{
-                      marginBottom: 16,
-                    }}
-                  >
-                    {isDecember && (
-                      <View
-                        style={{
-                        }}
-                      >
-                        <PromoCardYear
-                          title={t('promo_card_year_title', { year: dayjs().format('YYYY') })}
-                          onPress={() => navigation.navigate('StatisticsYear', { date: dayjs().startOf('year').format(DATE_FORMAT) })}
-                        />
-                      </View>
-                    )}
-                    {isBeginningOfMonth && (
-                      <View
-                        style={{
-                          marginTop: isDecember ? 16 : 0,
-                        }}
-                      >
-                        <PromoCardMonth
-                          title={t('promo_card_month_title', { month: dayjs().subtract(1, 'month').format('MMMM') })}
-                          onPress={() => navigation.navigate('StatisticsMonth', { date: dayjs().subtract(1, 'month').startOf('month').format(DATE_FORMAT) })}
-                        />
-                      </View>
-                    )}
-                  </View>
-                </>
-              )}
-          </>
-        )}
+                <View
+                  style={{
+                    marginBottom: 16,
+                  }}
+                >
+                  {isDecember && (
+                    <View
+                      style={{
+                      }}
+                    >
+                      <PromoCardYear
+                        title={t('promo_card_year_title', { year: dayjs().format('YYYY') })}
+                        onPress={() => navigation.navigate('StatisticsYear', { date: dayjs().startOf('year').format(DATE_FORMAT) })}
+                      />
+                    </View>
+                  )}
+                  {isBeginningOfMonth && (
+                    <View
+                      style={{
+                        marginTop: isDecember ? 16 : 0,
+                      }}
+                    >
+                      <PromoCardMonth
+                        title={t('promo_card_month_title', { month: dayjs().subtract(1, 'month').format('MMMM') })}
+                        onPress={() => navigation.navigate('StatisticsMonth', { date: dayjs().subtract(1, 'month').startOf('month').format(DATE_FORMAT) })}
+                      />
+                    </View>
+                  )}
+                </View>
+              </>
+            )}
+        </>
 
         {/* <TrendsSection /> */}
 
