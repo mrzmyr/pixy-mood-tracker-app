@@ -15,7 +15,10 @@ export const Row = ({ date, dayCount, items }: {
   const months: ReactNode[] = [];
 
   for (let i = 0; i < 12; i++) {
-    const _date = date.add(i, "month").add(dayCount, 'day').format(DATE_FORMAT);
+    const month = date.month(i);
+    const inThisMonth = month.date(dayCount).isSame(month, 'month');
+
+    const _date = date.add(i, "month").date(dayCount).format(DATE_FORMAT);
     const item = items.find(item => item.date === _date);
 
     months.push(
@@ -28,7 +31,7 @@ export const Row = ({ date, dayCount, items }: {
           paddingHorizontal: 4,
         }}
       >
-        <Day date={_date} item={item} />
+        {inThisMonth && <Day date={_date} item={item} />}
       </View>
     );
   }

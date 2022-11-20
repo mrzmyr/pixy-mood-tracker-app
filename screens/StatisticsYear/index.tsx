@@ -10,7 +10,7 @@ import { TagDistribution } from '../../components/Statistics/TagDistribution';
 import { Header } from './Header';
 import { RatingCount } from '../../components/Statistics/RatingCount';
 import { RatingDistributionYear } from './RatingDistribution';
-import YearDotsCard from './YearDotsCard';
+import YearInPixels from './YearInPixels';
 
 export const StatisticsYearScreen = ({ route }: RootStackScreenProps<'StatisticsYear'>) => {
   const insets = useSafeAreaInsets();
@@ -53,7 +53,7 @@ export const StatisticsYearScreen = ({ route }: RootStackScreenProps<'Statistics
         <RatingDistributionYear
           date={date}
         />
-        <YearDotsCard
+        <YearInPixels
           date={date}
         />
         <TagDistribution

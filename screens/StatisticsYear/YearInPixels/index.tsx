@@ -35,7 +35,7 @@ const YearDotsContent = ({
   )
 }
 
-const YearDotsCard = ({
+const YearInPixels = ({
   date
 }: {
   date: Dayjs;
@@ -93,4 +93,4 @@ const YearDotsCard = ({
   )
 }
 
-export default YearDotsCard
+export default YearInPixels
