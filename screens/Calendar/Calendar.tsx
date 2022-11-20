@@ -38,7 +38,7 @@ const Calendar = memo(forwardRef(function Calendar({ }, ref: React.RefObject<Vie
     return Object.values(calendarFilters.data.filteredItems.map(item => item.id))
   }, [JSON.stringify(calendarFilters.data.filteredItems)])
 
-  const onPressDay = useCallback((date: string, item: LogItem) => {
+  const onPressDay = useCallback((date: string, item: LogItem | undefined) => {
     if (item) {
       navigation.navigate('LogView', { id: item.id })
     } else {
@@ -58,8 +58,8 @@ const Calendar = memo(forwardRef(function Calendar({ }, ref: React.RefObject<Vie
           key={date}
           dateString={date}
           renderDay={({ date }) => {
-            const item = logState.items[date];
-            const isFiltered = item && filteredItemIds.includes(item.id)
+            const item = Object.values(logState.items).find(item => item.date === date)
+            const isFiltered = item && filteredItemIds.includes(item.id) ? true : false
 
             return (
               <CalendarDay

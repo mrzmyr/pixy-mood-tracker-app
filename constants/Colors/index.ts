@@ -158,6 +158,7 @@ const light = {
   statisticsCardBackground: '#FFF',
   statisticsCardSubtitle: colors.neutral[500],
   statisticsFeedbackEmojiOpacity: 1,
+  statisticsFeedbackEmojiBackground: colors.neutral[100],
   statisticsFeedbackBorder: colors.neutral[200],
   statisticsFeedbackText: colors.neutral[500],
   statisticsWeekdayText: colors.neutral[400],
@@ -173,6 +174,10 @@ const light = {
   statisticsLineHighlight: tintColorLight,
   statisticsLegendText: colors.neutral[400],
   statisticsGridLine: colors.neutral[200],
+
+  statisticsNotEnoughDataTitle: colors.black,
+  statisticsNotEnoughDataSubtitle: colors.neutral[500],
+  statisticsNotEnoughDataBackdrop: 'rgba(255, 255, 255, 0.8)',
 
   statisticsTagsTrendMutedBackground: colors.neutral[200],
   statisticsTagsTrendMutedText: colors.neutral[800],
@@ -195,6 +200,9 @@ const light = {
 
   onboardingPrivacyBadgeBackground: colors.black,
   onboardingPrivacyBadgeVector: colors.white,
+
+  sharingLogoBackground: colors.white,
+  sharingLogoText: colors.neutral[600],
 
   switchThumbColor: '#333',
   scales: scales.light,
@@ -330,6 +338,7 @@ const dark: IColors & {
   statisticsCardBackground: colors.neutral[900],
   statisticsCardSubtitle: colors.neutral[400],
   statisticsFeedbackEmojiOpacity: 0.6,
+  statisticsFeedbackEmojiBackground: colors.neutral[800],
   statisticsFeedbackBorder: colors.neutral[800],
   statisticsFeedbackText: colors.neutral[500],
   statisticsWeekdayText: colors.neutral[400],
@@ -349,6 +358,10 @@ const dark: IColors & {
   statisticsLegendText: colors.neutral[600],
   statisticsGridLine: colors.neutral[700],
 
+  statisticsNotEnoughDataTitle: colors.white,
+  statisticsNotEnoughDataSubtitle: colors.neutral[500],
+  statisticsNotEnoughDataBackdrop: 'rgba(0, 0, 0, 0.5)',
+
   yearPixelsEmptyDot: colors.neutral[800],
   yearPixelsLegendText: colors.neutral[500],
 
@@ -366,6 +379,9 @@ const dark: IColors & {
   onboardingPrivacyBadgeVector: colors.neutral[900],
   onboardingListItemDot: colors.neutral[700],
   onboardingListItemText: colors.neutral[300],
+
+  sharingLogoBackground: colors.neutral[800],
+  sharingLogoText: colors.neutral[400],
 
   switchThumbColor: '#FFF',
   scales: scales.dark,

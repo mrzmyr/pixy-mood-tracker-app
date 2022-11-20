@@ -9,7 +9,7 @@ import useColors from '../../hooks/useColors';
 import useHaptics from '../../hooks/useHaptics';
 import { TagsDistributionData } from '../../hooks/useStatistics/TagsDistribution';
 import { Tag } from '../../hooks/useTags';
-import { CardFeedback } from './CardFeedback';
+import { CardFeedback } from '../../components/Statistics/CardFeedback';
 
 export const TagDistributionContent = ({
   data,

@@ -6,11 +6,13 @@ import { BigCard } from "../../../components/BigCard";
 import { DATE_FORMAT } from "../../../constants/Config";
 import { t } from "../../../helpers/translation";
 import { LogItem, RATING_KEYS, useLogState } from "../../../hooks/useLogs";
-import { CardFeedback } from "../../Statistics/CardFeedback";
-import { NotEnoughDataOverlay } from "../../StatisticsMonth/NotEnoughDataOverlay";
+import { CardFeedback } from "../../../components/Statistics/CardFeedback";
+import { NotEnoughDataOverlay } from "../../../components/Statistics/NotEnoughDataOverlay";
 
 import { Row } from "./Row";
 import { XAxis } from "./XAxis";
+
+const MIN_ITEMS = 30;
 
 const YearDotsContent = ({
   date,
@@ -71,10 +73,10 @@ const YearInPixels = ({
         >
           <XAxis />
         </View>
-        {items.length < 1 && (
-          <NotEnoughDataOverlay />
+        {items.length < MIN_ITEMS && (
+          <NotEnoughDataOverlay limit={MIN_ITEMS - items.length} />
         )}
-        {items.length > 5 ? (
+        {items.length >= MIN_ITEMS ? (
           <YearDotsContent
             date={date}
             items={items}

@@ -7,7 +7,7 @@ import { getRatingDistributionForXDays } from '../../hooks/useStatistics/RatingD
 
 import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
 import { RatingChart } from '../../components/RatingChart';
-import { CardFeedback } from './CardFeedback';
+import { CardFeedback } from '../../components/Statistics/CardFeedback';
 
 dayjs.extend(isSameOrAfter);
 

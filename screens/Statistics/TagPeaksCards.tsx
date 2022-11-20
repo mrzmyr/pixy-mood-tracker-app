@@ -8,7 +8,7 @@ import useHaptics from '../../hooks/useHaptics';
 import { LogItem } from '../../hooks/useLogs';
 import { TagsPeakData } from '../../hooks/useStatistics/TagsPeaks';
 import { Tag as ITag } from '../../hooks/useTags';
-import { CardFeedback } from './CardFeedback';
+import { CardFeedback } from '../../components/Statistics/CardFeedback';
 import { HeaderWeek } from './HeaderWeek';
 
 const DayDot = ({

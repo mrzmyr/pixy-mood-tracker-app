@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { ActivityIndicator, Image, Platform, Pressable, Text, View } from 'react-native';
-import Button from '../../components/Button';
-import TextArea from '../../components/TextArea';
+import Button from '../Button';
+import TextArea from '../TextArea';
 import { STATISTICS_FEEDBACK_URL } from '../../constants/API';
 import { locale, t } from '../../helpers/translation';
 import { useAnalytics } from '../../hooks/useAnalytics';
@@ -44,7 +44,7 @@ const CardFeedbackEmoji = ({ image, onPress, selected }) => {
         paddingTop: 8,
         paddingBottom: 8,
         borderRadius: 8,
-        backgroundColor: colors.secondaryButtonBackground,
+        backgroundColor: colors.statisticsFeedbackEmojiBackground,
       }}
       onPress={async () => {
         await haptics.selection()

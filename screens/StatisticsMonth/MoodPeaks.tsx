@@ -6,7 +6,9 @@ import { t } from '../../helpers/translation';
 import { LogItem } from '../../hooks/useLogs';
 import { getMoodPeaksNegativeData, getMoodPeaksPositiveData } from '../../hooks/useStatistics/MoodPeaks';
 import { MoodPeaksContent } from '../Statistics/MoodPeaksCards';
-import { NotEnoughDataOverlay } from './NotEnoughDataOverlay';
+import { NotEnoughDataOverlay } from '../../components/Statistics/NotEnoughDataOverlay';
+
+const MIN_ITEMS = 1;
 
 export const MoodPeaks = ({
   date, items,
@@ -60,10 +62,10 @@ export const MoodPeaks = ({
         isShareable={true}
         analyticsId="mood-peaks-positive"
       >
-        {dataPositive.items.length < 1 && (
+        {dataPositive.items.length < MIN_ITEMS && (
           <NotEnoughDataOverlay />
         )}
-        {dataPositive.items.length > 0 ? (
+        {dataPositive.items.length >= MIN_ITEMS ? (
           <MoodPeaksContent
             data={dataPositive}
             startDate={monthStart}
@@ -81,10 +83,10 @@ export const MoodPeaks = ({
         isShareable={true}
         analyticsId="mood-peaks-negative"
       >
-        {dataNegative.items.length < 1 && (
+        {dataNegative.items.length < MIN_ITEMS && (
           <NotEnoughDataOverlay />
         )}
-        {dataNegative.items.length > 0 ? (
+        {dataNegative.items.length >= MIN_ITEMS ? (
           <MoodPeaksContent
             data={dataNegative}
             startDate={monthStart}

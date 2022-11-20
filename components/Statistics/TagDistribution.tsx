@@ -3,8 +3,10 @@ import { LogItem } from '../../hooks/useLogs';
 import { dummyTagsDistributionData, getTagsDistributionData } from '../../hooks/useStatistics/TagsDistribution';
 import { useTagsState } from '../../hooks/useTags';
 import { TagDistributionContent } from '../../screens/Statistics/TagsDistributionCard';
-import { NotEnoughDataOverlay } from '../../screens/StatisticsMonth/NotEnoughDataOverlay';
+import { NotEnoughDataOverlay } from './NotEnoughDataOverlay';
 import { BigCard } from '../BigCard';
+
+const MIN_TAGS = 5;
 
 export const TagDistribution = ({
   title,
@@ -28,10 +30,10 @@ export const TagDistribution = ({
       isShareable={true}
       analyticsId="tag-distribution"
     >
-      {data.tags.length < 1 && (
+      {data.tags.length < MIN_TAGS && (
         <NotEnoughDataOverlay />
       )}
-      {data.tags.length > 0 ? (
+      {data.tags.length >= MIN_TAGS ? (
         <TagDistributionContent
           data={data}
           limit={10}

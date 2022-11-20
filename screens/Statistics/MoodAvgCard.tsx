@@ -3,7 +3,7 @@ import { Card } from '../../components/Statistics/Card';
 import { t } from '../../helpers/translation';
 import useScale from '../../hooks/useScale';
 import { MoodAvgData } from '../../hooks/useStatistics/MoodAvg';
-import { CardFeedback } from './CardFeedback';
+import { CardFeedback } from '../../components/Statistics/CardFeedback';
 
 export const MoodAvgCard = ({
   data,

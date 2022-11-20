@@ -3,7 +3,7 @@ import { Card } from "../../components/Statistics/Card";
 import { t } from "../../helpers/translation";
 import useColors from "../../hooks/useColors";
 import { TagsDistributionTrendData } from "../../hooks/useStatistics/TagsDistributionTrend";
-import { CardFeedback } from "./CardFeedback";
+import { CardFeedback } from "../../components/Statistics/CardFeedback";
 import { TagBar } from "./TagBar";
 
 export const TagsDistributionTrend = ({
@@ -24,7 +24,7 @@ export const TagsDistributionTrend = ({
               color: colors.text,
               fontWeight: "bold",
             }}
-            >
+          >
             {t('statistics_tags_distribution_trend_prefix')}
             <Text
               style={{

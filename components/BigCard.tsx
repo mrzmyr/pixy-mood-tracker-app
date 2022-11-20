@@ -172,7 +172,7 @@ export const BigCard = ({
             <View
               style={{
                 borderRadius: 8,
-                backgroundColor: colors.cardBackground,
+                backgroundColor: colors.sharingLogoBackground,
                 marginRight: 8,
                 padding: 2,
               }}
@@ -189,7 +189,7 @@ export const BigCard = ({
               style={{
                 fontSize: 17,
                 fontWeight: 'bold',
-                color: colors.textSecondary,
+                color: colors.sharingLogoText,
               }}
             >
               Pixy Mood Tracker

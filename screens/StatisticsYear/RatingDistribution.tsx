@@ -7,12 +7,14 @@ import { getRatingDistributionForYear } from '../../hooks/useStatistics/RatingDi
 import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
 import { BigCard } from '../../components/BigCard';
 import { RatingChart } from '../../components/RatingChart';
-import { CardFeedback } from '../Statistics/CardFeedback';
-import { NotEnoughDataOverlay } from '../StatisticsMonth/NotEnoughDataOverlay';
+import { CardFeedback } from '../../components/Statistics/CardFeedback';
+import { NotEnoughDataOverlay } from '../../components/Statistics/NotEnoughDataOverlay';
 import { useRef } from 'react';
 import _ from 'lodash';
 
 dayjs.extend(isSameOrAfter);
+
+const MIN_ITEMS = 5;
 
 export const RatingDistributionYear = ({
   date,
@@ -44,10 +46,10 @@ export const RatingDistributionYear = ({
       isShareable={true}
       analyticsId="rating-distribution"
     >
-      {validatedData.length < 1 && (
-        <NotEnoughDataOverlay />
+      {validatedData.length < MIN_ITEMS && (
+        <NotEnoughDataOverlay limit={MIN_ITEMS - validatedData.length} />
       )}
-      {validatedData.length > 5 ? (
+      {validatedData.length >= MIN_ITEMS ? (
         <RatingChart
           data={data}
           height={height}

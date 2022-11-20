@@ -90,7 +90,7 @@ export const DevelopmentTools = () => {
               marginRight: 16,
             }}
           >
-            {Object.keys(logState.items).length}
+            {Object.values(logState.items).length}
           </Card>
           <Card title={t("development_statistics_words_total")}>
             {words_total}

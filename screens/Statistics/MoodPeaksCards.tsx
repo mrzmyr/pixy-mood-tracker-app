@@ -9,7 +9,7 @@ import useHaptics from '../../hooks/useHaptics';
 import { LogItem } from '../../hooks/useLogs';
 import useScale from '../../hooks/useScale';
 import { MoodPeaksNegativeData, MoodPeaksPositiveData } from '../../hooks/useStatistics/MoodPeaks';
-import { CardFeedback } from './CardFeedback';
+import { CardFeedback } from '../../components/Statistics/CardFeedback';
 import { HeaderWeek } from './HeaderWeek';
 
 const DayDot = ({

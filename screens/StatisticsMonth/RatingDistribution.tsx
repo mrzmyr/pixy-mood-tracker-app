@@ -5,7 +5,9 @@ import { BigCard } from '../../components/BigCard';
 import { RatingChart } from '../../components/RatingChart';
 import { t } from '../../helpers/translation';
 import { getRatingDistributionForXDays } from '../../hooks/useStatistics/RatingDistribution';
-import { NotEnoughDataOverlay } from './NotEnoughDataOverlay';
+import { NotEnoughDataOverlay } from '../../components/Statistics/NotEnoughDataOverlay';
+
+const MIN_ITEMS = 5;
 
 export const RatingDistribution = ({
   date, items,
@@ -30,10 +32,10 @@ export const RatingDistribution = ({
       isShareable={true}
       analyticsId="rating-distribution"
     >
-      {validatedData.length < 1 && (
-        <NotEnoughDataOverlay />
+      {validatedData.length < MIN_ITEMS && (
+        <NotEnoughDataOverlay limit={MIN_ITEMS - validatedData.length} />
       )}
-      {validatedData.length > 5 ? (
+      {validatedData.length >= MIN_ITEMS ? (
         <RatingChart
           data={data}
           height={height}
