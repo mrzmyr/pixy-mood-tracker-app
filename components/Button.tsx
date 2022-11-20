@@ -14,7 +14,7 @@ export default function Button({
   children,
   style = {},
 }: {
-  type?: 'primary' | 'secondary' | 'danger' | 'inverse';
+  type?: 'primary' | 'secondary' | 'danger';
   icon?: React.ReactNode,
   testID?: string,
   isLoading?: boolean,
