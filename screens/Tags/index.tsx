@@ -18,7 +18,7 @@ export const Tags = ({ navigation, route }: RootStackScreenProps<'Tags'>) => {
   const { tags } = useTagsState()
 
   const onEdit = async (tag: Tag) => {
-    navigation.navigate('TagEdit', { tag })
+    navigation.navigate('TagEdit', { id: tag.id })
   }
 
   return (
@@ -88,7 +88,7 @@ export const Tags = ({ navigation, route }: RootStackScreenProps<'Tags'>) => {
             backgroundColor: colors.background,
           }}
         >
-          { tags.length >= MAX_TAGS && (
+          {tags.length >= MAX_TAGS && (
             <View
               style={{
                 flexDirection: 'row',
@@ -148,7 +148,7 @@ export const Tags = ({ navigation, route }: RootStackScreenProps<'Tags'>) => {
             </MenuList>
           </View>
         </View>
-        <View 
+        <View
           style={{
             width: '100%',
             height: insets.bottom + 56,

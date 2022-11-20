@@ -67,8 +67,9 @@ const NAVIGATION_LINKING = {
       LogView: 'logs/:id',
       LogCreate: 'logs/create/:date',
       LogEdit: 'logs/:id/edit?step=:step',
-      // TagEdit: 'tags/:id',
-      // TagCreate: 'tags/create',
+      Tags: 'tags',
+      TagEdit: 'tags/:id',
+      TagCreate: 'tags/create',
     },
   },
 };

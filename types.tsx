@@ -48,7 +48,7 @@ export type RootStackParamList = {
   },
 
   TagEdit: {
-    tag?: ITag,
+    id: string;
   },
   TagCreate: undefined,
 };

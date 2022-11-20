@@ -13,7 +13,7 @@ import { t } from '../helpers/translation';
 import { useAnalytics } from '../hooks/useAnalytics';
 import useColors from '../hooks/useColors';
 import useHaptics from '../hooks/useHaptics';
-import { Tag as ITag, useTagsUpdater } from '../hooks/useTags';
+import { Tag as ITag, useTagsState, useTagsUpdater } from '../hooks/useTags';
 import { RootStackScreenProps } from '../types';
 
 const REGEX_EMOJI = /\p{Emoji}/u;
@@ -22,27 +22,28 @@ export const TagEdit = ({ navigation, route }: RootStackScreenProps<'TagEdit'>) 
   const colors = useColors()
   const haptics = useHaptics()
   const insets = useSafeAreaInsets();
+  const tagState = useTagsState()
   const tagsUpdater = useTagsUpdater()
   const analytics = useAnalytics()
-  
-  const tagExists = route.params.tag !== undefined;
-  const defaultTag = tagExists ? route.params.tag : {
+
+  const tagExists = tagState.tags.find(tag => tag.id === route.params.id)
+  const defaultTag = tagExists ? tagExists : {
     id: uuidv4(),
     title: '',
     color: 'slate',
   } as ITag;
-  
-  const [tag, setTag] = useState(tagExists ? route.params.tag : defaultTag);
-  
+
+  const [tag, setTag] = useState(tagExists ? tagExists : defaultTag);
+
   const askToDelete = async (tag: ITag) => {
     await haptics.selection()
-    
+
     analytics.track('delete_tag_ask', {
       titleLength: tag.title,
       color: tag.color,
       containsEmoji: REGEX_EMOJI.test(tag.title),
     })
-    
+
     Alert.alert(
       t('delete_tag_confirm_title'),
       t('delete_tag_confirm_message'),
@@ -53,15 +54,15 @@ export const TagEdit = ({ navigation, route }: RootStackScreenProps<'TagEdit'>) 
             analytics.track('tag_delete_success', {
               titleLength: tag.title,
               color: tag.color,
-              containsEmoji: REGEX_EMOJI.test(tag.title),      
+              containsEmoji: REGEX_EMOJI.test(tag.title),
             })
             onDelete(tag)
           },
           style: "destructive"
         },
-        { 
-          text: t('cancel'), 
-          onPress: () =>  {
+        {
+          text: t('cancel'),
+          onPress: () => {
             analytics.track('tag_delete_cancelled')
           },
           style: "cancel"
@@ -70,17 +71,17 @@ export const TagEdit = ({ navigation, route }: RootStackScreenProps<'TagEdit'>) 
       { cancelable: true }
     );
   }
-  
+
   const onDelete = (tag: ITag) => {
     tagsUpdater.deleteTag(tag.id)
     navigation.goBack()
   }
-  
+
   const onSubmit = (tag: ITag) => {
     tagsUpdater.updateTag(tag)
     navigation.goBack();
   }
-  
+
   return (
     <DismissKeyboard>
       <View style={{
@@ -92,20 +93,20 @@ export const TagEdit = ({ navigation, route }: RootStackScreenProps<'TagEdit'>) 
         <ModalHeader
           title={t('edit_tag')}
           left={
-            <LinkButton 
+            <LinkButton
               onPress={() => {
                 navigation.goBack();
               }}
               type='primary'
-              >{t('cancel')}</LinkButton>
+            >{t('cancel')}</LinkButton>
           }
         />
-          <View 
-            style={{ 
-              flex: 1, 
-              padding: 20,
-            }}
-          >
+        <View
+          style={{
+            flex: 1,
+            padding: 20,
+          }}
+        >
           <TextInput
             autoCorrect={false}
             style={{
