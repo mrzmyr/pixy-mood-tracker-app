@@ -13,6 +13,8 @@ import { MoodAvgData } from '../../../hooks/useStatistics/MoodAvg';
 import { t } from '../../../helpers/translation';
 import dayjs from 'dayjs';
 import { DATE_FORMAT } from '../../../constants/Config';
+import { MoodChart } from '../MoodChart';
+import { useLogState } from '../../../hooks/useLogs';
 
 export const StatisticsHighlights = ({ navigation }) => {
   const insets = useSafeAreaInsets();
@@ -25,6 +27,10 @@ export const StatisticsHighlights = ({ navigation }) => {
   const showMoodPeaksNegative = statistics.isAvailable("mood_peaks_negative")
   const showTagPeaks = statistics.isAvailable("tags_peaks")
   const showTagsDistribution = statistics.isAvailable("tags_distribution")
+
+  const logState = useLogState();
+
+  const showMoodChart = logState.items.filter((item) => dayjs(item.dateTime).isAfter(dayjs().subtract(14, "day"))).length >= 4
 
   useEffect(() => {
     if (!statistics.state.loaded) return;
@@ -42,12 +48,15 @@ export const StatisticsHighlights = ({ navigation }) => {
       tags_distribution_show: boolean;
       tags_distribution_tag_count?: number;
       tags_distribution_item_count?: number
+      mood_chart_show: boolean;
+      mood_chart_item_count?: number
     } = {
       mood_avg_show: showMoodAvg,
       mood_peaks_positive_show: showMoodPeaksPositve,
       mood_peaks_negative_show: showMoodPeaksNegative,
       tags_peaks_show: showTagPeaks,
       tags_distribution_show: showTagsDistribution,
+      mood_chart_show: showMoodChart,
     }
 
     if (showMoodAvg) {
@@ -65,7 +74,9 @@ export const StatisticsHighlights = ({ navigation }) => {
     }
     if (showTagsDistribution) {
       cards.tags_distribution_tag_count = statistics.state.tagsDistributionData.tags.length
-      cards.tags_distribution_item_count = statistics.state.tagsDistributionData.itemsCount
+    }
+    if (showMoodChart) {
+      cards.mood_chart_item_count = logState.items.filter((item) => dayjs(item.dateTime).isAfter(dayjs().subtract(14, "day"))).length
     }
 
     analytics.track('statistics_all_highlights', {
@@ -105,6 +116,11 @@ export const StatisticsHighlights = ({ navigation }) => {
             </View>
           ) : (
             <>
+              <MoodChart
+                title={t("statistics_mood_chart_highlights_title")}
+                startDate={dayjs().subtract(14, "days").format(DATE_FORMAT)}
+              />
+
               {statistics.isAvailable('mood_avg') && (
                 <MoodAvgCard data={statistics.state.moodAvgData} />
               )}

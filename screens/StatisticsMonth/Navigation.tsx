@@ -25,23 +25,23 @@ export const Navigation = ({
       <Button
         onPress={onPrev}
         disabled={prevMonthDisabled}
-        type="secondary"
+        type="tertiary"
         style={{
           flex: 1,
           marginRight: 8,
         }}
       >
-        <ChevronLeft width={20} height={20} color={colors.secondaryButtonText} strokeWidth={3} />
+        <ChevronLeft width={20} height={20} color={colors.tertiaryButtonText} strokeWidth={3} />
       </Button>
       <Button
         onPress={onNext}
         disabled={nextMonthDisabled}
-        type="secondary"
+        type="tertiary"
         style={{
           flex: 1,
         }}
       >
-        <ChevronRight width={20} height={20} color={colors.secondaryButtonText} strokeWidth={3} />
+        <ChevronRight width={20} height={20} color={colors.tertiaryButtonText} strokeWidth={3} />
       </Button>
     </View>
   );

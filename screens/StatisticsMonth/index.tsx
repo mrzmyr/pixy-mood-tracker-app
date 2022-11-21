@@ -7,11 +7,11 @@ import { t } from '../../helpers/translation';
 import useColors from '../../hooks/useColors';
 import { useLogState } from '../../hooks/useLogs';
 import { RootStackScreenProps } from '../../types';
-import { RatingCount } from '../../components/Statistics/RatingCount';
+import { MoodCounts } from '../../components/Statistics/MoodCounts';
 import { Header } from './Header';
 import { MoodPeaks } from './MoodPeaks';
 import { Navigation } from './Navigation';
-import { RatingDistribution } from './RatingDistribution';
+import { MoodChart } from './MoodChart';
 import { Stats } from './Stats';
 import { TagDistribution } from '../../components/Statistics/TagDistribution';
 
@@ -70,8 +70,8 @@ export const StatisticsMonthScreen = ({ navigation, route }: RootStackScreenProp
             prevMonthDisabled={prevItems.length === 0}
           />
           <Stats items={items} prevItems={prevItems} />
-          <RatingDistribution date={date} items={items} />
-          <RatingCount
+          <MoodChart date={date} items={items} />
+          <MoodCounts
             title={t('mood_count')}
             subtitle={t('mood_count_description', { date: dayjs(date).format('MMMM, YYYY') })}
             items={items}

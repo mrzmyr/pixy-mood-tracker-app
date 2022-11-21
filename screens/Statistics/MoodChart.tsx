@@ -11,7 +11,7 @@ import { CardFeedback } from '../../components/Statistics/CardFeedback';
 
 dayjs.extend(isSameOrAfter);
 
-export const RatingDistribution = ({
+export const MoodChart = ({
   title,
   startDate,
 }: {

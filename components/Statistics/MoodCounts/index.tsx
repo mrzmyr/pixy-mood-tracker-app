@@ -7,7 +7,7 @@ import { Content } from "./Content"
 
 const MIN_ITEMS = 14
 
-export const RatingCount = ({
+export const MoodCounts = ({
   title,
   subtitle,
   date,

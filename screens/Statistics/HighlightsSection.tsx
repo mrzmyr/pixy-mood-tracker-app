@@ -14,7 +14,7 @@ import { useStatistics } from "../../hooks/useStatistics";
 import { MoodAvgData } from "../../hooks/useStatistics/MoodAvg";
 import { MoodAvgCard } from "./MoodAvgCard";
 import { MoodPeaksCard } from "./MoodPeaksCards";
-import { RatingDistribution } from "./RatingDistribution";
+import { MoodChart } from "./MoodChart";
 import { Subtitle } from "./Subtitle";
 import { TagPeaksCard } from "./TagPeaksCards";
 import { TagsDistributionCard } from "./TagsDistributionCard";
@@ -45,8 +45,7 @@ export const HighlightsSection = ({ items }: { items: LogItem[] }) => {
 
   const showTagsDistribution = statistics.isAvailable("tags_distribution")
 
-  const showRatingDistribution =
-    logState.items.filter((item) => dayjs(item.dateTime).isAfter(dayjs().subtract(7, "day"))).length >= 4
+  const showMoodChart = logState.items.filter((item) => dayjs(item.dateTime).isAfter(dayjs().subtract(14, "day"))).length >= 4
 
   useEffect(() => {
     if (!statistics.state.loaded) return;
@@ -64,15 +63,15 @@ export const HighlightsSection = ({ items }: { items: LogItem[] }) => {
       tags_distribution_show: boolean;
       tags_distribution_tag_count?: number;
       tags_distribution_item_count?: number
-      rating_distribution_show: boolean;
-      rating_distribution_item_count?: number
+      mood_chart_show: boolean;
+      mood_chart_item_count?: number
     } = {
       mood_avg_show: showMoodAvg,
       mood_peaks_positive_show: showMoodPeaksPositve,
       mood_peaks_negative_show: showMoodPeaksNegative,
       tags_peaks_show: showTagPeaks,
       tags_distribution_show: showTagsDistribution,
-      rating_distribution_show: showRatingDistribution
+      mood_chart_show: showMoodChart
     }
 
     if (showMoodAvg) {
@@ -91,8 +90,8 @@ export const HighlightsSection = ({ items }: { items: LogItem[] }) => {
     if (showTagsDistribution) {
       cards.tags_distribution_tag_count = statistics.state.tagsDistributionData.tags.length
     }
-    if (showRatingDistribution) {
-      cards.rating_distribution_item_count = logState.items.filter((item) => dayjs(item.dateTime).isAfter(dayjs().subtract(7, "day"))).length
+    if (showMoodChart) {
+      cards.mood_chart_item_count = logState.items.filter((item) => dayjs(item.dateTime).isAfter(dayjs().subtract(14, "day"))).length
     }
 
     analytics.track('statistics_relevant_highlights', {
@@ -117,7 +116,7 @@ export const HighlightsSection = ({ items }: { items: LogItem[] }) => {
           !showMoodPeaksNegative &&
           !showTagPeaks &&
           !showTagsDistribution &&
-          !showRatingDistribution
+          !showMoodChart
         ) && (
             <View
               style={{
@@ -144,9 +143,9 @@ export const HighlightsSection = ({ items }: { items: LogItem[] }) => {
             </View>
           )}
 
-        {showRatingDistribution && (
-          <RatingDistribution
-            title={t("statistics_rating_distribution_highlights_title")}
+        {showMoodChart && (
+          <MoodChart
+            title={t("statistics_mood_chart_highlights_title")}
             startDate={dayjs().subtract(14, "days").format(DATE_FORMAT)}
           />
         )}
