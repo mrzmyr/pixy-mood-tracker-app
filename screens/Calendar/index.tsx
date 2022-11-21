@@ -60,8 +60,8 @@ const CalendarScreen = memo(function CalendarScreen() {
     !calendarFilters.isOpen
   )
 
-  const hasTodayItem = Object.values(logState.items).find(item => {
-    return dayjs(item.date).isSame(dayjs(), 'day')
+  const hasTodayItem = logState.items.find(item => {
+    return dayjs(item.dateTime).isSame(dayjs(), 'day')
   })
 
   return (

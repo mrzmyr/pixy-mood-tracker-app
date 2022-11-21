@@ -9,6 +9,7 @@ import useColors from '../hooks/useColors';
 import {
   ColorsScreen,
   DataScreen,
+  DayView,
   LicensesScreen,
   LogCreate,
   LogEdit,
@@ -64,6 +65,7 @@ const NAVIGATION_LINKING = {
       StatisticsHighlights: 'statistics/highlights',
       StatisticsMonth: 'statistics/month/:date',
       StatisticsYear: 'statistics/year/:date',
+      DayView: 'days/:date',
       LogView: 'logs/:id',
       LogCreate: 'logs/create/:date',
       LogEdit: 'logs/:id/edit?step=:step',
@@ -138,8 +140,8 @@ function RootNavigator() {
         tags: tags.map(tag => anonymizeTag(tag)),
         tagsCount: tags.length,
 
-        itemsCount: Object.values(logState.items).length,
-        itemsCoverage: getItemsCoverage(Object.values(logState.items)),
+        itemsCount: logState.items.length,
+        itemsCoverage: getItemsCoverage(logState.items),
       })
     }
 
@@ -200,6 +202,19 @@ function RootNavigator() {
         <Stack.Screen
           name="LogCreate"
           component={LogCreate}
+        />
+      </Stack.Group>
+
+      <Stack.Group
+        screenOptions={{
+          title: '',
+          presentation: 'modal',
+          headerShown: false,
+        }}
+      >
+        <Stack.Screen
+          name="DayView"
+          component={DayView}
         />
       </Stack.Group>
 

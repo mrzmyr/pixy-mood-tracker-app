@@ -1,9 +1,15 @@
 import dayjs from "dayjs";
-import { memo, useMemo } from "react";
+import { memo, useCallback, useMemo, useRef } from "react";
 import { StyleSheet, View } from "react-native";
 import { DATE_FORMAT } from "../../constants/Config";
 
 import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
+import { LogItem, useLogState } from "../../hooks/useLogs";
+import CalendarDay from "./CalendarDay";
+import { useCalendarFilters } from "../../hooks/useCalendarFilters";
+import { getAverageRating } from "../../lib/utils";
+import { useNavigation } from "@react-navigation/native";
+import _, { Dictionary } from "lodash";
 dayjs.extend(isSameOrBefore)
 
 const CalendarDayContainer = memo(({
@@ -25,19 +31,24 @@ const CalendarWeek = memo(function CalendarWeek({
   endDate,
   isFirst = false,
   isLast = false,
-  renderDay,
+  itemMap,
 }: {
   startDate: string;
   endDate: string;
   isFirst?: boolean;
   isLast?: boolean;
-  renderDay: (props: {
-    date: string;
-  }) => React.ReactNode;
+  itemMap: {
+    [key: string]: LogItem[];
+  }
 }) {
+  const navigation = useNavigation();
+  const calendarFilters = useCalendarFilters()
+
   let justifyContent = "space-around";
   if (isFirst) justifyContent = 'flex-end';
   if (isLast) justifyContent = 'flex-start';
+
+  const logState = useLogState();
 
   const days = useMemo(() => {
     const days: string[] = [];
@@ -63,6 +74,34 @@ const CalendarWeek = memo(function CalendarWeek({
     }
   });
 
+  const onPressDay = useCallback((date: string, items: LogItem[]) => {
+    if (items.length > 0) {
+      navigation.navigate('DayView', { date })
+    } else {
+      navigation.navigate('LogCreate', { date })
+    }
+  }, [navigation])
+
+  const filteredItemIds = useMemo(() => {
+    return calendarFilters.data.filteredItems.map(item => item.id)
+  }, [JSON.stringify(calendarFilters.data.filteredItems)])
+
+  const renderDay = ({ date }) => {
+    const items = itemMap[date] || [];
+    const averageRating = items.length < 1 ? null : getAverageRating(items)
+    const isFiltered = items.some(item => filteredItemIds.includes(item.id))
+
+    return (
+      <CalendarDay
+        dateString={date}
+        rating={averageRating}
+        isFiltered={isFiltered}
+        isFiltering={calendarFilters.data.isFiltering}
+        onPress={() => onPressDay(date, items)}
+      />
+    )
+  }
+
   return (
     <View
       style={{
@@ -76,7 +115,7 @@ const CalendarWeek = memo(function CalendarWeek({
 
       {daysMap.map(day => (
         <CalendarDayContainer key={day.dateString}>
-          {renderDay ? renderDay({ date: day.dateString }) : null}
+          {renderDay({ date: day.dateString })}
         </CalendarDayContainer>)
       )}
 

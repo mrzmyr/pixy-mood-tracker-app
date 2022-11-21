@@ -11,7 +11,7 @@ export const defaultStreaksData = {
 export type StreaksData = typeof defaultStreaksData;
 
 export const getCurrentStreak = (items: LogItem[]) => {
-  const itemsSorted = _.sortBy(items, (log) => log.date);
+  const itemsSorted = _.sortBy(items, (log) => log.dateTime);
 
   let currentStreak = 0;
 
@@ -19,7 +19,7 @@ export const getCurrentStreak = (items: LogItem[]) => {
   let nextItem = itemsSorted.pop();
 
   while (!!nextItem) {
-    if (nextItem.date === currentDate.format(DATE_FORMAT)) {
+    if (nextItem.dateTime === currentDate.format(DATE_FORMAT)) {
       currentStreak++;
       currentDate = currentDate.subtract(1, 'day');
       nextItem = itemsSorted.pop();
@@ -32,7 +32,7 @@ export const getCurrentStreak = (items: LogItem[]) => {
 }
 
 export const getLongestStreak = (items: LogItem[]) => {
-  const itemsSorted = _.sortBy(items, (log) => log.date);
+  const itemsSorted = _.sortBy(items, (log) => log.dateTime);
 
   let streak = 0;
   let count = 1;
@@ -41,7 +41,7 @@ export const getLongestStreak = (items: LogItem[]) => {
     const current = itemsSorted[i];
     const next = itemsSorted[i + 1];
 
-    if (Math.abs(dayjs(current.date).diff(dayjs(next?.date), 'day')) === 1) {
+    if (Math.abs(dayjs(current.dateTime).diff(dayjs(next?.dateTime), 'day')) === 1) {
       count++
       continue;
     }

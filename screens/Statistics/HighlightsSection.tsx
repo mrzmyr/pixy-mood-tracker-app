@@ -46,7 +46,7 @@ export const HighlightsSection = ({ items }: { items: LogItem[] }) => {
   const showTagsDistribution = statistics.isAvailable("tags_distribution")
 
   const showRatingDistribution =
-    Object.values(logState.items).filter((item) => dayjs(item.date).isAfter(dayjs().subtract(7, "day"))).length >= 4
+    logState.items.filter((item) => dayjs(item.dateTime).isAfter(dayjs().subtract(7, "day"))).length >= 4
 
   useEffect(() => {
     if (!statistics.state.loaded) return;
@@ -92,7 +92,7 @@ export const HighlightsSection = ({ items }: { items: LogItem[] }) => {
       cards.tags_distribution_tag_count = statistics.state.tagsDistributionData.tags.length
     }
     if (showRatingDistribution) {
-      cards.rating_distribution_item_count = Object.values(logState.items).filter((item) => dayjs(item.date).isAfter(dayjs().subtract(7, "day"))).length
+      cards.rating_distribution_item_count = logState.items.filter((item) => dayjs(item.dateTime).isAfter(dayjs().subtract(7, "day"))).length
     }
 
     analytics.track('statistics_relevant_highlights', {

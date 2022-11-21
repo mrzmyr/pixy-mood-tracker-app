@@ -1,16 +1,15 @@
 import { Line } from 'react-native-svg';
 import useColors from '../../hooks/useColors';
-import { RATING_MAPPING } from '../../hooks/useLogs';
+import { RATING_KEYS, RATING_MAPPING } from '../../hooks/useLogs';
 
 export const Grid = ({
   width, relativeY,
 }) => {
   const colors = useColors();
-  const keys = Object.keys(RATING_MAPPING);
 
   return (
     <>
-      {keys.slice(0, keys.length - 1).map((rating, index) => {
+      {RATING_KEYS.slice(0, RATING_KEYS.length - 1).map((rating, index) => {
         const y = relativeY(index);
         return (
           <Line

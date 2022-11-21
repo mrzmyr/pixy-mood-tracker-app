@@ -1,8 +1,9 @@
-import { Dayjs } from "dayjs";
+import dayjs, { Dayjs } from "dayjs";
+import _ from "lodash";
 import React, { ReactNode } from "react";
 import { View } from "react-native";
-import { DATE_FORMAT } from "../../../constants/Config";
 import { LogItem } from "../../../hooks/useLogs";
+import { getAverageRating } from "../../../lib/utils";
 import { Day } from "./Day";
 import { YAxis } from "./YAxis";
 
@@ -14,12 +15,15 @@ export const Row = ({ date, dayCount, items }: {
 
   const months: ReactNode[] = [];
 
-  for (let i = 0; i < 12; i++) {
-    const month = date.month(i);
-    const inThisMonth = month.date(dayCount).isSame(month, 'month');
+  const year = date.year();
 
-    const _date = date.add(i, "month").date(dayCount).format(DATE_FORMAT);
-    const item = items.find(item => item.date === _date);
+  for (let i = 0; i < 12; i++) {
+    const monthString = `${year}-${_.padStart(`${i + 1}`, 2, "0")}`;
+    const dateString = `${monthString}-${_.padStart(`${dayCount}`, 2, "0")}`;
+    const inThisMonth = dayjs(dateString).month() === i;
+
+    const _items = items.filter(item => item.dateTime?.split('T')[0] === dateString);
+    const rating = getAverageRating(_items)
 
     months.push(
       <View
@@ -31,7 +35,7 @@ export const Row = ({ date, dayCount, items }: {
           paddingHorizontal: 4,
         }}
       >
-        {inThisMonth && <Day date={_date} item={item} />}
+        {inThisMonth && <Day date={dateString} rating={rating} />}
       </View>
     );
   }

@@ -12,10 +12,10 @@ export const Stats = ({
   const prevWords = prevItems.reduce((acc, item) => acc + item.message.split(' ').length, 0);
   const words = items.reduce((acc, item) => acc + item.message.split(' ').length, 0);
 
-  const prevTags = prevItems.reduce((acc, item) => acc + (item.tags?.length ?? 0), 0);
-  const tags = items.reduce((acc, item) => acc + (item.tags?.length ?? 0), 0);
-  const itemsTagged = items.filter(item => item.tags?.length ?? 0 > 0).length;
-  const prevItemsTagged = prevItems.filter(item => item.tags?.length ?? 0 > 0).length;
+  const prevTags = prevItems.reduce((acc, item) => acc + (item.tags.length ?? 0), 0);
+  const tags = items.reduce((acc, item) => acc + (item.tags.length ?? 0), 0);
+  const itemsTagged = items.filter(item => item.tags.length ?? 0 > 0).length;
+  const prevItemsTagged = prevItems.filter(item => item.tags.length ?? 0 > 0).length;
 
   return (
     <>

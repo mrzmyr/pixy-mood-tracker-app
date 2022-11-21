@@ -44,8 +44,8 @@ const YearInPixels = ({
 }) => {
   const logState = useLogState();
 
-  const items = Object.values(logState.items).filter(item => {
-    return date.isSame(item.date, 'year')
+  const items = logState.items.filter(item => {
+    return date.isSame(item.dateTime, 'year')
   })
 
   const dummyItems = _.range(0, 365).map((i) => ({

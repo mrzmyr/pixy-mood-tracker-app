@@ -20,13 +20,13 @@ export const defaultMoodAvgData: MoodAvgData = {
 export const getMoodAvgData = (items: LogItem[]): MoodAvgData => {
   const keys: LogItem["rating"][] = [...RATING_KEYS].reverse()
 
-  const rating_negative = Object.values(items).filter((item) =>
+  const rating_negative = items.filter((item) =>
     ["bad", "very_bad", "extremely_bad"].includes(item.rating)
   ).length;
-  const rating_positive = Object.values(items).filter((item) =>
+  const rating_positive = items.filter((item) =>
     ["good", "very_good", "extremely_good"].includes(item.rating)
   ).length;
-  const rating_neutral = Object.values(items).filter((item) =>
+  const rating_neutral = items.filter((item) =>
     ["neutral"].includes(item.rating)
   ).length;
 
@@ -38,7 +38,7 @@ export const getMoodAvgData = (items: LogItem[]): MoodAvgData => {
   const rating_total = rating_negative + rating_neutral + rating_positive;
 
   const rating_distribution = keys.map((key) => {
-    const count = Object.values(items).filter((item) => item.rating === key).length;
+    const count = items.filter((item) => item.rating === key).length;
     return {
       key,
       count,

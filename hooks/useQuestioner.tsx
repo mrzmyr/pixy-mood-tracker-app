@@ -40,7 +40,7 @@ export const useQuestioner = () => {
           const satisfiesVersion = question.appVersion ? semver.satisfies(pkg.version, question.appVersion) : true
           const hasBeenAnswered = hasActionDone(`question_slide_${question.id}`)
           const isInMyLanguage = question.text[language] !== undefined;
-          const minItemsTracked = Object.values(logs.items).length >= 3;
+          const minItemsTracked = logs.items.length >= 3;
 
           return (
             minItemsTracked &&

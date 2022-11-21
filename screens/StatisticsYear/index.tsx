@@ -19,7 +19,7 @@ export const StatisticsYearScreen = ({ route }: RootStackScreenProps<'Statistics
   const [date, setDate] = useState(dayjs(route.params.date).isValid() ? dayjs(route.params.date) : dayjs())
 
   const logState = useLogState()
-  const items = Object.values(logState.items).filter((item) => dayjs(item.date).isSame(date, 'year'))
+  const items = logState.items.filter((item) => dayjs(item.dateTime).isSame(date, 'year'))
 
   return (
     <ScrollView

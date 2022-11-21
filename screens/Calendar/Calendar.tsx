@@ -1,9 +1,8 @@
 import dayjs from "dayjs";
-import React, { forwardRef, memo, useCallback, useMemo } from "react";
+import React, { forwardRef, memo } from "react";
 import { Platform, StyleSheet, Text, View } from "react-native";
-import { useCalendarFilters } from "../../hooks/useCalendarFilters";
 import useColors from "../../hooks/useColors";
-import { LogItem, useLogState } from "../../hooks/useLogs";
+import { useLogState } from "../../hooks/useLogs";
 import { useSettings } from "../../hooks/useSettings";
 import CalendarMonth from "./CalendarMonth";
 
@@ -11,7 +10,6 @@ import { useNavigation } from "@react-navigation/native";
 import { useStyle } from "react-native-style-utilities";
 import { DATE_FORMAT } from "../../constants/Config";
 import { t } from "../../helpers/translation";
-import CalendarDay from "./CalendarDay";
 
 const MONTH_COUNT = 12;
 const MONTH_DATES: string[] = []
@@ -25,7 +23,6 @@ const Calendar = memo(forwardRef(function Calendar({ }, ref: React.RefObject<Vie
   const colors = useColors()
   const logState = useLogState()
   const { settings } = useSettings()
-  const calendarFilters = useCalendarFilters()
 
   const bottomTextStyles = useStyle(() => [
     styles.bottomText,
@@ -34,17 +31,15 @@ const Calendar = memo(forwardRef(function Calendar({ }, ref: React.RefObject<Vie
     }
   ], [colors])
 
-  const filteredItemIds = useMemo(() => {
-    return Object.values(calendarFilters.data.filteredItems.map(item => item.id))
-  }, [JSON.stringify(calendarFilters.data.filteredItems)])
+  const itemMap = {}
 
-  const onPressDay = useCallback((date: string, item: LogItem | undefined) => {
-    if (item) {
-      navigation.navigate('LogView', { id: item.id })
-    } else {
-      navigation.navigate('LogCreate', { date })
+  logState.items.forEach(item => {
+    if (!itemMap[item.date]) {
+      itemMap[item.date] = []
     }
-  }, [navigation])
+
+    itemMap[item.date].push(item)
+  })
 
   return (
     <View
@@ -57,22 +52,7 @@ const Calendar = memo(forwardRef(function Calendar({ }, ref: React.RefObject<Vie
         <CalendarMonth
           key={date}
           dateString={date}
-          renderDay={({ date }) => {
-            const item = Object.values(logState.items).find(item => item.date === date)
-            const isFiltered = item && filteredItemIds.includes(item.id) ? true : false
-
-            return (
-              <CalendarDay
-                dateString={date}
-                rating={item?.rating}
-                messageLength={item?.message.length}
-                isFiltered={isFiltered}
-                isFiltering={calendarFilters.data.isFiltering}
-                scaleType={settings.scaleType}
-                onPress={() => onPressDay(date, item)}
-              />
-            )
-          }}
+          itemMap={itemMap}
         />
       ))}
       <Text style={bottomTextStyles}>🙏 {t('calendar_bottom_hint')}</Text>

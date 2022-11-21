@@ -13,28 +13,24 @@ const wrapper = ({ children }) => (
   </SettingsProvider>
 )
 
-const testItems: LogsState['items'] = {
-  '2022-01-01': _generateItem({
+const testItems: LogsState['items'] = [
+  _generateItem({
     date: '2022-01-01',
     rating: 'neutral',
     message: 'test message',
     tags: []
   }),
-  '2022-01-02': _generateItem({
+  _generateItem({
     date: '2022-01-02',
     rating: 'neutral',
     message: '🦄',
     tags: [{
       id: '1',
-      title: 'test tag',
-      color: 'lime'
     }, {
       id: '2',
-      title: 'test tag 2',
-      color: 'slate'
     }]
   }),
-}
+]
 
 const _renderHook = () => {
   return renderHook(() => ({
@@ -79,7 +75,7 @@ describe('useLogs()', () => {
   test('should initiate `state` with empty `items` when async storage is empty', async () => {
     const hook = _renderHook()
     await hook.waitForNextUpdate()
-    expect(hook.result.current.state.items).toEqual({})
+    expect(hook.result.current.state.items).toEqual([])
   })
 
   test('should initiate `state` with empty `items` when async storage is falsely', async () => {
@@ -106,71 +102,55 @@ describe('useLogs()', () => {
     const hook = _renderHook()
     await hook.waitForNextUpdate()
 
-    const itemsArr = Object.values(testItems)
-
     await act(() => {
-      hook.result.current.updater.addLog(itemsArr[0])
+      hook.result.current.updater.addLog(testItems[0])
     })
 
-    expect(hook.result.current.state.items)
-      .toEqual({
-        [itemsArr[0].date]: itemsArr[0]
-      })
+    expect(hook.result.current.state.items).toEqual([testItems[0]])
   })
 
   test('should editLog', async () => {
     const hook = _renderHook()
     await hook.waitForNextUpdate()
 
-    const itemsArr = Object.values(testItems)
     const itemEdited = {
-      ...itemsArr[0],
+      ...testItems[0],
       message: 'edited message',
       tags: [{
         id: '4',
-        title: 'tag title',
-        color: 'lime'
       }]
     }
 
-    await act(() => hook.result.current.updater.addLog(itemsArr[0]))
+    await act(() => hook.result.current.updater.addLog(testItems[0]))
     await act(() => hook.result.current.updater.editLog(itemEdited))
 
-    expect(hook.result.current.state.items).toEqual({
-      [itemsArr[0].date]: itemEdited
-    })
+    expect(hook.result.current.state.items).toEqual([itemEdited])
   })
 
   test('should updateLogs', async () => {
-    AsyncStorage.setItem(STORAGE_KEY, JSON.stringify({ items: {} }))
+    AsyncStorage.setItem(STORAGE_KEY, JSON.stringify({ items: [] }))
 
     const hook = _renderHook()
     await hook.waitForNextUpdate()
 
-    const itemsClone = { ...testItems }
-    const itemsArr = Object.values(itemsClone)
-    const itemsEdited = {
-      [itemsArr[0].date]: {
-        ...itemsArr[0],
+    const itemsEdited = [
+      {
+        ...testItems[0],
         message: 'edited message',
         tags: [{
           id: '1',
-          title: 'tag title',
-          color: 'lime'
         }]
       },
-      [itemsArr[1].date]: {
-        ...itemsArr[1],
+      {
+        ...testItems[1],
         message: 'edited message 2',
         tags: [{
           id: '1',
-          title: 'tag title',
-          color: 'slate',
         }]
       }
-    }
+    ]
 
-    expect(hook.result.current.state.items).toEqual({})
+    expect(hook.result.current.state.items).toEqual([])
 
     await act(() => hook.result.current.updater.updateLogs(itemsEdited))
 
@@ -181,19 +161,15 @@ describe('useLogs()', () => {
     const hook = _renderHook()
     await hook.waitForNextUpdate()
 
-    const itemsArr = Object.values(testItems)
+    await act(() => hook.result.current.updater.addLog(testItems[0]))
+    await act(() => hook.result.current.updater.addLog(testItems[1]))
+    await act(() => hook.result.current.updater.deleteLog(testItems[0].id))
 
-    await act(() => hook.result.current.updater.addLog(itemsArr[0]))
-    await act(() => hook.result.current.updater.addLog(itemsArr[1]))
-    await act(() => hook.result.current.updater.deleteLog(itemsArr[0].id))
-
-    expect(hook.result.current.state.items).toEqual({
-      [itemsArr[1].date]: itemsArr[1]
-    })
+    expect(hook.result.current.state.items).toEqual([testItems[1]])
   })
 
   test('should reset', async () => {
-    AsyncStorage.setItem(STORAGE_KEY, JSON.stringify({ items: {} }))
+    AsyncStorage.setItem(STORAGE_KEY, JSON.stringify({ items: [] }))
 
     const hook = _renderHook()
     await hook.waitForNextUpdate()
@@ -202,7 +178,7 @@ describe('useLogs()', () => {
     expect(hook.result.current.state.items).toEqual(testItems)
 
     await act(() => hook.result.current.updater.reset())
-    expect(hook.result.current.state.items).toEqual({})
+    expect(hook.result.current.state.items).toEqual([])
   })
 
 })

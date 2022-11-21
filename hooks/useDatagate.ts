@@ -6,7 +6,7 @@ import * as Sharing from "expo-sharing";
 import { Alert, Platform } from "react-native";
 import OneSignal from 'react-native-onesignal';
 import { getJSONSchemaType, ImportData } from "../helpers/Import";
-import { migrateImportData } from "../helpers/Migration";
+import { migrateImportData } from "../helpers/migration";
 import { askToImport, askToReset, showImportError, showImportSuccess, showResetSuccess } from "../helpers/prompts";
 import { t } from "../helpers/translation";
 import pkg from '../package.json';
@@ -55,10 +55,10 @@ export const useDatagate = (): {
   };
 
   const _import = async (data: ImportData, options: { muted: boolean } = { muted: false }) => {
-    const jsonSchemaType = getJSONSchemaType(data);
+    const migratedData = migrateImportData(data);
+    const jsonSchemaType = getJSONSchemaType(migratedData);
 
     if (jsonSchemaType === "pixy") {
-      const migratedData = migrateImportData(data);
       logUpdater.import({
         items: migratedData.items,
       });
@@ -69,6 +69,7 @@ export const useDatagate = (): {
       if (!options.muted) showImportSuccess()
       analytics.track("data_import_success");
     } else {
+      console.log('import failed, json schema:', jsonSchemaType);
       if (!options.muted) showImportError()
       analytics.track("data_import_error", {
         reason: "invalid_json_schema"

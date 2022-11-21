@@ -2,7 +2,7 @@ import { useNavigation } from '@react-navigation/native';
 import dayjs from 'dayjs';
 import { t } from 'i18n-js';
 import { ReactElement, useEffect, useRef, useState } from 'react';
-import { Dimensions, Keyboard, Platform, View } from 'react-native';
+import { Dimensions, Keyboard, Platform, useColorScheme, View } from 'react-native';
 import Carousel from 'react-native-reanimated-carousel';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { DATE_FORMAT } from '../../constants/Config';
@@ -23,6 +23,9 @@ import { SlideRating } from './SlideRating';
 import { SlideReminder } from './SlideReminder';
 import { SlideTags } from './SlideTags';
 import { Stepper } from './Stepper';
+import DateTimePickerModal from "react-native-modal-datetime-picker";
+import { v4 as uuidv4 } from "uuid";
+import { getItemDateTitle } from '../../lib/utils';
 
 const SLIDE_INDEX_MAPPING = {
   rating: 0,
@@ -52,10 +55,13 @@ export const Logger = ({
   const tempLog = useTemporaryLog();
   const { anonymizeTag } = useAnonymizer()
 
-  const existingLogItem: LogItem | null = id ? Object.values(logState?.items).find(item => item.id === id) || null : null
+  const existingLogItem: LogItem | null = id ? logState?.items.find(item => item.id === id) || null : null
   const defaultLogItem = {
     ...tempLog.data,
-    date: date || dayjs().format(DATE_FORMAT),
+    id: uuidv4(),
+    date: date || null,
+    dateTime: date ? dayjs(date).hour(dayjs().hour()).minute(dayjs().minute()).toISOString() : null,
+    createdAt: dayjs().toISOString(),
   }
 
   const isEditing = existingLogItem !== null;
@@ -72,7 +78,7 @@ export const Logger = ({
   }, [])
 
   useEffect(() => {
-    if (tempLog.data.date === null) return;
+    if (tempLog.data.dateTime === null) return;
 
     // delete all tags that are not in the settings
     const settingTagIds = tags.map(tag => tag.id)
@@ -88,10 +94,11 @@ export const Logger = ({
   const save = () => {
     const eventData = {
       date: tempLog?.data?.date,
+      dateTime: tempLog?.data?.dateTime,
       messageLength: tempLog?.data?.message.length,
       rating: tempLog?.data?.rating,
-      tags: tempLog?.data?.tags?.map(tag => anonymizeTag(tag)) || [],
-      tagsCount: tempLog?.data?.tags?.length,
+      tags: tempLog?.data?.tags.map(tag => anonymizeTag(tag)) || [],
+      tagsCount: tempLog?.data?.tags.length,
     }
 
     if (tempLog?.data?.rating === null) {
@@ -180,7 +187,7 @@ export const Logger = ({
     ]
 
   if (
-    Object.keys(logState.items).length === 1 &&
+    logState.items.length === 1 &&
     !settings.reminderEnabled &&
     !isEditing
   ) {
@@ -221,6 +228,8 @@ export const Logger = ({
     Keyboard.dismiss()
   }
 
+  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+
   return (
     <View style={{
       flex: 1,
@@ -243,7 +252,10 @@ export const Logger = ({
           }}
         />
         <SlideHeader
-          title={dayjs(date).isSame(dayjs(), 'day') ? t('today') : dayjs(date).format('dddd, L')}
+          title={getItemDateTitle(tempLog.data.dateTime!)}
+          onPressTitle={() => {
+            setDatePickerVisibility(true)
+          }}
           isDeleteable={isEditing}
           onClose={() => {
             const tempLogHasChanges = tempLog.hasChanged()
@@ -306,6 +318,23 @@ export const Logger = ({
           )
         )
       )}
+      <DateTimePickerModal
+        isVisible={isDatePickerVisible}
+        date={tempLog.data.dateTime ? new Date(tempLog.data.dateTime) : new Date()}
+        mode="datetime"
+        onConfirm={date => {
+          setDatePickerVisibility(false)
+          tempLog.set(log => ({
+            ...log,
+            date: dayjs(date).format(DATE_FORMAT),
+            dateTime: dayjs(date).toISOString(),
+          }))
+          navigation.setParams({
+            date: dayjs(date).format(DATE_FORMAT),
+          })
+        }}
+        onCancel={() => setDatePickerVisibility(false)}
+      />
     </View>
   )
 }

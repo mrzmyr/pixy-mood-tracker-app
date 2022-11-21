@@ -1,16 +1,18 @@
 import { Pressable, Text, View } from 'react-native';
-import { Trash, X } from 'react-native-feather';
+import { Clock, Edit, Edit2, Edit3, Trash, X } from 'react-native-feather';
 import useColors from "../../hooks/useColors";
 import useHaptics from "../../hooks/useHaptics";
 
 export const SlideHeader = ({
   title,
   isDeleteable,
+  onPressTitle,
   onClose,
   onDelete,
 }: {
-  title: string;
+  title: React.ReactNode;
   isDeleteable: boolean;
+  onPressTitle?: () => void;
   onClose?: () => void;
   onDelete?: () => void;
 }) => {
@@ -22,7 +24,7 @@ export const SlideHeader = ({
       flexDirection: 'row',
       justifyContent: 'space-between',
       alignItems: 'center',
-      marginTop: -16,
+      marginTop: -8,
     }}>
       <View
         style={{
@@ -34,15 +36,29 @@ export const SlideHeader = ({
         <View
           style={{
             flexDirection: 'row',
+            alignItems: 'center',
           }}
         >
-          <Text
-            style={{
-              fontSize: 17,
-              fontWeight: '600',
-              color: colors.logHeaderText,
+          <Pressable
+            onPress={() => {
+              haptics.selection();
+              onPressTitle?.();
             }}
-          >{title}</Text>
+            style={({ pressed }) => ({
+              opacity: pressed ? 0.8 : 1,
+              flexDirection: 'row',
+              alignItems: 'center',
+            })}
+          >
+            <Clock color={colors.logHeaderText} width={17} style={{ marginRight: 8 }} />
+            <Text
+              style={{
+                fontSize: 17,
+                fontWeight: '600',
+                color: colors.logHeaderText,
+              }}
+            >{title}</Text>
+          </Pressable>
         </View>
       </View>
       <View

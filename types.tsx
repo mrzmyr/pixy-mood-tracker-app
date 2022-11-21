@@ -47,6 +47,10 @@ export type RootStackParamList = {
     step?: 'rating' | 'tags' | 'message',
   },
 
+  DayView: {
+    date: string;
+  }
+
   TagEdit: {
     id: string;
   },

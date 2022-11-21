@@ -4,40 +4,35 @@ import { ImportData } from "./Import";
 export const migrateImportData = (data: ImportData): ImportData => {
   let { items, settings, tags, version } = data;
 
-  let newTags = (tags || []);
-  const newItems = {};
+  let newItems = _.clone(items);
 
-  if(_.isArray(settings?.tags)) {
-    newTags = settings.tags;
-    settings = _.omit(settings, 'tags');
+  if (!_.isArray(newItems)) {
+    newItems = _.values(newItems);
   }
-  
-  Object.values(items).forEach((item) => {
+
+  newItems = newItems.map((item) => {
     const newItem = { ...item };
-    if (item?.tags) {
-      newItem.tags = item.tags.map((tag) => {
-        const newTag = { ...tag };
-        if (tag.color === "stone") {
-          newTag.color = "slate";
-        }
-        return newTag;
-      });
+
+    if (!item?.tags) {
+      newItem.tags = [];
     }
-    newItems[item.date] = newItem;
+
+    return newItem;
   });
-  
-  newTags = newTags.map((tag) => {
-    const newTag = { ...tag };
+
+  let _tags = (tags || settings?.tags || []).map((tag) => {
     if (tag.color === "stone") {
-      newTag.color = "slate";
+      tag.color = "slate";
     }
-    return newTag;
+    return tag;
   });
-  
+
+  let _settings = _.omit(settings, 'tags');
+
   return {
-    version,
+    version: version || "1.0.0",
     items: newItems,
-    settings,
-    tags: newTags
+    settings: _settings,
+    tags: _tags
   };
 };

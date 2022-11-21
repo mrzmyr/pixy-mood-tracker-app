@@ -62,7 +62,7 @@ export const getTagsDistributionData = (items: LogItem[], tags: Tag[]): TagsDist
   );
   const _tags = Object.keys(distribution)
     .map((key) => ({
-      details: tags.find((tag) => tag.id === key),
+      details: tags.find((tag) => tag.id === key)!,
       id: key,
       count: distribution[key],
     }))

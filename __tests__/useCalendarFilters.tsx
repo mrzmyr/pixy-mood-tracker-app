@@ -159,7 +159,7 @@ xdescribe('useCalendarFilters()', () => {
     })
 
     expect(hook.result.current.data.filteredItems).toEqual([
-      Object.values(testItems)[1]
+      testItems[1]
     ])
   })
 
@@ -180,7 +180,7 @@ xdescribe('useCalendarFilters()', () => {
     })
 
     expect(hook.result.current.data.filteredItems).toEqual([
-      Object.values(testItems)[2]
+      testItems[2]
     ])
 
     await act(() => {
@@ -192,8 +192,8 @@ xdescribe('useCalendarFilters()', () => {
     })
 
     expect(hook.result.current.data.filteredItems).toEqual([
-      Object.values(testItems)[1],
-      Object.values(testItems)[2]
+      testItems[1],
+      testItems[2]
     ])
   })
 
@@ -214,8 +214,8 @@ xdescribe('useCalendarFilters()', () => {
     })
 
     expect(hook.result.current.data.filteredItems).toEqual([
-      Object.values(testItems)[0],
-      Object.values(testItems)[1]
+      testItems[0],
+      testItems[1]
     ])
 
     await act(() => {
@@ -227,7 +227,7 @@ xdescribe('useCalendarFilters()', () => {
     })
 
     expect(hook.result.current.data.filteredItems).toEqual([
-      Object.values(testItems)[1]
+      testItems[1]
     ])
   })
 
@@ -248,7 +248,7 @@ xdescribe('useCalendarFilters()', () => {
     })
 
     expect(hook.result.current.data.filteredItems).toEqual([
-      Object.values(testItems)[1]
+      testItems[1]
     ])
   })
 
@@ -269,7 +269,7 @@ xdescribe('useCalendarFilters()', () => {
     })
 
     expect(hook.result.current.data.filteredItems).toEqual([
-      Object.values(testItems)[1]
+      testItems[1]
     ])
   })
 

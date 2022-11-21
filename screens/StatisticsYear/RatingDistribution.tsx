@@ -23,8 +23,8 @@ export const RatingDistributionYear = ({
 }) => {
   const logState = useLogState();
 
-  const items = Object.values(logState.items).filter(item => {
-    return dayjs(item.date).isSame(date, 'year')
+  const items = logState.items.filter(item => {
+    return dayjs(item.dateTime).isSame(date, 'year')
   })
 
   const dataDummy = useRef(_.range(0, 11).map((i) => ({

@@ -33,9 +33,9 @@ export const StatisticsMonthScreen = ({ navigation, route }: RootStackScreenProp
 
   const logState = useLogState()
 
-  const prevItems = Object.values(logState.items).filter((item) => dayjs(item.date).isSame(prevMonth, 'month'))
-  const nextItems = Object.values(logState.items).filter((item) => dayjs(item.date).isSame(nextMonth, 'month'))
-  const items = Object.values(logState.items).filter((item) => dayjs(item.date).isSame(date, 'month'))
+  const prevItems = logState.items.filter((item) => dayjs(item.dateTime).isSame(prevMonth, 'month'))
+  const nextItems = logState.items.filter((item) => dayjs(item.dateTime).isSame(nextMonth, 'month'))
+  const items = logState.items.filter((item) => dayjs(item.dateTime).isSame(date, 'month'))
 
   return (
     <View

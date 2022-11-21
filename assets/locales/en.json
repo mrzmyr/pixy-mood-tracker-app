@@ -238,5 +238,14 @@
   "entries": "Entries",
   "tags_used": "Tags used",
   "words_written": "Words written",
-  "days_tagged": "Days tagged"
+  "days_tagged": "Days tagged",
+  "extremely_bad": "Extremely Bad",
+  "very_bad": "Very Bad",
+  "bad": "Bad",
+  "neutral": "Neutral",
+  "good": "Good",
+  "very_good": "Very Good",
+  "extremely_good": "Extremely Good",
+  "add_entry": "Add Entry",
+  "yesterday": "Yesterday"
 }

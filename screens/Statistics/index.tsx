@@ -33,9 +33,8 @@ export const StatisticsScreen = ({ navigation }: RootStackScreenProps<'Statistic
   const [refreshing, setRefreshing] = useState(false);
 
   // times of the last two weeks
-  const items = Object.values(logState.items).filter(item => {
-    const date = new Date(item.date)
-    return date.getTime() > new Date().getTime() - 1000 * 60 * 60 * 24 * 14
+  const items = logState.items.filter(item => {
+    return dayjs(item.dateTime).isBetween(dayjs().subtract(14, 'day'), dayjs(), null, '[]')
   })
 
   useEffect(() => {

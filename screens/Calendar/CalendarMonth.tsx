@@ -1,19 +1,21 @@
 import dayjs, { Dayjs } from "dayjs";
+import { Dictionary } from "lodash";
 import React, { memo } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { useStyle } from "react-native-style-utilities";
 import { DATE_FORMAT } from "../../constants/Config";
 import useColors from "../../hooks/useColors";
+import { LogItem } from "../../hooks/useLogs";
 import CalendarWeek from "./CalendarWeek";
 
 const CalendarMonth = memo(function CalendarMonth({
   dateString,
-  renderDay,
+  itemMap,
 }: {
   dateString: string;
-  renderDay: (props: {
-    date: string;
-  }) => React.ReactElement;
+  itemMap: {
+    [key: string]: LogItem[];
+  }
 }) {
   const colors = useColors();
 
@@ -65,7 +67,7 @@ const CalendarMonth = memo(function CalendarMonth({
           endDate={WEEK_DATES[index].end.format(DATE_FORMAT)}
           isFirst={index === 0}
           isLast={index === WEEK_DATES.length - 1}
-          renderDay={renderDay}
+          itemMap={itemMap}
         />
       ))}
     </View>

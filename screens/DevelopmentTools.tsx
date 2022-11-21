@@ -62,7 +62,7 @@ export const DevelopmentTools = () => {
   const { tags } = useTagsState()
   const { settings, setSettings } = useSettings();
 
-  const words_total = Object.values(logState.items)
+  const words_total = logState.items
     .map((d) => d.message.split(" ").length)
     .reduce((a, b) => a + b, 0);
 
@@ -90,7 +90,7 @@ export const DevelopmentTools = () => {
               marginRight: 16,
             }}
           >
-            {Object.values(logState.items).length}
+            {logState.items.length}
           </Card>
           <Card title={t("development_statistics_words_total")}>
             {words_total}
@@ -113,7 +113,7 @@ export const DevelopmentTools = () => {
           </Card>
           <Card title={t("development_statistics_days_tagged")}>
             {
-              Object.values(logState.items).filter((d) => d?.tags?.length > 0)
+              logState.items.filter((d) => d.tags.length > 0)
                 .length
             }
           </Card>
@@ -136,7 +136,7 @@ export const DevelopmentTools = () => {
                   marginTop: 4,
                 }}
               >
-                {dayjs(action.date).format("DD.MM.YYYY - HH:mm")}
+                {dayjs(action.date).format("L - LT")}
               </Text>
             </MenuListItem>
           ))}

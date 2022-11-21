@@ -39,7 +39,7 @@ export const getRatingDistributionForYear = (items: LogItem[]): RatingDistributi
     let value: null | number = null;
 
     const _items = items.filter((item) => {
-      return dayjs(item.date).month() === Number(month)
+      return dayjs(item.dateTime).month() === Number(month)
     })
 
     _items.forEach((item) => {
@@ -68,7 +68,7 @@ export const getRatingDistributionForXDays = (items: LogItem[], startDate, dayCo
     const date = dayjs(startDate).add(i, 'day')
 
     const _items = items.filter((item) => {
-      return dayjs(item.date).date() === date.date()
+      return dayjs(item.dateTime).date() === date.date()
     })
 
     _items.forEach((item) => {

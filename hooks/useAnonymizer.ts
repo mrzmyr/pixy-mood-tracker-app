@@ -26,7 +26,7 @@ export const useAnonymizer = () => {
     if (item?.tags) {
       resultItem.tags = item.tags.map(anonymizeTag)
     }
-    
+
     return resultItem
   }
   return {

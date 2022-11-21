@@ -1,5 +1,5 @@
 import { Dayjs } from 'dayjs';
-import { Text, View } from 'react-native';
+import { View } from 'react-native';
 import { ChevronLeft, ChevronRight } from 'react-native-feather';
 import Button from '../../components/Button';
 import useColors from '../../hooks/useColors';
@@ -31,7 +31,7 @@ export const Navigation = ({
           marginRight: 8,
         }}
       >
-        <ChevronLeft width={20} height={20} color={colors.text} strokeWidth={3} />
+        <ChevronLeft width={20} height={20} color={colors.secondaryButtonText} strokeWidth={3} />
       </Button>
       <Button
         onPress={onNext}
@@ -41,7 +41,7 @@ export const Navigation = ({
           flex: 1,
         }}
       >
-        <ChevronRight width={20} height={20} color={colors.text} strokeWidth={3} />
+        <ChevronRight width={20} height={20} color={colors.secondaryButtonText} strokeWidth={3} />
       </Button>
     </View>
   );

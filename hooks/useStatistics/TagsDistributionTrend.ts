@@ -47,14 +47,14 @@ export const getTagsDistributionTrendData = (
     item?.tags?.some((tag) => tags.some((d) => d.id === tag.id))
   );
 
-  if(filteredItems.length === 0) {
+  if (filteredItems.length === 0) {
     return defaultTagsDistributionTrendData;
   }
 
   for (let i = SCALE_RANGE / 2; i < SCALE_RANGE; i++) {
     const start = dayjs().subtract(i, SCALE_TYPE).startOf(SCALE_TYPE);
     const _items = items.filter((item) => {
-      const itemDate = dayjs(item.date);
+      const itemDate = dayjs(item.dateTime);
       return itemDate.isSame(start, SCALE_TYPE);
     });
 
@@ -68,7 +68,7 @@ export const getTagsDistributionTrendData = (
   for (let i = 0; i < SCALE_RANGE / 2; i++) {
     const start = dayjs().subtract(i, SCALE_TYPE).startOf(SCALE_TYPE);
     const _items = items.filter((item) => {
-      const itemDate = dayjs(item.date);
+      const itemDate = dayjs(item.dateTime);
       return itemDate.isSame(start, SCALE_TYPE);
     });
 
@@ -92,12 +92,12 @@ export const getTagsDistributionTrendData = (
           ? "increase"
           : distributionPeriode2[tag.id].count <
             distributionPeriode1[tag.id].count
-          ? "decrease"
-          : "same",
+            ? "decrease"
+            : "same",
     }))
     .filter((tag) => {
       return (
-        Math.abs(tag.periode1Count - tag.periode2Count) > 3 && 
+        Math.abs(tag.periode1Count - tag.periode2Count) > 3 &&
         tag.periode1Count >= 1 &&
         tag.periode2Count >= 1
       );

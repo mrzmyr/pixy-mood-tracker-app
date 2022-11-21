@@ -95,10 +95,10 @@ export function StatisticsProvider({
   });
 
   const load = ({ force = false }: { force?: boolean }) => {
-    const highlightItems = Object.values(logState.items).filter((item) => {
-      return dayjs(item.date).isAfter(dayjs().subtract(14, "day"));
+    const highlightItems = logState.items.filter((item) => {
+      return dayjs(item.dateTime).isAfter(dayjs().subtract(14, "day"));
     });
-    const trendsItems = Object.values(logState.items);
+    const trendsItems = logState.items;
 
     const highlightItemsChanged = !_.isEqual(
       prevHighlightItems,
@@ -136,8 +136,8 @@ export function StatisticsProvider({
       tagsPeaksData,
       tagsDistributionData,
       streaks: {
-        longest: getLongestStreak(Object.values(logState.items)),
-        current: getCurrentStreak(Object.values(logState.items)),
+        longest: getLongestStreak(logState.items),
+        current: getCurrentStreak(logState.items),
       },
       trends: {
         moodData: moodTrendData,
