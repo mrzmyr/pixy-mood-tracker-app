@@ -2,6 +2,32 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.50.0](https://github.com/mrzmyr/pixy-mood-tracker/compare/v1.49.0...v1.50.0) (2022-11-21)
+
+
+### Features
+
+* add count to 'not enough data' statistic backdrop ([1bf2808](https://github.com/mrzmyr/pixy-mood-tracker/commit/1bf280842f2b5d736ca6321564e8c7129287c17a))
+* add tags routes (using id to edit) ([60a9224](https://github.com/mrzmyr/pixy-mood-tracker/commit/60a92249f81737b5d419226a8fc45882f47cdd35))
+
+
+### Bug Fixes
+
+* add id for new entries ([ad2094d](https://github.com/mrzmyr/pixy-mood-tracker/commit/ad2094d9408a812ccaf677bc97364b0b9a12215d))
+* row days in year in pixels ([9e35264](https://github.com/mrzmyr/pixy-mood-tracker/commit/9e3526410cf3800a60ef32398c561f3d0b87ec36))
+
+
+### Chore
+
+* remove inverse button type ([32d12b2](https://github.com/mrzmyr/pixy-mood-tracker/commit/32d12b24ede85de5afe267ffc48ef74e68bbf98e))
+
+
+### Styling
+
+* add animation to promocard ([b655ef0](https://github.com/mrzmyr/pixy-mood-tracker/commit/b655ef068a9737e4606a3249d4c5c2af7ddecbeb))
+* only show one loading indicator on statistics ([489ebfd](https://github.com/mrzmyr/pixy-mood-tracker/commit/489ebfd5fd2504b832cfc09e6c46a254a82f2723))
+* spacing updates ([efcc2ec](https://github.com/mrzmyr/pixy-mood-tracker/commit/efcc2ec6439d35b907d2546d3a49396aa14d6e17))
+
 ## [1.49.0](https://github.com/mrzmyr/pixy-mood-tracker/compare/v1.48.0...v1.49.0) (2022-11-19)
 
 
