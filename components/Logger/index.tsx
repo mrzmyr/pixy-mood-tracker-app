@@ -1,5 +1,6 @@
 import { useNavigation } from '@react-navigation/native';
 import dayjs from 'dayjs';
+import { v4 as uuid } from "uuid";
 import { t } from 'i18n-js';
 import { ReactElement, useEffect, useRef, useState } from 'react';
 import { Dimensions, Keyboard, Platform, View } from 'react-native';
@@ -55,6 +56,7 @@ export const Logger = ({
   const existingLogItem: LogItem | null = id ? Object.values(logState?.items).find(item => item.id === id) || null : null
   const defaultLogItem = {
     ...tempLog.data,
+    id: uuid(),
     date: date || dayjs().format(DATE_FORMAT),
   }
 
