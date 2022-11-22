@@ -11,6 +11,7 @@ import { NotEnoughDataOverlay } from "../../../components/Statistics/NotEnoughDa
 
 import { Row } from "./Row";
 import { XAxis } from "./XAxis";
+import { useAnonymizer } from "../../../hooks/useAnonymizer";
 
 const MIN_ITEMS = 30;
 
@@ -43,6 +44,7 @@ const YearInPixels = ({
   date: Dayjs;
 }) => {
   const logState = useLogState();
+  const { anonymizeItem } = useAnonymizer()
 
   const items = Object.values(logState.items).filter(item => {
     return date.isSame(item.date, 'year')
@@ -89,6 +91,7 @@ const YearInPixels = ({
         )}
         <CardFeedback
           type='year_dots'
+          details={items.map(item => anonymizeItem(item))}
         />
       </>
     </BigCard>

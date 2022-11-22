@@ -7,12 +7,16 @@ import { LogItem } from '../../hooks/useLogs';
 import { getMoodPeaksNegativeData, getMoodPeaksPositiveData } from '../../hooks/useStatistics/MoodPeaks';
 import { MoodPeaksContent } from '../Statistics/MoodPeaksCards';
 import { NotEnoughDataOverlay } from '../../components/Statistics/NotEnoughDataOverlay';
+import { useAnonymizer } from '../../hooks/useAnonymizer';
+import { CardFeedback } from '../../components/Statistics/CardFeedback';
 
 const MIN_ITEMS = 1;
 
 export const MoodPeaks = ({
   date, items,
 }) => {
+  const { anonymizeItem } = useAnonymizer()
+
   const dataNegative = getMoodPeaksNegativeData(items);
   const dataPositive = getMoodPeaksPositiveData(items);
 
@@ -76,6 +80,10 @@ export const MoodPeaks = ({
             startDate={monthStart}
             endDate={monthEnd} />
         )}
+        <CardFeedback
+          type='mood_peaks_positive_month_report'
+          details={dataPositive.items.map(item => anonymizeItem(item))}
+        />
       </BigCard>
       <BigCard
         title={t('statistics_mood_peaks_negative')}
@@ -97,7 +105,10 @@ export const MoodPeaks = ({
             startDate={monthStart}
             endDate={monthEnd} />
         )}
-
+        <CardFeedback
+          type='mood_peaks_negative_month_report'
+          details={dataNegative.items.map(item => anonymizeItem(item))}
+        />
       </BigCard>
     </>
   );

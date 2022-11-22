@@ -13,6 +13,8 @@ import { MoodAvgData } from '../../../hooks/useStatistics/MoodAvg';
 import { t } from '../../../helpers/translation';
 import dayjs from 'dayjs';
 import { DATE_FORMAT } from '../../../constants/Config';
+import { RatingDistribution } from '../RatingDistribution';
+import { useLogState } from '../../../hooks/useLogs';
 
 export const StatisticsHighlights = ({ navigation }) => {
   const insets = useSafeAreaInsets();
@@ -25,6 +27,11 @@ export const StatisticsHighlights = ({ navigation }) => {
   const showMoodPeaksNegative = statistics.isAvailable("mood_peaks_negative")
   const showTagPeaks = statistics.isAvailable("tags_peaks")
   const showTagsDistribution = statistics.isAvailable("tags_distribution")
+
+  const logState = useLogState()
+
+  const showRatingDistribution =
+    Object.values(logState.items).filter((item) => dayjs(item.date).isAfter(dayjs().subtract(14, "day"))).length >= 4
 
   useEffect(() => {
     if (!statistics.state.loaded) return;
@@ -42,12 +49,15 @@ export const StatisticsHighlights = ({ navigation }) => {
       tags_distribution_show: boolean;
       tags_distribution_tag_count?: number;
       tags_distribution_item_count?: number
+      rating_distribution_show: boolean;
+      rating_distribution_item_count?: number
     } = {
       mood_avg_show: showMoodAvg,
       mood_peaks_positive_show: showMoodPeaksPositve,
       mood_peaks_negative_show: showMoodPeaksNegative,
       tags_peaks_show: showTagPeaks,
       tags_distribution_show: showTagsDistribution,
+      rating_distribution_show: showRatingDistribution
     }
 
     if (showMoodAvg) {
@@ -65,7 +75,9 @@ export const StatisticsHighlights = ({ navigation }) => {
     }
     if (showTagsDistribution) {
       cards.tags_distribution_tag_count = statistics.state.tagsDistributionData.tags.length
-      cards.tags_distribution_item_count = statistics.state.tagsDistributionData.itemsCount
+    }
+    if (showRatingDistribution) {
+      cards.rating_distribution_item_count = Object.values(logState.items).filter((item) => dayjs(item.date).isAfter(dayjs().subtract(7, "day"))).length
     }
 
     analytics.track('statistics_all_highlights', {
@@ -105,6 +117,13 @@ export const StatisticsHighlights = ({ navigation }) => {
             </View>
           ) : (
             <>
+              {showRatingDistribution && (
+                <RatingDistribution
+                  title={t("statistics_rating_distribution_highlights_title")}
+                  startDate={dayjs().subtract(14, "days").format(DATE_FORMAT)}
+                />
+              )}
+
               {statistics.isAvailable('mood_avg') && (
                 <MoodAvgCard data={statistics.state.moodAvgData} />
               )}

@@ -27,7 +27,7 @@ export const RatingDistribution = ({
   const data = getRatingDistributionForXDays(items, startDate, 14)
 
   const width = Dimensions.get('window').width - 80;
-  const height = width / 2;
+  const height = width / 2.5;
 
   return (
     <Card

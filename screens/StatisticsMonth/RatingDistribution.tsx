@@ -6,6 +6,7 @@ import { RatingChart } from '../../components/RatingChart';
 import { t } from '../../helpers/translation';
 import { getRatingDistributionForXDays } from '../../hooks/useStatistics/RatingDistribution';
 import { NotEnoughDataOverlay } from '../../components/Statistics/NotEnoughDataOverlay';
+import { CardFeedback } from '../../components/Statistics/CardFeedback';
 
 const MIN_ITEMS = 5;
 
@@ -15,7 +16,7 @@ export const RatingDistribution = ({
   const data = getRatingDistributionForXDays(items, date, date.daysInMonth() - 1);
 
   const width = Dimensions.get('window').width - 80;
-  const height = width / 2;
+  const height = width / 2.5;
 
   const dataDummy = useRef(_.range(1, 30).map((i) => ({
     key: `${i}`,
@@ -46,6 +47,10 @@ export const RatingDistribution = ({
           height={height}
           width={width} />
       )}
+      <CardFeedback
+        type='rating_distribution_month_report'
+        details={data}
+      />
     </BigCard>
   );
 };
