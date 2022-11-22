@@ -58,6 +58,7 @@ export const Logger = ({
     ...tempLog.data,
     id: uuid(),
     date: date || dayjs().format(DATE_FORMAT),
+    createdAt: dayjs().format(DATE_FORMAT),
   }
 
   const isEditing = existingLogItem !== null;

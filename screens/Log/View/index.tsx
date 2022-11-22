@@ -82,7 +82,7 @@ export const LogView = ({ navigation, route }: RootStackScreenProps<'LogView'>) 
         }}
       >
         <Header
-          title={dayjs(item.createdAt).isSame(dayjs(), 'day') ? t('today') : dayjs(item.createdAt).format('ddd, L')}
+          title={dayjs(item.date).isSame(dayjs(), 'day') ? t('today') : dayjs(item.date).format('ddd, L')}
           onClose={close}
           onDelete={async () => {
             if (
