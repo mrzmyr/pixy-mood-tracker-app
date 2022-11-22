@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.51.0](https://github.com/mrzmyr/pixy-mood-tracker/compare/v1.50.0...v1.51.0) (2022-11-22)
+
+
+### Features
+
+* add feedback section to all cards on month/year report ([d787638](https://github.com/mrzmyr/pixy-mood-tracker/commit/d7876386c23b37b980dc8fc32e55febaeb23b098))
+
+
+### Bug Fixes
+
+* invalide date in header of logger ([a0c023c](https://github.com/mrzmyr/pixy-mood-tracker/commit/a0c023cb78f4d2c57c7f6743d7195d1d4accd272))
+
 ## [1.50.0](https://github.com/mrzmyr/pixy-mood-tracker/compare/v1.49.0...v1.50.0) (2022-11-21)
 
 
