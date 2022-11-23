@@ -19,10 +19,68 @@ import { HighlightsSection } from './HighlightsSection';
 import isBetween from 'dayjs/plugin/isBetween';
 import { DATE_FORMAT } from '../../constants/Config';
 import { RootStackScreenProps } from '../../types';
+import { useNavigation } from '@react-navigation/native';
 
 dayjs.extend(isBetween);
 
 const MIN_LOGS_COUNT = 7;
+
+const PromoCards = () => {
+  const navigation = useNavigation();
+  const logState = useLogState()
+  const isBeginningOfMonth = dayjs().isBetween(dayjs().startOf('month'), dayjs().startOf('month').add(3, 'day'), null, '[]')
+  const isDecember = dayjs().month() === 11
+
+  const items = Object.values(logState.items);
+
+  return (
+    <>
+      {(
+        items.length >= MIN_LOGS_COUNT &&
+        isDecember || isBeginningOfMonth
+      ) && (
+          <>
+            {/* <View
+          style={{
+            marginTop: 16,
+          }}
+        >
+          <StreaksCard />
+        </View> */}
+            <View
+              style={{
+                marginBottom: 16,
+              }}
+            >
+              {isDecember && (
+                <View
+                  style={{
+                  }}
+                >
+                  <PromoCardYear
+                    title={t('promo_card_year_title', { year: dayjs().format('YYYY') })}
+                    onPress={() => navigation.navigate('StatisticsYear', { date: dayjs().startOf('year').format(DATE_FORMAT) })}
+                  />
+                </View>
+              )}
+              {isBeginningOfMonth && (
+                <View
+                  style={{
+                    marginTop: isDecember ? 16 : 0,
+                  }}
+                >
+                  <PromoCardMonth
+                    title={t('promo_card_month_title', { month: dayjs().subtract(1, 'month').format('MMMM') })}
+                    onPress={() => navigation.navigate('StatisticsMonth', { date: dayjs().subtract(1, 'month').startOf('month').format(DATE_FORMAT) })}
+                  />
+                </View>
+              )}
+            </View>
+          </>
+        )}
+    </>
+  )
+};
 
 export const StatisticsScreen = ({ navigation }: RootStackScreenProps<'Statistics'>) => {
   const insets = useSafeAreaInsets();
@@ -55,8 +113,7 @@ export const StatisticsScreen = ({ navigation }: RootStackScreenProps<'Statistic
     }
   }, [statistics.isLoading])
 
-  const isBeginningOfMonth = dayjs().isBetween(dayjs().startOf('month'), dayjs().startOf('month').add(3, 'day'), null, '[]')
-  const isDecember = dayjs().month() === 11
+
 
   if (statistics.isLoading) {
     return (
@@ -107,53 +164,11 @@ export const StatisticsScreen = ({ navigation }: RootStackScreenProps<'Statistic
             }}
           >{t('statistics')}</Text> */}
 
-        <>
-          {(
-            items.length >= MIN_LOGS_COUNT &&
-            isDecember || isBeginningOfMonth
-          ) && (
-              <>
-                {/* <View
-                style={{
-                  marginTop: 16,
-                }}
-              >
-                <StreaksCard />
-              </View> */}
-                <View
-                  style={{
-                    marginBottom: 16,
-                  }}
-                >
-                  {isDecember && (
-                    <View
-                      style={{
-                      }}
-                    >
-                      <PromoCardYear
-                        title={t('promo_card_year_title', { year: dayjs().format('YYYY') })}
-                        onPress={() => navigation.navigate('StatisticsYear', { date: dayjs().startOf('year').format(DATE_FORMAT) })}
-                      />
-                    </View>
-                  )}
-                  {isBeginningOfMonth && (
-                    <View
-                      style={{
-                        marginTop: isDecember ? 16 : 0,
-                      }}
-                    >
-                      <PromoCardMonth
-                        title={t('promo_card_month_title', { month: dayjs().subtract(1, 'month').format('MMMM') })}
-                        onPress={() => navigation.navigate('StatisticsMonth', { date: dayjs().subtract(1, 'month').startOf('month').format(DATE_FORMAT) })}
-                      />
-                    </View>
-                  )}
-                </View>
-              </>
-            )}
-        </>
+
 
         {/* <TrendsSection /> */}
+
+        <PromoCards />
 
         {items.length < MIN_LOGS_COUNT && (
           <EmptyPlaceholder count={MIN_LOGS_COUNT - items.length} />
@@ -166,7 +181,6 @@ export const StatisticsScreen = ({ navigation }: RootStackScreenProps<'Statistic
           items.length >= MIN_LOGS_COUNT
         ) && (
             <>
-
               <FeedbackSection />
             </>
           )}

@@ -29,8 +29,8 @@ export const PromoCardYear = ({
 
   return (
     <Motion.View
-      initial={{ height: 0 }}
-      animate={{ height: 160 }}
+      initial={{ height: 0, opacity: 0 }}
+      animate={{ height: 140, opacity: 1 }}
       transition={{
         type: "spring",
         damping: 20,
@@ -48,7 +48,7 @@ export const PromoCardYear = ({
           paddingVertical: 24,
           paddingHorizontal: 16,
           opacity: pressed ? 0.8 : 1,
-          minHeight: 160,
+          minHeight: 140,
         }]}
         onPress={_onPress}
       >

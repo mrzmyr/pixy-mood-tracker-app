@@ -37,7 +37,7 @@ export const MoodChart = ({
   const validatedData = data.filter(d => d.value !== null)
 
   const width = Dimensions.get('window').width - 80;
-  const height = width / 2;
+  const height = width / 2.5;
 
   return (
     <BigCard

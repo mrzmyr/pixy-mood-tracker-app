@@ -1,13 +1,9 @@
-import { useNavigation } from '@react-navigation/native';
-import dayjs from 'dayjs';
 import { t } from 'i18n-js';
 import { Platform, Pressable, ScrollView, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Alert from '../../../components/Alert';
-import Button from '../../../components/Button';
 import LinkButton from '../../../components/LinkButton';
 import Tag from '../../../components/Tag';
-import { DATE_FORMAT } from '../../../constants/Config';
 import { useAnalytics } from '../../../hooks/useAnalytics';
 import useColors from '../../../hooks/useColors';
 import useHaptics from '../../../hooks/useHaptics';

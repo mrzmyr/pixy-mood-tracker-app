@@ -1,5 +1,6 @@
 import { useNavigation } from '@react-navigation/native';
 import dayjs from 'dayjs';
+import { v4 as uuid } from "uuid";
 import { t } from 'i18n-js';
 import { ReactElement, useEffect, useRef, useState } from 'react';
 import { Dimensions, Keyboard, Platform, useColorScheme, View } from 'react-native';

@@ -116,10 +116,12 @@ export const StatisticsHighlights = ({ navigation }) => {
             </View>
           ) : (
             <>
-              <MoodChart
-                title={t("statistics_mood_chart_highlights_title")}
-                startDate={dayjs().subtract(14, "days").format(DATE_FORMAT)}
-              />
+              {showMoodChart && (
+                <MoodChart
+                  title={t("statistics_rating_distribution_highlights_title")}
+                  startDate={dayjs().subtract(14, "days").format(DATE_FORMAT)}
+                />
+              )}
 
               {statistics.isAvailable('mood_avg') && (
                 <MoodAvgCard data={statistics.state.moodAvgData} />

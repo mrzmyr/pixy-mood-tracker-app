@@ -19,56 +19,72 @@ export const TodayEntryButton = memo(({
   const colors = useColors();
   const navigation = useNavigation();
 
+  const height = 120 + insets.bottom;
+
   return (
-    <Motion.View
-      style={{
-        position: "absolute",
-        bottom: 0,
-        width: "100%",
-        paddingHorizontal: 12,
-        alignItems: "center",
-        zIndex: 100,
-      }}
-      initial={{
-        bottom: -100,
-      }}
-      animate={{
-        bottom: isVisibile ? 0 : -100,
-      }}
-      transition={{
-        type: 'spring',
-        damping: 20,
-        stiffness: 300
-      }}
-    >
+    <View>
       {/* Backdrop */}
-      <LinearGradient
+      <Motion.View
         pointerEvents="none"
-        colors={[colors.logBackgroundTransparent, colors.calendarBackground]}
-        style={{
-          position: 'absolute',
-          height: 120 + insets.bottom,
-          bottom: 0,
-          zIndex: 1,
-          width: '100%',
-        }} />
-      <View
-        style={{
-          position: "relative",
-          zIndex: 2,
-          width: "100%",
-          marginBottom: 24,
+        initial={{
+          opacity: isVisibile ? 1 : 0,
+        }}
+        animate={{
+          opacity: isVisibile ? 1 : 0,
         }}
       >
-        <Button
-          icon={<PlusCircle width={24} height={24} color={colors.primaryButtonText} />}
-          onPress={() => {
-            navigation.navigate("LogCreate", {
-              date: dayjs().format("YYYY-MM-DD"),
-            });
+        <LinearGradient
+          colors={[colors.logBackgroundTransparent, colors.calendarBackground]}
+          style={{
+            position: 'absolute',
+            height: height,
+            bottom: 0,
+            zIndex: 1,
+            left: 0,
+            right: 0,
           }}
-        >{t('add_today_entry')}</Button>
-      </View>
-    </Motion.View>
+        />
+      </Motion.View>
+      <Motion.View
+        style={{
+          position: "absolute",
+          bottom: 0,
+          left: 0,
+          right: 0,
+          paddingHorizontal: 12,
+          alignItems: "center",
+          zIndex: 100,
+        }}
+        initial={{
+          bottom: -height,
+        }}
+        animate={{
+          bottom: isVisibile ? 0 : -height,
+        }}
+        transition={{
+          type: 'spring',
+          damping: 20,
+          stiffness: 300
+        }}
+      >
+        <View
+          style={{
+            position: "relative",
+            zIndex: 2,
+            width: "100%",
+            marginBottom: 32,
+          }}
+        >
+          <Button
+            icon={<PlusCircle width={24} height={24} color={colors.primaryButtonText} />}
+            onPress={() => {
+              navigation.navigate("LogCreate", {
+                date: dayjs().format("YYYY-MM-DD"),
+              });
+            }}
+          >{t('add_today_entry')}</Button>
+        </View>
+      </Motion.View>
+    </View>
   );
 });
