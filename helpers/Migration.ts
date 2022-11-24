@@ -1,7 +1,12 @@
 import _ from "lodash";
+import { LogItem } from "../hooks/useLogs";
 import { ImportData } from "./Import";
 
-export const migrateImportData = (data: ImportData): ImportData => {
+interface MigratedData extends ImportData {
+  items: LogItem[];
+}
+
+export const migrateImportData = (data: ImportData): MigratedData => {
   let { items, settings, tags, version } = data;
 
   let newItems = _.clone(items);
