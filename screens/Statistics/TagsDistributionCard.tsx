@@ -100,7 +100,7 @@ export const TagsDistributionCard = ({
   return (
     <Card
       subtitle={t('tags')}
-      title={t('statistics_tags_distribution_title')}
+      title={t('statistics_tags_distribution_title', { count: data.tags.length })}
     >
       <TagDistributionContent data={data} />
       <CardFeedback

@@ -241,5 +241,9 @@
   "entries": "Bejegyzés",
   "tags_used": "Használt címkék",
   "words_written": "Írott szavak",
-  "days_tagged": "Napok megjelölve"
+  "days_tagged": "Napok megjelölve",
+  "statistics_not_enough_data_title": "Nincs elég adat.",
+  "statistics_not_enough_data_subtitle_without_count": "Adjon hozzá további bejegyzéseket a diagram zárolásának feloldásához.",
+  "statistics_not_enough_data_subtitle_singular": "Adjon hozzá még egy bejegyzést a diagram zárolásának feloldásához",
+  "statistics_not_enough_data_subtitle_plural": "Adjon hozzá {{count}} további bejegyzést a diagram zárolásának feloldásához."
 }

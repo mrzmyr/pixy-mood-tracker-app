@@ -241,5 +241,9 @@
   "entries": "Upisi",
   "tags_used": "Korištene oznake",
   "words_written": "Riječi napisane",
-  "days_tagged": "Dani označeni"
+  "days_tagged": "Dani označeni",
+  "statistics_not_enough_data_title": "Nema dovoljno podataka.",
+  "statistics_not_enough_data_subtitle_without_count": "Dodajte više unosa da otključate ovaj grafikon.",
+  "statistics_not_enough_data_subtitle_singular": "Dodajte još jedan unos da otključate ovaj grafikon",
+  "statistics_not_enough_data_subtitle_plural": "Dodajte još {{count}} unosa da otključate ovaj grafikon."
 }

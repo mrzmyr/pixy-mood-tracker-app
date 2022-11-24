@@ -241,5 +241,9 @@
   "entries": "Wpisy",
   "tags_used": "Używane tagi",
   "words_written": "Słowa napisane",
-  "days_tagged": "Dni oznaczone"
+  "days_tagged": "Dni oznaczone",
+  "statistics_not_enough_data_title": "Niewystarczające dane.",
+  "statistics_not_enough_data_subtitle_without_count": "Dodaj więcej wpisów, aby odblokować ten wykres.",
+  "statistics_not_enough_data_subtitle_singular": "Dodaj jeszcze jeden wpis, aby odblokować ten wykres",
+  "statistics_not_enough_data_subtitle_plural": "Dodaj jeszcze {{count}} wpisów, aby odblokować ten wykres."
 }

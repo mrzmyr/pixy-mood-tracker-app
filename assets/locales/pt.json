@@ -241,5 +241,9 @@
   "entries": "entradas",
   "tags_used": "Tags usadas",
   "words_written": "palavras escritas",
-  "days_tagged": "Dias marcados"
+  "days_tagged": "Dias marcados",
+  "statistics_not_enough_data_title": "Não há dados suficientes.",
+  "statistics_not_enough_data_subtitle_without_count": "Adicione mais entradas para desbloquear este gráfico.",
+  "statistics_not_enough_data_subtitle_singular": "Adicione mais uma entrada para desbloquear este gráfico",
+  "statistics_not_enough_data_subtitle_plural": "Adicione mais {{count}} entradas para desbloquear este gráfico."
 }

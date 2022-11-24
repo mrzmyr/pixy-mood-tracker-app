@@ -241,5 +241,9 @@
   "entries": "エントリー",
   "tags_used": "使用したタグ",
   "words_written": "書かれた言葉",
-  "days_tagged": "タグ付けされた日"
+  "days_tagged": "タグ付けされた日",
+  "statistics_not_enough_data_title": "十分なデータがありません。",
+  "statistics_not_enough_data_subtitle_without_count": "このチャートのロックを解除するには、さらにエントリを追加してください。",
+  "statistics_not_enough_data_subtitle_singular": "このチャートのロックを解除するには、エントリをもう 1 つ追加してください",
+  "statistics_not_enough_data_subtitle_plural": "このチャートのロックを解除するには、さらに {{count}} 項目を追加してください。"
 }

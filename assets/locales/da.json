@@ -241,5 +241,9 @@
   "entries": "Indgange",
   "tags_used": "Tags brugt",
   "words_written": "Ord skrevet",
-  "days_tagged": "Dage tagget"
+  "days_tagged": "Dage tagget",
+  "statistics_not_enough_data_title": "Ikke nok data.",
+  "statistics_not_enough_data_subtitle_without_count": "Tilføj flere poster for at låse op for dette diagram.",
+  "statistics_not_enough_data_subtitle_singular": "Tilføj endnu en post for at låse op for dette diagram",
+  "statistics_not_enough_data_subtitle_plural": "Tilføj {{count}} poster mere for at låse op for dette diagram."
 }

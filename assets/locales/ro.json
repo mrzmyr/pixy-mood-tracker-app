@@ -241,5 +241,9 @@
   "entries": "Intrări",
   "tags_used": "Etichetele folosite",
   "words_written": "Cuvinte scrise",
-  "days_tagged": "Zile etichetate"
+  "days_tagged": "Zile etichetate",
+  "statistics_not_enough_data_title": "Nu sunt suficiente date.",
+  "statistics_not_enough_data_subtitle_without_count": "Adăugați mai multe intrări pentru a debloca această diagramă.",
+  "statistics_not_enough_data_subtitle_singular": "Adăugați încă o intrare pentru a debloca această diagramă",
+  "statistics_not_enough_data_subtitle_plural": "Adăugați încă {{count}} intrări pentru a debloca această diagramă."
 }

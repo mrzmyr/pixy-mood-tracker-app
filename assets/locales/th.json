@@ -241,5 +241,9 @@
   "entries": "รายการ",
   "tags_used": "แท็กที่ใช้",
   "words_written": "คำที่เขียน",
-  "days_tagged": "วันที่ถูกแท็ก"
+  "days_tagged": "วันที่ถูกแท็ก",
+  "statistics_not_enough_data_title": "ข้อมูลไม่เพียงพอ",
+  "statistics_not_enough_data_subtitle_without_count": "เพิ่มรายการเพิ่มเติมเพื่อปลดล็อกแผนภูมินี้",
+  "statistics_not_enough_data_subtitle_singular": "เพิ่มอีกหนึ่งรายการเพื่อปลดล็อกแผนภูมินี้",
+  "statistics_not_enough_data_subtitle_plural": "เพิ่ม {{count}} รายการเพื่อปลดล็อกแผนภูมินี้"
 }

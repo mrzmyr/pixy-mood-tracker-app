@@ -241,5 +241,9 @@
   "entries": "ערכים",
   "tags_used": "נעשה שימוש בתגים",
   "words_written": "מילים כתובות",
-  "days_tagged": "ימים מתויגים"
+  "days_tagged": "ימים מתויגים",
+  "statistics_not_enough_data_title": "אין מספיק נתונים.",
+  "statistics_not_enough_data_subtitle_without_count": "הוסף ערכים נוספים כדי לפתוח תרשים זה.",
+  "statistics_not_enough_data_subtitle_singular": "הוסף עוד ערך אחד כדי לפתוח את התרשים הזה",
+  "statistics_not_enough_data_subtitle_plural": "הוסף עוד {{count}} ערכים כדי לבטל את נעילת התרשים הזה."
 }

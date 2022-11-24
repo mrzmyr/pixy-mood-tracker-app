@@ -241,5 +241,9 @@
   "entries": "Συμμετοχές",
   "tags_used": "Χρησιμοποιούνται ετικέτες",
   "words_written": "Λέξεις γραμμένες",
-  "days_tagged": "Ημέρες με ετικέτα"
+  "days_tagged": "Ημέρες με ετικέτα",
+  "statistics_not_enough_data_title": "Δεν υπάρχουν αρκετά δεδομένα.",
+  "statistics_not_enough_data_subtitle_without_count": "Προσθέστε περισσότερες καταχωρήσεις για να ξεκλειδώσετε αυτό το γράφημα.",
+  "statistics_not_enough_data_subtitle_singular": "Προσθέστε μια ακόμη καταχώρηση για να ξεκλειδώσετε αυτό το γράφημα",
+  "statistics_not_enough_data_subtitle_plural": "Προσθέστε {{count}} ακόμη καταχωρίσεις για να ξεκλειδώσετε αυτό το γράφημα."
 }

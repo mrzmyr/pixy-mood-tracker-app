@@ -241,5 +241,9 @@
   "entries": "Inlägg",
   "tags_used": "Taggar används",
   "words_written": "Ord skrivna",
-  "days_tagged": "Dagar taggade"
+  "days_tagged": "Dagar taggade",
+  "statistics_not_enough_data_title": "Inte tillräckligt med data.",
+  "statistics_not_enough_data_subtitle_without_count": "Lägg till fler poster för att låsa upp det här diagrammet.",
+  "statistics_not_enough_data_subtitle_singular": "Lägg till ytterligare en post för att låsa upp det här diagrammet",
+  "statistics_not_enough_data_subtitle_plural": "Lägg till {{count}} poster till för att låsa upp det här diagrammet."
 }

@@ -241,5 +241,9 @@
   "entries": "Записи",
   "tags_used": "Используемые теги",
   "words_written": "Слова написаны",
-  "days_tagged": "Отмеченные дни"
+  "days_tagged": "Отмеченные дни",
+  "statistics_not_enough_data_title": "Недостаточно данных.",
+  "statistics_not_enough_data_subtitle_without_count": "Добавьте больше записей, чтобы разблокировать эту диаграмму.",
+  "statistics_not_enough_data_subtitle_singular": "Добавьте еще одну запись, чтобы разблокировать этот график",
+  "statistics_not_enough_data_subtitle_plural": "Добавьте еще {{count}} записей, чтобы разблокировать эту диаграмму."
 }

@@ -241,5 +241,9 @@
   "entries": "Entrées",
   "tags_used": "Balises utilisées",
   "words_written": "Mots écrits",
-  "days_tagged": "Jours tagués"
+  "days_tagged": "Jours tagués",
+  "statistics_not_enough_data_title": "Pas assez de données.",
+  "statistics_not_enough_data_subtitle_without_count": "Ajoutez plus d'entrées pour déverrouiller ce graphique.",
+  "statistics_not_enough_data_subtitle_singular": "Ajoutez une entrée supplémentaire pour déverrouiller ce graphique",
+  "statistics_not_enough_data_subtitle_plural": "Ajoutez {{count}} entrées supplémentaires pour déverrouiller ce graphique."
 }

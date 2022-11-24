@@ -241,5 +241,9 @@
   "entries": "Příspěvky",
   "tags_used": "Použité štítky",
   "words_written": "Slova napsaná",
-  "days_tagged": "Označené dny"
+  "days_tagged": "Označené dny",
+  "statistics_not_enough_data_title": "Nedostatek dat.",
+  "statistics_not_enough_data_subtitle_without_count": "Chcete-li odemknout tento graf, přidejte další položky.",
+  "statistics_not_enough_data_subtitle_singular": "Chcete-li odemknout tento graf, přidejte ještě jeden záznam",
+  "statistics_not_enough_data_subtitle_plural": "Chcete-li odemknout tento graf, přidejte další položky ({{count}})."
 }

@@ -241,5 +241,9 @@
   "entries": "Entri",
   "tags_used": "Tag digunakan",
   "words_written": "Kata-kata tertulis",
-  "days_tagged": "Hari ditandai"
+  "days_tagged": "Hari ditandai",
+  "statistics_not_enough_data_title": "Tidak cukup data.",
+  "statistics_not_enough_data_subtitle_without_count": "Tambahkan lebih banyak entri untuk membuka bagan ini.",
+  "statistics_not_enough_data_subtitle_singular": "Tambahkan satu entri lagi untuk membuka bagan ini",
+  "statistics_not_enough_data_subtitle_plural": "Tambahkan {{count}} entri lagi untuk membuka bagan ini."
 }

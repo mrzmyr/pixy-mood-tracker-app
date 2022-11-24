@@ -241,5 +241,9 @@
   "entries": "Mục",
   "tags_used": "Thẻ đã sử dụng",
   "words_written": "Chữ viết",
-  "days_tagged": "Ngày được gắn thẻ"
+  "days_tagged": "Ngày được gắn thẻ",
+  "statistics_not_enough_data_title": "Không đủ dữ liệu.",
+  "statistics_not_enough_data_subtitle_without_count": "Thêm nhiều mục để mở khóa biểu đồ này.",
+  "statistics_not_enough_data_subtitle_singular": "Thêm một mục nữa để mở khóa biểu đồ này",
+  "statistics_not_enough_data_subtitle_plural": "Thêm {{count}} mục khác để mở khóa biểu đồ này."
 }

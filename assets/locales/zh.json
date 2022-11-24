@@ -241,5 +241,9 @@
   "entries": "条目",
   "tags_used": "使用的标签",
   "words_written": "写的字",
-  "days_tagged": "标记天数"
+  "days_tagged": "标记天数",
+  "statistics_not_enough_data_title": "没有足够的数据。",
+  "statistics_not_enough_data_subtitle_without_count": "添加更多条目以解锁此图表。",
+  "statistics_not_enough_data_subtitle_singular": "添加一个条目以解锁此图表",
+  "statistics_not_enough_data_subtitle_plural": "添加 {{count}} 个条目以解锁此图表。"
 }

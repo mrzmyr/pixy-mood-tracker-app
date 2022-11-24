@@ -241,5 +241,9 @@
   "entries": "Inserimenti",
   "tags_used": "Tag utilizzati",
   "words_written": "Parole scritte",
-  "days_tagged": "Giorni contrassegnati"
+  "days_tagged": "Giorni contrassegnati",
+  "statistics_not_enough_data_title": "Dati insufficienti.",
+  "statistics_not_enough_data_subtitle_without_count": "Aggiungi altre voci per sbloccare questo grafico.",
+  "statistics_not_enough_data_subtitle_singular": "Aggiungi un'altra voce per sbloccare questo grafico",
+  "statistics_not_enough_data_subtitle_plural": "Aggiungi altre {{count}} voci per sbloccare questo grafico."
 }

@@ -241,5 +241,9 @@
   "entries": "merkinnät",
   "tags_used": "Tunnisteita käytetty",
   "words_written": "kirjoitetut sanat",
-  "days_tagged": "Päivät merkitty"
+  "days_tagged": "Päivät merkitty",
+  "statistics_not_enough_data_title": "Ei tarpeeksi dataa.",
+  "statistics_not_enough_data_subtitle_without_count": "Lisää lisää merkintöjä tämän kaavion lukituksen avaamiseksi.",
+  "statistics_not_enough_data_subtitle_singular": "Lisää yksi merkintä avataksesi tämän kaavion lukituksen",
+  "statistics_not_enough_data_subtitle_plural": "Lisää {{count}} merkintää lisää tämän kaavion lukituksen avaamiseksi."
 }

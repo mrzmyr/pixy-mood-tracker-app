@@ -241,5 +241,9 @@
   "entries": "Entrades",
   "tags_used": "Etiquetes utilitzades",
   "words_written": "Paraules escrites",
-  "days_tagged": "Dies etiquetats"
+  "days_tagged": "Dies etiquetats",
+  "statistics_not_enough_data_title": "No hi ha prou dades.",
+  "statistics_not_enough_data_subtitle_without_count": "Afegeix més entrades per desbloquejar aquest gràfic.",
+  "statistics_not_enough_data_subtitle_singular": "Afegeix una entrada més per desbloquejar aquest gràfic",
+  "statistics_not_enough_data_subtitle_plural": "Afegeix {{count}} entrades més per desbloquejar aquest gràfic."
 }

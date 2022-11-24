@@ -241,5 +241,9 @@
   "entries": "항목",
   "tags_used": "사용된 태그",
   "words_written": "쓰여진 단어",
-  "days_tagged": "태그된 날짜"
+  "days_tagged": "태그된 날짜",
+  "statistics_not_enough_data_title": "데이터가 충분하지 않습니다.",
+  "statistics_not_enough_data_subtitle_without_count": "이 차트의 잠금을 해제하려면 더 많은 항목을 추가하세요.",
+  "statistics_not_enough_data_subtitle_singular": "이 차트의 잠금을 해제하려면 항목을 하나 더 추가하세요.",
+  "statistics_not_enough_data_subtitle_plural": "이 차트의 잠금을 해제하려면 항목을 {{count}}개 더 추가하세요."
 }

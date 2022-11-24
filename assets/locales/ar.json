@@ -241,5 +241,9 @@
   "entries": "إدخالات",
   "tags_used": "العلامات المستخدمة",
   "words_written": "كلمات مكتوبة",
-  "days_tagged": "الأيام المعلمة"
+  "days_tagged": "الأيام المعلمة",
+  "statistics_not_enough_data_title": "لا توجد بيانات كافية.",
+  "statistics_not_enough_data_subtitle_without_count": "أضف المزيد من الإدخالات لفتح هذا المخطط.",
+  "statistics_not_enough_data_subtitle_singular": "أضف إدخالاً آخر لفتح هذا الرسم البياني",
+  "statistics_not_enough_data_subtitle_plural": "أضف {{عدد}} إدخالات أخرى لفتح هذا المخطط."
 }

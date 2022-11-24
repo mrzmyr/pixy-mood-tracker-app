@@ -241,5 +241,9 @@
   "entries": "Записи",
   "tags_used": "Використані теги",
   "words_written": "Слова написані",
-  "days_tagged": "Дні позначено"
+  "days_tagged": "Дні позначено",
+  "statistics_not_enough_data_title": "Недостатньо даних.",
+  "statistics_not_enough_data_subtitle_without_count": "Додайте більше записів, щоб розблокувати цю діаграму.",
+  "statistics_not_enough_data_subtitle_singular": "Додайте ще один запис, щоб розблокувати цю діаграму",
+  "statistics_not_enough_data_subtitle_plural": "Додайте ще {{count}} записи, щоб розблокувати цю діаграму."
 }

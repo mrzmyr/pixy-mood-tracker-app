@@ -241,5 +241,9 @@
   "entries": "Inzendingen",
   "tags_used": "Labels gebruikt",
   "words_written": "Woorden geschreven",
-  "days_tagged": "Dagen getagd"
+  "days_tagged": "Dagen getagd",
+  "statistics_not_enough_data_title": "Niet genoeg data.",
+  "statistics_not_enough_data_subtitle_without_count": "Voeg meer items toe om deze grafiek te ontgrendelen.",
+  "statistics_not_enough_data_subtitle_singular": "Voeg nog een item toe om deze grafiek te ontgrendelen",
+  "statistics_not_enough_data_subtitle_plural": "Voeg nog {{count}} items toe om deze grafiek te ontgrendelen."
 }

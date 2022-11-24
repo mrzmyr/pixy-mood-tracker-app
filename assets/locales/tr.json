@@ -241,5 +241,9 @@
   "entries": "Girdileri",
   "tags_used": "Kullanılan etiketler",
   "words_written": "Yazılan kelimeler",
-  "days_tagged": "gün etiketlendi"
+  "days_tagged": "gün etiketlendi",
+  "statistics_not_enough_data_title": "Yeterli veri yok.",
+  "statistics_not_enough_data_subtitle_without_count": "Bu grafiğin kilidini açmak için daha fazla giriş ekleyin.",
+  "statistics_not_enough_data_subtitle_singular": "Bu grafiğin kilidini açmak için bir giriş daha ekleyin",
+  "statistics_not_enough_data_subtitle_plural": "Bu tablonun kilidini açmak için {{count}} giriş daha ekleyin."
 }

@@ -241,5 +241,9 @@
   "entries": "Einträge",
   "tags_used": "Tags verwendet",
   "words_written": "Wörter geschrieben",
-  "days_tagged": "Tage getaggt"
+  "days_tagged": "Tage getaggt",
+  "statistics_not_enough_data_title": "Nicht genug Daten.",
+  "statistics_not_enough_data_subtitle_without_count": "Trage mehr Tage ein, um diese Statistik freizuschalten.",
+  "statistics_not_enough_data_subtitle_singular": "Trage noch einen Tage mehr ein, um diese Statistik freizuschalten",
+  "statistics_not_enough_data_subtitle_plural": "Trage {{count}} Tage ein, um diese Statistik freizuschalten."
 }

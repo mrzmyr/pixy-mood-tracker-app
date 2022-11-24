@@ -241,5 +241,9 @@
   "entries": "Innganger",
   "tags_used": "Tagger brukt",
   "words_written": "Ord skrevet",
-  "days_tagged": "Dager merket"
+  "days_tagged": "Dager merket",
+  "statistics_not_enough_data_title": "Ikke nok data.",
+  "statistics_not_enough_data_subtitle_without_count": "Legg til flere oppføringer for å låse opp dette diagrammet.",
+  "statistics_not_enough_data_subtitle_singular": "Legg til en oppføring til for å låse opp dette diagrammet",
+  "statistics_not_enough_data_subtitle_plural": "Legg til {{count}} oppføringer til for å låse opp dette diagrammet."
 }
