@@ -65,8 +65,6 @@ export default function LinkButton({
     }
   }
 
-  console.log(children)
-
   return (
     <Pressable
       style={({ pressed }) => [{
