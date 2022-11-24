@@ -50,6 +50,13 @@ $ yarn start
 $ npx standard-version --release-as [major|minor|patch]
 ```
 
+**Environments** (`eas.json`)
+
+- `production`: Production builds
+- `staging`: Builds used for Testflight and Android Internal Testing
+- `development` Builds for local development on-device
+- `preview`: Builds for local development in iOS Simulator or Android Emulator 
+
 ## Contributing
 
 Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
