@@ -1,8 +1,10 @@
-import { TouchableOpacity, useColorScheme, View } from 'react-native';
+import { Dimensions, Pressable, TouchableOpacity, useColorScheme, View } from 'react-native';
 import { Check } from 'react-native-feather';
 import useHaptics from '../../hooks/useHaptics';
 import { LogItem } from '../../hooks/useLogs';
 import useScale from '../../hooks/useScale';
+
+const SCREEN_HEIGHT = Dimensions.get('screen').height;
 
 export const SlideRatingButton = ({
   rating, selected, onPress
@@ -15,22 +17,27 @@ export const SlideRatingButton = ({
   const scale = useScale();
   const colorScheme = useColorScheme();
 
+  const height = Math.max(40, SCREEN_HEIGHT * 0.48 / 7);
+  const width = height * 2.4;
+
   return (
-    <TouchableOpacity
+    <Pressable
       onPress={async () => {
         await haptics.selection();
         onPress();
       }}
-      style={{
+      style={({ pressed }) => ({
         backgroundColor: scale.colors[rating].background,
         borderWidth: 1,
         borderColor: colorScheme === 'light' ? 'rgba(0,0,0,0.1)' : 'rgba(255,255,255,0.2)',
         borderRadius: 8,
         marginBottom: 8,
-        width: 120,
-        height: 56,
-      }}
-      activeOpacity={0.7}
+        width,
+        height,
+        opacity: pressed ? 0.8 : 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+      })}
     >
       <View style={{
         flex: 1,
@@ -42,6 +49,6 @@ export const SlideRatingButton = ({
           width={24}
           height={24} />
       </View>
-    </TouchableOpacity>
+    </Pressable>
   );
 };
