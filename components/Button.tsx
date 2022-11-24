@@ -1,8 +1,7 @@
-import { Pressable, Text, View, ViewStyle } from "react-native";
-import useColors from "../hooks/useColors";
-import LoadingIndicator from "./LoadingIndicator";
-import useHaptics from "../hooks/useHaptics";
 import _ from "lodash";
+import { ActivityIndicator, Pressable, Text, View, ViewStyle } from "react-native";
+import useColors from "../hooks/useColors";
+import useHaptics from "../hooks/useHaptics";
 
 export default function Button({
   type = 'primary',
@@ -83,7 +82,7 @@ export default function Button({
       accessibilityRole={'button'}
     >
       {isLoading ? (
-        <LoadingIndicator size={20} color={buttonColors?.text} />
+        <ActivityIndicator color={buttonColors.text} size="small" />
       ) : (
         <>
           {icon && <View style={{ marginRight: children ? 8 : 0 }}>{icon}</View>}
