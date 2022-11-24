@@ -118,7 +118,7 @@ export const StatisticsHighlights = ({ navigation }) => {
             <>
               {showMoodChart && (
                 <MoodChart
-                  title={t("statistics_rating_distribution_highlights_title")}
+                  title={t("statistics_mood_chart_highlights_title")}
                   startDate={dayjs().subtract(14, "days").format(DATE_FORMAT)}
                 />
               )}
