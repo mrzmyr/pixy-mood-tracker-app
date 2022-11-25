@@ -5,6 +5,12 @@ import { Grid } from './Grid';
 import { XLabels } from './XLabels';
 import { YLabels } from './YLabels';
 
+export interface ScaleItem {
+  key: string;
+  count: number;
+  value: number | null;
+}
+
 export const RatingChart = ({
   data,
   height,
@@ -12,11 +18,7 @@ export const RatingChart = ({
 }: {
   height: number;
   width: number;
-  data: {
-    key: string;
-    count: number;
-    value: number | null;
-  }[];
+  data: ScaleItem[];
 }) => {
   const colors = useColors();
 

@@ -32,7 +32,6 @@ import { getTagsPeaksData, TagsPeakData } from "./TagsPeaks";
 
 const DELAY_LOADING = 1 * 1000;
 
-const StatisticsContext = createContext(undefined);
 
 export const STATISTIC_TYPES = [
   "mood_avg",
@@ -65,6 +64,8 @@ interface Value {
   isLoading: boolean;
   state: StatisticsState;
 }
+
+const StatisticsContext = createContext({} as Value);
 
 export function StatisticsProvider({
   children,

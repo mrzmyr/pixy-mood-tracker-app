@@ -1,8 +1,6 @@
 import { createContext, useContext, useState } from "react";
 import { LogItem } from "./useLogs";
 
-const TemporaryLogStateContext = createContext(undefined);
-
 type State = Omit<LogItem, 'id' | 'rating' | 'date' | 'dateTime' | 'createdAt'> & {
   id: LogItem['id'] | null;
   rating: LogItem['rating'] | null
@@ -28,6 +26,8 @@ const initialState: State = {
   dateTime: null,
   createdAt: null,
 };
+
+const TemporaryLogStateContext = createContext({} as Value);
 
 function TemporaryLogProvider({ children }: { children: React.ReactNode }) {
   const [temporaryLog, setTemporaryLog] = useState<State>(initialState);

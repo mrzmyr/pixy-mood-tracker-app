@@ -14,11 +14,11 @@ Notifications.setNotificationHandler({
   }),
 });
 
-const useNotification = () => {    
+const useNotification = () => {
   const getScheduled = async () => {
     return await Notifications.getAllScheduledNotificationsAsync();
   }
- 
+
   const hasPermission = async (): Promise<Boolean> => {
     if (Device.isDevice) {
       const { status } = await Notifications.getPermissionsAsync();
@@ -29,7 +29,7 @@ const useNotification = () => {
 
     return false;
   }
-  
+
   const askForPermission = async () => {
     if (Device.isDevice) {
       const { status: existingStatus } = await Notifications.getPermissionsAsync();
@@ -41,7 +41,7 @@ const useNotification = () => {
     }
   }
 
-  const schedule = async (options?: {
+  const schedule = async (options: {
     content?: NotificationContentInput;
     trigger: NotificationTriggerInput;
   }) => {
@@ -57,13 +57,13 @@ const useNotification = () => {
   const cancelAll = async () => {
     await Notifications.cancelAllScheduledNotificationsAsync()
   }
-  
+
   return isWeb ? {
     hasPermission: () => true,
-    askForPermission: () => {},
-    schedule: () => {},
-    cancelAll: () => {},
-    getScheduled: () => {},
+    askForPermission: () => { },
+    schedule: () => { },
+    cancelAll: () => { },
+    getScheduled: () => { },
   } : {
     hasPermission,
     askForPermission,

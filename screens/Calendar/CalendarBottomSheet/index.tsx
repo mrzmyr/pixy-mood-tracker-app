@@ -8,25 +8,29 @@ import { Body } from './Body';
 export const CalendarBottomSheet = () => {
   const colors = useColors()
   const calendarFilters = useCalendarFilters()
-  
-  const bottomSheetRef = useRef(null);
+
+  const bottomSheetRef = useRef<BottomSheet>(null);
   const snapPoints = useMemo(() => ['30%', '50%', '90%'], []);
-  
+
   useEffect(() => {
-    if(calendarFilters.isOpen) {
-      bottomSheetRef.current.snapToIndex(1)
+    if (calendarFilters.isOpen) {
+      if (bottomSheetRef.current !== null) {
+        bottomSheetRef.current.snapToIndex(1)
+      }
     } else {
-      bottomSheetRef.current.close()
+      if (bottomSheetRef.current !== null) {
+        bottomSheetRef.current.close()
+      }
     }
   }, [calendarFilters.isOpen])
 
   const handleSheetChanges = (index: number) => {
-    if(index === -1) {
+    if (index === -1) {
       Keyboard.dismiss()
       calendarFilters.close()
     }
   };
-  
+
   return (
     <BottomSheet
       ref={bottomSheetRef}
@@ -43,7 +47,7 @@ export const CalendarBottomSheet = () => {
         },
         shadowOpacity: calendarFilters.isOpen ? 1 : 0,
         shadowRadius: 14.78,
-        
+
         elevation: 22,
       }}
       backgroundStyle={{

@@ -21,6 +21,7 @@ import {
   useTagsState,
   useTagsUpdater,
 } from "../hooks/useTags";
+import { _generateItem } from "./utils";
 
 const wrapper = ({ children }) => (
   <SettingsProvider>
@@ -57,20 +58,20 @@ const testTags: Tag[] = [
   },
 ];
 
-const testItems: LogsState['items'] = {
-  '2022-01-01': {
+const testItems: LogsState['items'] = [
+  _generateItem({
     date: '2022-01-01',
     rating: 'neutral',
     message: 'test message',
     tags: [...testTags],
-  },
-  '2022-01-02': {
+  }),
+  _generateItem({
     date: '2022-01-02',
     rating: 'neutral',
     message: '🦄',
     tags: [...testTags],
-  }
-}
+  })
+]
 
 describe("useTags()", () => {
   beforeEach(async () => {
@@ -90,7 +91,7 @@ describe("useTags()", () => {
       title: "test3",
       color: "slate",
     }];
-    
+
     AsyncStorage.setItem(STORAGE_KEY_TAGS, JSON.stringify({ tags: _testTags }));
     let hook = _renderHook();
     await hook.waitForNextUpdate();
@@ -104,7 +105,7 @@ describe("useTags()", () => {
       title: "test4",
       color: "orange",
     }];
-    
+
     AsyncStorage.setItem(
       STORAGE_KEY_SETTINGS,
       JSON.stringify({
@@ -157,10 +158,6 @@ describe("useTags()", () => {
 
     expect(hook.result.current.state.tags.length).toBe(5);
     expect(hook.result.current.state.tags[0].title).toBe("test");
-
-    Object.values(hook.result.current.logsState.items).forEach(item => {
-      expect(item.tags![0].color).toBe('blue');
-    })
   });
 
   test("should deleteTag", async () => {
@@ -207,7 +204,8 @@ describe("useTags()", () => {
       });
     });
 
-    expect(JSON.parse(await AsyncStorage.getItem(STORAGE_KEY_TAGS))).toEqual({
+    const json = await AsyncStorage.getItem(STORAGE_KEY_TAGS)
+    expect(JSON.parse(json!)).toEqual({
       tags: hook.result.current.state.tags,
     });
   })

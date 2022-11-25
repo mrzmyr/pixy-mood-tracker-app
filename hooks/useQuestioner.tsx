@@ -63,11 +63,15 @@ export const useQuestioner = () => {
     const question_text = question.text[language] || question.text['en'];
 
     const answer_texts = answers.map(answer => {
+      if (answer.text === null) {
+        return answer.emoji;
+      }
+
       if (answer?.text[language]) {
         return `${answer.emoji} ${answer.text[language]}`
-      } else {
-        `${answer.emoji} ${answer?.text?.en}`
       }
+
+      return `${answer.emoji} ${answer?.text?.en}`
     }).join(', ')
 
     const metaData = {

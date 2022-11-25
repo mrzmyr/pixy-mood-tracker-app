@@ -12,15 +12,22 @@ export const PasscodeView = ({
   onSubmit,
 }: {
   mode: 'create' | 'confirm',
-  onClose?: () => void,
+  onClose: () => void,
   onSubmit: (code: string) => boolean,
 }) => {
   const [code, setCode] = useState('')
   const colors = useColors();
 
-  const ref = useRef(null);
-  const bounce = () => ref.current.shake();
-  
+  const ref = useRef<View & {
+    shake: () => void,
+  }>(null);
+
+  const bounce = () => {
+    if (ref.current) {
+      ref.current.shake();
+    }
+  };
+
   return (
     <View
       style={{
@@ -41,7 +48,7 @@ export const PasscodeView = ({
           marginBottom: 20,
           fontWeight: 'bold'
         }}>{t(`passcode_title_${mode}`)}</Text>
-        
+
         <View
           style={{
             flexDirection: 'row',
@@ -57,15 +64,15 @@ export const PasscodeView = ({
             setCode(code.slice(0, -1))
           }}
           onPress={(value) => {
-            if(code.length >= 4) return;
-            
+            if (code.length >= 4) return;
+
             const newCode = code + value;
             setCode(newCode)
-            if(newCode.length === 4) {
+            if (newCode.length === 4) {
               // setTimeout bc we need to wait for 4th dot to show
               setTimeout(() => {
                 const result = onSubmit(newCode)
-                if(!result) {
+                if (!result) {
                   setCode('')
                   bounce()
                 }
@@ -75,9 +82,9 @@ export const PasscodeView = ({
         />
       </View>
       <View>
-        <LinkButton 
+        <LinkButton
           onPress={() => {
-            
+
           }}
           style={{
             fontSize: 15,

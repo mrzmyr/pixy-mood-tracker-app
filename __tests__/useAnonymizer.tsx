@@ -1,6 +1,7 @@
 import { useAnonymizer } from "../hooks/useAnonymizer";
 import { LogsState } from "../hooks/useLogs";
 import { Tag } from "../hooks/useTags";
+import { _generateItem } from "./utils";
 
 const testTags: Tag[] = [
   {
@@ -15,19 +16,19 @@ const testTags: Tag[] = [
   },
 ];
 
-const testItems: LogsState['items'] = {
-  '2022-01-01': {
+const testItems: LogsState['items'] = [
+  _generateItem({
     date: '2022-01-01',
     rating: 'neutral',
     message: 'test message',
     tags: []
-  },
-  '2022-01-02': {
+  }),
+  _generateItem({
     date: '2022-01-02',
     rating: 'neutral',
     message: '🦄',
-  }
-}
+  })
+]
 
 describe("useAnonymizer", () => {
 
@@ -44,21 +45,28 @@ describe("useAnonymizer", () => {
   it("anonymizeItem()", () => {
     const { anonymizeItem } = useAnonymizer()
 
-    expect(anonymizeItem(testItems['2022-01-01'])).toEqual({
+    expect(anonymizeItem(testItems[0])).toEqual({
       date: "2022-01-01",
       rating: "neutral",
       messageLength: 12,
       tags: [],
+      createdAt: expect.any(String),
+      dateTime: expect.any(String),
+      id: expect.any(String),
     })
   })
 
   it("anonymizeItem() when tags not set", () => {
     const { anonymizeItem } = useAnonymizer()
 
-    expect(anonymizeItem(testItems['2022-01-02'])).toEqual({
+    expect(anonymizeItem(testItems[1])).toEqual({
       date: "2022-01-02",
       rating: "neutral",
       messageLength: '🦄'.length,
+      tags: [],
+      createdAt: expect.any(String),
+      dateTime: expect.any(String),
+      id: expect.any(String),
     })
   })
 

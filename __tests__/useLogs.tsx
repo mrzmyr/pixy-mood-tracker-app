@@ -3,7 +3,7 @@ import { act, renderHook } from '@testing-library/react-hooks'
 import { AnalyticsProvider } from '../hooks/useAnalytics'
 import { LogsProvider, LogsState, STORAGE_KEY, useLogState, useLogUpdater } from '../hooks/useLogs'
 import { SettingsProvider } from '../hooks/useSettings'
-import { _generateItem } from './Streaks'
+import { _generateItem } from './utils'
 
 const wrapper = ({ children }) => (
   <SettingsProvider>

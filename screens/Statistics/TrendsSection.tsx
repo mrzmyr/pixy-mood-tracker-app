@@ -56,7 +56,7 @@ export const TrendsSection = () => {
               title={t("statistics_trends_more")}
               isLink
               isLast
-              onPress={() => navigation.navigate("StatisticsTrends")}
+              // onPress={() => navigation.navigate("StatisticsTrends")}
               iconLeft={
                 <TrendingUp width={18} height={18} color={colors.tint} />
               }

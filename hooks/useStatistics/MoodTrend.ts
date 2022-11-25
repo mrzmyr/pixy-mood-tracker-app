@@ -1,17 +1,16 @@
 import dayjs from "dayjs";
 import { LogItem, RATING_MAPPING } from "../useLogs";
 
+type PeriodDataPoint = {
+  date: Date;
+  value: number;
+}
+
 export interface MoodTrendData {
   avgPeriod1: number;
   avgPeriod2: number;
-  ratingsPeriode1: {
-    date: string;
-    value: number;
-  }[];
-  ratingsPeriode2: {
-    date: string;
-    value: number;
-  }[];
+  ratingsPeriode1: PeriodDataPoint[];
+  ratingsPeriode2: PeriodDataPoint[];
   diff: number;
   status: 'improved' | 'declined';
   items: (LogItem & { value: number })[]
@@ -32,8 +31,8 @@ export const SCALE_RANGE = 24;
 const DEFAULT_WEEK_AVG = 3;
 
 export const getMoodTrendData = (items: LogItem[]): MoodTrendData => {
-  const ratingsPeriode1 = []
-  const ratingsPeriode2 = []
+  const ratingsPeriode1: PeriodDataPoint[] = []
+  const ratingsPeriode2: PeriodDataPoint[] = []
 
   for (let i = SCALE_RANGE / 2; i < SCALE_RANGE; i++) {
     const start = dayjs().subtract(i, SCALE_TYPE).startOf(SCALE_TYPE);

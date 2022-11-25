@@ -18,8 +18,8 @@ export const useFeedback = () => {
     message,
     email,
     source,
-    onOk = () => {},
-    onCancel = () => {},
+    onOk,
+    onCancel,
   }: {
     type: FeedackType;
     source: FeedbackSource;
@@ -43,9 +43,9 @@ export const useFeedback = () => {
       message,
       email,
     }
-    
+
     analytics.track('feedback_send', body)
-  
+
     return fetch(FEEDBACK_URL, {
       method: 'POST',
       headers: {
@@ -53,49 +53,49 @@ export const useFeedback = () => {
       },
       body: JSON.stringify(body),
     }).then(resp => {
-      if(resp.ok) {
-        if(onOk) {
+      if (resp.ok) {
+        if (onOk) {
           onOk()
         } else {
           Alert.alert(
             t('feedback_success_title'),
             t('feedback_success_message'),
             [
-              { text: t('ok'), onPress: () => onOk() }
+              { text: t('ok') }
             ],
             { cancelable: false }
           )
         }
       } else {
-        if(onCancel) {
+        if (onCancel) {
           onCancel()
         } else {
           Alert.alert(
             t('feedback_error_title'),
             t('feedback_error_message'),
             [
-              { text: t('ok'), onPress: () => onCancel() }
+              { text: t('ok') }
             ],
             { cancelable: false }
           )
         }
       }
     }).catch(() => {
-      if(onCancel) {
+      if (onCancel) {
         onCancel()
       } else {
         Alert.alert(
           t('feedback_error_title'),
           t('feedback_error_message'),
           [
-            { text: t('ok'), onPress: () => onCancel() }
+            { text: t('ok') }
           ],
           { cancelable: false }
         )
       }
     })
   }
-  
+
   return {
     send,
   }

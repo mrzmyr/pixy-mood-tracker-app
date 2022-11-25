@@ -20,8 +20,6 @@ const SCALE_TYPES = [
   "ColorBrew-BrBG",
 ];
 
-const SettingsStateContext = createContext(undefined);
-
 // ATTENTION: If you change the settings state, you need to update
 // the export variables also in the DataGate
 export interface SettingsState {
@@ -58,6 +56,19 @@ export const INITIAL_STATE: SettingsState = {
   analyticsEnabled: true,
   actionsDone: [],
 };
+
+type Value = {
+  settings: SettingsState;
+  setSettings: (
+    settings: SettingsState | ((settings: SettingsState) => SettingsState)
+  ) => void;
+  resetSettings: () => void;
+  importSettings: (settings: ExportSettings) => void;
+  addActionDone: (action: IAction["title"]) => void;
+  hasActionDone: (actionTitle: IAction["title"]) => boolean;
+}
+
+const SettingsStateContext = createContext({} as Value);
 
 function SettingsProvider({ children }: { children: React.ReactNode }) {
 
@@ -149,16 +160,7 @@ function SettingsProvider({ children }: { children: React.ReactNode }) {
   );
 }
 
-function useSettings(): {
-  settings: SettingsState;
-  setSettings: (
-    settings: SettingsState | ((settings: SettingsState) => SettingsState)
-  ) => void;
-  resetSettings: () => void;
-  importSettings: (settings: ExportSettings) => void;
-  addActionDone: (action: IAction["title"]) => void;
-  hasActionDone: (actionTitle: IAction["title"]) => boolean;
-} {
+function useSettings(): Value {
   const context = useContext(SettingsStateContext);
   if (context === undefined) {
     throw new Error("useSettings must be used within a SettingsProvider");

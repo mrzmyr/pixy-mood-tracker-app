@@ -3,13 +3,13 @@ import { AppState } from "react-native";
 import { useSettings } from './useSettings';
 import * as LocalAuthentication from 'expo-local-authentication';
 
-const PasscodeContext = createContext(undefined)
-
 interface PasscodeState {
   isAuthenticated: boolean
   setIsAuthenticated: (isAuthenticated: boolean) => void
   isEnabled: boolean | null
 }
+
+const PasscodeContext = createContext({} as PasscodeState)
 
 function PasscodeProvider({
   children
@@ -19,18 +19,18 @@ function PasscodeProvider({
   const { settings } = useSettings()
   const [isAuthenticated, setIsAuthenticated] = useState<PasscodeState['isAuthenticated']>(false)
   const [isEnabled, setIsEnabled] = useState<PasscodeState['isEnabled']>(null)
-  
+
   const appState = useRef(AppState.currentState);
   const [appStateVisible, setAppStateVisible] = useState(appState.current);
 
   useEffect(() => {
-    if(isEnabled && !isAuthenticated) {
+    if (isEnabled && !isAuthenticated) {
       LocalAuthentication.authenticateAsync().then((result) => {
         setIsAuthenticated(result.success)
       })
     }
   }, [isAuthenticated])
-  
+
   useEffect(() => {
     const subscription = AppState.addEventListener("change", nextAppState => {
       if (
@@ -45,7 +45,7 @@ function PasscodeProvider({
     });
 
     return () => {
-      if(subscription && subscription.remove) subscription.remove();
+      if (subscription && subscription.remove) subscription.remove();
     };
   }, []);
 

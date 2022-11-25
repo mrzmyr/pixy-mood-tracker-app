@@ -252,6 +252,8 @@ const dark: IColors & {
   logHeaderBackground: colors.neutral[900],
   logHeaderBorder: colors.neutral[800],
   logHeaderText: colors.neutral[300],
+  logHeaderHighlight: colors.neutral[500],
+
   logBackground: colors.neutral[900],
   logCardBackground: colors.neutral[800],
   logCardBorder: colors.neutral[700],

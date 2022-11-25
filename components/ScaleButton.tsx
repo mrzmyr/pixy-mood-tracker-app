@@ -2,10 +2,10 @@ import chroma from "chroma-js";
 import { Pressable, Text, useColorScheme } from "react-native";
 import { Check } from "react-native-feather";
 
-export default function ScaleButton({ 
-  backgroundColor, 
+export default function ScaleButton({
+  backgroundColor,
   textColor,
-  isSelected = false, 
+  isSelected = false,
   accessibilityLabel,
   isFirst = false,
   isLast = false,
@@ -20,13 +20,13 @@ export default function ScaleButton({
   onPress: () => void,
 }) {
   let colorScheme = useColorScheme();
-  
+
   return (
     <Pressable
       onPress={onPress}
       style={({ pressed }) => [{
-        borderColor: colorScheme === 'light' ? 
-          chroma(backgroundColor).darken(0.4).hex() : 
+        borderColor: colorScheme === 'light' ?
+          chroma(backgroundColor).darken(0.4).hex() :
           chroma(backgroundColor).brighten(0.5).hex(),
         backgroundColor: backgroundColor,
         opacity: pressed ? 0.8 : 1,
@@ -40,17 +40,14 @@ export default function ScaleButton({
         alignItems: 'center',
         margin: 4,
       }]}
-      dataSet={{
-        selected: isSelected,
-      }}
       testID={`scale-button-${accessibilityLabel}`}
       accessibilityLabel={accessibilityLabel}
       accessible={true}
     >
       {
-        isSelected ? 
-        <Check color={textColor} width={24} /> : 
-        <Text>&nbsp;</Text>
+        isSelected ?
+          <Check color={textColor} width={24} /> :
+          <Text>&nbsp;</Text>
       }
     </Pressable>
   )

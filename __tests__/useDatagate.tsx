@@ -15,7 +15,7 @@ import {
 } from "../hooks/useLogs";
 import { ExportSettings, INITIAL_STATE, SettingsProvider, useSettings } from "../hooks/useSettings";
 import { Tag, TagsProvider, useTagsState, useTagsUpdater } from "../hooks/useTags";
-import { _generateItem } from "./Streaks";
+import { _generateItem } from "./utils";
 
 const wrapper = ({ children }) => (
   <SettingsProvider>
@@ -150,6 +150,7 @@ describe("useLogs()", () => {
       hook.result.current.datagate.openImportDialog();
     })
 
+    // @ts-ignore
     Alert.alert.mock.calls[0][2][0].onPress()
 
     await hook.waitForNextUpdate();
@@ -173,6 +174,7 @@ describe("useLogs()", () => {
     const hook = _renderHook();
 
     jest.spyOn(Alert, 'alert');
+    // @ts-ignore
     jest.spyOn(FileSystem, 'writeAsStringAsync').mockResolvedValueOnce('file://something.json');
     jest.spyOn(Sharing, 'shareAsync');
 
@@ -188,6 +190,7 @@ describe("useLogs()", () => {
       hook.result.current.datagate.openExportDialog();
     })
 
+    // @ts-ignore
     const calledJson = FileSystem.writeAsStringAsync.mock.calls[0][1];
     const expectedJson = {
       version: '1.0.0',
@@ -218,6 +221,7 @@ describe("useLogs()", () => {
       hook.result.current.datagate.openResetDialog('factory');
     })
 
+    // @ts-ignore
     Alert.alert.mock.calls[0][2][0].onPress()
 
     await hook.waitForNextUpdate();
@@ -255,6 +259,7 @@ describe("useLogs()", () => {
       hook.result.current.datagate.openResetDialog('data');
     })
 
+    // @ts-ignore
     Alert.alert.mock.calls[0][2][0].onPress()
 
     await hook.waitForNextUpdate();

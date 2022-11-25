@@ -1,27 +1,25 @@
-import { TextInput } from "react-native";
+import { TextInput, ViewStyle } from "react-native";
 import useColors from "../hooks/useColors";
 
-export default function TextArea({ 
+export default function TextArea({
   value = '',
-  placeholder = '', 
+  placeholder = '',
   testID,
   maxLength = 500,
   autoFocus = false,
   style,
-  containerStyle,
-  onChange = (text: string) => {}, 
+  onChange = (text: string) => { },
 }: {
   value?: string,
   placeholder?: string,
   testID?: string,
   maxLength?: number,
   autoFocus?: boolean,
-  style?: React.CSSProperties,
-  containerStyle?: React.CSSProperties,
+  style?: ViewStyle,
   onChange?: (text: string) => void,
 }) {
   const colors = useColors()
-  
+
   return (
     <TextInput
       testID={testID}

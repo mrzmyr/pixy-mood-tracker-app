@@ -18,7 +18,7 @@ import {
   PrivacyScreen,
   ReminderScreen, SettingsScreen, StatisticsHighlights, TagCreate, TagEdit
 } from '../screens';
-import { RootStackParamList } from '../types';
+import { RootStackParamList, RootStackScreenProps } from '../types';
 
 import dayjs from 'dayjs';
 import { enableScreens } from 'react-native-screens';
@@ -82,6 +82,7 @@ export default function Navigation() {
   return (
     <NavigationContainer
       linking={NAVIGATION_LINKING}
+      // @ts-ignore
       theme={
         scheme === 'dark' ? {
           dark: true,
@@ -119,7 +120,9 @@ function RootNavigator() {
     headerShadowVisible: Platform.OS !== 'web',
   }
 
-  const stackScreenOptions = {}
+  const stackScreenOptions: {
+    [key: string]: any
+  } = {}
 
   if (Platform.OS === 'android') {
     stackScreenOptions.animation = 'none'
@@ -129,7 +132,7 @@ function RootNavigator() {
     if (Platform.OS !== 'web') {
       OneSignal.setAppId(ONE_SIGNAL_APP_ID);
 
-      if (settings.loaded) {
+      if (settings.loaded && settings.deviceId !== null) {
         OneSignal.setExternalUserId(settings.deviceId)
       }
     }

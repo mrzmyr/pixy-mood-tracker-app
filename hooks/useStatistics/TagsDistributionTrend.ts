@@ -93,7 +93,7 @@ export const getTagsDistributionTrendData = (
           : distributionPeriode2[tag.id].count <
             distributionPeriode1[tag.id].count
             ? "decrease"
-            : "same",
+            : "same" as DistributionTag["type"],
     }))
     .filter((tag) => {
       return (

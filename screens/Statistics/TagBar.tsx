@@ -5,7 +5,7 @@ import useColors from "../../hooks/useColors";
 export const TagBar = ({
   children,
   width,
-  colorName,
+  colorName = 'red',
   muted,
   size,
   label
@@ -18,12 +18,12 @@ export const TagBar = ({
   label: string;
 }) => {
   const colors = useColors();
-  
+
   const textColor = muted ? colors.statisticsTagsTrendMutedText : colors.tags[colorName]?.text;
   const backgroundColor = muted ? colors.statisticsTagsTrendMutedBackground : colors.tags[colorName]?.background;
-  
+
   const height = size === 'small' ? 24 : 32;
-  
+
   return (
     <View
       style={{

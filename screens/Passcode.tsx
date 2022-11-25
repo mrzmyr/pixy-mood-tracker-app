@@ -12,15 +12,18 @@ export const PasscodeScreen = () => {
     <PasscodeView
       mode='confirm'
       onSubmit={(code) => {
-        if(settings.passcode !== code) {
+        if (settings.passcode !== code) {
           analytics.track('passcode_failed');
           return false;
         }
 
         analytics.track('passcode_confirmed');
-        
+
         passcode.setIsAuthenticated(true)
         return true;
+      }}
+      onClose={() => {
+        passcode.setIsAuthenticated(false)
       }}
     />
   );

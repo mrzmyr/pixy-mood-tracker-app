@@ -42,8 +42,8 @@ interface UpdaterValue {
   import: (data: State) => void
 }
 
-const TagsStateContext = createContext(undefined)
-const TagsUpdaterContext = createContext(undefined)
+const TagsStateContext = createContext({} as StateValue)
+const TagsUpdaterContext = createContext({} as UpdaterValue)
 
 const reducer = (state: State, action: StateAction): State => {
   switch (action.type) {

@@ -3,7 +3,7 @@ import { ImportData } from "../helpers/Import";
 import { migrateImportData } from "../helpers/migration";
 import { INITIAL_STATE } from "../hooks/useSettings";
 import { Tag } from "../hooks/useTags";
-import { _generateItem } from "./Streaks";
+import { _generateItem } from "./utils";
 
 const testTags: Tag[] = [
   {
@@ -84,6 +84,7 @@ describe("MigrationHelper", () => {
     }
 
     const testImportData: ImportData = {
+      version: "1.0.0",
       settings,
       items,
     }

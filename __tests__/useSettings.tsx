@@ -98,7 +98,8 @@ describe('useSettings()', () => {
     }]
 
     expect(hook.result.current.state.settings.actionsDone).toEqual(ACTIONS_DONE)
-    expect(JSON.parse(await AsyncStorage.getItem(STORAGE_KEY))).toEqual({
+    const json = await AsyncStorage.getItem(STORAGE_KEY)
+    expect(JSON.parse(json!)).toEqual({
       ..._.omit(LOADED_STATE, 'loaded'),
       actionsDone: ACTIONS_DONE,
     });
@@ -122,7 +123,8 @@ describe('useSettings()', () => {
     }]
 
     expect(hook.result.current.state.settings.actionsDone).toEqual(ACTIONS_DONE)
-    expect(JSON.parse(await AsyncStorage.getItem(STORAGE_KEY))).toEqual({
+    const json = await AsyncStorage.getItem(STORAGE_KEY)
+    expect(JSON.parse(json!)).toEqual({
       ..._.omit(LOADED_STATE, 'loaded'),
       actionsDone: ACTIONS_DONE,
     });

@@ -4,7 +4,6 @@ import { useAnalytics } from "./useAnalytics";
 import { LogItem, useLogState } from './useLogs';
 import { Tag } from "./useTags";
 
-const CalendarFiltersStateContext = createContext(undefined)
 
 interface FiltersData {
   text: string,
@@ -26,6 +25,8 @@ type Value = {
   close: () => void;
   isOpen: boolean;
 }
+
+const CalendarFiltersStateContext = createContext({} as Value)
 
 const initialState: CalendarFiltersData = {
   text: '',

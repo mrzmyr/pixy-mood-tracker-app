@@ -53,10 +53,10 @@ const YearInPixels = ({
   const dummyItems = _.range(0, 365).map((i) => ({
     id: `${i}`,
     date: date.add(i, 'day').format(DATE_FORMAT),
-    rating: _.sample(RATING_KEYS.slice(0, 6)) as LogItem['rating'],
+    rating: _.sample(RATING_KEYS.slice(0, 6)),
     message: 'I am feeling',
     createdAt: date.add(i, 'day').toISOString(),
-  }));
+  }) as LogItem)
 
   return (
     <BigCard

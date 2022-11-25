@@ -9,7 +9,6 @@ import { v4 as uuidv4 } from "uuid";
 import { DATE_FORMAT } from '../../constants/Config';
 import { askToCancel, askToRemove } from '../../helpers/prompts';
 import { useAnalytics } from '../../hooks/useAnalytics';
-import { useAnonymizer } from '../../hooks/useAnonymizer';
 import useColors from '../../hooks/useColors';
 import { LogItem, useLogState, useLogUpdater } from '../../hooks/useLogs';
 import { IQuestion, useQuestioner } from '../../hooks/useQuestioner';
@@ -52,7 +51,6 @@ export const Logger = ({
   const logUpdater = useLogUpdater()
   const logState = useLogState()
   const tempLog = useTemporaryLog();
-  const { anonymizeTag } = useAnonymizer()
 
   const existingLogItem: LogItem | null = id ? logState?.items.find(item => item.id === id) || null : null
   const defaultLogItem = {
@@ -118,7 +116,9 @@ export const Logger = ({
 
   const remove = () => {
     analytics.track('log_deleted')
-    logUpdater.deleteLog(tempLog.data.id)
+    if (tempLog.data.id !== null) {
+      logUpdater.deleteLog(tempLog.data.id)
+    }
     close()
   }
 
@@ -249,7 +249,7 @@ export const Logger = ({
           }}
         />
         <SlideHeader
-          title={getItemDateTitle(tempLog.data.dateTime)}
+          title={tempLog.data.dateTime !== null ? getItemDateTitle(tempLog.data.dateTime) : ''}
           onPressTitle={() => {
             setDatePickerVisibility(true)
           }}
