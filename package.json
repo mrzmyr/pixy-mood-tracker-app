@@ -50,7 +50,6 @@
     "@react-navigation/native": "^6.0.2",
     "@react-navigation/native-stack": "^6.1.0",
     "@sentry/react-native": "4.2.2",
-    "ajv": "^8.8.2",
     "chroma-js": "^2.4.2",
     "dayjs": "^1.10.7",
     "expo": "^46.0.0",
@@ -88,8 +87,9 @@
     "react-native-get-random-values": "~1.8.0",
     "react-native-linear-gradient": "^2.6.2",
     "react-native-markdown-display": "^7.0.0-alpha.2",
+    "react-native-modal-datetime-picker": "^14.0.0",
     "react-native-onesignal": "^4.4.1",
-    "react-native-reanimated": "~2.10.0",
+    "react-native-reanimated": "~2.9.1",
     "react-native-reanimated-carousel": "^3.0.5",
     "react-native-safe-area-context": "4.3.1",
     "react-native-screens": "~3.15.0",
@@ -101,6 +101,7 @@
     "sentry-expo": "~5.0.0",
     "use-debounce": "^7.0.1",
     "uuid": "^8.3.2",
+    "zod": "^3.19.1",
     "zustand": "^4.1.2"
   },
   "devDependencies": {

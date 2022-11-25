@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Platform, TextInput, TouchableOpacity, View } from 'react-native';
+import { Platform, Pressable, TextInput, View } from 'react-native';
 import { Check } from 'react-native-feather';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { v4 as uuidv4 } from 'uuid';
@@ -17,19 +17,19 @@ import { RootStackScreenProps } from '../types';
 
 const REGEX_EMOJI = /\p{Emoji}/u;
 
-export const TagCreate = ({ navigation, route }: RootStackScreenProps<'TagCreate'>) => {
+export const TagCreate = ({ navigation }: RootStackScreenProps<'TagCreate'>) => {
   const colors = useColors()
   const haptics = useHaptics()
   const insets = useSafeAreaInsets();
   const analytics = useAnalytics()
   const tagsUpdater = useTagsUpdater()
-  
+
   const [tempTag, setTempTag] = useState<ITag>({
     id: uuidv4(),
     title: '',
     color: Object.keys(colors.tags)[0] as ITag['color'],
   });
-  
+
   const onCreate = () => {
     analytics.track('tag_create', {
       titleLength: tempTag.title.length,
@@ -47,7 +47,7 @@ export const TagCreate = ({ navigation, route }: RootStackScreenProps<'TagCreate
 
     navigation.goBack();
   }
-  
+
   return (
     <DismissKeyboard>
       <View style={{
@@ -59,20 +59,20 @@ export const TagCreate = ({ navigation, route }: RootStackScreenProps<'TagCreate
         <ModalHeader
           title={t('create_tag')}
           left={
-            <LinkButton 
+            <LinkButton
               onPress={() => {
                 navigation.goBack();
               }}
               type='primary'
-              >{t('cancel')}</LinkButton>
+            >{t('cancel')}</LinkButton>
           }
         />
-          <View 
-            style={{ 
-              flex: 1, 
-              padding: 20,
-            }}
-          >
+        <View
+          style={{
+            flex: 1,
+            padding: 20,
+          }}
+        >
           <TextInput
             autoCorrect={false}
             style={{
@@ -104,9 +104,9 @@ export const TagCreate = ({ navigation, route }: RootStackScreenProps<'TagCreate
             }}
           >
             {TAG_COLOR_NAMES.map(colorName => (
-              <TouchableOpacity
+              <Pressable
                 key={colorName}
-                style={{
+                style={({ pressed }) => ({
                   flex: 1,
                   flexBasis: `${(100 / 7) - 2}%`,
                   maxWidth: `${(100 / 7) - 2}%`,
@@ -116,7 +116,8 @@ export const TagCreate = ({ navigation, route }: RootStackScreenProps<'TagCreate
                   justifyContent: 'center',
                   alignItems: 'center',
                   margin: '1%',
-                }}
+                  opacity: pressed ? 0.8 : 1,
+                })}
                 onPress={() => {
                   haptics.selection();
                   setTempTag(tempTag => ({
@@ -124,12 +125,11 @@ export const TagCreate = ({ navigation, route }: RootStackScreenProps<'TagCreate
                     color: colorName,
                   }));
                 }}
-                activeOpacity={0.8}
               >
                 {tempTag.color === colorName && (
                   <Check width={22} height={22} color={colors.tags[colorName].text} />
                 )}
-              </TouchableOpacity>
+              </Pressable>
             ))}
           </View>
           <Button

@@ -1,11 +1,10 @@
-import { View } from 'react-native';
-import useColors from '../../../hooks/useColors';
-import { Pressable, Text } from 'react-native';
-import { Edit, Trash, X } from 'react-native-feather';
-import useHaptics from '../../../hooks/useHaptics';
+import { Pressable, Text, View } from "react-native";
+import { X } from "react-native-feather";
+import useColors from "../../hooks/useColors";
+import useHaptics from "../../hooks/useHaptics";
 
 export const Header = ({
-  title, onClose, onDelete, onEdit,
+  title, onClose,
 }: {
   title: string;
   onClose?: () => void;
@@ -21,7 +20,7 @@ export const Header = ({
       justifyContent: 'space-between',
       alignItems: 'center',
       paddingVertical: 8,
-      paddingHorizontal: 16,
+      paddingHorizontal: 20,
     }}>
       <View
         style={{
@@ -57,28 +56,6 @@ export const Header = ({
             marginRight: -8,
           }}
         >
-          <Pressable
-            style={{
-              padding: 16,
-            }}
-            onPress={async () => {
-              await haptics.selection();
-              onEdit?.();
-            }}
-          >
-            <Edit color={colors.logHeaderText} width={22} height={22} />
-          </Pressable>
-          <Pressable
-            style={{
-              padding: 16,
-            }}
-            onPress={async () => {
-              await haptics.selection();
-              onDelete?.();
-            }}
-          >
-            <Trash color={colors.logHeaderText} width={22} height={22} />
-          </Pressable>
           <Pressable
             style={{
               padding: 16,

@@ -8,10 +8,10 @@ import useScale from "../../../hooks/useScale";
 
 export const Day = ({
   date,
-  item
+  rating,
 }: {
   date: string;
-  item: LogItem | undefined;
+  rating: LogItem['rating'] | null;
 }) => {
   const colors = useColors();
   const scale = useScale();
@@ -22,9 +22,9 @@ export const Day = ({
         aspectRatio: 1,
         width: '100%',
         borderRadius: 100,
-        backgroundColor: item ? scale.colors[item.rating].background : 'transparent',
+        backgroundColor: rating ? scale.colors[rating].background : 'transparent',
         borderWidth: 2,
-        borderColor: item ? scale.colors[item.rating].background : colors.yearPixelsEmptyDot,
+        borderColor: rating ? scale.colors[rating].background : colors.yearPixelsEmptyDot,
         justifyContent: 'center',
         alignItems: 'center',
       }}
@@ -36,7 +36,7 @@ export const Day = ({
             width: 8,
             height: 8,
             borderRadius: 100,
-            backgroundColor: item ? colors.cardBackground : colors.yearPixelsEmptyDot,
+            backgroundColor: rating ? colors.cardBackground : colors.yearPixelsEmptyDot,
           }} />
       )}
     </View>

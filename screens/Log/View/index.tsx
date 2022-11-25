@@ -1,18 +1,70 @@
-import dayjs from 'dayjs';
 import { t } from 'i18n-js';
 import { Platform, Pressable, ScrollView, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Alert from '../../../components/Alert';
+import LinkButton from '../../../components/LinkButton';
 import Tag from '../../../components/Tag';
 import { useAnalytics } from '../../../hooks/useAnalytics';
 import useColors from '../../../hooks/useColors';
 import useHaptics from '../../../hooks/useHaptics';
 import { useLogState, useLogUpdater } from '../../../hooks/useLogs';
 import { useTagsState } from '../../../hooks/useTags';
+import { getItemDateTitle } from '../../../lib/utils';
 import { RootStackParamList, RootStackScreenProps } from '../../../types';
 import { Header } from './Header';
 import { Headline } from './Headline';
 import { RatingDot } from './RatingDot';
+
+const PromoAddEntry = ({
+  onClick
+}) => {
+  const colors = useColors();
+
+  return (
+    <View
+      style={{
+        marginBottom: 16,
+        backgroundColor: colors.promoBackground,
+        paddingVertical: 16,
+        paddingHorizontal: 20,
+        borderRadius: 8,
+      }}
+    >
+      <Text style={{
+        fontSize: 17,
+        marginBottom: 8,
+        fontWeight: 'bold',
+        color: colors.promoText
+      }}>⚡️ Multiple Entries per Day</Text>
+      <Text style={{
+        fontSize: 15,
+        marginBottom: 16,
+        lineHeight: 22,
+        color: colors.promoText,
+        opacity: 0.8
+      }}>You can now add multiple entries per day. This is useful if feel different emotions throughout the day.</Text>
+      <View
+        style={{
+          flexWrap: 'wrap',
+          marginHorizontal: -20,
+          paddingHorizontal: 12,
+          marginBottom: -16,
+          paddingBottom: 8,
+          paddingTop: 8,
+          borderTopColor: colors.promoBorder,
+          borderTopWidth: 1,
+        }}
+      >
+        <LinkButton
+          style={{
+            color: colors.promoText,
+          }}
+          onPress={onClick}
+        >{t('add_entry')}</LinkButton>
+      </View>
+    </View>
+  )
+}
 
 export const LogView = ({ navigation, route }: RootStackScreenProps<'LogView'>) => {
   const colors = useColors()
@@ -24,7 +76,7 @@ export const LogView = ({ navigation, route }: RootStackScreenProps<'LogView'>) 
   const logState = useLogState()
   const logUpdater = useLogUpdater()
 
-  const item = Object.values(logState?.items).find(i => i.id === route.params.id)
+  const item = logState?.items.find(i => i.id === route.params.id)
 
   if (!item) {
     return (
@@ -82,7 +134,7 @@ export const LogView = ({ navigation, route }: RootStackScreenProps<'LogView'>) 
         }}
       >
         <Header
-          title={dayjs(item.date).isSame(dayjs(), 'day') ? t('today') : dayjs(item.date).format('ddd, L')}
+          title={getItemDateTitle(item.dateTime)}
           onClose={close}
           onDelete={async () => {
             if (
@@ -128,7 +180,7 @@ export const LogView = ({ navigation, route }: RootStackScreenProps<'LogView'>) 
                 flexWrap: 'wrap',
               }}
             >
-              {(item?.tags && item?.tags?.length) ? item?.tags?.map(tag => {
+              {item ? item.tags.map(tag => {
                 const _tag = tags.find(t => t.id === tag.id);
 
                 if (!_tag) return null;
@@ -209,7 +261,8 @@ export const LogView = ({ navigation, route }: RootStackScreenProps<'LogView'>) 
           </View>
           <View
             style={{
-              height: insets.bottom
+              height: insets.bottom,
+              marginTop: 32,
             }}
           />
         </ScrollView>

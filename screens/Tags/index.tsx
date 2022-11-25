@@ -12,7 +12,7 @@ import { Tag, useTagsState } from '../../hooks/useTags';
 import { RootStackScreenProps } from '../../types';
 import { TagListItem } from './TagListItem';
 
-export const Tags = ({ navigation, route }: RootStackScreenProps<'Tags'>) => {
+export const Tags = ({ navigation }: RootStackScreenProps<'Tags'>) => {
   const colors = useColors()
   const insets = useSafeAreaInsets();
   const { tags } = useTagsState()

@@ -16,15 +16,15 @@ dayjs.extend(isSameOrAfter);
 
 const MIN_ITEMS = 5;
 
-export const RatingDistributionYear = ({
+export const MoodChart = ({
   date,
 }: {
   date: Dayjs,
 }) => {
   const logState = useLogState();
 
-  const items = Object.values(logState.items).filter(item => {
-    return dayjs(item.date).isSame(date, 'year')
+  const items = logState.items.filter(item => {
+    return dayjs(item.dateTime).isSame(date, 'year')
   })
 
   const dataDummy = useRef(_.range(0, 11).map((i) => ({
@@ -41,8 +41,8 @@ export const RatingDistributionYear = ({
 
   return (
     <BigCard
-      title={t('statistics_rating_distribution')}
-      subtitle={t('statistics_rating_distribution_description', { date: date.format('YYYY') })}
+      title={t('statistics_mood_chart')}
+      subtitle={t('statistics_mood_chart_description', { date: date.format('YYYY') })}
       isShareable={true}
       analyticsId="rating-distribution"
     >

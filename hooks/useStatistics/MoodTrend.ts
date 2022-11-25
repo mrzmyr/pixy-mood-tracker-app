@@ -44,7 +44,7 @@ export const getMoodTrendData = (items: LogItem[]): MoodTrendData => {
         value: RATING_MAPPING[item.rating],
       }))
       .filter((item) => {
-        const itemDate = dayjs(item.date);
+        const itemDate = dayjs(item.dateTime);
         return itemDate.isSame(start, SCALE_TYPE)
       })
     let ratingAverage = DEFAULT_WEEK_AVG;
@@ -66,7 +66,7 @@ export const getMoodTrendData = (items: LogItem[]): MoodTrendData => {
         value: RATING_MAPPING[item.rating],
       }))
       .filter((item) => {
-        const itemDate = dayjs(item.date);
+        const itemDate = dayjs(item.dateTime);
         return itemDate.isSame(start, SCALE_TYPE)
       })
     let ratingAverage = DEFAULT_WEEK_AVG;

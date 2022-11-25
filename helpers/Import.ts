@@ -1,135 +1,82 @@
-import Ajv, { JSONSchemaType } from "ajv";
 import { TAG_COLOR_NAMES } from '../constants/Config';
 import { Tag } from "../hooks/useTags";
-import { LogsState, RATING_KEYS } from './../hooks/useLogs';
+import { LogItem, LogsState, RATING_KEYS } from './../hooks/useLogs';
 import { ExportSettings } from './../hooks/useSettings';
+import { z } from "zod";
+import dayjs from 'dayjs';
+import { v4 as uuidv4 } from "uuid";
 
 export interface ImportData {
   version: string;
-  items: LogsState["items"];
+  items: LogsState["items"] | {
+    [key: string]: LogsState["items"][number];
+  };
   tags?: Tag[];
   settings: ExportSettings
 }
 
-const ajv = new Ajv({
-  allErrors: true
-});
+export const pixySchema = z.object({
+  version: z.string().optional(),
 
-ajv.addFormat('date', {
-  validate: (dateTimeString: string) => /^[0-9]{4}-[0-9]{2}-[0-9]{2}$/.test(dateTimeString)
-});
+  items: z.array(z.object({
+    id: z.string().optional(),
+    date: z.string().refine((date) => {
+      return new Date(date).toString() !== 'Invalid Date';
+    }),
+    rating: z.string().refine((rating: LogItem['rating']) => {
+      return RATING_KEYS.includes(rating);
+    }),
+    tags: z.array(z.object({
+      id: z.string(),
+      name: z.string().optional(),
+      color: z.string().refine((color: Tag['color']) => {
+        return TAG_COLOR_NAMES.includes(color);
+      }).optional()
+    }))
+  })),
 
-const pixy_schema: JSONSchemaType<ImportData> = {
-  type: "object",
-  required: ["items", "settings"],
-  properties: {
-    version: {
-      type: "string",
-    },
-    items: {
-      type: "object",
-      patternProperties: {
-        "^[0-9]{4}-[0-9]{2}-[0-9]{2}$": { 
-          type: "object",
-          required: ["date", "rating", "message"],
-          properties: {
-            date: {
-              type: "string",
-              format: "date"
-            },
-            rating: {
-              type: "string",
-              enum: RATING_KEYS
-            },
-            message: {
-              type: "string"
-            },
-            tags: {
-              type: "array",
-              items: {
-                type: "object",
-                properties: {
-                  id: {
-                    type: "string"
-                  },
-                  title: {
-                    type: "string"
-                  },
-                  color: {
-                    type: "string",
-                    enum: TAG_COLOR_NAMES
-                  }
-                },
-                required: ["id"]
-              }
-            }
-          }
-        },
-      },
-      additionalProperties: false,
-    },
-    tags: {
-      type: "array",
-      items: {
-        type: "object",
-        properties: {
-          id: {
-            type: "string",
-          },
-          title: {
-            type: "string",
-          },
-          color: {
-            type: "string",
-            enum: TAG_COLOR_NAMES
-          },
-        },
-      },
-    },
-    settings: {
-      type: "object",
-      properties: {
-        passcodeEnabled: {
-          type: ["boolean", "null"],
-        },
-        passcode: {
-          type: ["string", "null"],
-        },
-        scaleType: {
-          type: "string",
-          enum: ["ColorBrew-RdYlGn", "ColorBrew-PiYG"],
-        },
-        reminderEnabled: {
-          type: ["boolean"],
-        },
-        reminderTime: {
-          type: ["string"],
-          pattern: "^[0-9]{2}:[0-9]{2}$",
-        },
-        trackBehaviour: {
-          type: ["boolean", "null"],
-        },
-      },
-    },
-  },
-  additionalProperties: false,
-}
+  tags: z.array(z.object({
+    id: z.string(),
+    title: z.string(),
+    color: z.string().refine((color) => {
+      return TAG_COLOR_NAMES.includes(color);
+    })
+  })).optional(),
+
+  settings: z.object({
+    actionsDone: z.array(z.object({
+      date: z.string().refine((date) => {
+        return new Date(date).toString() !== 'Invalid Date';
+      }),
+      title: z.string()
+    })),
+    tags: z.array(z.object({
+      id: z.string(),
+      name: z.string(),
+      color: z.string().refine((color) => {
+        return TAG_COLOR_NAMES.includes(color);
+      })
+    })).optional()
+  })
+}).strict();
 
 const DEBUG = false;
 
 export function getJSONSchemaType(json: any): 'pixy' | 'unknown' {
-  const pixySchemaValidator = ajv.compile(pixy_schema);
+  const result = pixySchema.safeParse(json);
 
-  const isValid = pixySchemaValidator(json);
-  
-  if(pixySchemaValidator.errors && DEBUG) console.log(pixySchemaValidator.errors)
-  
-  return isValid ? 'pixy' : 'unknown';
+  if (!result.success && DEBUG) {
+    console.log(result.error.issues)
+  }
+
+  return result.success ? 'pixy' : 'unknown';
 }
 
 export function convertPixeltoPixyJSON(data): LogsState {
-  const pixy = {
-    items: {}
+  const pixy: {
+    items: LogsState["items"];
+  } = {
+    items: []
   }
 
   data.forEach(item => {
@@ -140,13 +87,16 @@ export function convertPixeltoPixyJSON(data): LogsState {
       2: 'very_bad',
       1: 'extremely_bad',
     }[item.mood]
-    
-    pixy.items[item.date] = {
+
+    pixy.items.push({
+      id: uuidv4(),
       date: item.date,
+      dateTime: dayjs(item.date).toISOString(),
+      createdAt: dayjs(item.date).toISOString(),
       rating,
       message: item.notes,
       tags: []
-    }
+    })
   })
 
   return pixy

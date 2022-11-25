@@ -6,7 +6,6 @@ import * as Sharing from "expo-sharing";
 import { Alert } from 'react-native';
 import { AnalyticsProvider } from "../hooks/useAnalytics";
 import { useDatagate } from "../hooks/useDatagate";
-import pkg from '../package.json';
 
 import _ from "lodash";
 import {
@@ -28,31 +27,27 @@ const wrapper = ({ children }) => (
   </SettingsProvider>
 );
 
-const testItems: LogsState["items"] = {
-  "2022-01-01": _generateItem({
+const testItems: LogsState["items"] = [
+  _generateItem({
     date: "2022-01-01",
     rating: "neutral",
     message: "test message",
     tags: [],
   }),
-  "2022-01-02": _generateItem({
+  _generateItem({
     date: "2022-01-02",
     rating: "neutral",
     message: "🦄",
     tags: [
       {
-        id: "1",
-        title: "test tag",
-        color: "lime",
+        id: "bb65f208-4e4c-11ed-bdc3-0242ac120002",
       },
       {
-        id: "2",
-        title: "test tag 2",
-        color: "slate",
+        id: "bb65f208-4e4c-11ed-bdc3-0242ac120002",
       },
     ],
   })
-};
+];
 
 const initalTags = [
   {
@@ -195,7 +190,7 @@ describe("useLogs()", () => {
 
     const calledJson = FileSystem.writeAsStringAsync.mock.calls[0][1];
     const expectedJson = {
-      version: pkg.version,
+      version: '1.0.0',
       items: testItems,
       settings: _.omit(testSettings, ['loaded', 'deviceId']) as ExportSettings,
       tags: testTags
@@ -230,7 +225,7 @@ describe("useLogs()", () => {
     expect(Alert.alert).toBeCalled();
     expect(hook.result.current.logState).toEqual({
       loaded: true,
-      items: {}
+      items: []
     });
     expect(hook.result.current.tagsState).toEqual({
       loaded: true,
@@ -267,7 +262,7 @@ describe("useLogs()", () => {
     expect(Alert.alert).toBeCalled();
     expect(hook.result.current.logState).toEqual({
       loaded: true,
-      items: {}
+      items: []
     });
 
     expect(hook.result.current.tagsState).toEqual({
@@ -281,28 +276,30 @@ describe("useLogs()", () => {
     });
   })
 
-  test("should `import`", async () => {
+  test.only("should `import`", async () => {
     const hook = _renderHook();
 
     await hook.waitForNextUpdate();
 
     await act(() => {
       hook.result.current.datagate.import({
-        version: pkg.version,
+        version: '1.0.0',
         items: testItems,
         settings: testSettings,
         tags: testTags
-      });
+      }, { muted: false });
     });
 
     expect(hook.result.current.logState).toEqual({
       loaded: true,
       items: testItems,
     });
+
     expect(hook.result.current.tagsState).toEqual({
       loaded: true,
       tags: testTags
     });
+
     expect(hook.result.current.settingsState.settings).toEqual({
       ...testSettings,
       loaded: true,

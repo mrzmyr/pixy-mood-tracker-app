@@ -1,7 +1,6 @@
 import { Buffer } from "buffer";
 import dayjs from "dayjs";
 import _ from "lodash";
-import { v4 as uuidv4 } from "uuid";
 import {
   createContext,
   useCallback,
@@ -10,11 +9,12 @@ import {
   useMemo,
   useReducer
 } from "react";
+import { v4 as uuidv4 } from "uuid";
 import { DATE_FORMAT } from "../constants/Config";
 import { load, store } from "../helpers/storage";
 import { AtLeast } from "../types";
 import { useAnalytics } from "./useAnalytics";
-import { Tag as ITag } from "./useTags";
+import { TagReference } from "./useTags";
 
 export const STORAGE_KEY = "PIXEL_TRACKER_LOGS";
 
@@ -33,27 +33,29 @@ export const RATING_KEYS = Object.keys(RATING_MAPPING) as (keyof typeof RATING_M
 export interface LogItem {
   id: string;
   date: string;
+  dateTime: string;
   rating: typeof RATING_KEYS[number];
   message: string;
   createdAt: string;
-  tags?: (ITag & {
-    title?: string;
-    color?: string;
-  })[];
+  tags: TagReference[];
+}
+
+export interface LogDay {
+  date: string;
+  items: LogItem[];
+  ratingAvg: typeof RATING_KEYS[number];
 }
 
 export interface LogsState {
   loaded?: boolean;
-  items: {
-    [date: string]: LogItem;
-  };
+  items: LogItem[]
 }
 
 type LogAction = |
 { type: "import"; payload: LogsState } |
 { type: "add"; payload: LogItem } |
 { type: "edit"; payload: AtLeast<LogItem, 'date'> } |
-{ type: "batchEdit"; payload: { items: { [id: string]: LogItem } } } |
+{ type: "batchEdit"; payload: LogItem[] } |
 { type: "delete"; payload: LogItem['id'] } |
 { type: "reset", payload: LogsState };
 
@@ -79,26 +81,32 @@ function reducer(state: LogsState, action: LogAction): LogsState {
         loaded: true,
       })
     case "add":
-      state.items[action.payload.date] = action.payload;
-      return { ...state };
-    case "edit":
-      state.items[action.payload.date] = {
-        ...state.items[action.payload.date],
-        ...action.payload,
+      return {
+        ...state,
+        items: [...state.items, action.payload]
       };
-      return { ...state };
+    case "edit":
+      return {
+        ...state,
+        items: state.items.map((item) => {
+          if (item.id === action.payload.id) {
+            return {
+              ...item,
+              ...action.payload,
+            }
+          }
+          return item
+        })
+      };
     case "batchEdit":
-      state.items = action.payload.items;
+      state.items = action.payload;
       return {
         ...state,
       };
     case "delete":
-      const newItems = Object.values(state.items).filter(
-        (item) => item.id !== action.payload
-      );
       return {
         ...state,
-        items: _.keyBy(newItems, "date"),
+        items: state.items.filter((item) => item.id !== action.payload),
       };
     case "reset":
       return {
@@ -109,23 +117,30 @@ function reducer(state: LogsState, action: LogAction): LogsState {
 }
 
 const migrate = (data: LogsState): LogsState => {
-  const newItems: LogItem[] = []
-
-  for (const [key, value] of Object.entries(data.items)) {
-    const date = dayjs(key).format(DATE_FORMAT)
-
-    const newItem = { ...value }
-
-    if (!newItem.createdAt) newItem.createdAt = dayjs(date).toISOString()
-    if (!newItem.id) newItem.id = uuidv4()
-
-    newItems.push(newItem)
+  let result = {
+    ...data,
   }
 
-  return {
-    ...data,
-    items: _.keyBy(newItems, 'date'),
-  };
+  if (!_.isArray(data.items)) {
+    result.items = Object.values(result.items)
+  }
+
+  result.items = result.items.map((item) => {
+    const date = dayjs(item.date).format(DATE_FORMAT)
+
+    const newItem = { ...item }
+
+    if (!newItem.createdAt) newItem.createdAt = dayjs(date).toISOString()
+    if (!newItem.dateTime) newItem.dateTime = dayjs(date).toISOString()
+    if (!newItem.id) newItem.id = uuidv4()
+    if (!newItem.tags) newItem.tags = []
+
+    newItem.tags = newItem.tags.map((tag) => _.pick(tag, ['id']))
+
+    return newItem
+  })
+
+  return result
 };
 
 function LogsProvider({ children }: { children: React.ReactNode }) {
@@ -133,7 +148,7 @@ function LogsProvider({ children }: { children: React.ReactNode }) {
 
   const INITIAL_STATE: LogsState = {
     loaded: false,
-    items: {},
+    items: [],
   };
 
   const [state, dispatch] = useReducer(reducer, INITIAL_STATE);
@@ -175,7 +190,7 @@ function LogsProvider({ children }: { children: React.ReactNode }) {
 
   const addLog = useCallback((payload: LogItem) => dispatch({ type: "add", payload, }), []);
   const editLog = useCallback((payload: AtLeast<LogItem, 'date'>) => dispatch({ type: "edit", payload, }), []);
-  const updateLogs = useCallback((items: LogsState["items"]) => dispatch({ type: "batchEdit", payload: { items } }), []);
+  const updateLogs = useCallback((items: LogsState["items"]) => dispatch({ type: "batchEdit", payload: items }), []);
   const deleteLog = useCallback((payload: LogItem['id']) => dispatch({ type: "delete", payload, }), []);
   const reset = useCallback(() => dispatch({ type: "reset", payload: INITIAL_STATE }), []);
 

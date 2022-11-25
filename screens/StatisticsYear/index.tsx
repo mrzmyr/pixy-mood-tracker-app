@@ -8,8 +8,8 @@ import { useLogState } from '../../hooks/useLogs';
 import { RootStackScreenProps } from '../../types';
 import { TagDistribution } from '../../components/Statistics/TagDistribution';
 import { Header } from './Header';
-import { RatingCount } from '../../components/Statistics/RatingCount';
-import { RatingDistributionYear } from './RatingDistribution';
+import { MoodCounts } from '../../components/Statistics/MoodCounts';
+import { MoodChart } from './MoodChart';
 import YearInPixels from './YearInPixels';
 
 export const StatisticsYearScreen = ({ route }: RootStackScreenProps<'StatisticsYear'>) => {
@@ -19,7 +19,7 @@ export const StatisticsYearScreen = ({ route }: RootStackScreenProps<'Statistics
   const [date, setDate] = useState(dayjs(route.params.date).isValid() ? dayjs(route.params.date) : dayjs())
 
   const logState = useLogState()
-  const items = Object.values(logState.items).filter((item) => dayjs(item.date).isSame(date, 'year'))
+  const items = logState.items.filter((item) => dayjs(item.dateTime).isSame(date, 'year'))
 
   return (
     <ScrollView
@@ -44,13 +44,13 @@ export const StatisticsYearScreen = ({ route }: RootStackScreenProps<'Statistics
           paddingBottom: insets.bottom + 16,
         }}
       >
-        <RatingCount
+        <MoodCounts
           title={t('mood_count')}
           subtitle={t('mood_count_description', { date: dayjs(date).format('YYYY') })}
           date={date}
           items={items}
         />
-        <RatingDistributionYear
+        <MoodChart
           date={date}
         />
         <YearInPixels

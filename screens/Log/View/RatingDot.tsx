@@ -9,7 +9,7 @@ export const RatingDot = ({
   onPress,
 }: {
   rating: LogItem['rating'];
-  onPress: () => void;
+  onPress?: () => void;
 }) => {
   const haptics = useHaptics();
   const colors = useColors();
@@ -34,9 +34,9 @@ export const RatingDot = ({
           backgroundColor: backgroundColor,
           width: 46,
           aspectRatio: 1,
-        }} 
+        }}
       />
     </Pressable>
   )
-  
+
 };

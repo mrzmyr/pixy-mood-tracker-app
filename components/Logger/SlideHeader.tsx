@@ -1,16 +1,20 @@
-import { Pressable, Text, View } from 'react-native';
-import { Trash, X } from 'react-native-feather';
+import { Dimensions, Pressable, Text, View } from 'react-native';
+import { Clock, Trash, X } from 'react-native-feather';
 import useColors from "../../hooks/useColors";
 import useHaptics from "../../hooks/useHaptics";
+
+const SCREEN_WIDTH = Dimensions.get('window').width;
 
 export const SlideHeader = ({
   title,
   isDeleteable,
+  onPressTitle,
   onClose,
   onDelete,
 }: {
-  title: string;
+  title: React.ReactNode;
   isDeleteable: boolean;
+  onPressTitle?: () => void;
   onClose?: () => void;
   onDelete?: () => void;
 }) => {
@@ -19,30 +23,51 @@ export const SlideHeader = ({
 
   return (
     <View style={{
-      flexDirection: 'row',
+      flexDirection: SCREEN_WIDTH < 350 ? 'column' : 'row',
       justifyContent: 'space-between',
-      alignItems: 'center',
-      marginTop: -16,
-    }}>
+      marginTop: -8,
+      width: '100%',
+    }}
+    >
       <View
         style={{
-          flex: 1,
           alignItems: 'flex-start',
           justifyContent: 'center',
+          flex: 1,
         }}
       >
         <View
           style={{
             flexDirection: 'row',
+            alignItems: 'center',
+            flex: 1,
           }}
         >
-          <Text
-            style={{
-              fontSize: 17,
-              fontWeight: '600',
-              color: colors.logHeaderText,
+          <Pressable
+            onPress={() => {
+              haptics.selection();
+              onPressTitle?.();
             }}
-          >{title}</Text>
+            style={({ pressed }) => ({
+              opacity: pressed ? 0.8 : 1,
+              flexDirection: 'row',
+              alignItems: 'center',
+              paddingVertical: 6,
+              paddingHorizontal: 12,
+              backgroundColor: colors.logHeaderHighlight,
+              borderRadius: 8,
+            })}
+          >
+            <Clock color={colors.logHeaderText} width={17} style={{ marginRight: 8 }} />
+            <Text
+              numberOfLines={1}
+              style={{
+                fontSize: 17,
+                fontWeight: '600',
+                color: colors.logHeaderText,
+              }}
+            >{title}</Text>
+          </Pressable>
         </View>
       </View>
       <View

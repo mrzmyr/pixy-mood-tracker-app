@@ -1,8 +1,9 @@
 import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
-import { ActivityIndicator, Platform, RefreshControl, SafeAreaView, ScrollView, Text, View } from 'react-native';
+import { ActivityIndicator, Platform, RefreshControl, ScrollView, View } from 'react-native';
 import { Moon, Star } from 'react-native-feather';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { FeedbackBox } from '../../components/FeedbackBox';
 import MenuList from '../../components/MenuList';
 import MenuListHeadline from '../../components/MenuListHeadline';
 import MenuListItem from '../../components/MenuListItem';
@@ -13,13 +14,12 @@ import useColors from '../../hooks/useColors';
 import { useLogState } from '../../hooks/useLogs';
 import { useStatistics } from '../../hooks/useStatistics';
 import { EmptyPlaceholder } from './EmptyPlaceholder';
-import { FeedbackSection } from './FeedbackSection';
 import { HighlightsSection } from './HighlightsSection';
 
+import { useNavigation } from '@react-navigation/native';
 import isBetween from 'dayjs/plugin/isBetween';
 import { DATE_FORMAT } from '../../constants/Config';
 import { RootStackScreenProps } from '../../types';
-import { useNavigation } from '@react-navigation/native';
 
 dayjs.extend(isBetween);
 
@@ -31,12 +31,10 @@ const PromoCards = () => {
   const isBeginningOfMonth = dayjs().isBetween(dayjs().startOf('month'), dayjs().startOf('month').add(3, 'day'), null, '[]')
   const isDecember = dayjs().month() === 11
 
-  const items = Object.values(logState.items);
-
   return (
     <>
       {(
-        items.length >= MIN_LOGS_COUNT &&
+        logState.items.length >= MIN_LOGS_COUNT &&
         isDecember || isBeginningOfMonth
       ) && (
           <>
@@ -91,9 +89,8 @@ export const StatisticsScreen = ({ navigation }: RootStackScreenProps<'Statistic
   const [refreshing, setRefreshing] = useState(false);
 
   // times of the last two weeks
-  const items = Object.values(logState.items).filter(item => {
-    const date = new Date(item.date)
-    return date.getTime() > new Date().getTime() - 1000 * 60 * 60 * 24 * 14
+  const items = logState.items.filter(item => {
+    return dayjs(item.dateTime).isBetween(dayjs().subtract(14, 'day'), dayjs(), null, '[]')
   })
 
   useEffect(() => {
@@ -156,19 +153,6 @@ export const StatisticsScreen = ({ navigation }: RootStackScreenProps<'Statistic
           paddingBottom: insets.bottom + 20,
         }}
       >
-        {/* <Text
-            style={{
-              fontSize: 32,
-              color: colors.text,
-              fontWeight: 'bold',
-              marginTop: 32,
-            }}
-          >{t('statistics')}</Text> */}
-
-
-
-        {/* <TrendsSection /> */}
-
         <PromoCards />
 
         {items.length < MIN_LOGS_COUNT && (
@@ -181,9 +165,7 @@ export const StatisticsScreen = ({ navigation }: RootStackScreenProps<'Statistic
         {(
           items.length >= MIN_LOGS_COUNT
         ) && (
-            <>
-              <FeedbackSection />
-            </>
+            <FeedbackBox prefix={`statistics_experimental`} />
           )}
 
         {(

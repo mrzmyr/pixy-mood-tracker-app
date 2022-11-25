@@ -2,11 +2,10 @@ import _ from "lodash";
 import {
   Pressable,
   StyleSheet,
-  Text, View,
+  Text, TextStyle, View,
   ViewStyle
 } from "react-native";
 import * as FeatherIcons from "react-native-feather";
-import { useStyle } from "react-native-style-utilities";
 import useColors from "../hooks/useColors";
 import useHaptics from "../hooks/useHaptics";
 
@@ -34,7 +33,7 @@ export default function LinkButton({
   type?: "primary" | "secondary" | "danger";
   onPress: () => any;
   children?: React.ReactNode;
-  style?: ViewStyle;
+  style?: ViewStyle & TextStyle;
   icon?: keyof typeof FeatherIcons | null;
   testID?: string;
   disabled?: boolean;
@@ -55,8 +54,6 @@ export default function LinkButton({
   }[type];
 
   const Icon = FeatherIcons[icon as keyof typeof FeatherIcons];
-
-  const textStyle = useStyle(() => [styles.text, { color }], [color]);
 
   const _onPress = () => {
     if (!disabled) {
@@ -84,7 +81,15 @@ export default function LinkButton({
         </View>
       )}
       {isString(children) ? (
-        <Text ellipsizeMode="tail" numberOfLines={1} style={textStyle}>
+        <Text
+          ellipsizeMode="tail"
+          numberOfLines={1}
+          style={{
+            fontSize: 17,
+            textAlign: "center",
+            color: style.color || color,
+          }}
+        >
           {children}
         </Text>
       ) : (
@@ -100,10 +105,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     padding: 8,
-  },
-  text: {
-    fontSize: 17,
-    textAlign: "center",
   },
   iconContainer: { marginRight: 5 },
 });

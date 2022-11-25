@@ -7,11 +7,11 @@ import { t } from '../../helpers/translation';
 import useColors from '../../hooks/useColors';
 import { useLogState } from '../../hooks/useLogs';
 import { RootStackScreenProps } from '../../types';
-import { RatingCount } from '../../components/Statistics/RatingCount';
+import { MoodCounts } from '../../components/Statistics/MoodCounts';
 import { Header } from './Header';
 import { MoodPeaks } from './MoodPeaks';
 import { Navigation } from './Navigation';
-import { RatingDistribution } from './RatingDistribution';
+import { MoodChart } from './MoodChart';
 import { Stats } from './Stats';
 import { TagDistribution } from '../../components/Statistics/TagDistribution';
 
@@ -33,9 +33,9 @@ export const StatisticsMonthScreen = ({ navigation, route }: RootStackScreenProp
 
   const logState = useLogState()
 
-  const prevItems = Object.values(logState.items).filter((item) => dayjs(item.date).isSame(prevMonth, 'month'))
-  const nextItems = Object.values(logState.items).filter((item) => dayjs(item.date).isSame(nextMonth, 'month'))
-  const items = Object.values(logState.items).filter((item) => dayjs(item.date).isSame(date, 'month'))
+  const prevItems = logState.items.filter((item) => dayjs(item.dateTime).isSame(prevMonth, 'month'))
+  const nextItems = logState.items.filter((item) => dayjs(item.dateTime).isSame(nextMonth, 'month'))
+  const items = logState.items.filter((item) => dayjs(item.dateTime).isSame(date, 'month'))
 
   return (
     <View
@@ -69,9 +69,9 @@ export const StatisticsMonthScreen = ({ navigation, route }: RootStackScreenProp
             nextMonthDisabled={nextItems.length === 0}
             prevMonthDisabled={prevItems.length === 0}
           />
-          <Stats items={items} prevItems={prevItems} />
-          <RatingDistribution date={date} items={items} />
-          <RatingCount
+          <Stats items={items} prevItems={prevItems} date={date} />
+          <MoodChart date={date} items={items} />
+          <MoodCounts
             title={t('mood_count')}
             subtitle={t('mood_count_description', { date: dayjs(date).format('MMMM, YYYY') })}
             items={items}

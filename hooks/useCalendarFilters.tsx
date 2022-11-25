@@ -38,14 +38,14 @@ const initialState: CalendarFiltersData = {
 
 function CalendarFiltersProvider({
   children
-}: { 
-  children: React.ReactNode 
+}: {
+  children: React.ReactNode
 }) {
   const analytics = useAnalytics()
   const logState = useLogState()
   const [data, setData] = useState<CalendarFiltersData>(initialState)
   const [isOpen, setIsOpen] = useState(false)
-  
+
   const _isMatching = (item: LogItem, data: CalendarFiltersData) => {
     const matchesText = item.message.toLowerCase().includes(data.text.toLowerCase())
     const matchesRatings = data.ratings.includes(item.rating)
@@ -54,17 +54,17 @@ function CalendarFiltersProvider({
 
     const conditions: boolean[] = []
 
-    if(data.text !== '') conditions.push(matchesText)
-    if(data.ratings.length !== 0) conditions.push(matchesRatings)
-    if(data.tagIds.length !== 0) conditions.push(matchesTags)
+    if (data.text !== '') conditions.push(matchesText)
+    if (data.ratings.length !== 0) conditions.push(matchesRatings)
+    if (data.tagIds.length !== 0) conditions.push(matchesTags)
 
     return conditions.every(condition => condition)
   }
-  
+
   const _getFilteredItems = (data): LogItem[] => {
-    return Object.values(logState.items).filter((item) => _isMatching(item, data))
+    return logState.items.filter((item) => _isMatching(item, data))
   }
-  
+
   const set = useCallback((data: FiltersData) => {
     analytics.track('calendar_filters_filtered', {
       textLength: data.text.length,
@@ -72,7 +72,7 @@ function CalendarFiltersProvider({
       ratingsCount: data.ratings.length,
       tagsCount: data.tagIds.length,
     })
-    
+
     const isFiltering = (
       data.text !== '' ||
       data.ratings.length !== 0 ||
@@ -80,7 +80,7 @@ function CalendarFiltersProvider({
     );
 
     const filterCount = (data.text !== '' ? 1 : 0) + data.ratings.length + data.tagIds.length;
-      
+
     setData({
       ...data,
       filteredItems: _getFilteredItems(data),
@@ -103,16 +103,16 @@ function CalendarFiltersProvider({
     analytics.track('calendar_filters_closed')
     setIsOpen(false)
   }, [])
-  
+
   const value: Value = useMemo(() => ({
-    data, 
+    data,
     set,
     reset,
     open,
     close,
     isOpen,
   }), [JSON.stringify(data), set, reset, open, close, isOpen])
-  
+
   return (
     <CalendarFiltersStateContext.Provider value={value}>
       {children}
