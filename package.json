@@ -1,6 +1,6 @@
 {
   "name": "pixel-tracker",
-  "version": "1.51.1",
+  "version": "1.52.0",
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
     "start": "expo start --dev-client",
@@ -23,8 +23,8 @@
     "submit:ios": "npx eas-cli submit -p ios --path $(ls -t *.ipa | head -1)",
     "submit": "yarn submit:android && yarn submit:ios",
     "build": "yarn build:android:prod && yarn build:ios:prod",
-    "publish:preview": "npx eas-cli build -p all --profile=preview --non-interactive --auto-submit",
-    "publish:prod": "npx eas-cli build -p all --local --profile=production --non-interactive --auto-submit",
+    "publish:preview": "npx eas-cli build -p all --profile=preview --auto-submit",
+    "publish:prod": "npx eas-cli build -p all --local --profile=production --auto-submit",
     "translate-app": "node scripts/generate-translations-app.js"
   },
   "jest": {
