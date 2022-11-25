@@ -1,7 +1,6 @@
 import { Buffer } from "buffer";
 import dayjs from "dayjs";
 import _ from "lodash";
-import { v4 as uuidv4 } from "uuid";
 import {
   createContext,
   useCallback,
@@ -10,11 +9,12 @@ import {
   useMemo,
   useReducer
 } from "react";
+import { v4 as uuidv4 } from "uuid";
 import { DATE_FORMAT } from "../constants/Config";
 import { load, store } from "../helpers/storage";
 import { AtLeast } from "../types";
 import { useAnalytics } from "./useAnalytics";
-import { Tag as ITag } from "./useTags";
+import { TagReference } from "./useTags";
 
 export const STORAGE_KEY = "PIXEL_TRACKER_LOGS";
 
@@ -37,9 +37,13 @@ export interface LogItem {
   rating: typeof RATING_KEYS[number];
   message: string;
   createdAt: string;
-  tags: {
-    id: ITag['id']
-  }[];
+  tags: TagReference[];
+}
+
+export interface LogDay {
+  date: string;
+  items: LogItem[];
+  ratingAvg: typeof RATING_KEYS[number];
 }
 
 export interface LogsState {
@@ -127,7 +131,7 @@ const migrate = (data: LogsState): LogsState => {
     const newItem = { ...item }
 
     if (!newItem.createdAt) newItem.createdAt = dayjs(date).toISOString()
-    if (!newItem.dateTime) newItem.dateTime = dayjs(date).hour(18).toISOString()
+    if (!newItem.dateTime) newItem.dateTime = dayjs(date).toISOString()
     if (!newItem.id) newItem.id = uuidv4()
     if (!newItem.tags) newItem.tags = []
 

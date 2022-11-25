@@ -1,14 +1,15 @@
 import { useNavigation } from '@react-navigation/native';
 import dayjs, { Dayjs } from 'dayjs';
-import { Pressable, Text, TouchableOpacity, View } from 'react-native';
+import { Pressable, Text, View } from 'react-native';
 import { Card } from '../../components/Statistics/Card';
+import { CardFeedback } from '../../components/Statistics/CardFeedback';
+import { DATE_FORMAT } from '../../constants/Config';
 import { t } from '../../helpers/translation';
 import useColors from '../../hooks/useColors';
 import useHaptics from '../../hooks/useHaptics';
 import { LogItem } from '../../hooks/useLogs';
 import { TagsPeakData } from '../../hooks/useStatistics/TagsPeaks';
 import { Tag as ITag } from '../../hooks/useTags';
-import { CardFeedback } from '../../components/Statistics/CardFeedback';
 import { HeaderWeek } from './HeaderWeek';
 
 const DayDot = ({
@@ -51,8 +52,8 @@ const DayDot = ({
         if (!item) return;
 
         await haptics.selection()
-        navigation.navigate('LogView', {
-          id: item.id,
+        navigation.navigate('DayView', {
+          date: date.format(DATE_FORMAT),
         })
       }}
     >

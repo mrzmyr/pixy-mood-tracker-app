@@ -19,7 +19,6 @@ export const StatsCard = ({
         backgroundColor: colors.cardBackground,
         borderRadius: 8,
         padding: 16,
-        marginBottom: 8,
         ...style,
       }}
     >

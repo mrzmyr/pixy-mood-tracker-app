@@ -3,10 +3,8 @@ import React, { forwardRef, memo } from "react";
 import { Platform, StyleSheet, Text, View } from "react-native";
 import useColors from "../../hooks/useColors";
 import { useLogState } from "../../hooks/useLogs";
-import { useSettings } from "../../hooks/useSettings";
 import CalendarMonth from "./CalendarMonth";
 
-import { useNavigation } from "@react-navigation/native";
 import { useStyle } from "react-native-style-utilities";
 import { DATE_FORMAT } from "../../constants/Config";
 import { t } from "../../helpers/translation";
@@ -19,10 +17,8 @@ for (let i = MONTH_COUNT; i >= 0; i--) {
 }
 
 const Calendar = memo(forwardRef(function Calendar({ }, ref: React.RefObject<View>) {
-  const navigation = useNavigation();
   const colors = useColors()
   const logState = useLogState()
-  const { settings } = useSettings()
 
   const bottomTextStyles = useStyle(() => [
     styles.bottomText,

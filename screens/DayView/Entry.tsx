@@ -3,10 +3,13 @@ import dayjs from "dayjs";
 import { Pressable, Text, View } from "react-native";
 import useColors from "../../hooks/useColors";
 import useHaptics from "../../hooks/useHaptics";
-import { LogItem } from "../../hooks/useLogs";
+import { LogItem, useLogUpdater } from "../../hooks/useLogs";
 import { RatingDot } from "../Log/View/RatingDot";
 import { EntryTags } from "./EntryTags";
 import { EntryMessage } from "./EntryMessage";
+import LinkButton from "../../components/LinkButton";
+import { Edit, Trash } from "react-native-feather";
+import { askToRemove } from "../../helpers/prompts";
 
 export const Entry = ({
   item
@@ -18,6 +21,7 @@ export const Entry = ({
   const haptics = useHaptics();
 
   const isExtended = item.message || item.tags.length > 0;
+  const logUpdater = useLogUpdater();
 
   return (
     <Pressable
@@ -49,7 +53,6 @@ export const Entry = ({
         <RatingDot
           rating={item.rating}
           onPress={() => {
-            haptics.selection();
             navigation.navigate('LogEdit', {
               id: item.id,
               step: 'rating',
@@ -69,13 +72,51 @@ export const Entry = ({
               color: colors.text,
             }}
           >{dayjs(item.dateTime).format('LT')}</Text>
-          {/* <Text
-            style={{
-              fontSize: 17,
-              color: colors.textSecondary,
-              marginTop: 4,
+        </View>
+        <View
+          style={{
+            flex: 1,
+            flexDirection: 'row',
+            justifyContent: 'flex-end',
+          }}
+        >
+          <LinkButton
+            onPress={() => {
+              navigation.navigate('LogEdit', {
+                id: item.id,
+                step: 'rating',
+              });
             }}
-          >{dayjs(item.dateTime).format('L')}</Text> */}
+            style={{
+              marginLeft: -8,
+              marginTop: -8,
+              marginBottom: -8,
+              marginRight: 8,
+              paddingTop: 16,
+              paddingBottom: 16,
+              paddingLeft: 16,
+              paddingRight: 16,
+            }}
+          >
+            <Edit color={colors.tint} width={24} height={24} />
+          </LinkButton>
+          <LinkButton
+            style={{
+              marginLeft: -8,
+              marginTop: -8,
+              marginBottom: -8,
+              marginRight: -8,
+              paddingTop: 16,
+              paddingBottom: 16,
+              paddingLeft: 16,
+              paddingRight: 16,
+            }}
+            onPress={() => {
+              askToRemove().then(() => logUpdater.deleteLog(item.id))
+            }}
+          >
+            <Trash color={colors.tint} width={24} height={24} />
+          </LinkButton>
         </View>
       </View>
 

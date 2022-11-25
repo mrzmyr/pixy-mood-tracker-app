@@ -2,7 +2,6 @@ import { useNavigation } from "@react-navigation/native";
 import { ScrollView, View } from "react-native";
 import Tag from "../../components/Tag";
 import useColors from "../../hooks/useColors";
-import useHaptics from "../../hooks/useHaptics";
 import { LogItem } from "../../hooks/useLogs";
 import { useTagsState } from "../../hooks/useTags";
 
@@ -12,7 +11,6 @@ export const EntryTags = ({
   item: LogItem;
 }) => {
   const colors = useColors();
-  const haptics = useHaptics();
   const navigation = useNavigation();
   const tagsState = useTagsState();
 
@@ -46,13 +44,11 @@ export const EntryTags = ({
                 key={_tag.id}
                 title={_tag.title}
                 colorName={_tag.color}
-                // onPress={() => {
-                //   haptics.selection();
-                //   navigation.navigate('LogEdit', {
-                //     id: item.id,
-                //     step: 'tags',
-                //   });
-                // }}
+                onPress={() => {
+                  navigation.navigate('LogView', {
+                    id: item.id,
+                  });
+                }}
                 style={{
                   backgroundColor: colors.entryBackground,
                   borderColor: colors.entryBorder,

@@ -1,15 +1,14 @@
 import dayjs from "dayjs";
-import { memo, useCallback, useMemo, useRef } from "react";
+import { memo, useCallback, useMemo } from "react";
 import { StyleSheet, View } from "react-native";
 import { DATE_FORMAT } from "../../constants/Config";
 
-import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
-import { LogItem, useLogState } from "../../hooks/useLogs";
-import CalendarDay from "./CalendarDay";
-import { useCalendarFilters } from "../../hooks/useCalendarFilters";
-import { getAverageRating } from "../../lib/utils";
 import { useNavigation } from "@react-navigation/native";
-import _, { Dictionary } from "lodash";
+import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
+import { useCalendarFilters } from "../../hooks/useCalendarFilters";
+import { LogItem, useLogState } from "../../hooks/useLogs";
+import { getAverageMood } from "../../lib/utils";
+import CalendarDay from "./CalendarDay";
 dayjs.extend(isSameOrBefore)
 
 const CalendarDayContainer = memo(({
@@ -88,7 +87,7 @@ const CalendarWeek = memo(function CalendarWeek({
 
   const renderDay = ({ date }) => {
     const items = itemMap[date] || [];
-    const averageRating = items.length < 1 ? null : getAverageRating(items)
+    const averageRating = items.length < 1 ? null : getAverageMood(items)
     const isFiltered = items.some(item => filteredItemIds.includes(item.id))
 
     return (

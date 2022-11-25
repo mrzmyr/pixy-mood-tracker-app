@@ -33,11 +33,11 @@ export const HighlightsSection = ({ items }: { items: LogItem[] }) => {
 
   const showMoodPeaksPositve =
     statistics.isAvailable("mood_peaks_positive") &&
-    statistics.state.moodPeaksPositiveData.items.length >= 2;
+    statistics.state.moodPeaksPositiveData.days.length >= 2;
 
   const showMoodPeaksNegative =
     statistics.isAvailable("mood_peaks_negative") &&
-    statistics.state.moodPeaksNegativeData.items.length >= 2;
+    statistics.state.moodPeaksNegativeData.days.length >= 2;
 
   const showTagPeaks =
     statistics.isAvailable("tags_peaks") &&
@@ -79,10 +79,10 @@ export const HighlightsSection = ({ items }: { items: LogItem[] }) => {
       cards.mood_avg_percentage = statistics.state.moodAvgData.ratingHighestPercentage
     }
     if (showMoodPeaksPositve) {
-      cards.mood_peaks_positive_count = statistics.state.moodPeaksPositiveData.items.length
+      cards.mood_peaks_positive_count = statistics.state.moodPeaksPositiveData.days.length
     }
     if (showMoodPeaksNegative) {
-      cards.mood_peaks_negative_count = statistics.state.moodPeaksNegativeData.items.length
+      cards.mood_peaks_negative_count = statistics.state.moodPeaksNegativeData.days.length
     }
     if (showTagPeaks) {
       cards.tags_peaks_count = statistics.state.tagsPeaksData.tags.length

@@ -77,13 +77,13 @@ export const useDatagate = (): {
     }
   };
 
-  const resetData = () => {
+  const reset = () => {
     logUpdater.reset();
     tagsUpdater.reset();
   }
 
   const factoryReset = () => {
-    resetData()
+    reset()
     resetSettings();
     analytics.reset()
     OneSignal.removeExternalUserId();
@@ -118,7 +118,7 @@ export const useDatagate = (): {
 
   const openResetDialog = async (type: ResetType) => {
     analytics.track("data_reset_asked");
-    const resetFn = type === "factory" ? factoryReset : resetData;
+    const resetFn = type === "factory" ? factoryReset : reset;
 
     if (Platform.OS === "web") {
       resetFn()

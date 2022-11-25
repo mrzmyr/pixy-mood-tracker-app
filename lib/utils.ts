@@ -1,7 +1,8 @@
 import dayjs from 'dayjs';
 import _ from 'lodash';
 import { t } from '../helpers/translation';
-import { LogItem, RATING_MAPPING } from './../hooks/useLogs';
+import { DATE_FORMAT } from './../constants/Config';
+import { LogDay, LogItem, RATING_MAPPING } from './../hooks/useLogs';
 
 export const getItemsCoverage = (items: LogItem[]) => {
   let itemsCoverage = 0;
@@ -16,7 +17,7 @@ export const getItemsCoverage = (items: LogItem[]) => {
   return itemsCoverage;
 };
 
-export const getAverageRating = (items: LogItem[]): LogItem['rating'] | null => {
+export const getAverageMood = (items: LogItem[]): LogItem['rating'] | null => {
   let averageRating = 0;
 
   if (items.length > 0) {
@@ -27,6 +28,23 @@ export const getAverageRating = (items: LogItem[]): LogItem['rating'] | null => 
   }
 
   return _.invert(RATING_MAPPING)[averageRating] as LogItem['rating'];
+}
+
+export const getLogDays = (items: LogItem[]): LogDay[] => {
+  const moodsPerDay = _.groupBy(items, (item) => dayjs(item.date).format(DATE_FORMAT))
+
+  return Object.keys(moodsPerDay).map((date) => {
+    const items = moodsPerDay[date]
+    const avgMood = getAverageMood(items)
+
+    if (avgMood === null) return null
+
+    return {
+      date,
+      ratingAvg: avgMood,
+      items,
+    }
+  }).filter((item) => item !== null) as LogDay[]
 }
 
 export const getItemDateTitle = (dateTime: LogItem['dateTime']) => {

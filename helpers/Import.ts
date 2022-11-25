@@ -60,7 +60,7 @@ export const pixySchema = z.object({
   })
 }).strict();
 
-const DEBUG = true;
+const DEBUG = false;
 
 export function getJSONSchemaType(json: any): 'pixy' | 'unknown' {
   const result = pixySchema.safeParse(json);

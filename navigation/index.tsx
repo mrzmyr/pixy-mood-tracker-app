@@ -68,7 +68,7 @@ const NAVIGATION_LINKING = {
       DayView: 'days/:date',
       LogView: 'logs/:id',
       LogCreate: 'logs/create/:date',
-      LogEdit: 'logs/:id/edit?step=:step',
+      LogEdit: 'logs/:id/edit',
       Tags: 'tags',
       TagEdit: 'tags/:id',
       TagCreate: 'tags/create',
@@ -126,10 +126,12 @@ function RootNavigator() {
   }
 
   useEffect(() => {
-    OneSignal.setAppId(ONE_SIGNAL_APP_ID);
+    if (Platform.OS !== 'web') {
+      OneSignal.setAppId(ONE_SIGNAL_APP_ID);
 
-    if (settings.loaded) {
-      OneSignal.setExternalUserId(settings.deviceId)
+      if (settings.loaded) {
+        OneSignal.setExternalUserId(settings.deviceId)
+      }
     }
 
     if (settings.loaded && !hasActionDone('onboarding')) {

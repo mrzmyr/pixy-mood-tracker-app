@@ -161,10 +161,10 @@ export function StatisticsProvider({
       return state.moodAvgData?.itemsCount > 0;
     }
     if (type === "mood_peaks_positive") {
-      return state.moodPeaksPositiveData?.items.length > 0;
+      return state.moodPeaksPositiveData?.days.length > 0;
     }
     if (type === "mood_peaks_negative") {
-      return state.moodPeaksNegativeData?.items.length > 0;
+      return state.moodPeaksNegativeData?.days.length > 0;
     }
     if (type === "tags_peaks") {
       return state.tagsPeaksData?.tags.length > 0;

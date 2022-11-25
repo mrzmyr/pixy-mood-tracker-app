@@ -1,13 +1,18 @@
 import _ from "lodash";
-import { LogItem } from "./useLogs";
+import { LogDay, LogItem } from "./useLogs";
 import { Tag } from "./useTags";
 
 interface AnonmizedTag extends Omit<Tag, "title"> {
   titleLength: number;
 }
+
 interface AnonmizedLogItem extends Omit<LogItem, 'tags' | 'message'> {
   tags?: AnonmizedTag[]
   messageLength: number;
+}
+
+interface AnonmizedLogDay extends Omit<LogDay, 'items'> {
+  items: AnonmizedLogItem[]
 }
 
 export const useAnonymizer = () => {
@@ -29,8 +34,17 @@ export const useAnonymizer = () => {
 
     return resultItem
   }
+
+  const anonymizeDay = (day: LogDay): AnonmizedLogDay => {
+    return {
+      ...day,
+      items: day.items.map(anonymizeItem),
+    }
+  }
+
   return {
     anonymizeTag,
-    anonymizeItem
+    anonymizeItem,
+    anonymizeDay,
   }
 }

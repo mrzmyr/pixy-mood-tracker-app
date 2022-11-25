@@ -45,7 +45,6 @@ export const MoodCounts = ({
     total: 18,
   }
 
-
   return (
     <BigCard
       title={title}

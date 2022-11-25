@@ -4,7 +4,7 @@ import { TAG_COLOR_NAMES } from '../constants/Config';
 import { load, store } from '../helpers/storage';
 import { t } from '../helpers/translation';
 import { useAnalytics } from './useAnalytics';
-import { LogItem, useLogState, useLogUpdater } from './useLogs';
+import { useLogState, useLogUpdater } from './useLogs';
 import { useSettings } from './useSettings';
 
 export const STORAGE_KEY = 'PIXEL_TRACKER_TAGS'
@@ -14,6 +14,10 @@ export type Tag = {
   title: string;
   color: typeof TAG_COLOR_NAMES[number];
 };
+
+export type TagReference = {
+  id: string;
+}
 
 interface State {
   loaded?: boolean
@@ -112,20 +116,7 @@ function TagsProvider({
   const stateValue: StateValue = useMemo(() => state, [JSON.stringify(state)])
 
   const createTag = useCallback((tag: Tag) => dispatch({ type: 'add', payload: tag }), [dispatch])
-
-  const updateTag = useCallback((tag: Tag) => {
-    dispatch({ type: 'edit', payload: tag })
-
-    const newItems = logsState.items.map((item) => {
-      if (item?.tags?.some(t => t.id === tag.id)) {
-        const tags = item.tags.map(t => t.id === tag.id ? tag : t)
-        item.tags = tags
-      }
-      return item
-    })
-
-    logsUpdater.updateLogs(newItems)
-  }, [dispatch, logsState.items, logsUpdater])
+  const updateTag = useCallback((tag: Tag) => dispatch({ type: 'edit', payload: tag }), [dispatch])
 
   const deleteTag = useCallback((tagId: Tag['id']) => {
     dispatch({ type: 'delete', payload: tagId })

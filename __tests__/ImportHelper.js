@@ -1,8 +1,8 @@
-import { convertPixeltoPixyJSON, getJSONSchemaType } from "../helpers/Import";
+import { getJSONSchemaType } from "../helpers/Import";
 import { migrateImportData } from "../helpers/migration";
 import { INITIAL_STATE } from "../hooks/useSettings";
 
-xdescribe("getJSONSchemaType", () => {
+describe("getJSONSchemaType", () => {
   test("pixy schema: valid", async () => {
     const json = {
       items: {
@@ -88,40 +88,5 @@ xdescribe("getJSONSchemaType", () => {
     const json = {};
     const migrated = migrateImportData(json);
     expect(getJSONSchemaType(migrated)).toBe("unknown");
-  });
-});
-
-describe("convertPixeltoPixyJSON", () => {
-  test("convert pixel to pixy json", async () => {
-    const json = [
-      {
-        mood: 1,
-        emotions: [],
-        notes: "",
-        date: "2021-12-14",
-      },
-      {
-        mood: 3,
-        emotions: [],
-        notes: "",
-        date: "2021-12-15",
-      },
-    ];
-    expect(convertPixeltoPixyJSON(json)).toEqual({
-      items: [
-        {
-          date: "2021-12-14",
-          rating: "extremely_bad",
-          message: "",
-          tags: [],
-        },
-        {
-          date: "2021-12-15",
-          rating: "neutral",
-          message: "",
-          tags: [],
-        },
-      ],
-    });
   });
 });

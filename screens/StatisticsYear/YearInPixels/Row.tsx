@@ -3,7 +3,7 @@ import _ from "lodash";
 import React, { ReactNode } from "react";
 import { View } from "react-native";
 import { LogItem } from "../../../hooks/useLogs";
-import { getAverageRating } from "../../../lib/utils";
+import { getAverageMood } from "../../../lib/utils";
 import { Day } from "./Day";
 import { YAxis } from "./YAxis";
 
@@ -23,7 +23,7 @@ export const Row = ({ date, dayCount, items }: {
     const inThisMonth = dayjs(dateString).month() === i;
 
     const _items = items.filter(item => item.dateTime?.split('T')[0] === dateString);
-    const rating = getAverageRating(_items)
+    const rating = getAverageMood(_items)
 
     months.push(
       <View

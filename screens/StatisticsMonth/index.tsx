@@ -69,7 +69,7 @@ export const StatisticsMonthScreen = ({ navigation, route }: RootStackScreenProp
             nextMonthDisabled={nextItems.length === 0}
             prevMonthDisabled={prevItems.length === 0}
           />
-          <Stats items={items} prevItems={prevItems} />
+          <Stats items={items} prevItems={prevItems} date={date} />
           <MoodChart date={date} items={items} />
           <MoodCounts
             title={t('mood_count')}

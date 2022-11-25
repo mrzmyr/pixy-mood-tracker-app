@@ -247,5 +247,13 @@
   "very_good": "Very Good",
   "extremely_good": "Extremely Good",
   "add_entry": "Add Entry",
-  "yesterday": "Yesterday"
+  "yesterday": "Yesterday",
+  "entries_no_data": "No entries yet.",
+  "entries_reached_max": "You reached the maximum of {{max_count}} entries. Please delete some entries to add new ones.",
+  "entries_per_day": "Avg. entries per day",
+  "tags_per_day": "Avg. tags per day",
+  "words_written_per_day": "Avg. words per day",
+  "entries_feedback_title": "How do you like new entries view?",
+  "entries_feedback_body": "We are working on a new way to add entries. Let us know what you think.",
+  "entries_feedback_button": "Give Feedback"
 }

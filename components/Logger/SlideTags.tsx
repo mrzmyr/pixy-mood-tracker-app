@@ -7,7 +7,7 @@ import Tag from "../../components/Tag";
 import { getLogEditMarginTop } from "../../helpers/responsive";
 import { t } from "../../helpers/translation";
 import useColors from "../../hooks/useColors";
-import { Tag as ITag, useTagsState } from "../../hooks/useTags";
+import { Tag as ITag, TagReference, useTagsState } from "../../hooks/useTags";
 import { useTemporaryLog } from "../../hooks/useTemporaryLog";
 import { MiniButton } from "../MiniButton";
 import { SlideHeadline } from "./SlideHeadline";
@@ -15,7 +15,7 @@ import { SlideHeadline } from "./SlideHeadline";
 export const SlideTags = ({
   onChange
 }: {
-  onChange: (tags: ITag[]) => void,
+  onChange: (tags: TagReference[]) => void,
 }) => {
   const tempLog = useTemporaryLog();
   const navigation = useNavigation()
@@ -86,7 +86,7 @@ export const SlideTags = ({
                   const newTags = tempLog?.data?.tags?.map(d => d.id).includes(tag.id) ?
                     tempLog?.data?.tags.filter(t => t.id !== tag.id) :
                     [...tempLog?.data.tags || [], tag]
-                  onChange(newTags.map(t => _.omit(t, ['title', 'color'])))
+                  onChange(newTags)
                 }}
                 title={_tag.title}
                 colorName={_tag.color}
