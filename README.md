@@ -27,7 +27,7 @@ This section should list any major frameworks that you built your project using.
 * [React Native](https://reactnative.dev/)
 * [Expo](https://expo.dev/)
 
-### Development
+## Development
 
 **Setup**
 
@@ -57,9 +57,9 @@ $ npx standard-version --release-as [major|minor|patch]
 - `preview`: Builds used for Testflight and Android Internal Testing
 - `production`: Builds used for production
 
-### Building
+## Building
 
-#### Development
+### Development
 
 **iOS Device**
 1. `yarn build:ios:dev` creates a `.ipa` file
@@ -77,7 +77,7 @@ $ npx standard-version --release-as [major|minor|patch]
 1. `yarn build:android:emulator` creates an `.apk` file
 2. Install the `.apk` file via drag and drop
 
-#### Preview
+### Preview
 
 **iOS (TestFlight)**
 1. `yarn build:ios:preview` creates a `.ipa` file
@@ -87,7 +87,7 @@ $ npx standard-version --release-as [major|minor|patch]
 1. `yarn build:android:preview` create a `.aab` file
 2. Submit `.aab` file to Google Play Console via `yarn submit:android`
 
-#### Production
+### Production
 
 **iOS**
 1. `yarn buiild:ios:prod` creates a `.ipa` file
@@ -96,6 +96,21 @@ $ npx standard-version --release-as [major|minor|patch]
 **Android**
 1. `yarn buiild:android:prod` creates a `.aab` file
 2. Submit `.aab` file via `yarn submit:android`
+
+## Releasing
+
+### Preview
+
+1. (If native changes) `yarn publish:preview` (iOS and Android builds are built and submited for testing)
+2. (If native changes) Submit App to Review in Google Play Console
+2. Merge a PR to `preview` branch (automatically publishing a release to all betatesters)
+
+### Production
+
+1. (If native changes) `yarn publish:production` (iOS and Android builds are built and submited for testing)
+2. (If native changes) Submit App to Review in Google Play Console
+3. (If native changes) Submit App to Review in App Store Connect
+4. Merge a PR to `production` branch (automatically publishing a release to all users)
 
 ## Contributing
 
