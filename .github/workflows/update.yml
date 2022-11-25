@@ -1,9 +1,5 @@
 name: update
-on:
-  push:
-    branches:
-      - preview
-      - production
+on: push
 
 jobs:
   update:
