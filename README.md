@@ -50,6 +50,53 @@ $ yarn start
 $ npx standard-version --release-as [major|minor|patch]
 ```
 
+**Environments** (`eas.json`)
+
+- `development` Builds for local development on phisical devices
+- `emulator`: Builds for local development in iOS Simulator or Android Emulator 
+- `preview`: Builds used for Testflight and Android Internal Testing
+- `production`: Builds used for production
+
+### Building
+
+#### Development
+
+**iOS Device**
+1. `yarn build:ios:dev` creates a `.ipa` file
+2. Install `.ipa` file via [Apple Configurator](https://apps.apple.com/us/app/apple-configurator/id1037126344?mt=12)
+
+**Android Device**
+1. `yarn build:android:dev` create a `.apk` file
+2. Install manually (enable "Install from unknown sources")
+
+**iOS Simulator**
+1. `yarn build:ios:emulator` create an `.ipa` file
+2. Install `.ipa` file via 
+
+**Android Emulator**
+1. `yarn build:android:emulator` creates an `.apk` file
+2. Install the `.apk` file via drag and drop
+
+#### Preview
+
+**iOS (TestFlight)**
+1. `yarn build:ios:preview` creates a `.ipa` file
+2. Submit `.ipa` file to App Store via `yarn submit:ios`
+
+**Android (Goolge Play Console - Internal testing)**
+1. `yarn build:android:preview` create a `.aab` file
+2. Submit `.aab` file to Google Play Console via `yarn submit:android`
+
+#### Production
+
+**iOS**
+1. `yarn buiild:ios:prod` creates a `.ipa` file
+2. Submit `.ipa` file via `yarn submit:ios`
+
+**Android**
+1. `yarn buiild:android:prod` creates a `.aab` file
+2. Submit `.aab` file via `yarn submit:android`
+
 ## Contributing
 
 Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.

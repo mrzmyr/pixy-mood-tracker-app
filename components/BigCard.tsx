@@ -1,6 +1,6 @@
 import * as Sharing from 'expo-sharing';
-import { useRef } from "react";
-import { Image, Text, View, ViewStyle } from "react-native";
+import { useRef, useState } from "react";
+import { ActivityIndicator, Image, Text, View, ViewStyle } from "react-native";
 import { Share } from 'react-native-feather';
 import { captureRef } from "react-native-view-shot";
 import { useAnalytics } from '../hooks/useAnalytics';
@@ -91,10 +91,14 @@ export const BigCard = ({
   const colors = useColors();
   const viewRef = useRef(null)
   const analytics = useAnalytics();
+  const [shareLoading, setShareLoading] = useState(false);
 
   const share = () => {
+    setShareLoading(true);
+
     captureRef(viewRef)
       .then((uri) => {
+        setShareLoading(false);
         Sharing.shareAsync("file://" + uri, {
           dialogTitle: 'Hey I use this app called "Pixy Mood Tracker" and I wanted to share this with you!',
         })
@@ -121,16 +125,25 @@ export const BigCard = ({
           }}
         >
           <Title>{title}</Title>
-          <View>
-            {isShareable && (
+          <View
+            style={{
+              marginTop: -16,
+              marginRight: -16,
+              marginLeft: -16,
+              marginBottom: -16,
+              width: 48,
+              height: 48,
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          >
+            {shareLoading && (
+              <ActivityIndicator size="small" color={colors.textSecondary} />
+            )}
+            {!shareLoading && isShareable && (
               <LinkButton
                 onPress={() => share()}
                 style={{
-                  marginTop: -16,
-                  marginRight: -16,
-                  marginLeft: -16,
-                  marginBottom: -16,
-                  padding: 20,
                 }}
               >
                 <Share stroke={colors.tint} width={20} />

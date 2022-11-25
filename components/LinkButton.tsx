@@ -1,3 +1,4 @@
+import _ from "lodash";
 import {
   Pressable,
   StyleSheet,
@@ -5,9 +6,20 @@ import {
   ViewStyle
 } from "react-native";
 import * as FeatherIcons from "react-native-feather";
-import { useStyle } from "react-native-style-utilities";
 import useColors from "../hooks/useColors";
 import useHaptics from "../hooks/useHaptics";
+
+const isString = (children: React.ReactNode): children is string => {
+  if (_.isString(children)) {
+    return true;
+  }
+
+  if (_.isArray(children)) {
+    return children.every(d => _.isString(d));
+  }
+
+  return false;
+};
 
 export default function LinkButton({
   type = "primary",
@@ -68,15 +80,20 @@ export default function LinkButton({
           <Icon width={17} color={color} />
         </View>
       )}
-      {children && (
-        <Text ellipsizeMode="tail" numberOfLines={1}
+      {isString(children) ? (
+        <Text
+          ellipsizeMode="tail"
+          numberOfLines={1}
           style={{
             fontSize: 17,
             textAlign: "center",
             color: style.color || color,
-          }}>
+          }}
+        >
           {children}
         </Text>
+      ) : (
+        children
       )}
     </Pressable>
   );
