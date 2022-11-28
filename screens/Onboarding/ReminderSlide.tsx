@@ -3,7 +3,7 @@ import Button from '../../components/Button';
 import useColors from '../../hooks/useColors';
 import { HeaderImage } from './HeaderImage';
 import { HeaderNavigation } from "./HeaderNavigation";
-import Animated, { FadeIn } from 'react-native-reanimated'; 
+import Animated, { FadeIn } from 'react-native-reanimated';
 import Clock from '../../components/Clock';
 import useNotification from '../../hooks/useNotifications';
 import { useState } from 'react';
@@ -46,8 +46,8 @@ const Body = ({ index }: { index: number }) => {
   )
 }
 
-export const ReminderSlide = ({ 
-  index, 
+export const ReminderSlide = ({
+  index,
   setIndex,
   onSkip,
 }: {
@@ -59,18 +59,18 @@ export const ReminderSlide = ({
   const { setSettings } = useSettings()
   const analytics = useAnalytics()
 
-  const { 
-    askForPermission, 
-    hasPermission, 
-    schedule, 
+  const {
+    askForPermission,
+    hasPermission,
+    schedule,
     cancelAll,
   } = useNotification()
-  
+
   const [time, setTime] = useState(dayjs().hour(20).minute(0).second(0).toDate());
-  
+
   const enable = async () => {
     const has = await hasPermission()
-    if(!has) {
+    if (!has) {
       await askForPermission()
     }
 
@@ -85,13 +85,13 @@ export const ReminderSlide = ({
       })
 
       setSettings((settings: SettingsState) => ({
-        ...settings, 
+        ...settings,
         reminderEnabled: true,
         reminderTime: dayjs(time).format('HH:mm'),
       }))
     })()
   }
-  
+
   const onLater = () => {
     analytics.track('onboarding_reminder_later')
     setIndex(index + 1)
@@ -151,11 +151,9 @@ export const ReminderSlide = ({
                   justifyContent: 'center',
                 }}
               >
-                <Clock 
+                <Clock
                   timeDate={time}
-                  onChange={(event, date) => setTime(date)} 
-                  style={{
-                  }}
+                  onChange={(event, date) => setTime(date)}
                 />
               </View>
             </View>

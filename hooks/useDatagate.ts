@@ -153,6 +153,7 @@ export const useDatagate = (): {
         trackBehaviour: settings.trackBehaviour,
         analyticsEnabled: settings.analyticsEnabled,
         actionsDone: settings.actionsDone,
+        steps: settings.steps,
       },
     };
 

@@ -8,6 +8,7 @@ import {
 } from "react";
 import "react-native-get-random-values";
 import { v4 as uuidv4 } from "uuid";
+import { DEFAULT_STEPS, LoggerStep, STEP_OPTIONS } from "../components/Logger/config";
 import { load, store } from "../helpers/storage";
 import { Tag } from "./useTags";
 
@@ -32,6 +33,7 @@ export interface SettingsState {
   reminderTime: string;
   analyticsEnabled: boolean;
   actionsDone: IAction[];
+  steps: LoggerStep[];
 
   // removed in previous version
   trackBehaviour?: boolean; // replaced with analyticsEnabled
@@ -55,6 +57,7 @@ export const INITIAL_STATE: SettingsState = {
   reminderTime: "18:00",
   analyticsEnabled: true,
   actionsDone: [],
+  steps: DEFAULT_STEPS,
 };
 
 type Value = {
@@ -66,6 +69,8 @@ type Value = {
   importSettings: (settings: ExportSettings) => void;
   addActionDone: (action: IAction["title"]) => void;
   hasActionDone: (actionTitle: IAction["title"]) => boolean;
+  toggleStep: (step: LoggerStep, value?: Boolean) => void;
+  hasStep: (step: LoggerStep) => boolean;
 }
 
 const SettingsStateContext = createContext({} as Value);
@@ -144,6 +149,32 @@ function SettingsProvider({ children }: { children: React.ReactNode }) {
     [settings.actionsDone]
   );
 
+  const toggleStep = useCallback((step: LoggerStep, value: Boolean) => {
+    setSettings((settings) => {
+      const shouldAdd = _.isBoolean(value) ? value : !settings.steps.includes(step);
+
+      if (!STEP_OPTIONS.includes(step)) {
+        throw new Error(`Step ${step} is not a valid step`);
+      }
+
+      if (shouldAdd) {
+        return {
+          ...settings,
+          steps: _.uniq([...settings.steps, step]),
+        };
+      } else {
+        return {
+          ...settings,
+          steps: settings.steps.filter((s) => s !== step),
+        };
+      }
+    });
+  }, []);
+
+  const hasStep = useCallback((step: LoggerStep) => {
+    return settings.steps.includes(step);
+  }, [settings.steps]);
+
   const value = {
     settings,
     setSettings,
@@ -151,6 +182,8 @@ function SettingsProvider({ children }: { children: React.ReactNode }) {
     importSettings,
     addActionDone,
     hasActionDone,
+    toggleStep,
+    hasStep,
   };
 
   return (

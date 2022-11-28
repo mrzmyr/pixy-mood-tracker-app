@@ -1,7 +1,8 @@
+import { forwardRef } from "react";
 import { TextInput, ViewStyle } from "react-native";
 import useColors from "../hooks/useColors";
 
-export default function TextArea({
+export default forwardRef(function TextArea({
   value = '',
   placeholder = '',
   testID,
@@ -17,11 +18,12 @@ export default function TextArea({
   autoFocus?: boolean,
   style?: ViewStyle,
   onChange?: (text: string) => void,
-}) {
+}, ref: any) {
   const colors = useColors()
 
   return (
     <TextInput
+      ref={ref}
       testID={testID}
       autoFocus={autoFocus}
       multiline
@@ -49,4 +51,4 @@ export default function TextArea({
       }}
     />
   )
-}
+})

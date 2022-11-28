@@ -57,7 +57,7 @@ export const Header = ({
             marginRight: -8,
           }}
         >
-          <Pressable
+          {/* <Pressable
             style={{
               padding: 16,
             }}
@@ -67,8 +67,8 @@ export const Header = ({
             }}
           >
             <Edit color={colors.logHeaderText} width={22} height={22} />
-          </Pressable>
-          <Pressable
+          </Pressable> */}
+          {/* <Pressable
             style={{
               padding: 16,
             }}
@@ -78,7 +78,7 @@ export const Header = ({
             }}
           >
             <Trash color={colors.logHeaderText} width={22} height={22} />
-          </Pressable>
+          </Pressable> */}
           <Pressable
             style={{
               padding: 16,

@@ -10,6 +10,7 @@ import {
   useReducer
 } from "react";
 import { v4 as uuidv4 } from "uuid";
+import { Emotion } from "../components/Logger/config";
 import { DATE_FORMAT } from "../constants/Config";
 import { load, store } from "../helpers/storage";
 import { AtLeast } from "../types";
@@ -38,6 +39,7 @@ export interface LogItem {
   message: string;
   createdAt: string;
   tags: TagReference[];
+  emotions: Emotion['key'][];
 }
 
 export interface LogDay {
@@ -134,6 +136,7 @@ const migrate = (data: LogsState): LogsState => {
     if (!newItem.dateTime) newItem.dateTime = dayjs(date).toISOString()
     if (!newItem.id) newItem.id = uuidv4()
     if (!newItem.tags) newItem.tags = []
+    if (!newItem.emotions) newItem.emotions = []
 
     newItem.tags = newItem.tags.map((tag) => _.pick(tag, ['id']))
 

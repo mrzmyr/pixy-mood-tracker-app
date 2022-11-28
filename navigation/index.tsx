@@ -39,6 +39,7 @@ import { StatisticsMonthScreen } from '../screens/StatisticsMonth';
 import { StatisticsYearScreen } from '../screens/StatisticsYear';
 import { BackButton } from './BackButton';
 import { BottomTabs } from './BottomTabs';
+import { StepsScreen } from '../screens/Steps';
 
 enableScreens();
 
@@ -55,6 +56,7 @@ const NAVIGATION_LINKING = {
       Settings: 'settings',
       Colors: 'settings/colors',
       Licenses: 'settings/licenses',
+      Steps: 'settings/steps',
       Data: 'settings/data',
       Reminder: 'settings/reminder',
       Privacy: 'settings/privacy',
@@ -360,6 +362,14 @@ function RootNavigator() {
           component={ColorsScreen}
           options={{
             title: t('colors'),
+            ...defaultPageOptions,
+          }}
+        />
+        <Stack.Screen
+          name="Steps"
+          component={StepsScreen}
+          options={{
+            title: t('steps'),
             ...defaultPageOptions,
           }}
         />

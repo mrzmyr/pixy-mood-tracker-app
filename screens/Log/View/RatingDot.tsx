@@ -20,8 +20,10 @@ export const RatingDot = ({
   return (
     <Pressable
       onPress={async () => {
-        await haptics.selection()
-        onPress?.();
+        if (onPress) {
+          await haptics.selection()
+          onPress();
+        }
       }}
     >
       <View

@@ -18,7 +18,6 @@ export const EntryTags = ({
     <View
       style={{
         flexDirection: 'row',
-        marginTop: 16,
         marginLeft: -16,
         marginRight: -16,
       }}
@@ -51,7 +50,7 @@ export const EntryTags = ({
                 }}
                 style={{
                   backgroundColor: colors.entryBackground,
-                  borderColor: colors.entryBorder,
+                  borderColor: colors.entryItemBorder,
                 }}
               />
             );

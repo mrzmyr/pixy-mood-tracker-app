@@ -1,19 +1,19 @@
 import { t } from 'i18n-js';
-import { Platform, Pressable, ScrollView, Text, View } from 'react-native';
+import { Platform, ScrollView, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Alert from '../../../components/Alert';
 import LinkButton from '../../../components/LinkButton';
-import Tag from '../../../components/Tag';
 import { useAnalytics } from '../../../hooks/useAnalytics';
 import useColors from '../../../hooks/useColors';
-import useHaptics from '../../../hooks/useHaptics';
 import { useLogState, useLogUpdater } from '../../../hooks/useLogs';
-import { useTagsState } from '../../../hooks/useTags';
 import { getItemDateTitle } from '../../../lib/utils';
 import { RootStackParamList, RootStackScreenProps } from '../../../types';
+import { Emotions } from './Emotions';
 import { Header } from './Header';
 import { Headline } from './Headline';
+import { Message } from './Message';
 import { RatingDot } from './RatingDot';
+import { Tags } from './Tags';
 
 const PromoAddEntry = ({
   onClick
@@ -70,9 +70,7 @@ export const LogView = ({ navigation, route }: RootStackScreenProps<'LogView'>) 
   const colors = useColors()
   const analytics = useAnalytics()
   const insets = useSafeAreaInsets();
-  const haptics = useHaptics();
 
-  const { tags } = useTagsState()
   const logState = useLogState()
   const logUpdater = useLogUpdater()
 
@@ -165,100 +163,12 @@ export const LogView = ({ navigation, route }: RootStackScreenProps<'LogView'>) 
                 flexDirection: 'row',
               }}
             >
-              {item?.rating && <RatingDot onPress={() => edit('rating')} rating={item?.rating} />}
+              <RatingDot onPress={() => edit('rating')} rating={item.rating} />
             </View>
           </View>
-          <View
-            style={{
-              marginTop: 24,
-            }}
-          >
-            <Headline>{t('tags')}</Headline>
-            <View
-              style={{
-                flexDirection: 'row',
-                flexWrap: 'wrap',
-              }}
-            >
-              {item ? item.tags.map(tag => {
-                const _tag = tags.find(t => t.id === tag.id);
-
-                if (!_tag) return null;
-
-                return (
-                  <Tag
-                    selected={false}
-                    key={tag.id}
-                    title={_tag.title}
-                    colorName={_tag.color}
-                    onPress={() => edit('tags')}
-                  />
-                )
-              }) : (
-                <View
-                  style={{
-                    padding: 8,
-                  }}
-                >
-                  <Text style={{ color: colors.textSecondary, fontSize: 17 }}>No tags</Text>
-                </View>
-              )}
-            </View>
-          </View>
-          <View
-            style={{
-              marginTop: 24,
-            }}
-          >
-            <Headline>{t('view_log_message')}</Headline>
-            <View
-              style={{
-                flexDirection: 'row',
-              }}
-            >
-              {item?.message?.length > 0 ? (
-                <Pressable
-                  onPress={async () => {
-                    await haptics.selection()
-                    edit('message')
-                  }}
-                  style={{
-                    width: '100%',
-                  }}
-                >
-                  <View
-                    style={{
-                      backgroundColor: colors.logCardBackground,
-                      borderRadius: 8,
-                      padding: 16,
-                      width: '100%',
-                    }}
-                  >
-                    <Text
-                      style={{
-                        fontSize: 17,
-                        color: colors.text,
-                        lineHeight: 23,
-                        width: '100%',
-                      }}
-                    >{item.message}</Text>
-                  </View>
-                </Pressable>
-              ) : (
-                <View
-                  style={{
-                    padding: 8,
-                  }}
-                >
-                  <Text style={{
-                    color: colors.textSecondary,
-                    fontSize: 17,
-                    lineHeight: 24,
-                  }}>{t('view_log_message_empty')}</Text>
-                </View>
-              )}
-            </View>
-          </View>
+          <Emotions item={item} />
+          <Tags item={item} />
+          <Message item={item} />
           <View
             style={{
               height: insets.bottom,

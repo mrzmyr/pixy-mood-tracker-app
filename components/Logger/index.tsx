@@ -2,12 +2,10 @@ import { useNavigation } from '@react-navigation/native';
 import dayjs from 'dayjs';
 import { ReactElement, useEffect, useRef, useState } from 'react';
 import { Dimensions, Keyboard, Platform, View } from 'react-native';
-import DateTimePickerModal from "react-native-modal-datetime-picker";
 import Carousel, { ICarouselInstance } from 'react-native-reanimated-carousel';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { v4 as uuidv4 } from "uuid";
-import { DATE_FORMAT } from '../../constants/Config';
-import { askToCancel, askToRemove } from '../../helpers/prompts';
+import { askToCancel, askToDisableFeedbackStep, askToDisableStep, askToRemove } from '../../helpers/prompts';
 import { useAnalytics } from '../../hooks/useAnalytics';
 import useColors from '../../hooks/useColors';
 import { LogItem, useLogState, useLogUpdater } from '../../hooks/useLogs';
@@ -15,20 +13,73 @@ import { IQuestion, useQuestioner } from '../../hooks/useQuestioner';
 import { useSettings } from '../../hooks/useSettings';
 import { TagReference, useTagsState } from '../../hooks/useTags';
 import { useTemporaryLog } from '../../hooks/useTemporaryLog';
-import { getItemDateTitle } from '../../lib/utils';
-import { SlideAction } from './SlideAction';
-import { SlideHeader } from './SlideHeader';
-import { SlideNote } from './SlideNote';
-import { SlideQuestion } from './SlideQuestion';
-import { SlideRating } from './SlideRating';
-import { SlideReminder } from './SlideReminder';
-import { SlideTags } from './SlideTags';
-import { Stepper } from './Stepper';
+import { SlideAction } from './components/SlideAction';
+import { SlideHeader } from './components/SlideHeader';
+import { Stepper } from './components/Stepper';
+import { Emotion, LoggerStep } from './config';
+import { SlideEmotions } from './slides/SlideEmotions';
+import { SlideFeedback } from './slides/SlideFeedback';
+import { SlideMessage } from './slides/SlideMessage';
+import { SlideRating } from './slides/SlideRating';
+import { SlideReminder } from './slides/SlideReminder';
+import { SlideTags } from './slides/SlideTags';
+
+const EMOTIONS_INDEX_MAPPING = {
+  extremely_bad: 0,
+  very_bad: 1,
+  bad: 1,
+  neutral: 2,
+  good: 3,
+  very_good: 3,
+  extremely_good: 4,
+}
 
 const SLIDE_INDEX_MAPPING = {
   rating: 0,
   tags: 1,
   message: 2,
+  emotions: 3,
+  feedback: 4,
+}
+
+const getAvailableSteps = ({
+  existingLogItem,
+  question,
+}: {
+  existingLogItem: LogItem | null
+  question: IQuestion | null
+}) => {
+  const { hasStep, settings } = useSettings();
+  const logState = useLogState();
+
+  const isEditing = existingLogItem !== null;
+
+  const slides: LoggerStep[] = [
+    'rating'
+  ]
+
+  if (hasStep('emotions')) slides.push('emotions')
+  if (hasStep('tags')) slides.push('tags')
+  if (hasStep('message')) slides.push('message')
+
+  if (
+    logState.items.length === 1 &&
+    !settings.reminderEnabled &&
+    !isEditing
+  ) {
+    slides.push('reminder')
+  }
+
+  if (
+    logState.items.length >= 3 &&
+    question !== null &&
+    !isEditing &&
+    hasStep('feedback')
+  ) {
+    slides.push('feedback')
+  }
+
+  return slides;
 }
 
 export const Logger = ({
@@ -38,10 +89,9 @@ export const Logger = ({
 }: {
   id?: LogItem['id']
   date?: string;
-  initialStep?: keyof typeof SLIDE_INDEX_MAPPING;
+  initialStep?: LoggerStep;
 }) => {
   const navigation = useNavigation();
-  const { settings } = useSettings()
   const colors = useColors()
   const analytics = useAnalytics()
   const insets = useSafeAreaInsets();
@@ -51,6 +101,7 @@ export const Logger = ({
   const logUpdater = useLogUpdater()
   const logState = useLogState()
   const tempLog = useTemporaryLog();
+  const { toggleStep } = useSettings()
 
   const existingLogItem: LogItem | null = id ? logState?.items.find(item => item.id === id) || null : null
   const defaultLogItem = {
@@ -61,9 +112,24 @@ export const Logger = ({
     createdAt: dayjs().toISOString(),
   }
 
+  const texAreaRef = useRef<any>(null);
   const isEditing = existingLogItem !== null;
+  const [touched, setTouched] = useState(false)
 
   const [question, setQuestion] = useState<IQuestion | null>(null);
+
+  const avaliableSteps = getAvailableSteps({
+    existingLogItem,
+    question
+  })
+
+  const indexFound = avaliableSteps.findIndex(slide => slide === initialStep)
+  const initialIndex = indexFound !== -1 ? indexFound : 0
+  const [slideIndex, setSlideIndex] = useState(initialIndex)
+
+  useEffect(() => {
+    questioner.getQuestion().then(setQuestion)
+  }, [])
 
   useEffect(() => {
     if (existingLogItem !== null) {
@@ -71,8 +137,7 @@ export const Logger = ({
     } else {
       tempLog.set(defaultLogItem)
     }
-    questioner.getQuestion().then(setQuestion)
-  }, [])
+  }, [existingLogItem])
 
   useEffect(() => {
     if (tempLog.data.dateTime === null) return;
@@ -127,27 +192,6 @@ export const Logger = ({
     close()
   }
 
-  const setRating = (rating: LogItem['rating']) => {
-    analytics.track('log_rating_changed', {
-      label: rating
-    })
-    tempLog.set((logItem) => ({ ...logItem, rating }))
-  }
-
-  const setMessage = (message: LogItem['message']) => {
-    tempLog.set(logItem => ({ ...logItem, message }))
-  }
-
-  const setTags = (tags: TagReference[]) => {
-    tempLog.set(logItem => ({ ...logItem, tags }))
-  }
-
-  const initialIndex = SLIDE_INDEX_MAPPING[initialStep || 'rating']
-
-  const _carousel = useRef<ICarouselInstance>(null);
-  const [slideIndex, setSlideIndex] = useState(initialIndex)
-  const [touched, setTouched] = useState(false)
-
   const next = () => {
     if (slideIndex + 1 === content.length - 1) {
       Keyboard.dismiss()
@@ -161,32 +205,93 @@ export const Logger = ({
   }
 
   const content: {
+    key: string;
     slide: ReactElement,
     action?: ReactElement,
-  }[] = [{
+  }[] = []
+
+  content.push({
+    key: 'rating',
     slide: (
       <SlideRating
         onChange={(rating) => {
           if (tempLog.data.rating !== rating) {
             setTimeout(() => next(), 200)
           }
-          setRating(rating)
+          tempLog.set((logItem) => ({ ...logItem, rating }))
         }}
       />
     ),
-  }, {
-    slide: <SlideTags onChange={setTags} />,
-  }, {
-    slide: <SlideNote onChange={setMessage} />,
-  }
-    ]
+    action: (
+      <SlideAction
+        type={slideIndex !== 0 || touched || existingLogItem !== null ? 'next' : 'hidden'}
+        onPress={next}
+      />
+    )
+  })
 
-  if (
-    logState.items.length === 1 &&
-    !settings.reminderEnabled &&
-    !isEditing
-  ) {
+  if (avaliableSteps.includes('emotions')) {
     content.push({
+      key: 'emotions',
+      slide: (
+        <SlideEmotions
+          defaultIndex={EMOTIONS_INDEX_MAPPING[tempLog.data.rating || 'neutral']}
+          onChange={(emotions: Emotion[]) => {
+            tempLog.set((logItem) => ({ ...logItem, emotions: emotions.map(emotion => emotion.key) }))
+          }}
+          onDisableStep={() => {
+            askToDisableStep().then(() => {
+              toggleStep('emotions')
+              next()
+            })
+          }}
+        />
+      ),
+    })
+  }
+
+  if (avaliableSteps.includes('tags')) {
+    content.push({
+      key: 'tags',
+      slide: (
+        <SlideTags
+          onChange={(tags: TagReference[]) => {
+            tempLog.set(logItem => ({ ...logItem, tags }))
+          }}
+          onDisableStep={() => {
+            askToDisableStep().then(() => {
+              toggleStep('tags')
+              next()
+            })
+          }}
+        />
+      ),
+    })
+  }
+
+  if (avaliableSteps.includes('message')) {
+    content.push({
+      key: 'message',
+      slide: (
+        <SlideMessage
+          onChange={(message) => {
+            tempLog.set(logItem => ({ ...logItem, message }))
+          }}
+          onDisableStep={() => {
+            askToDisableStep().then(() => {
+              toggleStep('message')
+              next()
+            })
+          }}
+          ref={texAreaRef}
+        />
+      )
+    })
+  }
+
+  if (avaliableSteps.includes('reminder')) {
+    content.push({
+      key: 'reminder',
       slide: (
         <SlideReminder
           onPress={next}
@@ -196,20 +301,29 @@ export const Logger = ({
     })
   }
 
-  if (
-    question !== null &&
-    !isEditing
-  ) {
+  if (avaliableSteps.includes('feedback')) {
     content.push({
+      key: 'feedback',
       slide: (
-        <SlideQuestion
-          question={question}
+        <SlideFeedback
+          question={question!}
           onPress={next}
+          onDisableStep={() => {
+            askToDisableFeedbackStep().then(() => {
+              toggleStep('feedback')
+              next()
+            })
+          }}
         />
       ),
       action: <SlideAction type="hidden" />
     })
   }
+
+  const _carousel = useRef<ICarouselInstance>(null);
+
+  const messageSlideIndex = content.findIndex(item => item.key === 'message')
+  const hasMessageSlide = messageSlideIndex !== -1
 
   const isMounted = useRef(true)
 
@@ -219,11 +333,19 @@ export const Logger = ({
     }
   }, [])
 
-  const onScrollEnd = () => {
+  const onScrollEnd = (index: number) => {
     Keyboard.dismiss()
+
+    if (index === messageSlideIndex && hasMessageSlide) {
+      texAreaRef.current?.focus()
+    }
   }
 
-  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+  useEffect(() => {
+    if (isMounted.current) {
+      onScrollEnd(slideIndex)
+    }
+  }, [slideIndex])
 
   return (
     <View style={{
@@ -235,49 +357,59 @@ export const Logger = ({
         style={{
           flex: 1,
           paddingTop: Platform.OS === 'android' ? insets.top : 0,
-          padding: 20,
         }}
       >
-        <Stepper
-          count={content.length}
-          index={slideIndex}
-          scrollTo={({ index }) => {
-            if (_carousel.current) {
-              _carousel.current.scrollTo({ index, animated: true })
-            }
-            setSlideIndex(index)
+        <View
+          style={{
+            paddingHorizontal: 20,
           }}
-        />
-        <SlideHeader
-          title={tempLog.data.dateTime !== null ? getItemDateTitle(tempLog.data.dateTime) : ''}
-          onPressTitle={() => {
-            setDatePickerVisibility(true)
-          }}
-          isDeleteable={isEditing}
-          onClose={() => {
-            const tempLogHasChanges = tempLog.hasChanged()
-            const existingLogItemHasChanges = existingLogItem ? tempLog.hasDifference(existingLogItem) : false
+        >
 
-            if (
-              !existingLogItem && tempLogHasChanges ||
-              !!existingLogItem && existingLogItemHasChanges
-            ) {
-              askToCancel().then(() => cancel()).catch(() => { })
-            } else {
-              cancel()
-            }
-          }}
-          onDelete={() => {
-            if (
-              tempLog.data.message.length > 0 ||
-              tempLog.data?.tags.length > 0
-            ) {
-              askToRemove().then(() => remove())
-            } else {
-              remove()
-            }
-          }}
-        />
+          {content.length > 1 ? (
+            <Stepper
+              count={content.length}
+              index={slideIndex}
+              scrollTo={({ index }) => {
+                if (_carousel.current) {
+                  _carousel.current.scrollTo({ index, animated: true })
+                }
+                setSlideIndex(index)
+              }}
+            />
+          ) : (
+            <View style={{ height: 24 }} />
+          )}
+          <SlideHeader
+            onBack={() => {
+              _carousel.current?.prev()
+            }}
+            backVisible={slideIndex > 0}
+            isDeleteable={isEditing}
+            onClose={() => {
+              const tempLogHasChanges = tempLog.hasChanged()
+              const existingLogItemHasChanges = existingLogItem ? tempLog.hasDifference(existingLogItem) : false
+
+              if (
+                !existingLogItem && tempLogHasChanges ||
+                !!existingLogItem && existingLogItemHasChanges
+              ) {
+                askToCancel().then(() => cancel()).catch(() => { })
+              } else {
+                cancel()
+              }
+            }}
+            onDelete={() => {
+              if (
+                tempLog.data.message.length > 0 ||
+                tempLog.data?.tags.length > 0
+              ) {
+                askToRemove().then(() => remove())
+              } else {
+                remove()
+              }
+            }}
+          />
+        </View>
         <View
           style={{
             flex: 1,
@@ -286,7 +418,7 @@ export const Logger = ({
         >
           <Carousel
             loop={false}
-            width={Dimensions.get('window').width - 40}
+            width={Dimensions.get('window').width}
             ref={_carousel}
             data={content}
             defaultIndex={Math.min(initialIndex, content.length - 1)}
@@ -298,7 +430,7 @@ export const Logger = ({
             onScrollBegin={() => {
               setTouched(true)
             }}
-            onScrollEnd={onScrollEnd}
+            enabled={false}
             renderItem={({ index }) => content[index].slide}
             panGestureHandlerProps={{
               activeOffsetX: [-10, 10],
@@ -306,32 +438,17 @@ export const Logger = ({
           />
         </View>
       </View>
-      {(slideIndex !== 0 || touched) && content[slideIndex] && (
-        content[slideIndex].action || (
-          slideIndex === content.length - 1 ? (
-            <SlideAction type="save" onPress={next} />
-          ) : (
-            <SlideAction type="next" onPress={next} />
+      {
+        content[slideIndex] &&
+        (
+          content[slideIndex].action || (
+            slideIndex === content.length - 1 ? (
+              <SlideAction type="save" onPress={next} />
+            ) : (
+              <SlideAction type="next" onPress={next} />
+            )
           )
-        )
-      )}
-      <DateTimePickerModal
-        isVisible={isDatePickerVisible}
-        date={tempLog.data.dateTime ? new Date(tempLog.data.dateTime) : new Date()}
-        mode="datetime"
-        onConfirm={date => {
-          setDatePickerVisibility(false)
-          tempLog.set(log => ({
-            ...log,
-            date: dayjs(date).format(DATE_FORMAT),
-            dateTime: dayjs(date).toISOString(),
-          }))
-          navigation.setParams({
-            date: dayjs(date).format(DATE_FORMAT),
-          })
-        }}
-        onCancel={() => setDatePickerVisibility(false)}
-      />
+        )}
     </View>
   )
 }

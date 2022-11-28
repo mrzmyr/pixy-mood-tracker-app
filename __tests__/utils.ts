@@ -2,7 +2,7 @@ import { uniqueId } from "lodash";
 import { LogItem } from "../hooks/useLogs";
 
 export const _generateItem = (item: Partial<LogItem>): LogItem => {
-  const newItem = {
+  const newItem: LogItem = {
     id: uniqueId(),
     rating: ('neutral' as LogItem['rating']),
     message: '🥹',
@@ -10,6 +10,7 @@ export const _generateItem = (item: Partial<LogItem>): LogItem => {
     createdAt: new Date().toISOString(),
     dateTime: new Date().toISOString(),
     tags: [],
+    emotions: [],
     ...item
   };
 

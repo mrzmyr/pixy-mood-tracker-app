@@ -53,6 +53,7 @@ describe("useAnonymizer", () => {
       createdAt: expect.any(String),
       dateTime: expect.any(String),
       id: expect.any(String),
+      emotions: [],
     })
   })
 
@@ -67,6 +68,7 @@ describe("useAnonymizer", () => {
       createdAt: expect.any(String),
       dateTime: expect.any(String),
       id: expect.any(String),
+      emotions: [],
     })
   })
 

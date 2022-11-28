@@ -3,16 +3,16 @@ import { useState } from 'react';
 import { Platform, Text, View } from 'react-native';
 import { Bell } from 'react-native-feather';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import Button from '../../components/Button';
-import Clock from '../../components/Clock';
-import LinkButton from '../../components/LinkButton';
-import useColors from '../../hooks/useColors';
-import useNotification from '../../hooks/useNotifications';
-import { useAnalytics } from '../../hooks/useAnalytics';
-import { SettingsState, useSettings } from '../../hooks/useSettings';
-import { SlideHeadline } from './SlideHeadline';
-import { getLogEditMarginTop } from '../../helpers/responsive';
-import { t } from '../../helpers/translation';
+import Button from '../../../components/Button';
+import Clock from '../../../components/Clock';
+import LinkButton from '../../../components/LinkButton';
+import useColors from '../../../hooks/useColors';
+import useNotification from '../../../hooks/useNotifications';
+import { useAnalytics } from '../../../hooks/useAnalytics';
+import { SettingsState, useSettings } from '../../../hooks/useSettings';
+import { SlideHeadline } from '../components/SlideHeadline';
+import { getLogEditMarginTop } from '../../../helpers/responsive';
+import { t } from '../../../helpers/translation';
 
 export const SlideReminder = ({
   onPress,
@@ -74,6 +74,8 @@ export const SlideReminder = ({
       flex: 1,
       width: '100%',
       marginTop,
+      paddingHorizontal: 20,
+      paddingBottom: 20,
     }}>
       <View
         style={{

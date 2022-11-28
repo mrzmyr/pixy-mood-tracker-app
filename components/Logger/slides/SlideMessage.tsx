@@ -1,23 +1,28 @@
-import { useEffect, useRef, useState } from "react";
+import { forwardRef, useEffect, useRef, useState } from "react";
 import { Keyboard, View } from "react-native";
-import DismissKeyboard from "../../components/DismisKeyboard";
-import TextArea from "../../components/TextArea";
-import { getLogEditMarginTop } from "../../helpers/responsive";
-import { t } from "../../helpers/translation";
-import useColors from "../../hooks/useColors";
-import { LogItem } from "../../hooks/useLogs";
-import { useTemporaryLog } from "../../hooks/useTemporaryLog";
-import { SlideHeadline } from "./SlideHeadline";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { getLogEditMarginTop } from "../../../helpers/responsive";
+import { t } from "../../../helpers/translation";
+import useColors from "../../../hooks/useColors";
+import { LogItem } from "../../../hooks/useLogs";
+import { useTemporaryLog } from "../../../hooks/useTemporaryLog";
+import DismissKeyboard from "../../DismisKeyboard";
+import LinkButton from "../../LinkButton";
+import TextArea from "../../TextArea";
+import { SlideHeadline } from "../components/SlideHeadline";
 
 const randomInt = (min, max) => Math.floor(Math.random() * (max - min + 1) + min);
 
 const MAX_LENGTH = 10 * 1000;
 
-export const SlideNote = ({
-  onChange
+export const SlideMessage = forwardRef(({
+  onChange,
+  onDisableStep,
 }: {
   onChange: (text: LogItem['message']) => void
-}) => {
+  onDisableStep: () => void
+}, ref: any) => {
+  const insets = useSafeAreaInsets();
   const colors = useColors();
   const tempLog = useTemporaryLog();
   const marginTop = getLogEditMarginTop()
@@ -44,6 +49,8 @@ export const SlideNote = ({
           backgroundColor: colors.logBackground,
           width: '100%',
           position: 'relative',
+          paddingHorizontal: 20,
+          paddingBottom: 20,
         }}>
           <View
             style={{
@@ -67,6 +74,7 @@ export const SlideNote = ({
               }}
             >
               <TextArea
+                ref={ref}
                 placeholder={placeholder.current}
                 value={tempLog?.data?.message}
                 onChange={onChange}
@@ -81,13 +89,22 @@ export const SlideNote = ({
           </View>
           <View
             style={{
-              height: 50,
-              width: 50,
-              marginBottom: 32,
+              marginTop: 16,
+              height: 54,
+              marginBottom: insets.bottom,
+              width: '100%',
+              flexDirection: 'row',
+              justifyContent: 'flex-start',
+              alignItems: 'center',
             }}
-          />
+          >
+            <LinkButton
+              type="secondary"
+              onPress={onDisableStep}
+            >{t('log_message_disable')}</LinkButton>
+          </View>
         </View>
       </DismissKeyboard>
     </>
   )
-}
+})

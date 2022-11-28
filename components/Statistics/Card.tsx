@@ -6,6 +6,10 @@ export const Card = ({
   subtitle,
   title,
   children,
+}: {
+  subtitle?: string
+  title: string | JSX.Element
+  children: React.ReactNode
 }) => {
   const colors = useColors()
 

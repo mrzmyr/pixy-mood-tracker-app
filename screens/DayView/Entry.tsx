@@ -10,6 +10,7 @@ import { EntryMessage } from "./EntryMessage";
 import LinkButton from "../../components/LinkButton";
 import { Edit, Trash } from "react-native-feather";
 import { askToRemove } from "../../helpers/prompts";
+import { EntryEmotions } from "./EntryEmotions";
 
 export const Entry = ({
   item
@@ -20,7 +21,7 @@ export const Entry = ({
   const navigation = useNavigation();
   const haptics = useHaptics();
 
-  const isExtended = item.message || item.tags.length > 0;
+  const isExtended = item.message || item.tags.length > 0 || item.emotions.length > 0;
   const logUpdater = useLogUpdater();
 
   return (
@@ -48,16 +49,11 @@ export const Entry = ({
           borderBottomColor: isExtended ? colors.entryBorder : 'transparent',
           borderBottomWidth: 1,
           paddingBottom: isExtended ? 16 : 0,
+          marginBottom: isExtended ? 16 : 0,
         }}
       >
         <RatingDot
           rating={item.rating}
-          onPress={() => {
-            navigation.navigate('LogEdit', {
-              id: item.id,
-              step: 'rating',
-            });
-          }}
         />
         <View
           style={{
@@ -120,6 +116,7 @@ export const Entry = ({
         </View>
       </View>
 
+      {item.emotions.length > 0 && <EntryEmotions item={item} />}
       {item.tags.length > 0 && <EntryTags item={item} />}
       {item.message.length > 0 && <EntryMessage item={item} />}
     </Pressable>

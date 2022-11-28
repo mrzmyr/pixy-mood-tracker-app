@@ -1,10 +1,8 @@
+import { z } from "zod";
 import { TAG_COLOR_NAMES } from '../constants/Config';
 import { Tag } from "../hooks/useTags";
 import { LogItem, LogsState, RATING_KEYS } from './../hooks/useLogs';
 import { ExportSettings } from './../hooks/useSettings';
-import { z } from "zod";
-import dayjs from 'dayjs';
-import { v4 as uuidv4 } from "uuid";
 
 export interface ImportData {
   version: string;
@@ -72,32 +70,3 @@ export function getJSONSchemaType(json: any): 'pixy' | 'unknown' {
   return result.success ? 'pixy' : 'unknown';
 }
 
-export function convertPixeltoPixyJSON(data): LogsState {
-  const pixy: {
-    items: LogsState["items"];
-  } = {
-    items: []
-  }
-
-  data.forEach(item => {
-    const rating = {
-      5: 'extremely_good',
-      4: 'very_good',
-      3: 'neutral',
-      2: 'very_bad',
-      1: 'extremely_bad',
-    }[item.mood]
-
-    pixy.items.push({
-      id: uuidv4(),
-      date: item.date,
-      dateTime: dayjs(item.date).toISOString(),
-      createdAt: dayjs(item.date).toISOString(),
-      rating,
-      message: item.notes,
-      tags: []
-    })
-  })
-
-  return pixy
-}

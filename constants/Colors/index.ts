@@ -217,10 +217,18 @@ const light = {
 
   entryBackground: colors.white,
   entryBorder: colors.neutral[100],
+  entryItemBorder: colors.neutral[200],
 
   promoBackground: tintColorLight,
   promoBorder: 'rgba(255, 255, 255, 0.1)',
   promoText: colors.white,
+
+  emotionButtonBackground: colors.white,
+  emotionButtonBackgroundActive: colors.neutral[900],
+  emotionButtonBorder: colors.neutral[200],
+  emotionButtonBorderActive: colors.neutral[900],
+  emotionButtonText: colors.neutral[900],
+  emotionButtonTextActive: colors.white,
 
   switchThumbColor: '#333',
   scales: scales.light,
@@ -252,7 +260,7 @@ const dark: IColors & {
   logHeaderBackground: colors.neutral[900],
   logHeaderBorder: colors.neutral[800],
   logHeaderText: colors.neutral[300],
-  logHeaderHighlight: colors.neutral[500],
+  logHeaderHighlight: colors.neutral[800],
 
   logBackground: colors.neutral[900],
   logCardBackground: colors.neutral[800],
@@ -414,10 +422,18 @@ const dark: IColors & {
 
   entryBackground: colors.neutral[800],
   entryBorder: colors.neutral[700],
+  entryItemBorder: colors.neutral[700],
 
   promoBackground: tintColorDark,
   promoBorder: 'rgba(255, 255, 255, 0.1)',
   promoText: colors.white,
+
+  emotionButtonBackground: colors.neutral[900],
+  emotionButtonBackgroundActive: colors.white,
+  emotionButtonBorder: colors.neutral[800],
+  emotionButtonBorderActive: colors.white,
+  emotionButtonText: colors.white,
+  emotionButtonTextActive: colors.neutral[900],
 
   switchThumbColor: '#FFF',
   scales: scales.dark,

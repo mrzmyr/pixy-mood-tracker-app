@@ -1,21 +1,24 @@
 import { useNavigation } from "@react-navigation/native";
 import { LinearGradient } from 'expo-linear-gradient';
-import _ from "lodash";
 import { ScrollView, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import Tag from "../../components/Tag";
-import { getLogEditMarginTop } from "../../helpers/responsive";
-import { t } from "../../helpers/translation";
-import useColors from "../../hooks/useColors";
-import { Tag as ITag, TagReference, useTagsState } from "../../hooks/useTags";
-import { useTemporaryLog } from "../../hooks/useTemporaryLog";
-import { MiniButton } from "../MiniButton";
-import { SlideHeadline } from "./SlideHeadline";
+import Tag from "../../Tag";
+import { getLogEditMarginTop } from "../../../helpers/responsive";
+import { t } from "../../../helpers/translation";
+import useColors from "../../../hooks/useColors";
+import { useSettings } from "../../../hooks/useSettings";
+import { TagReference, useTagsState } from "../../../hooks/useTags";
+import { useTemporaryLog } from "../../../hooks/useTemporaryLog";
+import LinkButton from "../../LinkButton";
+import { MiniButton } from "../../MiniButton";
+import { SlideHeadline } from "../components/SlideHeadline";
 
 export const SlideTags = ({
-  onChange
+  onChange,
+  onDisableStep,
 }: {
   onChange: (tags: TagReference[]) => void,
+  onDisableStep: () => void
 }) => {
   const tempLog = useTemporaryLog();
   const navigation = useNavigation()
@@ -29,6 +32,8 @@ export const SlideTags = ({
     <View style={{
       flex: 1,
       width: '100%',
+      paddingHorizontal: 20,
+      paddingBottom: 20,
       marginTop,
     }}>
       <View
@@ -55,7 +60,7 @@ export const SlideTags = ({
         style={{
           position: 'absolute',
           height: 32,
-          bottom: 0,
+          bottom: insets.bottom + 54 + 16,
           zIndex: 1,
           width: '100%',
         }}
@@ -102,14 +107,24 @@ export const SlideTags = ({
               }}
             >{t('tags_edit')}</MiniButton>
           </View>
-          <View
-            style={{
-              height: 50 - insets.bottom + 8,
-              width: '100%',
-            }}
-          />
         </View>
       </ScrollView>
+      <View
+        style={{
+          height: 54,
+          marginTop: 16,
+          marginBottom: insets.bottom,
+          width: '100%',
+          flexDirection: 'row',
+          justifyContent: 'flex-start',
+          alignItems: 'center',
+        }}
+      >
+        <LinkButton
+          type="secondary"
+          onPress={onDisableStep}
+        >{t('log_tags_disable')}</LinkButton>
+      </View>
     </View>
   )
 }

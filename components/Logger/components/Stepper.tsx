@@ -1,5 +1,5 @@
 import { Pressable, View } from 'react-native';
-import useColors from '../../hooks/useColors';
+import useColors from '../../../hooks/useColors';
 
 export const Stepper = ({
   count, index, scrollTo,
@@ -16,7 +16,6 @@ export const Stepper = ({
       flexDirection: 'row',
       alignItems: 'center',
       width: '100%',
-      paddingBottom: 8,
     }}>
       {steps.map((step) => (
         <Pressable

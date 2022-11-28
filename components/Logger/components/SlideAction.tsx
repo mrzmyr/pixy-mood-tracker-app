@@ -2,9 +2,10 @@ import { useKeyboard } from "@react-native-community/hooks"
 import { useEffect, useState } from "react"
 import { Keyboard, View } from "react-native"
 import { ArrowRight, Check } from "react-native-feather"
-import useColors from "../../hooks/useColors"
-import useHaptics from "../../hooks/useHaptics"
-import { FloatButton } from "../../components/FloatButton"
+import useColors from "../../../hooks/useColors"
+import useHaptics from "../../../hooks/useHaptics"
+import { FloatButton } from "../../FloatButton"
+import { useSafeAreaInsets } from "react-native-safe-area-context"
 
 export const SlideAction = ({
   type,
@@ -18,6 +19,7 @@ export const SlideAction = ({
   const haptics = useHaptics()
   const colors = useColors()
   const keyboard = useKeyboard()
+  const insets = useSafeAreaInsets()
 
   const [shouldMove, setShouldMove] = useState(false)
 
@@ -39,10 +41,10 @@ export const SlideAction = ({
         flex: 1,
         justifyContent: 'flex-end',
         alignItems: 'flex-end',
-        paddingBottom: 32,
+        paddingBottom: insets.bottom + 20,
         paddingRight: 32,
         position: 'absolute',
-        bottom: shouldMove ? keyboard.keyboardHeight : 0,
+        bottom: shouldMove ? keyboard.keyboardHeight - 20 : 0,
         right: 0,
         zIndex: 999,
       }}

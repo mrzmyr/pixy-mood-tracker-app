@@ -21,6 +21,7 @@ const initialState: State = {
   id: null,
   message: "",
   rating: null,
+  emotions: [],
   tags: [],
   date: null,
   dateTime: null,
