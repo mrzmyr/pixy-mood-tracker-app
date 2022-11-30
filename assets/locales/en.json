@@ -261,7 +261,7 @@
   "logger_step_tags": "Tags",
   "logger_step_message": "Write about your day",
   "logger_step_feedback": "Product Questions",
-  "steps": "Steps",
+  "steps": "Check-in",
   "steps_introduction": "Here you can decide what you want to track for each entry. You can always add more steps later.",
   "disable_step_confirm_title": "Disable Step?",
   "disable_step_confirm_message": "You can re-enable it later in the settings.",

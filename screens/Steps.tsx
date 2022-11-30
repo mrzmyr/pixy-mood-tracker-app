@@ -17,7 +17,7 @@ export const StepsScreen = ({ navigation }: RootStackScreenProps<'Steps'>) => {
     'rating': <Sun width={20} height={20} stroke={colors.text} />,
     'message': <FileText width={20} height={20} color={colors.text} />,
     'tags': <Tag width={20} height={20} color={colors.text} />,
-    'emotions': <Heart width={20} height={20} color={colors.text} />,
+    // 'emotions': <Heart width={20} height={20} color={colors.text} />,
     'feedback': <MessageSquare width={20} height={20} color={colors.text} />,
     'reminder': <Bell width={20} height={20} color={colors.text} />,
   }

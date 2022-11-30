@@ -2,7 +2,7 @@ import * as Linking from 'expo-linking';
 import * as StoreReview from 'expo-store-review';
 import * as WebBrowser from 'expo-web-browser';
 import { ScrollView, Text, View } from 'react-native';
-import { ArrowUpCircle, Award, Bell, BookOpen, Database, Droplet, Flag, PieChart, Shield, Sidebar, Smartphone, Star } from 'react-native-feather';
+import { ArrowUpCircle, Award, Bell, BookOpen, CheckCircle, Database, Droplet, Flag, PieChart, Shield, Smartphone, Star } from 'react-native-feather';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import MenuList from '../../components/MenuList';
 import MenuListHeadline from '../../components/MenuListHeadline';
@@ -93,7 +93,7 @@ export const SettingsScreen = ({ navigation }: RootStackScreenProps<'Settings'>)
           />
           <MenuListItem
             title={t('steps')}
-            iconLeft={<Sidebar width={18} color={colors.menuListItemIcon} />}
+            iconLeft={<CheckCircle width={18} color={colors.menuListItemIcon} />}
             onPress={() => navigation.navigate('Steps')}
             isLink
             isLast

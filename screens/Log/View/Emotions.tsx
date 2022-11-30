@@ -51,6 +51,7 @@ export const Emotions = ({
               key={emotion.key}
               onPress={async () => {
                 await haptics.selection();
+                // @ts-ignore
                 navigation.navigate('LogEdit', { id: item.id, step: 'emotions' });
               }}
             >
@@ -84,6 +85,7 @@ export const Emotions = ({
             <Pressable
               onPress={async () => {
                 await haptics.selection();
+                // @ts-ignore
                 navigation.navigate('LogEdit', { id: item.id, step: 'emotions' });
               }}
             >

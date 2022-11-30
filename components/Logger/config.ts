@@ -1,10 +1,9 @@
 import { t } from "../../helpers/translation";
 
-export type LoggerStep = "rating" | "tags" | "emotions" | "message" | "feedback" | "reminder";
+export type LoggerStep = "rating" | "tags" | "message" | "feedback" | "reminder";
 
 export const STEP_OPTIONS: LoggerStep[] = [
   "rating",
-  "emotions",
   "tags",
   "message",
   "feedback",
@@ -12,7 +11,6 @@ export const STEP_OPTIONS: LoggerStep[] = [
 
 export const DEFAULT_STEPS: LoggerStep[] = [
   "rating",
-  "emotions",
   "tags",
   "message",
   "feedback"

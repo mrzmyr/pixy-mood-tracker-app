@@ -34,14 +34,6 @@ const EMOTIONS_INDEX_MAPPING = {
   extremely_good: 4,
 }
 
-const SLIDE_INDEX_MAPPING = {
-  rating: 0,
-  tags: 1,
-  message: 2,
-  emotions: 3,
-  feedback: 4,
-}
-
 const getAvailableSteps = ({
   existingLogItem,
   question,
@@ -58,7 +50,7 @@ const getAvailableSteps = ({
     'rating'
   ]
 
-  if (hasStep('emotions')) slides.push('emotions')
+  // if (hasStep('emotions')) slides.push('emotions')
   if (hasStep('tags')) slides.push('tags')
   if (hasStep('message')) slides.push('message')
 
@@ -230,25 +222,25 @@ export const Logger = ({
     )
   })
 
-  if (avaliableSteps.includes('emotions')) {
-    content.push({
-      key: 'emotions',
-      slide: (
-        <SlideEmotions
-          defaultIndex={EMOTIONS_INDEX_MAPPING[tempLog.data.rating || 'neutral']}
-          onChange={(emotions: Emotion[]) => {
-            tempLog.set((logItem) => ({ ...logItem, emotions: emotions.map(emotion => emotion.key) }))
-          }}
-          onDisableStep={() => {
-            askToDisableStep().then(() => {
-              toggleStep('emotions')
-              next()
-            })
-          }}
-        />
-      ),
-    })
-  }
+  // if (avaliableSteps.includes('emotions')) {
+  //   content.push({
+  //     key: 'emotions',
+  //     slide: (
+  //       <SlideEmotions
+  //         defaultIndex={EMOTIONS_INDEX_MAPPING[tempLog.data.rating || 'neutral']}
+  //         onChange={(emotions: Emotion[]) => {
+  //           tempLog.set((logItem) => ({ ...logItem, emotions: emotions.map(emotion => emotion.key) }))
+  //         }}
+  //         onDisableStep={() => {
+  //           askToDisableStep().then(() => {
+  //             toggleStep('emotions')
+  //             next()
+  //           })
+  //         }}
+  //       />
+  //     ),
+  //   })
+  // }
 
   if (avaliableSteps.includes('tags')) {
     content.push({
