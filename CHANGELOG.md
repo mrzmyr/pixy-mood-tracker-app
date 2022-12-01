@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.54.0](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.53.0...v1.54.0) (2022-12-01)
+
+
+### Features
+
+* update styles of new entries feedback box ([c70e837](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/c70e83716da67844d9c481a44faa9a04e4bb3d4d))
+
 ## [1.53.0](https://github.com/mrzmyr/pixy-mood-tracker/compare/v1.52.0...v1.53.0) (2022-12-01)
 
 
