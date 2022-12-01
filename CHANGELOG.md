@@ -2,6 +2,40 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.53.0](https://github.com/mrzmyr/pixy-mood-tracker/compare/v1.52.0...v1.53.0) (2022-12-01)
+
+
+### Features
+
+* add tracking of check in steps ([22b442f](https://github.com/mrzmyr/pixy-mood-tracker/commit/22b442f30dafbecc5bacde1c2a55b331fdba92ef))
+* Multiple steps and emotions ([ec3bc71](https://github.com/mrzmyr/pixy-mood-tracker/commit/ec3bc710830891b05f246d135d63f357c636f31c)), closes [#16](https://github.com/mrzmyr/pixy-mood-tracker/issues/16)
+
+
+### Bug Fixes
+
+* build error because of unsupported dark mode colors for splashscreen ([9ca4190](https://github.com/mrzmyr/pixy-mood-tracker/commit/9ca419061c1837413322a0c973fd470eb7dc30a9))
+* rename migration file ([978a606](https://github.com/mrzmyr/pixy-mood-tracker/commit/978a60661d1dc2b564c38f99f7db67f451828218))
+* tests for emotions in `useSettings` ([f3fac2b](https://github.com/mrzmyr/pixy-mood-tracker/commit/f3fac2bb68d5ec87eac834e61f4e4334bea20b08))
+
+
+### Chore
+
+* fix jest tests in ci ([26de597](https://github.com/mrzmyr/pixy-mood-tracker/commit/26de597117dfa2356f1d728c18b9a3502e422ef6))
+* fix typescript errors ([908aa23](https://github.com/mrzmyr/pixy-mood-tracker/commit/908aa2309dabbdfb39dc38b0fee3ee9122e2f22b))
+
+
+### Styling
+
+* disable 'emotions' check in step for now ([43d4697](https://github.com/mrzmyr/pixy-mood-tracker/commit/43d469751bc480aa419e782067dc580b33e0728c))
+
+
+### Documentation
+
+* add releasing docs ([8a7ae74](https://github.com/mrzmyr/pixy-mood-tracker/commit/8a7ae74054cf08a82ad8c66f061c72a86ce4366c))
+* format 'building' to table ([5061334](https://github.com/mrzmyr/pixy-mood-tracker/commit/5061334cab04bb7ea91d6fc0022bc5ece6957919))
+* update building table ([dcbc26f](https://github.com/mrzmyr/pixy-mood-tracker/commit/dcbc26f18118e70a1ae7948f6c52fde467163a7d))
+* update building table [#2](https://github.com/mrzmyr/pixy-mood-tracker/issues/2) ([1cfeb17](https://github.com/mrzmyr/pixy-mood-tracker/commit/1cfeb1730246997994d62da3cfd430fec9db9785))
+
 ## [1.52.0](https://github.com/mrzmyr/pixy-mood-tracker/compare/v1.51.1...v1.52.0) (2022-11-25)
 
 
