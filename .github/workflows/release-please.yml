@@ -11,3 +11,4 @@ jobs:
         with:
           release-type: expo
           package-name: release-please-action
+          bootstrap-sha: 880ad4c4d939d3e62d24cbeeaf7e864405727fe6
