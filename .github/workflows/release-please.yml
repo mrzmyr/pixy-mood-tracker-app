@@ -11,4 +11,3 @@ jobs:
         with:
           release-type: expo
           package-name: release-please-action
-          token: ${{ secrets.RELEASE_ME_TOKEN }}
