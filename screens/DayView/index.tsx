@@ -25,47 +25,56 @@ const FeedbackBox = ({
   return (
     <View
       style={{
-        marginBottom: 32,
-        paddingTop: 32,
-        borderTopColor: colors.cardBorder,
-        borderTopWidth: 1,
         marginTop: 32,
-        paddingVertical: 16,
-        paddingHorizontal: 16,
-        borderRadius: 8,
-        ...style,
+        borderTopWidth: 1,
+        borderTopColor: colors.cardBorder,
+        paddingTop: 32,
       }}
     >
-      <FeedbackModal />
-      <Text style={{
-        fontSize: 17,
-        marginBottom: 8,
-        fontWeight: 'bold',
-        color: colors.text
-      }}>👷‍♀️ {t(`${prefix}_title`)}</Text>
-      <Text style={{
-        fontSize: 15,
-        marginBottom: 16,
-        lineHeight: 22,
-        color: colors.textSecondary
-      }}>{t(`${prefix}_body`)}</Text>
       <View
         style={{
-          flexWrap: 'wrap',
-          marginHorizontal: -20,
-          paddingHorizontal: 12,
-          marginBottom: -16,
-          paddingBottom: 8,
-          paddingTop: 8,
+          marginBottom: 32,
+          backgroundColor: colors.logCardBackground,
+          paddingVertical: 16,
+          paddingHorizontal: 20,
+          borderRadius: 8,
+          marginHorizontal: 8,
+          ...style,
         }}
       >
-        <LinkButton
+        <FeedbackModal />
+        <Text style={{
+          fontSize: 17,
+          marginBottom: 8,
+          fontWeight: 'bold',
+          color: colors.text
+        }}>👷‍♀️ {t(`${prefix}_title`)}</Text>
+        <Text style={{
+          fontSize: 15,
+          marginBottom: 16,
+          lineHeight: 22,
+          color: colors.textSecondary
+        }}>{t(`${prefix}_body`)}</Text>
+        <View
           style={{
+            flexWrap: 'wrap',
+            marginHorizontal: -20,
+            paddingHorizontal: 12,
+            marginBottom: -16,
+            paddingBottom: 8,
+            paddingTop: 8,
+            borderTopColor: colors.logCardBorder,
+            borderTopWidth: 1,
           }}
-          onPress={() => {
-            showFeedbackModal({ type: 'idea' });
-          }}
-        >{t(`${prefix}_button`)}</LinkButton>
+        >
+          <LinkButton
+            style={{
+            }}
+            onPress={() => {
+              showFeedbackModal({ type: 'idea' });
+            }}
+          >{t(`${prefix}_button`)}</LinkButton>
+        </View>
       </View>
     </View>
   );
