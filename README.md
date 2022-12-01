@@ -59,43 +59,16 @@ $ npx standard-version --release-as [major|minor|patch]
 
 ## Building
 
-### Development
-
-**iOS Device**
-1. `yarn build:ios:dev` creates a `.ipa` file
-2. Install `.ipa` file via [Apple Configurator](https://apps.apple.com/us/app/apple-configurator/id1037126344?mt=12)
-
-**Android Device**
-1. `yarn build:android:dev` create a `.apk` file
-2. Install manually (enable "Install from unknown sources")
-
-**iOS Simulator**
-1. `yarn build:ios:emulator` create an `.ipa` file
-2. Install `.ipa` file via 
-
-**Android Emulator**
-1. `yarn build:android:emulator` creates an `.apk` file
-2. Install the `.apk` file via drag and drop
-
-### Preview
-
-**iOS (TestFlight)**
-1. `yarn build:ios:preview` creates a `.ipa` file
-2. Submit `.ipa` file to App Store via `yarn submit:ios`
-
-**Android (Goolge Play Console - Internal testing)**
-1. `yarn build:android:preview` create a `.aab` file
-2. Submit `.aab` file to Google Play Console via `yarn submit:android`
-
-### Production
-
-**iOS**
-1. `yarn buiild:ios:prod` creates a `.ipa` file
-2. Submit `.ipa` file via `yarn submit:ios`
-
-**Android**
-1. `yarn buiild:android:prod` creates a `.aab` file
-2. Submit `.aab` file via `yarn submit:android`
+| Environment | OS | Channel | `yarn` command | File Extension | Installation |
+| ----------- | -- | ------- | -------------- | -------------- | ------------ |
+| Development | iOS | Physical Device | `yarn build:ios:dev` | `.ipa` |  Install `.ipa` file via [Apple Configurator](https://apps.apple.com/us/app/apple-configurator/id1037126344?mt=12) |
+| Development | Android | Physical Device | `yarn build:android:dev` | `.apk` |  Install manually (enable "Install from unknown sources") |
+| Emulator | iOS | Simulator | `yarn build:ios:emulator` | `.ipa` |  Install `.ipa` file via  |
+| Emulator | Android | Emulator | `yarn build:android:emulator` |  `.apk` |  Install the `.apk` file via drag and drop |
+| Preview | iOS | TestFlight | `yarn build:ios:preview` | `.ipa` |  Submit `.ipa` file to App Store via `yarn submit:ios` |
+| Preview | Android | Goolge Play Console | `yarn build:android:preview` | `.aab` |  Submit `.aab` file to Google Play Console via `yarn submit:android` |
+| Production | iOS | Physical Device | `yarn buiild:ios:prod` | `.ipa` |  Submit `.ipa` file via `yarn submit:ios` |
+| Production | Android | Physical Device | `yarn buiild:android:prod` | `.aab` |  Submit `.aab` file via `yarn submit:android` |
 
 ## Releasing
 
