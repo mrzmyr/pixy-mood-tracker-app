@@ -65,10 +65,10 @@ $ npx standard-version --release-as [major|minor|patch]
 | Development | Android | Physical Device | `build:android:dev` | `.apk` |  Install manually (enable "Install from unknown sources") |
 | Emulator | iOS | Simulator | `build:ios:emulator` | `.ipa` |  Install `.ipa` file via  |
 | Emulator | Android | Emulator | `build:android:emulator` |  `.apk` |  Install the `.apk` file via drag and drop |
-| Preview | iOS | TestFlight | `build:ios:preview` | `.ipa` |  Submit `.ipa` file to App Store via `yarn submit:ios` |
-| Preview | Android | Goolge Play Console | `build:android:preview` | `.aab` |  Submit `.aab` file to Google Play Console via `yarn submit:android` |
-| Production | iOS | Physical Device | `build:ios:prod` | `.ipa` |  Submit `.ipa` file via `yarn submit:ios` |
-| Production | Android | Physical Device | `build:android:prod` | `.aab` |  Submit `.aab` file via `yarn submit:android` |
+| Preview | iOS | TestFlight | `build:ios:preview` | `.ipa` |  Submit `.ipa` file to App Store via `yarn submit:ios:preview` |
+| Preview | Android | Goolge Play Console | `build:android:preview` | `.aab` |  Submit `.aab` file to Google Play Console via `yarn submit:android:preview` |
+| Production | iOS | Physical Device | `build:ios:prod` | `.ipa` |  Submit `.ipa` file via `yarn submit:ios:production` |
+| Production | Android | Physical Device | `build:android:prod` | `.aab` |  Submit `.aab` file via `yarn submit:android:production` |
 
 ## Releasing
 
