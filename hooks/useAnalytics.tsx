@@ -55,6 +55,7 @@ function AnalyticsProvider({
       settingsReminderTime: settings.reminderTime,
       settingsScaleType: settings.scaleType,
       settingsActionsDone: settings.actionsDone,
+      settingsSteps: settings.steps,
 
       ...properties,
     };
