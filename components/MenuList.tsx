@@ -1,16 +1,16 @@
 import React from 'react';
-import { StyleProp, View, ViewStyle } from 'react-native';
+import { View, ViewStyle } from 'react-native';
 import useColors from '../hooks/useColors';
 
-export default ({ 
-  children, 
-  style = null,
+export default ({
+  children,
+  style = {},
 }: {
   children: React.ReactNode,
   style?: ViewStyle,
 }) => {
   const colors = useColors()
-  
+
   return (
     <View
       style={[{

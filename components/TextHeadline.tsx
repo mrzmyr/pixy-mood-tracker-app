@@ -1,9 +1,9 @@
 import { Text, ViewStyle } from "react-native"
 import useColors from "../hooks/useColors"
 
-export default function TextHeadline({ 
-  children, 
-  style = null,
+export default function TextHeadline({
+  children,
+  style = {},
 }: {
   children: React.ReactNode,
   style?: ViewStyle,

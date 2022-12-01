@@ -18,7 +18,6 @@ export const UserDataImportList = () => {
   const [users, setUsers] = useState<User[]>([]);
   const colors = useColors();
   const datagate = useDatagate();
-  const { addActionDone, hasActionDone } = useSettings();
 
   const [loadedUserIds, setLoadedUserIds] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
@@ -52,9 +51,6 @@ export const UserDataImportList = () => {
     datagate.import(user.importData, {
       muted: true
     });
-    if (!hasActionDone("onboarding")) {
-      addActionDone("onboarding");
-    }
     setLoadedUserIds((loadedUserIds) => [...loadedUserIds, user.id]);
   };
 

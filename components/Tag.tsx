@@ -1,25 +1,26 @@
-import { Text, TouchableOpacity, View } from "react-native";
+import { Pressable, Text, View, ViewStyle } from "react-native";
 import useColors from "../hooks/useColors";
 import useHaptics from "../hooks/useHaptics";
 
-export default function Tag({ 
+export default function Tag({
   title,
   selected = false,
   colorName,
   onPress,
+  style = {},
 }: {
   title: string,
   selected?: boolean,
   colorName: string,
   onPress?: () => void,
+  style?: ViewStyle
 }) {
   const colors = useColors();
   const haptics = useHaptics();
-  
+
   return (
-    <TouchableOpacity 
-      activeOpacity={0.8}
-      style={{
+    <Pressable
+      style={({ pressed }) => ({
         paddingTop: 8,
         paddingBottom: 8,
         paddingLeft: 16,
@@ -33,13 +34,15 @@ export default function Tag({
         backgroundColor: selected ? colors.tagBackgroundActive : colors.tagBackground,
         borderWidth: 1,
         borderColor: selected ? colors.tagBorderActive : colors.tagBorder,
-      }}
+        opacity: pressed ? 0.8 : 1,
+        ...style,
+      })}
       onPress={async () => {
         await haptics.selection();
         onPress?.();
       }}
     >
-      <View 
+      <View
         style={{
           width: 8,
           height: 8,
@@ -52,6 +55,6 @@ export default function Tag({
         color: selected ? colors.tagTextActive : colors.tagText,
         fontSize: 17,
       }}>{title}</Text>
-    </TouchableOpacity>
+    </Pressable>
   )
 }

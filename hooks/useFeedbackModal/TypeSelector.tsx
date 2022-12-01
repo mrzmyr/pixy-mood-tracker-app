@@ -44,7 +44,7 @@ export function TypeSelector({
       >
         <Text
           numberOfLines={1}
-          style={{ fontSize: 32, color: colors.secondaryButtonText, textAlign: 'center' }}
+          style={{ fontSize: 32, color: colors.feedbackSelectionText, textAlign: 'center' }}
         >
           ⚠️
         </Text>
@@ -52,7 +52,7 @@ export function TypeSelector({
           numberOfLines={1}
           style={{
             fontSize: 17,
-            color: colors.secondaryButtonText,
+            color: colors.feedbackSelectionText,
             marginTop: 5,
             textAlign: 'center'
           }}
@@ -82,7 +82,7 @@ export function TypeSelector({
       >
         <Text
           numberOfLines={1}
-          style={{ fontSize: 32, color: colors.secondaryButtonText, textAlign: 'center' }}
+          style={{ fontSize: 32, color: colors.feedbackSelectionText, textAlign: 'center' }}
         >
           💡
         </Text>
@@ -90,7 +90,7 @@ export function TypeSelector({
           numberOfLines={1}
           style={{
             fontSize: 17,
-            color: colors.secondaryButtonText,
+            color: colors.feedbackSelectionText,
             marginTop: 5,
             textAlign: 'center'
           }}
@@ -117,10 +117,10 @@ export function TypeSelector({
         }}
         testID='feedback-modal-other'
       >
-        <MoreHorizontal height={40} color={colors.secondaryButtonText} />
+        <MoreHorizontal height={40} color={colors.feedbackSelectionText} />
         <Text
           numberOfLines={1}
-          style={{ fontSize: 17, color: colors.secondaryButtonText, marginTop: 5, textAlign: 'center' }}
+          style={{ fontSize: 17, color: colors.feedbackSelectionText, marginTop: 5, textAlign: 'center' }}
         >
           {t('other')}
         </Text>

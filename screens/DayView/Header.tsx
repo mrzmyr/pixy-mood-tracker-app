@@ -1,28 +1,26 @@
-import { Pressable, Text, View } from 'react-native';
-import { Trash, X } from 'react-native-feather';
+import { Pressable, Text, View } from "react-native";
+import { X } from "react-native-feather";
 import useColors from "../../hooks/useColors";
 import useHaptics from "../../hooks/useHaptics";
 
-export const SlideHeader = ({
-  title,
-  isDeleteable,
-  onClose,
-  onDelete,
+export const Header = ({
+  title, onClose,
 }: {
   title: string;
-  isDeleteable: boolean;
   onClose?: () => void;
   onDelete?: () => void;
+  onEdit?: () => void;
 }) => {
   const haptics = useHaptics();
-  const colors = useColors()
+  const colors = useColors();
 
   return (
     <View style={{
       flexDirection: 'row',
       justifyContent: 'space-between',
       alignItems: 'center',
-      marginTop: -16,
+      paddingVertical: 8,
+      paddingHorizontal: 20,
     }}>
       <View
         style={{
@@ -40,7 +38,7 @@ export const SlideHeader = ({
             style={{
               fontSize: 17,
               fontWeight: '600',
-              color: colors.logHeaderText,
+              color: colors.text,
             }}
           >{title}</Text>
         </View>
@@ -54,32 +52,20 @@ export const SlideHeader = ({
         <View
           style={{
             flexDirection: 'row',
+            justifyContent: 'space-evenly',
+            marginRight: -8,
           }}
         >
-          {isDeleteable && (
-            <Pressable
-              style={{
-                marginRight: 8,
-                padding: 8,
-              }}
-              onPress={async () => {
-                await haptics.selection()
-                onDelete?.()
-              }}
-            >
-              <Trash color={colors.logHeaderText} width={24} height={24} />
-            </Pressable>
-          )}
           <Pressable
             style={{
-              padding: 8,
+              padding: 16,
             }}
             onPress={async () => {
-              await haptics.selection()
-              onClose?.()
+              await haptics.selection();
+              onClose?.();
             }}
           >
-            <X color={colors.logHeaderText} width={24} height={24} />
+            <X color={colors.logHeaderText} width={22} height={22} />
           </Pressable>
         </View>
       </View>

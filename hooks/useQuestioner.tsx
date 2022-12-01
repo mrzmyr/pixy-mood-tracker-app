@@ -40,10 +40,8 @@ export const useQuestioner = () => {
           const satisfiesVersion = question.appVersion ? semver.satisfies(pkg.version, question.appVersion) : true
           const hasBeenAnswered = hasActionDone(`question_slide_${question.id}`)
           const isInMyLanguage = question.text[language] !== undefined;
-          const minItemsTracked = Object.values(logs.items).length >= 3;
 
           return (
-            minItemsTracked &&
             satisfiesVersion &&
             !hasBeenAnswered &&
             isInMyLanguage
@@ -63,11 +61,15 @@ export const useQuestioner = () => {
     const question_text = question.text[language] || question.text['en'];
 
     const answer_texts = answers.map(answer => {
+      if (answer.text === null) {
+        return answer.emoji;
+      }
+
       if (answer?.text[language]) {
         return `${answer.emoji} ${answer.text[language]}`
-      } else {
-        `${answer.emoji} ${answer?.text?.en}`
       }
+
+      return `${answer.emoji} ${answer?.text?.en}`
     }).join(', ')
 
     const metaData = {

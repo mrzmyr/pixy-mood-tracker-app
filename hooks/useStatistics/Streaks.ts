@@ -2,6 +2,7 @@ import { DATE_FORMAT } from './../../constants/Config';
 import dayjs from 'dayjs';
 import _ from 'lodash';
 import { LogItem } from '../useLogs';
+import { getLogDays } from '../../lib/utils';
 
 export const defaultStreaksData = {
   longest: 0,
@@ -11,7 +12,8 @@ export const defaultStreaksData = {
 export type StreaksData = typeof defaultStreaksData;
 
 export const getCurrentStreak = (items: LogItem[]) => {
-  const itemsSorted = _.sortBy(items, (log) => log.date);
+  const dayLogs = getLogDays(items);
+  const itemsSorted = _.sortBy(dayLogs, (log) => log.date);
 
   let currentStreak = 0;
 
@@ -32,7 +34,8 @@ export const getCurrentStreak = (items: LogItem[]) => {
 }
 
 export const getLongestStreak = (items: LogItem[]) => {
-  const itemsSorted = _.sortBy(items, (log) => log.date);
+  const dayLogs = getLogDays(items);
+  const itemsSorted = _.sortBy(dayLogs, (log) => log.date);
 
   let streak = 0;
   let count = 1;

@@ -3,7 +3,7 @@ import _ from 'lodash';
 import { BigCard } from '../../components/BigCard';
 import { DATE_FORMAT } from '../../constants/Config';
 import { t } from '../../helpers/translation';
-import { LogItem } from '../../hooks/useLogs';
+import { LogDay, LogItem } from '../../hooks/useLogs';
 import { getMoodPeaksNegativeData, getMoodPeaksPositiveData } from '../../hooks/useStatistics/MoodPeaks';
 import { MoodPeaksContent } from '../Statistics/MoodPeaksCards';
 import { NotEnoughDataOverlay } from '../../components/Statistics/NotEnoughDataOverlay';
@@ -15,43 +15,35 @@ const MIN_ITEMS = 1;
 export const MoodPeaks = ({
   date, items,
 }) => {
-  const { anonymizeItem } = useAnonymizer()
+  const { anonymizeDay } = useAnonymizer()
 
   const dataNegative = getMoodPeaksNegativeData(items);
   const dataPositive = getMoodPeaksPositiveData(items);
 
-  const dataNegativeDummy = {
-    items: [{
-      id: '1',
+  const dataNegativeDummy: { days: LogDay[] } = {
+    days: [{
       date: dayjs().format(DATE_FORMAT),
-      rating: 'bad' as LogItem['rating'],
-      message: 'I am feeling',
-      createdAt: dayjs(date).toISOString(),
+      ratingAvg: 'bad',
+      items: [],
     }, {
-      id: '2',
       date: dayjs(date).add(4, 'day').format(DATE_FORMAT),
-      rating: 'extremely_bad' as LogItem['rating'],
-      message: 'I am feeling',
-      createdAt: dayjs(date).add(4, 'day').toISOString(),
+      ratingAvg: 'extremely_bad',
+      items: [],
     }, {
-      id: '3',
       date: dayjs(date).add(8, 'day').format(DATE_FORMAT),
-      rating: 'extremely_bad' as LogItem['rating'],
-      message: 'I am feeling',
-      createdAt: dayjs(date).add(8, 'day').toISOString(),
+      ratingAvg: 'bad',
+      items: [],
     }, {
-      id: '4',
       date: dayjs(date).add(12, 'day').format(DATE_FORMAT),
-      rating: 'extremely_bad' as LogItem['rating'],
-      message: 'I am feeling',
-      createdAt: dayjs(date).add(12, 'day').toISOString(),
+      ratingAvg: 'extremely_bad',
+      items: [],
     }]
   }
 
   const dataPositiveDummy = {
-    items: dataNegativeDummy.items.map((item) => ({
+    days: dataNegativeDummy.days.map((item) => ({
       ...item,
-      rating: 'extremely_good' as LogItem['rating'],
+      ratingAvg: 'extremely_good' as LogDay['ratingAvg'],
     }))
   }
 
@@ -66,10 +58,10 @@ export const MoodPeaks = ({
         isShareable={true}
         analyticsId="mood-peaks-positive"
       >
-        {dataPositive.items.length < MIN_ITEMS && (
+        {dataPositive.days.length < MIN_ITEMS && (
           <NotEnoughDataOverlay />
         )}
-        {dataPositive.items.length >= MIN_ITEMS ? (
+        {dataPositive.days.length >= MIN_ITEMS ? (
           <MoodPeaksContent
             data={dataPositive}
             startDate={monthStart}
@@ -82,7 +74,7 @@ export const MoodPeaks = ({
         )}
         <CardFeedback
           type='mood_peaks_positive_month_report'
-          details={dataPositive.items.map(item => anonymizeItem(item))}
+          details={dataPositive.days.map(day => anonymizeDay(day))}
         />
       </BigCard>
       <BigCard
@@ -91,10 +83,10 @@ export const MoodPeaks = ({
         isShareable={true}
         analyticsId="mood-peaks-negative"
       >
-        {dataNegative.items.length < MIN_ITEMS && (
+        {dataNegative.days.length < MIN_ITEMS && (
           <NotEnoughDataOverlay />
         )}
-        {dataNegative.items.length >= MIN_ITEMS ? (
+        {dataNegative.days.length >= MIN_ITEMS ? (
           <MoodPeaksContent
             data={dataNegative}
             startDate={monthStart}
@@ -107,7 +99,7 @@ export const MoodPeaks = ({
         )}
         <CardFeedback
           type='mood_peaks_negative_month_report'
-          details={dataNegative.items.map(item => anonymizeItem(item))}
+          details={dataNegative.days.map(day => anonymizeDay(day))}
         />
       </BigCard>
     </>

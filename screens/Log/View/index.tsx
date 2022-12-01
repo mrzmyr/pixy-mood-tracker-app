@@ -1,30 +1,80 @@
-import dayjs from 'dayjs';
 import { t } from 'i18n-js';
-import { Platform, Pressable, ScrollView, Text, View } from 'react-native';
+import { Platform, ScrollView, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Alert from '../../../components/Alert';
-import Tag from '../../../components/Tag';
+import LinkButton from '../../../components/LinkButton';
 import { useAnalytics } from '../../../hooks/useAnalytics';
 import useColors from '../../../hooks/useColors';
-import useHaptics from '../../../hooks/useHaptics';
 import { useLogState, useLogUpdater } from '../../../hooks/useLogs';
-import { useTagsState } from '../../../hooks/useTags';
+import { getItemDateTitle } from '../../../lib/utils';
 import { RootStackParamList, RootStackScreenProps } from '../../../types';
+import { Emotions } from './Emotions';
 import { Header } from './Header';
 import { Headline } from './Headline';
+import { Message } from './Message';
 import { RatingDot } from './RatingDot';
+import { Tags } from './Tags';
+
+const PromoAddEntry = ({
+  onClick
+}) => {
+  const colors = useColors();
+
+  return (
+    <View
+      style={{
+        marginBottom: 16,
+        backgroundColor: colors.promoBackground,
+        paddingVertical: 16,
+        paddingHorizontal: 20,
+        borderRadius: 8,
+      }}
+    >
+      <Text style={{
+        fontSize: 17,
+        marginBottom: 8,
+        fontWeight: 'bold',
+        color: colors.promoText
+      }}>⚡️ Multiple Entries per Day</Text>
+      <Text style={{
+        fontSize: 15,
+        marginBottom: 16,
+        lineHeight: 22,
+        color: colors.promoText,
+        opacity: 0.8
+      }}>You can now add multiple entries per day. This is useful if feel different emotions throughout the day.</Text>
+      <View
+        style={{
+          flexWrap: 'wrap',
+          marginHorizontal: -20,
+          paddingHorizontal: 12,
+          marginBottom: -16,
+          paddingBottom: 8,
+          paddingTop: 8,
+          borderTopColor: colors.promoBorder,
+          borderTopWidth: 1,
+        }}
+      >
+        <LinkButton
+          style={{
+            color: colors.promoText,
+          }}
+          onPress={onClick}
+        >{t('add_entry')}</LinkButton>
+      </View>
+    </View>
+  )
+}
 
 export const LogView = ({ navigation, route }: RootStackScreenProps<'LogView'>) => {
   const colors = useColors()
   const analytics = useAnalytics()
   const insets = useSafeAreaInsets();
-  const haptics = useHaptics();
 
-  const { tags } = useTagsState()
   const logState = useLogState()
   const logUpdater = useLogUpdater()
 
-  const item = Object.values(logState?.items).find(i => i.id === route.params.id)
+  const item = logState?.items.find(i => i.id === route.params.id)
 
   if (!item) {
     return (
@@ -82,7 +132,7 @@ export const LogView = ({ navigation, route }: RootStackScreenProps<'LogView'>) 
         }}
       >
         <Header
-          title={dayjs(item.date).isSame(dayjs(), 'day') ? t('today') : dayjs(item.date).format('ddd, L')}
+          title={getItemDateTitle(item.dateTime)}
           onClose={close}
           onDelete={async () => {
             if (
@@ -113,103 +163,16 @@ export const LogView = ({ navigation, route }: RootStackScreenProps<'LogView'>) 
                 flexDirection: 'row',
               }}
             >
-              {item?.rating && <RatingDot onPress={() => edit('rating')} rating={item?.rating} />}
+              <RatingDot onPress={() => edit('rating')} rating={item.rating} />
             </View>
           </View>
+          <Emotions item={item} />
+          <Tags item={item} />
+          <Message item={item} />
           <View
             style={{
-              marginTop: 24,
-            }}
-          >
-            <Headline>{t('tags')}</Headline>
-            <View
-              style={{
-                flexDirection: 'row',
-                flexWrap: 'wrap',
-              }}
-            >
-              {(item?.tags && item?.tags?.length) ? item?.tags?.map(tag => {
-                const _tag = tags.find(t => t.id === tag.id);
-
-                if (!_tag) return null;
-
-                return (
-                  <Tag
-                    selected={false}
-                    key={tag.id}
-                    title={_tag.title}
-                    colorName={_tag.color}
-                    onPress={() => edit('tags')}
-                  />
-                )
-              }) : (
-                <View
-                  style={{
-                    padding: 8,
-                  }}
-                >
-                  <Text style={{ color: colors.textSecondary, fontSize: 17 }}>No tags</Text>
-                </View>
-              )}
-            </View>
-          </View>
-          <View
-            style={{
-              marginTop: 24,
-            }}
-          >
-            <Headline>{t('view_log_message')}</Headline>
-            <View
-              style={{
-                flexDirection: 'row',
-              }}
-            >
-              {item?.message?.length > 0 ? (
-                <Pressable
-                  onPress={async () => {
-                    await haptics.selection()
-                    edit('message')
-                  }}
-                  style={{
-                    width: '100%',
-                  }}
-                >
-                  <View
-                    style={{
-                      backgroundColor: colors.logCardBackground,
-                      borderRadius: 8,
-                      padding: 16,
-                      width: '100%',
-                    }}
-                  >
-                    <Text
-                      style={{
-                        fontSize: 17,
-                        color: colors.text,
-                        lineHeight: 23,
-                        width: '100%',
-                      }}
-                    >{item.message}</Text>
-                  </View>
-                </Pressable>
-              ) : (
-                <View
-                  style={{
-                    padding: 8,
-                  }}
-                >
-                  <Text style={{
-                    color: colors.textSecondary,
-                    fontSize: 17,
-                    lineHeight: 24,
-                  }}>{t('view_log_message_empty')}</Text>
-                </View>
-              )}
-            </View>
-          </View>
-          <View
-            style={{
-              height: insets.bottom
+              height: insets.bottom,
+              marginTop: 32,
             }}
           />
         </ScrollView>

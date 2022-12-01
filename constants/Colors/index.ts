@@ -53,9 +53,12 @@ const light = {
 
   logHeaderBackground: colors.neutral[50],
   logHeaderBorder: colors.neutral[200],
-  logHeaderText: colors.neutral[500],
+  logHeaderText: colors.neutral[600],
+  logHeaderHighlight: colors.neutral[200],
+
   logBackground: colors.neutral[100],
   logCardBackground: colors.white,
+  logCardBorder: colors.neutral[200],
   logBackgroundTransparent: 'rgba(245,245,245, 0)',
 
   logActionBackground: colors.neutral[200],
@@ -81,6 +84,7 @@ const light = {
   bottomSheetHandle: 'rgba(255, 255, 255, 0.5)',
 
   feedbackSelectionBackground: colors.neutral[200],
+  feedbackSelectionText: colors.neutral[900],
   feedbackBackground: colors.neutral[100],
 
   cardBackground: '#fff',
@@ -125,10 +129,17 @@ const light = {
   primaryButtonTextDisabled: colors.neutral[500],
   primaryButtonBorderDisabled: colors.neutral[300],
 
-  secondaryButtonBackground: colors.neutral[200],
-  secondaryButtonText: colors.neutral[900],
-  secondaryButtonBorder: colors.neutral[200],
+  secondaryButtonBackground: colors.blue[100],
+  secondaryButtonText: colors.blue[600],
+  secondaryButtonBorder: colors.blue[100],
   secondaryButtonBorderDisabled: colors.neutral[300],
+  secondaryButtonBackgroundDisabled: colors.neutral[300],
+  secondaryButtonTextDisabled: colors.neutral[500],
+
+  tertiaryButtonBackground: colors.neutral[200],
+  tertiaryButtonText: colors.neutral[900],
+  tertiaryButtonBorder: colors.neutral[200],
+  tertiaryButtonBorderDisabled: colors.neutral[300],
 
   dangerButtonBackground: colors.neutral[200],
   dangerButtonText: colors.red[500],
@@ -204,6 +215,21 @@ const light = {
   sharingLogoBackground: colors.white,
   sharingLogoText: colors.neutral[600],
 
+  entryBackground: colors.white,
+  entryBorder: colors.neutral[100],
+  entryItemBorder: colors.neutral[200],
+
+  promoBackground: tintColorLight,
+  promoBorder: 'rgba(255, 255, 255, 0.1)',
+  promoText: colors.white,
+
+  emotionButtonBackground: colors.white,
+  emotionButtonBackgroundActive: colors.neutral[900],
+  emotionButtonBorder: colors.neutral[200],
+  emotionButtonBorderActive: colors.neutral[900],
+  emotionButtonText: colors.neutral[900],
+  emotionButtonTextActive: colors.white,
+
   switchThumbColor: '#333',
   scales: scales.light,
   tags: tagsLight,
@@ -234,8 +260,11 @@ const dark: IColors & {
   logHeaderBackground: colors.neutral[900],
   logHeaderBorder: colors.neutral[800],
   logHeaderText: colors.neutral[300],
+  logHeaderHighlight: colors.neutral[800],
+
   logBackground: colors.neutral[900],
   logCardBackground: colors.neutral[800],
+  logCardBorder: colors.neutral[700],
   logBackgroundTransparent: 'rgba(28,25,23, 0)',
 
   logActionBackground: colors.neutral[800],
@@ -261,6 +290,7 @@ const dark: IColors & {
   bottomSheetHandle: 'rgba(255, 255, 255, 0.5)',
 
   feedbackSelectionBackground: colors.neutral[800],
+  feedbackSelectionText: colors.white,
   feedbackBackground: colors.neutral[900],
 
   cardBackground: colors.neutral[900],
@@ -298,17 +328,24 @@ const dark: IColors & {
   linkButtonTextDangerDisabled: colors.neutral[400],
 
   primaryButtonBackground: tintColorDark,
-  primaryButtonText: '#FFF',
+  primaryButtonText: colors.white,
   primaryButtonBorder: tintColorDark,
 
   primaryButtonBackgroundDisabled: colors.neutral[800],
   primaryButtonTextDisabled: colors.neutral[400],
   primaryButtonBorderDisabled: colors.neutral[800],
 
-  secondaryButtonBackground: colors.neutral[800],
-  secondaryButtonText: 'white',
-  secondaryButtonBorder: colors.neutral[800],
+  secondaryButtonBackground: colors.blue[800],
+  secondaryButtonText: colors.blue[100],
+  secondaryButtonBorder: colors.blue[800],
+  secondaryButtonBackgroundDisabled: colors.neutral[800],
+  secondaryButtonTextDisabled: colors.neutral[400],
   secondaryButtonBorderDisabled: colors.neutral[800],
+
+  tertiaryButtonBackground: colors.neutral[800],
+  tertiaryButtonText: colors.white,
+  tertiaryButtonBorder: colors.neutral[800],
+  tertiaryButtonBorderDisabled: colors.neutral[800],
 
   dangerButtonBackground: colors.neutral[800],
   dangerButtonText: colors.red[500],
@@ -382,6 +419,21 @@ const dark: IColors & {
 
   sharingLogoBackground: colors.neutral[800],
   sharingLogoText: colors.neutral[400],
+
+  entryBackground: colors.neutral[800],
+  entryBorder: colors.neutral[700],
+  entryItemBorder: colors.neutral[700],
+
+  promoBackground: tintColorDark,
+  promoBorder: 'rgba(255, 255, 255, 0.1)',
+  promoText: colors.white,
+
+  emotionButtonBackground: colors.neutral[900],
+  emotionButtonBackgroundActive: colors.white,
+  emotionButtonBorder: colors.neutral[800],
+  emotionButtonBorderActive: colors.white,
+  emotionButtonText: colors.white,
+  emotionButtonTextActive: colors.neutral[900],
 
   switchThumbColor: '#FFF',
   scales: scales.dark,

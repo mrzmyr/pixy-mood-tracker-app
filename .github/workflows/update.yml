@@ -2,8 +2,9 @@ name: update
 on:
   push:
     branches:
-      - preview
+      - 'releases/**'
       - production
+      - preview
 
 jobs:
   update:

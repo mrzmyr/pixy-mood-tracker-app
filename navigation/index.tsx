@@ -9,6 +9,7 @@ import useColors from '../hooks/useColors';
 import {
   ColorsScreen,
   DataScreen,
+  DayView,
   LicensesScreen,
   LogCreate,
   LogEdit,
@@ -17,7 +18,7 @@ import {
   PrivacyScreen,
   ReminderScreen, SettingsScreen, StatisticsHighlights, TagCreate, TagEdit
 } from '../screens';
-import { RootStackParamList } from '../types';
+import { RootStackParamList, RootStackScreenProps } from '../types';
 
 import dayjs from 'dayjs';
 import { enableScreens } from 'react-native-screens';
@@ -38,6 +39,7 @@ import { StatisticsMonthScreen } from '../screens/StatisticsMonth';
 import { StatisticsYearScreen } from '../screens/StatisticsYear';
 import { BackButton } from './BackButton';
 import { BottomTabs } from './BottomTabs';
+import { StepsScreen } from '../screens/Steps';
 
 enableScreens();
 
@@ -54,6 +56,7 @@ const NAVIGATION_LINKING = {
       Settings: 'settings',
       Colors: 'settings/colors',
       Licenses: 'settings/licenses',
+      Steps: 'settings/steps',
       Data: 'settings/data',
       Reminder: 'settings/reminder',
       Privacy: 'settings/privacy',
@@ -64,9 +67,10 @@ const NAVIGATION_LINKING = {
       StatisticsHighlights: 'statistics/highlights',
       StatisticsMonth: 'statistics/month/:date',
       StatisticsYear: 'statistics/year/:date',
+      DayView: 'days/:date',
       LogView: 'logs/:id',
       LogCreate: 'logs/create/:date',
-      LogEdit: 'logs/:id/edit?step=:step',
+      LogEdit: 'logs/:id/edit',
       Tags: 'tags',
       TagEdit: 'tags/:id',
       TagCreate: 'tags/create',
@@ -80,6 +84,7 @@ export default function Navigation() {
   return (
     <NavigationContainer
       linking={NAVIGATION_LINKING}
+      // @ts-ignore
       theme={
         scheme === 'dark' ? {
           dark: true,
@@ -117,17 +122,21 @@ function RootNavigator() {
     headerShadowVisible: Platform.OS !== 'web',
   }
 
-  const stackScreenOptions = {}
+  const stackScreenOptions: {
+    [key: string]: any
+  } = {}
 
   if (Platform.OS === 'android') {
     stackScreenOptions.animation = 'none'
   }
 
   useEffect(() => {
-    OneSignal.setAppId(ONE_SIGNAL_APP_ID);
+    if (Platform.OS !== 'web') {
+      OneSignal.setAppId(ONE_SIGNAL_APP_ID);
 
-    if (settings.loaded) {
-      OneSignal.setExternalUserId(settings.deviceId)
+      if (settings.loaded && settings.deviceId !== null) {
+        OneSignal.setExternalUserId(settings.deviceId)
+      }
     }
 
     if (settings.loaded && !hasActionDone('onboarding')) {
@@ -138,8 +147,8 @@ function RootNavigator() {
         tags: tags.map(tag => anonymizeTag(tag)),
         tagsCount: tags.length,
 
-        itemsCount: Object.values(logState.items).length,
-        itemsCoverage: getItemsCoverage(Object.values(logState.items)),
+        itemsCount: logState.items.length,
+        itemsCoverage: getItemsCoverage(logState.items),
       })
     }
 
@@ -200,6 +209,19 @@ function RootNavigator() {
         <Stack.Screen
           name="LogCreate"
           component={LogCreate}
+        />
+      </Stack.Group>
+
+      <Stack.Group
+        screenOptions={{
+          title: '',
+          presentation: 'modal',
+          headerShown: false,
+        }}
+      >
+        <Stack.Screen
+          name="DayView"
+          component={DayView}
         />
       </Stack.Group>
 
@@ -340,6 +362,14 @@ function RootNavigator() {
           component={ColorsScreen}
           options={{
             title: t('colors'),
+            ...defaultPageOptions,
+          }}
+        />
+        <Stack.Screen
+          name="Steps"
+          component={StepsScreen}
+          options={{
+            title: t('steps'),
             ...defaultPageOptions,
           }}
         />

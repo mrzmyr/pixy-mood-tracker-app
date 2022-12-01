@@ -8,27 +8,31 @@ import useHaptics from '../hooks/useHaptics';
 import { SettingsScreen, StatisticsScreen } from '../screens';
 import CalendarScreen from '../screens/Calendar';
 
-export const ROUTES = [
-  {
-    name: 'Statistics',
-    component: StatisticsScreen,
-    icon: PieChart,
-    path: 'statistics',
-  },
-  {
-    name: 'Calendar',
-    component: CalendarScreen,
-    icon: CalendarIcon,
-    path: 'calendar',
-  },
-  {
-    name: 'Settings',
-    component: SettingsScreen,
-    icon: SettingsIcon,
-    path: 'settings',
-  }
-];
-
+export const ROUTES: {
+  name: string;
+  icon: any;
+  component: any;
+  path?: string;
+}[] = [
+    {
+      name: 'Statistics',
+      component: StatisticsScreen,
+      icon: PieChart,
+      path: 'statistics',
+    },
+    {
+      name: 'Calendar',
+      component: CalendarScreen,
+      icon: CalendarIcon,
+      path: 'calendar',
+    },
+    {
+      name: 'Settings',
+      component: SettingsScreen,
+      icon: SettingsIcon,
+      path: 'settings',
+    }
+  ];
 
 export function MyTabBar({ state, descriptors, navigation }) {
   const colors = useColors();

@@ -1,7 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { act, renderHook } from '@testing-library/react-hooks'
 import _ from 'lodash'
-import { SettingsProvider, useSettings, STORAGE_KEY, INITIAL_STATE } from '../hooks/useSettings'
+import { INITIAL_STATE, SettingsProvider, STORAGE_KEY, useSettings } from '../hooks/useSettings'
 
 const wrapper = ({ children }) => (
   <SettingsProvider>
@@ -98,7 +98,8 @@ describe('useSettings()', () => {
     }]
 
     expect(hook.result.current.state.settings.actionsDone).toEqual(ACTIONS_DONE)
-    expect(JSON.parse(await AsyncStorage.getItem(STORAGE_KEY))).toEqual({
+    const json = await AsyncStorage.getItem(STORAGE_KEY)
+    expect(JSON.parse(json!)).toEqual({
       ..._.omit(LOADED_STATE, 'loaded'),
       actionsDone: ACTIONS_DONE,
     });
@@ -122,7 +123,8 @@ describe('useSettings()', () => {
     }]
 
     expect(hook.result.current.state.settings.actionsDone).toEqual(ACTIONS_DONE)
-    expect(JSON.parse(await AsyncStorage.getItem(STORAGE_KEY))).toEqual({
+    const json = await AsyncStorage.getItem(STORAGE_KEY)
+    expect(JSON.parse(json!)).toEqual({
       ..._.omit(LOADED_STATE, 'loaded'),
       actionsDone: ACTIONS_DONE,
     });
@@ -149,6 +151,52 @@ describe('useSettings()', () => {
     })
 
     expect(hook.result.current.state.settings).toEqual(LOADED_STATE)
+  })
+
+  test('should `toggleStep`', async () => {
+    const hook = _renderHook()
+    await hook.waitForNextUpdate()
+
+    await act(() => {
+      hook.result.current.state.toggleStep('feedback')
+    })
+
+    expect(hook.result.current.state.settings.steps.length).toEqual(3)
+
+    await act(() => {
+      hook.result.current.state.toggleStep('feedback')
+    })
+
+    expect(hook.result.current.state.settings.steps[3]).toEqual('feedback')
+  })
+
+  test('should `toggleStep` with value', async () => {
+    const hook = _renderHook()
+    await hook.waitForNextUpdate()
+
+    await act(() => {
+      hook.result.current.state.toggleStep('tags')
+      hook.result.current.state.toggleStep('tags', true)
+      hook.result.current.state.toggleStep('tags', true)
+    })
+
+    expect(hook.result.current.state.settings.steps).toEqual([
+      "rating",
+      "message",
+      "feedback",
+      "tags",
+    ])
+  })
+
+  test('should `hasStep`', async () => {
+    const hook = _renderHook()
+    await hook.waitForNextUpdate()
+
+    await act(() => {
+      hook.result.current.state.toggleStep('feedback')
+    })
+
+    expect(hook.result.current.state.hasStep('feedback')).toEqual(false)
   })
 
 })

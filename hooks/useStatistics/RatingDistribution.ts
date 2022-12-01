@@ -1,15 +1,6 @@
+import { getLogDays } from './../../lib/utils';
 import dayjs from 'dayjs';
 import { LogItem, RATING_MAPPING } from './../useLogs';
-
-const WEEKDAY_MAPPING = {
-  0: 'Sun',
-  1: 'Mon',
-  2: 'Tue',
-  3: 'Wed',
-  4: 'Thu',
-  5: 'Fri',
-  6: 'Sat',
-};
 
 const MONTH_MAPPING = {
   0: 'Jan',
@@ -38,22 +29,24 @@ export const getRatingDistributionForYear = (items: LogItem[]): RatingDistributi
   for (const month in Object.keys(MONTH_MAPPING)) {
     let value: null | number = null;
 
-    const _items = items.filter((item) => {
-      return dayjs(item.date).month() === Number(month)
+    const logDays = getLogDays(items)
+
+    const days = logDays.filter((day) => {
+      return dayjs(day.date).month() === Number(month)
     })
 
-    _items.forEach((item) => {
+    days.forEach((item) => {
       if (value === null) {
-        value = RATING_MAPPING[item.rating]
+        value = RATING_MAPPING[item.ratingAvg]
       } else {
-        value += RATING_MAPPING[item.rating]
+        value += RATING_MAPPING[item.ratingAvg]
       }
     })
 
     result.push({
       key: MONTH_MAPPING[month][0],
-      count: _items.length,
-      value: value === null ? null : value / _items.length,
+      count: days.length,
+      value: value === null ? null : value / days.length,
     })
   }
 
@@ -63,26 +56,28 @@ export const getRatingDistributionForYear = (items: LogItem[]): RatingDistributi
 export const getRatingDistributionForXDays = (items: LogItem[], startDate, dayCount): RatingDistributionData => {
   const result: RatingDistributionData = []
 
+  const logDays = getLogDays(items)
+
   for (let i = 0; i <= dayCount; i++) {
     let value: null | number = null;
     const date = dayjs(startDate).add(i, 'day')
 
-    const _items = items.filter((item) => {
+    const days = logDays.filter((item) => {
       return dayjs(item.date).date() === date.date()
     })
 
-    _items.forEach((item) => {
+    days.forEach((item) => {
       if (value === null) {
-        value = RATING_MAPPING[item.rating]
+        value = RATING_MAPPING[item.ratingAvg]
       } else {
-        value += RATING_MAPPING[item.rating]
+        value += RATING_MAPPING[item.ratingAvg]
       }
     })
 
     result.push({
       key: date.format('D'),
-      count: _items.length,
-      value: value === null ? null : value / _items.length,
+      count: days.length,
+      value: value === null ? null : value / days.length,
     })
   }
 

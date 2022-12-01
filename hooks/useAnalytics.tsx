@@ -5,7 +5,6 @@ import { createContext, useContext, useEffect, useState } from "react";
 import pkg from "../package.json";
 import { useSettings } from "./useSettings";
 
-const AnalyticsContext = createContext(undefined);
 
 interface AnaylticsState {
   enable: () => void;
@@ -20,6 +19,8 @@ interface AnaylticsState {
 interface AnalyticsProviderProps {
   enabled: boolean;
 }
+
+const AnalyticsContext = createContext({} as AnaylticsState);
 
 const DEBUG = false;
 
@@ -54,6 +55,7 @@ function AnalyticsProvider({
       settingsReminderTime: settings.reminderTime,
       settingsScaleType: settings.scaleType,
       settingsActionsDone: settings.actionsDone,
+      settingsSteps: settings.steps,
 
       ...properties,
     };

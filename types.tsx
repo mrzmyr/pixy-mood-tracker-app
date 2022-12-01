@@ -1,7 +1,7 @@
 import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
 import { CompositeScreenProps } from '@react-navigation/native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { Tag as ITag } from './hooks/useTags';
+import { LoggerStep } from './components/Logger/config';
 
 declare global {
   namespace ReactNavigation {
@@ -23,6 +23,7 @@ export type RootStackParamList = {
   Data: undefined;
   Reminder: undefined;
   Privacy: undefined;
+  Steps: undefined;
   // PasscodeLocked: undefined;
   Tags: undefined;
   DevelopmentTools: undefined;
@@ -44,8 +45,12 @@ export type RootStackParamList = {
   },
   LogEdit: {
     id: string,
-    step?: 'rating' | 'tags' | 'message',
+    step?: LoggerStep
   },
+
+  DayView: {
+    date: string;
+  }
 
   TagEdit: {
     id: string;

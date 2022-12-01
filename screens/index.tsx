@@ -12,3 +12,4 @@ export * from './Statistics';
 export * from './TagEdit';
 export * from './TagCreate';
 export * from './Statistics/Highlights';
+export * from './DayView';

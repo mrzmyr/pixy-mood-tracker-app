@@ -10,9 +10,15 @@ import { IndexSlide } from './IndexSlide';
 import { PrivacySlide } from './PrivacySlide';
 import { ReminderSlide } from './ReminderSlide';
 
-const CalendarSlide = ({ ...props }) => <ExplainerSlide {...props} />;
-const StatisticsSlide = ({ ...props }) => <ExplainerSlide {...props} />;
-const FiltersSlide = ({ ...props }) => <ExplainerSlide {...props} />;
+type SlideProps = {
+  index: number;
+  setIndex: (index: number) => void;
+  onSkip: () => void;
+};
+
+const CalendarSlide = ({ ...props }: SlideProps) => <ExplainerSlide {...props} />;
+const StatisticsSlide = ({ ...props }: SlideProps) => <ExplainerSlide {...props} />;
+const FiltersSlide = ({ ...props }: SlideProps) => <ExplainerSlide {...props} />;
 
 export const Onboarding = ({ navigation }: RootStackScreenProps<'Onboarding'>) => {
   const { addActionDone } = useSettings()
@@ -38,17 +44,17 @@ export const Onboarding = ({ navigation }: RootStackScreenProps<'Onboarding'>) =
     navigation.popToTop()
     analytics.track('onboarding_skipped', { index })
   }
-  
+
   const slides = [
-    <IndexSlide 
+    <IndexSlide
       onPress={(answer) => {
-        analytics.track('onboarding_question_1', { 
-          answer: answer === 0 ? 
-            'used_mood_tracker_before' : 
-            'never_used_mood_tracker' 
+        analytics.track('onboarding_question_1', {
+          answer: answer === 0 ?
+            'used_mood_tracker_before' :
+            'never_used_mood_tracker'
         })
         setIndex(1)
-      }} 
+      }}
     />,
     <CalendarSlide onSkip={skip} index={1} setIndex={setIndex} />,
     <StatisticsSlide onSkip={skip} index={2} setIndex={setIndex} />,
@@ -56,9 +62,9 @@ export const Onboarding = ({ navigation }: RootStackScreenProps<'Onboarding'>) =
     <ReminderSlide onSkip={skip} index={4} setIndex={setIndex} />,
     <PrivacySlide onPress={finish} />,
   ]
-  
+
   return (
-    <View style={{ 
+    <View style={{
       flex: 1,
       backgroundColor: colors.onboardingBottomBackground,
       paddingBottom: insets.bottom,

@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { Pressable, Text, View } from "react-native";
-import { language } from "../../helpers/translation";
-import useColors from "../../hooks/useColors";
-import useHaptics from "../../hooks/useHaptics";
-import { IQuestion, useQuestioner } from "../../hooks/useQuestioner";
-import { SlideHeadline } from "./SlideHeadline";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { language, t } from "../../../helpers/translation";
+import useColors from "../../../hooks/useColors";
+import useHaptics from "../../../hooks/useHaptics";
+import { IQuestion, useQuestioner } from "../../../hooks/useQuestioner";
+import LinkButton from "../../LinkButton";
+import { SlideHeadline } from "../components/SlideHeadline";
 
 const AnswerSelector = ({
   answer,
@@ -79,14 +81,17 @@ const AnswerSelector = ({
   )
 }
 
-export const SlideQuestion = ({
+export const SlideFeedback = ({
   question,
   onPress,
+  onDisableStep,
 }: {
-  question: IQuestion,
+  question: IQuestion;
   onPress: () => void,
+  onDisableStep: () => void,
 }) => {
   const questioner = useQuestioner()
+  const insets = useSafeAreaInsets()
 
   const [selectedIds, setSelectedIds] = useState<string[]>([])
 
@@ -100,12 +105,14 @@ export const SlideQuestion = ({
     <View style={{
       flex: 1,
       width: '100%',
+      paddingBottom: 20,
     }}>
       <View
         style={{
           flex: 1,
           alignItems: 'center',
           justifyContent: 'center',
+          paddingHorizontal: 20,
         }}
       >
         <SlideHeadline>{question.text[language] || question.text.en}</SlideHeadline>
@@ -140,6 +147,23 @@ export const SlideQuestion = ({
             ))}
           </View>
         </View>
+      </View>
+      <View
+        style={{
+          marginTop: 16,
+          height: 54,
+          marginBottom: insets.bottom,
+          width: '100%',
+          flexDirection: 'row',
+          justifyContent: 'flex-start',
+          alignItems: 'center',
+          paddingHorizontal: 16,
+        }}
+      >
+        <LinkButton
+          type="secondary"
+          onPress={onDisableStep}
+        >{t('log_feedback_disable')}</LinkButton>
       </View>
     </View>
   )

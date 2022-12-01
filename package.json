@@ -1,6 +1,6 @@
 {
   "name": "pixel-tracker",
-  "version": "1.51.1",
+  "version": "1.53.0",
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
     "start": "expo start --dev-client",
@@ -9,26 +9,29 @@
     "web": "expo start --web",
     "eject": "expo eject",
     "test": "jest --watchAll --env=jsdom",
+    "test:ci": "jest --env=jsdom",
     "disclaimer": "echo \"export default \\`$(yarn licenses generate-disclaimer | sed 's/\\`/\\\\`/g')\\`\" > disclaimer.js",
     "bump": "npx standard-version",
     "build:ios:dev": "npx eas-cli build -p ios --local --profile=development",
     "build:android:dev": "npx eas-cli build -p android --local --profile=development",
     "build:ios:preview": "npx eas-cli build -p ios --local --profile=preview",
     "build:android:preview": "npx eas-cli build -p android --local --profile=preview",
-    "build:ios:staging": "npx eas-cli build -p ios --local --profile=staging",
-    "build:android:staging": "npx eas-cli build -p android --local --profile=staging",
     "buiild:ios:prod": "npx eas-cli build -p ios --local --profile=production --non-interactive",
     "build:android:prod": "npx eas-cli build -p android --local --profile=production --non-interactive",
-    "submit:android": "npx eas-cli submit -p android --path $(ls -t *.aab | head -1)",
-    "submit:ios": "npx eas-cli submit -p ios --path $(ls -t *.ipa | head -1)",
-    "submit": "yarn submit:android && yarn submit:ios",
-    "build": "yarn build:android:prod && yarn build:ios:prod",
-    "publish:preview": "npx eas-cli build -p all --profile=preview --non-interactive --auto-submit",
-    "publish:prod": "npx eas-cli build -p all --local --profile=production --non-interactive --auto-submit",
-    "translate-app": "node scripts/generate-translations-app.js"
+    "submit:preview": "npx eas-cli submit -p android --path $(ls -t *.aab | head -1) && npx eas-cli submit -p ios --path $(ls -t *.ipa | head -1)",
+    "submit:prod": "npx eas-cli submit -p android --path $(ls -t *.aab | head -1) && npx eas-cli submit -p ios --path $(ls -t *.ipa | head -1)",
+    "build:preview": "yarn build:ios:preview && yarn build:android:preview",
+    "build:prod": "yarn build:ios:prod && yarn build:android:prod",
+    "publish:preview": "npx eas-cli build -p all --profile=preview --auto-submit",
+    "publish:prod": "npx eas-cli build -p all --local --profile=production --auto-submit",
+    "translate-app": "node scripts/generate-translations-app.js",
+    "type-check": "tsc"
   },
   "jest": {
     "preset": "jest-expo",
+    "testPathIgnorePatterns": [
+      "./__tests__/utils.ts"
+    ],
     "collectCoverage": false,
     "collectCoverageFrom": [
       "./hooks/*.{js,jsx,ts,tsx}",
@@ -50,7 +53,6 @@
     "@react-navigation/native": "^6.0.2",
     "@react-navigation/native-stack": "^6.1.0",
     "@sentry/react-native": "4.2.2",
-    "ajv": "^8.8.2",
     "chroma-js": "^2.4.2",
     "dayjs": "^1.10.7",
     "expo": "^46.0.0",
@@ -88,8 +90,9 @@
     "react-native-get-random-values": "~1.8.0",
     "react-native-linear-gradient": "^2.6.2",
     "react-native-markdown-display": "^7.0.0-alpha.2",
+    "react-native-modal-datetime-picker": "^14.0.0",
     "react-native-onesignal": "^4.4.1",
-    "react-native-reanimated": "~2.10.0",
+    "react-native-reanimated": "~2.9.1",
     "react-native-reanimated-carousel": "^3.0.5",
     "react-native-safe-area-context": "4.3.1",
     "react-native-screens": "~3.15.0",
@@ -101,7 +104,7 @@
     "sentry-expo": "~5.0.0",
     "use-debounce": "^7.0.1",
     "uuid": "^8.3.2",
-    "zustand": "^4.1.2"
+    "zod": "^3.19.1"
   },
   "devDependencies": {
     "@babel/core": "^7.18.6",

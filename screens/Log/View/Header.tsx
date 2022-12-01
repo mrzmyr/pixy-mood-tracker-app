@@ -57,35 +57,35 @@ export const Header = ({
             marginRight: -8,
           }}
         >
-          <Pressable
+          {/* <Pressable
             style={{
               padding: 16,
             }}
             onPress={async () => {
               await haptics.selection();
-              onEdit();
+              onEdit?.();
             }}
           >
             <Edit color={colors.logHeaderText} width={22} height={22} />
-          </Pressable>
-          <Pressable
+          </Pressable> */}
+          {/* <Pressable
             style={{
               padding: 16,
             }}
             onPress={async () => {
               await haptics.selection();
-              onDelete();
+              onDelete?.();
             }}
           >
             <Trash color={colors.logHeaderText} width={22} height={22} />
-          </Pressable>
+          </Pressable> */}
           <Pressable
             style={{
               padding: 16,
             }}
             onPress={async () => {
               await haptics.selection();
-              onClose();
+              onClose?.();
             }}
           >
             <X color={colors.logHeaderText} width={22} height={22} />

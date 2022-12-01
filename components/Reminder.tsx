@@ -13,10 +13,10 @@ import { SettingsState, useSettings } from '../hooks/useSettings';
 
 const Reminder = () => {
   const { setSettings, settings } = useSettings()
-  const { 
-    askForPermission, 
-    hasPermission, 
-    schedule, 
+  const {
+    askForPermission,
+    hasPermission,
+    schedule,
     cancelAll,
   } = useNotification()
 
@@ -24,28 +24,31 @@ const Reminder = () => {
   const [reminderTime, setReminderTime] = useState(settings.reminderTime);
   const colors = useColors()
   const analytics = useAnalytics()
-  
+
   const hourAndMinute = reminderTime.split(':')
   const hour = parseInt(hourAndMinute[0])
   const minute = parseInt(hourAndMinute[1])
   const timeDate = dayjs().hour(hour).minute(minute).toDate()
-  
+
   const onEnabledChange = async (value: boolean) => {
     const has = await hasPermission()
-    if(!has) {
+    if (!has) {
       await askForPermission()
     }
-    if(!value) {
+    if (!value) {
       await cancelAll()
     }
     analytics.track('reminder_enabled_change', { enabled: value })
-    setReminderEnabled(value && has)
+
+    const enable = value && has
+
+    setReminderEnabled(enable)
   }
-  
+
   useEffect(() => {
     (async () => {
       await cancelAll()
-      if(reminderEnabled) {
+      if (reminderEnabled) {
         await schedule({
           trigger: {
             repeats: true,
@@ -54,20 +57,20 @@ const Reminder = () => {
           },
         })
       }
-      
+
       setSettings((settings: SettingsState) => ({
-        ...settings, 
+        ...settings,
         reminderEnabled,
         reminderTime,
       }))
     })()
   }, [reminderEnabled, reminderTime])
-  
+
   const onTimeChange = async (event: any, selectedDate: any) => {
     analytics.track('reminder_time_change', { time: dayjs(selectedDate).format('HH:mm') })
     setReminderTime(dayjs(selectedDate).format('HH:mm'))
   }
-  
+
   return (
     <View>
       <View style={{
@@ -83,13 +86,14 @@ const Reminder = () => {
           iconRight={
             <Switch
               onValueChange={() => onEnabledChange(!reminderEnabled)}
+              // @ts-ignore
               value={reminderEnabled}
               testID='reminder-enabled'
             />
           }
           isLast={!reminderEnabled}
         ></MenuListItem>
-        { reminderEnabled &&
+        {reminderEnabled &&
           <View
             style={{
               padding: 16,

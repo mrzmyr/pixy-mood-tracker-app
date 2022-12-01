@@ -1,4 +1,4 @@
-import { Alert } from "react-native";
+import Alert from "../components/Alert";
 import { t } from "./translation";
 
 export const askToCancel = () => {
@@ -12,8 +12,8 @@ export const askToCancel = () => {
           onPress: () => resolve({}),
           style: "destructive"
         },
-        { 
-          text: t('keep_editing'), 
+        {
+          text: t('keep_editing'),
           onPress: () => reject(),
           style: "cancel"
         }
@@ -34,8 +34,8 @@ export const askToRemove = () => {
           onPress: () => resolve({}),
           style: "destructive"
         },
-        { 
-          text: t('cancel'), 
+        {
+          text: t('cancel'),
           onPress: () => reject(),
           style: "cancel"
         }
@@ -106,7 +106,7 @@ export const showImportError = () => {
   Alert.alert(
     t("import_error_title"),
     t("import_error_message"),
-    [{ text: t("ok"), onPress: () => {} }],
+    [{ text: t("ok"), onPress: () => { } }],
     { cancelable: false }
   );
 }
@@ -118,9 +118,53 @@ export const showResetSuccess = <Type>(type: Type) => {
     [
       {
         text: t("ok"),
-        onPress: () => {},
+        onPress: () => { },
       },
     ],
     { cancelable: false }
   );
+}
+
+export const askToDisableStep = () => {
+  return new Promise((resolve, reject) => {
+    Alert.alert(
+      t("disable_step_confirm_title"),
+      t("disable_step_confirm_message"),
+      [
+        {
+          text: t("disable"),
+          onPress: () => resolve({}),
+          style: "destructive",
+        },
+        {
+          text: t("cancel"),
+          onPress: () => reject(),
+          style: "cancel",
+        },
+      ],
+      { cancelable: true }
+    );
+  });
+}
+
+export const askToDisableFeedbackStep = () => {
+  return new Promise((resolve, reject) => {
+    Alert.alert(
+      t("disable_feedback_step_confirm_title"),
+      t("disable_feedback_step_confirm_message"),
+      [
+        {
+          text: t("disable"),
+          onPress: () => resolve({}),
+          style: "destructive",
+        },
+        {
+          text: t("cancel"),
+          onPress: () => reject(),
+          style: "cancel",
+        },
+      ],
+      { cancelable: true }
+    );
+  });
 }

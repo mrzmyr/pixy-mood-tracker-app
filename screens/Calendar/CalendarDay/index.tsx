@@ -1,40 +1,34 @@
-import { useNavigation } from "@react-navigation/native";
 import chroma from "chroma-js";
 import dayjs from "dayjs";
-import { memo, useCallback, useMemo, useRef } from "react";
-import { Pressable, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { memo, useCallback, useMemo } from "react";
+import { Pressable, StyleSheet, Text, View } from "react-native";
 import { useStyle } from "react-native-style-utilities";
 import { DATE_FORMAT } from "../../../constants/Config";
 import useColors from "../../../hooks/useColors";
 import useHaptics from "../../../hooks/useHaptics";
 import { LogItem } from "../../../hooks/useLogs";
-import { SettingsState } from "../../../hooks/useSettings";
-import { TextIndicator } from "./TextIndicator";
+import { useSettings } from "../../../hooks/useSettings";
 
 const CalendarDay = memo(function CalendarDay({
   dateString,
   rating,
-  messageLength,
-  scaleType,
   isFiltered,
   isFiltering,
   onPress,
 }: {
   dateString: string,
-  rating?: LogItem["rating"],
-  messageLength?: number,
-  scaleType: SettingsState["scaleType"],
+  rating?: LogItem["rating"] | null,
   isFiltering: boolean,
   isFiltered: boolean,
   onPress: () => void,
 }) {
+  const { settings: { scaleType } } = useSettings()
   const colors = useColors();
   const haptics = useHaptics();
 
   const _isFiltered = (!isFiltered && isFiltering)
 
   const day = useMemo(() => dayjs(dateString).date(), [dateString]);
-  const hasText = messageLength ? messageLength > 0 : false;
 
   const isFuture = useMemo(() => {
     return dayjs(dateString).isAfter(dayjs(), 'day');
@@ -62,7 +56,7 @@ const CalendarDay = memo(function CalendarDay({
     styles.container,
     {
       backgroundColor: backgroundColor,
-      borderWidth: rating === undefined && !isFuture ? 2 : 0,
+      borderWidth: rating === null && !isFuture ? 2 : 0,
       borderStyle: !isFuture && !rating && !isFiltering ? 'dotted' : 'solid',
       borderColor: (!isFiltering && !rating) ? colors.scales[scaleType].empty.border : 'transparent',
     }
@@ -129,13 +123,6 @@ const CalendarDay = memo(function CalendarDay({
       <View
         style={styles.textIndicatorParent1}
       >
-        <View
-          style={styles.textIndicatorParent2}
-        >
-          {hasText && !isFiltering && (
-            <TextIndicator textColor={textColor} />
-          )}
-        </View>
       </View>
       <View style={styles.dayNumberParent1}>
         <View style={dayNumberParent2Styles}>

@@ -11,7 +11,7 @@ import { CardFeedback } from '../../components/Statistics/CardFeedback';
 
 dayjs.extend(isSameOrAfter);
 
-export const RatingDistribution = ({
+export const MoodChart = ({
   title,
   startDate,
 }: {
@@ -20,8 +20,8 @@ export const RatingDistribution = ({
 }) => {
   const logState = useLogState();
 
-  const items = Object.values(logState.items).filter(item => {
-    return dayjs(item.date).isSameOrAfter(startDate)
+  const items = logState.items.filter(item => {
+    return dayjs(item.dateTime).isSameOrAfter(startDate)
   })
 
   const data = getRatingDistributionForXDays(items, startDate, 14)

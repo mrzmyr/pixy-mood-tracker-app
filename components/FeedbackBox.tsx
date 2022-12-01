@@ -1,10 +1,16 @@
 import { t } from 'i18n-js';
-import { Text, View } from 'react-native';
-import LinkButton from '../../components/LinkButton';
-import useColors from '../../hooks/useColors';
-import useFeedbackModal from '../../hooks/useFeedbackModal';
+import { Text, View, ViewStyle } from 'react-native';
+import LinkButton from './LinkButton';
+import useColors from '../hooks/useColors';
+import useFeedbackModal from '../hooks/useFeedbackModal';
 
-export const FeedbackSection = () => {
+export const FeedbackBox = ({
+  prefix,
+  style = {},
+}: {
+  prefix: string;
+  style?: ViewStyle;
+}) => {
   const colors = useColors();
   const { show: showFeedbackModal, Modal: FeedbackModal } = useFeedbackModal();
 
@@ -16,6 +22,7 @@ export const FeedbackSection = () => {
         paddingVertical: 16,
         paddingHorizontal: 20,
         borderRadius: 8,
+        ...style,
       }}
     >
       <FeedbackModal />
@@ -24,13 +31,13 @@ export const FeedbackSection = () => {
         marginBottom: 8,
         fontWeight: 'bold',
         color: colors.text
-      }}>🤨 {t('statistics_experimental_title')}</Text>
+      }}>🤨 {t(`${prefix}_title`)}</Text>
       <Text style={{
         fontSize: 15,
         marginBottom: 16,
         lineHeight: 22,
         color: colors.textSecondary
-      }}>{t('statistics_experimental_body')}</Text>
+      }}>{t(`${prefix}_body`)}</Text>
       <View
         style={{
           flexWrap: 'wrap',
@@ -49,7 +56,7 @@ export const FeedbackSection = () => {
           onPress={() => {
             showFeedbackModal({ type: 'idea' });
           }}
-        >{t('statistics_experimental_button')}</LinkButton>
+        >{t(`${prefix}_button`)}</LinkButton>
       </View>
     </View>
   );

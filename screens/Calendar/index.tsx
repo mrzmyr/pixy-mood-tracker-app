@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-import React, { memo, useEffect, useRef, useState } from "react";
+import React, { memo, RefObject, useEffect, useRef, useState } from "react";
 import { ActivityIndicator, Platform, useWindowDimensions, View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { useCalendarFilters } from "../../hooks/useCalendarFilters";
@@ -22,15 +22,17 @@ const CalendarScreen = memo(function CalendarScreen() {
   const window = useWindowDimensions();
   const [scrollOffset, setScrollOffset] = useState(0);
 
-  const calendarRef = useRef(null);
-  const scrollRef = useRef(null);
+  const calendarRef = useRef<View>(null);
+  const scrollRef = useRef<ScrollView>(null);
   const calendarHeight = useRef(0);
 
 
   useEffect(() => {
     if (scrollRef.current) {
       setTimeout(() => {
-        scrollRef.current.scrollToEnd({ animated: false });
+        if (scrollRef.current) {
+          scrollRef.current.scrollToEnd({ animated: false });
+        }
       }, 0)
     }
   }, [calendarRef, scrollRef, settings.loaded, logState.loaded]);
@@ -60,8 +62,8 @@ const CalendarScreen = memo(function CalendarScreen() {
     !calendarFilters.isOpen
   )
 
-  const hasTodayItem = Object.values(logState.items).find(item => {
-    return dayjs(item.date).isSame(dayjs(), 'day')
+  const hasTodayItem = logState.items.find(item => {
+    return dayjs(item.dateTime).isSame(dayjs(), 'day')
   })
 
   return (
@@ -74,7 +76,9 @@ const CalendarScreen = memo(function CalendarScreen() {
       {showScrollTopButton && (
         <ScrollToBottomButton
           onPress={() => {
-            scrollRef.current.scrollToEnd({ animated: true });
+            if (scrollRef.current) {
+              scrollRef.current.scrollToEnd({ animated: true });
+            }
           }}
         />
       )}

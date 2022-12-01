@@ -1,9 +1,9 @@
 import _ from "lodash";
 import { ImportData } from "../helpers/Import";
-import { migrateImportData } from "../helpers/Migration";
-import { LogsState } from "../hooks/useLogs";
+import { migrateImportData } from "../helpers/migration";
 import { INITIAL_STATE } from "../hooks/useSettings";
 import { Tag } from "../hooks/useTags";
+import { _generateItem } from "./utils";
 
 const testTags: Tag[] = [
   {
@@ -18,26 +18,26 @@ const testTags: Tag[] = [
   },
 ];
 
-const testItems: LogsState['items'] = {
-  '2022-01-01': {
+const testItems = {
+  '2022-01-01': _generateItem({
     date: '2022-01-01',
     rating: 'neutral',
     message: 'test message',
     tags: [...testTags],
-  },
-  '2022-01-02': {
+  }),
+  '2022-01-02': _generateItem({
     date: '2022-01-02',
     rating: 'neutral',
     message: '🦄',
     tags: [...testTags],
-  }
+  }),
 }
 
 const testImportData: ImportData = {
   version: "1.0.0",
   settings: { ...INITIAL_STATE },
   tags: [...testTags],
-  items: {...testItems},
+  items: { ...testItems },
 }
 
 describe("MigrationHelper", () => {
@@ -45,37 +45,60 @@ describe("MigrationHelper", () => {
   test("should `migrateImportData`", async () => {
     const newData = migrateImportData(testImportData);
 
-    expect(newData).toEqual(testImportData);
+    expect(newData).toEqual({
+      ...testImportData,
+      items: Object.values(testImportData.items),
+    });
   });
 
-  test("should `migrateImportData` rewrite tag colors", async () => {
-    const differentTags = testTags.map((tag) => ({
-      ...tag,
-      color: "stone",
-    }));
-    
-    const itemKeys = Object.keys(testImportData.items)
-    
-    const newData = migrateImportData({
-      ...testImportData,
-      tags: differentTags,
-      items: {
-        [itemKeys[0]]: {
-          ...testImportData.items[itemKeys[0]],
-          tags: differentTags,
-        },
-        [itemKeys[1]]: {
-          ...testImportData.items[itemKeys[1]],
-        }
-      }
-    });
+  test("migrate `tags` in `settings`", async () => {
+    const items = {
+      '2022-01-01': _generateItem({
+        date: '2022-01-01',
+        rating: 'neutral',
+        message: 'test message',
+        tags: [...testTags],
+      }),
+      '2022-01-02': _generateItem({
+        date: '2022-01-02',
+        rating: 'neutral',
+        message: '🦄',
+        tags: [...testTags],
+      }),
+    }
 
-    expect(newData.tags![0].color).toEqual('slate');
-    expect(newData.tags![1].color).toEqual('slate');
-    expect(Object.values(newData.items)[0].tags![0].color).toEqual('slate');
-    expect(Object.values(newData.items)[0].tags![1].color).toEqual('slate');
-    expect(Object.values(newData.items)[1].tags![0].color).toEqual('red');
-    expect(Object.values(newData.items)[1].tags![1].color).toEqual('lime');
+    const settings = {
+      ...INITIAL_STATE,
+      tags: [
+        {
+          id: "1",
+          title: "test1",
+          color: "red",
+        },
+        {
+          id: "2",
+          title: "test2",
+          color: "lime",
+        },
+      ],
+    }
+
+    const testImportData: ImportData = {
+      version: "1.0.0",
+      settings,
+      items,
+    }
+
+    const newData = migrateImportData(testImportData);
+
+    expect(newData).toEqual({
+      version: "1.0.0",
+      items: Object.values(testImportData.items).map(item => ({
+        ...item,
+      })),
+      settings: _.omit(testImportData.settings, "tags"),
+      tags: testTags,
+    });
   });
 
   test("should `migrateImportData` from settings tags", async () => {
@@ -87,7 +110,10 @@ describe("MigrationHelper", () => {
       },
     }, 'tags'));
 
-    expect(newData).toEqual(testImportData);
+    expect(newData).toEqual({
+      ...testImportData,
+      items: Object.values(testImportData.items),
+    });
   })
 
 });

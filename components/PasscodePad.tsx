@@ -6,9 +6,9 @@ import { PasscodePadButton } from './PasscodePadButton';
 import { PasscodePadIcon } from './PasscodePadIcon';
 
 export const PasscodePad = ({
-  onPress, 
-  onBackspace, 
-  onClose, 
+  onPress,
+  onBackspace,
+  onClose,
   mode,
 }: {
   onPress: (value: string) => void;

@@ -110,128 +110,125 @@ export default function useFeedbackModal() {
                 />
               </View>
             )}
+            <View
+              style={{
+                flex: 1,
+                justifyContent: "flex-start",
+                backgroundColor: colors.feedbackBackground,
+              }}
+            >
+              <ModalHeader
+                left={
+                  <LinkButton
+                    testID="feedback-modal-cancel"
+                    onPress={hide}
+                    type="primary"
+                  >
+                    {t("cancel")}
+                  </LinkButton>
+                }
+                right={
+                  <LinkButton
+                    testID="feedback-modal-cancel"
+                    onPress={send}
+                    type="primary"
+                    disabled={!message.length}
+                  >
+                    {t("send")}
+                  </LinkButton>
+                }
+              />
               <View
                 style={{
+                  padding: 16,
                   flex: 1,
-                  justifyContent: "flex-start",
-                  backgroundColor: colors.feedbackBackground,
                 }}
               >
-                <ModalHeader
-                  left={
-                    <LinkButton
-                      testID="feedback-modal-cancel"
-                      onPress={hide}
-                      type="primary"
-                    >
-                      {t("cancel")}
-                    </LinkButton>
-                  }
-                  right={
-                    <LinkButton
-                      testID="feedback-modal-cancel"
-                      onPress={send}
-                      type="primary"
-                      disabled={!message.length}
-                    >
-                      {t("send")}
-                    </LinkButton>
-                  }
+                <Text style={{
+                  marginTop: 8,
+                  color: colors.text,
+                  fontSize: 24,
+                  fontWeight: 'bold',
+                  textAlign: 'center'
+                }}>
+                  {t('feedback_modal_title')}
+                </Text>
+                <Text
+                  style={{
+                    marginTop: 8,
+                    marginBottom: 24,
+                    color: colors.textSecondary,
+                    fontSize: 15,
+                    lineHeight: 20,
+                    textAlign: 'center'
+                  }}
+                >
+                  {t("feedback_modal_description")}
+                </Text>
+                <TypeSelector
+                  selected={type}
+                  onPress={(type) => setTypeProxy(type)}
                 />
                 <View
                   style={{
-                    padding: 16,
+                    flexDirection: "row",
+                    width: "100%",
+                    marginTop: 8,
+                  }}
+                >
+                  <TextInput
+                    style={{
+                      flex: 1,
+                      backgroundColor: colors.textInputBackground,
+                      borderRadius: 8,
+                      padding: 16,
+                      color: colors.text,
+                      fontSize: 17,
+                    }}
+                    autoComplete="email"
+                    keyboardType="email-address"
+                    placeholderTextColor={colors.textInputPlaceholder}
+                    value={email}
+                    onChangeText={(text) => setEmail(text)}
+                    placeholder={t("feedback_modal_email_placeholder")}
+                  />
+                </View>
+                <View
+                  style={{
+                    flexDirection: "column",
+                    width: "100%",
+                    marginTop: 8,
+                    marginBottom: 8,
                     flex: 1,
                   }}
                 >
-                  <Text style={{ 
-                    marginTop: 8,
-                    color: colors.text, 
-                    fontSize: 24,
-                    fontWeight: 'bold',
-                    textAlign: 'center'
-                  }}>
-                    {t('feedback_modal_title')}
-                  </Text>
-                  <Text
+                  <TextArea
+                    testID="feedback-modal-message"
                     style={{
-                      marginTop: 8,
-                      marginBottom: 24,
-                      color: colors.textSecondary,
-                      fontSize: 15,
-                      lineHeight: 20,
-                    textAlign: 'center'
-                    }}
-                  >
-                    {t("feedback_modal_description")}
-                  </Text>
-                  <TypeSelector
-                    selected={type}
-                    onPress={(type) => setTypeProxy(type)}
-                  />
-                  <View
-                    style={{
-                      flexDirection: "row",
-                      width: "100%",
-                      marginTop: 8,
-                    }}
-                  >
-                    <TextInput
-                      style={{
-                        flex: 1,
-                        backgroundColor: colors.textInputBackground,
-                        borderRadius: 8,
-                        padding: 16,
-                        color: colors.text,
-                        fontSize: 17,
-                      }}
-                      autoComplete="email"
-                      keyboardType="email-address"
-                      placeholderTextColor={colors.textInputPlaceholder}
-                      value={email}
-                      onChangeText={(text) => setEmail(text)}
-                      placeholder={t("feedback_modal_email_placeholder")}
-                    />
-                  </View>
-                  <View
-                    style={{
-                      flexDirection: "column",
-                      width: "100%",
-                      marginTop: 8,
-                      marginBottom: 8,
                       flex: 1,
+                      height: '100%',
+                      maxHeight: 240,
                     }}
+                    value={message}
+                    onChange={(text) => setMessageProxy(text)}
+                    placeholder={t("feedback_modal_message_placeholder")}
+                  />
+                  <Text
+                    style={[
+                      {
+                        fontSize: 14,
+                        color: colors.textSecondary,
+                        padding: 8,
+                        paddingTop: 0,
+                        marginTop: 4,
+                      },
+                    ]}
                   >
-                    <TextArea
-                      testID="feedback-modal-message"
-                      containerStyle={{
-                        marginBottom: 8,
-                      }}
-                      style={{
-                        flex: 1,
-                        height: '100%',
-                        maxHeight: 240,
-                      }}
-                      value={message}
-                      onChange={(text) => setMessageProxy(text)}
-                      placeholder={t("feedback_modal_message_placeholder")}
-                    />
-                    <Text
-                      style={[
-                        {
-                          fontSize: 14,
-                          color: colors.textSecondary,
-                          padding: 8,
-                          paddingTop: 0,
-                          marginTop: 4,
-                        },
-                      ]}
-                    >
-                      {t("feedback_modal_help")}
-                    </Text>
-                  </View>
+                    {t("feedback_modal_help")}
+                  </Text>
                 </View>
               </View>
+            </View>
           </KeyboardAvoidingView>
         </DismissKeyboard>
       </Modal>

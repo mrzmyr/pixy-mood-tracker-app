@@ -10,7 +10,7 @@ import { CardFeedback } from '../../components/Statistics/CardFeedback';
 
 const MIN_ITEMS = 5;
 
-export const RatingDistribution = ({
+export const MoodChart = ({
   date, items,
 }) => {
   const data = getRatingDistributionForXDays(items, date, date.daysInMonth() - 1);
@@ -28,8 +28,8 @@ export const RatingDistribution = ({
 
   return (
     <BigCard
-      title={t('statistics_rating_distribution')}
-      subtitle={t('statistics_rating_distribution_description', { date: date.format('MMMM, YYYY') })}
+      title={t('statistics_mood_chart')}
+      subtitle={t('statistics_mood_chart_description', { date: date.format('MMMM, YYYY') })}
       isShareable={true}
       analyticsId="rating-distribution"
     >

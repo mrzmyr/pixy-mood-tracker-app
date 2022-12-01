@@ -4,7 +4,7 @@ import { AnalyticsProvider } from '../hooks/useAnalytics'
 import { CalendarFiltersProvider, useCalendarFilters } from '../hooks/useCalendarFilters'
 import { LogsProvider, LogsState, STORAGE_KEY } from '../hooks/useLogs'
 import { SettingsProvider } from '../hooks/useSettings'
-import { _generateItem } from './Streaks'
+import { _generateItem } from './utils'
 
 const wrapper = ({ children }) => (
   <SettingsProvider>
@@ -22,42 +22,34 @@ const _renderHook = () => {
   return renderHook(() => useCalendarFilters(), { wrapper })
 }
 
-const testItems: LogsState['items'] = {
-  '2022-01-01': _generateItem({
+const testItems: LogsState['items'] = [
+  _generateItem({
     date: '2022-01-01',
     rating: 'neutral',
     message: 'test message 🐶',
     tags: []
   }),
-  '2022-01-02': _generateItem({
+  _generateItem({
     date: '2022-01-02',
     rating: 'good',
     message: '🦄🐶',
     tags: [{
       id: 't1',
-      title: 'test tag',
-      color: 'lime'
     }, {
       id: 't4',
-      title: 'test tag 2',
-      color: 'slate'
     }]
   }),
-  '2022-01-03': _generateItem({
+  _generateItem({
     date: '2022-01-02',
     rating: 'bad',
     message: '🕹',
     tags: [{
       id: 't1',
-      title: 'test tag',
-      color: 'lime'
     }, {
       id: 't3',
-      title: 'test tag 2',
-      color: 'slate'
     }]
   })
-}
+]
 
 xdescribe('useCalendarFilters()', () => {
 
@@ -159,7 +151,7 @@ xdescribe('useCalendarFilters()', () => {
     })
 
     expect(hook.result.current.data.filteredItems).toEqual([
-      Object.values(testItems)[1]
+      testItems[1]
     ])
   })
 
@@ -180,7 +172,7 @@ xdescribe('useCalendarFilters()', () => {
     })
 
     expect(hook.result.current.data.filteredItems).toEqual([
-      Object.values(testItems)[2]
+      testItems[2]
     ])
 
     await act(() => {
@@ -192,8 +184,8 @@ xdescribe('useCalendarFilters()', () => {
     })
 
     expect(hook.result.current.data.filteredItems).toEqual([
-      Object.values(testItems)[1],
-      Object.values(testItems)[2]
+      testItems[1],
+      testItems[2]
     ])
   })
 
@@ -214,8 +206,8 @@ xdescribe('useCalendarFilters()', () => {
     })
 
     expect(hook.result.current.data.filteredItems).toEqual([
-      Object.values(testItems)[0],
-      Object.values(testItems)[1]
+      testItems[0],
+      testItems[1]
     ])
 
     await act(() => {
@@ -227,7 +219,7 @@ xdescribe('useCalendarFilters()', () => {
     })
 
     expect(hook.result.current.data.filteredItems).toEqual([
-      Object.values(testItems)[1]
+      testItems[1]
     ])
   })
 
@@ -248,7 +240,7 @@ xdescribe('useCalendarFilters()', () => {
     })
 
     expect(hook.result.current.data.filteredItems).toEqual([
-      Object.values(testItems)[1]
+      testItems[1]
     ])
   })
 
@@ -269,7 +261,7 @@ xdescribe('useCalendarFilters()', () => {
     })
 
     expect(hook.result.current.data.filteredItems).toEqual([
-      Object.values(testItems)[1]
+      testItems[1]
     ])
   })
 

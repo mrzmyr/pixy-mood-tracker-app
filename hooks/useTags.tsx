@@ -4,7 +4,7 @@ import { TAG_COLOR_NAMES } from '../constants/Config';
 import { load, store } from '../helpers/storage';
 import { t } from '../helpers/translation';
 import { useAnalytics } from './useAnalytics';
-import { LogItem, useLogState, useLogUpdater } from './useLogs';
+import { useLogState, useLogUpdater } from './useLogs';
 import { useSettings } from './useSettings';
 
 export const STORAGE_KEY = 'PIXEL_TRACKER_TAGS'
@@ -15,12 +15,16 @@ export type Tag = {
   color: typeof TAG_COLOR_NAMES[number];
 };
 
+export type TagReference = {
+  id: string;
+}
+
 interface State {
   loaded?: boolean
   tags: Tag[]
 }
 
-type StateAction = 
+type StateAction =
   | { type: 'add', payload: Tag }
   | { type: 'edit', payload: Tag }
   | { type: 'delete', payload: Tag['id'] }
@@ -38,8 +42,8 @@ interface UpdaterValue {
   import: (data: State) => void
 }
 
-const TagsStateContext = createContext(undefined)
-const TagsUpdaterContext = createContext(undefined)
+const TagsStateContext = createContext({} as StateValue)
+const TagsUpdaterContext = createContext({} as UpdaterValue)
 
 const reducer = (state: State, action: StateAction): State => {
   switch (action.type) {
@@ -74,7 +78,7 @@ function TagsProvider({
   const { settings } = useSettings()
   const logsUpdater = useLogUpdater()
   const logsState = useLogState()
-  
+
   const INITIAL_STATE: State = {
     loaded: false,
     tags: [
@@ -105,51 +109,32 @@ function TagsProvider({
       },
     ]
   }
-  
+
   const analytics = useAnalytics()
   const [state, dispatch] = useReducer(reducer, INITIAL_STATE)
-  
+
   const stateValue: StateValue = useMemo(() => state, [JSON.stringify(state)])
-  
+
   const createTag = useCallback((tag: Tag) => dispatch({ type: 'add', payload: tag }), [dispatch])
-
-  const updateTag = useCallback((tag: Tag) => {
-    dispatch({ type: 'edit', payload: tag })
-
-    const newItems = {};
-    
-    Object.entries(logsState.items)
-      .forEach(([date, item]: [string, LogItem]) => {
-        if(item?.tags?.some(t => t.id === tag.id)) {
-          const tags = item.tags.map(t => t.id === tag.id ? tag : t)
-          item.tags = tags
-        }
-        newItems[date] = item;
-      })
-
-    logsUpdater.updateLogs(newItems)
-  }, [dispatch, logsState.items, logsUpdater])
+  const updateTag = useCallback((tag: Tag) => dispatch({ type: 'edit', payload: tag }), [dispatch])
 
   const deleteTag = useCallback((tagId: Tag['id']) => {
     dispatch({ type: 'delete', payload: tagId })
 
-    const newItems = {};
-
-    Object.entries(logsState.items)
-      .forEach(([date, item]: [string, LogItem]) => {
-        if(logsState.items[date]?.tags?.some((tag: Tag) => tag.id === tagId)) {
-          const tags = item?.tags?.filter(itemTag => itemTag.id !== tagId) || [];
-          item.tags = tags;
-        }
-        newItems[date] = item;
-      })
+    const newItems = logsState.items.map((item) => {
+      if (item.tags.some((tag: Tag) => tag.id === tagId)) {
+        const tags = item.tags.filter(itemTag => itemTag.id !== tagId) || [];
+        item.tags = tags;
+      }
+      return item;
+    })
 
     logsUpdater.updateLogs(newItems);
   }, [dispatch, logsUpdater, JSON.stringify(logsState.items)])
-  
+
   const reset = useCallback(() => dispatch({ type: 'reset', payload: INITIAL_STATE }), [dispatch])
   const importData = useCallback((data: State) => dispatch({ type: 'import', payload: data }), [dispatch])
-  
+
   const updaterValue: UpdaterValue = useMemo(() => ({
     createTag,
     updateTag,
@@ -159,38 +144,38 @@ function TagsProvider({
   }), [createTag, updateTag, deleteTag, reset, importData])
 
   useEffect(() => {
-    if(!settings.loaded) return;
-    
+    if (!settings.loaded) return;
+
     (async () => {
       const json = await load<State>(STORAGE_KEY)
-      if(json !== null) {
+      if (json !== null) {
         analytics.track('tags_loaded', { source: 'tags_async_storage' })
         dispatch({ type: 'import', payload: json })
-      } else if(settings?.tags) {
+      } else if (settings?.tags) {
         analytics.track('tags_loaded', { source: 'settings_async_storage' })
         dispatch({
-          type: 'import', 
+          type: 'import',
           payload: {
             tags: settings.tags
           }
         })
       } else {
         analytics.track('tags_loaded', { source: 'initial' })
-        dispatch({ type: 'reset', payload: INITIAL_STATE })     
+        dispatch({ type: 'reset', payload: INITIAL_STATE })
       }
     })();
   }, [settings.loaded])
 
   useEffect(() => {
-    if(state.loaded) {
+    if (state.loaded) {
       store<Omit<State, 'loaded'>>(STORAGE_KEY, _.omit(state, 'loaded'))
     }
   }, [JSON.stringify(state)])
-  
+
   return (
     <TagsStateContext.Provider value={stateValue}>
       <TagsUpdaterContext.Provider value={updaterValue}>
-      {children}
+        {children}
       </TagsUpdaterContext.Provider>
     </TagsStateContext.Provider>
   )

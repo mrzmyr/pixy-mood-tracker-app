@@ -1,10 +1,15 @@
 import { Text } from 'react-native-svg';
+import { ScaleItem } from '.';
 import useColors from '../../hooks/useColors';
 
 export const XLabels = ({
   items,
   x,
   y,
+}: {
+  items: ScaleItem[],
+  x: (index: number) => number,
+  y: number,
 }) => {
   const colors = useColors();
 
@@ -20,23 +25,28 @@ export const XLabels = ({
     return true;
   }
 
-  return items.map((item, index) => {
-    const _x = x(index);
+  return (
+    <>
+      {items.map((item, index) => {
+        const _x = x(index);
 
-    const Label = (
-      <Text
-        x={_x}
-        y={y}
-        fontSize="14"
-        fill={colors.statisticsLegendText}
-        textAnchor="middle"
-        alignmentBaseline='center'
-        key={`xlabel-${index}`}
-      >
-        {item.key}
-      </Text>
-    );
+        const Label = (
+          // @ts-ignore
+          <Text
+            x={_x}
+            y={y}
+            fontSize="14"
+            fill={colors.statisticsLegendText}
+            textAnchor="middle"
+            alignmentBaseline='center'
+            key={`xlabel-${index}`}
+          >
+            {item.key}
+          </Text>
+        );
 
-    return shouldLabel(index) ? Label : null;
-  });
+        return shouldLabel(index) ? Label : null;
+      })}
+    </>
+  );
 };
