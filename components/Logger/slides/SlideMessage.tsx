@@ -1,5 +1,5 @@
 import { forwardRef, useEffect, useRef, useState } from "react";
-import { Keyboard, View } from "react-native";
+import { Keyboard, KeyboardAvoidingView, Platform, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { getLogEditMarginTop } from "../../../helpers/responsive";
 import { t } from "../../../helpers/translation";
@@ -10,6 +10,7 @@ import DismissKeyboard from "../../DismisKeyboard";
 import LinkButton from "../../LinkButton";
 import TextArea from "../../TextArea";
 import { SlideHeadline } from "../components/SlideHeadline";
+import { Footer } from "./Footer";
 
 const randomInt = (min, max) => Math.floor(Math.random() * (max - min + 1) + min);
 
@@ -46,68 +47,59 @@ export const SlideMessage = forwardRef(({
   return (
     <>
       <DismissKeyboard>
-        <View style={{
-          flex: 1,
-          backgroundColor: colors.logBackground,
-          width: '100%',
-          position: 'relative',
-          paddingHorizontal: 20,
-          paddingBottom: 20,
-        }}>
-          <View
-            style={{
-              flex: 1,
-              marginTop: marginTop,
-            }}
-          >
+        <KeyboardAvoidingView
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
+          style={{
+            flex: 1,
+          }}
+        >
+          <View style={{
+            flex: 1,
+            backgroundColor: colors.logBackground,
+            width: '100%',
+            position: 'relative',
+            paddingHorizontal: 20,
+            paddingBottom: insets.bottom + 20 + (shouldExpand ? 112 : 0),
+          }}>
             <View
               style={{
-                width: '100%',
+                flex: 1,
+                marginTop: marginTop,
               }}
             >
               <SlideHeadline>{t('log_note_question')}</SlideHeadline>
-            </View>
 
-            <View
-              style={{
-                flexDirection: 'row',
-                marginTop: 16,
-                flex: 1,
-              }}
-            >
-              <TextArea
-                ref={ref}
-                placeholder={placeholder.current}
-                value={tempLog?.data?.message}
-                onChange={onChange}
-                maxLength={MAX_LENGTH}
+              <View
                 style={{
+                  flexDirection: "column",
+                  width: "100%",
+                  marginTop: 16,
                   flex: 1,
-                  marginBottom: 0,
-                  height: !shouldExpand ? '100%' : 240,
                 }}
-              />
+              >
+                <TextArea
+                  ref={ref}
+                  placeholder={placeholder.current}
+                  value={tempLog?.data?.message}
+                  onChange={onChange}
+                  maxLength={MAX_LENGTH}
+                  style={{
+                    flex: 1,
+                    marginBottom: 0,
+                  }}
+                />
+              </View>
             </View>
+            <Footer>
+              {showDisable && (
+                <LinkButton
+                  type="secondary"
+                  onPress={onDisableStep}
+                >{t('log_message_disable')}</LinkButton>
+              )}
+            </Footer>
           </View>
-          {showDisable && (
-            <View
-              style={{
-                marginTop: 16,
-                height: 54,
-                marginBottom: insets.bottom,
-                width: '100%',
-                flexDirection: 'row',
-                justifyContent: 'flex-start',
-                alignItems: 'center',
-              }}
-            >
-              <LinkButton
-                type="secondary"
-                onPress={onDisableStep}
-              >{t('log_message_disable')}</LinkButton>
-            </View>
-          )}
-        </View>
+        </KeyboardAvoidingView>
       </DismissKeyboard>
     </>
   )

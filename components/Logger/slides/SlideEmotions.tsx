@@ -13,6 +13,7 @@ import { useTemporaryLog } from "../../../hooks/useTemporaryLog";
 import LinkButton from "../../LinkButton";
 import { Emotion, EMOTIONS } from "../config";
 import { SlideHeadline } from "../components/SlideHeadline";
+import { Footer } from "./Footer";
 
 const EmotionButton = ({
   emotion,
@@ -204,7 +205,7 @@ export const SlideEmotions = ({
       flex: 1,
       backgroundColor: colors.logBackground,
       width: '100%',
-      paddingBottom: 20,
+      paddingBottom: insets.bottom + 20,
     }}>
       <View
         style={{
@@ -262,25 +263,14 @@ export const SlideEmotions = ({
           }}
           pointerEvents="none"
         />
-        {showDisable && (
-          <View
-            style={{
-              marginTop: 16,
-              height: 54,
-              marginBottom: insets.bottom,
-              width: '100%',
-              flexDirection: 'row',
-              justifyContent: 'flex-start',
-              alignItems: 'center',
-              paddingHorizontal: 16,
-            }}
-          >
+        <Footer>
+          {showDisable && (
             <LinkButton
               type="secondary"
               onPress={onDisableStep}
             >{t('log_emotions_disable')}</LinkButton>
-          </View>
-        )}
+          )}
+        </Footer>
       </View>
     </View>
   )

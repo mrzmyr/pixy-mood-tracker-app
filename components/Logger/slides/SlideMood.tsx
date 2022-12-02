@@ -3,37 +3,37 @@ import dayjs from "dayjs";
 import { useState } from "react";
 import { View } from "react-native";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { DATE_FORMAT } from "../../../constants/Config";
 import { getLogEditMarginTop } from "../../../helpers/responsive";
 import { t } from "../../../helpers/translation";
 import useColors from "../../../hooks/useColors";
-import useHaptics from "../../../hooks/useHaptics";
 import { LogItem, RATING_KEYS } from "../../../hooks/useLogs";
 import { useTemporaryLog } from "../../../hooks/useTemporaryLog";
-import { getItemDateTitle } from "../../../lib/utils";
 import { SlideHeadline } from "../components/SlideHeadline";
-import { SlideRatingButton } from "../components/SlideRatingButton";
+import { SlideMoodButton } from "../components/SlideMoodButton";
 
-export const SlideRating = ({
+export const SlideMood = ({
   onChange,
 }: {
   onChange: (rating: LogItem['rating']) => void;
 }) => {
   const colors = useColors();
   const tempLog = useTemporaryLog();
-  const haptics = useHaptics();
   const navigation = useNavigation();
+  const insets = useSafeAreaInsets();
 
   const marginTop = getLogEditMarginTop()
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
-
-  const time = tempLog.data.dateTime !== null ? getItemDateTitle(tempLog.data.dateTime) : ''
 
   return (
     <View style={{
       flex: 1,
       backgroundColor: colors.logBackground,
       width: '100%',
+      position: 'relative',
+      paddingHorizontal: 20,
+      paddingBottom: insets.bottom + 20,
     }}>
       <View
         style={{
@@ -58,14 +58,12 @@ export const SlideRating = ({
           }}
           onCancel={() => setDatePickerVisibility(false)}
         />
-        <View
+        <SlideHeadline
           style={{
-            width: '100%',
+            justifyContent: 'center',
             alignItems: 'center',
           }}
-        >
-          <SlideHeadline>{t('log_rating_question')}</SlideHeadline>
-        </View>
+        >{t('log_rating_question')}</SlideHeadline>
         <View
           style={{
             flexDirection: 'column',
@@ -76,7 +74,7 @@ export const SlideRating = ({
           }}
         >
           {RATING_KEYS.map((key, index) => (
-            <SlideRatingButton
+            <SlideMoodButton
               key={key}
               rating={key as LogItem['rating']}
               selected={tempLog?.data?.rating === key}

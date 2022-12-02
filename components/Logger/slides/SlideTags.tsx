@@ -2,17 +2,16 @@ import { useNavigation } from "@react-navigation/native";
 import { LinearGradient } from 'expo-linear-gradient';
 import { ScrollView, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import Tag from "../../Tag";
 import { getLogEditMarginTop } from "../../../helpers/responsive";
 import { t } from "../../../helpers/translation";
 import useColors from "../../../hooks/useColors";
-import { useSettings } from "../../../hooks/useSettings";
 import { TagReference, useTagsState } from "../../../hooks/useTags";
 import { useTemporaryLog } from "../../../hooks/useTemporaryLog";
 import LinkButton from "../../LinkButton";
 import { MiniButton } from "../../MiniButton";
+import Tag from "../../Tag";
 import { SlideHeadline } from "../components/SlideHeadline";
-import { useLogState } from "../../../hooks/useLogs";
+import { Footer } from "./Footer";
 
 export const SlideTags = ({
   onChange,
@@ -28,7 +27,6 @@ export const SlideTags = ({
   const insets = useSafeAreaInsets();
   const colors = useColors()
   const { tags } = useTagsState()
-  const logState = useLogState()
 
   const marginTop = getLogEditMarginTop()
 
@@ -37,17 +35,10 @@ export const SlideTags = ({
       flex: 1,
       width: '100%',
       paddingHorizontal: 20,
-      paddingBottom: 20,
+      paddingBottom: insets.bottom + 20,
       marginTop,
     }}>
-      <View
-        style={{
-          width: '100%',
-          marginBottom: 8,
-        }}
-      >
-        <SlideHeadline>{t('log_tags_question')}</SlideHeadline>
-      </View>
+      <SlideHeadline>{t('log_tags_question')}</SlideHeadline>
       <LinearGradient
         pointerEvents="none"
         colors={[colors.logBackground, colors.logBackgroundTransparent]}
@@ -64,7 +55,7 @@ export const SlideTags = ({
         style={{
           position: 'absolute',
           height: 32,
-          bottom: insets.bottom + 54 + 16,
+          bottom: insets.bottom + 54 + 32,
           zIndex: 1,
           width: '100%',
         }}
@@ -113,24 +104,14 @@ export const SlideTags = ({
           </View>
         </View>
       </ScrollView>
-      {showDisable && (
-        <View
-          style={{
-            height: 54,
-            marginTop: 16,
-            marginBottom: insets.bottom,
-            width: '100%',
-            flexDirection: 'row',
-            justifyContent: 'flex-start',
-            alignItems: 'center',
-          }}
-        >
+      <Footer>
+        {showDisable && (
           <LinkButton
             type="secondary"
             onPress={onDisableStep}
           >{t('log_tags_disable')}</LinkButton>
-        </View>
-      )}
+        )}
+      </Footer>
     </View>
   )
 }

@@ -7,6 +7,7 @@ import useHaptics from "../../../hooks/useHaptics";
 import { IQuestion, useQuestioner } from "../../../hooks/useQuestioner";
 import LinkButton from "../../LinkButton";
 import { SlideHeadline } from "../components/SlideHeadline";
+import { Footer } from "./Footer";
 
 const AnswerSelector = ({
   answer,
@@ -105,14 +106,14 @@ export const SlideFeedback = ({
     <View style={{
       flex: 1,
       width: '100%',
-      paddingBottom: 20,
+      paddingHorizontal: 20,
+      paddingBottom: insets.bottom + 20,
     }}>
       <View
         style={{
           flex: 1,
           alignItems: 'center',
           justifyContent: 'center',
-          paddingHorizontal: 20,
         }}
       >
         <SlideHeadline>{question.text[language] || question.text.en}</SlideHeadline>
@@ -148,23 +149,16 @@ export const SlideFeedback = ({
           </View>
         </View>
       </View>
-      <View
+      <Footer
         style={{
-          marginTop: 16,
-          height: 54,
-          marginBottom: insets.bottom,
-          width: '100%',
-          flexDirection: 'row',
-          justifyContent: 'flex-start',
-          alignItems: 'center',
-          paddingHorizontal: 16,
+          justifyContent: 'center',
         }}
       >
         <LinkButton
           type="secondary"
           onPress={onDisableStep}
         >{t('log_feedback_disable')}</LinkButton>
-      </View>
+      </Footer>
     </View>
   )
 }

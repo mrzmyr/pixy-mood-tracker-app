@@ -19,7 +19,7 @@ import { Stepper } from './components/Stepper';
 import { LoggerStep } from './config';
 import { SlideFeedback } from './slides/SlideFeedback';
 import { SlideMessage } from './slides/SlideMessage';
-import { SlideRating } from './slides/SlideRating';
+import { SlideMood } from './slides/SlideMood';
 import { SlideReminder } from './slides/SlideReminder';
 import { SlideTags } from './slides/SlideTags';
 
@@ -205,7 +205,7 @@ export const Logger = ({
   content.push({
     key: 'rating',
     slide: (
-      <SlideRating
+      <SlideMood
         onChange={(rating) => {
           if (tempLog.data.rating !== rating) {
             setTimeout(() => next(), 200)

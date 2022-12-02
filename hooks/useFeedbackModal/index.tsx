@@ -214,15 +214,13 @@ export default function useFeedbackModal() {
                     placeholder={t("feedback_modal_message_placeholder")}
                   />
                   <Text
-                    style={[
-                      {
-                        fontSize: 14,
-                        color: colors.textSecondary,
-                        padding: 8,
-                        paddingTop: 0,
-                        marginTop: 4,
-                      },
-                    ]}
+                    style={{
+                      fontSize: 14,
+                      color: colors.textSecondary,
+                      padding: 8,
+                      paddingTop: 0,
+                      marginTop: 4,
+                    }}
                   >
                     {t("feedback_modal_help")}
                   </Text>

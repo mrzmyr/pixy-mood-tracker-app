@@ -75,7 +75,7 @@ export const SlideReminder = ({
       width: '100%',
       marginTop,
       paddingHorizontal: 20,
-      paddingBottom: 20,
+      paddingBottom: insets.bottom + 20,
     }}>
       <View
         style={{
