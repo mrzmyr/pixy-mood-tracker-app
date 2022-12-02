@@ -99,7 +99,11 @@ export const SlideReminder = ({
         >
           <Bell color={'#fff'} width={20} strokeWidth={2} />
         </View>
-        <SlideHeadline>{t('log_reminder_question')}</SlideHeadline>
+        <SlideHeadline
+          style={{
+            justifyContent: 'center',
+          }}
+        >{t('log_reminder_question')}</SlideHeadline>
         <Text
           style={{
             color: colors.textSecondary,
