@@ -93,6 +93,8 @@ export const StatisticsScreen = ({ navigation }: RootStackScreenProps<'Statistic
     return dayjs(item.dateTime).isBetween(dayjs().subtract(14, 'day'), dayjs(), null, '[]')
   })
 
+  const statisticsUnlocked = items.length >= MIN_LOGS_COUNT
+
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
       if (items.length >= MIN_LOGS_COUNT) {
@@ -153,23 +155,24 @@ export const StatisticsScreen = ({ navigation }: RootStackScreenProps<'Statistic
           paddingBottom: insets.bottom + 20,
         }}
       >
-        <PromoCards />
+
+        {statisticsUnlocked && <PromoCards />}
 
         {items.length < MIN_LOGS_COUNT && (
           <EmptyPlaceholder count={MIN_LOGS_COUNT - items.length} />
         )}
-        {items.length >= MIN_LOGS_COUNT && (
+        {statisticsUnlocked && (
           <HighlightsSection items={items} />
         )}
 
         {(
-          items.length >= MIN_LOGS_COUNT
+          statisticsUnlocked
         ) && (
             <FeedbackBox prefix={`statistics_experimental`} />
           )}
 
         {(
-          items.length >= MIN_LOGS_COUNT
+          statisticsUnlocked
         ) && (
             <>
               <MenuListHeadline>{t('more_statistics')}</MenuListHeadline>
