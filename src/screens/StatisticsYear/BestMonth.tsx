@@ -55,7 +55,7 @@ export const BestMonth = ({
           style={{
             fontSize: 17,
             color: colors.textSecondary,
-            fontWeight: 'bold',
+            fontWeight: '600',
             marginBottom: 8,
           }}
         >
