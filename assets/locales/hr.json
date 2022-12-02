@@ -342,5 +342,7 @@
   "view_log_emotions_empty": "Još nema emocija.",
   "view_log_emotions": "Emocije",
   "pleasant": "prijatno",
-  "unpleasant": "Neugodan"
+  "unpleasant": "Neugodan",
+  "statistics_best_month": "Najbolji mjesec",
+  "statistics_worst_month": "Najgori mjesec"
 }

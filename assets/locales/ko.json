@@ -342,5 +342,7 @@
   "view_log_emotions_empty": "아직 감정이 없습니다.",
   "view_log_emotions": "감정",
   "pleasant": "즐거운",
-  "unpleasant": "불쾌한"
+  "unpleasant": "불쾌한",
+  "statistics_best_month": "최고의 달",
+  "statistics_worst_month": "최악의 달"
 }

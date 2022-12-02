@@ -342,5 +342,7 @@
   "view_log_emotions_empty": "Zatím žádné emoce.",
   "view_log_emotions": "Emoce",
   "pleasant": "Příjemný",
-  "unpleasant": "Nepříjemný"
+  "unpleasant": "Nepříjemný",
+  "statistics_best_month": "Nejlepší měsíc",
+  "statistics_worst_month": "Nejhorší měsíc"
 }

@@ -342,5 +342,7 @@
   "view_log_emotions_empty": "Nicio emoție încă.",
   "view_log_emotions": "Emoții",
   "pleasant": "Placut",
-  "unpleasant": "Neplăcut"
+  "unpleasant": "Neplăcut",
+  "statistics_best_month": "Cea mai bună lună",
+  "statistics_worst_month": "Cea mai proastă lună"
 }

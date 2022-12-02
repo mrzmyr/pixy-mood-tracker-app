@@ -342,5 +342,7 @@
   "view_log_emotions_empty": "Емоцій ще немає.",
   "view_log_emotions": "емоції",
   "pleasant": "приємно",
-  "unpleasant": "неприємно"
+  "unpleasant": "неприємно",
+  "statistics_best_month": "Найкращий місяць",
+  "statistics_worst_month": "Найгірший місяць"
 }

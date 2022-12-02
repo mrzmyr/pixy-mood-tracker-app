@@ -342,5 +342,7 @@
   "view_log_emotions_empty": "Belum ada emosi.",
   "view_log_emotions": "Emosi",
   "pleasant": "Menyenangkan",
-  "unpleasant": "Tidak menyenangkan"
+  "unpleasant": "Tidak menyenangkan",
+  "statistics_best_month": "Bulan Terbaik",
+  "statistics_worst_month": "Bulan Terburuk"
 }

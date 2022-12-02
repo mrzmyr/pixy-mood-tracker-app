@@ -342,5 +342,7 @@
   "view_log_emotions_empty": "Ei vielä tunteita.",
   "view_log_emotions": "Tunteet",
   "pleasant": "Miellyttävä",
-  "unpleasant": "Epämiellyttävää"
+  "unpleasant": "Epämiellyttävää",
+  "statistics_best_month": "Paras kuukausi",
+  "statistics_worst_month": "Huonoin kuukausi"
 }

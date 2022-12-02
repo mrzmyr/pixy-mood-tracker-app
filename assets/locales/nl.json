@@ -342,5 +342,7 @@
   "view_log_emotions_empty": "Nog geen emoties.",
   "view_log_emotions": "Emoties",
   "pleasant": "Prettig",
-  "unpleasant": "Onaangenaam"
+  "unpleasant": "Onaangenaam",
+  "statistics_best_month": "Beste maand",
+  "statistics_worst_month": "Slechtste maand"
 }

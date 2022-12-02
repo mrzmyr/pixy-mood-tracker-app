@@ -342,5 +342,7 @@
   "view_log_emotions_empty": "Henüz duygu yok.",
   "view_log_emotions": "duygular",
   "pleasant": "Güzel",
-  "unpleasant": "Hoş olmayan"
+  "unpleasant": "Hoş olmayan",
+  "statistics_best_month": "En İyi Ay",
+  "statistics_worst_month": "En Kötü Ay"
 }

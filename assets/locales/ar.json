@@ -342,5 +342,7 @@
   "view_log_emotions_empty": "لا عواطف بعد.",
   "view_log_emotions": "العواطف",
   "pleasant": "جَذّاب",
-  "unpleasant": "غير سارة"
+  "unpleasant": "غير سارة",
+  "statistics_best_month": "أفضل شهر",
+  "statistics_worst_month": "أسوأ شهر"
 }

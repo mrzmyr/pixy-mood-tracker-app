@@ -335,5 +335,7 @@
   "view_log_emotions_empty": "No emotions yet.",
   "view_log_emotions": "Emotions",
   "pleasant": "Pleasant",
-  "unpleasant": "Unpleasant"
+  "unpleasant": "Unpleasant",
+  "statistics_best_month": "Best Month",
+  "statistics_worst_month": "Worst Month"
 }

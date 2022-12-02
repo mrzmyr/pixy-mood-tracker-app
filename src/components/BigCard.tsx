@@ -32,9 +32,9 @@ const SubTitle = ({ children }: { children: string }) => {
   return (
     <Text
       style={{
-        fontSize: 14,
+        fontSize: 17,
         color: colors.textSecondary,
-        marginTop: 0,
+        marginTop: 4,
         marginBottom: 16,
       }}
     >
@@ -55,6 +55,7 @@ const Container = ({
   return (
     <View
       style={{
+        width: '100%',
         backgroundColor: colors.cardBackground,
         borderRadius: 8,
         paddingHorizontal: 20,
@@ -82,8 +83,8 @@ export const BigCard = ({
   isShareable,
   analyticsId,
 }: {
-  title: string,
-  subtitle: string,
+  title?: string,
+  subtitle?: string,
   children: React.ReactNode,
   isShareable?: boolean,
   analyticsId?: string,
@@ -124,7 +125,10 @@ export const BigCard = ({
             alignItems: 'center',
           }}
         >
-          <Title>{title}</Title>
+          {title ?
+            (<Title>{title}</Title>) :
+            (<View />)
+          }
           <View
             style={{
               marginTop: -16,
@@ -151,7 +155,7 @@ export const BigCard = ({
             )}
           </View>
         </View>
-        <SubTitle>{subtitle}</SubTitle>
+        {subtitle && <SubTitle>{subtitle}</SubTitle>}
         {children}
       </Container>
       {/* Share copy */}
@@ -169,8 +173,8 @@ export const BigCard = ({
           }}
         >
           <Container>
-            <Title>{title}</Title>
-            <SubTitle>{subtitle}</SubTitle>
+            {title && <Title>{title}</Title>}
+            {subtitle && <SubTitle>{subtitle}</SubTitle>}
             {children}
           </Container>
           <View

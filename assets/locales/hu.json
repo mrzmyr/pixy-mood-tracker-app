@@ -342,5 +342,7 @@
   "view_log_emotions_empty": "Még nincsenek érzelmek.",
   "view_log_emotions": "Érzelmek",
   "pleasant": "Kellemes",
-  "unpleasant": "Kellemetlen"
+  "unpleasant": "Kellemetlen",
+  "statistics_best_month": "Legjobb hónap",
+  "statistics_worst_month": "Legrosszabb hónap"
 }

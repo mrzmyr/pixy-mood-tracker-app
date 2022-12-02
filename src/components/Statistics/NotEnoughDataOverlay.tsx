@@ -4,8 +4,10 @@ import useColors from "@/hooks/useColors";
 
 export const NotEnoughDataOverlay = ({
   limit,
+  showSubtitle = true,
 }: {
   limit?: number;
+  showSubtitle?: boolean;
 }) => {
   const colors = useColors()
 
@@ -50,15 +52,17 @@ export const NotEnoughDataOverlay = ({
       }}>
         {t('statistics_not_enough_data_title')}
       </Text>
-      <Text style={{
-        color: colors.statisticsNotEnoughDataSubtitle,
-        fontSize: 14,
-        textAlign: 'center',
-        paddingHorizontal: 20,
-        lineHeight: 20,
-      }}>
-        {t(subtitleKey, { count: limit })}
-      </Text>
+      {showSubtitle && (
+        <Text style={{
+          color: colors.statisticsNotEnoughDataSubtitle,
+          fontSize: 14,
+          textAlign: 'center',
+          paddingHorizontal: 20,
+          lineHeight: 20,
+        }}>
+          {t(subtitleKey, { count: limit })}
+        </Text>
+      )}
     </View>
   );
 }

@@ -342,5 +342,7 @@
   "view_log_emotions_empty": "עדיין אין רגשות.",
   "view_log_emotions": "רגשות",
   "pleasant": "נעים",
-  "unpleasant": "לא נעים"
+  "unpleasant": "לא נעים",
+  "statistics_best_month": "החודש הטוב ביותר",
+  "statistics_worst_month": "החודש הגרוע ביותר"
 }

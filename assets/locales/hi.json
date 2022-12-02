@@ -342,5 +342,7 @@
   "view_log_emotions_empty": "अभी तक कोई भावना नहीं है।",
   "view_log_emotions": "भावनाएँ",
   "pleasant": "सुखद",
-  "unpleasant": "अप्रिय"
+  "unpleasant": "अप्रिय",
+  "statistics_best_month": "उत्तम मास",
+  "statistics_worst_month": "सबसे खराब महीना"
 }

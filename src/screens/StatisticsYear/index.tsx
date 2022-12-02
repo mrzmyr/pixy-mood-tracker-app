@@ -11,6 +11,8 @@ import { Header } from './Header';
 import { MoodCounts } from '@/components/Statistics/MoodCounts';
 import { MoodChart } from './MoodChart';
 import YearInPixels from './YearInPixels';
+import { BestMonth } from './BestMonth';
+import { WorstMonth } from './WorstMonth';
 
 export const StatisticsYearScreen = ({ route }: RootStackScreenProps<'StatisticsYear'>) => {
   const insets = useSafeAreaInsets();
@@ -44,6 +46,31 @@ export const StatisticsYearScreen = ({ route }: RootStackScreenProps<'Statistics
           paddingBottom: insets.bottom + 16,
         }}
       >
+        <View
+          style={{
+            flexDirection: 'row',
+          }}
+        >
+          <View
+            style={{
+              marginRight: 8,
+              flex: 1,
+            }}
+          >
+            <BestMonth
+              date={date}
+            />
+          </View>
+          <View
+            style={{
+              flex: 1,
+            }}
+          >
+            <WorstMonth
+              date={date}
+            />
+          </View>
+        </View>
         <MoodCounts
           title={t('mood_count')}
           subtitle={t('mood_count_description', { date: dayjs(date).format('YYYY') })}

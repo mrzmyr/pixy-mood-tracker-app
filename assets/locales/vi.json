@@ -342,5 +342,7 @@
   "view_log_emotions_empty": "Chưa có cảm xúc.",
   "view_log_emotions": "Những cảm xúc",
   "pleasant": "Hài lòng",
-  "unpleasant": "Khó chịu"
+  "unpleasant": "Khó chịu",
+  "statistics_best_month": "tháng tốt nhất",
+  "statistics_worst_month": "tháng tồi tệ nhất"
 }

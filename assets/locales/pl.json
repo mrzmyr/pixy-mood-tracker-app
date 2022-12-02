@@ -342,5 +342,7 @@
   "view_log_emotions_empty": "Nie ma jeszcze emocji.",
   "view_log_emotions": "Emocje",
   "pleasant": "Przyjemne",
-  "unpleasant": "Nieprzyjemny"
+  "unpleasant": "Nieprzyjemny",
+  "statistics_best_month": "Najlepszy miesiąc",
+  "statistics_worst_month": "Najgorszy miesiąc"
 }

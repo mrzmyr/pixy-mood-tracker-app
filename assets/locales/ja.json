@@ -342,5 +342,7 @@
   "view_log_emotions_empty": "まだ感情はありません。",
   "view_log_emotions": "感情",
   "pleasant": "楽しい",
-  "unpleasant": "不快"
+  "unpleasant": "不快",
+  "statistics_best_month": "ベストマン",
+  "statistics_worst_month": "最悪の月"
 }

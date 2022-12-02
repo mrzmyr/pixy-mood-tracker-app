@@ -342,5 +342,7 @@
   "view_log_emotions_empty": "Inga känslor än.",
   "view_log_emotions": "Känslor",
   "pleasant": "Trevlig",
-  "unpleasant": "Obehaglig"
+  "unpleasant": "Obehaglig",
+  "statistics_best_month": "Bästa månaden",
+  "statistics_worst_month": "Sämsta månaden"
 }
