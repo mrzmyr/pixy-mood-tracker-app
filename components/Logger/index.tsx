@@ -16,8 +16,7 @@ import { useTemporaryLog } from '../../hooks/useTemporaryLog';
 import { SlideAction } from './components/SlideAction';
 import { SlideHeader } from './components/SlideHeader';
 import { Stepper } from './components/Stepper';
-import { Emotion, LoggerStep } from './config';
-import { SlideEmotions } from './slides/SlideEmotions';
+import { LoggerStep } from './config';
 import { SlideFeedback } from './slides/SlideFeedback';
 import { SlideMessage } from './slides/SlideMessage';
 import { SlideRating } from './slides/SlideRating';
@@ -106,8 +105,9 @@ export const Logger = ({
 
   const texAreaRef = useRef<any>(null);
   const isEditing = existingLogItem !== null;
-  const [touched, setTouched] = useState(false)
+  const showDisable = logState.items.length <= 3 && !isEditing;
 
+  const [touched, setTouched] = useState(false)
   const [question, setQuestion] = useState<IQuestion | null>(null);
 
   const avaliableSteps = getAvailableSteps({
@@ -256,6 +256,7 @@ export const Logger = ({
               next()
             })
           }}
+          showDisable={showDisable}
         />
       ),
     })
@@ -276,6 +277,7 @@ export const Logger = ({
             })
           }}
           ref={texAreaRef}
+          showDisable={showDisable}
         />
       )
     })

@@ -12,19 +12,23 @@ import { useTemporaryLog } from "../../../hooks/useTemporaryLog";
 import LinkButton from "../../LinkButton";
 import { MiniButton } from "../../MiniButton";
 import { SlideHeadline } from "../components/SlideHeadline";
+import { useLogState } from "../../../hooks/useLogs";
 
 export const SlideTags = ({
   onChange,
   onDisableStep,
+  showDisable,
 }: {
   onChange: (tags: TagReference[]) => void,
   onDisableStep: () => void
+  showDisable: boolean
 }) => {
   const tempLog = useTemporaryLog();
   const navigation = useNavigation()
   const insets = useSafeAreaInsets();
   const colors = useColors()
   const { tags } = useTagsState()
+  const logState = useLogState()
 
   const marginTop = getLogEditMarginTop()
 
@@ -109,22 +113,24 @@ export const SlideTags = ({
           </View>
         </View>
       </ScrollView>
-      <View
-        style={{
-          height: 54,
-          marginTop: 16,
-          marginBottom: insets.bottom,
-          width: '100%',
-          flexDirection: 'row',
-          justifyContent: 'flex-start',
-          alignItems: 'center',
-        }}
-      >
-        <LinkButton
-          type="secondary"
-          onPress={onDisableStep}
-        >{t('log_tags_disable')}</LinkButton>
-      </View>
+      {showDisable && (
+        <View
+          style={{
+            height: 54,
+            marginTop: 16,
+            marginBottom: insets.bottom,
+            width: '100%',
+            flexDirection: 'row',
+            justifyContent: 'flex-start',
+            alignItems: 'center',
+          }}
+        >
+          <LinkButton
+            type="secondary"
+            onPress={onDisableStep}
+          >{t('log_tags_disable')}</LinkButton>
+        </View>
+      )}
     </View>
   )
 }

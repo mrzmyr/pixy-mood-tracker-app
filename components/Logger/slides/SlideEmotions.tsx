@@ -149,10 +149,12 @@ export const SlideEmotions = ({
   defaultIndex,
   onDisableStep,
   onChange,
+  showDisable,
 }: {
   defaultIndex: number,
   onDisableStep: () => void,
   onChange: (emotions: Emotion[]) => void,
+  showDisable: boolean,
 }) => {
   const colors = useColors();
   const marginTop = getLogEditMarginTop()
@@ -260,23 +262,25 @@ export const SlideEmotions = ({
           }}
           pointerEvents="none"
         />
-        <View
-          style={{
-            marginTop: 16,
-            height: 54,
-            marginBottom: insets.bottom,
-            width: '100%',
-            flexDirection: 'row',
-            justifyContent: 'flex-start',
-            alignItems: 'center',
-            paddingHorizontal: 16,
-          }}
-        >
-          <LinkButton
-            type="secondary"
-            onPress={onDisableStep}
-          >{t('log_emotions_disable')}</LinkButton>
-        </View>
+        {showDisable && (
+          <View
+            style={{
+              marginTop: 16,
+              height: 54,
+              marginBottom: insets.bottom,
+              width: '100%',
+              flexDirection: 'row',
+              justifyContent: 'flex-start',
+              alignItems: 'center',
+              paddingHorizontal: 16,
+            }}
+          >
+            <LinkButton
+              type="secondary"
+              onPress={onDisableStep}
+            >{t('log_emotions_disable')}</LinkButton>
+          </View>
+        )}
       </View>
     </View>
   )

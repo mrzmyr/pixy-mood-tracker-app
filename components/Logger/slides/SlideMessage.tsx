@@ -18,9 +18,11 @@ const MAX_LENGTH = 10 * 1000;
 export const SlideMessage = forwardRef(({
   onChange,
   onDisableStep,
+  showDisable,
 }: {
   onChange: (text: LogItem['message']) => void
   onDisableStep: () => void
+  showDisable: boolean
 }, ref: any) => {
   const insets = useSafeAreaInsets();
   const colors = useColors();
@@ -87,22 +89,24 @@ export const SlideMessage = forwardRef(({
               />
             </View>
           </View>
-          <View
-            style={{
-              marginTop: 16,
-              height: 54,
-              marginBottom: insets.bottom,
-              width: '100%',
-              flexDirection: 'row',
-              justifyContent: 'flex-start',
-              alignItems: 'center',
-            }}
-          >
-            <LinkButton
-              type="secondary"
-              onPress={onDisableStep}
-            >{t('log_message_disable')}</LinkButton>
-          </View>
+          {showDisable && (
+            <View
+              style={{
+                marginTop: 16,
+                height: 54,
+                marginBottom: insets.bottom,
+                width: '100%',
+                flexDirection: 'row',
+                justifyContent: 'flex-start',
+                alignItems: 'center',
+              }}
+            >
+              <LinkButton
+                type="secondary"
+                onPress={onDisableStep}
+              >{t('log_message_disable')}</LinkButton>
+            </View>
+          )}
         </View>
       </DismissKeyboard>
     </>
