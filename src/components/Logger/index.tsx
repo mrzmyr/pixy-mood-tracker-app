@@ -196,6 +196,14 @@ export const Logger = ({
     }
   }
 
+  const [shouldSave, setShouldSave] = useState(false)
+
+  useEffect(() => {
+    if (shouldSave) {
+      save()
+    }
+  }, [tempLog.data])
+
   const content: {
     key: string;
     slide: ReactElement,
@@ -208,7 +216,11 @@ export const Logger = ({
       <SlideMood
         onChange={(rating) => {
           if (tempLog.data.rating !== rating) {
-            setTimeout(() => next(), 200)
+            if (content.length === 1) {
+              setShouldSave(true)
+            } else {
+              next()
+            }
           }
           tempLog.set((logItem) => ({ ...logItem, rating }))
         }}
