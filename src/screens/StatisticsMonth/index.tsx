@@ -41,7 +41,7 @@ export const StatisticsMonthScreen = ({ navigation, route }: RootStackScreenProp
     <View
       style={{
         flex: 1,
-        backgroundColor: colors.background,
+        backgroundColor: colors.statisticsBackground,
       }}
     >
       <ScrollView>

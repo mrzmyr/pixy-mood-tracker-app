@@ -146,10 +146,12 @@ export const StatisticsScreen = ({ navigation }: RootStackScreenProps<'Statistic
           />
         ) : undefined
       }
+      style={{
+        backgroundColor: colors.statisticsBackground,
+      }}
     >
       <View
         style={{
-          backgroundColor: colors.background,
           paddingHorizontal: 20,
           paddingTop: insets.top + 20,
           paddingBottom: insets.bottom + 20,
