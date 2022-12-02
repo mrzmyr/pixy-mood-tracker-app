@@ -51,11 +51,13 @@ export const MoodChart = ({
       )}
       {validatedData.length >= MIN_ITEMS ? (
         <RatingChart
+          showAverage={true}
           data={data}
           height={height}
           width={width} />
       ) : (
         <RatingChart
+          showAverage={true}
           data={dataDummy.current}
           height={height}
           width={width} />

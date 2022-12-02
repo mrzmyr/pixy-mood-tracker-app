@@ -1,4 +1,4 @@
-import Svg, { Circle, Polyline } from 'react-native-svg';
+import Svg, { Line, Polyline } from 'react-native-svg';
 import useColors from '../../hooks/useColors';
 import { RATING_KEYS } from '../../hooks/useLogs';
 import { Grid } from './Grid';
@@ -15,10 +15,12 @@ export const RatingChart = ({
   data,
   height,
   width,
+  showAverage = false,
 }: {
   height: number;
   width: number;
   data: ScaleItem[];
+  showAverage?: boolean;
 }) => {
   const colors = useColors();
 
@@ -62,6 +64,14 @@ export const RatingChart = ({
 
     return `${x},${y}`;
   }).filter(Boolean).join(' ');
+
+  const average = scaleItems.reduce((acc, item) => {
+    if (item.value === null) {
+      return acc;
+    }
+
+    return acc + item.value;
+  }, 0);
 
   return (
     <Svg
@@ -138,6 +148,18 @@ export const RatingChart = ({
           />
         );
       })} */}
+
+      {showAverage && (
+        <Line
+          key={`avg-line`}
+          x1={relativeX(0) - paddingLeft}
+          y1={relativeY(average / scaleItems.length)}
+          x2={width}
+          y2={relativeY(average / scaleItems.length)}
+          stroke={colors.tint}
+          strokeWidth={2}
+        />
+      )}
     </Svg>
   );
 };
