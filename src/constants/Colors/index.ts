@@ -230,6 +230,8 @@ const light = {
   emotionButtonText: colors.neutral[900],
   emotionButtonTextActive: colors.white,
 
+  feedbackBoxBackground: colors.amber[50],
+
   switchThumbColor: '#333',
   scales: scales.light,
   tags: tagsLight,
@@ -434,6 +436,8 @@ const dark: IColors & {
   emotionButtonBorderActive: colors.white,
   emotionButtonText: colors.white,
   emotionButtonTextActive: colors.neutral[900],
+
+  feedbackBoxBackground: colors.neutral[900],
 
   switchThumbColor: '#FFF',
   scales: scales.dark,
