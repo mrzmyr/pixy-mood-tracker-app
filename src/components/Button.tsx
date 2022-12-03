@@ -91,7 +91,7 @@ export default function Button({
               style={{
                 fontSize: 17,
                 color: disabled ? buttonColors.disabledText : buttonColors.text,
-                fontWeight: 'bold'
+                fontWeight: '500'
               }}
               numberOfLines={1}
             >{children}</Text>

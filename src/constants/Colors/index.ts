@@ -137,7 +137,7 @@ const light = {
   secondaryButtonTextDisabled: colors.neutral[500],
 
   tertiaryButtonBackground: colors.neutral[200],
-  tertiaryButtonText: colors.neutral[900],
+  tertiaryButtonText: colors.neutral[600],
   tertiaryButtonBorder: colors.neutral[200],
   tertiaryButtonBorderDisabled: colors.neutral[300],
 
@@ -251,7 +251,7 @@ const dark: IColors & {
   textSecondary: colors.neutral[400],
   background: '#000',
   backgroundSecondary: colors.neutral[900],
-  link: tintColorLight,
+  link: tintColorDark,
   tint: tintColorDark,
 
   loadingIndicator: '#fff',
@@ -270,7 +270,7 @@ const dark: IColors & {
   logBackgroundTransparent: 'rgba(28,25,23, 0)',
 
   logActionBackground: colors.neutral[800],
-  logActionBorder: tintColorLight,
+  logActionBorder: tintColorDark,
   logActionText: colors.neutral[300],
 
   tagBackground: colors.neutral[900],
@@ -322,7 +322,7 @@ const dark: IColors & {
   calendarWeekNameColor: colors.neutral[500],
   calendarMonthNameColor: colors.neutral[500],
 
-  linkButtonTextPrimary: tintColorLight,
+  linkButtonTextPrimary: tintColorDark,
   linkButtonTextPrimaryDisabled: colors.neutral[400],
   linkButtonTextSecondary: colors.neutral[500],
   linkButtonTextSecondaryDisabled: colors.neutral[400],
@@ -337,9 +337,9 @@ const dark: IColors & {
   primaryButtonTextDisabled: colors.neutral[400],
   primaryButtonBorderDisabled: colors.neutral[800],
 
-  secondaryButtonBackground: colors.blue[800],
+  secondaryButtonBackground: colors.blue[900],
   secondaryButtonText: colors.blue[100],
-  secondaryButtonBorder: colors.blue[800],
+  secondaryButtonBorder: colors.blue[900],
   secondaryButtonBackgroundDisabled: colors.neutral[800],
   secondaryButtonTextDisabled: colors.neutral[400],
   secondaryButtonBorderDisabled: colors.neutral[800],
