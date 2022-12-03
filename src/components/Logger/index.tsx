@@ -105,7 +105,8 @@ export const Logger = ({
 
   const texAreaRef = useRef<any>(null);
   const isEditing = existingLogItem !== null;
-  const showDisable = logState.items.length <= 3 && !isEditing;
+  // const showDisable = logState.items.length <= 3 && !isEditing;
+  const showDisable = false;
 
   const [touched, setTouched] = useState(false)
   const [question, setQuestion] = useState<IQuestion | null>(null);

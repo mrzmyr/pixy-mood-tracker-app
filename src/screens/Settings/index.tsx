@@ -90,14 +90,15 @@ export const SettingsScreen = ({ navigation }: RootStackScreenProps<'Settings'>)
             iconLeft={<Droplet width={18} color={colors.menuListItemIcon} />}
             onPress={() => navigation.navigate('Colors')}
             isLink
+            isLast
           />
-          <MenuListItem
+          {/* <MenuListItem
             title={t('steps')}
             iconLeft={<CheckCircle width={18} color={colors.menuListItemIcon} />}
             onPress={() => navigation.navigate('Steps')}
             isLink
             isLast
-          />
+          /> */}
           {/* <MenuListItem
             title={t('passcode')}
             deactivated={!passcodeSupported}
