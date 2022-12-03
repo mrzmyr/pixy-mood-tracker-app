@@ -28,6 +28,8 @@ export const Entry = ({
     <Pressable
       style={({ pressed }) => ({
         backgroundColor: colors.logCardBackground,
+        borderWidth: 1,
+        borderColor: colors.logCardBorder,
         paddingLeft: 16,
         paddingRight: 16,
         paddingTop: 16,
@@ -87,14 +89,14 @@ export const Entry = ({
               marginLeft: -8,
               marginTop: -8,
               marginBottom: -8,
-              marginRight: 8,
+              marginRight: 4,
               paddingTop: 16,
               paddingBottom: 16,
               paddingLeft: 16,
               paddingRight: 16,
             }}
           >
-            <Edit color={colors.tint} width={24} height={24} />
+            <Edit color={colors.tint} width={22} height={22} />
           </LinkButton>
           <LinkButton
             style={{
@@ -111,7 +113,7 @@ export const Entry = ({
               askToRemove().then(() => logUpdater.deleteLog(item.id))
             }}
           >
-            <Trash color={colors.tint} width={24} height={24} />
+            <Trash color={colors.tint} width={22} height={22} />
           </LinkButton>
         </View>
       </View>

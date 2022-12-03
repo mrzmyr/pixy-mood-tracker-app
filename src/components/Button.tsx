@@ -64,7 +64,7 @@ export default function Button({
         alignItems: 'center',
         justifyContent: 'center',
         flexDirection: 'row',
-        borderRadius: 8,
+        borderRadius: 12,
         opacity: disabled ? 0.5 : (pressed ? 0.8 : 1),
         backgroundColor: disabled ? buttonColors.disabledBackground : buttonColors.background,
         borderWidth: 2,

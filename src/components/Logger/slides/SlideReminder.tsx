@@ -130,38 +130,27 @@ export const SlideReminder = ({
       <View
         style={{
           flex: 1,
+          justifyContent: 'flex-end',
         }}
       >
         <View
           style={{
-            flex: 1,
-            justifyContent: 'center',
           }}
         >
-
-        </View>
-        <View
-          style={{
-            justifyContent: 'flex-end',
-            paddingBottom: insets.bottom,
-          }}
-        >
-          <View>
-            <Button
-              onPress={onEnable}
-              style={{
-                marginBottom: 8,
-              }}
-            >{t('log_reminder_enable')}</Button>
-            <LinkButton
-              type="secondary"
-              onPress={onLater}
-              style={{
-                paddingTop: 16,
-                paddingBottom: 16,
-              }}
-            >{t('log_reminder_later')}</LinkButton>
-          </View>
+          <Button
+            onPress={onEnable}
+            style={{
+              marginBottom: 8,
+            }}
+          >{t('log_reminder_enable')}</Button>
+          <LinkButton
+            type="secondary"
+            onPress={onLater}
+            style={{
+              paddingTop: 16,
+              paddingBottom: 16,
+            }}
+          >{t('log_reminder_later')}</LinkButton>
         </View>
       </View>
     </View>
