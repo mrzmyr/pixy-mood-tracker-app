@@ -34,7 +34,7 @@ export const Entry = ({
         paddingRight: 16,
         paddingTop: 16,
         paddingBottom: 16,
-        borderRadius: 8,
+        borderRadius: 12,
         opacity: pressed ? 0.8 : 1,
       })}
       onPress={() => {
