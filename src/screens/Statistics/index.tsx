@@ -1,84 +1,24 @@
+import { FeedbackBox } from '@/components/FeedbackBox';
+import MenuList from '@/components/MenuList';
+import MenuListHeadline from '@/components/MenuListHeadline';
+import MenuListItem from '@/components/MenuListItem';
+import { t } from '@/helpers/translation';
 import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
 import { ActivityIndicator, Platform, RefreshControl, ScrollView, View } from 'react-native';
 import { Moon, Star } from 'react-native-feather';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { FeedbackBox } from '@/components/FeedbackBox';
-import MenuList from '@/components/MenuList';
-import MenuListHeadline from '@/components/MenuListHeadline';
-import MenuListItem from '@/components/MenuListItem';
-import { PromoCardMonth } from '@/components/PromoCardMonth';
-import { PromoCardYear } from '@/components/PromoCardYear';
-import { t } from '@/helpers/translation';
 import useColors from '../../hooks/useColors';
 import { useLogState } from '../../hooks/useLogs';
 import { useStatistics } from '../../hooks/useStatistics';
 import { EmptyPlaceholder } from './EmptyPlaceholder';
 import { HighlightsSection } from './HighlightsSection';
 
-import { useNavigation } from '@react-navigation/native';
+import { DATE_FORMAT, STATISTIC_MIN_LOGS } from '@/constants/Config';
 import isBetween from 'dayjs/plugin/isBetween';
-import { DATE_FORMAT } from '@/constants/Config';
 import { RootStackScreenProps } from '../../../types';
 
 dayjs.extend(isBetween);
-
-const MIN_LOGS_COUNT = 7;
-
-const PromoCards = () => {
-  const navigation = useNavigation();
-  const logState = useLogState()
-  const isBeginningOfMonth = dayjs().isBetween(dayjs().startOf('month'), dayjs().startOf('month').add(3, 'day'), null, '[]')
-  const isDecember = dayjs().month() === 11
-
-  return (
-    <>
-      {(
-        logState.items.length >= MIN_LOGS_COUNT &&
-        isDecember || isBeginningOfMonth
-      ) && (
-          <>
-            {/* <View
-          style={{
-            marginTop: 16,
-          }}
-        >
-          <StreaksCard />
-        </View> */}
-            <View
-              style={{
-                marginBottom: 16,
-              }}
-            >
-              {isDecember && (
-                <View
-                  style={{
-                  }}
-                >
-                  <PromoCardYear
-                    title={t('promo_card_year_title', { year: dayjs().format('YYYY') })}
-                    onPress={() => navigation.navigate('StatisticsYear', { date: dayjs().startOf('year').format(DATE_FORMAT) })}
-                  />
-                </View>
-              )}
-              {isBeginningOfMonth && (
-                <View
-                  style={{
-                    marginTop: isDecember ? 16 : 0,
-                  }}
-                >
-                  <PromoCardMonth
-                    title={t('promo_card_month_title', { month: dayjs().subtract(1, 'month').format('MMMM') })}
-                    onPress={() => navigation.navigate('StatisticsMonth', { date: dayjs().subtract(1, 'month').startOf('month').format(DATE_FORMAT) })}
-                  />
-                </View>
-              )}
-            </View>
-          </>
-        )}
-    </>
-  )
-};
 
 export const StatisticsScreen = ({ navigation }: RootStackScreenProps<'Statistics'>) => {
   const insets = useSafeAreaInsets();
@@ -93,11 +33,11 @@ export const StatisticsScreen = ({ navigation }: RootStackScreenProps<'Statistic
     return dayjs(item.dateTime).isBetween(dayjs().subtract(14, 'day'), dayjs(), null, '[]')
   })
 
-  const statisticsUnlocked = items.length >= MIN_LOGS_COUNT
+  const statisticsUnlocked = items.length >= STATISTIC_MIN_LOGS
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
-      if (items.length >= MIN_LOGS_COUNT) {
+      if (items.length >= STATISTIC_MIN_LOGS) {
         statistics.load({
           force: false
         })
@@ -137,7 +77,7 @@ export const StatisticsScreen = ({ navigation }: RootStackScreenProps<'Statistic
           <RefreshControl
             refreshing={refreshing}
             onRefresh={() => {
-              if (items.length >= MIN_LOGS_COUNT) {
+              if (items.length >= STATISTIC_MIN_LOGS) {
                 statistics.load({
                   force: true
                 })
@@ -158,10 +98,8 @@ export const StatisticsScreen = ({ navigation }: RootStackScreenProps<'Statistic
         }}
       >
 
-        {statisticsUnlocked && <PromoCards />}
-
-        {items.length < MIN_LOGS_COUNT && (
-          <EmptyPlaceholder count={MIN_LOGS_COUNT - items.length} />
+        {items.length < STATISTIC_MIN_LOGS && (
+          <EmptyPlaceholder count={STATISTIC_MIN_LOGS - items.length} />
         )}
         {statisticsUnlocked && (
           <HighlightsSection items={items} />

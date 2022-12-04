@@ -1,17 +1,16 @@
-import dayjs from "dayjs";
-import React, { memo, RefObject, useEffect, useRef, useState } from "react";
+import React, { memo, useEffect, useRef, useState } from "react";
 import { ActivityIndicator, Platform, useWindowDimensions, View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
-import { useCalendarFilters } from "../../hooks/useCalendarFilters";
-import useColors from "../../hooks/useColors";
-import { useLogState } from "../../hooks/useLogs";
-import { useSettings } from "../../hooks/useSettings";
+import { useCalendarFilters } from "@/hooks/useCalendarFilters";
+import useColors from "@/hooks/useColors";
+import { useLogState } from "@/hooks/useLogs";
+import { useSettings } from "@/hooks/useSettings";
 import Calendar from "./Calendar";
 import { CalendarBottomSheet } from "./CalendarBottomSheet";
 import { Body } from "./CalendarBottomSheet/Body";
+import { CalendarFooter } from "./CalendarFooter";
 import CalendarHeader from "./CalendarHeader";
 import { ScrollToBottomButton } from "./ScrollToBottomButton";
-import { TodayEntryButton } from "./TodayEntryButton";
 
 const CalendarScreen = memo(function CalendarScreen() {
   const colors = useColors();
@@ -49,6 +48,11 @@ const CalendarScreen = memo(function CalendarScreen() {
     }
   }, [calendarRef, scrollRef, settings.loaded, logState.loaded]);
 
+  const showScrollTopButton = (
+    scrollOffset < calendarHeight.current - window.height &&
+    !calendarFilters.isOpen
+  )
+
   if (!settings.loaded || !logState.loaded) {
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
@@ -56,15 +60,6 @@ const CalendarScreen = memo(function CalendarScreen() {
       </View>
     )
   }
-
-  const showScrollTopButton = (
-    scrollOffset < calendarHeight.current - window.height &&
-    !calendarFilters.isOpen
-  )
-
-  const hasTodayItem = logState.items.find(item => {
-    return dayjs(item.dateTime).isSame(dayjs(), 'day')
-  })
 
   return (
     <View
@@ -98,13 +93,18 @@ const CalendarScreen = memo(function CalendarScreen() {
         }}
         ref={scrollRef}
       >
-        {Platform.OS === "web" && calendarFilters.isOpen && <Body />}
-        <Calendar ref={calendarRef} />
+        <View
+          style={{
+            paddingBottom: 32,
+          }}
+        >
+          {Platform.OS === "web" && calendarFilters.isOpen && <Body />}
+          <Calendar ref={calendarRef} />
+          <CalendarFooter />
+        </View>
+
       </ScrollView>
       {Platform.OS !== "web" && <CalendarBottomSheet />}
-      <TodayEntryButton
-        isVisibile={!showScrollTopButton && !hasTodayItem && !calendarFilters.isOpen}
-      />
     </View>
   );
 });

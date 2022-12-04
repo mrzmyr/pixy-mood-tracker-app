@@ -41,7 +41,6 @@ const Calendar = memo(forwardRef(function Calendar({ }, ref: React.RefObject<Vie
     <View
       ref={ref}
       style={{
-        paddingBottom: 80,
       }}
     >
       {MONTH_DATES.map((date, index) => (
@@ -51,7 +50,6 @@ const Calendar = memo(forwardRef(function Calendar({ }, ref: React.RefObject<Vie
           itemMap={itemMap}
         />
       ))}
-      <Text style={bottomTextStyles}>🙏 {t('calendar_bottom_hint')}</Text>
     </View>
   )
 }))

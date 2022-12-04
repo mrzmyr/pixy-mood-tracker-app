@@ -3,6 +3,7 @@ export const MAX_TAG_LENGTH = 30;
 
 export const MAX_TAGS = 50;
 export const MAX_ENTRIES_PER_DAY = 50;
+export const STATISTIC_MIN_LOGS = 7;
 
 export const DATE_FORMAT = 'YYYY-MM-DD';
 
