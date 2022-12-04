@@ -2,6 +2,61 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.55.0](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.54.0...v1.55.0) (2022-12-04)
+
+
+### Features
+
+* Add `CalendarFooter` ([e631eeb](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/e631eeb679316bcdc70fede5baf64ab33da41761))
+* add average line to mood charts of year and month report ([45e4248](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/45e424838727a910e5de64178405e5ead00e1508))
+* add best and worth month to year statistics ([44e620e](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/44e620e2fcee2b4d3e5bc0b08d596d20dfea58f3))
+* only show 'disable' on logger when starting to use the app ([ce093ad](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/ce093ad2ad0c107c0956e799aa835fe64243295f))
+* replace option to edit check-in steps ([ee6c7c8](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/ee6c7c861458f8f7c26a1921f19b7ba2766bfd56))
+* update styles for feedback dayview box ([eaef0be](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/eaef0be25df605bfe45020c25f0f3b290874680a))
+
+
+### Bug Fixes
+
+* only show promo cards when statistics are unlocked ([fa0d533](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/fa0d53302bd6bb8543ab802af8723df4f299b932))
+* when only logging mood, mood was not saved ([16e02b8](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/16e02b8b770ef152f696dbc23735e7feca90083c))
+
+
+### Documentation
+
+* update release section ([d58c8cc](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/d58c8ccc8c735d69420616fd2457b7f2e010b1f0))
+
+
+### Refactors
+
+* fix height calculation in logger ([8c2efd5](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/8c2efd51cc52bac4805a348ea0f76de680d0f259))
+* introduce `src` ([480efc7](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/480efc7771c28333b144ef755290f4e400d067ce))
+
+
+### Miscellaneous
+
+* add `chore`, `stlye`, `docs` and `refactor` to `release-please` changelog ([f1f4f39](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/f1f4f396d2a757bf51853a0049c8c539173313da))
+* **deps:** bump decode-uri-component from 0.2.0 to 0.2.2 ([afa4d30](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/afa4d30a0996511e78e0ea1c3c20570cccc86299))
+* **deps:** bump react-native-reanimated from 2.9.1 to 2.10.0 ([3c81309](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/3c813093829365bb55ca1de593b687eb1cd9a355))
+* update licenses ([371137a](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/371137a5d69cbeac1354c61d4fdb422010f77b84))
+
+
+### Styling
+
+* align font weight best worst month ([e81a0df](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/e81a0df819831e021dd4aa04f8da211ac4034b51))
+* button font weight ([2b14407](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/2b144075d6a65b048b9d96ee2d6e7791f2bffe89))
+* button radius and entry border ([6a99cad](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/6a99cad19b905f31846048a287069902f80ac141))
+* dark mode feedback box background ([bf641a6](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/bf641a61de74a0d5937096f331baa0d4ea543489))
+* hide emotions in `LogView` ([c472f42](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/c472f4297a68c359b9715da576388218816e3fa7))
+* padding in DayView and border radius of `Entry` ([0a30d3b](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/0a30d3b2c1e515b7bdbe4d103e61b5623853a80b))
+* reminder headline centered ([dfb840b](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/dfb840b950613575d263f598e66d6f0836b72afd))
+
+## [1.54.0](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.53.0...v1.54.0) (2022-12-01)
+
+
+### Features
+
+* update styles of new entries feedback box ([c70e837](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/c70e83716da67844d9c481a44faa9a04e4bb3d4d))
+
 ## [1.53.0](https://github.com/mrzmyr/pixy-mood-tracker/compare/v1.52.0...v1.53.0) (2022-12-01)
 
 

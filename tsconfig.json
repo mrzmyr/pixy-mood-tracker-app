@@ -4,6 +4,13 @@
   "compilerOptions": {
     "strictNullChecks": true,
     "strict": false,
-    "module": "esnext"
-  }
+    "module": "esnext",
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  },
+  "include": [
+    "src/**/*",
+    "./App.tsx"
+  ]
 }
