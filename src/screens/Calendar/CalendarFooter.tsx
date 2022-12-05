@@ -31,7 +31,6 @@ export const CalendarFooter = () => {
     haptics.selection();
   };
 
-
   const hasTodayItem = logState.items.find(item => {
     return dayjs(item.dateTime).isSame(dayjs(), 'day');
   });
@@ -82,7 +81,7 @@ export const CalendarFooter = () => {
             >{t(`tracking_done_description_${randomNumber}`)}</Text>
           </Pressable>
           <Button
-            icon={<PlusCircle width={24} height={24} color={colors.primaryButtonText} />}
+            icon={<PlusCircle width={24} height={24} color={colors.tertiaryButtonText} />}
             type="tertiary"
             style={{
               marginTop: 8,
