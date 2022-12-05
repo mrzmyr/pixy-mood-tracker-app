@@ -45,7 +45,7 @@ export const SlideTags = ({
         style={{
           position: 'absolute',
           height: 24,
-          top: 32,
+          top: 24,
           zIndex: 1,
           width: '100%',
         }}
@@ -72,7 +72,7 @@ export const SlideTags = ({
             flexWrap: 'wrap',
             alignItems: 'flex-start',
             justifyContent: 'flex-start',
-            marginTop: 16,
+            marginTop: 24,
             paddingBottom: insets.bottom,
           }}
         >
