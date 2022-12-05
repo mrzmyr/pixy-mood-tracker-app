@@ -2,6 +2,29 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.56.0](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.55.0...v1.56.0) (2022-12-05)
+
+
+### Features
+
+* only show one question per day ([ccc6188](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/ccc6188322edadfeb2c123011742392fee5b0f76))
+
+
+### Bug Fixes
+
+* android version number ([9e43fed](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/9e43fed98b77f7ec7d5d059ed546d589ad341924))
+
+
+### Miscellaneous
+
+* fix imports & deps ([4b56f1e](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/4b56f1e49a3a6feb9d37f8372360733cf5ff6b97))
+
+
+### Styling
+
+* align englisch text on disabling questions ([8b1fa96](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/8b1fa96775a97a317431563fcc31de7d3ea74819))
+* fix linear gradient in logger tags slide top ([05dd88f](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/05dd88fd07df5e23c548c85af9748ccf5db8d8a2))
+
 ## [1.55.0](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.54.0...v1.55.0) (2022-12-04)
 
 
