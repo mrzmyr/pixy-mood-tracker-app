@@ -393,11 +393,10 @@ export const Logger = ({
             backVisible={slideIndex > 0}
             isDeleteable={isEditing}
             onClose={() => {
-              const tempLogHasChanges = tempLog.hasChanged()
               const existingLogItemHasChanges = existingLogItem ? tempLog.hasDifference(existingLogItem) : false
 
               if (
-                !existingLogItem && tempLogHasChanges ||
+                !existingLogItem && tempLog.hasChanged() ||
                 !!existingLogItem && existingLogItemHasChanges
               ) {
                 askToCancel().then(() => cancel()).catch(() => { })

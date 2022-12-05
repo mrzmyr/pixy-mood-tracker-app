@@ -1,7 +1,7 @@
 import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
 import { CompositeScreenProps } from '@react-navigation/native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { LoggerStep } from './components/Logger/config';
+import { LoggerStep } from '@/components/Logger/config';
 
 declare global {
   namespace ReactNavigation {

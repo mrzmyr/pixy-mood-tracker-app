@@ -1,3 +1,4 @@
+import useColors from '@/hooks/useColors';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import * as Linking from 'expo-linking';
@@ -5,7 +6,6 @@ import { useEffect } from 'react';
 import { Platform, useColorScheme } from 'react-native';
 import OneSignal from 'react-native-onesignal';
 import * as Sentry from 'sentry-expo';
-import useColors from '@/hooks/useColors';
 import {
   ColorsScreen,
   DataScreen,
@@ -18,10 +18,8 @@ import {
   PrivacyScreen,
   ReminderScreen, SettingsScreen, StatisticsHighlights, TagCreate, TagEdit
 } from '../screens';
-import { RootStackParamList, RootStackScreenProps } from '../types';
+import { RootStackParamList } from '../../types';
 
-import dayjs from 'dayjs';
-import { enableScreens } from 'react-native-screens';
 import Providers from '@/components/Providers';
 import Colors from '@/constants/Colors';
 import { ONE_SIGNAL_APP_ID } from '@/constants/Config';
@@ -32,14 +30,16 @@ import { useLogState } from '@/hooks/useLogs';
 import { useSettings } from '@/hooks/useSettings';
 import { useTagsState } from '@/hooks/useTags';
 import { getItemsCoverage } from '@/lib/utils';
+import dayjs from 'dayjs';
+import { enableScreens } from 'react-native-screens';
 import { DevelopmentTools } from '../screens/DevelopmentTools';
 import { Onboarding } from '../screens/Onboarding';
-import { Tags } from '../screens/Tags';
 import { StatisticsMonthScreen } from '../screens/StatisticsMonth';
 import { StatisticsYearScreen } from '../screens/StatisticsYear';
+import { StepsScreen } from '../screens/Steps';
+import { Tags } from '../screens/Tags';
 import { BackButton } from './BackButton';
 import { BottomTabs } from './BottomTabs';
-import { StepsScreen } from '../screens/Steps';
 
 enableScreens();
 

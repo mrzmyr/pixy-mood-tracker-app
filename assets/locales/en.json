@@ -330,7 +330,7 @@
   "log_emotions_disable": "I don't track emotions",
   "log_feedback_disable": "I don't want to give feedback",
   "disable_feedback_step_confirm_title": "Disable Product Questions?",
-  "disable_feedback_step_confirm_message": "They help me so much make the app better for you. But no worries, you can re-enable it later in the settings.",
+  "disable_feedback_step_confirm_message": "They help me a lot to improve the app for you. But don't worry, you can enable them again later in the settings.",
   "view_log_tags_empty": "No tags yet.",
   "view_log_emotions_empty": "No emotions yet.",
   "view_log_emotions": "Emotions",
