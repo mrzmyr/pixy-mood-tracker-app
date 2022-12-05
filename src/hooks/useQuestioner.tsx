@@ -7,6 +7,7 @@ import { language, locale } from "@/helpers/translation"
 import { Platform } from "react-native"
 import { useLogState } from "./useLogs"
 import { useAnalytics } from "./useAnalytics"
+import dayjs from "dayjs"
 
 export interface IQuestion {
   id: string;
@@ -27,10 +28,11 @@ export interface IQuestion {
 }
 
 export const useQuestioner = () => {
-  const logs = useLogState()
   const analytics = useAnalytics()
   const { hasActionDone, addActionDone, settings } = useSettings()
   const isMounted = useRef(false)
+
+  const questionsDone = settings.actionsDone.filter((action: any) => action.title.startsWith('question_slide_'))
 
   const getQuestion = (): Promise<IQuestion | null> => {
     return fetch(QUESTIONS_PULL_URL)
@@ -40,11 +42,13 @@ export const useQuestioner = () => {
           const satisfiesVersion = question.appVersion ? semver.satisfies(pkg.version, question.appVersion) : true
           const hasBeenAnswered = hasActionDone(`question_slide_${question.id}`)
           const isInMyLanguage = question.text[language] !== undefined;
+          const lastQuestionAnsweredToday = questionsDone.length > 0 ? dayjs(questionsDone[questionsDone.length - 1].date).isSame(dayjs(), 'day') : false
 
           return (
             satisfiesVersion &&
             !hasBeenAnswered &&
-            isInMyLanguage
+            isInMyLanguage &&
+            !lastQuestionAnsweredToday
           )
         })
 
