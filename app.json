@@ -34,7 +34,7 @@
     },
     "android": {
       "package": "com.devmood.pixymoodtracker",
-      "versionCode": "460015700",
+      "versionCode": 460015700,
       "allowBackup": false,
       "permissions": [],
       "icon": "./assets/images/icon.png",
