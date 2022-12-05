@@ -56,30 +56,44 @@ export const CalendarFooter = () => {
           >{t('add_today_entry')}</Button>
         </View>
       ) : (
-        <Pressable
-          onPress={onEmojiPress}
-          style={{
-            marginTop: 24,
-            padding: 16,
-          }}
-        >
-          <Text
+        <>
+          <Pressable
+            onPress={onEmojiPress}
             style={{
-              fontSize: 17,
-              color: colors.text,
-              fontWeight: 'bold',
-              marginTop: 16,
+              marginTop: 24,
+              padding: 16,
             }}
-          >{emoji} {t(`tracking_done_title_${randomNumber}`)}</Text>
-          <Text
+          >
+            <Text
+              style={{
+                fontSize: 17,
+                color: colors.text,
+                fontWeight: 'bold',
+                marginTop: 16,
+              }}
+            >{emoji} {t(`tracking_done_title_${randomNumber}`)}</Text>
+            <Text
+              style={{
+                fontSize: 17,
+                color: colors.textSecondary,
+                marginTop: 8,
+                lineHeight: 24,
+              }}
+            >{t(`tracking_done_description_${randomNumber}`)}</Text>
+          </Pressable>
+          <Button
+            icon={<PlusCircle width={24} height={24} color={colors.primaryButtonText} />}
+            type="tertiary"
             style={{
-              fontSize: 17,
-              color: colors.textSecondary,
               marginTop: 8,
-              lineHeight: 24,
             }}
-          >{t(`tracking_done_description_${randomNumber}`)}</Text>
-        </Pressable>
+            onPress={() => {
+              navigation.navigate("LogCreate", {
+                date: dayjs().format("YYYY-MM-DD"),
+              });
+            }}
+          >{t('add_today_another_entry')}</Button>
+        </>
       )}
       {statisticsUnlocked && (
         <PromoCards />
