@@ -1,4 +1,5 @@
 import { t } from "@/helpers/translation";
+import { z } from "zod";
 
 export type LoggerStep = "rating" | "tags" | "message" | "feedback" | "reminder";
 
@@ -15,12 +16,6 @@ export const DEFAULT_STEPS: LoggerStep[] = [
   "message",
   "feedback"
 ]
-
-export type Emotion = {
-  key: string;
-  label: string;
-  category: string;
-}
 
 export const EMOTIONS: Emotion[] = [{
   key: 'angry',
@@ -263,3 +258,19 @@ export const EMOTIONS: Emotion[] = [{
   label: t('log_emotion_proud'),
   category: 'very_positive',
 }]
+
+export const EmotionKeySchema = z.string()
+
+export const EmotionSchema = z.object({
+  key: EmotionKeySchema,
+  label: z.string(),
+  category: z.enum([
+    "very_negative",
+    "negative",
+    "neutral",
+    "positive",
+    "very_positive",
+  ])
+});
+
+export type Emotion = z.infer<typeof EmotionSchema>;

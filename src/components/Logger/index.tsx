@@ -1,18 +1,19 @@
-import { useNavigation } from '@react-navigation/native';
-import dayjs from 'dayjs';
-import { ReactElement, useEffect, useRef, useState } from 'react';
-import { Dimensions, Keyboard, Platform, View } from 'react-native';
-import Carousel, { ICarouselInstance } from 'react-native-reanimated-carousel';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { v4 as uuidv4 } from "uuid";
+import { DATE_FORMAT } from '@/constants/Config';
 import { askToCancel, askToDisableFeedbackStep, askToDisableStep, askToRemove } from '@/helpers/prompts';
 import { useAnalytics } from '@/hooks/useAnalytics';
 import useColors from '@/hooks/useColors';
 import { LogItem, useLogState, useLogUpdater } from '@/hooks/useLogs';
 import { IQuestion, useQuestioner } from '@/hooks/useQuestioner';
 import { useSettings } from '@/hooks/useSettings';
-import { TagReference, useTagsState } from '@/hooks/useTags';
+import { TagReference } from '@/hooks/useTags';
 import { useTemporaryLog } from '@/hooks/useTemporaryLog';
+import { useNavigation } from '@react-navigation/native';
+import dayjs from 'dayjs';
+import { ReactElement, useEffect, useRef, useState } from 'react';
+import { Dimensions, Keyboard, Platform, Text, View } from 'react-native';
+import Carousel, { ICarouselInstance } from 'react-native-reanimated-carousel';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { v4 as uuidv4 } from "uuid";
 import { SlideAction } from './components/SlideAction';
 import { SlideHeader } from './components/SlideHeader';
 import { Stepper } from './components/Stepper';
@@ -22,8 +23,6 @@ import { SlideMessage } from './slides/SlideMessage';
 import { SlideMood } from './slides/SlideMood';
 import { SlideReminder } from './slides/SlideReminder';
 import { SlideTags } from './slides/SlideTags';
-import { DATE_FORMAT } from '@/constants/Config';
-import { isISODate } from '@/lib/utils';
 
 const EMOTIONS_INDEX_MAPPING = {
   extremely_bad: 0,
@@ -36,16 +35,14 @@ const EMOTIONS_INDEX_MAPPING = {
 }
 
 const getAvailableSteps = ({
-  existingLogItem,
+  isEditing,
   question,
 }: {
-  existingLogItem: LogItem | null
+  isEditing: boolean;
   question: IQuestion | null
 }) => {
   const { hasStep, settings } = useSettings();
   const logState = useLogState();
-
-  const isEditing = existingLogItem !== null;
 
   const slides: LoggerStep[] = [
     'rating'
@@ -75,43 +72,88 @@ const getAvailableSteps = ({
   return slides;
 }
 
-export const Logger = ({
+export const LoggerEdit = ({
   id,
-  dateTime,
-  initialStep
+  initialStep,
 }: {
-  id?: LogItem['id']
-  dateTime?: string;
+  id: string
+  initialStep?: LoggerStep
+}) => {
+  const logState = useLogState()
+  const initialItem = logState?.items.find(item => item.id === id)
+
+  if (initialItem === undefined) {
+    return (
+      <View>
+        <Text>Log not found</Text>
+      </View>
+    )
+  }
+
+  return (
+    <Logger
+      initialItem={initialItem}
+      initialStep={initialStep}
+      mode="edit"
+    />
+  )
+}
+
+export const LoggerCreate = ({
+  dateTime,
+  initialStep,
+}: {
+  dateTime: string
+  initialStep?: LoggerStep
+}) => {
+  const _id = useRef(uuidv4())
+  const createdAt = useRef(dayjs().toISOString())
+
+  const initialItem = {
+    id: _id.current,
+    date: dateTime ? dayjs(dateTime).format(DATE_FORMAT) : dayjs().format(DATE_FORMAT),
+    dateTime: dateTime,
+    rating: null,
+    message: '',
+    emotions: [],
+    tags: [],
+    createdAt: createdAt.current,
+  }
+
+  return (
+    <Logger
+      initialItem={initialItem}
+      initialStep={initialStep}
+      mode="create"
+    />
+  )
+}
+
+export const Logger = ({
+  initialItem,
+  initialStep,
+  mode,
+}: {
+  initialItem: Omit<LogItem, 'rating'> & {
+    rating: LogItem['rating'] | null
+  },
   initialStep?: LoggerStep;
+  mode: 'create' | 'edit'
 }) => {
   const navigation = useNavigation();
   const colors = useColors()
   const analytics = useAnalytics()
   const insets = useSafeAreaInsets();
-  const { tags } = useTagsState()
   const questioner = useQuestioner()
 
   const logUpdater = useLogUpdater()
-  const logState = useLogState()
-  const tempLog = useTemporaryLog();
+
   const { toggleStep } = useSettings()
 
-  const existingLogItem: LogItem | null = id ? logState?.items.find(item => item.id === id) || null : null
-
-  if (dateTime && !isISODate(dateTime)) {
-    throw new Error('Invalid date provided to Logger')
-  }
-
-  const defaultLogItem = {
-    ...tempLog.data,
-    id: uuidv4(),
-    date: dateTime ? dayjs(dateTime).format(DATE_FORMAT) : null,
-    dateTime: dateTime || null,
-    createdAt: dayjs().toISOString(),
-  }
+  const tempLog = useTemporaryLog(initialItem);
 
   const texAreaRef = useRef<any>(null);
-  const isEditing = existingLogItem !== null;
+  const isEditing = mode === 'edit'
   // const showDisable = logState.items.length <= 3 && !isEditing;
   const showDisable = false;
 
@@ -119,7 +161,7 @@ export const Logger = ({
   const [question, setQuestion] = useState<IQuestion | null>(null);
 
   const avaliableSteps = getAvailableSteps({
-    existingLogItem,
+    isEditing,
     question
   })
 
@@ -130,23 +172,6 @@ export const Logger = ({
   useEffect(() => {
     questioner.getQuestion().then(setQuestion)
   }, [])
-
-  useEffect(() => {
-    if (existingLogItem !== null) {
-      tempLog.set(existingLogItem)
-    } else {
-      tempLog.set(defaultLogItem)
-    }
-  }, [existingLogItem])
-
-  useEffect(() => {
-    if (tempLog.data.dateTime === null) return;
-
-    // delete all tags that are not in the settings
-    const settingTagIds = tags.map(tag => tag.id)
-    const _tags = tempLog?.data?.tags?.filter(tag => settingTagIds.includes(tag.id))
-    tempLog.set(tempLog => ({ ...tempLog, tags: _tags }))
-  }, [JSON.stringify(tags)])
 
   const close = async () => {
     tempLog.reset()
@@ -162,13 +187,13 @@ export const Logger = ({
       tagsCount: tempLog?.data?.tags.length,
     }
 
-    if (tempLog?.data?.rating === null) {
+    if (tempLog.data.rating === null) {
       tempLog.data.rating = 'neutral'
     }
 
     analytics.track('log_saved', eventData)
 
-    if (existingLogItem) {
+    if (mode === 'edit') {
       analytics.track('log_changed', eventData)
       logUpdater.editLog(tempLog.data as LogItem)
     } else {
@@ -181,9 +206,7 @@ export const Logger = ({
 
   const remove = () => {
     analytics.track('log_deleted')
-    if (tempLog.data.id !== null) {
-      logUpdater.deleteLog(tempLog.data.id)
-    }
+    logUpdater.deleteLog(tempLog.data.id)
     close()
   }
 
@@ -230,13 +253,13 @@ export const Logger = ({
               next()
             }
           }
-          tempLog.set((logItem) => ({ ...logItem, rating }))
+          tempLog.update({ rating })
         }}
       />
     ),
     action: (
       <SlideAction
-        type={slideIndex !== 0 || touched || existingLogItem !== null ? 'next' : 'hidden'}
+        type={slideIndex !== 0 || touched || mode === 'edit' ? 'next' : 'hidden'}
         onPress={next}
       />
     )
@@ -249,7 +272,7 @@ export const Logger = ({
   //       <SlideEmotions
   //         defaultIndex={EMOTIONS_INDEX_MAPPING[tempLog.data.rating || 'neutral']}
   //         onChange={(emotions: Emotion[]) => {
-  //           tempLog.set((logItem) => ({ ...logItem, emotions: emotions.map(emotion => emotion.key) }))
+  //           tempLog.update({ emotions: emotions.map(emotion => emotion.key) })
   //         }}
   //         onDisableStep={() => {
   //           askToDisableStep().then(() => {
@@ -268,7 +291,7 @@ export const Logger = ({
       slide: (
         <SlideTags
           onChange={(tags: TagReference[]) => {
-            tempLog.set(logItem => ({ ...logItem, tags }))
+            tempLog.update({ tags })
           }}
           onDisableStep={() => {
             askToDisableStep().then(() => {
@@ -288,7 +311,7 @@ export const Logger = ({
       slide: (
         <SlideMessage
           onChange={(message) => {
-            tempLog.set(logItem => ({ ...logItem, message }))
+            tempLog.update({ message })
           }}
           onDisableStep={() => {
             askToDisableStep().then(() => {
@@ -400,12 +423,7 @@ export const Logger = ({
             backVisible={slideIndex > 0}
             isDeleteable={isEditing}
             onClose={() => {
-              const existingLogItemHasChanges = existingLogItem ? tempLog.hasDifference(existingLogItem) : false
-
-              if (
-                !existingLogItem && tempLog.hasChanged() ||
-                !!existingLogItem && existingLogItemHasChanges
-              ) {
+              if (tempLog.isDirty) {
                 askToCancel().then(() => cancel()).catch(() => { })
               } else {
                 cancel()
@@ -414,7 +432,7 @@ export const Logger = ({
             onDelete={() => {
               if (
                 tempLog.data.message.length > 0 ||
-                tempLog.data?.tags.length > 0
+                tempLog.data.tags.length > 0
               ) {
                 askToRemove().then(() => remove())
               } else {

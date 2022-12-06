@@ -6,6 +6,7 @@ import { t } from '@/helpers/translation';
 import { useAnalytics } from './useAnalytics';
 import { useLogState, useLogUpdater } from './useLogs';
 import { useSettings } from './useSettings';
+import { z } from 'zod';
 
 export const STORAGE_KEY = 'PIXEL_TRACKER_TAGS'
 
@@ -15,9 +16,11 @@ export type Tag = {
   color: typeof TAG_COLOR_NAMES[number];
 };
 
-export type TagReference = {
-  id: string;
-}
+export const TagReferenceSchema = z.object({
+  id: z.string().uuid(),
+})
+
+export type TagReference = z.infer<typeof TagReferenceSchema>;
 
 interface State {
   loaded?: boolean

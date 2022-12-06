@@ -1,7 +1,7 @@
 import { useNavigation } from "@react-navigation/native";
 import dayjs from "dayjs";
 import { useState } from "react";
-import { View } from "react-native";
+import { Platform, View } from "react-native";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { DATE_FORMAT } from "@/constants/Config";
@@ -41,23 +41,24 @@ export const SlideMood = ({
           marginTop
         }}
       >
-        <DateTimePickerModal
-          isVisible={isDatePickerVisible}
-          date={tempLog.data.dateTime ? new Date(tempLog.data.dateTime) : new Date()}
-          mode="datetime"
-          onConfirm={date => {
-            setDatePickerVisibility(false)
-            tempLog.set(log => ({
-              ...log,
-              date: dayjs(date).format(DATE_FORMAT),
-              dateTime: dayjs(date).toISOString(),
-            }))
-            navigation.setParams({
-              date: dayjs(date).format(DATE_FORMAT),
-            })
-          }}
-          onCancel={() => setDatePickerVisibility(false)}
-        />
+        {Platform.OS !== 'web' && (
+          <DateTimePickerModal
+            isVisible={isDatePickerVisible}
+            date={tempLog.data.dateTime ? new Date(tempLog.data.dateTime) : new Date()}
+            mode="datetime"
+            onConfirm={date => {
+              setDatePickerVisibility(false)
+              tempLog.update({
+                date: dayjs(date).format(DATE_FORMAT),
+                dateTime: dayjs(date).toISOString(),
+              })
+              navigation.setParams({
+                date: dayjs(date).format(DATE_FORMAT),
+              })
+            }}
+            onCancel={() => setDatePickerVisibility(false)}
+          />
+        )}
         <SlideHeadline
           style={{
             justifyContent: 'center',

@@ -57,10 +57,9 @@ export const SlideHeader = ({
               <Button
                 type='tertiary'
                 onPress={() => {
-                  tempLog.set(tempLog => ({
-                    ...tempLog,
-                    dateTime: dayjs(tempLog.dateTime).hour(8).minute(0).toISOString()
-                  }))
+                  tempLog.update({
+                    dateTime: dayjs(tempLog.data.dateTime).hour(8).minute(0).toISOString()
+                  })
                   setDatePickerVisibility(false)
                 }}
                 style={{
@@ -76,10 +75,9 @@ export const SlideHeader = ({
               <Button
                 type='tertiary'
                 onPress={() => {
-                  tempLog.set(tempLog => ({
-                    ...tempLog,
-                    dateTime: dayjs(tempLog.dateTime).hour(13).minute(0).toISOString()
-                  }))
+                  tempLog.update({
+                    dateTime: dayjs(tempLog.data.dateTime).hour(13).minute(0).toISOString()
+                  })
                   setDatePickerVisibility(false)
                 }}
                 style={{
@@ -95,10 +93,9 @@ export const SlideHeader = ({
               <Button
                 type='tertiary'
                 onPress={() => {
-                  tempLog.set(tempLog => ({
-                    ...tempLog,
-                    dateTime: dayjs(tempLog.dateTime).hour(20).minute(0).toISOString()
-                  }))
+                  tempLog.update({
+                    dateTime: dayjs(tempLog.data.dateTime).hour(20).minute(0).toISOString()
+                  })
                   setDatePickerVisibility(false)
                 }}
                 style={{
@@ -119,11 +116,10 @@ export const SlideHeader = ({
           minuteInterval={10}
           onConfirm={date => {
             setDatePickerVisibility(false)
-            tempLog.set(log => ({
-              ...log,
+            tempLog.update({
               date: dayjs(date).format(DATE_FORMAT),
               dateTime: dayjs(date).toISOString(),
-            }))
+            })
             navigation.setParams({
               date: dayjs(date).format(DATE_FORMAT),
             })

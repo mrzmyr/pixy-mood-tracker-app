@@ -1,6 +1,7 @@
 import { Buffer } from "buffer";
 import dayjs from "dayjs";
 import _ from "lodash";
+import z from "zod";
 import {
   createContext,
   useCallback,
@@ -10,12 +11,13 @@ import {
   useReducer
 } from "react";
 import { v4 as uuidv4 } from "uuid";
-import { Emotion } from "@/components/Logger/config";
+import { Emotion, EmotionKeySchema, EmotionSchema } from "@/components/Logger/config";
 import { DATE_FORMAT } from "@/constants/Config";
 import { load, store } from "@/helpers/storage";
 import { AtLeast } from "../../types";
 import { useAnalytics } from "./useAnalytics";
-import { TagReference } from "./useTags";
+import { TagReference, TagReferenceSchema } from "./useTags";
+import { isISODate } from "@/lib/utils";
 
 export const STORAGE_KEY = "PIXEL_TRACKER_LOGS";
 
@@ -31,16 +33,30 @@ export const RATING_MAPPING = {
 
 export const RATING_KEYS = Object.keys(RATING_MAPPING) as (keyof typeof RATING_MAPPING)[]
 
-export interface LogItem {
-  id: string;
-  date: string;
-  dateTime: string;
-  rating: typeof RATING_KEYS[number];
-  message: string;
-  createdAt: string;
-  tags: TagReference[];
-  emotions: Emotion['key'][];
-}
+const LogItemSchema = z.object({
+  id: z.string().uuid(),
+  date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
+  dateTime: z.string().refine((value) => {
+    return isISODate(value)
+  }),
+  rating: z.enum([
+    "extremely_good",
+    "very_good",
+    "good",
+    "neutral",
+    "bad",
+    "very_bad",
+    "extremely_bad",
+  ]),
+  message: z.string(),
+  createdAt: z.string().refine((value) => {
+    return isISODate(value)
+  }),
+  tags: z.array(TagReferenceSchema),
+  emotions: z.array(EmotionKeySchema),
+});
+
+export type LogItem = z.infer<typeof LogItemSchema>;
 
 export interface LogDay {
   date: string;

@@ -74,8 +74,6 @@ export const RatingChart = ({
     return acc + item.value;
   }, 0) / nonNullItems.length;
 
-  console.log('average', average, nonNullItems.map(d => d.value));
-
   return (
     <Svg
       width={'100%'}
