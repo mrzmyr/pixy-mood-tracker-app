@@ -127,6 +127,7 @@ const DayTimeItems = ({
 
   const _items = logState.items
     .filter((item) => dayjs(item.dateTime).isSame(date, 'day'))
+    .sort((a, b) => dayjs(a.dateTime).isBefore(dayjs(b.dateTime)) ? -1 : 1)
 
   const entries = _items.filter((log) => {
     const logDate = dayjs(log.dateTime)
