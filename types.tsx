@@ -38,7 +38,7 @@ export type RootStackParamList = {
   };
 
   LogCreate: {
-    date: string;
+    dateTime: string;
   }
   LogView: {
     id: string;

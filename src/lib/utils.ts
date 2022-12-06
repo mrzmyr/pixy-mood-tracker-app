@@ -59,3 +59,22 @@ export const getItemDateTitle = (dateTime: LogItem['dateTime']) => {
 
   return dayjs(dateTime).format('ddd, L - LT')
 }
+
+export const getDayDateTitle = (date: LogDay['date']) => {
+
+  if (dayjs(date).isSame(dayjs(), 'day')) {
+    return t('today')
+  }
+
+  if (dayjs(date).isSame(dayjs().subtract(1, 'day'), 'day')) {
+    return t('yesterday')
+  }
+
+  return dayjs(date).format('dddd, L')
+}
+
+var isoDateRegExp = new RegExp(/(\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d\.\d+([+-][0-2]\d:[0-5]\d|Z))|(\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d([+-][0-2]\d:[0-5]\d|Z))|(\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d([+-][0-2]\d:[0-5]\d|Z))/);
+
+export const isISODate = (date: string) => {
+  return isoDateRegExp.test(date);
+};

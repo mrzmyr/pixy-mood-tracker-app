@@ -15,7 +15,7 @@ export const EntryMessage = ({
       }}
     >
       <Text
-        numberOfLines={3}
+        numberOfLines={2}
         ellipsizeMode="tail"
         style={{
           fontSize: 17,

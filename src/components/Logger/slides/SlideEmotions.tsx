@@ -257,7 +257,7 @@ export const SlideEmotions = ({
           style={{
             position: 'absolute',
             height: 32,
-            bottom: insets.bottom + 54 + 16,
+            bottom: insets.bottom + 16,
             zIndex: 1,
             width: '100%',
           }}

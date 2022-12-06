@@ -65,13 +65,14 @@ export const RatingChart = ({
     return `${x},${y}`;
   }).filter(Boolean).join(' ');
 
-  const average = scaleItems.reduce((acc, item) => {
+  const nonNullItems = scaleItems.filter(item => item.value !== null);
+  const average = nonNullItems.reduce((acc, item) => {
     if (item.value === null) {
       return acc;
     }
 
     return acc + item.value;
-  }, 0);
+  }, 0) / nonNullItems.length;
 
   return (
     <Svg
@@ -152,10 +153,10 @@ export const RatingChart = ({
       {showAverage && (
         <Line
           key={`avg-line`}
-          x1={relativeX(0) - paddingLeft}
-          y1={relativeY(average / scaleItems.length)}
-          x2={width}
-          y2={relativeY(average / scaleItems.length)}
+          x1={relativeX(0)}
+          y1={relativeY(average)}
+          x2={width - paddingRight}
+          y2={relativeY(average)}
           stroke={colors.tint}
           strokeWidth={2}
         />

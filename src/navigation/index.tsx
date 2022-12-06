@@ -68,9 +68,11 @@ const NAVIGATION_LINKING = {
       StatisticsMonth: 'statistics/month/:date',
       StatisticsYear: 'statistics/year/:date',
       DayView: 'days/:date',
+
       LogView: 'logs/:id',
-      LogCreate: 'logs/create/:date',
+      LogCreate: 'logs/create/:dateTime',
       LogEdit: 'logs/:id/edit',
+
       Tags: 'tags',
       TagEdit: 'tags/:id',
       TagCreate: 'tags/create',

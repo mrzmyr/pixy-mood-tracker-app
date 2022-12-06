@@ -1,4 +1,5 @@
 import { t } from "@/helpers/translation";
+import { Emotion } from "@/types";
 
 export type LoggerStep = "rating" | "tags" | "message" | "feedback" | "reminder";
 
@@ -15,12 +16,6 @@ export const DEFAULT_STEPS: LoggerStep[] = [
   "message",
   "feedback"
 ]
-
-export type Emotion = {
-  key: string;
-  label: string;
-  category: string;
-}
 
 export const EMOTIONS: Emotion[] = [{
   key: 'angry',

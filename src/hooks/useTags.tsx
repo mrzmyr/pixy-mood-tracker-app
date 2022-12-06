@@ -1,8 +1,8 @@
-import _ from 'lodash';
-import { createContext, useCallback, useContext, useEffect, useMemo, useReducer } from "react";
 import { TAG_COLOR_NAMES } from '@/constants/Config';
 import { load, store } from '@/helpers/storage';
 import { t } from '@/helpers/translation';
+import _ from 'lodash';
+import { createContext, useCallback, useContext, useEffect, useMemo, useReducer } from "react";
 import { useAnalytics } from './useAnalytics';
 import { useLogState, useLogUpdater } from './useLogs';
 import { useSettings } from './useSettings';
@@ -14,10 +14,6 @@ export type Tag = {
   title: string;
   color: typeof TAG_COLOR_NAMES[number];
 };
-
-export type TagReference = {
-  id: string;
-}
 
 interface State {
   loaded?: boolean
