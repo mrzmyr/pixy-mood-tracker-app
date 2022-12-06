@@ -344,5 +344,10 @@
   "pleasant": "נעים",
   "unpleasant": "לא נעים",
   "statistics_best_month": "החודש הטוב ביותר",
-  "statistics_worst_month": "החודש הגרוע ביותר"
+  "statistics_worst_month": "החודש הגרוע ביותר",
+  "add_today_another_entry": "הוסף ערך נוסף להיום",
+  "morning": "בוקר",
+  "afternoon": "אחרי הצהריים",
+  "evening": "עֶרֶב",
+  "add_entry_for": "הוסף {{dayTime}}"
 }

@@ -344,5 +344,10 @@
   "pleasant": "Miellyttävä",
   "unpleasant": "Epämiellyttävää",
   "statistics_best_month": "Paras kuukausi",
-  "statistics_worst_month": "Huonoin kuukausi"
+  "statistics_worst_month": "Huonoin kuukausi",
+  "add_today_another_entry": "Lisää toinen merkintä tälle päivälle",
+  "morning": "Aamu",
+  "afternoon": "Iltapäivällä",
+  "evening": "Ilta",
+  "add_entry_for": "Lisää {{dayTime}}"
 }

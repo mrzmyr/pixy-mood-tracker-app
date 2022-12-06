@@ -344,5 +344,10 @@
   "pleasant": "Ευχάριστος",
   "unpleasant": "Δυσάρεστος",
   "statistics_best_month": "Καλύτερος Μήνας",
-  "statistics_worst_month": "Ο χειρότερος μήνας"
+  "statistics_worst_month": "Ο χειρότερος μήνας",
+  "add_today_another_entry": "Προσθήκη άλλης καταχώρισης για σήμερα",
+  "morning": "Πρωί",
+  "afternoon": "Απόγευμα",
+  "evening": "Απόγευμα",
+  "add_entry_for": "Προσθήκη {{dayTime}}"
 }

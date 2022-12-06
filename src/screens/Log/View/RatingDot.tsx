@@ -1,8 +1,8 @@
 import { Pressable, View } from 'react-native';
-import useColors from '../../../hooks/useColors';
-import useHaptics from '../../../hooks/useHaptics';
-import { LogItem } from '../../../hooks/useLogs';
-import { useSettings } from '../../../hooks/useSettings';
+import useColors from '@/hooks/useColors';
+import useHaptics from '@/hooks/useHaptics';
+import { LogItem } from '@/hooks/useLogs';
+import { useSettings } from '@/hooks/useSettings';
 
 export const RatingDot = ({
   rating,
@@ -32,9 +32,9 @@ export const RatingDot = ({
           justifyContent: 'center',
           alignItems: 'center',
           padding: 4,
-          borderRadius: 8,
+          borderRadius: 6,
           backgroundColor: backgroundColor,
-          width: 46,
+          width: 32,
           aspectRatio: 1,
         }}
       />

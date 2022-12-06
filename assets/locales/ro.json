@@ -344,5 +344,10 @@
   "pleasant": "Placut",
   "unpleasant": "Neplăcut",
   "statistics_best_month": "Cea mai bună lună",
-  "statistics_worst_month": "Cea mai proastă lună"
+  "statistics_worst_month": "Cea mai proastă lună",
+  "add_today_another_entry": "Adăugați o altă intrare pentru astăzi",
+  "morning": "Dimineaţă",
+  "afternoon": "Dupa amiaza",
+  "evening": "Seară",
+  "add_entry_for": "Adăugați {{dayTime}}"
 }

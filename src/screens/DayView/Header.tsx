@@ -19,7 +19,7 @@ export const Header = ({
       flexDirection: 'row',
       justifyContent: 'space-between',
       alignItems: 'center',
-      paddingVertical: 8,
+      paddingTop: 8,
       paddingHorizontal: 20,
     }}>
       <View

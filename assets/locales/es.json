@@ -344,5 +344,10 @@
   "pleasant": "Agradable",
   "unpleasant": "Desagradable",
   "statistics_best_month": "mejor mes",
-  "statistics_worst_month": "peor mes"
+  "statistics_worst_month": "peor mes",
+  "add_today_another_entry": "Añadir otra entrada para hoy",
+  "morning": "Mañana",
+  "afternoon": "Tarde",
+  "evening": "Tardecita",
+  "add_entry_for": "Añadir {{dayTime}}"
 }

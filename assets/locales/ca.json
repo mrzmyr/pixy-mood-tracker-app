@@ -344,5 +344,10 @@
   "pleasant": "Agradable",
   "unpleasant": "Desagradable",
   "statistics_best_month": "El millor mes",
-  "statistics_worst_month": "El pitjor mes"
+  "statistics_worst_month": "El pitjor mes",
+  "add_today_another_entry": "Afegeix una altra entrada per avui",
+  "morning": "Al matí",
+  "afternoon": "Tarda",
+  "evening": "vespre",
+  "add_entry_for": "Afegeix {{dayTime}}"
 }

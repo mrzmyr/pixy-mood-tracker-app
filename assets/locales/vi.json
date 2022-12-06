@@ -344,5 +344,10 @@
   "pleasant": "Hài lòng",
   "unpleasant": "Khó chịu",
   "statistics_best_month": "tháng tốt nhất",
-  "statistics_worst_month": "tháng tồi tệ nhất"
+  "statistics_worst_month": "tháng tồi tệ nhất",
+  "add_today_another_entry": "Thêm một mục khác cho ngày hôm nay",
+  "morning": "Buổi sáng",
+  "afternoon": "Buổi chiều",
+  "evening": "Tối",
+  "add_entry_for": "Thêm {{dayTime}}"
 }

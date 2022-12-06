@@ -77,7 +77,9 @@ const CalendarWeek = memo(function CalendarWeek({
     if (items.length > 0) {
       navigation.navigate('DayView', { date })
     } else {
-      navigation.navigate('LogCreate', { date })
+      navigation.navigate('LogCreate', {
+        dateTime: dayjs(date).hour(dayjs().hour()).minute(dayjs().minute()).toISOString()
+      })
     }
   }, [navigation])
 

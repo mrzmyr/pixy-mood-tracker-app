@@ -344,5 +344,10 @@
   "pleasant": "令人愉快的",
   "unpleasant": "不愉快",
   "statistics_best_month": "最佳月份",
-  "statistics_worst_month": "最糟糕的月份"
+  "statistics_worst_month": "最糟糕的月份",
+  "add_today_another_entry": "为今天添加另一个条目",
+  "morning": "早晨",
+  "afternoon": "下午",
+  "evening": "晚上",
+  "add_entry_for": "添加 {{dayTime}}"
 }

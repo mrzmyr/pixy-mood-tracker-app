@@ -35,7 +35,8 @@ const EmotionItem = ({
           color: colors.text,
           fontSize: 17,
         }}
-      >{t(`log_emotion_${emotion}`)}</Text>
+        numberOfLines={1}
+      >{t(`log_emotion_${emotion}`).replace('\n', ' ')}</Text>
     </Pressable>
   )
 }

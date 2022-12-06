@@ -344,5 +344,10 @@
   "pleasant": "Prettig",
   "unpleasant": "Onaangenaam",
   "statistics_best_month": "Beste maand",
-  "statistics_worst_month": "Slechtste maand"
+  "statistics_worst_month": "Slechtste maand",
+  "add_today_another_entry": "Voeg nog een item toe voor vandaag",
+  "morning": "Ochtend",
+  "afternoon": "Middag",
+  "evening": "Avond",
+  "add_entry_for": "{{dayTime}} toevoegen"
 }

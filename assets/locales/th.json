@@ -344,5 +344,10 @@
   "pleasant": "เพลิดเพลิน",
   "unpleasant": "ไม่น่าพึงพอใจ",
   "statistics_best_month": "เดือนที่ดีที่สุด",
-  "statistics_worst_month": "เดือนที่เลวร้ายที่สุด"
+  "statistics_worst_month": "เดือนที่เลวร้ายที่สุด",
+  "add_today_another_entry": "เพิ่มอีกรายการสำหรับวันนี้",
+  "morning": "เช้า",
+  "afternoon": "ตอนบ่าย",
+  "evening": "ตอนเย็น",
+  "add_entry_for": "เพิ่ม {{dayTime}}"
 }

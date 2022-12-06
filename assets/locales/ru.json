@@ -344,5 +344,10 @@
   "pleasant": "Приятный",
   "unpleasant": "Неприятный",
   "statistics_best_month": "Лучший месяц",
-  "statistics_worst_month": "Худший месяц"
+  "statistics_worst_month": "Худший месяц",
+  "add_today_another_entry": "Добавить еще одну запись на сегодня",
+  "morning": "Утро",
+  "afternoon": "После полудня",
+  "evening": "Вечер",
+  "add_entry_for": "Добавить {{dayTime}}"
 }

@@ -344,5 +344,10 @@
   "pleasant": "prijatno",
   "unpleasant": "Neugodan",
   "statistics_best_month": "Najbolji mjesec",
-  "statistics_worst_month": "Najgori mjesec"
+  "statistics_worst_month": "Najgori mjesec",
+  "add_today_another_entry": "Dodajte još jedan unos za danas",
+  "morning": "Jutro",
+  "afternoon": "Poslijepodne",
+  "evening": "Večer",
+  "add_entry_for": "Dodaj {{dayTime}}"
 }

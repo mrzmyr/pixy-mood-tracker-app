@@ -344,5 +344,10 @@
   "pleasant": "Hyggelig",
   "unpleasant": "Ubehagelig",
   "statistics_best_month": "Beste måned",
-  "statistics_worst_month": "Verste måned"
+  "statistics_worst_month": "Verste måned",
+  "add_today_another_entry": "Legg til en ny oppføring for i dag",
+  "morning": "Morgen",
+  "afternoon": "Ettermiddag",
+  "evening": "Kveld",
+  "add_entry_for": "Legg til {{dayTime}}"
 }

@@ -22,6 +22,8 @@ import { SlideMessage } from './slides/SlideMessage';
 import { SlideMood } from './slides/SlideMood';
 import { SlideReminder } from './slides/SlideReminder';
 import { SlideTags } from './slides/SlideTags';
+import { DATE_FORMAT } from '@/constants/Config';
+import { isISODate } from '@/lib/utils';
 
 const EMOTIONS_INDEX_MAPPING = {
   extremely_bad: 0,
@@ -75,11 +77,11 @@ const getAvailableSteps = ({
 
 export const Logger = ({
   id,
-  date,
+  dateTime,
   initialStep
 }: {
   id?: LogItem['id']
-  date?: string;
+  dateTime?: string;
   initialStep?: LoggerStep;
 }) => {
   const navigation = useNavigation();
@@ -95,11 +97,16 @@ export const Logger = ({
   const { toggleStep } = useSettings()
 
   const existingLogItem: LogItem | null = id ? logState?.items.find(item => item.id === id) || null : null
+
+  if (dateTime && !isISODate(dateTime)) {
+    throw new Error('Invalid date provided to Logger')
+  }
+
   const defaultLogItem = {
     ...tempLog.data,
     id: uuidv4(),
-    date: date || null,
-    dateTime: date ? dayjs(date).hour(dayjs().hour()).minute(dayjs().minute()).toISOString() : null,
+    date: dateTime ? dayjs(dateTime).format(DATE_FORMAT) : null,
+    dateTime: dateTime || null,
     createdAt: dayjs().toISOString(),
   }
 

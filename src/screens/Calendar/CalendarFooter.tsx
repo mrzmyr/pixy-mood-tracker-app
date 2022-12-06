@@ -35,7 +35,7 @@ export const CalendarFooter = () => {
             icon={<PlusCircle width={24} height={24} color={colors.primaryButtonText} />}
             onPress={() => {
               navigation.navigate("LogCreate", {
-                date: dayjs().format("YYYY-MM-DD"),
+                dateTime: dayjs().toISOString(),
               });
             }}
           >{t('add_today_entry')}</Button>
@@ -46,7 +46,7 @@ export const CalendarFooter = () => {
             type="tertiary"
             onPress={() => {
               navigation.navigate("LogCreate", {
-                date: dayjs().format("YYYY-MM-DD"),
+                dateTime: dayjs().toISOString(),
               });
             }}
           >{t('add_today_another_entry')}</Button>

@@ -344,5 +344,10 @@
   "pleasant": "सुखद",
   "unpleasant": "अप्रिय",
   "statistics_best_month": "उत्तम मास",
-  "statistics_worst_month": "सबसे खराब महीना"
+  "statistics_worst_month": "सबसे खराब महीना",
+  "add_today_another_entry": "आज के लिए एक और प्रविष्टि जोड़ें",
+  "morning": "सुबह",
+  "afternoon": "दोपहर बाद",
+  "evening": "शाम",
+  "add_entry_for": "{{dayTime}} जोड़ें"
 }

@@ -232,6 +232,9 @@ const light = {
 
   feedbackBoxBackground: colors.amber[50],
 
+  dayViewAddButtonBorder: colors.neutral[300],
+  dayViewAddButtonText: colors.neutral[400],
+
   switchThumbColor: '#333',
   scales: scales.light,
   tags: tagsLight,
@@ -438,6 +441,9 @@ const dark: IColors & {
   emotionButtonTextActive: colors.neutral[900],
 
   feedbackBoxBackground: colors.neutral[900],
+
+  dayViewAddButtonBorder: colors.neutral[700],
+  dayViewAddButtonText: colors.neutral[500],
 
   switchThumbColor: '#FFF',
   scales: scales.dark,

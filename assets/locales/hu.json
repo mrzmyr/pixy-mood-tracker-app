@@ -344,5 +344,10 @@
   "pleasant": "Kellemes",
   "unpleasant": "Kellemetlen",
   "statistics_best_month": "Legjobb hónap",
-  "statistics_worst_month": "Legrosszabb hónap"
+  "statistics_worst_month": "Legrosszabb hónap",
+  "add_today_another_entry": "Adjon hozzá még egy bejegyzést a mai napra",
+  "morning": "Reggel",
+  "afternoon": "Délután",
+  "evening": "Este",
+  "add_entry_for": "{{dayTime}} hozzáadása"
 }

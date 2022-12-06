@@ -344,5 +344,10 @@
   "pleasant": "즐거운",
   "unpleasant": "불쾌한",
   "statistics_best_month": "최고의 달",
-  "statistics_worst_month": "최악의 달"
+  "statistics_worst_month": "최악의 달",
+  "add_today_another_entry": "오늘의 다른 항목 추가",
+  "morning": "아침",
+  "afternoon": "오후",
+  "evening": "저녁",
+  "add_entry_for": "{{dayTime}} 추가"
 }

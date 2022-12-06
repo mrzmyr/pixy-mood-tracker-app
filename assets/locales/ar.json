@@ -344,5 +344,10 @@
   "pleasant": "جَذّاب",
   "unpleasant": "غير سارة",
   "statistics_best_month": "أفضل شهر",
-  "statistics_worst_month": "أسوأ شهر"
+  "statistics_worst_month": "أسوأ شهر",
+  "add_today_another_entry": "أضف إدخال آخر لهذا اليوم",
+  "morning": "صباح",
+  "afternoon": "بعد الظهر",
+  "evening": "اخر النهار",
+  "add_entry_for": "إضافة {{dayTime}}"
 }

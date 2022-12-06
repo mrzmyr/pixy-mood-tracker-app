@@ -344,5 +344,10 @@
   "pleasant": "楽しい",
   "unpleasant": "不快",
   "statistics_best_month": "ベストマン",
-  "statistics_worst_month": "最悪の月"
+  "statistics_worst_month": "最悪の月",
+  "add_today_another_entry": "今日の別のエントリを追加します",
+  "morning": "朝",
+  "afternoon": "午後",
+  "evening": "夜",
+  "add_entry_for": "{{dayTime}}を追加"
 }

@@ -344,5 +344,10 @@
   "pleasant": "menyenangkan",
   "unpleasant": "Tidak menyenangkan",
   "statistics_best_month": "Bulan Terbaik",
-  "statistics_worst_month": "Bulan Terburuk"
+  "statistics_worst_month": "Bulan Terburuk",
+  "add_today_another_entry": "Tambah satu lagi entri untuk hari ini",
+  "morning": "Pagi",
+  "afternoon": "Petang",
+  "evening": "Petang",
+  "add_entry_for": "Tambahkan {{dayTime}}"
 }

@@ -344,5 +344,10 @@
   "pleasant": "Příjemný",
   "unpleasant": "Nepříjemný",
   "statistics_best_month": "Nejlepší měsíc",
-  "statistics_worst_month": "Nejhorší měsíc"
+  "statistics_worst_month": "Nejhorší měsíc",
+  "add_today_another_entry": "Přidejte další záznam pro dnešek",
+  "morning": "Ráno",
+  "afternoon": "Odpoledne",
+  "evening": "Večer",
+  "add_entry_for": "Přidat {{dayTime}}"
 }

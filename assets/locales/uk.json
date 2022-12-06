@@ -344,5 +344,10 @@
   "pleasant": "приємно",
   "unpleasant": "неприємно",
   "statistics_best_month": "Найкращий місяць",
-  "statistics_worst_month": "Найгірший місяць"
+  "statistics_worst_month": "Найгірший місяць",
+  "add_today_another_entry": "Додайте ще один запис на сьогодні",
+  "morning": "Ранок",
+  "afternoon": "полудень",
+  "evening": "вечір",
+  "add_entry_for": "Додати {{dayTime}}"
 }

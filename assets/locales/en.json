@@ -338,5 +338,9 @@
   "unpleasant": "Unpleasant",
   "statistics_best_month": "Best Month",
   "statistics_worst_month": "Worst Month",
-  "add_today_another_entry": "Add another entry for today"
+  "add_today_another_entry": "Add another entry for today",
+  "morning": "Morning",
+  "afternoon": "Afternoon",
+  "evening": "Evening",
+  "add_entry_for": "Add {{dayTime}}"
 }

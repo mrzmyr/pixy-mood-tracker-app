@@ -344,5 +344,10 @@
   "pleasant": "Güzel",
   "unpleasant": "Hoş olmayan",
   "statistics_best_month": "En İyi Ay",
-  "statistics_worst_month": "En Kötü Ay"
+  "statistics_worst_month": "En Kötü Ay",
+  "add_today_another_entry": "Bugün için başka bir giriş ekle",
+  "morning": "Sabah",
+  "afternoon": "Öğleden sonra",
+  "evening": "Akşam",
+  "add_entry_for": "{{dayTime}} ekleyin"
 }

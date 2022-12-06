@@ -9,7 +9,8 @@ import useColors from "@/hooks/useColors";
 import useHaptics from "@/hooks/useHaptics";
 import { useTemporaryLog } from '@/hooks/useTemporaryLog';
 import { getItemDateTitle } from '@/lib/utils';
-import { locale } from '@/helpers/translation';
+import { locale, t } from '@/helpers/translation';
+import Button from '@/components/Button';
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 
@@ -34,7 +35,7 @@ export const SlideHeader = ({
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
 
   const dateTime = tempLog.data.dateTime ? new Date(tempLog.data.dateTime) : new Date()
-  const dateTimeTitle = tempLog.data.dateTime !== null ? getItemDateTitle(tempLog.data.dateTime) : ''
+  const dateTimeTitle = tempLog.data.dateTime !== null ? getItemDateTitle(tempLog.data.dateTime) : '?'
 
   return (
     <View style={{
@@ -46,6 +47,71 @@ export const SlideHeader = ({
     >
       {Platform.OS !== 'web' && (
         <DateTimePickerModal
+          customHeaderIOS={() => (
+            <View style={{
+              flexDirection: 'column',
+              alignItems: 'center',
+              paddingTop: 16,
+            }}
+            >
+              <Button
+                type='tertiary'
+                onPress={() => {
+                  tempLog.set(tempLog => ({
+                    ...tempLog,
+                    dateTime: dayjs(tempLog.dateTime).hour(8).minute(0).toISOString()
+                  }))
+                  setDatePickerVisibility(false)
+                }}
+                style={{
+                  width: '100%',
+                  padding: 12,
+                  maxWidth: 240,
+                  marginBottom: 8,
+                  borderRadius: 8,
+                }}
+              >
+                <Text style={{ fontSize: 17, color: colors.tertiaryButtonText }}>{t('morning')}</Text>
+              </Button>
+              <Button
+                type='tertiary'
+                onPress={() => {
+                  tempLog.set(tempLog => ({
+                    ...tempLog,
+                    dateTime: dayjs(tempLog.dateTime).hour(13).minute(0).toISOString()
+                  }))
+                  setDatePickerVisibility(false)
+                }}
+                style={{
+                  width: '100%',
+                  maxWidth: 240,
+                  padding: 12,
+                  marginBottom: 8,
+                  borderRadius: 8,
+                }}
+              >
+                <Text style={{ fontSize: 17, color: colors.tertiaryButtonText }}>{t('afternoon')}</Text>
+              </Button>
+              <Button
+                type='tertiary'
+                onPress={() => {
+                  tempLog.set(tempLog => ({
+                    ...tempLog,
+                    dateTime: dayjs(tempLog.dateTime).hour(20).minute(0).toISOString()
+                  }))
+                  setDatePickerVisibility(false)
+                }}
+                style={{
+                  width: '100%',
+                  maxWidth: 240,
+                  padding: 12,
+                  borderRadius: 8,
+                }}
+              >
+                <Text style={{ fontSize: 17, color: colors.tertiaryButtonText }}>{t('evening')}</Text>
+              </Button>
+            </View>
+          )}
           isVisible={isDatePickerVisible}
           locale={locale}
           date={dateTime}
@@ -112,7 +178,7 @@ export const SlideHeader = ({
                 borderRadius: 8,
               })}
             >
-              {/* <Clock color={colors.logHeaderText} width={17} style={{ marginRight: 8 }} /> */}
+              <Clock color={colors.logHeaderText} width={17} style={{ marginRight: 8 }} />
               <Text
                 numberOfLines={1}
                 style={{
