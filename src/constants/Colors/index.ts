@@ -399,7 +399,7 @@ const dark: IColors & {
 
   statisticsNotEnoughDataTitle: colors.white,
   statisticsNotEnoughDataSubtitle: colors.neutral[500],
-  statisticsNotEnoughDataBackdrop: 'rgba(0, 0, 0, 0.5)',
+  statisticsNotEnoughDataBackdrop: 'rgba(0, 0, 0, 0.7)',
 
   yearPixelsEmptyDot: colors.neutral[800],
   yearPixelsLegendText: colors.neutral[500],
