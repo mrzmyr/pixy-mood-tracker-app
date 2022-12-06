@@ -2,6 +2,41 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.58.0](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.57.0...v1.58.0) (2022-12-06)
+
+
+### Features
+
+* **`DayView`:** add day times ([8be267b](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/8be267b5ae589ede79fae94a8d124fc49c882b3f))
+* **`DayView`:** sort items by `dateTime` ([8a8b594](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/8a8b594e7300abb6175d36af473d4e00de21546c))
+* **`Logger`:** use locale for dateTime selection ([c55777b](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/c55777b0ebcea2a84a8eba18d1b1c11ac7b4b53a))
+* remove 'done' message in calendar footer ([f21da69](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/f21da69e35f6baf5de3835ed1d5f9b8054854aae))
+
+
+### Bug Fixes
+
+* emotions de question + linear gradient ([00cc888](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/00cc8881981cfe4075218d5c05996d20c071ddab))
+* **statistics:** average calculation for null scale items ([1addab1](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/1addab1a2481a201a35a19098a5734d75b08447d))
+
+
+### Miscellaneous
+
+* `versionCode` to integer ([ef3ba14](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/ef3ba14d9d8ddec789d728d3a102ba85ee5a3b64))
+* remove unused files ([8185a98](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/8185a98429e9138c08844a2b1b1d496f236422e8))
+* **scripts:** add remove translations keys ([41c2c16](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/41c2c1668777f33f5d75ca7c2c287e12879b2680))
+
+
+### Styling
+
+* align de translations for settings ([4e8c719](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/4e8c71962a1c11a654caad90176c37c268a86d7a))
+* dark background of not enough data overlay ([2661ac5](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/2661ac53aac0391a0fa8917183231cceddcbd47e))
+* fix another entry button icon in light mode ([37673aa](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/37673aaf442e94371258055f106269492298d21a))
+
+
+### Refactors
+
+* `useTemporaryLog` and `Logger` have been updated ([f9ee241](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/f9ee24176107547a48ba0b6986c7af99c512b0df))
+
 ## [1.57.0](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.56.0...v1.57.0) (2022-12-05)
 
 
