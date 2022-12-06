@@ -9,6 +9,7 @@ import useColors from "@/hooks/useColors";
 import useHaptics from "@/hooks/useHaptics";
 import { useTemporaryLog } from '@/hooks/useTemporaryLog';
 import { getItemDateTitle } from '@/lib/utils';
+import { locale } from '@/helpers/translation';
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 
@@ -46,8 +47,10 @@ export const SlideHeader = ({
       {Platform.OS !== 'web' && (
         <DateTimePickerModal
           isVisible={isDatePickerVisible}
+          locale={locale}
           date={dateTime}
           mode="datetime"
+          minuteInterval={10}
           onConfirm={date => {
             setDatePickerVisibility(false)
             tempLog.set(log => ({
