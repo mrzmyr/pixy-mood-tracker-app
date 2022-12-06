@@ -56,6 +56,11 @@ export const Entry = ({
       >
         <RatingDot
           rating={item.rating}
+          onPress={() => {
+            navigation.navigate('LogView', {
+              id: item.id,
+            });
+          }}
         />
         <View
           style={{

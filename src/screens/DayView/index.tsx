@@ -20,7 +20,9 @@ export const DayView = ({ route, navigation }: RootStackScreenProps<'DayView'>) 
   const analytics = useAnalytics()
   const insets = useSafeAreaInsets()
 
-  const items = logState.items.filter((item) => dayjs(item.dateTime).isSame(dayjs(date), 'day'))
+  const items = logState.items
+    .filter((item) => dayjs(item.dateTime).isSame(dayjs(date), 'day'))
+    .sort((a, b) => dayjs(a.dateTime).isBefore(dayjs(b.dateTime)) ? -1 : 1)
 
   const close = () => {
     analytics.track('day_close')
