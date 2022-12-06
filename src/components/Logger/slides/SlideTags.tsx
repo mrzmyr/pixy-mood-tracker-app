@@ -5,13 +5,14 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { getLogEditMarginTop } from "@/helpers/responsive";
 import { t } from "@/helpers/translation";
 import useColors from "@/hooks/useColors";
-import { TagReference, useTagsState } from "@/hooks/useTags";
+import { useTagsState } from "@/hooks/useTags";
 import { useTemporaryLog } from "@/hooks/useTemporaryLog";
 import LinkButton from "../../LinkButton";
 import { MiniButton } from "../../MiniButton";
 import Tag from "../../Tag";
 import { SlideHeadline } from "../components/SlideHeadline";
 import { Footer } from "./Footer";
+import { TagReference } from "@/types";
 
 export const SlideTags = ({
   onChange,
