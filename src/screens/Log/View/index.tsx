@@ -1,18 +1,58 @@
 import Alert from '@/components/Alert';
+import { useAnalytics } from '@/hooks/useAnalytics';
+import useColors from '@/hooks/useColors';
+import useHaptics from '@/hooks/useHaptics';
+import { LogItem, useLogState, useLogUpdater } from '@/hooks/useLogs';
+import { useSettings } from '@/hooks/useSettings';
 import { getItemDateTitle } from '@/lib/utils';
-import { t } from 'i18n-js';
-import { Platform, ScrollView, View } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { RootStackParamList, RootStackScreenProps } from '../../../../types';
-import { useAnalytics } from '../../../hooks/useAnalytics';
-import useColors from '../../../hooks/useColors';
-import { useLogState, useLogUpdater } from '../../../hooks/useLogs';
-import { Emotions } from './Emotions';
+import { t } from 'i18n-js';
+import { Platform, Pressable, ScrollView, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Header } from './Header';
 import { Headline } from './Headline';
 import { Message } from './Message';
-import { RatingDot } from './RatingDot';
 import { Tags } from './Tags';
+
+export const RatingDot = ({
+  rating,
+  onPress,
+}: {
+  rating: LogItem['rating'];
+  onPress?: () => void;
+}) => {
+  const haptics = useHaptics();
+  const colors = useColors();
+  const { settings } = useSettings();
+
+  const backgroundColor = colors.scales[settings.scaleType][rating].background;
+
+  return (
+    <Pressable
+      onPress={async () => {
+        if (onPress) {
+          await haptics.selection()
+          onPress();
+        }
+      }}
+    >
+      <View
+        style={{
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
+          padding: 4,
+          borderRadius: 6,
+          backgroundColor: backgroundColor,
+          width: 48,
+          aspectRatio: 1,
+        }}
+      />
+    </Pressable>
+  )
+
+};
+
 
 export const LogView = ({ navigation, route }: RootStackScreenProps<'LogView'>) => {
   const colors = useColors()
