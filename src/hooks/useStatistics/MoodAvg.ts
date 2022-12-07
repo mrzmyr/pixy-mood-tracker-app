@@ -48,7 +48,7 @@ export const getMoodAvgData = (items: LogItem[]): MoodAvgData => {
   const rating_distribution = keys.map((key) => {
     const count = items.filter((item) => item.rating === key).length;
     return {
-      key,
+      key: key as LogItem["rating"],
       count,
     };
   });

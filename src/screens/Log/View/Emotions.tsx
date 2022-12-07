@@ -2,11 +2,12 @@ import { useNavigation } from '@react-navigation/native';
 import { t } from 'i18n-js';
 import _ from 'lodash';
 import { Pressable, Text, View } from 'react-native';
-import { Emotion, EMOTIONS } from '@/components/Logger/config';
+import { EMOTIONS } from '@/components/Logger/config';
 import useColors from '../../../hooks/useColors';
 import useHaptics from '../../../hooks/useHaptics';
 import { LogItem } from '../../../hooks/useLogs';
 import { Headline } from './Headline';
+import { Emotion } from '@/types';
 
 const EMOTIONS_CATEGORY_ORDER = {
   very_positive: 0,
