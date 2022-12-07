@@ -31,7 +31,7 @@ export const getAverageMood = (items: LogItem[]): LogItem['rating'] | null => {
 }
 
 export const getLogDays = (items: LogItem[]): LogDay[] => {
-  const moodsPerDay = _.groupBy(items, (item) => dayjs(item.date).format(DATE_FORMAT))
+  const moodsPerDay = _.groupBy(items, (item) => dayjs(item.dateTime).format(DATE_FORMAT))
 
   return Object.keys(moodsPerDay).map((date) => {
     const items = moodsPerDay[date]

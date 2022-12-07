@@ -1,9 +1,9 @@
 import { useNavigation } from "@react-navigation/native";
 import { Pressable, ScrollView, Text, View } from "react-native";
-import { Emotion } from "@/components/Logger/config";
 import { t } from "@/helpers/translation";
 import useColors from "../../hooks/useColors";
 import { LogItem } from "../../hooks/useLogs";
+import { Emotion } from "@/types";
 
 const EmotionItem = ({
   emotion,
