@@ -2,6 +2,40 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.59.0](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.58.0...v1.59.0) (2022-12-07)
+
+
+### Features
+
+* **`DayView`:** add date sorting ([5d9f540](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/5d9f54082e6e842e5337fe2e1ec636a268e5adcf))
+
+
+### Bug Fixes
+
+* **`Logger`:** unable to set date with picker ([f657313](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/f657313eedd8843bc5c8884abd59026eb0dd2e5f))
+* typescript errors ([9fe80ea](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/9fe80ea48e6ee8f1779e9d0bcc84fbf6a2935608))
+* use fixed fork for now until issue is resolved in original repo ([46a4260](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/46a42608d8cc55766c65303d665ac64225a728f1))
+
+
+### Refactors
+
+* move types to central location ([27dfa09](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/27dfa09e1dcdb74bdc3b5ff131e22469f7b78707))
+* use `dateTime` over `date` ([8c2db47](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/8c2db474a841445b78d26de63e647c0604784f14))
+
+
+### Miscellaneous
+
+* `versionCode` to integer ([20a17c6](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/20a17c66260c8a624f5b4fa1ee39de51925f7e65))
+* add type-check to ci ([900de76](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/900de76e025e8df32a5518c5653cf4561d802e0b))
+* fix branch name ([23118f9](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/23118f99180404cf6ef4e2e57d07203f311584fb))
+* rollback release please ([19e8a95](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/19e8a95bcabc60f7d798c4a30ca7e5c95f12d0d5))
+
+
+### Styling
+
+* align spacing in `DayView` and RatingDot in LogView ([a867d8d](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/a867d8da5784dca9d45d7e35ebd36e37db788966))
+* align spacing in dayview entry ([d34a0d9](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/d34a0d9ba05c3dc4ea50d94d4a5955f80dd37e33))
+
 ## [1.58.0](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.57.0...v1.58.0) (2022-12-06)
 
 
