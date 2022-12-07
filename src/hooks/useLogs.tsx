@@ -1,8 +1,6 @@
-import { EmotionKeySchema } from "@/components/Logger/config";
 import { DATE_FORMAT } from "@/constants/Config";
 import { load, store } from "@/helpers/storage";
-import { isISODate } from "@/lib/utils";
-import { LogItemSchema, TagReferenceSchema } from "@/types";
+import { LogItemSchema } from "@/types";
 import { Buffer } from "buffer";
 import dayjs from "dayjs";
 import _ from "lodash";
@@ -49,7 +47,7 @@ export interface LogsState {
 type LogAction = |
 { type: "import"; payload: LogsState } |
 { type: "add"; payload: LogItem } |
-{ type: "edit"; payload: AtLeast<LogItem, 'date'> } |
+{ type: "edit"; payload: AtLeast<LogItem, 'id'> } |
 { type: "batchEdit"; payload: LogItem[] } |
 { type: "delete"; payload: LogItem['id'] } |
 { type: "reset", payload: LogsState };
@@ -185,7 +183,7 @@ function LogsProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const addLog = useCallback((payload: LogItem) => dispatch({ type: "add", payload, }), []);
-  const editLog = useCallback((payload: AtLeast<LogItem, 'date'>) => dispatch({ type: "edit", payload, }), []);
+  const editLog = useCallback((payload: AtLeast<LogItem, 'id'>) => dispatch({ type: "edit", payload, }), []);
   const updateLogs = useCallback((items: LogsState["items"]) => dispatch({ type: "batchEdit", payload: items }), []);
   const deleteLog = useCallback((payload: LogItem['id']) => dispatch({ type: "delete", payload, }), []);
   const reset = useCallback(() => dispatch({ type: "reset", payload: INITIAL_STATE }), []);

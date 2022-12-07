@@ -50,8 +50,8 @@ export const Entry = ({
           alignItems: 'center',
           borderBottomColor: isExtended ? colors.entryBorder : 'transparent',
           borderBottomWidth: 1,
-          paddingBottom: isExtended ? 16 : 0,
-          marginBottom: isExtended ? 16 : 0,
+          paddingBottom: isExtended ? 12 : 0,
+          marginBottom: isExtended ? 12 : 0,
         }}
       >
         <RatingDot

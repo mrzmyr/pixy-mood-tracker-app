@@ -4,7 +4,6 @@ import { useState } from 'react';
 import { Dimensions, Platform, Pressable, Text, View } from 'react-native';
 import { ArrowLeft, Clock, Trash, X } from 'react-native-feather';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
-import { DATE_FORMAT } from '@/constants/Config';
 import useColors from "@/hooks/useColors";
 import useHaptics from "@/hooks/useHaptics";
 import { useTemporaryLog } from '@/hooks/useTemporaryLog';
@@ -117,11 +116,10 @@ export const SlideHeader = ({
           onConfirm={date => {
             setDatePickerVisibility(false)
             tempLog.update({
-              date: dayjs(date).format(DATE_FORMAT),
               dateTime: dayjs(date).toISOString(),
             })
             navigation.setParams({
-              date: dayjs(date).format(DATE_FORMAT),
+              dateTime: dayjs(date).toISOString(),
             })
           }}
           onCancel={() => setDatePickerVisibility(false)}

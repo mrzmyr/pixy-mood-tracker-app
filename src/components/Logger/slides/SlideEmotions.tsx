@@ -11,9 +11,10 @@ import useColors from "@/hooks/useColors";
 import useHaptics from "@/hooks/useHaptics";
 import { useTemporaryLog } from "@/hooks/useTemporaryLog";
 import LinkButton from "../../LinkButton";
-import { Emotion, EMOTIONS } from "../config";
+import { EMOTIONS } from "../config";
 import { Footer } from "./Footer";
 import { SlideHeadline } from "../components/SlideHeadline";
+import { Emotion } from "@/types";
 
 const EmotionButton = ({
   emotion,

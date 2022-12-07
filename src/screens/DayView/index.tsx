@@ -43,7 +43,7 @@ const DayTimeEmpty = ({
         borderRadius: 8,
         minHeight: 80,
         opacity: pressed ? 0.8 : 1,
-        marginBottom: 16,
+        marginBottom: 8,
       })}
       onPress={() => {
         haptics.selection()
@@ -79,7 +79,7 @@ const DayTimeHeadline = ({
   return (
     <View
       style={{
-        marginBottom: 16,
+        marginBottom: 8,
         justifyContent: 'center',
         alignItems: 'center',
         position: 'relative',
@@ -127,6 +127,7 @@ const DayTimeItems = ({
 
   const _items = logState.items
     .filter((item) => dayjs(item.dateTime).isSame(date, 'day'))
+    .sort((a, b) => dayjs(a.dateTime).isBefore(dayjs(b.dateTime)) ? -1 : 1)
 
   const entries = _items.filter((log) => {
     const logDate = dayjs(log.dateTime)
@@ -143,7 +144,7 @@ const DayTimeItems = ({
       {entries.length > 0 ? (
         <View
           style={{
-            marginBottom: 16,
+            marginBottom: 8,
           }}
         >
           {entries.map((item) => (
@@ -226,7 +227,7 @@ export const DayView = ({ route, navigation }: RootStackScreenProps<'DayView'>) 
                   backgroundColor: colors.logCardBackground,
                   padding: 16,
                   borderRadius: 8,
-                  marginBottom: 16,
+                  marginBottom: 8,
                 }}
               >
                 <Text

@@ -5,6 +5,7 @@ import { t } from '@/helpers/translation';
 import useColors from '../../hooks/useColors';
 import { MoodTrendData, SCALE_RANGE, SCALE_TYPE } from '../../hooks/useStatistics/MoodTrend';
 import { CardFeedback } from '@/components/Statistics/CardFeedback';
+import dayjs from 'dayjs';
 
 const Chart = ({
   height,
@@ -29,7 +30,10 @@ const Chart = ({
   ]
 
   const dots = {}
-  data.items.forEach((item, index) => dots[item.date] = item)
+  data.items.forEach((item, index) => {
+    const date = dayjs(item.dateTime).format('YYYY-MM-DD')
+    dots[date] = item
+  })
 
   const width = (height * 4);
   const itemWidth = width / scaleItemCount;
