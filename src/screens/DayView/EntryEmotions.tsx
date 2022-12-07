@@ -16,8 +16,8 @@ const EmotionItem = ({
   return (
     <Pressable
       style={{
-        padding: 12,
-        paddingHorizontal: 16,
+        padding: 10,
+        paddingHorizontal: 20,
         justifyContent: 'center',
         alignItems: 'center',
         flexDirection: 'row',
@@ -25,7 +25,6 @@ const EmotionItem = ({
         borderColor: colors.logCardBorder,
         borderWidth: 1,
         marginRight: 8,
-        marginTop: 4,
         borderRadius: 8,
       }}
       onPress={onPress}
@@ -59,7 +58,7 @@ export const EntryEmotions = ({
         flexDirection: 'row',
         marginLeft: -16,
         marginRight: -16,
-        marginBottom: 16,
+        marginBottom: 12,
       }}
     >
       <ScrollView
