@@ -34,6 +34,8 @@ export const migrateImportData = (data: ImportData): MigratedData => {
 
   let _settings = _.omit(settings, 'tags');
 
+  if (!_settings.actionsDone) _settings.actionsDone = [];
+
   return {
     version: version || "1.0.0",
     items: newItems,
