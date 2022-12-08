@@ -18,8 +18,8 @@ export const pixySchema = z.object({
 
   items: z.array(z.object({
     id: z.string().optional(),
-    date: z.string().refine((date) => {
-      return new Date(date).toString() !== 'Invalid Date';
+    date: z.string().refine((date: LogItem['date']) => {
+      return /^\d{4}-\d{2}-\d{2}$/.test(date);
     }),
     rating: z.string().refine((rating: LogItem['rating']) => {
       return RATING_KEYS.includes(rating);

@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.59.1](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.59.0...v1.59.1) (2022-12-08)
+
+
+### Bug Fixes
+
+* **`Logger`:** prevent reset of data in logger when changing the time ([1aee087](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/1aee08793e8f157cbc78edc3e15eb422ea7a2d93))
+* fix tests for import helper ([5ac490e](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/5ac490ef86a68a16cc20896e420ec47c34263255))
+* import migration to add `actionsDone` ([add23e2](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/add23e227dbc11c0cdc5c2de2712571528041679))
+
+
+### Miscellaneous
+
+* `versionCode` to integer ([f05cf0f](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/f05cf0fd29236a16728b89903ac68a5a4b28093a))
+
 ## [1.59.0](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.58.0...v1.59.0) (2022-12-07)
 
 
