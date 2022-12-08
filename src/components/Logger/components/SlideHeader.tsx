@@ -29,7 +29,6 @@ export const SlideHeader = ({
   const haptics = useHaptics();
   const colors = useColors()
   const tempLog = useTemporaryLog();
-  const navigation = useNavigation()
 
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
 
@@ -116,9 +115,6 @@ export const SlideHeader = ({
           onConfirm={date => {
             setDatePickerVisibility(false)
             tempLog.update({
-              dateTime: dayjs(date).toISOString(),
-            })
-            navigation.setParams({
               dateTime: dayjs(date).toISOString(),
             })
           }}
