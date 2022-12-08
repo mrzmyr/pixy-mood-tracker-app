@@ -30,22 +30,7 @@ describe("getJSONSchemaType", () => {
     const json = {
       items: {
         "2020-23": {
-          date: "2022-01-23",
-          rating: "extremely_good",
-          message: "test message",
-        },
-      },
-    };
-
-    const migrated = migrateImportData(json);
-    expect(getJSONSchemaType(migrated)).toBe("unknown");
-  });
-
-  test("pixy schema: invalid date key", async () => {
-    const json = {
-      items: {
-        "2020-23": {
-          date: "2022-01-23",
+          date: "2022-01",
           rating: "extremely_good",
           message: "test message",
         },
@@ -67,25 +52,6 @@ describe("getJSONSchemaType", () => {
       },
     };
 
-    const migrated = migrateImportData(json);
-    expect(getJSONSchemaType(migrated)).toBe("unknown");
-  });
-
-  test("pixy schema: invalid json structure", async () => {
-    const json = {
-      "2022-01-03": {
-        date: "2022-01-03", // wrong date format
-        rating: "extremely_good",
-        message: "test message 2",
-      },
-    };
-
-    const migrated = migrateImportData(json);
-    expect(getJSONSchemaType(migrated)).toBe("unknown");
-  });
-
-  test("pixy schema: empty json", async () => {
-    const json = {};
     const migrated = migrateImportData(json);
     expect(getJSONSchemaType(migrated)).toBe("unknown");
   });
