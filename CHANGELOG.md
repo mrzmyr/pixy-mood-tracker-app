@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.59.2](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.59.1...v1.59.2) (2022-12-09)
+
+
+### Bug Fixes
+
+* fix actionDone access ([808f462](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/808f46262c2c3e9a6fa926ba505f0d36e709b461))
+
+
+### Miscellaneous
+
+* android ([76fd197](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/76fd19749467b9bfa6087f3f5e19bf08fdd87189))
+
 ## [1.59.1](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.59.0...v1.59.1) (2022-12-08)
 
 
