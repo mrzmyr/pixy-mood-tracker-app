@@ -150,7 +150,7 @@ export const DevelopmentTools = () => {
             setSettings((settings) => ({
               ...settings,
               actionsDone: settings.actionsDone.filter(
-                (action) => !action.title.startsWith("question_slide_")
+                (action) => !action?.title?.startsWith("question_slide_")
               ),
             }));
           }}
