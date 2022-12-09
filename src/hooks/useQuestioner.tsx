@@ -32,7 +32,7 @@ export const useQuestioner = () => {
   const { hasActionDone, addActionDone, settings } = useSettings()
   const isMounted = useRef(false)
 
-  const questionsDone = settings.actionsDone.filter((action: any) => action.title.startsWith('question_slide_'))
+  const questionsDone = settings.actionsDone.filter((action: any) => action?.title?.startsWith('question_slide_'))
 
   const getQuestion = (): Promise<IQuestion | null> => {
     return fetch(QUESTIONS_PULL_URL)
