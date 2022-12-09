@@ -27,7 +27,7 @@ This section should list any major frameworks that you built your project using.
 * [React Native](https://reactnative.dev/)
 * [Expo](https://expo.dev/)
 
-### Development
+## Development
 
 **Setup**
 
@@ -44,12 +44,6 @@ $ yarn
 $ yarn start
 ```
 
-**Release Version**
-
-```
-$ npx standard-version --release-as [major|minor|patch]
-```
-
 **Environments** (`eas.json`)
 
 - `development` Builds for local development on phisical devices
@@ -57,45 +51,32 @@ $ npx standard-version --release-as [major|minor|patch]
 - `preview`: Builds used for Testflight and Android Internal Testing
 - `production`: Builds used for production
 
-### Building
+## Building
 
-#### Development
+| Environment | OS | Channel | `yarn` command | Extension | Installation |
+| ----------- | -- | ------- | -------------- | --------- | ------------ |
+| `development` | iOS | Physical Device | `build:ios:dev` | `.ipa` |  Install `.ipa` file via [Apple Configurator](https://apps.apple.com/us/app/apple-configurator/id1037126344?mt=12) |
+| `development` | Android | Physical Device | `build:android:dev` | `.apk` |  Install manually (enable "Install from unknown sources") |
+| `emulator` | iOS | Simulator | `build:ios:emulator` | `.ipa` |  Install `.ipa` file via  |
+| `emulator` | Android | Emulator | `build:android:emulator` |  `.apk` |  Install the `.apk` file via drag and drop |
+| `preview` | iOS | TestFlight | `build:ios:preview` | `.ipa` |  Submit `.ipa` file to App Store via `yarn submit:ios:preview` |
+| `preview` | Android | Goolge Play Console | `build:android:preview` | `.aab` |  Submit `.aab` file to Google Play Console via `yarn submit:android:preview` |
+| `production` | iOS | Physical Device | `build:ios:prod` | `.ipa` |  Submit `.ipa` file via `yarn submit:ios:production` |
+| `production` | Android | Physical Device | `build:android:prod` | `.aab` |  Submit `.aab` file via `yarn submit:android:production` |
 
-**iOS Device**
-1. `yarn build:ios:dev` creates a `.ipa` file
-2. Install `.ipa` file via [Apple Configurator](https://apps.apple.com/us/app/apple-configurator/id1037126344?mt=12)
+## Releasing
 
-**Android Device**
-1. `yarn build:android:dev` create a `.apk` file
-2. Install manually (enable "Install from unknown sources")
+### Preview
 
-**iOS Simulator**
-1. `yarn build:ios:emulator` create an `.ipa` file
-2. Install `.ipa` file via 
+1. (If native changes) `yarn publish:preview` (iOS and Android builds are built and submited for testing)
+2. Merge a PR to `preview` branch (automatically publishing a release to all betatesters)
 
-**Android Emulator**
-1. `yarn build:android:emulator` creates an `.apk` file
-2. Install the `.apk` file via drag and drop
+### Production
 
-#### Preview
-
-**iOS (TestFlight)**
-1. `yarn build:ios:preview` creates a `.ipa` file
-2. Submit `.ipa` file to App Store via `yarn submit:ios`
-
-**Android (Goolge Play Console - Internal testing)**
-1. `yarn build:android:preview` create a `.aab` file
-2. Submit `.aab` file to Google Play Console via `yarn submit:android`
-
-#### Production
-
-**iOS**
-1. `yarn buiild:ios:prod` creates a `.ipa` file
-2. Submit `.ipa` file via `yarn submit:ios`
-
-**Android**
-1. `yarn buiild:android:prod` creates a `.aab` file
-2. Submit `.aab` file via `yarn submit:android`
+1. (If native changes) `yarn publish:production` (iOS and Android builds are built and submited for testing)
+2. (If native changes) Submit App to Review in Google Play Console
+3. (If native changes) Submit App to Review in App Store Connect
+4. Merge a PR to `production` branch (automatically publishing a release to all users)
 
 ## Contributing
 

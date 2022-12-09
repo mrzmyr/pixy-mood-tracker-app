@@ -1,0 +1,15 @@
+on:
+  push:
+    branches:
+      - main
+name: release-please
+jobs:
+  release-please:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: google-github-actions/release-please-action@v3
+        with:
+          release-type: expo
+          package-name: release-please-action
+          bootstrap-sha: 880ad4c4d939d3e62d24cbeeaf7e864405727fe6
+          changelog-types: '[{"type":"feat","section":"Features","hidden":false},{"type":"fix","section":"Bug Fixes","hidden":false},{"type":"chore","section":"Miscellaneous","hidden":false},{"type":"refactor","section":"Refactors","hidden":false},{"type":"style","section":"Styling","hidden":false},{"type":"docs","section":"Documentation","hidden":false}]'

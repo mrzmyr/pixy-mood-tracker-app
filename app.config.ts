@@ -16,7 +16,7 @@ export default ({ config }: ConfigContext): ExpoConfig => {
     _config.android!.icon = _config.icon = './assets/images/icon-dev.png';
   }
 
-  if (PROFILE === 'production') {
+  if (['production', 'preview'].includes(PROFILE)) {
     _config.plugins = _config.plugins!.map((plugin: any) => {
       if (_.isArray(plugin) && plugin[0] === 'onesignal-expo-plugin') {
         return ['onesignal-expo-plugin', { mode: 'production' }]
@@ -24,6 +24,12 @@ export default ({ config }: ConfigContext): ExpoConfig => {
       return plugin;
     });
   }
+
+  // console.log('------------------------------');
+  // console.log('Profile:', PROFILE);
+  // console.log('Building with config:');
+  // console.log(JSON.stringify(_config, null, 2));
+  // console.log('------------------------------');
 
   return _config;
 };

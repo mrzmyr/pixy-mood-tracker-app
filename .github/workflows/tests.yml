@@ -1,0 +1,21 @@
+name: tests
+
+on: [push, pull_request]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - name: Install dependencies
+        run: yarn --frozen-lockfile
+      - name: Run Tests
+        run: yarn test:ci
+      - name: Run Type Check
+        run: yarn type-check

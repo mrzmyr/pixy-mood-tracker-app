@@ -2,6 +2,259 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.59.1](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.59.0...v1.59.1) (2022-12-08)
+
+
+### Bug Fixes
+
+* **`Logger`:** prevent reset of data in logger when changing the time ([1aee087](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/1aee08793e8f157cbc78edc3e15eb422ea7a2d93))
+* fix tests for import helper ([5ac490e](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/5ac490ef86a68a16cc20896e420ec47c34263255))
+* import migration to add `actionsDone` ([add23e2](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/add23e227dbc11c0cdc5c2de2712571528041679))
+
+
+### Miscellaneous
+
+* `versionCode` to integer ([f05cf0f](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/f05cf0fd29236a16728b89903ac68a5a4b28093a))
+
+## [1.59.0](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.58.0...v1.59.0) (2022-12-07)
+
+
+### Features
+
+* **`DayView`:** add date sorting ([5d9f540](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/5d9f54082e6e842e5337fe2e1ec636a268e5adcf))
+
+
+### Bug Fixes
+
+* **`Logger`:** unable to set date with picker ([f657313](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/f657313eedd8843bc5c8884abd59026eb0dd2e5f))
+* typescript errors ([9fe80ea](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/9fe80ea48e6ee8f1779e9d0bcc84fbf6a2935608))
+* use fixed fork for now until issue is resolved in original repo ([46a4260](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/46a42608d8cc55766c65303d665ac64225a728f1))
+
+
+### Refactors
+
+* move types to central location ([27dfa09](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/27dfa09e1dcdb74bdc3b5ff131e22469f7b78707))
+* use `dateTime` over `date` ([8c2db47](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/8c2db474a841445b78d26de63e647c0604784f14))
+
+
+### Miscellaneous
+
+* `versionCode` to integer ([20a17c6](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/20a17c66260c8a624f5b4fa1ee39de51925f7e65))
+* add type-check to ci ([900de76](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/900de76e025e8df32a5518c5653cf4561d802e0b))
+* fix branch name ([23118f9](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/23118f99180404cf6ef4e2e57d07203f311584fb))
+* rollback release please ([19e8a95](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/19e8a95bcabc60f7d798c4a30ca7e5c95f12d0d5))
+
+
+### Styling
+
+* align spacing in `DayView` and RatingDot in LogView ([a867d8d](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/a867d8da5784dca9d45d7e35ebd36e37db788966))
+* align spacing in dayview entry ([d34a0d9](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/d34a0d9ba05c3dc4ea50d94d4a5955f80dd37e33))
+
+## [1.58.0](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.57.0...v1.58.0) (2022-12-06)
+
+
+### Features
+
+* **`DayView`:** add day times ([8be267b](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/8be267b5ae589ede79fae94a8d124fc49c882b3f))
+* **`DayView`:** sort items by `dateTime` ([8a8b594](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/8a8b594e7300abb6175d36af473d4e00de21546c))
+* **`Logger`:** use locale for dateTime selection ([c55777b](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/c55777b0ebcea2a84a8eba18d1b1c11ac7b4b53a))
+* remove 'done' message in calendar footer ([f21da69](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/f21da69e35f6baf5de3835ed1d5f9b8054854aae))
+
+
+### Bug Fixes
+
+* emotions de question + linear gradient ([00cc888](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/00cc8881981cfe4075218d5c05996d20c071ddab))
+* **statistics:** average calculation for null scale items ([1addab1](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/1addab1a2481a201a35a19098a5734d75b08447d))
+
+
+### Miscellaneous
+
+* `versionCode` to integer ([ef3ba14](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/ef3ba14d9d8ddec789d728d3a102ba85ee5a3b64))
+* remove unused files ([8185a98](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/8185a98429e9138c08844a2b1b1d496f236422e8))
+* **scripts:** add remove translations keys ([41c2c16](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/41c2c1668777f33f5d75ca7c2c287e12879b2680))
+
+
+### Styling
+
+* align de translations for settings ([4e8c719](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/4e8c71962a1c11a654caad90176c37c268a86d7a))
+* dark background of not enough data overlay ([2661ac5](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/2661ac53aac0391a0fa8917183231cceddcbd47e))
+* fix another entry button icon in light mode ([37673aa](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/37673aaf442e94371258055f106269492298d21a))
+
+
+### Refactors
+
+* `useTemporaryLog` and `Logger` have been updated ([f9ee241](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/f9ee24176107547a48ba0b6986c7af99c512b0df))
+
+## [1.57.0](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.56.0...v1.57.0) (2022-12-05)
+
+
+### Features
+
+* 'Add another entry for today' ([fdca0e4](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/fdca0e47ecbbb1f5122f34096f5e421bb0f3aee3))
+
+
+### Miscellaneous
+
+* `versionCode` to integer ([bc45923](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/bc459233520048409e7e48addff0870d108b62a2))
+
+## [1.56.0](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.55.0...v1.56.0) (2022-12-05)
+
+
+### Features
+
+* only show one question per day ([ccc6188](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/ccc6188322edadfeb2c123011742392fee5b0f76))
+
+
+### Bug Fixes
+
+* android version number ([9e43fed](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/9e43fed98b77f7ec7d5d059ed546d589ad341924))
+
+
+### Miscellaneous
+
+* fix imports & deps ([4b56f1e](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/4b56f1e49a3a6feb9d37f8372360733cf5ff6b97))
+
+
+### Styling
+
+* align englisch text on disabling questions ([8b1fa96](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/8b1fa96775a97a317431563fcc31de7d3ea74819))
+* fix linear gradient in logger tags slide top ([05dd88f](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/05dd88fd07df5e23c548c85af9748ccf5db8d8a2))
+
+## [1.55.0](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.54.0...v1.55.0) (2022-12-04)
+
+
+### Features
+
+* Add `CalendarFooter` ([e631eeb](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/e631eeb679316bcdc70fede5baf64ab33da41761))
+* add average line to mood charts of year and month report ([45e4248](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/45e424838727a910e5de64178405e5ead00e1508))
+* add best and worth month to year statistics ([44e620e](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/44e620e2fcee2b4d3e5bc0b08d596d20dfea58f3))
+* only show 'disable' on logger when starting to use the app ([ce093ad](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/ce093ad2ad0c107c0956e799aa835fe64243295f))
+* replace option to edit check-in steps ([ee6c7c8](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/ee6c7c861458f8f7c26a1921f19b7ba2766bfd56))
+* update styles for feedback dayview box ([eaef0be](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/eaef0be25df605bfe45020c25f0f3b290874680a))
+
+
+### Bug Fixes
+
+* only show promo cards when statistics are unlocked ([fa0d533](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/fa0d53302bd6bb8543ab802af8723df4f299b932))
+* when only logging mood, mood was not saved ([16e02b8](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/16e02b8b770ef152f696dbc23735e7feca90083c))
+
+
+### Documentation
+
+* update release section ([d58c8cc](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/d58c8ccc8c735d69420616fd2457b7f2e010b1f0))
+
+
+### Refactors
+
+* fix height calculation in logger ([8c2efd5](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/8c2efd51cc52bac4805a348ea0f76de680d0f259))
+* introduce `src` ([480efc7](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/480efc7771c28333b144ef755290f4e400d067ce))
+
+
+### Miscellaneous
+
+* add `chore`, `stlye`, `docs` and `refactor` to `release-please` changelog ([f1f4f39](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/f1f4f396d2a757bf51853a0049c8c539173313da))
+* **deps:** bump decode-uri-component from 0.2.0 to 0.2.2 ([afa4d30](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/afa4d30a0996511e78e0ea1c3c20570cccc86299))
+* **deps:** bump react-native-reanimated from 2.9.1 to 2.10.0 ([3c81309](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/3c813093829365bb55ca1de593b687eb1cd9a355))
+* update licenses ([371137a](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/371137a5d69cbeac1354c61d4fdb422010f77b84))
+
+
+### Styling
+
+* align font weight best worst month ([e81a0df](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/e81a0df819831e021dd4aa04f8da211ac4034b51))
+* button font weight ([2b14407](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/2b144075d6a65b048b9d96ee2d6e7791f2bffe89))
+* button radius and entry border ([6a99cad](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/6a99cad19b905f31846048a287069902f80ac141))
+* dark mode feedback box background ([bf641a6](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/bf641a61de74a0d5937096f331baa0d4ea543489))
+* hide emotions in `LogView` ([c472f42](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/c472f4297a68c359b9715da576388218816e3fa7))
+* padding in DayView and border radius of `Entry` ([0a30d3b](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/0a30d3b2c1e515b7bdbe4d103e61b5623853a80b))
+* reminder headline centered ([dfb840b](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/dfb840b950613575d263f598e66d6f0836b72afd))
+
+## [1.54.0](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.53.0...v1.54.0) (2022-12-01)
+
+
+### Features
+
+* update styles of new entries feedback box ([c70e837](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/c70e83716da67844d9c481a44faa9a04e4bb3d4d))
+
+## [1.53.0](https://github.com/mrzmyr/pixy-mood-tracker/compare/v1.52.0...v1.53.0) (2022-12-01)
+
+
+### Features
+
+* add tracking of check in steps ([22b442f](https://github.com/mrzmyr/pixy-mood-tracker/commit/22b442f30dafbecc5bacde1c2a55b331fdba92ef))
+* Multiple steps and emotions ([ec3bc71](https://github.com/mrzmyr/pixy-mood-tracker/commit/ec3bc710830891b05f246d135d63f357c636f31c)), closes [#16](https://github.com/mrzmyr/pixy-mood-tracker/issues/16)
+
+
+### Bug Fixes
+
+* build error because of unsupported dark mode colors for splashscreen ([9ca4190](https://github.com/mrzmyr/pixy-mood-tracker/commit/9ca419061c1837413322a0c973fd470eb7dc30a9))
+* rename migration file ([978a606](https://github.com/mrzmyr/pixy-mood-tracker/commit/978a60661d1dc2b564c38f99f7db67f451828218))
+* tests for emotions in `useSettings` ([f3fac2b](https://github.com/mrzmyr/pixy-mood-tracker/commit/f3fac2bb68d5ec87eac834e61f4e4334bea20b08))
+
+
+### Chore
+
+* fix jest tests in ci ([26de597](https://github.com/mrzmyr/pixy-mood-tracker/commit/26de597117dfa2356f1d728c18b9a3502e422ef6))
+* fix typescript errors ([908aa23](https://github.com/mrzmyr/pixy-mood-tracker/commit/908aa2309dabbdfb39dc38b0fee3ee9122e2f22b))
+
+
+### Styling
+
+* disable 'emotions' check in step for now ([43d4697](https://github.com/mrzmyr/pixy-mood-tracker/commit/43d469751bc480aa419e782067dc580b33e0728c))
+
+
+### Documentation
+
+* add releasing docs ([8a7ae74](https://github.com/mrzmyr/pixy-mood-tracker/commit/8a7ae74054cf08a82ad8c66f061c72a86ce4366c))
+* format 'building' to table ([5061334](https://github.com/mrzmyr/pixy-mood-tracker/commit/5061334cab04bb7ea91d6fc0022bc5ece6957919))
+* update building table ([dcbc26f](https://github.com/mrzmyr/pixy-mood-tracker/commit/dcbc26f18118e70a1ae7948f6c52fde467163a7d))
+* update building table [#2](https://github.com/mrzmyr/pixy-mood-tracker/issues/2) ([1cfeb17](https://github.com/mrzmyr/pixy-mood-tracker/commit/1cfeb1730246997994d62da3cfd430fec9db9785))
+
+## [1.52.0](https://github.com/mrzmyr/pixy-mood-tracker/compare/v1.51.1...v1.52.0) (2022-11-25)
+
+
+### Features
+
+* improve ux for entries & update statistics to use day instead of items ([643fccc](https://github.com/mrzmyr/pixy-mood-tracker/commit/643fccc346568fbb7b34347273dbcd2f12f5cea6))
+* initial commit on 'multiple entries per day' ([37837a8](https://github.com/mrzmyr/pixy-mood-tracker/commit/37837a8cd914e5b374b532653f71bd98b2725b5e)), closes [#15](https://github.com/mrzmyr/pixy-mood-tracker/issues/15)
+
+
+### Bug Fixes
+
+* add MigratedData type ([66b8136](https://github.com/mrzmyr/pixy-mood-tracker/commit/66b8136d23ee846e8f71fd1df3cefafbad1923e2))
+* height of rating button on small devices ([25507f4](https://github.com/mrzmyr/pixy-mood-tracker/commit/25507f4f3d69b016d4d21614a0b8d536210b22ba))
+* rename mood chart title ([ed36ff3](https://github.com/mrzmyr/pixy-mood-tracker/commit/ed36ff3fbb602ccc1b7bcf74d0de725c25444160))
+* share button on android ([ae7ab07](https://github.com/mrzmyr/pixy-mood-tracker/commit/ae7ab070efe0d2d07b032ad1890483bd4b24a5b2))
+
+
+### Documentation
+
+* document environment ([f46c10e](https://github.com/mrzmyr/pixy-mood-tracker/commit/f46c10eead65f687fd887eef882a3fc7368f1d48))
+* update environments ([f634a68](https://github.com/mrzmyr/pixy-mood-tracker/commit/f634a68f2d83ea388bbcfdf5ab131219c4206107))
+
+
+### Refactors
+
+* remove `LoadingIndicator` ([81d1406](https://github.com/mrzmyr/pixy-mood-tracker/commit/81d1406bb2aca0002817c3f8ee7965d30ae34f74))
+* rename components ([c062d1e](https://github.com/mrzmyr/pixy-mood-tracker/commit/c062d1ebb00a6537f0a180a330ce0adef570cd7e))
+
+
+### Chore
+
+* add gh actions for tests ([965ab0b](https://github.com/mrzmyr/pixy-mood-tracker/commit/965ab0bea36c12c1fda39b3923cc5fb2ee002caa))
+* add github action to deploy changes to expo ([465d0c5](https://github.com/mrzmyr/pixy-mood-tracker/commit/465d0c577bbc0717d64f1eaaac6c02810bccee63))
+* limit expo gh action to `production` and `preview` branch ([2ac403c](https://github.com/mrzmyr/pixy-mood-tracker/commit/2ac403ce4d76a662d3711808c3ea5c866451805e))
+* limit expo gh action to `production`, `preview` and `release` branches ([cf021b6](https://github.com/mrzmyr/pixy-mood-tracker/commit/cf021b69a6e51fb4e336c6cfec6fa6fc0347bf26))
+* remove console log ([d5750dd](https://github.com/mrzmyr/pixy-mood-tracker/commit/d5750dd7f65403dda195ea69e52edba3eec80a2b))
+* rename gh action ([d91479c](https://github.com/mrzmyr/pixy-mood-tracker/commit/d91479c6a07da3b5083b488d8e4e891febf1da8e))
+* REVERT "limit expo gh action to `production` and `preview` branch" ([a871065](https://github.com/mrzmyr/pixy-mood-tracker/commit/a871065e2031cd8fee0b596ea2209cb14bbf8789))
+* update node version in `tests` gh workflow ([522477c](https://github.com/mrzmyr/pixy-mood-tracker/commit/522477cb1312baad63f0bfe74da192902f2e0995))
+* update test gh actions to use yarn ([48bbb27](https://github.com/mrzmyr/pixy-mood-tracker/commit/48bbb277ea76ccb10debafc1a7d5c11cff9b377e))
+
+
+### Styling
+
+* update en feedback text ([ea82857](https://github.com/mrzmyr/pixy-mood-tracker/commit/ea828573abb7b8ee62495b1867f0714b7c0b80a3))
+
 ### [1.51.1](https://github.com/mrzmyr/pixy-mood-tracker/compare/v1.51.0...v1.51.1) (2022-11-24)
 
 
