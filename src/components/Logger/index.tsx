@@ -6,7 +6,7 @@ import { LogItem, useLogState, useLogUpdater } from '@/hooks/useLogs';
 import { IQuestion, useQuestioner } from '@/hooks/useQuestioner';
 import { useSettings } from '@/hooks/useSettings';
 import { useTemporaryLog } from '@/hooks/useTemporaryLog';
-import { TagReference } from '@/types';
+import { Emotion, TagReference } from '@/types';
 import { useNavigation } from '@react-navigation/native';
 import dayjs from 'dayjs';
 import { ReactElement, useEffect, useRef, useState } from 'react';
@@ -18,11 +18,14 @@ import { SlideAction } from './components/SlideAction';
 import { SlideHeader } from './components/SlideHeader';
 import { Stepper } from './components/Stepper';
 import { LoggerStep } from './config';
+import { SlideEmotions } from './slides/SlideEmotions';
 import { SlideFeedback } from './slides/SlideFeedback';
 import { SlideMessage } from './slides/SlideMessage';
 import { SlideMood } from './slides/SlideMood';
 import { SlideReminder } from './slides/SlideReminder';
 import { SlideTags } from './slides/SlideTags';
+
+export type LoggerMode = 'create' | 'edit'
 
 const EMOTIONS_INDEX_MAPPING = {
   extremely_bad: 0,
@@ -48,7 +51,7 @@ const getAvailableSteps = ({
     'rating'
   ]
 
-  // if (hasStep('emotions')) slides.push('emotions')
+  if (hasStep('emotions')) slides.push('emotions')
   if (hasStep('tags')) slides.push('tags')
   if (hasStep('message')) slides.push('message')
 
@@ -138,7 +141,7 @@ export const Logger = ({
     rating: LogItem['rating'] | null
   },
   initialStep?: LoggerStep;
-  mode: 'create' | 'edit'
+  mode: LoggerMode
 }) => {
   const navigation = useNavigation();
   const colors = useColors()
@@ -265,25 +268,26 @@ export const Logger = ({
     )
   })
 
-  // if (avaliableSteps.includes('emotions')) {
-  //   content.push({
-  //     key: 'emotions',
-  //     slide: (
-  //       <SlideEmotions
-  //         defaultIndex={EMOTIONS_INDEX_MAPPING[tempLog.data.rating || 'neutral']}
-  //         onChange={(emotions: Emotion[]) => {
-  //           tempLog.update({ emotions: emotions.map(emotion => emotion.key) })
-  //         }}
-  //         onDisableStep={() => {
-  //           askToDisableStep().then(() => {
-  //             toggleStep('emotions')
-  //             next()
-  //           })
-  //         }}
-  //       />
-  //     ),
-  //   })
-  // }
+  if (avaliableSteps.includes('emotions')) {
+    content.push({
+      key: 'emotions',
+      slide: (
+        <SlideEmotions
+          defaultIndex={EMOTIONS_INDEX_MAPPING[tempLog.data.rating || 'neutral']}
+          onChange={(emotions: Emotion[]) => {
+            tempLog.update({ emotions: emotions.map(emotion => emotion.key) })
+          }}
+          showDisable={showDisable}
+          onDisableStep={() => {
+            askToDisableStep().then(() => {
+              toggleStep('emotions')
+              next()
+            })
+          }}
+        />
+      ),
+    })
+  }
 
   if (avaliableSteps.includes('tags')) {
     content.push({

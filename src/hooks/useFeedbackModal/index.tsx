@@ -26,7 +26,7 @@ export default function useFeedbackModal() {
 
   const [defaultType, setDefaultType] = useState<FeedackType>("issue");
 
-  const show = ({ type = "issue" }: { type?: FeedackType }) => {
+  const show = ({ type = "issue" }: { type: FeedackType }) => {
     analytics.track("feedback_open");
     setDefaultType(type);
     setVisible(true);

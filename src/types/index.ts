@@ -7,18 +7,28 @@ export const TagReferenceSchema = z.object({
 
 export type TagReference = z.infer<typeof TagReferenceSchema>;
 
+export const EMOTION_CATEGORIES = [
+  "very_bad",
+  "bad",
+  "neutral",
+  "good",
+  "very_good",
+]
+
 export const EmotionKeySchema = z.string()
 
 export const EmotionSchema = z.object({
   key: EmotionKeySchema,
   label: z.string(),
   category: z.enum([
-    "very_negative",
-    "negative",
+    "very_good",
+    "good",
     "neutral",
-    "positive",
-    "very_positive",
-  ])
+    "bad",
+    "very_bad",
+  ]),
+  description: z.string(),
+  disabled: z.boolean(),
 });
 
 export type Emotion = z.infer<typeof EmotionSchema>;

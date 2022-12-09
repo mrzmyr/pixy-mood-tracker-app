@@ -13,6 +13,7 @@ import { Header } from './Header';
 import { Headline } from './Headline';
 import { Message } from './Message';
 import { Tags } from './Tags';
+import { Emotions } from './Emotions';
 
 export const RatingDot = ({
   rating,
@@ -154,7 +155,7 @@ export const LogView = ({ navigation, route }: RootStackScreenProps<'LogView'>) 
               <RatingDot onPress={() => edit('rating')} rating={item.rating} />
             </View>
           </View>
-          {/* <Emotions item={item} /> */}
+          <Emotions item={item} />
           <Tags item={item} />
           <Message item={item} />
           <View

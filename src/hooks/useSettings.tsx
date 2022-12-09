@@ -8,7 +8,7 @@ import {
 } from "react";
 import "react-native-get-random-values";
 import { v4 as uuidv4 } from "uuid";
-import { DEFAULT_STEPS, LoggerStep, STEP_OPTIONS } from "@/components/Logger/config";
+import { LoggerStep, STEP_OPTIONS } from "@/components/Logger/config";
 import { load, store } from "@/helpers/storage";
 import { Tag } from "./useTags";
 
@@ -57,7 +57,13 @@ export const INITIAL_STATE: SettingsState = {
   reminderTime: "18:00",
   analyticsEnabled: true,
   actionsDone: [],
-  steps: DEFAULT_STEPS,
+  steps: [
+    "rating",
+    "tags",
+    "emotions",
+    "message",
+    "feedback"
+  ],
 };
 
 type Value = {

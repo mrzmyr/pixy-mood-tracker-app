@@ -4,6 +4,7 @@ import { t } from "@/helpers/translation";
 import useColors from "../../hooks/useColors";
 import { LogItem } from "../../hooks/useLogs";
 import { Emotion } from "@/types";
+import useHaptics from "@/hooks/useHaptics";
 
 const EmotionItem = ({
   emotion,
@@ -46,7 +47,10 @@ export const EntryEmotions = ({
   item: LogItem;
 }) => {
   const navigation = useNavigation();
+  const haptics = useHaptics();
+
   const onPress = () => {
+    haptics.selection();
     navigation.navigate('LogView', {
       id: item.id,
     });

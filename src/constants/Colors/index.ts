@@ -226,9 +226,13 @@ const light = {
   emotionButtonBackground: colors.white,
   emotionButtonBackgroundActive: colors.neutral[900],
   emotionButtonBorder: colors.neutral[200],
-  emotionButtonBorderActive: colors.neutral[900],
+  emotionButtonBorderActive: tintColorLight,
   emotionButtonText: colors.neutral[900],
   emotionButtonTextActive: colors.white,
+
+  tooltipBackground: 'rgba(0, 0, 0, 0.8)',
+  tooltipText: colors.white,
+  tooltipTextSecondary: colors.neutral[400],
 
   feedbackBoxBackground: colors.amber[50],
 
@@ -441,6 +445,10 @@ const dark: IColors & {
   emotionButtonTextActive: colors.neutral[900],
 
   feedbackBoxBackground: colors.neutral[900],
+
+  tooltipBackground: 'rgba(0, 0, 0, 0.8)',
+  tooltipText: colors.white,
+  tooltipTextSecondary: colors.neutral[400],
 
   dayViewAddButtonBorder: colors.neutral[700],
   dayViewAddButtonText: colors.neutral[500],

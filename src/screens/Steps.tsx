@@ -17,7 +17,7 @@ export const StepsScreen = ({ navigation }: RootStackScreenProps<'Steps'>) => {
     'rating': <Sun width={20} height={20} stroke={colors.text} />,
     'message': <FileText width={20} height={20} color={colors.text} />,
     'tags': <Tag width={20} height={20} color={colors.text} />,
-    // 'emotions': <Heart width={20} height={20} color={colors.text} />,
+    'emotions': <Heart width={20} height={20} color={colors.text} />,
     'feedback': <MessageSquare width={20} height={20} color={colors.text} />,
     'reminder': <Bell width={20} height={20} color={colors.text} />,
   }
@@ -37,12 +37,10 @@ export const StepsScreen = ({ navigation }: RootStackScreenProps<'Steps'>) => {
       >
         <View
           style={{
-            paddingTop: 16,
-            paddingBottom: 16,
-            paddingLeft: 20,
-            paddingRight: 20,
-            borderRadius: 8,
-            backgroundColor: colors.cardBackground,
+            paddingTop: 0,
+            paddingBottom: 8,
+            paddingLeft: 16,
+            paddingRight: 16,
           }}
         >
           <Text
