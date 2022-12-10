@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.59.3](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.59.2...v1.59.3) (2022-12-10)
+
+
+### Bug Fixes
+
+* android header padding top ([4bd711a](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/4bd711a6ac8e6c9a2ac459be81bf7481f4724d7a))
+
 ## [1.59.2](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.59.1...v1.59.2) (2022-12-09)
 
 
