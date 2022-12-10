@@ -1,11 +1,12 @@
-import dayjs from "dayjs";
-import { ScrollView, Text, View, ViewStyle } from "react-native";
 import Button from "@/components/Button";
 import MenuList from "@/components/MenuList";
 import MenuListHeadline from "@/components/MenuListHeadline";
 import MenuListItem from "@/components/MenuListItem";
+import { PageWithHeaderLayout } from "@/components/PageWithHeaderLayout";
 import TextInfo from "@/components/TextInfo";
 import { t } from "@/helpers/translation";
+import dayjs from "dayjs";
+import { ScrollView, Text, View, ViewStyle } from "react-native";
 import useColors from "../hooks/useColors";
 import { useLogState } from "../hooks/useLogs";
 import { useSettings } from "../hooks/useSettings";
@@ -68,7 +69,7 @@ export const DevelopmentTools = () => {
     .reduce((a, b) => a + b, 0);
 
   return (
-    <View
+    <PageWithHeaderLayout
       style={{
         flex: 1,
       }}
@@ -227,6 +228,6 @@ export const DevelopmentTools = () => {
           }}
         />
       </ScrollView>
-    </View>
+    </PageWithHeaderLayout>
   );
 };
