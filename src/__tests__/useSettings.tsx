@@ -161,13 +161,13 @@ describe('useSettings()', () => {
       hook.result.current.state.toggleStep('feedback')
     })
 
-    expect(hook.result.current.state.settings.steps.length).toEqual(3)
+    expect(hook.result.current.state.settings.steps.length).toEqual(4)
 
     await act(() => {
       hook.result.current.state.toggleStep('feedback')
     })
 
-    expect(hook.result.current.state.settings.steps[3]).toEqual('feedback')
+    expect(hook.result.current.state.settings.steps[4]).toEqual('feedback')
   })
 
   test('should `toggleStep` with value', async () => {
@@ -182,6 +182,7 @@ describe('useSettings()', () => {
 
     expect(hook.result.current.state.settings.steps).toEqual([
       "rating",
+      "emotions",
       "message",
       "feedback",
       "tags",
