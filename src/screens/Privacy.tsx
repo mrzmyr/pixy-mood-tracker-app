@@ -6,6 +6,7 @@ import LinkButton from '@/components/LinkButton';
 import useColors from '../hooks/useColors';
 import { useAnalytics } from '../hooks/useAnalytics';
 import { t } from '@/helpers/translation';
+import { PageWithHeaderLayout } from '@/components/PageWithHeaderLayout';
 
 export const PrivacyScreen = () => {
   const colors = useColors()
@@ -19,7 +20,7 @@ export const PrivacyScreen = () => {
   };
 
   return (
-    <View
+    <PageWithHeaderLayout
       style={{
         flex: 1,
         backgroundColor: colors.background,
@@ -61,6 +62,6 @@ export const PrivacyScreen = () => {
           >{t('privacy_policy')}</LinkButton>
         </View>
       </ScrollView>
-    </View>
+    </PageWithHeaderLayout>
   );
 }

@@ -1,12 +1,13 @@
-import { ScrollView, View } from 'react-native';
+import { PageWithHeaderLayout } from '@/components/PageWithHeaderLayout';
 import Reminder from '@/components/Reminder';
+import { ScrollView } from 'react-native';
 import useColors from '../hooks/useColors';
 
 export const ReminderScreen = () => {
   const colors = useColors()
 
   return (
-    <View
+    <PageWithHeaderLayout
       style={{
         flex: 1,
         backgroundColor: colors.background,
@@ -17,6 +18,6 @@ export const ReminderScreen = () => {
       }}>
         <Reminder />
       </ScrollView>
-    </View>
+    </PageWithHeaderLayout>
   );
 }
