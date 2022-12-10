@@ -209,6 +209,7 @@ export default function useFeedbackModal() {
                       height: '100%',
                       maxHeight: 240,
                     }}
+                    autoFocus
                     value={message}
                     onChange={(text) => setMessageProxy(text)}
                     placeholder={t("feedback_modal_message_placeholder")}

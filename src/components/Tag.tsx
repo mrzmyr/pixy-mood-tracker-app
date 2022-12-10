@@ -1,6 +1,7 @@
 import { Pressable, Text, View, ViewStyle } from "react-native";
 import useColors from "@/hooks/useColors";
 import useHaptics from "@/hooks/useHaptics";
+import { TAG_COLOR_NAMES } from "@/constants/Config";
 
 export default function Tag({
   title,
@@ -11,7 +12,7 @@ export default function Tag({
 }: {
   title: string,
   selected?: boolean,
-  colorName: string,
+  colorName: typeof TAG_COLOR_NAMES[number],
   onPress?: () => void,
   style?: ViewStyle
 }) {

@@ -88,6 +88,7 @@ export default function LinkButton({
             fontSize: 17,
             textAlign: "center",
             color: style.color || color,
+            fontWeight: "500",
           }}
         >
           {children}

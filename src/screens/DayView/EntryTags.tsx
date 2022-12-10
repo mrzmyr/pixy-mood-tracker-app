@@ -49,7 +49,7 @@ export const EntryTags = ({
                   });
                 }}
                 style={{
-                  backgroundColor: colors.entryBackground,
+                  backgroundColor: colors.entryItemBackground,
                   borderColor: colors.entryItemBorder,
                 }}
               />

@@ -239,7 +239,10 @@ export const DayView = ({ route, navigation }: RootStackScreenProps<'DayView'>) 
                 >{t('entries_reached_max', { max_count: MAX_ENTRIES_PER_DAY })}</Text>
               </View>
             )}
-            <FeedbackBox prefix={"entries_feedback"} />
+            <FeedbackBox
+              prefix={"entries_feedback"}
+              emoji='👷‍♀️'
+            />
             {items.length < MAX_ENTRIES_PER_DAY && (
               <Button
                 type="primary"

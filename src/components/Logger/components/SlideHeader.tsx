@@ -1,31 +1,98 @@
-import { useNavigation } from '@react-navigation/native';
+import Button from '@/components/Button';
+import LinkButton from '@/components/LinkButton';
+import { locale, t } from '@/helpers/translation';
+import useColors from "@/hooks/useColors";
+import useFeedbackModal from '@/hooks/useFeedbackModal';
+import useHaptics from "@/hooks/useHaptics";
+import { useTemporaryLog } from '@/hooks/useTemporaryLog';
+import { getItemDateTitle } from '@/lib/utils';
 import dayjs from 'dayjs';
 import { useState } from 'react';
 import { Dimensions, Platform, Pressable, Text, View } from 'react-native';
 import { ArrowLeft, Clock, Trash, X } from 'react-native-feather';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
-import useColors from "@/hooks/useColors";
-import useHaptics from "@/hooks/useHaptics";
-import { useTemporaryLog } from '@/hooks/useTemporaryLog';
-import { getItemDateTitle } from '@/lib/utils';
-import { locale, t } from '@/helpers/translation';
-import Button from '@/components/Button';
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
+
+const DatePickerHeader = ({
+  onChange,
+}: {
+  onChange: (date: Date) => void,
+}) => {
+  const colors = useColors()
+  const tempLog = useTemporaryLog();
+
+  return (
+    <View style={{
+      flexDirection: 'column',
+      alignItems: 'center',
+      paddingTop: 16,
+    }}
+    >
+      <Button
+        type='tertiary'
+        onPress={() => {
+          onChange(dayjs(tempLog.data.dateTime).hour(8).minute(0).toDate())
+        }}
+        style={{
+          width: '100%',
+          padding: 12,
+          maxWidth: 240,
+          marginBottom: 8,
+          borderRadius: 8,
+        }}
+      >
+        <Text style={{ fontSize: 17, color: colors.tertiaryButtonText }}>{t('morning')}</Text>
+      </Button>
+      <Button
+        type='tertiary'
+        onPress={() => {
+          onChange(dayjs(tempLog.data.dateTime).hour(13).minute(0).toDate())
+        }}
+        style={{
+          width: '100%',
+          maxWidth: 240,
+          padding: 12,
+          marginBottom: 8,
+          borderRadius: 8,
+        }}
+      >
+        <Text style={{ fontSize: 17, color: colors.tertiaryButtonText }}>{t('afternoon')}</Text>
+      </Button>
+      <Button
+        type='tertiary'
+        onPress={() => {
+          onChange(dayjs(tempLog.data.dateTime).hour(20).minute(0).toDate())
+        }}
+        style={{
+          width: '100%',
+          maxWidth: 240,
+          padding: 12,
+          borderRadius: 8,
+        }}
+      >
+        <Text style={{ fontSize: 17, color: colors.tertiaryButtonText }}>{t('evening')}</Text>
+      </Button>
+    </View>
+  )
+}
 
 export const SlideHeader = ({
   isDeleteable,
   backVisible,
+  feedbackVisible,
   onBack,
   onClose,
   onDelete,
 }: {
   isDeleteable: boolean;
   backVisible?: boolean;
+  feedbackVisible: boolean;
   onBack?: () => void;
   onClose?: () => void;
   onDelete?: () => void;
 }) => {
+  const { Modal, show } = useFeedbackModal()
   const haptics = useHaptics();
   const colors = useColors()
   const tempLog = useTemporaryLog();
@@ -46,66 +113,14 @@ export const SlideHeader = ({
       {Platform.OS !== 'web' && (
         <DateTimePickerModal
           customHeaderIOS={() => (
-            <View style={{
-              flexDirection: 'column',
-              alignItems: 'center',
-              paddingTop: 16,
-            }}
-            >
-              <Button
-                type='tertiary'
-                onPress={() => {
-                  tempLog.update({
-                    dateTime: dayjs(tempLog.data.dateTime).hour(8).minute(0).toISOString()
-                  })
-                  setDatePickerVisibility(false)
-                }}
-                style={{
-                  width: '100%',
-                  padding: 12,
-                  maxWidth: 240,
-                  marginBottom: 8,
-                  borderRadius: 8,
-                }}
-              >
-                <Text style={{ fontSize: 17, color: colors.tertiaryButtonText }}>{t('morning')}</Text>
-              </Button>
-              <Button
-                type='tertiary'
-                onPress={() => {
-                  tempLog.update({
-                    dateTime: dayjs(tempLog.data.dateTime).hour(13).minute(0).toISOString()
-                  })
-                  setDatePickerVisibility(false)
-                }}
-                style={{
-                  width: '100%',
-                  maxWidth: 240,
-                  padding: 12,
-                  marginBottom: 8,
-                  borderRadius: 8,
-                }}
-              >
-                <Text style={{ fontSize: 17, color: colors.tertiaryButtonText }}>{t('afternoon')}</Text>
-              </Button>
-              <Button
-                type='tertiary'
-                onPress={() => {
-                  tempLog.update({
-                    dateTime: dayjs(tempLog.data.dateTime).hour(20).minute(0).toISOString()
-                  })
-                  setDatePickerVisibility(false)
-                }}
-                style={{
-                  width: '100%',
-                  maxWidth: 240,
-                  padding: 12,
-                  borderRadius: 8,
-                }}
-              >
-                <Text style={{ fontSize: 17, color: colors.tertiaryButtonText }}>{t('evening')}</Text>
-              </Button>
-            </View>
+            <DatePickerHeader
+              onChange={date => {
+                setDatePickerVisibility(false)
+                tempLog.update({
+                  dateTime: dayjs(date).toISOString(),
+                })
+              }}
+            />
           )}
           isVisible={isDatePickerVisible}
           locale={locale}
@@ -128,6 +143,7 @@ export const SlideHeader = ({
           flex: 1,
         }}
       >
+        <Modal />
         <View
           style={{
             flexDirection: 'row',
@@ -192,6 +208,21 @@ export const SlideHeader = ({
             flexDirection: 'row',
           }}
         >
+          {feedbackVisible && (
+            <LinkButton
+              type="secondary"
+              onPress={() => {
+                show({
+                  type: 'issue',
+                })
+              }}
+              style={{
+                marginRight: 8,
+              }}
+            >
+              {t('give_feedback')}
+            </LinkButton>
+          )}
           {isDeleteable && (
             <Pressable
               style={{

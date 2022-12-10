@@ -8,6 +8,8 @@ import { t } from '@/helpers/translation';
 import useColors from '../hooks/useColors';
 import { useSettings } from '../hooks/useSettings';
 import { RootStackScreenProps } from '../../types';
+import { FeedbackBox } from './DayView/FeedbackBox';
+import Indicator from '@/components/Indicator';
 export const StepsScreen = ({ navigation }: RootStackScreenProps<'Steps'>) => {
   const colors = useColors()
 
@@ -38,7 +40,7 @@ export const StepsScreen = ({ navigation }: RootStackScreenProps<'Steps'>) => {
         <View
           style={{
             paddingTop: 0,
-            paddingBottom: 8,
+            paddingBottom: 0,
             paddingLeft: 16,
             paddingRight: 16,
           }}
@@ -54,7 +56,30 @@ export const StepsScreen = ({ navigation }: RootStackScreenProps<'Steps'>) => {
           {STEP_OPTIONS.map((option) => (
             <MenuListItem
               key={option}
-              title={t(`logger_step_${option}`)}
+              title={
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                  }}
+                >
+                  <Text
+                    style={{
+                      fontSize: 17,
+                      color: colors.text,
+                    }}
+                  >{t(`logger_step_${option}`)}</Text>
+                  {option === 'emotions' && (
+                    <Indicator
+                      colorName='purple'
+                      style={{
+                        marginLeft: 8,
+                      }}
+                    >{t('new')}</Indicator>
+                  )}
+                </View>
+
+              }
               iconLeft={ICONS_MAP[option]}
               iconRight={option === 'rating' ? undefined : (
                 <Switch
@@ -71,6 +96,16 @@ export const StepsScreen = ({ navigation }: RootStackScreenProps<'Steps'>) => {
             />
           ))}
         </MenuList>
+        <View
+          style={{
+            marginTop: 16,
+          }}
+        >
+          <FeedbackBox
+            prefix='feedback_checkin_setting'
+            emoji='🚧'
+          />
+        </View>
       </ScrollView>
     </View>
   );

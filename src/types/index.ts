@@ -27,6 +27,14 @@ export const EmotionSchema = z.object({
     "bad",
     "very_bad",
   ]),
+  mode: z.enum([
+    'basic',
+    'advanced',
+  ]),
+  source: z.enum([
+    'how_we_feel_app',
+    'stoic_app',
+  ]),
   description: z.string(),
   disabled: z.boolean(),
 });

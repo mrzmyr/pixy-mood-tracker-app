@@ -5,6 +5,8 @@ import useColors from "../../hooks/useColors";
 import { LogItem } from "../../hooks/useLogs";
 import { Emotion } from "@/types";
 import useHaptics from "@/hooks/useHaptics";
+import useScale from "@/hooks/useScale";
+import { EMOTIONS } from "@/components/Logger/config";
 
 const EmotionItem = ({
   emotion,
@@ -14,24 +16,43 @@ const EmotionItem = ({
   onPress: () => void,
 }) => {
   const colors = useColors();
+
+  const scale = useScale()
+  const colorMapping = {
+    very_good: scale.colors.good,
+    good: scale.colors.good,
+    neutral: scale.colors.neutral,
+    bad: scale.colors.bad,
+    very_bad: scale.colors.bad,
+  }
+
+  const _emotion = EMOTIONS.find((e) => e.key === emotion)
+
+  const color = _emotion ? colorMapping[_emotion.category] : {
+    background: colors.cardBackground,
+    text: colors.text,
+  }
+
   return (
     <Pressable
       style={{
-        padding: 10,
-        paddingHorizontal: 20,
+        paddingVertical: 10,
+        paddingHorizontal: 16,
         justifyContent: 'center',
         alignItems: 'center',
         flexDirection: 'row',
-        backgroundColor: colors.logCardBackground,
-        borderColor: colors.logCardBorder,
+        borderColor: colors.entryBorder,
         borderWidth: 1,
+        backgroundColor: colors.entryItemBackground,
+        // backgroundColor: color.background,
         marginRight: 8,
-        borderRadius: 8,
+        borderRadius: 10,
       }}
       onPress={onPress}
     >
       <Text
         style={{
+          // color: color.text,
           color: colors.text,
           fontSize: 17,
         }}

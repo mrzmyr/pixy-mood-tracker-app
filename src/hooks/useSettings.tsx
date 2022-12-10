@@ -75,6 +75,7 @@ type Value = {
   importSettings: (settings: ExportSettings) => void;
   addActionDone: (action: IAction["title"]) => void;
   hasActionDone: (actionTitle: IAction["title"]) => boolean;
+  removeActionDone: (actionTitle: IAction["title"]) => void;
   toggleStep: (step: LoggerStep, value?: Boolean) => void;
   hasStep: (step: LoggerStep) => boolean;
 }
@@ -146,6 +147,15 @@ function SettingsProvider({ children }: { children: React.ReactNode }) {
     }));
   }, [settings.actionsDone]);
 
+  const removeActionDone = useCallback((actionTitle: IAction["title"]) => {
+    setSettings((settings) => ({
+      ...settings,
+      actionsDone: settings.actionsDone.filter(
+        (action) => action.title !== actionTitle
+      ),
+    }));
+  }, [settings.actionsDone]);
+
   const hasActionDone = useCallback(
     (actionTitle: IAction["title"]) => {
       return settings.actionsDone.some(
@@ -188,6 +198,7 @@ function SettingsProvider({ children }: { children: React.ReactNode }) {
     importSettings,
     addActionDone,
     hasActionDone,
+    removeActionDone,
     toggleStep,
     hasStep,
   };

@@ -149,6 +149,7 @@ export const Logger = ({
   const insets = useSafeAreaInsets();
   const questioner = useQuestioner()
 
+  const logState = useLogState()
   const logUpdater = useLogUpdater()
 
   const { toggleStep } = useSettings()
@@ -157,8 +158,7 @@ export const Logger = ({
 
   const texAreaRef = useRef<any>(null);
   const isEditing = mode === 'edit'
-  // const showDisable = logState.items.length <= 3 && !isEditing;
-  const showDisable = false;
+  const showDisable = logState.items.length <= 3 && !isEditing;
 
   const [touched, setTouched] = useState(false)
   const [question, setQuestion] = useState<IQuestion | null>(null);
@@ -171,6 +171,7 @@ export const Logger = ({
   const indexFound = avaliableSteps.findIndex(slide => slide === initialStep)
   const initialIndex = indexFound !== -1 ? indexFound : 0
   const [slideIndex, setSlideIndex] = useState(initialIndex)
+  const [slideName, setSlideName] = useState(avaliableSteps[initialIndex])
 
   useEffect(() => {
     questioner.getQuestion().then(setQuestion)
@@ -188,6 +189,7 @@ export const Logger = ({
       messageLength: tempLog?.data?.message.length,
       rating: tempLog?.data?.rating,
       tagsCount: tempLog?.data?.tags.length,
+      emotions: tempLog?.data?.emotions,
     }
 
     if (tempLog.data.rating === null) {
@@ -385,6 +387,7 @@ export const Logger = ({
   useEffect(() => {
     if (isMounted.current) {
       onScrollEnd(slideIndex)
+      setSlideName(avaliableSteps[slideIndex])
     }
   }, [slideIndex])
 
@@ -421,6 +424,7 @@ export const Logger = ({
             <View style={{ height: 24 }} />
           )}
           <SlideHeader
+            feedbackVisible={slideName === 'emotions'}
             onBack={() => {
               _carousel.current?.prev()
             }}

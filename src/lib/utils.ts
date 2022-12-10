@@ -78,3 +78,26 @@ var isoDateRegExp = new RegExp(/(\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d\.\
 export const isISODate = (date: string) => {
   return isoDateRegExp.test(date);
 };
+
+export const getMostUsedEmotions = (items: LogItem[]) => {
+  const emotions = items.reduce((acc, item) => {
+    if (item.emotions) {
+      item.emotions.forEach((emotion) => {
+        if (acc[emotion]) {
+          acc[emotion] += 1;
+        } else {
+          acc[emotion] = 1;
+        }
+      });
+    }
+
+    return acc;
+  }, {} as Record<string, number>);
+
+  return Object.keys(emotions)
+    .map((emotion) => ({
+      key: emotion,
+      count: emotions[emotion],
+    }))
+    .sort((a, b) => b.count - a.count);
+}
