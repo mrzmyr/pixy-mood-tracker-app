@@ -95,6 +95,9 @@ export const SlideMessage = forwardRef(({
                 <LinkButton
                   type="secondary"
                   onPress={onDisableStep}
+                  style={{
+                    fontWeight: '400',
+                  }}
                 >{t('log_message_disable')}</LinkButton>
               )}
             </Footer>

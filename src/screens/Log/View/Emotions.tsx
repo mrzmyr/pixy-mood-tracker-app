@@ -1,9 +1,10 @@
 import { EMOTIONS } from '@/components/Logger/config';
+import useScale from '@/hooks/useScale';
 import { Emotion } from '@/types';
 import { useNavigation } from '@react-navigation/native';
 import { t } from 'i18n-js';
 import _ from 'lodash';
-import { Pressable, Text, View } from 'react-native';
+import { Pressable, Text, useColorScheme, View } from 'react-native';
 import useColors from '../../../hooks/useColors';
 import useHaptics from '../../../hooks/useHaptics';
 import { LogItem } from '../../../hooks/useLogs';
@@ -26,6 +27,18 @@ const EmotionItem = ({
 }) => {
   const colors = useColors();
   const haptics = useHaptics();
+  const colorScheme = useColorScheme();
+
+  const scale = useScale()
+  const colorMapping = {
+    very_good: scale.colors.good,
+    good: scale.colors.good,
+    neutral: scale.colors.neutral,
+    bad: scale.colors.bad,
+    very_bad: scale.colors.bad,
+  }
+
+  const color = colorMapping[emotion.category]
 
   return (
     <Pressable
@@ -38,15 +51,30 @@ const EmotionItem = ({
       <View
         style={{
           paddingVertical: 10,
-          paddingHorizontal: 16,
+          paddingHorizontal: 12,
+          paddingLeft: 12,
           backgroundColor: colors.logCardBackground,
           borderWidth: 1,
           borderColor: colors.logCardBorder,
           marginRight: 8,
           marginTop: 8,
           borderRadius: 12,
+          flex: 1,
+          flexDirection: 'row',
         }}
       >
+        <View
+          style={{
+            width: 4,
+            height: '100%',
+            backgroundColor: color.background,
+            borderRadius: 4,
+            marginRight: 8,
+            paddingRight: 8,
+            borderWidth: 1,
+            borderColor: colorScheme === 'light' ? 'rgba(0,0,0,0.1)' : 'rgba(255,255,255,0.2)',
+          }}
+        />
         <Text
           style={{
             color: colors.text,

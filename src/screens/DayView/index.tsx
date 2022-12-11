@@ -1,4 +1,5 @@
 import Button from "@/components/Button"
+import { PageModalLayout } from "@/components/PageModalLayout"
 import { MAX_ENTRIES_PER_DAY } from "@/constants/Config"
 import { t } from "@/helpers/translation"
 import { useAnalytics } from "@/hooks/useAnalytics"
@@ -194,7 +195,7 @@ export const DayView = ({ route, navigation }: RootStackScreenProps<'DayView'>) 
   }
 
   return (
-    <View
+    <PageModalLayout
       style={{
         flex: 1,
         backgroundColor: colors.logBackground,
@@ -258,6 +259,6 @@ export const DayView = ({ route, navigation }: RootStackScreenProps<'DayView'>) 
           </View>
         </View>
       </ScrollView>
-    </View>
+    </PageModalLayout>
   )
 }

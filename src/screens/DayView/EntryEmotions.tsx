@@ -1,5 +1,5 @@
 import { useNavigation } from "@react-navigation/native";
-import { Pressable, ScrollView, Text, View } from "react-native";
+import { Pressable, ScrollView, Text, useColorScheme, View } from "react-native";
 import { t } from "@/helpers/translation";
 import useColors from "../../hooks/useColors";
 import { LogItem } from "../../hooks/useLogs";
@@ -16,6 +16,7 @@ const EmotionItem = ({
   onPress: () => void,
 }) => {
   const colors = useColors();
+  const colorScheme = useColorScheme();
 
   const scale = useScale()
   const colorMapping = {
@@ -50,6 +51,18 @@ const EmotionItem = ({
       }}
       onPress={onPress}
     >
+      <View
+        style={{
+          width: 4,
+          height: '100%',
+          backgroundColor: color.background,
+          borderColor: colorScheme === 'light' ? 'rgba(0,0,0,0.1)' : 'rgba(255,255,255,0.2)',
+          borderWidth: 1,
+          borderRadius: 4,
+          marginRight: 12,
+          paddingRight: 8,
+        }}
+      />
       <Text
         style={{
           // color: color.text,

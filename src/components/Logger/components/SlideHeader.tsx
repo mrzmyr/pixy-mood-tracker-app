@@ -80,14 +80,12 @@ const DatePickerHeader = ({
 export const SlideHeader = ({
   isDeleteable,
   backVisible,
-  feedbackVisible,
   onBack,
   onClose,
   onDelete,
 }: {
   isDeleteable: boolean;
   backVisible?: boolean;
-  feedbackVisible: boolean;
   onBack?: () => void;
   onClose?: () => void;
   onDelete?: () => void;
@@ -208,21 +206,7 @@ export const SlideHeader = ({
             flexDirection: 'row',
           }}
         >
-          {feedbackVisible && (
-            <LinkButton
-              type="secondary"
-              onPress={() => {
-                show({
-                  type: 'issue',
-                })
-              }}
-              style={{
-                marginRight: 8,
-              }}
-            >
-              {t('give_feedback')}
-            </LinkButton>
-          )}
+
           {isDeleteable && (
             <Pressable
               style={{

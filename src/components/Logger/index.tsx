@@ -424,7 +424,6 @@ export const Logger = ({
             <View style={{ height: 24 }} />
           )}
           <SlideHeader
-            feedbackVisible={slideName === 'emotions'}
             onBack={() => {
               _carousel.current?.prev()
             }}
