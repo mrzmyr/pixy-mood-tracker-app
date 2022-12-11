@@ -111,7 +111,7 @@ const CalendarScreen = memo(function CalendarScreen() {
           <Text
             style={{
               fontSize: 17,
-              color: colors.textSecondary,
+              color: colors.text,
               marginTop: 20,
               textAlign: 'center',
               marginBottom: -60,
