@@ -20,11 +20,11 @@ const EmotionItem = ({
 
   const scale = useScale()
   const colorMapping = {
-    very_good: scale.colors.good,
-    good: scale.colors.good,
+    very_good: scale.colors.very_good,
+    good: scale.colors.very_good,
     neutral: scale.colors.neutral,
-    bad: scale.colors.bad,
-    very_bad: scale.colors.bad,
+    bad: scale.colors.very_bad,
+    very_bad: scale.colors.very_bad,
   }
 
   const _emotion = EMOTIONS.find((e) => e.key === emotion)
@@ -53,13 +53,13 @@ const EmotionItem = ({
     >
       <View
         style={{
-          width: 4,
-          height: '100%',
+          width: 8,
+          height: 10,
           backgroundColor: color.background,
           borderColor: colorScheme === 'light' ? 'rgba(0,0,0,0.1)' : 'rgba(255,255,255,0.2)',
           borderWidth: 1,
-          borderRadius: 4,
-          marginRight: 12,
+          borderRadius: 100,
+          marginRight: 10,
           paddingRight: 8,
         }}
       />
