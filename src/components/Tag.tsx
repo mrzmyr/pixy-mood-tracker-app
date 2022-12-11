@@ -33,7 +33,7 @@ export default function Tag({
         marginRight: 8,
         marginBottom: 8,
         backgroundColor: selected ? colors.tagBackgroundActive : colors.tagBackground,
-        borderWidth: 1,
+        borderWidth: 2,
         borderColor: selected ? colors.tagBorderActive : colors.tagBorder,
         opacity: pressed ? 0.8 : 1,
         ...style,
@@ -55,6 +55,7 @@ export default function Tag({
       <Text style={{
         color: selected ? colors.tagTextActive : colors.tagText,
         fontSize: 17,
+        fontWeight: '500',
       }}>{title}</Text>
     </Pressable>
   )
