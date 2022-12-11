@@ -1,6 +1,6 @@
 {
   "name": "pixel-tracker",
-  "version": "1.60.0",
+  "version": "1.61.0",
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
     "start": "expo start --dev-client",
