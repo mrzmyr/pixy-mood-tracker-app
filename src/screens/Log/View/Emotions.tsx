@@ -134,14 +134,7 @@ export const Emotions = ({
               padding: 8,
             }}
           >
-            <Pressable
-              onPress={async () => {
-                await haptics.selection();
-                navigation.navigate('LogEdit', { id: item.id, step: 'emotions' });
-              }}
-            >
-              <Text style={{ color: colors.textSecondary, fontSize: 17 }}>{t('view_log_emotions_empty')}</Text>
-            </Pressable>
+            <Text style={{ color: colors.textSecondary, fontSize: 17 }}>{t('view_log_emotions_empty')}</Text>
           </View>
         )}
       </View>
