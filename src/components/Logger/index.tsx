@@ -379,7 +379,11 @@ export const Logger = ({
   const onScrollEnd = (index: number) => {
     Keyboard.dismiss()
 
-    if (index === messageSlideIndex && hasMessageSlide) {
+    if (
+      index === messageSlideIndex &&
+      hasMessageSlide &&
+      mode === 'create'
+    ) {
       texAreaRef.current?.focus()
     }
   }
