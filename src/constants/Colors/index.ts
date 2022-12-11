@@ -1,10 +1,12 @@
 import colors from './TailwindColors';
 
-import scales from './Scales';
 import { TAG_COLOR_NAMES } from '../Config';
+import scales from './Scales';
+
+type TagColorKey = typeof TAG_COLOR_NAMES[number];
 
 type TagColors = {
-  [tag: string]: {
+  [tag: TagColorKey]: {
     title: string;
     dot: string;
     background: string;
@@ -22,15 +24,15 @@ tagColorNames.map(color => {
   tagsDark[color] = {
     title: color,
     dot: colors[color]['500'],
-    background: colors[color]['800'],
-    text: colors[color]['300'],
+    background: colors[color]['900'],
+    text: colors[color]['200'],
     border: colors[color]['600'],
   }
   tagsLight[color] = {
     title: color,
     dot: colors[color]['400'],
-    background: colors[color]['200'],
-    text: colors[color]['800'],
+    background: colors[color]['100'],
+    text: colors[color]['700'],
     border: colors[color]['400'],
   }
 })
@@ -152,10 +154,10 @@ const light = {
   textInputBorder: colors.neutral[200],
   textInputBorderHighlight: tintColorLight,
 
-  tagErrorBackground: '#FECDD3',
-  tagErrorText: '#9F1239',
-  tagSuccessBackground: '#BBF7D0',
-  tagSuccessText: '#14532D',
+  tagErrorBackground: colors.red[100],
+  tagErrorText: colors.red[800],
+  tagSuccessBackground: colors.green[100],
+  tagSuccessText: colors.green[900],
 
   checkboxBackground: colors.neutral[100],
   checkboxBorder: colors.neutral[300],
@@ -216,8 +218,9 @@ const light = {
   sharingLogoText: colors.neutral[600],
 
   entryBackground: colors.white,
-  entryBorder: colors.neutral[100],
+  entryBorder: colors.neutral[200],
   entryItemBorder: colors.neutral[200],
+  entryItemBackground: colors.white,
 
   promoBackground: tintColorLight,
   promoBorder: 'rgba(255, 255, 255, 0.1)',
@@ -226,14 +229,23 @@ const light = {
   emotionButtonBackground: colors.white,
   emotionButtonBackgroundActive: colors.neutral[900],
   emotionButtonBorder: colors.neutral[200],
-  emotionButtonBorderActive: colors.neutral[900],
+  emotionButtonBorderActive: tintColorLight,
   emotionButtonText: colors.neutral[900],
   emotionButtonTextActive: colors.white,
+
+  tooltipBackground: 'rgba(0, 0, 0, 0.8)',
+  tooltipText: colors.white,
+  tooltipTextSecondary: colors.neutral[400],
 
   feedbackBoxBackground: colors.amber[50],
 
   dayViewAddButtonBorder: colors.neutral[300],
   dayViewAddButtonText: colors.neutral[400],
+
+  promoCardBackground: colors.white,
+  promoCardText: colors.neutral[800],
+  promoCardTextSecondary: colors.neutral[500],
+  promoCardBorder: colors.neutral[200],
 
   switchThumbColor: '#333',
   scales: scales.light,
@@ -428,6 +440,7 @@ const dark: IColors & {
   entryBackground: colors.neutral[800],
   entryBorder: colors.neutral[700],
   entryItemBorder: colors.neutral[700],
+  entryItemBackground: colors.neutral[800],
 
   promoBackground: tintColorDark,
   promoBorder: 'rgba(255, 255, 255, 0.1)',
@@ -442,8 +455,17 @@ const dark: IColors & {
 
   feedbackBoxBackground: colors.neutral[900],
 
+  tooltipBackground: 'rgba(0, 0, 0, 0.8)',
+  tooltipText: colors.white,
+  tooltipTextSecondary: colors.neutral[400],
+
   dayViewAddButtonBorder: colors.neutral[700],
   dayViewAddButtonText: colors.neutral[500],
+
+  promoCardBackground: colors.neutral[900],
+  promoCardText: colors.white,
+  promoCardTextSecondary: colors.neutral[400],
+  promoCardBorder: colors.neutral[800],
 
   switchThumbColor: '#FFF',
   scales: scales.dark,

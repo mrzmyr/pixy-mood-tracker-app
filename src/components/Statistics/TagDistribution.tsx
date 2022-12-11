@@ -30,8 +30,15 @@ export const TagDistribution = ({
     <BigCard
       title={title}
       subtitle={subtitle}
-      isShareable={true}
+      isShareable
+      hasFeedback
       analyticsId="tag-distribution"
+      analyticsData={
+        data.tags.map(tag => ({
+          ...tag,
+          details: anonymizeTag(tag.details),
+        }))
+      }
     >
       {data.tags.length < MIN_TAGS && (
         <NotEnoughDataOverlay />
@@ -47,13 +54,6 @@ export const TagDistribution = ({
           limit={10}
         />
       )}
-      <CardFeedback
-        type='tag_distribution'
-        details={data.tags.map(tag => ({
-          ...tag,
-          details: anonymizeTag(tag.details),
-        }))}
-      />
     </BigCard>
   );
 };

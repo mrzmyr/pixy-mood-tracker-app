@@ -7,12 +7,13 @@ import { useSettings } from '@/hooks/useSettings';
 import { getItemDateTitle } from '@/lib/utils';
 import { RootStackParamList, RootStackScreenProps } from '../../../../types';
 import { t } from 'i18n-js';
-import { Platform, Pressable, ScrollView, View } from 'react-native';
+import { Platform, Pressable, ScrollView, useColorScheme, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Header } from './Header';
 import { Headline } from './Headline';
 import { Message } from './Message';
 import { Tags } from './Tags';
+import { Emotions } from './Emotions';
 
 export const RatingDot = ({
   rating,
@@ -24,6 +25,7 @@ export const RatingDot = ({
   const haptics = useHaptics();
   const colors = useColors();
   const { settings } = useSettings();
+  const colorScheme = useColorScheme();
 
   const backgroundColor = colors.scales[settings.scaleType][rating].background;
 
@@ -46,6 +48,8 @@ export const RatingDot = ({
           backgroundColor: backgroundColor,
           width: 48,
           aspectRatio: 1,
+          borderWidth: 1,
+          borderColor: colorScheme === 'light' ? 'rgba(0,0,0,0.1)' : 'rgba(255,255,255,0.2)',
         }}
       />
     </Pressable>
@@ -154,7 +158,7 @@ export const LogView = ({ navigation, route }: RootStackScreenProps<'LogView'>) 
               <RatingDot onPress={() => edit('rating')} rating={item.rating} />
             </View>
           </View>
-          {/* <Emotions item={item} /> */}
+          <Emotions item={item} />
           <Tags item={item} />
           <Message item={item} />
           <View

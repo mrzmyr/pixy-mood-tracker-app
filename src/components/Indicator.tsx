@@ -1,31 +1,30 @@
 import { Text, View, ViewStyle } from "react-native";
 import useColors from "@/hooks/useColors";
+import { TAG_COLOR_NAMES } from "@/constants/Config";
 
 export default function Indicator({
   children,
-  type,
+  colorName,
   style
 }: {
   children: React.ReactNode,
-  type: 'success' | 'error',
+  colorName: typeof TAG_COLOR_NAMES[number],
   style?: ViewStyle,
 }) {
   const colors = useColors();
 
   return (
     <View style={{
-      backgroundColor: type === 'success' ? colors.tagSuccessBackground : colors.tagErrorBackground,
-      padding: 2,
-      paddingLeft: 7,
-      paddingRight: 7,
-      borderRadius: 8,
-      opacity: 0.8,
+      backgroundColor: colors.tags[colorName]?.background,
+      padding: 4,
+      paddingLeft: 8,
+      paddingRight: 8,
+      borderRadius: 6,
       ...style,
     }}>
       <Text style={{
         fontSize: 14,
-        opacity: 0.8,
-        color: type === 'success' ? colors.tagSuccessText : colors.tagErrorText,
+        color: colors.tags[colorName]?.text,
       }}>
         {children}
       </Text>

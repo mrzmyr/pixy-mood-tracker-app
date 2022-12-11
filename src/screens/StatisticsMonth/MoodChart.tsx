@@ -32,6 +32,10 @@ export const MoodChart = ({
       subtitle={t('statistics_mood_chart_description', { date: date.format('MMMM, YYYY') })}
       isShareable={true}
       analyticsId="rating-distribution"
+      analyticsData={{
+        date: date.format('YYYY-MM'),
+        data,
+      }}
     >
       {validatedData.length < MIN_ITEMS && (
         <NotEnoughDataOverlay limit={MIN_ITEMS - validatedData.length} />

@@ -1,10 +1,13 @@
 import { LinearGradient } from "expo-linear-gradient"
 import { Pressable, Text, View } from "react-native"
-import { ChevronRight, Moon } from "react-native-feather"
+import { ChevronRight, Moon, X } from "react-native-feather"
 import useColors from "@/hooks/useColors"
 import { Motion } from "@legendapp/motion"
 import { t } from "@/helpers/translation"
 import useHaptics from "@/hooks/useHaptics"
+import { useSettings } from "@/hooks/useSettings"
+
+export const MONTH_REPORT_SLUG = `promo_month_report_${(new Date()).getFullYear()}_${(new Date()).getMonth()}_closed`
 
 export const PromoCardMonth = ({
   title,
@@ -15,6 +18,7 @@ export const PromoCardMonth = ({
 }) => {
   const colors = useColors()
   const haptics = useHaptics()
+  const { addActionDone, hasActionDone } = useSettings()
 
   const gradientColors = [
     colors.palette.indigo[900],
@@ -26,6 +30,13 @@ export const PromoCardMonth = ({
     haptics.selection()
     onPress()
   }
+
+  const onClose = () => {
+    haptics.selection()
+    addActionDone(MONTH_REPORT_SLUG)
+  }
+
+  if (hasActionDone(MONTH_REPORT_SLUG)) return null
 
   return (
     <Motion.View
@@ -43,7 +54,7 @@ export const PromoCardMonth = ({
       <Pressable
         style={({ pressed }) => [{
           backgroundColor: colors.cardBackground,
-          borderRadius: 8,
+          borderRadius: 12,
           overflow: 'hidden',
           paddingVertical: 24,
           paddingHorizontal: 16,
@@ -87,19 +98,19 @@ export const PromoCardMonth = ({
             }}
           >{t('month_report')}</Text>
         </View>
-        <View
+        <Pressable
           style={{
-            backgroundColor: 'rgba(0, 0, 0, 0.5)',
             padding: 4,
             borderRadius: 100,
             width: 32,
             position: 'absolute',
-            right: 16,
-            top: 16,
+            right: 12,
+            top: 12,
           }}
+          onPress={onClose}
         >
-          <ChevronRight stroke={colors.palette.white} width={24} height={24} />
-        </View>
+          <X stroke={colors.promoCardText} width={24} height={24} />
+        </Pressable>
         <View
           style={{
             flexDirection: 'column',

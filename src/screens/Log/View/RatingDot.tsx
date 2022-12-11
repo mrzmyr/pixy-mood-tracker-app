@@ -1,4 +1,4 @@
-import { Pressable, View } from 'react-native';
+import { Pressable, useColorScheme, View } from 'react-native';
 import useColors from '@/hooks/useColors';
 import useHaptics from '@/hooks/useHaptics';
 import { LogItem } from '@/hooks/useLogs';
@@ -14,6 +14,7 @@ export const RatingDot = ({
   const haptics = useHaptics();
   const colors = useColors();
   const { settings } = useSettings();
+  const colorScheme = useColorScheme();
 
   const backgroundColor = colors.scales[settings.scaleType][rating].background;
 
@@ -36,6 +37,8 @@ export const RatingDot = ({
           backgroundColor: backgroundColor,
           width: 32,
           aspectRatio: 1,
+          borderWidth: 1,
+          borderColor: colorScheme === 'light' ? 'rgba(0,0,0,0.1)' : 'rgba(255,255,255,0.2)',
         }}
       />
     </Pressable>

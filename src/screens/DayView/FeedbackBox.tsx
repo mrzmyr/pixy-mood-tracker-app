@@ -5,10 +5,13 @@ import useColors from "../../hooks/useColors";
 import useFeedbackModal from "../../hooks/useFeedbackModal";
 
 export const FeedbackBox = ({
-  prefix, style = {},
+  prefix,
+  style = {},
+  emoji = '',
 }: {
   prefix: string;
   style?: ViewStyle;
+  emoji?: string;
 }) => {
   const colors = useColors();
   const { show: showFeedbackModal, Modal: FeedbackModal } = useFeedbackModal();
@@ -36,11 +39,11 @@ export const FeedbackBox = ({
           marginBottom: 8,
           fontWeight: 'bold',
           color: colors.text
-        }}>👷‍♀️ {t(`${prefix}_title`)}</Text>
+        }}>{emoji ? `${emoji} ` : ''}{t(`${prefix}_title`)}</Text>
         <Text style={{
-          fontSize: 15,
+          fontSize: 17,
           marginBottom: 16,
-          lineHeight: 22,
+          lineHeight: 24,
           color: colors.textSecondary
         }}>{t(`${prefix}_body`)}</Text>
         <View
@@ -60,7 +63,7 @@ export const FeedbackBox = ({
             onPress={() => {
               showFeedbackModal({ type: 'idea' });
             }}
-          >{t(`${prefix}_button`)}</LinkButton>
+          >{t(`give_feedback`)}</LinkButton>
         </View>
       </View>
     </View>

@@ -62,8 +62,10 @@ const YearInPixels = ({
     <BigCard
       title={t('year_in_pixels')}
       subtitle={t('year_in_pixels_description', { date: date.format('YYYY') })}
-      isShareable={true}
+      isShareable
+      hasFeedback
       analyticsId="year-in-pixels"
+      analyticsData={items.map(item => anonymizeItem(item))}
     >
       <>
         <View
@@ -89,10 +91,6 @@ const YearInPixels = ({
             items={dummyItems}
           />
         )}
-        <CardFeedback
-          type='year_dots'
-          details={items.map(item => anonymizeItem(item))}
-        />
       </>
     </BigCard>
   )

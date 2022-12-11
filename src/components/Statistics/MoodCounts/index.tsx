@@ -50,6 +50,7 @@ export const MoodCounts = ({
       title={title}
       subtitle={subtitle}
       isShareable
+      hasFeedback
       analyticsId="rating-count"
     >
       {total < MIN_ITEMS && (
@@ -64,13 +65,6 @@ export const MoodCounts = ({
           data={dummyData}
         />
       )}
-      <CardFeedback
-        type="mood_count"
-        details={{
-          rating_counts: ratingCounts,
-          total,
-        }}
-      />
     </BigCard>
   )
 }

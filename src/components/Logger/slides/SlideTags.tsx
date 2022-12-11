@@ -110,6 +110,9 @@ export const SlideTags = ({
           <LinkButton
             type="secondary"
             onPress={onDisableStep}
+            style={{
+              fontWeight: '400',
+            }}
           >{t('log_tags_disable')}</LinkButton>
         )}
       </Footer>

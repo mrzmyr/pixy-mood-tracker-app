@@ -67,7 +67,7 @@ const CalendarDay = memo(function CalendarDay({
       colors.text
     ) : (
       rating ?
-        colors.scales[scaleType][rating].text :
+        colors.scales[scaleType][rating].textSecondary :
         colors.scales[scaleType].empty.text
     )
   ), [rating, scaleType, colors])

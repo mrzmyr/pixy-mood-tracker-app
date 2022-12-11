@@ -2,6 +2,33 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.61.0](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.60.0...v1.61.0) (2022-12-11)
+
+
+### Features
+
+* add calendar foot note ([a08eb7c](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/a08eb7c65a3b7378dd1d4b1e0ef8b8e69ef0bcc0))
+* only focus textarea when creating ([bd688c4](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/bd688c403c5b4fa3fce74167cc2563b447951919))
+
+
+### Bug Fixes
+
+* remove feedback bar from shared images ([cda3ec1](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/cda3ec18f86714c8bb3e970109cb02a6b42cb04b))
+* styling for emotions in `LogView` and `Entry` ([e1dc98c](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/e1dc98cfd907381e9459a46d48745ea678c2dc12))
+
+
+### Styling
+
+* align de translations ([7db78bf](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/7db78bf15aecf6473ba961829bec082f8124c0ee))
+* change emotion indicator to dot ([80030cf](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/80030cfdf4e934ed6207df7c1f040ddd3a124c5f))
+
+## [1.60.0](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.59.3...v1.60.0) (2022-12-11)
+
+
+### Features
+
+* big update for emotions [#2](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/2) ([760ffc3](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/760ffc31a861e47e0cd4ea2af8d36865e0a74e33))
+
 ## [1.59.3](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.59.2...v1.59.3) (2022-12-10)
 
 

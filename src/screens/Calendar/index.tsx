@@ -1,5 +1,5 @@
 import React, { memo, useEffect, useRef, useState } from "react";
-import { ActivityIndicator, Platform, useWindowDimensions, View } from "react-native";
+import { ActivityIndicator, Platform, Text, useWindowDimensions, View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { useCalendarFilters } from "@/hooks/useCalendarFilters";
 import useColors from "@/hooks/useColors";
@@ -11,6 +11,7 @@ import { Body } from "./CalendarBottomSheet/Body";
 import { CalendarFooter } from "./CalendarFooter";
 import CalendarHeader from "./CalendarHeader";
 import { ScrollToBottomButton } from "./ScrollToBottomButton";
+import { t } from "@/helpers/translation";
 
 const CalendarScreen = memo(function CalendarScreen() {
   const colors = useColors();
@@ -103,6 +104,20 @@ const CalendarScreen = memo(function CalendarScreen() {
           <CalendarFooter />
         </View>
 
+        <View
+          style={{
+          }}
+        >
+          <Text
+            style={{
+              fontSize: 17,
+              color: colors.text,
+              marginTop: 20,
+              textAlign: 'center',
+              marginBottom: -60,
+            }}
+          >🫶 {t('calendar_foot_note')}</Text>
+        </View>
       </ScrollView>
       {Platform.OS !== "web" && <CalendarBottomSheet />}
     </View>

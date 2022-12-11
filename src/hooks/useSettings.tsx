@@ -8,7 +8,7 @@ import {
 } from "react";
 import "react-native-get-random-values";
 import { v4 as uuidv4 } from "uuid";
-import { DEFAULT_STEPS, LoggerStep, STEP_OPTIONS } from "@/components/Logger/config";
+import { LoggerStep, STEP_OPTIONS } from "@/components/Logger/config";
 import { load, store } from "@/helpers/storage";
 import { Tag } from "./useTags";
 
@@ -57,7 +57,13 @@ export const INITIAL_STATE: SettingsState = {
   reminderTime: "18:00",
   analyticsEnabled: true,
   actionsDone: [],
-  steps: DEFAULT_STEPS,
+  steps: [
+    "rating",
+    "tags",
+    "emotions",
+    "message",
+    "feedback"
+  ],
 };
 
 type Value = {
@@ -69,6 +75,7 @@ type Value = {
   importSettings: (settings: ExportSettings) => void;
   addActionDone: (action: IAction["title"]) => void;
   hasActionDone: (actionTitle: IAction["title"]) => boolean;
+  removeActionDone: (actionTitle: IAction["title"]) => void;
   toggleStep: (step: LoggerStep, value?: Boolean) => void;
   hasStep: (step: LoggerStep) => boolean;
 }
@@ -140,6 +147,15 @@ function SettingsProvider({ children }: { children: React.ReactNode }) {
     }));
   }, [settings.actionsDone]);
 
+  const removeActionDone = useCallback((actionTitle: IAction["title"]) => {
+    setSettings((settings) => ({
+      ...settings,
+      actionsDone: settings.actionsDone.filter(
+        (action) => action.title !== actionTitle
+      ),
+    }));
+  }, [settings.actionsDone]);
+
   const hasActionDone = useCallback(
     (actionTitle: IAction["title"]) => {
       return settings.actionsDone.some(
@@ -182,6 +198,7 @@ function SettingsProvider({ children }: { children: React.ReactNode }) {
     importSettings,
     addActionDone,
     hasActionDone,
+    removeActionDone,
     toggleStep,
     hasStep,
   };
