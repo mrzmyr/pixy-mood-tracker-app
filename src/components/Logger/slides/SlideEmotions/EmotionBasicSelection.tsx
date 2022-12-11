@@ -1,5 +1,6 @@
-import useColors from "@/hooks/useColors";
-import useHaptics from "@/hooks/useHaptics";
+import LinkButton from "@/components/LinkButton";
+import { t } from "@/helpers/translation";
+import useFeedbackModal from "@/hooks/useFeedbackModal";
 import { Emotion } from "@/types";
 import _ from "lodash";
 import { View, ViewStyle } from "react-native";
@@ -13,8 +14,7 @@ export const EmotionBasicSelection = ({
   onPress: (emotion: Emotion) => void;
   style?: ViewStyle;
 }) => {
-  const colors = useColors();
-  const haptics = useHaptics();
+  const { Modal, show } = useFeedbackModal();
 
   return (
     <View
@@ -25,6 +25,7 @@ export const EmotionBasicSelection = ({
         ...style,
       }}
     >
+      <Modal />
       {['good', 'neutral', 'bad']
         .map((category) => {
           const filteredEmotions = emotions
@@ -66,6 +67,16 @@ export const EmotionBasicSelection = ({
           ));
         })
         .flat()}
+
+      <LinkButton
+        type="secondary"
+        onPress={() => show({ type: 'idea' })}
+        style={{
+          marginTop: 20,
+        }}
+      >
+        {t('give_feedback')}
+      </LinkButton>
     </View>
   );
 };
