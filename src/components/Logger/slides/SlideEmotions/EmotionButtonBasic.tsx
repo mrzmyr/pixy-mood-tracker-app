@@ -1,9 +1,8 @@
 import useColors from "@/hooks/useColors";
 import useHaptics from "@/hooks/useHaptics";
-import useScale from "@/hooks/useScale";
 import { Emotion } from "@/types";
 import { Pressable, Text, useColorScheme, View, ViewStyle } from "react-native";
-import { EMOTION_BUTTON_HEIGHT } from "./constants";
+import { EmotionIndicator } from "./EmotionsIndicator";
 
 export const EmotionButtonBasic = ({
   emotion, onPress, selected, style = {},
@@ -17,16 +16,7 @@ export const EmotionButtonBasic = ({
   const haptics = useHaptics();
   const colorScheme = useColorScheme();
 
-  const scale = useScale();
-  const colorMapping = {
-    very_good: scale.colors.very_good,
-    good: scale.colors.very_good,
-    neutral: scale.colors.neutral,
-    bad: scale.colors.very_bad,
-    very_bad: scale.colors.very_bad,
-  };
 
-  const color = colorMapping[emotion.category];
 
   return (
     <Pressable
@@ -56,18 +46,7 @@ export const EmotionButtonBasic = ({
           paddingLeft: selected ? 15 : 16,
         }}
       >
-        <View
-          style={{
-            width: 8,
-            height: 10,
-            backgroundColor: color.background,
-            borderColor: colorScheme === 'light' ? 'rgba(0,0,0,0.1)' : 'rgba(255,255,255,0.2)',
-            borderWidth: 1,
-            borderRadius: 100,
-            marginRight: 10,
-            paddingRight: 8,
-          }}
-        />
+        <EmotionIndicator category={emotion.category} />
         <Text
           style={{
             color: colors.text,
