@@ -17,8 +17,8 @@ export const Card = ({
     <View style={{
       paddingTop: 16,
       paddingBottom: 16,
-      paddingLeft: 20,
-      paddingRight: 20,
+      paddingLeft: 16,
+      paddingRight: 16,
       borderRadius: 8,
       backgroundColor: colors.cardBackground,
       marginTop: 16,

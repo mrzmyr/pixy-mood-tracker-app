@@ -190,13 +190,13 @@ export const SlideEmotions = ({
           </ScrollView>
           {mode === 'basic' && <EmotionBasicGradients />}
           {mode === 'advanced' && <EmotionAdvancedGradients />}
+          {showTooltip && (
+            <Tooltip
+              emotion={selectedEmotions[selectedEmotions.length - 1]}
+              onClose={() => setShowTooltip(false)}
+            />
+          )}
         </View>
-        {showTooltip && (
-          <Tooltip
-            emotion={selectedEmotions[selectedEmotions.length - 1]}
-            onClose={() => setShowTooltip(false)}
-          />
-        )}
         <Footer
           style={{
             marginHorizontal: 16,
