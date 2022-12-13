@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.61.1](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.61.0...v1.61.1) (2022-12-13)
+
+
+### Bug Fixes
+
+* if questions are not loaded ignore result ([6d4d8a5](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/6d4d8a54fa088fa4b53896f1a8a2fffd2adfbd87))
+
+
+### Styling
+
+* font size to normal for tags ([2352813](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/23528134c351d6e791273f7b674334edf37f785a))
+
 ## [1.61.0](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.60.0...v1.61.0) (2022-12-11)
 
 
