@@ -69,14 +69,14 @@ const CardFeedbackEmoji = ({ image, onPress, selected }) => {
   )
 }
 export const CardFeedback = ({
-  type,
+  analyticsId,
+  analyticsData = {},
   variant = 'default',
-  details = {},
   style = {},
 }: {
-  type: string,
+  analyticsId: string,
+  analyticsData?: any;
   variant?: 'default' | 'minimal',
-  details?: any;
   style?: ViewStyle,
 }) => {
   const analytics = useAnalytics();
@@ -113,10 +113,10 @@ export const CardFeedback = ({
     }
 
     const body = {
-      type,
+      type: analyticsId,
       emoji,
       comment,
-      details,
+      details: analyticsData,
       ...metaData,
     }
 

@@ -179,6 +179,9 @@ export const SlideMessage = forwardRef(({
                     onClose={() => setShowTips(false)}
                     hasFeedback
                     analyticsId="log_message_hint"
+                    analyticsData={{
+                      questions: questions,
+                    }}
                   >
                     {questions.map((q, index) => (
                       <Text

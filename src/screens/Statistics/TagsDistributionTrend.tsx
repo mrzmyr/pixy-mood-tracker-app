@@ -71,7 +71,10 @@ export const TagsDistributionTrend = ({
           </TagBar>
         </View>
       </View>
-      <CardFeedback type="tags_distribution_trend" details={{}} />
+      <CardFeedback
+        analyticsId="tags_distribution_trend"
+        analyticsData={{}}
+      />
     </Card>
   );
 };

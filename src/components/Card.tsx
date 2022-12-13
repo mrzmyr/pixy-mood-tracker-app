@@ -12,6 +12,7 @@ export const Card = ({
   onClose,
   hasFeedback,
   analyticsId,
+  analyticsData,
 }: {
   title: string | React.ReactNode,
   children: React.ReactNode
@@ -19,6 +20,7 @@ export const Card = ({
   onClose?: () => void,
   hasFeedback?: boolean,
   analyticsId?: string,
+  analyticsData?: any,
 }) => {
   const colors = useColors()
 
@@ -76,8 +78,9 @@ export const Card = ({
       </View>
       {hasFeedback && (
         <CardFeedback
-          type={analyticsId!}
           variant="minimal"
+          analyticsId={analyticsId!}
+          analyticsData={analyticsData}
           style={{
             borderTopColor: colors.logCardBorder,
           }}
