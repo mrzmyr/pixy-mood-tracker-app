@@ -81,9 +81,7 @@ export const SlideMessage = forwardRef(({
   const todayMoodValue = getMoodValueNow()
   const yesterdayMoodValue = getMoodValueYesterday(date)
 
-  let questions: string[] = [
-    placeholder.current,
-  ]
+  let questions: string[] = []
 
   if (
     todayMoodValue !== null &&
@@ -100,6 +98,10 @@ export const SlideMessage = forwardRef(({
         words: tempLog.data.emotions.slice(0, 5).map(emotion => t(`log_emotion_${emotion}`)).join(', ').toLowerCase(),
       })
     )
+  }
+
+  if (questions.length < 2) {
+    questions.push(placeholder.current)
   }
 
   return (
