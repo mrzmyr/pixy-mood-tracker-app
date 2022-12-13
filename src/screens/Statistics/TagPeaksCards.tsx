@@ -157,7 +157,10 @@ export const TagPeaksCard = ({
         <BodyWeek start={dayjs().subtract(2, 'week')} items={tag.items} tag={tag} />
         <BodyWeek start={dayjs().subtract(1, 'week')} items={tag.items} tag={tag} />
       </View>
-      <CardFeedback type='tags_peaks' details={{ count: tag.items.length }} />
+      <CardFeedback
+        analyticsId='tags_peaks'
+        analyticsData={{ count: tag.items.length }}
+      />
     </Card>
   )
 }

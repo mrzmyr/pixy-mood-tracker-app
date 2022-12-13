@@ -619,5 +619,10 @@
   "less": "Less",
   "promo_emotion_tracking_title": "Emotion Tracking\nis now available!",
   "new_feature": "New Feature",
-  "calendar_foot_note": "The future will be great"
+  "calendar_foot_note": "The future will be great",
+  "log_messasge_hint_1": "Compared to the day before, your mood went {{word}}. Do you know why?",
+  "up": "up",
+  "down": "down",
+  "log_messasge_hint_2": "What made you feel {{words}}?",
+  "log_message_hint_title": "Things to ask yourself."
 }

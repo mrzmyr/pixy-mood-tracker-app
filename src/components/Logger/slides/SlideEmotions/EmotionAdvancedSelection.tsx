@@ -1,11 +1,12 @@
 import { Emotion, EMOTION_CATEGORIES } from "@/types";
 import { useRef } from "react";
-import { ViewStyle } from "react-native";
+import { Dimensions, ViewStyle } from "react-native";
 import Carousel, { ICarouselInstance } from "react-native-reanimated-carousel";
 import { EMOTIONS } from "../../config";
 import { EMOTION_BUTTON_HEIGHT } from "./constants";
 import { EmotionPage } from "./EmotionPage";
-import { WINDOW_WIDTH } from ".";
+
+const WINDOW_WIDTH = Dimensions.get('window').width
 
 export const EmotionAdvancedSelection = ({
   defaultIndex, selectedEmotions, onPress, style = {},

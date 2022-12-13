@@ -163,7 +163,6 @@ const styles = StyleSheet.create({
   dayNumberParent2: {
     justifyContent: 'center',
     alignItems: 'center',
-    minHeight: 20,
     minWidth: 20,
     borderRadius: 100,
   }

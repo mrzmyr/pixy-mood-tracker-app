@@ -419,7 +419,7 @@ export const Logger = ({
               index={slideIndex}
               scrollTo={({ index }) => {
                 if (_carousel.current) {
-                  _carousel.current.scrollTo({ index, animated: true })
+                  _carousel.current.scrollTo({ index, animated: false })
                 }
                 setSlideIndex(index)
               }}

@@ -1,5 +1,4 @@
 import Button from '@/components/Button';
-import LinkButton from '@/components/LinkButton';
 import { locale, t } from '@/helpers/translation';
 import useColors from "@/hooks/useColors";
 import useFeedbackModal from '@/hooks/useFeedbackModal';
@@ -8,11 +7,9 @@ import { useTemporaryLog } from '@/hooks/useTemporaryLog';
 import { getItemDateTitle } from '@/lib/utils';
 import dayjs from 'dayjs';
 import { useState } from 'react';
-import { Dimensions, Platform, Pressable, Text, View } from 'react-native';
-import { ArrowLeft, Clock, Trash, X } from 'react-native-feather';
+import { Platform, Pressable, Text, View } from 'react-native';
+import { ArrowLeft, Trash, X } from 'react-native-feather';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
-
-const SCREEN_WIDTH = Dimensions.get('window').width;
 
 const DatePickerHeader = ({
   onChange,
@@ -102,7 +99,7 @@ export const SlideHeader = ({
 
   return (
     <View style={{
-      flexDirection: SCREEN_WIDTH < 350 ? 'column' : 'row',
+      flexDirection: 'row',
       justifyContent: 'space-between',
       marginTop: -8,
       width: '100%',
@@ -182,7 +179,6 @@ export const SlideHeader = ({
                 borderRadius: 8,
               })}
             >
-              <Clock color={colors.logHeaderText} width={17} style={{ marginRight: 8 }} />
               <Text
                 numberOfLines={1}
                 style={{

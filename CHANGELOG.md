@@ -2,6 +2,40 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.62.0](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.61.1...v1.62.0) (2022-12-13)
+
+
+### Features
+
+* add `Card` component ([18fa952](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/18fa952446503d3910ba7e4ccc6bad7f26141cd7))
+* add `minimal` variant for `CardFeedback` ([1d4cd11](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/1d4cd1133cad738e4ad511d25c068208d7af93bf))
+* Add tip to message step in `Logger` ([3ee085d](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/3ee085dfa3ef29f7e1c320b562542beb708d96d2))
+* show individual tips first ([2cfb1ef](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/2cfb1ef502373f73c34fab6094891c908d50153c))
+
+
+### Bug Fixes
+
+* don't animate when stepper used to change slide ([f206ed8](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/f206ed832b200d1434e1a45be26cfca58cbd470f))
+
+
+### Refactors
+
+* add `EmotionIndicator` component ([4b9a4d3](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/4b9a4d3a8c614ea9773c7f846e76fd212ba5f240))
+* move top gradient to `SlideEmotions` ([4d774f8](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/4d774f8c9be5f387946931b4164e51a28d459127))
+* rename `type` and `details` on `CardFeedback` to `analyticsId`, `analyticsData` ([1b4fbe4](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/1b4fbe4d43dd3932f5bb898e223b199e6dc7e5a9))
+
+
+### Styling
+
+* add shadow to `SlideAction` ([64bfea8](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/64bfea8281b09417a94afa2445b89d52a65705c7))
+* add translations ([27d335c](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/27d335c965b817fa857ae0479464ebe8e5891aed))
+* fix small screen issues ([467b02f](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/467b02f82791489f9fa1ba20a8ef32edb06045cb))
+* hide textarea when showing message tips ([8035af7](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/8035af71ef351f3bd1a105d8a6a574a5bd06b7bc))
+* positioning message tips ([5327b56](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/5327b56d5e86ffec121fe822002844a49d26df47))
+* reduce bottom spacing on `SlideMessage` ([3c2e3e1](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/3c2e3e1bb6934b53977cb6f0997f06b701c2b977))
+* remove `Clock` from `SlideHeader` ([3ac6b8d](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/3ac6b8df0e88c96a80e0e925c32c6f2c63f27d8f))
+* remove shadow from `SlideAction` ([b11a4aa](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/b11a4aaea7e7e812b20ca25d8dcd02bfe83d3a1a))
+
 ## [1.61.1](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.61.0...v1.61.1) (2022-12-13)
 
 

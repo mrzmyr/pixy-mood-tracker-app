@@ -54,8 +54,8 @@ export const MoodChart = ({
           width={width} />
       )}
       <CardFeedback
-        type='rating_distribution_month_report'
-        details={data}
+        analyticsId='rating_distribution_month_report'
+        analyticsData={data}
       />
     </BigCard>
   );

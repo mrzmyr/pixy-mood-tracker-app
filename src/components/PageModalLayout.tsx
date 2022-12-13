@@ -11,7 +11,7 @@ export const PageModalLayout = ({
     <View
       style={{
         flex: 1,
-        paddingTop: Platform.OS === "ios" ? 0 : 20,
+        paddingTop: Platform.OS === 'android' ? 20 : 0,
         ...style,
       }}
     >

@@ -1,10 +1,10 @@
+import { useAnalytics } from '@/hooks/useAnalytics';
+import useColors from "@/hooks/useColors";
 import * as Sharing from 'expo-sharing';
 import { useRef, useState } from "react";
 import { ActivityIndicator, Image, Text, View, ViewStyle } from "react-native";
 import { Share } from 'react-native-feather';
 import { captureRef } from "react-native-view-shot";
-import { useAnalytics } from '@/hooks/useAnalytics';
-import useColors from "@/hooks/useColors";
 import LinkButton from './LinkButton';
 import { CardFeedback } from './Statistics/CardFeedback';
 
@@ -165,8 +165,8 @@ export const BigCard = ({
 
         {hasFeedback && (
           <CardFeedback
-            type={analyticsId}
-            details={analyticsData}
+            analyticsId={analyticsId}
+            analyticsData={analyticsData}
           />
         )}
       </Container>
