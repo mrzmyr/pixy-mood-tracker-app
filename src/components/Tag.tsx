@@ -53,7 +53,6 @@ export default function Tag({
       <Text style={{
         color: selected ? colors.tagTextActive : colors.tagText,
         fontSize: 17,
-        fontWeight: '500',
       }}>{title}</Text>
     </Pressable>
   )
