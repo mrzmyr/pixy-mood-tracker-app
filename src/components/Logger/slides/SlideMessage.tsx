@@ -6,7 +6,7 @@ import { useTemporaryLog } from "@/hooks/useTemporaryLog";
 import { getAverageMood } from "@/lib/utils";
 import dayjs, { Dayjs } from "dayjs";
 import { forwardRef, useEffect, useRef, useState } from "react";
-import { Keyboard, KeyboardAvoidingView, Platform, Text, View } from "react-native";
+import { Keyboard, KeyboardAvoidingView, Platform, ScrollView, Text, View } from "react-native";
 import { HelpCircle } from "react-native-feather";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import DismissKeyboard from "../../DismisKeyboard";
@@ -119,6 +119,7 @@ export const SlideMessage = forwardRef(({
             paddingHorizontal: 20,
             paddingBottom: insets.bottom + 8 + (shouldExpand ? 112 : 0),
           }}>
+
             <View
               style={{
                 flex: 1,
@@ -141,34 +142,15 @@ export const SlideMessage = forwardRef(({
                   style={{
                     marginBottom: -12,
                     marginTop: -12,
+                    marginRight: 4,
                   }}
                 >
-                  <HelpCircle width={22} color={colors.text} />
+                  <HelpCircle width={22} color={colors.textSecondary} />
                 </LinkButton>
-              </View>
-              <View
-                style={{
-                  flexDirection: "column",
-                  width: "100%",
-                  marginTop: 16,
-                  flex: 1,
-                }}
-              >
-                <TextArea
-                  ref={ref}
-                  value={tempLog?.data?.message}
-                  onChange={onChange}
-                  maxLength={MAX_LENGTH}
-                  style={{
-                    flex: 1,
-                    marginBottom: 0,
-                  }}
-                />
               </View>
               {showTips && questions.length > 0 && (
                 <View
                   style={{
-                    flex: 1,
                   }}
                 >
                   <Card
@@ -195,6 +177,27 @@ export const SlideMessage = forwardRef(({
                       >{q}</Text>
                     ))}
                   </Card>
+                </View>
+              )}
+              {!showTips && (
+                <View
+                  style={{
+                    flexDirection: "column",
+                    width: "100%",
+                    marginTop: 16,
+                    flex: 1,
+                  }}
+                >
+                  <TextArea
+                    ref={ref}
+                    value={tempLog?.data?.message}
+                    onChange={onChange}
+                    maxLength={MAX_LENGTH}
+                    style={{
+                      flex: 1,
+                      marginBottom: 0,
+                    }}
+                  />
                 </View>
               )}
             </View>
