@@ -1,8 +1,11 @@
+import { Dimensions } from 'react-native';
 import dayjs from 'dayjs';
 import _ from 'lodash';
 import { t } from '@/helpers/translation';
 import { DATE_FORMAT } from '@/constants/Config';
 import { LogDay, LogItem, RATING_MAPPING } from '@/hooks/useLogs';
+
+const SCREEN_WIDTH = Dimensions.get('window').width;
 
 export const getItemsCoverage = (items: LogItem[]) => {
   let itemsCoverage = 0;
@@ -48,6 +51,7 @@ export const getLogDays = (items: LogItem[]): LogDay[] => {
 }
 
 export const getItemDateTitle = (dateTime: LogItem['dateTime']) => {
+  const isSmallScreen = SCREEN_WIDTH < 350;
 
   if (dayjs(dateTime).isSame(dayjs(), 'day')) {
     return `${t('today')}, ${dayjs(dateTime).format('HH:mm')}`
@@ -57,7 +61,11 @@ export const getItemDateTitle = (dateTime: LogItem['dateTime']) => {
     return `${t('yesterday')}, ${dayjs(dateTime).format('HH:mm')}`
   }
 
-  return dayjs(dateTime).format('ddd, L - LT')
+  return (
+    isSmallScreen ?
+      dayjs(dateTime).format('l - LT') :
+      dayjs(dateTime).format('dddd, L - LT')
+  )
 }
 
 export const getDayDateTitle = (date: LogDay['date']) => {

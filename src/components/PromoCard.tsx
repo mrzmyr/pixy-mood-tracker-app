@@ -86,7 +86,6 @@ export const PromoCard = ({
         <View
           style={{
             flexDirection: 'column',
-            width: '55%',
             flex: 1,
             justifyContent: 'flex-end',
           }}

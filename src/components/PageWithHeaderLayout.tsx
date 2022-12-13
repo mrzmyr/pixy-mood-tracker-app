@@ -13,7 +13,7 @@ export const PageWithHeaderLayout = ({
   return (
     <View
       style={{
-        paddingTop: Platform.OS === 'ios' ? 0 : headerHeight,
+        paddingTop: Platform.OS === 'android' ? headerHeight : 0,
         ...style,
       }}
     >

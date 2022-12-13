@@ -110,13 +110,13 @@ const CalendarScreen = memo(function CalendarScreen() {
         >
           <Text
             style={{
-              fontSize: 17,
-              color: colors.text,
+              fontSize: 14,
+              color: colors.textSecondary,
               marginTop: 20,
               textAlign: 'center',
               marginBottom: -60,
             }}
-          >🫶 {t('calendar_foot_note')}</Text>
+          >🙏 {t('calendar_foot_note')}</Text>
         </View>
       </ScrollView>
       {Platform.OS !== "web" && <CalendarBottomSheet />}

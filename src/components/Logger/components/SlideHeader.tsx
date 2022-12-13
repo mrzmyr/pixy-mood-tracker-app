@@ -97,12 +97,14 @@ export const SlideHeader = ({
 
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
 
+  const isSmallScreen = SCREEN_WIDTH < 350;
+
   const dateTime = tempLog.data.dateTime ? new Date(tempLog.data.dateTime) : new Date()
   const dateTimeTitle = tempLog.data.dateTime !== null ? getItemDateTitle(tempLog.data.dateTime) : '?'
 
   return (
     <View style={{
-      flexDirection: SCREEN_WIDTH < 350 ? 'column' : 'row',
+      flexDirection: 'row',
       justifyContent: 'space-between',
       marginTop: -8,
       width: '100%',
@@ -182,7 +184,7 @@ export const SlideHeader = ({
                 borderRadius: 8,
               })}
             >
-              <Clock color={colors.logHeaderText} width={17} style={{ marginRight: 8 }} />
+              {!isSmallScreen && <Clock color={colors.logHeaderText} width={17} style={{ marginRight: 8 }} />}
               <Text
                 numberOfLines={1}
                 style={{
