@@ -117,7 +117,7 @@ export const SlideMessage = forwardRef(({
             width: '100%',
             position: 'relative',
             paddingHorizontal: 20,
-            paddingBottom: insets.bottom + 20 + (shouldExpand ? 112 : 0),
+            paddingBottom: insets.bottom + 8 + (shouldExpand ? 112 : 0),
           }}>
             <View
               style={{
