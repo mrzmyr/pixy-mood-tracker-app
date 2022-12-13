@@ -168,6 +168,7 @@ export const SlideMessage = forwardRef(({
               {showTips && questions.length > 0 && (
                 <View
                   style={{
+                    flex: 1,
                   }}
                 >
                   <Card
