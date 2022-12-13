@@ -1,18 +1,17 @@
-import { useState } from 'react';
-import { ActivityIndicator, Image, Platform, Pressable, Text, View } from 'react-native';
-import Button from '../Button';
-import TextArea from '../TextArea';
 import { STATISTICS_FEEDBACK_URL } from '@/constants/API';
 import { locale, t } from '@/helpers/translation';
 import { useAnalytics } from '@/hooks/useAnalytics';
 import useColors from '@/hooks/useColors';
 import useHaptics from '@/hooks/useHaptics';
 import { useSettings } from '@/hooks/useSettings';
-import { STATISTIC_TYPES } from '@/hooks/useStatistics';
-import pkg from '../../../package.json';
 import * as StoreReview from 'expo-store-review';
+import { useState } from 'react';
+import { ActivityIndicator, Image, Platform, Pressable, Text, View, ViewStyle } from 'react-native';
+import pkg from '../../../package.json';
+import Button from '../Button';
+import TextArea from '../TextArea';
 
-const EMOJI_SCALE_IMAGES = [{
+const EMOJI_SCALE_IMAGES_DEFAULT = [{
   emoji: '😍',
   active: require(`../../../assets/images/emojis/smiling-face-with-heart-eyes_1f60d.png`),
   disabled: require(`../../../assets/images/emojis/smiling-face-with-heart-eyes_1f60d-disabled.png`)
@@ -24,6 +23,16 @@ const EMOJI_SCALE_IMAGES = [{
   emoji: '😴',
   active: require(`../../../assets/images/emojis/sleeping-face_1f634.png`),
   disabled: require(`../../../assets/images/emojis/sleeping-face_1f634-disabled.png`)
+}, {
+  emoji: '👎',
+  active: require(`../../../assets/images/emojis/thumbs-down_1f44e.png`),
+  disabled: require(`../../../assets/images/emojis/thumbs-down_1f44e-disabled.png`)
+}]
+
+const EMOJI_SCALE_IMAGES_MINIMAL = [{
+  emoji: '👍',
+  active: require(`../../../assets/images/emojis/thumbs-up_1f44d.png`),
+  disabled: require(`../../../assets/images/emojis/thumbs-up_1f44d-disabled.png`)
 }, {
   emoji: '👎',
   active: require(`../../../assets/images/emojis/thumbs-down_1f44e.png`),
@@ -61,10 +70,14 @@ const CardFeedbackEmoji = ({ image, onPress, selected }) => {
 }
 export const CardFeedback = ({
   type,
+  variant = 'default',
   details = {},
+  style = {},
 }: {
-  type: typeof STATISTIC_TYPES[number],
+  type: string,
+  variant?: 'default' | 'minimal',
   details?: any;
+  style?: ViewStyle,
 }) => {
   const analytics = useAnalytics();
   const colors = useColors();
@@ -136,7 +149,7 @@ export const CardFeedback = ({
       setShowTextInput(true);
     } else {
       send(emoji);
-      if (await StoreReview.hasAction()) {
+      if (await StoreReview.hasAction() && variant === 'default') {
         analytics.track('statistics_feedback_store_review_request');
         StoreReview.requestReview().then(() => {
           analytics.track('statistics_feedback_store_review_done');
@@ -147,6 +160,8 @@ export const CardFeedback = ({
     }
   };
 
+  const options = variant === 'default' ? EMOJI_SCALE_IMAGES_DEFAULT : EMOJI_SCALE_IMAGES_MINIMAL;
+
   return (
     <View
       style={{
@@ -155,11 +170,12 @@ export const CardFeedback = ({
         paddingTop: 8,
         borderTopWidth: 1,
         borderTopColor: colors.cardBorder,
-        marginLeft: -20,
-        marginRight: -20,
-        paddingLeft: 20,
-        paddingRight: 20,
+        marginLeft: -16,
+        marginRight: -16,
+        paddingLeft: 16,
+        paddingRight: 16,
         marginBottom: -8,
+        ...style,
       }}
     >
       <View
@@ -179,7 +195,7 @@ export const CardFeedback = ({
                 paddingBottom: 8,
               }}
             >
-              {!feedbackSent ? t('statistics_feedback_question') : `😘 ${t('statistics_feedback_thanks')}`}
+              {!feedbackSent ? t('statistics_feedback_question') : `🫶 ${t('statistics_feedback_thanks')}`}
             </Text>
           </>
         )}
@@ -200,11 +216,11 @@ export const CardFeedback = ({
               alignItems: 'center',
             }}
           >
-            {EMOJI_SCALE_IMAGES.map((emojiScale, index) => (
+            {options.map((emojiScale, index) => (
               <View
                 key={`emoji-feedback-${emojiScale.emoji}`}
                 style={{
-                  marginRight: index === EMOJI_SCALE_IMAGES.length - 1 ? 0 : 8,
+                  marginRight: index === options.length - 1 ? 0 : 8,
                 }}
               >
                 <CardFeedbackEmoji
@@ -233,7 +249,8 @@ export const CardFeedback = ({
               padding: 12,
               marginTop: 8,
               borderRadius: 8,
-              height: 100,
+              borderColor: style.borderTopColor || undefined,
+              height: 24 * 2,
             }}
           />
           <Button
