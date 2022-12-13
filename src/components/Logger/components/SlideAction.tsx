@@ -47,15 +47,6 @@ export const SlideAction = ({
         bottom: shouldMove ? keyboard.keyboardHeight - 20 : 0,
         right: 0,
         zIndex: 999,
-        shadowColor: "#000",
-        shadowOffset: {
-          width: 0,
-          height: 2,
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84,
-
-        elevation: 5,
       }}
     >
       <FloatButton
