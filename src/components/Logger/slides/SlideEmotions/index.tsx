@@ -5,9 +5,10 @@ import { useLogState } from "@/hooks/useLogs";
 import { useTemporaryLog } from "@/hooks/useTemporaryLog";
 import { getMostUsedEmotions } from "@/lib/utils";
 import { Emotion } from "@/types";
+import { LinearGradient } from "expo-linear-gradient";
 import _ from "lodash";
 import { useRef, useState } from "react";
-import { Dimensions, ScrollView, View } from "react-native";
+import { ScrollView, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import LinkButton from "../../../LinkButton";
 import { SlideHeadline } from "../../components/SlideHeadline";
@@ -19,8 +20,6 @@ import { EmotionBasicGradients } from "./EmotionBasicGradients";
 import { EmotionBasicSelection } from "./EmotionBasicSelection";
 import { ExpandButton } from "./ExpandButton";
 import { Tooltip } from "./Tooltip";
-
-export const WINDOW_WIDTH = Dimensions.get('window').width
 
 type Mode = 'basic' | 'advanced'
 
@@ -131,6 +130,7 @@ export const SlideEmotions = ({
             width: '100%',
             paddingHorizontal: 20,
             marginTop,
+            marginBottom: 4,
             flexDirection: 'row',
             alignItems: 'center',
             justifyContent: 'space-between',
@@ -148,6 +148,16 @@ export const SlideEmotions = ({
             flex: 1,
           }}
         >
+          <LinearGradient
+            pointerEvents="none"
+            colors={[colors.logBackground, colors.logBackgroundTransparent]}
+            style={{
+              position: 'absolute',
+              height: 12,
+              top: 0,
+              zIndex: 1,
+              width: '100%',
+            }} />
           <ScrollView>
             <EmotionBasicSelection
               emotions={basicEmotions}
@@ -180,13 +190,13 @@ export const SlideEmotions = ({
           </ScrollView>
           {mode === 'basic' && <EmotionBasicGradients />}
           {mode === 'advanced' && <EmotionAdvancedGradients />}
-          {showTooltip && (
-            <Tooltip
-              emotion={selectedEmotions[selectedEmotions.length - 1]}
-              onClose={() => setShowTooltip(false)}
-            />
-          )}
         </View>
+        {showTooltip && (
+          <Tooltip
+            emotion={selectedEmotions[selectedEmotions.length - 1]}
+            onClose={() => setShowTooltip(false)}
+          />
+        )}
         <Footer
           style={{
             marginHorizontal: 16,
