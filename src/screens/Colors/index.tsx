@@ -91,19 +91,6 @@ export const ColorsScreen = ({ navigation }) => {
           }}
         >
         </View>
-        <MenuList
-          style={{
-            marginTop: 16,
-          }}
-        >
-          <MenuListItem
-            title={t('colors_reset')}
-            onPress={() => {
-              setScaleType(typesNames[0].id)
-            }}
-            isLast
-          />
-        </MenuList>
       </ScrollView>
     </PageWithHeaderLayout>
   );
