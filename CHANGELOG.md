@@ -2,6 +2,29 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.63.0](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.62.0...v1.63.0) (2022-12-15)
+
+
+### Features
+
+* add channel to settings version ([e3a4742](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/e3a4742e22f17c74c8a3f2b0a32daf52ad558174))
+* add message tips full sentence questions ([24330fa](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/24330faa979e019312677ea26e4a752661063e88))
+* remove 'reset to default' ([40c3f9c](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/40c3f9c66aaebc2769ef7a413c79b81098aca619))
+* remove feedback box from statistics ([429f4b4](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/429f4b453895206479ab6a1d8928213213d636c2))
+* track promocard click ([8a4b609](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/8a4b60996a6fb50c8bf4b0b697971342515a8f59))
+* update en translations ([464576f](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/464576f585142ada22ede140b42b3cd2bfe0ab65))
+
+
+### Styling
+
+* fix scale colors ([d68f270](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/d68f270db7cf751419b5f4b6c52ea0c1546629c5))
+* make it one row for all emotions categories ([3d5dfd6](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/3d5dfd6437359a66b3b1902fa6a90132ad4597bf))
+
+
+### Miscellaneous
+
+* remove unused key ([fad1c24](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/fad1c24dedd13ea2d15f6be5f673edb3b8c36466))
+
 ## [1.62.0](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.61.1...v1.62.0) (2022-12-13)
 
 
