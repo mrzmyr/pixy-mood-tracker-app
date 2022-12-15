@@ -15,6 +15,8 @@ import TextArea from "../../TextArea";
 import { SlideHeadline } from "../components/SlideHeadline";
 import { Footer } from "./Footer";
 import { Card } from '@/components/Card'
+import { EMOTIONS } from "../config";
+import _ from "lodash";
 
 const randomInt = (min, max) => Math.floor(Math.random() * (max - min + 1) + min);
 
@@ -48,35 +50,15 @@ const getMoodValueNow = (): number | null => {
   return RATING_MAPPING[tempLog?.data?.rating]
 }
 
-export const SlideMessage = forwardRef(({
-  onChange,
-  onDisableStep,
-  showDisable,
+const Tips = ({
+  onClose
 }: {
-  onChange: (text: LogItem['message']) => void
-  onDisableStep: () => void
-  showDisable: boolean
-}, ref: any) => {
-  const insets = useSafeAreaInsets();
+  onClose: () => void
+}) => {
   const colors = useColors();
   const tempLog = useTemporaryLog();
-  const marginTop = getLogEditMarginTop()
 
   const placeholder = useRef(t(`log_modal_message_placeholder_${randomInt(1, 6)}`))
-  const [showTips, setShowTips] = useState(false)
-
-  const [shouldExpand, setShouldExpand] = useState(false);
-
-  useEffect(() => {
-    const r1 = Keyboard.addListener('keyboardWillShow', () => setShouldExpand(true))
-    const r2 = Keyboard.addListener('keyboardWillHide', () => setShouldExpand(false))
-
-    return () => {
-      r1.remove()
-      r2.remove()
-    }
-  }, [])
-
   const date = dayjs(tempLog.data.dateTime)
   const todayMoodValue = getMoodValueNow()
   const yesterdayMoodValue = getMoodValueYesterday(date)
@@ -92,17 +74,89 @@ export const SlideMessage = forwardRef(({
     }))
   }
 
-  if (tempLog.data?.emotions?.length > 0) {
-    questions.push(
-      t('log_messasge_hint_2', {
-        words: tempLog.data.emotions.slice(0, 5).map(emotion => t(`log_emotion_${emotion}`)).join(', ').toLowerCase(),
-      })
-    )
+  const fullEmotions = tempLog.data?.emotions?.map(key => EMOTIONS.find(e => e.key === key)) || []
+  const sortedEmotions = _.sortBy(fullEmotions, (emotion) => {
+    return {
+      'very_good': 2,
+      'good': 1,
+      'neutral': 0,
+      'bad': -1,
+      'very_bad': -2,
+    }[emotion!.category]
+  })
+
+  if (sortedEmotions.length > 0) {
+    sortedEmotions.slice(0, 5).forEach(emotion => {
+      questions.push(t(`log_messasge_hint_2`, {
+        description: `${t(`log_emotion_${emotion?.key}_description`).toLowerCase()}`,
+      }))
+    })
   }
 
   if (questions.length < 2) {
     questions.push(placeholder.current)
   }
+
+  return (
+    <View
+      style={{
+      }}
+    >
+      <Card
+        title={t('log_message_hint_title')}
+        style={{
+          backgroundColor: colors.logCardBackground,
+          marginTop: 16,
+        }}
+        onClose={onClose}
+        hasFeedback
+        analyticsId="log_message_hint"
+        analyticsData={{
+          questions: questions,
+        }}
+      >
+        {questions.map((q, index) => (
+          <Text
+            key={`q-${index}`}
+            style={{
+              fontSize: 17,
+              color: colors.textSecondary,
+              marginTop: index === 0 ? 0 : 8,
+            }}
+          >{q}</Text>
+        ))}
+      </Card>
+    </View>
+  )
+}
+
+export const SlideMessage = forwardRef(({
+  onChange,
+  onDisableStep,
+  showDisable,
+}: {
+  onChange: (text: LogItem['message']) => void
+  onDisableStep: () => void
+  showDisable: boolean
+}, ref: any) => {
+  const insets = useSafeAreaInsets();
+  const colors = useColors();
+  const tempLog = useTemporaryLog();
+  const marginTop = getLogEditMarginTop()
+
+  const [showTips, setShowTips] = useState(false)
+
+  const [shouldExpand, setShouldExpand] = useState(false);
+
+  useEffect(() => {
+    const r1 = Keyboard.addListener('keyboardWillShow', () => setShouldExpand(true))
+    const r2 = Keyboard.addListener('keyboardWillHide', () => setShouldExpand(false))
+
+    return () => {
+      r1.remove()
+      r2.remove()
+    }
+  }, [])
 
   return (
     <>
@@ -150,36 +204,12 @@ export const SlideMessage = forwardRef(({
                   <HelpCircle width={22} color={colors.textSecondary} />
                 </LinkButton>
               </View>
-              {showTips && questions.length > 0 && (
-                <View
-                  style={{
+              {showTips && (
+                <Tips
+                  onClose={() => {
+                    setShowTips(false)
                   }}
-                >
-                  <Card
-                    title={t('log_message_hint_title')}
-                    style={{
-                      backgroundColor: colors.logCardBackground,
-                      marginTop: 16,
-                    }}
-                    onClose={() => setShowTips(false)}
-                    hasFeedback
-                    analyticsId="log_message_hint"
-                    analyticsData={{
-                      questions: questions,
-                    }}
-                  >
-                    {questions.map((q, index) => (
-                      <Text
-                        key={`q-${index}`}
-                        style={{
-                          fontSize: 17,
-                          color: colors.textSecondary,
-                          marginTop: index === 0 ? 0 : 8,
-                        }}
-                      >{q}</Text>
-                    ))}
-                  </Card>
-                </View>
+                />
               )}
               {!showTips && (
                 <View
