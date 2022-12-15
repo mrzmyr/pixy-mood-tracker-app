@@ -80,13 +80,13 @@ const light: IScaleColors = {
     colors.neutral[100],
   ]),
   'ColorBrew-BrBG': getScale([
-    '#543005',
-    '#8c510a',
-    '#bf812d',
-    colors.neutral[200],
-    '#c7eae5',
-    '#5ab4ac',
     '#01665e',
+    '#5ab4ac',
+    '#c7eae5',
+    colors.neutral[200],
+    '#f6e8c3',
+    '#d8b365',
+    '#8c510a',
     colors.neutral[100],
   ]),
   'ColorBrew-RdYG': getScale([
@@ -98,17 +98,7 @@ const light: IScaleColors = {
     '#ef8a62',
     '#b2182b',
     colors.neutral[100],
-  ]),
-  'rainbow': getScale([
-    '#3c3184',
-    '#458fff',
-    '#21eaad',
-    '#b1fa36',
-    '#edd13b',
-    '#f9791d',
-    '#9b0f00',
-    colors.neutral[100],
-  ]),
+  ])
 };
 
 const dark: IScaleColors = {
@@ -142,13 +132,13 @@ const dark: IScaleColors = {
     colors.neutral[800],
   ]),
   'ColorBrew-BrBG': getScale([
-    '#543005',
-    '#8c510a',
-    '#bf812d',
-    colors.neutral[200],
-    '#c7eae5',
-    '#5ab4ac',
     '#01665e',
+    '#5ab4ac',
+    '#c7eae5',
+    colors.neutral[200],
+    '#f6e8c3',
+    '#d8b365',
+    '#8c510a',
     colors.neutral[800],
   ]),
   'ColorBrew-RdYG': getScale([
@@ -160,17 +150,7 @@ const dark: IScaleColors = {
     '#ef8a62',
     '#b2182b',
     colors.neutral[800],
-  ]),
-  'rainbow': getScale([
-    '#3c3184',
-    '#458fff',
-    '#21eaad',
-    '#b1fa36',
-    '#edd13b',
-    '#f9791d',
-    '#9b0f00',
-    colors.neutral[800],
-  ]),
+  ])
 };
 
 export default {

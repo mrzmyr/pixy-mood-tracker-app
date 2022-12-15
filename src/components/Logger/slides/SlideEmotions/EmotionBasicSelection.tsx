@@ -16,6 +16,14 @@ export const EmotionBasicSelection = ({
 }) => {
   const { Modal, show } = useFeedbackModal();
 
+  const rows = _.chunk(_.orderBy(emotions, e => {
+    return {
+      'good': 1,
+      'neutral': 0,
+      'bad': -1,
+    }[e.category]
+  }, ['desc']), 2);
+
   return (
     <View
       style={{
@@ -26,47 +34,38 @@ export const EmotionBasicSelection = ({
       }}
     >
       <Modal />
-      {['good', 'neutral', 'bad']
-        .map((category) => {
-          const filteredEmotions = emotions
-            .filter((e) => (
-              e.category === category
-            ));
 
-          const rows = _.chunk(filteredEmotions, 2);
-
-          return rows.map((row, index) => (
+      {rows.map((row, index) => (
+        <View
+          key={`basic-emotion-row-${index}`}
+          style={{
+            flexDirection: 'row',
+            marginBottom: 8,
+          }}
+        >
+          {row.map((emotion, index) => (
             <View
-              key={`basic-emotion-row-${category}-${index}`}
+              key={`basic-emotion-container-${emotion.key}`}
               style={{
-                flexDirection: 'row',
-                marginBottom: 8,
+                marginRight: 8,
+                flex: 1,
               }}
             >
-              {row.map((emotion, index) => (
-                <View
-                  key={`basic-emotion-container-${emotion.key}`}
-                  style={{
-                    marginRight: 8,
-                    flex: 1,
-                  }}
-                >
-                  <EmotionButtonBasic
-                    emotion={emotion}
-                    onPress={onPress}
-                    selected={selectedEmotions.map(d => d.key).includes(emotion.key)} />
-                </View>
-              ))}
-              {row.length === 1 && (
-                <View
-                  style={{
-                    flex: 1,
-                  }} />
-              )}
+              <EmotionButtonBasic
+                emotion={emotion}
+                onPress={onPress}
+                selected={selectedEmotions.map(d => d.key).includes(emotion.key)}
+              />
             </View>
-          ));
-        })
-        .flat()}
+          ))}
+          {row.length === 1 && (
+            <View
+              style={{
+                flex: 1,
+              }} />
+          )}
+        </View>
+      ))}
 
       <LinkButton
         type="secondary"

@@ -16,8 +16,6 @@ export const EmotionButtonBasic = ({
   const haptics = useHaptics();
   const colorScheme = useColorScheme();
 
-
-
   return (
     <Pressable
       onPress={() => {

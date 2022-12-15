@@ -3,6 +3,7 @@ import { MONTH_REPORT_SLUG, PromoCardMonth } from "@/components/PromoCardMonth";
 import { PromoCardYear, YEAR_REPORT_SLUG } from "@/components/PromoCardYear";
 import { DATE_FORMAT, STATISTIC_MIN_LOGS } from "@/constants/Config";
 import { t } from "@/helpers/translation";
+import { useAnalytics } from "@/hooks/useAnalytics";
 import { useSettings } from "@/hooks/useSettings";
 import { useNavigation } from "@react-navigation/native";
 import dayjs from "dayjs";
@@ -14,10 +15,11 @@ import { useLogState } from "../../hooks/useLogs";
 export const PromoCards = () => {
   const navigation = useNavigation();
   const logState = useLogState();
-  const statisticsUnlocked = logState.items.length >= STATISTIC_MIN_LOGS;
+  const analytics = useAnalytics();
   const colors = useColors();
   const { hasActionDone } = useSettings()
 
+  const statisticsUnlocked = logState.items.length >= STATISTIC_MIN_LOGS;
   const isBeginningOfMonth = dayjs().isBetween(dayjs().startOf('month'), dayjs().startOf('month').add(3, 'day'), null, '[]');
   const isDecember = dayjs().month() === 11;
   const enoughtLogsForYearPromo = logState.items.length > 30;
@@ -53,6 +55,7 @@ export const PromoCards = () => {
         subtitle={t('new_feature')}
         title={t('promo_emotion_tracking_title')}
         onPress={() => {
+          analytics.track('promo_emotion_tracking_clicked')
           navigation.navigate("Steps");
         }}
       />
