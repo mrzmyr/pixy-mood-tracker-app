@@ -247,6 +247,11 @@ const light = {
   promoCardTextSecondary: colors.neutral[500],
   promoCardBorder: colors.neutral[200],
 
+  chatUserMessageBackground: colors.blue[200],
+  chatUserMessageText: colors.black,
+  chatBotMessageBackground: colors.white,
+  chatBotMessageText: colors.black,
+
   switchThumbColor: '#333',
   scales: scales.light,
   tags: tagsLight,
@@ -466,6 +471,11 @@ const dark: IColors & {
   promoCardText: colors.white,
   promoCardTextSecondary: colors.neutral[400],
   promoCardBorder: colors.neutral[800],
+
+  chatBotMessageBackground: colors.neutral[800],
+  chatBotMessageText: colors.white,
+  chatUserMessageBackground: colors.blue[800],
+  chatUserMessageText: colors.white,
 
   switchThumbColor: '#FFF',
   scales: scales.dark,

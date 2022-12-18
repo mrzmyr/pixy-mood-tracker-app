@@ -16,7 +16,8 @@ import {
   LogView,
   NotFoundScreen,
   PrivacyScreen,
-  ReminderScreen, SettingsScreen, StatisticsHighlights, TagCreate, TagEdit
+  ReminderScreen, SettingsScreen, StatisticsHighlights, TagCreate, TagEdit,
+  BotLogger,
 } from '../screens';
 import { RootStackParamList } from '../../types';
 
@@ -40,6 +41,14 @@ import { StepsScreen } from '../screens/Steps';
 import { Tags } from '../screens/Tags';
 import { BackButton } from './BackButton';
 import { BottomTabs } from './BottomTabs';
+import { BotLoggerEmotions } from '@/screens/BotLogger/Emotions';
+import { BotLoggerTags } from '@/screens/BotLogger/Tags';
+
+import { LogBox } from 'react-native';
+
+LogBox.ignoreLogs([
+  'Non-serializable values were found in the navigation state',
+]);
 
 enableScreens();
 
@@ -211,6 +220,46 @@ function RootNavigator() {
         <Stack.Screen
           name="LogCreate"
           component={LogCreate}
+        />
+      </Stack.Group>
+
+      <Stack.Group
+        screenOptions={{
+          title: '',
+          presentation: 'modal',
+          headerShown: false,
+          gestureEnabled: false,
+        }}
+      >
+        <Stack.Screen
+          name="BotLogger"
+          component={BotLogger}
+        />
+      </Stack.Group>
+      <Stack.Group
+        screenOptions={{
+          title: '',
+          presentation: 'modal',
+          headerShown: false,
+          gestureEnabled: false,
+        }}
+      >
+        <Stack.Screen
+          name="BotLoggerEmotions"
+          component={BotLoggerEmotions}
+        />
+      </Stack.Group>
+      <Stack.Group
+        screenOptions={{
+          title: '',
+          presentation: 'modal',
+          headerShown: false,
+          gestureEnabled: false,
+        }}
+      >
+        <Stack.Screen
+          name="BotLoggerTags"
+          component={BotLoggerTags}
         />
       </Stack.Group>
 

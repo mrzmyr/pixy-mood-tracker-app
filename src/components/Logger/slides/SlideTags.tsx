@@ -13,15 +13,18 @@ import Tag from "../../Tag";
 import { SlideHeadline } from "../components/SlideHeadline";
 import { Footer } from "./Footer";
 import { TagReference } from "@/types";
+import { Edit2 } from "react-native-feather";
 
 export const SlideTags = ({
   onChange,
-  onDisableStep,
+  onDisableStep = () => { },
   showDisable,
+  showFooter = true,
 }: {
   onChange: (tags: TagReference[]) => void,
-  onDisableStep: () => void
+  onDisableStep?: () => void
   showDisable: boolean
+  showFooter?: boolean
 }) => {
   const tempLog = useTemporaryLog();
   const navigation = useNavigation()
@@ -98,6 +101,13 @@ export const SlideTags = ({
           })}
           <View>
             <MiniButton
+              icon={
+                <Edit2
+                  color={colors.miniButtonText}
+                  width={17}
+                  style={{ margin: -4, marginRight: 4, }}
+                />
+              }
               onPress={() => {
                 navigation.navigate('Tags')
               }}
@@ -105,17 +115,19 @@ export const SlideTags = ({
           </View>
         </View>
       </ScrollView>
-      <Footer>
-        {showDisable && (
-          <LinkButton
-            type="secondary"
-            onPress={onDisableStep}
-            style={{
-              fontWeight: '400',
-            }}
-          >{t('log_tags_disable')}</LinkButton>
-        )}
-      </Footer>
+      {showFooter && (
+        <Footer>
+          {showDisable && (
+            <LinkButton
+              type="secondary"
+              onPress={onDisableStep}
+              style={{
+                fontWeight: '400',
+              }}
+            >{t('log_tags_disable')}</LinkButton>
+          )}
+        </Footer>
+      )}
     </View>
   )
 }

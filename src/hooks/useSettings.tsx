@@ -34,6 +34,7 @@ export interface SettingsState {
   analyticsEnabled: boolean;
   actionsDone: IAction[];
   steps: LoggerStep[];
+  botMode?: boolean;
 
   // removed in previous version
   trackBehaviour?: boolean; // replaced with analyticsEnabled
@@ -56,6 +57,7 @@ export const INITIAL_STATE: SettingsState = {
   reminderEnabled: false,
   reminderTime: "18:00",
   analyticsEnabled: true,
+  botMode: false,
   actionsDone: [],
   steps: [
     "rating",

@@ -9,9 +9,12 @@ import { EmotionPage } from "./EmotionPage";
 const WINDOW_WIDTH = Dimensions.get('window').width
 
 export const EmotionAdvancedSelection = ({
-  defaultIndex, selectedEmotions, onPress, style = {},
+  defaultIndex = 0,
+  selectedEmotions,
+  onPress,
+  style = {},
 }: {
-  defaultIndex: number;
+  defaultIndex?: number;
   selectedEmotions: Emotion[];
   onPress: (emotion: Emotion) => void;
   style?: ViewStyle;

@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import { LogItem } from "./useLogs";
 
 type State = Omit<LogItem, 'rating'> & {
@@ -47,15 +47,17 @@ function TemporaryLogProvider({ children }: { children: React.ReactNode }) {
     setIsDirty(false);
   };
 
+  const value = useMemo(() => ({
+    data: temporaryLog,
+    initialize,
+    set,
+    update,
+    reset,
+    isDirty,
+  }), [temporaryLog, isDirty]);
+
   return (
-    <TemporaryLogStateContext.Provider value={{
-      data: temporaryLog,
-      initialize,
-      set,
-      update,
-      reset,
-      isDirty,
-    }}>
+    <TemporaryLogStateContext.Provider value={value}>
       {children}
     </TemporaryLogStateContext.Provider>
   );
@@ -74,9 +76,9 @@ function useTemporaryLog(defaultValue?: State): ContextValue {
     if (defaultValue) {
       context.initialize(defaultValue);
     }
-  }, [defaultValue]);
+  }, []);
 
-  const data = defaultValue ? { ...defaultValue, ...context.data } : context.data;
+  const data = useMemo(() => defaultValue ? { ...defaultValue, ...context.data } : context.data, [context.data, defaultValue]);
 
   return {
     ...context,

@@ -25,18 +25,19 @@ type Mode = 'basic' | 'advanced'
 
 export const SlideEmotions = ({
   defaultIndex,
-  onDisableStep,
+  onDisableStep = () => { },
   onChange,
   showDisable,
+  showFooter = true,
 }: {
-  defaultIndex: number,
-  onDisableStep: () => void,
+  defaultIndex?: number,
+  onDisableStep?: () => void,
   onChange: (emotions: Emotion[]) => void,
   showDisable: boolean,
+  showFooter?: boolean,
 }) => {
   const colors = useColors();
   const marginTop = getLogEditMarginTop()
-  const insets = useSafeAreaInsets()
   const tempLog = useTemporaryLog()
   const logState = useLogState()
 
@@ -117,7 +118,6 @@ export const SlideEmotions = ({
       flex: 1,
       backgroundColor: colors.logBackground,
       width: '100%',
-      paddingBottom: insets.bottom + 20,
     }}>
       <View
         style={{
@@ -197,21 +197,23 @@ export const SlideEmotions = ({
             />
           )}
         </View>
-        <Footer
-          style={{
-            marginHorizontal: 16,
-          }}
-        >
-          {showDisable && (
-            <LinkButton
-              type="secondary"
-              onPress={onDisableStep}
-              style={{
-                fontWeight: '400',
-              }}
-            >{t('log_emotions_disable')}</LinkButton>
-          )}
-        </Footer>
+        {showFooter && (
+          <Footer
+            style={{
+              marginHorizontal: 16,
+            }}
+          >
+            {showDisable && (
+              <LinkButton
+                type="secondary"
+                onPress={onDisableStep}
+                style={{
+                  fontWeight: '400',
+                }}
+              >{t('log_emotions_disable')}</LinkButton>
+            )}
+          </Footer>
+        )}
       </View>
     </View>
   )

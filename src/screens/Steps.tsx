@@ -98,6 +98,33 @@ export const StepsScreen = ({ navigation }: RootStackScreenProps<'Steps'>) => {
             />
           ))}
         </MenuList>
+        <MenuList style={{ marginTop: 16, }}>
+          <MenuListItem
+            title={
+              'Bot mode'
+            }
+            iconLeft={
+              <Text style={{
+                fontSize: 17,
+                color: colors.text,
+              }}>
+                🤖
+              </Text>
+            }
+            iconRight={(
+              <Switch
+                onValueChange={() => {
+                  setSettings(settings => ({
+                    ...settings,
+                    botMode: !settings.botMode
+                  }))
+                }}
+                value={settings.botMode}
+              />
+            )}
+            isLast
+          />
+        </MenuList>
         <View
           style={{
             marginTop: 16,
