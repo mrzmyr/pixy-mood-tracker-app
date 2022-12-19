@@ -634,5 +634,11 @@
   "less": "Mindre",
   "promo_emotion_tracking_title": "Følelsessporing\ner nu tilgængelig!",
   "new_feature": "Ny funktion",
-  "calendar_foot_note": "Fremtiden bliver stor"
+  "calendar_foot_note": "Fremtiden bliver stor",
+  "log_messasge_hint_1": "I forhold til dagen før gik dit humør {{ord}}. Ved du hvorfor?",
+  "up": "op",
+  "down": "ned",
+  "log_messasge_hint_2": "Ved du hvorfor {{description}}?",
+  "log_message_hint_title": "Ting at spørge sig selv.",
+  "emotion_missing": "Jeg mangler en følelse"
 }

@@ -634,5 +634,11 @@
   "less": "Menos",
   "promo_emotion_tracking_title": "Seguimiento de emociones\n¡Ya está disponible!",
   "new_feature": "Nueva caracteristica",
-  "calendar_foot_note": "el futuro sera genial"
+  "calendar_foot_note": "el futuro sera genial",
+  "log_messasge_hint_1": "En comparación con el día anterior, tu estado de ánimo fue {{palabra}}. ¿Sabes por qué?",
+  "up": "arriba",
+  "down": "abajo",
+  "log_messasge_hint_2": "¿Sabes por qué {{descripción}}?",
+  "log_message_hint_title": "Cosas que preguntarse.",
+  "emotion_missing": "me falta una emocion"
 }

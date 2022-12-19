@@ -634,5 +634,11 @@
   "less": "Menys",
   "promo_emotion_tracking_title": "Seguiment d'emocions\nja està disponible!",
   "new_feature": "Funció nova",
-  "calendar_foot_note": "El futur serà gran"
+  "calendar_foot_note": "El futur serà gran",
+  "log_messasge_hint_1": "En comparació amb el dia anterior, el teu estat d'ànim va ser {{word}}. Saps per què?",
+  "up": "amunt",
+  "down": "cap avall",
+  "log_messasge_hint_2": "Saps per què {{description}}?",
+  "log_message_hint_title": "Coses per preguntar-se.",
+  "emotion_missing": "Trobo a faltar una emoció"
 }

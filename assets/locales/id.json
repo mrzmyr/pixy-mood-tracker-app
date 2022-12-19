@@ -634,5 +634,11 @@
   "less": "Lebih sedikit",
   "promo_emotion_tracking_title": "Pelacakan Emosi\nsekarang tersedia!",
   "new_feature": "Fitur baru",
-  "calendar_foot_note": "Masa depan akan luar biasa"
+  "calendar_foot_note": "Masa depan akan luar biasa",
+  "log_messasge_hint_1": "Dibandingkan dengan hari sebelumnya, suasana hati Anda berubah {{word}}. Apa kamu tahu kenapa?",
+  "up": "ke atas",
+  "down": "turun",
+  "log_messasge_hint_2": "Apakah Anda tahu mengapa {{description}}?",
+  "log_message_hint_title": "Hal-hal untuk ditanyakan pada diri sendiri.",
+  "emotion_missing": "Saya kehilangan emosi"
 }

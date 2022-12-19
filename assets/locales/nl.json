@@ -634,5 +634,11 @@
   "less": "Minder",
   "promo_emotion_tracking_title": "Emotie volgen\nis nu beschikbaar!",
   "new_feature": "Nieuwe functie",
-  "calendar_foot_note": "De toekomst zal geweldig zijn"
+  "calendar_foot_note": "De toekomst zal geweldig zijn",
+  "log_messasge_hint_1": "Vergeleken met de dag ervoor ging je humeur naar {{word}}. Weet u waarom?",
+  "up": "omhoog",
+  "down": "omlaag",
+  "log_messasge_hint_2": "Weet je waarom {{description}}?",
+  "log_message_hint_title": "Dingen om jezelf af te vragen.",
+  "emotion_missing": "Ik mis een emotie"
 }

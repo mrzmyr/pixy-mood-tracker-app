@@ -634,5 +634,11 @@
   "less": "Menos",
   "promo_emotion_tracking_title": "Rastreamento de Emoção\nestá agora disponivel!",
   "new_feature": "Novo recurso",
-  "calendar_foot_note": "O futuro será ótimo"
+  "calendar_foot_note": "O futuro será ótimo",
+  "log_messasge_hint_1": "Em comparação com o dia anterior, seu humor foi {{palavra}}. Você sabe por quê?",
+  "up": "acima",
+  "down": "baixa",
+  "log_messasge_hint_2": "Você sabe por que {{description}}?",
+  "log_message_hint_title": "Coisas para se perguntar.",
+  "emotion_missing": "me falta uma emoção"
 }

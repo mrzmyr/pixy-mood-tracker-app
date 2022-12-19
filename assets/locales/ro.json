@@ -634,5 +634,11 @@
   "less": "Mai puțin",
   "promo_emotion_tracking_title": "Urmărirea emoțiilor\neste acum disponibil!",
   "new_feature": "Optiune noua",
-  "calendar_foot_note": "Viitorul va fi grozav"
+  "calendar_foot_note": "Viitorul va fi grozav",
+  "log_messasge_hint_1": "În comparație cu o zi înainte, starea ta de spirit a mers {{word}}. Stii de ce?",
+  "up": "sus",
+  "down": "jos",
+  "log_messasge_hint_2": "Știți de ce {{description}}?",
+  "log_message_hint_title": "Lucruri de întrebat.",
+  "emotion_missing": "Îmi lipsește o emoție"
 }

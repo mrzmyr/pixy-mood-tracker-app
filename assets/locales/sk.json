@@ -634,5 +634,11 @@
   "less": "Menej",
   "promo_emotion_tracking_title": "Sledovanie emócií\nje teraz k dispozícii!",
   "new_feature": "Nová funkcia",
-  "calendar_foot_note": "Budúcnosť bude skvelá"
+  "calendar_foot_note": "Budúcnosť bude skvelá",
+  "log_messasge_hint_1": "V porovnaní s predchádzajúcim dňom sa vám zlepšila nálada {{word}}. Vieš prečo?",
+  "up": "hore",
+  "down": "dole",
+  "log_messasge_hint_2": "Viete prečo {{description}}?",
+  "log_message_hint_title": "Veci, ktoré by ste si mali položiť.",
+  "emotion_missing": "Chýba mi emócia"
 }

@@ -634,5 +634,11 @@
   "less": "أقل",
   "promo_emotion_tracking_title": "تتبع المشاعر\nانه متاح الان!",
   "new_feature": "ميزة جديدة",
-  "calendar_foot_note": "المستقبل سيكون عظيما"
+  "calendar_foot_note": "المستقبل سيكون عظيما",
+  "log_messasge_hint_1": "مقارنة باليوم السابق ، سارت حالتك المزاجية {{word}}. هل تعرف لماذا؟",
+  "up": "فوق",
+  "down": "أسفل",
+  "log_messasge_hint_2": "هل تعلم لماذا {{description}}؟",
+  "log_message_hint_title": "أشياء تسألها لنفسك.",
+  "emotion_missing": "أنا أفتقد عاطفة"
 }

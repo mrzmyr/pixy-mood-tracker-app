@@ -634,5 +634,11 @@
   "less": "Az",
   "promo_emotion_tracking_title": "Duygu Takibi\nşimdi kullanılabilir!",
   "new_feature": "Yeni özellik",
-  "calendar_foot_note": "Gelecek harika olacak"
+  "calendar_foot_note": "Gelecek harika olacak",
+  "log_messasge_hint_1": "Bir önceki güne kıyasla, ruh halin {{word}} değişti. Neden biliyor musun?",
+  "up": "yukarı",
+  "down": "aşağı",
+  "log_messasge_hint_2": "Neden {{description}} biliyor musun?",
+  "log_message_hint_title": "Kendinize sormanız gerekenler.",
+  "emotion_missing": "bir duyguyu özlüyorum"
 }

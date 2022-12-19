@@ -634,5 +634,11 @@
   "less": "더 적은",
   "promo_emotion_tracking_title": "감정 추적\n지금 사용할 수 있습니다!",
   "new_feature": "새로운 기능",
-  "calendar_foot_note": "미래는 위대할 것이다"
+  "calendar_foot_note": "미래는 위대할 것이다",
+  "log_messasge_hint_1": "전날에 비해 기분이 {{word}} 좋아졌습니다. 이유를 아십니까?",
+  "up": "위로",
+  "down": "아래에",
+  "log_messasge_hint_2": "왜 {{description}}인지 아세요?",
+  "log_message_hint_title": "스스로에게 물어볼 것.",
+  "emotion_missing": "감정이 그리워"
 }

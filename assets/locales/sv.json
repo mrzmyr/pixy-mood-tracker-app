@@ -634,5 +634,11 @@
   "less": "Mindre",
   "promo_emotion_tracking_title": "Känslospårning\när nu tillgänglig!",
   "new_feature": "Ny funktion",
-  "calendar_foot_note": "Framtiden kommer att bli stor"
+  "calendar_foot_note": "Framtiden kommer att bli stor",
+  "log_messasge_hint_1": "Jämfört med dagen innan gick ditt humör {{ord}}. Vet du varför?",
+  "up": "upp",
+  "down": "ner",
+  "log_messasge_hint_2": "Vet du varför {{description}}?",
+  "log_message_hint_title": "Saker att fråga sig själv.",
+  "emotion_missing": "Jag saknar en känsla"
 }
