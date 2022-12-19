@@ -634,5 +634,11 @@
   "less": "以下",
   "promo_emotion_tracking_title": "感情追跡\n現在利用できます！",
   "new_feature": "新機能",
-  "calendar_foot_note": "未来は素晴らしい"
+  "calendar_foot_note": "未来は素晴らしい",
+  "log_messasge_hint_1": "前日と比べて、あなたの気分は {{word}} 上がりました。なぜなのかご存知ですか？",
+  "up": "上",
+  "down": "下",
+  "log_messasge_hint_2": "なぜ{{description}}か分かりますか？",
+  "log_message_hint_title": "自問すること。",
+  "emotion_missing": "感情が欠けている"
 }

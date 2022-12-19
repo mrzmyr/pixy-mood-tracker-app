@@ -634,5 +634,11 @@
   "less": "Manje",
   "promo_emotion_tracking_title": "Praćenje emocija\nsada je dostupan!",
   "new_feature": "Nova značajka",
-  "calendar_foot_note": "Budućnost će biti sjajna"
+  "calendar_foot_note": "Budućnost će biti sjajna",
+  "log_messasge_hint_1": "U usporedbi s prethodnim danom, raspoloženje vam je poraslo {{word}}. Znaš li zašto?",
+  "up": "gore",
+  "down": "dolje",
+  "log_messasge_hint_2": "Znate li zašto {{description}}?",
+  "log_message_hint_title": "Što se trebate zapitati.",
+  "emotion_missing": "Nedostaje mi emocija"
 }

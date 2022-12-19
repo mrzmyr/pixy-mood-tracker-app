@@ -634,5 +634,11 @@
   "less": "Mniej",
   "promo_emotion_tracking_title": "Śledzenie emocji\njest teraz dostępne!",
   "new_feature": "Nowa cecha",
-  "calendar_foot_note": "Przyszłość będzie wspaniała"
+  "calendar_foot_note": "Przyszłość będzie wspaniała",
+  "log_messasge_hint_1": "W porównaniu z poprzednim dniem Twój nastrój spadł o {{słowo}}. Wiesz dlaczego?",
+  "up": "w górę",
+  "down": "na dół",
+  "log_messasge_hint_2": "Czy wiesz dlaczego {{opis}}?",
+  "log_message_hint_title": "Rzeczy, które należy sobie zadać.",
+  "emotion_missing": "Brakuje mi emocji"
 }

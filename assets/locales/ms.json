@@ -634,5 +634,11 @@
   "less": "Kurang",
   "promo_emotion_tracking_title": "Penjejakan Emosi\nkini tersedia!",
   "new_feature": "Ciri Baharu",
-  "calendar_foot_note": "Masa depan akan menjadi hebat"
+  "calendar_foot_note": "Masa depan akan menjadi hebat",
+  "log_messasge_hint_1": "Berbanding dengan hari sebelumnya, mood anda menjadi {{word}}. Kamu tahu kenapa?",
+  "up": "naik",
+  "down": "turun",
+  "log_messasge_hint_2": "Adakah anda tahu mengapa {{description}}?",
+  "log_message_hint_title": "Perkara yang perlu ditanya pada diri sendiri.",
+  "emotion_missing": "Saya kehilangan emosi"
 }

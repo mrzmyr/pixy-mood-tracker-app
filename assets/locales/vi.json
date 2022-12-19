@@ -634,5 +634,11 @@
   "less": "Ít hơn",
   "promo_emotion_tracking_title": "Theo dõi cảm xúc\nhiện đã có sẵn!",
   "new_feature": "Tính năng mới",
-  "calendar_foot_note": "Tương lai sẽ tuyệt vời"
+  "calendar_foot_note": "Tương lai sẽ tuyệt vời",
+  "log_messasge_hint_1": "So với ngày hôm trước, tâm trạng của bạn đã thay đổi {{từ}}. Bạn có biết tại sao?",
+  "up": "lên",
+  "down": "xuống",
+  "log_messasge_hint_2": "Bạn có biết tại sao {{mô tả}} không?",
+  "log_message_hint_title": "Những điều cần tự hỏi bản thân.",
+  "emotion_missing": "Tôi đang thiếu một cảm xúc"
 }

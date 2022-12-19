@@ -634,5 +634,11 @@
   "less": "Меньше",
   "promo_emotion_tracking_title": "Отслеживание эмоций\nтеперь доступно!",
   "new_feature": "Новая особенность",
-  "calendar_foot_note": "Будущее будет прекрасным"
+  "calendar_foot_note": "Будущее будет прекрасным",
+  "log_messasge_hint_1": "По сравнению с предыдущим днем ваше настроение ухудшилось на {{слово}}. Ты знаешь почему?",
+  "up": "вверх",
+  "down": "вниз",
+  "log_messasge_hint_2": "Вы знаете, почему {{description}}?",
+  "log_message_hint_title": "Что спросить себя.",
+  "emotion_missing": "мне не хватает эмоции"
 }

@@ -634,5 +634,11 @@
   "less": "น้อย",
   "promo_emotion_tracking_title": "การติดตามอารมณ์\nได้แล้ว!",
   "new_feature": "ลูกเล่นใหม่",
-  "calendar_foot_note": "อนาคตจะยิ่งใหญ่"
+  "calendar_foot_note": "อนาคตจะยิ่งใหญ่",
+  "log_messasge_hint_1": "เมื่อเทียบกับวันก่อน อารมณ์ของคุณเปลี่ยนไป {{word}} คุณรู้ไหมว่าทำไม?",
+  "up": "ขึ้น",
+  "down": "ลง",
+  "log_messasge_hint_2": "คุณรู้หรือไม่ว่าทำไม {{description}}?",
+  "log_message_hint_title": "สิ่งที่ต้องถามตัวเอง",
+  "emotion_missing": "ฉันขาดอารมณ์"
 }

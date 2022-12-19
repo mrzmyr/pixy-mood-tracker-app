@@ -634,5 +634,11 @@
   "less": "较少的",
   "promo_emotion_tracking_title": "情绪追踪\n现在可用！",
   "new_feature": "新功能",
-  "calendar_foot_note": "未来会很美好"
+  "calendar_foot_note": "未来会很美好",
+  "log_messasge_hint_1": "与前一天相比，您的心情变得{{word}}。你知道为什么吗？",
+  "up": "向上",
+  "down": "下",
+  "log_messasge_hint_2": "你知道为什么要{{description}}吗？",
+  "log_message_hint_title": "事情要问自己。",
+  "emotion_missing": "我缺少一种情感"
 }

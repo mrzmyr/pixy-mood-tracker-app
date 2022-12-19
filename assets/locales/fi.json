@@ -634,5 +634,11 @@
   "less": "Vähemmän",
   "promo_emotion_tracking_title": "Tunteiden seuranta\non nyt saatavilla!",
   "new_feature": "Uusi ominaisuus",
-  "calendar_foot_note": "Tulevaisuus tulee olemaan hieno"
+  "calendar_foot_note": "Tulevaisuus tulee olemaan hieno",
+  "log_messasge_hint_1": "Edelliseen päivään verrattuna mielialasi meni {{sana}}. Tiedätkö miksi?",
+  "up": "ylös",
+  "down": "alas",
+  "log_messasge_hint_2": "Tiedätkö miksi {{description}}?",
+  "log_message_hint_title": "Asioita, joita voit kysyä itseltäsi.",
+  "emotion_missing": "Kaipaan tunteita"
 }

@@ -620,5 +620,11 @@
   "less": "Weniger",
   "promo_emotion_tracking_title": "Emotionen sind jetzt verfügbar!",
   "new_feature": "Neue Funktion",
-  "calendar_foot_note": "Die Zukunft wird super!"
+  "calendar_foot_note": "Die Zukunft wird super!",
+  "log_messasge_hint_1": "Im Vergleich zum Vortag ging deine Stimmung um {{word}}. Weißt du, warum?",
+  "up": "hoch",
+  "down": "Nieder",
+  "log_messasge_hint_2": "Weißt du warum {{description}}?",
+  "log_message_hint_title": "Dinge, die du dich fragen kannst.",
+  "emotion_missing": "Mir fehlt eine Emotion"
 }

@@ -622,5 +622,6 @@
   "up": "up",
   "down": "down",
   "log_messasge_hint_2": "Do you know why {{description}}?",
-  "log_message_hint_title": "Things to ask yourself."
+  "log_message_hint_title": "Things to ask yourself.",
+  "emotion_missing": "I'm missing an emotion"
 }

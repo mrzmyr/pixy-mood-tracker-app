@@ -634,5 +634,11 @@
   "less": "менше",
   "promo_emotion_tracking_title": "Відстеження емоцій\nтепер доступний!",
   "new_feature": "Нова функція",
-  "calendar_foot_note": "Майбутнє буде чудовим"
+  "calendar_foot_note": "Майбутнє буде чудовим",
+  "log_messasge_hint_1": "Порівняно з минулим днем ваш настрій покращився {{word}}. Ти знаєш чому?",
+  "up": "вгору",
+  "down": "вниз",
+  "log_messasge_hint_2": "Ви знаєте чому {{description}}?",
+  "log_message_hint_title": "Речі, щоб запитати себе.",
+  "emotion_missing": "Мені не вистачає емоцій"
 }

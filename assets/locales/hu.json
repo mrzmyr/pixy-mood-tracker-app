@@ -634,5 +634,11 @@
   "less": "Kevésbé",
   "promo_emotion_tracking_title": "Érzelemkövetés\nmost elérhető!",
   "new_feature": "Új funkció",
-  "calendar_foot_note": "A jövő nagyszerű lesz"
+  "calendar_foot_note": "A jövő nagyszerű lesz",
+  "log_messasge_hint_1": "Az előző naphoz képest a hangulata {{szó}} lett. Tudod miért?",
+  "up": "fel",
+  "down": "le-",
+  "log_messasge_hint_2": "Tudod miért {{description}}?",
+  "log_message_hint_title": "Tedd fel magadnak a kérdéseket.",
+  "emotion_missing": "Hiányzik egy érzelem"
 }

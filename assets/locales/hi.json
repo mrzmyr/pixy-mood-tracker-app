@@ -634,5 +634,11 @@
   "less": "कम",
   "promo_emotion_tracking_title": "भावना ट्रैकिंग\nअब उपलब्ध है!",
   "new_feature": "नयी विशेषता",
-  "calendar_foot_note": "भविष्य बहुत अच्छा होगा"
+  "calendar_foot_note": "भविष्य बहुत अच्छा होगा",
+  "log_messasge_hint_1": "पहले दिन की तुलना में आपका मिजाज {{शब्द}} गया। तुम जानते हो क्यों?",
+  "up": "यूपी",
+  "down": "नीचे",
+  "log_messasge_hint_2": "क्या आप जानते हैं क्यों {{विवरण}}?",
+  "log_message_hint_title": "खुद से पूछने की बातें।",
+  "emotion_missing": "मुझे एक भावना याद आ रही है"
 }

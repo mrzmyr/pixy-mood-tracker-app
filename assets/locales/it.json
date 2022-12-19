@@ -634,5 +634,11 @@
   "less": "Meno",
   "promo_emotion_tracking_title": "Monitoraggio delle emozioni\nora è disponibile!",
   "new_feature": "Nuova caratteristica",
-  "calendar_foot_note": "Il futuro sarà fantastico"
+  "calendar_foot_note": "Il futuro sarà fantastico",
+  "log_messasge_hint_1": "Rispetto al giorno prima, il tuo umore è andato {{word}}. Sai perché?",
+  "up": "su",
+  "down": "fuori uso",
+  "log_messasge_hint_2": "Sai perché {{description}}?",
+  "log_message_hint_title": "Cose da chiedersi.",
+  "emotion_missing": "mi manca un'emozione"
 }

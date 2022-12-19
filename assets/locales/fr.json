@@ -634,5 +634,11 @@
   "less": "Moins",
   "promo_emotion_tracking_title": "Suivi des émotions\nest maintenant disponible!",
   "new_feature": "Nouvelle fonctionnalité",
-  "calendar_foot_note": "L'avenir sera grand"
+  "calendar_foot_note": "L'avenir sera grand",
+  "log_messasge_hint_1": "Par rapport à la veille, votre humeur est passée {{word}}. Est-ce que tu sais pourquoi?",
+  "up": "en haut",
+  "down": "vers le bas",
+  "log_messasge_hint_2": "Savez-vous pourquoi {{description}} ?",
+  "log_message_hint_title": "Des choses à se demander.",
+  "emotion_missing": "il me manque une émotion"
 }

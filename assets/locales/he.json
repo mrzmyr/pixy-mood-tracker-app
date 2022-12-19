@@ -634,5 +634,11 @@
   "less": "פָּחוּת",
   "promo_emotion_tracking_title": "מעקב אחר רגשות\nזמין כעת!",
   "new_feature": "תכונה חדשה",
-  "calendar_foot_note": "העתיד יהיה גדול"
+  "calendar_foot_note": "העתיד יהיה גדול",
+  "log_messasge_hint_1": "בהשוואה ליום הקודם, מצב הרוח שלך ירד {{מילה}}. אתה יודע למה?",
+  "up": "לְמַעלָה",
+  "down": "מטה",
+  "log_messasge_hint_2": "האם אתה יודע למה {{תיאור}}?",
+  "log_message_hint_title": "דברים שכדאי לשאול את עצמך.",
+  "emotion_missing": "חסר לי רגש"
 }
