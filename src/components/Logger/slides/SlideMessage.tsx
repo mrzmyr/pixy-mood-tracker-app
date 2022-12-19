@@ -1,5 +1,5 @@
 import { getLogEditMarginTop } from "@/helpers/responsive";
-import { t } from "@/helpers/translation";
+import { language, locale, t } from "@/helpers/translation";
 import useColors from "@/hooks/useColors";
 import { LogItem, RATING_MAPPING, useLogState } from "@/hooks/useLogs";
 import { useTemporaryLog } from "@/hooks/useTemporaryLog";
@@ -87,8 +87,14 @@ const Tips = ({
 
   if (sortedEmotions.length > 0) {
     sortedEmotions.slice(0, 5).forEach(emotion => {
+      let description = t(`log_emotion_${emotion?.key}_description`)
+
+      if (language === 'de') {
+        description = description.charAt(0).toUpperCase() + description.slice(1)
+      }
+
       questions.push(t(`log_messasge_hint_2`, {
-        description: `${t(`log_emotion_${emotion?.key}_description`).toLowerCase()}`,
+        description,
       }))
     })
   }
@@ -173,7 +179,7 @@ export const SlideMessage = forwardRef(({
             width: '100%',
             position: 'relative',
             paddingHorizontal: 20,
-            paddingBottom: insets.bottom + 8 + (shouldExpand ? 112 : 0),
+            paddingBottom: insets.bottom + 16 + (shouldExpand ? 112 : 0),
           }}>
 
             <View

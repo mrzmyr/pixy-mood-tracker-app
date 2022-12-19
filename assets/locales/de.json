@@ -428,7 +428,7 @@
   "log_modal_message_placeholder_6": "Was wünscht du dir in der Zukunft?",
   "log_note_question": "Schreib' über deinen Tag…",
   "log_question_button": "Speichern",
-  "log_rating_question": "Wie war dein Tag?",
+  "log_rating_question": "Wie war der Tag bisher?",
   "log_reminder_descprition": "Richte dir eine tägliche Erinnerung ein, damit du deinen Pixel nicht vergisst.",
   "log_reminder_enable": "Erinnerung aktivieren",
   "log_reminder_later": "Vielleicht später",
@@ -624,7 +624,7 @@
   "log_messasge_hint_1": "Im Vergleich zum Vortag ging deine Stimmung um {{word}}. Weißt du, warum?",
   "up": "hoch",
   "down": "Nieder",
-  "log_messasge_hint_2": "Weißt du warum {{description}}?",
+  "log_messasge_hint_2": "{{description}}, weißt du warum?",
   "log_message_hint_title": "Dinge, die du dich fragen kannst.",
   "emotion_missing": "Mir fehlt eine Emotion"
 }
