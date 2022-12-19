@@ -11737,10 +11737,10 @@ react-native-onesignal@^4.4.1:
   dependencies:
     invariant "^2.2.2"
 
-react-native-reanimated-carousel@^3.0.5:
-  version "3.0.5"
-  resolved "https://registry.yarnpkg.com/react-native-reanimated-carousel/-/react-native-reanimated-carousel-3.0.5.tgz#3a8b70f51608adb568d41d553715d59142d18620"
-  integrity sha512-fZyA0Yun6Ia9psk+Cj56rHLnsoZCVo/64rRqU5KT51G4fxqhs2HPjWiWIMgvPSa5MNpHYFl2hh10JYXwt7QjCQ==
+react-native-reanimated-carousel@^3.1.5:
+  version "3.1.5"
+  resolved "https://registry.yarnpkg.com/react-native-reanimated-carousel/-/react-native-reanimated-carousel-3.1.5.tgz#9737071fb06137632bd3dc7e92e75eeaf7de17a2"
+  integrity sha512-s3+Qoaajpic6u4npfqLHZeIDG8G1jbBSf5fCf0gRioWCiSNw8+1kzvfU9kB5knY10XCYTksMZ0eJfi8EqEvWEw==
 
 react-native-reanimated@~2.9.1:
   version "2.9.1"
