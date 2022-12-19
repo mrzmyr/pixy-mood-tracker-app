@@ -7,7 +7,7 @@ export const TagReferenceSchema = z.object({
 
 export type TagReference = z.infer<typeof TagReferenceSchema>;
 
-export const EMOTION_CATEGORIES = [
+export const EMOTION_CATEGORIES: Emotion['category'][] = [
   "very_bad",
   "bad",
   "neutral",

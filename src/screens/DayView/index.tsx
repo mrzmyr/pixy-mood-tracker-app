@@ -16,6 +16,7 @@ import { RootStackScreenProps } from "../../../types"
 import { Entry } from "./Entry"
 import { FeedbackBox } from "./FeedbackBox"
 import { Header } from "./Header"
+import { useState } from "react"
 
 type DayTime = 'morning' | 'afternoon' | 'evening'
 
@@ -120,9 +121,11 @@ const DayTimeHeadline = ({
 const DayTimeItems = ({
   date,
   dayTime,
+  isExpanded,
 }: {
   date: string
-  dayTime: DayTime
+  dayTime: DayTime,
+  isExpanded: boolean,
 }) => {
   const logState = useLogState()
 
@@ -156,6 +159,7 @@ const DayTimeItems = ({
               }}
             >
               <Entry
+                isExpanded={isExpanded}
                 item={item}
               />
             </View>
@@ -194,6 +198,8 @@ export const DayView = ({ route, navigation }: RootStackScreenProps<'DayView'>) 
     navigation.goBack()
   }
 
+  const [isExpanded, setIsExpanded] = useState(false)
+
   return (
     <PageModalLayout
       style={{
@@ -203,6 +209,11 @@ export const DayView = ({ route, navigation }: RootStackScreenProps<'DayView'>) 
     >
       <Header
         title={getDayDateTitle(date)}
+        onExpand={() => {
+          analytics.track('day_expand')
+          setIsExpanded(!isExpanded)
+        }}
+        isExpanded={isExpanded}
         onClose={close}
       />
       <ScrollView>
@@ -216,9 +227,9 @@ export const DayView = ({ route, navigation }: RootStackScreenProps<'DayView'>) 
               paddingBottom: insets.bottom + 20,
             }}
           >
-            <DayTimeItems date={date} dayTime="morning" />
-            <DayTimeItems date={date} dayTime="afternoon" />
-            <DayTimeItems date={date} dayTime="evening" />
+            <DayTimeItems isExpanded={isExpanded} date={date} dayTime="morning" />
+            <DayTimeItems isExpanded={isExpanded} date={date} dayTime="afternoon" />
+            <DayTimeItems isExpanded={isExpanded} date={date} dayTime="evening" />
             {items.length >= MAX_ENTRIES_PER_DAY && (
               <View
                 style={{

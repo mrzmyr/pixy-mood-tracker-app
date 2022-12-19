@@ -3,9 +3,11 @@ import useColors from "../../hooks/useColors";
 import { LogItem } from "../../hooks/useLogs";
 
 export const EntryMessage = ({
-  item
+  item,
+  isExpanded,
 }: {
   item: LogItem;
+  isExpanded: boolean;
 }) => {
   const colors = useColors();
 
@@ -15,7 +17,7 @@ export const EntryMessage = ({
       }}
     >
       <Text
-        numberOfLines={2}
+        numberOfLines={isExpanded ? 0 : 2}
         ellipsizeMode="tail"
         style={{
           fontSize: 17,
