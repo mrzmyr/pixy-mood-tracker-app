@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.65.1](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.65.0...v1.65.1) (2022-12-20)
+
+
+### Bug Fixes
+
+* click on close on promocard ([4f9dcd2](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/4f9dcd2bd0816d60d9d7f6e8276798b9057c85bb))
+
+
+### Styling
+
+* update tags colors for light and dark mode ([044364c](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/044364c3a5c98b2dee515aaf260f5bd50adef4f0))
+
 ## [1.65.0](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.64.0...v1.65.0) (2022-12-20)
 
 
