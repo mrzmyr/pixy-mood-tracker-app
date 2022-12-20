@@ -24,14 +24,14 @@ tagColorNames.map(color => {
   tagsDark[color] = {
     title: color,
     dot: colors[color]['500'],
-    background: colors[color]['900'],
+    background: colors[color]['700'],
     text: colors[color]['200'],
     border: colors[color]['600'],
   }
   tagsLight[color] = {
     title: color,
     dot: colors[color]['400'],
-    background: colors[color]['100'],
+    background: colors[color]['200'],
     text: colors[color]['700'],
     border: colors[color]['400'],
   }
