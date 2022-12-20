@@ -35,8 +35,6 @@ export const BotLogger = ({
     createdAt: createdAt.current,
   }
 
-  console.log('re-render BotLogger')
-
   return (
     <_BotLogger
       initialItem={initialItem}
@@ -84,12 +82,8 @@ const _BotLogger = ({
     bot.on('close', () => {
       onClose()
     })
-    // bot.on('answer', (answer) => {
-    //   console.log('answer', answer)
-    // })
 
     return () => {
-      bot.off('answer')
       bot.off('save')
       bot.off('close')
     }

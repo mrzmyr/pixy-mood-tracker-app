@@ -15,7 +15,6 @@ export const Answers = ({
     <View
       style={{
         flexDirection: 'row',
-        marginTop: 16,
         flexWrap: 'wrap',
         justifyContent: 'flex-end',
         width: '100%',
