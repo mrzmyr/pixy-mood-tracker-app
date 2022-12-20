@@ -20,7 +20,7 @@ export interface Bot {
 }
 
 export type BotEventType = "answer" | "close" | "save" | "message";
-export type BotEventData = BotAnswer;
+export type BotEventData = BotMessage | BotAnswer;
 
 function usePubSub() {
   const [subscriptions, setSubscriptions] = useState({});
