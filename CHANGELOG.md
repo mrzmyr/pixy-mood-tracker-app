@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.65.0](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.64.0...v1.65.0) (2022-12-20)
+
+
+### Features
+
+* update translations of emotions ([fd66618](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/fd6661862015dee46c729242e0f1376e830b4149))
+
 ## [1.64.0](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.63.0...v1.64.0) (2022-12-19)
 
 
