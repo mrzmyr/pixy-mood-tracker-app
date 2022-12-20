@@ -2,6 +2,32 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.64.0](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.63.0...v1.64.0) (2022-12-19)
+
+
+### Features
+
+* add 'day expand' feature ([ae0b105](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/ae0b105309df92ec206bd4b60b02a14c9b228501))
+* add 'missing emotion' ([a26a1c4](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/a26a1c4ee526fdd30d5072a6a497a3ae5022427c))
+
+
+### Bug Fixes
+
+* de message tips ([f5ab1a9](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/f5ab1a9de20bb46a4f0fec7fc3e7a555900b9d60))
+* en lonley sentence ([3c5305e](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/3c5305e45cb4d09a385e3142c88cb0c5d1a3003a))
+
+
+### Miscellaneous
+
+* **deps-dev:** bump sharp from 0.30.7 to 0.31.2 ([ea15932](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/ea15932aa61aa905fa87616c19aca72be3aa9d78))
+* **deps:** bump @react-navigation/native-stack from 6.8.0 to 6.9.7 ([e6366cf](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/e6366cf038e922354c0f403428c383e283b86605))
+* **deps:** bump dayjs from 1.11.5 to 1.11.7 ([65cc298](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/65cc298163bc0a6a404b93b3e30fdf891c1b48d1))
+* **deps:** bump expo-splash-screen from 0.16.2 to 0.17.5 ([2c5e58d](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/2c5e58d23592c0b869664011fef5154f2fac444d))
+* **deps:** bump react-native-reanimated-carousel from 3.0.5 to 3.1.5 ([04c529d](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/04c529d85f4c04e1449282a6ac913b26dec4df3e))
+* fix dependabot ([4f14305](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/4f143051ecee4ff4ba5f9fad879893478d0414fe))
+* remove `tagsDistributionData` from statistics data ([a3da822](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/a3da822fadd366683f436f9614b7e4359d5439cf))
+* remove `tagsDistributionData` from trends page ([18ca51d](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/18ca51d3bfe7c53d9b8ee49a910666419f806541))
+
 ## [1.63.0](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.62.0...v1.63.0) (2022-12-15)
 
 
