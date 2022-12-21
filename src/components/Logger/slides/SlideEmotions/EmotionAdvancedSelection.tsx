@@ -29,7 +29,6 @@ export const EmotionAdvancedSelection = ({
     return (
       <EmotionPage
         key={`emotions-page-inner-${category}`}
-        category={category}
         emotions={filteredEmotions}
         onPress={onPress}
         selectedEmotions={selectedEmotions}
