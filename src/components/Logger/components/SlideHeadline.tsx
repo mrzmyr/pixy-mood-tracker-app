@@ -14,7 +14,6 @@ export const SlideHeadline = ({
     <View
       style={{
         flexDirection: "row",
-        width: '100%',
         ...style,
       }}
     >

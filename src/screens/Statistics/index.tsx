@@ -108,12 +108,6 @@ export const StatisticsScreen = ({ navigation }: RootStackScreenProps<'Statistic
         {(
           statisticsUnlocked
         ) && (
-            <FeedbackBox prefix={`statistics_experimental`} />
-          )}
-
-        {(
-          statisticsUnlocked
-        ) && (
             <>
               <MenuListHeadline>{t('more_statistics')}</MenuListHeadline>
               <MenuList

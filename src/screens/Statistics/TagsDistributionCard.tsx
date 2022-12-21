@@ -104,8 +104,8 @@ export const TagsDistributionCard = ({
     >
       <TagDistributionContent data={data} />
       <CardFeedback
-        type='tags_distribution'
-        details={{
+        analyticsId='tags_distribution'
+        analyticsData={{
           tags: data.tags.map(tag => anonymizeTag(tag.details))
         }} />
     </Card>

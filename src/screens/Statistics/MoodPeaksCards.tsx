@@ -167,9 +167,12 @@ export const MoodPeaksCard = ({
         startDate={startDate}
         endDate={endDate}
       />
-      <CardFeedback type={`mood_peaks_${type}`} details={{
-        days_count: data.days.length,
-      }} />
+      <CardFeedback
+        analyticsId={`mood_peaks_${type}`}
+        analyticsData={{
+          days_count: data.days.length,
+        }}
+      />
     </Card>
   )
 }

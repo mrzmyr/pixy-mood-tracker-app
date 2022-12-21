@@ -8,6 +8,7 @@ import { useAnalytics } from "../hooks/useAnalytics";
 import useColors from '../hooks/useColors';
 import { useDatagate } from '../hooks/useDatagate';
 import { RootStackScreenProps } from '../../types';
+import { PageWithHeaderLayout } from '@/components/PageWithHeaderLayout';
 
 export const DataScreen = ({ navigation }: RootStackScreenProps<'Data'>) => {
   const colors = useColors()
@@ -15,10 +16,11 @@ export const DataScreen = ({ navigation }: RootStackScreenProps<'Data'>) => {
   const datagate = useDatagate()
 
   return (
-    <View style={{
-      flex: 1,
-      backgroundColor: colors.background,
-    }}>
+    <PageWithHeaderLayout
+      style={{
+        flex: 1,
+        backgroundColor: colors.background,
+      }}>
       <ScrollView
         style={{
           padding: 20,
@@ -98,6 +100,6 @@ export const DataScreen = ({ navigation }: RootStackScreenProps<'Data'>) => {
         </MenuList>
         <TextInfo>{t('reset_factory_description')}</TextInfo>
       </ScrollView>
-    </View>
+    </PageWithHeaderLayout>
   );
 }

@@ -26,7 +26,7 @@ export default function useFeedbackModal() {
 
   const [defaultType, setDefaultType] = useState<FeedackType>("issue");
 
-  const show = ({ type = "issue" }: { type?: FeedackType }) => {
+  const show = ({ type = "issue" }: { type: FeedackType }) => {
     analytics.track("feedback_open");
     setDefaultType(type);
     setVisible(true);
@@ -209,6 +209,7 @@ export default function useFeedbackModal() {
                       height: '100%',
                       maxHeight: 240,
                     }}
+                    autoFocus
                     value={message}
                     onChange={(text) => setMessageProxy(text)}
                     placeholder={t("feedback_modal_message_placeholder")}

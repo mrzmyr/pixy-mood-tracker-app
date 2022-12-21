@@ -1,11 +1,12 @@
+import { useAnalytics } from '@/hooks/useAnalytics';
+import useColors from "@/hooks/useColors";
 import * as Sharing from 'expo-sharing';
 import { useRef, useState } from "react";
 import { ActivityIndicator, Image, Text, View, ViewStyle } from "react-native";
 import { Share } from 'react-native-feather';
 import { captureRef } from "react-native-view-shot";
-import { useAnalytics } from '@/hooks/useAnalytics';
-import useColors from "@/hooks/useColors";
 import LinkButton from './LinkButton';
+import { CardFeedback } from './Statistics/CardFeedback';
 
 const LOGO = require('../../assets/images/icon.png')
 
@@ -81,13 +82,17 @@ export const BigCard = ({
   subtitle,
   children,
   isShareable,
+  hasFeedback,
   analyticsId,
+  analyticsData = {},
 }: {
   title?: string,
   subtitle?: string,
   children: React.ReactNode,
   isShareable?: boolean,
-  analyticsId?: string,
+  hasFeedback?: boolean,
+  analyticsId: string,
+  analyticsData?: any,
 }) => {
   const colors = useColors();
   const viewRef = useRef(null)
@@ -157,6 +162,13 @@ export const BigCard = ({
         </View>
         {subtitle && <SubTitle>{subtitle}</SubTitle>}
         {children}
+
+        {hasFeedback && (
+          <CardFeedback
+            analyticsId={analyticsId}
+            analyticsData={analyticsData}
+          />
+        )}
       </Container>
       {/* Share copy */}
       {isShareable && (

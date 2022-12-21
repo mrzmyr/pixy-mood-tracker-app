@@ -46,8 +46,8 @@ export const MoodAvgCard = ({
         })}
       </View>
       <CardFeedback
-        type='mood_avg'
-        details={{
+        analyticsId='mood_avg'
+        analyticsData={{
           percentage: data.ratingHighestPercentage,
           data: data.distribution,
         }}

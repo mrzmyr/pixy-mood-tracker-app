@@ -67,7 +67,7 @@ const CalendarDay = memo(function CalendarDay({
       colors.text
     ) : (
       rating ?
-        colors.scales[scaleType][rating].text :
+        colors.scales[scaleType][rating].textSecondary :
         colors.scales[scaleType].empty.text
     )
   ), [rating, scaleType, colors])
@@ -163,7 +163,6 @@ const styles = StyleSheet.create({
   dayNumberParent2: {
     justifyContent: 'center',
     alignItems: 'center',
-    minHeight: 20,
     minWidth: 20,
     borderRadius: 100,
   }

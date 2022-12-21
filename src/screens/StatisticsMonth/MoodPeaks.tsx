@@ -55,8 +55,12 @@ export const MoodPeaks = ({
       <BigCard
         title={t('statistics_mood_peaks_positive')}
         subtitle={t('statistics_mood_peaks_positive_description', { date: date.format('MMMM, YYYY') })}
-        isShareable={true}
+        isShareable
+        hasFeedback
         analyticsId="mood-peaks-positive"
+        analyticsData={
+          dataNegative.days.map(day => anonymizeDay(day))
+        }
       >
         {dataPositive.days.length < MIN_ITEMS && (
           <NotEnoughDataOverlay />
@@ -72,16 +76,16 @@ export const MoodPeaks = ({
             startDate={monthStart}
             endDate={monthEnd} />
         )}
-        <CardFeedback
-          type='mood_peaks_positive_month_report'
-          details={dataPositive.days.map(day => anonymizeDay(day))}
-        />
       </BigCard>
       <BigCard
         title={t('statistics_mood_peaks_negative')}
         subtitle={t('statistics_mood_peaks_negative_description', { date: date.format('MMMM, YYYY') })}
-        isShareable={true}
+        isShareable
+        hasFeedback
         analyticsId="mood-peaks-negative"
+        analyticsData={
+          dataNegative.days.map(day => anonymizeDay(day))
+        }
       >
         {dataNegative.days.length < MIN_ITEMS && (
           <NotEnoughDataOverlay />
@@ -97,10 +101,6 @@ export const MoodPeaks = ({
             startDate={monthStart}
             endDate={monthEnd} />
         )}
-        <CardFeedback
-          type='mood_peaks_negative_month_report'
-          details={dataNegative.days.map(day => anonymizeDay(day))}
-        />
       </BigCard>
     </>
   );

@@ -1,10 +1,13 @@
+import { t } from "@/helpers/translation"
+import useColors from "@/hooks/useColors"
+import useHaptics from "@/hooks/useHaptics"
+import { useSettings } from "@/hooks/useSettings"
+import { Motion } from "@legendapp/motion"
 import { LinearGradient } from "expo-linear-gradient"
 import { Pressable, Text, View } from "react-native"
-import { ChevronRight, Moon, Star } from "react-native-feather"
-import useColors from "@/hooks/useColors"
-import { Motion } from "@legendapp/motion"
-import { t } from "@/helpers/translation"
-import useHaptics from "@/hooks/useHaptics"
+import { Star, X } from "react-native-feather"
+
+export const YEAR_REPORT_SLUG = `promo_year_report_${(new Date()).getFullYear()}_closed`
 
 export const PromoCardYear = ({
   title,
@@ -15,6 +18,7 @@ export const PromoCardYear = ({
 }) => {
   const colors = useColors()
   const haptics = useHaptics()
+  const { addActionDone, hasActionDone } = useSettings()
 
   const gradientColors = [
     colors.palette.orange[700],
@@ -26,6 +30,13 @@ export const PromoCardYear = ({
     haptics.selection()
     onPress()
   }
+
+  const onClose = () => {
+    haptics.selection()
+    addActionDone(YEAR_REPORT_SLUG)
+  }
+
+  if (hasActionDone(YEAR_REPORT_SLUG)) return null
 
   return (
     <Motion.View
@@ -43,7 +54,7 @@ export const PromoCardYear = ({
       <Pressable
         style={({ pressed }) => [{
           backgroundColor: colors.cardBackground,
-          borderRadius: 8,
+          borderRadius: 12,
           overflow: 'hidden',
           paddingVertical: 24,
           paddingHorizontal: 16,
@@ -88,19 +99,19 @@ export const PromoCardYear = ({
             }}
           >{t('year_report')}</Text>
         </View>
-        <View
+        <Pressable
           style={{
-            backgroundColor: 'rgba(0, 0, 0, 0.5)',
             padding: 4,
             borderRadius: 100,
             width: 32,
             position: 'absolute',
-            right: 16,
-            top: 16,
+            right: 12,
+            top: 12,
           }}
+          onPress={onClose}
         >
-          <ChevronRight stroke={colors.palette.white} width={24} height={24} />
-        </View>
+          <X stroke={colors.promoCardText} width={24} height={24} />
+        </Pressable>
         <View
           style={{
             flexDirection: 'column',

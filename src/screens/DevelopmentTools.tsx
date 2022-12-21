@@ -1,15 +1,17 @@
-import dayjs from "dayjs";
-import { ScrollView, Text, View, ViewStyle } from "react-native";
 import Button from "@/components/Button";
 import MenuList from "@/components/MenuList";
 import MenuListHeadline from "@/components/MenuListHeadline";
 import MenuListItem from "@/components/MenuListItem";
+import { PageWithHeaderLayout } from "@/components/PageWithHeaderLayout";
 import TextInfo from "@/components/TextInfo";
 import { t } from "@/helpers/translation";
+import dayjs from "dayjs";
+import { ScrollView, Text, View, ViewStyle } from "react-native";
 import useColors from "../hooks/useColors";
 import { useLogState } from "../hooks/useLogs";
 import { useSettings } from "../hooks/useSettings";
 import { useTagsState } from "../hooks/useTags";
+import LinkButton from "@/components/LinkButton";
 
 const Card = ({
   title,
@@ -60,14 +62,14 @@ export const DevelopmentTools = () => {
   const colors = useColors();
   const logState = useLogState();
   const { tags } = useTagsState()
-  const { settings, setSettings } = useSettings();
+  const { settings, setSettings, removeActionDone } = useSettings();
 
   const words_total = logState.items
     .map((d) => d.message.split(" ").length)
     .reduce((a, b) => a + b, 0);
 
   return (
-    <View
+    <PageWithHeaderLayout
       style={{
         flex: 1,
       }}
@@ -126,18 +128,41 @@ export const DevelopmentTools = () => {
                 flexDirection: "column",
               }}
               key={i}
-              title={action.title}
               isLast={i === settings.actionsDone.length - 1}
             >
-              <Text
+              <View
                 style={{
-                  color: colors.textSecondary,
-                  fontSize: 14,
-                  marginTop: 4,
+                  flexDirection: "row",
+                  justifyContent: "space-between",
                 }}
               >
-                {dayjs(action.date).format("L - LT")}
-              </Text>
+                <View>
+                  <Text
+                    style={{
+                      color: colors.text,
+                      fontSize: 17,
+                      marginTop: 4,
+                    }}
+                  >
+                    {action.title}
+                  </Text>
+                  <Text
+                    style={{
+                      color: colors.textSecondary,
+                      fontSize: 14,
+                      marginTop: 4,
+                    }}
+                  >
+                    {dayjs(action.date).format("L - LT")}
+                  </Text>
+                </View>
+                <LinkButton
+                  icon="Trash"
+                  onPress={() => {
+                    removeActionDone(action.title);
+                  }}
+                />
+              </View>
             </MenuListItem>
           ))}
         </MenuList>
@@ -203,6 +228,6 @@ export const DevelopmentTools = () => {
           }}
         />
       </ScrollView>
-    </View>
+    </PageWithHeaderLayout>
   );
 };

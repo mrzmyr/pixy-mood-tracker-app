@@ -10,6 +10,7 @@ import useColors from '../../hooks/useColors';
 import { useSettings } from '../../hooks/useSettings';
 import { Radio } from './Radio';
 import { Scale } from './Scale';
+import { PageWithHeaderLayout } from '@/components/PageWithHeaderLayout';
 
 export const ColorsScreen = ({ navigation }) => {
   const { setSettings, settings } = useSettings()
@@ -45,7 +46,7 @@ export const ColorsScreen = ({ navigation }) => {
   }, [])
 
   return (
-    <View style={{
+    <PageWithHeaderLayout style={{
       flex: 1,
       backgroundColor: colors.background,
     }}>
@@ -90,20 +91,7 @@ export const ColorsScreen = ({ navigation }) => {
           }}
         >
         </View>
-        <MenuList
-          style={{
-            marginTop: 16,
-          }}
-        >
-          <MenuListItem
-            title={t('colors_reset')}
-            onPress={() => {
-              setScaleType(typesNames[0].id)
-            }}
-            isLast
-          />
-        </MenuList>
       </ScrollView>
-    </View>
+    </PageWithHeaderLayout>
   );
 }

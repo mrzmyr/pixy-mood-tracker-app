@@ -38,6 +38,10 @@ export const useQuestioner = () => {
     return fetch(QUESTIONS_PULL_URL)
       .then(response => response.json())
       .then(data => {
+        if (!data) {
+          return null;
+        }
+
         const question = data.find((question: IQuestion) => {
           const satisfiesVersion = question.appVersion ? semver.satisfies(pkg.version, question.appVersion) : true
           const hasBeenAnswered = hasActionDone(`question_slide_${question.id}`)

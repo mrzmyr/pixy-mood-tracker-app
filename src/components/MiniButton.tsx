@@ -44,6 +44,7 @@ export const MiniButton = ({
         style={{
           color: colors.miniButtonText,
           fontSize: 17,
+          fontWeight: '500',
         }}
       >{children}</Text>
     </Pressable>

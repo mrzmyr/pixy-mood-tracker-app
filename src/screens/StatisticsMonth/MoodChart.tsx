@@ -32,6 +32,10 @@ export const MoodChart = ({
       subtitle={t('statistics_mood_chart_description', { date: date.format('MMMM, YYYY') })}
       isShareable={true}
       analyticsId="rating-distribution"
+      analyticsData={{
+        date: date.format('YYYY-MM'),
+        data,
+      }}
     >
       {validatedData.length < MIN_ITEMS && (
         <NotEnoughDataOverlay limit={MIN_ITEMS - validatedData.length} />
@@ -50,8 +54,8 @@ export const MoodChart = ({
           width={width} />
       )}
       <CardFeedback
-        type='rating_distribution_month_report'
-        details={data}
+        analyticsId='rating_distribution_month_report'
+        analyticsData={data}
       />
     </BigCard>
   );

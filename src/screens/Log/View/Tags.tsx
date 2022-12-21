@@ -41,6 +41,10 @@ export const Tags = ({
               key={tag.id}
               title={_tag.title}
               colorName={_tag.color}
+              style={{
+                backgroundColor: colors.entryBackground,
+                borderColor: colors.entryItemBorder,
+              }}
               onPress={() => {
                 navigation.navigate('LogEdit', { id: item.id, step: 'tags' });
               }} />

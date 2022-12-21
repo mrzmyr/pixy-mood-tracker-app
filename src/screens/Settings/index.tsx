@@ -16,6 +16,7 @@ import useFeedbackModal from '../../hooks/useFeedbackModal';
 import pkg from '../../../package.json';
 import { RootStackScreenProps } from '../../../types';
 import { UserDataImportList } from './UserData';
+import * as Updates from 'expo-updates';
 
 export const SettingsScreen = ({ navigation }: RootStackScreenProps<'Settings'>) => {
   const insets = useSafeAreaInsets();
@@ -90,15 +91,15 @@ export const SettingsScreen = ({ navigation }: RootStackScreenProps<'Settings'>)
             iconLeft={<Droplet width={18} color={colors.menuListItemIcon} />}
             onPress={() => navigation.navigate('Colors')}
             isLink
-            isLast
+          // isLast
           />
-          {/* <MenuListItem
+          <MenuListItem
             title={t('steps')}
             iconLeft={<CheckCircle width={18} color={colors.menuListItemIcon} />}
             onPress={() => navigation.navigate('Steps')}
             isLink
             isLast
-          /> */}
+          />
           {/* <MenuListItem
             title={t('passcode')}
             deactivated={!passcodeSupported}
@@ -213,9 +214,11 @@ export const SettingsScreen = ({ navigation }: RootStackScreenProps<'Settings'>)
             flex: 1,
             justifyContent: 'flex-end',
             alignItems: 'center',
+            marginBottom: 40,
           }}
         >
-          <Text style={{ fontSize: 14, marginTop: 5, marginBottom: 40, color: colors.textSecondary }}>Pixy v{pkg.version}</Text>
+          <Text style={{ fontSize: 14, marginTop: 5, color: colors.textSecondary }}>Pixy v{pkg.version}</Text>
+          {Updates.channel && <Text style={{ fontSize: 14, marginTop: 5, color: colors.textSecondary }}>{Updates.channel}</Text>}
         </View>
 
         {__DEV__ && <UserDataImportList />}

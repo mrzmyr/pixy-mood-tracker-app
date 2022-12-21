@@ -6,13 +6,50 @@ import { LogItem } from "../../hooks/useLogs";
 import { useTagsState } from "../../hooks/useTags";
 
 export const EntryTags = ({
-  item
+  item,
+  isExpanded,
 }: {
   item: LogItem;
+  isExpanded: boolean;
 }) => {
   const colors = useColors();
   const navigation = useNavigation();
   const tagsState = useTagsState();
+
+  const content = (
+    <View
+      style={{
+        paddingLeft: 16,
+        paddingRight: 16,
+        flexDirection: 'row',
+        flexWrap: isExpanded ? 'wrap' : 'nowrap',
+      }}
+    >
+      {item.tags.map((tag) => {
+        const _tag = tagsState.tags.find((t) => t.id === tag.id);
+
+        if (!_tag)
+          return null;
+
+        return (
+          <Tag
+            key={_tag.id}
+            title={_tag.title}
+            colorName={_tag.color}
+            onPress={() => {
+              navigation.navigate('LogView', {
+                id: item.id,
+              });
+            }}
+            style={{
+              backgroundColor: colors.entryItemBackground,
+              borderColor: colors.entryItemBorder,
+            }}
+          />
+        );
+      })}
+    </View>
+  )
 
   return (
     <View
@@ -22,41 +59,14 @@ export const EntryTags = ({
         marginRight: -16,
       }}
     >
-      <ScrollView
-        horizontal
-      >
-        <View
-          style={{
-            paddingLeft: 16,
-            paddingRight: 16,
-            flexDirection: 'row',
-          }}
+      {isExpanded && content}
+      {!isExpanded && (
+        <ScrollView
+          horizontal
         >
-          {item.tags.map((tag) => {
-            const _tag = tagsState.tags.find((t) => t.id === tag.id);
-
-            if (!_tag)
-              return null;
-
-            return (
-              <Tag
-                key={_tag.id}
-                title={_tag.title}
-                colorName={_tag.color}
-                onPress={() => {
-                  navigation.navigate('LogView', {
-                    id: item.id,
-                  });
-                }}
-                style={{
-                  backgroundColor: colors.entryBackground,
-                  borderColor: colors.entryItemBorder,
-                }}
-              />
-            );
-          })}
-        </View>
-      </ScrollView>
+          {content}
+        </ScrollView>
+      )}
     </View>
   );
 };

@@ -2,6 +2,161 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.65.2](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.65.1...v1.65.2) (2022-12-21)
+
+
+### Bug Fixes
+
+* german translation for message tips ([b3a0515](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/b3a0515436c5396c3518613f4d09e5c686442acd))
+
+## [1.65.1](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.65.0...v1.65.1) (2022-12-20)
+
+
+### Bug Fixes
+
+* click on close on promocard ([4f9dcd2](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/4f9dcd2bd0816d60d9d7f6e8276798b9057c85bb))
+
+
+### Styling
+
+* update tags colors for light and dark mode ([044364c](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/044364c3a5c98b2dee515aaf260f5bd50adef4f0))
+
+## [1.65.0](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.64.0...v1.65.0) (2022-12-20)
+
+
+### Features
+
+* update translations of emotions ([fd66618](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/fd6661862015dee46c729242e0f1376e830b4149))
+
+## [1.64.0](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.63.0...v1.64.0) (2022-12-19)
+
+
+### Features
+
+* add 'day expand' feature ([ae0b105](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/ae0b105309df92ec206bd4b60b02a14c9b228501))
+* add 'missing emotion' ([a26a1c4](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/a26a1c4ee526fdd30d5072a6a497a3ae5022427c))
+
+
+### Bug Fixes
+
+* de message tips ([f5ab1a9](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/f5ab1a9de20bb46a4f0fec7fc3e7a555900b9d60))
+* en lonley sentence ([3c5305e](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/3c5305e45cb4d09a385e3142c88cb0c5d1a3003a))
+
+
+### Miscellaneous
+
+* **deps-dev:** bump sharp from 0.30.7 to 0.31.2 ([ea15932](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/ea15932aa61aa905fa87616c19aca72be3aa9d78))
+* **deps:** bump @react-navigation/native-stack from 6.8.0 to 6.9.7 ([e6366cf](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/e6366cf038e922354c0f403428c383e283b86605))
+* **deps:** bump dayjs from 1.11.5 to 1.11.7 ([65cc298](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/65cc298163bc0a6a404b93b3e30fdf891c1b48d1))
+* **deps:** bump expo-splash-screen from 0.16.2 to 0.17.5 ([2c5e58d](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/2c5e58d23592c0b869664011fef5154f2fac444d))
+* **deps:** bump react-native-reanimated-carousel from 3.0.5 to 3.1.5 ([04c529d](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/04c529d85f4c04e1449282a6ac913b26dec4df3e))
+* fix dependabot ([4f14305](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/4f143051ecee4ff4ba5f9fad879893478d0414fe))
+* remove `tagsDistributionData` from statistics data ([a3da822](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/a3da822fadd366683f436f9614b7e4359d5439cf))
+* remove `tagsDistributionData` from trends page ([18ca51d](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/18ca51d3bfe7c53d9b8ee49a910666419f806541))
+
+## [1.63.0](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.62.0...v1.63.0) (2022-12-15)
+
+
+### Features
+
+* add channel to settings version ([e3a4742](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/e3a4742e22f17c74c8a3f2b0a32daf52ad558174))
+* add message tips full sentence questions ([24330fa](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/24330faa979e019312677ea26e4a752661063e88))
+* remove 'reset to default' ([40c3f9c](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/40c3f9c66aaebc2769ef7a413c79b81098aca619))
+* remove feedback box from statistics ([429f4b4](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/429f4b453895206479ab6a1d8928213213d636c2))
+* track promocard click ([8a4b609](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/8a4b60996a6fb50c8bf4b0b697971342515a8f59))
+* update en translations ([464576f](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/464576f585142ada22ede140b42b3cd2bfe0ab65))
+
+
+### Styling
+
+* fix scale colors ([d68f270](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/d68f270db7cf751419b5f4b6c52ea0c1546629c5))
+* make it one row for all emotions categories ([3d5dfd6](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/3d5dfd6437359a66b3b1902fa6a90132ad4597bf))
+
+
+### Miscellaneous
+
+* remove unused key ([fad1c24](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/fad1c24dedd13ea2d15f6be5f673edb3b8c36466))
+
+## [1.62.0](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.61.1...v1.62.0) (2022-12-13)
+
+
+### Features
+
+* add `Card` component ([18fa952](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/18fa952446503d3910ba7e4ccc6bad7f26141cd7))
+* add `minimal` variant for `CardFeedback` ([1d4cd11](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/1d4cd1133cad738e4ad511d25c068208d7af93bf))
+* Add tip to message step in `Logger` ([3ee085d](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/3ee085dfa3ef29f7e1c320b562542beb708d96d2))
+* show individual tips first ([2cfb1ef](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/2cfb1ef502373f73c34fab6094891c908d50153c))
+
+
+### Bug Fixes
+
+* don't animate when stepper used to change slide ([f206ed8](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/f206ed832b200d1434e1a45be26cfca58cbd470f))
+
+
+### Refactors
+
+* add `EmotionIndicator` component ([4b9a4d3](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/4b9a4d3a8c614ea9773c7f846e76fd212ba5f240))
+* move top gradient to `SlideEmotions` ([4d774f8](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/4d774f8c9be5f387946931b4164e51a28d459127))
+* rename `type` and `details` on `CardFeedback` to `analyticsId`, `analyticsData` ([1b4fbe4](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/1b4fbe4d43dd3932f5bb898e223b199e6dc7e5a9))
+
+
+### Styling
+
+* add shadow to `SlideAction` ([64bfea8](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/64bfea8281b09417a94afa2445b89d52a65705c7))
+* add translations ([27d335c](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/27d335c965b817fa857ae0479464ebe8e5891aed))
+* fix small screen issues ([467b02f](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/467b02f82791489f9fa1ba20a8ef32edb06045cb))
+* hide textarea when showing message tips ([8035af7](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/8035af71ef351f3bd1a105d8a6a574a5bd06b7bc))
+* positioning message tips ([5327b56](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/5327b56d5e86ffec121fe822002844a49d26df47))
+* reduce bottom spacing on `SlideMessage` ([3c2e3e1](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/3c2e3e1bb6934b53977cb6f0997f06b701c2b977))
+* remove `Clock` from `SlideHeader` ([3ac6b8d](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/3ac6b8df0e88c96a80e0e925c32c6f2c63f27d8f))
+* remove shadow from `SlideAction` ([b11a4aa](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/b11a4aaea7e7e812b20ca25d8dcd02bfe83d3a1a))
+
+## [1.61.1](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.61.0...v1.61.1) (2022-12-13)
+
+
+### Bug Fixes
+
+* if questions are not loaded ignore result ([6d4d8a5](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/6d4d8a54fa088fa4b53896f1a8a2fffd2adfbd87))
+
+
+### Styling
+
+* font size to normal for tags ([2352813](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/23528134c351d6e791273f7b674334edf37f785a))
+
+## [1.61.0](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.60.0...v1.61.0) (2022-12-11)
+
+
+### Features
+
+* add calendar foot note ([a08eb7c](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/a08eb7c65a3b7378dd1d4b1e0ef8b8e69ef0bcc0))
+* only focus textarea when creating ([bd688c4](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/bd688c403c5b4fa3fce74167cc2563b447951919))
+
+
+### Bug Fixes
+
+* remove feedback bar from shared images ([cda3ec1](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/cda3ec18f86714c8bb3e970109cb02a6b42cb04b))
+* styling for emotions in `LogView` and `Entry` ([e1dc98c](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/e1dc98cfd907381e9459a46d48745ea678c2dc12))
+
+
+### Styling
+
+* align de translations ([7db78bf](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/7db78bf15aecf6473ba961829bec082f8124c0ee))
+* change emotion indicator to dot ([80030cf](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/80030cfdf4e934ed6207df7c1f040ddd3a124c5f))
+
+## [1.60.0](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.59.3...v1.60.0) (2022-12-11)
+
+
+### Features
+
+* big update for emotions [#2](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/2) ([760ffc3](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/760ffc31a861e47e0cd4ea2af8d36865e0a74e33))
+
+## [1.59.3](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.59.2...v1.59.3) (2022-12-10)
+
+
+### Bug Fixes
+
+* android header padding top ([4bd711a](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/4bd711a6ac8e6c9a2ac459be81bf7481f4724d7a))
+
 ## [1.59.2](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.59.1...v1.59.2) (2022-12-09)
 
 

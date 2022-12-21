@@ -1,15 +1,15 @@
 import { Pressable, Text, View } from "react-native";
-import { X } from "react-native-feather";
+import { Maximize2, X } from "react-native-feather";
 import useColors from "../../hooks/useColors";
 import useHaptics from "../../hooks/useHaptics";
 
 export const Header = ({
-  title, onClose,
+  title, onClose, onExpand, isExpanded,
 }: {
   title: string;
   onClose?: () => void;
-  onDelete?: () => void;
-  onEdit?: () => void;
+  onExpand?: () => void;
+  isExpanded?: boolean;
 }) => {
   const haptics = useHaptics();
   const colors = useColors();
@@ -21,6 +21,7 @@ export const Header = ({
       alignItems: 'center',
       paddingTop: 8,
       paddingHorizontal: 20,
+      marginBottom: 8,
     }}>
       <View
         style={{
@@ -58,7 +59,20 @@ export const Header = ({
         >
           <Pressable
             style={{
-              padding: 16,
+              padding: 12,
+              backgroundColor: isExpanded ? colors.logHeaderHighlight : undefined,
+              borderRadius: 8,
+            }}
+            onPress={async () => {
+              await haptics.selection();
+              onExpand?.();
+            }}
+          >
+            <Maximize2 color={colors.logHeaderText} width={22} height={22} />
+          </Pressable>
+          <Pressable
+            style={{
+              padding: 12,
             }}
             onPress={async () => {
               await haptics.selection();

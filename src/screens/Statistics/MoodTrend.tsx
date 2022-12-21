@@ -129,7 +129,10 @@ export const MoodTrend = ({
           }}
         >{SCALE_RANGE}-{SCALE_TYPE} avg</Text>
       </View>
-      <CardFeedback type='mood_avg' details={{}} />
+      <CardFeedback
+        analyticsId='mood_avg'
+        analyticsData={{}}
+      />
     </Card>
   );
 };

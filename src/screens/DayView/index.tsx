@@ -1,4 +1,5 @@
 import Button from "@/components/Button"
+import { PageModalLayout } from "@/components/PageModalLayout"
 import { MAX_ENTRIES_PER_DAY } from "@/constants/Config"
 import { t } from "@/helpers/translation"
 import { useAnalytics } from "@/hooks/useAnalytics"
@@ -15,6 +16,7 @@ import { RootStackScreenProps } from "../../../types"
 import { Entry } from "./Entry"
 import { FeedbackBox } from "./FeedbackBox"
 import { Header } from "./Header"
+import { useState } from "react"
 
 type DayTime = 'morning' | 'afternoon' | 'evening'
 
@@ -119,9 +121,11 @@ const DayTimeHeadline = ({
 const DayTimeItems = ({
   date,
   dayTime,
+  isExpanded,
 }: {
   date: string
-  dayTime: DayTime
+  dayTime: DayTime,
+  isExpanded: boolean,
 }) => {
   const logState = useLogState()
 
@@ -155,6 +159,7 @@ const DayTimeItems = ({
               }}
             >
               <Entry
+                isExpanded={isExpanded}
                 item={item}
               />
             </View>
@@ -193,8 +198,10 @@ export const DayView = ({ route, navigation }: RootStackScreenProps<'DayView'>) 
     navigation.goBack()
   }
 
+  const [isExpanded, setIsExpanded] = useState(false)
+
   return (
-    <View
+    <PageModalLayout
       style={{
         flex: 1,
         backgroundColor: colors.logBackground,
@@ -202,6 +209,11 @@ export const DayView = ({ route, navigation }: RootStackScreenProps<'DayView'>) 
     >
       <Header
         title={getDayDateTitle(date)}
+        onExpand={() => {
+          analytics.track('day_expand')
+          setIsExpanded(!isExpanded)
+        }}
+        isExpanded={isExpanded}
         onClose={close}
       />
       <ScrollView>
@@ -215,9 +227,9 @@ export const DayView = ({ route, navigation }: RootStackScreenProps<'DayView'>) 
               paddingBottom: insets.bottom + 20,
             }}
           >
-            <DayTimeItems date={date} dayTime="morning" />
-            <DayTimeItems date={date} dayTime="afternoon" />
-            <DayTimeItems date={date} dayTime="evening" />
+            <DayTimeItems isExpanded={isExpanded} date={date} dayTime="morning" />
+            <DayTimeItems isExpanded={isExpanded} date={date} dayTime="afternoon" />
+            <DayTimeItems isExpanded={isExpanded} date={date} dayTime="evening" />
             {items.length >= MAX_ENTRIES_PER_DAY && (
               <View
                 style={{
@@ -239,7 +251,10 @@ export const DayView = ({ route, navigation }: RootStackScreenProps<'DayView'>) 
                 >{t('entries_reached_max', { max_count: MAX_ENTRIES_PER_DAY })}</Text>
               </View>
             )}
-            <FeedbackBox prefix={"entries_feedback"} />
+            <FeedbackBox
+              prefix={"entries_feedback"}
+              emoji='👷‍♀️'
+            />
             {items.length < MAX_ENTRIES_PER_DAY && (
               <Button
                 type="primary"
@@ -255,6 +270,6 @@ export const DayView = ({ route, navigation }: RootStackScreenProps<'DayView'>) 
           </View>
         </View>
       </ScrollView>
-    </View>
+    </PageModalLayout>
   )
 }

@@ -157,6 +157,9 @@ export const SlideFeedback = ({
         <LinkButton
           type="secondary"
           onPress={onDisableStep}
+          style={{
+            fontWeight: '400',
+          }}
         >{t('log_feedback_disable')}</LinkButton>
       </Footer>
     </View>

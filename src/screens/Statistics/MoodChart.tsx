@@ -45,8 +45,8 @@ export const MoodChart = ({
           width={width}
         />
         <CardFeedback
-          type='rating_distribution_two_weeks'
-          details={data}
+          analyticsId='rating_distribution_two_weeks'
+          analyticsData={data}
         />
       </View>
     </Card>

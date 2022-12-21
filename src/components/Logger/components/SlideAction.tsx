@@ -41,7 +41,7 @@ export const SlideAction = ({
         flex: 1,
         justifyContent: 'flex-end',
         alignItems: 'flex-end',
-        paddingBottom: insets.bottom + 20,
+        paddingBottom: insets.bottom + 16,
         paddingRight: 32,
         position: 'absolute',
         bottom: shouldMove ? keyboard.keyboardHeight - 20 : 0,
