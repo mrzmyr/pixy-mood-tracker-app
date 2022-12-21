@@ -1,22 +1,16 @@
-import LinkButton from "@/components/LinkButton";
-import { t } from "@/helpers/translation";
-import useFeedbackModal from "@/hooks/useFeedbackModal";
 import { Emotion } from "@/types";
 import _ from "lodash";
 import { View } from "react-native";
 import { EmotionButtonAdvanced, EmotionButtonEmpty } from "./EmotionButtonAdvanced";
 
 export const EmotionPage = ({
-  category,
   emotions, onPress, selectedEmotions,
 }: {
-  category: Emotion['category'];
   emotions: Emotion[];
   onPress: (emotion: Emotion) => void;
   selectedEmotions: Emotion[];
 }) => {
   const chunks = _.chunk(emotions, 2).map(d => d.length === 1 ? [...d, { key: 'empty', label: '' } as Emotion] : d);
-  const { show, Modal } = useFeedbackModal()
 
   return (
     <View
@@ -27,7 +21,6 @@ export const EmotionPage = ({
         paddingTop: 12,
       }}
     >
-      <Modal />
       {chunks.map((chunk, index) => (
         <View
           key={`emotion-page-${index}`}
@@ -52,26 +45,6 @@ export const EmotionPage = ({
             )))}
         </View>
       ))}
-
-      {category === 'neutral' && (
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'center',
-            marginTop: 16,
-          }}
-        >
-          <LinkButton
-            type="secondary"
-            onPress={() => {
-              show({
-                type: 'idea',
-              })
-            }}
-            style={{
-            }}>{t(`emotion_missing`)}</LinkButton>
-        </View>
-      )}
     </View>
   );
 };
