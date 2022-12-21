@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.66.0](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.65.2...v1.66.0) (2022-12-21)
+
+
+### Features
+
+* replace `Stichwörter` mit `Schlagwörter` ([1224877](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/1224877ed37d66bbbb0f4eb97c0ee25fd86c782b))
+
+
+### Bug Fixes
+
+* `Schlagwörter` de translation ([178b2e2](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/178b2e22b87ed1d292ff174d1c570155fbac01a5))
+* remove confusing add missing emotion button ([37a2149](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/37a21499e6274a5e74254c6488f6976ba9814c32))
+
 ## [1.65.2](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.65.1...v1.65.2) (2022-12-21)
 
 
