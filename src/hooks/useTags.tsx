@@ -66,6 +66,12 @@ const reducer = (state: State, action: StateAction): State => {
   }
 }
 
+const _generateTag = (id: number, title: string, color: Tag['color']): Tag => ({
+  id: `${id}`,
+  title,
+  color
+})
+
 function TagsProvider({
   children
 }: {
@@ -78,31 +84,24 @@ function TagsProvider({
   const INITIAL_STATE: State = {
     loaded: false,
     tags: [
-      {
-        id: "1",
-        title: `${t("tags_default_1_title")} 🥳`,
-        color: "orange",
-      },
-      {
-        id: "2",
-        title: `${t("tags_default_2_title")} ☔️`,
-        color: "purple",
-      },
-      {
-        id: "3",
-        title: `${t("tags_default_3_title")} 💼`,
-        color: "sky",
-      },
-      {
-        id: "4",
-        title: `${t("tags_default_4_title")} 🏃`,
-        color: "green",
-      },
-      {
-        id: "5",
-        title: `${t("tags_default_5_title")} 🤗`,
-        color: "yellow",
-      },
+      _generateTag(1, `${t('tags_default_1_title')} 🏡`, 'slate'),
+      _generateTag(2, `${t('tags_default_2_title')} 🤝`, 'orange'),
+      _generateTag(3, `${t('tags_default_3_title')} ❤️`, 'red'),
+      _generateTag(4, `${t('tags_default_4_title')} 🏃‍♂️`, 'blue'),
+      _generateTag(5, `${t('tags_default_5_title')} 🛀`, 'teal'),
+      _generateTag(6, `${t('tags_default_6_title')} 📚`, 'purple'),
+      _generateTag(7, `${t('tags_default_7_title')} 🧹`, 'indigo'),
+      _generateTag(8, `${t('tags_default_8_title')} 🛌`, 'amber'),
+      _generateTag(9, `${t('tags_default_9_title')} 🥗`, 'green'),
+      _generateTag(10, `${t('tags_default_10_title')} 🛍️`, 'pink'),
+      _generateTag(11, `${t('tags_default_11_title')} 🎮`, 'slate'),
+      _generateTag(12, `${t('tags_default_12_title')} 📺`, 'orange'),
+      _generateTag(13, `${t('tags_default_13_title')} 🧘‍♂️`, 'cyan'),
+      _generateTag(14, `${t('tags_default_14_title')} 🌳`, 'lime'),
+      _generateTag(15, `${t('tags_default_15_title')} 🎨`, 'teal'),
+      _generateTag(16, `${t('tags_default_16_title')} 🌼`, 'blue'),
+      _generateTag(17, `${t('tags_default_17_title')} 💼`, 'slate'),
+      _generateTag(18, `${t('tags_default_18_title')} ✈️`, 'sky')
     ]
   }
 
