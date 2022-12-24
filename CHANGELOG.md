@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.68.2](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.68.1...v1.68.2) (2022-12-24)
+
+
+### Miscellaneous
+
+* fix typo in npm command ([630220a](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/630220a2b458efe47483e59727d1413439442b86))
+* remove publish commands ([e8803df](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/e8803df41e05d10a32b9f192005538c048e643cd))
+
 ## [1.68.1](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.68.0...v1.68.1) (2022-12-24)
 
 
