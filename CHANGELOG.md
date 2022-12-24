@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.68.0](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.67.0...v1.68.0) (2022-12-24)
+
+
+### Features
+
+* add device id to settings ([c8ffcda](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/c8ffcda3208b6ac7b1abe7727ff2c9f79b7d34b3))
+* add social media to default tags ([c686fa0](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/c686fa0f026dfdfac4a8c3e13d035ff044b5a3a1))
+* add tracking for tips open ([0e3e645](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/0e3e645d919bb1ac8024e0cc6dd94f2cd72cda1c))
+
 ## [1.67.0](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.66.0...v1.67.0) (2022-12-23)
 
 
