@@ -99,7 +99,7 @@ function TagsProvider({
       _generateTag(13, `${t('tags_default_13_title')} 🧘‍♂️`, 'cyan'),
       _generateTag(14, `${t('tags_default_14_title')} 🌳`, 'lime'),
       _generateTag(15, `${t('tags_default_15_title')} 🎨`, 'teal'),
-      _generateTag(16, `${t('tags_default_16_title')} 🌼`, 'blue'),
+      _generateTag(16, `${t('tags_default_16_title')} 📱`, 'blue'),
       _generateTag(17, `${t('tags_default_17_title')} 💼`, 'slate'),
       _generateTag(18, `${t('tags_default_18_title')} ✈️`, 'sky')
     ]
