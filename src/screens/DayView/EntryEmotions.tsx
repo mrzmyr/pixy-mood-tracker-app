@@ -120,7 +120,7 @@ export const EntryEmotions = ({
         flexDirection: 'row',
         marginLeft: -16,
         marginRight: -16,
-        marginBottom: 12,
+        marginBottom: 4,
       }}
     >
       {isExpanded && content}

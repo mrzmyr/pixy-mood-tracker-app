@@ -6,6 +6,7 @@ import { useEffect } from 'react';
 import { Platform, useColorScheme } from 'react-native';
 import OneSignal from 'react-native-onesignal';
 import * as Sentry from 'sentry-expo';
+import { RootStackParamList } from '../../types';
 import {
   ColorsScreen,
   DataScreen,
@@ -18,7 +19,6 @@ import {
   PrivacyScreen,
   ReminderScreen, SettingsScreen, StatisticsHighlights, TagCreate, TagEdit
 } from '../screens';
-import { RootStackParamList } from '../../types';
 
 import Providers from '@/components/Providers';
 import Colors from '@/constants/Colors';
@@ -29,7 +29,7 @@ import { useAnonymizer } from '@/hooks/useAnonymizer';
 import { useLogState } from '@/hooks/useLogs';
 import { useSettings } from '@/hooks/useSettings';
 import { useTagsState } from '@/hooks/useTags';
-import { getItemsCoverage } from '@/lib/utils';
+import { getItemsCountPerDayAverage, getItemsCoverage } from '@/lib/utils';
 import dayjs from 'dayjs';
 import { enableScreens } from 'react-native-screens';
 import { DevelopmentTools } from '../screens/DevelopmentTools';
@@ -151,6 +151,7 @@ function RootNavigator() {
 
         itemsCount: logState.items.length,
         itemsCoverage: getItemsCoverage(logState.items),
+        itemsCountPerDayAverage: getItemsCountPerDayAverage(logState.items),
       })
     }
 

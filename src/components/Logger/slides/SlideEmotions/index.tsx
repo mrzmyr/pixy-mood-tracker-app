@@ -23,6 +23,8 @@ import { Tooltip } from "./Tooltip";
 
 type Mode = 'basic' | 'advanced'
 
+const MAX_BASIC_EMOTIONS = 36
+
 export const SlideEmotions = ({
   defaultIndex,
   onDisableStep,
@@ -68,10 +70,10 @@ export const SlideEmotions = ({
 
   let basicEmotions = initialSelectedEmotions.current
 
-  if (basicEmotions.length < 20) {
+  if (basicEmotions.length < MAX_BASIC_EMOTIONS) {
     const missingEmotions = mostUsedEmotions
       .filter(d => !basicEmotions.map(d => d.key).includes(d.key))
-      .slice(0, 20 - basicEmotions.length)
+      .slice(0, MAX_BASIC_EMOTIONS - basicEmotions.length)
 
     basicEmotions = [
       ...basicEmotions,
@@ -79,10 +81,10 @@ export const SlideEmotions = ({
     ]
   }
 
-  if (basicEmotions.length < 20) {
+  if (basicEmotions.length < MAX_BASIC_EMOTIONS) {
     const missingEmotions = predefinedBasicEmotions
       .filter(d => !basicEmotions.map(d => d.key).includes(d.key))
-      .slice(0, 20 - basicEmotions.length)
+      .slice(0, MAX_BASIC_EMOTIONS - basicEmotions.length)
 
     basicEmotions = [
       ...basicEmotions,
