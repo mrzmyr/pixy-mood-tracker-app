@@ -109,3 +109,11 @@ export const getMostUsedEmotions = (items: LogItem[]) => {
     }))
     .sort((a, b) => b.count - a.count);
 }
+
+export const getItemsCountPerDayAverage = (items: LogItem[]) => {
+  if (items.length === 0) return 0;
+
+  const itemsSorted = _.sortBy(items, (item) => item.dateTime);
+  const days = dayjs().diff(dayjs(itemsSorted[0].dateTime), "day");
+  return Math.round(items.length / days);
+}
