@@ -22,8 +22,6 @@
     "submit:prod": "npx eas-cli submit -p android --path $(ls -t *.aab | head -1) && npx eas-cli submit -p ios --path $(ls -t *.ipa | head -1)",
     "build:preview": "yarn build:ios:preview && yarn build:android:preview",
     "build:prod": "yarn build:ios:prod && yarn build:android:prod",
-    "publish:preview": "npx eas-cli build -p all --profile=preview --auto-submit",
-    "publish:prod": "npx eas-cli build -p all --local --profile=production --auto-submit",
     "translate-app": "node scripts/generate-translations-app.js",
     "type-check": "tsc"
   },
