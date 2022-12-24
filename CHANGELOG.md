@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.68.1](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.68.0...v1.68.1) (2022-12-24)
+
+
+### Bug Fixes
+
+* `MoodPeaksCard` and `TagPeaksCard` to start on first week day ([de74961](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/de749611f2956cc0a084be49fb51f1e60cf72026))
+
 ## [1.68.0](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.67.0...v1.68.0) (2022-12-24)
 
 
