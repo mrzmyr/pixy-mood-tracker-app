@@ -62,7 +62,7 @@ function AnalyticsProvider({
 
     if (!isEnabled) return;
 
-    if (DEBUG) console.log("useAnalytics: identify", traits);
+    if (DEBUG) console.log("useAnalytics: identify", JSON.stringify(traits, null, 2));
 
     if (!options.enabled) return;
 

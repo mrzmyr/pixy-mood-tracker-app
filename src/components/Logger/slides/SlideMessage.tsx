@@ -17,6 +17,7 @@ import { Footer } from "./Footer";
 import { Card } from '@/components/Card'
 import { EMOTIONS } from "../config";
 import _ from "lodash";
+import { useAnalytics } from "@/hooks/useAnalytics";
 
 const randomInt = (min, max) => Math.floor(Math.random() * (max - min + 1) + min);
 
@@ -145,6 +146,7 @@ export const SlideMessage = forwardRef(({
   onDisableStep: () => void
   showDisable: boolean
 }, ref: any) => {
+  const analytics = useAnalytics();
   const insets = useSafeAreaInsets();
   const colors = useColors();
   const tempLog = useTemporaryLog();
@@ -199,6 +201,7 @@ export const SlideMessage = forwardRef(({
                 <SlideHeadline>{t('log_note_question')}</SlideHeadline>
                 <LinkButton
                   onPress={() => {
+                    analytics.track('log_message_tips_open')
                     setShowTips(!showTips)
                   }}
                   style={{

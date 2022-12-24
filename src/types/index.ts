@@ -34,6 +34,7 @@ export const EmotionSchema = z.object({
   source: z.enum([
     'how_we_feel_app',
     'stoic_app',
+    'custom',
   ]),
   description: z.string(),
   disabled: z.boolean(),

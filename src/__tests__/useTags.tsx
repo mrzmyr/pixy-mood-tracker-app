@@ -122,8 +122,8 @@ describe("useTags()", () => {
   test("should initialize (when tags async storage and settings async storage are empty)", async () => {
     let hook = _renderHook();
     await hook.waitForNextUpdate();
-    expect(hook.result.current.state.tags.length).toEqual(5);
-    expect(hook.result.current.state.tags[0].color).toEqual("orange");
+    expect(hook.result.current.state.tags.length).toEqual(18);
+    expect(hook.result.current.state.tags[0].color).toEqual("slate");
   });
 
   test("should createTag", async () => {
@@ -138,8 +138,8 @@ describe("useTags()", () => {
       });
     });
 
-    expect(hook.result.current.state.tags.length).toBe(6);
-    expect(hook.result.current.state.tags[5].title).toBe("test");
+    expect(hook.result.current.state.tags.length).toBe(19);
+    expect(hook.result.current.state.tags[18].title).toBe("test");
   });
 
   test("should updateTag", async () => {
@@ -156,7 +156,7 @@ describe("useTags()", () => {
       });
     });
 
-    expect(hook.result.current.state.tags.length).toBe(5);
+    expect(hook.result.current.state.tags.length).toBe(18);
     expect(hook.result.current.state.tags[0].title).toBe("test");
   });
 
@@ -188,8 +188,8 @@ describe("useTags()", () => {
       hook.result.current.updater.reset();
     });
 
-    expect(hook.result.current.state.tags.length).toBe(5);
-    expect(hook.result.current.state.tags[0].color).toBe("orange");
+    expect(hook.result.current.state.tags.length).toBe(18);
+    expect(hook.result.current.state.tags[0].color).toBe("slate");
   })
 
   test("should save to async storage", async () => {

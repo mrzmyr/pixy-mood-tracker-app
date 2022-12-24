@@ -1,4 +1,5 @@
 import Button from "@/components/Button";
+import LinkButton from "@/components/LinkButton";
 import MenuList from "@/components/MenuList";
 import MenuListHeadline from "@/components/MenuListHeadline";
 import MenuListItem from "@/components/MenuListItem";
@@ -11,7 +12,6 @@ import useColors from "../hooks/useColors";
 import { useLogState } from "../hooks/useLogs";
 import { useSettings } from "../hooks/useSettings";
 import { useTagsState } from "../hooks/useTags";
-import LinkButton from "@/components/LinkButton";
 
 const Card = ({
   title,
@@ -120,6 +120,34 @@ export const DevelopmentTools = () => {
             }
           </Card>
         </View>
+        <MenuListHeadline>Device Information</MenuListHeadline>
+        <MenuList>
+          <MenuListItem
+            isLast
+          >
+            <View>
+              <Text
+                style={{
+                  color: colors.text,
+                  fontSize: 17,
+                  marginTop: 4,
+                }}
+              >
+                Device ID
+
+              </Text>
+              <Text
+                style={{
+                  color: colors.textSecondary,
+                  fontSize: 14,
+                  marginTop: 4,
+                }}
+              >
+                {settings.deviceId}
+              </Text>
+            </View>
+          </MenuListItem>
+        </MenuList>
         <MenuListHeadline>Actions Done</MenuListHeadline>
         <MenuList style={{}}>
           {settings.actionsDone.map((action, i) => (
@@ -185,7 +213,7 @@ export const DevelopmentTools = () => {
         <Button
           type="danger"
           style={{
-            marginTop: 16,
+            marginTop: 12,
           }}
           onPress={() => {
             setSettings((settings) => ({

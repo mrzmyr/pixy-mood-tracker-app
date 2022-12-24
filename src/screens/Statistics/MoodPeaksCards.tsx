@@ -11,6 +11,7 @@ import { LogDay } from '../../hooks/useLogs';
 import useScale from '../../hooks/useScale';
 import { MoodPeaksNegativeData, MoodPeaksPositiveData } from '../../hooks/useStatistics/MoodPeaks';
 import { HeaderWeek } from './HeaderWeek';
+import { DATE_FORMAT } from '@/constants/Config';
 
 const DayDot = ({
   date,
@@ -76,7 +77,7 @@ const BodyWeek = ({
   days: LogDay[],
   start: Dayjs,
 }) => {
-  const _days = [1, 2, 3, 4, 5, 6, 7]
+  const _days = [0, 1, 2, 3, 4, 5, 6]
 
   return (
     <View
@@ -90,6 +91,7 @@ const BodyWeek = ({
       {_days.map((dayCount, index) => {
         const date = dayjs(start).add(dayCount, 'day').toDate()
         const day = days.find(item => dayjs(item.date).isSame(date, 'day'))
+
         return (
           <View
             key={index}
@@ -116,7 +118,9 @@ export const MoodPeaksContent = ({
   startDate: string,
   endDate: string,
 }) => {
-  const weekCount = dayjs(endDate).diff(dayjs(startDate), 'week')
+  const _endDate = dayjs(endDate).endOf('week')
+  const _startDate = dayjs(startDate).startOf('week')
+  const weekCount = dayjs(_endDate).diff(dayjs(_startDate), 'week') + 1
 
   return (
     <View
@@ -127,9 +131,9 @@ export const MoodPeaksContent = ({
         marginBottom: 8,
       }}
     >
-      <HeaderWeek />
+      <HeaderWeek date={_startDate.format(DATE_FORMAT)} />
       {_.range(weekCount).map((week, index) => {
-        const weekStart = dayjs(startDate).add(week, 'week')
+        const weekStart = dayjs(_startDate).add(week, 'week')
 
         return (
           <BodyWeek
