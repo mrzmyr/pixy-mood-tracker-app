@@ -1312,8 +1312,8 @@ export const EMOTIONS: Emotion[] = [{
 }, {
   key: "motivated",
   source: "custom",
-  label: t('log_emotion_unmotivated'),
-  description: t('log_emotion_unmotivated_description'),
+  label: t('log_emotion_motivated'),
+  description: t('log_emotion_motivated_description'),
   category: "good",
   disabled: false,
   mode: "basic",

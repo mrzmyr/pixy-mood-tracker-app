@@ -126,6 +126,8 @@ export const TagPeaksCard = ({
   const endDate = dayjs().endOf('week')
   const weekCount = dayjs(endDate).diff(dayjs(startDate), 'week') + 1
 
+  const daysCount = _.keys(_.groupBy(tag.items, item => dayjs(item.dateTime).format(DATE_FORMAT))).length
+
   return (
     <Card
       subtitle={t('tags')}
@@ -145,7 +147,7 @@ export const TagPeaksCard = ({
           >{tag?.title}&nbsp;</Text>
           {t('statistics_tag_peaks_title', {
             title: tag?.title,
-            count: tag.items.length,
+            count: daysCount,
           })}
         </Text>
       </>}

@@ -50,6 +50,7 @@ export const EmotionButtonBasic = ({
             color: colors.text,
             fontWeight: '500',
             fontSize: 17,
+            flex: 1,
             paddingVertical: 6,
           }}
           numberOfLines={1}

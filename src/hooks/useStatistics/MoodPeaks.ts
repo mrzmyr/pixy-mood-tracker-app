@@ -18,7 +18,7 @@ export const defaultMoodPeaksNegativeData = {
 };
 
 export const getMoodPeaksPositiveData = (items: LogItem[]): MoodPeaksPositiveData => {
-  const positiveKeys = ["extremely_good", "very_good"];
+  const positiveKeys = ["extremely_good", "very_good", "good"];
 
   const logDays = getLogDays(items);
   const positiveDaysPeaked = logDays.filter((item) => positiveKeys.includes(item.ratingAvg));
@@ -29,7 +29,7 @@ export const getMoodPeaksPositiveData = (items: LogItem[]): MoodPeaksPositiveDat
 };
 
 export const getMoodPeaksNegativeData = (items: LogItem[]): MoodPeaksNegativeData => {
-  const negativeKeys = ["extremely_bad", "very_bad"];
+  const negativeKeys = ["extremely_bad", "very_bad", "bad"];
 
   const logDays = getLogDays(items);
   const negativeItemsPeaked = logDays.filter((item) => negativeKeys.includes(item.ratingAvg));

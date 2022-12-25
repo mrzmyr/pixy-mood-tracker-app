@@ -135,7 +135,7 @@
   "feedback_modal_email_placeholder": "Email (opsional)",
   "feedback_modal_message_placeholder": "Aku tahu itu…",
   "tags": "Tag",
-  "statistics_tag_peaks_title": "sering ditandai dengan {{count}} kali.",
+  "statistics_tag_peaks_title": "sering ditandai pada {{count}} hari.",
   "statistics_tags_distribution_title": "Dalam 2 minggu terakhir, {{count}} hari diberi tag.",
   "onboarding_skip": "Melewati",
   "onboarding_next": "Lanjut",

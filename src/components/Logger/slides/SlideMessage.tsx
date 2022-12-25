@@ -88,7 +88,7 @@ const Tips = ({
 
   if (sortedEmotions.length > 0) {
     sortedEmotions.slice(0, 5).forEach(emotion => {
-      let description = t(`log_emotion_${emotion?.key}_description`)
+      let description = t(`log_emotion_${emotion?.key}_description`).toLowerCase()
 
       if (language === 'de') {
         description = description.charAt(0).toUpperCase() + description.slice(1)
