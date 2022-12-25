@@ -135,7 +135,7 @@
   "feedback_modal_email_placeholder": "E-mail (volitelné)",
   "feedback_modal_message_placeholder": "Všimnul jsem si, že…",
   "tags": "Tagy",
-  "statistics_tag_peaks_title": "byl označen zvláště často {{count}}krát.",
+  "statistics_tag_peaks_title": "byl označen zvláště často v {{count}} dnech.",
   "statistics_tags_distribution_title": "Za poslední 2 týdny bylo označeno {{count}} dní.",
   "onboarding_skip": "Přeskočit",
   "onboarding_next": "další",

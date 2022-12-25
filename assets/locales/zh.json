@@ -135,7 +135,7 @@
   "feedback_modal_email_placeholder": "电子邮件（可选）",
   "feedback_modal_message_placeholder": "我注意到……",
   "tags": "标签",
-  "statistics_tag_peaks_title": "被特别频繁地标记为 {{count}} 次。",
+  "statistics_tag_peaks_title": "在 {{count}} 天特别频繁地被标记。",
   "statistics_tags_distribution_title": "在过去 2 周内，标记了 {{count}} 天。",
   "onboarding_skip": "跳过",
   "onboarding_next": "下一个",
