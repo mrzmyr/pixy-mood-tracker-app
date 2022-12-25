@@ -542,7 +542,7 @@
   "statistics_mood_avg_title": "Your mood appears with {{rating_percentage}}% to be mostly {{rating_word}}.",
   "statistics_mood_chart_declined": "In the last 2 weeks, your average mood declined.",
   "statistics_mood_chart_description": "Your mood trend in {{date}}",
-  "statistics_mood_chart_highlights_title": "Your mood over the last 14 days",
+  "statistics_mood_chart_highlights_title": "Your mood over the last 14 days.",
   "statistics_mood_chart_improved": "In the last 2 weeks, your average mood improved.",
   "statistics_mood_chart": "Mood Trend",
   "statistics_mood_peaks_negative_description": "Worst days in {{date}}",
