@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.69.0](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.68.2...v1.69.0) (2022-12-25)
+
+
+### Features
+
+* add `good` and `bad` moods to mood peaks ([726b0e8](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/726b0e857e4c04f28f03e1f1fb7d1f92c0909953))
+* change `TagPeaks` to refer to days instead of "times" ([8bb5a49](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/8bb5a4931e9ec92b086c9fe59d18d89ed89ebc70))
+
+
+### Bug Fixes
+
+* add period to mood chart in en ([f4db129](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/f4db12941de8e20b4ced90d52412ada83f7fe308))
+* change `motivated` label ([5a31daa](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/5a31daae80c9b570defb95973fd5c8533da11304))
+* truncate `EmotionButtonBasic` text ([986be0a](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/986be0af425ee4d3039e7c45951aa0bac3ab8dea))
+* uppercase typo in tips ([54cc840](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/54cc8401ef4e87240ba26f8d1e670a33701c9689))
+
 ## [1.68.2](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.68.1...v1.68.2) (2022-12-24)
 
 
