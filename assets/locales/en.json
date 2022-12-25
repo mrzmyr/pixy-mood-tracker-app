@@ -562,7 +562,7 @@
   "statistics_not_enough_data_subtitle_without_count": "Add more entries to unlock this chart.",
   "statistics_not_enough_data_title": "Not enough data.",
   "statistics_subtitle": "Your last two weeks",
-  "statistics_tag_peaks_title": "was tagged particularly often with {{count}} times.",
+  "statistics_tag_peaks_title": "was tagged particularly often on {{count}} days.",
   "statistics_tags_distribution_last_month": "Last Month",
   "statistics_tags_distribution_this_month": "This Month",
   "statistics_tags_distribution_title": "Most used tags in the last 14 days.",

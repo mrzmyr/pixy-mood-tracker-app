@@ -135,7 +135,7 @@
   "feedback_modal_email_placeholder": "이메일(선택사항)",
   "feedback_modal_message_placeholder": "난 그것을 알아 챘다…",
   "tags": "태그",
-  "statistics_tag_peaks_title": "특히 {{count}}번 태그가 지정되었습니다.",
+  "statistics_tag_peaks_title": "{{count}}일 동안 특히 자주 태그되었습니다.",
   "statistics_tags_distribution_title": "지난 2주 동안 {{count}}일이 태그되었습니다.",
   "onboarding_skip": "건너뛰다",
   "onboarding_next": "다음",

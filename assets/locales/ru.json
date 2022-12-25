@@ -135,7 +135,7 @@
   "feedback_modal_email_placeholder": "Электронная почта (необязательно)",
   "feedback_modal_message_placeholder": "Я заметил, что…",
   "tags": "Теги",
-  "statistics_tag_peaks_title": "был отмечен особенно часто {{count}} раз.",
+  "statistics_tag_peaks_title": "был отмечен особенно часто в {{count}} дней.",
   "statistics_tags_distribution_title": "За последние 2 недели было отмечено {{count}} дней.",
   "onboarding_skip": "Пропускать",
   "onboarding_next": "Следующий",

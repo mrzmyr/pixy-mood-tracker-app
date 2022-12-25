@@ -135,7 +135,7 @@
   "feedback_modal_email_placeholder": "電子メール (オプション)",
   "feedback_modal_message_placeholder": "きがついた…",
   "tags": "タグ",
-  "statistics_tag_peaks_title": "特に頻繁に {{count}} 回タグ付けされました。",
+  "statistics_tag_peaks_title": "{{count}} 日間、特に頻繁にタグ付けされました。",
   "statistics_tags_distribution_title": "過去 2 週間で、{{count}} 日がタグ付けされました。",
   "onboarding_skip": "スキップ",
   "onboarding_next": "次",

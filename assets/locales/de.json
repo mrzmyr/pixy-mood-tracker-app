@@ -565,7 +565,7 @@
   "statistics_not_enough_data_subtitle_without_count": "Fügen weitere Einträge hinzu, um dieses Diagramm zu entsperren.",
   "statistics_not_enough_data_title": "Nicht genug Daten.",
   "statistics_subtitle": "Deine letzten zwei Wochen",
-  "statistics_tag_peaks_title": "wurde besonders oft mit {{count}} mal getaggt.",
+  "statistics_tag_peaks_title": "wurde besonders oft getaggt, an {{count}} Tagen.",
   "statistics_tags_distribution_last_month": "Im vergangenen Monat",
   "statistics_tags_distribution_this_month": "Diesen Monat",
   "statistics_tags_distribution_title": "Meistgenutzte Schlagwörter in den letzten 14 Tagen.",
