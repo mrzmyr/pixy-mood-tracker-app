@@ -3,7 +3,7 @@
   "version": "1.68.2",
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
-    "start": "expo start --dev-client",
+    "start": "export NODE_OPTIONS=--openssl-legacy-provider && expo start --dev-client",
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
@@ -78,6 +78,7 @@
     "i18n-js": "^3.8.0",
     "jotai": "^1.8.5",
     "lodash": "^4.17.21",
+    "lucide-react-native": "^0.104.0",
     "onesignal-expo-plugin": "^1.1.2",
     "posthog-react-native": "^2.1.1",
     "react": "18.0.0",
