@@ -653,5 +653,9 @@
   "tags_default_15_title": "La créativité",
   "tags_default_16_title": "Des médias sociaux",
   "tags_default_17_title": "Travail",
-  "tags_default_18_title": "Voyage"
+  "tags_default_18_title": "Voyage",
+  "log_sleep_question": "As-tu bien dormi?",
+  "logger_step_sleep": "Dormir",
+  "view_log_sleep": "Dormir",
+  "promo_sleep_tracking_title": "Suivi du sommeil 😴\nest maintenant disponible!"
 }

@@ -1,16 +1,19 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { LogItem } from "./useLogs";
 
-type State = Omit<LogItem, 'rating'> & {
-  rating: LogItem['rating'] | null
+export type TemporaryLogState = Omit<LogItem, 'rating' | 'sleep'> & {
+  rating: LogItem['rating'] | null,
+  sleep: {
+    quality: LogItem['sleep']['quality'] | null,
+  }
 }
 
 interface Value {
-  data: State;
+  data: TemporaryLogState;
   isDirty: boolean;
-  initialize: (log: State) => void;
-  set: (log: State) => void;
-  update: (log: Partial<State>) => void;
+  initialize: (log: TemporaryLogState) => void;
+  set: (log: TemporaryLogState) => void;
+  update: (log: Partial<TemporaryLogState>) => void;
   reset: () => void;
 };
 
@@ -21,9 +24,9 @@ const TemporaryLogStateContext = createContext({} as Value);
 
 function TemporaryLogProvider({ children }: { children: React.ReactNode }) {
   const [isDirty, setIsDirty] = useState(false);
-  const [temporaryLog, setTemporaryLog] = useState<State>({} as State);
+  const [temporaryLog, setTemporaryLog] = useState<TemporaryLogState>({} as TemporaryLogState);
 
-  const update = (next: Partial<State>) => {
+  const update = (next: Partial<TemporaryLogState>) => {
     setTemporaryLog((current) => {
       setIsDirty(true);
       return {
@@ -33,17 +36,17 @@ function TemporaryLogProvider({ children }: { children: React.ReactNode }) {
     });
   };
 
-  const initialize = (log: State) => {
+  const initialize = (log: TemporaryLogState) => {
     setTemporaryLog(log);
   };
 
-  const set = (log: State) => {
+  const set = (log: TemporaryLogState) => {
     setTemporaryLog(log);
     setIsDirty(true);
   };
 
   const reset = () => {
-    setTemporaryLog({} as State);
+    setTemporaryLog({} as TemporaryLogState);
     setIsDirty(false);
   };
 
@@ -61,7 +64,7 @@ function TemporaryLogProvider({ children }: { children: React.ReactNode }) {
   );
 }
 
-function useTemporaryLog(defaultValue?: State): ContextValue {
+function useTemporaryLog(defaultValue?: TemporaryLogState): ContextValue {
   const context = useContext(TemporaryLogStateContext);
 
   if (context === undefined) {

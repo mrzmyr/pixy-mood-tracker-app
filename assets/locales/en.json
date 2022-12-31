@@ -636,5 +636,9 @@
   "down": "down",
   "log_messasge_hint_2": "Do you know why {{description}}?",
   "log_message_hint_title": "Things to ask yourself.",
-  "emotion_missing": "I'm missing an emotion"
+  "emotion_missing": "I'm missing an emotion",
+  "log_sleep_question": "How did you sleep?",
+  "logger_step_sleep": "Sleep",
+  "view_log_sleep": "Sleep",
+  "promo_sleep_tracking_title": "Sleep Tracking 😴\nis now available!"
 }

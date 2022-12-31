@@ -653,5 +653,9 @@
   "tags_default_15_title": "Kreativnost",
   "tags_default_16_title": "Društveni mediji",
   "tags_default_17_title": "Raditi",
-  "tags_default_18_title": "Putovati"
+  "tags_default_18_title": "Putovati",
+  "log_sleep_question": "Kako si spavao?",
+  "logger_step_sleep": "Spavati",
+  "view_log_sleep": "Spavati",
+  "promo_sleep_tracking_title": "Praćenje spavanja 😴\nsada je dostupan!"
 }

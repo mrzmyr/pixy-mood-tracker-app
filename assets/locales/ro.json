@@ -653,5 +653,9 @@
   "tags_default_15_title": "Creativitate",
   "tags_default_16_title": "Social Media",
   "tags_default_17_title": "Muncă",
-  "tags_default_18_title": "Voiaj"
+  "tags_default_18_title": "Voiaj",
+  "log_sleep_question": "Cum ai dormit?",
+  "logger_step_sleep": "Dormi",
+  "view_log_sleep": "Dormi",
+  "promo_sleep_tracking_title": "Urmărirea somnului 😴\neste acum disponibil!"
 }

@@ -653,5 +653,9 @@
   "tags_default_15_title": "Kreativitás",
   "tags_default_16_title": "Közösségi média",
   "tags_default_17_title": "Munka",
-  "tags_default_18_title": "Utazás"
+  "tags_default_18_title": "Utazás",
+  "log_sleep_question": "Hogy aludtál?",
+  "logger_step_sleep": "Alvás",
+  "view_log_sleep": "Alvás",
+  "promo_sleep_tracking_title": "Alváskövetés 😴\njelenleg elérhető!"
 }

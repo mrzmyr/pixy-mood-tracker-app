@@ -653,5 +653,9 @@
   "tags_default_15_title": "Creatividad",
   "tags_default_16_title": "Redes sociales",
   "tags_default_17_title": "Trabajar",
-  "tags_default_18_title": "Viajar"
+  "tags_default_18_title": "Viajar",
+  "log_sleep_question": "¿Cómo has dormido?",
+  "logger_step_sleep": "Dormir",
+  "view_log_sleep": "Dormir",
+  "promo_sleep_tracking_title": "Seguimiento del sueño 😴\n¡Ya está disponible!"
 }

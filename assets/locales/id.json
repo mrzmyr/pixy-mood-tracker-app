@@ -653,5 +653,9 @@
   "tags_default_15_title": "Kreativitas",
   "tags_default_16_title": "Media sosial",
   "tags_default_17_title": "Bekerja",
-  "tags_default_18_title": "Bepergian"
+  "tags_default_18_title": "Bepergian",
+  "log_sleep_question": "Bagaimana tidurmu?",
+  "logger_step_sleep": "Tidur",
+  "view_log_sleep": "Tidur",
+  "promo_sleep_tracking_title": "Pelacakan Tidur 😴\nsekarang tersedia!"
 }

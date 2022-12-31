@@ -653,5 +653,9 @@
   "tags_default_15_title": "创造力",
   "tags_default_16_title": "社交媒体",
   "tags_default_17_title": "工作",
-  "tags_default_18_title": "旅行"
+  "tags_default_18_title": "旅行",
+  "log_sleep_question": "你睡得好么？",
+  "logger_step_sleep": "睡觉",
+  "view_log_sleep": "睡觉",
+  "promo_sleep_tracking_title": "睡眠追踪😴\n现在可用！"
 }

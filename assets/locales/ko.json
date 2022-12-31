@@ -653,5 +653,9 @@
   "tags_default_15_title": "창의력",
   "tags_default_16_title": "소셜 미디어",
   "tags_default_17_title": "일하다",
-  "tags_default_18_title": "여행하다"
+  "tags_default_18_title": "여행하다",
+  "log_sleep_question": "어떻게 잤어?",
+  "logger_step_sleep": "잠",
+  "view_log_sleep": "잠",
+  "promo_sleep_tracking_title": "수면 추적 😴\n지금 사용할 수 있습니다!"
 }

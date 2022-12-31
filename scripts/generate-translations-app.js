@@ -18,7 +18,7 @@ filesArray.forEach((file) => {
   }
 });
 
-const FORCE_KEYS = ["statistics_tag_peaks_title"];
+const FORCE_KEYS = [];
 
 const missingKeys = {};
 

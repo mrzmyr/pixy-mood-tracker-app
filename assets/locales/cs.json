@@ -653,5 +653,9 @@
   "tags_default_15_title": "Tvořivost",
   "tags_default_16_title": "Sociální média",
   "tags_default_17_title": "Práce",
-  "tags_default_18_title": "Cestovat"
+  "tags_default_18_title": "Cestovat",
+  "log_sleep_question": "Jak jsi se vyspal?",
+  "logger_step_sleep": "Spát",
+  "view_log_sleep": "Spát",
+  "promo_sleep_tracking_title": "Sledování spánku 😴\nje nyní dostupný!"
 }

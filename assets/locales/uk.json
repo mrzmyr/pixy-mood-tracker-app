@@ -653,5 +653,9 @@
   "tags_default_15_title": "Творчість",
   "tags_default_16_title": "Соціальні мережі",
   "tags_default_17_title": "Робота",
-  "tags_default_18_title": "Подорожі"
+  "tags_default_18_title": "Подорожі",
+  "log_sleep_question": "Як ти спав?",
+  "logger_step_sleep": "сон",
+  "view_log_sleep": "сон",
+  "promo_sleep_tracking_title": "Відстеження сну 😴\nтепер доступний!"
 }

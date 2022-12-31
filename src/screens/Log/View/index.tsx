@@ -14,6 +14,7 @@ import { Headline } from './Headline';
 import { Message } from './Message';
 import { Tags } from './Tags';
 import { Emotions } from './Emotions';
+import { Sleep } from './Sleep';
 
 export const RatingDot = ({
   rating,
@@ -158,6 +159,7 @@ export const LogView = ({ navigation, route }: RootStackScreenProps<'LogView'>) 
               <RatingDot onPress={() => edit('rating')} rating={item.rating} />
             </View>
           </View>
+          <Sleep item={item} />
           <Emotions item={item} />
           <Tags item={item} />
           <Message item={item} />

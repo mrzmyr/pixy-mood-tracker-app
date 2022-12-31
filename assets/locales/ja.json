@@ -653,5 +653,9 @@
   "tags_default_15_title": "創造性",
   "tags_default_16_title": "ソーシャルメディア",
   "tags_default_17_title": "仕事",
-  "tags_default_18_title": "トラベル"
+  "tags_default_18_title": "トラベル",
+  "log_sleep_question": "どうやって寝たの？",
+  "logger_step_sleep": "寝る",
+  "view_log_sleep": "寝る",
+  "promo_sleep_tracking_title": "睡眠追跡 😴\n現在利用できます！"
 }

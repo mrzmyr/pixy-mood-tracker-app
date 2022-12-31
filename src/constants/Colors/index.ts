@@ -247,6 +247,9 @@ const light = {
   promoCardTextSecondary: colors.neutral[500],
   promoCardBorder: colors.neutral[200],
 
+  sleepQualityEmpty: colors.cyan[100],
+  sleepQualityFull: colors.cyan[500],
+
   switchThumbColor: '#333',
   scales: scales.light,
   tags: tagsLight,
@@ -466,6 +469,9 @@ const dark: IColors & {
   promoCardText: colors.white,
   promoCardTextSecondary: colors.neutral[400],
   promoCardBorder: colors.neutral[800],
+
+  sleepQualityEmpty: colors.cyan[800],
+  sleepQualityFull: colors.cyan[500],
 
   switchThumbColor: '#FFF',
   scales: scales.dark,

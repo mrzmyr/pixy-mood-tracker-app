@@ -639,5 +639,9 @@
   "tags_default_15_title": "Kreativität",
   "tags_default_16_title": "Social Media",
   "tags_default_17_title": "Arbeit",
-  "tags_default_18_title": "Reisen"
+  "tags_default_18_title": "Reisen",
+  "log_sleep_question": "Wie hast du geschlafen?",
+  "logger_step_sleep": "Schlafen",
+  "view_log_sleep": "Schlafen",
+  "promo_sleep_tracking_title": "Schlaftracking 😴\nist nun verfügbar!"
 }

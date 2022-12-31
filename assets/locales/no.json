@@ -653,5 +653,9 @@
   "tags_default_15_title": "Kreativitet",
   "tags_default_16_title": "Sosiale medier",
   "tags_default_17_title": "Arbeid",
-  "tags_default_18_title": "Reise"
+  "tags_default_18_title": "Reise",
+  "log_sleep_question": "Hvordan sov du?",
+  "logger_step_sleep": "Søvn",
+  "view_log_sleep": "Søvn",
+  "promo_sleep_tracking_title": "Søvnsporing 😴\ner nå tilgjengelig!"
 }

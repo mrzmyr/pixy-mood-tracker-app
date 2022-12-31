@@ -653,5 +653,9 @@
   "tags_default_15_title": "Luovuus",
   "tags_default_16_title": "Sosiaalinen media",
   "tags_default_17_title": "Työ",
-  "tags_default_18_title": "Matkustaa"
+  "tags_default_18_title": "Matkustaa",
+  "log_sleep_question": "Kuinka nukuit?",
+  "logger_step_sleep": "Nukkua",
+  "view_log_sleep": "Nukkua",
+  "promo_sleep_tracking_title": "Unenseuranta 😴\non nyt saatavilla!"
 }

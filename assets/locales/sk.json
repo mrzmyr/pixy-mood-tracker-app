@@ -653,5 +653,9 @@
   "tags_default_15_title": "Kreativita",
   "tags_default_16_title": "Sociálne médiá",
   "tags_default_17_title": "Práca",
-  "tags_default_18_title": "Cestovanie"
+  "tags_default_18_title": "Cestovanie",
+  "log_sleep_question": "Ako si spal?",
+  "logger_step_sleep": "Spánok",
+  "view_log_sleep": "Spánok",
+  "promo_sleep_tracking_title": "Sledovanie spánku 😴\nje teraz k dispozícii!"
 }

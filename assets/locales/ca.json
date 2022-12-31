@@ -653,5 +653,9 @@
   "tags_default_15_title": "Creativitat",
   "tags_default_16_title": "Mitjà de comunicació social",
   "tags_default_17_title": "Treballar",
-  "tags_default_18_title": "Viatjar"
+  "tags_default_18_title": "Viatjar",
+  "log_sleep_question": "Com has dormit?",
+  "logger_step_sleep": "Dormir",
+  "view_log_sleep": "Dormir",
+  "promo_sleep_tracking_title": "Seguiment del son 😴\nja està disponible!"
 }

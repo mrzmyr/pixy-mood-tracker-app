@@ -653,5 +653,9 @@
   "tags_default_15_title": "Kreatywność",
   "tags_default_16_title": "Media społecznościowe",
   "tags_default_17_title": "Praca",
-  "tags_default_18_title": "Podróż"
+  "tags_default_18_title": "Podróż",
+  "log_sleep_question": "Jak ci się spało?",
+  "logger_step_sleep": "Sen",
+  "view_log_sleep": "Sen",
+  "promo_sleep_tracking_title": "Śledzenie snu 😴\njest teraz dostępne!"
 }

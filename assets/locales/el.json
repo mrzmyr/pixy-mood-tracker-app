@@ -653,5 +653,9 @@
   "tags_default_15_title": "Δημιουργικότητα",
   "tags_default_16_title": "Μεσα ΚΟΙΝΩΝΙΚΗΣ ΔΙΚΤΥΩΣΗΣ",
   "tags_default_17_title": "Δουλειά",
-  "tags_default_18_title": "Ταξίδι"
+  "tags_default_18_title": "Ταξίδι",
+  "log_sleep_question": "Πως κοιμήθηκες?",
+  "logger_step_sleep": "Υπνος",
+  "view_log_sleep": "Υπνος",
+  "promo_sleep_tracking_title": "Παρακολούθηση ύπνου 😴\nείναι τώρα διαθέσιμο!"
 }

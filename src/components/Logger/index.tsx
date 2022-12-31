@@ -5,7 +5,7 @@ import useColors from '@/hooks/useColors';
 import { LogItem, useLogState, useLogUpdater } from '@/hooks/useLogs';
 import { IQuestion, useQuestioner } from '@/hooks/useQuestioner';
 import { useSettings } from '@/hooks/useSettings';
-import { useTemporaryLog } from '@/hooks/useTemporaryLog';
+import { TemporaryLogState, useTemporaryLog } from '@/hooks/useTemporaryLog';
 import { Emotion, TagReference } from '@/types';
 import { useNavigation } from '@react-navigation/native';
 import dayjs from 'dayjs';
@@ -24,6 +24,7 @@ import { SlideMessage } from './slides/SlideMessage';
 import { SlideMood } from './slides/SlideMood';
 import { SlideReminder } from './slides/SlideReminder';
 import { SlideTags } from './slides/SlideTags';
+import { SlideSleep } from './slides/SlideSleep';
 
 export type LoggerMode = 'create' | 'edit'
 
@@ -51,6 +52,7 @@ const getAvailableSteps = ({
     'rating'
   ]
 
+  if (hasStep('sleep')) slides.push('sleep')
   if (hasStep('emotions')) slides.push('emotions')
   if (hasStep('tags')) slides.push('tags')
   if (hasStep('message')) slides.push('message')
@@ -120,6 +122,9 @@ export const LoggerCreate = ({
     message: '',
     emotions: [],
     tags: [],
+    sleep: {
+      quality: null,
+    },
     createdAt: createdAt.current,
   }
 
@@ -137,9 +142,7 @@ export const Logger = ({
   initialStep,
   mode,
 }: {
-  initialItem: Omit<LogItem, 'rating'> & {
-    rating: LogItem['rating'] | null
-  },
+  initialItem: TemporaryLogState,
   initialStep?: LoggerStep;
   mode: LoggerMode
 }) => {
@@ -171,7 +174,6 @@ export const Logger = ({
   const indexFound = avaliableSteps.findIndex(slide => slide === initialStep)
   const initialIndex = indexFound !== -1 ? indexFound : 0
   const [slideIndex, setSlideIndex] = useState(initialIndex)
-  const [slideName, setSlideName] = useState(avaliableSteps[initialIndex])
 
   useEffect(() => {
     questioner.getQuestion().then(setQuestion)
@@ -269,6 +271,32 @@ export const Logger = ({
       />
     )
   })
+
+  if (avaliableSteps.includes('sleep')) {
+    content.push({
+      key: 'sleep',
+      slide: (
+        <SlideSleep
+          onChange={(value: LogItem['sleep']['quality']) => {
+            tempLog.update({
+              sleep: {
+                ...tempLog.data.sleep,
+                quality: value
+              }
+            })
+            next()
+          }}
+          showDisable={showDisable}
+          onDisableStep={() => {
+            askToDisableStep().then(() => {
+              toggleStep('sleep')
+              next()
+            })
+          }}
+        />
+      ),
+    })
+  }
 
   if (avaliableSteps.includes('emotions')) {
     content.push({
@@ -391,7 +419,6 @@ export const Logger = ({
   useEffect(() => {
     if (isMounted.current) {
       onScrollEnd(slideIndex)
-      setSlideName(avaliableSteps[slideIndex])
     }
   }, [slideIndex])
 
