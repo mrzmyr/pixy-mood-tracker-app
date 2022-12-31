@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.70.1](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.70.0...v1.70.1) (2022-12-31)
+
+
+### Bug Fixes
+
+* tests / typescript ([470449c](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/470449c872cc00790594ae3e52a0d02b8bf20e70))
+
 ## [1.70.0](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.69.0...v1.70.0) (2022-12-31)
 
 
