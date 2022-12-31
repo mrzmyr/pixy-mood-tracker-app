@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.70.0](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.69.0...v1.70.0) (2022-12-31)
+
+
+### Features
+
+* add sleep tracking ([1fbed58](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/1fbed58281b5bcfb62db6c2f69b5aa6b2e1e5b6e))
+
+
+### Bug Fixes
+
+* android margin top in settings ([c3adf85](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/c3adf850598d47ab0b32bed85e800b356c7837c4))
+* start error ([3d8f2ec](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/3d8f2ece2e1fec9ee28cb79d2f2ab18092fcab04))
+
+
+### Styling
+
+* align tag border ([7ec135e](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/7ec135e464e6ab81abab3d13d28716d49f9714fb))
+* update de translation ([0263932](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/02639321ce99150cb67cb2ed13f2a8100ef5fd8d))
+
 ## [1.69.0](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.68.2...v1.69.0) (2022-12-25)
 
 
