@@ -71,7 +71,7 @@
     "expo-notifications": "~0.16.1",
     "expo-sharing": "~10.3.0",
     "expo-splash-screen": "~0.17.5",
-    "expo-status-bar": "~1.4.0",
+    "expo-status-bar": "~1.4.2",
     "expo-store-review": "~5.3.0",
     "expo-updates": "~0.14.7",
     "expo-web-browser": "~11.0.0",
