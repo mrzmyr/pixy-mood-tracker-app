@@ -322,7 +322,7 @@ const dark: IColors & {
 
   headerBorder: colors.neutral[800],
 
-  tabsBackground: colors.neutral[900],
+  tabsBackground: 'transparent',
   tabsBorder: colors.neutral[800],
 
   tabsIconActive: tintColorDark,
