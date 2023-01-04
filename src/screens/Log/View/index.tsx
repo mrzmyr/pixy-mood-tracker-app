@@ -17,6 +17,7 @@ import { Emotions } from './Emotions';
 import { Sleep } from './Sleep';
 import dayjs from 'dayjs';
 import { FeedbackBox } from '@/screens/DayView/FeedbackBox';
+import Button from '@/components/Button';
 
 export const RatingDot = ({
   rating,
@@ -85,6 +86,10 @@ export const LogView = ({ navigation, route }: RootStackScreenProps<'LogView'>) 
     navigation.navigate('LogEdit', { id: item.id, step });
   }
 
+  const _delete = () => {
+    askToRemove().then(() => remove())
+  }
+
   const remove = () => {
     analytics.track('log_deleted')
     logUpdater.deleteLog(item.id)
@@ -127,22 +132,13 @@ export const LogView = ({ navigation, route }: RootStackScreenProps<'LogView'>) 
         <Header
           title={getItemDateTitle(item.dateTime)}
           onClose={close}
-          onDelete={async () => {
-            if (
-              item.message.length > 0 ||
-              item?.tags && item?.tags.length > 0
-            ) {
-              askToRemove().then(() => remove())
-            } else {
-              remove()
-            }
-          }}
           onAdd={() => {
             navigation.navigate('LogCreate', {
               dateTime: dayjs(item.date).hour(dayjs().hour()).minute(dayjs().minute()).toISOString()
             })
           }}
           onEdit={() => edit('rating')}
+          onDelete={_delete}
         />
         <ScrollView
           style={{
@@ -175,6 +171,16 @@ export const LogView = ({ navigation, route }: RootStackScreenProps<'LogView'>) 
             prefix='log_view_changed'
             emoji='😱'
           />
+          <Button
+            type="danger"
+            style={{
+            }}
+            onPress={() => {
+              _delete()
+            }}
+          >
+            {t("delete")}
+          </Button>
           <View
             style={{
               height: insets.bottom,
