@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.72.0](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.71.0...v1.72.0) (2023-01-04)
+
+
+### Features
+
+* add delete button to `LogView` ([71ae71e](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/71ae71e7c727f23d5080f5364c189c99fc22daed))
+* add labels to sleep tracking ([5273388](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/527338889727a69764748468e7c4c62993f00716))
+
 ## [1.71.0](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.70.1...v1.71.0) (2023-01-04)
 
 
