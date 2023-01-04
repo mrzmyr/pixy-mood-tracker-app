@@ -4,7 +4,7 @@ import { t } from "@/helpers/translation";
 import useColors from "@/hooks/useColors";
 import { LogItem, SLEEP_QUALITY_KEYS } from "@/hooks/useLogs";
 import { useTemporaryLog } from "@/hooks/useTemporaryLog";
-import { View } from "react-native";
+import { Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { SlideHeadline } from "../components/SlideHeadline";
 import { Footer } from "./Footer";
@@ -37,7 +37,7 @@ export const SlideSleep = ({
       <View
         style={{
           flex: 1,
-          marginTop
+          marginTop,
         }}
       >
         <SlideHeadline
@@ -50,7 +50,6 @@ export const SlideSleep = ({
             alignItems: 'center',
             justifyContent: 'center',
             marginTop: 32,
-            width: '100%',
           }}
         >
           {SLEEP_QUALITY_KEYS.slice().reverse().map((key, index) => (
@@ -58,9 +57,41 @@ export const SlideSleep = ({
               key={key}
               value={key}
               selected={tempLog?.data?.sleep?.quality === key}
-              onPress={() => onChange(key)}
+              onPress={() => {
+                if (tempLog?.data?.sleep?.quality !== key) {
+                  onChange(key)
+                }
+              }}
             />
           ))}
+        </View>
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            marginTop: 8,
+          }}
+        >
+          <Text
+            style={{
+              fontSize: 14,
+              color: colors.textSecondary,
+              textAlign: 'center',
+              flex: 5,
+            }}
+          >{t('logger_step_sleep_low')}</Text>
+          <View style={{ flex: 5 }} />
+          <View style={{ flex: 5 }} />
+          <View style={{ flex: 5 }} />
+          <Text
+            style={{
+              fontSize: 14,
+              color: colors.textSecondary,
+              textAlign: 'center',
+              flex: 5,
+            }}
+          >{t('logger_step_sleep_high')}</Text>
         </View>
         <Footer>
           {showDisable && (

@@ -20,7 +20,7 @@ export const SlideSleepButton = ({
 
   const _value = SLEEP_QUALITY_MAPPING[value];
 
-  const HEIGHT = 40;
+  const HEIGHT = 32;
 
   return (
     <View
@@ -38,11 +38,11 @@ export const SlideSleepButton = ({
           borderColor: selected ? colors.tint : colorScheme === 'light' ? 'rgba(0,0,0,0.1)' : 'rgba(255,255,255,0.2)',
           borderWidth: selected ? 2 : 1,
           borderRadius: 8,
-          margin: 4,
           paddingLeft: selected ? 7 : 8,
           paddingRight: selected ? 7 : 8,
           paddingVertical: 16,
           height: HEIGHT + 32,
+          margin: 4,
         }}
         onPress={() => {
           haptics.selection();
@@ -54,14 +54,14 @@ export const SlideSleepButton = ({
             justifyContent: 'center',
             alignItems: 'center',
             height: HEIGHT,
-            width: 24,
+            width: 16,
             borderRadius: 8,
             overflow: 'hidden',
           }}
         >
           <View
             style={{
-              width: 24,
+              width: 16,
               height: HEIGHT,
               backgroundColor: colors.sleepQualityEmpty,
               position: 'absolute',
@@ -69,7 +69,7 @@ export const SlideSleepButton = ({
             }} />
           <View
             style={{
-              width: 24,
+              width: 16,
               height: _value * 8,
               backgroundColor: colors.sleepQualityFull,
               position: 'absolute',

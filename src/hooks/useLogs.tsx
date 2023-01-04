@@ -30,11 +30,11 @@ export const RATING_MAPPING = {
 }
 
 export const SLEEP_QUALITY_MAPPING = {
-  very_good: 5,
-  good: 4,
-  neutral: 3,
-  bad: 2,
-  very_bad: 1,
+  very_good: 4,
+  good: 3,
+  neutral: 2,
+  bad: 1,
+  very_bad: 0,
 }
 
 export const RATING_KEYS = Object.keys(RATING_MAPPING) as (keyof typeof RATING_MAPPING)[]

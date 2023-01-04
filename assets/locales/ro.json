@@ -660,5 +660,7 @@
   "promo_sleep_tracking_title": "Urmărirea somnului 💤\neste acum disponibil!",
   "log_sleep_disable": "Nu îmi urmăresc somnul",
   "log_view_changed_title": "Stai, unde sunt zilele mele?",
-  "log_view_changed_body": "Acum puteți folosi butonul [+] din partea de sus pentru a adăuga mai multe intrări. Dacă aveți mai multe intrări pe zi, va fi afișată o listă, altfel o singură intrare va fi afișată în această vizualizare de detaliu."
+  "log_view_changed_body": "Acum puteți folosi butonul [+] din partea de sus pentru a adăuga mai multe intrări. Dacă aveți mai multe intrări pe zi, va fi afișată o listă, altfel o singură intrare va fi afișată în această vizualizare de detaliu.",
+  "logger_step_sleep_low": "Deloc",
+  "logger_step_sleep_high": "Grozav"
 }

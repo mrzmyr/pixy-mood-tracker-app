@@ -660,5 +660,7 @@
   "promo_sleep_tracking_title": "Alváskövetés 💤\njelenleg elérhető!",
   "log_sleep_disable": "Nem követem nyomon az alvásomat",
   "log_view_changed_title": "Várj, hol vannak a nappalaim?",
-  "log_view_changed_body": "Most már használhatja a felül található [+] gombot több bejegyzés hozzáadásához. Ha naponta több bejegyzése van, egy lista jelenik meg, ellenkező esetben csak egy bejegyzés jelenik meg ebben a részletes nézetben."
+  "log_view_changed_body": "Most már használhatja a felül található [+] gombot több bejegyzés hozzáadásához. Ha naponta több bejegyzése van, egy lista jelenik meg, ellenkező esetben csak egy bejegyzés jelenik meg ebben a részletes nézetben.",
+  "logger_step_sleep_low": "Egyáltalán nem",
+  "logger_step_sleep_high": "Nagy"
 }

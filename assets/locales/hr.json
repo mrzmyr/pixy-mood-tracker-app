@@ -660,5 +660,7 @@
   "promo_sleep_tracking_title": "Praćenje spavanja 💤\nsada je dostupan!",
   "log_sleep_disable": "Ne pratim svoje spavanje",
   "log_view_changed_title": "Čekaj, gdje su moji dani?",
-  "log_view_changed_body": "Sada možete koristiti gumb [+] na vrhu za dodavanje više unosa. Ako imate više unosa dnevno, prikazat će se popis, inače će u ovom detaljnom pregledu biti prikazan samo jedan unos."
+  "log_view_changed_body": "Sada možete koristiti gumb [+] na vrhu za dodavanje više unosa. Ako imate više unosa dnevno, prikazat će se popis, inače će u ovom detaljnom pregledu biti prikazan samo jedan unos.",
+  "logger_step_sleep_low": "Nikako",
+  "logger_step_sleep_high": "Sjajno"
 }

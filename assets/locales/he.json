@@ -660,5 +660,7 @@
   "promo_sleep_tracking_title": "מעקב שינה 💤\nזמין כעת!",
   "log_sleep_disable": "אני לא עוקב אחר השינה שלי",
   "log_view_changed_title": "רגע, איפה שעות היום שלי?",
-  "log_view_changed_body": "כעת תוכל להשתמש בלחצן [+] בחלק העליון כדי להוסיף מספר ערכים. אם יש לך מספר ערכים ביום, רשימה תוצג, אחרת רק ערך אחד יוצג בתצוגת פירוט זו."
+  "log_view_changed_body": "כעת תוכל להשתמש בלחצן [+] בחלק העליון כדי להוסיף מספר ערכים. אם יש לך מספר ערכים ביום, רשימה תוצג, אחרת רק ערך אחד יוצג בתצוגת פירוט זו.",
+  "logger_step_sleep_low": "בכלל לא",
+  "logger_step_sleep_high": "גדול"
 }

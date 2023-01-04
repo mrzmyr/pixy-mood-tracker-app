@@ -660,5 +660,7 @@
   "promo_sleep_tracking_title": "Uyku Takibi 💤\nşimdi erişilebilir!",
   "log_sleep_disable": "uykumu takip etmiyorum",
   "log_view_changed_title": "Bekle, gündüzlerim nerede?",
-  "log_view_changed_body": "Artık birden fazla giriş eklemek için üst kısımdaki [+] düğmesini kullanabilirsiniz. Günde birden fazla girişiniz varsa, bir liste görüntülenecektir, aksi takdirde bu ayrıntılı görünümde yalnızca bir giriş görüntülenecektir."
+  "log_view_changed_body": "Artık birden fazla giriş eklemek için üst kısımdaki [+] düğmesini kullanabilirsiniz. Günde birden fazla girişiniz varsa, bir liste görüntülenecektir, aksi takdirde bu ayrıntılı görünümde yalnızca bir giriş görüntülenecektir.",
+  "logger_step_sleep_low": "hiç de bile",
+  "logger_step_sleep_high": "Harika"
 }

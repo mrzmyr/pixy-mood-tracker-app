@@ -660,5 +660,7 @@
   "promo_sleep_tracking_title": "Seguiment del son 💤\nja està disponible!",
   "log_sleep_disable": "No faig un seguiment del meu son",
   "log_view_changed_title": "Espera, on són els meus dies?",
-  "log_view_changed_body": "Ara podeu utilitzar el botó [+] a la part superior per afegir diverses entrades. Si teniu diverses entrades al dia, es mostrarà una llista, en cas contrari només es mostrarà una entrada en aquesta vista de detall."
+  "log_view_changed_body": "Ara podeu utilitzar el botó [+] a la part superior per afegir diverses entrades. Si teniu diverses entrades al dia, es mostrarà una llista, en cas contrari només es mostrarà una entrada en aquesta vista de detall.",
+  "logger_step_sleep_low": "No del tot",
+  "logger_step_sleep_high": "Genial"
 }

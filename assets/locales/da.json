@@ -660,5 +660,7 @@
   "promo_sleep_tracking_title": "Søvnsporing 💤\ner nu tilgængelig!",
   "log_sleep_disable": "Jeg sporer ikke min søvn",
   "log_view_changed_title": "Vent, hvor er mine dagtimer?",
-  "log_view_changed_body": "Du kan nu bruge knappen [+] øverst til at tilføje flere poster. Hvis du har flere poster pr. dag, vil en liste blive vist, ellers vil kun én post blive vist i denne detaljevisning."
+  "log_view_changed_body": "Du kan nu bruge knappen [+] øverst til at tilføje flere poster. Hvis du har flere poster pr. dag, vil en liste blive vist, ellers vil kun én post blive vist i denne detaljevisning.",
+  "logger_step_sleep_low": "Slet ikke",
+  "logger_step_sleep_high": "Store"
 }

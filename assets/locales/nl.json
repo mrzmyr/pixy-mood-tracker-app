@@ -660,5 +660,7 @@
   "promo_sleep_tracking_title": "Slaap volgen 💤\nis nu beschikbaar!",
   "log_sleep_disable": "Ik hou mijn slaap niet bij",
   "log_view_changed_title": "Wacht, waar zijn mijn dagen?",
-  "log_view_changed_body": "U kunt nu de knop [+] bovenaan gebruiken om meerdere vermeldingen toe te voegen. Als u meerdere vermeldingen per dag heeft, wordt er een lijst weergegeven, anders wordt er slechts één vermelding weergegeven in dit detailoverzicht."
+  "log_view_changed_body": "U kunt nu de knop [+] bovenaan gebruiken om meerdere vermeldingen toe te voegen. Als u meerdere vermeldingen per dag heeft, wordt er een lijst weergegeven, anders wordt er slechts één vermelding weergegeven in dit detailoverzicht.",
+  "logger_step_sleep_low": "Helemaal niet",
+  "logger_step_sleep_high": "Super goed"
 }

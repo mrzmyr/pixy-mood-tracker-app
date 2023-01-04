@@ -660,5 +660,7 @@
   "promo_sleep_tracking_title": "Sömnspårning 💤\när nu tillgänglig!",
   "log_sleep_disable": "Jag spårar inte min sömn",
   "log_view_changed_title": "Vänta, var är mina dagtider?",
-  "log_view_changed_body": "Du kan nu använda [+]-knappen på toppen för att lägga till flera poster. Om du har flera poster per dag kommer en lista att visas, annars visas bara en post i denna detaljvy."
+  "log_view_changed_body": "Du kan nu använda [+]-knappen på toppen för att lägga till flera poster. Om du har flera poster per dag kommer en lista att visas, annars visas bara en post i denna detaljvy.",
+  "logger_step_sleep_low": "Inte alls",
+  "logger_step_sleep_high": "Bra"
 }
