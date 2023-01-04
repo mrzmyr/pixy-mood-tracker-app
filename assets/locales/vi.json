@@ -658,5 +658,7 @@
   "logger_step_sleep": "Ngủ",
   "view_log_sleep": "Ngủ",
   "promo_sleep_tracking_title": "Theo dõi giấc ngủ 💤\nhiện đã có sẵn!",
-  "log_sleep_disable": "Tôi không theo dõi giấc ngủ của mình"
+  "log_sleep_disable": "Tôi không theo dõi giấc ngủ của mình",
+  "log_view_changed_title": "Đợi đã, ban ngày của tôi ở đâu?",
+  "log_view_changed_body": "Bây giờ bạn có thể sử dụng nút [+] ở trên cùng để thêm nhiều mục nhập. Nếu bạn có nhiều mục nhập mỗi ngày, một danh sách sẽ được hiển thị, nếu không, chỉ một mục nhập sẽ được hiển thị trong chế độ xem chi tiết này."
 }

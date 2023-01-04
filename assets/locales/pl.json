@@ -658,5 +658,7 @@
   "logger_step_sleep": "Sen",
   "view_log_sleep": "Sen",
   "promo_sleep_tracking_title": "Śledzenie snu 💤\njest teraz dostępne!",
-  "log_sleep_disable": "Nie śledzę swojego snu"
+  "log_sleep_disable": "Nie śledzę swojego snu",
+  "log_view_changed_title": "Chwila, gdzie są moje dni?",
+  "log_view_changed_body": "Możesz teraz użyć przycisku [+] u góry, aby dodać wiele wpisów. Jeśli masz wiele wpisów dziennie, zostanie wyświetlona lista, w przeciwnym razie w tym widoku szczegółowym zostanie wyświetlony tylko jeden wpis."
 }

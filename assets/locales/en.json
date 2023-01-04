@@ -641,5 +641,7 @@
   "logger_step_sleep": "Sleep",
   "view_log_sleep": "Sleep",
   "promo_sleep_tracking_title": "Sleep Tracking 💤\nis now available!",
-  "log_sleep_disable": "I don't track my sleep"
+  "log_sleep_disable": "I don't track my sleep",
+  "log_view_changed_title": "Wait, where are my daytimes?",
+  "log_view_changed_body": "You can now use the [+] button on the top to add multiple entries. If you have multiple entries per day, a list will be displayed, otherwise only one entry will be displayed in this detail view."
 }

@@ -25,6 +25,7 @@ import { SlideMood } from './slides/SlideMood';
 import { SlideReminder } from './slides/SlideReminder';
 import { SlideTags } from './slides/SlideTags';
 import { SlideSleep } from './slides/SlideSleep';
+import { StackActions } from '@react-navigation/native';
 
 export type LoggerMode = 'create' | 'edit'
 
@@ -208,6 +209,13 @@ export const Logger = ({
     } else {
       analytics.track('log_created', eventData)
       logUpdater.addLog(data as LogItem)
+
+      const itemsOnDate = logState.items.filter(item => dayjs(item.dateTime).isSame(dayjs(data.dateTime), 'day'))
+
+      if (itemsOnDate.length === 1) {
+        navigation.dispatch(StackActions.popToTop());
+        return;
+      }
     }
 
     close()

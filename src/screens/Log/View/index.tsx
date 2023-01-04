@@ -15,6 +15,8 @@ import { Message } from './Message';
 import { Tags } from './Tags';
 import { Emotions } from './Emotions';
 import { Sleep } from './Sleep';
+import dayjs from 'dayjs';
+import { FeedbackBox } from '@/screens/DayView/FeedbackBox';
 
 export const RatingDot = ({
   rating,
@@ -55,9 +57,7 @@ export const RatingDot = ({
       />
     </Pressable>
   )
-
 };
-
 
 export const LogView = ({ navigation, route }: RootStackScreenProps<'LogView'>) => {
   const colors = useColors()
@@ -137,6 +137,11 @@ export const LogView = ({ navigation, route }: RootStackScreenProps<'LogView'>) 
               remove()
             }
           }}
+          onAdd={() => {
+            navigation.navigate('LogCreate', {
+              dateTime: dayjs(item.date).hour(dayjs().hour()).minute(dayjs().minute()).toISOString()
+            })
+          }}
           onEdit={() => edit('rating')}
         />
         <ScrollView
@@ -163,6 +168,13 @@ export const LogView = ({ navigation, route }: RootStackScreenProps<'LogView'>) 
           <Emotions item={item} />
           <Tags item={item} />
           <Message item={item} />
+          <FeedbackBox
+            style={{
+              marginTop: 16,
+            }}
+            prefix='log_view_changed'
+            emoji='😱'
+          />
           <View
             style={{
               height: insets.bottom,

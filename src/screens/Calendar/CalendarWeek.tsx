@@ -9,6 +9,8 @@ import { useCalendarFilters } from "../../hooks/useCalendarFilters";
 import { LogItem, useLogState } from "../../hooks/useLogs";
 import { getAverageMood } from "@/lib/utils";
 import CalendarDay from "./CalendarDay";
+import { useCalendarNavigation } from "@/hooks/useCalendarNavigation";
+
 dayjs.extend(isSameOrBefore)
 
 const CalendarDayContainer = memo(({
@@ -40,14 +42,13 @@ const CalendarWeek = memo(function CalendarWeek({
     [key: string]: LogItem[];
   }
 }) {
+  const calendarNavigation = useCalendarNavigation()
   const navigation = useNavigation();
   const calendarFilters = useCalendarFilters()
 
   let justifyContent = "space-around";
   if (isFirst) justifyContent = 'flex-end';
   if (isLast) justifyContent = 'flex-start';
-
-  const logState = useLogState();
 
   const days = useMemo(() => {
     const days: string[] = [];
@@ -73,15 +74,9 @@ const CalendarWeek = memo(function CalendarWeek({
     }
   });
 
-  const onPressDay = useCallback((date: string, items: LogItem[]) => {
-    if (items.length > 0) {
-      navigation.navigate('DayView', { date })
-    } else {
-      navigation.navigate('LogCreate', {
-        dateTime: dayjs(date).hour(dayjs().hour()).minute(dayjs().minute()).toISOString()
-      })
-    }
-  }, [navigation])
+  const onPressDay = useCallback((date: string) => {
+    calendarNavigation.openDay(date)
+  }, [navigation, calendarNavigation])
 
   const filteredItemIds = useMemo(() => {
     return calendarFilters.data.filteredItems.map(item => item.id)
@@ -98,7 +93,7 @@ const CalendarWeek = memo(function CalendarWeek({
         rating={averageRating}
         isFiltered={isFiltered}
         isFiltering={calendarFilters.data.isFiltering}
-        onPress={() => onPressDay(date, items)}
+        onPress={() => onPressDay(date)}
       />
     )
   }

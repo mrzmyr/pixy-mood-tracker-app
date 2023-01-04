@@ -658,5 +658,7 @@
   "logger_step_sleep": "Spavati",
   "view_log_sleep": "Spavati",
   "promo_sleep_tracking_title": "Praćenje spavanja 💤\nsada je dostupan!",
-  "log_sleep_disable": "Ne pratim svoje spavanje"
+  "log_sleep_disable": "Ne pratim svoje spavanje",
+  "log_view_changed_title": "Čekaj, gdje su moji dani?",
+  "log_view_changed_body": "Sada možete koristiti gumb [+] na vrhu za dodavanje više unosa. Ako imate više unosa dnevno, prikazat će se popis, inače će u ovom detaljnom pregledu biti prikazan samo jedan unos."
 }

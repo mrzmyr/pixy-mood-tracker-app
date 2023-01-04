@@ -658,5 +658,7 @@
   "logger_step_sleep": "Dorme",
   "view_log_sleep": "Dorme",
   "promo_sleep_tracking_title": "Monitoramento do sono 💤\nestá agora disponivel!",
-  "log_sleep_disable": "Eu não acompanho meu sono"
+  "log_sleep_disable": "Eu não acompanho meu sono",
+  "log_view_changed_title": "Espere, onde estão meus dias?",
+  "log_view_changed_body": "Agora você pode usar o botão [+] na parte superior para adicionar várias entradas. Se você tiver várias entradas por dia, uma lista será exibida, caso contrário, apenas uma entrada será exibida nesta visualização detalhada."
 }

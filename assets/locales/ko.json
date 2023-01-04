@@ -658,5 +658,7 @@
   "logger_step_sleep": "잠",
   "view_log_sleep": "잠",
   "promo_sleep_tracking_title": "수면 추적 💤\n지금 사용할 수 있습니다!",
-  "log_sleep_disable": "수면을 추적하지 않음"
+  "log_sleep_disable": "수면을 추적하지 않음",
+  "log_view_changed_title": "잠깐, 내 낮 시간은 어디야?",
+  "log_view_changed_body": "이제 상단의 [+] 버튼을 사용하여 여러 항목을 추가할 수 있습니다. 하루에 여러 항목이 있는 경우 목록이 표시되고 그렇지 않으면 이 세부 정보 보기에 하나의 항목만 표시됩니다."
 }

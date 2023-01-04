@@ -644,5 +644,7 @@
   "logger_step_sleep": "Schlaf",
   "view_log_sleep": "Schlaf",
   "promo_sleep_tracking_title": "Schlaftracking 💤\nist jetzt verfügbar!",
-  "log_sleep_disable": "Ich tracke meinen Schlaf nicht"
+  "log_sleep_disable": "Ich tracke meinen Schlaf nicht",
+  "log_view_changed_title": "Warte, wo sind meine Tageszeiten?",
+  "log_view_changed_body": "Du kannst jetzt mit dem [+] mehrere Einträge hinzufügen. Öffnest du einen Tag und hast mehrere Einträge so wird eine Liste angezeigt, ansonsten wird diese Detailansicht für nur einen Eintrag angezeigt."
 }

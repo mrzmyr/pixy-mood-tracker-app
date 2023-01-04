@@ -658,5 +658,7 @@
   "logger_step_sleep": "Tidur",
   "view_log_sleep": "Tidur",
   "promo_sleep_tracking_title": "Pelacakan Tidur 💤\nsekarang tersedia!",
-  "log_sleep_disable": "Saya tidak melacak tidur saya"
+  "log_sleep_disable": "Saya tidak melacak tidur saya",
+  "log_view_changed_title": "Tunggu, dimana siang hariku?",
+  "log_view_changed_body": "Anda sekarang dapat menggunakan tombol [+] di bagian atas untuk menambahkan beberapa entri. Jika Anda memiliki banyak entri per hari, daftar akan ditampilkan, jika tidak, hanya satu entri yang akan ditampilkan dalam tampilan detail ini."
 }

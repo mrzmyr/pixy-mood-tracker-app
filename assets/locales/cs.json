@@ -658,5 +658,7 @@
   "logger_step_sleep": "Spát",
   "view_log_sleep": "Spát",
   "promo_sleep_tracking_title": "Sledování spánku 💤\nje nyní dostupný!",
-  "log_sleep_disable": "Spánek nesleduji"
+  "log_sleep_disable": "Spánek nesleduji",
+  "log_view_changed_title": "Počkej, kde jsou moje dny?",
+  "log_view_changed_body": "Nyní můžete pomocí tlačítka [+] v horní části přidat více položek. Pokud máte více záznamů za den, zobrazí se seznam, jinak se v tomto podrobném zobrazení zobrazí pouze jeden záznam."
 }

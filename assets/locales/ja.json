@@ -658,5 +658,7 @@
   "logger_step_sleep": "寝る",
   "view_log_sleep": "寝る",
   "promo_sleep_tracking_title": "睡眠追跡 💤\n現在利用できます！",
-  "log_sleep_disable": "睡眠を記録しない"
+  "log_sleep_disable": "睡眠を記録しない",
+  "log_view_changed_title": "待って、私の昼間はどこ？",
+  "log_view_changed_body": "上部の [+] ボタンを使用して、複数のエントリを追加できるようになりました。 1 日に複数のエントリがある場合は、リストが表示されます。それ以外の場合は、この詳細ビューに 1 つのエントリのみが表示されます。"
 }
