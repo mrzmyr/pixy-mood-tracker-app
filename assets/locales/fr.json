@@ -657,5 +657,6 @@
   "log_sleep_question": "As-tu bien dormi?",
   "logger_step_sleep": "Dormir",
   "view_log_sleep": "Dormir",
-  "promo_sleep_tracking_title": "Suivi du sommeil 💤\nest maintenant disponible!"
+  "promo_sleep_tracking_title": "Suivi du sommeil 💤\nest maintenant disponible!",
+  "log_sleep_disable": "Je ne surveille pas mon sommeil"
 }

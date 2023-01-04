@@ -657,5 +657,6 @@
   "log_sleep_question": "どうやって寝たの？",
   "logger_step_sleep": "寝る",
   "view_log_sleep": "寝る",
-  "promo_sleep_tracking_title": "睡眠追跡 💤\n現在利用できます！"
+  "promo_sleep_tracking_title": "睡眠追跡 💤\n現在利用できます！",
+  "log_sleep_disable": "睡眠を記録しない"
 }

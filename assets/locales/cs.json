@@ -657,5 +657,6 @@
   "log_sleep_question": "Jak jsi se vyspal?",
   "logger_step_sleep": "Spát",
   "view_log_sleep": "Spát",
-  "promo_sleep_tracking_title": "Sledování spánku 💤\nje nyní dostupný!"
+  "promo_sleep_tracking_title": "Sledování spánku 💤\nje nyní dostupný!",
+  "log_sleep_disable": "Spánek nesleduji"
 }

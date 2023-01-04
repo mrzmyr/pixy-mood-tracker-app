@@ -657,5 +657,6 @@
   "log_sleep_question": "Hogy aludtál?",
   "logger_step_sleep": "Alvás",
   "view_log_sleep": "Alvás",
-  "promo_sleep_tracking_title": "Alváskövetés 💤\njelenleg elérhető!"
+  "promo_sleep_tracking_title": "Alváskövetés 💤\njelenleg elérhető!",
+  "log_sleep_disable": "Nem követem nyomon az alvásomat"
 }

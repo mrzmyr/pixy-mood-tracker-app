@@ -657,5 +657,6 @@
   "log_sleep_question": "어떻게 잤어?",
   "logger_step_sleep": "잠",
   "view_log_sleep": "잠",
-  "promo_sleep_tracking_title": "수면 추적 💤\n지금 사용할 수 있습니다!"
+  "promo_sleep_tracking_title": "수면 추적 💤\n지금 사용할 수 있습니다!",
+  "log_sleep_disable": "수면을 추적하지 않음"
 }

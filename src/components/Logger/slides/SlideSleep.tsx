@@ -70,7 +70,7 @@ export const SlideSleep = ({
               style={{
                 fontWeight: '400',
               }}
-            >{t('log_tags_disable')}</LinkButton>
+            >{t('log_sleep_disable')}</LinkButton>
           )}
         </Footer>
       </View>

@@ -657,5 +657,6 @@
   "log_sleep_question": "你睡得好么？",
   "logger_step_sleep": "睡觉",
   "view_log_sleep": "睡觉",
-  "promo_sleep_tracking_title": "睡眠追踪💤\n现在可用！"
+  "promo_sleep_tracking_title": "睡眠追踪💤\n现在可用！",
+  "log_sleep_disable": "我不跟踪我的睡眠"
 }

@@ -657,5 +657,6 @@
   "log_sleep_question": "Bạn đã ngủ như thế nào?",
   "logger_step_sleep": "Ngủ",
   "view_log_sleep": "Ngủ",
-  "promo_sleep_tracking_title": "Theo dõi giấc ngủ 💤\nhiện đã có sẵn!"
+  "promo_sleep_tracking_title": "Theo dõi giấc ngủ 💤\nhiện đã có sẵn!",
+  "log_sleep_disable": "Tôi không theo dõi giấc ngủ của mình"
 }

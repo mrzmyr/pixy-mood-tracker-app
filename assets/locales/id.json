@@ -657,5 +657,6 @@
   "log_sleep_question": "Bagaimana tidurmu?",
   "logger_step_sleep": "Tidur",
   "view_log_sleep": "Tidur",
-  "promo_sleep_tracking_title": "Pelacakan Tidur 💤\nsekarang tersedia!"
+  "promo_sleep_tracking_title": "Pelacakan Tidur 💤\nsekarang tersedia!",
+  "log_sleep_disable": "Saya tidak melacak tidur saya"
 }

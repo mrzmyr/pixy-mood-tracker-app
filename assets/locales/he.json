@@ -657,5 +657,6 @@
   "log_sleep_question": "איך ישנת?",
   "logger_step_sleep": "לִישׁוֹן",
   "view_log_sleep": "לִישׁוֹן",
-  "promo_sleep_tracking_title": "מעקב שינה 💤\nזמין כעת!"
+  "promo_sleep_tracking_title": "מעקב שינה 💤\nזמין כעת!",
+  "log_sleep_disable": "אני לא עוקב אחר השינה שלי"
 }

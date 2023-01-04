@@ -657,5 +657,6 @@
   "log_sleep_question": "Kuinka nukuit?",
   "logger_step_sleep": "Nukkua",
   "view_log_sleep": "Nukkua",
-  "promo_sleep_tracking_title": "Unenseuranta 💤\non nyt saatavilla!"
+  "promo_sleep_tracking_title": "Unenseuranta 💤\non nyt saatavilla!",
+  "log_sleep_disable": "En seuraa untani"
 }

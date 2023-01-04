@@ -657,5 +657,6 @@
   "log_sleep_question": "كيف نمت؟",
   "logger_step_sleep": "نايم",
   "view_log_sleep": "نايم",
-  "promo_sleep_tracking_title": "تتبع النوم 💤\nانه متاح الان!"
+  "promo_sleep_tracking_title": "تتبع النوم 💤\nانه متاح الان!",
+  "log_sleep_disable": "أنا لا أتتبع نومي"
 }

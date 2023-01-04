@@ -657,5 +657,6 @@
   "log_sleep_question": "Hvordan sov du?",
   "logger_step_sleep": "Søvn",
   "view_log_sleep": "Søvn",
-  "promo_sleep_tracking_title": "Søvnsporing 💤\ner nå tilgjengelig!"
+  "promo_sleep_tracking_title": "Søvnsporing 💤\ner nå tilgjengelig!",
+  "log_sleep_disable": "Jeg sporer ikke søvnen min"
 }
