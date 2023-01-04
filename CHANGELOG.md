@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.72.1](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.72.0...v1.72.1) (2023-01-04)
+
+
+### Styling
+
+* update styles of `Tag` ([db9f3a9](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/db9f3a9a7c03e1d027784f3fc4c96ccaa6a44b7a))
+
 ## [1.72.0](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.71.0...v1.72.0) (2023-01-04)
 
 
