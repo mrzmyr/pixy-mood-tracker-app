@@ -35,6 +35,7 @@ export const Sleep = ({
           style={{
             flex: 0,
             minWidth: 80,
+            margin: -4,
           }}
         />
       </View>
