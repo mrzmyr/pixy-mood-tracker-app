@@ -2,6 +2,93 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.72.1](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.72.0...v1.72.1) (2023-01-04)
+
+
+### Styling
+
+* update styles of `Tag` ([db9f3a9](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/db9f3a9a7c03e1d027784f3fc4c96ccaa6a44b7a))
+
+## [1.72.0](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.71.0...v1.72.0) (2023-01-04)
+
+
+### Features
+
+* add delete button to `LogView` ([71ae71e](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/71ae71e7c727f23d5080f5364c189c99fc22daed))
+* add labels to sleep tracking ([5273388](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/527338889727a69764748468e7c4c62993f00716))
+
+## [1.71.0](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.70.1...v1.71.0) (2023-01-04)
+
+
+### Features
+
+* add `environment` to `useFeedback` ([482579f](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/482579f7960d3b6a428b1f2564085096073d233f))
+* add animations to android ([4193b50](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/4193b5046036131404f884fd8076cde6e562912c))
+* give the feedback modal more room ([5ca255a](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/5ca255a4f93e5ed5c8b37f4dc682d27ee9e93cbe))
+* make using multiple entries optional ([6994052](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/6994052af036bd29d684142e775914c9fde6c5f9))
+
+
+### Bug Fixes
+
+* add 1px padding to calendar view on android ([d27e95e](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/d27e95e4f0329b1c669cf084f67b1cecc4b4938e))
+* add insets to android modals ([8f31f69](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/8f31f69148c97688e6ce1eb20ce646a829ce303c))
+* message auto height in `Logger` for android ([ba20812](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/ba2081221a337d435b291c748fd6fdb2ab9c90c7))
+* remove second satisfied and motivated ([df72ed6](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/df72ed6294468e8d7f5c200a5cc1bd92fbf3561f))
+* tests for sleep ([c9320c4](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/c9320c4df9ad964db746aad4c8f47eec5ffe3d81))
+* update disable sleep tracking translation ([f0b8b8b](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/f0b8b8bd2edd061b70e706481ac9de9368ff7e84))
+* when only using rating the mood was always neutral/white ([d43e7f5](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/d43e7f5bc1523c509fd1c249159946d7b46a02a4))
+
+
+### Miscellaneous
+
+* **deps-dev:** bump @types/lodash from 4.14.185 to 4.14.191 ([b4d8568](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/b4d856838ab9e317b2de1b717d1844c9f5e65d28))
+* **deps:** bump expo-application from 4.2.2 to 5.0.1 ([8782c3b](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/8782c3bf3de29f8d95fbb4453b2c2570d29d5e0a))
+* **deps:** bump expo-linear-gradient from 11.4.0 to 12.0.1 ([1d23b92](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/1d23b926437ab96391b914629e8111dc137b728f))
+* **deps:** bump expo-status-bar from 1.4.0 to 1.4.2 ([89353e2](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/89353e265e8f43f5394feb2bd041e267efa418ac))
+* **deps:** bump react-native-safe-area-context from 4.3.1 to 4.4.1 ([eff6d7f](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/eff6d7f7de6cad07fd1e0172bc6ede5825e428eb))
+* remove logging when `useQuestioner` doesn't get data ([0e1a9ba](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/0e1a9ba6cd739fb68d197fee9a9bcf9afe2bd91e))
+
+
+### Refactors
+
+* remove indicator view from `CalendarDay` ([914aa87](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/914aa87568414820ffa3bdec1cd06bf985dfb787))
+
+
+### Styling
+
+* align sleep tracking in `LogView` ([73ebb62](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/73ebb62fdeba06bbbb51d059bb339d0f9faf6e85))
+* change color for bottom bar on android ([5f75912](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/5f75912675838fd95189ac41e090e9fc3012f705))
+* remove button lines on dark mode android rating button in `Logger` ([691b489](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/691b489e268e05a01decb494941b685d5694b499))
+* remove padding from reminder preview ([ba075ef](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/ba075ef6b0160399a4e865773bf65b3eb1644ad7))
+* update sleep emoji ([5f11189](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/5f111899ceeefb7a7e4b89a82f06b25afbef12ac))
+* use indigo color for sleep tracking ([af7fcbd](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/af7fcbdf42341c187b34502b6dc04db7be60d5eb))
+
+## [1.70.1](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.70.0...v1.70.1) (2022-12-31)
+
+
+### Bug Fixes
+
+* tests / typescript ([470449c](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/470449c872cc00790594ae3e52a0d02b8bf20e70))
+
+## [1.70.0](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.69.0...v1.70.0) (2022-12-31)
+
+
+### Features
+
+* add sleep tracking ([1fbed58](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/1fbed58281b5bcfb62db6c2f69b5aa6b2e1e5b6e))
+
+
+### Bug Fixes
+
+* android margin top in settings ([c3adf85](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/c3adf850598d47ab0b32bed85e800b356c7837c4))
+* start error ([3d8f2ec](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/3d8f2ece2e1fec9ee28cb79d2f2ab18092fcab04))
+
+
+### Styling
+
+* align tag border ([7ec135e](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/7ec135e464e6ab81abab3d13d28716d49f9714fb))
+* update de translation ([0263932](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/02639321ce99150cb67cb2ed13f2a8100ef5fd8d))
+
 ## [1.69.0](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.68.2...v1.69.0) (2022-12-25)
 
 

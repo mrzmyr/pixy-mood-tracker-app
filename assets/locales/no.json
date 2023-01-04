@@ -653,5 +653,14 @@
   "tags_default_15_title": "Kreativitet",
   "tags_default_16_title": "Sosiale medier",
   "tags_default_17_title": "Arbeid",
-  "tags_default_18_title": "Reise"
+  "tags_default_18_title": "Reise",
+  "log_sleep_question": "Hvordan sov du?",
+  "logger_step_sleep": "Søvn",
+  "view_log_sleep": "Søvn",
+  "promo_sleep_tracking_title": "Søvnsporing 💤\ner nå tilgjengelig!",
+  "log_sleep_disable": "Jeg sporer ikke søvnen min",
+  "log_view_changed_title": "Vent, hvor er dagene mine?",
+  "log_view_changed_body": "Du kan nå bruke [+]-knappen på toppen for å legge til flere oppføringer. Hvis du har flere oppføringer per dag, vil en liste vises, ellers vil bare én oppføring vises i denne detaljvisningen.",
+  "logger_step_sleep_low": "Ikke i det hele tatt",
+  "logger_step_sleep_high": "Flott"
 }

@@ -653,5 +653,14 @@
   "tags_default_15_title": "Tvořivost",
   "tags_default_16_title": "Sociální média",
   "tags_default_17_title": "Práce",
-  "tags_default_18_title": "Cestovat"
+  "tags_default_18_title": "Cestovat",
+  "log_sleep_question": "Jak jsi se vyspal?",
+  "logger_step_sleep": "Spát",
+  "view_log_sleep": "Spát",
+  "promo_sleep_tracking_title": "Sledování spánku 💤\nje nyní dostupný!",
+  "log_sleep_disable": "Spánek nesleduji",
+  "log_view_changed_title": "Počkej, kde jsou moje dny?",
+  "log_view_changed_body": "Nyní můžete pomocí tlačítka [+] v horní části přidat více položek. Pokud máte více záznamů za den, zobrazí se seznam, jinak se v tomto podrobném zobrazení zobrazí pouze jeden záznam.",
+  "logger_step_sleep_low": "Vůbec ne",
+  "logger_step_sleep_high": "Skvělý"
 }

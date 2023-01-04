@@ -653,5 +653,14 @@
   "tags_default_15_title": "Yaratıcılık",
   "tags_default_16_title": "Sosyal medya",
   "tags_default_17_title": "Çalışmak",
-  "tags_default_18_title": "Yolculuk"
+  "tags_default_18_title": "Yolculuk",
+  "log_sleep_question": "Nasıl uyudun?",
+  "logger_step_sleep": "Uyumak",
+  "view_log_sleep": "Uyumak",
+  "promo_sleep_tracking_title": "Uyku Takibi 💤\nşimdi erişilebilir!",
+  "log_sleep_disable": "uykumu takip etmiyorum",
+  "log_view_changed_title": "Bekle, gündüzlerim nerede?",
+  "log_view_changed_body": "Artık birden fazla giriş eklemek için üst kısımdaki [+] düğmesini kullanabilirsiniz. Günde birden fazla girişiniz varsa, bir liste görüntülenecektir, aksi takdirde bu ayrıntılı görünümde yalnızca bir giriş görüntülenecektir.",
+  "logger_step_sleep_low": "hiç de bile",
+  "logger_step_sleep_high": "Harika"
 }

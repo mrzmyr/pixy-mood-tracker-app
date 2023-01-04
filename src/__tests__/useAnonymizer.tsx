@@ -50,6 +50,9 @@ describe("useAnonymizer", () => {
       rating: "neutral",
       messageLength: 12,
       tags: [],
+      sleep: {
+        quality: "neutral",
+      },
       createdAt: expect.any(String),
       dateTime: expect.any(String),
       id: expect.any(String),
@@ -65,6 +68,9 @@ describe("useAnonymizer", () => {
       rating: "neutral",
       messageLength: '🦄'.length,
       tags: [],
+      sleep: {
+        quality: "neutral",
+      },
       createdAt: expect.any(String),
       dateTime: expect.any(String),
       id: expect.any(String),

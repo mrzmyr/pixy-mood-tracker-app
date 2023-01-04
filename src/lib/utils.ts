@@ -64,7 +64,7 @@ export const getItemDateTitle = (dateTime: LogItem['dateTime']) => {
   return (
     isSmallScreen ?
       dayjs(dateTime).format('l - LT') :
-      dayjs(dateTime).format('dddd, L - LT')
+      dayjs(dateTime).format('ddd, L - LT')
   )
 }
 

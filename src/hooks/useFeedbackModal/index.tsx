@@ -84,6 +84,7 @@ export default function useFeedbackModal() {
       >
         <DismissKeyboard>
           <KeyboardAvoidingView
+            keyboardVerticalOffset={32}
             behavior={Platform.OS === "ios" ? "padding" : "height"}
             style={{
               flex: 1,
@@ -118,6 +119,7 @@ export default function useFeedbackModal() {
               }}
             >
               <ModalHeader
+                title={t('feedback_modal_title')}
                 left={
                   <LinkButton
                     testID="feedback-modal-cancel"
@@ -144,18 +146,9 @@ export default function useFeedbackModal() {
                   flex: 1,
                 }}
               >
-                <Text style={{
-                  marginTop: 8,
-                  color: colors.text,
-                  fontSize: 24,
-                  fontWeight: 'bold',
-                  textAlign: 'center'
-                }}>
-                  {t('feedback_modal_title')}
-                </Text>
                 <Text
                   style={{
-                    marginTop: 8,
+                    marginTop: 4,
                     marginBottom: 24,
                     color: colors.textSecondary,
                     fontSize: 15,
@@ -209,7 +202,6 @@ export default function useFeedbackModal() {
                       height: '100%',
                       maxHeight: 240,
                     }}
-                    autoFocus
                     value={message}
                     onChange={(text) => setMessageProxy(text)}
                     placeholder={t("feedback_modal_message_placeholder")}

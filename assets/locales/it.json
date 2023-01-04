@@ -653,5 +653,14 @@
   "tags_default_15_title": "Creatività",
   "tags_default_16_title": "Social media",
   "tags_default_17_title": "Opera",
-  "tags_default_18_title": "Viaggiare"
+  "tags_default_18_title": "Viaggiare",
+  "log_sleep_question": "Come hai dormito?",
+  "logger_step_sleep": "Dormire",
+  "view_log_sleep": "Dormire",
+  "promo_sleep_tracking_title": "Monitoraggio del sonno 💤\nora è disponibile!",
+  "log_sleep_disable": "Non tengo traccia del mio sonno",
+  "log_view_changed_title": "Aspetta, dove sono i miei giorni diurni?",
+  "log_view_changed_body": "Ora puoi utilizzare il pulsante [+] in alto per aggiungere più voci. Se hai più voci al giorno, verrà visualizzato un elenco, altrimenti verrà visualizzata solo una voce in questa visualizzazione dettagliata.",
+  "logger_step_sleep_low": "Affatto",
+  "logger_step_sleep_high": "Grande"
 }

@@ -653,5 +653,14 @@
   "tags_default_15_title": "Kreativitás",
   "tags_default_16_title": "Közösségi média",
   "tags_default_17_title": "Munka",
-  "tags_default_18_title": "Utazás"
+  "tags_default_18_title": "Utazás",
+  "log_sleep_question": "Hogy aludtál?",
+  "logger_step_sleep": "Alvás",
+  "view_log_sleep": "Alvás",
+  "promo_sleep_tracking_title": "Alváskövetés 💤\njelenleg elérhető!",
+  "log_sleep_disable": "Nem követem nyomon az alvásomat",
+  "log_view_changed_title": "Várj, hol vannak a nappalaim?",
+  "log_view_changed_body": "Most már használhatja a felül található [+] gombot több bejegyzés hozzáadásához. Ha naponta több bejegyzése van, egy lista jelenik meg, ellenkező esetben csak egy bejegyzés jelenik meg ebben a részletes nézetben.",
+  "logger_step_sleep_low": "Egyáltalán nem",
+  "logger_step_sleep_high": "Nagy"
 }

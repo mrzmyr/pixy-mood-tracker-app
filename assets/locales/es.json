@@ -653,5 +653,14 @@
   "tags_default_15_title": "Creatividad",
   "tags_default_16_title": "Redes sociales",
   "tags_default_17_title": "Trabajar",
-  "tags_default_18_title": "Viajar"
+  "tags_default_18_title": "Viajar",
+  "log_sleep_question": "¿Cómo has dormido?",
+  "logger_step_sleep": "Dormir",
+  "view_log_sleep": "Dormir",
+  "promo_sleep_tracking_title": "Seguimiento del sueño 💤\n¡Ya está disponible!",
+  "log_sleep_disable": "No controlo mi sueño",
+  "log_view_changed_title": "Espera, ¿dónde están mis días?",
+  "log_view_changed_body": "Ahora puede usar el botón [+] en la parte superior para agregar varias entradas. Si tiene varias entradas por día, se mostrará una lista; de lo contrario, solo se mostrará una entrada en esta vista detallada.",
+  "logger_step_sleep_low": "De nada",
+  "logger_step_sleep_high": "Estupendo"
 }

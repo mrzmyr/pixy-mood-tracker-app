@@ -1,16 +1,20 @@
-import { View } from 'react-native';
+import { Edit, PlusSquare, X } from 'lucide-react-native';
+import { Pressable, Text, View } from 'react-native';
 import useColors from '../../../hooks/useColors';
-import { Pressable, Text } from 'react-native';
-import { Edit, Trash, X } from 'react-native-feather';
 import useHaptics from '../../../hooks/useHaptics';
 
 export const Header = ({
-  title, onClose, onDelete, onEdit,
+  title,
+  onClose,
+  onDelete,
+  onEdit,
+  onAdd,
 }: {
   title: string;
   onClose?: () => void;
   onDelete?: () => void;
   onEdit?: () => void;
+  onAdd?: () => void;
 }) => {
   const haptics = useHaptics();
   const colors = useColors();
@@ -57,38 +61,41 @@ export const Header = ({
             marginRight: -8,
           }}
         >
-          {/* <Pressable
+          <Pressable
             style={{
-              padding: 16,
+              paddingVertical: 16,
+              paddingHorizontal: 12,
+            }}
+            onPress={async () => {
+              await haptics.selection();
+              onAdd?.();
+            }}
+          >
+            <PlusSquare color={colors.logHeaderText} size={24} />
+          </Pressable>
+          <Pressable
+            style={{
+              paddingVertical: 16,
+              paddingHorizontal: 12,
             }}
             onPress={async () => {
               await haptics.selection();
               onEdit?.();
             }}
           >
-            <Edit color={colors.logHeaderText} width={22} height={22} />
-          </Pressable> */}
-          {/* <Pressable
-            style={{
-              padding: 16,
-            }}
-            onPress={async () => {
-              await haptics.selection();
-              onDelete?.();
-            }}
-          >
-            <Trash color={colors.logHeaderText} width={22} height={22} />
-          </Pressable> */}
+            <Edit color={colors.logHeaderText} size={24} />
+          </Pressable>
           <Pressable
             style={{
-              padding: 16,
+              paddingVertical: 16,
+              paddingHorizontal: 12,
             }}
             onPress={async () => {
               await haptics.selection();
               onClose?.();
             }}
           >
-            <X color={colors.logHeaderText} width={22} height={22} />
+            <X color={colors.logHeaderText} size={24} />
           </Pressable>
         </View>
       </View>

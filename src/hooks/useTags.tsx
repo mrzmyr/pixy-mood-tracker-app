@@ -144,10 +144,8 @@ function TagsProvider({
     (async () => {
       const json = await load<State>(STORAGE_KEY)
       if (json !== null) {
-        analytics.track('tags_loaded', { source: 'tags_async_storage' })
         dispatch({ type: 'import', payload: json })
       } else if (settings?.tags) {
-        analytics.track('tags_loaded', { source: 'settings_async_storage' })
         dispatch({
           type: 'import',
           payload: {
@@ -155,7 +153,6 @@ function TagsProvider({
           }
         })
       } else {
-        analytics.track('tags_loaded', { source: 'initial' })
         dispatch({ type: 'reset', payload: INITIAL_STATE })
       }
     })();

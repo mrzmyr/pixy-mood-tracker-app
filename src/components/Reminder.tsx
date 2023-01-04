@@ -76,7 +76,6 @@ const Reminder = () => {
       <View style={{
         opacity: reminderEnabled ? 1 : 0.5,
         marginBottom: 20,
-        padding: 4,
       }}>
         <NotificationPreview />
       </View>

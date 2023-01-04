@@ -1,17 +1,17 @@
-import { useNavigation } from '@react-navigation/native';
+import { Card } from '@/components/Statistics/Card';
+import { CardFeedback } from '@/components/Statistics/CardFeedback';
+import { DATE_FORMAT } from '@/constants/Config';
+import { t } from '@/helpers/translation';
+import { useCalendarNavigation } from '@/hooks/useCalendarNavigation';
 import dayjs, { Dayjs } from 'dayjs';
 import _ from 'lodash';
 import { Pressable, Text, View } from 'react-native';
-import { Card } from '@/components/Statistics/Card';
-import { CardFeedback } from '@/components/Statistics/CardFeedback';
-import { t } from '@/helpers/translation';
 import useColors from '../../hooks/useColors';
 import useHaptics from '../../hooks/useHaptics';
 import { LogDay } from '../../hooks/useLogs';
 import useScale from '../../hooks/useScale';
 import { MoodPeaksNegativeData, MoodPeaksPositiveData } from '../../hooks/useStatistics/MoodPeaks';
 import { HeaderWeek } from './HeaderWeek';
-import { DATE_FORMAT } from '@/constants/Config';
 
 const DayDot = ({
   date,
@@ -22,8 +22,8 @@ const DayDot = ({
 }) => {
   const colors = useColors()
   const scale = useScale()
-  const navigation = useNavigation()
   const haptics = useHaptics()
+  const calendarNavigation = useCalendarNavigation()
 
   const color = day ? {
     bg: scale.colors[day.ratingAvg].background,
@@ -55,9 +55,7 @@ const DayDot = ({
       onPress={async () => {
         if (!day) return;
         await haptics.selection()
-        navigation.navigate('DayView', {
-          date: day.date,
-        })
+        calendarNavigation.openDay(dayjs(date).format(DATE_FORMAT))
       }}
     >
       <Text

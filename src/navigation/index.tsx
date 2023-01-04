@@ -124,14 +124,6 @@ function RootNavigator() {
     headerShadowVisible: Platform.OS !== 'web',
   }
 
-  const stackScreenOptions: {
-    [key: string]: any
-  } = {}
-
-  if (Platform.OS === 'android') {
-    stackScreenOptions.animation = 'none'
-  }
-
   useEffect(() => {
     if (Platform.OS !== 'web') {
       OneSignal.setAppId(ONE_SIGNAL_APP_ID);
@@ -188,8 +180,10 @@ function RootNavigator() {
     //   </Stack.Navigator>
     // ) : (
     <Stack.Navigator
-      screenOptions={stackScreenOptions}
       initialRouteName="tabs"
+      screenOptions={{
+        navigationBarColor: colors.tabsBackground,
+      }}
     >
       <Stack.Screen
         name="tabs"

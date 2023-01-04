@@ -653,5 +653,14 @@
   "tags_default_15_title": "Kreativiti",
   "tags_default_16_title": "Media Sosial",
   "tags_default_17_title": "Kerja",
-  "tags_default_18_title": "Perjalanan"
+  "tags_default_18_title": "Perjalanan",
+  "log_sleep_question": "Bagaimana awak tidur?",
+  "logger_step_sleep": "tidur",
+  "view_log_sleep": "tidur",
+  "promo_sleep_tracking_title": "Penjejakan Tidur 💤\nkini tersedia!",
+  "log_sleep_disable": "Saya tidak menjejaki tidur saya",
+  "log_view_changed_title": "Tunggu, di manakah siang hari saya?",
+  "log_view_changed_body": "Anda kini boleh menggunakan butang [+] di bahagian atas untuk menambah berbilang entri. Jika anda mempunyai berbilang entri setiap hari, senarai akan dipaparkan, jika tidak, hanya satu entri akan dipaparkan dalam paparan butiran ini.",
+  "logger_step_sleep_low": "Tidak sama sekali",
+  "logger_step_sleep_high": "Hebat"
 }
