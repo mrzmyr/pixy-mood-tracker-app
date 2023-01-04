@@ -184,28 +184,30 @@ export const Logger = ({
     navigation.goBack();
   }
 
-  const save = () => {
+  const save = (data: TemporaryLogState) => {
     const eventData = {
-      date: tempLog?.data?.date,
-      dateTime: tempLog?.data?.dateTime,
-      messageLength: tempLog?.data?.message.length,
-      rating: tempLog?.data?.rating,
-      tagsCount: tempLog?.data?.tags.length,
-      emotions: tempLog?.data?.emotions,
+      date: data?.date,
+      dateTime: data?.dateTime,
+      messageLength: data?.message.length,
+      rating: data?.rating,
+      tagsCount: data?.tags.length,
+      emotions: data?.emotions,
+      emotionsCount: data?.emotions.length,
     }
 
-    if (tempLog.data.rating === null) {
-      tempLog.data.rating = 'neutral'
+    if (data.rating === null) {
+      analytics.track('log_saved_without_rating', eventData)
+      data.rating = 'neutral'
     }
 
     analytics.track('log_saved', eventData)
 
     if (mode === 'edit') {
       analytics.track('log_changed', eventData)
-      logUpdater.editLog(tempLog.data as LogItem)
+      logUpdater.editLog(data as LogItem)
     } else {
       analytics.track('log_created', eventData)
-      logUpdater.addLog(tempLog.data as LogItem)
+      logUpdater.addLog(data as LogItem)
     }
 
     close()
@@ -228,19 +230,11 @@ export const Logger = ({
     }
 
     if (slideIndex + 1 === content.length) {
-      save()
+      save(tempLog.data)
     } else {
       if (_carousel.current) _carousel.current.next()
     }
   }
-
-  const [shouldSave, setShouldSave] = useState(false)
-
-  useEffect(() => {
-    if (shouldSave) {
-      save()
-    }
-  }, [tempLog.data])
 
   const content: {
     key: string;
@@ -255,7 +249,10 @@ export const Logger = ({
         onChange={(rating) => {
           if (tempLog.data.rating !== rating) {
             if (content.length === 1) {
-              setShouldSave(true)
+              save({
+                ...tempLog.data,
+                rating,
+              })
             } else {
               next()
             }
