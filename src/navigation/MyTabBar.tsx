@@ -44,8 +44,9 @@ export function MyTabBar({ state, descriptors, navigation }) {
       style={{
         flexDirection: 'row',
         marginBottom: insets.bottom,
-        borderTopColor: colors.headerBorder,
+        borderTopColor: colors.tabsBorder,
         borderTopWidth: 1,
+        backgroundColor: colors.tabsBackground,
       }}
     >
       {state.routes.map((route, index) => {

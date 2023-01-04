@@ -181,6 +181,9 @@ function RootNavigator() {
     // ) : (
     <Stack.Navigator
       initialRouteName="tabs"
+      screenOptions={{
+        navigationBarColor: colors.tabsBackground,
+      }}
     >
       <Stack.Screen
         name="tabs"

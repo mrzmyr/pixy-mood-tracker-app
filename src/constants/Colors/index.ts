@@ -93,6 +93,10 @@ const light = {
   cardBorder: colors.neutral[200],
 
   headerBorder: colors.neutral[300],
+
+  tabsBackground: colors.neutral[100],
+  tabsBorder: colors.neutral[300],
+
   tabsIconActive: tintColorLight,
   tabsIconInactive: colors.neutral[400],
   tabsTextActive: tintColorLight,
@@ -317,6 +321,10 @@ const dark: IColors & {
   cardBorder: colors.neutral[800],
 
   headerBorder: colors.neutral[800],
+
+  tabsBackground: colors.neutral[900],
+  tabsBorder: colors.neutral[800],
+
   tabsIconActive: tintColorDark,
   tabsIconInactive: colors.neutral[600],
   tabsTextActive: tintColorDark,
