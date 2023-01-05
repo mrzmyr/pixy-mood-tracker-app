@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.72.3](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.72.2...v1.72.3) (2023-01-05)
+
+
+### Styling
+
+* align sleep button colors ([5013dea](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/5013dea2793188962a9b8bb63f3aa13ace4bcd11))
+
 ## [1.72.2](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.72.1...v1.72.2) (2023-01-04)
 
 

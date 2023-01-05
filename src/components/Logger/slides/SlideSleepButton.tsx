@@ -34,7 +34,7 @@ export const SlideSleepButton = ({
           flexDirection: 'row',
           alignItems: 'center',
           justifyContent: 'center',
-          backgroundColor: colors.cardBackground,
+          backgroundColor: colors.logCardBackground,
           borderColor: selected ? colors.tint : colorScheme === 'light' ? 'rgba(0,0,0,0.1)' : 'rgba(255,255,255,0.2)',
           borderWidth: selected ? 2 : 1,
           borderRadius: 8,
@@ -43,6 +43,7 @@ export const SlideSleepButton = ({
           paddingVertical: 16,
           height: HEIGHT + 32,
           margin: 4,
+          aspectRatio: 1,
         }}
         onPress={() => {
           haptics.selection();
