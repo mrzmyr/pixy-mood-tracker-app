@@ -653,5 +653,14 @@
   "tags_default_15_title": "La créativité",
   "tags_default_16_title": "Des médias sociaux",
   "tags_default_17_title": "Travail",
-  "tags_default_18_title": "Voyage"
+  "tags_default_18_title": "Voyage",
+  "log_sleep_question": "As-tu bien dormi?",
+  "logger_step_sleep": "Dormir",
+  "view_log_sleep": "Dormir",
+  "promo_sleep_tracking_title": "Suivi du sommeil 💤\nest maintenant disponible!",
+  "log_sleep_disable": "Je ne surveille pas mon sommeil",
+  "log_view_changed_title": "Attendez, où sont mes journées ?",
+  "log_view_changed_body": "Vous pouvez maintenant utiliser le bouton [+] en haut pour ajouter plusieurs entrées. Si vous avez plusieurs entrées par jour, une liste sera affichée, sinon une seule entrée sera affichée dans cette vue détaillée.",
+  "logger_step_sleep_low": "Pas du tout",
+  "logger_step_sleep_high": "Super"
 }

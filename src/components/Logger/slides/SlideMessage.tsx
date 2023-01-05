@@ -1,23 +1,23 @@
+import { Card } from '@/components/Card';
 import { getLogEditMarginTop } from "@/helpers/responsive";
-import { language, locale, t } from "@/helpers/translation";
+import { language, t } from "@/helpers/translation";
+import { useAnalytics } from "@/hooks/useAnalytics";
 import useColors from "@/hooks/useColors";
 import { LogItem, RATING_MAPPING, useLogState } from "@/hooks/useLogs";
 import { useTemporaryLog } from "@/hooks/useTemporaryLog";
 import { getAverageMood } from "@/lib/utils";
 import dayjs, { Dayjs } from "dayjs";
+import _ from "lodash";
 import { forwardRef, useEffect, useRef, useState } from "react";
-import { Keyboard, KeyboardAvoidingView, Platform, ScrollView, Text, View } from "react-native";
+import { Keyboard, KeyboardAvoidingView, Platform, Text, View } from "react-native";
 import { HelpCircle } from "react-native-feather";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import DismissKeyboard from "../../DismisKeyboard";
 import LinkButton from "../../LinkButton";
 import TextArea from "../../TextArea";
 import { SlideHeadline } from "../components/SlideHeadline";
-import { Footer } from "./Footer";
-import { Card } from '@/components/Card'
 import { EMOTIONS } from "../config";
-import _ from "lodash";
-import { useAnalytics } from "@/hooks/useAnalytics";
+import { Footer } from "./Footer";
 
 const randomInt = (min, max) => Math.floor(Math.random() * (max - min + 1) + min);
 
@@ -167,21 +167,25 @@ export const SlideMessage = forwardRef(({
   }, [])
 
   return (
-    <>
+    <KeyboardAvoidingView
+      keyboardVerticalOffset={marginTop + insets.top + 16}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      style={{
+        flex: 1
+      }}
+    >
       <DismissKeyboard>
-        <KeyboardAvoidingView
-          behavior={Platform.OS === "ios" ? "padding" : "height"}
-          style={{
-            flex: 1,
-          }}
-        >
+        <View style={{
+          flex: 1,
+          justifyContent: "space-around"
+        }}>
           <View style={{
             flex: 1,
             backgroundColor: colors.logBackground,
             width: '100%',
             position: 'relative',
             paddingHorizontal: 20,
-            paddingBottom: insets.bottom + 16 + (shouldExpand ? 112 : 0),
+            paddingBottom: insets.bottom + 16 + (shouldExpand ? 24 : 0),
           }}>
 
             <View
@@ -254,8 +258,8 @@ export const SlideMessage = forwardRef(({
               )}
             </Footer>
           </View>
-        </KeyboardAvoidingView>
+        </View>
       </DismissKeyboard>
-    </>
+    </KeyboardAvoidingView>
   )
 })

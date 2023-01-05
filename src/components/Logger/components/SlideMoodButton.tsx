@@ -1,4 +1,4 @@
-import { Dimensions, Pressable, useColorScheme, View } from 'react-native';
+import { Dimensions, Platform, Pressable, useColorScheme, View } from 'react-native';
 import { Check } from 'react-native-feather';
 import useHaptics from '@/hooks/useHaptics';
 import { LogItem } from '@/hooks/useLogs';
@@ -28,7 +28,7 @@ export const SlideMoodButton = ({
       }}
       style={({ pressed }) => ({
         backgroundColor: scale.colors[rating].background,
-        borderWidth: 1,
+        borderWidth: Platform.OS === 'android' && colorScheme === 'dark' ? 0 : 1,
         borderColor: colorScheme === 'light' ? 'rgba(0,0,0,0.1)' : 'rgba(255,255,255,0.2)',
         borderRadius: 12,
         marginBottom: 8,

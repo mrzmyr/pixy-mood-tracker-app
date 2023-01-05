@@ -12,6 +12,7 @@ import { TagsPeakData } from '../../hooks/useStatistics/TagsPeaks';
 import { Tag as ITag } from '../../hooks/useTags';
 import { HeaderWeek } from './HeaderWeek';
 import _ from 'lodash';
+import { useCalendarNavigation } from '@/hooks/useCalendarNavigation';
 
 const DayDot = ({
   date,
@@ -26,7 +27,7 @@ const DayDot = ({
 }) => {
   const colors = useColors()
   const haptics = useHaptics()
-  const navigation = useNavigation()
+  const calendarNavigation = useCalendarNavigation()
 
   const color = isHighlighted ? colors.tags[colorName] : {
     background: colors.statisticsCalendarDotBackground,
@@ -53,9 +54,7 @@ const DayDot = ({
         if (!item) return;
 
         await haptics.selection()
-        navigation.navigate('DayView', {
-          date: date.format(DATE_FORMAT),
-        })
+        calendarNavigation.openDay(dayjs(date).format(DATE_FORMAT))
       }}
     >
       <Text

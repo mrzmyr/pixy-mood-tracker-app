@@ -93,6 +93,10 @@ const light = {
   cardBorder: colors.neutral[200],
 
   headerBorder: colors.neutral[300],
+
+  tabsBackground: colors.neutral[100],
+  tabsBorder: colors.neutral[300],
+
   tabsIconActive: tintColorLight,
   tabsIconInactive: colors.neutral[400],
   tabsTextActive: tintColorLight,
@@ -247,6 +251,9 @@ const light = {
   promoCardTextSecondary: colors.neutral[500],
   promoCardBorder: colors.neutral[200],
 
+  sleepQualityEmpty: colors.indigo[100],
+  sleepQualityFull: colors.indigo[500],
+
   switchThumbColor: '#333',
   scales: scales.light,
   tags: tagsLight,
@@ -314,6 +321,10 @@ const dark: IColors & {
   cardBorder: colors.neutral[800],
 
   headerBorder: colors.neutral[800],
+
+  tabsBackground: 'transparent',
+  tabsBorder: colors.neutral[800],
+
   tabsIconActive: tintColorDark,
   tabsIconInactive: colors.neutral[600],
   tabsTextActive: tintColorDark,
@@ -466,6 +477,9 @@ const dark: IColors & {
   promoCardText: colors.white,
   promoCardTextSecondary: colors.neutral[400],
   promoCardBorder: colors.neutral[800],
+
+  sleepQualityEmpty: colors.indigo[800],
+  sleepQualityFull: colors.indigo[400],
 
   switchThumbColor: '#FFF',
   scales: scales.dark,

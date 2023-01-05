@@ -1,4 +1,5 @@
 import { Platform, View, ViewStyle } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export const PageModalLayout = ({
   children,
@@ -7,11 +8,13 @@ export const PageModalLayout = ({
   children: React.ReactNode;
   style?: ViewStyle;
 }) => {
+  const insets = useSafeAreaInsets();
+
   return (
     <View
       style={{
         flex: 1,
-        paddingTop: Platform.OS === 'android' ? 20 : 0,
+        paddingTop: Platform.OS === 'android' ? insets.top : 0,
         ...style,
       }}
     >

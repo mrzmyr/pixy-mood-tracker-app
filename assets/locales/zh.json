@@ -653,5 +653,14 @@
   "tags_default_15_title": "创造力",
   "tags_default_16_title": "社交媒体",
   "tags_default_17_title": "工作",
-  "tags_default_18_title": "旅行"
+  "tags_default_18_title": "旅行",
+  "log_sleep_question": "你睡得好么？",
+  "logger_step_sleep": "睡觉",
+  "view_log_sleep": "睡觉",
+  "promo_sleep_tracking_title": "睡眠追踪💤\n现在可用！",
+  "log_sleep_disable": "我不跟踪我的睡眠",
+  "log_view_changed_title": "等等，我的白天在哪里？",
+  "log_view_changed_body": "您现在可以使用顶部的 [+] 按钮添加多个条目。如果您每天有多个条目，则会显示一个列表，否则在此详细视图中只会显示一个条目。",
+  "logger_step_sleep_low": "一点也不",
+  "logger_step_sleep_high": "伟大的"
 }

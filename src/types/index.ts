@@ -57,6 +57,15 @@ export const LogItemSchema = z.object({
     "very_bad",
     "extremely_bad",
   ]),
+  sleep: z.object({
+    quality: z.enum([
+      "very_good",
+      "good",
+      "neutral",
+      "bad",
+      "very_bad",
+    ]),
+  }),
   message: z.string(),
   createdAt: z.string().refine((value) => {
     return isISODate(value)

@@ -653,5 +653,14 @@
   "tags_default_15_title": "creativiteit",
   "tags_default_16_title": "Sociale media",
   "tags_default_17_title": "Het werk",
-  "tags_default_18_title": "Reizen"
+  "tags_default_18_title": "Reizen",
+  "log_sleep_question": "Hoe heb je geslapen?",
+  "logger_step_sleep": "Slaap",
+  "view_log_sleep": "Slaap",
+  "promo_sleep_tracking_title": "Slaap volgen 💤\nis nu beschikbaar!",
+  "log_sleep_disable": "Ik hou mijn slaap niet bij",
+  "log_view_changed_title": "Wacht, waar zijn mijn dagen?",
+  "log_view_changed_body": "U kunt nu de knop [+] bovenaan gebruiken om meerdere vermeldingen toe te voegen. Als u meerdere vermeldingen per dag heeft, wordt er een lijst weergegeven, anders wordt er slechts één vermelding weergegeven in dit detailoverzicht.",
+  "logger_step_sleep_low": "Helemaal niet",
+  "logger_step_sleep_high": "Super goed"
 }

@@ -17,7 +17,7 @@ export default function NotificationPreview() {
       borderRadius: 16,
     }}>
       <View style={{
-        backgroundColor: 'white',
+        backgroundColor: colors.logCardBackground,
         width: 48,
         height: 48,
         borderRadius: 10,

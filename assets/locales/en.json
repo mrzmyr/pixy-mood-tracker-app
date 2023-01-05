@@ -155,8 +155,8 @@
   "log_emotion_connected": "Connected",
   "log_emotion_contempt_description": "You feel that someone or something is worthless or beneath you",
   "log_emotion_contempt": "Contempt",
-  "log_emotion_content_description": "You feel like your expectations, needs, or desires are met",
-  "log_emotion_content": "Satisfied",
+  "log_emotion_content_description": "You feel like you're peaceful happy.",
+  "log_emotion_content": "Content",
   "log_emotion_curious_description": "You feel a wanting to know or learn something",
   "log_emotion_curious": "Curious",
   "log_emotion_delighted_description": "You feel greatly pleased by something or someone",
@@ -636,5 +636,14 @@
   "down": "down",
   "log_messasge_hint_2": "Do you know why {{description}}?",
   "log_message_hint_title": "Things to ask yourself.",
-  "emotion_missing": "I'm missing an emotion"
+  "emotion_missing": "I'm missing an emotion",
+  "log_sleep_question": "How did you sleep?",
+  "logger_step_sleep": "Sleep",
+  "view_log_sleep": "Sleep",
+  "promo_sleep_tracking_title": "Sleep Tracking 💤\nis now available!",
+  "log_sleep_disable": "I don't track my sleep",
+  "log_view_changed_title": "Wait, where are my daytimes?",
+  "log_view_changed_body": "You can now use the [+] button on the top to add multiple entries. If you have multiple entries per day, a list will be displayed, otherwise only one entry will be displayed in this detail view.",
+  "logger_step_sleep_low": "Not at all",
+  "logger_step_sleep_high": "Great"
 }

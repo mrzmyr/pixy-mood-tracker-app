@@ -1,5 +1,4 @@
-import { useHeaderHeight } from '@react-navigation/elements';
-import { Platform, View, ViewStyle } from 'react-native';
+import { View, ViewStyle } from 'react-native';
 
 export const PageWithHeaderLayout = ({
   children,
@@ -8,12 +7,9 @@ export const PageWithHeaderLayout = ({
   children: React.ReactNode,
   style?: ViewStyle,
 }) => {
-  const headerHeight = useHeaderHeight();
-
   return (
     <View
       style={{
-        paddingTop: Platform.OS === 'android' ? headerHeight : 0,
         ...style,
       }}
     >
