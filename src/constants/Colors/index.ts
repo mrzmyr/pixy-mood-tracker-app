@@ -479,7 +479,7 @@ const dark: IColors & {
   promoCardBorder: colors.neutral[800],
 
   sleepQualityEmpty: colors.indigo[800],
-  sleepQualityFull: colors.indigo[500],
+  sleepQualityFull: colors.indigo[400],
 
   switchThumbColor: '#FFF',
   scales: scales.dark,
