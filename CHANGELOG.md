@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.72.2](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.72.1...v1.72.2) (2023-01-04)
+
+
+### Bug Fixes
+
+* auto height for android message field ([ff2a6f2](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/ff2a6f286ab38a3219b55e489e4894f37ddaa192))
+
+
+### Styling
+
+* fix android animation background flicker ([52621a0](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/52621a0c2122522157d668b4dc8e950a90098eba))
+* fix background dark mode tabbar ([8fe7e5d](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/8fe7e5de5b0322dfcd21b9b5858e79b2a56c9da8))
+
 ## [1.72.1](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.72.0...v1.72.1) (2023-01-04)
 
 
