@@ -21,19 +21,21 @@ export const EmotionAdvancedSelection = ({
 }) => {
   const _carousel = useRef<ICarouselInstance>(null);
 
-  const pages = EMOTION_CATEGORIES.map((emotion) => {
+  const pages = EMOTION_CATEGORIES.map((category) => {
     const filteredEmotions = EMOTIONS
       .filter((e) => (
-        e.category === emotion &&
+        e.category === category &&
         e.disabled !== true
       ))
       .sort((a, b) => a.label.localeCompare(b.label));
+
     return (
       <EmotionPage
-        key={`emotions-page-inner-${emotion}`}
+        key={`emotions-page-inner-${category}`}
         emotions={filteredEmotions}
         onPress={onPress}
-        selectedEmotions={selectedEmotions} />
+        selectedEmotions={selectedEmotions}
+      />
     );
   });
 
@@ -54,6 +56,7 @@ export const EmotionAdvancedSelection = ({
         justifyContent: 'center',
         alignItems: 'center',
         ...style,
-      }} />
+      }}
+    />
   );
 };

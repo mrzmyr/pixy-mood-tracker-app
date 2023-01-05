@@ -24,14 +24,14 @@ tagColorNames.map(color => {
   tagsDark[color] = {
     title: color,
     dot: colors[color]['500'],
-    background: colors[color]['900'],
+    background: colors[color]['700'],
     text: colors[color]['200'],
     border: colors[color]['600'],
   }
   tagsLight[color] = {
     title: color,
     dot: colors[color]['400'],
-    background: colors[color]['100'],
+    background: colors[color]['200'],
     text: colors[color]['700'],
     border: colors[color]['400'],
   }
@@ -93,6 +93,10 @@ const light = {
   cardBorder: colors.neutral[200],
 
   headerBorder: colors.neutral[300],
+
+  tabsBackground: colors.neutral[100],
+  tabsBorder: colors.neutral[300],
+
   tabsIconActive: tintColorLight,
   tabsIconInactive: colors.neutral[400],
   tabsTextActive: tintColorLight,
@@ -252,6 +256,9 @@ const light = {
   chatBotMessageBackground: colors.white,
   chatBotMessageText: colors.black,
 
+  sleepQualityEmpty: colors.indigo[100],
+  sleepQualityFull: colors.indigo[500],
+
   switchThumbColor: '#333',
   scales: scales.light,
   tags: tagsLight,
@@ -319,6 +326,10 @@ const dark: IColors & {
   cardBorder: colors.neutral[800],
 
   headerBorder: colors.neutral[800],
+
+  tabsBackground: 'transparent',
+  tabsBorder: colors.neutral[800],
+
   tabsIconActive: tintColorDark,
   tabsIconInactive: colors.neutral[600],
   tabsTextActive: tintColorDark,
@@ -476,6 +487,9 @@ const dark: IColors & {
   chatBotMessageText: colors.white,
   chatUserMessageBackground: colors.blue[800],
   chatUserMessageText: colors.white,
+
+  sleepQualityEmpty: colors.indigo[800],
+  sleepQualityFull: colors.indigo[400],
 
   switchThumbColor: '#FFF',
   scales: scales.dark,

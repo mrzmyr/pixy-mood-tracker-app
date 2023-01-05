@@ -13,9 +13,11 @@ import { askToRemove } from "@/helpers/prompts";
 import { EntryEmotions } from "./EntryEmotions";
 
 export const Entry = ({
-  item
+  item,
+  isExpanded,
 }: {
   item: LogItem;
+  isExpanded: boolean;
 }) => {
   const colors = useColors();
   const navigation = useNavigation();
@@ -123,9 +125,9 @@ export const Entry = ({
         </View>
       </View>
 
-      {item.emotions.length > 0 && <EntryEmotions item={item} />}
-      {item.tags.length > 0 && <EntryTags item={item} />}
-      {item.message.length > 0 && <EntryMessage item={item} />}
+      {item.emotions.length > 0 && <EntryEmotions isExpanded={isExpanded} item={item} />}
+      {item.tags.length > 0 && <EntryTags isExpanded={isExpanded} item={item} />}
+      {item.message.length > 0 && <EntryMessage isExpanded={isExpanded} item={item} />}
     </Pressable>
   );
 };

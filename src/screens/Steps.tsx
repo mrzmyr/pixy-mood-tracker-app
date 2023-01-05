@@ -11,6 +11,7 @@ import { RootStackScreenProps } from '../../types';
 import useColors from '../hooks/useColors';
 import { useSettings } from '../hooks/useSettings';
 import { FeedbackBox } from './DayView/FeedbackBox';
+import { BedDouble } from 'lucide-react-native';
 
 export const StepsScreen = ({ navigation }: RootStackScreenProps<'Steps'>) => {
   const colors = useColors()
@@ -20,6 +21,7 @@ export const StepsScreen = ({ navigation }: RootStackScreenProps<'Steps'>) => {
   } = {
     'rating': <Sun width={20} height={20} stroke={colors.text} />,
     'message': <FileText width={20} height={20} color={colors.text} />,
+    'sleep': <BedDouble size={20} color={colors.text} />,
     'tags': <Tag width={20} height={20} color={colors.text} />,
     'emotions': <Heart width={20} height={20} color={colors.text} />,
     'feedback': <MessageSquare width={20} height={20} color={colors.text} />,
@@ -71,7 +73,7 @@ export const StepsScreen = ({ navigation }: RootStackScreenProps<'Steps'>) => {
                       color: colors.text,
                     }}
                   >{t(`logger_step_${option}`)}</Text>
-                  {option === 'emotions' && (
+                  {option === 'sleep' && (
                     <Indicator
                       colorName='purple'
                       style={{

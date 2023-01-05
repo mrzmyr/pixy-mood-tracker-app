@@ -1,11 +1,12 @@
 import { t } from "@/helpers/translation";
 import { Emotion } from "@/types";
 
-export type LoggerStep = "rating" | "tags" | "message" | "feedback" | "reminder" | "emotions";
+export type LoggerStep = "rating" | "tags" | "message" | "feedback" | "reminder" | "emotions" | "sleep";
 
 export const STEP_OPTIONS: LoggerStep[] = [
   "rating",
   "tags",
+  "sleep",
   "emotions",
   "message",
   "feedback",
@@ -66,7 +67,7 @@ export const EMOTIONS: Emotion[] = [{
   description: t('log_emotion_confident_description'),
   category: "very_good",
   disabled: true,
-  mode: "advanced",
+  mode: "basic",
 }, {
   key: "curious",
   source: "how_we_feel_app",
@@ -186,7 +187,7 @@ export const EMOTIONS: Emotion[] = [{
   description: t('log_emotion_hopeful_description'),
   category: "very_good",
   disabled: false,
-  mode: "advanced",
+  mode: "basic",
 }, {
   key: "in_awe",
   source: "how_we_feel_app",
@@ -202,7 +203,7 @@ export const EMOTIONS: Emotion[] = [{
   description: t('log_emotion_inspired_description'),
   category: "very_good",
   disabled: false,
-  mode: "advanced",
+  mode: "basic",
 }, {
   key: "joyful",
   source: "how_we_feel_app",
@@ -211,14 +212,6 @@ export const EMOTIONS: Emotion[] = [{
   category: "very_good",
   disabled: true,
   mode: "basic",
-}, {
-  key: "motivated",
-  source: "how_we_feel_app",
-  label: t('log_emotion_motivated'),
-  description: t('log_emotion_motivated_description'),
-  category: "very_good",
-  disabled: false,
-  mode: "advanced",
 }, {
   key: "optimistic",
   source: "how_we_feel_app",
@@ -266,7 +259,7 @@ export const EMOTIONS: Emotion[] = [{
   description: t('log_emotion_proud_description'),
   category: "very_good",
   disabled: false,
-  mode: "advanced",
+  mode: "basic",
 }, {
   key: "successful",
   source: "how_we_feel_app",
@@ -314,7 +307,7 @@ export const EMOTIONS: Emotion[] = [{
   description: t('log_emotion_annoyed_description'),
   category: "very_bad",
   disabled: false,
-  mode: "advanced",
+  mode: "basic",
 }, {
   key: "anxious",
   source: "how_we_feel_app",
@@ -402,7 +395,7 @@ export const EMOTIONS: Emotion[] = [{
   description: t('log_emotion_frustrated_description'),
   category: "very_bad",
   disabled: false,
-  mode: "advanced",
+  mode: "basic",
 }, {
   key: "furious",
   source: "how_we_feel_app",
@@ -474,7 +467,7 @@ export const EMOTIONS: Emotion[] = [{
   description: t('log_emotion_nervous_description'),
   category: "very_bad",
   disabled: false,
-  mode: "advanced",
+  mode: "basic",
 }, {
   key: "overwhelmed",
   source: "how_we_feel_app",
@@ -482,7 +475,7 @@ export const EMOTIONS: Emotion[] = [{
   description: t('log_emotion_overwhelmed_description'),
   category: "neutral",
   disabled: false,
-  mode: "advanced",
+  mode: "basic",
 }, {
   key: "panicked",
   source: "how_we_feel_app",
@@ -602,7 +595,7 @@ export const EMOTIONS: Emotion[] = [{
   description: t('log_emotion_worried_description'),
   category: "bad",
   disabled: false,
-  mode: "advanced",
+  mode: "basic",
 }, {
   key: "accepted",
   source: "how_we_feel_app",
@@ -706,7 +699,7 @@ export const EMOTIONS: Emotion[] = [{
   description: t('log_emotion_content_description'),
   category: "good",
   disabled: false,
-  mode: "advanced",
+  mode: "basic",
 }, {
   key: "fragile",
   source: "how_we_feel_app",
@@ -722,7 +715,7 @@ export const EMOTIONS: Emotion[] = [{
   description: t('log_emotion_fulfilled_description'),
   category: "good",
   disabled: true,
-  mode: "advanced",
+  mode: "basic",
 }, {
   key: "good",
   source: "how_we_feel_app",
@@ -738,7 +731,7 @@ export const EMOTIONS: Emotion[] = [{
   description: t('log_emotion_grateful_description'),
   category: "good",
   disabled: false,
-  mode: "advanced",
+  mode: "basic",
 }, {
   key: "heard",
   source: "how_we_feel_app",
@@ -786,7 +779,7 @@ export const EMOTIONS: Emotion[] = [{
   description: t('log_emotion_peaceful_description'),
   category: "very_good",
   disabled: true,
-  mode: "advanced",
+  mode: "basic",
 }, {
   key: "relaxed",
   source: "how_we_feel_app",
@@ -802,7 +795,7 @@ export const EMOTIONS: Emotion[] = [{
   description: t('log_emotion_relieved_description'),
   category: "very_good",
   disabled: false,
-  mode: "advanced",
+  mode: "basic",
 }, {
   key: "respected",
   source: "how_we_feel_app",
@@ -874,7 +867,7 @@ export const EMOTIONS: Emotion[] = [{
   description: t('log_emotion_thankful_description'),
   category: "neutral",
   disabled: false,
-  mode: "basic",
+  mode: "advanced",
 }, {
   key: "thoughtful",
   source: "how_we_feel_app",
@@ -978,7 +971,7 @@ export const EMOTIONS: Emotion[] = [{
   description: t('log_emotion_disappointed_description'),
   category: "bad",
   disabled: false,
-  mode: "advanced",
+  mode: "basic",
 }, {
   key: "disconnected",
   source: "how_we_feel_app",
@@ -1082,7 +1075,7 @@ export const EMOTIONS: Emotion[] = [{
   description: t('log_emotion_hopeless_description'),
   category: "bad",
   disabled: false,
-  mode: "advanced",
+  mode: "basic",
 }, {
   key: "humiliated",
   source: "how_we_feel_app",
@@ -1186,7 +1179,7 @@ export const EMOTIONS: Emotion[] = [{
   description: t('log_emotion_tired_description'),
   category: "neutral",
   disabled: false,
-  mode: "advanced",
+  mode: "basic",
 }, {
   key: "trapped",
   source: "how_we_feel_app",
@@ -1255,7 +1248,7 @@ export const EMOTIONS: Emotion[] = [{
   description: t('log_emotion_awkward_description'),
   category: "bad",
   disabled: false,
-  mode: "basic",
+  mode: "advanced",
 },
 {
   key: "distracted",
@@ -1264,7 +1257,7 @@ export const EMOTIONS: Emotion[] = [{
   description: t('log_emotion_distracted_description'),
   category: "very_bad",
   disabled: false,
-  mode: "basic",
+  mode: "advanced",
 },
 {
   key: "suspicious",
@@ -1309,4 +1302,12 @@ export const EMOTIONS: Emotion[] = [{
   category: "very_bad",
   disabled: false,
   mode: "basic",
-}]
+}, {
+  key: "motivated",
+  source: "custom",
+  label: t('log_emotion_motivated'),
+  description: t('log_emotion_motivated_description'),
+  category: "good",
+  disabled: false,
+  mode: "basic",
+},]

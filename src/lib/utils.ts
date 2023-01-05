@@ -64,7 +64,7 @@ export const getItemDateTitle = (dateTime: LogItem['dateTime']) => {
   return (
     isSmallScreen ?
       dayjs(dateTime).format('l - LT') :
-      dayjs(dateTime).format('dddd, L - LT')
+      dayjs(dateTime).format('ddd, L - LT')
   )
 }
 
@@ -115,3 +115,11 @@ export const wait = async (timeout: number) => {
     setTimeout(resolve, timeout);
   });
 };
+
+export const getItemsCountPerDayAverage = (items: LogItem[]) => {
+  if (items.length === 0) return 0;
+
+  const itemsSorted = _.sortBy(items, (item) => item.dateTime);
+  const days = dayjs().diff(dayjs(itemsSorted[0].dateTime), "day");
+  return Math.round(items.length / days);
+}

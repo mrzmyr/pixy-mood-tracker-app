@@ -7,6 +7,9 @@ export const _generateItem = (item: Partial<LogItem>): LogItem => {
     rating: ('neutral' as LogItem['rating']),
     message: '🥹',
     date: '2020-01-01',
+    sleep: {
+      quality: 'neutral',
+    },
     createdAt: new Date().toISOString(),
     dateTime: new Date().toISOString(),
     tags: [],

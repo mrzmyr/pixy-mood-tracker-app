@@ -7,7 +7,7 @@ export const TagReferenceSchema = z.object({
 
 export type TagReference = z.infer<typeof TagReferenceSchema>;
 
-export const EMOTION_CATEGORIES = [
+export const EMOTION_CATEGORIES: Emotion['category'][] = [
   "very_bad",
   "bad",
   "neutral",
@@ -34,6 +34,7 @@ export const EmotionSchema = z.object({
   source: z.enum([
     'how_we_feel_app',
     'stoic_app',
+    'custom',
   ]),
   description: z.string(),
   disabled: z.boolean(),
@@ -56,6 +57,15 @@ export const LogItemSchema = z.object({
     "very_bad",
     "extremely_bad",
   ]),
+  sleep: z.object({
+    quality: z.enum([
+      "very_good",
+      "good",
+      "neutral",
+      "bad",
+      "very_bad",
+    ]),
+  }),
   message: z.string(),
   createdAt: z.string().refine((value) => {
     return isISODate(value)

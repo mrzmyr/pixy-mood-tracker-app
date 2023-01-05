@@ -5,6 +5,7 @@ import { t } from '@/helpers/translation';
 import pkg from '../../package.json';
 import { useAnalytics } from './useAnalytics';
 import { useSettings } from './useSettings';
+import * as Updates from 'expo-updates';
 
 export type FeedackType = 'issue' | 'idea' | 'other' | 'emoji';
 export type FeedbackSource = 'tags' | 'modal' | 'statistics';
@@ -35,6 +36,7 @@ export const useFeedback = () => {
       date: new Date().toISOString(),
       source,
       deviceId: settings.deviceId,
+      environment: Updates.channel,
     }
 
     const body = {

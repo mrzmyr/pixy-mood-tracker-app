@@ -1,10 +1,11 @@
-import { useNavigation } from '@react-navigation/native';
+import { Card } from '@/components/Statistics/Card';
+import { CardFeedback } from '@/components/Statistics/CardFeedback';
+import { DATE_FORMAT } from '@/constants/Config';
+import { t } from '@/helpers/translation';
+import { useCalendarNavigation } from '@/hooks/useCalendarNavigation';
 import dayjs, { Dayjs } from 'dayjs';
 import _ from 'lodash';
 import { Pressable, Text, View } from 'react-native';
-import { Card } from '@/components/Statistics/Card';
-import { CardFeedback } from '@/components/Statistics/CardFeedback';
-import { t } from '@/helpers/translation';
 import useColors from '../../hooks/useColors';
 import useHaptics from '../../hooks/useHaptics';
 import { LogDay } from '../../hooks/useLogs';
@@ -21,8 +22,8 @@ const DayDot = ({
 }) => {
   const colors = useColors()
   const scale = useScale()
-  const navigation = useNavigation()
   const haptics = useHaptics()
+  const calendarNavigation = useCalendarNavigation()
 
   const color = day ? {
     bg: scale.colors[day.ratingAvg].background,
@@ -54,9 +55,7 @@ const DayDot = ({
       onPress={async () => {
         if (!day) return;
         await haptics.selection()
-        navigation.navigate('DayView', {
-          date: day.date,
-        })
+        calendarNavigation.openDay(dayjs(date).format(DATE_FORMAT))
       }}
     >
       <Text
@@ -76,7 +75,7 @@ const BodyWeek = ({
   days: LogDay[],
   start: Dayjs,
 }) => {
-  const _days = [1, 2, 3, 4, 5, 6, 7]
+  const _days = [0, 1, 2, 3, 4, 5, 6]
 
   return (
     <View
@@ -90,6 +89,7 @@ const BodyWeek = ({
       {_days.map((dayCount, index) => {
         const date = dayjs(start).add(dayCount, 'day').toDate()
         const day = days.find(item => dayjs(item.date).isSame(date, 'day'))
+
         return (
           <View
             key={index}
@@ -116,7 +116,9 @@ export const MoodPeaksContent = ({
   startDate: string,
   endDate: string,
 }) => {
-  const weekCount = dayjs(endDate).diff(dayjs(startDate), 'week')
+  const _endDate = dayjs(endDate).endOf('week')
+  const _startDate = dayjs(startDate).startOf('week')
+  const weekCount = dayjs(_endDate).diff(dayjs(_startDate), 'week') + 1
 
   return (
     <View
@@ -127,9 +129,9 @@ export const MoodPeaksContent = ({
         marginBottom: 8,
       }}
     >
-      <HeaderWeek />
+      <HeaderWeek date={_startDate.format(DATE_FORMAT)} />
       {_.range(weekCount).map((week, index) => {
-        const weekStart = dayjs(startDate).add(week, 'week')
+        const weekStart = dayjs(_startDate).add(week, 'week')
 
         return (
           <BodyWeek

@@ -1,8 +1,7 @@
-import useColors from "@/hooks/useColors";
 import { Emotion } from "@/types";
 import _ from "lodash";
 import { View } from "react-native";
-import { EmotionButtonEmpty, EmotionButtonAdvanced } from "./EmotionButtonAdvanced";
+import { EmotionButtonAdvanced, EmotionButtonEmpty } from "./EmotionButtonAdvanced";
 
 export const EmotionPage = ({
   emotions, onPress, selectedEmotions,
@@ -11,7 +10,6 @@ export const EmotionPage = ({
   onPress: (emotion: Emotion) => void;
   selectedEmotions: Emotion[];
 }) => {
-  const colors = useColors();
   const chunks = _.chunk(emotions, 2).map(d => d.length === 1 ? [...d, { key: 'empty', label: '' } as Emotion] : d);
 
   return (

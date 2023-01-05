@@ -48,6 +48,7 @@ const EmotionItem = ({
         // backgroundColor: color.background,
         marginRight: 8,
         borderRadius: 10,
+        marginBottom: 8,
       }}
       onPress={onPress}
     >
@@ -76,9 +77,11 @@ const EmotionItem = ({
 }
 
 export const EntryEmotions = ({
-  item
+  item,
+  isExpanded,
 }: {
   item: LogItem;
+  isExpanded: boolean;
 }) => {
   const navigation = useNavigation();
   const haptics = useHaptics();
@@ -90,36 +93,44 @@ export const EntryEmotions = ({
     });
   }
 
+  const content = (
+    <View
+      style={{
+        paddingLeft: 16,
+        paddingRight: 16,
+        flexDirection: 'row',
+        flexWrap: isExpanded ? 'wrap' : 'nowrap',
+      }}
+    >
+      {item.emotions.map((emotion) => {
+        return (
+          <EmotionItem
+            key={emotion}
+            emotion={emotion}
+            onPress={onPress}
+          />
+        );
+      })}
+    </View>
+  )
+
   return (
     <View
       style={{
         flexDirection: 'row',
         marginLeft: -16,
         marginRight: -16,
-        marginBottom: 12,
+        marginBottom: 4,
       }}
     >
-      <ScrollView
-        horizontal
-      >
-        <View
-          style={{
-            paddingLeft: 16,
-            paddingRight: 16,
-            flexDirection: 'row',
-          }}
+      {isExpanded && content}
+      {!isExpanded && (
+        <ScrollView
+          horizontal
         >
-          {item.emotions.map((emotion) => {
-            return (
-              <EmotionItem
-                key={emotion}
-                emotion={emotion}
-                onPress={onPress}
-              />
-            );
-          })}
-        </View>
-      </ScrollView>
+          {content}
+        </ScrollView>
+      )}
     </View>
   );
 };

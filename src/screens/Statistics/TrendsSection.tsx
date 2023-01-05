@@ -38,13 +38,13 @@ export const TrendsSection = () => {
             <MoodTrend data={statistics.state.trends.moodData} />
           )}
 
-          {statistics.isAvailable("tags_distribution_trend") && (
+          {/* {statistics.isAvailable("tags_distribution_trend") && (
             <>
               {statistics.state.trends.tagsDistributionData.tags.map((tag, index) => (
                 <TagsDistributionTrend key={index} tag={tag} />
               ))}
             </>
-          )}
+          )} */}
 
           <MenuList
             style={{

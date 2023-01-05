@@ -11,6 +11,8 @@ import { LogItem } from '../../hooks/useLogs';
 import { TagsPeakData } from '../../hooks/useStatistics/TagsPeaks';
 import { Tag as ITag } from '../../hooks/useTags';
 import { HeaderWeek } from './HeaderWeek';
+import _ from 'lodash';
+import { useCalendarNavigation } from '@/hooks/useCalendarNavigation';
 
 const DayDot = ({
   date,
@@ -25,7 +27,7 @@ const DayDot = ({
 }) => {
   const colors = useColors()
   const haptics = useHaptics()
-  const navigation = useNavigation()
+  const calendarNavigation = useCalendarNavigation()
 
   const color = isHighlighted ? colors.tags[colorName] : {
     background: colors.statisticsCalendarDotBackground,
@@ -52,9 +54,7 @@ const DayDot = ({
         if (!item) return;
 
         await haptics.selection()
-        navigation.navigate('DayView', {
-          date: date.format(DATE_FORMAT),
-        })
+        calendarNavigation.openDay(dayjs(date).format(DATE_FORMAT))
       }}
     >
       <Text
@@ -76,7 +76,7 @@ const BodyWeek = ({
   tag: ITag,
   start: Dayjs,
 }) => {
-  const days = [1, 2, 3, 4, 5, 6, 7]
+  const days = [0, 1, 2, 3, 4, 5, 6]
 
   return (
     <View
@@ -121,6 +121,12 @@ export const TagPeaksCard = ({
 }) => {
   const colors = useColors()
 
+  const startDate = dayjs().subtract(14, 'days').startOf('week')
+  const endDate = dayjs().endOf('week')
+  const weekCount = dayjs(endDate).diff(dayjs(startDate), 'week') + 1
+
+  const daysCount = _.keys(_.groupBy(tag.items, item => dayjs(item.dateTime).format(DATE_FORMAT))).length
+
   return (
     <Card
       subtitle={t('tags')}
@@ -140,7 +146,7 @@ export const TagPeaksCard = ({
           >{tag?.title}&nbsp;</Text>
           {t('statistics_tag_peaks_title', {
             title: tag?.title,
-            count: tag.items.length,
+            count: daysCount,
           })}
         </Text>
       </>}
@@ -153,9 +159,19 @@ export const TagPeaksCard = ({
           marginBottom: 8,
         }}
       >
-        <HeaderWeek />
-        <BodyWeek start={dayjs().subtract(2, 'week')} items={tag.items} tag={tag} />
-        <BodyWeek start={dayjs().subtract(1, 'week')} items={tag.items} tag={tag} />
+        <HeaderWeek date={startDate.format(DATE_FORMAT)} />
+        {_.range(weekCount).map((week, index) => {
+          const weekStart = dayjs(startDate).add(week, 'week')
+
+          return (
+            <BodyWeek
+              key={`tag-peaks-card-week-${index}`}
+              start={weekStart}
+              items={tag.items}
+              tag={tag}
+            />
+          )
+        })}
       </View>
       <CardFeedback
         analyticsId='tags_peaks'

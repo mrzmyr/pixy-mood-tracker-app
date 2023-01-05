@@ -120,10 +120,6 @@ const CalendarDay = memo(function CalendarDay({
       onPress={_onPress}
       style={containerStyles}
     >
-      <View
-        style={styles.textIndicatorParent1}
-      >
-      </View>
       <View style={styles.dayNumberParent1}>
         <View style={dayNumberParent2Styles}>
           <Text style={dayNumberTextStyles}>{day}</Text>
@@ -136,18 +132,12 @@ const CalendarDay = memo(function CalendarDay({
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'column',
-    justifyContent: 'center',
+    justifyContent: 'flex-end',
     alignItems: 'center',
     padding: 4,
     borderRadius: 8,
     width: '100%',
     aspectRatio: 1,
-  },
-  textIndicatorParent1: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    height: '50%',
-    width: '100%',
   },
   textIndicatorParent2: {
     width: '30%',

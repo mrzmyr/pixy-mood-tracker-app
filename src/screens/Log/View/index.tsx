@@ -14,6 +14,10 @@ import { Headline } from './Headline';
 import { Message } from './Message';
 import { Tags } from './Tags';
 import { Emotions } from './Emotions';
+import { Sleep } from './Sleep';
+import dayjs from 'dayjs';
+import { FeedbackBox } from '@/screens/DayView/FeedbackBox';
+import Button from '@/components/Button';
 
 export const RatingDot = ({
   rating,
@@ -54,9 +58,7 @@ export const RatingDot = ({
       />
     </Pressable>
   )
-
 };
-
 
 export const LogView = ({ navigation, route }: RootStackScreenProps<'LogView'>) => {
   const colors = useColors()
@@ -82,6 +84,10 @@ export const LogView = ({ navigation, route }: RootStackScreenProps<'LogView'>) 
   const edit = (step: RootStackParamList['LogEdit']['step']) => {
     analytics.track('log_edit')
     navigation.navigate('LogEdit', { id: item.id, step });
+  }
+
+  const _delete = () => {
+    askToRemove().then(() => remove())
   }
 
   const remove = () => {
@@ -126,17 +132,13 @@ export const LogView = ({ navigation, route }: RootStackScreenProps<'LogView'>) 
         <Header
           title={getItemDateTitle(item.dateTime)}
           onClose={close}
-          onDelete={async () => {
-            if (
-              item.message.length > 0 ||
-              item?.tags && item?.tags.length > 0
-            ) {
-              askToRemove().then(() => remove())
-            } else {
-              remove()
-            }
+          onAdd={() => {
+            navigation.navigate('LogCreate', {
+              dateTime: dayjs(item.date).hour(dayjs().hour()).minute(dayjs().minute()).toISOString()
+            })
           }}
           onEdit={() => edit('rating')}
+          onDelete={_delete}
         />
         <ScrollView
           style={{
@@ -158,9 +160,27 @@ export const LogView = ({ navigation, route }: RootStackScreenProps<'LogView'>) 
               <RatingDot onPress={() => edit('rating')} rating={item.rating} />
             </View>
           </View>
+          <Sleep item={item} />
           <Emotions item={item} />
           <Tags item={item} />
           <Message item={item} />
+          <FeedbackBox
+            style={{
+              marginTop: 16,
+            }}
+            prefix='log_view_changed'
+            emoji='😱'
+          />
+          <Button
+            type="danger"
+            style={{
+            }}
+            onPress={() => {
+              _delete()
+            }}
+          >
+            {t("delete")}
+          </Button>
           <View
             style={{
               height: insets.bottom,

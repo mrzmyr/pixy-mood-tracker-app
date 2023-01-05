@@ -20,8 +20,11 @@ import { EmotionBasicGradients } from "./EmotionBasicGradients";
 import { EmotionBasicSelection } from "./EmotionBasicSelection";
 import { ExpandButton } from "./ExpandButton";
 import { Tooltip } from "./Tooltip";
+import { useAnalytics } from "@/hooks/useAnalytics";
 
 type Mode = 'basic' | 'advanced'
+
+const MAX_BASIC_EMOTIONS = 36
 
 export const SlideEmotions = ({
   defaultIndex,
@@ -40,6 +43,7 @@ export const SlideEmotions = ({
   const marginTop = getLogEditMarginTop()
   const tempLog = useTemporaryLog()
   const logState = useLogState()
+  const analytics = useAnalytics()
 
   const EMOTIONS_BY_KEY = _.keyBy(EMOTIONS, 'key')
 
@@ -69,10 +73,10 @@ export const SlideEmotions = ({
 
   let basicEmotions = initialSelectedEmotions.current
 
-  if (basicEmotions.length < 20) {
+  if (basicEmotions.length < MAX_BASIC_EMOTIONS) {
     const missingEmotions = mostUsedEmotions
       .filter(d => !basicEmotions.map(d => d.key).includes(d.key))
-      .slice(0, 20 - basicEmotions.length)
+      .slice(0, MAX_BASIC_EMOTIONS - basicEmotions.length)
 
     basicEmotions = [
       ...basicEmotions,
@@ -80,10 +84,10 @@ export const SlideEmotions = ({
     ]
   }
 
-  if (basicEmotions.length < 20) {
+  if (basicEmotions.length < MAX_BASIC_EMOTIONS) {
     const missingEmotions = predefinedBasicEmotions
       .filter(d => !basicEmotions.map(d => d.key).includes(d.key))
-      .slice(0, 20 - basicEmotions.length)
+      .slice(0, MAX_BASIC_EMOTIONS - basicEmotions.length)
 
     basicEmotions = [
       ...basicEmotions,
@@ -193,7 +197,10 @@ export const SlideEmotions = ({
           {showTooltip && (
             <Tooltip
               emotion={selectedEmotions[selectedEmotions.length - 1]}
-              onClose={() => setShowTooltip(false)}
+              onClose={() => {
+                analytics.track('log_emotions_tooltip_close')
+                setShowTooltip(false)
+              }}
             />
           )}
         </View>

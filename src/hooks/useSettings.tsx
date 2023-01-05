@@ -61,8 +61,9 @@ export const INITIAL_STATE: SettingsState = {
   actionsDone: [],
   steps: [
     "rating",
-    "tags",
+    "sleep",
     "emotions",
+    "tags",
     "message",
     "feedback"
   ],

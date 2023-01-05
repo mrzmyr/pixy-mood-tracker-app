@@ -89,11 +89,11 @@
   "delete_tag_confirm_title": "حذف العلامة",
   "delete_tag_confirm_message": "ستتم إزالة العلامة من جميع الإدخالات. لا يمكن التراجع عن هذا الإجراء.",
   "feedback_modal_help": "اترك معلومات الاتصال الخاصة بك إذا كنت تريد مني الرد عليك.",
-  "tags_default_1_title": "سعيدة",
-  "tags_default_2_title": "النضالات",
-  "tags_default_3_title": "عمل",
-  "tags_default_4_title": "ممارسه الرياضه",
-  "tags_default_5_title": "أصدقاء",
+  "tags_default_1_title": "عائلة",
+  "tags_default_2_title": "أصدقاء",
+  "tags_default_3_title": "الحب",
+  "tags_default_4_title": "رياضة",
+  "tags_default_5_title": "يستريح",
   "statistics_title": "إحصائيات",
   "new": "جديد",
   "tags_feedback_title": "تقديم: العلامات",
@@ -135,7 +135,7 @@
   "feedback_modal_email_placeholder": "البريد الإلكتروني اختياري)",
   "feedback_modal_message_placeholder": "لاحظت ذلك…",
   "tags": "العلامات",
-  "statistics_tag_peaks_title": "تم وضع علامة عليه غالبًا بـ {{count}} مرة.",
+  "statistics_tag_peaks_title": "تم وضع علامة عليه غالبًا في {{count}} يوم.",
   "statistics_tags_distribution_title": "في الأسبوعين الماضيين ، تم وضع علامة على {{count}} يوم.",
   "onboarding_skip": "يتخطى",
   "onboarding_next": "التالي",
@@ -305,7 +305,7 @@
   "log_emotion_suspicous": "مريب",
   "log_emotion_unsure": "غير متأكد",
   "log_emotion_bored": "ضجر",
-  "log_emotion_confused": "خجول",
+  "log_emotion_confused": "مشوش",
   "log_emotion_desire": "يرغب",
   "log_emotion_impatient": "نافذ الصبر",
   "log_emotion_tired": "مرهق",
@@ -313,7 +313,7 @@
   "log_emotion_calm": "هدوء",
   "log_emotion_comfortable": "مريح",
   "log_emotion_surprised": "مندهش",
-  "log_emotion_grateful": "شاكر",
+  "log_emotion_grateful": "ممتن",
   "log_emotion_motivated": "متحفز، مندفع",
   "log_emotion_optimistic": "مستبشر",
   "log_emotion_curious": "فضولي",
@@ -326,7 +326,7 @@
   "log_emotion_love": "الحب",
   "log_emotion_respected": "محترم",
   "log_emotion_confident": "واثق",
-  "log_emotion_excited": "فرح",
+  "log_emotion_excited": "متحمس",
   "log_emotion_happy": "سعيدة",
   "log_emotion_proud": "فخور",
   "log_emotions_disable": "أنا لا أتتبع العواطف",
@@ -344,295 +344,323 @@
   "evening": "اخر النهار",
   "add_entry_for": "إضافة {{dayTime}}",
   "log_emotion_accomplished": "مُتَفَوِّق",
-  "log_emotion_accomplished_description": "الشعور بالفعالية والنجاح",
+  "log_emotion_accomplished_description": "تشعر بالرضا عما حققته",
   "log_emotion_alive": "على قيد الحياة",
-  "log_emotion_alive_description": "مليئة بالطاقة والحيوية",
+  "log_emotion_alive_description": "تشعر أنك مليء بالطاقة",
   "log_emotion_amazed": "مندهش",
-  "log_emotion_amazed_description": "الشعور بالضياع في الاستغراب عن حدث معين",
+  "log_emotion_amazed_description": "تشعر بالدهشة الشديدة",
   "log_emotion_challenged": "تحدى",
-  "log_emotion_challenged_description": "الشعور بالضغط للوصول إلى هدف أعلى",
+  "log_emotion_challenged_description": "تشعر أنك مدعو إلى مسابقة",
   "log_emotion_cheerful": "مبتهج",
-  "log_emotion_cheerful_description": "مليئة بالمشاعر السعيدة",
+  "log_emotion_cheerful_description": "تشعر بالسعادة والتفاؤل بشكل ملحوظ.",
   "log_emotion_competent": "كفؤ",
-  "log_emotion_competent_description": "الشعور بالقدرة على فعل شيء بنجاح",
-  "log_emotion_confident_description": "الشعور بالثقة من نفسك",
-  "log_emotion_curious_description": "مهتم بتعلم شيء ما",
+  "log_emotion_competent_description": "تشعر بالقدرة أو المعرفة أو المهارة للقيام بشيء ما بنجاح",
+  "log_emotion_confident_description": "تشعر بالثقة حيال نفسك وقدراتك",
+  "log_emotion_curious_description": "تشعر بالرغبة في معرفة شيء ما أو تعلمه",
   "log_emotion_delighted": "مسرور",
-  "log_emotion_delighted_description": "الشعور بالفرح",
-  "log_emotion_determined": "يحدد",
-  "log_emotion_determined_description": "معرفة ما تريد وعدم ترك أي شيء يقف في طريقك",
+  "log_emotion_delighted_description": "تشعر بسعادة كبيرة لشيء ما أو شخص ما",
+  "log_emotion_determined": "مقرر",
+  "log_emotion_determined_description": "تشعر بالأمان من خلال عدم تغيير القرار",
   "log_emotion_eager": "حريص",
-  "log_emotion_eager_description": "الرغبة بفارغ الصبر في القيام بشيء ما أو الحصول عليه",
+  "log_emotion_eager_description": "تشعر أن لديك رغبة قوية في فعل شيء ما",
   "log_emotion_ecstatic": "طار فرحًا",
-  "log_emotion_ecstatic_description": "الشعور بأكبر قدر من الفرح أو السعادة",
+  "log_emotion_ecstatic_description": "تشعر بالارتباك من الفرح",
   "log_emotion_elated": "مبتهج",
-  "log_emotion_elated_description": "بهيجة أو فخورة أو حماسة",
+  "log_emotion_elated_description": "تشعر بالفخر والسعادة",
   "log_emotion_empowered": "مفوض",
-  "log_emotion_empowered_description": "الشعور بأنك أقوى أو أكثر ثقة بسبب شخص ما أو شيء ما حدث",
+  "log_emotion_empowered_description": "تشعر بالسلطة أو القوة لفعل شيء ما",
   "log_emotion_energized": "نشيط",
-  "log_emotion_energized_description": "تشعر وكأنك مستيقظ تمامًا ومستعد للنهوض والذهاب",
-  "log_emotion_engaged": "مخطوب \\ مخطوبة",
-  "log_emotion_engaged_description": "الاهتمام الكامل أو المشاركة الكاملة في شيء ما",
+  "log_emotion_energized_description": "تشعر بالقوة والنشاط",
+  "log_emotion_engaged": "مرتبط",
+  "log_emotion_engaged_description": "تشعر أنك مشغول ومهتم",
   "log_emotion_enthusiastic": "متحمس",
-  "log_emotion_enthusiastic_description": "مهتم للغاية بفكرة أو نشاط",
-  "log_emotion_excited_description": "متحمس لشيء ما في المستقبل",
+  "log_emotion_enthusiastic_description": "تشعر أنك مهتم جدًا بفكرة أو نشاط",
+  "log_emotion_excited_description": "تشعر بسعادة شديدة حيال شيء ما في المستقبل",
   "log_emotion_exhilarated": "مبتهج",
-  "log_emotion_exhilarated_description": "في حالة معنوية عالية البهجة والحسود",
+  "log_emotion_exhilarated_description": "تشعر بالحيوية والسعادة",
   "log_emotion_focused": "مركزة",
-  "log_emotion_focused_description": "تشارك في فكرة أو نشاط واحد فقط",
-  "log_emotion_happy_description": "مسرور جدا ومليء بالفرح",
+  "log_emotion_focused_description": "تشعر أنك منخرط في فكرة أو نشاط واحد فقط",
+  "log_emotion_happy_description": "تشعر بالسعادة والرضا",
   "log_emotion_hopeful": "متفائل",
-  "log_emotion_hopeful_description": "متفائل بأن شيئًا جيدًا سيحدث",
-  "log_emotion_in_awe": "في رهبة",
-  "log_emotion_in_awe_description": "تشعر وكأنك في وجود شيء واسع",
-  "log_emotion_inspired_description": "تتأثر بقوة بشيء ما بطريقة تحفزك على فعل شيء ما",
+  "log_emotion_hopeful_description": "تشعر بالتفاؤل بأن شيئًا جيدًا سيحدث",
+  "log_emotion_in_awe": "رائع",
+  "log_emotion_in_awe_description": "تشعر بالاحترام أو الموافقة الدافئة",
+  "log_emotion_inspired_description": "تشعر أنك متأثر بشدة بشيء يحفزك",
   "log_emotion_joyful": "بهيجة",
-  "log_emotion_joyful_description": "الشعور بالمتعة والمعنويات العالية",
-  "log_emotion_motivated_description": "متحمس لفعل شيء ما",
-  "log_emotion_optimistic_description": "متفائل وواثق من المستقبل",
+  "log_emotion_joyful_description": "تشعر بالسعادة والسعادة",
+  "log_emotion_motivated_description": "تشعر بالحماس لفعل شيء ما",
+  "log_emotion_optimistic_description": "تشعر بالأمل والثقة بالمستقبل",
   "log_emotion_playful": "مرح",
-  "log_emotion_playful_description": "الشعور بالسعادة والبهجة",
+  "log_emotion_playful_description": "تشعر بالبهجة والسعادة",
   "log_emotion_pleasant": "جَذّاب",
-  "log_emotion_pleasant_description": "شعور إيجابي في الغالب",
+  "log_emotion_pleasant_description": "تشعر بالرضا والمتعة",
   "log_emotion_pleased": "مسرور",
-  "log_emotion_pleased_description": "الشعور بالرضا والسعادة حيال موقف أو شخص معين",
+  "log_emotion_pleased_description": "تشعر بالسعادة والرضا",
   "log_emotion_productive": "إنتاجي",
-  "log_emotion_productive_description": "تشعر وكأنك تنجز مهامك أو تحقق أهدافك",
-  "log_emotion_proud_description": "مسرور بإنجازاتك الخاصة أو إنجازات شخص قريب منك",
+  "log_emotion_productive_description": "تشعر وكأنك أنجزت مهمة أو حققت هدفًا",
+  "log_emotion_proud_description": "تشعر بالرضا عن إنجازاتك أو إنجازات شخص قريب منك",
   "log_emotion_successful": "ناجح",
-  "log_emotion_successful_description": "الشعور وكأنك حققت شيئًا مهمًا بالنسبة لك",
-  "log_emotion_surprised_description": "فوجئ بشيء غير متوقع أو غير عادي",
-  "log_emotion_thrilled": "بسعادة غامرة",
-  "log_emotion_thrilled_description": "الشعور بالإثارة الشديدة فجأة",
+  "log_emotion_successful_description": "تشعر بالرضا عما حققته",
+  "log_emotion_surprised_description": "تشعر وكأنك واجهت شيئًا غير متوقع",
+  "log_emotion_thrilled": "متحمس",
+  "log_emotion_thrilled_description": "تشعر بفرح كبير تجاه شيء ما أو شخص ما",
   "log_emotion_upbeat": "متفائل",
-  "log_emotion_upbeat_description": "الشعور بالطاقة العالية والشمبانيا",
-  "log_emotion_angry_description": "ازعجت بشدة بشأن الظلم الملحوظ",
-  "log_emotion_annoyed_description": "منزعج من شيء مزعج أو غير مريح",
-  "log_emotion_anxious_description": "قلقون وغير مرتاحين بشأن نتيجة غير مؤكدة",
-  "log_emotion_apprehensive": "متخوف",
-  "log_emotion_apprehensive_description": "خوفا من شيء",
+  "log_emotion_upbeat_description": "تشعر بالتفاؤل والحيوية",
+  "log_emotion_angry_description": "تشعر بإزعاج شديد أو عدم ارتياح أو تعاسة أو كراهية",
+  "log_emotion_annoyed_description": "تشعر بالغضب قليلا",
+  "log_emotion_anxious_description": "تشعر بالقلق أو التوتر أو عدم الارتياح لأنك لا تعرف كيف سيحدث شيء ما",
+  "log_emotion_apprehensive": "قلق",
+  "log_emotion_apprehensive_description": "تشعر بالقلق أو الخوف من حدوث شيء سيء أو غير سار",
   "log_emotion_concerned": "المعنية",
-  "log_emotion_concerned_description": "أتساءل ما إذا كان شخص ما أو شيء ما على ما يرام",
-  "log_emotion_confused_description": "الشعور بعدم القدرة على فهم شيء ما",
+  "log_emotion_concerned_description": "تشعر وكأنك تتساءل عن كيفية عمل شخص ما أو شيء ما",
+  "log_emotion_confused_description": "تشعر أنك غير قادر على التفكير بوضوح",
   "log_emotion_contempt": "ازدراء",
-  "log_emotion_contempt_description": "الشعور بمزيج من الغضب والاشمئزاز",
-  "log_emotion_embarrassed_description": "خجول وغير مرتاح بشأن الطريقة التي يعتقد بها الآخرون لك",
+  "log_emotion_contempt_description": "تشعر أن شخصًا ما أو شيئًا ما لا قيمة له أو تحتك",
+  "log_emotion_embarrassed_description": "تشعر بعدم الأمان وعدم الارتياح تجاه ما يشعر به الآخرون تجاهك",
   "log_emotion_enraged": "غاضب",
-  "log_emotion_enraged_description": "غاضبًا من شيء ما ؛ مليئة بالغضب الشديد",
+  "log_emotion_enraged_description": "تشعر بالغضب الشديد",
   "log_emotion_envious": "حسود",
-  "log_emotion_envious_description": "مشاعر الرغبة في شيء ما لدى شخص آخر",
+  "log_emotion_envious_description": "تشعر أنك تريد شيئًا يخص شخصًا آخر",
   "log_emotion_fomo": "فومو",
-  "log_emotion_fomo_description": "الخوف من الضياع",
+  "log_emotion_fomo_description": "تشعر بالخوف من فقدان شيء ما",
   "log_emotion_frightened": "مرتعب",
-  "log_emotion_frightened_description": "خائف أو خائف",
-  "log_emotion_frustrated_description": "مستاء لأنه لا يمكنك فعل شيء تريد القيام به",
+  "log_emotion_frightened_description": "تشعر بالخوف من شيء ما",
+  "log_emotion_frustrated_description": "تشعر بالضيق لأنك لا تستطيع فعل شيء",
   "log_emotion_furious": "غاضب",
-  "log_emotion_furious_description": "مليئة بالغضب الشديد أو الجامح",
+  "log_emotion_furious_description": "تشعر بالغضب الشديد والعاطفة العنيفة",
   "log_emotion_hyper": "هايبر",
-  "log_emotion_hyper_description": "تشعر بالحيوية وترغب في التنقل",
+  "log_emotion_hyper_description": "تشعر بالحيوية والإثارة",
   "log_emotion_impassioned": "متحمس",
-  "log_emotion_impassioned_description": "مليئة بالعواطف",
-  "log_emotion_irate": "غاضب",
-  "log_emotion_irate_description": "الشعور بأن غضبك قد خرج عن نطاق السيطرة",
+  "log_emotion_impassioned_description": "تشعر أنك مليء بعاطفة عظيمة",
+  "log_emotion_irate": "سكران",
+  "log_emotion_irate_description": "تشعر بالغضب الشديد",
   "log_emotion_irritated": "منزعج",
-  "log_emotion_irritated_description": "غاضب قليلاً من فعل أو حدث أو أعلن عنه",
-  "log_emotion_jealous_description": "الشعور بالتهديد بفقدان علاقة مهمة",
-  "log_emotion_jittery": "غاضب",
-  "log_emotion_jittery_description": "الشعور بالضيق و",
+  "log_emotion_irritated_description": "تشعر بغضب طفيف أو انزعاج",
+  "log_emotion_jealous_description": "تشعر بالخوف من فقدان شيء ما",
+  "log_emotion_jittery": "متشنج",
+  "log_emotion_jittery_description": "تشعر بالتوتر والقلق",
   "log_emotion_livid": "غاضب",
-  "log_emotion_livid_description": "الشعور بالغضب تجاه شيء ما أو شخص ما",
-  "log_emotion_nervous_description": "قلق وقلق بشأن المستقبل أو حدث غير مؤكد",
-  "log_emotion_overwhelmed_description": "الشعور وكأن المشاعر القوية قد استولت عليك",
+  "log_emotion_livid_description": "تشعر بالغضب الشديد",
+  "log_emotion_nervous_description": "تشعر بعدم الاستقرار وعدم الاستقرار أو عدم الأمان في الداخل",
+  "log_emotion_overwhelmed_description": "تشعر أن شيئًا ما أكثر من اللازم",
   "log_emotion_panicked": "مذعور",
-  "log_emotion_panicked_description": "الشعور بالذعر والتغلب عليه بالخوف",
+  "log_emotion_panicked_description": "تشعر أنك تفقد سيطرتك",
   "log_emotion_passionate": "شغوف",
-  "log_emotion_passionate_description": "الشعور بالمشاركة الشديدة والالتزام تجاه شخص ما أو شيء ما",
+  "log_emotion_passionate_description": "تشعر أن لديك مشاعر أو معتقدات قوية بشأن شيء ما",
   "log_emotion_peeved": "منزعج",
-  "log_emotion_peeved_description": "قليلا منزعج من شيء ما",
+  "log_emotion_peeved_description": "تشعر بالضيق",
   "log_emotion_pressured": "مضغوط",
-  "log_emotion_pressured_description": "الشعور كما لو أن نتيجة مهمة تعتمد عليك",
+  "log_emotion_pressured_description": "أنت قلق بشأن الارتقاء إلى مستوى توقعاتك أو توقعات الآخرين",
   "log_emotion_repulsed": "صدت",
-  "log_emotion_repulsed_description": "مقرف من شخص أو شيء ما",
+  "log_emotion_repulsed_description": "تشعر بالضيق أو الاشمئزاز",
   "log_emotion_restless": "الأرق",
-  "log_emotion_restless_description": "غير قادر على الاسترخاء بسبب القلق أو الملل",
+  "log_emotion_restless_description": "تشعر أنك لا تستطيع الاسترخاء بسبب القلق أو الملل",
   "log_emotion_scared": "مفزوع",
-  "log_emotion_scared_description": "الشعور بأن شيئًا سيئًا قد يحدث",
-  "log_emotion_shocked_description": "تعاني من الرعب الشديد والاشمئزاز والمفاجأة",
+  "log_emotion_scared_description": "تشعر بالتهديد أو الخطر",
+  "log_emotion_shocked_description": "تشعر بالدهشة والانزعاج",
   "log_emotion_stressed": "مضغوط",
-  "log_emotion_stressed_description": "متوتر عقليًا أو عاطفيًا بسبب كثرة الطلبات وعدم كفاية الموارد",
+  "log_emotion_stressed_description": "تشعر بتوتر عقلي أو عاطفي",
   "log_emotion_stunned": "فاجأ",
-  "log_emotion_stunned_description": "الشعور بالارتباك أو الذهول من حدث ما",
+  "log_emotion_stunned_description": "تشعر أنك غير قادر مؤقتًا على الرد",
   "log_emotion_tense": "توتر",
-  "log_emotion_tense_description": "غير قادر على الاسترخاء",
+  "log_emotion_tense_description": "تشعر أنك غير قادر على الاسترخاء",
   "log_emotion_terrified": "مذعور",
-  "log_emotion_terrified_description": "يستهلكها الخوف",
+  "log_emotion_terrified_description": "تشعر بالخوف الشديد",
   "log_emotion_troubled": "مضطرب",
-  "log_emotion_troubled_description": "الشعور بالقلق حيال مشكلة أو صراع",
+  "log_emotion_troubled_description": "تشعر بالقلق والفوضى",
   "log_emotion_uneasy": "غير مستقر",
-  "log_emotion_uneasy_description": "شعور غامض بوجود خطأ ما",
-  "log_emotion_worried_description": "مضطرب بشأن المشاكل الفعلية أو المحتملة",
+  "log_emotion_uneasy_description": "تشعر أن هناك شيئًا ما خطأ",
+  "log_emotion_worried_description": "تشعر بالقلق حيال شيء ما",
   "log_emotion_accepted": "وافقت",
-  "log_emotion_accepted_description": "الشعور بالاعتراف والمشاهدة",
-  "log_emotion_appreciated_description": "الشعور بالتقدير والاستحقاق",
-  "log_emotion_at_ease": "في سهولة",
-  "log_emotion_at_ease_description": "الشعور بالسعادة والراحة",
+  "log_emotion_accepted_description": "تشعر أن شخصًا ما صدق أو أدرك ما فعلته ليكون صحيحًا أو صحيحًا.",
+  "log_emotion_appreciated_description": "تشعر أن شخصًا ما ممتن لما فعلته أو لما أنت عليه",
+  "log_emotion_at_ease": "سهل",
+  "log_emotion_at_ease_description": "تشعر بالراحة والأمان",
   "log_emotion_balanced": "متوازن",
-  "log_emotion_balanced_description": "الشعور بالاستقرار والرضا",
+  "log_emotion_balanced_description": "تشعر بالاستقرار مع عدم وجود عاطفة قوية جدًا أو ضعيفة جدًا",
   "log_emotion_blessed": "مبروك",
-  "log_emotion_blessed_description": "أشعر بالامتنان والحظ لما لديك",
+  "log_emotion_blessed_description": "تشعر بالسعادة أو الراحة كتباين مرحب به لما عايشته سابقًا",
   "log_emotion_blissful": "هناء",
-  "log_emotion_blissful_description": "الشعور بالبهجة",
-  "log_emotion_calm_description": "الشعور بالراحة من التوتر والإثارة والقلق",
+  "log_emotion_blissful_description": "تشعر بسعادة بالغة ومليئة بالبهجة",
+  "log_emotion_calm_description": "تشعر بالحرية من التوتر والإثارة والقلق",
   "log_emotion_carefree": "براحة البال",
-  "log_emotion_carefree_description": "الشعور بالخفة والقلق",
+  "log_emotion_carefree_description": "تشعر بالتحرر من القلق والمسؤولية",
   "log_emotion_chill": "برد",
-  "log_emotion_chill_description": "الشعور بالاسترخاء والراحة",
-  "log_emotion_comfortable_description": "الشعور بالاطمئنان في العقل والجسم",
+  "log_emotion_chill_description": "تشعر بالراحة والاسترخاء",
+  "log_emotion_comfortable_description": "تشعر بألم أو عدم راحة جسديًا وعاطفيًا",
   "log_emotion_compassionate": "عطوف",
-  "log_emotion_compassionate_description": "إظهار الاهتمام والاهتمام بشخص ما",
+  "log_emotion_compassionate_description": "تشعر بالتعاطف والقلق تجاه الآخرين",
   "log_emotion_connected": "متصل",
-  "log_emotion_connected_description": "الشعور بالقرب من شخص ما أو جزء من المجتمع",
-  "log_emotion_content": "محتوى",
-  "log_emotion_content_description": "الشعور بالكمال ومثل vou تكفي",
+  "log_emotion_connected_description": "تشعر أنك متصل بشخص ما أو جزء من مجتمعك",
+  "log_emotion_content": "راضي",
+  "log_emotion_content_description": "تشعر بأن توقعاتك أو احتياجاتك أو رغباتك قد تم تلبيتها",
   "log_emotion_fragile": "قابل للكسر",
-  "log_emotion_fragile_description": "تشعر بالحساسية وكأنك يمكن أن تنكسر بسهولة",
+  "log_emotion_fragile_description": "تشعر بالكسر أو التلف بسهولة",
   "log_emotion_fulfilled": "استيفاء",
-  "log_emotion_fulfilled_description": "الشعور وكأنك قد حققت أهدافًا شخصية مهمة أو أصبحت الشخص الذي تريده",
-  "log_emotion_good": "جيد",
-  "log_emotion_good_description": "الشعور بأن الأمور على ما يرام",
-  "log_emotion_grateful_description": "تقدير شيء ما أو شخص ما",
+  "log_emotion_fulfilled_description": "تشعر بالرضا التام",
+  "log_emotion_good": "حسن",
+  "log_emotion_good_description": "تشعر أن كل شيء على ما يرام",
+  "log_emotion_grateful_description": "تشعر بالاستمتاع بالصفات الجيدة لشيء ما أو لشخص ما",
   "log_emotion_heard": "سمع",
-  "log_emotion_heard_description": "الشعور بالاستماع",
+  "log_emotion_heard_description": "تشعر أنك سمعت وفهمت",
   "log_emotion_included": "متضمن",
-  "log_emotion_included_description": "تشعر وكأنك جزء من مجموعة",
+  "log_emotion_included_description": "تشعر أنك جزء من مجموعة",
   "log_emotion_loved": "محبوب",
-  "log_emotion_loved_description": "الشعور بأن هناك من يهتم بك بشدة",
-  "log_emotion_mellow": "يانع",
-  "log_emotion_mellow_description": "استرخاء وراحة عيشة رغيدة",
+  "log_emotion_loved_description": "تشعر بعاطفة عميقة وقوية",
+  "log_emotion_mellow": "لطيف",
+  "log_emotion_mellow_description": "تشعر بالحرية من القسوة",
   "log_emotion_moved": "انتقل",
-  "log_emotion_moved_description": "شعور مفاجئ يحدث بعد رؤية شيء ملهم أو حزين",
+  "log_emotion_moved_description": "تشعر بحزن أو تعاطف شديد بسبب شيء ما قاله أو فعله شخص ما",
   "log_emotion_peaceful": "امن",
-  "log_emotion_peaceful_description": "هادي و مسترخي؛ خالية من الإزعاج",
+  "log_emotion_peaceful_description": "تشعر بالحرية من المقاطعة",
   "log_emotion_relaxed": "استرخاء",
-  "log_emotion_relaxed_description": "خالية من التوتر والقلق",
-  "log_emotion_relieved_description": "الشعور بالراحة بعد زوال شعور مزعج",
-  "log_emotion_respected_description": "الشعور بأن الناس يفكرون بك بشدة",
+  "log_emotion_relaxed_description": "تشعر بالحرية من التوتر والقلق",
+  "log_emotion_relieved_description": "تشعر بالسعادة بعد زوال شعور غير مريح",
+  "log_emotion_respected_description": "تشعر بإيجابية تجاه شخص ما أو شيء ما تعتبره مهمًا",
   "log_emotion_safe": "آمن",
-  "log_emotion_safe_description": "الشعور بالحماية من الخطر",
+  "log_emotion_safe_description": "تشعر بالحرية من الخطر",
   "log_emotion_satisfied": "راضي",
-  "log_emotion_satisfied_description": "مسرور بما لديك أو بشيء فعلته",
+  "log_emotion_satisfied_description": "تشعر بأن توقعاتك أو احتياجاتك أو رغباتك قد تحققت",
   "log_emotion_secure": "يؤمن",
-  "log_emotion_secure_description": "الشعور بالأمان والحماية",
+  "log_emotion_secure_description": "تشعر أنك متأكد من أن تظل آمنًا أو محميًا",
   "log_emotion_serene": "هادئ",
-  "log_emotion_serene_description": "هدوء وسلام؛ غير منزعج",
+  "log_emotion_serene_description": "تشعر بالراحة والطمأنينة",
   "log_emotion_sleepy": "نعسان",
-  "log_emotion_sleepy_description": "الشعور بالتعب الجسدي تفتقر إلى الطاقة",
+  "log_emotion_sleepy_description": "تشعر بتأثير النوم",
   "log_emotion_supported": "أيد",
-  "log_emotion_supported_description": "الشعور وكأن هناك شخص ما هناك من أجلك",
+  "log_emotion_supported_description": "تشعر أن هناك شخص ما هناك من أجلك",
   "log_emotion_sympathetic": "ودي",
-  "log_emotion_sympathetic_description": "الشعور بالحزن أو المعاناة لشخص آخر",
+  "log_emotion_sympathetic_description": "تشعر أنك تفهم مشاعر شخص ما",
   "log_emotion_thankful": "شاكرين",
-  "log_emotion_thankful_description": "الشعور بالسعادة أو التقدير",
+  "log_emotion_thankful_description": "تشعر بالامتنان تجاه شخص ما أو شيء ما",
   "log_emotion_thoughtful": "وقور",
-  "log_emotion_thoughtful_description": "التفكير في احتياجات الآخرين",
+  "log_emotion_thoughtful_description": "تشعر وكأنك تفكر في بعض الأشياء بعناية",
   "log_emotion_tranquil": "هادئ",
-  "log_emotion_tranquil_description": "سلمية وهادئة وخالية من الاضطرابات",
+  "log_emotion_tranquil_description": "تشعر بالهدوء والسكينة",
   "log_emotion_understood": "مفهوم",
-  "log_emotion_understood_description": "الشعور بأن شخصًا ما يفهمك",
+  "log_emotion_understood_description": "تشعر أن شخصًا ما يحصل على المعنى المقصود",
   "log_emotion_valued": "قيم",
-  "log_emotion_valued_description": "تشعر وكأنك مهم",
+  "log_emotion_valued_description": "تشعر أنك مهم لشخص ما",
   "log_emotion_alienated": "منبوذ",
-  "log_emotion_alienated_description": "الشعور وكأنك أصبحت غريبًا عن الآخرين ، فليس لديهم مشاعر أو عاطفة تجاهك",
+  "log_emotion_alienated_description": "تشعر بالغرابة والعزلة",
   "log_emotion_apathetic": "لا مبالي",
-  "log_emotion_apathetic_description": "تفتقر إلى الحماس أو الاهتمام",
+  "log_emotion_apathetic_description": "لا تشعر بالاهتمام أو الحماس أو القلق",
   "log_emotion_ashamed": "خجلان",
-  "log_emotion_ashamed_description": "الشعور بتدني قيمة الذات كنتيجة لما أنت عليه أو ما فعلته",
-  "log_emotion_bored_description": "عدم الاهتمام بشيء أو بشخص ما",
+  "log_emotion_ashamed_description": "تشعر بقلة القيمة بسبب هويتك أو بسبب ما قمت به",
+  "log_emotion_bored_description": "تشعر أنك لا تهتم بشيء أو بشخص ما",
   "log_emotion_burned_out": "احترق",
-  "log_emotion_burned_out_description": "الشعور بالإرهاق من الإجهاد المستمر",
+  "log_emotion_burned_out_description": "تشعر أنك منهك تمامًا",
   "log_emotion_depressed": "مكتئب",
-  "log_emotion_depressed_description": "حزين للغاية ومحبط",
-  "log_emotion_despair": "يأس",
-  "log_emotion_despair_description": "شعور باليأس التام",
+  "log_emotion_depressed_description": "تشعر بالحزن الشديد والاكتئاب",
+  "log_emotion_despair": "اليأس",
+  "log_emotion_despair_description": "تشعر أنك تفقد أو بدون أمل",
   "log_emotion_despondent": "اليأس",
-  "log_emotion_despondent_description": "الشعور باليأس العميق والإحباط",
+  "log_emotion_despondent_description": "تشعر بالإحباط من فقدان الأمل أو الشجاعة",
   "log_emotion_disappointed": "خائب الامل",
-  "log_emotion_disappointed_description": "حزين لأن توقعاتك لم تتحقق",
+  "log_emotion_disappointed_description": "تشعر بالحزن أو الاستياء لأن شخصًا ما أو شيء ما لم يطابق آمالك أو توقعاتك",
   "log_emotion_disconnected": "انقطع الاتصال",
-  "log_emotion_disconnected_description": "الشعور بالانفصال عن الآخرين",
+  "log_emotion_disconnected_description": "تشعر بتواصل أقل مع العالم من حولك",
   "log_emotion_discouraged": "محبط",
-  "log_emotion_discouraged_description": "الشعور بفقدان الثقة والحماس",
+  "log_emotion_discouraged_description": "تشعر وكأنك فقدت الثقة أو الحماس",
   "log_emotion_disengaged": "مفصول",
-  "log_emotion_disengaged_description": "الشعور وكأنك لا تستطيع التركيز ؛ نزيه",
-  "log_emotion_disgusted_description": "الشعور بكره قوي لشخص أو شيء ما",
+  "log_emotion_disengaged_description": "لا تشعر بأي رغبة في بذل جهود إضافية",
+  "log_emotion_disgusted_description": "تشعر وكأن لديك كراهية شديدة لشخص ما أو شيء ما",
   "log_emotion_disheartened": "بخيبة أمل",
-  "log_emotion_disheartened_description": "الشعور بالإحباط والإحباط",
+  "log_emotion_disheartened_description": "تشعر بخيبة أمل حيال شيء ما ولديك ثقة أقل أو أمل أقل في ذلك مما كنت عليه من قبل",
   "log_emotion_down": "أسفل",
-  "log_emotion_down_description": "الشعور بالحزن وكأن لديك القليل من الطاقة",
+  "log_emotion_down_description": "تشعر بالحزن والإرهاق",
   "log_emotion_excluded": "مستبعد",
-  "log_emotion_excluded_description": "الشعور بالإهمال وعدم الرغبة",
+  "log_emotion_excluded_description": "تشعر أنك لا تنتمي إلى شخص أو مجموعة",
   "log_emotion_exhausted": "أرهق",
-  "log_emotion_exhausted_description": "الشعور باستنفاد كل الطاقة",
+  "log_emotion_exhausted_description": "تشعر أنه لم يعد لديك طاقة متبقية",
   "log_emotion_fatigued": "مرهق",
-  "log_emotion_fatigued_description": "الشعور بالإرهاق الشديد استنزاف جسديا",
+  "log_emotion_fatigued_description": "تشعر بالضعف بسبب التغيرات المتكررة في التوتر",
   "log_emotion_forlorn": "يائس",
-  "log_emotion_forlorn_description": "الشعور بالحزن والوحدة",
+  "log_emotion_forlorn_description": "تشعر بالحزن الشديد والوحدة",
   "log_emotion_glum": "كئيب",
-  "log_emotion_glum_description": "الشعور بالاستياء متشائم من الأحداث المستقبلية",
+  "log_emotion_glum_description": "تشعر بالإحباط وخيبة الأمل",
   "log_emotion_helpless": "عاجز",
-  "log_emotion_helpless_description": "الشعور بأنه لا يوجد شيء يمكنك القيام به",
+  "log_emotion_helpless_description": "تشعر أنك لا تستطيع فعل شيء ما",
   "log_emotion_hopeless": "ميئوس منه",
-  "log_emotion_hopeless_description": "أشعر بالهزيمة الكاملة واليأس من المستقبل",
+  "log_emotion_hopeless_description": "تشعر أن الموقف سيء للغاية بحيث يستحيل التعامل معه",
   "log_emotion_humiliated": "إذلال",
-  "log_emotion_humiliated_description": "الشعور بالحماقة والانكشاف أمام الآخرين",
-  "log_emotion_insecure_description": "الشعور بعدم اليقين وعدم الثقة في نفسك",
+  "log_emotion_humiliated_description": "تشعر بالخجل من شيء يؤذي كبريائك",
+  "log_emotion_insecure_description": "تشعر بالخوف بشكل غير واثق",
   "log_emotion_isolated": "معزول",
-  "log_emotion_isolated_description": "تشعر وكأنك معزول عن الآخرين",
-  "log_emotion_lonely_description": "الشعور بالحزن لأنك وحيد أو غير متصل",
+  "log_emotion_isolated_description": "تشعر أنك منعزل عن الآخرين",
+  "log_emotion_lonely_description": "تشعر بالحزن لأنك غير متصل بالآخرين",
   "log_emotion_lost": "ضائع",
-  "log_emotion_lost_description": "الشعور بعدم الارتياح بالوحدة والافتقار إلى الاتجاه",
+  "log_emotion_lost_description": "تشعر أنك بعيد ويائس",
   "log_emotion_meh": "مه",
-  "log_emotion_meh_description": "الشعور بعدم الإلهام أو الكذب",
+  "log_emotion_meh_description": "تشعر أنك غير ملهم وكذا",
   "log_emotion_miserable": "تعيس",
-  "log_emotion_miserable_description": "الشعور بالضيق الشديد بشأن شيء ما أو شخص ما",
+  "log_emotion_miserable_description": "تشعر بالحزن وعدم الارتياح",
   "log_emotion_morose": "موروز",
-  "log_emotion_morose_description": "الشعور بالحزن والكآبة",
-  "log_emotion_pessimistic_description": "وجود نظرة سلبية وتوقع حدوث الأسوأ",
-  "log_emotion_sad_description": "الشعور بعدم الرضا عن شيء ما",
+  "log_emotion_morose_description": "تشعر بسوء المزاج وترفض أن تكون متعاونًا",
+  "log_emotion_pessimistic_description": "تشعر وكأنك تتوقع حدوث شيء سلبي",
+  "log_emotion_sad_description": "قد تشعر بالفراغ أو الضياع أو الوحدة",
   "log_emotion_spent": "أنفق",
-  "log_emotion_spent_description": "الشعور بالإرهاق الشديد ، سواء في الجسد أو العقل",
+  "log_emotion_spent_description": "تشعر أنك معتاد وغير قادر على استخدامها مرة أخرى",
   "log_emotion_sullen": "متجهم",
-  "log_emotion_sullen_description": "التعبير بصمت عن مزاج سيء",
-  "log_emotion_tired_description": "تشعر وكأنك بحاجة إلى الراحة",
+  "log_emotion_sullen_description": "تشعر أنك لا تريد أن تكون متعاونًا أو ودودًا",
+  "log_emotion_tired_description": "تشعر بتأثير الاستيقاظ لفترة طويلة",
   "log_emotion_trapped": "مُحاصَر",
-  "log_emotion_trapped_description": "أشعر أنه لا يوجد مخرج",
+  "log_emotion_trapped_description": "تشعر أنك لا تستطيع الهروب من شيء ما",
   "log_emotion_vulnerable": "غير حصين",
-  "log_emotion_vulnerable_description": "الشعور وكأنك يمكن أن تتأذى عاطفيًا أو عقليًا بسهولة",
+  "log_emotion_vulnerable_description": "تشعر أنه ليس لديك حماية",
   "select_emotion": "حدد العاطفة التي تشعر بها الآن",
   "yes": "نعم! :)",
   "no": "ناه",
   "feedback_checkin_setting_title": "هل يعمل تسجيل الوصول من أجلك؟",
   "feedback_checkin_setting_body": "يسعدني سماع أفكارك حول إعدادات تسجيل الوصول. واسمحوا لي أن أعرف ما هو رأيك.",
   "feedback_checkin_setting_button": "ارسل رأيك",
-  "log_emotion_awkward_description": "الشعور بعدم الارتياح وعدم التأكد مما يجب القيام به",
+  "log_emotion_awkward_description": "تشعر بعدم الارتياح ولكنك لا تعرف السبب بالضبط",
   "log_emotion_awkward": "غير ملائم",
-  "log_emotion_brave_description": "تشعر وكأنك لا تخاف من شيء ما",
-  "log_emotion_desire_description": "تشعر وكأنك تريد شيئا",
-  "log_emotion_distracted_description": "تشعر وكأنك لا تستطيع التركيز على ما تفعله",
-  "log_emotion_fearful_description": "الشعور بالخوف من شيء ما أو شخص ما",
-  "log_emotion_grieved_description": "الشعور بالحزن على شخص فقدته",
-  "log_emotion_guilty_description": "الشعور وكأنك فعلت شيئًا خاطئًا",
-  "log_emotion_impatient_description": "تشعر وكأنك لا تستطيع الانتظار حتى يحدث شيء ما",
-  "log_emotion_rejected_description": "الشعور بالرفض من قبل شخص ما أو شيء ما",
-  "log_emotion_suspicious_description": "الشعور وكأنك لا تستطيع الوثوق بشخص أو شيء ما",
+  "log_emotion_brave_description": "لا تشعر بالخوف من شيء أو شخص ما",
+  "log_emotion_desire_description": "تشعر أنك تريد أن يكون لديك شيء ما أو ترغب في حدوث شيء ما",
+  "log_emotion_distracted_description": "تشعر وكأنك تواجه صعوبة في التركيز على شيء ما",
+  "log_emotion_fearful_description": "تشعر أنك في خطر أو أن شيئًا سيئًا قد يحدث",
+  "log_emotion_grieved_description": "تشعر بالحزن على شيء فقدته",
+  "log_emotion_guilty_description": "تشعر أنك مسؤول عن خطأ ارتكبته",
+  "log_emotion_impatient_description": "تشعر وكأنك تجد صعوبة في الحفاظ على هدوئك",
+  "log_emotion_rejected_description": "تشعر أنك غير مقبول أو غير مرغوب فيه",
+  "log_emotion_suspicious_description": "تشعر أنك لا تريد أو يمكنك الوثوق بشخص ما",
   "log_emotion_suspicious": "مثير للشك",
-  "log_emotion_unmotivated_description": "الشعور بأنه ليس لديك طاقة أو رغبة في فعل أي شيء",
-  "log_emotion_weak_description": "تشعر وكأنك لا قوة",
+  "log_emotion_unmotivated_description": "تشعر بقليل من الاهتمام بشيء ما",
+  "log_emotion_weak_description": "تشعر أن لديك القليل من القوة",
   "log_emotions_advanced": "قم بالتبديل إلى خيارات متقدمة",
   "log_emotions_basic": "قم بالتبديل إلى الأساسي",
   "more": "أكثر",
   "less": "أقل",
   "promo_emotion_tracking_title": "تتبع المشاعر\nانه متاح الان!",
   "new_feature": "ميزة جديدة",
-  "calendar_foot_note": "المستقبل سيكون عظيما"
+  "calendar_foot_note": "المستقبل سيكون عظيما",
+  "log_messasge_hint_1": "مقارنة باليوم السابق ، سارت حالتك المزاجية {{word}}. هل تعرف لماذا؟",
+  "up": "فوق",
+  "down": "أسفل",
+  "log_messasge_hint_2": "هل تعلم لماذا {{description}}؟",
+  "log_message_hint_title": "أشياء تسألها لنفسك.",
+  "emotion_missing": "أنا أفتقد عاطفة",
+  "tags_default_6_title": "قراءة",
+  "tags_default_7_title": "تنظيف",
+  "tags_default_8_title": "نم مبكرا",
+  "tags_default_9_title": "تناول طعام صحي",
+  "tags_default_10_title": "التسوق",
+  "tags_default_11_title": "الألعاب",
+  "tags_default_12_title": "مشاهدة التليفزيون",
+  "tags_default_13_title": "تركيز كامل للذهن",
+  "tags_default_14_title": "طبيعة سجية",
+  "tags_default_15_title": "إِبداع",
+  "tags_default_16_title": "وسائل التواصل الاجتماعي",
+  "tags_default_17_title": "عمل",
+  "tags_default_18_title": "السفر",
+  "log_sleep_question": "كيف نمت؟",
+  "logger_step_sleep": "نايم",
+  "view_log_sleep": "نايم",
+  "promo_sleep_tracking_title": "تتبع النوم 💤\nانه متاح الان!",
+  "log_sleep_disable": "أنا لا أتتبع نومي",
+  "log_view_changed_title": "انتظر ، أين أوقات النهار الخاصة بي؟",
+  "log_view_changed_body": "يمكنك الآن استخدام الزر [+] في الجزء العلوي لإضافة إدخالات متعددة. إذا كان لديك إدخالات متعددة في اليوم ، فسيتم عرض قائمة ، وإلا فسيتم عرض إدخال واحد فقط في عرض التفاصيل هذا.",
+  "logger_step_sleep_low": "على الاطلاق",
+  "logger_step_sleep_high": "عظيم"
 }

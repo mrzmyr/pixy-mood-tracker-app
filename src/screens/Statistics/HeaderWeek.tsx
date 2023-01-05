@@ -1,4 +1,4 @@
-import dayjs from 'dayjs';
+import dayjs, { Dayjs } from 'dayjs';
 import { Text, View } from 'react-native';
 import useColors from '../../hooks/useColors';
 
@@ -26,9 +26,13 @@ const HeaderDay = ({
   )
 }
 
-export const HeaderWeek = () => {
+export const HeaderWeek = ({
+  date,
+}: {
+  date: string,
+}) => {
   const colors = useColors();
-  const start = dayjs();
+  const start = dayjs(date)
 
   return (
     <View
@@ -46,13 +50,13 @@ export const HeaderWeek = () => {
         paddingTop: 8,
         paddingBottom: 8,
       }}>
+        <HeaderDay>{start.add(0, 'day').format('ddd')}</HeaderDay>
         <HeaderDay>{start.add(1, 'day').format('ddd')}</HeaderDay>
         <HeaderDay>{start.add(2, 'day').format('ddd')}</HeaderDay>
         <HeaderDay>{start.add(3, 'day').format('ddd')}</HeaderDay>
         <HeaderDay>{start.add(4, 'day').format('ddd')}</HeaderDay>
         <HeaderDay>{start.add(5, 'day').format('ddd')}</HeaderDay>
         <HeaderDay>{start.add(6, 'day').format('ddd')}</HeaderDay>
-        <HeaderDay>{start.add(7, 'day').format('ddd')}</HeaderDay>
       </View>
     </View>
   );

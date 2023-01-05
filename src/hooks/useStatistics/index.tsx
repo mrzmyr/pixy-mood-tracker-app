@@ -54,7 +54,7 @@ interface StatisticsState {
   streaks: StreaksData;
   trends: {
     moodData: MoodTrendData;
-    tagsDistributionData: TagsDistributionTrendData;
+    // tagsDistributionData: TagsDistributionTrendData;
   };
 }
 
@@ -91,7 +91,7 @@ export function StatisticsProvider({
     },
     trends: {
       moodData: defaultMoodTrendData,
-      tagsDistributionData: defaultTagsDistributionTrendData,
+      // tagsDistributionData: defaultTagsDistributionTrendData,
     },
   });
 
@@ -123,10 +123,10 @@ export function StatisticsProvider({
     );
 
     const moodTrendData = getMoodTrendData(trendsItems);
-    const tagsDistributionTrendData = getTagsDistributionTrendData(
-      trendsItems,
-      tags
-    );
+    // const tagsDistributionTrendData = getTagsDistributionTrendData(
+    //   trendsItems,
+    //   tags
+    // );
 
     const newState = {
       loaded: true,
@@ -142,7 +142,7 @@ export function StatisticsProvider({
       },
       trends: {
         moodData: moodTrendData,
-        tagsDistributionData: tagsDistributionTrendData,
+        // tagsDistributionData: tagsDistributionTrendData,
       },
     };
 
@@ -173,9 +173,9 @@ export function StatisticsProvider({
     if (type === "tags_distribution") {
       return state.tagsDistributionData?.tags.length > 0;
     }
-    if (type === "tags_distribution_trend") {
-      return state.trends.tagsDistributionData.tags.length > 0;
-    }
+    // if (type === "tags_distribution_trend") {
+    //   return state.trends.tagsDistributionData.tags.length > 0;
+    // }
     if (type === "mood_trend") {
       return (
         state.trends.moodData.avgPeriod1 > 0 &&

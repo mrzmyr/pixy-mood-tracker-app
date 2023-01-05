@@ -27,6 +27,7 @@ export const PromoCards = () => {
   const hasMonthPromo = isBeginningOfMonth && statisticsUnlocked && !hasActionDone(MONTH_REPORT_SLUG)
   const hasYearPromo = enoughtLogsForYearPromo && isDecember && statisticsUnlocked && !hasActionDone(YEAR_REPORT_SLUG)
   const hasEmotionTrackingPromo = logState.items.length > 4 && !hasActionDone('promo_emotions_tracking_closed')
+  const hasSleepTrackingPromo = logState.items.length > 4 && !hasActionDone('promo_sleep_tracking_closed')
 
   const promoCards: ReactElement[] = []
 
@@ -48,14 +49,14 @@ export const PromoCards = () => {
     )
   }
 
-  if (hasEmotionTrackingPromo) {
+  if (hasSleepTrackingPromo) {
     promoCards.push(
       <PromoCard
-        slug="promo_emotions_tracking_closed"
+        slug="promo_sleep_tracking_closed"
         subtitle={t('new_feature')}
-        title={t('promo_emotion_tracking_title')}
+        title={t('promo_sleep_tracking_title')}
         onPress={() => {
-          analytics.track('promo_emotion_tracking_clicked')
+          analytics.track('promo_sleep_tracking_clicked')
           navigation.navigate("Steps");
         }}
       />
