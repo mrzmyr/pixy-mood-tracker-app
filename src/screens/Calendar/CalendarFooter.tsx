@@ -5,7 +5,7 @@ import { useLogState } from "@/hooks/useLogs";
 import { useNavigation } from "@react-navigation/native";
 import dayjs from "dayjs";
 import React from "react";
-import { View } from "react-native";
+import { Text, View } from "react-native";
 import { PlusCircle } from "react-native-feather";
 import { PromoCards } from "./PromoCards";
 
@@ -47,6 +47,17 @@ export const CalendarFooter = () => {
             }}
           >{t('add_today_another_entry')}</Button>
         )}
+        <Button
+          type="tertiary"
+          style={{
+            marginTop: 8,
+          }}
+          onPress={() => {
+            navigation.navigate("BotLogger", {
+              dateTime: dayjs().toISOString(),
+            });
+          }}
+        >{'🤖 Talk to Pixy'}</Button>
       </View>
       <PromoCards />
     </View>
