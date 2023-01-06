@@ -36,6 +36,7 @@ export const TextAnswer = ({
           borderRadius: 12,
           flex: 1,
           marginRight: 8,
+          maxHeight: 200,
         }}
         placeholderTextColor={colors.textInputPlaceholder}
         multiline
