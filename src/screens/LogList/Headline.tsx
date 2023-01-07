@@ -1,4 +1,4 @@
-import useColors from '../../../hooks/useColors';
+import useColors from '../../hooks/useColors';
 import { Text } from 'react-native';
 
 export const Headline = ({ children }) => {

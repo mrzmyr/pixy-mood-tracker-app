@@ -36,10 +36,11 @@ export default function Tag({
         paddingRight: 16,
         paddingTop: 8,
         paddingBottom: 8,
-        opacity: pressed ? 0.8 : 1,
+        opacity: pressed && onPress ? 0.8 : 1,
         ...style,
       })}
       onPress={async () => {
+        if (!onPress) return;
         await haptics.selection();
         onPress?.();
       }}

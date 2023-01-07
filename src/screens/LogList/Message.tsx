@@ -1,9 +1,7 @@
-import { useNavigation } from '@react-navigation/native';
+import useColors from '@/hooks/useColors';
+import { LogItem } from '@/hooks/useLogs';
 import { t } from 'i18n-js';
-import { Pressable, Text, View } from 'react-native';
-import useColors from '../../../hooks/useColors';
-import useHaptics from '../../../hooks/useHaptics';
-import { LogItem } from '../../../hooks/useLogs';
+import { Text, View } from 'react-native';
 import { Headline } from './Headline';
 
 export const Message = ({
@@ -12,8 +10,6 @@ export const Message = ({
   item: LogItem;
 }) => {
   const colors = useColors();
-  const haptics = useHaptics();
-  const navigation = useNavigation();
 
   return (
     <View
@@ -28,20 +24,15 @@ export const Message = ({
         }}
       >
         {item?.message?.length > 0 ? (
-          <Pressable
-            onPress={async () => {
-              await haptics.selection();
-              navigation.navigate('LogEdit', { id: item.id, step: 'message' });
-            }}
+          <View
             style={{
               width: '100%',
             }}
           >
             <View
               style={{
-                backgroundColor: colors.logCardBackground,
                 borderRadius: 8,
-                padding: 16,
+                paddingHorizontal: 8,
                 width: '100%',
               }}
             >
@@ -54,7 +45,7 @@ export const Message = ({
                 }}
               >{item.message}</Text>
             </View>
-          </Pressable>
+          </View>
         ) : (
           <View
             style={{

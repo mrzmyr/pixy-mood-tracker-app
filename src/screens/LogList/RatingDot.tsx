@@ -19,29 +19,20 @@ export const RatingDot = ({
   const backgroundColor = colors.scales[settings.scaleType][rating].background;
 
   return (
-    <Pressable
-      onPress={async () => {
-        if (onPress) {
-          await haptics.selection()
-          onPress();
-        }
+    <View
+      style={{
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: 4,
+        borderRadius: 6,
+        backgroundColor: backgroundColor,
+        width: 32,
+        aspectRatio: 1,
+        borderWidth: 1,
+        borderColor: colorScheme === 'light' ? 'rgba(0,0,0,0.1)' : 'rgba(255,255,255,0.2)',
       }}
-    >
-      <View
-        style={{
-          flexDirection: 'column',
-          justifyContent: 'center',
-          alignItems: 'center',
-          padding: 4,
-          borderRadius: 6,
-          backgroundColor: backgroundColor,
-          width: 32,
-          aspectRatio: 1,
-          borderWidth: 1,
-          borderColor: colorScheme === 'light' ? 'rgba(0,0,0,0.1)' : 'rgba(255,255,255,0.2)',
-        }}
-      />
-    </Pressable>
+    />
   )
 
 };

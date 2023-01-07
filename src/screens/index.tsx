@@ -2,7 +2,6 @@ export * from './Data';
 export * from './Licenses';
 export * from './Log/Create';
 export * from './Log/Edit';
-export * from './Log/View';
 export * from './NotFound';
 export * from './Privacy';
 export * from './Reminder';
@@ -12,4 +11,4 @@ export * from './Statistics';
 export * from './TagEdit';
 export * from './TagCreate';
 export * from './Statistics/Highlights';
-export * from './DayView';
+export * from './LogList'

@@ -10,7 +10,7 @@ import { Bell, FileText, Heart, MessageSquare, Sun, Tag } from 'react-native-fea
 import { RootStackScreenProps } from '../../types';
 import useColors from '../hooks/useColors';
 import { useSettings } from '../hooks/useSettings';
-import { FeedbackBox } from './DayView/FeedbackBox';
+import { FeedbackBox } from './LogList/FeedbackBox';
 import { BedDouble } from 'lucide-react-native';
 
 export const StepsScreen = ({ navigation }: RootStackScreenProps<'Steps'>) => {

@@ -1,10 +1,9 @@
-import { useNavigation } from '@react-navigation/native';
+import Tag from '@/components/Tag';
 import { t } from 'i18n-js';
 import { Text, View } from 'react-native';
-import Tag from '@/components/Tag';
-import useColors from '../../../hooks/useColors';
-import { LogItem } from '../../../hooks/useLogs';
-import { useTagsState } from '../../../hooks/useTags';
+import useColors from '@/hooks/useColors';
+import { LogItem } from '@/hooks/useLogs';
+import { useTagsState } from '@/hooks/useTags';
 import { Headline } from './Headline';
 
 export const Tags = ({
@@ -14,7 +13,6 @@ export const Tags = ({
 }) => {
   const colors = useColors();
   const { tags } = useTagsState();
-  const navigation = useNavigation();
 
   return (
     <View
@@ -45,9 +43,7 @@ export const Tags = ({
                 backgroundColor: colors.entryBackground,
                 borderColor: colors.entryItemBorder,
               }}
-              onPress={() => {
-                navigation.navigate('LogEdit', { id: item.id, step: 'tags' });
-              }} />
+            />
           );
         }) : (
           <View

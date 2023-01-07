@@ -1,13 +1,13 @@
 import { EMOTIONS } from '@/components/Logger/config';
+import useColors from '@/hooks/useColors';
+import useHaptics from '@/hooks/useHaptics';
+import { LogItem } from '@/hooks/useLogs';
 import useScale from '@/hooks/useScale';
 import { Emotion } from '@/types';
 import { useNavigation } from '@react-navigation/native';
 import { t } from 'i18n-js';
 import _ from 'lodash';
-import { Pressable, Text, useColorScheme, View } from 'react-native';
-import useColors from '../../../hooks/useColors';
-import useHaptics from '../../../hooks/useHaptics';
-import { LogItem } from '../../../hooks/useLogs';
+import { Text, View, useColorScheme } from 'react-native';
 import { Headline } from './Headline';
 
 const EMOTIONS_CATEGORY_ORDER = {
@@ -41,13 +41,7 @@ const EmotionItem = ({
   const color = colorMapping[emotion.category]
 
   return (
-    <Pressable
-      key={emotion.key}
-      onPress={async () => {
-        await haptics.selection();
-        onPress()
-      }}
-    >
+    <View>
       <View
         style={{
           paddingVertical: 10,
@@ -83,7 +77,7 @@ const EmotionItem = ({
           }}
         >{t(`log_emotion_${emotion.key}`)}</Text>
       </View>
-    </Pressable>
+    </View>
   );
 };
 

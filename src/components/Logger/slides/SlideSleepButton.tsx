@@ -67,6 +67,7 @@ export const SlideSleepButton = ({
               backgroundColor: colors.sleepQualityEmpty,
               position: 'absolute',
               bottom: 0,
+              zIndex: 1,
             }} />
           <View
             style={{
@@ -75,6 +76,7 @@ export const SlideSleepButton = ({
               backgroundColor: colors.sleepQualityFull,
               position: 'absolute',
               bottom: 0,
+              zIndex: 1,
             }} />
         </View>
       </Pressable>

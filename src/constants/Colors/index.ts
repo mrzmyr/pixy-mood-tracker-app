@@ -243,8 +243,8 @@ const light = {
 
   feedbackBoxBackground: colors.amber[50],
 
-  dayViewAddButtonBorder: colors.neutral[300],
-  dayViewAddButtonText: colors.neutral[400],
+  LogListAddButtonBorder: colors.neutral[300],
+  LogListAddButtonText: colors.neutral[400],
 
   promoCardBackground: colors.white,
   promoCardText: colors.neutral[800],
@@ -289,7 +289,7 @@ const dark: IColors & {
   logBackground: colors.neutral[900],
   logCardBackground: colors.neutral[800],
   logCardBorder: colors.neutral[700],
-  logBackgroundTransparent: 'rgba(28,25,23, 0)',
+  logBackgroundTransparent: 'rgba(38,38,38,0)',
 
   logActionBackground: colors.neutral[800],
   logActionBorder: tintColorDark,
@@ -470,8 +470,8 @@ const dark: IColors & {
   tooltipText: colors.white,
   tooltipTextSecondary: colors.neutral[400],
 
-  dayViewAddButtonBorder: colors.neutral[700],
-  dayViewAddButtonText: colors.neutral[500],
+  LogListAddButtonBorder: colors.neutral[700],
+  LogListAddButtonText: colors.neutral[500],
 
   promoCardBackground: colors.neutral[900],
   promoCardText: colors.white,
