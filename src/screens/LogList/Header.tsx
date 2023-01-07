@@ -1,20 +1,13 @@
-import { Edit, PlusSquare, X } from 'lucide-react-native';
-import { Pressable, Text, View } from 'react-native';
-import useColors from '../../../hooks/useColors';
-import useHaptics from '../../../hooks/useHaptics';
+import { Pressable, Text, View } from "react-native";
+import { X } from "react-native-feather";
+import useColors from "../../hooks/useColors";
+import useHaptics from "../../hooks/useHaptics";
 
 export const Header = ({
-  title,
-  onClose,
-  onDelete,
-  onEdit,
-  onAdd,
+  title, onClose,
 }: {
   title: string;
   onClose?: () => void;
-  onDelete?: () => void;
-  onEdit?: () => void;
-  onAdd?: () => void;
 }) => {
   const haptics = useHaptics();
   const colors = useColors();
@@ -24,8 +17,9 @@ export const Header = ({
       flexDirection: 'row',
       justifyContent: 'space-between',
       alignItems: 'center',
-      paddingVertical: 8,
+      paddingTop: 8,
       paddingHorizontal: 16,
+      marginBottom: 8,
     }}>
       <View
         style={{
@@ -63,39 +57,14 @@ export const Header = ({
         >
           <Pressable
             style={{
-              paddingVertical: 16,
-              paddingHorizontal: 12,
-            }}
-            onPress={async () => {
-              await haptics.selection();
-              onAdd?.();
-            }}
-          >
-            <PlusSquare color={colors.logHeaderText} size={24} />
-          </Pressable>
-          <Pressable
-            style={{
-              paddingVertical: 16,
-              paddingHorizontal: 12,
-            }}
-            onPress={async () => {
-              await haptics.selection();
-              onEdit?.();
-            }}
-          >
-            <Edit color={colors.logHeaderText} size={24} />
-          </Pressable>
-          <Pressable
-            style={{
-              paddingVertical: 16,
-              paddingHorizontal: 12,
+              padding: 12,
             }}
             onPress={async () => {
               await haptics.selection();
               onClose?.();
             }}
           >
-            <X color={colors.logHeaderText} size={24} />
+            <X color={colors.logHeaderText} width={22} height={22} />
           </Pressable>
         </View>
       </View>

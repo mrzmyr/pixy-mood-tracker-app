@@ -1,7 +1,7 @@
 import { SlideSleepButton } from '@/components/Logger/slides/SlideSleepButton';
 import { t } from 'i18n-js';
 import { View } from 'react-native';
-import { LogItem } from '../../../hooks/useLogs';
+import { LogItem } from '@/hooks/useLogs';
 import { Headline } from './Headline';
 import { useNavigation } from '@react-navigation/native';
 
@@ -29,9 +29,6 @@ export const Sleep = ({
       >
         <SlideSleepButton
           value={item.sleep?.quality}
-          onPress={() => {
-            navigation.navigate('LogEdit', { id: item.id, step: 'sleep' });
-          }}
           style={{
             flex: 0,
             minWidth: 80,

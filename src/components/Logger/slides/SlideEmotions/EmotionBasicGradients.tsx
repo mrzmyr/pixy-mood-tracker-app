@@ -14,6 +14,7 @@ export const EmotionBasicGradients = () => {
         zIndex: 1,
         width: '100%',
       }}
-      pointerEvents="none" />
+      pointerEvents="none"
+    />
   );
 };

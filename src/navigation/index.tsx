@@ -11,11 +11,10 @@ import {
   BotLogger,
   ColorsScreen,
   DataScreen,
-  DayView,
+  LogList,
   LicensesScreen,
   LogCreate,
   LogEdit,
-  LogView,
   NotFoundScreen,
   PrivacyScreen,
   ReminderScreen, SettingsScreen, StatisticsHighlights, TagCreate, TagEdit
@@ -70,9 +69,7 @@ const NAVIGATION_LINKING = {
       StatisticsHighlights: 'statistics/highlights',
       StatisticsMonth: 'statistics/month/:date',
       StatisticsYear: 'statistics/year/:date',
-      DayView: 'days/:date',
-
-      LogView: 'logs/:id',
+      LogList: 'days/:date',
       LogCreate: 'logs/create/:dateTime',
       LogEdit: 'logs/:id/edit',
 
@@ -268,8 +265,8 @@ function RootNavigator() {
           }}
         >
           <Stack.Screen
-            name="DayView"
-            component={DayView}
+            name="LogList"
+            component={LogList}
           />
         </Stack.Group>
 
@@ -284,19 +281,6 @@ function RootNavigator() {
           <Stack.Screen
             name="LogEdit"
             component={LogEdit}
-          />
-        </Stack.Group>
-
-        <Stack.Group
-          screenOptions={{
-            title: '',
-            presentation: 'modal',
-            headerShown: false,
-          }}
-        >
-          <Stack.Screen
-            name="LogView"
-            component={LogView}
           />
         </Stack.Group>
 

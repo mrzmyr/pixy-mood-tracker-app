@@ -32,14 +32,13 @@ export default function Tag({
         backgroundColor: selected ? colors.tagBackgroundActive : colors.tagBackground,
         borderColor: selected ? colors.tint : colorScheme === 'light' ? 'rgba(0,0,0,0.1)' : 'rgba(255,255,255,0.2)',
         borderWidth: 1,
-        paddingLeft: 16,
-        paddingRight: 16,
-        paddingTop: 8,
-        paddingBottom: 8,
-        opacity: pressed ? 0.8 : 1,
+        paddingHorizontal: 12,
+        paddingVertical: 6,
+        opacity: pressed && onPress ? 0.8 : 1,
         ...style,
       })}
       onPress={async () => {
+        if (!onPress) return;
         await haptics.selection();
         onPress?.();
       }}

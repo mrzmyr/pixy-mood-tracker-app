@@ -283,13 +283,23 @@ export const Logger = ({
       slide: (
         <SlideSleep
           onChange={(value: LogItem['sleep']['quality']) => {
-            tempLog.update({
-              sleep: {
-                ...tempLog.data.sleep,
-                quality: value
-              }
-            })
-            next()
+            if (tempLog.data.sleep.quality === value) {
+              tempLog.update({
+                sleep: {
+                  ...tempLog.data.sleep,
+                  quality: null
+                }
+              })
+            } else {
+
+              tempLog.update({
+                sleep: {
+                  ...tempLog.data.sleep,
+                  quality: value
+                }
+              })
+              next()
+            }
           }}
           showDisable={showDisable}
           onDisableStep={() => {
