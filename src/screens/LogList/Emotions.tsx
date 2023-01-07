@@ -1,13 +1,11 @@
 import { EMOTIONS } from '@/components/Logger/config';
-import useScale from '@/hooks/useScale';
+import { EmotionIndicator } from '@/components/Logger/slides/SlideEmotions/EmotionsIndicator';
+import useColors from '@/hooks/useColors';
+import { LogItem } from '@/hooks/useLogs';
 import { Emotion } from '@/types';
-import { useNavigation } from '@react-navigation/native';
 import { t } from 'i18n-js';
 import _ from 'lodash';
-import { Pressable, Text, useColorScheme, View } from 'react-native';
-import useColors from '../../../hooks/useColors';
-import useHaptics from '../../../hooks/useHaptics';
-import { LogItem } from '../../../hooks/useLogs';
+import { Text, View } from 'react-native';
 import { Headline } from './Headline';
 
 const EMOTIONS_CATEGORY_ORDER = {
@@ -20,62 +18,29 @@ const EMOTIONS_CATEGORY_ORDER = {
 
 const EmotionItem = ({
   emotion,
-  onPress,
 }: {
   emotion: any,
-  onPress: () => void,
 }) => {
   const colors = useColors();
-  const haptics = useHaptics();
-  const colorScheme = useColorScheme();
-
-  const scale = useScale()
-  const colorMapping = {
-    very_good: scale.colors.very_good,
-    good: scale.colors.very_good,
-    neutral: scale.colors.neutral,
-    bad: scale.colors.very_bad,
-    very_bad: scale.colors.very_bad,
-  }
-
-  const color = colorMapping[emotion.category]
 
   return (
-    <Pressable
-      key={emotion.key}
-      onPress={async () => {
-        await haptics.selection();
-        onPress()
-      }}
-    >
+    <View>
       <View
         style={{
-          paddingVertical: 10,
+          paddingVertical: 6,
           paddingHorizontal: 12,
-          paddingLeft: 12,
+          borderRadius: 8,
           backgroundColor: colors.logCardBackground,
           borderWidth: 1,
           borderColor: colors.logCardBorder,
           marginRight: 8,
           marginTop: 8,
-          borderRadius: 12,
           flex: 1,
           flexDirection: 'row',
           alignItems: 'center',
         }}
       >
-        <View
-          style={{
-            width: 8,
-            height: 10,
-            backgroundColor: color.background,
-            borderColor: colorScheme === 'light' ? 'rgba(0,0,0,0.1)' : 'rgba(255,255,255,0.2)',
-            borderWidth: 1,
-            borderRadius: 100,
-            marginRight: 10,
-            paddingRight: 8,
-          }}
-        />
+        <EmotionIndicator category={emotion.category} />
         <Text
           style={{
             color: colors.text,
@@ -83,10 +48,9 @@ const EmotionItem = ({
           }}
         >{t(`log_emotion_${emotion.key}`)}</Text>
       </View>
-    </Pressable>
+    </View>
   );
 };
-
 
 export const Emotions = ({
   item,
@@ -94,8 +58,6 @@ export const Emotions = ({
   item: LogItem;
 }) => {
   const colors = useColors();
-  const navigation = useNavigation();
-  const haptics = useHaptics();
 
   const emotionsByKey = _.keyBy(EMOTIONS, 'key');
   let emotions = _.get(item, 'emotions', []).map((e: Emotion['key']) => ({
@@ -122,10 +84,6 @@ export const Emotions = ({
             <EmotionItem
               key={emotion.key}
               emotion={emotion}
-              onPress={() => {
-                // @ts-ignore
-                navigation.navigate('LogEdit', { id: item.id, step: 'emotions' });
-              }}
             />
           );
         }) : (

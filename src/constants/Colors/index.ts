@@ -59,9 +59,11 @@ const light = {
   logHeaderHighlight: colors.neutral[200],
 
   logBackground: colors.neutral[100],
-  logCardBackground: colors.white,
-  logCardBorder: colors.neutral[200],
   logBackgroundTransparent: 'rgba(245,245,245, 0)',
+
+  logCardBackground: colors.white,
+  logCardBackgroundTransparent: 'rgba(255,255,255, 0)',
+  logCardBorder: colors.neutral[200],
 
   logActionBackground: colors.neutral[200],
   logActionBorder: tintColorLight,
@@ -243,8 +245,8 @@ const light = {
 
   feedbackBoxBackground: colors.amber[50],
 
-  dayViewAddButtonBorder: colors.neutral[300],
-  dayViewAddButtonText: colors.neutral[400],
+  LogListAddButtonBorder: colors.neutral[300],
+  LogListAddButtonText: colors.neutral[400],
 
   promoCardBackground: colors.white,
   promoCardText: colors.neutral[800],
@@ -287,9 +289,11 @@ const dark: IColors & {
   logHeaderHighlight: colors.neutral[800],
 
   logBackground: colors.neutral[900],
+  logBackgroundTransparent: 'rgba(23, 23, 23, 0)',
+
   logCardBackground: colors.neutral[800],
+  logCardBackgroundTransparent: 'rgba(38,38,38,0)',
   logCardBorder: colors.neutral[700],
-  logBackgroundTransparent: 'rgba(28,25,23, 0)',
 
   logActionBackground: colors.neutral[800],
   logActionBorder: tintColorDark,
@@ -470,8 +474,8 @@ const dark: IColors & {
   tooltipText: colors.white,
   tooltipTextSecondary: colors.neutral[400],
 
-  dayViewAddButtonBorder: colors.neutral[700],
-  dayViewAddButtonText: colors.neutral[500],
+  LogListAddButtonBorder: colors.neutral[700],
+  LogListAddButtonText: colors.neutral[500],
 
   promoCardBackground: colors.neutral[900],
   promoCardText: colors.white,
