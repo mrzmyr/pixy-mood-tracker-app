@@ -59,9 +59,11 @@ const light = {
   logHeaderHighlight: colors.neutral[200],
 
   logBackground: colors.neutral[100],
-  logCardBackground: colors.white,
-  logCardBorder: colors.neutral[200],
   logBackgroundTransparent: 'rgba(245,245,245, 0)',
+
+  logCardBackground: colors.white,
+  logCardBackgroundTransparent: 'rgba(255,255,255, 0)',
+  logCardBorder: colors.neutral[200],
 
   logActionBackground: colors.neutral[200],
   logActionBorder: tintColorLight,
@@ -287,9 +289,11 @@ const dark: IColors & {
   logHeaderHighlight: colors.neutral[800],
 
   logBackground: colors.neutral[900],
+  logBackgroundTransparent: 'rgba(23, 23, 23, 0)',
+
   logCardBackground: colors.neutral[800],
+  logCardBackgroundTransparent: 'rgba(38,38,38,0)',
   logCardBorder: colors.neutral[700],
-  logBackgroundTransparent: 'rgba(38,38,38,0)',
 
   logActionBackground: colors.neutral[800],
   logActionBorder: tintColorDark,

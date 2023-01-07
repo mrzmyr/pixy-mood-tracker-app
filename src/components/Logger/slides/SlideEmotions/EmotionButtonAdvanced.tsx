@@ -1,11 +1,9 @@
 import useColors from "@/hooks/useColors";
 import useHaptics from "@/hooks/useHaptics";
-import useScale from "@/hooks/useScale";
 import { Emotion } from "@/types";
-import { Text, useColorScheme, View, ViewStyle } from "react-native";
+import { Text, View, ViewStyle, useColorScheme } from "react-native";
 import { RectButton } from "react-native-gesture-handler";
-import { EMOTION_BUTTON_HEIGHT } from "./constants";
-
+import { EmotionIndicator } from "./EmotionsIndicator";
 
 export const EmotionButtonAdvanced = ({
   emotion, onPress, selected, style = {},
@@ -17,17 +15,6 @@ export const EmotionButtonAdvanced = ({
 }) => {
   const colors = useColors();
   const haptics = useHaptics();
-
-  const scale = useScale();
-  const colorMapping = {
-    very_good: scale.colors.very_good,
-    good: scale.colors.very_good,
-    neutral: scale.colors.neutral,
-    bad: scale.colors.very_bad,
-    very_bad: scale.colors.very_bad,
-  };
-
-  const color = colorMapping[emotion.category];
   const colorScheme = useColorScheme();
 
   return (
@@ -41,7 +28,6 @@ export const EmotionButtonAdvanced = ({
         justifyContent: 'center',
         alignItems: 'center',
         marginBottom: 4,
-        borderRadius: 12,
         ...style,
       }}
       activeOpacity={0}
@@ -51,7 +37,7 @@ export const EmotionButtonAdvanced = ({
           width: '100%',
           // backgroundColor: colors.cardBackground,
           backgroundColor: colors.logCardBackground,
-          borderRadius: 12,
+          borderRadius: 8,
           borderWidth: selected ? 2 : 1,
           borderColor: selected ? colors.tint : colorScheme === 'light' ? 'rgba(0,0,0,0.1)' : 'rgba(255,255,255,0.2)',
           flexDirection: 'row',
@@ -61,18 +47,7 @@ export const EmotionButtonAdvanced = ({
           paddingLeft: selected ? 15 : 16,
         }}
       >
-        <View
-          style={{
-            width: 8,
-            height: 10,
-            backgroundColor: color.background,
-            borderColor: colorScheme === 'light' ? 'rgba(0,0,0,0.1)' : 'rgba(255,255,255,0.2)',
-            borderWidth: 1,
-            borderRadius: 100,
-            marginRight: 10,
-            paddingRight: 8,
-          }}
-        />
+        <EmotionIndicator category={emotion.category} />
         <Text
           style={{
             color: colors.text,
@@ -94,7 +69,6 @@ export const EmotionButtonEmpty = () => {
   return (
     <View
       style={{
-        minHeight: EMOTION_BUTTON_HEIGHT,
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',

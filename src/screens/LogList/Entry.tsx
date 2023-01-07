@@ -142,7 +142,7 @@ export const Entry = ({
           </View>
         </ScrollView>
         <LinearGradient
-          colors={[colors.logCardBackground, colors.logBackgroundTransparent]}
+          colors={[colors.logCardBackground, colors.logCardBackgroundTransparent]}
           style={{
             position: 'absolute',
             height: 24,
@@ -153,7 +153,7 @@ export const Entry = ({
           }}
           pointerEvents="none" />
         <LinearGradient
-          colors={[colors.logBackgroundTransparent, colors.logCardBackground]}
+          colors={[colors.logCardBackgroundTransparent, colors.logCardBackground]}
           style={{
             position: 'absolute',
             height: 24,

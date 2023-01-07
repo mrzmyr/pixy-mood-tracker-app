@@ -1,14 +1,12 @@
 import useScale from "@/hooks/useScale";
 import { Emotion } from "@/types";
-import { useColorScheme, View } from "react-native";
+import { Platform, useColorScheme, View } from "react-native";
 
 export const EmotionIndicator = ({
   category,
 }: {
   category: Emotion['category']
 }) => {
-  const colorScheme = useColorScheme();
-
   const scale = useScale();
   const colorMapping = {
     very_good: scale.colors.very_good,
@@ -24,10 +22,8 @@ export const EmotionIndicator = ({
     <View
       style={{
         width: 8,
-        height: 10,
+        height: 8,
         backgroundColor: color.background,
-        borderColor: colorScheme === 'light' ? 'rgba(0,0,0,0.1)' : 'rgba(255,255,255,0.2)',
-        borderWidth: 1,
         borderRadius: 100,
         marginRight: 10,
         paddingRight: 8,
