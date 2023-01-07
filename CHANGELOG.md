@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.73.0](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.72.3...v1.73.0) (2023-01-07)
+
+
+### Features
+
+* add carousel for entries and replace `DayView` with `LogList` ([7c97d0b](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/7c97d0b624c72a9d9375a92b222f49310c164af6))
+
+
+### Miscellaneous
+
+* remove feedback box from settings steps ([ef56de5](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/ef56de59aed3466c60430974af1580b203662731))
+
+
+### Styling
+
+* spacing and colors updates ([d37b0ea](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/d37b0ea7bdfd508f623ed358e8d4b81555444571))
+
 ## [1.72.3](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.72.2...v1.72.3) (2023-01-05)
 
 
