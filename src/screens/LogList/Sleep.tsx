@@ -29,9 +29,6 @@ export const Sleep = ({
       >
         <SlideSleepButton
           value={item.sleep?.quality}
-          onPress={() => {
-            navigation.navigate('LogEdit', { id: item.id, step: 'sleep' });
-          }}
           style={{
             flex: 0,
             minWidth: 80,
