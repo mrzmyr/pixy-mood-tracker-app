@@ -7,12 +7,15 @@ import useColors from '@/hooks/useColors';
 import { SettingsScreen, StatisticsScreen } from '../screens';
 import CalendarScreen from '../screens/Calendar';
 import { MyTabBar } from "./MyTabBar";
+import { useNavigation } from '@react-navigation/native';
+import dayjs from 'dayjs';
 
 const Tab = createBottomTabNavigator();
 
 export const BottomTabs = () => {
   const colors = useColors();
   const calendarFilters = useCalendarFilters();
+  const navigation = useNavigation();
 
   const defaultOptions = {
     headerTintColor: colors.text,
@@ -35,6 +38,20 @@ export const BottomTabs = () => {
         headerStyle: {
           borderBottomColor: '#fff',
         },
+        headerLeft: () => {
+          return (
+            <LinkButton
+              style={{
+                marginLeft: 16,
+              }}
+              onPress={() => {
+                navigation.navigate("BotLogger", {
+                  dateTime: dayjs().toISOString(),
+                });
+              }}
+            >{'🤖'}</LinkButton>
+          )
+        }
       })}
       tabBar={props => <MyTabBar {...props} />}
     >

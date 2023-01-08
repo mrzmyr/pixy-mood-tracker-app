@@ -47,17 +47,6 @@ export const CalendarFooter = () => {
             }}
           >{t('add_today_another_entry')}</Button>
         )}
-        <Button
-          type="tertiary"
-          style={{
-            marginTop: 8,
-          }}
-          onPress={() => {
-            navigation.navigate("BotLogger", {
-              dateTime: dayjs().toISOString(),
-            });
-          }}
-        >{'🤖 Talk to Pixy'}</Button>
       </View>
       <PromoCards />
     </View>
