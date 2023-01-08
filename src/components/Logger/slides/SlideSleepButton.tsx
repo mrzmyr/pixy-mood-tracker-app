@@ -46,6 +46,7 @@ export const SlideSleepButton = ({
           aspectRatio: 1,
         }}
         onPress={() => {
+          if (!onPress) return;
           haptics.selection();
           onPress?.();
         }}

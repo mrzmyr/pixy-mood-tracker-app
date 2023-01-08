@@ -58,9 +58,7 @@ export const SlideSleep = ({
               value={key}
               selected={tempLog?.data?.sleep?.quality === key}
               onPress={() => {
-                if (tempLog?.data?.sleep?.quality !== key) {
-                  onChange(key)
-                }
+                onChange(key)
               }}
             />
           ))}

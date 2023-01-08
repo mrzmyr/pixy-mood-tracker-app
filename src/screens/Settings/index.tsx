@@ -17,6 +17,7 @@ import pkg from '../../../package.json';
 import { RootStackScreenProps } from '../../../types';
 import { UserDataImportList } from './UserData';
 import * as Updates from 'expo-updates';
+import { Github } from 'lucide-react-native';
 
 export const SettingsScreen = ({ navigation }: RootStackScreenProps<'Settings'>) => {
   const insets = useSafeAreaInsets();
@@ -180,6 +181,13 @@ export const SettingsScreen = ({ navigation }: RootStackScreenProps<'Settings'>)
             onPress={() => navigation.navigate('Privacy')}
             iconLeft={<Shield width={18} color={colors.menuListItemIcon} />}
             isLink
+          />
+          <MenuListItem
+            title={t('app_is_open_source')}
+            onPress={() => {
+              Linking.openURL('https://github.com/mrzmyr/pixy-mood-tracker-app')
+            }}
+            iconLeft={<Github width={18} color={colors.menuListItemIcon} />}
             isLast
           />
         </MenuList>

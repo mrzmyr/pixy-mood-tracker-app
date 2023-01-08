@@ -99,7 +99,6 @@ Project Link: [https://github.com/mrzmyr/pixy-mood-tracker](https://github.com/m
 | Name | Key |
 |---|---|
 | Arabic | ar |
-| Catalan | ca |
 | Chinese (Simplified) | zh |
 | Croatian | hr |
 | Czech | cs |
