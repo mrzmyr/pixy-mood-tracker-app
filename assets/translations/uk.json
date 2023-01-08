@@ -1,666 +1,666 @@
 {
-  "ok": "موافق",
-  "save": "يحفظ",
-  "add": "يضيف",
-  "cancel": "يلغي",
-  "delete": "حذف",
-  "reset": "إعادة ضبط",
-  "calendar": "تقويم",
-  "settings": "إعدادات",
-  "licenses": "التراخيص",
-  "data_notice": "يتم تخزين جميع البيانات على جهازك ولا تترك جهازك إلا عندما تقرر ذلك.",
-  "rate_this_app": "قيم هذا التطبيق",
-  "reset_data_button": "إعادة تعيين كافة البيانات والإعدادات",
-  "reset_data_confirm_title": "إعادة ضبط",
-  "reset_data_confirm_message": "هل أنت متأكد أنك تريد إعادة تعيين كافة الإدخالات والعلامات؟",
-  "reset_data_success_title": "إعادة ضبط",
-  "reset_data_success_message": "تمت إعادة تعيين كافة البيانات.",
-  "import": "يستورد",
-  "import_success_title": "نجح الاستيراد",
-  "import_success_message": "تم استيراد البيانات الخاصة بك بنجاح.",
-  "import_error_title": "فشل الاستيراد",
-  "import_error_message": "الملف الذي حددته لا يحتوي على التنسيق الصحيح.",
-  "export": "يصدر",
-  "export_failed_title": "فشل التصدير",
-  "export_help": "تصدير جميع البيانات كملف JSON",
-  "log_modal_message_example": "لقد وجدت اليوم طريقة لإعادة الاتصال بنفسي.",
-  "issue": "القضية",
-  "idea": "فكرة",
-  "other": "آخر",
-  "send_feedback_issue": "قضية تقرير",
-  "send_feedback_idea": "إرسال الفكرة",
-  "feedback_modal_title": "ارسل رأيك",
-  "feedback_modal_description": "تساعدني تعليقاتك كثيرًا في فهم كيفية استخدامك للتطبيق بشكل أفضل وكيف يمكنني تحسينه.",
-  "feedback_modal_textarea_placeholder": "لاحظت ذلك…",
-  "feedback_modal_send": "إرسال",
-  "feedback_modal_cancel": "يلغي",
-  "feedback_success_title": "تم إرسال التعليقات",
-  "feedback_success_message": "أرسل ملاحظاتك بنجاح.",
-  "feedback_error_title": "فشلت التعليقات",
-  "feedback_error_message": "حدث خطأ ما أثناء إرسال ملاحظاتك.",
-  "feedback_help": "تم تطوير هذا التطبيق من قبل شخص واحد. أنا أقدر ملاحظاتك كثيرا. يساعدني ذلك في فهم كيفية استخدامك للتطبيق بشكل أفضل وكيف يمكنني تحسينه.",
-  "send_feedback": "إعطاء ردود الفعل",
-  "back_to_today": "العودة إلى اليوم",
-  "data": "البيانات",
-  "reminder": "تذكير",
-  "time": "زمن",
-  "notification_reminder_title": "تتبع حالتك المزاجية",
-  "notification_reminder_body": "انقر هنا لتتبع حالتك المزاجية اليوم.",
-  "privacy": "خصوصية",
-  "privacy_policy": "سياسة خاصة",
-  "privacy_content": "يمنحك Pixy القدرة على التفكير في يومك وتخزين المعلومات التي يحتمل أن تكون حساسة. أريد أن أكون شفافًا قدر الإمكان في استخدام بياناتك. لذا اسمحوا لي أن أشرح كيف يتم استخدام البيانات ولماذا تكون بياناتك آمنة.\n\n### ليس لدينا وصول إلى المعلومات التي يتم تتبعها\n\nيتم حفظ بياناتك محليًا على جهازك. لا تتم مشاركته أبدًا مع أي شخص باستثناء اختيار تصديره أو استخدام وظيفة الرد التلقائي على الويب.\n\n### سجلات الأخطاء\n\n** للعثور على المشكلات والحفاظ على الاستقرار ، ننظر إلى سجلات الأخطاء التي تم الإبلاغ عنها. **\n\nنقوم بتجميع سجلات الأخطاء مع مزود الخدمة Sentry. يمنحنا إمكانية رؤية الوقت والشاشة المفتوحة ونوع الجهاز. نستخدم هذا لإعادة إنتاج الخطأ ولتوفير إصلاح.\n\n### البيانات السلوكية\n\nعند فتح شاشة أو تغيير أحد الإعدادات ، سيتم إرسال هذا إلى إحدى أدوات التحليل الخاصة بنا. يتم إرسال هذه البيانات مجهولة المصدر تماما. لا يتم إرسال أي من بياناتك الشخصية. على سبيل المثال ، إذا كانت لورا برمنغهام تتبع حالتها المزاجية. نرى فقط أن المستخدم 101029 قام بهذا الإجراء. لن نجمع أبدًا أي نص تخزنه في التطبيق.\n\nنحن نستخدم Posthog Cloud لجمع وتصور البيانات. يساعدنا على فهم الاتجاهات بشكل أفضل وإيجاد مجالات التحسين.\n\n\n---------\n\nإذا كان لديك أي أسئلة أو استفسارات ، راسلني على [moritz@devmood.com] (mailto: moritz@devmood.com).\n\n** أستخدم هذا التطبيق بنفسي ولن أرغب مطلقًا في مشاركة البيانات الشخصية مع أي مطور. **\n\n* يمكنك العثور على سياسة الخصوصية الكاملة هنا. *",
-  "behavioral_data": "البيانات السلوكية",
-  "passcode": "رمز عبور",
-  "passcode_title_create": "ضع رمز المرور الخاص بك",
-  "passcode_title_confirm": "أدخل رمز المرور الخاص",
-  "passcode_locked_title": "التطبيق مقفل",
-  "passcode_locked_message": "الرجاء إدخال رمز المرور الخاص بك.",
-  "passcode_forgot": "نسيت رمز المرور الخاص بك؟",
-  "passcode_forgot_description": "للأسف ، لا يمكننا إعادة تعيين رمز المرور الخاص بك. إذا فقدت رمز المرور الخاص بك ، فلا توجد طريقة لاستعادة بياناتك.",
-  "passcode_forgot_cancel": "يلغي",
-  "passcode_forgot_reset": "احذف جميع بياناتي",
-  "passcode_forgot_reset_confirm": "هل أنت واثق؟",
-  "passcode_forgot_reset_confirm_description": "سيؤدي هذا إلى مسح جميع بياناتك وإعداداتك لهذا التطبيق.",
-  "passcode_forgot_reset_confirm_reset": "نعم ، احذف جميع بياناتي",
-  "passcode_forgot_reset_confirm_cancel": "يلغي",
-  "passcode_retry": "أدخل رمز المرور",
-  "reminder_modal_title": "جعله روتين؟",
-  "reminder_modal_body": "قم بإعداد إشعار تذكير يومي ، حتى لا تفوتك وحدة البكسل المتعقبة.",
-  "reminder_modal_footer": "غير مقتنع بعد؟ لا تقلق ، يمكنك إعداد التذكير في إعدادات التطبيق لاحقًا.",
-  "statistics": "إحصائيات",
-  "log_modal_message_placeholder_1": "ما هو أفضل شيء حدث لك اليوم؟",
-  "log_modal_message_placeholder_2": "ما الذي جعل اليوم فريدًا؟",
-  "log_modal_message_placeholder_3": "من جعل يومك أفضل اليوم؟",
-  "log_modal_message_placeholder_4": "متى شعرت بالأصالة اليوم؟",
-  "log_modal_message_placeholder_5": "متى شعرت بالتحدي اليوم؟",
-  "log_modal_message_placeholder_6": "ما الذي تبحث عنه في المستقبل؟",
-  "statistics_last_12_months": "آخر 12 شهرًا",
-  "statistics_experimental_title": "هل تعمل من أجلك؟",
-  "statistics_experimental_body": "اسمحوا لي أن أعرف ما إذا كانت الإحصائيات مفيدة لك. ما زلت أجرب أفضل طريقة لتصور البيانات. هو موضع تقدير أي ردود فعل.",
-  "statistics_experimental_button": "إعطاء ردود الفعل",
-  "statistics_experimental_not_enough_data": "لا توجد بيانات كافية",
-  "send": "إرسال",
-  "color": "اللون",
-  "title": "عنوان",
-  "tags_empty": "سوف تظهر العلامات هنا",
-  "tags_add": "إضافة علامة",
-  "tags_add_placeholder": "#يوم حافل",
-  "tags_edit": "تعديل العلامات",
-  "delete_tag_confirm_title": "حذف العلامة",
-  "delete_tag_confirm_message": "ستتم إزالة العلامة من جميع الإدخالات. لا يمكن التراجع عن هذا الإجراء.",
-  "feedback_modal_help": "اترك معلومات الاتصال الخاصة بك إذا كنت تريد مني الرد عليك.",
-  "tags_default_1_title": "عائلة",
-  "tags_default_2_title": "أصدقاء",
-  "tags_default_3_title": "الحب",
-  "tags_default_4_title": "رياضة",
-  "tags_default_5_title": "يستريح",
-  "statistics_title": "إحصائيات",
-  "new": "جديد",
-  "tags_feedback_title": "تقديم: العلامات",
-  "tags_feedback_body": "العلامات هي طريقة جديدة لتصنيف بياناتك. يمكنك إضافة ما يصل إلى 30 علامة فريدة إلى إدخالاتك. تم التخطيط لاستخدامها في الإحصاء في المستقبل. من فضلك أرسل لي ملاحظاتك أدناه. قرأت كل رسالة منك.",
-  "tags_feedback_question": "كيف تحب ميزة العلامات الجديدة؟",
-  "tags_feedback_placeholder": "تفاصيل حول ملاحظاتك ... (اختياري)",
-  "tags_feedback_button": "إعطاء ردود الفعل",
-  "import_confirm_title": "بيانات الاستيراد",
-  "import_confirm_message": "هل أنت متأكد أنك تريد استيراد البيانات؟ سيؤدي هذا إلى الكتابة فوق جميع الإدخالات والإعدادات الحالية.",
-  "import_confirm_ok": "يستورد",
-  "vote_features": "ميزات التصويت",
-  "changelog": "التغيير",
-  "delete_confirm_title": "حذف المدخلات",
-  "delete_confirm_message": "هل أنت متأكد أنك تريد حذف هذا الإدخال؟",
-  "statistics_subtitle": "آخر أسبوعين لك",
-  "statistics_description": "هذه هي أبرز الأحداث الخاصة بك من الأسبوعين الماضيين",
-  "statistics_no_data": "أضف {{count}} أيام أخرى خلال الأسبوعين الأخيرين لكشف عن إحصائياتك الأولى.",
-  "mood": "مزاج",
-  "statistics_mood_avg_title": "يبدو حالتك المزاجية بنسبة {{rating_percentage}}٪ في الغالب {{rating_word}}.",
-  "statistics_mood_avg_positive": "إيجابي",
-  "statistics_mood_avg_neutral": "محايد",
-  "statistics_mood_avg_negative": "نفي",
-  "statistics_mood_peaks_title_singular": "بلغ مزاجك ذروته {{rating_word}} مرة واحدة.",
-  "statistics_mood_peaks_title_plural": "بلغ حالتك المزاجية ذروته {{rating_word}} {{rating_count}} مرة.",
-  "statistics_feedback_question": "هل هذا مفيد؟",
-  "statistics_feedback_thanks": "شكرًا لك!",
-  "calendar_filters": "المرشحات",
-  "calendar_filters_reset": "إعادة ضبط",
-  "calendar_filters_results": "نتائج",
-  "calendar_filters_search": "يبحث",
-  "today": "اليوم",
-  "log_rating_question": "كيف كان يومك؟",
-  "log_tags_question": "أضف علامات إلى يومك",
-  "log_note_question": "اكتب عن يومك ...",
-  "log_reminder_question": "مذكر يومي",
-  "log_reminder_descprition": "قم بإعداد إشعار تذكير يومي ، حتى لا تفوتك وحدة البكسل المتعقبة.",
-  "log_reminder_enable": "تفعيل التذكير",
-  "log_reminder_later": "ربما في وقت لاحق",
-  "feedback_modal_email_placeholder": "البريد الإلكتروني اختياري)",
-  "feedback_modal_message_placeholder": "لاحظت ذلك…",
-  "tags": "العلامات",
-  "statistics_tag_peaks_title": "تم وضع علامة عليه غالبًا في {{count}} يوم.",
-  "statistics_tags_distribution_title": "في الأسبوعين الماضيين ، تم وضع علامة على {{count}} يوم.",
-  "onboarding_skip": "يتخطى",
-  "onboarding_next": "التالي",
-  "onboarding_step_0_title": "مرحبًا بك في Pixy",
-  "onboarding_step_0_body": "احصل على أفضل سلسلة أدوات لتحديد أنماط الحالة المزاجية.",
-  "onboarding_step_1_button_1": "لقد استخدمت Mood Tracker من قبل",
-  "onboarding_step_1_button_2": "لم أستخدم متتبع الحالة المزاجية مطلقًا",
-  "onboarding_step_1_title": "تقويم",
-  "onboarding_step_1_body": "عرض التقويم هو منزلك في Pixy. يساعدك على الاحتفاظ بنظرة عامة على جميع الأيام التي تتبعها باستخدام وحدات البكسل الخاصة بك. يمكنك إضافة إدخالات جديدة من خلال النقر على يوم.",
-  "onboarding_step_2_title": "إحصائيات",
-  "onboarding_step_2_body": "يساعدك عرض الإحصائيات على تحديد النقاط البارزة في حالتك المزاجية. أنها تدعم متوسط النظرة العامة ، الكشف عن الذروة وتحليل الارتباط.",
-  "onboarding_step_3_title": "المرشحات",
-  "onboarding_step_3_body": "تساعدك المرشحات في العثور على إدخالات محددة. يمكنك التصفية حسب الحالة المزاجية أو العلامات أو البحث عن كلمات معينة.",
-  "onboarding_step_4_title": "مذكر يومي",
-  "onboarding_step_4_body": "قم بإعداد تذكير يومي ، حتى لا تفوتك تتبع وحدات البكسل الخاصة بك.",
-  "onboarding_step_4_button_1": "تفعيل التذكير",
-  "onboarding_step_4_button_2": "ربما في وقت لاحق",
-  "onboarding_step_5_title": "نتعامل مع الخصوصية بجدية ونتعامل مع بياناتك بعناية.",
-  "onboarding_step_5_body_1": "نحن نتتبع البيانات المجهولة للعثور على الأخطاء وتحسين التطبيق.",
-  "onboarding_step_5_body_2": "سنبقى خاليين من الإعلانات ولن نستثمر بياناتك أبدًا.",
-  "onboarding_step_5_body_3": "تم التخطيط للاشتراك المدفوع لتغطية تكلفة التطوير.",
-  "onboarding_step_5_body_4": "سيتم تخزين البيانات الخاصة بك فقط على هذا الجهاز بشكل افتراضي.",
-  "onboarding_step_5_body_5": "يمكنك تصدير أو حذف البيانات الخاصة بك في أي وقت.",
-  "onboarding_step_5_button": "مفهوم",
-  "onboarding": "على متن الطائرة",
-  "log_question_button": "يحفظ",
-  "settings_app": "تطبيق",
-  "settings_development": "تطوير",
-  "settings_development_statistics": "إحصائيات المهووسين",
-  "development_statistics_days_logged": "الأيام المسجلة",
-  "development_statistics_days_tagged": "الأيام المعلمة",
-  "development_statistics_tags_unique": "العلامات الفريدة",
-  "development_statistics_words_total": "كلمات مكتوبة",
-  "development_statistics_reset_questions": "إعادة الأسئلة",
-  "development_statistics_reset_questions_description": "انقر هنا فقط إذا كنت تعرف ما تفعله.",
-  "cancel_confirm_title": "هل أنت واثق؟",
-  "cancel_confirm_message": "ستفقد تغييراتك.",
-  "keep_editing": "استمر في التحرير",
-  "discard_changes": "تجاهل التغييرات",
-  "development_statistics_reset_actions": "إعادة الإجراءات",
-  "view_log_message": "كلمات",
-  "view_log_message_empty": "يوم غامض ، لأنه ليس لديه ما يكشف عن نفسه.",
-  "edit": "يحرر",
-  "create": "خلق",
-  "done": "فعله",
-  "create_tag": "إنشاء علامة",
-  "edit_tag": "تحرير العلامة",
-  "statistics_mood_chart_improved": "في الأسبوعين الماضيين ، تحسن مزاجك المتوسط.",
-  "statistics_mood_chart_declined": "في الأسبوعين الماضيين ، انخفض متوسط مزاجك.",
-  "statistics_highlights": "يسلط الضوء",
-  "statistics_highlights_description": "النقاط البارزة الخاصة بك من الأسبوعين الماضيين",
-  "statistics_highlights_more": "إظهار كافة التمييزات",
-  "statistics_trends": "اتجاهات",
-  "statistics_trends_description": "اتجاهاتك من الأسبوعين الماضيين",
-  "statistics_trends_more": "إظهار كافة الاتجاهات",
-  "statistics_2_week_highlights": "آخر أسبوعين",
-  "statistics_no_highlights": "في الوقت الحالي ، لا توجد ميزات بارزة ذات صلة ، ولكن يمكنك دائمًا الانتقال إلى \"إظهار كافة العناصر المميزة\".",
-  "statistics_feedback_placeholder": "كيف يمكن أن يكون أكثر فائدة؟ (اختياري)",
-  "tags_reached_max": "لقد وصلت إلى الحد الأقصى من العلامات وهو {{max_count}}. يرجى حذف بعض العلامات لإضافة أخرى جديدة.",
-  "development_statistics_items_coverage": "تم تسجيله منذ اليوم الأول",
-  "statistics_tags_distribution_trend_prefix": "أنت تقوم بوضع علامات",
-  "statistics_tags_distribution_trend_increase_suffix": "في كثير من الأحيان",
-  "statistics_tags_distribution_trend_decrease_suffix": "كثير من الأحيان أقل",
-  "reset_factory_button": "إعادة تعيين البيانات والإعدادات",
-  "reset_factory_description": "تشمل الإعدادات التذكير والألوان والإعداد.",
-  "reset_factory_success_title": "إعادة ضبط",
-  "reset_factory_success_message": "تمت إعادة ضبط جميع البيانات والإعدادات.",
-  "reset_factory_confirm_title": "إعادة تعيين كافة البيانات والإعدادات",
-  "reset_factory_confirm_message": "هل أنت متأكد أنك تريد إعادة تعيين كافة البيانات والإعدادات؟",
-  "colors": "الألوان",
-  "colors_info": "تستخدم الألوان للإشارة إلى الحالة المزاجية في التقويم. سيتم تبديل حالتك المزاجية السابقة إلى اللون المحدد.",
-  "colors_reset": "إعادة تعيين إلى الافتراضي",
-  "calendar_bottom_hint": "المستقبل سيكون رائعا.",
-  "statistics_mood_peaks_positive_direction": "بشكل ايجابي",
-  "statistics_mood_peaks_negative_direction": "سلبا",
-  "statistics_tags_distribution_this_month": "هذا الشهر",
-  "statistics_tags_distribution_last_month": "الشهر الماضي",
-  "settings_about": "حول",
-  "settings_feedback": "استجابة",
-  "more_statistics": "المزيد من الإحصائيات",
-  "month_report": "تقرير الشهر",
-  "year_report": "تقرير العام",
-  "statistics_most_used_tags": "العلامات الأكثر استخدامًا",
-  "statistics_most_used_tags_description": "علاماتك في {{date}}",
-  "statistics_mood_chart": "اتجاه المزاج",
-  "statistics_mood_chart_description": "اتجاه حالتك المزاجية في {{date}}",
-  "statistics_mood_peaks_positive_description": "أفضل الأيام في {{date}}",
-  "statistics_mood_peaks_negative_description": "أسوأ أيام {{date}}",
-  "year_in_pixels": "العام بالبكسل",
-  "year_in_pixels_description": "متوسط مزاجي كل يوم في {{date}}",
-  "mood_count": "عدد المزاج",
-  "mood_count_description": "توزيع حالتك المزاجية في {{date}}",
-  "add_today_entry": "أضف إدخال اليوم",
-  "promo_card_month_title": "أصبح {{month}} جاهزًا",
-  "promo_card_year_title": "{{year}} الخاصة بك ، متصورة",
-  "statistics_mood_peaks_positive": "أكثر الأيام إيجابية",
-  "statistics_mood_peaks_negative": "معظم الأيام السلبية",
-  "statistics_mood_chart_highlights_title": "مزاجك خلال الـ 14 يومًا الماضية",
-  "entries": "إدخالات",
-  "tags_used": "العلامات المستخدمة",
-  "words_written": "كلمات مكتوبة",
-  "days_tagged": "الأيام المعلمة",
-  "statistics_not_enough_data_title": "لا توجد بيانات كافية.",
-  "statistics_not_enough_data_subtitle_without_count": "أضف المزيد من الإدخالات لفتح هذا المخطط.",
-  "statistics_not_enough_data_subtitle_singular": "أضف إدخالاً آخر لفتح هذا الرسم البياني",
-  "statistics_not_enough_data_subtitle_plural": "أضف {{عدد}} إدخالات أخرى لفتح هذا المخطط.",
-  "extremely_bad": "سيئة للغاية",
-  "very_bad": "سيئ جدا",
-  "bad": "سيئ",
-  "neutral": "محايد",
-  "good": "جيد",
-  "very_good": "حسن جدا",
-  "extremely_good": "جيدة للغاية",
-  "add_entry": "إضافة إدخال",
-  "yesterday": "في الامس",
-  "entries_no_data": "لا توجد إدخالات حتى الآن.",
-  "entries_reached_max": "لقد وصلت إلى الحد الأقصى وهو {{max_count}} إدخال. الرجاء حذف بعض الإدخالات لإضافة أخرى جديدة.",
-  "entries_per_day": "متوسط إدخالات في اليوم",
-  "tags_per_day": "متوسط العلامات في اليوم",
-  "words_written_per_day": "متوسط كلمات في اليوم",
-  "entries_feedback_title": "كيف تحب مشاهدة المداخل الجديدة؟",
-  "entries_feedback_body": "نحن نعمل على طريقة جديدة لإضافة إدخالات. اسمحوا لنا أن نعرف ما هو رأيك.",
-  "give_feedback": "إعطاء ردود الفعل",
-  "logger_step_rating": "مزاج",
-  "logger_step_emotions": "العواطف",
-  "logger_step_tags": "العلامات",
-  "logger_step_message": "اكتب عن يومك",
-  "logger_step_feedback": "أسئلة المنتج",
-  "steps": "خطوات",
-  "steps_introduction": "هنا يمكنك تحديد ما تريد تتبعه لكل إدخال. يمكنك دائمًا إضافة المزيد من الخطوات لاحقًا.",
-  "disable_step_confirm_title": "تعطيل الخطوة؟",
-  "disable_step_confirm_message": "يمكنك إعادة تمكينه لاحقًا في الإعدادات.",
-  "log_tags_disable": "أنا لا أستخدم العلامات",
-  "log_message_disable": "أنا لا أكتب عن يومي",
-  "disable": "تعطيل",
-  "log_emotions_question": "ما هو شعورك؟",
-  "log_emotion_angry": "غاضب",
-  "log_emotion_despairful": "اليأس",
-  "log_emotion_disrespected": "قلل من احترامه",
-  "log_emotion_fearful": "خوفا",
-  "log_emotion_grieved": "حزين",
-  "log_emotion_shameful": "مخجل",
-  "log_emotion_anxious": "قلق",
-  "log_emotion_disgusted": "مشمئز",
-  "log_emotion_embarrassed": "مُحرَج",
-  "log_emotion_frustrated": "محبط",
-  "log_emotion_rejected": "مرفوض",
-  "log_emotion_annoyed": "متضايق",
-  "log_emotion_insecure": "غير آمن",
-  "log_emotion_let_down": "يخذل",
-  "log_emotion_nervous": "متوتر",
-  "log_emotion_pessimistic": "متشائم",
-  "log_emotion_shocked": "صدمت",
-  "log_emotion_unmotivated": "غير محفز",
-  "log_emotion_guilty": "مذنب",
-  "log_emotion_jealous": "غيور",
-  "log_emotion_lonely": "وحيد",
-  "log_emotion_overwhelmed": "ارباك",
-  "log_emotion_sad": "حزين",
-  "log_emotion_unfulfilled": "غير مكتمل",
-  "log_emotion_weak": "ضعيف",
-  "log_emotion_worried": "قلق",
-  "log_emotion_awekward": "رهيب",
-  "log_emotion_busy": "مشغول",
-  "log_emotion_critiqued": "انتقد",
-  "log_emotion_distracted": "مشتت",
-  "log_emotion_suspicous": "مريب",
-  "log_emotion_unsure": "غير متأكد",
-  "log_emotion_bored": "ضجر",
-  "log_emotion_confused": "مشوش",
-  "log_emotion_desire": "يرغب",
-  "log_emotion_impatient": "نافذ الصبر",
-  "log_emotion_tired": "مرهق",
-  "log_emotion_appreciated": "مُقدَّر",
-  "log_emotion_calm": "هدوء",
-  "log_emotion_comfortable": "مريح",
-  "log_emotion_surprised": "مندهش",
-  "log_emotion_grateful": "ممتن",
-  "log_emotion_motivated": "متحفز، مندفع",
-  "log_emotion_optimistic": "مستبشر",
-  "log_emotion_curious": "فضولي",
-  "log_emotion_inspired": "ربما",
-  "log_emotion_nostalgic": "حنين",
-  "log_emotion_relieved": "مرتاح",
-  "log_emotion_brave": "شجاع",
-  "log_emotion_creative": "مبدع",
-  "log_emotion_free": "حر",
-  "log_emotion_love": "الحب",
-  "log_emotion_respected": "محترم",
-  "log_emotion_confident": "واثق",
-  "log_emotion_excited": "متحمس",
-  "log_emotion_happy": "سعيدة",
-  "log_emotion_proud": "فخور",
-  "log_emotions_disable": "أنا لا أتتبع العواطف",
-  "log_feedback_disable": "لا أريد أن أعطي ملاحظات",
-  "disable_feedback_step_confirm_title": "تعطيل أسئلة المنتج؟",
-  "disable_feedback_step_confirm_message": "لقد ساعدوني كثيرًا في جعل التطبيق أفضل لك. لكن لا تقلق ، يمكنك إعادة تمكينه لاحقًا في الإعدادات.",
-  "view_log_tags_empty": "لا توجد علامات حتى الآن.",
-  "view_log_emotions_empty": "لا عواطف بعد.",
-  "view_log_emotions": "العواطف",
-  "statistics_best_month": "أفضل شهر",
-  "statistics_worst_month": "أسوأ شهر",
-  "add_today_another_entry": "أضف إدخال آخر لهذا اليوم",
-  "morning": "صباح",
-  "afternoon": "بعد الظهر",
-  "evening": "اخر النهار",
-  "add_entry_for": "إضافة {{dayTime}}",
-  "log_emotion_accomplished": "مُتَفَوِّق",
-  "log_emotion_accomplished_description": "تشعر بالرضا عما حققته",
-  "log_emotion_alive": "على قيد الحياة",
-  "log_emotion_alive_description": "تشعر أنك مليء بالطاقة",
-  "log_emotion_amazed": "مندهش",
-  "log_emotion_amazed_description": "تشعر بالدهشة الشديدة",
-  "log_emotion_challenged": "تحدى",
-  "log_emotion_challenged_description": "تشعر أنك مدعو إلى مسابقة",
-  "log_emotion_cheerful": "مبتهج",
-  "log_emotion_cheerful_description": "تشعر بالسعادة والتفاؤل بشكل ملحوظ.",
-  "log_emotion_competent": "كفؤ",
-  "log_emotion_competent_description": "تشعر بالقدرة أو المعرفة أو المهارة للقيام بشيء ما بنجاح",
-  "log_emotion_confident_description": "تشعر بالثقة حيال نفسك وقدراتك",
-  "log_emotion_curious_description": "تشعر بالرغبة في معرفة شيء ما أو تعلمه",
-  "log_emotion_delighted": "مسرور",
-  "log_emotion_delighted_description": "تشعر بسعادة كبيرة لشيء ما أو شخص ما",
-  "log_emotion_determined": "مقرر",
-  "log_emotion_determined_description": "تشعر بالأمان من خلال عدم تغيير القرار",
-  "log_emotion_eager": "حريص",
-  "log_emotion_eager_description": "تشعر أن لديك رغبة قوية في فعل شيء ما",
-  "log_emotion_ecstatic": "طار فرحًا",
-  "log_emotion_ecstatic_description": "تشعر بالارتباك من الفرح",
-  "log_emotion_elated": "مبتهج",
-  "log_emotion_elated_description": "تشعر بالفخر والسعادة",
-  "log_emotion_empowered": "مفوض",
-  "log_emotion_empowered_description": "تشعر بالسلطة أو القوة لفعل شيء ما",
-  "log_emotion_energized": "نشيط",
-  "log_emotion_energized_description": "تشعر بالقوة والنشاط",
-  "log_emotion_engaged": "مرتبط",
-  "log_emotion_engaged_description": "تشعر أنك مشغول ومهتم",
-  "log_emotion_enthusiastic": "متحمس",
-  "log_emotion_enthusiastic_description": "تشعر أنك مهتم جدًا بفكرة أو نشاط",
-  "log_emotion_excited_description": "تشعر بسعادة شديدة حيال شيء ما في المستقبل",
-  "log_emotion_exhilarated": "مبتهج",
-  "log_emotion_exhilarated_description": "تشعر بالحيوية والسعادة",
-  "log_emotion_focused": "مركزة",
-  "log_emotion_focused_description": "تشعر أنك منخرط في فكرة أو نشاط واحد فقط",
-  "log_emotion_happy_description": "تشعر بالسعادة والرضا",
-  "log_emotion_hopeful": "متفائل",
-  "log_emotion_hopeful_description": "تشعر بالتفاؤل بأن شيئًا جيدًا سيحدث",
-  "log_emotion_in_awe": "رائع",
-  "log_emotion_in_awe_description": "تشعر بالاحترام أو الموافقة الدافئة",
-  "log_emotion_inspired_description": "تشعر أنك متأثر بشدة بشيء يحفزك",
-  "log_emotion_joyful": "بهيجة",
-  "log_emotion_joyful_description": "تشعر بالسعادة والسعادة",
-  "log_emotion_motivated_description": "تشعر بالحماس لفعل شيء ما",
-  "log_emotion_optimistic_description": "تشعر بالأمل والثقة بالمستقبل",
-  "log_emotion_playful": "مرح",
-  "log_emotion_playful_description": "تشعر بالبهجة والسعادة",
-  "log_emotion_pleasant": "جَذّاب",
-  "log_emotion_pleasant_description": "تشعر بالرضا والمتعة",
-  "log_emotion_pleased": "مسرور",
-  "log_emotion_pleased_description": "تشعر بالسعادة والرضا",
-  "log_emotion_productive": "إنتاجي",
-  "log_emotion_productive_description": "تشعر وكأنك أنجزت مهمة أو حققت هدفًا",
-  "log_emotion_proud_description": "تشعر بالرضا عن إنجازاتك أو إنجازات شخص قريب منك",
-  "log_emotion_successful": "ناجح",
-  "log_emotion_successful_description": "تشعر بالرضا عما حققته",
-  "log_emotion_surprised_description": "تشعر وكأنك واجهت شيئًا غير متوقع",
-  "log_emotion_thrilled": "متحمس",
-  "log_emotion_thrilled_description": "تشعر بفرح كبير تجاه شيء ما أو شخص ما",
-  "log_emotion_upbeat": "متفائل",
-  "log_emotion_upbeat_description": "تشعر بالتفاؤل والحيوية",
-  "log_emotion_angry_description": "تشعر بإزعاج شديد أو عدم ارتياح أو تعاسة أو كراهية",
-  "log_emotion_annoyed_description": "تشعر بالغضب قليلا",
-  "log_emotion_anxious_description": "تشعر بالقلق أو التوتر أو عدم الارتياح لأنك لا تعرف كيف سيحدث شيء ما",
-  "log_emotion_apprehensive": "قلق",
-  "log_emotion_apprehensive_description": "تشعر بالقلق أو الخوف من حدوث شيء سيء أو غير سار",
-  "log_emotion_concerned": "المعنية",
-  "log_emotion_concerned_description": "تشعر وكأنك تتساءل عن كيفية عمل شخص ما أو شيء ما",
-  "log_emotion_confused_description": "تشعر أنك غير قادر على التفكير بوضوح",
-  "log_emotion_contempt": "ازدراء",
-  "log_emotion_contempt_description": "تشعر أن شخصًا ما أو شيئًا ما لا قيمة له أو تحتك",
-  "log_emotion_embarrassed_description": "تشعر بعدم الأمان وعدم الارتياح تجاه ما يشعر به الآخرون تجاهك",
-  "log_emotion_enraged": "غاضب",
-  "log_emotion_enraged_description": "تشعر بالغضب الشديد",
-  "log_emotion_envious": "حسود",
-  "log_emotion_envious_description": "تشعر أنك تريد شيئًا يخص شخصًا آخر",
-  "log_emotion_fomo": "فومو",
-  "log_emotion_fomo_description": "تشعر بالخوف من فقدان شيء ما",
-  "log_emotion_frightened": "مرتعب",
-  "log_emotion_frightened_description": "تشعر بالخوف من شيء ما",
-  "log_emotion_frustrated_description": "تشعر بالضيق لأنك لا تستطيع فعل شيء",
-  "log_emotion_furious": "غاضب",
-  "log_emotion_furious_description": "تشعر بالغضب الشديد والعاطفة العنيفة",
-  "log_emotion_hyper": "هايبر",
-  "log_emotion_hyper_description": "تشعر بالحيوية والإثارة",
-  "log_emotion_impassioned": "متحمس",
-  "log_emotion_impassioned_description": "تشعر أنك مليء بعاطفة عظيمة",
-  "log_emotion_irate": "سكران",
-  "log_emotion_irate_description": "تشعر بالغضب الشديد",
-  "log_emotion_irritated": "منزعج",
-  "log_emotion_irritated_description": "تشعر بغضب طفيف أو انزعاج",
-  "log_emotion_jealous_description": "تشعر بالخوف من فقدان شيء ما",
-  "log_emotion_jittery": "متشنج",
-  "log_emotion_jittery_description": "تشعر بالتوتر والقلق",
-  "log_emotion_livid": "غاضب",
-  "log_emotion_livid_description": "تشعر بالغضب الشديد",
-  "log_emotion_nervous_description": "تشعر بعدم الاستقرار وعدم الاستقرار أو عدم الأمان في الداخل",
-  "log_emotion_overwhelmed_description": "تشعر أن شيئًا ما أكثر من اللازم",
-  "log_emotion_panicked": "مذعور",
-  "log_emotion_panicked_description": "تشعر أنك تفقد سيطرتك",
-  "log_emotion_passionate": "شغوف",
-  "log_emotion_passionate_description": "تشعر أن لديك مشاعر أو معتقدات قوية بشأن شيء ما",
-  "log_emotion_peeved": "منزعج",
-  "log_emotion_peeved_description": "تشعر بالضيق",
-  "log_emotion_pressured": "مضغوط",
-  "log_emotion_pressured_description": "أنت قلق بشأن الارتقاء إلى مستوى توقعاتك أو توقعات الآخرين",
-  "log_emotion_repulsed": "صدت",
-  "log_emotion_repulsed_description": "تشعر بالضيق أو الاشمئزاز",
-  "log_emotion_restless": "الأرق",
-  "log_emotion_restless_description": "تشعر أنك لا تستطيع الاسترخاء بسبب القلق أو الملل",
-  "log_emotion_scared": "مفزوع",
-  "log_emotion_scared_description": "تشعر بالتهديد أو الخطر",
-  "log_emotion_shocked_description": "تشعر بالدهشة والانزعاج",
-  "log_emotion_stressed": "مضغوط",
-  "log_emotion_stressed_description": "تشعر بتوتر عقلي أو عاطفي",
-  "log_emotion_stunned": "فاجأ",
-  "log_emotion_stunned_description": "تشعر أنك غير قادر مؤقتًا على الرد",
-  "log_emotion_tense": "توتر",
-  "log_emotion_tense_description": "تشعر أنك غير قادر على الاسترخاء",
-  "log_emotion_terrified": "مذعور",
-  "log_emotion_terrified_description": "تشعر بالخوف الشديد",
-  "log_emotion_troubled": "مضطرب",
-  "log_emotion_troubled_description": "تشعر بالقلق والفوضى",
-  "log_emotion_uneasy": "غير مستقر",
-  "log_emotion_uneasy_description": "تشعر أن هناك شيئًا ما خطأ",
-  "log_emotion_worried_description": "تشعر بالقلق حيال شيء ما",
-  "log_emotion_accepted": "وافقت",
-  "log_emotion_accepted_description": "تشعر أن شخصًا ما صدق أو أدرك ما فعلته ليكون صحيحًا أو صحيحًا.",
-  "log_emotion_appreciated_description": "تشعر أن شخصًا ما ممتن لما فعلته أو لما أنت عليه",
-  "log_emotion_at_ease": "سهل",
-  "log_emotion_at_ease_description": "تشعر بالراحة والأمان",
-  "log_emotion_balanced": "متوازن",
-  "log_emotion_balanced_description": "تشعر بالاستقرار مع عدم وجود عاطفة قوية جدًا أو ضعيفة جدًا",
-  "log_emotion_blessed": "مبروك",
-  "log_emotion_blessed_description": "تشعر بالسعادة أو الراحة كتباين مرحب به لما عايشته سابقًا",
-  "log_emotion_blissful": "هناء",
-  "log_emotion_blissful_description": "تشعر بسعادة بالغة ومليئة بالبهجة",
-  "log_emotion_calm_description": "تشعر بالحرية من التوتر والإثارة والقلق",
-  "log_emotion_carefree": "براحة البال",
-  "log_emotion_carefree_description": "تشعر بالتحرر من القلق والمسؤولية",
-  "log_emotion_chill": "برد",
-  "log_emotion_chill_description": "تشعر بالراحة والاسترخاء",
-  "log_emotion_comfortable_description": "تشعر بألم أو عدم راحة جسديًا وعاطفيًا",
-  "log_emotion_compassionate": "عطوف",
-  "log_emotion_compassionate_description": "تشعر بالتعاطف والقلق تجاه الآخرين",
-  "log_emotion_connected": "متصل",
-  "log_emotion_connected_description": "تشعر أنك متصل بشخص ما أو جزء من مجتمعك",
-  "log_emotion_content": "راضي",
-  "log_emotion_content_description": "تشعر بأن توقعاتك أو احتياجاتك أو رغباتك قد تم تلبيتها",
-  "log_emotion_fragile": "قابل للكسر",
-  "log_emotion_fragile_description": "تشعر بالكسر أو التلف بسهولة",
-  "log_emotion_fulfilled": "استيفاء",
-  "log_emotion_fulfilled_description": "تشعر بالرضا التام",
-  "log_emotion_good": "حسن",
-  "log_emotion_good_description": "تشعر أن كل شيء على ما يرام",
-  "log_emotion_grateful_description": "تشعر بالاستمتاع بالصفات الجيدة لشيء ما أو لشخص ما",
-  "log_emotion_heard": "سمع",
-  "log_emotion_heard_description": "تشعر أنك سمعت وفهمت",
-  "log_emotion_included": "متضمن",
-  "log_emotion_included_description": "تشعر أنك جزء من مجموعة",
-  "log_emotion_loved": "محبوب",
-  "log_emotion_loved_description": "تشعر بعاطفة عميقة وقوية",
-  "log_emotion_mellow": "لطيف",
-  "log_emotion_mellow_description": "تشعر بالحرية من القسوة",
-  "log_emotion_moved": "انتقل",
-  "log_emotion_moved_description": "تشعر بحزن أو تعاطف شديد بسبب شيء ما قاله أو فعله شخص ما",
-  "log_emotion_peaceful": "امن",
-  "log_emotion_peaceful_description": "تشعر بالحرية من المقاطعة",
-  "log_emotion_relaxed": "استرخاء",
-  "log_emotion_relaxed_description": "تشعر بالحرية من التوتر والقلق",
-  "log_emotion_relieved_description": "تشعر بالسعادة بعد زوال شعور غير مريح",
-  "log_emotion_respected_description": "تشعر بإيجابية تجاه شخص ما أو شيء ما تعتبره مهمًا",
-  "log_emotion_safe": "آمن",
-  "log_emotion_safe_description": "تشعر بالحرية من الخطر",
-  "log_emotion_satisfied": "راضي",
-  "log_emotion_satisfied_description": "تشعر بأن توقعاتك أو احتياجاتك أو رغباتك قد تحققت",
-  "log_emotion_secure": "يؤمن",
-  "log_emotion_secure_description": "تشعر أنك متأكد من أن تظل آمنًا أو محميًا",
-  "log_emotion_serene": "هادئ",
-  "log_emotion_serene_description": "تشعر بالراحة والطمأنينة",
-  "log_emotion_sleepy": "نعسان",
-  "log_emotion_sleepy_description": "تشعر بتأثير النوم",
-  "log_emotion_supported": "أيد",
-  "log_emotion_supported_description": "تشعر أن هناك شخص ما هناك من أجلك",
-  "log_emotion_sympathetic": "ودي",
-  "log_emotion_sympathetic_description": "تشعر أنك تفهم مشاعر شخص ما",
-  "log_emotion_thankful": "شاكرين",
-  "log_emotion_thankful_description": "تشعر بالامتنان تجاه شخص ما أو شيء ما",
-  "log_emotion_thoughtful": "وقور",
-  "log_emotion_thoughtful_description": "تشعر وكأنك تفكر في بعض الأشياء بعناية",
-  "log_emotion_tranquil": "هادئ",
-  "log_emotion_tranquil_description": "تشعر بالهدوء والسكينة",
-  "log_emotion_understood": "مفهوم",
-  "log_emotion_understood_description": "تشعر أن شخصًا ما يحصل على المعنى المقصود",
-  "log_emotion_valued": "قيم",
-  "log_emotion_valued_description": "تشعر أنك مهم لشخص ما",
-  "log_emotion_alienated": "منبوذ",
-  "log_emotion_alienated_description": "تشعر بالغرابة والعزلة",
-  "log_emotion_apathetic": "لا مبالي",
-  "log_emotion_apathetic_description": "لا تشعر بالاهتمام أو الحماس أو القلق",
-  "log_emotion_ashamed": "خجلان",
-  "log_emotion_ashamed_description": "تشعر بقلة القيمة بسبب هويتك أو بسبب ما قمت به",
-  "log_emotion_bored_description": "تشعر أنك لا تهتم بشيء أو بشخص ما",
-  "log_emotion_burned_out": "احترق",
-  "log_emotion_burned_out_description": "تشعر أنك منهك تمامًا",
-  "log_emotion_depressed": "مكتئب",
-  "log_emotion_depressed_description": "تشعر بالحزن الشديد والاكتئاب",
-  "log_emotion_despair": "اليأس",
-  "log_emotion_despair_description": "تشعر أنك تفقد أو بدون أمل",
-  "log_emotion_despondent": "اليأس",
-  "log_emotion_despondent_description": "تشعر بالإحباط من فقدان الأمل أو الشجاعة",
-  "log_emotion_disappointed": "خائب الامل",
-  "log_emotion_disappointed_description": "تشعر بالحزن أو الاستياء لأن شخصًا ما أو شيء ما لم يطابق آمالك أو توقعاتك",
-  "log_emotion_disconnected": "انقطع الاتصال",
-  "log_emotion_disconnected_description": "تشعر بتواصل أقل مع العالم من حولك",
-  "log_emotion_discouraged": "محبط",
-  "log_emotion_discouraged_description": "تشعر وكأنك فقدت الثقة أو الحماس",
-  "log_emotion_disengaged": "مفصول",
-  "log_emotion_disengaged_description": "لا تشعر بأي رغبة في بذل جهود إضافية",
-  "log_emotion_disgusted_description": "تشعر وكأن لديك كراهية شديدة لشخص ما أو شيء ما",
-  "log_emotion_disheartened": "بخيبة أمل",
-  "log_emotion_disheartened_description": "تشعر بخيبة أمل حيال شيء ما ولديك ثقة أقل أو أمل أقل في ذلك مما كنت عليه من قبل",
-  "log_emotion_down": "أسفل",
-  "log_emotion_down_description": "تشعر بالحزن والإرهاق",
-  "log_emotion_excluded": "مستبعد",
-  "log_emotion_excluded_description": "تشعر أنك لا تنتمي إلى شخص أو مجموعة",
-  "log_emotion_exhausted": "أرهق",
-  "log_emotion_exhausted_description": "تشعر أنه لم يعد لديك طاقة متبقية",
-  "log_emotion_fatigued": "مرهق",
-  "log_emotion_fatigued_description": "تشعر بالضعف بسبب التغيرات المتكررة في التوتر",
-  "log_emotion_forlorn": "يائس",
-  "log_emotion_forlorn_description": "تشعر بالحزن الشديد والوحدة",
-  "log_emotion_glum": "كئيب",
-  "log_emotion_glum_description": "تشعر بالإحباط وخيبة الأمل",
-  "log_emotion_helpless": "عاجز",
-  "log_emotion_helpless_description": "تشعر أنك لا تستطيع فعل شيء ما",
-  "log_emotion_hopeless": "ميئوس منه",
-  "log_emotion_hopeless_description": "تشعر أن الموقف سيء للغاية بحيث يستحيل التعامل معه",
-  "log_emotion_humiliated": "إذلال",
-  "log_emotion_humiliated_description": "تشعر بالخجل من شيء يؤذي كبريائك",
-  "log_emotion_insecure_description": "تشعر بالخوف بشكل غير واثق",
-  "log_emotion_isolated": "معزول",
-  "log_emotion_isolated_description": "تشعر أنك منعزل عن الآخرين",
-  "log_emotion_lonely_description": "تشعر بالحزن لأنك غير متصل بالآخرين",
-  "log_emotion_lost": "ضائع",
-  "log_emotion_lost_description": "تشعر أنك بعيد ويائس",
-  "log_emotion_meh": "مه",
-  "log_emotion_meh_description": "تشعر أنك غير ملهم وكذا",
-  "log_emotion_miserable": "تعيس",
-  "log_emotion_miserable_description": "تشعر بالحزن وعدم الارتياح",
-  "log_emotion_morose": "موروز",
-  "log_emotion_morose_description": "تشعر بسوء المزاج وترفض أن تكون متعاونًا",
-  "log_emotion_pessimistic_description": "تشعر وكأنك تتوقع حدوث شيء سلبي",
-  "log_emotion_sad_description": "قد تشعر بالفراغ أو الضياع أو الوحدة",
-  "log_emotion_spent": "أنفق",
-  "log_emotion_spent_description": "تشعر أنك معتاد وغير قادر على استخدامها مرة أخرى",
-  "log_emotion_sullen": "متجهم",
-  "log_emotion_sullen_description": "تشعر أنك لا تريد أن تكون متعاونًا أو ودودًا",
-  "log_emotion_tired_description": "تشعر بتأثير الاستيقاظ لفترة طويلة",
-  "log_emotion_trapped": "مُحاصَر",
-  "log_emotion_trapped_description": "تشعر أنك لا تستطيع الهروب من شيء ما",
-  "log_emotion_vulnerable": "غير حصين",
-  "log_emotion_vulnerable_description": "تشعر أنه ليس لديك حماية",
-  "select_emotion": "حدد العاطفة التي تشعر بها الآن",
-  "yes": "نعم! :)",
-  "no": "ناه",
-  "feedback_checkin_setting_title": "هل يعمل تسجيل الوصول من أجلك؟",
-  "feedback_checkin_setting_body": "يسعدني سماع أفكارك حول إعدادات تسجيل الوصول. واسمحوا لي أن أعرف ما هو رأيك.",
-  "feedback_checkin_setting_button": "ارسل رأيك",
-  "log_emotion_awkward_description": "تشعر بعدم الارتياح ولكنك لا تعرف السبب بالضبط",
-  "log_emotion_awkward": "غير ملائم",
-  "log_emotion_brave_description": "لا تشعر بالخوف من شيء أو شخص ما",
-  "log_emotion_desire_description": "تشعر أنك تريد أن يكون لديك شيء ما أو ترغب في حدوث شيء ما",
-  "log_emotion_distracted_description": "تشعر وكأنك تواجه صعوبة في التركيز على شيء ما",
-  "log_emotion_fearful_description": "تشعر أنك في خطر أو أن شيئًا سيئًا قد يحدث",
-  "log_emotion_grieved_description": "تشعر بالحزن على شيء فقدته",
-  "log_emotion_guilty_description": "تشعر أنك مسؤول عن خطأ ارتكبته",
-  "log_emotion_impatient_description": "تشعر وكأنك تجد صعوبة في الحفاظ على هدوئك",
-  "log_emotion_rejected_description": "تشعر أنك غير مقبول أو غير مرغوب فيه",
-  "log_emotion_suspicious_description": "تشعر أنك لا تريد أو يمكنك الوثوق بشخص ما",
-  "log_emotion_suspicious": "مثير للشك",
-  "log_emotion_unmotivated_description": "تشعر بقليل من الاهتمام بشيء ما",
-  "log_emotion_weak_description": "تشعر أن لديك القليل من القوة",
-  "log_emotions_advanced": "قم بالتبديل إلى خيارات متقدمة",
-  "log_emotions_basic": "قم بالتبديل إلى الأساسي",
-  "more": "أكثر",
-  "less": "أقل",
-  "promo_emotion_tracking_title": "تتبع المشاعر\nانه متاح الان!",
-  "new_feature": "ميزة جديدة",
-  "calendar_foot_note": "المستقبل سيكون عظيما",
-  "log_messasge_hint_1": "مقارنة باليوم السابق ، سارت حالتك المزاجية {{word}}. هل تعرف لماذا؟",
-  "up": "فوق",
-  "down": "أسفل",
-  "log_messasge_hint_2": "هل تعلم لماذا {{description}}؟",
-  "log_message_hint_title": "أشياء تسألها لنفسك.",
-  "emotion_missing": "أنا أفتقد عاطفة",
-  "tags_default_6_title": "قراءة",
-  "tags_default_7_title": "تنظيف",
-  "tags_default_8_title": "نم مبكرا",
-  "tags_default_9_title": "تناول طعام صحي",
-  "tags_default_10_title": "التسوق",
-  "tags_default_11_title": "الألعاب",
-  "tags_default_12_title": "مشاهدة التليفزيون",
-  "tags_default_13_title": "تركيز كامل للذهن",
-  "tags_default_14_title": "طبيعة سجية",
-  "tags_default_15_title": "إِبداع",
-  "tags_default_16_title": "وسائل التواصل الاجتماعي",
-  "tags_default_17_title": "عمل",
-  "tags_default_18_title": "السفر",
-  "log_sleep_question": "كيف نمت؟",
-  "logger_step_sleep": "نايم",
-  "view_log_sleep": "نايم",
-  "promo_sleep_tracking_title": "تتبع النوم 💤\nانه متاح الان!",
-  "log_sleep_disable": "أنا لا أتتبع نومي",
-  "log_view_changed_title": "انتظر ، أين أوقات النهار الخاصة بي؟",
-  "log_view_changed_body": "يمكنك الآن استخدام الزر [+] في الجزء العلوي لإضافة إدخالات متعددة. إذا كان لديك إدخالات متعددة في اليوم ، فسيتم عرض قائمة ، وإلا فسيتم عرض إدخال واحد فقط في عرض التفاصيل هذا.",
-  "logger_step_sleep_low": "على الاطلاق",
-  "logger_step_sleep_high": "عظيم"
+  "ok": "D'acord",
+  "save": "Desa",
+  "add": "Afegeix",
+  "cancel": "Cancel · lar",
+  "delete": "Suprimeix",
+  "reset": "Restableix",
+  "calendar": "Calendari",
+  "settings": "Configuració",
+  "licenses": "Llicències",
+  "data_notice": "Totes les dades s'emmagatzemen al dispositiu i només surten del dispositiu quan ho decideixes.",
+  "rate_this_app": "Valora aquesta app",
+  "reset_data_button": "Restableix totes les dades i la configuració",
+  "reset_data_confirm_title": "Restableix",
+  "reset_data_confirm_message": "Esteu segur que voleu restablir totes les entrades i etiquetes?",
+  "reset_data_success_title": "Restableix",
+  "reset_data_success_message": "S'han restablert totes les dades.",
+  "import": "Importar",
+  "import_success_title": "Importació correcta",
+  "import_success_message": "Les vostres dades s'han importat correctament.",
+  "import_error_title": "La importació ha fallat",
+  "import_error_message": "El fitxer que heu seleccionat no conté el format correcte.",
+  "export": "Exporta",
+  "export_failed_title": "Ha fallat l'exportació",
+  "export_help": "Exporteu totes les dades com a fitxer JSON",
+  "log_modal_message_example": "Avui he trobat una manera de reconnectar amb mi mateix.",
+  "issue": "Assumpte",
+  "idea": "Idea",
+  "other": "Altres",
+  "send_feedback_issue": "Informa d'un problema",
+  "send_feedback_idea": "Envia idea",
+  "feedback_modal_title": "Enviar comentaris",
+  "feedback_modal_description": "Els vostres comentaris m'ajuden molt a entendre millor com feu servir l'aplicació i com puc millorar-la.",
+  "feedback_modal_textarea_placeholder": "M'he adonat que…",
+  "feedback_modal_send": "Enviar",
+  "feedback_modal_cancel": "Cancel · lar",
+  "feedback_success_title": "Comentaris enviats",
+  "feedback_success_message": "La teva opinió s'ha enviat correctament.",
+  "feedback_error_title": "Els comentaris han fallat",
+  "feedback_error_message": "S'ha produït un error en enviar els vostres comentaris.",
+  "feedback_help": "Aquesta aplicació està desenvolupada per una sola persona. Valoro molt els teus comentaris. M'ajuda a entendre millor com feu servir l'aplicació i com puc millorar-la.",
+  "send_feedback": "Donar comentaris",
+  "back_to_today": "Torna a l'actualitat",
+  "data": "Dades",
+  "reminder": "Recordatori",
+  "time": "Temps",
+  "notification_reminder_title": "Feu un seguiment del vostre estat d'ànim",
+  "notification_reminder_body": "Toqueu aquí per fer un seguiment del vostre estat d'ànim d'avui.",
+  "privacy": "Privadesa",
+  "privacy_policy": "Política de privacitat",
+  "privacy_content": "Pixy us ofereix la possibilitat de reflexionar sobre el vostre dia i emmagatzemar informació potencialment sensible. Vull ser el més transparent possible sobre l'ús de les vostres dades. Per tant, deixeu-me explicar com s'utilitzen les dades i per què les vostres dades són segures.\n\n### No tenim accés a la vostra informació de seguiment\n\nLes teves dades es desen localment al teu dispositiu. Mai es comparteix amb ningú, tret que trieu exportar-lo o utilitzar la funcionalitat webhook.\n\n### Registres d'errors\n\n**Per trobar problemes i mantenir l'estabilitat, mirem els registres d'errors reportats.**\n\nRecopilem registres d'errors amb el proveïdor de serveis Sentry. Ens dóna la possibilitat de veure l'hora, la pantalla oberta i el tipus de dispositiu. Utilitzem això per reproduir l'error i per solucionar-ho.\n\n### Dades de comportament\n\nQuan obriu una pantalla o canvieu una configuració, aquesta s'enviarà a una de les nostres eines d'anàlisi. Aquestes dades s'envien totalment anònimes. No s'envia cap de les vostres dades personals. Per exemple, si Laura Birmingham fa un seguiment del seu estat d'ànim. Només veiem que l'usuari 101029 va fer aquesta acció. Mai recollirem cap text que emmagatzemeu a l'aplicació.\n\nUtilitzem Posthog Cloud per recollir i visualitzar dades. Ens ajuda a entendre millor les tendències i a trobar àrees de millora.\n\n\n---------\n\nSi teniu cap pregunta o dubte, envieu-me una línia a [care@pixy.day](mailto:care@pixy.day).\n\n**Fa servir aquesta aplicació per mi mateix i mai voldria compartir dades personals amb cap desenvolupador.**\n\n*Podeu trobar tota la política de privadesa aquí.*",
+  "behavioral_data": "Dades de comportament",
+  "passcode": "Contrasenya",
+  "passcode_title_create": "Estableix la teva contrasenya",
+  "passcode_title_confirm": "Introduïu la vostra contrasenya",
+  "passcode_locked_title": "L'aplicació està bloquejada",
+  "passcode_locked_message": "Introduïu la vostra contrasenya.",
+  "passcode_forgot": "Has oblidat la teva contrasenya?",
+  "passcode_forgot_description": "Malauradament, no podem restablir la vostra contrasenya. Si heu perdut la vostra contrasenya, no hi ha manera de recuperar les vostres dades.",
+  "passcode_forgot_cancel": "Cancel · lar",
+  "passcode_forgot_reset": "Esborra totes les meves dades",
+  "passcode_forgot_reset_confirm": "Estàs segur?",
+  "passcode_forgot_reset_confirm_description": "Això esborrarà totes les dades i la configuració d'aquesta aplicació.",
+  "passcode_forgot_reset_confirm_reset": "Sí, elimina totes les meves dades",
+  "passcode_forgot_reset_confirm_cancel": "Cancel · lar",
+  "passcode_retry": "Introduïu la contrasenya",
+  "reminder_modal_title": "Fer-ne una rutina?",
+  "reminder_modal_body": "Configureu una notificació de recordatori diària perquè mai us perdeu el vostre píxel de seguiment.",
+  "reminder_modal_footer": "Encara no estàs convençut? No us preocupeu, podeu configurar el recordatori a la configuració de l'aplicació més tard.",
+  "statistics": "Estadístiques",
+  "log_modal_message_placeholder_1": "Què va ser el millor que t'ha passat avui?",
+  "log_modal_message_placeholder_2": "Què va fer únic avui?",
+  "log_modal_message_placeholder_3": "Qui ha millorat el teu dia avui?",
+  "log_modal_message_placeholder_4": "Quan t'has sentit autèntic avui?",
+  "log_modal_message_placeholder_5": "Quan t'has sentit desafiat avui?",
+  "log_modal_message_placeholder_6": "Què busques en el futur?",
+  "statistics_last_12_months": "Últims 12 mesos",
+  "statistics_experimental_title": "Et funciona?",
+  "statistics_experimental_body": "Feu-me saber si les estadístiques us són útils. Encara estic experimentant amb la millor manera de visualitzar les dades. Qualsevol comentari és apreciat.",
+  "statistics_experimental_button": "Donar comentaris",
+  "statistics_experimental_not_enough_data": "No hi ha prou dades",
+  "send": "Enviar",
+  "color": "Color",
+  "title": "Títol",
+  "tags_empty": "Les etiquetes es mostraran aquí",
+  "tags_add": "Afegeix una etiqueta",
+  "tags_add_placeholder": "#gran dia",
+  "tags_edit": "Edita les etiquetes",
+  "delete_tag_confirm_title": "Suprimeix l'etiqueta",
+  "delete_tag_confirm_message": "L'etiqueta s'eliminarà de totes les entrades. Aquesta acció no es pot desfer.",
+  "feedback_modal_help": "Deixa la teva informació de contacte si vols que et conteste.",
+  "tags_default_1_title": "Família",
+  "tags_default_2_title": "Amics",
+  "tags_default_3_title": "Amor",
+  "tags_default_4_title": "Esport",
+  "tags_default_5_title": "Relaxa't",
+  "statistics_title": "Estadístiques",
+  "new": "Nou",
+  "tags_feedback_title": "Presentació: Etiquetes",
+  "tags_feedback_body": "Les etiquetes són una nova manera de classificar les vostres dades. Podeu afegir fins a 30 etiquetes úniques a les vostres entrades. Està previst que s'utilitzin en estadístiques en el futur. Envieu-me els vostres comentaris a continuació. He llegit cada missatge teu.",
+  "tags_feedback_question": "Què us sembla la nova funció d'etiquetes?",
+  "tags_feedback_placeholder": "Detalls sobre els vostres comentaris... (opcional)",
+  "tags_feedback_button": "Doneu comentaris",
+  "import_confirm_title": "Importa dades",
+  "import_confirm_message": "Esteu segur que voleu importar dades? Això sobreescriurà totes les entrades i configuracions existents.",
+  "import_confirm_ok": "Importar",
+  "vote_features": "Funcions de votació",
+  "changelog": "Registre de canvis",
+  "delete_confirm_title": "Esborra l'entrada",
+  "delete_confirm_message": "Esteu segur que voleu suprimir aquesta entrada?",
+  "statistics_subtitle": "Les teves dues darreres setmanes",
+  "statistics_description": "Aquests són els vostres moments destacats de les dues darreres setmanes",
+  "statistics_no_data": "Afegeix {{count}} dies més durant les dues últimes setmanes per desbloquejar les teves primeres estadístiques.",
+  "mood": "Estat d'ànim",
+  "statistics_mood_avg_title": "El vostre estat d'ànim apareix amb un {{rating_percentage}}% que és majoritàriament {{rating_word}}.",
+  "statistics_mood_avg_positive": "positiu",
+  "statistics_mood_avg_neutral": "neutre",
+  "statistics_mood_avg_negative": "negatiu",
+  "statistics_mood_peaks_title_singular": "El teu estat d'ànim va arribar a {{rating_word}} una vegada.",
+  "statistics_mood_peaks_title_plural": "El teu estat d'ànim ha arribat al màxim {{rating_word}} {{rating_count}} vegades.",
+  "statistics_feedback_question": "Això és útil?",
+  "statistics_feedback_thanks": "Gràcies!",
+  "calendar_filters": "Filtres",
+  "calendar_filters_reset": "Restableix",
+  "calendar_filters_results": "Resultats",
+  "calendar_filters_search": "Cerca",
+  "today": "Avui",
+  "log_rating_question": "Com ha anat el dia?",
+  "log_tags_question": "Afegeix etiquetes al teu dia",
+  "log_note_question": "Escriu sobre el teu dia...",
+  "log_reminder_question": "Recordatori diari",
+  "log_reminder_descprition": "Configureu una notificació de recordatori diària perquè mai us perdeu el vostre píxel de seguiment.",
+  "log_reminder_enable": "Activa el recordatori",
+  "log_reminder_later": "Potser després",
+  "feedback_modal_email_placeholder": "Correu electrònic (opcional)",
+  "feedback_modal_message_placeholder": "Em vaig adonar que…",
+  "tags": "Etiquetes",
+  "statistics_tag_peaks_title": "s'ha etiquetat especialment sovint durant {{count}} dies.",
+  "statistics_tags_distribution_title": "Durant les dues darreres setmanes, s'han etiquetat {{count}} dies.",
+  "onboarding_skip": "Omet",
+  "onboarding_next": "Pròxim",
+  "onboarding_step_0_title": "Benvingut a Pixy",
+  "onboarding_step_0_body": "Aconsegueix accés a la millor cadena d'eines per identificar patrons d'estat d'ànim.",
+  "onboarding_step_1_button_1": "Abans he utilitzat un Mood Tracker",
+  "onboarding_step_1_button_2": "Mai vaig utilitzar un Mood Tracker",
+  "onboarding_step_1_title": "Calendari",
+  "onboarding_step_1_body": "La vista del calendari és la vostra llar a Pixy. Us ajuda a tenir una visió general de tots els dies que heu fet un seguiment amb els vostres píxels. Podeu afegir noves entrades tocant un dia.",
+  "onboarding_step_2_title": "Estadístiques",
+  "onboarding_step_2_body": "La vista d'estadístiques us ajuda a identificar els aspectes més destacats del vostre estat d'ànim. Admeten la visió general mitjana, la detecció de pics i l'anàlisi de correlació.",
+  "onboarding_step_3_title": "Filtres",
+  "onboarding_step_3_body": "Els filtres us ajuden a trobar entrades específiques. Podeu filtrar per estat d'ànim, etiquetes o cercar paraules específiques.",
+  "onboarding_step_4_title": "Recordatori diari",
+  "onboarding_step_4_body": "Configureu un recordatori diari perquè no us perdeu mai el seguiment del vostre píxel.",
+  "onboarding_step_4_button_1": "Activa el recordatori",
+  "onboarding_step_4_button_2": "Potser després",
+  "onboarding_step_5_title": "Ens prenem seriosament la privadesa i tractem les vostres dades amb cura.",
+  "onboarding_step_5_body_1": "Seguim dades anònimes per trobar errors i millorar l'aplicació.",
+  "onboarding_step_5_body_2": "Continuarem sense anuncis i mai monetitzarem les vostres dades.",
+  "onboarding_step_5_body_3": "Es preveu una subscripció de pagament per cobrir els costos de desenvolupament.",
+  "onboarding_step_5_body_4": "Les teves dades només s'emmagatzemaran en aquest dispositiu de manera predeterminada.",
+  "onboarding_step_5_body_5": "Podeu exportar o suprimir les vostres dades en qualsevol moment.",
+  "onboarding_step_5_button": "Entès",
+  "onboarding": "En l'embarcament",
+  "log_question_button": "Desa",
+  "settings_app": "App",
+  "settings_development": "Desenvolupament",
+  "settings_development_statistics": "Estadístiques per a nerds",
+  "development_statistics_days_logged": "Dies registrats",
+  "development_statistics_days_tagged": "Dies etiquetats",
+  "development_statistics_tags_unique": "Etiquetes úniques",
+  "development_statistics_words_total": "Paraules escrites",
+  "development_statistics_reset_questions": "Restablir preguntes",
+  "development_statistics_reset_questions_description": "Només fes clic aquí si saps què estàs fent.",
+  "cancel_confirm_title": "Estàs segur?",
+  "cancel_confirm_message": "Els vostres canvis es perdran.",
+  "keep_editing": "Continua editant",
+  "discard_changes": "Descartar els canvis",
+  "development_statistics_reset_actions": "Restablir accions",
+  "view_log_message": "Paraules",
+  "view_log_message_empty": "Un dia misteriós, ja que no té res a revelar sobre si mateix.",
+  "edit": "Edita",
+  "create": "Crear",
+  "done": "Fet",
+  "create_tag": "Crea una etiqueta",
+  "edit_tag": "Edita l'etiqueta",
+  "statistics_mood_chart_improved": "En les últimes 2 setmanes, el teu estat d'ànim mitjà ha millorat.",
+  "statistics_mood_chart_declined": "En les últimes 2 setmanes, el teu estat d'ànim mitjà ha disminuït.",
+  "statistics_highlights": "Destacats",
+  "statistics_highlights_description": "Els teus moments més destacats de les dues darreres setmanes",
+  "statistics_highlights_more": "Mostra tots els aspectes destacats",
+  "statistics_trends": "Tendències",
+  "statistics_trends_description": "Les teves tendències de les dues darreres setmanes",
+  "statistics_trends_more": "Mostra totes les tendències",
+  "statistics_2_week_highlights": "Últimes 2 setmanes",
+  "statistics_no_highlights": "Actualment, no hi ha cap mena destacada rellevant, però sempre podeu anar a \"Mostra tots els elements destacats\".",
+  "statistics_feedback_placeholder": "Com podria ser més útil? (opcional)",
+  "tags_reached_max": "Heu assolit el màxim de {{max_count}} etiquetes. Si us plau, suprimiu algunes etiquetes per afegir-ne de noves.",
+  "development_statistics_items_coverage": "Registrat des del primer dia",
+  "statistics_tags_distribution_trend_prefix": "Estàs etiquetant",
+  "statistics_tags_distribution_trend_increase_suffix": "més sovint",
+  "statistics_tags_distribution_trend_decrease_suffix": "menys sovint",
+  "reset_factory_button": "Restableix les dades i la configuració",
+  "reset_factory_description": "La configuració inclou recordatoris, colors i incorporació.",
+  "reset_factory_success_title": "Restableix",
+  "reset_factory_success_message": "S'han restablert totes les dades i la configuració.",
+  "reset_factory_confirm_title": "Restableix totes les dades i la configuració",
+  "reset_factory_confirm_message": "Esteu segur que voleu restablir totes les dades i la configuració?",
+  "colors": "Colors",
+  "colors_info": "Els colors s'utilitzen per indicar l'estat d'ànim al calendari. El vostre estat d'ànim anterior es canviarà al color seleccionat.",
+  "colors_reset": "Restableix els valors predeterminats",
+  "calendar_bottom_hint": "El futur serà gran.",
+  "statistics_mood_peaks_positive_direction": "positivament",
+  "statistics_mood_peaks_negative_direction": "negativament",
+  "statistics_tags_distribution_this_month": "Aquest mes",
+  "statistics_tags_distribution_last_month": "El mes passat",
+  "settings_about": "Sobre",
+  "settings_feedback": "Feedback",
+  "more_statistics": "Més estadístiques",
+  "month_report": "Informe mensual",
+  "year_report": "Informe anual",
+  "statistics_most_used_tags": "Etiquetes més utilitzades",
+  "statistics_most_used_tags_description": "Les teves etiquetes a {{date}}",
+  "statistics_mood_chart": "Tendència de l'estat d'ànim",
+  "statistics_mood_chart_description": "Tendència del teu estat d'ànim a {{date}}",
+  "statistics_mood_peaks_positive_description": "Els millors dies de {{date}}",
+  "statistics_mood_peaks_negative_description": "Els pitjors dies a {{date}}",
+  "year_in_pixels": "Any en píxels",
+  "year_in_pixels_description": "El meu estat d'ànim mitjà de cada dia a {{date}}",
+  "mood_count": "Recompte de l'estat d'ànim",
+  "mood_count_description": "Distribució del teu estat d'ànim a {{date}}",
+  "add_today_entry": "Afegeix l'entrada d'avui",
+  "promo_card_month_title": "El vostre {{month}} està llest",
+  "promo_card_year_title": "El teu {{year}}, visualitzat",
+  "statistics_mood_peaks_positive": "Els dies més positius",
+  "statistics_mood_peaks_negative": "Els dies més negatius",
+  "statistics_mood_chart_highlights_title": "El teu estat d'ànim durant els últims 14 dies",
+  "entries": "Entrades",
+  "tags_used": "Etiquetes utilitzades",
+  "words_written": "Paraules escrites",
+  "days_tagged": "Dies etiquetats",
+  "statistics_not_enough_data_title": "No hi ha prou dades.",
+  "statistics_not_enough_data_subtitle_without_count": "Afegeix més entrades per desbloquejar aquest gràfic.",
+  "statistics_not_enough_data_subtitle_singular": "Afegeix una entrada més per desbloquejar aquest gràfic",
+  "statistics_not_enough_data_subtitle_plural": "Afegeix {{count}} entrades més per desbloquejar aquest gràfic.",
+  "extremely_bad": "Extremadament dolent",
+  "very_bad": "Molt malament",
+  "bad": "Dolent",
+  "neutral": "Neutre",
+  "good": "Bé",
+  "very_good": "Molt bé",
+  "extremely_good": "Extremadament bé",
+  "add_entry": "Afegeix una entrada",
+  "yesterday": "Ahir",
+  "entries_no_data": "Encara no hi ha entrades.",
+  "entries_reached_max": "Heu assolit el màxim de {{max_count}} entrades. Si us plau, elimineu algunes entrades per afegir-ne de noves.",
+  "entries_per_day": "Mitjana entrades per dia",
+  "tags_per_day": "Mitjana etiquetes per dia",
+  "words_written_per_day": "Mitjana paraules al dia",
+  "entries_feedback_title": "Com us agrada la vista de noves entrades?",
+  "entries_feedback_body": "Estem treballant en una nova manera d'afegir entrades. Feu-nos saber què us sembla.",
+  "give_feedback": "Donar comentaris",
+  "logger_step_rating": "Estat d'ànim",
+  "logger_step_emotions": "Emocions",
+  "logger_step_tags": "Etiquetes",
+  "logger_step_message": "Escriu sobre el teu dia",
+  "logger_step_feedback": "Preguntes de producte",
+  "steps": "Passos",
+  "steps_introduction": "Aquí podeu decidir què voleu fer el seguiment per a cada entrada. Sempre podeu afegir més passos més endavant.",
+  "disable_step_confirm_title": "Desactivar el pas?",
+  "disable_step_confirm_message": "Podeu tornar-lo a activar més tard a la configuració.",
+  "log_tags_disable": "No faig servir etiquetes",
+  "log_message_disable": "No escric sobre el meu dia",
+  "disable": "Desactivar",
+  "log_emotions_question": "Com et sents?",
+  "log_emotion_angry": "Enfadat",
+  "log_emotion_despairful": "Desesperada",
+  "log_emotion_disrespected": "Falta de respecte",
+  "log_emotion_fearful": "Temorós",
+  "log_emotion_grieved": "Entristit",
+  "log_emotion_shameful": "Vergonyós",
+  "log_emotion_anxious": "Ansiós",
+  "log_emotion_disgusted": "Disgustat",
+  "log_emotion_embarrassed": "Avergonyit",
+  "log_emotion_frustrated": "Frustrada",
+  "log_emotion_rejected": "Rebutjada",
+  "log_emotion_annoyed": "Enfadat",
+  "log_emotion_insecure": "Insegur",
+  "log_emotion_let_down": "Deixar tirat",
+  "log_emotion_nervous": "Nerviós",
+  "log_emotion_pessimistic": "Pessimista",
+  "log_emotion_shocked": "Sorpresa",
+  "log_emotion_unmotivated": "Desmotivat",
+  "log_emotion_guilty": "Culpable",
+  "log_emotion_jealous": "Gelós",
+  "log_emotion_lonely": "Solitària",
+  "log_emotion_overwhelmed": "Aclaparat",
+  "log_emotion_sad": "Trist",
+  "log_emotion_unfulfilled": "Incomplert",
+  "log_emotion_weak": "Feble",
+  "log_emotion_worried": "Preocupat",
+  "log_emotion_awekward": "Incòmode",
+  "log_emotion_busy": "Ocupat",
+  "log_emotion_critiqued": "Criticat",
+  "log_emotion_distracted": "Distret",
+  "log_emotion_suspicous": "Sospitós",
+  "log_emotion_unsure": "Insegur",
+  "log_emotion_bored": "Avorrit",
+  "log_emotion_confused": "Confós",
+  "log_emotion_desire": "Desig",
+  "log_emotion_impatient": "Impacient",
+  "log_emotion_tired": "Cansat",
+  "log_emotion_appreciated": "Agraït",
+  "log_emotion_calm": "Tranquil·la",
+  "log_emotion_comfortable": "Còmode",
+  "log_emotion_surprised": "Sorprès",
+  "log_emotion_grateful": "Agraït",
+  "log_emotion_motivated": "Motivat",
+  "log_emotion_optimistic": "Optimista",
+  "log_emotion_curious": "Curiosa",
+  "log_emotion_inspired": "Inspirat",
+  "log_emotion_nostalgic": "Nostàlgic",
+  "log_emotion_relieved": "Alleujat",
+  "log_emotion_brave": "Valent",
+  "log_emotion_creative": "Creatiu",
+  "log_emotion_free": "Gratuït",
+  "log_emotion_love": "Amor",
+  "log_emotion_respected": "Respectat",
+  "log_emotion_confident": "Confiat",
+  "log_emotion_excited": "Emocionat",
+  "log_emotion_happy": "Feliç",
+  "log_emotion_proud": "Orgullós",
+  "log_emotions_disable": "No segueixo les emocions",
+  "log_feedback_disable": "No vull donar comentaris",
+  "disable_feedback_step_confirm_title": "Desactivar les preguntes sobre el producte?",
+  "disable_feedback_step_confirm_message": "M'ajuden molt a millorar l'aplicació per a tu. Però no us preocupeu, podeu tornar-lo a activar més tard a la configuració.",
+  "view_log_tags_empty": "Encara no hi ha etiquetes.",
+  "view_log_emotions_empty": "Encara no hi ha emocions.",
+  "view_log_emotions": "Emocions",
+  "statistics_best_month": "El millor mes",
+  "statistics_worst_month": "El pitjor mes",
+  "add_today_another_entry": "Afegeix una altra entrada per avui",
+  "morning": "Al matí",
+  "afternoon": "Tarda",
+  "evening": "vespre",
+  "add_entry_for": "Afegeix {{dayTime}}",
+  "log_emotion_accomplished": "Acomplert",
+  "log_emotion_accomplished_description": "Et sents satisfet amb el que has aconseguit",
+  "log_emotion_alive": "Viu",
+  "log_emotion_alive_description": "Et sents ple d'energia",
+  "log_emotion_amazed": "Sorprenent",
+  "log_emotion_amazed_description": "Et sents molt sorprès",
+  "log_emotion_challenged": "Desafiat",
+  "log_emotion_challenged_description": "Et sents convidat a un concurs",
+  "log_emotion_cheerful": "Alegre",
+  "log_emotion_cheerful_description": "Et sents notablement feliç i optimista.",
+  "log_emotion_competent": "Competent",
+  "log_emotion_competent_description": "Sent la capacitat, el coneixement o l'habilitat per fer alguna cosa amb èxit",
+  "log_emotion_confident_description": "Et sents segur de tu mateix i de les teves capacitats",
+  "log_emotion_curious_description": "Tens ganes de saber o aprendre alguna cosa",
+  "log_emotion_delighted": "Encantat",
+  "log_emotion_delighted_description": "Et sents molt satisfet per alguna cosa o algú",
+  "log_emotion_determined": "Decidit",
+  "log_emotion_determined_description": "Et sents segur en no canviar una decisió",
+  "log_emotion_eager": "Amb ganes",
+  "log_emotion_eager_description": "Sents que tens un fort desig de fer alguna cosa",
+  "log_emotion_ecstatic": "Extàtic",
+  "log_emotion_ecstatic_description": "Et sents aclaparat d'alegria",
+  "log_emotion_elated": "Emocionat",
+  "log_emotion_elated_description": "Et sents molt orgullós i feliç",
+  "log_emotion_empowered": "Empoderat",
+  "log_emotion_empowered_description": "Sents l'autoritat o el poder per fer alguna cosa",
+  "log_emotion_energized": "Energitzat",
+  "log_emotion_energized_description": "Et sents fort i actiu",
+  "log_emotion_engaged": "Compromesos",
+  "log_emotion_engaged_description": "Et sents ocupat i interessat",
+  "log_emotion_enthusiastic": "Entusiasta",
+  "log_emotion_enthusiastic_description": "Et sents molt interessat en una idea o activitat",
+  "log_emotion_excited_description": "Et sents molt feliç per alguna cosa en el futur",
+  "log_emotion_exhilarated": "Emocionat",
+  "log_emotion_exhilarated_description": "Et sents animat i feliç",
+  "log_emotion_focused": "Centrat",
+  "log_emotion_focused_description": "Et sents compromès en una sola idea o activitat",
+  "log_emotion_happy_description": "Sents plaer i satisfacció",
+  "log_emotion_hopeful": "Esperançat",
+  "log_emotion_hopeful_description": "Et sents optimista que passarà alguna cosa bona",
+  "log_emotion_in_awe": "Genial",
+  "log_emotion_in_awe_description": "Sentiu respecte o aprovació càlida",
+  "log_emotion_inspired_description": "Et sents fortament influenciat per alguna cosa que et motiva",
+  "log_emotion_joyful": "Alegre",
+  "log_emotion_joyful_description": "Sents un gran plaer i felicitat",
+  "log_emotion_motivated_description": "Et sents emocionat de fer alguna cosa",
+  "log_emotion_optimistic_description": "Et sents esperançat i confiat en el futur",
+  "log_emotion_playful": "Jugar",
+  "log_emotion_playful_description": "Et sents alegre i feliç",
+  "log_emotion_pleasant": "Agradable",
+  "log_emotion_pleasant_description": "Sents satisfacció i gaudi",
+  "log_emotion_pleased": "Contenta",
+  "log_emotion_pleased_description": "Sents plaer i satisfacció",
+  "log_emotion_productive": "Productiu",
+  "log_emotion_productive_description": "Tens la sensació d'haver aconseguit una tasca o assolit un objectiu",
+  "log_emotion_proud_description": "Et sents satisfet amb els teus èxits o els d'algú proper",
+  "log_emotion_successful": "Encertat",
+  "log_emotion_successful_description": "Et sents satisfet amb el que has aconseguit",
+  "log_emotion_surprised_description": "Tens la sensació d'haver experimentat alguna cosa inesperada",
+  "log_emotion_thrilled": "Emocionat",
+  "log_emotion_thrilled_description": "Sents molta alegria per alguna cosa o algú",
+  "log_emotion_upbeat": "Alegre",
+  "log_emotion_upbeat_description": "Et sents optimista i enèrgic",
+  "log_emotion_angry_description": "Sents una gran molèstia, disgust, infelicitat o antipatia",
+  "log_emotion_annoyed_description": "Et sents una mica enfadat",
+  "log_emotion_anxious_description": "Et sents preocupat, nerviós o incòmode perquè no saps com sortirà alguna cosa",
+  "log_emotion_apprehensive": "Ansiós",
+  "log_emotion_apprehensive_description": "Et sents preocupat o té por que passi alguna cosa dolent o desagradable",
+  "log_emotion_concerned": "Preocupat",
+  "log_emotion_concerned_description": "Tens la sensació que et preguntes com està algú o alguna cosa",
+  "log_emotion_confused_description": "Et sents incapaç de pensar amb claredat",
+  "log_emotion_contempt": "Menyspreu",
+  "log_emotion_contempt_description": "Sents que algú o alguna cosa no val per res o per sota teu",
+  "log_emotion_embarrassed_description": "Et sents insegur i incòmode amb com senten els altres per tu",
+  "log_emotion_enraged": "Enfurismat",
+  "log_emotion_enraged_description": "Et sents molt enfadat",
+  "log_emotion_envious": "Enveja",
+  "log_emotion_envious_description": "Sents que vols alguna cosa que pertanyi a algú altre",
+  "log_emotion_fomo": "Fomo",
+  "log_emotion_fomo_description": "Tens por de perdre't alguna cosa",
+  "log_emotion_frightened": "Espantat",
+  "log_emotion_frightened_description": "Tens por d'alguna cosa",
+  "log_emotion_frustrated_description": "Et sents molest perquè no pots fer res",
+  "log_emotion_furious": "Furiosa",
+  "log_emotion_furious_description": "Sents una passió extremadament enfadada i violenta",
+  "log_emotion_hyper": "Hiper",
+  "log_emotion_hyper_description": "Et sents enèrgic i emocionat",
+  "log_emotion_impassioned": "Apassionat",
+  "log_emotion_impassioned_description": "Et sents ple d'una gran emoció",
+  "log_emotion_irate": "Enfadat",
+  "log_emotion_irate_description": "Sents una forta ràbia",
+  "log_emotion_irritated": "Irritat",
+  "log_emotion_irritated_description": "Sents una lleugera ira o molèstia",
+  "log_emotion_jealous_description": "Tens por de perdre alguna cosa",
+  "log_emotion_jittery": "Secàs",
+  "log_emotion_jittery_description": "Et sents nerviós i inquiet",
+  "log_emotion_livid": "Lívid",
+  "log_emotion_livid_description": "Et sents molt enfadat",
+  "log_emotion_nervous_description": "Et sents inestable i inquiet o insegur per dins",
+  "log_emotion_overwhelmed_description": "Sents que alguna cosa és massa per manejar",
+  "log_emotion_panicked": "En pànic",
+  "log_emotion_panicked_description": "Tens ganes de perdre el control",
+  "log_emotion_passionate": "Apassionat",
+  "log_emotion_passionate_description": "Sents que tens sentiments o creences forts sobre alguna cosa",
+  "log_emotion_peeved": "Enfadat",
+  "log_emotion_peeved_description": "Et sents molest",
+  "log_emotion_pressured": "Pressionat",
+  "log_emotion_pressured_description": "Et preocupa estar a l'altura de les expectatives pròpies o d'altres persones",
+  "log_emotion_repulsed": "Repelgut",
+  "log_emotion_repulsed_description": "Et sents allunyat o disgustat",
+  "log_emotion_restless": "Inquiet",
+  "log_emotion_restless_description": "Tens la sensació que no pots relaxar-te per ansietat o avorriment",
+  "log_emotion_scared": "Espantat",
+  "log_emotion_scared_description": "Et sents amenaçat o en perill",
+  "log_emotion_shocked_description": "Et sents sorprès i molest",
+  "log_emotion_stressed": "Estrès",
+  "log_emotion_stressed_description": "Sents tensió mental o emocional",
+  "log_emotion_stunned": "Atordit",
+  "log_emotion_stunned_description": "Et sents temporalment incapaç de reaccionar",
+  "log_emotion_tense": "Tens",
+  "log_emotion_tense_description": "Et sents incapaç de relaxar-te",
+  "log_emotion_terrified": "Aterrit",
+  "log_emotion_terrified_description": "Sentiu una por extrema",
+  "log_emotion_troubled": "Atormentat",
+  "log_emotion_troubled_description": "Et sents preocupat i inquiet",
+  "log_emotion_uneasy": "Incòmode",
+  "log_emotion_uneasy_description": "Sents que alguna cosa està malament",
+  "log_emotion_worried_description": "Et sents ansiós per alguna cosa",
+  "log_emotion_accepted": "Acceptat",
+  "log_emotion_accepted_description": "Sents que algú va creure o reconèixer el que vas fer com a vàlid o correcte.",
+  "log_emotion_appreciated_description": "Sents que algú està agraït pel que has fet o pel que ets",
+  "log_emotion_at_ease": "Fàcil",
+  "log_emotion_at_ease_description": "Et sents relaxat i segur",
+  "log_emotion_balanced": "Equilibrat",
+  "log_emotion_balanced_description": "Et sents estable sense cap emoció massa forta o massa feble",
+  "log_emotion_blessed": "Beneït",
+  "log_emotion_blessed_description": "Sents plaer o alleujament com un contrast benvingut amb el que has experimentat anteriorment",
+  "log_emotion_blissful": "Feliç",
+  "log_emotion_blissful_description": "Et sents molt feliç i ple d'alegria",
+  "log_emotion_calm_description": "Et sents lliure d'estrès, emoció i preocupació",
+  "log_emotion_carefree": "Despreocupat",
+  "log_emotion_carefree_description": "Et sents lliure d'ansietat i responsabilitat",
+  "log_emotion_chill": "Refredat",
+  "log_emotion_chill_description": "Et sents relaxat i a gust",
+  "log_emotion_comfortable_description": "Sents dolors o molèsties reduïts físicament i emocionalment",
+  "log_emotion_compassionate": "Compassiu",
+  "log_emotion_compassionate_description": "Sentiu simpatia i preocupació pels altres",
+  "log_emotion_connected": "Connectat",
+  "log_emotion_connected_description": "Et sents connectat amb algú o part de la teva comunitat",
+  "log_emotion_content": "Satisfet",
+  "log_emotion_content_description": "Sentiu que les vostres expectatives, necessitats o desitjos es compleixen",
+  "log_emotion_fragile": "Fràgil",
+  "log_emotion_fragile_description": "Et sents fàcilment trencat o danyat",
+  "log_emotion_fulfilled": "Complert",
+  "log_emotion_fulfilled_description": "Et sents completament satisfet",
+  "log_emotion_good": "Bé",
+  "log_emotion_good_description": "Sents que tot està bé",
+  "log_emotion_grateful_description": "Sents gaudi de les bones qualitats d'alguna cosa o algú",
+  "log_emotion_heard": "Escoltat",
+  "log_emotion_heard_description": "Et sents escoltat i comprès",
+  "log_emotion_included": "Inclòs",
+  "log_emotion_included_description": "Et sents part d'un grup",
+  "log_emotion_loved": "Estimat",
+  "log_emotion_loved_description": "Sents un afecte profund i fort",
+  "log_emotion_mellow": "lleu",
+  "log_emotion_mellow_description": "Et sents lliure de la duresa",
+  "log_emotion_moved": "Mogut",
+  "log_emotion_moved_description": "Sents una forta tristesa o simpatia per alguna cosa que algú ha dit o fet",
+  "log_emotion_peaceful": "Pacífica",
+  "log_emotion_peaceful_description": "Et sents lliure d'interrupcions",
+  "log_emotion_relaxed": "Relaxat",
+  "log_emotion_relaxed_description": "Et sents lliure de tensió i ansietat",
+  "log_emotion_relieved_description": "Et sents feliç després que una sensació incòmoda hagi desaparegut",
+  "log_emotion_respected_description": "Et sents positiu amb algú o alguna cosa que consideres important",
+  "log_emotion_safe": "Caixa forta",
+  "log_emotion_safe_description": "Et sents lliure del perill",
+  "log_emotion_satisfied": "Satisfet",
+  "log_emotion_satisfied_description": "Sentiu que les vostres expectatives, necessitats o desitjos s'han complert",
+  "log_emotion_secure": "Segur",
+  "log_emotion_secure_description": "Estàs segur de romandre segur o protegit",
+  "log_emotion_serene": "Serè",
+  "log_emotion_serene_description": "Et sents tranquil i tranquil",
+  "log_emotion_sleepy": "Endormiscat",
+  "log_emotion_sleepy_description": "Sents l'efecte del son",
+  "log_emotion_supported": "Admet",
+  "log_emotion_supported_description": "Sents que hi ha algú per tu",
+  "log_emotion_sympathetic": "Simpàtic",
+  "log_emotion_sympathetic_description": "Tens la sensació d'entendre els sentiments d'algú",
+  "log_emotion_thankful": "Agraït",
+  "log_emotion_thankful_description": "Et sents agraït cap a algú o alguna cosa",
+  "log_emotion_thoughtful": "Pensatiu",
+  "log_emotion_thoughtful_description": "Tens la sensació de considerar alguna cosa amb cura",
+  "log_emotion_tranquil": "Tranquil",
+  "log_emotion_tranquil_description": "Et sents tranquil i tranquil",
+  "log_emotion_understood": "Entès",
+  "log_emotion_understood_description": "Tens la sensació que algú entén el significat previst",
+  "log_emotion_valued": "Valorat",
+  "log_emotion_valued_description": "Sents que ets important per a algú",
+  "log_emotion_alienated": "Alienat",
+  "log_emotion_alienated_description": "Et sents estrany i aïllat",
+  "log_emotion_apathetic": "Apatic",
+  "log_emotion_apathetic_description": "No sents cap interès, entusiasme o preocupació",
+  "log_emotion_ashamed": "Avergonyit",
+  "log_emotion_ashamed_description": "Et sents poc valgut per qui ets o pel que has fet",
+  "log_emotion_bored_description": "Sents que no t'interessa alguna cosa o algú",
+  "log_emotion_burned_out": "Cremar-se",
+  "log_emotion_burned_out_description": "Et sents completament esgotat",
+  "log_emotion_depressed": "Deprimit",
+  "log_emotion_depressed_description": "Et sents extremadament infeliç i deprimit",
+  "log_emotion_despair": "Desesperat",
+  "log_emotion_despair_description": "Et sents perdut o sense esperança",
+  "log_emotion_despondent": "Desanimat",
+  "log_emotion_despondent_description": "Et sents baix per la pèrdua d'esperança o de coratge",
+  "log_emotion_disappointed": "Decebut",
+  "log_emotion_disappointed_description": "Et sents trist o infeliç perquè algú o alguna cosa no ha coincidit amb les teves esperances o expectatives",
+  "log_emotion_disconnected": "Desconnectat",
+  "log_emotion_disconnected_description": "Sents menys contacte amb el món que t'envolta",
+  "log_emotion_discouraged": "Desanimat",
+  "log_emotion_discouraged_description": "Tens la sensació d'haver perdut la confiança o l'entusiasme",
+  "log_emotion_disengaged": "Desenganxat",
+  "log_emotion_disengaged_description": "No sents cap voluntat de fer esforços addicionals",
+  "log_emotion_disgusted_description": "Sents que tens una forta antipatia per algú o alguna cosa",
+  "log_emotion_disheartened": "Desanimat",
+  "log_emotion_disheartened_description": "Et sents decebut per alguna cosa i tens menys confiança o menys esperança que abans",
+  "log_emotion_down": "Avall",
+  "log_emotion_down_description": "Et sents trist i esgotat",
+  "log_emotion_excluded": "Exclòs",
+  "log_emotion_excluded_description": "Sents que no pertanys a ningú ni a un grup",
+  "log_emotion_exhausted": "Esgotat",
+  "log_emotion_exhausted_description": "Sents que no et queda energia",
+  "log_emotion_fatigued": "Cansat",
+  "log_emotion_fatigued_description": "Et sents debilitat per variacions repetides d'estrès",
+  "log_emotion_forlorn": "Desgraciat",
+  "log_emotion_forlorn_description": "Et sents lamentablement trist i sol",
+  "log_emotion_glum": "Glum",
+  "log_emotion_glum_description": "Et sents abatut i decebut",
+  "log_emotion_helpless": "Impotent",
+  "log_emotion_helpless_description": "Sents que no pots fer res",
+  "log_emotion_hopeless": "Sense esperança",
+  "log_emotion_hopeless_description": "Sents que una situació és tan dolenta que és impossible afrontar-la",
+  "log_emotion_humiliated": "Humiliat",
+  "log_emotion_humiliated_description": "Et sents avergonyit d'alguna cosa que fereix el teu orgull",
+  "log_emotion_insecure_description": "Tens una por sense confiança",
+  "log_emotion_isolated": "Aïllat",
+  "log_emotion_isolated_description": "Et sents tallat dels altres",
+  "log_emotion_lonely_description": "Et sents trist perquè no estàs connectat amb els altres",
+  "log_emotion_lost": "Perdut",
+  "log_emotion_lost_description": "Et sents lluny i sense esperança",
+  "log_emotion_meh": "Meh",
+  "log_emotion_meh_description": "Et sents sense inspiració i bla",
+  "log_emotion_miserable": "Miserable",
+  "log_emotion_miserable_description": "Et sents infeliç i incòmode",
+  "log_emotion_morose": "Morosa",
+  "log_emotion_morose_description": "Et sents de mal humor i et negues a ser cooperatiu",
+  "log_emotion_pessimistic_description": "Tens la sensació que esperes que passi alguna cosa negativa",
+  "log_emotion_sad_description": "Potser us sentiu buit, perdut o sol",
+  "log_emotion_spent": "Esgotat",
+  "log_emotion_spent_description": "Et sents utilitzat i no pots tornar-lo a utilitzar",
+  "log_emotion_sullen": "Hombrós",
+  "log_emotion_sullen_description": "Sents que no vols ser cooperatiu o amable",
+  "log_emotion_tired_description": "Sents l'efecte d'estar despert durant molt de temps",
+  "log_emotion_trapped": "Atrapat",
+  "log_emotion_trapped_description": "Tens la sensació que no pots escapar d'alguna cosa",
+  "log_emotion_vulnerable": "Vulnerable",
+  "log_emotion_vulnerable_description": "Sents que no tens protecció",
+  "select_emotion": "Seleccioneu l'emoció que sentiu ara mateix",
+  "yes": "Sí! :)",
+  "no": "Nahh",
+  "feedback_checkin_setting_title": "Et funciona el Check-in?",
+  "feedback_checkin_setting_body": "M'encantaria saber les vostres opinions sobre la configuració del registre d'entrada. Si us plau, fes-me saber què en penses.",
+  "feedback_checkin_setting_button": "Enviar comentaris",
+  "log_emotion_awkward_description": "Et sents incòmode però no saps exactament per què",
+  "log_emotion_awkward": "Incòmode",
+  "log_emotion_brave_description": "No tens por de res ni d'algú",
+  "log_emotion_desire_description": "Tens la sensació de voler tenir alguna cosa o desitjar que passi alguna cosa",
+  "log_emotion_distracted_description": "Sents que et costa concentrar-te en alguna cosa",
+  "log_emotion_fearful_description": "Et sents en perill o com que podria passar alguna cosa dolenta",
+  "log_emotion_grieved_description": "Et sents trist per alguna cosa que has perdut",
+  "log_emotion_guilty_description": "Et sents responsable d'un error que has comès",
+  "log_emotion_impatient_description": "Sents que et costa mantenir la calma",
+  "log_emotion_rejected_description": "Et sents inacceptable o no desitjat",
+  "log_emotion_suspicious_description": "Sents que no vols ni pots confiar en algú",
+  "log_emotion_suspicious": "Sospitós",
+  "log_emotion_unmotivated_description": "Sens poc interès en alguna cosa",
+  "log_emotion_weak_description": "Sents que tens poca força",
+  "log_emotions_advanced": "Canvia a Avançat",
+  "log_emotions_basic": "Canvia a Bàsica",
+  "more": "Més",
+  "less": "Menys",
+  "promo_emotion_tracking_title": "Seguiment d'emocions\nja està disponible!",
+  "new_feature": "Funció nova",
+  "calendar_foot_note": "El futur serà gran",
+  "log_messasge_hint_1": "En comparació amb el dia anterior, el teu estat d'ànim va ser {{word}}. Saps per què?",
+  "up": "amunt",
+  "down": "cap avall",
+  "log_messasge_hint_2": "Saps per què {{description}}?",
+  "log_message_hint_title": "Coses per preguntar-se.",
+  "emotion_missing": "Trobo a faltar una emoció",
+  "tags_default_6_title": "Lectura",
+  "tags_default_7_title": "Neteja",
+  "tags_default_8_title": "Dormir aviat",
+  "tags_default_9_title": "Menja sa",
+  "tags_default_10_title": "Compres",
+  "tags_default_11_title": "Jocs",
+  "tags_default_12_title": "Mirant la televisió",
+  "tags_default_13_title": "Mindfulness",
+  "tags_default_14_title": "Naturalesa",
+  "tags_default_15_title": "Creativitat",
+  "tags_default_16_title": "Mitjà de comunicació social",
+  "tags_default_17_title": "Treballar",
+  "tags_default_18_title": "Viatjar",
+  "log_sleep_question": "Com has dormit?",
+  "logger_step_sleep": "Dormir",
+  "view_log_sleep": "Dormir",
+  "promo_sleep_tracking_title": "Seguiment del son 💤\nja està disponible!",
+  "log_sleep_disable": "No faig un seguiment del meu son",
+  "log_view_changed_title": "Espera, on són els meus dies?",
+  "log_view_changed_body": "Ara podeu utilitzar el botó [+] a la part superior per afegir diverses entrades. Si teniu diverses entrades al dia, es mostrarà una llista, en cas contrari només es mostrarà una entrada en aquesta vista de detall.",
+  "logger_step_sleep_low": "No del tot",
+  "logger_step_sleep_high": "Genial"
 }
