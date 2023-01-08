@@ -115,6 +115,7 @@ const _BotLogger = ({
     >
       <Header onClose={onCancel} />
       <ScrollView
+        keyboardShouldPersistTaps="always"
         style={{
           flex: 1,
         }}
@@ -125,7 +126,7 @@ const _BotLogger = ({
       >
         <View
           style={{
-            paddingBottom: inserts.bottom + 32,
+            paddingBottom: inserts.bottom + (bot.answers.some(a => a.type === 'text') && Platform.OS === 'android' ? 0 : 32),
           }}
         >
           <View

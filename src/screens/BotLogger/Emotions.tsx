@@ -6,6 +6,7 @@ import { useState } from "react"
 import { View } from "react-native"
 import { useSafeAreaInsets } from "react-native-safe-area-context"
 import { RootStackScreenProps } from "../../../types"
+import { PageModalLayout } from "@/components/PageModalLayout"
 
 export const BotLoggerEmotions = ({
   route: { params },
@@ -16,7 +17,7 @@ export const BotLoggerEmotions = ({
   const [emotions, setEmotions] = useState<Emotion[]>([])
 
   return (
-    <View
+    <PageModalLayout
       style={{
         flex: 1,
         justifyContent: 'space-between',
@@ -43,6 +44,6 @@ export const BotLoggerEmotions = ({
           }}
         >Done</Button>
       </View>
-    </View>
+    </PageModalLayout>
   )
 }
