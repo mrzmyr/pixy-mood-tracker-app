@@ -39,9 +39,9 @@ export const EmotionButtonBasic = ({
           borderColor: selected ? colors.tint : colorScheme === 'light' ? 'rgba(0,0,0,0.1)' : 'rgba(255,255,255,0.2)',
           flexDirection: 'row',
           alignItems: 'center',
-          paddingVertical: selected ? 5 : 6,
-          paddingRight: selected ? 15 : 16,
-          paddingLeft: selected ? 15 : 16,
+          paddingVertical: selected ? 9 : 10,
+          paddingRight: selected ? 13 : 14,
+          paddingLeft: selected ? 13 : 14,
         }}
       >
         <EmotionIndicator category={emotion.category} />
@@ -51,7 +51,6 @@ export const EmotionButtonBasic = ({
             fontWeight: '500',
             fontSize: 17,
             flex: 1,
-            paddingVertical: 6,
           }}
           numberOfLines={1}
         >
