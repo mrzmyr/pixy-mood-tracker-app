@@ -37,7 +37,7 @@ export const LogList = ({ route, navigation }: RootStackScreenProps<'LogList'>) 
   const add = () => {
     analytics.track('log_list_add');
     navigation.navigate('LogCreate', {
-      dateTime: dayjs(date).toISOString(),
+      dateTime: dayjs(date).hour(dayjs().hour()).minute(dayjs().minute()).toISOString()
     })
   }
 
