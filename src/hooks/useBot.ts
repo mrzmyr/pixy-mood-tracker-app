@@ -1,6 +1,9 @@
+import { useTemporaryLog } from '@/hooks/useTemporaryLog';
+import { useNavigation } from '@react-navigation/native';
 import { wait } from "@/lib/utils";
 import { ANSWER_DELAY, BotAnswer, BotQuestion, SHOW_ANSWERS_DELAY, THINKING_DELAY, useBotQuestions } from "@/screens/BotLogger/useBotQuestions";
 import { useEffect, useState } from "react";
+import _ from 'lodash';
 
 type MessageAuthor = "bot" | "user";
 
@@ -14,6 +17,7 @@ export interface Bot {
   messages: BotMessage[];
   answers: BotAnswer[];
   questions: BotQuestion[];
+  didStart: boolean;
   on: (event: BotEventType, callback: (data: BotEventData) => void) => void;
   off: (event: BotEventType) => void;
   start: () => void;
@@ -59,15 +63,25 @@ function usePubSub() {
 
 export const useBot = (): Bot => {
 
+  const tempLog = useTemporaryLog();
+  const navigation = useNavigation();
+
   const { on, off, trigger } = usePubSub();
 
   const [messages, setMessages] = useState<BotMessage[]>([]);
   const [answers, setAnswers] = useState<BotAnswer[]>([]);
   const [thinking, setThinking] = useState<boolean>(false);
 
-  const questions = useBotQuestions()
+  const [questions, setQuestions] = useBotQuestions()
 
   const [questionIndex, setQuestionIndex] = useState<number>(0);
+  const [didStart, setDidStart] = useState<boolean>(false);
+
+  const think = async () => {
+    setThinking(true)
+    await wait(_.random(THINKING_DELAY * 0.5, THINKING_DELAY))
+    setThinking(false)
+  }
 
   const next = async (options: {
     messageText: string
@@ -81,17 +95,13 @@ export const useBot = (): Bot => {
       })
     }
 
-    setThinking(true)
-    await wait(THINKING_DELAY)
-    setThinking(false)
+    await think()
 
     setQuestionIndex(questionIndex + 1)
   }
 
   const start = async () => {
-    setThinking(true)
-    await wait(THINKING_DELAY)
-    setThinking(false)
+
     post({
       text: 'Hey there! 👋',
       author: 'bot',
@@ -114,6 +124,7 @@ export const useBot = (): Bot => {
     })
     await wait(SHOW_ANSWERS_DELAY)
     _setAnswers(questions[0].answers)
+    setDidStart(true)
   }
 
   const post = ({
@@ -147,8 +158,15 @@ export const useBot = (): Bot => {
             post,
             next,
             trigger,
+            finish: () => {
+              setQuestionIndex(questions.length - 1)
+            },
             setThinking,
             setAnswers: _setAnswers,
+            questions,
+            tempLog,
+            setQuestions,
+            navigation,
           });
         };
       }
@@ -175,6 +193,7 @@ export const useBot = (): Bot => {
   }, [questionIndex])
 
   return {
+    didStart,
     questions,
     thinking,
     messages,

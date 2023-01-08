@@ -1,24 +1,24 @@
-import { useTagsState } from '@/hooks/useTags';
-import { useEffect } from 'react';
 import { t } from "@/helpers/translation";
 import { BotEventData, BotEventType, BotMessage } from "@/hooks/useBot";
-import { RATING_MAPPING } from '@/hooks/useLogs';
+import { RATING_MAPPING, SLEEP_QUALITY_MAPPING, useLogState } from '@/hooks/useLogs';
 import { SettingsState, useSettings } from "@/hooks/useSettings";
-import { useTemporaryLog } from '@/hooks/useTemporaryLog';
+import { useTagsState } from '@/hooks/useTags';
+import { TemporaryLogValue } from '@/hooks/useTemporaryLog';
 import { wait } from "@/lib/utils";
 import { Emotion } from "@/types";
-import { useNavigation } from '@react-navigation/native';
+import { NavigationProp } from '@react-navigation/native';
+import dayjs from "dayjs";
 import { useState } from 'react';
 
-export const THINKING_DELAY = 0;
-export const ANSWER_DELAY = 0;
-export const SHOW_ANSWERS_DELAY = 0;
-// export const THINKING_DELAY = 500;
-// export const ANSWER_DELAY = 1000;
-// export const SHOW_ANSWERS_DELAY = 500;
+// export const THINKING_DELAY = 0;
+// export const ANSWER_DELAY = 0;
+// export const SHOW_ANSWERS_DELAY = 0;
+export const THINKING_DELAY = 500;
+export const ANSWER_DELAY = 1000;
+export const SHOW_ANSWERS_DELAY = 500;
 
 export interface BotAnswer {
-  type: 'button_primary' | 'button_secondary' | 'rating' | 'emotions' | 'text';
+  type: 'button_primary' | 'button_secondary' | 'rating' | 'emotions' | 'text' | 'sleep_quality';
   buttonText?: string;
   messageText?: string | ((data: any) => string);
   action: (options: {
@@ -29,6 +29,11 @@ export interface BotAnswer {
     setAnswers: (answers: BotAnswer[]) => void;
     save: () => void;
     close: () => void;
+    finish: () => void;
+    tempLog: TemporaryLogValue;
+    questions: BotQuestion[];
+    setQuestions: (questions: BotQuestion[]) => void;
+    navigation: NavigationProp<Record<string, object | undefined>, string, any, any, any>;
     data?: any;
   }) => void;
 }
@@ -39,21 +44,81 @@ export interface BotQuestion {
   answers: BotAnswer[];
 }
 
-const getEmotionQuestion = (emotion: Emotion, tempLog): BotQuestion => {
+const getEmotionsDetailsQuestion = ({
+  emotions,
+}: {
+  emotions: Emotion[];
+}): BotQuestion => {
   return {
-    id: `emotion_${emotion.key}`,
-    text: `Do you know why ${t(`log_emotion_${emotion.key}_description`).toLowerCase()}?`,
+    id: 'emotions_details',
+    text: `According to Harvard Health, writing about your emotions can help you cope with stress, anxiety, and depression.
+    
+Do you want to reflect on why you felt this way?`,
     answers: [{
-      type: 'text',
-      action: ({ data, post, next }) => {
-        tempLog.update({
-          message: tempLog.data.message + `${t(`log_emotion_${emotion.key}_description`)}: ${data.text}\n`,
+      type: 'button_primary',
+      buttonText: 'Yes',
+      action: ({ next, setQuestions, questions }) => {
+        const emotionQuestions = emotions.map(emotion => {
+          return getEmotionQuestion(emotion)
         })
 
+        const index = questions.findIndex(question => question.id === 'emotions_details')
+
+        setQuestions([
+          ...questions.slice(0, index + 1),
+          ...emotionQuestions,
+          ...questions.slice(index + 1),
+        ])
+
+        next({
+          messageText: 'Yes',
+        })
+      }
+    }, {
+      type: 'button_secondary',
+      buttonText: 'No',
+      action: ({ next }) => {
+        next({
+          messageText: 'No',
+        })
+      }
+    }, {
+      type: 'button_secondary',
+      buttonText: `I'm done tracking`,
+      action: ({ post, finish }) => {
         post({
-          text: data.text,
+          text: `I'm done tracking`,
           author: 'user',
         })
+
+        finish()
+      }
+    }]
+  }
+}
+
+const getEmotionQuestion = (emotion: Emotion): BotQuestion => {
+  return {
+    id: `emotion_${emotion.key}`,
+    text: `What made you feel ${t(`log_emotion_${emotion.key}`).toLowerCase()}?`,
+    answers: [{
+      type: 'text',
+      action: ({ data, post, next, tempLog }) => {
+        if (data.text === '') {
+          post({
+            text: 'I leave this empty for now.',
+            author: 'user',
+          })
+        } else {
+          tempLog.update({
+            message: tempLog.data.message + `${t(`log_emotion_${emotion.key}`)}: ${data.text}\n`,
+          })
+
+          post({
+            text: data.text,
+            author: 'user',
+          })
+        }
 
         next()
       }
@@ -62,19 +127,13 @@ const getEmotionQuestion = (emotion: Emotion, tempLog): BotQuestion => {
 }
 
 const getInitialQuestions = ({
-  tempLog,
-  navigation,
+  logState,
   tagsState,
   settings,
-  questions,
-  setQuestions,
 }: {
-  tempLog: ReturnType<typeof useTemporaryLog>,
-  navigation: ReturnType<typeof useNavigation>,
+  logState: ReturnType<typeof useLogState>,
   tagsState: ReturnType<typeof useTagsState>,
   settings: SettingsState,
-  questions: BotQuestion[];
-  setQuestions: (questions: BotQuestion[]) => void;
 }): BotQuestion[] => {
 
   const _questions: BotQuestion[] = []
@@ -96,7 +155,7 @@ const getInitialQuestions = ({
     text: "So, how was your day until now?",
     answers: [{
       type: 'rating',
-      action: async ({ next, data, post, trigger, setAnswers, setThinking }) => {
+      action: async ({ next, data, post, trigger, tempLog, setAnswers, setThinking }) => {
         tempLog.update({
           rating: data.rating,
         })
@@ -122,9 +181,10 @@ const getInitialQuestions = ({
         }
         if (RATING_MAPPING[data.rating] < 3) {
           post({
-            text: `I'm sorry to hear that 😔`,
+            text: `It sounds like today was a tough one. You're not alone and I'm here to support you.`,
             author: 'bot',
           })
+          await wait(THINKING_DELAY)
           return next()
         }
 
@@ -137,14 +197,67 @@ const getInitialQuestions = ({
     }],
   })
 
+  const itemsOnDate = logState.items.filter(item => dayjs(item.dateTime).isSame(dayjs(), 'day'))
+  const hasSleep = itemsOnDate.some(item => item.sleep?.quality !== null)
+
+  if (settings.steps.includes('sleep') && !hasSleep) {
+    _questions.push({
+      id: 'sleep',
+      text: "How did you sleep?",
+      answers: [{
+        type: 'sleep_quality',
+        action: async ({ next, data, post, tempLog, setAnswers, setThinking }) => {
+          tempLog.update({
+            sleep: {
+              quality: data.quality,
+            },
+          })
+
+          setAnswers([])
+
+          post({
+            text: `I'd say it was ${t(data.quality).toLowerCase()}`,
+            author: 'user',
+          })
+
+          await wait(THINKING_DELAY)
+          setThinking(true)
+          await wait(ANSWER_DELAY)
+          setThinking(false)
+
+          if (SLEEP_QUALITY_MAPPING[data.quality] > 2) {
+            post({
+              text: `I'm glad to hear you had a good sleep 😌.`,
+              author: 'bot',
+            })
+            return next()
+          }
+          if (SLEEP_QUALITY_MAPPING[data.quality] < 2) {
+            post({
+              text: `I'm sorry to hear that. I hope you'll get a better sleep tonight.`,
+              author: 'bot',
+            })
+            return next()
+          }
+
+          post({
+            text: `I see, so it was an average sleep `,
+            author: 'bot',
+          })
+          next()
+        }
+      }],
+    })
+  }
+
   if (settings.steps.includes('emotions')) {
     _questions.push({
       id: 'emotions',
-      text: "Do you want to add some emotions you felt?",
+      text: "Do you want to add emotions you felt?",
       answers: [{
         type: 'button_primary',
         buttonText: "Add emotions",
-        action: ({ next }) => {
+        action: ({ next, tempLog, questions, setQuestions, navigation }) => {
           navigation.navigate('BotLoggerEmotions', {
             onDone: (emotions) => {
               navigation.goBack()
@@ -156,52 +269,42 @@ const getInitialQuestions = ({
                 return
               }
 
-              emotions.forEach(emotion => {
-                const index = questions.findIndex(question => question.id === 'emotions')
-                console.log('QUESTIONSQUESTIONSQUESTIONSQUESTIONSQUESTIONS', index, questions.splice(index + 1, 0, getEmotionQuestion(emotion, tempLog)))
-                // append questions
-                setQuestions(questions.splice(index + 1, 0, getEmotionQuestion(emotion, tempLog)))
-              })
-
               tempLog.update({ emotions: emotions.map(emotion => emotion.key) })
+
+              const index = questions.findIndex(question => question.id === 'emotions')
+
+              setQuestions([
+                ...questions.slice(0, index + 1),
+                getEmotionsDetailsQuestion({
+                  emotions,
+                }),
+                ...questions.slice(index + 1),
+              ])
+
               next({
-                messageText: `I felt ${emotions.map(emotion => t(`log_emotion_${emotion.key}`)).join(', ')}`
+                messageText: `I felt ${emotions.map(emotion => t(`log_emotion_${emotion.key}`)).join(', ').toLowerCase()}`
               })
             }
           })
         }
       }, {
         type: 'button_secondary',
-        buttonText: "Maybe later",
+        buttonText: "Skip",
         action: ({ next }) => next({
-          messageText: "Maybe later",
+          messageText: "Skip"
         })
       }, {
         type: 'button_secondary',
-        buttonText: "I don't use emotion tracking",
-        action: ({ next, post, setThinking, setAnswers }) => {
-
-          setAnswers([])
+        buttonText: `I'm done tracking`,
+        action: ({ post, finish }) => {
           post({
-            text: "I don't use emotion tracking",
+            text: `I'm done tracking`,
             author: 'user',
           })
 
-          setThinking(true)
-
-          setTimeout(() => {
-            setThinking(false)
-            post({
-              text: "Ok, I will skip this step for now. You can re-enable it in the settings later.",
-              author: 'bot',
-            })
-
-            setTimeout(() => {
-              next()
-            }, SHOW_ANSWERS_DELAY)
-          }, ANSWER_DELAY)
+          finish()
         }
-      }]
+      }],
     })
   }
 
@@ -212,7 +315,7 @@ const getInitialQuestions = ({
       answers: [{
         type: 'button_primary',
         buttonText: "Add tags",
-        action: ({ next }) => {
+        action: ({ next, navigation, tempLog }) => {
           navigation.navigate('BotLoggerTags', {
             onDone: (tags) => {
               navigation.goBack()
@@ -235,11 +338,15 @@ const getInitialQuestions = ({
         }
       }, {
         type: 'button_secondary',
-        buttonText: "No, thanks",
-        messageText: "No, thanks",
-        action: ({ next }) => next({
-          messageText: "No, thanks",
-        })
+        buttonText: `I'm done tracking`,
+        action: ({ post, finish }) => {
+          post({
+            text: `I'm done tracking`,
+            author: 'user',
+          })
+
+          finish()
+        }
       }],
     })
   }
@@ -260,24 +367,14 @@ const getInitialQuestions = ({
   return _questions
 }
 
-export const useBotQuestions = (): BotQuestion[] => {
-  const tempLog = useTemporaryLog()
-  const navigation = useNavigation();
+export const useBotQuestions = () => {
+  const logState = useLogState()
   const tagsState = useTagsState()
   const { settings } = useSettings()
 
-  const [questions, setQuestions] = useState<BotQuestion[]>([])
-
-  useEffect(() => {
-    setQuestions(getInitialQuestions({
-      tempLog,
-      navigation,
-      tagsState,
-      settings,
-      questions,
-      setQuestions,
-    }))
-  }, [])
-
-  return questions
+  return useState<BotQuestion[]>(getInitialQuestions({
+    logState,
+    tagsState,
+    settings,
+  }))
 }

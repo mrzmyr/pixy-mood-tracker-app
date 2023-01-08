@@ -1,9 +1,10 @@
 import { MiniButton } from "@/components/MiniButton";
 import { Motion } from "@legendapp/motion";
 import { View } from "react-native";
-import { BotAnswer } from "./useBotQuestions";
 import { RatingAnswer } from "./RatingAnswer";
+import { SleepQualityAnswer } from "./SleepQualityAnswer";
 import { TextAnswer } from "./TextAnswer";
+import { BotAnswer } from "./useBotQuestions";
 
 export const Answers = ({
   answers,
@@ -25,7 +26,6 @@ export const Answers = ({
           key={index}
           style={{
             flexDirection: 'row',
-            paddingHorizontal: 0,
           }}
           initial={{
             opacity: 0,
@@ -78,6 +78,16 @@ export const Answers = ({
                 answer.action({
                   data: {
                     rating: key,
+                  }
+                });
+              }} />
+          )}
+          {answer.type === 'sleep_quality' && (
+            <SleepQualityAnswer
+              onPress={(key) => {
+                answer.action({
+                  data: {
+                    quality: key,
                   }
                 });
               }} />

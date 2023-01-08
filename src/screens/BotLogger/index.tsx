@@ -3,7 +3,7 @@ import { askToCancel } from "@/helpers/prompts";
 import { useBot } from "@/hooks/useBot";
 import useColors from "@/hooks/useColors";
 import { LogItem, useLogUpdater } from "@/hooks/useLogs";
-import { useTemporaryLog } from "@/hooks/useTemporaryLog";
+import { TemporaryLogState, useTemporaryLog } from "@/hooks/useTemporaryLog";
 import { useNavigation } from "@react-navigation/native";
 import dayjs from "dayjs";
 import { useEffect, useRef } from "react";
@@ -30,10 +30,13 @@ export const BotLogger = ({
     dateTime: dateTime,
     rating: null,
     message: '',
+    sleep: {
+      quality: null,
+    },
     emotions: [],
     tags: [],
     createdAt: createdAt.current,
-  }
+  } as TemporaryLogState
 
   return (
     <_BotLogger
@@ -45,9 +48,7 @@ export const BotLogger = ({
 const _BotLogger = ({
   initialItem
 }: {
-  initialItem: Omit<LogItem, 'rating'> & {
-    rating: LogItem['rating'] | null
-  }
+  initialItem: TemporaryLogState
 }) => {
   const bot = useBot();
   const navigation = useNavigation()
@@ -58,6 +59,7 @@ const _BotLogger = ({
 
   const close = () => {
     console.log('close')
+    tempLog.reset()
     navigation.goBack()
   }
 
@@ -90,8 +92,14 @@ const _BotLogger = ({
   }, [tempLog.data])
 
   useEffect(() => {
+    if (
+      bot.questions.length === 0 ||
+      bot.didStart
+    ) {
+      return
+    }
     bot.start()
-  }, [])
+  }, [bot.questions])
 
   return (
     <KeyboardAvoidingView
@@ -102,14 +110,6 @@ const _BotLogger = ({
       }}
     >
       <Header onClose={onCancel} />
-      <Text
-        style={{
-          fontSize: 20,
-          color: colors.text,
-          fontWeight: 'bold',
-          marginTop: 16,
-        }}
-      >{JSON.stringify(bot.questions.map(d => d.id), null, 2)}</Text>
       <ScrollView
         style={{
           flex: 1,

@@ -8,7 +8,7 @@ export type TemporaryLogState = Omit<LogItem, 'rating' | 'sleep'> & {
   }
 }
 
-interface Value {
+export interface TemporaryLogValue {
   data: TemporaryLogState;
   isDirty: boolean;
   initialize: (log: TemporaryLogState) => void;
@@ -17,10 +17,7 @@ interface Value {
   reset: () => void;
 };
 
-interface ContextValue extends Value {
-}
-
-const TemporaryLogStateContext = createContext({} as Value);
+const TemporaryLogStateContext = createContext({} as TemporaryLogValue);
 
 function TemporaryLogProvider({ children }: { children: React.ReactNode }) {
   const [isDirty, setIsDirty] = useState(false);
@@ -66,7 +63,7 @@ function TemporaryLogProvider({ children }: { children: React.ReactNode }) {
   );
 }
 
-function useTemporaryLog(defaultValue?: TemporaryLogState): ContextValue {
+function useTemporaryLog(defaultValue?: TemporaryLogState): TemporaryLogValue {
   const context = useContext(TemporaryLogStateContext);
 
   if (context === undefined) {

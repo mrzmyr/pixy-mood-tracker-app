@@ -42,7 +42,7 @@ export const TextAnswer = ({
         multiline
         onChangeText={text => setText(text)}
         value={text}
-        placeholder="Type your answer here"
+        placeholder="Press send to skip…"
         onSubmitEditing={() => {
           onPress(text);
           setText('');

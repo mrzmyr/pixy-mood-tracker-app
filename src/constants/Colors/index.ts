@@ -253,8 +253,8 @@ const light = {
   promoCardTextSecondary: colors.neutral[500],
   promoCardBorder: colors.neutral[200],
 
-  chatUserMessageBackground: colors.blue[200],
-  chatUserMessageText: colors.black,
+  chatUserMessageBackground: colors.neutral[800],
+  chatUserMessageText: colors.white,
   chatBotMessageBackground: colors.white,
   chatBotMessageText: colors.black,
 
