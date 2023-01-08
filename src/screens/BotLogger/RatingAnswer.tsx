@@ -18,7 +18,6 @@ export const RatingAnswer = ({
     <View
       style={{
         flexDirection: 'row',
-        paddingHorizontal: 16,
       }}
     >
       <View

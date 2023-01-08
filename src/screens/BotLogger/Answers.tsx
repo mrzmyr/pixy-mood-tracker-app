@@ -19,6 +19,7 @@ export const Answers = ({
         flexWrap: 'wrap',
         justifyContent: 'flex-end',
         width: '100%',
+        paddingHorizontal: 16,
       }}
     >
       {answers.map((answer, index) => (

@@ -17,7 +17,6 @@ export const SleepQualityAnswer = ({
     <View
       style={{
         flexDirection: 'row',
-        paddingHorizontal: 8,
       }}
     >
       <View
@@ -25,7 +24,6 @@ export const SleepQualityAnswer = ({
           alignItems: 'center',
           width: '100%',
           justifyContent: 'center',
-          paddingHorizontal: 8,
           borderRadius: 12,
         }}
       >
