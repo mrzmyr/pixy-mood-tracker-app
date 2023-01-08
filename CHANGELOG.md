@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.75.0](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.74.0...v1.75.0) (2023-01-08)
+
+
+### Features
+
+* add open source to settings page ([5dca74e](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/5dca74e0261493491aaf401aebad83529707141d))
+
 ## [1.74.0](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.73.0...v1.74.0) (2023-01-08)
 
 
