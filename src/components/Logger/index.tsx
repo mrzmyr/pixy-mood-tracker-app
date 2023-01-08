@@ -352,6 +352,7 @@ export const Logger = ({
         <View
           style={{
             paddingBottom: insets.bottom + 20,
+            flex: 1,
           }}
         >
           <SlideEmotions
