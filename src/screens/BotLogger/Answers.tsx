@@ -40,6 +40,7 @@ export const Answers = ({
             <MiniButton
               variant="primary"
               onPress={() => {
+                // @ts-ignore
                 answer.action({
                   data: {}
                 });
@@ -53,6 +54,7 @@ export const Answers = ({
             <MiniButton
               variant="tertiary"
               onPress={() => {
+                // @ts-ignore
                 answer.action({
                   data: {}
                 });
@@ -65,6 +67,7 @@ export const Answers = ({
           {answer.type === 'text' && (
             <TextAnswer
               onPress={(text) => {
+                // @ts-ignore
                 answer.action({
                   data: {
                     text,
@@ -75,6 +78,7 @@ export const Answers = ({
           {answer.type === 'rating' && (
             <RatingAnswer
               onPress={(key) => {
+                // @ts-ignore
                 answer.action({
                   data: {
                     rating: key,
@@ -85,6 +89,7 @@ export const Answers = ({
           {answer.type === 'sleep_quality' && (
             <SleepQualityAnswer
               onPress={(key) => {
+                // @ts-ignore
                 answer.action({
                   data: {
                     quality: key,

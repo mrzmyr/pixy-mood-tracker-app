@@ -58,7 +58,6 @@ const _BotLogger = ({
   const tempLog = useTemporaryLog(initialItem)
 
   const close = () => {
-    console.log('close')
     tempLog.reset()
     navigation.goBack()
   }
@@ -77,7 +76,6 @@ const _BotLogger = ({
 
   useEffect(() => {
     bot.on('save', () => {
-      console.log(JSON.stringify(tempLog.data, null, 2))
       logUpdater.addLog(tempLog.data as LogItem)
     })
 
