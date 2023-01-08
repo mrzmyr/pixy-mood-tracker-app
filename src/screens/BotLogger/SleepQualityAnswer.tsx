@@ -1,7 +1,6 @@
 import { SlideSleepButton } from "@/components/Logger/slides/SlideSleepButton";
 import { t } from "@/helpers/translation";
 import useColors from "@/hooks/useColors";
-import useHaptics from "@/hooks/useHaptics";
 import { SLEEP_QUALITY_KEYS } from "@/hooks/useLogs";
 import { Text, View } from "react-native";
 
@@ -10,7 +9,6 @@ export const SleepQualityAnswer = ({
 }: {
   onPress: (key: string) => void;
 }) => {
-  const haptics = useHaptics();
   const colors = useColors();
 
   return (
@@ -40,7 +38,6 @@ export const SleepQualityAnswer = ({
               value={key}
               selected={false}
               onPress={() => {
-                haptics.selection();
                 onPress(key);
               }}
             />
