@@ -40,9 +40,11 @@ const EMOTIONS_INDEX_MAPPING = {
 }
 
 const getAvailableSteps = ({
+  date,
   isEditing,
   question,
 }: {
+  date: string;
   isEditing: boolean;
   question: IQuestion | null
 }) => {
@@ -53,7 +55,10 @@ const getAvailableSteps = ({
     'rating'
   ]
 
-  if (hasStep('sleep')) slides.push('sleep')
+  const itemsOnDate = logState.items.filter(item => dayjs(item.dateTime).isSame(date, 'day'))
+  const hasSleep = itemsOnDate.some(item => item.sleep.quality !== null)
+
+  if (hasStep('sleep') && !hasSleep) slides.push('sleep')
   if (hasStep('emotions')) slides.push('emotions')
   if (hasStep('tags')) slides.push('tags')
   if (hasStep('message')) slides.push('message')
