@@ -102,21 +102,14 @@ const _BotLogger = ({
       }}
     >
       <Header onClose={onCancel} />
-      {/* <View
+      <Text
         style={{
-          padding: 16,
-          flex: 1,
+          fontSize: 20,
+          color: colors.text,
+          fontWeight: 'bold',
+          marginTop: 16,
         }}
-      >
-        <Text
-          style={{
-            fontSize: 12,
-            color: colors.text,
-          }}
-        >
-          {JSON.stringify(tempLog.data, null, 2)}
-        </Text>
-      </View> */}
+      >{JSON.stringify(bot.questions.map(d => d.id), null, 2)}</Text>
       <ScrollView
         style={{
           flex: 1,

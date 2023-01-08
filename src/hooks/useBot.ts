@@ -1,6 +1,5 @@
 import { wait } from "@/lib/utils";
-import { ANSWER_DELAY, BotAnswer, SHOW_ANSWERS_DELAY, THINKING_DELAY, getQuestions } from "@/screens/BotLogger/config";
-import _ from "lodash";
+import { ANSWER_DELAY, BotAnswer, BotQuestion, SHOW_ANSWERS_DELAY, THINKING_DELAY, useBotQuestions } from "@/screens/BotLogger/useBotQuestions";
 import { useEffect, useState } from "react";
 
 type MessageAuthor = "bot" | "user";
@@ -14,6 +13,7 @@ export interface Bot {
   thinking: boolean;
   messages: BotMessage[];
   answers: BotAnswer[];
+  questions: BotQuestion[];
   on: (event: BotEventType, callback: (data: BotEventData) => void) => void;
   off: (event: BotEventType) => void;
   start: () => void;
@@ -65,7 +65,7 @@ export const useBot = (): Bot => {
   const [answers, setAnswers] = useState<BotAnswer[]>([]);
   const [thinking, setThinking] = useState<boolean>(false);
 
-  const questions = getQuestions()
+  const questions = useBotQuestions()
 
   const [questionIndex, setQuestionIndex] = useState<number>(0);
 
@@ -170,10 +170,12 @@ export const useBot = (): Bot => {
       })
       await wait(SHOW_ANSWERS_DELAY)
       _setAnswers(nextQuestion.answers)
+
     })()
   }, [questionIndex])
 
   return {
+    questions,
     thinking,
     messages,
     answers,

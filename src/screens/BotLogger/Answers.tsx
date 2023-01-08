@@ -1,7 +1,7 @@
 import { MiniButton } from "@/components/MiniButton";
 import { Motion } from "@legendapp/motion";
 import { View } from "react-native";
-import { BotAnswer } from "./config";
+import { BotAnswer } from "./useBotQuestions";
 import { RatingAnswer } from "./RatingAnswer";
 import { TextAnswer } from "./TextAnswer";
 
