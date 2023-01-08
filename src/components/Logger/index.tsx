@@ -39,14 +39,12 @@ const EMOTIONS_INDEX_MAPPING = {
   extremely_good: 4,
 }
 
-const getAvailableSteps = ({
+const getAvailableStepsForCreate = ({
   date,
-  isEditing,
   question,
 }: {
   date: string;
-  isEditing: boolean;
-  question: IQuestion | null
+  question: IQuestion | null;
 }) => {
   const { hasStep, settings } = useSettings();
   const logState = useLogState();
@@ -56,7 +54,7 @@ const getAvailableSteps = ({
   ]
 
   const itemsOnDate = logState.items.filter(item => dayjs(item.dateTime).isSame(dayjs(date), 'day'))
-  const hasSleep = itemsOnDate.some(item => item.sleep.quality !== null)
+  const hasSleep = itemsOnDate.some(item => item.sleep?.quality !== null)
 
   if (hasStep('sleep') && !hasSleep) slides.push('sleep')
   if (hasStep('emotions')) slides.push('emotions')
@@ -65,8 +63,7 @@ const getAvailableSteps = ({
 
   if (
     logState.items.length === 1 &&
-    !settings.reminderEnabled &&
-    !isEditing
+    !settings.reminderEnabled
   ) {
     slides.push('reminder')
   }
@@ -74,11 +71,35 @@ const getAvailableSteps = ({
   if (
     logState.items.length >= 3 &&
     question !== null &&
-    !isEditing &&
     hasStep('feedback')
   ) {
     slides.push('feedback')
   }
+
+  return slides;
+}
+
+const getAvailableStepsForEdit = ({
+  date,
+  item,
+}: {
+  date: string;
+  item: LogItem;
+}) => {
+  const { hasStep } = useSettings();
+  const logState = useLogState();
+
+  const slides: LoggerStep[] = [
+    'rating'
+  ]
+
+  const itemsOnDate = logState.items.filter(item => dayjs(item.dateTime).isSame(dayjs(date), 'day'))
+  const hasSleep = itemsOnDate.some(item => item.sleep?.quality !== null)
+
+  if (item.sleep?.quality || (!hasSleep && hasStep('sleep'))) slides.push('sleep')
+  if (hasStep('emotions') || item.emotions.length > 0) slides.push('emotions')
+  if (hasStep('tags') || item.tags.length > 0) slides.push('tags')
+  if (hasStep('message') || item.message.length > 0) slides.push('message')
 
   return slides;
 }
@@ -101,11 +122,17 @@ export const LoggerEdit = ({
     )
   }
 
+  const avaliableSteps = getAvailableStepsForEdit({
+    date: dayjs(initialItem.dateTime).format(DATE_FORMAT),
+    item: initialItem,
+  })
+
   return (
     <Logger
+      mode="edit"
       initialItem={initialItem}
       initialStep={initialStep}
-      mode="edit"
+      avaliableSteps={avaliableSteps}
     />
   )
 }
@@ -119,6 +146,7 @@ export const LoggerCreate = ({
 }) => {
   const _id = useRef(uuidv4())
   const createdAt = useRef(dayjs().toISOString())
+  const questioner = useQuestioner()
 
   const initialItem = {
     id: _id.current,
@@ -134,11 +162,17 @@ export const LoggerCreate = ({
     createdAt: createdAt.current,
   }
 
+  const avaliableSteps = getAvailableStepsForCreate({
+    date: initialItem.date,
+    question: questioner.question,
+  })
+
   return (
     <Logger
+      mode="create"
       initialItem={initialItem}
       initialStep={initialStep}
-      mode="create"
+      avaliableSteps={avaliableSteps}
     />
   )
 }
@@ -146,17 +180,20 @@ export const LoggerCreate = ({
 export const Logger = ({
   initialItem,
   initialStep,
+  avaliableSteps,
   mode,
+  question,
 }: {
   initialItem: TemporaryLogState,
   initialStep?: LoggerStep;
+  avaliableSteps: LoggerStep[];
   mode: LoggerMode
+  question?: IQuestion
 }) => {
   const navigation = useNavigation();
   const colors = useColors()
   const analytics = useAnalytics()
   const insets = useSafeAreaInsets();
-  const questioner = useQuestioner()
 
   const logState = useLogState()
   const logUpdater = useLogUpdater()
@@ -170,21 +207,10 @@ export const Logger = ({
   const showDisable = logState.items.length <= 3 && !isEditing;
 
   const [touched, setTouched] = useState(false)
-  const [question, setQuestion] = useState<IQuestion | null>(null);
-
-  const avaliableSteps = getAvailableSteps({
-    date: initialItem.date,
-    isEditing,
-    question
-  })
 
   const indexFound = avaliableSteps.findIndex(slide => slide === initialStep)
   const initialIndex = indexFound !== -1 ? indexFound : 0
   const [slideIndex, setSlideIndex] = useState(initialIndex)
-
-  useEffect(() => {
-    questioner.getQuestion().then(setQuestion)
-  }, [])
 
   const close = async () => {
     tempLog.reset()
@@ -277,7 +303,7 @@ export const Logger = ({
     ),
     action: (
       <SlideAction
-        type={slideIndex !== 0 || touched || mode === 'edit' ? 'next' : 'hidden'}
+        type={slideIndex !== 0 || touched || mode === 'edit' ? (content.length === 1 ? 'save' : 'next') : 'hidden'}
         onPress={next}
       />
     )

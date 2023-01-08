@@ -48,27 +48,6 @@ export const DataScreen = ({ navigation }: RootStackScreenProps<'Data'>) => {
           />
         </MenuList>
         <TextInfo>{t('export_help')}</TextInfo>
-        <MenuList>
-          <MenuListItem
-            title={t('behavioral_data')}
-            iconRight={
-              <Switch
-                ios_backgroundColor={colors.backgroundSecondary}
-                onValueChange={() => {
-                  analytics.track('analytics_toggle', { enabled: !analytics.isEnabled })
-                  if (!analytics.isEnabled) {
-                    analytics.enable()
-                  } else {
-                    analytics.disable()
-                  }
-                }}
-                value={analytics.isEnabled}
-                testID={`behavioral-data-enabled`}
-              />
-            }
-            isLast
-          />
-        </MenuList>
         <MenuList style={{ marginTop: 16, }}>
           <MenuListItem
             testID='reset-data'

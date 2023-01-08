@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react"
+import { useEffect, useRef, useState } from "react"
 import { QUESTIONS_PULL_URL, QUESTION_SUBMIT_URL } from "@/constants/API"
 import semver from 'semver'
 import pkg from '../../package.json'
@@ -32,27 +32,38 @@ export const useQuestioner = () => {
   const { hasActionDone, addActionDone, settings } = useSettings()
   const isMounted = useRef(false)
 
+  const [question, setQuestion] = useState<IQuestion | null>(null)
+
   const questionsDone = settings.actionsDone.filter((action: any) => action?.title?.startsWith('question_slide_'))
 
   const getQuestion = (): Promise<IQuestion | null> => {
+    const lastQuestionAnsweredToday = questionsDone.length > 0 ? dayjs(questionsDone[questionsDone.length - 1].date).isSame(dayjs(), 'day') : false
+
+    if (lastQuestionAnsweredToday) {
+      console.log('Not showing question because one was answered today')
+      return Promise.resolve(null)
+    }
+
+    console.log(QUESTIONS_PULL_URL)
+
     return fetch(QUESTIONS_PULL_URL)
       .then(response => response.json())
       .then(data => {
-        if (!data) {
-          return null;
-        }
+        if (!data) return null;
 
         const question = data.find((question: IQuestion) => {
           const satisfiesVersion = question.appVersion ? semver.satisfies(pkg.version, question.appVersion) : true
           const hasBeenAnswered = hasActionDone(`question_slide_${question.id}`)
           const isInMyLanguage = question.text[language] !== undefined;
-          const lastQuestionAnsweredToday = questionsDone.length > 0 ? dayjs(questionsDone[questionsDone.length - 1].date).isSame(dayjs(), 'day') : false
+
+          if (!satisfiesVersion) console.log('Question not shown because version does not match', question.appVersion, pkg.version)
+          if (hasBeenAnswered) console.log('Question not shown because it has been answered', question.id)
+          if (!isInMyLanguage) console.log('Question not shown because it is not in my language', question.text)
 
           return (
             satisfiesVersion &&
             !hasBeenAnswered &&
-            isInMyLanguage &&
-            !lastQuestionAnsweredToday
+            isInMyLanguage
           )
         })
 
@@ -119,13 +130,19 @@ export const useQuestioner = () => {
   }
 
   useEffect(() => {
+    getQuestion().then(question => {
+      if (isMounted.current) {
+        setQuestion(question)
+      }
+    })
+
     return () => {
       isMounted.current = false
     }
   }, [])
 
   return {
-    getQuestion,
+    question,
     submit
   }
 }
