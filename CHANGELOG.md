@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.74.0](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.73.0...v1.74.0) (2023-01-08)
+
+
+### Features
+
+* better hungarian translations ([7ab24d0](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/7ab24d04865232e00a5a9dece156077e531a8a70))
+
+
+### Bug Fixes
+
+* better question for tips about the emotions in hungarian ([d5c969c](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/d5c969c5fd98d894e06b5df976874cb23ddaa83c))
+* some additional fixes for hungarian strings ([b6e6cc4](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/b6e6cc4947c6072f6de188bc37c5f652f52f0b3b))
+
 ## [1.73.0](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.72.3...v1.73.0) (2023-01-07)
 
 
