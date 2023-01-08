@@ -55,7 +55,7 @@ const getAvailableSteps = ({
     'rating'
   ]
 
-  const itemsOnDate = logState.items.filter(item => dayjs(item.dateTime).isSame(date, 'day'))
+  const itemsOnDate = logState.items.filter(item => dayjs(item.dateTime).isSame(dayjs(date), 'day'))
   const hasSleep = itemsOnDate.some(item => item.sleep.quality !== null)
 
   if (hasStep('sleep') && !hasSleep) slides.push('sleep')
@@ -173,6 +173,7 @@ export const Logger = ({
   const [question, setQuestion] = useState<IQuestion | null>(null);
 
   const avaliableSteps = getAvailableSteps({
+    date: initialItem.date,
     isEditing,
     question
   })
