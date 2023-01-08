@@ -16,6 +16,12 @@ import { Header } from "./Header";
 import { Message } from "./Message";
 import { ThinkingBubble } from "./ThinkingBubble";
 
+import { LogBox } from 'react-native';
+
+LogBox.ignoreLogs([
+  'Non-serializable values were found in the navigation state',
+]);
+
 export const BotLogger = ({
   route
 }: RootStackScreenProps<'BotLogger'>) => {

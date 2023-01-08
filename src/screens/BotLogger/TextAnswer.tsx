@@ -18,7 +18,7 @@ export const TextAnswer = ({
         alignItems: 'flex-end',
         justifyContent: 'space-between',
         width: '100%',
-        borderTopColor: colors.logCardBorder,
+        borderTopColor: colors.cardBorder,
         borderTopWidth: 1,
         paddingTop: 16,
         paddingHorizontal: 16,
@@ -38,6 +38,7 @@ export const TextAnswer = ({
           marginRight: 8,
           maxHeight: 200,
         }}
+        autoFocus
         placeholderTextColor={colors.textInputPlaceholder}
         multiline
         onChangeText={text => setText(text)}
