@@ -662,5 +662,7 @@
   "log_view_changed_title": "等等，我的白天在哪里？",
   "log_view_changed_body": "您现在可以使用顶部的 [+] 按钮添加多个条目。如果您每天有多个条目，则会显示一个列表，否则在此详细视图中只会显示一个条目。",
   "logger_step_sleep_low": "一点也不",
-  "logger_step_sleep_high": "伟大的"
+  "logger_step_sleep_high": "伟大的",
+  "app_is_open_source": "Pixy 是开源的",
+  "behavioral_data_help": "数据是匿名收集的，绝不会与第三方共享。如果您想支持应用程序的未来开发，我建议启用此选项。"
 }

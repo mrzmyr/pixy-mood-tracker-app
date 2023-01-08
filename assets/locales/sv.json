@@ -662,5 +662,7 @@
   "log_view_changed_title": "Vänta, var är mina dagtider?",
   "log_view_changed_body": "Du kan nu använda [+]-knappen på toppen för att lägga till flera poster. Om du har flera poster per dag kommer en lista att visas, annars visas bara en post i denna detaljvy.",
   "logger_step_sleep_low": "Inte alls",
-  "logger_step_sleep_high": "Bra"
+  "logger_step_sleep_high": "Bra",
+  "app_is_open_source": "Pixy är öppen källkod",
+  "behavioral_data_help": "Uppgifterna samlas in anonymt och delas aldrig med tredje part. Om du vill stödja framtida utveckling av appen rekommenderar jag att du håller det här alternativet aktiverat."
 }

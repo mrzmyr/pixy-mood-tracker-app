@@ -648,5 +648,7 @@
   "log_view_changed_title": "Warte, wo sind meine Tageszeiten?",
   "log_view_changed_body": "Du kannst jetzt mit dem [+] mehrere Einträge hinzufügen. Öffnest du einen Tag und hast mehrere Einträge so wird eine Liste angezeigt, ansonsten wird diese Detailansicht für nur einen Eintrag angezeigt.",
   "logger_step_sleep_low": "Gar nicht",
-  "logger_step_sleep_high": "Super"
+  "logger_step_sleep_high": "Super",
+  "app_is_open_source": "Pixy ist Open-Source",
+  "behavioral_data_help": "Die Daten werden anonym erhoben und niemals an Dritte weitergegeben. Lass diese Einstellung gerne an, wenn du Pixy unterstützen willst."
 }

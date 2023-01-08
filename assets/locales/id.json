@@ -662,5 +662,7 @@
   "log_view_changed_title": "Tunggu, dimana siang hariku?",
   "log_view_changed_body": "Anda sekarang dapat menggunakan tombol [+] di bagian atas untuk menambahkan beberapa entri. Jika Anda memiliki banyak entri per hari, daftar akan ditampilkan, jika tidak, hanya satu entri yang akan ditampilkan dalam tampilan detail ini.",
   "logger_step_sleep_low": "Tidak semuanya",
-  "logger_step_sleep_high": "Besar"
+  "logger_step_sleep_high": "Besar",
+  "app_is_open_source": "Pixy adalah sumber terbuka",
+  "behavioral_data_help": "Data dikumpulkan secara anonim dan tidak pernah dibagikan dengan pihak ketiga. Jika Anda ingin mendukung pengembangan aplikasi di masa mendatang, saya sarankan untuk tetap mengaktifkan opsi ini."
 }

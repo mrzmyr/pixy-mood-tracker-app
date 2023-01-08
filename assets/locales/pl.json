@@ -662,5 +662,7 @@
   "log_view_changed_title": "Chwila, gdzie są moje dni?",
   "log_view_changed_body": "Możesz teraz użyć przycisku [+] u góry, aby dodać wiele wpisów. Jeśli masz wiele wpisów dziennie, zostanie wyświetlona lista, w przeciwnym razie w tym widoku szczegółowym zostanie wyświetlony tylko jeden wpis.",
   "logger_step_sleep_low": "Zupełnie nie",
-  "logger_step_sleep_high": "Świetny"
+  "logger_step_sleep_high": "Świetny",
+  "app_is_open_source": "Pixy jest open source",
+  "behavioral_data_help": "Dane zbierane są anonimowo i nigdy nie są udostępniane osobom trzecim. Jeśli chcesz wesprzeć przyszły rozwój aplikacji, zalecamy pozostawienie tej opcji włączonej."
 }
