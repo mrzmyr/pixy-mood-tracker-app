@@ -92,7 +92,6 @@ export const StatisticsYearScreen = ({ route }: RootStackScreenProps<'Statistics
         <TagDistribution
           title={t('statistics_most_used_tags')}
           subtitle={t('statistics_most_used_tags_description', { date: date.format('YYYY') })}
-          date={date}
           items={items}
         />
       </View>
