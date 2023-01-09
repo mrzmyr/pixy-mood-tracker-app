@@ -32,8 +32,8 @@ export default function Tag({
         backgroundColor: selected ? colors.tagBackgroundActive : colors.tagBackground,
         borderColor: selected ? colors.tint : colorScheme === 'light' ? 'rgba(0,0,0,0.1)' : 'rgba(255,255,255,0.1)',
         borderWidth: 1,
-        paddingHorizontal: 12,
-        paddingVertical: 6,
+        paddingHorizontal: 16,
+        paddingVertical: 8,
         opacity: pressed && onPress ? 0.8 : 1,
         ...style,
       })}

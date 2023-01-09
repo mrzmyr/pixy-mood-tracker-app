@@ -1,14 +1,16 @@
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Platform, View } from 'react-native';
+import Indicator from '@/components/Indicator';
 import LinkButton from '@/components/LinkButton';
 import { t } from '@/helpers/translation';
 import { useCalendarFilters } from '@/hooks/useCalendarFilters';
 import useColors from '@/hooks/useColors';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { useNavigation } from '@react-navigation/native';
+import dayjs from 'dayjs';
+import * as Updates from 'expo-updates';
+import { Platform, View } from 'react-native';
 import { SettingsScreen, StatisticsScreen } from '../screens';
 import CalendarScreen from '../screens/Calendar';
 import { MyTabBar } from "./MyTabBar";
-import { useNavigation } from '@react-navigation/native';
-import dayjs from 'dayjs';
 
 const Tab = createBottomTabNavigator();
 
@@ -86,6 +88,15 @@ export const BottomTabs = () => {
                 {t('calendar_filters')} {calendarFilters.data.isFiltering ? `(${calendarFilters.data.filterCount})` : ''}
               </LinkButton>
             </View>
+          ),
+          headerLeft: () => (
+            Updates.channel === 'preview' ? (
+              <View style={{ paddingLeft: 16 }}>
+                <Indicator
+                  colorName='rose'
+                >BETA</Indicator>
+              </View>
+            ) : null
           ),
           tabBarTestID: 'calendar',
           title: t('calendar'),

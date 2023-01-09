@@ -662,5 +662,7 @@
   "log_view_changed_title": "Hetkinen, missä ovat päiväni?",
   "log_view_changed_body": "Voit nyt käyttää yläreunassa olevaa [+]-painiketta lisätäksesi useita merkintöjä. Jos sinulla on useita merkintöjä päivässä, luettelo tulee näkyviin, muuten vain yksi merkintä näytetään tässä yksityiskohtaisessa näkymässä.",
   "logger_step_sleep_low": "Ei lainkaan",
-  "logger_step_sleep_high": "Loistava"
+  "logger_step_sleep_high": "Loistava",
+  "app_is_open_source": "Pixy on avoin lähdekoodi",
+  "behavioral_data_help": "Tiedot kerätään anonyymisti, eikä niitä koskaan jaeta kolmansille osapuolille. Jos haluat tukea sovelluksen tulevaa kehitystä, suosittelen pitämään tämän vaihtoehdon käytössä."
 }

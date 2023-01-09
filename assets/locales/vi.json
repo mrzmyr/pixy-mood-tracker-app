@@ -662,5 +662,7 @@
   "log_view_changed_title": "Đợi đã, ban ngày của tôi ở đâu?",
   "log_view_changed_body": "Bây giờ bạn có thể sử dụng nút [+] ở trên cùng để thêm nhiều mục nhập. Nếu bạn có nhiều mục nhập mỗi ngày, một danh sách sẽ được hiển thị, nếu không, chỉ một mục nhập sẽ được hiển thị trong chế độ xem chi tiết này.",
   "logger_step_sleep_low": "Không có gì",
-  "logger_step_sleep_high": "Tuyệt quá"
+  "logger_step_sleep_high": "Tuyệt quá",
+  "app_is_open_source": "Pixy là mã nguồn mở",
+  "behavioral_data_help": "Dữ liệu được thu thập ẩn danh và không bao giờ được chia sẻ với bên thứ ba. Nếu bạn muốn hỗ trợ phát triển ứng dụng trong tương lai, tôi khuyên bạn nên bật tùy chọn này."
 }

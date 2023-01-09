@@ -662,5 +662,7 @@
   "log_view_changed_title": "잠깐, 내 낮 시간은 어디야?",
   "log_view_changed_body": "이제 상단의 [+] 버튼을 사용하여 여러 항목을 추가할 수 있습니다. 하루에 여러 항목이 있는 경우 목록이 표시되고 그렇지 않으면 이 세부 정보 보기에 하나의 항목만 표시됩니다.",
   "logger_step_sleep_low": "별말씀을요",
-  "logger_step_sleep_high": "엄청난"
+  "logger_step_sleep_high": "엄청난",
+  "app_is_open_source": "Pixy는 오픈 소스입니다.",
+  "behavioral_data_help": "데이터는 익명으로 수집되며 제3자와 공유되지 않습니다. 앱의 향후 개발을 지원하려면 이 옵션을 활성화 상태로 유지하는 것이 좋습니다."
 }
