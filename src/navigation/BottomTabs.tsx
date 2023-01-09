@@ -72,15 +72,6 @@ export const BottomTabs = () => {
               </LinkButton>
             </View>
           ),
-          headerLeft: () => (
-            Updates.channel === 'preview' ? (
-              <View style={{ paddingLeft: 16 }}>
-                <Indicator
-                  colorName='rose'
-                >BETA</Indicator>
-              </View>
-            ) : null
-          ),
           tabBarTestID: 'calendar',
           title: t('calendar'),
         })} />
