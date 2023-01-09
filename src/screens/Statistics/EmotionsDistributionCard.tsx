@@ -4,7 +4,8 @@ import { t } from '@/helpers/translation';
 import useScale from '@/hooks/useScale';
 import { EmotionsDistributionData } from '@/hooks/useStatistics/EmotionsDistributuon';
 import { Emotion } from '@/types';
-import { Text, View } from 'react-native';
+import { Text, View, useColorScheme } from 'react-native';
+import chroma from 'chroma-js';
 
 const EmotionBar = ({
   emotion,
@@ -16,6 +17,7 @@ const EmotionBar = ({
   total: number;
 }) => {
   const scale = useScale();
+  const colorScheme = useColorScheme()
   const colorMapping = {
     very_good: scale.colors.very_good,
     good: scale.colors.very_good,
@@ -37,17 +39,24 @@ const EmotionBar = ({
     >
       <View
         style={{
-          backgroundColor: color.background,
+          backgroundColor: (
+            colorScheme === 'dark' ?
+              chroma(color.background).darken(2).hex() :
+              chroma(color.background).alpha(0.5).css()
+          ),
           height: 32,
           width: count / total * 100 + '%',
           borderRadius: 4,
           position: 'absolute',
-          opacity: 0.5,
         }}
       />
       <Text
         style={{
-          color: color.textSecondary,
+          color: (
+            colorScheme === 'dark' ?
+              chroma(color.background).brighten(0.5).hex() :
+              color.textSecondary
+          ),
           fontSize: 14,
           fontWeight: '600',
           position: 'relative',
