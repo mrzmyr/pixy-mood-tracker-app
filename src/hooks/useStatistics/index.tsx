@@ -12,23 +12,14 @@ import {
   MoodPeaksNegativeData,
   MoodPeaksPositiveData
 } from "./MoodPeaks";
-import {
-  defaultMoodTrendData,
-  getMoodTrendData,
-  MoodTrendData
-} from "./MoodTrend";
 import { defaultStreaksData, getCurrentStreak, getLongestStreak, StreaksData } from "./Streaks";
 import {
   defaultTagsDistributionData,
   getTagsDistributionData,
   TagsDistributionData
 } from "./TagsDistribution";
-import {
-  defaultTagsDistributionTrendData,
-  getTagsDistributionTrendData,
-  TagsDistributionTrendData
-} from "./TagsDistributionTrend";
 import { getTagsPeaksData, TagsPeakData } from "./TagsPeaks";
+import { EmotionsDistributionData, defaultEmotionsDistributionData, getEmotionsDistributionData } from "./EmotionsDistributuon";
 
 const DELAY_LOADING = 1 * 1000;
 
@@ -49,18 +40,16 @@ interface StatisticsState {
   moodAvgData: MoodAvgData;
   moodPeaksPositiveData: MoodPeaksPositiveData;
   moodPeaksNegativeData: MoodPeaksNegativeData;
+  emotionsDistributionData: EmotionsDistributionData;
   tagsPeaksData: TagsPeakData;
   tagsDistributionData: TagsDistributionData;
   streaks: StreaksData;
-  trends: {
-    moodData: MoodTrendData;
-    // tagsDistributionData: TagsDistributionTrendData;
-  };
 }
 
 interface Value {
   load: ({ force }: { force: boolean }) => void;
   isAvailable: (type: StatisticType) => boolean;
+  isHighlighted: (type: StatisticType) => boolean;
   isLoading: boolean;
   state: StatisticsState;
 }
@@ -84,14 +73,11 @@ export function StatisticsProvider({
     moodAvgData: defaultMoodAvgData,
     moodPeaksPositiveData: defaultMoodPeaksPositiveData,
     moodPeaksNegativeData: defaultMoodPeaksNegativeData,
+    emotionsDistributionData: defaultEmotionsDistributionData,
     tagsDistributionData: defaultTagsDistributionData,
     streaks: defaultStreaksData,
     tagsPeaksData: {
       tags: [],
-    },
-    trends: {
-      moodData: defaultMoodTrendData,
-      // tagsDistributionData: defaultTagsDistributionTrendData,
     },
   });
 
@@ -122,11 +108,7 @@ export function StatisticsProvider({
       tags
     );
 
-    const moodTrendData = getMoodTrendData(trendsItems);
-    // const tagsDistributionTrendData = getTagsDistributionTrendData(
-    //   trendsItems,
-    //   tags
-    // );
+    const emotionsDistributionData = getEmotionsDistributionData(highlightItems);
 
     const newState = {
       loaded: true,
@@ -136,13 +118,10 @@ export function StatisticsProvider({
       moodPeaksNegativeData,
       tagsPeaksData,
       tagsDistributionData,
+      emotionsDistributionData,
       streaks: {
         longest: getLongestStreak(logState.items),
         current: getCurrentStreak(logState.items),
-      },
-      trends: {
-        moodData: moodTrendData,
-        // tagsDistributionData: tagsDistributionTrendData,
       },
     };
 
@@ -173,22 +152,61 @@ export function StatisticsProvider({
     if (type === "tags_distribution") {
       return state.tagsDistributionData?.tags.length > 0;
     }
-    // if (type === "tags_distribution_trend") {
-    //   return state.trends.tagsDistributionData.tags.length > 0;
-    // }
-    if (type === "mood_trend") {
-      return (
-        state.trends.moodData.avgPeriod1 > 0 &&
-        state.trends.moodData.avgPeriod2 > 0 &&
-        state.trends.moodData.diff > 0
-      )
+    if (type === "emotions_distribution") {
+      return state.emotionsDistributionData?.emotions.length > 3;
     }
     return false;
   };
 
+  const isHighlighted = (type: typeof STATISTIC_TYPES[number]) => {
+    if (type === "mood_avg") {
+      return (
+        isAvailable(type) &&
+        state.moodAvgData.ratingHighestPercentage > 60
+      );
+    }
+
+    if (type === "mood_peaks_positive") {
+      return (
+        isAvailable(type) &&
+        state.moodPeaksPositiveData.days.length >= 2
+      );
+    }
+
+    if (type === "mood_peaks_negative") {
+      return (
+        isAvailable(type) &&
+        state.moodPeaksNegativeData.days.length >= 2
+      );
+    }
+
+    if (type === "tags_peaks") {
+      return (
+        isAvailable(type) &&
+        state.tagsPeaksData.tags.filter((tag) => tag.items.length > 5).length > 0
+      );
+    }
+
+    if (type === "tags_distribution") {
+      return (
+        isAvailable(type)
+      )
+    }
+
+    if (type === "emotions_distribution") {
+      return (
+        isAvailable(type) &&
+        state.emotionsDistributionData.emotions.some((emotion) => emotion.count > 5)
+      );
+    }
+
+    return false;
+  }
+
   const value: Value = {
     load,
     isAvailable,
+    isHighlighted,
     isLoading,
     state,
   };

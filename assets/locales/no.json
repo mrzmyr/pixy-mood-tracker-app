@@ -662,5 +662,11 @@
   "log_view_changed_title": "Vent, hvor er dagene mine?",
   "log_view_changed_body": "Du kan nå bruke [+]-knappen på toppen for å legge til flere oppføringer. Hvis du har flere oppføringer per dag, vil en liste vises, ellers vil bare én oppføring vises i denne detaljvisningen.",
   "logger_step_sleep_low": "Ikke i det hele tatt",
-  "logger_step_sleep_high": "Flott"
+  "logger_step_sleep_high": "Flott",
+  "app_is_open_source": "Pixy er åpen kildekode",
+  "behavioral_data_help": "Dataene samles inn anonymt og deles aldri med tredjeparter. Hvis du ønsker å støtte fremtidig utvikling av appen, anbefaler jeg å holde dette alternativet aktivert.",
+  "statistics_emotions_distribution_title": "Dine mest brukte følelser.",
+  "emotions": "Følelser",
+  "statistics_most_used_emotions": "Mest kjente følelser",
+  "statistics_most_used_emotions_description": "De mest følte følelsene dine i {{date}}."
 }

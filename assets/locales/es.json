@@ -662,5 +662,11 @@
   "log_view_changed_title": "Espera, ¿dónde están mis días?",
   "log_view_changed_body": "Ahora puede usar el botón [+] en la parte superior para agregar varias entradas. Si tiene varias entradas por día, se mostrará una lista; de lo contrario, solo se mostrará una entrada en esta vista detallada.",
   "logger_step_sleep_low": "De nada",
-  "logger_step_sleep_high": "Estupendo"
+  "logger_step_sleep_high": "Estupendo",
+  "app_is_open_source": "Pixy es de código abierto",
+  "behavioral_data_help": "Los datos se recopilan de forma anónima y nunca se comparten con terceros. Si desea apoyar el desarrollo futuro de la aplicación, le recomiendo mantener esta opción habilitada.",
+  "statistics_emotions_distribution_title": "Tus emociones más utilizadas.",
+  "emotions": "emociones",
+  "statistics_most_used_emotions": "Emociones más sentidas",
+  "statistics_most_used_emotions_description": "Tus emociones más sentidas en {{date}}."
 }

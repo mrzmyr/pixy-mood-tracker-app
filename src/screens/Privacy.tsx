@@ -1,5 +1,5 @@
 import * as WebBrowser from 'expo-web-browser';
-import { ScrollView, View } from 'react-native';
+import { ScrollView, Switch, View } from 'react-native';
 import { Shield } from 'react-native-feather';
 import Markdown from 'react-native-markdown-display';
 import LinkButton from '@/components/LinkButton';
@@ -7,6 +7,9 @@ import useColors from '../hooks/useColors';
 import { useAnalytics } from '../hooks/useAnalytics';
 import { t } from '@/helpers/translation';
 import { PageWithHeaderLayout } from '@/components/PageWithHeaderLayout';
+import MenuList from '@/components/MenuList';
+import MenuListItem from '@/components/MenuListItem';
+import TextInfo from '@/components/TextInfo';
 
 export const PrivacyScreen = () => {
   const colors = useColors()
@@ -49,10 +52,36 @@ export const PrivacyScreen = () => {
               hr: { backgroundColor: colors.text, marginTop: 20, marginBottom: 20, opacity: 0.2 },
               em: { color: colors.text, opacity: 0.5, fontStyle: 'normal' },
             }}
-            mar
           >
             {t('privacy_content')}
           </Markdown>
+
+          <MenuList
+            style={{
+              marginTop: 16,
+            }}
+          >
+            <MenuListItem
+              title={t('behavioral_data')}
+              iconRight={
+                <Switch
+                  ios_backgroundColor={colors.backgroundSecondary}
+                  onValueChange={() => {
+                    analytics.track('analytics_toggle', { enabled: !analytics.isEnabled })
+                    if (!analytics.isEnabled) {
+                      analytics.enable()
+                    } else {
+                      analytics.disable()
+                    }
+                  }}
+                  value={analytics.isEnabled}
+                  testID={`behavioral-data-enabled`}
+                />
+              }
+              isLast
+            />
+          </MenuList>
+          <TextInfo>{t('behavioral_data_help')}</TextInfo>
 
           <LinkButton
             style={{
