@@ -101,7 +101,7 @@ export const useBot = (): Bot => {
   }
 
   const start = async () => {
-
+    await think()
     post({
       text: 'Hey there! 👋',
       author: 'bot',

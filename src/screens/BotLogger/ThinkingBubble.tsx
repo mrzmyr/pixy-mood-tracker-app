@@ -20,8 +20,8 @@ export const ThinkingBubble = () => {
           paddingVertical: 8,
           paddingHorizontal: 16,
           marginTop: 8,
-          borderRadius: 12,
-          minHeight: 28,
+          borderRadius: 16,
+          minHeight: 34,
           justifyContent: 'center',
           alignItems: 'center',
         }}

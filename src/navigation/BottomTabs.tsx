@@ -7,7 +7,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { useNavigation } from '@react-navigation/native';
 import dayjs from 'dayjs';
 import * as Updates from 'expo-updates';
-import { Platform, View } from 'react-native';
+import { Platform, Pressable, View } from 'react-native';
 import { SettingsScreen, StatisticsScreen } from '../screens';
 import CalendarScreen from '../screens/Calendar';
 import { MyTabBar } from "./MyTabBar";
@@ -90,12 +90,19 @@ export const BottomTabs = () => {
             </View>
           ),
           headerLeft: () => (
-            Updates.channel === 'preview' ? (
-              <View style={{ paddingLeft: 16 }}>
+            Updates.channel !== 'production' ? (
+              <Pressable
+                style={{ paddingLeft: 16 }}
+                onPress={() => {
+                  navigation.navigate('BotLogger', {
+                    dateTime: dayjs().toISOString(),
+                  });
+                }}
+              >
                 <Indicator
                   colorName='rose'
                 >BETA</Indicator>
-              </View>
+              </Pressable>
             ) : null
           ),
           tabBarTestID: 'calendar',
