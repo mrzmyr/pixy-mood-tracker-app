@@ -4,14 +4,13 @@ import MenuList from '@/components/MenuList';
 import MenuListItem from '@/components/MenuListItem';
 import { PageWithHeaderLayout } from '@/components/PageWithHeaderLayout';
 import { t } from '@/helpers/translation';
+import { BedDouble } from 'lucide-react-native';
 import { ReactElement } from 'react';
 import { ScrollView, Switch, Text, View } from 'react-native';
 import { Bell, FileText, Heart, MessageSquare, Sun, Tag } from 'react-native-feather';
 import { RootStackScreenProps } from '../../types';
 import useColors from '../hooks/useColors';
 import { useSettings } from '../hooks/useSettings';
-import { FeedbackBox } from './DayView/FeedbackBox';
-import { BedDouble } from 'lucide-react-native';
 
 export const StepsScreen = ({ navigation }: RootStackScreenProps<'Steps'>) => {
   const colors = useColors()
@@ -100,16 +99,6 @@ export const StepsScreen = ({ navigation }: RootStackScreenProps<'Steps'>) => {
             />
           ))}
         </MenuList>
-        <View
-          style={{
-            marginTop: 16,
-          }}
-        >
-          <FeedbackBox
-            prefix='feedback_checkin_setting'
-            emoji='🚧'
-          />
-        </View>
       </ScrollView>
     </PageWithHeaderLayout>
   );

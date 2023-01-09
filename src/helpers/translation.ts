@@ -8,7 +8,6 @@ import en from '../../assets/locales/en.json';
 
 i18n.translations = {
   ar: require('../../assets/locales/ar.json'),
-  ca: require('../../assets/locales/ca.json'),
   zh: require('../../assets/locales/zh.json'),
   hr: require('../../assets/locales/hr.json'),
   cs: require('../../assets/locales/cs.json'),

@@ -17,14 +17,7 @@ export const useCalendarNavigation = () => {
       return;
     }
 
-    if (items.length === 1) {
-      navigation.navigate('LogView', {
-        id: items[0].id,
-      })
-      return;
-    }
-
-    navigation.navigate('DayView', { date })
+    navigation.navigate('LogList', { date })
   }
 
   return {

@@ -47,8 +47,7 @@ export type RootStackParamList = {
     id: string,
     step?: LoggerStep
   },
-
-  DayView: {
+  LogList: {
     date: string;
   }
 

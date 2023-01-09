@@ -2,6 +2,43 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.75.0](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.74.0...v1.75.0) (2023-01-08)
+
+
+### Features
+
+* add open source to settings page ([5dca74e](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/5dca74e0261493491aaf401aebad83529707141d))
+
+## [1.74.0](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.73.0...v1.74.0) (2023-01-08)
+
+
+### Features
+
+* better hungarian translations ([7ab24d0](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/7ab24d04865232e00a5a9dece156077e531a8a70))
+
+
+### Bug Fixes
+
+* better question for tips about the emotions in hungarian ([d5c969c](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/d5c969c5fd98d894e06b5df976874cb23ddaa83c))
+* some additional fixes for hungarian strings ([b6e6cc4](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/b6e6cc4947c6072f6de188bc37c5f652f52f0b3b))
+
+## [1.73.0](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.72.3...v1.73.0) (2023-01-07)
+
+
+### Features
+
+* add carousel for entries and replace `DayView` with `LogList` ([7c97d0b](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/7c97d0b624c72a9d9375a92b222f49310c164af6))
+
+
+### Miscellaneous
+
+* remove feedback box from settings steps ([ef56de5](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/ef56de59aed3466c60430974af1580b203662731))
+
+
+### Styling
+
+* spacing and colors updates ([d37b0ea](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/d37b0ea7bdfd508f623ed358e8d4b81555444571))
+
 ## [1.72.3](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.72.2...v1.72.3) (2023-01-05)
 
 
