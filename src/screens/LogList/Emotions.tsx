@@ -54,10 +54,17 @@ export const Emotions = ({
       >
         {item && emotions.length > 0 ? _.sortBy(emotions, 'order').map(emotion => {
           return (
-            <EmotionItem
-              key={emotion.key}
-              emotion={emotion}
-            />
+            <View
+              style={{
+                marginRight: 8,
+                marginBottom: 8,
+              }}
+            >
+              <EmotionItem
+                key={emotion.key}
+                emotion={emotion}
+              />
+            </View>
           );
         }) : (
           <View

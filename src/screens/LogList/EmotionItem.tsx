@@ -20,8 +20,6 @@ export const EmotionItem = ({
           backgroundColor: colors.logCardBackground,
           borderWidth: 1,
           borderColor: colors.logCardBorder,
-          marginRight: 8,
-          marginBottom: 8,
           flex: 1,
           flexDirection: 'row',
           alignItems: 'center',

@@ -1,68 +1,52 @@
 import { Card } from '@/components/Statistics/Card';
 import { CardFeedback } from '@/components/Statistics/CardFeedback';
 import { t } from '@/helpers/translation';
-import useScale from '@/hooks/useScale';
+import useColors from '@/hooks/useColors';
 import { EmotionsDistributionData } from '@/hooks/useStatistics/EmotionsDistributuon';
 import { Emotion } from '@/types';
-import { Text, View, useColorScheme } from 'react-native';
-import chroma from 'chroma-js';
+import { Text, View } from 'react-native';
+import { EmotionItem } from '../LogList/EmotionItem';
 
 const EmotionBar = ({
   emotion,
   count,
-  total,
 }: {
   emotion: Emotion;
   count: number;
-  total: number;
 }) => {
-  const scale = useScale();
-  const colorScheme = useColorScheme()
-  const colorMapping = {
-    very_good: scale.colors.very_good,
-    good: scale.colors.very_good,
-    neutral: scale.colors.neutral,
-    bad: scale.colors.very_bad,
-    very_bad: scale.colors.very_bad,
-  };
-
-  const color = colorMapping[emotion.category];
+  const colors = useColors()
 
   return (
     <View
       style={{
         position: 'relative',
-        height: 32,
         marginBottom: 8,
-        justifyContent: 'center',
+        flexDirection: 'row',
+        alignItems: 'center',
       }}
     >
-      <View
-        style={{
-          backgroundColor: (
-            colorScheme === 'dark' ?
-              chroma(color.background).darken(2).hex() :
-              chroma(color.background).alpha(0.5).css()
-          ),
-          height: 32,
-          width: count / total * 100 + '%',
-          borderRadius: 4,
-          position: 'absolute',
-        }}
-      />
       <Text
         style={{
-          color: (
-            colorScheme === 'dark' ?
-              chroma(color.background).brighten(0.5).hex() :
-              color.textSecondary
-          ),
-          fontSize: 14,
-          fontWeight: '600',
+          color: colors.textSecondary,
+          fontSize: 17,
+          fontWeight: '500',
           position: 'relative',
+          marginRight: 16,
+          textAlign: 'right',
           marginLeft: 8,
         }}
-      >{count}x {emotion.label}</Text>
+      >{count}x</Text>
+      <View
+        style={{
+          flex: 1,
+          flexDirection: 'row',
+          alignItems: 'center',
+        }}
+      >
+        <EmotionItem
+          emotion={emotion}
+        />
+      </View>
     </View>
   )
 }
@@ -86,7 +70,6 @@ export const EmotionsDistributionContent = ({
             key={emotion?.details?.key}
             emotion={emotion.details}
             count={emotion.count}
-            total={data.emotions[0].count}
           />
         );
       })}
