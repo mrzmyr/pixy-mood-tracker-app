@@ -43,78 +43,85 @@ export const SlideTags = ({
       marginTop,
     }}>
       <SlideHeadline>{t('log_tags_question')}</SlideHeadline>
-      <LinearGradient
-        pointerEvents="none"
-        colors={[colors.logBackground, colors.logBackgroundTransparent]}
+      <View
         style={{
-          position: 'absolute',
-          height: 24,
-          top: 24,
-          zIndex: 1,
-          width: '100%',
-        }}
-      />
-      <LinearGradient
-        colors={[colors.logBackgroundTransparent, colors.logBackground]}
-        style={{
-          position: 'absolute',
-          height: 32,
-          bottom: insets.bottom + 54 + 32,
-          zIndex: 1,
-          width: '100%',
-        }}
-        pointerEvents="none"
-      />
-      <ScrollView
-        style={{
+          position: 'relative',
           flex: 1,
         }}
       >
-        <View
+        <LinearGradient
+          pointerEvents="none"
+          colors={[colors.logBackground, colors.logBackgroundTransparent]}
           style={{
-            flexDirection: 'row',
-            flexWrap: 'wrap',
-            alignItems: 'flex-start',
-            justifyContent: 'flex-start',
-            marginTop: 24,
-            paddingBottom: insets.bottom,
+            position: 'absolute',
+            height: 24,
+            top: 0,
+            zIndex: 1,
+            width: '100%',
+          }}
+        />
+        <LinearGradient
+          colors={[colors.logBackgroundTransparent, colors.logBackground]}
+          style={{
+            position: 'absolute',
+            height: 32,
+            bottom: 0,
+            zIndex: 1,
+            width: '100%',
+          }}
+          pointerEvents="none"
+        />
+        <ScrollView
+          style={{
+            flex: 1,
           }}
         >
-          {tags?.map(tag => {
-            const _tag = tags.find(t => t.id === tag.id)
-            if (!_tag) return null;
+          <View
+            style={{
+              flexDirection: 'row',
+              flexWrap: 'wrap',
+              alignItems: 'flex-start',
+              justifyContent: 'flex-start',
+              marginTop: 24,
+              paddingBottom: insets.bottom,
+            }}
+          >
+            {tags?.map(tag => {
+              const _tag = tags.find(t => t.id === tag.id)
+              if (!_tag) return null;
 
-            return (
-              <Tag
-                onPress={async () => {
-                  const newTags = tempLog?.data?.tags?.map(d => d.id).includes(tag.id) ?
-                    tempLog?.data?.tags.filter(t => t.id !== tag.id) :
-                    [...tempLog?.data.tags || [], tag]
-                  onChange(newTags)
-                }}
-                title={_tag.title}
-                colorName={_tag.color}
-                selected={tempLog?.data?.tags?.map(d => d.id).includes(tag.id)}
-                key={tag.id}
-              />
-            )
-          })}
-          <View>
-            <MiniButton
-              icon={
-                <Edit2
-                  color={colors.miniButtonText}
-                  width={17}
-                  style={{ margin: -4, marginRight: 4, }}
+              return (
+                <Tag
+                  onPress={async () => {
+                    const newTags = tempLog?.data?.tags?.map(d => d.id).includes(tag.id) ?
+                      tempLog?.data?.tags.filter(t => t.id !== tag.id) :
+                      [...tempLog?.data.tags || [], tag]
+                    onChange(newTags)
+                  }}
+                  title={_tag.title}
+                  colorName={_tag.color}
+                  selected={tempLog?.data?.tags?.map(d => d.id).includes(tag.id)}
+                  key={tag.id}
                 />
-              }
-              onPress={() => {
-                navigation.navigate('Tags')
-              }}
-            >{t('tags_edit')}</MiniButton>
+              )
+            })}
+            <View>
+              <MiniButton
+                icon={
+                  <Edit2
+                    color={colors.miniButtonText}
+                    width={17}
+                    style={{ margin: -4, marginRight: 4, }}
+                  />
+                }
+                onPress={() => {
+                  navigation.navigate('Tags')
+                }}
+              >{t('tags_edit')}</MiniButton>
+            </View>
           </View>
-        </View>
-      </ScrollView>
+        </ScrollView>
+      </View>
       {showFooter && (
         <Footer>
           {showDisable && (
