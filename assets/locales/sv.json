@@ -664,5 +664,9 @@
   "logger_step_sleep_low": "Inte alls",
   "logger_step_sleep_high": "Bra",
   "app_is_open_source": "Pixy är öppen källkod",
-  "behavioral_data_help": "Uppgifterna samlas in anonymt och delas aldrig med tredje part. Om du vill stödja framtida utveckling av appen rekommenderar jag att du håller det här alternativet aktiverat."
+  "behavioral_data_help": "Uppgifterna samlas in anonymt och delas aldrig med tredje part. Om du vill stödja framtida utveckling av appen rekommenderar jag att du håller det här alternativet aktiverat.",
+  "statistics_emotions_distribution_title": "Dina mest använda känslor.",
+  "emotions": "Känslor",
+  "statistics_most_used_emotions": "Mest kände känslor",
+  "statistics_most_used_emotions_description": "Dina mest kände känslor i {{date}}."
 }

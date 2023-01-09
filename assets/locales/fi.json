@@ -664,5 +664,9 @@
   "logger_step_sleep_low": "Ei lainkaan",
   "logger_step_sleep_high": "Loistava",
   "app_is_open_source": "Pixy on avoin lähdekoodi",
-  "behavioral_data_help": "Tiedot kerätään anonyymisti, eikä niitä koskaan jaeta kolmansille osapuolille. Jos haluat tukea sovelluksen tulevaa kehitystä, suosittelen pitämään tämän vaihtoehdon käytössä."
+  "behavioral_data_help": "Tiedot kerätään anonyymisti, eikä niitä koskaan jaeta kolmansille osapuolille. Jos haluat tukea sovelluksen tulevaa kehitystä, suosittelen pitämään tämän vaihtoehdon käytössä.",
+  "statistics_emotions_distribution_title": "Eniten käytetyt tunteesi.",
+  "emotions": "Tunteet",
+  "statistics_most_used_emotions": "Tunnetuimmat tunteet",
+  "statistics_most_used_emotions_description": "Tunnetuimmat tunteesi {{date}}."
 }

@@ -664,5 +664,9 @@
   "logger_step_sleep_low": "בכלל לא",
   "logger_step_sleep_high": "גדול",
   "app_is_open_source": "פיקסי הוא קוד פתוח",
-  "behavioral_data_help": "הנתונים נאספים בעילום שם ולעולם אינם משותפים עם צדדים שלישיים. אם תרצו לתמוך בפיתוח עתידי של האפליקציה, אני ממליץ להשאיר אפשרות זו מופעלת."
+  "behavioral_data_help": "הנתונים נאספים בעילום שם ולעולם אינם משותפים עם צדדים שלישיים. אם תרצו לתמוך בפיתוח עתידי של האפליקציה, אני ממליץ להשאיר אפשרות זו מופעלת.",
+  "statistics_emotions_distribution_title": "הרגשות הכי בשימוש שלך.",
+  "emotions": "רגשות",
+  "statistics_most_used_emotions": "רוב הרגשות המורגשים",
+  "statistics_most_used_emotions_description": "הרגשות הכי מורגשים שלך ב-{{date}}."
 }

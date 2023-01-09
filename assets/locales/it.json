@@ -664,5 +664,9 @@
   "logger_step_sleep_low": "Affatto",
   "logger_step_sleep_high": "Grande",
   "app_is_open_source": "Pixy è open source",
-  "behavioral_data_help": "I dati sono raccolti in forma anonima e mai condivisi con terze parti. Se desideri supportare lo sviluppo futuro dell'app, ti consiglio di mantenere abilitata questa opzione."
+  "behavioral_data_help": "I dati sono raccolti in forma anonima e mai condivisi con terze parti. Se desideri supportare lo sviluppo futuro dell'app, ti consiglio di mantenere abilitata questa opzione.",
+  "statistics_emotions_distribution_title": "Le tue emozioni più usate.",
+  "emotions": "Emozioni",
+  "statistics_most_used_emotions": "Le emozioni più sentite",
+  "statistics_most_used_emotions_description": "Le tue emozioni più sentite in {{date}}."
 }

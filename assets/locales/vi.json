@@ -664,5 +664,9 @@
   "logger_step_sleep_low": "Không có gì",
   "logger_step_sleep_high": "Tuyệt quá",
   "app_is_open_source": "Pixy là mã nguồn mở",
-  "behavioral_data_help": "Dữ liệu được thu thập ẩn danh và không bao giờ được chia sẻ với bên thứ ba. Nếu bạn muốn hỗ trợ phát triển ứng dụng trong tương lai, tôi khuyên bạn nên bật tùy chọn này."
+  "behavioral_data_help": "Dữ liệu được thu thập ẩn danh và không bao giờ được chia sẻ với bên thứ ba. Nếu bạn muốn hỗ trợ phát triển ứng dụng trong tương lai, tôi khuyên bạn nên bật tùy chọn này.",
+  "statistics_emotions_distribution_title": "Cảm xúc được sử dụng nhiều nhất của bạn.",
+  "emotions": "Những cảm xúc",
+  "statistics_most_used_emotions": "Cảm xúc được cảm nhận nhiều nhất",
+  "statistics_most_used_emotions_description": "Những cảm xúc mà bạn cảm nhận rõ nhất trong {{date}}."
 }

@@ -664,5 +664,9 @@
   "logger_step_sleep_low": "全くない",
   "logger_step_sleep_high": "素晴らしい",
   "app_is_open_source": "ピクシーはオープンソースです",
-  "behavioral_data_help": "データは匿名で収集され、第三者と共有されることはありません。アプリの将来の開発をサポートしたい場合は、このオプションを有効にしておくことをお勧めします。"
+  "behavioral_data_help": "データは匿名で収集され、第三者と共有されることはありません。アプリの将来の開発をサポートしたい場合は、このオプションを有効にしておくことをお勧めします。",
+  "statistics_emotions_distribution_title": "最もよく使う感情。",
+  "emotions": "感情",
+  "statistics_most_used_emotions": "最も感じた感情",
+  "statistics_most_used_emotions_description": "{{date}}で最も感じた感情。"
 }

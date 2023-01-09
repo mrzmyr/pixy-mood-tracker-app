@@ -664,5 +664,9 @@
   "logger_step_sleep_low": "Nikako",
   "logger_step_sleep_high": "Sjajno",
   "app_is_open_source": "Pixy je open source",
-  "behavioral_data_help": "Podaci se prikupljaju anonimno i nikada se ne dijele s trećim stranama. Ako želite podržati budući razvoj aplikacije, preporučujem da ovu opciju ostavite uključenom."
+  "behavioral_data_help": "Podaci se prikupljaju anonimno i nikada se ne dijele s trećim stranama. Ako želite podržati budući razvoj aplikacije, preporučujem da ovu opciju ostavite uključenom.",
+  "statistics_emotions_distribution_title": "Vaše najčešće korištene emocije.",
+  "emotions": "Emocije",
+  "statistics_most_used_emotions": "Većina osjećaja",
+  "statistics_most_used_emotions_description": "Tvoje emocije koje najviše osjećaš u {{date}}."
 }

@@ -664,5 +664,9 @@
   "logger_step_sleep_low": "على الاطلاق",
   "logger_step_sleep_high": "عظيم",
   "app_is_open_source": "Pixy مفتوح المصدر",
-  "behavioral_data_help": "يتم جمع البيانات بشكل مجهول ولا يتم مشاركتها مع جهات خارجية. إذا كنت ترغب في دعم التطوير المستقبلي للتطبيق ، فإنني أوصي بإبقاء هذا الخيار ممكّنًا."
+  "behavioral_data_help": "يتم جمع البيانات بشكل مجهول ولا يتم مشاركتها مع جهات خارجية. إذا كنت ترغب في دعم التطوير المستقبلي للتطبيق ، فإنني أوصي بإبقاء هذا الخيار ممكّنًا.",
+  "statistics_emotions_distribution_title": "مشاعرك الأكثر استخدامًا.",
+  "emotions": "العواطف",
+  "statistics_most_used_emotions": "شعرت معظم المشاعر",
+  "statistics_most_used_emotions_description": "أكثر المشاعر التي شعرت بها في {{date}}."
 }

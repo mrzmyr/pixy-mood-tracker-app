@@ -664,5 +664,9 @@
   "logger_step_sleep_low": "Deloc",
   "logger_step_sleep_high": "Grozav",
   "app_is_open_source": "Pixy este open source",
-  "behavioral_data_help": "Datele sunt colectate anonim și nu sunt niciodată partajate cu terți. Dacă doriți să susțineți dezvoltarea viitoare a aplicației, vă recomand să păstrați această opțiune activată."
+  "behavioral_data_help": "Datele sunt colectate anonim și nu sunt niciodată partajate cu terți. Dacă doriți să susțineți dezvoltarea viitoare a aplicației, vă recomand să păstrați această opțiune activată.",
+  "statistics_emotions_distribution_title": "Cele mai folosite emoții ale tale.",
+  "emotions": "Emoții",
+  "statistics_most_used_emotions": "Cele mai resimțite emoții",
+  "statistics_most_used_emotions_description": "Cele mai simțite emoții ale tale în {{date}}."
 }

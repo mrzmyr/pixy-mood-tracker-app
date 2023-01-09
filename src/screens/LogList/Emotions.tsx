@@ -1,5 +1,4 @@
 import { EMOTIONS } from '@/components/Logger/config';
-import { EmotionIndicator } from '@/components/Logger/slides/SlideEmotions/EmotionsIndicator';
 import useColors from '@/hooks/useColors';
 import { LogItem } from '@/hooks/useLogs';
 import { Emotion } from '@/types';
@@ -8,6 +7,7 @@ import { t } from 'i18n-js';
 import _ from 'lodash';
 import { Text, View } from 'react-native';
 import { SectionHeader } from './SectionHeader';
+import { EmotionItem } from './EmotionItem';
 
 const EMOTIONS_CATEGORY_ORDER = {
   very_positive: 0,
@@ -16,42 +16,6 @@ const EMOTIONS_CATEGORY_ORDER = {
   negative: 3,
   very_negative: 4,
 }
-
-const EmotionItem = ({
-  emotion,
-}: {
-  emotion: any,
-}) => {
-  const colors = useColors();
-
-  return (
-    <View>
-      <View
-        style={{
-          paddingVertical: 6,
-          paddingHorizontal: 12,
-          borderRadius: 8,
-          backgroundColor: colors.logCardBackground,
-          borderWidth: 1,
-          borderColor: colors.logCardBorder,
-          marginRight: 8,
-          marginBottom: 8,
-          flex: 1,
-          flexDirection: 'row',
-          alignItems: 'center',
-        }}
-      >
-        <EmotionIndicator category={emotion.category} />
-        <Text
-          style={{
-            color: colors.text,
-            fontSize: 17,
-          }}
-        >{t(`log_emotion_${emotion.key}`)}</Text>
-      </View>
-    </View>
-  );
-};
 
 export const Emotions = ({
   item,
