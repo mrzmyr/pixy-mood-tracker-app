@@ -3,10 +3,11 @@ import { EmotionIndicator } from '@/components/Logger/slides/SlideEmotions/Emoti
 import useColors from '@/hooks/useColors';
 import { LogItem } from '@/hooks/useLogs';
 import { Emotion } from '@/types';
+import { useNavigation } from '@react-navigation/native';
 import { t } from 'i18n-js';
 import _ from 'lodash';
 import { Text, View } from 'react-native';
-import { Headline } from './Headline';
+import { SectionHeader } from './SectionHeader';
 
 const EMOTIONS_CATEGORY_ORDER = {
   very_positive: 0,
@@ -34,7 +35,7 @@ const EmotionItem = ({
           borderWidth: 1,
           borderColor: colors.logCardBorder,
           marginRight: 8,
-          marginTop: 8,
+          marginBottom: 8,
           flex: 1,
           flexDirection: 'row',
           alignItems: 'center',
@@ -58,6 +59,7 @@ export const Emotions = ({
   item: LogItem;
 }) => {
   const colors = useColors();
+  const navigation = useNavigation();
 
   const emotionsByKey = _.keyBy(EMOTIONS, 'key');
   let emotions = _.get(item, 'emotions', []).map((e: Emotion['key']) => ({
@@ -69,10 +71,17 @@ export const Emotions = ({
   return (
     <View
       style={{
-        marginTop: 24,
       }}
     >
-      <Headline>{t('view_log_emotions')}</Headline>
+      <SectionHeader
+        title={t('view_log_emotions')}
+        onEdit={() => {
+          navigation.navigate('LogEdit', {
+            id: item.id,
+            step: 'emotions',
+          });
+        }}
+      />
       <View
         style={{
           flexDirection: 'row',
@@ -89,7 +98,9 @@ export const Emotions = ({
         }) : (
           <View
             style={{
-              padding: 8,
+              paddingTop: 4,
+              paddingBottom: 8,
+              paddingHorizontal: 8,
             }}
           >
             <Text style={{ color: colors.textSecondary, fontSize: 17 }}>{t('view_log_emotions_empty')}</Text>
