@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.77.0](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.76.1...v1.77.0) (2023-01-10)
+
+
+### Features
+
+* update fr emotions ([4789569](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/47895691489e53b270fe82e88785233c0f69704a))
+
+
+### Bug Fixes
+
+* add key to emotion item ([2292156](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/2292156f25cf2b258dff7c20955b92ae04e0773c))
+* remove BETA badge ([018f8dc](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/018f8dcd46478764ffe963ef1bc804058798f04f))
+
 ## [1.76.1](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.76.0...v1.76.1) (2023-01-09)
 
 
