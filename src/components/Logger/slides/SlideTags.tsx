@@ -13,6 +13,7 @@ import Tag from "../../Tag";
 import { SlideHeadline } from "../components/SlideHeadline";
 import { Footer } from "./Footer";
 import { TagReference } from "@/types";
+import _ from "lodash";
 
 export const SlideTags = ({
   onChange,
@@ -29,15 +30,18 @@ export const SlideTags = ({
   const colors = useColors()
   const { tags } = useTagsState()
 
-  const _tags = tags.filter(t => {
-    const inTempLog = tempLog?.data?.tags?.map(d => d.id).includes(t.id)
+  let _tags =
+    tags.filter(t => {
+      const inTempLog = tempLog?.data?.tags?.map(d => d.id).includes(t.id)
 
-    return (
-      (!inTempLog && !t.isArchived) ||
-      (inTempLog && t.isArchived) ||
-      (inTempLog && !t.isArchived)
-    )
-  })
+      return (
+        (!inTempLog && !t.isArchived) ||
+        (inTempLog && t.isArchived) ||
+        (inTempLog && !t.isArchived)
+      )
+    })
+
+  _tags = _.sortBy(_tags, 'title')
 
   const marginTop = getLogEditMarginTop()
 

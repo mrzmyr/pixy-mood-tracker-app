@@ -12,13 +12,14 @@ import { RootStackScreenProps } from '../../../types';
 import { TagList } from '../../components/TagList';
 import useColors from '../../hooks/useColors';
 import { Tag, useTagsState } from '../../hooks/useTags';
+import _ from 'lodash';
 
 export const SettingsTags = ({ navigation }: RootStackScreenProps<'SettingsTags'>) => {
   const colors = useColors()
   const insets = useSafeAreaInsets();
   const { tags } = useTagsState()
 
-  const _tags = tags.filter((tag: Tag) => !tag.isArchived)
+  const _tags = _.sortBy(tags.filter((tag: Tag) => !tag.isArchived), 'title')
 
   return (
     <View style={{
@@ -64,41 +65,35 @@ export const SettingsTags = ({ navigation }: RootStackScreenProps<'SettingsTags'
           </>
         )
       }
-      <ScrollView
+      <View
         style={{
-          flex: 1,
+          marginTop: 16,
+          marginHorizontal: 16,
         }}
       >
-        <View
+        <MenuList
           style={{
-            marginTop: 16,
-            marginHorizontal: 16,
           }}
         >
-          <MenuList
-            style={{
+          <MenuListItem
+            title={t('archive_tag')}
+            iconLeft={<Archive size={20} color={colors.text} />}
+            isLink
+            isLast
+            onPress={() => {
+              navigation.navigate('SettingsTagsArchive')
             }}
-          >
-            <MenuListItem
-              title={t('archive_tag')}
-              iconLeft={<Archive size={20} color={colors.text} />}
-              isLink
-              isLast
-              onPress={() => {
-                navigation.navigate('SettingsTagsArchive')
-              }}
-            />
-          </MenuList>
-        </View>
+          />
+        </MenuList>
+      </View>
 
-        <TagList tags={_tags} />
-        <View
-          style={{
-            width: '100%',
-            height: insets.bottom + 56,
-          }}
-        />
-      </ScrollView>
+      <TagList tags={_tags} />
+      <View
+        style={{
+          width: '100%',
+          height: insets.bottom + 56,
+        }}
+      />
     </View>
   );
 }
@@ -108,7 +103,7 @@ export const SettingsTagsArchive = ({ navigation }: RootStackScreenProps<'Settin
   const insets = useSafeAreaInsets();
   const { tags } = useTagsState()
 
-  const _tags = tags.filter((tag: Tag) => tag.isArchived)
+  const _tags = _.sortBy(tags.filter((tag: Tag) => tag.isArchived), 'title')
 
   const onEdit = async (tag: Tag) => {
     navigation.navigate('TagEdit', { id: tag.id })

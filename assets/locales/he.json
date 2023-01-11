@@ -663,5 +663,6 @@
   "statistics_most_used_emotions_description": "הרגשות הכי מורגשים שלך ב-{{date}}.",
   "archive_tag": "ארכיון",
   "archive_tag_description": "מסתיר את התג בצ'ק-אין. זה עדיין גלוי בערכים הקודמים שלך. זה גם לא יכלול תג זה מכל ניתוח סטטיסטי בעתיד.",
-  "tags_archive_empty": "עדיין אין תגים שהועברו לארכיון."
+  "tags_archive_empty": "עדיין אין תגים שהועברו לארכיון.",
+  "archive_tag_enabled": "בארכיון"
 }

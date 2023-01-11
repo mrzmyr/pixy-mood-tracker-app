@@ -175,7 +175,7 @@ export const TagEdit = ({ navigation, route }: RootStackScreenProps<'TagEdit'>) 
             }}
           >
             <MenuListItem
-              title={t('archive_tag')}
+              title={t('archive_tag_enabled')}
               iconRight={
                 <Switch
                   ios_backgroundColor={colors.backgroundSecondary}

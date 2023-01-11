@@ -663,5 +663,6 @@
   "statistics_most_used_emotions_description": "{{날짜}}에 가장 많이 느꼈던 감정.",
   "archive_tag": "보관소",
   "archive_tag_description": "체크인 시 태그를 숨깁니다. 이전 항목에는 여전히 표시됩니다. 이렇게 하면 향후 통계 분석에서도 이 태그가 제외됩니다.",
-  "tags_archive_empty": "아직 보관된 태그가 없습니다."
+  "tags_archive_empty": "아직 보관된 태그가 없습니다.",
+  "archive_tag_enabled": "보관됨"
 }

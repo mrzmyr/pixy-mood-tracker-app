@@ -663,5 +663,6 @@
   "statistics_most_used_emotions_description": "Những cảm xúc mà bạn cảm nhận rõ nhất trong {{date}}.",
   "archive_tag": "Lưu trữ",
   "archive_tag_description": "Ẩn thẻ trong đăng ký của bạn. Nó vẫn hiển thị trong các mục trước đây của bạn. Điều này cũng sẽ loại trừ thẻ này khỏi bất kỳ phân tích thống kê nào trong tương lai.",
-  "tags_archive_empty": "Chưa có thẻ lưu trữ nào."
+  "tags_archive_empty": "Chưa có thẻ lưu trữ nào.",
+  "archive_tag_enabled": "lưu trữ"
 }

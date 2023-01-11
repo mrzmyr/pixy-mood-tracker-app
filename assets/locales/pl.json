@@ -663,5 +663,6 @@
   "statistics_most_used_emotions_description": "Twoje najbardziej odczuwalne emocje w {{date}}.",
   "archive_tag": "Archiwum",
   "archive_tag_description": "Ukrywa tag w twoim zameldowaniu. Nadal jest widoczny w Twoich poprzednich wpisach. Spowoduje to również wykluczenie tego tagu z wszelkich analiz statystycznych w przyszłości.",
-  "tags_archive_empty": "Brak zarchiwizowanych tagów."
+  "tags_archive_empty": "Brak zarchiwizowanych tagów.",
+  "archive_tag_enabled": "Zarchiwizowane"
 }

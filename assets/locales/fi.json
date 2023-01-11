@@ -663,5 +663,6 @@
   "statistics_most_used_emotions_description": "Tunnetuimmat tunteesi {{date}}.",
   "archive_tag": "Arkisto",
   "archive_tag_description": "Piilottaa tunnisteen sisäänkirjautumisen yhteydessä. Se näkyy edelleen aiemmissa merkinnöissäsi. Tämä myös sulkee tämän tunnisteen pois kaikista tilastoanalyysistä tulevaisuudessa.",
-  "tags_archive_empty": "Ei vielä arkistoituja tunnisteita."
+  "tags_archive_empty": "Ei vielä arkistoituja tunnisteita.",
+  "archive_tag_enabled": "Arkistoitu"
 }

@@ -663,5 +663,6 @@
   "statistics_most_used_emotions_description": "Emosi yang paling anda rasai pada {{date}}.",
   "archive_tag": "Arkib",
   "archive_tag_description": "Menyembunyikan teg dalam daftar masuk anda. Ia masih kelihatan dalam entri anda yang lalu. Ini juga akan mengecualikan teg ini daripada sebarang analisis statistik pada masa hadapan.",
-  "tags_archive_empty": "Tiada teg arkib lagi."
+  "tags_archive_empty": "Tiada teg arkib lagi.",
+  "archive_tag_enabled": "Diarkibkan"
 }

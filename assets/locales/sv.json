@@ -663,5 +663,6 @@
   "statistics_most_used_emotions_description": "Dina mest kände känslor i {{date}}.",
   "archive_tag": "Arkiv",
   "archive_tag_description": "Döljer taggen i din incheckning. Det är fortfarande synligt i dina tidigare poster. Detta kommer också att utesluta denna tagg från all statistisk analys i framtiden.",
-  "tags_archive_empty": "Inga arkiverade taggar ännu."
+  "tags_archive_empty": "Inga arkiverade taggar ännu.",
+  "archive_tag_enabled": "Arkiverad"
 }

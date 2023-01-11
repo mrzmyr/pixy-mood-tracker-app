@@ -663,5 +663,6 @@
   "statistics_most_used_emotions_description": "Vaše nejcítěnější emoce v {{date}}.",
   "archive_tag": "Archiv",
   "archive_tag_description": "Skryje štítek ve vašem odbavení. Je stále vidět ve vašich minulých záznamech. To také vyloučí tuto značku z jakékoli budoucí statistické analýzy.",
-  "tags_archive_empty": "Zatím žádné archivované štítky."
+  "tags_archive_empty": "Zatím žádné archivované štítky.",
+  "archive_tag_enabled": "Archivováno"
 }

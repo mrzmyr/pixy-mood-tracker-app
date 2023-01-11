@@ -663,5 +663,6 @@
   "statistics_most_used_emotions_description": "Dine mest følte følelser i {{date}}.",
   "archive_tag": "Arkiv",
   "archive_tag_description": "Skjuler tagget i din check-in. Det er stadig synligt i dine tidligere poster. Dette vil også udelukke dette tag fra enhver statistisk analyse i fremtiden.",
-  "tags_archive_empty": "Ingen arkiverede tags endnu."
+  "tags_archive_empty": "Ingen arkiverede tags endnu.",
+  "archive_tag_enabled": "Arkiveret"
 }

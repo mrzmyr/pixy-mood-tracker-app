@@ -106,7 +106,6 @@ function TagsProvider({
     ]
   }
 
-  const analytics = useAnalytics()
   const [state, dispatch] = useReducer(reducer, INITIAL_STATE)
 
   const stateValue: StateValue = useMemo(() => state, [JSON.stringify(state)])

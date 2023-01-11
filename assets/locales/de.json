@@ -656,6 +656,7 @@
   "statistics_most_used_emotions": "Deine Emotionen",
   "statistics_most_used_emotions_description": "Am häufigsten gefühlte Emotionen in {{date}}.",
   "archive_tag": "Archiv",
+  "archive_tag_enabled": "Archiviert",
   "archive_tag_description": "Versteckt das Schlagwort im Check-in. Es bleibt in früheren Einträgen sichtbar. Das Schlagwort wird in zukünftig Statistiken nicht beachtet.",
-  "tags_archive_empty": "Noch keine archivierten Tags."
+  "tags_archive_empty": "Noch keine archivierten Schlagwörter."
 }

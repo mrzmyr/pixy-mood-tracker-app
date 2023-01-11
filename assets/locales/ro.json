@@ -663,5 +663,6 @@
   "statistics_most_used_emotions_description": "Cele mai simțite emoții ale tale în {{date}}.",
   "archive_tag": "Arhiva",
   "archive_tag_description": "Ascunde eticheta în înregistrarea dvs. Este încă vizibil în intrările tale anterioare. Acest lucru va exclude și această etichetă din orice analiză statistică în viitor.",
-  "tags_archive_empty": "Nicio etichetă arhivată încă."
+  "tags_archive_empty": "Nicio etichetă arhivată încă.",
+  "archive_tag_enabled": "Arhivat"
 }

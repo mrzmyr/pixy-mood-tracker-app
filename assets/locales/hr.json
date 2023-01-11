@@ -663,5 +663,6 @@
   "statistics_most_used_emotions_description": "Tvoje emocije koje najviše osjećaš u {{date}}.",
   "archive_tag": "Arhiva",
   "archive_tag_description": "Skriva oznaku u vašoj prijavi. Još uvijek je vidljivo u vašim prošlim unosima. Ovo će također isključiti ovu oznaku iz svake statističke analize u budućnosti.",
-  "tags_archive_empty": "Još nema arhiviranih oznaka."
+  "tags_archive_empty": "Još nema arhiviranih oznaka.",
+  "archive_tag_enabled": "Arhivirano"
 }

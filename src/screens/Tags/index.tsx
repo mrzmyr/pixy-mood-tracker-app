@@ -10,13 +10,14 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { RootStackScreenProps } from '../../../types';
 import useColors from '../../hooks/useColors';
 import { Tag, useTagsState } from '../../hooks/useTags';
+import _ from 'lodash';
 
 export const Tags = ({ navigation }: RootStackScreenProps<'Tags'>) => {
   const colors = useColors()
   const insets = useSafeAreaInsets();
   const { tags } = useTagsState()
 
-  const _tags = tags.filter((tag: Tag) => !tag.isArchived)
+  const _tags = _.sortBy(tags.filter((tag: Tag) => !tag.isArchived), 'title')
 
   return (
     <View style={{
