@@ -664,5 +664,6 @@
   "archive_tag": "Archivio",
   "archive_tag_description": "Nasconde il tag nel tuo check-in. È ancora visibile nelle voci precedenti. Ciò escluderà anche questo tag da qualsiasi analisi statistica futura.",
   "tags_archive_empty": "Nessun tag archiviato ancora.",
-  "archive_tag_enabled": "Archiviato"
+  "archive_tag_enabled": "Archiviato",
+  "colorblind_disclaimer": "Questa combinazione di colori è ottimizzata per le persone daltoniche sulla base della ricerca della dottoressa Cynthia Brewer della Pennsylvania State University. Se hai ancora problemi a vedere i colori, fammelo sapere a care@pixy.day."
 }

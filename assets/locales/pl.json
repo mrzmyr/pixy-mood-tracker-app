@@ -664,5 +664,6 @@
   "archive_tag": "Archiwum",
   "archive_tag_description": "Ukrywa tag w twoim zameldowaniu. Nadal jest widoczny w Twoich poprzednich wpisach. Spowoduje to również wykluczenie tego tagu z wszelkich analiz statystycznych w przyszłości.",
   "tags_archive_empty": "Brak zarchiwizowanych tagów.",
-  "archive_tag_enabled": "Zarchiwizowane"
+  "archive_tag_enabled": "Zarchiwizowane",
+  "colorblind_disclaimer": "Ten schemat kolorów jest zoptymalizowany dla osób ze daltonizmem w oparciu o badania dr Cynthii Brewer z Pennsylvania State University. Jeśli nadal masz problemy z widzeniem kolorów, daj mi znać na adres care@pixy.day."
 }

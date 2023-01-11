@@ -23,9 +23,6 @@ export const ColorsScreen = ({ navigation }) => {
     id: `ColorBrew-RdYlGn`,
     disabled: false,
   }, {
-    id: `ColorBrew-RdYlGn-old`,
-    disabled: false,
-  }, {
     id: `ColorBrew-PuOr`,
     disabled: true,
   }, {
@@ -33,6 +30,9 @@ export const ColorsScreen = ({ navigation }) => {
     disabled: true,
   }, {
     id: `ColorBrew-RdYG`,
+    disabled: false,
+  }, {
+    id: `ColorBrew-RdYlGn-old`,
     disabled: false,
   }]
 
@@ -56,17 +56,25 @@ export const ColorsScreen = ({ navigation }) => {
         }}
       >
         {typesNames.filter(d => !d.disabled).map(type => (
-          <Radio
-            key={type.id}
-            isSelected={type.id === scaleType}
-            onPress={() => onSelect(type.id)}
-            isDisabled={type.disabled}
-          >
-            <Scale type={type.id} />
-          </Radio>
+          <>
+            <Radio
+              key={type.id}
+              isSelected={type.id === scaleType}
+              onPress={() => onSelect(type.id)}
+              isDisabled={type.disabled}
+            >
+              <Scale type={type.id} />
+            </Radio>
+            {type.id === 'ColorBrew-RdYlGn-old' && (
+              <TextInfo
+                style={{
+                  marginTop: 0,
+                }}
+              >{t('colorblind_disclaimer')}</TextInfo>
+            )}
+          </>
         )
         )}
-        <TextInfo>{t('colors_info')}</TextInfo>
         <MenuListHeadline>Coming Soon…</MenuListHeadline>
         <View
           style={{

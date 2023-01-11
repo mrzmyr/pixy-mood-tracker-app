@@ -664,5 +664,6 @@
   "archive_tag": "Arkisto",
   "archive_tag_description": "Piilottaa tunnisteen sisäänkirjautumisen yhteydessä. Se näkyy edelleen aiemmissa merkinnöissäsi. Tämä myös sulkee tämän tunnisteen pois kaikista tilastoanalyysistä tulevaisuudessa.",
   "tags_archive_empty": "Ei vielä arkistoituja tunnisteita.",
-  "archive_tag_enabled": "Arkistoitu"
+  "archive_tag_enabled": "Arkistoitu",
+  "colorblind_disclaimer": "Tämä värimaailma on optimoitu värisokeille Pennsylvania State Universityn tohtori Cynthia Brewerin tutkimuksen perusteella. Jos sinulla on edelleen vaikeuksia nähdä värit, ilmoita minulle osoitteeseen care@pixy.day."
 }

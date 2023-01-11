@@ -664,5 +664,6 @@
   "archive_tag": "記録",
   "archive_tag_description": "チェックイン時にタグを非表示にします。過去のエントリには引き続き表示されます。これにより、このタグは今後の統計分析からも除外されます。",
   "tags_archive_empty": "アーカイブされたタグはまだありません。",
-  "archive_tag_enabled": "アーカイブ済み"
+  "archive_tag_enabled": "アーカイブ済み",
+  "colorblind_disclaimer": "この配色は、ペンシルバニア州立大学の Cynthia Brewer 博士の研究に基づいて、色盲の人向けに最適化されています。それでも色が見えない場合は、care@pixy.day までお知らせください。"
 }

@@ -664,5 +664,6 @@
   "archive_tag": "คลังเก็บเอกสารสำคัญ",
   "archive_tag_description": "ซ่อนแท็กในการเช็คอินของคุณ ยังคงปรากฏให้เห็นในรายการที่ผ่านมาของคุณ การดำเนินการนี้จะไม่รวมแท็กนี้จากการวิเคราะห์ทางสถิติใดๆ ในอนาคต",
   "tags_archive_empty": "ยังไม่มีแท็กที่เก็บถาวร",
-  "archive_tag_enabled": "เก็บถาวร"
+  "archive_tag_enabled": "เก็บถาวร",
+  "colorblind_disclaimer": "โทนสีนี้เหมาะสำหรับคนตาบอดสี จากผลการวิจัยของ Dr. Cynthia Brewer จาก Pennsylvania State University หากคุณยังคงมีปัญหาในการดูสี โปรดแจ้งให้เราทราบที่ care@pixy.day"
 }

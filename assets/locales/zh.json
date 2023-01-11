@@ -664,5 +664,6 @@
   "archive_tag": "档案",
   "archive_tag_description": "在您的签到中隐藏标签。它在您过去的条目中仍然可见。这也将从将来的任何统计分析中排除此标签。",
   "tags_archive_empty": "还没有归档标签。",
-  "archive_tag_enabled": "存档"
+  "archive_tag_enabled": "存档",
+  "colorblind_disclaimer": "此配色方案根据宾夕法尼亚州立大学 Cynthia Brewer 博士的研究针对色盲人士进行了优化。如果您仍然看不清颜色，请通过 care@pixy.day 告诉我。"
 }

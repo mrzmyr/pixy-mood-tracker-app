@@ -664,5 +664,6 @@
   "archive_tag": "Arkiv",
   "archive_tag_description": "Skjuler taggen i innsjekkingen. Det er fortsatt synlig i tidligere oppføringer. Dette vil også ekskludere denne taggen fra enhver statistisk analyse i fremtiden.",
   "tags_archive_empty": "Ingen arkiverte tagger ennå.",
-  "archive_tag_enabled": "Arkivert"
+  "archive_tag_enabled": "Arkivert",
+  "colorblind_disclaimer": "Dette fargeskjemaet er optimalisert for fargeblinde basert på forskningen til Dr. Cynthia Brewer fra Pennsylvania State University. Hvis du fortsatt har problemer med å se fargene, vennligst gi meg beskjed på care@pixy.day."
 }

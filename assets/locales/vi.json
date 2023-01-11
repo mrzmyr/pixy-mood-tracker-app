@@ -664,5 +664,6 @@
   "archive_tag": "Lưu trữ",
   "archive_tag_description": "Ẩn thẻ trong đăng ký của bạn. Nó vẫn hiển thị trong các mục trước đây của bạn. Điều này cũng sẽ loại trừ thẻ này khỏi bất kỳ phân tích thống kê nào trong tương lai.",
   "tags_archive_empty": "Chưa có thẻ lưu trữ nào.",
-  "archive_tag_enabled": "lưu trữ"
+  "archive_tag_enabled": "lưu trữ",
+  "colorblind_disclaimer": "Cách phối màu này được tối ưu hóa cho người mù màu dựa trên nghiên cứu của Tiến sĩ Cynthia Brewer đến từ Đại học Bang Pennsylvania. Nếu bạn vẫn gặp sự cố khi nhìn thấy màu sắc, vui lòng cho tôi biết tại care@pixy.day."
 }

@@ -664,5 +664,6 @@
   "archive_tag": "Arhiva",
   "archive_tag_description": "Ascunde eticheta în înregistrarea dvs. Este încă vizibil în intrările tale anterioare. Acest lucru va exclude și această etichetă din orice analiză statistică în viitor.",
   "tags_archive_empty": "Nicio etichetă arhivată încă.",
-  "archive_tag_enabled": "Arhivat"
+  "archive_tag_enabled": "Arhivat",
+  "colorblind_disclaimer": "Această schemă de culori este optimizată pentru persoanele daltoniste pe baza cercetărilor Dr. Cynthia Brewer de la Universitatea de Stat din Pennsylvania. Dacă mai aveți probleme în a vedea culorile, vă rugăm să-mi spuneți la care@pixy.day."
 }

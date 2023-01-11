@@ -664,5 +664,6 @@
   "archive_tag": "Archív",
   "archive_tag_description": "Skryje štítok vo vašom nahlásení. Stále je viditeľný vo vašich minulých záznamoch. Toto tiež vylúči túto značku z akejkoľvek štatistickej analýzy v budúcnosti.",
   "tags_archive_empty": "Zatiaľ žiadne archivované značky.",
-  "archive_tag_enabled": "Archivované"
+  "archive_tag_enabled": "Archivované",
+  "colorblind_disclaimer": "Táto farebná schéma je optimalizovaná pre farboslepých ľudí na základe výskumu Dr. Cynthie Brewer z Pennsylvania State University. Ak máte stále problémy so zobrazením farieb, dajte mi vedieť na adrese care@pixy.day."
 }
