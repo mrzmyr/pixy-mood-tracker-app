@@ -662,5 +662,11 @@
   "log_view_changed_title": "Várj, hol vannak a nappalaim?",
   "log_view_changed_body": "Most már használhatod a felül található [+] gombot több bejegyzés hozzáadásához. Ha naponta több bejegyzésed van, egy lista jelenik meg, ellenkező esetben csak egy bejegyzés jelenik meg ebben a részletes nézetben.",
   "logger_step_sleep_low": "Egyáltalán nem aludtam",
-  "logger_step_sleep_high": "Nagyon jól"
+  "logger_step_sleep_high": "Nagyon jól",
+  "app_is_open_source": "A Pixy nyílt forráskódú",
+  "behavioral_data_help": "Az adatokat anonim módon gyűjtjük, és soha nem osztjuk meg harmadik felekkel. Ha szeretné támogatni az alkalmazás jövőbeni fejlesztését, javasoljuk, hogy hagyja engedélyezve ezt a lehetőséget.",
+  "statistics_emotions_distribution_title": "A leggyakrabban használt érzelmeid.",
+  "emotions": "Érzelmek",
+  "statistics_most_used_emotions": "A legtöbbet érzett érzelmek",
+  "statistics_most_used_emotions_description": "Leginkább érzett érzelmei {{dátum}} napon."
 }

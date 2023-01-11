@@ -662,5 +662,11 @@
   "log_view_changed_title": "Wacht, waar zijn mijn dagen?",
   "log_view_changed_body": "U kunt nu de knop [+] bovenaan gebruiken om meerdere vermeldingen toe te voegen. Als u meerdere vermeldingen per dag heeft, wordt er een lijst weergegeven, anders wordt er slechts één vermelding weergegeven in dit detailoverzicht.",
   "logger_step_sleep_low": "Helemaal niet",
-  "logger_step_sleep_high": "Super goed"
+  "logger_step_sleep_high": "Super goed",
+  "app_is_open_source": "Pixy is open source",
+  "behavioral_data_help": "De gegevens worden anoniem verzameld en nooit gedeeld met derden. Als je toekomstige ontwikkeling van de app wilt ondersteunen, raad ik aan om deze optie ingeschakeld te houden.",
+  "statistics_emotions_distribution_title": "Je meest gebruikte emoties.",
+  "emotions": "Emoties",
+  "statistics_most_used_emotions": "Meest gevoelde emoties",
+  "statistics_most_used_emotions_description": "Je meest gevoelde emoties in {{date}}."
 }

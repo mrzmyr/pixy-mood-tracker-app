@@ -662,5 +662,11 @@
   "log_view_changed_title": "Aspetta, dove sono i miei giorni diurni?",
   "log_view_changed_body": "Ora puoi utilizzare il pulsante [+] in alto per aggiungere più voci. Se hai più voci al giorno, verrà visualizzato un elenco, altrimenti verrà visualizzata solo una voce in questa visualizzazione dettagliata.",
   "logger_step_sleep_low": "Affatto",
-  "logger_step_sleep_high": "Grande"
+  "logger_step_sleep_high": "Grande",
+  "app_is_open_source": "Pixy è open source",
+  "behavioral_data_help": "I dati sono raccolti in forma anonima e mai condivisi con terze parti. Se desideri supportare lo sviluppo futuro dell'app, ti consiglio di mantenere abilitata questa opzione.",
+  "statistics_emotions_distribution_title": "Le tue emozioni più usate.",
+  "emotions": "Emozioni",
+  "statistics_most_used_emotions": "Le emozioni più sentite",
+  "statistics_most_used_emotions_description": "Le tue emozioni più sentite in {{date}}."
 }

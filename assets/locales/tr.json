@@ -662,5 +662,11 @@
   "log_view_changed_title": "Bekle, gündüzlerim nerede?",
   "log_view_changed_body": "Artık birden fazla giriş eklemek için üst kısımdaki [+] düğmesini kullanabilirsiniz. Günde birden fazla girişiniz varsa, bir liste görüntülenecektir, aksi takdirde bu ayrıntılı görünümde yalnızca bir giriş görüntülenecektir.",
   "logger_step_sleep_low": "hiç de bile",
-  "logger_step_sleep_high": "Harika"
+  "logger_step_sleep_high": "Harika",
+  "app_is_open_source": "Pixy açık kaynaktır",
+  "behavioral_data_help": "Veriler anonim olarak toplanır ve asla üçüncü şahıslarla paylaşılmaz. Uygulamanın gelecekteki gelişimini desteklemek istiyorsanız, bu seçeneği etkin tutmanızı tavsiye ederim.",
+  "statistics_emotions_distribution_title": "En çok kullandığınız duygular.",
+  "emotions": "duygular",
+  "statistics_most_used_emotions": "En Çok Hissedilen Duygular",
+  "statistics_most_used_emotions_description": "{{date}} tarihinde en çok hissettiğin duygular."
 }

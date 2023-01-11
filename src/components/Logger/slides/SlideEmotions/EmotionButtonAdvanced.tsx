@@ -39,12 +39,12 @@ export const EmotionButtonAdvanced = ({
           backgroundColor: colors.logCardBackground,
           borderRadius: 8,
           borderWidth: selected ? 2 : 1,
-          borderColor: selected ? colors.tint : colorScheme === 'light' ? 'rgba(0,0,0,0.1)' : 'rgba(255,255,255,0.2)',
+          borderColor: selected ? colors.tint : colorScheme === 'light' ? 'rgba(0,0,0,0.1)' : 'rgba(255,255,255,0.1)',
           flexDirection: 'row',
           alignItems: 'center',
-          paddingVertical: selected ? 7 : 8,
-          paddingRight: selected ? 15 : 16,
-          paddingLeft: selected ? 15 : 16,
+          paddingVertical: selected ? 11 : 12,
+          paddingRight: selected ? 13 : 14,
+          paddingLeft: selected ? 13 : 14,
         }}
       >
         <EmotionIndicator category={emotion.category} />
@@ -54,7 +54,6 @@ export const EmotionButtonAdvanced = ({
             fontWeight: '500',
             fontSize: 17,
             flex: 1,
-            paddingVertical: 6,
           }}
           numberOfLines={1}
         >

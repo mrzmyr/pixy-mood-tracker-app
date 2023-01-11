@@ -662,5 +662,11 @@
   "log_view_changed_title": "Počkej, kde jsou moje dny?",
   "log_view_changed_body": "Nyní můžete pomocí tlačítka [+] v horní části přidat více položek. Pokud máte více záznamů za den, zobrazí se seznam, jinak se v tomto podrobném zobrazení zobrazí pouze jeden záznam.",
   "logger_step_sleep_low": "Vůbec ne",
-  "logger_step_sleep_high": "Skvělý"
+  "logger_step_sleep_high": "Skvělý",
+  "app_is_open_source": "Pixy je open source",
+  "behavioral_data_help": "Údaje jsou shromažďovány anonymně a nikdy nejsou sdíleny s třetími stranami. Pokud byste chtěli podpořit budoucí vývoj aplikace, doporučuji ponechat tuto možnost povolenou.",
+  "statistics_emotions_distribution_title": "Vaše nejpoužívanější emoce.",
+  "emotions": "Emoce",
+  "statistics_most_used_emotions": "Nejvíce pociťovaných emocí",
+  "statistics_most_used_emotions_description": "Vaše nejcítěnější emoce v {{date}}."
 }

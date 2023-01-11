@@ -65,31 +65,38 @@ export const SlideSleep = ({
         </View>
         <View
           style={{
-            flexDirection: 'row',
-            alignItems: 'center',
             justifyContent: 'space-between',
             marginTop: 8,
+            flex: 1,
           }}
         >
-          <Text
+          <View
             style={{
-              fontSize: 14,
-              color: colors.textSecondary,
-              textAlign: 'center',
-              flex: 5,
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'space-between',
             }}
-          >{t('logger_step_sleep_low')}</Text>
-          <View style={{ flex: 5 }} />
-          <View style={{ flex: 5 }} />
-          <View style={{ flex: 5 }} />
-          <Text
-            style={{
-              fontSize: 14,
-              color: colors.textSecondary,
-              textAlign: 'center',
-              flex: 5,
-            }}
-          >{t('logger_step_sleep_high')}</Text>
+          >
+            <Text
+              style={{
+                fontSize: 14,
+                color: colors.textSecondary,
+                textAlign: 'center',
+                flex: 5,
+              }}
+            >{t('logger_step_sleep_low')}</Text>
+            <View style={{ flex: 5 }} />
+            <View style={{ flex: 5 }} />
+            <View style={{ flex: 5 }} />
+            <Text
+              style={{
+                fontSize: 14,
+                color: colors.textSecondary,
+                textAlign: 'center',
+                flex: 5,
+              }}
+            >{t('logger_step_sleep_high')}</Text>
+          </View>
         </View>
         <Footer>
           {showDisable && (

@@ -34,9 +34,6 @@ export const TrendsSection = () => {
         </View>
       ) : (
         <>
-          {statistics.isAvailable("mood_trend") && (
-            <MoodTrend data={statistics.state.trends.moodData} />
-          )}
 
           {/* {statistics.isAvailable("tags_distribution_trend") && (
             <>

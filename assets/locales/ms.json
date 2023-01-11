@@ -662,5 +662,11 @@
   "log_view_changed_title": "Tunggu, di manakah siang hari saya?",
   "log_view_changed_body": "Anda kini boleh menggunakan butang [+] di bahagian atas untuk menambah berbilang entri. Jika anda mempunyai berbilang entri setiap hari, senarai akan dipaparkan, jika tidak, hanya satu entri akan dipaparkan dalam paparan butiran ini.",
   "logger_step_sleep_low": "Tidak sama sekali",
-  "logger_step_sleep_high": "Hebat"
+  "logger_step_sleep_high": "Hebat",
+  "app_is_open_source": "Pixy ialah sumber terbuka",
+  "behavioral_data_help": "Data dikumpul tanpa nama dan tidak pernah dikongsi dengan pihak ketiga. Jika anda ingin menyokong pembangunan apl pada masa hadapan, saya mengesyorkan agar pilihan ini didayakan.",
+  "statistics_emotions_distribution_title": "Emosi anda yang paling banyak digunakan.",
+  "emotions": "Emosi",
+  "statistics_most_used_emotions": "Emosi Paling Dirasai",
+  "statistics_most_used_emotions_description": "Emosi yang paling anda rasai pada {{date}}."
 }

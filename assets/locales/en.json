@@ -489,7 +489,7 @@
   "passcode_title_confirm": "Enter your passcode",
   "passcode_title_create": "Set your passcode",
   "passcode": "Passcode",
-  "privacy_content": "Pixy gives you the ability to reflect on your day and store potentially sensitive information. I want to be as transparent as possible on the usage of your data. So allow me to explain how the data is used and why your data is safe.\n\n### We don’t have access to your tracked information\n\nYour data is saved locally on your device. It is never shared with anyone except if you choose to export it or use the webhook functionality.\n\n### Error Logs\n\n**To find issues and maintain stability, we look at reported error logs.**\n\nWe collect error logs with the service provider Sentry. It gives us the possibility to see the time, the screen opened and the type of the device. We use this to reproduce the error and to provide a fix.\n\n### Behavioral Data\n\nWhen you open a screen or change a setting, this will be sent to one of our analytics tools. This data is sent anonymized. None of your personal data is sent. For example, if Laura Birmingham tracks her mood. We only see that user 101029 did this action.\n\nWe use Posthog Cloud to collect and visualize data. It helps us to better understand trends and to find areas for improvement.\n\n\n---------\n\nIf you have any questions or concerns, drop me a line at [care@pixy.day](mailto:care@pixy.day).\n\n**I use this app by myself and I would never want to share personal data with any developer.**\n\n*You can find the whole privacy policy here.*",
+  "privacy_content": "Pixy gives you the ability to reflect on your day and store potentially sensitive information. I want to be as transparent as possible on the usage of your data. So allow me to explain how the data is used and why your data is safe.\n\n### We don’t have access to your tracked information\n\nYour data is saved locally on your device. It is never shared with anyone except if you choose to export it or use the webhook functionality.\n\n### Error Logs\n\n**To find issues and maintain stability, we look at reported error logs.**\n\nWe collect error logs with the service provider Sentry. It gives us the possibility to see the time, the screen opened and the type of the device. We use this to reproduce the error and to provide a fix.\n\n### Behavioral Data\n\nWhen you open a screen or change a setting, this will be sent to one of our analytics tools. This data is sent anonymized. None of your personal data is sent. For example, if Laura Birmingham tracks her mood. We only see that user 101029 did this action.\n\nWe use Posthog Cloud to collect and visualize data. It helps us to better understand trends and to find areas for improvement.\n\n\n---------\n\nIf you have any questions or concerns, drop me a line at [care@pixy.day](mailto:care@pixy.day).\n\n**I use this app by myself and I would never want to share personal data with any developer.**",
   "privacy_policy": "Privacy Policy",
   "privacy": "Privacy",
   "promo_card_month_title": "Your {{month}}\n is ready",
@@ -646,5 +646,10 @@
   "log_view_changed_body": "You can now use the [+] button on the top to add multiple entries. If you have multiple entries per day, a list will be displayed, otherwise only one entry will be displayed in this detail view.",
   "logger_step_sleep_low": "Not at all",
   "logger_step_sleep_high": "Great",
-  "app_is_open_source": "Pixy is open source"
+  "app_is_open_source": "Pixy is open source",
+  "behavioral_data_help": "The data is collected anonymously and never shared with third parties. If you would like to support future development of the app, I recommend keeping this option enabled.",
+  "statistics_emotions_distribution_title": "Your most felt emotions.",
+  "emotions": "Emotions",
+  "statistics_most_used_emotions": "Most Felt Emotions",
+  "statistics_most_used_emotions_description": "Your most felt emotions in {{date}}."
 }

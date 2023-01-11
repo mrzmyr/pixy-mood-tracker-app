@@ -662,5 +662,11 @@
   "log_view_changed_title": "待って、私の昼間はどこ？",
   "log_view_changed_body": "上部の [+] ボタンを使用して、複数のエントリを追加できるようになりました。 1 日に複数のエントリがある場合は、リストが表示されます。それ以外の場合は、この詳細ビューに 1 つのエントリのみが表示されます。",
   "logger_step_sleep_low": "全くない",
-  "logger_step_sleep_high": "素晴らしい"
+  "logger_step_sleep_high": "素晴らしい",
+  "app_is_open_source": "ピクシーはオープンソースです",
+  "behavioral_data_help": "データは匿名で収集され、第三者と共有されることはありません。アプリの将来の開発をサポートしたい場合は、このオプションを有効にしておくことをお勧めします。",
+  "statistics_emotions_distribution_title": "最もよく使う感情。",
+  "emotions": "感情",
+  "statistics_most_used_emotions": "最も感じた感情",
+  "statistics_most_used_emotions_description": "{{date}}で最も感じた感情。"
 }
