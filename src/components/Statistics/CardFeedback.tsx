@@ -249,7 +249,7 @@ export const CardFeedback = ({
               padding: 12,
               marginTop: 8,
               borderRadius: 8,
-              borderColor: style.borderTopColor || undefined,
+              borderColor: colors.textInputBorder || undefined,
               height: 24 * 2,
             }}
           />
