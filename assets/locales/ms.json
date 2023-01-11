@@ -660,5 +660,8 @@
   "statistics_emotions_distribution_title": "Emosi anda yang paling banyak digunakan.",
   "emotions": "Emosi",
   "statistics_most_used_emotions": "Emosi Paling Dirasai",
-  "statistics_most_used_emotions_description": "Emosi yang paling anda rasai pada {{date}}."
+  "statistics_most_used_emotions_description": "Emosi yang paling anda rasai pada {{date}}.",
+  "archive_tag": "Arkib",
+  "archive_tag_description": "Menyembunyikan teg dalam daftar masuk anda. Ia masih kelihatan dalam entri anda yang lalu. Ini juga akan mengecualikan teg ini daripada sebarang analisis statistik pada masa hadapan.",
+  "tags_archive_empty": "Tiada teg arkib lagi."
 }

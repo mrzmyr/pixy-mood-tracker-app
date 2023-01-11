@@ -1,8 +1,8 @@
 import { Text, View } from 'react-native';
 import { Edit2 } from 'react-native-feather';
 import MenuListItem from '@/components/MenuListItem';
-import useColors from '../../hooks/useColors';
-import { Tag } from '../../hooks/useTags';
+import useColors from '../hooks/useColors';
+import { Tag } from '../hooks/useTags';
 
 export const TagListItem = ({
   tag, isLast, onPress,

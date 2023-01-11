@@ -660,5 +660,8 @@
   "statistics_emotions_distribution_title": "อารมณ์ที่คุณใช้มากที่สุด",
   "emotions": "อารมณ์",
   "statistics_most_used_emotions": "อารมณ์ที่รู้สึกมากที่สุด",
-  "statistics_most_used_emotions_description": "อารมณ์ที่คุณรู้สึกมากที่สุดใน {{date}}"
+  "statistics_most_used_emotions_description": "อารมณ์ที่คุณรู้สึกมากที่สุดใน {{date}}",
+  "archive_tag": "คลังเก็บเอกสารสำคัญ",
+  "archive_tag_description": "ซ่อนแท็กในการเช็คอินของคุณ ยังคงปรากฏให้เห็นในรายการที่ผ่านมาของคุณ การดำเนินการนี้จะไม่รวมแท็กนี้จากการวิเคราะห์ทางสถิติใดๆ ในอนาคต",
+  "tags_archive_empty": "ยังไม่มีแท็กที่เก็บถาวร"
 }

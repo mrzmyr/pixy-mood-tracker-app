@@ -661,5 +661,8 @@
   "statistics_emotions_distribution_title": "Vos émotions les plus utilisées.",
   "emotions": "Émotions",
   "statistics_most_used_emotions": "Les émotions les plus ressenties",
-  "statistics_most_used_emotions_description": "Vos émotions les plus ressenties en {{date}}."
+  "statistics_most_used_emotions_description": "Vos émotions les plus ressenties en {{date}}.",
+  "archive_tag": "Archive",
+  "archive_tag_description": "Masque la balise dans votre check-in. Il est toujours visible dans vos entrées passées. Cela exclura également cette balise de toute analyse statistique à l'avenir.",
+  "tags_archive_empty": "Pas encore de tags archivés."
 }

@@ -660,5 +660,8 @@
   "statistics_emotions_distribution_title": "Ваши самые используемые эмоции.",
   "emotions": "Эмоции",
   "statistics_most_used_emotions": "Самые прочувствованные эмоции",
-  "statistics_most_used_emotions_description": "Ваши самые сильные эмоции за {{date}}."
+  "statistics_most_used_emotions_description": "Ваши самые сильные эмоции за {{date}}.",
+  "archive_tag": "Архив",
+  "archive_tag_description": "Скрывает тег в вашей регистрации. Это все еще видно в ваших прошлых записях. Это также исключит этот тег из любого статистического анализа в будущем.",
+  "tags_archive_empty": "Пока нет заархивированных тегов."
 }

@@ -660,5 +660,8 @@
   "statistics_emotions_distribution_title": "En çok kullandığınız duygular.",
   "emotions": "duygular",
   "statistics_most_used_emotions": "En Çok Hissedilen Duygular",
-  "statistics_most_used_emotions_description": "{{date}} tarihinde en çok hissettiğin duygular."
+  "statistics_most_used_emotions_description": "{{date}} tarihinde en çok hissettiğin duygular.",
+  "archive_tag": "Arşiv",
+  "archive_tag_description": "Check-in işleminizdeki etiketi gizler. Geçmiş girdilerinizde hâlâ görünüyor. Bu aynı zamanda bu etiketi gelecekte herhangi bir istatistiksel analizden hariç tutacaktır.",
+  "tags_archive_empty": "Henüz arşivlenmiş etiket yok."
 }

@@ -651,5 +651,8 @@
   "statistics_emotions_distribution_title": "Your most felt emotions.",
   "emotions": "Emotions",
   "statistics_most_used_emotions": "Most Felt Emotions",
-  "statistics_most_used_emotions_description": "Your most felt emotions in {{date}}."
+  "statistics_most_used_emotions_description": "Your most felt emotions in {{date}}.",
+  "archive_tag": "Archive",
+  "archive_tag_description": "Hides the tag in your check-in. It's still visible in your past entries. This will also exclude this tag from any statistical analysis in the future.",
+  "tags_archive_empty": "No archived tags yet."
 }

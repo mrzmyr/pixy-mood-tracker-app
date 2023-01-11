@@ -660,5 +660,8 @@
   "statistics_emotions_distribution_title": "Emosi Anda yang paling sering digunakan.",
   "emotions": "Emosi",
   "statistics_most_used_emotions": "Emosi yang Paling Dirasakan",
-  "statistics_most_used_emotions_description": "Emosi Anda yang paling terasa di {{date}}."
+  "statistics_most_used_emotions_description": "Emosi Anda yang paling terasa di {{date}}.",
+  "archive_tag": "Arsip",
+  "archive_tag_description": "Sembunyikan tag di check-in Anda. Itu masih terlihat di entri Anda sebelumnya. Ini juga akan mengecualikan tag ini dari analisis statistik apa pun di masa mendatang.",
+  "tags_archive_empty": "Belum ada tag yang diarsipkan."
 }

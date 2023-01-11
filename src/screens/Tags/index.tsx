@@ -1,25 +1,22 @@
-import { LinearGradient } from 'expo-linear-gradient';
-import { Platform, ScrollView, Text, View } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Button from '@/components/Button';
 import LinkButton from '@/components/LinkButton';
-import MenuList from '@/components/MenuList';
 import ModalHeader from '@/components/ModalHeader';
+import { TagList } from '@/components/TagList';
 import { MAX_TAGS } from '@/constants/Config';
 import { t } from '@/helpers/translation';
+import { LinearGradient } from 'expo-linear-gradient';
+import { Platform, ScrollView, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { RootStackScreenProps } from '../../../types';
 import useColors from '../../hooks/useColors';
 import { Tag, useTagsState } from '../../hooks/useTags';
-import { RootStackScreenProps } from '../../../types';
-import { TagListItem } from './TagListItem';
 
 export const Tags = ({ navigation }: RootStackScreenProps<'Tags'>) => {
   const colors = useColors()
   const insets = useSafeAreaInsets();
   const { tags } = useTagsState()
 
-  const onEdit = async (tag: Tag) => {
-    navigation.navigate('TagEdit', { id: tag.id })
-  }
+  const _tags = tags.filter((tag: Tag) => !tag.isArchived)
 
   return (
     <View style={{
@@ -83,71 +80,7 @@ export const Tags = ({ navigation }: RootStackScreenProps<'Tags'>) => {
           flex: 1,
         }}
       >
-        <View
-          style={{
-            backgroundColor: colors.background,
-          }}
-        >
-          {tags.length >= MAX_TAGS && (
-            <View
-              style={{
-                flexDirection: 'row',
-                justifyContent: 'center',
-                alignItems: 'center',
-                backgroundColor: colors.cardBackground,
-                padding: 16,
-                marginTop: 16,
-                marginHorizontal: 16,
-                borderRadius: 8,
-              }}
-            >
-              <Text
-                style={{
-                  color: colors.text,
-                  fontSize: 17,
-                }}
-              >{t('tags_reached_max', { max_count: MAX_TAGS })}</Text>
-            </View>
-          )}
-          <View
-            style={{
-              paddingTop: 16,
-              paddingLeft: 16,
-              paddingRight: 16,
-            }}
-          >
-            {tags.length < 1 && (
-              <View
-                style={{
-                  padding: 32,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}
-              >
-                <Text
-                  style={{
-                    opacity: 0.5,
-                    color: colors.text,
-                  }}
-                >{t('tags_empty')}. 👻</Text>
-              </View>
-            )}
-            <MenuList
-              style={{
-                marginBottom: 40
-              }}
-            >
-              {tags.map((tag, index) => (
-                <TagListItem
-                  key={tag.id}
-                  tag={tag}
-                  isLast={index === tags.length - 1}
-                  onPress={() => onEdit(tag)}
-                />
-              ))}
-            </MenuList>
-          </View>
-        </View>
+        <TagList tags={_tags} />
         <View
           style={{
             width: '100%',

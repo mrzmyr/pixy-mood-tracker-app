@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Platform, TextInput, TouchableOpacity, View } from 'react-native';
+import { Platform, Switch, TextInput, TouchableOpacity, View } from 'react-native';
 import { Check } from 'react-native-feather';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { v4 as uuidv4 } from 'uuid';
@@ -15,6 +15,9 @@ import useColors from '../hooks/useColors';
 import useHaptics from '../hooks/useHaptics';
 import { Tag as ITag, useTagsState, useTagsUpdater } from '../hooks/useTags';
 import { RootStackScreenProps } from '../../types';
+import MenuList from '@/components/MenuList';
+import MenuListItem from '@/components/MenuListItem';
+import TextInfo from '@/components/TextInfo';
 
 const REGEX_EMOJI = /\p{Emoji}/u;
 
@@ -166,6 +169,30 @@ export const TagEdit = ({ navigation, route }: RootStackScreenProps<'TagEdit'>) 
               </TouchableOpacity>
             ))}
           </View>
+          <MenuList
+            style={{
+              marginTop: 16,
+            }}
+          >
+            <MenuListItem
+              title={t('archive_tag')}
+              iconRight={
+                <Switch
+                  ios_backgroundColor={colors.backgroundSecondary}
+                  onValueChange={() => {
+                    setTag(tag => ({
+                      ...tag,
+                      isArchived: !tag.isArchived,
+                    }));
+                  }}
+                  value={tag.isArchived}
+                />
+              }
+              isLast
+            />
+          </MenuList>
+          <TextInfo>{t('archive_tag_description')}</TextInfo>
+
           <View
             style={{
               justifyContent: 'center',

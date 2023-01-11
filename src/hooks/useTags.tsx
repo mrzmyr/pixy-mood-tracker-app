@@ -13,6 +13,7 @@ export type Tag = {
   id: string;
   title: string;
   color: typeof TAG_COLOR_NAMES[number];
+  isArchived?: boolean;
 };
 
 interface State {

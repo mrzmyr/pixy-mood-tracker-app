@@ -660,5 +660,8 @@
   "statistics_emotions_distribution_title": "Le tue emozioni più usate.",
   "emotions": "Emozioni",
   "statistics_most_used_emotions": "Le emozioni più sentite",
-  "statistics_most_used_emotions_description": "Le tue emozioni più sentite in {{date}}."
+  "statistics_most_used_emotions_description": "Le tue emozioni più sentite in {{date}}.",
+  "archive_tag": "Archivio",
+  "archive_tag_description": "Nasconde il tag nel tuo check-in. È ancora visibile nelle voci precedenti. Ciò escluderà anche questo tag da qualsiasi analisi statistica futura.",
+  "tags_archive_empty": "Nessun tag archiviato ancora."
 }

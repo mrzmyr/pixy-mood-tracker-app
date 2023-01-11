@@ -660,5 +660,8 @@
   "statistics_emotions_distribution_title": "Dine mest brukte følelser.",
   "emotions": "Følelser",
   "statistics_most_used_emotions": "Mest kjente følelser",
-  "statistics_most_used_emotions_description": "De mest følte følelsene dine i {{date}}."
+  "statistics_most_used_emotions_description": "De mest følte følelsene dine i {{date}}.",
+  "archive_tag": "Arkiv",
+  "archive_tag_description": "Skjuler taggen i innsjekkingen. Det er fortsatt synlig i tidligere oppføringer. Dette vil også ekskludere denne taggen fra enhver statistisk analyse i fremtiden.",
+  "tags_archive_empty": "Ingen arkiverte tagger ennå."
 }

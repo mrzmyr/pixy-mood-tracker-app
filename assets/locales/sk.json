@@ -660,5 +660,8 @@
   "statistics_emotions_distribution_title": "Vaše najpoužívanejšie emócie.",
   "emotions": "Emócie",
   "statistics_most_used_emotions": "Najviac pociťovaných emócií",
-  "statistics_most_used_emotions_description": "Vaše najcitovanejšie emócie v {{date}}."
+  "statistics_most_used_emotions_description": "Vaše najcitovanejšie emócie v {{date}}.",
+  "archive_tag": "Archív",
+  "archive_tag_description": "Skryje štítok vo vašom nahlásení. Stále je viditeľný vo vašich minulých záznamoch. Toto tiež vylúči túto značku z akejkoľvek štatistickej analýzy v budúcnosti.",
+  "tags_archive_empty": "Zatiaľ žiadne archivované značky."
 }

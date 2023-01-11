@@ -660,5 +660,8 @@
   "statistics_emotions_distribution_title": "A leggyakrabban használt érzelmeid.",
   "emotions": "Érzelmek",
   "statistics_most_used_emotions": "A legtöbbet érzett érzelmek",
-  "statistics_most_used_emotions_description": "Leginkább érzett érzelmei {{dátum}} napon."
+  "statistics_most_used_emotions_description": "Leginkább érzett érzelmei {{dátum}} napon.",
+  "archive_tag": "Archívum",
+  "archive_tag_description": "Elrejti a címkét a bejelentkezéskor. Még mindig látható a korábbi bejegyzései között. Ezzel a címkét a jövőben kizárja minden statisztikai elemzésből.",
+  "tags_archive_empty": "Még nincsenek archivált címkék."
 }

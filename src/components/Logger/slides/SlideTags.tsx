@@ -29,6 +29,16 @@ export const SlideTags = ({
   const colors = useColors()
   const { tags } = useTagsState()
 
+  const _tags = tags.filter(t => {
+    const inTempLog = tempLog?.data?.tags?.map(d => d.id).includes(t.id)
+
+    return (
+      (!inTempLog && !t.isArchived) ||
+      (inTempLog && t.isArchived) ||
+      (inTempLog && !t.isArchived)
+    )
+  })
+
   const marginTop = getLogEditMarginTop()
 
   return (
@@ -77,10 +87,7 @@ export const SlideTags = ({
             paddingBottom: insets.bottom,
           }}
         >
-          {tags?.map(tag => {
-            const _tag = tags.find(t => t.id === tag.id)
-            if (!_tag) return null;
-
+          {_tags?.map(tag => {
             return (
               <Tag
                 onPress={async () => {
@@ -89,8 +96,8 @@ export const SlideTags = ({
                     [...tempLog?.data.tags || [], tag]
                   onChange(newTags)
                 }}
-                title={_tag.title}
-                colorName={_tag.color}
+                title={tag.title}
+                colorName={tag.color}
                 selected={tempLog?.data?.tags?.map(d => d.id).includes(tag.id)}
                 key={tag.id}
               />

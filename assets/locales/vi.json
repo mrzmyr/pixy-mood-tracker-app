@@ -660,5 +660,8 @@
   "statistics_emotions_distribution_title": "Cảm xúc được sử dụng nhiều nhất của bạn.",
   "emotions": "Những cảm xúc",
   "statistics_most_used_emotions": "Cảm xúc được cảm nhận nhiều nhất",
-  "statistics_most_used_emotions_description": "Những cảm xúc mà bạn cảm nhận rõ nhất trong {{date}}."
+  "statistics_most_used_emotions_description": "Những cảm xúc mà bạn cảm nhận rõ nhất trong {{date}}.",
+  "archive_tag": "Lưu trữ",
+  "archive_tag_description": "Ẩn thẻ trong đăng ký của bạn. Nó vẫn hiển thị trong các mục trước đây của bạn. Điều này cũng sẽ loại trừ thẻ này khỏi bất kỳ phân tích thống kê nào trong tương lai.",
+  "tags_archive_empty": "Chưa có thẻ lưu trữ nào."
 }

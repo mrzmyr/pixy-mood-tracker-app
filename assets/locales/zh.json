@@ -660,5 +660,8 @@
   "statistics_emotions_distribution_title": "你最常用的情绪。",
   "emotions": "情绪",
   "statistics_most_used_emotions": "最能感受到的情绪",
-  "statistics_most_used_emotions_description": "您在 {{date}} 感受最深的情绪。"
+  "statistics_most_used_emotions_description": "您在 {{date}} 感受最深的情绪。",
+  "archive_tag": "档案",
+  "archive_tag_description": "在您的签到中隐藏标签。它在您过去的条目中仍然可见。这也将从将来的任何统计分析中排除此标签。",
+  "tags_archive_empty": "还没有归档标签。"
 }

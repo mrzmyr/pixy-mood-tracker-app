@@ -660,5 +660,8 @@
   "statistics_emotions_distribution_title": "مشاعرك الأكثر استخدامًا.",
   "emotions": "العواطف",
   "statistics_most_used_emotions": "شعرت معظم المشاعر",
-  "statistics_most_used_emotions_description": "أكثر المشاعر التي شعرت بها في {{date}}."
+  "statistics_most_used_emotions_description": "أكثر المشاعر التي شعرت بها في {{date}}.",
+  "archive_tag": "أرشيف",
+  "archive_tag_description": "يخفي العلامة في تسجيل الوصول الخاص بك. لا يزال مرئيًا في إدخالاتك السابقة. سيؤدي هذا أيضًا إلى استبعاد هذه العلامة من أي تحليل إحصائي في المستقبل.",
+  "tags_archive_empty": "لا توجد علامات مؤرشفة حتى الآن."
 }

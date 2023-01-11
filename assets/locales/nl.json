@@ -660,5 +660,8 @@
   "statistics_emotions_distribution_title": "Je meest gebruikte emoties.",
   "emotions": "Emoties",
   "statistics_most_used_emotions": "Meest gevoelde emoties",
-  "statistics_most_used_emotions_description": "Je meest gevoelde emoties in {{date}}."
+  "statistics_most_used_emotions_description": "Je meest gevoelde emoties in {{date}}.",
+  "archive_tag": "Archief",
+  "archive_tag_description": "Verbergt de tag in uw check-in. Het is nog steeds zichtbaar in je eerdere invoer. Hierdoor wordt deze tag in de toekomst ook uitgesloten van enige statistische analyse.",
+  "tags_archive_empty": "Nog geen gearchiveerde tags."
 }

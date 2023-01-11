@@ -660,5 +660,8 @@
   "statistics_emotions_distribution_title": "Tus emociones más utilizadas.",
   "emotions": "emociones",
   "statistics_most_used_emotions": "Emociones más sentidas",
-  "statistics_most_used_emotions_description": "Tus emociones más sentidas en {{date}}."
+  "statistics_most_used_emotions_description": "Tus emociones más sentidas en {{date}}.",
+  "archive_tag": "Archivo",
+  "archive_tag_description": "Oculta la etiqueta en tu check-in. Todavía es visible en sus entradas anteriores. Esto también excluirá esta etiqueta de cualquier análisis estadístico en el futuro.",
+  "tags_archive_empty": "No hay etiquetas archivadas todavía."
 }

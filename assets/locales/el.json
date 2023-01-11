@@ -660,5 +660,8 @@
   "statistics_emotions_distribution_title": "Τα συναισθήματά σας που χρησιμοποιείτε περισσότερο.",
   "emotions": "Συναισθήματα",
   "statistics_most_used_emotions": "Τα πιο αισθητά συναισθήματα",
-  "statistics_most_used_emotions_description": "Τα πιο αισθητά συναισθήματά σας την {{ημερομηνία}}."
+  "statistics_most_used_emotions_description": "Τα πιο αισθητά συναισθήματά σας την {{ημερομηνία}}.",
+  "archive_tag": "Αρχείο",
+  "archive_tag_description": "Κρύβει την ετικέτα στο check-in σας. Είναι ακόμα ορατό στις προηγούμενες καταχωρίσεις σας. Αυτό θα αποκλείσει επίσης αυτήν την ετικέτα από οποιαδήποτε στατιστική ανάλυση στο μέλλον.",
+  "tags_archive_empty": "Δεν υπάρχουν ακόμα αρχειοθετημένες ετικέτες."
 }

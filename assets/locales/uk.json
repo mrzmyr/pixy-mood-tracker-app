@@ -660,5 +660,8 @@
   "statistics_emotions_distribution_title": "Ваші найбільш часто використовувані емоції.",
   "emotions": "емоції",
   "statistics_most_used_emotions": "Найбільше емоцій",
-  "statistics_most_used_emotions_description": "Ваші найяскравіші емоції за {{date}}."
+  "statistics_most_used_emotions_description": "Ваші найяскравіші емоції за {{date}}.",
+  "archive_tag": "Архів",
+  "archive_tag_description": "Приховує тег у вашій реєстрації. Це все ще видно у ваших попередніх записах. Це також виключить цей тег із будь-якого статистичного аналізу в майбутньому.",
+  "tags_archive_empty": "Архівованих тегів ще немає."
 }

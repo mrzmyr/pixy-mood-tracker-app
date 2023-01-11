@@ -660,5 +660,8 @@
   "statistics_emotions_distribution_title": "最もよく使う感情。",
   "emotions": "感情",
   "statistics_most_used_emotions": "最も感じた感情",
-  "statistics_most_used_emotions_description": "{{date}}で最も感じた感情。"
+  "statistics_most_used_emotions_description": "{{date}}で最も感じた感情。",
+  "archive_tag": "記録",
+  "archive_tag_description": "チェックイン時にタグを非表示にします。過去のエントリには引き続き表示されます。これにより、このタグは今後の統計分析からも除外されます。",
+  "tags_archive_empty": "アーカイブされたタグはまだありません。"
 }
