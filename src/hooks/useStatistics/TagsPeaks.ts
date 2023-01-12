@@ -17,16 +17,19 @@ export const getTagsPeaksData = (items: LogItem[], settingsTags: Tag[]): TagsPea
 
   const tags = Object.keys(distribution)
     .filter((key) => {
+      const tag = settingsTags.find((tag) => tag.id === key);
+
       return (
         distribution[key] >= MIN_PEAKS &&
-        settingsTags.find((tag) => tag.id === key)
+        tag !== undefined &&
+        !tag.isArchived
       )
     })
     .map((key) => ({
       ...settingsTags.find((tag) => tag.id === key)!,
       items: items.filter((item) => item.tags.find((tag) => tag.id === key)),
     }))
-    .filter((tag) => tag && tag.items.length > 0);
+    .filter((tag) => tag && tag.items.length > 0)
 
   return {
     tags,

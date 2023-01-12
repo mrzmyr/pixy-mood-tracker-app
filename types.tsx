@@ -28,6 +28,9 @@ export type RootStackParamList = {
   Tags: undefined;
   DevelopmentTools: undefined;
 
+  SettingsTags: undefined;
+  SettingsTagsArchive: undefined;
+
   Statistics: undefined;
   StatisticsHighlights: undefined;
   StatisticsYear: {

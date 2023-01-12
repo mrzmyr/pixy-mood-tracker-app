@@ -55,7 +55,6 @@ export const dummyTagsDistributionData: TagsDistributionData = {
   ],
 }
 
-
 export const getTagsDistributionData = (items: LogItem[], tags: Tag[]): TagsDistributionData => {
   const distribution = _.countBy(
     items.flatMap((item) => item?.tags?.map((tag) => tag?.id))
@@ -67,6 +66,7 @@ export const getTagsDistributionData = (items: LogItem[], tags: Tag[]): TagsDist
       count: distribution[key],
     }))
     .filter((tag) => tag.details !== undefined)
+    .filter((tag) => !tag.details.isArchived)
     .sort((a, b) => b.count - a.count);
 
   return {

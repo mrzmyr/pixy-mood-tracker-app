@@ -24,7 +24,7 @@ export const UserDataImportList = () => {
   const loadUsers = () => {
     setLoading(true);
 
-    fetch("http://10.10.50.143:3000/persons", {
+    fetch("http://192.168.1.254:3000/persons", {
       headers: {
         "Content-Type": "application/json",
       },

@@ -2,6 +2,39 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.78.0](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.77.0...v1.78.0) (2023-01-11)
+
+
+### Features
+
+* add alphabetical sorting for tags ([a11a59c](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/a11a59ce5e58260ca44f5258f9d1909d084ab404))
+* Add color disclaimer ([9b77e0e](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/9b77e0ee085f6b45fe42169aa1c0ea1efad2f19c))
+* make it possible to archive tags ([d0a4bd9](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/d0a4bd9800eda3e8a468d5ffed9f895cecf9e241))
+* replace 'Tag' with 'Schlagwort' in de ([3fc742a](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/3fc742a3ca39b9ff039a9e884d6590e8b7e91d51))
+
+
+### Styling
+
+* fix feedback border color in light mode ([37b099b](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/37b099bc1eb6e3cb535ffa053adfafefaee72e7f))
+
+
+### Miscellaneous
+
+* remove tags from DevelopmentTools ([e16ae00](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/e16ae007dd2f47a38b2a9663d1e0092fb156c799))
+
+## [1.77.0](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.76.1...v1.77.0) (2023-01-10)
+
+
+### Features
+
+* update fr emotions ([4789569](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/47895691489e53b270fe82e88785233c0f69704a))
+
+
+### Bug Fixes
+
+* add key to emotion item ([2292156](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/2292156f25cf2b258dff7c20955b92ae04e0773c))
+* remove BETA badge ([018f8dc](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/018f8dcd46478764ffe963ef1bc804058798f04f))
+
 ## [1.76.1](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.76.0...v1.76.1) (2023-01-09)
 
 

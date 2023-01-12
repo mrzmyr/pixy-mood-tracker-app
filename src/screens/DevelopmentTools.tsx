@@ -227,29 +227,6 @@ export const DevelopmentTools = () => {
         <TextInfo>
           {t("development_statistics_reset_questions_description")}
         </TextInfo>
-        <MenuListHeadline>Tags</MenuListHeadline>
-        <MenuList style={{}}>
-          {tags.map((tag, i) => (
-            <MenuListItem
-              style={{
-                flexDirection: "column",
-              }}
-              key={i}
-              title={tag.title}
-              isLast={i === tags.length - 1}
-            >
-              <Text
-                style={{
-                  color: colors.textSecondary,
-                  fontSize: 14,
-                  marginTop: 4,
-                }}
-              >
-                {tag.id}
-              </Text>
-            </MenuListItem>
-          ))}
-        </MenuList>
         <View
           style={{
             height: 100,

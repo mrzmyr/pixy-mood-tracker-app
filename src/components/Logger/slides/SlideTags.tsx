@@ -13,6 +13,7 @@ import Tag from "../../Tag";
 import { SlideHeadline } from "../components/SlideHeadline";
 import { Footer } from "./Footer";
 import { TagReference } from "@/types";
+import _ from "lodash";
 
 export const SlideTags = ({
   onChange,
@@ -28,6 +29,19 @@ export const SlideTags = ({
   const insets = useSafeAreaInsets();
   const colors = useColors()
   const { tags } = useTagsState()
+
+  let _tags =
+    tags.filter(t => {
+      const inTempLog = tempLog?.data?.tags?.map(d => d.id).includes(t.id)
+
+      return (
+        (!inTempLog && !t.isArchived) ||
+        (inTempLog && t.isArchived) ||
+        (inTempLog && !t.isArchived)
+      )
+    })
+
+  _tags = _.sortBy(_tags, 'title')
 
   const marginTop = getLogEditMarginTop()
 
@@ -77,10 +91,7 @@ export const SlideTags = ({
             paddingBottom: insets.bottom,
           }}
         >
-          {tags?.map(tag => {
-            const _tag = tags.find(t => t.id === tag.id)
-            if (!_tag) return null;
-
+          {_tags?.map(tag => {
             return (
               <Tag
                 onPress={async () => {
@@ -89,8 +100,8 @@ export const SlideTags = ({
                     [...tempLog?.data.tags || [], tag]
                   onChange(newTags)
                 }}
-                title={_tag.title}
-                colorName={_tag.color}
+                title={tag.title}
+                colorName={tag.color}
                 selected={tempLog?.data?.tags?.map(d => d.id).includes(tag.id)}
                 key={tag.id}
               />
