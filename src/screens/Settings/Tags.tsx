@@ -65,35 +65,37 @@ export const SettingsTags = ({ navigation }: RootStackScreenProps<'SettingsTags'
           </>
         )
       }
-      <View
-        style={{
-          marginTop: 16,
-          marginHorizontal: 16,
-        }}
-      >
-        <MenuList
+      <ScrollView>
+        <View
           style={{
+            marginTop: 16,
+            marginHorizontal: 16,
           }}
         >
-          <MenuListItem
-            title={t('archive_tag')}
-            iconLeft={<Archive size={20} color={colors.text} />}
-            isLink
-            isLast
-            onPress={() => {
-              navigation.navigate('SettingsTagsArchive')
+          <MenuList
+            style={{
             }}
-          />
-        </MenuList>
-      </View>
+          >
+            <MenuListItem
+              title={t('archive_tag')}
+              iconLeft={<Archive size={20} color={colors.text} />}
+              isLink
+              isLast
+              onPress={() => {
+                navigation.navigate('SettingsTagsArchive')
+              }}
+            />
+          </MenuList>
+        </View>
 
-      <TagList tags={_tags} />
-      <View
-        style={{
-          width: '100%',
-          height: insets.bottom + 56,
-        }}
-      />
+        <TagList tags={_tags} />
+        <View
+          style={{
+            width: '100%',
+            height: insets.bottom + 56,
+          }}
+        />
+      </ScrollView>
     </View>
   );
 }
