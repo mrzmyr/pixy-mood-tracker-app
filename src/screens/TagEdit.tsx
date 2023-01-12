@@ -90,7 +90,7 @@ export const TagEdit = ({ navigation, route }: RootStackScreenProps<'TagEdit'>) 
       <View style={{
         flex: 1,
         justifyContent: 'flex-start',
-        backgroundColor: colors.logBackground,
+        backgroundColor: colors.background,
         marginTop: Platform.OS === 'android' ? insets.top : 0,
       }}>
         <ModalHeader
