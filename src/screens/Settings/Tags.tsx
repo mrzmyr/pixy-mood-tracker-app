@@ -152,7 +152,7 @@ export const SettingsTagsArchive = ({ navigation }: RootStackScreenProps<'Settin
               <TagListItem
                 key={tag.id}
                 tag={tag}
-                isLast={index === tags.length - 1}
+                isLast={index === _tags.length - 1}
                 onPress={() => onEdit(tag)} />
             ))}
           </MenuList>
