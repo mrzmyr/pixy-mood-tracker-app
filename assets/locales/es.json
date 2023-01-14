@@ -665,5 +665,6 @@
   "archive_tag_description": "Oculta la etiqueta en tu check-in. Todavía es visible en sus entradas anteriores. Esto también excluirá esta etiqueta de cualquier análisis estadístico en el futuro.",
   "tags_archive_empty": "No hay etiquetas archivadas todavía.",
   "archive_tag_enabled": "Archivado",
-  "colorblind_disclaimer": "Este esquema de color está optimizado para personas daltónicas según la investigación de la Dra. Cynthia Brewer de la Universidad Estatal de Pensilvania. Si todavía tiene problemas para ver los colores, hágamelo saber en care@pixy.day."
+  "colorblind_disclaimer": "Este esquema de color está optimizado para personas daltónicas según la investigación de la Dra. Cynthia Brewer de la Universidad Estatal de Pensilvania. Si todavía tiene problemas para ver los colores, hágamelo saber en care@pixy.day.",
+  "new_release": "Nuevo lanzamiento"
 }

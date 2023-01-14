@@ -665,5 +665,6 @@
   "archive_tag_description": "Menyembunyikan teg dalam daftar masuk anda. Ia masih kelihatan dalam entri anda yang lalu. Ini juga akan mengecualikan teg ini daripada sebarang analisis statistik pada masa hadapan.",
   "tags_archive_empty": "Tiada teg arkib lagi.",
   "archive_tag_enabled": "Diarkibkan",
-  "colorblind_disclaimer": "Skim warna ini dioptimumkan untuk orang buta warna berdasarkan penyelidikan Dr. Cynthia Brewer dari Pennsylvania State University. Jika anda masih menghadapi masalah melihat warna, sila beritahu saya di care@pixy.day."
+  "colorblind_disclaimer": "Skim warna ini dioptimumkan untuk orang buta warna berdasarkan penyelidikan Dr. Cynthia Brewer dari Pennsylvania State University. Jika anda masih menghadapi masalah melihat warna, sila beritahu saya di care@pixy.day.",
+  "new_release": "Keluaran baru"
 }

@@ -666,5 +666,6 @@
   "archive_tag_description": "Masque la balise dans votre check-in. Il est toujours visible dans vos entrées passées. Cela exclura également cette balise de toute analyse statistique à l'avenir.",
   "tags_archive_empty": "Pas encore de tags archivés.",
   "archive_tag_enabled": "Archivé",
-  "colorblind_disclaimer": "Cette palette de couleurs est optimisée pour les daltoniens sur la base des recherches du Dr Cynthia Brewer de l'Université d'État de Pennsylvanie. Si vous avez encore du mal à voir les couleurs, faites-le moi savoir à care@pixy.day."
+  "colorblind_disclaimer": "Cette palette de couleurs est optimisée pour les daltoniens sur la base des recherches du Dr Cynthia Brewer de l'Université d'État de Pennsylvanie. Si vous avez encore du mal à voir les couleurs, faites-le moi savoir à care@pixy.day.",
+  "new_release": "Nouvelle version"
 }

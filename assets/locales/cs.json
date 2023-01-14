@@ -665,5 +665,6 @@
   "archive_tag_description": "Skryje štítek ve vašem odbavení. Je stále vidět ve vašich minulých záznamech. To také vyloučí tuto značku z jakékoli budoucí statistické analýzy.",
   "tags_archive_empty": "Zatím žádné archivované štítky.",
   "archive_tag_enabled": "Archivováno",
-  "colorblind_disclaimer": "Toto barevné schéma je optimalizováno pro barvoslepé na základě výzkumu Dr. Cynthie Brewer z Pennsylvania State University. Pokud stále máte potíže se zobrazením barev, dejte mi prosím vědět na care@pixy.day."
+  "colorblind_disclaimer": "Toto barevné schéma je optimalizováno pro barvoslepé na základě výzkumu Dr. Cynthie Brewer z Pennsylvania State University. Pokud stále máte potíže se zobrazením barev, dejte mi prosím vědět na care@pixy.day.",
+  "new_release": "Nové vydání"
 }

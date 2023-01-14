@@ -665,5 +665,6 @@
   "archive_tag_description": "Check-in işleminizdeki etiketi gizler. Geçmiş girdilerinizde hâlâ görünüyor. Bu aynı zamanda bu etiketi gelecekte herhangi bir istatistiksel analizden hariç tutacaktır.",
   "tags_archive_empty": "Henüz arşivlenmiş etiket yok.",
   "archive_tag_enabled": "arşivlendi",
-  "colorblind_disclaimer": "Bu renk şeması, Pennsylvania Eyalet Üniversitesi'nden Dr. Cynthia Brewer'ın araştırmasına dayalı olarak renk körü kişiler için optimize edilmiştir. Renkleri görmekte hala sorun yaşıyorsanız lütfen care@pixy.day adresinden bana bildirin."
+  "colorblind_disclaimer": "Bu renk şeması, Pennsylvania Eyalet Üniversitesi'nden Dr. Cynthia Brewer'ın araştırmasına dayalı olarak renk körü kişiler için optimize edilmiştir. Renkleri görmekte hala sorun yaşıyorsanız lütfen care@pixy.day adresinden bana bildirin.",
+  "new_release": "Yeni sürüm"
 }
