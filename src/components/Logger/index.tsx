@@ -10,7 +10,7 @@ import { Emotion, TagReference } from '@/types';
 import { useNavigation } from '@react-navigation/native';
 import dayjs from 'dayjs';
 import { ReactElement, useEffect, useRef, useState } from 'react';
-import { Dimensions, Keyboard, Platform, Text, View } from 'react-native';
+import { Dimensions, Keyboard, Platform, Text, TextInput, View } from 'react-native';
 import Carousel, { ICarouselInstance } from 'react-native-reanimated-carousel';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { v4 as uuidv4 } from "uuid";
@@ -202,7 +202,9 @@ export const Logger = ({
 
   const tempLog = useTemporaryLog(initialItem);
 
-  const texAreaRef = useRef<any>(null);
+  console.log('render logger', JSON.stringify(tempLog.data, null, 2))
+
+  const texAreaRef = useRef<TextInput>(null)
   const isEditing = mode === 'edit'
   const showDisable = logState.items.length <= 3 && !isEditing;
 

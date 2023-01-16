@@ -2,6 +2,27 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.79.0](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.78.1...v1.79.0) (2023-01-16)
+
+
+### Features
+
+* add promo card for new releases ([2836199](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/2836199b4d80c73d56d6954ee0881d3cabca40af))
+* fix isLast in TagsArchive ([14e58d7](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/14e58d7b4e92e1ac5f31a825f2b8375e58eb39a0))
+
+
+### Bug Fixes
+
+* `Logger` to keep state when app goes in background ([5ec3221](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/5ec32216f210179f415cfdb41417ea0d818424c1))
+* hide archived tags in filters bottom sheet ([26ae060](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/26ae060d5455cb7264725a9e1696698c626b22e0))
+* typescript type ([22c2f77](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/22c2f775fc1426ae2526a18d38543c85f8d00baa))
+
+
+### Miscellaneous
+
+* add *.app and *.tar.gz to .gitignore ([34ad3da](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/34ad3dac788e4bb0e1be45399044202470cbb8d8))
+* fix expo dependencies ([1135928](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/11359280ce3a4e793219ad59ccec50e1f4f5af57))
+
 ## [1.78.1](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.78.0...v1.78.1) (2023-01-12)
 
 

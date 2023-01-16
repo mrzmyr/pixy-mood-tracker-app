@@ -12,6 +12,7 @@ import useColors from "../hooks/useColors";
 import { useLogState } from "../hooks/useLogs";
 import { useSettings } from "../hooks/useSettings";
 import { useTagsState } from "../hooks/useTags";
+import { Trash } from "lucide-react-native";
 
 const Card = ({
   title,
@@ -164,7 +165,11 @@ export const DevelopmentTools = () => {
                   justifyContent: "space-between",
                 }}
               >
-                <View>
+                <View
+                  style={{
+                    maxWidth: "85%",
+                  }}
+                >
                   <Text
                     style={{
                       color: colors.text,
@@ -185,11 +190,10 @@ export const DevelopmentTools = () => {
                   </Text>
                 </View>
                 <LinkButton
-                  icon="Trash"
                   onPress={() => {
                     removeActionDone(action.title);
                   }}
-                />
+                ><Trash size={20} color={colors.tint} /></LinkButton>
               </View>
             </MenuListItem>
           ))}

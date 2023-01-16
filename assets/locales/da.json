@@ -665,5 +665,6 @@
   "archive_tag_description": "Skjuler tagget i din check-in. Det er stadig synligt i dine tidligere poster. Dette vil også udelukke dette tag fra enhver statistisk analyse i fremtiden.",
   "tags_archive_empty": "Ingen arkiverede tags endnu.",
   "archive_tag_enabled": "Arkiveret",
-  "colorblind_disclaimer": "Dette farveskema er optimeret til farveblinde baseret på forskning fra Dr. Cynthia Brewer fra Pennsylvania State University. Hvis du stadig har problemer med at se farverne, så lad mig det vide på care@pixy.day."
+  "colorblind_disclaimer": "Dette farveskema er optimeret til farveblinde baseret på forskning fra Dr. Cynthia Brewer fra Pennsylvania State University. Hvis du stadig har problemer med at se farverne, så lad mig det vide på care@pixy.day.",
+  "new_release": "Ny udgivelse"
 }

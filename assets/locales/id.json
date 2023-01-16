@@ -665,5 +665,6 @@
   "archive_tag_description": "Sembunyikan tag di check-in Anda. Itu masih terlihat di entri Anda sebelumnya. Ini juga akan mengecualikan tag ini dari analisis statistik apa pun di masa mendatang.",
   "tags_archive_empty": "Belum ada tag yang diarsipkan.",
   "archive_tag_enabled": "Diarsipkan",
-  "colorblind_disclaimer": "Skema warna ini dioptimalkan untuk orang buta warna berdasarkan penelitian Dr. Cynthia Brewer dari Pennsylvania State University. Jika Anda masih kesulitan melihat warna, beri tahu saya di care@pixy.day."
+  "colorblind_disclaimer": "Skema warna ini dioptimalkan untuk orang buta warna berdasarkan penelitian Dr. Cynthia Brewer dari Pennsylvania State University. Jika Anda masih kesulitan melihat warna, beri tahu saya di care@pixy.day.",
+  "new_release": "Rilis Baru"
 }

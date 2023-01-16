@@ -13,6 +13,8 @@ export const Body = () => {
   const calendarFilters = useCalendarFilters();
   const { tags } = useTagsState();
 
+  const _tags = tags.filter((tag) => !tag.isArchived);
+
   const [searchText, setSearchText] = useState("");
 
   const onPressTag = (tag) => {
@@ -62,8 +64,8 @@ export const Body = () => {
           onChange={onPressRating}
         />
         <TagsSection
-          tags={tags}
-          selectedTags={tags.filter((tag) =>
+          tags={_tags}
+          selectedTags={_tags.filter((tag) =>
             calendarFilters.data.tagIds.includes(tag.id)
           )}
           onSelect={onPressTag}

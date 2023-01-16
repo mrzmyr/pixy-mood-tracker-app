@@ -665,5 +665,6 @@
   "archive_tag_description": "Elrejti a címkét a bejelentkezéskor. Még mindig látható a korábbi bejegyzései között. Ezzel a címkét a jövőben kizárja minden statisztikai elemzésből.",
   "tags_archive_empty": "Még nincsenek archivált címkék.",
   "archive_tag_enabled": "Archivált",
-  "colorblind_disclaimer": "Ez a színséma színvakok számára lett optimalizálva Dr. Cynthia Brewer, a Pennsylvaniai Állami Egyetem kutatása alapján. Ha továbbra sem látja a színeket, kérjük, jelezze a care@pixy.day címen."
+  "colorblind_disclaimer": "Ez a színséma színvakok számára lett optimalizálva Dr. Cynthia Brewer, a Pennsylvaniai Állami Egyetem kutatása alapján. Ha továbbra sem látja a színeket, kérjük, jelezze a care@pixy.day címen.",
+  "new_release": "Új kiadás"
 }
