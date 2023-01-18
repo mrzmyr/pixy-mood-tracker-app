@@ -1,13 +1,12 @@
-import { useEffect, useRef, useState } from "react"
 import { QUESTIONS_PULL_URL, QUESTION_SUBMIT_URL } from "@/constants/API"
+import { language, locale } from "@/helpers/translation"
+import dayjs from "dayjs"
+import { useEffect, useRef, useState } from "react"
+import { Platform } from "react-native"
 import semver from 'semver'
 import pkg from '../../package.json'
-import { useSettings } from "./useSettings"
-import { language, locale } from "@/helpers/translation"
-import { Platform } from "react-native"
-import { useLogState } from "./useLogs"
 import { useAnalytics } from "./useAnalytics"
-import dayjs from "dayjs"
+import { useSettings } from "./useSettings"
 
 export interface IQuestion {
   id: string;
@@ -30,7 +29,7 @@ export interface IQuestion {
 export const useQuestioner = () => {
   const analytics = useAnalytics()
   const { hasActionDone, addActionDone, settings } = useSettings()
-  const isMounted = useRef(false)
+  const isMounted = useRef(true)
 
   const [question, setQuestion] = useState<IQuestion | null>(null)
 
@@ -43,8 +42,6 @@ export const useQuestioner = () => {
       console.log('Not showing question because one was answered today')
       return Promise.resolve(null)
     }
-
-    console.log(QUESTIONS_PULL_URL)
 
     return fetch(QUESTIONS_PULL_URL)
       .then(response => response.json())

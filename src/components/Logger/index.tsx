@@ -173,6 +173,7 @@ export const LoggerCreate = ({
       initialItem={initialItem}
       initialStep={initialStep}
       avaliableSteps={avaliableSteps}
+      question={questioner.question}
     />
   )
 }
@@ -188,7 +189,7 @@ export const Logger = ({
   initialStep?: LoggerStep;
   avaliableSteps: LoggerStep[];
   mode: LoggerMode
-  question?: IQuestion
+  question?: IQuestion | null
 }) => {
   const navigation = useNavigation();
   const colors = useColors()
@@ -201,8 +202,6 @@ export const Logger = ({
   const { toggleStep } = useSettings()
 
   const tempLog = useTemporaryLog(initialItem);
-
-  console.log('render logger', JSON.stringify(tempLog.data, null, 2))
 
   const texAreaRef = useRef<TextInput>(null)
   const isEditing = mode === 'edit'
@@ -421,12 +420,12 @@ export const Logger = ({
     })
   }
 
-  if (avaliableSteps.includes('feedback')) {
+  if (avaliableSteps.includes('feedback') && !!question) {
     content.push({
       key: 'feedback',
       slide: (
         <SlideFeedback
-          question={question!}
+          question={question}
           onPress={next}
           onDisableStep={() => {
             askToDisableFeedbackStep().then(() => {
