@@ -247,6 +247,7 @@ export const Logger = ({
 
       if (itemsOnDate.length === 1) {
         navigation.dispatch(StackActions.popToTop());
+        tempLog.reset()
         return;
       }
     }
