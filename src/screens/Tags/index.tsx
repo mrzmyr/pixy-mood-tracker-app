@@ -1,3 +1,6 @@
+import { RootStackScreenProps } from '../../../types';
+import useColors from '../../hooks/useColors';
+import { Tag, useTagsState } from '../../hooks/useTags';
 import Button from '@/components/Button';
 import LinkButton from '@/components/LinkButton';
 import ModalHeader from '@/components/ModalHeader';
@@ -5,19 +8,16 @@ import { TagList } from '@/components/TagList';
 import { MAX_TAGS } from '@/constants/Config';
 import { t } from '@/helpers/translation';
 import { LinearGradient } from 'expo-linear-gradient';
+import _ from 'lodash';
 import { Platform, ScrollView, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { RootStackScreenProps } from '../../../types';
-import useColors from '../../hooks/useColors';
-import { Tag, useTagsState } from '../../hooks/useTags';
-import _ from 'lodash';
 
 export const Tags = ({ navigation }: RootStackScreenProps<'Tags'>) => {
   const colors = useColors()
   const insets = useSafeAreaInsets();
   const { tags } = useTagsState()
 
-  const _tags = _.sortBy(tags.filter((tag: Tag) => !tag.isArchived), 'title')
+  const _tags = tags.filter((tag: Tag) => !tag.isArchived)
 
   return (
     <View style={{
