@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.79.2](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.79.1...v1.79.2) (2023-01-21)
+
+
+### Bug Fixes
+
+* reset templog on first save ([7e74a58](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/7e74a58994c19d7b1a44a213637381f388d76758))
+
+
+### Miscellaneous
+
+* sort es translations ([b7316b9](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/b7316b93d81ec8e45e4d825120c23239cfefc229))
+
 ## [1.79.1](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.79.0...v1.79.1) (2023-01-18)
 
 
