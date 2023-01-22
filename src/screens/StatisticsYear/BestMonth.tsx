@@ -46,31 +46,25 @@ export const BestMonth = ({
       }}
     >
       {!month && <NotEnoughDataOverlay showSubtitle={false} />}
-      <View
+      <Text
         style={{
-          flexWrap: 'wrap',
+          fontSize: 17,
+          color: colors.textSecondary,
+          fontWeight: '600',
+          marginBottom: 8,
         }}
       >
-        <Text
-          style={{
-            fontSize: 17,
-            color: colors.textSecondary,
-            fontWeight: '600',
-            marginBottom: 8,
-          }}
-        >
-          {t('statistics_best_month')}
-        </Text>
-        <Text
-          style={{
-            fontSize: 24,
-            color: colors.text,
-            fontWeight: 'bold',
-          }}
-        >
-          {month}
-        </Text>
-      </View>
+        {t('statistics_best_month')}
+      </Text>
+      <Text
+        style={{
+          fontSize: 24,
+          color: colors.text,
+          fontWeight: 'bold',
+        }}
+      >
+        {month}
+      </Text>
     </View>
   )
 }

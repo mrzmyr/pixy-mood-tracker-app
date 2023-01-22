@@ -1,3 +1,7 @@
+import { RootStackScreenProps } from '../../../types';
+import { TagList } from '../../components/TagList';
+import useColors from '../../hooks/useColors';
+import { Tag, useTagsState } from '../../hooks/useTags';
 import Button from '@/components/Button';
 import MenuList from '@/components/MenuList';
 import MenuListItem from '@/components/MenuListItem';
@@ -5,21 +9,17 @@ import { TagListItem } from '@/components/TagListItem';
 import { MAX_TAGS } from '@/constants/Config';
 import { t } from '@/helpers/translation';
 import { LinearGradient } from 'expo-linear-gradient';
+import _ from 'lodash';
 import { Archive } from 'lucide-react-native';
 import { ScrollView, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { RootStackScreenProps } from '../../../types';
-import { TagList } from '../../components/TagList';
-import useColors from '../../hooks/useColors';
-import { Tag, useTagsState } from '../../hooks/useTags';
-import _ from 'lodash';
 
 export const SettingsTags = ({ navigation }: RootStackScreenProps<'SettingsTags'>) => {
   const colors = useColors()
   const insets = useSafeAreaInsets();
   const { tags } = useTagsState()
 
-  const _tags = _.sortBy(tags.filter((tag: Tag) => !tag.isArchived), 'title')
+  const _tags = tags.filter((tag: Tag) => !tag.isArchived)
 
   return (
     <View style={{

@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.80.0](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.79.2...v1.80.0) (2023-01-22)
+
+
+### Features
+
+* remove alphabetical sorting from tags ([0cdbd6f](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/0cdbd6f98bee945e21f10ed956b553181dff58ff))
+
+
+### Bug Fixes
+
+* cutt of "best month" ([55fd9e8](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/55fd9e8101a71278ae91bdc62d2192ef1c3deb5b))
+
 ## [1.79.2](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.79.1...v1.79.2) (2023-01-21)
 
 
