@@ -140,9 +140,11 @@ export const LoggerEdit = ({
 export const LoggerCreate = ({
   dateTime,
   initialStep,
+  avaliableSteps,
 }: {
   dateTime: string
   initialStep?: LoggerStep
+  avaliableSteps?: LoggerStep[]
 }) => {
   const _id = useRef(uuidv4())
   const createdAt = useRef(dayjs().toISOString())
@@ -162,7 +164,7 @@ export const LoggerCreate = ({
     createdAt: createdAt.current,
   }
 
-  const avaliableSteps = getAvailableStepsForCreate({
+  avaliableSteps = avaliableSteps || getAvailableStepsForCreate({
     date: initialItem.date,
     question: questioner.question,
   })

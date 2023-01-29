@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.81.0](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.80.0...v1.81.0) (2023-01-29)
+
+
+### Features
+
+* add quick check in ([a4ffe3b](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/a4ffe3bc4d322abcbf475e0e0bf7c85870c4ea8b))
+* add sleep quality chart ([94dbe81](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/94dbe81e727558e1083d62e1da5b223037a28267))
+
+
+### Miscellaneous
+
+* **deps:** bump ua-parser-js from 0.7.31 to 0.7.33 ([6ebe55f](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/6ebe55f484413e97ef1724a08f673432f504dd65))
+
 ## [1.80.0](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.79.2...v1.80.0) (2023-01-22)
 
 

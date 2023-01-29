@@ -666,5 +666,6 @@
   "tags_archive_empty": "Ainda não há tags arquivadas.",
   "archive_tag_enabled": "arquivado",
   "colorblind_disclaimer": "Este esquema de cores é otimizado para pessoas daltônicas com base na pesquisa da Dra. Cynthia Brewer da Pennsylvania State University. Se você ainda tiver problemas para ver as cores, informe-me em care@pixy.day.",
-  "new_release": "Novo lançamento"
+  "new_release": "Novo lançamento",
+  "statistics_sleep_quality_chart_highlights_title": "Sua qualidade de sono nos últimos 14 dias."
 }

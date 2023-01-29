@@ -42,6 +42,7 @@ export type RootStackParamList = {
 
   LogCreate: {
     dateTime: string;
+    avaliableSteps?: LoggerStep[]
   }
   LogView: {
     id: string;

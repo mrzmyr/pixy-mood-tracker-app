@@ -20,9 +20,10 @@ import {
 } from "./TagsDistribution";
 import { getTagsPeaksData, TagsPeakData } from "./TagsPeaks";
 import { EmotionsDistributionData, defaultEmotionsDistributionData, getEmotionsDistributionData } from "./EmotionsDistributuon";
+import { SleepQualityDistributionData, defaultSleepQualityDistributionDataForXDays, getSleepQualityDistributionForXDays } from "./SleepQualityDistribution";
+import { DATE_FORMAT } from "@/constants/Config";
 
 const DELAY_LOADING = 1 * 1000;
-
 
 export const STATISTIC_TYPES = [
   "mood_avg",
@@ -43,6 +44,7 @@ interface StatisticsState {
   emotionsDistributionData: EmotionsDistributionData;
   tagsPeaksData: TagsPeakData;
   tagsDistributionData: TagsDistributionData;
+  sleepQualityDistributionData: SleepQualityDistributionData;
   streaks: StreaksData;
 }
 
@@ -75,6 +77,7 @@ export function StatisticsProvider({
     moodPeaksNegativeData: defaultMoodPeaksNegativeData,
     emotionsDistributionData: defaultEmotionsDistributionData,
     tagsDistributionData: defaultTagsDistributionData,
+    sleepQualityDistributionData: defaultSleepQualityDistributionDataForXDays(),
     streaks: defaultStreaksData,
     tagsPeaksData: {
       tags: [],
@@ -110,6 +113,8 @@ export function StatisticsProvider({
 
     const emotionsDistributionData = getEmotionsDistributionData(highlightItems);
 
+    const sleepQualityDistributionData = getSleepQualityDistributionForXDays(highlightItems, dayjs().subtract(14, "day").format(DATE_FORMAT), 30);
+
     const newState = {
       loaded: true,
       itemsCount: highlightItems.length,
@@ -119,6 +124,7 @@ export function StatisticsProvider({
       tagsPeaksData,
       tagsDistributionData,
       emotionsDistributionData,
+      sleepQualityDistributionData,
       streaks: {
         longest: getLongestStreak(logState.items),
         current: getCurrentStreak(logState.items),
@@ -154,6 +160,9 @@ export function StatisticsProvider({
     }
     if (type === "emotions_distribution") {
       return state.emotionsDistributionData?.emotions.length > 3;
+    }
+    if (type === "sleep_quality_distribution") {
+      return state.sleepQualityDistributionData?.length > 7;
     }
     return false;
   };

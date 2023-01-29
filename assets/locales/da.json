@@ -666,5 +666,6 @@
   "tags_archive_empty": "Ingen arkiverede tags endnu.",
   "archive_tag_enabled": "Arkiveret",
   "colorblind_disclaimer": "Dette farveskema er optimeret til farveblinde baseret på forskning fra Dr. Cynthia Brewer fra Pennsylvania State University. Hvis du stadig har problemer med at se farverne, så lad mig det vide på care@pixy.day.",
-  "new_release": "Ny udgivelse"
+  "new_release": "Ny udgivelse",
+  "statistics_sleep_quality_chart_highlights_title": "Din søvnkvalitet i løbet af de sidste 14 dage."
 }

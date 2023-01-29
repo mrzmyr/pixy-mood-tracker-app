@@ -666,5 +666,6 @@
   "tags_archive_empty": "Belum ada tag yang diarsipkan.",
   "archive_tag_enabled": "Diarsipkan",
   "colorblind_disclaimer": "Skema warna ini dioptimalkan untuk orang buta warna berdasarkan penelitian Dr. Cynthia Brewer dari Pennsylvania State University. Jika Anda masih kesulitan melihat warna, beri tahu saya di care@pixy.day.",
-  "new_release": "Rilis Baru"
+  "new_release": "Rilis Baru",
+  "statistics_sleep_quality_chart_highlights_title": "Kualitas tidur Anda selama 14 hari terakhir."
 }

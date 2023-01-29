@@ -666,5 +666,6 @@
   "tags_archive_empty": "Nog geen gearchiveerde tags.",
   "archive_tag_enabled": "Gearchiveerd",
   "colorblind_disclaimer": "Dit kleurenschema is geoptimaliseerd voor kleurenblinde mensen op basis van het onderzoek van Dr. Cynthia Brewer van de Pennsylvania State University. Als je nog steeds moeite hebt met het zien van de kleuren, laat het me dan weten via care@pixy.day.",
-  "new_release": "Nieuwe uitgave"
+  "new_release": "Nieuwe uitgave",
+  "statistics_sleep_quality_chart_highlights_title": "Uw slaapkwaliteit van de afgelopen 14 dagen."
 }

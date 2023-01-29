@@ -657,5 +657,9 @@
   "tags_archive_empty": "No archived tags yet.",
   "archive_tag_enabled": "Archived",
   "colorblind_disclaimer": "This color scheme is optimized for colorblind people based on the research of Dr. Cynthia Brewer from Pennsylvania State University. If you still have trouble seeing the colors, please let me know at care@pixy.day.",
-  "new_release": "New Release"
+  "new_release": "New Release",
+  "statistics_sleep_quality_chart_highlights_title": "Your sleep quality over the last 14 days.",
+  "quick_checkin": "Quick Check-In",
+  "beta_different_checkins_title": "Hey Beta Users!",
+  "beta_different_checkins_body": "I'm testing different check-in types now. Please let me know what you think about the new check-in types."
 }

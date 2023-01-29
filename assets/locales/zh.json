@@ -666,5 +666,6 @@
   "tags_archive_empty": "还没有归档标签。",
   "archive_tag_enabled": "存档",
   "colorblind_disclaimer": "此配色方案根据宾夕法尼亚州立大学 Cynthia Brewer 博士的研究针对色盲人士进行了优化。如果您仍然看不清颜色，请通过 care@pixy.day 告诉我。",
-  "new_release": "新品发布"
+  "new_release": "新品发布",
+  "statistics_sleep_quality_chart_highlights_title": "您过去 14 天的睡眠质量。"
 }
