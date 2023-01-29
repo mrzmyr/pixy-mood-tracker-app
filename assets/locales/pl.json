@@ -666,5 +666,6 @@
   "tags_archive_empty": "Brak zarchiwizowanych tagów.",
   "archive_tag_enabled": "Zarchiwizowane",
   "colorblind_disclaimer": "Ten schemat kolorów jest zoptymalizowany dla osób ze daltonizmem w oparciu o badania dr Cynthii Brewer z Pennsylvania State University. Jeśli nadal masz problemy z widzeniem kolorów, daj mi znać na adres care@pixy.day.",
-  "new_release": "Nowe wydanie"
+  "new_release": "Nowe wydanie",
+  "statistics_sleep_quality_chart_highlights_title": "Twoja jakość snu w ciągu ostatnich 14 dni."
 }

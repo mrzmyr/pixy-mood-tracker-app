@@ -660,5 +660,6 @@
   "archive_tag_description": "Versteckt das Schlagwort im Check-in. Es bleibt in früheren Einträgen sichtbar. Das Schlagwort wird in zukünftig Statistiken nicht beachtet.",
   "tags_archive_empty": "Noch keine archivierten Schlagwörter.",
   "colorblind_disclaimer": "Dieses Farbschema wurde basierend auf der Forschung von Dr. Cynthia Brewer von der Pennsylvania State University für farbenblinde Menschen optimiert. Wenn du Schwierigkeiten hast, die Farben zu sehen, sag mir gerne per E-Mail unter care@pixy.day Bescheid.",
-  "new_release": "Neue Version"
+  "new_release": "Neue Version",
+  "statistics_sleep_quality_chart_highlights_title": "Deine Schlafqualität in den letzten 14 Tagen."
 }

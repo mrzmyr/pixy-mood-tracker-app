@@ -666,5 +666,6 @@
   "tags_archive_empty": "עדיין אין תגים שהועברו לארכיון.",
   "archive_tag_enabled": "בארכיון",
   "colorblind_disclaimer": "ערכת צבעים זו מותאמת לעיוורי צבעים בהתבסס על המחקר של ד\"ר סינתיה ברואר מאוניברסיטת פנסילבניה סטייט. אם אתה עדיין מתקשה לראות את הצבעים, אנא הודע לי בכתובת care@pixy.day.",
-  "new_release": "הוצאה חדשה"
+  "new_release": "הוצאה חדשה",
+  "statistics_sleep_quality_chart_highlights_title": "איכות השינה שלך במהלך 14 הימים האחרונים."
 }

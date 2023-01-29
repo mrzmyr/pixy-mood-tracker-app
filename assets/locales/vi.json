@@ -666,5 +666,6 @@
   "tags_archive_empty": "Chưa có thẻ lưu trữ nào.",
   "archive_tag_enabled": "lưu trữ",
   "colorblind_disclaimer": "Cách phối màu này được tối ưu hóa cho người mù màu dựa trên nghiên cứu của Tiến sĩ Cynthia Brewer đến từ Đại học Bang Pennsylvania. Nếu bạn vẫn gặp sự cố khi nhìn thấy màu sắc, vui lòng cho tôi biết tại care@pixy.day.",
-  "new_release": "Phiên bản mới"
+  "new_release": "Phiên bản mới",
+  "statistics_sleep_quality_chart_highlights_title": "Chất lượng giấc ngủ của bạn trong 14 ngày qua."
 }

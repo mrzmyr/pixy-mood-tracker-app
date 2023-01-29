@@ -666,5 +666,6 @@
   "tags_archive_empty": "アーカイブされたタグはまだありません。",
   "archive_tag_enabled": "アーカイブ済み",
   "colorblind_disclaimer": "この配色は、ペンシルバニア州立大学の Cynthia Brewer 博士の研究に基づいて、色盲の人向けに最適化されています。それでも色が見えない場合は、care@pixy.day までお知らせください。",
-  "new_release": "ニューリリース"
+  "new_release": "ニューリリース",
+  "statistics_sleep_quality_chart_highlights_title": "過去 14 日間の睡眠の質。"
 }

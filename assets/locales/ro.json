@@ -666,5 +666,6 @@
   "tags_archive_empty": "Nicio etichetă arhivată încă.",
   "archive_tag_enabled": "Arhivat",
   "colorblind_disclaimer": "Această schemă de culori este optimizată pentru persoanele daltoniste pe baza cercetărilor Dr. Cynthia Brewer de la Universitatea de Stat din Pennsylvania. Dacă mai aveți probleme în a vedea culorile, vă rugăm să-mi spuneți la care@pixy.day.",
-  "new_release": "Noua versiune"
+  "new_release": "Noua versiune",
+  "statistics_sleep_quality_chart_highlights_title": "Calitatea somnului dvs. în ultimele 14 zile."
 }

@@ -666,5 +666,6 @@
   "tags_archive_empty": "Zatiaľ žiadne archivované značky.",
   "archive_tag_enabled": "Archivované",
   "colorblind_disclaimer": "Táto farebná schéma je optimalizovaná pre farboslepých ľudí na základe výskumu Dr. Cynthie Brewer z Pennsylvania State University. Ak máte stále problémy so zobrazením farieb, dajte mi vedieť na adrese care@pixy.day.",
-  "new_release": "Nové vydanie"
+  "new_release": "Nové vydanie",
+  "statistics_sleep_quality_chart_highlights_title": "Kvalita spánku za posledných 14 dní."
 }

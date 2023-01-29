@@ -666,5 +666,6 @@
   "tags_archive_empty": "아직 보관된 태그가 없습니다.",
   "archive_tag_enabled": "보관됨",
   "colorblind_disclaimer": "이 색 구성표는 펜실베니아 주립 대학의 Cynthia Brewer 박사의 연구를 기반으로 색맹인 사람들에게 최적화되어 있습니다. 여전히 색상을 보는 데 문제가 있으면 care@pixy.day로 알려주세요.",
-  "new_release": "새 릴리스"
+  "new_release": "새 릴리스",
+  "statistics_sleep_quality_chart_highlights_title": "지난 14일 동안의 수면의 질입니다."
 }

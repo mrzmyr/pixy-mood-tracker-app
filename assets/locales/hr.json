@@ -666,5 +666,6 @@
   "tags_archive_empty": "Još nema arhiviranih oznaka.",
   "archive_tag_enabled": "Arhivirano",
   "colorblind_disclaimer": "Ova shema boja optimizirana je za daltoniste na temelju istraživanja dr. Cynthie Brewer sa Sveučilišta Pennsylvania State. Ako i dalje imate problema s uočavanjem boja, javite mi na care@pixy.day.",
-  "new_release": "Novo izdanje"
+  "new_release": "Novo izdanje",
+  "statistics_sleep_quality_chart_highlights_title": "Vaša kvaliteta sna tijekom posljednjih 14 dana."
 }

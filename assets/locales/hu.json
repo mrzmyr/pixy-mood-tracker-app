@@ -666,5 +666,6 @@
   "tags_archive_empty": "Még nincsenek archivált címkék.",
   "archive_tag_enabled": "Archivált",
   "colorblind_disclaimer": "Ez a színséma színvakok számára lett optimalizálva Dr. Cynthia Brewer, a Pennsylvaniai Állami Egyetem kutatása alapján. Ha továbbra sem látja a színeket, kérjük, jelezze a care@pixy.day címen.",
-  "new_release": "Új kiadás"
+  "new_release": "Új kiadás",
+  "statistics_sleep_quality_chart_highlights_title": "Alvásminősége az elmúlt 14 napban."
 }

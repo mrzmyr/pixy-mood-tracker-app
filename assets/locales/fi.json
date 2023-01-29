@@ -666,5 +666,6 @@
   "tags_archive_empty": "Ei vielä arkistoituja tunnisteita.",
   "archive_tag_enabled": "Arkistoitu",
   "colorblind_disclaimer": "Tämä värimaailma on optimoitu värisokeille Pennsylvania State Universityn tohtori Cynthia Brewerin tutkimuksen perusteella. Jos sinulla on edelleen vaikeuksia nähdä värit, ilmoita minulle osoitteeseen care@pixy.day.",
-  "new_release": "Uusi julkaisu"
+  "new_release": "Uusi julkaisu",
+  "statistics_sleep_quality_chart_highlights_title": "Unenlaatusi viimeisen 14 päivän aikana."
 }
