@@ -50,7 +50,7 @@
     "@react-navigation/bottom-tabs": "^6.3.1",
     "@react-navigation/native": "^6.0.2",
     "@react-navigation/native-stack": "^6.9.7",
-    "@sentry/react-native": "4.2.2",
+    "@sentry/react-native": "4.14.0",
     "chroma-js": "^2.4.2",
     "dayjs": "^1.11.7",
     "expo": "^46.0.0",
