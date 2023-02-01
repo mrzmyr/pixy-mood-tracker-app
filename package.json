@@ -55,7 +55,7 @@
     "dayjs": "^1.11.7",
     "expo": "^46.0.0",
     "expo-app-loading": "~2.1.0",
-    "expo-application": "~4.2.2",
+    "expo-application": "~5.0.1",
     "expo-asset": "~8.6.3",
     "expo-constants": "~13.2.4",
     "expo-dev-client": "~1.3.1",
