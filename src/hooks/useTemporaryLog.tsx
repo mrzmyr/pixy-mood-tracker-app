@@ -11,6 +11,7 @@ export type TemporaryLogState = Omit<LogItem, 'rating' | 'sleep'> & {
 interface Value {
   data: TemporaryLogState;
   isDirty: boolean;
+  isInitialized: boolean;
   initialize: (log: TemporaryLogState) => void;
   set: (log: TemporaryLogState) => void;
   update: (log: Partial<TemporaryLogState>) => void;
@@ -25,6 +26,7 @@ const TemporaryLogStateContext = createContext({} as Value);
 function TemporaryLogProvider({ children }: { children: React.ReactNode }) {
   const [isDirty, setIsDirty] = useState(false);
   const [temporaryLog, setTemporaryLog] = useState<TemporaryLogState>({} as TemporaryLogState);
+  const [isInitialized, setIsInitialized] = useState(false);
 
   const update = (next: Partial<TemporaryLogState>) => {
     setTemporaryLog((current) => {
@@ -38,6 +40,7 @@ function TemporaryLogProvider({ children }: { children: React.ReactNode }) {
 
   const initialize = (log: TemporaryLogState) => {
     setTemporaryLog(log);
+    setIsInitialized(true);
   };
 
   const set = (log: TemporaryLogState) => {
@@ -48,6 +51,7 @@ function TemporaryLogProvider({ children }: { children: React.ReactNode }) {
   const reset = () => {
     setTemporaryLog({} as TemporaryLogState);
     setIsDirty(false);
+    setIsInitialized(false);
   };
 
   return (
@@ -58,6 +62,7 @@ function TemporaryLogProvider({ children }: { children: React.ReactNode }) {
       update,
       reset,
       isDirty,
+      isInitialized,
     }}>
       {children}
     </TemporaryLogStateContext.Provider>
@@ -74,7 +79,7 @@ function useTemporaryLog(defaultValue?: TemporaryLogState): ContextValue {
   }
 
   useEffect(() => {
-    if (defaultValue) {
+    if (defaultValue && !context.isInitialized) {
       context.initialize(defaultValue);
     }
   }, [defaultValue]);

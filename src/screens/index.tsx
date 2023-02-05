@@ -12,3 +12,4 @@ export * from './TagEdit';
 export * from './TagCreate';
 export * from './Statistics/Highlights';
 export * from './LogList'
+export * from './Settings/Tags'

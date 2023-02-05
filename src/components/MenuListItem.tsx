@@ -83,7 +83,7 @@ export default ({
               style={{
                 flex: 1,
                 fontSize: 17,
-                color: style.color || colors.menuListItemText
+                color: style.color || colors.menuListItemText,
               }}
               numberOfLines={1}
             >{title}</Text>
@@ -95,7 +95,6 @@ export default ({
             style={{
               justifyContent: 'center',
               width: '100%',
-              maxHeight: 55,
             }}
           >{children}</View>
         )}

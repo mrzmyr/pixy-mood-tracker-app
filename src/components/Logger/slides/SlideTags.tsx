@@ -1,18 +1,19 @@
-import { useNavigation } from "@react-navigation/native";
-import { LinearGradient } from 'expo-linear-gradient';
-import { ScrollView, View } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { getLogEditMarginTop } from "@/helpers/responsive";
-import { t } from "@/helpers/translation";
-import useColors from "@/hooks/useColors";
-import { useTagsState } from "@/hooks/useTags";
-import { useTemporaryLog } from "@/hooks/useTemporaryLog";
 import LinkButton from "../../LinkButton";
 import { MiniButton } from "../../MiniButton";
 import Tag from "../../Tag";
 import { SlideHeadline } from "../components/SlideHeadline";
 import { Footer } from "./Footer";
+import { getLogEditMarginTop } from "@/helpers/responsive";
+import { t } from "@/helpers/translation";
+import useColors from "@/hooks/useColors";
+import { useTagsState } from "@/hooks/useTags";
+import { useTemporaryLog } from "@/hooks/useTemporaryLog";
 import { TagReference } from "@/types";
+import { useNavigation } from "@react-navigation/native";
+import { LinearGradient } from 'expo-linear-gradient';
+import _ from "lodash";
+import { ScrollView, View } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export const SlideTags = ({
   onChange,
@@ -28,6 +29,17 @@ export const SlideTags = ({
   const insets = useSafeAreaInsets();
   const colors = useColors()
   const { tags } = useTagsState()
+
+  let _tags =
+    tags.filter(t => {
+      const inTempLog = tempLog?.data?.tags?.map(d => d.id).includes(t.id)
+
+      return (
+        (!inTempLog && !t.isArchived) ||
+        (inTempLog && t.isArchived) ||
+        (inTempLog && !t.isArchived)
+      )
+    })
 
   const marginTop = getLogEditMarginTop()
 
@@ -77,10 +89,7 @@ export const SlideTags = ({
             paddingBottom: insets.bottom,
           }}
         >
-          {tags?.map(tag => {
-            const _tag = tags.find(t => t.id === tag.id)
-            if (!_tag) return null;
-
+          {_tags?.map(tag => {
             return (
               <Tag
                 onPress={async () => {
@@ -89,8 +98,8 @@ export const SlideTags = ({
                     [...tempLog?.data.tags || [], tag]
                   onChange(newTags)
                 }}
-                title={_tag.title}
-                colorName={_tag.color}
+                title={tag.title}
+                colorName={tag.color}
                 selected={tempLog?.data?.tags?.map(d => d.id).includes(tag.id)}
                 key={tag.id}
               />

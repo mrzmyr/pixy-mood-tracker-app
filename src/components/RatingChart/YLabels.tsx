@@ -1,6 +1,6 @@
-import { Rect } from 'react-native-svg';
-import { RATING_KEYS, RATING_MAPPING } from '@/hooks/useLogs';
+import { RATING_KEYS } from '@/hooks/useLogs';
 import useScale from '@/hooks/useScale';
+import { Rect } from 'react-native-svg';
 
 export const YLabels = ({
   relativeY, YLegendWidth, rowHeight, width
@@ -22,21 +22,6 @@ export const YLabels = ({
             rx={4} />
         );
       })}
-      {/* {[...RATING_KEYS.reverse()].map((rating, index) => {
-        const y = relativeY(index);
-        return (
-          <Rect
-            key={`ylabel-rect-${rating}-${index}`}
-            x={0}
-            y={y}
-            width={width}
-            height={rowHeight + 4}
-            fill={scale.colors[rating].background}
-            rx={rating === RATING_KEYS[0] || rating === RATING_KEYS[RATING_KEYS.length - 1] ? 4 : 0}
-            opacity={0.1}
-          />
-        );
-      })} */}
     </>
   );
 };

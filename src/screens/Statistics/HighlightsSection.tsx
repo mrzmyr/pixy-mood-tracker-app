@@ -1,25 +1,26 @@
+import MenuList from "@/components/MenuList";
+import MenuListItem from "@/components/MenuListItem";
+import { DATE_FORMAT } from "@/constants/Config";
+import { t } from "@/helpers/translation";
 import { useNavigation } from "@react-navigation/native";
 import dayjs from "dayjs";
 import { useEffect } from "react";
 import { Text, View } from "react-native";
 import { Activity } from "react-native-feather";
-import MenuList from "@/components/MenuList";
-import MenuListItem from "@/components/MenuListItem";
-import { DATE_FORMAT } from "@/constants/Config";
-import { t } from "@/helpers/translation";
 import { useAnalytics } from "../../hooks/useAnalytics";
 import useColors from "../../hooks/useColors";
 import { LogItem, useLogState } from "../../hooks/useLogs";
 import { useStatistics } from "../../hooks/useStatistics";
 import { MoodAvgData } from "../../hooks/useStatistics/MoodAvg";
+import { EmotionsDistributionCard } from "./EmotionsDistributionCard";
 import { MoodAvgCard } from "./MoodAvgCard";
-import { MoodPeaksCard } from "./MoodPeaksCards";
 import { MoodChart } from "./MoodChart";
+import { MoodPeaksCard } from "./MoodPeaksCards";
+import { SleepQualityChartCard } from "./SleepQualityGraph";
 import { Subtitle } from "./Subtitle";
 import { TagPeaksCard } from "./TagPeaksCards";
 import { TagsDistributionCard } from "./TagsDistributionCard";
 import { Title } from "./Title";
-import { EmotionsDistributionCard } from "./EmotionsDistributionCard";
 
 const EmptryState = () => {
   const colors = useColors();
@@ -65,6 +66,7 @@ export const HighlightsSection = ({ items }: { items: LogItem[] }) => {
   const showTagsDistribution = statistics.isAvailable("tags_distribution")
   const showEmotionsDistribution = statistics.isAvailable("emotions_distribution")
   const showMoodChart = logState.items.filter((item) => dayjs(item.dateTime).isAfter(dayjs().subtract(14, "day"))).length >= 4
+  const showSleepQualityChart = statistics.isAvailable("sleep_quality_distribution")
 
   useEffect(() => {
     if (!statistics.state.loaded) return;
@@ -86,6 +88,7 @@ export const HighlightsSection = ({ items }: { items: LogItem[] }) => {
       mood_chart_item_count?: number
       emotions_distribution_show: boolean;
       emotions_distribution_item_count?: number
+      sleep_quality_distribution_show: boolean;
     } = {
       mood_avg_show: showMoodAvg,
       mood_peaks_positive_show: showMoodPeaksPositve,
@@ -94,6 +97,7 @@ export const HighlightsSection = ({ items }: { items: LogItem[] }) => {
       tags_distribution_show: showTagsDistribution,
       mood_chart_show: showMoodChart,
       emotions_distribution_show: showEmotionsDistribution,
+      sleep_quality_distribution_show: showSleepQualityChart,
     }
 
     if (showMoodAvg) {
@@ -149,6 +153,13 @@ export const HighlightsSection = ({ items }: { items: LogItem[] }) => {
         {showMoodChart && (
           <MoodChart
             title={t("statistics_mood_chart_highlights_title")}
+            startDate={dayjs().subtract(14, "days").format(DATE_FORMAT)}
+          />
+        )}
+
+        {showSleepQualityChart && (
+          <SleepQualityChartCard
+            title={t("statistics_sleep_quality_chart_highlights_title")}
             startDate={dayjs().subtract(14, "days").format(DATE_FORMAT)}
           />
         )}

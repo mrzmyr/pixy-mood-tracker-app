@@ -16,7 +16,7 @@ import {
   LogEdit,
   NotFoundScreen,
   PrivacyScreen,
-  ReminderScreen, SettingsScreen, StatisticsHighlights, TagCreate, TagEdit
+  ReminderScreen, SettingsScreen, StatisticsHighlights, TagCreate, TagEdit, SettingsTags, SettingsTagsArchive
 } from '../screens';
 
 import Providers from '@/components/Providers';
@@ -349,6 +349,22 @@ function RootNavigator() {
             component={ColorsScreen}
             options={{
               title: t('colors'),
+              ...defaultPageOptions,
+            }}
+          />
+          <Stack.Screen
+            name="SettingsTags"
+            component={SettingsTags}
+            options={{
+              title: t('tags'),
+              ...defaultPageOptions,
+            }}
+          />
+          <Stack.Screen
+            name="SettingsTagsArchive"
+            component={SettingsTagsArchive}
+            options={{
+              title: t('archive_tag'),
               ...defaultPageOptions,
             }}
           />

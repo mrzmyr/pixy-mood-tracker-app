@@ -1,14 +1,12 @@
-import dayjs from 'dayjs';
-import _ from 'lodash';
 import { BigCard } from '@/components/BigCard';
+import { NotEnoughDataOverlay } from '@/components/Statistics/NotEnoughDataOverlay';
 import { DATE_FORMAT } from '@/constants/Config';
 import { t } from '@/helpers/translation';
-import { LogDay, LogItem } from '../../hooks/useLogs';
+import dayjs from 'dayjs';
+import { useAnonymizer } from '../../hooks/useAnonymizer';
+import { LogDay } from '../../hooks/useLogs';
 import { getMoodPeaksNegativeData, getMoodPeaksPositiveData } from '../../hooks/useStatistics/MoodPeaks';
 import { MoodPeaksContent } from '../Statistics/MoodPeaksCards';
-import { NotEnoughDataOverlay } from '@/components/Statistics/NotEnoughDataOverlay';
-import { useAnonymizer } from '../../hooks/useAnonymizer';
-import { CardFeedback } from '@/components/Statistics/CardFeedback';
 
 const MIN_ITEMS = 1;
 
@@ -24,18 +22,22 @@ export const MoodPeaks = ({
     days: [{
       date: dayjs().format(DATE_FORMAT),
       ratingAvg: 'bad',
+      sleepQualityAvg: 1,
       items: [],
     }, {
       date: dayjs(date).add(4, 'day').format(DATE_FORMAT),
       ratingAvg: 'extremely_bad',
+      sleepQualityAvg: 1,
       items: [],
     }, {
       date: dayjs(date).add(8, 'day').format(DATE_FORMAT),
       ratingAvg: 'bad',
+      sleepQualityAvg: 1,
       items: [],
     }, {
       date: dayjs(date).add(12, 'day').format(DATE_FORMAT),
       ratingAvg: 'extremely_bad',
+      sleepQualityAvg: 1,
       items: [],
     }]
   }

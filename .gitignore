@@ -26,3 +26,6 @@ scripts/data/*
 build-*.apk
 build-*.ipa
 build-*.aab
+
+/*.app
+/*.tar.gz

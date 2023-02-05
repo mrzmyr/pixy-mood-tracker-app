@@ -28,6 +28,9 @@ export type RootStackParamList = {
   Tags: undefined;
   DevelopmentTools: undefined;
 
+  SettingsTags: undefined;
+  SettingsTagsArchive: undefined;
+
   Statistics: undefined;
   StatisticsHighlights: undefined;
   StatisticsYear: {
@@ -39,6 +42,7 @@ export type RootStackParamList = {
 
   LogCreate: {
     dateTime: string;
+    avaliableSteps?: LoggerStep[]
   }
   LogView: {
     id: string;

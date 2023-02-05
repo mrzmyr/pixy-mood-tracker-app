@@ -10,7 +10,7 @@ import { Emotion, TagReference } from '@/types';
 import { useNavigation } from '@react-navigation/native';
 import dayjs from 'dayjs';
 import { ReactElement, useEffect, useRef, useState } from 'react';
-import { Dimensions, Keyboard, Platform, Text, View } from 'react-native';
+import { Dimensions, Keyboard, Platform, Text, TextInput, View } from 'react-native';
 import Carousel, { ICarouselInstance } from 'react-native-reanimated-carousel';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { v4 as uuidv4 } from "uuid";
@@ -140,9 +140,11 @@ export const LoggerEdit = ({
 export const LoggerCreate = ({
   dateTime,
   initialStep,
+  avaliableSteps,
 }: {
   dateTime: string
   initialStep?: LoggerStep
+  avaliableSteps?: LoggerStep[]
 }) => {
   const _id = useRef(uuidv4())
   const createdAt = useRef(dayjs().toISOString())
@@ -162,7 +164,7 @@ export const LoggerCreate = ({
     createdAt: createdAt.current,
   }
 
-  const avaliableSteps = getAvailableStepsForCreate({
+  avaliableSteps = avaliableSteps || getAvailableStepsForCreate({
     date: initialItem.date,
     question: questioner.question,
   })
@@ -173,6 +175,7 @@ export const LoggerCreate = ({
       initialItem={initialItem}
       initialStep={initialStep}
       avaliableSteps={avaliableSteps}
+      question={questioner.question}
     />
   )
 }
@@ -188,7 +191,7 @@ export const Logger = ({
   initialStep?: LoggerStep;
   avaliableSteps: LoggerStep[];
   mode: LoggerMode
-  question?: IQuestion
+  question?: IQuestion | null
 }) => {
   const navigation = useNavigation();
   const colors = useColors()
@@ -202,7 +205,7 @@ export const Logger = ({
 
   const tempLog = useTemporaryLog(initialItem);
 
-  const texAreaRef = useRef<any>(null);
+  const texAreaRef = useRef<TextInput>(null)
   const isEditing = mode === 'edit'
   const showDisable = logState.items.length <= 3 && !isEditing;
 
@@ -246,6 +249,7 @@ export const Logger = ({
 
       if (itemsOnDate.length === 1) {
         navigation.dispatch(StackActions.popToTop());
+        tempLog.reset()
         return;
       }
     }
@@ -419,12 +423,12 @@ export const Logger = ({
     })
   }
 
-  if (avaliableSteps.includes('feedback')) {
+  if (avaliableSteps.includes('feedback') && !!question) {
     content.push({
       key: 'feedback',
       slide: (
         <SlideFeedback
-          question={question!}
+          question={question}
           onPress={next}
           onDisableStep={() => {
             askToDisableFeedbackStep().then(() => {
