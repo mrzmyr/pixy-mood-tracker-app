@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.81.1](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.81.0...v1.81.1) (2023-02-05)
+
+
+### Bug Fixes
+
+* add sleepQualityAvg to MoodPeaks dummy data ([601f31d](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/601f31d06f41288c0d8e9a5db02146013a9ee11b))
+
+
+### Miscellaneous
+
+* **deps-dev:** bump @testing-library/react from 12.1.5 to 13.4.0 ([4523f44](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/4523f44f60b10cf9588a23beb6cb45285462279e))
+* **deps:** bump @react-native-async-storage/async-storage ([627a5a2](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/627a5a25c7b46bcbc9c51fcd52477b95d48dbaf8))
+* **deps:** bump @sentry/react-native from 4.2.2 to 4.14.0 ([101029a](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/101029afc9071ed0751872e8839961881e553e3e))
+* **deps:** bump expo-application from 4.2.2 to 5.0.1 ([368b805](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/368b805d24ad8f76e3bf02ffabd826c3a3a5f6fc))
+* **deps:** bump react-native-reanimated-carousel from 3.1.5 to 3.3.0 ([7b87b78](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/7b87b78779c121aba94f348cd089396576138827))
+
 ## [1.81.0](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.80.0...v1.81.0) (2023-01-29)
 
 
