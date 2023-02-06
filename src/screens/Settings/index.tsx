@@ -17,7 +17,7 @@ import pkg from '../../../package.json';
 import { RootStackScreenProps } from '../../../types';
 import { UserDataImportList } from './UserData';
 import * as Updates from 'expo-updates';
-import { Github } from 'lucide-react-native';
+import { Github, Tag } from 'lucide-react-native';
 
 export const SettingsScreen = ({ navigation }: RootStackScreenProps<'Settings'>) => {
   const insets = useSafeAreaInsets();
@@ -92,7 +92,12 @@ export const SettingsScreen = ({ navigation }: RootStackScreenProps<'Settings'>)
             iconLeft={<Droplet width={18} color={colors.menuListItemIcon} />}
             onPress={() => navigation.navigate('Colors')}
             isLink
-          // isLast
+          />
+          <MenuListItem
+            title={t('tags')}
+            iconLeft={<Tag width={18} color={colors.menuListItemIcon} />}
+            onPress={() => navigation.navigate('SettingsTags')}
+            isLink
           />
           <MenuListItem
             title={t('steps')}
@@ -182,14 +187,6 @@ export const SettingsScreen = ({ navigation }: RootStackScreenProps<'Settings'>)
             iconLeft={<Shield width={18} color={colors.menuListItemIcon} />}
             isLink
           />
-          <MenuListItem
-            title={t('app_is_open_source')}
-            onPress={() => {
-              Linking.openURL('https://github.com/mrzmyr/pixy-mood-tracker-app')
-            }}
-            iconLeft={<Github width={18} color={colors.menuListItemIcon} />}
-            isLast
-          />
         </MenuList>
 
         <MenuListHeadline>{t('settings_development')}</MenuListHeadline>
@@ -207,6 +204,13 @@ export const SettingsScreen = ({ navigation }: RootStackScreenProps<'Settings'>)
             iconLeft={<PieChart width={18} color={colors.menuListItemIcon} />}
             onPress={() => navigation.navigate('DevelopmentTools')}
             isLink
+          />
+          <MenuListItem
+            title={t('app_is_open_source')}
+            onPress={() => {
+              Linking.openURL('https://github.com/mrzmyr/pixy-mood-tracker-app')
+            }}
+            iconLeft={<Github width={18} color={colors.menuListItemIcon} />}
           />
           <MenuListItem
             title={t('licenses')}

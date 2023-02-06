@@ -97,10 +97,10 @@ export const StatisticsScreen = ({ navigation }: RootStackScreenProps<'Statistic
           paddingBottom: insets.bottom + 20,
         }}
       >
-
         {items.length < STATISTIC_MIN_LOGS && (
           <EmptyPlaceholder count={STATISTIC_MIN_LOGS - items.length} />
         )}
+
         {statisticsUnlocked && (
           <HighlightsSection items={items} />
         )}

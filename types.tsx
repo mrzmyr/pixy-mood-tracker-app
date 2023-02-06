@@ -41,6 +41,8 @@ export type RootStackParamList = {
   BotLoggerTags: {
     onDone: (tags: TagReference[]) => void;
   };
+  SettingsTags: undefined;
+  SettingsTagsArchive: undefined;
 
   Statistics: undefined;
   StatisticsHighlights: undefined;
@@ -53,6 +55,7 @@ export type RootStackParamList = {
 
   LogCreate: {
     dateTime: string;
+    avaliableSteps?: LoggerStep[]
   }
   LogView: {
     id: string;

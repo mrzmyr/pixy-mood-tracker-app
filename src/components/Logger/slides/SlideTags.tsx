@@ -1,19 +1,18 @@
-import { useNavigation } from "@react-navigation/native";
-import { LinearGradient } from 'expo-linear-gradient';
-import { ScrollView, View } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { getLogEditMarginTop } from "@/helpers/responsive";
 import { t } from "@/helpers/translation";
 import useColors from "@/hooks/useColors";
 import { useTagsState } from "@/hooks/useTags";
 import { useTemporaryLog } from "@/hooks/useTemporaryLog";
+import { TagReference } from "@/types";
+import { useNavigation } from "@react-navigation/native";
+import { LinearGradient } from 'expo-linear-gradient';
+import { ScrollView, View } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import LinkButton from "../../LinkButton";
 import { MiniButton } from "../../MiniButton";
 import Tag from "../../Tag";
 import { SlideHeadline } from "../components/SlideHeadline";
 import { Footer } from "./Footer";
-import { TagReference } from "@/types";
-import { Edit2 } from "react-native-feather";
 
 export const SlideTags = ({
   onChange,
@@ -31,6 +30,17 @@ export const SlideTags = ({
   const insets = useSafeAreaInsets();
   const colors = useColors()
   const { tags } = useTagsState()
+
+  let _tags =
+    tags.filter(t => {
+      const inTempLog = tempLog?.data?.tags?.map(d => d.id).includes(t.id)
+
+      return (
+        (!inTempLog && !t.isArchived) ||
+        (inTempLog && t.isArchived) ||
+        (inTempLog && !t.isArchived)
+      )
+    })
 
   const marginTop = getLogEditMarginTop()
 
@@ -76,49 +86,28 @@ export const SlideTags = ({
             flex: 1,
           }}
         >
-          <View
-            style={{
-              flexDirection: 'row',
-              flexWrap: 'wrap',
-              alignItems: 'flex-start',
-              justifyContent: 'flex-start',
-              marginTop: 24,
-              paddingBottom: insets.bottom,
-            }}
-          >
-            {tags?.map(tag => {
-              const _tag = tags.find(t => t.id === tag.id)
-              if (!_tag) return null;
-
-              return (
-                <Tag
-                  onPress={async () => {
-                    const newTags = tempLog?.data?.tags?.map(d => d.id).includes(tag.id) ?
-                      tempLog?.data?.tags.filter(t => t.id !== tag.id) :
-                      [...tempLog?.data.tags || [], tag]
-                    onChange(newTags)
-                  }}
-                  title={_tag.title}
-                  colorName={_tag.color}
-                  selected={tempLog?.data?.tags?.map(d => d.id).includes(tag.id)}
-                  key={tag.id}
-                />
-              )
-            })}
-            <View>
-              <MiniButton
-                icon={
-                  <Edit2
-                    color={colors.miniButtonText}
-                    width={17}
-                    style={{ margin: -4, marginRight: 4, }}
-                  />
-                }
-                onPress={() => {
-                  navigation.navigate('Tags')
+          {_tags?.map(tag => {
+            return (
+              <Tag
+                onPress={async () => {
+                  const newTags = tempLog?.data?.tags?.map(d => d.id).includes(tag.id) ?
+                    tempLog?.data?.tags.filter(t => t.id !== tag.id) :
+                    [...tempLog?.data.tags || [], tag]
+                  onChange(newTags)
                 }}
-              >{t('tags_edit')}</MiniButton>
-            </View>
+                title={tag.title}
+                colorName={tag.color}
+                selected={tempLog?.data?.tags?.map(d => d.id).includes(tag.id)}
+                key={tag.id}
+              />
+            )
+          })}
+          <View>
+            <MiniButton
+              onPress={() => {
+                navigation.navigate('Tags')
+              }}
+            >{t('tags_edit')}</MiniButton>
           </View>
         </ScrollView>
       </View>

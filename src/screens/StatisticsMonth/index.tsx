@@ -1,19 +1,20 @@
+import { MoodCounts } from '@/components/Statistics/MoodCounts';
+import { TagDistribution } from '@/components/Statistics/TagDistribution';
+import { DATE_FORMAT } from '@/constants/Config';
+import { t } from '@/helpers/translation';
 import dayjs from 'dayjs';
 import { useState } from 'react';
 import { ScrollView, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { DATE_FORMAT } from '@/constants/Config';
-import { t } from '@/helpers/translation';
+import { RootStackScreenProps } from '../../../types';
 import useColors from '../../hooks/useColors';
 import { useLogState } from '../../hooks/useLogs';
-import { RootStackScreenProps } from '../../../types';
-import { MoodCounts } from '@/components/Statistics/MoodCounts';
 import { Header } from './Header';
+import { MoodChart } from './MoodChart';
 import { MoodPeaks } from './MoodPeaks';
 import { Navigation } from './Navigation';
-import { MoodChart } from './MoodChart';
 import { Stats } from './Stats';
-import { TagDistribution } from '@/components/Statistics/TagDistribution';
+import { EmotionsDistribution } from '@/components/Statistics/EmotionsDistribution';
 
 export const StatisticsMonthScreen = ({ navigation, route }: RootStackScreenProps<'StatisticsMonth'>) => {
   const colors = useColors()
@@ -80,7 +81,11 @@ export const StatisticsMonthScreen = ({ navigation, route }: RootStackScreenProp
           <TagDistribution
             title={t('statistics_most_used_tags')}
             subtitle={t('statistics_most_used_tags_description', { date: date.format('MMMM, YYYY') })}
-            date={date}
+            items={items}
+          />
+          <EmotionsDistribution
+            title={t('statistics_most_used_emotions')}
+            subtitle={t('statistics_most_used_emotions_description', { date: date.format('MMMM, YYYY') })}
             items={items}
           />
           <MoodPeaks items={items} date={date} />

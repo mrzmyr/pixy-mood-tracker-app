@@ -647,5 +647,19 @@
   "logger_step_sleep_low": "Not at all",
   "logger_step_sleep_high": "Great",
   "app_is_open_source": "Pixy is open source",
-  "behavioral_data_help": "The data is collected anonymously and never shared with third parties. If you would like to support future development of the app, I recommend keeping this option enabled."
+  "behavioral_data_help": "The data is collected anonymously and never shared with third parties. If you would like to support future development of the app, I recommend keeping this option enabled.",
+  "statistics_emotions_distribution_title": "Your most felt emotions.",
+  "emotions": "Emotions",
+  "statistics_most_used_emotions": "Most Felt Emotions",
+  "statistics_most_used_emotions_description": "Your most felt emotions in {{date}}.",
+  "archive_tag": "Archive",
+  "archive_tag_description": "Hides the tag in your check-in. It's still visible in your past entries. This will also exclude this tag from any statistical analysis in the future.",
+  "tags_archive_empty": "No archived tags yet.",
+  "archive_tag_enabled": "Archived",
+  "colorblind_disclaimer": "This color scheme is optimized for colorblind people based on the research of Dr. Cynthia Brewer from Pennsylvania State University. If you still have trouble seeing the colors, please let me know at care@pixy.day.",
+  "new_release": "New Release",
+  "statistics_sleep_quality_chart_highlights_title": "Your sleep quality over the last 14 days.",
+  "quick_checkin": "Quick Check-In",
+  "beta_different_checkins_title": "Hey Beta Users!",
+  "beta_different_checkins_body": "I'm testing different check-in types now. Please let me know what you think about the new check-in types."
 }

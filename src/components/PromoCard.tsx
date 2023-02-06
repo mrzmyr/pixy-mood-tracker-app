@@ -10,11 +10,13 @@ export const PromoCard = ({
   title,
   onPress,
   slug,
+  colorName,
 }: {
   subtitle: string
   title: string
   onPress: () => void
   slug: string
+  colorName?: string
 }) => {
   const colors = useColors()
   const haptics = useHaptics()
@@ -53,7 +55,7 @@ export const PromoCard = ({
           left: 16,
           top: 16,
         }}
-        colorName="purple"
+        colorName={colorName || 'purple'}
       >
         {subtitle}
       </Indicator>

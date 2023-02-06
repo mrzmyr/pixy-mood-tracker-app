@@ -3,7 +3,7 @@ import dayjs from 'dayjs';
 import _ from 'lodash';
 import { t } from '@/helpers/translation';
 import { DATE_FORMAT } from '@/constants/Config';
-import { LogDay, LogItem, RATING_MAPPING } from '@/hooks/useLogs';
+import { LogDay, LogItem, RATING_MAPPING, SLEEP_QUALITY_MAPPING } from '@/hooks/useLogs';
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 
@@ -33,18 +33,33 @@ export const getAverageMood = (items: LogItem[]): LogItem['rating'] | null => {
   return _.invert(RATING_MAPPING)[averageRating] as LogItem['rating'];
 }
 
+export const getAverageSleepQuality = (items: LogItem[]): number | null => {
+  let averageSleepQuality = 0;
+
+  if (items.length > 0) {
+    const sum = items.reduce((acc, item) => acc + SLEEP_QUALITY_MAPPING[item.sleep?.quality], 0);
+    averageSleepQuality = Math.round(sum / items.length);
+  } else {
+    return null;
+  }
+
+  return averageSleepQuality;
+}
+
 export const getLogDays = (items: LogItem[]): LogDay[] => {
   const moodsPerDay = _.groupBy(items, (item) => dayjs(item.dateTime).format(DATE_FORMAT))
 
   return Object.keys(moodsPerDay).map((date) => {
     const items = moodsPerDay[date]
     const avgMood = getAverageMood(items)
+    const avgSleepQuality = getAverageSleepQuality(items)
 
     if (avgMood === null) return null
 
     return {
       date,
       ratingAvg: avgMood,
+      sleepQualityAvg: avgSleepQuality,
       items,
     }
   }).filter((item) => item !== null) as LogDay[]

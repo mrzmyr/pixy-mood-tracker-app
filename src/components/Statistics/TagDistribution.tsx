@@ -1,24 +1,20 @@
-import { Dayjs } from 'dayjs';
+import { useAnonymizer } from '@/hooks/useAnonymizer';
 import { LogItem } from '@/hooks/useLogs';
 import { dummyTagsDistributionData, getTagsDistributionData } from '@/hooks/useStatistics/TagsDistribution';
 import { useTagsState } from '@/hooks/useTags';
 import { TagDistributionContent } from '../../screens/Statistics/TagsDistributionCard';
-import { NotEnoughDataOverlay } from './NotEnoughDataOverlay';
 import { BigCard } from '../BigCard';
-import { CardFeedback } from './CardFeedback';
-import { useAnonymizer } from '@/hooks/useAnonymizer';
+import { NotEnoughDataOverlay } from './NotEnoughDataOverlay';
 
 const MIN_TAGS = 5;
 
 export const TagDistribution = ({
   title,
   subtitle,
-  date,
   items,
 }: {
   title: string
   subtitle: string
-  date: Dayjs,
   items: LogItem[],
 }) => {
   const { anonymizeTag } = useAnonymizer()

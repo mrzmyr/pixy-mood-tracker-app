@@ -89,22 +89,6 @@ export const BottomTabs = () => {
               </LinkButton>
             </View>
           ),
-          headerLeft: () => (
-            Updates.channel !== 'production' ? (
-              <Pressable
-                style={{ paddingLeft: 16 }}
-                onPress={() => {
-                  navigation.navigate('BotLogger', {
-                    dateTime: dayjs().toISOString(),
-                  });
-                }}
-              >
-                <Indicator
-                  colorName='rose'
-                >BETA</Indicator>
-              </Pressable>
-            ) : null
-          ),
           tabBarTestID: 'calendar',
           title: t('calendar'),
         })} />

@@ -135,10 +135,34 @@ export const Entry = ({
               paddingBottom: 24,
             }}
           >
-            <Sleep item={item} />
-            <Emotions item={item} />
-            <Tags item={item} />
-            <Message item={item} />
+            <View
+              style={{
+                marginTop: 8,
+              }}
+            >
+              <Sleep item={item} />
+            </View>
+            <View
+              style={{
+                marginTop: 8,
+              }}
+            >
+              <Emotions item={item} />
+            </View>
+            <View
+              style={{
+                marginTop: 8,
+              }}
+            >
+              <Tags item={item} />
+            </View>
+            <View
+              style={{
+                marginTop: 8,
+              }}
+            >
+              <Message item={item} />
+            </View>
           </View>
         </ScrollView>
         <LinearGradient

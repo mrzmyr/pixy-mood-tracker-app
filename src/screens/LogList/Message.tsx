@@ -1,23 +1,32 @@
 import useColors from '@/hooks/useColors';
 import { LogItem } from '@/hooks/useLogs';
+import { useNavigation } from '@react-navigation/native';
 import { t } from 'i18n-js';
 import { Text, View } from 'react-native';
-import { Headline } from './Headline';
+import { SectionHeader } from './SectionHeader';
 
 export const Message = ({
   item,
 }: {
   item: LogItem;
 }) => {
+  const navigation = useNavigation();
   const colors = useColors();
 
   return (
     <View
       style={{
-        marginTop: 24,
       }}
     >
-      <Headline>{t('view_log_message')}</Headline>
+      <SectionHeader
+        title={t('view_log_message')}
+        onEdit={() => {
+          navigation.navigate('LogEdit', {
+            id: item.id,
+            step: 'message',
+          });
+        }}
+      />
       <View
         style={{
           flexDirection: 'row',
@@ -49,7 +58,9 @@ export const Message = ({
         ) : (
           <View
             style={{
-              padding: 8,
+              paddingTop: 4,
+              paddingBottom: 8,
+              paddingHorizontal: 8,
               width: '100%',
             }}
           >
