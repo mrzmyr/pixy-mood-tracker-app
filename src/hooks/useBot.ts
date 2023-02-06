@@ -4,6 +4,7 @@ import { wait } from "@/lib/utils";
 import { ANSWER_DELAY, BotAnswer, BotQuestion, SHOW_ANSWERS_DELAY, THINKING_DELAY, useBotQuestions } from "@/screens/BotLogger/useBotQuestions";
 import { useEffect, useState } from "react";
 import _ from 'lodash';
+import { t } from '@/helpers/translation';
 
 type MessageAuthor = "bot" | "user";
 
@@ -103,7 +104,7 @@ export const useBot = (): Bot => {
   const start = async () => {
     await think()
     post({
-      text: 'Hey there! 👋',
+      text: t('bot_intro_text_1'),
       author: 'bot',
     })
     await wait(THINKING_DELAY)
@@ -111,7 +112,7 @@ export const useBot = (): Bot => {
     await wait(ANSWER_DELAY)
     setThinking(false)
     post({
-      text: 'I\'m so happy to see you today. 🫶',
+      text: t('bot_intro_text_2'),
       author: 'bot',
     })
     await wait(THINKING_DELAY)

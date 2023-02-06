@@ -10,7 +10,7 @@ import { Text, View } from "react-native";
 import { PlusCircle } from "react-native-feather";
 import { PromoCards } from "./PromoCards";
 import { FeedbackBox } from "../LogList/FeedbackBox";
-import { Armchair } from "lucide-react-native";
+import { Armchair, Bot } from "lucide-react-native";
 
 export const CalendarFooter = () => {
   const colors = useColors();
@@ -57,20 +57,36 @@ export const CalendarFooter = () => {
 
           {Updates.channel !== 'production' && (
             <>
-              <Button
-                type="secondary"
-                icon={<Armchair size={24} color={colors.secondaryButtonText} />}
-                onPress={() => {
-                  navigation.navigate("LogCreate", {
-                    dateTime: dayjs().toISOString(),
-                    avaliableSteps: ['rating'],
-                  });
-                }}
-                style={{
-                  flex: 1,
-                  marginTop: 8,
-                }}
-              >{t('quick_checkin')}</Button>
+              <View>
+
+                <Button
+                  type="secondary"
+                  icon={<Armchair size={24} color={colors.secondaryButtonText} />}
+                  onPress={() => {
+                    navigation.navigate("LogCreate", {
+                      dateTime: dayjs().toISOString(),
+                      avaliableSteps: ['rating'],
+                    });
+                  }}
+                  style={{
+                    flex: 1,
+                    marginTop: 8,
+                  }}
+                >{t('quick_checkin')}</Button>
+                <Button
+                  type="secondary"
+                  icon={<Bot size={24} color={colors.secondaryButtonText} />}
+                  onPress={() => {
+                    navigation.navigate("BotLogger", {
+                      dateTime: dayjs().toISOString(),
+                    });
+                  }}
+                  style={{
+                    flex: 1,
+                    marginTop: 8,
+                  }}
+                >{t('bot_checkin')}</Button>
+              </View>
 
               <FeedbackBox
                 emoji="📌"

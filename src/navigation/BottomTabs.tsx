@@ -40,20 +40,6 @@ export const BottomTabs = () => {
         headerStyle: {
           borderBottomColor: '#fff',
         },
-        headerLeft: () => {
-          return (
-            <LinkButton
-              style={{
-                marginLeft: 16,
-              }}
-              onPress={() => {
-                navigation.navigate("BotLogger", {
-                  dateTime: dayjs().toISOString(),
-                });
-              }}
-            >{'🤖'}</LinkButton>
-          )
-        }
       })}
       tabBar={props => <MyTabBar {...props} />}
     >

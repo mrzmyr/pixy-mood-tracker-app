@@ -2,7 +2,7 @@ import { t } from "@/helpers/translation";
 import { BotEventData, BotEventType, BotMessage } from "@/hooks/useBot";
 import { RATING_MAPPING, SLEEP_QUALITY_MAPPING, useLogState } from '@/hooks/useLogs';
 import { SettingsState, useSettings } from "@/hooks/useSettings";
-import { useTagsState } from '@/hooks/useTags';
+import { Tag, useTagsState } from '@/hooks/useTags';
 import { TemporaryLogValue } from '@/hooks/useTemporaryLog';
 import { wait } from "@/lib/utils";
 import { Emotion } from "@/types";
@@ -51,12 +51,10 @@ const getEmotionsDetailsQuestion = ({
 }): BotQuestion => {
   return {
     id: 'emotions_details',
-    text: `According to Harvard Health, writing about your emotions can help you cope with stress, anxiety, and depression.
-    
-Do you want to reflect on why you felt this way?`,
+    text: t('bot_question_emotion_details_text'),
     answers: [{
       type: 'button_primary',
-      buttonText: 'Yes',
+      buttonText: t('bot_question_emotion_details_button_yes'),
       action: ({ next, setQuestions, questions }) => {
         const emotionQuestions = emotions.map(emotion => {
           return getEmotionQuestion(emotion)
@@ -71,23 +69,23 @@ Do you want to reflect on why you felt this way?`,
         ])
 
         next({
-          messageText: 'Yes',
+          messageText: t('bot_question_emotion_details_answer_yes'),
         })
       }
     }, {
       type: 'button_secondary',
-      buttonText: 'No',
+      buttonText: t('bot_question_emotion_details_button_no'),
       action: ({ next }) => {
         next({
-          messageText: 'No',
+          messageText: t('bot_question_emotion_details_answer_no'),
         })
       }
     }, {
       type: 'button_secondary',
-      buttonText: `I'm done tracking`,
+      buttonText: t('bot_question_emotion_details_button_done'),
       action: ({ post, finish }) => {
         post({
-          text: `I'm done tracking`,
+          text: t('bot_question_emotion_details_answer_done'),
           author: 'user',
         })
 
@@ -100,13 +98,13 @@ Do you want to reflect on why you felt this way?`,
 const getEmotionQuestion = (emotion: Emotion): BotQuestion => {
   return {
     id: `emotion_${emotion.key}`,
-    text: `What made you feel ${t(`log_emotion_${emotion.key}`).toLowerCase()}?`,
+    text: t('bot_question_emotion_prefix', { emotion: t(`log_emotion_${emotion.key}`).toLowerCase() }),
     answers: [{
       type: 'text',
       action: ({ data, post, next, tempLog }) => {
         if (data.text === '') {
           post({
-            text: 'I leave this empty for now.',
+            text: t('bot_question_emotion_answer_empty'),
             author: 'user',
           })
         } else {
@@ -140,22 +138,22 @@ const getInitialQuestions = ({
 
   _questions.push({
     id: 'introduction',
-    text: `Do you feel ready to give some details about how you felt?`,
+    text: t('bot_question_introduction_text'),
     answers: [{
       type: 'button_primary',
-      buttonText: "Let's go",
+      buttonText: t('bot_question_introduction_button_yes'),
       action: ({ next }) => next({
-        messageText: 'Ok, let\'s start',
+        messageText: t('bot_question_introduction_answer_yes'),
       })
     }],
   })
 
   _questions.push({
     id: 'rating',
-    text: "So, how was your day until now?",
+    text: t('bot_question_rating_text'),
     answers: [{
       type: 'rating',
-      action: async ({ next, data, post, trigger, tempLog, setAnswers, setThinking }) => {
+      action: async ({ next, data, post, tempLog, setAnswers, setThinking }) => {
         tempLog.update({
           rating: data.rating,
         })
@@ -163,7 +161,9 @@ const getInitialQuestions = ({
         setAnswers([])
 
         post({
-          text: `I'd say it was ${t(data.rating).toLowerCase()}`,
+          text: t('bot_question_rating_answer_prefix', {
+            rating: t(data.rating).toLowerCase(),
+          }),
           author: 'user',
         })
 
@@ -174,14 +174,14 @@ const getInitialQuestions = ({
 
         if (RATING_MAPPING[data.rating] > 3) {
           post({
-            text: `I'm glad to hear something went positively 😌`,
+            text: t('bot_question_rating_response_positive'),
             author: 'bot',
           })
           return next()
         }
         if (RATING_MAPPING[data.rating] < 3) {
           post({
-            text: `It sounds like today was a tough one. You're not alone and I'm here to support you.`,
+            text: t('bot_question_rating_response_negative'),
             author: 'bot',
           })
           await wait(THINKING_DELAY)
@@ -189,7 +189,7 @@ const getInitialQuestions = ({
         }
 
         post({
-          text: `I see, so it was an average day `,
+          text: t('bot_question_rating_response_neutral'),
           author: 'bot',
         })
         next()
@@ -203,7 +203,7 @@ const getInitialQuestions = ({
   if (settings.steps.includes('sleep') && !hasSleep) {
     _questions.push({
       id: 'sleep',
-      text: "How did you sleep?",
+      text: t('bot_question_sleep_quality_text'),
       answers: [{
         type: 'sleep_quality',
         action: async ({ next, data, post, tempLog, setAnswers, setThinking }) => {
@@ -216,7 +216,9 @@ const getInitialQuestions = ({
           setAnswers([])
 
           post({
-            text: `I'd say it was ${t(data.quality).toLowerCase()}`,
+            text: t('bot_question_sleep_quality_answer_prefix', {
+              quality: t(data.quality).toLowerCase(),
+            }),
             author: 'user',
           })
 
@@ -227,21 +229,21 @@ const getInitialQuestions = ({
 
           if (SLEEP_QUALITY_MAPPING[data.quality] > 2) {
             post({
-              text: `I'm glad to hear you had a good sleep 😌.`,
+              text: t('bot_question_sleep_quality_response_positive'),
               author: 'bot',
             })
             return next()
           }
           if (SLEEP_QUALITY_MAPPING[data.quality] < 2) {
             post({
-              text: `I'm sorry to hear that. I hope you'll get a better sleep tonight.`,
+              text: t('bot_question_sleep_quality_response_negative'),
               author: 'bot',
             })
             return next()
           }
 
           post({
-            text: `I see, so it was an average sleep `,
+            text: t('bot_question_sleep_quality_response_neutral'),
             author: 'bot',
           })
           next()
@@ -253,10 +255,10 @@ const getInitialQuestions = ({
   if (settings.steps.includes('emotions')) {
     _questions.push({
       id: 'emotions',
-      text: "Do you want to add emotions you felt?",
+      text: t('bot_question_emotions_text'),
       answers: [{
         type: 'button_primary',
-        buttonText: "Add emotions",
+        buttonText: t('bot_question_emotions_button_yes'),
         action: ({ next, tempLog, questions, setQuestions, navigation }) => {
           navigation.navigate('BotLoggerEmotions', {
             onDone: (emotions) => {
@@ -264,7 +266,7 @@ const getInitialQuestions = ({
 
               if (emotions.length === 0) {
                 next({
-                  messageText: "I don't want to add emotions"
+                  messageText: t('bot_question_emotions_answer_empty'),
                 })
                 return
               }
@@ -282,23 +284,23 @@ const getInitialQuestions = ({
               ])
 
               next({
-                messageText: `I felt ${emotions.map(emotion => t(`log_emotion_${emotion.key}`)).join(', ').toLowerCase()}`
+                messageText: t('bot_question_emotions_answer_emotions', { emotions: `${emotions.map(emotion => t(`log_emotion_${emotion.key}`)).join(', ').toLowerCase()}` }),
               })
             }
           })
         }
       }, {
         type: 'button_secondary',
-        buttonText: "Skip",
+        buttonText: t('bot_question_emotions_button_skip'),
         action: ({ next }) => next({
-          messageText: "Skip"
+          messageText: t('bot_question_emotions_answer_skip'),
         })
       }, {
         type: 'button_secondary',
-        buttonText: `I'm done tracking`,
+        buttonText: t('bot_question_emotions_button_done'),
         action: ({ post, finish }) => {
           post({
-            text: `I'm done tracking`,
+            text: t('bot_question_emotions_answer_done'),
             author: 'user',
           })
 
@@ -311,18 +313,18 @@ const getInitialQuestions = ({
   if (settings.steps.includes('tags')) {
     _questions.push({
       id: 'tags',
-      text: "Do you want to add some tags?",
+      text: t('bot_question_tags_text'),
       answers: [{
         type: 'button_primary',
-        buttonText: "Add tags",
+        buttonText: t('bot_question_tags_button_yes'),
         action: ({ next, navigation, tempLog }) => {
           navigation.navigate('BotLoggerTags', {
-            onDone: (tags) => {
+            onDone: (tags: Tag[]) => {
               navigation.goBack()
 
               if (tags.length === 0) {
                 next({
-                  messageText: "I don't want to add tags"
+                  messageText: t('bot_question_tags_answer_empty'),
                 })
                 return
               }
@@ -331,17 +333,23 @@ const getInitialQuestions = ({
               const fullTags = tags.map(tag => tagsState.tags.find(t => t.id === tag.id))
 
               next({
-                messageText: `Yes, let's add ${fullTags.map(tag => tag?.title).join(', ')}`
+                messageText: t('bot_question_tags_answer_tags', { tags: `${fullTags.map(tag => tag?.title).join(', ')}` }),
               })
             }
           })
         }
       }, {
         type: 'button_secondary',
-        buttonText: `I'm done tracking`,
+        buttonText: t('bot_question_tags_button_skip'),
+        action: ({ next }) => next({
+          messageText: t('bot_question_tags_answer_skip'),
+        })
+      }, {
+        type: 'button_secondary',
+        buttonText: t('bot_question_tags_button_done'),
         action: ({ post, finish }) => {
           post({
-            text: `I'm done tracking`,
+            text: t('bot_question_tags_answer_done'),
             author: 'user',
           })
 
@@ -351,9 +359,29 @@ const getInitialQuestions = ({
     })
   }
 
+  if (settings.steps.includes('message')) {
+    _questions.push({
+      id: 'message',
+      text: t('bot_question_message_text'),
+      answers: [{
+        type: 'text',
+        action: ({ next, data, tempLog }) => {
+          tempLog.update({
+            message: tempLog.data.message + '\n' + data.text,
+          })
+
+          next({
+            messageText: t('bot_question_message_answer_text', { text: data.text }),
+          })
+        }
+      }],
+    })
+  }
+
+
   _questions.push({
     id: 'action_close',
-    text: "Awesome. See you later!",
+    text: t('bot_text_outro'),
     answers: [{
       type: 'button_primary',
       buttonText: "Close",

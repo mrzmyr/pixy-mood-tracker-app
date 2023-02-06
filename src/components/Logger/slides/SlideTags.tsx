@@ -86,28 +86,39 @@ export const SlideTags = ({
             flex: 1,
           }}
         >
-          {_tags?.map(tag => {
-            return (
-              <Tag
-                onPress={async () => {
-                  const newTags = tempLog?.data?.tags?.map(d => d.id).includes(tag.id) ?
-                    tempLog?.data?.tags.filter(t => t.id !== tag.id) :
-                    [...tempLog?.data.tags || [], tag]
-                  onChange(newTags)
+          <View
+            style={{
+              flexDirection: 'row',
+              flexWrap: 'wrap',
+              alignItems: 'flex-start',
+              justifyContent: 'flex-start',
+              marginTop: 24,
+              paddingBottom: insets.bottom,
+            }}
+          >
+            {_tags?.map(tag => {
+              return (
+                <Tag
+                  onPress={async () => {
+                    const newTags = tempLog?.data?.tags?.map(d => d.id).includes(tag.id) ?
+                      tempLog?.data?.tags.filter(t => t.id !== tag.id) :
+                      [...tempLog?.data.tags || [], tag]
+                    onChange(newTags)
+                  }}
+                  title={tag.title}
+                  colorName={tag.color}
+                  selected={tempLog?.data?.tags?.map(d => d.id).includes(tag.id)}
+                  key={tag.id}
+                />
+              )
+            })}
+            <View>
+              <MiniButton
+                onPress={() => {
+                  navigation.navigate('Tags')
                 }}
-                title={tag.title}
-                colorName={tag.color}
-                selected={tempLog?.data?.tags?.map(d => d.id).includes(tag.id)}
-                key={tag.id}
-              />
-            )
-          })}
-          <View>
-            <MiniButton
-              onPress={() => {
-                navigation.navigate('Tags')
-              }}
-            >{t('tags_edit')}</MiniButton>
+              >{t('tags_edit')}</MiniButton>
+            </View>
           </View>
         </ScrollView>
       </View>

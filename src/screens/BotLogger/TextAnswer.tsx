@@ -1,4 +1,5 @@
 import { MiniButton } from "@/components/MiniButton";
+import { t } from "@/helpers/translation";
 import useColors from "@/hooks/useColors";
 import { useState } from "react";
 import { TextInput, View } from "react-native";
@@ -43,7 +44,7 @@ export const TextAnswer = ({
         multiline
         onChangeText={text => setText(text)}
         value={text}
-        placeholder="Press send to skip…"
+        placeholder={t('bot_input_placeholder')}
         onSubmitEditing={() => {
           onPress(text);
           setText('');
@@ -60,7 +61,7 @@ export const TextAnswer = ({
           minHeight: 46,
         }}
       >
-        Send
+        {t('bot_send')}
       </MiniButton>
     </View>
   );

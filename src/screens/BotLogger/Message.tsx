@@ -38,6 +38,7 @@ export const Message = ({
           style={{
             fontSize: 17,
             color: message.author === 'bot' ? colors.chatBotMessageText : colors.chatUserMessageText,
+            lineHeight: 24,
           }}
         >{message.text}</Text>
       </Motion.View>
