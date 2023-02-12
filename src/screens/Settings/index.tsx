@@ -187,14 +187,6 @@ export const SettingsScreen = ({ navigation }: RootStackScreenProps<'Settings'>)
             iconLeft={<Shield width={18} color={colors.menuListItemIcon} />}
             isLink
           />
-          <MenuListItem
-            title={t('app_is_open_source')}
-            onPress={() => {
-              Linking.openURL('https://github.com/mrzmyr/pixy-mood-tracker-app')
-            }}
-            iconLeft={<Github width={18} color={colors.menuListItemIcon} />}
-            isLast
-          />
         </MenuList>
 
         <MenuListHeadline>{t('settings_development')}</MenuListHeadline>
@@ -212,6 +204,13 @@ export const SettingsScreen = ({ navigation }: RootStackScreenProps<'Settings'>)
             iconLeft={<PieChart width={18} color={colors.menuListItemIcon} />}
             onPress={() => navigation.navigate('DevelopmentTools')}
             isLink
+          />
+          <MenuListItem
+            title={t('app_is_open_source')}
+            onPress={() => {
+              Linking.openURL('https://github.com/mrzmyr/pixy-mood-tracker-app')
+            }}
+            iconLeft={<Github width={18} color={colors.menuListItemIcon} />}
           />
           <MenuListItem
             title={t('licenses')}
