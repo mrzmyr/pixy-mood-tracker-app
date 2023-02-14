@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import { LogItem } from "./useLogs";
 
 export type TemporaryLogState = Omit<LogItem, 'rating' | 'sleep'> & {
@@ -8,7 +8,7 @@ export type TemporaryLogState = Omit<LogItem, 'rating' | 'sleep'> & {
   }
 }
 
-interface Value {
+export interface TemporaryLogValue {
   data: TemporaryLogState;
   isDirty: boolean;
   isInitialized: boolean;
@@ -18,10 +18,7 @@ interface Value {
   reset: () => void;
 };
 
-interface ContextValue extends Value {
-}
-
-const TemporaryLogStateContext = createContext({} as Value);
+const TemporaryLogStateContext = createContext({} as TemporaryLogValue);
 
 function TemporaryLogProvider({ children }: { children: React.ReactNode }) {
   const [isDirty, setIsDirty] = useState(false);
@@ -54,6 +51,15 @@ function TemporaryLogProvider({ children }: { children: React.ReactNode }) {
     setIsInitialized(false);
   };
 
+  const value = useMemo(() => ({
+    data: temporaryLog,
+    initialize,
+    set,
+    update,
+    reset,
+    isDirty,
+  }), [temporaryLog, isDirty]);
+
   return (
     <TemporaryLogStateContext.Provider value={{
       data: temporaryLog,
@@ -69,7 +75,7 @@ function TemporaryLogProvider({ children }: { children: React.ReactNode }) {
   );
 }
 
-function useTemporaryLog(defaultValue?: TemporaryLogState): ContextValue {
+function useTemporaryLog(defaultValue?: TemporaryLogState): TemporaryLogValue {
   const context = useContext(TemporaryLogStateContext);
 
   if (context === undefined) {
@@ -82,9 +88,9 @@ function useTemporaryLog(defaultValue?: TemporaryLogState): ContextValue {
     if (defaultValue && !context.isInitialized) {
       context.initialize(defaultValue);
     }
-  }, [defaultValue]);
+  }, []);
 
-  const data = defaultValue ? { ...defaultValue, ...context.data } : context.data;
+  const data = useMemo(() => defaultValue ? { ...defaultValue, ...context.data } : context.data, [context.data, defaultValue]);
 
   return {
     ...context,

@@ -8,6 +8,9 @@ import React from "react";
 import { View } from "react-native";
 import { PlusCircle } from "react-native-feather";
 import { PromoCards } from "./PromoCards";
+import { FeedbackBox } from "../LogList/FeedbackBox";
+import { Armchair, Bot } from "lucide-react-native";
+import { IS_PROD } from "@/constants/Config";
 
 export const CalendarFooter = () => {
   const colors = useColors();
@@ -50,6 +53,26 @@ export const CalendarFooter = () => {
                 });
               }}
             >{t('add_today_another_entry')}</Button>
+          )}
+
+          {!IS_PROD && (
+            <>
+              <View>
+                <Button
+                  type="secondary"
+                  icon={<Bot size={24} color={colors.secondaryButtonText} />}
+                  onPress={() => {
+                    navigation.navigate("BotLogger", {
+                      dateTime: dayjs().toISOString(),
+                    });
+                  }}
+                  style={{
+                    flex: 1,
+                    marginTop: 8,
+                  }}
+                >{t('bot_checkin')}</Button>
+              </View>
+            </>
           )}
         </View>
       </View>

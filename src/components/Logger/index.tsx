@@ -353,19 +353,20 @@ export const Logger = ({
     content.push({
       key: 'emotions',
       slide: (
-        <SlideEmotions
-          defaultIndex={EMOTIONS_INDEX_MAPPING[tempLog.data.rating || 'neutral']}
-          onChange={(emotions: Emotion[]) => {
-            tempLog.update({ emotions: emotions.map(emotion => emotion.key) })
+        <View
+          style={{
+            paddingBottom: insets.bottom + 20,
+            flex: 1,
           }}
-          showDisable={showDisable}
-          onDisableStep={() => {
-            askToDisableStep().then(() => {
-              toggleStep('emotions')
-              next()
-            })
-          }}
-        />
+        >
+          <SlideEmotions
+            defaultIndex={EMOTIONS_INDEX_MAPPING[tempLog.data.rating || 'neutral']}
+            onChange={(emotions: Emotion[]) => {
+              tempLog.update({ emotions: emotions.map(emotion => emotion.key) })
+            }}
+            showDisable={showDisable}
+          />
+        </View>
       ),
     })
   }
@@ -490,7 +491,6 @@ export const Logger = ({
             paddingHorizontal: 20,
           }}
         >
-
           {content.length > 1 ? (
             <Stepper
               count={content.length}
