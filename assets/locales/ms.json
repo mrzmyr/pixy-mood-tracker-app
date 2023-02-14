@@ -709,13 +709,18 @@
   "bot_question_tags_answer_done": "Saya sudah selesai menjejaki.",
   "bot_intro_text_1": "Hai 👋",
   "bot_intro_text_2": "Saya sangat gembira melihat anda hari ini. 🫶",
-  "bot_text_outro": "Itu sahaja buat masa ini. Saya harap anda menikmati daftar masuk ini. Jika anda mempunyai sebarang soalan, sila beritahu saya dengan pergi ke tetapan dan mengetik pada \"Beri Maklum Balas\".",
+  "bot_text_outro": "Itu sahaja buat masa ini. Saya harap anda menikmati daftar masuk ini.",
   "bot_question_introduction_button_yes": "Mari pergi",
   "bot_question_introduction_answer_yes": "Ok, mari kita mulakan",
   "bot_checkin": "Daftar Masuk Bot",
   "bot_button_close": "tutup",
   "bot_input_placeholder": "Tekan hantar untuk melangkau…",
-  "bot_question_message_text": "Adakah anda mahu menambah apa-apa lagi?",
+  "bot_question_message_text": "Adakah anda mahu menambah apa-apa lagi pada entri anda?",
   "bot_question_message_answer_text": "Saya ingin menambah: {{teks}}",
-  "bot_send": "Hantar"
+  "bot_send": "Hantar",
+  "bot_question_message_answer_empty": "Saya tidak mahu menambah apa-apa",
+  "bot_question_custom_feedback_text": "Hebat, hampir selesai.\n\nAdakah anda ingin menambah sebarang maklum balas? Bolehkah saya melakukan sesuatu yang lebih baik?",
+  "bot_question_custom_feedback_answer_text": "Saya ingin menambah: {{teks}}",
+  "bot_question_custom_feedback_answer_empty": "Saya tidak mahu menambah maklum balas",
+  "bot_question_custom_feedback_response": "Terima kasih banyak atas maklum balas anda, saya akan menghantarnya kepada pembangun saya."
 }

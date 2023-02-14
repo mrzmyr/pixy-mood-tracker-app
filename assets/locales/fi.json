@@ -709,13 +709,18 @@
   "bot_question_tags_answer_done": "Olen lopettanut seurannan.",
   "bot_intro_text_1": "Hei 👋",
   "bot_intro_text_2": "Olen niin iloinen nähdessäni sinut tänään. 🫶",
-  "bot_text_outro": "Siinä se toistaiseksi. Toivottavasti pidit tästä sisäänkirjautumisesta. Jos sinulla on kysyttävää, kerro minulle siirtymällä asetuksiin ja napauttamalla \"Anna palautetta\".",
+  "bot_text_outro": "Siinä se toistaiseksi. Toivottavasti pidit tästä sisäänkirjautumisesta.",
   "bot_question_introduction_button_yes": "Mennään",
   "bot_question_introduction_answer_yes": "Okei aloitetaan",
   "bot_checkin": "Botin sisäänkirjautuminen",
   "bot_button_close": "kiinni",
   "bot_input_placeholder": "Ohita painamalla lähetä…",
-  "bot_question_message_text": "Haluatko lisätä mitään muuta?",
+  "bot_question_message_text": "Haluatko lisätä jotain muuta merkintään?",
   "bot_question_message_answer_text": "Haluan lisätä: {{text}}",
-  "bot_send": "Lähettää"
+  "bot_send": "Lähettää",
+  "bot_question_message_answer_empty": "En halua lisätä mitään",
+  "bot_question_custom_feedback_text": "Mahtavaa, melkein valmis.\n\nHaluatko lisätä palautetta? Voinko tehdä jotain parempaa?",
+  "bot_question_custom_feedback_answer_text": "Haluan lisätä: {{text}}",
+  "bot_question_custom_feedback_answer_empty": "En halua antaa palautetta",
+  "bot_question_custom_feedback_response": "Kiitos palautteestasi, lähetän sen kehittäjälleni."
 }

@@ -161,7 +161,7 @@ export const useBot = (): Bot => {
             trigger,
             finish: () => {
               setAnswers([])
-              setQuestionIndex(questions.length - 1)
+              setQuestionIndex(questions.length - 2)
             },
             setThinking,
             setAnswers: _setAnswers,

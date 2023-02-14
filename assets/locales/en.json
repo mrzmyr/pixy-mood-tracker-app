@@ -701,12 +701,17 @@
   "bot_question_tags_answer_done": "I'm done tracking.",
   "bot_intro_text_1": "Hey there 👋",
   "bot_intro_text_2": "I'm so happy to see you today. 🫶",
-  "bot_text_outro": "That's it for now. I hope you enjoyed this check-in. If you have any questions, please let me know by going to the settings and tapping on \"Give Feedback\".",
+  "bot_text_outro": "That's it for now. I hope you enjoyed this check-in.",
   "bot_question_introduction_button_yes": "Let's go",
   "bot_question_introduction_answer_yes": "Ok, let's start",
   "bot_button_close": "Close",
-  "bot_question_message_text": "Do you want to add anything else?",
+  "bot_question_message_text": "Do you want to add anything else to your entry?",
   "bot_question_message_answer_text": "I want to add: {{text}}",
+  "bot_question_message_answer_empty": "I don't want to add anything",
   "bot_input_placeholder": "Press send to skip…",
-  "bot_send": "Send"
+  "bot_send": "Send",
+  "bot_question_custom_feedback_text": "Awesome, almost done. \n\nDo you want to add any feedback? May I can do something better?",
+  "bot_question_custom_feedback_answer_text": "I want to add: {{text}}",
+  "bot_question_custom_feedback_answer_empty": "I don't want to add feedback",
+  "bot_question_custom_feedback_response": "Thank you so much for your feedback, I will send it to my developer."
 }

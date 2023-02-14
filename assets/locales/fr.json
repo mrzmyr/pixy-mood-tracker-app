@@ -710,13 +710,18 @@
   "bot_question_tags_answer_done": "J'ai terminé le suivi.",
   "bot_intro_text_1": "Salut 👋",
   "bot_intro_text_2": "Je suis si heureux de vous voir aujourd'hui. 🫶",
-  "bot_text_outro": "C'est tout pour le moment. J'espère que vous avez apprécié cet enregistrement. Si vous avez des questions, n'hésitez pas à me le faire savoir en accédant aux paramètres et en appuyant sur \"Donner un commentaire\".",
+  "bot_text_outro": "C'est tout pour le moment. J'espère que vous avez apprécié cet enregistrement.",
   "bot_question_introduction_button_yes": "Allons-y",
   "bot_question_introduction_answer_yes": "OK commençons",
   "bot_checkin": "Enregistrement de robot",
   "bot_button_close": "Fermer",
   "bot_input_placeholder": "Appuyez sur envoyer pour ignorer…",
-  "bot_question_message_text": "Souhaitez-vous ajouter quelque chose d'autre?",
+  "bot_question_message_text": "Voulez-vous ajouter autre chose à votre entrée ?",
   "bot_question_message_answer_text": "Je veux ajouter : {{text}}",
-  "bot_send": "Envoyer"
+  "bot_send": "Envoyer",
+  "bot_question_message_answer_empty": "je ne veux rien ajouter",
+  "bot_question_custom_feedback_text": "Génial, presque terminé.\n\nVoulez-vous ajouter des commentaires ? Puis-je faire quelque chose de mieux ?",
+  "bot_question_custom_feedback_answer_text": "Je veux ajouter : {{text}}",
+  "bot_question_custom_feedback_answer_empty": "Je ne veux pas ajouter de commentaires",
+  "bot_question_custom_feedback_response": "Merci beaucoup pour vos commentaires, je vais les envoyer à mon développeur."
 }

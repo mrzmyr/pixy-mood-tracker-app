@@ -709,13 +709,18 @@
   "bot_question_tags_answer_done": "סיימתי לעקוב.",
   "bot_intro_text_1": "היי שם 👋",
   "bot_intro_text_2": "אני כל כך שמח לראות אותך היום. 🫶",
-  "bot_text_outro": "זהו לעת עתה. אני מקווה שנהנית מהצ'ק-אין הזה. אם יש לך שאלות, אנא הודע לי על ידי מעבר להגדרות והקשה על \"תן משוב\".",
+  "bot_text_outro": "זהו לעת עתה. אני מקווה שנהנית מהצ'ק-אין הזה.",
   "bot_question_introduction_button_yes": "בוא נלך",
   "bot_question_introduction_answer_yes": "בסדר בוא נתחיל",
   "bot_checkin": "בוט צ'ק אין",
   "bot_button_close": "סגור",
   "bot_input_placeholder": "לחץ על שלח כדי לדלג...",
-  "bot_question_message_text": "את רוצה להוסיף עוד דבר?",
+  "bot_question_message_text": "האם אתה רוצה להוסיף משהו נוסף לערך שלך?",
   "bot_question_message_answer_text": "אני רוצה להוסיף: {{טקסט}}",
-  "bot_send": "לִשְׁלוֹחַ"
+  "bot_send": "לִשְׁלוֹחַ",
+  "bot_question_message_answer_empty": "אני לא רוצה להוסיף כלום",
+  "bot_question_custom_feedback_text": "מדהים, כמעט גמור.\n\nהאם אתה רוצה להוסיף משוב כלשהו? האם אוכל לעשות משהו טוב יותר?",
+  "bot_question_custom_feedback_answer_text": "אני רוצה להוסיף: {{טקסט}}",
+  "bot_question_custom_feedback_answer_empty": "אני לא רוצה להוסיף משוב",
+  "bot_question_custom_feedback_response": "תודה רבה על המשוב שלך, אני אשלח אותו למפתח שלי."
 }

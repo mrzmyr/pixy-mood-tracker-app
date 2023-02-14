@@ -709,13 +709,18 @@
   "bot_question_tags_answer_done": "Skončil som so sledovaním.",
   "bot_intro_text_1": "Ahojte 👋",
   "bot_intro_text_2": "Som tak rád, že ťa dnes vidím. 🫶",
-  "bot_text_outro": "To je zatiaľ všetko. Dúfam, že sa vám táto registrácia páčila. Ak máte nejaké otázky, dajte mi vedieť tak, že prejdete do nastavení a klepnete na „Dať spätnú väzbu“.",
+  "bot_text_outro": "To je zatiaľ všetko. Dúfam, že sa vám táto registrácia páčila.",
   "bot_question_introduction_button_yes": "Poďme",
   "bot_question_introduction_answer_yes": "Ok, začnime",
   "bot_checkin": "Bot Check-in",
   "bot_button_close": "Zavrieť",
   "bot_input_placeholder": "Stlačením odoslať preskočíte…",
-  "bot_question_message_text": "Chcete ešte niečo dodať?",
+  "bot_question_message_text": "Chcete k svojmu príspevku ešte niečo pridať?",
   "bot_question_message_answer_text": "Chcem pridať: {{text}}",
-  "bot_send": "Odoslať"
+  "bot_send": "Odoslať",
+  "bot_question_message_answer_empty": "Nechcem nič dodať",
+  "bot_question_custom_feedback_text": "Úžasné, takmer hotové.\n\nChcete pridať nejakú spätnú väzbu? Môžem urobiť niečo lepšie?",
+  "bot_question_custom_feedback_answer_text": "Chcem pridať: {{text}}",
+  "bot_question_custom_feedback_answer_empty": "Nechcem pridávať spätnú väzbu",
+  "bot_question_custom_feedback_response": "Veľmi pekne ďakujem za vašu spätnú väzbu, pošlem ju môjmu vývojárovi."
 }

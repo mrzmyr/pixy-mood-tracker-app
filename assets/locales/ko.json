@@ -709,13 +709,18 @@
   "bot_question_tags_answer_done": "추적을 마쳤습니다.",
   "bot_intro_text_1": "안녕하세요 👋",
   "bot_intro_text_2": "오늘 뵙게 되어 정말 기쁩니다. 🫶",
-  "bot_text_outro": "지금은 그게 다입니다. 이번 체크인이 즐거우셨기를 바랍니다. 질문이 있는 경우 설정으로 이동하여 \"피드백 제공\"을 탭하여 알려주십시오.",
+  "bot_text_outro": "지금은 그게 다입니다. 이번 체크인이 즐거우셨기를 바랍니다.",
   "bot_question_introduction_button_yes": "갑시다",
   "bot_question_introduction_answer_yes": "그래 시작하자",
   "bot_checkin": "봇 체크인",
   "bot_button_close": "닫다",
   "bot_input_placeholder": "건너뛰려면 보내기를 누르세요...",
-  "bot_question_message_text": "다른 것을 추가하시겠습니까?",
+  "bot_question_message_text": "항목에 다른 항목을 추가하시겠습니까?",
   "bot_question_message_answer_text": "추가하고 싶습니다: {{text}}",
-  "bot_send": "보내다"
+  "bot_send": "보내다",
+  "bot_question_message_answer_empty": "나는 아무것도 추가하고 싶지 않아",
+  "bot_question_custom_feedback_text": "굉장합니다. 거의 완료되었습니다.\n\n피드백을 추가하시겠습니까? 더 잘할 수 있을까요?",
+  "bot_question_custom_feedback_answer_text": "추가하고 싶습니다: {{text}}",
+  "bot_question_custom_feedback_answer_empty": "피드백을 추가하고 싶지 않습니다.",
+  "bot_question_custom_feedback_response": "피드백을 보내주셔서 감사합니다. 개발자에게 보내겠습니다."
 }

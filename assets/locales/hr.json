@@ -709,13 +709,18 @@
   "bot_question_tags_answer_done": "Završio sam s praćenjem.",
   "bot_intro_text_1": "Pozdrav 👋",
   "bot_intro_text_2": "Tako sam sretan što te vidim danas. 🫶",
-  "bot_text_outro": "To je to za sada. Nadam se da ste uživali u ovoj prijavi. Ako imate bilo kakvih pitanja, javite mi tako da odete u postavke i dodirnete \"Dajte povratne informacije\".",
+  "bot_text_outro": "To je to za sada. Nadam se da ste uživali u ovoj prijavi.",
   "bot_question_introduction_button_yes": "Idemo",
   "bot_question_introduction_answer_yes": "Ok, počnimo",
   "bot_checkin": "Bot Prijava",
   "bot_button_close": "Zatvoriti",
   "bot_input_placeholder": "Pritisnite Pošalji za preskakanje...",
-  "bot_question_message_text": "Želite li još nešto dodati?",
+  "bot_question_message_text": "Želite li još nešto dodati svom unosu?",
   "bot_question_message_answer_text": "Želim dodati: {{text}}",
-  "bot_send": "Poslati"
+  "bot_send": "Poslati",
+  "bot_question_message_answer_empty": "Ne želim ništa dodati",
+  "bot_question_custom_feedback_text": "Sjajno, skoro gotovo.\n\nŽelite li dodati povratne informacije? Mogu li učiniti nešto bolje?",
+  "bot_question_custom_feedback_answer_text": "Želim dodati: {{text}}",
+  "bot_question_custom_feedback_answer_empty": "Ne želim dodavati povratne informacije",
+  "bot_question_custom_feedback_response": "Hvala vam puno na povratnim informacijama, poslat ću ih svom programeru."
 }

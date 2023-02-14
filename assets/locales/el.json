@@ -709,13 +709,18 @@
   "bot_question_tags_answer_done": "Τελείωσα την παρακολούθηση.",
   "bot_intro_text_1": "Γεια σου 👋",
   "bot_intro_text_2": "Είμαι πολύ χαρούμενος που σε βλέπω σήμερα. 🫶",
-  "bot_text_outro": "Αυτό είναι προς το παρόν. Ελπίζω να σας άρεσε αυτό το check-in. Εάν έχετε οποιεσδήποτε ερωτήσεις, ενημερώστε με μεταβαίνοντας στις ρυθμίσεις και πατώντας στο \"Υποβολή σχολίων\".",
+  "bot_text_outro": "Αυτό είναι προς το παρόν. Ελπίζω να σας άρεσε αυτό το check-in.",
   "bot_question_introduction_button_yes": "Πάμε",
   "bot_question_introduction_answer_yes": "Εντάξει ας αρχίσουμε",
   "bot_checkin": "Bot Check-in",
   "bot_button_close": "Κλείσε",
   "bot_input_placeholder": "Πατήστε αποστολή για παράλειψη…",
-  "bot_question_message_text": "Θέλετε να προσθέσετε κάτι άλλο;",
+  "bot_question_message_text": "Θέλετε να προσθέσετε κάτι άλλο στη συμμετοχή σας;",
   "bot_question_message_answer_text": "Θέλω να προσθέσω: {{text}}",
-  "bot_send": "Στείλετε"
+  "bot_send": "Στείλετε",
+  "bot_question_message_answer_empty": "Δεν θέλω να προσθέσω τίποτα",
+  "bot_question_custom_feedback_text": "Υπέροχο, σχεδόν τελειωμένο.\n\nΘέλετε να προσθέσετε σχόλια; Μπορώ να κάνω κάτι καλύτερο;",
+  "bot_question_custom_feedback_answer_text": "Θέλω να προσθέσω: {{text}}",
+  "bot_question_custom_feedback_answer_empty": "Δεν θέλω να προσθέσω σχόλια",
+  "bot_question_custom_feedback_response": "Σας ευχαριστώ πολύ για τα σχόλιά σας, θα τα στείλω στον προγραμματιστή μου."
 }

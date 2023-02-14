@@ -709,13 +709,18 @@
   "bot_question_tags_answer_done": "Jag är klar med spårningen.",
   "bot_intro_text_1": "Hej där 👋",
   "bot_intro_text_2": "Jag är så glad att se dig idag. 🫶",
-  "bot_text_outro": "Det var allt för nu. Jag hoppas att du gillade denna incheckning. Om du har några frågor, vänligen meddela mig genom att gå till inställningarna och trycka på \"Ge feedback\".",
+  "bot_text_outro": "Det var allt för nu. Jag hoppas att du gillade denna incheckning.",
   "bot_question_introduction_button_yes": "Nu går vi",
   "bot_question_introduction_answer_yes": "Okej låt oss börja",
   "bot_checkin": "Bot Incheckning",
   "bot_button_close": "Stänga",
   "bot_input_placeholder": "Tryck på skicka för att hoppa över...",
-  "bot_question_message_text": "Vill du lägga till någonting mer?",
+  "bot_question_message_text": "Vill du lägga till något mer i ditt bidrag?",
   "bot_question_message_answer_text": "Jag vill lägga till: {{text}}",
-  "bot_send": "Skicka"
+  "bot_send": "Skicka",
+  "bot_question_message_answer_empty": "Jag vill inte lägga till något",
+  "bot_question_custom_feedback_text": "Fantastiskt, nästan klart.\n\nVill du lägga till någon feedback? Kan jag göra något bättre?",
+  "bot_question_custom_feedback_answer_text": "Jag vill lägga till: {{text}}",
+  "bot_question_custom_feedback_answer_empty": "Jag vill inte lägga till feedback",
+  "bot_question_custom_feedback_response": "Tack så mycket för din feedback, jag skickar den till min utvecklare."
 }

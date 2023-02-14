@@ -709,13 +709,18 @@
   "bot_question_tags_answer_done": "Skončil jsem se sledováním.",
   "bot_intro_text_1": "Ahoj 👋",
   "bot_intro_text_2": "Jsem tak rád, že tě dnes vidím. 🫶",
-  "bot_text_outro": "To je prozatím vše. Doufám, že se vám tento check-in líbil. Pokud máte nějaké dotazy, dejte mi prosím vědět tím, že přejdete do nastavení a klepnete na „Dát zpětnou vazbu“.",
+  "bot_text_outro": "To je prozatím vše. Doufám, že se vám tento check-in líbil.",
   "bot_question_introduction_button_yes": "Pojďme",
   "bot_question_introduction_answer_yes": "Dobře, začněme",
   "bot_checkin": "Bot check-in",
   "bot_button_close": "Zavřít",
   "bot_input_placeholder": "Stisknutím Odeslat přeskočíte…",
-  "bot_question_message_text": "Chcete ještě něco dodat?",
+  "bot_question_message_text": "Chcete ke svému příspěvku ještě něco přidat?",
   "bot_question_message_answer_text": "Chci přidat: {{text}}",
-  "bot_send": "Poslat"
+  "bot_send": "Poslat",
+  "bot_question_message_answer_empty": "Nechci nic dodávat",
+  "bot_question_custom_feedback_text": "Skvělé, téměř hotovo.\n\nChcete přidat nějakou zpětnou vazbu? Mohu udělat něco lepšího?",
+  "bot_question_custom_feedback_answer_text": "Chci přidat: {{text}}",
+  "bot_question_custom_feedback_answer_empty": "Nechci přidávat zpětnou vazbu",
+  "bot_question_custom_feedback_response": "Děkuji moc za vaši zpětnou vazbu, pošlu ji svému vývojáři."
 }

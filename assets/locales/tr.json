@@ -709,13 +709,18 @@
   "bot_question_tags_answer_done": "İzlemeyi bitirdim.",
   "bot_intro_text_1": "merhaba 👋",
   "bot_intro_text_2": "Bugün seni gördüğüme çok sevindim. 🫶",
-  "bot_text_outro": "Şimdilik bu kadar. Umarım bu check-in hoşunuza gitmiştir. Herhangi bir sorunuz varsa, lütfen ayarlara gidip \"Geri Bildirim Ver\" seçeneğine dokunarak bana bildirin.",
+  "bot_text_outro": "Şimdilik bu kadar. Umarım bu check-in hoşunuza gitmiştir.",
   "bot_question_introduction_button_yes": "Hadi gidelim",
   "bot_question_introduction_answer_yes": "Tamam hadi başlayalım",
   "bot_checkin": "Bot Girişi",
   "bot_button_close": "Kapalı",
   "bot_input_placeholder": "Atlamak için gönder'e basın…",
-  "bot_question_message_text": "Başka bir şey eklemek ister misin?",
+  "bot_question_message_text": "Girişinize başka bir şey eklemek ister misiniz?",
   "bot_question_message_answer_text": "Şunu eklemek istiyorum: {{metin}}",
-  "bot_send": "Göndermek"
+  "bot_send": "Göndermek",
+  "bot_question_message_answer_empty": "hiçbir şey eklemek istemiyorum",
+  "bot_question_custom_feedback_text": "Harika, neredeyse bitti.\n\nHerhangi bir geri bildirim eklemek ister misiniz? Daha iyi bir şey yapabilir miyim?",
+  "bot_question_custom_feedback_answer_text": "Şunu eklemek istiyorum: {{metin}}",
+  "bot_question_custom_feedback_answer_empty": "Geri bildirim eklemek istemiyorum",
+  "bot_question_custom_feedback_response": "Geri bildiriminiz için çok teşekkür ederim, geliştiricime göndereceğim."
 }

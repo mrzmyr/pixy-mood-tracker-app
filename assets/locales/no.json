@@ -709,13 +709,18 @@
   "bot_question_tags_answer_done": "Jeg er ferdig med å spore.",
   "bot_intro_text_1": "Hei der 👋",
   "bot_intro_text_2": "Jeg er så glad for å se deg i dag. 🫶",
-  "bot_text_outro": "Det var det for nå. Jeg håper du likte denne innsjekkingen. Hvis du har spørsmål, vennligst gi meg beskjed ved å gå til innstillingene og trykke på \"Gi tilbakemelding\".",
+  "bot_text_outro": "Det var det for nå. Jeg håper du likte denne innsjekkingen.",
   "bot_question_introduction_button_yes": "La oss gå",
   "bot_question_introduction_answer_yes": "Ok, la oss begynne",
   "bot_checkin": "Bot-innsjekking",
   "bot_button_close": "Lukk",
   "bot_input_placeholder": "Trykk send for å hoppe over...",
-  "bot_question_message_text": "Vil du legge til noe mer?",
+  "bot_question_message_text": "Vil du legge til noe annet i bidraget ditt?",
   "bot_question_message_answer_text": "Jeg vil legge til: {{tekst}}",
-  "bot_send": "Sende"
+  "bot_send": "Sende",
+  "bot_question_message_answer_empty": "Jeg vil ikke legge til noe",
+  "bot_question_custom_feedback_text": "Fantastisk, nesten ferdig.\n\nVil du legge til noen tilbakemelding? Kan jeg gjøre noe bedre?",
+  "bot_question_custom_feedback_answer_text": "Jeg vil legge til: {{tekst}}",
+  "bot_question_custom_feedback_answer_empty": "Jeg ønsker ikke å legge til tilbakemelding",
+  "bot_question_custom_feedback_response": "Tusen takk for tilbakemeldingen din, jeg sender den til utvikleren min."
 }

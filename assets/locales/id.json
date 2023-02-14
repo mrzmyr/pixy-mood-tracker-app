@@ -709,13 +709,18 @@
   "bot_question_tags_answer_done": "Aku sudah selesai melacak.",
   "bot_intro_text_1": "Hai 👋",
   "bot_intro_text_2": "Aku sangat senang melihatmu hari ini. 🫶",
-  "bot_text_outro": "Itu saja untuk saat ini. Saya harap Anda menikmati check-in ini. Jika Anda memiliki pertanyaan, beri tahu saya dengan masuk ke pengaturan dan mengetuk \"Berikan Umpan Balik\".",
+  "bot_text_outro": "Itu saja untuk saat ini. Saya harap Anda menikmati check-in ini.",
   "bot_question_introduction_button_yes": "Ayo pergi",
   "bot_question_introduction_answer_yes": "Oke, mari kita mulai",
   "bot_checkin": "Masuk Bot",
   "bot_button_close": "Menutup",
   "bot_input_placeholder": "Tekan kirim untuk melewati…",
-  "bot_question_message_text": "Apakah Anda ingin menambahkan sesuatu yang lain?",
+  "bot_question_message_text": "Apakah Anda ingin menambahkan hal lain ke entri Anda?",
   "bot_question_message_answer_text": "saya ingin menambahkan: {{teks}}",
-  "bot_send": "Mengirim"
+  "bot_send": "Mengirim",
+  "bot_question_message_answer_empty": "Saya tidak ingin menambahkan apapun",
+  "bot_question_custom_feedback_text": "Luar biasa, hampir selesai.\n\nApakah Anda ingin menambahkan umpan balik? Bisakah saya melakukan sesuatu yang lebih baik?",
+  "bot_question_custom_feedback_answer_text": "saya ingin menambahkan: {{teks}}",
+  "bot_question_custom_feedback_answer_empty": "Saya tidak ingin menambahkan umpan balik",
+  "bot_question_custom_feedback_response": "Terima kasih banyak atas umpan balik Anda, saya akan mengirimkannya ke pengembang saya."
 }

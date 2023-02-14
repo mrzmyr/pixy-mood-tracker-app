@@ -709,13 +709,18 @@
   "bot_question_tags_answer_done": "Am terminat de urmărit.",
   "bot_intro_text_1": "Hei acolo 👋",
   "bot_intro_text_2": "Sunt atât de fericit să te văd astăzi. 🫶",
-  "bot_text_outro": "Atât deocamdată. Sper că v-a plăcut acest check-in. Dacă aveți întrebări, vă rugăm să-mi spuneți accesând setările și atingând „Oferă feedback”.",
+  "bot_text_outro": "Atât deocamdată. Sper că v-a plăcut acest check-in.",
   "bot_question_introduction_button_yes": "Să mergem",
   "bot_question_introduction_answer_yes": "OK sa incepem",
   "bot_checkin": "Înregistrarea botului",
   "bot_button_close": "Închide",
   "bot_input_placeholder": "Apăsați pe trimitere pentru a omite...",
-  "bot_question_message_text": "vrei să mai adaugi și altceva?",
+  "bot_question_message_text": "Doriți să adăugați altceva la intrarea dvs.?",
   "bot_question_message_answer_text": "Doresc să adaug: {{text}}",
-  "bot_send": "Trimite"
+  "bot_send": "Trimite",
+  "bot_question_message_answer_empty": "Nu vreau să adaug nimic",
+  "bot_question_custom_feedback_text": "Minunat, aproape gata.\n\nDoriți să adăugați feedback? Pot să fac ceva mai bun?",
+  "bot_question_custom_feedback_answer_text": "Doresc să adaug: {{text}}",
+  "bot_question_custom_feedback_answer_empty": "Nu vreau să adaug feedback",
+  "bot_question_custom_feedback_response": "Vă mulțumesc foarte mult pentru feedback, îl voi trimite dezvoltatorului meu."
 }

@@ -709,13 +709,18 @@
   "bot_question_tags_answer_done": "Jeg er færdig med at spore.",
   "bot_intro_text_1": "Hej med 👋",
   "bot_intro_text_2": "Jeg er så glad for at se dig i dag. 🫶",
-  "bot_text_outro": "Det var det for nu. Jeg håber, du nød denne check-in. Hvis du har spørgsmål, så lad mig det vide ved at gå til indstillingerne og trykke på \"Giv feedback\".",
+  "bot_text_outro": "Det var det for nu. Jeg håber, du nød denne check-in.",
   "bot_question_introduction_button_yes": "Lad os gå",
   "bot_question_introduction_answer_yes": "Ok, lad os starte",
   "bot_checkin": "Bot check-in",
   "bot_button_close": "Tæt",
   "bot_input_placeholder": "Tryk på send for at springe over...",
-  "bot_question_message_text": "Vil du tilføje noget andet?",
+  "bot_question_message_text": "Vil du tilføje noget andet til dit indlæg?",
   "bot_question_message_answer_text": "Jeg vil tilføje: {{text}}",
-  "bot_send": "Sende"
+  "bot_send": "Sende",
+  "bot_question_message_answer_empty": "Jeg vil ikke tilføje noget",
+  "bot_question_custom_feedback_text": "Fantastisk, næsten færdig.\n\nVil du tilføje feedback? Kan jeg gøre noget bedre?",
+  "bot_question_custom_feedback_answer_text": "Jeg vil tilføje: {{text}}",
+  "bot_question_custom_feedback_answer_empty": "Jeg ønsker ikke at tilføje feedback",
+  "bot_question_custom_feedback_response": "Mange tak for din feedback, jeg sender den til min udvikler."
 }

@@ -1,3 +1,4 @@
+import { useFeedback } from './../../hooks/useFeedback';
 import { t } from "@/helpers/translation";
 import { BotEventData, BotEventType, BotMessage } from "@/hooks/useBot";
 import { RATING_MAPPING, SLEEP_QUALITY_MAPPING, useLogState } from '@/hooks/useLogs';
@@ -125,10 +126,12 @@ const getEmotionQuestion = (emotion: Emotion): BotQuestion => {
 }
 
 const getInitialQuestions = ({
+  feedback,
   logState,
   tagsState,
   settings,
 }: {
+  feedback: ReturnType<typeof useFeedback>,
   logState: ReturnType<typeof useLogState>,
   tagsState: ReturnType<typeof useTagsState>,
   settings: SettingsState,
@@ -366,6 +369,12 @@ const getInitialQuestions = ({
       answers: [{
         type: 'text',
         action: ({ next, data, tempLog }) => {
+          if (!data.text) {
+            return next({
+              messageText: t('bot_question_message_answer_empty'),
+            })
+          }
+
           tempLog.update({
             message: tempLog.data.message + '\n' + data.text,
           })
@@ -380,11 +389,52 @@ const getInitialQuestions = ({
 
 
   _questions.push({
+    id: 'custom_feedback',
+    text: t('bot_question_custom_feedback_text') + ' 😌',
+    answers: [{
+      type: 'text',
+      action: async ({ next, data, post, setThinking }) => {
+        if (!data.text) {
+          return next({
+            messageText: t('bot_question_custom_feedback_answer_empty'),
+          })
+        }
+
+        setThinking(true)
+
+        feedback
+          .send({
+            type: 'custom',
+            message: data.text,
+            source: "bot",
+            onOk: () => { },
+            onCancel: () => { },
+          })
+          .finally(() => {
+            setThinking(false)
+
+            post({
+              text: t('bot_question_custom_feedback_answer_text', { text: data.text }),
+              author: 'user',
+            })
+
+            post({
+              text: t('bot_question_custom_feedback_response') + ' 🙏',
+              author: 'bot',
+            })
+
+            next()
+          });
+      }
+    }],
+  })
+
+  _questions.push({
     id: 'action_close',
-    text: t('bot_text_outro'),
+    text: t('bot_text_outro') + ' 🤗',
     answers: [{
       type: 'button_primary',
-      buttonText: "Close",
+      buttonText: t('bot_button_close'),
       action: ({ trigger }) => {
         trigger('save')
         trigger('close')
@@ -400,7 +450,10 @@ export const useBotQuestions = () => {
   const tagsState = useTagsState()
   const { settings } = useSettings()
 
+  const feedback = useFeedback()
+
   return useState<BotQuestion[]>(getInitialQuestions({
+    feedback,
     logState,
     tagsState,
     settings,

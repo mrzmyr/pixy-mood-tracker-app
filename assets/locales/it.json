@@ -709,13 +709,18 @@
   "bot_question_tags_answer_done": "Ho finito di tracciare.",
   "bot_intro_text_1": "Ciao 👋",
   "bot_intro_text_2": "Sono così felice di vederti oggi. 🫶",
-  "bot_text_outro": "Questo è tutto per ora. Spero ti sia piaciuto questo check-in. In caso di domande, contattami andando nelle impostazioni e toccando \"Invia feedback\".",
+  "bot_text_outro": "Questo è tutto per ora. Spero ti sia piaciuto questo check-in.",
   "bot_question_introduction_button_yes": "Andiamo",
   "bot_question_introduction_answer_yes": "Ok iniziamo",
   "bot_checkin": "Check-in dei bot",
   "bot_button_close": "Vicino",
   "bot_input_placeholder": "Premi invio per saltare...",
-  "bot_question_message_text": "Vuoi aggiungere altro?",
+  "bot_question_message_text": "Vuoi aggiungere qualcos'altro alla tua voce?",
   "bot_question_message_answer_text": "Voglio aggiungere: {{text}}",
-  "bot_send": "Inviare"
+  "bot_send": "Inviare",
+  "bot_question_message_answer_empty": "Non voglio aggiungere nulla",
+  "bot_question_custom_feedback_text": "Fantastico, quasi finito.\n\nVuoi aggiungere un feedback? Posso fare qualcosa di meglio?",
+  "bot_question_custom_feedback_answer_text": "Voglio aggiungere: {{text}}",
+  "bot_question_custom_feedback_answer_empty": "Non voglio aggiungere feedback",
+  "bot_question_custom_feedback_response": "Grazie mille per il tuo feedback, lo invierò al mio sviluppatore."
 }

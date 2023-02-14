@@ -709,13 +709,18 @@
   "bot_question_tags_answer_done": "végeztem a követéssel.",
   "bot_intro_text_1": "Szia 👋",
   "bot_intro_text_2": "Nagyon örülök, hogy látlak ma. 🫶",
-  "bot_text_outro": "Egyelőre ennyi. Remélem tetszett ez a bejelentkezés. Ha bármilyen kérdése van, forduljon hozzám a beállításokhoz, és érintse meg a „Visszajelzés küldése” lehetőséget.",
+  "bot_text_outro": "Egyelőre ennyi. Remélem tetszett ez a bejelentkezés.",
   "bot_question_introduction_button_yes": "Gyerünk",
   "bot_question_introduction_answer_yes": "Ok, kezdjük",
   "bot_checkin": "Bot bejelentkezés",
   "bot_button_close": "Bezárás",
   "bot_input_placeholder": "Nyomja meg a Küldés gombot az átugráshoz…",
-  "bot_question_message_text": "Hozzá tennél még valamit?",
+  "bot_question_message_text": "Hozzá szeretne adni még valamit a bejegyzéséhez?",
   "bot_question_message_answer_text": "Hozzá szeretném tenni: {{szöveg}}",
-  "bot_send": "Küld"
+  "bot_send": "Küld",
+  "bot_question_message_answer_empty": "Nem akarok hozzátenni semmit",
+  "bot_question_custom_feedback_text": "Szuper, majdnem kész.\n\nSzeretnél visszajelzést adni? Tehetek valami jobbat?",
+  "bot_question_custom_feedback_answer_text": "Hozzá szeretném tenni: {{szöveg}}",
+  "bot_question_custom_feedback_answer_empty": "Nem szeretnék visszajelzést adni",
+  "bot_question_custom_feedback_response": "Köszönöm szépen a visszajelzést, elküldöm a fejlesztőmnek."
 }

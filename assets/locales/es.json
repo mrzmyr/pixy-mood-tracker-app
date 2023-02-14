@@ -709,13 +709,18 @@
   "bot_question_tags_answer_done": "He terminado de rastrear.",
   "bot_intro_text_1": "Hola 👋",
   "bot_intro_text_2": "Estoy tan feliz de verte hoy. 🫶",
-  "bot_text_outro": "Eso es todo por ahora. Espero que hayas disfrutado de este check-in. Si tiene alguna pregunta, hágamelo saber yendo a la configuración y tocando \"Dar comentarios\".",
+  "bot_text_outro": "Eso es todo por ahora. Espero que hayas disfrutado de este check-in.",
   "bot_question_introduction_button_yes": "Vamos",
   "bot_question_introduction_answer_yes": "De acuerdo, empecemos",
   "bot_checkin": "Registro de bots",
   "bot_button_close": "Cerca",
   "bot_input_placeholder": "Presiona enviar para saltar...",
-  "bot_question_message_text": "¿Quieres agregar algo más?",
+  "bot_question_message_text": "¿Quieres añadir algo más a tu entrada?",
   "bot_question_message_answer_text": "Quiero agregar: {{texto}}",
-  "bot_send": "Enviar"
+  "bot_send": "Enviar",
+  "bot_question_message_answer_empty": "no quiero agregar nada",
+  "bot_question_custom_feedback_text": "Impresionante, casi terminado.\n\n¿Quieres añadir algún comentario? ¿Puedo hacer algo mejor?",
+  "bot_question_custom_feedback_answer_text": "Quiero agregar: {{texto}}",
+  "bot_question_custom_feedback_answer_empty": "No quiero agregar comentarios",
+  "bot_question_custom_feedback_response": "Muchas gracias por sus comentarios, se los enviaré a mi desarrollador."
 }

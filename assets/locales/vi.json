@@ -709,13 +709,18 @@
   "bot_question_tags_answer_done": "Tôi đã hoàn thành việc theo dõi.",
   "bot_intro_text_1": "Xin chào 👋",
   "bot_intro_text_2": "Tôi rất vui được gặp bạn ngày hôm nay. 🫶",
-  "bot_text_outro": "Đó là nó cho bây giờ. Tôi hy vọng bạn thích đăng ký này. Nếu bạn có bất kỳ câu hỏi nào, vui lòng cho tôi biết bằng cách đi tới cài đặt và nhấn vào \"Đưa ra phản hồi\".",
+  "bot_text_outro": "Đó là nó cho bây giờ. Tôi hy vọng bạn thích đăng ký này.",
   "bot_question_introduction_button_yes": "Đi nào",
   "bot_question_introduction_answer_yes": "Ok, chúng ta hãy bắt đầu",
   "bot_checkin": "Đăng ký bot",
   "bot_button_close": "Đóng",
   "bot_input_placeholder": "Nhấn gửi để bỏ qua…",
-  "bot_question_message_text": "Bạn có muốn thêm bất cứ điều gì khác?",
+  "bot_question_message_text": "Bạn có muốn thêm bất cứ điều gì khác vào mục nhập của bạn?",
   "bot_question_message_answer_text": "Tôi muốn thêm: {{văn bản}}",
-  "bot_send": "Gửi"
+  "bot_send": "Gửi",
+  "bot_question_message_answer_empty": "Tôi không muốn thêm bất cứ điều gì",
+  "bot_question_custom_feedback_text": "Tuyệt vời, gần xong rồi.\n\nBạn có muốn thêm bất kỳ thông tin phản hồi? Tôi có thể làm điều gì đó tốt hơn không?",
+  "bot_question_custom_feedback_answer_text": "Tôi muốn thêm: {{văn bản}}",
+  "bot_question_custom_feedback_answer_empty": "Tôi không muốn thêm phản hồi",
+  "bot_question_custom_feedback_response": "Cảm ơn bạn rất nhiều vì phản hồi của bạn, tôi sẽ gửi nó cho nhà phát triển của tôi."
 }

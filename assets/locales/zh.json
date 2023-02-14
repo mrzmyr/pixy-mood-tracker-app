@@ -709,13 +709,18 @@
   "bot_question_tags_answer_done": "我完成了跟踪。",
   "bot_intro_text_1": "你好👋",
   "bot_intro_text_2": "我很高兴今天见到你。 🫶",
-  "bot_text_outro": "就这样吧。我希望你喜欢这次入住。如果您有任何问题，请转到设置并点击“提供反馈”让我知道。",
+  "bot_text_outro": "就这样吧。我希望你喜欢这次入住。",
   "bot_question_introduction_button_yes": "我们走吧",
   "bot_question_introduction_answer_yes": "好的，让我们开始吧",
   "bot_checkin": "机器人签到",
   "bot_button_close": "关闭",
   "bot_input_placeholder": "按发送跳过...",
-  "bot_question_message_text": "你想添加其他内容？",
+  "bot_question_message_text": "你想在你的条目中添加任何其他内容吗？",
   "bot_question_message_answer_text": "我想添加：{{text}}",
-  "bot_send": "发送"
+  "bot_send": "发送",
+  "bot_question_message_answer_empty": "我不想添加任何内容",
+  "bot_question_custom_feedback_text": "太棒了，快完成了。\n\n你想添加任何反馈吗？我可以做些更好的事吗？",
+  "bot_question_custom_feedback_answer_text": "我想添加：{{text}}",
+  "bot_question_custom_feedback_answer_empty": "我不想添加反馈",
+  "bot_question_custom_feedback_response": "非常感谢您的反馈，我会将其发送给我的开发人员。"
 }

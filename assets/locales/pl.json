@@ -709,13 +709,18 @@
   "bot_question_tags_answer_done": "Skończyłem śledzenie.",
   "bot_intro_text_1": "Cześć 👋",
   "bot_intro_text_2": "Tak się cieszę, że cię dzisiaj widzę. 🫶",
-  "bot_text_outro": "To tyle na teraz. Mam nadzieję, że podobało ci się to zameldowanie. Jeśli masz jakieś pytania, daj mi znać, przechodząc do ustawień i dotykając „Prześlij opinię”.",
+  "bot_text_outro": "To tyle na teraz. Mam nadzieję, że podobało ci się to zameldowanie.",
   "bot_question_introduction_button_yes": "Chodźmy",
   "bot_question_introduction_answer_yes": "Ok zaczynajmy",
   "bot_checkin": "Zameldowanie bota",
   "bot_button_close": "Zamknąć",
   "bot_input_placeholder": "Naciśnij wyślij, aby pominąć…",
-  "bot_question_message_text": "Czy chcesz dodać coś jeszcze?",
+  "bot_question_message_text": "Czy chcesz dodać coś jeszcze do swojego wpisu?",
   "bot_question_message_answer_text": "Chcę dodać: {{text}}",
-  "bot_send": "Wysłać"
+  "bot_send": "Wysłać",
+  "bot_question_message_answer_empty": "nie chcę nic dodawać",
+  "bot_question_custom_feedback_text": "Super, prawie gotowe.\n\nCzy chcesz dodać opinię? Czy mogę zrobić coś lepszego?",
+  "bot_question_custom_feedback_answer_text": "Chcę dodać: {{text}}",
+  "bot_question_custom_feedback_answer_empty": "Nie chcę dodawać opinii",
+  "bot_question_custom_feedback_response": "Dziękuję bardzo za opinię, prześlę ją do mojego programisty."
 }

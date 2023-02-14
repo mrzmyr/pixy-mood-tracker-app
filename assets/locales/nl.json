@@ -709,13 +709,18 @@
   "bot_question_tags_answer_done": "Ik ben klaar met volgen.",
   "bot_intro_text_1": "Hé daar 👋",
   "bot_intro_text_2": "Ik ben zo blij je te zien vandaag. 🫶",
-  "bot_text_outro": "Dat is het voor nu. Ik hoop dat je genoten hebt van deze check-in. Als je vragen hebt, laat het me dan weten door naar de instellingen te gaan en op \"Feedback geven\" te tikken.",
+  "bot_text_outro": "Dat is het voor nu. Ik hoop dat je genoten hebt van deze check-in.",
   "bot_question_introduction_button_yes": "Laten we gaan",
   "bot_question_introduction_answer_yes": "Oke. Laten we beginnen",
   "bot_checkin": "Bot inchecken",
   "bot_button_close": "Dichtbij",
   "bot_input_placeholder": "Druk op verzenden om over te slaan...",
-  "bot_question_message_text": "Wil je verder nog iets toevoegen?",
+  "bot_question_message_text": "Wil je nog iets toevoegen aan je inzending?",
   "bot_question_message_answer_text": "Ik wil toevoegen: {{text}}",
-  "bot_send": "Versturen"
+  "bot_send": "Versturen",
+  "bot_question_message_answer_empty": "Ik wil niets toevoegen",
+  "bot_question_custom_feedback_text": "Geweldig, bijna klaar.\n\nWil je feedback toevoegen? Kan ik iets beters doen?",
+  "bot_question_custom_feedback_answer_text": "Ik wil toevoegen: {{text}}",
+  "bot_question_custom_feedback_answer_empty": "Ik wil geen feedback toevoegen",
+  "bot_question_custom_feedback_response": "Heel erg bedankt voor je feedback, ik zal het naar mijn ontwikkelaar sturen."
 }
