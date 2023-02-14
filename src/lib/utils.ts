@@ -125,6 +125,12 @@ export const getMostUsedEmotions = (items: LogItem[]) => {
     .sort((a, b) => b.count - a.count);
 }
 
+export const wait = async (timeout: number) => {
+  return new Promise(resolve => {
+    setTimeout(resolve, timeout);
+  });
+};
+
 export const getItemsCountPerDayAverage = (items: LogItem[]) => {
   if (items.length === 0) return 0;
 

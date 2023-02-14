@@ -667,5 +667,55 @@
   "archive_tag_enabled": "مؤرشف",
   "colorblind_disclaimer": "تم تحسين مخطط الألوان هذا للأشخاص الذين يعانون من عمى الألوان بناءً على بحث أجرته الدكتورة سينثيا بروير من جامعة ولاية بنسلفانيا. إذا كنت لا تزال تواجه مشكلة في رؤية الألوان ، فيرجى إبلاغي بذلك على care@pixy.day.",
   "new_release": "إصدار جديد",
-  "statistics_sleep_quality_chart_highlights_title": "جودة نومك خلال آخر 14 يومًا."
+  "statistics_sleep_quality_chart_highlights_title": "جودة نومك خلال آخر 14 يومًا.",
+  "quick_checkin": "تسجيل دخول سريع",
+  "beta_different_checkins_title": "مرحبًا مستخدمي Beta!",
+  "beta_different_checkins_body": "أنا الآن أختبر أنواع تسجيل وصول مختلفة. يرجى إعلامي برأيك في أنواع تسجيل الوصول الجديدة.",
+  "bot_question_emotion_details_text": "وفقًا لـ Harvard Health ، فإن الكتابة عن عواطفك يمكن أن تساعدك في التعامل مع التوتر والقلق والاكتئاب.\n\nهل تريد أن تفكر في سبب شعورك بهذه الطريقة؟",
+  "bot_question_emotion_details_button_yes": "دعنا نذهب",
+  "bot_question_emotion_details_answer_yes": "حسنا لنبدأ",
+  "bot_question_emotion_details_button_no": "لا",
+  "bot_question_emotion_details_answer_no": "لا",
+  "bot_question_emotion_details_button_done": "لقد انتهيت من التعقب.",
+  "bot_question_emotion_details_answer_done": "لقد انتهيت من التعقب.",
+  "bot_question_introduction_text": "هل تشعر أنك مستعد لتقديم بعض التفاصيل حول شعورك؟",
+  "bot_question_emotion_prefix": "ما الذي جعلك تشعر {{emotion}}؟",
+  "bot_question_emotion_answer_empty": "أترك هذا فارغا الآن.",
+  "bot_question_rating_text": "كيف كان يومك حتى الآن؟",
+  "bot_question_rating_answer_prefix": "أود أن أقول أنه كان {{rating}}",
+  "bot_question_rating_response_positive": "أنا سعيد لسماع أن شيئًا ما سار بشكل إيجابي 😌",
+  "bot_question_rating_response_negative": "يبدو أن اليوم كان صعبًا. أنت لست وحدك وأنا هنا لدعمك.",
+  "bot_question_rating_response_neutral": "أنا سعيد لسماع أنك على ما يرام.",
+  "bot_question_sleep_quality_text": "كيف نمت؟",
+  "bot_question_sleep_quality_answer_prefix": "أود أن أقول إنها كانت {{جودة}}",
+  "bot_question_sleep_quality_response_positive": "أنا سعيد لسماع أنك نمت جيدًا 😌",
+  "bot_question_sleep_quality_response_negative": "يبدو أنك لم تنم جيدًا. أنت لست وحدك وأنا هنا لدعمك.",
+  "bot_question_sleep_quality_response_neutral": "أنا سعيد لسماع أنك نمت جيدًا.",
+  "bot_question_emotions_text": "هل تريد إضافة المشاعر التي شعرت بها؟",
+  "bot_question_emotions_button_yes": "أضف المشاعر",
+  "bot_question_emotions_answer_empty": "لا اريد اضافة المشاعر",
+  "bot_question_emotions_answer_emotions": "شعرت {{عواطف}}",
+  "bot_question_emotions_button_skip": "يتخطى",
+  "bot_question_emotions_answer_skip": "لا اريد اضافة المشاعر",
+  "bot_question_emotions_button_done": "لقد انتهيت من التعقب.",
+  "bot_question_emotions_answer_done": "لقد انتهيت من التعقب.",
+  "bot_question_tags_text": "هل تريد إضافة بعض العلامات؟",
+  "bot_question_tags_button_yes": "اضف اشارة",
+  "bot_question_tags_answer_empty": "لا أريد إضافة العلامات",
+  "bot_question_tags_answer_tags": "نعم ، دعنا نضيف {{العلامات}}",
+  "bot_question_tags_button_skip": "يتخطى",
+  "bot_question_tags_answer_skip": "لا أريد إضافة العلامات",
+  "bot_question_tags_button_done": "لقد انتهيت من التعقب.",
+  "bot_question_tags_answer_done": "لقد انتهيت من التعقب.",
+  "bot_intro_text_1": "مرحبًا هناك 👋",
+  "bot_intro_text_2": "أنا سعيد جدًا برؤيتك اليوم. 🫶",
+  "bot_text_outro": "هذا كل شيء في الوقت الراهن. أتمنى أن تكون قد استمتعت بتسجيل الوصول هذا. إذا كانت لديك أي أسئلة ، فيرجى إبلاغي بها من خلال الانتقال إلى الإعدادات والنقر على \"تقديم ملاحظات\".",
+  "bot_question_introduction_button_yes": "دعنا نذهب",
+  "bot_question_introduction_answer_yes": "حسنا لنبدأ",
+  "bot_checkin": "تسجيل وصول الروبوت",
+  "bot_button_close": "يغلق",
+  "bot_input_placeholder": "اضغط على إرسال للتخطي ...",
+  "bot_question_message_text": "هل تريد إضافة أي شيء آخر؟",
+  "bot_question_message_answer_text": "أريد أن أضيف: {{text}}",
+  "bot_send": "يرسل"
 }

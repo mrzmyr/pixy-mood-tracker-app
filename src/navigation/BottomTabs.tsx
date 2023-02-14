@@ -1,20 +1,23 @@
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Platform, Text, View } from 'react-native';
+import Indicator from '@/components/Indicator';
 import LinkButton from '@/components/LinkButton';
 import { t } from '@/helpers/translation';
 import { useCalendarFilters } from '@/hooks/useCalendarFilters';
 import useColors from '@/hooks/useColors';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { useNavigation } from '@react-navigation/native';
+import dayjs from 'dayjs';
+import * as Updates from 'expo-updates';
+import { Platform, Pressable, View } from 'react-native';
 import { SettingsScreen, StatisticsScreen } from '../screens';
 import CalendarScreen from '../screens/Calendar';
 import { MyTabBar } from "./MyTabBar";
-import Indicator from '@/components/Indicator';
-import * as Updates from 'expo-updates';
 
 const Tab = createBottomTabNavigator();
 
 export const BottomTabs = () => {
   const colors = useColors();
   const calendarFilters = useCalendarFilters();
+  const navigation = useNavigation();
 
   const defaultOptions = {
     headerTintColor: colors.text,

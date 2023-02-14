@@ -2,6 +2,8 @@ import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
 import { CompositeScreenProps } from '@react-navigation/native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { LoggerStep } from '@/components/Logger/config';
+import { Emotion, TagReference } from '@/types';
+import { Tag } from '@/hooks/useTags';
 
 declare global {
   namespace ReactNavigation {
@@ -28,6 +30,17 @@ export type RootStackParamList = {
   Tags: undefined;
   DevelopmentTools: undefined;
 
+  BotLogger: {
+    dateTime: string,
+    emotions?: Emotion[],
+    tags?: TagReference[],
+  };
+  BotLoggerEmotions: {
+    onDone: (emotions: Emotion[]) => void;
+  };
+  BotLoggerTags: {
+    onDone: (tags: TagReference[]) => void;
+  };
   SettingsTags: undefined;
   SettingsTagsArchive: undefined;
 

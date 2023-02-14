@@ -8,6 +8,7 @@ import OneSignal from 'react-native-onesignal';
 import * as Sentry from 'sentry-expo';
 import { RootStackParamList } from '../../types';
 import {
+  BotLogger,
   ColorsScreen,
   DataScreen,
   LogList,
@@ -39,6 +40,8 @@ import { StepsScreen } from '../screens/Steps';
 import { Tags } from '../screens/Tags';
 import { BackButton } from './BackButton';
 import { BottomTabs } from './BottomTabs';
+import { BotLoggerEmotions } from '@/screens/BotLogger/Emotions';
+import { BotLoggerTags } from '@/screens/BotLogger/Tags';
 
 enableScreens();
 
@@ -197,6 +200,48 @@ function RootNavigator() {
         />
 
         <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
+
+        <>
+          <Stack.Group
+            screenOptions={{
+              title: '',
+              presentation: 'modal',
+              headerShown: false,
+              gestureEnabled: false,
+            }}
+          >
+            <Stack.Screen
+              name="BotLogger"
+              component={BotLogger}
+            />
+          </Stack.Group>
+          <Stack.Group
+            screenOptions={{
+              title: '',
+              presentation: 'modal',
+              headerShown: false,
+              gestureEnabled: false,
+            }}
+          >
+            <Stack.Screen
+              name="BotLoggerEmotions"
+              component={BotLoggerEmotions}
+            />
+          </Stack.Group>
+          <Stack.Group
+            screenOptions={{
+              title: '',
+              presentation: 'modal',
+              headerShown: false,
+              gestureEnabled: false,
+            }}
+          >
+            <Stack.Screen
+              name="BotLoggerTags"
+              component={BotLoggerTags}
+            />
+          </Stack.Group>
+        </>
 
         <Stack.Group
           screenOptions={{
