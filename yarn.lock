@@ -6482,10 +6482,10 @@ expo-status-bar@~1.4.2:
   resolved "https://registry.yarnpkg.com/expo-status-bar/-/expo-status-bar-1.4.2.tgz#14f2b9a6dc7d550578421f07e0046f5fafc2b403"
   integrity sha512-ZWjO6D4ARGYfAd3SWDD3STNudHDhyBZDZjhhseqoEmsf7bS9ykny8KKOhlzJW24qIQNPhkgdvHhaw9fQwMJy3Q==
 
-expo-store-review@~5.3.0:
-  version "5.3.0"
-  resolved "https://registry.yarnpkg.com/expo-store-review/-/expo-store-review-5.3.0.tgz#f8b1253a607b13e548889a442d8ee7bb0fa025a3"
-  integrity sha512-abWgsgXnfeJnAINOVGWxFC0HXizZxBoxNZoekswqW2AtsQ6DR5nvWj5VyovVjd8DktRG/ly1ZKJwP0KNXqWffw==
+expo-store-review@~6.2.1:
+  version "6.2.1"
+  resolved "https://registry.yarnpkg.com/expo-store-review/-/expo-store-review-6.2.1.tgz#13bb842732b5581b9ee723c2d7511eb9830b1c3c"
+  integrity sha512-r157pvKORURbtrMTs9E/CNnQjeU0HRVYak0uOYCNv50WHaKZ2zYsS1BHhj4SnFcw/hQ9hc1EnBEugDAJVk6Xbg==
 
 expo-structured-headers@~2.2.0:
   version "2.2.1"
