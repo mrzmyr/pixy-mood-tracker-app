@@ -103,7 +103,7 @@
     "semver": "^7.3.8",
     "sentry-expo": "~5.0.0",
     "use-debounce": "^7.0.1",
-    "uuid": "^8.3.2",
+    "uuid": "^9.0.0",
     "zod": "^3.19.1"
   },
   "devDependencies": {
@@ -122,7 +122,7 @@
     "@types/lodash": "^4.14.191",
     "@types/react": "~18.0.0",
     "@types/react-native": "~0.69.1",
-    "@types/uuid": "^8.3.4",
+    "@types/uuid": "^9.0.1",
     "jest": "^26.6.3",
     "jest-expo": "^46.0.0",
     "mockdate": "^3.0.5",
