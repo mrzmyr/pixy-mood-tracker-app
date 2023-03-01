@@ -76,7 +76,7 @@
     "expo-updates": "~0.14.7",
     "expo-web-browser": "~11.0.0",
     "i18n-js": "^3.8.0",
-    "jotai": "^1.8.5",
+    "jotai": "^2.0.2",
     "lodash": "^4.17.21",
     "lucide-react-native": "^0.104.0",
     "onesignal-expo-plugin": "^1.1.2",
