@@ -6464,10 +6464,10 @@ expo-pwa@0.0.123:
     commander "2.20.0"
     update-check "1.5.3"
 
-expo-sharing@~10.3.0:
-  version "10.3.0"
-  resolved "https://registry.yarnpkg.com/expo-sharing/-/expo-sharing-10.3.0.tgz#4e8e2a50d1c22ea510699664bb6ce827cb06738e"
-  integrity sha512-j3kn43WCOykj7mlGTb5Q3Z56DG8raFdTk0A+rauA7lsmJ5Vakb2qGyTFZ7uwqwrML10EQIPAzNEcEYgpIzHKIw==
+expo-sharing@~11.2.1:
+  version "11.2.1"
+  resolved "https://registry.yarnpkg.com/expo-sharing/-/expo-sharing-11.2.1.tgz#5f08463cfd2b67ccd3569600d4b7badbce01365e"
+  integrity sha512-eKURYrXSO0BaPENFg50hJkQqibZq3JhVmhHAID3wGq6KzUHwBpOjkisRjWfHu7wOze9YS64CUa7xVVLPBxuzxQ==
 
 expo-splash-screen@~0.16.0, expo-splash-screen@~0.16.2:
   version "0.16.2"
