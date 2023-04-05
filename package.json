@@ -68,7 +68,7 @@
     "expo-linking": "~3.2.4",
     "expo-local-authentication": "~12.3.0",
     "expo-localization": "~13.1.0",
-    "expo-notifications": "~0.16.1",
+    "expo-notifications": "~0.18.1",
     "expo-sharing": "~11.2.1",
     "expo-splash-screen": "~0.16.2",
     "expo-status-bar": "~1.4.2",
