@@ -16,15 +16,6 @@ export default ({ config }: ConfigContext): ExpoConfig => {
     _config.android!.icon = _config.icon = './assets/images/icon-dev.png';
   }
 
-  if (['production', 'preview'].includes(PROFILE)) {
-    _config.plugins = _config.plugins!.map((plugin: any) => {
-      if (_.isArray(plugin) && plugin[0] === 'onesignal-expo-plugin') {
-        return ['onesignal-expo-plugin', { mode: 'production' }]
-      }
-      return plugin;
-    });
-  }
-
   // console.log('------------------------------');
   // console.log('Profile:', PROFILE);
   // console.log('Building with config:');

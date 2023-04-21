@@ -4,7 +4,6 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import * as Linking from 'expo-linking';
 import { useEffect } from 'react';
 import { Platform, View, useColorScheme } from 'react-native';
-import OneSignal from 'react-native-onesignal';
 import * as Sentry from 'sentry-expo';
 import { RootStackParamList } from '../../types';
 import {
@@ -22,7 +21,6 @@ import {
 
 import Providers from '@/components/Providers';
 import Colors from '@/constants/Colors';
-import { ONE_SIGNAL_APP_ID } from '@/constants/Config';
 import { initializeDayjs, t } from '@/helpers/translation';
 import { useAnalytics } from '@/hooks/useAnalytics';
 import { useAnonymizer } from '@/hooks/useAnonymizer';
@@ -125,14 +123,6 @@ function RootNavigator() {
   }
 
   useEffect(() => {
-    if (Platform.OS !== 'web') {
-      OneSignal.setAppId(ONE_SIGNAL_APP_ID);
-
-      if (settings.loaded && settings.deviceId !== null) {
-        OneSignal.setExternalUserId(settings.deviceId)
-      }
-    }
-
     if (settings.loaded && !hasActionDone('onboarding')) {
       navigation.navigate('Onboarding')
     }

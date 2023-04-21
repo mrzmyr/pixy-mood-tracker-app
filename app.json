@@ -45,14 +45,9 @@
       "playStoreUrl": "https://play.google.com/store/apps/details?id=com.devmood.pixymoodtracker"
     },
     "plugins": [
-      [
-        "onesignal-expo-plugin",
-        {
-          "mode": "development"
-        }
-      ],
       "sentry-expo",
       "expo-notifications",
+      "expo-localization",
       [
         "expo-document-picker",
         {

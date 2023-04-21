@@ -4,7 +4,6 @@ import * as DocumentPicker from "expo-document-picker";
 import * as FileSystem from "expo-file-system";
 import * as Sharing from "expo-sharing";
 import { Alert, Platform } from "react-native";
-import OneSignal from 'react-native-onesignal';
 import { getJSONSchemaType, ImportData } from "@/helpers/Import";
 import { migrateImportData } from "@/helpers/migration";
 import { askToImport, askToReset, showImportError, showImportSuccess, showResetSuccess } from "@/helpers/prompts";
@@ -86,7 +85,6 @@ export const useDatagate = (): {
     reset()
     resetSettings();
     analytics.reset()
-    OneSignal.removeExternalUserId();
   };
 
   const openImportDialog = async (): Promise<void> => {
