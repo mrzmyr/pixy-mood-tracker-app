@@ -14,9 +14,9 @@ import { useState } from 'react';
 // export const THINKING_DELAY = 0;
 // export const ANSWER_DELAY = 0;
 // export const SHOW_ANSWERS_DELAY = 0;
-export const THINKING_DELAY = 500;
-export const ANSWER_DELAY = 1000;
-export const SHOW_ANSWERS_DELAY = 500;
+export const THINKING_DELAY = 200;
+export const ANSWER_DELAY = 500;
+export const SHOW_ANSWERS_DELAY = 200;
 
 export interface BotAnswer {
   type: 'button_primary' | 'button_secondary' | 'rating' | 'emotions' | 'text' | 'sleep_quality';
