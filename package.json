@@ -70,7 +70,7 @@
     "expo-localization": "~14.1.1",
     "expo-notifications": "~0.18.1",
     "expo-sharing": "~11.2.2",
-    "expo-splash-screen": "~0.18.1",
+    "expo-splash-screen": "~0.18.2",
     "expo-status-bar": "~1.4.4",
     "expo-store-review": "~6.2.1",
     "expo-updates": "~0.16.3",
