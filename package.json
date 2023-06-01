@@ -96,7 +96,7 @@
     "react-native-screens": "~3.20.0",
     "react-native-style-utilities": "^1.0.1",
     "react-native-svg": "13.4.0",
-    "react-native-view-shot": "3.5.0",
+    "react-native-view-shot": "3.6.0",
     "react-native-web": "~0.18.10",
     "semver": "^7.3.8",
     "sentry-expo": "~6.1.0",
