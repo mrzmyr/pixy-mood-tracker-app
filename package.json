@@ -1,6 +1,6 @@
 {
   "name": "pixel-tracker",
-  "version": "1.83.0",
+  "version": "1.84.0",
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
     "start": "export NODE_OPTIONS=--openssl-legacy-provider && expo start --dev-client",

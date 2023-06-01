@@ -2,6 +2,40 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.84.0](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.83.0...v1.84.0) (2023-06-01)
+
+
+### Features
+
+* change label "Add New Entry" ([27354f2](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/27354f2991bcf24d1799de505385dae74b2f3d40))
+* make bot faster ([7f04900](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/7f04900821888f84587072d83cb7cb11d757b596))
+* remove one signal plugin ([8991934](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/8991934c7a275de550289bba83b3a0bca05458ce))
+* switch export and import icon ([9e5ed4f](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/9e5ed4ff59d965e751bcf2dd0ab714b1dab38676))
+
+
+### Miscellaneous
+
+* **deps-dev:** bump @testing-library/react from 13.4.0 to 14.0.0 ([54a40bc](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/54a40bc24962f14d8c8093526baaa2b759004d45))
+* **deps-dev:** bump @types/lodash from 4.14.191 to 4.14.192 ([d95a571](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/d95a57140af5394295e71d27e88fbc93de8ce448))
+* **deps-dev:** bump @types/lodash from 4.14.194 to 4.14.195 ([bc551a8](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/bc551a86d0491d929d616b9006a220e7e6ad2bc9))
+* **deps:** bump @expo/webpack-config from 18.0.1 to 18.0.4 ([772a733](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/772a733f1c8e59ec96502e906f234509c993d3b7))
+* **deps:** bump @sentry/react-native from 4.13.0 to 5.4.0 ([cf143f1](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/cf143f184c46472f95bf81db819f691d89c19f0a))
+* **deps:** bump @sideway/formula from 3.0.0 to 3.0.1 ([f2812c4](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/f2812c4edffcc5cc8535312e0dfac2c3aa85b388))
+* **deps:** bump @xmldom/xmldom from 0.7.5 to 0.7.9 ([235f440](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/235f440b4f07cbd91a54a9ec4184e3bd6c633b68))
+* **deps:** bump expo from 48.0.5 to 48.0.18 ([c9d6c0d](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/c9d6c0d7193f838c935d44f7dddbafbb96e814ab))
+* **deps:** bump expo-file-system from 14.1.0 to 15.2.2 ([62ed8fe](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/62ed8fe0b749ceb775583af1d316d0e44dd0a581))
+* **deps:** bump expo-notifications from 0.16.1 to 0.18.1 ([631e170](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/631e170f14139e7df738f5674abaa788b93287da))
+* **deps:** bump expo-sharing from 10.3.0 to 11.2.1 ([75945b9](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/75945b9450d0fd0ff35b9214a68b720b612f1d1a))
+* **deps:** bump expo-splash-screen from 0.18.1 to 0.18.2 ([2dec05e](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/2dec05eb41c6c6dac67653ba11faf98b7eb379e9))
+* **deps:** bump expo-store-review from 5.3.0 to 6.2.1 ([d2a8f7a](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/d2a8f7a9ee0bdef2f74ee6c842179ca0dbb6b78e))
+* **deps:** bump expo-updates from 0.16.3 to 0.16.4 ([a1ad89a](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/a1ad89a64e016724cae7fd914f392e99bb23d0f8))
+* **deps:** bump jotai from 1.8.6 to 2.0.2 ([5e6a910](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/5e6a91007dfca8fa332a512b5608937286e7248e))
+* **deps:** bump react-native from 0.71.3 to 0.71.7 ([e6d207d](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/e6d207d2202b85a0e4459d07b9f23489057a0ebc))
+* **deps:** bump react-native-view-shot from 3.5.0 to 3.6.0 ([608f3aa](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/608f3aacd1a9ce21344f0cfa758cf23807650a57))
+* **deps:** bump use-debounce from 7.0.1 to 9.0.4 ([79e3867](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/79e38675a979c3a73f24d67b15d7e5f1d3867904))
+* **deps:** bump uuid and @types/uuid ([0f88748](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/0f8874814d1f18304e1d808d928bc8f10a83c091))
+* **deps:** bump webpack from 5.75.0 to 5.80.0 ([5d0c59b](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/5d0c59b60a4a472d529c33c6ac0afe3ec8fdbed1))
+
 ## [1.83.0](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.82.0...v1.83.0) (2023-02-14)
 
 
