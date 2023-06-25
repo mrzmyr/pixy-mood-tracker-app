@@ -4,6 +4,7 @@ import { LogItemSchema } from "@/types";
 import { Buffer } from "buffer";
 import dayjs from "dayjs";
 import _ from "lodash";
+import * as Sentry from 'sentry-expo';
 import {
   createContext,
   useCallback,
@@ -16,6 +17,7 @@ import { v4 as uuidv4 } from "uuid";
 import z from "zod";
 import { AtLeast } from "../../types";
 import { useAnalytics } from "./useAnalytics";
+import { useFeedback } from "./useFeedback";
 
 export const STORAGE_KEY = "PIXEL_TRACKER_LOGS";
 
@@ -148,6 +150,7 @@ const migrate = (data: LogsState): LogsState => {
 };
 
 function LogsProvider({ children }: { children: React.ReactNode }) {
+  const feedback = useFeedback()
   const analyitcs = useAnalytics()
 
   const INITIAL_STATE: LogsState = {
@@ -159,22 +162,41 @@ function LogsProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     (async () => {
-      const value = await load<LogsState>(STORAGE_KEY);
-      const size = Buffer.byteLength(JSON.stringify(value))
-      const megaBytes = Math.round(size / 1024 / 1024 * 100) / 100;
-      analyitcs.track('loaded_logs', { size: megaBytes, unit: 'mb' })
-      if (value !== null) {
-        dispatch({
-          type: "import",
-          payload: value,
-        });
-      } else {
-        dispatch({
-          type: "import",
-          payload: {
-            ...INITIAL_STATE,
-          },
-        });
+      try {
+        const value = await load<LogsState>(STORAGE_KEY);
+        const size = Buffer.byteLength(JSON.stringify(value))
+        const megaBytes = Math.round(size / 1024 / 1024 * 100) / 100;
+        analyitcs.track('loaded_logs', { size: megaBytes, unit: 'mb' })
+        if (value !== null) {
+          dispatch({
+            type: "import",
+            payload: value,
+          });
+        } else {
+          dispatch({
+            type: "import",
+            payload: {
+              ...INITIAL_STATE,
+            },
+          });
+        }
+      } catch (error) {
+        feedback
+          .send({
+            type: "issue",
+            message: JSON.stringify({
+              title: "Error loading logs",
+              description: error.message,
+              trace: error.stack,
+            }),
+            email: "team@pixy.day",
+            source: "error",
+            onCancel: () => {
+            },
+            onOk: () => {
+            }
+          })
+        Sentry.Native.captureException(error);
       }
     })();
   }, []);

@@ -8,7 +8,7 @@ import { useSettings } from './useSettings';
 import * as Updates from 'expo-updates';
 
 export type FeedackType = 'issue' | 'idea' | 'other' | 'emoji' | 'custom';
-export type FeedbackSource = 'tags' | 'modal' | 'statistics' | 'bot';
+export type FeedbackSource = 'tags' | 'modal' | 'statistics' | 'bot' | 'error';
 
 export const useFeedback = () => {
   const { settings } = useSettings();
