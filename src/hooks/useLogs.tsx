@@ -163,7 +163,7 @@ function LogsProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     (async () => {
       try {
-        const value = await load<LogsState>(STORAGE_KEY);
+        const value = await load<LogsState>(STORAGE_KEY, feedback);
         const size = Buffer.byteLength(JSON.stringify(value))
         const megaBytes = Math.round(size / 1024 / 1024 * 100) / 100;
         analyitcs.track('loaded_logs', { size: megaBytes, unit: 'mb' })
