@@ -160,19 +160,44 @@ function LogsProvider({ children }: { children: React.ReactNode }) {
 
   const [state, dispatch] = useReducer(reducer, INITIAL_STATE);
 
+  const sendFeedback = (message, trace = {}) => {
+    feedback
+      .send({
+        type: "issue",
+        message: JSON.stringify({
+          title: "Error loading logs",
+          description: message,
+          trace: trace,
+        }),
+        email: "team@pixy.day",
+        source: "error",
+        onCancel: () => {
+        },
+        onOk: () => {
+        }
+      })
+  }
+
   useEffect(() => {
     (async () => {
       try {
+        sendFeedback(`Loading logs from ${STORAGE_KEY}`)
         const value = await load<LogsState>(STORAGE_KEY, feedback);
+        sendFeedback(`Loaded logs from ${STORAGE_KEY}`)
         const size = Buffer.byteLength(JSON.stringify(value))
+        sendFeedback('Loaded logs size', { size })
         const megaBytes = Math.round(size / 1024 / 1024 * 100) / 100;
+        sendFeedback('Loaded logs size in mb', { size: megaBytes })
         analyitcs.track('loaded_logs', { size: megaBytes, unit: 'mb' })
+        sendFeedback('Loaded logs & analytics')
         if (value !== null) {
+          sendFeedback(`Loaded logs from ${STORAGE_KEY} with value ${JSON.stringify(value)}`)
           dispatch({
             type: "import",
             payload: value,
           });
         } else {
+          sendFeedback(`Loaded logs from ${STORAGE_KEY} with value ${JSON.stringify(INITIAL_STATE)}`)
           dispatch({
             type: "import",
             payload: {
@@ -181,21 +206,7 @@ function LogsProvider({ children }: { children: React.ReactNode }) {
           });
         }
       } catch (error) {
-        feedback
-          .send({
-            type: "issue",
-            message: JSON.stringify({
-              title: "Error loading logs",
-              description: error.message,
-              trace: error.stack,
-            }),
-            email: "team@pixy.day",
-            source: "error",
-            onCancel: () => {
-            },
-            onOk: () => {
-            }
-          })
+        sendFeedback(error.message, error.stack)
         Sentry.Native.captureException(error);
       }
     })();
