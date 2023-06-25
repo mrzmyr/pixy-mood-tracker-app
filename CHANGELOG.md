@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.85.0](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.84.0...v1.85.0) (2023-06-25)
+
+
+### Features
+
+* add error reporting got useLogs error ([7c74869](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/7c7486987a1a6fe09b91d1cad2d80c7e7a1d3a93))
+* add more error tracking ([d90e9f8](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/d90e9f88954e5c583e124f0f53b15ac1064362e5))
+
+
+### Miscellaneous
+
+* **deps:** bump fast-xml-parser from 4.1.3 to 4.2.4 ([e21f678](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/e21f678096e9c71f0af22b54da8b1ec1352c4f72))
+* **deps:** bump fast-xml-parser from 4.2.4 to 4.2.5 ([474ab5f](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/474ab5ff9350efe1e17f33c76444810675f8f700))
+* **deps:** bump semver from 7.3.8 to 7.5.2 ([02aa31a](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/02aa31add2f5ecb6dbca843d4a3315c39c62e3dd))
+* fix deps ([183e938](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/183e938d4eaac76d226b0b82fd75113a1d01a47e))
+
 ## [1.84.0](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.83.0...v1.84.0) (2023-06-01)
 
 
