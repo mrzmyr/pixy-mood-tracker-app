@@ -97,7 +97,7 @@
     "react-native-svg": "13.4.0",
     "react-native-view-shot": "3.5.0",
     "react-native-web": "~0.18.10",
-    "semver": "^7.3.8",
+    "semver": "^7.5.2",
     "sentry-expo": "~6.1.0",
     "use-debounce": "^9.0.4",
     "uuid": "^9.0.0",
