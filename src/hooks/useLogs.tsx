@@ -4,15 +4,15 @@ import { LogItemSchema } from "@/types";
 import { Buffer } from "buffer";
 import dayjs from "dayjs";
 import _ from "lodash";
-import * as Sentry from 'sentry-expo';
 import {
   createContext,
   useCallback,
   useContext,
   useEffect,
   useMemo,
-  useReducer
+  useReducer,
 } from "react";
+import * as Sentry from "sentry-expo";
 import { v4 as uuidv4 } from "uuid";
 import z from "zod";
 import { AtLeast } from "../../types";
@@ -29,7 +29,7 @@ export const RATING_MAPPING = {
   bad: 2,
   very_bad: 1,
   extremely_bad: 0,
-}
+};
 
 export const SLEEP_QUALITY_MAPPING = {
   very_good: 4,
@@ -37,43 +37,47 @@ export const SLEEP_QUALITY_MAPPING = {
   neutral: 2,
   bad: 1,
   very_bad: 0,
-}
+};
 
-export const RATING_KEYS = Object.keys(RATING_MAPPING) as (keyof typeof RATING_MAPPING)[]
-export const SLEEP_QUALITY_KEYS = Object.keys(SLEEP_QUALITY_MAPPING) as (keyof typeof SLEEP_QUALITY_MAPPING)[]
+export const RATING_KEYS = Object.keys(
+  RATING_MAPPING
+) as (keyof typeof RATING_MAPPING)[];
+export const SLEEP_QUALITY_KEYS = Object.keys(
+  SLEEP_QUALITY_MAPPING
+) as (keyof typeof SLEEP_QUALITY_MAPPING)[];
 
 export type LogItem = z.infer<typeof LogItemSchema>;
 
 export interface LogDay {
   date: string;
   items: LogItem[];
-  ratingAvg: typeof RATING_KEYS[number];
+  ratingAvg: (typeof RATING_KEYS)[number];
   sleepQualityAvg: number;
 }
 
 export interface LogsState {
   loaded?: boolean;
-  items: LogItem[]
+  items: LogItem[];
 }
 
-type LogAction = |
-{ type: "import"; payload: LogsState } |
-{ type: "add"; payload: LogItem } |
-{ type: "edit"; payload: AtLeast<LogItem, 'id'> } |
-{ type: "batchEdit"; payload: LogItem[] } |
-{ type: "delete"; payload: LogItem['id'] } |
-{ type: "reset", payload: LogsState };
+type LogAction =
+  | { type: "import"; payload: LogsState }
+  | { type: "add"; payload: LogItem }
+  | { type: "edit"; payload: AtLeast<LogItem, "id"> }
+  | { type: "batchEdit"; payload: LogItem[] }
+  | { type: "delete"; payload: LogItem["id"] }
+  | { type: "reset"; payload: LogsState };
 
 export interface UpdaterValue {
   addLog: (item: LogItem) => void;
   editLog: (item: Partial<LogItem>) => void;
   updateLogs: (items: LogsState["items"]) => void;
-  deleteLog: (id: LogItem['id']) => void;
+  deleteLog: (id: LogItem["id"]) => void;
   reset: () => void;
   import: (data: LogsState) => void;
 }
 
-interface StateValue extends LogsState { }
+interface StateValue extends LogsState {}
 
 const LogStateContext = createContext<StateValue>(undefined as any);
 const LogUpdaterContext = createContext<UpdaterValue>(undefined as any);
@@ -82,13 +86,13 @@ function reducer(state: LogsState, action: LogAction): LogsState {
   switch (action.type) {
     case "import":
       return migrate({
-        ...action.payload as LogsState,
+        ...(action.payload as LogsState),
         loaded: true,
-      })
+      });
     case "add":
       return {
         ...state,
-        items: [...state.items, action.payload]
+        items: [...state.items, action.payload],
       };
     case "edit":
       return {
@@ -98,10 +102,10 @@ function reducer(state: LogsState, action: LogAction): LogsState {
             return {
               ...item,
               ...action.payload,
-            }
+            };
           }
-          return item
-        })
+          return item;
+        }),
       };
     case "batchEdit":
       state.items = action.payload;
@@ -124,34 +128,34 @@ function reducer(state: LogsState, action: LogAction): LogsState {
 const migrate = (data: LogsState): LogsState => {
   let result = {
     ...data,
-  }
+  };
 
   if (!_.isArray(data.items)) {
-    result.items = Object.values(result.items)
+    result.items = Object.values(result.items);
   }
 
   result.items = result.items.map((item) => {
-    const date = dayjs(item.date).format(DATE_FORMAT)
+    const date = dayjs(item.date).format(DATE_FORMAT);
 
-    const newItem = { ...item }
+    const newItem = { ...item };
 
-    if (!newItem.createdAt) newItem.createdAt = dayjs(date).toISOString()
-    if (!newItem.dateTime) newItem.dateTime = dayjs(date).toISOString()
-    if (!newItem.id) newItem.id = uuidv4()
-    if (!newItem.tags) newItem.tags = []
-    if (!newItem.emotions) newItem.emotions = []
+    if (!newItem.createdAt) newItem.createdAt = dayjs(date).toISOString();
+    if (!newItem.dateTime) newItem.dateTime = dayjs(date).toISOString();
+    if (!newItem.id) newItem.id = uuidv4();
+    if (!newItem.tags) newItem.tags = [];
+    if (!newItem.emotions) newItem.emotions = [];
 
-    newItem.tags = newItem.tags.map((tag) => _.pick(tag, ['id']))
+    newItem.tags = newItem.tags.map((tag) => _.pick(tag, ["id"]));
 
-    return newItem
-  })
+    return newItem;
+  });
 
-  return result
+  return result;
 };
 
 function LogsProvider({ children }: { children: React.ReactNode }) {
-  const feedback = useFeedback()
-  const analyitcs = useAnalytics()
+  const feedback = useFeedback();
+  const analyitcs = useAnalytics();
 
   const INITIAL_STATE: LogsState = {
     loaded: false,
@@ -160,44 +164,19 @@ function LogsProvider({ children }: { children: React.ReactNode }) {
 
   const [state, dispatch] = useReducer(reducer, INITIAL_STATE);
 
-  const sendFeedback = (message, trace = {}) => {
-    feedback
-      .send({
-        type: "issue",
-        message: JSON.stringify({
-          title: "Error loading logs",
-          description: message,
-          trace: trace,
-        }),
-        email: "team@pixy.day",
-        source: "error",
-        onCancel: () => {
-        },
-        onOk: () => {
-        }
-      })
-  }
-
   useEffect(() => {
     (async () => {
       try {
-        sendFeedback(`Loading logs from ${STORAGE_KEY}`)
         const value = await load<LogsState>(STORAGE_KEY, feedback);
-        sendFeedback(`Loaded logs from ${STORAGE_KEY}`)
-        const size = Buffer.byteLength(JSON.stringify(value))
-        sendFeedback('Loaded logs size', { size })
-        const megaBytes = Math.round(size / 1024 / 1024 * 100) / 100;
-        sendFeedback('Loaded logs size in mb', { size: megaBytes })
-        analyitcs.track('loaded_logs', { size: megaBytes, unit: 'mb' })
-        sendFeedback('Loaded logs & analytics')
+        const size = Buffer.byteLength(JSON.stringify(value));
+        const megaBytes = Math.round((size / 1024 / 1024) * 100) / 100;
+        analyitcs.track("loaded_logs", { size: megaBytes, unit: "mb" });
         if (value !== null) {
-          sendFeedback(`Loaded logs from ${STORAGE_KEY} with value ${JSON.stringify(value)}`)
           dispatch({
             type: "import",
             payload: value,
           });
         } else {
-          sendFeedback(`Loaded logs from ${STORAGE_KEY} with value ${JSON.stringify(INITIAL_STATE)}`)
           dispatch({
             type: "import",
             payload: {
@@ -206,7 +185,6 @@ function LogsProvider({ children }: { children: React.ReactNode }) {
           });
         }
       } catch (error) {
-        sendFeedback(error.message, error.stack)
         Sentry.Native.captureException(error);
       }
     })();
@@ -214,7 +192,7 @@ function LogsProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     if (state.loaded) {
-      store<Omit<LogsState, 'loaded'>>(STORAGE_KEY, _.omit(state, "loaded"));
+      store<Omit<LogsState, "loaded">>(STORAGE_KEY, _.omit(state, "loaded"));
     }
   }, [JSON.stringify(state)]);
 
@@ -225,11 +203,27 @@ function LogsProvider({ children }: { children: React.ReactNode }) {
     });
   }, []);
 
-  const addLog = useCallback((payload: LogItem) => dispatch({ type: "add", payload, }), []);
-  const editLog = useCallback((payload: AtLeast<LogItem, 'id'>) => dispatch({ type: "edit", payload, }), []);
-  const updateLogs = useCallback((items: LogsState["items"]) => dispatch({ type: "batchEdit", payload: items }), []);
-  const deleteLog = useCallback((payload: LogItem['id']) => dispatch({ type: "delete", payload, }), []);
-  const reset = useCallback(() => dispatch({ type: "reset", payload: INITIAL_STATE }), []);
+  const addLog = useCallback(
+    (payload: LogItem) => dispatch({ type: "add", payload }),
+    []
+  );
+  const editLog = useCallback(
+    (payload: AtLeast<LogItem, "id">) => dispatch({ type: "edit", payload }),
+    []
+  );
+  const updateLogs = useCallback(
+    (items: LogsState["items"]) =>
+      dispatch({ type: "batchEdit", payload: items }),
+    []
+  );
+  const deleteLog = useCallback(
+    (payload: LogItem["id"]) => dispatch({ type: "delete", payload }),
+    []
+  );
+  const reset = useCallback(
+    () => dispatch({ type: "reset", payload: INITIAL_STATE }),
+    []
+  );
 
   const updaterValue: UpdaterValue = useMemo(
     () => ({
