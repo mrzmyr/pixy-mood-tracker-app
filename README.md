@@ -1,3 +1,6 @@
+> [!IMPORTANT]
+> **This project is no longer actively maintained**. While the app remains available on both the Apple App Store and Google Play Store, no new features, updates, or bug fixes will be implemented. The existing functionality will continue to work as is, but users should not expect any future improvements or support. The source code remains open and available for anyone interested in forking or learning from it. If you encounter any issues, you may still create GitHub issues, but they likely won't be addressed. Thank you to everyone who has used and supported Pixy Mood Tracker 🫶.
+
 <br />
 <p align="center">
   <a href="https://github.com/mrzmyr/pixy-mood-tracker">
@@ -24,22 +27,27 @@
 
 This section should list any major frameworks that you built your project using. Leave any add-ons/plugins for the acknowledgements section. Here are a few examples.
 
-* [React Native](https://reactnative.dev/)
-* [Expo](https://expo.dev/)
+- [React Native](https://reactnative.dev/)
+- [Expo](https://expo.dev/)
 
 ## Development
 
 **Setup**
 
 1. Clone the repo
+
 ```shell
 $ git clone https://github.com/mrzmyr/pixy-mood-tracker.git
 ```
+
 2. Install dependencies
+
 ```shell
 $ yarn
 ```
+
 3. Start local server
+
 ```shell
 $ yarn start
 ```
@@ -47,22 +55,22 @@ $ yarn start
 **Environments** (`eas.json`)
 
 - `development` Builds for local development on phisical devices
-- `emulator`: Builds for local development in iOS Simulator or Android Emulator 
+- `emulator`: Builds for local development in iOS Simulator or Android Emulator
 - `preview`: Builds used for Testflight and Android Internal Testing
 - `production`: Builds used for production
 
 ## Building
 
-| Environment | OS | Channel | `yarn` command | Extension | Installation |
-| ----------- | -- | ------- | -------------- | --------- | ------------ |
-| `development` | iOS | Physical Device | `build:ios:dev` | `.ipa` |  Install `.ipa` file via [Apple Configurator](https://apps.apple.com/us/app/apple-configurator/id1037126344?mt=12) |
-| `development` | Android | Physical Device | `build:android:dev` | `.apk` |  Install manually (enable "Install from unknown sources") |
-| `emulator` | iOS | Simulator | `build:ios:emulator` | `.ipa` |  Install `.ipa` file via  |
-| `emulator` | Android | Emulator | `build:android:emulator` |  `.apk` |  Install the `.apk` file via drag and drop |
-| `preview` | iOS | TestFlight | `build:ios:preview` | `.ipa` |  Submit `.ipa` file to App Store via `yarn submit:ios:preview` |
-| `preview` | Android | Goolge Play Console | `build:android:preview` | `.aab` |  Submit `.aab` file to Google Play Console via `yarn submit:android:preview` |
-| `production` | iOS | Physical Device | `build:ios:prod` | `.ipa` |  Submit `.ipa` file via `yarn submit:ios:production` |
-| `production` | Android | Physical Device | `build:android:prod` | `.aab` |  Submit `.aab` file via `yarn submit:android:production` |
+| Environment   | OS      | Channel             | `yarn` command           | Extension | Installation                                                                                                      |
+| ------------- | ------- | ------------------- | ------------------------ | --------- | ----------------------------------------------------------------------------------------------------------------- |
+| `development` | iOS     | Physical Device     | `build:ios:dev`          | `.ipa`    | Install `.ipa` file via [Apple Configurator](https://apps.apple.com/us/app/apple-configurator/id1037126344?mt=12) |
+| `development` | Android | Physical Device     | `build:android:dev`      | `.apk`    | Install manually (enable "Install from unknown sources")                                                          |
+| `emulator`    | iOS     | Simulator           | `build:ios:emulator`     | `.ipa`    | Install `.ipa` file via                                                                                           |
+| `emulator`    | Android | Emulator            | `build:android:emulator` | `.apk`    | Install the `.apk` file via drag and drop                                                                         |
+| `preview`     | iOS     | TestFlight          | `build:ios:preview`      | `.ipa`    | Submit `.ipa` file to App Store via `yarn submit:ios:preview`                                                     |
+| `preview`     | Android | Goolge Play Console | `build:android:preview`  | `.aab`    | Submit `.aab` file to Google Play Console via `yarn submit:android:preview`                                       |
+| `production`  | iOS     | Physical Device     | `build:ios:prod`         | `.ipa`    | Submit `.ipa` file via `yarn submit:ios:production`                                                               |
+| `production`  | Android | Physical Device     | `build:android:prod`     | `.aab`    | Submit `.aab` file via `yarn submit:android:production`                                                           |
 
 ## Releasing
 
@@ -96,36 +104,36 @@ Project Link: [https://github.com/mrzmyr/pixy-mood-tracker](https://github.com/m
 
 ### Supported Languages
 
-| Name | Key |
-|---|---|
-| Arabic | ar |
-| Chinese (Simplified) | zh |
-| Croatian | hr |
-| Czech | cs |
-| Danish | da |
-| Dutch | nl |
-| English | en |
-| Finnish | fi |
-| French | fr |
-| German | de |
-| Greek | el |
-| Hebrew | he |
-| Hindi | hi |
-| Hungarian | hu |
-| Indonesian | id |
-| Italian | it |
-| Japanese | ja |
-| Korean | ko |
-| Malay | ms |
-| Norwegian | no |
-| Polish | pl |
-| Portuguese | pt |
-| Romanian | ro |
-| Russian | ru |
-| Slovak | sk |
-| Spanish | es |
-| Swedish | sv |
-| Thai | th |
-| Turkish | tr |
-| Ukrainian | uk |
-| Vietnamese | vi |
+| Name                 | Key |
+| -------------------- | --- |
+| Arabic               | ar  |
+| Chinese (Simplified) | zh  |
+| Croatian             | hr  |
+| Czech                | cs  |
+| Danish               | da  |
+| Dutch                | nl  |
+| English              | en  |
+| Finnish              | fi  |
+| French               | fr  |
+| German               | de  |
+| Greek                | el  |
+| Hebrew               | he  |
+| Hindi                | hi  |
+| Hungarian            | hu  |
+| Indonesian           | id  |
+| Italian              | it  |
+| Japanese             | ja  |
+| Korean               | ko  |
+| Malay                | ms  |
+| Norwegian            | no  |
+| Polish               | pl  |
+| Portuguese           | pt  |
+| Romanian             | ro  |
+| Russian              | ru  |
+| Slovak               | sk  |
+| Spanish              | es  |
+| Swedish              | sv  |
+| Thai                 | th  |
+| Turkish              | tr  |
+| Ukrainian            | uk  |
+| Vietnamese           | vi  |
