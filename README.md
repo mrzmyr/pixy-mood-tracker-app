@@ -1,5 +1,7 @@
 > [!IMPORTANT]
 > **This project is no longer actively maintained**. While the app remains available on both the Apple App Store and Google Play Store, no new features, updates, or bug fixes will be implemented. The existing functionality will continue to work as is, but users should not expect any future improvements or support. The source code remains open and available for anyone interested in forking or learning from it. If you encounter any issues, you may still create GitHub issues, but they likely won't be addressed. Thank you to everyone who has used and supported Pixy Mood Tracker 🫶.
+>
+> I do plan to eventually create a Pixy 2 version in the future. If you're interested in providing feedback and staying updated on future developments, feel free to join our Discord community: https://discord.gg/4JpfBqyT
 
 <br />
 <p align="center">
