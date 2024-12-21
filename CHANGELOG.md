@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.86.1](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.86.0...v1.86.1) (2024-12-21)
+
+
+### Miscellaneous
+
+* 🥺 ([7bd4368](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/7bd43685b873146d5f74cb8fbc7b812cb251634e))
+* add discord ([457926d](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/457926d9267f16b6e455bcd28ba4ffabd61f2599))
+* bold ([9a4acbd](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/9a4acbd32cd421cfafbc8dd0ef42c391e8ccd519))
+* remove logging ([2017c40](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/2017c4028118ee6f76498292aa52e16a7721a96a))
+
 ## [1.86.0](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.85.0...v1.86.0) (2023-06-25)
 
 
