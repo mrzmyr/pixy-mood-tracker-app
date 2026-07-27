@@ -11,13 +11,13 @@ import {
   useEffect,
   useMemo,
   useReducer,
+  useState,
 } from "react";
 import * as Sentry from "sentry-expo";
 import { v4 as uuidv4 } from "uuid";
 import z from "zod";
 import { AtLeast } from "../../types";
 import { useAnalytics } from "./useAnalytics";
-import { useFeedback } from "./useFeedback";
 
 export const STORAGE_KEY = "PIXEL_TRACKER_LOGS";
 
@@ -154,7 +154,6 @@ const migrate = (data: LogsState): LogsState => {
 };
 
 function LogsProvider({ children }: { children: React.ReactNode }) {
-  const feedback = useFeedback();
   const analyitcs = useAnalytics();
 
   const INITIAL_STATE: LogsState = {
@@ -163,14 +162,14 @@ function LogsProvider({ children }: { children: React.ReactNode }) {
   };
 
   const [state, dispatch] = useReducer(reducer, INITIAL_STATE);
+  const [storageStatus, setStorageStatus] = useState<
+    "loading" | "ready" | "error"
+  >("loading");
 
   useEffect(() => {
     (async () => {
       try {
-        const value = await load<LogsState>(STORAGE_KEY, feedback);
-        const size = Buffer.byteLength(JSON.stringify(value));
-        const megaBytes = Math.round((size / 1024 / 1024) * 100) / 100;
-        analyitcs.track("loaded_logs", { size: megaBytes, unit: "mb" });
+        const value = await load<LogsState>(STORAGE_KEY);
         if (value !== null) {
           dispatch({
             type: "import",
@@ -184,17 +183,27 @@ function LogsProvider({ children }: { children: React.ReactNode }) {
             },
           });
         }
+        setStorageStatus("ready");
+
+        try {
+          const size = Buffer.byteLength(JSON.stringify(value));
+          const megaBytes = Math.round((size / 1024 / 1024) * 100) / 100;
+          analyitcs.track("loaded_logs", { size: megaBytes, unit: "mb" });
+        } catch (error) {
+          Sentry.Native.captureException(error);
+        }
       } catch (error) {
+        setStorageStatus("error");
         Sentry.Native.captureException(error);
       }
     })();
   }, []);
 
   useEffect(() => {
-    if (state.loaded) {
+    if (storageStatus === "ready" && state.loaded) {
       store<Omit<LogsState, "loaded">>(STORAGE_KEY, _.omit(state, "loaded"));
     }
-  }, [JSON.stringify(state)]);
+  }, [JSON.stringify(state), storageStatus]);
 
   const importState = useCallback((data: LogsState) => {
     dispatch({

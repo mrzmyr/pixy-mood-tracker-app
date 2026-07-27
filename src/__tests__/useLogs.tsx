@@ -5,6 +5,12 @@ import { LogsProvider, LogsState, STORAGE_KEY, useLogState, useLogUpdater } from
 import { SettingsProvider } from '../hooks/useSettings'
 import { _generateItem } from './utils'
 
+jest.mock('sentry-expo', () => ({
+  Native: {
+    captureException: jest.fn(),
+  },
+}))
+
 const wrapper = ({ children }) => (
   <SettingsProvider>
     <AnalyticsProvider>
@@ -78,11 +84,20 @@ describe('useLogs()', () => {
     expect(hook.result.current.state.items).toEqual([])
   })
 
-  test('should initiate `state` with empty `items` when async storage is falsely', async () => {
-    AsyncStorage.setItem(STORAGE_KEY, '🐇')
+  test('should preserve stored logs when async storage cannot be parsed', async () => {
+    await AsyncStorage.setItem(STORAGE_KEY, '🐇')
+    const setItemSpy = jest.spyOn(AsyncStorage, 'setItem')
+    setItemSpy.mockClear()
+
     const hook = _renderHook()
-    await hook.waitForNextUpdate()
-    expect(console.error).toHaveBeenCalled();
+
+    await act(async () => {
+      await new Promise((resolve) => setTimeout(resolve, 0))
+    })
+
+    expect(hook.result.current.state.loaded).toBe(false)
+    expect(setItemSpy).not.toHaveBeenCalledWith(STORAGE_KEY, expect.anything())
+    expect(await AsyncStorage.getItem(STORAGE_KEY)).toBe('🐇')
   })
 
   test('should import', async () => {

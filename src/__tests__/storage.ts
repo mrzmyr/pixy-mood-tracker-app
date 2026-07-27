@@ -11,8 +11,20 @@ describe('Storage', () => {
   });
 
   it('should `load` with null', async () => {
+    AsyncStorage.getItem = jest.fn().mockResolvedValueOnce(null);
     const result = await load(TEST_KEY);
     expect(result).toEqual(null);
+  })
+
+  it('should reject malformed data', async () => {
+    AsyncStorage.getItem = jest.fn().mockResolvedValueOnce('not-json');
+    await expect(load(TEST_KEY)).rejects.toBeInstanceOf(SyntaxError);
+  })
+
+  it('should reject storage read errors', async () => {
+    const error = new Error('storage unavailable');
+    AsyncStorage.getItem = jest.fn().mockRejectedValueOnce(error);
+    await expect(load(TEST_KEY)).rejects.toBe(error);
   })
 
   it('should `store`', async () => {
@@ -22,4 +34,3 @@ describe('Storage', () => {
   })
 
 })
-    
