@@ -20,7 +20,7 @@ export const PromoCardMonth = ({
   const haptics = useHaptics()
   const { addActionDone, hasActionDone } = useSettings()
 
-  const gradientColors = [
+  const gradientColors: [string, string, string] = [
     colors.palette.indigo[900],
     colors.palette.indigo[600],
     colors.palette.indigo[500]

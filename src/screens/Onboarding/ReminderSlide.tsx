@@ -5,7 +5,7 @@ import { HeaderImage } from './HeaderImage';
 import { HeaderNavigation } from "./HeaderNavigation";
 import Animated, { FadeIn } from 'react-native-reanimated';
 import Clock from '@/components/Clock';
-import useNotification from '../../hooks/useNotifications';
+import useNotification, { createDailyTrigger } from '../../hooks/useNotifications';
 import { useState } from 'react';
 import dayjs from 'dayjs';
 import { SettingsState, useSettings } from '../../hooks/useSettings';
@@ -77,11 +77,7 @@ export const ReminderSlide = ({
     await (async () => {
       await cancelAll()
       await schedule({
-        trigger: {
-          repeats: true,
-          hour: dayjs(time).hour(),
-          minute: dayjs(time).minute(),
-        },
+        trigger: createDailyTrigger(dayjs(time).hour(), dayjs(time).minute()),
       })
 
       setSettings((settings: SettingsState) => ({

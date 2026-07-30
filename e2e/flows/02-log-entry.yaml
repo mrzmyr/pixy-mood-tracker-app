@@ -1,0 +1,30 @@
+appId: com.devmood.pixymoodtracker
+tags: [log]
+---
+- launchApp:
+    clearState: true
+- runFlow: ../subflows/complete-onboarding.yaml
+
+# 2.1 Create entry for today (rating only)
+- tapOn: "Add New Entry"
+- assertVisible: "How was your day?"
+- tapOn:
+    id: "mood-good"
+- runFlow: ../subflows/finish-logger.yaml
+
+# 2.2 Entry saved: calendar footer now offers another entry
+- assertVisible: "Add another entry for today"
+
+# 2.3 Today cell opens day view (LogList)
+- runScript: ../scripts/set-output-date.js
+- tapOn:
+    id: "calendar-day-${output.today}"
+- back
+
+# 2.4 Second entry for today (different rating)
+- tapOn: "Add another entry for today"
+- assertVisible: "How was your day?"
+- tapOn:
+    id: "mood-very_good"
+- runFlow: ../subflows/finish-logger-with-reminder.yaml
+- assertVisible: "Add another entry for today"

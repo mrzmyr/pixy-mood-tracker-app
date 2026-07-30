@@ -30,7 +30,7 @@ export const useFeedback = () => {
     onCancel?: () => void;
   }) => {
     const metaData = {
-      locale: Localization.locale,
+      locale: Localization.getLocales()[0]?.languageTag,
       version: pkg.version,
       os: Platform.OS,
       date: new Date().toISOString(),

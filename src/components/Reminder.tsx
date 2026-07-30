@@ -8,7 +8,7 @@ import NotificationPreview from '@/components/NotificationPreview';
 import { t } from '@/helpers/translation';
 import { useAnalytics } from '@/hooks/useAnalytics';
 import useColors from '@/hooks/useColors';
-import useNotification from '@/hooks/useNotifications';
+import useNotification, { createDailyTrigger } from '@/hooks/useNotifications';
 import { SettingsState, useSettings } from '@/hooks/useSettings';
 
 const Reminder = () => {
@@ -50,11 +50,7 @@ const Reminder = () => {
       await cancelAll()
       if (reminderEnabled) {
         await schedule({
-          trigger: {
-            repeats: true,
-            hour: hour,
-            minute: minute,
-          },
+          trigger: createDailyTrigger(hour, minute),
         })
       }
 

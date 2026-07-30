@@ -4,7 +4,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import * as Linking from 'expo-linking';
 import { useEffect } from 'react';
 import { Platform, View, useColorScheme } from 'react-native';
-import * as Sentry from 'sentry-expo';
+import * as Sentry from '@sentry/react-native';
 import { RootStackParamList } from '../../types';
 import {
   BotLogger,
@@ -142,7 +142,6 @@ function RootNavigator() {
     if (!__DEV__) {
       Sentry.init({
         dsn: 'https://d98d0f519b324d9cb0c947b8f29cd0cf@o1112922.ingest.sentry.io/6142792',
-        enableInExpoDevelopment: false,
       });
     }
   }, [settings.loaded])
@@ -290,7 +289,8 @@ function RootNavigator() {
 
         <Stack.Group
           screenOptions={{
-            presentation: 'formSheet',
+            // formSheet is a silent no-op on Android with react-native-screens 4.x
+            presentation: Platform.OS === 'ios' ? 'formSheet' : 'modal',
             headerShown: false,
           }}
         >

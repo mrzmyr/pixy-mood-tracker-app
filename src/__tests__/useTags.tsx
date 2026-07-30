@@ -1,5 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { renderHook, act } from "@testing-library/react-hooks";
+import { renderHook, act, waitFor } from "@testing-library/react-native";
 import { AnalyticsProvider } from "../hooks/useAnalytics";
 import {
   LogsProvider,
@@ -45,6 +45,10 @@ const _renderHook = () => {
   );
 };
 
+const waitForLoaded = (hook) => waitFor(() => {
+  expect(hook.result.current.state.loaded).toBe(true);
+});
+
 const testTags: Tag[] = [
   {
     id: "1",
@@ -79,9 +83,8 @@ describe("useTags()", () => {
   });
 
   test("should have `loaded` prop", async () => {
-    let hook = _renderHook();
-    expect(hook.result.current.state.loaded).toBe(false);
-    await hook.waitForNextUpdate();
+    const hook = await _renderHook();
+    await waitForLoaded(hook);
     expect(hook.result.current.state.loaded).toBe(true);
   });
 
@@ -93,8 +96,8 @@ describe("useTags()", () => {
     }];
 
     AsyncStorage.setItem(STORAGE_KEY_TAGS, JSON.stringify({ tags: _testTags }));
-    let hook = _renderHook();
-    await hook.waitForNextUpdate();
+    const hook = await _renderHook();
+    await waitForLoaded(hook);
     expect(hook.result.current.state.tags).toEqual(_testTags);
     expect(await AsyncStorage.getItem(STORAGE_KEY_TAGS)).toEqual(JSON.stringify({ tags: _testTags }));
   });
@@ -113,22 +116,22 @@ describe("useTags()", () => {
         tags: _testTags,
       })
     );
-    let hook = _renderHook();
-    await hook.waitForNextUpdate();
+    const hook = await _renderHook();
+    await waitForLoaded(hook);
     expect(hook.result.current.state.tags).toEqual(_testTags);
     expect(await AsyncStorage.getItem(STORAGE_KEY_TAGS)).toEqual(JSON.stringify({ tags: _testTags }));
   });
 
   test("should initialize (when tags async storage and settings async storage are empty)", async () => {
-    let hook = _renderHook();
-    await hook.waitForNextUpdate();
+    const hook = await _renderHook();
+    await waitForLoaded(hook);
     expect(hook.result.current.state.tags.length).toEqual(18);
     expect(hook.result.current.state.tags[0].color).toEqual("slate");
   });
 
   test("should createTag", async () => {
-    let hook = _renderHook();
-    await hook.waitForNextUpdate();
+    const hook = await _renderHook();
+    await waitForLoaded(hook);
 
     await act(() => {
       hook.result.current.updater.createTag({
@@ -145,8 +148,8 @@ describe("useTags()", () => {
   test("should updateTag", async () => {
     AsyncStorage.setItem(STORAGE_KEY_LOGS, JSON.stringify({ items: testItems }));
 
-    let hook = _renderHook();
-    await hook.waitForNextUpdate();
+    const hook = await _renderHook();
+    await waitForLoaded(hook);
 
     await act(() => {
       hook.result.current.updater.updateTag({
@@ -163,8 +166,8 @@ describe("useTags()", () => {
   test("should deleteTag", async () => {
     AsyncStorage.setItem(STORAGE_KEY_LOGS, JSON.stringify({ items: testItems }));
 
-    let hook = _renderHook();
-    await hook.waitForNextUpdate();
+    const hook = await _renderHook();
+    await waitForLoaded(hook);
 
     await act(() => {
       hook.result.current.updater.deleteTag("1");
@@ -178,8 +181,8 @@ describe("useTags()", () => {
   test("should reset", async () => {
     AsyncStorage.setItem(STORAGE_KEY_TAGS, JSON.stringify({ tags: testTags }));
 
-    let hook = _renderHook();
-    await hook.waitForNextUpdate();
+    const hook = await _renderHook();
+    await waitForLoaded(hook);
 
     expect(hook.result.current.state.tags.length).toBe(2);
     expect(hook.result.current.state.tags[0].title).toBe("test1");
@@ -193,8 +196,8 @@ describe("useTags()", () => {
   })
 
   test("should save to async storage", async () => {
-    let hook = _renderHook();
-    await hook.waitForNextUpdate();
+    const hook = await _renderHook();
+    await waitForLoaded(hook);
 
     await act(() => {
       hook.result.current.updater.createTag({
@@ -211,8 +214,8 @@ describe("useTags()", () => {
   })
 
   test("should import", async () => {
-    let hook = _renderHook();
-    await hook.waitForNextUpdate();
+    const hook = await _renderHook();
+    await waitForLoaded(hook);
 
     await act(() => {
       hook.result.current.updater.import({

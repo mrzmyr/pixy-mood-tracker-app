@@ -25,6 +25,7 @@
     ],
     "ios": {
       "bundleIdentifier": "com.devmood.pixymoodtracker",
+      "appleTeamId": "8VVNC4724B",
       "buildNumber": "1.86.0",
       "supportsTablet": false,
       "appStoreUrl": "https://apps.apple.com/de/app/pixy-mood-tracker/id1605327124",
@@ -37,6 +38,9 @@
       "versionCode": 480018600,
       "allowBackup": false,
       "permissions": [],
+      "blockedPermissions": [
+        "android.permission.SYSTEM_ALERT_WINDOW"
+      ],
       "icon": "./assets/images/icon.png",
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
@@ -45,7 +49,6 @@
       "playStoreUrl": "https://play.google.com/store/apps/details?id=com.devmood.pixymoodtracker"
     },
     "plugins": [
-      "sentry-expo",
       "expo-notifications",
       "expo-localization",
       [
@@ -56,7 +59,7 @@
       ]
     ],
     "runtimeVersion": {
-      "policy": "sdkVersion"
+      "policy": "appVersion"
     },
     "extra": {
       "eas": {

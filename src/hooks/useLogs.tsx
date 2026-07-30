@@ -12,7 +12,7 @@ import {
   useMemo,
   useReducer,
 } from "react";
-import * as Sentry from "sentry-expo";
+import * as Sentry from '@sentry/react-native';
 import { v4 as uuidv4 } from "uuid";
 import z from "zod";
 import { AtLeast } from "../../types";
@@ -185,7 +185,10 @@ function LogsProvider({ children }: { children: React.ReactNode }) {
           });
         }
       } catch (error) {
-        Sentry.Native.captureException(error);
+        // Keep `loaded: false` so the persist effect below stays disabled:
+        // marking a failed load as loaded would let the empty initial state
+        // overwrite the user's stored entries. The next launch retries.
+        Sentry.captureException(error);
       }
     })();
   }, []);

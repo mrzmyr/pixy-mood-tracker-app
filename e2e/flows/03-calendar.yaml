@@ -1,0 +1,59 @@
+appId: com.devmood.pixymoodtracker
+tags: [calendar]
+---
+- launchApp:
+    clearState: true
+- runFlow: ../subflows/complete-onboarding.yaml
+
+# 3.1 Calendar renders with today cell
+- assertVisible:
+    id: "calendar"
+- runScript: ../scripts/set-output-date.js
+- assertVisible:
+    id: "calendar-day-${output.today}"
+
+# 3.2 Scroll back several months (bounded swipes that stay off the tab bar)
+- swipe:
+    start: 50%, 30%
+    end: 50%, 65%
+- swipe:
+    start: 50%, 30%
+    end: 50%, 65%
+- swipe:
+    start: 50%, 30%
+    end: 50%, 65%
+
+# 3.3 Return to today (re-enter calendar tab, then scroll; use button if present)
+- tapOn:
+    id: "calendar"
+- runFlow:
+    when:
+      visible:
+        id: "scroll-to-bottom"
+    commands:
+      - tapOn:
+          id: "scroll-to-bottom"
+- runFlow:
+    when:
+      notVisible:
+        id: "calendar-day-${output.today}"
+    commands:
+      - scrollUntilVisible:
+          element:
+            id: "calendar-day-${output.today}"
+          direction: DOWN
+          timeout: 60000
+          speed: 60
+          visibilityPercentage: 50
+
+# 3.4 Filters open, search visible, close
+- tapOn:
+    id: "filters"
+- assertVisible: "Filters"
+- assertVisible: "Search"
+- back
+# Closing filters can land on the Statistics tab (app behavior) — re-enter calendar
+- tapOn:
+    id: "calendar"
+- assertVisible:
+    id: "calendar-day-${output.today}"

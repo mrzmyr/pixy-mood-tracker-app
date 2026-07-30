@@ -116,6 +116,7 @@ const CalendarDay = memo(function CalendarDay({
 
   return (
     <Pressable
+      testID={`calendar-day-${dateString}`}
       disabled={isFuture}
       onPress={_onPress}
       style={containerStyles}

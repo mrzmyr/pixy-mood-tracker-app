@@ -1,7 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import dayjs from "dayjs";
 import * as DocumentPicker from "expo-document-picker";
-import * as FileSystem from "expo-file-system";
+import * as FileSystem from "expo-file-system/legacy";
 import * as Sharing from "expo-sharing";
 import { Alert, Platform } from "react-native";
 import { getJSONSchemaType, ImportData } from "@/helpers/Import";
@@ -98,9 +98,9 @@ export const useDatagate = (): {
             copyToCacheDirectory: true,
           });
 
-          if (doc.type === "success") {
+          if (!doc.canceled) {
             analytics.track("data_import_success");
-            const contents = await FileSystem.readAsStringAsync(doc.uri);
+            const contents = await FileSystem.readAsStringAsync(doc.assets[0].uri);
             const data = JSON.parse(contents);
 
             _import(data);
@@ -182,8 +182,8 @@ export const useDatagate = (): {
       copyToCacheDirectory: true,
     });
 
-    if (doc.type === "success") {
-      const contents = await FileSystem.readAsStringAsync(doc.uri);
+    if (!doc.canceled) {
+      const contents = await FileSystem.readAsStringAsync(doc.assets[0].uri);
       const data = JSON.parse(contents);
       dangerouslyImportDirectlyToAsyncStorage(data);
     }

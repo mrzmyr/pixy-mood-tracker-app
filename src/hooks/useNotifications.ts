@@ -9,9 +9,21 @@ const isWeb = Platform.OS === 'web';
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
     shouldShowAlert: true,
+    shouldShowBanner: true,
+    shouldShowList: true,
     shouldPlaySound: false,
     shouldSetBadge: false,
   }),
+});
+
+export const createDailyTrigger = (
+  hour: number,
+  minute: number,
+): Notifications.NotificationTriggerInput => ({
+  type: Notifications.SchedulableTriggerInputTypes.CALENDAR,
+  repeats: true,
+  hour,
+  minute,
 });
 
 const useNotification = () => {

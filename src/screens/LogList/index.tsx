@@ -9,7 +9,7 @@ import { getDayDateTitle } from "@/lib/utils"
 import dayjs from "dayjs"
 import { useRef } from "react"
 import { Dimensions, View } from "react-native"
-import Carousel, { ICarouselInstance } from "react-native-reanimated-carousel"
+import { Carousel, CarouselRef } from "react-native-reanimated-carousel"
 import { useSafeAreaInsets } from "react-native-safe-area-context"
 import { RootStackScreenProps } from "../../../types"
 import { Entry } from "./Entry"
@@ -56,7 +56,7 @@ export const LogList = ({ route, navigation }: RootStackScreenProps<'LogList'>) 
     askToRemove().then(() => remove(item));
   };
 
-  const _carouselRef = useRef<ICarouselInstance>(null)
+  const _carouselRef = useRef<CarouselRef>(null)
   const pages = items.map((item) => (
     <Entry
       item={item}
@@ -95,10 +95,8 @@ export const LogList = ({ route, navigation }: RootStackScreenProps<'LogList'>) 
               {pages[index]}
             </View>
           )}
-          panGestureHandlerProps={{
-            activeOffsetX: [-10, 10],
-          }}
-          width={PAGE_WIDTH}
+          onConfigurePanGesture={(gesture) => gesture.activeOffsetX([-10, 10])}
+          itemSize={PAGE_WIDTH}
           style={{
             flex: 1,
             marginLeft: '2.5%',

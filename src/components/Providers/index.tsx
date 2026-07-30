@@ -19,13 +19,11 @@ const Providers = ({ children }: { children: React.ReactNode }) => {
           apiKey={POSTHOG_API_KEY}
           options={{
             host: "https://app.posthog.com",
-            enable: TRACKING_ENABLED,
+            disabled: !TRACKING_ENABLED,
+            defaultOptIn: false,
+            captureAppLifecycleEvents: false,
           }}
-          autocapture={{
-            captureTouches: false,
-            captureLifecycleEvents: TRACKING_ENABLED,
-            captureScreens: TRACKING_ENABLED,
-          }}
+          autocapture={false}
         >
           <AnalyticsProvider options={{ enabled: TRACKING_ENABLED }}>
             <LogsProvider>

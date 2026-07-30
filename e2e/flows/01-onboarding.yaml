@@ -1,0 +1,39 @@
+appId: com.devmood.pixymoodtracker
+tags: [onboarding]
+---
+# 1.1 Fresh install shows Welcome
+- launchApp:
+    clearState: true
+- assertVisible: "Welcome 👋"
+
+# 1.2 Both entry buttons visible
+- assertVisible: "I used a Mood Tracker before"
+- assertVisible: "I never used a Mood Tracker"
+
+# 1.3 Explainer slides forward
+- tapOn: "I never used a Mood Tracker"
+- assertVisible: "Calendar"
+- tapOn: "Next"
+- assertVisible: "Statistics"
+- tapOn: "Next"
+- assertVisible: "Filters"
+- tapOn: "Next"
+
+# 1.4 Reminder slide: skip
+- assertVisible: "Daily Reminder"
+- tapOn: "Maybe later"
+
+# 1.5 Privacy slide: accept
+- assertVisible: "We take privacy serious and handle your data with care."
+- tapOn: "Understood"
+
+# 1.6 Lands on main app (Calendar tab visible in tab bar)
+- assertVisible:
+    id: "calendar"
+
+# 1.7 Onboarding not shown again after relaunch
+- stopApp
+- launchApp
+- assertNotVisible: "Welcome 👋"
+- assertVisible:
+    id: "calendar"
