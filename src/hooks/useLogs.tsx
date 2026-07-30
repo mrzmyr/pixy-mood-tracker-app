@@ -185,6 +185,9 @@ function LogsProvider({ children }: { children: React.ReactNode }) {
           });
         }
       } catch (error) {
+        // Keep `loaded: false` so the persist effect below stays disabled:
+        // marking a failed load as loaded would let the empty initial state
+        // overwrite the user's stored entries. The next launch retries.
         Sentry.Native.captureException(error);
       }
     })();

@@ -142,7 +142,14 @@ function TagsProvider({
     if (!settings.loaded) return;
 
     (async () => {
-      const json = await load<State>(STORAGE_KEY)
+      let json: State | null;
+      try {
+        json = await load<State>(STORAGE_KEY)
+      } catch (error) {
+        // Keep `loaded: false` so the persist effect below stays disabled;
+        // resetting to the default tags would overwrite the stored ones.
+        return;
+      }
       if (json !== null) {
         dispatch({ type: 'import', payload: json })
       } else if (settings?.tags) {

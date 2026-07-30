@@ -105,7 +105,14 @@ function SettingsProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     (async () => {
-      const json = await load<SettingsState>(STORAGE_KEY);
+      let json: SettingsState | null;
+      try {
+        json = await load<SettingsState>(STORAGE_KEY);
+      } catch (error) {
+        // Keep `loaded: false` so the persist effect below stays disabled;
+        // falling back to the initial state would overwrite stored settings.
+        return;
+      }
       if (json !== null) {
         if (!json.deviceId) {
           json.deviceId = uuidv4();
