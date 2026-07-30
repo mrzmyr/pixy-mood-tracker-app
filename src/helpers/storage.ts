@@ -46,7 +46,10 @@ export const load = async <ReturnValue>(key: string, feedback?: any): Promise<Re
     throw error;
   }
 
-  if (!data) {
+  // Only a missing key counts as "no data" — an empty string is
+  // persisted-but-corrupt data and must fall through to JSON.parse below,
+  // which throws and keeps callers from overwriting the stored value.
+  if (data == null) {
     return null;
   }
 

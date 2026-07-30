@@ -17,6 +17,7 @@ describe('Storage', () => {
   });
 
   it('should `load` with null', async () => {
+    AsyncStorage.getItem = jest.fn().mockReturnValueOnce(Promise.resolve(null));
     const result = await load(TEST_KEY);
     expect(result).toEqual(null);
   })
@@ -28,6 +29,11 @@ describe('Storage', () => {
 
   it('should throw when data is corrupt instead of returning null', async () => {
     AsyncStorage.getItem = jest.fn().mockReturnValueOnce(Promise.resolve('{"items": [truncated'));
+    await expect(load(TEST_KEY)).rejects.toThrow();
+  })
+
+  it('should throw when data is an empty string instead of returning null', async () => {
+    AsyncStorage.getItem = jest.fn().mockReturnValueOnce(Promise.resolve(''));
     await expect(load(TEST_KEY)).rejects.toThrow();
   })
 
