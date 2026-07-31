@@ -18,6 +18,7 @@
 - Use [`attach-pr-asset`](.agents/skills/attach-pr-asset/SKILL.md) to upload screenshot or video proof without committing evidence files.
 - Never commit proof-only screenshots, videos, or evidence files to the repository. Commit a visual file only when it is a product or documentation asset needed independently of the pull request.
 - Show before and after evidence when behavior or UI is changed or removed.
+- Present two or more screenshots in a two-column grid in the pull request body or comment so they remain reviewable at normal viewport sizes. Put before and after screenshots side by side.
 - Document the environment and exact steps used to produce the evidence so the reviewer can reproduce it.
 - Document the edge cases checked, including each expected result and actual result. Cover failure, empty, loading, boundary, and regression states when relevant.
 - Never expose credentials, secrets, or personal data in evidence.

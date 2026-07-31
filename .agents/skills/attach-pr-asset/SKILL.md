@@ -46,15 +46,17 @@ gh pr view "$PR_NUMBER" --repo "$REPO" --json body --jq '.body' > "$BODY_FILE"
 
 {
   printf '\n\n## Visual proof\n\n'
-  printf '### Before\n\n![Before](%s)\n\n' "$BEFORE_URL"
-  printf '### After\n\n![After](%s)\n\n' "$AFTER_URL"
+  printf '<table>\n<tr>\n'
+  printf '<td width="50%%"><strong>Before</strong><br><img src="%s" alt="Before" width="100%%"></td>\n' "$BEFORE_URL"
+  printf '<td width="50%%"><strong>After</strong><br><img src="%s" alt="After" width="100%%"></td>\n' "$AFTER_URL"
+  printf '</tr>\n</table>\n\n'
   printf '[Watch video](%s)\n' "$VIDEO_URL"
 } >> "$BODY_FILE"
 
 gh pr edit "$PR_NUMBER" --repo "$REPO" --body-file "$BODY_FILE"
 ```
 
-Include environment, reproduction steps, expected result, actual result, and relevant edge cases. Omit missing asset types.
+Present two or more screenshots in a two-column grid. Put before and after screenshots side by side. Include environment, reproduction steps, expected result, actual result, and relevant edge cases. Omit missing asset types.
 
 6. Verify links from signed-out/public context. Keep PR draft if proof is missing or inaccessible.
 
