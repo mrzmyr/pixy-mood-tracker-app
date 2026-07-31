@@ -7,15 +7,6 @@
     "icon": "./assets/images/icon.png",
     "scheme": "pixy",
     "userInterfaceStyle": "automatic",
-    "splash": {
-      "image": "./assets/images/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff",
-      "dark": {
-        "image": "./assets/images/splash.png",
-        "backgroundColor": "#171717"
-      }
-    },
     "updates": {
       "fallbackToCacheTimeout": 0,
       "url": "https://u.expo.dev/8917be91-f1cc-4276-a252-674a28490ac3"
@@ -79,8 +70,26 @@
       "playStoreUrl": "https://play.google.com/store/apps/details?id=com.devmood.pixymoodtracker"
     },
     "plugins": [
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/images/splash.png",
+          "resizeMode": "contain",
+          "backgroundColor": "#ffffff",
+          "dark": {
+            "image": "./assets/images/splash.png",
+            "backgroundColor": "#171717"
+          }
+        }
+      ],
+      "@react-native-community/datetimepicker",
+      "expo-asset",
+      "expo-font",
       "expo-notifications",
       "expo-localization",
+      "expo-sharing",
+      "expo-status-bar",
+      "expo-web-browser",
       [
         "expo-document-picker",
         {

@@ -2,10 +2,10 @@ import { LinearGradient } from "expo-linear-gradient"
 import { Pressable, Text, View } from "react-native"
 import { ChevronRight, Moon, X } from "react-native-feather"
 import useColors from "@/hooks/useColors"
-import { Motion } from "@legendapp/motion"
 import { t } from "@/helpers/translation"
 import useHaptics from "@/hooks/useHaptics"
 import { useSettings } from "@/hooks/useSettings"
+import Animated, { FadeIn, LinearTransition } from "react-native-reanimated"
 
 export const MONTH_REPORT_SLUG = `promo_month_report_${(new Date()).getFullYear()}_${(new Date()).getMonth()}_closed`
 
@@ -39,14 +39,9 @@ export const PromoCardMonth = ({
   if (hasActionDone(MONTH_REPORT_SLUG)) return null
 
   return (
-    <Motion.View
-      initial={{ height: 0, opacity: 0 }}
-      animate={{ height: 140, opacity: 1 }}
-      transition={{
-        type: "spring",
-        damping: 20,
-        stiffness: 400,
-      }}
+    <Animated.View
+      entering={FadeIn.duration(300)}
+      layout={LinearTransition.springify().damping(20).stiffness(400)}
       style={{
         overflow: "hidden",
       }}
@@ -132,6 +127,6 @@ export const PromoCardMonth = ({
           </Text>
         </View>
       </Pressable>
-    </Motion.View>
+    </Animated.View>
   )
 }
