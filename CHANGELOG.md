@@ -2,6 +2,39 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.86.1](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.86.0...v1.86.1) (2026-07-31)
+
+
+### Bug Fixes
+
+* **i18n:** address localization feedback ([21a2a90](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/21a2a905d972b79992c2fe4ef8da0f948452af04))
+* preserve logs after storage read failures ([f165aad](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/f165aada47c5490bdc43b9a27c261416533ae417))
+* prevent storage load errors from wiping all entries ([1a1ddd8](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/1a1ddd8cc22a0301d1fcebea9a232748282aa224))
+
+
+### Miscellaneous
+
+* 🥺 ([7bd4368](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/7bd43685b873146d5f74cb8fbc7b812cb251634e))
+* add discord ([457926d](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/457926d9267f16b6e455bcd28ba4ffabd61f2599))
+* bold ([9a4acbd](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/9a4acbd32cd421cfafbc8dd0ef42c391e8ccd519))
+* **deps-dev:** bump @types/node from 24.13.3 to 26.1.2 ([244f1a0](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/244f1a0b35cd55ceda4ec5646cb6ac11c92c851f))
+* **deps:** bump zod from 3.25.76 to 4.4.3 ([3e37119](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/3e371192462e5dc9da56f6af0c22535d44beb901))
+* remove logging ([2017c40](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/2017c4028118ee6f76498292aa52e16a7721a96a))
+
+
+### Refactors
+
+* **logger:** remove bot-style check-in ([#232](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/232)) ([55f4ddd](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/55f4ddd7ad741bff9de2eb9f93d8d6902a06a0ae))
+* **logger:** retire sleep quality input ([#233](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/233)) ([5d6276b](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/5d6276ba86af13799459257853ae19c24b56e7f7))
+
+
+### Documentation
+
+* require actionable errors ([8426cb1](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/8426cb1d184e69c12366fe5ad311bb0659d2d6b1))
+* require conventional commits ([50dc9f7](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/50dc9f7e9bd9fa805f9c0e75544337e157f04dcb))
+* require proof for agent pull requests ([#234](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/234)) ([d5d6e02](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/d5d6e029d30d4116b460d5f7eb35a0ce80c480c7))
+* split README into features, i18n, contributing, and development ([#230](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/230)) ([dab9c4f](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/dab9c4f5d054f154e1187cf54d87c5412a92b4c5))
+
 ## [1.86.0](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.85.0...v1.86.0) (2023-06-25)
 
 
