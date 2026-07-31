@@ -7,30 +7,32 @@ import { useAnalytics } from "@/hooks/useAnalytics";
 import { useSettings } from "@/hooks/useSettings";
 import { useNavigation } from "@react-navigation/native";
 import dayjs from "dayjs";
+import { XMLParser } from "fast-xml-parser";
 import React, { ReactElement, useEffect, useState } from "react";
 import { View } from "react-native";
 import useColors from "../../hooks/useColors";
 import { useLogState } from "../../hooks/useLogs";
-import * as rssParser from 'react-native-rss-parser';
 import * as WebBrowser from 'expo-web-browser';
 
 type RssItem = {
-  title: string,
-  links: {
-    url: string,
-    rel: string,
-  }[],
-  description: string,
-  id: string,
-  authors: string[],
-  categories: string[],
-  published: string,
-  enclosures: string[],
-  itunes: {
-    authors: string[],
-  }
-  slug: string,
+  title: string;
+  id: string;
+  published: string;
+  slug: string;
 }
+
+type ParsedRssItem = {
+  title: string;
+  link: string;
+  guid?: string;
+  pubDate: string;
+};
+
+const rssParser = new XMLParser({
+  ignoreAttributes: false,
+  processEntities: false,
+  trimValues: true,
+});
 
 export const PromoCards = () => {
   const navigation = useNavigation();
@@ -53,20 +55,27 @@ export const PromoCards = () => {
   const hasMostRecentRssItem = !!mostRecentRssItem && !hasActionDone(mostRecentRssItem.slug)
 
   useEffect(() => {
-    fetch('https://pixy.hellonext.co/rss/changelog.xml')
+    fetch('https://pixy.featureos.app/rss/changelog.xml')
       .then(response => response.text())
       .then(str => rssParser.parse(str))
-      .then(rss => {
-        const items = rss.items
-          .filter(item => dayjs(item.published).isAfter('2023-01-09'))
+      .then(parsed => {
+        const rawItems = parsed?.rss?.channel?.item;
+        const items: RssItem[] = (Array.isArray(rawItems) ? rawItems : [rawItems])
+          .filter((item): item is ParsedRssItem => !!item?.title && !!item?.link && !!item?.pubDate)
+          .filter(item => dayjs(item.pubDate).isAfter('2023-01-09'))
           .map(item => ({
-            ...item,
-            slug: item.id.replace(/[^a-z0-9]/gi, '_').toLowerCase(),
+            title: item.title,
+            id: item.guid || item.link,
+            published: item.pubDate,
+            slug: (item.guid || item.link).replace(/[^a-z0-9]/gi, '_').toLowerCase(),
           }))
 
         if (items.length !== 0) {
           setMostRecentRssItem(items[0])
         }
+      })
+      .catch(() => {
+        // The changelog card is optional; the calendar remains usable offline.
       })
   }, [])
 

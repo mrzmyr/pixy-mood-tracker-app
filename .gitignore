@@ -1,6 +1,8 @@
 node_modules/
 .expo/
 dist/
+android/
+ios/
 npm-debug.*
 *.jks
 *.p8
@@ -13,10 +15,10 @@ web-build/
 .DS_Store
 .env
 assets/screenshots/*
-eas.json
 yarn-error.log
 coverage/*
 credentials/*
+.gplay/*.json
 scripts/credentials.json
 scripts/screenshots/*
 scripts/preview-templates/*

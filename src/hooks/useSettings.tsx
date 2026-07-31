@@ -55,7 +55,7 @@ export const INITIAL_STATE: SettingsState = {
   scaleType: "ColorBrew-RdYlGn",
   reminderEnabled: false,
   reminderTime: "18:00",
-  analyticsEnabled: true,
+  analyticsEnabled: false,
   actionsDone: [],
   steps: [
     "rating",

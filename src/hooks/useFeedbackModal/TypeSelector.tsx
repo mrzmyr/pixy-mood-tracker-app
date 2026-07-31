@@ -23,6 +23,9 @@ export function TypeSelector({
       width: '100%',
     }}>
       <Pressable
+        accessibilityLabel={t('issue')}
+        accessibilityRole='radio'
+        accessibilityState={{ selected: selected === 'issue' }}
         style={({ pressed }) => ({
           opacity: pressed ? 0.8 : 1,
           borderRadius: 8,
@@ -61,6 +64,9 @@ export function TypeSelector({
         </Text>
       </Pressable>
       <Pressable
+        accessibilityLabel={t('idea')}
+        accessibilityRole='radio'
+        accessibilityState={{ selected: selected === 'idea' }}
         style={({ pressed }) => ({
           opacity: pressed ? 0.8 : 1,
           borderRadius: 8,
@@ -99,6 +105,9 @@ export function TypeSelector({
         </Text>
       </Pressable>
       <Pressable
+        accessibilityLabel={t('other')}
+        accessibilityRole='radio'
+        accessibilityState={{ selected: selected === 'other' }}
         style={({ pressed }) => ({
           opacity: pressed ? 0.8 : 1,
           borderRadius: 8,

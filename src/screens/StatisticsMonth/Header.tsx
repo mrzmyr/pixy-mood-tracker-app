@@ -13,7 +13,7 @@ export const Header = ({
 }: {
   title: string;
   subtitle: string;
-  gradientColors: string[];
+  gradientColors: [string, string, string];
 }) => {
   const insets = useSafeAreaInsets();
   const colors = useColors();

@@ -1,7 +1,7 @@
 import { BotMessage } from "@/hooks/useBot";
 import useColors from "@/hooks/useColors";
-import { Motion } from "@legendapp/motion";
 import { Text, View } from "react-native";
+import Animated, { FadeInDown } from "react-native-reanimated";
 
 export const Message = ({
   message,
@@ -18,20 +18,14 @@ export const Message = ({
         justifyContent: message.author === 'bot' ? 'flex-start' : 'flex-end',
       }}
     >
-      <Motion.View
+      <Animated.View
+        entering={FadeInDown.springify().damping(20).stiffness(300)}
         style={{
           backgroundColor: message.author === 'bot' ? colors.chatBotMessageBackground : colors.chatUserMessageBackground,
           paddingVertical: 8,
           paddingHorizontal: 16,
           marginTop: 8,
           borderRadius: 16,
-        }}
-        initial={{ y: 20 }}
-        animate={{ y: 0 }}
-        transition={{
-          type: "spring",
-          damping: 20,
-          stiffness: 300,
         }}
       >
         <Text
@@ -41,7 +35,7 @@ export const Message = ({
             lineHeight: 24,
           }}
         >{message.text}</Text>
-      </Motion.View>
+      </Animated.View>
     </View>
   );
 };

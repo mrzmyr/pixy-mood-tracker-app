@@ -11,7 +11,7 @@ import { useNavigation } from '@react-navigation/native';
 import dayjs from 'dayjs';
 import { ReactElement, useEffect, useRef, useState } from 'react';
 import { Dimensions, Keyboard, Platform, Text, TextInput, View } from 'react-native';
-import Carousel, { ICarouselInstance } from 'react-native-reanimated-carousel';
+import { Carousel, CarouselRef } from 'react-native-reanimated-carousel';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { v4 as uuidv4 } from "uuid";
 import { SlideAction } from './components/SlideAction';
@@ -443,7 +443,7 @@ export const Logger = ({
     })
   }
 
-  const _carousel = useRef<ICarouselInstance>(null);
+  const _carousel = useRef<CarouselRef>(null);
 
   const messageSlideIndex = content.findIndex(item => item.key === 'message')
   const hasMessageSlide = messageSlideIndex !== -1
@@ -538,23 +538,20 @@ export const Logger = ({
         >
           <Carousel
             loop={false}
-            width={Dimensions.get('window').width}
+            itemSize={Dimensions.get('window').width}
             ref={_carousel}
             data={content}
             defaultIndex={Math.min(initialIndex, content.length - 1)}
-            onProgressChange={(relativeProgress, absoluteProgress) => {
+            onProgressChange={(progress) => {
               if (isMounted.current) {
-                setSlideIndex(Math.round(absoluteProgress))
+                setSlideIndex(Math.round(progress))
               }
             }}
-            onScrollBegin={() => {
+            onScrollStart={() => {
               setTouched(true)
             }}
-            enabled={false}
+            scrollEnabled={false}
             renderItem={({ index }) => content[index].slide}
-            panGestureHandlerProps={{
-              activeOffsetX: [-10, 10],
-            }}
           />
         </View>
       </View>

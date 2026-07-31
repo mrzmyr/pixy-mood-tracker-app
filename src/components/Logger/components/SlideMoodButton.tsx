@@ -22,6 +22,7 @@ export const SlideMoodButton = ({
 
   return (
     <Pressable
+      testID={`mood-${rating}`}
       onPress={async () => {
         await haptics.selection();
         onPress();

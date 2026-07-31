@@ -1,0 +1,29 @@
+appId: com.devmood.pixymoodtracker
+tags: [settings, reminder]
+---
+- launchApp:
+    clearState: true
+    permissions:
+      notifications: allow
+- runFlow: ../subflows/complete-onboarding.yaml
+
+# 7.1 Open Settings → Reminder
+- tapOn:
+    id: "settings"
+    waitToSettleTimeoutMs: 300
+- tapOn:
+    id: "reminder"
+    waitToSettleTimeoutMs: 300
+- assertVisible: "Reminder"
+
+# 7.2 Enable reminder toggle
+- tapOn:
+    id: "reminder-enabled"
+    waitToSettleTimeoutMs: 300
+
+# 7.3 Disable again
+- tapOn:
+    id: "reminder-enabled"
+    waitToSettleTimeoutMs: 300
+- back
+- assertVisible: "Settings"

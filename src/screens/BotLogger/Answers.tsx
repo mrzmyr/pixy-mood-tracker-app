@@ -1,6 +1,6 @@
 import { MiniButton } from "@/components/MiniButton";
-import { Motion } from "@legendapp/motion";
 import { View } from "react-native";
+import Animated, { FadeInRight } from "react-native-reanimated";
 import { RatingAnswer } from "./RatingAnswer";
 import { SleepQualityAnswer } from "./SleepQualityAnswer";
 import { TextAnswer } from "./TextAnswer";
@@ -23,18 +23,11 @@ export const Answers = ({
       }}
     >
       {answers.map((answer, index) => (
-        <Motion.View
+        <Animated.View
           key={index}
+          entering={FadeInRight.duration(250)}
           style={{
             flexDirection: 'row',
-          }}
-          initial={{
-            opacity: 0,
-            translateX: 100,
-          }}
-          animate={{
-            opacity: 1,
-            translateX: 0,
           }}
         >
           {answer.type === 'button_primary' && (
@@ -98,7 +91,7 @@ export const Answers = ({
                 });
               }} />
           )}
-        </Motion.View>
+        </Animated.View>
       ))}
     </View>
   );

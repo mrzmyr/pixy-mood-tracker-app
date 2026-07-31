@@ -1,0 +1,34 @@
+appId: com.devmood.pixymoodtracker
+tags: [statistics]
+---
+- launchApp:
+    clearState: true
+- runFlow: ../subflows/complete-onboarding.yaml
+
+# Seed one entry so screens have minimal data
+- runFlow: ../subflows/create-basic-entry.yaml
+
+# 5.1 Statistics tab renders
+- tapOn:
+    id: "statistics"
+- assertVisible: "Statistics"
+
+# 5.2 With one entry: highlights header + unlock hint with day counter
+- assertVisible: "Highlights"
+- assertVisible: "Add .* more days within your last two weeks.*"
+
+# 5.3 Month/Year reports appear only with 7+ logged days — tap if present
+- runFlow:
+    when:
+      visible: "Month Report"
+    commands:
+      - tapOn: "Month Report"
+      - back
+      - tapOn: "Year Report"
+      - back
+
+# 5.4 Back to calendar
+- tapOn:
+    id: "calendar"
+- assertVisible:
+    id: "filters"

@@ -1,9 +1,9 @@
 import useColors from "@/hooks/useColors";
 import useHaptics from "@/hooks/useHaptics";
 import { Emotion } from "@/types";
-import { Motion } from "@legendapp/motion";
 import { Pressable, Text, View } from "react-native";
 import { X } from "react-native-feather";
+import Animated, { FadeInDown } from "react-native-reanimated";
 
 export const Tooltip = ({
   emotion,
@@ -16,7 +16,8 @@ export const Tooltip = ({
   const haptics = useHaptics();
 
   return (
-    <Motion.View
+    <Animated.View
+      entering={FadeInDown.duration(250)}
       style={{
         justifyContent: 'center',
         alignItems: 'flex-start',
@@ -29,14 +30,6 @@ export const Tooltip = ({
         right: 16,
         left: 16,
         borderRadius: 12,
-      }}
-      initial={{
-        opacity: 0,
-        translateY: 100,
-      }}
-      animate={{
-        opacity: 1,
-        translateY: 0,
       }}
     >
       {emotion && (
@@ -86,6 +79,6 @@ export const Tooltip = ({
           </Text>
         </>
       )}
-    </Motion.View>
+    </Animated.View>
   );
 };

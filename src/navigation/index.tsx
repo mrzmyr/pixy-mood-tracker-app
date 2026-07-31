@@ -1,10 +1,10 @@
 import useColors from '@/hooks/useColors';
-import { NavigationContainer, useNavigation } from '@react-navigation/native';
+import { LinkingOptions, NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import * as Linking from 'expo-linking';
 import { useEffect } from 'react';
 import { Platform, View, useColorScheme } from 'react-native';
-import * as Sentry from 'sentry-expo';
+import * as Sentry from '@sentry/react-native';
 import { RootStackParamList } from '../../types';
 import {
   BotLogger,
@@ -43,17 +43,22 @@ import { BotLoggerTags } from '@/screens/BotLogger/Tags';
 
 enableScreens();
 
-const NAVIGATION_LINKING = {
+const NAVIGATION_LINKING: LinkingOptions<RootStackParamList> = {
   prefixes: [
     'pixy://',
     Linking.createURL('/'),
   ],
   config: {
     screens: {
-      Calendar: 'calendar',
+      tabs: {
+        screens: {
+          Calendar: 'calendar',
+          Statistics: 'statistics',
+          Settings: 'settings',
+        },
+      },
       Onboarding: 'onboarding',
 
-      Settings: 'settings',
       Colors: 'settings/colors',
       Licenses: 'settings/licenses',
       Steps: 'settings/steps',
@@ -63,7 +68,6 @@ const NAVIGATION_LINKING = {
       DevelopmentTools: 'settings/development-tools',
       // PasscodeLocked: 'passcode-locked',;
       // Tags: 'settings/tags',;
-      Statistics: 'statistics',
       StatisticsHighlights: 'statistics/highlights',
       StatisticsMonth: 'statistics/month/:date',
       StatisticsYear: 'statistics/year/:date',
@@ -116,6 +120,9 @@ function RootNavigator() {
 
   const defaultOptions = {
     headerTintColor: colors.text,
+    headerBackTitle: '',
+    headerBackTitleVisible: false,
+    headerBackButtonMenuEnabled: false,
     headerStyle: {
       backgroundColor: colors.background,
     },
@@ -142,7 +149,6 @@ function RootNavigator() {
     if (!__DEV__) {
       Sentry.init({
         dsn: 'https://d98d0f519b324d9cb0c947b8f29cd0cf@o1112922.ingest.sentry.io/6142792',
-        enableInExpoDevelopment: false,
       });
     }
   }, [settings.loaded])
@@ -290,7 +296,7 @@ function RootNavigator() {
 
         <Stack.Group
           screenOptions={{
-            presentation: 'formSheet',
+            presentation: 'modal',
             headerShown: false,
           }}
         >
@@ -311,7 +317,6 @@ function RootNavigator() {
         <Stack.Group
           screenOptions={{
             ...defaultOptions,
-            headerBackTitle: '',
           }}
         >
           <Stack.Screen
@@ -335,7 +340,6 @@ function RootNavigator() {
         <Stack.Group
           screenOptions={{
             ...defaultOptions,
-            headerBackTitle: '',
           }}
         >
           <Stack.Screen

@@ -8,7 +8,7 @@ import NotificationPreview from '@/components/NotificationPreview';
 import { t } from '@/helpers/translation';
 import { useAnalytics } from '@/hooks/useAnalytics';
 import useColors from '@/hooks/useColors';
-import useNotification from '@/hooks/useNotifications';
+import useNotification, { createDailyTrigger } from '@/hooks/useNotifications';
 import { SettingsState, useSettings } from '@/hooks/useSettings';
 
 const Reminder = () => {
@@ -31,16 +31,16 @@ const Reminder = () => {
   const timeDate = dayjs().hour(hour).minute(minute).toDate()
 
   const onEnabledChange = async (value: boolean) => {
-    const has = await hasPermission()
-    if (!has) {
-      await askForPermission()
+    let has = await hasPermission()
+    if (value && !has) {
+      has = await askForPermission()
     }
     if (!value) {
       await cancelAll()
     }
     analytics.track('reminder_enabled_change', { enabled: value })
 
-    const enable = value && has
+    const enable = value && Boolean(has)
 
     setReminderEnabled(enable)
   }
@@ -50,11 +50,7 @@ const Reminder = () => {
       await cancelAll()
       if (reminderEnabled) {
         await schedule({
-          trigger: {
-            repeats: true,
-            hour: hour,
-            minute: minute,
-          },
+          trigger: createDailyTrigger(hour, minute),
         })
       }
 

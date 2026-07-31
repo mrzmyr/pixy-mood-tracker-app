@@ -1,5 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import * as Sentry from 'sentry-expo';
+import * as Sentry from '@sentry/react-native';
 
 export const store = async <State>(key: string, state: State) => {
   try {
@@ -9,13 +9,26 @@ export const store = async <State>(key: string, state: State) => {
   }
 }
 
-const reportLoadError = (error: any, feedback?: any) => {
+type StorageLoadError = Error & {
+  status: string;
+  why: string;
+  fix: string;
+};
+
+const createInvalidStoredValueError = (key: string): StorageLoadError =>
+  Object.assign(new Error("Stored data is invalid"), {
+    status: "storage_invalid_value",
+    why: `Storage key "${key}" contains JSON null`,
+    fix: "Restore valid JSON data or remove the corrupted storage entry",
+  });
+
+const reportLoadError = (error: any, key: string, feedback?: any) => {
   console.error(error);
   try {
     feedback?.send({
       type: "issue",
       message: JSON.stringify({
-        title: "Error loading logs",
+        title: `Error loading storage key ${key}`,
         description: error.message,
         trace: error.stack,
       }),
@@ -29,7 +42,11 @@ const reportLoadError = (error: any, feedback?: any) => {
   } catch (e) {
     console.error(e);
   }
-  Sentry.Native.captureException(error);
+  try {
+    Sentry.captureException(error);
+  } catch (e) {
+    console.error(e);
+  }
 }
 
 // Returns `null` only when no data exists for `key`. Read or parse failures
@@ -42,7 +59,7 @@ export const load = async <ReturnValue>(key: string, feedback?: any): Promise<Re
   try {
     data = await AsyncStorage.getItem(key);
   } catch (error) {
-    reportLoadError(error, feedback);
+    reportLoadError(error, key, feedback);
     throw error;
   }
 
@@ -54,9 +71,13 @@ export const load = async <ReturnValue>(key: string, feedback?: any): Promise<Re
   }
 
   try {
-    return JSON.parse(data);
+    const parsed = JSON.parse(data);
+    if (parsed === null) {
+      throw createInvalidStoredValueError(key);
+    }
+    return parsed;
   } catch (error) {
-    reportLoadError(error, feedback);
+    reportLoadError(error, key, feedback);
     throw error;
   }
 };

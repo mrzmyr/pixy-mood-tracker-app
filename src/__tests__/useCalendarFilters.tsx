@@ -1,5 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import { act, renderHook } from '@testing-library/react-hooks'
+import { act, renderHook } from '@testing-library/react-native'
 import { AnalyticsProvider } from '../hooks/useAnalytics'
 import { CalendarFiltersProvider, useCalendarFilters } from '../hooks/useCalendarFilters'
 import { LogsProvider, LogsState, STORAGE_KEY } from '../hooks/useLogs'
@@ -59,8 +59,8 @@ xdescribe('useCalendarFilters()', () => {
   })
 
   test('should `set`', async () => {
-    const hook = _renderHook()
-    await hook.waitForNextUpdate()
+    const hook = await _renderHook()
+    await act(async () => {})
 
     const { set } = hook.result.current
 
@@ -80,8 +80,8 @@ xdescribe('useCalendarFilters()', () => {
   })
 
   test('should `reset`', async () => {
-    const hook = _renderHook()
-    await hook.waitForNextUpdate()
+    const hook = await _renderHook()
+    await act(async () => {})
 
     const { set, reset } = hook.result.current
 
@@ -105,8 +105,8 @@ xdescribe('useCalendarFilters()', () => {
   })
 
   test('should `open`', async () => {
-    const hook = _renderHook()
-    await hook.waitForNextUpdate()
+    const hook = await _renderHook()
+    await act(async () => {})
 
     const { open } = hook.result.current
 
@@ -118,8 +118,8 @@ xdescribe('useCalendarFilters()', () => {
   })
 
   test('should `close`', async () => {
-    const hook = _renderHook()
-    await hook.waitForNextUpdate()
+    const hook = await _renderHook()
+    await act(async () => {})
 
     const { open, close } = hook.result.current
 
@@ -137,8 +137,8 @@ xdescribe('useCalendarFilters()', () => {
   test('should filter for `ratings`', async () => {
     AsyncStorage.setItem(STORAGE_KEY, JSON.stringify({ items: testItems }))
 
-    const hook = _renderHook()
-    await hook.waitForNextUpdate()
+    const hook = await _renderHook()
+    await act(async () => {})
 
     const { set } = hook.result.current
 
@@ -158,8 +158,8 @@ xdescribe('useCalendarFilters()', () => {
   test('should filter for `tags`', async () => {
     AsyncStorage.setItem(STORAGE_KEY, JSON.stringify({ items: testItems }))
 
-    const hook = _renderHook()
-    await hook.waitForNextUpdate()
+    const hook = await _renderHook()
+    await act(async () => {})
 
     const { set } = hook.result.current
 
@@ -192,8 +192,8 @@ xdescribe('useCalendarFilters()', () => {
   test('should filter for `text`', async () => {
     AsyncStorage.setItem(STORAGE_KEY, JSON.stringify({ items: testItems }))
 
-    const hook = _renderHook()
-    await hook.waitForNextUpdate()
+    const hook = await _renderHook()
+    await act(async () => {})
 
     const { set } = hook.result.current
 
@@ -226,8 +226,8 @@ xdescribe('useCalendarFilters()', () => {
   test('should filter for `text` and `ratings`', async () => {
     AsyncStorage.setItem(STORAGE_KEY, JSON.stringify({ items: testItems }))
 
-    const hook = _renderHook()
-    await hook.waitForNextUpdate()
+    const hook = await _renderHook()
+    await act(async () => {})
 
     const { set } = hook.result.current
 
@@ -247,8 +247,8 @@ xdescribe('useCalendarFilters()', () => {
   test('should filter for `text` and `tags`', async () => {
     AsyncStorage.setItem(STORAGE_KEY, JSON.stringify({ items: testItems }))
 
-    const hook = _renderHook()
-    await hook.waitForNextUpdate()
+    const hook = await _renderHook()
+    await act(async () => {})
 
     const { set } = hook.result.current
 

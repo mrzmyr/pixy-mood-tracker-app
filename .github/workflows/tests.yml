@@ -4,18 +4,21 @@ on: [push, pull_request]
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
+      - uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
         with:
-          node-version: 16
+          node-version-file: .node-version
+      - name: Set up Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version-file: package.json
       - name: Install dependencies
-        run: yarn --frozen-lockfile
-      - name: Run Tests
-        run: yarn test:ci
-      - name: Run Type Check
-        run: yarn type-check
+        run: bun ci
+      - name: Run tests
+        run: bun run test:ci
+      - name: Run type check
+        run: bun run type-check

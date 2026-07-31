@@ -3,6 +3,7 @@ import { View } from 'react-native';
 import { t } from '@/helpers/translation';
 import { LogItem } from '../../hooks/useLogs';
 import { StatsCard } from "./StatsCard";
+import { getWordCount } from "@/lib/utils";
 
 export const Stats = ({
   date,
@@ -13,8 +14,8 @@ export const Stats = ({
   items: LogItem[];
   prevItems: LogItem[];
 }) => {
-  const words = items.reduce((acc, item) => acc + item.message.split(' ').length, 0);
-  const wordsPrev = prevItems.reduce((acc, item) => acc + item.message.split(' ').length, 0);
+  const words = items.reduce((acc, item) => acc + getWordCount(item.message), 0);
+  const wordsPrev = prevItems.reduce((acc, item) => acc + getWordCount(item.message), 0);
   const wordsDiff = _.round(Math.abs(words - wordsPrev));
 
   const wordsPerDay = _.round(words / date.daysInMonth(), 2);

@@ -1,11 +1,65 @@
 import BottomSheet, { BottomSheetBackdrop, BottomSheetScrollView } from '@gorhom/bottom-sheet';
 import { useEffect, useMemo, useRef } from 'react';
-import { Keyboard, View } from 'react-native';
+import { Keyboard, Modal, Platform, Pressable, ScrollView, StyleSheet, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useCalendarFilters } from '../../../hooks/useCalendarFilters';
 import useColors from '../../../hooks/useColors';
 import { Body } from './Body';
 
 export const CalendarBottomSheet = () => {
+  if (Platform.OS === 'ios') {
+    return <IOSCalendarBottomSheet />;
+  }
+
+  return <GestureCalendarBottomSheet />;
+};
+
+const IOSCalendarBottomSheet = () => {
+  const colors = useColors();
+  const calendarFilters = useCalendarFilters();
+  const insets = useSafeAreaInsets();
+
+  const close = () => {
+    Keyboard.dismiss();
+    calendarFilters.close();
+  };
+
+  return (
+    <Modal
+      animationType='slide'
+      onRequestClose={close}
+      presentationStyle='overFullScreen'
+      statusBarTranslucent
+      transparent
+      visible={calendarFilters.isOpen}
+    >
+      <View style={{ flex: 1, justifyContent: 'flex-end' }}>
+        <Pressable
+          accessible={false}
+          onPress={close}
+          style={[StyleSheet.absoluteFill, { backgroundColor: 'rgba(0, 0, 0, 0.35)' }]}
+        />
+        <View
+          accessibilityViewIsModal
+          style={{
+            height: '50%',
+            paddingBottom: insets.bottom,
+            backgroundColor: colors.bottomSheetBackground,
+            borderTopLeftRadius: 16,
+            borderTopRightRadius: 16,
+            overflow: 'hidden',
+          }}
+        >
+          <ScrollView keyboardShouldPersistTaps='handled'>
+            <Body onClose={close} />
+          </ScrollView>
+        </View>
+      </View>
+    </Modal>
+  );
+};
+
+const GestureCalendarBottomSheet = () => {
   const colors = useColors()
   const calendarFilters = useCalendarFilters()
 
@@ -34,6 +88,7 @@ export const CalendarBottomSheet = () => {
   return (
     <BottomSheet
       ref={bottomSheetRef}
+      accessible={false}
       index={calendarFilters.isOpen ? 0 : -1}
       snapPoints={snapPoints}
       onChange={handleSheetChanges}
@@ -72,7 +127,12 @@ export const CalendarBottomSheet = () => {
           )}
         </View>
       )}
-      backdropComponent={BottomSheetBackdrop}
+      backdropComponent={(props) => (
+        <BottomSheetBackdrop
+          {...props}
+          accessible={false}
+        />
+      )}
     >
       <BottomSheetScrollView
         keyboardShouldPersistTaps='handled'
@@ -81,4 +141,4 @@ export const CalendarBottomSheet = () => {
       </BottomSheetScrollView>
     </BottomSheet>
   )
-}
+};

@@ -9,9 +9,21 @@ const isWeb = Platform.OS === 'web';
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
     shouldShowAlert: true,
+    shouldShowBanner: true,
+    shouldShowList: true,
     shouldPlaySound: false,
     shouldSetBadge: false,
   }),
+});
+
+export const createDailyTrigger = (
+  hour: number,
+  minute: number,
+): Notifications.NotificationTriggerInput => ({
+  type: Notifications.SchedulableTriggerInputTypes.CALENDAR,
+  repeats: true,
+  hour,
+  minute,
 });
 
 const useNotification = () => {
@@ -19,7 +31,7 @@ const useNotification = () => {
     return await Notifications.getAllScheduledNotificationsAsync();
   }
 
-  const hasPermission = async (): Promise<Boolean> => {
+  const hasPermission = async (): Promise<boolean> => {
     if (Device.isDevice) {
       const { status } = await Notifications.getPermissionsAsync();
       return status === 'granted'
@@ -30,15 +42,20 @@ const useNotification = () => {
     return false;
   }
 
-  const askForPermission = async () => {
+  const askForPermission = async (): Promise<boolean> => {
     if (Device.isDevice) {
       const { status: existingStatus } = await Notifications.getPermissionsAsync();
-      if (existingStatus !== 'granted') {
-        const { status } = await Notifications.requestPermissionsAsync();
+      if (existingStatus === 'granted') {
+        return true;
       }
+
+      const { status } = await Notifications.requestPermissionsAsync();
+      return status === 'granted';
     } else {
       alert('Must use physical device for Push Notifications');
     }
+
+    return false;
   }
 
   const schedule = async (options: {
@@ -59,11 +76,11 @@ const useNotification = () => {
   }
 
   return isWeb ? {
-    hasPermission: () => true,
-    askForPermission: () => { },
-    schedule: () => { },
-    cancelAll: () => { },
-    getScheduled: () => { },
+    hasPermission: async () => true,
+    askForPermission: async () => true,
+    schedule: async () => { },
+    cancelAll: async () => { },
+    getScheduled: async () => [],
   } : {
     hasPermission,
     askForPermission,
