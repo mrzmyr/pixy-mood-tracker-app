@@ -16,6 +16,7 @@ End-to-end tests using [Maestro](https://maestro.mobile.dev). The same flows can
 ./e2e/run.sh                       # all suites
 ./e2e/run.sh e2e/flows/02-log-entry.yaml   # single suite
 maestro test --device <simulator-udid> e2e/flows/01-onboarding.yaml
+maestro test --device <simulator-udid> e2e/apple/ios-regressions.yaml
 ```
 
 Debug artifacts (screenshots, hierarchy, logcat) land in `~/.maestro/tests/<timestamp>/` on failure.
@@ -33,6 +34,7 @@ Debug artifacts (screenshots, hierarchy, logcat) land in `~/.maestro/tests/<time
 | 07-settings-reminder | Reminder toggle on/off with notification permission |
 | 09-appearance | Colors screen, steps config, privacy toggle |
 | 10-stability | Background/foreground, cold restart (2nd-launch crash regression), tab smoke |
+| apple/ios-regressions | iOS filter modal, narrow check-in layout/switch accessibility, tag form accessibility |
 
 Suite 08 (passcode) intentionally absent: the passcode feature is commented out in the app (`src/screens/Settings/index.tsx`).
 

@@ -56,11 +56,13 @@ export default ({
       }}
     >
       <Pressable
-        onPress={_onPress}
+        onPress={onPress ? _onPress : undefined}
+        accessible={Boolean(onPress)}
+        accessibilityRole={onPress ? 'button' : undefined}
+        accessibilityLabel={onPress && typeof title === 'string' ? title : undefined}
         style={({ pressed }) => [{
           flexDirection: "row",
           alignItems: 'center',
-          justifyContent: 'space-between',
           paddingTop: 8,
           paddingBottom: 8,
           minHeight: 50,
@@ -70,37 +72,44 @@ export default ({
         }]}
         testID={testID}
       >
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
-        >
-          {iconLeft && <View style={{ marginRight: 15 }}>{iconLeft}</View>}
-          {typeof (title) === 'string' && (
-            <Text
-              style={{
-                flex: 1,
-                fontSize: 17,
-                color: style.color || colors.menuListItemText,
-              }}
-              numberOfLines={1}
-            >{title}</Text>
-          )}
-          {typeof (title) !== 'string' && title}
-        </View>
+        {(iconLeft || title) && (
+          <View
+            style={{
+              flex: 1,
+              minWidth: 0,
+              flexDirection: 'row',
+              alignItems: 'center',
+            }}
+          >
+            {iconLeft && <View style={{ marginRight: 15, flexShrink: 0 }}>{iconLeft}</View>}
+            {typeof title === 'string' ? (
+              <Text
+                style={{
+                  flex: 1,
+                  minWidth: 0,
+                  fontSize: 17,
+                  color: style.color || colors.menuListItemText,
+                }}
+                numberOfLines={1}
+              >{title}</Text>
+            ) : (
+              <View style={{ flex: 1, minWidth: 0 }}>{title}</View>
+            )}
+          </View>
+        )}
         {children && (
           <View
             style={{
+              flex: 1,
+              minWidth: 0,
               justifyContent: 'center',
-              width: '100%',
             }}
           >{children}</View>
         )}
         {(iconRight) && (
           <View style={{
-            flex: 1,
+            flexShrink: 0,
+            marginLeft: 12,
             justifyContent: 'center',
             alignItems: 'flex-end',
           }}>{iconRight}</View>

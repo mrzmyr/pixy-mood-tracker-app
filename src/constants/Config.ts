@@ -35,4 +35,8 @@ export const TRACKING_ENABLED = !__DEV__;
 export const CHANGELOG_URL = 'https://pixy.hellonext.co/embed/c?no_header=true'
 export const FEEDBACK_FEATURES_URL = 'https://pixy.hellonext.co/embed/b/feedback?no_header=true'
 
-export const IS_PROD = Updates.channel === 'production';
+const NON_PRODUCTION_CHANNELS = ['development', 'preview'];
+
+// Local release archives have no EAS channel. Treat them as production so
+// experimental features cannot leak into an App Store build.
+export const IS_PROD = !__DEV__ && !NON_PRODUCTION_CHANNELS.includes(Updates.channel ?? '');

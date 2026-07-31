@@ -161,7 +161,7 @@ export const useDatagate = (): {
       return Alert.alert("Not supported on web");
     }
 
-    const filename = `pixel-tracker-${dayjs().format("YYYY-MM-DD")}${__DEV__ ? '-DEV' : ''}.json`;
+    const filename = `pixy-mood-tracker-${dayjs().format("YYYY-MM-DD")}${__DEV__ ? '-DEV' : ''}.json`;
 
     await FileSystem.writeAsStringAsync(
       FileSystem.documentDirectory + filename,

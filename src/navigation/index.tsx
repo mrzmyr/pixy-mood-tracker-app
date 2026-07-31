@@ -1,5 +1,5 @@
 import useColors from '@/hooks/useColors';
-import { NavigationContainer, useNavigation } from '@react-navigation/native';
+import { LinkingOptions, NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import * as Linking from 'expo-linking';
 import { useEffect } from 'react';
@@ -43,17 +43,22 @@ import { BotLoggerTags } from '@/screens/BotLogger/Tags';
 
 enableScreens();
 
-const NAVIGATION_LINKING = {
+const NAVIGATION_LINKING: LinkingOptions<RootStackParamList> = {
   prefixes: [
     'pixy://',
     Linking.createURL('/'),
   ],
   config: {
     screens: {
-      Calendar: 'calendar',
+      tabs: {
+        screens: {
+          Calendar: 'calendar',
+          Statistics: 'statistics',
+          Settings: 'settings',
+        },
+      },
       Onboarding: 'onboarding',
 
-      Settings: 'settings',
       Colors: 'settings/colors',
       Licenses: 'settings/licenses',
       Steps: 'settings/steps',
@@ -63,7 +68,6 @@ const NAVIGATION_LINKING = {
       DevelopmentTools: 'settings/development-tools',
       // PasscodeLocked: 'passcode-locked',;
       // Tags: 'settings/tags',;
-      Statistics: 'statistics',
       StatisticsHighlights: 'statistics/highlights',
       StatisticsMonth: 'statistics/month/:date',
       StatisticsYear: 'statistics/year/:date',
@@ -116,6 +120,9 @@ function RootNavigator() {
 
   const defaultOptions = {
     headerTintColor: colors.text,
+    headerBackTitle: '',
+    headerBackTitleVisible: false,
+    headerBackButtonMenuEnabled: false,
     headerStyle: {
       backgroundColor: colors.background,
     },
@@ -289,8 +296,7 @@ function RootNavigator() {
 
         <Stack.Group
           screenOptions={{
-            // formSheet is a silent no-op on Android with react-native-screens 4.x
-            presentation: Platform.OS === 'ios' ? 'formSheet' : 'modal',
+            presentation: 'modal',
             headerShown: false,
           }}
         >
@@ -311,7 +317,6 @@ function RootNavigator() {
         <Stack.Group
           screenOptions={{
             ...defaultOptions,
-            headerBackTitle: '',
           }}
         >
           <Stack.Screen
@@ -335,7 +340,6 @@ function RootNavigator() {
         <Stack.Group
           screenOptions={{
             ...defaultOptions,
-            headerBackTitle: '',
           }}
         >
           <Stack.Screen

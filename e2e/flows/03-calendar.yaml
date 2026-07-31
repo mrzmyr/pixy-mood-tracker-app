@@ -51,7 +51,19 @@ tags: [calendar]
     id: "filters"
 - assertVisible: "Filters"
 - assertVisible: "Search"
-- back
+- runFlow:
+    when:
+      visible:
+        id: "calendar-filter-done"
+    commands:
+      - tapOn:
+          id: "calendar-filter-done"
+- runFlow:
+    when:
+      notVisible:
+        id: "calendar-filter-done"
+    commands:
+      - back
 # Closing filters can land on the Statistics tab (app behavior) — re-enter calendar
 - tapOn:
     id: "calendar"

@@ -4,7 +4,7 @@ import { t } from "@/helpers/translation"
 import { useCalendarFilters } from "../../../hooks/useCalendarFilters"
 import useColors from "../../../hooks/useColors"
 
-export const Header = () => {
+export const Header = ({ onClose }: { onClose?: () => void }) => {
   const calendarFilters = useCalendarFilters()
   const colors = useColors()
 
@@ -37,6 +37,8 @@ export const Header = () => {
       >{t('calendar_filters')}</Text>
       <View
         style={{
+          flexDirection: 'row',
+          alignItems: 'center',
           flexWrap: 'wrap',
         }}
       >
@@ -57,6 +59,17 @@ export const Header = () => {
             })
           }}
         >{t('calendar_filters_reset')}</LinkButton>
+        {onClose && (
+          <LinkButton
+            testID='calendar-filter-done'
+            type='primary'
+            style={{
+              paddingLeft: 8,
+              paddingRight: 8,
+            }}
+            onPress={onClose}
+          >{t('done')}</LinkButton>
+        )}
       </View>
     </View>
   )

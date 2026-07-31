@@ -52,7 +52,7 @@ export interface LogDay {
   date: string;
   items: LogItem[];
   ratingAvg: (typeof RATING_KEYS)[number];
-  sleepQualityAvg: number;
+  sleepQualityAvg: number | null;
 }
 
 export interface LogsState {

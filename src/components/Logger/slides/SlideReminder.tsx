@@ -36,9 +36,8 @@ export const SlideReminder = ({
 
   const enable = async () => {
     const has = await hasPermission()
-    if (!has) {
-      await askForPermission()
-    }
+    const granted = has || await askForPermission()
+    if (!granted) return
 
     await (async () => {
       await cancelAll()

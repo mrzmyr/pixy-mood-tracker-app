@@ -31,16 +31,16 @@ const Reminder = () => {
   const timeDate = dayjs().hour(hour).minute(minute).toDate()
 
   const onEnabledChange = async (value: boolean) => {
-    const has = await hasPermission()
-    if (!has) {
-      await askForPermission()
+    let has = await hasPermission()
+    if (value && !has) {
+      has = await askForPermission()
     }
     if (!value) {
       await cancelAll()
     }
     analytics.track('reminder_enabled_change', { enabled: value })
 
-    const enable = value && has
+    const enable = value && Boolean(has)
 
     setReminderEnabled(enable)
   }

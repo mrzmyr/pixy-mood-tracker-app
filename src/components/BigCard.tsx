@@ -105,7 +105,8 @@ export const BigCard = ({
     captureRef(viewRef)
       .then((uri) => {
         setShareLoading(false);
-        Sharing.shareAsync("file://" + uri, {
+        const fileUri = uri.startsWith('file://') ? uri : `file://${uri}`;
+        Sharing.shareAsync(fileUri, {
           dialogTitle: 'Hey I use this app called "Pixy Mood Tracker" and I wanted to share this with you!',
         })
           .then(() => {

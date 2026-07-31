@@ -62,12 +62,15 @@ export const StepsScreen = ({ navigation }: RootStackScreenProps<'Steps'>) => {
               title={
                 <View
                   style={{
+                    flex: 1,
+                    minWidth: 0,
                     flexDirection: 'row',
                     alignItems: 'center',
                   }}
                 >
                   <Text
                     style={{
+                      flexShrink: 1,
                       fontSize: 17,
                       color: colors.text,
                     }}
@@ -76,6 +79,7 @@ export const StepsScreen = ({ navigation }: RootStackScreenProps<'Steps'>) => {
                     <Indicator
                       colorName='purple'
                       style={{
+                        flexShrink: 0,
                         marginLeft: 8,
                       }}
                     >{t('new')}</Indicator>
@@ -86,6 +90,8 @@ export const StepsScreen = ({ navigation }: RootStackScreenProps<'Steps'>) => {
               iconLeft={ICONS_MAP[option]}
               iconRight={option === 'rating' ? undefined : (
                 <Switch
+                  accessibilityLabel={t(`logger_step_${option}`)}
+                  testID={`step-${option}-enabled`}
                   onValueChange={() => {
                     setSettings(settings => ({
                       ...settings,

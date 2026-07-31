@@ -16,13 +16,16 @@ tags: [tags]
 - tapOn: "Create Tag"
 - runFlow:
     when:
-      notVisible: "#bigday"
+      notVisible:
+        id: "tag-name"
     commands:
       - tapOn: "Create Tag"
 - extendedWaitUntil:
-    visible: "#bigday"
+    visible:
+      id: "tag-name"
     timeout: 5000
-- tapOn: "#bigday"
+- tapOn:
+    id: "tag-name"
 - inputText: "e2e-tag"
 - hideKeyboard
 - tapOn: "Create"
@@ -38,7 +41,8 @@ tags: [tags]
 # 4.3 Edit tag: rename
 - tapOn: "e2e-tag"
 - assertVisible: "Save"
-- tapOn: "e2e-tag"
+- tapOn:
+    id: "tag-name"
 - eraseText
 - inputText: "e2e-renamed"
 - hideKeyboard
