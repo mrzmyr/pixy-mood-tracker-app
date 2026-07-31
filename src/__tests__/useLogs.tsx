@@ -1,4 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import * as Sentry from '@sentry/react-native'
 import { act, renderHook, waitFor } from '@testing-library/react-native'
 import { AnalyticsProvider } from '../hooks/useAnalytics'
 import { LogsProvider, LogsState, STORAGE_KEY, useLogState, useLogUpdater } from '../hooks/useLogs'
@@ -52,6 +53,7 @@ const _console_error = console.error
 describe('useLogs()', () => {
 
   beforeEach(async () => {
+    jest.clearAllMocks()
     console.error = jest.fn()
     global.fetch = jest.fn().mockResolvedValue({ ok: true }) as jest.Mock
   })
@@ -60,6 +62,7 @@ describe('useLogs()', () => {
     console.error = _console_error
     const keys = await AsyncStorage.getAllKeys()
     await AsyncStorage.multiRemove(keys)
+    jest.restoreAllMocks()
   });
 
   test('should have `loaded` prop', async () => {
@@ -93,13 +96,43 @@ describe('useLogs()', () => {
 
     const hook = await _renderHook()
 
-    await act(async () => {
-      await new Promise((resolve) => setTimeout(resolve, 0))
+    await waitFor(() => {
+      expect(Sentry.captureException).toHaveBeenCalled()
     })
 
     expect(hook.result.current.state.loaded).toBe(false)
     expect(setItemSpy).not.toHaveBeenCalledWith(STORAGE_KEY, expect.anything())
     expect(await AsyncStorage.getItem(STORAGE_KEY)).toBe('🐇')
+  })
+
+  test('should keep logs unloaded when async storage cannot be read', async () => {
+    const readError = new Error('disk unavailable')
+    const getItemSpy = jest.spyOn(AsyncStorage, 'getItem').mockImplementation(
+      (key) => key === STORAGE_KEY
+        ? Promise.reject(readError)
+        : Promise.resolve(null)
+    )
+    const setItemSpy = jest.spyOn(AsyncStorage, 'setItem')
+
+    const hook = await _renderHook()
+
+    await waitFor(() => {
+      expect(getItemSpy).toHaveBeenCalledWith(STORAGE_KEY)
+      expect(Sentry.captureException).toHaveBeenCalledWith(
+        expect.objectContaining({
+          status: 'storage_read_failed',
+          message: 'Stored data could not be read',
+          why: `Reading storage key "${STORAGE_KEY}" failed: disk unavailable`,
+          fix: 'Retry the operation and check device storage access',
+        })
+      )
+    })
+
+    expect(hook.result.current.state.loaded).toBe(false)
+    expect(setItemSpy).not.toHaveBeenCalledWith(STORAGE_KEY, expect.anything())
+
+    getItemSpy.mockRestore()
+    setItemSpy.mockRestore()
   })
 
   test('should import', async () => {
