@@ -30,7 +30,7 @@
   "send_feedback_issue": "Probleem melden",
   "send_feedback_idea": "Idee indienen",
   "feedback_modal_title": "Feedback verzenden",
-  "feedback_modal_description": "Uw feedback helpt me om beter te begrijpen hoe u de app gebruikt en hoe ik deze kan verbeteren.",
+  "feedback_modal_description": "Je feedback helpt me om beter te begrijpen hoe je de app gebruikt en hoe ik deze kan verbeteren.",
   "feedback_modal_textarea_placeholder": "Ik merkte dat…",
   "feedback_modal_send": "Versturen",
   "feedback_modal_cancel": "Annuleren",
@@ -135,7 +135,10 @@
   "feedback_modal_email_placeholder": "Email (optioneel)",
   "feedback_modal_message_placeholder": "Ik merkte dat…",
   "tags": "Tags",
-  "statistics_tag_peaks_title": "werd getagd op {{count}} dagen.",
+  "statistics_tag_peaks_title": {
+    "one": "werd op één dag getagd.",
+    "other": "werd op {{count}} dagen getagd."
+  },
   "statistics_tags_distribution_title": "In de afgelopen 2 weken zijn {{count}} dagen getagd.",
   "onboarding_skip": "Overslaan",
   "onboarding_next": "Volgende",
