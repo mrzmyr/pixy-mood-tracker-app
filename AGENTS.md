@@ -1,5 +1,9 @@
 # Repository conventions
 
+## Public repository security
+
+- This project is public open source, so never include credentials or secret values in code, configuration, documentation, commits, pull requests, issues, comments, logs, or artifacts; reference secret names only and store values in approved secret managers.
+
 ## Commits
 
 - Use [Conventional Commits](https://www.conventionalcommits.org/) for every commit.

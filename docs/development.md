@@ -42,14 +42,8 @@ $ bun start
 
 ## Releasing
 
-### Preview
+Merging a Release Please PR creates the GitHub release, builds the production iOS app with EAS, and submits it to TestFlight. TestFlight submission does not release the app publicly. Promote the tested build manually in App Store Connect.
 
-1. (If native changes) `bun run publish:preview` (iOS and Android builds are built and submitted for testing)
-2. Merge a PR to `preview` branch (automatically publishing a release to all beta testers)
+See [TestFlight release workflow](./testflight-release-workflow.md) for prerequisites, operation, and verification criteria.
 
-### Production
-
-1. (If native changes) `bun run publish:production` (iOS and Android builds are built and submitted for testing)
-2. (If native changes) Submit App to Review in Google Play Console
-3. (If native changes) Submit App to Review in App Store Connect
-4. Merge a PR to `production` branch (automatically publishing a release to all users)
+Android store submissions remain manual: run `bun run build:android:prod`, then `bunx eas-cli submit --platform android --path <path-to-aab>`. JavaScript and asset updates pushed to `preview` or `production` continue through the [EAS Update workflow](../.github/workflows/update.yml) when compatible with the installed runtime.
