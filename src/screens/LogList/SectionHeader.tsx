@@ -8,7 +8,7 @@ export const SectionHeader = ({
   onEdit,
 }: {
   title: string;
-  onEdit: () => void;
+  onEdit?: () => void;
 }) => {
   const colors = useColors();
 
@@ -31,12 +31,14 @@ export const SectionHeader = ({
           {title}
         </Text>
       </View>
-      <LinkButton
-        onPress={onEdit}
-        type="secondary"
-      >
-        <Edit size={20} color={colors.textSecondary} />
-      </LinkButton>
+      {onEdit && (
+        <LinkButton
+          onPress={onEdit}
+          type="secondary"
+        >
+          <Edit size={20} color={colors.textSecondary} />
+        </LinkButton>
+      )}
     </View>
   );
 };

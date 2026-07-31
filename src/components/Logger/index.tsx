@@ -24,7 +24,6 @@ import { SlideMessage } from './slides/SlideMessage';
 import { SlideMood } from './slides/SlideMood';
 import { SlideReminder } from './slides/SlideReminder';
 import { SlideTags } from './slides/SlideTags';
-import { SlideSleep } from './slides/SlideSleep';
 import { StackActions } from '@react-navigation/native';
 
 export type LoggerMode = 'create' | 'edit'
@@ -40,10 +39,8 @@ const EMOTIONS_INDEX_MAPPING = {
 }
 
 const getAvailableStepsForCreate = ({
-  date,
   question,
 }: {
-  date: string;
   question: IQuestion | null;
 }) => {
   const { hasStep, settings } = useSettings();
@@ -53,10 +50,6 @@ const getAvailableStepsForCreate = ({
     'rating'
   ]
 
-  const itemsOnDate = logState.items.filter(item => dayjs(item.dateTime).isSame(dayjs(date), 'day'))
-  const hasSleep = itemsOnDate.some(item => item.sleep?.quality !== null)
-
-  if (hasStep('sleep') && !hasSleep) slides.push('sleep')
   if (hasStep('emotions')) slides.push('emotions')
   if (hasStep('tags')) slides.push('tags')
   if (hasStep('message')) slides.push('message')
@@ -80,23 +73,16 @@ const getAvailableStepsForCreate = ({
 }
 
 const getAvailableStepsForEdit = ({
-  date,
   item,
 }: {
-  date: string;
   item: LogItem;
 }) => {
   const { hasStep } = useSettings();
-  const logState = useLogState();
 
   const slides: LoggerStep[] = [
     'rating'
   ]
 
-  const itemsOnDate = logState.items.filter(item => dayjs(item.dateTime).isSame(dayjs(date), 'day'))
-  const hasSleep = itemsOnDate.some(item => item.sleep?.quality !== null)
-
-  if (item.sleep?.quality || (!hasSleep && hasStep('sleep'))) slides.push('sleep')
   if (hasStep('emotions') || item.emotions.length > 0) slides.push('emotions')
   if (hasStep('tags') || item.tags.length > 0) slides.push('tags')
   if (hasStep('message') || item.message.length > 0) slides.push('message')
@@ -123,7 +109,6 @@ export const LoggerEdit = ({
   }
 
   const avaliableSteps = getAvailableStepsForEdit({
-    date: dayjs(initialItem.dateTime).format(DATE_FORMAT),
     item: initialItem,
   })
 
@@ -165,7 +150,6 @@ export const LoggerCreate = ({
   }
 
   avaliableSteps = avaliableSteps || getAvailableStepsForCreate({
-    date: initialItem.date,
     question: questioner.question,
   })
 
@@ -312,42 +296,6 @@ export const Logger = ({
       />
     )
   })
-
-  if (avaliableSteps.includes('sleep')) {
-    content.push({
-      key: 'sleep',
-      slide: (
-        <SlideSleep
-          onChange={(value: LogItem['sleep']['quality']) => {
-            if (tempLog.data.sleep.quality === value) {
-              tempLog.update({
-                sleep: {
-                  ...tempLog.data.sleep,
-                  quality: null
-                }
-              })
-            } else {
-
-              tempLog.update({
-                sleep: {
-                  ...tempLog.data.sleep,
-                  quality: value
-                }
-              })
-              next()
-            }
-          }}
-          showDisable={showDisable}
-          onDisableStep={() => {
-            askToDisableStep().then(() => {
-              toggleStep('sleep')
-              next()
-            })
-          }}
-        />
-      ),
-    })
-  }
 
   if (avaliableSteps.includes('emotions')) {
     content.push({

@@ -1,6 +1,5 @@
 import { SlideSleepButton } from '@/components/Logger/slides/SlideSleepButton';
 import { LogItem } from '@/hooks/useLogs';
-import { useNavigation } from '@react-navigation/native';
 import { t } from 'i18n-js';
 import { View } from 'react-native';
 import { SectionHeader } from './SectionHeader';
@@ -10,8 +9,6 @@ export const Sleep = ({
 }: {
   item: LogItem;
 }) => {
-  const navigation = useNavigation();
-
   if (!item.sleep?.quality) return null;
 
   return (
@@ -21,12 +18,6 @@ export const Sleep = ({
     >
       <SectionHeader
         title={t('view_log_sleep')}
-        onEdit={() => {
-          navigation.navigate('LogEdit', {
-            id: item.id,
-            step: 'sleep',
-          });
-        }}
       />
       <View
         style={{

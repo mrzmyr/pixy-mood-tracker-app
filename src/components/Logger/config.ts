@@ -6,7 +6,6 @@ export type LoggerStep = "rating" | "tags" | "message" | "feedback" | "reminder"
 export const STEP_OPTIONS: LoggerStep[] = [
   "rating",
   "tags",
-  "sleep",
   "emotions",
   "message",
   "feedback",

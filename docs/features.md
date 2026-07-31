@@ -5,10 +5,10 @@
 - **Daily mood rating** — log your mood as one pixel/color a day
 - **Bot-style logger** — chat-like flow that asks a sequence of questions (rating, message, sleep, tags, emotions, feedback, reminder)
 - **Custom message/note** — attach a free-text note to a log entry
-- **Sleep quality tracking** — record how well you slept alongside your mood
+- **Historical sleep quality** — view previously recorded sleep quality alongside mood entries
 - **Tags** — attach custom tags to a log entry, create/edit/manage tags
 - **Emotions** — attach one or more emotions to a log entry
-- **Configurable steps** — enable/disable which questions (rating, message, sleep, tags, emotions, feedback, reminder) appear in the logger
+- **Configurable steps** — enable/disable which questions (rating, message, tags, emotions, feedback, reminder) appear in the logger
 - **Edit/create log entries** for any day
 
 ## Calendar
