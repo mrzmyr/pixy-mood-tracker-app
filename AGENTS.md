@@ -2,12 +2,7 @@
 
 ## Public repository security
 
-- This project is public open source. Treat every tracked file, commit, branch, pull request, issue, comment, workflow log, and artifact as public.
-- Never include credentials or secret values in code, configuration, documentation, examples, commits, pull request titles or descriptions, issues, comments, logs, or artifacts.
-- This includes passwords, API keys, access tokens, private keys, signing certificates, provisioning data, session values, cookies, two-factor codes, and personal data.
-- Reference secret names only. Store values in an approved secret manager, GitHub Actions secrets, or EAS-managed credentials.
-- Inspect staged changes and pull request text for accidental secret exposure before publishing.
-- If exposure is suspected, stop publishing and rotate the credential. Removing it from a later commit is not sufficient.
+- This project is public open source, so never include credentials or secret values in code, configuration, documentation, commits, pull requests, issues, comments, logs, or artifacts; reference secret names only and store values in approved secret managers.
 
 ## Commits
 
