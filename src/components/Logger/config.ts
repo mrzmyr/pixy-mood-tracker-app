@@ -1,12 +1,12 @@
 import { t } from "@/helpers/translation";
 import { Emotion } from "@/types";
 
-export type LoggerStep = "rating" | "tags" | "message" | "feedback" | "reminder" | "emotions" | "sleep";
+export type LoggerStep = "rating" | "tags" | "message" | "feedback" | "reminder" | "emotions";
+export type ConfigurableLoggerStep = Exclude<LoggerStep, "reminder">;
 
-export const STEP_OPTIONS: LoggerStep[] = [
+export const STEP_OPTIONS: ConfigurableLoggerStep[] = [
   "rating",
   "tags",
-  "sleep",
   "emotions",
   "message",
   "feedback",

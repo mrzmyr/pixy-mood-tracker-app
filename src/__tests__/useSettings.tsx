@@ -59,6 +59,18 @@ describe('useSettings()', () => {
     expect(hook.result.current.state.settings.deviceId).toBe(STATIC_DEVICE_ID)
   })
 
+  test('should remove retired sleep step from stored settings', async () => {
+    await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify({
+      ...INITIAL_STATE,
+      steps: [...INITIAL_STATE.steps, 'sleep'],
+    }))
+
+    const hook = await _renderHook()
+    await waitForLoaded(hook)
+
+    expect(hook.result.current.state.settings.steps).toEqual(INITIAL_STATE.steps)
+  })
+
   test('should initiate with empty `settings` when async storage is empty', async () => {
     const hook = await _renderHook()
     await waitForLoaded(hook)
@@ -85,6 +97,20 @@ describe('useSettings()', () => {
     })
 
     expect(hook.result.current.state.settings.reminderTime).toBe('12:00')
+  })
+
+  test('should remove retired sleep step from imported settings', async () => {
+    const hook = await _renderHook()
+    await waitForLoaded(hook)
+
+    await act(() => {
+      hook.result.current.state.importSettings({
+        ...INITIAL_STATE,
+        steps: [...INITIAL_STATE.steps, 'sleep'],
+      } as any)
+    })
+
+    expect(hook.result.current.state.settings.steps).toEqual(INITIAL_STATE.steps)
   })
 
   test('should addActionDone', async () => {
@@ -164,13 +190,13 @@ describe('useSettings()', () => {
       hook.result.current.state.toggleStep('feedback')
     })
 
-    expect(hook.result.current.state.settings.steps.length).toEqual(5)
+    expect(hook.result.current.state.settings.steps.length).toEqual(4)
 
     await act(() => {
       hook.result.current.state.toggleStep('feedback')
     })
 
-    expect(hook.result.current.state.settings.steps[4]).toEqual('message')
+    expect(hook.result.current.state.settings.steps[3]).toEqual('message')
   })
 
   test('should `toggleStep` with value', async () => {
@@ -185,7 +211,6 @@ describe('useSettings()', () => {
 
     expect(hook.result.current.state.settings.steps).toEqual([
       "rating",
-      "sleep",
       "emotions",
       "message",
       "feedback",

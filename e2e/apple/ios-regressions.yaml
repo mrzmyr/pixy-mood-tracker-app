@@ -21,7 +21,7 @@ tags: [ios, regressions]
     id: "settings"
 - tapOn: "Check-in"
 - assertVisible: "Write about your day"
-- assertVisible:
+- assertNotVisible:
     id: "step-sleep-enabled"
 - assertVisible:
     id: "step-feedback-enabled"
