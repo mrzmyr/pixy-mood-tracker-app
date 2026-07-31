@@ -1,10 +1,8 @@
-import Indicator from '@/components/Indicator';
 import { LoggerStep, STEP_OPTIONS } from '@/components/Logger/config';
 import MenuList from '@/components/MenuList';
 import MenuListItem from '@/components/MenuListItem';
 import { PageWithHeaderLayout } from '@/components/PageWithHeaderLayout';
 import { t } from '@/helpers/translation';
-import { BedDouble } from 'lucide-react-native';
 import { ReactElement } from 'react';
 import { ScrollView, Switch, Text, View } from 'react-native';
 import { Bell, FileText, Heart, MessageSquare, Sun, Tag } from 'react-native-feather';
@@ -15,12 +13,9 @@ import { useSettings } from '../hooks/useSettings';
 export const StepsScreen = ({ navigation }: RootStackScreenProps<'Steps'>) => {
   const colors = useColors()
 
-  const ICONS_MAP: {
-    [key in LoggerStep]: ReactElement;
-  } = {
+  const ICONS_MAP: Partial<Record<LoggerStep, ReactElement>> = {
     'rating': <Sun width={20} height={20} stroke={colors.text} />,
     'message': <FileText width={20} height={20} color={colors.text} />,
-    'sleep': <BedDouble size={20} color={colors.text} />,
     'tags': <Tag width={20} height={20} color={colors.text} />,
     'emotions': <Heart width={20} height={20} color={colors.text} />,
     'feedback': <MessageSquare width={20} height={20} color={colors.text} />,
@@ -75,15 +70,6 @@ export const StepsScreen = ({ navigation }: RootStackScreenProps<'Steps'>) => {
                       color: colors.text,
                     }}
                   >{t(`logger_step_${option}`)}</Text>
-                  {option === 'sleep' && (
-                    <Indicator
-                      colorName='purple'
-                      style={{
-                        flexShrink: 0,
-                        marginLeft: 8,
-                      }}
-                    >{t('new')}</Indicator>
-                  )}
                 </View>
 
               }

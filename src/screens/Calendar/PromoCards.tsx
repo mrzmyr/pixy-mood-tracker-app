@@ -48,8 +48,6 @@ export const PromoCards = () => {
 
   const hasMonthPromo = isBeginningOfMonth && statisticsUnlocked && !hasActionDone(MONTH_REPORT_SLUG)
   const hasYearPromo = enoughtLogsForYearPromo && isDecember && statisticsUnlocked && !hasActionDone(YEAR_REPORT_SLUG)
-  const hasSleepTrackingPromo = logState.items.length > 4 && !hasActionDone('promo_sleep_tracking_closed')
-
   const [mostRecentRssItem, setMostRecentRssItem] = useState<RssItem | null>(null)
 
   const hasMostRecentRssItem = !!mostRecentRssItem && !hasActionDone(mostRecentRssItem.slug)
@@ -95,20 +93,6 @@ export const PromoCards = () => {
       <PromoCardYear
         title={t('promo_card_year_title', { year: dayjs().format('YYYY') })}
         onPress={() => navigation.navigate('StatisticsYear', { date: dayjs().startOf('year').format(DATE_FORMAT) })}
-      />
-    )
-  }
-
-  if (hasSleepTrackingPromo) {
-    promoCards.push(
-      <PromoCard
-        slug="promo_sleep_tracking_closed"
-        subtitle={t('new_feature')}
-        title={t('promo_sleep_tracking_title')}
-        onPress={() => {
-          analytics.track('promo_sleep_tracking_clicked')
-          navigation.navigate("Steps");
-        }}
       />
     )
   }
