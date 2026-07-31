@@ -253,11 +253,6 @@ const light = {
   promoCardTextSecondary: colors.neutral[500],
   promoCardBorder: colors.neutral[200],
 
-  chatUserMessageBackground: colors.neutral[800],
-  chatUserMessageText: colors.white,
-  chatBotMessageBackground: colors.white,
-  chatBotMessageText: colors.black,
-
   sleepQualityEmpty: colors.indigo[100],
   sleepQualityFull: colors.indigo[500],
 
@@ -486,11 +481,6 @@ const dark: IColors & {
   promoCardText: colors.white,
   promoCardTextSecondary: colors.neutral[400],
   promoCardBorder: colors.neutral[800],
-
-  chatBotMessageBackground: colors.neutral[800],
-  chatBotMessageText: colors.white,
-  chatUserMessageBackground: colors.blue[800],
-  chatUserMessageText: colors.white,
 
   sleepQualityEmpty: colors.indigo[800],
   sleepQualityFull: colors.indigo[400],
