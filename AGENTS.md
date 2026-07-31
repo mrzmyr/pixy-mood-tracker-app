@@ -11,6 +11,16 @@
 - Use `feat` for features and `fix` for bug fixes. Use `build`, `chore`, `ci`, `docs`, `refactor`, `style`, or `test` when they fit.
 - Mark breaking changes with `!` before `:` or a `BREAKING CHANGE:` footer.
 
+## Pull request proof
+
+- Every agent-authored pull request must prove to the human reviewer that the change works before it is marked ready or merged.
+- Include screenshots or a video in the pull request body that show the successful result. For non-visual changes, show the relevant observable behavior or test execution.
+- Show before and after evidence when behavior or UI is changed or removed.
+- Document the environment and exact steps used to produce the evidence so the reviewer can reproduce it.
+- Document the edge cases checked, including each expected result and actual result. Cover failure, empty, loading, boundary, and regression states when relevant.
+- Never expose credentials, secrets, or personal data in evidence.
+- If evidence cannot be produced, keep the pull request in draft, document the blocker, and get explicit human approval before merging.
+
 ## Errors
 
 - Every error created, thrown, returned, or logged must expose `status`, `message`, `why`, and `fix`.
