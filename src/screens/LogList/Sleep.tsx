@@ -1,4 +1,4 @@
-import { SlideSleepButton } from '@/components/Logger/slides/SlideSleepButton';
+import { SleepQualityIndicator } from '@/components/SleepQualityIndicator';
 import { LogItem } from '@/hooks/useLogs';
 import { t } from 'i18n-js';
 import { View } from 'react-native';
@@ -25,7 +25,7 @@ export const Sleep = ({
           flexWrap: 'wrap',
         }}
       >
-        <SlideSleepButton
+        <SleepQualityIndicator
           value={item.sleep?.quality}
           style={{
             flex: 0,

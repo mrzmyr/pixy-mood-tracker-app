@@ -7,7 +7,7 @@
 - **Historical sleep quality** — view previously recorded sleep quality alongside mood entries
 - **Tags** — attach custom tags to a log entry, create/edit/manage tags
 - **Emotions** — attach one or more emotions to a log entry
-- **Configurable steps** — enable/disable which questions (rating, message, tags, emotions, feedback, reminder) appear in the logger
+- **Configurable steps** — enable/disable optional questions (message, tags, emotions, feedback) in the logger
 - **Edit/create log entries** for any day
 
 ## Calendar

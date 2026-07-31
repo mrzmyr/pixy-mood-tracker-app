@@ -1,10 +1,7 @@
 appId: com.devmood.pixymoodtracker
 ---
-# Walks the deterministic default first-entry sequence:
-# sleep → emotions → tags → message → save.
-- tapOn:
-    id: "logger-next"
-    waitToSettleTimeoutMs: 300
+# Walks the deterministic default first-entry sequence after mood auto-advance:
+# emotions → tags → message → save.
 - tapOn:
     id: "logger-next"
     waitToSettleTimeoutMs: 300
