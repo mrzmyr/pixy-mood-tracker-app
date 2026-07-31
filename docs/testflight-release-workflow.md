@@ -64,7 +64,9 @@ Submission stops at TestFlight. Releasing the build publicly still requires manu
 - Missing or invalid App Store Connect credentials fail the submission after a successful build.
 - Build or submission failure is visible from the EAS build/submission linked by GitHub Actions.
 - Retry a failed submission without rebuilding: `eas submit --platform ios --profile production --id <BUILD_ID>`.
-- Retrying a failed build creates a new remote build number and does not collide with an earlier upload.
+- Retry a failed build with GitHub's **Re-run failed jobs**, which preserves the Release Please outputs; **Re-run all jobs** skips TestFlight because the GitHub release already exists.
+- If the original GitHub run is unavailable, retry from the released commit with `eas build --platform ios --profile production --auto-submit --non-interactive --freeze-credentials`.
+- A retried build creates a new remote build number and does not collide with an earlier upload.
 
 ## Rollback
 
