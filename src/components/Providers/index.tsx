@@ -9,8 +9,19 @@ import { SettingsProvider } from "@/hooks/useSettings";
 import { StatisticsProvider } from "@/hooks/useStatistics";
 import { TagsProvider } from "@/hooks/useTags";
 import { TemporaryLogProvider } from "@/hooks/useTemporaryLog";
+import {
+  SupportClient,
+  SupportProvider,
+  defaultSupportClient,
+} from "@/support";
 
-const Providers = ({ children }: { children: React.ReactNode }) => {
+const Providers = ({
+  children,
+  supportClient = defaultSupportClient,
+}: {
+  children: React.ReactNode;
+  supportClient?: SupportClient;
+}) => {
   return (
     <SafeAreaProvider>
       <SettingsProvider>
@@ -26,15 +37,17 @@ const Providers = ({ children }: { children: React.ReactNode }) => {
           autocapture={false}
         >
           <AnalyticsProvider options={{ enabled: TRACKING_ENABLED }}>
-            <LogsProvider>
-              <TagsProvider>
-                <TemporaryLogProvider>
-                  <CalendarFiltersProvider>
-                    <StatisticsProvider>{children}</StatisticsProvider>
-                  </CalendarFiltersProvider>
-                </TemporaryLogProvider>
-              </TagsProvider>
-            </LogsProvider>
+            <SupportProvider client={supportClient}>
+              <LogsProvider>
+                <TagsProvider>
+                  <TemporaryLogProvider>
+                    <CalendarFiltersProvider>
+                      <StatisticsProvider>{children}</StatisticsProvider>
+                    </CalendarFiltersProvider>
+                  </TemporaryLogProvider>
+                </TagsProvider>
+              </LogsProvider>
+            </SupportProvider>
           </AnalyticsProvider>
         </PostHogProvider>
         {/* </PasscodeProvider> */}

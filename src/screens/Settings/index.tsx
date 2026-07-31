@@ -7,6 +7,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import MenuList from '@/components/MenuList';
 import MenuListHeadline from '@/components/MenuListHeadline';
 import MenuListItem from '@/components/MenuListItem';
+import { SupportCard } from '@/components/SupportCard';
 import TextInfo from '@/components/TextInfo';
 import { CHANGELOG_URL, FEEDBACK_FEATURES_URL } from '@/constants/Config';
 import { t } from '@/helpers/translation';
@@ -18,11 +19,13 @@ import { RootStackScreenProps } from '../../../types';
 import { UserDataImportList } from './UserData';
 import * as Updates from 'expo-updates';
 import { Tag } from 'lucide-react-native';
+import { useSupport } from '@/support';
 
 export const SettingsScreen = ({ navigation }: RootStackScreenProps<'Settings'>) => {
   const insets = useSafeAreaInsets();
   const colors = useColors()
   const analytics = useAnalytics()
+  const support = useSupport()
 
   const { show: showFeedbackModal, Modal: FeedbackModal } = useFeedbackModal();
 
@@ -220,6 +223,8 @@ export const SettingsScreen = ({ navigation }: RootStackScreenProps<'Settings'>)
             isLast
           />
         </MenuList>
+        {__DEV__ && <UserDataImportList />}
+        {support.enabled && <SupportCard />}
         <View
           style={{
             marginTop: 20,
@@ -232,8 +237,6 @@ export const SettingsScreen = ({ navigation }: RootStackScreenProps<'Settings'>)
           <Text style={{ fontSize: 14, marginTop: 5, color: colors.textSecondary }}>Pixy v{pkg.version}</Text>
           {Updates.channel && <Text style={{ fontSize: 14, marginTop: 5, color: colors.textSecondary }}>{Updates.channel}</Text>}
         </View>
-
-        {__DEV__ && <UserDataImportList />}
       </ScrollView>
     </View>
   );

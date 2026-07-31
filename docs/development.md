@@ -20,6 +20,10 @@ $ bun install
 $ bun start
 ```
 
+### Preview Support Pixy
+
+Development builds can expose the support card without a payment SDK. Set `EXPO_PUBLIC_PIXY_SUPPORT_FAKE_OUTCOME` to `purchased`, `cancelled`, or `failed`, then restart Expo. Leave it unset to keep support hidden. Production builds ignore this fake configuration.
+
 **Environments** (`eas.json`)
 
 - `development` Builds for local development on physical devices
