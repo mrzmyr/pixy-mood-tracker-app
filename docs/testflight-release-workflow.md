@@ -23,7 +23,7 @@ Submission stops at TestFlight. Releasing the build publicly still requires manu
 3. Merge the Release Please PR.
 4. Release Please creates a GitHub release and reports `release_created=true`.
 5. GitHub Actions checks out the released commit and starts an EAS production build.
-6. EAS signs the app, increments its build number, and submits the successful build to TestFlight.
+6. GitHub Actions exits after EAS accepts the build; EAS continues remotely, signs the app, increments its build number, and submits the successful build to TestFlight.
 7. Verify tester distribution in App Store Connect.
 8. After testing, manually promote that same build for App Review when ready.
 

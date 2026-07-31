@@ -29,7 +29,7 @@ jobs:
     needs: release-please
     if: needs.release-please.outputs.release_created == 'true'
     runs-on: ubuntu-latest
-    timeout-minutes: 90
+    timeout-minutes: 15
     concurrency:
       group: testflight
       cancel-in-progress: false
@@ -68,4 +68,5 @@ jobs:
           --profile production
           --auto-submit
           --non-interactive
+          --no-wait
           --freeze-credentials
