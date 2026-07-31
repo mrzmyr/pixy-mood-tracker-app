@@ -13,7 +13,7 @@ import { useSettings } from '../hooks/useSettings';
 export const StepsScreen = ({ navigation }: RootStackScreenProps<'Steps'>) => {
   const colors = useColors()
 
-  const ICONS_MAP: Partial<Record<LoggerStep, ReactElement>> = {
+  const ICONS_MAP: Record<LoggerStep, ReactElement> = {
     'rating': <Sun width={20} height={20} stroke={colors.text} />,
     'message': <FileText width={20} height={20} color={colors.text} />,
     'tags': <Tag width={20} height={20} color={colors.text} />,
@@ -81,7 +81,7 @@ export const StepsScreen = ({ navigation }: RootStackScreenProps<'Steps'>) => {
                   onValueChange={() => {
                     setSettings(settings => ({
                       ...settings,
-                      steps: settings.steps.includes(option) ? settings.steps.filter(s => s !== option) : [...settings.steps, option] as LoggerStep[]
+                      steps: settings.steps.includes(option) ? settings.steps.filter(s => s !== option) : [...settings.steps, option]
                     }))
                   }}
                   value={settings.steps.includes(option)}

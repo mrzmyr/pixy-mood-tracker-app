@@ -8,9 +8,11 @@ import {
 } from "react";
 import "react-native-get-random-values";
 import { v4 as uuidv4 } from "uuid";
-import { LoggerStep, STEP_OPTIONS } from "@/components/Logger/config";
+import { ConfigurableLoggerStep, STEP_OPTIONS } from "@/components/Logger/config";
 import { load, store } from "@/helpers/storage";
 import { Tag } from "./useTags";
+
+type KnownSettingsStep = ConfigurableLoggerStep | "sleep";
 
 export const STORAGE_KEY = "PIXEL_TRACKER_SETTINGS";
 
@@ -33,7 +35,7 @@ export interface SettingsState {
   reminderTime: string;
   analyticsEnabled: boolean;
   actionsDone: IAction[];
-  steps: LoggerStep[];
+  steps: KnownSettingsStep[];
 
   // removed in previous version
   trackBehaviour?: boolean; // replaced with analyticsEnabled
@@ -76,11 +78,17 @@ type Value = {
   addActionDone: (action: IAction["title"]) => void;
   hasActionDone: (actionTitle: IAction["title"]) => boolean;
   removeActionDone: (actionTitle: IAction["title"]) => void;
-  toggleStep: (step: LoggerStep, value?: Boolean) => void;
-  hasStep: (step: LoggerStep) => boolean;
+  toggleStep: (step: ConfigurableLoggerStep, value?: Boolean) => void;
+  hasStep: (step: KnownSettingsStep) => boolean;
 }
 
 const SettingsStateContext = createContext({} as Value);
+
+const isConfigurableLoggerStep = (step: unknown): step is ConfigurableLoggerStep =>
+  typeof step === "string" && STEP_OPTIONS.includes(step as ConfigurableLoggerStep);
+
+const sanitizeSteps = (steps: unknown): ConfigurableLoggerStep[] =>
+  (Array.isArray(steps) ? steps : INITIAL_STATE.steps).filter(isConfigurableLoggerStep);
 
 function SettingsProvider({ children }: { children: React.ReactNode }) {
 
@@ -94,10 +102,11 @@ function SettingsProvider({ children }: { children: React.ReactNode }) {
     });
   }, [INITIAL_STATE]);
 
-  const importSettings = useCallback((settings: SettingsState) => {
+  const importSettings = useCallback((settings: ExportSettings) => {
     setSettings({
       ...INITIAL_STATE,
       ...settings,
+      steps: sanitizeSteps(settings.steps),
       loaded: true,
     });
   }, [INITIAL_STATE]);
@@ -119,6 +128,7 @@ function SettingsProvider({ children }: { children: React.ReactNode }) {
         setSettings({
           ...INITIAL_STATE,
           ...json,
+          steps: sanitizeSteps(json.steps),
           loaded: true,
         });
       } else {
@@ -172,7 +182,7 @@ function SettingsProvider({ children }: { children: React.ReactNode }) {
     [settings.actionsDone]
   );
 
-  const toggleStep = useCallback((step: LoggerStep, value: Boolean) => {
+  const toggleStep = useCallback((step: ConfigurableLoggerStep, value: Boolean) => {
     setSettings((settings) => {
       const shouldAdd = _.isBoolean(value) ? value : !settings.steps.includes(step);
 
@@ -194,8 +204,8 @@ function SettingsProvider({ children }: { children: React.ReactNode }) {
     });
   }, []);
 
-  const hasStep = useCallback((step: LoggerStep) => {
-    return settings.steps.includes(step);
+  const hasStep = useCallback((step: KnownSettingsStep) => {
+    return settings.steps.some((configuredStep) => configuredStep === step);
   }, [settings.steps]);
 
   const value = {

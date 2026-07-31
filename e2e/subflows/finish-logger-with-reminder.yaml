@@ -11,8 +11,5 @@ appId: com.devmood.pixymoodtracker
     id: "logger-next"
     waitToSettleTimeoutMs: 300
 - tapOn:
-    id: "logger-next"
-    waitToSettleTimeoutMs: 300
-- tapOn:
     text: "Maybe later"
     waitToSettleTimeoutMs: 300

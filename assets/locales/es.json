@@ -461,8 +461,6 @@
   "logger_step_feedback": "Preguntas sobre productos",
   "logger_step_message": "Escribe sobre tu día",
   "logger_step_rating": "Estado animico",
-  "logger_step_sleep_high": "Estupendo",
-  "logger_step_sleep_low": "De nada",
   "logger_step_tags": "Etiquetas",
   "month_report": "Informe mensual",
   "mood_count_description": "Tu distribución de estados de ánimo en {{date}}",
