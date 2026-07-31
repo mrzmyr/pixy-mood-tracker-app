@@ -16,6 +16,14 @@ Submission stops at TestFlight. Releasing the build publicly still requires manu
 - Remote iOS build number is initialized above the highest build already uploaded to App Store Connect, and the remote Android version code is initialized from the current app config.
 - Internal testers belong to an automatically distributed TestFlight group. External testers have completed Apple's required Beta App Review.
 
+## Export compliance
+
+Pixy uses no non-exempt encryption. Its network encryption is limited to standard HTTPS and operating-system-provided security used by Expo and the app's service SDKs. The app does not implement proprietary encryption, custom cryptographic algorithms, VPN functionality, or encrypted communications.
+
+`app.json` sets `ios.infoPlist.ITSAppUsesNonExemptEncryption` to `false`. Expo writes this declaration into the iOS `Info.plist`, so App Store Connect can process future builds without asking for export-compliance information.
+
+Do not ask for the declaration again while this configuration and encryption behavior remain unchanged. Reassess export compliance before release only if the app or a dependency adds cryptographic functionality beyond operating-system-provided or exempt encryption.
+
 ## Release
 
 1. Merge product changes into `main` using Conventional Commit messages.
@@ -33,6 +41,7 @@ Submission stops at TestFlight. Releasing the build publicly still requires manu
 
 - `eas.json` parses as JSON.
 - Expo resolves bundle identifier `com.devmood.pixymoodtracker`, EAS project ID `8917be91-f1cc-4276-a252-674a28490ac3`, and App Store Connect app ID `1605327124`.
+- Expo resolves `ios.infoPlist.ITSAppUsesNonExemptEncryption` to `false`.
 - Production profile uses remote versioning and automatic build-number increments.
 - Remote versions are initialized for both iOS and Android.
 - Test and type-check workflows pass.
@@ -54,6 +63,7 @@ Submission stops at TestFlight. Releasing the build publicly still requires manu
 - Build number is greater than the previous App Store Connect build number.
 - Bundle identifier is `com.devmood.pixymoodtracker`.
 - Successful build is uploaded to app `1605327124` and appears under TestFlight after Apple processing.
+- Build reaches `READY_FOR_BETA_TESTING` without a missing export-compliance state.
 - Intended TestFlight users can install the build.
 - Build is not submitted for public App Review automatically.
 
