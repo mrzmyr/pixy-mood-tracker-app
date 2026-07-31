@@ -1,10 +1,13 @@
 import { createContext, useContext } from 'react';
 
-export type SupportOutcome = 'purchased' | 'cancelled';
-export type FakeSupportOutcome = SupportOutcome | 'failed';
+export type DevelopmentSupportMode = 'available' | 'failed';
 export type SupportFlowStatus =
+  | 'support_configuration_failed'
+  | 'support_consumption_failed'
+  | 'support_consumption_token_missing'
+  | 'support_fake_failed'
   | 'support_flow_failed'
-  | 'support_fake_failed';
+  | 'support_placement_failed';
 
 export interface SupportFlowError {
   status: SupportFlowStatus;
@@ -15,12 +18,12 @@ export interface SupportFlowError {
 
 export interface SupportClient {
   enabled: boolean;
-  openSupport: () => Promise<SupportOutcome>;
+  openSupport: () => Promise<void>;
 }
 
 export const disabledSupportClient: SupportClient = {
   enabled: false,
-  openSupport: async () => 'cancelled',
+  openSupport: async () => undefined,
 };
 
 export interface FakeSupportClient extends SupportClient {
@@ -28,10 +31,10 @@ export interface FakeSupportClient extends SupportClient {
 }
 
 export const createFakeSupportClient = (
-  outcome: FakeSupportOutcome,
-  ...nextOutcomes: FakeSupportOutcome[]
+  mode: DevelopmentSupportMode = 'available',
+  ...nextModes: DevelopmentSupportMode[]
 ): FakeSupportClient => {
-  const outcomes = [outcome, ...nextOutcomes];
+  const modes = [mode, ...nextModes];
   let attempts = 0;
 
   return {
@@ -40,10 +43,10 @@ export const createFakeSupportClient = (
       return attempts;
     },
     openSupport: async () => {
-      const currentOutcome = outcomes[Math.min(attempts, outcomes.length - 1)];
+      const currentMode = modes[Math.min(attempts, modes.length - 1)];
       attempts += 1;
 
-      if (currentOutcome === 'failed') {
+      if (currentMode === 'failed') {
         const error: SupportFlowError = {
           status: 'support_fake_failed',
           message: 'Support unavailable',
@@ -53,39 +56,26 @@ export const createFakeSupportClient = (
 
         throw error;
       }
-
-      return currentOutcome;
     },
   };
 };
 
-export const resolveSupportClient = ({
+export const resolveDevelopmentSupportClient = ({
   isDevelopment,
-  fakeOutcome,
+  mode,
 }: {
   isDevelopment: boolean;
-  fakeOutcome?: string;
-}): SupportClient => {
-  const validFakeOutcomes: FakeSupportOutcome[] = [
-    'purchased',
-    'cancelled',
-    'failed',
-  ];
-
+  mode?: string;
+}): SupportClient | undefined => {
   if (
     isDevelopment
-    && validFakeOutcomes.includes(fakeOutcome as FakeSupportOutcome)
+    && (mode === 'available' || mode === 'failed')
   ) {
-    return createFakeSupportClient(fakeOutcome as FakeSupportOutcome);
+    return createFakeSupportClient(mode);
   }
 
-  return disabledSupportClient;
+  return undefined;
 };
-
-export const defaultSupportClient = resolveSupportClient({
-  isDevelopment: __DEV__,
-  fakeOutcome: process.env.EXPO_PUBLIC_PIXY_SUPPORT_FAKE_OUTCOME,
-});
 
 const SupportContext = createContext<SupportClient>(disabledSupportClient);
 

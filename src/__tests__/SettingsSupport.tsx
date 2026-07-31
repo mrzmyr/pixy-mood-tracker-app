@@ -1,7 +1,6 @@
 import { NavigationContainer } from '@react-navigation/native';
 import {
   act,
-  fireEvent,
   render,
   userEvent,
   waitFor,
@@ -11,7 +10,7 @@ import Providers from '@/components/Providers';
 import Colors from '@/constants/Colors';
 import {
   createFakeSupportClient,
-  resolveSupportClient,
+  resolveDevelopmentSupportClient,
   SupportClient,
 } from '@/support';
 import { SettingsScreen } from '@/screens/Settings';
@@ -19,6 +18,17 @@ import { SettingsScreen } from '@/screens/Settings';
 jest.mock('lucide-react-native', () => ({
   Tag: () => null,
 }));
+
+jest.mock('expo-superwall', () => ({
+  SuperwallExpoModule: { consume: jest.fn() },
+  SuperwallProvider: ({ children }: { children: React.ReactNode }) => children,
+  usePlacement: () => ({ registerPlacement: jest.fn(), state: { status: 'idle' } }),
+  useSuperwall: (selector: (state: object) => unknown) => selector({
+    isConfigured: false,
+    setEventTrackingBehavior: jest.fn(),
+  }),
+  useSuperwallEvents: jest.fn(),
+}), { virtual: true });
 
 jest.mock('react-native-safe-area-context', () => ({
   SafeAreaProvider: ({ children }: { children: React.ReactNode }) => children,
@@ -62,7 +72,7 @@ describe('Support Pixy in Settings', () => {
   });
 
   test('user sees no support card when support is disabled', async () => {
-    const openSupport = jest.fn().mockResolvedValue('cancelled');
+    const openSupport = jest.fn().mockResolvedValue(undefined);
     const screen = await renderSettings({ enabled: false, openSupport });
 
     expect(screen.queryByTestId('support-pixy-card')).toBeNull();
@@ -75,12 +85,14 @@ describe('Support Pixy in Settings', () => {
   });
 
   test('user sees approved support card in a configured development build', async () => {
-    const supportClient = resolveSupportClient({
+    const supportClient = resolveDevelopmentSupportClient({
       isDevelopment: true,
-      fakeOutcome: 'cancelled',
+      mode: 'available',
     });
 
-    const screen = await renderSettings(supportClient);
+    expect(supportClient).toBeDefined();
+
+    const screen = await renderSettings(supportClient!);
 
     expect(screen.getByTestId('support-pixy-card')).toBeOnTheScreen();
     expect(screen.getByText('Has Pixy supported your wellbeing?')).toBeOnTheScreen();
@@ -99,7 +111,7 @@ describe('Support Pixy in Settings', () => {
   });
 
   test('user opens support flow from the card', async () => {
-    const supportClient = createFakeSupportClient('cancelled');
+    const supportClient = createFakeSupportClient();
     const screen = await renderSettings(supportClient);
 
     await userEvent.press(screen.getByRole('button', { name: 'Support Pixy' }));
@@ -107,54 +119,23 @@ describe('Support Pixy in Settings', () => {
     await waitFor(() => expect(supportClient.attempts).toBe(1));
   });
 
-  test('supporter receives brief inline thanks after a successful contribution', async () => {
+  test('contribution creates no local supporter state', async () => {
     const showAlert = jest.spyOn(Alert, 'alert').mockImplementation();
-    const supportClient = createFakeSupportClient('purchased');
-    const screen = await renderSettings(supportClient);
-    const button = screen.getByRole('button', { name: 'Support Pixy' });
-    let dismissThanks: (() => void) | undefined;
-    const schedule = jest.spyOn(global, 'setTimeout').mockImplementation(
-      ((callback: () => void, delay?: number) => {
-        if (delay === 3000) dismissThanks = callback;
-        return 1;
-      }) as typeof setTimeout,
-    );
-
-    await act(async () => {
-      fireEvent.press(button);
-      await Promise.resolve();
-    });
-
-    expect(screen.getByTestId('support-pixy-thanks')).toHaveTextContent(
-      'Thank you for supporting Pixy',
-    );
-    expect(showAlert).not.toHaveBeenCalled();
-    expect(supportClient.attempts).toBe(1);
-    expect(button).toBeEnabled();
-    expect(schedule).toHaveBeenCalledWith(expect.any(Function), 3000);
-
-    await act(async () => {
-      dismissThanks?.();
-      await Promise.resolve();
-    });
-    expect(screen.queryByTestId('support-pixy-thanks')).toBeNull();
-  });
-
-  test('user can cancel support without follow-up pressure', async () => {
-    const showAlert = jest.spyOn(Alert, 'alert').mockImplementation();
-    const supportClient = createFakeSupportClient('cancelled');
+    const supportClient = createFakeSupportClient();
     const screen = await renderSettings(supportClient);
     const button = screen.getByRole('button', { name: 'Support Pixy' });
 
     await userEvent.press(button);
+    await userEvent.press(button);
 
-    await waitFor(() => expect(supportClient.attempts).toBe(1));
+    await waitFor(() => expect(supportClient.attempts).toBe(2));
     expect(showAlert).not.toHaveBeenCalled();
     expect(button).toBeEnabled();
+    expect(screen.queryByTestId('support-pixy-thanks')).toBeNull();
   });
 
   test('user can retry a failed support flow', async () => {
-    const supportClient = createFakeSupportClient('failed', 'cancelled');
+    const supportClient = createFakeSupportClient('failed', 'available');
     let retry: (() => void) | undefined;
     const showAlert = jest.spyOn(Alert, 'alert').mockImplementation(
       (_title, _message, buttons) => {
@@ -181,8 +162,8 @@ describe('Support Pixy in Settings', () => {
   });
 
   test('user cannot open duplicate support flows while one is loading', async () => {
-    let finishSupport: (outcome: 'cancelled') => void = () => undefined;
-    const openSupport = jest.fn(() => new Promise<'cancelled'>((resolve) => {
+    let finishSupport: () => void = () => undefined;
+    const openSupport = jest.fn(() => new Promise<void>((resolve) => {
       finishSupport = resolve;
     }));
     const screen = await renderSettings({ enabled: true, openSupport });
@@ -193,6 +174,7 @@ describe('Support Pixy in Settings', () => {
 
     expect(openSupport).toHaveBeenCalledTimes(1);
 
-    await act(async () => finishSupport('cancelled'));
+    finishSupport();
+    await waitFor(() => expect(button).toBeEnabled());
   });
 });

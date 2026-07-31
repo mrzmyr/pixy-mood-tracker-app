@@ -22,7 +22,7 @@ $ bun start
 
 ### Preview Support Pixy
 
-Development builds can expose the support card without a payment SDK. Set `EXPO_PUBLIC_PIXY_SUPPORT_FAKE_OUTCOME` to `purchased`, `cancelled`, or `failed`, then restart Expo. Leave it unset to keep support hidden. Production builds ignore this fake configuration.
+Configured native builds use `EXPO_PUBLIC_SUPERWALL_IOS_API_KEY` and `EXPO_PUBLIC_SUPERWALL_ANDROID_API_KEY`. Development builds can expose the support card without Superwall by setting `EXPO_PUBLIC_PIXY_SUPPORT_FAKE_MODE` to `available` or `failed`. Restart Expo after changing configuration. Production builds ignore fake mode.
 
 **Environments** (`eas.json`)
 

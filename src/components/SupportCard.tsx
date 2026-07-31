@@ -1,11 +1,9 @@
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { ActivityIndicator, Alert, Pressable, Text, View } from 'react-native';
 import { Heart } from 'react-native-feather';
 import { t } from '@/helpers/translation';
 import useColors from '@/hooks/useColors';
 import { SupportFlowError, useSupport } from '@/support';
-
-const THANK_YOU_DURATION_MS = 3000;
 
 const isSupportFlowError = (error: unknown): error is SupportFlowError => {
   if (typeof error !== 'object' || error === null) return false;
@@ -33,15 +31,7 @@ export const SupportCard = () => {
   const cardColor = colors.text;
   const contentColor = colors.background;
   const openingRef = useRef(false);
-  const thankYouTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [isOpening, setIsOpening] = useState(false);
-  const [showThanks, setShowThanks] = useState(false);
-
-  useEffect(() => () => {
-    if (thankYouTimeoutRef.current !== null) {
-      clearTimeout(thankYouTimeoutRef.current);
-    }
-  }, []);
 
   const openSupport = async () => {
     if (openingRef.current) return;
@@ -50,19 +40,7 @@ export const SupportCard = () => {
     setIsOpening(true);
 
     try {
-      const outcome = await support.openSupport();
-
-      if (outcome === 'purchased') {
-        if (thankYouTimeoutRef.current !== null) {
-          clearTimeout(thankYouTimeoutRef.current);
-        }
-
-        setShowThanks(true);
-        thankYouTimeoutRef.current = setTimeout(() => {
-          setShowThanks(false);
-          thankYouTimeoutRef.current = null;
-        }, THANK_YOU_DURATION_MS);
-      }
+      await support.openSupport();
     } catch (cause) {
       const error = normalizeSupportFlowError(cause);
 
@@ -122,22 +100,6 @@ export const SupportCard = () => {
       >
         {t('support_pixy_body')}
       </Text>
-      {showThanks && (
-        <Text
-          testID="support-pixy-thanks"
-          accessibilityRole="alert"
-          accessibilityLiveRegion="polite"
-          style={{
-            marginTop: 16,
-            color: contentColor,
-            fontSize: 17,
-            lineHeight: 22,
-            fontWeight: '700',
-          }}
-        >
-          {t('support_pixy_thank_you_title')}
-        </Text>
-      )}
       <Pressable
         accessibilityRole="button"
         accessibilityLabel={t('support_pixy_button')}

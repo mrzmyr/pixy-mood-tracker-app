@@ -12,16 +12,48 @@ import { TemporaryLogProvider } from "@/hooks/useTemporaryLog";
 import {
   SupportClient,
   SupportProvider,
-  defaultSupportClient,
+  resolveDevelopmentSupportClient,
 } from "@/support";
+import { ConfiguredSupportProvider } from "@/support/ConfiguredSupportProvider";
 
 const Providers = ({
   children,
-  supportClient = defaultSupportClient,
+  supportClient,
 }: {
   children: React.ReactNode;
   supportClient?: SupportClient;
 }) => {
+  const developmentSupportClient = resolveDevelopmentSupportClient({
+    isDevelopment: __DEV__,
+    mode: process.env.EXPO_PUBLIC_PIXY_SUPPORT_FAKE_MODE,
+  });
+  const injectedSupportClient = supportClient ?? developmentSupportClient;
+  const supportContent = injectedSupportClient ? (
+    <SupportProvider client={injectedSupportClient}>
+      <LogsProvider>
+        <TagsProvider>
+          <TemporaryLogProvider>
+            <CalendarFiltersProvider>
+              <StatisticsProvider>{children}</StatisticsProvider>
+            </CalendarFiltersProvider>
+          </TemporaryLogProvider>
+        </TagsProvider>
+      </LogsProvider>
+    </SupportProvider>
+  ) : (
+    <ConfiguredSupportProvider>
+      <LogsProvider>
+        <TagsProvider>
+          <TemporaryLogProvider>
+            <CalendarFiltersProvider>
+              <StatisticsProvider>{children}</StatisticsProvider>
+            </CalendarFiltersProvider>
+          </TemporaryLogProvider>
+        </TagsProvider>
+      </LogsProvider>
+    </ConfiguredSupportProvider>
+  );
+
   return (
     <SafeAreaProvider>
       <SettingsProvider>
@@ -37,17 +69,7 @@ const Providers = ({
           autocapture={false}
         >
           <AnalyticsProvider options={{ enabled: TRACKING_ENABLED }}>
-            <SupportProvider client={supportClient}>
-              <LogsProvider>
-                <TagsProvider>
-                  <TemporaryLogProvider>
-                    <CalendarFiltersProvider>
-                      <StatisticsProvider>{children}</StatisticsProvider>
-                    </CalendarFiltersProvider>
-                  </TemporaryLogProvider>
-                </TagsProvider>
-              </LogsProvider>
-            </SupportProvider>
+            {supportContent}
           </AnalyticsProvider>
         </PostHogProvider>
         {/* </PasscodeProvider> */}
