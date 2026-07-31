@@ -21,6 +21,7 @@
       "supportsTablet": false,
       "appStoreUrl": "https://apps.apple.com/de/app/pixy-mood-tracker/id1605327124",
       "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false,
         "NSFaceIDUsageDescription": "Pixy uses Face ID to lock the app and protect your data."
       },
       "privacyManifests": {
