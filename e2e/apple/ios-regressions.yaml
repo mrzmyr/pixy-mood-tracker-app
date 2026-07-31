@@ -1,0 +1,38 @@
+appId: com.devmood.pixymoodtracker
+tags: [ios, regressions]
+---
+- launchApp:
+    clearState: true
+- runFlow: ../subflows/complete-onboarding.yaml
+
+# Filters expose content and an explicit iOS close action.
+- tapOn:
+    id: "filters"
+- assertVisible: "Filters"
+- assertVisible:
+    id: "calendar-filter-search"
+- tapOn:
+    id: "calendar-filter-done"
+- assertVisible:
+    id: "calendar"
+
+# Check-in rows fit on narrow iPhones and nested switches stay accessible.
+- tapOn:
+    id: "settings"
+- tapOn: "Check-in"
+- assertVisible: "Write about your day"
+- assertVisible:
+    id: "step-sleep-enabled"
+- assertVisible:
+    id: "step-feedback-enabled"
+- tapOn:
+    id: "BackButton"
+
+# Tag modal exposes its input after the Expo/React Native upgrade.
+- tapOn:
+    id: "settings"
+- tapOn: "Tags"
+- tapOn: "Create Tag"
+- assertVisible:
+    id: "tag-name"
+- tapOn: "Cancel"

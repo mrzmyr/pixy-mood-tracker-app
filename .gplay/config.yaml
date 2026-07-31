@@ -1,0 +1,10 @@
+# gplay local configuration
+# See: gplay --help for all available options
+
+default_package: com.devmood.pixymoodtracker
+# service_account: /path/to/service-account.json
+
+# timeout: 30s
+# upload_timeout: 5m
+# max_retries: 3
+# debug: false

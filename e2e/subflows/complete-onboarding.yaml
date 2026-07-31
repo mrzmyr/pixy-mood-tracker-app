@@ -1,0 +1,22 @@
+appId: com.devmood.pixymoodtracker
+---
+# Completes onboarding from the Welcome screen to the Calendar tab.
+- assertVisible: "Welcome 👋"
+- tapOn:
+    text: "I never used a Mood Tracker"
+    waitToSettleTimeoutMs: 300
+- tapOn:
+    text: "Next"
+    waitToSettleTimeoutMs: 300
+- tapOn:
+    text: "Next"
+    waitToSettleTimeoutMs: 300
+- tapOn:
+    text: "Next"
+    waitToSettleTimeoutMs: 300
+- tapOn:
+    text: "Maybe later"
+    waitToSettleTimeoutMs: 300
+- tapOn:
+    text: "Understood"
+    waitToSettleTimeoutMs: 300

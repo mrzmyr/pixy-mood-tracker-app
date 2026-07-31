@@ -131,7 +131,7 @@ export default function useFeedbackModal() {
                 }
                 right={
                   <LinkButton
-                    testID="feedback-modal-cancel"
+                    testID="feedback-modal-send"
                     onPress={send}
                     type="primary"
                     disabled={!message.length}
@@ -170,6 +170,8 @@ export default function useFeedbackModal() {
                   }}
                 >
                   <TextInput
+                    accessibilityLabel={t("feedback_modal_email_placeholder")}
+                    testID="feedback-modal-email"
                     style={{
                       flex: 1,
                       backgroundColor: colors.textInputBackground,

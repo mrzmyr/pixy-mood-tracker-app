@@ -9,7 +9,7 @@ import { ResultsSection } from "./ResultsSection";
 import { SearchInputSection } from "./SearchInputSection";
 import { TagsSection } from "./TagsSection";
 
-export const Body = () => {
+export const Body = ({ onClose }: { onClose?: () => void }) => {
   const calendarFilters = useCalendarFilters();
   const { tags } = useTagsState();
 
@@ -46,7 +46,7 @@ export const Body = () => {
 
   return (
     <>
-      <Header />
+      <Header onClose={onClose} />
       <View
         style={{
           padding: 16,

@@ -18,7 +18,7 @@ export const ScrollToBottomButton = ({ onPress }: { onPress: () => void; }) => {
       entering={FadeIn}
       exiting={FadeOut}
     >
-      <FloatButton onPress={onPress}>
+      <FloatButton testID="scroll-to-bottom" onPress={onPress}>
         <ChevronDown color={colors.palette.white} width={22} />
       </FloatButton>
     </Animated.View>

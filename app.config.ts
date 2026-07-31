@@ -1,10 +1,7 @@
 import { ExpoConfig, ConfigContext } from '@expo/config';
-import _ from 'lodash';
-
-const CONFIG = require('./app.json')
 
 export default ({ config }: ConfigContext): ExpoConfig => {
-  const _config: ExpoConfig = { ...CONFIG.expo };
+  const _config: ExpoConfig = { ...config };
 
   const PROFILE = process.env.PROFILE || 'development';
   const isDevClient = process.env.DEV_CLIENT === 'true';

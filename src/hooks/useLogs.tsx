@@ -13,7 +13,7 @@ import {
   useReducer,
   useState,
 } from "react";
-import * as Sentry from "sentry-expo";
+import * as Sentry from '@sentry/react-native';
 import { v4 as uuidv4 } from "uuid";
 import z from "zod";
 import { AtLeast } from "../../types";
@@ -52,7 +52,7 @@ export interface LogDay {
   date: string;
   items: LogItem[];
   ratingAvg: (typeof RATING_KEYS)[number];
-  sleepQualityAvg: number;
+  sleepQualityAvg: number | null;
 }
 
 export interface LogsState {
@@ -190,11 +190,11 @@ function LogsProvider({ children }: { children: React.ReactNode }) {
           const megaBytes = Math.round((size / 1024 / 1024) * 100) / 100;
           analyitcs.track("loaded_logs", { size: megaBytes, unit: "mb" });
         } catch (error) {
-          Sentry.Native.captureException(error);
+          Sentry.captureException(error);
         }
       } catch (error) {
         setStorageStatus("error");
-        Sentry.Native.captureException(error);
+        Sentry.captureException(error);
       }
     })();
   }, []);

@@ -1,20 +1,32 @@
 import dayjs from "dayjs";
-import React, { forwardRef, memo } from "react";
+import React, { forwardRef, memo, useMemo } from "react";
 import { View } from "react-native";
 import { useLogState } from "../../hooks/useLogs";
 import CalendarMonth from "./CalendarMonth";
 
 import { DATE_FORMAT } from "@/constants/Config";
 
-const MONTH_COUNT = 12;
-const MONTH_DATES: string[] = []
-
-for (let i = MONTH_COUNT; i >= 0; i--) {
-  MONTH_DATES.push(dayjs().subtract(i, "month").format(DATE_FORMAT));
-}
+const DEFAULT_MONTH_COUNT = 12;
 
 const Calendar = memo(forwardRef(function Calendar({ }, ref: React.RefObject<View>) {
   const logState = useLogState()
+  const monthDates = useMemo(() => {
+    const defaultStart = dayjs().subtract(DEFAULT_MONTH_COUNT, 'month').startOf('month');
+    const earliestItemDate = logState.items.reduce<dayjs.Dayjs | null>((earliest, item) => {
+      const date = dayjs(item.dateTime || item.date);
+      if (!date.isValid()) return earliest;
+      return earliest === null || date.isBefore(earliest) ? date : earliest;
+    }, null);
+    const start = earliestItemDate?.isBefore(defaultStart)
+      ? earliestItemDate.startOf('month')
+      : defaultStart;
+    const monthCount = dayjs().startOf('month').diff(start, 'month');
+
+    return Array.from(
+      { length: monthCount + 1 },
+      (_, index) => start.add(index, 'month').format(DATE_FORMAT),
+    );
+  }, [logState.items]);
 
   const itemMap = {}
 
@@ -32,7 +44,7 @@ const Calendar = memo(forwardRef(function Calendar({ }, ref: React.RefObject<Vie
     <View
       ref={ref}
     >
-      {MONTH_DATES.map((date, index) => (
+      {monthDates.map((date) => (
         <CalendarMonth
           key={date}
           dateString={date}

@@ -1,4 +1,5 @@
 import _ from "lodash"
+import { ReactNode } from "react"
 import { Text, View } from "react-native"
 import useColors from "@/hooks/useColors"
 
@@ -8,8 +9,8 @@ export const Card = ({
   children,
 }: {
   subtitle?: string
-  title: string | JSX.Element
-  children: React.ReactNode
+  title: string | ReactNode
+  children: ReactNode
 }) => {
   const colors = useColors()
 

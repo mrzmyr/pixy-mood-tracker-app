@@ -1,8 +1,5 @@
-import * as Device from "expo-device";
-import * as Localization from "expo-localization";
 import { usePostHog } from "posthog-react-native";
 import { createContext, useContext, useEffect, useState } from "react";
-import pkg from "../../package.json";
 import { useSettings } from "./useSettings";
 
 
@@ -39,46 +36,26 @@ function AnalyticsProvider({
   const [isIdentified, setIsIdentified] = useState(false);
   const [isEnabled, setIsEnabled] = useState(settings.analyticsEnabled);
 
-  useEffect(() => setIsEnabled(settings.analyticsEnabled), [settings.analyticsEnabled])
+  useEffect(() => {
+    setIsEnabled(settings.analyticsEnabled);
+    if (!settings.loaded) return;
+
+    if (settings.analyticsEnabled) {
+      posthog?.optIn();
+    } else {
+      posthog?.optOut();
+    }
+  }, [settings.loaded, settings.analyticsEnabled, posthog]);
 
   const identify = (properties?: any) => {
-    const traits = {
-      userId: settings.deviceId,
-      appVersion: pkg.version,
-      deviceModel: Device.modelName,
-      osName: Device.osName,
-      osVersion: Device.osVersion,
-      locale: Localization.locale,
-
-      settingsPasscodeEnabled: settings.passcodeEnabled,
-      settingsReminderEnabled: settings.reminderEnabled,
-      settingsReminderTime: settings.reminderTime,
-      settingsScaleType: settings.scaleType,
-      settingsActionsDone: settings.actionsDone,
-      settingsSteps: settings.steps,
-
-      ...properties,
-    };
-
-    if (!isEnabled) return;
-
-    if (DEBUG) console.log("useAnalytics: identify", JSON.stringify(traits, null, 2));
-
-    if (!options.enabled) return;
-
-    if (settings.deviceId === null) {
-      console.warn('useAnalytics: deviceId is null, cannot identify')
-      return;
-    }
-
-    posthog!.identify(settings.deviceId, traits);
+    if (DEBUG) console.log("useAnalytics: anonymous session", properties);
     setIsIdentified(true);
   };
 
   const value: AnaylticsState = {
     identify,
     enable: () => {
-      posthog!.optIn();
+      posthog?.optIn();
       setIsEnabled(true);
       setSettings((settings) => ({
         ...settings,
@@ -86,7 +63,7 @@ function AnalyticsProvider({
       }));
     },
     disable: () => {
-      posthog!.optOut();
+      posthog?.optOut();
       setIsEnabled(false);
       setSettings((settings) => ({
         ...settings,
@@ -94,11 +71,12 @@ function AnalyticsProvider({
       }));
     },
     reset: () => {
-      posthog!.reset();
-      setIsEnabled(true);
+      posthog?.reset();
+      posthog?.optOut();
+      setIsEnabled(false);
       setSettings((settings) => ({
         ...settings,
-        analyticsEnabled: true,
+        analyticsEnabled: false,
       }));
     },
     track: (eventName: string, properties?: any) => {
@@ -108,10 +86,7 @@ function AnalyticsProvider({
 
       if (!options.enabled) return;
 
-      posthog!.capture(eventName, {
-        ...properties,
-        userId: settings.deviceId,
-      });
+      posthog?.capture(eventName);
     },
     isIdentified,
     isEnabled,

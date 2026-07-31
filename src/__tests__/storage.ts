@@ -1,9 +1,23 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { load, store } from '../helpers/storage';
 
+jest.mock('@sentry/react-native', () => ({
+  captureException: jest.fn(),
+}));
+
 const TEST_KEY = 'test-key';
 
 describe('Storage', () => {
+  let consoleError: jest.SpyInstance;
+
+  beforeEach(() => {
+    consoleError = jest.spyOn(console, 'error').mockImplementation(() => {});
+  });
+
+  afterEach(() => {
+    consoleError.mockRestore();
+  });
+
   it('should `load`', async () => {
     AsyncStorage.getItem = jest.fn().mockReturnValueOnce(Promise.resolve('{"test": "test"}'));
     const result = await load(TEST_KEY);
@@ -11,20 +25,28 @@ describe('Storage', () => {
   });
 
   it('should `load` with null', async () => {
-    AsyncStorage.getItem = jest.fn().mockResolvedValueOnce(null);
+    AsyncStorage.getItem = jest.fn().mockReturnValueOnce(Promise.resolve(null));
     const result = await load(TEST_KEY);
     expect(result).toEqual(null);
   })
 
-  it('should reject malformed data', async () => {
-    AsyncStorage.getItem = jest.fn().mockResolvedValueOnce('not-json');
-    await expect(load(TEST_KEY)).rejects.toBeInstanceOf(SyntaxError);
+  it('should throw when reading fails instead of returning null', async () => {
+    const error = new Error('disk error');
+    AsyncStorage.getItem = jest.fn().mockReturnValueOnce(Promise.reject(error));
+    await expect(load(TEST_KEY)).rejects.toThrow('disk error');
+    expect(consoleError).toHaveBeenCalledWith(error);
   })
 
-  it('should reject storage read errors', async () => {
-    const error = new Error('storage unavailable');
-    AsyncStorage.getItem = jest.fn().mockRejectedValueOnce(error);
-    await expect(load(TEST_KEY)).rejects.toBe(error);
+  it('should throw when data is corrupt instead of returning null', async () => {
+    AsyncStorage.getItem = jest.fn().mockReturnValueOnce(Promise.resolve('{"items": [truncated'));
+    await expect(load(TEST_KEY)).rejects.toThrow();
+    expect(consoleError).toHaveBeenCalledTimes(1);
+  })
+
+  it('should throw when data is an empty string instead of returning null', async () => {
+    AsyncStorage.getItem = jest.fn().mockReturnValueOnce(Promise.resolve(''));
+    await expect(load(TEST_KEY)).rejects.toThrow();
+    expect(consoleError).toHaveBeenCalledTimes(1);
   })
 
   it('should `store`', async () => {

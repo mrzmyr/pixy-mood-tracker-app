@@ -162,7 +162,7 @@ export function StatisticsProvider({
       return state.emotionsDistributionData?.emotions.length > 3;
     }
     if (type === "sleep_quality_distribution") {
-      return state.sleepQualityDistributionData?.length > 7;
+      return state.sleepQualityDistributionData?.some((item) => item.value !== null);
     }
     return false;
   };

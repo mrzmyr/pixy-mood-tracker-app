@@ -36,6 +36,8 @@ export const SearchInputSection = ({
           <Search color={colors.textInputPlaceholder} width={20} />
         </View>
         <TextInput
+          accessibilityLabel={t('calendar_filters_search')}
+          testID='calendar-filter-search'
           placeholder={t('calendar_filters_search')}
           value={value}
           placeholderTextColor={colors.textInputPlaceholder}
@@ -50,6 +52,8 @@ export const SearchInputSection = ({
           onChangeText={onChange} />
         {value !== '' && (
           <Pressable
+            accessibilityLabel={t('clear')}
+            accessibilityRole='button'
             style={{
               paddingRight: 8,
               padding: 8,

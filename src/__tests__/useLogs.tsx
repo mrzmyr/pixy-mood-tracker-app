@@ -1,14 +1,12 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import { act, renderHook } from '@testing-library/react-hooks'
+import { act, renderHook, waitFor } from '@testing-library/react-native'
 import { AnalyticsProvider } from '../hooks/useAnalytics'
 import { LogsProvider, LogsState, STORAGE_KEY, useLogState, useLogUpdater } from '../hooks/useLogs'
 import { SettingsProvider } from '../hooks/useSettings'
 import { _generateItem } from './utils'
 
-jest.mock('sentry-expo', () => ({
-  Native: {
-    captureException: jest.fn(),
-  },
+jest.mock('@sentry/react-native', () => ({
+  captureException: jest.fn(),
 }))
 
 const wrapper = ({ children }) => (
@@ -45,12 +43,17 @@ const _renderHook = () => {
   }), { wrapper })
 }
 
+const waitForLoaded = (hook) => waitFor(() => {
+  expect(hook.result.current.state.loaded).toBe(true)
+})
+
 const _console_error = console.error
 
 describe('useLogs()', () => {
 
   beforeEach(async () => {
     console.error = jest.fn()
+    global.fetch = jest.fn().mockResolvedValue({ ok: true }) as jest.Mock
   })
 
   afterEach(async () => {
@@ -60,11 +63,10 @@ describe('useLogs()', () => {
   });
 
   test('should have `loaded` prop', async () => {
-    const hook = _renderHook()
-    expect(hook.result.current.state.loaded).toBe(false)
+    const hook = await _renderHook()
 
     // run useEffect for loading async storage
-    await hook.waitForNextUpdate()
+    await waitForLoaded(hook)
 
     expect(hook.result.current.state.loaded).toBe(true)
   })
@@ -72,15 +74,15 @@ describe('useLogs()', () => {
   test('should load `state` from async storage', async () => {
     AsyncStorage.setItem(STORAGE_KEY, JSON.stringify({ items: testItems }))
 
-    const hook = _renderHook()
-    await hook.waitForNextUpdate()
+    const hook = await _renderHook()
+    await waitForLoaded(hook)
 
     expect(hook.result.current.state.items).toEqual(testItems)
   })
 
   test('should initiate `state` with empty `items` when async storage is empty', async () => {
-    const hook = _renderHook()
-    await hook.waitForNextUpdate()
+    const hook = await _renderHook()
+    await waitForLoaded(hook)
     expect(hook.result.current.state.items).toEqual([])
   })
 
@@ -89,7 +91,7 @@ describe('useLogs()', () => {
     const setItemSpy = jest.spyOn(AsyncStorage, 'setItem')
     setItemSpy.mockClear()
 
-    const hook = _renderHook()
+    const hook = await _renderHook()
 
     await act(async () => {
       await new Promise((resolve) => setTimeout(resolve, 0))
@@ -101,8 +103,8 @@ describe('useLogs()', () => {
   })
 
   test('should import', async () => {
-    const hook = _renderHook()
-    await hook.waitForNextUpdate()
+    const hook = await _renderHook()
+    await waitForLoaded(hook)
 
     await act(() => {
       hook.result.current.updater.import({
@@ -114,8 +116,8 @@ describe('useLogs()', () => {
   })
 
   test('should addLog', async () => {
-    const hook = _renderHook()
-    await hook.waitForNextUpdate()
+    const hook = await _renderHook()
+    await waitForLoaded(hook)
 
     await act(() => {
       hook.result.current.updater.addLog(testItems[0])
@@ -125,8 +127,8 @@ describe('useLogs()', () => {
   })
 
   test('should editLog', async () => {
-    const hook = _renderHook()
-    await hook.waitForNextUpdate()
+    const hook = await _renderHook()
+    await waitForLoaded(hook)
 
     const itemEdited = {
       ...testItems[0],
@@ -145,8 +147,8 @@ describe('useLogs()', () => {
   test('should updateLogs', async () => {
     AsyncStorage.setItem(STORAGE_KEY, JSON.stringify({ items: [] }))
 
-    const hook = _renderHook()
-    await hook.waitForNextUpdate()
+    const hook = await _renderHook()
+    await waitForLoaded(hook)
 
     const itemsEdited = [
       {
@@ -173,8 +175,8 @@ describe('useLogs()', () => {
   })
 
   test('should deleteLog', async () => {
-    const hook = _renderHook()
-    await hook.waitForNextUpdate()
+    const hook = await _renderHook()
+    await waitForLoaded(hook)
 
     await act(() => hook.result.current.updater.addLog(testItems[0]))
     await act(() => hook.result.current.updater.addLog(testItems[1]))
@@ -186,8 +188,8 @@ describe('useLogs()', () => {
   test('should reset', async () => {
     AsyncStorage.setItem(STORAGE_KEY, JSON.stringify({ items: [] }))
 
-    const hook = _renderHook()
-    await hook.waitForNextUpdate()
+    const hook = await _renderHook()
+    await waitForLoaded(hook)
 
     await act(() => hook.result.current.updater.updateLogs(testItems))
     expect(hook.result.current.state.items).toEqual(testItems)

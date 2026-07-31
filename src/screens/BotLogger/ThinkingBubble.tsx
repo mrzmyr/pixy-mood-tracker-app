@@ -1,6 +1,6 @@
 import useColors from "@/hooks/useColors";
-import { Motion } from "@legendapp/motion";
 import { Easing, View } from "react-native";
+import Animated, { FadeInDown } from "react-native-reanimated";
 import { ThinkingDots } from "./ThinkingDots";
 
 export const ThinkingBubble = () => {
@@ -14,7 +14,8 @@ export const ThinkingBubble = () => {
         justifyContent: 'flex-start',
       }}
     >
-      <Motion.View
+      <Animated.View
+        entering={FadeInDown.duration(300).easing(Easing.ease)}
         style={{
           backgroundColor: colors.chatBotMessageBackground,
           paddingVertical: 8,
@@ -25,16 +26,9 @@ export const ThinkingBubble = () => {
           justifyContent: 'center',
           alignItems: 'center',
         }}
-        initial={{ y: 10 }}
-        animate={{ y: 0 }}
-        transition={{
-          type: 'timing',
-          duration: 300,
-          easing: Easing.ease,
-        }}
       >
         <ThinkingDots />
-      </Motion.View>
+      </Animated.View>
     </View>
   );
 };

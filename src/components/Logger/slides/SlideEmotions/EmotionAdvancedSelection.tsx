@@ -1,7 +1,7 @@
 import { Emotion, EMOTION_CATEGORIES } from "@/types";
 import { useRef } from "react";
 import { Dimensions, ViewStyle } from "react-native";
-import Carousel, { ICarouselInstance } from "react-native-reanimated-carousel";
+import { Carousel, CarouselRef } from "react-native-reanimated-carousel";
 import { EMOTIONS } from "../../config";
 import { EMOTION_BUTTON_HEIGHT } from "./constants";
 import { EmotionPage } from "./EmotionPage";
@@ -19,7 +19,7 @@ export const EmotionAdvancedSelection = ({
   onPress: (emotion: Emotion) => void;
   style?: ViewStyle;
 }) => {
-  const _carousel = useRef<ICarouselInstance>(null);
+  const _carousel = useRef<CarouselRef>(null);
 
   const pages = EMOTION_CATEGORIES.map((category) => {
     const filteredEmotions = EMOTIONS
@@ -41,17 +41,15 @@ export const EmotionAdvancedSelection = ({
 
   return (
     <Carousel
-      height={EMOTION_BUTTON_HEIGHT * 9 + 16 * 8}
       loop={false}
       ref={_carousel}
       data={pages}
       defaultIndex={defaultIndex}
       renderItem={({ index }) => pages[index]}
-      panGestureHandlerProps={{
-        activeOffsetX: [-10, 10],
-      }}
-      width={WINDOW_WIDTH / 1.2}
+      onConfigurePanGesture={(gesture) => gesture.activeOffsetX([-10, 10])}
+      itemSize={WINDOW_WIDTH / 1.2}
       style={{
+        height: EMOTION_BUTTON_HEIGHT * 9 + 16 * 8,
         width: WINDOW_WIDTH,
         justifyContent: 'center',
         alignItems: 'center',
