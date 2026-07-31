@@ -1,0 +1,90 @@
+appId: com.devmood.pixymoodtracker
+tags: [tags]
+---
+- launchApp:
+    clearState: true
+- runFlow: ../subflows/complete-onboarding.yaml
+
+# 4.1 Open Settings → Tags
+- tapOn:
+    id: "settings"
+- tapOn: "Tags"
+- assertVisible: "Create Tag"
+- assertVisible: "Archive"
+
+# 4.2 Create tag (retry tap if modal did not open)
+- tapOn: "Create Tag"
+- runFlow:
+    when:
+      notVisible:
+        id: "tag-name"
+    commands:
+      - tapOn: "Create Tag"
+- extendedWaitUntil:
+    visible:
+      id: "tag-name"
+    timeout: 5000
+- tapOn:
+    id: "tag-name"
+- inputText: "e2e-tag"
+- hideKeyboard
+- tapOn: "Create"
+# New tag is appended at the end of the list, below the fold
+- scrollUntilVisible:
+    element:
+      text: "e2e-tag"
+    direction: DOWN
+    timeout: 15000
+    visibilityPercentage: 50
+- assertVisible: "e2e-tag"
+
+# 4.3 Edit tag: rename
+- tapOn: "e2e-tag"
+- assertVisible: "Save"
+- tapOn:
+    id: "tag-name"
+- eraseText
+- inputText: "e2e-renamed"
+- hideKeyboard
+- tapOn: "Save"
+- scrollUntilVisible:
+    element:
+      text: "e2e-renamed"
+    direction: DOWN
+    timeout: 15000
+    visibilityPercentage: 50
+- assertVisible: "e2e-renamed"
+
+# 4.4 Tag usable in logger
+- back
+- tapOn:
+    id: "calendar"
+- tapOn: "Add New Entry"
+- tapOn:
+    id: "mood-neutral"
+- runFlow: ../subflows/finish-logger.yaml
+- assertVisible: "Add another entry for today"
+
+# 4.5 Delete tag
+- tapOn:
+    id: "settings"
+- tapOn: "Tags"
+- scrollUntilVisible:
+    element:
+      text: "e2e-renamed"
+    direction: DOWN
+    timeout: 15000
+    visibilityPercentage: 50
+- tapOn: "e2e-renamed"
+- scrollUntilVisible:
+    element:
+      text: "Delete"
+    direction: DOWN
+    timeout: 15000
+    visibilityPercentage: 50
+- tapOn: "Delete"
+- assertVisible: "The tag will be removed from all entries.*"
+- tapOn:
+    text: "Delete"
+    index: 0
+- assertNotVisible: "e2e-renamed"

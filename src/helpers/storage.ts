@@ -1,5 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import * as Sentry from 'sentry-expo';
+import * as Sentry from '@sentry/react-native';
 
 export const store = async <State>(key: string, state: State) => {
   try {
@@ -9,32 +9,54 @@ export const store = async <State>(key: string, state: State) => {
   }
 }
 
-export const load = async <ReturnValue>(key: string, feedback: any): Promise<ReturnValue | null> => {
+const reportLoadError = (error: any, feedback?: any) => {
+  console.error(error);
   try {
-    const data = await AsyncStorage.getItem(key);
-    if (!data) {
-      return null;
-    }
-    return JSON.parse(data);
+    feedback?.send({
+      type: "issue",
+      message: JSON.stringify({
+        title: "Error loading logs",
+        description: error.message,
+        trace: error.stack,
+      }),
+      email: "team@pixy.day",
+      source: "error",
+      onCancel: () => {
+      },
+      onOk: () => {
+      }
+    })
+  } catch (e) {
+    console.error(e);
+  }
+  Sentry.captureException(error);
+}
+
+// Returns `null` only when no data exists for `key`. Read or parse failures
+// throw, so callers can tell "no data yet" apart from "data exists but could
+// not be loaded" — treating a failed load as empty state must never overwrite
+// the stored data.
+export const load = async <ReturnValue>(key: string, feedback?: any): Promise<ReturnValue | null> => {
+  let data: string | null;
+
+  try {
+    data = await AsyncStorage.getItem(key);
   } catch (error) {
-    console.error(error);
-    feedback
-      .send({
-        type: "issue",
-        message: JSON.stringify({
-          title: "Error loading logs",
-          description: error.message,
-          trace: error.stack,
-        }),
-        email: "team@pixy.day",
-        source: "error",
-        onCancel: () => {
-        },
-        onOk: () => {
-        }
-      })
-    Sentry.Native.captureException(error);
+    reportLoadError(error, feedback);
+    throw error;
   }
 
-  return null
+  // Only a missing key counts as "no data" — an empty string is
+  // persisted-but-corrupt data and must fall through to JSON.parse below,
+  // which throws and keeps callers from overwriting the stored value.
+  if (data == null) {
+    return null;
+  }
+
+  try {
+    return JSON.parse(data);
+  } catch (error) {
+    reportLoadError(error, feedback);
+    throw error;
+  }
 };

@@ -111,6 +111,8 @@ export const TagEdit = ({ navigation, route }: RootStackScreenProps<'TagEdit'>) 
           }}
         >
           <TextInput
+            accessibilityLabel={t('tags_add_placeholder')}
+            testID='tag-name'
             autoCorrect={false}
             style={{
               fontSize: 17,
@@ -143,6 +145,10 @@ export const TagEdit = ({ navigation, route }: RootStackScreenProps<'TagEdit'>) 
             {TAG_COLOR_NAMES.map(colorName => (
               <TouchableOpacity
                 key={colorName}
+                accessibilityLabel={colorName}
+                accessibilityRole='radio'
+                accessibilityState={{ selected: tag.color === colorName }}
+                testID={`tag-color-${colorName}`}
                 style={{
                   flex: 1,
                   flexBasis: `${(100 / 7) - 2}%`,
@@ -178,6 +184,8 @@ export const TagEdit = ({ navigation, route }: RootStackScreenProps<'TagEdit'>) 
               title={t('archive_tag_enabled')}
               iconRight={
                 <Switch
+                  accessibilityLabel={t('archive_tag_enabled')}
+                  testID='tag-archived'
                   ios_backgroundColor={colors.backgroundSecondary}
                   onValueChange={() => {
                     setTag(tag => ({

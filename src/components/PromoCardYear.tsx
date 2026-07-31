@@ -2,10 +2,10 @@ import { t } from "@/helpers/translation"
 import useColors from "@/hooks/useColors"
 import useHaptics from "@/hooks/useHaptics"
 import { useSettings } from "@/hooks/useSettings"
-import { Motion } from "@legendapp/motion"
 import { LinearGradient } from "expo-linear-gradient"
 import { Pressable, Text, View } from "react-native"
 import { Star, X } from "react-native-feather"
+import Animated, { FadeIn, LinearTransition } from "react-native-reanimated"
 
 export const YEAR_REPORT_SLUG = `promo_year_report_${(new Date()).getFullYear()}_closed`
 
@@ -20,7 +20,7 @@ export const PromoCardYear = ({
   const haptics = useHaptics()
   const { addActionDone, hasActionDone } = useSettings()
 
-  const gradientColors = [
+  const gradientColors: [string, string, string] = [
     colors.palette.orange[700],
     colors.palette.orange[500],
     colors.palette.yellow[400]
@@ -39,14 +39,9 @@ export const PromoCardYear = ({
   if (hasActionDone(YEAR_REPORT_SLUG)) return null
 
   return (
-    <Motion.View
-      initial={{ height: 0, opacity: 0 }}
-      animate={{ height: 140, opacity: 1 }}
-      transition={{
-        type: "spring",
-        damping: 20,
-        stiffness: 400,
-      }}
+    <Animated.View
+      entering={FadeIn.duration(300)}
+      layout={LinearTransition.springify().damping(20).stiffness(400)}
       style={{
         overflow: "hidden",
       }}
@@ -133,6 +128,6 @@ export const PromoCardYear = ({
           </Text>
         </View>
       </Pressable>
-    </Motion.View>
+    </Animated.View>
   )
 }

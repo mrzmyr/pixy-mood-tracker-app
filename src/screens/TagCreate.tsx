@@ -74,6 +74,8 @@ export const TagCreate = ({ navigation }: RootStackScreenProps<'TagCreate'>) => 
           }}
         >
           <TextInput
+            accessibilityLabel={t('tags_add_placeholder')}
+            testID='tag-name'
             autoCorrect={false}
             style={{
               fontSize: 17,
@@ -106,6 +108,10 @@ export const TagCreate = ({ navigation }: RootStackScreenProps<'TagCreate'>) => 
             {TAG_COLOR_NAMES.map(colorName => (
               <Pressable
                 key={colorName}
+                accessibilityLabel={colorName}
+                accessibilityRole='radio'
+                accessibilityState={{ selected: tempTag.color === colorName }}
+                testID={`tag-color-${colorName}`}
                 style={({ pressed }) => ({
                   flex: 1,
                   flexBasis: `${(100 / 7) - 2}%`,

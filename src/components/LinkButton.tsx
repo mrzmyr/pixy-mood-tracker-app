@@ -64,6 +64,8 @@ export default function LinkButton({
 
   return (
     <Pressable
+      accessibilityRole="button"
+      accessibilityState={{ disabled: Boolean(disabled) }}
       style={({ pressed }) => [{
         flexDirection: "row",
         alignItems: "center",

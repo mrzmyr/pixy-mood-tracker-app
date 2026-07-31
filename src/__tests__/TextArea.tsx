@@ -3,9 +3,9 @@ import TextArea from '../components/TextArea'
 
 xdescribe('<TextArea>', () => {
   
-  test('should call onChange', () => {
+  test('should call onChange', async () => {
     const onChange = jest.fn()
-    const { getByPlaceholderText } = render(<TextArea 
+    const { getByPlaceholderText } = await render(<TextArea
       onChange={onChange} 
       value={'Text value'} 
       placeholder='message placeholder'
@@ -16,9 +16,9 @@ xdescribe('<TextArea>', () => {
     expect(onChange).toHaveBeenCalledWith('test message')
   })
   
-  test('should set initial value', () => {
+  test('should set initial value', async () => {
     const onChange = jest.fn()
-    const { getByPlaceholderText } = render(<TextArea 
+    const { getByPlaceholderText } = await render(<TextArea
       onChange={onChange} 
       value={'Text value'} 
       placeholder='message placeholder'
@@ -28,8 +28,8 @@ xdescribe('<TextArea>', () => {
     expect(textInput.props.value).toBe('Text value')
   })
 
-  test('should cut off string longer than maxLength', () => {
-    const { getByPlaceholderText } = render(<TextArea 
+  test('should cut off string longer than maxLength', async () => {
+    const { getByPlaceholderText } = await render(<TextArea
       value={'Text value'} 
       placeholder='message placeholder'
       maxLength={50}

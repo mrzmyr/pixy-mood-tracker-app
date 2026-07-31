@@ -1,5 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import { act, renderHook } from '@testing-library/react-hooks'
+import { act, renderHook, waitFor } from '@testing-library/react-native'
 import _ from 'lodash'
 import { INITIAL_STATE, SettingsProvider, STORAGE_KEY, useSettings } from '../hooks/useSettings'
 
@@ -14,6 +14,10 @@ const _renderHook = () => {
     state: useSettings()
   }), { wrapper })
 }
+
+const waitForLoaded = (hook) => waitFor(() => {
+  expect(hook.result.current.state.settings.loaded).toBe(true)
+})
 
 const _console_error = console.error
 
@@ -39,9 +43,8 @@ describe('useSettings()', () => {
   });
 
   test('should have `loaded` prop', async () => {
-    const hook = _renderHook()
-    expect(hook.result.current.state.settings.loaded).toBe(false)
-    await hook.waitForNextUpdate()
+    const hook = await _renderHook()
+    await waitForLoaded(hook)
     expect(hook.result.current.state.settings.loaded).toBe(true)
   })
 
@@ -50,29 +53,29 @@ describe('useSettings()', () => {
       ...INITIAL_STATE,
       reminderTime: '12:00',
     }))
-    const hook = _renderHook()
-    await hook.waitForNextUpdate()
+    const hook = await _renderHook()
+    await waitForLoaded(hook)
     expect(hook.result.current.state.settings.reminderTime).toBe('12:00')
     expect(hook.result.current.state.settings.deviceId).toBe(STATIC_DEVICE_ID)
   })
 
   test('should initiate with empty `settings` when async storage is empty', async () => {
-    const hook = _renderHook()
-    await hook.waitForNextUpdate()
+    const hook = await _renderHook()
+    await waitForLoaded(hook)
 
     expect(hook.result.current.state.settings).toEqual(LOADED_STATE)
   })
 
   test('should initiate with empty `settings` when async storage is falsely', async () => {
     AsyncStorage.setItem(STORAGE_KEY, '🐇')
-    const hook = _renderHook()
-    await hook.waitForNextUpdate()
+    const hook = await _renderHook()
+    await waitFor(() => expect(console.error).toHaveBeenCalled())
     expect(console.error).toHaveBeenCalled();
   })
 
   test('should import', async () => {
-    const hook = _renderHook()
-    await hook.waitForNextUpdate()
+    const hook = await _renderHook()
+    await waitForLoaded(hook)
 
     await act(() => {
       hook.result.current.state.importSettings({
@@ -85,8 +88,8 @@ describe('useSettings()', () => {
   })
 
   test('should addActionDone', async () => {
-    const hook = _renderHook()
-    await hook.waitForNextUpdate()
+    const hook = await _renderHook()
+    await waitForLoaded(hook)
 
     await act(() => {
       hook.result.current.state.addActionDone('test')
@@ -106,8 +109,8 @@ describe('useSettings()', () => {
   })
 
   test('should not addActionDone when it already exists', async () => {
-    const hook = _renderHook()
-    await hook.waitForNextUpdate()
+    const hook = await _renderHook()
+    await waitForLoaded(hook)
 
     await act(() => {
       hook.result.current.state.addActionDone('test')
@@ -131,8 +134,8 @@ describe('useSettings()', () => {
   })
 
   test('should hasActionDone', async () => {
-    const hook = _renderHook()
-    await hook.waitForNextUpdate()
+    const hook = await _renderHook()
+    await waitForLoaded(hook)
 
     await act(() => {
       hook.result.current.state.addActionDone('test')
@@ -143,8 +146,8 @@ describe('useSettings()', () => {
   })
 
   test('should resetSettings', async () => {
-    const hook = _renderHook()
-    await hook.waitForNextUpdate()
+    const hook = await _renderHook()
+    await waitForLoaded(hook)
 
     await act(() => {
       hook.result.current.state.resetSettings()
@@ -154,8 +157,8 @@ describe('useSettings()', () => {
   })
 
   test('should `toggleStep`', async () => {
-    const hook = _renderHook()
-    await hook.waitForNextUpdate()
+    const hook = await _renderHook()
+    await waitForLoaded(hook)
 
     await act(() => {
       hook.result.current.state.toggleStep('feedback')
@@ -171,8 +174,8 @@ describe('useSettings()', () => {
   })
 
   test('should `toggleStep` with value', async () => {
-    const hook = _renderHook()
-    await hook.waitForNextUpdate()
+    const hook = await _renderHook()
+    await waitForLoaded(hook)
 
     await act(() => {
       hook.result.current.state.toggleStep('tags')
@@ -191,8 +194,8 @@ describe('useSettings()', () => {
   })
 
   test('should `hasStep`', async () => {
-    const hook = _renderHook()
-    await hook.waitForNextUpdate()
+    const hook = await _renderHook()
+    await waitForLoaded(hook)
 
     await act(() => {
       hook.result.current.state.toggleStep('feedback')

@@ -1,0 +1,36 @@
+appId: com.devmood.pixymoodtracker
+tags: [settings, data]
+---
+- launchApp:
+    clearState: true
+- runFlow: ../subflows/complete-onboarding.yaml
+
+# Create one entry first so reset has something to clear
+- runFlow: ../subflows/create-basic-entry.yaml
+
+# 6.1 Open Settings → Data
+- tapOn:
+    id: "settings"
+- assertVisible: "Settings"
+- tapOn:
+    id: "data"
+- assertVisible: "Export"
+- assertVisible: "Import"
+
+# 6.2 Reset data
+- scrollUntilVisible:
+    element:
+      id: "reset-data"
+    direction: DOWN
+- tapOn:
+    id: "reset-data"
+- assertVisible: "Are you sure you want to reset all entries and tags?"
+- tapOn: "Reset"
+- assertVisible: "All data has been reset."
+- tapOn: "OK"
+
+# 6.3 Calendar back to empty state (add-entry button back to initial label)
+- back
+- tapOn:
+    id: "calendar"
+- assertVisible: "Add New Entry"

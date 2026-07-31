@@ -1,0 +1,54 @@
+appId: com.devmood.pixymoodtracker
+tags: [settings, appearance]
+---
+- launchApp:
+    clearState: true
+- runFlow: ../subflows/complete-onboarding.yaml
+
+# 9.1 Colors screen opens (colorblind schemes listed)
+- tapOn:
+    id: "settings"
+    waitToSettleTimeoutMs: 300
+- tapOn:
+    text: "Colors"
+    waitToSettleTimeoutMs: 300
+- assertVisible: "COMING SOON.*"
+- back
+
+# 9.2 Check-in (logger steps config) opens
+- tapOn:
+    id: "settings"
+    waitToSettleTimeoutMs: 300
+- tapOn:
+    text: "Check-in"
+    waitToSettleTimeoutMs: 300
+- back
+
+# 9.3 Privacy screen with behavioral data toggle
+- tapOn:
+    id: "settings"
+    waitToSettleTimeoutMs: 300
+- scrollUntilVisible:
+    element:
+      text: "Privacy"
+    direction: DOWN
+    timeout: 15000
+    visibilityPercentage: 50
+- tapOn:
+    text: "Privacy"
+    waitToSettleTimeoutMs: 300
+- scrollUntilVisible:
+    element:
+      id: "behavioral-data-enabled"
+    direction: DOWN
+    timeout: 20000
+    visibilityPercentage: 50
+- tapOn:
+    id: "behavioral-data-enabled"
+    waitToSettleTimeoutMs: 300
+- tapOn:
+    id: "behavioral-data-enabled"
+    waitToSettleTimeoutMs: 300
+- back
+- assertVisible:
+    id: "settings"

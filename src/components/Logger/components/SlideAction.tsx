@@ -55,6 +55,7 @@ export const SlideAction = ({
       }}
     >
       <FloatButton
+        testID={`logger-${type}`}
         onPress={async () => {
           if (disabled) return
           await haptics.selection()

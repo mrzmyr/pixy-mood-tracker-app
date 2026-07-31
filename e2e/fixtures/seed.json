@@ -1,0 +1,26 @@
+{
+  "version": "1.86.0",
+  "items": [
+    { "id": "e2e-1", "date": "2026-07-16", "rating": "good", "tags": [] },
+    { "id": "e2e-2", "date": "2026-07-17", "rating": "very_good", "tags": [] },
+    { "id": "e2e-3", "date": "2026-07-18", "rating": "neutral", "tags": [] },
+    { "id": "e2e-4", "date": "2026-07-19", "rating": "bad", "tags": [] },
+    { "id": "e2e-5", "date": "2026-07-20", "rating": "good", "tags": [] },
+    { "id": "e2e-6", "date": "2026-07-21", "rating": "extremely_good", "tags": [] },
+    { "id": "e2e-7", "date": "2026-07-22", "rating": "good", "tags": [] },
+    { "id": "e2e-8", "date": "2026-07-23", "rating": "very_bad", "tags": [] },
+    { "id": "e2e-9", "date": "2026-07-24", "rating": "neutral", "tags": [] },
+    { "id": "e2e-10", "date": "2026-07-25", "rating": "good", "tags": [] },
+    { "id": "e2e-11", "date": "2026-07-26", "rating": "very_good", "tags": [] },
+    { "id": "e2e-12", "date": "2026-07-27", "rating": "good", "tags": [] },
+    { "id": "e2e-13", "date": "2026-07-28", "rating": "neutral", "tags": [] },
+    { "id": "e2e-14", "date": "2026-07-29", "rating": "good", "tags": [] }
+  ],
+  "tags": [
+    { "id": "e2e-tag-1", "title": "Work", "color": "blue" },
+    { "id": "e2e-tag-2", "title": "Sport", "color": "green" }
+  ],
+  "settings": {
+    "actionsDone": []
+  }
+}

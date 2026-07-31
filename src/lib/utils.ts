@@ -34,17 +34,24 @@ export const getAverageMood = (items: LogItem[]): LogItem['rating'] | null => {
 }
 
 export const getAverageSleepQuality = (items: LogItem[]): number | null => {
-  let averageSleepQuality = 0;
+  const itemsWithSleep = items.filter((item) => (
+    item.sleep?.quality &&
+    SLEEP_QUALITY_MAPPING[item.sleep.quality] !== undefined
+  ));
 
-  if (items.length > 0) {
-    const sum = items.reduce((acc, item) => acc + SLEEP_QUALITY_MAPPING[item.sleep?.quality], 0);
-    averageSleepQuality = Math.round(sum / items.length);
-  } else {
-    return null;
-  }
+  if (itemsWithSleep.length === 0) return null;
 
-  return averageSleepQuality;
+  const sum = itemsWithSleep.reduce(
+    (acc, item) => acc + SLEEP_QUALITY_MAPPING[item.sleep.quality],
+    0,
+  );
+  return Math.round(sum / itemsWithSleep.length);
 }
+
+export const getWordCount = (text = '') => {
+  const normalized = text.trim();
+  return normalized === '' ? 0 : normalized.split(/\s+/).length;
+};
 
 export const getLogDays = (items: LogItem[]): LogDay[] => {
   const moodsPerDay = _.groupBy(items, (item) => dayjs(item.dateTime).format(DATE_FORMAT))

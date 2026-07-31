@@ -2,7 +2,7 @@ import * as Linking from 'expo-linking';
 import * as StoreReview from 'expo-store-review';
 import * as WebBrowser from 'expo-web-browser';
 import { ScrollView, Text, View } from 'react-native';
-import { ArrowUpCircle, Award, Bell, BookOpen, CheckCircle, Database, Droplet, Flag, PieChart, Shield, Smartphone, Star } from 'react-native-feather';
+import { ArrowUpCircle, Award, Bell, BookOpen, CheckCircle, Database, Droplet, Flag, Github, PieChart, Shield, Smartphone, Star } from 'react-native-feather';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import MenuList from '@/components/MenuList';
 import MenuListHeadline from '@/components/MenuListHeadline';
@@ -17,7 +17,7 @@ import pkg from '../../../package.json';
 import { RootStackScreenProps } from '../../../types';
 import { UserDataImportList } from './UserData';
 import * as Updates from 'expo-updates';
-import { Github, Tag } from 'lucide-react-native';
+import { Tag } from 'lucide-react-native';
 
 export const SettingsScreen = ({ navigation }: RootStackScreenProps<'Settings'>) => {
   const insets = useSafeAreaInsets();

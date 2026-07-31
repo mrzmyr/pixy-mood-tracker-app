@@ -24,6 +24,7 @@ export default forwardRef(function TextArea({
   return (
     <TextInput
       ref={ref}
+      accessibilityLabel={placeholder}
       testID={testID}
       autoFocus={autoFocus}
       multiline

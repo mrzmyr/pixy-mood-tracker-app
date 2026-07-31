@@ -5,6 +5,7 @@
     "strictNullChecks": true,
     "strict": false,
     "module": "esnext",
+    "types": ["jest", "node"],
     "paths": {
       "@/*": ["./src/*"]
     }

@@ -5,15 +5,18 @@ export const FloatButton = ({
   onPress,
   disabled,
   children,
+  testID,
 }: {
   onPress: () => void
   disabled?: boolean
   children?: React.ReactNode
+  testID?: string
 }) => {
   const colors = useColors()
 
   return (
     <TouchableOpacity
+      testID={testID}
       activeOpacity={0.8}
       onPress={onPress}
       style={{

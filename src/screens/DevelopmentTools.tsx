@@ -13,6 +13,7 @@ import { useLogState } from "../hooks/useLogs";
 import { useSettings } from "../hooks/useSettings";
 import { useTagsState } from "../hooks/useTags";
 import { Trash } from "lucide-react-native";
+import { getWordCount } from "@/lib/utils";
 
 const Card = ({
   title,
@@ -66,7 +67,7 @@ export const DevelopmentTools = () => {
   const { settings, setSettings, removeActionDone } = useSettings();
 
   const words_total = logState.items
-    .map((d) => d.message.split(" ").length)
+    .map((d) => getWordCount(d.message))
     .reduce((a, b) => a + b, 0);
 
   return (

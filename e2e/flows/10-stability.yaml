@@ -1,0 +1,30 @@
+appId: com.devmood.pixymoodtracker
+tags: [stability]
+---
+- launchApp:
+    clearState: true
+- runFlow: ../subflows/complete-onboarding.yaml
+- runFlow: ../subflows/create-basic-entry.yaml
+
+# 10.1 Background + foreground, data intact
+- pressKey: home
+- launchApp
+- assertVisible: "Add another entry for today"
+
+# 10.2 Kill + cold start, data intact (regression test for 2nd-launch crash)
+- stopApp
+- launchApp
+- extendedWaitUntil:
+    visible: "Add another entry for today"
+    timeout: 10000
+
+# 10.3 Rotate-safe basic smoke (open each tab)
+- tapOn:
+    id: "statistics"
+    waitToSettleTimeoutMs: 300
+- tapOn:
+    id: "settings"
+    waitToSettleTimeoutMs: 300
+- tapOn:
+    id: "calendar"
+    waitToSettleTimeoutMs: 300

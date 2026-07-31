@@ -103,7 +103,10 @@ const dayjs_locales = {
   vi: require('dayjs/locale/vi'),
 }
 
-i18n.locale = Localization.locale;
+const deviceLocale = Localization.getLocales()[0]?.languageTag ?? 'en';
+const deviceRegion = Localization.getLocales()[0]?.regionCode ?? null;
+
+i18n.locale = deviceLocale;
 i18n.fallbacks = true;
 
 export const locale = i18n.locale;
@@ -121,13 +124,13 @@ const _getFirstDayOfWeek = (region: string): number => {
 }
 
 export const initializeDayjs = () => {
-  let locale = Localization.locale;
+  let locale = deviceLocale;
   if (locale.includes('-')) locale = locale.split('-')[0];
 
   if (locale in dayjs_locales) {
     dayjs.locale(locale)
-    if (dayjs.Ls[locale] && Localization.region !== null) {
-      dayjs.Ls[locale].weekStart = _getFirstDayOfWeek(Localization.region);
+    if (dayjs.Ls[locale] && deviceRegion !== null) {
+      dayjs.Ls[locale].weekStart = _getFirstDayOfWeek(deviceRegion);
     }
   } else {
     dayjs.locale('en')

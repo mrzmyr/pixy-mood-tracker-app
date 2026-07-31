@@ -88,22 +88,22 @@ function CalendarFiltersProvider({
       isFiltering,
       filterCount,
     })
-  }, [analytics])
+  }, [analytics, logState.items])
 
   const reset = useCallback(() => {
     analytics.track('calendar_filters_reset')
     setData(initialState)
-  }, [])
+  }, [analytics])
 
   const open = useCallback(() => {
     analytics.track('calendar_filters_opened')
     setIsOpen(true)
-  }, [])
+  }, [analytics])
 
   const close = useCallback(() => {
     analytics.track('calendar_filters_closed')
     setIsOpen(false)
-  }, [])
+  }, [analytics])
 
   const value: Value = useMemo(() => ({
     data,

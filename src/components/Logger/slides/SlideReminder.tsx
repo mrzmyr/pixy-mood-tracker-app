@@ -7,7 +7,7 @@ import Button from '@/components/Button';
 import Clock from '@/components/Clock';
 import LinkButton from '@/components/LinkButton';
 import useColors from '@/hooks/useColors';
-import useNotification from '@/hooks/useNotifications';
+import useNotification, { createDailyTrigger } from '@/hooks/useNotifications';
 import { useAnalytics } from '@/hooks/useAnalytics';
 import { SettingsState, useSettings } from '@/hooks/useSettings';
 import { SlideHeadline } from "../components/SlideHeadline";
@@ -36,18 +36,13 @@ export const SlideReminder = ({
 
   const enable = async () => {
     const has = await hasPermission()
-    if (!has) {
-      await askForPermission()
-    }
+    const granted = has || await askForPermission()
+    if (!granted) return
 
     await (async () => {
       await cancelAll()
       await schedule({
-        trigger: {
-          repeats: true,
-          hour: dayjs(time).hour(),
-          minute: dayjs(time).minute(),
-        },
+        trigger: createDailyTrigger(dayjs(time).hour(), dayjs(time).minute()),
       })
 
       setSettings((settings: SettingsState) => ({

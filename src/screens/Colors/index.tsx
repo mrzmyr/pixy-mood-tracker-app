@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { Fragment, useCallback, useEffect, useState } from 'react';
 import { ScrollView, View } from 'react-native';
 import MenuList from '@/components/MenuList';
 import MenuListHeadline from '@/components/MenuListHeadline';
@@ -56,9 +56,8 @@ export const ColorsScreen = ({ navigation }) => {
         }}
       >
         {typesNames.filter(d => !d.disabled).map(type => (
-          <>
+          <Fragment key={type.id}>
             <Radio
-              key={type.id}
               isSelected={type.id === scaleType}
               onPress={() => onSelect(type.id)}
               isDisabled={type.disabled}
@@ -72,7 +71,7 @@ export const ColorsScreen = ({ navigation }) => {
                 }}
               >{t('colorblind_disclaimer')}</TextInfo>
             )}
-          </>
+          </Fragment>
         )
         )}
         <MenuListHeadline>Coming Soon…</MenuListHeadline>
