@@ -13,7 +13,7 @@ Submission stops at TestFlight. Releasing the build publicly still requires manu
 - GitHub Actions secret `EXPO_TOKEN` authenticates an Expo account with access to EAS project `8917be91-f1cc-4276-a252-674a28490ac3`.
 - EAS has valid Apple distribution credentials for team `8VVNC4724B` and bundle identifier `com.devmood.pixymoodtracker`.
 - EAS Submit has a valid App Store Connect API key for app `1605327124`.
-- Remote iOS build version is initialized above the highest build number already uploaded to App Store Connect.
+- Remote iOS build number is initialized above the highest build already uploaded to App Store Connect, and the remote Android version code is initialized from the current app config.
 - Internal testers belong to an automatically distributed TestFlight group. External testers have completed Apple's required Beta App Review.
 
 ## Release
@@ -34,6 +34,7 @@ Submission stops at TestFlight. Releasing the build publicly still requires manu
 - `eas.json` parses as JSON.
 - Expo resolves bundle identifier `com.devmood.pixymoodtracker`, EAS project ID `8917be91-f1cc-4276-a252-674a28490ac3`, and App Store Connect app ID `1605327124`.
 - Production profile uses remote versioning and automatic build-number increments.
+- Remote versions are initialized for both iOS and Android.
 - Test and type-check workflows pass.
 - GitHub Actions secret `EXPO_TOKEN` exists.
 - EAS iOS distribution and App Store Connect credentials are valid.
@@ -59,9 +60,11 @@ Submission stops at TestFlight. Releasing the build publicly still requires manu
 ### Failure behavior
 
 - Missing or invalid Expo authentication fails before a build starts.
-- Missing, expired, or changed Apple credentials fail the build because CI uses `--freeze-credentials`; CI never replaces credentials silently.
+- Missing, expired, or changed Apple build credentials fail the build because CI uses `--freeze-credentials`; CI never replaces build credentials silently.
+- Missing or invalid App Store Connect credentials fail the submission after a successful build.
 - Build or submission failure is visible from the EAS build/submission linked by GitHub Actions.
-- Retrying the release build uses a new remote build number and does not collide with an earlier upload.
+- Retry a failed submission without rebuilding: `eas submit --platform ios --profile production --id <BUILD_ID>`.
+- Retrying a failed build creates a new remote build number and does not collide with an earlier upload.
 
 ## Rollback
 

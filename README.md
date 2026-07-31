@@ -80,6 +80,8 @@ Merging a Release Please PR creates the GitHub release, builds the production iO
 
 See [TestFlight release workflow](./docs/testflight-release-workflow.md) for prerequisites, operation, and verification criteria.
 
+Android store submissions remain manual. JavaScript and asset updates pushed to `preview` or `production` continue through the [EAS Update workflow](./.github/workflows/update.yml) when compatible with the installed runtime.
+
 ## Contributing
 
 Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.

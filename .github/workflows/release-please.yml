@@ -29,6 +29,12 @@ jobs:
     needs: release-please
     if: needs.release-please.outputs.release_created == 'true'
     runs-on: ubuntu-latest
+    timeout-minutes: 90
+    concurrency:
+      group: testflight
+      cancel-in-progress: false
+    permissions:
+      contents: read
     steps:
       - name: Checkout released commit
         uses: actions/checkout@v4
@@ -48,7 +54,7 @@ jobs:
       - name: Set up Expo and EAS
         uses: expo/expo-github-action@v8
         with:
-          eas-version: latest
+          eas-version: 21.4.0
           token: ${{ secrets.EXPO_TOKEN }}
 
       - name: Install dependencies
