@@ -34,63 +34,11 @@ This section should list any major frameworks that you built your project using.
 
 ## Development
 
-**Setup**
-
-1. Clone the repo
-
-```shell
-$ git clone https://github.com/mrzmyr/pixy-mood-tracker.git
-```
-
-2. Install dependencies
-
-```shell
-$ bun install
-```
-
-3. Start local server
-
-```shell
-$ bun start
-```
-
-**Environments** (`eas.json`)
-
-- `development` Builds for local development on phisical devices
-- `emulator`: Builds for local development in iOS Simulator or Android Emulator
-- `preview`: Builds used for Testflight and Android Internal Testing
-- `production`: Builds used for production
-
-## Building
-
-| Environment   | OS      | Channel             | `bun run` command        | Extension | Installation                                                                                                      |
-| ------------- | ------- | ------------------- | ------------------------ | --------- | ----------------------------------------------------------------------------------------------------------------- |
-| `development` | iOS     | Physical Device     | `build:ios:dev`          | `.ipa`    | Install `.ipa` file via [Apple Configurator](https://apps.apple.com/us/app/apple-configurator/id1037126344?mt=12) |
-| `development` | Android | Physical Device     | `build:android:dev`      | `.apk`    | Install manually (enable "Install from unknown sources")                                                          |
-| `emulator`    | iOS     | Simulator           | `build:ios:emulator`     | `.ipa`    | Install `.ipa` file via                                                                                           |
-| `emulator`    | Android | Emulator            | `build:android:emulator` | `.apk`    | Install the `.apk` file via drag and drop                                                                         |
-| `preview`     | iOS     | TestFlight          | `build:ios:preview`      | `.ipa`    | Submit `.ipa` file to App Store via `bun run submit:ios:preview`                                                     |
-| `preview`     | Android | Goolge Play Console | `build:android:preview`  | `.aab`    | Submit `.aab` file to Google Play Console via `bun run submit:android:preview`                                       |
-| `production`  | iOS     | Physical Device     | `build:ios:prod`         | `.ipa`    | Submit `.ipa` file via `bun run submit:ios:production`                                                               |
-| `production`  | Android | Physical Device     | `build:android:prod`     | `.aab`    | Submit `.aab` file via `bun run submit:android:production`                                                           |
-
-## Releasing
-
-Merging a Release Please PR creates the GitHub release, builds the production iOS app with EAS, and submits it to TestFlight. TestFlight submission does not release the app publicly. Promote the tested build manually in App Store Connect.
-
-See [TestFlight release workflow](./docs/testflight-release-workflow.md) for prerequisites, operation, and verification criteria.
-
-Android store submissions remain manual: run `bun run build:android:prod`, then `bunx eas-cli submit --platform android --path <path-to-aab>`. JavaScript and asset updates pushed to `preview` or `production` continue through the [EAS Update workflow](./.github/workflows/update.yml) when compatible with the installed runtime.
+See [docs/development.md](./docs/development.md) for setup, build, and release instructions.
 
 ## Contributing
 
-Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
-
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feat-add-feature`)
-3. Commit your Changes (`git commit -m 'feat: my feature'`)
-4. Push to the Branch (`git push origin feat-add-feature`)
-5. Open a Pull Request
+See [CONTRIBUTING.md](./CONTRIBUTING.md).
 
 ## Contact
 
@@ -100,36 +48,4 @@ Project Link: [https://github.com/mrzmyr/pixy-mood-tracker](https://github.com/m
 
 ### Supported Languages
 
-| Name                 | Key |
-| -------------------- | --- |
-| Arabic               | ar  |
-| Chinese (Simplified) | zh  |
-| Croatian             | hr  |
-| Czech                | cs  |
-| Danish               | da  |
-| Dutch                | nl  |
-| English              | en  |
-| Finnish              | fi  |
-| French               | fr  |
-| German               | de  |
-| Greek                | el  |
-| Hebrew               | he  |
-| Hindi                | hi  |
-| Hungarian            | hu  |
-| Indonesian           | id  |
-| Italian              | it  |
-| Japanese             | ja  |
-| Korean               | ko  |
-| Malay                | ms  |
-| Norwegian            | no  |
-| Polish               | pl  |
-| Portuguese           | pt  |
-| Romanian             | ro  |
-| Russian              | ru  |
-| Slovak               | sk  |
-| Spanish              | es  |
-| Swedish              | sv  |
-| Thai                 | th  |
-| Turkish              | tr  |
-| Ukrainian            | uk  |
-| Vietnamese           | vi  |
+See [docs/i18n.md](./docs/i18n.md).

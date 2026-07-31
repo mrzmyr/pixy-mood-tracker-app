@@ -12,6 +12,8 @@
     "test:ci": "jest --env=jsdom",
     "build:ios:dev": "bunx eas-cli build -p ios --local --profile=development",
     "build:android:dev": "bunx eas-cli build -p android --local --profile=development",
+    "build:ios:emulator": "bunx eas-cli build -p ios --profile=emulator",
+    "build:android:emulator": "bunx eas-cli build -p android --profile=emulator",
     "build:ios:preview": "bunx eas-cli build -p ios --local --profile=preview",
     "build:android:preview": "bunx eas-cli build -p android --local --profile=preview",
     "build:ios:prod": "bunx eas-cli build -p ios --local --profile=production",
