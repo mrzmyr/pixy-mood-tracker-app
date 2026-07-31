@@ -1,0 +1,4 @@
+interface:
+  display_name: "Attach PR Asset"
+  short_description: "Upload visual proof without committing files"
+  default_prompt: "Use $attach-pr-asset to attach screenshot or video proof to the current pull request."

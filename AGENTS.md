@@ -15,6 +15,7 @@
 
 - Every agent-authored pull request must prove to the human reviewer that the change works before it is marked ready or merged.
 - Attach screenshots or a video directly to the pull request body or a pull request comment. For non-visual changes, show the relevant observable behavior or test execution.
+- Use [`attach-pr-asset`](.agents/skills/attach-pr-asset/SKILL.md) to upload screenshot or video proof without committing evidence files.
 - Never commit proof-only screenshots, videos, or evidence files to the repository. Commit a visual file only when it is a product or documentation asset needed independently of the pull request.
 - Show before and after evidence when behavior or UI is changed or removed.
 - Document the environment and exact steps used to produce the evidence so the reviewer can reproduce it.
