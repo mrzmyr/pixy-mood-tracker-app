@@ -4,8 +4,7 @@ export type SupportOutcome = 'purchased' | 'cancelled';
 export type FakeSupportOutcome = SupportOutcome | 'failed';
 export type SupportFlowStatus =
   | 'support_flow_failed'
-  | 'support_fake_failed'
-  | 'support_unavailable';
+  | 'support_fake_failed';
 
 export interface SupportFlowError {
   status: SupportFlowStatus;

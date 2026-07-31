@@ -1,5 +1,11 @@
 import { NavigationContainer } from '@react-navigation/native';
-import { act, render, userEvent, waitFor } from '@testing-library/react-native';
+import {
+  act,
+  fireEvent,
+  render,
+  userEvent,
+  waitFor,
+} from '@testing-library/react-native';
 import { Alert } from 'react-native';
 import Providers from '@/components/Providers';
 import Colors from '@/constants/Colors';
@@ -39,6 +45,17 @@ const renderSettings = (supportClient: SupportClient) => render(
   </NavigationContainer>,
 );
 
+const collectTestIds = (node: any): string[] => {
+  if (Array.isArray(node)) return node.flatMap(collectTestIds);
+  if (!node || typeof node !== 'object') return [];
+
+  const testId = node.props?.testID;
+  return [
+    ...(typeof testId === 'string' ? [testId] : []),
+    ...collectTestIds(node.children),
+  ];
+};
+
 describe('Support Pixy in Settings', () => {
   afterEach(() => {
     jest.restoreAllMocks();
@@ -50,6 +67,11 @@ describe('Support Pixy in Settings', () => {
 
     expect(screen.queryByTestId('support-pixy-card')).toBeNull();
     expect(openSupport).not.toHaveBeenCalled();
+
+    const testIds = collectTestIds(screen.toJSON());
+    expect(testIds.indexOf('settings-version')).toBeLessThan(
+      testIds.indexOf('settings-development-user-data'),
+    );
   });
 
   test('user sees approved support card in a configured development build', async () => {
@@ -66,6 +88,14 @@ describe('Support Pixy in Settings', () => {
       'Pixy is free to use and supported by optional contributions. If it has been useful to you, you may support its continued development.',
     )).toBeOnTheScreen();
     expect(screen.getByRole('button', { name: 'Support Pixy' })).toBeOnTheScreen();
+
+    const testIds = collectTestIds(screen.toJSON());
+    expect(testIds.indexOf('settings-development-user-data')).toBeLessThan(
+      testIds.indexOf('support-pixy-card'),
+    );
+    expect(testIds.indexOf('support-pixy-card')).toBeLessThan(
+      testIds.indexOf('settings-version'),
+    );
   });
 
   test('user opens support flow from the card', async () => {
@@ -77,20 +107,37 @@ describe('Support Pixy in Settings', () => {
     await waitFor(() => expect(supportClient.attempts).toBe(1));
   });
 
-  test('supporter receives thanks after a successful contribution', async () => {
+  test('supporter receives brief inline thanks after a successful contribution', async () => {
     const showAlert = jest.spyOn(Alert, 'alert').mockImplementation();
     const supportClient = createFakeSupportClient('purchased');
     const screen = await renderSettings(supportClient);
     const button = screen.getByRole('button', { name: 'Support Pixy' });
+    let dismissThanks: (() => void) | undefined;
+    const schedule = jest.spyOn(global, 'setTimeout').mockImplementation(
+      ((callback: () => void, delay?: number) => {
+        if (delay === 3000) dismissThanks = callback;
+        return 1;
+      }) as typeof setTimeout,
+    );
 
-    await userEvent.press(button);
+    await act(async () => {
+      fireEvent.press(button);
+      await Promise.resolve();
+    });
 
-    await waitFor(() => expect(showAlert).toHaveBeenCalledWith(
+    expect(screen.getByTestId('support-pixy-thanks')).toHaveTextContent(
       'Thank you for supporting Pixy',
-      'Your contribution helps keep Pixy maintained, free, and open source.',
-    ));
+    );
+    expect(showAlert).not.toHaveBeenCalled();
     expect(supportClient.attempts).toBe(1);
-    await waitFor(() => expect(button).toBeEnabled());
+    expect(button).toBeEnabled();
+    expect(schedule).toHaveBeenCalledWith(expect.any(Function), 3000);
+
+    await act(async () => {
+      dismissThanks?.();
+      await Promise.resolve();
+    });
+    expect(screen.queryByTestId('support-pixy-thanks')).toBeNull();
   });
 
   test('user can cancel support without follow-up pressure', async () => {

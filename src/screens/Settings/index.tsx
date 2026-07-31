@@ -26,6 +26,11 @@ export const SettingsScreen = ({ navigation }: RootStackScreenProps<'Settings'>)
   const colors = useColors()
   const analytics = useAnalytics()
   const support = useSupport()
+  const developmentUserData = __DEV__ ? (
+    <View testID="settings-development-user-data">
+      <UserDataImportList />
+    </View>
+  ) : null;
 
   const { show: showFeedbackModal, Modal: FeedbackModal } = useFeedbackModal();
 
@@ -223,9 +228,10 @@ export const SettingsScreen = ({ navigation }: RootStackScreenProps<'Settings'>)
             isLast
           />
         </MenuList>
-        {__DEV__ && <UserDataImportList />}
+        {support.enabled && developmentUserData}
         {support.enabled && <SupportCard />}
         <View
+          testID="settings-version"
           style={{
             marginTop: 20,
             flex: 1,
@@ -237,6 +243,7 @@ export const SettingsScreen = ({ navigation }: RootStackScreenProps<'Settings'>)
           <Text style={{ fontSize: 14, marginTop: 5, color: colors.textSecondary }}>Pixy v{pkg.version}</Text>
           {Updates.channel && <Text style={{ fontSize: 14, marginTop: 5, color: colors.textSecondary }}>{Updates.channel}</Text>}
         </View>
+        {!support.enabled && developmentUserData}
       </ScrollView>
     </View>
   );
