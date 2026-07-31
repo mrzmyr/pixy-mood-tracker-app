@@ -12,7 +12,7 @@ description: Attach screenshot or video proof to a GitHub pull request without c
 PR_NUMBER="${PR_NUMBER:-$(gh pr view --json number --jq '.number')}"
 REPO="${REPO:-$(gh repo view --json nameWithOwner --jq '.nameWithOwner')}"
 HEAD_SHA="$(gh pr view "$PR_NUMBER" --repo "$REPO" --json headRefOid --jq '.headRefOid')"
-TAG="pr-${PR_NUMBER}-assets"
+TAG="pr-${PR_NUMBER}-assets-${HEAD_SHA:0:12}"
 ```
 
 3. Create a public prerelease targeting PR head, then upload evidence files:
@@ -38,20 +38,20 @@ gh api "repos/$REPO/releases/tags/$TAG" \
   --jq '.assets[] | [.name, .browser_download_url] | @tsv'
 ```
 
-5. Preserve existing PR body. Append `## Visual proof` using `gh pr edit --body-file`:
+5. Preserve existing PR body. Append `## Visual proof`, then update using `--body-file`:
 
-```markdown
-## Visual proof
+```bash
+BODY_FILE="$(mktemp)"
+gh pr view "$PR_NUMBER" --repo "$REPO" --json body --jq '.body' > "$BODY_FILE"
 
-### Before
+{
+  printf '\n\n## Visual proof\n\n'
+  printf '### Before\n\n![Before](%s)\n\n' "$BEFORE_URL"
+  printf '### After\n\n![After](%s)\n\n' "$AFTER_URL"
+  printf '[Watch video](%s)\n' "$VIDEO_URL"
+} >> "$BODY_FILE"
 
-![Before](BEFORE_URL)
-
-### After
-
-![After](AFTER_URL)
-
-[Watch video](VIDEO_URL)
+gh pr edit "$PR_NUMBER" --repo "$REPO" --body-file "$BODY_FILE"
 ```
 
 Include environment, reproduction steps, expected result, actual result, and relevant edge cases. Omit missing asset types.
