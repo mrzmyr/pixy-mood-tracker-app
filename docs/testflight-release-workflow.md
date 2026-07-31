@@ -18,11 +18,7 @@ Submission stops at TestFlight. Releasing the build publicly still requires manu
 
 ## Export compliance
 
-Pixy uses no non-exempt encryption. Its network encryption is limited to standard HTTPS and operating-system-provided security used by Expo and the app's service SDKs. The app does not implement proprietary encryption, custom cryptographic algorithms, VPN functionality, or encrypted communications.
-
-`app.json` sets `ios.infoPlist.ITSAppUsesNonExemptEncryption` to `false`. Expo writes this declaration into the iOS `Info.plist`, so App Store Connect can process future builds without asking for export-compliance information.
-
-Do not ask for the declaration again while this configuration and encryption behavior remain unchanged. Reassess export compliance before release only if the app or a dependency adds cryptographic functionality beyond operating-system-provided or exempt encryption.
+`app.json` declares that Pixy uses no non-exempt encryption. Do not ask again unless the app or a dependency adds non-exempt cryptography.
 
 ## Release
 
