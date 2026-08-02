@@ -2,6 +2,31 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.87.0](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.86.1...v1.87.0) (2026-08-02)
+
+
+### Features
+
+* **settings:** add optional Support Pixy entry ([61d5e7a](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/61d5e7af54188c43a8b07207b64ffd9d8c9c745b))
+
+
+### Miscellaneous
+
+* **deps:** bump @react-navigation/native-stack from 6.11.0 to 7.18.6 ([a6d0587](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/a6d0587a1a85f0ca642d2b2055bc8b3cdb4e0db2))
+* **deps:** bump chroma-js from 2.6.0 to 3.2.0 ([37ecc89](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/37ecc895cbc2a7987e32214bf1288183c92a720e))
+* **deps:** bump react-native-gesture-handler from 2.32.0 to 3.1.0 ([1f4b8f0](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/1f4b8f08849e2c94bb0f67a23ca7e6439d1ce5e4))
+* **deps:** bump react-native-reanimated from 4.5.1 to 4.5.3 ([2c8364d](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/2c8364defab18a20d2eb84f2c24506f891b6f3e0))
+* **deps:** bump react-native-view-shot from 5.1.0 to 5.1.1 ([5fb2ecc](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/5fb2ecc0a451722cfc352440c89bc1c9f569177b))
+* **ios:** declare export compliance exemption ([#235](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/235)) ([50fe56e](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/50fe56e8c4cf9bdedb800f9e401fefe9b5447343))
+
+
+### Documentation
+
+* **agents:** add PR asset proof skill ([#247](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/247)) ([161e5b1](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/161e5b1ddd7b2eaab581fdd1aeb4455dad8b4c4a))
+* **agents:** keep PR screenshots compact ([784a6ab](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/784a6ab2a55d763d5a882aaa36ad8611a414bd1a))
+* document physical iOS test runner ([#236](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/236)) ([c612e73](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/c612e7364195aebe7d8f0b75476b9e14ed41327a))
+* keep pull request proof out of repository ([#237](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/237)) ([3b3093a](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/3b3093a92ca51fbf35bbbe2f9ed2e66f612dd2ec))
+
 ## [1.86.1](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.86.0...v1.86.1) (2026-07-31)
 
 
