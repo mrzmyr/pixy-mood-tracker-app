@@ -20,6 +20,10 @@ $ bun install
 $ bun start
 ```
 
+### Preview Support Pixy
+
+Configured native builds use `EXPO_PUBLIC_SUPERWALL_IOS_API_KEY` and `EXPO_PUBLIC_SUPERWALL_ANDROID_API_KEY`. Development builds can expose the support card without Superwall by setting `EXPO_PUBLIC_PIXY_SUPPORT_FAKE_MODE` to `available` or `failed`. Restart Expo after changing configuration. Production builds ignore fake mode.
+
 **Environments** (`eas.json`)
 
 - `development` Builds for local development on physical devices

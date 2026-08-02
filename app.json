@@ -22,7 +22,8 @@
       "appStoreUrl": "https://apps.apple.com/de/app/pixy-mood-tracker/id1605327124",
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false,
-        "NSFaceIDUsageDescription": "Pixy uses Face ID to lock the app and protect your data."
+        "NSFaceIDUsageDescription": "Pixy uses Face ID to lock the app and protect your data.",
+        "SKIncludeConsumableInAppPurchaseHistory": true
       },
       "privacyManifests": {
         "NSPrivacyTracking": false,
@@ -91,6 +92,17 @@
       "expo-sharing",
       "expo-status-bar",
       "expo-web-browser",
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "minSdkVersion": 24
+          },
+          "ios": {
+            "deploymentTarget": "16.4"
+          }
+        }
+      ],
       [
         "expo-document-picker",
         {
