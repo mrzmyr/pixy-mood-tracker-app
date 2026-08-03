@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.87.1](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.87.0...v1.87.1) (2026-08-03)
+
+
+### Bug Fixes
+
+* **deps:** revert @react-navigation/native-stack to v6 to match native v6 ([4a10abd](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/4a10abd28266c8151628cbc87df6c1667f89a433))
+
 ## [1.87.0](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.86.1...v1.87.0) (2026-08-02)
 
 
