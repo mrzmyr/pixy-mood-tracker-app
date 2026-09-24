@@ -20,6 +20,7 @@ export type RootStackParamList = {
   Calendar: undefined;
   NotFound: undefined;
   Data: undefined;
+  DataBackups: undefined;
   Reminder: undefined;
   Privacy: undefined;
   Steps: undefined;

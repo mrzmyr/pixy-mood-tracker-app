@@ -1,4 +1,5 @@
 export * from './Data';
+export * from './DataBackups';
 export * from './Licenses';
 export * from './Log/Create';
 export * from './Log/Edit';

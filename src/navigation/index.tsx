@@ -9,6 +9,7 @@ import { RootStackParamList } from '../../types';
 import {
   ColorsScreen,
   DataScreen,
+  DataBackupsScreen,
   LogList,
   LicensesScreen,
   LogCreate,
@@ -60,6 +61,7 @@ const NAVIGATION_LINKING: LinkingOptions<RootStackParamList> = {
       Licenses: 'settings/licenses',
       Steps: 'settings/steps',
       Data: 'settings/data',
+      DataBackups: 'settings/data/backups',
       Reminder: 'settings/reminder',
       Privacy: 'settings/privacy',
       DevelopmentTools: 'settings/development-tools',
@@ -375,6 +377,14 @@ function RootNavigator() {
             component={DataScreen}
             options={{
               title: t('data'),
+              ...defaultPageOptions,
+            }}
+          />
+          <Stack.Screen
+            name="DataBackups"
+            component={DataBackupsScreen}
+            options={{
+              title: t('data_backups'),
               ...defaultPageOptions,
             }}
           />

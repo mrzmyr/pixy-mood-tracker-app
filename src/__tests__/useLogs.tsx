@@ -299,6 +299,20 @@ describe('useLogs()', () => {
     })
   })
 
+  test('should restore only missing logs and keep current ones', async () => {
+    const edited = { ...testItems[0], message: 'edited after backup' }
+    await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify({ items: [edited] }))
+
+    const hook = await _renderHook()
+    await waitForLoaded(hook)
+
+    await act(() => hook.result.current.updater.restoreLogs(testItems))
+
+    expect(hook.result.current.state.items).toEqual([edited, testItems[1]])
+    const stored = JSON.parse((await AsyncStorage.getItem(STORAGE_KEY))!)
+    expect(stored.items).toEqual([edited, testItems[1]])
+  })
+
   test('should import', async () => {
     const hook = await _renderHook()
     await waitForLoaded(hook)

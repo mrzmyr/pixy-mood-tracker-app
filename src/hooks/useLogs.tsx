@@ -68,6 +68,7 @@ export type LogAction =
   | { type: "batchEdit"; payload: LogItem[] }
   | { type: "delete"; payload: LogItem["id"] }
   | { type: "removeTag"; payload: string }
+  | { type: "restore"; payload: LogItem[] }
   | { type: "reset"; payload: LogsState };
 
 // Every updater resolves once the change is written to storage and rejects
@@ -78,6 +79,7 @@ export interface UpdaterValue {
   updateLogs: (items: LogsState["items"]) => Promise<void>;
   deleteLog: (id: LogItem["id"]) => Promise<void>;
   removeTagFromLogs: (tagId: string) => Promise<void>;
+  restoreLogs: (items: LogItem[]) => Promise<void>;
   reset: () => Promise<void>;
   import: (data: LogsState) => Promise<void>;
   flush: () => Promise<void>;
@@ -137,6 +139,18 @@ function reducer(state: LogsState, action: LogAction): LogsState {
             : item
         ),
       };
+    // Adds entries that are missing now and never replaces or removes
+    // current ones, so restoring an older backup cannot lose newer entries.
+    case "restore": {
+      const existingIds = new Set(state.items.map((item) => item.id));
+      const restored = migrate({ items: action.payload }).items.filter(
+        (item) => !existingIds.has(item.id)
+      );
+      return {
+        ...state,
+        items: [...state.items, ...restored],
+      };
+    }
     case "reset":
       return {
         ...action.payload,
@@ -179,6 +193,7 @@ const SHRINK_ALLOWANCE: Record<LogAction["type"], number> = {
   add: 0,
   edit: 0,
   removeTag: 0,
+  restore: 0,
   delete: 1,
   batchEdit: Infinity,
   import: Infinity,
@@ -317,6 +332,10 @@ function LogsProvider({ children }: { children: React.ReactNode }) {
     (tagId: string) => apply({ type: "removeTag", payload: tagId }),
     [apply]
   );
+  const restoreLogs = useCallback(
+    (items: LogItem[]) => apply({ type: "restore", payload: items }),
+    [apply]
+  );
   const reset = useCallback(
     () => apply({ type: "reset", payload: INITIAL_STATE }),
     [apply]
@@ -329,11 +348,12 @@ function LogsProvider({ children }: { children: React.ReactNode }) {
       updateLogs,
       deleteLog,
       removeTagFromLogs,
+      restoreLogs,
       reset,
       import: importState,
       flush,
     }),
-    [addLog, editLog, updateLogs, deleteLog, removeTagFromLogs, reset, importState, flush]
+    [addLog, editLog, updateLogs, deleteLog, removeTagFromLogs, restoreLogs, reset, importState, flush]
   );
 
   const stateValue: StateValue = useMemo(

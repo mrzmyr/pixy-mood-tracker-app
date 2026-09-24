@@ -1,5 +1,5 @@
 import { ScrollView, Switch, View } from 'react-native';
-import { Download, Trash, Upload } from 'react-native-feather';
+import { Clock, Download, Trash, Upload } from 'react-native-feather';
 import MenuList from '@/components/MenuList';
 import MenuListItem from '@/components/MenuListItem';
 import TextInfo from '@/components/TextInfo';
@@ -48,6 +48,20 @@ export const DataScreen = ({ navigation }: RootStackScreenProps<'Data'>) => {
           />
         </MenuList>
         <TextInfo>{t('export_help')}</TextInfo>
+        <MenuList style={{ marginTop: 16, }}>
+          <MenuListItem
+            testID='data-backups'
+            title={t('data_backups')}
+            onPress={() => {
+              analytics.track('data_backups_opened')
+              navigation.navigate('DataBackups')
+            }}
+            iconLeft={<Clock width={18} color={colors.menuListItemIcon} />}
+            isLink
+            isLast
+          />
+        </MenuList>
+        <TextInfo>{t('data_backups_description')}</TextInfo>
         <MenuList style={{ marginTop: 16, }}>
           <MenuListItem
             testID='reset-data'
