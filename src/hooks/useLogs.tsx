@@ -66,6 +66,7 @@ type LogAction =
   | { type: "edit"; payload: AtLeast<LogItem, "id"> }
   | { type: "batchEdit"; payload: LogItem[] }
   | { type: "delete"; payload: LogItem["id"] }
+  | { type: "removeTag"; payload: string }
   | { type: "reset"; payload: LogsState };
 
 export interface UpdaterValue {
@@ -73,6 +74,7 @@ export interface UpdaterValue {
   editLog: (item: Partial<LogItem>) => void;
   updateLogs: (items: LogsState["items"]) => void;
   deleteLog: (id: LogItem["id"]) => void;
+  removeTagFromLogs: (tagId: string) => void;
   reset: () => void;
   import: (data: LogsState) => void;
 }
@@ -108,14 +110,28 @@ function reducer(state: LogsState, action: LogAction): LogsState {
         }),
       };
     case "batchEdit":
-      state.items = action.payload;
       return {
         ...state,
+        items: action.payload,
       };
     case "delete":
       return {
         ...state,
         items: state.items.filter((item) => item.id !== action.payload),
+      };
+    // Runs against the reducer's current state, not a caller's snapshot, so
+    // logs added in the same tick are kept.
+    case "removeTag":
+      return {
+        ...state,
+        items: state.items.map((item) =>
+          item.tags.some((tag) => tag.id === action.payload)
+            ? {
+              ...item,
+              tags: item.tags.filter((tag) => tag.id !== action.payload),
+            }
+            : item
+        ),
       };
     case "reset":
       return {
@@ -229,6 +245,10 @@ function LogsProvider({ children }: { children: React.ReactNode }) {
     (payload: LogItem["id"]) => dispatch({ type: "delete", payload }),
     []
   );
+  const removeTagFromLogs = useCallback(
+    (tagId: string) => dispatch({ type: "removeTag", payload: tagId }),
+    []
+  );
   const reset = useCallback(
     () => dispatch({ type: "reset", payload: INITIAL_STATE }),
     []
@@ -240,10 +260,11 @@ function LogsProvider({ children }: { children: React.ReactNode }) {
       editLog,
       updateLogs,
       deleteLog,
+      removeTagFromLogs,
       reset,
       import: importState,
     }),
-    [addLog, editLog, updateLogs, deleteLog, reset, importState]
+    [addLog, editLog, updateLogs, deleteLog, removeTagFromLogs, reset, importState]
   );
 
   const stateValue: StateValue = useMemo(

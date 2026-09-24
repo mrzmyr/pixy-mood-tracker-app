@@ -4,6 +4,7 @@ import { AnalyticsProvider } from "../hooks/useAnalytics";
 import {
   LogsProvider,
   useLogState,
+  useLogUpdater,
   STORAGE_KEY as STORAGE_KEY_LOGS,
   LogsState,
 } from "../hooks/useLogs";
@@ -40,6 +41,7 @@ const _renderHook = () => {
       updater: useTagsUpdater(),
       settings: useSettings(),
       logsState: useLogState(),
+      logsUpdater: useLogUpdater(),
     }),
     { wrapper }
   );
@@ -176,6 +178,59 @@ describe("useTags()", () => {
     Object.values(hook.result.current.logsState.items).forEach(item => {
       expect(item.tags!.length).toBe(1);
     })
+  });
+
+  test("should keep logs added before deleteTag re-renders", async () => {
+    AsyncStorage.setItem(STORAGE_KEY_LOGS, JSON.stringify({ items: testItems }));
+
+    const hook = await _renderHook();
+    await waitForLoaded(hook);
+
+    const newItem = _generateItem({
+      date: '2022-01-03',
+      rating: 'good',
+      message: 'added before tag delete',
+      tags: [{ id: "1" }],
+    });
+
+    await act(() => {
+      hook.result.current.logsUpdater.addLog(newItem);
+      hook.result.current.updater.deleteTag("1");
+    });
+
+    const items = hook.result.current.logsState.items;
+    expect(items.map(item => item.id)).toEqual([
+      testItems[0].id,
+      testItems[1].id,
+      newItem.id,
+    ]);
+    items.forEach(item => {
+      expect(item.tags.map(tag => tag.id)).not.toContain("1");
+    });
+
+    await waitFor(async () => {
+      const stored = JSON.parse((await AsyncStorage.getItem(STORAGE_KEY_LOGS))!);
+      expect(stored.items.map(item => item.id)).toContain(newItem.id);
+    });
+  });
+
+  test("should not mutate log items when deleting a tag", async () => {
+    AsyncStorage.setItem(STORAGE_KEY_LOGS, JSON.stringify({ items: testItems }));
+
+    const hook = await _renderHook();
+    await waitForLoaded(hook);
+
+    const itemsBefore = hook.result.current.logsState.items;
+    const tagsBefore = itemsBefore.map(item => item.tags);
+
+    await act(() => {
+      hook.result.current.updater.deleteTag("1");
+    });
+
+    itemsBefore.forEach((item, index) => {
+      expect(item.tags).toBe(tagsBefore[index]);
+      expect(item.tags.map(tag => tag.id)).toContain("1");
+    });
   });
 
   test("should reset", async () => {
