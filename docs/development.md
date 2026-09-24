@@ -20,6 +20,19 @@ $ bun install
 $ bun start
 ```
 
+4. Run in iOS Simulator or Android Emulator
+
+```shell
+$ bun ios
+$ bun android
+```
+
+### Build cache
+
+`bun ios` and `bun android` cache compiled simulator and emulator builds in `.expo/build-cache`, keyed by the project's native fingerprint. When native code and configuration are unchanged, the cached build is installed and compilation is skipped. JavaScript-only changes never need a new build.
+
+The cache is not evicted automatically. Delete `.expo/build-cache` to reclaim disk space. Physical device builds are never cached.
+
 ### Preview Support Pixy
 
 Configured native builds use `EXPO_PUBLIC_SUPERWALL_IOS_API_KEY` and `EXPO_PUBLIC_SUPERWALL_ANDROID_API_KEY`. Development builds can expose the support card without Superwall by setting `EXPO_PUBLIC_PIXY_SUPPORT_FAKE_MODE` to `available` or `failed`. Restart Expo after changing configuration. Production builds ignore fake mode.
