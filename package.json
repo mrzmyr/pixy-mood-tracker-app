@@ -76,7 +76,7 @@
     "expo-linking": "~57.0.4",
     "expo-local-authentication": "~57.0.2",
     "expo-localization": "~57.0.1",
-    "expo-notifications": "~57.0.8",
+    "expo-notifications": "~57.0.15",
     "expo-sharing": "~57.0.8",
     "expo-splash-screen": "~57.0.5",
     "expo-status-bar": "~57.0.1",
