@@ -36,6 +36,8 @@ Debug artifacts (screenshots, hierarchy, logcat) land in `~/.maestro/tests/<time
 | 10-stability | Background/foreground, cold restart (2nd-launch crash regression), tab smoke |
 | apple/ios-regressions | iOS filter modal, narrow check-in layout/switch accessibility, tag form accessibility |
 
+Data integrity scenarios (planned): see [DATA-INTEGRITY.md](DATA-INTEGRITY.md).
+
 Suite 08 (passcode) intentionally absent: the passcode feature is commented out in the app (`src/screens/Settings/index.tsx`).
 
 Import-from-file (Data → Import) is not automated — it goes through the Android system file picker, which is flaky to drive; test manually with `e2e/fixtures/seed.json`.
