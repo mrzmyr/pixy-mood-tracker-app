@@ -75,3 +75,9 @@ tags: [data-integrity]
 - assertVisible: "Add Entry"
 - assertVisible: "No tags yet."
 - assertNotVisible: "e2e-tag"
+
+# Confirm tag deletion persisted in Settings → Tags
+- tapOn:
+    id: "settings"
+- tapOn: "Tags"
+- assertNotVisible: "e2e-tag"
