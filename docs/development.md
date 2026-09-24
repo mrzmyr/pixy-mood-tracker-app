@@ -35,7 +35,12 @@ The cache is not evicted automatically. Delete `.expo/build-cache` to reclaim di
 
 ### Preview Support Pixy
 
-Configured native builds use `EXPO_PUBLIC_SUPERWALL_IOS_API_KEY` and `EXPO_PUBLIC_SUPERWALL_ANDROID_API_KEY`. Development builds can expose the support card without Superwall by setting `EXPO_PUBLIC_PIXY_SUPPORT_FAKE_MODE` to `available` or `failed`. Restart Expo after changing configuration. Production builds ignore fake mode.
+Superwall is only linked into store builds (EAS `preview` and `production` profiles). Local and `development` builds skip it, which cuts a clean iOS build by about 10% (~20s). The support card stays hidden.
+
+- **Test the UI without Superwall:** set `EXPO_PUBLIC_PIXY_SUPPORT_FAKE_MODE` to `available` or `failed`. Production builds ignore fake mode.
+- **Test real purchases locally:** build with `PIXY_WITH_SUPERWALL=1 bun ios` and set `EXPO_PUBLIC_SUPERWALL_IOS_API_KEY` or `EXPO_PUBLIC_SUPERWALL_ANDROID_API_KEY`. Debug builds run Superwall in test mode.
+
+Restart Expo after changing configuration.
 
 **Environments** (`eas.json`)
 

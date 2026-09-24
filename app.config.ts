@@ -13,6 +13,15 @@ export default ({ config }: ConfigContext): ExpoConfig => {
     _config.android!.icon = _config.icon = './assets/images/icon-dev.png';
   }
 
+  // Skipping SuperwallKit cuts a clean iOS build by ~10%. Store builds always link it;
+  // local builds skip it unless PIXY_WITH_SUPERWALL=1.
+  const isStoreBuild = ['preview', 'production'].includes(process.env.EAS_BUILD_PROFILE ?? '');
+  const withSuperwall = isStoreBuild || process.env.PIXY_WITH_SUPERWALL === '1';
+
+  if (!withSuperwall) {
+    _config.plugins = [...(_config.plugins ?? []), './plugins/withoutSuperwall'];
+  }
+
   // console.log('------------------------------');
   // console.log('Profile:', PROFILE);
   // console.log('Building with config:');
