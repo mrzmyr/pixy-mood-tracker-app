@@ -1,13 +1,13 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as Sentry from '@sentry/react-native';
 
-type StorageError = Error & {
+export type StorageError = Error & {
   status: string;
   why: string;
   fix: string;
 };
 
-const createStorageError = (
+export const createStorageError = (
   status: string,
   message: string,
   why: string,
@@ -21,6 +21,24 @@ const createStorageError = (
 
 const errorMessage = (error: unknown) =>
   error instanceof Error ? error.message : String(error);
+
+const isStorageError = (error: unknown): error is StorageError =>
+  error instanceof Error &&
+  "status" in error &&
+  "why" in error &&
+  "fix" in error;
+
+// Keeps structured errors as-is and wraps anything else, so UI code can always
+// show `message` and `fix`.
+export const toStorageError = (error: unknown): StorageError =>
+  isStorageError(error)
+    ? error
+    : createStorageError(
+      "storage_unknown_error",
+      "Stored data could not be saved",
+      errorMessage(error),
+      "Retry the operation and restart Pixy if it keeps failing",
+    );
 
 const captureStorageError = (error: StorageError, key: string) => {
   console.error(error);
@@ -36,16 +54,45 @@ const captureStorageError = (error: StorageError, key: string) => {
   }
 };
 
+const WRITE_RETRY_DELAYS_MS = [50, 200];
+
+const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
+// Writes `state` and retries transient failures. Throws a reported
+// `storage_write_failed` error when every attempt fails, so callers can tell
+// the user their change is not on disk yet.
+export const persist = async <State>(key: string, state: State): Promise<void> => {
+  const value = JSON.stringify(state);
+  const attempts = WRITE_RETRY_DELAYS_MS.length + 1;
+  let lastError: unknown;
+
+  for (let attempt = 0; attempt < attempts; attempt++) {
+    try {
+      await AsyncStorage.setItem(key, value);
+      return;
+    } catch (error) {
+      lastError = error;
+      if (attempt < WRITE_RETRY_DELAYS_MS.length) {
+        await wait(WRITE_RETRY_DELAYS_MS[attempt]);
+      }
+    }
+  }
+
+  const storageError = createStorageError(
+    "storage_write_failed",
+    "Stored data could not be saved",
+    `Writing storage key "${key}" failed after ${attempts} attempts: ${errorMessage(lastError)}`,
+    "Retry the operation and check available device storage",
+  );
+  captureStorageError(storageError, key);
+  throw storageError;
+}
+
+// Fire-and-forget variant of `persist`. Failures are already reported.
 export const store = async <State>(key: string, state: State) => {
   try {
-    await AsyncStorage.setItem(key, JSON.stringify(state));
-  } catch (error) {
-    captureStorageError(createStorageError(
-      "storage_write_failed",
-      "Stored data could not be saved",
-      `Writing storage key "${key}" failed: ${errorMessage(error)}`,
-      "Retry the operation and check available device storage",
-    ), key);
+    await persist(key, state);
+  } catch {
   }
 }
 

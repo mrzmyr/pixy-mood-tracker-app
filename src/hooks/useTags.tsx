@@ -113,7 +113,9 @@ function TagsProvider({
 
   const deleteTag = useCallback((tagId: Tag['id']) => {
     dispatch({ type: 'delete', payload: tagId })
-    logsUpdater.removeTagFromLogs(tagId)
+    // Write failures are reported by the logs provider; the change stays in
+    // memory and is included in the next successful write.
+    logsUpdater.removeTagFromLogs(tagId).catch(() => {})
   }, [dispatch, logsUpdater])
 
   const reset = useCallback(() => dispatch({ type: 'reset', payload: INITIAL_STATE }), [dispatch])

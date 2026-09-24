@@ -1,5 +1,5 @@
 import { DATE_FORMAT } from '@/constants/Config';
-import { askToCancel, askToDisableFeedbackStep, askToDisableStep, askToRemove } from '@/helpers/prompts';
+import { alertStorageError, askToCancel, askToDisableFeedbackStep, askToDisableStep, askToRemove } from '@/helpers/prompts';
 import { useAnalytics } from '@/hooks/useAnalytics';
 import useColors from '@/hooks/useColors';
 import { LogItem, useLogState, useLogUpdater } from '@/hooks/useLogs';
@@ -194,6 +194,7 @@ export const Logger = ({
   const showDisable = logState.items.length <= 3 && !isEditing;
 
   const [touched, setTouched] = useState(false)
+  const isSavingRef = useRef(false)
 
   const indexFound = avaliableSteps.findIndex(slide => slide === initialStep)
   const initialIndex = indexFound !== -1 ? indexFound : 0
@@ -202,6 +203,23 @@ export const Logger = ({
   const close = async () => {
     tempLog.reset()
     navigation.goBack();
+  }
+
+  // Keeps the logger open until the change is on disk. If the write fails the
+  // change stays in memory and the user can retry writing it.
+  const persistThenClose = async (write: () => Promise<void>, onPersisted: () => void) => {
+    if (isSavingRef.current) return
+    isSavingRef.current = true
+    try {
+      await write()
+      onPersisted()
+    } catch (error) {
+      alertStorageError(error, () => {
+        void persistThenClose(logUpdater.flush, onPersisted)
+      })
+    } finally {
+      isSavingRef.current = false
+    }
   }
 
   const save = (data: TemporaryLogState) => {
@@ -224,27 +242,27 @@ export const Logger = ({
 
     if (mode === 'edit') {
       analytics.track('log_changed', eventData)
-      logUpdater.editLog(data as LogItem)
+      void persistThenClose(() => logUpdater.editLog(data as LogItem), close)
     } else {
       analytics.track('log_created', eventData)
-      logUpdater.addLog(data as LogItem)
 
+      // Counted before the add, like the previous synchronous flow.
       const itemsOnDate = logState.items.filter(item => dayjs(item.dateTime).isSame(dayjs(data.dateTime), 'day'))
 
-      if (itemsOnDate.length === 1) {
-        navigation.dispatch(StackActions.popToTop());
-        tempLog.reset()
-        return;
-      }
+      void persistThenClose(() => logUpdater.addLog(data as LogItem), () => {
+        if (itemsOnDate.length === 1) {
+          navigation.dispatch(StackActions.popToTop());
+          tempLog.reset()
+          return;
+        }
+        close()
+      })
     }
-
-    close()
   }
 
   const remove = () => {
     analytics.track('log_deleted')
-    logUpdater.deleteLog(tempLog.data.id)
-    close()
+    void persistThenClose(() => logUpdater.deleteLog(tempLog.data.id), close)
   }
 
   const cancel = () => {

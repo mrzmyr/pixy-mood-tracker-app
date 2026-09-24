@@ -1,6 +1,6 @@
 import Button from "@/components/Button"
 import { PageModalLayout } from "@/components/PageModalLayout"
-import { askToRemove } from "@/helpers/prompts"
+import { alertStorageError, askToRemove } from "@/helpers/prompts"
 import { t } from "@/helpers/translation"
 import { useAnalytics } from "@/hooks/useAnalytics"
 import useColors from "@/hooks/useColors"
@@ -48,7 +48,11 @@ export const LogList = ({ route, navigation }: RootStackScreenProps<'LogList'>) 
 
   const remove = (item: LogItem) => {
     analytics.track('log_list_delete');
-    logUpdater.deleteLog(item.id);
+    logUpdater.deleteLog(item.id).catch((error) => {
+      alertStorageError(error, () => {
+        logUpdater.flush().catch(alertStorageError);
+      });
+    });
     // navigation.goBack();
   };
 

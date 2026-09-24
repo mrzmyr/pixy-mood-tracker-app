@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as Sentry from '@sentry/react-native';
-import { load, store } from '../helpers/storage';
+import { load, persist, store } from '../helpers/storage';
 
 jest.mock('@sentry/react-native', () => ({
   captureException: jest.fn(),
@@ -86,9 +86,32 @@ describe('Storage', () => {
     expect(Sentry.captureException).toHaveBeenCalledWith(expect.objectContaining({
       status: 'storage_write_failed',
       message: 'Stored data could not be saved',
-      why: `Writing storage key "${TEST_KEY}" failed: disk full`,
+      why: `Writing storage key "${TEST_KEY}" failed after 3 attempts: disk full`,
       fix: 'Retry the operation and check available device storage',
     }));
+    expect(AsyncStorage.setItem).toHaveBeenCalledTimes(3);
+  })
+
+  it('should retry transient write failures', async () => {
+    AsyncStorage.setItem = jest.fn()
+      .mockRejectedValueOnce(new Error('database is locked'))
+      .mockResolvedValueOnce(undefined);
+
+    await expect(persist(TEST_KEY, { foo: '123' })).resolves.toBeUndefined();
+
+    expect(AsyncStorage.setItem).toHaveBeenCalledTimes(2);
+    expect(Sentry.captureException).not.toHaveBeenCalled();
+  })
+
+  it('should reject `persist` when every write attempt fails', async () => {
+    AsyncStorage.setItem = jest.fn(() => Promise.reject(new Error('disk full')));
+
+    await expect(persist(TEST_KEY, { foo: '123' })).rejects.toMatchObject({
+      status: 'storage_write_failed',
+      message: 'Stored data could not be saved',
+      why: `Writing storage key "${TEST_KEY}" failed after 3 attempts: disk full`,
+      fix: 'Retry the operation and check available device storage',
+    });
   })
 
 })

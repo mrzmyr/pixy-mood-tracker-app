@@ -1,5 +1,5 @@
 import { DATE_FORMAT } from "@/constants/Config";
-import { load, store } from "@/helpers/storage";
+import { createStorageError, load, persist } from "@/helpers/storage";
 import { LogItemSchema } from "@/types";
 import { Buffer } from "buffer";
 import dayjs from "dayjs";
@@ -10,7 +10,7 @@ import {
   useContext,
   useEffect,
   useMemo,
-  useReducer,
+  useRef,
   useState,
 } from "react";
 import * as Sentry from '@sentry/react-native';
@@ -69,14 +69,17 @@ type LogAction =
   | { type: "removeTag"; payload: string }
   | { type: "reset"; payload: LogsState };
 
+// Every updater resolves once the change is written to storage and rejects
+// with a storage error (`status`, `message`, `why`, `fix`) when it is not.
 export interface UpdaterValue {
-  addLog: (item: LogItem) => void;
-  editLog: (item: Partial<LogItem>) => void;
-  updateLogs: (items: LogsState["items"]) => void;
-  deleteLog: (id: LogItem["id"]) => void;
-  removeTagFromLogs: (tagId: string) => void;
-  reset: () => void;
-  import: (data: LogsState) => void;
+  addLog: (item: LogItem) => Promise<void>;
+  editLog: (item: AtLeast<LogItem, "id">) => Promise<void>;
+  updateLogs: (items: LogsState["items"]) => Promise<void>;
+  deleteLog: (id: LogItem["id"]) => Promise<void>;
+  removeTagFromLogs: (tagId: string) => Promise<void>;
+  reset: () => Promise<void>;
+  import: (data: LogsState) => Promise<void>;
+  flush: () => Promise<void>;
 }
 
 interface StateValue extends LogsState {}
@@ -177,29 +180,64 @@ function LogsProvider({ children }: { children: React.ReactNode }) {
     items: [],
   };
 
-  const [state, dispatch] = useReducer(reducer, INITIAL_STATE);
-  const [storageStatus, setStorageStatus] = useState<
-    "loading" | "ready" | "error"
-  >("loading");
+  const [state, setState] = useState<LogsState>(INITIAL_STATE);
+  // The ref holds the latest state so updaters can compute and persist the
+  // next state synchronously, without waiting for a render.
+  const stateRef = useRef<LogsState>(INITIAL_STATE);
+  const storageStatusRef = useRef<"loading" | "ready" | "error">("loading");
+  const writeQueueRef = useRef<Promise<void>>(Promise.resolve());
+
+  // Writes run one after another, so an older snapshot can never land after
+  // a newer one.
+  const enqueueWrite = useCallback((next: LogsState): Promise<void> => {
+    const write = writeQueueRef.current
+      .catch(() => {})
+      .then(() =>
+        persist<Omit<LogsState, "loaded">>(STORAGE_KEY, _.omit(next, "loaded"))
+      );
+    writeQueueRef.current = write;
+    return write;
+  }, []);
+
+  const apply = useCallback((action: LogAction): Promise<void> => {
+    if (storageStatusRef.current !== "ready") {
+      const error = createStorageError(
+        "logs_not_loaded",
+        "Entry could not be saved",
+        storageStatusRef.current === "loading"
+          ? "Stored entries are still loading"
+          : "Stored entries could not be loaded, so saving could overwrite them",
+        "Restart Pixy and try again",
+      );
+      Sentry.captureException(error);
+      return Promise.reject(error);
+    }
+
+    const next = reducer(stateRef.current, action);
+    stateRef.current = next;
+    setState(next);
+    return enqueueWrite(next);
+  }, [enqueueWrite]);
+
+  // Re-writes the latest in-memory state, e.g. after a failed write.
+  const flush = useCallback((): Promise<void> => {
+    if (storageStatusRef.current !== "ready") return Promise.resolve();
+    return enqueueWrite(stateRef.current);
+  }, [enqueueWrite]);
 
   useEffect(() => {
     (async () => {
       try {
         const value = await load<LogsState>(STORAGE_KEY);
-        if (value !== null) {
-          dispatch({
-            type: "import",
-            payload: value,
-          });
-        } else {
-          dispatch({
-            type: "import",
-            payload: {
-              ...INITIAL_STATE,
-            },
-          });
-        }
-        setStorageStatus("ready");
+        const next = reducer(stateRef.current, {
+          type: "import",
+          payload: value !== null ? value : { ...INITIAL_STATE },
+        });
+        stateRef.current = next;
+        storageStatusRef.current = "ready";
+        setState(next);
+        // Persist migration results (e.g. generated ids) right away.
+        enqueueWrite(next).catch(() => {});
 
         try {
           const size = Buffer.byteLength(JSON.stringify(value));
@@ -209,49 +247,39 @@ function LogsProvider({ children }: { children: React.ReactNode }) {
           Sentry.captureException(error);
         }
       } catch (error) {
-        setStorageStatus("error");
+        storageStatusRef.current = "error";
         Sentry.captureException(error);
       }
     })();
   }, []);
 
-  useEffect(() => {
-    if (storageStatus === "ready" && state.loaded) {
-      store<Omit<LogsState, "loaded">>(STORAGE_KEY, _.omit(state, "loaded"));
-    }
-  }, [JSON.stringify(state), storageStatus]);
-
-  const importState = useCallback((data: LogsState) => {
-    dispatch({
-      type: "import",
-      payload: data,
-    });
-  }, []);
-
+  const importState = useCallback(
+    (data: LogsState) => apply({ type: "import", payload: data }),
+    [apply]
+  );
   const addLog = useCallback(
-    (payload: LogItem) => dispatch({ type: "add", payload }),
-    []
+    (payload: LogItem) => apply({ type: "add", payload }),
+    [apply]
   );
   const editLog = useCallback(
-    (payload: AtLeast<LogItem, "id">) => dispatch({ type: "edit", payload }),
-    []
+    (payload: AtLeast<LogItem, "id">) => apply({ type: "edit", payload }),
+    [apply]
   );
   const updateLogs = useCallback(
-    (items: LogsState["items"]) =>
-      dispatch({ type: "batchEdit", payload: items }),
-    []
+    (items: LogsState["items"]) => apply({ type: "batchEdit", payload: items }),
+    [apply]
   );
   const deleteLog = useCallback(
-    (payload: LogItem["id"]) => dispatch({ type: "delete", payload }),
-    []
+    (payload: LogItem["id"]) => apply({ type: "delete", payload }),
+    [apply]
   );
   const removeTagFromLogs = useCallback(
-    (tagId: string) => dispatch({ type: "removeTag", payload: tagId }),
-    []
+    (tagId: string) => apply({ type: "removeTag", payload: tagId }),
+    [apply]
   );
   const reset = useCallback(
-    () => dispatch({ type: "reset", payload: INITIAL_STATE }),
-    []
+    () => apply({ type: "reset", payload: INITIAL_STATE }),
+    [apply]
   );
 
   const updaterValue: UpdaterValue = useMemo(
@@ -263,8 +291,9 @@ function LogsProvider({ children }: { children: React.ReactNode }) {
       removeTagFromLogs,
       reset,
       import: importState,
+      flush,
     }),
-    [addLog, editLog, updateLogs, deleteLog, removeTagFromLogs, reset, importState]
+    [addLog, editLog, updateLogs, deleteLog, removeTagFromLogs, reset, importState, flush]
   );
 
   const stateValue: StateValue = useMemo(

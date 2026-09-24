@@ -6,7 +6,7 @@ import * as Sharing from "expo-sharing";
 import { Alert, Platform } from "react-native";
 import { getJSONSchemaType, ImportData } from "@/helpers/Import";
 import { migrateImportData } from "@/helpers/migration";
-import { askToImport, askToReset, showImportError, showImportSuccess, showResetSuccess } from "@/helpers/prompts";
+import { alertStorageError, askToImport, askToReset, showImportError, showImportSuccess, showResetSuccess } from "@/helpers/prompts";
 import { t } from "@/helpers/translation";
 import pkg from '../../package.json';
 import { useAnalytics } from "./useAnalytics";
@@ -58,7 +58,7 @@ export const useDatagate = (): {
     const jsonSchemaType = getJSONSchemaType(migratedData);
 
     if (jsonSchemaType === "pixy") {
-      logUpdater.import({
+      await logUpdater.import({
         items: migratedData.items,
       });
       tagsUpdater.import({
@@ -77,7 +77,7 @@ export const useDatagate = (): {
   };
 
   const reset = () => {
-    logUpdater.reset();
+    logUpdater.reset().catch((error) => alertStorageError(error));
     tagsUpdater.reset();
   }
 
@@ -103,7 +103,7 @@ export const useDatagate = (): {
             const contents = await FileSystem.readAsStringAsync(doc.assets[0].uri);
             const data = JSON.parse(contents);
 
-            _import(data);
+            await _import(data);
           }
         } catch (error) {
           showImportError()

@@ -1,5 +1,21 @@
 import Alert from "@/components/Alert";
+import { toStorageError } from "./storage";
 import { t } from "./translation";
+
+// Tells the user a change is not on disk yet. `onRetry` re-attempts the write.
+export const alertStorageError = (error: unknown, onRetry?: () => void) => {
+  const { message, fix } = toStorageError(error);
+  Alert.alert(
+    message,
+    fix,
+    onRetry
+      ? [
+        { text: t('support_pixy_retry'), onPress: onRetry },
+        { text: t('cancel'), style: 'cancel' },
+      ]
+      : [{ text: t('ok') }],
+  );
+}
 
 export const askToCancel = () => {
   return new Promise((resolve, reject) => {

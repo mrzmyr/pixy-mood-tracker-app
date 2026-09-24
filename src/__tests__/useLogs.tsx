@@ -135,6 +135,115 @@ describe('useLogs()', () => {
     setItemSpy.mockRestore()
   })
 
+  test('should resolve `addLog` only after the log is written', async () => {
+    const hook = await _renderHook()
+    await waitForLoaded(hook)
+
+    await act(() => hook.result.current.updater.addLog(testItems[0]))
+
+    const stored = JSON.parse((await AsyncStorage.getItem(STORAGE_KEY))!)
+    expect(stored.items).toEqual([testItems[0]])
+  })
+
+  test('should reject `addLog` before stored logs are loaded', async () => {
+    let resolveLoad: (value: string | null) => void = () => {}
+    jest.spyOn(AsyncStorage, 'getItem').mockImplementation((key) =>
+      key === STORAGE_KEY
+        ? new Promise((resolve) => { resolveLoad = resolve })
+        : Promise.resolve(null)
+    )
+    const setItemSpy = jest.spyOn(AsyncStorage, 'setItem')
+
+    const hook = await _renderHook()
+
+    await expect(hook.result.current.updater.addLog(testItems[0])).rejects.toMatchObject({
+      status: 'logs_not_loaded',
+      message: 'Entry could not be saved',
+      why: 'Stored entries are still loading',
+      fix: 'Restart Pixy and try again',
+    })
+    expect(setItemSpy).not.toHaveBeenCalledWith(STORAGE_KEY, expect.anything())
+
+    await act(async () => resolveLoad(JSON.stringify({ items: [testItems[1]] })))
+    await waitForLoaded(hook)
+    expect(hook.result.current.state.items).toEqual([testItems[1]])
+  })
+
+  test('should reject `addLog` when stored logs could not be loaded', async () => {
+    await AsyncStorage.setItem(STORAGE_KEY, '🐇')
+    const hook = await _renderHook()
+
+    await waitFor(() => {
+      expect(Sentry.captureException).toHaveBeenCalled()
+    })
+
+    await expect(hook.result.current.updater.addLog(testItems[0])).rejects.toMatchObject({
+      status: 'logs_not_loaded',
+      why: 'Stored entries could not be loaded, so saving could overwrite them',
+    })
+    expect(await AsyncStorage.getItem(STORAGE_KEY)).toBe('🐇')
+  })
+
+  test('should reject `addLog` when the write fails and write it on `flush`', async () => {
+    const hook = await _renderHook()
+    await waitForLoaded(hook)
+
+    const setItemSpy = jest.spyOn(AsyncStorage, 'setItem')
+      .mockRejectedValue(new Error('disk full'))
+
+    let addError: unknown
+    await act(async () => {
+      await hook.result.current.updater.addLog(testItems[0]).catch((error) => {
+        addError = error
+      })
+    })
+
+    expect(addError).toMatchObject({
+      status: 'storage_write_failed',
+      message: 'Stored data could not be saved',
+      fix: 'Retry the operation and check available device storage',
+    })
+    expect(hook.result.current.state.items).toEqual([testItems[0]])
+
+    setItemSpy.mockRestore()
+    await act(() => hook.result.current.updater.flush())
+
+    const stored = JSON.parse((await AsyncStorage.getItem(STORAGE_KEY))!)
+    expect(stored.items).toEqual([testItems[0]])
+  })
+
+  test('should write changes in order when an earlier write is slow', async () => {
+    const hook = await _renderHook()
+    await waitForLoaded(hook)
+
+    const originalSetItem = AsyncStorage.setItem
+    let releaseFirstWrite: () => void = () => {}
+    let calls = 0
+    jest.spyOn(AsyncStorage, 'setItem').mockImplementation(async (key, value) => {
+      calls++
+      if (calls === 1) {
+        await new Promise<void>((resolve) => { releaseFirstWrite = resolve })
+      }
+      return originalSetItem(key, value)
+    })
+
+    let first: Promise<void> = Promise.resolve()
+    let second: Promise<void> = Promise.resolve()
+    await act(async () => {
+      first = hook.result.current.updater.addLog(testItems[0])
+      second = hook.result.current.updater.addLog(testItems[1])
+    })
+
+    // The second write must wait for the first, even though it is newer.
+    await waitFor(() => expect(calls).toBe(1))
+    releaseFirstWrite()
+    await act(() => Promise.all([first, second]))
+    expect(calls).toBe(2)
+
+    const stored = JSON.parse((await AsyncStorage.getItem(STORAGE_KEY))!)
+    expect(stored.items).toEqual(testItems)
+  })
+
   test('should import', async () => {
     const hook = await _renderHook()
     await waitForLoaded(hook)
