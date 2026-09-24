@@ -1,0 +1,102 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "competitor-analysis/report.schema.json",
+  "title": "Competitor analysis report",
+  "description": "Conclusions only. Numbers and review text live in the run folder; the report references them by ID and `validate` recomputes them.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "run", "self", "date", "storefronts", "tldr", "competitors", "themes", "keywords", "featureGaps", "recommendations", "limits"],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "run": { "type": "string", "minLength": 1 },
+    "self": { "type": "string", "pattern": "^[0-9]+$", "description": "Own App Store ID; must be in profiles.json." },
+    "date": { "type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$" },
+    "storefronts": { "type": "array", "minItems": 1, "items": { "type": "string", "pattern": "^[a-z]{2}$" } },
+    "tldr": { "type": "array", "minItems": 3, "maxItems": 5, "items": { "type": "string", "minLength": 10 } },
+    "competitors": {
+      "type": "array",
+      "minItems": 3,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["appleId", "type", "leadClaim", "positioning"],
+        "properties": {
+          "appleId": { "type": "string", "pattern": "^[0-9]+$", "description": "Must be in profiles.json." },
+          "type": { "enum": ["direct", "adjacent", "giant"] },
+          "leadClaim": { "type": "string", "minLength": 3, "description": "Headline of screenshot 1." },
+          "positioning": { "type": "string", "minLength": 10 },
+          "monetization": { "type": "string" }
+        }
+      }
+    },
+    "themes": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["appleId", "kind", "theme", "searchTerm", "mentions", "negative", "quotes"],
+        "properties": {
+          "appleId": { "type": "string", "pattern": "^[0-9]+$" },
+          "kind": { "enum": ["complaint", "praise"] },
+          "theme": { "type": "string", "minLength": 3 },
+          "searchTerm": { "type": "string", "minLength": 2, "description": "Case-insensitive whole-word match over review title + text; trailing * matches a stem (subscription*)." },
+          "mentions": { "type": "integer", "minimum": 1, "description": "Must equal recomputed count in apps/<appleId>/reviews.json." },
+          "negative": { "type": "integer", "minimum": 0, "description": "Mentions with 1-2 stars; must equal recomputed count." },
+          "quotes": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 3,
+            "items": { "type": "string", "pattern": "^[0-9]+$", "description": "Review ID in apps/<appleId>/reviews.json that contains searchTerm." }
+          }
+        }
+      }
+    },
+    "keywords": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["term", "action", "rationale"],
+        "properties": {
+          "term": { "type": "string", "minLength": 2, "description": "Must be a row in keywords.json." },
+          "action": { "enum": ["title", "subtitle", "keyword-field", "description", "keep", "skip"] },
+          "rationale": { "type": "string", "minLength": 10 }
+        }
+      }
+    },
+    "featureGaps": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["feature", "category", "self", "competitors"],
+        "properties": {
+          "feature": { "type": "string", "minLength": 3 },
+          "category": { "enum": ["gap", "differentiator", "table-stakes"] },
+          "self": { "enum": ["has", "partial", "missing"] },
+          "competitors": { "type": "array", "items": { "type": "string", "pattern": "^[0-9]+$" }, "description": "App IDs that have the feature." },
+          "demandTerm": { "type": "string", "minLength": 2, "description": "Optional review search term; render prints its mention counts." }
+        }
+      }
+    },
+    "recommendations": {
+      "type": "array",
+      "minItems": 3,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["action", "evidence", "effect", "effort"],
+        "properties": {
+          "action": { "type": "string", "minLength": 10 },
+          "evidence": { "type": "string", "minLength": 10 },
+          "effect": { "type": "string", "minLength": 5 },
+          "effort": { "enum": ["S", "M", "L"] }
+        }
+      }
+    },
+    "limits": { "type": "array", "items": { "type": "string", "minLength": 5 } }
+  }
+}
