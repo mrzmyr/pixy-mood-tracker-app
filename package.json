@@ -23,7 +23,8 @@
     "build:preview": "bun run build:ios:preview && bun run build:android:preview",
     "build:prod": "bun run build:ios:prod && bun run build:android:prod",
     "translate-app": "bun scripts/generate-translations-app.js",
-    "type-check": "tsc"
+    "type-check": "tsc",
+    "e2e:scenarios": "bun e2e/scenarios.ts"
   },
   "jest": {
     "preset": "jest-expo",
@@ -124,7 +125,8 @@
     "jest-expo": "~57.0.3",
     "mockdate": "^3.0.5",
     "test-renderer": "^1.2.0",
-    "typescript": "~6.0.3"
+    "typescript": "~6.0.3",
+    "yaml": "^2.9.1"
   },
   "private": true,
   "engines": {

@@ -1,0 +1,147 @@
+# Data integrity e2e scenarios. Schema and checks: e2e/scenarios.ts.
+# Validated in CI by src/__tests__/e2eScenarios.ts.
+# Print overview: bun run e2e:scenarios
+#
+# Background: users lost entries in #215.
+
+rules:
+  - Check persistence only after stopApp + launchApp. An entry visible before a relaunch proves nothing.
+  - Log past days by tapping calendar-day-<YYYY-MM-DD>. Dates come from e2e/scripts/set-output-date.js, never hardcoded.
+  - A scenario passes only if every passWhen line holds. Failed assertions are never retried.
+
+scenarios:
+  - id: DI-01
+    title: Kill right after saving
+    catches: Entry lost when the app is killed after save
+    refs: ["#215", "#262"]
+    status: planned
+    flow: e2e/flows/data-integrity/di-01-kill-after-save.yaml
+    runsOn: [android-emulator, ios-simulator]
+    changesData: true
+    needs: [calendar-entry-label]
+    steps:
+      - Fresh install, complete onboarding.
+      - Create an entry for today with rating "good".
+      - stopApp right after the logger closes.
+      - launchApp.
+    passWhen:
+      - Today's cell has an entry.
+      - '"Add another entry for today" is visible.'
+
+  - id: DI-02
+    title: Several separate sessions
+    catches: Scattered missing days, as in #215
+    refs: ["#215"]
+    status: planned
+    flow: e2e/flows/data-integrity/di-02-separate-sessions.yaml
+    runsOn: [android-emulator, ios-simulator]
+    changesData: true
+    needs: [calendar-entry-label]
+    steps:
+      - Fresh install, complete onboarding.
+      - For each of the last 7 days, launchApp, log that day, stopApp.
+      - launchApp.
+    passWhen:
+      - All 7 day cells have an entry.
+
+  - id: DI-03
+    title: Delete tag keeps entries
+    catches: Logs dropped by a stale tag delete
+    refs: ["#261"]
+    status: planned
+    flow: e2e/flows/data-integrity/di-03-delete-tag.yaml
+    runsOn: [android-emulator, ios-simulator]
+    changesData: true
+    needs: [calendar-entry-label]
+    steps:
+      - Fresh install, complete onboarding.
+      - Create tag "E2E tag". Log today with that tag.
+      - Delete "E2E tag" in Settings > Tags.
+      - stopApp, launchApp.
+    passWhen:
+      - Today's cell has an entry.
+      - Today's day view does not show "E2E tag".
+
+  - id: DI-04
+    title: Export, reset, import
+    catches: Import or export losing entries
+    refs: ["#215"]
+    status: planned
+    flow: e2e/flows/data-integrity/di-04-export-import.yaml
+    runsOn: [android-emulator, ios-simulator]
+    changesData: true
+    needs: [calendar-entry-label, manual-file-picker]
+    steps:
+      - Import e2e/fixtures/seed.json.
+      - Export. Note the entry count in the exported file.
+      - Reset data. Import the exported file.
+      - stopApp, launchApp.
+    passWhen:
+      - The entry count matches the exported file.
+      - A sample day from the seed has an entry.
+
+  - id: DI-05
+    title: Update over the store version
+    catches: Migration losing data on update
+    refs: ["#215"]
+    status: planned
+    flow: e2e/flows/data-integrity/di-05-update.yaml
+    runsOn: [android-emulator, ios-simulator]
+    changesData: true
+    needs: [calendar-entry-label, store-build-artifact]
+    steps:
+      - Install the current store build. Complete onboarding and log the last 3 days.
+      - Install the new build over it without uninstalling.
+      - launchApp.
+    passWhen:
+      - All 3 day cells have an entry.
+
+  - id: DI-06
+    title: Large history
+    catches: Android 2 MB row limit breaking load
+    refs: ["#215"]
+    status: planned
+    flow: e2e/flows/data-integrity/di-06-large-history.yaml
+    runsOn: [android-emulator, ios-simulator]
+    changesData: true
+    needs: [calendar-entry-label, e2e-seed-hook]
+    steps:
+      - Load a generated history of 3 years with long notes, over 2 MB.
+      - stopApp, launchApp. Log today.
+      - stopApp, launchApp.
+    passWhen:
+      - The first and last seeded days have an entry.
+      - Today's cell has an entry.
+
+  - id: DI-07
+    title: Unreadable stored data
+    catches: Corrupt data overwritten with nothing
+    refs: ["#215"]
+    status: planned
+    flow: e2e/flows/data-integrity/di-07-unreadable-data.yaml
+    runsOn: [android-emulator, ios-simulator]
+    changesData: true
+    needs: [calendar-entry-label, e2e-fault-hook]
+    steps:
+      - Log today.
+      - Replace the stored logs with invalid JSON.
+      - launchApp, then log another day.
+      - Restore valid data, launchApp.
+    passWhen:
+      - The invalid stored value is not overwritten before it is restored.
+      - Today's cell has an entry after restoring.
+
+  - id: DI-08
+    title: Failed write shows alert
+    catches: Silent write failures
+    refs: ["#262"]
+    status: planned
+    flow: e2e/flows/data-integrity/di-08-failed-write.yaml
+    runsOn: [android-emulator, ios-simulator]
+    changesData: true
+    needs: [e2e-fault-hook]
+    steps:
+      - Turn on "fail log writes".
+      - Log today.
+    passWhen:
+      - An alert titled "Stored data could not be saved" appears.

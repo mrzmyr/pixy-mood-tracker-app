@@ -36,7 +36,7 @@ Debug artifacts (screenshots, hierarchy, logcat) land in `~/.maestro/tests/<time
 | 10-stability | Background/foreground, cold restart (2nd-launch crash regression), tab smoke |
 | apple/ios-regressions | iOS filter modal, narrow check-in layout/switch accessibility, tag form accessibility |
 
-Data integrity scenarios (planned): see [DATA-INTEGRITY.md](DATA-INTEGRITY.md).
+Data integrity scenarios are listed in [`scenarios.yaml`](scenarios.yaml). The schema in `scenarios.ts` is checked in CI. `bun run e2e:scenarios` prints the overview.
 
 Suite 08 (passcode) intentionally absent: the passcode feature is commented out in the app (`src/screens/Settings/index.tsx`).
 
