@@ -12,4 +12,5 @@ appId: com.devmood.pixymoodtracker
     waitToSettleTimeoutMs: 300
 - assertNotVisible: "How was your day?"
 - assertVisible: "Add Entry"
-- back
+- tapOn:
+    id: "day-view-close"

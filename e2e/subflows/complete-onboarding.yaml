@@ -1,6 +1,9 @@
 appId: com.devmood.pixymoodtracker
 ---
 # Completes onboarding from the Welcome screen to the Calendar tab.
+- tapOn:
+    text: "Not Now"
+    optional: true
 - assertVisible: "Welcome 👋"
 - tapOn:
     text: "I never used a Mood Tracker"

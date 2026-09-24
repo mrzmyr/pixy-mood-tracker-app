@@ -20,9 +20,16 @@ tags: [data-integrity]
 - tapOn:
     id: "tag-name"
 - inputText: "e2e-tag"
-- hideKeyboard
+- tapOn:
+    point: 50%,10%
 - tapOn: "Create"
 - back
+- runFlow:
+    when:
+      visible: "Create Tag"
+    commands:
+      - tapOn:
+          point: 9%,10%
 
 # Log today with the tag: mood → emotions → tags → message
 - tapOn:
@@ -68,6 +75,9 @@ tags: [data-integrity]
 
 - stopApp
 - launchApp
+- tapOn:
+    text: "Not Now"
+    optional: true
 
 # Pass when: today still has its entry, without the deleted tag
 - tapOn:
@@ -75,6 +85,8 @@ tags: [data-integrity]
 - assertVisible: "Add Entry"
 - assertVisible: "No tags yet."
 - assertNotVisible: "e2e-tag"
+- tapOn:
+    id: "day-view-close"
 
 # Confirm tag deletion persisted in Settings → Tags
 - tapOn:

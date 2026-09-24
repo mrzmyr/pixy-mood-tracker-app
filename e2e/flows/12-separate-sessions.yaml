@@ -17,6 +17,9 @@ tags: [data-integrity]
 - runFlow: ../subflows/finish-logger.yaml
 - stopApp
 - launchApp
+- tapOn:
+    text: "Not Now"
+    optional: true
 
 - runFlow:
     file: ../subflows/open-empty-day.yaml
@@ -25,6 +28,9 @@ tags: [data-integrity]
 - runFlow: ../subflows/finish-logger-with-reminder.yaml
 - stopApp
 - launchApp
+- tapOn:
+    text: "Not Now"
+    optional: true
 
 - runFlow:
     file: ../subflows/open-empty-day.yaml
@@ -33,6 +39,9 @@ tags: [data-integrity]
 - runFlow: ../subflows/finish-logger.yaml
 - stopApp
 - launchApp
+- tapOn:
+    text: "Not Now"
+    optional: true
 
 - runFlow:
     file: ../subflows/assert-day-has-entry.yaml
