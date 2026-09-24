@@ -339,7 +339,7 @@ async function cmdProfile(opts) {
       log(`apple page: ${slim.name} (${country})`);
       const page = await applePage(id, country, r.trackName);
       await sleep(700);
-      if (country === countries[0]) Object.assign(base, slim, page);
+      if (country === countries[0] || !base.name) Object.assign(base, slim, page);
       base.storefronts[country] = { rating: slim.rating, ratings: slim.ratings, price: slim.price, inAppPurchases: page.inAppPurchases };
       profiles[id] = base;
     }
@@ -565,8 +565,13 @@ function checkEvidence(report, { profiles, keywords, reviews }) {
   }
 
   const terms = new Set((keywords.rows ?? []).map((r) => r.term));
+  const appIds = [report.self, ...ids];
   report.keywords.forEach((k, i) => {
     if (!terms.has(k.term)) err('unknown_keyword', `keywords[${i}].term`, `Keyword "${k.term}" was not ranked`, 'keywords.json has no row for this term.', `Re-run keywords including "${k.term}".`);
+    const row = (keywords.rows ?? []).find((r) => r.term === k.term);
+    if (!row) return;
+    const missing = appIds.filter((id) => !Object.hasOwn(row.ranks ?? {}, id));
+    if (missing.length) err('stale_keyword', `keywords[${i}]`, `Keyword "${k.term}" is missing ranks for ${missing.join(', ')}`, 'The saved keyword row does not include every app in this report.', `Re-run keywords for all report terms (${report.keywords.map((keyword) => keyword.term).join('|')}) with --run ${report.run} --self ${report.self}.`);
   });
   report.featureGaps.forEach((g, i) => g.competitors.forEach((id, j) => known(id, `featureGaps[${i}].competitors[${j}]`)));
   return errors;
@@ -588,7 +593,8 @@ async function cmdValidate(opts) {
   const { errors } = await validateReport(dir);
   if (errors.length) {
     console.log(JSON.stringify({ valid: false, errors }, null, 2));
-    process.exit(1);
+    process.exitCode = 1;
+    return undefined;
   }
   return { valid: true, file: join(dir, 'report.json') };
 }
@@ -610,16 +616,17 @@ async function cmdRender(opts) {
   const name = (id) => profiles[id]?.name ?? id;
   const apps = [report.self, ...report.competitors.map((c) => c.appleId)];
   const typeOf = Object.fromEntries(report.competitors.map((c) => [c.appleId, c.type]));
+  const sizeOf = Object.fromEntries(report.competitors.map((c) => [c.appleId, c.size]));
   const out = [];
 
   out.push(`# ${name(report.self)} competitor analysis (${report.date}, ${report.storefronts.join(', ')})`, '');
   out.push('## TL;DR', '', ...report.tldr.map((t) => `- ${t}`), '');
 
   out.push('## Competitor set', '', table(
-    ['App', 'Type', 'iOS rating (count)', 'Play rating / downloads', 'Price', ...report.storefronts.map((c) => `IAP ${c}`), 'Last update'],
+    ['App', 'Type', 'Size', 'iOS rating (count)', 'Play rating / downloads', 'Price', ...report.storefronts.map((c) => `IAP ${c}`), 'Last update'],
     apps.map((id) => {
       const p = profiles[id];
-      return [`[${p.name}](${p.url})`, id === report.self ? 'self' : typeOf[id], `${p.rating} (${p.ratings.toLocaleString('en-US')})`,
+      return [`[${p.name}](${p.url})`, id === report.self ? 'self' : typeOf[id], id === report.self ? '-' : sizeOf[id], `${p.rating} (${p.ratings.toLocaleString('en-US')})`,
         p.play?.playId ? `${p.play.rating} / ${p.play.downloads}` : '-', p.price,
         ...report.storefronts.map((c) => iapRange(p.storefronts?.[c]?.inAppPurchases)), p.updated];
     }),
@@ -650,7 +657,7 @@ async function cmdRender(opts) {
     report.keywords.map((k) => {
       const r = rows[k.term];
       const top = report.competitors.filter((c) => r.ranks[c.appleId] && r.ranks[c.appleId] <= 10).map((c) => `${name(c.appleId)} #${r.ranks[c.appleId]}`);
-      return [k.term, r.selfRank ?? 'not in top 200', top.join(', ') || '-', k.action, k.rationale];
+      return [k.term, r.ranks[report.self] ?? 'not in top 200', top.join(', ') || '-', k.action, k.rationale];
     })), '');
 
   const allReviews = apps.flatMap((id) => reviews[id] ?? []);
@@ -702,11 +709,11 @@ async function main() {
   if (!command || ['help', '--help', '-h'].includes(command) || opts.help) { console.log(help()); return; }
   if (!commands[command]) fail('unknown_command', `Unknown command: ${command}`, `Supported: ${Object.keys(commands).join(', ')}.`, 'Run with --help.');
   const result = await commands[command](opts);
-  console.log(JSON.stringify(result, null, 2));
+  if (result !== undefined) console.log(JSON.stringify(result, null, 2));
 }
 
 main().catch((error) => {
   const details = error.details ?? { status: 'unexpected_error', message: error.message, why: 'Unhandled exception (store layout may have changed).', fix: 'Re-run the command; if it persists, inspect the failing page and update the parser.' };
   console.error(JSON.stringify({ error: details }, null, 2));
-  process.exit(1);
+  process.exitCode = 1;
 });

@@ -19,10 +19,11 @@
       "items": {
         "type": "object",
         "additionalProperties": false,
-        "required": ["appleId", "type", "leadClaim", "positioning"],
+        "required": ["appleId", "type", "size", "leadClaim", "positioning"],
         "properties": {
           "appleId": { "type": "string", "pattern": "^[0-9]+$", "description": "Must be in profiles.json." },
-          "type": { "enum": ["direct", "adjacent", "giant"] },
+          "type": { "enum": ["direct", "adjacent"] },
+          "size": { "enum": ["standard", "giant"], "description": "Giant means more than 100,000 App Store ratings." },
           "leadClaim": { "type": "string", "minLength": 3, "description": "Headline of screenshot 1." },
           "positioning": { "type": "string", "minLength": 10 },
           "monetization": { "type": "string" }
