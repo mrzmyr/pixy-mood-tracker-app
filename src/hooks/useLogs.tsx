@@ -12,7 +12,7 @@ import {
   useContext,
   useEffect,
   useMemo,
-  useReducer,
+  useRef,
   useState,
 } from "react";
 import * as Sentry from '@sentry/react-native';
@@ -71,14 +71,15 @@ type LogAction =
   | { type: "removeTag"; payload: string }
   | { type: "reset"; payload: LogsState };
 
+// Each updater resolves `true` once the change is saved.
 export interface UpdaterValue {
-  addLog: (item: LogItem) => void;
-  editLog: (item: Partial<LogItem>) => void;
-  updateLogs: (items: LogsState["items"]) => void;
-  deleteLog: (id: LogItem["id"]) => void;
-  removeTagFromLogs: (tagId: string) => void;
-  reset: () => void;
-  import: (data: LogsState) => void;
+  addLog: (item: LogItem) => Promise<boolean>;
+  editLog: (item: AtLeast<LogItem, "id">) => Promise<boolean>;
+  updateLogs: (items: LogsState["items"]) => Promise<boolean>;
+  deleteLog: (id: LogItem["id"]) => Promise<boolean>;
+  removeTagFromLogs: (tagId: string) => Promise<boolean>;
+  reset: () => Promise<boolean>;
+  import: (data: LogsState) => Promise<boolean>;
 }
 
 interface StateValue extends LogsState {}
@@ -171,37 +172,34 @@ const migrate = (data: LogsState): LogsState => {
   return result;
 };
 
+const INITIAL_STATE: LogsState = {
+  loaded: false,
+  items: [],
+};
+
+const LOGS_NOT_LOADED_ERROR = {
+  status: "logs_not_loaded",
+  message: "Logs could not be saved",
+  why: "Stored logs are still loading or could not be read",
+  fix: "Restart the app and try again",
+};
+
 function LogsProvider({ children }: { children: React.ReactNode }) {
   const analyitcs = useAnalytics();
 
-  const INITIAL_STATE: LogsState = {
-    loaded: false,
-    items: [],
-  };
-
-  const [state, dispatch] = useReducer(reducer, INITIAL_STATE);
-  const [storageStatus, setStorageStatus] = useState<
-    "loading" | "ready" | "error"
-  >("loading");
+  const [state, setState] = useState(INITIAL_STATE);
+  const stateRef = useRef(INITIAL_STATE);
+  const writes = useRef(Promise.resolve(true));
 
   useEffect(() => {
     (async () => {
       try {
         const value = await load<LogsState>(STORAGE_KEY);
-        if (value !== null) {
-          dispatch({
-            type: "import",
-            payload: value,
-          });
-        } else {
-          dispatch({
-            type: "import",
-            payload: {
-              ...INITIAL_STATE,
-            },
-          });
-        }
-        setStorageStatus("ready");
+        stateRef.current = reducer(INITIAL_STATE, {
+          type: "import",
+          payload: value ?? INITIAL_STATE,
+        });
+        setState(stateRef.current);
 
         try {
           const size = Buffer.byteLength(JSON.stringify(value));
@@ -211,53 +209,39 @@ function LogsProvider({ children }: { children: React.ReactNode }) {
           Sentry.captureException(error);
         }
       } catch (error) {
-        setStorageStatus("error");
         Sentry.captureException(error);
       }
     })();
   }, []);
 
-  useEffect(() => {
-    if (storageStatus === "ready" && state.loaded) {
-      store<Omit<LogsState, "loaded">>(STORAGE_KEY, _.omit(state, "loaded"))
-        .then((error) => {
-          if (error) Alert.alert(error.message, error.fix, [{ text: t("ok") }]);
-        });
-    }
-  }, [JSON.stringify(state), storageStatus]);
-
-  const importState = useCallback((data: LogsState) => {
-    dispatch({
-      type: "import",
-      payload: data,
+  // Saves before showing a change, so a failed write never looks saved.
+  // Writes are queued so each one builds on the last saved state.
+  // Resolves `true` when the change was saved.
+  const apply = useCallback((action: LogAction) => {
+    const write = writes.current.then(async () => {
+      const next = reducer(stateRef.current, action);
+      const error = stateRef.current.loaded
+        ? await store(STORAGE_KEY, _.omit(next, "loaded"))
+        : LOGS_NOT_LOADED_ERROR;
+      if (error) {
+        Alert.alert(error.message, error.fix, [{ text: t("ok") }]);
+        return false;
+      }
+      stateRef.current = next;
+      setState(next);
+      return true;
     });
+    writes.current = write.catch(() => false);
+    return write;
   }, []);
 
-  const addLog = useCallback(
-    (payload: LogItem) => dispatch({ type: "add", payload }),
-    []
-  );
-  const editLog = useCallback(
-    (payload: AtLeast<LogItem, "id">) => dispatch({ type: "edit", payload }),
-    []
-  );
-  const updateLogs = useCallback(
-    (items: LogsState["items"]) =>
-      dispatch({ type: "batchEdit", payload: items }),
-    []
-  );
-  const deleteLog = useCallback(
-    (payload: LogItem["id"]) => dispatch({ type: "delete", payload }),
-    []
-  );
-  const removeTagFromLogs = useCallback(
-    (tagId: string) => dispatch({ type: "removeTag", payload: tagId }),
-    []
-  );
-  const reset = useCallback(
-    () => dispatch({ type: "reset", payload: INITIAL_STATE }),
-    []
-  );
+  const importState = useCallback((payload: LogsState) => apply({ type: "import", payload }), [apply]);
+  const addLog = useCallback((payload: LogItem) => apply({ type: "add", payload }), [apply]);
+  const editLog = useCallback((payload: AtLeast<LogItem, "id">) => apply({ type: "edit", payload }), [apply]);
+  const updateLogs = useCallback((payload: LogItem[]) => apply({ type: "batchEdit", payload }), [apply]);
+  const deleteLog = useCallback((payload: LogItem["id"]) => apply({ type: "delete", payload }), [apply]);
+  const removeTagFromLogs = useCallback((payload: string) => apply({ type: "removeTag", payload }), [apply]);
+  const reset = useCallback(() => apply({ type: "reset", payload: INITIAL_STATE }), [apply]);
 
   const updaterValue: UpdaterValue = useMemo(
     () => ({
