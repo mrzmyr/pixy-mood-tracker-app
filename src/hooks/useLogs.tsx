@@ -1,5 +1,7 @@
 import { DATE_FORMAT } from "@/constants/Config";
+import Alert from "@/components/Alert";
 import { load, store } from "@/helpers/storage";
+import { t } from "@/helpers/translation";
 import { LogItemSchema } from "@/types";
 import { Buffer } from "buffer";
 import dayjs from "dayjs";
@@ -217,7 +219,10 @@ function LogsProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     if (storageStatus === "ready" && state.loaded) {
-      store<Omit<LogsState, "loaded">>(STORAGE_KEY, _.omit(state, "loaded"));
+      store<Omit<LogsState, "loaded">>(STORAGE_KEY, _.omit(state, "loaded"))
+        .then((error) => {
+          if (error) Alert.alert(error.message, error.fix, [{ text: t("ok") }]);
+        });
     }
   }, [JSON.stringify(state), storageStatus]);
 

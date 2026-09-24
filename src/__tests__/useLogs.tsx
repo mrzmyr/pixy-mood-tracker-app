@@ -1,5 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import * as Sentry from '@sentry/react-native'
+import { Alert } from 'react-native'
 import { act, renderHook, waitFor } from '@testing-library/react-native'
 import { AnalyticsProvider } from '../hooks/useAnalytics'
 import { LogsProvider, LogsState, STORAGE_KEY, useLogState, useLogUpdater } from '../hooks/useLogs'
@@ -133,6 +134,24 @@ describe('useLogs()', () => {
 
     getItemSpy.mockRestore()
     setItemSpy.mockRestore()
+  })
+
+  test('should alert the user when saving logs fails', async () => {
+    const hook = await _renderHook()
+    await waitForLoaded(hook)
+
+    const alertSpy = jest.spyOn(Alert, 'alert').mockImplementation(() => {})
+    jest.spyOn(AsyncStorage, 'setItem').mockRejectedValueOnce(new Error('disk full'))
+
+    await act(() => hook.result.current.updater.addLog(testItems[0]))
+
+    await waitFor(() => {
+      expect(alertSpy).toHaveBeenCalledWith(
+        'Stored data could not be saved',
+        'Retry the operation and check available device storage',
+        expect.any(Array),
+      )
+    })
   })
 
   test('should import', async () => {
