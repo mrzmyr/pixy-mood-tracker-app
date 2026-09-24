@@ -1,8 +1,24 @@
 # Repository conventions
 
+## Metadata
+
+- https://apps.apple.com/de/app/pixy-mood-tracker/id1605327124
+- https://play.google.com/store/apps/details?id=com.devmood.pixymoodtracker
+
 ## Public repository security
 
 - This project is public open source, so never include credentials or secret values in code, configuration, documentation, commits, pull requests, issues, comments, logs, or artifacts; reference secret names only and store values in approved secret managers.
+
+## Tools
+
+- Posthog for product analytics (MCP installed)
+  - Accessible projects: `Pixy App`, `Pixy Website`, and `Pixy App Test`.
+- CodeRabbit for PR reviews (MCP installed)
+- Sentry for error logging (MCP installed)
+
+## Releases
+
+- MUST run `app-store-review` skill before App Store release
 
 ## Commits
 
