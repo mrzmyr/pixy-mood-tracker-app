@@ -1,0 +1,16 @@
+appId: com.devmood.pixymoodtracker
+---
+# Passes when DATE has an entry: only days with entries open the day view,
+# empty days open the logger instead. Env: DATE (YYYY-MM-DD).
+- scrollUntilVisible:
+    element:
+      id: "calendar-day-${DATE}"
+    direction: UP
+    timeout: 10000
+- tapOn:
+    id: "calendar-day-${DATE}"
+    waitToSettleTimeoutMs: 300
+- assertNotVisible: "How was your day?"
+- assertVisible: "Add Entry"
+- tapOn:
+    id: "day-view-close"

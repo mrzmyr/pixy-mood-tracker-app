@@ -1,0 +1,57 @@
+appId: com.devmood.pixymoodtracker
+name: Entries from separate sessions all survive
+tags: [data-integrity]
+---
+# Catches: single days missing across sessions, as in #215.
+# 3 days keep the logger deterministic: entry 2 adds the reminder slide, and
+# from entry 4 an optional feedback slide depends on a remote question.
+- launchApp:
+    clearState: true
+- runFlow: ../subflows/complete-onboarding.yaml
+- runScript: ../scripts/set-output-date.js
+
+- runFlow:
+    file: ../subflows/open-empty-day.yaml
+    env:
+      DATE: ${output.daysAgo3}
+- runFlow: ../subflows/finish-logger.yaml
+- stopApp
+- launchApp
+- tapOn:
+    text: "Not Now"
+    optional: true
+
+- runFlow:
+    file: ../subflows/open-empty-day.yaml
+    env:
+      DATE: ${output.daysAgo2}
+- runFlow: ../subflows/finish-logger-with-reminder.yaml
+- stopApp
+- launchApp
+- tapOn:
+    text: "Not Now"
+    optional: true
+
+- runFlow:
+    file: ../subflows/open-empty-day.yaml
+    env:
+      DATE: ${output.daysAgo1}
+- runFlow: ../subflows/finish-logger.yaml
+- stopApp
+- launchApp
+- tapOn:
+    text: "Not Now"
+    optional: true
+
+- runFlow:
+    file: ../subflows/assert-day-has-entry.yaml
+    env:
+      DATE: ${output.daysAgo3}
+- runFlow:
+    file: ../subflows/assert-day-has-entry.yaml
+    env:
+      DATE: ${output.daysAgo2}
+- runFlow:
+    file: ../subflows/assert-day-has-entry.yaml
+    env:
+      DATE: ${output.daysAgo1}

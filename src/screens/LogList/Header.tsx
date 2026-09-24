@@ -56,6 +56,7 @@ export const Header = ({
           }}
         >
           <Pressable
+            testID="day-view-close"
             style={{
               padding: 12,
             }}

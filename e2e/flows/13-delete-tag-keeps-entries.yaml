@@ -1,0 +1,95 @@
+appId: com.devmood.pixymoodtracker
+name: Deleting a tag keeps the entries that used it
+tags: [data-integrity]
+---
+# Catches: entries dropped or left with a deleted tag (#261).
+- launchApp:
+    clearState: true
+- runFlow: ../subflows/complete-onboarding.yaml
+- runScript: ../scripts/set-output-date.js
+
+# Create tag
+- tapOn:
+    id: "settings"
+- tapOn: "Tags"
+- tapOn: "Create Tag"
+- extendedWaitUntil:
+    visible:
+      id: "tag-name"
+    timeout: 5000
+- tapOn:
+    id: "tag-name"
+- inputText: "e2e-tag"
+- tapOn:
+    point: 50%,10%
+- tapOn: "Create"
+- back
+- runFlow:
+    when:
+      visible: "Create Tag"
+    commands:
+      - tapOn:
+          point: 9%,10%
+
+# Log today with the tag: mood → emotions → tags → message
+- tapOn:
+    id: "calendar"
+- tapOn: "Add New Entry"
+- tapOn:
+    id: "mood-good"
+- tapOn:
+    id: "logger-next"
+- scrollUntilVisible:
+    element:
+      text: "e2e-tag"
+    direction: DOWN
+    timeout: 10000
+- tapOn: "e2e-tag"
+- tapOn:
+    id: "logger-next"
+- tapOn:
+    id: "logger-save"
+
+# Delete tag
+- tapOn:
+    id: "settings"
+- tapOn: "Tags"
+- scrollUntilVisible:
+    element:
+      text: "e2e-tag"
+    direction: DOWN
+    timeout: 15000
+    visibilityPercentage: 50
+- tapOn: "e2e-tag"
+- scrollUntilVisible:
+    element:
+      text: "Delete"
+    direction: DOWN
+    timeout: 15000
+    visibilityPercentage: 50
+- tapOn: "Delete"
+- assertVisible: "The tag will be removed from all entries.*"
+- tapOn:
+    text: "Delete"
+    index: 0
+
+- stopApp
+- launchApp
+- tapOn:
+    text: "Not Now"
+    optional: true
+
+# Pass when: today still has its entry, without the deleted tag
+- tapOn:
+    id: "calendar-day-${output.today}"
+- assertVisible: "Add Entry"
+- assertVisible: "No tags yet."
+- assertNotVisible: "e2e-tag"
+- tapOn:
+    id: "day-view-close"
+
+# Confirm tag deletion persisted in Settings → Tags
+- tapOn:
+    id: "settings"
+- tapOn: "Tags"
+- assertNotVisible: "e2e-tag"

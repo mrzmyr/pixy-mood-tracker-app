@@ -19,6 +19,15 @@ if ! adb get-state >/dev/null 2>&1; then
   echo "No Android device connected (adb)."; exit 1
 fi
 
+# Maestro's JavaScript runtime uses the runner timezone. Match it to Android so
+# date-based calendar IDs use the device's local calendar day.
+DEVICE_TIMEZONE="$(adb shell getprop persist.sys.timezone | tr -d '\r')"
+if [ -z "$DEVICE_TIMEZONE" ]; then
+  echo "Timezone unavailable (status: DEVICE_TIMEZONE_UNAVAILABLE; why: Android returned an empty persist.sys.timezone; fix: set device timezone and retry)."
+  exit 1
+fi
+export TZ="$DEVICE_TIMEZONE"
+
 FLOWS=("$@")
 if [ ${#FLOWS[@]} -eq 0 ]; then
   FLOWS=(e2e/flows/*.yaml)
