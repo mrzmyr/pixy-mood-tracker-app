@@ -111,9 +111,10 @@ function TagsProvider({
   const createTag = useCallback((tag: Tag) => dispatch({ type: 'add', payload: tag }), [dispatch])
   const updateTag = useCallback((tag: Tag) => dispatch({ type: 'edit', payload: tag }), [dispatch])
 
-  const deleteTag = useCallback((tagId: Tag['id']) => {
-    dispatch({ type: 'delete', payload: tagId })
-    logsUpdater.removeTagFromLogs(tagId)
+  const deleteTag = useCallback(async (tagId: Tag['id']) => {
+    if (await logsUpdater.removeTagFromLogs(tagId)) {
+      dispatch({ type: 'delete', payload: tagId })
+    }
   }, [dispatch, logsUpdater])
 
   const reset = useCallback(() => dispatch({ type: 'reset', payload: INITIAL_STATE }), [dispatch])

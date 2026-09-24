@@ -204,7 +204,7 @@ export const Logger = ({
     navigation.goBack();
   }
 
-  const save = (data: TemporaryLogState) => {
+  const save = async (data: TemporaryLogState) => {
     const eventData = {
       date: data?.date,
       dateTime: data?.dateTime,
@@ -215,19 +215,26 @@ export const Logger = ({
       emotionsCount: data?.emotions.length,
     }
 
+    const logItem = { ...data, rating: data.rating ?? 'neutral' } as LogItem
+    const saved = mode === 'edit'
+      ? await logUpdater.editLog(logItem)
+      : await logUpdater.addLog(logItem)
+
+    // Keep the logger open so the entry is not lost.
+    if (!saved) {
+      return
+    }
+
     if (data.rating === null) {
       analytics.track('log_saved_without_rating', eventData)
-      data.rating = 'neutral'
     }
 
     analytics.track('log_saved', eventData)
 
     if (mode === 'edit') {
       analytics.track('log_changed', eventData)
-      logUpdater.editLog(data as LogItem)
     } else {
       analytics.track('log_created', eventData)
-      logUpdater.addLog(data as LogItem)
 
       const itemsOnDate = logState.items.filter(item => dayjs(item.dateTime).isSame(dayjs(data.dateTime), 'day'))
 
@@ -241,9 +248,11 @@ export const Logger = ({
     close()
   }
 
-  const remove = () => {
+  const remove = async () => {
+    if (!(await logUpdater.deleteLog(tempLog.data.id))) {
+      return
+    }
     analytics.track('log_deleted')
-    logUpdater.deleteLog(tempLog.data.id)
     close()
   }
 

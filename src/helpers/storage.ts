@@ -36,16 +36,20 @@ const captureStorageError = (error: StorageError, key: string) => {
   }
 };
 
-export const store = async <State>(key: string, state: State) => {
+// Returns the reported error when the write fails, so callers can tell the user.
+export const store = async <State>(key: string, state: State): Promise<StorageError | null> => {
   try {
     await AsyncStorage.setItem(key, JSON.stringify(state));
+    return null;
   } catch (error) {
-    captureStorageError(createStorageError(
+    const storageError = createStorageError(
       "storage_write_failed",
       "Stored data could not be saved",
       `Writing storage key "${key}" failed: ${errorMessage(error)}`,
       "Retry the operation and check available device storage",
-    ), key);
+    );
+    captureStorageError(storageError, key);
+    return storageError;
   }
 }
 
