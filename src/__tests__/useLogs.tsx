@@ -167,7 +167,7 @@ describe('useLogs()', () => {
     })
 
     expect(hook.result.current.state.items).toEqual(testItems)
-    expect(JSON.parse((await AsyncStorage.getItem(STORAGE_KEY))!).items).toEqual(testItems)
+    expect(JSON.parse((await AsyncStorage.getItem(STORAGE_KEY)) ?? "null").items).toEqual(testItems)
   })
 
   test('should not save changes while logs are unloaded', async () => {

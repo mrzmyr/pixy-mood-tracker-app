@@ -173,31 +173,39 @@ const migrate = (data: LogsState): LogsState => {
 };
 
 const INITIAL_STATE: LogsState = {
-  loaded: false,
   items: [],
+  loaded: false,
 };
 
 const LOGS_NOT_LOADED_ERROR = {
-  status: "logs_not_loaded",
-  message: "Logs could not be saved",
-  why: "Stored logs are still loading or could not be read",
   fix: "Restart the app and try again",
+  message: "Logs could not be saved",
+  status: "logs_not_loaded",
+  why: "Stored logs are still loading or could not be read",
 };
 
-function LogsProvider({ children }: { children: React.ReactNode }) {
+async function settleWrite(write: Promise<boolean>): Promise<boolean> {
+  try {
+    return await write;
+  } catch {
+    return false;
+  }
+}
+
+const LogsProvider = ({ children }: { children: React.ReactNode }) => {
   const analyitcs = useAnalytics();
 
   const [state, setState] = useState(INITIAL_STATE);
   const stateRef = useRef(INITIAL_STATE);
-  const writes = useRef(Promise.resolve(true));
+  const writes = useRef<Promise<boolean> | null>(null);
 
   useEffect(() => {
     (async () => {
       try {
         const value = await load<LogsState>(STORAGE_KEY);
         stateRef.current = reducer(INITIAL_STATE, {
-          type: "import",
           payload: value ?? INITIAL_STATE,
+          type: "import",
         });
         setState(stateRef.current);
 
@@ -212,13 +220,15 @@ function LogsProvider({ children }: { children: React.ReactNode }) {
         Sentry.captureException(error);
       }
     })();
-  }, []);
+  }, [analyitcs]);
 
   // Saves before showing a change, so a failed write never looks saved.
   // Writes are queued so each one builds on the last saved state.
   // Resolves `true` when the change was saved.
   const apply = useCallback((action: LogAction) => {
-    const write = writes.current.then(async () => {
+    const previousWrite = writes.current ?? Promise.resolve(true);
+    const write = (async () => {
+      await previousWrite;
       const next = reducer(stateRef.current, action);
       const error = stateRef.current.loaded
         ? await store(STORAGE_KEY, _.omit(next, "loaded"))
@@ -230,17 +240,17 @@ function LogsProvider({ children }: { children: React.ReactNode }) {
       stateRef.current = next;
       setState(next);
       return true;
-    });
-    writes.current = write.catch(() => false);
+    })();
+    writes.current = settleWrite(write);
     return write;
   }, []);
 
-  const importState = useCallback((payload: LogsState) => apply({ type: "import", payload }), [apply]);
-  const addLog = useCallback((payload: LogItem) => apply({ type: "add", payload }), [apply]);
-  const editLog = useCallback((payload: AtLeast<LogItem, "id">) => apply({ type: "edit", payload }), [apply]);
-  const updateLogs = useCallback((payload: LogItem[]) => apply({ type: "batchEdit", payload }), [apply]);
-  const deleteLog = useCallback((payload: LogItem["id"]) => apply({ type: "delete", payload }), [apply]);
-  const removeTagFromLogs = useCallback((payload: string) => apply({ type: "removeTag", payload }), [apply]);
+  const importState = useCallback((payload: LogsState) => apply({ payload, type: "import" }), [apply]);
+  const addLog = useCallback((payload: LogItem) => apply({ payload, type: "add" }), [apply]);
+  const editLog = useCallback((payload: AtLeast<LogItem, "id">) => apply({ payload, type: "edit" }), [apply]);
+  const updateLogs = useCallback((payload: LogItem[]) => apply({ payload, type: "batchEdit" }), [apply]);
+  const deleteLog = useCallback((payload: LogItem["id"]) => apply({ payload, type: "delete" }), [apply]);
+  const removeTagFromLogs = useCallback((payload: string) => apply({ payload, type: "removeTag" }), [apply]);
   const reset = useCallback(() => apply({ type: "reset", payload: INITIAL_STATE }), [apply]);
 
   const updaterValue: UpdaterValue = useMemo(
@@ -270,7 +280,7 @@ function LogsProvider({ children }: { children: React.ReactNode }) {
       </LogUpdaterContext.Provider>
     </LogStateContext.Provider>
   );
-}
+};
 
 function useLogState(): StateValue {
   const context = useContext(LogStateContext);

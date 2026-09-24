@@ -5,12 +5,16 @@ import AsyncStorageMock from '@react-native-async-storage/async-storage/jest/asy
 // `jest.restoreAllMocks()` strips their in-memory implementation, so later
 // tests would read `undefined` and silently write nothing. Replacing them with
 // plain functions makes `jest.spyOn` restore back to working storage.
-Object.keys(AsyncStorageMock).forEach((key) => {
+for (const key of Object.keys(AsyncStorageMock)) {
   const method = AsyncStorageMock[key];
-  if (!jest.isMockFunction(method)) return;
+  if (!jest.isMockFunction(method)) {
+    continue;
+  }
   const implementation = method.getMockImplementation();
-  if (!implementation) return;
+  if (!implementation) {
+    continue;
+  }
   AsyncStorageMock[key] = (...args) => implementation(...args);
-});
+}
 
 export default AsyncStorageMock;

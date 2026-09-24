@@ -215,13 +215,15 @@ export const Logger = ({
       emotionsCount: data?.emotions.length,
     }
 
-    const item = { ...data, rating: data.rating ?? 'neutral' } as LogItem
+    const logItem = { ...data, rating: data.rating ?? 'neutral' } as LogItem
     const saved = mode === 'edit'
-      ? await logUpdater.editLog(item)
-      : await logUpdater.addLog(item)
+      ? await logUpdater.editLog(logItem)
+      : await logUpdater.addLog(logItem)
 
     // Keep the logger open so the entry is not lost.
-    if (!saved) return
+    if (!saved) {
+      return
+    }
 
     if (data.rating === null) {
       analytics.track('log_saved_without_rating', eventData)
@@ -247,7 +249,9 @@ export const Logger = ({
   }
 
   const remove = async () => {
-    if (!(await logUpdater.deleteLog(tempLog.data.id))) return
+    if (!(await logUpdater.deleteLog(tempLog.data.id))) {
+      return
+    }
     analytics.track('log_deleted')
     close()
   }

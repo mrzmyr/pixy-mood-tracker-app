@@ -58,7 +58,9 @@ export const useDatagate = (): {
     const jsonSchemaType = getJSONSchemaType(migratedData);
 
     if (jsonSchemaType === "pixy") {
-      if (!(await logUpdater.import({ items: migratedData.items }))) return;
+      if (!(await logUpdater.import({ items: migratedData.items }))) {
+        return;
+      }
       tagsUpdater.import({
         tags: migratedData.settings.tags || migratedData.tags || []
       });
@@ -75,13 +77,17 @@ export const useDatagate = (): {
   };
 
   const reset = async () => {
-    if (!(await logUpdater.reset())) return false;
+    if (!(await logUpdater.reset())) {
+      return false;
+    }
     tagsUpdater.reset();
     return true;
   }
 
   const factoryReset = async () => {
-    if (!(await reset())) return false;
+    if (!(await reset())) {
+      return false;
+    }
     resetSettings();
     analytics.reset()
     return true;
@@ -119,14 +125,18 @@ export const useDatagate = (): {
     const resetFn = type === "factory" ? factoryReset : reset;
 
     if (Platform.OS === "web") {
-      if (!(await resetFn())) return;
+      if (!(await resetFn())) {
+        return;
+      }
       alert(t("reset_data_success_message"));
       return Promise.resolve();
     }
 
     return askToReset<ResetType>(type)
       .then(async () => {
-        if (!(await resetFn())) return;
+        if (!(await resetFn())) {
+          return;
+        }
         analytics.track("data_reset_success", {
           type
         });
