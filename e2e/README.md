@@ -34,6 +34,7 @@ Debug artifacts (screenshots, hierarchy, logcat) land in `~/.maestro/tests/<time
 | 07-settings-reminder | Reminder toggle on/off with notification permission |
 | 09-appearance | Colors screen, steps config, privacy toggle |
 | 10-stability | Background/foreground, cold restart (2nd-launch crash regression), tab smoke |
+| 14-log-write-durability | A saved entry remains available after a cold app relaunch |
 | apple/ios-regressions | iOS filter modal, narrow check-in layout/switch accessibility, tag form accessibility |
 
 Suite 08 (passcode) intentionally absent: the passcode feature is commented out in the app (`src/screens/Settings/index.tsx`).

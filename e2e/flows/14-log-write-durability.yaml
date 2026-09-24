@@ -1,0 +1,12 @@
+appId: com.devmood.pixymoodtracker
+name: Saved log remains available after relaunch
+tags: [logs, durability]
+---
+# A saved entry must still be present after the app process restarts.
+- launchApp:
+    clearState: true
+- runFlow: ../subflows/complete-onboarding.yaml
+- runFlow: ../subflows/create-basic-entry.yaml
+- stopApp
+- launchApp
+- assertVisible: "Add another entry for today"
