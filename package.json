@@ -24,7 +24,12 @@
     "build:prod": "bun run build:ios:prod && bun run build:android:prod",
     "translate-app": "bun scripts/generate-translations-app.js",
     "reviews": "node scripts/store-reviews.mjs",
-    "type-check": "tsc"
+    "type-check": "tsc",
+    "lint": "oxlint",
+    "format": "oxfmt",
+    "format:check": "oxfmt --check",
+    "check": "bun run lint && bun run format:check && bun run type-check",
+    "fix": "oxlint --fix && oxfmt"
   },
   "jest": {
     "preset": "jest-expo",
@@ -125,7 +130,11 @@
     "jest-expo": "~57.0.3",
     "mockdate": "^3.0.5",
     "test-renderer": "^1.2.0",
-    "typescript": "~6.0.3"
+    "typescript": "~6.0.3",
+    "oxfmt": "^0.70.0",
+    "oxlint": "^1.85.0",
+    "oxlint-plugin-react-doctor": "^0.9.14",
+    "ultracite": "7.12.0"
   },
   "private": true,
   "engines": {
