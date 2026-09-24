@@ -41,25 +41,7 @@ stripPrefix(ctx.toolName, prefix);
 
 ## Branch Bodies
 
-Never use shorthand if/else. Always use a block body. The same applies to ternaries that stand in for a branch.
-
-✅ Use
-
-```ts
-if (audience === getScope(ctx)) {
-  return "not-applicable";
-}
-```
-
-❌ Avoid
-
-```ts
-if (audience === getScope(ctx)) return "not-applicable";
-
-const tool = ctx.toolName.startsWith(prefix)
-  ? ctx.toolName.slice(prefix.length)
-  : ctx.toolName;
-```
+Avoid ternaries that stand in for a branch. Oxlint rejects nested ternaries; simple ternaries still need judgment.
 
 ## Error Logging
 
@@ -246,7 +228,8 @@ function readOnlyQuery(query) {
 
 ## JSDoc Comments
 
-- You must write a JSDoc comment for each exported symbol. You must write a JSDoc comment for each public method and each public property of an exported class.
+- Oxlint enforces JSDoc presence on exported declarations.
+- You must write a JSDoc comment for each public method and each public property of an exported class.
 - Write the JSDoc comment on the original declaration. Do not write a JSDoc comment for a re-export.
 - Write a JSDoc comment for internal code only when the code is complex.
 - Write the invariant, the limitation, or the constraint that the TypeScript types cannot show.
