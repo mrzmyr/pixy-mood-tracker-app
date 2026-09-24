@@ -1,0 +1,16 @@
+appId: com.devmood.pixymoodtracker
+---
+# Opens the logger for an empty calendar day and picks rating "good".
+# Env: DATE (YYYY-MM-DD).
+- scrollUntilVisible:
+    element:
+      id: "calendar-day-${DATE}"
+    direction: UP
+    timeout: 10000
+- tapOn:
+    id: "calendar-day-${DATE}"
+    waitToSettleTimeoutMs: 300
+- assertVisible: "How was your day?"
+- tapOn:
+    id: "mood-good"
+    waitToSettleTimeoutMs: 300

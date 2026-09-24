@@ -34,9 +34,14 @@ Debug artifacts (screenshots, hierarchy, logcat) land in `~/.maestro/tests/<time
 | 07-settings-reminder | Reminder toggle on/off with notification permission |
 | 09-appearance | Colors screen, steps config, privacy toggle |
 | 10-stability | Background/foreground, cold restart (2nd-launch crash regression), tab smoke |
+| 11-kill-after-save | Entry survives a kill right after saving |
+| 12-separate-sessions | Entries logged in 3 separate sessions all survive |
+| 13-delete-tag-keeps-entries | Deleting a tag keeps the entries that used it |
 | apple/ios-regressions | iOS filter modal, narrow check-in layout/switch accessibility, tag form accessibility |
 
 Suite 08 (passcode) intentionally absent: the passcode feature is commented out in the app (`src/screens/Settings/index.tsx`).
+
+Flows 11 to 13 carry the `data-integrity` tag (`maestro test --include-tags data-integrity e2e/flows`). They check that a day has an entry by tapping its cell: days with entries open the day view, empty days open the logger.
 
 Import-from-file (Data → Import) is not automated — it goes through the Android system file picker, which is flaky to drive; test manually with `e2e/fixtures/seed.json`.
 
