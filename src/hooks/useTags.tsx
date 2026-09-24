@@ -4,7 +4,7 @@ import { t } from '@/helpers/translation';
 import _ from 'lodash';
 import { createContext, useCallback, useContext, useEffect, useMemo, useReducer } from "react";
 import { useAnalytics } from './useAnalytics';
-import { useLogState, useLogUpdater } from './useLogs';
+import { useLogUpdater } from './useLogs';
 import { useSettings } from './useSettings';
 
 export const STORAGE_KEY = 'PIXEL_TRACKER_TAGS'
@@ -50,15 +50,14 @@ const reducer = (state: State, action: StateAction): State => {
         loaded: true
       };
     case 'add':
-      state.tags.push(action.payload);
-      return { ...state }
+      return { ...state, tags: [...state.tags, action.payload] }
     case 'edit':
-      const index = state.tags.findIndex(tag => tag.id === action.payload.id);
-      state.tags[index] = action.payload;
-      return { ...state }
+      return {
+        ...state,
+        tags: state.tags.map(tag => tag.id === action.payload.id ? action.payload : tag),
+      }
     case 'delete':
-      state.tags = state.tags.filter(tag => tag.id !== action.payload);
-      return { ...state }
+      return { ...state, tags: state.tags.filter(tag => tag.id !== action.payload) }
     case 'reset':
       return {
         ...action.payload,
@@ -80,7 +79,6 @@ function TagsProvider({
 }) {
   const { settings } = useSettings()
   const logsUpdater = useLogUpdater()
-  const logsState = useLogState()
 
   const INITIAL_STATE: State = {
     loaded: false,
@@ -115,17 +113,8 @@ function TagsProvider({
 
   const deleteTag = useCallback((tagId: Tag['id']) => {
     dispatch({ type: 'delete', payload: tagId })
-
-    const newItems = logsState.items.map((item) => {
-      if (item.tags.some((tag: Tag) => tag.id === tagId)) {
-        const tags = item.tags.filter(itemTag => itemTag.id !== tagId) || [];
-        item.tags = tags;
-      }
-      return item;
-    })
-
-    logsUpdater.updateLogs(newItems);
-  }, [dispatch, logsUpdater, JSON.stringify(logsState.items)])
+    logsUpdater.removeTagFromLogs(tagId)
+  }, [dispatch, logsUpdater])
 
   const reset = useCallback(() => dispatch({ type: 'reset', payload: INITIAL_STATE }), [dispatch])
   const importData = useCallback((data: State) => dispatch({ type: 'import', payload: data }), [dispatch])
