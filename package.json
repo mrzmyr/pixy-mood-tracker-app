@@ -23,6 +23,7 @@
     "build:preview": "bun run build:ios:preview && bun run build:android:preview",
     "build:prod": "bun run build:ios:prod && bun run build:android:prod",
     "translate-app": "bun scripts/generate-translations-app.js",
+    "reviews": "node scripts/store-reviews.mjs",
     "type-check": "tsc"
   },
   "jest": {
