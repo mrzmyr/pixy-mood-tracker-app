@@ -2,12 +2,17 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import * as Sentry from '@sentry/react-native'
 import { act, renderHook, waitFor } from '@testing-library/react-native'
 import { AnalyticsProvider } from '../hooks/useAnalytics'
-import { LogsProvider, LogsState, STORAGE_KEY, useLogState, useLogUpdater } from '../hooks/useLogs'
+import { snapshotLogs } from '../helpers/logSnapshots'
+import { findUnexpectedShrink, LogsProvider, LogsState, STORAGE_KEY, useLogState, useLogUpdater } from '../hooks/useLogs'
 import { SettingsProvider } from '../hooks/useSettings'
 import { _generateItem } from './utils'
 
 jest.mock('@sentry/react-native', () => ({
   captureException: jest.fn(),
+}))
+
+jest.mock('../helpers/logSnapshots', () => ({
+  snapshotLogs: jest.fn().mockResolvedValue(undefined),
 }))
 
 const wrapper = ({ children }) => (
@@ -242,6 +247,56 @@ describe('useLogs()', () => {
 
     const stored = JSON.parse((await AsyncStorage.getItem(STORAGE_KEY))!)
     expect(stored.items).toEqual(testItems)
+  })
+
+  test('should snapshot stored logs as loaded', async () => {
+    await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify({ items: testItems }))
+
+    const hook = await _renderHook()
+    await waitForLoaded(hook)
+
+    expect(snapshotLogs).toHaveBeenCalledTimes(1)
+    expect(snapshotLogs).toHaveBeenCalledWith({ items: testItems })
+  })
+
+  test('should not snapshot when nothing is stored', async () => {
+    const hook = await _renderHook()
+    await waitForLoaded(hook)
+
+    expect(snapshotLogs).not.toHaveBeenCalled()
+  })
+
+  describe('findUnexpectedShrink()', () => {
+    const state = (count: number): LogsState => ({
+      loaded: true,
+      items: testItems.slice(0, count),
+    })
+
+    test('should allow a delete to remove one entry', () => {
+      expect(findUnexpectedShrink(state(2), state(1), 'delete')).toBeNull()
+    })
+
+    test('should allow import and reset to replace all entries', () => {
+      expect(findUnexpectedShrink(state(2), state(0), 'import')).toBeNull()
+      expect(findUnexpectedShrink(state(2), state(0), 'reset')).toBeNull()
+    })
+
+    test('should block add, edit and tag removal from dropping entries', () => {
+      for (const type of ['add', 'edit', 'removeTag'] as const) {
+        expect(findUnexpectedShrink(state(2), state(1), type)).toMatchObject({
+          status: 'logs_unexpected_shrink',
+          message: 'Change was blocked to protect your entries',
+          why: `Action "${type}" would remove 1 entries, but at most 0 may be removed`,
+          fix: 'Export your data, restart Pixy and report this issue',
+        })
+      }
+    })
+
+    test('should block a delete from removing more than one entry', () => {
+      expect(findUnexpectedShrink(state(2), state(0), 'delete')).toMatchObject({
+        status: 'logs_unexpected_shrink',
+      })
+    })
   })
 
   test('should import', async () => {

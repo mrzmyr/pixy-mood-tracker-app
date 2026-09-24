@@ -1,4 +1,5 @@
 import { DATE_FORMAT } from "@/constants/Config";
+import { snapshotLogs } from "@/helpers/logSnapshots";
 import { createStorageError, load, persist } from "@/helpers/storage";
 import { LogItemSchema } from "@/types";
 import { Buffer } from "buffer";
@@ -60,7 +61,7 @@ export interface LogsState {
   items: LogItem[];
 }
 
-type LogAction =
+export type LogAction =
   | { type: "import"; payload: LogsState }
   | { type: "add"; payload: LogItem }
   | { type: "edit"; payload: AtLeast<LogItem, "id"> }
@@ -172,6 +173,35 @@ const migrate = (data: LogsState): LogsState => {
   return result;
 };
 
+// Maximum number of entries each action may remove. Anything above means a
+// bug is about to overwrite stored entries, so the write is refused.
+const SHRINK_ALLOWANCE: Record<LogAction["type"], number> = {
+  add: 0,
+  edit: 0,
+  removeTag: 0,
+  delete: 1,
+  batchEdit: Infinity,
+  import: Infinity,
+  reset: Infinity,
+};
+
+export const findUnexpectedShrink = (
+  prev: LogsState,
+  next: LogsState,
+  actionType: LogAction["type"],
+) => {
+  const removed = prev.items.length - next.items.length;
+  const allowedRemovals = SHRINK_ALLOWANCE[actionType];
+  if (removed <= allowedRemovals) return null;
+
+  return createStorageError(
+    "logs_unexpected_shrink",
+    "Change was blocked to protect your entries",
+    `Action "${actionType}" would remove ${removed} entries, but at most ${allowedRemovals} may be removed`,
+    "Export your data, restart Pixy and report this issue",
+  );
+};
+
 function LogsProvider({ children }: { children: React.ReactNode }) {
   const analyitcs = useAnalytics();
 
@@ -214,6 +244,13 @@ function LogsProvider({ children }: { children: React.ReactNode }) {
     }
 
     const next = reducer(stateRef.current, action);
+
+    const shrinkError = findUnexpectedShrink(stateRef.current, next, action.type);
+    if (shrinkError) {
+      Sentry.captureException(shrinkError);
+      return Promise.reject(shrinkError);
+    }
+
     stateRef.current = next;
     setState(next);
     return enqueueWrite(next);
@@ -229,6 +266,9 @@ function LogsProvider({ children }: { children: React.ReactNode }) {
     (async () => {
       try {
         const value = await load<LogsState>(STORAGE_KEY);
+        if (value !== null && Array.isArray(value.items)) {
+          void snapshotLogs(value);
+        }
         const next = reducer(stateRef.current, {
           type: "import",
           payload: value !== null ? value : { ...INITIAL_STATE },
