@@ -12,7 +12,44 @@ tags: [calendar]
 - assertVisible:
     id: "calendar-day-${output.today}"
 
-# 3.2 Scroll back several months (bounded swipes that stay off the tab bar)
+# 3.2 Add deterministic old entry, then verify calendar starts at current month
+- openLink: "pixy://logs/create/2023-09-24"
+- runFlow:
+    when:
+      visible: "Open"
+    commands:
+      - tapOn: "Open"
+- assertVisible: "How was your day?"
+- tapOn:
+    id: "mood-good"
+- runFlow: ../subflows/finish-logger.yaml
+
+# 3.3 Scroll toward the top of the list to load older pages until the old entry appears
+- scrollUntilVisible:
+    element:
+      id: "calendar-day-2023-09-24"
+    direction: UP
+    timeout: 120000
+    speed: 80
+    centerElement: true
+    waitToSettleTimeoutMs: 1200
+- assertVisible:
+    id: "calendar-day-2023-09-24"
+- tapOn:
+    id: "calendar-day-2023-09-24"
+    waitToSettleTimeoutMs: 1200
+- assertVisible: "Add Entry"
+- back
+- scrollUntilVisible:
+    element:
+      id: "calendar-day-2022-09-24"
+    direction: UP
+    timeout: 120000
+    speed: 80
+- assertVisible:
+    id: "calendar-day-2022-09-24"
+
+# 3.4 Scroll back several months (bounded swipes that stay off the tab bar)
 - swipe:
     start: 50%, 30%
     end: 50%, 65%
@@ -23,7 +60,7 @@ tags: [calendar]
     start: 50%, 30%
     end: 50%, 65%
 
-# 3.3 Return to today (re-enter calendar tab, then scroll; use button if present)
+# 3.5 Return to today (re-enter calendar tab, then scroll; use button if present)
 - tapOn:
     id: "calendar"
 - runFlow:
@@ -46,7 +83,7 @@ tags: [calendar]
           speed: 60
           visibilityPercentage: 50
 
-# 3.4 Filters open, search visible, close
+# 3.6 Filters open, search visible, close
 - tapOn:
     id: "filters"
 - assertVisible: "Filters"

@@ -27,7 +27,7 @@ Debug artifacts (screenshots, hierarchy, logcat) land in `~/.maestro/tests/<time
 |---|---|
 | 01-onboarding | Welcome, explainer slides, reminder skip, privacy accept, persistence across relaunch |
 | 02-log-entry | Create entry (rating), day view, second entry per day |
-| 03-calendar | Today cell, scroll months back, scroll-to-today button, filters open/close |
+| 03-calendar | Starts at today, loads calendar history past 12 months, keeps loading older months, scroll-to-today button, filters open/close |
 | 04-tags | Create, rename, use in logger, delete |
 | 05-statistics | Stats tab, highlights/empty state, month + year report |
 | 06-settings-data | Data screen, export/import visible, reset-all round trip |
@@ -38,7 +38,7 @@ Debug artifacts (screenshots, hierarchy, logcat) land in `~/.maestro/tests/<time
 
 Suite 08 (passcode) intentionally absent: the passcode feature is commented out in the app (`src/screens/Settings/index.tsx`).
 
-Import-from-file (Data → Import) is not automated — it goes through the Android system file picker, which is flaky to drive; test manually with `e2e/fixtures/seed.json`.
+Import-from-file (Data → Import) is not automated — it goes through the system file picker, which is flaky to drive; test manually with `e2e/fixtures/seed.json`. The fixture includes a visible entry from 2023-09-24. The calendar flow creates the same dated entry through the app deep link so its pagination check stays self-contained.
 
 ## Conventions
 

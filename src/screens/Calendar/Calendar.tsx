@@ -1,36 +1,28 @@
 import dayjs from "dayjs";
-import React, { forwardRef, memo, useMemo } from "react";
-import { View } from "react-native";
+import React, { memo, useMemo, useRef } from "react";
+import type { LayoutChangeEvent } from "react-native";
 import { useLogState } from "../../hooks/useLogs";
 import CalendarMonth from "./CalendarMonth";
 
 import { DATE_FORMAT } from "@/constants/Config";
 
-const DEFAULT_MONTH_COUNT = 12;
+const getMonths = (start: dayjs.Dayjs, count: number) =>
+  Array.from({ length: count }, (_, index) => start.add(index, 'month').format(DATE_FORMAT));
 
-const Calendar = memo(forwardRef(function Calendar({ }, ref: React.RefObject<View>) {
+const Calendar = memo(({ monthCount, onCalendarHeightChange }: {
+  monthCount: number;
+  onCalendarHeightChange: (height: number) => void;
+}) => {
   const logState = useLogState()
-  const monthDates = useMemo(() => {
-    const defaultStart = dayjs().subtract(DEFAULT_MONTH_COUNT, 'month').startOf('month');
-    const earliestItemDate = logState.items.reduce<dayjs.Dayjs | null>((earliest, item) => {
-      const date = dayjs(item.dateTime || item.date);
-      if (!date.isValid()) return earliest;
-      return earliest === null || date.isBefore(earliest) ? date : earliest;
-    }, null);
-    const start = earliestItemDate?.isBefore(defaultStart)
-      ? earliestItemDate.startOf('month')
-      : defaultStart;
-    const monthCount = dayjs().startOf('month').diff(start, 'month');
-
-    return Array.from(
-      { length: monthCount + 1 },
-      (_, index) => start.add(index, 'month').format(DATE_FORMAT),
-    );
-  }, [logState.items]);
+  const firstMonthY = useRef(0);
+  const monthDates = useMemo(() => getMonths(
+    dayjs().subtract(monthCount - 1, 'month').startOf('month'),
+    monthCount,
+  ), [monthCount]);
 
   const itemMap = {}
 
-  logState.items.forEach(item => {
+  for (const item of logState.items) {
     const date = dayjs(item.dateTime).format(DATE_FORMAT)
 
     if (!itemMap[date]) {
@@ -38,21 +30,32 @@ const Calendar = memo(forwardRef(function Calendar({ }, ref: React.RefObject<Vie
     }
 
     itemMap[date].push(item)
-  })
+  }
 
-  return (
-    <View
-      ref={ref}
-    >
-      {monthDates.map((date) => (
+  // Native maintainVisibleContentPosition tracks direct child frames when prepending history.
+  // See https://reactnative.dev/docs/scrollview#maintainvisiblecontentposition.
+  return monthDates.map((date, index) => {
+    const onLayout = (event: LayoutChangeEvent) => {
+      const { y, height } = event.nativeEvent.layout;
+      if (index === 0) {
+        firstMonthY.current = y;
+      }
+      if (index === monthDates.length - 1) {
+        onCalendarHeightChange(y + height - firstMonthY.current);
+      }
+    };
+
+    return (
         <CalendarMonth
           key={date}
           dateString={date}
           itemMap={itemMap}
+          onLayout={onLayout}
         />
-      ))}
-    </View>
-  )
-}))
+      );
+  });
+})
+
+Calendar.displayName = "Calendar";
 
 export default Calendar

@@ -1,4 +1,5 @@
 import { DATE_FORMAT } from "@/constants/Config";
+import type { LayoutChangeEvent } from "react-native";
 import dayjs, { Dayjs } from "dayjs";
 import React, { memo } from "react";
 import { Platform, StyleSheet, Text, View } from "react-native";
@@ -10,11 +11,13 @@ import CalendarWeek from "./CalendarWeek";
 const CalendarMonth = memo(function CalendarMonth({
   dateString,
   itemMap,
+  onLayout,
 }: {
   dateString: string;
   itemMap: {
     [key: string]: LogItem[];
-  }
+  };
+  onLayout?: (event: LayoutChangeEvent) => void;
 }) {
   const colors = useColors();
 
@@ -58,6 +61,7 @@ const CalendarMonth = memo(function CalendarMonth({
 
   return (
     <View
+      onLayout={onLayout}
       style={{
         flex: 1,
         paddingHorizontal: Platform.OS === "android" ? 1 : 0,

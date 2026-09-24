@@ -1,5 +1,6 @@
 import React, { memo, useEffect, useRef, useState } from "react";
 import { ActivityIndicator, Platform, Text, useWindowDimensions, View } from "react-native";
+import type { NativeScrollEvent, NativeSyntheticEvent } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { useCalendarFilters } from "@/hooks/useCalendarFilters";
 import useColors from "@/hooks/useColors";
@@ -14,6 +15,8 @@ import { ScrollToBottomButton } from "./ScrollToBottomButton";
 import { t } from "@/helpers/translation";
 
 const CalendarScreen = memo(function CalendarScreen() {
+  const initialMonthCount = 13;
+  const monthsPerPage = 12;
   const colors = useColors();
 
   const { settings } = useSettings();
@@ -21,38 +24,56 @@ const CalendarScreen = memo(function CalendarScreen() {
   const calendarFilters = useCalendarFilters();
   const window = useWindowDimensions();
   const [scrollOffset, setScrollOffset] = useState(0);
+  const [monthCount, setMonthCount] = useState(initialMonthCount);
+  const [calendarHeight, setCalendarHeight] = useState(0);
 
-  const calendarRef = useRef<View>(null);
   const scrollRef = useRef<ScrollView>(null);
-  const calendarHeight = useRef(0);
+  const previousContentHeight = useRef(0);
+  const isLoadingEarlierMonths = useRef(false);
+  const isInitialPositionSet = useRef(false);
 
 
   useEffect(() => {
-    if (scrollRef.current) {
-      setTimeout(() => {
-        if (scrollRef.current) {
-          scrollRef.current.scrollToEnd({ animated: false });
-        }
-      }, 0)
+    if (!settings.loaded || !logState.loaded) {
+      return;
     }
-  }, [calendarRef, scrollRef, settings.loaded, logState.loaded]);
 
-  useEffect(() => {
-    if (calendarRef.current) {
-      setTimeout(() => {
-        if (calendarRef.current) {
-          calendarRef.current.measure((x, y, width, height) => {
-            calendarHeight.current = height;
-          });
-        }
-      }, 0)
-    }
-  }, [calendarRef, scrollRef, settings.loaded, logState.loaded]);
+    const timeout = setTimeout(() => {
+      scrollRef.current?.scrollToEnd({ animated: false });
+      isInitialPositionSet.current = true;
+    }, 0);
+
+    return () => clearTimeout(timeout);
+  }, [settings.loaded, logState.loaded]);
 
   const showScrollTopButton = (
-    scrollOffset < calendarHeight.current - window.height &&
+    scrollOffset < calendarHeight - window.height &&
     !calendarFilters.isOpen
   )
+
+  const loadEarlierMonths = () => {
+    if (isLoadingEarlierMonths.current) {
+      return;
+    }
+    isLoadingEarlierMonths.current = true;
+    setMonthCount((count) => count + monthsPerPage);
+  };
+
+  const updateScrollOffset = (offset: number) => {
+    setScrollOffset(offset);
+  };
+
+  const onScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+    updateScrollOffset(event.nativeEvent.contentOffset.y);
+  };
+
+  const onScrollBoundary = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+    const offset = event.nativeEvent.contentOffset.y;
+    updateScrollOffset(offset);
+    if (isInitialPositionSet.current && offset < 100) {
+      loadEarlierMonths();
+    }
+  };
 
   if (!settings.loaded || !logState.loaded) {
     return (
@@ -86,21 +107,21 @@ const CalendarScreen = memo(function CalendarScreen() {
           width: "100%",
         }}
         scrollEventThrottle={100}
-        onMomentumScrollEnd={(e) => {
-          setScrollOffset(e.nativeEvent.contentOffset.y);
+        maintainVisibleContentPosition={{ minIndexForVisible: 0 }}
+        onContentSizeChange={(_, height) => {
+          if (height > previousContentHeight.current) {
+            isLoadingEarlierMonths.current = false;
+          }
+          previousContentHeight.current = height;
         }}
-        onScrollEndDrag={(e) => {
-          setScrollOffset(e.nativeEvent.contentOffset.y);
-        }}
+        onScroll={onScroll}
+        onMomentumScrollEnd={onScrollBoundary}
+        onScrollEndDrag={onScrollBoundary}
         ref={scrollRef}
       >
-        <View
-          style={{
-            paddingBottom: 32,
-          }}
-        >
-          {Platform.OS === "web" && calendarFilters.isOpen && <Body />}
-          <Calendar ref={calendarRef} />
+        {Platform.OS === "web" && calendarFilters.isOpen && <Body />}
+        <Calendar monthCount={monthCount} onCalendarHeightChange={setCalendarHeight} />
+        <View style={{ paddingBottom: 32 }}>
           <CalendarFooter />
         </View>
 
