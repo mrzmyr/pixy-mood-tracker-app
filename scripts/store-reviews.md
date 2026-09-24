@@ -25,8 +25,10 @@ Enable the Google Play Android Developer API in the service account's Google Clo
 export GOOGLE_PLAY_SERVICE_ACCOUNT_JSON='/secure/path/service-account.json'
 ```
 
+Google's Reviews API only returns reviews created or modified in the last 7 days. The CLI includes this limit in its output. Use Play Console's CSV export for older reviews.
+
 Keep both key files outside the repository. The CLI only reads reviews and never prints credential material.
 
 ## Options
 
-Run `bun run reviews -- --help` for every option. Defaults: both stores, 1–3 stars, 50 matches per store. `--json` returns `{ "reviews": [...], "errors": [...] }` for scripting. If one source is unavailable, the CLI still prints results from the other source and reports that source's structured error on stderr (or in the JSON `errors` array).
+Run `bun run reviews -- --help` for every option. Defaults: both stores, 1–3 stars, 50 matches per store. `--json` returns `{ "reviews": [...], "errors": [...], "limitations": [...] }` for scripting. If one source is unavailable, the CLI still prints results from the other source and reports that source's structured error on stderr (or in the JSON `errors` array).

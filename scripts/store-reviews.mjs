@@ -8,6 +8,7 @@ const DEFAULT_APPLE_ID = '1605327124';
 const DEFAULT_PLAY_PACKAGE = 'com.devmood.pixymoodtracker';
 const APPLE_API = 'https://api.appstoreconnect.apple.com/v1';
 const PLAY_API = 'https://androidpublisher.googleapis.com/androidpublisher/v3';
+const PLAY_REVIEW_LIMITATION = 'Google Play API returns only reviews created or modified in the last 7 days.';
 
 function fail(status, message, why, fix) {
   const error = new Error(message);
@@ -235,10 +236,11 @@ export async function main(argv = process.argv.slice(2)) {
     const results = settled.filter((result) => !result.error);
     const errors = settled.filter((result) => result.error).map(({ store, error }) => ({ store, ...error }));
     const all = sortReviews(results.flatMap((result) => result.reviews)).slice(0, options.limit * stores.length);
-    if (options.json) process.stdout.write(`${JSON.stringify({ reviews: all, errors }, null, 2)}\n`);
+    if (options.json) process.stdout.write(`${JSON.stringify({ reviews: all, errors, limitations: stores.includes('play') ? [PLAY_REVIEW_LIMITATION] : [] }, null, 2)}\n`);
     else {
       printTable(all);
       for (const error of errors) process.stderr.write(`${JSON.stringify(error)}\n`);
+      if (stores.includes('play')) process.stderr.write(`Note: ${PLAY_REVIEW_LIMITATION} Use Play Console's CSV export for older reviews.\n`);
     }
     return errors.length > 0 ? 1 : 0;
   } catch (error) {
