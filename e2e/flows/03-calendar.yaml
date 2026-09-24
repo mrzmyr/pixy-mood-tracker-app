@@ -1,9 +1,14 @@
 appId: com.devmood.pixymoodtracker
 tags: [calendar]
 ---
-- launchApp:
-    clearState: true
-- runFlow: ../subflows/complete-onboarding.yaml
+- launchApp
+- runFlow:
+    when:
+      visible: "Welcome 👋"
+    commands:
+      - runFlow: ../subflows/complete-onboarding.yaml
+- tapOn:
+    id: "calendar"
 
 # 3.1 Calendar renders with today cell
 - assertVisible:
