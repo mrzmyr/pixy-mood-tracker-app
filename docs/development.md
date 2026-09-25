@@ -55,6 +55,10 @@ Configured native builds use `EXPO_PUBLIC_SUPERWALL_IOS_API_KEY` and `EXPO_PUBLI
 
 ## Building
 
+### iOS physical device signing
+
+iOS device builds require Xcode and CocoaPods. Automatic signing also needs an Apple development team and provisioning profile for Pixy's app ID with Push Notifications enabled. Pixy requests the `aps-environment` entitlement through `expo-notifications`; a wildcard profile without that capability fails during Xcode signing. Select or create a profile that includes the capability before running `bun ios --device <device-id>`.
+
 | Environment | OS | Channel | `bun run` command | Extension | Installation |
 | --- | --- | --- | --- | --- | --- |
 | `development` | iOS | Physical Device | `build:ios:dev` | `.ipa` | Install `.ipa` file via [Apple Configurator](https://apps.apple.com/us/app/apple-configurator/id1037126344?mt=12) |
