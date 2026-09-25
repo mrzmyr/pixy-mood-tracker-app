@@ -35,6 +35,7 @@ const LOADED_STATE = {
   deviceId: STATIC_DEVICE_ID,
 };
 
+// oxlint-disable-next-line anti-slop/no-module-mocking -- useSettings generates the device ID with uuid directly; the test needs a deterministic ID
 jest.mock("uuid", () => ({ v4: () => STATIC_DEVICE_ID }));
 
 describe("useSettings()", () => {
