@@ -1,9 +1,9 @@
-import useColors from "@/hooks/useColors"
-import _ from "lodash"
-import { Text, View, ViewStyle } from "react-native"
-import { X } from "react-native-feather"
-import LinkButton from "./LinkButton"
-import { CardFeedback } from "./Statistics/CardFeedback"
+import useColors from "@/hooks/useColors";
+import _ from "lodash";
+import { Text, View, ViewStyle } from "react-native";
+import { X } from "react-native-feather";
+import LinkButton from "./LinkButton";
+import { CardFeedback } from "./Statistics/CardFeedback";
 
 export const Card = ({
   title,
@@ -14,15 +14,15 @@ export const Card = ({
   analyticsId,
   analyticsData,
 }: {
-  title: string | React.ReactNode,
-  children: React.ReactNode
-  style?: ViewStyle,
-  onClose?: () => void,
-  hasFeedback?: boolean,
-  analyticsId?: string,
-  analyticsData?: any,
+  title: string | React.ReactNode;
+  children: React.ReactNode;
+  style?: ViewStyle;
+  onClose?: () => void;
+  hasFeedback?: boolean;
+  analyticsId?: string;
+  analyticsData?: any;
 }) => {
-  const colors = useColors()
+  const colors = useColors();
 
   return (
     <View
@@ -37,9 +37,9 @@ export const Card = ({
     >
       <View
         style={{
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          alignItems: 'center',
+          flexDirection: "row",
+          justifyContent: "space-between",
+          alignItems: "center",
         }}
       >
         <View
@@ -47,16 +47,19 @@ export const Card = ({
             marginTop: 8,
           }}
         >
-          {_.isString(title) ?
-            (<Text
+          {_.isString(title) ? (
+            <Text
               style={{
                 fontSize: 17,
-                fontWeight: '600',
+                fontWeight: "600",
                 color: colors.text,
               }}
-            >{title}</Text>) :
+            >
+              {title}
+            </Text>
+          ) : (
             title
-          }
+          )}
         </View>
         <LinkButton
           onPress={() => onClose?.()}
@@ -87,5 +90,5 @@ export const Card = ({
         />
       )}
     </View>
-  )
-}
+  );
+};

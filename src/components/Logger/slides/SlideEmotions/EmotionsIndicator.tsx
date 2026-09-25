@@ -5,7 +5,7 @@ import { View } from "react-native";
 export const EmotionIndicator = ({
   category,
 }: {
-  category: Emotion['category']
+  category: Emotion["category"];
 }) => {
   const scale = useScale();
   const colorMapping = {
@@ -30,4 +30,4 @@ export const EmotionIndicator = ({
       }}
     />
   );
-}
+};

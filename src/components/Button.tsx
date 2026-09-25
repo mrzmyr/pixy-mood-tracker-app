@@ -1,10 +1,16 @@
 import _ from "lodash";
-import { ActivityIndicator, Pressable, Text, View, ViewStyle } from "react-native";
+import {
+  ActivityIndicator,
+  Pressable,
+  Text,
+  View,
+  ViewStyle,
+} from "react-native";
 import useColors from "@/hooks/useColors";
 import useHaptics from "@/hooks/useHaptics";
 
 export default function Button({
-  type = 'primary',
+  type = "primary",
   icon,
   testID,
   onPress,
@@ -13,17 +19,17 @@ export default function Button({
   children,
   style = {},
 }: {
-  type?: 'primary' | 'secondary' | 'danger' | 'tertiary';
-  icon?: React.ReactNode,
-  testID?: string,
-  isLoading?: boolean,
-  disabled?: boolean,
-  children: React.ReactNode,
-  style?: ViewStyle,
-  onPress?: () => void,
+  type?: "primary" | "secondary" | "danger" | "tertiary";
+  icon?: React.ReactNode;
+  testID?: string;
+  isLoading?: boolean;
+  disabled?: boolean;
+  children: React.ReactNode;
+  style?: ViewStyle;
+  onPress?: () => void;
 }) {
-  const colors = useColors()
-  const haptics = useHaptics()
+  const colors = useColors();
+  const haptics = useHaptics();
 
   const buttonColors = {
     primary: {
@@ -61,43 +67,53 @@ export default function Button({
         padding: 16,
         paddingRight: 16,
         paddingLeft: 16,
-        alignItems: 'center',
-        justifyContent: 'center',
-        flexDirection: 'row',
+        alignItems: "center",
+        justifyContent: "center",
+        flexDirection: "row",
         borderRadius: 12,
-        opacity: disabled ? 0.5 : (pressed ? 0.8 : 1),
-        backgroundColor: disabled ? buttonColors.disabledBackground : buttonColors.background,
+        opacity: disabled ? 0.5 : pressed ? 0.8 : 1,
+        backgroundColor: disabled
+          ? buttonColors.disabledBackground
+          : buttonColors.background,
         borderWidth: 2,
-        borderColor: disabled ? buttonColors.disabledBorder : buttonColors?.border,
+        borderColor: disabled
+          ? buttonColors.disabledBorder
+          : buttonColors?.border,
         ...style,
       })}
       onPress={async () => {
-        await haptics.selection()
+        await haptics.selection();
         if (!disabled) {
-          onPress?.()
+          onPress?.();
         }
       }}
       disabled={disabled}
       testID={testID}
-      accessibilityRole={'button'}
+      accessibilityRole={"button"}
     >
       {isLoading ? (
         <ActivityIndicator color={buttonColors.text} size="small" />
       ) : (
         <>
-          {icon && <View style={{ marginRight: children ? 8 : 0 }}>{icon}</View>}
+          {icon && (
+            <View style={{ marginRight: children ? 8 : 0 }}>{icon}</View>
+          )}
           {_.isString(children) ? (
             <Text
               style={{
                 fontSize: 17,
                 color: disabled ? buttonColors.disabledText : buttonColors.text,
-                fontWeight: '600'
+                fontWeight: "600",
               }}
               numberOfLines={1}
-            >{children}</Text>
-          ) : children}
+            >
+              {children}
+            </Text>
+          ) : (
+            children
+          )}
         </>
       )}
     </Pressable>
-  )
+  );
 }

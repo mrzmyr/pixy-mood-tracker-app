@@ -7,12 +7,15 @@ import { getAverageMood } from "@/lib/utils";
 import { Day } from "./Day";
 import { YAxis } from "./YAxis";
 
-export const Row = ({ date, dayCount, items }: {
+export const Row = ({
+  date,
+  dayCount,
+  items,
+}: {
   date: Dayjs;
   dayCount: number;
   items: LogItem[];
 }) => {
-
   const months: ReactNode[] = [];
 
   const year = date.year();
@@ -22,14 +25,16 @@ export const Row = ({ date, dayCount, items }: {
     const dateString = `${monthString}-${_.padStart(`${dayCount}`, 2, "0")}`;
     const inThisMonth = dayjs(dateString).month() === i;
 
-    const _items = items.filter(item => item.dateTime?.split('T')[0] === dateString);
-    const rating = getAverageMood(_items)
+    const _items = items.filter(
+      (item) => item.dateTime?.split("T")[0] === dateString
+    );
+    const rating = getAverageMood(_items);
 
     months.push(
       <View
         key={i}
         style={{
-          alignItems: 'center',
+          alignItems: "center",
           flexBasis: `${100 / 13}%`,
           paddingVertical: 2,
           paddingHorizontal: 4,
@@ -44,8 +49,8 @@ export const Row = ({ date, dayCount, items }: {
     <>
       <View
         style={{
-          flexDirection: 'row',
-          justifyContent: 'space-between',
+          flexDirection: "row",
+          justifyContent: "space-between",
         }}
       >
         <YAxis dayCount={dayCount} />

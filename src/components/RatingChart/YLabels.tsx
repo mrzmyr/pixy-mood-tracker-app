@@ -1,10 +1,8 @@
-import { RATING_KEYS } from '@/hooks/useLogs';
-import useScale from '@/hooks/useScale';
-import { Rect } from 'react-native-svg';
+import { RATING_KEYS } from "@/hooks/useLogs";
+import useScale from "@/hooks/useScale";
+import { Rect } from "react-native-svg";
 
-export const YLabels = ({
-  relativeY, YLegendWidth, rowHeight, width
-}) => {
+export const YLabels = ({ relativeY, YLegendWidth, rowHeight, width }) => {
   const scale = useScale();
 
   return (
@@ -19,7 +17,8 @@ export const YLabels = ({
             width={20}
             height={rowHeight / 2}
             fill={scale.colors[rating].background}
-            rx={4} />
+            rx={4}
+          />
         );
       })}
     </>

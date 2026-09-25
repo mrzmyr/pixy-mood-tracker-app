@@ -49,8 +49,8 @@ const EmptryState = () => {
         {t("statistics_no_highlights")}
       </Text>
     </View>
-  )
-}
+  );
+};
 
 export const HighlightsSection = ({ items }: { items: LogItem[] }) => {
   const colors = useColors();
@@ -63,31 +63,38 @@ export const HighlightsSection = ({ items }: { items: LogItem[] }) => {
   const showMoodPeaksPositve = statistics.isHighlighted("mood_peaks_positive");
   const showMoodPeaksNegative = statistics.isHighlighted("mood_peaks_negative");
   const showTagPeaks = statistics.isHighlighted("tags_peaks");
-  const showTagsDistribution = statistics.isAvailable("tags_distribution")
-  const showEmotionsDistribution = statistics.isAvailable("emotions_distribution")
-  const showMoodChart = logState.items.filter((item) => dayjs(item.dateTime).isAfter(dayjs().subtract(14, "day"))).length >= 4
-  const showSleepQualityChart = statistics.isAvailable("sleep_quality_distribution")
+  const showTagsDistribution = statistics.isAvailable("tags_distribution");
+  const showEmotionsDistribution = statistics.isAvailable(
+    "emotions_distribution"
+  );
+  const showMoodChart =
+    logState.items.filter((item) =>
+      dayjs(item.dateTime).isAfter(dayjs().subtract(14, "day"))
+    ).length >= 4;
+  const showSleepQualityChart = statistics.isAvailable(
+    "sleep_quality_distribution"
+  );
 
   useEffect(() => {
     if (!statistics.state.loaded) return;
 
     const cards: {
       mood_avg_show: boolean;
-      mood_avg_type?: MoodAvgData['ratingHighestKey']
-      mood_avg_percentage?: MoodAvgData['ratingHighestPercentage']
+      mood_avg_type?: MoodAvgData["ratingHighestKey"];
+      mood_avg_percentage?: MoodAvgData["ratingHighestPercentage"];
       mood_peaks_positive_show: boolean;
-      mood_peaks_positive_count?: number
+      mood_peaks_positive_count?: number;
       mood_peaks_negative_show: boolean;
-      mood_peaks_negative_count?: number
+      mood_peaks_negative_count?: number;
       tags_peaks_show: boolean;
-      tags_peaks_count?: number
+      tags_peaks_count?: number;
       tags_distribution_show: boolean;
       tags_distribution_tag_count?: number;
-      tags_distribution_item_count?: number
+      tags_distribution_item_count?: number;
       mood_chart_show: boolean;
-      mood_chart_item_count?: number
+      mood_chart_item_count?: number;
       emotions_distribution_show: boolean;
-      emotions_distribution_item_count?: number
+      emotions_distribution_item_count?: number;
       sleep_quality_distribution_show: boolean;
     } = {
       mood_avg_show: showMoodAvg,
@@ -98,36 +105,43 @@ export const HighlightsSection = ({ items }: { items: LogItem[] }) => {
       mood_chart_show: showMoodChart,
       emotions_distribution_show: showEmotionsDistribution,
       sleep_quality_distribution_show: showSleepQualityChart,
-    }
+    };
 
     if (showMoodAvg) {
-      cards.mood_avg_type = statistics.state.moodAvgData.ratingHighestKey
-      cards.mood_avg_percentage = statistics.state.moodAvgData.ratingHighestPercentage
+      cards.mood_avg_type = statistics.state.moodAvgData.ratingHighestKey;
+      cards.mood_avg_percentage =
+        statistics.state.moodAvgData.ratingHighestPercentage;
     }
     if (showMoodPeaksPositve) {
-      cards.mood_peaks_positive_count = statistics.state.moodPeaksPositiveData.days.length
+      cards.mood_peaks_positive_count =
+        statistics.state.moodPeaksPositiveData.days.length;
     }
     if (showMoodPeaksNegative) {
-      cards.mood_peaks_negative_count = statistics.state.moodPeaksNegativeData.days.length
+      cards.mood_peaks_negative_count =
+        statistics.state.moodPeaksNegativeData.days.length;
     }
     if (showTagPeaks) {
-      cards.tags_peaks_count = statistics.state.tagsPeaksData.tags.length
+      cards.tags_peaks_count = statistics.state.tagsPeaksData.tags.length;
     }
     if (showTagsDistribution) {
-      cards.tags_distribution_tag_count = statistics.state.tagsDistributionData.tags.length
+      cards.tags_distribution_tag_count =
+        statistics.state.tagsDistributionData.tags.length;
     }
     if (showMoodChart) {
-      cards.mood_chart_item_count = logState.items.filter((item) => dayjs(item.dateTime).isAfter(dayjs().subtract(14, "day"))).length
+      cards.mood_chart_item_count = logState.items.filter((item) =>
+        dayjs(item.dateTime).isAfter(dayjs().subtract(14, "day"))
+      ).length;
     }
     if (showEmotionsDistribution) {
-      cards.emotions_distribution_item_count = statistics.state.emotionsDistributionData.emotions.length
+      cards.emotions_distribution_item_count =
+        statistics.state.emotionsDistributionData.emotions.length;
     }
 
-    analytics.track('statistics_relevant_highlights', {
+    analytics.track("statistics_relevant_highlights", {
       itemsCount: statistics.state.itemsCount,
-      ...cards
-    })
-  }, [JSON.stringify(statistics.state)])
+      ...cards,
+    });
+  }, [JSON.stringify(statistics.state)]);
 
   return (
     <>
@@ -139,16 +153,12 @@ export const HighlightsSection = ({ items }: { items: LogItem[] }) => {
           flex: 1,
         }}
       >
-        {(
-          !showMoodAvg &&
+        {!showMoodAvg &&
           !showMoodPeaksPositve &&
           !showMoodPeaksNegative &&
           !showTagPeaks &&
           !showTagsDistribution &&
-          !showMoodChart
-        ) && (
-            <EmptryState />
-          )}
+          !showMoodChart && <EmptryState />}
 
         {showMoodChart && (
           <MoodChart
@@ -191,9 +201,7 @@ export const HighlightsSection = ({ items }: { items: LogItem[] }) => {
         )}
 
         {showTagsDistribution && (
-          <TagsDistributionCard
-            data={statistics.state.tagsDistributionData}
-          />
+          <TagsDistributionCard data={statistics.state.tagsDistributionData} />
         )}
 
         {showTagPeaks && (
@@ -217,13 +225,7 @@ export const HighlightsSection = ({ items }: { items: LogItem[] }) => {
             isLink
             isLast
             onPress={() => navigation.navigate("StatisticsHighlights")}
-            iconLeft={
-              <Activity
-                width={18}
-                height={18}
-                color={colors.text}
-              />
-            }
+            iconLeft={<Activity width={18} height={18} color={colors.text} />}
           />
         </MenuList>
       </View>

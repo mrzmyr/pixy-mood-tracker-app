@@ -4,17 +4,17 @@ import { LogItem } from "../hooks/useLogs";
 export const _generateItem = (item: Partial<LogItem>): LogItem => {
   const newItem: LogItem = {
     id: uniqueId(),
-    rating: ('neutral' as LogItem['rating']),
-    message: '🥹',
-    date: '2020-01-01',
+    rating: "neutral" as LogItem["rating"],
+    message: "🥹",
+    date: "2020-01-01",
     sleep: {
-      quality: 'neutral',
+      quality: "neutral",
     },
     createdAt: new Date().toISOString(),
     dateTime: new Date().toISOString(),
     tags: [],
     emotions: [],
-    ...item
+    ...item,
   };
 
   if (item.date && !item.dateTime) {

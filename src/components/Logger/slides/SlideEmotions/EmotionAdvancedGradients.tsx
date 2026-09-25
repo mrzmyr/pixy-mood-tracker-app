@@ -8,12 +8,13 @@ export const EmotionAdvancedGradients = () => {
     <LinearGradient
       colors={[colors.logBackgroundTransparent, colors.logBackground]}
       style={{
-        position: 'absolute',
+        position: "absolute",
         height: 32,
         bottom: 0,
         zIndex: 1,
-        width: '100%',
+        width: "100%",
       }}
-      pointerEvents="none" />
+      pointerEvents="none"
+    />
   );
 };

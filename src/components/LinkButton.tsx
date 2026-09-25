@@ -2,8 +2,10 @@ import _ from "lodash";
 import {
   Pressable,
   StyleSheet,
-  Text, TextStyle, View,
-  ViewStyle
+  Text,
+  TextStyle,
+  View,
+  ViewStyle,
 } from "react-native";
 import * as FeatherIcons from "react-native-feather";
 import useColors from "@/hooks/useColors";
@@ -15,7 +17,7 @@ const isString = (children: React.ReactNode): children is string => {
   }
 
   if (_.isArray(children)) {
-    return children.every(d => _.isString(d));
+    return children.every((d) => _.isString(d));
   }
 
   return false;
@@ -60,20 +62,22 @@ export default function LinkButton({
       haptics.selection();
       onPress();
     }
-  }
+  };
 
   return (
     <Pressable
       accessibilityRole="button"
       accessibilityState={{ disabled: Boolean(disabled) }}
-      style={({ pressed }) => [{
-        flexDirection: "row",
-        alignItems: "center",
-        justifyContent: "center",
-        padding: 8,
-        opacity: disabled ? 0.5 : pressed ? 0.8 : 1,
-        ...style,
-      }]}
+      style={({ pressed }) => [
+        {
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "center",
+          padding: 8,
+          opacity: disabled ? 0.5 : pressed ? 0.8 : 1,
+          ...style,
+        },
+      ]}
       onPress={_onPress}
       testID={testID}
     >

@@ -2,7 +2,6 @@ import { usePostHog } from "posthog-react-native";
 import { createContext, useContext, useEffect, useState } from "react";
 import { useSettings } from "./useSettings";
 
-
 interface AnaylticsState {
   enable: () => void;
   disable: () => void;

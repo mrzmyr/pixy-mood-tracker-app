@@ -5,7 +5,8 @@ import { Pressable, Text, View } from "react-native";
 import { Minus, Plus } from "react-native-feather";
 
 export const ExpandButton = ({
-  onPress, expanded,
+  onPress,
+  expanded,
 }: {
   onPress: () => void;
   expanded: boolean;
@@ -23,9 +24,9 @@ export const ExpandButton = ({
       <View
         style={{
           marginRight: 8,
-          justifyContent: 'center',
-          alignItems: 'center',
-          flexDirection: 'row',
+          justifyContent: "center",
+          alignItems: "center",
+          flexDirection: "row",
         }}
       >
         {expanded ? (
@@ -38,10 +39,10 @@ export const ExpandButton = ({
             marginLeft: 4,
             color: colors.textSecondary,
             fontSize: 17,
-            fontWeight: '500',
+            fontWeight: "500",
           }}
         >
-          {expanded ? t('more') : t('less')}
+          {expanded ? t("more") : t("less")}
         </Text>
       </View>
     </Pressable>

@@ -1,12 +1,12 @@
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import { LogItem } from "./useLogs";
 
-export type TemporaryLogState = Omit<LogItem, 'rating' | 'sleep'> & {
-  rating: LogItem['rating'] | null,
+export type TemporaryLogState = Omit<LogItem, "rating" | "sleep"> & {
+  rating: LogItem["rating"] | null;
   sleep: {
-    quality: LogItem['sleep']['quality'] | null,
-  }
-}
+    quality: LogItem["sleep"]["quality"] | null;
+  };
+};
 
 export interface TemporaryLogValue {
   data: TemporaryLogState;
@@ -16,13 +16,15 @@ export interface TemporaryLogValue {
   set: (log: TemporaryLogState) => void;
   update: (log: Partial<TemporaryLogState>) => void;
   reset: () => void;
-};
+}
 
 const TemporaryLogStateContext = createContext({} as TemporaryLogValue);
 
 function TemporaryLogProvider({ children }: { children: React.ReactNode }) {
   const [isDirty, setIsDirty] = useState(false);
-  const [temporaryLog, setTemporaryLog] = useState<TemporaryLogState>({} as TemporaryLogState);
+  const [temporaryLog, setTemporaryLog] = useState<TemporaryLogState>(
+    {} as TemporaryLogState
+  );
   const [isInitialized, setIsInitialized] = useState(false);
 
   const update = (next: Partial<TemporaryLogState>) => {
@@ -30,7 +32,7 @@ function TemporaryLogProvider({ children }: { children: React.ReactNode }) {
       setIsDirty(true);
       return {
         ...current,
-        ...next
+        ...next,
       };
     });
   };
@@ -51,25 +53,30 @@ function TemporaryLogProvider({ children }: { children: React.ReactNode }) {
     setIsInitialized(false);
   };
 
-  const value = useMemo(() => ({
-    data: temporaryLog,
-    initialize,
-    set,
-    update,
-    reset,
-    isDirty,
-  }), [temporaryLog, isDirty]);
-
-  return (
-    <TemporaryLogStateContext.Provider value={{
+  const value = useMemo(
+    () => ({
       data: temporaryLog,
       initialize,
       set,
       update,
       reset,
       isDirty,
-      isInitialized,
-    }}>
+    }),
+    [temporaryLog, isDirty]
+  );
+
+  return (
+    <TemporaryLogStateContext.Provider
+      value={{
+        data: temporaryLog,
+        initialize,
+        set,
+        update,
+        reset,
+        isDirty,
+        isInitialized,
+      }}
+    >
       {children}
     </TemporaryLogStateContext.Provider>
   );
@@ -90,7 +97,10 @@ function useTemporaryLog(defaultValue?: TemporaryLogState): TemporaryLogValue {
     }
   }, []);
 
-  const data = useMemo(() => defaultValue ? { ...defaultValue, ...context.data } : context.data, [context.data, defaultValue]);
+  const data = useMemo(
+    () => (defaultValue ? { ...defaultValue, ...context.data } : context.data),
+    [context.data, defaultValue]
+  );
 
   return {
     ...context,
