@@ -1,164 +1,19 @@
-import { DATE_FORMAT } from "@/constants/Config";
-import { Card } from "@/components/Card";
 import { getLogEditMarginTop } from "@/helpers/responsive";
-import { language, t } from "@/helpers/translation";
-import { useAnalytics } from "@/hooks/useAnalytics";
+import { t } from "@/helpers/translation";
 import useColors from "@/hooks/useColors";
 import type { LogItem } from "@/hooks/useLogs";
-import { useLogState } from "@/hooks/useLogs";
-import { RATING_MAPPING } from "@/constants/Ratings";
 import { useTemporaryLog } from "@/hooks/useTemporaryLog";
-import { getAverageMood } from "@/lib/utils";
-import type { Dayjs } from "dayjs";
-import dayjs from "dayjs";
-import sortBy from "lodash/sortBy";
-import { forwardRef, useEffect, useMemo, useState } from "react";
-import {
-  Keyboard,
-  KeyboardAvoidingView,
-  Platform,
-  Text,
-  View,
-} from "react-native";
+import { forwardRef, useEffect, useState } from "react";
+import { Keyboard, KeyboardAvoidingView, Platform, View } from "react-native";
 import type { TextInput } from "react-native";
-import { HelpCircle } from "react-native-feather";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import DismissKeyboard from "../../DismisKeyboard";
 import LinkButton from "../../LinkButton";
 import TextArea from "../../TextArea";
 import { SlideHeadline } from "../components/SlideHeadline";
-import { EMOTIONS } from "../config";
 import { Footer } from "./Footer";
-import { getItemDate } from "@/lib/logDates";
-
-const randomInt = (min, max) =>
-  Math.floor(Math.random() * (max - min + 1) + min);
 
 const MAX_LENGTH = 10 * 1000;
-
-const useMoodValueYesterday = (today: Dayjs): number | null => {
-  const logState = useLogState();
-
-  if (logState.items.length === 0) {
-    return null;
-  }
-
-  const yesterday = today.subtract(1, "day");
-  const yesterdayDate = yesterday.format(DATE_FORMAT);
-  const itemsYesterday = logState.items.filter(
-    (item) => getItemDate(item) === yesterdayDate
-  );
-  const yesterdayAverageMood = getAverageMood(itemsYesterday);
-
-  if (yesterdayAverageMood === null) {
-    return null;
-  }
-
-  return RATING_MAPPING[yesterdayAverageMood];
-};
-
-const useMoodValueNow = (): number | null => {
-  const tempLog = useTemporaryLog();
-
-  if (tempLog?.data?.rating === null) {
-    return null;
-  }
-
-  return RATING_MAPPING[tempLog?.data?.rating];
-};
-
-const Tips = ({ onClose }: { onClose: () => void }) => {
-  const colors = useColors();
-  const tempLog = useTemporaryLog();
-
-  // Picked once per mount so the placeholder does not change on re-render.
-  const placeholder = useMemo(
-    () => t(`log_modal_message_placeholder_${randomInt(1, 6)}`),
-    []
-  );
-  const date = dayjs(tempLog.data.dateTime);
-  const todayMoodValue = useMoodValueNow();
-  const yesterdayMoodValue = useMoodValueYesterday(date);
-
-  const questions: string[] = [];
-
-  if (todayMoodValue !== null && yesterdayMoodValue !== null) {
-    questions.push(
-      t("log_messasge_hint_1", {
-        word: todayMoodValue > yesterdayMoodValue ? t("up") : t("down"),
-      })
-    );
-  }
-
-  const fullEmotions =
-    tempLog.data?.emotions?.map((key) => EMOTIONS.find((e) => e.key === key)) ||
-    [];
-  const sortedEmotions = sortBy(fullEmotions, (emotion) =>
-    emotion === undefined
-      ? undefined
-      : {
-          very_good: 2,
-          good: 1,
-          neutral: 0,
-          bad: -1,
-          very_bad: -2,
-        }[emotion.category]
-  );
-
-  if (sortedEmotions.length > 0) {
-    for (const emotion of sortedEmotions.slice(0, 5)) {
-      let description = t(
-        `log_emotion_${emotion?.key}_description`
-      ).toLowerCase();
-
-      if (language === "de") {
-        description =
-          description.charAt(0).toUpperCase() + description.slice(1);
-      }
-
-      questions.push(
-        t(`log_messasge_hint_2`, {
-          description,
-        })
-      );
-    }
-  }
-
-  if (questions.length < 2) {
-    questions.push(placeholder);
-  }
-
-  return (
-    <View style={{}}>
-      <Card
-        title={t("log_message_hint_title")}
-        style={{
-          backgroundColor: colors.logCardBackground,
-          marginTop: 16,
-        }}
-        onClose={onClose}
-        hasFeedback
-        analyticsId="log_message_hint"
-        analyticsData={{
-          questions,
-        }}
-      >
-        {questions.map((q, index) => (
-          <Text
-            key={q}
-            style={{
-              fontSize: 17,
-              color: colors.textSecondary,
-              marginTop: index === 0 ? 0 : 8,
-            }}
-          >
-            {q}
-          </Text>
-        ))}
-      </Card>
-    </View>
-  );
-};
 
 const SlideMessageComponent = (
   {
@@ -172,13 +27,10 @@ const SlideMessageComponent = (
   },
   ref: React.ForwardedRef<TextInput>
 ) => {
-  const analytics = useAnalytics();
   const insets = useSafeAreaInsets();
   const colors = useColors();
   const tempLog = useTemporaryLog();
   const marginTop = getLogEditMarginTop();
-
-  const [showTips, setShowTips] = useState(false);
 
   const [shouldExpand, setShouldExpand] = useState(false);
 
@@ -227,57 +79,26 @@ const SlideMessageComponent = (
                 marginTop,
               }}
             >
+              <SlideHeadline>{t("log_note_question")}</SlideHeadline>
               <View
                 style={{
-                  flexDirection: "row",
+                  flexDirection: "column",
                   width: "100%",
-                  justifyContent: "space-between",
-                  alignItems: "center",
+                  marginTop: 16,
+                  flex: 1,
                 }}
               >
-                <SlideHeadline>{t("log_note_question")}</SlideHeadline>
-                <LinkButton
-                  onPress={() => {
-                    analytics.track("log_message_tips_open");
-                    setShowTips(!showTips);
-                  }}
+                <TextArea
+                  ref={ref}
+                  value={tempLog?.data?.message}
+                  onChange={onChange}
+                  maxLength={MAX_LENGTH}
                   style={{
-                    marginBottom: -12,
-                    marginTop: -12,
-                    marginRight: 4,
-                  }}
-                >
-                  <HelpCircle width={22} color={colors.textSecondary} />
-                </LinkButton>
-              </View>
-              {showTips && (
-                <Tips
-                  onClose={() => {
-                    setShowTips(false);
+                    flex: 1,
+                    marginBottom: 0,
                   }}
                 />
-              )}
-              {!showTips && (
-                <View
-                  style={{
-                    flexDirection: "column",
-                    width: "100%",
-                    marginTop: 16,
-                    flex: 1,
-                  }}
-                >
-                  <TextArea
-                    ref={ref}
-                    value={tempLog?.data?.message}
-                    onChange={onChange}
-                    maxLength={MAX_LENGTH}
-                    style={{
-                      flex: 1,
-                      marginBottom: 0,
-                    }}
-                  />
-                </View>
-              )}
+              </View>
             </View>
             <Footer>
               {showDisable && (
@@ -301,7 +122,6 @@ const SlideMessageComponent = (
 
 /**
  * Free-text note slide. The ref points at the text input so the logger can
- * focus it. Writing tips are generated from the draft's rating and
- * emotions.
+ * focus it.
  */
 export const SlideMessage = forwardRef(SlideMessageComponent);

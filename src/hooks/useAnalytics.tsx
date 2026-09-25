@@ -9,6 +9,7 @@ import {
 } from "react";
 import { useSettings } from "./useSettings";
 import { createMissingProviderError } from "@/lib/errors";
+import { Observe } from "expo-observe";
 
 interface AnaylticsState {
   enable: () => void;
@@ -62,6 +63,7 @@ const AnalyticsProvider = ({
     } else {
       posthog?.optOut();
     }
+    Observe.configure({ dispatchingEnabled: settings.analyticsEnabled });
   }, [settings.loaded, settings.analyticsEnabled, posthog]);
 
   const identify = useCallback<AnaylticsState["identify"]>((properties) => {

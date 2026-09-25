@@ -60,15 +60,7 @@ export const Onboarding = ({
   const slides = [
     <IndexSlide
       key="index"
-      onPress={(answer) => {
-        analytics.track("onboarding_question_1", {
-          answer:
-            answer === 0
-              ? "used_mood_tracker_before"
-              : "never_used_mood_tracker",
-        });
-        goToSlide(1);
-      }}
+      onPress={() => goToSlide(1)}
     />,
     <CalendarSlide
       key="calendar"
