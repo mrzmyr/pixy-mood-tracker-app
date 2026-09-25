@@ -82,6 +82,13 @@ const NAVIGATION_LINKING: LinkingOptions<RootStackParamList> = {
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
+const renderHeaderLeft = () =>
+  Platform.OS === "ios" ? null : <BackButton testID="settings-back-button" />;
+
+const defaultPageOptions = {
+  headerLeft: renderHeaderLeft,
+};
+
 const RootNavigator = () => {
   const colors = useColors();
   const { settings, hasActionDone } = useSettings();
@@ -126,13 +133,6 @@ const RootNavigator = () => {
       });
     }
   }, [settings.loaded]);
-
-  const defaultPageOptions = {
-    headerLeft: () =>
-      Platform.OS === "ios" ? null : (
-        <BackButton testID="settings-back-button" />
-      ),
-  };
 
   // if(passcode.isEnabled === null) return null;
 

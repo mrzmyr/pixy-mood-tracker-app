@@ -1,3 +1,4 @@
+import type { BottomSheetBackdropProps } from "@gorhom/bottom-sheet";
 import BottomSheet, {
   BottomSheetBackdrop,
   BottomSheetScrollView,
@@ -16,6 +17,37 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useCalendarFilters } from "../../../hooks/useCalendarFilters";
 import useColors from "../../../hooks/useColors";
 import { Body } from "./Body";
+
+const CalendarSheetHandle = () => {
+  const colors = useColors();
+  const calendarFilters = useCalendarFilters();
+
+  return (
+    <View
+      style={{
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      {calendarFilters.isOpen && (
+        <View
+          style={{
+            width: 40,
+            height: 4,
+            marginTop: -16,
+            backgroundColor: colors.bottomSheetHandle,
+            borderRadius: 2,
+          }}
+        />
+      )}
+    </View>
+  );
+};
+
+const CalendarSheetBackdrop = (props: BottomSheetBackdropProps) => (
+  <BottomSheetBackdrop {...props} accessible={false} />
+);
 
 const IOSCalendarBottomSheet = () => {
   const colors = useColors();
@@ -114,30 +146,8 @@ const GestureCalendarBottomSheet = () => {
       backgroundStyle={{
         backgroundColor: colors.bottomSheetBackground,
       }}
-      handleComponent={() => (
-        <View
-          style={{
-            flex: 1,
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          {calendarFilters.isOpen && (
-            <View
-              style={{
-                width: 40,
-                height: 4,
-                marginTop: -16,
-                backgroundColor: colors.bottomSheetHandle,
-                borderRadius: 2,
-              }}
-            />
-          )}
-        </View>
-      )}
-      backdropComponent={(props) => (
-        <BottomSheetBackdrop {...props} accessible={false} />
-      )}
+      handleComponent={CalendarSheetHandle}
+      backdropComponent={CalendarSheetBackdrop}
     >
       <BottomSheetScrollView keyboardShouldPersistTaps="handled">
         <Body />

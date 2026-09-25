@@ -116,6 +116,7 @@ export const SlideHeader = ({
     >
       {Platform.OS !== "web" && (
         <DateTimePickerModal
+          // oxlint-disable-next-line react/no-unstable-nested-components -- react-native-modal-datetime-picker renders customHeaderIOS without props, so the header must close over this render's picker state setter.
           customHeaderIOS={() => (
             <DatePickerHeader
               onChange={(date) => {

@@ -3,6 +3,7 @@ import LinkButton from "@/components/LinkButton";
 import { t } from "@/helpers/translation";
 import { useCalendarFilters } from "@/hooks/useCalendarFilters";
 import useColors from "@/hooks/useColors";
+import type { BottomTabBarProps } from "@react-navigation/bottom-tabs";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { useNavigation } from "@react-navigation/native";
 import dayjs from "dayjs";
@@ -16,9 +17,38 @@ import { MyTabBar } from "./MyTabBar";
 
 const Tab = createBottomTabNavigator();
 
+const CalendarFiltersHeaderButton = () => {
+  const calendarFilters = useCalendarFilters();
+
+  return (
+    <View style={{ paddingRight: 16 }}>
+      <LinkButton
+        onPress={() => {
+          if (calendarFilters.isOpen) {
+            calendarFilters.close();
+          } else {
+            calendarFilters.open();
+          }
+        }}
+        testID="filters"
+        type="primary"
+        icon={Filter}
+      >
+        {t("calendar_filters")}{" "}
+        {calendarFilters.data.isFiltering
+          ? `(${calendarFilters.data.filterCount})`
+          : ""}
+      </LinkButton>
+    </View>
+  );
+};
+
+const renderCalendarHeaderRight = () => <CalendarFiltersHeaderButton />;
+
+const renderTabBar = (props: BottomTabBarProps) => <MyTabBar {...props} />;
+
 export const BottomTabs = () => {
   const colors = useColors();
-  const calendarFilters = useCalendarFilters();
   const navigation = useNavigation();
 
   const defaultOptions = {
@@ -43,7 +73,7 @@ export const BottomTabs = () => {
           borderBottomColor: "#fff",
         },
       })}
-      tabBar={(props) => <MyTabBar {...props} />}
+      tabBar={renderTabBar}
     >
       <Tab.Screen
         name="Statistics"
@@ -60,27 +90,7 @@ export const BottomTabs = () => {
         component={CalendarScreen}
         options={({ navigation }) => ({
           ...defaultOptions,
-          headerRight: () => (
-            <View style={{ paddingRight: 16 }}>
-              <LinkButton
-                onPress={() => {
-                  if (calendarFilters.isOpen) {
-                    calendarFilters.close();
-                  } else {
-                    calendarFilters.open();
-                  }
-                }}
-                testID="filters"
-                type="primary"
-                icon={Filter}
-              >
-                {t("calendar_filters")}{" "}
-                {calendarFilters.data.isFiltering
-                  ? `(${calendarFilters.data.filterCount})`
-                  : ""}
-              </LinkButton>
-            </View>
-          ),
+          headerRight: renderCalendarHeaderRight,
           tabBarTestID: "calendar",
           title: t("calendar"),
         })}
