@@ -103,7 +103,7 @@ tags: [calendar]
 
 # 3.6 Filters open, search visible, close
 - tapOn:
-    id: "filters"
+    point: 76%,7%
 - assertVisible: "Filters"
 - assertVisible: "Search"
 - runFlow:
