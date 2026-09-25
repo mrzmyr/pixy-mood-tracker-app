@@ -4,7 +4,7 @@ import useColors from "@/hooks/useColors";
 import { useLogState } from "@/hooks/useLogs";
 import { useTemporaryLog } from "@/hooks/useTemporaryLog";
 import { getMostUsedEmotions } from "@/lib/utils";
-import { Emotion } from "@/types";
+import type { Emotion } from "@/types";
 import { LinearGradient } from "expo-linear-gradient";
 import _ from "lodash";
 import { useRef, useState } from "react";
@@ -67,11 +67,13 @@ export const SlideEmotions = ({
 
   const [mode, setMode] = useState<Mode>("basic");
 
-  const mostUsedEmotionKeys = getMostUsedEmotions(logState.items)
-    .map((d) => d.key)
-    .slice(0, 20);
+  const mostUsedEmotionKeys = new Set(
+    getMostUsedEmotions(logState.items)
+      .map((d) => d.key)
+      .slice(0, 20)
+  );
   const mostUsedEmotions = EMOTIONS.filter((d) =>
-    mostUsedEmotionKeys.includes(d.key)
+    mostUsedEmotionKeys.has(d.key)
   );
   const predefinedBasicEmotions = EMOTIONS.filter(
     (e) => e.mode === "basic" && e.disabled !== true

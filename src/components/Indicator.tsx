@@ -1,6 +1,7 @@
-import { Text, View, ViewStyle } from "react-native";
+import type { ViewStyle } from "react-native";
+import { Text, View } from "react-native";
 import useColors from "@/hooks/useColors";
-import { TAG_COLOR_NAMES } from "@/constants/Config";
+import type { TAG_COLOR_NAMES } from "@/constants/Config";
 
 export default function Indicator({
   children,

@@ -1,8 +1,8 @@
 const { Translate } = require("@google-cloud/translate").v2;
-const fs = require("fs");
+const fs = require("node:fs");
 const credentials = require("../credentials/google-cloud-service-account.json");
 
-const path = __dirname + "/../assets/locales/";
+const path = `${__dirname}/../assets/locales/`;
 const filesArray = fs
   .readdirSync(path)
   .filter((file) => fs.lstatSync(path + file).isFile());
@@ -11,14 +11,14 @@ filesArray.forEach((file) => {
   console.log("reading", file);
   try {
     locales[file.replace(".json", "")] = JSON.parse(
-      fs.readFileSync(path + file, "utf8")
+      fs.readFileSync(path + file, "utf-8")
     );
-  } catch (e) {
+  } catch {
     console.log("error reading", file);
   }
 });
 
-const FORCE_KEYS = [];
+const FORCE_KEYS = new Set([]);
 
 const missingKeys = {};
 
@@ -27,11 +27,10 @@ const enKeys = Object.keys(locales.en);
 enKeys.forEach((key) => {
   // ['zh'].forEach(localeKey => {
   Object.keys(locales).forEach((localeKey) => {
-    if (!missingKeys[localeKey]) missingKeys[localeKey] = [];
-    if (
-      !Object.keys(locales[localeKey]).includes(key) ||
-      FORCE_KEYS.includes(key)
-    ) {
+    if (!missingKeys[localeKey]) {
+      missingKeys[localeKey] = [];
+    }
+    if (!Object.keys(locales[localeKey]).includes(key) || FORCE_KEYS.has(key)) {
       missingKeys[localeKey].push(key);
     }
   });
@@ -57,7 +56,9 @@ const translate = async (text, target) => {
   for (const localeKey in missingKeys) {
     for (const index in missingKeys[localeKey]) {
       const key = missingKeys[localeKey][index];
-      if (!result[localeKey]) result[localeKey] = {};
+      if (!result[localeKey]) {
+        result[localeKey] = {};
+      }
       console.log("translating…", locales.en[key], localeKey, key, localeKey);
       console.log("");
       if (Array.isArray(locales.en[key])) {
@@ -78,7 +79,7 @@ const translate = async (text, target) => {
       ...result[localeKey],
     };
     fs.writeFileSync(
-      path + localeKey + ".json",
+      `${path + localeKey}.json`,
       JSON.stringify(locale, null, 2)
     );
     console.log("saved", localeKey, locale);

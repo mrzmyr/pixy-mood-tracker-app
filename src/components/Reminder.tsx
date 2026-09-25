@@ -9,7 +9,8 @@ import { t } from "@/helpers/translation";
 import { useAnalytics } from "@/hooks/useAnalytics";
 import useColors from "@/hooks/useColors";
 import useNotification, { createDailyTrigger } from "@/hooks/useNotifications";
-import { SettingsState, useSettings } from "@/hooks/useSettings";
+import type { SettingsState } from "@/hooks/useSettings";
+import { useSettings } from "@/hooks/useSettings";
 
 const Reminder = () => {
   const { setSettings, settings } = useSettings();
@@ -24,8 +25,8 @@ const Reminder = () => {
   const analytics = useAnalytics();
 
   const hourAndMinute = reminderTime.split(":");
-  const hour = parseInt(hourAndMinute[0]);
-  const minute = parseInt(hourAndMinute[1]);
+  const hour = Number.parseInt(hourAndMinute[0]);
+  const minute = Number.parseInt(hourAndMinute[1]);
   const timeDate = dayjs().hour(hour).minute(minute).toDate();
 
   const onEnabledChange = async (value: boolean) => {
@@ -89,7 +90,7 @@ const Reminder = () => {
             />
           }
           isLast={!reminderEnabled}
-        ></MenuListItem>
+        />
         {reminderEnabled && (
           <View
             style={{

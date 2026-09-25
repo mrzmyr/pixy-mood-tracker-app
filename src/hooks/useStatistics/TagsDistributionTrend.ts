@@ -1,7 +1,7 @@
 import dayjs from "dayjs";
 import _ from "lodash";
-import { LogItem } from "../useLogs";
-import { Tag } from "../useTags";
+import type { LogItem } from "../useLogs";
+import type { Tag } from "../useTags";
 
 interface DistributionTag extends Tag {
   periode1Count: number;
@@ -97,13 +97,12 @@ export const getTagsDistributionTrendData = (
             ? "decrease"
             : ("same" as DistributionTag["type"]),
     }))
-    .filter((tag) => {
-      return (
+    .filter(
+      (tag) =>
         Math.abs(tag.periode1Count - tag.periode2Count) > 3 &&
         tag.periode1Count >= 1 &&
         tag.periode2Count >= 1
-      );
-    });
+    );
 
   return {
     tags: _tags,

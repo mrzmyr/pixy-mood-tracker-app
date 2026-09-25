@@ -9,9 +9,10 @@ import { Text, View } from "react-native";
 import { Activity } from "react-native-feather";
 import { useAnalytics } from "../../hooks/useAnalytics";
 import useColors from "../../hooks/useColors";
-import { LogItem, useLogState } from "../../hooks/useLogs";
+import type { LogItem } from "../../hooks/useLogs";
+import { useLogState } from "../../hooks/useLogs";
 import { useStatistics } from "../../hooks/useStatistics";
-import { MoodAvgData } from "../../hooks/useStatistics/MoodAvg";
+import type { MoodAvgData } from "../../hooks/useStatistics/MoodAvg";
 import { EmotionsDistributionCard } from "./EmotionsDistributionCard";
 import { MoodAvgCard } from "./MoodAvgCard";
 import { MoodChart } from "./MoodChart";
@@ -76,7 +77,9 @@ export const HighlightsSection = ({ items }: { items: LogItem[] }) => {
   );
 
   useEffect(() => {
-    if (!statistics.state.loaded) return;
+    if (!statistics.state.loaded) {
+      return;
+    }
 
     const cards: {
       mood_avg_show: boolean;

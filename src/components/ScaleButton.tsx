@@ -19,7 +19,7 @@ export default function ScaleButton({
   isLast?: boolean;
   onPress: () => void;
 }) {
-  let colorScheme = useColorScheme();
+  const colorScheme = useColorScheme();
 
   return (
     <Pressable
@@ -30,7 +30,7 @@ export default function ScaleButton({
             colorScheme === "light"
               ? chroma(backgroundColor).darken(0.4).hex()
               : chroma(backgroundColor).brighten(0.5).hex(),
-          backgroundColor: backgroundColor,
+          backgroundColor,
           opacity: pressed ? 0.8 : 1,
           flex: 7,
           borderRadius: 8,

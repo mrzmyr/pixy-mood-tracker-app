@@ -3,12 +3,8 @@ import dayjs from "dayjs";
 import _ from "lodash";
 import { t } from "@/helpers/translation";
 import { DATE_FORMAT } from "@/constants/Config";
-import {
-  LogDay,
-  LogItem,
-  RATING_MAPPING,
-  SLEEP_QUALITY_MAPPING,
-} from "@/hooks/useLogs";
+import type { LogDay, LogItem } from "@/hooks/useLogs";
+import { RATING_MAPPING, SLEEP_QUALITY_MAPPING } from "@/hooks/useLogs";
 
 const SCREEN_WIDTH = Dimensions.get("window").width;
 
@@ -48,7 +44,9 @@ export const getAverageSleepQuality = (items: LogItem[]): number | null => {
       SLEEP_QUALITY_MAPPING[item.sleep.quality] !== undefined
   );
 
-  if (itemsWithSleep.length === 0) return null;
+  if (itemsWithSleep.length === 0) {
+    return null;
+  }
 
   const sum = itemsWithSleep.reduce(
     (acc, item) => acc + SLEEP_QUALITY_MAPPING[item.sleep.quality],
@@ -73,7 +71,9 @@ export const getLogDays = (items: LogItem[]): LogDay[] => {
       const avgMood = getAverageMood(items);
       const avgSleepQuality = getAverageSleepQuality(items);
 
-      if (avgMood === null) return null;
+      if (avgMood === null) {
+        return null;
+      }
 
       return {
         date,
@@ -113,13 +113,11 @@ export const getDayDateTitle = (date: LogDay["date"]) => {
   return dayjs(date).format("dddd, L");
 };
 
-var isoDateRegExp = new RegExp(
+const isoDateRegExp = new RegExp(
   /(\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d\.\d+([+-][0-2]\d:[0-5]\d|Z))|(\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d([+-][0-2]\d:[0-5]\d|Z))|(\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d([+-][0-2]\d:[0-5]\d|Z))/
 );
 
-export const isISODate = (date: string) => {
-  return isoDateRegExp.test(date);
-};
+export const isISODate = (date: string) => isoDateRegExp.test(date);
 
 export const getMostUsedEmotions = (items: LogItem[]) => {
   const emotions = items.reduce(
@@ -148,7 +146,9 @@ export const getMostUsedEmotions = (items: LogItem[]) => {
 };
 
 export const getItemsCountPerDayAverage = (items: LogItem[]) => {
-  if (items.length === 0) return 0;
+  if (items.length === 0) {
+    return 0;
+  }
 
   const itemsSorted = _.sortBy(items, (item) => item.dateTime);
   const days = dayjs().diff(dayjs(itemsSorted[0].dateTime), "day");

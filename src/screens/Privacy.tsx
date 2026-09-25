@@ -87,14 +87,14 @@ export const PrivacyScreen = () => {
                     analytics.track("analytics_toggle", {
                       enabled: !analytics.isEnabled,
                     });
-                    if (!analytics.isEnabled) {
-                      analytics.enable();
-                    } else {
+                    if (analytics.isEnabled) {
                       analytics.disable();
+                    } else {
+                      analytics.enable();
                     }
                   }}
                   value={analytics.isEnabled}
-                  testID={`behavioral-data-enabled`}
+                  testID="behavioral-data-enabled"
                 />
               }
               isLast

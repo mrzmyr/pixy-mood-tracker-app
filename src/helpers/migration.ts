@@ -1,13 +1,13 @@
 import _ from "lodash";
-import { LogItem } from "@/hooks/useLogs";
-import { ImportData } from "./Import";
+import type { LogItem } from "@/hooks/useLogs";
+import type { ImportData } from "./Import";
 
 interface MigratedData extends ImportData {
   items: LogItem[];
 }
 
 export const migrateImportData = (data: ImportData): MigratedData => {
-  let { items, settings, tags, version } = data;
+  const { items, settings, tags, version } = data;
 
   let newItems = _.clone(items);
 
@@ -25,16 +25,18 @@ export const migrateImportData = (data: ImportData): MigratedData => {
     return newItem;
   });
 
-  let _tags = (tags || settings?.tags || []).map((tag) => {
+  const _tags = (tags || settings?.tags || []).map((tag) => {
     if (tag.color === "stone") {
       tag.color = "slate";
     }
     return tag;
   });
 
-  let _settings = _.omit(settings, "tags");
+  const _settings = _.omit(settings, "tags");
 
-  if (!_settings.actionsDone) _settings.actionsDone = [];
+  if (!_settings.actionsDone) {
+    _settings.actionsDone = [];
+  }
 
   return {
     version: version || "1.0.0",

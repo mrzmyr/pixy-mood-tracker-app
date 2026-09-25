@@ -1,15 +1,12 @@
 import useColors from "@/hooks/useColors";
-import {
-  LinkingOptions,
-  NavigationContainer,
-  useNavigation,
-} from "@react-navigation/native";
+import type { LinkingOptions } from "@react-navigation/native";
+import { NavigationContainer, useNavigation } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import * as Linking from "expo-linking";
 import { useEffect } from "react";
 import { Platform, View, useColorScheme } from "react-native";
 import * as Sentry from "@sentry/react-native";
-import { RootStackParamList } from "../../types";
+import type { RootStackParamList } from "../../types";
 import {
   ColorsScreen,
   DataScreen,
@@ -162,7 +159,7 @@ function RootNavigator() {
   const defaultPageOptions = {
     headerLeft: () =>
       Platform.OS === "ios" ? null : (
-        <BackButton testID={"settings-back-button"} />
+        <BackButton testID="settings-back-button" />
       ),
   };
 

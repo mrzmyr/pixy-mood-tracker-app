@@ -7,36 +7,34 @@ import {
 } from "@/helpers/prompts";
 import { useAnalytics } from "@/hooks/useAnalytics";
 import useColors from "@/hooks/useColors";
-import { LogItem, useLogState, useLogUpdater } from "@/hooks/useLogs";
-import { IQuestion, useQuestioner } from "@/hooks/useQuestioner";
+import type { LogItem } from "@/hooks/useLogs";
+import { useLogState, useLogUpdater } from "@/hooks/useLogs";
+import type { IQuestion } from "@/hooks/useQuestioner";
+import { useQuestioner } from "@/hooks/useQuestioner";
 import { useSettings } from "@/hooks/useSettings";
-import { TemporaryLogState, useTemporaryLog } from "@/hooks/useTemporaryLog";
-import { Emotion, TagReference } from "@/types";
-import { useNavigation } from "@react-navigation/native";
+import type { TemporaryLogState } from "@/hooks/useTemporaryLog";
+import { useTemporaryLog } from "@/hooks/useTemporaryLog";
+import type { Emotion, TagReference } from "@/types";
+import { useNavigation, StackActions } from "@react-navigation/native";
 import dayjs from "dayjs";
-import { ReactElement, useEffect, useRef, useState } from "react";
-import {
-  Dimensions,
-  Keyboard,
-  Platform,
-  Text,
-  TextInput,
-  View,
-} from "react-native";
-import { Carousel, CarouselRef } from "react-native-reanimated-carousel";
+import type { ReactElement } from "react";
+import { useEffect, useRef, useState } from "react";
+import type { TextInput } from "react-native";
+import { Dimensions, Keyboard, Platform, Text, View } from "react-native";
+import type { CarouselRef } from "react-native-reanimated-carousel";
+import { Carousel } from "react-native-reanimated-carousel";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { v4 as uuidv4 } from "uuid";
 import { SlideAction } from "./components/SlideAction";
 import { SlideHeader } from "./components/SlideHeader";
 import { Stepper } from "./components/Stepper";
-import { LoggerStep } from "./config";
+import type { LoggerStep } from "./config";
 import { SlideEmotions } from "./slides/SlideEmotions";
 import { SlideFeedback } from "./slides/SlideFeedback";
 import { SlideMessage } from "./slides/SlideMessage";
 import { SlideMood } from "./slides/SlideMood";
 import { SlideReminder } from "./slides/SlideReminder";
 import { SlideTags } from "./slides/SlideTags";
-import { StackActions } from "@react-navigation/native";
 
 export type LoggerMode = "create" | "edit";
 
@@ -60,9 +58,15 @@ const getAvailableStepsForCreate = ({
 
   const slides: LoggerStep[] = ["rating"];
 
-  if (hasStep("emotions")) slides.push("emotions");
-  if (hasStep("tags")) slides.push("tags");
-  if (hasStep("message")) slides.push("message");
+  if (hasStep("emotions")) {
+    slides.push("emotions");
+  }
+  if (hasStep("tags")) {
+    slides.push("tags");
+  }
+  if (hasStep("message")) {
+    slides.push("message");
+  }
 
   if (logState.items.length === 1 && !settings.reminderEnabled) {
     slides.push("reminder");
@@ -80,9 +84,15 @@ const getAvailableStepsForEdit = ({ item }: { item: LogItem }) => {
 
   const slides: LoggerStep[] = ["rating"];
 
-  if (hasStep("emotions") || item.emotions.length > 0) slides.push("emotions");
-  if (hasStep("tags") || item.tags.length > 0) slides.push("tags");
-  if (hasStep("message") || item.message.length > 0) slides.push("message");
+  if (hasStep("emotions") || item.emotions.length > 0) {
+    slides.push("emotions");
+  }
+  if (hasStep("tags") || item.tags.length > 0) {
+    slides.push("tags");
+  }
+  if (hasStep("message") || item.message.length > 0) {
+    slides.push("message");
+  }
 
   return slides;
 };
@@ -137,7 +147,7 @@ export const LoggerCreate = ({
     date: dateTime
       ? dayjs(dateTime).format(DATE_FORMAT)
       : dayjs().format(DATE_FORMAT),
-    dateTime: dateTime,
+    dateTime,
     rating: null,
     message: "",
     emotions: [],
@@ -197,7 +207,7 @@ export const Logger = ({
   const [touched, setTouched] = useState(false);
 
   const indexFound = avaliableSteps.findIndex((slide) => slide === initialStep);
-  const initialIndex = indexFound !== -1 ? indexFound : 0;
+  const initialIndex = indexFound === -1 ? 0 : indexFound;
   const [slideIndex, setSlideIndex] = useState(initialIndex);
 
   const close = async () => {
@@ -263,7 +273,9 @@ export const Logger = ({
     if (slideIndex + 1 === content.length) {
       save(tempLog.data);
     } else {
-      if (_carousel.current) _carousel.current.next();
+      if (_carousel.current) {
+        _carousel.current.next();
+      }
     }
   };
 
@@ -407,11 +419,12 @@ export const Logger = ({
 
   const isMounted = useRef(true);
 
-  useEffect(() => {
-    return () => {
+  useEffect(
+    () => () => {
       isMounted.current = false;
-    };
-  }, []);
+    },
+    []
+  );
 
   const onScrollEnd = (index: number) => {
     Keyboard.dismiss();

@@ -1,4 +1,5 @@
-import dayjs, { Dayjs } from "dayjs";
+import type { Dayjs } from "dayjs";
+import dayjs from "dayjs";
 import { Dimensions, View } from "react-native";
 import { t } from "@/helpers/translation";
 import { useLogState } from "../../hooks/useLogs";
@@ -19,9 +20,9 @@ const MIN_ITEMS = 5;
 export const MoodChart = ({ date }: { date: Dayjs }) => {
   const logState = useLogState();
 
-  const items = logState.items.filter((item) => {
-    return dayjs(item.dateTime).isSame(date, "year");
-  });
+  const items = logState.items.filter((item) =>
+    dayjs(item.dateTime).isSame(date, "year")
+  );
 
   const dataDummy = useRef(
     _.range(0, 11).map((i) => ({

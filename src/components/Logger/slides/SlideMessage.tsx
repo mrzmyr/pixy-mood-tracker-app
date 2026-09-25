@@ -3,10 +3,12 @@ import { getLogEditMarginTop } from "@/helpers/responsive";
 import { language, t } from "@/helpers/translation";
 import { useAnalytics } from "@/hooks/useAnalytics";
 import useColors from "@/hooks/useColors";
-import { LogItem, RATING_MAPPING, useLogState } from "@/hooks/useLogs";
+import type { LogItem } from "@/hooks/useLogs";
+import { RATING_MAPPING, useLogState } from "@/hooks/useLogs";
 import { useTemporaryLog } from "@/hooks/useTemporaryLog";
 import { getAverageMood } from "@/lib/utils";
-import dayjs, { Dayjs } from "dayjs";
+import type { Dayjs } from "dayjs";
+import dayjs from "dayjs";
 import _ from "lodash";
 import { forwardRef, useEffect, useRef, useState } from "react";
 import {
@@ -71,7 +73,7 @@ const Tips = ({ onClose }: { onClose: () => void }) => {
   const todayMoodValue = getMoodValueNow();
   const yesterdayMoodValue = getMoodValueYesterday(date);
 
-  let questions: string[] = [];
+  const questions: string[] = [];
 
   if (todayMoodValue !== null && yesterdayMoodValue !== null) {
     questions.push(
@@ -84,15 +86,17 @@ const Tips = ({ onClose }: { onClose: () => void }) => {
   const fullEmotions =
     tempLog.data?.emotions?.map((key) => EMOTIONS.find((e) => e.key === key)) ||
     [];
-  const sortedEmotions = _.sortBy(fullEmotions, (emotion) => {
-    return {
-      very_good: 2,
-      good: 1,
-      neutral: 0,
-      bad: -1,
-      very_bad: -2,
-    }[emotion!.category];
-  });
+  const sortedEmotions = _.sortBy(
+    fullEmotions,
+    (emotion) =>
+      ({
+        very_good: 2,
+        good: 1,
+        neutral: 0,
+        bad: -1,
+        very_bad: -2,
+      })[emotion!.category]
+  );
 
   if (sortedEmotions.length > 0) {
     sortedEmotions.slice(0, 5).forEach((emotion) => {
@@ -129,7 +133,7 @@ const Tips = ({ onClose }: { onClose: () => void }) => {
         hasFeedback
         analyticsId="log_message_hint"
         analyticsData={{
-          questions: questions,
+          questions,
         }}
       >
         {questions.map((q, index) => (
@@ -214,7 +218,7 @@ export const SlideMessage = forwardRef(
               <View
                 style={{
                   flex: 1,
-                  marginTop: marginTop,
+                  marginTop,
                 }}
               >
                 <View

@@ -9,7 +9,8 @@ import LinkButton from "@/components/LinkButton";
 import useColors from "@/hooks/useColors";
 import useNotification, { createDailyTrigger } from "@/hooks/useNotifications";
 import { useAnalytics } from "@/hooks/useAnalytics";
-import { SettingsState, useSettings } from "@/hooks/useSettings";
+import type { SettingsState } from "@/hooks/useSettings";
+import { useSettings } from "@/hooks/useSettings";
 import { SlideHeadline } from "../components/SlideHeadline";
 import { getLogEditMarginTop } from "@/helpers/responsive";
 import { t } from "@/helpers/translation";
@@ -31,7 +32,9 @@ export const SlideReminder = ({ onPress }: { onPress?: () => void }) => {
   const enable = async () => {
     const has = await hasPermission();
     const granted = has || (await askForPermission());
-    if (!granted) return;
+    if (!granted) {
+      return;
+    }
 
     await (async () => {
       await cancelAll();
@@ -88,7 +91,7 @@ export const SlideReminder = ({ onPress }: { onPress?: () => void }) => {
             alignItems: "center",
           }}
         >
-          <Bell color={"#fff"} width={20} strokeWidth={2} />
+          <Bell color="#fff" width={20} strokeWidth={2} />
         </View>
         <SlideHeadline
           style={{

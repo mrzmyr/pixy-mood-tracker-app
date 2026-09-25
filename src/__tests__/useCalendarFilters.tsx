@@ -5,7 +5,8 @@ import {
   CalendarFiltersProvider,
   useCalendarFilters,
 } from "../hooks/useCalendarFilters";
-import { LogsProvider, LogsState, STORAGE_KEY } from "../hooks/useLogs";
+import type { LogsState } from "../hooks/useLogs";
+import { LogsProvider, STORAGE_KEY } from "../hooks/useLogs";
 import { SettingsProvider } from "../hooks/useSettings";
 import { _generateItem } from "./utils";
 
@@ -19,9 +20,7 @@ const wrapper = ({ children }) => (
   </SettingsProvider>
 );
 
-const _renderHook = () => {
-  return renderHook(() => useCalendarFilters(), { wrapper });
-};
+const _renderHook = () => renderHook(() => useCalendarFilters(), { wrapper });
 
 const testItems: LogsState["items"] = [
   _generateItem({

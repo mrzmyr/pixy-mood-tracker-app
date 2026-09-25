@@ -66,7 +66,7 @@ export function Radio({
                 borderRadius: 100,
                 top: 7,
               }}
-            ></View>
+            />
           )}
         </View>
         <View

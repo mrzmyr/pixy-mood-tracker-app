@@ -1,6 +1,6 @@
 import LinkButton from "@/components/LinkButton";
 import useColors from "@/hooks/useColors";
-import { LogItem } from "@/hooks/useLogs";
+import type { LogItem } from "@/hooks/useLogs";
 import dayjs from "dayjs";
 import { LinearGradient } from "expo-linear-gradient";
 import { Edit, Trash } from "lucide-react-native";

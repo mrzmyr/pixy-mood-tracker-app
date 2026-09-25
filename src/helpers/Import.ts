@@ -1,8 +1,9 @@
 import { z } from "zod";
 import { TAG_COLOR_NAMES } from "@/constants/Config";
-import { Tag } from "@/hooks/useTags";
-import { LogItem, LogsState, RATING_KEYS } from "@/hooks/useLogs";
-import { ExportSettings } from "@/hooks/useSettings";
+import type { Tag } from "@/hooks/useTags";
+import type { LogItem, LogsState } from "@/hooks/useLogs";
+import { RATING_KEYS } from "@/hooks/useLogs";
+import type { ExportSettings } from "@/hooks/useSettings";
 
 export interface ImportData {
   version: string;
@@ -22,21 +23,19 @@ export const pixySchema = z
     items: z.array(
       z.object({
         id: z.string().optional(),
-        date: z.string().refine((date: LogItem["date"]) => {
-          return /^\d{4}-\d{2}-\d{2}$/.test(date);
-        }),
-        rating: z.string().refine((rating: LogItem["rating"]) => {
-          return RATING_KEYS.includes(rating);
-        }),
+        date: z
+          .string()
+          .refine((date: LogItem["date"]) => /^\d{4}-\d{2}-\d{2}$/.test(date)),
+        rating: z
+          .string()
+          .refine((rating: LogItem["rating"]) => RATING_KEYS.includes(rating)),
         tags: z.array(
           z.object({
             id: z.string(),
             name: z.string().optional(),
             color: z
               .string()
-              .refine((color: Tag["color"]) => {
-                return TAG_COLOR_NAMES.includes(color);
-              })
+              .refine((color: Tag["color"]) => TAG_COLOR_NAMES.includes(color))
               .optional(),
           })
         ),
@@ -48,9 +47,7 @@ export const pixySchema = z
         z.object({
           id: z.string(),
           title: z.string(),
-          color: z.string().refine((color) => {
-            return TAG_COLOR_NAMES.includes(color);
-          }),
+          color: z.string().refine((color) => TAG_COLOR_NAMES.includes(color)),
         })
       )
       .optional(),
@@ -58,9 +55,9 @@ export const pixySchema = z
     settings: z.object({
       actionsDone: z.array(
         z.object({
-          date: z.string().refine((date) => {
-            return new Date(date).toString() !== "Invalid Date";
-          }),
+          date: z
+            .string()
+            .refine((date) => new Date(date).toString() !== "Invalid Date"),
           title: z.string(),
         })
       ),
@@ -69,9 +66,9 @@ export const pixySchema = z
           z.object({
             id: z.string(),
             name: z.string(),
-            color: z.string().refine((color) => {
-              return TAG_COLOR_NAMES.includes(color);
-            }),
+            color: z
+              .string()
+              .refine((color) => TAG_COLOR_NAMES.includes(color)),
           })
         )
         .optional(),

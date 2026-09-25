@@ -1,4 +1,5 @@
-import { Text, ViewStyle } from "react-native";
+import type { ViewStyle } from "react-native";
+import { Text } from "react-native";
 import useColors from "@/hooks/useColors";
 
 export default function TextInfo({

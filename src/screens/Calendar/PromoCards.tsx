@@ -8,7 +8,8 @@ import { useSettings } from "@/hooks/useSettings";
 import { useNavigation } from "@react-navigation/native";
 import dayjs from "dayjs";
 import { XMLParser } from "fast-xml-parser";
-import React, { ReactElement, useEffect, useState } from "react";
+import type { ReactElement } from "react";
+import React, { useEffect, useState } from "react";
 import { View } from "react-native";
 import useColors from "../../hooks/useColors";
 import { useLogState } from "../../hooks/useLogs";
@@ -86,7 +87,7 @@ export const PromoCards = () => {
             id: item.guid || item.link,
             published: item.pubDate,
             slug: (item.guid || item.link)
-              .replace(/[^a-z0-9]/gi, "_")
+              .replaceAll(/[^a-z0-9]/gi, "_")
               .toLowerCase(),
           }));
 
@@ -147,7 +148,9 @@ export const PromoCards = () => {
     );
   }
 
-  if (promoCards.length === 0) return null;
+  if (promoCards.length === 0) {
+    return null;
+  }
 
   return (
     <View

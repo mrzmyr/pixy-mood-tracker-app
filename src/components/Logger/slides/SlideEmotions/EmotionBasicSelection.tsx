@@ -1,9 +1,10 @@
 import LinkButton from "@/components/LinkButton";
 import { t } from "@/helpers/translation";
 import useFeedbackModal from "@/hooks/useFeedbackModal";
-import { Emotion } from "@/types";
+import type { Emotion } from "@/types";
 import _ from "lodash";
-import { View, ViewStyle } from "react-native";
+import type { ViewStyle } from "react-native";
+import { View } from "react-native";
 import { EmotionButtonBasic } from "./EmotionButtonBasic";
 
 export const EmotionBasicSelection = ({
@@ -22,13 +23,12 @@ export const EmotionBasicSelection = ({
   const rows = _.chunk(
     _.orderBy(
       emotions,
-      (e) => {
-        return {
+      (e) =>
+        ({
           good: 1,
           neutral: 0,
           bad: -1,
-        }[e.category];
-      },
+        })[e.category],
       ["desc"]
     ),
     2

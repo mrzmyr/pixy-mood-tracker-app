@@ -1,7 +1,7 @@
 import MenuList from "@/components/MenuList";
 import MenuListHeadline from "@/components/MenuListHeadline";
 import MenuListItem from "@/components/MenuListItem";
-import { ImportData } from "@/helpers/Import";
+import type { ImportData } from "@/helpers/Import";
 import { useEffect, useState } from "react";
 import { ActivityIndicator, View } from "react-native";
 import { CheckCircle, Repeat, UploadCloud } from "react-native-feather";
@@ -58,7 +58,7 @@ export const UserDataImportList = () => {
       <MenuListHeadline>Load User Data</MenuListHeadline>
       <MenuList style={{}}>
         <MenuListItem
-          title={"Reload"}
+          title="Reload"
           iconLeft={<Repeat width={18} color={colors.menuListItemIcon} />}
           onPress={() => loadUsers()}
           isLast
@@ -80,7 +80,7 @@ export const UserDataImportList = () => {
               padding: 16,
             }}
           >
-            <ActivityIndicator size={"small"} color={colors.loadingIndicator} />
+            <ActivityIndicator size="small" color={colors.loadingIndicator} />
           </View>
         )}
         {!loading &&

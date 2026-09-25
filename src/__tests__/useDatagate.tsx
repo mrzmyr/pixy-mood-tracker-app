@@ -8,24 +8,16 @@ import { AnalyticsProvider } from "../hooks/useAnalytics";
 import { useDatagate } from "../hooks/useDatagate";
 
 import _ from "lodash";
+import type { LogsState } from "../hooks/useLogs";
+import { LogsProvider, useLogState, useLogUpdater } from "../hooks/useLogs";
+import type { ExportSettings } from "../hooks/useSettings";
 import {
-  LogsProvider,
-  LogsState,
-  useLogState,
-  useLogUpdater,
-} from "../hooks/useLogs";
-import {
-  ExportSettings,
   INITIAL_STATE,
   SettingsProvider,
   useSettings,
 } from "../hooks/useSettings";
-import {
-  Tag,
-  TagsProvider,
-  useTagsState,
-  useTagsUpdater,
-} from "../hooks/useTags";
+import type { Tag } from "../hooks/useTags";
+import { TagsProvider, useTagsState, useTagsUpdater } from "../hooks/useTags";
 import { _generateItem } from "./utils";
 import pkg from "../../package.json";
 
@@ -117,8 +109,8 @@ const testTags: Tag[] = [
   },
 ];
 
-const _renderHook = () => {
-  return renderHook(
+const _renderHook = () =>
+  renderHook(
     () => ({
       datagate: useDatagate(),
       logState: useLogState(),
@@ -129,7 +121,6 @@ const _renderHook = () => {
     }),
     { wrapper }
   );
-};
 
 const waitForLoaded = (hook) =>
   waitFor(() => {

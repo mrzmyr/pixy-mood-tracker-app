@@ -3,10 +3,10 @@ import { act, render, userEvent, waitFor } from "@testing-library/react-native";
 import { Alert } from "react-native";
 import Providers from "@/components/Providers";
 import Colors from "@/constants/Colors";
+import type { SupportClient } from "@/support";
 import {
   createFakeSupportClient,
   resolveDevelopmentSupportClient,
-  SupportClient,
 } from "@/support";
 import { SettingsScreen } from "@/screens/Settings";
 
@@ -63,8 +63,12 @@ const renderSettings = (supportClient: SupportClient) =>
   );
 
 const collectTestIds = (node: any): string[] => {
-  if (Array.isArray(node)) return node.flatMap(collectTestIds);
-  if (!node || typeof node !== "object") return [];
+  if (Array.isArray(node)) {
+    return node.flatMap(collectTestIds);
+  }
+  if (!node || typeof node !== "object") {
+    return [];
+  }
 
   const testId = node.props?.testID;
   return [

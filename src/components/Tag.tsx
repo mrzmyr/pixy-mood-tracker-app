@@ -1,7 +1,8 @@
-import { Pressable, Text, View, ViewStyle, useColorScheme } from "react-native";
+import type { ViewStyle } from "react-native";
+import { Pressable, Text, View, useColorScheme } from "react-native";
 import useColors from "@/hooks/useColors";
 import useHaptics from "@/hooks/useHaptics";
-import { TAG_COLOR_NAMES } from "@/constants/Config";
+import type { TAG_COLOR_NAMES } from "@/constants/Config";
 
 export default function Tag({
   title,
@@ -44,7 +45,9 @@ export default function Tag({
         ...style,
       })}
       onPress={async () => {
-        if (!onPress) return;
+        if (!onPress) {
+          return;
+        }
         await haptics.selection();
         onPress?.();
       }}

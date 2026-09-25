@@ -22,19 +22,17 @@ export type IScaleColors = {
   [key: string]: IScale;
 };
 
-const getScaleMood = (color: string): IScaleMood => {
-  return {
-    background: color,
-    text:
-      chroma(color).luminance() > 0.45
-        ? chroma(color).darken(4).hex()
-        : chroma(color).brighten(2.5).hex(),
-    textSecondary:
-      chroma(color).luminance() > 0.45
-        ? chroma(color).darken(2.5).hex()
-        : chroma(color).brighten(4).hex(),
-  };
-};
+const getScaleMood = (color: string): IScaleMood => ({
+  background: color,
+  text:
+    chroma(color).luminance() > 0.45
+      ? chroma(color).darken(4).hex()
+      : chroma(color).brighten(2.5).hex(),
+  textSecondary:
+    chroma(color).luminance() > 0.45
+      ? chroma(color).darken(2.5).hex()
+      : chroma(color).brighten(4).hex(),
+});
 
 const getScale = (scale: string[]): IScale => {
   const [

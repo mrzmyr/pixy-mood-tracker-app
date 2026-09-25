@@ -3,11 +3,8 @@ import Svg, { Circle, Line } from "react-native-svg";
 import { Card } from "@/components/Statistics/Card";
 import { t } from "@/helpers/translation";
 import useColors from "../../hooks/useColors";
-import {
-  MoodTrendData,
-  SCALE_RANGE,
-  SCALE_TYPE,
-} from "../../hooks/useStatistics/MoodTrend";
+import type { MoodTrendData } from "../../hooks/useStatistics/MoodTrend";
+import { SCALE_RANGE, SCALE_TYPE } from "../../hooks/useStatistics/MoodTrend";
 import { CardFeedback } from "@/components/Statistics/CardFeedback";
 import dayjs from "dayjs";
 
@@ -17,11 +14,10 @@ const Chart = ({ height, data }: { height: number; data: MoodTrendData }) => {
   const padding = 8;
   const maxY = 6;
 
-  const relativeY = (value: number) => {
-    return Math.floor(
+  const relativeY = (value: number) =>
+    Math.floor(
       padding + (height - padding * 2 - (value / maxY) * (height - padding * 2))
     );
-  };
 
   const scaleItemCount =
     data.ratingsPeriode1.length + data.ratingsPeriode2.length;
@@ -37,7 +33,7 @@ const Chart = ({ height, data }: { height: number; data: MoodTrendData }) => {
   const itemWidth = width / scaleItemCount;
 
   return (
-    <Svg width={"100%"} height={height} viewBox={`0 0 ${width} ${height}`}>
+    <Svg width="100%" height={height} viewBox={`0 0 ${width} ${height}`}>
       {scaleItems.map((item, index) => {
         const x = Math.floor(index * itemWidth + itemWidth / 2);
         const y = relativeY(item?.value);

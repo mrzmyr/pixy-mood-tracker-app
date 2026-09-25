@@ -1,5 +1,6 @@
 import React, { useCallback } from "react";
-import { Pressable, Text, TextStyle, View, ViewStyle } from "react-native";
+import type { TextStyle, ViewStyle } from "react-native";
+import { Pressable, Text, View } from "react-native";
 import { ChevronRight } from "react-native-feather";
 import useColors from "@/hooks/useColors";
 import useHaptics from "@/hooks/useHaptics";

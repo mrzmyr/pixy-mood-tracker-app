@@ -1,6 +1,7 @@
 import { getLogDays } from "@/lib/utils";
 import dayjs from "dayjs";
-import { LogItem, RATING_MAPPING } from "../useLogs";
+import type { LogItem } from "../useLogs";
+import { RATING_MAPPING } from "../useLogs";
 
 const MONTH_MAPPING = {
   0: "Jan",
@@ -33,9 +34,9 @@ export const getRatingDistributionForYear = (
 
     const logDays = getLogDays(items);
 
-    const days = logDays.filter((day) => {
-      return dayjs(day.date).month() === Number(month);
-    });
+    const days = logDays.filter(
+      (day) => dayjs(day.date).month() === Number(month)
+    );
 
     days.forEach((item) => {
       if (value === null) {
@@ -68,9 +69,9 @@ export const getRatingDistributionForXDays = (
     let value: null | number = null;
     const date = dayjs(startDate).add(i, "day");
 
-    const days = logDays.filter((item) => {
-      return dayjs(item.date).date() === date.date();
-    });
+    const days = logDays.filter(
+      (item) => dayjs(item.date).date() === date.date()
+    );
 
     days.forEach((item) => {
       if (value === null) {

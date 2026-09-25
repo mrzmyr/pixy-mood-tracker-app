@@ -1,6 +1,7 @@
 import useColors from "@/hooks/useColors";
 import _ from "lodash";
-import { Text, View, ViewStyle } from "react-native";
+import type { ViewStyle } from "react-native";
+import { Text, View } from "react-native";
 import { X } from "react-native-feather";
 import LinkButton from "./LinkButton";
 import { CardFeedback } from "./Statistics/CardFeedback";

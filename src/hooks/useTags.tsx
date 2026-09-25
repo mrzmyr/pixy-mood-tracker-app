@@ -1,4 +1,4 @@
-import { TAG_COLOR_NAMES } from "@/constants/Config";
+import type { TAG_COLOR_NAMES } from "@/constants/Config";
 import { load, store } from "@/helpers/storage";
 import { t } from "@/helpers/translation";
 import _ from "lodash";
@@ -50,30 +50,35 @@ const TagsUpdaterContext = createContext({} as UpdaterValue);
 
 const reducer = (state: State, action: StateAction): State => {
   switch (action.type) {
-    case "import":
+    case "import": {
       return {
         ...action.payload,
         loaded: true,
       };
-    case "add":
+    }
+    case "add": {
       return { ...state, tags: [...state.tags, action.payload] };
-    case "edit":
+    }
+    case "edit": {
       return {
         ...state,
         tags: state.tags.map((tag) =>
           tag.id === action.payload.id ? action.payload : tag
         ),
       };
-    case "delete":
+    }
+    case "delete": {
       return {
         ...state,
         tags: state.tags.filter((tag) => tag.id !== action.payload),
       };
-    case "reset":
+    }
+    case "reset": {
       return {
         ...action.payload,
         loaded: true,
       };
+    }
   }
 };
 
@@ -153,13 +158,15 @@ function TagsProvider({ children }: { children: React.ReactNode }) {
   );
 
   useEffect(() => {
-    if (!settings.loaded) return;
+    if (!settings.loaded) {
+      return;
+    }
 
     (async () => {
       let json: State | null;
       try {
         json = await load<State>(STORAGE_KEY);
-      } catch (error) {
+      } catch {
         // Keep `loaded: false` so the persist effect below stays disabled;
         // resetting to the default tags would overwrite the stored ones.
         return;

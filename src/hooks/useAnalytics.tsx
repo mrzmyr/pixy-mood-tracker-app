@@ -37,7 +37,9 @@ function AnalyticsProvider({
 
   useEffect(() => {
     setIsEnabled(settings.analyticsEnabled);
-    if (!settings.loaded) return;
+    if (!settings.loaded) {
+      return;
+    }
 
     if (settings.analyticsEnabled) {
       posthog?.optIn();
@@ -47,7 +49,9 @@ function AnalyticsProvider({
   }, [settings.loaded, settings.analyticsEnabled, posthog]);
 
   const identify = (properties?: any) => {
-    if (DEBUG) console.log("useAnalytics: anonymous session", properties);
+    if (DEBUG) {
+      console.log("useAnalytics: anonymous session", properties);
+    }
     setIsIdentified(true);
   };
 
@@ -79,11 +83,17 @@ function AnalyticsProvider({
       }));
     },
     track: (eventName: string, properties?: any) => {
-      if (!isEnabled) return;
+      if (!isEnabled) {
+        return;
+      }
 
-      if (DEBUG) console.log("useAnalytics: track", eventName, properties);
+      if (DEBUG) {
+        console.log("useAnalytics: track", eventName, properties);
+      }
 
-      if (!options.enabled) return;
+      if (!options.enabled) {
+        return;
+      }
 
       posthog?.capture(eventName);
     },

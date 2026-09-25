@@ -1,5 +1,5 @@
 import useColors from "@/hooks/useColors";
-import { LogItem } from "@/hooks/useLogs";
+import type { LogItem } from "@/hooks/useLogs";
 import { useSettings } from "@/hooks/useSettings";
 import { View } from "react-native";
 
@@ -17,7 +17,7 @@ export const RatingDot = ({ rating }: { rating: LogItem["rating"] }) => {
         alignItems: "center",
         padding: 4,
         borderRadius: 6,
-        backgroundColor: backgroundColor,
+        backgroundColor,
         width: 32,
         aspectRatio: 1,
       }}

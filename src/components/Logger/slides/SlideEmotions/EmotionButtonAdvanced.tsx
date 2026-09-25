@@ -1,7 +1,8 @@
 import useColors from "@/hooks/useColors";
 import useHaptics from "@/hooks/useHaptics";
-import { Emotion } from "@/types";
-import { Text, View, ViewStyle, useColorScheme } from "react-native";
+import type { Emotion } from "@/types";
+import type { ViewStyle } from "react-native";
+import { Text, View, useColorScheme } from "react-native";
 import { RectButton } from "react-native-gesture-handler";
 import { EmotionIndicator } from "./EmotionsIndicator";
 
@@ -71,14 +72,12 @@ export const EmotionButtonAdvanced = ({
   );
 };
 
-export const EmotionButtonEmpty = () => {
-  return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    />
-  );
-};
+export const EmotionButtonEmpty = () => (
+  <View
+    style={{
+      flex: 1,
+      justifyContent: "center",
+      alignItems: "center",
+    }}
+  />
+);

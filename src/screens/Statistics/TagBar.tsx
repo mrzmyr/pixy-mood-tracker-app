@@ -1,5 +1,6 @@
-import { DimensionValue, Text, View } from "react-native";
-import { TAG_COLOR_NAMES } from "@/constants/Config";
+import type { DimensionValue } from "react-native";
+import { Text, View } from "react-native";
+import type { TAG_COLOR_NAMES } from "@/constants/Config";
 import useColors from "../../hooks/useColors";
 
 export const TagBar = ({
@@ -39,7 +40,7 @@ export const TagBar = ({
     >
       <View
         style={{
-          backgroundColor: backgroundColor,
+          backgroundColor,
           height,
           width,
           borderRadius: 4,

@@ -1,4 +1,5 @@
-import { View, ViewStyle } from "react-native";
+import type { ViewStyle } from "react-native";
+import { View } from "react-native";
 
 export const PageWithHeaderLayout = ({
   children,
@@ -6,14 +7,12 @@ export const PageWithHeaderLayout = ({
 }: {
   children: React.ReactNode;
   style?: ViewStyle;
-}) => {
-  return (
-    <View
-      style={{
-        ...style,
-      }}
-    >
-      {children}
-    </View>
-  );
-};
+}) => (
+  <View
+    style={{
+      ...style,
+    }}
+  >
+    {children}
+  </View>
+);

@@ -1,4 +1,5 @@
-import React, { forwardRef, RefObject } from "react";
+import type { RefObject } from "react";
+import React, { forwardRef } from "react";
 import { View } from "react-native";
 import useColors from "@/hooks/useColors";
 
@@ -35,7 +36,7 @@ export const PasscodeDots = forwardRef(
               aspectRatio: 1,
               marginRight: 20,
             }}
-          ></View>
+          />
           <View
             style={{
               padding: 10,
@@ -46,7 +47,7 @@ export const PasscodeDots = forwardRef(
               aspectRatio: 1,
               marginRight: 20,
             }}
-          ></View>
+          />
           <View
             style={{
               padding: 10,
@@ -57,7 +58,7 @@ export const PasscodeDots = forwardRef(
               aspectRatio: 1,
               marginRight: 20,
             }}
-          ></View>
+          />
           <View
             style={{
               padding: 10,
@@ -67,7 +68,7 @@ export const PasscodeDots = forwardRef(
               borderRadius: 999,
               aspectRatio: 1,
             }}
-          ></View>
+          />
         </View>
       </View>
     );

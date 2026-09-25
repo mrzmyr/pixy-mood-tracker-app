@@ -10,7 +10,8 @@ import useNotification, {
 } from "../../hooks/useNotifications";
 import { useState } from "react";
 import dayjs from "dayjs";
-import { SettingsState, useSettings } from "../../hooks/useSettings";
+import type { SettingsState } from "../../hooks/useSettings";
+import { useSettings } from "../../hooks/useSettings";
 import { useAnalytics } from "../../hooks/useAnalytics";
 import LinkButton from "@/components/LinkButton";
 import { t } from "@/helpers/translation";
@@ -71,7 +72,9 @@ export const ReminderSlide = ({
   const enable = async () => {
     const has = await hasPermission();
     const granted = has || (await askForPermission());
-    if (!granted) return;
+    if (!granted) {
+      return;
+    }
 
     await (async () => {
       await cancelAll();

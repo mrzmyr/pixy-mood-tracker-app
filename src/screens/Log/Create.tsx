@@ -1,12 +1,10 @@
 import { LoggerCreate } from "@/components/Logger";
-import { RootStackScreenProps } from "../../../types";
+import type { RootStackScreenProps } from "../../../types";
 
-export const LogCreate = ({ route }: RootStackScreenProps<"LogCreate">) => {
-  return (
-    <LoggerCreate
-      dateTime={route.params.dateTime}
-      initialStep="rating"
-      avaliableSteps={route.params.avaliableSteps}
-    />
-  );
-};
+export const LogCreate = ({ route }: RootStackScreenProps<"LogCreate">) => (
+  <LoggerCreate
+    dateTime={route.params.dateTime}
+    initialStep="rating"
+    avaliableSteps={route.params.avaliableSteps}
+  />
+);

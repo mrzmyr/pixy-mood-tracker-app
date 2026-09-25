@@ -4,7 +4,8 @@ import * as DocumentPicker from "expo-document-picker";
 import * as FileSystem from "expo-file-system/legacy";
 import * as Sharing from "expo-sharing";
 import { Alert, Platform } from "react-native";
-import { getJSONSchemaType, ImportData } from "@/helpers/Import";
+import type { ImportData } from "@/helpers/Import";
+import { getJSONSchemaType } from "@/helpers/Import";
 import { migrateImportData } from "@/helpers/migration";
 import {
   askToImport,
@@ -16,20 +17,20 @@ import {
 import { t } from "@/helpers/translation";
 import pkg from "../../package.json";
 import { useAnalytics } from "./useAnalytics";
+import type { LogsState } from "./useLogs";
 import {
-  LogsState,
   STORAGE_KEY as STORAGE_KEY_LOGS,
   useLogState,
   useLogUpdater,
 } from "./useLogs";
+import type { ExportSettings } from "./useSettings";
 import {
-  ExportSettings,
   STORAGE_KEY as STORAGE_KEY_SETTINGS,
   useSettings,
 } from "./useSettings";
+import type { Tag } from "./useTags";
 import {
   STORAGE_KEY as STORAGE_KEY_TAGS,
-  Tag,
   useTagsState,
   useTagsUpdater,
 } from "./useTags";
@@ -96,11 +97,15 @@ export const useDatagate = (): {
         tags: migratedData.settings.tags || migratedData.tags || [],
       });
       importSettings(migratedData.settings);
-      if (!options.muted) showImportSuccess();
+      if (!options.muted) {
+        showImportSuccess();
+      }
       analytics.track("data_import_success");
     } else {
       console.log("import failed, json schema:", jsonSchemaType);
-      if (!options.muted) showImportError();
+      if (!options.muted) {
+        showImportError();
+      }
       analytics.track("data_import_error", {
         reason: "invalid_json_schema",
       });
@@ -118,8 +123,8 @@ export const useDatagate = (): {
     analytics.reset();
   };
 
-  const openImportDialog = async (): Promise<void> => {
-    return askToImport().then(async () => {
+  const openImportDialog = async (): Promise<void> =>
+    askToImport().then(async () => {
       try {
         analytics.track("data_import_start");
 
@@ -137,14 +142,13 @@ export const useDatagate = (): {
 
           _import(data);
         }
-      } catch (error) {
+      } catch {
         showImportError();
         analytics.track("data_import_error", {
           reason: "document_picker_error",
         });
       }
     });
-  };
 
   const openResetDialog = async (type: ResetType) => {
     analytics.track("data_reset_asked");
@@ -153,7 +157,7 @@ export const useDatagate = (): {
     if (Platform.OS === "web") {
       resetFn();
       alert(t("reset_data_success_message"));
-      return Promise.resolve();
+      return;
     }
 
     return askToReset<ResetType>(type)
@@ -173,7 +177,7 @@ export const useDatagate = (): {
     const data: ExportData = {
       version: pkg.version,
       items: logState.items,
-      tags: tags,
+      tags,
       settings: {
         passcodeEnabled: settings.passcodeEnabled,
         passcode: settings.passcode,

@@ -1,6 +1,6 @@
 import { DATE_FORMAT } from "@/constants/Config";
 import { load, store } from "@/helpers/storage";
-import { LogItemSchema } from "@/types";
+import type { LogItemSchema } from "@/types";
 import { Buffer } from "buffer";
 import dayjs from "dayjs";
 import _ from "lodash";
@@ -15,8 +15,8 @@ import {
 } from "react";
 import * as Sentry from "@sentry/react-native";
 import { v4 as uuidv4 } from "uuid";
-import z from "zod";
-import { AtLeast } from "../../types";
+import type z from "zod";
+import type { AtLeast } from "../../types";
 import { useAnalytics } from "./useAnalytics";
 
 export const STORAGE_KEY = "PIXEL_TRACKER_LOGS";
@@ -86,17 +86,19 @@ const LogUpdaterContext = createContext<UpdaterValue>(undefined as any);
 
 function reducer(state: LogsState, action: LogAction): LogsState {
   switch (action.type) {
-    case "import":
+    case "import": {
       return migrate({
         ...(action.payload as LogsState),
         loaded: true,
       });
-    case "add":
+    }
+    case "add": {
       return {
         ...state,
         items: [...state.items, action.payload],
       };
-    case "edit":
+    }
+    case "edit": {
       return {
         ...state,
         items: state.items.map((item) => {
@@ -109,19 +111,22 @@ function reducer(state: LogsState, action: LogAction): LogsState {
           return item;
         }),
       };
-    case "batchEdit":
+    }
+    case "batchEdit": {
       return {
         ...state,
         items: action.payload,
       };
-    case "delete":
+    }
+    case "delete": {
       return {
         ...state,
         items: state.items.filter((item) => item.id !== action.payload),
       };
+    }
     // Runs against the reducer's current state, not a caller's snapshot, so
     // logs added in the same tick are kept.
-    case "removeTag":
+    case "removeTag": {
       return {
         ...state,
         items: state.items.map((item) =>
@@ -133,16 +138,18 @@ function reducer(state: LogsState, action: LogAction): LogsState {
             : item
         ),
       };
-    case "reset":
+    }
+    case "reset": {
       return {
         ...action.payload,
         loaded: true,
       };
+    }
   }
 }
 
 const migrate = (data: LogsState): LogsState => {
-  let result = {
+  const result = {
     ...data,
   };
 
@@ -155,11 +162,21 @@ const migrate = (data: LogsState): LogsState => {
 
     const newItem = { ...item };
 
-    if (!newItem.createdAt) newItem.createdAt = dayjs(date).toISOString();
-    if (!newItem.dateTime) newItem.dateTime = dayjs(date).toISOString();
-    if (!newItem.id) newItem.id = uuidv4();
-    if (!newItem.tags) newItem.tags = [];
-    if (!newItem.emotions) newItem.emotions = [];
+    if (!newItem.createdAt) {
+      newItem.createdAt = dayjs(date).toISOString();
+    }
+    if (!newItem.dateTime) {
+      newItem.dateTime = dayjs(date).toISOString();
+    }
+    if (!newItem.id) {
+      newItem.id = uuidv4();
+    }
+    if (!newItem.tags) {
+      newItem.tags = [];
+    }
+    if (!newItem.emotions) {
+      newItem.emotions = [];
+    }
 
     newItem.tags = newItem.tags.map((tag) => _.pick(tag, ["id"]));
 
@@ -186,17 +203,17 @@ function LogsProvider({ children }: { children: React.ReactNode }) {
     (async () => {
       try {
         const value = await load<LogsState>(STORAGE_KEY);
-        if (value !== null) {
-          dispatch({
-            type: "import",
-            payload: value,
-          });
-        } else {
+        if (value === null) {
           dispatch({
             type: "import",
             payload: {
               ...INITIAL_STATE,
             },
+          });
+        } else {
+          dispatch({
+            type: "import",
+            payload: value,
           });
         }
         setStorageStatus("ready");

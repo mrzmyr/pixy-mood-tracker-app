@@ -6,7 +6,7 @@ import dayjs from "dayjs";
 import { useState } from "react";
 import { ScrollView, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { RootStackScreenProps } from "../../../types";
+import type { RootStackScreenProps } from "../../../types";
 import useColors from "../../hooks/useColors";
 import { useLogState } from "../../hooks/useLogs";
 import { Header } from "./Header";

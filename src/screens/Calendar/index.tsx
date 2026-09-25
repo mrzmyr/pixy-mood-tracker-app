@@ -19,7 +19,7 @@ import CalendarHeader from "./CalendarHeader";
 import { ScrollToBottomButton } from "./ScrollToBottomButton";
 import { t } from "@/helpers/translation";
 
-const CalendarScreen = memo(function CalendarScreen() {
+const CalendarScreen = memo(() => {
   const colors = useColors();
 
   const { settings } = useSettings();

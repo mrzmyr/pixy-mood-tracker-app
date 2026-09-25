@@ -2,9 +2,9 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as Sentry from "@sentry/react-native";
 import { act, renderHook, waitFor } from "@testing-library/react-native";
 import { AnalyticsProvider } from "../hooks/useAnalytics";
+import type { LogsState } from "../hooks/useLogs";
 import {
   LogsProvider,
-  LogsState,
   STORAGE_KEY,
   useLogState,
   useLogUpdater,
@@ -46,15 +46,14 @@ const testItems: LogsState["items"] = [
   }),
 ];
 
-const _renderHook = () => {
-  return renderHook(
+const _renderHook = () =>
+  renderHook(
     () => ({
       state: useLogState(),
       updater: useLogUpdater(),
     }),
     { wrapper }
   );
-};
 
 const waitForLoaded = (hook) =>
   waitFor(() => {

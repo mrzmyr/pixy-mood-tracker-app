@@ -31,7 +31,7 @@ export const SleepQualityChart = ({
   const scaleItemCount = data.length;
   const scaleItems = data.map((d) => ({
     ...d,
-    value: d.value !== null ? Math.round(d.value) : null,
+    value: d.value === null ? null : Math.round(d.value),
   }));
 
   const XLegendHeight = 32;
@@ -47,15 +47,11 @@ export const SleepQualityChart = ({
 
   const itemWidth = _width / scaleItemCount;
 
-  const relativeY = (value: number) => {
-    return Math.floor(_height - (value / maxY) * _height);
-  };
+  const relativeY = (value: number) =>
+    Math.floor(_height - (value / maxY) * _height);
 
-  const relativeX = (index: number) => {
-    return (
-      Math.floor(index * itemWidth + itemWidth / 2) + YLegendWidth + paddingLeft
-    );
-  };
+  const relativeX = (index: number) =>
+    Math.floor(index * itemWidth + itemWidth / 2) + YLegendWidth + paddingLeft;
 
   const polygonPoints = scaleItems
     .map((item, index) => {
@@ -83,7 +79,7 @@ export const SleepQualityChart = ({
 
   return (
     <Svg
-      width={"100%"}
+      width="100%"
       height={outerHeight}
       viewBox={`0 0 ${outerWidth} ${outerHeight}`}
       style={{}}
@@ -136,7 +132,7 @@ export const SleepQualityChart = ({
 
       {showAverage && (
         <Line
-          key={`avg-line`}
+          key="avg-line"
           x1={relativeX(0)}
           y1={relativeY(average)}
           x2={width - paddingRight}

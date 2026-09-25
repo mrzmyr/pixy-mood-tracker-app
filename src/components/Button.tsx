@@ -1,11 +1,6 @@
 import _ from "lodash";
-import {
-  ActivityIndicator,
-  Pressable,
-  Text,
-  View,
-  ViewStyle,
-} from "react-native";
+import type { ViewStyle } from "react-native";
+import { ActivityIndicator, Pressable, Text, View } from "react-native";
 import useColors from "@/hooks/useColors";
 import useHaptics from "@/hooks/useHaptics";
 
@@ -89,7 +84,7 @@ export default function Button({
       }}
       disabled={disabled}
       testID={testID}
-      accessibilityRole={"button"}
+      accessibilityRole="button"
     >
       {isLoading ? (
         <ActivityIndicator color={buttonColors.text} size="small" />

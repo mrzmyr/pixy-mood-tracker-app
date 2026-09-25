@@ -1,4 +1,5 @@
-import { LogItem, RATING_KEYS } from "../useLogs";
+import type { LogItem } from "../useLogs";
+import { RATING_KEYS } from "../useLogs";
 import { getLogDays } from "@/lib/utils";
 
 export interface MoodAvgData {

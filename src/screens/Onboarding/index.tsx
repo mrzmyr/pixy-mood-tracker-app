@@ -4,7 +4,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import useColors from "../../hooks/useColors";
 import { useAnalytics } from "../../hooks/useAnalytics";
 import { useSettings } from "../../hooks/useSettings";
-import { RootStackScreenProps } from "../../../types";
+import type { RootStackScreenProps } from "../../../types";
 import { ExplainerSlide } from "./ExplainerSlide";
 import { IndexSlide } from "./IndexSlide";
 import { PrivacySlide } from "./PrivacySlide";

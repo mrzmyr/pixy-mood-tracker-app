@@ -1,5 +1,5 @@
 import useColors from "@/hooks/useColors";
-import { LogItem } from "@/hooks/useLogs";
+import type { LogItem } from "@/hooks/useLogs";
 import { useTagsState } from "@/hooks/useTags";
 import { useNavigation } from "@react-navigation/native";
 import { t } from "i18n-js";
@@ -83,7 +83,9 @@ export const Tags = ({ item }: { item: LogItem }) => {
           item.tags.map((tag) => {
             const _tag = tags.find((t) => t.id === tag.id);
 
-            if (!_tag) return null;
+            if (!_tag) {
+              return null;
+            }
 
             return (
               <Tag

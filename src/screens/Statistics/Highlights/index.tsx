@@ -9,7 +9,7 @@ import { MoodPeaksCard } from "../MoodPeaksCards";
 import { TagPeaksCard } from "../TagPeaksCards";
 import { TagsDistributionCard } from "../TagsDistributionCard";
 import { Title } from "../Title";
-import { MoodAvgData } from "../../../hooks/useStatistics/MoodAvg";
+import type { MoodAvgData } from "../../../hooks/useStatistics/MoodAvg";
 import { t } from "@/helpers/translation";
 import dayjs from "dayjs";
 import { DATE_FORMAT } from "@/constants/Config";
@@ -40,7 +40,9 @@ export const StatisticsHighlights = ({ navigation }) => {
     ).length >= 4;
 
   useEffect(() => {
-    if (!statistics.state.loaded) return;
+    if (!statistics.state.loaded) {
+      return;
+    }
 
     const cards: {
       mood_avg_show: boolean;

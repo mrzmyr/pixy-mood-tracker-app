@@ -7,8 +7,9 @@ import {
   useState,
 } from "react";
 import { useAnalytics } from "./useAnalytics";
-import { LogItem, useLogState } from "./useLogs";
-import { Tag } from "./useTags";
+import type { LogItem } from "./useLogs";
+import { useLogState } from "./useLogs";
+import type { Tag } from "./useTags";
 
 interface FiltersData {
   text: string;
@@ -58,16 +59,21 @@ function CalendarFiltersProvider({ children }: { children: React.ReactNode }) {
 
     const conditions: boolean[] = [];
 
-    if (data.text !== "") conditions.push(matchesText);
-    if (data.ratings.length !== 0) conditions.push(matchesRatings);
-    if (data.tagIds.length !== 0) conditions.push(matchesTags);
+    if (data.text !== "") {
+      conditions.push(matchesText);
+    }
+    if (data.ratings.length !== 0) {
+      conditions.push(matchesRatings);
+    }
+    if (data.tagIds.length !== 0) {
+      conditions.push(matchesTags);
+    }
 
     return conditions.every((condition) => condition);
   };
 
-  const _getFilteredItems = (data): LogItem[] => {
-    return logState.items.filter((item) => _isMatching(item, data));
-  };
+  const _getFilteredItems = (data): LogItem[] =>
+    logState.items.filter((item) => _isMatching(item, data));
 
   const set = useCallback(
     (data: FiltersData) => {
@@ -84,7 +90,7 @@ function CalendarFiltersProvider({ children }: { children: React.ReactNode }) {
         data.tagIds.length !== 0;
 
       const filterCount =
-        (data.text !== "" ? 1 : 0) + data.ratings.length + data.tagIds.length;
+        (data.text === "" ? 0 : 1) + data.ratings.length + data.tagIds.length;
 
       setData({
         ...data,

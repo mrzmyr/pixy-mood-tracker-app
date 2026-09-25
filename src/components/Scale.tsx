@@ -1,8 +1,8 @@
 import { View } from "react-native";
 import useHaptics from "@/hooks/useHaptics";
-import { LogItem } from "@/hooks/useLogs";
+import type { LogItem } from "@/hooks/useLogs";
 import useScale from "@/hooks/useScale";
-import { SettingsState } from "@/hooks/useSettings";
+import type { SettingsState } from "@/hooks/useSettings";
 import ScaleButton from "./ScaleButton";
 
 export default function Scale({
@@ -14,7 +14,7 @@ export default function Scale({
   value?: LogItem["rating"] | LogItem["rating"][];
   onPress?: any;
 }) {
-  let { colors, labels } = useScale(type);
+  const { colors, labels } = useScale(type);
   const _labels = labels.slice().reverse();
   const haptics = useHaptics();
 

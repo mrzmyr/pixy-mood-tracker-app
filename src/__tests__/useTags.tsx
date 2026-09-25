@@ -1,12 +1,12 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { renderHook, act, waitFor } from "@testing-library/react-native";
 import { AnalyticsProvider } from "../hooks/useAnalytics";
+import type { LogsState } from "../hooks/useLogs";
 import {
   LogsProvider,
   useLogState,
   useLogUpdater,
   STORAGE_KEY as STORAGE_KEY_LOGS,
-  LogsState,
 } from "../hooks/useLogs";
 import {
   SettingsProvider,
@@ -15,9 +15,9 @@ import {
   INITIAL_STATE as INITIAL_STATE_SETTINGS,
 } from "../hooks/useSettings";
 
+import type { Tag } from "../hooks/useTags";
 import {
   STORAGE_KEY as STORAGE_KEY_TAGS,
-  Tag,
   TagsProvider,
   useTagsState,
   useTagsUpdater,
@@ -34,8 +34,8 @@ const wrapper = ({ children }) => (
   </SettingsProvider>
 );
 
-const _renderHook = () => {
-  return renderHook(
+const _renderHook = () =>
+  renderHook(
     () => ({
       state: useTagsState(),
       updater: useTagsUpdater(),
@@ -45,7 +45,6 @@ const _renderHook = () => {
     }),
     { wrapper }
   );
-};
 
 const waitForLoaded = (hook) =>
   waitFor(() => {
@@ -218,7 +217,7 @@ describe("useTags()", () => {
       hook.result.current.updater.deleteTag("1");
     });
 
-    const items = hook.result.current.logsState.items;
+    const { items } = hook.result.current.logsState;
     expect(items.map((item) => item.id)).toEqual([
       testItems[0].id,
       testItems[1].id,

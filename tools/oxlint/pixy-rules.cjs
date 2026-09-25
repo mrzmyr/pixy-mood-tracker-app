@@ -3,7 +3,7 @@ function getFunctionName(node) {
     return node.id.name;
   }
 
-  const parent = node.parent;
+  const { parent } = node;
 
   if (
     parent?.type === "VariableDeclarator" &&
@@ -129,7 +129,7 @@ const structuredThrownErrors = {
   create(context) {
     return {
       ThrowStatement(node) {
-        const argument = node.argument;
+        const { argument } = node;
         const isErrorConstructor =
           argument.type === "NewExpression" &&
           argument.callee.type === "Identifier" &&
