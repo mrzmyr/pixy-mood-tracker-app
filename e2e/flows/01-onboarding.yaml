@@ -6,8 +6,8 @@ tags: [onboarding]
     clearState: true
 - assertVisible: "Welcome 👋"
 
-# 1.2 Both entry buttons visible
-- assertVisible: "I used a Mood Tracker before"
+# 1.2 One entry button visible
+- assertNotVisible: "I used a Mood Tracker before"
 - assertVisible: "I never used a Mood Tracker"
 
 # 1.3 Explainer slides forward
