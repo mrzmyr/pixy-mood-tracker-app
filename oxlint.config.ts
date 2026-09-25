@@ -36,5 +36,15 @@ export default defineConfig({
     // React Native loads assets with require(); Metro, Babel, and scripts are CommonJS.
     "node/global-require": "off",
     "unicorn/prefer-module": "off",
+    // Hermes has no Array#toSorted or Array#toReversed; copy with spread first.
+    "unicorn/no-array-sort": "off",
+    "unicorn/no-array-reverse": "off",
   },
+  overrides: [
+    {
+      // App code runs on Hermes; scripts run on Bun and Node.
+      files: ["src/**", "App.tsx"],
+      rules: { "pixy-standards/no-hermes-missing-array-methods": "error" },
+    },
+  ],
 });

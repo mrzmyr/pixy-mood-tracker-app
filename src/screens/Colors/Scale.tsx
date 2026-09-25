@@ -10,7 +10,7 @@ import { ColorDot } from "./ColorDot";
 export const Scale = ({ type }: { type: string }) => {
   const colors = useColors();
   const scaleColors = colors.scales[type];
-  const scaleKeys = RATING_KEYS.toReversed();
+  const scaleKeys = [...RATING_KEYS].reverse();
 
   return (
     <View

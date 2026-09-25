@@ -151,9 +151,49 @@ const structuredThrownErrors = {
   },
 };
 
+// ES2023 copy methods missing from the Hermes build React Native ships.
+const HERMES_MISSING_ARRAY_METHODS = new Set([
+  "toReversed",
+  "toSorted",
+  "toSpliced",
+]);
+
+const noHermesMissingArrayMethods = {
+  meta: {
+    type: "problem",
+    docs: {
+      description: "Disallow array methods that Hermes does not implement",
+    },
+    messages: {
+      missing:
+        "Hermes has no Array#{{name}}; it throws at runtime while Jest passes. Copy with spread first, for example `[...items].sort()`.",
+    },
+    schema: [],
+  },
+  create(context) {
+    return {
+      MemberExpression(node) {
+        const { property } = node;
+        if (
+          !node.computed &&
+          property.type === "Identifier" &&
+          HERMES_MISSING_ARRAY_METHODS.has(property.name)
+        ) {
+          context.report({
+            messageId: "missing",
+            node: property,
+            data: { name: property.name },
+          });
+        }
+      },
+    };
+  },
+};
+
 module.exports = {
   meta: { name: "pixy-standards" },
   rules: {
+    "no-hermes-missing-array-methods": noHermesMissingArrayMethods,
     "require-exported-jsdoc": requireExportedJsDoc,
     "boolean-function-prefix": booleanFunctionPrefix,
     "structured-thrown-errors": structuredThrownErrors,

@@ -35,7 +35,7 @@ export const defaultMoodAvgData: MoodAvgData = {
  * when `items` is empty.
  */
 export const getMoodAvgData = (items: LogItem[]): MoodAvgData => {
-  const keys: LogItem["rating"][] = RATING_KEYS.toReversed();
+  const keys: LogItem["rating"][] = [...RATING_KEYS].reverse();
 
   const moods = {
     negative: 0,

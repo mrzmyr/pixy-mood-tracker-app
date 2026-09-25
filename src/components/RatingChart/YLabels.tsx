@@ -11,7 +11,7 @@ export const YLabels = ({ relativeY, YLegendWidth, rowHeight }) => {
 
   return (
     <>
-      {RATING_KEYS.toReversed().map((rating, index) => {
+      {[...RATING_KEYS].reverse().map((rating, index) => {
         const y = relativeY(index);
         return (
           <Rect

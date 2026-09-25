@@ -15,7 +15,7 @@ const Scale = ({
   onPress?: ((rating: LogItem["rating"]) => void) | null;
 }) => {
   const { colors, labels } = useScale(type);
-  const _labels = labels.toReversed();
+  const _labels = [...labels].reverse();
   const selectedValues = Array.isArray(value) ? new Set(value) : null;
   const haptics = useHaptics();
 
