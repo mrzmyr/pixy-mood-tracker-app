@@ -3,7 +3,7 @@ import MenuListHeadline from "@/components/MenuListHeadline";
 import MenuListItem from "@/components/MenuListItem";
 import { t } from "@/helpers/translation";
 import dayjs from "dayjs";
-import { useEffect, useState } from "react";
+import { useEffect, useEffectEvent } from "react";
 import {
   ActivityIndicator,
   Platform,
@@ -33,8 +33,6 @@ export const StatisticsScreen = ({
   const statistics = useStatistics();
   const logState = useLogState();
 
-  const [refreshing, setRefreshing] = useState(false);
-
   // times of the last two weeks
   const items = logState.items.filter((item) =>
     dayjs(item.dateTime).isBetween(
@@ -47,23 +45,23 @@ export const StatisticsScreen = ({
 
   const statisticsUnlocked = items.length >= STATISTIC_MIN_LOGS;
 
+  // Effect event: the focus listener reads the latest items and statistics
+  // without re-subscribing whenever they change.
+  const onFocus = useEffectEvent(() => {
+    if (items.length >= STATISTIC_MIN_LOGS) {
+      statistics.load({
+        force: false,
+      });
+    }
+  });
+
   useEffect(() => {
     const unsubscribe = navigation.addListener("focus", () => {
-      if (items.length >= STATISTIC_MIN_LOGS) {
-        statistics.load({
-          force: false,
-        });
-      }
+      onFocus();
     });
 
     return unsubscribe;
-  }, [navigation, JSON.stringify(items), statistics.isLoading]);
-
-  useEffect(() => {
-    if (statistics.isLoading === false) {
-      setRefreshing(false);
-    }
-  }, [statistics.isLoading]);
+  }, [navigation]);
 
   if (statistics.isLoading) {
     return (
@@ -85,7 +83,9 @@ export const StatisticsScreen = ({
       refreshControl={
         Platform.OS === "web" ? undefined : (
           <RefreshControl
-            refreshing={refreshing}
+            // Loading replaces this view with a spinner, so it never shows
+            // as refreshing.
+            refreshing={false}
             onRefresh={() => {
               if (items.length >= STATISTIC_MIN_LOGS) {
                 statistics.load({

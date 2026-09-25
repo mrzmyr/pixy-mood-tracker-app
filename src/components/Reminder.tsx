@@ -60,7 +60,15 @@ const Reminder = () => {
         reminderTime,
       }));
     })();
-  }, [reminderEnabled, reminderTime]);
+  }, [
+    reminderEnabled,
+    reminderTime,
+    hour,
+    minute,
+    schedule,
+    cancelAll,
+    setSettings,
+  ]);
 
   const onTimeChange = (event: DateTimePickerEvent, selectedDate?: Date) => {
     analytics.track("reminder_time_change", {

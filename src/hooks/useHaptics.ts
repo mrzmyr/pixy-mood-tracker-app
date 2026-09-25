@@ -3,12 +3,15 @@
 import { Platform } from "react-native";
 import * as Haptics from "expo-haptics";
 
-const useHaptics = () => ({
+// Module-level so the returned object is stable across renders.
+const haptics = {
   selection: async () => {
     if (Platform.OS === "ios") {
       await Haptics.selectionAsync();
     }
   },
-});
+};
+
+const useHaptics = () => haptics;
 
 export default useHaptics;

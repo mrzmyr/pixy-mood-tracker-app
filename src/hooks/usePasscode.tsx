@@ -24,7 +24,7 @@ const PasscodeProvider = ({ children }: { children: React.ReactNode }) => {
   const { settings } = useSettings();
   const [isAuthenticated, setIsAuthenticated] =
     useState<PasscodeState["isAuthenticated"]>(false);
-  const [isEnabled, setIsEnabled] = useState<PasscodeState["isEnabled"]>(null);
+  const isEnabled: PasscodeState["isEnabled"] = settings.passcodeEnabled;
 
   const appState = useRef(AppState.currentState);
 
@@ -35,7 +35,7 @@ const PasscodeProvider = ({ children }: { children: React.ReactNode }) => {
         setIsAuthenticated(result.success);
       })();
     }
-  }, [isAuthenticated]);
+  }, [isEnabled, isAuthenticated]);
 
   useEffect(() => {
     const subscription = AppState.addEventListener("change", (nextAppState) => {
@@ -52,10 +52,6 @@ const PasscodeProvider = ({ children }: { children: React.ReactNode }) => {
       }
     };
   }, []);
-
-  useEffect(() => {
-    setIsEnabled(settings.passcodeEnabled);
-  }, [settings.passcodeEnabled]);
 
   const value: PasscodeState = useMemo(
     () => ({

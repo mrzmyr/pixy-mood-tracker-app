@@ -3,7 +3,7 @@ import type { LinkingOptions } from "@react-navigation/native";
 import { NavigationContainer, useNavigation } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import * as Linking from "expo-linking";
-import { useEffect } from "react";
+import { useEffect, useEffectEvent } from "react";
 import { Platform, View, useColorScheme } from "react-native";
 import * as Sentry from "@sentry/react-native";
 import type { RootStackParamList } from "../../types";
@@ -110,11 +110,13 @@ const RootNavigator = () => {
     headerShadowVisible: Platform.OS !== "web",
   };
 
-  useEffect(() => {
-    if (settings.loaded && !hasActionDone("onboarding")) {
+  // Effect event: reads the latest navigation, analytics, tags, and logs, but
+  // only runs when the effect below runs (on `settings.loaded` changes).
+  const onSettingsLoaded = useEffectEvent(() => {
+    if (!hasActionDone("onboarding")) {
       navigation.navigate("Onboarding");
     }
-    if (settings.loaded && !analytics.isIdentified) {
+    if (!analytics.isIdentified) {
       analytics.identify({
         tags: tags.map((tag) => anonymizeTag(tag)),
         tagsCount: tags.length,
@@ -123,6 +125,12 @@ const RootNavigator = () => {
         itemsCoverage: getItemsCoverage(logState.items),
         itemsCountPerDayAverage: getItemsCountPerDayAverage(logState.items),
       });
+    }
+  });
+
+  useEffect(() => {
+    if (settings.loaded) {
+      onSettingsLoaded();
     }
 
     initializeDayjs();

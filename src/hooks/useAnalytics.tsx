@@ -46,11 +46,13 @@ const AnalyticsProvider = ({
   const { settings, setSettings } = useSettings();
   const posthog = usePostHog();
 
-  const [isIdentified, setIsIdentified] = useState(false);
-  const [isEnabled, setIsEnabled] = useState(settings.analyticsEnabled);
+  const [identifyCalled, setIdentifyCalled] = useState(false);
+  // A stored device id identifies the anonymous session.
+  const isIdentified = identifyCalled || settings.deviceId !== null;
+  // Derived from settings; `enable`, `disable`, and `reset` update settings.
+  const isEnabled = settings.analyticsEnabled;
 
   useEffect(() => {
-    setIsEnabled(settings.analyticsEnabled);
     if (!settings.loaded) {
       return;
     }
@@ -66,7 +68,7 @@ const AnalyticsProvider = ({
     if (DEBUG) {
       console.log("useAnalytics: anonymous session", properties);
     }
-    setIsIdentified(true);
+    setIdentifyCalled(true);
   }, []);
 
   const value = useMemo<AnaylticsState>(
@@ -74,7 +76,6 @@ const AnalyticsProvider = ({
       identify,
       enable: () => {
         posthog?.optIn();
-        setIsEnabled(true);
         setSettings((currentSettings) => ({
           ...currentSettings,
           analyticsEnabled: true,
@@ -82,7 +83,6 @@ const AnalyticsProvider = ({
       },
       disable: () => {
         posthog?.optOut();
-        setIsEnabled(false);
         setSettings((currentSettings) => ({
           ...currentSettings,
           analyticsEnabled: false,
@@ -91,7 +91,6 @@ const AnalyticsProvider = ({
       reset: () => {
         posthog?.reset();
         posthog?.optOut();
-        setIsEnabled(false);
         setSettings((currentSettings) => ({
           ...currentSettings,
           analyticsEnabled: false,
@@ -117,12 +116,6 @@ const AnalyticsProvider = ({
     }),
     [identify, posthog, setSettings, isEnabled, options.enabled, isIdentified]
   );
-
-  useEffect(() => {
-    if (!isIdentified && settings.deviceId !== null) {
-      identify();
-    }
-  }, [settings.deviceId]);
 
   return (
     <AnalyticsContext.Provider value={value}>

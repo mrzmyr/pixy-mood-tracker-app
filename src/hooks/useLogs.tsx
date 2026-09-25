@@ -12,6 +12,7 @@ import {
   useCallback,
   useContext,
   useEffect,
+  useEffectEvent,
   useMemo,
   useReducer,
   useState,
@@ -22,6 +23,7 @@ import type z from "zod";
 import type { AtLeast } from "../../types";
 import type { RATING_KEYS } from "@/constants/Ratings";
 import { useAnalytics } from "./useAnalytics";
+import { useContentStableValue } from "./useContentStableValue";
 import { createMissingProviderError } from "@/lib/errors";
 
 export const STORAGE_KEY = "PIXEL_TRACKER_LOGS";
@@ -183,6 +185,15 @@ const LogsProvider = ({ children }: { children: React.ReactNode }) => {
   const [storageStatus, setStorageStatus] = useState<
     "loading" | "ready" | "error"
   >("loading");
+  // Reducer updates can produce equal copies (e.g. saving an unchanged log);
+  // only content changes should persist or notify consumers.
+  const stableState = useContentStableValue(state);
+
+  // Effect event: the load effect runs once on mount but tracks with the
+  // latest analytics instance.
+  const trackLoadedLogs = useEffectEvent((megaBytes: number) => {
+    analyitcs.track("loaded_logs", { size: megaBytes, unit: "mb" });
+  });
 
   useEffect(() => {
     (async () => {
@@ -206,7 +217,7 @@ const LogsProvider = ({ children }: { children: React.ReactNode }) => {
         try {
           const size = Buffer.byteLength(JSON.stringify(value));
           const megaBytes = Math.round((size / 1024 / 1024) * 100) / 100;
-          analyitcs.track("loaded_logs", { size: megaBytes, unit: "mb" });
+          trackLoadedLogs(megaBytes);
         } catch (error) {
           Sentry.captureException(error);
         }
@@ -218,10 +229,13 @@ const LogsProvider = ({ children }: { children: React.ReactNode }) => {
   }, []);
 
   useEffect(() => {
-    if (storageStatus === "ready" && state.loaded) {
-      store<Omit<LogsState, "loaded">>(STORAGE_KEY, omit(state, "loaded"));
+    if (storageStatus === "ready" && stableState.loaded) {
+      store<Omit<LogsState, "loaded">>(
+        STORAGE_KEY,
+        omit(stableState, "loaded")
+      );
     }
-  }, [JSON.stringify(state), storageStatus]);
+  }, [stableState, storageStatus]);
 
   const importState = useCallback((data: LogsState) => {
     dispatch({
@@ -279,9 +293,9 @@ const LogsProvider = ({ children }: { children: React.ReactNode }) => {
 
   const stateValue: StateValue = useMemo(
     () => ({
-      ...state,
+      ...stableState,
     }),
-    [JSON.stringify(state)]
+    [stableState]
   );
 
   return (

@@ -3,6 +3,7 @@ import {
   useCallback,
   useContext,
   useEffect,
+  useEffectEvent,
   useMemo,
   useState,
 } from "react";
@@ -93,10 +94,15 @@ const useTemporaryLog = (
     throw createMissingProviderError("useTemporaryLog", "TemporaryLogProvider");
   }
 
-  useEffect(() => {
+  // Effect event: initialize once on mount with the values of that render.
+  const initializeDefaultValue = useEffectEvent(() => {
     if (defaultValue && !context.isInitialized) {
       context.initialize(defaultValue);
     }
+  });
+
+  useEffect(() => {
+    initializeDefaultValue();
   }, []);
 
   const data = useMemo(

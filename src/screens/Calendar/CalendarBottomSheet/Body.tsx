@@ -1,5 +1,6 @@
+import type { DebouncedFunc } from "lodash";
 import debounce from "lodash/debounce";
-import { useCallback, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { View } from "react-native";
 import { useCalendarFilters } from "../../../hooks/useCalendarFilters";
 import { useTagsState } from "../../../hooks/useTags";
@@ -43,7 +44,26 @@ export const Body = ({ onClose }: { onClose?: () => void }) => {
     });
   };
 
-  const debounceOnTextChange = useCallback(debounce(onTextChange, 200), []);
+  // The debounced function is created once, so it calls the latest
+  // `onTextChange` through a ref instead of the first render's closure.
+  const onTextChangeRef = useRef(onTextChange);
+  useEffect(() => {
+    onTextChangeRef.current = onTextChange;
+  });
+
+  const debouncedTextChangeRef = useRef<DebouncedFunc<
+    (text: string) => void
+  > | null>(null);
+
+  const debounceOnTextChange = (text: string) => {
+    if (debouncedTextChangeRef.current === null) {
+      debouncedTextChangeRef.current = debounce(
+        (nextText: string) => onTextChangeRef.current(nextText),
+        200
+      );
+    }
+    debouncedTextChangeRef.current(text);
+  };
 
   return (
     <>

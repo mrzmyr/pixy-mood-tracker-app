@@ -61,14 +61,17 @@ const CalendarDayComponent = ({
 
   const day = useMemo(() => dayjs(dateString).date(), [dateString]);
 
+  // Recompute when the current day changes, not only when `dateString` does.
+  const today = dayjs().format(DATE_FORMAT);
+
   const isFuture = useMemo(
-    () => dayjs(dateString).isAfter(dayjs(), "day"),
-    [dateString, dayjs().format(DATE_FORMAT)]
+    () => dayjs(dateString).isAfter(today, "day"),
+    [dateString, today]
   );
 
   const isToday = useMemo(
-    () => dayjs(dateString).isSame(dayjs(), "day"),
-    [dateString, dayjs().format(DATE_FORMAT)]
+    () => dayjs(dateString).isSame(today, "day"),
+    [dateString, today]
   );
 
   const backgroundColor = useMemo(() => {
@@ -106,7 +109,7 @@ const CalendarDayComponent = ({
     return rating
       ? colors.scales[scaleType][rating].textSecondary
       : colors.scales[scaleType].empty.text;
-  }, [rating, scaleType, colors]);
+  }, [_isFiltered, rating, scaleType, colors]);
 
   const dayNumberBackgroundColor = useMemo(() => {
     if (!isToday) {
@@ -160,7 +163,7 @@ const CalendarDayComponent = ({
       haptics.selection();
       onPress();
     }
-  }, [dateString, isFuture, onPress]);
+  }, [haptics, isFuture, onPress]);
 
   return (
     <Pressable
