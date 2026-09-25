@@ -139,7 +139,7 @@ const Tips = ({ onClose }: { onClose: () => void }) => {
       >
         {questions.map((q, index) => (
           <Text
-            key={`q-${index}`}
+            key={q}
             style={{
               fontSize: 17,
               color: colors.textSecondary,

@@ -7,10 +7,12 @@ import type { ViewStyle } from "react-native";
 import { Text, View, useColorScheme } from "react-native";
 import { SectionHeader } from "./SectionHeader";
 
+const DEFAULT_STYLE = {};
+
 const Tag = ({
   title,
   colorName,
-  style = {},
+  style = DEFAULT_STYLE,
 }: {
   title: string;
   colorName: string;

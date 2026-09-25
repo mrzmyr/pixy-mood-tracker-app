@@ -108,6 +108,7 @@ export const PromoCards = () => {
   if (hasMonthPromo) {
     promoCards.push(
       <PromoCardMonth
+        key="month"
         title={t("promo_card_month_title", {
           month: dayjs().subtract(1, "month").format("MMMM"),
         })}
@@ -126,6 +127,7 @@ export const PromoCards = () => {
   if (hasYearPromo) {
     promoCards.push(
       <PromoCardYear
+        key="year"
         title={t("promo_card_year_title", { year: dayjs().format("YYYY") })}
         onPress={() =>
           navigation.navigate("StatisticsYear", {
@@ -139,6 +141,7 @@ export const PromoCards = () => {
   if (hasMostRecentRssItem) {
     promoCards.push(
       <PromoCard
+        key="changelog"
         colorName="pink"
         slug={mostRecentRssItem.slug}
         subtitle={t("new_release")}
@@ -166,7 +169,7 @@ export const PromoCards = () => {
     >
       {promoCards.map((promoCard, index) => (
         <View
-          key={`promo-card-${index}`}
+          key={`promo-card-${promoCard.key}`}
           style={{
             marginTop: index === 0 ? 0 : 16,
           }}

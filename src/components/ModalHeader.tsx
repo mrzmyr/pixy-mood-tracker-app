@@ -2,11 +2,13 @@ import type { ViewStyle } from "react-native";
 import { Text, View } from "react-native";
 import useColors from "@/hooks/useColors";
 
+const DEFAULT_STYLE = {};
+
 const ModalHeader = ({
   title = "",
   right = null,
   left = null,
-  style = {},
+  style = DEFAULT_STYLE,
 }: {
   title?: string;
   right?: React.ReactNode;

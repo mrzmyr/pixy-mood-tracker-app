@@ -3,6 +3,8 @@ import type { ViewStyle } from "react-native";
 import { TextInput } from "react-native";
 import useColors from "@/hooks/useColors";
 
+const noop = () => {};
+
 const TextAreaComponent = (
   {
     value = "",
@@ -11,7 +13,7 @@ const TextAreaComponent = (
     maxLength = 500,
     autoFocus = false,
     style,
-    onChange = (text: string) => {},
+    onChange = noop,
   }: {
     value?: string;
     placeholder?: string;

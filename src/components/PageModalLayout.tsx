@@ -2,9 +2,11 @@ import type { ViewStyle } from "react-native";
 import { Platform, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
+const DEFAULT_STYLE = {};
+
 export const PageModalLayout = ({
   children,
-  style = {},
+  style = DEFAULT_STYLE,
 }: {
   children: React.ReactNode;
   style?: ViewStyle;

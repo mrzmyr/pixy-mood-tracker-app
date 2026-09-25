@@ -9,13 +9,15 @@ import { EMOTIONS } from "../../config";
 import { EMOTION_BUTTON_HEIGHT } from "./constants";
 import { EmotionPage } from "./EmotionPage";
 
+const DEFAULT_STYLE = {};
+
 const WINDOW_WIDTH = Dimensions.get("window").width;
 
 export const EmotionAdvancedSelection = ({
   defaultIndex = 0,
   selectedEmotions,
   onPress,
-  style = {},
+  style = DEFAULT_STYLE,
 }: {
   defaultIndex?: number;
   selectedEmotions: Emotion[];

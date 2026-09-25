@@ -14,9 +14,11 @@ import Tag from "../../Tag";
 import { SlideHeadline } from "../components/SlideHeadline";
 import { Footer } from "./Footer";
 
+const noop = () => {};
+
 export const SlideTags = ({
   onChange,
-  onDisableStep = () => {},
+  onDisableStep = noop,
   showDisable,
   showFooter = true,
 }: {

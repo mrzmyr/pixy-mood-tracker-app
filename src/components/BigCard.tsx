@@ -9,6 +9,8 @@ import { captureRef } from "react-native-view-shot";
 import LinkButton from "./LinkButton";
 import { CardFeedback } from "./Statistics/CardFeedback";
 
+const DEFAULT_ANALYTICS_DATA = {};
+
 const LOGO = require("../../assets/images/icon.png");
 
 const Title = ({ children }: { children: string }) => {
@@ -85,7 +87,7 @@ export const BigCard = ({
   isShareable,
   hasFeedback,
   analyticsId,
-  analyticsData = {},
+  analyticsData = DEFAULT_ANALYTICS_DATA,
 }: {
   title?: string;
   subtitle?: string;

@@ -34,20 +34,20 @@ export const EmotionPage = ({
         paddingTop: 12,
       }}
     >
-      {chunks.map((chunk, index) => (
+      {chunks.map((chunk) => (
         <View
-          key={`emotion-page-${index}`}
+          key={`emotion-page-${chunk[0].key}`}
           style={{
             flexDirection: "row",
             marginBottom: 2,
           }}
         >
-          {chunk.map((emotion, index) =>
+          {chunk.map((emotion) =>
             emotion.key === "empty" ? (
-              <EmotionButtonEmpty key={`advanced-${emotion.key}-${index}`} />
+              <EmotionButtonEmpty key={`advanced-${emotion.key}`} />
             ) : (
               <EmotionButtonAdvanced
-                key={`advanced-${emotion.key}-${index}`}
+                key={`advanced-${emotion.key}`}
                 emotion={emotion}
                 onPress={onPress}
                 selected={selectedEmotions

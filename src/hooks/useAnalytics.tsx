@@ -25,11 +25,13 @@ const AnalyticsContext = createContext({} as AnaylticsState);
 
 const DEBUG = false;
 
+const DEFAULT_OPTIONS: AnalyticsProviderProps = {
+  enabled: false,
+};
+
 const AnalyticsProvider = ({
   children,
-  options = {
-    enabled: false,
-  },
+  options = DEFAULT_OPTIONS,
 }: {
   children: React.ReactNode;
   options?: AnalyticsProviderProps;

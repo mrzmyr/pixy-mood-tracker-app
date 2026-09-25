@@ -5,11 +5,13 @@ import type { ViewStyle } from "react-native";
 import { Pressable, View, useColorScheme } from "react-native";
 import useHaptics from "@/hooks/useHaptics";
 
+const DEFAULT_STYLE = {};
+
 export const SlideSleepButton = ({
   value,
   selected,
   onPress,
-  style = {},
+  style = DEFAULT_STYLE,
 }: {
   value: LogItem["sleep"]["quality"];
   selected?: boolean;

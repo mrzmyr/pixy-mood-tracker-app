@@ -38,7 +38,7 @@ export const XLabels = ({
             fill={colors.statisticsLegendText}
             textAnchor="middle"
             alignmentBaseline="center"
-            key={`xlabel-${index}`}
+            key={`xlabel-${_x}`}
           >
             {item.key}
           </Text>
