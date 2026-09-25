@@ -1,5 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import * as Sentry from '@sentry/react-native'
+import { Alert } from 'react-native'
 import { act, renderHook, waitFor } from '@testing-library/react-native'
 import { AnalyticsProvider } from '../hooks/useAnalytics'
 import { LogsProvider, LogsState, STORAGE_KEY, useLogState, useLogUpdater } from '../hooks/useLogs'
@@ -133,6 +134,53 @@ describe('useLogs()', () => {
 
     getItemSpy.mockRestore()
     setItemSpy.mockRestore()
+  })
+
+  test('should alert the user when saving logs fails', async () => {
+    const hook = await _renderHook()
+    await waitForLoaded(hook)
+
+    const alertSpy = jest.spyOn(Alert, 'alert').mockImplementation(() => {})
+    jest.spyOn(AsyncStorage, 'setItem').mockRejectedValueOnce(new Error('disk full'))
+
+    let saved: boolean | undefined
+    await act(async () => { saved = await hook.result.current.updater.addLog(testItems[0]) })
+
+    expect(saved).toBe(false)
+    expect(hook.result.current.state.items).toEqual([])
+    expect(alertSpy).toHaveBeenCalledWith(
+      'Stored data could not be saved',
+      'Retry the operation and check available device storage',
+      expect.any(Array),
+    )
+  })
+
+  test('should keep both logs when adding concurrently', async () => {
+    const hook = await _renderHook()
+    await waitForLoaded(hook)
+
+    await act(async () => {
+      await Promise.all([
+        hook.result.current.updater.addLog(testItems[0]),
+        hook.result.current.updater.addLog(testItems[1]),
+      ])
+    })
+
+    expect(hook.result.current.state.items).toEqual(testItems)
+    expect(JSON.parse((await AsyncStorage.getItem(STORAGE_KEY)) ?? "null").items).toEqual(testItems)
+  })
+
+  test('should not save changes while logs are unloaded', async () => {
+    await AsyncStorage.setItem(STORAGE_KEY, 'invalid')
+    const hook = await _renderHook()
+    await waitFor(() => expect(Sentry.captureException).toHaveBeenCalled())
+    jest.spyOn(Alert, 'alert').mockImplementation(() => {})
+
+    let saved: boolean | undefined
+    await act(async () => { saved = await hook.result.current.updater.addLog(testItems[0]) })
+
+    expect(saved).toBe(false)
+    expect(await AsyncStorage.getItem(STORAGE_KEY)).toBe('invalid')
   })
 
   test('should import', async () => {
