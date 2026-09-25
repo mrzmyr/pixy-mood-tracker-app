@@ -44,6 +44,7 @@ const YearInPixels = ({ date }: { date: Dayjs }) => {
 
   const dummyItems = _.range(0, 365).map(
     (i) =>
+      // SAFETY: placeholder items only; Row reads them via optional-chained dateTime, so the missing LogItem fields are never dereferenced.
       ({
         id: `${i}`,
         date: date.add(i, "day").format(DATE_FORMAT),

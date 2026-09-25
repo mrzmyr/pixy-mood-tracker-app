@@ -9,6 +9,7 @@ interface PasscodeState {
   isEnabled: boolean | null;
 }
 
+// SAFETY: every consumer renders inside PasscodeProvider, which supplies the full state.
 const PasscodeContext = createContext({} as PasscodeState);
 
 function PasscodeProvider({ children }: { children: React.ReactNode }) {

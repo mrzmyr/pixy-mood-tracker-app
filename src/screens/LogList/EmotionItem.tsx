@@ -1,9 +1,14 @@
 import { EmotionIndicator } from "@/components/Logger/slides/SlideEmotions/EmotionsIndicator";
 import useColors from "@/hooks/useColors";
 import { t } from "i18n-js";
+import type { Emotion } from "@/types";
 import { Text, View } from "react-native";
 
-export const EmotionItem = ({ emotion }: { emotion: any }) => {
+export const EmotionItem = ({
+  emotion,
+}: {
+  emotion: Pick<Emotion, "key" | "category">;
+}) => {
   const colors = useColors();
 
   return (

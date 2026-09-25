@@ -1,3 +1,4 @@
+import type { DateTimePickerEvent } from "@react-native-community/datetimepicker";
 import dayjs from "dayjs";
 import type { ViewStyle } from "react-native";
 import { Pressable, Text } from "react-native";
@@ -9,7 +10,7 @@ const Clock = ({
   style,
 }: {
   timeDate: Date;
-  onChange: any;
+  onChange: (event: DateTimePickerEvent, date?: Date) => void;
   style?: ViewStyle;
 }) => {
   const colors = useColors();

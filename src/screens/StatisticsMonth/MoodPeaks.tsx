@@ -4,7 +4,7 @@ import { DATE_FORMAT } from "@/constants/Config";
 import { t } from "@/helpers/translation";
 import dayjs from "dayjs";
 import { useAnonymizer } from "../../hooks/useAnonymizer";
-import type { LogDay } from "../../hooks/useLogs";
+import type { MoodPeaksNegativeData } from "../../hooks/useStatistics/MoodPeaks";
 import {
   getMoodPeaksNegativeData,
   getMoodPeaksPositiveData,
@@ -19,7 +19,7 @@ export const MoodPeaks = ({ date, items }) => {
   const dataNegative = getMoodPeaksNegativeData(items);
   const dataPositive = getMoodPeaksPositiveData(items);
 
-  const dataNegativeDummy: { days: LogDay[] } = {
+  const dataNegativeDummy: MoodPeaksNegativeData = {
     days: [
       {
         date: dayjs().format(DATE_FORMAT),
@@ -51,7 +51,7 @@ export const MoodPeaks = ({ date, items }) => {
   const dataPositiveDummy = {
     days: dataNegativeDummy.days.map((item) => ({
       ...item,
-      ratingAvg: "extremely_good" as LogDay["ratingAvg"],
+      ratingAvg: "extremely_good" as const,
     })),
   };
 

@@ -6,8 +6,11 @@ interface AnaylticsState {
   enable: () => void;
   disable: () => void;
   reset: () => void;
-  track: (event: string, properties?: any) => void;
-  identify: (properties?: {}) => void;
+  track: <Properties extends object>(
+    event: string,
+    properties?: Properties
+  ) => void;
+  identify: <Properties extends object>(properties?: Properties) => void;
   isIdentified: boolean;
   isEnabled: boolean;
 }
@@ -16,6 +19,7 @@ interface AnalyticsProviderProps {
   enabled: boolean;
 }
 
+// SAFETY: every consumer renders inside AnalyticsProvider, which supplies the full state.
 const AnalyticsContext = createContext({} as AnaylticsState);
 
 const DEBUG = false;
@@ -48,7 +52,7 @@ function AnalyticsProvider({
     }
   }, [settings.loaded, settings.analyticsEnabled, posthog]);
 
-  const identify = (properties?: any) => {
+  const identify: AnaylticsState["identify"] = (properties) => {
     if (DEBUG) {
       console.log("useAnalytics: anonymous session", properties);
     }
@@ -82,7 +86,7 @@ function AnalyticsProvider({
         analyticsEnabled: false,
       }));
     },
-    track: (eventName: string, properties?: any) => {
+    track: (eventName, properties) => {
       if (!isEnabled) {
         return;
       }

@@ -10,11 +10,11 @@ import { IndexSlide } from "./IndexSlide";
 import { PrivacySlide } from "./PrivacySlide";
 import { ReminderSlide } from "./ReminderSlide";
 
-type SlideProps = {
+interface SlideProps {
   index: number;
   setIndex: (index: number) => void;
   onSkip: () => void;
-};
+}
 
 const CalendarSlide = ({ ...props }: SlideProps) => (
   <ExplainerSlide {...props} />

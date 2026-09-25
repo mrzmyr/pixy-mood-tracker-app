@@ -13,7 +13,6 @@ export const YLabels = ({ relativeY, YLegendWidth, rowHeight, width }) => (
       const rest = height - value;
 
       return (
-        // @ts-ignore
         <G
           width="8"
           height="16"
@@ -23,7 +22,6 @@ export const YLabels = ({ relativeY, YLegendWidth, rowHeight, width }) => (
           <Mask
             id={`mask0_1_5${index}`}
             style={{ maskType: "alpha" }}
-            // @ts-ignore
             maskUnits="userSpaceOnUse"
             x="0"
             y="0"
@@ -38,7 +36,6 @@ export const YLabels = ({ relativeY, YLegendWidth, rowHeight, width }) => (
               fill="#FFFFFF"
             />
           </Mask>
-          {/* @ts-ignore */}
           <G mask={`url(#mask0_1_5${index})`}>
             <Rect
               width="8"

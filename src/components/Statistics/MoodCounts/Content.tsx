@@ -31,7 +31,6 @@ export const Content = ({
         {[...RATING_KEYS].reverse().map((ratingName) => (
           <Bar
             key={`rating-bar-${ratingName}`}
-            // @ts-ignore
             height={(data.values[ratingName] / data.total) * 400}
             ratingName={ratingName}
           />

@@ -63,7 +63,7 @@ export const INITIAL_STATE: SettingsState = {
   steps: ["rating", "emotions", "tags", "message", "feedback"],
 };
 
-type Value = {
+interface Value {
   settings: SettingsState;
   setSettings: (
     settings: SettingsState | ((settings: SettingsState) => SettingsState)
@@ -75,17 +75,19 @@ type Value = {
   removeActionDone: (actionTitle: IAction["title"]) => void;
   toggleStep: (step: ConfigurableLoggerStep, value?: boolean) => void;
   hasStep: (step: KnownSettingsStep) => boolean;
-};
+}
 
+// SAFETY: every consumer renders inside SettingsProvider, which provides the full Value.
 const SettingsStateContext = createContext({} as Value);
 
 const isConfigurableLoggerStep = (
   step: unknown
 ): step is ConfigurableLoggerStep =>
-  typeof step === "string" &&
-  STEP_OPTIONS.includes(step as ConfigurableLoggerStep);
+  typeof step === "string" && STEP_OPTIONS.some((option) => option === step);
 
-const sanitizeSteps = (steps: unknown): ConfigurableLoggerStep[] =>
+const sanitizeSteps = (
+  steps: SettingsState["steps"] | undefined
+): ConfigurableLoggerStep[] =>
   (Array.isArray(steps) ? steps : INITIAL_STATE.steps).filter(
     isConfigurableLoggerStep
   );

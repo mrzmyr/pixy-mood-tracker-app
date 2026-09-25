@@ -192,7 +192,7 @@ describe("useTags()", () => {
     });
 
     Object.values(hook.result.current.logsState.items).forEach((item) => {
-      expect(item.tags!.length).toBe(1);
+      expect(item.tags?.length).toBe(1);
     });
   });
 
@@ -229,7 +229,7 @@ describe("useTags()", () => {
 
     await waitFor(async () => {
       const stored = JSON.parse(
-        (await AsyncStorage.getItem(STORAGE_KEY_LOGS))!
+        (await AsyncStorage.getItem(STORAGE_KEY_LOGS)) ?? "null"
       );
       expect(stored.items.map((item) => item.id)).toContain(newItem.id);
     });
@@ -287,7 +287,7 @@ describe("useTags()", () => {
     });
 
     const json = await AsyncStorage.getItem(STORAGE_KEY_TAGS);
-    expect(JSON.parse(json!)).toEqual({
+    expect(JSON.parse(json ?? "null")).toEqual({
       tags: hook.result.current.state.tags,
     });
   });

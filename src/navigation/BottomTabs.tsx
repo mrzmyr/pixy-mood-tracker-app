@@ -8,7 +8,9 @@ import { useNavigation } from "@react-navigation/native";
 import dayjs from "dayjs";
 import * as Updates from "expo-updates";
 import { Platform, Pressable, View } from "react-native";
-import { SettingsScreen, StatisticsScreen } from "../screens";
+import { Filter } from "react-native-feather";
+import { SettingsScreen } from "../screens/Settings";
+import { StatisticsScreen } from "../screens/Statistics";
 import CalendarScreen from "../screens/Calendar";
 import { MyTabBar } from "./MyTabBar";
 
@@ -70,7 +72,7 @@ export const BottomTabs = () => {
                 }}
                 testID="filters"
                 type="primary"
-                icon="Filter"
+                icon={Filter}
               >
                 {t("calendar_filters")}{" "}
                 {calendarFilters.data.isFiltering

@@ -19,11 +19,12 @@ filesArray.forEach((file) => {
 console.log("locales", locales);
 
 const REMOVE_KEYS = [];
+const removeKeys = new Set(REMOVE_KEYS);
 
 for (const localeKey in locales) {
-  for (const key of REMOVE_KEYS) {
-    delete locales[localeKey][key];
-  }
+  locales[localeKey] = Object.fromEntries(
+    Object.entries(locales[localeKey]).filter(([key]) => !removeKeys.has(key))
+  );
   fs.writeFileSync(
     `${path + localeKey}.json`,
     JSON.stringify(locales[localeKey], null, 2)
