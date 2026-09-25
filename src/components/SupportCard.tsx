@@ -48,6 +48,13 @@ const runWithCleanup = async (
   }
 };
 
+/**
+ * Settings card that opens the support paywall.
+ *
+ * Render it only when `useSupport().enabled` is true. Failures show an
+ * alert with the error's `fix` and a retry action; repeated taps are
+ * ignored while the flow is open.
+ */
 export const SupportCard = () => {
   const colors = useColors();
   const support = useSupport();

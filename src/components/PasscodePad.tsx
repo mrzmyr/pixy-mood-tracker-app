@@ -5,6 +5,10 @@ import useColors from "@/hooks/useColors";
 import { PasscodePadButton } from "./PasscodePadButton";
 import { PasscodePadIcon } from "./PasscodePadIcon";
 
+/**
+ * Numeric passcode keypad. In `confirm` mode the close key is hidden, so
+ * the user cannot dismiss the lock.
+ */
 export const PasscodePad = ({
   onPress,
   onBackspace,

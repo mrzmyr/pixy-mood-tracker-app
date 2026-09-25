@@ -1,5 +1,6 @@
 import { View } from "react-native";
 
+/** Blank keypad cell that keeps the passcode pad grid aligned. */
 export const PasscodeEmptyPad = () => (
   <View
     style={{

@@ -6,6 +6,10 @@ import {
   EmotionButtonEmpty,
 } from "./EmotionButtonAdvanced";
 
+/**
+ * One page of advanced emotions in two columns; an odd count is padded
+ * with a blank cell.
+ */
 export const EmotionPage = ({
   emotions,
   onPress,

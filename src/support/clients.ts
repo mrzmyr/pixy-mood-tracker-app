@@ -5,15 +5,29 @@ import type {
 } from "./index";
 import { createStructuredError } from "@/lib/errors";
 
+/**
+ * Client used when no support provider is configured (web, missing API key).
+ * `openSupport` resolves without doing anything.
+ */
 export const disabledSupportClient: SupportClient = {
   enabled: false,
   openSupport: () => Promise.resolve(),
 };
 
+/**
+ * Scripted client for development and tests; `attempts` counts
+ * `openSupport` calls.
+ */
 export interface FakeSupportClient extends SupportClient {
   readonly attempts: number;
 }
 
+/**
+ * Create a scripted client that plays `mode`, then each of `nextModes`, one
+ * per `openSupport` call, repeating the last mode afterwards.
+ *
+ * `"failed"` rejects with a `support_fake_failed` {@link SupportFlowError}.
+ */
 export const createFakeSupportClient = (
   mode: DevelopmentSupportMode = "available",
   ...nextModes: DevelopmentSupportMode[]
@@ -46,6 +60,12 @@ export const createFakeSupportClient = (
   };
 };
 
+/**
+ * Pick the fake client from `EXPO_PUBLIC_PIXY_SUPPORT_FAKE_MODE`.
+ *
+ * Returns `undefined` outside development or for unknown modes, so the
+ * configured provider is used instead.
+ */
 export const resolveDevelopmentSupportClient = ({
   isDevelopment,
   mode,

@@ -43,6 +43,11 @@ const renderCalendarHeaderRight = () => <CalendarFiltersHeaderButton />;
 
 const renderTabBar = (props: BottomTabBarProps) => <MyTabBar {...props} />;
 
+/**
+ * Bottom tab navigator (Statistics, Calendar, Settings), opening on
+ * Calendar. Must render inside `CalendarFiltersProvider` for the calendar
+ * filter header button.
+ */
 export const BottomTabs = () => {
   const colors = useColors();
 

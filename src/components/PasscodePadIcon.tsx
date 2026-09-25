@@ -1,5 +1,6 @@
 import { Pressable, View } from "react-native";
 
+/** Icon key (close, backspace) of the passcode keypad. */
 export const PasscodePadIcon = ({
   icon,
   onPress,

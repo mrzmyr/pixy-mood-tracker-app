@@ -104,6 +104,14 @@ const CardFeedbackEmoji = ({ image, onPress, selected }) => {
     </Pressable>
   );
 };
+/**
+ * Emoji feedback row under statistics cards, posted to
+ * {@link STATISTICS_FEEDBACK_URL} with `analyticsId` as the card type.
+ *
+ * Negative emojis ask for a comment first. A positive rating on the
+ * `default` variant may request an App Store review. Never pass user text
+ * in `analyticsData`; anonymize it first.
+ */
 export const CardFeedback = ({
   analyticsId,
   analyticsData = DEFAULT_ANALYTICS_DATA,

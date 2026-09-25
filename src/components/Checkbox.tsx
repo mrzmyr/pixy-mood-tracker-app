@@ -2,6 +2,7 @@ import { View } from "react-native";
 import { Check } from "react-native-feather";
 import useColors from "@/hooks/useColors";
 
+/** Visual checkbox indicator only; the parent row handles presses. */
 export const Checkbox = ({ checked }) => {
   const colors = useColors();
 

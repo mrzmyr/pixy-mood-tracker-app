@@ -29,6 +29,7 @@ import { SlideReminder } from "./slides/SlideReminder";
 import { SlideTags } from "./slides/SlideTags";
 import { useLoggerActions } from "./useLoggerActions";
 
+/** Whether the logger creates a new entry or edits an existing one. */
 export type LoggerMode = "create" | "edit";
 
 // Slide order in the carousel; `rating` is always shown.
@@ -107,6 +108,14 @@ const getAvailableStepsForEdit = ({
   return slides;
 };
 
+/**
+ * Slide-based entry editor shared by create and edit.
+ *
+ * Must render inside `TemporaryLogProvider`, which holds the draft. Slides
+ * outside `avaliableSteps` are skipped; `rating` always shows, and
+ * `feedback` also needs a `question`. With rating as the only slide,
+ * picking a rating saves at once.
+ */
 export const Logger = ({
   initialItem,
   initialStep,
@@ -378,6 +387,10 @@ export const Logger = ({
   );
 };
 
+/**
+ * Logger for an existing entry. Shows a "Log not found" message when `id`
+ * is unknown, for example after the entry was deleted.
+ */
 export const LoggerEdit = ({
   id,
   initialStep,
@@ -412,6 +425,13 @@ export const LoggerEdit = ({
   );
 };
 
+/**
+ * Logger for a new entry at `dateTime` (ISO).
+ *
+ * Without `avaliableSteps`, the slides follow the user's enabled steps. The
+ * reminder slide shows only when exactly one entry exists and reminders are
+ * off; the feedback slide needs 3+ entries and an available question.
+ */
 export const LoggerCreate = ({
   dateTime,
   initialStep,

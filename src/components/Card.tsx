@@ -6,6 +6,10 @@ import { X } from "react-native-feather";
 import LinkButton from "./LinkButton";
 import { CardFeedback } from "./Statistics/CardFeedback";
 
+/**
+ * Dismissible content card. The close button always shows, even without
+ * `onClose`; feedback only renders when `analyticsId` is set.
+ */
 export const Card = ({
   title,
   children,

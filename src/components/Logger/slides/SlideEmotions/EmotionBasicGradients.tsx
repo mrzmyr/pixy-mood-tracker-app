@@ -1,6 +1,10 @@
 import useColors from "@/hooks/useColors";
 import { LinearGradient } from "expo-linear-gradient";
 
+/**
+ * Fade at the bottom edge of the basic emotion list. Must render inside a
+ * positioned parent.
+ */
 export const EmotionBasicGradients = () => {
   const colors = useColors();
 

@@ -20,6 +20,11 @@ const dummyData = {
   total: 18,
 };
 
+/**
+ * Shareable card counting entries per rating in `items`. Below 14 entries
+ * it shows placeholder bars behind the "not enough data" overlay. `date`
+ * is currently unused.
+ */
 export const MoodCounts = ({
   title,
   subtitle,

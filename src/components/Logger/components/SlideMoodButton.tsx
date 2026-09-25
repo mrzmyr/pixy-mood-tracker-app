@@ -12,6 +12,10 @@ import useScale from "@/hooks/useScale";
 
 const SCREEN_HEIGHT = Dimensions.get("screen").height;
 
+/**
+ * Rating button on the mood slide, colored from the user's scale. Height
+ * scales with the screen height measured at module load.
+ */
 export const SlideMoodButton = ({
   rating,
   selected,

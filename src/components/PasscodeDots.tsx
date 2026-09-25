@@ -73,4 +73,5 @@ const PasscodeDotsComponent = (
   );
 };
 
+/** Four passcode progress dots; the ref is forwarded to the wrapping view. */
 export const PasscodeDots = forwardRef(PasscodeDotsComponent);

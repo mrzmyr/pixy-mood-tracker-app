@@ -1,5 +1,6 @@
 import Svg, { Path } from "react-native-svg";
 
+/** Fire icon for the current streak card. */
 export const Fire = ({ color = "white", width = 24, height = 24 }) => (
   <Svg
     viewBox="0 0 24 24"

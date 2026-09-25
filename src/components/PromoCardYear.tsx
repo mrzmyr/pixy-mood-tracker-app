@@ -7,8 +7,16 @@ import { Pressable, Text, View } from "react-native";
 import { Star, X } from "react-native-feather";
 import Animated, { FadeIn, LinearTransition } from "react-native-reanimated";
 
+/**
+ * Dismissal key for the year report promo, unique per year. Computed once
+ * at app start.
+ */
 export const YEAR_REPORT_SLUG = `promo_year_report_${new Date().getFullYear()}_closed`;
 
+/**
+ * Calendar promo for the year report; hidden once dismissed for the
+ * current year.
+ */
 export const PromoCardYear = ({
   title,
   onPress,

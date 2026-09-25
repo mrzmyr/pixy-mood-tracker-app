@@ -3,6 +3,10 @@ import type { ReactNode } from "react";
 import { Text, View } from "react-native";
 import useColors from "@/hooks/useColors";
 
+/**
+ * Plain statistics card with a title and optional subtitle; unlike
+ * `BigCard` it has no share or feedback actions.
+ */
 export const Card = ({
   subtitle,
   title,

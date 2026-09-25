@@ -5,6 +5,10 @@ import { Pressable, Text, View } from "react-native";
 import { X } from "react-native-feather";
 import Animated, { FadeInDown } from "react-native-reanimated";
 
+/**
+ * Bottom tooltip with the description of the last selected emotion. With
+ * no `emotion` it renders an empty container, so the parent must hide it.
+ */
 export const Tooltip = ({
   emotion,
   onClose,

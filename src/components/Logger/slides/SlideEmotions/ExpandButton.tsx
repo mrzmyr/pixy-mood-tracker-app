@@ -4,6 +4,10 @@ import useHaptics from "@/hooks/useHaptics";
 import { Pressable, Text, View } from "react-native";
 import { Minus, Plus } from "react-native-feather";
 
+/**
+ * Toggle between basic and advanced emotions. `expanded` is true in basic
+ * mode and shows the plus icon.
+ */
 export const ExpandButton = ({
   onPress,
   expanded,

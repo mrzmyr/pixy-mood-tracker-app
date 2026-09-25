@@ -3,6 +3,7 @@ import { View } from "react-native";
 
 const DEFAULT_STYLE = {};
 
+/** Fixed-height footer row under a logger slide, for secondary actions. */
 export const Footer = ({
   children,
   style = DEFAULT_STYLE,

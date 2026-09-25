@@ -5,6 +5,12 @@ import { Pressable, Text, View } from "react-native";
 import { X } from "react-native-feather";
 import Indicator from "./Indicator";
 
+/**
+ * Dismissible promo card on the calendar screen.
+ *
+ * Dismissal is stored as the `slug` action in settings, so each `slug` must
+ * be unique and stable; once dismissed the card never shows again.
+ */
 export const PromoCard = ({
   subtitle,
   title,

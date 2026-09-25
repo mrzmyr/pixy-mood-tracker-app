@@ -5,12 +5,22 @@ import { Grid } from "./Grid";
 import { XLabels } from "./XLabels";
 import { YLabels } from "./YLabels";
 
+/**
+ * One chart bucket; `value` is on the {@link SLEEP_QUALITY_MAPPING} scale
+ * and `null` leaves a gap in the line.
+ */
 export interface ScaleItem {
   key: string;
   count: number;
   value: number | null;
 }
 
+/**
+ * SVG line chart of average sleep quality.
+ *
+ * Values are rounded to whole steps before plotting. `showAverage` draws
+ * the mean of non-empty buckets.
+ */
 export const SleepQualityChart = ({
   data,
   height,

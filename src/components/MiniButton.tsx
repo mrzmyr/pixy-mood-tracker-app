@@ -5,6 +5,7 @@ import { Pressable, Text } from "react-native";
 
 const DEFAULT_STYLE = {};
 
+/** Small pill button that plays selection haptics before `onPress`. */
 export const MiniButton = ({
   onPress,
   children,

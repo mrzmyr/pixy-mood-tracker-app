@@ -2,6 +2,7 @@ import { View } from "react-native";
 import { RATING_KEYS } from "@/constants/Ratings";
 import useScale from "@/hooks/useScale";
 
+/** Single rating bar in {@link Content}; `height` is in points. */
 export const Bar = ({ height, ratingName }) => {
   const scale = useScale();
 

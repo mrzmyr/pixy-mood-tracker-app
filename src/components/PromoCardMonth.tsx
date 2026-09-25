@@ -7,8 +7,16 @@ import useHaptics from "@/hooks/useHaptics";
 import { useSettings } from "@/hooks/useSettings";
 import Animated, { FadeIn, LinearTransition } from "react-native-reanimated";
 
+/**
+ * Dismissal key for the month report promo, unique per calendar month
+ * (`getMonth()` is 0-based). Computed once at app start.
+ */
 export const MONTH_REPORT_SLUG = `promo_month_report_${new Date().getFullYear()}_${new Date().getMonth()}_closed`;
 
+/**
+ * Calendar promo for the month report; hidden once dismissed for the
+ * current month.
+ */
 export const PromoCardMonth = ({
   title,
   onPress,

@@ -1,6 +1,10 @@
 import { Pressable, View } from "react-native";
 import useColors from "@/hooks/useColors";
 
+/**
+ * Progress segments above the logger slides; tapping a segment jumps to
+ * that slide.
+ */
 export const Stepper = ({
   count,
   index,

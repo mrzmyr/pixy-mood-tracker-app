@@ -44,6 +44,10 @@ const ROUTES: TabRoute[] = [
   },
 ];
 
+/**
+ * Custom tab bar for {@link BottomTabs}. Tab icons are looked up by route
+ * name, so a new tab needs an entry in `ROUTES`.
+ */
 export const MyTabBar = ({ state, descriptors, navigation }) => {
   const colors = useColors();
   const insets = useSafeAreaInsets();

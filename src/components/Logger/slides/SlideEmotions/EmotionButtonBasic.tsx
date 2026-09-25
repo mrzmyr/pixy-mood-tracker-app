@@ -7,6 +7,7 @@ import { EmotionIndicator } from "./EmotionsIndicator";
 
 const DEFAULT_STYLE = {};
 
+/** Emotion button in the basic emotion grid. */
 export const EmotionButtonBasic = ({
   emotion,
   onPress,

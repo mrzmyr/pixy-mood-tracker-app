@@ -85,6 +85,10 @@ const AnswerSelector = ({
   );
 };
 
+/**
+ * In-app survey slide; answering submits via `useQuestioner` and moves on.
+ * Each tap submits one answer, even for `multiple` questions.
+ */
 export const SlideFeedback = ({
   question,
   onPress,

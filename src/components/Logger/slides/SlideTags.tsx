@@ -15,6 +15,10 @@ import { SlideHeadline } from "../components/SlideHeadline";
 import { Footer } from "./Footer";
 import noop from "lodash/noop";
 
+/**
+ * Tag picker slide. Archived tags are hidden unless the draft already has
+ * them.
+ */
 export const SlideTags = ({
   onChange,
   onDisableStep = noop,

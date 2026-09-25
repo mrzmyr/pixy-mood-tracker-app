@@ -1,5 +1,12 @@
 import { createStructuredError } from "@/lib/errors";
 
+/**
+ * Web replacement for React Native `Alert`, backed by `window.confirm`.
+ *
+ * Only two-button alerts work: OK runs the first button, Cancel runs the
+ * second and rejects with an `alert_dismissed` error. Button styles and
+ * options are ignored.
+ */
 export default {
   alert: (
     title: string,

@@ -296,4 +296,9 @@ const SlideMessageComponent = (
   );
 };
 
+/**
+ * Free-text note slide. The ref points at the text input so the logger can
+ * focus it. Writing tips are generated from the draft's rating and
+ * emotions.
+ */
 export const SlideMessage = forwardRef(SlideMessageComponent);

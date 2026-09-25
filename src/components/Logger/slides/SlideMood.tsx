@@ -14,6 +14,10 @@ import { useTemporaryLog } from "@/hooks/useTemporaryLog";
 import { SlideHeadline } from "../components/SlideHeadline";
 import { SlideMoodButton } from "../components/SlideMoodButton";
 
+/**
+ * Rating slide, always the first logger slide. Must render inside
+ * `TemporaryLogProvider`.
+ */
 export const SlideMood = ({
   onChange,
 }: {

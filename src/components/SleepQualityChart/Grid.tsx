@@ -2,6 +2,10 @@ import useColors from "@/hooks/useColors";
 import { SLEEP_QUALITY_KEYS } from "@/constants/Ratings";
 import { Line } from "react-native-svg";
 
+/**
+ * Dashed row lines between the sleep quality rows of
+ * {@link SleepQualityChart}.
+ */
 export const Grid = ({ width, relativeY }) => {
   const colors = useColors();
 

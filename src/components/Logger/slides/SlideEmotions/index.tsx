@@ -42,6 +42,13 @@ const appendMissingEmotions = (
   return [...emotions, ...missingEmotions];
 };
 
+/**
+ * Emotion slide of the logger.
+ *
+ * Basic mode shows up to 36 emotions: the draft's picks, then the 20 most
+ * used, then the predefined basic set. Must render inside
+ * `TemporaryLogProvider` and `LogsProvider`.
+ */
 export const SlideEmotions = ({
   defaultIndex,
   onDisableStep = noop,

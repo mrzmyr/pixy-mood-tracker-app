@@ -13,6 +13,11 @@ const DEFAULT_STYLE = {};
 
 const WINDOW_WIDTH = Dimensions.get("window").width;
 
+/**
+ * Swipeable emotion pages, one per category from worst to best, sorted by
+ * label. `defaultIndex` picks the first page shown. Disabled emotions are
+ * hidden.
+ */
 export const EmotionAdvancedSelection = ({
   defaultIndex = 0,
   selectedEmotions,
