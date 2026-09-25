@@ -1,0 +1,41 @@
+appId: com.devmood.pixymoodtracker
+tags: [onboarding, skip]
+---
+# Reusable on installed devices; do not clear app data.
+- stopApp
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - launchApp:
+          permissions:
+            notifications: allow
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - launchApp
+- runFlow:
+    when:
+      visible: "Reminder"
+    commands:
+      - back
+- runFlow:
+    when:
+      visible:
+        id: "calendar"
+    commands:
+      - tapOn:
+          id: "settings"
+      - scrollUntilVisible:
+          element:
+            text: "Onboarding"
+          direction: DOWN
+      - tapOn: "Onboarding"
+
+- assertVisible: "Welcome 👋"
+- tapOn: "I never used a Mood Tracker"
+- assertVisible: "Calendar"
+- tapOn: "Skip"
+- assertVisible:
+    id: "calendar"

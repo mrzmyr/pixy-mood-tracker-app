@@ -76,10 +76,7 @@ export const Onboarding = ({
   };
 
   const slides = [
-    <IndexSlide
-      key="index"
-      onPress={() => goToSlide(1)}
-    />,
+    <IndexSlide key="index" onPress={() => goToSlide(1)} />,
     <CalendarSlide
       key="calendar"
       onSkip={skip}

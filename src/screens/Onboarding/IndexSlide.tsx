@@ -6,11 +6,7 @@ import useColors from "../../hooks/useColors";
 import { HeaderImage } from "./HeaderImage";
 
 /** First onboarding slide introducing Pixy. */
-export const IndexSlide = ({
-  onPress,
-}: {
-  onPress: () => void;
-}) => {
+export const IndexSlide = ({ onPress }: { onPress: () => void }) => {
   const colors = useColors();
 
   return (
@@ -77,9 +73,7 @@ export const IndexSlide = ({
               marginTop: 32,
             }}
           >
-            <Button onPress={onPress}>
-              {t("onboarding_step_1_button_2")}
-            </Button>
+            <Button onPress={onPress}>{t("onboarding_step_1_button_2")}</Button>
           </View>
         </View>
       </View>
