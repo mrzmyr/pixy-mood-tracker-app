@@ -44,6 +44,7 @@ bun dashboard                                               # runs, devices, and
 | Flow | Covers |
 | --- | --- |
 | 01-onboarding | Welcome, explainer slides, reminder skip, privacy accept, persistence across relaunch |
+| 11-onboarding-native-back | Arrow back, Android system Back within onboarding |
 | 02-log-entry | Create entry (rating), day view, second entry per day |
 | 03-calendar | Starts at today, loads calendar history past 12 months, keeps loading older months, scroll-to-today button, filters open/close |
 | 04-tags | Create, rename, use in logger, delete |

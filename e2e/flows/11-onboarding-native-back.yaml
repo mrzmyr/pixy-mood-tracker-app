@@ -1,0 +1,65 @@
+appId: com.devmood.pixymoodtracker
+tags: [onboarding, native-back]
+---
+# Reusable on installed devices; do not clear app data.
+- stopApp
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - launchApp:
+          permissions:
+            notifications: allow
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - launchApp
+- runFlow:
+    when:
+      visible: "Reminder"
+    commands:
+      - back
+- runFlow:
+    when:
+      visible:
+        id: "calendar"
+    commands:
+      - tapOn:
+          id: "settings"
+      - scrollUntilVisible:
+          element:
+            text: "Onboarding"
+          direction: DOWN
+      - tapOn: "Onboarding"
+
+- assertVisible: "Welcome 👋"
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+      - assertVisible: "Welcome 👋"
+- tapOn: "I never used a Mood Tracker"
+- assertVisible: "Calendar"
+- tapOn:
+    id: "onboarding-back"
+- assertVisible: "Welcome 👋"
+- tapOn: "I never used a Mood Tracker"
+- tapOn: "Next"
+- assertVisible: "Statistics"
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+      - assertVisible: "Calendar"
+      - tapOn: "Next"
+      - assertVisible: "Statistics"
+      - tapOn: "Next"
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - tapOn: "Next"
+- assertVisible: "Filters"
