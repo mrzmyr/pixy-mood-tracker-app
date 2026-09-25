@@ -1,4 +1,3 @@
-import MockDate from "mockdate";
 import {
   getCurrentStreak,
   getLongestStreak,
@@ -31,7 +30,7 @@ const testItems = [
 
 describe("utils", () => {
   beforeAll(() => {
-    MockDate.set(new Date("2022-01-12"));
+    jest.useFakeTimers({ now: new Date("2022-01-12") });
   });
 
   it("getCurrentStreak", () => {
@@ -82,6 +81,6 @@ describe("utils", () => {
   });
 
   afterAll(() => {
-    MockDate.reset();
+    jest.useRealTimers();
   });
 });

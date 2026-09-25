@@ -2,7 +2,6 @@ import { DATE_FORMAT } from "@/constants/Config";
 import { load, store } from "@/helpers/storage";
 import type { LogItemSchema } from "@/types";
 // oxlint-disable-next-line unicorn/prefer-node-protocol -- `buffer` is the npm polyfill bundled for React Native; `node:buffer` does not resolve in Hermes.
-import { Buffer } from "buffer";
 import dayjs from "dayjs";
 import isArray from "lodash/isArray";
 import omit from "lodash/omit";
@@ -236,7 +235,7 @@ const LogsProvider = ({ children }: { children: React.ReactNode }) => {
         setStorageStatus("ready");
 
         try {
-          const size = Buffer.byteLength(JSON.stringify(value));
+          const size = new TextEncoder().encode(JSON.stringify(value)).length;
           const megaBytes = Math.round((size / 1024 / 1024) * 100) / 100;
           trackLoadedLogs(megaBytes);
         } catch (error) {
