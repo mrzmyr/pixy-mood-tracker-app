@@ -8,6 +8,9 @@
       "developmentClient": true,
       "distribution": "internal",
       "channel": "development",
+      "env": {
+        "DEV_CLIENT": "true"
+      },
       "android": {
         "buildType": "apk"
       }
