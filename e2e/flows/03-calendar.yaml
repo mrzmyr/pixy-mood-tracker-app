@@ -53,6 +53,14 @@ tags: [calendar]
     speed: 80
 - assertVisible:
     id: "calendar-day-2022-09-24"
+- scrollUntilVisible:
+    element:
+      id: "calendar-day-2021-09-24"
+    direction: UP
+    timeout: 120000
+    speed: 80
+- assertVisible:
+    id: "calendar-day-2021-09-24"
 
 # 3.4 Scroll back several months (bounded swipes that stay off the tab bar)
 - swipe:

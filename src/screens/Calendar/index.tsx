@@ -28,10 +28,10 @@ const CalendarScreen = memo(function CalendarScreen() {
   const [calendarHeight, setCalendarHeight] = useState(0);
 
   const scrollRef = useRef<ScrollView>(null);
-  const previousContentHeight = useRef(0);
   const isLoadingEarlierMonths = useRef(false);
+  const requestedFromMonthCount = useRef(0);
+  const previousContentHeight = useRef(0);
   const isInitialPositionSet = useRef(false);
-
 
   useEffect(() => {
     if (!settings.loaded || !logState.loaded) {
@@ -52,10 +52,6 @@ const CalendarScreen = memo(function CalendarScreen() {
   )
 
   const loadEarlierMonths = () => {
-    if (isLoadingEarlierMonths.current) {
-      return;
-    }
-    isLoadingEarlierMonths.current = true;
     setMonthCount((count) => count + monthsPerPage);
   };
 
@@ -64,14 +60,29 @@ const CalendarScreen = memo(function CalendarScreen() {
   };
 
   const onScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
-    updateScrollOffset(event.nativeEvent.contentOffset.y);
-  };
-
-  const onScrollBoundary = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
     const offset = event.nativeEvent.contentOffset.y;
     updateScrollOffset(offset);
-    if (isInitialPositionSet.current && offset < 100) {
+
+    if (
+      isInitialPositionSet.current &&
+      offset < 100 &&
+      !isLoadingEarlierMonths.current
+    ) {
+      isLoadingEarlierMonths.current = true;
+      requestedFromMonthCount.current = monthCount;
       loadEarlierMonths();
+    }
+  };
+
+  const onContentSizeChange = (_width: number, height: number) => {
+    if (height > previousContentHeight.current) {
+      if (
+        isLoadingEarlierMonths.current &&
+        monthCount > requestedFromMonthCount.current
+      ) {
+        isLoadingEarlierMonths.current = false;
+      }
+      previousContentHeight.current = height;
     }
   };
 
@@ -108,15 +119,8 @@ const CalendarScreen = memo(function CalendarScreen() {
         }}
         scrollEventThrottle={100}
         maintainVisibleContentPosition={{ minIndexForVisible: 0 }}
-        onContentSizeChange={(_, height) => {
-          if (height > previousContentHeight.current) {
-            isLoadingEarlierMonths.current = false;
-          }
-          previousContentHeight.current = height;
-        }}
         onScroll={onScroll}
-        onMomentumScrollEnd={onScrollBoundary}
-        onScrollEndDrag={onScrollBoundary}
+        onContentSizeChange={onContentSizeChange}
         ref={scrollRef}
       >
         {Platform.OS === "web" && calendarFilters.isOpen && <Body />}
