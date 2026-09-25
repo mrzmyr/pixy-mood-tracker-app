@@ -1,5 +1,12 @@
 import { usePostHog } from "posthog-react-native";
-import { createContext, useContext, useEffect, useState } from "react";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import { useSettings } from "./useSettings";
 import { createMissingProviderError } from "@/lib/errors";
 
@@ -55,58 +62,61 @@ const AnalyticsProvider = ({
     }
   }, [settings.loaded, settings.analyticsEnabled, posthog]);
 
-  const identify: AnaylticsState["identify"] = (properties) => {
+  const identify = useCallback<AnaylticsState["identify"]>((properties) => {
     if (DEBUG) {
       console.log("useAnalytics: anonymous session", properties);
     }
     setIsIdentified(true);
-  };
+  }, []);
 
-  const value: AnaylticsState = {
-    identify,
-    enable: () => {
-      posthog?.optIn();
-      setIsEnabled(true);
-      setSettings((settings) => ({
-        ...settings,
-        analyticsEnabled: true,
-      }));
-    },
-    disable: () => {
-      posthog?.optOut();
-      setIsEnabled(false);
-      setSettings((settings) => ({
-        ...settings,
-        analyticsEnabled: false,
-      }));
-    },
-    reset: () => {
-      posthog?.reset();
-      posthog?.optOut();
-      setIsEnabled(false);
-      setSettings((settings) => ({
-        ...settings,
-        analyticsEnabled: false,
-      }));
-    },
-    track: (eventName, properties) => {
-      if (!isEnabled) {
-        return;
-      }
+  const value = useMemo<AnaylticsState>(
+    () => ({
+      identify,
+      enable: () => {
+        posthog?.optIn();
+        setIsEnabled(true);
+        setSettings((settings) => ({
+          ...settings,
+          analyticsEnabled: true,
+        }));
+      },
+      disable: () => {
+        posthog?.optOut();
+        setIsEnabled(false);
+        setSettings((settings) => ({
+          ...settings,
+          analyticsEnabled: false,
+        }));
+      },
+      reset: () => {
+        posthog?.reset();
+        posthog?.optOut();
+        setIsEnabled(false);
+        setSettings((settings) => ({
+          ...settings,
+          analyticsEnabled: false,
+        }));
+      },
+      track: (eventName, properties) => {
+        if (!isEnabled) {
+          return;
+        }
 
-      if (DEBUG) {
-        console.log("useAnalytics: track", eventName, properties);
-      }
+        if (DEBUG) {
+          console.log("useAnalytics: track", eventName, properties);
+        }
 
-      if (!options.enabled) {
-        return;
-      }
+        if (!options.enabled) {
+          return;
+        }
 
-      posthog?.capture(eventName);
-    },
-    isIdentified,
-    isEnabled,
-  };
+        posthog?.capture(eventName);
+      },
+      isIdentified,
+      isEnabled,
+    }),
+    [identify, posthog, setSettings, isEnabled, options.enabled, isIdentified]
+  );
 
   useEffect(() => {
     if (!isIdentified && settings.deviceId !== null) {

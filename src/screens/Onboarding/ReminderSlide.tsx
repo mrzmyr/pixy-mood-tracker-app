@@ -65,7 +65,7 @@ export const ReminderSlide = ({
   const { askForPermission, hasPermission, schedule, cancelAll } =
     useNotification();
 
-  const [time, setTime] = useState(
+  const [time, setTime] = useState(() =>
     dayjs().hour(20).minute(0).second(0).toDate()
   );
 

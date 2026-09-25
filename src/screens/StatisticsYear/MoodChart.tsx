@@ -7,6 +7,7 @@ import { getRatingDistributionForYear } from "../../hooks/useStatistics/RatingDi
 
 import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
 import { BigCard } from "@/components/BigCard";
+import type { ScaleItem } from "@/components/RatingChart";
 import { RatingChart } from "@/components/RatingChart";
 import { CardFeedback } from "@/components/Statistics/CardFeedback";
 import { NotEnoughDataOverlay } from "@/components/Statistics/NotEnoughDataOverlay";
@@ -24,13 +25,14 @@ export const MoodChart = ({ date }: { date: Dayjs }) => {
     dayjs(item.dateTime).isSame(date, "year")
   );
 
-  const dataDummy = useRef(
-    _.range(0, 11).map((i) => ({
+  const dataDummy = useRef<ScaleItem[] | null>(null);
+  if (dataDummy.current === null) {
+    dataDummy.current = _.range(0, 11).map((i) => ({
       key: dayjs().month(i).format("MMM")[0],
       count: _.random(3, 6),
       value: _.random(1, 6),
-    }))
-  );
+    }));
+  }
 
   const data = getRatingDistributionForYear(items);
   const validatedData = data.filter((d) => d.value !== null);

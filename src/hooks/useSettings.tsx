@@ -4,6 +4,7 @@ import {
   useCallback,
   useContext,
   useEffect,
+  useMemo,
   useState,
 } from "react";
 import "react-native-get-random-values";
@@ -230,17 +231,29 @@ const SettingsProvider = ({ children }: { children: React.ReactNode }) => {
     [settings.steps]
   );
 
-  const value = {
-    settings,
-    setSettings,
-    resetSettings,
-    importSettings,
-    addActionDone,
-    hasActionDone,
-    removeActionDone,
-    toggleStep,
-    hasStep,
-  };
+  const value = useMemo(
+    () => ({
+      settings,
+      setSettings,
+      resetSettings,
+      importSettings,
+      addActionDone,
+      hasActionDone,
+      removeActionDone,
+      toggleStep,
+      hasStep,
+    }),
+    [
+      settings,
+      resetSettings,
+      importSettings,
+      addActionDone,
+      hasActionDone,
+      removeActionDone,
+      toggleStep,
+      hasStep,
+    ]
+  );
 
   return (
     <SettingsStateContext.Provider value={value}>
