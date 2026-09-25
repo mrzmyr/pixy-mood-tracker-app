@@ -34,12 +34,10 @@ export type RootStackParamList = {
   Colors: undefined;
   Licenses: undefined;
   Calendar: undefined;
-  NotFound: undefined;
   Data: undefined;
   Reminder: undefined;
   Privacy: undefined;
   Steps: undefined;
-  // PasscodeLocked: undefined;
   Tags: undefined;
   DevelopmentTools: undefined;
 

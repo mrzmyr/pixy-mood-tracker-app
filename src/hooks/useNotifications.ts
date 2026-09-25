@@ -35,9 +35,6 @@ export const createDailyTrigger = (
   minute,
 });
 
-const getScheduled = async () =>
-  await Notifications.getAllScheduledNotificationsAsync();
-
 const hasPermission = async (): Promise<boolean> => {
   if (Device.isDevice) {
     const { status } = await Notifications.getPermissionsAsync();
@@ -89,14 +86,12 @@ const notifications = isWeb
       askForPermission: () => Promise.resolve(true),
       schedule: () => Promise.resolve(),
       cancelAll: () => Promise.resolve(),
-      getScheduled: () => Promise.resolve([]),
     }
   : {
       hasPermission,
       askForPermission,
       schedule,
       cancelAll,
-      getScheduled,
     };
 
 const useNotification = () => notifications;

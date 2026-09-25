@@ -1,5 +1,3 @@
-import * as Updates from "expo-updates";
-
 /** Minimum tag title length accepted by the tag create and edit screens. */
 export const MIN_TAG_LENGTH = 3;
 /** Maximum tag title length; also the text input `maxLength`. */
@@ -7,8 +5,6 @@ export const MAX_TAG_LENGTH = 30;
 
 /** Tag limit; the tag screens hide the create action once it is reached. */
 export const MAX_TAGS = 50;
-/** Planned per-day entry limit. Nothing enforces it yet. */
-export const MAX_ENTRIES_PER_DAY = 50;
 /**
  * Entries required to unlock statistics. The Statistics tab counts only the
  * last 14 days; the calendar report promos count all entries.
@@ -57,15 +53,3 @@ export const CHANGELOG_URL = "https://pixy.hellonext.co/embed/c?no_header=true";
 /** Feature request board opened in the in-app browser from Settings. */
 export const FEEDBACK_FEATURES_URL =
   "https://pixy.hellonext.co/embed/b/feedback?no_header=true";
-
-const NON_PRODUCTION_CHANNELS = ["development", "preview"];
-
-/**
- * True only for release builds outside the `development` and `preview`
- * EAS update channels.
- *
- * Local release archives have no EAS channel. Treat them as production so
- * experimental features cannot leak into an App Store build.
- */
-export const IS_PROD =
-  !__DEV__ && !NON_PRODUCTION_CHANNELS.includes(Updates.channel ?? "");
