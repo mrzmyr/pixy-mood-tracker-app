@@ -4,6 +4,8 @@ import { ActivityIndicator, Pressable, Text, View } from "react-native";
 import useColors from "@/hooks/useColors";
 import useHaptics from "@/hooks/useHaptics";
 
+const DEFAULT_STYLE = {};
+
 const Button = ({
   type = "primary",
   icon,
@@ -12,7 +14,7 @@ const Button = ({
   isLoading = false,
   disabled = false,
   children,
-  style = {},
+  style = DEFAULT_STYLE,
 }: {
   type?: "primary" | "secondary" | "danger" | "tertiary";
   icon?: React.ReactNode;

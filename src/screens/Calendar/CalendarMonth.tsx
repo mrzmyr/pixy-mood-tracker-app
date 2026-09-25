@@ -74,9 +74,9 @@ const CalendarMonthComponent = ({
       }}
     >
       <Text style={textStyles}>{dayjs(dateString).format("MMMM YYYY")}</Text>
-      {WEEK_DATES.map((_, index) => (
+      {WEEK_DATES.map((week, index) => (
         <CalendarWeek
-          key={index}
+          key={week.start.format(DATE_FORMAT)}
           startDate={WEEK_DATES[index].start.format(DATE_FORMAT)}
           endDate={WEEK_DATES[index].end.format(DATE_FORMAT)}
           isFirst={index === 0}

@@ -6,11 +6,13 @@ import { Text, View, useColorScheme } from "react-native";
 import { RectButton } from "react-native-gesture-handler";
 import { EmotionIndicator } from "./EmotionsIndicator";
 
+const DEFAULT_STYLE = {};
+
 export const EmotionButtonAdvanced = ({
   emotion,
   onPress,
   selected,
-  style = {},
+  style = DEFAULT_STYLE,
 }: {
   emotion: Emotion;
   onPress: (emotion: Emotion) => void;

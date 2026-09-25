@@ -73,9 +73,10 @@ const CalendarWeekComponent = ({
   }, [startDate, endDate]);
 
   const emptyDays = useMemo(() => {
-    const emptyDays: null[] = [];
+    // Placeholder slots have no data identity; the slot position is their stable key.
+    const emptyDays: string[] = [];
     for (let i = 0; i < 7 - days.length; i++) {
-      emptyDays.push(null);
+      emptyDays.push(`empty-day-${i}`);
     }
     return emptyDays;
   }, [days]);
@@ -121,8 +122,7 @@ const CalendarWeekComponent = ({
         marginRight: -4,
       }}
     >
-      {!isLast &&
-        emptyDays.map((day, index) => <CalendarDayContainer key={index} />)}
+      {!isLast && emptyDays.map((slot) => <CalendarDayContainer key={slot} />)}
 
       {daysMap.map((day) => (
         <CalendarDayContainer key={day.dateString}>
@@ -130,8 +130,7 @@ const CalendarWeekComponent = ({
         </CalendarDayContainer>
       ))}
 
-      {isLast &&
-        emptyDays.map((day, index) => <CalendarDayContainer key={index} />)}
+      {isLast && emptyDays.map((slot) => <CalendarDayContainer key={slot} />)}
     </View>
   );
 };

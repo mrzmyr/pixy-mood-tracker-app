@@ -7,11 +7,13 @@ import type { ViewStyle } from "react-native";
 import { View } from "react-native";
 import { EmotionButtonBasic } from "./EmotionButtonBasic";
 
+const DEFAULT_STYLE = {};
+
 export const EmotionBasicSelection = ({
   emotions,
   selectedEmotions,
   onPress,
-  style = {},
+  style = DEFAULT_STYLE,
 }: {
   emotions: Emotion[];
   selectedEmotions: Emotion[];
@@ -45,9 +47,9 @@ export const EmotionBasicSelection = ({
     >
       <Modal />
 
-      {rows.map((row, index) => (
+      {rows.map((row) => (
         <View
-          key={`basic-emotion-row-${index}`}
+          key={`basic-emotion-row-${row[0].key}`}
           style={{
             flexDirection: "row",
             marginBottom: 8,

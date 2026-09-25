@@ -5,9 +5,11 @@ import { t } from "@/helpers/translation";
 import useColors from "../../hooks/useColors";
 import useFeedbackModal from "../../hooks/useFeedbackModal";
 
+const DEFAULT_STYLE = {};
+
 export const FeedbackBox = ({
   prefix,
-  style = {},
+  style = DEFAULT_STYLE,
   emoji = "",
 }: {
   prefix: string;

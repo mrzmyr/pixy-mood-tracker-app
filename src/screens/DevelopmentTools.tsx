@@ -152,7 +152,7 @@ export const DevelopmentTools = () => {
               style={{
                 flexDirection: "column",
               }}
-              key={i}
+              key={`${action.title}-${action.date}`}
               isLast={i === settings.actionsDone.length - 1}
             >
               <View

@@ -5,9 +5,11 @@ import LinkButton from "./LinkButton";
 import useColors from "@/hooks/useColors";
 import useFeedbackModal from "@/hooks/useFeedbackModal";
 
+const DEFAULT_STYLE = {};
+
 export const FeedbackBox = ({
   prefix,
-  style = {},
+  style = DEFAULT_STYLE,
 }: {
   prefix: string;
   style?: ViewStyle;

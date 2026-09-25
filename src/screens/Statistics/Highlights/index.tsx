@@ -181,8 +181,8 @@ export const StatisticsHighlights = ({ navigation }) => {
 
               {statistics.isAvailable("tags_peaks") && (
                 <>
-                  {statistics.state.tagsPeaksData.tags.map((tag, index) => (
-                    <TagPeaksCard key={index} tag={tag} />
+                  {statistics.state.tagsPeaksData.tags.map((tag) => (
+                    <TagPeaksCard key={tag.id} tag={tag} />
                   ))}
                 </>
               )}

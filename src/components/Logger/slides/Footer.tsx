@@ -1,9 +1,11 @@
 import type { ViewStyle } from "react-native";
 import { View } from "react-native";
 
+const DEFAULT_STYLE = {};
+
 export const Footer = ({
   children,
-  style = {},
+  style = DEFAULT_STYLE,
 }: {
   children: React.ReactNode;
   style?: ViewStyle;

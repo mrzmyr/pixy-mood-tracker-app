@@ -11,7 +11,7 @@ export const Grid = ({ width, relativeY }) => {
         const y = relativeY(index);
         return (
           <Line
-            key={`l-${rating}-${index}`}
+            key={`l-${rating}`}
             x1={0}
             y1={y - 1}
             x2={width}

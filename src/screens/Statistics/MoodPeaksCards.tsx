@@ -84,13 +84,13 @@ const BodyWeek = ({ days, start }: { days: LogDay[]; start: Dayjs }) => {
         marginTop: 16,
       }}
     >
-      {_days.map((dayCount, index) => {
+      {_days.map((dayCount) => {
         const date = dayjs(start).add(dayCount, "day").toDate();
         const day = days.find((item) => dayjs(item.date).isSame(date, "day"));
 
         return (
           <View
-            key={index}
+            key={dayCount}
             style={{
               flex: 7,
               alignItems: "center",
@@ -128,10 +128,10 @@ export const MoodPeaksContent = ({
       }}
     >
       <HeaderWeek date={_startDate.format(DATE_FORMAT)} />
-      {_.range(weekCount).map((week, index) => {
+      {_.range(weekCount).map((week) => {
         const weekStart = dayjs(_startDate).add(week, "week");
 
-        return <BodyWeek key={index} days={data.days} start={weekStart} />;
+        return <BodyWeek key={week} days={data.days} start={weekStart} />;
       })}
     </View>
   );

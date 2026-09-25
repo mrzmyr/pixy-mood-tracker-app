@@ -4,12 +4,14 @@ import useColors from "@/hooks/useColors";
 import useHaptics from "@/hooks/useHaptics";
 import type { TAG_COLOR_NAMES } from "@/constants/Config";
 
+const DEFAULT_STYLE = {};
+
 const Tag = ({
   title,
   selected = false,
   colorName,
   onPress,
-  style = {},
+  style = DEFAULT_STYLE,
 }: {
   title: string;
   selected?: boolean;

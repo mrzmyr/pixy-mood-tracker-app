@@ -11,7 +11,7 @@ export const YLabels = ({ relativeY, YLegendWidth, rowHeight, width }) => {
         const y = relativeY(index);
         return (
           <Rect
-            key={`ylabel-${rating}-${index}`}
+            key={`ylabel-${rating}`}
             x={(YLegendWidth - 20) / 2}
             y={y + rowHeight / 2 / 2}
             width={20}

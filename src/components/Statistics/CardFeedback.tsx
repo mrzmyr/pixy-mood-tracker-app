@@ -19,6 +19,9 @@ import pkg from "../../../package.json";
 import Button from "../Button";
 import TextArea from "../TextArea";
 
+const DEFAULT_ANALYTICS_DATA = {};
+const DEFAULT_STYLE = {};
+
 const EMOJI_SCALE_IMAGES_DEFAULT = [
   {
     emoji: "😍",
@@ -103,9 +106,9 @@ const CardFeedbackEmoji = ({ image, onPress, selected }) => {
 };
 export const CardFeedback = ({
   analyticsId,
-  analyticsData = {},
+  analyticsData = DEFAULT_ANALYTICS_DATA,
   variant = "default",
-  style = {},
+  style = DEFAULT_STYLE,
 }: {
   analyticsId: string;
   analyticsData?: object;

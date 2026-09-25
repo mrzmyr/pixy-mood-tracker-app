@@ -214,8 +214,8 @@ export const HighlightsSection = ({ items }: { items: LogItem[] }) => {
             {statistics.state.tagsPeaksData.tags
               .sort((a, b) => b.items.length - a.items.length)
               .filter((tag) => tag.items.length > 5)
-              .map((tag, index) => (
-                <TagPeaksCard key={index} tag={tag} />
+              .map((tag) => (
+                <TagPeaksCard key={tag.id} tag={tag} />
               ))}
           </>
         )}

@@ -5,6 +5,8 @@ import { ChevronRight } from "react-native-feather";
 import useColors from "@/hooks/useColors";
 import useHaptics from "@/hooks/useHaptics";
 
+const DEFAULT_STYLE = {};
+
 const MenuListItem = ({
   title,
   onPress = null,
@@ -13,7 +15,7 @@ const MenuListItem = ({
   isLast = false,
   isLink = false,
   deactivated = false,
-  style = {},
+  style = DEFAULT_STYLE,
   children,
   testID,
 }: {

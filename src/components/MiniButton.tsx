@@ -3,11 +3,13 @@ import useHaptics from "@/hooks/useHaptics";
 import type { ViewStyle } from "react-native";
 import { Pressable, Text } from "react-native";
 
+const DEFAULT_STYLE = {};
+
 export const MiniButton = ({
   onPress,
   children,
   icon,
-  style = {},
+  style = DEFAULT_STYLE,
   variant = "primary",
 }: {
   onPress: () => void;

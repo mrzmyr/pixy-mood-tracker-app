@@ -2,9 +2,11 @@ import type { ViewStyle } from "react-native";
 import { Text } from "react-native";
 import useColors from "@/hooks/useColors";
 
+const DEFAULT_STYLE = {};
+
 const TextHeadline = ({
   children,
-  style = {},
+  style = DEFAULT_STYLE,
 }: {
   children: React.ReactNode;
   style?: ViewStyle;

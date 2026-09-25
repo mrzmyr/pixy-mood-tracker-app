@@ -94,7 +94,7 @@ const BodyWeek = ({
         marginTop: 16,
       }}
     >
-      {days.map((day, index) => {
+      {days.map((day) => {
         const date = dayjs(start).add(day, "day");
         const item = items.find((item) =>
           dayjs(item.dateTime).isSame(date, "day")
@@ -104,7 +104,7 @@ const BodyWeek = ({
 
         return (
           <View
-            key={index}
+            key={day}
             style={{
               flex: 7,
               alignItems: "center",
@@ -170,12 +170,12 @@ export const TagPeaksCard = ({ tag }: { tag: TagsPeakData["tags"][0] }) => {
         }}
       >
         <HeaderWeek date={startDate.format(DATE_FORMAT)} />
-        {_.range(weekCount).map((week, index) => {
+        {_.range(weekCount).map((week) => {
           const weekStart = dayjs(startDate).add(week, "week");
 
           return (
             <BodyWeek
-              key={`tag-peaks-card-week-${index}`}
+              key={`tag-peaks-card-week-${week}`}
               start={weekStart}
               items={tag.items}
               tag={tag}

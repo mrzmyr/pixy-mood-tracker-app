@@ -5,6 +5,8 @@ import type { SvgProps } from "react-native-svg";
 import useColors from "@/hooks/useColors";
 import useHaptics from "@/hooks/useHaptics";
 
+const DEFAULT_STYLE = {};
+
 const isString = (children: React.ReactNode): children is string => {
   if (_.isString(children)) {
     return true;
@@ -31,7 +33,7 @@ const LinkButton = ({
   type = "primary",
   onPress,
   children,
-  style = {},
+  style = DEFAULT_STYLE,
   icon: Icon = null,
   testID,
   disabled,

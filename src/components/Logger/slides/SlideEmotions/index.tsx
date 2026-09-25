@@ -22,13 +22,15 @@ import { ExpandButton } from "./ExpandButton";
 import { Tooltip } from "./Tooltip";
 import { useAnalytics } from "@/hooks/useAnalytics";
 
+const noop = () => {};
+
 type Mode = "basic" | "advanced";
 
 const MAX_BASIC_EMOTIONS = 36;
 
 export const SlideEmotions = ({
   defaultIndex,
-  onDisableStep = () => {},
+  onDisableStep = noop,
   onChange,
   showDisable,
   showFooter = true,

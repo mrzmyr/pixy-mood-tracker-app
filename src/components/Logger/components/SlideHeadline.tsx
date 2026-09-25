@@ -2,9 +2,11 @@ import type { ViewStyle } from "react-native";
 import { Text, View } from "react-native";
 import useColors from "@/hooks/useColors";
 
+const DEFAULT_STYLE = {};
+
 export const SlideHeadline = ({
   children,
-  style = {},
+  style = DEFAULT_STYLE,
 }: {
   children: string;
   style?: ViewStyle;

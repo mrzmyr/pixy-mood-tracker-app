@@ -5,11 +5,13 @@ import type { ViewStyle } from "react-native";
 import { Pressable, Text, useColorScheme, View } from "react-native";
 import { EmotionIndicator } from "./EmotionsIndicator";
 
+const DEFAULT_STYLE = {};
+
 export const EmotionButtonBasic = ({
   emotion,
   onPress,
   selected,
-  style = {},
+  style = DEFAULT_STYLE,
 }: {
   emotion: Emotion;
   onPress: (emotion: Emotion) => void;
