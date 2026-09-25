@@ -63,10 +63,4 @@ jobs:
 
       - name: Build and submit iOS release
         run: >-
-          eas build
-          --platform ios
-          --profile production
-          --auto-submit
-          --non-interactive
-          --no-wait
-          --freeze-credentials
+          eas build --platform ios --profile production --auto-submit --non-interactive --no-wait --freeze-credentials
