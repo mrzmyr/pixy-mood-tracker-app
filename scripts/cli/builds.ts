@@ -77,6 +77,16 @@ const getSize = (target: string): number => {
     : stats.size;
 };
 
+// Short ID for a cache key: ios-f2ab57cc-Release-88f1470e0d69.
+const toBuildId = (key: string) => {
+  const groups = BUILD_KEY.exec(key)?.groups;
+  if (!groups) {
+    return key;
+  }
+  const { bundle, fingerprint, platform, variant } = groups;
+  return `${platform}-${fingerprint.slice(0, 8)}-${variant}${bundle ? `-${bundle}` : ""}`;
+};
+
 const formatSize = (bytes: number) => `${Math.round(bytes / 1_000_000)}M`;
 
 const listBuilds = (): Build[] => {
@@ -100,7 +110,7 @@ const listBuilds = (): Build[] => {
         createdAt,
         file: fullPath,
         fingerprint,
-        id: `${platform}-${fingerprint.slice(0, 8)}-${variant}${bundle ? `-${bundle}` : ""}`,
+        id: toBuildId(key),
         isRelease: Boolean(bundle),
         key,
         lastUsedAt: meta.lastUsedAt ?? createdAt,
@@ -301,5 +311,5 @@ const BUILDS_COMMANDS = new Map(
   } satisfies Record<string, Command>)
 );
 
-/** `bun builds` commands, plus the build list for the dashboard. */
-export { BUILDS_COMMANDS, listBuilds };
+/** `bun builds` commands, plus the build list and IDs for the dashboard. */
+export { BUILDS_COMMANDS, listBuilds, toBuildId };

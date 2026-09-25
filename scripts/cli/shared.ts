@@ -39,7 +39,27 @@ interface Lease {
   isCreated: boolean;
 }
 
+// The last build `bun sessions run --build` installed on a device. Later runs
+// without --build test that build.
+interface Install {
+  deviceId: string;
+  key: string;
+  sessionId: string;
+  installedAt: string;
+}
+
 type SessionStatus = "building" | "running" | "passed" | "failed" | "killed";
+
+// The app build a session tested: a build cache hit, a fresh build, or the
+// app already installed on the device (runs without --build).
+interface SessionBuild {
+  key: string | null;
+  source: "cache" | "built" | "installed";
+  // Installed app version, e.g. "1.87.1 (570018701)".
+  version: string | null;
+  // For "installed": the session that installed this build, when known.
+  installedBy: string | null;
+}
 
 interface Session {
   id: string;
@@ -59,6 +79,7 @@ interface Session {
   exitCode?: number;
   logFile: string;
   reportDir: string;
+  build?: SessionBuild;
 }
 
 interface CliErrorFields {
@@ -88,6 +109,8 @@ const STATE_DIR =
 const SESSIONS_DIR = path.join(STATE_DIR, "sessions");
 const LEASES_DIR = path.join(STATE_DIR, "leases");
 const LOGS_DIR = path.join(STATE_DIR, "logs");
+const INSTALLS_DIR = path.join(STATE_DIR, "installs");
+const APP_ID = "com.devmood.pixymoodtracker";
 const REPORTS_DIR = path.join(STATE_DIR, "reports");
 
 const HEARTBEAT_MS = 15_000;
@@ -123,7 +146,7 @@ const readJson = <T>(file: string): T | null => {
   }
 };
 
-const writeJson = (file: string, data: Session | Lease) => {
+const writeJson = (file: string, data: Session | Lease | Install) => {
   fs.mkdirSync(path.dirname(file), { recursive: true });
   const tmp = `${file}.${process.pid}.tmp`;
   fs.writeFileSync(tmp, `${JSON.stringify(data, null, 2)}\n`);
@@ -266,6 +289,8 @@ export {
   FINISHED_SESSION_TTL_MS,
   HEARTBEAT_MS,
   HEARTBEAT_STALE_MS,
+  APP_ID,
+  INSTALLS_DIR,
   LEASES_DIR,
   LOGS_DIR,
   REPORTS_DIR,
@@ -292,8 +317,10 @@ export type {
   Device,
   DeviceKind,
   DeviceState,
+  Install,
   Lease,
   Platform,
   Session,
+  SessionBuild,
   SessionStatus,
 };

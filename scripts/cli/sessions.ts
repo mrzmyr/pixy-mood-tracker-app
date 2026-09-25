@@ -7,12 +7,20 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 
-import { findDevice, getAndroidBuildEnv, getTrustFix } from "./devices.ts";
+import {
+  findDevice,
+  getAndroidBuildEnv,
+  getTrustFix,
+  readInstall,
+  readInstalledApp,
+  recordInstall,
+} from "./devices.ts";
 import {
   getStaleReason,
   isActive,
   killSession,
   killStaleSessions,
+  readBuildFromLog,
   readSessions,
   sessionFile,
 } from "./session-store.ts";
@@ -37,6 +45,7 @@ import type {
   Command,
   Device,
   Session,
+  SessionBuild,
   SessionStatus,
 } from "./shared.ts";
 
@@ -175,6 +184,49 @@ const assertRunnable = (device: Device) => {
   }
 };
 
+// Every session records the build it tests. Without --build that is the app
+// already on the device, so it must be installed.
+const resolveBuild = (device: Device, isBuild: boolean): SessionBuild => {
+  if (isBuild) {
+    return { installedBy: null, key: null, source: "built", version: null };
+  }
+  const version = readInstalledApp(device);
+  if (!version) {
+    throw new CliError({
+      fix:
+        device.kind === "physical"
+          ? "Install the TestFlight build on the phone, then rerun."
+          : `Rerun with --build to install this worktree's release build on ${device.name}.`,
+      message: `Pixy is not installed on ${device.name}`,
+      status: "app_not_installed",
+      why: "A session must test a known build, and no Pixy app was found on the device.",
+    });
+  }
+  const install = readInstall(device.id);
+  return {
+    installedBy: install?.sessionId ?? null,
+    key: install?.key ?? null,
+    source: "installed",
+    version,
+  };
+};
+
+// After --build: which cached or fresh build went onto the device.
+const recordBuild = (
+  session: Session,
+  device: Device,
+  isInstalled: boolean
+): SessionBuild => {
+  const fromLog = readBuildFromLog(session.logFile);
+  if (isInstalled && fromLog.key) {
+    recordInstall(device.id, fromLog.key, session.id);
+  }
+  return {
+    ...fromLog,
+    version: isInstalled ? readInstalledApp(device) : null,
+  };
+};
+
 const cmdRun = async (
   id: string,
   flows: string[],
@@ -215,6 +267,8 @@ const cmdRun = async (
     });
   }
 
+  const sessionBuild = resolveBuild(device, options.isBuild);
+
   // Resolve before the session exists, so a missing SDK or JDK leaves no record.
   const buildEnv = getBuildEnv(device, options.isBuild);
   const signingArgs = getSigningArgs(device, options.teamId);
@@ -235,6 +289,7 @@ const cmdRun = async (
     platform: device.platform,
     reportDir: path.join(REPORTS_DIR, sessionId),
     startedAt: now,
+    build: sessionBuild,
     status: options.isBuild ? "building" : "running",
     worktree,
   };
@@ -277,6 +332,7 @@ const cmdRun = async (
     session.childPid = build.pid;
     save();
     const buildCode = await waitForExit(build);
+    session.build = recordBuild(session, device, buildCode === 0);
     if (buildCode !== 0) {
       finish("failed", buildCode);
       throw new CliError({

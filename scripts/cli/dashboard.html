@@ -262,6 +262,9 @@
         flex: none;
         fill: currentColor;
       }
+      .platform-android svg {
+        fill: #9ebe37;
+      }
       .links {
         display: inline-flex;
         gap: 12px;
@@ -333,6 +336,33 @@
         padding: 12px 16px;
         background: var(--hover);
         border-radius: 6px;
+      }
+      .meta {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        gap: 6px 24px;
+        margin: 0 0 12px;
+        padding: 0 16px;
+      }
+      .meta dt {
+        color: var(--muted);
+        font-size: 12px;
+      }
+      .meta dd {
+        margin: 0;
+        min-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .detail-box {
+        padding: 12px 0;
+        background: var(--hover);
+        border-radius: 6px;
+      }
+      .detail-box .flows {
+        background: none;
+        padding-top: 0;
+        padding-bottom: 0;
       }
       .empty {
         padding: 24px 0;
@@ -474,7 +504,7 @@
         ios: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.245-3.83-1.207.052-2.662.805-3.532 1.818-.78.896-1.454 2.338-1.273 3.714 1.338.104 2.715-.688 3.559-1.701"/></svg>',
       };
       const platformLabel = (platform) =>
-        `<span class="platform">${PLATFORM_ICONS[platform] ?? ""}${platform === "ios" ? "iOS" : "Android"}</span>`;
+        `<span class="platform platform-${esc(platform)}">${PLATFORM_ICONS[platform] ?? ""}${platform === "ios" ? "iOS" : "Android"}</span>`;
       const KIND_LABELS = {
         emulator: "Emulator",
         physical: "Physical",
@@ -537,6 +567,62 @@
 
       const table = (head, rows) =>
         `<table><thead><tr>${head.map((h) => `<th scope="col">${h}</th>`).join("")}</tr></thead><tbody>${rows.join("")}</tbody></table>`;
+
+      const BUILD_SOURCES = {
+        built: "built for this session",
+        cache: "from build cache",
+        installed: "already on the device",
+      };
+
+      // Build and device a session used, for the expanded row.
+      const sessionMeta = (s) => {
+        const b = s.build ?? { source: "installed" };
+        const cached = b.key ? state.builds.find((x) => x.key === b.key) : null;
+        const buildParts = [
+          b.id ? `<span class="mono">${esc(b.id)}</span>` : "",
+          `<span class="muted">${BUILD_SOURCES[b.source] ?? esc(b.source)}</span>`,
+          b.version || s.app?.version
+            ? `<span class="muted">app ${esc(b.version ?? s.app.version)}</span>`
+            : "",
+          b.installedBy
+            ? `<span class="muted">installed by session <span class="mono">${esc(b.installedBy)}</span></span>`
+            : "",
+          !b.key && b.source === "installed"
+            ? `<span class="faint">build not recorded</span>`
+            : "",
+          cached?.meta?.commit
+            ? `<span class="mono">${esc(cached.meta.branch || "detached")}</span> <span class="faint mono">${esc(cached.meta.commit.slice(0, 7))}${cached.meta.isDirty ? "+dirty" : ""}</span> ${cached.meta.branch ? prChip(cached.meta.branch) : ""}`
+            : "",
+          b.key && !cached
+            ? `<span class="faint">no longer in cache</span>`
+            : "",
+        ].filter(Boolean);
+        const device = state.devices.find((d) => d.id === s.deviceId);
+        const deviceName =
+          device && canFocus(device)
+            ? `<button type="button" class="focus" data-action="devices/focus" data-id="${esc(device.id)}" title="Bring window to front">${esc(s.deviceName)}</button>`
+            : esc(s.deviceName);
+        const deviceParts = [
+          deviceName,
+          platformLabel(s.platform),
+          kindLabel(s.kind),
+          s.osVersion
+            ? `<span class="muted">${s.platform === "ios" ? "iOS" : "API"} ${esc(s.osVersion)}</span>`
+            : "",
+          `<span class="faint mono">${esc(s.deviceId)}</span>`,
+          device
+            ? deviceState(device)
+            : `<span class="faint">no longer available</span>`,
+        ].filter(Boolean);
+        const runner = s.runner?.version
+          ? `<dt>Runner</dt><dd>maestro-runner ${esc(s.runner.version)}${s.runner.driver ? ` <span class="muted">${esc(s.runner.driver)}</span>` : ""}</dd>`
+          : "";
+        return `<dl class="meta">
+          <dt>Build</dt><dd>${buildParts.join(" · ")}</dd>
+          <dt>Device</dt><dd>${deviceParts.join(" · ")}</dd>
+          ${runner}
+        </dl>`;
+      };
 
       const renderSessions = () => {
         const all = state.sessions;
@@ -609,7 +695,7 @@
                     `<span class="faint">–</span><span class="mono">${esc(f)}</span><span></span><span></span>`
                 )
                 .join("");
-          return `${row}<tr class="detail"><td colspan="9"><div class="flows">${flows}</div></td></tr>`;
+          return `${row}<tr class="detail"><td colspan="9"><div class="detail-box">${sessionMeta(s)}<div class="flows">${flows}</div></div></td></tr>`;
         });
         $("sessions").innerHTML = table(
           [
