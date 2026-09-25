@@ -4,7 +4,7 @@ import { ActivityIndicator, Pressable, Text, View } from "react-native";
 import useColors from "@/hooks/useColors";
 import useHaptics from "@/hooks/useHaptics";
 
-export default function Button({
+const Button = ({
   type = "primary",
   icon,
   testID,
@@ -22,7 +22,7 @@ export default function Button({
   children: React.ReactNode;
   style?: ViewStyle;
   onPress?: () => void;
-}) {
+}) => {
   const colors = useColors();
   const haptics = useHaptics();
 
@@ -111,4 +111,6 @@ export default function Button({
       )}
     </Pressable>
   );
-}
+};
+
+export default Button;

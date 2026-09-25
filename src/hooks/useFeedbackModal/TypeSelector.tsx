@@ -5,13 +5,13 @@ import useColors from "../useColors";
 import type { FeedackType } from "../useFeedback";
 import useHaptics from "../useHaptics";
 
-export function TypeSelector({
+export const TypeSelector = ({
   selected,
   onPress,
 }: {
   selected: FeedackType;
   onPress: (type: FeedackType) => void;
-}) {
+}) => {
   const colors = useColors();
   const haptics = useHaptics();
 
@@ -161,4 +161,4 @@ export function TypeSelector({
       </Pressable>
     </View>
   );
-}
+};

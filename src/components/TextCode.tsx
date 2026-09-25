@@ -4,13 +4,13 @@ import useColors from "@/hooks/useColors";
 
 const fontFamily = Platform.OS === "ios" ? "Courier New" : "monospace";
 
-export default function TextCode({
+const TextCode = ({
   children,
   style = null,
 }: {
   children: React.ReactNode;
   style?: StyleProp<TextStyle>;
-}) {
+}) => {
   const colors = useColors();
 
   return (
@@ -20,4 +20,6 @@ export default function TextCode({
       {children}
     </Text>
   );
-}
+};
+
+export default TextCode;

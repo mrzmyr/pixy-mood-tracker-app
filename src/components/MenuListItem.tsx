@@ -5,7 +5,7 @@ import { ChevronRight } from "react-native-feather";
 import useColors from "@/hooks/useColors";
 import useHaptics from "@/hooks/useHaptics";
 
-export default ({
+const MenuListItem = ({
   title,
   onPress = null,
   iconLeft = null,
@@ -134,3 +134,5 @@ export default ({
     </View>
   );
 };
+
+export default MenuListItem;

@@ -17,7 +17,7 @@ const isString = (children: React.ReactNode): children is string => {
   return false;
 };
 
-export default function LinkButton({
+const LinkButton = ({
   type = "primary",
   onPress,
   children,
@@ -33,7 +33,7 @@ export default function LinkButton({
   icon?: ((props: SvgProps) => React.JSX.Element) | null;
   testID?: string;
   disabled?: boolean;
-}) {
+}) => {
   const colors = useColors();
   const haptics = useHaptics();
 
@@ -96,7 +96,9 @@ export default function LinkButton({
       )}
     </Pressable>
   );
-}
+};
+
+export default LinkButton;
 
 const styles = StyleSheet.create({
   container: {

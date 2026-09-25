@@ -2,13 +2,13 @@ import type { TextStyle } from "react-native";
 import { Text } from "react-native";
 import useColors from "@/hooks/useColors";
 
-export default function MenuListHeadline({
+const MenuListHeadline = ({
   children,
   style = {},
 }: {
   children: React.ReactNode;
   style?: TextStyle;
-}) {
+}) => {
   const colors = useColors();
 
   return (
@@ -29,4 +29,6 @@ export default function MenuListHeadline({
       {children}
     </Text>
   );
-}
+};
+
+export default MenuListHeadline;

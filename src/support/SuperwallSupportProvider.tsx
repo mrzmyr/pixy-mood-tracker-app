@@ -142,13 +142,13 @@ const SuperwallSupportBridge = ({
   );
 };
 
-export function ConfiguredSupportProvider({
+export const ConfiguredSupportProvider = ({
   children,
   apiKeys: configuredApiKeys,
 }: {
   children: React.ReactNode;
   apiKeys?: { android?: string; ios?: string };
-}) {
+}) => {
   const analytics = useAnalytics();
   const apiKeys = configuredApiKeys ?? {
     android: process.env.EXPO_PUBLIC_SUPERWALL_ANDROID_API_KEY,
@@ -192,4 +192,4 @@ export function ConfiguredSupportProvider({
       <SuperwallSupportBridge>{children}</SuperwallSupportBridge>
     </SuperwallProvider>
   );
-}
+};

@@ -13,7 +13,7 @@ interface PasscodeState {
 // SAFETY: every consumer renders inside PasscodeProvider, which supplies the full state.
 const PasscodeContext = createContext({} as PasscodeState);
 
-function PasscodeProvider({ children }: { children: React.ReactNode }) {
+const PasscodeProvider = ({ children }: { children: React.ReactNode }) => {
   const { settings } = useSettings();
   const [isAuthenticated, setIsAuthenticated] =
     useState<PasscodeState["isAuthenticated"]>(false);
@@ -63,14 +63,14 @@ function PasscodeProvider({ children }: { children: React.ReactNode }) {
       {children}
     </PasscodeContext.Provider>
   );
-}
+};
 
-function usePasscode(): PasscodeState {
+const usePasscode = (): PasscodeState => {
   const context = useContext(PasscodeContext);
   if (context === undefined) {
     throw createMissingProviderError("usePasscode", "PasscodeProvider");
   }
   return context;
-}
+};
 
 export { PasscodeProvider, usePasscode };

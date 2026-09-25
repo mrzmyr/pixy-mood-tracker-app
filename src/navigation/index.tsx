@@ -80,7 +80,7 @@ const NAVIGATION_LINKING: LinkingOptions<RootStackParamList> = {
   },
 };
 
-export default function Navigation() {
+const Navigation = () => {
   const scheme = useColorScheme();
 
   return (
@@ -104,11 +104,13 @@ export default function Navigation() {
       </Providers>
     </NavigationContainer>
   );
-}
+};
+
+export default Navigation;
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
-function RootNavigator() {
+const RootNavigator = () => {
   const colors = useColors();
   const { settings, hasActionDone } = useSettings();
   const navigation = useNavigation();
@@ -378,4 +380,4 @@ function RootNavigator() {
     </View>
     // )
   );
-}
+};

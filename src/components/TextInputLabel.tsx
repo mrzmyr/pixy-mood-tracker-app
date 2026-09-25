@@ -1,7 +1,7 @@
 import { Text } from "react-native";
 import useColors from "@/hooks/useColors";
 
-export default function TextInputLabel({ children }) {
+const TextInputLabel = ({ children }) => {
   const colors = useColors();
 
   return (
@@ -17,4 +17,6 @@ export default function TextInputLabel({ children }) {
       {children}
     </Text>
   );
-}
+};
+
+export default TextInputLabel;

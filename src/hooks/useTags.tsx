@@ -91,7 +91,7 @@ const _generateTag = (id: number, title: string, color: Tag["color"]): Tag => ({
   color,
 });
 
-function TagsProvider({ children }: { children: React.ReactNode }) {
+const TagsProvider = ({ children }: { children: React.ReactNode }) => {
   const { settings } = useSettings();
   const logsUpdater = useLogUpdater();
 
@@ -202,22 +202,22 @@ function TagsProvider({ children }: { children: React.ReactNode }) {
       </TagsUpdaterContext.Provider>
     </TagsStateContext.Provider>
   );
-}
+};
 
-function useTagsState(): StateValue {
+const useTagsState = (): StateValue => {
   const context = useContext(TagsStateContext);
   if (context === undefined) {
     throw createMissingProviderError("useTagsState", "TagsProvider");
   }
   return context;
-}
+};
 
-function useTagsUpdater(): UpdaterValue {
+const useTagsUpdater = (): UpdaterValue => {
   const context = useContext(TagsUpdaterContext);
   if (context === undefined) {
     throw createMissingProviderError("useTagsUpdater", "TagsProvider");
   }
   return context;
-}
+};
 
 export { TagsProvider, useTagsState, useTagsUpdater };

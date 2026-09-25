@@ -19,7 +19,7 @@ import CalendarHeader from "./CalendarHeader";
 import { ScrollToBottomButton } from "./ScrollToBottomButton";
 import { t } from "@/helpers/translation";
 
-const CalendarScreen = memo(() => {
+const CalendarScreenComponent = () => {
   const colors = useColors();
 
   const { settings } = useSettings();
@@ -125,6 +125,8 @@ const CalendarScreen = memo(() => {
       {Platform.OS !== "web" && <CalendarBottomSheet />}
     </View>
   );
-});
+};
+
+const CalendarScreen = memo(CalendarScreenComponent);
 
 export default CalendarScreen;

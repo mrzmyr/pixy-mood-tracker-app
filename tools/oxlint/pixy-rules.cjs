@@ -1,4 +1,4 @@
-function getFunctionName(node) {
+const getFunctionName = (node) => {
   if (node.id?.type === "Identifier") {
     return node.id.name;
   }
@@ -20,9 +20,9 @@ function getFunctionName(node) {
   }
 
   return undefined;
-}
+};
 
-function getDeclaredBooleanType(node) {
+const getDeclaredBooleanType = (node) => {
   const annotation = node.returnType?.typeAnnotation;
 
   if (annotation?.type === "TSBooleanKeyword") {
@@ -33,15 +33,14 @@ function getDeclaredBooleanType(node) {
     annotation?.type === "TSUnionType" &&
     annotation.types.some((type) => type.type === "TSBooleanKeyword")
   );
-}
+};
 
-function hasJsDoc(context, node) {
-  return context.sourceCode
+const hasJsDoc = (context, node) =>
+  context.sourceCode
     .getCommentsBefore(node)
     .some(
       (comment) => comment.type === "Block" && comment.value.startsWith("*")
     );
-}
 
 const requireExportedJsDoc = {
   meta: {
@@ -56,11 +55,11 @@ const requireExportedJsDoc = {
     schema: [],
   },
   create(context) {
-    function check(node) {
+    const check = (node) => {
       if (!hasJsDoc(context, node)) {
         context.report({ messageId: "missing", node });
       }
-    }
+    };
 
     return {
       ExportNamedDeclaration(node) {
@@ -91,7 +90,7 @@ const booleanFunctionPrefix = {
     schema: [],
   },
   create(context) {
-    function check(node) {
+    const check = (node) => {
       const name = getFunctionName(node);
 
       if (
@@ -105,7 +104,7 @@ const booleanFunctionPrefix = {
           data: { name },
         });
       }
-    }
+    };
 
     return {
       FunctionDeclaration: check,

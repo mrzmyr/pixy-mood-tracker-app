@@ -75,11 +75,11 @@ interface Value {
 // SAFETY: every consumer renders inside StatisticsProvider, which supplies the full Value.
 const StatisticsContext = createContext({} as Value);
 
-export function StatisticsProvider({
+export const StatisticsProvider = ({
   children,
 }: {
   children: React.ReactNode;
-}) {
+}) => {
   const logState = useLogState();
   const { tags } = useTagsState();
   const [isLoading, setIsLoading] = useState(false);
@@ -240,12 +240,12 @@ export function StatisticsProvider({
       {children}
     </StatisticsContext.Provider>
   );
-}
+};
 
-export function useStatistics(): Value {
+export const useStatistics = (): Value => {
   const context = useContext(StatisticsContext);
   if (context === undefined) {
     throw createMissingProviderError("useStatistics", "StatisticsProvider");
   }
   return context;
-}
+};

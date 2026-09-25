@@ -79,16 +79,14 @@ export const resolveDevelopmentSupportClient = ({
 
 const SupportContext = createContext<SupportClient>(disabledSupportClient);
 
-export function SupportProvider({
+export const SupportProvider = ({
   children,
   client = disabledSupportClient,
 }: {
   children: React.ReactNode;
   client?: SupportClient;
-}) {
-  return (
-    <SupportContext.Provider value={client}>{children}</SupportContext.Provider>
-  );
-}
+}) => (
+  <SupportContext.Provider value={client}>{children}</SupportContext.Provider>
+);
 
 export const useSupport = () => useContext(SupportContext);

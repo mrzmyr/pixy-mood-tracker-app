@@ -25,7 +25,7 @@ const AnalyticsContext = createContext({} as AnaylticsState);
 
 const DEBUG = false;
 
-function AnalyticsProvider({
+const AnalyticsProvider = ({
   children,
   options = {
     enabled: false,
@@ -33,7 +33,7 @@ function AnalyticsProvider({
 }: {
   children: React.ReactNode;
   options?: AnalyticsProviderProps;
-}) {
+}) => {
   const { settings, setSettings } = useSettings();
   const posthog = usePostHog();
 
@@ -117,14 +117,14 @@ function AnalyticsProvider({
       {children}
     </AnalyticsContext.Provider>
   );
-}
+};
 
-function useAnalytics(): AnaylticsState {
+const useAnalytics = (): AnaylticsState => {
   const context = useContext(AnalyticsContext);
   if (context === undefined) {
     throw createMissingProviderError("useAnalytics", "AnalyticsProvider");
   }
   return context;
-}
+};
 
 export { AnalyticsProvider, useAnalytics };
