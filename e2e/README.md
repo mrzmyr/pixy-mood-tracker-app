@@ -37,7 +37,7 @@ Debug artifacts (screenshots, hierarchy, logcat) land in `~/.maestro/tests/<time
 
 Suite 08 (passcode) intentionally absent: the passcode feature is commented out in the app (`src/screens/Settings/index.tsx`).
 
-Import-from-file (Data → Import) is not automated — it goes through the system file picker, which is flaky to drive; test manually with `e2e/fixtures/seed.json`. The fixture includes a visible entry from 2023-09-24. The calendar flow creates the same dated entry through the app deep link so its pagination check stays self-contained.
+Import-from-file (Data → Import) is not automated because the system file picker is flaky to drive. The fixture includes a visible entry from 2023-09-24. The calendar flow uses that entry when present; otherwise, it creates a good entry on that date through Calendar, then continues paging through empty months in 2022 and 2021.
 
 ## Conventions
 

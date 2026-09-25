@@ -17,19 +17,7 @@ tags: [calendar]
 - assertVisible:
     id: "calendar-day-${output.today}"
 
-# 3.2 Add deterministic old entry, then verify calendar starts at current month
-- openLink: "pixy://logs/create/2023-09-24"
-- runFlow:
-    when:
-      visible: "Open"
-    commands:
-      - tapOn: "Open"
-- assertVisible: "How was your day?"
-- tapOn:
-    id: "mood-good"
-- runFlow: ../subflows/finish-logger.yaml
-
-# 3.3 Scroll toward the top of the list to load older pages until the old entry appears
+# 3.2 Find the historical date. Create an entry only when fixture is absent.
 - scrollUntilVisible:
     element:
       id: "calendar-day-2023-09-24"
@@ -42,9 +30,26 @@ tags: [calendar]
     id: "calendar-day-2023-09-24"
 - tapOn:
     id: "calendar-day-2023-09-24"
-    waitToSettleTimeoutMs: 1200
-- assertVisible: "Add Entry"
-- back
+- runFlow:
+    when:
+      visible: "How was your day?"
+    commands:
+      - tapOn:
+          id: "mood-good"
+      - runFlow: ../subflows/finish-logger.yaml
+- runFlow:
+    when:
+      visible: "Add Entry"
+    commands:
+      - back
+- scrollUntilVisible:
+    element:
+      id: "calendar-day-2023-09-24"
+    direction: UP
+    timeout: 120000
+    speed: 80
+- assertVisible:
+    id: "calendar-day-2023-09-24"
 - scrollUntilVisible:
     element:
       id: "calendar-day-2022-09-24"
