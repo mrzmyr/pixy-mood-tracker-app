@@ -64,6 +64,8 @@ tags: [tags]
 - tapOn:
     id: "calendar"
 - tapOn: "Add New Entry"
+# A tap during the logger's slide-in animation is lost.
+- waitForAnimationToEnd
 - tapOn:
     id: "mood-neutral"
 - runFlow: ../subflows/finish-logger.yaml

@@ -5,6 +5,8 @@ appId: com.devmood.pixymoodtracker
 - tapOn:
     text: "Add New Entry"
 - assertVisible: "How was your day?"
+# A tap during the logger's slide-in animation is lost.
+- waitForAnimationToEnd
 - tapOn:
     id: "mood-good"
 - runFlow: finish-logger.yaml
