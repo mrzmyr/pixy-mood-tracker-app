@@ -13,6 +13,7 @@ import { NotEnoughDataOverlay } from "@/components/Statistics/NotEnoughDataOverl
 import { useMemo } from "react";
 import random from "lodash/random";
 import range from "lodash/range";
+import { getItemDate } from "@/lib/logDates";
 
 dayjs.extend(isSameOrAfter);
 
@@ -25,8 +26,9 @@ const MIN_ITEMS = 5;
 export const MoodChart = ({ date }: { date: Dayjs }) => {
   const logState = useLogState();
 
+  const year = date.format("YYYY");
   const items = logState.items.filter((item) =>
-    dayjs(item.dateTime).isSame(date, "year")
+    getItemDate(item).startsWith(year)
   );
 
   // Placeholder data is generated once per mount so it does not change on re-render.

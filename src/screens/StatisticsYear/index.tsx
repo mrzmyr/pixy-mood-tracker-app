@@ -14,6 +14,7 @@ import { WorstMonth } from "./WorstMonth";
 import YearInPixels from "./YearInPixels";
 import { TagDistribution } from "@/components/Statistics/TagDistribution";
 import { EmotionsDistribution } from "@/components/Statistics/EmotionsDistribution";
+import { getItemDate } from "@/lib/logDates";
 
 /** Year report screen. Invalid `date` params fall back to the current year. */
 export const StatisticsYearScreen = ({
@@ -29,8 +30,9 @@ export const StatisticsYearScreen = ({
   );
 
   const logState = useLogState();
+  const year = date.format("YYYY");
   const items = logState.items.filter((item) =>
-    dayjs(item.dateTime).isSame(date, "year")
+    getItemDate(item).startsWith(year)
   );
 
   return (

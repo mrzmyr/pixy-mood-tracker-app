@@ -8,6 +8,7 @@ import { getRatingDistributionForXDays } from "../../hooks/useStatistics/RatingD
 import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
 import { RatingChart } from "@/components/RatingChart";
 import { CardFeedback } from "@/components/Statistics/CardFeedback";
+import { getItemTime } from "@/lib/logDates";
 
 dayjs.extend(isSameOrAfter);
 
@@ -21,9 +22,8 @@ export const MoodChart = ({
 }) => {
   const logState = useLogState();
 
-  const items = logState.items.filter((item) =>
-    dayjs(item.dateTime).isSameOrAfter(startDate)
-  );
+  const startTime = dayjs(startDate).valueOf();
+  const items = logState.items.filter((item) => getItemTime(item) >= startTime);
 
   const data = getRatingDistributionForXDays(items, startDate, 14);
 

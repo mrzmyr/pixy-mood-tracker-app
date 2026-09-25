@@ -9,6 +9,7 @@ import groupBy from "lodash/groupBy";
 import orderBy from "lodash/orderBy";
 import sumBy from "lodash/sumBy";
 import { Text, View } from "react-native";
+import { getItemDate } from "@/lib/logDates";
 
 /**
  * Worst month of the year of `date`.
@@ -20,12 +21,13 @@ export const WorstMonth = ({ date }: { date: Dayjs }) => {
   const colors = useColors();
   const logState = useLogState();
 
+  const year = date.format("YYYY");
   const items = logState.items.flatMap((item) =>
-    dayjs(item.dateTime).isSame(date, "year")
+    getItemDate(item).startsWith(year)
       ? [
           {
             ...item,
-            month: dayjs(item.dateTime).format("YYYY-MM"),
+            month: getItemDate(item).slice(0, 7),
             ratingValue: RATING_MAPPING[item.rating],
           },
         ]

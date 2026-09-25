@@ -54,6 +54,33 @@ describe("utils", () => {
     ).toBe(0);
   });
 
+  it("getLongestStreak counts a final run that ends yesterday", () => {
+    expect(
+      getLongestStreak([
+        _generateItem({ date: "2021-12-01" }),
+        _generateItem({ date: "2021-12-02" }),
+        _generateItem({ date: "2022-01-08" }),
+        _generateItem({ date: "2022-01-09" }),
+        _generateItem({ date: "2022-01-10" }),
+        _generateItem({ date: "2022-01-11" }),
+      ])
+    ).toBe(4);
+  });
+
+  it("getLongestStreak counts runs across a DST change", () => {
+    expect(
+      getLongestStreak([
+        _generateItem({ date: "2021-03-27" }),
+        _generateItem({ date: "2021-03-28" }),
+        _generateItem({ date: "2021-03-29" }),
+        _generateItem({ date: "2021-10-30" }),
+        _generateItem({ date: "2021-10-31" }),
+        _generateItem({ date: "2021-11-01" }),
+        _generateItem({ date: "2021-11-02" }),
+      ])
+    ).toBe(4);
+  });
+
   afterAll(() => {
     MockDate.reset();
   });

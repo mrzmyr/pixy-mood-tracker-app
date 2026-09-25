@@ -6,7 +6,7 @@ import useColors from "../../hooks/useColors";
 import type { MoodTrendData } from "../../hooks/useStatistics/MoodTrend";
 import { SCALE_RANGE, SCALE_TYPE } from "../../hooks/useStatistics/MoodTrend";
 import { CardFeedback } from "@/components/Statistics/CardFeedback";
-import dayjs from "dayjs";
+import { getItemDate } from "@/lib/logDates";
 
 const Chart = ({ height, data }: { height: number; data: MoodTrendData }) => {
   const colors = useColors();
@@ -25,7 +25,7 @@ const Chart = ({ height, data }: { height: number; data: MoodTrendData }) => {
 
   const dots = {};
   for (const item of data.items) {
-    const date = dayjs(item.dateTime).format("YYYY-MM-DD");
+    const date = getItemDate(item);
     dots[date] = item;
   }
 

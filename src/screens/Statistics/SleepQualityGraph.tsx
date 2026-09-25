@@ -8,6 +8,7 @@ import { SleepQualityChart } from "@/components/SleepQualityChart";
 import { CardFeedback } from "@/components/Statistics/CardFeedback";
 import { getSleepQualityDistributionForXDays } from "@/hooks/useStatistics/SleepQualityDistribution";
 import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
+import { getItemTime } from "@/lib/logDates";
 
 dayjs.extend(isSameOrAfter);
 
@@ -21,9 +22,8 @@ export const SleepQualityChartCard = ({
 }) => {
   const logState = useLogState();
 
-  const items = logState.items.filter((item) =>
-    dayjs(item.dateTime).isSameOrAfter(startDate)
-  );
+  const startTime = dayjs(startDate).valueOf();
+  const items = logState.items.filter((item) => getItemTime(item) >= startTime);
 
   const data = getSleepQualityDistributionForXDays(items, startDate, 14);
 

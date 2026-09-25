@@ -44,6 +44,7 @@ import {
 } from "./SleepQualityDistribution";
 import { DATE_FORMAT } from "@/constants/Config";
 import { createMissingProviderError } from "@/lib/errors";
+import { getItemTime } from "@/lib/logDates";
 
 const DELAY_LOADING = 1 * 1000;
 
@@ -116,8 +117,9 @@ export const StatisticsProvider = ({
 
   const load = useCallback(
     ({ force = false }: { force?: boolean }) => {
-      const highlightItems = logState.items.filter((item) =>
-        dayjs(item.dateTime).isAfter(dayjs().subtract(14, "day"))
+      const highlightsStartTime = dayjs().subtract(14, "day").valueOf();
+      const highlightItems = logState.items.filter(
+        (item) => getItemTime(item) > highlightsStartTime
       );
       const trendsItems = logState.items;
 
