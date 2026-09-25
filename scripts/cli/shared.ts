@@ -1,7 +1,6 @@
-// Shared types and helpers for `bun builds` and `bun dashboard`.
+// Shared types and helpers for `bun builds`, `bun e2e`, and `bun dashboard`.
 import { execFileSync } from "node:child_process";
 import fs from "node:fs";
-import { parseArgs } from "node:util";
 
 type Platform = "ios" | "android";
 
@@ -10,24 +9,28 @@ interface CliErrorFields {
   message: string;
   why: string;
   fix: string;
+  // 2 for invalid usage (unknown command, option, or argument), 1 otherwise.
+  exitCode?: number;
 }
 
 class CliError extends Error {
   status: string;
   why: string;
   fix: string;
+  exitCode: number;
 
-  constructor({ status, message, why, fix }: CliErrorFields) {
+  constructor({ status, message, why, fix, exitCode = 1 }: CliErrorFields) {
     super(message);
     this.name = "CliError";
     this.status = status;
     this.why = why;
     this.fix = fix;
+    this.exitCode = exitCode;
   }
 }
 
 const DEFAULT_KEEP_BUILDS = 3;
-const DEFAULT_KEEP_RECENT = "7d";
+const DEFAULT_KEEP_WITHIN = "7d";
 
 const run = (command: string, args: string[], timeout = 60_000) =>
   execFileSync(command, args, {
@@ -57,6 +60,7 @@ const parseDuration = (value: string) => {
   const match = /^(?<amount>\d+)(?<unit>[smhd])$/u.exec(value);
   if (!match) {
     throw new CliError({
+      exitCode: 2,
       fix: "Use a number with s, m, h, or d, for example 45m or 2h.",
       message: `Invalid duration "${value}"`,
       status: "invalid_duration",
@@ -110,32 +114,20 @@ const printTable = (columns: string[], rows: string[][]) => {
 const getWorktree = () =>
   tryRun("git", ["rev-parse", "--show-toplevel"]) ?? process.cwd();
 
-const parseCli = () =>
-  parseArgs({
-    allowPositionals: true,
-    options: {
-      "dry-run": { type: "boolean" },
-      help: { short: "h", type: "boolean" },
-      json: { type: "boolean" },
-      keep: { default: String(DEFAULT_KEEP_BUILDS), type: "string" },
-      "keep-recent": { default: DEFAULT_KEEP_RECENT, type: "string" },
-      os: { type: "string" },
-      platform: { type: "string" },
-      release: { type: "boolean" },
-    },
-  });
-
-type CliValues = ReturnType<typeof parseCli>["values"];
+// Status messages go to stderr, so stdout stays pipeable.
+const note = (message: string) => console.error(message);
 
 const isPlatform = (value: string): value is Platform =>
   value === "ios" || value === "android";
 
-const getPlatform = (values: CliValues) => {
-  const value = values.platform ?? values.os;
+const PLATFORM_OPTION = { platform: { type: "string" } } as const;
+
+const getPlatform = (value: string | undefined) => {
   if (value === undefined || isPlatform(value)) {
     return value;
   }
   throw new CliError({
+    exitCode: 2,
     fix: "Use --platform ios or --platform android.",
     message: `Unknown platform "${value}"`,
     status: "invalid_platform",
@@ -143,21 +135,67 @@ const getPlatform = (values: CliValues) => {
   });
 };
 
-type Command = (args: string[], values: CliValues) => Promise<void> | void;
+type OptionSpec =
+  | { type: "boolean"; short?: string }
+  | { type: "string"; short?: string; default?: string };
+type Options = Record<string, OptionSpec>;
+// Unset boolean flags are undefined; string flags fall back to their default.
+type OptionValue<S extends OptionSpec> = S extends { type: "boolean" }
+  ? boolean | undefined
+  : S extends { default: string }
+    ? string
+    : string | undefined;
+type OptionValues<O extends Options> = { [K in keyof O]: OptionValue<O[K]> };
 
-/** Types, constants, and helpers shared by `bun builds` and `bun dashboard`. */
+// One subcommand, such as `bun builds prune`. The entry point parses only the
+// flags in `options`, so a flag of another command is an error.
+interface CommandSpec<O extends Options = Options> {
+  summary: string;
+  // Positionals for usage and validation: `<id>` is required, `[paths...]`
+  // is optional and variadic.
+  args?: string[];
+  // Where to find a valid value for a missing argument.
+  argsSource?: string;
+  options?: O;
+  // Accept `-- <args>` and pass them to `run` unparsed.
+  hasPassthrough?: boolean;
+  // Extra help: what the options do, defaults, and side effects.
+  details?: string;
+  run: (
+    args: string[],
+    values: OptionValues<O>,
+    passthrough: string[]
+  ) => Promise<void> | void;
+}
+
+const defineCommand = <const O extends Options = Record<never, never>>(
+  spec: CommandSpec<O>
+) =>
+  // SAFETY: the entry point parses flags with exactly `spec.options`.
+  spec as CommandSpec;
+
+interface Noun {
+  summary: string;
+  commands: Record<string, CommandSpec>;
+  // Shown after the command list in `bun <noun> --help`.
+  footer?: string;
+}
+
+/** Types, constants, and helpers shared by the CLIs and `bun dashboard`. */
 export {
   CliError,
   DEFAULT_KEEP_BUILDS,
-  DEFAULT_KEEP_RECENT,
+  DEFAULT_KEEP_WITHIN,
+  PLATFORM_OPTION,
+  defineCommand,
   formatAge,
   getPlatform,
   getWorktree,
   isProcessAlive,
-  parseCli,
+  note,
   parseDuration,
   printTable,
   readJson,
   tryRun,
 };
-export type { CliValues, Command, Platform };
+export type { CommandSpec, Noun, Platform };

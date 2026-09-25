@@ -20,16 +20,19 @@ bunx agent-device boot --platform android --device medium_phone --headless
 bun ios --device <udid> --configuration Release --no-bundler
 bun android --device <avd-name> --variant release --no-bundler
 
-# 3. Run all flows. Pass the device so the run never lands on another agent's device.
-bun e2e --platform ios --udid <udid> e2e/apple      # iOS adds the iOS regression flows
-bun e2e --platform android --serial emulator-5554
-bun e2e --platform ios --udid <udid> e2e/flows/02-log-entry.yaml --record-video
+# 3. Run flows. --device is required, so the run never lands on another agent's device.
+bun e2e run --platform ios --device <udid>                  # e2e/flows and the iOS-only e2e/apple
+bun e2e run --platform android --device emulator-5554       # e2e/flows
+bun e2e run --platform ios --device <udid> e2e/flows/02-log-entry.yaml --record
+bun e2e run --platform ios --device <udid> -- --retries 1 --fail-fast
 
-# 4. Watch runs, devices, and builds across worktrees.
-bun dashboard
+# 4. Watch and stop runs across worktrees.
+bun e2e list                                                # running runs (--all for finished)
+bun e2e stop <run-id>                                       # like Ctrl+C in the run's terminal
+bun dashboard                                               # runs, devices, and builds in a web view
 ```
 
-`bun e2e` is `agent-device test e2e/flows --maestro` plus the repo reporter. Extra paths and flags pass through (`--record-video`, `--retries 1`, `--fail-fast`, `--reporter junit:<file>`).
+`bun e2e run` wraps `agent-device test --maestro` with the repo reporter. Paths replace the default flows. Flags after `--` go to agent-device (`--retries 1`, `--fail-fast`, `--reporter junit:<file>`). Every command has `--help`; invalid usage exits with code 2.
 
 - **Artifacts:** each run writes `.agent-device/test-artifacts/<run-id>/` in the worktree: `run.json` (from [`scripts/cli/e2e-reporter.mjs`](../scripts/cli/e2e-reporter.mjs), read by `bun dashboard`), and per flow `replay.ad`, `result.txt`, `failure.txt`, `replay-timing.ndjson`, and `recording.mp4` with `--record-video`.
 - **Failures:** a failing step prints the file and line, a screen snapshot, and ranked selector suggestions. Debug live with `bunx agent-device replay <flow>.yaml --maestro --platform ios --udid <udid>`, then `bunx agent-device snapshot -i`.
