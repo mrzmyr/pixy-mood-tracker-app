@@ -7,7 +7,7 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 
-import { findDevice, getAndroidBuildEnv } from "./devices.ts";
+import { findDevice, getAndroidBuildEnv, getTrustFix } from "./devices.ts";
 import {
   getStaleReason,
   isActive,
@@ -50,6 +50,12 @@ const waitForExit = async (child: ChildProcess) => {
   }
 };
 
+// Print to the console and the session log, so old sessions show what ran.
+const logLine = (log: number, line: string) => {
+  console.log(line);
+  fs.writeSync(log, `${line}\n`);
+};
+
 const getBuildEnv = (
   device: Device,
   isBuild: boolean
@@ -81,7 +87,7 @@ const startBuild = (
           "release",
           "--no-bundler",
         ];
-  console.log(`Building: bunx ${args.join(" ")}`);
+  logLine(log, `Building: bunx ${args.join(" ")}`);
   return spawn("bunx", args, {
     cwd: getWorktree(),
     detached: true,
@@ -97,11 +103,14 @@ const listFlowFiles = (target: string): string[] =>
         .flatMap((entry) => listFlowFiles(path.join(target, entry)))
     : [target].filter((file) => /\.ya?ml$/u.test(file));
 
+// `clearState` as a command or launchApp option, outside YAML comments.
+const CLEAR_STATE = /^[^#\n]*\bclearState\b/mu;
+
 // Phones run installed TestFlight builds with real tester data.
 const assertNoClearState = (flows: string[]) => {
   const unsafe = flows
     .flatMap(listFlowFiles)
-    .filter((file) => fs.readFileSync(file, "utf-8").includes("clearState"));
+    .filter((file) => CLEAR_STATE.test(fs.readFileSync(file, "utf-8")));
   if (unsafe.length > 0) {
     throw new CliError({
       fix: "Run these flows on a simulator or emulator, or pass flows without clearState.",
@@ -112,12 +121,15 @@ const assertNoClearState = (flows: string[]) => {
   }
 };
 
-const cmdRun = async (
-  id: string,
-  flows: string[],
-  options: { isBuild: boolean; isRecord: boolean; isForce: boolean }
-) => {
-  const device = findDevice(id);
+const assertRunnable = (device: Device) => {
+  if (device.state === "unauthorized") {
+    throw new CliError({
+      fix: getTrustFix(device),
+      message: `${device.name} is not ready for tests`,
+      status: "device_unauthorized",
+      why: "The phone is attached, but it has not trusted this Mac or developer access is off.",
+    });
+  }
   if (device.state !== "booted" && device.state !== "connected") {
     throw new CliError({
       fix: `Run \`bun devices boot ${device.id}\` first.`,
@@ -126,6 +138,15 @@ const cmdRun = async (
       why: `Device state is ${device.state}.`,
     });
   }
+};
+
+const cmdRun = async (
+  id: string,
+  flows: string[],
+  options: { isBuild: boolean; isRecord: boolean; isForce: boolean }
+) => {
+  const device = findDevice(id);
+  assertRunnable(device);
   const busy = readSessions().find(
     (session) => isActive(session) && session.deviceId === device.id
   );
@@ -249,7 +270,7 @@ const cmdRun = async (
     ...(options.isRecord ? ["--record"] : []),
     ...selectedFlows,
   ];
-  console.log(`Running: maestro-runner ${args.join(" ")}`);
+  logLine(log, `Running: maestro-runner ${args.join(" ")}`);
   const child = spawn(fs.existsSync(runner) ? runner : "maestro-runner", args, {
     cwd: worktree,
     detached: true,
