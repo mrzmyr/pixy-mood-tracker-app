@@ -7,7 +7,7 @@ import path from "node:path";
 import { parseArgs } from "node:util";
 
 import { listBuilds, toBuildId } from "./builds.ts";
-import { listDevices, readLeases } from "./devices.ts";
+import { listDevices, readInstall, readLeases } from "./devices.ts";
 import {
   getStaleReason,
   readBuildFromLog,
@@ -173,16 +173,20 @@ const getState = () => {
     .toReversed()
     .map((session) => describeSession(session, maxAgeMs));
   const leases = new Map(readLeases().map((lease) => [lease.deviceId, lease]));
-  const devices = listDevices().map((device) => ({
-    ...device,
-    lease: leases.get(device.id) ?? null,
-    sessionId:
-      sessions.find(
-        (session) =>
-          session.deviceId === device.id &&
-          (session.status === "building" || session.status === "running")
-      )?.id ?? null,
-  }));
+  const devices = listDevices().map((device) => {
+    const install = readInstall(device.id);
+    return {
+      ...device,
+      install: install ? { ...install, id: toBuildId(install.key) } : null,
+      lease: leases.get(device.id) ?? null,
+      sessionId:
+        sessions.find(
+          (session) =>
+            session.deviceId === device.id &&
+            (session.status === "building" || session.status === "running")
+        )?.id ?? null,
+    };
+  });
   const builds = listBuilds().toSorted((a, b) =>
     b.lastUsedAt.localeCompare(a.lastUsedAt)
   );
