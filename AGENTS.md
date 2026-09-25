@@ -42,14 +42,9 @@
 
 ## Devices and end-to-end tests
 
-- Use only `bun devices`, `bun sessions`, and `bun builds` ([`scripts/cli/`](scripts/cli/)) for simulators, emulators, phones, e2e runs, and builds. Never call `simctl create/boot`, `emulator`, `maestro`, or `maestro-runner` directly. Run `bun <noun> help` for options.
-- Start with `bun devices list`. It shows each running device, the worktree that booted it, and its e2e session. Never use a device with a session from another worktree.
-- Get your own device: `bun devices create --platform ios`, or `bun devices boot avd:<name>` for Android.
-- Run tests with `bun sessions run <device-id> [flows...]`. Add `--build` to install a release build of your worktree first, and `--record` to save videos for pull request proof.
-- Builds are cached across worktrees (see [build cache](docs/development.md#build-cache)). `bun builds check --release` tells whether `--build` reuses a build or compiles for about 10 minutes. Never delete the cache or DerivedData, never run `expo prebuild --clean` for tests, and never symlink `Pods` between worktrees.
-- Before you finish, run `bun devices shutdown <id>` for every device you created or booted. For leftovers, run `bun devices gc`.
-- Physical iPhones run installed TestFlight builds. `bun sessions run` skips app installation on phones and refuses flows that use `clearState`, because it can remove tester data. Use direct XCUITest only when `maestro-runner` cannot express the behavior.
-- Keep device and signing-team identifiers local. Attach generated artifacts to the pull request.
+- Use `bun devices`, `bun sessions`, and `bun builds` for devices, e2e runs, and builds, never raw `simctl`, `emulator`, or `maestro`. See [e2e/README.md](e2e/README.md) and [build cache](docs/development.md#build-cache).
+- Shut down devices you created before you finish.
+- Keep device and signing-team identifiers local.
 
 ## Errors
 
