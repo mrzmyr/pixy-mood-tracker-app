@@ -7,7 +7,7 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 
-import { findDevice } from "./devices.ts";
+import { findDevice, getAndroidBuildEnv } from "./devices.ts";
 import {
   getStaleReason,
   isActive,
@@ -50,7 +50,17 @@ const waitForExit = async (child: ChildProcess) => {
   }
 };
 
-const startBuild = (device: Device, log: number) => {
+const getBuildEnv = (
+  device: Device,
+  isBuild: boolean
+): Record<string, string> =>
+  isBuild && device.platform === "android" ? getAndroidBuildEnv() : {};
+
+const startBuild = (
+  device: Device,
+  log: number,
+  buildEnv: Record<string, string>
+) => {
   const args =
     device.platform === "ios"
       ? [
@@ -75,7 +85,7 @@ const startBuild = (device: Device, log: number) => {
   return spawn("bunx", args, {
     cwd: getWorktree(),
     detached: true,
-    env: { ...process.env, CI: "1" },
+    env: { ...process.env, ...buildEnv, CI: "1" },
     stdio: ["ignore", log, log],
   });
 };
@@ -144,6 +154,9 @@ const cmdRun = async (
     });
   }
 
+  // Resolve before the session exists, so a missing SDK or JDK leaves no record.
+  const buildEnv = getBuildEnv(device, options.isBuild);
+
   const sessionId = `${new Date().toISOString().slice(5, 10).replace("-", "")}-${crypto.randomBytes(3).toString("hex")}`;
   const worktree = getWorktree();
   const now = new Date().toISOString();
@@ -198,7 +211,7 @@ const cmdRun = async (
   }
 
   if (options.isBuild) {
-    const build = startBuild(device, log);
+    const build = startBuild(device, log, buildEnv);
     session.childPid = build.pid;
     save();
     const buildCode = await waitForExit(build);
