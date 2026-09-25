@@ -1,4 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { STORAGE_KEYS } from "../helpers/storage";
 import { act, renderHook } from "@testing-library/react-native";
 import { AnalyticsProvider } from "../hooks/useAnalytics";
 import {
@@ -6,7 +7,7 @@ import {
   useCalendarFilters,
 } from "../hooks/useCalendarFilters";
 import type { LogsState } from "../hooks/useLogs";
-import { LogsProvider, STORAGE_KEY } from "../hooks/useLogs";
+import { LogsProvider } from "../hooks/useLogs";
 import { SettingsProvider } from "../hooks/useSettings";
 import { _generateItem } from "./utils";
 
@@ -140,7 +141,10 @@ xdescribe("useCalendarFilters()", () => {
   });
 
   test("should filter for `ratings`", async () => {
-    AsyncStorage.setItem(STORAGE_KEY, JSON.stringify({ items: testItems }));
+    AsyncStorage.setItem(
+      STORAGE_KEYS.logs,
+      JSON.stringify({ items: testItems })
+    );
 
     const hook = await _renderHook();
     await act(async () => {});
@@ -159,7 +163,10 @@ xdescribe("useCalendarFilters()", () => {
   });
 
   test("should filter for `tags`", async () => {
-    AsyncStorage.setItem(STORAGE_KEY, JSON.stringify({ items: testItems }));
+    AsyncStorage.setItem(
+      STORAGE_KEYS.logs,
+      JSON.stringify({ items: testItems })
+    );
 
     const hook = await _renderHook();
     await act(async () => {});
@@ -191,7 +198,10 @@ xdescribe("useCalendarFilters()", () => {
   });
 
   test("should filter for `text`", async () => {
-    AsyncStorage.setItem(STORAGE_KEY, JSON.stringify({ items: testItems }));
+    AsyncStorage.setItem(
+      STORAGE_KEYS.logs,
+      JSON.stringify({ items: testItems })
+    );
 
     const hook = await _renderHook();
     await act(async () => {});
@@ -223,7 +233,10 @@ xdescribe("useCalendarFilters()", () => {
   });
 
   test("should filter for `text` and `ratings`", async () => {
-    AsyncStorage.setItem(STORAGE_KEY, JSON.stringify({ items: testItems }));
+    AsyncStorage.setItem(
+      STORAGE_KEYS.logs,
+      JSON.stringify({ items: testItems })
+    );
 
     const hook = await _renderHook();
     await act(async () => {});
@@ -242,7 +255,10 @@ xdescribe("useCalendarFilters()", () => {
   });
 
   test("should filter for `text` and `tags`", async () => {
-    AsyncStorage.setItem(STORAGE_KEY, JSON.stringify({ items: testItems }));
+    AsyncStorage.setItem(
+      STORAGE_KEYS.logs,
+      JSON.stringify({ items: testItems })
+    );
 
     const hook = await _renderHook();
     await act(async () => {});

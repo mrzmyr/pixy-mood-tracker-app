@@ -1,5 +1,5 @@
 import { DATE_FORMAT } from "@/constants/Config";
-import { load, store } from "@/helpers/storage";
+import { load, STORAGE_KEYS, store } from "@/helpers/storage";
 import type { LogItemSchema } from "@/types";
 // oxlint-disable-next-line unicorn/prefer-node-protocol -- `buffer` is the npm polyfill bundled for React Native; `node:buffer` does not resolve in Hermes.
 import dayjs from "dayjs";
@@ -29,7 +29,7 @@ import { createMissingProviderError } from "@/lib/errors";
  * AsyncStorage key for logs. Keep the legacy name; changing it orphans all
  * stored entries.
  */
-export const STORAGE_KEY = "PIXEL_TRACKER_LOGS";
+const STORAGE_KEY = STORAGE_KEYS.logs;
 
 /** A single mood entry as stored and exported. */
 export type LogItem = z.infer<typeof LogItemSchema>;

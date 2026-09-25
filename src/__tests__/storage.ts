@@ -1,13 +1,13 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as Sentry from "@sentry/react-native";
-import { load, store } from "../helpers/storage";
+import { load, STORAGE_KEYS, store } from "../helpers/storage";
 
 // oxlint-disable-next-line anti-slop/no-module-mocking -- storage.ts imports the Sentry SDK directly without an injection seam; the test asserts on captureException
 jest.mock("@sentry/react-native", () => ({
   captureException: jest.fn(),
 }));
 
-const TEST_KEY = "test-key";
+const TEST_KEY = STORAGE_KEYS.logs;
 
 describe("Storage", () => {
   let consoleError: jest.SpyInstance;

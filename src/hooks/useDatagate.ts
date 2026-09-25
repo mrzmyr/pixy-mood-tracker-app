@@ -1,4 +1,3 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import dayjs from "dayjs";
 import * as DocumentPicker from "expo-document-picker";
 import * as FileSystem from "expo-file-system/legacy";
@@ -6,6 +5,7 @@ import * as Sharing from "expo-sharing";
 import { Alert, Platform } from "react-native";
 import type { ImportData } from "@/helpers/Import";
 import { getJSONSchemaType } from "@/helpers/Import";
+import { remove, write, STORAGE_KEYS } from "@/helpers/storage";
 import { migrateImportData } from "@/helpers/migration";
 import {
   askToImport,
@@ -18,22 +18,11 @@ import { t } from "@/helpers/translation";
 import pkg from "../../package.json";
 import { useAnalytics } from "./useAnalytics";
 import type { LogsState } from "./useLogs";
-import {
-  STORAGE_KEY as STORAGE_KEY_LOGS,
-  useLogState,
-  useLogUpdater,
-} from "./useLogs";
+import { useLogState, useLogUpdater } from "./useLogs";
 import type { ExportSettings } from "./useSettings";
-import {
-  STORAGE_KEY as STORAGE_KEY_SETTINGS,
-  useSettings,
-} from "./useSettings";
+import { useSettings } from "./useSettings";
 import type { Tag } from "./useTags";
-import {
-  STORAGE_KEY as STORAGE_KEY_TAGS,
-  useTagsState,
-  useTagsUpdater,
-} from "./useTags";
+import { useTagsState, useTagsUpdater } from "./useTags";
 import { logger } from "@/lib/logger";
 
 type ResetType = "factory" | "data";
@@ -46,26 +35,20 @@ interface ExportData {
 }
 
 const dangerouslyImportDirectlyToAsyncStorage = async (data: ImportData) => {
-  await AsyncStorage.removeItem(STORAGE_KEY_TAGS);
-  await AsyncStorage.setItem(
-    STORAGE_KEY_LOGS,
-    JSON.stringify({
-      items: data.items,
-    })
-  );
-  await AsyncStorage.setItem(
-    STORAGE_KEY_SETTINGS,
-    JSON.stringify({
-      ...data.settings,
-      actionsDone: [
-        {
-          date: new Date().toISOString(),
-          title: "onboarding",
-        },
-      ],
-      tags: data.tags,
-    })
-  );
+  await remove(STORAGE_KEYS.tags);
+  await write(STORAGE_KEYS.logs, {
+    items: data.items,
+  });
+  await write(STORAGE_KEYS.settings, {
+    ...data.settings,
+    actionsDone: [
+      {
+        date: new Date().toISOString(),
+        title: "onboarding",
+      },
+    ],
+    tags: data.tags,
+  });
 };
 
 const openDangerousImportDirectlyToAsyncStorageDialog = async () => {
@@ -77,7 +60,7 @@ const openDangerousImportDirectlyToAsyncStorageDialog = async () => {
   if (!doc.canceled) {
     const contents = await FileSystem.readAsStringAsync(doc.assets[0].uri);
     const data = JSON.parse(contents);
-    dangerouslyImportDirectlyToAsyncStorage(data);
+    await dangerouslyImportDirectlyToAsyncStorage(data);
   }
 };
 

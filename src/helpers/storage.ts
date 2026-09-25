@@ -5,6 +5,20 @@ import noop from "lodash/noop";
 
 type StorageFeedback = ReturnType<typeof useFeedback>;
 
+/**
+ * Every AsyncStorage key the app owns. Only `@/helpers/storage` may touch
+ * AsyncStorage (enforced by lint). Renaming a value orphans stored user
+ * data, so add a migration instead.
+ */
+export const STORAGE_KEYS = {
+  logs: "PIXEL_TRACKER_LOGS",
+  tags: "PIXEL_TRACKER_TAGS",
+  settings: "PIXEL_TRACKER_SETTINGS",
+} as const;
+
+/** A key from {@link STORAGE_KEYS}. */
+export type StorageKey = (typeof STORAGE_KEYS)[keyof typeof STORAGE_KEYS];
+
 type StorageError = Error & {
   status: string;
   why: string;
@@ -35,20 +49,52 @@ const isStorageError = (error: unknown): error is StorageError =>
 /**
  * Persist `state` as JSON under `key`.
  *
- * Never rejects: write failures are only reported through `logger`, so callers
- * cannot detect a failed save.
+ * Rejects with a `storage_write_failed` StorageError, so callers that must
+ * know about a failed save (for example imports) can stop.
  */
-export const store = async <State>(key: string, state: State) => {
+export const write = async <State>(key: StorageKey, state: State) => {
   try {
     await AsyncStorage.setItem(key, JSON.stringify(state));
   } catch (error) {
-    logger.error(
-      createStorageError(
-        "storage_write_failed",
-        "Stored data could not be saved",
-        `Writing storage key "${key}" failed: ${errorMessage(error)}`,
-        "Retry the operation and check available device storage"
-      )
+    throw createStorageError(
+      "storage_write_failed",
+      "Stored data could not be saved",
+      `Writing storage key "${key}" failed: ${errorMessage(error)}`,
+      "Retry the operation and check available device storage"
+    );
+  }
+};
+
+/**
+ * Persist `state` as JSON under `key`.
+ *
+ * Never rejects: write failures are only reported through `logger`, so callers
+ * cannot detect a failed save. Use {@link write} to handle failures.
+ */
+export const store = async <State>(key: StorageKey, state: State) => {
+  try {
+    await write(key, state);
+  } catch (error) {
+    if (isStorageError(error)) {
+      logger.error(error);
+    }
+  }
+};
+
+/**
+ * Delete the value stored under `key`.
+ *
+ * Rejects with a `storage_remove_failed` StorageError.
+ */
+export const remove = async (key: StorageKey) => {
+  try {
+    await AsyncStorage.removeItem(key);
+  } catch (error) {
+    throw createStorageError(
+      "storage_remove_failed",
+      "Stored data could not be removed",
+      `Removing storage key "${key}" failed: ${errorMessage(error)}`,
+      "Retry the operation and check device storage access"
     );
   }
 };
@@ -105,7 +151,7 @@ const reportLoadError = (
  * stored data.
  */
 export const load = async <ReturnValue>(
-  key: string,
+  key: StorageKey,
   feedback?: StorageFeedback
 ): Promise<ReturnValue | null> => {
   let data: string | null;

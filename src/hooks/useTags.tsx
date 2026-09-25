@@ -1,5 +1,5 @@
 import type { TAG_COLOR_NAMES } from "@/constants/Config";
-import { load, store } from "@/helpers/storage";
+import { load, STORAGE_KEYS, store } from "@/helpers/storage";
 import { t } from "@/helpers/translation";
 import omit from "lodash/omit";
 import {
@@ -20,7 +20,7 @@ import { createMissingProviderError } from "@/lib/errors";
  * AsyncStorage key for tags. Keep the legacy name; changing it orphans all
  * stored tags.
  */
-export const STORAGE_KEY = "PIXEL_TRACKER_TAGS";
+const STORAGE_KEY = STORAGE_KEYS.tags;
 
 /**
  * User-defined tag. Log entries reference it by `id` only.
