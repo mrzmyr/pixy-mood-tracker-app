@@ -44,7 +44,51 @@ export default defineConfig({
     {
       // App code runs on Hermes; scripts run on Bun and Node.
       files: ["src/**", "App.tsx"],
-      rules: { "pixy-standards/no-hermes-missing-array-methods": "error" },
+      rules: {
+        "pixy-standards/no-hermes-missing-array-methods": "error",
+        // Log through `@/lib/logger`, which picks console or Sentry.
+        "no-console": "error",
+        "no-restricted-imports": [
+          "error",
+          {
+            paths: [
+              {
+                name: "@react-native-async-storage/async-storage",
+                message:
+                  "Use load/store/write/remove from `@/helpers/storage`, which types keys and keeps stored data on read errors.",
+              },
+              {
+                name: "@sentry/react-native",
+                message:
+                  "Report errors with `logger.error` from `@/lib/logger`.",
+              },
+            ],
+            patterns: [
+              {
+                group: [
+                  "../**",
+                  "!../**/types",
+                  "!../**/package.json",
+                  "!../**/assets/**",
+                  "!../**/disclaimer",
+                ],
+                message: "Import files in src through the `@/` alias.",
+              },
+            ],
+          },
+        ],
+      },
+    },
+    {
+      // The wrappers themselves, Sentry.init, and tests that assert on the SDKs.
+      files: [
+        "src/lib/logger.ts",
+        "src/helpers/storage.ts",
+        "src/navigation/index.tsx",
+        "src/__tests__/**",
+        "src/__mocks__/**",
+      ],
+      rules: { "no-console": "off", "no-restricted-imports": "off" },
     },
   ],
 });
