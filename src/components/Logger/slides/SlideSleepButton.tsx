@@ -1,5 +1,5 @@
 import useColors from "@/hooks/useColors";
-import type { LogItem } from "@/hooks/useLogs";
+import type { LogItem } from "@/features/logs";
 import { SLEEP_QUALITY_MAPPING } from "@/constants/Ratings";
 import type { ViewStyle } from "react-native";
 import { Pressable, View, useColorScheme } from "react-native";

@@ -1,8 +1,8 @@
 import { getLogEditMarginTop } from "@/helpers/responsive";
 import { t } from "@/helpers/translation";
 import useColors from "@/hooks/useColors";
-import type { LogItem } from "@/hooks/useLogs";
-import { useTemporaryLog } from "@/hooks/useTemporaryLog";
+import type { LogItem } from "@/features/logs";
+import { useTemporaryLog } from "@/features/logs/temporaryLog";
 import { forwardRef, useEffect, useState } from "react";
 import { Keyboard, KeyboardAvoidingView, Platform, View } from "react-native";
 import type { TextInput } from "react-native";

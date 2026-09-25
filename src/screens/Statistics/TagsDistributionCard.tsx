@@ -3,12 +3,12 @@ import _ from "lodash";
 import { Pressable, Text, View } from "react-native";
 import { Card } from "@/components/Statistics/Card";
 import { t } from "@/helpers/translation";
-import { useAnonymizer } from "../../hooks/useAnonymizer";
-import { useCalendarFilters } from "../../hooks/useCalendarFilters";
+import { useAnonymizer } from "@/state/analytics/anonymizer";
+import { useCalendarFilters } from "@/features/calendar/filters";
 import useColors from "../../hooks/useColors";
 import useHaptics from "../../hooks/useHaptics";
-import type { TagsDistributionData } from "../../hooks/useStatistics/TagsDistribution";
-import type { Tag } from "../../hooks/useTags";
+import type { TagsDistributionData } from "@/features/statistics/TagsDistribution";
+import type { Tag } from "@/features/tags";
 import { CardFeedback } from "@/components/Statistics/CardFeedback";
 
 /**

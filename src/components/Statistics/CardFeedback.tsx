@@ -1,9 +1,9 @@
 import { STATISTICS_FEEDBACK_URL } from "@/constants/API";
 import { locale, t } from "@/helpers/translation";
-import { useAnalytics } from "@/hooks/useAnalytics";
+import { useAnalytics } from "@/state/analytics";
 import useColors from "@/hooks/useColors";
 import useHaptics from "@/hooks/useHaptics";
-import { useSettings } from "@/hooks/useSettings";
+import { useSettings } from "@/state/settings";
 import * as StoreReview from "expo-store-review";
 import { useState } from "react";
 import type { ViewStyle } from "react-native";

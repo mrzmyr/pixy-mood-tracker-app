@@ -1,4 +1,4 @@
-import { useAnalytics } from "@/hooks/useAnalytics";
+import { useAnalytics } from "@/state/analytics";
 import useColors from "@/hooks/useColors";
 import * as Sharing from "expo-sharing";
 import { useRef, useState } from "react";

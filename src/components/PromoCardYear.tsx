@@ -1,7 +1,7 @@
 import { t } from "@/helpers/translation";
 import useColors from "@/hooks/useColors";
 import useHaptics from "@/hooks/useHaptics";
-import { useSettings } from "@/hooks/useSettings";
+import { useSettings } from "@/state/settings";
 import { LinearGradient } from "expo-linear-gradient";
 import { Pressable, Text, View } from "react-native";
 import { Star, X } from "react-native-feather";

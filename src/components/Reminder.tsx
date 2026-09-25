@@ -7,11 +7,11 @@ import MenuList from "@/components/MenuList";
 import MenuListItem from "@/components/MenuListItem";
 import NotificationPreview from "@/components/NotificationPreview";
 import { t } from "@/helpers/translation";
-import { useAnalytics } from "@/hooks/useAnalytics";
+import { useAnalytics } from "@/state/analytics";
 import useColors from "@/hooks/useColors";
-import useNotification, { createDailyTrigger } from "@/hooks/useNotifications";
-import type { SettingsState } from "@/hooks/useSettings";
-import { useSettings } from "@/hooks/useSettings";
+import useNotification, { createDailyTrigger } from "@/features/notifications";
+import type { SettingsState } from "@/state/settings";
+import { useSettings } from "@/state/settings";
 
 const Reminder = () => {
   const { setSettings, settings } = useSettings();

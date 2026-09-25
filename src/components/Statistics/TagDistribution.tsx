@@ -1,10 +1,10 @@
-import { useAnonymizer } from "@/hooks/useAnonymizer";
-import type { LogItem } from "@/hooks/useLogs";
+import { useAnonymizer } from "@/state/analytics/anonymizer";
+import type { LogItem } from "@/features/logs";
 import {
   dummyTagsDistributionData,
   getTagsDistributionData,
-} from "@/hooks/useStatistics/TagsDistribution";
-import { useTagsState } from "@/hooks/useTags";
+} from "@/features/statistics/TagsDistribution";
+import { useTagsState } from "@/features/tags";
 import { TagDistributionContent } from "../../screens/Statistics/TagsDistributionCard";
 import { BigCard } from "../BigCard";
 import { NotEnoughDataOverlay } from "./NotEnoughDataOverlay";

@@ -2,7 +2,7 @@ import type { RefObject } from "react";
 import { View } from "react-native";
 import type { CarouselRef } from "react-native-reanimated-carousel";
 import { askToCancel, askToRemove } from "@/helpers/prompts";
-import type { TemporaryLogValue } from "@/hooks/useTemporaryLog";
+import type { TemporaryLogValue } from "@/features/logs/temporaryLog";
 import { SlideHeader } from "./SlideHeader";
 import { Stepper } from "./Stepper";
 

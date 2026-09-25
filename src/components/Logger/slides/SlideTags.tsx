@@ -1,8 +1,8 @@
 import { getLogEditMarginTop } from "@/helpers/responsive";
 import { t } from "@/helpers/translation";
 import useColors from "@/hooks/useColors";
-import { useTagsState } from "@/hooks/useTags";
-import { useTemporaryLog } from "@/hooks/useTemporaryLog";
+import { useTagsState } from "@/features/tags";
+import { useTemporaryLog } from "@/features/logs/temporaryLog";
 import type { TagReference } from "@/types";
 import { useNavigation } from "@react-navigation/native";
 import { LinearGradient } from "expo-linear-gradient";

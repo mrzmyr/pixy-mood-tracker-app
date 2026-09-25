@@ -1,5 +1,5 @@
 import type { Dayjs } from "dayjs";
-import type { LogItem } from "@/hooks/useLogs";
+import type { LogItem } from "@/features/logs";
 import { RATING_KEYS } from "@/constants/Ratings";
 import { NotEnoughDataOverlay } from "../NotEnoughDataOverlay";
 import { BigCard } from "../../BigCard";

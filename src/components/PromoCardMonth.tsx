@@ -4,7 +4,7 @@ import { Moon, X } from "react-native-feather";
 import useColors from "@/hooks/useColors";
 import { t } from "@/helpers/translation";
 import useHaptics from "@/hooks/useHaptics";
-import { useSettings } from "@/hooks/useSettings";
+import { useSettings } from "@/state/settings";
 import Animated, { FadeIn, LinearTransition } from "react-native-reanimated";
 
 /**

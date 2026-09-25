@@ -1,7 +1,7 @@
 import Button from "@/components/Button";
 import { t } from "@/helpers/translation";
 import useColors from "@/hooks/useColors";
-import { useLogState } from "@/hooks/useLogs";
+import { useLogState } from "@/features/logs";
 import { useNavigation } from "@react-navigation/native";
 import dayjs from "dayjs";
 import { DATE_FORMAT } from "@/constants/Config";

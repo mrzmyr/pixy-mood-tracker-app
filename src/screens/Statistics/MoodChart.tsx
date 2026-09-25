@@ -2,8 +2,8 @@ import dayjs from "dayjs";
 import { Dimensions, View } from "react-native";
 import { Card } from "@/components/Statistics/Card";
 import { t } from "@/helpers/translation";
-import { useLogState } from "../../hooks/useLogs";
-import { getRatingDistributionForXDays } from "../../hooks/useStatistics/RatingDistribution";
+import { useLogState } from "@/features/logs";
+import { getRatingDistributionForXDays } from "@/features/statistics/RatingDistribution";
 
 import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
 import { RatingChart } from "@/components/RatingChart";

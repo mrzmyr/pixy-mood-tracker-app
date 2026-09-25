@@ -1,6 +1,6 @@
 import dayjs from "dayjs";
 import { DATE_FORMAT } from "@/constants/Config";
-import type { LogItem } from "@/hooks/useLogs";
+import type { LogItem } from "@/features/logs";
 
 // Log updates replace entry objects instead of mutating them, so values
 // cached per entry object never go stale.

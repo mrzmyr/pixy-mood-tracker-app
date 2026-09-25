@@ -7,7 +7,7 @@ import {
   useSuperwall,
   useSuperwallEvents,
 } from "expo-superwall";
-import { useAnalytics } from "@/hooks/useAnalytics";
+import { useAnalytics } from "@/state/analytics";
 import { createStructuredError } from "@/lib/errors";
 import type { SupportClient, SupportFlowError } from "./index";
 import { disabledSupportClient } from "./clients";

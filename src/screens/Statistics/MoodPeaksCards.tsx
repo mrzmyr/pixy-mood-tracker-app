@@ -2,19 +2,19 @@ import { Card } from "@/components/Statistics/Card";
 import { CardFeedback } from "@/components/Statistics/CardFeedback";
 import { DATE_FORMAT } from "@/constants/Config";
 import { t } from "@/helpers/translation";
-import { useCalendarNavigation } from "@/hooks/useCalendarNavigation";
+import { useCalendarNavigation } from "@/features/calendar/navigation";
 import type { Dayjs } from "dayjs";
 import dayjs from "dayjs";
 import range from "lodash/range";
 import { Pressable, Text, View } from "react-native";
 import useColors from "../../hooks/useColors";
 import useHaptics from "../../hooks/useHaptics";
-import type { LogDay } from "../../hooks/useLogs";
+import type { LogDay } from "@/features/logs";
 import useScale from "../../hooks/useScale";
 import type {
   MoodPeaksNegativeData,
   MoodPeaksPositiveData,
-} from "../../hooks/useStatistics/MoodPeaks";
+} from "@/features/statistics/MoodPeaks";
 import { HeaderWeek } from "./HeaderWeek";
 
 const getDayDotOpacity = (isPressed: boolean, isFuture: boolean) => {

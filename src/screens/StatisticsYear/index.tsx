@@ -6,7 +6,7 @@ import { ScrollView, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import type { RootStackScreenProps } from "../../../types";
 import useColors from "../../hooks/useColors";
-import { useLogState } from "../../hooks/useLogs";
+import { useLogState } from "@/features/logs";
 import { BestMonth } from "./BestMonth";
 import { Header } from "./Header";
 import { MoodChart } from "./MoodChart";

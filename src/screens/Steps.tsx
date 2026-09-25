@@ -16,7 +16,7 @@ import {
 } from "react-native-feather";
 import type { RootStackScreenProps } from "../../types";
 import useColors from "../hooks/useColors";
-import { useSettings } from "../hooks/useSettings";
+import { useSettings } from "@/state/settings";
 
 /**
  * Settings > Steps: toggle optional logger steps. `rating` cannot be

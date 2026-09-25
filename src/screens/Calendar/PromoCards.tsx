@@ -3,8 +3,8 @@ import { MONTH_REPORT_SLUG, PromoCardMonth } from "@/components/PromoCardMonth";
 import { PromoCardYear, YEAR_REPORT_SLUG } from "@/components/PromoCardYear";
 import { DATE_FORMAT, STATISTIC_MIN_LOGS } from "@/constants/Config";
 import { t } from "@/helpers/translation";
-import { useAnalytics } from "@/hooks/useAnalytics";
-import { useSettings } from "@/hooks/useSettings";
+import { useAnalytics } from "@/state/analytics";
+import { useSettings } from "@/state/settings";
 import { useNavigation } from "@react-navigation/native";
 import dayjs from "dayjs";
 import { XMLParser } from "fast-xml-parser";
@@ -12,7 +12,7 @@ import type { ReactElement } from "react";
 import React, { useEffect, useState } from "react";
 import { View } from "react-native";
 import useColors from "../../hooks/useColors";
-import { useLogState } from "../../hooks/useLogs";
+import { useLogState } from "@/features/logs";
 import * as WebBrowser from "expo-web-browser";
 
 interface RssItem {

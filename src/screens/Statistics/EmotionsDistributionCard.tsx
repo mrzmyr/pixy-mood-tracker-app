@@ -2,7 +2,7 @@ import { Card } from "@/components/Statistics/Card";
 import { CardFeedback } from "@/components/Statistics/CardFeedback";
 import { t } from "@/helpers/translation";
 import useColors from "@/hooks/useColors";
-import type { EmotionsDistributionData } from "@/hooks/useStatistics/EmotionsDistributuon";
+import type { EmotionsDistributionData } from "@/features/statistics/EmotionsDistributuon";
 import type { Emotion } from "@/types";
 import { Text, View } from "react-native";
 import { EmotionItem } from "../LogList/EmotionItem";

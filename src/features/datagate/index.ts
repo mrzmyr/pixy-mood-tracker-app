@@ -1,0 +1,242 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import dayjs from "dayjs";
+import * as DocumentPicker from "expo-document-picker";
+import * as FileSystem from "expo-file-system/legacy";
+import * as Sharing from "expo-sharing";
+import { Alert, Platform } from "react-native";
+import type { ImportData } from "./import";
+import { getJSONSchemaType } from "./import";
+import { migrateImportData } from "./migration";
+import {
+  askToImport,
+  askToReset,
+  showImportError,
+  showImportSuccess,
+  showResetSuccess,
+} from "@/helpers/prompts";
+import { t } from "@/helpers/translation";
+import pkg from "../../../package.json";
+import { useAnalytics } from "@/state/analytics";
+import type { LogsState } from "@/features/logs";
+import {
+  STORAGE_KEY as STORAGE_KEY_LOGS,
+  useLogState,
+  useLogUpdater,
+} from "@/features/logs";
+import type { ExportSettings } from "@/state/settings";
+import {
+  STORAGE_KEY as STORAGE_KEY_SETTINGS,
+  useSettings,
+} from "@/state/settings";
+import type { Tag } from "@/features/tags";
+import {
+  STORAGE_KEY as STORAGE_KEY_TAGS,
+  useTagsState,
+  useTagsUpdater,
+} from "@/features/tags";
+
+type ResetType = "factory" | "data";
+
+interface ExportData {
+  version: string;
+  tags: Tag[];
+  items: LogsState["items"];
+  settings: ExportSettings;
+}
+
+const dangerouslyImportDirectlyToAsyncStorage = async (data: ImportData) => {
+  await AsyncStorage.removeItem(STORAGE_KEY_TAGS);
+  await AsyncStorage.setItem(
+    STORAGE_KEY_LOGS,
+    JSON.stringify({
+      items: data.items,
+    })
+  );
+  await AsyncStorage.setItem(
+    STORAGE_KEY_SETTINGS,
+    JSON.stringify({
+      ...data.settings,
+      actionsDone: [
+        {
+          date: new Date().toISOString(),
+          title: "onboarding",
+        },
+      ],
+      tags: data.tags,
+    })
+  );
+};
+
+const openDangerousImportDirectlyToAsyncStorageDialog = async () => {
+  const doc = await DocumentPicker.getDocumentAsync({
+    type: "application/json",
+    copyToCacheDirectory: true,
+  });
+
+  if (!doc.canceled) {
+    const contents = await FileSystem.readAsStringAsync(doc.assets[0].uri);
+    const data = JSON.parse(contents);
+    dangerouslyImportDirectlyToAsyncStorage(data);
+  }
+};
+
+interface DatagateValue {
+  openExportDialog: () => Promise<void>;
+  openImportDialog: () => Promise<void>;
+  import: (data: ImportData, options: { muted: boolean }) => void;
+  openDangerousImportDirectlyToAsyncStorageDialog: () => Promise<void>;
+  openResetDialog: (type: ResetType) => Promise<void>;
+}
+
+/**
+ * Export, import, and reset flows for all user data (logs, tags, settings).
+ *
+ * Must render inside the logs, tags, and settings providers. Import and
+ * reset ask for confirmation first; cancelling leaves data unchanged.
+ */
+export const useDatagate = (): DatagateValue => {
+  const logState = useLogState();
+  const logUpdater = useLogUpdater();
+  const { tags } = useTagsState();
+  const tagsUpdater = useTagsUpdater();
+  const { resetSettings, importSettings, settings } = useSettings();
+
+  const analytics = useAnalytics();
+
+  const _import = (
+    data: ImportData,
+    { muted = false }: { muted?: boolean } = {}
+  ) => {
+    const migratedData = migrateImportData(data);
+    const jsonSchemaType = getJSONSchemaType(migratedData);
+
+    if (jsonSchemaType === "pixy") {
+      logUpdater.import({
+        items: migratedData.items,
+      });
+      tagsUpdater.import({
+        tags: migratedData.settings.tags || migratedData.tags || [],
+      });
+      importSettings(migratedData.settings);
+      if (!muted) {
+        showImportSuccess();
+      }
+      analytics.track("data_import_success");
+    } else {
+      console.log("import failed, json schema:", jsonSchemaType);
+      if (!muted) {
+        showImportError();
+      }
+      analytics.track("data_import_error", {
+        reason: "invalid_json_schema",
+      });
+    }
+  };
+
+  const reset = () => {
+    logUpdater.reset();
+    tagsUpdater.reset();
+  };
+
+  const factoryReset = () => {
+    reset();
+    resetSettings();
+    analytics.reset();
+  };
+
+  const openImportDialog = async (): Promise<void> => {
+    await askToImport();
+
+    try {
+      analytics.track("data_import_start");
+
+      const doc = await DocumentPicker.getDocumentAsync({
+        type: "application/json",
+        copyToCacheDirectory: true,
+      });
+
+      if (!doc.canceled) {
+        analytics.track("data_import_success");
+        const contents = await FileSystem.readAsStringAsync(doc.assets[0].uri);
+        const data = JSON.parse(contents);
+
+        _import(data);
+      }
+    } catch {
+      showImportError();
+      analytics.track("data_import_error", {
+        reason: "document_picker_error",
+      });
+    }
+  };
+
+  const openResetDialog = async (type: ResetType) => {
+    analytics.track("data_reset_asked");
+    const resetFn = type === "factory" ? factoryReset : reset;
+
+    if (Platform.OS === "web") {
+      resetFn();
+      // oxlint-disable-next-line eslint/no-alert -- web-only branch: react-native-web's Alert.alert is a no-op, so the browser dialog is the only way to confirm the reset.
+      alert(t("reset_data_success_message"));
+      return;
+    }
+
+    try {
+      await askToReset<ResetType>(type);
+      resetFn();
+      analytics.track("data_reset_success", {
+        type,
+      });
+      showResetSuccess<ResetType>(type);
+    } catch {
+      analytics.track("data_reset_cancel");
+    }
+  };
+
+  const openExportDialog = async () => {
+    const data: ExportData = {
+      version: pkg.version,
+      items: logState.items,
+      tags,
+      settings: {
+        passcodeEnabled: settings.passcodeEnabled,
+        passcode: settings.passcode,
+        scaleType: settings.scaleType,
+        reminderEnabled: settings.reminderEnabled,
+        reminderTime: settings.reminderTime,
+        trackBehaviour: settings.trackBehaviour,
+        analyticsEnabled: settings.analyticsEnabled,
+        actionsDone: settings.actionsDone,
+        steps: settings.steps,
+      },
+    };
+
+    analytics.track("data_export_started");
+
+    if (Platform.OS === "web") {
+      return Alert.alert("Not supported on web");
+    }
+
+    const filename = `pixy-mood-tracker-${dayjs().format("YYYY-MM-DD")}${__DEV__ ? "-DEV" : ""}.json`;
+
+    await FileSystem.writeAsStringAsync(
+      FileSystem.documentDirectory + filename,
+      JSON.stringify(data)
+    );
+
+    if (!(await Sharing.isAvailableAsync())) {
+      Alert.alert("Alert", t("export_failed_title"));
+      return;
+    }
+
+    return Sharing.shareAsync(FileSystem.documentDirectory + filename);
+  };
+
+  return {
+    openExportDialog,
+    openImportDialog,
+    openResetDialog,
+    import: _import,
+    openDangerousImportDirectlyToAsyncStorageDialog,
+  };
+};

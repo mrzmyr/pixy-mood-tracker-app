@@ -7,14 +7,14 @@ import { View } from "react-native";
 import { BigCard } from "@/components/BigCard";
 import { DATE_FORMAT } from "@/constants/Config";
 import { t } from "@/helpers/translation";
-import type { LogItem } from "../../../hooks/useLogs";
-import { useLogState } from "../../../hooks/useLogs";
+import type { LogItem } from "@/features/logs";
+import { useLogState } from "@/features/logs";
 import { RATING_KEYS } from "@/constants/Ratings";
 import { NotEnoughDataOverlay } from "@/components/Statistics/NotEnoughDataOverlay";
 
 import { Row } from "./Row";
 import { XAxis } from "./XAxis";
-import { useAnonymizer } from "../../../hooks/useAnonymizer";
+import { useAnonymizer } from "@/state/analytics/anonymizer";
 
 const MIN_ITEMS = 30;
 

@@ -1,9 +1,9 @@
 import Button from "@/components/Button";
 import { locale, t } from "@/helpers/translation";
 import useColors from "@/hooks/useColors";
-import useFeedbackModal from "@/hooks/useFeedbackModal";
+import useFeedbackModal from "@/features/feedback/modal";
 import useHaptics from "@/hooks/useHaptics";
-import { useTemporaryLog } from "@/hooks/useTemporaryLog";
+import { useTemporaryLog } from "@/features/logs/temporaryLog";
 import { getItemDateTitle } from "@/lib/utils";
 import dayjs from "dayjs";
 import { useState } from "react";

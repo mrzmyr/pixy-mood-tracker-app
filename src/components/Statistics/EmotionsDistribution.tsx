@@ -1,8 +1,8 @@
-import type { LogItem } from "@/hooks/useLogs";
+import type { LogItem } from "@/features/logs";
 import {
   dummyEmotionsDistributionData,
   getEmotionsDistributionData,
-} from "@/hooks/useStatistics/EmotionsDistributuon";
+} from "@/features/statistics/EmotionsDistributuon";
 import { EmotionsDistributionContent } from "@/screens/Statistics/EmotionsDistributionCard";
 import { BigCard } from "../BigCard";
 import { NotEnoughDataOverlay } from "./NotEnoughDataOverlay";

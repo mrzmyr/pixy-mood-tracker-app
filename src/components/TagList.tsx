@@ -3,7 +3,7 @@ import MenuList from "@/components/MenuList";
 import { MAX_TAGS } from "@/constants/Config";
 import { t } from "@/helpers/translation";
 import useColors from "../hooks/useColors";
-import type { Tag } from "../hooks/useTags";
+import type { Tag } from "@/features/tags";
 import { TagListItem } from "@/components/TagListItem";
 import { useNavigation } from "@react-navigation/native";
 
