@@ -1,0 +1,719 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>pixy-mood-tracker · devices</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Geist:wght@400..600&family=Geist+Mono:wght@400..600&display=swap"
+      rel="stylesheet"
+      referrerpolicy="no-referrer"
+    />
+    <style>
+      :root {
+        color-scheme: light dark;
+        --bg: #fff;
+        --fg: #000;
+        --muted: #666;
+        --faint: #a1a1a1;
+        --line: #ebebeb;
+        --hover: #fafafa;
+        --ok: #1a7f37;
+        --bad: #d8262c;
+        --warn: #a35200;
+        --info: #0068d6;
+        --link: #7d3bc4;
+        --sans: "Geist", ui-sans-serif, system-ui, sans-serif;
+        --mono: "Geist Mono", ui-monospace, "SF Mono", monospace;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: #000;
+          --fg: #ededed;
+          --muted: #a1a1a1;
+          --faint: #666;
+          --line: #1f1f1f;
+          --hover: #0a0a0a;
+          --ok: #3fb950;
+          --bad: #ff6166;
+          --warn: #f5a524;
+          --info: #52a8ff;
+          --link: #bf7af0;
+        }
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--fg);
+        font: 400 14px/20px var(--sans);
+        -webkit-font-smoothing: antialiased;
+        font-variant-numeric: tabular-nums;
+      }
+      .shell {
+        max-width: 1280px;
+        margin: 0 auto;
+        padding: 32px 24px 64px;
+      }
+      header {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 16px;
+        margin-bottom: 48px;
+      }
+      .mono {
+        font-family: var(--mono);
+        font-size: 13px;
+      }
+      .muted {
+        color: var(--muted);
+      }
+      .faint {
+        color: var(--faint);
+      }
+      h1 {
+        margin: 0;
+        font-size: 32px;
+        line-height: 40px;
+        font-weight: 600;
+        letter-spacing: -0.04em;
+      }
+      .summary {
+        margin: 8px 0 0;
+        color: var(--muted);
+        font-size: 16px;
+        line-height: 24px;
+      }
+      section {
+        margin-top: 56px;
+      }
+      .section-head {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 16px;
+        margin-bottom: 12px;
+      }
+      h2 {
+        margin: 0;
+        font-size: 20px;
+        line-height: 28px;
+        font-weight: 600;
+        letter-spacing: -0.02em;
+      }
+      h2 .count {
+        margin-left: 8px;
+        color: var(--faint);
+        font-weight: 400;
+      }
+      button {
+        font: inherit;
+        color: var(--muted);
+        background: none;
+        border: 0;
+        padding: 0;
+        cursor: pointer;
+      }
+      button:hover,
+      a:hover {
+        color: var(--fg);
+      }
+      button:focus-visible,
+      a:focus-visible {
+        outline: 2px solid var(--fg);
+        outline-offset: 2px;
+        border-radius: 2px;
+      }
+      a {
+        color: var(--muted);
+        text-decoration: underline;
+        text-decoration-color: var(--line);
+        text-underline-offset: 3px;
+      }
+      .table-wrap {
+        overflow-x: auto;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      th {
+        text-align: left;
+        font-weight: 500;
+        font-size: 12px;
+        color: var(--muted);
+        padding: 8px 16px 8px 0;
+        border-bottom: 1px solid var(--line);
+        white-space: nowrap;
+      }
+      td {
+        padding: 12px 16px 12px 0;
+        border-bottom: 1px solid var(--line);
+        vertical-align: middle;
+        white-space: nowrap;
+      }
+      th:last-child,
+      td:last-child {
+        padding-right: 0;
+        text-align: right;
+      }
+      tbody tr.row:hover {
+        background: var(--hover);
+      }
+      .nowrap {
+        white-space: nowrap;
+      }
+      .truncate {
+        max-width: 200px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      .status {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        white-space: nowrap;
+      }
+      .dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        border: 1.5px solid currentColor;
+        flex: none;
+      }
+      .dot.on {
+        background: currentColor;
+      }
+      .dot.pulse {
+        background: currentColor;
+        animation: pulse 1.4s ease-in-out infinite;
+      }
+      @keyframes pulse {
+        50% {
+          opacity: 0.25;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .dot.pulse {
+          animation: none;
+        }
+      }
+      .badge {
+        display: inline-block;
+        padding: 0 6px;
+        border-radius: 4px;
+        font-size: 12px;
+        line-height: 20px;
+        font-weight: 500;
+        background: var(--fg);
+        color: var(--bg);
+      }
+      .badge.outline {
+        background: none;
+        color: var(--tone, var(--fg));
+        box-shadow: inset 0 0 0 1px currentColor;
+      }
+      .tone-ok {
+        --tone: var(--ok);
+      }
+      .tone-bad {
+        --tone: var(--bad);
+      }
+      .tone-warn {
+        --tone: var(--warn);
+      }
+      .tone-link {
+        --tone: var(--link);
+      }
+      .tone-info {
+        --tone: var(--info);
+      }
+      .tone-idle {
+        --tone: var(--faint);
+        color: var(--muted);
+      }
+      .status .dot {
+        color: var(--tone, currentColor);
+      }
+      .badge:not(.outline) {
+        background: var(--tone, var(--fg));
+        color: #fff;
+      }
+      .platform {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        vertical-align: top;
+      }
+      .platform svg {
+        width: 14px;
+        height: 14px;
+        flex: none;
+        fill: currentColor;
+      }
+      .links {
+        display: inline-flex;
+        gap: 12px;
+      }
+      .detail td {
+        padding: 0 0 16px;
+        border-bottom: 1px solid var(--line);
+        text-align: left;
+      }
+      .flows {
+        display: grid;
+        grid-template-columns: auto 1fr auto auto;
+        gap: 4px 24px;
+        margin: 0;
+        padding: 12px 16px;
+        background: var(--hover);
+        border-radius: 6px;
+      }
+      .empty {
+        padding: 24px 0;
+        color: var(--muted);
+        border-bottom: 1px solid var(--line);
+      }
+      .error {
+        margin-top: 24px;
+        padding: 12px 16px;
+        border: 1px solid var(--fg);
+        border-radius: 6px;
+      }
+      .error p {
+        margin: 0;
+      }
+      .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip-path: inset(50%);
+        white-space: nowrap;
+      }
+      .expand {
+        width: 16px;
+        display: inline-block;
+        color: var(--faint);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="shell">
+      <header>
+        <span class="mono">pixy-mood-tracker</span>
+        <span class="muted" id="updated" aria-live="polite">Loading…</span>
+      </header>
+
+      <main>
+        <h1>Devices, sessions, and builds</h1>
+        <p class="summary" id="summary">Reading local state…</p>
+        <div id="error" hidden class="error" role="alert"></div>
+
+        <section aria-labelledby="sessions-title">
+          <div class="section-head">
+            <h2 id="sessions-title">
+              Sessions<span class="count" id="sessions-count"></span>
+            </h2>
+            <button type="button" id="sessions-toggle"></button>
+          </div>
+          <div class="table-wrap" id="sessions"></div>
+        </section>
+
+        <section aria-labelledby="devices-title">
+          <div class="section-head">
+            <h2 id="devices-title">
+              Devices<span class="count" id="devices-count"></span>
+            </h2>
+            <button type="button" id="devices-toggle"></button>
+          </div>
+          <div class="table-wrap" id="devices"></div>
+        </section>
+
+        <section aria-labelledby="builds-title">
+          <div class="section-head">
+            <h2 id="builds-title">
+              Builds<span class="count" id="builds-count"></span>
+            </h2>
+          </div>
+          <div class="table-wrap" id="builds"></div>
+        </section>
+      </main>
+    </div>
+
+    <script>
+      const POLL_MS = 5000;
+      const RECENT_SESSIONS = 10;
+      const view = {
+        allSessions: false,
+        allDevices: false,
+        expanded: new Set(),
+      };
+      let state = null;
+
+      const $ = (id) => document.getElementById(id);
+      const esc = (value) =>
+        String(value ?? "").replace(
+          /[&<>"']/g,
+          (char) =>
+            ({
+              "&": "&amp;",
+              "<": "&lt;",
+              ">": "&gt;",
+              '"': "&quot;",
+              "'": "&#39;",
+            })[char]
+        );
+      const base = (file) =>
+        String(file ?? "")
+          .split("/")
+          .filter(Boolean)
+          .at(-1) ?? "";
+
+      const ago = (iso) => {
+        if (!iso) return "–";
+        const s = Math.max(
+          0,
+          Math.round((Date.now() - Date.parse(iso)) / 1000)
+        );
+        if (s < 60) return `${s}s ago`;
+        if (s < 3600) return `${Math.round(s / 60)}m ago`;
+        if (s < 86400) return `${Math.round(s / 3600)}h ago`;
+        return `${Math.round(s / 86400)}d ago`;
+      };
+      const duration = (ms) => {
+        if (ms == null || Number.isNaN(ms)) return "–";
+        const s = Math.round(ms / 1000);
+        return s < 60
+          ? `${s}s`
+          : `${Math.floor(s / 60)}m ${String(s % 60).padStart(2, "0")}s`;
+      };
+      const size = (bytes) =>
+        bytes >= 1e9
+          ? `${(bytes / 1e9).toFixed(1)} GB`
+          : `${Math.round(bytes / 1e6)} MB`;
+      const exact = (iso) => (iso ? new Date(iso).toLocaleString() : "");
+
+      // Simple Icons "apple" and a minimal Android head, both currentColor.
+      const PLATFORM_ICONS = {
+        android:
+          '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.6 9.48l1.84-3.18a.38.38 0 0 0-.66-.38l-1.87 3.23A11.4 11.4 0 0 0 12 8.2c-1.79 0-3.47.4-4.91.95L5.22 5.92a.38.38 0 0 0-.66.38L6.4 9.48A10.8 10.8 0 0 0 1 18h22a10.8 10.8 0 0 0-5.4-8.52zM7 15.25a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5zm10 0a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5z"/></svg>',
+        ios: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.245-3.83-1.207.052-2.662.805-3.532 1.818-.78.896-1.454 2.338-1.273 3.714 1.338.104 2.715-.688 3.559-1.701"/></svg>',
+      };
+      const platformLabel = (platform) =>
+        `<span class="platform">${PLATFORM_ICONS[platform] ?? ""}${platform === "ios" ? "iOS" : "Android"}</span>`;
+      const KIND_LABELS = {
+        emulator: "Emulator",
+        physical: "Physical",
+        simulator: "Simulator",
+      };
+      const kindLabel = (kind) => esc(KIND_LABELS[kind] ?? kind);
+
+      // tone: ok | bad | warn | info | idle. kind: dot | pulse | ring | badge | outline.
+      const indicator = (tone, label, kind = "dot", title = "") => {
+        const attr = title ? ` title="${esc(title)}"` : "";
+        if (kind === "badge" || kind === "outline")
+          return `<span class="badge${kind === "outline" ? " outline" : ""} tone-${tone}"${attr}>${label}</span>`;
+        const dot =
+          kind === "pulse" ? "dot pulse" : kind === "ring" ? "dot" : "dot on";
+        return `<span class="status tone-${tone}"${attr}><span class="${dot}"></span>${label}</span>`;
+      };
+      const isActive = (s) => s.status === "building" || s.status === "running";
+
+      const sessionStatus = (s) => {
+        if (s.staleReason)
+          return indicator("warn", "Stale", "outline", s.staleReason);
+        if (s.status === "failed") return indicator("bad", "Failed", "badge");
+        if (s.status === "killed") return indicator("idle", "Killed", "ring");
+        if (s.status === "passed") return indicator("ok", "Passed");
+        if (s.status === "building")
+          return indicator("warn", "Building", "pulse");
+        return indicator("info", "Running", "pulse");
+      };
+
+      const FLOW_STATUS = {
+        failed: ["bad", "badge"],
+        passed: ["ok", "dot"],
+        running: ["info", "pulse"],
+      };
+      const flowStatus = (status) => {
+        const [tone, kind] = FLOW_STATUS[status] ?? ["idle", "ring"];
+        return indicator(
+          tone,
+          esc(status[0].toUpperCase() + status.slice(1)),
+          kind
+        );
+      };
+
+      const table = (head, rows) =>
+        `<table><thead><tr>${head.map((h) => `<th scope="col">${h}</th>`).join("")}</tr></thead><tbody>${rows.join("")}</tbody></table>`;
+
+      const renderSessions = () => {
+        const all = state.sessions;
+        const active = all.filter(isActive);
+        const shown = view.allSessions
+          ? all
+          : [
+              ...active,
+              ...all.filter((s) => !isActive(s)).slice(0, RECENT_SESSIONS),
+            ];
+        $("sessions-count").textContent = all.length;
+        const hidden = all.length - shown.length;
+        $("sessions-toggle").textContent = view.allSessions
+          ? "Show recent"
+          : hidden > 0
+            ? `Show all ${all.length}`
+            : "";
+        if (shown.length === 0) {
+          $("sessions").innerHTML =
+            `<p class="empty">No sessions. Start one with <span class="mono">bun sessions run &lt;device-id&gt;</span>.</p>`;
+          return;
+        }
+        const rows = shown.map((s) => {
+          const open = view.expanded.has(s.id);
+          const total = s.summary?.total ?? s.flows.length;
+          const passed = s.summary?.passed ?? 0;
+          const end = s.finishedAt ? Date.parse(s.finishedAt) : Date.now();
+          const links = [
+            `<a href="/sessions/${encodeURIComponent(s.id)}/log" target="_blank" rel="noreferrer">Log</a>`,
+            s.hasReport
+              ? `<a href="/sessions/${encodeURIComponent(s.id)}/report/" target="_blank" rel="noreferrer">Report</a>`
+              : "",
+          ].join("");
+          const row = `<tr class="row">
+            <td class="nowrap"><button type="button" data-expand="${esc(s.id)}" aria-expanded="${open}" aria-label="Flows of ${esc(s.id)}"><span class="expand">${open ? "−" : "+"}</span><span class="mono">${esc(s.id)}</span></button></td>
+            <td>${sessionStatus(s)}</td>
+            <td class="nowrap">${passed}/${total}</td>
+            <td><div class="truncate" title="${esc(s.deviceName)}">${esc(s.deviceName)}</div></td>
+            <td class="nowrap">${platformLabel(s.platform)}</td>
+            <td class="nowrap">${kindLabel(s.kind)}</td>
+            <td><div class="truncate" title="${esc(s.worktree)}"><span class="mono">${esc(s.branch)}</span> <span class="faint">${esc(base(s.worktree))}</span></div></td>
+            <td><span title="${esc(exact(s.startedAt))}">${ago(s.startedAt)}</span> <span class="faint">· ${duration(end - Date.parse(s.startedAt))}</span></td>
+            <td class="nowrap"><span class="links">${links}</span></td>
+          </tr>`;
+          if (!open) return row;
+          const flows = s.flowResults.length
+            ? s.flowResults
+                .map(
+                  (f) => `${flowStatus(f.status)}
+                  <span>${esc(f.name)} <span class="faint mono">${esc(f.sourceFile)}</span></span>
+                  <span class="muted">${duration(f.duration)}</span>
+                  <span>${
+                    f.video
+                      ? `<a href="/sessions/${encodeURIComponent(s.id)}/report/${f.video.split("/").map(encodeURIComponent).join("/")}" target="_blank" rel="noreferrer">Video</a>`
+                      : `<span class="faint">No video</span>`
+                  }</span>`
+                )
+                .join("")
+            : s.flows
+                .map(
+                  (f) =>
+                    `<span class="faint">–</span><span class="mono">${esc(f)}</span><span></span><span></span>`
+                )
+                .join("");
+          return `${row}<tr class="detail"><td colspan="9"><div class="flows">${flows}</div></td></tr>`;
+        });
+        $("sessions").innerHTML = table(
+          [
+            "Session",
+            "Status",
+            "Flows",
+            "Device",
+            "Platform",
+            "Type",
+            "Branch",
+            "Started",
+            "",
+          ],
+          rows
+        );
+      };
+
+      const DEVICE_STATES = {
+        booted: ["ok", "Booted", "dot"],
+        connected: ["link", "Connected", "dot"],
+        shutdown: ["idle", "Shut down", "ring"],
+        unauthorized: ["warn", "Not trusted", "outline"],
+        unavailable: ["idle", "Unavailable", "ring"],
+      };
+      const deviceState = (d) => {
+        const [tone, label, kind] = DEVICE_STATES[d.state] ?? [
+          "idle",
+          esc(d.state),
+          "ring",
+        ];
+        return indicator(tone, label, kind);
+      };
+      // Attached or running; untrusted phones count so their fix stays visible.
+      const isOnline = (d) =>
+        d.state === "booted" ||
+        d.state === "connected" ||
+        d.state === "unauthorized";
+
+      const renderDevices = () => {
+        const running = isOnline;
+        const all = state.devices.toSorted(
+          (a, b) =>
+            running(b) - running(a) ||
+            a.platform.localeCompare(b.platform) ||
+            a.name.localeCompare(b.name)
+        );
+        const shown = view.allDevices ? all : all.filter(running);
+        $("devices-count").textContent = all.filter(running).length;
+        const offline = all.length - all.filter(running).length;
+        $("devices-toggle").textContent = view.allDevices
+          ? "Hide offline"
+          : offline > 0
+            ? `Show ${offline} offline`
+            : "";
+        if (shown.length === 0) {
+          $("devices").innerHTML =
+            `<p class="empty">No running devices. Start one with <span class="mono">bun devices create --platform ios</span>.</p>`;
+          return;
+        }
+        const sessions = new Map(state.sessions.map((s) => [s.id, s]));
+        const rows = shown.map((d) => {
+          const session = d.sessionId ? sessions.get(d.sessionId) : null;
+          return `<tr class="row">
+            <td><div class="truncate" title="${esc(`${d.name}\n${d.id}`)}">${esc(d.name)} <span class="faint mono">${esc(d.id)}</span></div></td>
+            <td>${deviceState(d)}</td>
+            <td class="nowrap">${platformLabel(d.platform)}</td>
+            <td class="nowrap">${kindLabel(d.kind)}</td>
+            <td>${d.lease ? `<div class="truncate">${esc(base(d.lease.worktree))} <span class="faint">· ${ago(d.lease.bootedAt)}</span></div>` : `<span class="faint">–</span>`}</td>
+            <td class="nowrap">${session ? indicator(session.status === "building" ? "warn" : "info", `<span class="mono">${esc(session.id)}</span>`, "pulse") : `<span class="faint">Idle</span>`}</td>
+          </tr>`;
+        });
+        $("devices").innerHTML = table(
+          ["Device", "State", "Platform", "Type", "Owner", "Session"],
+          rows
+        );
+      };
+
+      const renderBuilds = () => {
+        const builds = state.builds;
+        $("builds-count").textContent = builds.length;
+        if (builds.length === 0) {
+          $("builds").innerHTML =
+            `<p class="empty">No cached builds. <span class="mono">bun ios</span> or <span class="mono">bun sessions run --build</span> fills the cache.</p>`;
+          return;
+        }
+        const rows = builds.map((b) => {
+          const m = b.meta ?? {};
+          const source = m.commit
+            ? `<span class="mono">${esc(m.branch || "detached")}</span> <span class="faint mono">${esc(m.commit.slice(0, 7))}${m.isDirty ? "+dirty" : ""}</span>`
+            : `<span class="faint">Unknown</span>`;
+          return `<tr class="row">
+            <td class="nowrap"><span class="mono">${esc(b.id)}</span></td>
+            <td class="nowrap">${platformLabel(b.platform)}</td>
+            <td class="nowrap">${esc(b.variant)}${b.isRelease ? "" : ` <span class="faint">debug</span>`}</td>
+            <td><div class="truncate">${source}</div></td>
+            <td class="nowrap">${size(b.sizeBytes)}</td>
+            <td class="nowrap" title="${esc(exact(b.createdAt))}">${ago(b.createdAt)}</td>
+            <td class="nowrap" title="${esc(exact(b.lastUsedAt))}">${ago(b.lastUsedAt)}</td>
+          </tr>`;
+        });
+        $("builds").innerHTML = table(
+          [
+            "Build",
+            "Platform",
+            "Variant",
+            "Source",
+            "Size",
+            "Created",
+            "Last used",
+          ],
+          rows
+        );
+      };
+
+      const renderSummary = () => {
+        const active = state.sessions.filter(
+          (s) => isActive(s) && !s.staleReason
+        ).length;
+        const stale = state.sessions.filter((s) => s.staleReason).length;
+        const running = state.devices.filter(isOnline).length;
+        const bytes = state.builds.reduce((sum, b) => sum + b.sizeBytes, 0);
+        const parts = [
+          `${active} ${active === 1 ? "session" : "sessions"} running`,
+          stale ? `${stale} stale` : "",
+          `${running} ${running === 1 ? "device" : "devices"} up`,
+          `${state.builds.length} cached ${state.builds.length === 1 ? "build" : "builds"} (${size(bytes)})`,
+        ].filter(Boolean);
+        $("summary").textContent = parts.join(" · ");
+      };
+
+      const render = () => {
+        if (!state) return;
+        renderSummary();
+        renderSessions();
+        renderDevices();
+        renderBuilds();
+        $("updated").textContent = `Updated ${ago(state.generatedAt)}`;
+      };
+
+      const showError = (error) => {
+        const box = $("error");
+        box.hidden = false;
+        box.innerHTML = `<p><strong>${esc(error.message)}</strong></p>
+          <p class="muted">${esc(error.why)}</p>
+          <p class="muted">${esc(error.fix)}</p>`;
+      };
+
+      const load = async () => {
+        try {
+          const response = await fetch("/api/state", { cache: "no-store" });
+          const body = await response.json();
+          if (!response.ok) throw body;
+          state = body;
+          $("error").hidden = true;
+          render();
+        } catch (error) {
+          showError(
+            error?.why
+              ? error
+              : {
+                  message: "Dashboard server not reachable",
+                  why: error?.message ?? String(error),
+                  fix: "Start it again with `bun dashboard`.",
+                }
+          );
+        } finally {
+          setTimeout(poll, POLL_MS);
+        }
+      };
+      const poll = () => (document.hidden ? setTimeout(poll, POLL_MS) : load());
+
+      document.addEventListener("click", (event) => {
+        const expand = event.target.closest("[data-expand]");
+        if (expand) {
+          const id = expand.dataset.expand;
+          view.expanded.has(id)
+            ? view.expanded.delete(id)
+            : view.expanded.add(id);
+          render();
+        }
+      });
+      $("sessions-toggle").addEventListener("click", () => {
+        view.allSessions = !view.allSessions;
+        render();
+      });
+      $("devices-toggle").addEventListener("click", () => {
+        view.allDevices = !view.allDevices;
+        render();
+      });
+      setInterval(
+        () =>
+          state &&
+          ($("updated").textContent = `Updated ${ago(state.generatedAt)}`),
+        1000
+      );
+      load();
+    </script>
+  </body>
+</html>
