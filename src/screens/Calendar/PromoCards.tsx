@@ -11,8 +11,8 @@ import { XMLParser } from "fast-xml-parser";
 import type { ReactElement } from "react";
 import React, { useEffect, useState } from "react";
 import { View } from "react-native";
-import useColors from "../../hooks/useColors";
-import { useLogState } from "../../hooks/useLogs";
+import useColors from "@/hooks/useColors";
+import { useLogState } from "@/hooks/useLogs";
 import * as WebBrowser from "expo-web-browser";
 
 interface RssItem {

@@ -1,4 +1,4 @@
-import type { LogItem } from "../useLogs";
+import type { LogItem } from "@/hooks/useLogs";
 import { RATING_KEYS } from "@/constants/Ratings";
 import { getLogDays } from "@/lib/utils";
 

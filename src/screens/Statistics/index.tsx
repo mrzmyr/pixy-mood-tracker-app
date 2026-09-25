@@ -13,9 +13,9 @@ import {
 } from "react-native";
 import { Moon, Star } from "react-native-feather";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import useColors from "../../hooks/useColors";
-import { useLogState } from "../../hooks/useLogs";
-import { useStatistics } from "../../hooks/useStatistics";
+import useColors from "@/hooks/useColors";
+import { useLogState } from "@/hooks/useLogs";
+import { useStatistics } from "@/hooks/useStatistics";
 import { EmptyPlaceholder } from "./EmptyPlaceholder";
 import { HighlightsSection } from "./HighlightsSection";
 

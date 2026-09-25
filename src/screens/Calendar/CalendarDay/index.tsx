@@ -4,10 +4,10 @@ import { memo, useCallback, useMemo } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import { useStyle } from "react-native-style-utilities";
 import { DATE_FORMAT } from "@/constants/Config";
-import useColors from "../../../hooks/useColors";
-import useHaptics from "../../../hooks/useHaptics";
-import type { LogItem } from "../../../hooks/useLogs";
-import { useSettings } from "../../../hooks/useSettings";
+import useColors from "@/hooks/useColors";
+import useHaptics from "@/hooks/useHaptics";
+import type { LogItem } from "@/hooks/useLogs";
+import { useSettings } from "@/hooks/useSettings";
 
 const styles = StyleSheet.create({
   container: {

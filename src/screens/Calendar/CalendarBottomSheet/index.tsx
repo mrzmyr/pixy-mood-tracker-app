@@ -14,8 +14,8 @@ import {
   View,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { useCalendarFilters } from "../../../hooks/useCalendarFilters";
-import useColors from "../../../hooks/useColors";
+import { useCalendarFilters } from "@/hooks/useCalendarFilters";
+import useColors from "@/hooks/useColors";
 import { Body } from "./Body";
 
 const CalendarSheetHandle = () => {

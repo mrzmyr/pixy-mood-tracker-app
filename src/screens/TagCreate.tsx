@@ -13,11 +13,11 @@ import {
   TAG_COLOR_NAMES,
 } from "@/constants/Config";
 import { t } from "@/helpers/translation";
-import { useAnalytics } from "../hooks/useAnalytics";
-import useColors from "../hooks/useColors";
-import useHaptics from "../hooks/useHaptics";
-import type { Tag as ITag } from "../hooks/useTags";
-import { useTagsUpdater } from "../hooks/useTags";
+import { useAnalytics } from "@/hooks/useAnalytics";
+import useColors from "@/hooks/useColors";
+import useHaptics from "@/hooks/useHaptics";
+import type { Tag as ITag } from "@/hooks/useTags";
+import { useTagsUpdater } from "@/hooks/useTags";
 import type { RootStackScreenProps } from "../../types";
 
 const REGEX_EMOJI = /\p{Emoji}/u;

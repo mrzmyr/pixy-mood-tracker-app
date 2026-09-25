@@ -2,7 +2,7 @@ import dayjs from "dayjs";
 import type { ReactNode } from "react";
 import React from "react";
 import { Text, View } from "react-native";
-import useColors from "../../../hooks/useColors";
+import useColors from "@/hooks/useColors";
 
 /** Month initials above the year grid. */
 export const XAxis = () => {

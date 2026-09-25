@@ -4,7 +4,7 @@ import {
   getEmotionsDistributionData,
 } from "@/hooks/useStatistics/EmotionsDistributuon";
 import { EmotionsDistributionContent } from "@/screens/Statistics/EmotionsDistributionCard";
-import { BigCard } from "../BigCard";
+import { BigCard } from "@/components/BigCard";
 import { NotEnoughDataOverlay } from "./NotEnoughDataOverlay";
 
 const MIN_TAGS = 5;

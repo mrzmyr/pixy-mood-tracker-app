@@ -4,7 +4,7 @@ import padStart from "lodash/padStart";
 import type { ReactNode } from "react";
 import React from "react";
 import { View } from "react-native";
-import type { LogItem } from "../../../hooks/useLogs";
+import type { LogItem } from "@/hooks/useLogs";
 import { getAverageMood } from "@/lib/utils";
 import { Day } from "./Day";
 import { YAxis } from "./YAxis";

@@ -4,17 +4,17 @@ import * as DocumentPicker from "expo-document-picker";
 import * as FileSystem from "expo-file-system/legacy";
 import * as Sharing from "expo-sharing";
 import { Alert } from "react-native";
-import { AnalyticsProvider } from "../hooks/useAnalytics";
-import { useDatagate } from "../hooks/useDatagate";
+import { AnalyticsProvider } from "@/hooks/useAnalytics";
+import { useDatagate } from "@/hooks/useDatagate";
 
 import _ from "lodash";
-import type { LogsState } from "../hooks/useLogs";
-import { LogsProvider, useLogState, useLogUpdater } from "../hooks/useLogs";
-import type { ExportSettings } from "../hooks/useSettings";
-import { INITIAL_STATE } from "../constants/Settings";
-import { SettingsProvider, useSettings } from "../hooks/useSettings";
-import type { Tag } from "../hooks/useTags";
-import { TagsProvider, useTagsState, useTagsUpdater } from "../hooks/useTags";
+import type { LogsState } from "@/hooks/useLogs";
+import { LogsProvider, useLogState, useLogUpdater } from "@/hooks/useLogs";
+import type { ExportSettings } from "@/hooks/useSettings";
+import { INITIAL_STATE } from "@/constants/Settings";
+import { SettingsProvider, useSettings } from "@/hooks/useSettings";
+import type { Tag } from "@/hooks/useTags";
+import { TagsProvider, useTagsState, useTagsUpdater } from "@/hooks/useTags";
 import { _generateItem } from "./utils";
 import pkg from "../../package.json";
 

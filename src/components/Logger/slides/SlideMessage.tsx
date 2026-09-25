@@ -7,10 +7,10 @@ import { forwardRef, useEffect, useState } from "react";
 import { Keyboard, KeyboardAvoidingView, Platform, View } from "react-native";
 import type { TextInput } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import DismissKeyboard from "../../DismisKeyboard";
-import LinkButton from "../../LinkButton";
-import TextArea from "../../TextArea";
-import { SlideHeadline } from "../components/SlideHeadline";
+import DismissKeyboard from "@/components/DismisKeyboard";
+import LinkButton from "@/components/LinkButton";
+import TextArea from "@/components/TextArea";
+import { SlideHeadline } from "@/components/Logger/components/SlideHeadline";
 import { Footer } from "./Footer";
 
 const MAX_LENGTH = 10 * 1000;

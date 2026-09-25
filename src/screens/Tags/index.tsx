@@ -1,7 +1,7 @@
 import type { RootStackScreenProps } from "../../../types";
-import useColors from "../../hooks/useColors";
-import type { Tag } from "../../hooks/useTags";
-import { useTagsState } from "../../hooks/useTags";
+import useColors from "@/hooks/useColors";
+import type { Tag } from "@/hooks/useTags";
+import { useTagsState } from "@/hooks/useTags";
 import Button from "@/components/Button";
 import LinkButton from "@/components/LinkButton";
 import ModalHeader from "@/components/ModalHeader";

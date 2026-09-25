@@ -3,7 +3,7 @@ import { Lock } from "react-native-feather";
 import Animated, { FadeInRight } from "react-native-reanimated";
 import Button from "@/components/Button";
 import { t } from "@/helpers/translation";
-import useColors from "../../hooks/useColors";
+import useColors from "@/hooks/useColors";
 
 const ListItem = ({ children, delay }) => {
   const colors = useColors();

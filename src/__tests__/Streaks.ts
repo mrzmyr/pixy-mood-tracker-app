@@ -1,7 +1,7 @@
 import {
   getCurrentStreak,
   getLongestStreak,
-} from "../hooks/useStatistics/Streaks";
+} from "@/hooks/useStatistics/Streaks";
 import { _generateItem } from "./utils";
 
 const testItems = [

@@ -1,6 +1,6 @@
 import countBy from "lodash/countBy";
-import type { LogItem } from "../useLogs";
-import type { Tag } from "../useTags";
+import type { LogItem } from "@/hooks/useLogs";
+import type { Tag } from "@/hooks/useTags";
 
 /** Tags used at least 3 times, each with the entries that use it. */
 export interface TagsPeakData {

@@ -1,6 +1,6 @@
 import { getLogDays } from "@/lib/utils";
 import dayjs from "dayjs";
-import type { LogItem } from "../useLogs";
+import type { LogItem } from "@/hooks/useLogs";
 import { RATING_MAPPING } from "@/constants/Ratings";
 
 const MONTH_MAPPING = {

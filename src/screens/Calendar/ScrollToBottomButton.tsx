@@ -2,7 +2,7 @@ import React from "react";
 import { ChevronDown } from "react-native-feather";
 import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
 import { FloatButton } from "@/components/FloatButton";
-import useColors from "../../hooks/useColors";
+import useColors from "@/hooks/useColors";
 
 /** Floating button that scrolls the calendar to its end, the current month. */
 export const ScrollToBottomButton = ({ onPress }: { onPress: () => void }) => {

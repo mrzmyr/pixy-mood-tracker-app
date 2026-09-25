@@ -13,10 +13,10 @@ import LinkButton from "@/components/LinkButton";
 import ModalHeader from "@/components/ModalHeader";
 import TextArea from "@/components/TextArea";
 import { t } from "@/helpers/translation";
-import { useAnalytics } from "../useAnalytics";
-import useColors from "../useColors";
-import type { FeedackType } from "../useFeedback";
-import { useFeedback } from "../useFeedback";
+import { useAnalytics } from "@/hooks/useAnalytics";
+import useColors from "@/hooks/useColors";
+import type { FeedackType } from "@/hooks/useFeedback";
+import { useFeedback } from "@/hooks/useFeedback";
 import { TypeSelector } from "./TypeSelector";
 
 const FeedbackModalContent = ({

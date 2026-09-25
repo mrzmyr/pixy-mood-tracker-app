@@ -5,8 +5,8 @@ import {
   getTagsDistributionData,
 } from "@/hooks/useStatistics/TagsDistribution";
 import { useTagsState } from "@/hooks/useTags";
-import { TagDistributionContent } from "../../screens/Statistics/TagsDistributionCard";
-import { BigCard } from "../BigCard";
+import { TagDistributionContent } from "@/screens/Statistics/TagsDistributionCard";
+import { BigCard } from "@/components/BigCard";
 import { NotEnoughDataOverlay } from "./NotEnoughDataOverlay";
 
 const MIN_TAGS = 5;
