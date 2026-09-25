@@ -1,21 +1,14 @@
 import { DATE_FORMAT } from "@/constants/Config";
-import {
-  askToCancel,
-  askToDisableFeedbackStep,
-  askToDisableStep,
-  askToRemove,
-} from "@/helpers/prompts";
-import { useAnalytics } from "@/hooks/useAnalytics";
+import { askToDisableFeedbackStep, askToDisableStep } from "@/helpers/prompts";
 import useColors from "@/hooks/useColors";
 import type { LogItem } from "@/hooks/useLogs";
-import { useLogState, useLogUpdater } from "@/hooks/useLogs";
+import { useLogState } from "@/hooks/useLogs";
 import type { IQuestion } from "@/hooks/useQuestioner";
 import { useQuestioner } from "@/hooks/useQuestioner";
 import { useSettings } from "@/hooks/useSettings";
 import type { TemporaryLogState } from "@/hooks/useTemporaryLog";
 import { useTemporaryLog } from "@/hooks/useTemporaryLog";
 import type { Emotion, TagReference } from "@/types";
-import { useNavigation, StackActions } from "@react-navigation/native";
 import dayjs from "dayjs";
 import type { ReactElement } from "react";
 import { useEffect, useRef, useState } from "react";
@@ -26,8 +19,7 @@ import { Carousel } from "react-native-reanimated-carousel";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { v4 as uuidv4 } from "uuid";
 import { SlideAction } from "./components/SlideAction";
-import { SlideHeader } from "./components/SlideHeader";
-import { Stepper } from "./components/Stepper";
+import { LoggerHeader } from "./components/LoggerHeader";
 import type { LoggerStep } from "./config";
 import { SlideEmotions } from "./slides/SlideEmotions";
 import { SlideFeedback } from "./slides/SlideFeedback";
@@ -35,8 +27,19 @@ import { SlideMessage } from "./slides/SlideMessage";
 import { SlideMood } from "./slides/SlideMood";
 import { SlideReminder } from "./slides/SlideReminder";
 import { SlideTags } from "./slides/SlideTags";
+import { useLoggerActions } from "./useLoggerActions";
 
 export type LoggerMode = "create" | "edit";
+
+// Slide order in the carousel; `rating` is always shown.
+const SLIDE_ORDER: LoggerStep[] = [
+  "rating",
+  "emotions",
+  "tags",
+  "message",
+  "reminder",
+  "feedback",
+];
 
 const EMOTIONS_INDEX_MAPPING = {
   extremely_bad: 0,
@@ -95,6 +98,279 @@ const getAvailableStepsForEdit = ({ item }: { item: LogItem }) => {
   }
 
   return slides;
+};
+
+export const Logger = ({
+  initialItem,
+  initialStep,
+  avaliableSteps,
+  mode,
+  question,
+}: {
+  initialItem: TemporaryLogState;
+  initialStep?: LoggerStep;
+  avaliableSteps: LoggerStep[];
+  mode: LoggerMode;
+  question?: IQuestion | null;
+}) => {
+  const colors = useColors();
+  const insets = useSafeAreaInsets();
+
+  const logState = useLogState();
+
+  const { toggleStep } = useSettings();
+
+  const tempLog = useTemporaryLog(initialItem);
+
+  const texAreaRef = useRef<TextInput>(null);
+  const isEditing = mode === "edit";
+  const showDisable = logState.items.length <= 3 && !isEditing;
+
+  const [touched, setTouched] = useState(false);
+
+  const indexFound = avaliableSteps.findIndex((slide) => slide === initialStep);
+  const initialIndex = indexFound === -1 ? 0 : indexFound;
+  const [slideIndex, setSlideIndex] = useState(initialIndex);
+
+  const { save, remove, cancel } = useLoggerActions({ mode, tempLog });
+
+  const _carousel = useRef<CarouselRef>(null);
+
+  const slideKeys = SLIDE_ORDER.filter(
+    (key) =>
+      key === "rating" ||
+      (avaliableSteps.includes(key) && (key !== "feedback" || !!question))
+  );
+
+  const next = () => {
+    if (slideIndex + 1 === slideKeys.length - 1) {
+      Keyboard.dismiss();
+    }
+
+    if (slideIndex + 1 === slideKeys.length) {
+      save(tempLog.data);
+    } else {
+      if (_carousel.current) {
+        _carousel.current.next();
+      }
+    }
+  };
+
+  const content: {
+    key: string;
+    slide: ReactElement;
+    action?: ReactElement;
+  }[] = [];
+
+  content.push({
+    key: "rating",
+    slide: (
+      <SlideMood
+        onChange={(rating) => {
+          if (tempLog.data.rating !== rating) {
+            if (slideKeys.length === 1) {
+              save({
+                ...tempLog.data,
+                rating,
+              });
+            } else {
+              // oxlint-disable-next-line node/callback-return -- `next` advances the carousel, it is not a Node-style callback; `tempLog.update` must still run afterwards
+              next();
+            }
+          }
+          tempLog.update({ rating });
+        }}
+      />
+    ),
+    action: (
+      <SlideAction
+        type={
+          slideIndex !== 0 || touched || mode === "edit"
+            ? content.length === 1
+              ? "save"
+              : "next"
+            : "hidden"
+        }
+        onPress={next}
+      />
+    ),
+  });
+
+  if (slideKeys.includes("emotions")) {
+    content.push({
+      key: "emotions",
+      slide: (
+        <View
+          style={{
+            paddingBottom: insets.bottom + 20,
+            flex: 1,
+          }}
+        >
+          <SlideEmotions
+            defaultIndex={
+              EMOTIONS_INDEX_MAPPING[tempLog.data.rating || "neutral"]
+            }
+            onChange={(emotions: Emotion[]) => {
+              tempLog.update({
+                emotions: emotions.map((emotion) => emotion.key),
+              });
+            }}
+            showDisable={showDisable}
+          />
+        </View>
+      ),
+    });
+  }
+
+  if (slideKeys.includes("tags")) {
+    content.push({
+      key: "tags",
+      slide: (
+        <SlideTags
+          onChange={(tags: TagReference[]) => {
+            tempLog.update({ tags });
+          }}
+          onDisableStep={async () => {
+            await askToDisableStep();
+            toggleStep("tags");
+            next();
+          }}
+          showDisable={showDisable}
+        />
+      ),
+    });
+  }
+
+  if (slideKeys.includes("message")) {
+    content.push({
+      key: "message",
+      slide: (
+        <SlideMessage
+          onChange={(message) => {
+            tempLog.update({ message });
+          }}
+          onDisableStep={async () => {
+            await askToDisableStep();
+            toggleStep("message");
+            next();
+          }}
+          ref={texAreaRef}
+          showDisable={showDisable}
+        />
+      ),
+    });
+  }
+
+  if (slideKeys.includes("reminder")) {
+    content.push({
+      key: "reminder",
+      slide: <SlideReminder onPress={next} />,
+      action: <SlideAction type="hidden" />,
+    });
+  }
+
+  if (slideKeys.includes("feedback") && !!question) {
+    content.push({
+      key: "feedback",
+      slide: (
+        <SlideFeedback
+          question={question}
+          onPress={next}
+          onDisableStep={async () => {
+            await askToDisableFeedbackStep();
+            toggleStep("feedback");
+            next();
+          }}
+        />
+      ),
+      action: <SlideAction type="hidden" />,
+    });
+  }
+
+  const messageSlideIndex = content.findIndex((item) => item.key === "message");
+  const hasMessageSlide = messageSlideIndex !== -1;
+
+  const isMounted = useRef(true);
+
+  useEffect(
+    () => () => {
+      isMounted.current = false;
+    },
+    []
+  );
+
+  const onScrollEnd = (index: number) => {
+    Keyboard.dismiss();
+
+    if (index === messageSlideIndex && hasMessageSlide && mode === "create") {
+      texAreaRef.current?.focus();
+    }
+  };
+
+  useEffect(() => {
+    if (isMounted.current) {
+      onScrollEnd(slideIndex);
+    }
+  }, [slideIndex]);
+
+  return (
+    <View
+      style={{
+        flex: 1,
+        backgroundColor: colors.logBackground,
+        position: "relative",
+      }}
+    >
+      <View
+        style={{
+          flex: 1,
+          paddingTop: Platform.OS === "android" ? insets.top : 0,
+        }}
+      >
+        <LoggerHeader
+          carouselRef={_carousel}
+          slideCount={content.length}
+          slideIndex={slideIndex}
+          setSlideIndex={setSlideIndex}
+          isEditing={isEditing}
+          tempLog={tempLog}
+          onCancel={cancel}
+          onRemove={remove}
+        />
+        <View
+          style={{
+            flex: 1,
+            flexDirection: "column",
+          }}
+        >
+          <Carousel
+            loop={false}
+            itemSize={Dimensions.get("window").width}
+            ref={_carousel}
+            data={content}
+            defaultIndex={Math.min(initialIndex, content.length - 1)}
+            onProgressChange={(progress) => {
+              if (isMounted.current) {
+                setSlideIndex(Math.round(progress));
+              }
+            }}
+            onScrollStart={() => {
+              setTouched(true);
+            }}
+            scrollEnabled={false}
+            renderItem={({ index }) => content[index].slide}
+          />
+        </View>
+      </View>
+      {content[slideIndex] &&
+        (content[slideIndex].action ||
+          (slideIndex === content.length - 1 ? (
+            <SlideAction type="save" onPress={next} />
+          ) : (
+            <SlideAction type="next" onPress={next} />
+          )))}
+    </View>
+  );
 };
 
 export const LoggerEdit = ({
@@ -172,368 +448,5 @@ export const LoggerCreate = ({
       avaliableSteps={avaliableSteps}
       question={questioner.question}
     />
-  );
-};
-
-export const Logger = ({
-  initialItem,
-  initialStep,
-  avaliableSteps,
-  mode,
-  question,
-}: {
-  initialItem: TemporaryLogState;
-  initialStep?: LoggerStep;
-  avaliableSteps: LoggerStep[];
-  mode: LoggerMode;
-  question?: IQuestion | null;
-}) => {
-  const navigation = useNavigation();
-  const colors = useColors();
-  const analytics = useAnalytics();
-  const insets = useSafeAreaInsets();
-
-  const logState = useLogState();
-  const logUpdater = useLogUpdater();
-
-  const { toggleStep } = useSettings();
-
-  const tempLog = useTemporaryLog(initialItem);
-
-  const texAreaRef = useRef<TextInput>(null);
-  const isEditing = mode === "edit";
-  const showDisable = logState.items.length <= 3 && !isEditing;
-
-  const [touched, setTouched] = useState(false);
-
-  const indexFound = avaliableSteps.findIndex((slide) => slide === initialStep);
-  const initialIndex = indexFound === -1 ? 0 : indexFound;
-  const [slideIndex, setSlideIndex] = useState(initialIndex);
-
-  const close = () => {
-    tempLog.reset();
-    navigation.goBack();
-  };
-
-  const save = (data: TemporaryLogState) => {
-    const eventData = {
-      date: data?.date,
-      dateTime: data?.dateTime,
-      messageLength: data?.message.length,
-      rating: data?.rating,
-      tagsCount: data?.tags.length,
-      emotions: data?.emotions,
-      emotionsCount: data?.emotions.length,
-    };
-
-    if (data.rating === null) {
-      analytics.track("log_saved_without_rating", eventData);
-      data.rating = "neutral";
-    }
-
-    analytics.track("log_saved", eventData);
-
-    if (mode === "edit") {
-      analytics.track("log_changed", eventData);
-      // SAFETY: rating is non-null after the fallback above; a null sleep.quality is stored as-is and statistics treat it as missing.
-      logUpdater.editLog(data as LogItem);
-    } else {
-      analytics.track("log_created", eventData);
-      // SAFETY: rating is non-null after the fallback above; a null sleep.quality is stored as-is and statistics treat it as missing.
-      logUpdater.addLog(data as LogItem);
-
-      const itemsOnDate = logState.items.filter((item) =>
-        dayjs(item.dateTime).isSame(dayjs(data.dateTime), "day")
-      );
-
-      if (itemsOnDate.length === 1) {
-        navigation.dispatch(StackActions.popToTop());
-        tempLog.reset();
-        return;
-      }
-    }
-
-    close();
-  };
-
-  const remove = () => {
-    analytics.track("log_deleted");
-    logUpdater.deleteLog(tempLog.data.id);
-    close();
-  };
-
-  const cancel = () => {
-    analytics.track("log_cancled");
-    close();
-  };
-
-  const next = () => {
-    if (slideIndex + 1 === content.length - 1) {
-      Keyboard.dismiss();
-    }
-
-    if (slideIndex + 1 === content.length) {
-      save(tempLog.data);
-    } else {
-      if (_carousel.current) {
-        _carousel.current.next();
-      }
-    }
-  };
-
-  const content: {
-    key: string;
-    slide: ReactElement;
-    action?: ReactElement;
-  }[] = [];
-
-  content.push({
-    key: "rating",
-    slide: (
-      <SlideMood
-        onChange={(rating) => {
-          if (tempLog.data.rating !== rating) {
-            if (content.length === 1) {
-              save({
-                ...tempLog.data,
-                rating,
-              });
-            } else {
-              // oxlint-disable-next-line node/callback-return -- `next` advances the carousel, it is not a Node-style callback; `tempLog.update` must still run afterwards
-              next();
-            }
-          }
-          tempLog.update({ rating });
-        }}
-      />
-    ),
-    action: (
-      <SlideAction
-        type={
-          slideIndex !== 0 || touched || mode === "edit"
-            ? content.length === 1
-              ? "save"
-              : "next"
-            : "hidden"
-        }
-        onPress={next}
-      />
-    ),
-  });
-
-  if (avaliableSteps.includes("emotions")) {
-    content.push({
-      key: "emotions",
-      slide: (
-        <View
-          style={{
-            paddingBottom: insets.bottom + 20,
-            flex: 1,
-          }}
-        >
-          <SlideEmotions
-            defaultIndex={
-              EMOTIONS_INDEX_MAPPING[tempLog.data.rating || "neutral"]
-            }
-            onChange={(emotions: Emotion[]) => {
-              tempLog.update({
-                emotions: emotions.map((emotion) => emotion.key),
-              });
-            }}
-            showDisable={showDisable}
-          />
-        </View>
-      ),
-    });
-  }
-
-  if (avaliableSteps.includes("tags")) {
-    content.push({
-      key: "tags",
-      slide: (
-        <SlideTags
-          onChange={(tags: TagReference[]) => {
-            tempLog.update({ tags });
-          }}
-          onDisableStep={async () => {
-            await askToDisableStep();
-            toggleStep("tags");
-            next();
-          }}
-          showDisable={showDisable}
-        />
-      ),
-    });
-  }
-
-  if (avaliableSteps.includes("message")) {
-    content.push({
-      key: "message",
-      slide: (
-        <SlideMessage
-          onChange={(message) => {
-            tempLog.update({ message });
-          }}
-          onDisableStep={async () => {
-            await askToDisableStep();
-            toggleStep("message");
-            next();
-          }}
-          ref={texAreaRef}
-          showDisable={showDisable}
-        />
-      ),
-    });
-  }
-
-  if (avaliableSteps.includes("reminder")) {
-    content.push({
-      key: "reminder",
-      slide: <SlideReminder onPress={next} />,
-      action: <SlideAction type="hidden" />,
-    });
-  }
-
-  if (avaliableSteps.includes("feedback") && !!question) {
-    content.push({
-      key: "feedback",
-      slide: (
-        <SlideFeedback
-          question={question}
-          onPress={next}
-          onDisableStep={async () => {
-            await askToDisableFeedbackStep();
-            toggleStep("feedback");
-            next();
-          }}
-        />
-      ),
-      action: <SlideAction type="hidden" />,
-    });
-  }
-
-  const _carousel = useRef<CarouselRef>(null);
-
-  const messageSlideIndex = content.findIndex((item) => item.key === "message");
-  const hasMessageSlide = messageSlideIndex !== -1;
-
-  const isMounted = useRef(true);
-
-  useEffect(
-    () => () => {
-      isMounted.current = false;
-    },
-    []
-  );
-
-  const onScrollEnd = (index: number) => {
-    Keyboard.dismiss();
-
-    if (index === messageSlideIndex && hasMessageSlide && mode === "create") {
-      texAreaRef.current?.focus();
-    }
-  };
-
-  useEffect(() => {
-    if (isMounted.current) {
-      onScrollEnd(slideIndex);
-    }
-  }, [slideIndex]);
-
-  return (
-    <View
-      style={{
-        flex: 1,
-        backgroundColor: colors.logBackground,
-        position: "relative",
-      }}
-    >
-      <View
-        style={{
-          flex: 1,
-          paddingTop: Platform.OS === "android" ? insets.top : 0,
-        }}
-      >
-        <View
-          style={{
-            paddingHorizontal: 20,
-          }}
-        >
-          {content.length > 1 ? (
-            <Stepper
-              count={content.length}
-              index={slideIndex}
-              scrollTo={({ index }) => {
-                if (_carousel.current) {
-                  _carousel.current.scrollTo({ index, animated: false });
-                }
-                setSlideIndex(index);
-              }}
-            />
-          ) : (
-            <View style={{ height: 24 }} />
-          )}
-          <SlideHeader
-            onBack={() => {
-              _carousel.current?.prev();
-            }}
-            backVisible={slideIndex > 0}
-            isDeleteable={isEditing}
-            onClose={async () => {
-              if (tempLog.isDirty) {
-                try {
-                  await askToCancel();
-                  cancel();
-                } catch {
-                  // Keep editing when the user dismisses the prompt.
-                }
-              } else {
-                cancel();
-              }
-            }}
-            onDelete={async () => {
-              if (
-                tempLog.data.message.length > 0 ||
-                tempLog.data.tags.length > 0
-              ) {
-                await askToRemove();
-              }
-              remove();
-            }}
-          />
-        </View>
-        <View
-          style={{
-            flex: 1,
-            flexDirection: "column",
-          }}
-        >
-          <Carousel
-            loop={false}
-            itemSize={Dimensions.get("window").width}
-            ref={_carousel}
-            data={content}
-            defaultIndex={Math.min(initialIndex, content.length - 1)}
-            onProgressChange={(progress) => {
-              if (isMounted.current) {
-                setSlideIndex(Math.round(progress));
-              }
-            }}
-            onScrollStart={() => {
-              setTouched(true);
-            }}
-            scrollEnabled={false}
-            renderItem={({ index }) => content[index].slide}
-          />
-        </View>
-      </View>
-      {content[slideIndex] &&
-        (content[slideIndex].action ||
-          (slideIndex === content.length - 1 ? (
-            <SlideAction type="save" onPress={next} />
-          ) : (
-            <SlideAction type="next" onPress={next} />
-          )))}
-    </View>
   );
 };
