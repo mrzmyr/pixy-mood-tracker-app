@@ -17,26 +17,24 @@ export const TagsDistributionTrend = ({
     <Card
       subtitle={t("tags")}
       title={
-        <>
+        <Text
+          style={{
+            fontSize: 17,
+            color: colors.text,
+            fontWeight: "bold",
+          }}
+        >
+          {t("statistics_tags_distribution_trend_prefix")}
           <Text
             style={{
               fontSize: 17,
-              color: colors.text,
-              fontWeight: "bold",
+              color: colors.tags[tag?.color]?.text,
             }}
           >
-            {t("statistics_tags_distribution_trend_prefix")}
-            <Text
-              style={{
-                fontSize: 17,
-                color: colors.tags[tag?.color]?.text,
-              }}
-            >
-              &nbsp;{tag?.title}&nbsp;
-            </Text>
-            {t(`statistics_tags_distribution_trend_${tag.type}_suffix`)}
+            &nbsp;{tag?.title}&nbsp;
           </Text>
-        </>
+          {t(`statistics_tags_distribution_trend_${tag.type}_suffix`)}
+        </Text>
       }
     >
       <View

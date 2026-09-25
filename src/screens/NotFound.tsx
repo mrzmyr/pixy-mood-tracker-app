@@ -26,7 +26,7 @@ export const NotFoundScreen = ({
   navigation,
 }: RootStackScreenProps<"NotFound">) => (
   <View style={styles.container}>
-    <Text style={styles.title}>This screen doesn't exist.</Text>
+    <Text style={styles.title}>This screen doesn&apos;t exist.</Text>
     <TouchableOpacity
       onPress={() => navigation.replace("tabs")}
       style={styles.link}

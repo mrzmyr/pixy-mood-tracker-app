@@ -31,7 +31,7 @@ const YearDotsContent = ({
   for (let i = 1; i <= DAY_COUNT; i++) {
     rows.push(<Row items={items} date={date} dayCount={i} key={i} />);
   }
-  return <>{rows}</>;
+  return rows;
 };
 
 const YearInPixels = ({ date }: { date: Dayjs }) => {

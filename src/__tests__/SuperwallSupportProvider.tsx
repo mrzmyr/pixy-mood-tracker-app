@@ -62,6 +62,11 @@ jest.mock(
   { virtual: true }
 );
 
+const Probe = ({ onClient }: { onClient: (client: SupportClient) => void }) => {
+  onClient(useSupport());
+  return null;
+};
+
 describe("Superwall support provider", () => {
   const originalIosKey = process.env.EXPO_PUBLIC_SUPERWALL_IOS_API_KEY;
   const originalAndroidKey = process.env.EXPO_PUBLIC_SUPERWALL_ANDROID_API_KEY;
@@ -81,10 +86,6 @@ describe("Superwall support provider", () => {
 
   test("configures anonymous support with tracking disabled", async () => {
     let supportClient: SupportClient | undefined;
-    const Probe = () => {
-      supportClient = useSupport();
-      return null;
-    };
 
     render(
       <ConfiguredSupportProvider
@@ -93,7 +94,11 @@ describe("Superwall support provider", () => {
           ios: "test_ios_public_key",
         }}
       >
-        <Probe />
+        <Probe
+          onClient={(client) => {
+            supportClient = client;
+          }}
+        />
       </ConfiguredSupportProvider>
     );
 
@@ -135,7 +140,7 @@ describe("Superwall support provider", () => {
             ios: "test_ios_public_key",
           }}
         >
-          <></>
+          {null}
         </ConfiguredSupportProvider>
       );
 

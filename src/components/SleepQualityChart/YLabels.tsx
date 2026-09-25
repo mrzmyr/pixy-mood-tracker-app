@@ -14,6 +14,7 @@ export const YLabels = ({ relativeY, YLegendWidth, rowHeight, width }) => (
 
       return (
         <G
+          key={sleepQuality}
           width="8"
           height="16"
           x={(YLegendWidth - 20) / 2}

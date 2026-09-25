@@ -95,7 +95,7 @@ export const SlideHeader = ({
   const colors = useColors();
   const tempLog = useTemporaryLog();
 
-  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+  const [isDatePickerVisible, setIsDatePickerVisible] = useState(false);
 
   const dateTime = tempLog.data.dateTime
     ? new Date(tempLog.data.dateTime)
@@ -119,7 +119,7 @@ export const SlideHeader = ({
           customHeaderIOS={() => (
             <DatePickerHeader
               onChange={(date) => {
-                setDatePickerVisibility(false);
+                setIsDatePickerVisible(false);
                 tempLog.update({
                   dateTime: dayjs(date).toISOString(),
                 });
@@ -132,12 +132,12 @@ export const SlideHeader = ({
           mode="datetime"
           minuteInterval={10}
           onConfirm={(date) => {
-            setDatePickerVisibility(false);
+            setIsDatePickerVisible(false);
             tempLog.update({
               dateTime: dayjs(date).toISOString(),
             });
           }}
-          onCancel={() => setDatePickerVisibility(false)}
+          onCancel={() => setIsDatePickerVisible(false)}
         />
       )}
       <View
@@ -176,7 +176,7 @@ export const SlideHeader = ({
             <Pressable
               onPress={() => {
                 haptics.selection();
-                setDatePickerVisibility(true);
+                setIsDatePickerVisible(true);
               }}
               style={({ pressed }) => ({
                 opacity: pressed ? 0.8 : 1,

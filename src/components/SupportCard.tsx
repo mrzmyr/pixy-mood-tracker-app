@@ -36,6 +36,18 @@ const normalizeSupportFlowError = (cause: unknown): SupportFlowError => {
   };
 };
 
+// Runs cleanup after task settles; lives outside the component because the React Compiler cannot lower `finally`.
+const runWithCleanup = async (
+  task: () => Promise<void>,
+  cleanup: () => void
+) => {
+  try {
+    await task();
+  } finally {
+    cleanup();
+  }
+};
+
 export const SupportCard = () => {
   const colors = useColors();
   const support = useSupport();
@@ -52,24 +64,29 @@ export const SupportCard = () => {
     openingRef.current = true;
     setIsOpening(true);
 
-    try {
-      await support.openSupport();
-    } catch (cause) {
-      const error = normalizeSupportFlowError(cause);
+    await runWithCleanup(
+      async () => {
+        try {
+          await support.openSupport();
+        } catch (cause) {
+          const error = normalizeSupportFlowError(cause);
 
-      Alert.alert(error.message, error.fix, [
-        { text: t("cancel"), style: "cancel" },
-        {
-          text: t("support_pixy_retry"),
-          onPress: () => {
-            void openSupport();
-          },
-        },
-      ]);
-    } finally {
-      openingRef.current = false;
-      setIsOpening(false);
-    }
+          Alert.alert(error.message, error.fix, [
+            { text: t("cancel"), style: "cancel" },
+            {
+              text: t("support_pixy_retry"),
+              onPress: () => {
+                void openSupport();
+              },
+            },
+          ]);
+        }
+      },
+      () => {
+        openingRef.current = false;
+        setIsOpening(false);
+      }
+    );
   };
 
   return (
