@@ -9,7 +9,7 @@ export const SlideSleepButton = ({
   onPress,
   style = {},
 }: {
-  value: LogItem['sleep']['quality'];
+  value: LogItem["sleep"]["quality"];
   selected?: boolean;
   onPress?: () => void;
   style?: ViewStyle;
@@ -31,11 +31,15 @@ export const SlideSleepButton = ({
     >
       <Pressable
         style={{
-          flexDirection: 'row',
-          alignItems: 'center',
-          justifyContent: 'center',
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "center",
           backgroundColor: colors.logCardBackground,
-          borderColor: selected ? colors.tint : colorScheme === 'light' ? 'rgba(0,0,0,0.1)' : 'rgba(255,255,255,0.1)',
+          borderColor: selected
+            ? colors.tint
+            : colorScheme === "light"
+              ? "rgba(0,0,0,0.1)"
+              : "rgba(255,255,255,0.1)",
           borderWidth: selected ? 2 : 1,
           borderRadius: 8,
           paddingLeft: selected ? 7 : 8,
@@ -53,12 +57,12 @@ export const SlideSleepButton = ({
       >
         <View
           style={{
-            justifyContent: 'center',
-            alignItems: 'center',
+            justifyContent: "center",
+            alignItems: "center",
             height: HEIGHT,
             width: 16,
             borderRadius: 8,
-            overflow: 'hidden',
+            overflow: "hidden",
           }}
         >
           <View
@@ -66,19 +70,21 @@ export const SlideSleepButton = ({
               width: 16,
               height: HEIGHT,
               backgroundColor: colors.sleepQualityEmpty,
-              position: 'absolute',
+              position: "absolute",
               bottom: 0,
               zIndex: 1,
-            }} />
+            }}
+          />
           <View
             style={{
               width: 16,
               height: _value * 8,
               backgroundColor: colors.sleepQualityFull,
-              position: 'absolute',
+              position: "absolute",
               bottom: 0,
               zIndex: 1,
-            }} />
+            }}
+          />
         </View>
       </Pressable>
     </View>

@@ -14,14 +14,16 @@ const AnswerSelector = ({
   selected,
   onPress,
 }: {
-  answer: IQuestion['answers'][0];
+  answer: IQuestion["answers"][0];
   selected: boolean;
   onPress: (answer) => void;
 }) => {
   const colors = useColors();
   const haptics = useHaptics();
 
-  const answerText = answer.text ? answer.text[language] || answer.text['en'] : null;
+  const answerText = answer.text
+    ? answer.text[language] || answer.text["en"]
+    : null;
 
   return (
     <Pressable
@@ -29,41 +31,41 @@ const AnswerSelector = ({
         opacity: pressed ? 0.8 : 1,
         borderRadius: 8,
         backgroundColor: colors.logActionBackground,
-        alignItems: 'center',
-        justifyContent: 'center',
+        alignItems: "center",
+        justifyContent: "center",
         padding: 8,
         borderWidth: 2,
-        borderColor: selected ? colors.logActionBorder : 'transparent',
+        borderColor: selected ? colors.logActionBorder : "transparent",
         aspectRatio: 1,
         width: 150,
         marginHorizontal: 8,
       })}
       onPress={async () => {
-        await haptics.selection()
-        onPress(answer)
+        await haptics.selection();
+        onPress(answer);
       }}
     >
       <View
         style={{
-          alignItems: 'center',
-          justifyContent: 'center',
+          alignItems: "center",
+          justifyContent: "center",
         }}
       >
         <Text
           numberOfLines={1}
           style={{
             fontSize: 32,
-            textAlign: 'center',
+            textAlign: "center",
           }}
         >
           {answer.emoji}
         </Text>
       </View>
-      {![undefined, '', null].includes(answerText) && (
+      {![undefined, "", null].includes(answerText) && (
         <View
           style={{
-            alignItems: 'center',
-            justifyContent: 'center',
+            alignItems: "center",
+            justifyContent: "center",
             marginTop: 8,
           }}
         >
@@ -71,7 +73,7 @@ const AnswerSelector = ({
             style={{
               fontSize: 17,
               color: colors.logActionText,
-              textAlign: 'center',
+              textAlign: "center",
             }}
           >
             {answerText}
@@ -79,8 +81,8 @@ const AnswerSelector = ({
         </View>
       )}
     </Pressable>
-  )
-}
+  );
+};
 
 export const SlideFeedback = ({
   question,
@@ -88,43 +90,49 @@ export const SlideFeedback = ({
   onDisableStep,
 }: {
   question: IQuestion;
-  onPress: () => void,
-  onDisableStep: () => void,
+  onPress: () => void;
+  onDisableStep: () => void;
 }) => {
-  const questioner = useQuestioner()
-  const insets = useSafeAreaInsets()
+  const questioner = useQuestioner();
+  const insets = useSafeAreaInsets();
 
-  const [selectedIds, setSelectedIds] = useState<string[]>([])
+  const [selectedIds, setSelectedIds] = useState<string[]>([]);
 
-  const onAnswer = (answer: IQuestion['answers'][0]) => {
-    setSelectedIds([answer.id])
-    questioner.submit(question, [answer])
-    onPress()
-  }
+  const onAnswer = (answer: IQuestion["answers"][0]) => {
+    setSelectedIds([answer.id]);
+    questioner.submit(question, [answer]);
+    onPress();
+  };
 
   return (
-    <View style={{
-      flex: 1,
-      width: '100%',
-      paddingHorizontal: 20,
-      paddingBottom: insets.bottom + 20,
-    }}>
+    <View
+      style={{
+        flex: 1,
+        width: "100%",
+        paddingHorizontal: 20,
+        paddingBottom: insets.bottom + 20,
+      }}
+    >
       <View
         style={{
           flex: 1,
-          alignItems: 'center',
-          justifyContent: 'center',
+          alignItems: "center",
+          justifyContent: "center",
         }}
       >
-        <SlideHeadline>{question.text[language] || question.text.en}</SlideHeadline>
+        <SlideHeadline>
+          {question.text[language] || question.text.en}
+        </SlideHeadline>
         <View
           style={{
             padding: 32,
           }}
         >
-          <View style={{
-            flexDirection: 'row',
-          }}>
+          <View
+            style={{
+              flexDirection: "row",
+            }}
+          >
             {question.answers.slice(0, 2).map((answer) => (
               <AnswerSelector
                 key={answer.id}
@@ -134,10 +142,12 @@ export const SlideFeedback = ({
               />
             ))}
           </View>
-          <View style={{
-            marginTop: 16,
-            flexDirection: 'row',
-          }}>
+          <View
+            style={{
+              marginTop: 16,
+              flexDirection: "row",
+            }}
+          >
             {question.answers.slice(2, 4).map((answer) => (
               <AnswerSelector
                 key={answer.id}
@@ -151,17 +161,19 @@ export const SlideFeedback = ({
       </View>
       <Footer
         style={{
-          justifyContent: 'center',
+          justifyContent: "center",
         }}
       >
         <LinkButton
           type="secondary"
           onPress={onDisableStep}
           style={{
-            fontWeight: '400',
+            fontWeight: "400",
           }}
-        >{t('log_feedback_disable')}</LinkButton>
+        >
+          {t("log_feedback_disable")}
+        </LinkButton>
       </Footer>
     </View>
-  )
-}
+  );
+};

@@ -5,7 +5,10 @@ import { Pressable, Text, useColorScheme, View, ViewStyle } from "react-native";
 import { EmotionIndicator } from "./EmotionsIndicator";
 
 export const EmotionButtonBasic = ({
-  emotion, onPress, selected, style = {},
+  emotion,
+  onPress,
+  selected,
+  style = {},
 }: {
   emotion: Emotion;
   onPress: (emotion: Emotion) => void;
@@ -24,21 +27,25 @@ export const EmotionButtonBasic = ({
       }}
       style={{
         flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
+        justifyContent: "center",
+        alignItems: "center",
         ...style,
       }}
     >
       <View
         style={{
-          width: '100%',
+          width: "100%",
           // backgroundColor: colors.cardBackground,
           backgroundColor: colors.logCardBackground,
           borderRadius: 8,
           borderWidth: selected ? 2 : 1,
-          borderColor: selected ? colors.tint : colorScheme === 'light' ? 'rgba(0,0,0,0.1)' : 'rgba(255,255,255,0.1)',
-          flexDirection: 'row',
-          alignItems: 'center',
+          borderColor: selected
+            ? colors.tint
+            : colorScheme === "light"
+              ? "rgba(0,0,0,0.1)"
+              : "rgba(255,255,255,0.1)",
+          flexDirection: "row",
+          alignItems: "center",
           paddingVertical: selected ? 11 : 12,
           paddingRight: selected ? 13 : 14,
           paddingLeft: selected ? 13 : 14,
@@ -48,7 +55,7 @@ export const EmotionButtonBasic = ({
         <Text
           style={{
             color: colors.text,
-            fontWeight: '500',
+            fontWeight: "500",
             fontSize: 17,
             flex: 1,
           }}

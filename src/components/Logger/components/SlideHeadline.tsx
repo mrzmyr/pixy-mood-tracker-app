@@ -1,5 +1,5 @@
-import { Text, View, ViewStyle } from 'react-native';
-import useColors from '@/hooks/useColors';
+import { Text, View, ViewStyle } from "react-native";
+import useColors from "@/hooks/useColors";
 
 export const SlideHeadline = ({
   children,
@@ -17,11 +17,15 @@ export const SlideHeadline = ({
         ...style,
       }}
     >
-      <Text style={{
-        color: colors.text,
-        fontSize: 20,
-        fontWeight: 'bold',
-      }}>{children}</Text>
+      <Text
+        style={{
+          color: colors.text,
+          fontSize: 20,
+          fontWeight: "bold",
+        }}
+      >
+        {children}
+      </Text>
     </View>
   );
 };
