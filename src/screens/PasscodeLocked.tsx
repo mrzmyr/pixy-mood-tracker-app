@@ -21,9 +21,8 @@ export const PasscodeLocked = () => {
 
   const retry = async () => {
     analytics.track("passcode_try");
-    LocalAuthentication.authenticateAsync().then((result) => {
-      passcode.setIsAuthenticated(result.success);
-    });
+    const result = await LocalAuthentication.authenticateAsync();
+    passcode.setIsAuthenticated(result.success);
   };
 
   const forgot = () => {

@@ -55,8 +55,12 @@ export const DataScreen = ({ navigation }: RootStackScreenProps<"Data">) => {
           <MenuListItem
             testID="reset-data"
             title={t("reset_data_button")}
-            onPress={() => {
-              datagate.openResetDialog("data").catch((e) => console.log(e));
+            onPress={async () => {
+              try {
+                await datagate.openResetDialog("data");
+              } catch (error) {
+                console.log(error);
+              }
             }}
             iconLeft={<Trash width={18} color="red" />}
             style={{
@@ -66,8 +70,12 @@ export const DataScreen = ({ navigation }: RootStackScreenProps<"Data">) => {
           <MenuListItem
             testID="reset-factory"
             title={t("reset_factory_button")}
-            onPress={() => {
-              datagate.openResetDialog("factory").catch((e) => console.log(e));
+            onPress={async () => {
+              try {
+                await datagate.openResetDialog("factory");
+              } catch (error) {
+                console.log(error);
+              }
             }}
             iconLeft={<Trash width={18} color="red" />}
             style={{

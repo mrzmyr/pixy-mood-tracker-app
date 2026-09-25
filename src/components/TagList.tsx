@@ -11,7 +11,7 @@ export const TagList = ({ tags }: { tags: Tag[] }) => {
   const colors = useColors();
   const navigation = useNavigation();
 
-  const onEdit = async (tag: Tag) => {
+  const onEdit = (tag: Tag) => {
     navigation.navigate("TagEdit", { id: tag.id });
   };
 

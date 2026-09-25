@@ -100,27 +100,34 @@ export const BigCard = ({
   const analytics = useAnalytics();
   const [shareLoading, setShareLoading] = useState(false);
 
+  const shareSnapshot = async (uri: string) => {
+    try {
+      await Sharing.shareAsync(uri, {
+        dialogTitle:
+          'Hey I use this app called "Pixy Mood Tracker" and I wanted to share this with you!',
+      });
+      analytics.track("statstics_shared", {
+        type: analyticsId,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const share = () => {
     setShareLoading(true);
 
-    captureRef(viewRef)
-      .then((uri) => {
+    void (async () => {
+      try {
+        const uri = await captureRef(viewRef);
         setShareLoading(false);
         const fileUri = uri.startsWith("file://") ? uri : `file://${uri}`;
-        Sharing.shareAsync(fileUri, {
-          dialogTitle:
-            'Hey I use this app called "Pixy Mood Tracker" and I wanted to share this with you!',
-        })
-          .then(() => {
-            analytics.track("statstics_shared", {
-              type: analyticsId,
-            });
-          })
-          .catch((error) => {
-            console.log(error);
-          });
-      })
-      .catch((error) => console.error("Oops, snapshot failed", error));
+        // Not awaited: share errors are handled inside and must not reach the snapshot handler.
+        void shareSnapshot(fileUri);
+      } catch (error) {
+        console.error("Oops, snapshot failed", error);
+      }
+    })();
   };
 
   return (

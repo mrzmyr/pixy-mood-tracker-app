@@ -48,39 +48,26 @@ export const useFeedback = () => {
 
     analytics.track("feedback_send", body);
 
-    return fetch(FEEDBACK_URL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(body),
-    })
-      .then((resp) => {
-        if (resp.ok) {
-          if (onOk) {
-            onOk();
-          } else {
-            Alert.alert(
-              t("feedback_success_title"),
-              t("feedback_success_message"),
-              [{ text: t("ok") }],
-              { cancelable: false }
-            );
-          }
+    try {
+      const resp = await fetch(FEEDBACK_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(body),
+      });
+      if (resp.ok) {
+        if (onOk) {
+          onOk();
         } else {
-          if (onCancel) {
-            onCancel();
-          } else {
-            Alert.alert(
-              t("feedback_error_title"),
-              t("feedback_error_message"),
-              [{ text: t("ok") }],
-              { cancelable: false }
-            );
-          }
+          Alert.alert(
+            t("feedback_success_title"),
+            t("feedback_success_message"),
+            [{ text: t("ok") }],
+            { cancelable: false }
+          );
         }
-      })
-      .catch(() => {
+      } else {
         if (onCancel) {
           onCancel();
         } else {
@@ -91,7 +78,19 @@ export const useFeedback = () => {
             { cancelable: false }
           );
         }
-      });
+      }
+    } catch {
+      if (onCancel) {
+        onCancel();
+      } else {
+        Alert.alert(
+          t("feedback_error_title"),
+          t("feedback_error_message"),
+          [{ text: t("ok") }],
+          { cancelable: false }
+        );
+      }
+    }
   };
 
   return {
