@@ -2,24 +2,27 @@ import React from "react";
 import { Text, View } from "react-native";
 import useColors from "../../../hooks/useColors";
 
+/** Day-of-month label at the start of a year grid row. */
 export const YAxis = ({ dayCount }) => {
   const colors = useColors();
 
   return (
     <View
       style={{
-        alignItems: 'flex-start',
-        justifyContent: 'center',
+        alignItems: "flex-start",
+        justifyContent: "center",
         width: 25,
       }}
     >
       <Text
         style={{
           fontSize: 12,
-          fontWeight: 'bold',
+          fontWeight: "bold",
           color: colors.yearPixelsLegendText,
         }}
-      >{dayCount}</Text>
+      >
+        {dayCount}
+      </Text>
     </View>
   );
 };

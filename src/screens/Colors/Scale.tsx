@@ -1,31 +1,29 @@
-import { View } from 'react-native';
-import useColors from '../../hooks/useColors';
-import { RATING_KEYS } from '../../hooks/useLogs';
-import { ColorDot } from './ColorDot';
+import { View } from "react-native";
+import useColors from "../../hooks/useColors";
+import { RATING_KEYS } from "@/constants/Ratings";
+import { ColorDot } from "./ColorDot";
 
-export function Scale({
-  type,
-}: {
-  type: string;
-}) {
+/**
+ * Preview of a color scale, best rating on the left. `type` must be a key
+ * of `colors.scales`.
+ */
+export const Scale = ({ type }: { type: string }) => {
   const colors = useColors();
   const scaleColors = colors.scales[type];
-  const scaleKeys = RATING_KEYS.slice().reverse()
+  const scaleKeys = RATING_KEYS.toReversed();
 
   return (
     <View
       style={{
-        width: '100%',
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between',
+        width: "100%",
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "space-between",
       }}
     >
-      {scaleKeys.map((key, index) => (
-        <ColorDot
-          key={key}
-          color={scaleColors[key].background} />
+      {scaleKeys.map((key) => (
+        <ColorDot key={key} color={scaleColors[key].background} />
       ))}
     </View>
   );
-}
+};

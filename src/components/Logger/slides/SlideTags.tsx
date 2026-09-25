@@ -3,9 +3,9 @@ import { t } from "@/helpers/translation";
 import useColors from "@/hooks/useColors";
 import { useTagsState } from "@/hooks/useTags";
 import { useTemporaryLog } from "@/hooks/useTemporaryLog";
-import { TagReference } from "@/types";
+import type { TagReference } from "@/types";
 import { useNavigation } from "@react-navigation/native";
-import { LinearGradient } from 'expo-linear-gradient';
+import { LinearGradient } from "expo-linear-gradient";
 import { ScrollView, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import LinkButton from "../../LinkButton";
@@ -13,49 +13,59 @@ import { MiniButton } from "../../MiniButton";
 import Tag from "../../Tag";
 import { SlideHeadline } from "../components/SlideHeadline";
 import { Footer } from "./Footer";
+import noop from "lodash/noop";
 
+/**
+ * Tag picker slide. Archived tags are hidden unless the draft already has
+ * them.
+ */
 export const SlideTags = ({
   onChange,
-  onDisableStep = () => { },
+  onDisableStep = noop,
   showDisable,
   showFooter = true,
 }: {
-  onChange: (tags: TagReference[]) => void,
-  onDisableStep?: () => void
-  showDisable: boolean
-  showFooter?: boolean
+  onChange: (tags: TagReference[]) => void;
+  onDisableStep?: () => void;
+  showDisable: boolean;
+  showFooter?: boolean;
 }) => {
   const tempLog = useTemporaryLog();
-  const navigation = useNavigation()
+  const navigation = useNavigation();
   const insets = useSafeAreaInsets();
-  const colors = useColors()
-  const { tags } = useTagsState()
+  const colors = useColors();
+  const { tags } = useTagsState();
 
-  let _tags =
-    tags.filter(t => {
-      const inTempLog = tempLog?.data?.tags?.map(d => d.id).includes(t.id)
+  const tempLogTagIds = tempLog?.data?.tags
+    ? new Set(tempLog.data.tags.map((d) => d.id))
+    : undefined;
 
-      return (
-        (!inTempLog && !t.isArchived) ||
-        (inTempLog && t.isArchived) ||
-        (inTempLog && !t.isArchived)
-      )
-    })
+  const _tags = tags.filter((tag) => {
+    const inTempLog = tempLogTagIds?.has(tag.id);
 
-  const marginTop = getLogEditMarginTop()
+    return (
+      (!inTempLog && !tag.isArchived) ||
+      (inTempLog && tag.isArchived) ||
+      (inTempLog && !tag.isArchived)
+    );
+  });
+
+  const marginTop = getLogEditMarginTop();
 
   return (
-    <View style={{
-      flex: 1,
-      width: '100%',
-      paddingHorizontal: 20,
-      paddingBottom: insets.bottom + 20,
-      marginTop,
-    }}>
-      <SlideHeadline>{t('log_tags_question')}</SlideHeadline>
+    <View
+      style={{
+        flex: 1,
+        width: "100%",
+        paddingHorizontal: 20,
+        paddingBottom: insets.bottom + 20,
+        marginTop,
+      }}
+    >
+      <SlideHeadline>{t("log_tags_question")}</SlideHeadline>
       <View
         style={{
-          position: 'relative',
+          position: "relative",
           flex: 1,
         }}
       >
@@ -63,21 +73,21 @@ export const SlideTags = ({
           pointerEvents="none"
           colors={[colors.logBackground, colors.logBackgroundTransparent]}
           style={{
-            position: 'absolute',
+            position: "absolute",
             height: 24,
             top: 0,
             zIndex: 1,
-            width: '100%',
+            width: "100%",
           }}
         />
         <LinearGradient
           colors={[colors.logBackgroundTransparent, colors.logBackground]}
           style={{
-            position: 'absolute',
+            position: "absolute",
             height: 32,
             bottom: 0,
             zIndex: 1,
-            width: '100%',
+            width: "100%",
           }}
           pointerEvents="none"
         />
@@ -88,36 +98,38 @@ export const SlideTags = ({
         >
           <View
             style={{
-              flexDirection: 'row',
-              flexWrap: 'wrap',
-              alignItems: 'flex-start',
-              justifyContent: 'flex-start',
+              flexDirection: "row",
+              flexWrap: "wrap",
+              alignItems: "flex-start",
+              justifyContent: "flex-start",
               marginTop: 24,
               paddingBottom: insets.bottom,
             }}
           >
-            {_tags?.map(tag => {
-              return (
-                <Tag
-                  onPress={async () => {
-                    const newTags = tempLog?.data?.tags?.map(d => d.id).includes(tag.id) ?
-                      tempLog?.data?.tags.filter(t => t.id !== tag.id) :
-                      [...tempLog?.data.tags || [], tag]
-                    onChange(newTags)
-                  }}
-                  title={tag.title}
-                  colorName={tag.color}
-                  selected={tempLog?.data?.tags?.map(d => d.id).includes(tag.id)}
-                  key={tag.id}
-                />
-              )
-            })}
+            {_tags?.map((tag) => (
+              <Tag
+                onPress={() => {
+                  const newTags = tempLogTagIds?.has(tag.id)
+                    ? tempLog?.data?.tags.filter(
+                        (selectedTag) => selectedTag.id !== tag.id
+                      )
+                    : [...(tempLog?.data.tags || []), tag];
+                  onChange(newTags);
+                }}
+                title={tag.title}
+                colorName={tag.color}
+                selected={tempLogTagIds?.has(tag.id)}
+                key={tag.id}
+              />
+            ))}
             <View>
               <MiniButton
                 onPress={() => {
-                  navigation.navigate('Tags')
+                  navigation.navigate("Tags");
                 }}
-              >{t('tags_edit')}</MiniButton>
+              >
+                {t("tags_edit")}
+              </MiniButton>
             </View>
           </View>
         </ScrollView>
@@ -129,12 +141,14 @@ export const SlideTags = ({
               type="secondary"
               onPress={onDisableStep}
               style={{
-                fontWeight: '400',
+                fontWeight: "400",
               }}
-            >{t('log_tags_disable')}</LinkButton>
+            >
+              {t("log_tags_disable")}
+            </LinkButton>
           )}
         </Footer>
       )}
     </View>
-  )
-}
+  );
+};

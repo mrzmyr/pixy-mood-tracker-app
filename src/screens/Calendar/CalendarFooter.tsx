@@ -8,49 +8,63 @@ import React from "react";
 import { View } from "react-native";
 import { PlusCircle } from "react-native-feather";
 import { PromoCards } from "./PromoCards";
-import { FeedbackBox } from "../LogList/FeedbackBox";
 
+/**
+ * Add-entry button under the calendar; the label changes once today has an
+ * entry. New entries start at the current time.
+ */
 export const CalendarFooter = () => {
   const colors = useColors();
   const logState = useLogState();
   const navigation = useNavigation();
 
-  const hasTodayItem = logState.items.find(item => {
-    return dayjs(item.dateTime).isSame(dayjs(), 'day');
-  });
+  const hasTodayItem = logState.items.find((item) =>
+    dayjs(item.dateTime).isSame(dayjs(), "day")
+  );
 
   return (
-    <View
-      style={{}}
-    >
+    <View style={{}}>
       <View
         style={{
           marginTop: 24,
         }}
       >
-        <View
-          style={{
-          }}
-        >
-          {!hasTodayItem ? (
+        <View style={{}}>
+          {hasTodayItem ? (
             <Button
-              icon={<PlusCircle width={24} height={24} color={colors.primaryButtonText} />}
-              onPress={() => {
-                navigation.navigate("LogCreate", {
-                  dateTime: dayjs().toISOString(),
-                });
-              }}
-            >{t('add_today_entry')}</Button>
-          ) : (
-            <Button
-              icon={<PlusCircle width={24} height={24} color={colors.tertiaryButtonText} />}
+              icon={
+                <PlusCircle
+                  width={24}
+                  height={24}
+                  color={colors.tertiaryButtonText}
+                />
+              }
               type="tertiary"
               onPress={() => {
                 navigation.navigate("LogCreate", {
                   dateTime: dayjs().toISOString(),
                 });
               }}
-            >{t('add_today_another_entry')}</Button>
+            >
+              {t("add_today_another_entry")}
+            </Button>
+          ) : (
+            <Button
+              icon={
+                <PlusCircle
+                  width={24}
+                  height={24}
+                  color={colors.primaryButtonText}
+                />
+              }
+              onPress={() => {
+                navigation.navigate("LogCreate", {
+                  dateTime: dayjs().toISOString(),
+                });
+              }}
+            >
+              {t("add_today_entry")}
+            </Button>
           )}
         </View>
       </View>

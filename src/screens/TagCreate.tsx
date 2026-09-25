@@ -1,70 +1,86 @@
-import { useState } from 'react';
-import { Platform, Pressable, TextInput, View } from 'react-native';
-import { Check } from 'react-native-feather';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { v4 as uuidv4 } from 'uuid';
-import Button from '@/components/Button';
-import DismissKeyboard from '@/components/DismisKeyboard';
-import LinkButton from '@/components/LinkButton';
-import ModalHeader from '@/components/ModalHeader';
-import { MAX_TAG_LENGTH, MIN_TAG_LENGTH, TAG_COLOR_NAMES } from '@/constants/Config';
-import { t } from '@/helpers/translation';
-import { useAnalytics } from '../hooks/useAnalytics';
-import useColors from '../hooks/useColors';
-import useHaptics from '../hooks/useHaptics';
-import { Tag as ITag, useTagsUpdater } from '../hooks/useTags';
-import { RootStackScreenProps } from '../../types';
+import { useState } from "react";
+import { Platform, Pressable, TextInput, View } from "react-native";
+import { Check } from "react-native-feather";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { v4 as uuidv4 } from "uuid";
+import Button from "@/components/Button";
+import DismissKeyboard from "@/components/DismisKeyboard";
+import LinkButton from "@/components/LinkButton";
+import ModalHeader from "@/components/ModalHeader";
+import {
+  MAX_TAG_LENGTH,
+  MIN_TAG_LENGTH,
+  TAG_COLOR_NAMES,
+} from "@/constants/Config";
+import { t } from "@/helpers/translation";
+import { useAnalytics } from "../hooks/useAnalytics";
+import useColors from "../hooks/useColors";
+import useHaptics from "../hooks/useHaptics";
+import type { Tag as ITag } from "../hooks/useTags";
+import { useTagsUpdater } from "../hooks/useTags";
+import type { RootStackScreenProps } from "../../types";
 
 const REGEX_EMOJI = /\p{Emoji}/u;
 
-export const TagCreate = ({ navigation }: RootStackScreenProps<'TagCreate'>) => {
-  const colors = useColors()
-  const haptics = useHaptics()
+/**
+ * New tag form. Titles must be {@link MIN_TAG_LENGTH} to
+ * {@link MAX_TAG_LENGTH} characters; the color defaults to the first tag
+ * color.
+ */
+export const TagCreate = ({
+  navigation,
+}: RootStackScreenProps<"TagCreate">) => {
+  const colors = useColors();
+  const haptics = useHaptics();
   const insets = useSafeAreaInsets();
-  const analytics = useAnalytics()
-  const tagsUpdater = useTagsUpdater()
+  const analytics = useAnalytics();
+  const tagsUpdater = useTagsUpdater();
 
   const [tempTag, setTempTag] = useState<ITag>({
     id: uuidv4(),
-    title: '',
-    color: Object.keys(colors.tags)[0] as ITag['color'],
+    title: "",
+    color: Object.keys(colors.tags)[0],
   });
 
   const onCreate = () => {
-    analytics.track('tag_create', {
+    analytics.track("tag_create", {
       titleLength: tempTag.title.length,
       color: tempTag.color,
-      containsEmoji: REGEX_EMOJI.test(tempTag.title)
-    })
+      containsEmoji: REGEX_EMOJI.test(tempTag.title),
+    });
 
     setTempTag({
       id: uuidv4(),
-      title: '',
-      color: Object.keys(colors.tags)[0] as ITag['color'],
-    })
+      title: "",
+      color: Object.keys(colors.tags)[0],
+    });
 
-    tagsUpdater.createTag(tempTag)
+    tagsUpdater.createTag(tempTag);
 
     navigation.goBack();
-  }
+  };
 
   return (
     <DismissKeyboard>
-      <View style={{
-        flex: 1,
-        justifyContent: 'flex-start',
-        backgroundColor: colors.logBackground,
-        marginTop: Platform.OS === 'android' ? insets.top : 0,
-      }}>
+      <View
+        style={{
+          flex: 1,
+          justifyContent: "flex-start",
+          backgroundColor: colors.logBackground,
+          marginTop: Platform.OS === "android" ? insets.top : 0,
+        }}
+      >
         <ModalHeader
-          title={t('create_tag')}
+          title={t("create_tag")}
           left={
             <LinkButton
               onPress={() => {
                 navigation.goBack();
               }}
-              type='primary'
-            >{t('cancel')}</LinkButton>
+              type="primary"
+            >
+              {t("cancel")}
+            </LinkButton>
           }
         />
         <View
@@ -74,66 +90,70 @@ export const TagCreate = ({ navigation }: RootStackScreenProps<'TagCreate'>) => 
           }}
         >
           <TextInput
-            accessibilityLabel={t('tags_add_placeholder')}
-            testID='tag-name'
+            accessibilityLabel={t("tags_add_placeholder")}
+            testID="tag-name"
             autoCorrect={false}
             style={{
               fontSize: 17,
               color: colors.textInputText,
               backgroundColor: colors.textInputBackground,
-              width: '100%',
+              width: "100%",
               padding: 16,
               borderRadius: 8,
               marginBottom: 16,
             }}
-            placeholder={t('tags_add_placeholder')}
+            placeholder={t("tags_add_placeholder")}
             placeholderTextColor={colors.textInputPlaceholder}
             maxLength={MAX_TAG_LENGTH}
             value={tempTag.title}
-            onChangeText={text => {
-              setTempTag(tempTag => ({
-                ...tempTag,
+            onChangeText={(text) => {
+              setTempTag((currentTag) => ({
+                ...currentTag,
                 title: text,
-              }))
+              }));
             }}
           />
           <View
             style={{
-              flexDirection: 'row',
-              flexWrap: 'wrap',
-              alignItems: 'center',
-              width: '100%',
+              flexDirection: "row",
+              flexWrap: "wrap",
+              alignItems: "center",
+              width: "100%",
             }}
           >
-            {TAG_COLOR_NAMES.map(colorName => (
+            {TAG_COLOR_NAMES.map((colorName) => (
               <Pressable
                 key={colorName}
                 accessibilityLabel={colorName}
-                accessibilityRole='radio'
+                accessibilityRole="radio"
                 accessibilityState={{ selected: tempTag.color === colorName }}
                 testID={`tag-color-${colorName}`}
                 style={({ pressed }) => ({
                   flex: 1,
-                  flexBasis: `${(100 / 7) - 2}%`,
-                  maxWidth: `${(100 / 7) - 2}%`,
+                  flexBasis: `${100 / 7 - 2}%`,
+                  maxWidth: `${100 / 7 - 2}%`,
                   aspectRatio: 1,
                   borderRadius: 100,
                   backgroundColor: colors.tags[colorName].dot,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  margin: '1%',
+                  justifyContent: "center",
+                  alignItems: "center",
+                  margin: "1%",
                   opacity: pressed ? 0.8 : 1,
                 })}
                 onPress={() => {
                   haptics.selection();
-                  setTempTag(tempTag => ({
-                    ...tempTag,
+                  setTempTag((currentTag) => ({
+                    ...currentTag,
                     color: colorName,
                   }));
                 }}
               >
                 {tempTag.color === colorName && (
-                  <Check width={22} height={22} color={colors.tags[colorName].text} />
+                  <Check
+                    width={22}
+                    height={22}
+                    color={colors.tags[colorName].text}
+                  />
                 )}
               </Pressable>
             ))}
@@ -143,10 +163,15 @@ export const TagCreate = ({ navigation }: RootStackScreenProps<'TagCreate'>) => 
               marginTop: 32,
             }}
             onPress={onCreate}
-            disabled={tempTag.title.length < MIN_TAG_LENGTH || tempTag.title.length > MAX_TAG_LENGTH}
-          >{t('create')}</Button>
+            disabled={
+              tempTag.title.length < MIN_TAG_LENGTH ||
+              tempTag.title.length > MAX_TAG_LENGTH
+            }
+          >
+            {t("create")}
+          </Button>
         </View>
       </View>
     </DismissKeyboard>
   );
-}
+};

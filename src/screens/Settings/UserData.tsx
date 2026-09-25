@@ -1,8 +1,8 @@
 import MenuList from "@/components/MenuList";
 import MenuListHeadline from "@/components/MenuListHeadline";
 import MenuListItem from "@/components/MenuListItem";
-import { ImportData } from "@/helpers/Import";
-import { useEffect, useState } from "react";
+import type { ImportData } from "@/helpers/Import";
+import { useCallback, useEffect, useState } from "react";
 import { ActivityIndicator, View } from "react-native";
 import { CheckCircle, Repeat, UploadCloud } from "react-native-feather";
 import useColors from "../../hooks/useColors";
@@ -13,54 +13,65 @@ interface User {
   importData: ImportData;
 }
 
+/**
+ * Development-only list of sample user data sets loaded from a local
+ * server on the developer's network; tapping one imports it silently.
+ */
 export const UserDataImportList = () => {
   const [users, setUsers] = useState<User[]>([]);
   const colors = useColors();
   const datagate = useDatagate();
 
   const [loadedUserIds, setLoadedUserIds] = useState<string[]>([]);
-  const [loading, setLoading] = useState(false);
+  // Users load on mount, so the list starts in the loading state.
+  const [loading, setLoading] = useState(true);
 
-  const loadUsers = () => {
-    setLoading(true);
-
-    fetch("http://192.168.1.254:3000/persons", {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((res) => res.json())
-      .then((res: User[]) => {
-        setUsers(res);
-        setLoadedUserIds([]);
-      })
-      .catch(() => {
-        console.log("Error: Didn't load user list");
-      })
-      .finally(() => {
-        setLoading(false);
+  const loadUsers = useCallback(async (signal?: AbortSignal) => {
+    try {
+      const response = await fetch("http://192.168.1.254:3000/persons", {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        signal,
       });
+      const userList: User[] = await response.json();
+      setUsers(userList);
+      setLoadedUserIds([]);
+    } catch {
+      console.log("Error: Didn't load user list");
+    }
+    setLoading(false);
+  }, []);
+
+  const reloadUsers = () => {
+    setLoading(true);
+    void loadUsers();
   };
 
   useEffect(() => {
-    loadUsers();
-  }, []);
+    const controller = new AbortController();
+    // oxlint-disable-next-line react/set-state-in-effect -- loadUsers only sets state after awaiting the fetch, never synchronously in the effect
+    void loadUsers(controller.signal);
+    return () => controller.abort();
+  }, [loadUsers]);
 
   const onPress = (user: User) => {
     datagate.import(user.importData, {
-      muted: true
+      muted: true,
     });
-    setLoadedUserIds((loadedUserIds) => [...loadedUserIds, user.id]);
+    setLoadedUserIds((currentIds) => [...currentIds, user.id]);
   };
+
+  const loadedUserIdSet = new Set(loadedUserIds);
 
   return (
     <>
       <MenuListHeadline>Load User Data</MenuListHeadline>
       <MenuList style={{}}>
         <MenuListItem
-          title={"Reload"}
+          title="Reload"
           iconLeft={<Repeat width={18} color={colors.menuListItemIcon} />}
-          onPress={() => loadUsers()}
+          onPress={reloadUsers}
           isLast
         />
       </MenuList>
@@ -80,7 +91,7 @@ export const UserDataImportList = () => {
               padding: 16,
             }}
           >
-            <ActivityIndicator size={"small"} color={colors.loadingIndicator} />
+            <ActivityIndicator size="small" color={colors.loadingIndicator} />
           </View>
         )}
         {!loading &&
@@ -89,7 +100,7 @@ export const UserDataImportList = () => {
               key={user.id}
               title={user.id}
               iconLeft={
-                loadedUserIds.includes(user.id) ? (
+                loadedUserIdSet.has(user.id) ? (
                   <CheckCircle width={18} color={colors.palette.green[500]} />
                 ) : (
                   <UploadCloud width={18} color={colors.menuListItemIcon} />

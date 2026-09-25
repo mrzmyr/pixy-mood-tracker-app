@@ -1,11 +1,15 @@
 import useScale from "@/hooks/useScale";
-import { Emotion } from "@/types";
+import type { Emotion } from "@/types";
 import { View } from "react-native";
 
+/**
+ * Category dot for an emotion. Uses only the scale's `very_good`, `neutral`,
+ * and `very_bad` colors, so `good` and `bad` match the extremes.
+ */
 export const EmotionIndicator = ({
   category,
 }: {
-  category: Emotion['category']
+  category: Emotion["category"];
 }) => {
   const scale = useScale();
   const colorMapping = {
@@ -30,4 +34,4 @@ export const EmotionIndicator = ({
       }}
     />
   );
-}
+};

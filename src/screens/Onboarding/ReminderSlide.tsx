@@ -1,20 +1,23 @@
-import { Platform, Text, View } from 'react-native';
-import Button from '@/components/Button';
-import useColors from '../../hooks/useColors';
-import { HeaderImage } from './HeaderImage';
+import { Platform, Text, View } from "react-native";
+import Button from "@/components/Button";
+import useColors from "../../hooks/useColors";
+import { HeaderImage } from "./HeaderImage";
 import { HeaderNavigation } from "./HeaderNavigation";
-import Animated, { FadeIn } from 'react-native-reanimated';
-import Clock from '@/components/Clock';
-import useNotification, { createDailyTrigger } from '../../hooks/useNotifications';
-import { useState } from 'react';
-import dayjs from 'dayjs';
-import { SettingsState, useSettings } from '../../hooks/useSettings';
-import { useAnalytics } from '../../hooks/useAnalytics';
-import LinkButton from '@/components/LinkButton';
-import { t } from '@/helpers/translation';
+import Animated, { FadeIn } from "react-native-reanimated";
+import Clock from "@/components/Clock";
+import useNotification, {
+  createDailyTrigger,
+} from "../../hooks/useNotifications";
+import { useState } from "react";
+import dayjs from "dayjs";
+import type { SettingsState } from "../../hooks/useSettings";
+import { useSettings } from "../../hooks/useSettings";
+import { useAnalytics } from "../../hooks/useAnalytics";
+import LinkButton from "@/components/LinkButton";
+import { t } from "@/helpers/translation";
 
 const Body = ({ index }: { index: number }) => {
-  const colors = useColors()
+  const colors = useColors();
 
   return (
     <View
@@ -27,7 +30,7 @@ const Body = ({ index }: { index: number }) => {
         style={{
           color: colors.onboardingTitle,
           fontSize: 20,
-          fontWeight: 'bold',
+          fontWeight: "bold",
           marginBottom: 8,
         }}
       >
@@ -43,9 +46,14 @@ const Body = ({ index }: { index: number }) => {
         {t(`onboarding_step_${index}_body`)}
       </Text>
     </View>
-  )
-}
+  );
+};
 
+/**
+ * Onboarding reminder opt-in. Enabling replaces all scheduled
+ * notifications with one daily reminder; the flow continues even when
+ * permission is denied.
+ */
 export const ReminderSlide = ({
   index,
   setIndex,
@@ -55,56 +63,56 @@ export const ReminderSlide = ({
   setIndex: (index: number) => void;
   onSkip: () => void;
 }) => {
-  const colors = useColors()
-  const { setSettings } = useSettings()
-  const analytics = useAnalytics()
+  const colors = useColors();
+  const { setSettings } = useSettings();
+  const analytics = useAnalytics();
 
-  const {
-    askForPermission,
-    hasPermission,
-    schedule,
-    cancelAll,
-  } = useNotification()
+  const { askForPermission, hasPermission, schedule, cancelAll } =
+    useNotification();
 
-  const [time, setTime] = useState(dayjs().hour(20).minute(0).second(0).toDate());
+  const [time, setTime] = useState(() =>
+    dayjs().hour(20).minute(0).second(0).toDate()
+  );
 
   const enable = async () => {
-    const has = await hasPermission()
-    const granted = has || await askForPermission()
-    if (!granted) return
+    const has = await hasPermission();
+    const granted = has || (await askForPermission());
+    if (!granted) {
+      return;
+    }
 
     await (async () => {
-      await cancelAll()
+      await cancelAll();
       await schedule({
         trigger: createDailyTrigger(dayjs(time).hour(), dayjs(time).minute()),
-      })
+      });
 
       setSettings((settings: SettingsState) => ({
         ...settings,
         reminderEnabled: true,
-        reminderTime: dayjs(time).format('HH:mm'),
-      }))
-    })()
-  }
+        reminderTime: dayjs(time).format("HH:mm"),
+      }));
+    })();
+  };
 
   const onLater = () => {
-    analytics.track('onboarding_reminder_later')
-    setIndex(index + 1)
-  }
+    analytics.track("onboarding_reminder_later");
+    setIndex(index + 1);
+  };
 
   const onEnable = async () => {
-    analytics.track('onboarding_reminder_enable')
-    await enable()
-    setIndex(index + 1)
-  }
+    analytics.track("onboarding_reminder_enable");
+    await enable();
+    setIndex(index + 1);
+  };
 
   return (
     <>
       <Animated.View
         style={{
-          width: '100%',
+          width: "100%",
           backgroundColor: colors.onboardingTopBackground,
-          alignItems: 'center',
+          alignItems: "center",
           flex: 1,
         }}
         entering={FadeIn.duration(800)}
@@ -112,10 +120,11 @@ export const ReminderSlide = ({
         <HeaderImage
           index={index}
           style={{
-            width: '95%',
-            maxHeight: '100%',
+            width: "95%",
+            maxHeight: "100%",
             maxWidth: 360,
-          }} />
+          }}
+        />
       </Animated.View>
       <View
         style={{
@@ -142,13 +151,17 @@ export const ReminderSlide = ({
             >
               <View
                 style={{
-                  maxWidth: Platform.OS === 'ios' ? 80 : 65,
-                  justifyContent: 'center',
+                  maxWidth: Platform.OS === "ios" ? 80 : 65,
+                  justifyContent: "center",
                 }}
               >
                 <Clock
                   timeDate={time}
-                  onChange={(event, date) => setTime(date)}
+                  onChange={(event, date) => {
+                    if (date) {
+                      setTime(date);
+                    }
+                  }}
                 />
               </View>
             </View>
@@ -160,17 +173,17 @@ export const ReminderSlide = ({
             paddingVertical: 16,
           }}
         >
-          <Button
-            onPress={onEnable}
-          >{t('onboarding_step_4_button_1')}</Button>
+          <Button onPress={onEnable}>{t("onboarding_step_4_button_1")}</Button>
           <LinkButton
-            type='secondary'
+            type="secondary"
             onPress={onLater}
             style={{
               paddingTop: 16,
               paddingBottom: 16,
             }}
-          >{t('onboarding_step_4_button_2')}</LinkButton>
+          >
+            {t("onboarding_step_4_button_2")}
+          </LinkButton>
         </View>
       </View>
     </>

@@ -1,6 +1,7 @@
-import DateTimePicker from '@react-native-community/datetimepicker';
-import { ViewStyle } from 'react-native';
-import { locale } from '@/helpers/translation';
+import type { DateTimePickerEvent } from "@react-native-community/datetimepicker";
+import DateTimePicker from "@react-native-community/datetimepicker";
+import type { ViewStyle } from "react-native";
+import { locale } from "@/helpers/translation";
 
 const Clock = ({
   timeDate,
@@ -8,19 +9,17 @@ const Clock = ({
   style,
 }: {
   timeDate: Date;
-  onChange: any;
+  onChange: (event: DateTimePickerEvent, date?: Date) => void;
   style: ViewStyle;
-}) => {
-  return (
-    <DateTimePicker
-      locale={locale}
-      testID="reminder-time"
-      style={{ width: '100%', height: 35, ...style }}
-      mode="time"
-      value={timeDate}
-      onChange={onChange}
-    />
-  )
-}
+}) => (
+  <DateTimePicker
+    locale={locale}
+    testID="reminder-time"
+    style={{ width: "100%", height: 35, ...style }}
+    mode="time"
+    value={timeDate}
+    onChange={onChange}
+  />
+);
 
 export default Clock;

@@ -1,9 +1,9 @@
-function getFunctionName(node) {
+const getFunctionName = (node) => {
   if (node.id?.type === "Identifier") {
     return node.id.name;
   }
 
-  const parent = node.parent;
+  const { parent } = node;
 
   if (
     parent?.type === "VariableDeclarator" &&
@@ -18,11 +18,9 @@ function getFunctionName(node) {
   ) {
     return parent.key.name;
   }
+};
 
-  return undefined;
-}
-
-function getDeclaredBooleanType(node) {
+const getDeclaredBooleanType = (node) => {
   const annotation = node.returnType?.typeAnnotation;
 
   if (annotation?.type === "TSBooleanKeyword") {
@@ -33,15 +31,14 @@ function getDeclaredBooleanType(node) {
     annotation?.type === "TSUnionType" &&
     annotation.types.some((type) => type.type === "TSBooleanKeyword")
   );
-}
+};
 
-function hasJsDoc(context, node) {
-  return context.sourceCode
+const hasJsDoc = (context, node) =>
+  context.sourceCode
     .getCommentsBefore(node)
     .some(
       (comment) => comment.type === "Block" && comment.value.startsWith("*")
     );
-}
 
 const requireExportedJsDoc = {
   meta: {
@@ -56,11 +53,11 @@ const requireExportedJsDoc = {
     schema: [],
   },
   create(context) {
-    function check(node) {
+    const check = (node) => {
       if (!hasJsDoc(context, node)) {
         context.report({ messageId: "missing", node });
       }
-    }
+    };
 
     return {
       ExportNamedDeclaration(node) {
@@ -91,13 +88,13 @@ const booleanFunctionPrefix = {
     schema: [],
   },
   create(context) {
-    function check(node) {
+    const check = (node) => {
       const name = getFunctionName(node);
 
       if (
         name &&
         getDeclaredBooleanType(node) &&
-        !/^(is|has|can|should|was|will)[A-Z_]/u.test(name)
+        !/^(?:is|has|can|should|was|will)[A-Z_]/u.test(name)
       ) {
         context.report({
           messageId: "prefix",
@@ -105,7 +102,7 @@ const booleanFunctionPrefix = {
           data: { name },
         });
       }
-    }
+    };
 
     return {
       FunctionDeclaration: check,
@@ -129,7 +126,7 @@ const structuredThrownErrors = {
   create(context) {
     return {
       ThrowStatement(node) {
-        const argument = node.argument;
+        const { argument } = node;
         const isErrorConstructor =
           argument.type === "NewExpression" &&
           argument.callee.type === "Identifier" &&

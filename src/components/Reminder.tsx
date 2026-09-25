@@ -1,100 +1,111 @@
-import dayjs from 'dayjs';
-import { useEffect, useState } from 'react';
-import { Platform, Switch, Text, View } from 'react-native';
-import Clock from '@/components/Clock';
-import MenuList from '@/components/MenuList';
-import MenuListItem from '@/components/MenuListItem';
-import NotificationPreview from '@/components/NotificationPreview';
-import { t } from '@/helpers/translation';
-import { useAnalytics } from '@/hooks/useAnalytics';
-import useColors from '@/hooks/useColors';
-import useNotification, { createDailyTrigger } from '@/hooks/useNotifications';
-import { SettingsState, useSettings } from '@/hooks/useSettings';
+import type { DateTimePickerEvent } from "@react-native-community/datetimepicker";
+import dayjs from "dayjs";
+import { useEffect, useState } from "react";
+import { Platform, Switch, Text, View } from "react-native";
+import Clock from "@/components/Clock";
+import MenuList from "@/components/MenuList";
+import MenuListItem from "@/components/MenuListItem";
+import NotificationPreview from "@/components/NotificationPreview";
+import { t } from "@/helpers/translation";
+import { useAnalytics } from "@/hooks/useAnalytics";
+import useColors from "@/hooks/useColors";
+import useNotification, { createDailyTrigger } from "@/hooks/useNotifications";
+import type { SettingsState } from "@/hooks/useSettings";
+import { useSettings } from "@/hooks/useSettings";
 
 const Reminder = () => {
-  const { setSettings, settings } = useSettings()
-  const {
-    askForPermission,
-    hasPermission,
-    schedule,
-    cancelAll,
-  } = useNotification()
+  const { setSettings, settings } = useSettings();
+  const { askForPermission, hasPermission, schedule, cancelAll } =
+    useNotification();
 
-  const [reminderEnabled, setReminderEnabled] = useState(settings.reminderEnabled);
+  const [reminderEnabled, setReminderEnabled] = useState(
+    settings.reminderEnabled
+  );
   const [reminderTime, setReminderTime] = useState(settings.reminderTime);
-  const colors = useColors()
-  const analytics = useAnalytics()
+  const colors = useColors();
+  const analytics = useAnalytics();
 
-  const hourAndMinute = reminderTime.split(':')
-  const hour = parseInt(hourAndMinute[0])
-  const minute = parseInt(hourAndMinute[1])
-  const timeDate = dayjs().hour(hour).minute(minute).toDate()
+  const hourAndMinute = reminderTime.split(":");
+  const hour = Number(hourAndMinute[0]);
+  const minute = Number(hourAndMinute[1]);
+  const timeDate = dayjs().hour(hour).minute(minute).toDate();
 
   const onEnabledChange = async (value: boolean) => {
-    let has = await hasPermission()
+    let has = await hasPermission();
     if (value && !has) {
-      has = await askForPermission()
+      has = await askForPermission();
     }
     if (!value) {
-      await cancelAll()
+      await cancelAll();
     }
-    analytics.track('reminder_enabled_change', { enabled: value })
+    analytics.track("reminder_enabled_change", { enabled: value });
 
-    const enable = value && Boolean(has)
+    const enable = value && Boolean(has);
 
-    setReminderEnabled(enable)
-  }
+    setReminderEnabled(enable);
+  };
 
   useEffect(() => {
     (async () => {
-      await cancelAll()
+      await cancelAll();
       if (reminderEnabled) {
         await schedule({
           trigger: createDailyTrigger(hour, minute),
-        })
+        });
       }
 
-      setSettings((settings: SettingsState) => ({
-        ...settings,
+      setSettings((currentSettings: SettingsState) => ({
+        ...currentSettings,
         reminderEnabled,
         reminderTime,
-      }))
-    })()
-  }, [reminderEnabled, reminderTime])
+      }));
+    })();
+  }, [
+    reminderEnabled,
+    reminderTime,
+    hour,
+    minute,
+    schedule,
+    cancelAll,
+    setSettings,
+  ]);
 
-  const onTimeChange = async (event: any, selectedDate: any) => {
-    analytics.track('reminder_time_change', { time: dayjs(selectedDate).format('HH:mm') })
-    setReminderTime(dayjs(selectedDate).format('HH:mm'))
-  }
+  const onTimeChange = (event: DateTimePickerEvent, selectedDate?: Date) => {
+    analytics.track("reminder_time_change", {
+      time: dayjs(selectedDate).format("HH:mm"),
+    });
+    setReminderTime(dayjs(selectedDate).format("HH:mm"));
+  };
 
   return (
     <View>
-      <View style={{
-        opacity: reminderEnabled ? 1 : 0.5,
-        marginBottom: 20,
-      }}>
+      <View
+        style={{
+          opacity: reminderEnabled ? 1 : 0.5,
+          marginBottom: 20,
+        }}
+      >
         <NotificationPreview />
       </View>
       <MenuList>
         <MenuListItem
-          title={t('reminder')}
+          title={t("reminder")}
           iconRight={
             <Switch
               onValueChange={() => onEnabledChange(!reminderEnabled)}
-              // @ts-ignore
               value={reminderEnabled}
-              testID='reminder-enabled'
+              testID="reminder-enabled"
             />
           }
           isLast={!reminderEnabled}
-        ></MenuListItem>
-        {reminderEnabled &&
+        />
+        {reminderEnabled && (
           <View
             style={{
               padding: 16,
-              flexDirection: 'row',
-              alignItems: 'center',
-              width: '100%',
+              flexDirection: "row",
+              alignItems: "center",
+              width: "100%",
             }}
           >
             <View
@@ -107,23 +118,22 @@ const Reminder = () => {
                   color: colors.text,
                   fontSize: 17,
                 }}
-              >{t('time')}</Text>
+              >
+                {t("time")}
+              </Text>
             </View>
             <View
               style={{
-                flex: Platform.OS === 'ios' ? 1 : 0,
+                flex: Platform.OS === "ios" ? 1 : 0,
               }}
             >
-              <Clock
-                onChange={onTimeChange}
-                timeDate={timeDate}
-              />
+              <Clock onChange={onTimeChange} timeDate={timeDate} />
             </View>
           </View>
-        }
+        )}
       </MenuList>
     </View>
-  )
-}
+  );
+};
 
 export default Reminder;

@@ -1,8 +1,10 @@
-import { Pressable, Text, View } from 'react-native';
-import useColors from '@/hooks/useColors';
+import { Pressable, Text } from "react-native";
+import useColors from "@/hooks/useColors";
 
+/** Digit key of the passcode keypad; reports its own `value` on press. */
 export const PasscodePadButton = ({
-  value, onPress
+  value,
+  onPress,
 }: {
   value: string;
   onPress: (value: string) => void;
@@ -13,37 +15,28 @@ export const PasscodePadButton = ({
     <Pressable
       onPress={() => onPress(value)}
       style={({ pressed }) => ({
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center',
+        flexDirection: "row",
+        justifyContent: "center",
+        alignItems: "center",
         borderRadius: 999,
         width: 80,
         height: 80,
         margin: 10,
-        backgroundColor: pressed ? colors.passcodePadBackgroundActive : colors.passcodePadBackground,
+        backgroundColor: pressed
+          ? colors.passcodePadBackgroundActive
+          : colors.passcodePadBackground,
       })}
     >
-      {typeof value === 'string' ?
-        <Text
-          style={{
-            fontSize: 28,
-            color: colors.text,
-            marginTop: -3,
-            padding: 25,
-          }}
-        >
-          {value}
-        </Text> :
-        <View
-          style={{
-            width: '100%',
-            height: '100%',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
-        >
-          {value}
-        </View>}
+      <Text
+        style={{
+          fontSize: 28,
+          color: colors.text,
+          marginTop: -3,
+          padding: 25,
+        }}
+      >
+        {value}
+      </Text>
     </Pressable>
   );
 };

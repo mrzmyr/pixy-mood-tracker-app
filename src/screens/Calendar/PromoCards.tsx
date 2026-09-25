@@ -8,25 +8,30 @@ import { useSettings } from "@/hooks/useSettings";
 import { useNavigation } from "@react-navigation/native";
 import dayjs from "dayjs";
 import { XMLParser } from "fast-xml-parser";
-import React, { ReactElement, useEffect, useState } from "react";
+import type { ReactElement } from "react";
+import React, { useEffect, useState } from "react";
 import { View } from "react-native";
 import useColors from "../../hooks/useColors";
 import { useLogState } from "../../hooks/useLogs";
-import * as WebBrowser from 'expo-web-browser';
+import * as WebBrowser from "expo-web-browser";
 
-type RssItem = {
+interface RssItem {
   title: string;
   id: string;
   published: string;
   slug: string;
 }
 
-type ParsedRssItem = {
+interface ParsedRssItem {
   title: string;
   link: string;
   guid?: string;
   pubDate: string;
-};
+}
+
+const isParsedRssItem = (
+  item: Partial<ParsedRssItem> | undefined
+): item is ParsedRssItem => !!item?.title && !!item?.link && !!item?.pubDate;
 
 const rssParser = new XMLParser({
   ignoreAttributes: false,
@@ -34,85 +39,151 @@ const rssParser = new XMLParser({
   trimValues: true,
 });
 
+// Parses changelog entries published after the changelog card was introduced.
+const parseChangelogItems = (str: string): RssItem[] => {
+  const parsed = rssParser.parse(str);
+  const rawItems = parsed?.rss?.channel?.item;
+  const items: RssItem[] = (
+    Array.isArray(rawItems) ? rawItems : [rawItems]
+  ).flatMap((item) =>
+    isParsedRssItem(item) && dayjs(item.pubDate).isAfter("2023-01-09")
+      ? [
+          {
+            title: item.title,
+            id: item.guid || item.link,
+            published: item.pubDate,
+            // Explicit ASCII ranges instead of `i`: with `u`, `i` would also
+            // fold non-ASCII letters and change existing slugs.
+            slug: (item.guid || item.link)
+              .replaceAll(/[^a-zA-Z0-9]/gu, "_")
+              .toLowerCase(),
+          },
+        ]
+      : []
+  );
+
+  return items;
+};
+
+/**
+ * Promo cards under the calendar: last month's report (first days of a
+ * month), the year report (December, 30+ entries), and the latest
+ * changelog post.
+ *
+ * Report promos need unlocked statistics. The changelog feed is fetched
+ * once per mount; offline it is skipped silently.
+ */
 export const PromoCards = () => {
   const navigation = useNavigation();
   const logState = useLogState();
   const analytics = useAnalytics();
   const colors = useColors();
-  const { hasActionDone } = useSettings()
+  const { hasActionDone } = useSettings();
 
   const statisticsUnlocked = logState.items.length >= STATISTIC_MIN_LOGS;
-  const isBeginningOfMonth = dayjs().isBetween(dayjs().startOf('month'), dayjs().startOf('month').add(3, 'day'), null, '[]');
+  const isBeginningOfMonth = dayjs().isBetween(
+    dayjs().startOf("month"),
+    dayjs().startOf("month").add(3, "day"),
+    null,
+    "[]"
+  );
   const isDecember = dayjs().month() === 11;
   const enoughtLogsForYearPromo = logState.items.length > 30;
 
-  const hasMonthPromo = isBeginningOfMonth && statisticsUnlocked && !hasActionDone(MONTH_REPORT_SLUG)
-  const hasYearPromo = enoughtLogsForYearPromo && isDecember && statisticsUnlocked && !hasActionDone(YEAR_REPORT_SLUG)
-  const [mostRecentRssItem, setMostRecentRssItem] = useState<RssItem | null>(null)
+  const hasMonthPromo =
+    isBeginningOfMonth &&
+    statisticsUnlocked &&
+    !hasActionDone(MONTH_REPORT_SLUG);
+  const hasYearPromo =
+    enoughtLogsForYearPromo &&
+    isDecember &&
+    statisticsUnlocked &&
+    !hasActionDone(YEAR_REPORT_SLUG);
+  const [mostRecentRssItem, setMostRecentRssItem] = useState<RssItem | null>(
+    null
+  );
 
-  const hasMostRecentRssItem = !!mostRecentRssItem && !hasActionDone(mostRecentRssItem.slug)
+  const hasMostRecentRssItem =
+    !!mostRecentRssItem && !hasActionDone(mostRecentRssItem.slug);
 
   useEffect(() => {
-    fetch('https://pixy.featureos.app/rss/changelog.xml')
-      .then(response => response.text())
-      .then(str => rssParser.parse(str))
-      .then(parsed => {
-        const rawItems = parsed?.rss?.channel?.item;
-        const items: RssItem[] = (Array.isArray(rawItems) ? rawItems : [rawItems])
-          .filter((item): item is ParsedRssItem => !!item?.title && !!item?.link && !!item?.pubDate)
-          .filter(item => dayjs(item.pubDate).isAfter('2023-01-09'))
-          .map(item => ({
-            title: item.title,
-            id: item.guid || item.link,
-            published: item.pubDate,
-            slug: (item.guid || item.link).replace(/[^a-z0-9]/gi, '_').toLowerCase(),
-          }))
+    const controller = new AbortController();
+
+    void (async () => {
+      try {
+        const response = await fetch(
+          "https://pixy.featureos.app/rss/changelog.xml",
+          { signal: controller.signal }
+        );
+        const items = parseChangelogItems(await response.text());
 
         if (items.length !== 0) {
-          setMostRecentRssItem(items[0])
+          setMostRecentRssItem(items[0]);
         }
-      })
-      .catch(() => {
+      } catch {
         // The changelog card is optional; the calendar remains usable offline.
-      })
-  }, [])
+      }
+    })();
 
-  const promoCards: ReactElement[] = []
+    return () => {
+      controller.abort();
+    };
+  }, []);
+
+  const promoCards: ReactElement[] = [];
 
   if (hasMonthPromo) {
     promoCards.push(
       <PromoCardMonth
-        title={t('promo_card_month_title', { month: dayjs().subtract(1, 'month').format('MMMM') })}
-        onPress={() => navigation.navigate('StatisticsMonth', { date: dayjs().subtract(1, 'month').startOf('month').format(DATE_FORMAT) })}
+        key="month"
+        title={t("promo_card_month_title", {
+          month: dayjs().subtract(1, "month").format("MMMM"),
+        })}
+        onPress={() =>
+          navigation.navigate("StatisticsMonth", {
+            date: dayjs()
+              .subtract(1, "month")
+              .startOf("month")
+              .format(DATE_FORMAT),
+          })
+        }
       />
-    )
+    );
   }
 
   if (hasYearPromo) {
     promoCards.push(
       <PromoCardYear
-        title={t('promo_card_year_title', { year: dayjs().format('YYYY') })}
-        onPress={() => navigation.navigate('StatisticsYear', { date: dayjs().startOf('year').format(DATE_FORMAT) })}
+        key="year"
+        title={t("promo_card_year_title", { year: dayjs().format("YYYY") })}
+        onPress={() =>
+          navigation.navigate("StatisticsYear", {
+            date: dayjs().startOf("year").format(DATE_FORMAT),
+          })
+        }
       />
-    )
+    );
   }
 
   if (hasMostRecentRssItem) {
     promoCards.push(
       <PromoCard
+        key="changelog"
         colorName="pink"
         slug={mostRecentRssItem.slug}
-        subtitle={t('new_release')}
+        subtitle={t("new_release")}
         title={mostRecentRssItem.title}
         onPress={() => {
-          analytics.track('promo_changelog_clicked')
+          analytics.track("promo_changelog_clicked");
           WebBrowser.openBrowserAsync(mostRecentRssItem.id);
         }}
       />
-    )
+    );
   }
 
-  if (promoCards.length === 0) return null;
+  if (promoCards.length === 0) {
+    return null;
+  }
 
   return (
     <View
@@ -125,7 +196,7 @@ export const PromoCards = () => {
     >
       {promoCards.map((promoCard, index) => (
         <View
-          key={`promo-card-${index}`}
+          key={`promo-card-${promoCard.key}`}
           style={{
             marginTop: index === 0 ? 0 : 16,
           }}

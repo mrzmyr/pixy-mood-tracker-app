@@ -1,23 +1,19 @@
-import { View } from 'react-native';
+import { View } from "react-native";
 
-export function ColorDot({
-  color,
-}: {
-  color: string;
-}) {
-  return (
-    <View
-      style={{
-        padding: 3,
-        backgroundColor: color,
-        flex: 1,
-        borderRadius: 4,
-        width: '100%',
-        aspectRatio: 1,
-        margin: 4,
-        justifyContent: 'center',
-        alignItems: 'center',
-        maxWidth: 50,
-      }} />
-  );
-}
+/** Square color swatch in a scale preview row. */
+export const ColorDot = ({ color }: { color: string }) => (
+  <View
+    style={{
+      padding: 3,
+      backgroundColor: color,
+      flex: 1,
+      borderRadius: 4,
+      width: "100%",
+      aspectRatio: 1,
+      margin: 4,
+      justifyContent: "center",
+      alignItems: "center",
+      maxWidth: 50,
+    }}
+  />
+);

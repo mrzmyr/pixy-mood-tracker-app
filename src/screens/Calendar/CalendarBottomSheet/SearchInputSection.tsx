@@ -1,10 +1,12 @@
-import { Pressable, TextInput, View } from 'react-native';
-import useColors from '../../../hooks/useColors';
-import { Search, XCircle } from 'react-native-feather';
-import { t } from '@/helpers/translation';
+import { Pressable, TextInput, View } from "react-native";
+import useColors from "../../../hooks/useColors";
+import { Search, XCircle } from "react-native-feather";
+import { t } from "@/helpers/translation";
 
+/** Controlled text input for the calendar filters' message search. */
 export const SearchInputSection = ({
-  value, onChange,
+  value,
+  onChange,
 }: {
   value: string;
   onChange: (text: string) => void;
@@ -19,8 +21,8 @@ export const SearchInputSection = ({
     >
       <View
         style={{
-          flexDirection: 'row',
-          alignItems: 'center',
+          flexDirection: "row",
+          alignItems: "center",
           borderWidth: 1,
           borderColor: colors.textInputBorder,
           backgroundColor: colors.textInputBackground,
@@ -36,9 +38,9 @@ export const SearchInputSection = ({
           <Search color={colors.textInputPlaceholder} width={20} />
         </View>
         <TextInput
-          accessibilityLabel={t('calendar_filters_search')}
-          testID='calendar-filter-search'
-          placeholder={t('calendar_filters_search')}
+          accessibilityLabel={t("calendar_filters_search")}
+          testID="calendar-filter-search"
+          placeholder={t("calendar_filters_search")}
           value={value}
           placeholderTextColor={colors.textInputPlaceholder}
           style={{
@@ -46,20 +48,21 @@ export const SearchInputSection = ({
             color: colors.textInputText,
             marginLeft: 12,
             fontSize: 17,
-            width: '100%',
+            width: "100%",
             borderRadius: 8,
           }}
-          onChangeText={onChange} />
-        {value !== '' && (
+          onChangeText={onChange}
+        />
+        {value !== "" && (
           <Pressable
-            accessibilityLabel={t('clear')}
-            accessibilityRole='button'
+            accessibilityLabel={t("clear")}
+            accessibilityRole="button"
             style={{
               paddingRight: 8,
               padding: 8,
               margin: -8,
             }}
-            onPress={() => onChange('')}
+            onPress={() => onChange("")}
           >
             <XCircle color={colors.textInputPlaceholder} width={20} />
           </Pressable>

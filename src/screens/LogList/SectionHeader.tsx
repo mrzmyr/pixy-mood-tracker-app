@@ -3,6 +3,10 @@ import useColors from "@/hooks/useColors";
 import { Edit } from "lucide-react-native";
 import { Text, View } from "react-native";
 
+/**
+ * Section title inside an entry card; the edit action shows only when
+ * `onEdit` is given.
+ */
 export const SectionHeader = ({
   title,
   onEdit,
@@ -24,18 +28,15 @@ export const SectionHeader = ({
         <Text
           style={{
             fontSize: 17,
-            fontWeight: 'bold',
-            color: colors.text
+            fontWeight: "bold",
+            color: colors.text,
           }}
         >
           {title}
         </Text>
       </View>
       {onEdit && (
-        <LinkButton
-          onPress={onEdit}
-          type="secondary"
-        >
+        <LinkButton onPress={onEdit} type="secondary">
           <Edit size={20} color={colors.textSecondary} />
         </LinkButton>
       )}

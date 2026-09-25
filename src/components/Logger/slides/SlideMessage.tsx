@@ -1,15 +1,25 @@
-import { Card } from '@/components/Card';
+import { Card } from "@/components/Card";
 import { getLogEditMarginTop } from "@/helpers/responsive";
 import { language, t } from "@/helpers/translation";
 import { useAnalytics } from "@/hooks/useAnalytics";
 import useColors from "@/hooks/useColors";
-import { LogItem, RATING_MAPPING, useLogState } from "@/hooks/useLogs";
+import type { LogItem } from "@/hooks/useLogs";
+import { useLogState } from "@/hooks/useLogs";
+import { RATING_MAPPING } from "@/constants/Ratings";
 import { useTemporaryLog } from "@/hooks/useTemporaryLog";
 import { getAverageMood } from "@/lib/utils";
-import dayjs, { Dayjs } from "dayjs";
-import _ from "lodash";
-import { forwardRef, useEffect, useRef, useState } from "react";
-import { Keyboard, KeyboardAvoidingView, Platform, Text, View } from "react-native";
+import type { Dayjs } from "dayjs";
+import dayjs from "dayjs";
+import sortBy from "lodash/sortBy";
+import { forwardRef, useEffect, useMemo, useState } from "react";
+import {
+  Keyboard,
+  KeyboardAvoidingView,
+  Platform,
+  Text,
+  View,
+} from "react-native";
+import type { TextInput } from "react-native";
 import { HelpCircle } from "react-native-feather";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import DismissKeyboard from "../../DismisKeyboard";
@@ -19,98 +29,106 @@ import { SlideHeadline } from "../components/SlideHeadline";
 import { EMOTIONS } from "../config";
 import { Footer } from "./Footer";
 
-const randomInt = (min, max) => Math.floor(Math.random() * (max - min + 1) + min);
+const randomInt = (min, max) =>
+  Math.floor(Math.random() * (max - min + 1) + min);
 
 const MAX_LENGTH = 10 * 1000;
 
-const getMoodValueYesterday = (today: Dayjs): number | null => {
-  const logState = useLogState()
+const useMoodValueYesterday = (today: Dayjs): number | null => {
+  const logState = useLogState();
 
   if (logState.items.length === 0) {
-    return null
+    return null;
   }
 
-  const yesterday = today.subtract(1, 'day')
-  const itemsYesterday = logState.items.filter(item => dayjs(item.dateTime).isSame(yesterday, 'day'))
-  const yesterdayAverageMood = getAverageMood(itemsYesterday)
+  const yesterday = today.subtract(1, "day");
+  const itemsYesterday = logState.items.filter((item) =>
+    dayjs(item.dateTime).isSame(yesterday, "day")
+  );
+  const yesterdayAverageMood = getAverageMood(itemsYesterday);
 
   if (yesterdayAverageMood === null) {
-    return null
+    return null;
   }
 
-  return RATING_MAPPING[yesterdayAverageMood]
-}
+  return RATING_MAPPING[yesterdayAverageMood];
+};
 
-const getMoodValueNow = (): number | null => {
+const useMoodValueNow = (): number | null => {
   const tempLog = useTemporaryLog();
 
   if (tempLog?.data?.rating === null) {
-    return null
+    return null;
   }
 
-  return RATING_MAPPING[tempLog?.data?.rating]
-}
+  return RATING_MAPPING[tempLog?.data?.rating];
+};
 
-const Tips = ({
-  onClose
-}: {
-  onClose: () => void
-}) => {
+const Tips = ({ onClose }: { onClose: () => void }) => {
   const colors = useColors();
   const tempLog = useTemporaryLog();
 
-  const placeholder = useRef(t(`log_modal_message_placeholder_${randomInt(1, 6)}`))
-  const date = dayjs(tempLog.data.dateTime)
-  const todayMoodValue = getMoodValueNow()
-  const yesterdayMoodValue = getMoodValueYesterday(date)
+  // Picked once per mount so the placeholder does not change on re-render.
+  const placeholder = useMemo(
+    () => t(`log_modal_message_placeholder_${randomInt(1, 6)}`),
+    []
+  );
+  const date = dayjs(tempLog.data.dateTime);
+  const todayMoodValue = useMoodValueNow();
+  const yesterdayMoodValue = useMoodValueYesterday(date);
 
-  let questions: string[] = []
+  const questions: string[] = [];
 
-  if (
-    todayMoodValue !== null &&
-    yesterdayMoodValue !== null
-  ) {
-    questions.push(t('log_messasge_hint_1', {
-      word: todayMoodValue > yesterdayMoodValue ? t('up') : t('down'),
-    }))
+  if (todayMoodValue !== null && yesterdayMoodValue !== null) {
+    questions.push(
+      t("log_messasge_hint_1", {
+        word: todayMoodValue > yesterdayMoodValue ? t("up") : t("down"),
+      })
+    );
   }
 
-  const fullEmotions = tempLog.data?.emotions?.map(key => EMOTIONS.find(e => e.key === key)) || []
-  const sortedEmotions = _.sortBy(fullEmotions, (emotion) => {
-    return {
-      'very_good': 2,
-      'good': 1,
-      'neutral': 0,
-      'bad': -1,
-      'very_bad': -2,
-    }[emotion!.category]
-  })
+  const fullEmotions =
+    tempLog.data?.emotions?.map((key) => EMOTIONS.find((e) => e.key === key)) ||
+    [];
+  const sortedEmotions = sortBy(fullEmotions, (emotion) =>
+    emotion === undefined
+      ? undefined
+      : {
+          very_good: 2,
+          good: 1,
+          neutral: 0,
+          bad: -1,
+          very_bad: -2,
+        }[emotion.category]
+  );
 
   if (sortedEmotions.length > 0) {
-    sortedEmotions.slice(0, 5).forEach(emotion => {
-      let description = t(`log_emotion_${emotion?.key}_description`).toLowerCase()
+    for (const emotion of sortedEmotions.slice(0, 5)) {
+      let description = t(
+        `log_emotion_${emotion?.key}_description`
+      ).toLowerCase();
 
-      if (language === 'de') {
-        description = description.charAt(0).toUpperCase() + description.slice(1)
+      if (language === "de") {
+        description =
+          description.charAt(0).toUpperCase() + description.slice(1);
       }
 
-      questions.push(t(`log_messasge_hint_2`, {
-        description,
-      }))
-    })
+      questions.push(
+        t(`log_messasge_hint_2`, {
+          description,
+        })
+      );
+    }
   }
 
   if (questions.length < 2) {
-    questions.push(placeholder.current)
+    questions.push(placeholder);
   }
 
   return (
-    <View
-      style={{
-      }}
-    >
+    <View style={{}}>
       <Card
-        title={t('log_message_hint_title')}
+        title={t("log_message_hint_title")}
         style={{
           backgroundColor: colors.logCardBackground,
           marginTop: 16,
@@ -119,79 +137,91 @@ const Tips = ({
         hasFeedback
         analyticsId="log_message_hint"
         analyticsData={{
-          questions: questions,
+          questions,
         }}
       >
         {questions.map((q, index) => (
           <Text
-            key={`q-${index}`}
+            key={q}
             style={{
               fontSize: 17,
               color: colors.textSecondary,
               marginTop: index === 0 ? 0 : 8,
             }}
-          >{q}</Text>
+          >
+            {q}
+          </Text>
         ))}
       </Card>
     </View>
-  )
-}
+  );
+};
 
-export const SlideMessage = forwardRef(({
-  onChange,
-  onDisableStep,
-  showDisable,
-}: {
-  onChange: (text: LogItem['message']) => void
-  onDisableStep: () => void
-  showDisable: boolean
-}, ref: any) => {
+const SlideMessageComponent = (
+  {
+    onChange,
+    onDisableStep,
+    showDisable,
+  }: {
+    onChange: (text: LogItem["message"]) => void;
+    onDisableStep: () => void;
+    showDisable: boolean;
+  },
+  ref: React.ForwardedRef<TextInput>
+) => {
   const analytics = useAnalytics();
   const insets = useSafeAreaInsets();
   const colors = useColors();
   const tempLog = useTemporaryLog();
-  const marginTop = getLogEditMarginTop()
+  const marginTop = getLogEditMarginTop();
 
-  const [showTips, setShowTips] = useState(false)
+  const [showTips, setShowTips] = useState(false);
 
   const [shouldExpand, setShouldExpand] = useState(false);
 
   useEffect(() => {
-    const r1 = Keyboard.addListener('keyboardWillShow', () => setShouldExpand(true))
-    const r2 = Keyboard.addListener('keyboardWillHide', () => setShouldExpand(false))
+    const r1 = Keyboard.addListener("keyboardWillShow", () =>
+      setShouldExpand(true)
+    );
+    const r2 = Keyboard.addListener("keyboardWillHide", () =>
+      setShouldExpand(false)
+    );
 
     return () => {
-      r1.remove()
-      r2.remove()
-    }
-  }, [])
+      r1.remove();
+      r2.remove();
+    };
+  }, []);
 
   return (
     <KeyboardAvoidingView
       keyboardVerticalOffset={marginTop + insets.top + 16}
       behavior={Platform.OS === "ios" ? "padding" : "height"}
       style={{
-        flex: 1
+        flex: 1,
       }}
     >
       <DismissKeyboard>
-        <View style={{
-          flex: 1,
-          justifyContent: "space-around"
-        }}>
-          <View style={{
+        <View
+          style={{
             flex: 1,
-            backgroundColor: colors.logBackground,
-            width: '100%',
-            position: 'relative',
-            paddingHorizontal: 20,
-            paddingBottom: insets.bottom + 16 + (shouldExpand ? 24 : 0),
-          }}>
-
+            justifyContent: "space-around",
+          }}
+        >
+          <View
+            style={{
+              flex: 1,
+              backgroundColor: colors.logBackground,
+              width: "100%",
+              position: "relative",
+              paddingHorizontal: 20,
+              paddingBottom: insets.bottom + 16 + (shouldExpand ? 24 : 0),
+            }}
+          >
             <View
               style={{
                 flex: 1,
-                marginTop: marginTop,
+                marginTop,
               }}
             >
               <View
@@ -202,11 +232,11 @@ export const SlideMessage = forwardRef(({
                   alignItems: "center",
                 }}
               >
-                <SlideHeadline>{t('log_note_question')}</SlideHeadline>
+                <SlideHeadline>{t("log_note_question")}</SlideHeadline>
                 <LinkButton
                   onPress={() => {
-                    analytics.track('log_message_tips_open')
-                    setShowTips(!showTips)
+                    analytics.track("log_message_tips_open");
+                    setShowTips(!showTips);
                   }}
                   style={{
                     marginBottom: -12,
@@ -220,7 +250,7 @@ export const SlideMessage = forwardRef(({
               {showTips && (
                 <Tips
                   onClose={() => {
-                    setShowTips(false)
+                    setShowTips(false);
                   }}
                 />
               )}
@@ -252,14 +282,23 @@ export const SlideMessage = forwardRef(({
                   type="secondary"
                   onPress={onDisableStep}
                   style={{
-                    fontWeight: '400',
+                    fontWeight: "400",
                   }}
-                >{t('log_message_disable')}</LinkButton>
+                >
+                  {t("log_message_disable")}
+                </LinkButton>
               )}
             </Footer>
           </View>
         </View>
       </DismissKeyboard>
     </KeyboardAvoidingView>
-  )
-})
+  );
+};
+
+/**
+ * Free-text note slide. The ref points at the text input so the logger can
+ * focus it. Writing tips are generated from the draft's rating and
+ * emotions.
+ */
+export const SlideMessage = forwardRef(SlideMessageComponent);

@@ -1,12 +1,11 @@
-import { LoggerCreate } from "@/components/Logger"
-import { RootStackScreenProps } from "../../../types"
+import { LoggerCreate } from "@/components/Logger";
+import type { RootStackScreenProps } from "../../../types";
 
-export const LogCreate = ({ route }: RootStackScreenProps<'LogCreate'>) => {
-  return (
-    <LoggerCreate
-      dateTime={route.params.dateTime}
-      initialStep='rating'
-      avaliableSteps={route.params.avaliableSteps}
-    />
-  )
-}
+/** Route wrapper that opens the logger for a new entry at the rating slide. */
+export const LogCreate = ({ route }: RootStackScreenProps<"LogCreate">) => (
+  <LoggerCreate
+    dateTime={route.params.dateTime}
+    initialStep="rating"
+    avaliableSteps={route.params.avaliableSteps}
+  />
+);

@@ -1,49 +1,59 @@
-import { Dayjs } from "dayjs"
-import { LogItem, RATING_KEYS } from "@/hooks/useLogs"
-import { CardFeedback } from "../CardFeedback"
-import { NotEnoughDataOverlay } from "../NotEnoughDataOverlay"
-import { BigCard } from "../../BigCard"
-import { Content } from "./Content"
+import type { Dayjs } from "dayjs";
+import type { LogItem } from "@/hooks/useLogs";
+import { RATING_KEYS } from "@/constants/Ratings";
+import { NotEnoughDataOverlay } from "../NotEnoughDataOverlay";
+import { BigCard } from "../../BigCard";
+import { Content } from "./Content";
 
-const MIN_ITEMS = 14
+const MIN_ITEMS = 14;
 
+const dummyData = {
+  values: {
+    extremely_bad: 2,
+    very_bad: 1,
+    bad: 2,
+    neutral: 4,
+    good: 3,
+    very_good: 5,
+    extremely_good: 1,
+  },
+  total: 18,
+};
+
+/**
+ * Shareable card counting entries per rating in `items`. Below 14 entries
+ * it shows placeholder bars behind the "not enough data" overlay. `date`
+ * is currently unused.
+ */
 export const MoodCounts = ({
   title,
   subtitle,
-  date,
   items,
 }: {
-  title: string,
-  subtitle: string,
-  date: Dayjs
-  items: LogItem[]
+  title: string;
+  subtitle: string;
+  date: Dayjs;
+  items: LogItem[];
 }) => {
   const ratingCounts: {
-    [key: string]: number
-  } = RATING_KEYS.reduce((acc, ratingKey) => {
-    acc[ratingKey] = items.filter(item => item.rating === ratingKey).length
-    return acc
-  }, {})
+    [key: string]: number;
+  } = {};
+  for (const ratingKey of RATING_KEYS) {
+    ratingCounts[ratingKey] = items.filter(
+      (item) => item.rating === ratingKey
+    ).length;
+  }
 
-  const total = Object.values(ratingCounts).reduce((acc: number, count: number) => acc + count, 0) || 0
+  const total =
+    Object.values(ratingCounts).reduce(
+      (acc: number, count: number) => acc + count,
+      0
+    ) || 0;
 
   const data = {
     values: ratingCounts,
     total,
-  }
-
-  const dummyData = {
-    values: {
-      extremely_bad: 2,
-      very_bad: 1,
-      bad: 2,
-      neutral: 4,
-      good: 3,
-      very_good: 5,
-      extremely_good: 1,
-    },
-    total: 18,
-  }
+  };
 
   return (
     <BigCard
@@ -53,18 +63,12 @@ export const MoodCounts = ({
       hasFeedback
       analyticsId="rating-count"
     >
-      {total < MIN_ITEMS && (
-        <NotEnoughDataOverlay limit={MIN_ITEMS - total} />
-      )}
+      {total < MIN_ITEMS && <NotEnoughDataOverlay limit={MIN_ITEMS - total} />}
       {total >= MIN_ITEMS ? (
-        <Content
-          data={data}
-        />
+        <Content data={data} />
       ) : (
-        <Content
-          data={dummyData}
-        />
+        <Content data={dummyData} />
       )}
     </BigCard>
-  )
-}
+  );
+};

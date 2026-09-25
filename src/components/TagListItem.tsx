@@ -1,36 +1,36 @@
-import { Text, View } from 'react-native';
-import { Edit2 } from 'react-native-feather';
-import MenuListItem from '@/components/MenuListItem';
-import useColors from '../hooks/useColors';
-import { Tag } from '../hooks/useTags';
+import { Text, View } from "react-native";
+import { Edit2 } from "react-native-feather";
+import MenuListItem from "@/components/MenuListItem";
+import useColors from "../hooks/useColors";
+import type { Tag } from "../hooks/useTags";
 
+/** Row for one tag in {@link TagList}, showing its color dot and title. */
 export const TagListItem = ({
-  tag, isLast, onPress,
+  tag,
+  isLast,
+  onPress,
 }: {
   tag: Tag;
   isLast: boolean;
-  onPress: (tag: Tag) => void;
+  onPress: () => void;
 }) => {
   const colors = useColors();
 
   return (
-    <MenuListItem
-      onPress={onPress}
-      isLast={isLast}
-    >
+    <MenuListItem onPress={onPress} isLast={isLast}>
       <View
         style={{
-          flexDirection: 'row',
-          alignItems: 'center',
-          justifyContent: 'flex-start',
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "flex-start",
         }}
       >
         <View
           style={{
             flex: 1,
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'flex-start',
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "flex-start",
           }}
         >
           <View
@@ -48,14 +48,13 @@ export const TagListItem = ({
             style={{
               fontSize: 17,
               color: colors.text,
-              maxWidth: '80%',
+              maxWidth: "80%",
             }}
-          >{tag.title}</Text>
+          >
+            {tag.title}
+          </Text>
         </View>
-        <View
-          style={{
-          }}
-        >
+        <View style={{}}>
           <Edit2 width={20} color={colors.tint} />
         </View>
       </View>

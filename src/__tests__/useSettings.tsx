@@ -1,213 +1,237 @@
-import AsyncStorage from '@react-native-async-storage/async-storage'
-import { act, renderHook, waitFor } from '@testing-library/react-native'
-import _ from 'lodash'
-import { INITIAL_STATE, SettingsProvider, STORAGE_KEY, useSettings } from '../hooks/useSettings'
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { act, renderHook, waitFor } from "@testing-library/react-native";
+import _ from "lodash";
+import { INITIAL_STATE } from "../constants/Settings";
+import {
+  SettingsProvider,
+  STORAGE_KEY,
+  useSettings,
+} from "../hooks/useSettings";
 
 const wrapper = ({ children }) => (
-  <SettingsProvider>
-    {children}
-  </SettingsProvider>
-)
+  <SettingsProvider>{children}</SettingsProvider>
+);
 
-const _renderHook = () => {
-  return renderHook(() => ({
-    state: useSettings()
-  }), { wrapper })
-}
+const _renderHook = () =>
+  renderHook(
+    () => ({
+      state: useSettings(),
+    }),
+    { wrapper }
+  );
 
-const waitForLoaded = (hook) => waitFor(() => {
-  expect(hook.result.current.state.settings.loaded).toBe(true)
-})
+const waitForLoaded = (hook) =>
+  waitFor(() => {
+    expect(hook.result.current.state.settings.loaded).toBe(true);
+  });
 
-const _console_error = console.error
+const _console_error = console.error;
 
-const STATIC_DEVICE_ID = 'test-device-id'
+const STATIC_DEVICE_ID = "test-device-id";
 
 const LOADED_STATE = {
   ...INITIAL_STATE,
   loaded: true,
-  deviceId: STATIC_DEVICE_ID
-}
+  deviceId: STATIC_DEVICE_ID,
+};
 
-jest.mock('uuid', () => ({ v4: () => STATIC_DEVICE_ID }));
+// oxlint-disable-next-line anti-slop/no-module-mocking -- useSettings generates the device ID with uuid directly; the test needs a deterministic ID
+jest.mock("uuid", () => ({ v4: () => STATIC_DEVICE_ID }));
 
-describe('useSettings()', () => {
-
+describe("useSettings()", () => {
   beforeEach(async () => {
-    await AsyncStorage.clear()
-    console.error = jest.fn()
-  })
-
-  afterEach(() => {
-    console.error = _console_error
+    await AsyncStorage.clear();
+    console.error = jest.fn();
   });
 
-  test('should have `loaded` prop', async () => {
-    const hook = await _renderHook()
-    await waitForLoaded(hook)
-    expect(hook.result.current.state.settings.loaded).toBe(true)
-  })
+  afterEach(() => {
+    console.error = _console_error;
+  });
 
-  test('should load from settings async storage & initialize device id if missing', async () => {
-    AsyncStorage.setItem(STORAGE_KEY, JSON.stringify({
-      ...INITIAL_STATE,
-      reminderTime: '12:00',
-    }))
-    const hook = await _renderHook()
-    await waitForLoaded(hook)
-    expect(hook.result.current.state.settings.reminderTime).toBe('12:00')
-    expect(hook.result.current.state.settings.deviceId).toBe(STATIC_DEVICE_ID)
-  })
+  test("should have `loaded` prop", async () => {
+    const hook = await _renderHook();
+    await waitForLoaded(hook);
+    expect(hook.result.current.state.settings.loaded).toBe(true);
+  });
 
-  test('should remove retired sleep step from stored settings', async () => {
-    await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify({
-      ...INITIAL_STATE,
-      steps: [...INITIAL_STATE.steps, 'sleep'],
-    }))
-
-    const hook = await _renderHook()
-    await waitForLoaded(hook)
-
-    expect(hook.result.current.state.settings.steps).toEqual(INITIAL_STATE.steps)
-  })
-
-  test('should initiate with empty `settings` when async storage is empty', async () => {
-    const hook = await _renderHook()
-    await waitForLoaded(hook)
-
-    expect(hook.result.current.state.settings).toEqual(LOADED_STATE)
-  })
-
-  test('should initiate with empty `settings` when async storage is falsely', async () => {
-    AsyncStorage.setItem(STORAGE_KEY, '🐇')
-    const hook = await _renderHook()
-    await waitFor(() => expect(console.error).toHaveBeenCalled())
-    expect(console.error).toHaveBeenCalled();
-  })
-
-  test('should import', async () => {
-    const hook = await _renderHook()
-    await waitForLoaded(hook)
-
-    await act(() => {
-      hook.result.current.state.importSettings({
+  test("should load from settings async storage & initialize device id if missing", async () => {
+    AsyncStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify({
         ...INITIAL_STATE,
-        reminderTime: '12:00',
+        reminderTime: "12:00",
       })
-    })
+    );
+    const hook = await _renderHook();
+    await waitForLoaded(hook);
+    expect(hook.result.current.state.settings.reminderTime).toBe("12:00");
+    expect(hook.result.current.state.settings.deviceId).toBe(STATIC_DEVICE_ID);
+  });
 
-    expect(hook.result.current.state.settings.reminderTime).toBe('12:00')
-  })
+  test("should remove retired sleep step from stored settings", async () => {
+    await AsyncStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify({
+        ...INITIAL_STATE,
+        steps: [...INITIAL_STATE.steps, "sleep"],
+      })
+    );
 
-  test('should remove retired sleep step from imported settings', async () => {
-    const hook = await _renderHook()
-    await waitForLoaded(hook)
+    const hook = await _renderHook();
+    await waitForLoaded(hook);
+
+    expect(hook.result.current.state.settings.steps).toEqual(
+      INITIAL_STATE.steps
+    );
+  });
+
+  test("should initiate with empty `settings` when async storage is empty", async () => {
+    const hook = await _renderHook();
+    await waitForLoaded(hook);
+
+    expect(hook.result.current.state.settings).toEqual(LOADED_STATE);
+  });
+
+  test("should initiate with empty `settings` when async storage is falsely", async () => {
+    AsyncStorage.setItem(STORAGE_KEY, "🐇");
+    await _renderHook();
+    await waitFor(() => expect(console.error).toHaveBeenCalled());
+    expect(console.error).toHaveBeenCalled();
+  });
+
+  test("should import", async () => {
+    const hook = await _renderHook();
+    await waitForLoaded(hook);
 
     await act(() => {
       hook.result.current.state.importSettings({
         ...INITIAL_STATE,
-        steps: [...INITIAL_STATE.steps, 'sleep'],
-      } as any)
-    })
+        reminderTime: "12:00",
+      });
+    });
 
-    expect(hook.result.current.state.settings.steps).toEqual(INITIAL_STATE.steps)
-  })
+    expect(hook.result.current.state.settings.reminderTime).toBe("12:00");
+  });
 
-  test('should addActionDone', async () => {
-    const hook = await _renderHook()
-    await waitForLoaded(hook)
+  test("should remove retired sleep step from imported settings", async () => {
+    const hook = await _renderHook();
+    await waitForLoaded(hook);
 
     await act(() => {
-      hook.result.current.state.addActionDone('test')
-    })
+      hook.result.current.state.importSettings({
+        ...INITIAL_STATE,
+        steps: [...INITIAL_STATE.steps, "sleep"],
+      });
+    });
 
-    const ACTIONS_DONE = [{
-      title: 'test',
-      date: expect.any(String)
-    }]
+    expect(hook.result.current.state.settings.steps).toEqual(
+      INITIAL_STATE.steps
+    );
+  });
 
-    expect(hook.result.current.state.settings.actionsDone).toEqual(ACTIONS_DONE)
-    const json = await AsyncStorage.getItem(STORAGE_KEY)
-    expect(JSON.parse(json!)).toEqual({
-      ..._.omit(LOADED_STATE, 'loaded'),
+  test("should addActionDone", async () => {
+    const hook = await _renderHook();
+    await waitForLoaded(hook);
+
+    await act(() => {
+      hook.result.current.state.addActionDone("test");
+    });
+
+    const ACTIONS_DONE = [
+      {
+        title: "test",
+        date: expect.any(String),
+      },
+    ];
+
+    expect(hook.result.current.state.settings.actionsDone).toEqual(
+      ACTIONS_DONE
+    );
+    const json = await AsyncStorage.getItem(STORAGE_KEY);
+    expect(JSON.parse(json ?? "null")).toEqual({
+      ..._.omit(LOADED_STATE, "loaded"),
       actionsDone: ACTIONS_DONE,
     });
-  })
+  });
 
-  test('should not addActionDone when it already exists', async () => {
-    const hook = await _renderHook()
-    await waitForLoaded(hook)
-
-    await act(() => {
-      hook.result.current.state.addActionDone('test')
-    })
+  test("should not addActionDone when it already exists", async () => {
+    const hook = await _renderHook();
+    await waitForLoaded(hook);
 
     await act(() => {
-      hook.result.current.state.addActionDone('test')
-    })
+      hook.result.current.state.addActionDone("test");
+    });
 
-    const ACTIONS_DONE = [{
-      title: 'test',
-      date: expect.any(String)
-    }]
+    await act(() => {
+      hook.result.current.state.addActionDone("test");
+    });
 
-    expect(hook.result.current.state.settings.actionsDone).toEqual(ACTIONS_DONE)
-    const json = await AsyncStorage.getItem(STORAGE_KEY)
-    expect(JSON.parse(json!)).toEqual({
-      ..._.omit(LOADED_STATE, 'loaded'),
+    const ACTIONS_DONE = [
+      {
+        title: "test",
+        date: expect.any(String),
+      },
+    ];
+
+    expect(hook.result.current.state.settings.actionsDone).toEqual(
+      ACTIONS_DONE
+    );
+    const json = await AsyncStorage.getItem(STORAGE_KEY);
+    expect(JSON.parse(json ?? "null")).toEqual({
+      ..._.omit(LOADED_STATE, "loaded"),
       actionsDone: ACTIONS_DONE,
     });
-  })
+  });
 
-  test('should hasActionDone', async () => {
-    const hook = await _renderHook()
-    await waitForLoaded(hook)
-
-    await act(() => {
-      hook.result.current.state.addActionDone('test')
-    })
-
-    expect(hook.result.current.state.hasActionDone('test')).toBe(true)
-    expect(hook.result.current.state.hasActionDone('test2')).toBe(false)
-  })
-
-  test('should resetSettings', async () => {
-    const hook = await _renderHook()
-    await waitForLoaded(hook)
+  test("should hasActionDone", async () => {
+    const hook = await _renderHook();
+    await waitForLoaded(hook);
 
     await act(() => {
-      hook.result.current.state.resetSettings()
-    })
+      hook.result.current.state.addActionDone("test");
+    });
 
-    expect(hook.result.current.state.settings).toEqual(LOADED_STATE)
-  })
+    expect(hook.result.current.state.hasActionDone("test")).toBe(true);
+    expect(hook.result.current.state.hasActionDone("test2")).toBe(false);
+  });
 
-  test('should `toggleStep`', async () => {
-    const hook = await _renderHook()
-    await waitForLoaded(hook)
-
-    await act(() => {
-      hook.result.current.state.toggleStep('feedback')
-    })
-
-    expect(hook.result.current.state.settings.steps.length).toEqual(4)
+  test("should resetSettings", async () => {
+    const hook = await _renderHook();
+    await waitForLoaded(hook);
 
     await act(() => {
-      hook.result.current.state.toggleStep('feedback')
-    })
+      hook.result.current.state.resetSettings();
+    });
 
-    expect(hook.result.current.state.settings.steps[3]).toEqual('message')
-  })
+    expect(hook.result.current.state.settings).toEqual(LOADED_STATE);
+  });
 
-  test('should `toggleStep` with value', async () => {
-    const hook = await _renderHook()
-    await waitForLoaded(hook)
+  test("should `toggleStep`", async () => {
+    const hook = await _renderHook();
+    await waitForLoaded(hook);
 
     await act(() => {
-      hook.result.current.state.toggleStep('tags')
-      hook.result.current.state.toggleStep('tags', true)
-      hook.result.current.state.toggleStep('tags', true)
-    })
+      hook.result.current.state.toggleStep("feedback");
+    });
+
+    expect(hook.result.current.state.settings.steps.length).toEqual(4);
+
+    await act(() => {
+      hook.result.current.state.toggleStep("feedback");
+    });
+
+    expect(hook.result.current.state.settings.steps[3]).toEqual("message");
+  });
+
+  test("should `toggleStep` with value", async () => {
+    const hook = await _renderHook();
+    await waitForLoaded(hook);
+
+    await act(() => {
+      hook.result.current.state.toggleStep("tags");
+      hook.result.current.state.toggleStep("tags", true);
+      hook.result.current.state.toggleStep("tags", true);
+    });
 
     expect(hook.result.current.state.settings.steps).toEqual([
       "rating",
@@ -215,18 +239,17 @@ describe('useSettings()', () => {
       "message",
       "feedback",
       "tags",
-    ])
-  })
+    ]);
+  });
 
-  test('should `hasStep`', async () => {
-    const hook = await _renderHook()
-    await waitForLoaded(hook)
+  test("should `hasStep`", async () => {
+    const hook = await _renderHook();
+    await waitForLoaded(hook);
 
     await act(() => {
-      hook.result.current.state.toggleStep('feedback')
-    })
+      hook.result.current.state.toggleStep("feedback");
+    });
 
-    expect(hook.result.current.state.hasStep('feedback')).toEqual(false)
-  })
-
-})
+    expect(hook.result.current.state.hasStep("feedback")).toEqual(false);
+  });
+});

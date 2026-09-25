@@ -2,8 +2,8 @@ import { Text, View } from "react-native";
 import { t } from "@/helpers/translation";
 import useColors from "../../hooks/useColors";
 
-
-export const EmptyPlaceholder = ({ }: {}) => {
+/** "No entries" message for an empty day list. */
+export const EmptyPlaceholder = () => {
   const colors = useColors();
 
   return (
@@ -15,11 +15,11 @@ export const EmptyPlaceholder = ({ }: {}) => {
       <View
         style={{
           flex: 1,
-          justifyContent: 'center',
-          alignItems: 'center',
+          justifyContent: "center",
+          alignItems: "center",
           borderWidth: 1,
           borderColor: colors.statisticsNoDataBorder,
-          borderStyle: 'dashed',
+          borderStyle: "dashed",
           padding: 16,
           borderRadius: 8,
           minHeight: 120,
@@ -30,10 +30,12 @@ export const EmptyPlaceholder = ({ }: {}) => {
           style={{
             fontSize: 17,
             color: colors.statisticsNoDataText,
-            textAlign: 'center',
+            textAlign: "center",
             lineHeight: 24,
           }}
-        >{t('entries_no_data')}</Text>
+        >
+          {t("entries_no_data")}
+        </Text>
       </View>
     </View>
   );

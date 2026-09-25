@@ -1,23 +1,23 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { renderHook, act, waitFor } from "@testing-library/react-native";
 import { AnalyticsProvider } from "../hooks/useAnalytics";
+import type { LogsState } from "../hooks/useLogs";
 import {
   LogsProvider,
   useLogState,
   useLogUpdater,
   STORAGE_KEY as STORAGE_KEY_LOGS,
-  LogsState,
 } from "../hooks/useLogs";
 import {
   SettingsProvider,
   useSettings,
   STORAGE_KEY as STORAGE_KEY_SETTINGS,
-  INITIAL_STATE as INITIAL_STATE_SETTINGS,
 } from "../hooks/useSettings";
+import { INITIAL_STATE as INITIAL_STATE_SETTINGS } from "../constants/Settings";
 
+import type { Tag } from "../hooks/useTags";
 import {
   STORAGE_KEY as STORAGE_KEY_TAGS,
-  Tag,
   TagsProvider,
   useTagsState,
   useTagsUpdater,
@@ -34,8 +34,8 @@ const wrapper = ({ children }) => (
   </SettingsProvider>
 );
 
-const _renderHook = () => {
-  return renderHook(
+const _renderHook = () =>
+  renderHook(
     () => ({
       state: useTagsState(),
       updater: useTagsUpdater(),
@@ -45,11 +45,11 @@ const _renderHook = () => {
     }),
     { wrapper }
   );
-};
 
-const waitForLoaded = (hook) => waitFor(() => {
-  expect(hook.result.current.state.loaded).toBe(true);
-});
+const waitForLoaded = (hook) =>
+  waitFor(() => {
+    expect(hook.result.current.state.loaded).toBe(true);
+  });
 
 const testTags: Tag[] = [
   {
@@ -64,20 +64,20 @@ const testTags: Tag[] = [
   },
 ];
 
-const testItems: LogsState['items'] = [
+const testItems: LogsState["items"] = [
   _generateItem({
-    date: '2022-01-01',
-    rating: 'neutral',
-    message: 'test message',
+    date: "2022-01-01",
+    rating: "neutral",
+    message: "test message",
     tags: [...testTags],
   }),
   _generateItem({
-    date: '2022-01-02',
-    rating: 'neutral',
-    message: '🦄',
+    date: "2022-01-02",
+    rating: "neutral",
+    message: "🦄",
     tags: [...testTags],
-  })
-]
+  }),
+];
 
 describe("useTags()", () => {
   beforeEach(async () => {
@@ -91,25 +91,33 @@ describe("useTags()", () => {
   });
 
   test("should load from tags async storage", async () => {
-    const _testTags = [...testTags, {
-      id: "3",
-      title: "test3",
-      color: "slate",
-    }];
+    const _testTags = [
+      ...testTags,
+      {
+        id: "3",
+        title: "test3",
+        color: "slate",
+      },
+    ];
 
     AsyncStorage.setItem(STORAGE_KEY_TAGS, JSON.stringify({ tags: _testTags }));
     const hook = await _renderHook();
     await waitForLoaded(hook);
     expect(hook.result.current.state.tags).toEqual(_testTags);
-    expect(await AsyncStorage.getItem(STORAGE_KEY_TAGS)).toEqual(JSON.stringify({ tags: _testTags }));
+    expect(await AsyncStorage.getItem(STORAGE_KEY_TAGS)).toEqual(
+      JSON.stringify({ tags: _testTags })
+    );
   });
 
   test("should load from settings (if tags async storage is empty)", async () => {
-    const _testTags = [...testTags, {
-      id: "4",
-      title: "test4",
-      color: "orange",
-    }];
+    const _testTags = [
+      ...testTags,
+      {
+        id: "4",
+        title: "test4",
+        color: "orange",
+      },
+    ];
 
     AsyncStorage.setItem(
       STORAGE_KEY_SETTINGS,
@@ -121,7 +129,9 @@ describe("useTags()", () => {
     const hook = await _renderHook();
     await waitForLoaded(hook);
     expect(hook.result.current.state.tags).toEqual(_testTags);
-    expect(await AsyncStorage.getItem(STORAGE_KEY_TAGS)).toEqual(JSON.stringify({ tags: _testTags }));
+    expect(await AsyncStorage.getItem(STORAGE_KEY_TAGS)).toEqual(
+      JSON.stringify({ tags: _testTags })
+    );
   });
 
   test("should initialize (when tags async storage and settings async storage are empty)", async () => {
@@ -148,7 +158,10 @@ describe("useTags()", () => {
   });
 
   test("should updateTag", async () => {
-    AsyncStorage.setItem(STORAGE_KEY_LOGS, JSON.stringify({ items: testItems }));
+    AsyncStorage.setItem(
+      STORAGE_KEY_LOGS,
+      JSON.stringify({ items: testItems })
+    );
 
     const hook = await _renderHook();
     await waitForLoaded(hook);
@@ -166,7 +179,10 @@ describe("useTags()", () => {
   });
 
   test("should deleteTag", async () => {
-    AsyncStorage.setItem(STORAGE_KEY_LOGS, JSON.stringify({ items: testItems }));
+    AsyncStorage.setItem(
+      STORAGE_KEY_LOGS,
+      JSON.stringify({ items: testItems })
+    );
 
     const hook = await _renderHook();
     await waitForLoaded(hook);
@@ -175,21 +191,24 @@ describe("useTags()", () => {
       hook.result.current.updater.deleteTag("1");
     });
 
-    Object.values(hook.result.current.logsState.items).forEach(item => {
-      expect(item.tags!.length).toBe(1);
-    })
+    for (const item of Object.values(hook.result.current.logsState.items)) {
+      expect(item.tags?.length).toBe(1);
+    }
   });
 
   test("should keep logs added before deleteTag re-renders", async () => {
-    AsyncStorage.setItem(STORAGE_KEY_LOGS, JSON.stringify({ items: testItems }));
+    AsyncStorage.setItem(
+      STORAGE_KEY_LOGS,
+      JSON.stringify({ items: testItems })
+    );
 
     const hook = await _renderHook();
     await waitForLoaded(hook);
 
     const newItem = _generateItem({
-      date: '2022-01-03',
-      rating: 'good',
-      message: 'added before tag delete',
+      date: "2022-01-03",
+      rating: "good",
+      message: "added before tag delete",
       tags: [{ id: "1" }],
     });
 
@@ -198,39 +217,44 @@ describe("useTags()", () => {
       hook.result.current.updater.deleteTag("1");
     });
 
-    const items = hook.result.current.logsState.items;
-    expect(items.map(item => item.id)).toEqual([
+    const { items } = hook.result.current.logsState;
+    expect(items.map((item) => item.id)).toEqual([
       testItems[0].id,
       testItems[1].id,
       newItem.id,
     ]);
-    items.forEach(item => {
-      expect(item.tags.map(tag => tag.id)).not.toContain("1");
-    });
+    for (const item of items) {
+      expect(item.tags.map((tag) => tag.id)).not.toContain("1");
+    }
 
     await waitFor(async () => {
-      const stored = JSON.parse((await AsyncStorage.getItem(STORAGE_KEY_LOGS))!);
-      expect(stored.items.map(item => item.id)).toContain(newItem.id);
+      const stored = JSON.parse(
+        (await AsyncStorage.getItem(STORAGE_KEY_LOGS)) ?? "null"
+      );
+      expect(stored.items.map((item) => item.id)).toContain(newItem.id);
     });
   });
 
   test("should not mutate log items when deleting a tag", async () => {
-    AsyncStorage.setItem(STORAGE_KEY_LOGS, JSON.stringify({ items: testItems }));
+    AsyncStorage.setItem(
+      STORAGE_KEY_LOGS,
+      JSON.stringify({ items: testItems })
+    );
 
     const hook = await _renderHook();
     await waitForLoaded(hook);
 
     const itemsBefore = hook.result.current.logsState.items;
-    const tagsBefore = itemsBefore.map(item => item.tags);
+    const tagsBefore = itemsBefore.map((item) => item.tags);
 
     await act(() => {
       hook.result.current.updater.deleteTag("1");
     });
 
-    itemsBefore.forEach((item, index) => {
+    for (const [index, item] of itemsBefore.entries()) {
       expect(item.tags).toBe(tagsBefore[index]);
-      expect(item.tags.map(tag => tag.id)).toContain("1");
-    });
+      expect(item.tags.map((tag) => tag.id)).toContain("1");
+    }
   });
 
   test("should reset", async () => {
@@ -248,7 +272,7 @@ describe("useTags()", () => {
 
     expect(hook.result.current.state.tags.length).toBe(18);
     expect(hook.result.current.state.tags[0].color).toBe("slate");
-  })
+  });
 
   test("should save to async storage", async () => {
     const hook = await _renderHook();
@@ -262,11 +286,11 @@ describe("useTags()", () => {
       });
     });
 
-    const json = await AsyncStorage.getItem(STORAGE_KEY_TAGS)
-    expect(JSON.parse(json!)).toEqual({
+    const json = await AsyncStorage.getItem(STORAGE_KEY_TAGS);
+    expect(JSON.parse(json ?? "null")).toEqual({
       tags: hook.result.current.state.tags,
     });
-  })
+  });
 
   test("should import", async () => {
     const hook = await _renderHook();
@@ -280,5 +304,5 @@ describe("useTags()", () => {
 
     expect(hook.result.current.state.tags.length).toBe(2);
     expect(hook.result.current.state.tags[0].title).toBe("test1");
-  })
+  });
 });

@@ -1,50 +1,53 @@
-import _ from "lodash";
-import { LogDay, LogItem } from "./useLogs";
-import { Tag } from "./useTags";
+import omit from "lodash/omit";
+import type { LogDay, LogItem } from "./useLogs";
+import type { Tag } from "./useTags";
 
 interface AnonmizedTag extends Omit<Tag, "title"> {
   titleLength: number;
 }
 
-interface AnonmizedLogItem extends Omit<LogItem, 'tags' | 'message'> {
-  tags?: AnonmizedTag[]
+interface AnonmizedLogItem extends Omit<LogItem, "tags" | "message"> {
+  tags?: AnonmizedTag[];
   messageLength: number;
 }
 
-interface AnonmizedLogDay extends Omit<LogDay, 'items'> {
-  items: AnonmizedLogItem[]
+interface AnonmizedLogDay extends Omit<LogDay, "items"> {
+  items: AnonmizedLogItem[];
 }
 
-export const useAnonymizer = () => {
-  const anonymizeTag = (tag: Tag): AnonmizedTag => {
-    return {
-      ..._.omit(tag, 'title'),
-      titleLength: tag?.title?.length,
-    }
-  }
-  const anonymizeItem = (item: LogItem): AnonmizedLogItem => {
-    const resultItem: AnonmizedLogItem = _.omit({
+const anonymizeTag = (tag: Tag): AnonmizedTag => ({
+  ...omit(tag, "title"),
+  titleLength: tag?.title?.length,
+});
+const anonymizeItem = (item: LogItem): AnonmizedLogItem => {
+  const resultItem: AnonmizedLogItem = omit(
+    {
       ...item,
       messageLength: item.message.length,
-    }, ['message', 'tags']);
+    },
+    ["message", "tags"]
+  );
 
-    if (item?.tags) {
-      resultItem.tags = item.tags.map(anonymizeTag)
-    }
-
-    return resultItem
+  if (item?.tags) {
+    resultItem.tags = item.tags.map(anonymizeTag);
   }
 
-  const anonymizeDay = (day: LogDay): AnonmizedLogDay => {
-    return {
-      ...day,
-      items: day.items.map(anonymizeItem),
-    }
-  }
+  return resultItem;
+};
 
-  return {
-    anonymizeTag,
-    anonymizeItem,
-    anonymizeDay,
-  }
-}
+const anonymizeDay = (day: LogDay): AnonmizedLogDay => ({
+  ...day,
+  items: day.items.map(anonymizeItem),
+});
+
+/**
+ * Strip user-written text from tags and entries before they reach analytics.
+ *
+ * Titles and messages are replaced by their lengths; every other field,
+ * including emotion keys, passes through unchanged.
+ */
+export const useAnonymizer = () => ({
+  anonymizeTag,
+  anonymizeItem,
+  anonymizeDay,
+});

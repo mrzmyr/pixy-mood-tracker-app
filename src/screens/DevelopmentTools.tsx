@@ -7,7 +7,8 @@ import { PageWithHeaderLayout } from "@/components/PageWithHeaderLayout";
 import TextInfo from "@/components/TextInfo";
 import { t } from "@/helpers/translation";
 import dayjs from "dayjs";
-import { ScrollView, Text, View, ViewStyle } from "react-native";
+import type { ViewStyle } from "react-native";
+import { ScrollView, Text, View } from "react-native";
 import useColors from "../hooks/useColors";
 import { useLogState } from "../hooks/useLogs";
 import { useSettings } from "../hooks/useSettings";
@@ -60,10 +61,15 @@ const Card = ({
   );
 };
 
+/**
+ * Settings > Development statistics: usage totals plus the list of
+ * completed one-time actions (promos, questions, onboarding), which can be
+ * removed to show them again. Reachable in release builds too.
+ */
 export const DevelopmentTools = () => {
   const colors = useColors();
   const logState = useLogState();
-  const { tags } = useTagsState()
+  const { tags } = useTagsState();
   const { settings, setSettings, removeActionDone } = useSettings();
 
   const words_total = logState.items
@@ -116,17 +122,12 @@ export const DevelopmentTools = () => {
             {tags?.length}
           </Card>
           <Card title={t("development_statistics_days_tagged")}>
-            {
-              logState.items.filter((d) => d.tags.length > 0)
-                .length
-            }
+            {logState.items.filter((d) => d.tags.length > 0).length}
           </Card>
         </View>
         <MenuListHeadline>Device Information</MenuListHeadline>
         <MenuList>
-          <MenuListItem
-            isLast
-          >
+          <MenuListItem isLast>
             <View>
               <Text
                 style={{
@@ -136,7 +137,6 @@ export const DevelopmentTools = () => {
                 }}
               >
                 Device ID
-
               </Text>
               <Text
                 style={{
@@ -157,7 +157,7 @@ export const DevelopmentTools = () => {
               style={{
                 flexDirection: "column",
               }}
-              key={i}
+              key={`${action.title}-${action.date}`}
               isLast={i === settings.actionsDone.length - 1}
             >
               <View
@@ -194,7 +194,9 @@ export const DevelopmentTools = () => {
                   onPress={() => {
                     removeActionDone(action.title);
                   }}
-                ><Trash size={20} color={colors.tint} /></LinkButton>
+                >
+                  <Trash size={20} color={colors.tint} />
+                </LinkButton>
               </View>
             </MenuListItem>
           ))}
@@ -205,9 +207,9 @@ export const DevelopmentTools = () => {
             marginTop: 16,
           }}
           onPress={() => {
-            setSettings((settings) => ({
-              ...settings,
-              actionsDone: settings.actionsDone.filter(
+            setSettings((currentSettings) => ({
+              ...currentSettings,
+              actionsDone: currentSettings.actionsDone.filter(
                 (action) => !action?.title?.startsWith("question_slide_")
               ),
             }));
@@ -221,8 +223,8 @@ export const DevelopmentTools = () => {
             marginTop: 12,
           }}
           onPress={() => {
-            setSettings((settings) => ({
-              ...settings,
+            setSettings((currentSettings) => ({
+              ...currentSettings,
               actionsDone: [],
             }));
           }}

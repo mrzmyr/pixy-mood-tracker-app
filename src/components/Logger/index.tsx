@@ -1,32 +1,46 @@
-import { DATE_FORMAT } from '@/constants/Config';
-import { askToCancel, askToDisableFeedbackStep, askToDisableStep, askToRemove } from '@/helpers/prompts';
-import { useAnalytics } from '@/hooks/useAnalytics';
-import useColors from '@/hooks/useColors';
-import { LogItem, useLogState, useLogUpdater } from '@/hooks/useLogs';
-import { IQuestion, useQuestioner } from '@/hooks/useQuestioner';
-import { useSettings } from '@/hooks/useSettings';
-import { TemporaryLogState, useTemporaryLog } from '@/hooks/useTemporaryLog';
-import { Emotion, TagReference } from '@/types';
-import { useNavigation } from '@react-navigation/native';
-import dayjs from 'dayjs';
-import { ReactElement, useEffect, useRef, useState } from 'react';
-import { Dimensions, Keyboard, Platform, Text, TextInput, View } from 'react-native';
-import { Carousel, CarouselRef } from 'react-native-reanimated-carousel';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { DATE_FORMAT } from "@/constants/Config";
+import { askToDisableFeedbackStep, askToDisableStep } from "@/helpers/prompts";
+import useColors from "@/hooks/useColors";
+import type { LogItem } from "@/hooks/useLogs";
+import { useLogState } from "@/hooks/useLogs";
+import type { IQuestion } from "@/hooks/useQuestioner";
+import { useQuestioner } from "@/hooks/useQuestioner";
+import { useSettings } from "@/hooks/useSettings";
+import type { TemporaryLogState } from "@/hooks/useTemporaryLog";
+import { useTemporaryLog } from "@/hooks/useTemporaryLog";
+import type { Emotion, TagReference } from "@/types";
+import dayjs from "dayjs";
+import type { ReactElement } from "react";
+import { useEffect, useEffectEvent, useMemo, useRef, useState } from "react";
+import type { TextInput } from "react-native";
+import { Dimensions, Keyboard, Platform, Text, View } from "react-native";
+import type { CarouselRef } from "react-native-reanimated-carousel";
+import { Carousel } from "react-native-reanimated-carousel";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { v4 as uuidv4 } from "uuid";
-import { SlideAction } from './components/SlideAction';
-import { SlideHeader } from './components/SlideHeader';
-import { Stepper } from './components/Stepper';
-import { LoggerStep } from './config';
-import { SlideEmotions } from './slides/SlideEmotions';
-import { SlideFeedback } from './slides/SlideFeedback';
-import { SlideMessage } from './slides/SlideMessage';
-import { SlideMood } from './slides/SlideMood';
-import { SlideReminder } from './slides/SlideReminder';
-import { SlideTags } from './slides/SlideTags';
-import { StackActions } from '@react-navigation/native';
+import { SlideAction } from "./components/SlideAction";
+import { LoggerHeader } from "./components/LoggerHeader";
+import type { LoggerStep } from "./config";
+import { SlideEmotions } from "./slides/SlideEmotions";
+import { SlideFeedback } from "./slides/SlideFeedback";
+import { SlideMessage } from "./slides/SlideMessage";
+import { SlideMood } from "./slides/SlideMood";
+import { SlideReminder } from "./slides/SlideReminder";
+import { SlideTags } from "./slides/SlideTags";
+import { useLoggerActions } from "./useLoggerActions";
 
-export type LoggerMode = 'create' | 'edit'
+/** Whether the logger creates a new entry or edits an existing one. */
+export type LoggerMode = "create" | "edit";
+
+// Slide order in the carousel; `rating` is always shown.
+const SLIDE_ORDER: LoggerStep[] = [
+  "rating",
+  "emotions",
+  "tags",
+  "message",
+  "reminder",
+  "feedback",
+];
 
 const EMOTIONS_INDEX_MAPPING = {
   extremely_bad: 0,
@@ -36,134 +50,72 @@ const EMOTIONS_INDEX_MAPPING = {
   good: 3,
   very_good: 3,
   extremely_good: 4,
-}
+};
 
 const getAvailableStepsForCreate = ({
   question,
+  hasStep,
+  reminderEnabled,
+  itemsCount,
 }: {
   question: IQuestion | null;
+  hasStep: ReturnType<typeof useSettings>["hasStep"];
+  reminderEnabled: boolean;
+  itemsCount: number;
 }) => {
-  const { hasStep, settings } = useSettings();
-  const logState = useLogState();
+  const slides: LoggerStep[] = ["rating"];
 
-  const slides: LoggerStep[] = [
-    'rating'
-  ]
-
-  if (hasStep('emotions')) slides.push('emotions')
-  if (hasStep('tags')) slides.push('tags')
-  if (hasStep('message')) slides.push('message')
-
-  if (
-    logState.items.length === 1 &&
-    !settings.reminderEnabled
-  ) {
-    slides.push('reminder')
+  if (hasStep("emotions")) {
+    slides.push("emotions");
+  }
+  if (hasStep("tags")) {
+    slides.push("tags");
+  }
+  if (hasStep("message")) {
+    slides.push("message");
   }
 
-  if (
-    logState.items.length >= 3 &&
-    question !== null &&
-    hasStep('feedback')
-  ) {
-    slides.push('feedback')
+  if (itemsCount === 1 && !reminderEnabled) {
+    slides.push("reminder");
+  }
+
+  if (itemsCount >= 3 && question !== null && hasStep("feedback")) {
+    slides.push("feedback");
   }
 
   return slides;
-}
+};
 
 const getAvailableStepsForEdit = ({
   item,
+  hasStep,
 }: {
   item: LogItem;
+  hasStep: ReturnType<typeof useSettings>["hasStep"];
 }) => {
-  const { hasStep } = useSettings();
+  const slides: LoggerStep[] = ["rating"];
 
-  const slides: LoggerStep[] = [
-    'rating'
-  ]
-
-  if (hasStep('emotions') || item.emotions.length > 0) slides.push('emotions')
-  if (hasStep('tags') || item.tags.length > 0) slides.push('tags')
-  if (hasStep('message') || item.message.length > 0) slides.push('message')
+  if (hasStep("emotions") || item.emotions.length > 0) {
+    slides.push("emotions");
+  }
+  if (hasStep("tags") || item.tags.length > 0) {
+    slides.push("tags");
+  }
+  if (hasStep("message") || item.message.length > 0) {
+    slides.push("message");
+  }
 
   return slides;
-}
+};
 
-export const LoggerEdit = ({
-  id,
-  initialStep,
-}: {
-  id: string
-  initialStep?: LoggerStep
-}) => {
-  const logState = useLogState()
-  const initialItem = logState?.items.find(item => item.id === id)
-
-  if (initialItem === undefined) {
-    return (
-      <View>
-        <Text>Log not found</Text>
-      </View>
-    )
-  }
-
-  const avaliableSteps = getAvailableStepsForEdit({
-    item: initialItem,
-  })
-
-  return (
-    <Logger
-      mode="edit"
-      initialItem={initialItem}
-      initialStep={initialStep}
-      avaliableSteps={avaliableSteps}
-    />
-  )
-}
-
-export const LoggerCreate = ({
-  dateTime,
-  initialStep,
-  avaliableSteps,
-}: {
-  dateTime: string
-  initialStep?: LoggerStep
-  avaliableSteps?: LoggerStep[]
-}) => {
-  const _id = useRef(uuidv4())
-  const createdAt = useRef(dayjs().toISOString())
-  const questioner = useQuestioner()
-
-  const initialItem = {
-    id: _id.current,
-    date: dateTime ? dayjs(dateTime).format(DATE_FORMAT) : dayjs().format(DATE_FORMAT),
-    dateTime: dateTime,
-    rating: null,
-    message: '',
-    emotions: [],
-    tags: [],
-    sleep: {
-      quality: null,
-    },
-    createdAt: createdAt.current,
-  }
-
-  avaliableSteps = avaliableSteps || getAvailableStepsForCreate({
-    question: questioner.question,
-  })
-
-  return (
-    <Logger
-      mode="create"
-      initialItem={initialItem}
-      initialStep={initialStep}
-      avaliableSteps={avaliableSteps}
-      question={questioner.question}
-    />
-  )
-}
-
+/**
+ * Slide-based entry editor shared by create and edit.
+ *
+ * Must render inside `TemporaryLogProvider`, which holds the draft. Slides
+ * outside `avaliableSteps` are skipped; `rating` always shows, and
+ * `feedback` also needs a `question`. With rating as the only slide,
+ * picking a rating saves at once.
+ */
 export const Logger = ({
   initialItem,
   initialStep,
@@ -171,135 +123,93 @@ export const Logger = ({
   mode,
   question,
 }: {
-  initialItem: TemporaryLogState,
+  initialItem: TemporaryLogState;
   initialStep?: LoggerStep;
   avaliableSteps: LoggerStep[];
-  mode: LoggerMode
-  question?: IQuestion | null
+  mode: LoggerMode;
+  question?: IQuestion | null;
 }) => {
-  const navigation = useNavigation();
-  const colors = useColors()
-  const analytics = useAnalytics()
+  const colors = useColors();
   const insets = useSafeAreaInsets();
 
-  const logState = useLogState()
-  const logUpdater = useLogUpdater()
+  const logState = useLogState();
 
-  const { toggleStep } = useSettings()
+  const { toggleStep } = useSettings();
 
   const tempLog = useTemporaryLog(initialItem);
 
-  const texAreaRef = useRef<TextInput>(null)
-  const isEditing = mode === 'edit'
+  const texAreaRef = useRef<TextInput>(null);
+  const isEditing = mode === "edit";
   const showDisable = logState.items.length <= 3 && !isEditing;
 
-  const [touched, setTouched] = useState(false)
+  const [touched, setTouched] = useState(false);
 
-  const indexFound = avaliableSteps.findIndex(slide => slide === initialStep)
-  const initialIndex = indexFound !== -1 ? indexFound : 0
-  const [slideIndex, setSlideIndex] = useState(initialIndex)
+  const indexFound = initialStep ? avaliableSteps.indexOf(initialStep) : -1;
+  const initialIndex = indexFound === -1 ? 0 : indexFound;
+  const [slideIndex, setSlideIndex] = useState(initialIndex);
 
-  const close = async () => {
-    tempLog.reset()
-    navigation.goBack();
-  }
+  const { save, remove, cancel } = useLoggerActions({ mode, tempLog });
 
-  const save = (data: TemporaryLogState) => {
-    const eventData = {
-      date: data?.date,
-      dateTime: data?.dateTime,
-      messageLength: data?.message.length,
-      rating: data?.rating,
-      tagsCount: data?.tags.length,
-      emotions: data?.emotions,
-      emotionsCount: data?.emotions.length,
-    }
+  const _carousel = useRef<CarouselRef>(null);
 
-    if (data.rating === null) {
-      analytics.track('log_saved_without_rating', eventData)
-      data.rating = 'neutral'
-    }
-
-    analytics.track('log_saved', eventData)
-
-    if (mode === 'edit') {
-      analytics.track('log_changed', eventData)
-      logUpdater.editLog(data as LogItem)
-    } else {
-      analytics.track('log_created', eventData)
-      logUpdater.addLog(data as LogItem)
-
-      const itemsOnDate = logState.items.filter(item => dayjs(item.dateTime).isSame(dayjs(data.dateTime), 'day'))
-
-      if (itemsOnDate.length === 1) {
-        navigation.dispatch(StackActions.popToTop());
-        tempLog.reset()
-        return;
-      }
-    }
-
-    close()
-  }
-
-  const remove = () => {
-    analytics.track('log_deleted')
-    logUpdater.deleteLog(tempLog.data.id)
-    close()
-  }
-
-  const cancel = () => {
-    analytics.track('log_cancled')
-    close()
-  }
+  const slideKeys = SLIDE_ORDER.filter(
+    (key) =>
+      key === "rating" ||
+      (avaliableSteps.includes(key) && (key !== "feedback" || !!question))
+  );
 
   const next = () => {
-    if (slideIndex + 1 === content.length - 1) {
-      Keyboard.dismiss()
+    if (slideIndex + 1 === slideKeys.length - 1) {
+      Keyboard.dismiss();
     }
 
-    if (slideIndex + 1 === content.length) {
-      save(tempLog.data)
-    } else {
-      if (_carousel.current) _carousel.current.next()
+    if (slideIndex + 1 === slideKeys.length) {
+      save(tempLog.data);
+    } else if (_carousel.current) {
+      _carousel.current.next();
     }
-  }
+  };
 
   const content: {
     key: string;
-    slide: ReactElement,
-    action?: ReactElement,
-  }[] = []
+    slide: ReactElement;
+    action?: ReactElement;
+  }[] = [];
+
+  const isRatingActionVisible = slideIndex !== 0 || touched || mode === "edit";
+  const ratingActionType = content.length === 1 ? "save" : "next";
 
   content.push({
-    key: 'rating',
+    key: "rating",
     slide: (
       <SlideMood
         onChange={(rating) => {
           if (tempLog.data.rating !== rating) {
-            if (content.length === 1) {
+            if (slideKeys.length === 1) {
               save({
                 ...tempLog.data,
                 rating,
-              })
+              });
             } else {
-              next()
+              // oxlint-disable-next-line node/callback-return -- `next` advances the carousel, it is not a Node-style callback; `tempLog.update` must still run afterwards
+              next();
             }
           }
-          tempLog.update({ rating })
+          tempLog.update({ rating });
         }}
       />
     ),
     action: (
       <SlideAction
-        type={slideIndex !== 0 || touched || mode === 'edit' ? (content.length === 1 ? 'save' : 'next') : 'hidden'}
+        type={isRatingActionVisible ? ratingActionType : "hidden"}
         onPress={next}
       />
-    )
-  })
+    ),
+  });
 
-  if (avaliableSteps.includes('emotions')) {
+  if (slideKeys.includes("emotions")) {
     content.push({
-      key: 'emotions',
+      key: "emotions",
       slide: (
         <View
           style={{
@@ -308,212 +218,270 @@ export const Logger = ({
           }}
         >
           <SlideEmotions
-            defaultIndex={EMOTIONS_INDEX_MAPPING[tempLog.data.rating || 'neutral']}
+            defaultIndex={
+              EMOTIONS_INDEX_MAPPING[tempLog.data.rating || "neutral"]
+            }
             onChange={(emotions: Emotion[]) => {
-              tempLog.update({ emotions: emotions.map(emotion => emotion.key) })
+              tempLog.update({
+                emotions: emotions.map((emotion) => emotion.key),
+              });
             }}
             showDisable={showDisable}
           />
         </View>
       ),
-    })
+    });
   }
 
-  if (avaliableSteps.includes('tags')) {
+  if (slideKeys.includes("tags")) {
     content.push({
-      key: 'tags',
+      key: "tags",
       slide: (
         <SlideTags
           onChange={(tags: TagReference[]) => {
-            tempLog.update({ tags })
+            tempLog.update({ tags });
           }}
-          onDisableStep={() => {
-            askToDisableStep().then(() => {
-              toggleStep('tags')
-              next()
-            })
+          onDisableStep={async () => {
+            await askToDisableStep();
+            toggleStep("tags");
+            next();
           }}
           showDisable={showDisable}
         />
       ),
-    })
+    });
   }
 
-  if (avaliableSteps.includes('message')) {
+  if (slideKeys.includes("message")) {
     content.push({
-      key: 'message',
+      key: "message",
       slide: (
         <SlideMessage
           onChange={(message) => {
-            tempLog.update({ message })
+            tempLog.update({ message });
           }}
-          onDisableStep={() => {
-            askToDisableStep().then(() => {
-              toggleStep('message')
-              next()
-            })
+          onDisableStep={async () => {
+            await askToDisableStep();
+            toggleStep("message");
+            next();
           }}
           ref={texAreaRef}
           showDisable={showDisable}
         />
-      )
-    })
-  }
-
-  if (avaliableSteps.includes('reminder')) {
-    content.push({
-      key: 'reminder',
-      slide: (
-        <SlideReminder
-          onPress={next}
-        />
       ),
-      action: <SlideAction type="hidden" />
-    })
+    });
   }
 
-  if (avaliableSteps.includes('feedback') && !!question) {
+  if (slideKeys.includes("reminder")) {
     content.push({
-      key: 'feedback',
+      key: "reminder",
+      slide: <SlideReminder onPress={next} />,
+      action: <SlideAction type="hidden" />,
+    });
+  }
+
+  if (slideKeys.includes("feedback") && !!question) {
+    content.push({
+      key: "feedback",
       slide: (
         <SlideFeedback
           question={question}
           onPress={next}
-          onDisableStep={() => {
-            askToDisableFeedbackStep().then(() => {
-              toggleStep('feedback')
-              next()
-            })
+          onDisableStep={async () => {
+            await askToDisableFeedbackStep();
+            toggleStep("feedback");
+            next();
           }}
         />
       ),
-      action: <SlideAction type="hidden" />
-    })
+      action: <SlideAction type="hidden" />,
+    });
   }
 
-  const _carousel = useRef<CarouselRef>(null);
+  const messageSlideIndex = content.findIndex((item) => item.key === "message");
+  const hasMessageSlide = messageSlideIndex !== -1;
 
-  const messageSlideIndex = content.findIndex(item => item.key === 'message')
-  const hasMessageSlide = messageSlideIndex !== -1
+  const isMounted = useRef(true);
 
-  const isMounted = useRef(true)
+  useEffect(
+    () => () => {
+      isMounted.current = false;
+    },
+    []
+  );
 
-  useEffect(() => {
-    return () => {
-      isMounted.current = false
-    }
-  }, [])
-
-  const onScrollEnd = (index: number) => {
-    Keyboard.dismiss()
-
-    if (
-      index === messageSlideIndex &&
-      hasMessageSlide &&
-      mode === 'create'
-    ) {
-      texAreaRef.current?.focus()
-    }
-  }
+  // Effect event: reads the latest message slide position without re-running
+  // the effect below when it changes; only slide changes should dismiss the
+  // keyboard or focus the message input.
+  const getFocusableMessageSlideIndex = useEffectEvent(() =>
+    hasMessageSlide && mode === "create" ? messageSlideIndex : null
+  );
 
   useEffect(() => {
     if (isMounted.current) {
-      onScrollEnd(slideIndex)
+      Keyboard.dismiss();
+
+      if (slideIndex === getFocusableMessageSlideIndex()) {
+        texAreaRef.current?.focus();
+      }
     }
-  }, [slideIndex])
+  }, [slideIndex]);
 
   return (
-    <View style={{
-      flex: 1,
-      backgroundColor: colors.logBackground,
-      position: 'relative',
-    }}>
+    <View
+      style={{
+        flex: 1,
+        backgroundColor: colors.logBackground,
+        position: "relative",
+      }}
+    >
       <View
         style={{
           flex: 1,
-          paddingTop: Platform.OS === 'android' ? insets.top : 0,
+          paddingTop: Platform.OS === "android" ? insets.top : 0,
         }}
       >
-        <View
-          style={{
-            paddingHorizontal: 20,
-          }}
-        >
-          {content.length > 1 ? (
-            <Stepper
-              count={content.length}
-              index={slideIndex}
-              scrollTo={({ index }) => {
-                if (_carousel.current) {
-                  _carousel.current.scrollTo({ index, animated: false })
-                }
-                setSlideIndex(index)
-              }}
-            />
-          ) : (
-            <View style={{ height: 24 }} />
-          )}
-          <SlideHeader
-            onBack={() => {
-              _carousel.current?.prev()
-            }}
-            backVisible={slideIndex > 0}
-            isDeleteable={isEditing}
-            onClose={() => {
-              if (tempLog.isDirty) {
-                askToCancel().then(() => cancel()).catch(() => { })
-              } else {
-                cancel()
-              }
-            }}
-            onDelete={() => {
-              if (
-                tempLog.data.message.length > 0 ||
-                tempLog.data.tags.length > 0
-              ) {
-                askToRemove().then(() => remove())
-              } else {
-                remove()
-              }
-            }}
-          />
-        </View>
+        <LoggerHeader
+          carouselRef={_carousel}
+          slideCount={content.length}
+          slideIndex={slideIndex}
+          setSlideIndex={setSlideIndex}
+          isEditing={isEditing}
+          tempLog={tempLog}
+          onCancel={cancel}
+          onRemove={remove}
+        />
         <View
           style={{
             flex: 1,
-            flexDirection: 'column',
+            flexDirection: "column",
           }}
         >
           <Carousel
             loop={false}
-            itemSize={Dimensions.get('window').width}
+            itemSize={Dimensions.get("window").width}
             ref={_carousel}
             data={content}
             defaultIndex={Math.min(initialIndex, content.length - 1)}
             onProgressChange={(progress) => {
               if (isMounted.current) {
-                setSlideIndex(Math.round(progress))
+                setSlideIndex(Math.round(progress));
               }
             }}
             onScrollStart={() => {
-              setTouched(true)
+              setTouched(true);
             }}
             scrollEnabled={false}
             renderItem={({ index }) => content[index].slide}
           />
         </View>
       </View>
-      {
-        content[slideIndex] &&
-        (
-          content[slideIndex].action || (
-            slideIndex === content.length - 1 ? (
-              <SlideAction type="save" onPress={next} />
-            ) : (
-              <SlideAction type="next" onPress={next} />
-            )
-          )
-        )}
+      {content[slideIndex] &&
+        (content[slideIndex].action ||
+          (slideIndex === content.length - 1 ? (
+            <SlideAction type="save" onPress={next} />
+          ) : (
+            <SlideAction type="next" onPress={next} />
+          )))}
     </View>
-  )
-}
+  );
+};
+
+/**
+ * Logger for an existing entry. Shows a "Log not found" message when `id`
+ * is unknown, for example after the entry was deleted.
+ */
+export const LoggerEdit = ({
+  id,
+  initialStep,
+}: {
+  id: string;
+  initialStep?: LoggerStep;
+}) => {
+  const logState = useLogState();
+  const { hasStep } = useSettings();
+  const initialItem = logState?.items.find((item) => item.id === id);
+
+  if (initialItem === undefined) {
+    return (
+      <View>
+        <Text>Log not found</Text>
+      </View>
+    );
+  }
+
+  const avaliableSteps = getAvailableStepsForEdit({
+    item: initialItem,
+    hasStep,
+  });
+
+  return (
+    <Logger
+      mode="edit"
+      initialItem={initialItem}
+      initialStep={initialStep}
+      avaliableSteps={avaliableSteps}
+    />
+  );
+};
+
+/**
+ * Logger for a new entry at `dateTime` (ISO).
+ *
+ * Without `avaliableSteps`, the slides follow the user's enabled steps. The
+ * reminder slide shows only when exactly one entry exists and reminders are
+ * off; the feedback slide needs 3+ entries and an available question.
+ */
+export const LoggerCreate = ({
+  dateTime,
+  initialStep,
+  avaliableSteps,
+}: {
+  dateTime: string;
+  initialStep?: LoggerStep;
+  avaliableSteps?: LoggerStep[];
+}) => {
+  // Generated once per mount so the new entry keeps a stable id and timestamp.
+  const { id, createdAt } = useMemo(
+    () => ({ id: uuidv4(), createdAt: dayjs().toISOString() }),
+    []
+  );
+  const questioner = useQuestioner();
+  const { hasStep, settings } = useSettings();
+  const logState = useLogState();
+
+  const initialItem = {
+    id,
+    date: dateTime
+      ? dayjs(dateTime).format(DATE_FORMAT)
+      : dayjs().format(DATE_FORMAT),
+    dateTime,
+    rating: null,
+    message: "",
+    emotions: [],
+    tags: [],
+    sleep: {
+      quality: null,
+    },
+    createdAt,
+  };
+
+  const steps =
+    avaliableSteps ||
+    getAvailableStepsForCreate({
+      question: questioner.question,
+      hasStep,
+      reminderEnabled: settings.reminderEnabled,
+      itemsCount: logState.items.length,
+    });
+
+  return (
+    <Logger
+      mode="create"
+      initialItem={initialItem}
+      initialStep={initialStep}
+      avaliableSteps={steps}
+      question={questioner.question}
+    />
+  );
+};

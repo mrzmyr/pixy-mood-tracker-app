@@ -1,25 +1,25 @@
+import type { DateTimePickerEvent } from "@react-native-community/datetimepicker";
 import dayjs from "dayjs";
-import { Pressable, Text, ViewStyle } from "react-native";
+import type { ViewStyle } from "react-native";
+import { Pressable, Text } from "react-native";
 import useColors from "@/hooks/useColors";
+import noop from "lodash/noop";
 
 const Clock = ({
   timeDate,
-  onChange,
-  style,
 }: {
   timeDate: Date;
-  onChange: any;
+  onChange: (event: DateTimePickerEvent, date?: Date) => void;
   style?: ViewStyle;
 }) => {
-  const colors = useColors()
+  const colors = useColors();
 
   return (
     <Pressable
-      onPress={() => {
-      }}
+      onPress={noop}
       style={{
-        flexDirection: 'row',
-        alignItems: 'center',
+        flexDirection: "row",
+        alignItems: "center",
         backgroundColor: colors.backgroundSecondary,
         borderRadius: 8,
         paddingLeft: 10,
@@ -28,9 +28,11 @@ const Clock = ({
         paddingBottom: 5,
       }}
     >
-      <Text style={{ color: colors.text, fontSize: 17 }}>{dayjs(timeDate).format('HH:mm')}</Text>
+      <Text style={{ color: colors.text, fontSize: 17 }}>
+        {dayjs(timeDate).format("HH:mm")}
+      </Text>
     </Pressable>
-  )
-}
+  );
+};
 
 export default Clock;

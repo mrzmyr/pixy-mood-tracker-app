@@ -1,6 +1,10 @@
-import { LoggerEdit } from "@/components/Logger"
-import { RootStackScreenProps } from "../../../types"
+import { LoggerEdit } from "@/components/Logger";
+import type { RootStackScreenProps } from "../../../types";
 
-export const LogEdit = ({ route }: RootStackScreenProps<'LogEdit'>) => {
-  return <LoggerEdit id={route.params.id} initialStep={route.params.step} />
-}
+/**
+ * Route wrapper that opens the logger for an existing entry, optionally at
+ * a given step.
+ */
+export const LogEdit = ({ route }: RootStackScreenProps<"LogEdit">) => (
+  <LoggerEdit id={route.params.id} initialStep={route.params.step} />
+);

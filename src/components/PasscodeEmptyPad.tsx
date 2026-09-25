@@ -1,25 +1,23 @@
-import { View } from 'react-native';
+import { View } from "react-native";
 
-export const PasscodeEmptyPad = () => {
-  return (
+/** Blank keypad cell that keeps the passcode pad grid aligned. */
+export const PasscodeEmptyPad = () => (
+  <View
+    style={{
+      flexDirection: "row",
+      justifyContent: "center",
+      alignItems: "center",
+      width: 80,
+      height: 80,
+    }}
+  >
     <View
       style={{
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center',
-        width: 80,
-        height: 80,
+        width: "100%",
+        height: "100%",
+        justifyContent: "center",
+        alignItems: "center",
       }}
-    >
-      <View
-        style={{
-          width: '100%',
-          height: '100%',
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}
-      >
-      </View>
-    </View>
-  );
-};
+    />
+  </View>
+);

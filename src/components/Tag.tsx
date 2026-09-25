@@ -1,36 +1,43 @@
-import { Pressable, Text, View, ViewStyle, useColorScheme } from "react-native";
+import type { ViewStyle } from "react-native";
+import { Pressable, Text, View, useColorScheme } from "react-native";
 import useColors from "@/hooks/useColors";
 import useHaptics from "@/hooks/useHaptics";
-import { TAG_COLOR_NAMES } from "@/constants/Config";
+import type { TAG_COLOR_NAMES } from "@/constants/Config";
 
-export default function Tag({
+const DEFAULT_STYLE = {};
+
+const Tag = ({
   title,
   selected = false,
   colorName,
   onPress,
-  style = {},
+  style = DEFAULT_STYLE,
 }: {
-  title: string,
-  selected?: boolean,
-  colorName: typeof TAG_COLOR_NAMES[number],
-  onPress?: () => void,
-  style?: ViewStyle
-}) {
+  title: string;
+  selected?: boolean;
+  colorName: (typeof TAG_COLOR_NAMES)[number];
+  onPress?: () => void;
+  style?: ViewStyle;
+}) => {
   const colors = useColors();
   const haptics = useHaptics();
   const colorScheme = useColorScheme();
+  const unselectedBorderColor =
+    colorScheme === "light" ? "rgba(0,0,0,0.1)" : "rgba(255,255,255,0.1)";
 
   return (
     <Pressable
       style={({ pressed }) => ({
-        justifyContent: 'center',
-        alignItems: 'center',
-        flexDirection: 'row',
+        justifyContent: "center",
+        alignItems: "center",
+        flexDirection: "row",
         borderRadius: 100,
         marginRight: 8,
         marginBottom: 8,
-        backgroundColor: selected ? colors.tagBackgroundActive : colors.tagBackground,
-        borderColor: selected ? colors.tint : colorScheme === 'light' ? 'rgba(0,0,0,0.1)' : 'rgba(255,255,255,0.1)',
+        backgroundColor: selected
+          ? colors.tagBackgroundActive
+          : colors.tagBackground,
+        borderColor: selected ? colors.tint : unselectedBorderColor,
         borderWidth: 1,
         paddingHorizontal: 16,
         paddingVertical: 8,
@@ -38,7 +45,9 @@ export default function Tag({
         ...style,
       })}
       onPress={async () => {
-        if (!onPress) return;
+        if (!onPress) {
+          return;
+        }
         await haptics.selection();
         onPress?.();
       }}
@@ -52,10 +61,16 @@ export default function Tag({
           backgroundColor: colors.tags[colorName]?.dot,
         }}
       />
-      <Text style={{
-        color: selected ? colors.tagTextActive : colors.tagText,
-        fontSize: 17,
-      }}>{title}</Text>
+      <Text
+        style={{
+          color: selected ? colors.tagTextActive : colors.tagText,
+          fontSize: 17,
+        }}
+      >
+        {title}
+      </Text>
     </Pressable>
-  )
-}
+  );
+};
+
+export default Tag;

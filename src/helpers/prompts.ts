@@ -1,94 +1,107 @@
 import Alert from "@/components/Alert";
+import { createStructuredError } from "@/lib/errors";
 import { t } from "./translation";
+import noop from "lodash/noop";
 
-export const askToCancel = () => {
-  return new Promise((resolve, reject) => {
+const askToConfirm = ({
+  title,
+  message,
+  confirmText,
+  cancelText,
+}: {
+  title: string;
+  message: string;
+  confirmText: string;
+  cancelText: string;
+}) =>
+  // oxlint-disable-next-line promise/avoid-new -- Alert.alert only reports the choice through button callbacks, so a Promise adapter is required
+  new Promise((resolve, reject) => {
     Alert.alert(
-      t('cancel_confirm_title'),
-      t('cancel_confirm_message'),
+      title,
+      message,
       [
         {
-          text: t('discard_changes'),
-          onPress: () => resolve({}),
-          style: "destructive"
-        },
-        {
-          text: t('keep_editing'),
-          onPress: () => reject(),
-          style: "cancel"
-        }
-      ],
-      { cancelable: true }
-    );
-  })
-}
-
-export const askToRemove = () => {
-  return new Promise((resolve, reject) => {
-    Alert.alert(
-      t('delete_confirm_title'),
-      t('delete_confirm_message'),
-      [
-        {
-          text: t('delete'),
-          onPress: () => resolve({}),
-          style: "destructive"
-        },
-        {
-          text: t('cancel'),
-          onPress: () => reject(),
-          style: "cancel"
-        }
-      ],
-      { cancelable: true }
-    );
-  })
-}
-
-export const askToImport = () => {
-  return new Promise((resolve, reject) => {
-    Alert.alert(
-      t("import_confirm_title"),
-      t("import_confirm_message"),
-      [
-        {
-          text: t("import_confirm_ok"),
+          text: confirmText,
           onPress: () => resolve({}),
           style: "destructive",
         },
         {
-          text: t("cancel"),
-          onPress: () => reject(),
+          text: cancelText,
+          onPress: () =>
+            reject(
+              createStructuredError({
+                status: "prompt_cancelled",
+                message: "Confirmation prompt cancelled",
+                why: `The user pressed "${cancelText}" in the "${title}" prompt`,
+                fix: "No action needed; the user chose not to continue",
+              })
+            ),
           style: "cancel",
         },
       ],
       { cancelable: true }
     );
   });
-};
 
-export const askToReset = <Type>(type: Type) => {
-  return new Promise((resolve, reject) => {
-    Alert.alert(
-      t(`reset_${type}_confirm_title`),
-      t(`reset_${type}_confirm_message`),
-      [
-        {
-          text: t("reset"),
-          onPress: () => resolve({}),
-          style: "destructive",
-        },
-        {
-          text: t("cancel"),
-          onPress: () => reject(),
-          style: "cancel",
-        },
-      ],
-      { cancelable: true }
-    );
+/**
+ * Ask before discarding unsaved changes.
+ *
+ * @returns Resolves when the user confirms; rejects with a `prompt_cancelled`
+ *   error when the user keeps editing.
+ */
+export const askToCancel = () =>
+  askToConfirm({
+    title: t("cancel_confirm_title"),
+    message: t("cancel_confirm_message"),
+    confirmText: t("discard_changes"),
+    cancelText: t("keep_editing"),
   });
-}
 
+/**
+ * Ask before deleting an item.
+ *
+ * @returns Resolves when the user confirms; rejects with a `prompt_cancelled`
+ *   error on cancel.
+ */
+export const askToRemove = () =>
+  askToConfirm({
+    title: t("delete_confirm_title"),
+    message: t("delete_confirm_message"),
+    confirmText: t("delete"),
+    cancelText: t("cancel"),
+  });
+
+/**
+ * Ask before an import replaces existing data.
+ *
+ * @returns Resolves when the user confirms; rejects with a `prompt_cancelled`
+ *   error on cancel.
+ */
+export const askToImport = () =>
+  askToConfirm({
+    title: t("import_confirm_title"),
+    message: t("import_confirm_message"),
+    confirmText: t("import_confirm_ok"),
+    cancelText: t("cancel"),
+  });
+
+/**
+ * Ask before a reset. `type` selects the `reset_<type>_confirm_*`
+ * translation keys, so it must be a reset type with translations
+ * (`factory` or `data`).
+ *
+ * @returns Resolves when the user confirms; rejects with a `prompt_cancelled`
+ *   error on cancel.
+ */
+export const askToReset = <Type>(type: Type) =>
+  askToConfirm({
+    title: t(`reset_${type}_confirm_title`),
+    message: t(`reset_${type}_confirm_message`),
+    confirmText: t("reset"),
+    cancelText: t("cancel"),
+  });
+
+/** Show the blocking "import succeeded" alert. */
 export const showImportSuccess = () => {
   Alert.alert(
     t("import_success_title"),
@@ -100,17 +113,22 @@ export const showImportSuccess = () => {
     ],
     { cancelable: false }
   );
-}
+};
 
+/** Show the blocking "import failed" alert. */
 export const showImportError = () => {
   Alert.alert(
     t("import_error_title"),
     t("import_error_message"),
-    [{ text: t("ok"), onPress: () => { } }],
+    [{ text: t("ok"), onPress: noop }],
     { cancelable: false }
   );
-}
+};
 
+/**
+ * Show the reset success alert. `type` selects the
+ * `reset_<type>_success_*` translation keys (`factory` or `data`).
+ */
 export const showResetSuccess = <Type>(type: Type) => {
   Alert.alert(
     t(`reset_${type}_success_title`),
@@ -118,53 +136,37 @@ export const showResetSuccess = <Type>(type: Type) => {
     [
       {
         text: t("ok"),
-        onPress: () => { },
+        onPress: noop,
       },
     ],
     { cancelable: false }
   );
-}
+};
 
-export const askToDisableStep = () => {
-  return new Promise((resolve, reject) => {
-    Alert.alert(
-      t("disable_step_confirm_title"),
-      t("disable_step_confirm_message"),
-      [
-        {
-          text: t("disable"),
-          onPress: () => resolve({}),
-          style: "destructive",
-        },
-        {
-          text: t("cancel"),
-          onPress: () => reject(),
-          style: "cancel",
-        },
-      ],
-      { cancelable: true }
-    );
+/**
+ * Ask before disabling a logger step.
+ *
+ * @returns Resolves when the user confirms; rejects with a `prompt_cancelled`
+ *   error on cancel.
+ */
+export const askToDisableStep = () =>
+  askToConfirm({
+    title: t("disable_step_confirm_title"),
+    message: t("disable_step_confirm_message"),
+    confirmText: t("disable"),
+    cancelText: t("cancel"),
   });
-}
 
-export const askToDisableFeedbackStep = () => {
-  return new Promise((resolve, reject) => {
-    Alert.alert(
-      t("disable_feedback_step_confirm_title"),
-      t("disable_feedback_step_confirm_message"),
-      [
-        {
-          text: t("disable"),
-          onPress: () => resolve({}),
-          style: "destructive",
-        },
-        {
-          text: t("cancel"),
-          onPress: () => reject(),
-          style: "cancel",
-        },
-      ],
-      { cancelable: true }
-    );
+/**
+ * Ask before disabling the feedback step, which has its own warning copy.
+ *
+ * @returns Resolves when the user confirms; rejects with a `prompt_cancelled`
+ *   error on cancel.
+ */
+export const askToDisableFeedbackStep = () =>
+  askToConfirm({
+    title: t("disable_feedback_step_confirm_title"),
+    message: t("disable_feedback_step_confirm_message"),
+    confirmText: t("disable"),
+    cancelText: t("cancel"),
   });
-}

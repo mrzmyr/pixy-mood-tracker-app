@@ -1,13 +1,26 @@
 import LinkButton from "@/components/LinkButton";
 import { t } from "@/helpers/translation";
 import useFeedbackModal from "@/hooks/useFeedbackModal";
-import { Emotion } from "@/types";
-import _ from "lodash";
-import { View, ViewStyle } from "react-native";
+import type { Emotion } from "@/types";
+import chunk from "lodash/chunk";
+import orderBy from "lodash/orderBy";
+import type { ViewStyle } from "react-native";
+import { View } from "react-native";
 import { EmotionButtonBasic } from "./EmotionButtonBasic";
 
+const DEFAULT_STYLE = {};
+
+/**
+ * Two-column emotion grid, good first, then neutral, then bad.
+ *
+ * Expects categories already reduced to `good`, `neutral`, and `bad`;
+ * `very_good` and `very_bad` have no sort rank.
+ */
 export const EmotionBasicSelection = ({
-  emotions, selectedEmotions, onPress, style = {},
+  emotions,
+  selectedEmotions,
+  onPress,
+  style = DEFAULT_STYLE,
 }: {
   emotions: Emotion[];
   selectedEmotions: Emotion[];
@@ -16,13 +29,19 @@ export const EmotionBasicSelection = ({
 }) => {
   const { Modal, show } = useFeedbackModal();
 
-  const rows = _.chunk(_.orderBy(emotions, e => {
-    return {
-      'good': 1,
-      'neutral': 0,
-      'bad': -1,
-    }[e.category]
-  }, ['desc']), 2);
+  const rows = chunk(
+    orderBy(
+      emotions,
+      (e) =>
+        ({
+          good: 1,
+          neutral: 0,
+          bad: -1,
+        })[e.category],
+      ["desc"]
+    ),
+    2
+  );
 
   return (
     <View
@@ -35,15 +54,15 @@ export const EmotionBasicSelection = ({
     >
       <Modal />
 
-      {rows.map((row, index) => (
+      {rows.map((row) => (
         <View
-          key={`basic-emotion-row-${index}`}
+          key={`basic-emotion-row-${row[0].key}`}
           style={{
-            flexDirection: 'row',
+            flexDirection: "row",
             marginBottom: 8,
           }}
         >
-          {row.map((emotion, index) => (
+          {row.map((emotion) => (
             <View
               key={`basic-emotion-container-${emotion.key}`}
               style={{
@@ -54,7 +73,9 @@ export const EmotionBasicSelection = ({
               <EmotionButtonBasic
                 emotion={emotion}
                 onPress={onPress}
-                selected={selectedEmotions.map(d => d.key).includes(emotion.key)}
+                selected={selectedEmotions
+                  .map((d) => d.key)
+                  .includes(emotion.key)}
               />
             </View>
           ))}
@@ -62,19 +83,20 @@ export const EmotionBasicSelection = ({
             <View
               style={{
                 flex: 1,
-              }} />
+              }}
+            />
           )}
         </View>
       ))}
 
       <LinkButton
         type="secondary"
-        onPress={() => show({ type: 'idea' })}
+        onPress={() => show({ type: "idea" })}
         style={{
           marginTop: 20,
         }}
       >
-        {t('give_feedback')}
+        {t("give_feedback")}
       </LinkButton>
     </View>
   );

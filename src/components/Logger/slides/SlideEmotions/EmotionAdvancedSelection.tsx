@@ -1,18 +1,28 @@
-import { Emotion, EMOTION_CATEGORIES } from "@/types";
+import type { Emotion } from "@/types";
+import { EMOTION_CATEGORIES } from "@/types";
 import { useRef } from "react";
-import { Dimensions, ViewStyle } from "react-native";
-import { Carousel, CarouselRef } from "react-native-reanimated-carousel";
+import type { ViewStyle } from "react-native";
+import { Dimensions } from "react-native";
+import type { CarouselRef } from "react-native-reanimated-carousel";
+import { Carousel } from "react-native-reanimated-carousel";
 import { EMOTIONS } from "../../config";
 import { EMOTION_BUTTON_HEIGHT } from "./constants";
 import { EmotionPage } from "./EmotionPage";
 
-const WINDOW_WIDTH = Dimensions.get('window').width
+const DEFAULT_STYLE = {};
 
+const WINDOW_WIDTH = Dimensions.get("window").width;
+
+/**
+ * Swipeable emotion pages, one per category from worst to best, sorted by
+ * label. `defaultIndex` picks the first page shown. Disabled emotions are
+ * hidden.
+ */
 export const EmotionAdvancedSelection = ({
   defaultIndex = 0,
   selectedEmotions,
   onPress,
-  style = {},
+  style = DEFAULT_STYLE,
 }: {
   defaultIndex?: number;
   selectedEmotions: Emotion[];
@@ -22,12 +32,9 @@ export const EmotionAdvancedSelection = ({
   const _carousel = useRef<CarouselRef>(null);
 
   const pages = EMOTION_CATEGORIES.map((category) => {
-    const filteredEmotions = EMOTIONS
-      .filter((e) => (
-        e.category === category &&
-        e.disabled !== true
-      ))
-      .sort((a, b) => a.label.localeCompare(b.label));
+    const filteredEmotions = EMOTIONS.filter(
+      (e) => e.category === category && e.disabled !== true
+    ).toSorted((a, b) => a.label.localeCompare(b.label));
 
     return (
       <EmotionPage
@@ -51,8 +58,8 @@ export const EmotionAdvancedSelection = ({
       style={{
         height: EMOTION_BUTTON_HEIGHT * 9 + 16 * 8,
         width: WINDOW_WIDTH,
-        justifyContent: 'center',
-        alignItems: 'center',
+        justifyContent: "center",
+        alignItems: "center",
         ...style,
       }}
     />

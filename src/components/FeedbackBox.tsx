@@ -1,12 +1,21 @@
-import { t } from 'i18n-js';
-import { Text, View, ViewStyle } from 'react-native';
-import LinkButton from './LinkButton';
-import useColors from '@/hooks/useColors';
-import useFeedbackModal from '@/hooks/useFeedbackModal';
+import { t } from "i18n-js";
+import type { ViewStyle } from "react-native";
+import { Text, View } from "react-native";
+import LinkButton from "./LinkButton";
+import useColors from "@/hooks/useColors";
+import useFeedbackModal from "@/hooks/useFeedbackModal";
 
+const DEFAULT_STYLE = {};
+
+/**
+ * Card that opens the feedback modal with the "idea" type preselected.
+ *
+ * `prefix` selects the `<prefix>_title`, `<prefix>_body`, and
+ * `<prefix>_button` translation keys, which must all exist.
+ */
 export const FeedbackBox = ({
   prefix,
-  style = {},
+  style = DEFAULT_STYLE,
 }: {
   prefix: string;
   style?: ViewStyle;
@@ -26,21 +35,29 @@ export const FeedbackBox = ({
       }}
     >
       <FeedbackModal />
-      <Text style={{
-        fontSize: 17,
-        marginBottom: 8,
-        fontWeight: 'bold',
-        color: colors.text
-      }}>🤨 {t(`${prefix}_title`)}</Text>
-      <Text style={{
-        fontSize: 15,
-        marginBottom: 16,
-        lineHeight: 22,
-        color: colors.textSecondary
-      }}>{t(`${prefix}_body`)}</Text>
+      <Text
+        style={{
+          fontSize: 17,
+          marginBottom: 8,
+          fontWeight: "bold",
+          color: colors.text,
+        }}
+      >
+        🤨 {t(`${prefix}_title`)}
+      </Text>
+      <Text
+        style={{
+          fontSize: 15,
+          marginBottom: 16,
+          lineHeight: 22,
+          color: colors.textSecondary,
+        }}
+      >
+        {t(`${prefix}_body`)}
+      </Text>
       <View
         style={{
-          flexWrap: 'wrap',
+          flexWrap: "wrap",
           marginHorizontal: -20,
           paddingHorizontal: 12,
           marginBottom: -16,
@@ -51,12 +68,13 @@ export const FeedbackBox = ({
         }}
       >
         <LinkButton
-          style={{
-          }}
+          style={{}}
           onPress={() => {
-            showFeedbackModal({ type: 'idea' });
+            showFeedbackModal({ type: "idea" });
           }}
-        >{t(`${prefix}_button`)}</LinkButton>
+        >
+          {t(`${prefix}_button`)}
+        </LinkButton>
       </View>
     </View>
   );

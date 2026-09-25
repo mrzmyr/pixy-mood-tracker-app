@@ -1,31 +1,51 @@
-import * as Linking from 'expo-linking';
-import * as StoreReview from 'expo-store-review';
-import * as WebBrowser from 'expo-web-browser';
-import { ScrollView, Text, View } from 'react-native';
-import { ArrowUpCircle, Award, Bell, BookOpen, CheckCircle, Database, Droplet, Flag, Github, PieChart, Shield, Smartphone, Star } from 'react-native-feather';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import MenuList from '@/components/MenuList';
-import MenuListHeadline from '@/components/MenuListHeadline';
-import MenuListItem from '@/components/MenuListItem';
-import { SupportCard } from '@/components/SupportCard';
-import TextInfo from '@/components/TextInfo';
-import { CHANGELOG_URL, FEEDBACK_FEATURES_URL } from '@/constants/Config';
-import { t } from '@/helpers/translation';
-import { useAnalytics } from '../../hooks/useAnalytics';
-import useColors from '../../hooks/useColors';
-import useFeedbackModal from '../../hooks/useFeedbackModal';
-import pkg from '../../../package.json';
-import { RootStackScreenProps } from '../../../types';
-import { UserDataImportList } from './UserData';
-import * as Updates from 'expo-updates';
-import { Tag } from 'lucide-react-native';
-import { useSupport } from '@/support';
+import * as Linking from "expo-linking";
+import * as StoreReview from "expo-store-review";
+import * as WebBrowser from "expo-web-browser";
+import { ScrollView, Text, View } from "react-native";
+import {
+  ArrowUpCircle,
+  Award,
+  Bell,
+  BookOpen,
+  CheckCircle,
+  Database,
+  Droplet,
+  Flag,
+  Github,
+  PieChart,
+  Shield,
+  Smartphone,
+  Star,
+} from "react-native-feather";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import MenuList from "@/components/MenuList";
+import MenuListHeadline from "@/components/MenuListHeadline";
+import MenuListItem from "@/components/MenuListItem";
+import { SupportCard } from "@/components/SupportCard";
+import TextInfo from "@/components/TextInfo";
+import { CHANGELOG_URL, FEEDBACK_FEATURES_URL } from "@/constants/Config";
+import { t } from "@/helpers/translation";
+import { useAnalytics } from "../../hooks/useAnalytics";
+import useColors from "../../hooks/useColors";
+import useFeedbackModal from "../../hooks/useFeedbackModal";
+import pkg from "../../../package.json";
+import type { RootStackScreenProps } from "../../../types";
+import { UserDataImportList } from "./UserData";
+import * as Updates from "expo-updates";
+import { Tag } from "lucide-react-native";
+import { useSupport } from "@/support";
 
-export const SettingsScreen = ({ navigation }: RootStackScreenProps<'Settings'>) => {
+/**
+ * Settings tab. The support card shows only when a support client is
+ * enabled; sample data import is development-only.
+ */
+export const SettingsScreen = ({
+  navigation,
+}: RootStackScreenProps<"Settings">) => {
   const insets = useSafeAreaInsets();
-  const colors = useColors()
-  const analytics = useAnalytics()
-  const support = useSupport()
+  const colors = useColors();
+  const analytics = useAnalytics();
+  const support = useSupport();
   const developmentUserData = __DEV__ ? (
     <View testID="settings-development-user-data">
       <UserDataImportList />
@@ -34,12 +54,14 @@ export const SettingsScreen = ({ navigation }: RootStackScreenProps<'Settings'>)
 
   const { show: showFeedbackModal, Modal: FeedbackModal } = useFeedbackModal();
 
-  const askToRateApp = async () => {
-    analytics.track('rate_app')
+  const askToRateApp = () => {
+    analytics.track("rate_app");
 
     const storeUrl = StoreReview.storeUrl();
-    if (storeUrl !== null) Linking.openURL(storeUrl)
-  }
+    if (storeUrl !== null) {
+      Linking.openURL(storeUrl);
+    }
+  };
 
   // const { settings, setSettings } = useSettings()
   // const passcodeSupported = supportedSecurityLevel > 0;
@@ -60,11 +82,13 @@ export const SettingsScreen = ({ navigation }: RootStackScreenProps<'Settings'>)
   // })
 
   return (
-    <View style={{
-      paddingTop: insets.top,
-      flex: 1,
-      backgroundColor: colors.background,
-    }}>
+    <View
+      style={{
+        paddingTop: insets.top,
+        flex: 1,
+        backgroundColor: colors.background,
+      }}
+    >
       <ScrollView
         style={{
           padding: 20,
@@ -75,42 +99,46 @@ export const SettingsScreen = ({ navigation }: RootStackScreenProps<'Settings'>)
           style={{
             fontSize: 32,
             color: colors.text,
-            fontWeight: 'bold',
+            fontWeight: "bold",
             marginTop: 32,
             marginBottom: 18,
           }}
-        >{t('settings')}</Text>
+        >
+          {t("settings")}
+        </Text>
         <MenuList>
           <MenuListItem
-            title={t('data')}
+            title={t("data")}
             iconLeft={<Database width={18} color={colors.menuListItemIcon} />}
-            onPress={() => navigation.navigate('Data')}
-            testID='data'
+            onPress={() => navigation.navigate("Data")}
+            testID="data"
             isLink
           />
           <MenuListItem
-            title={t('reminder')}
+            title={t("reminder")}
             iconLeft={<Bell width={18} color={colors.menuListItemIcon} />}
-            onPress={() => navigation.navigate('Reminder')}
-            testID='reminder'
+            onPress={() => navigation.navigate("Reminder")}
+            testID="reminder"
             isLink
           />
           <MenuListItem
-            title={t('colors')}
+            title={t("colors")}
             iconLeft={<Droplet width={18} color={colors.menuListItemIcon} />}
-            onPress={() => navigation.navigate('Colors')}
+            onPress={() => navigation.navigate("Colors")}
             isLink
           />
           <MenuListItem
-            title={t('tags')}
+            title={t("tags")}
             iconLeft={<Tag width={18} color={colors.menuListItemIcon} />}
-            onPress={() => navigation.navigate('SettingsTags')}
+            onPress={() => navigation.navigate("SettingsTags")}
             isLink
           />
           <MenuListItem
-            title={t('steps')}
-            iconLeft={<CheckCircle width={18} color={colors.menuListItemIcon} />}
-            onPress={() => navigation.navigate('Steps')}
+            title={t("steps")}
+            iconLeft={
+              <CheckCircle width={18} color={colors.menuListItemIcon} />
+            }
+            onPress={() => navigation.navigate("Steps")}
             isLink
             isLast
           />
@@ -143,87 +171,81 @@ export const SettingsScreen = ({ navigation }: RootStackScreenProps<'Settings'>)
             testID='passcode'
             isLast
           /> */}
-
         </MenuList>
 
-        <MenuListHeadline>{t('settings_feedback')}</MenuListHeadline>
-        <MenuList
-          style={{
-          }}
-        >
+        <MenuListHeadline>{t("settings_feedback")}</MenuListHeadline>
+        <MenuList style={{}}>
           <MenuListItem
-            title={t('send_feedback')}
-            onPress={() => showFeedbackModal({ type: 'issue' })}
+            title={t("send_feedback")}
+            onPress={() => showFeedbackModal({ type: "issue" })}
             iconLeft={<Flag width={18} color={colors.menuListItemIcon} />}
-            testID='send_feedback'
+            testID="send_feedback"
             isLast
           />
         </MenuList>
-        <TextInfo>{t('feedback_help')}</TextInfo>
+        <TextInfo>{t("feedback_help")}</TextInfo>
 
-        <MenuListHeadline>{t('settings_about')}</MenuListHeadline>
-        <MenuList
-          style={{
-          }}
-        >
+        <MenuListHeadline>{t("settings_about")}</MenuListHeadline>
+        <MenuList style={{}}>
           <MenuListItem
-            title={t('vote_features')}
+            title={t("vote_features")}
             onPress={async () => {
-              analytics.track('settings_vote_features')
+              analytics.track("settings_vote_features");
               await WebBrowser.openBrowserAsync(FEEDBACK_FEATURES_URL);
             }}
-            iconLeft={<ArrowUpCircle width={18} color={colors.menuListItemIcon} />}
-            testID='vote_features'
+            iconLeft={
+              <ArrowUpCircle width={18} color={colors.menuListItemIcon} />
+            }
+            testID="vote_features"
           />
           <MenuListItem
-            title={t('changelog')}
+            title={t("changelog")}
             onPress={async () => {
-              analytics.track('settings_changelog')
+              analytics.track("settings_changelog");
               await WebBrowser.openBrowserAsync(CHANGELOG_URL);
             }}
             iconLeft={<BookOpen width={18} color={colors.menuListItemIcon} />}
-            testID='changelog'
+            testID="changelog"
           />
           <MenuListItem
-            title={t('rate_this_app')}
+            title={t("rate_this_app")}
             onPress={() => askToRateApp()}
             iconLeft={<Star width={18} color={colors.menuListItemIcon} />}
           />
           <MenuListItem
-            title={t('privacy')}
-            onPress={() => navigation.navigate('Privacy')}
+            title={t("privacy")}
+            onPress={() => navigation.navigate("Privacy")}
             iconLeft={<Shield width={18} color={colors.menuListItemIcon} />}
             isLink
           />
         </MenuList>
 
-        <MenuListHeadline>{t('settings_development')}</MenuListHeadline>
-        <MenuList
-          style={{
-          }}
-        >
+        <MenuListHeadline>{t("settings_development")}</MenuListHeadline>
+        <MenuList style={{}}>
           <MenuListItem
-            title={`${t('onboarding')}`}
+            title={`${t("onboarding")}`}
             iconLeft={<Smartphone width={18} color={colors.menuListItemIcon} />}
-            onPress={() => navigation.navigate('Onboarding')}
+            onPress={() => navigation.navigate("Onboarding")}
           />
           <MenuListItem
-            title={`${t('settings_development_statistics')}`}
+            title={`${t("settings_development_statistics")}`}
             iconLeft={<PieChart width={18} color={colors.menuListItemIcon} />}
-            onPress={() => navigation.navigate('DevelopmentTools')}
+            onPress={() => navigation.navigate("DevelopmentTools")}
             isLink
           />
           <MenuListItem
-            title={t('app_is_open_source')}
+            title={t("app_is_open_source")}
             onPress={() => {
-              Linking.openURL('https://github.com/mrzmyr/pixy-mood-tracker-app')
+              Linking.openURL(
+                "https://github.com/mrzmyr/pixy-mood-tracker-app"
+              );
             }}
             iconLeft={<Github width={18} color={colors.menuListItemIcon} />}
           />
           <MenuListItem
-            title={t('licenses')}
+            title={t("licenses")}
             iconLeft={<Award width={18} color={colors.menuListItemIcon} />}
-            onPress={() => navigation.navigate('Licenses')}
+            onPress={() => navigation.navigate("Licenses")}
             isLink
             isLast
           />
@@ -235,16 +257,30 @@ export const SettingsScreen = ({ navigation }: RootStackScreenProps<'Settings'>)
           style={{
             marginTop: 20,
             flex: 1,
-            justifyContent: 'flex-end',
-            alignItems: 'center',
+            justifyContent: "flex-end",
+            alignItems: "center",
             marginBottom: 40,
           }}
         >
-          <Text style={{ fontSize: 14, marginTop: 5, color: colors.textSecondary }}>Pixy v{pkg.version}</Text>
-          {Updates.channel && <Text style={{ fontSize: 14, marginTop: 5, color: colors.textSecondary }}>{Updates.channel}</Text>}
+          <Text
+            style={{ fontSize: 14, marginTop: 5, color: colors.textSecondary }}
+          >
+            Pixy v{pkg.version}
+          </Text>
+          {Updates.channel && (
+            <Text
+              style={{
+                fontSize: 14,
+                marginTop: 5,
+                color: colors.textSecondary,
+              }}
+            >
+              {Updates.channel}
+            </Text>
+          )}
         </View>
         {!support.enabled && developmentUserData}
       </ScrollView>
     </View>
   );
-}
+};

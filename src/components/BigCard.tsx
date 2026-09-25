@@ -1,14 +1,17 @@
-import { useAnalytics } from '@/hooks/useAnalytics';
+import { useAnalytics } from "@/hooks/useAnalytics";
 import useColors from "@/hooks/useColors";
-import * as Sharing from 'expo-sharing';
+import * as Sharing from "expo-sharing";
 import { useRef, useState } from "react";
-import { ActivityIndicator, Image, Text, View, ViewStyle } from "react-native";
-import { Share } from 'react-native-feather';
+import type { ViewStyle } from "react-native";
+import { ActivityIndicator, Image, Text, View } from "react-native";
+import { Share } from "react-native-feather";
 import { captureRef } from "react-native-view-shot";
-import LinkButton from './LinkButton';
-import { CardFeedback } from './Statistics/CardFeedback';
+import LinkButton from "./LinkButton";
+import { CardFeedback } from "./Statistics/CardFeedback";
 
-const LOGO = require('../../assets/images/icon.png')
+const DEFAULT_ANALYTICS_DATA = {};
+
+const LOGO = require("../../assets/images/icon.png");
 
 const Title = ({ children }: { children: string }) => {
   const colors = useColors();
@@ -18,14 +21,14 @@ const Title = ({ children }: { children: string }) => {
       style={{
         letterSpacing: -0.1,
         fontSize: 20,
-        fontWeight: 'bold',
+        fontWeight: "bold",
         color: colors.text,
       }}
     >
       {children}
     </Text>
-  )
-}
+  );
+};
 
 const SubTitle = ({ children }: { children: string }) => {
   const colors = useColors();
@@ -41,22 +44,22 @@ const SubTitle = ({ children }: { children: string }) => {
     >
       {children}
     </Text>
-  )
-}
+  );
+};
 
 const Container = ({
   children,
   style,
 }: {
-  children: React.ReactNode
-  style?: ViewStyle
+  children: React.ReactNode;
+  style?: ViewStyle;
 }) => {
   const colors = useColors();
 
   return (
     <View
       style={{
-        width: '100%',
+        width: "100%",
         backgroundColor: colors.cardBackground,
         borderRadius: 8,
         paddingHorizontal: 20,
@@ -67,16 +70,23 @@ const Container = ({
     >
       <View
         style={{
-          flexDirection: 'column',
-          width: '100%',
+          flexDirection: "column",
+          width: "100%",
         }}
       >
         {children}
       </View>
     </View>
-  )
-}
+  );
+};
 
+/**
+ * Statistics card with optional share and feedback actions.
+ *
+ * With `isShareable`, `children` render a second time in an off-screen copy
+ * that is captured as the share image, so children must tolerate double
+ * mounting.
+ */
 export const BigCard = ({
   title,
   subtitle,
@@ -84,57 +94,62 @@ export const BigCard = ({
   isShareable,
   hasFeedback,
   analyticsId,
-  analyticsData = {},
+  analyticsData = DEFAULT_ANALYTICS_DATA,
 }: {
-  title?: string,
-  subtitle?: string,
-  children: React.ReactNode,
-  isShareable?: boolean,
-  hasFeedback?: boolean,
-  analyticsId: string,
-  analyticsData?: any,
+  title?: string;
+  subtitle?: string;
+  children: React.ReactNode;
+  isShareable?: boolean;
+  hasFeedback?: boolean;
+  analyticsId: string;
+  analyticsData?: object;
 }) => {
   const colors = useColors();
-  const viewRef = useRef(null)
+  const viewRef = useRef(null);
   const analytics = useAnalytics();
   const [shareLoading, setShareLoading] = useState(false);
+
+  const shareSnapshot = async (uri: string) => {
+    try {
+      await Sharing.shareAsync(uri, {
+        dialogTitle:
+          'Hey I use this app called "Pixy Mood Tracker" and I wanted to share this with you!',
+      });
+      analytics.track("statstics_shared", {
+        type: analyticsId,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const share = () => {
     setShareLoading(true);
 
-    captureRef(viewRef)
-      .then((uri) => {
+    void (async () => {
+      try {
+        const uri = await captureRef(viewRef);
         setShareLoading(false);
-        const fileUri = uri.startsWith('file://') ? uri : `file://${uri}`;
-        Sharing.shareAsync(fileUri, {
-          dialogTitle: 'Hey I use this app called "Pixy Mood Tracker" and I wanted to share this with you!',
-        })
-          .then(() => {
-            analytics.track('statstics_shared', {
-              type: analyticsId,
-            });
-          })
-          .catch((error) => {
-            console.log(error)
-          })
-      })
-      .catch((error) => console.error("Oops, snapshot failed", error))
-  }
+        const fileUri = uri.startsWith("file://") ? uri : `file://${uri}`;
+        // Not awaited: share errors are handled inside and must not reach the snapshot handler.
+        void shareSnapshot(fileUri);
+      } catch (error) {
+        console.error("Oops, snapshot failed", error);
+      }
+    })();
+  };
 
   return (
     <>
       <Container>
         <View
           style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            alignItems: 'center',
+            flexDirection: "row",
+            justifyContent: "space-between",
+            alignItems: "center",
           }}
         >
-          {title ?
-            (<Title>{title}</Title>) :
-            (<View />)
-          }
+          {title ? <Title>{title}</Title> : <View />}
           <View
             style={{
               marginTop: -16,
@@ -143,19 +158,15 @@ export const BigCard = ({
               marginBottom: -16,
               width: 48,
               height: 48,
-              justifyContent: 'center',
-              alignItems: 'center',
+              justifyContent: "center",
+              alignItems: "center",
             }}
           >
             {shareLoading && (
               <ActivityIndicator size="small" color={colors.textSecondary} />
             )}
             {!shareLoading && isShareable && (
-              <LinkButton
-                onPress={() => share()}
-                style={{
-                }}
-              >
+              <LinkButton onPress={() => share()} style={{}}>
                 <Share stroke={colors.tint} width={20} />
               </LinkButton>
             )}
@@ -176,10 +187,10 @@ export const BigCard = ({
         <View
           ref={viewRef}
           style={{
-            position: 'absolute',
-            left: '-100%',
-            top: '-100%',
-            width: '100%',
+            position: "absolute",
+            left: "-100%",
+            top: "-100%",
+            width: "100%",
             backgroundColor: colors.background,
             padding: 16,
             paddingTop: 0,
@@ -192,9 +203,9 @@ export const BigCard = ({
           </Container>
           <View
             style={{
-              flexDirection: 'row',
-              justifyContent: 'center',
-              alignItems: 'center',
+              flexDirection: "row",
+              justifyContent: "center",
+              alignItems: "center",
               marginTop: 16,
               marginLeft: -16,
             }}
@@ -218,7 +229,7 @@ export const BigCard = ({
             <Text
               style={{
                 fontSize: 17,
-                fontWeight: 'bold',
+                fontWeight: "bold",
                 color: colors.sharingLogoText,
               }}
             >
@@ -228,5 +239,5 @@ export const BigCard = ({
         </View>
       )}
     </>
-  )
-}
+  );
+};

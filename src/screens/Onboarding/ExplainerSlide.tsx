@@ -1,13 +1,13 @@
-import { Text, View } from 'react-native';
-import Button from '@/components/Button';
-import useColors from '../../hooks/useColors';
-import { HeaderImage } from './HeaderImage';
+import { Text, View } from "react-native";
+import Button from "@/components/Button";
+import useColors from "../../hooks/useColors";
+import { HeaderImage } from "./HeaderImage";
 import { HeaderNavigation } from "./HeaderNavigation";
-import Animated, { FadeIn } from 'react-native-reanimated';
-import { t } from '@/helpers/translation';
+import Animated, { FadeIn } from "react-native-reanimated";
+import { t } from "@/helpers/translation";
 
 const Body = ({ index }: { index: number }) => {
-  const colors = useColors()
+  const colors = useColors();
 
   return (
     <View
@@ -21,7 +21,7 @@ const Body = ({ index }: { index: number }) => {
         style={{
           color: colors.onboardingTitle,
           fontSize: 20,
-          fontWeight: 'bold',
+          fontWeight: "bold",
           marginBottom: 8,
         }}
       >
@@ -37,9 +37,13 @@ const Body = ({ index }: { index: number }) => {
         {t(`onboarding_step_${index}_body`)}
       </Text>
     </View>
-  )
-}
+  );
+};
 
+/**
+ * Onboarding feature slide. `index` selects the header image and the
+ * `onboarding_step_<index>_*` translation keys, so it must be 1 to 4.
+ */
 export const ExplainerSlide = ({
   index,
   setIndex,
@@ -49,37 +53,42 @@ export const ExplainerSlide = ({
   setIndex: (index: number) => void;
   onSkip: () => void;
 }) => {
-  const colors = useColors()
+  const colors = useColors();
 
   return (
     <>
       <View
         style={{
-          width: '100%',
+          width: "100%",
           backgroundColor: colors.onboardingTopBackground,
-          justifyContent: 'flex-end',
-          alignItems: 'center',
+          justifyContent: "flex-end",
+          alignItems: "center",
           flex: 1,
         }}
       >
         <Animated.View
           style={{
-            width: '100%',
-            alignItems: 'center',
+            width: "100%",
+            alignItems: "center",
             flex: 1,
           }}
           entering={FadeIn.duration(800)}
         >
           <HeaderImage
             index={index}
-            style={index === 3 ? {
-              width: '90%',
-              maxWidth: 340,
-              flex: 1,
-            } : {
-              width: '90%',
-              flex: 1,
-            }} />
+            style={
+              index === 3
+                ? {
+                    width: "90%",
+                    maxWidth: 340,
+                    flex: 1,
+                  }
+                : {
+                    width: "90%",
+                    flex: 1,
+                  }
+            }
+          />
         </Animated.View>
       </View>
       <View
@@ -107,9 +116,9 @@ export const ExplainerSlide = ({
             padding: 32,
           }}
         >
-          <Button
-            onPress={() => setIndex(index + 1)}
-          >{t('onboarding_next')}</Button>
+          <Button onPress={() => setIndex(index + 1)}>
+            {t("onboarding_next")}
+          </Button>
         </View>
       </View>
     </>

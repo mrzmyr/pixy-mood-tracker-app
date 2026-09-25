@@ -1,19 +1,26 @@
-import { LogItem } from '@/hooks/useLogs';
-import { dummyEmotionsDistributionData, getEmotionsDistributionData } from '@/hooks/useStatistics/EmotionsDistributuon';
-import { EmotionsDistributionContent } from '@/screens/Statistics/EmotionsDistributionCard';
-import { BigCard } from '../BigCard';
-import { NotEnoughDataOverlay } from './NotEnoughDataOverlay';
+import type { LogItem } from "@/hooks/useLogs";
+import {
+  dummyEmotionsDistributionData,
+  getEmotionsDistributionData,
+} from "@/hooks/useStatistics/EmotionsDistributuon";
+import { EmotionsDistributionContent } from "@/screens/Statistics/EmotionsDistributionCard";
+import { BigCard } from "../BigCard";
+import { NotEnoughDataOverlay } from "./NotEnoughDataOverlay";
 
 const MIN_TAGS = 5;
 
+/**
+ * Shareable card of the most used emotions in `items`. Below 5 distinct
+ * emotions it shows placeholder data behind the "not enough data" overlay.
+ */
 export const EmotionsDistribution = ({
   title,
   subtitle,
   items,
 }: {
-  title: string
-  subtitle: string
-  items: LogItem[],
+  title: string;
+  subtitle: string;
+  items: LogItem[];
 }) => {
   const data = getEmotionsDistributionData(items);
 
@@ -25,17 +32,12 @@ export const EmotionsDistribution = ({
       hasFeedback
       analyticsId="emotions-distribution"
       analyticsData={{
-        emotions: data.emotions
+        emotions: data.emotions,
       }}
     >
-      {data.emotions.length < MIN_TAGS && (
-        <NotEnoughDataOverlay />
-      )}
+      {data.emotions.length < MIN_TAGS && <NotEnoughDataOverlay />}
       {data.emotions.length >= MIN_TAGS ? (
-        <EmotionsDistributionContent
-          data={data}
-          limit={10}
-        />
+        <EmotionsDistributionContent data={data} limit={10} />
       ) : (
         <EmotionsDistributionContent
           data={dummyEmotionsDistributionData}

@@ -1,79 +1,88 @@
-import Button from '@/components/Button';
-import { locale, t } from '@/helpers/translation';
+import Button from "@/components/Button";
+import { locale, t } from "@/helpers/translation";
 import useColors from "@/hooks/useColors";
-import useFeedbackModal from '@/hooks/useFeedbackModal';
+import useFeedbackModal from "@/hooks/useFeedbackModal";
 import useHaptics from "@/hooks/useHaptics";
-import { useTemporaryLog } from '@/hooks/useTemporaryLog';
-import { getItemDateTitle } from '@/lib/utils';
-import dayjs from 'dayjs';
-import { useState } from 'react';
-import { Platform, Pressable, Text, View } from 'react-native';
-import { ArrowLeft, Trash, X } from 'react-native-feather';
+import { useTemporaryLog } from "@/hooks/useTemporaryLog";
+import { getItemDateTitle } from "@/lib/utils";
+import dayjs from "dayjs";
+import { useState } from "react";
+import { Platform, Pressable, Text, View } from "react-native";
+import { ArrowLeft, Trash, X } from "react-native-feather";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 
-const DatePickerHeader = ({
-  onChange,
-}: {
-  onChange: (date: Date) => void,
-}) => {
-  const colors = useColors()
+const DatePickerHeader = ({ onChange }: { onChange: (date: Date) => void }) => {
+  const colors = useColors();
   const tempLog = useTemporaryLog();
 
   return (
-    <View style={{
-      flexDirection: 'column',
-      alignItems: 'center',
-      paddingTop: 16,
-    }}
+    <View
+      style={{
+        flexDirection: "column",
+        alignItems: "center",
+        paddingTop: 16,
+      }}
     >
       <Button
-        type='tertiary'
+        type="tertiary"
         onPress={() => {
-          onChange(dayjs(tempLog.data.dateTime).hour(8).minute(0).toDate())
+          onChange(dayjs(tempLog.data.dateTime).hour(8).minute(0).toDate());
         }}
         style={{
-          width: '100%',
+          width: "100%",
           padding: 12,
           maxWidth: 240,
           marginBottom: 8,
           borderRadius: 8,
         }}
       >
-        <Text style={{ fontSize: 17, color: colors.tertiaryButtonText }}>{t('morning')}</Text>
+        <Text style={{ fontSize: 17, color: colors.tertiaryButtonText }}>
+          {t("morning")}
+        </Text>
       </Button>
       <Button
-        type='tertiary'
+        type="tertiary"
         onPress={() => {
-          onChange(dayjs(tempLog.data.dateTime).hour(13).minute(0).toDate())
+          onChange(dayjs(tempLog.data.dateTime).hour(13).minute(0).toDate());
         }}
         style={{
-          width: '100%',
+          width: "100%",
           maxWidth: 240,
           padding: 12,
           marginBottom: 8,
           borderRadius: 8,
         }}
       >
-        <Text style={{ fontSize: 17, color: colors.tertiaryButtonText }}>{t('afternoon')}</Text>
+        <Text style={{ fontSize: 17, color: colors.tertiaryButtonText }}>
+          {t("afternoon")}
+        </Text>
       </Button>
       <Button
-        type='tertiary'
+        type="tertiary"
         onPress={() => {
-          onChange(dayjs(tempLog.data.dateTime).hour(20).minute(0).toDate())
+          onChange(dayjs(tempLog.data.dateTime).hour(20).minute(0).toDate());
         }}
         style={{
-          width: '100%',
+          width: "100%",
           maxWidth: 240,
           padding: 12,
           borderRadius: 8,
         }}
       >
-        <Text style={{ fontSize: 17, color: colors.tertiaryButtonText }}>{t('evening')}</Text>
+        <Text style={{ fontSize: 17, color: colors.tertiaryButtonText }}>
+          {t("evening")}
+        </Text>
       </Button>
     </View>
-  )
-}
+  );
+};
 
+/**
+ * Logger header with the entry time, close, back, and delete actions.
+ *
+ * Must render inside `TemporaryLogProvider`. Changing the time updates only
+ * the draft's `dateTime`; `date` keeps the day the draft started with.
+ */
 export const SlideHeader = ({
   isDeleteable,
   backVisible,
@@ -87,33 +96,40 @@ export const SlideHeader = ({
   onClose?: () => void;
   onDelete?: () => void;
 }) => {
-  const { Modal, show } = useFeedbackModal()
+  const { Modal } = useFeedbackModal();
   const haptics = useHaptics();
-  const colors = useColors()
+  const colors = useColors();
   const tempLog = useTemporaryLog();
 
-  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+  const [isDatePickerVisible, setIsDatePickerVisible] = useState(false);
 
-  const dateTime = tempLog.data.dateTime ? new Date(tempLog.data.dateTime) : new Date()
-  const dateTimeTitle = tempLog.data.dateTime !== null ? getItemDateTitle(tempLog.data.dateTime) : '?'
+  const dateTime = tempLog.data.dateTime
+    ? new Date(tempLog.data.dateTime)
+    : new Date();
+  const dateTimeTitle =
+    tempLog.data.dateTime === null
+      ? "?"
+      : getItemDateTitle(tempLog.data.dateTime);
 
   return (
-    <View style={{
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-      marginTop: -8,
-      width: '100%',
-    }}
+    <View
+      style={{
+        flexDirection: "row",
+        justifyContent: "space-between",
+        marginTop: -8,
+        width: "100%",
+      }}
     >
-      {Platform.OS !== 'web' && (
+      {Platform.OS !== "web" && (
         <DateTimePickerModal
+          // oxlint-disable-next-line react/no-unstable-nested-components -- react-native-modal-datetime-picker renders customHeaderIOS without props, so the header must close over this render's picker state setter.
           customHeaderIOS={() => (
             <DatePickerHeader
-              onChange={date => {
-                setDatePickerVisibility(false)
+              onChange={(date) => {
+                setIsDatePickerVisible(false);
                 tempLog.update({
                   dateTime: dayjs(date).toISOString(),
-                })
+                });
               }}
             />
           )}
@@ -122,27 +138,27 @@ export const SlideHeader = ({
           date={dateTime}
           mode="datetime"
           minuteInterval={10}
-          onConfirm={date => {
-            setDatePickerVisibility(false)
+          onConfirm={(date) => {
+            setIsDatePickerVisible(false);
             tempLog.update({
               dateTime: dayjs(date).toISOString(),
-            })
+            });
           }}
-          onCancel={() => setDatePickerVisibility(false)}
+          onCancel={() => setIsDatePickerVisible(false)}
         />
       )}
       <View
         style={{
-          alignItems: 'flex-start',
-          justifyContent: 'center',
+          alignItems: "flex-start",
+          justifyContent: "center",
           flex: 1,
         }}
       >
         <Modal />
         <View
           style={{
-            flexDirection: 'row',
-            alignItems: 'center',
+            flexDirection: "row",
+            alignItems: "center",
             flex: 1,
           }}
         >
@@ -150,13 +166,13 @@ export const SlideHeader = ({
             <Pressable
               onPress={() => {
                 haptics.selection();
-                onBack?.()
+                onBack?.();
               }}
               style={({ pressed }) => ({
                 opacity: pressed ? 0.8 : 1,
-                flexDirection: 'row',
-                alignItems: 'center',
-                justifyContent: 'center',
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "center",
                 height: 42,
                 width: 42,
               })}
@@ -167,12 +183,12 @@ export const SlideHeader = ({
             <Pressable
               onPress={() => {
                 haptics.selection();
-                setDatePickerVisibility(true)
+                setIsDatePickerVisible(true);
               }}
               style={({ pressed }) => ({
                 opacity: pressed ? 0.8 : 1,
-                flexDirection: 'row',
-                alignItems: 'center',
+                flexDirection: "row",
+                alignItems: "center",
                 paddingVertical: 6,
                 paddingHorizontal: 12,
                 backgroundColor: colors.logHeaderHighlight,
@@ -183,37 +199,38 @@ export const SlideHeader = ({
                 numberOfLines={1}
                 style={{
                   fontSize: 17,
-                  fontWeight: '600',
+                  fontWeight: "600",
                   color: colors.logHeaderText,
                 }}
-              >{dateTimeTitle}</Text>
+              >
+                {dateTimeTitle}
+              </Text>
             </Pressable>
           )}
         </View>
       </View>
       <View
         style={{
-          alignItems: 'flex-end',
-          justifyContent: 'center',
+          alignItems: "flex-end",
+          justifyContent: "center",
         }}
       >
         <View
           style={{
-            flexDirection: 'row',
+            flexDirection: "row",
           }}
         >
-
           {isDeleteable && (
             <Pressable
               style={{
                 height: 42,
                 width: 42,
-                justifyContent: 'center',
-                alignItems: 'center',
+                justifyContent: "center",
+                alignItems: "center",
               }}
               onPress={async () => {
-                await haptics.selection()
-                onDelete?.()
+                await haptics.selection();
+                onDelete?.();
               }}
             >
               <Trash color={colors.logHeaderText} width={24} height={24} />
@@ -223,12 +240,12 @@ export const SlideHeader = ({
             style={{
               height: 42,
               width: 42,
-              justifyContent: 'center',
-              alignItems: 'center',
+              justifyContent: "center",
+              alignItems: "center",
             }}
             onPress={async () => {
-              await haptics.selection()
-              onClose?.()
+              await haptics.selection();
+              onClose?.();
             }}
           >
             <X color={colors.logHeaderText} width={24} height={24} />

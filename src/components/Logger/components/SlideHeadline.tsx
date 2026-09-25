@@ -1,9 +1,13 @@
-import { Text, View, ViewStyle } from 'react-native';
-import useColors from '@/hooks/useColors';
+import type { ViewStyle } from "react-native";
+import { Text, View } from "react-native";
+import useColors from "@/hooks/useColors";
 
+const DEFAULT_STYLE = {};
+
+/** Bold headline at the top of a logger slide. */
 export const SlideHeadline = ({
   children,
-  style = {},
+  style = DEFAULT_STYLE,
 }: {
   children: string;
   style?: ViewStyle;
@@ -17,11 +21,15 @@ export const SlideHeadline = ({
         ...style,
       }}
     >
-      <Text style={{
-        color: colors.text,
-        fontSize: 20,
-        fontWeight: 'bold',
-      }}>{children}</Text>
+      <Text
+        style={{
+          color: colors.text,
+          fontSize: 20,
+          fontWeight: "bold",
+        }}
+      >
+        {children}
+      </Text>
     </View>
   );
 };

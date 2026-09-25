@@ -1,9 +1,9 @@
 import { getJSONSchemaType } from "../helpers/Import";
 import { migrateImportData } from "../helpers/migration";
-import { INITIAL_STATE } from "../hooks/useSettings";
+import { INITIAL_STATE } from "../constants/Settings";
 
 describe("getJSONSchemaType", () => {
-  test("pixy schema: valid", async () => {
+  test("pixy schema: valid", () => {
     const json = {
       items: {
         "2022-01-23": {
@@ -26,7 +26,7 @@ describe("getJSONSchemaType", () => {
     expect(getJSONSchemaType(migrated)).toBe("pixy");
   });
 
-  test("pixy schema: reject invalid date key", async () => {
+  test("pixy schema: reject invalid date key", () => {
     const json = {
       items: {
         "2020-23": {
@@ -41,12 +41,13 @@ describe("getJSONSchemaType", () => {
     expect(getJSONSchemaType(migrated)).toBe("unknown");
   });
 
-  test("pixy schema: wrong rating", async () => {
+  test("pixy schema: wrong rating", () => {
     const json = {
       items: {
         "2022-01-03": {
           date: "2022-01-03",
-          rating: "really_good", // wrong rating
+          // wrong rating
+          rating: "really_good",
           message: "test message 2",
         },
       },

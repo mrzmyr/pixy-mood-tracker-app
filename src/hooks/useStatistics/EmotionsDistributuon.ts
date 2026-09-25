@@ -1,8 +1,11 @@
 import { EMOTIONS } from "@/components/Logger/config";
-import { Emotion } from "@/types";
-import _ from "lodash";
-import { LogItem } from "../useLogs";
+import type { Emotion } from "@/types";
+import countBy from "lodash/countBy";
+import random from "lodash/random";
+import sampleSize from "lodash/sampleSize";
+import type { LogItem } from "../useLogs";
 
+/** Emotion counts for the statistics emotions card, most used first. */
 export interface EmotionsDistributionData {
   emotions: {
     id: string;
@@ -11,30 +14,39 @@ export interface EmotionsDistributionData {
   }[];
 }
 
+/** Empty state before statistics load. */
 export const defaultEmotionsDistributionData: EmotionsDistributionData = {
   emotions: [],
-}
+};
 
+/**
+ * Random placeholder shown blurred behind the "not enough data" overlay.
+ * Sampled once at module load.
+ */
 export const dummyEmotionsDistributionData: EmotionsDistributionData = {
-  emotions: _.sampleSize(EMOTIONS, 4).map((emotion) => ({
+  emotions: sampleSize(EMOTIONS, 4).map((emotion) => ({
     id: emotion.key,
     details: emotion,
-    count: _.random(1, 10),
+    count: random(1, 10),
   })),
-}
+};
 
-export const getEmotionsDistributionData = (items: LogItem[]): EmotionsDistributionData => {
-  const distribution = _.countBy(
-    items.flatMap((item) => item?.emotions)
-  );
+/**
+ * Count emotions across entries. Keys missing from `EMOTIONS` (for example
+ * removed emotions) are dropped.
+ */
+export const getEmotionsDistributionData = (
+  items: LogItem[]
+): EmotionsDistributionData => {
+  const distribution = countBy(items.flatMap((item) => item?.emotions));
   const _emotions = Object.keys(distribution)
-    .map((key) => ({
-      details: EMOTIONS.find((emotion) => emotion.key === key)!,
-      id: key,
-      count: distribution[key],
-    }))
-    .filter((emotion) => emotion.details !== undefined)
-    .sort((a, b) => b.count - a.count);
+    .flatMap((key) => {
+      const details = EMOTIONS.find((emotion) => emotion.key === key);
+      return details === undefined
+        ? []
+        : [{ details, id: key, count: distribution[key] }];
+    })
+    .toSorted((a, b) => b.count - a.count);
 
   return {
     emotions: _emotions,

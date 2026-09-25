@@ -1,5 +1,5 @@
-import chroma from 'chroma-js';
-import colors from './TailwindColors';
+import chroma from "chroma-js";
+import colors from "./TailwindColors";
 
 interface IScaleMood {
   background: string;
@@ -7,6 +7,7 @@ interface IScaleMood {
   textSecondary: string;
 }
 
+/** Colors for every mood rating plus the empty (no entry) state. */
 export interface IScale {
   extremely_good: IScaleMood;
   very_good: IScaleMood;
@@ -15,23 +16,40 @@ export interface IScale {
   bad: IScaleMood;
   very_bad: IScaleMood;
   extremely_bad: IScaleMood;
-  empty: { background: string; border: string; text: string; };
+  empty: { background: string; border: string; text: string };
 }
 
-export type IScaleColors = {
+/**
+ * Scales keyed by `scaleType` (for example `ColorBrew-RdYlGn`). Keys are
+ * persisted in settings, so do not rename them.
+ */
+export interface IScaleColors {
   [key: string]: IScale;
-};
-
-const getScaleMood = (color: string): IScaleMood => {
-  return {
-    background: color,
-    text: chroma(color).luminance() > 0.45 ? chroma(color).darken(4).hex() : chroma(color).brighten(2.5).hex(),
-    textSecondary: chroma(color).luminance() > 0.45 ? chroma(color).darken(2.5).hex() : chroma(color).brighten(4).hex(),
-  };
 }
+
+const getScaleMood = (color: string): IScaleMood => ({
+  background: color,
+  text:
+    chroma(color).luminance() > 0.45
+      ? chroma(color).darken(4).hex()
+      : chroma(color).brighten(2.5).hex(),
+  textSecondary:
+    chroma(color).luminance() > 0.45
+      ? chroma(color).darken(2.5).hex()
+      : chroma(color).brighten(4).hex(),
+});
 
 const getScale = (scale: string[]): IScale => {
-  const [extremely_good, very_good, good, neutral, bad, very_bad, extremely_bad, empty] = scale;
+  const [
+    extremely_good,
+    very_good,
+    good,
+    neutral,
+    bad,
+    very_bad,
+    extremely_bad,
+    empty,
+  ] = scale;
 
   return {
     extremely_good: getScaleMood(extremely_good),
@@ -43,117 +61,132 @@ const getScale = (scale: string[]): IScale => {
     extremely_bad: getScaleMood(extremely_bad),
     empty: {
       background: empty,
-      border: chroma(empty).luminance() > 0.5 ? chroma(empty).darken(0.5).hex() : chroma(empty).brighten(1.5).hex(),
-      text: chroma(empty).luminance() > 0.5 ? chroma(empty).darken(3).hex() : chroma(empty).brighten(4).hex(),
+      border:
+        chroma(empty).luminance() > 0.5
+          ? chroma(empty).darken(0.5).hex()
+          : chroma(empty).brighten(1.5).hex(),
+      text:
+        chroma(empty).luminance() > 0.5
+          ? chroma(empty).darken(3).hex()
+          : chroma(empty).brighten(4).hex(),
     },
   };
+};
+
+const light = {
+  "ColorBrew-RdYlGn": getScale([
+    colors.emerald[600],
+    colors.emerald[400],
+    colors.emerald[200],
+    colors.neutral[200],
+    colors.orange[100],
+    colors.orange[300],
+    colors.red[500],
+    colors.neutral[100],
+  ]),
+  "ColorBrew-RdYlGn-old": getScale([
+    "#006837",
+    "#1a9850",
+    "#91cf60",
+    "#ffffbf",
+    "#fee08b",
+    "#fc8d59",
+    "#d73027",
+    colors.neutral[100],
+  ]),
+  "ColorBrew-PuOr": getScale([
+    "#542788",
+    "#998ec3",
+    "#d8daeb",
+    colors.neutral[200],
+    "#fee0b6",
+    "#f1a340",
+    "#b35806",
+    colors.neutral[100],
+  ]),
+  "ColorBrew-BrBG": getScale([
+    "#01665e",
+    "#5ab4ac",
+    "#c7eae5",
+    colors.neutral[200],
+    "#f6e8c3",
+    "#d8b365",
+    "#8c510a",
+    colors.neutral[100],
+  ]),
+  "ColorBrew-RdYG": getScale([
+    "#4d9221",
+    "#a1d76a",
+    "#e6f5d0",
+    colors.neutral[200],
+    "#fddbc7",
+    "#ef8a62",
+    "#b2182b",
+    colors.neutral[100],
+  ]),
+} satisfies IScaleColors;
+
+const dark = {
+  "ColorBrew-RdYlGn": getScale([
+    colors.emerald[600],
+    colors.emerald[400],
+    colors.emerald[200],
+    colors.neutral[100],
+    colors.orange[100],
+    colors.orange[300],
+    colors.red[500],
+    colors.neutral[800],
+  ]),
+  "ColorBrew-RdYlGn-old": getScale([
+    "#006837",
+    "#1a9850",
+    "#91cf60",
+    "#ffffbf",
+    "#fee08b",
+    "#fc8d59",
+    "#d73027",
+    colors.neutral[800],
+  ]),
+  "ColorBrew-PuOr": getScale([
+    "#542788",
+    "#998ec3",
+    "#d8daeb",
+    colors.neutral[200],
+    "#fee0b6",
+    "#f1a340",
+    "#b35806",
+    colors.neutral[800],
+  ]),
+  "ColorBrew-BrBG": getScale([
+    "#01665e",
+    "#5ab4ac",
+    "#c7eae5",
+    colors.neutral[200],
+    "#f6e8c3",
+    "#d8b365",
+    "#8c510a",
+    colors.neutral[800],
+  ]),
+  "ColorBrew-RdYG": getScale([
+    "#4d9221",
+    "#a1d76a",
+    "#e6f5d0",
+    colors.neutral[200],
+    "#fddbc7",
+    "#ef8a62",
+    "#b2182b",
+    colors.neutral[800],
+  ]),
+} satisfies IScaleColors;
+
+interface ThemeScales {
+  dark: IScaleColors;
+  light: IScaleColors;
 }
 
-const light: IScaleColors = {
-  'ColorBrew-RdYlGn': getScale([
-    colors.emerald[600],
-    colors.emerald[400],
-    colors.emerald[200],
-    colors.neutral[200],
-    colors.orange[100],
-    colors.orange[300],
-    colors.red[500],
-    colors.neutral[100],
-  ]),
-  'ColorBrew-RdYlGn-old': getScale(['#006837',
-    '#1a9850',
-    '#91cf60',
-    '#ffffbf',
-    '#fee08b',
-    '#fc8d59',
-    '#d73027',
-    colors.neutral[100],
-  ]),
-  'ColorBrew-PuOr': getScale([
-    '#542788',
-    '#998ec3',
-    '#d8daeb',
-    colors.neutral[200],
-    '#fee0b6',
-    '#f1a340',
-    '#b35806',
-    colors.neutral[100],
-  ]),
-  'ColorBrew-BrBG': getScale([
-    '#01665e',
-    '#5ab4ac',
-    '#c7eae5',
-    colors.neutral[200],
-    '#f6e8c3',
-    '#d8b365',
-    '#8c510a',
-    colors.neutral[100],
-  ]),
-  'ColorBrew-RdYG': getScale([
-    '#4d9221',
-    '#a1d76a',
-    '#e6f5d0',
-    colors.neutral[200],
-    '#fddbc7',
-    '#ef8a62',
-    '#b2182b',
-    colors.neutral[100],
-  ])
-};
-
-const dark: IScaleColors = {
-  'ColorBrew-RdYlGn': getScale([
-    colors.emerald[600],
-    colors.emerald[400],
-    colors.emerald[200],
-    colors.neutral[100],
-    colors.orange[100],
-    colors.orange[300],
-    colors.red[500],
-    colors.neutral[800],
-  ]),
-  'ColorBrew-RdYlGn-old': getScale(['#006837',
-    '#1a9850',
-    '#91cf60',
-    '#ffffbf',
-    '#fee08b',
-    '#fc8d59',
-    '#d73027',
-    colors.neutral[800],
-  ]),
-  'ColorBrew-PuOr': getScale([
-    '#542788',
-    '#998ec3',
-    '#d8daeb',
-    colors.neutral[200],
-    '#fee0b6',
-    '#f1a340',
-    '#b35806',
-    colors.neutral[800],
-  ]),
-  'ColorBrew-BrBG': getScale([
-    '#01665e',
-    '#5ab4ac',
-    '#c7eae5',
-    colors.neutral[200],
-    '#f6e8c3',
-    '#d8b365',
-    '#8c510a',
-    colors.neutral[800],
-  ]),
-  'ColorBrew-RdYG': getScale([
-    '#4d9221',
-    '#a1d76a',
-    '#e6f5d0',
-    colors.neutral[200],
-    '#fddbc7',
-    '#ef8a62',
-    '#b2182b',
-    colors.neutral[800],
-  ])
-};
-
-export default {
+const scales: ThemeScales = {
   dark,
   light,
 };
+
+export default scales;

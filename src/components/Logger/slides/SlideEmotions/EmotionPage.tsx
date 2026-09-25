@@ -1,48 +1,69 @@
-import { Emotion } from "@/types";
-import _ from "lodash";
+import type { Emotion } from "@/types";
+import chunkArray from "lodash/chunk";
 import { View } from "react-native";
-import { EmotionButtonAdvanced, EmotionButtonEmpty } from "./EmotionButtonAdvanced";
+import {
+  EmotionButtonAdvanced,
+  EmotionButtonEmpty,
+} from "./EmotionButtonAdvanced";
 
+/**
+ * One page of advanced emotions in two columns; an odd count is padded
+ * with a blank cell.
+ */
 export const EmotionPage = ({
-  emotions, onPress, selectedEmotions,
+  emotions,
+  onPress,
+  selectedEmotions,
 }: {
   emotions: Emotion[];
   onPress: (emotion: Emotion) => void;
   selectedEmotions: Emotion[];
 }) => {
-  const chunks = _.chunk(emotions, 2).map(d => d.length === 1 ? [...d, { key: 'empty', label: '' } as Emotion] : d);
+  const chunks = chunkArray(emotions, 2).map((d) =>
+    d.length === 1
+      ? [
+          ...d,
+          // SAFETY: the "empty" placeholder is only rendered by EmotionButtonEmpty, which reads no Emotion fields.
+          { key: "empty", label: "" } as Emotion,
+        ]
+      : d
+  );
 
   return (
     <View
       style={{
-        flexDirection: 'column',
-        width: '100%',
+        flexDirection: "column",
+        width: "100%",
         paddingHorizontal: 4,
         paddingTop: 12,
       }}
     >
-      {chunks.map((chunk, index) => (
+      {chunks.map((chunk) => (
         <View
-          key={`emotion-page-${index}`}
+          key={`emotion-page-${chunk[0].key}`}
           style={{
-            flexDirection: 'row',
+            flexDirection: "row",
             marginBottom: 2,
           }}
         >
-          {chunk.map((emotion, index) => (
-            emotion.key === 'empty' ? (
-              <EmotionButtonEmpty key={`advanced-${emotion.key}-${index}`} />
+          {chunk.map((emotion) =>
+            emotion.key === "empty" ? (
+              <EmotionButtonEmpty key={`advanced-${emotion.key}`} />
             ) : (
               <EmotionButtonAdvanced
-                key={`advanced-${emotion.key}-${index}`}
+                key={`advanced-${emotion.key}`}
                 emotion={emotion}
                 onPress={onPress}
-                selected={selectedEmotions.map(d => d.key).includes(emotion.key)}
+                selected={selectedEmotions
+                  .map((d) => d.key)
+                  .includes(emotion.key)}
                 style={{
                   marginRight: chunk.indexOf(emotion) === 0 ? 6 : 0,
                   // when only one emotion is in the chunk, make it full width
-                }} />
-            )))}
+                }}
+              />
+            )
+          )}
         </View>
       ))}
     </View>

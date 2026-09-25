@@ -1,14 +1,21 @@
-import { createContext, useContext } from 'react';
+import { createContext, useContext } from "react";
+import { disabledSupportClient } from "./clients";
 
-export type DevelopmentSupportMode = 'available' | 'failed';
+/** Fake support outcomes selectable in development builds. */
+export type DevelopmentSupportMode = "available" | "failed";
+/**
+ * Stable status codes for support flow errors; tests and logs match on
+ * them, so do not rename existing values.
+ */
 export type SupportFlowStatus =
-  | 'support_configuration_failed'
-  | 'support_consumption_failed'
-  | 'support_consumption_token_missing'
-  | 'support_fake_failed'
-  | 'support_flow_failed'
-  | 'support_placement_failed';
+  | "support_configuration_failed"
+  | "support_consumption_failed"
+  | "support_consumption_token_missing"
+  | "support_fake_failed"
+  | "support_flow_failed"
+  | "support_placement_failed";
 
+/** Structured support error following the project's evlog error shape. */
 export interface SupportFlowError {
   status: SupportFlowStatus;
   message: string;
@@ -16,81 +23,36 @@ export interface SupportFlowError {
   fix: string;
 }
 
+/** Voluntary support (tip) purchase flow behind the Settings support entry. */
 export interface SupportClient {
+  /** False when support purchases are unavailable on this build or device. */
   enabled: boolean;
+  /**
+   * Present the support paywall.
+   *
+   * @returns Rejects with a {@link SupportFlowError} when the flow cannot open.
+   */
   openSupport: () => Promise<void>;
 }
 
-export const disabledSupportClient: SupportClient = {
-  enabled: false,
-  openSupport: async () => undefined,
-};
-
-export interface FakeSupportClient extends SupportClient {
-  readonly attempts: number;
-}
-
-export const createFakeSupportClient = (
-  mode: DevelopmentSupportMode = 'available',
-  ...nextModes: DevelopmentSupportMode[]
-): FakeSupportClient => {
-  const modes = [mode, ...nextModes];
-  let attempts = 0;
-
-  return {
-    enabled: true,
-    get attempts() {
-      return attempts;
-    },
-    openSupport: async () => {
-      const currentMode = modes[Math.min(attempts, modes.length - 1)];
-      attempts += 1;
-
-      if (currentMode === 'failed') {
-        const error: SupportFlowError = {
-          status: 'support_fake_failed',
-          message: 'Support unavailable',
-          why: 'Development fake provider was configured to fail.',
-          fix: 'Try again. Pixy remains fully usable.',
-        };
-
-        throw error;
-      }
-    },
-  };
-};
-
-export const resolveDevelopmentSupportClient = ({
-  isDevelopment,
-  mode,
-}: {
-  isDevelopment: boolean;
-  mode?: string;
-}): SupportClient | undefined => {
-  if (
-    isDevelopment
-    && (mode === 'available' || mode === 'failed')
-  ) {
-    return createFakeSupportClient(mode);
-  }
-
-  return undefined;
-};
-
 const SupportContext = createContext<SupportClient>(disabledSupportClient);
 
-export function SupportProvider({
+/**
+ * Provide the support client. Without a provider, consumers get the
+ * disabled client.
+ */
+export const SupportProvider = ({
   children,
   client = disabledSupportClient,
 }: {
   children: React.ReactNode;
   client?: SupportClient;
-}) {
-  return (
-    <SupportContext.Provider value={client}>
-      {children}
-    </SupportContext.Provider>
-  );
-}
+}) => (
+  <SupportContext.Provider value={client}>{children}</SupportContext.Provider>
+);
 
+/**
+ * Current support client; the support UI must hide itself when `enabled` is
+ * `false`.
+ */
 export const useSupport = () => useContext(SupportContext);

@@ -1,11 +1,18 @@
-import { Dayjs } from 'dayjs';
-import { View } from 'react-native';
-import { ChevronLeft, ChevronRight } from 'react-native-feather';
-import Button from '@/components/Button';
-import useColors from '../../hooks/useColors';
+import type { Dayjs } from "dayjs";
+import { View } from "react-native";
+import { ChevronLeft, ChevronRight } from "react-native-feather";
+import Button from "@/components/Button";
+import useColors from "../../hooks/useColors";
 
+/**
+ * Previous/next month buttons. A direction is disabled when that month has
+ * no entries. `nextMonth` and `prevMonth` are unused.
+ */
 export const Navigation = ({
-  onNext, onPrev, nextMonthDisabled, prevMonthDisabled,
+  onNext,
+  onPrev,
+  nextMonthDisabled,
+  prevMonthDisabled,
 }: {
   nextMonth: Dayjs;
   prevMonth: Dayjs;
@@ -19,7 +26,7 @@ export const Navigation = ({
   return (
     <View
       style={{
-        flexDirection: 'row',
+        flexDirection: "row",
       }}
     >
       <Button
@@ -31,7 +38,12 @@ export const Navigation = ({
           marginRight: 8,
         }}
       >
-        <ChevronLeft width={20} height={20} color={colors.tertiaryButtonText} strokeWidth={3} />
+        <ChevronLeft
+          width={20}
+          height={20}
+          color={colors.tertiaryButtonText}
+          strokeWidth={3}
+        />
       </Button>
       <Button
         onPress={onNext}
@@ -41,7 +53,12 @@ export const Navigation = ({
           flex: 1,
         }}
       >
-        <ChevronRight width={20} height={20} color={colors.tertiaryButtonText} strokeWidth={3} />
+        <ChevronRight
+          width={20}
+          height={20}
+          color={colors.tertiaryButtonText}
+          strokeWidth={3}
+        />
       </Button>
     </View>
   );

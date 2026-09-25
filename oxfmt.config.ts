@@ -1,6 +1,10 @@
 import { defineConfig } from "oxfmt";
 import ultracite from "ultracite/oxfmt";
 
+/**
+ * Oxfmt config: Ultracite defaults with import sorting disabled, because
+ * import evaluation order affects React Native module initialization.
+ */
 export default defineConfig({
   ...ultracite,
   // Import evaluation order can affect React Native module initialization.

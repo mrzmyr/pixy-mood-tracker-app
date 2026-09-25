@@ -1,38 +1,55 @@
 import { getLogDays } from "@/lib/utils";
-import { LogDay, LogItem } from "../useLogs";
+import type { LogDay, LogItem } from "../useLogs";
 
+/** Days whose average rating is good or better. */
 export interface MoodPeaksPositiveData {
   days: LogDay[];
 }
 
+/** Days whose average rating is bad or worse. */
 export interface MoodPeaksNegativeData {
   days: LogDay[];
 }
 
+/** Empty state before statistics load. */
 export const defaultMoodPeaksPositiveData = {
   days: [],
 };
 
+/** Empty state before statistics load. */
 export const defaultMoodPeaksNegativeData = {
   days: [],
 };
 
-export const getMoodPeaksPositiveData = (items: LogItem[]): MoodPeaksPositiveData => {
-  const positiveKeys = ["extremely_good", "very_good", "good"];
+/**
+ * Days in `items` whose average rating is good or better, in insertion
+ * order.
+ */
+export const getMoodPeaksPositiveData = (
+  items: LogItem[]
+): MoodPeaksPositiveData => {
+  const positiveKeys = new Set(["extremely_good", "very_good", "good"]);
 
   const logDays = getLogDays(items);
-  const positiveDaysPeaked = logDays.filter((item) => positiveKeys.includes(item.ratingAvg));
+  const positiveDaysPeaked = logDays.filter((item) =>
+    positiveKeys.has(item.ratingAvg)
+  );
 
   return {
     days: positiveDaysPeaked,
   };
 };
 
-export const getMoodPeaksNegativeData = (items: LogItem[]): MoodPeaksNegativeData => {
-  const negativeKeys = ["extremely_bad", "very_bad", "bad"];
+/** Days in `items` whose average rating is bad or worse, in insertion order. */
+export const getMoodPeaksNegativeData = (
+  items: LogItem[]
+): MoodPeaksNegativeData => {
+  const negativeKeys = new Set(["extremely_bad", "very_bad", "bad"]);
 
   const logDays = getLogDays(items);
-  const negativeItemsPeaked = logDays.filter((item) => negativeKeys.includes(item.ratingAvg));
+  const negativeItemsPeaked = logDays.filter((item) =>
+    negativeKeys.has(item.ratingAvg)
+  );
 
   return {
     days: negativeItemsPeaked,

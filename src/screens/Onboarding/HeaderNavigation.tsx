@@ -1,10 +1,11 @@
-import { Text, TouchableOpacity, View } from 'react-native';
-import { ArrowLeft } from 'react-native-feather';
-import { t } from '@/helpers/translation';
-import useColors from '../../hooks/useColors';
-import useHaptics from '../../hooks/useHaptics';
+import { Text, TouchableOpacity, View } from "react-native";
+import { ArrowLeft } from "react-native-feather";
+import { t } from "@/helpers/translation";
+import useColors from "../../hooks/useColors";
+import useHaptics from "../../hooks/useHaptics";
 import { HeaderPagination } from "./HeaderPagination";
 
+/** Back, pagination, and skip controls above onboarding slides. */
 export const HeaderNavigation = ({
   index,
   setIndex,
@@ -14,15 +15,15 @@ export const HeaderNavigation = ({
   setIndex: (index: number) => void;
   onSkip: () => void;
 }) => {
-  const haptics = useHaptics()
+  const haptics = useHaptics();
   const colors = useColors();
 
   return (
     <View
       style={{
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
         paddingHorizontal: 32,
         borderBottomColor: colors.onboardingBottomBorder,
         borderBottomWidth: 1,
@@ -34,8 +35,8 @@ export const HeaderNavigation = ({
           marginLeft: -16,
         }}
         onPress={async () => {
-          await haptics.selection()
-          setIndex(index - 1)
+          await haptics.selection();
+          setIndex(index - 1);
         }}
       >
         <ArrowLeft
@@ -57,14 +58,14 @@ export const HeaderNavigation = ({
           style={{
             color: colors.onboardingPaginationText,
             fontSize: 17,
-            fontWeight: '600',
+            fontWeight: "600",
           }}
           onPress={async () => {
-            await haptics.selection()
-            onSkip()
+            await haptics.selection();
+            onSkip();
           }}
         >
-          {t('onboarding_skip')}
+          {t("onboarding_skip")}
         </Text>
       </TouchableOpacity>
     </View>

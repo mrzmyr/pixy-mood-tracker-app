@@ -1,7 +1,8 @@
-import { Text } from 'react-native';
-import useColors from '../../hooks/useColors';
+import { Text } from "react-native";
+import useColors from "../../hooks/useColors";
 
-export const Title = ({ children }: { children: string; }) => {
+/** Section title on the Statistics tab. */
+export const Title = ({ children }: { children: string }) => {
   const colors = useColors();
 
   return (
@@ -9,9 +10,11 @@ export const Title = ({ children }: { children: string; }) => {
       style={{
         fontSize: 20,
         color: colors.text,
-        fontWeight: 'bold',
+        fontWeight: "bold",
         marginTop: 16,
       }}
-    >{children}</Text>
+    >
+      {children}
+    </Text>
   );
 };

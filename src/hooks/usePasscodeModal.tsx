@@ -1,40 +1,46 @@
-import { useCallback, useState } from 'react';
-import { Modal, Platform, SafeAreaView } from 'react-native';
-import { PasscodeView } from '@/components/PasscodeView';
-import useColors from './useColors';
-import { useAnalytics } from './useAnalytics';
+import { useCallback, useState } from "react";
+import { Modal, Platform, SafeAreaView } from "react-native";
+import { PasscodeView } from "@/components/PasscodeView";
+import useColors from "./useColors";
+import { useAnalytics } from "./useAnalytics";
 
+/**
+ * Full-screen passcode entry modal. Render the returned `Modal` in the host
+ * screen. `onSubmit` returns whether the code is accepted.
+ */
 export default function usePasscodeModal({
   mode,
   visible = false,
   onSubmit,
 }: {
-  mode: 'create' | 'confirm',
-  visible?: boolean,
+  mode: "create" | "confirm";
+  visible?: boolean;
   onSubmit: (code: string) => boolean;
 }) {
-  const colors = useColors()
-  const [isVisibile, setIsVisibile] = useState(visible)
-  const analytics = useAnalytics()
+  const colors = useColors();
+  const [isVisibile, setIsVisibile] = useState(visible);
+  const analytics = useAnalytics();
 
   const show = () => {
-    analytics.track('passcode_modal_show')
-    setIsVisibile(true)
-  }
+    analytics.track("passcode_modal_show");
+    setIsVisibile(true);
+  };
 
-  const hide = () => {
-    analytics.track('passcode_modal_hide')
-    setIsVisibile(false)
-  }
+  const hide = useCallback(() => {
+    analytics.track("passcode_modal_hide");
+    setIsVisibile(false);
+  }, [analytics]);
 
-  const ModalElement = useCallback(() => {
-    return (
+  const ModalElement = useCallback(
+    () => (
       <Modal
-        animationType={Platform.OS === 'web' || mode === 'confirm' ? 'none' : 'slide'}
-        presentationStyle='fullScreen'
+        animationType={
+          Platform.OS === "web" || mode === "confirm" ? "none" : "slide"
+        }
+        presentationStyle="fullScreen"
         visible={isVisibile}
         style={{
-          position: 'relative'
+          position: "relative",
         }}
       >
         <SafeAreaView
@@ -43,20 +49,17 @@ export default function usePasscodeModal({
             backgroundColor: colors.backgroundSecondary,
           }}
         >
-          <PasscodeView
-            mode={mode}
-            onClose={hide}
-            onSubmit={onSubmit}
-          />
+          <PasscodeView mode={mode} onClose={hide} onSubmit={onSubmit} />
         </SafeAreaView>
       </Modal>
-    );
-  }, [isVisibile])
+    ),
+    [isVisibile, mode, colors.backgroundSecondary, hide, onSubmit]
+  );
 
   return {
     Modal: ModalElement,
     show,
     hide,
-    isVisibile
+    isVisibile,
   };
 }

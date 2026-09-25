@@ -1,13 +1,19 @@
-import { QUESTIONS_PULL_URL, QUESTION_SUBMIT_URL } from "@/constants/API"
-import { language, locale } from "@/helpers/translation"
-import dayjs from "dayjs"
-import { useEffect, useRef, useState } from "react"
-import { Platform } from "react-native"
-import semver from 'semver'
-import pkg from '../../package.json'
-import { useAnalytics } from "./useAnalytics"
-import { useSettings } from "./useSettings"
+import { QUESTIONS_PULL_URL, QUESTION_SUBMIT_URL } from "@/constants/API";
+import { language, locale } from "@/helpers/translation";
+import dayjs from "dayjs";
+import { useEffect, useEffectEvent, useState } from "react";
+import { Platform } from "react-native";
+import semver from "semver";
+import pkg from "../../package.json";
+import { useAnalytics } from "./useAnalytics";
+import { useSettings } from "./useSettings";
 
+/**
+ * Remote in-app survey question.
+ *
+ * `appVersion` is a semver range matched against the app version. Questions
+ * without text in the device language are skipped.
+ */
 export interface IQuestion {
   id: string;
   appVersion: string;
@@ -15,7 +21,7 @@ export interface IQuestion {
     en: string;
     de?: string;
   };
-  type: 'single' | 'multiple';
+  type: "single" | "multiple";
   answers: {
     id: string;
     emoji: string;
@@ -23,123 +29,157 @@ export interface IQuestion {
       en: string;
       de?: string;
     } | null;
-  }[]
+  }[];
 }
 
+/**
+ * Fetch the next unanswered question for this app version and language.
+ *
+ * At most one question per day: after an answer today, `question` stays
+ * `null`. Fetch failures also yield `null`. Development builds do not
+ * submit answers but still mark the question as answered.
+ */
 export const useQuestioner = () => {
-  const analytics = useAnalytics()
-  const { hasActionDone, addActionDone, settings } = useSettings()
-  const isMounted = useRef(true)
+  const analytics = useAnalytics();
+  const { hasActionDone, addActionDone, settings } = useSettings();
 
-  const [question, setQuestion] = useState<IQuestion | null>(null)
+  const [question, setQuestion] = useState<IQuestion | null>(null);
 
-  const questionsDone = settings.actionsDone.filter((action: any) => action?.title?.startsWith('question_slide_'))
+  const questionsDone = settings.actionsDone.filter((action) =>
+    action?.title?.startsWith("question_slide_")
+  );
 
-  const getQuestion = (): Promise<IQuestion | null> => {
-    const lastQuestionAnsweredToday = questionsDone.length > 0 ? dayjs(questionsDone[questionsDone.length - 1].date).isSame(dayjs(), 'day') : false
+  // Effect event: only called by the mount effect below, so it reads the
+  // settings of that render without making the effect re-run on changes.
+  const getQuestion = useEffectEvent(async (): Promise<IQuestion | null> => {
+    const lastQuestionAnsweredToday =
+      questionsDone.length > 0
+        ? dayjs(questionsDone.at(-1)?.date).isSame(dayjs(), "day")
+        : false;
 
     if (lastQuestionAnsweredToday) {
-      console.log('Not showing question because one was answered today')
-      return Promise.resolve(null)
+      console.log("Not showing question because one was answered today");
+      return null;
     }
 
-    return fetch(QUESTIONS_PULL_URL)
-      .then(response => response.json())
-      .then(data => {
-        if (!data) return null;
-
-        const question = data.find((question: IQuestion) => {
-          const satisfiesVersion = question.appVersion ? semver.satisfies(pkg.version, question.appVersion) : true
-          const hasBeenAnswered = hasActionDone(`question_slide_${question.id}`)
-          const isInMyLanguage = question.text[language] !== undefined;
-
-          if (!satisfiesVersion) console.log('Question not shown because version does not match', question.appVersion, pkg.version)
-          if (hasBeenAnswered) console.log('Question not shown because it has been answered', question.id)
-          if (!isInMyLanguage) console.log('Question not shown because it is not in my language', question.text)
-
-          return (
-            satisfiesVersion &&
-            !hasBeenAnswered &&
-            isInMyLanguage
-          )
-        })
-
-        return question || null
-      })
-      .catch(error => {
+    try {
+      const response = await fetch(QUESTIONS_PULL_URL);
+      const data = await response.json();
+      if (!data) {
         return null;
+      }
+
+      const nextQuestion = data.find((candidate: IQuestion) => {
+        const satisfiesVersion = candidate.appVersion
+          ? semver.satisfies(pkg.version, candidate.appVersion)
+          : true;
+        const hasBeenAnswered = hasActionDone(`question_slide_${candidate.id}`);
+        const isInMyLanguage = candidate.text[language] !== undefined;
+
+        if (!satisfiesVersion) {
+          console.log(
+            "Question not shown because version does not match",
+            candidate.appVersion,
+            pkg.version
+          );
+        }
+        if (hasBeenAnswered) {
+          console.log(
+            "Question not shown because it has been answered",
+            candidate.id
+          );
+        }
+        if (!isInMyLanguage) {
+          console.log(
+            "Question not shown because it is not in my language",
+            candidate.text
+          );
+        }
+
+        return satisfiesVersion && !hasBeenAnswered && isInMyLanguage;
+      });
+
+      return nextQuestion || null;
+    } catch {
+      return null;
+    }
+  });
+
+  const submit = async (
+    answeredQuestion: IQuestion,
+    answers: IQuestion["answers"]
+  ) => {
+    const question_text =
+      answeredQuestion.text[language] || answeredQuestion.text["en"];
+
+    const answer_texts = answers
+      .map((answer) => {
+        if (answer.text === null) {
+          return answer.emoji;
+        }
+
+        if (answer?.text[language]) {
+          return `${answer.emoji} ${answer.text[language]}`;
+        }
+
+        return `${answer.emoji} ${answer?.text?.en}`;
       })
-  }
-
-  const submit = (question: IQuestion, answers: IQuestion['answers']) => {
-
-    const question_text = question.text[language] || question.text['en'];
-
-    const answer_texts = answers.map(answer => {
-      if (answer.text === null) {
-        return answer.emoji;
-      }
-
-      if (answer?.text[language]) {
-        return `${answer.emoji} ${answer.text[language]}`
-      }
-
-      return `${answer.emoji} ${answer?.text?.en}`
-    }).join(', ')
+      .join(", ");
 
     const metaData = {
-      locale: locale,
+      locale,
       version: pkg.version,
       os: Platform.OS,
       deviceId: settings.deviceId,
-    }
+    };
 
     const body = {
       date: new Date().toISOString(),
       language,
       question_text,
       answer_texts,
-      answer_ids: answers.map(answer => answer.id).join(', '),
-      question,
+      answer_ids: answers.map((answer) => answer.id).join(", "),
+      question: answeredQuestion,
       ...metaData,
-    }
+    };
 
-    analytics.track('questioner_submit', body)
+    analytics.track("questioner_submit", body);
 
-    console.log('Sending Question Feedback', body)
+    console.log("Sending Question Feedback", body);
 
     if (__DEV__) {
-      console.log('Not sending Question Feedback in dev mode')
-      addActionDone(`question_slide_${question.id}`)
-      return
+      console.log("Not sending Question Feedback in dev mode");
+      addActionDone(`question_slide_${answeredQuestion.id}`);
+      return;
     }
 
-    return fetch(QUESTION_SUBMIT_URL, {
-      method: 'POST',
+    await fetch(QUESTION_SUBMIT_URL, {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify(body),
-    })
-      .then(() => {
-        addActionDone(`question_slide_${question.id}`)
-      })
-  }
+    });
+    addActionDone(`question_slide_${answeredQuestion.id}`);
+  };
 
   useEffect(() => {
-    getQuestion().then(question => {
-      if (isMounted.current) {
-        setQuestion(question)
+    let isCancelled = false;
+
+    void (async () => {
+      const nextQuestion = await getQuestion();
+      if (!isCancelled) {
+        setQuestion(nextQuestion);
       }
-    })
+    })();
 
     return () => {
-      isMounted.current = false
-    }
-  }, [])
+      isCancelled = true;
+    };
+  }, []);
 
   return {
     question,
-    submit
-  }
-}
+    submit,
+  };
+};

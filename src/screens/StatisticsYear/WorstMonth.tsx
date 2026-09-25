@@ -1,39 +1,52 @@
-import { BigCard } from "@/components/BigCard"
-import { NotEnoughDataOverlay } from "@/components/Statistics/NotEnoughDataOverlay"
-import { t } from "@/helpers/translation"
-import useColors from "@/hooks/useColors"
-import { RATING_MAPPING, useLogState } from "@/hooks/useLogs"
-import dayjs, { Dayjs } from "dayjs"
-import _ from 'lodash'
-import { Text, View } from "react-native"
-import { Frown } from "react-native-feather"
+import { NotEnoughDataOverlay } from "@/components/Statistics/NotEnoughDataOverlay";
+import { t } from "@/helpers/translation";
+import useColors from "@/hooks/useColors";
+import { useLogState } from "@/hooks/useLogs";
+import { RATING_MAPPING } from "@/constants/Ratings";
+import type { Dayjs } from "dayjs";
+import dayjs from "dayjs";
+import groupBy from "lodash/groupBy";
+import orderBy from "lodash/orderBy";
+import sumBy from "lodash/sumBy";
+import { Text, View } from "react-native";
 
-export const WorstMonth = ({
-  date,
-}: {
-  date: Dayjs,
-}) => {
-  const colors = useColors()
-  const logState = useLogState()
+/**
+ * Worst month of the year of `date`.
+ *
+ * Ranks months by the sum of rating values, not the mean, so months with
+ * few entries rank lowest.
+ */
+export const WorstMonth = ({ date }: { date: Dayjs }) => {
+  const colors = useColors();
+  const logState = useLogState();
 
-  const items = logState.items.filter((item) => dayjs(item.dateTime).isSame(date, 'year'))
-    .map((item) => ({
-      ...item,
-      month: dayjs(item.dateTime).format('YYYY-MM'),
-      ratingValue: RATING_MAPPING[item.rating],
-    }))
+  const items = logState.items.flatMap((item) =>
+    dayjs(item.dateTime).isSame(date, "year")
+      ? [
+          {
+            ...item,
+            month: dayjs(item.dateTime).format("YYYY-MM"),
+            ratingValue: RATING_MAPPING[item.rating],
+          },
+        ]
+      : []
+  );
 
-  const worstMonthByRatingValue = _.chain(items)
-    .groupBy('month')
-    .map((items, month) => ({
+  const monthRatingValues = Object.entries(groupBy(items, "month")).map(
+    ([month, monthItems]) => ({
       month,
-      ratingValue: _.sumBy(items, 'ratingValue'),
-    }))
-    .orderBy('ratingValue', 'asc')
-    .first()
-    .value()
+      ratingValue: sumBy(monthItems, "ratingValue"),
+    })
+  );
+  const [worstMonthByRatingValue] = orderBy(
+    monthRatingValues,
+    "ratingValue",
+    "asc"
+  );
 
-  const month = worstMonthByRatingValue ? dayjs(worstMonthByRatingValue.month).format('MMMM') : null
+  const month = worstMonthByRatingValue
+    ? dayjs(worstMonthByRatingValue.month).format("MMMM")
+    : null;
 
   return (
     <View
@@ -51,21 +64,21 @@ export const WorstMonth = ({
         style={{
           fontSize: 17,
           color: colors.textSecondary,
-          fontWeight: '600',
+          fontWeight: "600",
           marginBottom: 8,
         }}
       >
-        {t('statistics_worst_month')}
+        {t("statistics_worst_month")}
       </Text>
       <Text
         style={{
           fontSize: 24,
           color: colors.text,
-          fontWeight: 'bold',
+          fontWeight: "bold",
         }}
       >
         {month}
       </Text>
     </View>
-  )
-}
+  );
+};

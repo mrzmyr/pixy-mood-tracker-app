@@ -1,13 +1,13 @@
-import { useNavigation } from '@react-navigation/native';
-import { Pressable } from 'react-native';
-import { ArrowLeft } from 'react-native-feather';
-import useColors from '@/hooks/useColors';
+import { useNavigation } from "@react-navigation/native";
+import { Pressable } from "react-native";
+import { ArrowLeft } from "react-native-feather";
+import useColors from "@/hooks/useColors";
 
-export const BackButton = ({
-  testID,
-}: {
-  testID?: string;
-}) => {
+/**
+ * Header back button for Android and web stack screens; iOS uses the native
+ * back button.
+ */
+export const BackButton = ({ testID }: { testID?: string }) => {
   const navigation = useNavigation();
   const colors = useColors();
 

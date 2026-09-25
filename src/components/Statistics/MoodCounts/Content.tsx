@@ -1,8 +1,12 @@
 import { Text, View } from "react-native";
 import useColors from "@/hooks/useColors";
-import { RATING_KEYS } from "@/hooks/useLogs";
+import { RATING_KEYS } from "@/constants/Ratings";
 import { Bar } from "./Bar";
 
+/**
+ * Bar chart of entry counts per rating, worst to best. `total` must be the
+ * sum of `values`, otherwise bar heights are off.
+ */
 export const Content = ({
   data,
 }: {
@@ -19,32 +23,32 @@ export const Content = ({
     <>
       <View
         style={{
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          alignItems: 'flex-end',
+          flexDirection: "row",
+          justifyContent: "space-between",
+          alignItems: "flex-end",
           borderBottomColor: colors.cardBorder,
           borderBottomWidth: 1,
           paddingHorizontal: 16,
           marginTop: 16,
         }}
       >
-        {[...RATING_KEYS].reverse().map((ratingName) => (
+        {RATING_KEYS.toReversed().map((ratingName) => (
           <Bar
             key={`rating-bar-${ratingName}`}
-            // @ts-ignore
-            height={data.values[ratingName] / data.total * 400}
-            ratingName={ratingName} />
+            height={(data.values[ratingName] / data.total) * 400}
+            ratingName={ratingName}
+          />
         ))}
       </View>
       <View
         style={{
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          alignItems: 'flex-end',
+          flexDirection: "row",
+          justifyContent: "space-between",
+          alignItems: "flex-end",
           paddingHorizontal: 16,
         }}
       >
-        {[...RATING_KEYS].reverse().map((ratingName) => (
+        {RATING_KEYS.toReversed().map((ratingName) => (
           <View
             style={{
               alignItems: "center",
@@ -57,7 +61,7 @@ export const Content = ({
             <Text
               key={`text-${ratingName}`}
               style={{
-                width: '100%',
+                width: "100%",
                 marginTop: 8,
                 color: colors.text,
                 opacity: data.values[ratingName] === 0 ? 0.3 : 1,
@@ -65,7 +69,9 @@ export const Content = ({
                 fontSize: 12,
                 fontWeight: "bold",
               }}
-            >{data.values[ratingName]}x</Text>
+            >
+              {data.values[ratingName]}x
+            </Text>
           </View>
         ))}
       </View>

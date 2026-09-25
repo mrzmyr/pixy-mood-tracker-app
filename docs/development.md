@@ -29,9 +29,18 @@ $ bun android
 
 ### Build cache
 
-`bun ios` and `bun android` cache compiled simulator and emulator builds in `.expo/build-cache`, keyed by the project's native fingerprint. When native code and configuration are unchanged, the cached build is installed and compilation is skipped. JavaScript-only changes never need a new build.
+`bun ios` and `bun android` cache compiled simulator and emulator debug builds, keyed by the project's native fingerprint. When native code and configuration are unchanged, the cached build is installed and compilation is skipped. JavaScript-only changes never need a new build.
 
-The cache is not evicted automatically. Delete `.expo/build-cache` to reclaim disk space. Physical device builds are never cached.
+- **Shared across worktrees:** the cache lives in `~/.cache/pixy-mood-tracker/build-cache`, so every checkout and git worktree reuses the same builds. Set `PIXY_MOOD_TRACKER_BUILD_CACHE_DIR` to use another directory.
+- **Debug only:** release builds (`--configuration Release`, `--variant release`) embed the JavaScript bundle. The fingerprint ignores JavaScript, so a cached release build could run another branch's code. Release builds always compile.
+- **`package.json` scripts are ignored:** [`fingerprint.config.cjs`](../fingerprint.config.cjs) skips them, so adding or editing a script keeps cached builds. Native modules, config plugins, and `app.json` changes still produce a new fingerprint.
+- **Inspect and clean up with `bun builds`:**
+  - `bun builds list` shows each build's variant, source branch and commit, size, and last use.
+  - `bun builds check [--release]` tells whether this worktree gets a cached build, and why not.
+  - `bun builds prune` keeps the newest 3 builds per platform and variant plus everything used in the last 7 days.
+- Physical device builds are never cached.
+
+The provider lives in [`scripts/build-cache-provider.cjs`](../scripts/build-cache-provider.cjs).
 
 ### Preview Support Pixy
 

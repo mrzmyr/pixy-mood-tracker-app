@@ -1,111 +1,140 @@
-import _ from 'lodash';
-import { View } from 'react-native';
-import { t } from '@/helpers/translation';
-import { LogItem } from '../../hooks/useLogs';
+import round from "lodash/round";
+import { View } from "react-native";
+import { t } from "@/helpers/translation";
+import type { LogItem } from "../../hooks/useLogs";
 import { StatsCard } from "./StatsCard";
 import { getWordCount } from "@/lib/utils";
 
+/**
+ * Month summary tiles (entries, tags, words; totals and per day), each
+ * compared with the previous month. `date` must be a dayjs value in the
+ * reported month.
+ */
 export const Stats = ({
   date,
   items,
   prevItems,
 }: {
-  date,
+  date;
   items: LogItem[];
   prevItems: LogItem[];
 }) => {
-  const words = items.reduce((acc, item) => acc + getWordCount(item.message), 0);
-  const wordsPrev = prevItems.reduce((acc, item) => acc + getWordCount(item.message), 0);
-  const wordsDiff = _.round(Math.abs(words - wordsPrev));
+  const words = items.reduce(
+    (acc, item) => acc + getWordCount(item.message),
+    0
+  );
+  const wordsPrev = prevItems.reduce(
+    (acc, item) => acc + getWordCount(item.message),
+    0
+  );
+  const wordsDiff = round(Math.abs(words - wordsPrev));
 
-  const wordsPerDay = _.round(words / date.daysInMonth(), 2);
-  const wordsPerDayPrev = _.round(wordsPrev / date.subtract(1, 'month').daysInMonth(), 2);
-  const wordsPerDayDiff = _.round(Math.abs(wordsPerDay - wordsPerDayPrev));
+  const wordsPerDay = round(words / date.daysInMonth(), 2);
+  const wordsPerDayPrev = round(
+    wordsPrev / date.subtract(1, "month").daysInMonth(),
+    2
+  );
+  const wordsPerDayDiff = round(Math.abs(wordsPerDay - wordsPerDayPrev));
 
   const tags = items.reduce((acc, item) => acc + (item.tags.length ?? 0), 0);
-  const tagsPrev = prevItems.reduce((acc, item) => acc + (item.tags.length ?? 0), 0);
+  const tagsPrev = prevItems.reduce(
+    (acc, item) => acc + (item.tags.length ?? 0),
+    0
+  );
 
-  const itemsPerDay = _.round(items.length / date.daysInMonth(), 2);
-  const itemsPerDayPrev = _.round(prevItems.length / date.subtract(1, 'month').daysInMonth(), 2)
-  const itemsPerDayDiff = _.round(Math.abs(itemsPerDay - itemsPerDayPrev));
+  const itemsPerDay = round(items.length / date.daysInMonth(), 2);
+  const itemsPerDayPrev = round(
+    prevItems.length / date.subtract(1, "month").daysInMonth(),
+    2
+  );
+  const itemsPerDayDiff = round(Math.abs(itemsPerDay - itemsPerDayPrev));
 
-  const tagsPerDay = _.round(tags / date.daysInMonth(), 2)
-  const tagsPerDayPrev = _.round(tagsPrev / date.subtract(1, 'month').daysInMonth(), 2)
-  const tagsPerDayDiff = _.round(Math.abs(tagsPerDay - tagsPerDayPrev))
+  const tagsPerDay = round(tags / date.daysInMonth(), 2);
+  const tagsPerDayPrev = round(
+    tagsPrev / date.subtract(1, "month").daysInMonth(),
+    2
+  );
+  const tagsPerDayDiff = round(Math.abs(tagsPerDay - tagsPerDayPrev));
 
   return (
     <>
       <View
         style={{
-          flexDirection: 'row',
+          flexDirection: "row",
           marginTop: 16,
         }}
       >
         <StatsCard
           title={`${items.length}`}
-          subtitle={t('entries')}
-          trendType={items.length > prevItems.length ? 'up' : 'down'}
+          subtitle={t("entries")}
+          trendType={items.length > prevItems.length ? "up" : "down"}
           trendValue={Math.abs(items.length - prevItems.length)}
           style={{
             flex: 1,
             marginRight: 8,
-          }} />
+          }}
+        />
         <StatsCard
           title={`${itemsPerDay}`}
-          subtitle={t('entries_per_day')}
-          trendType={itemsPerDay > itemsPerDayPrev ? 'up' : 'down'}
+          subtitle={t("entries_per_day")}
+          trendType={itemsPerDay > itemsPerDayPrev ? "up" : "down"}
           trendValue={itemsPerDayDiff}
           style={{
             flex: 1,
-          }} />
+          }}
+        />
       </View>
       <View
         style={{
-          flexDirection: 'row',
+          flexDirection: "row",
           marginTop: 8,
         }}
       >
         <StatsCard
           title={`${tags}`}
-          subtitle={t('tags_used')}
-          trendType={tags > tagsPrev ? 'up' : 'down'}
+          subtitle={t("tags_used")}
+          trendType={tags > tagsPrev ? "up" : "down"}
           trendValue={Math.abs(tags - tagsPrev)}
           style={{
             flex: 1,
             marginRight: 8,
-          }} />
+          }}
+        />
         <StatsCard
           title={`${tagsPerDay}`}
-          subtitle={t('tags_per_day')}
-          trendType={tagsPerDay > tagsPerDayPrev ? 'up' : 'down'}
+          subtitle={t("tags_per_day")}
+          trendType={tagsPerDay > tagsPerDayPrev ? "up" : "down"}
           trendValue={tagsPerDayDiff}
           style={{
             flex: 1,
-          }} />
+          }}
+        />
       </View>
       <View
         style={{
-          flexDirection: 'row',
+          flexDirection: "row",
           marginTop: 8,
         }}
       >
         <StatsCard
           title={`${words}`}
-          subtitle={t('words_written')}
-          trendType={words > wordsPrev ? 'up' : 'down'}
+          subtitle={t("words_written")}
+          trendType={words > wordsPrev ? "up" : "down"}
           trendValue={wordsDiff}
           style={{
             flex: 1,
             marginRight: 8,
-          }} />
+          }}
+        />
         <StatsCard
           title={`${wordsPerDay}`}
-          subtitle={t('words_written_per_day')}
-          trendType={wordsPerDay > wordsPerDayPrev ? 'up' : 'down'}
+          subtitle={t("words_written_per_day")}
+          trendType={wordsPerDay > wordsPerDayPrev ? "up" : "down"}
           trendValue={wordsPerDayDiff}
           style={{
             flex: 1,
-          }} />
+          }}
+        />
       </View>
     </>
   );

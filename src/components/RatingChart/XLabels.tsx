@@ -1,15 +1,19 @@
-import { Text } from 'react-native-svg';
-import { ScaleItem } from '.';
-import useColors from '@/hooks/useColors';
+import { Text } from "react-native-svg";
+import type { ScaleItem } from ".";
+import useColors from "@/hooks/useColors";
 
+/**
+ * Bucket labels under {@link RatingChart}; above 12 buckets only every
+ * second label shows, above 15 every third.
+ */
 export const XLabels = ({
   items,
   x,
   y,
 }: {
-  items: ScaleItem[],
-  x: (index: number) => number,
-  y: number,
+  items: ScaleItem[];
+  x: (index: number) => number;
+  y: number;
 }) => {
   const colors = useColors();
 
@@ -23,7 +27,7 @@ export const XLabels = ({
     }
 
     return true;
-  }
+  };
 
   return (
     <>
@@ -31,15 +35,14 @@ export const XLabels = ({
         const _x = x(index);
 
         const Label = (
-          // @ts-ignore
           <Text
             x={_x}
             y={y}
             fontSize="14"
             fill={colors.statisticsLegendText}
             textAnchor="middle"
-            alignmentBaseline='center'
-            key={`xlabel-${index}`}
+            alignmentBaseline="center"
+            key={`xlabel-${_x}`}
           >
             {item.key}
           </Text>

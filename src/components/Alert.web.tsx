@@ -1,20 +1,47 @@
+import { createStructuredError } from "@/lib/errors";
+
+/**
+ * Web replacement for React Native `Alert`, backed by `window.confirm`.
+ *
+ * Only two-button alerts work: OK runs the first button, Cancel runs the
+ * second and rejects with an `alert_dismissed` error. Button styles and
+ * options are ignored.
+ */
 export default {
-  alert: (title: string, body: string, callbacks: [{
-    text: string,
-    onPress: () => void,
-  }, {
-    text: string,
-    onPress: () => void,
-  }]) => {
-    return new Promise((resolve, reject) => {
+  alert: (
+    title: string,
+    body: string,
+    callbacks: [
+      {
+        text: string;
+        onPress: () => void;
+      },
+      {
+        text: string;
+        onPress: () => void;
+      },
+    ]
+  ) => {
+    // Errors from callbacks reject the returned Promise instead of throwing
+    // synchronously, matching the former Promise executor behavior.
+    try {
       const message = `${title}: ${body}`;
-      if(confirm(message)) {
+      // oxlint-disable-next-line eslint/no-alert -- web shim for Alert.alert: react-native-web has no dialog API, so the browser confirm() is the platform equivalent.
+      if (confirm(message)) {
         callbacks[0]?.onPress();
-        resolve({});
-      } else {
-        callbacks[1]?.onPress();
-        reject({});
+        return Promise.resolve({});
       }
-    })
-  }
-}
+      callbacks[1]?.onPress();
+      return Promise.reject(
+        createStructuredError({
+          status: "alert_dismissed",
+          message: "Alert dismissed",
+          why: "The user declined the browser confirm dialog",
+          fix: "No action needed; the user chose not to continue",
+        })
+      );
+    } catch (error) {
+      return Promise.reject(error);
+    }
+  },
+};

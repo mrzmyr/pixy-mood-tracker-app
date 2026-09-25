@@ -1,31 +1,33 @@
-const fs = require("fs");
+const fs = require("node:fs");
+const path = require("node:path");
 
-const path = __dirname + "/../assets/locales/";
+const localesDir = path.join(__dirname, "../assets/locales/");
 const filesArray = fs
-  .readdirSync(path)
-  .filter((file) => fs.lstatSync(path + file).isFile());
+  .readdirSync(localesDir)
+  .filter((file) => fs.lstatSync(localesDir + file).isFile());
 const locales = {};
-filesArray.forEach((file) => {
+for (const file of filesArray) {
   console.log("reading", file);
   try {
     locales[file.replace(".json", "")] = JSON.parse(
-      fs.readFileSync(path + file, "utf8")
+      fs.readFileSync(localesDir + file, "utf-8")
     );
-  } catch (e) {
+  } catch {
     console.log("error reading", file);
   }
-});
+}
 
 console.log("locales", locales);
 
 const REMOVE_KEYS = [];
+const removeKeys = new Set(REMOVE_KEYS);
 
-for (const localeKey in locales) {
-  for (const key of REMOVE_KEYS) {
-    delete locales[localeKey][key];
-  }
+for (const localeKey of Object.keys(locales)) {
+  locales[localeKey] = Object.fromEntries(
+    Object.entries(locales[localeKey]).filter(([key]) => !removeKeys.has(key))
+  );
   fs.writeFileSync(
-    path + localeKey + ".json",
+    `${localesDir + localeKey}.json`,
     JSON.stringify(locales[localeKey], null, 2)
   );
 }

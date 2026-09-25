@@ -1,10 +1,11 @@
-import { PageWithHeaderLayout } from '@/components/PageWithHeaderLayout';
-import Reminder from '@/components/Reminder';
-import { ScrollView } from 'react-native';
-import useColors from '../hooks/useColors';
+import { PageWithHeaderLayout } from "@/components/PageWithHeaderLayout";
+import Reminder from "@/components/Reminder";
+import { ScrollView } from "react-native";
+import useColors from "../hooks/useColors";
 
+/** Settings > Reminder: daily reminder configuration. */
 export const ReminderScreen = () => {
-  const colors = useColors()
+  const colors = useColors();
 
   return (
     <PageWithHeaderLayout
@@ -13,11 +14,13 @@ export const ReminderScreen = () => {
         backgroundColor: colors.background,
       }}
     >
-      <ScrollView style={{
-        padding: 20,
-      }}>
+      <ScrollView
+        style={{
+          padding: 20,
+        }}
+      >
         <Reminder />
       </ScrollView>
     </PageWithHeaderLayout>
   );
-}
+};

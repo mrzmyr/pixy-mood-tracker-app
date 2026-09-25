@@ -1,11 +1,12 @@
-import { useNavigation } from '@react-navigation/native';
-import { LinearGradient } from 'expo-linear-gradient';
-import { Dimensions, Text, View } from 'react-native';
-import { ArrowLeft, Star } from 'react-native-feather';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import LinkButton from '@/components/LinkButton';
-import useColors from '../../hooks/useColors';
+import { useNavigation } from "@react-navigation/native";
+import { LinearGradient } from "expo-linear-gradient";
+import { Dimensions, Text, View } from "react-native";
+import { ArrowLeft, Star } from "react-native-feather";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import LinkButton from "@/components/LinkButton";
+import useColors from "../../hooks/useColors";
 
+/** Gradient header with back button for the year report. */
 export const Header = ({
   title,
   subtitle,
@@ -20,22 +21,25 @@ export const Header = ({
   const navigation = useNavigation();
 
   return (
-    <View style={{
-      width: '100%',
-      height: Dimensions.get('window').height * 0.25,
-      paddingHorizontal: 20,
-      paddingVertical: 24,
-      paddingTop: insets.top + 24,
-      position: 'relative',
-      overflow: 'hidden',
-    }}>
+    <View
+      style={{
+        width: "100%",
+        height: Dimensions.get("window").height * 0.25,
+        paddingHorizontal: 20,
+        paddingVertical: 24,
+        paddingTop: insets.top + 24,
+        position: "relative",
+        overflow: "hidden",
+      }}
+    >
       <LinearGradient
         // Background Linear Gradient
         colors={gradientColors}
         locations={[0, 0.5, 1]}
-        start={{ x: 0, y: 1 }} end={{ x: 1, y: 0 }}
+        start={{ x: 0, y: 1 }}
+        end={{ x: 1, y: 0 }}
         style={{
-          position: 'absolute',
+          position: "absolute",
           left: 0,
           right: 0,
           top: 0,
@@ -44,24 +48,29 @@ export const Header = ({
       />
       <View
         style={{
-          position: 'absolute',
-          left: '10%',
-          top: '40%',
-          transform: [{ rotate: '-40deg' }],
+          position: "absolute",
+          left: "10%",
+          top: "40%",
+          transform: [{ rotate: "-40deg" }],
         }}
       >
-        <Star width={500} height={500} fill={gradientColors[0]} color={gradientColors[0]} />
+        <Star
+          width={500}
+          height={500}
+          fill={gradientColors[0]}
+          color={gradientColors[0]}
+        />
       </View>
       <View
         style={{
-          justifyContent: 'flex-end',
-          flexWrap: 'wrap',
+          justifyContent: "flex-end",
+          flexWrap: "wrap",
         }}
       >
         <View
           style={{
-            flexDirection: 'row',
-            alignItems: 'center',
+            flexDirection: "row",
+            alignItems: "center",
           }}
         >
           <LinkButton
@@ -79,7 +88,7 @@ export const Header = ({
       </View>
       <View
         style={{
-          justifyContent: 'flex-end',
+          justifyContent: "flex-end",
           flex: 1,
         }}
       >
@@ -89,15 +98,19 @@ export const Header = ({
             opacity: 0.5,
             fontSize: 17,
           }}
-        >{subtitle}</Text>
+        >
+          {subtitle}
+        </Text>
         <Text
           style={{
             color: colors.palette.white,
             fontSize: 27,
-            fontWeight: 'bold',
+            fontWeight: "bold",
             marginTop: 8,
           }}
-        >{title}</Text>
+        >
+          {title}
+        </Text>
       </View>
     </View>
   );

@@ -1,53 +1,45 @@
 import { DATE_FORMAT } from "@/constants/Config";
 import { load, store } from "@/helpers/storage";
-import { LogItemSchema } from "@/types";
+import type { LogItemSchema } from "@/types";
+// oxlint-disable-next-line unicorn/prefer-node-protocol -- `buffer` is the npm polyfill bundled for React Native; `node:buffer` does not resolve in Hermes.
 import { Buffer } from "buffer";
 import dayjs from "dayjs";
-import _ from "lodash";
+import isArray from "lodash/isArray";
+import omit from "lodash/omit";
+import pick from "lodash/pick";
 import {
   createContext,
   useCallback,
   useContext,
   useEffect,
+  useEffectEvent,
   useMemo,
   useReducer,
   useState,
 } from "react";
-import * as Sentry from '@sentry/react-native';
+import * as Sentry from "@sentry/react-native";
 import { v4 as uuidv4 } from "uuid";
-import z from "zod";
-import { AtLeast } from "../../types";
+import type z from "zod";
+import type { AtLeast } from "../../types";
+import type { RATING_KEYS } from "@/constants/Ratings";
 import { useAnalytics } from "./useAnalytics";
+import { useContentStableValue } from "./useContentStableValue";
+import { createMissingProviderError } from "@/lib/errors";
 
+/**
+ * AsyncStorage key for logs. Keep the legacy name; changing it orphans all
+ * stored entries.
+ */
 export const STORAGE_KEY = "PIXEL_TRACKER_LOGS";
 
-export const RATING_MAPPING = {
-  extremely_good: 6,
-  very_good: 5,
-  good: 4,
-  neutral: 3,
-  bad: 2,
-  very_bad: 1,
-  extremely_bad: 0,
-};
-
-export const SLEEP_QUALITY_MAPPING = {
-  very_good: 4,
-  good: 3,
-  neutral: 2,
-  bad: 1,
-  very_bad: 0,
-};
-
-export const RATING_KEYS = Object.keys(
-  RATING_MAPPING
-) as (keyof typeof RATING_MAPPING)[];
-export const SLEEP_QUALITY_KEYS = Object.keys(
-  SLEEP_QUALITY_MAPPING
-) as (keyof typeof SLEEP_QUALITY_MAPPING)[];
-
+/** A single mood entry as stored and exported. */
 export type LogItem = z.infer<typeof LogItemSchema>;
 
+/**
+ * Entries grouped into one local calendar day with day averages.
+ *
+ * `date` uses `DATE_FORMAT`; `ratingAvg` is the rounded mean rating.
+ */
 export interface LogDay {
   date: string;
   items: LogItem[];
@@ -55,6 +47,10 @@ export interface LogDay {
   sleepQualityAvg: number | null;
 }
 
+/**
+ * Logs store state. `loaded` stays `false` until storage is read; nothing
+ * is persisted before that.
+ */
 export interface LogsState {
   loaded?: boolean;
   items: LogItem[];
@@ -69,6 +65,13 @@ type LogAction =
   | { type: "removeTag"; payload: string }
   | { type: "reset"; payload: LogsState };
 
+/**
+ * Mutations for the logs store from `useLogUpdater`.
+ *
+ * `editLog` shallow-merges into the entry with the same `id` and ignores
+ * unknown ids. `updateLogs` replaces all entries. `import` also migrates
+ * legacy data (keyed items, missing ids, tags, or emotions).
+ */
 export interface UpdaterValue {
   addLog: (item: LogItem) => void;
   editLog: (item: Partial<LogItem>) => void;
@@ -79,24 +82,66 @@ export interface UpdaterValue {
   import: (data: LogsState) => void;
 }
 
-interface StateValue extends LogsState {}
+type StateValue = LogsState;
 
-const LogStateContext = createContext<StateValue>(undefined as any);
-const LogUpdaterContext = createContext<UpdaterValue>(undefined as any);
+// SAFETY: every consumer renders inside LogsProvider, which supplies the value; the default is never read.
+const LogStateContext = createContext<StateValue>(undefined as never);
+// SAFETY: every consumer renders inside LogsProvider, which supplies the value; the default is never read.
+const LogUpdaterContext = createContext<UpdaterValue>(undefined as never);
 
-function reducer(state: LogsState, action: LogAction): LogsState {
+const migrate = (data: LogsState): LogsState => {
+  const result = {
+    ...data,
+  };
+
+  if (!isArray(data.items)) {
+    result.items = Object.values(result.items);
+  }
+
+  result.items = result.items.map((item) => {
+    const date = dayjs(item.date).format(DATE_FORMAT);
+
+    const newItem = { ...item };
+
+    if (!newItem.createdAt) {
+      newItem.createdAt = dayjs(date).toISOString();
+    }
+    if (!newItem.dateTime) {
+      newItem.dateTime = dayjs(date).toISOString();
+    }
+    if (!newItem.id) {
+      newItem.id = uuidv4();
+    }
+    if (!newItem.tags) {
+      newItem.tags = [];
+    }
+    if (!newItem.emotions) {
+      newItem.emotions = [];
+    }
+
+    newItem.tags = newItem.tags.map((tag) => pick(tag, ["id"]));
+
+    return newItem;
+  });
+
+  return result;
+};
+
+const reducer = (state: LogsState, action: LogAction): LogsState => {
   switch (action.type) {
-    case "import":
+    case "import": {
       return migrate({
-        ...(action.payload as LogsState),
+        ...action.payload,
         loaded: true,
       });
-    case "add":
+    }
+    case "add": {
       return {
         ...state,
         items: [...state.items, action.payload],
       };
-    case "edit":
+    }
+    case "edit": {
       return {
         ...state,
         items: state.items.map((item) => {
@@ -109,94 +154,83 @@ function reducer(state: LogsState, action: LogAction): LogsState {
           return item;
         }),
       };
-    case "batchEdit":
+    }
+    case "batchEdit": {
       return {
         ...state,
         items: action.payload,
       };
-    case "delete":
+    }
+    case "delete": {
       return {
         ...state,
         items: state.items.filter((item) => item.id !== action.payload),
       };
+    }
     // Runs against the reducer's current state, not a caller's snapshot, so
     // logs added in the same tick are kept.
-    case "removeTag":
+    case "removeTag": {
       return {
         ...state,
         items: state.items.map((item) =>
           item.tags.some((tag) => tag.id === action.payload)
             ? {
-              ...item,
-              tags: item.tags.filter((tag) => tag.id !== action.payload),
-            }
+                ...item,
+                tags: item.tags.filter((tag) => tag.id !== action.payload),
+              }
             : item
         ),
       };
-    case "reset":
+    }
+    case "reset": {
       return {
         ...action.payload,
         loaded: true,
       };
+    }
+    default: {
+      return state;
+    }
   }
-}
-
-const migrate = (data: LogsState): LogsState => {
-  let result = {
-    ...data,
-  };
-
-  if (!_.isArray(data.items)) {
-    result.items = Object.values(result.items);
-  }
-
-  result.items = result.items.map((item) => {
-    const date = dayjs(item.date).format(DATE_FORMAT);
-
-    const newItem = { ...item };
-
-    if (!newItem.createdAt) newItem.createdAt = dayjs(date).toISOString();
-    if (!newItem.dateTime) newItem.dateTime = dayjs(date).toISOString();
-    if (!newItem.id) newItem.id = uuidv4();
-    if (!newItem.tags) newItem.tags = [];
-    if (!newItem.emotions) newItem.emotions = [];
-
-    newItem.tags = newItem.tags.map((tag) => _.pick(tag, ["id"]));
-
-    return newItem;
-  });
-
-  return result;
 };
 
-function LogsProvider({ children }: { children: React.ReactNode }) {
-  const analyitcs = useAnalytics();
+const INITIAL_STATE: LogsState = {
+  loaded: false,
+  items: [],
+};
 
-  const INITIAL_STATE: LogsState = {
-    loaded: false,
-    items: [],
-  };
+const LogsProvider = ({ children }: { children: React.ReactNode }) => {
+  const analyitcs = useAnalytics();
 
   const [state, dispatch] = useReducer(reducer, INITIAL_STATE);
   const [storageStatus, setStorageStatus] = useState<
     "loading" | "ready" | "error"
   >("loading");
+  // Reducer updates can produce equal copies (e.g. saving an unchanged log);
+  // only content changes should persist or notify consumers.
+  const stableState = useContentStableValue(state);
+
+  // Effect event: the load effect runs once on mount but tracks with the
+  // latest analytics instance.
+  const trackLoadedLogs = useEffectEvent((megaBytes: number) => {
+    analyitcs.track("loaded_logs", { size: megaBytes, unit: "mb" });
+  });
 
   useEffect(() => {
     (async () => {
       try {
         const value = await load<LogsState>(STORAGE_KEY);
-        if (value !== null) {
-          dispatch({
-            type: "import",
-            payload: value,
-          });
-        } else {
+        if (value === null) {
           dispatch({
             type: "import",
             payload: {
               ...INITIAL_STATE,
             },
+          });
+        } else {
+          dispatch({
+            type: "import",
+            payload: value,
           });
         }
         setStorageStatus("ready");
@@ -204,7 +238,7 @@ function LogsProvider({ children }: { children: React.ReactNode }) {
         try {
           const size = Buffer.byteLength(JSON.stringify(value));
           const megaBytes = Math.round((size / 1024 / 1024) * 100) / 100;
-          analyitcs.track("loaded_logs", { size: megaBytes, unit: "mb" });
+          trackLoadedLogs(megaBytes);
         } catch (error) {
           Sentry.captureException(error);
         }
@@ -216,10 +250,13 @@ function LogsProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   useEffect(() => {
-    if (storageStatus === "ready" && state.loaded) {
-      store<Omit<LogsState, "loaded">>(STORAGE_KEY, _.omit(state, "loaded"));
+    if (storageStatus === "ready" && stableState.loaded) {
+      store<Omit<LogsState, "loaded">>(
+        STORAGE_KEY,
+        omit(stableState, "loaded")
+      );
     }
-  }, [JSON.stringify(state), storageStatus]);
+  }, [stableState, storageStatus]);
 
   const importState = useCallback((data: LogsState) => {
     dispatch({
@@ -264,14 +301,22 @@ function LogsProvider({ children }: { children: React.ReactNode }) {
       reset,
       import: importState,
     }),
-    [addLog, editLog, updateLogs, deleteLog, removeTagFromLogs, reset, importState]
+    [
+      addLog,
+      editLog,
+      updateLogs,
+      deleteLog,
+      removeTagFromLogs,
+      reset,
+      importState,
+    ]
   );
 
   const stateValue: StateValue = useMemo(
     () => ({
-      ...state,
+      ...stableState,
     }),
-    [JSON.stringify(state)]
+    [stableState]
   );
 
   return (
@@ -281,22 +326,22 @@ function LogsProvider({ children }: { children: React.ReactNode }) {
       </LogUpdaterContext.Provider>
     </LogStateContext.Provider>
   );
-}
+};
 
-function useLogState(): StateValue {
+const useLogState = (): StateValue => {
   const context = useContext(LogStateContext);
   if (context === undefined) {
-    throw new Error("useLogState must be used within a LogsProvider");
+    throw createMissingProviderError("useLogState", "LogsProvider");
   }
   return context;
-}
+};
 
-function useLogUpdater(): UpdaterValue {
+const useLogUpdater = (): UpdaterValue => {
   const context = useContext(LogUpdaterContext);
   if (context === undefined) {
-    throw new Error("useLogUpdater must be used within a LogsProvider");
+    throw createMissingProviderError("useLogUpdater", "LogsProvider");
   }
   return context;
-}
+};
 
 export { LogsProvider, useLogState, useLogUpdater };

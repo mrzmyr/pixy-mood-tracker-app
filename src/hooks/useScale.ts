@@ -1,23 +1,28 @@
-import { IScale } from '@/constants/Colors/Scales';
+import type { IScale } from "@/constants/Colors/Scales";
 import useColors from "./useColors";
-import { RATING_KEYS } from "./useLogs";
-import { SettingsState, useSettings } from "./useSettings";
+import { RATING_KEYS } from "@/constants/Ratings";
+import type { SettingsState } from "./useSettings";
+import { useSettings } from "./useSettings";
 
-export default function useScale(
-  type?: SettingsState['scaleType']
-) {
-  const colors = useColors()
-  const { settings } = useSettings()
+/**
+ * Mood colors for the user's scale, or for `type` when given.
+ *
+ * Only rating keys are filled; `colors.empty` is not set.
+ */
+export default function useScale(type?: SettingsState["scaleType"]) {
+  const colors = useColors();
+  const { settings } = useSettings();
 
-  const _type = type || settings.scaleType
+  const _type = type || settings.scaleType;
 
-  const scaleColors = {} as IScale
-  RATING_KEYS.forEach((label, index) => {
-    scaleColors[label] = colors.scales[_type][label]
-  })
+  // SAFETY: the loop below assigns every rating key; callers never read `empty` from this map.
+  const scaleColors = {} as IScale;
+  for (const label of RATING_KEYS) {
+    scaleColors[label] = colors.scales[_type][label];
+  }
 
   return {
     colors: scaleColors,
-    labels: RATING_KEYS
-  }
+    labels: RATING_KEYS,
+  };
 }

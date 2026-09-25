@@ -1,7 +1,8 @@
-import _ from "lodash";
-import { LogItem } from "../useLogs";
-import { Tag } from "../useTags";
+import countBy from "lodash/countBy";
+import type { LogItem } from "../useLogs";
+import type { Tag } from "../useTags";
 
+/** Tag usage counts for the statistics tags card, most used first. */
 export interface TagsDistributionData {
   tags: {
     id: string;
@@ -10,10 +11,12 @@ export interface TagsDistributionData {
   }[];
 }
 
+/** Empty state before statistics load. */
 export const defaultTagsDistributionData: TagsDistributionData = {
   tags: [],
-}
+};
 
+/** Fixed placeholder shown blurred behind the "not enough data" overlay. */
 export const dummyTagsDistributionData: TagsDistributionData = {
   tags: [
     {
@@ -21,7 +24,7 @@ export const dummyTagsDistributionData: TagsDistributionData = {
       details: {
         id: "1",
         title: "Tag 1",
-        color: 'yellow',
+        color: "yellow",
       },
       count: 10,
     },
@@ -30,7 +33,7 @@ export const dummyTagsDistributionData: TagsDistributionData = {
       details: {
         id: "2",
         title: "Tag 2",
-        color: 'red',
+        color: "red",
       },
       count: 5,
     },
@@ -39,7 +42,7 @@ export const dummyTagsDistributionData: TagsDistributionData = {
       details: {
         id: "3",
         title: "Tag 3",
-        color: 'blue',
+        color: "blue",
       },
       count: 3,
     },
@@ -48,26 +51,32 @@ export const dummyTagsDistributionData: TagsDistributionData = {
       details: {
         id: "4",
         title: "Tag 4",
-        color: 'green',
+        color: "green",
       },
       count: 2,
     },
   ],
-}
+};
 
-export const getTagsDistributionData = (items: LogItem[], tags: Tag[]): TagsDistributionData => {
-  const distribution = _.countBy(
+/**
+ * Count tag usage across entries. Tags that are archived or missing from
+ * `tags` are dropped.
+ */
+export const getTagsDistributionData = (
+  items: LogItem[],
+  tags: Tag[]
+): TagsDistributionData => {
+  const distribution = countBy(
     items.flatMap((item) => item?.tags?.map((tag) => tag?.id))
   );
   const _tags = Object.keys(distribution)
-    .map((key) => ({
-      details: tags.find((tag) => tag.id === key)!,
-      id: key,
-      count: distribution[key],
-    }))
-    .filter((tag) => tag.details !== undefined)
-    .filter((tag) => !tag.details.isArchived)
-    .sort((a, b) => b.count - a.count);
+    .flatMap((key) => {
+      const details = tags.find((tag) => tag.id === key);
+      return details === undefined || details.isArchived
+        ? []
+        : [{ details, id: key, count: distribution[key] }];
+    })
+    .toSorted((a, b) => b.count - a.count);
 
   return {
     tags: _tags,

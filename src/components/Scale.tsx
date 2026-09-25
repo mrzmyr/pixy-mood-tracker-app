@@ -1,37 +1,37 @@
 import { View } from "react-native";
 import useHaptics from "@/hooks/useHaptics";
-import { LogItem } from "@/hooks/useLogs";
+import type { LogItem } from "@/hooks/useLogs";
 import useScale from "@/hooks/useScale";
-import { SettingsState } from "@/hooks/useSettings";
+import type { SettingsState } from "@/hooks/useSettings";
 import ScaleButton from "./ScaleButton";
 
-export default function Scale({
+const Scale = ({
   type,
   value,
   onPress = null,
 }: {
-  type: SettingsState['scaleType'];
-  value?: LogItem['rating'] | LogItem['rating'][];
-  onPress?: any,
-}) {
-  let { colors, labels } = useScale(type)
-  const _labels = labels.slice().reverse()
-  const haptics = useHaptics()
+  type: SettingsState["scaleType"];
+  value?: LogItem["rating"] | LogItem["rating"][];
+  onPress?: ((rating: LogItem["rating"]) => void) | null;
+}) => {
+  const { colors, labels } = useScale(type);
+  const _labels = labels.toReversed();
+  const selectedValues = Array.isArray(value) ? new Set(value) : null;
+  const haptics = useHaptics();
 
   return (
     <View
       style={{
-        width: '100%',
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between',
+        width: "100%",
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "space-between",
       }}
     >
-      {Object.keys(colors).reverse().map((key, index) => {
-
-        const isSelected = Array.isArray(value) ?
-          value.includes(key as LogItem['rating']) :
-          value === key
+      {_labels.map((key, index) => {
+        const isSelected = selectedValues
+          ? selectedValues.has(key)
+          : value === key;
 
         return (
           <ScaleButton
@@ -42,8 +42,8 @@ export default function Scale({
             isSelected={isSelected}
             onPress={async () => {
               if (onPress) {
-                await haptics.selection()
-                onPress(key)
+                await haptics.selection();
+                onPress(key);
               }
             }}
             backgroundColor={colors[key].background}
@@ -52,5 +52,7 @@ export default function Scale({
         );
       })}
     </View>
-  )
-}
+  );
+};
+
+export default Scale;

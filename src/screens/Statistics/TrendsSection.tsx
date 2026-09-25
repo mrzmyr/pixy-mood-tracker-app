@@ -1,4 +1,3 @@
-import { useNavigation } from "@react-navigation/native";
 import { ActivityIndicator, View } from "react-native";
 import { TrendingUp } from "react-native-feather";
 import MenuList from "@/components/MenuList";
@@ -6,14 +5,15 @@ import MenuListItem from "@/components/MenuListItem";
 import { t } from "@/helpers/translation";
 import useColors from "../../hooks/useColors";
 import { useStatistics } from "../../hooks/useStatistics";
-import { MoodTrend } from "./MoodTrend";
 import { Subtitle } from "./Subtitle";
-import { TagsDistributionTrend } from "./TagsDistributionTrend";
 import { Title } from "./Title";
 
+/**
+ * Trends section of the Statistics tab. Not rendered at the moment; the
+ * trend cards inside are disabled.
+ */
 export const TrendsSection = () => {
   const colors = useColors();
-  const navigation = useNavigation();
   const statistics = useStatistics();
 
   return (
@@ -34,7 +34,6 @@ export const TrendsSection = () => {
         </View>
       ) : (
         <>
-
           {/* {statistics.isAvailable("tags_distribution_trend") && (
             <>
               {statistics.state.trends.tagsDistributionData.tags.map((tag, index) => (

@@ -1,18 +1,53 @@
-import BottomSheet, { BottomSheetBackdrop, BottomSheetScrollView } from '@gorhom/bottom-sheet';
-import { useEffect, useMemo, useRef } from 'react';
-import { Keyboard, Modal, Platform, Pressable, ScrollView, StyleSheet, View } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { useCalendarFilters } from '../../../hooks/useCalendarFilters';
-import useColors from '../../../hooks/useColors';
-import { Body } from './Body';
+import type { BottomSheetBackdropProps } from "@gorhom/bottom-sheet";
+import BottomSheet, {
+  BottomSheetBackdrop,
+  BottomSheetScrollView,
+} from "@gorhom/bottom-sheet";
+import { useEffect, useMemo, useRef } from "react";
+import {
+  Keyboard,
+  Modal,
+  Platform,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  View,
+} from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { useCalendarFilters } from "../../../hooks/useCalendarFilters";
+import useColors from "../../../hooks/useColors";
+import { Body } from "./Body";
 
-export const CalendarBottomSheet = () => {
-  if (Platform.OS === 'ios') {
-    return <IOSCalendarBottomSheet />;
-  }
+const CalendarSheetHandle = () => {
+  const colors = useColors();
+  const calendarFilters = useCalendarFilters();
 
-  return <GestureCalendarBottomSheet />;
+  return (
+    <View
+      style={{
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      {calendarFilters.isOpen && (
+        <View
+          style={{
+            width: 40,
+            height: 4,
+            marginTop: -16,
+            backgroundColor: colors.bottomSheetHandle,
+            borderRadius: 2,
+          }}
+        />
+      )}
+    </View>
+  );
 };
+
+const CalendarSheetBackdrop = (props: BottomSheetBackdropProps) => (
+  <BottomSheetBackdrop {...props} accessible={false} />
+);
 
 const IOSCalendarBottomSheet = () => {
   const colors = useColors();
@@ -26,31 +61,34 @@ const IOSCalendarBottomSheet = () => {
 
   return (
     <Modal
-      animationType='slide'
+      animationType="slide"
       onRequestClose={close}
-      presentationStyle='overFullScreen'
+      presentationStyle="overFullScreen"
       statusBarTranslucent
       transparent
       visible={calendarFilters.isOpen}
     >
-      <View style={{ flex: 1, justifyContent: 'flex-end' }}>
+      <View style={{ flex: 1, justifyContent: "flex-end" }}>
         <Pressable
           accessible={false}
           onPress={close}
-          style={[StyleSheet.absoluteFill, { backgroundColor: 'rgba(0, 0, 0, 0.35)' }]}
+          style={[
+            StyleSheet.absoluteFill,
+            { backgroundColor: "rgba(0, 0, 0, 0.35)" },
+          ]}
         />
         <View
           accessibilityViewIsModal
           style={{
-            height: '50%',
+            height: "50%",
             paddingBottom: insets.bottom,
             backgroundColor: colors.bottomSheetBackground,
             borderTopLeftRadius: 16,
             borderTopRightRadius: 16,
-            overflow: 'hidden',
+            overflow: "hidden",
           }}
         >
-          <ScrollView keyboardShouldPersistTaps='handled'>
+          <ScrollView keyboardShouldPersistTaps="handled">
             <Body onClose={close} />
           </ScrollView>
         </View>
@@ -60,28 +98,26 @@ const IOSCalendarBottomSheet = () => {
 };
 
 const GestureCalendarBottomSheet = () => {
-  const colors = useColors()
-  const calendarFilters = useCalendarFilters()
+  const colors = useColors();
+  const calendarFilters = useCalendarFilters();
 
   const bottomSheetRef = useRef<BottomSheet>(null);
-  const snapPoints = useMemo(() => ['30%', '50%', '90%'], []);
+  const snapPoints = useMemo(() => ["30%", "50%", "90%"], []);
 
   useEffect(() => {
     if (calendarFilters.isOpen) {
       if (bottomSheetRef.current !== null) {
-        bottomSheetRef.current.snapToIndex(1)
+        bottomSheetRef.current.snapToIndex(1);
       }
-    } else {
-      if (bottomSheetRef.current !== null) {
-        bottomSheetRef.current.close()
-      }
+    } else if (bottomSheetRef.current !== null) {
+      bottomSheetRef.current.close();
     }
-  }, [calendarFilters.isOpen])
+  }, [calendarFilters.isOpen]);
 
   const handleSheetChanges = (index: number) => {
     if (index === -1) {
-      Keyboard.dismiss()
-      calendarFilters.close()
+      Keyboard.dismiss();
+      calendarFilters.close();
     }
   };
 
@@ -108,37 +144,26 @@ const GestureCalendarBottomSheet = () => {
       backgroundStyle={{
         backgroundColor: colors.bottomSheetBackground,
       }}
-      handleComponent={() => (
-        <View
-          style={{
-            flex: 1,
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
-        >
-          {calendarFilters.isOpen && (
-            <View style={{
-              width: 40,
-              height: 4,
-              marginTop: -16,
-              backgroundColor: colors.bottomSheetHandle,
-              borderRadius: 2,
-            }} />
-          )}
-        </View>
-      )}
-      backdropComponent={(props) => (
-        <BottomSheetBackdrop
-          {...props}
-          accessible={false}
-        />
-      )}
+      handleComponent={CalendarSheetHandle}
+      backdropComponent={CalendarSheetBackdrop}
     >
-      <BottomSheetScrollView
-        keyboardShouldPersistTaps='handled'
-      >
+      <BottomSheetScrollView keyboardShouldPersistTaps="handled">
         <Body />
       </BottomSheetScrollView>
     </BottomSheet>
-  )
+  );
+};
+
+/**
+ * Calendar filter sheet, opened from the tab header's filter button.
+ *
+ * iOS uses a full-screen overlay `Modal`; other platforms use a gesture
+ * bottom sheet. Visibility follows `useCalendarFilters().isOpen`.
+ */
+export const CalendarBottomSheet = () => {
+  if (Platform.OS === "ios") {
+    return <IOSCalendarBottomSheet />;
+  }
+
+  return <GestureCalendarBottomSheet />;
 };

@@ -1,13 +1,9 @@
-import dayjs from "dayjs"
-import { Text, View } from "react-native"
-import useColors from "../../hooks/useColors"
+import dayjs from "dayjs";
+import { Text, View } from "react-native";
+import useColors from "../../hooks/useColors";
 
-const HeaderDay = ({
-  children
-}: {
-  children: string
-}) => {
-  const colors = useColors()
+const HeaderDay = ({ children }: { children: string }) => {
+  const colors = useColors();
   return (
     <View
       style={{
@@ -19,30 +15,32 @@ const HeaderDay = ({
       <Text
         style={{
           fontSize: 12,
-          fontWeight: 'bold',
+          fontWeight: "bold",
           color: colors.calendarWeekNameColor,
-          textAlign: 'center',
+          textAlign: "center",
         }}
-      >{children}</Text>
+      >
+        {children}
+      </Text>
     </View>
-  )
-}
+  );
+};
 
-export default function CalendarHeader() {
-  const colors = useColors()
+const CalendarHeader = () => {
+  const colors = useColors();
 
   return (
     <View
       style={{
-        width: '100%',
+        width: "100%",
         paddingLeft: 16,
         paddingRight: 16,
         backgroundColor: colors.calendarBackground,
 
-        shadowColor: 'rgba(0, 0, 0, 0.6)',
+        shadowColor: "rgba(0, 0, 0, 0.6)",
         shadowOffset: {
           width: 0,
-          height: 2
+          height: 2,
         },
         shadowRadius: 1,
         shadowOpacity: 0.2,
@@ -50,23 +48,38 @@ export default function CalendarHeader() {
         zIndex: 3,
       }}
     >
-      <View style={{
-
-        flexDirection: "row",
-        justifyContent: 'space-around',
-        marginLeft: -3,
-        marginRight: -3,
-        paddingTop: 8,
-        paddingBottom: 8,
-      }}>
-        <HeaderDay>{dayjs().startOf('week').format('ddd')}</HeaderDay>
-        <HeaderDay>{dayjs().startOf('week').add(1, 'day').format('ddd')}</HeaderDay>
-        <HeaderDay>{dayjs().startOf('week').add(2, 'day').format('ddd')}</HeaderDay>
-        <HeaderDay>{dayjs().startOf('week').add(3, 'day').format('ddd')}</HeaderDay>
-        <HeaderDay>{dayjs().startOf('week').add(4, 'day').format('ddd')}</HeaderDay>
-        <HeaderDay>{dayjs().startOf('week').add(5, 'day').format('ddd')}</HeaderDay>
-        <HeaderDay>{dayjs().startOf('week').add(6, 'day').format('ddd')}</HeaderDay>
+      <View
+        style={{
+          flexDirection: "row",
+          justifyContent: "space-around",
+          marginLeft: -3,
+          marginRight: -3,
+          paddingTop: 8,
+          paddingBottom: 8,
+        }}
+      >
+        <HeaderDay>{dayjs().startOf("week").format("ddd")}</HeaderDay>
+        <HeaderDay>
+          {dayjs().startOf("week").add(1, "day").format("ddd")}
+        </HeaderDay>
+        <HeaderDay>
+          {dayjs().startOf("week").add(2, "day").format("ddd")}
+        </HeaderDay>
+        <HeaderDay>
+          {dayjs().startOf("week").add(3, "day").format("ddd")}
+        </HeaderDay>
+        <HeaderDay>
+          {dayjs().startOf("week").add(4, "day").format("ddd")}
+        </HeaderDay>
+        <HeaderDay>
+          {dayjs().startOf("week").add(5, "day").format("ddd")}
+        </HeaderDay>
+        <HeaderDay>
+          {dayjs().startOf("week").add(6, "day").format("ddd")}
+        </HeaderDay>
       </View>
     </View>
-  )
-}
+  );
+};
+
+export default CalendarHeader;

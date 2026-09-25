@@ -1,12 +1,19 @@
 import useColors from "@/hooks/useColors";
 import useHaptics from "@/hooks/useHaptics";
-import { Emotion } from "@/types";
-import { Text, View, ViewStyle, useColorScheme } from "react-native";
+import type { Emotion } from "@/types";
+import type { ViewStyle } from "react-native";
+import { Text, View, useColorScheme } from "react-native";
 import { RectButton } from "react-native-gesture-handler";
 import { EmotionIndicator } from "./EmotionsIndicator";
 
+const DEFAULT_STYLE = {};
+
+/** Emotion button in the advanced emotion pages, with a category dot. */
 export const EmotionButtonAdvanced = ({
-  emotion, onPress, selected, style = {},
+  emotion,
+  onPress,
+  selected,
+  style = DEFAULT_STYLE,
 }: {
   emotion: Emotion;
   onPress: (emotion: Emotion) => void;
@@ -16,6 +23,8 @@ export const EmotionButtonAdvanced = ({
   const colors = useColors();
   const haptics = useHaptics();
   const colorScheme = useColorScheme();
+  const unselectedBorderColor =
+    colorScheme === "light" ? "rgba(0,0,0,0.1)" : "rgba(255,255,255,0.1)";
 
   return (
     <RectButton
@@ -25,8 +34,8 @@ export const EmotionButtonAdvanced = ({
       }}
       style={{
         flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
+        justifyContent: "center",
+        alignItems: "center",
         marginBottom: 4,
         ...style,
       }}
@@ -34,14 +43,14 @@ export const EmotionButtonAdvanced = ({
     >
       <View
         style={{
-          width: '100%',
+          width: "100%",
           // backgroundColor: colors.cardBackground,
           backgroundColor: colors.logCardBackground,
           borderRadius: 8,
           borderWidth: selected ? 2 : 1,
-          borderColor: selected ? colors.tint : colorScheme === 'light' ? 'rgba(0,0,0,0.1)' : 'rgba(255,255,255,0.1)',
-          flexDirection: 'row',
-          alignItems: 'center',
+          borderColor: selected ? colors.tint : unselectedBorderColor,
+          flexDirection: "row",
+          alignItems: "center",
           paddingVertical: selected ? 11 : 12,
           paddingRight: selected ? 13 : 14,
           paddingLeft: selected ? 13 : 14,
@@ -51,7 +60,7 @@ export const EmotionButtonAdvanced = ({
         <Text
           style={{
             color: colors.text,
-            fontWeight: '500',
+            fontWeight: "500",
             fontSize: 17,
             flex: 1,
           }}
@@ -64,13 +73,13 @@ export const EmotionButtonAdvanced = ({
   );
 };
 
-export const EmotionButtonEmpty = () => {
-  return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-      }} />
-  );
-};
+/** Blank cell that fills an odd last row in an emotion page. */
+export const EmotionButtonEmpty = () => (
+  <View
+    style={{
+      flex: 1,
+      justifyContent: "center",
+      alignItems: "center",
+    }}
+  />
+);

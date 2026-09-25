@@ -1,43 +1,62 @@
-import _ from "lodash";
-import {
-  Pressable,
-  StyleSheet,
-  Text, TextStyle, View,
-  ViewStyle
-} from "react-native";
-import * as FeatherIcons from "react-native-feather";
+import isArray from "lodash/isArray";
+import isStringValue from "lodash/isString";
+import type { TextStyle, ViewStyle } from "react-native";
+import { Pressable, StyleSheet, Text, View } from "react-native";
+import type { SvgProps } from "react-native-svg";
 import useColors from "@/hooks/useColors";
 import useHaptics from "@/hooks/useHaptics";
 
+const DEFAULT_STYLE = {};
+
 const isString = (children: React.ReactNode): children is string => {
-  if (_.isString(children)) {
+  if (isStringValue(children)) {
     return true;
   }
 
-  if (_.isArray(children)) {
-    return children.every(d => _.isString(d));
+  if (isArray(children)) {
+    return children.every((d) => isStringValue(d));
   }
 
   return false;
 };
 
-export default function LinkButton({
+const styles = StyleSheet.create({
+  container: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    padding: 8,
+  },
+  iconContainer: { marginRight: 5 },
+});
+
+const getPressableOpacity = (
+  isDisabled: boolean | undefined,
+  isPressed: boolean
+) => {
+  if (isDisabled) {
+    return 0.5;
+  }
+  return isPressed ? 0.8 : 1;
+};
+
+const LinkButton = ({
   type = "primary",
   onPress,
   children,
-  style = {},
-  icon = null,
+  style = DEFAULT_STYLE,
+  icon: Icon = null,
   testID,
   disabled,
 }: {
   type?: "primary" | "secondary" | "danger";
-  onPress: () => any;
+  onPress: () => void;
   children?: React.ReactNode;
   style?: ViewStyle & TextStyle;
-  icon?: keyof typeof FeatherIcons | null;
+  icon?: ((props: SvgProps) => React.JSX.Element) | null;
   testID?: string;
   disabled?: boolean;
-}) {
+}) => {
   const colors = useColors();
   const haptics = useHaptics();
 
@@ -53,31 +72,31 @@ export default function LinkButton({
       : colors.linkButtonTextDanger,
   }[type];
 
-  const Icon = FeatherIcons[icon as keyof typeof FeatherIcons];
-
   const _onPress = () => {
     if (!disabled) {
       haptics.selection();
       onPress();
     }
-  }
+  };
 
   return (
     <Pressable
       accessibilityRole="button"
       accessibilityState={{ disabled: Boolean(disabled) }}
-      style={({ pressed }) => [{
-        flexDirection: "row",
-        alignItems: "center",
-        justifyContent: "center",
-        padding: 8,
-        opacity: disabled ? 0.5 : pressed ? 0.8 : 1,
-        ...style,
-      }]}
+      style={({ pressed }) => [
+        {
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "center",
+          padding: 8,
+          opacity: getPressableOpacity(disabled, pressed),
+          ...style,
+        },
+      ]}
       onPress={_onPress}
       testID={testID}
     >
-      {icon && (
+      {Icon && (
         <View style={styles.iconContainer}>
           <Icon width={17} color={color} />
         </View>
@@ -100,14 +119,6 @@ export default function LinkButton({
       )}
     </Pressable>
   );
-}
+};
 
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    padding: 8,
-  },
-  iconContainer: { marginRight: 5 },
-});
+export default LinkButton;

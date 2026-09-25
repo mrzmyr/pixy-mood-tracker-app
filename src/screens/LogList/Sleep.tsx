@@ -1,28 +1,25 @@
-import { SlideSleepButton } from '@/components/Logger/slides/SlideSleepButton';
-import { LogItem } from '@/hooks/useLogs';
-import { t } from 'i18n-js';
-import { View } from 'react-native';
-import { SectionHeader } from './SectionHeader';
+import { SlideSleepButton } from "@/components/Logger/slides/SlideSleepButton";
+import type { LogItem } from "@/hooks/useLogs";
+import { t } from "i18n-js";
+import { View } from "react-native";
+import { SectionHeader } from "./SectionHeader";
 
-export const Sleep = ({
-  item,
-}: {
-  item: LogItem;
-}) => {
-  if (!item.sleep?.quality) return null;
+/**
+ * Sleep section of an entry card; renders nothing when the entry has no
+ * sleep rating.
+ */
+export const Sleep = ({ item }: { item: LogItem }) => {
+  if (!item.sleep?.quality) {
+    return null;
+  }
 
   return (
-    <View
-      style={{
-      }}
-    >
-      <SectionHeader
-        title={t('view_log_sleep')}
-      />
+    <View style={{}}>
+      <SectionHeader title={t("view_log_sleep")} />
       <View
         style={{
-          flexDirection: 'row',
-          flexWrap: 'wrap',
+          flexDirection: "row",
+          flexWrap: "wrap",
         }}
       >
         <SlideSleepButton

@@ -1,5 +1,11 @@
 import React, { memo, useRef, useState } from "react";
-import { ActivityIndicator, Platform, Text, useWindowDimensions, View } from "react-native";
+import {
+  ActivityIndicator,
+  Platform,
+  Text,
+  useWindowDimensions,
+  View,
+} from "react-native";
 import type { NativeScrollEvent, NativeSyntheticEvent } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { useCalendarFilters } from "@/hooks/useCalendarFilters";
@@ -14,41 +20,33 @@ import CalendarHeader from "./CalendarHeader";
 import { ScrollToBottomButton } from "./ScrollToBottomButton";
 import { t } from "@/helpers/translation";
 
-const CalendarScreen = memo(function CalendarScreen() {
+const CalendarScreenComponent = () => {
   const initialMonthCount = 13;
   const monthsPerPage = 12;
   const colors = useColors();
-
   const { settings } = useSettings();
-  const logState = useLogState()
+  const logState = useLogState();
   const calendarFilters = useCalendarFilters();
   const window = useWindowDimensions();
   const [scrollOffset, setScrollOffset] = useState(0);
   const [monthCount, setMonthCount] = useState(initialMonthCount);
   const [calendarHeight, setCalendarHeight] = useState(0);
-
   const scrollRef = useRef<ScrollView>(null);
   const isLoadingEarlierMonths = useRef(false);
   const requestedFromMonthCount = useRef(0);
   const previousContentHeight = useRef(0);
   const isInitialPositionSet = useRef(false);
 
-  const showScrollTopButton = (
-    scrollOffset < calendarHeight - window.height &&
-    !calendarFilters.isOpen
-  )
+  const showScrollTopButton =
+    scrollOffset < calendarHeight - window.height && !calendarFilters.isOpen;
 
   const loadEarlierMonths = () => {
     setMonthCount((count) => count + monthsPerPage);
   };
 
-  const updateScrollOffset = (offset: number) => {
-    setScrollOffset(offset);
-  };
-
   const onScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
     const offset = event.nativeEvent.contentOffset.y;
-    updateScrollOffset(offset);
+    setScrollOffset(offset);
 
     if (
       isInitialPositionSet.current &&
@@ -80,25 +78,19 @@ const CalendarScreen = memo(function CalendarScreen() {
 
   if (!settings.loaded || !logState.loaded) {
     return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
         <ActivityIndicator size="small" color={colors.text} />
       </View>
-    )
+    );
   }
 
   return (
-    <View
-      style={{
-        flex: 1,
-      }}
-    >
+    <View style={{ flex: 1 }}>
       <CalendarHeader />
       {showScrollTopButton && (
         <ScrollToBottomButton
           onPress={() => {
-            if (scrollRef.current) {
-              scrollRef.current.scrollToEnd({ animated: true });
-            }
+            scrollRef.current?.scrollToEnd({ animated: true });
           }}
         />
       )}
@@ -116,29 +108,32 @@ const CalendarScreen = memo(function CalendarScreen() {
         ref={scrollRef}
       >
         {Platform.OS === "web" && calendarFilters.isOpen && <Body />}
-        <Calendar monthCount={monthCount} onCalendarHeightChange={setCalendarHeight} />
+        <Calendar
+          monthCount={monthCount}
+          onCalendarHeightChange={setCalendarHeight}
+        />
         <View style={{ paddingBottom: 32 }}>
           <CalendarFooter />
         </View>
-
-        <View
-          style={{
-          }}
-        >
+        <View style={{}}>
           <Text
             style={{
               fontSize: 14,
               color: colors.textSecondary,
               marginTop: 20,
-              textAlign: 'center',
+              textAlign: "center",
               marginBottom: -60,
             }}
-          >🙏 {t('calendar_foot_note')}</Text>
+          >
+            🙏 {t("calendar_foot_note")}
+          </Text>
         </View>
       </ScrollView>
       {Platform.OS !== "web" && <CalendarBottomSheet />}
     </View>
   );
-});
+};
+
+const CalendarScreen = memo(CalendarScreenComponent);
 
 export default CalendarScreen;

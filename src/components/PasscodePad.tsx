@@ -1,10 +1,14 @@
-import { View } from 'react-native';
-import { Delete, X } from 'react-native-feather';
-import { PasscodeEmptyPad } from '@/components/PasscodeEmptyPad';
-import useColors from '@/hooks/useColors';
-import { PasscodePadButton } from './PasscodePadButton';
-import { PasscodePadIcon } from './PasscodePadIcon';
+import { View } from "react-native";
+import { Delete, X } from "react-native-feather";
+import { PasscodeEmptyPad } from "@/components/PasscodeEmptyPad";
+import useColors from "@/hooks/useColors";
+import { PasscodePadButton } from "./PasscodePadButton";
+import { PasscodePadIcon } from "./PasscodePadIcon";
 
+/**
+ * Numeric passcode keypad. In `confirm` mode the close key is hidden, so
+ * the user cannot dismiss the lock.
+ */
 export const PasscodePad = ({
   onPress,
   onBackspace,
@@ -14,29 +18,29 @@ export const PasscodePad = ({
   onPress: (value: string) => void;
   onBackspace: () => void;
   onClose: () => void;
-  mode: 'create' | 'confirm';
+  mode: "create" | "confirm";
 }) => {
   const colors = useColors();
 
   return (
     <View
       style={{
-        flexDirection: 'row',
-        justifyContent: 'center',
-        marginTop: '10%',
+        flexDirection: "row",
+        justifyContent: "center",
+        marginTop: "10%",
       }}
     >
       <View
         style={{
-          width: '100%',
+          width: "100%",
           maxWidth: 320,
         }}
       >
         <View
           style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            marginBottom: '5%',
+            flexDirection: "row",
+            justifyContent: "space-between",
+            marginBottom: "5%",
           }}
         >
           <PasscodePadButton value="1" onPress={onPress} />
@@ -45,9 +49,9 @@ export const PasscodePad = ({
         </View>
         <View
           style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            marginBottom: '5%',
+            flexDirection: "row",
+            justifyContent: "space-between",
+            marginBottom: "5%",
           }}
         >
           <PasscodePadButton value="4" onPress={onPress} />
@@ -56,9 +60,9 @@ export const PasscodePad = ({
         </View>
         <View
           style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            marginBottom: '5%',
+            flexDirection: "row",
+            justifyContent: "space-between",
+            marginBottom: "5%",
           }}
         >
           <PasscodePadButton value="7" onPress={onPress} />
@@ -67,16 +71,24 @@ export const PasscodePad = ({
         </View>
         <View
           style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
+            flexDirection: "row",
+            justifyContent: "space-between",
             marginBottom: 25,
           }}
         >
-          {mode !== 'confirm' ?
-            <PasscodePadIcon icon={<X height={30} width={30} color={colors.text} />} onPress={onClose} />
-            : <PasscodeEmptyPad />}
+          {mode === "confirm" ? (
+            <PasscodeEmptyPad />
+          ) : (
+            <PasscodePadIcon
+              icon={<X height={30} width={30} color={colors.text} />}
+              onPress={onClose}
+            />
+          )}
           <PasscodePadButton value="0" onPress={onPress} />
-          <PasscodePadIcon icon={<Delete width={80} height={30} color={colors.text} />} onPress={onBackspace} />
+          <PasscodePadIcon
+            icon={<Delete width={80} height={30} color={colors.text} />}
+            onPress={onBackspace}
+          />
         </View>
       </View>
     </View>

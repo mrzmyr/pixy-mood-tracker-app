@@ -1,9 +1,9 @@
-import { Text, View } from 'react-native';
-import { Lock } from 'react-native-feather';
-import Animated, { FadeInRight } from 'react-native-reanimated';
-import Button from '@/components/Button';
-import { t } from '@/helpers/translation';
-import useColors from '../../hooks/useColors';
+import { Text, View } from "react-native";
+import { Lock } from "react-native-feather";
+import Animated, { FadeInRight } from "react-native-reanimated";
+import Button from "@/components/Button";
+import { t } from "@/helpers/translation";
+import useColors from "../../hooks/useColors";
 
 const ListItem = ({ children, delay }) => {
   const colors = useColors();
@@ -11,9 +11,9 @@ const ListItem = ({ children, delay }) => {
   return (
     <Animated.View
       style={{
-        flexDirection: 'row',
-        justifyContent: 'flex-start',
-        alignItems: 'flex-start',
+        flexDirection: "row",
+        justifyContent: "flex-start",
+        alignItems: "flex-start",
         marginBottom: 8,
       }}
       entering={FadeInRight.delay(delay)}
@@ -42,77 +42,77 @@ const ListItem = ({ children, delay }) => {
   );
 };
 
-export const PrivacySlide = ({
-  onPress
-}: {
-  onPress: () => void;
-}) => {
+/**
+ * Last onboarding slide with the privacy summary; `onPress` finishes
+ * onboarding.
+ */
+export const PrivacySlide = ({ onPress }: { onPress: () => void }) => {
   const colors = useColors();
 
   return (
-    <>
+    <View
+      style={{
+        flex: 1,
+      }}
+    >
       <View
         style={{
           flex: 1,
+          paddingVertical: 32,
+          paddingHorizontal: 32,
         }}
       >
         <View
           style={{
             flex: 1,
-            paddingVertical: 32,
-            paddingHorizontal: 32,
+            paddingTop: 32,
+            justifyContent: "flex-start",
+            alignItems: "center",
           }}
         >
           <View
             style={{
-              flex: 1,
-              paddingTop: 32,
-              justifyContent: 'flex-start',
-              alignItems: 'center',
+              width: 56,
+              height: 56,
+              borderRadius: 28,
+              backgroundColor: colors.onboardingPrivacyBadgeBackground,
+              justifyContent: "center",
+              alignItems: "center",
+              marginBottom: 12,
             }}
           >
-            <View
-              style={{
-                width: 56,
-                height: 56,
-                borderRadius: 28,
-                backgroundColor: colors.onboardingPrivacyBadgeBackground,
-                justifyContent: 'center',
-                alignItems: 'center',
-                marginBottom: 12,
-              }}
-            >
-              <Lock width={24} height={24} color={colors.onboardingPrivacyBadgeVector} />
-            </View>
-            <Text
-              style={{
-                color: colors.onboardingTitle,
-                fontSize: 24,
-                lineHeight: 32,
-                fontWeight: 'bold',
-                marginBottom: 20,
-                textAlign: 'center',
-              }}
-            >
-              {t(`onboarding_step_5_title`)}
-            </Text>
-            <ListItem delay={100}>{t(`onboarding_step_5_body_1`)}</ListItem>
-            <ListItem delay={200}>{t(`onboarding_step_5_body_2`)}</ListItem>
-            <ListItem delay={300}>{t(`onboarding_step_5_body_3`)}</ListItem>
-            <ListItem delay={400}>{t(`onboarding_step_5_body_4`)}</ListItem>
-            <ListItem delay={500}>{t(`onboarding_step_5_body_5`)}</ListItem>
+            <Lock
+              width={24}
+              height={24}
+              color={colors.onboardingPrivacyBadgeVector}
+            />
           </View>
-          <View
+          <Text
             style={{
-              width: '100%',
+              color: colors.onboardingTitle,
+              fontSize: 24,
+              lineHeight: 32,
+              fontWeight: "bold",
+              marginBottom: 20,
+              textAlign: "center",
             }}
           >
-            <Button
-              onPress={onPress}
-            >{t('onboarding_step_5_button')}</Button>
-          </View>
+            {t(`onboarding_step_5_title`)}
+          </Text>
+          <ListItem delay={100}>{t(`onboarding_step_5_body_1`)}</ListItem>
+          <ListItem delay={200}>{t(`onboarding_step_5_body_2`)}</ListItem>
+          <ListItem delay={300}>{t(`onboarding_step_5_body_3`)}</ListItem>
+          <ListItem delay={400}>{t(`onboarding_step_5_body_4`)}</ListItem>
+          <ListItem delay={500}>{t(`onboarding_step_5_body_5`)}</ListItem>
+        </View>
+        <View
+          style={{
+            width: "100%",
+          }}
+        >
+          <Button onPress={onPress}>{t("onboarding_step_5_button")}</Button>
         </View>
       </View>
-    </>
+    </View>
   );
 };

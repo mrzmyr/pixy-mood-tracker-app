@@ -1,30 +1,60 @@
-import { useRef, useState } from 'react';
-import { ActivityIndicator, Alert, Pressable, Text, View } from 'react-native';
-import { Heart } from 'react-native-feather';
-import { t } from '@/helpers/translation';
-import useColors from '@/hooks/useColors';
-import { SupportFlowError, useSupport } from '@/support';
+import { useRef, useState } from "react";
+import { ActivityIndicator, Alert, Pressable, Text, View } from "react-native";
+import { Heart } from "react-native-feather";
+import { t } from "@/helpers/translation";
+import useColors from "@/hooks/useColors";
+import type { SupportFlowError } from "@/support";
+import { useSupport } from "@/support";
 
 const isSupportFlowError = (error: unknown): error is SupportFlowError => {
-  if (typeof error !== 'object' || error === null) return false;
+  if (typeof error !== "object" || error === null) {
+    return false;
+  }
 
-  const candidate = error as Partial<SupportFlowError>;
-  return ['status', 'message', 'why', 'fix'].every(
-    (field) => typeof candidate[field as keyof SupportFlowError] === 'string',
+  return (
+    "status" in error &&
+    typeof error.status === "string" &&
+    "message" in error &&
+    typeof error.message === "string" &&
+    "why" in error &&
+    typeof error.why === "string" &&
+    "fix" in error &&
+    typeof error.fix === "string"
   );
 };
 
-const normalizeSupportFlowError = (error: unknown): SupportFlowError => {
-  if (isSupportFlowError(error)) return error;
+const normalizeSupportFlowError = (cause: unknown): SupportFlowError => {
+  if (isSupportFlowError(cause)) {
+    return cause;
+  }
 
   return {
-    status: 'support_flow_failed',
-    message: t('support_pixy_error_message'),
-    why: 'Support provider failed before returning a structured error.',
-    fix: t('support_pixy_error_fix'),
+    status: "support_flow_failed",
+    message: t("support_pixy_error_message"),
+    why: "Support provider failed before returning a structured error.",
+    fix: t("support_pixy_error_fix"),
   };
 };
 
+// Runs cleanup after task settles; lives outside the component because the React Compiler cannot lower `finally`.
+const runWithCleanup = async (
+  task: () => Promise<void>,
+  cleanup: () => void
+) => {
+  try {
+    await task();
+  } finally {
+    cleanup();
+  }
+};
+
+/**
+ * Settings card that opens the support paywall.
+ *
+ * Render it only when `useSupport().enabled` is true. Failures show an
+ * alert with the error's `fix` and a retry action; repeated taps are
+ * ignored while the flow is open.
+ */
 export const SupportCard = () => {
   const colors = useColors();
   const support = useSupport();
@@ -34,29 +64,36 @@ export const SupportCard = () => {
   const [isOpening, setIsOpening] = useState(false);
 
   const openSupport = async () => {
-    if (openingRef.current) return;
+    if (openingRef.current) {
+      return;
+    }
 
     openingRef.current = true;
     setIsOpening(true);
 
-    try {
-      await support.openSupport();
-    } catch (cause) {
-      const error = normalizeSupportFlowError(cause);
+    await runWithCleanup(
+      async () => {
+        try {
+          await support.openSupport();
+        } catch (error) {
+          const supportError = normalizeSupportFlowError(error);
 
-      Alert.alert(error.message, error.fix, [
-        { text: t('cancel'), style: 'cancel' },
-        {
-          text: t('support_pixy_retry'),
-          onPress: () => {
-            void openSupport();
-          },
-        },
-      ]);
-    } finally {
-      openingRef.current = false;
-      setIsOpening(false);
-    }
+          Alert.alert(supportError.message, supportError.fix, [
+            { text: t("cancel"), style: "cancel" },
+            {
+              text: t("support_pixy_retry"),
+              onPress: () => {
+                void openSupport();
+              },
+            },
+          ]);
+        }
+      },
+      () => {
+        openingRef.current = false;
+        setIsOpening(false);
+      }
+    );
   };
 
   return (
@@ -84,11 +121,11 @@ export const SupportCard = () => {
           color: contentColor,
           fontSize: 22,
           lineHeight: 28,
-          fontWeight: '700',
+          fontWeight: "700",
           letterSpacing: -0.2,
         }}
       >
-        {t('support_pixy_heading')}
+        {t("support_pixy_heading")}
       </Text>
       <Text
         style={{
@@ -98,11 +135,11 @@ export const SupportCard = () => {
           lineHeight: 24,
         }}
       >
-        {t('support_pixy_body')}
+        {t("support_pixy_body")}
       </Text>
       <Pressable
         accessibilityRole="button"
-        accessibilityLabel={t('support_pixy_button')}
+        accessibilityLabel={t("support_pixy_button")}
         accessibilityState={{ busy: isOpening, disabled: isOpening }}
         disabled={isOpening}
         onPress={() => {
@@ -114,8 +151,8 @@ export const SupportCard = () => {
           paddingHorizontal: 16,
           paddingVertical: 14,
           borderRadius: 12,
-          alignItems: 'center',
-          justifyContent: 'center',
+          alignItems: "center",
+          justifyContent: "center",
           backgroundColor: contentColor,
           opacity: pressed ? 0.92 : 1,
           transform: [{ scale: pressed ? 0.96 : 1 }],
@@ -129,10 +166,10 @@ export const SupportCard = () => {
               color: cardColor,
               fontSize: 17,
               lineHeight: 22,
-              fontWeight: '700',
+              fontWeight: "700",
             }}
           >
-            {t('support_pixy_button')}
+            {t("support_pixy_button")}
           </Text>
         )}
       </Pressable>

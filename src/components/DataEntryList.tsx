@@ -1,8 +1,8 @@
-import { View } from "react-native"
-import useColors from "@/hooks/useColors"
+import { View } from "react-native";
+import useColors from "@/hooks/useColors";
 
-export default function DataEntyList({ children }) {
-  const colors = useColors()
+const DataEntyList = ({ children }) => {
+  const colors = useColors();
 
   return (
     <View
@@ -17,5 +17,7 @@ export default function DataEntyList({ children }) {
     >
       {children}
     </View>
-  )
-}
+  );
+};
+
+export default DataEntyList;

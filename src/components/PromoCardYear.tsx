@@ -1,42 +1,52 @@
-import { t } from "@/helpers/translation"
-import useColors from "@/hooks/useColors"
-import useHaptics from "@/hooks/useHaptics"
-import { useSettings } from "@/hooks/useSettings"
-import { LinearGradient } from "expo-linear-gradient"
-import { Pressable, Text, View } from "react-native"
-import { Star, X } from "react-native-feather"
-import Animated, { FadeIn, LinearTransition } from "react-native-reanimated"
+import { t } from "@/helpers/translation";
+import useColors from "@/hooks/useColors";
+import useHaptics from "@/hooks/useHaptics";
+import { useSettings } from "@/hooks/useSettings";
+import { LinearGradient } from "expo-linear-gradient";
+import { Pressable, Text, View } from "react-native";
+import { Star, X } from "react-native-feather";
+import Animated, { FadeIn, LinearTransition } from "react-native-reanimated";
 
-export const YEAR_REPORT_SLUG = `promo_year_report_${(new Date()).getFullYear()}_closed`
+/**
+ * Dismissal key for the year report promo, unique per year. Computed once
+ * at app start.
+ */
+export const YEAR_REPORT_SLUG = `promo_year_report_${new Date().getFullYear()}_closed`;
 
+/**
+ * Calendar promo for the year report; hidden once dismissed for the
+ * current year.
+ */
 export const PromoCardYear = ({
   title,
   onPress,
 }: {
-  title: string
-  onPress: () => void
+  title: string;
+  onPress: () => void;
 }) => {
-  const colors = useColors()
-  const haptics = useHaptics()
-  const { addActionDone, hasActionDone } = useSettings()
+  const colors = useColors();
+  const haptics = useHaptics();
+  const { addActionDone, hasActionDone } = useSettings();
 
   const gradientColors: [string, string, string] = [
     colors.palette.orange[700],
     colors.palette.orange[500],
-    colors.palette.yellow[400]
-  ]
+    colors.palette.yellow[400],
+  ];
 
   const _onPress = () => {
-    haptics.selection()
-    onPress()
-  }
+    haptics.selection();
+    onPress();
+  };
 
   const onClose = () => {
-    haptics.selection()
-    addActionDone(YEAR_REPORT_SLUG)
-  }
+    haptics.selection();
+    addActionDone(YEAR_REPORT_SLUG);
+  };
 
-  if (hasActionDone(YEAR_REPORT_SLUG)) return null
+  if (hasActionDone(YEAR_REPORT_SLUG)) {
+    return null;
+  }
 
   return (
     <Animated.View
@@ -47,23 +57,26 @@ export const PromoCardYear = ({
       }}
     >
       <Pressable
-        style={({ pressed }) => [{
-          backgroundColor: colors.cardBackground,
-          borderRadius: 12,
-          overflow: 'hidden',
-          paddingVertical: 24,
-          paddingHorizontal: 16,
-          opacity: pressed ? 0.8 : 1,
-          minHeight: 140,
-        }]}
+        style={({ pressed }) => [
+          {
+            backgroundColor: colors.cardBackground,
+            borderRadius: 12,
+            overflow: "hidden",
+            paddingVertical: 24,
+            paddingHorizontal: 16,
+            opacity: pressed ? 0.8 : 1,
+            minHeight: 140,
+          },
+        ]}
         onPress={_onPress}
       >
         <LinearGradient
           locations={[0, 0.3, 1]}
-          start={{ x: 0, y: 1 }} end={{ x: 1, y: 0 }}
+          start={{ x: 0, y: 1 }}
+          end={{ x: 1, y: 0 }}
           colors={gradientColors}
           style={{
-            position: 'absolute',
+            position: "absolute",
             left: 0,
             right: 0,
             top: 0,
@@ -72,17 +85,22 @@ export const PromoCardYear = ({
         />
         <View
           style={{
-            position: 'absolute',
+            position: "absolute",
             left: 0,
             top: -50,
-            transform: [{ rotate: '-20deg' }],
+            transform: [{ rotate: "-20deg" }],
           }}
         >
-          <Star width={500} height={500} fill={gradientColors[0]} color={gradientColors[0]} />
+          <Star
+            width={500}
+            height={500}
+            fill={gradientColors[0]}
+            color={gradientColors[0]}
+          />
         </View>
         <View
           style={{
-            position: 'absolute',
+            position: "absolute",
             left: 16,
             top: 16,
           }}
@@ -92,14 +110,16 @@ export const PromoCardYear = ({
               fontSize: 14,
               color: colors.palette.white,
             }}
-          >{t('year_report')}</Text>
+          >
+            {t("year_report")}
+          </Text>
         </View>
         <Pressable
           style={{
             padding: 4,
             borderRadius: 100,
             width: 32,
-            position: 'absolute',
+            position: "absolute",
             right: 12,
             top: 12,
           }}
@@ -109,16 +129,16 @@ export const PromoCardYear = ({
         </Pressable>
         <View
           style={{
-            flexDirection: 'column',
-            width: '55%',
+            flexDirection: "column",
+            width: "55%",
             flex: 1,
-            justifyContent: 'flex-end',
+            justifyContent: "flex-end",
           }}
         >
           <Text
             style={{
               fontSize: 20,
-              fontWeight: 'bold',
+              fontWeight: "bold",
               color: colors.palette.white,
               marginTop: 8,
               lineHeight: 26,
@@ -129,5 +149,5 @@ export const PromoCardYear = ({
         </View>
       </Pressable>
     </Animated.View>
-  )
-}
+  );
+};

@@ -1,268 +1,262 @@
-import AsyncStorage from '@react-native-async-storage/async-storage'
-import { act, renderHook } from '@testing-library/react-native'
-import { AnalyticsProvider } from '../hooks/useAnalytics'
-import { CalendarFiltersProvider, useCalendarFilters } from '../hooks/useCalendarFilters'
-import { LogsProvider, LogsState, STORAGE_KEY } from '../hooks/useLogs'
-import { SettingsProvider } from '../hooks/useSettings'
-import { _generateItem } from './utils'
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { act, renderHook } from "@testing-library/react-native";
+import { AnalyticsProvider } from "../hooks/useAnalytics";
+import {
+  CalendarFiltersProvider,
+  useCalendarFilters,
+} from "../hooks/useCalendarFilters";
+import type { LogsState } from "../hooks/useLogs";
+import { LogsProvider, STORAGE_KEY } from "../hooks/useLogs";
+import { SettingsProvider } from "../hooks/useSettings";
+import { _generateItem } from "./utils";
 
 const wrapper = ({ children }) => (
   <SettingsProvider>
     <AnalyticsProvider>
       <LogsProvider>
-        <CalendarFiltersProvider>
-          {children}
-        </CalendarFiltersProvider>
+        <CalendarFiltersProvider>{children}</CalendarFiltersProvider>
       </LogsProvider>
     </AnalyticsProvider>
   </SettingsProvider>
-)
+);
 
-const _renderHook = () => {
-  return renderHook(() => useCalendarFilters(), { wrapper })
-}
+const _renderHook = () => renderHook(() => useCalendarFilters(), { wrapper });
 
-const testItems: LogsState['items'] = [
+const testItems: LogsState["items"] = [
   _generateItem({
-    date: '2022-01-01',
-    rating: 'neutral',
-    message: 'test message 🐶',
-    tags: []
+    date: "2022-01-01",
+    rating: "neutral",
+    message: "test message 🐶",
+    tags: [],
   }),
   _generateItem({
-    date: '2022-01-02',
-    rating: 'good',
-    message: '🦄🐶',
-    tags: [{
-      id: 't1',
-    }, {
-      id: 't4',
-    }]
+    date: "2022-01-02",
+    rating: "good",
+    message: "🦄🐶",
+    tags: [
+      {
+        id: "t1",
+      },
+      {
+        id: "t4",
+      },
+    ],
   }),
   _generateItem({
-    date: '2022-01-02',
-    rating: 'bad',
-    message: '🕹',
-    tags: [{
-      id: 't1',
-    }, {
-      id: 't3',
-    }]
-  })
-]
+    date: "2022-01-02",
+    rating: "bad",
+    message: "🕹",
+    tags: [
+      {
+        id: "t1",
+      },
+      {
+        id: "t3",
+      },
+    ],
+  }),
+];
 
-xdescribe('useCalendarFilters()', () => {
-
+xdescribe("useCalendarFilters()", () => {
   afterEach(async () => {
-    const keys = await AsyncStorage.getAllKeys()
-    await AsyncStorage.multiRemove(keys)
-  })
+    const keys = await AsyncStorage.getAllKeys();
+    await AsyncStorage.multiRemove(keys);
+  });
 
-  test('should `set`', async () => {
-    const hook = await _renderHook()
-    await act(async () => {})
+  test("should `set`", async () => {
+    const hook = await _renderHook();
+    await act(async () => {});
 
-    const { set } = hook.result.current
-
-    await act(() => {
-      set({
-        text: 'test',
-        ratings: ['neutral'],
-        tagIds: ['1'],
-      })
-    })
-
-    expect(hook.result.current.data.text).toBe('test')
-    expect(hook.result.current.data.ratings).toEqual(['neutral'])
-    expect(hook.result.current.data.tagIds).toEqual(['1'])
-    expect(hook.result.current.data.filterCount).toBe(3)
-    expect(hook.result.current.data.isFiltering).toBe(true)
-  })
-
-  test('should `reset`', async () => {
-    const hook = await _renderHook()
-    await act(async () => {})
-
-    const { set, reset } = hook.result.current
+    const { set } = hook.result.current;
 
     await act(() => {
       set({
-        text: 'test',
-        ratings: ['neutral'],
-        tagIds: ['1'],
-      })
-    })
+        text: "test",
+        ratings: ["neutral"],
+        tagIds: ["1"],
+      });
+    });
 
-    await act(() => {
-      reset()
-    })
+    expect(hook.result.current.data.text).toBe("test");
+    expect(hook.result.current.data.ratings).toEqual(["neutral"]);
+    expect(hook.result.current.data.tagIds).toEqual(["1"]);
+    expect(hook.result.current.data.filterCount).toBe(3);
+    expect(hook.result.current.data.isFiltering).toBe(true);
+  });
 
-    expect(hook.result.current.data.text).toBe('')
-    expect(hook.result.current.data.ratings).toEqual([])
-    expect(hook.result.current.data.tagIds).toEqual([])
-    expect(hook.result.current.data.filterCount).toBe(0)
-    expect(hook.result.current.data.isFiltering).toBe(false)
-  })
+  test("should `reset`", async () => {
+    const hook = await _renderHook();
+    await act(async () => {});
 
-  test('should `open`', async () => {
-    const hook = await _renderHook()
-    await act(async () => {})
-
-    const { open } = hook.result.current
-
-    await act(() => {
-      open()
-    })
-
-    expect(hook.result.current.isOpen).toBe(true)
-  })
-
-  test('should `close`', async () => {
-    const hook = await _renderHook()
-    await act(async () => {})
-
-    const { open, close } = hook.result.current
-
-    await act(() => {
-      open()
-    })
-
-    await act(() => {
-      close()
-    })
-
-    expect(hook.result.current.isOpen).toBe(false)
-  })
-
-  test('should filter for `ratings`', async () => {
-    AsyncStorage.setItem(STORAGE_KEY, JSON.stringify({ items: testItems }))
-
-    const hook = await _renderHook()
-    await act(async () => {})
-
-    const { set } = hook.result.current
+    const { set, reset } = hook.result.current;
 
     await act(() => {
       set({
-        text: '',
-        ratings: ['good'],
+        text: "test",
+        ratings: ["neutral"],
+        tagIds: ["1"],
+      });
+    });
+
+    await act(() => {
+      reset();
+    });
+
+    expect(hook.result.current.data.text).toBe("");
+    expect(hook.result.current.data.ratings).toEqual([]);
+    expect(hook.result.current.data.tagIds).toEqual([]);
+    expect(hook.result.current.data.filterCount).toBe(0);
+    expect(hook.result.current.data.isFiltering).toBe(false);
+  });
+
+  test("should `open`", async () => {
+    const hook = await _renderHook();
+    await act(async () => {});
+
+    const { open } = hook.result.current;
+
+    await act(() => {
+      open();
+    });
+
+    expect(hook.result.current.isOpen).toBe(true);
+  });
+
+  test("should `close`", async () => {
+    const hook = await _renderHook();
+    await act(async () => {});
+
+    const { open, close } = hook.result.current;
+
+    await act(() => {
+      open();
+    });
+
+    await act(() => {
+      close();
+    });
+
+    expect(hook.result.current.isOpen).toBe(false);
+  });
+
+  test("should filter for `ratings`", async () => {
+    AsyncStorage.setItem(STORAGE_KEY, JSON.stringify({ items: testItems }));
+
+    const hook = await _renderHook();
+    await act(async () => {});
+
+    const { set } = hook.result.current;
+
+    await act(() => {
+      set({
+        text: "",
+        ratings: ["good"],
         tagIds: [],
-      })
-    })
+      });
+    });
 
-    expect(hook.result.current.data.filteredItems).toEqual([
-      testItems[1]
-    ])
-  })
+    expect(hook.result.current.data.filteredItems).toEqual([testItems[1]]);
+  });
 
-  test('should filter for `tags`', async () => {
-    AsyncStorage.setItem(STORAGE_KEY, JSON.stringify({ items: testItems }))
+  test("should filter for `tags`", async () => {
+    AsyncStorage.setItem(STORAGE_KEY, JSON.stringify({ items: testItems }));
 
-    const hook = await _renderHook()
-    await act(async () => {})
+    const hook = await _renderHook();
+    await act(async () => {});
 
-    const { set } = hook.result.current
+    const { set } = hook.result.current;
 
     await act(() => {
       set({
-        text: '',
+        text: "",
         ratings: [],
-        tagIds: ['t3'],
-      })
-    })
+        tagIds: ["t3"],
+      });
+    });
 
-    expect(hook.result.current.data.filteredItems).toEqual([
-      testItems[2]
-    ])
+    expect(hook.result.current.data.filteredItems).toEqual([testItems[2]]);
 
     await act(() => {
       set({
-        text: '',
+        text: "",
         ratings: [],
-        tagIds: ['t1'],
-      })
-    })
+        tagIds: ["t1"],
+      });
+    });
 
     expect(hook.result.current.data.filteredItems).toEqual([
       testItems[1],
-      testItems[2]
-    ])
-  })
+      testItems[2],
+    ]);
+  });
 
-  test('should filter for `text`', async () => {
-    AsyncStorage.setItem(STORAGE_KEY, JSON.stringify({ items: testItems }))
+  test("should filter for `text`", async () => {
+    AsyncStorage.setItem(STORAGE_KEY, JSON.stringify({ items: testItems }));
 
-    const hook = await _renderHook()
-    await act(async () => {})
+    const hook = await _renderHook();
+    await act(async () => {});
 
-    const { set } = hook.result.current
+    const { set } = hook.result.current;
 
     await act(() => {
       set({
-        text: '🐶',
+        text: "🐶",
         ratings: [],
         tagIds: [],
-      })
-    })
+      });
+    });
 
     expect(hook.result.current.data.filteredItems).toEqual([
       testItems[0],
-      testItems[1]
-    ])
+      testItems[1],
+    ]);
 
     await act(() => {
       set({
-        text: '🦄',
+        text: "🦄",
         ratings: [],
         tagIds: [],
-      })
-    })
+      });
+    });
 
-    expect(hook.result.current.data.filteredItems).toEqual([
-      testItems[1]
-    ])
-  })
+    expect(hook.result.current.data.filteredItems).toEqual([testItems[1]]);
+  });
 
-  test('should filter for `text` and `ratings`', async () => {
-    AsyncStorage.setItem(STORAGE_KEY, JSON.stringify({ items: testItems }))
+  test("should filter for `text` and `ratings`", async () => {
+    AsyncStorage.setItem(STORAGE_KEY, JSON.stringify({ items: testItems }));
 
-    const hook = await _renderHook()
-    await act(async () => {})
+    const hook = await _renderHook();
+    await act(async () => {});
 
-    const { set } = hook.result.current
+    const { set } = hook.result.current;
 
     await act(() => {
       set({
-        text: '🐶',
-        ratings: ['good'],
+        text: "🐶",
+        ratings: ["good"],
         tagIds: [],
-      })
-    })
+      });
+    });
 
-    expect(hook.result.current.data.filteredItems).toEqual([
-      testItems[1]
-    ])
-  })
+    expect(hook.result.current.data.filteredItems).toEqual([testItems[1]]);
+  });
 
-  test('should filter for `text` and `tags`', async () => {
-    AsyncStorage.setItem(STORAGE_KEY, JSON.stringify({ items: testItems }))
+  test("should filter for `text` and `tags`", async () => {
+    AsyncStorage.setItem(STORAGE_KEY, JSON.stringify({ items: testItems }));
 
-    const hook = await _renderHook()
-    await act(async () => {})
+    const hook = await _renderHook();
+    await act(async () => {});
 
-    const { set } = hook.result.current
+    const { set } = hook.result.current;
 
     await act(() => {
       set({
-        text: '🐶',
+        text: "🐶",
         ratings: [],
-        tagIds: ['t1'],
-      })
-    })
+        tagIds: ["t1"],
+      });
+    });
 
-    expect(hook.result.current.data.filteredItems).toEqual([
-      testItems[1]
-    ])
-  })
-
-})
+    expect(hook.result.current.data.filteredItems).toEqual([testItems[1]]);
+  });
+});

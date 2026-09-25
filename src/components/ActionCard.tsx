@@ -1,8 +1,16 @@
-import { Text, View, ViewStyle } from 'react-native';
-import useColors from '@/hooks/useColors';
+import type { ViewStyle } from "react-native";
+import { Text, View } from "react-native";
+import useColors from "@/hooks/useColors";
 
+/**
+ * Static highlight card with an icon, bold title, and subtitle; not
+ * pressable.
+ */
 export const ActionCard = ({
-  title, subtitle, icon, style,
+  title,
+  subtitle,
+  icon,
+  style,
 }: {
   title: string;
   subtitle: string;
@@ -23,30 +31,34 @@ export const ActionCard = ({
     >
       <View
         style={{
-          flexDirection: 'row',
+          flexDirection: "row",
         }}
       >
-        <View
-          style={{}}
-        >
-          {icon}
-        </View>
+        <View style={{}}>{icon}</View>
         <View
           style={{
             marginLeft: 8,
           }}
         >
-          <Text style={{
-            fontSize: 20,
-            color: colors.text,
-            marginBottom: 4,
-            fontWeight: 'bold'
-          }}>{title}</Text>
-          <Text style={{
-            fontSize: 14,
-            color: colors.textSecondary,
-            fontWeight: 'bold',
-          }}>{subtitle}</Text>
+          <Text
+            style={{
+              fontSize: 20,
+              color: colors.text,
+              marginBottom: 4,
+              fontWeight: "bold",
+            }}
+          >
+            {title}
+          </Text>
+          <Text
+            style={{
+              fontSize: 14,
+              color: colors.textSecondary,
+              fontWeight: "bold",
+            }}
+          >
+            {subtitle}
+          </Text>
         </View>
       </View>
     </View>
