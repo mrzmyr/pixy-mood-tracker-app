@@ -6,13 +6,13 @@ import {
   INITIAL_STATE,
   SettingsProvider,
   STORAGE_KEY,
-  useSettings
+  useSettings,
 } from "../hooks/useSettings";
 
 const wrapper = ({ children }) => (
   <SettingsProvider>
     <PostHogProvider
-      apiKey={'POSTHOG_API_KEY'}
+      apiKey={"POSTHOG_API_KEY"}
       options={{
         host: "https://app.posthog.com",
         defaultOptIn: false,
@@ -24,7 +24,9 @@ const wrapper = ({ children }) => (
         options={{
           enabled: true,
         }}
-      >{children}</AnalyticsProvider>
+      >
+        {children}
+      </AnalyticsProvider>
     </PostHogProvider>
   </SettingsProvider>
 );
@@ -39,20 +41,21 @@ const _renderHook = () => {
   );
 };
 
-const waitForLoaded = (hook) => waitFor(() => {
-  expect(hook.result.current.settingsState.settings.loaded).toBe(true);
-});
+const waitForLoaded = (hook) =>
+  waitFor(() => {
+    expect(hook.result.current.settingsState.settings.loaded).toBe(true);
+  });
 
 const _console_error = console.error;
 const STATIC_DEVICE_ID = "test-device-id";
 
 const mockOptOut = jest.fn();
 const mockOptIn = jest.fn();
-const mockIdentify = jest.fn()
+const mockIdentify = jest.fn();
 const mockCapture = jest.fn();
 const mockReset = jest.fn();
 
-jest.mock('posthog-react-native', () => {
+jest.mock("posthog-react-native", () => {
   return {
     PostHogProvider: ({ children }) => children,
     usePostHog: () => ({
@@ -62,8 +65,8 @@ jest.mock('posthog-react-native', () => {
       reset: mockReset,
       capture: mockCapture,
     }),
-  }
-})
+  };
+});
 
 describe("useAnalytics()", () => {
   beforeEach(async () => {
@@ -99,7 +102,6 @@ describe("useAnalytics()", () => {
   });
 
   test("should `identify`", async () => {
-
     AsyncStorage.setItem(
       STORAGE_KEY,
       JSON.stringify({
@@ -115,7 +117,7 @@ describe("useAnalytics()", () => {
       hook.result.current.state.identify();
     });
 
-    expect(mockIdentify).not.toBeCalled()
+    expect(mockIdentify).not.toBeCalled();
     expect(hook.result.current.state.isIdentified).toBe(true);
   });
 
@@ -128,9 +130,11 @@ describe("useAnalytics()", () => {
     });
 
     expect(hook.result.current.state.isEnabled).toBe(true);
-    expect(hook.result.current.settingsState.settings.analyticsEnabled).toBe(true)
-    expect(mockOptIn).toBeCalled()
-  })
+    expect(hook.result.current.settingsState.settings.analyticsEnabled).toBe(
+      true
+    );
+    expect(mockOptIn).toBeCalled();
+  });
 
   test("should `disable`", async () => {
     const hook = await _renderHook();
@@ -141,9 +145,11 @@ describe("useAnalytics()", () => {
     });
 
     expect(hook.result.current.state.isEnabled).toBe(false);
-    expect(hook.result.current.settingsState.settings.analyticsEnabled).toBe(false)
-    expect(mockOptOut).toBeCalled()
-  })
+    expect(hook.result.current.settingsState.settings.analyticsEnabled).toBe(
+      false
+    );
+    expect(mockOptOut).toBeCalled();
+  });
 
   test("should `track` with properties", async () => {
     AsyncStorage.setItem(
@@ -162,11 +168,11 @@ describe("useAnalytics()", () => {
     });
 
     await act(() => {
-      hook.result.current.state.track('test-event', { test: true });
+      hook.result.current.state.track("test-event", { test: true });
     });
 
-    expect(mockCapture).toBeCalledWith('test-event')
-  })
+    expect(mockCapture).toBeCalledWith("test-event");
+  });
 
   test("should `reset`", async () => {
     const hook = await _renderHook();
@@ -176,9 +182,11 @@ describe("useAnalytics()", () => {
       hook.result.current.state.reset();
     });
 
-    expect(mockReset).toBeCalled()
-    expect(mockOptOut).toBeCalled()
+    expect(mockReset).toBeCalled();
+    expect(mockOptOut).toBeCalled();
     expect(hook.result.current.state.isEnabled).toBe(false);
-    expect(hook.result.current.settingsState.settings.analyticsEnabled).toBe(false)
-  })
+    expect(hook.result.current.settingsState.settings.analyticsEnabled).toBe(
+      false
+    );
+  });
 });
