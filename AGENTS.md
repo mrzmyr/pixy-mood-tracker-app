@@ -46,7 +46,7 @@
 - Start with `bun devices list`. It shows every running device, who booted it, and which e2e session runs on it. Never use a device that has a session from another worktree.
 - Get your own device: `bun devices create --platform ios`, or `bun devices boot avd:<name>` for Android. Emulators start read-only, so several can share one AVD.
 - Run tests with `bun devices test <id> [flows...]`. Add `--build` to install a release build of your worktree first, and `--record` to save videos for pull request proof.
-- Builds are cached across worktrees (see [build cache](docs/development.md#build-cache)). Never delete the cache or DerivedData, never run `expo prebuild --clean` for tests, and never symlink `Pods` between worktrees.
+- Builds are cached across worktrees (see [build cache](docs/development.md#build-cache)). Run `bun builds check --release` to learn whether `--build` reuses a build or compiles for about 10 minutes. Clean up only with `bun builds prune` or `bun devices gc`. Never delete the cache or DerivedData, never run `expo prebuild --clean` for tests, and never symlink `Pods` between worktrees.
 - Before you finish, run `bun devices shutdown <id>` for every device you created or booted. If you see a stale session or a leftover device, run `bun devices gc`.
 - Physical iPhones run installed TestFlight builds. The CLI skips app installation on phones and refuses flows that use `clearState`, because it can remove tester data. Use direct XCUITest only when `maestro-runner` cannot express the behavior.
 - Keep device and signing-team identifiers local. Attach generated artifacts to the pull request.

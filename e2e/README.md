@@ -22,7 +22,9 @@ bun devices test <id> e2e/flows/02-log-entry.yaml
 bun devices sessions                       # which tests run on which device
 bun devices kill <session-id|device-id>    # stop one run; `kill --stale` stops dead ones
 bun devices shutdown <id>                  # stop a device; deletes simulators made by create
-bun devices gc                             # kill stale sessions, release idle devices
+bun devices gc                             # kill stale sessions, release idle devices, prune builds
+bun builds check --release                 # will --build reuse a cached build?
+bun builds list                            # cached builds: branch, commit, size, last use
 ```
 
 A session is stale when its process died, its heartbeat stopped for 2 minutes, or it ran longer than `--max-age` (default 60m). `gc` releases devices booted by the CLI once idle for `--max-age`. It lists other booted devices but never touches them.

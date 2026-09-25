@@ -8,6 +8,7 @@ import { execFileSync, spawn } from "node:child_process";
 import crypto from "node:crypto";
 import { once } from "node:events";
 import fs from "node:fs";
+import { createRequire } from "node:module";
 import os from "node:os";
 import path from "node:path";
 import { setTimeout as sleep } from "node:timers/promises";
@@ -93,6 +94,8 @@ const HEARTBEAT_STALE_MS = 2 * 60_000;
 const DEFAULT_MAX_AGE = "60m";
 const FINISHED_SESSION_TTL_MS = 7 * 24 * 60 * 60_000;
 const DEFAULT_IOS_DEVICE_TYPE = "iPhone 17 Pro";
+const DEFAULT_KEEP_BUILDS = 3;
+const DEFAULT_KEEP_RECENT = "7d";
 
 const HELP = `Manage local devices and e2e sessions for Pixy.
 
@@ -117,7 +120,18 @@ Commands:
   kill <session-id|device-id> | kill --stale [--max-age ${DEFAULT_MAX_AGE}]
       Stop a session and its test process.
   gc [--max-age ${DEFAULT_MAX_AGE}] [--dry-run]
-      Kill stale sessions and shut down idle devices booted by this CLI.
+      Kill stale sessions, shut down idle devices booted by this CLI, and
+      prune the build cache with the builds prune defaults.
+
+Build cache (also available as \`bun builds <command>\`):
+  builds list [--platform ios|android] [--json]
+      Cached builds with variant, source branch and commit, size, and last use.
+  builds check [--platform ios|android] [--release]
+      Whether this worktree gets a cached build, and why not.
+  builds prune [--keep ${DEFAULT_KEEP_BUILDS}] [--keep-recent ${DEFAULT_KEEP_RECENT}] [--dry-run]
+      Keep the newest builds per platform and variant plus recently used ones.
+  builds rm <id>
+      Remove one cached build.
 
 A running session is stale when its process died, its heartbeat stopped, or it
 runs longer than --max-age. State: ${STATE_DIR}`;
@@ -456,7 +470,8 @@ const getStaleReason = (session: Session, maxAgeMs: number) => {
 
 // A test's process group can outlive its leader: when the leader dies,
 // children such as xcodebuild keep running with the same group ID.
-const isGroupAlive = (pid: number) => isProcessAlive(pid) || isProcessAlive(-pid);
+const isGroupAlive = (pid: number) =>
+  isProcessAlive(pid) || isProcessAlive(-pid);
 
 const killProcessTree = async (pid: number | undefined) => {
   if (!pid || !isGroupAlive(pid)) {
@@ -613,6 +628,263 @@ const shutdownDevice = (device: Device) => {
   console.log(
     `${lease?.isCreated ? "Deleted" : "Shut down"} ${device.name} (${device.id})`
   );
+};
+
+// ---------------------------------------------------------------------------
+// build cache (see scripts/build-cache-provider.cjs)
+
+// The Expo CLI run options that pick a build variant.
+interface RunOptions {
+  configuration?: string;
+  variant?: string;
+}
+
+interface BuildCacheProvider {
+  getCacheKey: (props: {
+    platform: Platform;
+    fingerprintHash: string;
+    runOptions: RunOptions;
+    projectRoot: string;
+  }) => string;
+  resolveCacheDir: () => string;
+}
+
+interface BuildMeta {
+  key?: string;
+  platform?: Platform;
+  variant?: string;
+  branch?: string;
+  commit?: string;
+  isDirty?: boolean;
+  worktree?: string;
+  sizeBytes?: number;
+  createdAt?: string;
+  lastUsedAt?: string;
+}
+
+interface Build {
+  key: string;
+  id: string;
+  file: string;
+  platform: string;
+  fingerprint: string;
+  variant: string;
+  isRelease: boolean;
+  meta: BuildMeta;
+  sizeBytes: number;
+  createdAt: string;
+  lastUsedAt: string;
+}
+
+const localRequire = createRequire(import.meta.url);
+// SAFETY: the provider module exports these functions; see its module.exports.
+const buildCacheProvider = localRequire(
+  "./build-cache-provider.cjs"
+) as BuildCacheProvider;
+
+const BUILD_KEY =
+  /^(?<platform>ios|android)-(?<fingerprint>[0-9a-f]{40})-(?<variant>[^-]+)(?:-(?<bundle>[0-9a-f]{12}))?$/u;
+
+const getSize = (target: string): number => {
+  const stats = fs.statSync(target);
+  return stats.isDirectory()
+    ? fs
+        .readdirSync(target)
+        .reduce((total, entry) => total + getSize(path.join(target, entry)), 0)
+    : stats.size;
+};
+
+const formatSize = (bytes: number) => `${Math.round(bytes / 1_000_000)}M`;
+
+const listBuilds = (): Build[] => {
+  const cacheDir = buildCacheProvider.resolveCacheDir();
+  if (!fs.existsSync(cacheDir)) {
+    return [];
+  }
+  return fs.readdirSync(cacheDir).flatMap((file) => {
+    const key = path.parse(file).name;
+    const match = BUILD_KEY.exec(key);
+    if (!match?.groups || file.endsWith(".json")) {
+      return [];
+    }
+    const { bundle, fingerprint, platform, variant } = match.groups;
+    const fullPath = path.join(cacheDir, file);
+    const meta = readJson<BuildMeta>(path.join(cacheDir, `${key}.json`)) ?? {};
+    const createdAt =
+      meta.createdAt ?? fs.statSync(fullPath).birthtime.toISOString();
+    return [
+      {
+        createdAt,
+        file: fullPath,
+        fingerprint,
+        id: `${platform}-${fingerprint.slice(0, 8)}-${variant}${bundle ? `-${bundle}` : ""}`,
+        isRelease: Boolean(bundle),
+        key,
+        lastUsedAt: meta.lastUsedAt ?? createdAt,
+        meta,
+        platform,
+        sizeBytes: meta.sizeBytes ?? getSize(fullPath),
+        variant,
+      },
+    ];
+  });
+};
+
+const describeSource = (meta: BuildMeta) =>
+  meta.commit
+    ? `${meta.branch || "detached"} ${meta.commit.slice(0, 7)}${meta.isDirty ? "+dirty" : ""}`
+    : "unknown";
+
+const cmdBuildsList = (platform: Platform | undefined, isJson: boolean) => {
+  const builds = listBuilds()
+    .filter((build) => !platform || build.platform === platform)
+    .toSorted((a, b) => b.lastUsedAt.localeCompare(a.lastUsedAt));
+  if (isJson) {
+    console.log(JSON.stringify(builds, null, 2));
+    return;
+  }
+  if (builds.length === 0) {
+    console.log(`No cached builds in ${buildCacheProvider.resolveCacheDir()}.`);
+    return;
+  }
+  printTable(
+    ["ID", "OS", "VARIANT", "SOURCE", "SIZE", "CREATED", "LAST USED"],
+    builds.map((build) => [
+      build.id,
+      build.platform,
+      build.variant,
+      describeSource(build.meta),
+      formatSize(build.sizeBytes),
+      formatAge(build.createdAt),
+      formatAge(build.lastUsedAt),
+    ])
+  );
+  const total = builds.reduce((sum, build) => sum + build.sizeBytes, 0);
+  console.log(
+    `\n${builds.length} build(s), ${formatSize(total)} in ${buildCacheProvider.resolveCacheDir()}`
+  );
+};
+
+interface Fingerprinter {
+  createFingerprintAsync: (projectRoot: string) => Promise<{ hash: string }>;
+}
+
+// Same call Expo CLI makes before it looks up the cache.
+const getFingerprint = async (worktree: string) => {
+  const worktreeRequire = createRequire(path.join(worktree, "package.json"));
+  // SAFETY: @expo/fingerprint exports createFingerprintAsync; Expo CLI uses it.
+  const fingerprinter = worktreeRequire("@expo/fingerprint") as Fingerprinter;
+  const { hash } = await fingerprinter.createFingerprintAsync(worktree);
+  return hash;
+};
+
+// Mirrors the options `bun devices test --build` and `bun ios` pass to Expo.
+const getRunOptions = (platform: Platform, isRelease: boolean): RunOptions => {
+  if (platform === "android") {
+    return { variant: isRelease ? "release" : "debug" };
+  }
+  return isRelease ? { configuration: "Release" } : {};
+};
+
+const cmdBuildsCheck = async (
+  platform: Platform | undefined,
+  isRelease: boolean
+) => {
+  const worktree = getWorktree();
+  console.log("Computing native fingerprint (takes up to a minute)...");
+  const fingerprintHash = await getFingerprint(worktree);
+  const builds = listBuilds();
+  for (const os_ of platform ? [platform] : (["ios", "android"] as const)) {
+    const key = buildCacheProvider.getCacheKey({
+      fingerprintHash,
+      platform: os_,
+      projectRoot: worktree,
+      runOptions: getRunOptions(os_, isRelease),
+    });
+    const hit = builds.find((build) => build.key === key);
+    const label = `${os_} ${isRelease ? "release" : "debug"}`;
+    if (hit) {
+      console.log(
+        `${label}: HIT ${hit.id} from ${describeSource(hit.meta)}, ${formatAge(hit.createdAt)} old. --build installs it without compiling.`
+      );
+      continue;
+    }
+    const sameNative = builds.filter(
+      (build) =>
+        build.platform === os_ &&
+        build.fingerprint === fingerprintHash &&
+        build.isRelease === isRelease
+    );
+    const reason =
+      sameNative.length > 0
+        ? `native code matches ${sameNative.length} cached build(s), but app source or EXPO_PUBLIC_* values differ. Xcode or Gradle rebuilds incrementally when this worktree built before`
+        : "no cached build has this native fingerprint. Expect a full native build (about 10 minutes)";
+    console.log(`${label}: MISS ${key}\n  ${reason}.`);
+  }
+};
+
+const removeBuild = (build: Build) => {
+  fs.rmSync(build.file, { force: true, recursive: true });
+  fs.rmSync(
+    path.join(buildCacheProvider.resolveCacheDir(), `${build.key}.json`),
+    { force: true }
+  );
+};
+
+// Keeps the newest `keep` builds per platform and variant, plus every build
+// used within `keepRecent`. Removes the rest and abandoned temp copies.
+const pruneBuilds = (keep: number, keepRecent: string, isDryRun: boolean) => {
+  const keepRecentMs = parseDuration(keepRecent);
+  const groups = Map.groupBy(
+    listBuilds(),
+    (build) => `${build.platform}-${build.variant}`
+  );
+  const stale = [...groups.values()].flatMap((group) =>
+    group
+      .toSorted((a, b) => b.lastUsedAt.localeCompare(a.lastUsedAt))
+      .slice(keep)
+      .filter(
+        (build) => Date.now() - Date.parse(build.lastUsedAt) > keepRecentMs
+      )
+  );
+  for (const build of stale) {
+    console.log(
+      `${isDryRun ? "Would remove" : "Removed"} build ${build.id} (${formatSize(build.sizeBytes)}, last used ${formatAge(build.lastUsedAt)} ago)`
+    );
+    if (!isDryRun) {
+      removeBuild(build);
+    }
+  }
+  const tmpDir = path.join(buildCacheProvider.resolveCacheDir(), ".tmp");
+  if (!isDryRun && fs.existsSync(tmpDir)) {
+    for (const entry of fs.readdirSync(tmpDir)) {
+      const tmpPath = path.join(tmpDir, entry);
+      // Uploads finish within minutes; older temp copies are leftovers.
+      if (Date.now() - fs.statSync(tmpPath).mtimeMs > 60 * 60_000) {
+        fs.rmSync(tmpPath, { force: true, recursive: true });
+      }
+    }
+  }
+  const freed = stale.reduce((sum, build) => sum + build.sizeBytes, 0);
+  console.log(
+    `${stale.length} build(s) ${isDryRun ? "to remove" : "removed"}, ${formatSize(freed)}.`
+  );
+};
+
+const cmdBuildsRm = (target: string | undefined) => {
+  const matches = listBuilds().filter(
+    (build) => target && (build.id === target || build.key.includes(target))
+  );
+  if (matches.length !== 1) {
+    throw new CliError({
+      fix: "Run `bun builds list` and pass one ID from the first column.",
+      message: `${matches.length === 0 ? "No" : "More than one"} build matches "${target ?? ""}"`,
+      status: matches.length === 0 ? "build_not_found" : "build_ambiguous",
+      why: "rm removes exactly one build.",
+    });
+  }
+  removeBuild(matches[0]);
+  console.log(`Removed build ${matches[0].id}`);
 };
 
 // ---------------------------------------------------------------------------
@@ -1053,6 +1325,9 @@ const cmdGc = async (maxAge: string, isDryRun: boolean) => {
   await killStaleSessions(maxAgeMs, isDryRun);
   removeOldSessions(isDryRun);
 
+  console.log("Build cache:");
+  pruneBuilds(DEFAULT_KEEP_BUILDS, DEFAULT_KEEP_RECENT, isDryRun);
+
   const devices = listDevices();
   const busyDevices = new Set(
     readSessions()
@@ -1096,10 +1371,13 @@ const parseCli = () =>
       force: { type: "boolean" },
       help: { short: "h", type: "boolean" },
       json: { type: "boolean" },
+      keep: { default: String(DEFAULT_KEEP_BUILDS), type: "string" },
+      "keep-recent": { default: DEFAULT_KEEP_RECENT, type: "string" },
       "max-age": { default: DEFAULT_MAX_AGE, type: "string" },
       os: { type: "string" },
       platform: { type: "string" },
       record: { type: "boolean" },
+      release: { type: "boolean" },
       stale: { type: "boolean" },
     },
   });
@@ -1136,11 +1414,39 @@ const requireId = (command: string, id: string | undefined) => {
 
 type Command = (args: string[], values: CliValues) => Promise<void> | void;
 
+const cmdBuilds = async (
+  [sub = "list", target]: string[],
+  values: CliValues
+) => {
+  const platform = getPlatform(values);
+  if (sub === "list" || sub === "ls") {
+    cmdBuildsList(platform, values.json ?? false);
+  } else if (sub === "check") {
+    await cmdBuildsCheck(platform, values.release ?? false);
+  } else if (sub === "prune") {
+    pruneBuilds(
+      Number(values.keep),
+      values["keep-recent"],
+      values["dry-run"] ?? false
+    );
+  } else if (sub === "rm") {
+    cmdBuildsRm(target);
+  } else {
+    throw new CliError({
+      fix: "Use `bun builds list`, `check`, `prune`, or `rm <id>`.",
+      message: `Unknown builds command "${sub}"`,
+      status: "unknown_command",
+      why: "builds has four subcommands.",
+    });
+  }
+};
+
 const COMMANDS = new Map(
   Object.entries({
     boot: async ([id]) => {
       await bootDevice(findDevice(requireId("boot", id)));
     },
+    builds: cmdBuilds,
     create: (_args, values) =>
       cmdCreate(getPlatform(values), values["device-type"]),
     gc: (_args, values) => cmdGc(values["max-age"], values["dry-run"] ?? false),

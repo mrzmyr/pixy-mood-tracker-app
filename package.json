@@ -8,6 +8,7 @@
     "android": "expo run:android",
     "ios": "expo run:ios",
     "devices": "bun scripts/devices.ts",
+    "builds": "bun scripts/devices.ts builds",
     "web": "expo start --web",
     "eject": "expo eject",
     "test": "jest --watchAll --env=jsdom",
