@@ -61,6 +61,11 @@ const waitForLoaded = (hook) =>
     expect(hook.result.current.state.loaded).toBe(true);
   });
 
+const countLogSaves = () =>
+  jest
+    .mocked(AsyncStorage.setItem)
+    .mock.calls.filter(([key]) => key === STORAGE_KEY).length;
+
 const _console_error = console.error;
 
 describe("useLogs()", () => {
@@ -93,6 +98,79 @@ describe("useLogs()", () => {
     await waitForLoaded(hook);
 
     expect(hook.result.current.state.items).toEqual(testItems);
+  });
+
+  test("should keep already migrated entries when loading", async () => {
+    await AsyncStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify({
+        items: [
+          testItems[0],
+          { ...testItems[1], tags: [{ id: "1", title: "legacy" }] },
+        ],
+      })
+    );
+
+    const hook = await _renderHook();
+    await waitForLoaded(hook);
+
+    expect(hook.result.current.state.items).toEqual([
+      testItems[0],
+      { ...testItems[1], tags: [{ id: "1" }] },
+    ]);
+  });
+
+  test("should not save logs that were just loaded unchanged", async () => {
+    await AsyncStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify({ items: [testItems[0]] })
+    );
+    jest.mocked(AsyncStorage.setItem).mockClear();
+
+    const hook = await _renderHook();
+    await waitForLoaded(hook);
+
+    expect(countLogSaves()).toBe(0);
+
+    await act(() => hook.result.current.updater.addLog(testItems[1]));
+
+    expect(countLogSaves()).toBe(1);
+  });
+
+  test("should save logs restored to the loaded entries", async () => {
+    await AsyncStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify({ items: [testItems[0]] })
+    );
+
+    const hook = await _renderHook();
+    await waitForLoaded(hook);
+    const loadedItems = hook.result.current.state.items;
+
+    await act(() => hook.result.current.updater.updateLogs([testItems[1]]));
+    await act(() => hook.result.current.updater.updateLogs(loadedItems));
+
+    await waitFor(async () => {
+      expect(
+        JSON.parse((await AsyncStorage.getItem(STORAGE_KEY)) ?? "null")
+      ).toEqual({
+        items: loadedItems,
+      });
+    });
+  });
+
+  test("should migrate entries with null tag references", async () => {
+    await AsyncStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify({ items: [{ ...testItems[0], tags: [null] }] })
+    );
+
+    const hook = await _renderHook();
+    await waitForLoaded(hook);
+
+    expect(hook.result.current.state.items).toEqual([
+      { ...testItems[0], tags: [{}] },
+    ]);
   });
 
   test("should initiate `state` with empty `items` when async storage is empty", async () => {
@@ -189,6 +267,23 @@ describe("useLogs()", () => {
     await act(() => hook.result.current.updater.editLog(itemEdited));
 
     expect(hook.result.current.state.items).toEqual([itemEdited]);
+  });
+
+  test("should keep state and skip saving when an edit changes nothing", async () => {
+    const hook = await _renderHook();
+    await waitForLoaded(hook);
+
+    await act(() => hook.result.current.updater.addLog(testItems[0]));
+    const stateBefore = hook.result.current.state;
+    const savesBefore = countLogSaves();
+
+    await act(() =>
+      hook.result.current.updater.editLog({ ...testItems[0], tags: [] })
+    );
+    await act(() => hook.result.current.updater.deleteLog("unknown-id"));
+
+    expect(hook.result.current.state).toBe(stateBefore);
+    expect(countLogSaves()).toBe(savesBefore);
   });
 
   test("should updateLogs", async () => {
