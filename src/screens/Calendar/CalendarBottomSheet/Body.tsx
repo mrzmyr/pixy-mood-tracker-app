@@ -10,6 +10,11 @@ import { ResultsSection } from "./ResultsSection";
 import { SearchInputSection } from "./SearchInputSection";
 import { TagsSection } from "./TagsSection";
 
+/**
+ * Calendar filter form (text, ratings, tags). Archived tags cannot be
+ * selected. Text search is debounced by 200 ms; rating and tag changes
+ * apply at once. Must render inside `CalendarFiltersProvider`.
+ */
 export const Body = ({ onClose }: { onClose?: () => void }) => {
   const calendarFilters = useCalendarFilters();
   const { tags } = useTagsState();

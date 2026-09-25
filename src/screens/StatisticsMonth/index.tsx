@@ -16,6 +16,12 @@ import { Navigation } from "./Navigation";
 import { Stats } from "./Stats";
 import { EmotionsDistribution } from "@/components/Statistics/EmotionsDistribution";
 
+/**
+ * Month report screen.
+ *
+ * Invalid `date` params fall back to the current month. Navigating months
+ * updates the route param so deep links and back navigation stay in sync.
+ */
 export const StatisticsMonthScreen = ({
   navigation,
   route,

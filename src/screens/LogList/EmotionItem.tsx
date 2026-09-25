@@ -4,6 +4,7 @@ import { t } from "i18n-js";
 import type { Emotion } from "@/types";
 import { Text, View } from "react-native";
 
+/** Emotion chip with its category dot, used in entries and statistics. */
 export const EmotionItem = ({
   emotion,
 }: {

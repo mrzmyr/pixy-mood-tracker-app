@@ -11,6 +11,10 @@ import type { TagsDistributionData } from "../../hooks/useStatistics/TagsDistrib
 import type { Tag } from "../../hooks/useTags";
 import { CardFeedback } from "@/components/Statistics/CardFeedback";
 
+/**
+ * Tag bars for the top `limit` tags. Tapping a bar filters the calendar to
+ * that tag only and switches to the Calendar tab.
+ */
 export const TagDistributionContent = ({
   data,
   limit = 5,
@@ -91,6 +95,7 @@ export const TagDistributionContent = ({
   );
 };
 
+/** Highlight card for tag usage; tag titles are anonymized in feedback. */
 export const TagsDistributionCard = ({
   data,
 }: {

@@ -19,6 +19,13 @@ const EMOTIONS_CATEGORY_ORDER = {
   very_negative: 4,
 };
 
+/**
+ * Emotions section of an entry card; editing opens the logger at the
+ * emotions step.
+ *
+ * Every emotion key on the entry must exist in `EMOTIONS`, otherwise the
+ * lookup throws. Emotions show in stored order.
+ */
 export const Emotions = ({ item }: { item: LogItem }) => {
   const colors = useColors();
   const navigation = useNavigation();

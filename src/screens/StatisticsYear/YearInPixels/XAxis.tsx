@@ -4,6 +4,7 @@ import React from "react";
 import { Text, View } from "react-native";
 import useColors from "../../../hooks/useColors";
 
+/** Month initials above the year grid. */
 export const XAxis = () => {
   const months: ReactNode[] = [];
   const colors = useColors();

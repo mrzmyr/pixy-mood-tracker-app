@@ -15,6 +15,10 @@ import { Archive } from "lucide-react-native";
 import { ScrollView, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
+/**
+ * Settings > Tags: active tags plus a link to archived ones. Archived tags
+ * still count toward {@link MAX_TAGS}.
+ */
 export const SettingsTags = ({
   navigation,
 }: RootStackScreenProps<"SettingsTags">) => {
@@ -106,6 +110,7 @@ export const SettingsTags = ({
   );
 };
 
+/** Archived tags, sorted by title; rows open the tag editor to unarchive. */
 export const SettingsTagsArchive = ({
   navigation,
 }: RootStackScreenProps<"SettingsTagsArchive">) => {

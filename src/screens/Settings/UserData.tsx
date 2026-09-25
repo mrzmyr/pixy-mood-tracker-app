@@ -13,6 +13,10 @@ interface User {
   importData: ImportData;
 }
 
+/**
+ * Development-only list of sample user data sets loaded from a local
+ * server on the developer's network; tapping one imports it silently.
+ */
 export const UserDataImportList = () => {
   const [users, setUsers] = useState<User[]>([]);
   const colors = useColors();

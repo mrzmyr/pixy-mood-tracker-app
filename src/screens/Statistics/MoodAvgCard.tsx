@@ -5,6 +5,10 @@ import useScale from "../../hooks/useScale";
 import type { MoodAvgData } from "../../hooks/useStatistics/MoodAvg";
 import { CardFeedback } from "@/components/Statistics/CardFeedback";
 
+/**
+ * Card with the dominant mood group and a stacked bar of entries per
+ * rating.
+ */
 export const MoodAvgCard = ({ data }: { data: MoodAvgData }) => {
   const scale = useScale();
 

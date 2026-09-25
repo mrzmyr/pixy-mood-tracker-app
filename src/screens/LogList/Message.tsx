@@ -5,6 +5,10 @@ import { t } from "i18n-js";
 import { Text, View } from "react-native";
 import { SectionHeader } from "./SectionHeader";
 
+/**
+ * Message section of an entry card; editing opens the logger at the
+ * message step.
+ */
 export const Message = ({ item }: { item: LogItem }) => {
   const navigation = useNavigation();
   const colors = useColors();

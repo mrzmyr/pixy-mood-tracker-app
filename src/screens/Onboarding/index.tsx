@@ -26,6 +26,10 @@ const FiltersSlide = ({ ...props }: SlideProps) => (
   <ExplainerSlide {...props} />
 );
 
+/**
+ * Onboarding flow, shown on start until the `onboarding` action is done.
+ * Finishing or skipping records that action and returns to the root.
+ */
 export const Onboarding = ({
   navigation,
 }: RootStackScreenProps<"Onboarding">) => {

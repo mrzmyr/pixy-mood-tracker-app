@@ -32,6 +32,10 @@ import TextInfo from "@/components/TextInfo";
 
 const REGEX_EMOJI = /\p{Emoji}/u;
 
+/**
+ * Edit, archive, or delete a tag. Deleting also removes the tag from all
+ * entries. An unknown `id` opens an empty form.
+ */
 export const TagEdit = ({
   navigation,
   route,

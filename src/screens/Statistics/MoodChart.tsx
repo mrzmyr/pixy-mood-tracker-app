@@ -11,6 +11,7 @@ import { CardFeedback } from "@/components/Statistics/CardFeedback";
 
 dayjs.extend(isSameOrAfter);
 
+/** Mood line chart for 15 days from `startDate` (`YYYY-MM-DD`). */
 export const MoodChart = ({
   title,
   startDate,

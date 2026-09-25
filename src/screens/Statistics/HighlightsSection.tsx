@@ -75,6 +75,10 @@ interface HighlightCards {
   sleep_quality_distribution_show: boolean;
 }
 
+/**
+ * Highlight cards on the Statistics tab for the last 14 days. The `items`
+ * prop is unused; data comes from `StatisticsProvider`.
+ */
 export const HighlightsSection = (_props: { items: LogItem[] }) => {
   const colors = useColors();
   const navigation = useNavigation();

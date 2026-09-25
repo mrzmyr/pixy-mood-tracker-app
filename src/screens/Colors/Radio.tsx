@@ -14,6 +14,10 @@ const getPressableOpacity = (
   return isPressed ? 0.8 : 1;
 };
 
+/**
+ * Selectable row on the color scale screen. Disabled rows are dimmed and
+ * ignore presses.
+ */
 export const Radio = ({
   onPress,
   children,

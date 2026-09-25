@@ -9,6 +9,12 @@ import { getAverageMood } from "@/lib/utils";
 import { Day } from "./Day";
 import { YAxis } from "./YAxis";
 
+/**
+ * One day-of-month row across all 12 months of the year of `date`.
+ *
+ * Matches entries by the UTC date part of `dateTime`, so entries near
+ * midnight can land on a neighboring day outside UTC.
+ */
 export const Row = ({
   date,
   dayCount,

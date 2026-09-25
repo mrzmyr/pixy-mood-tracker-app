@@ -61,6 +61,11 @@ const Card = ({
   );
 };
 
+/**
+ * Settings > Development statistics: usage totals plus the list of
+ * completed one-time actions (promos, questions, onboarding), which can be
+ * removed to show them again. Reachable in release builds too.
+ */
 export const DevelopmentTools = () => {
   const colors = useColors();
   const logState = useLogState();

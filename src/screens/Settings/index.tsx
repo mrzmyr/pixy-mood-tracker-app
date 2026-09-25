@@ -35,6 +35,10 @@ import * as Updates from "expo-updates";
 import { Tag } from "lucide-react-native";
 import { useSupport } from "@/support";
 
+/**
+ * Settings tab. The support card shows only when a support client is
+ * enabled; sample data import is development-only.
+ */
 export const SettingsScreen = ({
   navigation,
 }: RootStackScreenProps<"Settings">) => {

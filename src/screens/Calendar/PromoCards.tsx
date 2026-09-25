@@ -65,6 +65,14 @@ const parseChangelogItems = (str: string): RssItem[] => {
   return items;
 };
 
+/**
+ * Promo cards under the calendar: last month's report (first days of a
+ * month), the year report (December, 30+ entries), and the latest
+ * changelog post.
+ *
+ * Report promos need unlocked statistics. The changelog feed is fetched
+ * once per mount; offline it is skipped silently.
+ */
 export const PromoCards = () => {
   const navigation = useNavigation();
   const logState = useLogState();

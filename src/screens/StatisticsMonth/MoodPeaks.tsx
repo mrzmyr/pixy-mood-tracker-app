@@ -13,6 +13,10 @@ import { MoodPeaksContent } from "../Statistics/MoodPeaksCards";
 
 const MIN_ITEMS = 1;
 
+/**
+ * Month report cards for good and bad peak days. `items` must already be
+ * limited to the month; days are anonymized in feedback.
+ */
 export const MoodPeaks = ({ date, items }) => {
   const { anonymizeDay } = useAnonymizer();
 

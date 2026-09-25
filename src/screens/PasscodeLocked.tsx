@@ -14,6 +14,10 @@ import { usePasscode } from "../hooks/usePasscode";
 import { useAnalytics } from "../hooks/useAnalytics";
 import { t } from "@/helpers/translation";
 
+/**
+ * Lock screen that retries device authentication. Not registered in
+ * navigation while the passcode lock is disabled.
+ */
 export const PasscodeLocked = () => {
   const colors = useColors();
   const analytics = useAnalytics();

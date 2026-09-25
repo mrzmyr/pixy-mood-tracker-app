@@ -19,6 +19,7 @@ const HeaderPaginationDot = ({ active }: { active: boolean }) => {
   );
 };
 
+/** Five pagination dots for onboarding slides 0 to 4. */
 export const HeaderPagination = ({ index }: { index: number }) => (
   <View
     style={{

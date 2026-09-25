@@ -10,6 +10,12 @@ import orderBy from "lodash/orderBy";
 import sumBy from "lodash/sumBy";
 import { Text, View } from "react-native";
 
+/**
+ * Worst month of the year of `date`.
+ *
+ * Ranks months by the sum of rating values, not the mean, so months with
+ * few entries rank lowest.
+ */
 export const WorstMonth = ({ date }: { date: Dayjs }) => {
   const colors = useColors();
   const logState = useLogState();

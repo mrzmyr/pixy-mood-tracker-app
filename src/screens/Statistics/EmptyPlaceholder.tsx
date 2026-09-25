@@ -4,6 +4,10 @@ import useColors from "../../hooks/useColors";
 import { Subtitle } from "./Subtitle";
 import { Title } from "./Title";
 
+/**
+ * Locked highlights placeholder; `count` is the number of entries still
+ * needed to unlock statistics.
+ */
 export const EmptyPlaceholder = ({ count }: { count: number }) => {
   const colors = useColors();
 

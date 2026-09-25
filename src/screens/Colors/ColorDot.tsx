@@ -1,5 +1,6 @@
 import { View } from "react-native";
 
+/** Square color swatch in a scale preview row. */
 export const ColorDot = ({ color }: { color: string }) => (
   <View
     style={{

@@ -9,6 +9,10 @@ import { View } from "react-native";
 import { PlusCircle } from "react-native-feather";
 import { PromoCards } from "./PromoCards";
 
+/**
+ * Add-entry button under the calendar; the label changes once today has an
+ * entry. New entries start at the current time.
+ */
 export const CalendarFooter = () => {
   const colors = useColors();
   const logState = useLogState();

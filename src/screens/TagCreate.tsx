@@ -22,6 +22,11 @@ import type { RootStackScreenProps } from "../../types";
 
 const REGEX_EMOJI = /\p{Emoji}/u;
 
+/**
+ * New tag form. Titles must be {@link MIN_TAG_LENGTH} to
+ * {@link MAX_TAG_LENGTH} characters; the color defaults to the first tag
+ * color.
+ */
 export const TagCreate = ({
   navigation,
 }: RootStackScreenProps<"TagCreate">) => {

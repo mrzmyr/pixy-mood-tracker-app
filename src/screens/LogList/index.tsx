@@ -19,6 +19,13 @@ import { Header } from "./Header";
 
 const WINDOW_WIDTH = Dimensions.get("window").width;
 
+/**
+ * Day entry list modal, opened from a calendar day.
+ *
+ * `date` is a local `YYYY-MM-DD` day; entries are matched by `dateTime` and
+ * shown oldest first. New entries from here use the current time on that
+ * day.
+ */
 export const LogList = ({
   route,
   navigation,

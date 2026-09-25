@@ -5,6 +5,11 @@ import type { LogItem } from "../../hooks/useLogs";
 import { StatsCard } from "./StatsCard";
 import { getWordCount } from "@/lib/utils";
 
+/**
+ * Month summary tiles (entries, tags, words; totals and per day), each
+ * compared with the previous month. `date` must be a dayjs value in the
+ * reported month.
+ */
 export const Stats = ({
   date,
   items,

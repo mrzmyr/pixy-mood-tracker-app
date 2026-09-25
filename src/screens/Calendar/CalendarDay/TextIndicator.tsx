@@ -7,6 +7,7 @@ const styles = StyleSheet.create({
   },
 });
 
+/** Message icon for calendar days. Not rendered anywhere at the moment. */
 export const TextIndicator = ({ textColor }: { textColor: string }) => (
   <View style={styles.container}>
     <AlignLeft color={textColor} width={10} height={10} />

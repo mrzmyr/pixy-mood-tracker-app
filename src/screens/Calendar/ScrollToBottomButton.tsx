@@ -4,6 +4,7 @@ import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
 import { FloatButton } from "@/components/FloatButton";
 import useColors from "../../hooks/useColors";
 
+/** Floating button that scrolls the calendar to its end, the current month. */
 export const ScrollToBottomButton = ({ onPress }: { onPress: () => void }) => {
   const colors = useColors();
 

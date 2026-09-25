@@ -110,6 +110,10 @@ const BodyWeek = ({ days, start }: { days: LogDay[]; start: Dayjs }) => (
   </View>
 );
 
+/**
+ * Week grid that marks the peak days between `startDate` and `endDate`,
+ * expanded to full weeks.
+ */
 export const MoodPeaksContent = ({
   data,
   startDate,
@@ -142,6 +146,10 @@ export const MoodPeaksContent = ({
   );
 };
 
+/**
+ * Highlight card for days with a good (`positive`) or bad (`negative`)
+ * average mood.
+ */
 export const MoodPeaksCard = ({
   data,
   type,

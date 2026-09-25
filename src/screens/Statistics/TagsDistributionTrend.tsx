@@ -6,6 +6,7 @@ import type { TagsDistributionTrendData } from "../../hooks/useStatistics/TagsDi
 import { CardFeedback } from "@/components/Statistics/CardFeedback";
 import { TagBar } from "./TagBar";
 
+/** Card comparing one tag's usage between two 4-week periods. */
 export const TagsDistributionTrend = ({
   tag,
 }: {

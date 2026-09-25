@@ -3,6 +3,7 @@ import type { LogItem } from "@/hooks/useLogs";
 import { useSettings } from "@/hooks/useSettings";
 import { View } from "react-native";
 
+/** Rating color dot for an entry, using the user's selected scale. */
 export const RatingDot = ({ rating }: { rating: LogItem["rating"] }) => {
   const colors = useColors();
   const { settings } = useSettings();

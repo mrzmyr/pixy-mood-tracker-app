@@ -25,6 +25,12 @@ import type { RootStackScreenProps } from "../../../types";
 
 dayjs.extend(isBetween);
 
+/**
+ * Statistics tab.
+ *
+ * Unlocks with {@link STATISTIC_MIN_LOGS} entries in the last 14 days, not
+ * in total. Statistics reload when the tab gains focus.
+ */
 export const StatisticsScreen = ({
   navigation,
 }: RootStackScreenProps<"Statistics">) => {

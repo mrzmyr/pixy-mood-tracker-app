@@ -40,6 +40,10 @@ const Body = ({ index }: { index: number }) => {
   );
 };
 
+/**
+ * Onboarding feature slide. `index` selects the header image and the
+ * `onboarding_step_<index>_*` translation keys, so it must be 1 to 4.
+ */
 export const ExplainerSlide = ({
   index,
   setIndex,

@@ -4,6 +4,10 @@ import { t } from "i18n-js";
 import { View } from "react-native";
 import { SectionHeader } from "./SectionHeader";
 
+/**
+ * Sleep section of an entry card; renders nothing when the entry has no
+ * sleep rating.
+ */
 export const Sleep = ({ item }: { item: LogItem }) => {
   if (!item.sleep?.quality) {
     return null;

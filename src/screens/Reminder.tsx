@@ -3,6 +3,7 @@ import Reminder from "@/components/Reminder";
 import { ScrollView } from "react-native";
 import useColors from "../hooks/useColors";
 
+/** Settings > Reminder: daily reminder configuration. */
 export const ReminderScreen = () => {
   const colors = useColors();
 

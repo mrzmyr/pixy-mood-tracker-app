@@ -24,6 +24,10 @@ const HeaderDay = ({ children }: { children: string }) => {
   );
 };
 
+/**
+ * Seven weekday labels starting at `date`; pass a week start so the
+ * columns match the week rows below.
+ */
 export const HeaderWeek = ({ date }: { date: string }) => {
   const colors = useColors();
   const start = dayjs(date);

@@ -94,6 +94,10 @@ const Chart = ({ height, data }: { height: number; data: MoodTrendData }) => {
   );
 };
 
+/**
+ * Mood trend card comparing the older and newer halves of the last 24
+ * weeks.
+ */
 export const MoodTrend = ({ data }: { data: MoodTrendData }) => {
   const colors = useColors();
 

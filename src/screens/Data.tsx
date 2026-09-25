@@ -9,6 +9,10 @@ import { useDatagate } from "../hooks/useDatagate";
 import type { RootStackScreenProps } from "../../types";
 import { PageWithHeaderLayout } from "@/components/PageWithHeaderLayout";
 
+/**
+ * Settings > Data: import, export, and reset of all user data via
+ * `useDatagate`. The direct AsyncStorage import is development-only.
+ */
 export const DataScreen = (_props: RootStackScreenProps<"Data">) => {
   const colors = useColors();
   const datagate = useDatagate();

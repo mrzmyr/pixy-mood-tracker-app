@@ -5,6 +5,10 @@ import { t } from "@/helpers/translation";
 import type { LogItem } from "../../../hooks/useLogs";
 import { useSettings } from "../../../hooks/useSettings";
 
+/**
+ * Rating filter using the user's color scale; `onChange` receives the
+ * tapped rating so the parent can toggle it.
+ */
 export const RatingSection = ({
   value,
   onChange,

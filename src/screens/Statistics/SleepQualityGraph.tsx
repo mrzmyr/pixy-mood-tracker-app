@@ -11,6 +11,7 @@ import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
 
 dayjs.extend(isSameOrAfter);
 
+/** Sleep quality line chart for 15 days from `startDate` (`YYYY-MM-DD`). */
 export const SleepQualityChartCard = ({
   title,
   startDate,

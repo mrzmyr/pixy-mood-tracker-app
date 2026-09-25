@@ -95,6 +95,11 @@ const EntryHeader = ({
   );
 };
 
+/**
+ * Card for one entry in the day list with its sleep, emotions, tags, and
+ * message sections. The trash button calls `onDelete` without asking, so
+ * the caller must confirm.
+ */
 export const Entry = ({
   item,
   onEdit,

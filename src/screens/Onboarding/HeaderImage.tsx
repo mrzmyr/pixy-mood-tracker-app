@@ -32,6 +32,10 @@ const HEADER_IMAGES = {
   ],
 };
 
+/**
+ * Onboarding screenshot for the platform and color scheme; `index` must be
+ * 0 to 4.
+ */
 export const HeaderImage = ({
   index,
   style,

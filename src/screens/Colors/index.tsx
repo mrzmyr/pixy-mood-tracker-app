@@ -39,6 +39,12 @@ const typesNames = [
   },
 ];
 
+/**
+ * Settings > Colors: pick the mood color scale.
+ *
+ * A selection is saved to settings immediately. Scale ids are persisted,
+ * so they must stay in sync with the keys in `constants/Colors/Scales.ts`.
+ */
 export const ColorsScreen = () => {
   const { setSettings, settings } = useSettings();
   const colors = useColors();
