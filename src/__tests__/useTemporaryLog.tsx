@@ -21,7 +21,7 @@ describe("useTemporaryLog()", () => {
       expect(hook.result.current.isInitialized).toBe(true);
     });
 
-    await act(async () => {
+    await act(() => {
       hook.result.current.update({ message: "After edit" });
     });
 
