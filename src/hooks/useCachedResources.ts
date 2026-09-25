@@ -2,6 +2,7 @@
 
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect, useState } from "react";
+import { logger, toStructuredError } from "@/lib/logger";
 
 const loadResourcesAndDataAsync = (onComplete: () => void) => {
   try {
@@ -12,8 +13,13 @@ const loadResourcesAndDataAsync = (onComplete: () => void) => {
 
     SplashScreen.preventAutoHideAsync();
   } catch (error) {
-    // We might want to provide this error information to an error reporting service
-    console.warn(error);
+    logger.warn(
+      toStructuredError(error, {
+        status: "splash_screen_failed",
+        message: "Splash screen could not be kept visible",
+        fix: "None needed; the app continues without the splash screen",
+      })
+    );
   } finally {
     onComplete();
     SplashScreen.hideAsync();

@@ -18,6 +18,7 @@ import {
 import pkg from "../../../package.json";
 import Button from "../Button";
 import TextArea from "../TextArea";
+import { logger } from "@/lib/logger";
 
 const DEFAULT_ANALYTICS_DATA = {};
 const DEFAULT_STYLE = {};
@@ -164,7 +165,7 @@ export const CardFeedback = ({
       ...metaData,
     };
 
-    console.log("Sending statistics feedback", body);
+    logger.debug("Sending statistics feedback", body);
 
     analytics.track("statistics_feedback", body);
 

@@ -7,6 +7,7 @@ import semver from "semver";
 import pkg from "../../package.json";
 import { useAnalytics } from "./useAnalytics";
 import { useSettings } from "./useSettings";
+import { logger } from "@/lib/logger";
 
 /**
  * Remote in-app survey question.
@@ -58,7 +59,7 @@ export const useQuestioner = () => {
         : false;
 
     if (lastQuestionAnsweredToday) {
-      console.log("Not showing question because one was answered today");
+      logger.debug("Not showing question because one was answered today");
       return null;
     }
 
@@ -77,20 +78,20 @@ export const useQuestioner = () => {
         const isInMyLanguage = candidate.text[language] !== undefined;
 
         if (!satisfiesVersion) {
-          console.log(
+          logger.debug(
             "Question not shown because version does not match",
             candidate.appVersion,
             pkg.version
           );
         }
         if (hasBeenAnswered) {
-          console.log(
+          logger.debug(
             "Question not shown because it has been answered",
             candidate.id
           );
         }
         if (!isInMyLanguage) {
-          console.log(
+          logger.debug(
             "Question not shown because it is not in my language",
             candidate.text
           );
@@ -145,10 +146,10 @@ export const useQuestioner = () => {
 
     analytics.track("questioner_submit", body);
 
-    console.log("Sending Question Feedback", body);
+    logger.debug("Sending Question Feedback", body);
 
     if (__DEV__) {
-      console.log("Not sending Question Feedback in dev mode");
+      logger.debug("Not sending Question Feedback in dev mode");
       addActionDone(`question_slide_${answeredQuestion.id}`);
       return;
     }

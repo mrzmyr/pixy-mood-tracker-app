@@ -136,7 +136,8 @@ describe("useLogs()", () => {
           message: "Stored data could not be read",
           why: `Reading storage key "${STORAGE_KEY}" failed: disk unavailable`,
           fix: "Retry the operation and check device storage access",
-        })
+        }),
+        expect.anything()
       );
     });
 

@@ -8,6 +8,7 @@ import useColors from "../hooks/useColors";
 import { useDatagate } from "../hooks/useDatagate";
 import type { RootStackScreenProps } from "../../types";
 import { PageWithHeaderLayout } from "@/components/PageWithHeaderLayout";
+import { logger, toStructuredError } from "@/lib/logger";
 
 /**
  * Settings > Data: import, export, and reset of all user data via
@@ -61,7 +62,13 @@ export const DataScreen = (_props: RootStackScreenProps<"Data">) => {
               try {
                 await datagate.openResetDialog("data");
               } catch (error) {
-                console.log(error);
+                logger.error(
+                  toStructuredError(error, {
+                    status: "data_reset_failed",
+                    message: "Data reset failed",
+                    fix: "Retry the reset from Settings > Data",
+                  })
+                );
               }
             }}
             iconLeft={<Trash width={18} color="red" />}
@@ -76,7 +83,13 @@ export const DataScreen = (_props: RootStackScreenProps<"Data">) => {
               try {
                 await datagate.openResetDialog("factory");
               } catch (error) {
-                console.log(error);
+                logger.error(
+                  toStructuredError(error, {
+                    status: "factory_reset_failed",
+                    message: "Factory reset failed",
+                    fix: "Retry the reset from Settings > Data",
+                  })
+                );
               }
             }}
             iconLeft={<Trash width={18} color="red" />}

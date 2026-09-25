@@ -8,6 +8,7 @@ import { Share } from "react-native-feather";
 import { captureRef } from "react-native-view-shot";
 import LinkButton from "./LinkButton";
 import { CardFeedback } from "./Statistics/CardFeedback";
+import { logger, toStructuredError } from "@/lib/logger";
 
 const DEFAULT_ANALYTICS_DATA = {};
 
@@ -119,7 +120,13 @@ export const BigCard = ({
         type: analyticsId,
       });
     } catch (error) {
-      console.log(error);
+      logger.warn(
+        toStructuredError(error, {
+          status: "statistics_share_failed",
+          message: "Statistics card could not be shared",
+          fix: "Retry sharing; the share sheet may have been dismissed",
+        })
+      );
     }
   };
 
@@ -134,7 +141,14 @@ export const BigCard = ({
         // Not awaited: share errors are handled inside and must not reach the snapshot handler.
         void shareSnapshot(fileUri);
       } catch (error) {
-        console.error("Oops, snapshot failed", error);
+        setShareLoading(false);
+        logger.error(
+          toStructuredError(error, {
+            status: "statistics_snapshot_failed",
+            message: "Statistics card snapshot failed",
+            fix: "Retry sharing after the card has fully rendered",
+          })
+        );
       }
     })();
   };

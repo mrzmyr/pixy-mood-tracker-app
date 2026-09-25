@@ -12,6 +12,7 @@ import { createStructuredError } from "@/lib/errors";
 import type { SupportClient, SupportFlowError } from "./index";
 import { disabledSupportClient } from "./clients";
 import { SupportProvider } from "./index";
+import { logger } from "@/lib/logger";
 
 /**
  * Superwall placement that shows the support paywall. It must match the
@@ -26,7 +27,7 @@ const SUPPORT_PRODUCT_IDS = [
 ] as const;
 
 const logSupportError = (error: SupportFlowError) => {
-  console.error(error);
+  logger.warn(error);
 };
 
 const SuperwallConsumableEvents = () => {
