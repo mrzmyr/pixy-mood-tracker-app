@@ -89,6 +89,44 @@ const LogStateContext = createContext<StateValue>(undefined as never);
 // SAFETY: every consumer renders inside LogsProvider, which supplies the value; the default is never read.
 const LogUpdaterContext = createContext<UpdaterValue>(undefined as never);
 
+const migrate = (data: LogsState): LogsState => {
+  const result = {
+    ...data,
+  };
+
+  if (!_.isArray(data.items)) {
+    result.items = Object.values(result.items);
+  }
+
+  result.items = result.items.map((item) => {
+    const date = dayjs(item.date).format(DATE_FORMAT);
+
+    const newItem = { ...item };
+
+    if (!newItem.createdAt) {
+      newItem.createdAt = dayjs(date).toISOString();
+    }
+    if (!newItem.dateTime) {
+      newItem.dateTime = dayjs(date).toISOString();
+    }
+    if (!newItem.id) {
+      newItem.id = uuidv4();
+    }
+    if (!newItem.tags) {
+      newItem.tags = [];
+    }
+    if (!newItem.emotions) {
+      newItem.emotions = [];
+    }
+
+    newItem.tags = newItem.tags.map((tag) => _.pick(tag, ["id"]));
+
+    return newItem;
+  });
+
+  return result;
+};
+
 const reducer = (state: LogsState, action: LogAction): LogsState => {
   switch (action.type) {
     case "import": {
@@ -151,44 +189,6 @@ const reducer = (state: LogsState, action: LogAction): LogsState => {
       };
     }
   }
-};
-
-const migrate = (data: LogsState): LogsState => {
-  const result = {
-    ...data,
-  };
-
-  if (!_.isArray(data.items)) {
-    result.items = Object.values(result.items);
-  }
-
-  result.items = result.items.map((item) => {
-    const date = dayjs(item.date).format(DATE_FORMAT);
-
-    const newItem = { ...item };
-
-    if (!newItem.createdAt) {
-      newItem.createdAt = dayjs(date).toISOString();
-    }
-    if (!newItem.dateTime) {
-      newItem.dateTime = dayjs(date).toISOString();
-    }
-    if (!newItem.id) {
-      newItem.id = uuidv4();
-    }
-    if (!newItem.tags) {
-      newItem.tags = [];
-    }
-    if (!newItem.emotions) {
-      newItem.emotions = [];
-    }
-
-    newItem.tags = newItem.tags.map((tag) => _.pick(tag, ["id"]));
-
-    return newItem;
-  });
-
-  return result;
 };
 
 const LogsProvider = ({ children }: { children: React.ReactNode }) => {

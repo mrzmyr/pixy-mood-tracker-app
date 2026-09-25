@@ -54,6 +54,11 @@ export const TagEdit = ({
 
   const [tag, setTag] = useState(tagExists ? tagExists : defaultTag);
 
+  const onDelete = (tag: ITag) => {
+    tagsUpdater.deleteTag(tag.id);
+    navigation.goBack();
+  };
+
   const askToDelete = async (tag: ITag) => {
     await haptics.selection();
 
@@ -89,11 +94,6 @@ export const TagEdit = ({
       ],
       { cancelable: true }
     );
-  };
-
-  const onDelete = (tag: ITag) => {
-    tagsUpdater.deleteTag(tag.id);
-    navigation.goBack();
   };
 
   const onSubmit = (tag: ITag) => {

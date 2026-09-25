@@ -9,6 +9,35 @@ import useHaptics from "../../../hooks/useHaptics";
 import type { LogItem } from "../../../hooks/useLogs";
 import { useSettings } from "../../../hooks/useSettings";
 
+const styles = StyleSheet.create({
+  container: {
+    flexDirection: "column",
+    justifyContent: "flex-end",
+    alignItems: "center",
+    padding: 4,
+    borderRadius: 8,
+    width: "100%",
+    aspectRatio: 1,
+  },
+  textIndicatorParent2: {
+    width: "30%",
+    justifyContent: "flex-start",
+    alignItems: "center",
+  },
+  dayNumberParent1: {
+    width: "100%",
+    height: "50%",
+    flexDirection: "row",
+    justifyContent: "flex-end",
+  },
+  dayNumberParent2: {
+    justifyContent: "center",
+    alignItems: "center",
+    minWidth: 20,
+    borderRadius: 100,
+  },
+});
+
 const CalendarDayComponent = ({
   dateString,
   rating,
@@ -153,34 +182,5 @@ const CalendarDayComponent = ({
 };
 
 const CalendarDay = memo(CalendarDayComponent);
-
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: "column",
-    justifyContent: "flex-end",
-    alignItems: "center",
-    padding: 4,
-    borderRadius: 8,
-    width: "100%",
-    aspectRatio: 1,
-  },
-  textIndicatorParent2: {
-    width: "30%",
-    justifyContent: "flex-start",
-    alignItems: "center",
-  },
-  dayNumberParent1: {
-    width: "100%",
-    height: "50%",
-    flexDirection: "row",
-    justifyContent: "flex-end",
-  },
-  dayNumberParent2: {
-    justifyContent: "center",
-    alignItems: "center",
-    minWidth: 20,
-    borderRadius: 100,
-  },
-});
 
 export default CalendarDay;

@@ -17,6 +17,16 @@ const isString = (children: React.ReactNode): children is string => {
   return false;
 };
 
+const styles = StyleSheet.create({
+  container: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    padding: 8,
+  },
+  iconContainer: { marginRight: 5 },
+});
+
 const LinkButton = ({
   type = "primary",
   onPress,
@@ -99,13 +109,3 @@ const LinkButton = ({
 };
 
 export default LinkButton;
-
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    padding: 8,
-  },
-  iconContainer: { marginRight: 5 },
-});

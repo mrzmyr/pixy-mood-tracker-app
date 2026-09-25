@@ -155,6 +155,12 @@ const SettingsProvider = ({ children }: { children: React.ReactNode }) => {
     }
   }, [JSON.stringify(settings)]);
 
+  const hasActionDone = useCallback(
+    (actionTitle: IAction["title"]) =>
+      settings.actionsDone.some((action) => action.title === actionTitle),
+    [settings.actionsDone]
+  );
+
   const addActionDone = useCallback(
     (actionTitle: IAction["title"]) => {
       if (hasActionDone(actionTitle)) {
@@ -184,12 +190,6 @@ const SettingsProvider = ({ children }: { children: React.ReactNode }) => {
         ),
       }));
     },
-    [settings.actionsDone]
-  );
-
-  const hasActionDone = useCallback(
-    (actionTitle: IAction["title"]) =>
-      settings.actionsDone.some((action) => action.title === actionTitle),
     [settings.actionsDone]
   );
 

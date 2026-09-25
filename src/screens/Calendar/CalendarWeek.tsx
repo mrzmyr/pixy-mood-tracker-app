@@ -14,6 +14,13 @@ import { useCalendarNavigation } from "@/hooks/useCalendarNavigation";
 
 dayjs.extend(isSameOrBefore);
 
+const styles = StyleSheet.create({
+  dayContainer: {
+    flex: 7,
+    margin: 3,
+  },
+});
+
 const CalendarDayContainerComponent = ({
   children,
 }: {
@@ -130,12 +137,5 @@ const CalendarWeekComponent = ({
 };
 
 const CalendarWeek = memo(CalendarWeekComponent);
-
-const styles = StyleSheet.create({
-  dayContainer: {
-    flex: 7,
-    margin: 3,
-  },
-});
 
 export default CalendarWeek;
