@@ -3,13 +3,9 @@ appId: com.devmood.pixymoodtracker
 # The second-ever entry adds Pixy's reminder prompt after the message slide.
 - tapOn:
     id: "logger-next"
-    waitToSettleTimeoutMs: 300
 - tapOn:
     id: "logger-next"
-    waitToSettleTimeoutMs: 300
 - tapOn:
     id: "logger-next"
-    waitToSettleTimeoutMs: 300
 - tapOn:
     text: "Maybe later"
-    waitToSettleTimeoutMs: 300

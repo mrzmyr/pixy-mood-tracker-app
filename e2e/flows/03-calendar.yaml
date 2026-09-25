@@ -43,25 +43,22 @@ tags: [calendar]
             id: "calendar-day-${output.today}"
           direction: DOWN
           timeout: 60000
-          speed: 60
-          visibilityPercentage: 50
 
 # 3.4 Filters open, search visible, close
 - tapOn:
     id: "filters"
 - assertVisible: "Filters"
 - assertVisible: "Search"
+# iOS shows a modal with Done; Android a gesture sheet that back closes.
 - runFlow:
     when:
-      visible:
-        id: "calendar-filter-done"
+      platform: iOS
     commands:
       - tapOn:
           id: "calendar-filter-done"
 - runFlow:
     when:
-      notVisible:
-        id: "calendar-filter-done"
+      platform: Android
     commands:
       - back
 # Closing filters can land on the Statistics tab (app behavior) — re-enter calendar

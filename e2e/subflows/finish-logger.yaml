@@ -4,10 +4,7 @@ appId: com.devmood.pixymoodtracker
 # emotions → tags → message → save.
 - tapOn:
     id: "logger-next"
-    waitToSettleTimeoutMs: 300
 - tapOn:
     id: "logger-next"
-    waitToSettleTimeoutMs: 300
 - tapOn:
     id: "logger-save"
-    waitToSettleTimeoutMs: 300

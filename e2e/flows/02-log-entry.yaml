@@ -19,7 +19,8 @@ tags: [log]
 - runScript: ../scripts/set-output-date.js
 - tapOn:
     id: "calendar-day-${output.today}"
-- back
+- tapOn:
+    id: "log-list-close"
 
 # 2.4 Second entry for today (different rating)
 - tapOn: "Add another entry for today"

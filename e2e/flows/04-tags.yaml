@@ -27,7 +27,7 @@ tags: [tags]
 - tapOn:
     id: "tag-name"
 - inputText: "e2e-tag"
-- hideKeyboard
+- runFlow: ../subflows/dismiss-keyboard.yaml
 - tapOn: "Create"
 # New tag is appended at the end of the list, below the fold
 - scrollUntilVisible:
@@ -35,25 +35,29 @@ tags: [tags]
       text: "e2e-tag"
     direction: DOWN
     timeout: 15000
-    visibilityPercentage: 50
 - assertVisible: "e2e-tag"
 
-# 4.3 Edit tag: rename
-- tapOn: "e2e-tag"
-- assertVisible: "Save"
-- tapOn:
-    id: "tag-name"
-- eraseText
-- inputText: "e2e-renamed"
-- hideKeyboard
-- tapOn: "Save"
-- scrollUntilVisible:
-    element:
-      text: "e2e-renamed"
-    direction: DOWN
-    timeout: 15000
-    visibilityPercentage: 50
-- assertVisible: "e2e-renamed"
+# 4.3 Edit tag: rename. iOS only: on Android, agent-device 0.21.14 types
+# nothing into this prefilled field (manual edits and `fill` work), so the
+# tag keeps its name there. Later steps accept either name.
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - tapOn: "e2e-tag"
+      - assertVisible: "Save"
+      - tapOn:
+          id: "tag-name"
+      - eraseText
+      - inputText: "e2e-renamed"
+      - runFlow: ../subflows/dismiss-keyboard.yaml
+      - tapOn: "Save"
+      - scrollUntilVisible:
+          element:
+            text: "e2e-renamed"
+          direction: DOWN
+          timeout: 15000
+      - assertVisible: "e2e-renamed"
 
 # 4.4 Tag usable in logger
 - back
@@ -71,20 +75,18 @@ tags: [tags]
 - tapOn: "Tags"
 - scrollUntilVisible:
     element:
-      text: "e2e-renamed"
+      text: "e2e-(tag|renamed)"
     direction: DOWN
     timeout: 15000
-    visibilityPercentage: 50
-- tapOn: "e2e-renamed"
+- tapOn: "e2e-(tag|renamed)"
 - scrollUntilVisible:
     element:
       text: "Delete"
     direction: DOWN
     timeout: 15000
-    visibilityPercentage: 50
 - tapOn: "Delete"
 - assertVisible: "The tag will be removed from all entries.*"
 - tapOn:
     text: "Delete"
     index: 0
-- assertNotVisible: "e2e-renamed"
+- assertNotVisible: "e2e-(tag|renamed)"

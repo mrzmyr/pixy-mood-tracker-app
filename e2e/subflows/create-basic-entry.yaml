@@ -4,10 +4,8 @@ appId: com.devmood.pixymoodtracker
 # Assumes fresh state on the Calendar tab.
 - tapOn:
     text: "Add New Entry"
-    waitToSettleTimeoutMs: 300
 - assertVisible: "How was your day?"
 - tapOn:
     id: "mood-good"
-    waitToSettleTimeoutMs: 300
 - runFlow: finish-logger.yaml
 - assertVisible: "Add another entry for today"

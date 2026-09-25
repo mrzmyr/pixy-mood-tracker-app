@@ -6,10 +6,16 @@ tags: [stability]
 - runFlow: ../subflows/complete-onboarding.yaml
 - runFlow: ../subflows/create-basic-entry.yaml
 
-# 10.1 Background + foreground, data intact
-- pressKey: home
-- launchApp
-- assertVisible: "Add another entry for today"
+# 10.1 Background + foreground, data intact. Android only: agent-device
+# 0.21.14 fails launchApp after pressKey home on iOS 26 simulators
+# ("regular iOS snapshot presentation requires a valid viewport").
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - pressKey: home
+      - launchApp
+      - assertVisible: "Add another entry for today"
 
 # 10.2 Kill + cold start, data intact (regression test for 2nd-launch crash)
 - stopApp
@@ -21,10 +27,7 @@ tags: [stability]
 # 10.3 Rotate-safe basic smoke (open each tab)
 - tapOn:
     id: "statistics"
-    waitToSettleTimeoutMs: 300
 - tapOn:
     id: "settings"
-    waitToSettleTimeoutMs: 300
 - tapOn:
     id: "calendar"
-    waitToSettleTimeoutMs: 300

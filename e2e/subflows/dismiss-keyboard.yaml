@@ -1,0 +1,14 @@
+appId: com.devmood.pixymoodtracker
+---
+# iOS keyboards without a dismiss key reject hideKeyboard; Enter ends editing.
+# On Android, Enter leaves the next text field without input, so hide instead.
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - pressKey: Enter
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - hideKeyboard
