@@ -16,18 +16,21 @@ export const APP_VARIANTS = {
     appId: "com.devmood.pixymoodtracker.dev",
     scheme: "pixy-dev",
     icon: "./assets/images/icon-dev.png",
+    adaptiveIcon: "./assets/images/adaptive-icon-dev.png",
   },
   preview: {
     name: "Pixy Preview",
     appId: "com.devmood.pixymoodtracker.preview",
     scheme: "pixy-preview",
-    icon: "./assets/images/icon.png",
+    icon: "./assets/images/icon-preview.png",
+    adaptiveIcon: "./assets/images/adaptive-icon-preview.png",
   },
   production: {
     name: "Pixy",
     appId: "com.devmood.pixymoodtracker",
     scheme: "pixy",
     icon: "./assets/images/icon.png",
+    adaptiveIcon: "./assets/images/adaptive-icon.png",
   },
 } as const;
 
@@ -72,6 +75,10 @@ const appConfig = ({ config }: ConfigContext): ExpoConfig => {
       ...config.android,
       package: variant.appId,
       icon: variant.icon,
+      adaptiveIcon: {
+        ...config.android?.adaptiveIcon,
+        foregroundImage: variant.adaptiveIcon,
+      },
     },
   };
 };
