@@ -19,7 +19,22 @@ const DEFAULT_CACHE_DIR = path.join(
 );
 
 // Paths that never end up in the app bundle. Changing them keeps the cache.
-const NON_APP_PATHS = ["e2e", ":(glob)**/*.md"];
+// Metro only reaches files imported from App.tsx, so repo tooling, docs, and
+// agent config are safe to skip. Never list anything `src` can import.
+const NON_APP_PATHS = [
+  ".agents",
+  ".github",
+  ".gplay",
+  "docs",
+  "e2e",
+  "scripts",
+  "tools",
+  "crowdin.yml",
+  "jest.setup.js",
+  "oxfmt.config.ts",
+  "oxlint.config.ts",
+  ":(glob)**/*.md",
+];
 
 const resolveCacheDir = () =>
   process.env.PIXY_MOOD_TRACKER_BUILD_CACHE_DIR || DEFAULT_CACHE_DIR;
