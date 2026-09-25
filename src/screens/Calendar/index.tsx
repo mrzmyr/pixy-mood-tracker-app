@@ -1,4 +1,4 @@
-import React, { memo, useEffect, useRef, useState } from "react";
+import React, { memo, useRef, useState } from "react";
 import { ActivityIndicator, Platform, Text, useWindowDimensions, View } from "react-native";
 import type { NativeScrollEvent, NativeSyntheticEvent } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
@@ -33,19 +33,6 @@ const CalendarScreen = memo(function CalendarScreen() {
   const previousContentHeight = useRef(0);
   const isInitialPositionSet = useRef(false);
 
-  useEffect(() => {
-    if (!settings.loaded || !logState.loaded) {
-      return;
-    }
-
-    const timeout = setTimeout(() => {
-      scrollRef.current?.scrollToEnd({ animated: false });
-      isInitialPositionSet.current = true;
-    }, 0);
-
-    return () => clearTimeout(timeout);
-  }, [settings.loaded, logState.loaded]);
-
   const showScrollTopButton = (
     scrollOffset < calendarHeight - window.height &&
     !calendarFilters.isOpen
@@ -75,6 +62,11 @@ const CalendarScreen = memo(function CalendarScreen() {
   };
 
   const onContentSizeChange = (_width: number, height: number) => {
+    if (!isInitialPositionSet.current) {
+      scrollRef.current?.scrollToEnd({ animated: false });
+      isInitialPositionSet.current = true;
+    }
+
     if (height > previousContentHeight.current) {
       if (
         isLoadingEarlierMonths.current &&
