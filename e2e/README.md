@@ -50,6 +50,7 @@ bun dashboard                                               # runs, devices, and
 | 05-statistics | Stats tab, highlights/empty state, month + year report |
 | 06-settings-data | Data screen, export/import visible, reset-all round trip |
 | 07-settings-reminder | Reminder toggle on/off with notification permission |
+| 12-onboarding-reminder | Enable Reminder during onboarding and verify reminder settings |
 | 09-appearance | Colors screen, steps config, privacy toggle |
 | 10-stability | Background/foreground, cold restart (2nd-launch crash regression), tab smoke |
 | apple/ios-regressions | iOS filter modal, narrow check-in layout/switch accessibility, tag form accessibility |
