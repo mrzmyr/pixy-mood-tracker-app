@@ -3,7 +3,7 @@ import { Keyboard, Platform, View } from "react-native";
 import { ArrowRight, Check } from "react-native-feather";
 import useColors from "@/hooks/useColors";
 import useHaptics from "@/hooks/useHaptics";
-import { FloatButton } from "../../FloatButton";
+import { FloatButton } from "@/components/FloatButton";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const ON_EVENT_NAME =

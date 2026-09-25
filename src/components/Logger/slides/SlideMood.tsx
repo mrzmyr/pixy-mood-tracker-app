@@ -11,8 +11,8 @@ import useColors from "@/hooks/useColors";
 import type { LogItem } from "@/hooks/useLogs";
 import { RATING_KEYS } from "@/constants/Ratings";
 import { useTemporaryLog } from "@/hooks/useTemporaryLog";
-import { SlideHeadline } from "../components/SlideHeadline";
-import { SlideMoodButton } from "../components/SlideMoodButton";
+import { SlideHeadline } from "@/components/Logger/components/SlideHeadline";
+import { SlideMoodButton } from "@/components/Logger/components/SlideMoodButton";
 
 /**
  * Rating slide, always the first logger slide. Must render inside

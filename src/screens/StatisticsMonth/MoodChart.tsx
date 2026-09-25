@@ -6,7 +6,7 @@ import { BigCard } from "@/components/BigCard";
 import type { ScaleItem } from "@/components/RatingChart";
 import { RatingChart } from "@/components/RatingChart";
 import { t } from "@/helpers/translation";
-import { getRatingDistributionForXDays } from "../../hooks/useStatistics/RatingDistribution";
+import { getRatingDistributionForXDays } from "@/hooks/useStatistics/RatingDistribution";
 import { NotEnoughDataOverlay } from "@/components/Statistics/NotEnoughDataOverlay";
 import { CardFeedback } from "@/components/Statistics/CardFeedback";
 

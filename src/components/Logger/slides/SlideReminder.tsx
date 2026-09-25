@@ -11,7 +11,7 @@ import useNotification, { createDailyTrigger } from "@/hooks/useNotifications";
 import { useAnalytics } from "@/hooks/useAnalytics";
 import type { SettingsState } from "@/hooks/useSettings";
 import { useSettings } from "@/hooks/useSettings";
-import { SlideHeadline } from "../components/SlideHeadline";
+import { SlideHeadline } from "@/components/Logger/components/SlideHeadline";
 import { getLogEditMarginTop } from "@/helpers/responsive";
 import { t } from "@/helpers/translation";
 

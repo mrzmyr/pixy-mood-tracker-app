@@ -1,9 +1,9 @@
 import { Pressable, Text, View } from "react-native";
 import { MoreHorizontal } from "react-native-feather";
 import { t } from "@/helpers/translation";
-import useColors from "../useColors";
-import type { FeedackType } from "../useFeedback";
-import useHaptics from "../useHaptics";
+import useColors from "@/hooks/useColors";
+import type { FeedackType } from "@/hooks/useFeedback";
+import useHaptics from "@/hooks/useHaptics";
 
 /** Feedback type tabs in the feedback modal (issue, idea, other). */
 export const TypeSelector = ({

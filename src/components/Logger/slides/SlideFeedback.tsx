@@ -6,8 +6,8 @@ import useColors from "@/hooks/useColors";
 import useHaptics from "@/hooks/useHaptics";
 import type { IQuestion } from "@/hooks/useQuestioner";
 import { useQuestioner } from "@/hooks/useQuestioner";
-import LinkButton from "../../LinkButton";
-import { SlideHeadline } from "../components/SlideHeadline";
+import LinkButton from "@/components/LinkButton";
+import { SlideHeadline } from "@/components/Logger/components/SlideHeadline";
 import { Footer } from "./Footer";
 
 const AnswerSelector = ({

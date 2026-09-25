@@ -7,9 +7,9 @@ import {
   useMemo,
   useState,
 } from "react";
-import type { LogItem } from "../useLogs";
-import { useLogState } from "../useLogs";
-import { useTagsState } from "../useTags";
+import type { LogItem } from "@/hooks/useLogs";
+import { useLogState } from "@/hooks/useLogs";
+import { useTagsState } from "@/hooks/useTags";
 import type { MoodAvgData } from "./MoodAvg";
 import { defaultMoodAvgData, getMoodAvgData } from "./MoodAvg";
 import type { MoodPeaksNegativeData, MoodPeaksPositiveData } from "./MoodPeaks";

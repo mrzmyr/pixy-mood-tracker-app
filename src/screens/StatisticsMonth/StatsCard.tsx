@@ -1,6 +1,6 @@
 import type { ViewStyle } from "react-native";
 import { Text, View } from "react-native";
-import useColors from "../../hooks/useColors";
+import useColors from "@/hooks/useColors";
 
 /**
  * Summary tile. The trend row renders whenever `trendValue` is not 0,

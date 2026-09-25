@@ -7,14 +7,14 @@ import type { Dayjs } from "dayjs";
 import dayjs from "dayjs";
 import range from "lodash/range";
 import { Pressable, Text, View } from "react-native";
-import useColors from "../../hooks/useColors";
-import useHaptics from "../../hooks/useHaptics";
-import type { LogDay } from "../../hooks/useLogs";
-import useScale from "../../hooks/useScale";
+import useColors from "@/hooks/useColors";
+import useHaptics from "@/hooks/useHaptics";
+import type { LogDay } from "@/hooks/useLogs";
+import useScale from "@/hooks/useScale";
 import type {
   MoodPeaksNegativeData,
   MoodPeaksPositiveData,
-} from "../../hooks/useStatistics/MoodPeaks";
+} from "@/hooks/useStatistics/MoodPeaks";
 import { HeaderWeek } from "./HeaderWeek";
 
 const getDayDotOpacity = (isPressed: boolean, isFuture: boolean) => {

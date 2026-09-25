@@ -2,8 +2,8 @@ import type { Dayjs } from "dayjs";
 import dayjs from "dayjs";
 import { Dimensions } from "react-native";
 import { t } from "@/helpers/translation";
-import { useLogState } from "../../hooks/useLogs";
-import { getRatingDistributionForYear } from "../../hooks/useStatistics/RatingDistribution";
+import { useLogState } from "@/hooks/useLogs";
+import { getRatingDistributionForYear } from "@/hooks/useStatistics/RatingDistribution";
 
 import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
 import { BigCard } from "@/components/BigCard";

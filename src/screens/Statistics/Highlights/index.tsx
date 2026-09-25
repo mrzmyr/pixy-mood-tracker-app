@@ -1,22 +1,22 @@
 import { useEffect, useEffectEvent } from "react";
-import { useContentStableValue } from "../../../hooks/useContentStableValue";
+import { useContentStableValue } from "@/hooks/useContentStableValue";
 import { ActivityIndicator, ScrollView, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import useColors from "../../../hooks/useColors";
-import { useAnalytics } from "../../../hooks/useAnalytics";
-import { useStatistics } from "../../../hooks/useStatistics";
-import { MoodAvgCard } from "../MoodAvgCard";
-import { MoodPeaksCard } from "../MoodPeaksCards";
-import { TagPeaksCard } from "../TagPeaksCards";
-import { TagsDistributionCard } from "../TagsDistributionCard";
-import { Title } from "../Title";
-import type { MoodAvgData } from "../../../hooks/useStatistics/MoodAvg";
+import useColors from "@/hooks/useColors";
+import { useAnalytics } from "@/hooks/useAnalytics";
+import { useStatistics } from "@/hooks/useStatistics";
+import { MoodAvgCard } from "@/screens/Statistics/MoodAvgCard";
+import { MoodPeaksCard } from "@/screens/Statistics/MoodPeaksCards";
+import { TagPeaksCard } from "@/screens/Statistics/TagPeaksCards";
+import { TagsDistributionCard } from "@/screens/Statistics/TagsDistributionCard";
+import { Title } from "@/screens/Statistics/Title";
+import type { MoodAvgData } from "@/hooks/useStatistics/MoodAvg";
 import { t } from "@/helpers/translation";
 import dayjs from "dayjs";
 import { DATE_FORMAT } from "@/constants/Config";
-import { MoodChart } from "../MoodChart";
-import { useLogState } from "../../../hooks/useLogs";
-import { SleepQualityChartCard } from "../SleepQualityGraph";
+import { MoodChart } from "@/screens/Statistics/MoodChart";
+import { useLogState } from "@/hooks/useLogs";
+import { SleepQualityChartCard } from "@/screens/Statistics/SleepQualityGraph";
 import { getItemTime } from "@/lib/logDates";
 
 interface HighlightCards {

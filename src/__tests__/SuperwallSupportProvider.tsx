@@ -4,7 +4,7 @@ import { SuperwallExpoModule } from "expo-superwall";
 import {
   ConfiguredSupportProvider,
   SUPPORT_PLACEMENT,
-} from "../support/SuperwallSupportProvider";
+} from "@/support/SuperwallSupportProvider";
 import type { SupportClient } from "@/support";
 import { useSupport } from "@/support";
 

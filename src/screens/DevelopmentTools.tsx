@@ -9,10 +9,10 @@ import { t } from "@/helpers/translation";
 import dayjs from "dayjs";
 import type { ViewStyle } from "react-native";
 import { ScrollView, Text, View } from "react-native";
-import useColors from "../hooks/useColors";
-import { useLogState } from "../hooks/useLogs";
-import { useSettings } from "../hooks/useSettings";
-import { useTagsState } from "../hooks/useTags";
+import useColors from "@/hooks/useColors";
+import { useLogState } from "@/hooks/useLogs";
+import { useSettings } from "@/hooks/useSettings";
+import { useTagsState } from "@/hooks/useTags";
 import { Trash } from "lucide-react-native";
 import { getWordCount } from "@/lib/utils";
 

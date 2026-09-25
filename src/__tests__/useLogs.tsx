@@ -1,11 +1,11 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { STORAGE_KEYS } from "../helpers/storage";
+import { STORAGE_KEYS } from "@/helpers/storage";
 import * as Sentry from "@sentry/react-native";
 import { act, renderHook, waitFor } from "@testing-library/react-native";
-import { AnalyticsProvider } from "../hooks/useAnalytics";
-import type { LogsState } from "../hooks/useLogs";
-import { LogsProvider, useLogState, useLogUpdater } from "../hooks/useLogs";
-import { SettingsProvider } from "../hooks/useSettings";
+import { AnalyticsProvider } from "@/hooks/useAnalytics";
+import type { LogsState } from "@/hooks/useLogs";
+import { LogsProvider, useLogState, useLogUpdater } from "@/hooks/useLogs";
+import { SettingsProvider } from "@/hooks/useSettings";
 import { _generateItem } from "./utils";
 
 // oxlint-disable-next-line anti-slop/no-module-mocking -- useLogs reports through the Sentry SDK imported directly in storage.ts; the test asserts on captureException

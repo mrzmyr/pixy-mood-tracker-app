@@ -3,7 +3,7 @@ import type { Emotion } from "@/types";
 import countBy from "lodash/countBy";
 import random from "lodash/random";
 import sampleSize from "lodash/sampleSize";
-import type { LogItem } from "../useLogs";
+import type { LogItem } from "@/hooks/useLogs";
 
 /** Emotion counts for the statistics emotions card, most used first. */
 export interface EmotionsDistributionData {

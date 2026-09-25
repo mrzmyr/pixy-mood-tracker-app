@@ -1,6 +1,6 @@
 import countBy from "lodash/countBy";
-import type { LogItem } from "../useLogs";
-import type { Tag } from "../useTags";
+import type { LogItem } from "@/hooks/useLogs";
+import type { Tag } from "@/hooks/useTags";
 
 /** Tag usage counts for the statistics tags card, most used first. */
 export interface TagsDistributionData {
