@@ -11,7 +11,7 @@ export const Stepper = ({
   scrollTo: ({ index }) => void;
 }) => {
   const colors = useColors();
-  const steps = [...Array(count).keys()];
+  const steps = Array.from({ length: count }, (_, step) => step);
 
   return (
     <View

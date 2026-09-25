@@ -9,7 +9,7 @@ export const Tooltip = ({
   emotion,
   onClose,
 }: {
-  emotion: Emotion;
+  emotion: Emotion | undefined;
   onClose: () => void;
 }) => {
   const colors = useColors();

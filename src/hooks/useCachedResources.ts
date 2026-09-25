@@ -11,9 +11,9 @@ const loadResourcesAndDataAsync = (onComplete: () => void) => {
     // });
 
     SplashScreen.preventAutoHideAsync();
-  } catch (e) {
+  } catch (error) {
     // We might want to provide this error information to an error reporting service
-    console.warn(e);
+    console.warn(error);
   } finally {
     onComplete();
     SplashScreen.hideAsync();

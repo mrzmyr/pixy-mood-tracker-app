@@ -1,7 +1,7 @@
 import { MoodCounts } from "@/components/Statistics/MoodCounts";
 import { t } from "@/helpers/translation";
 import dayjs from "dayjs";
-import { useState } from "react";
+import { useMemo } from "react";
 import { ScrollView, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import type { RootStackScreenProps } from "../../../types";
@@ -21,8 +21,10 @@ export const StatisticsYearScreen = ({
   const insets = useSafeAreaInsets();
   const colors = useColors();
 
-  const [date, setDate] = useState(
-    dayjs(route.params.date).isValid() ? dayjs(route.params.date) : dayjs()
+  const date = useMemo(
+    () =>
+      dayjs(route.params.date).isValid() ? dayjs(route.params.date) : dayjs(),
+    [route.params.date]
   );
 
   const logState = useLogState();

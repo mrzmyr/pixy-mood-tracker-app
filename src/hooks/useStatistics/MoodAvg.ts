@@ -22,7 +22,7 @@ export const defaultMoodAvgData: MoodAvgData = {
 };
 
 export const getMoodAvgData = (items: LogItem[]): MoodAvgData => {
-  const keys: LogItem["rating"][] = [...RATING_KEYS].reverse();
+  const keys: LogItem["rating"][] = RATING_KEYS.toReversed();
 
   const moods = {
     negative: 0,
@@ -32,19 +32,19 @@ export const getMoodAvgData = (items: LogItem[]): MoodAvgData => {
 
   const avgMoods = getLogDays(items);
 
-  avgMoods.forEach((item) => {
+  for (const item of avgMoods) {
     if (["bad", "very_bad", "extremely_bad"].includes(item.ratingAvg)) {
-      moods.negative++;
+      moods.negative += 1;
     }
 
     if (["good", "very_good", "extremely_good"].includes(item.ratingAvg)) {
-      moods.positive++;
+      moods.positive += 1;
     }
 
     if (["neutral"].includes(item.ratingAvg)) {
-      moods.neutral++;
+      moods.neutral += 1;
     }
-  });
+  }
 
   const rating_total = moods.negative + moods.neutral + moods.positive;
 
@@ -61,9 +61,13 @@ export const getMoodAvgData = (items: LogItem[]): MoodAvgData => {
     0
   );
 
-  const ratingHighestKey = MOOD_GROUPS.reduce((a, b) =>
-    moods[a] > moods[b] ? a : b
-  );
+  const [firstMoodGroup, ...otherMoodGroups] = MOOD_GROUPS;
+  let ratingHighestKey: (typeof MOOD_GROUPS)[number] = firstMoodGroup;
+  for (const moodGroup of otherMoodGroups) {
+    if (moods[moodGroup] >= moods[ratingHighestKey]) {
+      ratingHighestKey = moodGroup;
+    }
+  }
 
   const percentage = Math.round((moods[ratingHighestKey] / rating_total) * 100);
 

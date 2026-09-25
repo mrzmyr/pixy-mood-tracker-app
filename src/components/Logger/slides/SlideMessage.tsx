@@ -10,7 +10,7 @@ import { useTemporaryLog } from "@/hooks/useTemporaryLog";
 import { getAverageMood } from "@/lib/utils";
 import type { Dayjs } from "dayjs";
 import dayjs from "dayjs";
-import _ from "lodash";
+import sortBy from "lodash/sortBy";
 import { forwardRef, useEffect, useRef, useState } from "react";
 import {
   Keyboard,
@@ -89,7 +89,7 @@ const Tips = ({ onClose }: { onClose: () => void }) => {
   const fullEmotions =
     tempLog.data?.emotions?.map((key) => EMOTIONS.find((e) => e.key === key)) ||
     [];
-  const sortedEmotions = _.sortBy(fullEmotions, (emotion) =>
+  const sortedEmotions = sortBy(fullEmotions, (emotion) =>
     emotion === undefined
       ? undefined
       : {
@@ -102,7 +102,7 @@ const Tips = ({ onClose }: { onClose: () => void }) => {
   );
 
   if (sortedEmotions.length > 0) {
-    sortedEmotions.slice(0, 5).forEach((emotion) => {
+    for (const emotion of sortedEmotions.slice(0, 5)) {
       let description = t(
         `log_emotion_${emotion?.key}_description`
       ).toLowerCase();
@@ -117,7 +117,7 @@ const Tips = ({ onClose }: { onClose: () => void }) => {
           description,
         })
       );
-    });
+    }
   }
 
   if (questions.length < 2) {

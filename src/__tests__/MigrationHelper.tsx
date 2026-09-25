@@ -82,20 +82,20 @@ describe("MigrationHelper", () => {
       ],
     };
 
-    const testImportData: ImportData = {
+    const importData: ImportData = {
       version: "1.0.0",
       settings,
       items,
     };
 
-    const newData = migrateImportData(testImportData);
+    const newData = migrateImportData(importData);
 
     expect(newData).toEqual({
       version: "1.0.0",
-      items: Object.values(testImportData.items).map((item) => ({
+      items: Object.values(importData.items).map((item) => ({
         ...item,
       })),
-      settings: _.omit(testImportData.settings, "tags"),
+      settings: _.omit(importData.settings, "tags"),
       tags: testTags,
     });
   });

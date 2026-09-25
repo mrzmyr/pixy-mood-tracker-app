@@ -9,6 +9,7 @@ import {
   resolveDevelopmentSupportClient,
 } from "@/support/clients";
 import { SettingsScreen } from "@/screens/Settings";
+import noop from "lodash/noop";
 
 // oxlint-disable-next-line anti-slop/no-module-mocking -- lucide-react-native renders native SVG components that Jest cannot render
 jest.mock("lucide-react-native", () => ({
@@ -70,15 +71,13 @@ const renderSettings = (supportClient: SupportClient) =>
     </NavigationContainer>
   );
 
-const noop = () => undefined;
-
 describe("Support Pixy in Settings", () => {
   afterEach(() => {
     jest.restoreAllMocks();
   });
 
   test("user sees no support card when support is disabled", async () => {
-    const openSupport = jest.fn().mockResolvedValue(undefined);
+    const openSupport = jest.fn(() => Promise.resolve());
     const screen = await renderSettings({ enabled: false, openSupport });
 
     expect(screen.queryByTestId("support-pixy-card")).toBeNull();

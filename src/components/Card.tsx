@@ -1,5 +1,5 @@
 import useColors from "@/hooks/useColors";
-import _ from "lodash";
+import isString from "lodash/isString";
 import type { ViewStyle } from "react-native";
 import { Text, View } from "react-native";
 import { X } from "react-native-feather";
@@ -48,7 +48,7 @@ export const Card = ({
             marginTop: 8,
           }}
         >
-          {_.isString(title) ? (
+          {isString(title) ? (
             <Text
               style={{
                 fontSize: 17,

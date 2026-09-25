@@ -3,11 +3,10 @@ import dayjs from "dayjs";
 import type { ViewStyle } from "react-native";
 import { Pressable, Text } from "react-native";
 import useColors from "@/hooks/useColors";
+import noop from "lodash/noop";
 
 const Clock = ({
   timeDate,
-  onChange,
-  style,
 }: {
   timeDate: Date;
   onChange: (event: DateTimePickerEvent, date?: Date) => void;
@@ -17,7 +16,7 @@ const Clock = ({
 
   return (
     <Pressable
-      onPress={() => {}}
+      onPress={noop}
       style={{
         flexDirection: "row",
         alignItems: "center",

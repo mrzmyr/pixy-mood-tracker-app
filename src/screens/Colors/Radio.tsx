@@ -4,6 +4,16 @@ import { Circle } from "react-native-feather";
 import useColors from "../../hooks/useColors";
 import useHaptics from "../../hooks/useHaptics";
 
+const getPressableOpacity = (
+  isDisabled: boolean | undefined,
+  isPressed: boolean
+) => {
+  if (isDisabled) {
+    return 0.5;
+  }
+  return isPressed ? 0.8 : 1;
+};
+
 export const Radio = ({
   onPress,
   children,
@@ -36,7 +46,7 @@ export const Radio = ({
           backgroundColor: colors.menuListItemBackground,
           padding: 16,
           borderRadius: 10,
-          opacity: isDisabled ? 0.5 : pressed ? 0.8 : 1,
+          opacity: getPressableOpacity(isDisabled, pressed),
         },
       ]}
     >

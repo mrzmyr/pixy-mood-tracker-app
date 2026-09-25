@@ -19,6 +19,7 @@ export default {
     // synchronously, matching the former Promise executor behavior.
     try {
       const message = `${title}: ${body}`;
+      // oxlint-disable-next-line eslint/no-alert -- web shim for Alert.alert: react-native-web has no dialog API, so the browser confirm() is the platform equivalent.
       if (confirm(message)) {
         callbacks[0]?.onPress();
         return Promise.resolve({});

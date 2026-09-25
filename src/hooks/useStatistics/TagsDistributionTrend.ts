@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-import _ from "lodash";
+import zipObject from "lodash/zipObject";
 import type { LogItem } from "../useLogs";
 import type { Tag } from "../useTags";
 
@@ -25,6 +25,19 @@ interface TagCounter {
   };
 }
 
+const getTrendType = (
+  periode1Count: number,
+  periode2Count: number
+): DistributionTag["type"] => {
+  if (periode2Count > periode1Count) {
+    return "increase";
+  }
+  if (periode2Count < periode1Count) {
+    return "decrease";
+  }
+  return "same";
+};
+
 const SCALE_TYPE = "week";
 const SCALE_RANGE = 8;
 
@@ -32,12 +45,12 @@ export const getTagsDistributionTrendData = (
   items: LogItem[],
   tags: Tag[]
 ): TagsDistributionTrendData => {
-  const distributionPeriode1: TagCounter = _.zipObject(
+  const distributionPeriode1: TagCounter = zipObject(
     tags.map((d) => d.id),
     tags.map((d) => ({ ...d, count: 0 }))
   );
 
-  const distributionPeriode2: TagCounter = _.zipObject(
+  const distributionPeriode2: TagCounter = zipObject(
     tags.map((d) => d.id),
     tags.map((d) => ({ ...d, count: 0 }))
   );
@@ -51,58 +64,59 @@ export const getTagsDistributionTrendData = (
     return defaultTagsDistributionTrendData;
   }
 
-  for (let i = SCALE_RANGE / 2; i < SCALE_RANGE; i++) {
+  for (let i = SCALE_RANGE / 2; i < SCALE_RANGE; i += 1) {
     const start = dayjs().subtract(i, SCALE_TYPE).startOf(SCALE_TYPE);
     const _items = items.filter((item) => {
       const itemDate = dayjs(item.dateTime);
       return itemDate.isSame(start, SCALE_TYPE);
     });
 
-    _items.forEach((item) => {
-      item.tags.forEach((tag) => {
-        distributionPeriode1[tag.id].count++;
-      });
-    });
+    for (const item of _items) {
+      for (const tag of item.tags) {
+        distributionPeriode1[tag.id].count += 1;
+      }
+    }
   }
 
-  for (let i = 0; i < SCALE_RANGE / 2; i++) {
+  for (let i = 0; i < SCALE_RANGE / 2; i += 1) {
     const start = dayjs().subtract(i, SCALE_TYPE).startOf(SCALE_TYPE);
     const _items = items.filter((item) => {
       const itemDate = dayjs(item.dateTime);
       return itemDate.isSame(start, SCALE_TYPE);
     });
 
-    _items.forEach((item) => {
-      item.tags.forEach((tag) => {
-        distributionPeriode2[tag.id].count++;
-      });
-    });
+    for (const item of _items) {
+      for (const tag of item.tags) {
+        distributionPeriode2[tag.id].count += 1;
+      }
+    }
   }
 
-  const _tags = tags
-    .map((tag): DistributionTag => ({
-      ...tag,
-      periode1Count: distributionPeriode1[tag.id].count,
-      periode2Count: distributionPeriode2[tag.id].count,
-      total:
-        distributionPeriode1[tag.id].count + distributionPeriode2[tag.id].count,
-      diff: Math.abs(
-        distributionPeriode2[tag.id].count - distributionPeriode1[tag.id].count
-      ),
-      type:
-        distributionPeriode2[tag.id].count > distributionPeriode1[tag.id].count
-          ? "increase"
-          : distributionPeriode2[tag.id].count <
-              distributionPeriode1[tag.id].count
-            ? "decrease"
-            : "same",
-    }))
-    .filter(
-      (tag) =>
-        Math.abs(tag.periode1Count - tag.periode2Count) > 3 &&
-        tag.periode1Count >= 1 &&
-        tag.periode2Count >= 1
-    );
+  const _tags = tags.flatMap((tag): DistributionTag[] => {
+    const periode1Count = distributionPeriode1[tag.id].count;
+    const periode2Count = distributionPeriode2[tag.id].count;
+
+    if (
+      !(
+        Math.abs(periode1Count - periode2Count) > 3 &&
+        periode1Count >= 1 &&
+        periode2Count >= 1
+      )
+    ) {
+      return [];
+    }
+
+    return [
+      {
+        ...tag,
+        periode1Count,
+        periode2Count,
+        total: periode1Count + periode2Count,
+        diff: Math.abs(periode2Count - periode1Count),
+        type: getTrendType(periode1Count, periode2Count),
+      },
+    ];
+  });
 
   return {
     tags: _tags,

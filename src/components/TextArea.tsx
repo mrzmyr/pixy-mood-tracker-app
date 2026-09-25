@@ -2,8 +2,7 @@ import { forwardRef } from "react";
 import type { ViewStyle } from "react-native";
 import { TextInput } from "react-native";
 import useColors from "@/hooks/useColors";
-
-const noop = () => {};
+import noop from "lodash/noop";
 
 const TextAreaComponent = (
   {
@@ -35,7 +34,7 @@ const TextAreaComponent = (
       autoFocus={autoFocus}
       multiline
       onChangeText={(text) => {
-        const newText = text.substring(0, maxLength);
+        const newText = text.slice(0, maxLength);
         onChange(newText);
       }}
       value={value}

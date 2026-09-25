@@ -71,17 +71,17 @@ const CalendarDayComponent = ({
     [dateString, dayjs().format(DATE_FORMAT)]
   );
 
-  const backgroundColor = useMemo(
-    () =>
-      isFuture || _isFiltered || (!rating && isFiltering)
-        ? colors.calendarItemBackgroundFuture
-        : _isFiltered
-          ? colors.calendarBackground
-          : rating
-            ? colors.scales[scaleType][rating].background
-            : colors.scales[scaleType].empty.background,
-    [colors, isFuture, _isFiltered, isFiltering, rating, scaleType]
-  );
+  const backgroundColor = useMemo(() => {
+    if (isFuture || _isFiltered || (!rating && isFiltering)) {
+      return colors.calendarItemBackgroundFuture;
+    }
+    if (_isFiltered) {
+      return colors.calendarBackground;
+    }
+    return rating
+      ? colors.scales[scaleType][rating].background
+      : colors.scales[scaleType].empty.background;
+  }, [colors, isFuture, _isFiltered, isFiltering, rating, scaleType]);
 
   const containerStyles = useStyle(
     () => [
@@ -99,25 +99,23 @@ const CalendarDayComponent = ({
     [rating, isFuture, isFiltering, scaleType, backgroundColor, colors]
   );
 
-  const textColor = useMemo(
-    () =>
-      _isFiltered
-        ? colors.text
-        : rating
-          ? colors.scales[scaleType][rating].textSecondary
-          : colors.scales[scaleType].empty.text,
-    [rating, scaleType, colors]
-  );
+  const textColor = useMemo(() => {
+    if (_isFiltered) {
+      return colors.text;
+    }
+    return rating
+      ? colors.scales[scaleType][rating].textSecondary
+      : colors.scales[scaleType].empty.text;
+  }, [rating, scaleType, colors]);
 
-  const dayNumberBackgroundColor = useMemo(
-    () =>
-      isToday
-        ? chroma(backgroundColor).luminance() < 0.5
-          ? "rgba(255,255,255,0.7)"
-          : "rgba(0,0,0,0.5)"
-        : "transparent",
-    [isToday, backgroundColor]
-  );
+  const dayNumberBackgroundColor = useMemo(() => {
+    if (!isToday) {
+      return "transparent";
+    }
+    return chroma(backgroundColor).luminance() < 0.5
+      ? "rgba(255,255,255,0.7)"
+      : "rgba(0,0,0,0.5)";
+  }, [isToday, backgroundColor]);
 
   const dayNumberParent2Styles = useStyle(
     () => [
@@ -129,34 +127,33 @@ const CalendarDayComponent = ({
     [dayNumberBackgroundColor]
   );
 
-  const dayNumberTextStyles = useStyle(
-    () => [
+  const dayNumberTextStyles = useStyle(() => {
+    let color = textColor;
+    if (isToday) {
+      color = chroma(backgroundColor).luminance() < 0.5 ? "black" : "white";
+    } else if (_isFiltered) {
+      color = colors.text;
+    }
+
+    return [
       {
         fontSize: 12,
         opacity:
           !isToday && (isFuture || _isFiltered || (!rating && isFiltering))
             ? 0.3
             : 1,
-        color:
-          _isFiltered && !isToday
-            ? colors.text
-            : isToday
-              ? chroma(backgroundColor).luminance() < 0.5
-                ? "black"
-                : "white"
-              : textColor,
+        color,
       },
-    ],
-    [
-      isToday,
-      isFuture,
-      _isFiltered,
-      isFiltering,
-      rating,
-      backgroundColor,
-      textColor,
-    ]
-  );
+    ];
+  }, [
+    isToday,
+    isFuture,
+    _isFiltered,
+    isFiltering,
+    rating,
+    backgroundColor,
+    textColor,
+  ]);
 
   const _onPress = useCallback(() => {
     if (!isFuture) {

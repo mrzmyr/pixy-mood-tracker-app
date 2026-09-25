@@ -1,10 +1,20 @@
-import _ from "lodash";
+import isString from "lodash/isString";
 import type { ViewStyle } from "react-native";
 import { ActivityIndicator, Pressable, Text, View } from "react-native";
 import useColors from "@/hooks/useColors";
 import useHaptics from "@/hooks/useHaptics";
 
 const DEFAULT_STYLE = {};
+
+const getPressableOpacity = (
+  isDisabled: boolean | undefined,
+  isPressed: boolean
+) => {
+  if (isDisabled) {
+    return 0.5;
+  }
+  return isPressed ? 0.8 : 1;
+};
 
 const Button = ({
   type = "primary",
@@ -68,7 +78,7 @@ const Button = ({
         justifyContent: "center",
         flexDirection: "row",
         borderRadius: 12,
-        opacity: disabled ? 0.5 : pressed ? 0.8 : 1,
+        opacity: getPressableOpacity(disabled, pressed),
         backgroundColor: disabled
           ? buttonColors.disabledBackground
           : buttonColors.background,
@@ -95,7 +105,7 @@ const Button = ({
           {icon && (
             <View style={{ marginRight: children ? 8 : 0 }}>{icon}</View>
           )}
-          {_.isString(children) ? (
+          {isString(children) ? (
             <Text
               style={{
                 fontSize: 17,

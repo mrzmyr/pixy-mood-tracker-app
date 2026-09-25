@@ -1,5 +1,5 @@
 import { PageWithHeaderLayout } from "@/components/PageWithHeaderLayout";
-import { Text, View, VirtualizedList } from "react-native";
+import { Text, VirtualizedList } from "react-native";
 import disclaimer from "../../disclaimer";
 import useColors from "../hooks/useColors";
 
@@ -37,7 +37,7 @@ export const LicensesScreen = () => {
           </Text>
         )}
         keyExtractor={(item) => item.key}
-        getItemCount={(slices) => slices.length}
+        getItemCount={(items) => items.length}
         getItem={(data, index): Item => ({
           key: `text-${index}`,
           value: data[index],

@@ -1,4 +1,4 @@
-import dayjs, { Dayjs } from "dayjs";
+import dayjs from "dayjs";
 import { Text, View } from "react-native";
 import useColors from "../../hooks/useColors";
 

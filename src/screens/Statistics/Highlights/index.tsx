@@ -35,7 +35,7 @@ interface HighlightCards {
   sleep_quality_chart_show: boolean;
 }
 
-export const StatisticsHighlights = ({ navigation }) => {
+export const StatisticsHighlights = () => {
   const insets = useSafeAreaInsets();
   const colors = useColors();
   const analytics = useAnalytics();

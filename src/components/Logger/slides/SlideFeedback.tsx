@@ -105,6 +105,8 @@ export const SlideFeedback = ({
     onPress();
   };
 
+  const selectedIdSet = new Set(selectedIds);
+
   return (
     <View
       style={{
@@ -138,7 +140,7 @@ export const SlideFeedback = ({
               <AnswerSelector
                 key={answer.id}
                 answer={answer}
-                selected={selectedIds.includes(answer.id)}
+                selected={selectedIdSet.has(answer.id)}
                 onPress={onAnswer}
               />
             ))}
@@ -153,7 +155,7 @@ export const SlideFeedback = ({
               <AnswerSelector
                 key={answer.id}
                 answer={answer}
-                selected={selectedIds.includes(answer.id)}
+                selected={selectedIdSet.has(answer.id)}
                 onPress={onAnswer}
               />
             ))}

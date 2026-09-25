@@ -21,7 +21,7 @@ import pkg from "../../package.json";
 // oxlint-disable-next-line anti-slop/no-module-mocking -- expo-sharing is a native module unavailable in Jest; the export test asserts on shareAsync
 jest.mock("expo-sharing", () => ({
   isAvailableAsync: jest.fn().mockResolvedValue(true),
-  shareAsync: jest.fn().mockResolvedValue(undefined),
+  shareAsync: jest.fn(() => Promise.resolve()),
 }));
 
 const wrapper = ({ children }) => (
@@ -54,34 +54,6 @@ const testItems: LogsState["items"] = [
       },
     ],
   }),
-];
-
-const initalTags = [
-  {
-    color: "orange",
-    id: "1",
-    title: "Happy 🥳",
-  },
-  {
-    color: "purple",
-    id: "2",
-    title: "Struggles ☔️",
-  },
-  {
-    color: "sky",
-    id: "3",
-    title: "Work 💼",
-  },
-  {
-    color: "green",
-    id: "4",
-    title: "Exercise 🏃",
-  },
-  {
-    color: "yellow",
-    id: "5",
-    title: "Friends 🤗",
-  },
 ];
 
 const testSettings = {

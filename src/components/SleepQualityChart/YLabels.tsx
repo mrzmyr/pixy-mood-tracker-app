@@ -1,9 +1,9 @@
 import { SLEEP_QUALITY_KEYS, SLEEP_QUALITY_MAPPING } from "@/constants/Ratings";
 import { G, Mask, Rect } from "react-native-svg";
 
-export const YLabels = ({ relativeY, YLegendWidth, rowHeight, width }) => (
+export const YLabels = ({ relativeY, YLegendWidth, rowHeight }) => (
   <>
-    {[...SLEEP_QUALITY_KEYS].reverse().map((sleepQuality, index) => {
+    {SLEEP_QUALITY_KEYS.toReversed().map((sleepQuality, index) => {
       const y = relativeY(index);
 
       const height = 16;

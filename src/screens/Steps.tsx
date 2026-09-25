@@ -18,7 +18,7 @@ import type { RootStackScreenProps } from "../../types";
 import useColors from "../hooks/useColors";
 import { useSettings } from "../hooks/useSettings";
 
-export const StepsScreen = ({ navigation }: RootStackScreenProps<"Steps">) => {
+export const StepsScreen = (_props: RootStackScreenProps<"Steps">) => {
   const colors = useColors();
 
   const ICONS_MAP: Record<LoggerStep, ReactElement> = {
@@ -93,18 +93,18 @@ export const StepsScreen = ({ navigation }: RootStackScreenProps<"Steps">) => {
                     accessibilityLabel={t(`logger_step_${option}`)}
                     testID={`step-${option}-enabled`}
                     onValueChange={() => {
-                      setSettings((settings) => ({
-                        ...settings,
-                        steps: settings.steps.includes(option)
-                          ? settings.steps.filter((s) => s !== option)
-                          : [...settings.steps, option],
+                      setSettings((currentSettings) => ({
+                        ...currentSettings,
+                        steps: currentSettings.steps.includes(option)
+                          ? currentSettings.steps.filter((s) => s !== option)
+                          : [...currentSettings.steps, option],
                       }));
                     }}
                     value={settings.steps.includes(option)}
                   />
                 )
               }
-              isLast={option === STEP_OPTIONS[STEP_OPTIONS.length - 1]}
+              isLast={option === STEP_OPTIONS.at(-1)}
             />
           ))}
         </MenuList>

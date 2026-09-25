@@ -1,4 +1,5 @@
-import _ from "lodash";
+import random from "lodash/random";
+import range from "lodash/range";
 import { useRef } from "react";
 import { Dimensions } from "react-native";
 import { BigCard } from "@/components/BigCard";
@@ -23,10 +24,10 @@ export const MoodChart = ({ date, items }) => {
 
   const dataDummy = useRef<ScaleItem[] | null>(null);
   if (dataDummy.current === null) {
-    dataDummy.current = _.range(1, 30).map((i) => ({
+    dataDummy.current = range(1, 30).map((i) => ({
       key: `${i}`,
-      count: _.random(3, 6),
-      value: _.random(1, 6),
+      count: random(3, 6),
+      value: random(1, 6),
     }));
   }
 

@@ -1,6 +1,7 @@
 import Alert from "@/components/Alert";
 import { createStructuredError } from "@/lib/errors";
 import { t } from "./translation";
+import noop from "lodash/noop";
 
 const askToConfirm = ({
   title,
@@ -91,7 +92,7 @@ export const showImportError = () => {
   Alert.alert(
     t("import_error_title"),
     t("import_error_message"),
-    [{ text: t("ok"), onPress: () => {} }],
+    [{ text: t("ok"), onPress: noop }],
     { cancelable: false }
   );
 };
@@ -103,7 +104,7 @@ export const showResetSuccess = <Type>(type: Type) => {
     [
       {
         text: t("ok"),
-        onPress: () => {},
+        onPress: noop,
       },
     ],
     { cancelable: false }

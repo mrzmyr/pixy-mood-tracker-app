@@ -1,7 +1,7 @@
 import type { TAG_COLOR_NAMES } from "@/constants/Config";
 import { load, store } from "@/helpers/storage";
 import { t } from "@/helpers/translation";
-import _ from "lodash";
+import omit from "lodash/omit";
 import {
   createContext,
   useCallback,
@@ -10,7 +10,6 @@ import {
   useMemo,
   useReducer,
 } from "react";
-import { useAnalytics } from "./useAnalytics";
 import { useLogUpdater } from "./useLogs";
 import { useSettings } from "./useSettings";
 import { createMissingProviderError } from "@/lib/errors";
@@ -82,6 +81,9 @@ const reducer = (state: State, action: StateAction): State => {
         loaded: true,
       };
     }
+    default: {
+      return state;
+    }
   }
 };
 
@@ -91,33 +93,36 @@ const _generateTag = (id: number, title: string, color: Tag["color"]): Tag => ({
   color,
 });
 
+const getInitialState = (): State => ({
+  loaded: false,
+  tags: [
+    _generateTag(1, `${t("tags_default_1_title")} 🏡`, "slate"),
+    _generateTag(2, `${t("tags_default_2_title")} 🤝`, "orange"),
+    _generateTag(3, `${t("tags_default_3_title")} ❤️`, "red"),
+    _generateTag(4, `${t("tags_default_4_title")} 🏃‍♂️`, "blue"),
+    _generateTag(5, `${t("tags_default_5_title")} 🛀`, "teal"),
+    _generateTag(6, `${t("tags_default_6_title")} 📚`, "purple"),
+    _generateTag(7, `${t("tags_default_7_title")} 🧹`, "indigo"),
+    _generateTag(8, `${t("tags_default_8_title")} 🛌`, "amber"),
+    _generateTag(9, `${t("tags_default_9_title")} 🥗`, "green"),
+    _generateTag(10, `${t("tags_default_10_title")} 🛍️`, "pink"),
+    _generateTag(11, `${t("tags_default_11_title")} 🎮`, "slate"),
+    _generateTag(12, `${t("tags_default_12_title")} 📺`, "orange"),
+    _generateTag(13, `${t("tags_default_13_title")} 🧘‍♂️`, "cyan"),
+    _generateTag(14, `${t("tags_default_14_title")} 🌳`, "lime"),
+    _generateTag(15, `${t("tags_default_15_title")} 🎨`, "teal"),
+    _generateTag(16, `${t("tags_default_16_title")} 📱`, "blue"),
+    _generateTag(17, `${t("tags_default_17_title")} 💼`, "slate"),
+    _generateTag(18, `${t("tags_default_18_title")} ✈️`, "sky"),
+  ],
+});
+
 const TagsProvider = ({ children }: { children: React.ReactNode }) => {
   const { settings } = useSettings();
   const logsUpdater = useLogUpdater();
 
-  const INITIAL_STATE: State = {
-    loaded: false,
-    tags: [
-      _generateTag(1, `${t("tags_default_1_title")} 🏡`, "slate"),
-      _generateTag(2, `${t("tags_default_2_title")} 🤝`, "orange"),
-      _generateTag(3, `${t("tags_default_3_title")} ❤️`, "red"),
-      _generateTag(4, `${t("tags_default_4_title")} 🏃‍♂️`, "blue"),
-      _generateTag(5, `${t("tags_default_5_title")} 🛀`, "teal"),
-      _generateTag(6, `${t("tags_default_6_title")} 📚`, "purple"),
-      _generateTag(7, `${t("tags_default_7_title")} 🧹`, "indigo"),
-      _generateTag(8, `${t("tags_default_8_title")} 🛌`, "amber"),
-      _generateTag(9, `${t("tags_default_9_title")} 🥗`, "green"),
-      _generateTag(10, `${t("tags_default_10_title")} 🛍️`, "pink"),
-      _generateTag(11, `${t("tags_default_11_title")} 🎮`, "slate"),
-      _generateTag(12, `${t("tags_default_12_title")} 📺`, "orange"),
-      _generateTag(13, `${t("tags_default_13_title")} 🧘‍♂️`, "cyan"),
-      _generateTag(14, `${t("tags_default_14_title")} 🌳`, "lime"),
-      _generateTag(15, `${t("tags_default_15_title")} 🎨`, "teal"),
-      _generateTag(16, `${t("tags_default_16_title")} 📱`, "blue"),
-      _generateTag(17, `${t("tags_default_17_title")} 💼`, "slate"),
-      _generateTag(18, `${t("tags_default_18_title")} ✈️`, "sky"),
-    ],
-  };
+  // Built per render so default tag titles follow the current locale.
+  const INITIAL_STATE = getInitialState();
 
   const [state, dispatch] = useReducer(reducer, INITIAL_STATE);
 
@@ -191,7 +196,7 @@ const TagsProvider = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     if (state.loaded) {
-      store<Omit<State, "loaded">>(STORAGE_KEY, _.omit(state, "loaded"));
+      store<Omit<State, "loaded">>(STORAGE_KEY, omit(state, "loaded"));
     }
   }, [JSON.stringify(state)]);
 

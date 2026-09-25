@@ -6,10 +6,9 @@ import { useTemporaryLog } from "@/hooks/useTemporaryLog";
 import { getMostUsedEmotions } from "@/lib/utils";
 import type { Emotion } from "@/types";
 import { LinearGradient } from "expo-linear-gradient";
-import _ from "lodash";
+import keyBy from "lodash/keyBy";
 import { useRef, useState } from "react";
 import { ScrollView, View } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 import LinkButton from "../../../LinkButton";
 import { SlideHeadline } from "../../components/SlideHeadline";
 import { EMOTIONS } from "../../config";
@@ -21,12 +20,27 @@ import { EmotionBasicSelection } from "./EmotionBasicSelection";
 import { ExpandButton } from "./ExpandButton";
 import { Tooltip } from "./Tooltip";
 import { useAnalytics } from "@/hooks/useAnalytics";
-
-const noop = () => {};
+import noop from "lodash/noop";
 
 type Mode = "basic" | "advanced";
 
 const MAX_BASIC_EMOTIONS = 36;
+
+const appendMissingEmotions = (
+  emotions: Emotion[],
+  candidates: Emotion[]
+): Emotion[] => {
+  if (emotions.length >= MAX_BASIC_EMOTIONS) {
+    return emotions;
+  }
+
+  const emotionKeys = new Set(emotions.map((emotion) => emotion.key));
+  const missingEmotions = candidates
+    .filter((d) => !emotionKeys.has(d.key))
+    .slice(0, MAX_BASIC_EMOTIONS - emotions.length);
+
+  return [...emotions, ...missingEmotions];
+};
 
 export const SlideEmotions = ({
   defaultIndex,
@@ -47,7 +61,7 @@ export const SlideEmotions = ({
   const logState = useLogState();
   const analytics = useAnalytics();
 
-  const EMOTIONS_BY_KEY = _.keyBy(EMOTIONS, "key");
+  const EMOTIONS_BY_KEY = keyBy(EMOTIONS, "key");
 
   const initialSelectedEmotions = useRef(
     tempLog.data?.emotions?.map((d) => EMOTIONS_BY_KEY[d]) || []
@@ -81,23 +95,10 @@ export const SlideEmotions = ({
     (e) => e.mode === "basic" && e.disabled !== true
   );
 
-  let basicEmotions = initialSelectedEmotions.current;
-
-  if (basicEmotions.length < MAX_BASIC_EMOTIONS) {
-    const missingEmotions = mostUsedEmotions
-      .filter((d) => !basicEmotions.map((d) => d.key).includes(d.key))
-      .slice(0, MAX_BASIC_EMOTIONS - basicEmotions.length);
-
-    basicEmotions = [...basicEmotions, ...missingEmotions];
-  }
-
-  if (basicEmotions.length < MAX_BASIC_EMOTIONS) {
-    const missingEmotions = predefinedBasicEmotions
-      .filter((d) => !basicEmotions.map((d) => d.key).includes(d.key))
-      .slice(0, MAX_BASIC_EMOTIONS - basicEmotions.length);
-
-    basicEmotions = [...basicEmotions, ...missingEmotions];
-  }
+  let basicEmotions = appendMissingEmotions(
+    appendMissingEmotions(initialSelectedEmotions.current, mostUsedEmotions),
+    predefinedBasicEmotions
+  );
 
   basicEmotions = basicEmotions.map((emotion) => ({
     ...emotion,
@@ -206,7 +207,7 @@ export const SlideEmotions = ({
           {mode === "advanced" && <EmotionAdvancedGradients />}
           {showTooltip && (
             <Tooltip
-              emotion={selectedEmotions[selectedEmotions.length - 1]}
+              emotion={selectedEmotions.at(-1)}
               onClose={() => {
                 analytics.track("log_emotions_tooltip_close");
                 setShowTooltip(false);

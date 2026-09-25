@@ -5,6 +5,7 @@ import useColors from "@/hooks/useColors";
 import LinkButton from "./LinkButton";
 import { PasscodeDots } from "./PasscodeDots";
 import { PasscodePad } from "./PasscodePad";
+import noop from "lodash/noop";
 
 export const PasscodeView = ({
   mode,
@@ -91,7 +92,7 @@ export const PasscodeView = ({
       </View>
       <View>
         <LinkButton
-          onPress={() => {}}
+          onPress={noop}
           style={{
             fontSize: 15,
             color: colors.text,

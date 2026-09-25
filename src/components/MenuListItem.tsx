@@ -12,9 +12,9 @@ const MenuListItem = ({
   onPress = null,
   iconLeft = null,
   iconRight = null,
-  isLast = false,
-  isLink = false,
-  deactivated = false,
+  isLast,
+  isLink,
+  deactivated,
   style = DEFAULT_STYLE,
   children,
   testID,
@@ -34,11 +34,11 @@ const MenuListItem = ({
   const haptics = useHaptics();
   const titleText = isValidElement(title) ? undefined : title;
 
-  iconRight = iconRight || null;
-
-  if (isLink) {
-    iconRight = <ChevronRight width={18} color={colors.menuListItemIcon} />;
-  }
+  const rightIcon = isLink ? (
+    <ChevronRight width={18} color={colors.menuListItemIcon} />
+  ) : (
+    iconRight
+  );
 
   const _onPress = useCallback(async () => {
     if (onPress !== null && !deactivated) {
@@ -120,7 +120,7 @@ const MenuListItem = ({
             {children}
           </View>
         )}
-        {iconRight && (
+        {rightIcon && (
           <View
             style={{
               flexShrink: 0,
@@ -129,7 +129,7 @@ const MenuListItem = ({
               alignItems: "flex-end",
             }}
           >
-            {iconRight}
+            {rightIcon}
           </View>
         )}
       </Pressable>

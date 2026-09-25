@@ -202,9 +202,9 @@ export const DevelopmentTools = () => {
             marginTop: 16,
           }}
           onPress={() => {
-            setSettings((settings) => ({
-              ...settings,
-              actionsDone: settings.actionsDone.filter(
+            setSettings((currentSettings) => ({
+              ...currentSettings,
+              actionsDone: currentSettings.actionsDone.filter(
                 (action) => !action?.title?.startsWith("question_slide_")
               ),
             }));
@@ -218,8 +218,8 @@ export const DevelopmentTools = () => {
             marginTop: 12,
           }}
           onPress={() => {
-            setSettings((settings) => ({
-              ...settings,
+            setSettings((currentSettings) => ({
+              ...currentSettings,
               actionsDone: [],
             }));
           }}

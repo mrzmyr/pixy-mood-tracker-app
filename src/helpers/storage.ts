@@ -1,6 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as Sentry from "@sentry/react-native";
 import type { useFeedback } from "@/hooks/useFeedback";
+import noop from "lodash/noop";
 
 type StorageFeedback = ReturnType<typeof useFeedback>;
 
@@ -90,8 +91,8 @@ const reportLoadError = (
       }),
       email: "team@pixy.day",
       source: "error",
-      onCancel: () => {},
-      onOk: () => {},
+      onCancel: noop,
+      onOk: noop,
     });
   } catch (feedbackError) {
     console.error(
@@ -143,7 +144,7 @@ export const load = async <ReturnValue>(
   // Only a missing key counts as "no data" — an empty string is
   // persisted-but-corrupt data and must fall through to JSON.parse below,
   // which throws and keeps callers from overwriting the stored value.
-  if (data == null) {
+  if (data === null || data === undefined) {
     return null;
   }
 

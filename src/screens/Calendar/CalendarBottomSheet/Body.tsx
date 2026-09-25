@@ -1,4 +1,4 @@
-import _ from "lodash";
+import debounce from "lodash/debounce";
 import { useCallback, useState } from "react";
 import { View } from "react-native";
 import { useCalendarFilters } from "../../../hooks/useCalendarFilters";
@@ -14,6 +14,7 @@ export const Body = ({ onClose }: { onClose?: () => void }) => {
   const { tags } = useTagsState();
 
   const _tags = tags.filter((tag) => !tag.isArchived);
+  const selectedTagIds = new Set(calendarFilters.data.tagIds);
 
   const [searchText, setSearchText] = useState("");
 
@@ -42,7 +43,7 @@ export const Body = ({ onClose }: { onClose?: () => void }) => {
     });
   };
 
-  const debounceOnTextChange = useCallback(_.debounce(onTextChange, 200), []);
+  const debounceOnTextChange = useCallback(debounce(onTextChange, 200), []);
 
   return (
     <>
@@ -65,9 +66,7 @@ export const Body = ({ onClose }: { onClose?: () => void }) => {
         />
         <TagsSection
           tags={_tags}
-          selectedTags={_tags.filter((tag) =>
-            calendarFilters.data.tagIds.includes(tag.id)
-          )}
+          selectedTags={_tags.filter((tag) => selectedTagIds.has(tag.id))}
           onSelect={onPressTag}
         />
         {calendarFilters.data.filteredItems.length !== 0 && (

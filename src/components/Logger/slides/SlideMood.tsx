@@ -83,7 +83,7 @@ export const SlideMood = ({
             width: "100%",
           }}
         >
-          {RATING_KEYS.map((key, index) => (
+          {RATING_KEYS.map((key) => (
             <SlideMoodButton
               key={key}
               rating={key}

@@ -36,9 +36,9 @@ export const Onboarding = ({
 
   const [index, setIndex] = useState(0);
 
-  const goToSlide = (index: number) => {
-    setIndex(index);
-    analytics.track("onboarding_slide", { index });
+  const goToSlide = (nextIndex: number) => {
+    setIndex(nextIndex);
+    analytics.track("onboarding_slide", { index: nextIndex });
   };
 
   const finish = () => {

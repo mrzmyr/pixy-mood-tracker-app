@@ -2,7 +2,8 @@ import LinkButton from "@/components/LinkButton";
 import { t } from "@/helpers/translation";
 import useFeedbackModal from "@/hooks/useFeedbackModal";
 import type { Emotion } from "@/types";
-import _ from "lodash";
+import chunk from "lodash/chunk";
+import orderBy from "lodash/orderBy";
 import type { ViewStyle } from "react-native";
 import { View } from "react-native";
 import { EmotionButtonBasic } from "./EmotionButtonBasic";
@@ -22,8 +23,8 @@ export const EmotionBasicSelection = ({
 }) => {
   const { Modal, show } = useFeedbackModal();
 
-  const rows = _.chunk(
-    _.orderBy(
+  const rows = chunk(
+    orderBy(
       emotions,
       (e) =>
         ({
@@ -55,7 +56,7 @@ export const EmotionBasicSelection = ({
             marginBottom: 8,
           }}
         >
-          {row.map((emotion, index) => (
+          {row.map((emotion) => (
             <View
               key={`basic-emotion-container-${emotion.key}`}
               style={{

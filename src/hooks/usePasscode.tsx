@@ -39,7 +39,7 @@ const PasscodeProvider = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     const subscription = AppState.addEventListener("change", (nextAppState) => {
-      if (appState.current.match(/background/) && nextAppState === "active") {
+      if (appState.current.match(/background/u) && nextAppState === "active") {
         setIsAuthenticated(false);
       }
 

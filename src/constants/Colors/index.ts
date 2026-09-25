@@ -20,7 +20,7 @@ const tagsLight: TagColors = {};
 
 const tagColorNames = TAG_COLOR_NAMES;
 
-tagColorNames.map((color) => {
+for (const color of tagColorNames) {
   tagsDark[color] = {
     title: color,
     dot: colors[color]["500"],
@@ -35,7 +35,7 @@ tagColorNames.map((color) => {
     text: colors[color]["700"],
     border: colors[color]["400"],
   };
-});
+}
 
 const tintColorLight = "#007aff";
 const tintColorDark = "#0a84ff";

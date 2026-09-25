@@ -75,16 +75,16 @@ const AnalyticsProvider = ({
       enable: () => {
         posthog?.optIn();
         setIsEnabled(true);
-        setSettings((settings) => ({
-          ...settings,
+        setSettings((currentSettings) => ({
+          ...currentSettings,
           analyticsEnabled: true,
         }));
       },
       disable: () => {
         posthog?.optOut();
         setIsEnabled(false);
-        setSettings((settings) => ({
-          ...settings,
+        setSettings((currentSettings) => ({
+          ...currentSettings,
           analyticsEnabled: false,
         }));
       },
@@ -92,8 +92,8 @@ const AnalyticsProvider = ({
         posthog?.reset();
         posthog?.optOut();
         setIsEnabled(false);
-        setSettings((settings) => ({
-          ...settings,
+        setSettings((currentSettings) => ({
+          ...currentSettings,
           analyticsEnabled: false,
         }));
       },

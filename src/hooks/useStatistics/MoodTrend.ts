@@ -35,18 +35,14 @@ export const getMoodTrendData = (items: LogItem[]): MoodTrendData => {
   const ratingsPeriode1: PeriodDataPoint[] = [];
   const ratingsPeriode2: PeriodDataPoint[] = [];
 
-  for (let i = SCALE_RANGE / 2; i < SCALE_RANGE; i++) {
+  for (let i = SCALE_RANGE / 2; i < SCALE_RANGE; i += 1) {
     const start = dayjs().subtract(i, SCALE_TYPE).startOf(SCALE_TYPE);
-    const end = dayjs().subtract(i, SCALE_TYPE).endOf(SCALE_TYPE);
-    const _items = items
-      .map((item) => ({
-        ...item,
-        value: RATING_MAPPING[item.rating],
-      }))
-      .filter((item) => {
-        const itemDate = dayjs(item.dateTime);
-        return itemDate.isSame(start, SCALE_TYPE);
-      });
+    const _items = items.flatMap((item) => {
+      const itemDate = dayjs(item.dateTime);
+      return itemDate.isSame(start, SCALE_TYPE)
+        ? [{ ...item, value: RATING_MAPPING[item.rating] }]
+        : [];
+    });
     let ratingAverage = DEFAULT_WEEK_AVG;
     if (_items.length > 0) {
       ratingAverage =
@@ -61,18 +57,14 @@ export const getMoodTrendData = (items: LogItem[]): MoodTrendData => {
     });
   }
 
-  for (let i = 0; i < SCALE_RANGE / 2; i++) {
+  for (let i = 0; i < SCALE_RANGE / 2; i += 1) {
     const start = dayjs().subtract(i, SCALE_TYPE).startOf(SCALE_TYPE);
-    const end = dayjs().subtract(i, SCALE_TYPE).endOf(SCALE_TYPE);
-    const _items = items
-      .map((item) => ({
-        ...item,
-        value: RATING_MAPPING[item.rating],
-      }))
-      .filter((item) => {
-        const itemDate = dayjs(item.dateTime);
-        return itemDate.isSame(start, SCALE_TYPE);
-      });
+    const _items = items.flatMap((item) => {
+      const itemDate = dayjs(item.dateTime);
+      return itemDate.isSame(start, SCALE_TYPE)
+        ? [{ ...item, value: RATING_MAPPING[item.rating] }]
+        : [];
+    });
     let ratingAverage = DEFAULT_WEEK_AVG;
     if (_items.length > 0) {
       ratingAverage =

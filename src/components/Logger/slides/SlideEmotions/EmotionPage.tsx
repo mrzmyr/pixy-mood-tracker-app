@@ -1,5 +1,5 @@
 import type { Emotion } from "@/types";
-import _ from "lodash";
+import chunkArray from "lodash/chunk";
 import { View } from "react-native";
 import {
   EmotionButtonAdvanced,
@@ -15,7 +15,7 @@ export const EmotionPage = ({
   onPress: (emotion: Emotion) => void;
   selectedEmotions: Emotion[];
 }) => {
-  const chunks = _.chunk(emotions, 2).map((d) =>
+  const chunks = chunkArray(emotions, 2).map((d) =>
     d.length === 1
       ? [
           ...d,

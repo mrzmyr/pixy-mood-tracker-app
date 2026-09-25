@@ -40,10 +40,7 @@ export const useQuestioner = () => {
   const getQuestion = async (): Promise<IQuestion | null> => {
     const lastQuestionAnsweredToday =
       questionsDone.length > 0
-        ? dayjs(questionsDone[questionsDone.length - 1].date).isSame(
-            dayjs(),
-            "day"
-          )
+        ? dayjs(questionsDone.at(-1)?.date).isSame(dayjs(), "day")
         : false;
 
     if (lastQuestionAnsweredToday) {
@@ -58,44 +55,48 @@ export const useQuestioner = () => {
         return null;
       }
 
-      const question = data.find((question: IQuestion) => {
-        const satisfiesVersion = question.appVersion
-          ? semver.satisfies(pkg.version, question.appVersion)
+      const nextQuestion = data.find((candidate: IQuestion) => {
+        const satisfiesVersion = candidate.appVersion
+          ? semver.satisfies(pkg.version, candidate.appVersion)
           : true;
-        const hasBeenAnswered = hasActionDone(`question_slide_${question.id}`);
-        const isInMyLanguage = question.text[language] !== undefined;
+        const hasBeenAnswered = hasActionDone(`question_slide_${candidate.id}`);
+        const isInMyLanguage = candidate.text[language] !== undefined;
 
         if (!satisfiesVersion) {
           console.log(
             "Question not shown because version does not match",
-            question.appVersion,
+            candidate.appVersion,
             pkg.version
           );
         }
         if (hasBeenAnswered) {
           console.log(
             "Question not shown because it has been answered",
-            question.id
+            candidate.id
           );
         }
         if (!isInMyLanguage) {
           console.log(
             "Question not shown because it is not in my language",
-            question.text
+            candidate.text
           );
         }
 
         return satisfiesVersion && !hasBeenAnswered && isInMyLanguage;
       });
 
-      return question || null;
+      return nextQuestion || null;
     } catch {
       return null;
     }
   };
 
-  const submit = async (question: IQuestion, answers: IQuestion["answers"]) => {
-    const question_text = question.text[language] || question.text["en"];
+  const submit = async (
+    answeredQuestion: IQuestion,
+    answers: IQuestion["answers"]
+  ) => {
+    const question_text =
+      answeredQuestion.text[language] || answeredQuestion.text["en"];
 
     const answer_texts = answers
       .map((answer) => {
@@ -124,7 +125,7 @@ export const useQuestioner = () => {
       question_text,
       answer_texts,
       answer_ids: answers.map((answer) => answer.id).join(", "),
-      question,
+      question: answeredQuestion,
       ...metaData,
     };
 
@@ -134,7 +135,7 @@ export const useQuestioner = () => {
 
     if (__DEV__) {
       console.log("Not sending Question Feedback in dev mode");
-      addActionDone(`question_slide_${question.id}`);
+      addActionDone(`question_slide_${answeredQuestion.id}`);
       return;
     }
 
@@ -145,14 +146,14 @@ export const useQuestioner = () => {
       },
       body: JSON.stringify(body),
     });
-    addActionDone(`question_slide_${question.id}`);
+    addActionDone(`question_slide_${answeredQuestion.id}`);
   };
 
   useEffect(() => {
     void (async () => {
-      const question = await getQuestion();
+      const nextQuestion = await getQuestion();
       if (isMounted.current) {
-        setQuestion(question);
+        setQuestion(nextQuestion);
       }
     })();
 

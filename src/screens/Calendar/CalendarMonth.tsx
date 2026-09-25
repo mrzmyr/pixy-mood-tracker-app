@@ -41,7 +41,7 @@ const CalendarMonthComponent = ({
 
   const weeks = weekEnd.diff(weekStart, "week") + 1;
 
-  for (let i = 0; i < weeks; i++) {
+  for (let i = 0; i < weeks; i += 1) {
     let start = weekStart.add(i, "week");
     let end = start.endOf("week");
 

@@ -1,4 +1,3 @@
-import { useNavigation } from "@react-navigation/native";
 import type { Dayjs } from "dayjs";
 import dayjs from "dayjs";
 import { Pressable, Text, View } from "react-native";
@@ -12,7 +11,9 @@ import type { LogItem } from "../../hooks/useLogs";
 import type { TagsPeakData } from "../../hooks/useStatistics/TagsPeaks";
 import type { Tag as ITag } from "../../hooks/useTags";
 import { HeaderWeek } from "./HeaderWeek";
-import _ from "lodash";
+import groupBy from "lodash/groupBy";
+import keys from "lodash/keys";
+import range from "lodash/range";
 import { useCalendarNavigation } from "@/hooks/useCalendarNavigation";
 
 const DayDot = ({
@@ -74,6 +75,8 @@ const DayDot = ({
   );
 };
 
+const WEEK_DAY_OFFSETS = [0, 1, 2, 3, 4, 5, 6];
+
 const BodyWeek = ({
   items,
   tag,
@@ -82,47 +85,43 @@ const BodyWeek = ({
   items: LogItem[];
   tag: ITag;
   start: Dayjs;
-}) => {
-  const days = [0, 1, 2, 3, 4, 5, 6];
+}) => (
+  <View
+    style={{
+      width: "100%",
+      flexDirection: "row",
+      justifyContent: "space-between",
+      marginTop: 16,
+    }}
+  >
+    {WEEK_DAY_OFFSETS.map((day) => {
+      const date = dayjs(start).add(day, "day");
+      const item = items.find((logItem) =>
+        dayjs(logItem.dateTime).isSame(date, "day")
+      );
+      const isHighlighted =
+        item?.tags?.map((d) => d.id).includes(tag?.id) ?? false;
 
-  return (
-    <View
-      style={{
-        width: "100%",
-        flexDirection: "row",
-        justifyContent: "space-between",
-        marginTop: 16,
-      }}
-    >
-      {days.map((day) => {
-        const date = dayjs(start).add(day, "day");
-        const item = items.find((item) =>
-          dayjs(item.dateTime).isSame(date, "day")
-        );
-        const isHighlighted =
-          item?.tags?.map((d) => d.id).includes(tag?.id) ?? false;
-
-        return (
-          <View
-            key={day}
-            style={{
-              flex: 7,
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <DayDot
-              date={date}
-              isHighlighted={isHighlighted}
-              item={item}
-              colorName={tag?.color}
-            />
-          </View>
-        );
-      })}
-    </View>
-  );
-};
+      return (
+        <View
+          key={day}
+          style={{
+            flex: 7,
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <DayDot
+            date={date}
+            isHighlighted={isHighlighted}
+            item={item}
+            colorName={tag?.color}
+          />
+        </View>
+      );
+    })}
+  </View>
+);
 
 export const TagPeaksCard = ({ tag }: { tag: TagsPeakData["tags"][0] }) => {
   const colors = useColors();
@@ -131,8 +130,8 @@ export const TagPeaksCard = ({ tag }: { tag: TagsPeakData["tags"][0] }) => {
   const endDate = dayjs().endOf("week");
   const weekCount = dayjs(endDate).diff(dayjs(startDate), "week") + 1;
 
-  const daysCount = _.keys(
-    _.groupBy(tag.items, (item) => dayjs(item.dateTime).format(DATE_FORMAT))
+  const daysCount = keys(
+    groupBy(tag.items, (item) => dayjs(item.dateTime).format(DATE_FORMAT))
   ).length;
 
   return (
@@ -170,7 +169,7 @@ export const TagPeaksCard = ({ tag }: { tag: TagsPeakData["tags"][0] }) => {
         }}
       >
         <HeaderWeek date={startDate.format(DATE_FORMAT)} />
-        {_.range(weekCount).map((week) => {
+        {range(weekCount).map((week) => {
           const weekStart = dayjs(startDate).add(week, "week");
 
           return (

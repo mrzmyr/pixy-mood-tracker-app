@@ -8,7 +8,6 @@ import React from "react";
 import { View } from "react-native";
 import { PlusCircle } from "react-native-feather";
 import { PromoCards } from "./PromoCards";
-import { FeedbackBox } from "../LogList/FeedbackBox";
 
 export const CalendarFooter = () => {
   const colors = useColors();

@@ -1,17 +1,28 @@
 import type { Dayjs } from "dayjs";
 import type { LogItem } from "@/hooks/useLogs";
 import { RATING_KEYS } from "@/constants/Ratings";
-import { CardFeedback } from "../CardFeedback";
 import { NotEnoughDataOverlay } from "../NotEnoughDataOverlay";
 import { BigCard } from "../../BigCard";
 import { Content } from "./Content";
 
 const MIN_ITEMS = 14;
 
+const dummyData = {
+  values: {
+    extremely_bad: 2,
+    very_bad: 1,
+    bad: 2,
+    neutral: 4,
+    good: 3,
+    very_good: 5,
+    extremely_good: 1,
+  },
+  total: 18,
+};
+
 export const MoodCounts = ({
   title,
   subtitle,
-  date,
   items,
 }: {
   title: string;
@@ -21,10 +32,12 @@ export const MoodCounts = ({
 }) => {
   const ratingCounts: {
     [key: string]: number;
-  } = RATING_KEYS.reduce((acc, ratingKey) => {
-    acc[ratingKey] = items.filter((item) => item.rating === ratingKey).length;
-    return acc;
-  }, {});
+  } = {};
+  for (const ratingKey of RATING_KEYS) {
+    ratingCounts[ratingKey] = items.filter(
+      (item) => item.rating === ratingKey
+    ).length;
+  }
 
   const total =
     Object.values(ratingCounts).reduce(
@@ -35,19 +48,6 @@ export const MoodCounts = ({
   const data = {
     values: ratingCounts,
     total,
-  };
-
-  const dummyData = {
-    values: {
-      extremely_bad: 2,
-      very_bad: 1,
-      bad: 2,
-      neutral: 4,
-      good: 3,
-      very_good: 5,
-      extremely_good: 1,
-    },
-    total: 18,
   };
 
   return (

@@ -7,7 +7,6 @@ import { useNavigation } from "@react-navigation/native";
 import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
 import { useCalendarFilters } from "../../hooks/useCalendarFilters";
 import type { LogItem } from "../../hooks/useLogs";
-import { useLogState } from "../../hooks/useLogs";
 import { getAverageMood } from "@/lib/utils";
 import CalendarDay from "./CalendarDay";
 import { useCalendarNavigation } from "@/hooks/useCalendarNavigation";
@@ -36,7 +35,6 @@ interface DayMapItem {
 const CalendarWeekComponent = ({
   startDate,
   endDate,
-  isFirst = false,
   isLast = false,
   itemMap,
 }: {
@@ -52,33 +50,25 @@ const CalendarWeekComponent = ({
   const navigation = useNavigation();
   const calendarFilters = useCalendarFilters();
 
-  let justifyContent = "space-around";
-  if (isFirst) {
-    justifyContent = "flex-end";
-  }
-  if (isLast) {
-    justifyContent = "flex-start";
-  }
-
   const days = useMemo(() => {
-    const days: string[] = [];
+    const weekDays: string[] = [];
     let date = dayjs(startDate);
 
     while (date.isSameOrBefore(endDate, "day")) {
-      days.push(date.format(DATE_FORMAT));
+      weekDays.push(date.format(DATE_FORMAT));
       date = date.add(1, "day");
     }
 
-    return days;
+    return weekDays;
   }, [startDate, endDate]);
 
   const emptyDays = useMemo(() => {
     // Placeholder slots have no data identity; the slot position is their stable key.
-    const emptyDays: string[] = [];
-    for (let i = 0; i < 7 - days.length; i++) {
-      emptyDays.push(`empty-day-${i}`);
+    const placeholders: string[] = [];
+    for (let i = 0; i < 7 - days.length; i += 1) {
+      placeholders.push(`empty-day-${i}`);
     }
-    return emptyDays;
+    return placeholders;
   }, [days]);
 
   const daysMap: DayMapItem[] = days.map((dateString) => ({
@@ -93,14 +83,14 @@ const CalendarWeekComponent = ({
   );
 
   const filteredItemIds = useMemo(
-    () => calendarFilters.data.filteredItems.map((item) => item.id),
+    () => new Set(calendarFilters.data.filteredItems.map((item) => item.id)),
     [JSON.stringify(calendarFilters.data.filteredItems)]
   );
 
   const renderDay = ({ date }) => {
     const items = itemMap[date] || [];
     const averageRating = items.length < 1 ? null : getAverageMood(items);
-    const isFiltered = items.some((item) => filteredItemIds.includes(item.id));
+    const isFiltered = items.some((item) => filteredItemIds.has(item.id));
 
     return (
       <CalendarDay

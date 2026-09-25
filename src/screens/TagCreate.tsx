@@ -102,8 +102,8 @@ export const TagCreate = ({
             maxLength={MAX_TAG_LENGTH}
             value={tempTag.title}
             onChangeText={(text) => {
-              setTempTag((tempTag) => ({
-                ...tempTag,
+              setTempTag((currentTag) => ({
+                ...currentTag,
                 title: text,
               }));
             }}
@@ -137,8 +137,8 @@ export const TagCreate = ({
                 })}
                 onPress={() => {
                   haptics.selection();
-                  setTempTag((tempTag) => ({
-                    ...tempTag,
+                  setTempTag((currentTag) => ({
+                    ...currentTag,
                     color: colorName,
                   }));
                 }}

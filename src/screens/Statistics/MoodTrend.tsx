@@ -24,10 +24,10 @@ const Chart = ({ height, data }: { height: number; data: MoodTrendData }) => {
   const scaleItems = [...data.ratingsPeriode1, ...data.ratingsPeriode2];
 
   const dots = {};
-  data.items.forEach((item, index) => {
+  for (const item of data.items) {
     const date = dayjs(item.dateTime).format("YYYY-MM-DD");
     dots[date] = item;
-  });
+  }
 
   const width = height * 4;
   const itemWidth = width / scaleItemCount;

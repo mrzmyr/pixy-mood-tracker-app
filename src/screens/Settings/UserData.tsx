@@ -47,8 +47,10 @@ export const UserDataImportList = () => {
     datagate.import(user.importData, {
       muted: true,
     });
-    setLoadedUserIds((loadedUserIds) => [...loadedUserIds, user.id]);
+    setLoadedUserIds((currentIds) => [...currentIds, user.id]);
   };
+
+  const loadedUserIdSet = new Set(loadedUserIds);
 
   return (
     <>
@@ -86,7 +88,7 @@ export const UserDataImportList = () => {
               key={user.id}
               title={user.id}
               iconLeft={
-                loadedUserIds.includes(user.id) ? (
+                loadedUserIdSet.has(user.id) ? (
                   <CheckCircle width={18} color={colors.palette.green[500]} />
                 ) : (
                   <UploadCloud width={18} color={colors.menuListItemIcon} />

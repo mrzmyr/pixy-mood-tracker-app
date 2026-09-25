@@ -2,6 +2,15 @@ import { Text, View } from "react-native";
 import { t } from "@/helpers/translation";
 import useColors from "@/hooks/useColors";
 
+const getSubtitleKey = (limit: number | undefined) => {
+  if (!limit) {
+    return "statistics_not_enough_data_subtitle_without_count";
+  }
+  return limit === 1
+    ? "statistics_not_enough_data_subtitle_singular"
+    : "statistics_not_enough_data_subtitle_plural";
+};
+
 export const NotEnoughDataOverlay = ({
   limit,
   showSubtitle = true,
@@ -11,11 +20,7 @@ export const NotEnoughDataOverlay = ({
 }) => {
   const colors = useColors();
 
-  const subtitleKey = limit
-    ? limit === 1
-      ? "statistics_not_enough_data_subtitle_singular"
-      : "statistics_not_enough_data_subtitle_plural"
-    : "statistics_not_enough_data_subtitle_without_count";
+  const subtitleKey = getSubtitleKey(limit);
 
   return (
     <View

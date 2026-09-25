@@ -1,4 +1,4 @@
-import _ from "lodash";
+import round from "lodash/round";
 import { View } from "react-native";
 import { t } from "@/helpers/translation";
 import type { LogItem } from "../../hooks/useLogs";
@@ -22,14 +22,14 @@ export const Stats = ({
     (acc, item) => acc + getWordCount(item.message),
     0
   );
-  const wordsDiff = _.round(Math.abs(words - wordsPrev));
+  const wordsDiff = round(Math.abs(words - wordsPrev));
 
-  const wordsPerDay = _.round(words / date.daysInMonth(), 2);
-  const wordsPerDayPrev = _.round(
+  const wordsPerDay = round(words / date.daysInMonth(), 2);
+  const wordsPerDayPrev = round(
     wordsPrev / date.subtract(1, "month").daysInMonth(),
     2
   );
-  const wordsPerDayDiff = _.round(Math.abs(wordsPerDay - wordsPerDayPrev));
+  const wordsPerDayDiff = round(Math.abs(wordsPerDay - wordsPerDayPrev));
 
   const tags = items.reduce((acc, item) => acc + (item.tags.length ?? 0), 0);
   const tagsPrev = prevItems.reduce(
@@ -37,19 +37,19 @@ export const Stats = ({
     0
   );
 
-  const itemsPerDay = _.round(items.length / date.daysInMonth(), 2);
-  const itemsPerDayPrev = _.round(
+  const itemsPerDay = round(items.length / date.daysInMonth(), 2);
+  const itemsPerDayPrev = round(
     prevItems.length / date.subtract(1, "month").daysInMonth(),
     2
   );
-  const itemsPerDayDiff = _.round(Math.abs(itemsPerDay - itemsPerDayPrev));
+  const itemsPerDayDiff = round(Math.abs(itemsPerDay - itemsPerDayPrev));
 
-  const tagsPerDay = _.round(tags / date.daysInMonth(), 2);
-  const tagsPerDayPrev = _.round(
+  const tagsPerDay = round(tags / date.daysInMonth(), 2);
+  const tagsPerDayPrev = round(
     tagsPrev / date.subtract(1, "month").daysInMonth(),
     2
   );
-  const tagsPerDayDiff = _.round(Math.abs(tagsPerDay - tagsPerDayPrev));
+  const tagsPerDayDiff = round(Math.abs(tagsPerDay - tagsPerDayPrev));
 
   return (
     <>

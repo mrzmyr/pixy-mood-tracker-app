@@ -26,8 +26,8 @@ const Reminder = () => {
   const analytics = useAnalytics();
 
   const hourAndMinute = reminderTime.split(":");
-  const hour = Number.parseInt(hourAndMinute[0]);
-  const minute = Number.parseInt(hourAndMinute[1]);
+  const hour = Number(hourAndMinute[0]);
+  const minute = Number(hourAndMinute[1]);
   const timeDate = dayjs().hour(hour).minute(minute).toDate();
 
   const onEnabledChange = async (value: boolean) => {
@@ -54,8 +54,8 @@ const Reminder = () => {
         });
       }
 
-      setSettings((settings: SettingsState) => ({
-        ...settings,
+      setSettings((currentSettings: SettingsState) => ({
+        ...currentSettings,
         reminderEnabled,
         reminderTime,
       }));

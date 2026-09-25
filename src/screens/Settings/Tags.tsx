@@ -10,7 +10,7 @@ import { TagListItem } from "@/components/TagListItem";
 import { MAX_TAGS } from "@/constants/Config";
 import { t } from "@/helpers/translation";
 import { LinearGradient } from "expo-linear-gradient";
-import _ from "lodash";
+import sortBy from "lodash/sortBy";
 import { Archive } from "lucide-react-native";
 import { ScrollView, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -113,7 +113,7 @@ export const SettingsTagsArchive = ({
   const insets = useSafeAreaInsets();
   const { tags } = useTagsState();
 
-  const _tags = _.sortBy(
+  const _tags = sortBy(
     tags.filter((tag: Tag) => tag.isArchived),
     "title"
   );

@@ -1,4 +1,6 @@
-import _ from "lodash";
+import isBoolean from "lodash/isBoolean";
+import omit from "lodash/omit";
+import uniq from "lodash/uniq";
 import {
   createContext,
   useCallback,
@@ -45,8 +47,10 @@ export interface SettingsState {
   steps: KnownSettingsStep[];
 
   // removed in previous version
-  trackBehaviour?: boolean; // replaced with analyticsEnabled
-  tags?: Tag[]; // moved to useTags()
+  // replaced with analyticsEnabled
+  trackBehaviour?: boolean;
+  // moved to useTags()
+  tags?: Tag[];
 }
 
 export type ExportSettings = Omit<SettingsState, "loaded" | "deviceId">;
@@ -97,11 +101,11 @@ const SettingsProvider = ({ children }: { children: React.ReactNode }) => {
   }, [INITIAL_STATE]);
 
   const importSettings = useCallback(
-    (settings: ExportSettings) => {
+    (importedSettings: ExportSettings) => {
       setSettings({
         ...INITIAL_STATE,
-        ...settings,
-        steps: sanitizeSteps(settings.steps),
+        ...importedSettings,
+        steps: sanitizeSteps(importedSettings.steps),
         loaded: true,
       });
     },
@@ -140,7 +144,7 @@ const SettingsProvider = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     if (settings.loaded) {
-      store(STORAGE_KEY, _.omit(settings, "loaded"));
+      store(STORAGE_KEY, omit(settings, "loaded"));
     }
   }, [JSON.stringify(settings)]);
 
@@ -156,10 +160,10 @@ const SettingsProvider = ({ children }: { children: React.ReactNode }) => {
         return;
       }
 
-      setSettings((settings) => ({
-        ...settings,
+      setSettings((currentSettings) => ({
+        ...currentSettings,
         actionsDone: [
-          ...settings.actionsDone,
+          ...currentSettings.actionsDone,
           {
             title: actionTitle,
             date: new Date().toISOString(),
@@ -170,24 +174,21 @@ const SettingsProvider = ({ children }: { children: React.ReactNode }) => {
     [settings.actionsDone]
   );
 
-  const removeActionDone = useCallback(
-    (actionTitle: IAction["title"]) => {
-      setSettings((settings) => ({
-        ...settings,
-        actionsDone: settings.actionsDone.filter(
-          (action) => action.title !== actionTitle
-        ),
-      }));
-    },
-    [settings.actionsDone]
-  );
+  const removeActionDone = useCallback((actionTitle: IAction["title"]) => {
+    setSettings((currentSettings) => ({
+      ...currentSettings,
+      actionsDone: currentSettings.actionsDone.filter(
+        (action) => action.title !== actionTitle
+      ),
+    }));
+  }, []);
 
   const toggleStep = useCallback(
     (step: ConfigurableLoggerStep, value: boolean) => {
-      setSettings((settings) => {
-        const shouldAdd = _.isBoolean(value)
+      setSettings((currentSettings) => {
+        const shouldAdd = isBoolean(value)
           ? value
-          : !settings.steps.includes(step);
+          : !currentSettings.steps.includes(step);
 
         if (!STEP_OPTIONS.includes(step)) {
           throw createStructuredError({
@@ -200,13 +201,13 @@ const SettingsProvider = ({ children }: { children: React.ReactNode }) => {
 
         if (shouldAdd) {
           return {
-            ...settings,
-            steps: _.uniq([...settings.steps, step]),
+            ...currentSettings,
+            steps: uniq([...currentSettings.steps, step]),
           };
         }
         return {
-          ...settings,
-          steps: settings.steps.filter((s) => s !== step),
+          ...currentSettings,
+          steps: currentSettings.steps.filter((s) => s !== step),
         };
       });
     },
