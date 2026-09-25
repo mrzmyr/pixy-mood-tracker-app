@@ -31,6 +31,7 @@ interface Run {
   flows: RunFlow[];
   id: string;
   pid: number;
+  pidStartedAt: string | null;
   platform: Platform | null;
   startedAt: string;
   status: "running" | "passed" | "failed";
@@ -91,6 +92,21 @@ const errorResponse = (
   httpStatus: number,
   { fix, message, status, why }: ErrorFields
 ) => Response.json({ fix, message, status, why }, { status: httpStatus });
+
+const toErrorFields = ({ reason }: PromiseRejectedResult): ErrorFields =>
+  reason instanceof CliError
+    ? {
+        fix: reason.fix,
+        message: reason.message,
+        status: reason.status,
+        why: reason.why,
+      }
+    : {
+        fix: "Run `bunx agent-device devices` to see the underlying error.",
+        message: reason instanceof Error ? reason.message : String(reason),
+        status: "agent_device_failed",
+        why: "agent-device failed while listing devices or their owners.",
+      };
 
 // Runs agent-device with --json and returns its data, or throws its error.
 const agentDevice = async <T>(args: string[]): Promise<T> => {
@@ -158,9 +174,16 @@ const toState = (device: AgentDevice) => {
   return device.booted ? "booted" : "shutdown";
 };
 
+// PIDs get reused, so the process must also have the start time the reporter
+// recorded. Runs without one never count as alive.
+const isRunProcessAlive = (run: Run) =>
+  isProcessAlive(run.pid) &&
+  Boolean(run.pidStartedAt) &&
+  tryRun("ps", ["-o", "lstart=", "-p", String(run.pid)]) === run.pidStartedAt;
+
 // A run whose CLI process died never wrote its final status.
 const getStaleReason = (run: Run) =>
-  run.status === "running" && !isProcessAlive(run.pid)
+  run.status === "running" && !isRunProcessAlive(run)
     ? "its agent-device process exited without a result"
     : null;
 
@@ -244,10 +267,19 @@ const refreshPullRequests = async () => {
 
 const getState = async () => {
   void refreshPullRequests();
-  const [{ devices: all }, { claims }] = await Promise.all([
+  // A failing agent-device call must not hide runs and builds; the page shows
+  // its error next to the rest of the state.
+  const [devicesResult, claimsResult] = await Promise.allSettled([
     agentDevice<{ devices: AgentDevice[] }>(["devices"]),
     agentDevice<{ claims: Claim[] }>(["device", "status"]),
   ]);
+  const all =
+    devicesResult.status === "fulfilled" ? devicesResult.value.devices : [];
+  const claims =
+    claimsResult.status === "fulfilled" ? claimsResult.value.claims : [];
+  const errors = [devicesResult, claimsResult].flatMap((result) =>
+    result.status === "rejected" ? [toErrorFields(result)] : []
+  );
   // agent-device also lists the Mac itself and TV targets.
   const found = all.filter(
     (device) => device.platform === "ios" || device.platform === "android"
@@ -282,6 +314,7 @@ const getState = async () => {
   return {
     builds,
     devices,
+    errors,
     generatedAt: new Date().toISOString(),
     pullRequests: Object.fromEntries(pullRequests.byBranch),
     sessions,
@@ -495,7 +528,7 @@ const shutdownDevice = async (id: string) => {
 // Stops a running `bun e2e` the same way Ctrl+C does.
 const killRun = (id: string) => {
   const run = findRun(id);
-  if (!run || run.status !== "running" || !isProcessAlive(run.pid)) {
+  if (!run || run.status !== "running" || !isRunProcessAlive(run)) {
     return Promise.resolve(
       errorResponse(404, {
         fix: "Reload the dashboard. Finished runs cannot be stopped.",

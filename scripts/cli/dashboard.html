@@ -915,7 +915,8 @@
           const body = await response.json();
           if (!response.ok) throw body;
           state = body;
-          $("error").hidden = true;
+          if (body.errors?.length) showError(body.errors[0]);
+          else $("error").hidden = true;
           render();
         } catch (error) {
           showError(

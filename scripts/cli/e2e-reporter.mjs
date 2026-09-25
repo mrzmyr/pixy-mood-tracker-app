@@ -17,6 +17,17 @@ const git = (args) => {
   }
 };
 
+const processStartTime = (pid) => {
+  try {
+    return execFileSync("ps", ["-o", "lstart=", "-p", String(pid)], {
+      encoding: "utf-8",
+      stdio: ["ignore", "pipe", "ignore"],
+    }).trim();
+  } catch {
+    return null;
+  }
+};
+
 // The CLI process runs the reporter, so argv holds the device selectors.
 const readFlag = (names) => {
   const index = process.argv.findIndex((arg) => names.includes(arg));
@@ -40,6 +51,8 @@ export default function createReporter() {
     flows: [],
     id: "",
     pid: process.pid,
+    // PIDs get reused; the start time ties the run to this exact process.
+    pidStartedAt: processStartTime(process.pid),
     platform: readFlag(["--platform"]),
     startedAt: new Date().toISOString(),
     status: "running",
