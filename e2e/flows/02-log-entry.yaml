@@ -38,7 +38,11 @@ tags: [log]
 - tapOn:
     id: "tag-name"
 - inputText: "e2e-log-${output.runId}"
-- tapOn: "Create"
+- hideKeyboard
+- tapOn:
+    text: "Create"
+    point: "50%,45%"
+- assertVisible: "Tags"
 - scrollUntilVisible:
     element:
       text: "e2e-log-${output.runId}"
@@ -46,27 +50,38 @@ tags: [log]
     timeout: 15000
 - assertVisible: "e2e-log-${output.runId}"
 - tapOn: "e2e-log-${output.runId}"
+- assertVisible: "Edit Tag"
 - tapOn:
     id: "tag-name"
 - eraseText
 - inputText: "e2e-renamed-${output.runId}"
 - hideKeyboard
+- scrollUntilVisible:
+    element:
+      text: "Save"
+    direction: DOWN
+    timeout: 15000
 - tapOn: "Save"
+- assertVisible: "Tags"
 - assertVisible: "e2e-renamed-${output.runId}"
 
 # 2.3 Delete another tag through logger tag management
 - tapOn: "Create Tag"
 - tapOn:
     id: "tag-name"
-- inputText: "e2e-delete-${output.runId}"
-- tapOn: "Create"
+- inputText: "e2e-temp-${output.runId}"
+- hideKeyboard
+- tapOn:
+    text: "Create"
+    point: "50%,45%"
+- assertVisible: "Tags"
 - scrollUntilVisible:
     element:
-      text: "e2e-delete-${output.runId}"
+      text: "e2e-temp-${output.runId}"
     direction: DOWN
     timeout: 15000
-- assertVisible: "e2e-delete-${output.runId}"
-- tapOn: "e2e-delete-${output.runId}"
+- assertVisible: "e2e-temp-${output.runId}"
+- tapOn: "e2e-temp-${output.runId}"
 - scrollUntilVisible:
     element:
       text: "Delete"
@@ -77,7 +92,8 @@ tags: [log]
 - tapOn:
     text: "Delete"
     index: 0
-- assertNotVisible: "e2e-delete-${output.runId}"
+- assertVisible: "Tags"
+- assertNotVisible: "e2e-temp-${output.runId}"
 
 # 2.4 Android system Back returns from tag manager to logger
 - runFlow:
@@ -117,6 +133,11 @@ tags: [log]
 # 2.5 Saved tag and note appear in the entry
 - tapOn:
     id: "calendar-day-${output.today}"
+- scrollUntilVisible:
+    element:
+      text: "e2e note ${output.runId} persisted"
+    direction: DOWN
+    timeout: 15000
 - assertVisible: "e2e-renamed-${output.runId}"
 - assertVisible: "e2e note ${output.runId} persisted"
 
