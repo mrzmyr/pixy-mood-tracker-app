@@ -1,8 +1,8 @@
 import { DATE_FORMAT } from "@/constants/Config";
 import dayjs from "dayjs";
-import sortBy from "lodash/sortBy";
 import type { LogItem } from "../useLogs";
-import { getLogDays } from "@/lib/utils";
+import { RATING_MAPPING } from "@/constants/Ratings";
+import { getItemDate } from "@/lib/logDates";
 
 /** Empty state before statistics load; also defines {@link StreaksData}. */
 export const defaultStreaksData = {
@@ -14,24 +14,45 @@ export const defaultStreaksData = {
 export type StreaksData = typeof defaultStreaksData;
 
 /**
+ * Sorted local days with entries. Like `getLogDays`, a day with an unknown
+ * rating has no average and does not count. Skips the per-day averages,
+ * which streaks do not need.
+ */
+const getSortedDays = (items: LogItem[]) => {
+  const days = new Set<string>();
+  const invalidDays = new Set<string>();
+
+  for (const item of items) {
+    const date = getItemDate(item);
+    if (RATING_MAPPING[item.rating] === undefined) {
+      invalidDays.add(date);
+    } else {
+      days.add(date);
+    }
+  }
+
+  // oxlint-disable-next-line unicorn/no-array-sort -- sorts a fresh array.
+  return [...days].filter((date) => !invalidDays.has(date)).sort();
+};
+
+/**
  * Consecutive days with entries, counting back from today.
  *
  * Returns 0 when today has no entry yet, even if yesterday had one.
  */
 export const getCurrentStreak = (items: LogItem[]) => {
-  const dayLogs = getLogDays(items);
-  const itemsSorted = sortBy(dayLogs, (log) => log.date);
+  const days = getSortedDays(items);
 
   let currentStreak = 0;
 
   let currentDate = dayjs();
-  let nextItem = itemsSorted.pop();
+  let nextDay = days.pop();
 
-  while (nextItem) {
-    if (nextItem.date === currentDate.format(DATE_FORMAT)) {
+  while (nextDay) {
+    if (nextDay === currentDate.format(DATE_FORMAT)) {
       currentStreak += 1;
       currentDate = currentDate.subtract(1, "day");
-      nextItem = itemsSorted.pop();
+      nextDay = days.pop();
     } else {
       break;
     }
@@ -55,17 +76,16 @@ const daysBetween = (from: string, to: string) =>
 
 /** Longest run of consecutive days with entries; 0 for no entries. */
 export const getLongestStreak = (items: LogItem[]) => {
-  const dayLogs = getLogDays(items);
-  const itemsSorted = sortBy(dayLogs, (log) => log.date);
+  const days = getSortedDays(items);
 
   let streak = 0;
   let count = 1;
 
-  for (let i = 0; i < itemsSorted.length; i += 1) {
-    const current = itemsSorted[i];
-    const next = itemsSorted[i + 1];
+  for (let i = 0; i < days.length; i += 1) {
+    const current = days[i];
+    const next = days[i + 1];
 
-    if (next && daysBetween(current.date, next.date) === 1) {
+    if (next && daysBetween(current, next) === 1) {
       count += 1;
       continue;
     }
