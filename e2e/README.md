@@ -36,7 +36,7 @@ bun dashboard                                               # runs, devices, and
 
 - **Artifacts:** each run writes `.agent-device/test-artifacts/<run-id>/` in the worktree: `run.json` (from [`scripts/cli/e2e-reporter.mjs`](../scripts/cli/e2e-reporter.mjs), read by `bun dashboard`), and per flow `replay.ad`, `result.txt`, `failure.txt`, `replay-timing.ndjson`, and `recording.mp4` with `--record-video`.
 - **Failures:** a failing step prints the file and line, a screen snapshot, and ranked selector suggestions. Debug live with `bunx agent-device replay <flow>.yaml --maestro --platform ios --udid <udid>`, then `bunx agent-device snapshot -i`.
-- **Devices in use:** `bunx agent-device device status` lists which worktree holds which device. `bunx agent-device close --session <address>` releases one. `bunx agent-device shutdown --platform ios --udid <udid>` stops an idle simulator.
+- **Devices in use:** `bunx agent-device device status` lists which worktree holds which device. `bun e2e run` refuses a device with an active run or another worktree's live agent-device session (`device_busy`); `--force` skips the check. `bunx agent-device close --session <address>` releases one. `bunx agent-device shutdown --platform ios --udid <udid>` stops an idle simulator.
 - **Physical phones:** flows use `launchApp: clearState: true`, which wipes app data on Android phones. Never run them on a phone with real data. Only run flows without `clearState` against installed TestFlight or internal-testing builds.
 
 ## Suites

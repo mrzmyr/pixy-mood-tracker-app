@@ -3,12 +3,14 @@
 // writes; see runs.ts.
 import { spawn } from "node:child_process";
 import { once } from "node:events";
+import fs from "node:fs";
 import path from "node:path";
 import { setTimeout as sleep } from "node:timers/promises";
 
+import { AGENT_DEVICE, agentDevice } from "./agent-device.ts";
+import type { Claim } from "./agent-device.ts";
 import {
   ARTIFACTS_DIR,
-  REPO_ROOT,
   findRun,
   getStaleReason,
   isActive,
@@ -29,12 +31,6 @@ import {
 } from "./shared.ts";
 import type { Noun, Platform } from "./shared.ts";
 
-const AGENT_DEVICE = path.join(
-  REPO_ROOT,
-  "node_modules",
-  ".bin",
-  "agent-device"
-);
 const REPORTER = path.join(import.meta.dir, "e2e-reporter.mjs");
 
 // iOS also runs the iOS-only regression flows.
@@ -57,15 +53,77 @@ const requirePlatform = (value: string | undefined) => {
   return platform;
 };
 
+// Resolves symlinks such as /tmp -> /private/tmp, so paths compare equal.
+const realPath = (file: string) => {
+  try {
+    return fs.realpathSync(file);
+  } catch {
+    return file;
+  }
+};
+
+// Who else uses the device: an active `bun e2e` run in any worktree, or a live
+// agent-device session from another worktree. This worktree's own sessions
+// do not count.
+const findDeviceUser = async (device: string) => {
+  const run = readRuns().find(
+    (candidate) => isActive(candidate) && candidate.deviceId === device
+  );
+  if (run) {
+    return {
+      fix: `Stop it with \`bun e2e stop ${run.id}\``,
+      why: `e2e run ${run.id} from ${path.basename(run.worktree)} (${run.branch}) started ${formatAge(run.startedAt)} ago.`,
+    };
+  }
+  let claims: Claim[] = [];
+  try {
+    ({ claims } = await agentDevice<{ claims: Claim[] }>(["device", "status"]));
+  } catch (error) {
+    note(
+      `warning: could not check who uses ${device}: ${error instanceof Error ? error.message : String(error)}`
+    );
+    return null;
+  }
+  const worktree = realPath(getWorktree());
+  const claim = claims.find(
+    (candidate) =>
+      candidate.classification === "live" &&
+      candidate.device.id === device &&
+      realPath(candidate.owner.workspace) !== worktree
+  );
+  return claim
+    ? {
+        fix: `Release it with \`bunx agent-device close --session ${claim.owner.session}\` once its owner is done`,
+        why: `agent-device session ${claim.owner.session} from ${claim.owner.workspace} (PID ${claim.owner.pid}) holds it.`,
+      }
+    : null;
+};
+
+const assertDeviceFree = async (device: string) => {
+  const user = await findDeviceUser(device);
+  if (user) {
+    throw new CliError({
+      fix: `Pick a free device (\`bunx agent-device device status\` lists owners). ${user.fix}, or pass --force to run anyway.`,
+      message: `${device} is busy`,
+      status: "device_busy",
+      why: user.why,
+    });
+  }
+};
+
 const cmdRun = async (
   paths: string[],
   options: {
     platform: Platform;
     device: string;
+    isForce: boolean;
     isRecord: boolean;
     passthrough: string[];
   }
 ) => {
+  if (!options.isForce) {
+    await assertDeviceFree(options.device);
+  }
   // The reporter reads --udid or --serial to record which device ran.
   const selector = options.platform === "ios" ? "--udid" : "--serial";
   const args = [
@@ -194,6 +252,8 @@ e2e/apple on iOS). Paths replace the default.
 --device <id>           Required. Simulator UDID or Android serial, so the run
                         never lands on another agent's device.
 --record                Record every flow to recording.mp4.
+--force                 Run even if another worktree's e2e run or agent-device
+                        session uses the device.
 -- <args>               Pass the rest to \`agent-device test\`,
                         e.g. -- --retries 1 --fail-fast.
 
@@ -203,6 +263,7 @@ Exits with agent-device's exit code.`,
       options: {
         ...PLATFORM_OPTION,
         device: { type: "string" },
+        force: { type: "boolean" },
         record: { type: "boolean" },
       },
       run: async (paths, values, passthrough) => {
@@ -218,6 +279,7 @@ Exits with agent-device's exit code.`,
         }
         await cmdRun(paths, {
           device: values.device,
+          isForce: values.force ?? false,
           isRecord: values.record ?? false,
           passthrough,
           platform,

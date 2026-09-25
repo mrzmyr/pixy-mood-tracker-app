@@ -46,6 +46,7 @@
 ## Devices and end-to-end tests
 
 - Use [agent-device](https://github.com/callstack/agent-device) (`bunx agent-device`, `bun e2e run`) for devices, e2e runs, and live app checks, and `bun builds` for the build cache. Never use raw `simctl`, `emulator`, or `maestro`. See [e2e/README.md](e2e/README.md) and [build cache](docs/development.md#build-cache).
+- Before picking a device, run `bunx agent-device device status` and `bun e2e list`, then choose one no other worktree owns.
 - Always pass the device (`--udid` or `--serial`) so runs never land on another agent's device.
 - For live checks and PR proof, open the app (`bunx agent-device open com.devmood.pixymoodtracker --platform ios --udid <udid>`) and act on `snapshot -i` refs. `bunx agent-device help workflow` covers the rest.
 - Never run flows with `clearState` on a physical phone; it wipes tester data.
