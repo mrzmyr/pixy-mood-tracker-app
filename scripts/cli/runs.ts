@@ -28,7 +28,8 @@ interface Run {
   pidStartedAt: string | null;
   platform: Platform | null;
   startedAt: string;
-  status: "running" | "passed" | "failed";
+  // "stopped": ended by `bun e2e stop`, which writes it.
+  status: "running" | "passed" | "failed" | "stopped";
   worktree: string;
 }
 
@@ -75,11 +76,26 @@ const getStaleReason = (run: Run) =>
 
 const isActive = (run: Run) => run.status === "running" && !getStaleReason(run);
 
+// agent-device skips reporter hooks on SIGINT, so a stopped run would stay
+// "running" forever.
+const markStopped = (run: Run) => {
+  const file = path.join(runDir(run), "run.json");
+  const tmp = `${file}.${process.pid}.tmp`;
+  const stopped: Run = {
+    ...run,
+    finishedAt: new Date().toISOString(),
+    status: "stopped",
+  };
+  fs.writeFileSync(tmp, `${JSON.stringify(stopped, null, 2)}\n`);
+  fs.renameSync(tmp, file);
+};
+
 /** Reads and classifies e2e runs across all worktrees. */
 export {
   ARTIFACTS_DIR,
   REPO_ROOT,
   findRun,
+  markStopped,
   getStaleReason,
   isActive,
   isRunProcessAlive,

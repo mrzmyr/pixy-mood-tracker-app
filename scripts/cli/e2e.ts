@@ -4,6 +4,7 @@
 import { spawn } from "node:child_process";
 import { once } from "node:events";
 import path from "node:path";
+import { setTimeout as sleep } from "node:timers/promises";
 
 import {
   ARTIFACTS_DIR,
@@ -12,6 +13,7 @@ import {
   getStaleReason,
   isActive,
   isRunProcessAlive,
+  markStopped,
   readRuns,
 } from "./runs.ts";
 import type { Run } from "./runs.ts";
@@ -147,8 +149,10 @@ const cmdList = (isAll: boolean, isJson: boolean) => {
   );
 };
 
-// Stops a run the same way Ctrl+C does, so agent-device writes its result.
-const cmdStop = (id: string) => {
+const STOP_TIMEOUT_MS = 30_000;
+
+// Stops a run the same way Ctrl+C does, so agent-device releases the device.
+const cmdStop = async (id: string) => {
   const run = findRun(id);
   if (!run || run.status !== "running" || !isRunProcessAlive(run)) {
     throw new CliError({
@@ -161,7 +165,22 @@ const cmdStop = (id: string) => {
     });
   }
   process.kill(run.pid, "SIGINT");
-  note(`Stopping run ${id} on ${run.deviceId ?? "its device"}`);
+  note(`Stopping run ${id} on ${run.deviceId ?? "its device"}...`);
+  const deadline = Date.now() + STOP_TIMEOUT_MS;
+  while (isRunProcessAlive(run)) {
+    if (Date.now() > deadline) {
+      throw new CliError({
+        fix: `Rerun \`bun e2e stop ${id}\`, or end process ${run.pid} with \`kill ${run.pid}\`.`,
+        message: `Run ${id} did not stop`,
+        status: "stop_timeout",
+        why: `agent-device (PID ${run.pid}) still runs ${STOP_TIMEOUT_MS / 1000}s after SIGINT.`,
+      });
+    }
+    // oxlint-disable-next-line no-await-in-loop -- polling must wait between checks
+    await sleep(500);
+  }
+  markStopped(findRun(id) ?? run);
+  console.log(`Stopped run ${id}`);
 };
 
 const E2E: Noun = {
