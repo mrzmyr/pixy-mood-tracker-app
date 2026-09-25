@@ -1,4 +1,4 @@
-appId: com.devmood.pixymoodtracker
+appId: ${APP_ID}
 tags: [performance]
 ---
 # Run setup/onboarding separately so startup does not affect scroll metrics.

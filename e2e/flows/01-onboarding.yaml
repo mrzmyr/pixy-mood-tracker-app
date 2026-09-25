@@ -1,4 +1,4 @@
-appId: com.devmood.pixymoodtracker
+appId: ${APP_ID}
 tags: [onboarding]
 ---
 # 1.1 Fresh install shows Welcome

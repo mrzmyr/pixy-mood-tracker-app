@@ -42,4 +42,7 @@ jobs:
         run: bun ci
 
       - name: Publish update
+        env:
+          # The preview branch updates preview builds; every other branch updates production builds.
+          EXPO_PUBLIC_APP_VARIANT: ${{ github.ref_name == 'preview' && 'preview' || 'production' }}
         run: eas update --auto
