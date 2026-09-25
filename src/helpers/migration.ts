@@ -1,6 +1,6 @@
 import _ from "lodash";
-import { LogItem } from "@/hooks/useLogs";
-import { ImportData } from "./Import";
+import type { LogItem } from "@/hooks/useLogs";
+import type { ImportData } from "./Import";
 
 interface MigratedData extends ImportData {
   items: LogItem[];

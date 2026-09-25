@@ -1,7 +1,7 @@
 import { View } from "react-native";
 import Tag from "@/components/Tag";
 import TextHeadline from "@/components/TextHeadline";
-import { Tag as ITag } from "../../../hooks/useTags";
+import type { Tag as ITag } from "../../../hooks/useTags";
 
 export const TagsSection = ({
   tags,

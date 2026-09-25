@@ -1,5 +1,5 @@
 import { useAnonymizer } from "@/hooks/useAnonymizer";
-import { LogItem } from "@/hooks/useLogs";
+import type { LogItem } from "@/hooks/useLogs";
 import {
   dummyTagsDistributionData,
   getTagsDistributionData,

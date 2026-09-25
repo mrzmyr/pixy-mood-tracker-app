@@ -1,4 +1,4 @@
-import { Emotion } from "@/types";
+import type { Emotion } from "@/types";
 import _ from "lodash";
 import { View } from "react-native";
 import {

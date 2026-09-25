@@ -1,6 +1,6 @@
 import * as Device from "expo-device";
 import * as Notifications from "expo-notifications";
-import {
+import type {
   NotificationContentInput,
   NotificationTriggerInput,
 } from "expo-notifications";

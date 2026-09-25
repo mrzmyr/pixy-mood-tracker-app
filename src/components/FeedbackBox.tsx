@@ -1,5 +1,6 @@
 import { t } from "i18n-js";
-import { Text, View, ViewStyle } from "react-native";
+import type { ViewStyle } from "react-native";
+import { Text, View } from "react-native";
 import LinkButton from "./LinkButton";
 import useColors from "@/hooks/useColors";
 import useFeedbackModal from "@/hooks/useFeedbackModal";

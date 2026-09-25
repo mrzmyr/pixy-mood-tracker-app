@@ -1,7 +1,7 @@
 import { EMOTIONS } from "@/components/Logger/config";
 import useColors from "@/hooks/useColors";
-import { LogItem } from "@/hooks/useLogs";
-import { Emotion } from "@/types";
+import type { LogItem } from "@/hooks/useLogs";
+import type { Emotion } from "@/types";
 import { useNavigation } from "@react-navigation/native";
 import { t } from "i18n-js";
 import _ from "lodash";

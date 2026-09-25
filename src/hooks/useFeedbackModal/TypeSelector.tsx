@@ -2,7 +2,7 @@ import { Pressable, Text, View } from "react-native";
 import { MoreHorizontal } from "react-native-feather";
 import { t } from "@/helpers/translation";
 import useColors from "../useColors";
-import { FeedackType } from "../useFeedback";
+import type { FeedackType } from "../useFeedback";
 import useHaptics from "../useHaptics";
 
 export function TypeSelector({

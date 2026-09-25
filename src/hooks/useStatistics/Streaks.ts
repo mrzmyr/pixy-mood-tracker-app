@@ -1,7 +1,7 @@
 import { DATE_FORMAT } from "@/constants/Config";
 import dayjs from "dayjs";
 import _ from "lodash";
-import { LogItem } from "../useLogs";
+import type { LogItem } from "../useLogs";
 import { getLogDays } from "@/lib/utils";
 
 export const defaultStreaksData = {

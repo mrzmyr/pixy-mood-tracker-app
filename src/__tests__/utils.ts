@@ -1,5 +1,5 @@
 import { uniqueId } from "lodash";
-import { LogItem } from "../hooks/useLogs";
+import type { LogItem } from "../hooks/useLogs";
 
 export const _generateItem = (item: Partial<LogItem>): LogItem => {
   const newItem: LogItem = {

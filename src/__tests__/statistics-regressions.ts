@@ -1,5 +1,5 @@
 import { getSleepQualityDistributionForXDays } from "@/hooks/useStatistics/SleepQualityDistribution";
-import { LogItem } from "@/hooks/useLogs";
+import type { LogItem } from "@/hooks/useLogs";
 import { getAverageSleepQuality, getWordCount } from "@/lib/utils";
 
 const makeItem = (

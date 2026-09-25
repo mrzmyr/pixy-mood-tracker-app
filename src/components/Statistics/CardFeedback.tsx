@@ -6,6 +6,7 @@ import useHaptics from "@/hooks/useHaptics";
 import { useSettings } from "@/hooks/useSettings";
 import * as StoreReview from "expo-store-review";
 import { useState } from "react";
+import type { ViewStyle } from "react-native";
 import {
   ActivityIndicator,
   Image,
@@ -13,7 +14,6 @@ import {
   Pressable,
   Text,
   View,
-  ViewStyle,
 } from "react-native";
 import pkg from "../../../package.json";
 import Button from "../Button";

@@ -1,9 +1,10 @@
 import LinkButton from "@/components/LinkButton";
 import { t } from "@/helpers/translation";
 import useFeedbackModal from "@/hooks/useFeedbackModal";
-import { Emotion } from "@/types";
+import type { Emotion } from "@/types";
 import _ from "lodash";
-import { View, ViewStyle } from "react-native";
+import type { ViewStyle } from "react-native";
+import { View } from "react-native";
 import { EmotionButtonBasic } from "./EmotionButtonBasic";
 
 export const EmotionBasicSelection = ({

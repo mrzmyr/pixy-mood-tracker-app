@@ -7,8 +7,9 @@ import {
   useState,
 } from "react";
 import { useAnalytics } from "./useAnalytics";
-import { LogItem, useLogState } from "./useLogs";
-import { Tag } from "./useTags";
+import type { LogItem } from "./useLogs";
+import { useLogState } from "./useLogs";
+import type { Tag } from "./useTags";
 
 interface FiltersData {
   text: string;

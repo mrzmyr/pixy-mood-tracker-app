@@ -1,4 +1,5 @@
-import { Image, ImageProps, Platform, useColorScheme } from "react-native";
+import type { ImageProps } from "react-native";
+import { Image, Platform, useColorScheme } from "react-native";
 
 const HEADER_IMAGES = {
   androidDark: [

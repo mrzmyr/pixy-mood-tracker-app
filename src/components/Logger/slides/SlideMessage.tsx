@@ -3,10 +3,12 @@ import { getLogEditMarginTop } from "@/helpers/responsive";
 import { language, t } from "@/helpers/translation";
 import { useAnalytics } from "@/hooks/useAnalytics";
 import useColors from "@/hooks/useColors";
-import { LogItem, RATING_MAPPING, useLogState } from "@/hooks/useLogs";
+import type { LogItem } from "@/hooks/useLogs";
+import { RATING_MAPPING, useLogState } from "@/hooks/useLogs";
 import { useTemporaryLog } from "@/hooks/useTemporaryLog";
 import { getAverageMood } from "@/lib/utils";
-import dayjs, { Dayjs } from "dayjs";
+import type { Dayjs } from "dayjs";
+import dayjs from "dayjs";
 import _ from "lodash";
 import { forwardRef, useEffect, useRef, useState } from "react";
 import {

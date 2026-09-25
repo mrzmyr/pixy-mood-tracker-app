@@ -1,7 +1,8 @@
-import { RootStackScreenProps } from "../../../types";
+import type { RootStackScreenProps } from "../../../types";
 import { TagList } from "../../components/TagList";
 import useColors from "../../hooks/useColors";
-import { Tag, useTagsState } from "../../hooks/useTags";
+import type { Tag } from "../../hooks/useTags";
+import { useTagsState } from "../../hooks/useTags";
 import Button from "@/components/Button";
 import MenuList from "@/components/MenuList";
 import MenuListItem from "@/components/MenuListItem";

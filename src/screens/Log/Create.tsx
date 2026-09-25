@@ -1,5 +1,5 @@
 import { LoggerCreate } from "@/components/Logger";
-import { RootStackScreenProps } from "../../../types";
+import type { RootStackScreenProps } from "../../../types";
 
 export const LogCreate = ({ route }: RootStackScreenProps<"LogCreate">) => {
   return (

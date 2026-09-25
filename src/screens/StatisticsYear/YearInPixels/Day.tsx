@@ -3,7 +3,7 @@ import React from "react";
 import { View } from "react-native";
 import { DATE_FORMAT } from "@/constants/Config";
 import useColors from "../../../hooks/useColors";
-import { LogItem } from "../../../hooks/useLogs";
+import type { LogItem } from "../../../hooks/useLogs";
 import useScale from "../../../hooks/useScale";
 
 export const Day = ({

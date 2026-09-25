@@ -1,8 +1,9 @@
 import { z } from "zod";
 import { TAG_COLOR_NAMES } from "@/constants/Config";
-import { Tag } from "@/hooks/useTags";
-import { LogItem, LogsState, RATING_KEYS } from "@/hooks/useLogs";
-import { ExportSettings } from "@/hooks/useSettings";
+import type { Tag } from "@/hooks/useTags";
+import type { LogItem, LogsState } from "@/hooks/useLogs";
+import { RATING_KEYS } from "@/hooks/useLogs";
+import type { ExportSettings } from "@/hooks/useSettings";
 
 export interface ImportData {
   version: string;

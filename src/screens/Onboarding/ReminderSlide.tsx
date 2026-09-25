@@ -10,7 +10,8 @@ import useNotification, {
 } from "../../hooks/useNotifications";
 import { useState } from "react";
 import dayjs from "dayjs";
-import { SettingsState, useSettings } from "../../hooks/useSettings";
+import type { SettingsState } from "../../hooks/useSettings";
+import { useSettings } from "../../hooks/useSettings";
 import { useAnalytics } from "../../hooks/useAnalytics";
 import LinkButton from "@/components/LinkButton";
 import { t } from "@/helpers/translation";
