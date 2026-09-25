@@ -266,15 +266,26 @@
       .kind {
         display: inline-flex;
         vertical-align: middle;
-        color: var(--muted);
       }
       .kind svg {
         display: block;
         width: 16px;
         height: 16px;
+      }
+      /* Real hardware: solid, full contrast. Simulated: dashed, faint. */
+      .kind-physical {
+        color: var(--fg);
+      }
+      .kind-physical svg {
+        fill: currentColor;
+      }
+      .kind-virtual {
+        color: var(--faint);
+      }
+      .kind-virtual svg {
         fill: none;
         stroke: currentColor;
-        stroke-width: 1.6;
+        stroke-width: 1.5;
         stroke-linecap: round;
       }
       .platform-android svg {
@@ -540,12 +551,12 @@
       // Simulators and emulators share a screen icon; phones get a phone.
       const KIND_ICONS = {
         physical:
-          '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="2.5" width="12" height="19" rx="2.5"/><path d="M10.5 18.5h3"/></svg>',
+          '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M8.5 1.5h7A2.5 2.5 0 0 1 18 4v16a2.5 2.5 0 0 1-2.5 2.5h-7A2.5 2.5 0 0 1 6 20V4a2.5 2.5 0 0 1 2.5-2.5zM10 19a.75.75 0 0 0 0 1.5h4a.75.75 0 0 0 0-1.5z"/></svg>',
         virtual:
-          '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="4" width="19" height="12.5" rx="1.5"/><path d="M8.5 20.5h7M12 16.5v4"/></svg>',
+          '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="4" width="19" height="12.5" rx="1.5" stroke-dasharray="2.5 2"/><path d="M8.5 20.5h7M12 16.5v4"/></svg>',
       };
       const kindIcon = (kind) =>
-        `<span class="kind" title="${kindLabel(kind)}">${KIND_ICONS[kind === "physical" ? "physical" : "virtual"]}<span class="sr-only">${kindLabel(kind)}</span></span>`;
+        `<span class="kind kind-${kind === "physical" ? "physical" : "virtual"}" title="${kindLabel(kind)}">${KIND_ICONS[kind === "physical" ? "physical" : "virtual"]}<span class="sr-only">${kindLabel(kind)}</span></span>`;
 
       // GitHub's colors: open green, draft gray, merged violet, closed red.
       const prChip = (branch) => {
