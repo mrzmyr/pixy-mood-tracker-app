@@ -7,7 +7,10 @@ import { View, ViewStyle } from "react-native";
 import { EmotionButtonBasic } from "./EmotionButtonBasic";
 
 export const EmotionBasicSelection = ({
-  emotions, selectedEmotions, onPress, style = {},
+  emotions,
+  selectedEmotions,
+  onPress,
+  style = {},
 }: {
   emotions: Emotion[];
   selectedEmotions: Emotion[];
@@ -16,13 +19,20 @@ export const EmotionBasicSelection = ({
 }) => {
   const { Modal, show } = useFeedbackModal();
 
-  const rows = _.chunk(_.orderBy(emotions, e => {
-    return {
-      'good': 1,
-      'neutral': 0,
-      'bad': -1,
-    }[e.category]
-  }, ['desc']), 2);
+  const rows = _.chunk(
+    _.orderBy(
+      emotions,
+      (e) => {
+        return {
+          good: 1,
+          neutral: 0,
+          bad: -1,
+        }[e.category];
+      },
+      ["desc"]
+    ),
+    2
+  );
 
   return (
     <View
@@ -39,7 +49,7 @@ export const EmotionBasicSelection = ({
         <View
           key={`basic-emotion-row-${index}`}
           style={{
-            flexDirection: 'row',
+            flexDirection: "row",
             marginBottom: 8,
           }}
         >
@@ -54,7 +64,9 @@ export const EmotionBasicSelection = ({
               <EmotionButtonBasic
                 emotion={emotion}
                 onPress={onPress}
-                selected={selectedEmotions.map(d => d.key).includes(emotion.key)}
+                selected={selectedEmotions
+                  .map((d) => d.key)
+                  .includes(emotion.key)}
               />
             </View>
           ))}
@@ -62,19 +74,20 @@ export const EmotionBasicSelection = ({
             <View
               style={{
                 flex: 1,
-              }} />
+              }}
+            />
           )}
         </View>
       ))}
 
       <LinkButton
         type="secondary"
-        onPress={() => show({ type: 'idea' })}
+        onPress={() => show({ type: "idea" })}
         style={{
           marginTop: 20,
         }}
       >
-        {t('give_feedback')}
+        {t("give_feedback")}
       </LinkButton>
     </View>
   );
