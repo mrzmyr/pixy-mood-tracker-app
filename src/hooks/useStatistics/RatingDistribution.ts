@@ -18,12 +18,21 @@ const MONTH_MAPPING = {
   11: "Dec",
 };
 
+/**
+ * Average rating per chart bucket; `value` is `null` for buckets without
+ * entries.
+ */
 export type RatingDistributionData = {
   key: string;
   count: number;
   value: number | null;
 }[];
 
+/**
+ * Average day rating per month, January first.
+ *
+ * Groups by month only, so `items` must be limited to one year.
+ */
 export const getRatingDistributionForYear = (
   items: LogItem[]
 ): RatingDistributionData => {
@@ -56,6 +65,12 @@ export const getRatingDistributionForYear = (
   return result;
 };
 
+/**
+ * Average day rating for `dayCount + 1` days starting at `startDate`.
+ *
+ * Matches days by day of month only, so `items` must be limited to the
+ * window and the window must be shorter than a month.
+ */
 export const getRatingDistributionForXDays = (
   items: LogItem[],
   startDate,

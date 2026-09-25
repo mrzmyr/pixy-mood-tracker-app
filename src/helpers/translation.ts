@@ -245,7 +245,9 @@ const deviceRegion = Localization.getLocales()[0]?.regionCode ?? null;
 i18n.locale = deviceLocale;
 i18n.fallbacks = true;
 
+/** Device locale tag (for example `de-DE`), read once at startup. */
 export const { locale } = i18n;
+/** Language part of {@link locale} (for example `de`), read once at startup. */
 export const [language] = i18n.locale.split("-");
 
 const _getFirstDayOfWeek = (region: string): number => {
@@ -259,6 +261,12 @@ const _getFirstDayOfWeek = (region: string): number => {
   return 1;
 };
 
+/**
+ * Apply the device locale and regional week start to dayjs.
+ *
+ * Runs once settings load; dayjs output before that uses English and a
+ * Sunday week start. Unsupported languages fall back to English.
+ */
 export const initializeDayjs = () => {
   let dayjsLocale = deviceLocale;
   if (dayjsLocale.includes("-")) {
@@ -278,6 +286,7 @@ export const initializeDayjs = () => {
   dayjs.extend(localizedFormat);
 };
 
+/** Translate `key` for the device locale, falling back to English. */
 export const t = (
   key: keyof typeof en | string,
   options?: i18n.TranslateOptions

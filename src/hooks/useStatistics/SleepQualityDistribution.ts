@@ -18,12 +18,17 @@ const MONTH_MAPPING = {
   11: "Dec",
 };
 
+/**
+ * Average sleep quality per chart bucket; `value` is `null` for buckets
+ * without sleep ratings.
+ */
 export type SleepQualityDistributionData = {
   key: string;
   count: number;
   value: number | null;
 }[];
 
+/** Random placeholder counts for 31 days, used before statistics load. */
 export const defaultSleepQualityDistributionDataForXDays =
   (): SleepQualityDistributionData => {
     const result: SleepQualityDistributionData = [];
@@ -39,6 +44,11 @@ export const defaultSleepQualityDistributionDataForXDays =
     return result;
   };
 
+/**
+ * Average sleep quality per month, January first.
+ *
+ * Groups by month only, so `items` must be limited to one year.
+ */
 export const getSleepQualityDistributionForYear = (
   items: LogItem[]
 ): SleepQualityDistributionData => {
@@ -78,6 +88,10 @@ export const getSleepQualityDistributionForYear = (
   return result;
 };
 
+/**
+ * Average sleep quality for `dayCount + 1` days starting at `startDate`;
+ * days without a sleep rating have a `null` value.
+ */
 export const getSleepQualityDistributionForXDays = (
   items: LogItem[],
   startDate: string,

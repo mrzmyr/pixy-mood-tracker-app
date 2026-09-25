@@ -1,3 +1,9 @@
+/**
+ * Third-party license notices shown on the Licenses screen.
+ *
+ * Generated content. Sections are separated by `-----`, which the Licenses
+ * screen splits on, so keep that separator when regenerating.
+ */
 export default `THE FOLLOWING SETS FORTH ATTRIBUTION NOTICES FOR THIRD PARTY SOFTWARE THAT MAY BE CONTAINED IN PORTIONS OF THE PIXY MOOD TRACKER PRODUCT.
 
 -----

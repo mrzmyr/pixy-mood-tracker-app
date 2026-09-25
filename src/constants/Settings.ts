@@ -1,5 +1,11 @@
 import type { SettingsState } from "@/hooks/useSettings";
 
+/**
+ * Settings used before storage loads and for fresh installs.
+ *
+ * `loaded: false` keeps the persist effect in `SettingsProvider` disabled
+ * until stored settings are read, so defaults never overwrite them.
+ */
 export const INITIAL_STATE: SettingsState = {
   loaded: false,
   deviceId: null,

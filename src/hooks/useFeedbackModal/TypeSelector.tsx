@@ -5,6 +5,7 @@ import useColors from "../useColors";
 import type { FeedackType } from "../useFeedback";
 import useHaptics from "../useHaptics";
 
+/** Feedback type tabs in the feedback modal (issue, idea, other). */
 export const TypeSelector = ({
   selected,
   onPress,

@@ -5,6 +5,12 @@ import type { LogItem, LogsState } from "@/hooks/useLogs";
 import { RATING_KEYS } from "@/constants/Ratings";
 import type { ExportSettings } from "@/hooks/useSettings";
 
+/**
+ * Parsed contents of an export file before {@link migrateImportData}.
+ *
+ * Older exports store `items` as an id-keyed object and keep tags under
+ * `settings.tags`.
+ */
 export interface ImportData {
   version: string;
   items:
@@ -16,6 +22,12 @@ export interface ImportData {
   settings: ExportSettings;
 }
 
+/**
+ * Schema that decides whether an import file is a Pixy export.
+ *
+ * `z.strictObject` rejects unknown top-level keys: add every new export field
+ * here, or the app rejects its own exports.
+ */
 export const pixySchema = z.strictObject({
   version: z.string().optional(),
 
@@ -74,6 +86,10 @@ export const pixySchema = z.strictObject({
 
 const DEBUG = false;
 
+/**
+ * Classify an import file; anything that fails {@link pixySchema} is
+ * `"unknown"` and must not be imported.
+ */
 export const getJSONSchemaType = (json: ImportData): "pixy" | "unknown" => {
   const result = pixySchema.safeParse(json);
 

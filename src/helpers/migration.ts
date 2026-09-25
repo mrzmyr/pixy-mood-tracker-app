@@ -9,6 +9,13 @@ interface MigratedData extends ImportData {
   items: LogItem[];
 }
 
+/**
+ * Normalize any supported export version to the current import shape.
+ *
+ * Converts keyed items to an array, moves `settings.tags` to `tags`, and
+ * maps the removed `stone` tag color to `slate`. Tag objects from `data`
+ * are mutated in place.
+ */
 export const migrateImportData = (data: ImportData): MigratedData => {
   const { items, settings, tags, version } = data;
 

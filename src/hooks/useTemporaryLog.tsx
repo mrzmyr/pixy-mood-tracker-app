@@ -10,6 +10,10 @@ import {
 import type { LogItem } from "./useLogs";
 import { createMissingProviderError } from "@/lib/errors";
 
+/**
+ * Draft of an entry being created or edited. `rating` and sleep `quality`
+ * are `null` until the user picks them.
+ */
 export type TemporaryLogState = Omit<LogItem, "rating" | "sleep"> & {
   rating: LogItem["rating"] | null;
   sleep: {
@@ -17,6 +21,12 @@ export type TemporaryLogState = Omit<LogItem, "rating" | "sleep"> & {
   };
 };
 
+/**
+ * Draft state shared by the logger slides.
+ *
+ * `data` is an empty object until `initialize` runs; check `isInitialized`
+ * before reading it. `initialize` does not mark the draft dirty.
+ */
 export interface TemporaryLogValue {
   data: TemporaryLogState;
   isDirty: boolean;

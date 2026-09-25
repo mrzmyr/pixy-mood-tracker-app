@@ -43,6 +43,12 @@ const askToConfirm = ({
     );
   });
 
+/**
+ * Ask before discarding unsaved changes.
+ *
+ * @returns Resolves when the user confirms; rejects with a `prompt_cancelled`
+ *   error when the user keeps editing.
+ */
 export const askToCancel = () =>
   askToConfirm({
     title: t("cancel_confirm_title"),
@@ -51,6 +57,12 @@ export const askToCancel = () =>
     cancelText: t("keep_editing"),
   });
 
+/**
+ * Ask before deleting an item.
+ *
+ * @returns Resolves when the user confirms; rejects with a `prompt_cancelled`
+ *   error on cancel.
+ */
 export const askToRemove = () =>
   askToConfirm({
     title: t("delete_confirm_title"),
@@ -59,6 +71,12 @@ export const askToRemove = () =>
     cancelText: t("cancel"),
   });
 
+/**
+ * Ask before an import replaces existing data.
+ *
+ * @returns Resolves when the user confirms; rejects with a `prompt_cancelled`
+ *   error on cancel.
+ */
 export const askToImport = () =>
   askToConfirm({
     title: t("import_confirm_title"),
@@ -67,6 +85,14 @@ export const askToImport = () =>
     cancelText: t("cancel"),
   });
 
+/**
+ * Ask before a reset. `type` selects the `reset_<type>_confirm_*`
+ * translation keys, so it must be a reset type with translations
+ * (`factory` or `data`).
+ *
+ * @returns Resolves when the user confirms; rejects with a `prompt_cancelled`
+ *   error on cancel.
+ */
 export const askToReset = <Type>(type: Type) =>
   askToConfirm({
     title: t(`reset_${type}_confirm_title`),
@@ -75,6 +101,7 @@ export const askToReset = <Type>(type: Type) =>
     cancelText: t("cancel"),
   });
 
+/** Show the blocking "import succeeded" alert. */
 export const showImportSuccess = () => {
   Alert.alert(
     t("import_success_title"),
@@ -88,6 +115,7 @@ export const showImportSuccess = () => {
   );
 };
 
+/** Show the blocking "import failed" alert. */
 export const showImportError = () => {
   Alert.alert(
     t("import_error_title"),
@@ -97,6 +125,10 @@ export const showImportError = () => {
   );
 };
 
+/**
+ * Show the reset success alert. `type` selects the
+ * `reset_<type>_success_*` translation keys (`factory` or `data`).
+ */
 export const showResetSuccess = <Type>(type: Type) => {
   Alert.alert(
     t(`reset_${type}_success_title`),
@@ -111,6 +143,12 @@ export const showResetSuccess = <Type>(type: Type) => {
   );
 };
 
+/**
+ * Ask before disabling a logger step.
+ *
+ * @returns Resolves when the user confirms; rejects with a `prompt_cancelled`
+ *   error on cancel.
+ */
 export const askToDisableStep = () =>
   askToConfirm({
     title: t("disable_step_confirm_title"),
@@ -119,6 +157,12 @@ export const askToDisableStep = () =>
     cancelText: t("cancel"),
   });
 
+/**
+ * Ask before disabling the feedback step, which has its own warning copy.
+ *
+ * @returns Resolves when the user confirms; rejects with a `prompt_cancelled`
+ *   error on cancel.
+ */
 export const askToDisableFeedbackStep = () =>
   askToConfirm({
     title: t("disable_feedback_step_confirm_title"),

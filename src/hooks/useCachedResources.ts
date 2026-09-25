@@ -20,6 +20,10 @@ const loadResourcesAndDataAsync = (onComplete: () => void) => {
   }
 };
 
+/**
+ * Report when startup resources are ready; the splash screen hides at the
+ * same time. Nothing is preloaded yet, so it completes on the first effect.
+ */
 export default function useCachedResources() {
   const [isLoadingComplete, setIsLoadingComplete] = useState(false);
 

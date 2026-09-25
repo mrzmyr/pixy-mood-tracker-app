@@ -8,6 +8,12 @@ import pkg from "../../package.json";
 import { useAnalytics } from "./useAnalytics";
 import { useSettings } from "./useSettings";
 
+/**
+ * Remote in-app survey question.
+ *
+ * `appVersion` is a semver range matched against the app version. Questions
+ * without text in the device language are skipped.
+ */
 export interface IQuestion {
   id: string;
   appVersion: string;
@@ -26,6 +32,13 @@ export interface IQuestion {
   }[];
 }
 
+/**
+ * Fetch the next unanswered question for this app version and language.
+ *
+ * At most one question per day: after an answer today, `question` stays
+ * `null`. Fetch failures also yield `null`. Development builds do not
+ * submit answers but still mark the question as answered.
+ */
 export const useQuestioner = () => {
   const analytics = useAnalytics();
   const { hasActionDone, addActionDone, settings } = useSettings();

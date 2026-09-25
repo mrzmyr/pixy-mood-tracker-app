@@ -1,22 +1,30 @@
 import { getLogDays } from "@/lib/utils";
 import type { LogDay, LogItem } from "../useLogs";
 
+/** Days whose average rating is good or better. */
 export interface MoodPeaksPositiveData {
   days: LogDay[];
 }
 
+/** Days whose average rating is bad or worse. */
 export interface MoodPeaksNegativeData {
   days: LogDay[];
 }
 
+/** Empty state before statistics load. */
 export const defaultMoodPeaksPositiveData = {
   days: [],
 };
 
+/** Empty state before statistics load. */
 export const defaultMoodPeaksNegativeData = {
   days: [],
 };
 
+/**
+ * Days in `items` whose average rating is good or better, in insertion
+ * order.
+ */
 export const getMoodPeaksPositiveData = (
   items: LogItem[]
 ): MoodPeaksPositiveData => {
@@ -32,6 +40,7 @@ export const getMoodPeaksPositiveData = (
   };
 };
 
+/** Days in `items` whose average rating is bad or worse, in insertion order. */
 export const getMoodPeaksNegativeData = (
   items: LogItem[]
 ): MoodPeaksNegativeData => {

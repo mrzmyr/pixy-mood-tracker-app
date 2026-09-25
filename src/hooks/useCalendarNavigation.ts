@@ -3,6 +3,10 @@ import { useLogState } from "@/hooks/useLogs";
 import dayjs from "dayjs";
 import { DATE_FORMAT } from "@/constants/Config";
 
+/**
+ * Open a calendar day: the day's entry list, or the create screen at the
+ * current time of day when the day has no entries.
+ */
 export const useCalendarNavigation = () => {
   const navigation = useNavigation();
   const logsState = useLogState();

@@ -16,8 +16,16 @@ declare global {
   }
 }
 
+/** Partial `T` that still requires the identifying keys `K`, for patch updates. */
 export type AtLeast<T, K extends keyof T> = Partial<T> & Pick<T, K>;
 
+/**
+ * Route params for the root native stack.
+ *
+ * Keep in sync with `NAVIGATION_LINKING` in `src/navigation/index.tsx`;
+ * `date` params are part of deep link paths (for example
+ * `pixy://statistics/month/:date`). `LogView` has no registered screen.
+ */
 // oxlint-disable-next-line typescript/consistent-type-definitions -- ParamListBase needs the implicit index signature that only type aliases have.
 export type RootStackParamList = {
   tabs: NavigatorScreenParams<RootTabParamList> | undefined;
@@ -41,13 +49,16 @@ export type RootStackParamList = {
   Statistics: undefined;
   StatisticsHighlights: undefined;
   StatisticsYear: {
+    /** Local `YYYY-MM-DD` date in the year; invalid values fall back to today. */
     date: string;
   };
   StatisticsMonth: {
+    /** Local `YYYY-MM-DD` date in the month; invalid values fall back to today. */
     date: string;
   };
 
   LogCreate: {
+    /** ISO timestamp used as the new entry's `dateTime`. */
     dateTime: string;
     avaliableSteps?: LoggerStep[];
   };
@@ -59,6 +70,7 @@ export type RootStackParamList = {
     step?: LoggerStep;
   };
   LogList: {
+    /** Local `YYYY-MM-DD` day whose entries are listed. */
     date: string;
   };
 
@@ -68,9 +80,14 @@ export type RootStackParamList = {
   TagCreate: undefined;
 };
 
+/**
+ * Props for screens registered on the root stack; tab screens use
+ * {@link RootTabScreenProps}.
+ */
 export type RootStackScreenProps<Screen extends keyof RootStackParamList> =
   NativeStackScreenProps<RootStackParamList, Screen>;
 
+/** Route params for the bottom tab navigator nested under the `tabs` route. */
 // oxlint-disable-next-line typescript/consistent-type-definitions -- ParamListBase needs the implicit index signature that only type aliases have.
 export type RootTabParamList = {
   Statistics: undefined;
@@ -78,6 +95,10 @@ export type RootTabParamList = {
   Settings: undefined;
 };
 
+/**
+ * Screen props for a bottom tab screen; `navigation` can also reach every
+ * root stack route.
+ */
 export type RootTabScreenProps<Screen extends keyof RootTabParamList> =
   CompositeScreenProps<
     BottomTabScreenProps<RootTabParamList, Screen>,

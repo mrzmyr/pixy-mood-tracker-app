@@ -4,6 +4,10 @@ import { PasscodeView } from "@/components/PasscodeView";
 import useColors from "./useColors";
 import { useAnalytics } from "./useAnalytics";
 
+/**
+ * Full-screen passcode entry modal. Render the returned `Modal` in the host
+ * screen. `onSubmit` returns whether the code is accepted.
+ */
 export default function usePasscodeModal({
   mode,
   visible = false,

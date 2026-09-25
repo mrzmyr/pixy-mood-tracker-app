@@ -7,9 +7,20 @@ import { useAnalytics } from "./useAnalytics";
 import { useSettings } from "./useSettings";
 import * as Updates from "expo-updates";
 
+/**
+ * Feedback category sent with the report; also selects the modal's type tab.
+ */
 export type FeedackType = "issue" | "idea" | "other" | "emoji" | "custom";
+/** Where in the app the feedback was sent from; used for triage only. */
 export type FeedbackSource = "tags" | "modal" | "statistics" | "error";
 
+/**
+ * Send feedback with device metadata (locale, app version, OS, device id)
+ * to {@link FEEDBACK_URL}.
+ *
+ * Without `onOk`/`onCancel`, `send` shows a success or error alert itself.
+ * Network and HTTP errors never reject.
+ */
 export const useFeedback = () => {
   const { settings } = useSettings();
   const analytics = useAnalytics();

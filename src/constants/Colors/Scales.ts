@@ -7,6 +7,7 @@ interface IScaleMood {
   textSecondary: string;
 }
 
+/** Colors for every mood rating plus the empty (no entry) state. */
 export interface IScale {
   extremely_good: IScaleMood;
   very_good: IScaleMood;
@@ -18,6 +19,10 @@ export interface IScale {
   empty: { background: string; border: string; text: string };
 }
 
+/**
+ * Scales keyed by `scaleType` (for example `ColorBrew-RdYlGn`). Keys are
+ * persisted in settings, so do not rename them.
+ */
 export interface IScaleColors {
   [key: string]: IScale;
 }

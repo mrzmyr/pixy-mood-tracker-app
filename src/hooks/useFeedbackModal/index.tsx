@@ -222,6 +222,10 @@ const FeedbackModalContent = ({
   );
 };
 
+/**
+ * Feedback form modal. Render the returned `Modal` once in the host screen;
+ * `show` opens it with a preselected feedback type.
+ */
 export default function useFeedbackModal() {
   const [visible, setVisible] = useState(false);
   const analytics = useAnalytics();

@@ -16,8 +16,18 @@ import { useSettings } from "./useSettings";
 import { useContentStableValue } from "./useContentStableValue";
 import { createMissingProviderError } from "@/lib/errors";
 
+/**
+ * AsyncStorage key for tags. Keep the legacy name; changing it orphans all
+ * stored tags.
+ */
 export const STORAGE_KEY = "PIXEL_TRACKER_TAGS";
 
+/**
+ * User-defined tag. Log entries reference it by `id` only.
+ *
+ * Archived tags stay on existing entries but are hidden from statistics,
+ * filters, and the tag picker unless the entry already has them.
+ */
 export interface Tag {
   id: string;
   title: string;

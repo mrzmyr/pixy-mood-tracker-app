@@ -88,6 +88,12 @@ interface DatagateValue {
   openResetDialog: (type: ResetType) => Promise<void>;
 }
 
+/**
+ * Export, import, and reset flows for all user data (logs, tags, settings).
+ *
+ * Must render inside the logs, tags, and settings providers. Import and
+ * reset ask for confirmation first; cancelling leaves data unchanged.
+ */
 export const useDatagate = (): DatagateValue => {
   const logState = useLogState();
   const logUpdater = useLogUpdater();

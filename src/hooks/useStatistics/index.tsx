@@ -81,6 +81,13 @@ interface Value {
 // SAFETY: every consumer renders inside StatisticsProvider, which supplies the full Value.
 const StatisticsContext = createContext({} as Value);
 
+/**
+ * Computes statistics for the statistics tab.
+ *
+ * Nothing is computed until a consumer calls `load`, which skips the work
+ * when log items are unchanged unless `force` is set. Highlights cover the
+ * last 14 days. Must render inside the logs and tags providers.
+ */
 export const StatisticsProvider = ({
   children,
 }: {
@@ -266,6 +273,9 @@ export const StatisticsProvider = ({
   );
 };
 
+/**
+ * Statistics state and loader. Must render inside {@link StatisticsProvider}.
+ */
 export const useStatistics = (): Value => {
   const context = useContext(StatisticsContext);
   if (context === undefined) {

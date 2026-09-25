@@ -10,6 +10,11 @@ const styles = StyleSheet.create({
   },
 });
 
+/**
+ * Development aid that renders how often the host component rendered.
+ *
+ * The value lags by one render because it increments in an effect.
+ */
 export const useRenderCounter = () => {
   const ref = useRef(0);
 
