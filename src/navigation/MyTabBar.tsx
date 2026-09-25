@@ -45,7 +45,7 @@ export const ROUTES: TabRoute[] = [
   },
 ];
 
-export function MyTabBar({ state, descriptors, navigation }) {
+export const MyTabBar = ({ state, descriptors, navigation }) => {
   const colors = useColors();
   const insets = useSafeAreaInsets();
   const haptics = useHaptics();
@@ -143,4 +143,4 @@ export function MyTabBar({ state, descriptors, navigation }) {
       })}
     </View>
   );
-}
+};

@@ -3,7 +3,7 @@ import type { ViewStyle } from "react-native";
 import { View } from "react-native";
 import useColors from "@/hooks/useColors";
 
-export default ({
+const MenuList = ({
   children,
   style = {},
 }: {
@@ -26,3 +26,5 @@ export default ({
     </View>
   );
 };
+
+export default MenuList;

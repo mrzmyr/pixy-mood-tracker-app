@@ -2,7 +2,7 @@ import chroma from "chroma-js";
 import { Pressable, Text, useColorScheme } from "react-native";
 import { Check } from "react-native-feather";
 
-export default function ScaleButton({
+const ScaleButton = ({
   backgroundColor,
   textColor,
   isSelected = false,
@@ -18,7 +18,7 @@ export default function ScaleButton({
   isFirst?: boolean;
   isLast?: boolean;
   onPress: () => void;
-}) {
+}) => {
   const colorScheme = useColorScheme();
 
   return (
@@ -54,4 +54,6 @@ export default function ScaleButton({
       )}
     </Pressable>
   );
-}
+};
+
+export default ScaleButton;

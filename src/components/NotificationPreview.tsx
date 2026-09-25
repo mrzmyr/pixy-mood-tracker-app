@@ -2,7 +2,7 @@ import { Image, Platform, Text, View } from "react-native";
 import { t } from "@/helpers/translation";
 import useColors from "@/hooks/useColors";
 
-export default function NotificationPreview() {
+const NotificationPreview = () => {
   const colors = useColors();
 
   return (
@@ -70,4 +70,6 @@ export default function NotificationPreview() {
       </View>
     </View>
   );
-}
+};
+
+export default NotificationPreview;

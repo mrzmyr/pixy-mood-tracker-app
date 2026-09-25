@@ -26,7 +26,7 @@ const HeaderDay = ({ children }: { children: string }) => {
   );
 };
 
-export default function CalendarHeader() {
+const CalendarHeader = () => {
   const colors = useColors();
 
   return (
@@ -80,4 +80,6 @@ export default function CalendarHeader() {
       </View>
     </View>
   );
-}
+};
+
+export default CalendarHeader;

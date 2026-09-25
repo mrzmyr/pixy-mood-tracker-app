@@ -2,13 +2,13 @@ import type { ViewStyle } from "react-native";
 import { Text } from "react-native";
 import useColors from "@/hooks/useColors";
 
-export default function TextInfo({
+const TextInfo = ({
   children,
   style,
 }: {
   children: React.ReactNode;
   style?: ViewStyle;
-}) {
+}) => {
   const colors = useColors();
 
   return (
@@ -27,4 +27,6 @@ export default function TextInfo({
       {children}
     </Text>
   );
-}
+};
+
+export default TextInfo;

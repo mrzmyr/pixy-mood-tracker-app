@@ -14,122 +14,122 @@ import { useCalendarNavigation } from "@/hooks/useCalendarNavigation";
 
 dayjs.extend(isSameOrBefore);
 
-const CalendarDayContainer = memo(
-  ({ children }: { children?: React.ReactNode }) => (
-    <View style={styles.dayContainer}>{children}</View>
-  )
-);
+const CalendarDayContainerComponent = ({
+  children,
+}: {
+  children?: React.ReactNode;
+}) => <View style={styles.dayContainer}>{children}</View>;
+
+const CalendarDayContainer = memo(CalendarDayContainerComponent);
 
 interface DayMapItem {
   dateString: string;
 }
 
-const CalendarWeek = memo(
-  ({
-    startDate,
-    endDate,
-    isFirst = false,
-    isLast = false,
-    itemMap,
-  }: {
-    startDate: string;
-    endDate: string;
-    isFirst?: boolean;
-    isLast?: boolean;
-    itemMap: {
-      [key: string]: LogItem[];
-    };
-  }) => {
-    const calendarNavigation = useCalendarNavigation();
-    const navigation = useNavigation();
-    const calendarFilters = useCalendarFilters();
+const CalendarWeekComponent = ({
+  startDate,
+  endDate,
+  isFirst = false,
+  isLast = false,
+  itemMap,
+}: {
+  startDate: string;
+  endDate: string;
+  isFirst?: boolean;
+  isLast?: boolean;
+  itemMap: {
+    [key: string]: LogItem[];
+  };
+}) => {
+  const calendarNavigation = useCalendarNavigation();
+  const navigation = useNavigation();
+  const calendarFilters = useCalendarFilters();
 
-    let justifyContent = "space-around";
-    if (isFirst) {
-      justifyContent = "flex-end";
+  let justifyContent = "space-around";
+  if (isFirst) {
+    justifyContent = "flex-end";
+  }
+  if (isLast) {
+    justifyContent = "flex-start";
+  }
+
+  const days = useMemo(() => {
+    const days: string[] = [];
+    let date = dayjs(startDate);
+
+    while (date.isSameOrBefore(endDate, "day")) {
+      days.push(date.format(DATE_FORMAT));
+      date = date.add(1, "day");
     }
-    if (isLast) {
-      justifyContent = "flex-start";
+
+    return days;
+  }, [startDate, endDate]);
+
+  const emptyDays = useMemo(() => {
+    const emptyDays: null[] = [];
+    for (let i = 0; i < 7 - days.length; i++) {
+      emptyDays.push(null);
     }
+    return emptyDays;
+  }, [days]);
 
-    const days = useMemo(() => {
-      const days: string[] = [];
-      let date = dayjs(startDate);
+  const daysMap: DayMapItem[] = days.map((dateString) => ({
+    dateString,
+  }));
 
-      while (date.isSameOrBefore(endDate, "day")) {
-        days.push(date.format(DATE_FORMAT));
-        date = date.add(1, "day");
-      }
+  const onPressDay = useCallback(
+    (date: string) => {
+      calendarNavigation.openDay(date);
+    },
+    [navigation, calendarNavigation]
+  );
 
-      return days;
-    }, [startDate, endDate]);
+  const filteredItemIds = useMemo(
+    () => calendarFilters.data.filteredItems.map((item) => item.id),
+    [JSON.stringify(calendarFilters.data.filteredItems)]
+  );
 
-    const emptyDays = useMemo(() => {
-      const emptyDays: null[] = [];
-      for (let i = 0; i < 7 - days.length; i++) {
-        emptyDays.push(null);
-      }
-      return emptyDays;
-    }, [days]);
-
-    const daysMap: DayMapItem[] = days.map((dateString) => ({
-      dateString,
-    }));
-
-    const onPressDay = useCallback(
-      (date: string) => {
-        calendarNavigation.openDay(date);
-      },
-      [navigation, calendarNavigation]
-    );
-
-    const filteredItemIds = useMemo(
-      () => calendarFilters.data.filteredItems.map((item) => item.id),
-      [JSON.stringify(calendarFilters.data.filteredItems)]
-    );
-
-    const renderDay = ({ date }) => {
-      const items = itemMap[date] || [];
-      const averageRating = items.length < 1 ? null : getAverageMood(items);
-      const isFiltered = items.some((item) =>
-        filteredItemIds.includes(item.id)
-      );
-
-      return (
-        <CalendarDay
-          dateString={date}
-          rating={averageRating}
-          isFiltered={isFiltered}
-          isFiltering={calendarFilters.data.isFiltering}
-          onPress={() => onPressDay(date)}
-        />
-      );
-    };
+  const renderDay = ({ date }) => {
+    const items = itemMap[date] || [];
+    const averageRating = items.length < 1 ? null : getAverageMood(items);
+    const isFiltered = items.some((item) => filteredItemIds.includes(item.id));
 
     return (
-      <View
-        style={{
-          flexDirection: "row",
-          justifyContent: "space-around",
-          marginLeft: -4,
-          marginRight: -4,
-        }}
-      >
-        {!isLast &&
-          emptyDays.map((day, index) => <CalendarDayContainer key={index} />)}
-
-        {daysMap.map((day) => (
-          <CalendarDayContainer key={day.dateString}>
-            {renderDay({ date: day.dateString })}
-          </CalendarDayContainer>
-        ))}
-
-        {isLast &&
-          emptyDays.map((day, index) => <CalendarDayContainer key={index} />)}
-      </View>
+      <CalendarDay
+        dateString={date}
+        rating={averageRating}
+        isFiltered={isFiltered}
+        isFiltering={calendarFilters.data.isFiltering}
+        onPress={() => onPressDay(date)}
+      />
     );
-  }
-);
+  };
+
+  return (
+    <View
+      style={{
+        flexDirection: "row",
+        justifyContent: "space-around",
+        marginLeft: -4,
+        marginRight: -4,
+      }}
+    >
+      {!isLast &&
+        emptyDays.map((day, index) => <CalendarDayContainer key={index} />)}
+
+      {daysMap.map((day) => (
+        <CalendarDayContainer key={day.dateString}>
+          {renderDay({ date: day.dateString })}
+        </CalendarDayContainer>
+      ))}
+
+      {isLast &&
+        emptyDays.map((day, index) => <CalendarDayContainer key={index} />)}
+    </View>
+  );
+};
+
+const CalendarWeek = memo(CalendarWeekComponent);
 
 const styles = StyleSheet.create({
   dayContainer: {

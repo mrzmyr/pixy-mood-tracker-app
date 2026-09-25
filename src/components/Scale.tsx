@@ -5,7 +5,7 @@ import useScale from "@/hooks/useScale";
 import type { SettingsState } from "@/hooks/useSettings";
 import ScaleButton from "./ScaleButton";
 
-export default function Scale({
+const Scale = ({
   type,
   value,
   onPress = null,
@@ -13,7 +13,7 @@ export default function Scale({
   type: SettingsState["scaleType"];
   value?: LogItem["rating"] | LogItem["rating"][];
   onPress?: ((rating: LogItem["rating"]) => void) | null;
-}) {
+}) => {
   const { colors, labels } = useScale(type);
   const _labels = labels.slice().reverse();
   const haptics = useHaptics();
@@ -52,4 +52,6 @@ export default function Scale({
       })}
     </View>
   );
-}
+};
+
+export default Scale;

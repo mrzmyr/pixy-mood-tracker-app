@@ -2,13 +2,13 @@ import type { ViewStyle } from "react-native";
 import { Text } from "react-native";
 import useColors from "@/hooks/useColors";
 
-export default function TextHeadline({
+const TextHeadline = ({
   children,
   style = {},
 }: {
   children: React.ReactNode;
   style?: ViewStyle;
-}) {
+}) => {
   const colors = useColors();
   return (
     <Text
@@ -24,4 +24,6 @@ export default function TextHeadline({
       {children}
     </Text>
   );
-}
+};
+
+export default TextHeadline;

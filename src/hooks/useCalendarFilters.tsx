@@ -45,7 +45,11 @@ const initialState: CalendarFiltersData = {
   filteredItems: [],
 };
 
-function CalendarFiltersProvider({ children }: { children: React.ReactNode }) {
+const CalendarFiltersProvider = ({
+  children,
+}: {
+  children: React.ReactNode;
+}) => {
   const analytics = useAnalytics();
   const logState = useLogState();
   const [data, setData] = useState<CalendarFiltersData>(initialState);
@@ -136,9 +140,9 @@ function CalendarFiltersProvider({ children }: { children: React.ReactNode }) {
       {children}
     </CalendarFiltersStateContext.Provider>
   );
-}
+};
 
-function useCalendarFilters(): Value {
+const useCalendarFilters = (): Value => {
   const context = useContext(CalendarFiltersStateContext);
   if (context === undefined) {
     throw createMissingProviderError(
@@ -147,6 +151,6 @@ function useCalendarFilters(): Value {
     );
   }
   return context;
-}
+};
 
 export { CalendarFiltersProvider, useCalendarFilters };

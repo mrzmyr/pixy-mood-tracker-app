@@ -3,7 +3,7 @@ import useColors from "../../hooks/useColors";
 import { RATING_KEYS } from "../../hooks/useLogs";
 import { ColorDot } from "./ColorDot";
 
-export function Scale({ type }: { type: string }) {
+export const Scale = ({ type }: { type: string }) => {
   const colors = useColors();
   const scaleColors = colors.scales[type];
   const scaleKeys = RATING_KEYS.slice().reverse();
@@ -22,4 +22,4 @@ export function Scale({ type }: { type: string }) {
       ))}
     </View>
   );
-}
+};

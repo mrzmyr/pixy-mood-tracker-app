@@ -96,7 +96,7 @@ const sanitizeSteps = (
     isConfigurableLoggerStep
   );
 
-function SettingsProvider({ children }: { children: React.ReactNode }) {
+const SettingsProvider = ({ children }: { children: React.ReactNode }) => {
   const [settings, setSettings] = useState<SettingsState>(INITIAL_STATE);
 
   const resetSettings = useCallback(() => {
@@ -247,14 +247,14 @@ function SettingsProvider({ children }: { children: React.ReactNode }) {
       {children}
     </SettingsStateContext.Provider>
   );
-}
+};
 
-function useSettings(): Value {
+const useSettings = (): Value => {
   const context = useContext(SettingsStateContext);
   if (context === undefined) {
     throw createMissingProviderError("useSettings", "SettingsProvider");
   }
   return context;
-}
+};
 
 export { SettingsProvider, useSettings };

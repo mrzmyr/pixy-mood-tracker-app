@@ -4,7 +4,7 @@ import { Circle } from "react-native-feather";
 import useColors from "../../hooks/useColors";
 import useHaptics from "../../hooks/useHaptics";
 
-export function Radio({
+export const Radio = ({
   onPress,
   children,
   isSelected = false,
@@ -14,7 +14,7 @@ export function Radio({
   children: React.ReactNode;
   isSelected?: boolean;
   isDisabled?: boolean;
-}) {
+}) => {
   const colors = useColors();
   const haptics = useHaptics();
 
@@ -79,4 +79,4 @@ export function Radio({
       </>
     </Pressable>
   );
-}
+};

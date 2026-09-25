@@ -89,7 +89,7 @@ const LogStateContext = createContext<StateValue>(undefined as never);
 // SAFETY: every consumer renders inside LogsProvider, which supplies the value; the default is never read.
 const LogUpdaterContext = createContext<UpdaterValue>(undefined as never);
 
-function reducer(state: LogsState, action: LogAction): LogsState {
+const reducer = (state: LogsState, action: LogAction): LogsState => {
   switch (action.type) {
     case "import": {
       return migrate({
@@ -151,7 +151,7 @@ function reducer(state: LogsState, action: LogAction): LogsState {
       };
     }
   }
-}
+};
 
 const migrate = (data: LogsState): LogsState => {
   const result = {
@@ -191,7 +191,7 @@ const migrate = (data: LogsState): LogsState => {
   return result;
 };
 
-function LogsProvider({ children }: { children: React.ReactNode }) {
+const LogsProvider = ({ children }: { children: React.ReactNode }) => {
   const analyitcs = useAnalytics();
 
   const INITIAL_STATE: LogsState = {
@@ -311,22 +311,22 @@ function LogsProvider({ children }: { children: React.ReactNode }) {
       </LogUpdaterContext.Provider>
     </LogStateContext.Provider>
   );
-}
+};
 
-function useLogState(): StateValue {
+const useLogState = (): StateValue => {
   const context = useContext(LogStateContext);
   if (context === undefined) {
     throw createMissingProviderError("useLogState", "LogsProvider");
   }
   return context;
-}
+};
 
-function useLogUpdater(): UpdaterValue {
+const useLogUpdater = (): UpdaterValue => {
   const context = useContext(LogUpdaterContext);
   if (context === undefined) {
     throw createMissingProviderError("useLogUpdater", "LogsProvider");
   }
   return context;
-}
+};
 
 export { LogsProvider, useLogState, useLogUpdater };

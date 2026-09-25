@@ -4,7 +4,7 @@ import useColors from "@/hooks/useColors";
 import useHaptics from "@/hooks/useHaptics";
 import type { TAG_COLOR_NAMES } from "@/constants/Config";
 
-export default function Tag({
+const Tag = ({
   title,
   selected = false,
   colorName,
@@ -16,7 +16,7 @@ export default function Tag({
   colorName: (typeof TAG_COLOR_NAMES)[number];
   onPress?: () => void;
   style?: ViewStyle;
-}) {
+}) => {
   const colors = useColors();
   const haptics = useHaptics();
   const colorScheme = useColorScheme();
@@ -71,4 +71,6 @@ export default function Tag({
       </Text>
     </Pressable>
   );
-}
+};
+
+export default Tag;

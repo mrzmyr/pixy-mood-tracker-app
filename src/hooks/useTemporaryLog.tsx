@@ -22,7 +22,7 @@ export interface TemporaryLogValue {
 // SAFETY: every consumer renders inside TemporaryLogProvider, which supplies the full value.
 const TemporaryLogStateContext = createContext({} as TemporaryLogValue);
 
-function TemporaryLogProvider({ children }: { children: React.ReactNode }) {
+const TemporaryLogProvider = ({ children }: { children: React.ReactNode }) => {
   const [isDirty, setIsDirty] = useState(false);
   const [temporaryLog, setTemporaryLog] = useState<TemporaryLogState>(
     // SAFETY: empty placeholder until initialize(); isInitialized stays false while it is empty.
@@ -84,9 +84,11 @@ function TemporaryLogProvider({ children }: { children: React.ReactNode }) {
       {children}
     </TemporaryLogStateContext.Provider>
   );
-}
+};
 
-function useTemporaryLog(defaultValue?: TemporaryLogState): TemporaryLogValue {
+const useTemporaryLog = (
+  defaultValue?: TemporaryLogState
+): TemporaryLogValue => {
   const context = useContext(TemporaryLogStateContext);
 
   if (context === undefined) {
@@ -108,6 +110,6 @@ function useTemporaryLog(defaultValue?: TemporaryLogState): TemporaryLogValue {
     ...context,
     data,
   };
-}
+};
 
 export { TemporaryLogProvider, useTemporaryLog };

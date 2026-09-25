@@ -154,143 +154,143 @@ const Tips = ({ onClose }: { onClose: () => void }) => {
   );
 };
 
-export const SlideMessage = forwardRef(
-  (
-    {
-      onChange,
-      onDisableStep,
-      showDisable,
-    }: {
-      onChange: (text: LogItem["message"]) => void;
-      onDisableStep: () => void;
-      showDisable: boolean;
-    },
-    ref: React.ForwardedRef<TextInput>
-  ) => {
-    const analytics = useAnalytics();
-    const insets = useSafeAreaInsets();
-    const colors = useColors();
-    const tempLog = useTemporaryLog();
-    const marginTop = getLogEditMarginTop();
+const SlideMessageComponent = (
+  {
+    onChange,
+    onDisableStep,
+    showDisable,
+  }: {
+    onChange: (text: LogItem["message"]) => void;
+    onDisableStep: () => void;
+    showDisable: boolean;
+  },
+  ref: React.ForwardedRef<TextInput>
+) => {
+  const analytics = useAnalytics();
+  const insets = useSafeAreaInsets();
+  const colors = useColors();
+  const tempLog = useTemporaryLog();
+  const marginTop = getLogEditMarginTop();
 
-    const [showTips, setShowTips] = useState(false);
+  const [showTips, setShowTips] = useState(false);
 
-    const [shouldExpand, setShouldExpand] = useState(false);
+  const [shouldExpand, setShouldExpand] = useState(false);
 
-    useEffect(() => {
-      const r1 = Keyboard.addListener("keyboardWillShow", () =>
-        setShouldExpand(true)
-      );
-      const r2 = Keyboard.addListener("keyboardWillHide", () =>
-        setShouldExpand(false)
-      );
+  useEffect(() => {
+    const r1 = Keyboard.addListener("keyboardWillShow", () =>
+      setShouldExpand(true)
+    );
+    const r2 = Keyboard.addListener("keyboardWillHide", () =>
+      setShouldExpand(false)
+    );
 
-      return () => {
-        r1.remove();
-        r2.remove();
-      };
-    }, []);
+    return () => {
+      r1.remove();
+      r2.remove();
+    };
+  }, []);
 
-    return (
-      <KeyboardAvoidingView
-        keyboardVerticalOffset={marginTop + insets.top + 16}
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
-        style={{
-          flex: 1,
-        }}
-      >
-        <DismissKeyboard>
+  return (
+    <KeyboardAvoidingView
+      keyboardVerticalOffset={marginTop + insets.top + 16}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      style={{
+        flex: 1,
+      }}
+    >
+      <DismissKeyboard>
+        <View
+          style={{
+            flex: 1,
+            justifyContent: "space-around",
+          }}
+        >
           <View
             style={{
               flex: 1,
-              justifyContent: "space-around",
+              backgroundColor: colors.logBackground,
+              width: "100%",
+              position: "relative",
+              paddingHorizontal: 20,
+              paddingBottom: insets.bottom + 16 + (shouldExpand ? 24 : 0),
             }}
           >
             <View
               style={{
                 flex: 1,
-                backgroundColor: colors.logBackground,
-                width: "100%",
-                position: "relative",
-                paddingHorizontal: 20,
-                paddingBottom: insets.bottom + 16 + (shouldExpand ? 24 : 0),
+                marginTop,
               }}
             >
               <View
                 style={{
-                  flex: 1,
-                  marginTop,
+                  flexDirection: "row",
+                  width: "100%",
+                  justifyContent: "space-between",
+                  alignItems: "center",
                 }}
               >
-                <View
+                <SlideHeadline>{t("log_note_question")}</SlideHeadline>
+                <LinkButton
+                  onPress={() => {
+                    analytics.track("log_message_tips_open");
+                    setShowTips(!showTips);
+                  }}
                   style={{
-                    flexDirection: "row",
-                    width: "100%",
-                    justifyContent: "space-between",
-                    alignItems: "center",
+                    marginBottom: -12,
+                    marginTop: -12,
+                    marginRight: 4,
                   }}
                 >
-                  <SlideHeadline>{t("log_note_question")}</SlideHeadline>
-                  <LinkButton
-                    onPress={() => {
-                      analytics.track("log_message_tips_open");
-                      setShowTips(!showTips);
-                    }}
+                  <HelpCircle width={22} color={colors.textSecondary} />
+                </LinkButton>
+              </View>
+              {showTips && (
+                <Tips
+                  onClose={() => {
+                    setShowTips(false);
+                  }}
+                />
+              )}
+              {!showTips && (
+                <View
+                  style={{
+                    flexDirection: "column",
+                    width: "100%",
+                    marginTop: 16,
+                    flex: 1,
+                  }}
+                >
+                  <TextArea
+                    ref={ref}
+                    value={tempLog?.data?.message}
+                    onChange={onChange}
+                    maxLength={MAX_LENGTH}
                     style={{
-                      marginBottom: -12,
-                      marginTop: -12,
-                      marginRight: 4,
-                    }}
-                  >
-                    <HelpCircle width={22} color={colors.textSecondary} />
-                  </LinkButton>
-                </View>
-                {showTips && (
-                  <Tips
-                    onClose={() => {
-                      setShowTips(false);
+                      flex: 1,
+                      marginBottom: 0,
                     }}
                   />
-                )}
-                {!showTips && (
-                  <View
-                    style={{
-                      flexDirection: "column",
-                      width: "100%",
-                      marginTop: 16,
-                      flex: 1,
-                    }}
-                  >
-                    <TextArea
-                      ref={ref}
-                      value={tempLog?.data?.message}
-                      onChange={onChange}
-                      maxLength={MAX_LENGTH}
-                      style={{
-                        flex: 1,
-                        marginBottom: 0,
-                      }}
-                    />
-                  </View>
-                )}
-              </View>
-              <Footer>
-                {showDisable && (
-                  <LinkButton
-                    type="secondary"
-                    onPress={onDisableStep}
-                    style={{
-                      fontWeight: "400",
-                    }}
-                  >
-                    {t("log_message_disable")}
-                  </LinkButton>
-                )}
-              </Footer>
+                </View>
+              )}
             </View>
+            <Footer>
+              {showDisable && (
+                <LinkButton
+                  type="secondary"
+                  onPress={onDisableStep}
+                  style={{
+                    fontWeight: "400",
+                  }}
+                >
+                  {t("log_message_disable")}
+                </LinkButton>
+              )}
+            </Footer>
           </View>
-        </DismissKeyboard>
-      </KeyboardAvoidingView>
-    );
-  }
-);
+        </View>
+      </DismissKeyboard>
+    </KeyboardAvoidingView>
+  );
+};
+
+export const SlideMessage = forwardRef(SlideMessageComponent);

@@ -11,13 +11,13 @@ const PLAY_API = "https://androidpublisher.googleapis.com/androidpublisher/v3";
 const PLAY_REVIEW_LIMITATION =
   "Google Play API returns only reviews created or modified in the last 7 days.";
 
-function fail({ status, message, why, fix }) {
+const fail = ({ status, message, why, fix }) => {
   const error = new Error(message);
   error.details = { status, message, why, fix };
   throw error;
-}
+};
 
-function parseArgs(argv) {
+const parseArgs = (argv) => {
   const options = {
     store: "all",
     limit: 50,
@@ -103,17 +103,14 @@ function parseArgs(argv) {
     });
   }
   return options;
-}
+};
 
-function help() {
-  return `List recent low-rated Pixy reviews from App Store Connect and Google Play Console.\n\nUsage:\n  bun run reviews -- [options]\n\nOptions:\n  --store all|app-store|play  Store source (default: all)\n  --limit N                   Matching reviews per store (default: 50, max: 1000)\n  --min-rating N              Lowest included rating (default: 1)\n  --max-rating N              Highest included rating (default: 3)\n  --apple-id ID               App Store Connect app resource ID override\n  --apple-bundle-id ID        App bundle ID (default: com.devmood.pixymoodtracker)\n  --play-package NAME         Google Play package (default: ${DEFAULT_PLAY_PACKAGE})\n  --json                      Emit stable JSON instead of a table\n\nCredentials (read-only access):\n  App Store Connect: APPLE_ISSUER_ID, APPLE_KEY_ID, APPLE_PRIVATE_KEY_PATH\n  Google Play:       GOOGLE_PLAY_SERVICE_ACCOUNT_JSON\n\nThe Google service account needs Google Play Console access to this app and the Android Publisher API enabled.\nThe App Store Connect API key needs access to this app. Secrets stay in local files/environment and are never printed.\n`;
-}
+const help = () =>
+  `List recent low-rated Pixy reviews from App Store Connect and Google Play Console.\n\nUsage:\n  bun run reviews -- [options]\n\nOptions:\n  --store all|app-store|play  Store source (default: all)\n  --limit N                   Matching reviews per store (default: 50, max: 1000)\n  --min-rating N              Lowest included rating (default: 1)\n  --max-rating N              Highest included rating (default: 3)\n  --apple-id ID               App Store Connect app resource ID override\n  --apple-bundle-id ID        App bundle ID (default: com.devmood.pixymoodtracker)\n  --play-package NAME         Google Play package (default: ${DEFAULT_PLAY_PACKAGE})\n  --json                      Emit stable JSON instead of a table\n\nCredentials (read-only access):\n  App Store Connect: APPLE_ISSUER_ID, APPLE_KEY_ID, APPLE_PRIVATE_KEY_PATH\n  Google Play:       GOOGLE_PLAY_SERVICE_ACCOUNT_JSON\n\nThe Google service account needs Google Play Console access to this app and the Android Publisher API enabled.\nThe App Store Connect API key needs access to this app. Secrets stay in local files/environment and are never printed.\n`;
 
-function encodeBase64Url(value) {
-  return Buffer.from(value).toString("base64url");
-}
+const encodeBase64Url = (value) => Buffer.from(value).toString("base64url");
 
-async function readCredential({ pathEnv, missingMessage, fix }) {
+const readCredential = async ({ pathEnv, missingMessage, fix }) => {
   const filePath = process.env[pathEnv];
   if (!filePath) {
     fail({
@@ -133,9 +130,9 @@ async function readCredential({ pathEnv, missingMessage, fix }) {
       fix: `Set ${pathEnv} to a readable local credential file.`,
     });
   }
-}
+};
 
-async function createAppleToken() {
+const createAppleToken = async () => {
   const issuer = process.env.APPLE_ISSUER_ID;
   const keyId = process.env.APPLE_KEY_ID;
   const keyPath = process.env.APPLE_PRIVATE_KEY_PATH;
@@ -166,9 +163,9 @@ async function createAppleToken() {
       fix: "Check APPLE_PRIVATE_KEY_PATH and use the .p8 key that matches APPLE_KEY_ID.",
     });
   }
-}
+};
 
-async function requestJson({ url, headers = {} }) {
+const requestJson = async ({ url, headers = {} }) => {
   let response;
   try {
     response = await fetch(url, { headers });
@@ -205,9 +202,9 @@ async function requestJson({ url, headers = {} }) {
       fix: "Retry later; if this persists, check the store API response format.",
     });
   }
-}
+};
 
-async function fetchAppleReviews(options) {
+const fetchAppleReviews = async (options) => {
   const token = await createAppleToken();
   const reviews = [];
   let appId = options.appleId;
@@ -267,9 +264,9 @@ async function fetchAppleReviews(options) {
     }
   }
   return reviews;
-}
+};
 
-async function createGoogleAccessToken() {
+const createGoogleAccessToken = async () => {
   let account;
   try {
     account = JSON.parse(
@@ -351,9 +348,9 @@ async function createGoogleAccessToken() {
     });
   }
   return data.access_token;
-}
+};
 
-function formatGoogleDate(timestamp) {
+const formatGoogleDate = (timestamp) => {
   if (!timestamp?.seconds) {
     return "";
   }
@@ -361,9 +358,9 @@ function formatGoogleDate(timestamp) {
     Number(timestamp.seconds) * 1000 +
       Math.floor(Number(timestamp.nanos ?? 0) / 1e6)
   ).toISOString();
-}
+};
 
-async function fetchPlayReviews(options) {
+const fetchPlayReviews = async (options) => {
   const token = await createGoogleAccessToken();
   const reviews = [];
   let pageToken;
@@ -406,18 +403,17 @@ async function fetchPlayReviews(options) {
     pageToken = page.tokenPagination?.nextPageToken;
   } while (pageToken && reviews.length < options.limit);
   return reviews;
-}
+};
 
-function sortReviews(reviews) {
-  return reviews.sort(
+const sortReviews = (reviews) =>
+  reviews.sort(
     (a, b) =>
       b.date.localeCompare(a.date) ||
       a.store.localeCompare(b.store) ||
       a.id.localeCompare(b.id)
   );
-}
 
-function printTable(reviews) {
+const printTable = (reviews) => {
   if (reviews.length === 0) {
     process.stdout.write("No matching reviews found.\n");
     return;
@@ -435,13 +431,13 @@ function printTable(reviews) {
     }
     process.stdout.write(`${review.text.replaceAll(/\s+/g, " ").trim()}\n\n`);
   }
-}
+};
 
 /**
  * Runs the review listing CLI and returns its process exit code.
  * @returns {Promise<number>} `0` when all requested sources succeed, otherwise `1`.
  */
-export async function main(argv = process.argv.slice(2)) {
+export const main = async (argv = process.argv.slice(2)) => {
   try {
     const options = parseArgs(argv);
     if (options.help) {
@@ -522,7 +518,7 @@ export async function main(argv = process.argv.slice(2)) {
     process.stderr.write(`${JSON.stringify(details)}\n`);
     return 1;
   }
-}
+};
 
 if (
   process.argv[1] &&

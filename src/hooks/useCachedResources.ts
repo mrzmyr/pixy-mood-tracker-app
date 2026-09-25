@@ -8,7 +8,7 @@ export default function useCachedResources() {
 
   // Load any resources or data that we need prior to rendering the app
   useEffect(() => {
-    function loadResourcesAndDataAsync() {
+    const loadResourcesAndDataAsync = () => {
       try {
         // await Font.loadAsync({
         //   'sora-regular': require('../assets/fonts/Sora-Regular.ttf'),
@@ -23,7 +23,7 @@ export default function useCachedResources() {
         setLoadingComplete(true);
         SplashScreen.hideAsync();
       }
-    }
+    };
 
     loadResourcesAndDataAsync();
   }, []);

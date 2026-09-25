@@ -2,7 +2,7 @@ import type { ViewStyle } from "react-native";
 import { Text, View } from "react-native";
 import useColors from "@/hooks/useColors";
 
-export default function ModalHeader({
+const ModalHeader = ({
   title = "",
   right = null,
   left = null,
@@ -12,7 +12,7 @@ export default function ModalHeader({
   right?: React.ReactNode;
   left?: React.ReactNode;
   style?: ViewStyle;
-}) {
+}) => {
   const colors = useColors();
 
   return (
@@ -75,4 +75,6 @@ export default function ModalHeader({
       </View>
     </View>
   );
-}
+};
+
+export default ModalHeader;
