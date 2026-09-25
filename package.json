@@ -44,6 +44,7 @@
     "@react-navigation/native": "^6.0.2",
     "@react-navigation/native-stack": "^6.9.7",
     "@sentry/react-native": "~7.11.0",
+    "@shopify/flash-list": "^2.3.2",
     "buffer": "^6.0.3",
     "chroma-js": "^3.2.0",
     "dayjs": "^1.11.7",

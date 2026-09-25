@@ -1,0 +1,23 @@
+appId: com.devmood.pixymoodtracker
+waitForIdleTimeout: 0
+---
+- stopApp
+- launchApp
+- runScript: ../scripts/set-output-date.js
+- assertVisible:
+    id: calendar-day-${output.today}
+- assertVisible:
+    id: calendar-month-${output.today.substring(0, 7)}-01
+- repeat:
+    times: 24
+    commands:
+      - swipe:
+          start: 50%, 35%
+          end: 50%, 80%
+          duration: 1000
+- takeScreenshot: after-prepends
+- tapOn:
+    id: scroll-to-bottom
+- assertVisible:
+    id: calendar-day-${output.today}
+- takeScreenshot: today
