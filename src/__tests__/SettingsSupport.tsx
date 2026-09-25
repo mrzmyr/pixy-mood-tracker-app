@@ -10,10 +10,12 @@ import {
 } from "@/support";
 import { SettingsScreen } from "@/screens/Settings";
 
+// oxlint-disable-next-line anti-slop/no-module-mocking -- lucide-react-native renders native SVG components that Jest cannot render
 jest.mock("lucide-react-native", () => ({
   Tag: () => null,
 }));
 
+// oxlint-disable-next-line anti-slop/no-module-mocking -- expo-superwall is a native module imported transitively by Providers; the support client itself is injected
 jest.mock(
   "expo-superwall",
   () => ({
@@ -39,6 +41,7 @@ jest.mock(
   { virtual: true }
 );
 
+// oxlint-disable-next-line anti-slop/no-module-mocking -- react-native-safe-area-context needs native insets that Jest does not provide
 jest.mock("react-native-safe-area-context", () => ({
   SafeAreaProvider: ({ children }: { children: React.ReactNode }) => children,
   useSafeAreaInsets: () => ({ top: 0, right: 0, bottom: 0, left: 0 }),
@@ -172,7 +175,7 @@ describe("Support Pixy in Settings", () => {
     );
     expect(screen.getByRole("button", { name: "Data" })).toBeEnabled();
 
-    await act(async () => retry?.());
+    await act(() => retry?.());
 
     await waitFor(() => expect(supportClient.attempts).toBe(2));
   });
@@ -181,6 +184,7 @@ describe("Support Pixy in Settings", () => {
     let finishSupport: () => void = () => undefined;
     const openSupport = jest.fn(
       () =>
+        // oxlint-disable-next-line promise/avoid-new -- test needs a deferred Promise that stays pending until finishSupport() is called
         new Promise<void>((resolve) => {
           finishSupport = resolve;
         })

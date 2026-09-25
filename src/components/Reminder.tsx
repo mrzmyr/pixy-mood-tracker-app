@@ -62,10 +62,7 @@ const Reminder = () => {
     })();
   }, [reminderEnabled, reminderTime]);
 
-  const onTimeChange = async (
-    event: DateTimePickerEvent,
-    selectedDate?: Date
-  ) => {
+  const onTimeChange = (event: DateTimePickerEvent, selectedDate?: Date) => {
     analytics.track("reminder_time_change", {
       time: dayjs(selectedDate).format("HH:mm"),
     });

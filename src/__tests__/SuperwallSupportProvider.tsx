@@ -33,10 +33,12 @@ const mockUseSuperwallEvents = jest.fn<
   [MockSuperwallEventCallbacks]
 >();
 
+// oxlint-disable-next-line anti-slop/no-module-mocking -- ConfiguredSupportProvider reads analytics consent from useAnalytics; the real hook needs Settings and PostHog providers that would make this test async on storage loading
 jest.mock("@/hooks/useAnalytics", () => ({
   useAnalytics: () => ({ isEnabled: false }),
 }));
 
+// oxlint-disable-next-line anti-slop/no-module-mocking -- expo-superwall is a native SDK unavailable in Jest; this test drives its callbacks directly
 jest.mock(
   "expo-superwall",
   () => ({

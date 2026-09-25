@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import type { LogItem } from "./useLogs";
+import { createMissingProviderError } from "@/lib/errors";
 
 export type TemporaryLogState = Omit<LogItem, "rating" | "sleep"> & {
   rating: LogItem["rating"] | null;
@@ -89,9 +90,7 @@ function useTemporaryLog(defaultValue?: TemporaryLogState): TemporaryLogValue {
   const context = useContext(TemporaryLogStateContext);
 
   if (context === undefined) {
-    throw new Error(
-      "useTemporaryLog must be used within a TemporaryLogProvider"
-    );
+    throw createMissingProviderError("useTemporaryLog", "TemporaryLogProvider");
   }
 
   useEffect(() => {

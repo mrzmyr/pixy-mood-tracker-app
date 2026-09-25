@@ -55,8 +55,8 @@ export default function useFeedbackModal() {
     const send = async () => {
       setIsLoading(true);
 
-      feedback
-        .send({
+      try {
+        await feedback.send({
           type,
           message,
           email,
@@ -64,13 +64,13 @@ export default function useFeedbackModal() {
           onCancel: () => {
             setVisible(false);
           },
-        })
-        .then((resp) => {
-          setVisible(false);
-        })
-        .finally(() => {
-          setIsLoading(false);
         });
+        setVisible(false);
+      } catch (error) {
+        setIsLoading(false);
+        throw error;
+      }
+      setIsLoading(false);
     };
 
     return (

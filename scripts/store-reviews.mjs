@@ -241,6 +241,7 @@ async function fetchAppleReviews(options) {
   );
 
   while (url && reviews.length < options.limit) {
+    // oxlint-disable-next-line eslint/no-await-in-loop -- pagination: each request needs the cursor from the previous page
     const page = await requestJson({
       url,
       headers: { Authorization: `Bearer ${token}` },
@@ -374,6 +375,7 @@ async function fetchPlayReviews(options) {
     if (pageToken) {
       url.searchParams.set("token", pageToken);
     }
+    // oxlint-disable-next-line eslint/no-await-in-loop -- pagination: each request needs the cursor from the previous page
     const page = await requestJson({
       url,
       headers: { Authorization: `Bearer ${token}` },

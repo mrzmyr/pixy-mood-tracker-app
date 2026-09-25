@@ -1,4 +1,5 @@
 import { createContext, useContext } from "react";
+import { createStructuredError } from "@/lib/errors";
 
 export type DevelopmentSupportMode = "available" | "failed";
 export type SupportFlowStatus =
@@ -23,7 +24,7 @@ export interface SupportClient {
 
 export const disabledSupportClient: SupportClient = {
   enabled: false,
-  openSupport: async () => undefined,
+  openSupport: () => Promise.resolve(),
 };
 
 export interface FakeSupportClient extends SupportClient {
@@ -42,20 +43,22 @@ export const createFakeSupportClient = (
     get attempts() {
       return attempts;
     },
-    openSupport: async () => {
+    openSupport: () => {
       const currentMode = modes[Math.min(attempts, modes.length - 1)];
       attempts += 1;
 
       if (currentMode === "failed") {
-        const error: SupportFlowError = {
+        const error: SupportFlowError = createStructuredError({
           status: "support_fake_failed",
           message: "Support unavailable",
           why: "Development fake provider was configured to fail.",
           fix: "Try again. Pixy remains fully usable.",
-        };
+        });
 
-        throw error;
+        return Promise.reject(error);
       }
+
+      return Promise.resolve();
     },
   };
 };

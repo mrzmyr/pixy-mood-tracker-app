@@ -47,7 +47,7 @@ interface ExportData {
 interface DatagateValue {
   openExportDialog: () => Promise<void>;
   openImportDialog: () => Promise<void>;
-  import: (data: ImportData, options: { muted: boolean }) => Promise<void>;
+  import: (data: ImportData, options: { muted: boolean }) => void;
   openDangerousImportDirectlyToAsyncStorageDialog: () => Promise<void>;
   openResetDialog: (type: ResetType) => Promise<void>;
 }
@@ -84,7 +84,7 @@ export const useDatagate = (): DatagateValue => {
     );
   };
 
-  const _import = async (
+  const _import = (
     data: ImportData,
     options: { muted: boolean } = { muted: false }
   ) => {
@@ -125,32 +125,31 @@ export const useDatagate = (): DatagateValue => {
     analytics.reset();
   };
 
-  const openImportDialog = async (): Promise<void> =>
-    askToImport().then(async () => {
-      try {
-        analytics.track("data_import_start");
+  const openImportDialog = async (): Promise<void> => {
+    await askToImport();
 
-        const doc = await DocumentPicker.getDocumentAsync({
-          type: "application/json",
-          copyToCacheDirectory: true,
-        });
+    try {
+      analytics.track("data_import_start");
 
-        if (!doc.canceled) {
-          analytics.track("data_import_success");
-          const contents = await FileSystem.readAsStringAsync(
-            doc.assets[0].uri
-          );
-          const data = JSON.parse(contents);
+      const doc = await DocumentPicker.getDocumentAsync({
+        type: "application/json",
+        copyToCacheDirectory: true,
+      });
 
-          _import(data);
-        }
-      } catch {
-        showImportError();
-        analytics.track("data_import_error", {
-          reason: "document_picker_error",
-        });
+      if (!doc.canceled) {
+        analytics.track("data_import_success");
+        const contents = await FileSystem.readAsStringAsync(doc.assets[0].uri);
+        const data = JSON.parse(contents);
+
+        _import(data);
       }
-    });
+    } catch {
+      showImportError();
+      analytics.track("data_import_error", {
+        reason: "document_picker_error",
+      });
+    }
+  };
 
   const openResetDialog = async (type: ResetType) => {
     analytics.track("data_reset_asked");
@@ -162,17 +161,16 @@ export const useDatagate = (): DatagateValue => {
       return;
     }
 
-    return askToReset<ResetType>(type)
-      .then(() => {
-        resetFn();
-        analytics.track("data_reset_success", {
-          type,
-        });
-        showResetSuccess<ResetType>(type);
-      })
-      .catch(() => {
-        analytics.track("data_reset_cancel");
+    try {
+      await askToReset<ResetType>(type);
+      resetFn();
+      analytics.track("data_reset_success", {
+        type,
       });
+      showResetSuccess<ResetType>(type);
+    } catch {
+      analytics.track("data_reset_cancel");
+    }
   };
 
   const openExportDialog = async () => {
