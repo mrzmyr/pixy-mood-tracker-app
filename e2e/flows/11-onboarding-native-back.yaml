@@ -1,4 +1,4 @@
-appId: com.devmood.pixymoodtracker
+appId: ${APP_ID}
 tags: [onboarding, native-back]
 ---
 # Reusable on installed devices; do not clear app data.

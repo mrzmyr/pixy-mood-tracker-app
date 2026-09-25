@@ -1,4 +1,4 @@
-appId: com.devmood.pixymoodtracker
+appId: ${APP_ID}
 ---
 # Completes onboarding from the Welcome screen to the Calendar tab.
 - assertVisible: "Welcome 👋"

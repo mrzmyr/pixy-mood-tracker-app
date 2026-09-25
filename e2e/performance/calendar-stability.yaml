@@ -1,4 +1,4 @@
-appId: com.devmood.pixymoodtracker
+appId: ${APP_ID}
 waitForIdleTimeout: 0
 ---
 - stopApp

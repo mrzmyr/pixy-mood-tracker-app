@@ -22,6 +22,8 @@ import { TagEdit } from "../screens/TagEdit";
 import { SettingsTags, SettingsTagsArchive } from "../screens/Settings/Tags";
 
 import Providers from "@/components/Providers";
+import { SENTRY_DSN } from "@/constants/API";
+import { APP_VARIANT } from "@/constants/AppVariant";
 import Colors from "@/constants/Colors";
 import { initializeDayjs, t } from "@/helpers/translation";
 import { useAnalytics } from "@/hooks/useAnalytics";
@@ -46,7 +48,8 @@ enableScreens();
 // Initialize before the first render so startup errors are reported too.
 if (!__DEV__) {
   Sentry.init({
-    dsn: "https://d98d0f519b324d9cb0c947b8f29cd0cf@o1112922.ingest.sentry.io/6142792",
+    dsn: SENTRY_DSN,
+    environment: APP_VARIANT,
   });
 }
 

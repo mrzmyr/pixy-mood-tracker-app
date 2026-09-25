@@ -1,4 +1,4 @@
-appId: com.devmood.pixymoodtracker
+appId: ${APP_ID}
 ---
 # Creates the first basic entry for today (rating "good", skips optional steps).
 # Assumes fresh state on the Calendar tab.

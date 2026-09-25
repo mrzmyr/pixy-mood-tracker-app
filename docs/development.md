@@ -31,6 +31,20 @@ Android builds need Android SDK packages and JDK 17+. `bun android` resolves `AN
 
 Run `bun ios` or `bun android` without `--device` to select a simulator or emulator.
 
+### App variants
+
+Three variants install side by side, each with its own name, icon, bundle ID, and URL scheme. [`app.config.ts`](../app.config.ts) picks one from `EXPO_PUBLIC_APP_VARIANT`, and fails when it is unset.
+
+| Variant | App | Bundle ID | Scheme | Used for | PostHog / Sentry |
+| --- | --- | --- | --- | --- | --- |
+| `development` | Pixy Dev | `com.devmood.pixymoodtracker.dev` | `pixy-dev` | Dev client with Metro | Preview / off |
+| `preview` | Pixy Preview | `com.devmood.pixymoodtracker.preview` | `pixy-preview` | Release build for e2e and QA | Preview |
+| `production` | Pixy | `com.devmood.pixymoodtracker` | `pixy` | TestFlight, App Store, Google Play | Production |
+
+- `bun ios` and `bun android` build `development`. `bun ios:preview` and `bun android:preview` build a `preview` release. Set `EXPO_PUBLIC_APP_VARIANT` for anything else.
+- TestFlight builds are production builds. Apple promotes the tested TestFlight binary to the App Store.
+- `ios/` and `android/` are generated ([Continuous Native Generation](https://docs.expo.dev/workflow/continuous-native-generation/)). [`scripts/run-native.ts`](../scripts/run-native.ts) reruns `expo prebuild --clean` when the variant or native fingerprint changed since the last prebuild. Never edit these folders.
+
 ### Build cache
 
 `bun ios` and `bun android` cache compiled simulator and emulator debug builds, keyed by the project's native fingerprint. When native code and configuration are unchanged, the cached build is installed and compilation is skipped. JavaScript-only changes never need a new build.
@@ -50,20 +64,15 @@ The provider lives in [`scripts/build-cache-provider.cjs`](../scripts/build-cach
 
 Configured native builds use `EXPO_PUBLIC_SUPERWALL_IOS_API_KEY` and `EXPO_PUBLIC_SUPERWALL_ANDROID_API_KEY`. Development builds can expose the support card without Superwall by setting `EXPO_PUBLIC_PIXY_SUPPORT_FAKE_MODE` to `available` or `failed`. Restart Expo after changing configuration. Production builds ignore fake mode.
 
-**Environments** (`eas.json`)
-
-- `development` Builds for local development on physical devices
-- `emulator`: Builds for local development in iOS Simulator or Android Emulator
-- `preview`: Builds used for TestFlight and Android Internal Testing
-- `production`: Builds used for production
+**EAS profiles** (`eas.json`) set the variant: `development` and `emulator` build `development`, `preview` builds `preview`, `production` builds `production`.
 
 ## Building
 
 ### iOS physical device signing
 
-iOS device builds require Xcode and CocoaPods. Use `DEV_CLIENT=true bun ios --device <device-id>` to build the `Pixy Dev` app with its `.dev` bundle ID. Automatic signing needs an Apple development team and provisioning profile for that bundle ID with Push Notifications enabled. Pixy requests the `aps-environment` entitlement through `expo-notifications`; a wildcard profile without that capability fails during Xcode signing.
+iOS device builds require Xcode and CocoaPods. `bun ios --device <device-id>` builds the `Pixy Dev` app with its `.dev` bundle ID. Automatic signing needs an Apple development team and provisioning profile for that bundle ID with Push Notifications enabled. Pixy requests the `aps-environment` entitlement through `expo-notifications`; a wildcard profile without that capability fails during Xcode signing.
 
-On Macs using Homebrew CocoaPods with RVM, clear RVM's gem paths if `pod` fails to load: `env -u GEM_HOME -u GEM_PATH DEV_CLIENT=true bun ios --device <device-id>`.
+On Macs using Homebrew CocoaPods with RVM, clear RVM's gem paths if `pod` fails to load: `env -u GEM_HOME -u GEM_PATH bun ios --device <device-id>`.
 
 | Environment | OS | Channel | `bun run` command | Extension | Installation |
 | --- | --- | --- | --- | --- | --- |
@@ -71,10 +80,10 @@ On Macs using Homebrew CocoaPods with RVM, clear RVM's gem paths if `pod` fails 
 | `development` | Android | Physical Device | `build:android:dev` | `.apk` | Install manually (enable "Install from unknown sources") |
 | `emulator` | iOS | Simulator | `build:ios:emulator` | `.app` | Accept the EAS prompt to install the build on a running simulator |
 | `emulator` | Android | Emulator | `build:android:emulator` | `.apk` | Install the `.apk` file via drag and drop |
-| `preview` | iOS | TestFlight | `build:ios:preview` | `.ipa` | Submit `.ipa` file to App Store via `bun run submit` (uploads newest `.aab` and `.ipa`) |
-| `preview` | Android | Google Play Console | `build:android:preview` | `.aab` | Submit `.aab` file to Google Play Console via `bun run submit` (uploads newest `.aab` and `.ipa`) |
-| `production` | iOS | Physical Device | `build:ios:prod` | `.ipa` | Submit `.ipa` file via `bun run submit` (uploads newest `.aab` and `.ipa`) |
-| `production` | Android | Physical Device | `build:android:prod` | `.aab` | Submit `.aab` file via `bun run submit` (uploads newest `.aab` and `.ipa`) |
+| `preview` | iOS | Physical Device | `build:ios:preview` | `.ipa` | Internal distribution: register devices with `bunx eas-cli device:create`, then install the `.ipa` |
+| `preview` | Android | Physical Device | `build:android:preview` | `.apk` | Install with `adb install` |
+| `production` | iOS | TestFlight | `build:ios:prod` | `.ipa` | Submit `.ipa` file via `bun run submit` (uploads newest `.aab` and `.ipa`) |
+| `production` | Android | Google Play Console | `build:android:prod` | `.aab` | Submit `.aab` file via `bun run submit` (uploads newest `.aab` and `.ipa`) |
 
 ## Releasing
 

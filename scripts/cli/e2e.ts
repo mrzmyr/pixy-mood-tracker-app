@@ -7,6 +7,8 @@ import fs from "node:fs";
 import path from "node:path";
 import { setTimeout as sleep } from "node:timers/promises";
 
+import { APP_VARIANTS, getAppVariant } from "../../app.config.ts";
+import type { AppVariant } from "../../app.config.ts";
 import { AGENT_DEVICE, agentDevice } from "./agent-device.ts";
 import type { Claim } from "./agent-device.ts";
 import {
@@ -51,6 +53,20 @@ const requirePlatform = (value: string | undefined) => {
     });
   }
   return platform;
+};
+
+const requireVariant = (value = "preview") => {
+  try {
+    return getAppVariant(value);
+  } catch {
+    throw new CliError({
+      exitCode: 2,
+      fix: `Pass --variant ${Object.keys(APP_VARIANTS).join(", --variant ")}.`,
+      message: "Unknown --variant",
+      status: "invalid_variant",
+      why: `--variant is "${value}".`,
+    });
+  }
 };
 
 // Resolves symlinks such as /tmp -> /private/tmp, so paths compare equal.
@@ -119,6 +135,7 @@ const cmdRun = async (
     isForce: boolean;
     isRecord: boolean;
     passthrough: string[];
+    variant: AppVariant;
   }
 ) => {
   if (!options.isForce) {
@@ -140,6 +157,11 @@ const cmdRun = async (
     "default",
     "--reporter",
     REPORTER,
+    // Flows target the installed variant through ${APP_ID} and ${APP_SCHEME}.
+    "--env",
+    `APP_ID=${APP_VARIANTS[options.variant].appId}`,
+    "--env",
+    `APP_SCHEME=${APP_VARIANTS[options.variant].scheme}`,
     ...(options.isRecord ? ["--record-video"] : []),
     ...options.passthrough,
   ];
@@ -251,6 +273,8 @@ e2e/apple on iOS). Paths replace the default.
 --platform ios|android  Required.
 --device <id>           Required. Simulator UDID or Android serial, so the run
                         never lands on another agent's device.
+--variant <name>        App variant installed on the device: preview (default),
+                        development, or production.
 --record                Record every flow to recording.mp4.
 --force                 Run even if another worktree's e2e run or agent-device
                         session uses the device.
@@ -265,6 +289,7 @@ Exits with agent-device's exit code.`,
         device: { type: "string" },
         force: { type: "boolean" },
         record: { type: "boolean" },
+        variant: { type: "string" },
       },
       run: async (paths, values, passthrough) => {
         const platform = requirePlatform(values.platform);
@@ -283,6 +308,7 @@ Exits with agent-device's exit code.`,
           isRecord: values.record ?? false,
           passthrough,
           platform,
+          variant: requireVariant(values.variant),
         });
       },
       summary: "Run e2e flows on a device",
