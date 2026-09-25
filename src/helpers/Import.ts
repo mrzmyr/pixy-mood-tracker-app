@@ -39,7 +39,7 @@ export const pixySchema = z.strictObject({
         .refine((date: LogItem["date"]) => /^\d{4}-\d{2}-\d{2}$/u.test(date)),
       rating: z
         .string()
-        .refine((rating: LogItem["rating"]) => RATING_KEYS.includes(rating)),
+        .refine((rating) => RATING_KEYS.some((key) => key === rating)),
       tags: z.array(
         z.object({
           id: z.string(),

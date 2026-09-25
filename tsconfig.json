@@ -1,9 +1,9 @@
 {
   "extends": "expo/tsconfig.base",
-  "noImplicitAny": false,
   "compilerOptions": {
-    "strictNullChecks": true,
-    "strict": false,
+    "strict": true,
+    // TODO: enable noImplicitAny (80 errors as of 2026-09-25).
+    "noImplicitAny": false,
     "module": "esnext",
     "types": ["jest", "node"],
     "paths": {

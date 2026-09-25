@@ -34,7 +34,7 @@ dayjs.extend(isBetween);
  */
 export const StatisticsScreen = ({
   navigation,
-}: RootStackScreenProps<"Statistics">) => {
+}: Pick<RootStackScreenProps<"Statistics">, "navigation">) => {
   const insets = useSafeAreaInsets();
   const colors = useColors();
   const statistics = useStatistics();

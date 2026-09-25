@@ -65,7 +65,6 @@ const renderSettings = (supportClient: SupportClient) =>
         <SettingsScreen
           // SAFETY: SettingsScreen only calls navigation.navigate, which the mock provides.
           navigation={navigation as never}
-          route={{ key: "settings", name: "Settings" }}
         />
       </Providers>
     </NavigationContainer>

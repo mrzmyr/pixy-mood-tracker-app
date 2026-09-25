@@ -73,7 +73,7 @@ type LogAction =
  */
 export interface UpdaterValue {
   addLog: (item: LogItem) => void;
-  editLog: (item: Partial<LogItem>) => void;
+  editLog: (item: AtLeast<LogItem, "id">) => void;
   updateLogs: (items: LogsState["items"]) => void;
   deleteLog: (id: LogItem["id"]) => void;
   removeTagFromLogs: (tagId: string) => void;
