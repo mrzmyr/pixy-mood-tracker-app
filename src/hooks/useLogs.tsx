@@ -18,6 +18,7 @@ import { v4 as uuidv4 } from "uuid";
 import type z from "zod";
 import type { AtLeast } from "../../types";
 import { useAnalytics } from "./useAnalytics";
+import { createMissingProviderError } from "@/lib/errors";
 
 export const STORAGE_KEY = "PIXEL_TRACKER_LOGS";
 
@@ -315,7 +316,7 @@ function LogsProvider({ children }: { children: React.ReactNode }) {
 function useLogState(): StateValue {
   const context = useContext(LogStateContext);
   if (context === undefined) {
-    throw new Error("useLogState must be used within a LogsProvider");
+    throw createMissingProviderError("useLogState", "LogsProvider");
   }
   return context;
 }
@@ -323,7 +324,7 @@ function useLogState(): StateValue {
 function useLogUpdater(): UpdaterValue {
   const context = useContext(LogUpdaterContext);
   if (context === undefined) {
-    throw new Error("useLogUpdater must be used within a LogsProvider");
+    throw createMissingProviderError("useLogUpdater", "LogsProvider");
   }
   return context;
 }

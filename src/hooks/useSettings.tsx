@@ -12,6 +12,10 @@ import type { ConfigurableLoggerStep } from "@/components/Logger/config";
 import { STEP_OPTIONS } from "@/components/Logger/config";
 import { load, store } from "@/helpers/storage";
 import type { Tag } from "./useTags";
+import {
+  createMissingProviderError,
+  createStructuredError,
+} from "@/lib/errors";
 
 type KnownSettingsStep = ConfigurableLoggerStep | "sleep";
 
@@ -197,7 +201,12 @@ function SettingsProvider({ children }: { children: React.ReactNode }) {
           : !settings.steps.includes(step);
 
         if (!STEP_OPTIONS.includes(step)) {
-          throw new Error(`Step ${step} is not a valid step`);
+          throw createStructuredError({
+            status: "invalid_logger_step",
+            message: `Step ${step} is not a valid step`,
+            why: `Step ${step} is not one of STEP_OPTIONS`,
+            fix: "Pass a step listed in STEP_OPTIONS",
+          });
         }
 
         if (shouldAdd) {
@@ -243,7 +252,7 @@ function SettingsProvider({ children }: { children: React.ReactNode }) {
 function useSettings(): Value {
   const context = useContext(SettingsStateContext);
   if (context === undefined) {
-    throw new Error("useSettings must be used within a SettingsProvider");
+    throw createMissingProviderError("useSettings", "SettingsProvider");
   }
   return context;
 }

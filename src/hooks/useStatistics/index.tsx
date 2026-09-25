@@ -37,6 +37,7 @@ import {
   getSleepQualityDistributionForXDays,
 } from "./SleepQualityDistribution";
 import { DATE_FORMAT } from "@/constants/Config";
+import { createMissingProviderError } from "@/lib/errors";
 
 const DELAY_LOADING = 1 * 1000;
 
@@ -244,7 +245,7 @@ export function StatisticsProvider({
 export function useStatistics(): Value {
   const context = useContext(StatisticsContext);
   if (context === undefined) {
-    throw new Error("useStatistics must be used within a StatisticsProvider");
+    throw createMissingProviderError("useStatistics", "StatisticsProvider");
   }
   return context;
 }

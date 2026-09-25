@@ -13,6 +13,7 @@ import {
 import { useAnalytics } from "./useAnalytics";
 import { useLogUpdater } from "./useLogs";
 import { useSettings } from "./useSettings";
+import { createMissingProviderError } from "@/lib/errors";
 
 export const STORAGE_KEY = "PIXEL_TRACKER_TAGS";
 
@@ -206,7 +207,7 @@ function TagsProvider({ children }: { children: React.ReactNode }) {
 function useTagsState(): StateValue {
   const context = useContext(TagsStateContext);
   if (context === undefined) {
-    throw new Error("useTagsState must be used within a TagsProvider");
+    throw createMissingProviderError("useTagsState", "TagsProvider");
   }
   return context;
 }
@@ -214,7 +215,7 @@ function useTagsState(): StateValue {
 function useTagsUpdater(): UpdaterValue {
   const context = useContext(TagsUpdaterContext);
   if (context === undefined) {
-    throw new Error("useTagsUpdater must be used within a TagsProvider");
+    throw createMissingProviderError("useTagsUpdater", "TagsProvider");
   }
   return context;
 }
