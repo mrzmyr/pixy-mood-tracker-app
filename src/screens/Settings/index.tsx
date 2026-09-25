@@ -30,14 +30,12 @@ import useColors from "../../hooks/useColors";
 import useFeedbackModal from "../../hooks/useFeedbackModal";
 import pkg from "../../../package.json";
 import type { RootStackScreenProps } from "../../../types";
-import { UserDataImportList } from "./UserData";
 import * as Updates from "expo-updates";
 import { Tag } from "lucide-react-native";
 import { useSupport } from "@/support";
 
 /**
- * Settings tab. The support card shows only when a support client is
- * enabled; sample data import is development-only.
+ * Settings tab. The support card shows only when a support client is enabled.
  */
 export const SettingsScreen = ({
   navigation,
@@ -46,11 +44,6 @@ export const SettingsScreen = ({
   const colors = useColors();
   const analytics = useAnalytics();
   const support = useSupport();
-  const developmentUserData = __DEV__ ? (
-    <View testID="settings-development-user-data">
-      <UserDataImportList />
-    </View>
-  ) : null;
 
   const { show: showFeedbackModal, Modal: FeedbackModal } = useFeedbackModal();
 
@@ -250,7 +243,6 @@ export const SettingsScreen = ({
             isLast
           />
         </MenuList>
-        {support.enabled && developmentUserData}
         {support.enabled && <SupportCard />}
         <View
           testID="settings-version"
@@ -279,7 +271,6 @@ export const SettingsScreen = ({
             </Text>
           )}
         </View>
-        {!support.enabled && developmentUserData}
       </ScrollView>
     </View>
   );
