@@ -1,48 +1,70 @@
-// `bun dashboard`: a local web view of devices, e2e sessions, and cached
-// builds. Serves dashboard.html, a JSON snapshot of the state the CLIs read,
-// session logs, reports, and recordings. Actions run the same CLI commands
-// (`bun builds prune`, `bun sessions kill`, ...) so behavior never diverges.
+// `bun dashboard`: a local web view of devices, e2e runs, and cached builds.
+// Devices and their owners come from agent-device (`devices`, `device status`),
+// e2e runs from the run.json that scripts/cli/e2e-reporter.mjs writes into
+// each worktree's .agent-device/test-artifacts, and builds from `bun builds`.
+// Actions run the same commands (`bun builds prune`, `agent-device close`, ...)
+// so behavior never diverges.
 import fs from "node:fs";
 import path from "node:path";
 import { parseArgs } from "node:util";
 
-import { listBuilds, toBuildId } from "./builds.ts";
-import { listDevices, readInstall, readLeases } from "./devices.ts";
-import {
-  getStaleReason,
-  readBuildFromLog,
-  readSessions,
-} from "./session-store.ts";
-import {
-  CliError,
-  DEFAULT_MAX_AGE,
-  parseDuration,
-  readJson,
-} from "./shared.ts";
-import type { Session, SessionBuild } from "./shared.ts";
+import { listBuilds } from "./builds.ts";
+import { CliError, isProcessAlive, readJson, tryRun } from "./shared.ts";
 
-interface ReportFlow {
-  name: string;
-  sourceFile: string;
+type Platform = "ios" | "android";
+
+interface RunFlow {
+  artifactsDir: string;
+  attempts: number;
+  durationMs: number | null;
+  file: string;
+  message: string | null;
   status: string;
-  duration?: number;
-  assetsDir?: string;
+  video: string | null;
 }
 
-interface Report {
-  summary?: Record<string, number>;
-  flows?: ReportFlow[];
-  device?: { osVersion?: string };
-  app?: { id?: string; version?: string; build?: string };
-  maestroRunner?: { version?: string; driver?: string };
+// Written by scripts/cli/e2e-reporter.mjs.
+interface Run {
+  branch: string;
+  deviceId: string | null;
+  finishedAt: string | null;
+  flows: RunFlow[];
+  id: string;
+  pid: number;
+  platform: Platform | null;
+  startedAt: string;
+  status: "running" | "passed" | "failed";
+  worktree: string;
+}
+
+interface AgentDevice {
+  id: string;
+  name: string;
+  platform: string;
+  kind: "simulator" | "emulator" | "device";
+  booted?: boolean;
+}
+
+interface Claim {
+  classification: string;
+  device: AgentDevice;
+  owner: { session: string; workspace: string; pid: number; startTime: string };
 }
 
 const DEFAULT_PORT = 4848;
 const HTML_FILE = path.join(import.meta.dir, "dashboard.html");
 const CLI_FILE = path.join(import.meta.dir, "index.ts");
 const REPO_ROOT = path.resolve(import.meta.dir, "../..");
+const AGENT_DEVICE = path.join(
+  REPO_ROOT,
+  "node_modules",
+  ".bin",
+  "agent-device"
+);
+const ARTIFACTS_DIR = path.join(".agent-device", "test-artifacts");
 const PR_CACHE_MS = 60_000;
-// Device, session, and build IDs: UUIDs, serials, emulator-5554, avd:name.
+// Device IDs, run IDs, and agent-device session addresses
+// (cwd:<hash>:android, UUIDs, serials, emulator-5554).
 const SAFE_ID = /^[\w.:-]+$/u;
 // Browsers send this header only from same-origin scripts; cross-site pages
 // would need a CORS preflight, which this server never answers.
@@ -63,59 +85,113 @@ interface ErrorFields {
   fix: string;
 }
 
-const errorResponse = (httpStatus: number, fields: ErrorFields) =>
-  Response.json(fields, { status: httpStatus });
+// Copies the fields; Error#message is not enumerable, so CliError alone
+// would serialize without it.
+const errorResponse = (
+  httpStatus: number,
+  { fix, message, status, why }: ErrorFields
+) => Response.json({ fix, message, status, why }, { status: httpStatus });
 
-const sessionBuilds = new Map<string, SessionBuild>();
-
-// Sessions record their build since `bun sessions run` saves it; older ones
-// fall back to their log, parsed once after they finish.
-const getSessionBuild = (session: Session) => {
-  if (session.build) {
-    return session.build;
+// Runs agent-device with --json and returns its data, or throws its error.
+const agentDevice = async <T>(args: string[]): Promise<T> => {
+  const child = Bun.spawn([AGENT_DEVICE, ...args, "--json"], {
+    cwd: REPO_ROOT,
+    stderr: "pipe",
+    stdout: "pipe",
+  });
+  const [stdout, stderr] = await Promise.all([
+    new Response(child.stdout).text(),
+    new Response(child.stderr).text(),
+    child.exited,
+  ]);
+  let body: {
+    success?: boolean;
+    data?: T;
+    error?: { code?: string; message?: string; hint?: string };
+  } | null = null;
+  try {
+    // SAFETY: agent-device --json prints one { success, data | error } object.
+    body = JSON.parse(stdout);
+  } catch {
+    body = null;
   }
-  const cached = sessionBuilds.get(session.id);
-  if (cached && session.finishedAt) {
-    return cached;
+  if (body?.success && body.data !== undefined) {
+    return body.data;
   }
-  const build = readBuildFromLog(session.logFile);
-  sessionBuilds.set(session.id, build);
-  return build;
+  throw new CliError({
+    fix:
+      body?.error?.hint ??
+      `Run \`bunx agent-device ${args.join(" ")}\` in a terminal to see the full output.`,
+    message: body?.error?.message ?? `agent-device ${args[0]} failed`,
+    status: body?.error?.code?.toLowerCase() ?? "agent_device_failed",
+    why: stderr.trim() || "agent-device returned no JSON result.",
+  });
 };
 
-// Adds the maestro-runner report summary, per-flow recordings, and the
-// build and device the session used.
-const describeSession = (session: Session, maxAgeMs: number) => {
-  const report = readJson<Report>(path.join(session.reportDir, "report.json"));
-  const flows = (report?.flows ?? []).map((flow) => {
-    const video = flow.assetsDir
-      ? path.join(flow.assetsDir, "recording.mp4")
-      : null;
-    return {
-      duration: flow.duration ?? null,
-      name: flow.name,
-      sourceFile: flow.sourceFile,
-      status: flow.status,
-      video:
-        video && fs.existsSync(path.join(session.reportDir, video))
-          ? video
-          : null,
-    };
+// Every checkout of this repo, so runs from all worktrees show up.
+const listWorktrees = () =>
+  (tryRun("git", ["-C", REPO_ROOT, "worktree", "list", "--porcelain"]) ?? "")
+    .split("\n")
+    .filter((line) => line.startsWith("worktree "))
+    .map((line) => line.slice("worktree ".length));
+
+const runDir = (run: Run) => path.join(run.worktree, ARTIFACTS_DIR, run.id);
+
+const readRuns = () =>
+  listWorktrees().flatMap((worktree) => {
+    const root = path.join(worktree, ARTIFACTS_DIR);
+    return fs.existsSync(root)
+      ? fs
+          .readdirSync(root)
+          .map((id) => readJson<Run>(path.join(root, id, "run.json")))
+          .filter((run): run is Run => run !== null)
+      : [];
   });
-  const build = getSessionBuild(session);
+
+const toKind = (device: AgentDevice) =>
+  device.kind === "device" ? "physical" : device.kind;
+
+const toState = (device: AgentDevice) => {
+  if (device.kind === "device") {
+    return "connected";
+  }
+  return device.booted ? "booted" : "shutdown";
+};
+
+// A run whose CLI process died never wrote its final status.
+const getStaleReason = (run: Run) =>
+  run.status === "running" && !isProcessAlive(run.pid)
+    ? "its agent-device process exited without a result"
+    : null;
+
+// Adds device details and the per-flow results the dashboard renders.
+const describeRun = (run: Run, devices: AgentDevice[]) => {
+  const device = devices.find((candidate) => candidate.id === run.deviceId);
   return {
-    ...session,
-    app: report?.app ?? null,
-    build: {
-      ...build,
-      id: build.key ? toBuildId(build.key) : null,
-    },
-    flowResults: flows,
-    osVersion: report?.device?.osVersion ?? null,
-    runner: report?.maestroRunner ?? null,
-    hasReport: fs.existsSync(path.join(session.reportDir, "report.html")),
-    staleReason: getStaleReason(session, maxAgeMs),
-    summary: report?.summary ?? null,
+    branch: run.branch,
+    deviceId: run.deviceId ?? "",
+    deviceName: device?.name ?? run.deviceId ?? "Auto-selected device",
+    finishedAt: run.finishedAt,
+    flowResults: run.flows.map((flow) => ({
+      duration: flow.durationMs,
+      name: path.basename(flow.file),
+      result: path.join(
+        flow.artifactsDir,
+        `attempt-${flow.attempts || 1}`,
+        "result.txt"
+      ),
+      sourceFile: flow.file,
+      status: flow.status,
+      video: flow.video,
+    })),
+    flows: run.flows.map((flow) => flow.file),
+    id: run.id,
+    kind: device ? toKind(device) : "simulator",
+    platform: run.platform ?? device?.platform ?? "ios",
+    staleReason: getStaleReason(run),
+    startedAt: run.startedAt,
+    status: run.status,
+    worktree: run.worktree,
   };
 };
 
@@ -166,25 +242,38 @@ const refreshPullRequests = async () => {
   }
 };
 
-const getState = () => {
+const getState = async () => {
   void refreshPullRequests();
-  const maxAgeMs = parseDuration(DEFAULT_MAX_AGE);
-  const sessions = readSessions()
-    .toReversed()
-    .map((session) => describeSession(session, maxAgeMs));
-  const leases = new Map(readLeases().map((lease) => [lease.deviceId, lease]));
-  const devices = listDevices().map((device) => {
-    const install = readInstall(device.id);
+  const [{ devices: all }, { claims }] = await Promise.all([
+    agentDevice<{ devices: AgentDevice[] }>(["devices"]),
+    agentDevice<{ claims: Claim[] }>(["device", "status"]),
+  ]);
+  // agent-device also lists the Mac itself and TV targets.
+  const found = all.filter(
+    (device) => device.platform === "ios" || device.platform === "android"
+  );
+  const sessions = readRuns()
+    .map((run) => describeRun(run, found))
+    .toSorted((a, b) => b.startedAt.localeCompare(a.startedAt));
+  const devices = found.map((device) => {
+    const claim = claims.find((candidate) => candidate.device.id === device.id);
+    // Test sessions are named <workspace>:<platform>:test:<run-id>:...
+    const runId = claim?.owner.session.split(":test:")[1]?.split(":")[0];
     return {
-      ...device,
-      install: install ? { ...install, id: toBuildId(install.key) } : null,
-      lease: leases.get(device.id) ?? null,
-      sessionId:
-        sessions.find(
-          (session) =>
-            session.deviceId === device.id &&
-            (session.status === "building" || session.status === "running")
-        )?.id ?? null,
+      claim: claim
+        ? {
+            classification: claim.classification,
+            session: claim.owner.session,
+            since: new Date(claim.owner.startTime).toISOString(),
+            worktree: claim.owner.workspace,
+          }
+        : null,
+      id: device.id,
+      kind: toKind(device),
+      name: device.name,
+      platform: device.platform,
+      sessionId: runId ?? null,
+      state: toState(device),
     };
   });
   const builds = listBuilds().toSorted((a, b) =>
@@ -199,8 +288,7 @@ const getState = () => {
   };
 };
 
-const findSession = (id: string) =>
-  readSessions().find((session) => session.id === id) ?? null;
+const findRun = (id: string) => readRuns().find((run) => run.id === id) ?? null;
 
 // Serves a file from inside `root` only; rejects paths that escape it.
 const serveFile = (root: string, relative: string) => {
@@ -210,49 +298,42 @@ const serveFile = (root: string, relative: string) => {
       fix: "Use a link from the dashboard.",
       message: "Invalid file path",
       status: "invalid_path",
-      why: `${relative} points outside the session report.`,
+      why: `${relative} points outside the run's artifacts.`,
     });
   }
   if (!fs.existsSync(file) || fs.statSync(file).isDirectory()) {
     return errorResponse(404, {
-      fix: "Run `bun sessions list --all` to check the session still exists.",
+      fix: "Rerun the flow with `bun e2e`. Delete .agent-device/test-artifacts to drop old runs.",
       message: "File not found",
       status: "file_not_found",
-      why: `${relative} does not exist in the session report.`,
+      why: `${relative} does not exist in the run's artifacts.`,
     });
   }
-  return new Response(Bun.file(file));
+  return new Response(Bun.file(file), {
+    headers:
+      file.endsWith(".txt") || file.endsWith(".json")
+        ? { "content-type": "text/plain; charset=utf-8" }
+        : {},
+  });
 };
 
 const handleSession = (url: URL) => {
-  // /sessions/<id>/<kind>/<file...>
+  // /sessions/<run-id>/<kind>/<file...>
   const [id = "", kind = "", ...rest] = url.pathname.split("/").slice(2);
-  const session = findSession(decodeURIComponent(id));
-  if (!session) {
+  const run = findRun(decodeURIComponent(id));
+  if (!run) {
     return errorResponse(404, {
-      fix: "Run `bun sessions list --all` to find a session ID.",
-      message: `Session ${id} not found`,
-      status: "session_not_found",
-      why: "No session record has this ID. `bun sessions gc` removes sessions after 7 days.",
+      fix: "Reload the dashboard to see the current runs.",
+      message: `Run ${id} not found`,
+      status: "run_not_found",
+      why: "No worktree has a run.json for this ID in .agent-device/test-artifacts.",
     });
   }
   if (kind === "log") {
-    return fs.existsSync(session.logFile)
-      ? new Response(Bun.file(session.logFile), {
-          headers: { "content-type": "text/plain; charset=utf-8" },
-        })
-      : errorResponse(404, {
-          fix: "Rerun the session to create a new log.",
-          message: "Log not found",
-          status: "log_not_found",
-          why: `${session.logFile} does not exist.`,
-        });
+    return serveFile(runDir(run), "run.json");
   }
   if (kind === "report") {
-    return serveFile(
-      session.reportDir,
-      decodeURIComponent(rest.join("/") || "report.html")
-    );
+    return serveFile(runDir(run), decodeURIComponent(rest.join("/")));
   }
   return null;
 };
@@ -322,11 +403,21 @@ const FOCUS_SCRIPT = `on run argv
 end run`;
 
 // Brings a simulator or emulator window to the front.
+const findDevice = async (id: string) => {
+  const { devices } = await agentDevice<{ devices: AgentDevice[] }>([
+    "devices",
+  ]);
+  return devices.find((candidate) => candidate.id === id) ?? null;
+};
+
 const focusDevice = async (id: string) => {
-  const device = listDevices().find((candidate) => candidate.id === id);
+  const found = await findDevice(id);
+  const device = found
+    ? { ...found, kind: toKind(found), state: toState(found) }
+    : null;
   if (!device || device.kind === "physical" || device.state !== "booted") {
     return errorResponse(400, {
-      fix: "Boot the device with `bun devices boot <id>` first.",
+      fix: "Boot the device with `bunx agent-device boot --platform <ios|android> --device <name>` first.",
       message: "Device has no window",
       status: "focus_unavailable",
       why: "Only booted simulators and emulators have a window to show.",
@@ -362,12 +453,73 @@ const focusDevice = async (id: string) => {
   });
 };
 
+// Runs an agent-device action and maps its result to a response.
+const runAgentDevice = async (args: string[], output: string) => {
+  try {
+    await agentDevice(args);
+    return Response.json({ output });
+  } catch (error) {
+    return errorResponse(
+      500,
+      error instanceof CliError
+        ? error
+        : {
+            fix: `Run \`bunx agent-device ${args.join(" ")}\` in a terminal.`,
+            message: String(error),
+            status: "agent_device_failed",
+            why: "agent-device could not run.",
+          }
+    );
+  }
+};
+
+// Shuts down an idle simulator or emulator. agent-device refuses devices a
+// session still holds; release those first.
+const shutdownDevice = async (id: string) => {
+  const device = await findDevice(id);
+  if (!device) {
+    return errorResponse(404, {
+      fix: "Reload the dashboard to see the current devices.",
+      message: `Device ${id} not found`,
+      status: "device_not_found",
+      why: "agent-device does not list this device.",
+    });
+  }
+  const selector = device.platform === "ios" ? "--udid" : "--serial";
+  return runAgentDevice(
+    ["shutdown", "--platform", device.platform, selector, id],
+    `Shut down ${device.name}`
+  );
+};
+
+// Stops a running `bun e2e` the same way Ctrl+C does.
+const killRun = (id: string) => {
+  const run = findRun(id);
+  if (!run || run.status !== "running" || !isProcessAlive(run.pid)) {
+    return Promise.resolve(
+      errorResponse(404, {
+        fix: "Reload the dashboard. Finished runs cannot be stopped.",
+        message: `No running e2e run ${id}`,
+        status: "run_not_running",
+        why: "The run finished or its agent-device process already exited.",
+      })
+    );
+  }
+  process.kill(run.pid, "SIGINT");
+  return Promise.resolve(Response.json({ output: `Stopping run ${id}` }));
+};
+
 const ACTIONS = new Map<string, (id: string) => Promise<Response>>([
   ["builds/prune", () => runCli(["builds", "prune"])],
   ["builds/rm", (id) => runCli(["builds", "rm", id])],
   ["devices/focus", focusDevice],
-  ["devices/shutdown", (id) => runCli(["devices", "shutdown", id])],
-  ["sessions/kill", (id) => runCli(["sessions", "kill", id])],
+  [
+    "devices/release",
+    (address) =>
+      runAgentDevice(["close", "--session", address], `Released ${address}`),
+  ],
+  ["devices/shutdown", shutdownDevice],
+  ["sessions/kill", killRun],
 ]);
 
 // POST /api/<noun>/<verb>[/<id>]
@@ -411,9 +563,9 @@ const handle = (request: Request) => {
     return handleAction(request, url);
   }
   if (url.pathname === "/api/state") {
-    return Response.json(getState(), {
-      headers: { "cache-control": "no-store" },
-    });
+    return getState().then((state) =>
+      Response.json(state, { headers: { "cache-control": "no-store" } })
+    );
   }
   if (url.pathname.startsWith("/sessions/")) {
     const response = handleSession(url);
@@ -425,7 +577,7 @@ const handle = (request: Request) => {
     fix: "Open the dashboard at /.",
     message: `No route for ${url.pathname}`,
     status: "not_found",
-    why: "The dashboard serves /, /api/state, POST /api/<noun>/<verb>, and /sessions/<id>/log|report.",
+    why: "The dashboard serves /, /api/state, POST /api/<noun>/<verb>, and /sessions/<run-id>/log|report.",
   });
 };
 
@@ -451,12 +603,17 @@ try {
       try {
         return await handle(request);
       } catch (error) {
-        return errorResponse(500, {
-          fix: "Reload the page. If it fails again, run `bun devices list` to see the underlying error.",
-          message: error instanceof Error ? error.message : String(error),
-          status: "state_read_failed",
-          why: "Reading devices, sessions, or builds failed.",
-        });
+        return errorResponse(
+          500,
+          error instanceof CliError
+            ? error
+            : {
+                fix: "Reload the page. If it fails again, run `bunx agent-device devices` to see the underlying error.",
+                message: error instanceof Error ? error.message : String(error),
+                status: "state_read_failed",
+                why: "Reading devices, e2e runs, or builds failed.",
+              }
+        );
       }
     },
     // Local state and file paths only; never expose beyond this machine.

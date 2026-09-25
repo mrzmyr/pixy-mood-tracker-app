@@ -171,7 +171,7 @@ const getFingerprint = async (worktree: string) => {
   return hash;
 };
 
-// Mirrors the options `bun sessions run --build` and `bun ios` pass to Expo.
+// Mirrors the options `bun ios` and `bun android` pass to Expo for debug and release builds.
 const getRunOptions = (platform: Platform, isRelease: boolean): RunOptions => {
   if (platform === "android") {
     return { variant: isRelease ? "release" : "debug" };

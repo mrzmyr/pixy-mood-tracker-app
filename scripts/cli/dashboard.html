@@ -446,14 +446,14 @@
       </header>
 
       <main>
-        <h1>Devices, sessions, and builds</h1>
+        <h1>Devices, e2e runs, and builds</h1>
         <p class="summary" id="summary">Reading local state…</p>
         <div id="error" hidden class="error" role="alert"></div>
 
         <section aria-labelledby="sessions-title">
           <div class="section-head">
             <h2 id="sessions-title">
-              Sessions<span class="count" id="sessions-count"></span>
+              E2E runs<span class="count" id="sessions-count"></span>
             </h2>
             <button type="button" id="sessions-toggle"></button>
           </div>
@@ -592,15 +592,13 @@
           kind === "pulse" ? "dot pulse" : kind === "ring" ? "dot" : "dot on";
         return `<span class="status tone-${tone}"${attr}><span class="${dot}"></span>${label}</span>`;
       };
-      const isActive = (s) => s.status === "building" || s.status === "running";
+      const isActive = (s) => s.status === "running";
 
       // [tone, label, kind] for a session's status.
       const sessionTone = (s) => {
         if (s.staleReason) return ["warn", "Stale", "ring"];
         if (s.status === "failed") return ["bad", "Failed", "dot"];
-        if (s.status === "killed") return ["idle", "Killed", "ring"];
         if (s.status === "passed") return ["ok", "Passed", "dot"];
-        if (s.status === "building") return ["warn", "Building", "pulse"];
         return ["info", "Running", "pulse"];
       };
       const sessionStatus = (s) => {
@@ -637,35 +635,8 @@
       const table = (head, rows, widths) =>
         `<table><colgroup>${widths.map((w) => (w ? `<col style="width: ${w}">` : "<col>")).join("")}</colgroup><thead><tr>${head.map((h) => `<th scope="col">${h}</th>`).join("")}</tr></thead><tbody>${rows.join("")}</tbody></table>`;
 
-      const BUILD_SOURCES = {
-        built: "built for this session",
-        cache: "from build cache",
-        installed: "already on the device",
-      };
-
-      // Build and device a session used, for the expanded row.
+      // Device a run used, for the expanded row.
       const sessionMeta = (s) => {
-        const b = s.build ?? { source: "installed" };
-        const cached = b.key ? state.builds.find((x) => x.key === b.key) : null;
-        const buildParts = [
-          b.id ? `<span class="mono">${esc(b.id)}</span>` : "",
-          `<span class="muted">${BUILD_SOURCES[b.source] ?? esc(b.source)}</span>`,
-          b.version || s.app?.version
-            ? `<span class="muted">app ${esc(b.version ?? s.app.version)}</span>`
-            : "",
-          b.installedBy
-            ? `<span class="muted">installed by session <span class="mono">${esc(b.installedBy)}</span></span>`
-            : "",
-          !b.key && b.source === "installed"
-            ? `<span class="faint">build not recorded</span>`
-            : "",
-          cached?.meta?.commit
-            ? `<span class="mono">${esc(cached.meta.branch || "detached")}</span> <span class="faint mono">${esc(cached.meta.commit.slice(0, 7))}${cached.meta.isDirty ? "+dirty" : ""}</span> ${cached.meta.branch ? prChip(cached.meta.branch) : ""}`
-            : "",
-          b.key && !cached
-            ? `<span class="faint">no longer in cache</span>`
-            : "",
-        ].filter(Boolean);
         const device = state.devices.find((d) => d.id === s.deviceId);
         const deviceName =
           device && canFocus(device)
@@ -674,23 +645,21 @@
         const deviceParts = [
           `${platformLabel(s.platform)} ${deviceName}`,
           kindLabel(s.kind),
-          s.osVersion
-            ? `<span class="muted">${s.platform === "ios" ? "iOS" : "API"} ${esc(s.osVersion)}</span>`
+          s.deviceId
+            ? `<span class="faint mono">${esc(s.deviceId)}</span>`
             : "",
-          `<span class="faint mono">${esc(s.deviceId)}</span>`,
           device
             ? deviceState(device)
             : `<span class="faint">no longer available</span>`,
         ].filter(Boolean);
-        const runner = s.runner?.version
-          ? `<dt>Runner</dt><dd>maestro-runner ${esc(s.runner.version)}${s.runner.driver ? ` <span class="muted">${esc(s.runner.driver)}</span>` : ""}</dd>`
-          : "";
         return `<dl class="meta">
-          <dt>Build</dt><dd>${buildParts.join(" · ")}</dd>
           <dt>Device</dt><dd>${deviceParts.join(" · ")}</dd>
-          ${runner}
+          <dt>Worktree</dt><dd><span class="mono">${esc(s.worktree)}</span></dd>
         </dl>`;
       };
+
+      const artifactUrl = (id, file) =>
+        `/sessions/${encodeURIComponent(id)}/report/${file.split("/").map(encodeURIComponent).join("/")}`;
 
       const renderSessions = () => {
         const all = state.sessions;
@@ -710,7 +679,7 @@
             : "";
         if (shown.length === 0) {
           $("sessions").innerHTML =
-            `<p class="empty">No sessions. Start one with <span class="mono">bun sessions run &lt;device-id&gt;</span>.</p>`;
+            `<p class="empty">No e2e runs. Start one with <span class="mono">bun e2e --platform ios</span>.</p>`;
           return;
         }
         const rows = shown.map((s) => {
@@ -722,16 +691,13 @@
                   "sessions/kill",
                   s.id,
                   "Kill",
-                  `Kill session ${s.id} on ${s.deviceName}? Its test processes stop.`
+                  `Stop run ${s.id} on ${s.deviceName}?`
                 )
               : "",
-            `<a href="/sessions/${encodeURIComponent(s.id)}/log" target="_blank" rel="noreferrer">Log</a>`,
-            s.hasReport
-              ? `<a href="/sessions/${encodeURIComponent(s.id)}/report/" target="_blank" rel="noreferrer">Report</a>`
-              : "",
+            `<a href="/sessions/${encodeURIComponent(s.id)}/log" target="_blank" rel="noreferrer">Run</a>`,
           ].join("");
           const row = `<tr class="row">
-            <td class="nowrap"><button type="button" data-expand="${esc(s.id)}" aria-expanded="${open}" aria-label="Flows of ${esc(s.id)}"><span class="expand">${open ? "−" : "+"}</span><span class="mono">${esc(s.id)}</span></button></td>
+            <td class="nowrap"><button type="button" data-expand="${esc(s.id)}" aria-expanded="${open}" aria-label="Flows of run ${esc(s.id)}"><span class="expand">${open ? "−" : "+"}</span><span class="mono">${esc(s.id)}</span></button></td>
             <td>${sessionDot(s)}</td>
             <td class="fill"><div class="cell" title="${esc(s.deviceName)}">${platformLabel(s.platform)}<span class="truncate">${esc(s.deviceName)}</span></div></td>
             <td class="nowrap">${kindIcon(s.kind)}</td>
@@ -746,11 +712,11 @@
                   (f) => `${flowStatus(f.status)}
                   <span>${esc(f.name)} <span class="faint mono">${esc(f.sourceFile)}</span></span>
                   <span class="muted">${duration(f.duration)}</span>
-                  <span>${
+                  <span class="links">${
                     f.video
-                      ? `<a href="/sessions/${encodeURIComponent(s.id)}/report/${f.video.split("/").map(encodeURIComponent).join("/")}" target="_blank" rel="noreferrer">Video</a>`
+                      ? `<a href="${artifactUrl(s.id, f.video)}" target="_blank" rel="noreferrer">Video</a>`
                       : `<span class="faint">No video</span>`
-                  }</span>`
+                  }<a href="${artifactUrl(s.id, f.result)}" target="_blank" rel="noreferrer">Result</a></span>`
                 )
                 .join("")
             : s.flows
@@ -762,7 +728,7 @@
           return `${row}<tr class="detail"><td colspan="7"><div class="detail-box">${sessionMeta(s)}<div class="flows">${flows}</div></div></td></tr>`;
         });
         $("sessions").innerHTML = table(
-          ["Session", "Status", "Device", "Type", "Branch", "Started", ""],
+          ["Run", "Status", "Device", "Type", "Branch", "Started", ""],
           rows,
           ["150px", "64px", null, "56px", null, "170px", "150px"]
         );
@@ -772,8 +738,6 @@
         booted: ["ok", "Booted", "dot"],
         connected: ["link", "Connected", "dot"],
         shutdown: ["idle", "Shut down", "ring"],
-        unauthorized: ["warn", "Not trusted", "outline"],
-        unavailable: ["idle", "Unavailable", "ring"],
       };
       const deviceState = (d) => {
         const [tone, label, kind] = DEVICE_STATES[d.state] ?? [
@@ -783,54 +747,34 @@
         ];
         return indicator(tone, label, kind);
       };
-      // Attached or running; untrusted phones count so their fix stays visible.
-      const isOnline = (d) =>
-        d.state === "booted" ||
-        d.state === "connected" ||
-        d.state === "unauthorized";
+      // Attached phones and running simulators or emulators.
+      const isOnline = (d) => d.state === "booted" || d.state === "connected";
 
       // Booted simulators and emulators have a window and can be shut down.
       const canFocus = (d) => d.kind !== "physical" && d.state === "booted";
 
       const DEVICE_SESSIONS = 10;
 
-      // Installed build and recent sessions of a device, for the expanded row.
+      // Recent e2e runs on a device, for the expanded row.
       const deviceSessions = (d) => {
         const list = state.sessions.filter((s) => s.deviceId === d.id);
-        // Older sessions predate install records; their log still names the build.
-        const lastBuilt = list.find(
-          (s) => s.build?.id && s.build.source !== "installed"
-        );
-        const installed = d.install
-          ? {
-              at: d.install.installedAt,
-              id: d.install.id,
-              sessionId: d.install.sessionId,
-            }
-          : lastBuilt
-            ? {
-                at: lastBuilt.startedAt,
-                id: lastBuilt.build.id,
-                sessionId: lastBuilt.id,
-              }
-            : null;
-        const install = installed
-          ? `<span class="mono">${esc(installed.id)}</span> <span class="muted">· by session <span class="mono">${esc(installed.sessionId)}</span> · ${ago(installed.at)}</span>`
-          : `<span class="faint">No build installed by \`bun sessions run --build\`</span>`;
         const lines = list.slice(0, DEVICE_SESSIONS).map((s) => {
           const end = s.finishedAt ? Date.parse(s.finishedAt) : Date.now();
           return `${sessionStatus(s)}
             <span class="cell"><span class="mono">${esc(s.id)}</span> <span class="truncate mono">${esc(s.branch)}</span>${prChip(s.branch)}</span>
-            <span class="mono muted">${esc(s.build?.id ?? (s.build?.version || s.app?.version ? `app ${s.build?.version ?? s.app.version}` : "–"))}</span>
+            <span class="mono muted">${esc(`${s.flows.length} flows`)}</span>
             <span class="muted">${ago(s.startedAt)} · ${duration(end - Date.parse(s.startedAt))}</span>
-            <a href="/sessions/${encodeURIComponent(s.id)}/log" target="_blank" rel="noreferrer">Log</a>`;
+            <a href="/sessions/${encodeURIComponent(s.id)}/log" target="_blank" rel="noreferrer">Run</a>`;
         });
         const more =
           list.length > DEVICE_SESSIONS
-            ? `<p class="meta-more faint">${list.length - DEVICE_SESSIONS} older sessions</p>`
+            ? `<p class="meta-more faint">${list.length - DEVICE_SESSIONS} older runs</p>`
             : "";
-        return `<dl class="meta"><dt>Installed</dt><dd>${install}</dd></dl>
-          ${lines.length ? `<div class="flows device-sessions">${lines.join("")}</div>${more}` : `<p class="meta-more faint">No sessions on this device.</p>`}`;
+        const claim = d.claim
+          ? `<dl class="meta"><dt>Held by</dt><dd><span class="mono">${esc(d.claim.session)}</span> <span class="muted">· ${esc(d.claim.worktree)} · ${ago(d.claim.since)}</span></dd></dl>`
+          : "";
+        return `${claim}
+          ${lines.length ? `<div class="flows device-sessions">${lines.join("")}</div>${more}` : `<p class="meta-more faint">No e2e runs on this device.</p>`}`;
       };
 
       const renderDevices = () => {
@@ -851,28 +795,52 @@
             : "";
         if (shown.length === 0) {
           $("devices").innerHTML =
-            `<p class="empty">No running devices. Start one with <span class="mono">bun devices create --platform ios</span>.</p>`;
+            `<p class="empty">No running devices. Boot one with <span class="mono">bunx agent-device boot --platform ios --device "iPhone 17 Pro"</span>.</p>`;
           return;
         }
         const sessions = new Map(state.sessions.map((s) => [s.id, s]));
         const rows = shown.map((d) => {
           const session = d.sessionId ? sessions.get(d.sessionId) : null;
+          const holder = session
+            ? indicator(
+                "info",
+                `<span class="mono">${esc(session.id)}</span>`,
+                "pulse"
+              )
+            : d.claim
+              ? indicator("warn", "agent-device", "pulse", d.claim.session)
+              : `<span class="faint">Idle</span>`;
+          const action = d.claim
+            ? actionButton(
+                "devices/release",
+                d.claim.session,
+                "Release",
+                `Release ${d.name}? Session ${d.claim.session} closes.`
+              )
+            : canFocus(d)
+              ? actionButton(
+                  "devices/shutdown",
+                  d.id,
+                  "Shut down",
+                  `Shut down ${d.name}?`
+                )
+              : "";
           const key = `device:${d.id}`;
           const open = view.expanded.has(key);
           const row = `<tr class="row">
-            <td class="fill"><div class="cell" title="${esc(`${d.name}\n${d.id}`)}"><button type="button" data-expand="${esc(key)}" aria-expanded="${open}" aria-label="Sessions on ${esc(d.name)}"><span class="expand">${open ? "−" : "+"}</span></button>${platformLabel(d.platform)}${canFocus(d) ? `<button type="button" class="focus" data-action="devices/focus" data-id="${esc(d.id)}" title="Bring window to front">${esc(d.name)}</button>` : `<span class="truncate">${esc(d.name)}</span>`}<span class="truncate faint mono">${esc(d.id)}</span></div></td>
+            <td class="fill"><div class="cell" title="${esc(`${d.name}\n${d.id}`)}"><button type="button" data-expand="${esc(key)}" aria-expanded="${open}" aria-label="E2E runs on ${esc(d.name)}"><span class="expand">${open ? "−" : "+"}</span></button>${platformLabel(d.platform)}${canFocus(d) ? `<button type="button" class="focus" data-action="devices/focus" data-id="${esc(d.id)}" title="Bring window to front">${esc(d.name)}</button>` : `<span class="truncate">${esc(d.name)}</span>`}<span class="truncate faint mono">${esc(d.id)}</span></div></td>
             <td>${deviceState(d)}</td>
             <td class="nowrap">${kindIcon(d.kind)}</td>
-            <td class="fill">${d.lease ? `<div class="truncate">${esc(base(d.lease.worktree))} <span class="faint">· ${ago(d.lease.bootedAt)}</span></div>` : `<span class="faint">–</span>`}</td>
-            <td class="nowrap">${session ? indicator(session.status === "building" ? "warn" : "info", `<span class="mono">${esc(session.id)}</span>`, "pulse") : `<span class="faint">Idle</span>`}</td>
-            <td class="nowrap">${canFocus(d) ? actionButton("devices/shutdown", d.id, "Shut down", `Shut down ${d.name}?${session ? ` Session ${session.id} is still running on it.` : ""} Simulators made by \`bun devices create\` are deleted.`) : ""}</td>
+            <td class="fill">${d.claim ? `<div class="truncate" title="${esc(d.claim.worktree)}">${esc(base(d.claim.worktree))} <span class="faint">· ${ago(d.claim.since)}</span></div>` : `<span class="faint">–</span>`}</td>
+            <td class="nowrap">${holder}</td>
+            <td class="nowrap">${action}</td>
           </tr>`;
           return open
             ? `${row}<tr class="detail"><td colspan="6"><div class="detail-box">${deviceSessions(d)}</div></td></tr>`
             : row;
         });
         $("devices").innerHTML = table(
-          ["Device", "State", "Type", "Owner", "Session", ""],
+          ["Device", "State", "Type", "Owner", "Run", ""],
           rows,
           [null, "130px", "56px", "26%", "140px", "96px"]
         );
@@ -883,7 +851,7 @@
         $("builds-count").textContent = builds.length;
         if (builds.length === 0) {
           $("builds").innerHTML =
-            `<p class="empty">No cached builds. <span class="mono">bun ios</span> or <span class="mono">bun sessions run --build</span> fills the cache.</p>`;
+            `<p class="empty">No cached builds. <span class="mono">bun ios</span> or <span class="mono">bun android</span> fills the cache.</p>`;
           return;
         }
         const rows = builds.map((b) => {
@@ -916,7 +884,7 @@
         const running = state.devices.filter(isOnline).length;
         const bytes = state.builds.reduce((sum, b) => sum + b.sizeBytes, 0);
         const parts = [
-          `${active} ${active === 1 ? "session" : "sessions"} running`,
+          `${active} e2e ${active === 1 ? "run" : "runs"} running`,
           stale ? `${stale} stale` : "",
           `${running} ${running === 1 ? "device" : "devices"} up`,
           `${state.builds.length} cached ${state.builds.length === 1 ? "build" : "builds"} (${size(bytes)})`,

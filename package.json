@@ -7,8 +7,6 @@
     "start": "expo start --dev-client",
     "android": "expo run:android",
     "ios": "expo run:ios",
-    "devices": "bun scripts/cli/index.ts devices",
-    "sessions": "bun scripts/cli/index.ts sessions",
     "e2e": "agent-device test e2e/flows --maestro --artifacts-dir .agent-device/test-artifacts --reporter default --reporter ./scripts/cli/e2e-reporter.mjs",
     "builds": "bun scripts/cli/index.ts builds",
     "dashboard": "bun scripts/cli/dashboard.ts",
