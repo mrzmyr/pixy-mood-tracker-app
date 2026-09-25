@@ -50,7 +50,7 @@ export const SettingsScreen = ({
 
   const { show: showFeedbackModal, Modal: FeedbackModal } = useFeedbackModal();
 
-  const askToRateApp = async () => {
+  const askToRateApp = () => {
     analytics.track("rate_app");
 
     const storeUrl = StoreReview.storeUrl();

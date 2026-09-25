@@ -1,6 +1,7 @@
 import { usePostHog } from "posthog-react-native";
 import { createContext, useContext, useEffect, useState } from "react";
 import { useSettings } from "./useSettings";
+import { createMissingProviderError } from "@/lib/errors";
 
 interface AnaylticsState {
   enable: () => void;
@@ -121,7 +122,7 @@ function AnalyticsProvider({
 function useAnalytics(): AnaylticsState {
   const context = useContext(AnalyticsContext);
   if (context === undefined) {
-    throw new Error("useAnalytics must be used within a AnalyticsProvider");
+    throw createMissingProviderError("useAnalytics", "AnalyticsProvider");
   }
   return context;
 }

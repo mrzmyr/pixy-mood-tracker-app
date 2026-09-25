@@ -62,12 +62,14 @@ const translate = async (text, target) => {
       console.log("translating…", locales.en[key], localeKey, key, localeKey);
       console.log("");
       if (Array.isArray(locales.en[key])) {
+        // oxlint-disable-next-line eslint/no-await-in-loop -- translate keys one at a time to stay within the translation API rate limit
         const translations = await Promise.all(
           locales.en[key].map((text) => translate(text, localeKey))
         );
         console.log(translations);
         result[localeKey][key] = translations;
       } else {
+        // oxlint-disable-next-line eslint/no-await-in-loop -- translate keys one at a time to stay within the translation API rate limit
         result[localeKey][key] = await translate(locales.en[key], localeKey);
       }
     }

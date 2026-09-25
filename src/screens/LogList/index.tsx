@@ -60,8 +60,9 @@ export const LogList = ({
     // navigation.goBack();
   };
 
-  const _delete = (item: LogItem) => {
-    askToRemove().then(() => remove(item));
+  const _delete = async (item: LogItem) => {
+    await askToRemove();
+    remove(item);
   };
 
   const _carouselRef = useRef<CarouselRef>(null);

@@ -2,6 +2,7 @@ import { createContext, useContext, useEffect, useRef, useState } from "react";
 import { AppState } from "react-native";
 import { useSettings } from "./useSettings";
 import * as LocalAuthentication from "expo-local-authentication";
+import { createMissingProviderError } from "@/lib/errors";
 
 interface PasscodeState {
   isAuthenticated: boolean;
@@ -23,9 +24,10 @@ function PasscodeProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     if (isEnabled && !isAuthenticated) {
-      LocalAuthentication.authenticateAsync().then((result) => {
+      void (async () => {
+        const result = await LocalAuthentication.authenticateAsync();
         setIsAuthenticated(result.success);
-      });
+      })();
     }
   }, [isAuthenticated]);
 
@@ -66,7 +68,7 @@ function PasscodeProvider({ children }: { children: React.ReactNode }) {
 function usePasscode(): PasscodeState {
   const context = useContext(PasscodeContext);
   if (context === undefined) {
-    throw new Error("usePasscode must be used within a PasscodeProvider");
+    throw createMissingProviderError("usePasscode", "PasscodeProvider");
   }
   return context;
 }

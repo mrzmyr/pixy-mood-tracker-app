@@ -1,88 +1,77 @@
 import Alert from "@/components/Alert";
+import { createStructuredError } from "@/lib/errors";
 import { t } from "./translation";
 
-export const askToCancel = () =>
+const askToConfirm = ({
+  title,
+  message,
+  confirmText,
+  cancelText,
+}: {
+  title: string;
+  message: string;
+  confirmText: string;
+  cancelText: string;
+}) =>
+  // oxlint-disable-next-line promise/avoid-new -- Alert.alert only reports the choice through button callbacks, so a Promise adapter is required
   new Promise((resolve, reject) => {
     Alert.alert(
-      t("cancel_confirm_title"),
-      t("cancel_confirm_message"),
+      title,
+      message,
       [
         {
-          text: t("discard_changes"),
+          text: confirmText,
           onPress: () => resolve({}),
           style: "destructive",
         },
         {
-          text: t("keep_editing"),
-          onPress: () => reject(),
+          text: cancelText,
+          onPress: () =>
+            reject(
+              createStructuredError({
+                status: "prompt_cancelled",
+                message: "Confirmation prompt cancelled",
+                why: `The user pressed "${cancelText}" in the "${title}" prompt`,
+                fix: "No action needed; the user chose not to continue",
+              })
+            ),
           style: "cancel",
         },
       ],
       { cancelable: true }
     );
+  });
+
+export const askToCancel = () =>
+  askToConfirm({
+    title: t("cancel_confirm_title"),
+    message: t("cancel_confirm_message"),
+    confirmText: t("discard_changes"),
+    cancelText: t("keep_editing"),
   });
 
 export const askToRemove = () =>
-  new Promise((resolve, reject) => {
-    Alert.alert(
-      t("delete_confirm_title"),
-      t("delete_confirm_message"),
-      [
-        {
-          text: t("delete"),
-          onPress: () => resolve({}),
-          style: "destructive",
-        },
-        {
-          text: t("cancel"),
-          onPress: () => reject(),
-          style: "cancel",
-        },
-      ],
-      { cancelable: true }
-    );
+  askToConfirm({
+    title: t("delete_confirm_title"),
+    message: t("delete_confirm_message"),
+    confirmText: t("delete"),
+    cancelText: t("cancel"),
   });
 
 export const askToImport = () =>
-  new Promise((resolve, reject) => {
-    Alert.alert(
-      t("import_confirm_title"),
-      t("import_confirm_message"),
-      [
-        {
-          text: t("import_confirm_ok"),
-          onPress: () => resolve({}),
-          style: "destructive",
-        },
-        {
-          text: t("cancel"),
-          onPress: () => reject(),
-          style: "cancel",
-        },
-      ],
-      { cancelable: true }
-    );
+  askToConfirm({
+    title: t("import_confirm_title"),
+    message: t("import_confirm_message"),
+    confirmText: t("import_confirm_ok"),
+    cancelText: t("cancel"),
   });
 
 export const askToReset = <Type>(type: Type) =>
-  new Promise((resolve, reject) => {
-    Alert.alert(
-      t(`reset_${type}_confirm_title`),
-      t(`reset_${type}_confirm_message`),
-      [
-        {
-          text: t("reset"),
-          onPress: () => resolve({}),
-          style: "destructive",
-        },
-        {
-          text: t("cancel"),
-          onPress: () => reject(),
-          style: "cancel",
-        },
-      ],
-      { cancelable: true }
-    );
+  askToConfirm({
+    title: t(`reset_${type}_confirm_title`),
+    message: t(`reset_${type}_confirm_message`),
+    confirmText: t("reset"),
+    cancelText: t("cancel"),
   });
 
 export const showImportSuccess = () => {
@@ -122,43 +111,17 @@ export const showResetSuccess = <Type>(type: Type) => {
 };
 
 export const askToDisableStep = () =>
-  new Promise((resolve, reject) => {
-    Alert.alert(
-      t("disable_step_confirm_title"),
-      t("disable_step_confirm_message"),
-      [
-        {
-          text: t("disable"),
-          onPress: () => resolve({}),
-          style: "destructive",
-        },
-        {
-          text: t("cancel"),
-          onPress: () => reject(),
-          style: "cancel",
-        },
-      ],
-      { cancelable: true }
-    );
+  askToConfirm({
+    title: t("disable_step_confirm_title"),
+    message: t("disable_step_confirm_message"),
+    confirmText: t("disable"),
+    cancelText: t("cancel"),
   });
 
 export const askToDisableFeedbackStep = () =>
-  new Promise((resolve, reject) => {
-    Alert.alert(
-      t("disable_feedback_step_confirm_title"),
-      t("disable_feedback_step_confirm_message"),
-      [
-        {
-          text: t("disable"),
-          onPress: () => resolve({}),
-          style: "destructive",
-        },
-        {
-          text: t("cancel"),
-          onPress: () => reject(),
-          style: "cancel",
-        },
-      ],
-      { cancelable: true }
-    );
+  askToConfirm({
+    title: t("disable_feedback_step_confirm_title"),
+    message: t("disable_feedback_step_confirm_message"),
+    confirmText: t("disable"),
+    cancelText: t("cancel"),
   });

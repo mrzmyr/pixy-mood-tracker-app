@@ -10,13 +10,14 @@ import { t } from "@/helpers/translation";
 const isWeb = Platform.OS === "web";
 
 Notifications.setNotificationHandler({
-  handleNotification: async () => ({
-    shouldShowAlert: true,
-    shouldShowBanner: true,
-    shouldShowList: true,
-    shouldPlaySound: false,
-    shouldSetBadge: false,
-  }),
+  handleNotification: () =>
+    Promise.resolve({
+      shouldShowAlert: true,
+      shouldShowBanner: true,
+      shouldShowList: true,
+      shouldPlaySound: false,
+      shouldSetBadge: false,
+    }),
 });
 
 export const createDailyTrigger = (
@@ -78,11 +79,11 @@ const useNotification = () => {
 
   return isWeb
     ? {
-        hasPermission: async () => true,
-        askForPermission: async () => true,
+        hasPermission: () => Promise.resolve(true),
+        askForPermission: () => Promise.resolve(true),
         schedule: async () => {},
         cancelAll: async () => {},
-        getScheduled: async () => [],
+        getScheduled: () => Promise.resolve([]),
       }
     : {
         hasPermission,
