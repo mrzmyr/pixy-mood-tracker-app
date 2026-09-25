@@ -34,6 +34,7 @@ import { useTagsState } from "@/hooks/useTags";
 import { getItemsCountPerDayAverage, getItemsCoverage } from "@/lib/utils";
 import dayjs from "dayjs";
 import { enableScreens } from "react-native-screens";
+import { DEV_TOOLS } from "../dev";
 import { DevelopmentTools } from "../screens/DevelopmentTools";
 import { Onboarding } from "../screens/Onboarding";
 import { StatisticsMonthScreen } from "../screens/StatisticsMonth";
@@ -74,6 +75,10 @@ const NAVIGATION_LINKING: LinkingOptions<RootStackParamList> = {
       Reminder: "settings/reminder",
       Privacy: "settings/privacy",
       DevelopmentTools: "settings/development-tools",
+      ...(DEV_TOOLS && {
+        DevFixtures: "dev/fixtures",
+        DevFixture: "dev/fixture",
+      }),
       // Tags: 'settings/tags',;
       StatisticsHighlights: "statistics/highlights",
       StatisticsMonth: "statistics/month/:date",
@@ -336,6 +341,23 @@ const RootNavigator = () => {
               ...defaultPageOptions,
             }}
           />
+          {DEV_TOOLS && (
+            <Stack.Screen
+              name="DevFixtures"
+              component={DEV_TOOLS.DevFixturesScreen}
+              options={{
+                title: "Test data",
+                ...defaultPageOptions,
+              }}
+            />
+          )}
+          {DEV_TOOLS && (
+            <Stack.Screen
+              name="DevFixture"
+              component={DEV_TOOLS.DevFixtureLinkScreen}
+              options={{ headerShown: false }}
+            />
+          )}
         </Stack.Group>
       </Stack.Navigator>
     </View>
