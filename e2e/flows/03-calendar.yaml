@@ -20,6 +20,16 @@ tags: [calendar]
 # 3.2 Find the historical date. Create an entry only when fixture is absent.
 - scrollUntilVisible:
     element:
+      id: "calendar-day-2024-09-24"
+    direction: UP
+    timeout: 120000
+    speed: 80
+    centerElement: true
+    waitToSettleTimeoutMs: 1200
+- assertVisible:
+    id: "calendar-day-2024-09-24"
+- scrollUntilVisible:
+    element:
       id: "calendar-day-2023-09-24"
     direction: UP
     timeout: 120000
