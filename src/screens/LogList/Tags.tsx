@@ -3,6 +3,7 @@ import type { LogItem } from "@/hooks/useLogs";
 import { useTagsState } from "@/hooks/useTags";
 import { useNavigation } from "@react-navigation/native";
 import { t } from "i18n-js";
+import type { ViewStyle } from "react-native";
 import { Text, View, useColorScheme } from "react-native";
 import { SectionHeader } from "./SectionHeader";
 
@@ -13,7 +14,7 @@ const Tag = ({
 }: {
   title: string;
   colorName: string;
-  style?: any;
+  style?: ViewStyle;
 }) => {
   const colors = useColors();
   const colorScheme = useColorScheme();

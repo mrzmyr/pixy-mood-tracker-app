@@ -1,4 +1,4 @@
-import { NavigationContainer } from "@react-navigation/native";
+import { DefaultTheme, NavigationContainer } from "@react-navigation/native";
 import { act, render, userEvent, waitFor } from "@testing-library/react-native";
 import { Alert } from "react-native";
 import Providers from "@/components/Providers";
@@ -24,7 +24,12 @@ jest.mock(
       registerPlacement: jest.fn(),
       state: { status: "idle" },
     }),
-    useSuperwall: (selector: (state: object) => unknown) =>
+    useSuperwall: <T,>(
+      selector: (state: {
+        isConfigured: boolean;
+        setEventTrackingBehavior: jest.Mock;
+      }) => T
+    ) =>
       selector({
         isConfigured: false,
         setEventTrackingBehavior: jest.fn(),
@@ -46,36 +51,21 @@ const navigation = {
 const renderSettings = (supportClient: SupportClient) =>
   render(
     <NavigationContainer
-      theme={
-        {
-          dark: false,
-          colors: Colors.light,
-        } as never
-      }
+      theme={{
+        ...DefaultTheme,
+        dark: false,
+        colors: { ...DefaultTheme.colors, ...Colors.light },
+      }}
     >
       <Providers supportClient={supportClient}>
         <SettingsScreen
+          // SAFETY: SettingsScreen only calls navigation.navigate, which the mock provides.
           navigation={navigation as never}
           route={{ key: "settings", name: "Settings" }}
         />
       </Providers>
     </NavigationContainer>
   );
-
-const collectTestIds = (node: any): string[] => {
-  if (Array.isArray(node)) {
-    return node.flatMap(collectTestIds);
-  }
-  if (!node || typeof node !== "object") {
-    return [];
-  }
-
-  const testId = node.props?.testID;
-  return [
-    ...(typeof testId === "string" ? [testId] : []),
-    ...collectTestIds(node.children),
-  ];
-};
 
 describe("Support Pixy in Settings", () => {
   afterEach(() => {
@@ -89,7 +79,9 @@ describe("Support Pixy in Settings", () => {
     expect(screen.queryByTestId("support-pixy-card")).toBeNull();
     expect(openSupport).not.toHaveBeenCalled();
 
-    const testIds = collectTestIds(screen.toJSON());
+    const testIds = screen
+      .queryAllByTestId(/./u)
+      .map((element) => element.props.testID);
     expect(testIds.indexOf("settings-version")).toBeLessThan(
       testIds.indexOf("settings-development-user-data")
     );
@@ -102,8 +94,11 @@ describe("Support Pixy in Settings", () => {
     });
 
     expect(supportClient).toBeDefined();
+    if (!supportClient) {
+      return;
+    }
 
-    const screen = await renderSettings(supportClient!);
+    const screen = await renderSettings(supportClient);
 
     expect(screen.getByTestId("support-pixy-card")).toBeOnTheScreen();
     expect(
@@ -118,7 +113,9 @@ describe("Support Pixy in Settings", () => {
       screen.getByRole("button", { name: "Support Pixy" })
     ).toBeOnTheScreen();
 
-    const testIds = collectTestIds(screen.toJSON());
+    const testIds = screen
+      .queryAllByTestId(/./u)
+      .map((element) => element.props.testID);
     expect(testIds.indexOf("settings-development-user-data")).toBeLessThan(
       testIds.indexOf("support-pixy-card")
     );

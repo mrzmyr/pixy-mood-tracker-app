@@ -33,7 +33,7 @@ export const useQuestioner = () => {
 
   const [question, setQuestion] = useState<IQuestion | null>(null);
 
-  const questionsDone = settings.actionsDone.filter((action: any) =>
+  const questionsDone = settings.actionsDone.filter((action) =>
     action?.title?.startsWith("question_slide_")
   );
 

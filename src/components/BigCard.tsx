@@ -93,7 +93,7 @@ export const BigCard = ({
   isShareable?: boolean;
   hasFeedback?: boolean;
   analyticsId: string;
-  analyticsData?: any;
+  analyticsData?: object;
 }) => {
   const colors = useColors();
   const viewRef = useRef(null);

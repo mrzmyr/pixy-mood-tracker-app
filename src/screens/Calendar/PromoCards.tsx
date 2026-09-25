@@ -15,19 +15,19 @@ import useColors from "../../hooks/useColors";
 import { useLogState } from "../../hooks/useLogs";
 import * as WebBrowser from "expo-web-browser";
 
-type RssItem = {
+interface RssItem {
   title: string;
   id: string;
   published: string;
   slug: string;
-};
+}
 
-type ParsedRssItem = {
+interface ParsedRssItem {
   title: string;
   link: string;
   guid?: string;
   pubDate: string;
-};
+}
 
 const rssParser = new XMLParser({
   ignoreAttributes: false,

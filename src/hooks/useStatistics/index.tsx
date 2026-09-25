@@ -71,6 +71,7 @@ interface Value {
   state: StatisticsState;
 }
 
+// SAFETY: every consumer renders inside StatisticsProvider, which supplies the full Value.
 const StatisticsContext = createContext({} as Value);
 
 export function StatisticsProvider({

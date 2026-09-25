@@ -11,7 +11,7 @@ export const TagBar = ({
   size,
   label,
 }: {
-  children: any;
+  children: React.ReactNode;
   width: DimensionValue;
   muted?: boolean;
   colorName?: (typeof TAG_COLOR_NAMES)[number];

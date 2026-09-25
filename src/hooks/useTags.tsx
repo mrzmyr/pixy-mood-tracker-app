@@ -16,12 +16,12 @@ import { useSettings } from "./useSettings";
 
 export const STORAGE_KEY = "PIXEL_TRACKER_TAGS";
 
-export type Tag = {
+export interface Tag {
   id: string;
   title: string;
   color: (typeof TAG_COLOR_NAMES)[number];
   isArchived?: boolean;
-};
+}
 
 interface State {
   loaded?: boolean;
@@ -35,7 +35,7 @@ type StateAction =
   | { type: "import"; payload: State }
   | { type: "reset"; payload: State };
 
-interface StateValue extends State {}
+type StateValue = State;
 
 interface UpdaterValue {
   createTag: (tag: Tag) => void;
@@ -45,7 +45,9 @@ interface UpdaterValue {
   import: (data: State) => void;
 }
 
+// SAFETY: every consumer renders inside TagsProvider, which supplies the full state.
 const TagsStateContext = createContext({} as StateValue);
+// SAFETY: every consumer renders inside TagsProvider, which supplies the full updater.
 const TagsUpdaterContext = createContext({} as UpdaterValue);
 
 const reducer = (state: State, action: StateAction): State => {

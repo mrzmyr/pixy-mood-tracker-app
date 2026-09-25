@@ -18,6 +18,7 @@ import {
   Text,
   View,
 } from "react-native";
+import type { TextInput } from "react-native";
 import { HelpCircle } from "react-native-feather";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import DismissKeyboard from "../../DismisKeyboard";
@@ -86,16 +87,16 @@ const Tips = ({ onClose }: { onClose: () => void }) => {
   const fullEmotions =
     tempLog.data?.emotions?.map((key) => EMOTIONS.find((e) => e.key === key)) ||
     [];
-  const sortedEmotions = _.sortBy(
-    fullEmotions,
-    (emotion) =>
-      ({
-        very_good: 2,
-        good: 1,
-        neutral: 0,
-        bad: -1,
-        very_bad: -2,
-      })[emotion!.category]
+  const sortedEmotions = _.sortBy(fullEmotions, (emotion) =>
+    emotion === undefined
+      ? undefined
+      : {
+          very_good: 2,
+          good: 1,
+          neutral: 0,
+          bad: -1,
+          very_bad: -2,
+        }[emotion.category]
   );
 
   if (sortedEmotions.length > 0) {
@@ -164,7 +165,7 @@ export const SlideMessage = forwardRef(
       onDisableStep: () => void;
       showDisable: boolean;
     },
-    ref: any
+    ref: React.ForwardedRef<TextInput>
   ) => {
     const analytics = useAnalytics();
     const insets = useSafeAreaInsets();

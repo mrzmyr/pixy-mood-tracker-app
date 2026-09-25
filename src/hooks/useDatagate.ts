@@ -37,20 +37,22 @@ import {
 
 type ResetType = "factory" | "data";
 
-type ExportData = {
+interface ExportData {
   version: string;
   tags: Tag[];
   items: LogsState["items"];
   settings: ExportSettings;
-};
+}
 
-export const useDatagate = (): {
+interface DatagateValue {
   openExportDialog: () => Promise<void>;
   openImportDialog: () => Promise<void>;
   import: (data: ImportData, options: { muted: boolean }) => Promise<void>;
   openDangerousImportDirectlyToAsyncStorageDialog: () => Promise<void>;
   openResetDialog: (type: ResetType) => Promise<void>;
-} => {
+}
+
+export const useDatagate = (): DatagateValue => {
   const logState = useLogState();
   const logUpdater = useLogUpdater();
   const { tags } = useTagsState();

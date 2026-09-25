@@ -1,6 +1,5 @@
 import { useNavigation } from "@react-navigation/native";
 import _ from "lodash";
-import type { DimensionValue } from "react-native";
 import { Pressable, Text, View } from "react-native";
 import { Card } from "@/components/Statistics/Card";
 import { t } from "@/helpers/translation";
@@ -54,8 +53,7 @@ export const TagDistributionContent = ({
             style={{
               backgroundColor: colors.tags[tag?.details?.color]?.background,
               height: 32,
-              width:
-                `${(tag.count / data.tags[0].count) * 100}%` as DimensionValue,
+              width: `${(tag.count / data.tags[0].count) * 100}%` as const,
               borderRadius: 4,
               position: "absolute",
             }}

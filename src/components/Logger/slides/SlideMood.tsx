@@ -86,9 +86,9 @@ export const SlideMood = ({
           {RATING_KEYS.map((key, index) => (
             <SlideMoodButton
               key={key}
-              rating={key as LogItem["rating"]}
+              rating={key}
               selected={tempLog?.data?.rating === key}
-              onPress={() => onChange(key as LogItem["rating"])}
+              onPress={() => onChange(key)}
             />
           ))}
         </View>

@@ -22,7 +22,7 @@ export default forwardRef(
       style?: ViewStyle;
       onChange?: (text: string) => void;
     },
-    ref: any
+    ref: React.ForwardedRef<TextInput>
   ) => {
     const colors = useColors();
 

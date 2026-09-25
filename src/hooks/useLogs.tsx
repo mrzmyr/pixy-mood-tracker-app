@@ -39,9 +39,11 @@ export const SLEEP_QUALITY_MAPPING = {
   very_bad: 0,
 };
 
+// SAFETY: Object.keys of these literal constants returns exactly their declared keys.
 export const RATING_KEYS = Object.keys(
   RATING_MAPPING
 ) as (keyof typeof RATING_MAPPING)[];
+// SAFETY: Object.keys of these literal constants returns exactly their declared keys.
 export const SLEEP_QUALITY_KEYS = Object.keys(
   SLEEP_QUALITY_MAPPING
 ) as (keyof typeof SLEEP_QUALITY_MAPPING)[];
@@ -79,16 +81,18 @@ export interface UpdaterValue {
   import: (data: LogsState) => void;
 }
 
-interface StateValue extends LogsState {}
+type StateValue = LogsState;
 
-const LogStateContext = createContext<StateValue>(undefined as any);
-const LogUpdaterContext = createContext<UpdaterValue>(undefined as any);
+// SAFETY: every consumer renders inside LogsProvider, which supplies the value; the default is never read.
+const LogStateContext = createContext<StateValue>(undefined as never);
+// SAFETY: every consumer renders inside LogsProvider, which supplies the value; the default is never read.
+const LogUpdaterContext = createContext<UpdaterValue>(undefined as never);
 
 function reducer(state: LogsState, action: LogAction): LogsState {
   switch (action.type) {
     case "import": {
       return migrate({
-        ...(action.payload as LogsState),
+        ...action.payload,
         loaded: true,
       });
     }

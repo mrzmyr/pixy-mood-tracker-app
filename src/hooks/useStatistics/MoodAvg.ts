@@ -2,8 +2,10 @@ import type { LogItem } from "../useLogs";
 import { RATING_KEYS } from "../useLogs";
 import { getLogDays } from "@/lib/utils";
 
+const MOOD_GROUPS = ["negative", "neutral", "positive"] as const;
+
 export interface MoodAvgData {
-  ratingHighestKey: LogItem["rating"];
+  ratingHighestKey: (typeof MOOD_GROUPS)[number];
   ratingHighestPercentage: number;
   distribution: {
     key: LogItem["rating"];
@@ -49,7 +51,7 @@ export const getMoodAvgData = (items: LogItem[]): MoodAvgData => {
   const rating_distribution = keys.map((key) => {
     const count = items.filter((item) => item.rating === key).length;
     return {
-      key: key as LogItem["rating"],
+      key,
       count,
     };
   });
@@ -59,9 +61,9 @@ export const getMoodAvgData = (items: LogItem[]): MoodAvgData => {
     0
   );
 
-  const ratingHighestKey = Object.keys(moods).reduce((a, b) =>
+  const ratingHighestKey = MOOD_GROUPS.reduce((a, b) =>
     moods[a] > moods[b] ? a : b
-  ) as LogItem["rating"];
+  );
 
   const percentage = Math.round((moods[ratingHighestKey] / rating_total) * 100);
 

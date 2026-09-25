@@ -21,7 +21,7 @@ export const Card = ({
   onClose?: () => void;
   hasFeedback?: boolean;
   analyticsId?: string;
-  analyticsData?: any;
+  analyticsData?: object;
 }) => {
   const colors = useColors();
 
@@ -80,10 +80,10 @@ export const Card = ({
       >
         {children}
       </View>
-      {hasFeedback && (
+      {hasFeedback && analyticsId !== undefined && (
         <CardFeedback
           variant="minimal"
-          analyticsId={analyticsId!}
+          analyticsId={analyticsId}
           analyticsData={analyticsData}
           style={{
             borderTopColor: colors.logCardBorder,

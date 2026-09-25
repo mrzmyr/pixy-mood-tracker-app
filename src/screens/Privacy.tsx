@@ -48,7 +48,6 @@ export const PrivacyScreen = () => {
           >
             <Shield color={colors.text} width={80} height={30} />
           </View>
-          {/* @ts-ignore */}
           <Markdown
             style={{
               body: { color: colors.text, fontSize: 16, lineHeight: 24 },

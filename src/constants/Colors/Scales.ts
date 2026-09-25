@@ -18,9 +18,9 @@ export interface IScale {
   empty: { background: string; border: string; text: string };
 }
 
-export type IScaleColors = {
+export interface IScaleColors {
   [key: string]: IScale;
-};
+}
 
 const getScaleMood = (color: string): IScaleMood => ({
   background: color,
@@ -68,7 +68,7 @@ const getScale = (scale: string[]): IScale => {
   };
 };
 
-const light: IScaleColors = {
+const light = {
   "ColorBrew-RdYlGn": getScale([
     colors.emerald[600],
     colors.emerald[400],
@@ -119,9 +119,9 @@ const light: IScaleColors = {
     "#b2182b",
     colors.neutral[100],
   ]),
-};
+} satisfies IScaleColors;
 
-const dark: IScaleColors = {
+const dark = {
   "ColorBrew-RdYlGn": getScale([
     colors.emerald[600],
     colors.emerald[400],
@@ -172,9 +172,16 @@ const dark: IScaleColors = {
     "#b2182b",
     colors.neutral[800],
   ]),
-};
+} satisfies IScaleColors;
 
-export default {
+interface ThemeScales {
+  dark: IScaleColors;
+  light: IScaleColors;
+}
+
+const scales: ThemeScales = {
   dark,
   light,
 };
+
+export default scales;

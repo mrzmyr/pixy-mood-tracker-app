@@ -66,7 +66,7 @@ describe("useLogs()", () => {
   beforeEach(async () => {
     jest.clearAllMocks();
     console.error = jest.fn();
-    global.fetch = jest.fn().mockResolvedValue({ ok: true }) as jest.Mock;
+    global.fetch = jest.fn().mockResolvedValue({ ok: true });
   });
 
   afterEach(async () => {

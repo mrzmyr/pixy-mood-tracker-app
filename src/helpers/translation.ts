@@ -278,5 +278,7 @@ export const initializeDayjs = () => {
   dayjs.extend(localizedFormat);
 };
 
-export const t = (key: keyof typeof en | string, options?: any) =>
-  i18n.t(key, options);
+export const t = (
+  key: keyof typeof en | string,
+  options?: i18n.TranslateOptions
+) => i18n.t(key, options);
