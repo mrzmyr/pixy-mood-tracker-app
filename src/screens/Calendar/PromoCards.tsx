@@ -12,14 +12,14 @@ import React, { ReactElement, useEffect, useState } from "react";
 import { View } from "react-native";
 import useColors from "../../hooks/useColors";
 import { useLogState } from "../../hooks/useLogs";
-import * as WebBrowser from 'expo-web-browser';
+import * as WebBrowser from "expo-web-browser";
 
 type RssItem = {
   title: string;
   id: string;
   published: string;
   slug: string;
-}
+};
 
 type ParsedRssItem = {
   title: string;
@@ -39,62 +39,97 @@ export const PromoCards = () => {
   const logState = useLogState();
   const analytics = useAnalytics();
   const colors = useColors();
-  const { hasActionDone } = useSettings()
+  const { hasActionDone } = useSettings();
 
   const statisticsUnlocked = logState.items.length >= STATISTIC_MIN_LOGS;
-  const isBeginningOfMonth = dayjs().isBetween(dayjs().startOf('month'), dayjs().startOf('month').add(3, 'day'), null, '[]');
+  const isBeginningOfMonth = dayjs().isBetween(
+    dayjs().startOf("month"),
+    dayjs().startOf("month").add(3, "day"),
+    null,
+    "[]"
+  );
   const isDecember = dayjs().month() === 11;
   const enoughtLogsForYearPromo = logState.items.length > 30;
 
-  const hasMonthPromo = isBeginningOfMonth && statisticsUnlocked && !hasActionDone(MONTH_REPORT_SLUG)
-  const hasYearPromo = enoughtLogsForYearPromo && isDecember && statisticsUnlocked && !hasActionDone(YEAR_REPORT_SLUG)
-  const [mostRecentRssItem, setMostRecentRssItem] = useState<RssItem | null>(null)
+  const hasMonthPromo =
+    isBeginningOfMonth &&
+    statisticsUnlocked &&
+    !hasActionDone(MONTH_REPORT_SLUG);
+  const hasYearPromo =
+    enoughtLogsForYearPromo &&
+    isDecember &&
+    statisticsUnlocked &&
+    !hasActionDone(YEAR_REPORT_SLUG);
+  const [mostRecentRssItem, setMostRecentRssItem] = useState<RssItem | null>(
+    null
+  );
 
-  const hasMostRecentRssItem = !!mostRecentRssItem && !hasActionDone(mostRecentRssItem.slug)
+  const hasMostRecentRssItem =
+    !!mostRecentRssItem && !hasActionDone(mostRecentRssItem.slug);
 
   useEffect(() => {
-    fetch('https://pixy.featureos.app/rss/changelog.xml')
-      .then(response => response.text())
-      .then(str => rssParser.parse(str))
-      .then(parsed => {
+    fetch("https://pixy.featureos.app/rss/changelog.xml")
+      .then((response) => response.text())
+      .then((str) => rssParser.parse(str))
+      .then((parsed) => {
         const rawItems = parsed?.rss?.channel?.item;
-        const items: RssItem[] = (Array.isArray(rawItems) ? rawItems : [rawItems])
-          .filter((item): item is ParsedRssItem => !!item?.title && !!item?.link && !!item?.pubDate)
-          .filter(item => dayjs(item.pubDate).isAfter('2023-01-09'))
-          .map(item => ({
+        const items: RssItem[] = (
+          Array.isArray(rawItems) ? rawItems : [rawItems]
+        )
+          .filter(
+            (item): item is ParsedRssItem =>
+              !!item?.title && !!item?.link && !!item?.pubDate
+          )
+          .filter((item) => dayjs(item.pubDate).isAfter("2023-01-09"))
+          .map((item) => ({
             title: item.title,
             id: item.guid || item.link,
             published: item.pubDate,
-            slug: (item.guid || item.link).replace(/[^a-z0-9]/gi, '_').toLowerCase(),
-          }))
+            slug: (item.guid || item.link)
+              .replace(/[^a-z0-9]/gi, "_")
+              .toLowerCase(),
+          }));
 
         if (items.length !== 0) {
-          setMostRecentRssItem(items[0])
+          setMostRecentRssItem(items[0]);
         }
       })
       .catch(() => {
         // The changelog card is optional; the calendar remains usable offline.
-      })
-  }, [])
+      });
+  }, []);
 
-  const promoCards: ReactElement[] = []
+  const promoCards: ReactElement[] = [];
 
   if (hasMonthPromo) {
     promoCards.push(
       <PromoCardMonth
-        title={t('promo_card_month_title', { month: dayjs().subtract(1, 'month').format('MMMM') })}
-        onPress={() => navigation.navigate('StatisticsMonth', { date: dayjs().subtract(1, 'month').startOf('month').format(DATE_FORMAT) })}
+        title={t("promo_card_month_title", {
+          month: dayjs().subtract(1, "month").format("MMMM"),
+        })}
+        onPress={() =>
+          navigation.navigate("StatisticsMonth", {
+            date: dayjs()
+              .subtract(1, "month")
+              .startOf("month")
+              .format(DATE_FORMAT),
+          })
+        }
       />
-    )
+    );
   }
 
   if (hasYearPromo) {
     promoCards.push(
       <PromoCardYear
-        title={t('promo_card_year_title', { year: dayjs().format('YYYY') })}
-        onPress={() => navigation.navigate('StatisticsYear', { date: dayjs().startOf('year').format(DATE_FORMAT) })}
+        title={t("promo_card_year_title", { year: dayjs().format("YYYY") })}
+        onPress={() =>
+          navigation.navigate("StatisticsYear", {
+            date: dayjs().startOf("year").format(DATE_FORMAT),
+          })
+        }
       />
-    )
+    );
   }
 
   if (hasMostRecentRssItem) {
@@ -102,14 +137,14 @@ export const PromoCards = () => {
       <PromoCard
         colorName="pink"
         slug={mostRecentRssItem.slug}
-        subtitle={t('new_release')}
+        subtitle={t("new_release")}
         title={mostRecentRssItem.title}
         onPress={() => {
-          analytics.track('promo_changelog_clicked')
+          analytics.track("promo_changelog_clicked");
           WebBrowser.openBrowserAsync(mostRecentRssItem.id);
         }}
       />
-    )
+    );
   }
 
   if (promoCards.length === 0) return null;
