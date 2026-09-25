@@ -40,12 +40,12 @@ tags: [onboarding, native-back]
     commands:
       - back
       - assertVisible: "Welcome 👋"
-- tapOn: "I never used a Mood Tracker"
+- tapOn: "Start"
 - assertVisible: "Calendar"
 - tapOn:
     id: "onboarding-back"
 - assertVisible: "Welcome 👋"
-- tapOn: "I never used a Mood Tracker"
+- tapOn: "Start"
 - tapOn: "Next"
 - assertVisible: "Statistics"
 - runFlow:
