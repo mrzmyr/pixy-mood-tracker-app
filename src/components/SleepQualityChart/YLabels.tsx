@@ -1,6 +1,10 @@
 import { SLEEP_QUALITY_KEYS, SLEEP_QUALITY_MAPPING } from "@/constants/Ratings";
 import { G, Mask, Rect } from "react-native-svg";
 
+/**
+ * Sleep quality level bars on the Y axis of {@link SleepQualityChart}, best
+ * at the top. Colors are fixed and do not follow the theme.
+ */
 export const YLabels = ({ relativeY, YLegendWidth, rowHeight }) => (
   <>
     {SLEEP_QUALITY_KEYS.toReversed().map((sleepQuality, index) => {

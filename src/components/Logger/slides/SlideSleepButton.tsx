@@ -7,6 +7,7 @@ import useHaptics from "@/hooks/useHaptics";
 
 const DEFAULT_STYLE = {};
 
+/** Sleep quality bar; also reused read-only in the entry list. */
 export const SlideSleepButton = ({
   value,
   selected,

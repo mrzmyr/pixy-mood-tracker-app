@@ -8,6 +8,7 @@ import { EmotionIndicator } from "./EmotionsIndicator";
 
 const DEFAULT_STYLE = {};
 
+/** Emotion button in the advanced emotion pages, with a category dot. */
 export const EmotionButtonAdvanced = ({
   emotion,
   onPress,
@@ -72,6 +73,7 @@ export const EmotionButtonAdvanced = ({
   );
 };
 
+/** Blank cell that fills an odd last row in an emotion page. */
 export const EmotionButtonEmpty = () => (
   <View
     style={{

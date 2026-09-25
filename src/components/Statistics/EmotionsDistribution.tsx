@@ -9,6 +9,10 @@ import { NotEnoughDataOverlay } from "./NotEnoughDataOverlay";
 
 const MIN_TAGS = 5;
 
+/**
+ * Shareable card of the most used emotions in `items`. Below 5 distinct
+ * emotions it shows placeholder data behind the "not enough data" overlay.
+ */
 export const EmotionsDistribution = ({
   title,
   subtitle,

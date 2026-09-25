@@ -80,6 +80,13 @@ const Container = ({
   );
 };
 
+/**
+ * Statistics card with optional share and feedback actions.
+ *
+ * With `isShareable`, `children` render a second time in an off-screen copy
+ * that is captured as the share image, so children must tolerate double
+ * mounting.
+ */
 export const BigCard = ({
   title,
   subtitle,

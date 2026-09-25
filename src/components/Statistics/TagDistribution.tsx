@@ -11,6 +11,11 @@ import { NotEnoughDataOverlay } from "./NotEnoughDataOverlay";
 
 const MIN_TAGS = 5;
 
+/**
+ * Shareable card of the most used tags in `items`. Below 5 tags it shows
+ * placeholder data behind the "not enough data" overlay. Tag titles are
+ * anonymized in the feedback payload.
+ */
 export const TagDistribution = ({
   title,
   subtitle,

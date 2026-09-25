@@ -4,6 +4,7 @@ import MenuListItem from "@/components/MenuListItem";
 import useColors from "../hooks/useColors";
 import type { Tag } from "../hooks/useTags";
 
+/** Row for one tag in {@link TagList}, showing its color dot and title. */
 export const TagListItem = ({
   tag,
   isLast,

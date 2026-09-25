@@ -3,6 +3,10 @@ import { Pressable } from "react-native";
 import { ArrowLeft } from "react-native-feather";
 import useColors from "@/hooks/useColors";
 
+/**
+ * Header back button for Android and web stack screens; iOS uses the native
+ * back button.
+ */
 export const BackButton = ({ testID }: { testID?: string }) => {
   const navigation = useNavigation();
   const colors = useColors();

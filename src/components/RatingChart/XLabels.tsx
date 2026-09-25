@@ -2,6 +2,10 @@ import { Text } from "react-native-svg";
 import type { ScaleItem } from ".";
 import useColors from "@/hooks/useColors";
 
+/**
+ * Bucket labels under {@link RatingChart}; above 12 buckets only every
+ * second label shows, above 15 every third.
+ */
 export const XLabels = ({
   items,
   x,

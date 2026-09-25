@@ -4,6 +4,7 @@ import useColors from "@/hooks/useColors";
 
 const DEFAULT_STYLE = {};
 
+/** Bold headline at the top of a logger slide. */
 export const SlideHeadline = ({
   children,
   style = DEFAULT_STYLE,

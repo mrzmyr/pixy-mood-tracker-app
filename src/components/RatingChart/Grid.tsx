@@ -2,6 +2,7 @@ import { Line } from "react-native-svg";
 import useColors from "@/hooks/useColors";
 import { RATING_KEYS } from "@/constants/Ratings";
 
+/** Dashed row lines between the rating rows of {@link RatingChart}. */
 export const Grid = ({ width, relativeY }) => {
   const colors = useColors();
 

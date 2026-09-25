@@ -7,6 +7,10 @@ import type { Tag } from "../hooks/useTags";
 import { TagListItem } from "@/components/TagListItem";
 import { useNavigation } from "@react-navigation/native";
 
+/**
+ * Tag list for the tag settings screens; rows open the tag editor. Shows a
+ * notice once {@link MAX_TAGS} is reached.
+ */
 export const TagList = ({ tags }: { tags: Tag[] }) => {
   const colors = useColors();
   const navigation = useNavigation();

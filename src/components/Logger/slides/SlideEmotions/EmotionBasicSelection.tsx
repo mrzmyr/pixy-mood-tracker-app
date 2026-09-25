@@ -10,6 +10,12 @@ import { EmotionButtonBasic } from "./EmotionButtonBasic";
 
 const DEFAULT_STYLE = {};
 
+/**
+ * Two-column emotion grid, good first, then neutral, then bad.
+ *
+ * Expects categories already reduced to `good`, `neutral`, and `bad`;
+ * `very_good` and `very_bad` have no sort rank.
+ */
 export const EmotionBasicSelection = ({
   emotions,
   selectedEmotions,

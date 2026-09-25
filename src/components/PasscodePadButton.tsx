@@ -1,6 +1,7 @@
 import { Pressable, Text } from "react-native";
 import useColors from "@/hooks/useColors";
 
+/** Digit key of the passcode keypad; reports its own `value` on press. */
 export const PasscodePadButton = ({
   value,
   onPress,

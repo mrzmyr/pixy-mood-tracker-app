@@ -11,6 +11,13 @@ const getSubtitleKey = (limit: number | undefined) => {
     : "statistics_not_enough_data_subtitle_plural";
 };
 
+/**
+ * Overlay that hides placeholder statistics until enough data exists.
+ *
+ * Absolutely positioned with negative offsets that match `BigCard` padding,
+ * so render it as a direct child of a card. `limit` is the number of
+ * entries still missing.
+ */
 export const NotEnoughDataOverlay = ({
   limit,
   showSubtitle = true,

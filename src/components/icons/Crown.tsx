@@ -1,5 +1,6 @@
 import Svg, { Path } from "react-native-svg";
 
+/** Crown icon for the longest streak card. */
 export const Crown = ({ color = "white", width = 24, height = 24 }) => (
   <Svg
     fill={color || "currentColor"}

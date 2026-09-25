@@ -15,6 +15,11 @@ import { SlideHeadline } from "../components/SlideHeadline";
 import { getLogEditMarginTop } from "@/helpers/responsive";
 import { t } from "@/helpers/translation";
 
+/**
+ * Reminder opt-in slide shown to new users. Enabling replaces all
+ * scheduled notifications with one daily reminder; if permission is
+ * denied, the slide still advances with reminders off.
+ */
 export const SlideReminder = ({ onPress }: { onPress?: () => void }) => {
   const { setSettings } = useSettings();
   const insets = useSafeAreaInsets();

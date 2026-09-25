@@ -12,6 +12,10 @@ const ON_EVENT_NAME =
 const OFF_EVENT_NAME =
   Platform.OS === "ios" ? "keyboardWillHide" : "keyboardDidHide";
 
+/**
+ * Floating next/save button of the logger. It moves above the keyboard
+ * while the keyboard is open; `hidden` renders nothing.
+ */
 export const SlideAction = ({
   type,
   disabled,

@@ -2,6 +2,10 @@ import { RATING_KEYS } from "@/constants/Ratings";
 import useScale from "@/hooks/useScale";
 import { Rect } from "react-native-svg";
 
+/**
+ * Rating color swatches on the Y axis of {@link RatingChart}, best at the
+ * top.
+ */
 export const YLabels = ({ relativeY, YLegendWidth, rowHeight }) => {
   const scale = useScale();
 

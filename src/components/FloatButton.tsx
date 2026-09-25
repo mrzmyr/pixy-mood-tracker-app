@@ -1,6 +1,10 @@
 import { TouchableOpacity } from "react-native";
 import useColors from "@/hooks/useColors";
 
+/**
+ * Round floating action button. `disabled` only changes the color; presses
+ * still call `onPress`.
+ */
 export const FloatButton = ({
   onPress,
   disabled,

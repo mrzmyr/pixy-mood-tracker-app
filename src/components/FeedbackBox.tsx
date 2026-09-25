@@ -7,6 +7,12 @@ import useFeedbackModal from "@/hooks/useFeedbackModal";
 
 const DEFAULT_STYLE = {};
 
+/**
+ * Card that opens the feedback modal with the "idea" type preselected.
+ *
+ * `prefix` selects the `<prefix>_title`, `<prefix>_body`, and
+ * `<prefix>_button` translation keys, which must all exist.
+ */
 export const FeedbackBox = ({
   prefix,
   style = DEFAULT_STYLE,

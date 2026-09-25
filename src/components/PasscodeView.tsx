@@ -7,6 +7,13 @@ import { PasscodeDots } from "./PasscodeDots";
 import { PasscodePad } from "./PasscodePad";
 import noop from "lodash/noop";
 
+/**
+ * Four-digit passcode entry.
+ *
+ * `onSubmit` runs once the fourth digit shows and returns whether the code
+ * is accepted; a rejected code clears the input. "Forgot passcode" has no
+ * action yet.
+ */
 export const PasscodeView = ({
   mode,
   onClose,

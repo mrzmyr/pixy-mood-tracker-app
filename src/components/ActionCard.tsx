@@ -2,6 +2,10 @@ import type { ViewStyle } from "react-native";
 import { Text, View } from "react-native";
 import useColors from "@/hooks/useColors";
 
+/**
+ * Static highlight card with an icon, bold title, and subtitle; not
+ * pressable.
+ */
 export const ActionCard = ({
   title,
   subtitle,

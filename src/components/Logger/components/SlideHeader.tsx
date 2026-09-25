@@ -77,6 +77,12 @@ const DatePickerHeader = ({ onChange }: { onChange: (date: Date) => void }) => {
   );
 };
 
+/**
+ * Logger header with the entry time, close, back, and delete actions.
+ *
+ * Must render inside `TemporaryLogProvider`. Changing the time updates only
+ * the draft's `dateTime`; `date` keeps the day the draft started with.
+ */
 export const SlideHeader = ({
   isDeleteable,
   backVisible,

@@ -3,6 +3,10 @@ import useColors from "@/hooks/useColors";
 import { RATING_KEYS } from "@/constants/Ratings";
 import { Bar } from "./Bar";
 
+/**
+ * Bar chart of entry counts per rating, worst to best. `total` must be the
+ * sum of `values`, otherwise bar heights are off.
+ */
 export const Content = ({
   data,
 }: {
