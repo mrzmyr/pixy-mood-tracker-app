@@ -81,6 +81,16 @@ const logLine = (log: number, line: string) => {
   fs.writeSync(log, `${line}\n`);
 };
 
+// maestro-runner cannot capture a physical iPhone's screen from the host.
+const warnNoPhoneVideo = (log: number, device: Device, isRecord: boolean) => {
+  if (isRecord && device.platform === "ios" && device.kind === "physical") {
+    logLine(
+      log,
+      "warning: --record is not supported on physical iPhones. Screenshots from takeScreenshot are still saved."
+    );
+  }
+};
+
 const getBuildEnv = (
   device: Device,
   isBuild: boolean
@@ -302,6 +312,7 @@ const cmdRun = async (
     ...(options.isRecord ? ["--record"] : []),
     ...selectedFlows,
   ];
+  warnNoPhoneVideo(log, device, options.isRecord);
   logLine(log, `Running: maestro-runner ${args.join(" ")}`);
   const child = spawn(fs.existsSync(runner) ? runner : "maestro-runner", args, {
     cwd: worktree,
