@@ -26,37 +26,47 @@ const CalendarScreenComponent = () => {
   const logState = useLogState();
   const calendarFilters = useCalendarFilters();
   const window = useWindowDimensions();
-  const [scrollOffset, setScrollOffset] = useState(0);
+  // Whether the user scrolled above the calendar's bottom edge. Updated on
+  // scroll end only, like the previous offset state, so the button does not
+  // appear before the user scrolls.
+  const [isScrolledUp, setIsScrolledUp] = useState(false);
 
   const calendarRef = useRef<View>(null);
   const scrollRef = useRef<ScrollView>(null);
   const calendarHeight = useRef(0);
 
+  // The calendar only renders after settings and logs are loaded.
   useEffect(() => {
-    if (scrollRef.current) {
-      setTimeout(() => {
-        if (scrollRef.current) {
-          scrollRef.current.scrollToEnd({ animated: false });
-        }
-      }, 0);
+    if (!settings.loaded || !logState.loaded || !scrollRef.current) {
+      return;
     }
-  }, [calendarRef, scrollRef, settings.loaded, logState.loaded]);
+    const timeout = setTimeout(() => {
+      if (scrollRef.current) {
+        scrollRef.current.scrollToEnd({ animated: false });
+      }
+    }, 0);
+    return () => clearTimeout(timeout);
+  }, [settings.loaded, logState.loaded]);
 
   useEffect(() => {
-    if (calendarRef.current) {
-      setTimeout(() => {
-        if (calendarRef.current) {
-          calendarRef.current.measure((x, y, width, height) => {
-            calendarHeight.current = height;
-          });
-        }
-      }, 0);
+    if (!settings.loaded || !logState.loaded || !calendarRef.current) {
+      return;
     }
-  }, [calendarRef, scrollRef, settings.loaded, logState.loaded]);
+    const timeout = setTimeout(() => {
+      if (calendarRef.current) {
+        calendarRef.current.measure((x, y, width, height) => {
+          calendarHeight.current = height;
+        });
+      }
+    }, 0);
+    return () => clearTimeout(timeout);
+  }, [settings.loaded, logState.loaded]);
 
-  const showScrollTopButton =
-    scrollOffset < calendarHeight.current - window.height &&
-    !calendarFilters.isOpen;
+  const onScrollEnd = (offsetY: number) => {
+    setIsScrolledUp(offsetY < calendarHeight.current - window.height);
+  };
+
+  const showScrollTopButton = isScrolledUp && !calendarFilters.isOpen;
 
   if (!settings.loaded || !logState.loaded) {
     return (
@@ -91,10 +101,10 @@ const CalendarScreenComponent = () => {
         }}
         scrollEventThrottle={100}
         onMomentumScrollEnd={(e) => {
-          setScrollOffset(e.nativeEvent.contentOffset.y);
+          onScrollEnd(e.nativeEvent.contentOffset.y);
         }}
         onScrollEndDrag={(e) => {
-          setScrollOffset(e.nativeEvent.contentOffset.y);
+          onScrollEnd(e.nativeEvent.contentOffset.y);
         }}
         ref={scrollRef}
       >

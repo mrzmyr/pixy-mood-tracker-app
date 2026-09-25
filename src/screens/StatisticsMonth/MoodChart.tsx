@@ -1,6 +1,6 @@
 import random from "lodash/random";
 import range from "lodash/range";
-import { useRef } from "react";
+import { useMemo } from "react";
 import { Dimensions } from "react-native";
 import { BigCard } from "@/components/BigCard";
 import type { ScaleItem } from "@/components/RatingChart";
@@ -22,14 +22,16 @@ export const MoodChart = ({ date, items }) => {
   const width = Dimensions.get("window").width - 80;
   const height = width / 2.5;
 
-  const dataDummy = useRef<ScaleItem[] | null>(null);
-  if (dataDummy.current === null) {
-    dataDummy.current = range(1, 30).map((i) => ({
-      key: `${i}`,
-      count: random(3, 6),
-      value: random(1, 6),
-    }));
-  }
+  // Placeholder data is generated once per mount so it does not change on re-render.
+  const dataDummy = useMemo<ScaleItem[]>(
+    () =>
+      range(1, 30).map((i) => ({
+        key: `${i}`,
+        count: random(3, 6),
+        value: random(1, 6),
+      })),
+    []
+  );
 
   const validatedData = data.filter((d) => d.value !== null);
 
@@ -59,7 +61,7 @@ export const MoodChart = ({ date, items }) => {
       ) : (
         <RatingChart
           showAverage={true}
-          data={dataDummy.current}
+          data={dataDummy}
           height={height}
           width={width}
         />

@@ -7,7 +7,7 @@ import { getMostUsedEmotions } from "@/lib/utils";
 import type { Emotion } from "@/types";
 import { LinearGradient } from "expo-linear-gradient";
 import keyBy from "lodash/keyBy";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { ScrollView, View } from "react-native";
 import LinkButton from "../../../LinkButton";
 import { SlideHeadline } from "../../components/SlideHeadline";
@@ -63,9 +63,9 @@ export const SlideEmotions = ({
 
   const EMOTIONS_BY_KEY = keyBy(EMOTIONS, "key");
 
-  const initialSelectedEmotions = useRef(
-    tempLog.data?.emotions?.map((d) => EMOTIONS_BY_KEY[d]) || []
-  );
+  const [initialSelectedEmotions, setInitialSelectedEmotions] = useState<
+    Emotion[]
+  >(() => tempLog.data?.emotions?.map((d) => EMOTIONS_BY_KEY[d]) || []);
   const [selectedEmotions, setSelectedEmotions] = useState<Emotion[]>(() =>
     EMOTIONS.filter((d) => tempLog.data?.emotions?.includes(d.key))
   );
@@ -96,7 +96,7 @@ export const SlideEmotions = ({
   );
 
   let basicEmotions = appendMissingEmotions(
-    appendMissingEmotions(initialSelectedEmotions.current, mostUsedEmotions),
+    appendMissingEmotions(initialSelectedEmotions, mostUsedEmotions),
     predefinedBasicEmotions
   );
 
@@ -121,7 +121,7 @@ export const SlideEmotions = ({
     }
 
     setShowTooltip(false);
-    initialSelectedEmotions.current = selectedEmotions;
+    setInitialSelectedEmotions(selectedEmotions);
   };
 
   return (
