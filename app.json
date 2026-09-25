@@ -110,7 +110,7 @@
       "policy": "appVersion"
     },
     "buildCacheProvider": {
-      "plugin": "expo/local-build-cache-provider"
+      "plugin": "./scripts/build-cache-provider.cjs"
     },
     "extra": {
       "eas": {

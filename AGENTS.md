@@ -40,11 +40,11 @@
 - Never expose credentials, secrets, or personal data in evidence.
 - If evidence cannot be produced, keep the pull request in draft, document the blocker, and get explicit human approval before merging.
 
-## Physical iOS end-to-end tests
+## Devices and end-to-end tests
 
-- Use [`maestro-runner`](https://github.com/devicelab-dev/maestro-runner) for physical iPhone end-to-end tests. Use direct XCUITest only when the runner cannot express the behavior.
-- Test installed TestFlight builds with `--no-app-install`; never use `clearState` because it can remove tester data.
-- Keep device and signing-team identifiers local. Attach generated artifacts to the pull request.
+- Use `bun devices`, `bun sessions`, and `bun builds` for devices, e2e runs, and builds, never raw `simctl`, `emulator`, or `maestro`. See [e2e/README.md](e2e/README.md) and [build cache](docs/development.md#build-cache).
+- Shut down devices you created before you finish.
+- Keep device and signing-team identifiers local.
 
 ## Errors
 
