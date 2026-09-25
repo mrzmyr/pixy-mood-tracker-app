@@ -1,5 +1,7 @@
 # Repository conventions
 
+- the project is called `pixy-mood-tracker`, use that slug always when creating folders, exeutables etc (not `pixy`, `pixy-app` etc)
+
 ## Metadata
 
 - https://apps.apple.com/de/app/pixy-mood-tracker/id1605327124
@@ -15,6 +17,7 @@
   - Accessible projects: `Pixy App`, `Pixy Website`, and `Pixy App Test`.
 - CodeRabbit for PR reviews (MCP installed)
 - Sentry for error logging (MCP installed)
+- FeatureOS User Feedback (MCP installed)
 
 ## Releases
 

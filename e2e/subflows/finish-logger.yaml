@@ -6,5 +6,10 @@ appId: com.devmood.pixymoodtracker
     id: "logger-next"
 - tapOn:
     id: "logger-next"
+- runFlow:
+    when:
+      visible: "Not Now"
+    commands:
+      - tapOn: "Not Now"
 - tapOn:
     id: "logger-save"
