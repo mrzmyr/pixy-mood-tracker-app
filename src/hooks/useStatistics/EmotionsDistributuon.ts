@@ -46,7 +46,7 @@ export const getEmotionsDistributionData = (
         ? []
         : [{ details, id: key, count: distribution[key] }];
     })
-    .toSorted((a, b) => b.count - a.count);
+    .sort((a, b) => b.count - a.count);
 
   return {
     emotions: _emotions,

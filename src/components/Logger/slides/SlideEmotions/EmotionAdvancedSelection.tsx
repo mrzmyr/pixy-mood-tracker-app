@@ -34,7 +34,7 @@ export const EmotionAdvancedSelection = ({
   const pages = EMOTION_CATEGORIES.map((category) => {
     const filteredEmotions = EMOTIONS.filter(
       (e) => e.category === category && e.disabled !== true
-    ).toSorted((a, b) => a.label.localeCompare(b.label));
+    ).sort((a, b) => a.label.localeCompare(b.label));
 
     return (
       <EmotionPage

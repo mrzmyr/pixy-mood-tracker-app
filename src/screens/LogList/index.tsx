@@ -39,9 +39,7 @@ export const LogList = ({
 
   const items = logState.items
     .filter((item) => dayjs(item.dateTime).isSame(dayjs(date), "day"))
-    .toSorted((a, b) =>
-      dayjs(a.dateTime).isBefore(dayjs(b.dateTime)) ? -1 : 1
-    );
+    .sort((a, b) => (dayjs(a.dateTime).isBefore(dayjs(b.dateTime)) ? -1 : 1));
 
   const close = () => {
     analytics.track("log_list_close");

@@ -179,7 +179,7 @@ export const getMostUsedEmotions = (items: LogItem[]) => {
       key: emotion,
       count: emotions[emotion],
     }))
-    .toSorted((a, b) => b.count - a.count);
+    .sort((a, b) => b.count - a.count);
 };
 
 /**
