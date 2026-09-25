@@ -72,6 +72,9 @@ export const BottomTabs = () => {
         headerStyle: {
           borderBottomColor: "#fff",
         },
+        // Hidden tabs skip renders until focused again. Otherwise a visited
+        // Statistics tab recomputes its charts on every saved entry.
+        freezeOnBlur: true,
       })}
       tabBar={renderTabBar}
     >
