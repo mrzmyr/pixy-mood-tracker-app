@@ -14,7 +14,7 @@ const path = require("node:path");
 const DEFAULT_CACHE_DIR = path.join(
   os.homedir(),
   ".cache",
-  "pixy",
+  "pixy-mood-tracker",
   "build-cache"
 );
 
@@ -22,7 +22,7 @@ const DEFAULT_CACHE_DIR = path.join(
 const NON_APP_PATHS = ["e2e", ":(glob)**/*.md"];
 
 const resolveCacheDir = () =>
-  process.env.PIXY_BUILD_CACHE_DIR || DEFAULT_CACHE_DIR;
+  process.env.PIXY_MOOD_TRACKER_BUILD_CACHE_DIR || DEFAULT_CACHE_DIR;
 
 const getBuildVariant = (runOptions) =>
   runOptions.variant ?? runOptions.configuration ?? "unknown";
@@ -43,7 +43,9 @@ const git = (projectRoot, args, env = process.env) =>
 // touching the real index. Starts from a copy of it so unchanged files are not
 // re-read.
 const getSourceTreeHash = (projectRoot) => {
-  const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), "pixy-build-cache-"));
+  const tmpDir = fs.mkdtempSync(
+    path.join(os.tmpdir(), "pixy-mood-tracker-build-cache-")
+  );
   const index = path.join(tmpDir, "index");
   const realIndex = path.resolve(
     projectRoot,
