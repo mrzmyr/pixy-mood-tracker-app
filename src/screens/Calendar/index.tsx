@@ -1,4 +1,4 @@
-import React, { memo, useEffect, useRef, useState } from "react";
+import React, { memo, useRef, useState } from "react";
 import {
   ActivityIndicator,
   Platform,
@@ -6,6 +6,7 @@ import {
   useWindowDimensions,
   View,
 } from "react-native";
+import type { NativeScrollEvent, NativeSyntheticEvent } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { useCalendarFilters } from "@/hooks/useCalendarFilters";
 import useColors from "@/hooks/useColors";
@@ -20,53 +21,69 @@ import { ScrollToBottomButton } from "./ScrollToBottomButton";
 import { t } from "@/helpers/translation";
 
 const CalendarScreenComponent = () => {
+  const initialMonthCount = 13;
+  const monthsPerPage = 12;
   const colors = useColors();
-
   const { settings } = useSettings();
   const logState = useLogState();
   const calendarFilters = useCalendarFilters();
   const window = useWindowDimensions();
-  // Whether the user scrolled above the calendar's bottom edge. Updated on
-  // scroll end only, like the previous offset state, so the button does not
-  // appear before the user scrolls.
-  const [isScrolledUp, setIsScrolledUp] = useState(false);
-
-  const calendarRef = useRef<View>(null);
+  const [scrollOffset, setScrollOffset] = useState(0);
+  const [monthCount, setMonthCount] = useState(initialMonthCount);
+  const [calendarHeight, setCalendarHeight] = useState(0);
   const scrollRef = useRef<ScrollView>(null);
-  const calendarHeight = useRef(0);
+  const isLoadingEarlierMonths = useRef(false);
+  const requestedFromMonthCount = useRef(0);
+  const previousContentHeight = useRef(0);
+  const isInitialPositionSet = useRef(false);
 
-  // The calendar only renders after settings and logs are loaded.
-  useEffect(() => {
-    if (!settings.loaded || !logState.loaded || !scrollRef.current) {
+  const showScrollTopButton =
+    scrollOffset < calendarHeight - window.height && !calendarFilters.isOpen;
+
+  const loadEarlierMonths = () => {
+    if (!isInitialPositionSet.current || isLoadingEarlierMonths.current) {
       return;
     }
-    const timeout = setTimeout(() => {
-      if (scrollRef.current) {
-        scrollRef.current.scrollToEnd({ animated: false });
-      }
-    }, 0);
-    return () => clearTimeout(timeout);
-  }, [settings.loaded, logState.loaded]);
 
-  useEffect(() => {
-    if (!settings.loaded || !logState.loaded || !calendarRef.current) {
-      return;
-    }
-    const timeout = setTimeout(() => {
-      if (calendarRef.current) {
-        calendarRef.current.measure((x, y, width, height) => {
-          calendarHeight.current = height;
-        });
-      }
-    }, 0);
-    return () => clearTimeout(timeout);
-  }, [settings.loaded, logState.loaded]);
-
-  const onScrollEnd = (offsetY: number) => {
-    setIsScrolledUp(offsetY < calendarHeight.current - window.height);
+    isLoadingEarlierMonths.current = true;
+    requestedFromMonthCount.current = monthCount;
+    setMonthCount((count) => count + monthsPerPage);
   };
 
-  const showScrollTopButton = isScrolledUp && !calendarFilters.isOpen;
+  const onScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+    const offset = event.nativeEvent.contentOffset.y;
+    setScrollOffset(offset);
+
+    if (Platform.OS === "web" && offset < 100) {
+      loadEarlierMonths();
+    }
+  };
+
+  const onScrollBoundary = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+    const offset = event.nativeEvent.contentOffset.y;
+    setScrollOffset(offset);
+
+    if (offset < 100) {
+      loadEarlierMonths();
+    }
+  };
+
+  const onContentSizeChange = (_width: number, height: number) => {
+    if (!isInitialPositionSet.current) {
+      scrollRef.current?.scrollToEnd({ animated: false });
+      isInitialPositionSet.current = true;
+    }
+
+    if (height > previousContentHeight.current) {
+      if (
+        isLoadingEarlierMonths.current &&
+        monthCount > requestedFromMonthCount.current
+      ) {
+        isLoadingEarlierMonths.current = false;
+      }
+      previousContentHeight.current = height;
+    }
+  };
 
   if (!settings.loaded || !logState.loaded) {
     return (
@@ -77,18 +94,12 @@ const CalendarScreenComponent = () => {
   }
 
   return (
-    <View
-      style={{
-        flex: 1,
-      }}
-    >
+    <View style={{ flex: 1 }}>
       <CalendarHeader />
       {showScrollTopButton && (
         <ScrollToBottomButton
           onPress={() => {
-            if (scrollRef.current) {
-              scrollRef.current.scrollToEnd({ animated: true });
-            }
+            scrollRef.current?.scrollToEnd({ animated: true });
           }}
         />
       )}
@@ -100,24 +111,23 @@ const CalendarScreenComponent = () => {
           width: "100%",
         }}
         scrollEventThrottle={100}
-        onMomentumScrollEnd={(e) => {
-          onScrollEnd(e.nativeEvent.contentOffset.y);
-        }}
-        onScrollEndDrag={(e) => {
-          onScrollEnd(e.nativeEvent.contentOffset.y);
-        }}
+        maintainVisibleContentPosition={{ minIndexForVisible: 0 }}
+        onScroll={onScroll}
+        onScrollEndDrag={Platform.OS === "web" ? undefined : onScrollBoundary}
+        onMomentumScrollEnd={
+          Platform.OS === "web" ? undefined : onScrollBoundary
+        }
+        onContentSizeChange={onContentSizeChange}
         ref={scrollRef}
       >
-        <View
-          style={{
-            paddingBottom: 32,
-          }}
-        >
-          {Platform.OS === "web" && calendarFilters.isOpen && <Body />}
-          <Calendar ref={calendarRef} />
+        {Platform.OS === "web" && calendarFilters.isOpen && <Body />}
+        <Calendar
+          monthCount={monthCount}
+          onCalendarHeightChange={setCalendarHeight}
+        />
+        <View style={{ paddingBottom: 32 }}>
           <CalendarFooter />
         </View>
-
         <View style={{}}>
           <Text
             style={{

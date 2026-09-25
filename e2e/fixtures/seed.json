@@ -1,6 +1,12 @@
 {
   "version": "1.86.0",
   "items": [
+    {
+      "id": "e2e-old-entry",
+      "date": "2023-09-24",
+      "rating": "good",
+      "tags": []
+    },
     { "id": "e2e-1", "date": "2026-07-16", "rating": "good", "tags": [] },
     { "id": "e2e-2", "date": "2026-07-17", "rating": "very_good", "tags": [] },
     { "id": "e2e-3", "date": "2026-07-18", "rating": "neutral", "tags": [] },

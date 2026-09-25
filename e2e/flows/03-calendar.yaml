@@ -1,9 +1,14 @@
 appId: com.devmood.pixymoodtracker
 tags: [calendar]
 ---
-- launchApp:
-    clearState: true
-- runFlow: ../subflows/complete-onboarding.yaml
+- launchApp
+- runFlow:
+    when:
+      visible: "Welcome 👋"
+    commands:
+      - runFlow: ../subflows/complete-onboarding.yaml
+- tapOn:
+    id: "calendar"
 
 # 3.1 Calendar renders with today cell
 - assertVisible:
@@ -12,7 +17,67 @@ tags: [calendar]
 - assertVisible:
     id: "calendar-day-${output.today}"
 
-# 3.2 Scroll back several months (bounded swipes that stay off the tab bar)
+# 3.2 Find the historical date. Short swipes avoid skipping past older cells.
+- repeat:
+    times: 120
+    while:
+      notVisible:
+        id: "calendar-day-2023-09-24"
+    commands:
+      - swipe:
+          start: 50%, 65%
+          end: 50%, 55%
+- assertVisible:
+    id: "calendar-day-2023-09-24"
+- tapOn:
+    id: "calendar-day-2023-09-24"
+- runFlow:
+    when:
+      visible: "How was your day?"
+    commands:
+      - tapOn:
+          id: "mood-good"
+      - runFlow: ../subflows/finish-logger.yaml
+- runFlow:
+    when:
+      visible: "Add Entry"
+    commands:
+      - back
+- repeat:
+    times: 120
+    while:
+      notVisible:
+        id: "calendar-day-2023-09-24"
+    commands:
+      - swipe:
+          start: 50%, 65%
+          end: 50%, 55%
+- assertVisible:
+    id: "calendar-day-2023-09-24"
+- repeat:
+    times: 120
+    while:
+      notVisible:
+        id: "calendar-day-2022-09-24"
+    commands:
+      - swipe:
+          start: 50%, 65%
+          end: 50%, 55%
+- assertVisible:
+    id: "calendar-day-2022-09-24"
+- repeat:
+    times: 120
+    while:
+      notVisible:
+        id: "calendar-day-2021-09-24"
+    commands:
+      - swipe:
+          start: 50%, 65%
+          end: 50%, 55%
+- assertVisible:
+    id: "calendar-day-2021-09-24"
+
+# 3.4 Scroll back several months (bounded swipes that stay off the tab bar)
 - swipe:
     start: 50%, 30%
     end: 50%, 65%
@@ -23,7 +88,7 @@ tags: [calendar]
     start: 50%, 30%
     end: 50%, 65%
 
-# 3.3 Return to today (re-enter calendar tab, then scroll; use button if present)
+# 3.5 Return to today (re-enter calendar tab, then scroll; use button if present)
 - tapOn:
     id: "calendar"
 - runFlow:
@@ -46,9 +111,9 @@ tags: [calendar]
           speed: 60
           visibilityPercentage: 50
 
-# 3.4 Filters open, search visible, close
+# 3.6 Filters open, search visible, close
 - tapOn:
-    id: "filters"
+    point: 76%,7%
 - assertVisible: "Filters"
 - assertVisible: "Search"
 - runFlow:
