@@ -120,6 +120,23 @@ describe("useLogs()", () => {
     ]);
   });
 
+  test("should not save logs that were just loaded unchanged", async () => {
+    await AsyncStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify({ items: [testItems[0]] })
+    );
+    jest.mocked(AsyncStorage.setItem).mockClear();
+
+    const hook = await _renderHook();
+    await waitForLoaded(hook);
+
+    expect(countLogSaves()).toBe(0);
+
+    await act(() => hook.result.current.updater.addLog(testItems[1]));
+
+    expect(countLogSaves()).toBe(1);
+  });
+
   test("should initiate `state` with empty `items` when async storage is empty", async () => {
     const hook = await _renderHook();
     await waitForLoaded(hook);
