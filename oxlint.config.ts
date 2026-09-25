@@ -27,5 +27,10 @@ export default defineConfig({
     "unicorn/filename-case": "off",
     // React Native has no CSS classes; inline style objects are standard.
     "react-doctor/no-inline-exhaustive-style": "off",
+    // Alphabetical order hides ordinal data such as rating scales.
+    "sort-keys": "off",
+    // React Native loads assets with require(); Metro, Babel, and scripts are CommonJS.
+    "node/global-require": "off",
+    "unicorn/prefer-module": "off",
   },
 });
