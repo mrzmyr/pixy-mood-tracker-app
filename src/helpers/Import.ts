@@ -78,7 +78,7 @@ export const pixySchema = z
 
 const DEBUG = false;
 
-export function getJSONSchemaType(json: any): "pixy" | "unknown" {
+export function getJSONSchemaType(json: ImportData): "pixy" | "unknown" {
   const result = pixySchema.safeParse(json);
 
   if (!result.success && DEBUG) {

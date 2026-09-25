@@ -80,7 +80,7 @@ export const getTagsDistributionTrendData = (
   }
 
   const _tags = tags
-    .map((tag) => ({
+    .map((tag): DistributionTag => ({
       ...tag,
       periode1Count: distributionPeriode1[tag.id].count,
       periode2Count: distributionPeriode2[tag.id].count,
@@ -95,7 +95,7 @@ export const getTagsDistributionTrendData = (
           : distributionPeriode2[tag.id].count <
               distributionPeriode1[tag.id].count
             ? "decrease"
-            : ("same" as DistributionTag["type"]),
+            : "same",
     }))
     .filter(
       (tag) =>

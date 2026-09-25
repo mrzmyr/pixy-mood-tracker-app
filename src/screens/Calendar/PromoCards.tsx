@@ -15,19 +15,19 @@ import useColors from "../../hooks/useColors";
 import { useLogState } from "../../hooks/useLogs";
 import * as WebBrowser from "expo-web-browser";
 
-type RssItem = {
+interface RssItem {
   title: string;
   id: string;
   published: string;
   slug: string;
-};
+}
 
-type ParsedRssItem = {
+interface ParsedRssItem {
   title: string;
   link: string;
   guid?: string;
   pubDate: string;
-};
+}
 
 const rssParser = new XMLParser({
   ignoreAttributes: false,
@@ -69,10 +69,13 @@ export const PromoCards = () => {
     !!mostRecentRssItem && !hasActionDone(mostRecentRssItem.slug);
 
   useEffect(() => {
-    fetch("https://pixy.featureos.app/rss/changelog.xml")
-      .then((response) => response.text())
-      .then((str) => rssParser.parse(str))
-      .then((parsed) => {
+    void (async () => {
+      try {
+        const response = await fetch(
+          "https://pixy.featureos.app/rss/changelog.xml"
+        );
+        const str = await response.text();
+        const parsed = rssParser.parse(str);
         const rawItems = parsed?.rss?.channel?.item;
         const items: RssItem[] = (
           Array.isArray(rawItems) ? rawItems : [rawItems]
@@ -94,10 +97,10 @@ export const PromoCards = () => {
         if (items.length !== 0) {
           setMostRecentRssItem(items[0]);
         }
-      })
-      .catch(() => {
+      } catch {
         // The changelog card is optional; the calendar remains usable offline.
-      });
+      }
+    })();
   }, []);
 
   const promoCards: ReactElement[] = [];

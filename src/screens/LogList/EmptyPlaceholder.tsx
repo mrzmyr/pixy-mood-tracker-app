@@ -2,7 +2,7 @@ import { Text, View } from "react-native";
 import { t } from "@/helpers/translation";
 import useColors from "../../hooks/useColors";
 
-export const EmptyPlaceholder = ({}: {}) => {
+export const EmptyPlaceholder = () => {
   const colors = useColors();
 
   return (

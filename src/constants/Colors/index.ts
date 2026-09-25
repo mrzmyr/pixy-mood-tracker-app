@@ -5,7 +5,7 @@ import scales from "./Scales";
 
 type TagColorKey = (typeof TAG_COLOR_NAMES)[number];
 
-type TagColors = {
+interface TagColors {
   [tag: TagColorKey]: {
     title: string;
     dot: string;
@@ -13,7 +13,7 @@ type TagColors = {
     text: string;
     border: string;
   };
-};
+}
 
 const tagsDark: TagColors = {};
 const tagsLight: TagColors = {};

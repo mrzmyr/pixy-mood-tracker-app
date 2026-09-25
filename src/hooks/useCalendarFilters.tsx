@@ -10,6 +10,7 @@ import { useAnalytics } from "./useAnalytics";
 import type { LogItem } from "./useLogs";
 import { useLogState } from "./useLogs";
 import type { Tag } from "./useTags";
+import { createMissingProviderError } from "@/lib/errors";
 
 interface FiltersData {
   text: string;
@@ -23,15 +24,16 @@ export interface CalendarFiltersData extends FiltersData {
   isFiltering: boolean;
 }
 
-type Value = {
+interface Value {
   data: CalendarFiltersData;
   set: (data: FiltersData) => void;
   reset: () => void;
   open: () => void;
   close: () => void;
   isOpen: boolean;
-};
+}
 
+// SAFETY: every consumer renders inside CalendarFiltersProvider, which supplies the full Value.
 const CalendarFiltersStateContext = createContext({} as Value);
 
 const initialState: CalendarFiltersData = {
@@ -139,8 +141,9 @@ function CalendarFiltersProvider({ children }: { children: React.ReactNode }) {
 function useCalendarFilters(): Value {
   const context = useContext(CalendarFiltersStateContext);
   if (context === undefined) {
-    throw new Error(
-      "useCalendarFilters must be used within a CalendarFiltersProvider"
+    throw createMissingProviderError(
+      "useCalendarFilters",
+      "CalendarFiltersProvider"
     );
   }
   return context;

@@ -20,9 +20,9 @@ const CalendarDayContainer = memo(
   )
 );
 
-type DayMapItem = {
+interface DayMapItem {
   dateString: string;
-};
+}
 
 const CalendarWeek = memo(
   ({

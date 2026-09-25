@@ -33,11 +33,11 @@ export const useQuestioner = () => {
 
   const [question, setQuestion] = useState<IQuestion | null>(null);
 
-  const questionsDone = settings.actionsDone.filter((action: any) =>
+  const questionsDone = settings.actionsDone.filter((action) =>
     action?.title?.startsWith("question_slide_")
   );
 
-  const getQuestion = (): Promise<IQuestion | null> => {
+  const getQuestion = async (): Promise<IQuestion | null> => {
     const lastQuestionAnsweredToday =
       questionsDone.length > 0
         ? dayjs(questionsDone[questionsDone.length - 1].date).isSame(
@@ -48,54 +48,53 @@ export const useQuestioner = () => {
 
     if (lastQuestionAnsweredToday) {
       console.log("Not showing question because one was answered today");
-      return Promise.resolve(null);
+      return null;
     }
 
-    return fetch(QUESTIONS_PULL_URL)
-      .then((response) => response.json())
-      .then((data) => {
-        if (!data) {
-          return null;
+    try {
+      const response = await fetch(QUESTIONS_PULL_URL);
+      const data = await response.json();
+      if (!data) {
+        return null;
+      }
+
+      const question = data.find((question: IQuestion) => {
+        const satisfiesVersion = question.appVersion
+          ? semver.satisfies(pkg.version, question.appVersion)
+          : true;
+        const hasBeenAnswered = hasActionDone(`question_slide_${question.id}`);
+        const isInMyLanguage = question.text[language] !== undefined;
+
+        if (!satisfiesVersion) {
+          console.log(
+            "Question not shown because version does not match",
+            question.appVersion,
+            pkg.version
+          );
+        }
+        if (hasBeenAnswered) {
+          console.log(
+            "Question not shown because it has been answered",
+            question.id
+          );
+        }
+        if (!isInMyLanguage) {
+          console.log(
+            "Question not shown because it is not in my language",
+            question.text
+          );
         }
 
-        const question = data.find((question: IQuestion) => {
-          const satisfiesVersion = question.appVersion
-            ? semver.satisfies(pkg.version, question.appVersion)
-            : true;
-          const hasBeenAnswered = hasActionDone(
-            `question_slide_${question.id}`
-          );
-          const isInMyLanguage = question.text[language] !== undefined;
+        return satisfiesVersion && !hasBeenAnswered && isInMyLanguage;
+      });
 
-          if (!satisfiesVersion) {
-            console.log(
-              "Question not shown because version does not match",
-              question.appVersion,
-              pkg.version
-            );
-          }
-          if (hasBeenAnswered) {
-            console.log(
-              "Question not shown because it has been answered",
-              question.id
-            );
-          }
-          if (!isInMyLanguage) {
-            console.log(
-              "Question not shown because it is not in my language",
-              question.text
-            );
-          }
-
-          return satisfiesVersion && !hasBeenAnswered && isInMyLanguage;
-        });
-
-        return question || null;
-      })
-      .catch((error) => null);
+      return question || null;
+    } catch {
+      return null;
+    }
   };
 
-  const submit = (question: IQuestion, answers: IQuestion["answers"]) => {
+  const submit = async (question: IQuestion, answers: IQuestion["answers"]) => {
     const question_text = question.text[language] || question.text["en"];
 
     const answer_texts = answers
@@ -139,23 +138,23 @@ export const useQuestioner = () => {
       return;
     }
 
-    return fetch(QUESTION_SUBMIT_URL, {
+    await fetch(QUESTION_SUBMIT_URL, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(body),
-    }).then(() => {
-      addActionDone(`question_slide_${question.id}`);
     });
+    addActionDone(`question_slide_${question.id}`);
   };
 
   useEffect(() => {
-    getQuestion().then((question) => {
+    void (async () => {
+      const question = await getQuestion();
       if (isMounted.current) {
         setQuestion(question);
       }
-    });
+    })();
 
     return () => {
       isMounted.current = false;

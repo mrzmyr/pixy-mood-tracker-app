@@ -3,7 +3,7 @@ import { migrateImportData } from "../helpers/migration";
 import { INITIAL_STATE } from "../hooks/useSettings";
 
 describe("getJSONSchemaType", () => {
-  test("pixy schema: valid", async () => {
+  test("pixy schema: valid", () => {
     const json = {
       items: {
         "2022-01-23": {
@@ -26,7 +26,7 @@ describe("getJSONSchemaType", () => {
     expect(getJSONSchemaType(migrated)).toBe("pixy");
   });
 
-  test("pixy schema: reject invalid date key", async () => {
+  test("pixy schema: reject invalid date key", () => {
     const json = {
       items: {
         "2020-23": {
@@ -41,7 +41,7 @@ describe("getJSONSchemaType", () => {
     expect(getJSONSchemaType(migrated)).toBe("unknown");
   });
 
-  test("pixy schema: wrong rating", async () => {
+  test("pixy schema: wrong rating", () => {
     const json = {
       items: {
         "2022-01-03": {

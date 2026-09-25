@@ -152,7 +152,11 @@ export const ReminderSlide = ({
               >
                 <Clock
                   timeDate={time}
-                  onChange={(event, date) => setTime(date)}
+                  onChange={(event, date) => {
+                    if (date) {
+                      setTime(date);
+                    }
+                  }}
                 />
               </View>
             </View>

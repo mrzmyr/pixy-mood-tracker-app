@@ -12,6 +12,10 @@ import type { ConfigurableLoggerStep } from "@/components/Logger/config";
 import { STEP_OPTIONS } from "@/components/Logger/config";
 import { load, store } from "@/helpers/storage";
 import type { Tag } from "./useTags";
+import {
+  createMissingProviderError,
+  createStructuredError,
+} from "@/lib/errors";
 
 type KnownSettingsStep = ConfigurableLoggerStep | "sleep";
 
@@ -63,7 +67,7 @@ export const INITIAL_STATE: SettingsState = {
   steps: ["rating", "emotions", "tags", "message", "feedback"],
 };
 
-type Value = {
+interface Value {
   settings: SettingsState;
   setSettings: (
     settings: SettingsState | ((settings: SettingsState) => SettingsState)
@@ -75,17 +79,19 @@ type Value = {
   removeActionDone: (actionTitle: IAction["title"]) => void;
   toggleStep: (step: ConfigurableLoggerStep, value?: boolean) => void;
   hasStep: (step: KnownSettingsStep) => boolean;
-};
+}
 
+// SAFETY: every consumer renders inside SettingsProvider, which provides the full Value.
 const SettingsStateContext = createContext({} as Value);
 
 const isConfigurableLoggerStep = (
   step: unknown
 ): step is ConfigurableLoggerStep =>
-  typeof step === "string" &&
-  STEP_OPTIONS.includes(step as ConfigurableLoggerStep);
+  typeof step === "string" && STEP_OPTIONS.some((option) => option === step);
 
-const sanitizeSteps = (steps: unknown): ConfigurableLoggerStep[] =>
+const sanitizeSteps = (
+  steps: SettingsState["steps"] | undefined
+): ConfigurableLoggerStep[] =>
   (Array.isArray(steps) ? steps : INITIAL_STATE.steps).filter(
     isConfigurableLoggerStep
   );
@@ -195,7 +201,12 @@ function SettingsProvider({ children }: { children: React.ReactNode }) {
           : !settings.steps.includes(step);
 
         if (!STEP_OPTIONS.includes(step)) {
-          throw new Error(`Step ${step} is not a valid step`);
+          throw createStructuredError({
+            status: "invalid_logger_step",
+            message: `Step ${step} is not a valid step`,
+            why: `Step ${step} is not one of STEP_OPTIONS`,
+            fix: "Pass a step listed in STEP_OPTIONS",
+          });
         }
 
         if (shouldAdd) {
@@ -241,7 +252,7 @@ function SettingsProvider({ children }: { children: React.ReactNode }) {
 function useSettings(): Value {
   const context = useContext(SettingsStateContext);
   if (context === undefined) {
-    throw new Error("useSettings must be used within a SettingsProvider");
+    throw createMissingProviderError("useSettings", "SettingsProvider");
   }
   return context;
 }

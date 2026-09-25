@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import type { LogItem } from "./useLogs";
+import { createMissingProviderError } from "@/lib/errors";
 
 export type TemporaryLogState = Omit<LogItem, "rating" | "sleep"> & {
   rating: LogItem["rating"] | null;
@@ -18,11 +19,13 @@ export interface TemporaryLogValue {
   reset: () => void;
 }
 
+// SAFETY: every consumer renders inside TemporaryLogProvider, which supplies the full value.
 const TemporaryLogStateContext = createContext({} as TemporaryLogValue);
 
 function TemporaryLogProvider({ children }: { children: React.ReactNode }) {
   const [isDirty, setIsDirty] = useState(false);
   const [temporaryLog, setTemporaryLog] = useState<TemporaryLogState>(
+    // SAFETY: empty placeholder until initialize(); isInitialized stays false while it is empty.
     {} as TemporaryLogState
   );
   const [isInitialized, setIsInitialized] = useState(false);
@@ -48,6 +51,7 @@ function TemporaryLogProvider({ children }: { children: React.ReactNode }) {
   };
 
   const reset = () => {
+    // SAFETY: empty placeholder until initialize(); isInitialized is reset to false below.
     setTemporaryLog({} as TemporaryLogState);
     setIsDirty(false);
     setIsInitialized(false);
@@ -86,9 +90,7 @@ function useTemporaryLog(defaultValue?: TemporaryLogState): TemporaryLogValue {
   const context = useContext(TemporaryLogStateContext);
 
   if (context === undefined) {
-    throw new Error(
-      "useTemporaryLog must be used within a TemporaryLogProvider"
-    );
+    throw createMissingProviderError("useTemporaryLog", "TemporaryLogProvider");
   }
 
   useEffect(() => {

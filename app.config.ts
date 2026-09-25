@@ -8,9 +8,16 @@ export default ({ config }: ConfigContext): ExpoConfig => {
 
   if (isDevClient) {
     _config.name = "Pixy Dev";
-    _config.ios!.bundleIdentifier = `com.devmood.pixymoodtracker.dev`;
-    _config.android!.package = `com.devmood.pixymoodtracker.dev`;
-    _config.android!.icon = _config.icon = "./assets/images/icon-dev.png";
+    _config.icon = "./assets/images/icon-dev.png";
+    _config.ios = {
+      ...config.ios,
+      bundleIdentifier: `com.devmood.pixymoodtracker.dev`,
+    };
+    _config.android = {
+      ...config.android,
+      package: `com.devmood.pixymoodtracker.dev`,
+      icon: _config.icon,
+    };
   }
 
   // console.log('------------------------------');

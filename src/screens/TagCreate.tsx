@@ -34,7 +34,7 @@ export const TagCreate = ({
   const [tempTag, setTempTag] = useState<ITag>({
     id: uuidv4(),
     title: "",
-    color: Object.keys(colors.tags)[0] as ITag["color"],
+    color: Object.keys(colors.tags)[0],
   });
 
   const onCreate = () => {
@@ -47,7 +47,7 @@ export const TagCreate = ({
     setTempTag({
       id: uuidv4(),
       title: "",
-      color: Object.keys(colors.tags)[0] as ITag["color"],
+      color: Object.keys(colors.tags)[0],
     });
 
     tagsUpdater.createTag(tempTag);

@@ -99,7 +99,7 @@ export const SlideTags = ({
           >
             {_tags?.map((tag) => (
               <Tag
-                onPress={async () => {
+                onPress={() => {
                   const newTags = tempLog?.data?.tags
                     ?.map((d) => d.id)
                     .includes(tag.id)

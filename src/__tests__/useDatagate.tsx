@@ -21,6 +21,7 @@ import { TagsProvider, useTagsState, useTagsUpdater } from "../hooks/useTags";
 import { _generateItem } from "./utils";
 import pkg from "../../package.json";
 
+// oxlint-disable-next-line anti-slop/no-module-mocking -- expo-sharing is a native module unavailable in Jest; the export test asserts on shareAsync
 jest.mock("expo-sharing", () => ({
   isAvailableAsync: jest.fn().mockResolvedValue(true),
   shareAsync: jest.fn().mockResolvedValue(undefined),
@@ -132,7 +133,7 @@ const waitForLoaded = (hook) =>
 const _console_error = console.error;
 
 describe("useLogs()", () => {
-  beforeEach(async () => {
+  beforeEach(() => {
     console.error = jest.fn();
     jest.clearAllMocks();
   });
@@ -172,8 +173,7 @@ describe("useLogs()", () => {
       hook.result.current.datagate.openImportDialog();
     });
 
-    // @ts-ignore
-    Alert.alert.mock.calls[0][2][0].onPress();
+    jest.mocked(Alert.alert).mock.calls[0]?.[2]?.[0]?.onPress?.();
 
     await waitFor(() => {
       expect(hook.result.current.logState.items).toEqual(testItems);
@@ -199,11 +199,8 @@ describe("useLogs()", () => {
     const hook = await _renderHook();
 
     jest.spyOn(Alert, "alert");
-    jest
-      .spyOn(FileSystem, "writeAsStringAsync")
-      // @ts-ignore
-      .mockResolvedValueOnce("file://something.json");
-    (Sharing.shareAsync as jest.Mock).mockClear();
+    jest.spyOn(FileSystem, "writeAsStringAsync").mockResolvedValueOnce();
+    jest.mocked(Sharing.shareAsync).mockClear();
 
     await waitForLoaded(hook);
 
@@ -217,12 +214,15 @@ describe("useLogs()", () => {
       await hook.result.current.datagate.openExportDialog();
     });
 
-    // @ts-ignore
-    const calledJson = FileSystem.writeAsStringAsync.mock.calls[0][1];
+    const calledJson =
+      jest.mocked(FileSystem.writeAsStringAsync).mock.calls[0]?.[1] ?? "";
     const expectedJson = {
       version: pkg.version,
       items: testItems,
-      settings: _.omit(testSettings, ["loaded", "deviceId"]) as ExportSettings,
+      settings: _.omit(testSettings, [
+        "loaded",
+        "deviceId",
+      ]) satisfies ExportSettings,
       tags: testTags,
     };
 
@@ -248,8 +248,7 @@ describe("useLogs()", () => {
       hook.result.current.datagate.openResetDialog("factory");
     });
 
-    // @ts-ignore
-    Alert.alert.mock.calls[0][2][0].onPress();
+    jest.mocked(Alert.alert).mock.calls[0]?.[2]?.[0]?.onPress?.();
 
     await waitFor(() => {
       expect(hook.result.current.logState.items).toEqual([]);
@@ -292,8 +291,7 @@ describe("useLogs()", () => {
       hook.result.current.datagate.openResetDialog("data");
     });
 
-    // @ts-ignore
-    Alert.alert.mock.calls[0][2][0].onPress();
+    jest.mocked(Alert.alert).mock.calls[0]?.[2]?.[0]?.onPress?.();
 
     await waitFor(() => {
       expect(hook.result.current.logState.items).toEqual([]);

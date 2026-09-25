@@ -1,3 +1,5 @@
+import { createStructuredError } from "@/lib/errors";
+
 export default {
   alert: (
     title: string,
@@ -12,15 +14,26 @@ export default {
         onPress: () => void;
       },
     ]
-  ) =>
-    new Promise((resolve, reject) => {
+  ) => {
+    // Errors from callbacks reject the returned Promise instead of throwing
+    // synchronously, matching the former Promise executor behavior.
+    try {
       const message = `${title}: ${body}`;
       if (confirm(message)) {
         callbacks[0]?.onPress();
-        resolve({});
-      } else {
-        callbacks[1]?.onPress();
-        reject({});
+        return Promise.resolve({});
       }
-    }),
+      callbacks[1]?.onPress();
+      return Promise.reject(
+        createStructuredError({
+          status: "alert_dismissed",
+          message: "Alert dismissed",
+          why: "The user declined the browser confirm dialog",
+          fix: "No action needed; the user chose not to continue",
+        })
+      );
+    } catch (error) {
+      return Promise.reject(error);
+    }
+  },
 };

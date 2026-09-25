@@ -1,4 +1,4 @@
-import { NavigationContainer } from "@react-navigation/native";
+import { DefaultTheme, NavigationContainer } from "@react-navigation/native";
 import { act, render, userEvent, waitFor } from "@testing-library/react-native";
 import { Alert } from "react-native";
 import Providers from "@/components/Providers";
@@ -10,10 +10,12 @@ import {
 } from "@/support";
 import { SettingsScreen } from "@/screens/Settings";
 
+// oxlint-disable-next-line anti-slop/no-module-mocking -- lucide-react-native renders native SVG components that Jest cannot render
 jest.mock("lucide-react-native", () => ({
   Tag: () => null,
 }));
 
+// oxlint-disable-next-line anti-slop/no-module-mocking -- expo-superwall is a native module imported transitively by Providers; the support client itself is injected
 jest.mock(
   "expo-superwall",
   () => ({
@@ -24,7 +26,12 @@ jest.mock(
       registerPlacement: jest.fn(),
       state: { status: "idle" },
     }),
-    useSuperwall: (selector: (state: object) => unknown) =>
+    useSuperwall: <T,>(
+      selector: (state: {
+        isConfigured: boolean;
+        setEventTrackingBehavior: jest.Mock;
+      }) => T
+    ) =>
       selector({
         isConfigured: false,
         setEventTrackingBehavior: jest.fn(),
@@ -34,6 +41,7 @@ jest.mock(
   { virtual: true }
 );
 
+// oxlint-disable-next-line anti-slop/no-module-mocking -- react-native-safe-area-context needs native insets that Jest does not provide
 jest.mock("react-native-safe-area-context", () => ({
   SafeAreaProvider: ({ children }: { children: React.ReactNode }) => children,
   useSafeAreaInsets: () => ({ top: 0, right: 0, bottom: 0, left: 0 }),
@@ -46,36 +54,21 @@ const navigation = {
 const renderSettings = (supportClient: SupportClient) =>
   render(
     <NavigationContainer
-      theme={
-        {
-          dark: false,
-          colors: Colors.light,
-        } as never
-      }
+      theme={{
+        ...DefaultTheme,
+        dark: false,
+        colors: { ...DefaultTheme.colors, ...Colors.light },
+      }}
     >
       <Providers supportClient={supportClient}>
         <SettingsScreen
+          // SAFETY: SettingsScreen only calls navigation.navigate, which the mock provides.
           navigation={navigation as never}
           route={{ key: "settings", name: "Settings" }}
         />
       </Providers>
     </NavigationContainer>
   );
-
-const collectTestIds = (node: any): string[] => {
-  if (Array.isArray(node)) {
-    return node.flatMap(collectTestIds);
-  }
-  if (!node || typeof node !== "object") {
-    return [];
-  }
-
-  const testId = node.props?.testID;
-  return [
-    ...(typeof testId === "string" ? [testId] : []),
-    ...collectTestIds(node.children),
-  ];
-};
 
 describe("Support Pixy in Settings", () => {
   afterEach(() => {
@@ -89,7 +82,9 @@ describe("Support Pixy in Settings", () => {
     expect(screen.queryByTestId("support-pixy-card")).toBeNull();
     expect(openSupport).not.toHaveBeenCalled();
 
-    const testIds = collectTestIds(screen.toJSON());
+    const testIds = screen
+      .queryAllByTestId(/./u)
+      .map((element) => element.props.testID);
     expect(testIds.indexOf("settings-version")).toBeLessThan(
       testIds.indexOf("settings-development-user-data")
     );
@@ -102,8 +97,11 @@ describe("Support Pixy in Settings", () => {
     });
 
     expect(supportClient).toBeDefined();
+    if (!supportClient) {
+      return;
+    }
 
-    const screen = await renderSettings(supportClient!);
+    const screen = await renderSettings(supportClient);
 
     expect(screen.getByTestId("support-pixy-card")).toBeOnTheScreen();
     expect(
@@ -118,7 +116,9 @@ describe("Support Pixy in Settings", () => {
       screen.getByRole("button", { name: "Support Pixy" })
     ).toBeOnTheScreen();
 
-    const testIds = collectTestIds(screen.toJSON());
+    const testIds = screen
+      .queryAllByTestId(/./u)
+      .map((element) => element.props.testID);
     expect(testIds.indexOf("settings-development-user-data")).toBeLessThan(
       testIds.indexOf("support-pixy-card")
     );
@@ -175,7 +175,7 @@ describe("Support Pixy in Settings", () => {
     );
     expect(screen.getByRole("button", { name: "Data" })).toBeEnabled();
 
-    await act(async () => retry?.());
+    await act(() => retry?.());
 
     await waitFor(() => expect(supportClient.attempts).toBe(2));
   });
@@ -184,6 +184,7 @@ describe("Support Pixy in Settings", () => {
     let finishSupport: () => void = () => undefined;
     const openSupport = jest.fn(
       () =>
+        // oxlint-disable-next-line promise/avoid-new -- test needs a deferred Promise that stays pending until finishSupport() is called
         new Promise<void>((resolve) => {
           finishSupport = resolve;
         })

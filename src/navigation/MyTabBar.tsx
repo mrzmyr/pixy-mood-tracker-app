@@ -6,18 +6,25 @@ import {
   Settings as SettingsIcon,
 } from "react-native-feather";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import type { SvgProps } from "react-native-svg";
 import { t } from "@/helpers/translation";
 import useColors from "@/hooks/useColors";
 import useHaptics from "@/hooks/useHaptics";
-import { SettingsScreen, StatisticsScreen } from "../screens";
+import { SettingsScreen } from "../screens/Settings";
+import { StatisticsScreen } from "../screens/Statistics";
 import CalendarScreen from "../screens/Calendar";
 
-export const ROUTES: {
+interface TabRoute {
   name: string;
-  icon: any;
-  component: any;
+  icon: (props: SvgProps) => React.JSX.Element;
+  component:
+    | typeof StatisticsScreen
+    | typeof CalendarScreen
+    | typeof SettingsScreen;
   path?: string;
-}[] = [
+}
+
+export const ROUTES: TabRoute[] = [
   {
     name: "Statistics",
     component: StatisticsScreen,
@@ -110,12 +117,14 @@ export function MyTabBar({ state, descriptors, navigation }) {
                 marginBottom: 4,
               }}
             />
-            <Icon
-              width={20}
-              color={
-                isFocused ? colors.tabsIconActive : colors.tabsIconInactive
-              }
-            />
+            {Icon !== undefined && (
+              <Icon
+                width={20}
+                color={
+                  isFocused ? colors.tabsIconActive : colors.tabsIconInactive
+                }
+              />
+            )}
             <Text
               style={{
                 color: isFocused

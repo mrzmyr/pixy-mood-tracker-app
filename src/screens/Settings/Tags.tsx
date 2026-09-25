@@ -118,7 +118,7 @@ export const SettingsTagsArchive = ({
     "title"
   );
 
-  const onEdit = async (tag: Tag) => {
+  const onEdit = (tag: Tag) => {
     navigation.navigate("TagEdit", { id: tag.id });
   };
 

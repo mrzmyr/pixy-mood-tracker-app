@@ -11,7 +11,7 @@ export const TagListItem = ({
 }: {
   tag: Tag;
   isLast: boolean;
-  onPress: (tag: Tag) => void;
+  onPress: () => void;
 }) => {
   const colors = useColors();
 

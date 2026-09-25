@@ -11,15 +11,21 @@ const isSupportFlowError = (error: unknown): error is SupportFlowError => {
     return false;
   }
 
-  const candidate = error as Partial<SupportFlowError>;
-  return ["status", "message", "why", "fix"].every(
-    (field) => typeof candidate[field as keyof SupportFlowError] === "string"
+  return (
+    "status" in error &&
+    typeof error.status === "string" &&
+    "message" in error &&
+    typeof error.message === "string" &&
+    "why" in error &&
+    typeof error.why === "string" &&
+    "fix" in error &&
+    typeof error.fix === "string"
   );
 };
 
-const normalizeSupportFlowError = (error: unknown): SupportFlowError => {
-  if (isSupportFlowError(error)) {
-    return error;
+const normalizeSupportFlowError = (cause: unknown): SupportFlowError => {
+  if (isSupportFlowError(cause)) {
+    return cause;
   }
 
   return {

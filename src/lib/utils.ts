@@ -4,7 +4,11 @@ import _ from "lodash";
 import { t } from "@/helpers/translation";
 import { DATE_FORMAT } from "@/constants/Config";
 import type { LogDay, LogItem } from "@/hooks/useLogs";
-import { RATING_MAPPING, SLEEP_QUALITY_MAPPING } from "@/hooks/useLogs";
+import {
+  RATING_KEYS,
+  RATING_MAPPING,
+  SLEEP_QUALITY_MAPPING,
+} from "@/hooks/useLogs";
 
 const SCREEN_WIDTH = Dimensions.get("window").width;
 
@@ -34,7 +38,10 @@ export const getAverageMood = (items: LogItem[]): LogItem["rating"] | null => {
     return null;
   }
 
-  return _.invert(RATING_MAPPING)[averageRating] as LogItem["rating"];
+  return (
+    RATING_KEYS.find((rating) => RATING_MAPPING[rating] === averageRating) ??
+    null
+  );
 };
 
 export const getAverageSleepQuality = (items: LogItem[]): number | null => {
@@ -82,7 +89,7 @@ export const getLogDays = (items: LogItem[]): LogDay[] => {
         items,
       };
     })
-    .filter((item) => item !== null) as LogDay[];
+    .filter((item): item is LogDay => item !== null);
 };
 
 export const getItemDateTitle = (dateTime: LogItem["dateTime"]) => {
@@ -120,22 +127,19 @@ const isoDateRegExp = new RegExp(
 export const isISODate = (date: string) => isoDateRegExp.test(date);
 
 export const getMostUsedEmotions = (items: LogItem[]) => {
-  const emotions = items.reduce(
-    (acc, item) => {
-      if (item.emotions) {
-        item.emotions.forEach((emotion) => {
-          if (acc[emotion]) {
-            acc[emotion] += 1;
-          } else {
-            acc[emotion] = 1;
-          }
-        });
-      }
+  const emotions = items.reduce<Record<string, number>>((acc, item) => {
+    if (item.emotions) {
+      item.emotions.forEach((emotion) => {
+        if (acc[emotion]) {
+          acc[emotion] += 1;
+        } else {
+          acc[emotion] = 1;
+        }
+      });
+    }
 
-      return acc;
-    },
-    {} as Record<string, number>
-  );
+    return acc;
+  }, {});
 
   return Object.keys(emotions)
     .map((emotion) => ({
