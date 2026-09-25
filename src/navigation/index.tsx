@@ -13,7 +13,6 @@ import { LogList } from "../screens/LogList";
 import { LicensesScreen } from "../screens/Licenses";
 import { LogCreate } from "../screens/Log/Create";
 import { LogEdit } from "../screens/Log/Edit";
-import { NotFoundScreen } from "../screens/NotFound";
 import { PrivacyScreen } from "../screens/Privacy";
 import { ReminderScreen } from "../screens/Reminder";
 import { SettingsScreen } from "../screens/Settings";
@@ -71,7 +70,6 @@ const NAVIGATION_LINKING: LinkingOptions<RootStackParamList> = {
       Reminder: "settings/reminder",
       Privacy: "settings/privacy",
       DevelopmentTools: "settings/development-tools",
-      // PasscodeLocked: 'passcode-locked',;
       // Tags: 'settings/tags',;
       StatisticsHighlights: "statistics/highlights",
       StatisticsMonth: "statistics/month/:date",
@@ -104,7 +102,6 @@ const RootNavigator = () => {
   const logState = useLogState();
   const { tags } = useTagsState();
   const { anonymizeTag } = useAnonymizer();
-  // const passcode = usePasscode()
 
   const defaultOptions = {
     headerTintColor: colors.text,
@@ -143,22 +140,7 @@ const RootNavigator = () => {
     initializeDayjs();
   }, [settings.loaded]);
 
-  // if(passcode.isEnabled === null) return null;
-
   return (
-    // (passcode.isEnabled && !passcode.isAuthenticated) ? (
-    //   <Stack.Navigator
-    //     screenOptions={{
-    //       animation: 'none'
-    //     }}
-    //   >
-    //     <Stack.Screen
-    //       options={{ headerShown: false }}
-    //       name="PasscodeLocked"
-    //       component={PasscodeLocked}
-    //     />
-    //   </Stack.Navigator>
-    // ) : (
     <View
       style={{
         flex: 1,
@@ -177,12 +159,6 @@ const RootNavigator = () => {
           options={{
             headerShown: false,
           }}
-        />
-
-        <Stack.Screen
-          name="NotFound"
-          component={NotFoundScreen}
-          options={{ title: "Oops!" }}
         />
 
         <Stack.Group
@@ -359,7 +335,6 @@ const RootNavigator = () => {
         </Stack.Group>
       </Stack.Navigator>
     </View>
-    // )
   );
 };
 

@@ -57,7 +57,7 @@ bun dashboard                                               # runs, devices, and
 | 10-stability | Background/foreground, cold restart (2nd-launch crash regression), tab smoke |
 | apple/ios-regressions | iOS filter modal, narrow check-in layout/switch accessibility, tag form accessibility |
 
-Suite 08 (passcode) intentionally absent: the passcode feature is commented out in the app (`src/screens/Settings/index.tsx`).
+Suite 08 (passcode) intentionally absent: the app has no passcode feature.
 
 Import-from-file (Data → Import) is not automated because the system file picker is flaky to drive. The fixture includes a visible entry from 2023-09-24. The calendar flow uses that entry when present; otherwise, it creates a good entry on that date through Calendar, then continues paging through empty months in 2022 and 2021.
 
