@@ -9,7 +9,7 @@ import { getLogEditMarginTop } from "@/helpers/responsive";
 import { t } from "@/helpers/translation";
 import useColors from "@/hooks/useColors";
 import type { LogItem } from "@/hooks/useLogs";
-import { RATING_KEYS } from "@/hooks/useLogs";
+import { RATING_KEYS } from "@/constants/Ratings";
 import { useTemporaryLog } from "@/hooks/useTemporaryLog";
 import { SlideHeadline } from "../components/SlideHeadline";
 import { SlideMoodButton } from "../components/SlideMoodButton";

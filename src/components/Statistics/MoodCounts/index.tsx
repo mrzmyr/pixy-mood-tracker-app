@@ -1,6 +1,6 @@
 import type { Dayjs } from "dayjs";
 import type { LogItem } from "@/hooks/useLogs";
-import { RATING_KEYS } from "@/hooks/useLogs";
+import { RATING_KEYS } from "@/constants/Ratings";
 import { CardFeedback } from "../CardFeedback";
 import { NotEnoughDataOverlay } from "../NotEnoughDataOverlay";
 import { BigCard } from "../../BigCard";

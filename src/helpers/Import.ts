@@ -2,7 +2,7 @@ import { z } from "zod";
 import { TAG_COLOR_NAMES } from "@/constants/Config";
 import type { Tag } from "@/hooks/useTags";
 import type { LogItem, LogsState } from "@/hooks/useLogs";
-import { RATING_KEYS } from "@/hooks/useLogs";
+import { RATING_KEYS } from "@/constants/Ratings";
 import type { ExportSettings } from "@/hooks/useSettings";
 
 export interface ImportData {

@@ -1,4 +1,4 @@
-import { SLEEP_QUALITY_KEYS, SLEEP_QUALITY_MAPPING } from "@/hooks/useLogs";
+import { SLEEP_QUALITY_KEYS, SLEEP_QUALITY_MAPPING } from "@/constants/Ratings";
 import { G, Mask, Rect } from "react-native-svg";
 
 export const YLabels = ({ relativeY, YLegendWidth, rowHeight, width }) => (

@@ -7,7 +7,7 @@ import type { SupportClient } from "@/support";
 import {
   createFakeSupportClient,
   resolveDevelopmentSupportClient,
-} from "@/support";
+} from "@/support/clients";
 import { SettingsScreen } from "@/screens/Settings";
 
 // oxlint-disable-next-line anti-slop/no-module-mocking -- lucide-react-native renders native SVG components that Jest cannot render

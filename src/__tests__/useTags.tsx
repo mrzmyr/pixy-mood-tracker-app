@@ -12,8 +12,8 @@ import {
   SettingsProvider,
   useSettings,
   STORAGE_KEY as STORAGE_KEY_SETTINGS,
-  INITIAL_STATE as INITIAL_STATE_SETTINGS,
 } from "../hooks/useSettings";
+import { INITIAL_STATE as INITIAL_STATE_SETTINGS } from "../constants/Settings";
 
 import type { Tag } from "../hooks/useTags";
 import {

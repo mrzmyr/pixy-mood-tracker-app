@@ -5,8 +5,8 @@ import {
   usePostHog as getPostHogTestClient,
 } from "posthog-react-native";
 import { AnalyticsProvider, useAnalytics } from "../hooks/useAnalytics";
+import { INITIAL_STATE } from "../constants/Settings";
 import {
-  INITIAL_STATE,
   SettingsProvider,
   STORAGE_KEY,
   useSettings,

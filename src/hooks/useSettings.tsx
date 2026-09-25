@@ -17,6 +17,7 @@ import {
   createMissingProviderError,
   createStructuredError,
 } from "@/lib/errors";
+import { INITIAL_STATE } from "@/constants/Settings";
 
 type KnownSettingsStep = ConfigurableLoggerStep | "sleep";
 
@@ -54,19 +55,6 @@ interface IAction {
   title: string;
   date: string;
 }
-
-export const INITIAL_STATE: SettingsState = {
-  loaded: false,
-  deviceId: null,
-  passcodeEnabled: null,
-  passcode: null,
-  scaleType: "ColorBrew-RdYlGn",
-  reminderEnabled: false,
-  reminderTime: "18:00",
-  analyticsEnabled: false,
-  actionsDone: [],
-  steps: ["rating", "emotions", "tags", "message", "feedback"],
-};
 
 interface Value {
   settings: SettingsState;

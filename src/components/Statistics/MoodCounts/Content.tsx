@@ -1,6 +1,6 @@
 import { Text, View } from "react-native";
 import useColors from "@/hooks/useColors";
-import { RATING_KEYS } from "@/hooks/useLogs";
+import { RATING_KEYS } from "@/constants/Ratings";
 import { Bar } from "./Bar";
 
 export const Content = ({

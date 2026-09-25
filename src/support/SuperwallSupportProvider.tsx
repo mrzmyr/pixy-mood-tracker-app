@@ -10,10 +10,11 @@ import {
 import { useAnalytics } from "@/hooks/useAnalytics";
 import { createStructuredError } from "@/lib/errors";
 import type { SupportClient, SupportFlowError } from "./index";
-import { disabledSupportClient, SupportProvider } from "./index";
+import { disabledSupportClient } from "./clients";
+import { SupportProvider } from "./index";
 
 export const SUPPORT_PLACEMENT = "support_pixy";
-export const SUPPORT_PRODUCT_IDS = [
+const SUPPORT_PRODUCT_IDS = [
   "support_pixy_1",
   "support_pixy_2",
   "support_pixy_5",
