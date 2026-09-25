@@ -233,20 +233,18 @@ export const CardFeedback = ({
         }}
       >
         {!loading && (
-          <>
-            <Text
-              style={{
-                fontSize: 14,
-                color: colors.statisticsFeedbackText,
-                paddingTop: 8,
-                paddingBottom: 8,
-              }}
-            >
-              {feedbackSent
-                ? `🫶 ${t("statistics_feedback_thanks")}`
-                : t("statistics_feedback_question")}
-            </Text>
-          </>
+          <Text
+            style={{
+              fontSize: 14,
+              color: colors.statisticsFeedbackText,
+              paddingTop: 8,
+              paddingBottom: 8,
+            }}
+          >
+            {feedbackSent
+              ? `🫶 ${t("statistics_feedback_thanks")}`
+              : t("statistics_feedback_question")}
+          </Text>
         )}
         {loading && (
           <View

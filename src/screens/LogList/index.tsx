@@ -67,7 +67,7 @@ export const LogList = ({
 
   const _carouselRef = useRef<CarouselRef>(null);
   const pages = items.map((item) => (
-    <Entry item={item} onEdit={edit} onDelete={_delete} />
+    <Entry key={item.id} item={item} onEdit={edit} onDelete={_delete} />
   ));
 
   const PAGE_WIDTH = WINDOW_WIDTH * 0.9;

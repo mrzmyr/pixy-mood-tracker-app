@@ -34,10 +34,10 @@ export const Onboarding = ({
   const analytics = useAnalytics();
   const insets = useSafeAreaInsets();
 
-  const [index, _setIndex] = useState(0);
+  const [index, setIndex] = useState(0);
 
-  const setIndex = (index: number) => {
-    _setIndex(index);
+  const goToSlide = (index: number) => {
+    setIndex(index);
     analytics.track("onboarding_slide", { index });
   };
 
@@ -55,6 +55,7 @@ export const Onboarding = ({
 
   const slides = [
     <IndexSlide
+      key="index"
       onPress={(answer) => {
         analytics.track("onboarding_question_1", {
           answer:
@@ -62,14 +63,29 @@ export const Onboarding = ({
               ? "used_mood_tracker_before"
               : "never_used_mood_tracker",
         });
-        setIndex(1);
+        goToSlide(1);
       }}
     />,
-    <CalendarSlide onSkip={skip} index={1} setIndex={setIndex} />,
-    <StatisticsSlide onSkip={skip} index={2} setIndex={setIndex} />,
-    <FiltersSlide onSkip={skip} index={3} setIndex={setIndex} />,
-    <ReminderSlide onSkip={skip} index={4} setIndex={setIndex} />,
-    <PrivacySlide onPress={finish} />,
+    <CalendarSlide
+      key="calendar"
+      onSkip={skip}
+      index={1}
+      setIndex={goToSlide}
+    />,
+    <StatisticsSlide
+      key="statistics"
+      onSkip={skip}
+      index={2}
+      setIndex={goToSlide}
+    />,
+    <FiltersSlide key="filters" onSkip={skip} index={3} setIndex={goToSlide} />,
+    <ReminderSlide
+      key="reminder"
+      onSkip={skip}
+      index={4}
+      setIndex={goToSlide}
+    />,
+    <PrivacySlide key="privacy" onPress={finish} />,
   ];
 
   return (

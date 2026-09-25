@@ -139,28 +139,26 @@ export const TagPeaksCard = ({ tag }: { tag: TagsPeakData["tags"][0] }) => {
     <Card
       subtitle={t("tags")}
       title={
-        <>
+        <Text
+          style={{
+            fontSize: 17,
+            color: colors.text,
+            fontWeight: "bold",
+          }}
+        >
           <Text
             style={{
               fontSize: 17,
-              color: colors.text,
-              fontWeight: "bold",
+              color: colors.tags[tag?.color]?.text,
             }}
           >
-            <Text
-              style={{
-                fontSize: 17,
-                color: colors.tags[tag?.color]?.text,
-              }}
-            >
-              {tag?.title}&nbsp;
-            </Text>
-            {t("statistics_tag_peaks_title", {
-              title: tag?.title,
-              count: daysCount,
-            })}
+            {tag?.title}&nbsp;
           </Text>
-        </>
+          {t("statistics_tag_peaks_title", {
+            title: tag?.title,
+            count: daysCount,
+          })}
+        </Text>
       }
     >
       <View

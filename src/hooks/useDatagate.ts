@@ -44,6 +44,42 @@ interface ExportData {
   settings: ExportSettings;
 }
 
+const dangerouslyImportDirectlyToAsyncStorage = async (data: ImportData) => {
+  await AsyncStorage.removeItem(STORAGE_KEY_TAGS);
+  await AsyncStorage.setItem(
+    STORAGE_KEY_LOGS,
+    JSON.stringify({
+      items: data.items,
+    })
+  );
+  await AsyncStorage.setItem(
+    STORAGE_KEY_SETTINGS,
+    JSON.stringify({
+      ...data.settings,
+      actionsDone: [
+        {
+          date: new Date().toISOString(),
+          title: "onboarding",
+        },
+      ],
+      tags: data.tags,
+    })
+  );
+};
+
+const openDangerousImportDirectlyToAsyncStorageDialog = async () => {
+  const doc = await DocumentPicker.getDocumentAsync({
+    type: "application/json",
+    copyToCacheDirectory: true,
+  });
+
+  if (!doc.canceled) {
+    const contents = await FileSystem.readAsStringAsync(doc.assets[0].uri);
+    const data = JSON.parse(contents);
+    dangerouslyImportDirectlyToAsyncStorage(data);
+  }
+};
+
 interface DatagateValue {
   openExportDialog: () => Promise<void>;
   openImportDialog: () => Promise<void>;
@@ -60,29 +96,6 @@ export const useDatagate = (): DatagateValue => {
   const { resetSettings, importSettings, settings } = useSettings();
 
   const analytics = useAnalytics();
-
-  const dangerouslyImportDirectlyToAsyncStorage = async (data: ImportData) => {
-    await AsyncStorage.removeItem(STORAGE_KEY_TAGS);
-    await AsyncStorage.setItem(
-      STORAGE_KEY_LOGS,
-      JSON.stringify({
-        items: data.items,
-      })
-    );
-    await AsyncStorage.setItem(
-      STORAGE_KEY_SETTINGS,
-      JSON.stringify({
-        ...data.settings,
-        actionsDone: [
-          {
-            date: new Date().toISOString(),
-            title: "onboarding",
-          },
-        ],
-        tags: data.tags,
-      })
-    );
-  };
 
   const _import = (
     data: ImportData,
@@ -210,19 +223,6 @@ export const useDatagate = (): DatagateValue => {
     }
 
     return Sharing.shareAsync(FileSystem.documentDirectory + filename);
-  };
-
-  const openDangerousImportDirectlyToAsyncStorageDialog = async () => {
-    const doc = await DocumentPicker.getDocumentAsync({
-      type: "application/json",
-      copyToCacheDirectory: true,
-    });
-
-    if (!doc.canceled) {
-      const contents = await FileSystem.readAsStringAsync(doc.assets[0].uri);
-      const data = JSON.parse(contents);
-      dangerouslyImportDirectlyToAsyncStorage(data);
-    }
   };
 
   return {

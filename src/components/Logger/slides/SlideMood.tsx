@@ -25,7 +25,7 @@ export const SlideMood = ({
   const insets = useSafeAreaInsets();
 
   const marginTop = getLogEditMarginTop();
-  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+  const [isDatePickerVisible, setIsDatePickerVisible] = useState(false);
 
   return (
     <View
@@ -54,7 +54,7 @@ export const SlideMood = ({
             }
             mode="datetime"
             onConfirm={(date) => {
-              setDatePickerVisibility(false);
+              setIsDatePickerVisible(false);
               tempLog.update({
                 date: dayjs(date).format(DATE_FORMAT),
                 dateTime: dayjs(date).toISOString(),
@@ -63,7 +63,7 @@ export const SlideMood = ({
                 date: dayjs(date).format(DATE_FORMAT),
               });
             }}
-            onCancel={() => setDatePickerVisibility(false)}
+            onCancel={() => setIsDatePickerVisible(false)}
           />
         )}
         <SlideHeadline

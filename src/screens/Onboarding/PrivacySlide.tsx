@@ -46,71 +46,69 @@ export const PrivacySlide = ({ onPress }: { onPress: () => void }) => {
   const colors = useColors();
 
   return (
-    <>
+    <View
+      style={{
+        flex: 1,
+      }}
+    >
       <View
         style={{
           flex: 1,
+          paddingVertical: 32,
+          paddingHorizontal: 32,
         }}
       >
         <View
           style={{
             flex: 1,
-            paddingVertical: 32,
-            paddingHorizontal: 32,
+            paddingTop: 32,
+            justifyContent: "flex-start",
+            alignItems: "center",
           }}
         >
           <View
             style={{
-              flex: 1,
-              paddingTop: 32,
-              justifyContent: "flex-start",
+              width: 56,
+              height: 56,
+              borderRadius: 28,
+              backgroundColor: colors.onboardingPrivacyBadgeBackground,
+              justifyContent: "center",
               alignItems: "center",
+              marginBottom: 12,
             }}
           >
-            <View
-              style={{
-                width: 56,
-                height: 56,
-                borderRadius: 28,
-                backgroundColor: colors.onboardingPrivacyBadgeBackground,
-                justifyContent: "center",
-                alignItems: "center",
-                marginBottom: 12,
-              }}
-            >
-              <Lock
-                width={24}
-                height={24}
-                color={colors.onboardingPrivacyBadgeVector}
-              />
-            </View>
-            <Text
-              style={{
-                color: colors.onboardingTitle,
-                fontSize: 24,
-                lineHeight: 32,
-                fontWeight: "bold",
-                marginBottom: 20,
-                textAlign: "center",
-              }}
-            >
-              {t(`onboarding_step_5_title`)}
-            </Text>
-            <ListItem delay={100}>{t(`onboarding_step_5_body_1`)}</ListItem>
-            <ListItem delay={200}>{t(`onboarding_step_5_body_2`)}</ListItem>
-            <ListItem delay={300}>{t(`onboarding_step_5_body_3`)}</ListItem>
-            <ListItem delay={400}>{t(`onboarding_step_5_body_4`)}</ListItem>
-            <ListItem delay={500}>{t(`onboarding_step_5_body_5`)}</ListItem>
+            <Lock
+              width={24}
+              height={24}
+              color={colors.onboardingPrivacyBadgeVector}
+            />
           </View>
-          <View
+          <Text
             style={{
-              width: "100%",
+              color: colors.onboardingTitle,
+              fontSize: 24,
+              lineHeight: 32,
+              fontWeight: "bold",
+              marginBottom: 20,
+              textAlign: "center",
             }}
           >
-            <Button onPress={onPress}>{t("onboarding_step_5_button")}</Button>
-          </View>
+            {t(`onboarding_step_5_title`)}
+          </Text>
+          <ListItem delay={100}>{t(`onboarding_step_5_body_1`)}</ListItem>
+          <ListItem delay={200}>{t(`onboarding_step_5_body_2`)}</ListItem>
+          <ListItem delay={300}>{t(`onboarding_step_5_body_3`)}</ListItem>
+          <ListItem delay={400}>{t(`onboarding_step_5_body_4`)}</ListItem>
+          <ListItem delay={500}>{t(`onboarding_step_5_body_5`)}</ListItem>
+        </View>
+        <View
+          style={{
+            width: "100%",
+          }}
+        >
+          <Button onPress={onPress}>{t("onboarding_step_5_button")}</Button>
         </View>
       </View>
-    </>
+    </View>
   );
 };

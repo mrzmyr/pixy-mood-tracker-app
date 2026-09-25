@@ -70,6 +70,8 @@ const renderSettings = (supportClient: SupportClient) =>
     </NavigationContainer>
   );
 
+const noop = () => undefined;
+
 describe("Support Pixy in Settings", () => {
   afterEach(() => {
     jest.restoreAllMocks();
@@ -181,7 +183,7 @@ describe("Support Pixy in Settings", () => {
   });
 
   test("user cannot open duplicate support flows while one is loading", async () => {
-    let finishSupport: () => void = () => undefined;
+    let finishSupport: () => void = noop;
     const openSupport = jest.fn(
       () =>
         // oxlint-disable-next-line promise/avoid-new -- test needs a deferred Promise that stays pending until finishSupport() is called

@@ -48,16 +48,14 @@ export const Row = ({
   }
 
   return (
-    <>
-      <View
-        style={{
-          flexDirection: "row",
-          justifyContent: "space-between",
-        }}
-      >
-        <YAxis dayCount={dayCount} />
-        {months}
-      </View>
-    </>
+    <View
+      style={{
+        flexDirection: "row",
+        justifyContent: "space-between",
+      }}
+    >
+      <YAxis dayCount={dayCount} />
+      {months}
+    </View>
   );
 };
