@@ -23,16 +23,14 @@ Notifications.setNotificationHandler({
 /**
  * Repeating daily reminder trigger at the given local time.
  *
- * expo-notifications documents calendar triggers as iOS-only; Android needs
- * a `DAILY` trigger instead.
+ * Daily triggers work on Android and iOS. Calendar triggers are iOS-only.
  * See https://docs.expo.dev/versions/latest/sdk/notifications/#calendartriggerinput
  */
 export const createDailyTrigger = (
   hour: number,
   minute: number
 ): Notifications.NotificationTriggerInput => ({
-  type: Notifications.SchedulableTriggerInputTypes.CALENDAR,
-  repeats: true,
+  type: Notifications.SchedulableTriggerInputTypes.DAILY,
   hour,
   minute,
 });
