@@ -1,67 +1,23 @@
 # Repository conventions
 
-## Metadata
+- Project slug: use `pixy-mood-tracker` for folders, executables, and env vars (not `pixy` or `pixy-app`).
+- Public repository: never put credentials or secret values in code, config, docs, commits, PRs, issues, logs, or artifacts. Reference secret names only.
 
-- https://apps.apple.com/de/app/pixy-mood-tracker/id1605327124
-- https://play.google.com/store/apps/details?id=com.devmood.pixymoodtracker
+## Docs
 
-## Public repository security
-
-- This project is public open source, so never include credentials or secret values in code, configuration, documentation, commits, pull requests, issues, comments, logs, or artifacts; reference secret names only and store values in approved secret managers.
+- [Development](docs/development.md): setup, checks, devices and build cache
+- [Releasing](docs/releasing.md): build profiles, TestFlight, stores. Run the `app-store-review` skill before any App Store release.
+- [E2E tests](e2e/README.md)
+- [Features](docs/features.md), [i18n](docs/i18n.md)
+- Store listings: [App Store](https://apps.apple.com/de/app/pixy-mood-tracker/id1605327124), [Google Play](https://play.google.com/store/apps/details?id=com.devmood.pixymoodtracker)
 
 ## Tools
 
-- Posthog for product analytics (MCP installed)
-  - Accessible projects: `Pixy App`, `Pixy Website`, and `Pixy App Test`.
-- CodeRabbit for PR reviews (MCP installed)
-- Sentry for error logging (MCP installed)
+- MCPs: PostHog (projects `Pixy App`, `Pixy Website`, `Pixy App Test`), Sentry, CodeRabbit, FeatureOS user feedback
 
-## Releases
+## Rules
 
-- MUST run `app-store-review` skill before App Store release
-
-## Commits
-
-- Use [Conventional Commits](https://www.conventionalcommits.org/) for every commit.
-- Format descriptions as `<type>[optional scope]: <description>`.
-- Use `feat` for features and `fix` for bug fixes. Use `build`, `chore`, `ci`, `docs`, `refactor`, `style`, or `test` when they fit.
-- Mark breaking changes with `!` before `:` or a `BREAKING CHANGE:` footer.
-
-## Pull request proof
-
-- Every agent-authored pull request must prove to the human reviewer that the change works before it is marked ready or merged.
-- Attach screenshots or a video directly to the pull request body or a pull request comment. For non-visual changes, show the relevant observable behavior or test execution.
-- Use [`attach-pr-asset`](.agents/skills/attach-pr-asset/SKILL.md) to upload screenshot or video proof without committing evidence files.
-- Never commit proof-only screenshots, videos, or evidence files to the repository. Commit a visual file only when it is a product or documentation asset needed independently of the pull request.
-- Show before and after evidence when behavior or UI is changed or removed.
-- Present two or more screenshots in a two-column grid in the pull request body or comment so they remain reviewable at normal viewport sizes. Put before and after screenshots side by side.
-- Document the environment and exact steps used to produce the evidence so the reviewer can reproduce it.
-- Document the edge cases checked, including each expected result and actual result. Cover failure, empty, loading, boundary, and regression states when relevant.
-- Never expose credentials, secrets, or personal data in evidence.
-- If evidence cannot be produced, keep the pull request in draft, document the blocker, and get explicit human approval before merging.
-
-## Devices and end-to-end tests
-
-- Use `bun devices`, `bun sessions`, and `bun builds` for devices, e2e runs, and builds, never raw `simctl`, `emulator`, or `maestro`. See [e2e/README.md](e2e/README.md) and [build cache](docs/development.md#build-cache).
-- Shut down devices you created before you finish.
-- Keep device and signing-team identifiers local.
-
-## Errors
-
-- Every error created, thrown, returned, or logged must expose `status`, `message`, `why`, and `fix`.
-- `status` is a stable machine-readable status or error code.
-- `message` states what failed.
-- `why` states the concrete cause or relevant context.
-- `fix` states an actionable recovery step.
-- Preserve all four fields when wrapping or rethrowing errors.
-- Never include secrets or personal data in these fields.
-- Follow the [evlog structured error pattern](https://www.evlog.dev/).
-
-```ts
-{
-  status: 402,
-  message: "Payment failed",
-  why: "Card declined by issuer",
-  fix: "Try a different payment method",
-}
-```
+- Commits: [Conventional Commits](https://www.conventionalcommits.org/). Mark breaking changes with `!`.
+- Errors: expose `status`, `message`, `why`, and `fix`. See the `coding-standards` skill.
+- PR proof: agent-authored PRs must prove the change works before they are marked ready or merged. Use the `attach-pr-asset` skill. Without proof, keep the PR in draft and get explicit human approval.
+- Devices and e2e: use `bun devices`, `bun sessions`, and `bun builds`, never raw `simctl`, `emulator`, or `maestro`. Shut down devices you create. Keep device and signing-team identifiers local.

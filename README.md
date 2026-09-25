@@ -6,7 +6,7 @@
 <br />
 <p align="center">
   <a href="https://github.com/mrzmyr/pixy-mood-tracker">
-    <img src="./docs/icon.png" alt="Logo" width="80" height="80">
+    <img src="./docs/images/icon.png" alt="Logo" width="80" height="80">
   </a>
 
   <h3 align="center">Pixy Mood Tracker</h3>
@@ -22,7 +22,7 @@
 ## About The Project
 
 <p align="center">
-  <img src="./docs/screen-1.png" width="400px">
+  <img src="./docs/images/screen-1.png" width="400px">
 </p>
 
 ### Built With

@@ -56,7 +56,7 @@ gh pr view "$PR_NUMBER" --repo "$REPO" --json body --jq '.body' > "$BODY_FILE"
 gh pr edit "$PR_NUMBER" --repo "$REPO" --body-file "$BODY_FILE"
 ```
 
-Present two or more screenshots in a two-column grid. Put before and after screenshots side by side. Include environment, reproduction steps, expected result, actual result, and relevant edge cases. Omit missing asset types.
+Present two or more screenshots in a two-column grid. Put before and after screenshots side by side when behavior or UI changed or was removed. For non-visual changes, show the observable behavior or test output instead. Include environment, reproduction steps, expected result, actual result, and edge cases (failure, empty, loading, boundary, and regression states when relevant). Omit missing asset types.
 
 6. Verify links from signed-out/public context. Keep PR draft if proof is missing or inaccessible.
 
