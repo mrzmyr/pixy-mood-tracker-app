@@ -33,6 +33,7 @@ $ bun android
 
 - **Shared across worktrees:** the cache lives in `~/.cache/pixy/build-cache`, so every checkout and git worktree reuses the same builds. Set `PIXY_BUILD_CACHE_DIR` to use another directory.
 - **Debug only:** release builds (`--configuration Release`, `--variant release`) embed the JavaScript bundle. The fingerprint ignores JavaScript, so a cached release build could run another branch's code. Release builds always compile.
+- **`package.json` scripts are ignored:** [`fingerprint.config.cjs`](../fingerprint.config.cjs) skips them, so adding or editing a script keeps cached builds. Native modules, config plugins, and `app.json` changes still produce a new fingerprint.
 - **No eviction:** delete `~/.cache/pixy/build-cache` to reclaim disk space. Physical device builds are never cached.
 
 The provider lives in [`scripts/build-cache-provider.cjs`](../scripts/build-cache-provider.cjs).
