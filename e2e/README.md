@@ -6,8 +6,7 @@ End-to-end tests using [Maestro](https://maestro.mobile.dev). The same flows can
 
 - Maestro CLI (`curl -Ls https://get.maestro.mobile.dev | bash`)
 - JDK 17+ (`JAVA_HOME` set or discoverable via `/usr/libexec/java_home`)
-- Device connected with USB debugging, app installed:
-  `adb install -r android/app/build/outputs/apk/release/app-release.apk`
+- Device connected with USB debugging, app installed: `adb install -r android/app/build/outputs/apk/release/app-release.apk`
 - Or a booted iOS simulator with Pixy installed.
 
 ## Run
@@ -24,7 +23,7 @@ Debug artifacts (screenshots, hierarchy, logcat) land in `~/.maestro/tests/<time
 ## Suites
 
 | Flow | Covers |
-|---|---|
+| --- | --- |
 | 01-onboarding | Welcome, explainer slides, reminder skip, privacy accept, persistence across relaunch |
 | 02-log-entry | Create entry (rating), day view, second entry per day |
 | 03-calendar | Today cell, scroll months back, scroll-to-today button, filters open/close |

@@ -11,9 +11,7 @@
       "fallbackToCacheTimeout": 0,
       "url": "https://u.expo.dev/8917be91-f1cc-4276-a252-674a28490ac3"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "bundleIdentifier": "com.devmood.pixymoodtracker",
       "appleTeamId": "8VVNC4724B",
@@ -61,9 +59,7 @@
       "versionCode": 570018701,
       "allowBackup": false,
       "permissions": [],
-      "blockedPermissions": [
-        "android.permission.SYSTEM_ALERT_WINDOW"
-      ],
+      "blockedPermissions": ["android.permission.SYSTEM_ALERT_WINDOW"],
       "icon": "./assets/images/icon.png",
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",

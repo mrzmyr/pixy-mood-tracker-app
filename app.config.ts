@@ -1,16 +1,16 @@
-import { ExpoConfig, ConfigContext } from '@expo/config';
+import { ExpoConfig, ConfigContext } from "@expo/config";
 
 export default ({ config }: ConfigContext): ExpoConfig => {
   const _config: ExpoConfig = { ...config };
 
-  const PROFILE = process.env.PROFILE || 'development';
-  const isDevClient = process.env.DEV_CLIENT === 'true';
+  const PROFILE = process.env.PROFILE || "development";
+  const isDevClient = process.env.DEV_CLIENT === "true";
 
   if (isDevClient) {
-    _config.name = 'Pixy Dev';
-    _config.ios!.bundleIdentifier = `com.devmood.pixymoodtracker.dev`
-    _config.android!.package = `com.devmood.pixymoodtracker.dev`
-    _config.android!.icon = _config.icon = './assets/images/icon-dev.png';
+    _config.name = "Pixy Dev";
+    _config.ios!.bundleIdentifier = `com.devmood.pixymoodtracker.dev`;
+    _config.android!.package = `com.devmood.pixymoodtracker.dev`;
+    _config.android!.icon = _config.icon = "./assets/images/icon-dev.png";
   }
 
   // console.log('------------------------------');
