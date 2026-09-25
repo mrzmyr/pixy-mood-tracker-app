@@ -2,7 +2,7 @@ import { isISODate } from "@/lib/utils";
 import { z } from "zod";
 
 export const TagReferenceSchema = z.object({
-  id: z.string().uuid(),
+  id: z.uuid(),
 });
 
 export type TagReference = z.infer<typeof TagReferenceSchema>;
@@ -30,7 +30,7 @@ export const EmotionSchema = z.object({
 export type Emotion = z.infer<typeof EmotionSchema>;
 
 export const LogItemSchema = z.object({
-  id: z.string().uuid(),
+  id: z.uuid(),
   date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/u),
   dateTime: z.string().refine((value) => isISODate(value)),
   rating: z.enum([
