@@ -55,11 +55,21 @@ bun dashboard                                               # runs, devices, and
 | 13-onboarding-skip | Skip onboarding from an explainer slide |
 | 09-appearance | Colors screen, steps config, privacy toggle |
 | 10-stability | Background/foreground, cold restart (2nd-launch crash regression), tab smoke |
+| 14-dev-fixtures | Fixture deep link replaces data, Settings > Test data lists fixtures and loads one |
 | apple/ios-regressions | iOS filter modal, narrow check-in layout/switch accessibility, tag form accessibility |
 
 Suite 08 (passcode) intentionally absent: the app has no passcode feature.
 
-Import-from-file (Data → Import) is not automated because the system file picker is flaky to drive. The fixture includes a visible entry from 2023-09-24. The calendar flow uses that entry when present; otherwise, it creates a good entry on that date through Calendar, then continues paging through empty months in 2022 and 2021.
+Import-from-file (Data → Import) is not automated because the system file picker is flaky to drive; flows load fixtures instead. The `seed` fixture includes a visible entry from 2023-09-24. The calendar flow uses that entry when present; otherwise, it creates a good entry on that date through Calendar, then continues paging through empty months in 2022 and 2021.
+
+## Test data
+
+Preview and development builds load named fixtures from [`src/dev/fixtures`](../src/dev/fixtures/index.ts): `fresh`, `empty`, `seed`, and `year`. Loading one replaces all entries, tags, and settings.
+
+- **In flows:** `runFlow` [`subflows/load-fixture.yaml`](subflows/load-fixture.yaml) with `env: { FIXTURE: <id> }`. It opens `${APP_SCHEME}://dev/fixture?id=<id>`.
+- **By hand:** Settings > Development > Test data, or open the link on the device.
+- **On iPhones:** agent-device cannot `clearState` on physical iOS devices. Load `fresh` instead.
+- **New fixture:** export data from Settings > Data, save the JSON in `src/dev/fixtures`, and register it in `index.ts`.
 
 ## Conventions
 

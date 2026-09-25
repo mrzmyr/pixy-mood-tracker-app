@@ -40,6 +40,12 @@ export type RootStackParamList = {
   Steps: undefined;
   Tags: undefined;
   DevelopmentTools: undefined;
+  /** Developer tools; registered only when `DEV_TOOLS` is set. */
+  DevFixtures: undefined;
+  DevFixture: {
+    /** Fixture ID from `src/dev/fixtures`. */
+    id: string;
+  };
 
   SettingsTags: undefined;
   SettingsTagsArchive: undefined;

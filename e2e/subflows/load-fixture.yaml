@@ -1,0 +1,14 @@
+appId: ${APP_ID}
+---
+# Replaces all app data with fixture ${FIXTURE} from src/dev/fixtures and
+# opens the calendar (onboarding for `fresh`). Needs a development or preview
+# build. Works on phones, where clearState is not available.
+- launchApp
+- openLink: ${APP_SCHEME}://dev/fixture?id=${FIXTURE}
+# iOS asks once per app before a custom-scheme link opens it.
+- waitForAnimationToEnd
+- runFlow:
+    when:
+      visible: "Open"
+    commands:
+      - tapOn: "Open"
