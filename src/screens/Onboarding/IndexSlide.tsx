@@ -73,7 +73,7 @@ export const IndexSlide = ({ onPress }: { onPress: () => void }) => {
               marginTop: 32,
             }}
           >
-            <Button onPress={onPress}>{t("onboarding_step_1_button_2")}</Button>
+            <Button onPress={onPress}>{t("onboarding_start")}</Button>
           </View>
         </View>
       </View>

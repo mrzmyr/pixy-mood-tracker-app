@@ -34,7 +34,7 @@ tags: [onboarding, skip]
       - tapOn: "Onboarding"
 
 - assertVisible: "Welcome 👋"
-- tapOn: "I never used a Mood Tracker"
+- tapOn: "Start"
 - assertVisible: "Calendar"
 - tapOn: "Skip"
 - assertVisible:

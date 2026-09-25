@@ -34,7 +34,7 @@ tags: [onboarding, reminder]
       - tapOn: "Onboarding"
 
 - assertVisible: "Welcome 👋"
-- tapOn: "I never used a Mood Tracker"
+- tapOn: "Start"
 - tapOn: "Next"
 - tapOn: "Next"
 - tapOn: "Next"
