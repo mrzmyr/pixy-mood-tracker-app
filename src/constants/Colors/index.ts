@@ -1,9 +1,9 @@
-import colors from './TailwindColors';
+import colors from "./TailwindColors";
 
-import { TAG_COLOR_NAMES } from '../Config';
-import scales from './Scales';
+import { TAG_COLOR_NAMES } from "../Config";
+import scales from "./Scales";
 
-type TagColorKey = typeof TAG_COLOR_NAMES[number];
+type TagColorKey = (typeof TAG_COLOR_NAMES)[number];
 
 type TagColors = {
   [tag: TagColorKey]: {
@@ -12,36 +12,36 @@ type TagColors = {
     background: string;
     text: string;
     border: string;
-  }
-}
+  };
+};
 
-const tagsDark: TagColors = {}
-const tagsLight: TagColors = {}
+const tagsDark: TagColors = {};
+const tagsLight: TagColors = {};
 
 const tagColorNames = TAG_COLOR_NAMES;
 
-tagColorNames.map(color => {
+tagColorNames.map((color) => {
   tagsDark[color] = {
     title: color,
-    dot: colors[color]['500'],
-    background: colors[color]['700'],
-    text: colors[color]['200'],
-    border: colors[color]['600'],
-  }
+    dot: colors[color]["500"],
+    background: colors[color]["700"],
+    text: colors[color]["200"],
+    border: colors[color]["600"],
+  };
   tagsLight[color] = {
     title: color,
-    dot: colors[color]['400'],
-    background: colors[color]['200'],
-    text: colors[color]['700'],
-    border: colors[color]['400'],
-  }
-})
+    dot: colors[color]["400"],
+    background: colors[color]["200"],
+    text: colors[color]["700"],
+    border: colors[color]["400"],
+  };
+});
 
-const tintColorLight = '#007aff';
-const tintColorDark = '#0a84ff';
+const tintColorLight = "#007aff";
+const tintColorDark = "#0a84ff";
 
 const light = {
-  text: '#000',
+  text: "#000",
   textSecondary: colors.neutral[500],
   background: colors.neutral[100],
   backgroundSecondary: colors.neutral[300],
@@ -59,10 +59,10 @@ const light = {
   logHeaderHighlight: colors.neutral[200],
 
   logBackground: colors.neutral[100],
-  logBackgroundTransparent: 'rgba(245,245,245, 0)',
+  logBackgroundTransparent: "rgba(245,245,245, 0)",
 
   logCardBackground: colors.white,
-  logCardBackgroundTransparent: 'rgba(255,255,255, 0)',
+  logCardBackgroundTransparent: "rgba(255,255,255, 0)",
   logCardBorder: colors.neutral[200],
 
   logActionBackground: colors.neutral[200],
@@ -80,18 +80,18 @@ const light = {
   stepperBackgroundActive: colors.neutral[700],
 
   miniButtonBackground: tintColorLight,
-  miniButtonText: '#FFF',
+  miniButtonText: "#FFF",
 
   bottomSheetHeaderBackground: colors.neutral[50],
   bottomSheetBackground: colors.neutral[100],
   bottomSheetHeaderBorder: colors.neutral[200],
-  bottomSheetHandle: 'rgba(255, 255, 255, 0.5)',
+  bottomSheetHandle: "rgba(255, 255, 255, 0.5)",
 
   feedbackSelectionBackground: colors.neutral[200],
   feedbackSelectionText: colors.neutral[900],
   feedbackBackground: colors.neutral[100],
 
-  cardBackground: '#fff',
+  cardBackground: "#fff",
   cardBorder: colors.neutral[200],
 
   headerBorder: colors.neutral[300],
@@ -108,15 +108,15 @@ const light = {
   passcodePadBackground: colors.neutral[200],
   passcodePadBackgroundActive: colors.neutral[400],
 
-  menuListItemBackground: '#FFF',
-  menuListItemText: '#000',
-  menuListItemIcon: '#000',
+  menuListItemBackground: "#FFF",
+  menuListItemText: "#000",
+  menuListItemIcon: "#000",
   menuListItemBorder: colors.neutral[100],
 
-  notificationBackground: '#FFF',
+  notificationBackground: "#FFF",
 
   calendarBackground: colors.neutral[50],
-  calendarItemBackground: '#FFF',
+  calendarItemBackground: "#FFF",
   calendarItemBackgroundFuture: colors.neutral[50],
   calendarItemTextColor: colors.neutral[500],
   calendarWeekNameColor: colors.neutral[400],
@@ -130,7 +130,7 @@ const light = {
   linkButtonTextDangerDisabled: colors.neutral[400],
 
   primaryButtonBackground: tintColorLight,
-  primaryButtonText: '#FFF',
+  primaryButtonText: "#FFF",
   primaryButtonBorder: tintColorLight,
 
   primaryButtonBackgroundDisabled: colors.neutral[300],
@@ -167,14 +167,14 @@ const light = {
 
   checkboxBackground: colors.neutral[100],
   checkboxBorder: colors.neutral[300],
-  checkboxText: '#000',
+  checkboxText: "#000",
   checkboxCheckedBackground: tintColorLight,
   checkboxCheckedBorder: tintColorLight,
-  checkboxCheckedText: '#FFF',
+  checkboxCheckedText: "#FFF",
 
   statisticsBackground: colors.neutral[100],
   statisticsDescription: colors.neutral[500],
-  statisticsCardBackground: '#FFF',
+  statisticsCardBackground: "#FFF",
   statisticsCardSubtitle: colors.neutral[500],
   statisticsFeedbackEmojiOpacity: 1,
   statisticsFeedbackEmojiBackground: colors.neutral[100],
@@ -196,7 +196,7 @@ const light = {
 
   statisticsNotEnoughDataTitle: colors.black,
   statisticsNotEnoughDataSubtitle: colors.neutral[500],
-  statisticsNotEnoughDataBackdrop: 'rgba(255, 255, 255, 0.8)',
+  statisticsNotEnoughDataBackdrop: "rgba(255, 255, 255, 0.8)",
 
   statisticsTagsTrendMutedBackground: colors.neutral[200],
   statisticsTagsTrendMutedText: colors.neutral[800],
@@ -229,7 +229,7 @@ const light = {
   entryItemBackground: colors.white,
 
   promoBackground: tintColorLight,
-  promoBorder: 'rgba(255, 255, 255, 0.1)',
+  promoBorder: "rgba(255, 255, 255, 0.1)",
   promoText: colors.white,
 
   emotionButtonBackground: colors.white,
@@ -239,7 +239,7 @@ const light = {
   emotionButtonText: colors.neutral[900],
   emotionButtonTextActive: colors.white,
 
-  tooltipBackground: 'rgba(0, 0, 0, 0.8)',
+  tooltipBackground: "rgba(0, 0, 0, 0.8)",
   tooltipText: colors.white,
   tooltipTextSecondary: colors.neutral[400],
 
@@ -256,29 +256,29 @@ const light = {
   sleepQualityEmpty: colors.indigo[100],
   sleepQualityFull: colors.indigo[500],
 
-  switchThumbColor: '#333',
+  switchThumbColor: "#333",
   scales: scales.light,
   tags: tagsLight,
   palette: colors,
-}
+};
 
 export type IColors = typeof light & {
-  scales: typeof scales.light
-  tags: typeof tagsLight
-}
+  scales: typeof scales.light;
+  tags: typeof tagsLight;
+};
 
 const dark: IColors & {
-  scales: typeof scales.dark
-  tags: typeof tagsDark
+  scales: typeof scales.dark;
+  tags: typeof tagsDark;
 } = {
-  text: '#fff',
+  text: "#fff",
   textSecondary: colors.neutral[400],
-  background: '#000',
+  background: "#000",
   backgroundSecondary: colors.neutral[900],
   link: tintColorDark,
   tint: tintColorDark,
 
-  loadingIndicator: '#fff',
+  loadingIndicator: "#fff",
 
   keyboardToolbarIcon: colors.neutral[500],
   keyboardToolbarBackground: colors.neutral[200],
@@ -289,10 +289,10 @@ const dark: IColors & {
   logHeaderHighlight: colors.neutral[800],
 
   logBackground: colors.neutral[900],
-  logBackgroundTransparent: 'rgba(23, 23, 23, 0)',
+  logBackgroundTransparent: "rgba(23, 23, 23, 0)",
 
   logCardBackground: colors.neutral[800],
-  logCardBackgroundTransparent: 'rgba(38,38,38,0)',
+  logCardBackgroundTransparent: "rgba(38,38,38,0)",
   logCardBorder: colors.neutral[700],
 
   logActionBackground: colors.neutral[800],
@@ -310,12 +310,12 @@ const dark: IColors & {
   stepperBackgroundActive: colors.neutral[600],
 
   miniButtonBackground: tintColorDark,
-  miniButtonText: '#fff',
+  miniButtonText: "#fff",
 
   bottomSheetHeaderBackground: colors.neutral[900],
   bottomSheetBackground: colors.neutral[900],
   bottomSheetHeaderBorder: colors.neutral[800],
-  bottomSheetHandle: 'rgba(255, 255, 255, 0.5)',
+  bottomSheetHandle: "rgba(255, 255, 255, 0.5)",
 
   feedbackSelectionBackground: colors.neutral[800],
   feedbackSelectionText: colors.white,
@@ -326,7 +326,7 @@ const dark: IColors & {
 
   headerBorder: colors.neutral[800],
 
-  tabsBackground: 'transparent',
+  tabsBackground: "transparent",
   tabsBorder: colors.neutral[800],
 
   tabsIconActive: tintColorDark,
@@ -345,9 +345,9 @@ const dark: IColors & {
 
   notificationBackground: colors.neutral[900],
 
-  calendarBackground: '#000',
+  calendarBackground: "#000",
   calendarItemBackground: colors.neutral[900],
-  calendarItemBackgroundFuture: '#000',
+  calendarItemBackgroundFuture: "#000",
   calendarItemTextColor: colors.neutral[300],
   calendarWeekNameColor: colors.neutral[500],
   calendarMonthNameColor: colors.neutral[500],
@@ -390,19 +390,19 @@ const dark: IColors & {
   textInputBorderHighlight: tintColorDark,
   textInputLabel: colors.neutral[500],
 
-  tagErrorBackground: '#9F1239',
-  tagErrorText: '#FECDD3',
-  tagSuccessBackground: '#14532D',
-  tagSuccessText: '#BBF7D0',
+  tagErrorBackground: "#9F1239",
+  tagErrorText: "#FECDD3",
+  tagSuccessBackground: "#14532D",
+  tagSuccessText: "#BBF7D0",
 
   checkboxBackground: colors.neutral[800],
   checkboxBorder: colors.neutral[700],
-  checkboxText: '#000',
+  checkboxText: "#000",
   checkboxCheckedBackground: tintColorDark,
   checkboxCheckedBorder: tintColorDark,
-  checkboxCheckedText: '#FFF',
+  checkboxCheckedText: "#FFF",
 
-  statisticsBackground: '#000',
+  statisticsBackground: "#000",
   statisticsDescription: colors.neutral[500],
   statisticsCardBackground: colors.neutral[900],
   statisticsCardSubtitle: colors.neutral[400],
@@ -429,7 +429,7 @@ const dark: IColors & {
 
   statisticsNotEnoughDataTitle: colors.white,
   statisticsNotEnoughDataSubtitle: colors.neutral[500],
-  statisticsNotEnoughDataBackdrop: 'rgba(0, 0, 0, 0.7)',
+  statisticsNotEnoughDataBackdrop: "rgba(0, 0, 0, 0.7)",
 
   yearPixelsEmptyDot: colors.neutral[800],
   yearPixelsLegendText: colors.neutral[500],
@@ -458,7 +458,7 @@ const dark: IColors & {
   entryItemBackground: colors.neutral[800],
 
   promoBackground: tintColorDark,
-  promoBorder: 'rgba(255, 255, 255, 0.1)',
+  promoBorder: "rgba(255, 255, 255, 0.1)",
   promoText: colors.white,
 
   emotionButtonBackground: colors.neutral[900],
@@ -470,7 +470,7 @@ const dark: IColors & {
 
   feedbackBoxBackground: colors.neutral[900],
 
-  tooltipBackground: 'rgba(0, 0, 0, 0.8)',
+  tooltipBackground: "rgba(0, 0, 0, 0.8)",
   tooltipText: colors.white,
   tooltipTextSecondary: colors.neutral[400],
 
@@ -485,11 +485,11 @@ const dark: IColors & {
   sleepQualityEmpty: colors.indigo[800],
   sleepQualityFull: colors.indigo[400],
 
-  switchThumbColor: '#FFF',
+  switchThumbColor: "#FFF",
   scales: scales.dark,
   tags: tagsDark,
   palette: colors,
-}
+};
 
 export default {
   light,

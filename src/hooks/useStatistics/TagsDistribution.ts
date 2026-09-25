@@ -12,7 +12,7 @@ export interface TagsDistributionData {
 
 export const defaultTagsDistributionData: TagsDistributionData = {
   tags: [],
-}
+};
 
 export const dummyTagsDistributionData: TagsDistributionData = {
   tags: [
@@ -21,7 +21,7 @@ export const dummyTagsDistributionData: TagsDistributionData = {
       details: {
         id: "1",
         title: "Tag 1",
-        color: 'yellow',
+        color: "yellow",
       },
       count: 10,
     },
@@ -30,7 +30,7 @@ export const dummyTagsDistributionData: TagsDistributionData = {
       details: {
         id: "2",
         title: "Tag 2",
-        color: 'red',
+        color: "red",
       },
       count: 5,
     },
@@ -39,7 +39,7 @@ export const dummyTagsDistributionData: TagsDistributionData = {
       details: {
         id: "3",
         title: "Tag 3",
-        color: 'blue',
+        color: "blue",
       },
       count: 3,
     },
@@ -48,14 +48,17 @@ export const dummyTagsDistributionData: TagsDistributionData = {
       details: {
         id: "4",
         title: "Tag 4",
-        color: 'green',
+        color: "green",
       },
       count: 2,
     },
   ],
-}
+};
 
-export const getTagsDistributionData = (items: LogItem[], tags: Tag[]): TagsDistributionData => {
+export const getTagsDistributionData = (
+  items: LogItem[],
+  tags: Tag[]
+): TagsDistributionData => {
   const distribution = _.countBy(
     items.flatMap((item) => item?.tags?.map((tag) => tag?.id))
   );

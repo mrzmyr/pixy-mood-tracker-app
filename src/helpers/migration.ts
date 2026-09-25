@@ -32,7 +32,7 @@ export const migrateImportData = (data: ImportData): MigratedData => {
     return tag;
   });
 
-  let _settings = _.omit(settings, 'tags');
+  let _settings = _.omit(settings, "tags");
 
   if (!_settings.actionsDone) _settings.actionsDone = [];
 
@@ -40,6 +40,6 @@ export const migrateImportData = (data: ImportData): MigratedData => {
     version: version || "1.0.0",
     items: newItems,
     settings: _settings,
-    tags: _tags
+    tags: _tags,
   };
 };

@@ -1,13 +1,13 @@
-import { DATE_FORMAT } from '@/constants/Config';
-import dayjs from 'dayjs';
-import _ from 'lodash';
-import { LogItem } from '../useLogs';
-import { getLogDays } from '@/lib/utils';
+import { DATE_FORMAT } from "@/constants/Config";
+import dayjs from "dayjs";
+import _ from "lodash";
+import { LogItem } from "../useLogs";
+import { getLogDays } from "@/lib/utils";
 
 export const defaultStreaksData = {
   longest: 0,
   current: 0,
-}
+};
 
 export type StreaksData = typeof defaultStreaksData;
 
@@ -17,13 +17,13 @@ export const getCurrentStreak = (items: LogItem[]) => {
 
   let currentStreak = 0;
 
-  let currentDate = dayjs()
+  let currentDate = dayjs();
   let nextItem = itemsSorted.pop();
 
   while (!!nextItem) {
     if (nextItem.date === currentDate.format(DATE_FORMAT)) {
       currentStreak++;
-      currentDate = currentDate.subtract(1, 'day');
+      currentDate = currentDate.subtract(1, "day");
       nextItem = itemsSorted.pop();
     } else {
       break;
@@ -31,7 +31,7 @@ export const getCurrentStreak = (items: LogItem[]) => {
   }
 
   return currentStreak;
-}
+};
 
 export const getLongestStreak = (items: LogItem[]) => {
   const dayLogs = getLogDays(items);
@@ -44,8 +44,8 @@ export const getLongestStreak = (items: LogItem[]) => {
     const current = itemsSorted[i];
     const next = itemsSorted[i + 1];
 
-    if (Math.abs(dayjs(current.date).diff(dayjs(next?.date), 'day')) === 1) {
-      count++
+    if (Math.abs(dayjs(current.date).diff(dayjs(next?.date), "day")) === 1) {
+      count++;
       continue;
     }
 
@@ -57,4 +57,4 @@ export const getLongestStreak = (items: LogItem[]) => {
   }
 
   return streak;
-}
+};

@@ -7,18 +7,18 @@ export const useRenderCounter = () => {
   useEffect(() => {
     ref.current = ref.current + 1;
   });
-  
+
   return {
     count: ref.current,
-    Counter: <Text style={styles.text}>{ref.current}</Text>
+    Counter: <Text style={styles.text}>{ref.current}</Text>,
   };
-}
+};
 
 const styles = StyleSheet.create({
   text: {
     paddingBottom: 10,
-    textAlign: 'center',
+    textAlign: "center",
     fontSize: 15,
-    color: 'red',
+    color: "red",
   },
 });
