@@ -23,7 +23,7 @@ import { SettingsTags, SettingsTagsArchive } from "../screens/Settings/Tags";
 
 import Providers from "@/components/Providers";
 import { SENTRY_DSN } from "@/constants/API";
-import { APP_VARIANT } from "@/constants/AppVariant";
+import { APP_VARIANT, HAS_APP_VARIANT } from "@/constants/AppVariant";
 import Colors from "@/constants/Colors";
 import { initializeDayjs, t } from "@/helpers/translation";
 import { useAnalytics } from "@/hooks/useAnalytics";
@@ -46,7 +46,8 @@ import { BottomTabs } from "./BottomTabs";
 enableScreens();
 
 // Initialize before the first render so startup errors are reported too.
-if (!__DEV__) {
+// Each variant reports to its own Sentry project; Jest has no variant.
+if (HAS_APP_VARIANT) {
   Sentry.init({
     dsn: SENTRY_DSN,
     environment: APP_VARIANT,

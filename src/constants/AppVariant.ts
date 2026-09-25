@@ -10,5 +10,8 @@ const value = process.env.EXPO_PUBLIC_APP_VARIANT;
 export const APP_VARIANT: AppVariant =
   value === "development" || value === "preview" ? value : "production";
 
-/** True in TestFlight, App Store, and Google Play builds. */
-export const IS_PRODUCTION = APP_VARIANT === "production";
+/**
+ * False only where no build sets the variant, such as Jest. Telemetry stays
+ * off there.
+ */
+export const HAS_APP_VARIANT = value !== undefined;
