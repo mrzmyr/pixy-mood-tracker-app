@@ -29,9 +29,13 @@ $ bun android
 
 ### Build cache
 
-`bun ios` and `bun android` cache compiled simulator and emulator builds in `.expo/build-cache`, keyed by the project's native fingerprint. When native code and configuration are unchanged, the cached build is installed and compilation is skipped. JavaScript-only changes never need a new build.
+`bun ios` and `bun android` cache compiled simulator and emulator debug builds, keyed by the project's native fingerprint. When native code and configuration are unchanged, the cached build is installed and compilation is skipped. JavaScript-only changes never need a new build.
 
-The cache is not evicted automatically. Delete `.expo/build-cache` to reclaim disk space. Physical device builds are never cached.
+- **Shared across worktrees:** the cache lives in `~/.cache/pixy/build-cache`, so every checkout and git worktree reuses the same builds. Set `PIXY_BUILD_CACHE_DIR` to use another directory.
+- **Debug only:** release builds (`--configuration Release`, `--variant release`) embed the JavaScript bundle. The fingerprint ignores JavaScript, so a cached release build could run another branch's code. Release builds always compile.
+- **No eviction:** delete `~/.cache/pixy/build-cache` to reclaim disk space. Physical device builds are never cached.
+
+The provider lives in [`scripts/build-cache-provider.cjs`](../scripts/build-cache-provider.cjs).
 
 ### Preview Support Pixy
 
