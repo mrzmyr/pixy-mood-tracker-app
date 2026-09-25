@@ -44,6 +44,13 @@ import { BottomTabs } from "./BottomTabs";
 
 enableScreens();
 
+// Initialize before the first render so startup errors are reported too.
+if (!__DEV__) {
+  Sentry.init({
+    dsn: "https://d98d0f519b324d9cb0c947b8f29cd0cf@o1112922.ingest.sentry.io/6142792",
+  });
+}
+
 const NAVIGATION_LINKING: LinkingOptions<RootStackParamList> = {
   prefixes: ["pixy://", Linking.createURL("/")],
   config: {
@@ -134,12 +141,6 @@ const RootNavigator = () => {
     }
 
     initializeDayjs();
-
-    if (!__DEV__) {
-      Sentry.init({
-        dsn: "https://d98d0f519b324d9cb0c947b8f29cd0cf@o1112922.ingest.sentry.io/6142792",
-      });
-    }
   }, [settings.loaded]);
 
   // if(passcode.isEnabled === null) return null;
