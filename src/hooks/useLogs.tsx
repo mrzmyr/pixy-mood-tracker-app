@@ -16,7 +16,7 @@ import {
   useReducer,
   useState,
 } from "react";
-import * as Sentry from "@sentry/react-native";
+import { logger, toStructuredError } from "@/lib/logger";
 import { v4 as uuidv4 } from "uuid";
 import type z from "zod";
 import type { AtLeast } from "../../types";
@@ -239,11 +239,23 @@ const LogsProvider = ({ children }: { children: React.ReactNode }) => {
           const megaBytes = Math.round((size / 1024 / 1024) * 100) / 100;
           trackLoadedLogs(megaBytes);
         } catch (error) {
-          Sentry.captureException(error);
+          logger.error(
+            toStructuredError(error, {
+              status: "logs_size_tracking_failed",
+              message: "Stored logs size could not be tracked",
+              fix: "None needed; tracking runs again on the next launch",
+            })
+          );
         }
       } catch (error) {
         setStorageStatus("error");
-        Sentry.captureException(error);
+        logger.error(
+          toStructuredError(error, {
+            status: "logs_load_failed",
+            message: "Stored logs could not be loaded",
+            fix: "Restart the app; stored data is kept and not overwritten",
+          })
+        );
       }
     })();
   }, []);

@@ -34,6 +34,7 @@ import {
   useTagsState,
   useTagsUpdater,
 } from "./useTags";
+import { logger } from "@/lib/logger";
 
 type ResetType = "factory" | "data";
 
@@ -123,7 +124,7 @@ export const useDatagate = (): DatagateValue => {
       }
       analytics.track("data_import_success");
     } else {
-      console.log("import failed, json schema:", jsonSchemaType);
+      logger.debug("import failed, json schema:", jsonSchemaType);
       if (!muted) {
         showImportError();
       }

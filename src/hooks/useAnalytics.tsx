@@ -10,6 +10,7 @@ import {
 import { useSettings } from "./useSettings";
 import { createMissingProviderError } from "@/lib/errors";
 import { Observe } from "expo-observe";
+import { logger } from "@/lib/logger";
 
 interface AnaylticsState {
   enable: () => void;
@@ -68,7 +69,7 @@ const AnalyticsProvider = ({
 
   const identify = useCallback<AnaylticsState["identify"]>((properties) => {
     if (DEBUG) {
-      console.log("useAnalytics: anonymous session", properties);
+      logger.debug("useAnalytics: anonymous session", properties);
     }
     setIdentifyCalled(true);
   }, []);
@@ -104,7 +105,7 @@ const AnalyticsProvider = ({
         }
 
         if (DEBUG) {
-          console.log("useAnalytics: track", eventName, properties);
+          logger.debug("useAnalytics: track", eventName, properties);
         }
 
         if (!options.enabled) {

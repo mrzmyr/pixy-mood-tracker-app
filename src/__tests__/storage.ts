@@ -101,7 +101,8 @@ describe("Storage", () => {
         message: "Stored data could not be saved",
         why: `Writing storage key "${TEST_KEY}" failed: disk full`,
         fix: "Retry the operation and check available device storage",
-      })
+      }),
+      expect.anything()
     );
   });
 });

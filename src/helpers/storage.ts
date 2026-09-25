@@ -1,6 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import * as Sentry from "@sentry/react-native";
 import type { useFeedback } from "@/hooks/useFeedback";
+import { logger } from "@/lib/logger";
 import noop from "lodash/noop";
 
 type StorageFeedback = ReturnType<typeof useFeedback>;
@@ -32,40 +32,23 @@ const isStorageError = (error: unknown): error is StorageError =>
   "why" in error &&
   "fix" in error;
 
-const captureStorageError = (error: StorageError, key: string) => {
-  console.error(error);
-  try {
-    Sentry.captureException(error);
-  } catch (captureError) {
-    console.error(
-      createStorageError(
-        "storage_telemetry_failed",
-        "Storage error reporting failed",
-        `Sentry failed while reporting storage key "${key}": ${errorMessage(captureError)}`,
-        "Check the Sentry SDK configuration"
-      )
-    );
-  }
-};
-
 /**
  * Persist `state` as JSON under `key`.
  *
- * Never rejects: write failures are only reported to Sentry, so callers
+ * Never rejects: write failures are only reported through `logger`, so callers
  * cannot detect a failed save.
  */
 export const store = async <State>(key: string, state: State) => {
   try {
     await AsyncStorage.setItem(key, JSON.stringify(state));
   } catch (error) {
-    captureStorageError(
+    logger.error(
       createStorageError(
         "storage_write_failed",
         "Stored data could not be saved",
         `Writing storage key "${key}" failed: ${errorMessage(error)}`,
         "Retry the operation and check available device storage"
-      ),
-      key
+      )
     );
   }
 };
@@ -86,7 +69,6 @@ const reportLoadError = (
   key: string,
   feedback?: StorageFeedback
 ) => {
-  console.error(error);
   try {
     feedback?.send({
       type: "issue",
@@ -101,7 +83,7 @@ const reportLoadError = (
       onOk: noop,
     });
   } catch (feedbackError) {
-    console.error(
+    logger.warn(
       createStorageError(
         "storage_feedback_failed",
         "Storage feedback could not be sent",
@@ -110,18 +92,7 @@ const reportLoadError = (
       )
     );
   }
-  try {
-    Sentry.captureException(error);
-  } catch (captureError) {
-    console.error(
-      createStorageError(
-        "storage_telemetry_failed",
-        "Storage error reporting failed",
-        `Sentry failed while reporting storage key "${key}": ${errorMessage(captureError)}`,
-        "Check the Sentry SDK configuration"
-      )
-    );
-  }
+  logger.error(error);
 };
 
 /**
