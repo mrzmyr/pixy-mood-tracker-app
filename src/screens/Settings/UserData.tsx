@@ -2,7 +2,7 @@ import MenuList from "@/components/MenuList";
 import MenuListHeadline from "@/components/MenuListHeadline";
 import MenuListItem from "@/components/MenuListItem";
 import type { ImportData } from "@/helpers/Import";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { ActivityIndicator, View } from "react-native";
 import { CheckCircle, Repeat, UploadCloud } from "react-native-feather";
 import useColors from "../../hooks/useColors";
@@ -19,16 +19,16 @@ export const UserDataImportList = () => {
   const datagate = useDatagate();
 
   const [loadedUserIds, setLoadedUserIds] = useState<string[]>([]);
-  const [loading, setLoading] = useState(false);
+  // Users load on mount, so the list starts in the loading state.
+  const [loading, setLoading] = useState(true);
 
-  const loadUsers = async () => {
-    setLoading(true);
-
+  const loadUsers = useCallback(async (signal?: AbortSignal) => {
     try {
       const response = await fetch("http://192.168.1.254:3000/persons", {
         headers: {
           "Content-Type": "application/json",
         },
+        signal,
       });
       const userList: User[] = await response.json();
       setUsers(userList);
@@ -37,11 +37,19 @@ export const UserDataImportList = () => {
       console.log("Error: Didn't load user list");
     }
     setLoading(false);
+  }, []);
+
+  const reloadUsers = () => {
+    setLoading(true);
+    void loadUsers();
   };
 
   useEffect(() => {
-    loadUsers();
-  }, []);
+    const controller = new AbortController();
+    // oxlint-disable-next-line react/set-state-in-effect -- loadUsers only sets state after awaiting the fetch, never synchronously in the effect
+    void loadUsers(controller.signal);
+    return () => controller.abort();
+  }, [loadUsers]);
 
   const onPress = (user: User) => {
     datagate.import(user.importData, {
@@ -59,7 +67,7 @@ export const UserDataImportList = () => {
         <MenuListItem
           title="Reload"
           iconLeft={<Repeat width={18} color={colors.menuListItemIcon} />}
-          onPress={() => loadUsers()}
+          onPress={reloadUsers}
           isLast
         />
       </MenuList>

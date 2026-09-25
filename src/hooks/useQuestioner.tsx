@@ -1,7 +1,7 @@
 import { QUESTIONS_PULL_URL, QUESTION_SUBMIT_URL } from "@/constants/API";
 import { language, locale } from "@/helpers/translation";
 import dayjs from "dayjs";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useEffectEvent, useState } from "react";
 import { Platform } from "react-native";
 import semver from "semver";
 import pkg from "../../package.json";
@@ -29,7 +29,6 @@ export interface IQuestion {
 export const useQuestioner = () => {
   const analytics = useAnalytics();
   const { hasActionDone, addActionDone, settings } = useSettings();
-  const isMounted = useRef(true);
 
   const [question, setQuestion] = useState<IQuestion | null>(null);
 
@@ -37,7 +36,9 @@ export const useQuestioner = () => {
     action?.title?.startsWith("question_slide_")
   );
 
-  const getQuestion = async (): Promise<IQuestion | null> => {
+  // Effect event: only called by the mount effect below, so it reads the
+  // settings of that render without making the effect re-run on changes.
+  const getQuestion = useEffectEvent(async (): Promise<IQuestion | null> => {
     const lastQuestionAnsweredToday =
       questionsDone.length > 0
         ? dayjs(questionsDone.at(-1)?.date).isSame(dayjs(), "day")
@@ -89,7 +90,7 @@ export const useQuestioner = () => {
     } catch {
       return null;
     }
-  };
+  });
 
   const submit = async (
     answeredQuestion: IQuestion,
@@ -150,15 +151,17 @@ export const useQuestioner = () => {
   };
 
   useEffect(() => {
+    let isCancelled = false;
+
     void (async () => {
       const nextQuestion = await getQuestion();
-      if (isMounted.current) {
+      if (!isCancelled) {
         setQuestion(nextQuestion);
       }
     })();
 
     return () => {
-      isMounted.current = false;
+      isCancelled = true;
     };
   }, []);
 

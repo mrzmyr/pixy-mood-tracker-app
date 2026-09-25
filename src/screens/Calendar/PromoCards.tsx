@@ -39,6 +39,32 @@ const rssParser = new XMLParser({
   trimValues: true,
 });
 
+// Parses changelog entries published after the changelog card was introduced.
+const parseChangelogItems = (str: string): RssItem[] => {
+  const parsed = rssParser.parse(str);
+  const rawItems = parsed?.rss?.channel?.item;
+  const items: RssItem[] = (
+    Array.isArray(rawItems) ? rawItems : [rawItems]
+  ).flatMap((item) =>
+    isParsedRssItem(item) && dayjs(item.pubDate).isAfter("2023-01-09")
+      ? [
+          {
+            title: item.title,
+            id: item.guid || item.link,
+            published: item.pubDate,
+            // Explicit ASCII ranges instead of `i`: with `u`, `i` would also
+            // fold non-ASCII letters and change existing slugs.
+            slug: (item.guid || item.link)
+              .replaceAll(/[^a-zA-Z0-9]/gu, "_")
+              .toLowerCase(),
+          },
+        ]
+      : []
+  );
+
+  return items;
+};
+
 export const PromoCards = () => {
   const navigation = useNavigation();
   const logState = useLogState();
@@ -73,32 +99,15 @@ export const PromoCards = () => {
     !!mostRecentRssItem && !hasActionDone(mostRecentRssItem.slug);
 
   useEffect(() => {
+    const controller = new AbortController();
+
     void (async () => {
       try {
         const response = await fetch(
-          "https://pixy.featureos.app/rss/changelog.xml"
+          "https://pixy.featureos.app/rss/changelog.xml",
+          { signal: controller.signal }
         );
-        const str = await response.text();
-        const parsed = rssParser.parse(str);
-        const rawItems = parsed?.rss?.channel?.item;
-        const items: RssItem[] = (
-          Array.isArray(rawItems) ? rawItems : [rawItems]
-        ).flatMap((item) =>
-          isParsedRssItem(item) && dayjs(item.pubDate).isAfter("2023-01-09")
-            ? [
-                {
-                  title: item.title,
-                  id: item.guid || item.link,
-                  published: item.pubDate,
-                  // Explicit ASCII ranges instead of `i`: with `u`, `i` would also
-                  // fold non-ASCII letters and change existing slugs.
-                  slug: (item.guid || item.link)
-                    .replaceAll(/[^a-zA-Z0-9]/gu, "_")
-                    .toLowerCase(),
-                },
-              ]
-            : []
-        );
+        const items = parseChangelogItems(await response.text());
 
         if (items.length !== 0) {
           setMostRecentRssItem(items[0]);
@@ -107,6 +116,10 @@ export const PromoCards = () => {
         // The changelog card is optional; the calendar remains usable offline.
       }
     })();
+
+    return () => {
+      controller.abort();
+    };
   }, []);
 
   const promoCards: ReactElement[] = [];
