@@ -108,7 +108,7 @@ export const CardFeedback = ({
   style = {},
 }: {
   analyticsId: string;
-  analyticsData?: any;
+  analyticsData?: object;
   variant?: "default" | "minimal";
   style?: ViewStyle;
 }) => {

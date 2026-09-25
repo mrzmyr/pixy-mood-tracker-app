@@ -1,7 +1,7 @@
 import _ from "lodash";
 import type { TextStyle, ViewStyle } from "react-native";
 import { Pressable, StyleSheet, Text, View } from "react-native";
-import * as FeatherIcons from "react-native-feather";
+import type { SvgProps } from "react-native-svg";
 import useColors from "@/hooks/useColors";
 import useHaptics from "@/hooks/useHaptics";
 
@@ -22,15 +22,15 @@ export default function LinkButton({
   onPress,
   children,
   style = {},
-  icon = null,
+  icon: Icon = null,
   testID,
   disabled,
 }: {
   type?: "primary" | "secondary" | "danger";
-  onPress: () => any;
+  onPress: () => void;
   children?: React.ReactNode;
   style?: ViewStyle & TextStyle;
-  icon?: keyof typeof FeatherIcons | null;
+  icon?: ((props: SvgProps) => React.JSX.Element) | null;
   testID?: string;
   disabled?: boolean;
 }) {
@@ -48,8 +48,6 @@ export default function LinkButton({
       ? colors.linkButtonTextDangerDisabled
       : colors.linkButtonTextDanger,
   }[type];
-
-  const Icon = FeatherIcons[icon as keyof typeof FeatherIcons];
 
   const _onPress = () => {
     if (!disabled) {
@@ -75,7 +73,7 @@ export default function LinkButton({
       onPress={_onPress}
       testID={testID}
     >
-      {icon && (
+      {Icon && (
         <View style={styles.iconContainer}>
           <Icon width={17} color={color} />
         </View>

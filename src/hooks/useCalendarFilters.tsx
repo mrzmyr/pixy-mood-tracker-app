@@ -23,15 +23,16 @@ export interface CalendarFiltersData extends FiltersData {
   isFiltering: boolean;
 }
 
-type Value = {
+interface Value {
   data: CalendarFiltersData;
   set: (data: FiltersData) => void;
   reset: () => void;
   open: () => void;
   close: () => void;
   isOpen: boolean;
-};
+}
 
+// SAFETY: every consumer renders inside CalendarFiltersProvider, which supplies the full Value.
 const CalendarFiltersStateContext = createContext({} as Value);
 
 const initialState: CalendarFiltersData = {

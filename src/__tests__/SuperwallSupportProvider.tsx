@@ -8,10 +8,30 @@ import {
 import type { SupportClient } from "@/support";
 import { useSupport } from "@/support";
 
+interface MockSuperwallState {
+  isConfigured: boolean;
+  setEventTrackingBehavior: jest.Mock;
+}
+
+interface MockSuperwallEventInfo {
+  event: {
+    event: string;
+    product: { productIdentifier: string };
+    transaction: { purchaseToken: string };
+  };
+}
+
+interface MockSuperwallEventCallbacks {
+  onSuperwallEvent: (eventInfo: MockSuperwallEventInfo) => void;
+}
+
 const mockRegisterPlacement = jest.fn().mockResolvedValue(undefined);
 const mockSetEventTrackingBehavior = jest.fn().mockResolvedValue(undefined);
-let mockProviderProps: Record<string, unknown> | undefined;
-const mockUseSuperwallEvents = jest.fn();
+let mockProviderProps: { children: React.ReactNode } | undefined;
+const mockUseSuperwallEvents = jest.fn<
+  undefined,
+  [MockSuperwallEventCallbacks]
+>();
 
 jest.mock("@/hooks/useAnalytics", () => ({
   useAnalytics: () => ({ isEnabled: false }),
@@ -29,12 +49,12 @@ jest.mock(
       registerPlacement: mockRegisterPlacement,
       state: { status: "idle" },
     }),
-    useSuperwall: (selector: (state: object) => unknown) =>
+    useSuperwall: <T,>(selector: (state: MockSuperwallState) => T) =>
       selector({
         isConfigured: true,
         setEventTrackingBehavior: mockSetEventTrackingBehavior,
       }),
-    useSuperwallEvents: (callbacks: object) =>
+    useSuperwallEvents: (callbacks: MockSuperwallEventCallbacks) =>
       mockUseSuperwallEvents(callbacks),
   }),
   { virtual: true }
@@ -95,7 +115,7 @@ describe("Superwall support provider", () => {
       expect(mockSetEventTrackingBehavior).toHaveBeenCalledWith("none")
     );
 
-    await supportClient!.openSupport();
+    await supportClient?.openSupport();
 
     expect(mockRegisterPlacement).toHaveBeenCalledWith({
       placement: SUPPORT_PLACEMENT,
@@ -118,14 +138,12 @@ describe("Superwall support provider", () => {
       );
 
       await waitFor(() => expect(mockUseSuperwallEvents).toHaveBeenCalled());
-      const callbacks = mockUseSuperwallEvents.mock.calls[0]?.[0] as {
-        onSuperwallEvent: (eventInfo: object) => void;
-      };
+      const callbacks = mockUseSuperwallEvents.mock.calls[0]?.[0];
       Object.defineProperty(Platform, "OS", {
         configurable: true,
         value: "android",
       });
-      callbacks.onSuperwallEvent({
+      callbacks?.onSuperwallEvent({
         event: {
           event: "transactionComplete",
           product: { productIdentifier: "support_pixy_1" },

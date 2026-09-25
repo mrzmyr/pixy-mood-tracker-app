@@ -3,10 +3,10 @@ import { Text, View, VirtualizedList } from "react-native";
 import disclaimer from "../../disclaimer";
 import useColors from "../hooks/useColors";
 
-type Item = {
+interface Item {
   key: string;
   value: string;
-};
+}
 
 export const LicensesScreen = () => {
   const colors = useColors();

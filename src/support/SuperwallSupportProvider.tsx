@@ -29,9 +29,8 @@ const SuperwallConsumableEvents = () => {
       if (
         Platform.OS !== "android" ||
         event.event !== "transactionComplete" ||
-        !SUPPORT_PRODUCT_IDS.includes(
-          event.product
-            .productIdentifier as (typeof SUPPORT_PRODUCT_IDS)[number]
+        !SUPPORT_PRODUCT_IDS.some(
+          (productId) => productId === event.product.productIdentifier
         )
       ) {
         return;

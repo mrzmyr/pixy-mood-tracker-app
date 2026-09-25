@@ -1,3 +1,4 @@
+import type { DateTimePickerEvent } from "@react-native-community/datetimepicker";
 import dayjs from "dayjs";
 import { useEffect, useState } from "react";
 import { Platform, Switch, Text, View } from "react-native";
@@ -61,7 +62,10 @@ const Reminder = () => {
     })();
   }, [reminderEnabled, reminderTime]);
 
-  const onTimeChange = async (event: any, selectedDate: any) => {
+  const onTimeChange = async (
+    event: DateTimePickerEvent,
+    selectedDate?: Date
+  ) => {
     analytics.track("reminder_time_change", {
       time: dayjs(selectedDate).format("HH:mm"),
     });
@@ -84,7 +88,6 @@ const Reminder = () => {
           iconRight={
             <Switch
               onValueChange={() => onEnabledChange(!reminderEnabled)}
-              // @ts-ignore
               value={reminderEnabled}
               testID="reminder-enabled"
             />

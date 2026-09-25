@@ -235,9 +235,11 @@ export const Logger = ({
 
     if (mode === "edit") {
       analytics.track("log_changed", eventData);
+      // SAFETY: rating is non-null after the fallback above; a null sleep.quality is stored as-is and statistics treat it as missing.
       logUpdater.editLog(data as LogItem);
     } else {
       analytics.track("log_created", eventData);
+      // SAFETY: rating is non-null after the fallback above; a null sleep.quality is stored as-is and statistics treat it as missing.
       logUpdater.addLog(data as LogItem);
 
       const itemsOnDate = logState.items.filter((item) =>

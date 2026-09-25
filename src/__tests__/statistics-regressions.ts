@@ -12,6 +12,7 @@ const makeItem = (
   createdAt: dateTime,
   rating: "good",
   message: "",
+  // SAFETY: fixture mirrors persisted legacy logs whose sleep quality can be null.
   sleep: { quality } as LogItem["sleep"],
   emotions: [],
   tags: [],

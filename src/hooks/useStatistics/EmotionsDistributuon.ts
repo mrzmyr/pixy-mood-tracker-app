@@ -28,12 +28,12 @@ export const getEmotionsDistributionData = (
 ): EmotionsDistributionData => {
   const distribution = _.countBy(items.flatMap((item) => item?.emotions));
   const _emotions = Object.keys(distribution)
-    .map((key) => ({
-      details: EMOTIONS.find((emotion) => emotion.key === key)!,
-      id: key,
-      count: distribution[key],
-    }))
-    .filter((emotion) => emotion.details !== undefined)
+    .flatMap((key) => {
+      const details = EMOTIONS.find((emotion) => emotion.key === key);
+      return details === undefined
+        ? []
+        : [{ details, id: key, count: distribution[key] }];
+    })
     .sort((a, b) => b.count - a.count);
 
   return {

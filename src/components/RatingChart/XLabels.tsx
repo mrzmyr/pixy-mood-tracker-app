@@ -31,7 +31,6 @@ export const XLabels = ({
         const _x = x(index);
 
         const Label = (
-          // @ts-ignore
           <Text
             x={_x}
             y={y}

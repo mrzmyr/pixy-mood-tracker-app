@@ -37,7 +37,7 @@ export default function useFeedbackModal() {
     setVisible(false);
   };
 
-  const ModalElement = ({ data = {} }: { data?: any }) => {
+  const ModalElement = ({ data = {} }: { data?: object }) => {
     const [type, setType] = useState<FeedackType>(defaultType);
     const [message, setMessage] = useState("");
     const [email, setEmail] = useState("");

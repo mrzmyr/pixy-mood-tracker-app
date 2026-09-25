@@ -18,11 +18,13 @@ export interface TemporaryLogValue {
   reset: () => void;
 }
 
+// SAFETY: every consumer renders inside TemporaryLogProvider, which supplies the full value.
 const TemporaryLogStateContext = createContext({} as TemporaryLogValue);
 
 function TemporaryLogProvider({ children }: { children: React.ReactNode }) {
   const [isDirty, setIsDirty] = useState(false);
   const [temporaryLog, setTemporaryLog] = useState<TemporaryLogState>(
+    // SAFETY: empty placeholder until initialize(); isInitialized stays false while it is empty.
     {} as TemporaryLogState
   );
   const [isInitialized, setIsInitialized] = useState(false);
@@ -48,6 +50,7 @@ function TemporaryLogProvider({ children }: { children: React.ReactNode }) {
   };
 
   const reset = () => {
+    // SAFETY: empty placeholder until initialize(); isInitialized is reset to false below.
     setTemporaryLog({} as TemporaryLogState);
     setIsDirty(false);
     setIsInitialized(false);
