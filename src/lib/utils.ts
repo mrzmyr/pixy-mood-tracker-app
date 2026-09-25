@@ -3,13 +3,13 @@ import dayjs from "dayjs";
 import groupBy from "lodash/groupBy";
 import sortBy from "lodash/sortBy";
 import { t } from "@/helpers/translation";
-import { DATE_FORMAT } from "@/constants/Config";
 import type { LogDay, LogItem } from "@/hooks/useLogs";
 import {
   RATING_KEYS,
   RATING_MAPPING,
   SLEEP_QUALITY_MAPPING,
 } from "@/constants/Ratings";
+import { getItemDate } from "@/lib/logDates";
 
 const SCREEN_WIDTH = Dimensions.get("window").width;
 
@@ -89,9 +89,7 @@ export const getWordCount = (text = "") => {
  * Days come back in insertion order, not sorted by date.
  */
 export const getLogDays = (items: LogItem[]): LogDay[] => {
-  const moodsPerDay = groupBy(items, (item) =>
-    dayjs(item.dateTime).format(DATE_FORMAT)
-  );
+  const moodsPerDay = groupBy(items, getItemDate);
 
   return Object.keys(moodsPerDay)
     .map((date) => {

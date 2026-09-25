@@ -1,3 +1,4 @@
+import { DATE_FORMAT } from "@/constants/Config";
 import { useNavigation, StackActions } from "@react-navigation/native";
 import dayjs from "dayjs";
 import { useAnalytics } from "@/hooks/useAnalytics";
@@ -8,6 +9,7 @@ import type {
   TemporaryLogValue,
 } from "@/hooks/useTemporaryLog";
 import type { LoggerMode } from ".";
+import { getItemDate } from "@/lib/logDates";
 
 /**
  * Save, remove and cancel handlers for the logger.
@@ -57,8 +59,9 @@ export const useLoggerActions = ({
       // SAFETY: rating is non-null after the fallback above; a null sleep.quality is stored as-is and statistics treat it as missing.
       logUpdater.addLog(data as LogItem);
 
-      const itemsOnDate = logState.items.filter((item) =>
-        dayjs(item.dateTime).isSame(dayjs(data.dateTime), "day")
+      const date = dayjs(data.dateTime).format(DATE_FORMAT);
+      const itemsOnDate = logState.items.filter(
+        (item) => getItemDate(item) === date
       );
 
       if (itemsOnDate.length === 1) {

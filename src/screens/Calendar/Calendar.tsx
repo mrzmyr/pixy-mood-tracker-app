@@ -13,6 +13,7 @@ import { useLogState } from "@/hooks/useLogs";
 import CalendarMonth from "./CalendarMonth";
 import { getGeometry, getMonths } from "./layout";
 import type { Month } from "./layout";
+import { getItemDate } from "@/lib/logDates";
 
 const positionConfig = { startRenderingFromBottom: true };
 const getKey = (item: Month) => item.date;
@@ -49,7 +50,7 @@ const CalendarComponent = ({
   const itemMap = useMemo(() => {
     const itemsByDate: Record<string, typeof logState.items> = {};
     for (const item of logState.items) {
-      const date = dayjs(item.dateTime).format(DATE_FORMAT);
+      const date = getItemDate(item);
       if (!itemsByDate[date]) {
         itemsByDate[date] = [];
       }

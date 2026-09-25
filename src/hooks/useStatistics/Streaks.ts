@@ -40,6 +40,19 @@ export const getCurrentStreak = (items: LogItem[]) => {
   return currentStreak;
 };
 
+const DAY_MS = 24 * 60 * 60 * 1000;
+
+const toUtc = (date: string) =>
+  Date.UTC(
+    Number(date.slice(0, 4)),
+    Number(date.slice(5, 7)) - 1,
+    Number(date.slice(8, 10))
+  );
+
+/** Whole days between two `YYYY-MM-DD` dates, independent of DST. */
+const daysBetween = (from: string, to: string) =>
+  Math.round((toUtc(to) - toUtc(from)) / DAY_MS);
+
 /** Longest run of consecutive days with entries; 0 for no entries. */
 export const getLongestStreak = (items: LogItem[]) => {
   const dayLogs = getLogDays(items);
@@ -52,7 +65,7 @@ export const getLongestStreak = (items: LogItem[]) => {
     const current = itemsSorted[i];
     const next = itemsSorted[i + 1];
 
-    if (Math.abs(dayjs(current.date).diff(dayjs(next?.date), "day")) === 1) {
+    if (next && daysBetween(current.date, next.date) === 1) {
       count += 1;
       continue;
     }

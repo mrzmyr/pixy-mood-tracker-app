@@ -1,7 +1,7 @@
 import { useNavigation } from "@react-navigation/native";
 import { useLogState } from "@/hooks/useLogs";
 import dayjs from "dayjs";
-import { DATE_FORMAT } from "@/constants/Config";
+import { getItemDate } from "@/lib/logDates";
 
 /**
  * Open a calendar day: the day's entry list, or the create screen at the
@@ -12,9 +12,7 @@ export const useCalendarNavigation = () => {
   const logsState = useLogState();
 
   const openDay = (date: string) => {
-    const items = logsState.items.filter(
-      (log) => dayjs(log.dateTime).format(DATE_FORMAT) === date
-    );
+    const items = logsState.items.filter((log) => getItemDate(log) === date);
 
     if (items.length === 0) {
       navigation.navigate("LogCreate", {

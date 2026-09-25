@@ -15,6 +15,7 @@ import { MoodPeaks } from "./MoodPeaks";
 import { Navigation } from "./Navigation";
 import { Stats } from "./Stats";
 import { EmotionsDistribution } from "@/components/Statistics/EmotionsDistribution";
+import { getItemDate } from "@/lib/logDates";
 
 /**
  * Month report screen.
@@ -45,15 +46,15 @@ export const StatisticsMonthScreen = ({
 
   const logState = useLogState();
 
-  const prevItems = logState.items.filter((item) =>
-    dayjs(item.dateTime).isSame(prevMonth, "month")
-  );
-  const nextItems = logState.items.filter((item) =>
-    dayjs(item.dateTime).isSame(nextMonth, "month")
-  );
-  const items = logState.items.filter((item) =>
-    dayjs(item.dateTime).isSame(date, "month")
-  );
+  const itemsInMonth = (month: dayjs.Dayjs) => {
+    const prefix = month.format("YYYY-MM");
+    return logState.items.filter((item) =>
+      getItemDate(item).startsWith(prefix)
+    );
+  };
+  const prevItems = itemsInMonth(prevMonth);
+  const nextItems = itemsInMonth(nextMonth);
+  const items = itemsInMonth(date);
 
   return (
     <View

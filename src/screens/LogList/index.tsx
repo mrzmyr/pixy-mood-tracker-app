@@ -16,6 +16,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import type { RootStackScreenProps } from "../../../types";
 import { Entry } from "./Entry";
 import { Header } from "./Header";
+import { getItemDate, getItemTime } from "@/lib/logDates";
 
 const WINDOW_WIDTH = Dimensions.get("window").width;
 
@@ -38,8 +39,8 @@ export const LogList = ({
   const logUpdater = useLogUpdater();
 
   const items = logState.items
-    .filter((item) => dayjs(item.dateTime).isSame(dayjs(date), "day"))
-    .sort((a, b) => (dayjs(a.dateTime).isBefore(dayjs(b.dateTime)) ? -1 : 1));
+    .filter((item) => getItemDate(item) === date)
+    .sort((a, b) => (getItemTime(a) < getItemTime(b) ? -1 : 1));
 
   const close = () => {
     analytics.track("log_list_close");

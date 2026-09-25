@@ -1,3 +1,4 @@
+import { DATE_FORMAT } from "@/constants/Config";
 import { Card } from "@/components/Card";
 import { getLogEditMarginTop } from "@/helpers/responsive";
 import { language, t } from "@/helpers/translation";
@@ -28,6 +29,7 @@ import TextArea from "../../TextArea";
 import { SlideHeadline } from "../components/SlideHeadline";
 import { EMOTIONS } from "../config";
 import { Footer } from "./Footer";
+import { getItemDate } from "@/lib/logDates";
 
 const randomInt = (min, max) =>
   Math.floor(Math.random() * (max - min + 1) + min);
@@ -42,8 +44,9 @@ const useMoodValueYesterday = (today: Dayjs): number | null => {
   }
 
   const yesterday = today.subtract(1, "day");
-  const itemsYesterday = logState.items.filter((item) =>
-    dayjs(item.dateTime).isSame(yesterday, "day")
+  const yesterdayDate = yesterday.format(DATE_FORMAT);
+  const itemsYesterday = logState.items.filter(
+    (item) => getItemDate(item) === yesterdayDate
   );
   const yesterdayAverageMood = getAverageMood(itemsYesterday);
 
