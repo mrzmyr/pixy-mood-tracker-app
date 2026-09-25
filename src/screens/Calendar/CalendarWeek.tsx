@@ -1,4 +1,5 @@
 import dayjs from "dayjs";
+import { useMappingHelper } from "@shopify/flash-list";
 import { memo, useCallback, useMemo } from "react";
 import { StyleSheet, View } from "react-native";
 import { DATE_FORMAT } from "@/constants/Config";
@@ -35,16 +36,18 @@ const CalendarWeekComponent = ({
   startDate,
   endDate,
   isLast = false,
+  height,
   itemMap,
 }: {
   startDate: string;
   endDate: string;
-  isFirst?: boolean;
+  height: number;
   isLast?: boolean;
   itemMap: {
     [key: string]: LogItem[];
   };
 }) => {
+  const { getMappingKey } = useMappingHelper();
   const calendarNavigation = useCalendarNavigation();
   const calendarFilters = useCalendarFilters();
 
@@ -105,6 +108,7 @@ const CalendarWeekComponent = ({
   return (
     <View
       style={{
+        height,
         flexDirection: "row",
         justifyContent: "space-around",
         marginLeft: -4,
@@ -113,8 +117,8 @@ const CalendarWeekComponent = ({
     >
       {!isLast && emptyDays.map((slot) => <CalendarDayContainer key={slot} />)}
 
-      {daysMap.map((day) => (
-        <CalendarDayContainer key={day.dateString}>
+      {daysMap.map((day, index) => (
+        <CalendarDayContainer key={getMappingKey(day.dateString, index)}>
           {renderDay({ date: day.dateString })}
         </CalendarDayContainer>
       ))}

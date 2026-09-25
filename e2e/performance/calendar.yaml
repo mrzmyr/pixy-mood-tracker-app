@@ -1,0 +1,15 @@
+appId: com.devmood.pixymoodtracker
+tags: [performance]
+---
+# Run setup/onboarding separately so startup does not affect scroll metrics.
+# Start at today. Use a release build and reset gfxinfo before this flow.
+- repeat:
+    times: 60
+    commands:
+      - swipe:
+          start: 50%, 35%
+          end: 50%, 80%
+          duration: 400
+- takeScreenshot: calendar-history
+- assertVisible:
+    id: scroll-to-bottom

@@ -2,7 +2,8 @@ import { DATE_FORMAT } from "@/constants/Config";
 import type { Dayjs } from "dayjs";
 import dayjs from "dayjs";
 import React, { memo } from "react";
-import type { LayoutChangeEvent } from "react-native";
+import { useMappingHelper } from "@shopify/flash-list";
+import type { getGeometry } from "./layout";
 import { Platform, StyleSheet, Text, View } from "react-native";
 import { useStyle } from "react-native-style-utilities";
 import useColors from "../../hooks/useColors";
@@ -15,27 +16,30 @@ const styles = StyleSheet.create({
     marginTop: 16,
     textAlign: "center",
     fontSize: 17,
+    lineHeight: 22,
+    includeFontPadding: false,
   },
 });
 
 const CalendarMonthComponent = ({
   dateString,
   itemMap,
-  onLayout,
+  weeks,
+  geometry,
 }: {
   dateString: string;
   itemMap: {
     [key: string]: LogItem[];
   };
-  onLayout?: (event: LayoutChangeEvent) => void;
+  weeks: number;
+  geometry: ReturnType<typeof getGeometry>;
 }) => {
   const colors = useColors();
+  const { getMappingKey } = useMappingHelper();
   const date = dayjs(dateString);
   const monthStart = date.startOf("month");
   const monthEnd = date.endOf("month");
   const weekStart = monthStart.startOf("week");
-  const weekEnd = monthEnd.endOf("week");
-  const weeks = weekEnd.diff(weekStart, "week") + 1;
   const weekDates: { start: Dayjs; end: Dayjs }[] = [];
 
   for (let index = 0; index < weeks; index += 1) {
@@ -65,19 +69,23 @@ const CalendarMonthComponent = ({
 
   return (
     <View
-      onLayout={onLayout}
+      testID={`calendar-month-${dateString}`}
       style={{
-        flex: 1,
+        height: geometry.titleHeight + weeks * geometry.weekHeight,
         paddingHorizontal: Platform.OS === "android" ? 1 : 0,
       }}
     >
-      <Text style={textStyles}>{dayjs(dateString).format("MMMM YYYY")}</Text>
+      <View style={{ height: geometry.titleHeight }}>
+        <Text numberOfLines={1} style={textStyles}>
+          {date.format("MMMM YYYY")}
+        </Text>
+      </View>
       {weekDates.map((week, index) => (
         <CalendarWeek
-          key={week.start.format(DATE_FORMAT)}
+          key={getMappingKey(week.start.format(DATE_FORMAT), index)}
           startDate={week.start.format(DATE_FORMAT)}
           endDate={week.end.format(DATE_FORMAT)}
-          isFirst={index === 0}
+          height={geometry.weekHeight}
           isLast={index === weekDates.length - 1}
           itemMap={itemMap}
         />

@@ -1,86 +1,111 @@
+import { FlashList } from "@shopify/flash-list";
+import type { FlashListRef, ListRenderItemInfo } from "@shopify/flash-list";
 import dayjs from "dayjs";
-import React, { memo, useCallback, useMemo, useRef } from "react";
-import type { LayoutChangeEvent } from "react-native";
-import { useLogState } from "../../hooks/useLogs";
-import CalendarMonth from "./CalendarMonth";
-
+import React, { memo, useCallback, useMemo, useRef, useState } from "react";
+import { Platform, useWindowDimensions, View } from "react-native";
+import type {
+  LayoutChangeEvent,
+  NativeScrollEvent,
+  NativeSyntheticEvent,
+} from "react-native";
 import { DATE_FORMAT } from "@/constants/Config";
+import { useLogState } from "@/hooks/useLogs";
+import CalendarMonth from "./CalendarMonth";
+import { getGeometry, getMonths } from "./layout";
+import type { Month } from "./layout";
 
-const getMonths = (start: dayjs.Dayjs, count: number) =>
-  Array.from({ length: count }, (_, index) =>
-    start.add(index, "month").format(DATE_FORMAT)
+const positionConfig = { startRenderingFromBottom: true };
+const getKey = (item: Month) => item.date;
+const getType = (item: Month) => item.weeks;
+const contentStyle = { paddingHorizontal: 16 };
+
+const CalendarComponent = ({
+  listRef,
+  header,
+  footer,
+  onScroll,
+}: {
+  listRef: React.RefObject<FlashListRef<Month> | null>;
+  header: React.ReactElement | null;
+  footer: React.ReactElement;
+  onScroll: (event: NativeSyntheticEvent<NativeScrollEvent>) => void;
+}) => {
+  const logState = useLogState();
+  const { fontScale } = useWindowDimensions();
+  const [width, setWidth] = useState(0);
+  const [monthCount, setMonthCount] = useState(13);
+  const isLoaded = useRef(false);
+  const currentMonth = dayjs().startOf("month").format(DATE_FORMAT);
+  const locale = dayjs.locale();
+  const months = useMemo(
+    () => getMonths({ end: currentMonth, count: monthCount, locale }),
+    [currentMonth, monthCount, locale]
   );
-
-const Calendar = memo(
-  ({
-    monthCount,
-    onCalendarHeightChange,
-  }: {
-    monthCount: number;
-    onCalendarHeightChange: (height: number) => void;
-  }) => {
-    const logState = useLogState();
-    const firstMonthY = useRef(0);
-    const monthDates = useMemo(
-      () =>
-        getMonths(
-          dayjs()
-            .subtract(monthCount - 1, "month")
-            .startOf("month"),
-          monthCount
-        ),
-      [monthCount]
-    );
-
-    const itemMap = useMemo(() => {
-      const itemsByDate: Record<string, typeof logState.items> = {};
-
-      for (const item of logState.items) {
-        const date = dayjs(item.dateTime).format(DATE_FORMAT);
-
-        if (!itemsByDate[date]) {
-          itemsByDate[date] = [];
-        }
-
-        itemsByDate[date].push(item);
+  const geometry = useMemo(
+    () =>
+      getGeometry({ width, fontScale, isAndroid: Platform.OS === "android" }),
+    [width, fontScale]
+  );
+  const itemMap = useMemo(() => {
+    const itemsByDate: Record<string, typeof logState.items> = {};
+    for (const item of logState.items) {
+      const date = dayjs(item.dateTime).format(DATE_FORMAT);
+      if (!itemsByDate[date]) {
+        itemsByDate[date] = [];
       }
-
-      return itemsByDate;
-    }, [logState.items]);
-
-    const onFirstMonthLayout = useCallback((event: LayoutChangeEvent) => {
-      firstMonthY.current = event.nativeEvent.layout.y;
-    }, []);
-
-    const onLastMonthLayout = useCallback(
-      (event: LayoutChangeEvent) => {
-        const { y, height } = event.nativeEvent.layout;
-        onCalendarHeightChange(y + height - firstMonthY.current);
-      },
-      [onCalendarHeightChange]
-    );
-    const getMonthLayoutHandler = (index: number) => {
-      if (index === 0) {
-        return onFirstMonthLayout;
-      }
-      if (index === monthDates.length - 1) {
-        return onLastMonthLayout;
-      }
-    };
-
-    // Keep month props stable so previously rendered months skip pagination rerenders.
-    // Native maintainVisibleContentPosition tracks direct month child frames on prepend.
-    return monthDates.map((date, index) => (
+      itemsByDate[date].push(item);
+    }
+    return itemsByDate;
+  }, [logState.items]);
+  const renderMonth = useCallback(
+    ({ item }: ListRenderItemInfo<Month>) => (
       <CalendarMonth
-        key={date}
-        dateString={date}
+        dateString={item.date}
         itemMap={itemMap}
-        onLayout={getMonthLayoutHandler(index)}
+        weeks={item.weeks}
+        geometry={geometry}
       />
-    ));
-  }
-);
+    ),
+    [itemMap, geometry]
+  );
+  const loadEarlierMonths = useCallback(() => {
+    // onStartReached can run while FlashList is still positioning its initial viewport.
+    // https://shopify.github.io/flash-list/docs/usage/#onload
+    if (isLoaded.current) {
+      setMonthCount((count) => count + 12);
+    }
+  }, []);
+  const onLoad = useCallback(() => {
+    isLoaded.current = true;
+  }, []);
+  const onLayout = useCallback((event: LayoutChangeEvent) => {
+    setWidth(event.nativeEvent.layout.width);
+  }, []);
 
+  return (
+    <View style={{ flex: 1 }} onLayout={onLayout}>
+      {width > 0 && (
+        <FlashList
+          ref={listRef}
+          testID="calendar-list"
+          data={months}
+          renderItem={renderMonth}
+          keyExtractor={getKey}
+          getItemType={getType}
+          contentContainerStyle={contentStyle}
+          maintainVisibleContentPosition={positionConfig}
+          onStartReached={loadEarlierMonths}
+          onStartReachedThreshold={1}
+          onLoad={onLoad}
+          onScroll={onScroll}
+          scrollEventThrottle={32}
+          ListHeaderComponent={header}
+          ListFooterComponent={footer}
+        />
+      )}
+    </View>
+  );
+};
+const Calendar = memo(CalendarComponent);
 Calendar.displayName = "Calendar";
-
 export default Calendar;
