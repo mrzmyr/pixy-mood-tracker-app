@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { View } from "react-native";
+import { useEffect, useEffectEvent, useState } from "react";
+import { BackHandler, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import useColors from "../../hooks/useColors";
 import { useAnalytics } from "../../hooks/useAnalytics";
@@ -44,6 +44,24 @@ export const Onboarding = ({
     setIndex(nextIndex);
     analytics.track("onboarding_slide", { index: nextIndex });
   };
+
+  const onHardwareBack = useEffectEvent(() => {
+    if (index === 0) {
+      return true;
+    }
+
+    goToSlide(index - 1);
+    return true;
+  });
+
+  useEffect(() => {
+    const subscription = BackHandler.addEventListener(
+      "hardwareBackPress",
+      onHardwareBack
+    );
+
+    return () => subscription.remove();
+  }, []);
 
   const finish = () => {
     addActionDone("onboarding");
