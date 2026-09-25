@@ -1,7 +1,7 @@
 /* istanbul ignore file */
 
-import * as SplashScreen from 'expo-splash-screen';
-import { useEffect, useState } from 'react';
+import * as SplashScreen from "expo-splash-screen";
+import { useEffect, useState } from "react";
 
 export default function useCachedResources() {
   const [isLoadingComplete, setLoadingComplete] = useState(false);

@@ -14,7 +14,7 @@ const CalendarMonth = memo(function CalendarMonth({
   dateString: string;
   itemMap: {
     [key: string]: LogItem[];
-  }
+  };
 }) {
   const colors = useColors();
 

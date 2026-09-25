@@ -25,7 +25,7 @@ export const TagsDistributionTrend = ({
               fontWeight: "bold",
             }}
           >
-            {t('statistics_tags_distribution_trend_prefix')}
+            {t("statistics_tags_distribution_trend_prefix")}
             <Text
               style={{
                 fontSize: 17,
@@ -52,29 +52,28 @@ export const TagsDistributionTrend = ({
           <TagBar
             width={`${(tag.periode2Count / tag.total) * 100}%`}
             colorName={tag.color}
-            size={'large'}
-            label={'This Month'}
+            size={"large"}
+            label={"This Month"}
           >
             {tag.periode2Count.toString()}x
           </TagBar>
         </View>
-        <View style={{
-          marginTop: 8,
-        }}>
+        <View
+          style={{
+            marginTop: 8,
+          }}
+        >
           <TagBar
             width={`${(tag.periode1Count / tag.total) * 100}%`}
             muted
             size="small"
-            label={'Last Month'}
+            label={"Last Month"}
           >
             {tag.periode1Count.toString()}x
           </TagBar>
         </View>
       </View>
-      <CardFeedback
-        analyticsId="tags_distribution_trend"
-        analyticsData={{}}
-      />
+      <CardFeedback analyticsId="tags_distribution_trend" analyticsData={{}} />
     </Card>
   );
 };

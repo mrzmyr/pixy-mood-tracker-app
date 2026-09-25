@@ -6,7 +6,7 @@ import { EMOTIONS } from "../../config";
 import { EMOTION_BUTTON_HEIGHT } from "./constants";
 import { EmotionPage } from "./EmotionPage";
 
-const WINDOW_WIDTH = Dimensions.get('window').width
+const WINDOW_WIDTH = Dimensions.get("window").width;
 
 export const EmotionAdvancedSelection = ({
   defaultIndex = 0,
@@ -22,12 +22,9 @@ export const EmotionAdvancedSelection = ({
   const _carousel = useRef<CarouselRef>(null);
 
   const pages = EMOTION_CATEGORIES.map((category) => {
-    const filteredEmotions = EMOTIONS
-      .filter((e) => (
-        e.category === category &&
-        e.disabled !== true
-      ))
-      .sort((a, b) => a.label.localeCompare(b.label));
+    const filteredEmotions = EMOTIONS.filter(
+      (e) => e.category === category && e.disabled !== true
+    ).sort((a, b) => a.label.localeCompare(b.label));
 
     return (
       <EmotionPage
@@ -51,8 +48,8 @@ export const EmotionAdvancedSelection = ({
       style={{
         height: EMOTION_BUTTON_HEIGHT * 9 + 16 * 8,
         width: WINDOW_WIDTH,
-        justifyContent: 'center',
-        alignItems: 'center',
+        justifyContent: "center",
+        alignItems: "center",
         ...style,
       }}
     />

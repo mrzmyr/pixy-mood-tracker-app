@@ -1,13 +1,9 @@
-import useColors from '@/hooks/useColors';
-import { LogItem } from '@/hooks/useLogs';
-import { useSettings } from '@/hooks/useSettings';
-import { View } from 'react-native';
+import useColors from "@/hooks/useColors";
+import { LogItem } from "@/hooks/useLogs";
+import { useSettings } from "@/hooks/useSettings";
+import { View } from "react-native";
 
-export const RatingDot = ({
-  rating,
-}: {
-  rating: LogItem['rating'];
-}) => {
+export const RatingDot = ({ rating }: { rating: LogItem["rating"] }) => {
   const colors = useColors();
   const { settings } = useSettings();
 
@@ -16,9 +12,9 @@ export const RatingDot = ({
   return (
     <View
       style={{
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
         padding: 4,
         borderRadius: 6,
         backgroundColor: backgroundColor,
@@ -26,6 +22,5 @@ export const RatingDot = ({
         aspectRatio: 1,
       }}
     />
-  )
-
+  );
 };

@@ -1,11 +1,11 @@
-import { Dayjs } from "dayjs"
-import { LogItem, RATING_KEYS } from "@/hooks/useLogs"
-import { CardFeedback } from "../CardFeedback"
-import { NotEnoughDataOverlay } from "../NotEnoughDataOverlay"
-import { BigCard } from "../../BigCard"
-import { Content } from "./Content"
+import { Dayjs } from "dayjs";
+import { LogItem, RATING_KEYS } from "@/hooks/useLogs";
+import { CardFeedback } from "../CardFeedback";
+import { NotEnoughDataOverlay } from "../NotEnoughDataOverlay";
+import { BigCard } from "../../BigCard";
+import { Content } from "./Content";
 
-const MIN_ITEMS = 14
+const MIN_ITEMS = 14;
 
 export const MoodCounts = ({
   title,
@@ -13,24 +13,28 @@ export const MoodCounts = ({
   date,
   items,
 }: {
-  title: string,
-  subtitle: string,
-  date: Dayjs
-  items: LogItem[]
+  title: string;
+  subtitle: string;
+  date: Dayjs;
+  items: LogItem[];
 }) => {
   const ratingCounts: {
-    [key: string]: number
+    [key: string]: number;
   } = RATING_KEYS.reduce((acc, ratingKey) => {
-    acc[ratingKey] = items.filter(item => item.rating === ratingKey).length
-    return acc
-  }, {})
+    acc[ratingKey] = items.filter((item) => item.rating === ratingKey).length;
+    return acc;
+  }, {});
 
-  const total = Object.values(ratingCounts).reduce((acc: number, count: number) => acc + count, 0) || 0
+  const total =
+    Object.values(ratingCounts).reduce(
+      (acc: number, count: number) => acc + count,
+      0
+    ) || 0;
 
   const data = {
     values: ratingCounts,
     total,
-  }
+  };
 
   const dummyData = {
     values: {
@@ -43,7 +47,7 @@ export const MoodCounts = ({
       extremely_good: 1,
     },
     total: 18,
-  }
+  };
 
   return (
     <BigCard
@@ -53,18 +57,12 @@ export const MoodCounts = ({
       hasFeedback
       analyticsId="rating-count"
     >
-      {total < MIN_ITEMS && (
-        <NotEnoughDataOverlay limit={MIN_ITEMS - total} />
-      )}
+      {total < MIN_ITEMS && <NotEnoughDataOverlay limit={MIN_ITEMS - total} />}
       {total >= MIN_ITEMS ? (
-        <Content
-          data={data}
-        />
+        <Content data={data} />
       ) : (
-        <Content
-          data={dummyData}
-        />
+        <Content data={dummyData} />
       )}
     </BigCard>
-  )
-}
+  );
+};

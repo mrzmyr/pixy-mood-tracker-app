@@ -19,9 +19,9 @@ export const Content = ({
     <>
       <View
         style={{
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          alignItems: 'flex-end',
+          flexDirection: "row",
+          justifyContent: "space-between",
+          alignItems: "flex-end",
           borderBottomColor: colors.cardBorder,
           borderBottomWidth: 1,
           paddingHorizontal: 16,
@@ -32,15 +32,16 @@ export const Content = ({
           <Bar
             key={`rating-bar-${ratingName}`}
             // @ts-ignore
-            height={data.values[ratingName] / data.total * 400}
-            ratingName={ratingName} />
+            height={(data.values[ratingName] / data.total) * 400}
+            ratingName={ratingName}
+          />
         ))}
       </View>
       <View
         style={{
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          alignItems: 'flex-end',
+          flexDirection: "row",
+          justifyContent: "space-between",
+          alignItems: "flex-end",
           paddingHorizontal: 16,
         }}
       >
@@ -57,7 +58,7 @@ export const Content = ({
             <Text
               key={`text-${ratingName}`}
               style={{
-                width: '100%',
+                width: "100%",
                 marginTop: 8,
                 color: colors.text,
                 opacity: data.values[ratingName] === 0 ? 0.3 : 1,
@@ -65,7 +66,9 @@ export const Content = ({
                 fontSize: 12,
                 fontWeight: "bold",
               }}
-            >{data.values[ratingName]}x</Text>
+            >
+              {data.values[ratingName]}x
+            </Text>
           </View>
         ))}
       </View>

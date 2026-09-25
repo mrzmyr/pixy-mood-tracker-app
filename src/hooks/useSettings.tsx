@@ -4,11 +4,14 @@ import {
   useCallback,
   useContext,
   useEffect,
-  useState
+  useState,
 } from "react";
 import "react-native-get-random-values";
 import { v4 as uuidv4 } from "uuid";
-import { ConfigurableLoggerStep, STEP_OPTIONS } from "@/components/Logger/config";
+import {
+  ConfigurableLoggerStep,
+  STEP_OPTIONS,
+} from "@/components/Logger/config";
 import { load, store } from "@/helpers/storage";
 import { Tag } from "./useTags";
 
@@ -30,7 +33,7 @@ export interface SettingsState {
   deviceId: string | null;
   passcodeEnabled: boolean | null;
   passcode: string | null;
-  scaleType: typeof SCALE_TYPES[number];
+  scaleType: (typeof SCALE_TYPES)[number];
   reminderEnabled: Boolean;
   reminderTime: string;
   analyticsEnabled: boolean;
@@ -39,10 +42,10 @@ export interface SettingsState {
 
   // removed in previous version
   trackBehaviour?: boolean; // replaced with analyticsEnabled
-  tags?: Tag[] // moved to useTags()
+  tags?: Tag[]; // moved to useTags()
 }
 
-export type ExportSettings = Omit<SettingsState, 'loaded' | 'deviceId'>;
+export type ExportSettings = Omit<SettingsState, "loaded" | "deviceId">;
 
 interface IAction {
   title: string;
@@ -59,13 +62,7 @@ export const INITIAL_STATE: SettingsState = {
   reminderTime: "18:00",
   analyticsEnabled: false,
   actionsDone: [],
-  steps: [
-    "rating",
-    "emotions",
-    "tags",
-    "message",
-    "feedback"
-  ],
+  steps: ["rating", "emotions", "tags", "message", "feedback"],
 };
 
 type Value = {
@@ -80,18 +77,22 @@ type Value = {
   removeActionDone: (actionTitle: IAction["title"]) => void;
   toggleStep: (step: ConfigurableLoggerStep, value?: Boolean) => void;
   hasStep: (step: KnownSettingsStep) => boolean;
-}
+};
 
 const SettingsStateContext = createContext({} as Value);
 
-const isConfigurableLoggerStep = (step: unknown): step is ConfigurableLoggerStep =>
-  typeof step === "string" && STEP_OPTIONS.includes(step as ConfigurableLoggerStep);
+const isConfigurableLoggerStep = (
+  step: unknown
+): step is ConfigurableLoggerStep =>
+  typeof step === "string" &&
+  STEP_OPTIONS.includes(step as ConfigurableLoggerStep);
 
 const sanitizeSteps = (steps: unknown): ConfigurableLoggerStep[] =>
-  (Array.isArray(steps) ? steps : INITIAL_STATE.steps).filter(isConfigurableLoggerStep);
+  (Array.isArray(steps) ? steps : INITIAL_STATE.steps).filter(
+    isConfigurableLoggerStep
+  );
 
 function SettingsProvider({ children }: { children: React.ReactNode }) {
-
   const [settings, setSettings] = useState<SettingsState>(INITIAL_STATE);
 
   const resetSettings = useCallback(() => {
@@ -102,14 +103,17 @@ function SettingsProvider({ children }: { children: React.ReactNode }) {
     });
   }, [INITIAL_STATE]);
 
-  const importSettings = useCallback((settings: ExportSettings) => {
-    setSettings({
-      ...INITIAL_STATE,
-      ...settings,
-      steps: sanitizeSteps(settings.steps),
-      loaded: true,
-    });
-  }, [INITIAL_STATE]);
+  const importSettings = useCallback(
+    (settings: ExportSettings) => {
+      setSettings({
+        ...INITIAL_STATE,
+        ...settings,
+        steps: sanitizeSteps(settings.steps),
+        loaded: true,
+      });
+    },
+    [INITIAL_STATE]
+  );
 
   useEffect(() => {
     (async () => {
@@ -143,35 +147,41 @@ function SettingsProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     if (settings.loaded) {
-      store(STORAGE_KEY, _.omit(settings, 'loaded'));
+      store(STORAGE_KEY, _.omit(settings, "loaded"));
     }
   }, [JSON.stringify(settings)]);
 
-  const addActionDone = useCallback((actionTitle: IAction["title"]) => {
-    if (hasActionDone(actionTitle)) {
-      return;
-    }
+  const addActionDone = useCallback(
+    (actionTitle: IAction["title"]) => {
+      if (hasActionDone(actionTitle)) {
+        return;
+      }
 
-    setSettings((settings) => ({
-      ...settings,
-      actionsDone: [
-        ...settings.actionsDone,
-        {
-          title: actionTitle,
-          date: new Date().toISOString(),
-        },
-      ],
-    }));
-  }, [settings.actionsDone]);
+      setSettings((settings) => ({
+        ...settings,
+        actionsDone: [
+          ...settings.actionsDone,
+          {
+            title: actionTitle,
+            date: new Date().toISOString(),
+          },
+        ],
+      }));
+    },
+    [settings.actionsDone]
+  );
 
-  const removeActionDone = useCallback((actionTitle: IAction["title"]) => {
-    setSettings((settings) => ({
-      ...settings,
-      actionsDone: settings.actionsDone.filter(
-        (action) => action.title !== actionTitle
-      ),
-    }));
-  }, [settings.actionsDone]);
+  const removeActionDone = useCallback(
+    (actionTitle: IAction["title"]) => {
+      setSettings((settings) => ({
+        ...settings,
+        actionsDone: settings.actionsDone.filter(
+          (action) => action.title !== actionTitle
+        ),
+      }));
+    },
+    [settings.actionsDone]
+  );
 
   const hasActionDone = useCallback(
     (actionTitle: IAction["title"]) => {
@@ -182,31 +192,39 @@ function SettingsProvider({ children }: { children: React.ReactNode }) {
     [settings.actionsDone]
   );
 
-  const toggleStep = useCallback((step: ConfigurableLoggerStep, value: Boolean) => {
-    setSettings((settings) => {
-      const shouldAdd = _.isBoolean(value) ? value : !settings.steps.includes(step);
+  const toggleStep = useCallback(
+    (step: ConfigurableLoggerStep, value: Boolean) => {
+      setSettings((settings) => {
+        const shouldAdd = _.isBoolean(value)
+          ? value
+          : !settings.steps.includes(step);
 
-      if (!STEP_OPTIONS.includes(step)) {
-        throw new Error(`Step ${step} is not a valid step`);
-      }
+        if (!STEP_OPTIONS.includes(step)) {
+          throw new Error(`Step ${step} is not a valid step`);
+        }
 
-      if (shouldAdd) {
-        return {
-          ...settings,
-          steps: _.uniq([...settings.steps, step]),
-        };
-      } else {
-        return {
-          ...settings,
-          steps: settings.steps.filter((s) => s !== step),
-        };
-      }
-    });
-  }, []);
+        if (shouldAdd) {
+          return {
+            ...settings,
+            steps: _.uniq([...settings.steps, step]),
+          };
+        } else {
+          return {
+            ...settings,
+            steps: settings.steps.filter((s) => s !== step),
+          };
+        }
+      });
+    },
+    []
+  );
 
-  const hasStep = useCallback((step: KnownSettingsStep) => {
-    return settings.steps.some((configuredStep) => configuredStep === step);
-  }, [settings.steps]);
+  const hasStep = useCallback(
+    (step: KnownSettingsStep) => {
+      return settings.steps.some((configuredStep) => configuredStep === step);
+    },
+    [settings.steps]
+  );
 
   const value = {
     settings,

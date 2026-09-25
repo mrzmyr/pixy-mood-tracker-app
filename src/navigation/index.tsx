@@ -1,11 +1,15 @@
-import useColors from '@/hooks/useColors';
-import { LinkingOptions, NavigationContainer, useNavigation } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import * as Linking from 'expo-linking';
-import { useEffect } from 'react';
-import { Platform, View, useColorScheme } from 'react-native';
-import * as Sentry from '@sentry/react-native';
-import { RootStackParamList } from '../../types';
+import useColors from "@/hooks/useColors";
+import {
+  LinkingOptions,
+  NavigationContainer,
+  useNavigation,
+} from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import * as Linking from "expo-linking";
+import { useEffect } from "react";
+import { Platform, View, useColorScheme } from "react-native";
+import * as Sentry from "@sentry/react-native";
+import { RootStackParamList } from "../../types";
 import {
   ColorsScreen,
   DataScreen,
@@ -15,66 +19,69 @@ import {
   LogEdit,
   NotFoundScreen,
   PrivacyScreen,
-  ReminderScreen, SettingsScreen, StatisticsHighlights, TagCreate, TagEdit, SettingsTags, SettingsTagsArchive
-} from '../screens';
+  ReminderScreen,
+  SettingsScreen,
+  StatisticsHighlights,
+  TagCreate,
+  TagEdit,
+  SettingsTags,
+  SettingsTagsArchive,
+} from "../screens";
 
-import Providers from '@/components/Providers';
-import Colors from '@/constants/Colors';
-import { initializeDayjs, t } from '@/helpers/translation';
-import { useAnalytics } from '@/hooks/useAnalytics';
-import { useAnonymizer } from '@/hooks/useAnonymizer';
-import { useLogState } from '@/hooks/useLogs';
-import { useSettings } from '@/hooks/useSettings';
-import { useTagsState } from '@/hooks/useTags';
-import { getItemsCountPerDayAverage, getItemsCoverage } from '@/lib/utils';
-import dayjs from 'dayjs';
-import { enableScreens } from 'react-native-screens';
-import { DevelopmentTools } from '../screens/DevelopmentTools';
-import { Onboarding } from '../screens/Onboarding';
-import { StatisticsMonthScreen } from '../screens/StatisticsMonth';
-import { StatisticsYearScreen } from '../screens/StatisticsYear';
-import { StepsScreen } from '../screens/Steps';
-import { Tags } from '../screens/Tags';
-import { BackButton } from './BackButton';
-import { BottomTabs } from './BottomTabs';
+import Providers from "@/components/Providers";
+import Colors from "@/constants/Colors";
+import { initializeDayjs, t } from "@/helpers/translation";
+import { useAnalytics } from "@/hooks/useAnalytics";
+import { useAnonymizer } from "@/hooks/useAnonymizer";
+import { useLogState } from "@/hooks/useLogs";
+import { useSettings } from "@/hooks/useSettings";
+import { useTagsState } from "@/hooks/useTags";
+import { getItemsCountPerDayAverage, getItemsCoverage } from "@/lib/utils";
+import dayjs from "dayjs";
+import { enableScreens } from "react-native-screens";
+import { DevelopmentTools } from "../screens/DevelopmentTools";
+import { Onboarding } from "../screens/Onboarding";
+import { StatisticsMonthScreen } from "../screens/StatisticsMonth";
+import { StatisticsYearScreen } from "../screens/StatisticsYear";
+import { StepsScreen } from "../screens/Steps";
+import { Tags } from "../screens/Tags";
+import { BackButton } from "./BackButton";
+import { BottomTabs } from "./BottomTabs";
 
 enableScreens();
 
 const NAVIGATION_LINKING: LinkingOptions<RootStackParamList> = {
-  prefixes: [
-    'pixy://',
-    Linking.createURL('/'),
-  ],
+  prefixes: ["pixy://", Linking.createURL("/")],
   config: {
     screens: {
       tabs: {
         screens: {
-          Calendar: 'calendar',
-          Statistics: 'statistics',
-          Settings: 'settings',
+          Calendar: "calendar",
+          Statistics: "statistics",
+          Settings: "settings",
         },
       },
-      Onboarding: 'onboarding',
+      Onboarding: "onboarding",
 
-      Colors: 'settings/colors',
-      Licenses: 'settings/licenses',
-      Steps: 'settings/steps',
-      Data: 'settings/data',
-      Reminder: 'settings/reminder',
-      Privacy: 'settings/privacy',
-      DevelopmentTools: 'settings/development-tools',
+      Colors: "settings/colors",
+      Licenses: "settings/licenses",
+      Steps: "settings/steps",
+      Data: "settings/data",
+      Reminder: "settings/reminder",
+      Privacy: "settings/privacy",
+      DevelopmentTools: "settings/development-tools",
       // PasscodeLocked: 'passcode-locked',;
       // Tags: 'settings/tags',;
-      StatisticsHighlights: 'statistics/highlights',
-      StatisticsMonth: 'statistics/month/:date',
-      StatisticsYear: 'statistics/year/:date',
-      LogList: 'days/:date',
-      LogCreate: 'logs/create/:dateTime',
-      LogEdit: 'logs/:id/edit',
+      StatisticsHighlights: "statistics/highlights",
+      StatisticsMonth: "statistics/month/:date",
+      StatisticsYear: "statistics/year/:date",
+      LogList: "days/:date",
+      LogCreate: "logs/create/:dateTime",
+      LogEdit: "logs/:id/edit",
 
-      Tags: 'tags',
-      TagEdit: 'tags/:id',
-      TagCreate: 'tags/create',
+      Tags: "tags",
+      TagEdit: "tags/:id",
+      TagCreate: "tags/create",
     },
   },
 };
@@ -87,13 +94,15 @@ export default function Navigation() {
       linking={NAVIGATION_LINKING}
       // @ts-ignore
       theme={
-        scheme === 'dark' ? {
-          dark: true,
-          colors: Colors.dark,
-        } : {
-          dark: false,
-          colors: Colors.light,
-        }
+        scheme === "dark"
+          ? {
+              dark: true,
+              colors: Colors.dark,
+            }
+          : {
+              dark: false,
+              colors: Colors.light,
+            }
       }
     >
       <Providers>
@@ -107,9 +116,9 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 
 function RootNavigator() {
   const colors = useColors();
-  const { settings, hasActionDone } = useSettings()
-  const navigation = useNavigation()
-  const analytics = useAnalytics()
+  const { settings, hasActionDone } = useSettings();
+  const navigation = useNavigation();
+  const analytics = useAnalytics();
   const logState = useLogState();
   const { tags } = useTagsState();
   const { anonymizeTag } = useAnonymizer();
@@ -117,58 +126,59 @@ function RootNavigator() {
 
   const defaultOptions = {
     headerTintColor: colors.text,
-    headerBackTitle: '',
+    headerBackTitle: "",
     headerBackTitleVisible: false,
     headerBackButtonMenuEnabled: false,
     headerStyle: {
       backgroundColor: colors.background,
     },
-    headerShadowVisible: Platform.OS !== 'web',
-  }
+    headerShadowVisible: Platform.OS !== "web",
+  };
 
   useEffect(() => {
-    if (settings.loaded && !hasActionDone('onboarding')) {
-      navigation.navigate('Onboarding')
+    if (settings.loaded && !hasActionDone("onboarding")) {
+      navigation.navigate("Onboarding");
     }
     if (settings.loaded && !analytics.isIdentified) {
       analytics.identify({
-        tags: tags.map(tag => anonymizeTag(tag)),
+        tags: tags.map((tag) => anonymizeTag(tag)),
         tagsCount: tags.length,
 
         itemsCount: logState.items.length,
         itemsCoverage: getItemsCoverage(logState.items),
         itemsCountPerDayAverage: getItemsCountPerDayAverage(logState.items),
-      })
+      });
     }
 
     initializeDayjs();
 
     if (!__DEV__) {
       Sentry.init({
-        dsn: 'https://d98d0f519b324d9cb0c947b8f29cd0cf@o1112922.ingest.sentry.io/6142792',
+        dsn: "https://d98d0f519b324d9cb0c947b8f29cd0cf@o1112922.ingest.sentry.io/6142792",
       });
     }
-  }, [settings.loaded])
-
+  }, [settings.loaded]);
 
   const defaultPageOptions = {
-    headerLeft: () => Platform.OS === 'ios' ? null : <BackButton testID={'settings-back-button'} />
-  }
+    headerLeft: () =>
+      Platform.OS === "ios" ? null : (
+        <BackButton testID={"settings-back-button"} />
+      ),
+  };
 
   // if(passcode.isEnabled === null) return null;
 
   return (
-
     // (passcode.isEnabled && !passcode.isAuthenticated) ? (
     //   <Stack.Navigator
     //     screenOptions={{
     //       animation: 'none'
     //     }}
     //   >
-    //     <Stack.Screen 
-    //       options={{ headerShown: false }} 
-    //       name="PasscodeLocked" 
-    //       component={PasscodeLocked} 
+    //     <Stack.Screen
+    //       options={{ headerShown: false }}
+    //       name="PasscodeLocked"
+    //       component={PasscodeLocked}
     //     />
     //   </Stack.Navigator>
     // ) : (
@@ -192,81 +202,64 @@ function RootNavigator() {
           }}
         />
 
-        <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
+        <Stack.Screen
+          name="NotFound"
+          component={NotFoundScreen}
+          options={{ title: "Oops!" }}
+        />
 
         <Stack.Group
           screenOptions={{
-            title: '',
-            presentation: 'modal',
+            title: "",
+            presentation: "modal",
             gestureEnabled: false,
             headerShown: false,
           }}
         >
-          <Stack.Screen
-            name="LogCreate"
-            component={LogCreate}
-          />
+          <Stack.Screen name="LogCreate" component={LogCreate} />
         </Stack.Group>
 
         <Stack.Group
           screenOptions={{
-            title: '',
-            presentation: 'modal',
+            title: "",
+            presentation: "modal",
             headerShown: false,
           }}
         >
-          <Stack.Screen
-            name="LogList"
-            component={LogList}
-          />
+          <Stack.Screen name="LogList" component={LogList} />
         </Stack.Group>
 
         <Stack.Group
           screenOptions={{
-            title: '',
-            presentation: 'modal',
+            title: "",
+            presentation: "modal",
             gestureEnabled: false,
             headerShown: false,
           }}
         >
-          <Stack.Screen
-            name="LogEdit"
-            component={LogEdit}
-          />
+          <Stack.Screen name="LogEdit" component={LogEdit} />
         </Stack.Group>
 
         <Stack.Group
           screenOptions={{
-            title: '',
-            presentation: 'modal',
+            title: "",
+            presentation: "modal",
             gestureEnabled: false,
             headerShown: false,
           }}
         >
-          <Stack.Screen
-            name="Onboarding"
-            component={Onboarding}
-          />
+          <Stack.Screen name="Onboarding" component={Onboarding} />
         </Stack.Group>
 
         <Stack.Group
           screenOptions={{
-            presentation: 'modal',
+            presentation: "modal",
             headerShown: false,
           }}
         >
-          <Stack.Screen
-            name="Tags"
-            component={Tags}
-          />
-          <Stack.Screen
-            name="TagCreate"
-            component={TagCreate}
-          />
-          <Stack.Screen
-            name="TagEdit"
-            component={TagEdit}
-          />
+          <Stack.Screen name="Tags" component={Tags} />
+          <Stack.Screen name="TagCreate" component={TagCreate} />
+          <Stack.Screen name="TagEdit" component={TagEdit} />
         </Stack.Group>
 
         <Stack.Group
@@ -278,7 +271,7 @@ function RootNavigator() {
             name="StatisticsHighlights"
             component={StatisticsHighlights}
             options={{
-              title: t('statistics_highlights'),
+              title: t("statistics_highlights"),
               ...defaultPageOptions,
             }}
           />
@@ -286,7 +279,7 @@ function RootNavigator() {
             name="StatisticsYear"
             component={StatisticsYearScreen}
             options={{
-              title: dayjs().format('YYYY'),
+              title: dayjs().format("YYYY"),
               headerShown: false,
               ...defaultPageOptions,
             }}
@@ -301,7 +294,7 @@ function RootNavigator() {
             name="Settings"
             component={SettingsScreen}
             options={{
-              title: t('settings'),
+              title: t("settings"),
               ...defaultPageOptions,
             }}
           />
@@ -309,7 +302,7 @@ function RootNavigator() {
             name="StatisticsMonth"
             component={StatisticsMonthScreen}
             options={{
-              title: t('month_report'),
+              title: t("month_report"),
               headerShown: false,
               ...defaultPageOptions,
             }}
@@ -318,7 +311,7 @@ function RootNavigator() {
             name="Reminder"
             component={ReminderScreen}
             options={{
-              title: t('reminder'),
+              title: t("reminder"),
               ...defaultPageOptions,
             }}
           />
@@ -326,7 +319,7 @@ function RootNavigator() {
             name="Privacy"
             component={PrivacyScreen}
             options={{
-              title: t('privacy'),
+              title: t("privacy"),
               ...defaultPageOptions,
             }}
           />
@@ -334,7 +327,7 @@ function RootNavigator() {
             name="Licenses"
             component={LicensesScreen}
             options={{
-              title: t('licenses'),
+              title: t("licenses"),
               ...defaultPageOptions,
             }}
           />
@@ -342,7 +335,7 @@ function RootNavigator() {
             name="Colors"
             component={ColorsScreen}
             options={{
-              title: t('colors'),
+              title: t("colors"),
               ...defaultPageOptions,
             }}
           />
@@ -350,7 +343,7 @@ function RootNavigator() {
             name="SettingsTags"
             component={SettingsTags}
             options={{
-              title: t('tags'),
+              title: t("tags"),
               ...defaultPageOptions,
             }}
           />
@@ -358,7 +351,7 @@ function RootNavigator() {
             name="SettingsTagsArchive"
             component={SettingsTagsArchive}
             options={{
-              title: t('archive_tag'),
+              title: t("archive_tag"),
               ...defaultPageOptions,
             }}
           />
@@ -366,7 +359,7 @@ function RootNavigator() {
             name="Steps"
             component={StepsScreen}
             options={{
-              title: t('steps'),
+              title: t("steps"),
               ...defaultPageOptions,
             }}
           />
@@ -374,7 +367,7 @@ function RootNavigator() {
             name="Data"
             component={DataScreen}
             options={{
-              title: t('data'),
+              title: t("data"),
               ...defaultPageOptions,
             }}
           />
@@ -382,7 +375,7 @@ function RootNavigator() {
             name="DevelopmentTools"
             component={DevelopmentTools}
             options={{
-              title: t('settings_development_statistics'),
+              title: t("settings_development_statistics"),
               ...defaultPageOptions,
             }}
           />

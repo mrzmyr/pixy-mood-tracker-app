@@ -4,46 +4,46 @@ import { t } from "./translation";
 export const askToCancel = () => {
   return new Promise((resolve, reject) => {
     Alert.alert(
-      t('cancel_confirm_title'),
-      t('cancel_confirm_message'),
+      t("cancel_confirm_title"),
+      t("cancel_confirm_message"),
       [
         {
-          text: t('discard_changes'),
+          text: t("discard_changes"),
           onPress: () => resolve({}),
-          style: "destructive"
+          style: "destructive",
         },
         {
-          text: t('keep_editing'),
+          text: t("keep_editing"),
           onPress: () => reject(),
-          style: "cancel"
-        }
+          style: "cancel",
+        },
       ],
       { cancelable: true }
     );
-  })
-}
+  });
+};
 
 export const askToRemove = () => {
   return new Promise((resolve, reject) => {
     Alert.alert(
-      t('delete_confirm_title'),
-      t('delete_confirm_message'),
+      t("delete_confirm_title"),
+      t("delete_confirm_message"),
       [
         {
-          text: t('delete'),
+          text: t("delete"),
           onPress: () => resolve({}),
-          style: "destructive"
+          style: "destructive",
         },
         {
-          text: t('cancel'),
+          text: t("cancel"),
           onPress: () => reject(),
-          style: "cancel"
-        }
+          style: "cancel",
+        },
       ],
       { cancelable: true }
     );
-  })
-}
+  });
+};
 
 export const askToImport = () => {
   return new Promise((resolve, reject) => {
@@ -87,7 +87,7 @@ export const askToReset = <Type>(type: Type) => {
       { cancelable: true }
     );
   });
-}
+};
 
 export const showImportSuccess = () => {
   Alert.alert(
@@ -100,16 +100,16 @@ export const showImportSuccess = () => {
     ],
     { cancelable: false }
   );
-}
+};
 
 export const showImportError = () => {
   Alert.alert(
     t("import_error_title"),
     t("import_error_message"),
-    [{ text: t("ok"), onPress: () => { } }],
+    [{ text: t("ok"), onPress: () => {} }],
     { cancelable: false }
   );
-}
+};
 
 export const showResetSuccess = <Type>(type: Type) => {
   Alert.alert(
@@ -118,12 +118,12 @@ export const showResetSuccess = <Type>(type: Type) => {
     [
       {
         text: t("ok"),
-        onPress: () => { },
+        onPress: () => {},
       },
     ],
     { cancelable: false }
   );
-}
+};
 
 export const askToDisableStep = () => {
   return new Promise((resolve, reject) => {
@@ -145,7 +145,7 @@ export const askToDisableStep = () => {
       { cancelable: true }
     );
   });
-}
+};
 
 export const askToDisableFeedbackStep = () => {
   return new Promise((resolve, reject) => {
@@ -167,4 +167,4 @@ export const askToDisableFeedbackStep = () => {
       { cancelable: true }
     );
   });
-}
+};

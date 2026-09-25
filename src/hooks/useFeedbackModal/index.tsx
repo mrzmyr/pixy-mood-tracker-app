@@ -6,7 +6,7 @@ import {
   Platform,
   Text,
   TextInput,
-  View
+  View,
 } from "react-native";
 import DismissKeyboard from "@/components/DismisKeyboard";
 import LinkButton from "@/components/LinkButton";
@@ -119,7 +119,7 @@ export default function useFeedbackModal() {
               }}
             >
               <ModalHeader
-                title={t('feedback_modal_title')}
+                title={t("feedback_modal_title")}
                 left={
                   <LinkButton
                     testID="feedback-modal-cancel"
@@ -153,7 +153,7 @@ export default function useFeedbackModal() {
                     color: colors.textSecondary,
                     fontSize: 15,
                     lineHeight: 20,
-                    textAlign: 'center'
+                    textAlign: "center",
                   }}
                 >
                   {t("feedback_modal_description")}
@@ -201,7 +201,7 @@ export default function useFeedbackModal() {
                     testID="feedback-modal-message"
                     style={{
                       flex: 1,
-                      height: '100%',
+                      height: "100%",
                       maxHeight: 240,
                     }}
                     value={message}

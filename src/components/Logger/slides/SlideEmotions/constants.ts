@@ -1,1 +1,1 @@
-export const EMOTION_BUTTON_HEIGHT = 60
+export const EMOTION_BUTTON_HEIGHT = 60;

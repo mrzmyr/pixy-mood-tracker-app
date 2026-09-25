@@ -1,7 +1,7 @@
-import { Text } from 'react-native';
-import useColors from '../../hooks/useColors';
+import { Text } from "react-native";
+import useColors from "../../hooks/useColors";
 
-export const Subtitle = ({ children }: { children: string; }) => {
+export const Subtitle = ({ children }: { children: string }) => {
   const colors = useColors();
 
   return (
@@ -12,6 +12,8 @@ export const Subtitle = ({ children }: { children: string; }) => {
         color: colors.textSecondary,
         marginTop: 8,
       }}
-    >{children}</Text>
+    >
+      {children}
+    </Text>
   );
 };

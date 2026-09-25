@@ -1,18 +1,18 @@
-import { View } from "react-native"
-import { ActionCard } from "@/components/ActionCard"
-import { Crown } from "@/components/icons/Crown"
-import { Fire } from "@/components/icons/Fire"
-import useColors from "../../hooks/useColors"
-import { useStatistics } from "../../hooks/useStatistics"
+import { View } from "react-native";
+import { ActionCard } from "@/components/ActionCard";
+import { Crown } from "@/components/icons/Crown";
+import { Fire } from "@/components/icons/Fire";
+import useColors from "../../hooks/useColors";
+import { useStatistics } from "../../hooks/useStatistics";
 
 export const StreaksCard = () => {
-  const statistics = useStatistics()
-  const colors = useColors()
+  const statistics = useStatistics();
+  const colors = useColors();
 
   return (
     <View
       style={{
-        flexDirection: 'row',
+        flexDirection: "row",
       }}
     >
       <ActionCard
@@ -33,5 +33,5 @@ export const StreaksCard = () => {
         }}
       />
     </View>
-  )
-}
+  );
+};

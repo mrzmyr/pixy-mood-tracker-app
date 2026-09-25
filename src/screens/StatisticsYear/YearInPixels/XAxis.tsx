@@ -12,7 +12,7 @@ export const XAxis = () => {
       <View
         key={`month-${i}`}
         style={{
-          alignItems: 'center',
+          alignItems: "center",
           flexBasis: `${100 / 13}%`,
           marginBottom: 6,
         }}
@@ -20,10 +20,12 @@ export const XAxis = () => {
         <Text
           style={{
             fontSize: 12,
-            fontWeight: 'bold',
+            fontWeight: "bold",
             color: colors.yearPixelsLegendText,
           }}
-        >{dayjs().month(i).format("MMM")[0]}</Text>
+        >
+          {dayjs().month(i).format("MMM")[0]}
+        </Text>
       </View>
     );
   }
@@ -31,15 +33,15 @@ export const XAxis = () => {
   return (
     <View
       style={{
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        width: '100%',
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+        width: "100%",
       }}
     >
       <View
         style={{
-          alignItems: 'center',
+          alignItems: "center",
           width: 25,
         }}
       >

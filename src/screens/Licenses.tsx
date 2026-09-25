@@ -1,16 +1,16 @@
-import { PageWithHeaderLayout } from '@/components/PageWithHeaderLayout';
-import { Text, View, VirtualizedList } from 'react-native';
-import disclaimer from '../../disclaimer';
-import useColors from '../hooks/useColors';
+import { PageWithHeaderLayout } from "@/components/PageWithHeaderLayout";
+import { Text, View, VirtualizedList } from "react-native";
+import disclaimer from "../../disclaimer";
+import useColors from "../hooks/useColors";
 
 type Item = {
   key: string;
   value: string;
-}
+};
 
 export const LicensesScreen = () => {
-  const colors = useColors()
-  const slices = disclaimer.split('-----');
+  const colors = useColors();
+  const slices = disclaimer.split("-----");
 
   return (
     <PageWithHeaderLayout
@@ -36,8 +36,8 @@ export const LicensesScreen = () => {
             {item.value}
           </Text>
         )}
-        keyExtractor={item => item.key}
-        getItemCount={slices => slices.length}
+        keyExtractor={(item) => item.key}
+        getItemCount={(slices) => slices.length}
         getItem={(data, index): Item => ({
           key: `text-${index}`,
           value: data[index],
@@ -45,4 +45,4 @@ export const LicensesScreen = () => {
       />
     </PageWithHeaderLayout>
   );
-}
+};

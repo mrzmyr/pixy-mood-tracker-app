@@ -1,9 +1,9 @@
-import { Text, View } from 'react-native';
-import { Lock } from 'react-native-feather';
-import Animated, { FadeInRight } from 'react-native-reanimated';
-import Button from '@/components/Button';
-import { t } from '@/helpers/translation';
-import useColors from '../../hooks/useColors';
+import { Text, View } from "react-native";
+import { Lock } from "react-native-feather";
+import Animated, { FadeInRight } from "react-native-reanimated";
+import Button from "@/components/Button";
+import { t } from "@/helpers/translation";
+import useColors from "../../hooks/useColors";
 
 const ListItem = ({ children, delay }) => {
   const colors = useColors();
@@ -11,9 +11,9 @@ const ListItem = ({ children, delay }) => {
   return (
     <Animated.View
       style={{
-        flexDirection: 'row',
-        justifyContent: 'flex-start',
-        alignItems: 'flex-start',
+        flexDirection: "row",
+        justifyContent: "flex-start",
+        alignItems: "flex-start",
         marginBottom: 8,
       }}
       entering={FadeInRight.delay(delay)}
@@ -42,11 +42,7 @@ const ListItem = ({ children, delay }) => {
   );
 };
 
-export const PrivacySlide = ({
-  onPress
-}: {
-  onPress: () => void;
-}) => {
+export const PrivacySlide = ({ onPress }: { onPress: () => void }) => {
   const colors = useColors();
 
   return (
@@ -67,8 +63,8 @@ export const PrivacySlide = ({
             style={{
               flex: 1,
               paddingTop: 32,
-              justifyContent: 'flex-start',
-              alignItems: 'center',
+              justifyContent: "flex-start",
+              alignItems: "center",
             }}
           >
             <View
@@ -77,21 +73,25 @@ export const PrivacySlide = ({
                 height: 56,
                 borderRadius: 28,
                 backgroundColor: colors.onboardingPrivacyBadgeBackground,
-                justifyContent: 'center',
-                alignItems: 'center',
+                justifyContent: "center",
+                alignItems: "center",
                 marginBottom: 12,
               }}
             >
-              <Lock width={24} height={24} color={colors.onboardingPrivacyBadgeVector} />
+              <Lock
+                width={24}
+                height={24}
+                color={colors.onboardingPrivacyBadgeVector}
+              />
             </View>
             <Text
               style={{
                 color: colors.onboardingTitle,
                 fontSize: 24,
                 lineHeight: 32,
-                fontWeight: 'bold',
+                fontWeight: "bold",
                 marginBottom: 20,
-                textAlign: 'center',
+                textAlign: "center",
               }}
             >
               {t(`onboarding_step_5_title`)}
@@ -104,12 +104,10 @@ export const PrivacySlide = ({
           </View>
           <View
             style={{
-              width: '100%',
+              width: "100%",
             }}
           >
-            <Button
-              onPress={onPress}
-            >{t('onboarding_step_5_button')}</Button>
+            <Button onPress={onPress}>{t("onboarding_step_5_button")}</Button>
           </View>
         </View>
       </View>

@@ -1,22 +1,22 @@
-import { Platform, Text } from "react-native"
-import useColors from "@/hooks/useColors"
+import { Platform, Text } from "react-native";
+import useColors from "@/hooks/useColors";
 
-const fontFamily = Platform.OS === 'ios' ? 'Courier New' : 'monospace'
+const fontFamily = Platform.OS === "ios" ? "Courier New" : "monospace";
 
 export default function TextCode({
   children,
   style = null,
 }: {
-  children: React.ReactNode,
-  style?: any,
+  children: React.ReactNode;
+  style?: any;
 }) {
-  const colors = useColors()
+  const colors = useColors();
 
   return (
     <Text
-      style={[{ fontFamily, color: colors.text, fontWeight: 'bold' }, style]}
+      style={[{ fontFamily, color: colors.text, fontWeight: "bold" }, style]}
     >
       {children}
     </Text>
-  )
+  );
 }

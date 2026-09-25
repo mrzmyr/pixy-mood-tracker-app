@@ -4,7 +4,7 @@ import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
 import { FloatButton } from "@/components/FloatButton";
 import useColors from "../../hooks/useColors";
 
-export const ScrollToBottomButton = ({ onPress }: { onPress: () => void; }) => {
+export const ScrollToBottomButton = ({ onPress }: { onPress: () => void }) => {
   const colors = useColors();
 
   return (

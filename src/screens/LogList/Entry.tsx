@@ -25,35 +25,35 @@ const EntryHeader = ({
   return (
     <View
       style={{
-        flexDirection: 'row',
-        alignItems: 'center',
+        flexDirection: "row",
+        alignItems: "center",
         borderBottomColor: colors.logCardBorder,
         borderBottomWidth: 1,
         paddingBottom: 12,
       }}
     >
-      <RatingDot
-        rating={item.rating}
-      />
+      <RatingDot rating={item.rating} />
       <View
         style={{
           marginLeft: 12,
-          justifyContent: 'center',
+          justifyContent: "center",
         }}
       >
         <Text
           style={{
             fontSize: 20,
-            fontWeight: 'bold',
+            fontWeight: "bold",
             color: colors.text,
           }}
-        >{dayjs(item.dateTime).format('LT')}</Text>
+        >
+          {dayjs(item.dateTime).format("LT")}
+        </Text>
       </View>
       <View
         style={{
           flex: 1,
-          flexDirection: 'row',
-          justifyContent: 'flex-end',
+          flexDirection: "row",
+          justifyContent: "flex-end",
         }}
       >
         <LinkButton
@@ -121,14 +121,10 @@ export const Entry = ({
           borderWidth: 1,
           borderColor: colors.logCardBorder,
           backgroundColor: colors.logCardBackground,
-          position: 'relative',
+          position: "relative",
         }}
       >
-        <EntryHeader
-          item={item}
-          onEdit={onEdit}
-          onDelete={onDelete}
-        />
+        <EntryHeader item={item} onEdit={onEdit} onDelete={onDelete} />
         <ScrollView>
           <View
             style={{
@@ -166,27 +162,35 @@ export const Entry = ({
           </View>
         </ScrollView>
         <LinearGradient
-          colors={[colors.logCardBackground, colors.logCardBackgroundTransparent]}
+          colors={[
+            colors.logCardBackground,
+            colors.logCardBackgroundTransparent,
+          ]}
           style={{
-            position: 'absolute',
+            position: "absolute",
             height: 24,
             top: 67,
             left: 16,
             right: 16,
             zIndex: 999,
           }}
-          pointerEvents="none" />
+          pointerEvents="none"
+        />
         <LinearGradient
-          colors={[colors.logCardBackgroundTransparent, colors.logCardBackground]}
+          colors={[
+            colors.logCardBackgroundTransparent,
+            colors.logCardBackground,
+          ]}
           style={{
-            position: 'absolute',
+            position: "absolute",
             height: 24,
             bottom: 0,
             left: 16,
             right: 16,
             zIndex: 999,
           }}
-          pointerEvents="none" />
+          pointerEvents="none"
+        />
       </View>
     </View>
   );

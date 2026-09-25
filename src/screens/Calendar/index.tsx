@@ -1,5 +1,11 @@
 import React, { memo, useEffect, useRef, useState } from "react";
-import { ActivityIndicator, Platform, Text, useWindowDimensions, View } from "react-native";
+import {
+  ActivityIndicator,
+  Platform,
+  Text,
+  useWindowDimensions,
+  View,
+} from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { useCalendarFilters } from "@/hooks/useCalendarFilters";
 import useColors from "@/hooks/useColors";
@@ -17,7 +23,7 @@ const CalendarScreen = memo(function CalendarScreen() {
   const colors = useColors();
 
   const { settings } = useSettings();
-  const logState = useLogState()
+  const logState = useLogState();
   const calendarFilters = useCalendarFilters();
   const window = useWindowDimensions();
   const [scrollOffset, setScrollOffset] = useState(0);
@@ -26,14 +32,13 @@ const CalendarScreen = memo(function CalendarScreen() {
   const scrollRef = useRef<ScrollView>(null);
   const calendarHeight = useRef(0);
 
-
   useEffect(() => {
     if (scrollRef.current) {
       setTimeout(() => {
         if (scrollRef.current) {
           scrollRef.current.scrollToEnd({ animated: false });
         }
-      }, 0)
+      }, 0);
     }
   }, [calendarRef, scrollRef, settings.loaded, logState.loaded]);
 
@@ -45,21 +50,20 @@ const CalendarScreen = memo(function CalendarScreen() {
             calendarHeight.current = height;
           });
         }
-      }, 0)
+      }, 0);
     }
   }, [calendarRef, scrollRef, settings.loaded, logState.loaded]);
 
-  const showScrollTopButton = (
+  const showScrollTopButton =
     scrollOffset < calendarHeight.current - window.height &&
-    !calendarFilters.isOpen
-  )
+    !calendarFilters.isOpen;
 
   if (!settings.loaded || !logState.loaded) {
     return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
         <ActivityIndicator size="small" color={colors.text} />
       </View>
-    )
+    );
   }
 
   return (
@@ -104,19 +108,18 @@ const CalendarScreen = memo(function CalendarScreen() {
           <CalendarFooter />
         </View>
 
-        <View
-          style={{
-          }}
-        >
+        <View style={{}}>
           <Text
             style={{
               fontSize: 14,
               color: colors.textSecondary,
               marginTop: 20,
-              textAlign: 'center',
+              textAlign: "center",
               marginBottom: -60,
             }}
-          >🙏 {t('calendar_foot_note')}</Text>
+          >
+            🙏 {t("calendar_foot_note")}
+          </Text>
         </View>
       </ScrollView>
       {Platform.OS !== "web" && <CalendarBottomSheet />}

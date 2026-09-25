@@ -1,4 +1,4 @@
-import { disabledSupportClient, SupportProvider } from './index';
+import { disabledSupportClient, SupportProvider } from "./index";
 
 export function ConfiguredSupportProvider({
   children,
@@ -8,8 +8,6 @@ export function ConfiguredSupportProvider({
   apiKeys?: { android?: string; ios?: string };
 }) {
   return (
-    <SupportProvider client={disabledSupportClient}>
-      {children}
-    </SupportProvider>
+    <SupportProvider client={disabledSupportClient}>{children}</SupportProvider>
   );
 }

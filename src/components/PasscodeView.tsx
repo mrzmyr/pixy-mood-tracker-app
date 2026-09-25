@@ -1,26 +1,28 @@
-import { useRef, useState } from 'react';
-import { Text, View } from 'react-native';
-import { t } from '@/helpers/translation';
-import useColors from '@/hooks/useColors';
-import LinkButton from './LinkButton';
-import { PasscodeDots } from './PasscodeDots';
-import { PasscodePad } from './PasscodePad';
+import { useRef, useState } from "react";
+import { Text, View } from "react-native";
+import { t } from "@/helpers/translation";
+import useColors from "@/hooks/useColors";
+import LinkButton from "./LinkButton";
+import { PasscodeDots } from "./PasscodeDots";
+import { PasscodePad } from "./PasscodePad";
 
 export const PasscodeView = ({
   mode,
   onClose,
   onSubmit,
 }: {
-  mode: 'create' | 'confirm',
-  onClose: () => void,
-  onSubmit: (code: string) => boolean,
+  mode: "create" | "confirm";
+  onClose: () => void;
+  onSubmit: (code: string) => boolean;
 }) => {
-  const [code, setCode] = useState('')
+  const [code, setCode] = useState("");
   const colors = useColors();
 
-  const ref = useRef<View & {
-    shake: () => void,
-  }>(null);
+  const ref = useRef<
+    View & {
+      shake: () => void;
+    }
+  >(null);
 
   const bounce = () => {
     if (ref.current) {
@@ -38,21 +40,25 @@ export const PasscodeView = ({
       <View
         style={{
           flex: 1,
-          justifyContent: 'center',
-          alignItems: 'center',
+          justifyContent: "center",
+          alignItems: "center",
         }}
       >
-        <Text style={{
-          fontSize: 24,
-          color: colors.text,
-          marginBottom: 20,
-          fontWeight: 'bold'
-        }}>{t(`passcode_title_${mode}`)}</Text>
+        <Text
+          style={{
+            fontSize: 24,
+            color: colors.text,
+            marginBottom: 20,
+            fontWeight: "bold",
+          }}
+        >
+          {t(`passcode_title_${mode}`)}
+        </Text>
 
         <View
           style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
+            flexDirection: "row",
+            justifyContent: "space-between",
           }}
         >
           <PasscodeDots ref={ref} code={code} />
@@ -61,37 +67,38 @@ export const PasscodeView = ({
           mode={mode}
           onClose={onClose}
           onBackspace={() => {
-            setCode(code.slice(0, -1))
+            setCode(code.slice(0, -1));
           }}
           onPress={(value) => {
             if (code.length >= 4) return;
 
             const newCode = code + value;
-            setCode(newCode)
+            setCode(newCode);
             if (newCode.length === 4) {
               // setTimeout bc we need to wait for 4th dot to show
               setTimeout(() => {
-                const result = onSubmit(newCode)
+                const result = onSubmit(newCode);
                 if (!result) {
-                  setCode('')
-                  bounce()
+                  setCode("");
+                  bounce();
                 }
-              })
+              });
             }
           }}
         />
       </View>
       <View>
         <LinkButton
-          onPress={() => {
-
-          }}
+          onPress={() => {}}
           style={{
             fontSize: 15,
             color: colors.text,
             marginTop: 20,
-            textAlign: 'center'
-          }}>{t(`passcode_forgot`)}</LinkButton>
+            textAlign: "center",
+          }}
+        >
+          {t(`passcode_forgot`)}
+        </LinkButton>
       </View>
     </View>
   );
