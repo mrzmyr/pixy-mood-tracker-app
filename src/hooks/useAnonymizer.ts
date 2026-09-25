@@ -16,12 +16,10 @@ interface AnonmizedLogDay extends Omit<LogDay, "items"> {
 }
 
 export const useAnonymizer = () => {
-  const anonymizeTag = (tag: Tag): AnonmizedTag => {
-    return {
-      ..._.omit(tag, "title"),
-      titleLength: tag?.title?.length,
-    };
-  };
+  const anonymizeTag = (tag: Tag): AnonmizedTag => ({
+    ..._.omit(tag, "title"),
+    titleLength: tag?.title?.length,
+  });
   const anonymizeItem = (item: LogItem): AnonmizedLogItem => {
     const resultItem: AnonmizedLogItem = _.omit(
       {
@@ -38,12 +36,10 @@ export const useAnonymizer = () => {
     return resultItem;
   };
 
-  const anonymizeDay = (day: LogDay): AnonmizedLogDay => {
-    return {
-      ...day,
-      items: day.items.map(anonymizeItem),
-    };
-  };
+  const anonymizeDay = (day: LogDay): AnonmizedLogDay => ({
+    ...day,
+    items: day.items.map(anonymizeItem),
+  });
 
   return {
     anonymizeTag,

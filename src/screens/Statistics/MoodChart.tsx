@@ -20,9 +20,9 @@ export const MoodChart = ({
 }) => {
   const logState = useLogState();
 
-  const items = logState.items.filter((item) => {
-    return dayjs(item.dateTime).isSameOrAfter(startDate);
-  });
+  const items = logState.items.filter((item) =>
+    dayjs(item.dateTime).isSameOrAfter(startDate)
+  );
 
   const data = getRatingDistributionForXDays(items, startDate, 14);
 

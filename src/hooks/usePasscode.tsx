@@ -39,7 +39,9 @@ function PasscodeProvider({ children }: { children: React.ReactNode }) {
     });
 
     return () => {
-      if (subscription && subscription.remove) subscription.remove();
+      if (subscription && subscription.remove) {
+        subscription.remove();
+      }
     };
   }, []);
 

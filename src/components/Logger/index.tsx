@@ -15,7 +15,7 @@ import { useSettings } from "@/hooks/useSettings";
 import type { TemporaryLogState } from "@/hooks/useTemporaryLog";
 import { useTemporaryLog } from "@/hooks/useTemporaryLog";
 import type { Emotion, TagReference } from "@/types";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, StackActions } from "@react-navigation/native";
 import dayjs from "dayjs";
 import type { ReactElement } from "react";
 import { useEffect, useRef, useState } from "react";
@@ -35,7 +35,6 @@ import { SlideMessage } from "./slides/SlideMessage";
 import { SlideMood } from "./slides/SlideMood";
 import { SlideReminder } from "./slides/SlideReminder";
 import { SlideTags } from "./slides/SlideTags";
-import { StackActions } from "@react-navigation/native";
 
 export type LoggerMode = "create" | "edit";
 
@@ -59,9 +58,15 @@ const getAvailableStepsForCreate = ({
 
   const slides: LoggerStep[] = ["rating"];
 
-  if (hasStep("emotions")) slides.push("emotions");
-  if (hasStep("tags")) slides.push("tags");
-  if (hasStep("message")) slides.push("message");
+  if (hasStep("emotions")) {
+    slides.push("emotions");
+  }
+  if (hasStep("tags")) {
+    slides.push("tags");
+  }
+  if (hasStep("message")) {
+    slides.push("message");
+  }
 
   if (logState.items.length === 1 && !settings.reminderEnabled) {
     slides.push("reminder");
@@ -79,9 +84,15 @@ const getAvailableStepsForEdit = ({ item }: { item: LogItem }) => {
 
   const slides: LoggerStep[] = ["rating"];
 
-  if (hasStep("emotions") || item.emotions.length > 0) slides.push("emotions");
-  if (hasStep("tags") || item.tags.length > 0) slides.push("tags");
-  if (hasStep("message") || item.message.length > 0) slides.push("message");
+  if (hasStep("emotions") || item.emotions.length > 0) {
+    slides.push("emotions");
+  }
+  if (hasStep("tags") || item.tags.length > 0) {
+    slides.push("tags");
+  }
+  if (hasStep("message") || item.message.length > 0) {
+    slides.push("message");
+  }
 
   return slides;
 };
@@ -136,7 +147,7 @@ export const LoggerCreate = ({
     date: dateTime
       ? dayjs(dateTime).format(DATE_FORMAT)
       : dayjs().format(DATE_FORMAT),
-    dateTime: dateTime,
+    dateTime,
     rating: null,
     message: "",
     emotions: [],
@@ -196,7 +207,7 @@ export const Logger = ({
   const [touched, setTouched] = useState(false);
 
   const indexFound = avaliableSteps.findIndex((slide) => slide === initialStep);
-  const initialIndex = indexFound !== -1 ? indexFound : 0;
+  const initialIndex = indexFound === -1 ? 0 : indexFound;
   const [slideIndex, setSlideIndex] = useState(initialIndex);
 
   const close = async () => {
@@ -262,7 +273,9 @@ export const Logger = ({
     if (slideIndex + 1 === content.length) {
       save(tempLog.data);
     } else {
-      if (_carousel.current) _carousel.current.next();
+      if (_carousel.current) {
+        _carousel.current.next();
+      }
     }
   };
 
@@ -406,11 +419,12 @@ export const Logger = ({
 
   const isMounted = useRef(true);
 
-  useEffect(() => {
-    return () => {
+  useEffect(
+    () => () => {
       isMounted.current = false;
-    };
-  }, []);
+    },
+    []
+  );
 
   const onScrollEnd = (index: number) => {
     Keyboard.dismiss();

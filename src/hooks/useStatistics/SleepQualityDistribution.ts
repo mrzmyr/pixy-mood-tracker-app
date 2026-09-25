@@ -49,16 +49,17 @@ export const getSleepQualityDistributionForYear = (
 
     const logDays = getLogDays(items);
 
-    const days = logDays.filter((day) => {
-      return (
+    const days = logDays.filter(
+      (day) =>
         dayjs(day.date).month() === Number(month) &&
         day.sleepQualityAvg !== null
-      );
-    });
+    );
 
     days.forEach((item) => {
       const sleepQuality = item.sleepQualityAvg;
-      if (sleepQuality === null) return;
+      if (sleepQuality === null) {
+        return;
+      }
 
       if (value === null) {
         value = sleepQuality;
@@ -90,15 +91,16 @@ export const getSleepQualityDistributionForXDays = (
     let value: null | number = null;
     const date = dayjs(startDate).add(i, "day");
 
-    const days = logDays.filter((item) => {
-      return (
+    const days = logDays.filter(
+      (item) =>
         dayjs(item.date).isSame(date, "day") && item.sleepQualityAvg !== null
-      );
-    });
+    );
 
     days.forEach((item) => {
       const sleepQuality = item.sleepQualityAvg;
-      if (sleepQuality === null) return;
+      if (sleepQuality === null) {
+        return;
+      }
 
       if (value === null) {
         value = sleepQuality;

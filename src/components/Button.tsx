@@ -84,7 +84,7 @@ export default function Button({
       }}
       disabled={disabled}
       testID={testID}
-      accessibilityRole={"button"}
+      accessibilityRole="button"
     >
       {isLoading ? (
         <ActivityIndicator color={buttonColors.text} size="small" />

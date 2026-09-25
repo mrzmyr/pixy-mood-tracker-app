@@ -1,6 +1,6 @@
-const fs = require("fs");
+const fs = require("node:fs");
 
-const path = __dirname + "/../assets/locales/";
+const path = `${__dirname}/../assets/locales/`;
 const filesArray = fs
   .readdirSync(path)
   .filter((file) => fs.lstatSync(path + file).isFile());
@@ -9,9 +9,9 @@ filesArray.forEach((file) => {
   console.log("reading", file);
   try {
     locales[file.replace(".json", "")] = JSON.parse(
-      fs.readFileSync(path + file, "utf8")
+      fs.readFileSync(path + file, "utf-8")
     );
-  } catch (e) {
+  } catch {
     console.log("error reading", file);
   }
 });
@@ -25,7 +25,7 @@ for (const localeKey in locales) {
     delete locales[localeKey][key];
   }
   fs.writeFileSync(
-    path + localeKey + ".json",
+    `${path + localeKey}.json`,
     JSON.stringify(locales[localeKey], null, 2)
   );
 }

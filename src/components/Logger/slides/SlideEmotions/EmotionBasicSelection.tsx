@@ -23,13 +23,12 @@ export const EmotionBasicSelection = ({
   const rows = _.chunk(
     _.orderBy(
       emotions,
-      (e) => {
-        return {
+      (e) =>
+        ({
           good: 1,
           neutral: 0,
           bad: -1,
-        }[e.category];
-      },
+        })[e.category],
       ["desc"]
     ),
     2

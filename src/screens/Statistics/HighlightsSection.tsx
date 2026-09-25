@@ -77,7 +77,9 @@ export const HighlightsSection = ({ items }: { items: LogItem[] }) => {
   );
 
   useEffect(() => {
-    if (!statistics.state.loaded) return;
+    if (!statistics.state.loaded) {
+      return;
+    }
 
     const cards: {
       mood_avg_show: boolean;

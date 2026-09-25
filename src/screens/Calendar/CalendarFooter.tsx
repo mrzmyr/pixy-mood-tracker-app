@@ -15,9 +15,9 @@ export const CalendarFooter = () => {
   const logState = useLogState();
   const navigation = useNavigation();
 
-  const hasTodayItem = logState.items.find((item) => {
-    return dayjs(item.dateTime).isSame(dayjs(), "day");
-  });
+  const hasTodayItem = logState.items.find((item) =>
+    dayjs(item.dateTime).isSame(dayjs(), "day")
+  );
 
   return (
     <View style={{}}>
@@ -27,24 +27,7 @@ export const CalendarFooter = () => {
         }}
       >
         <View style={{}}>
-          {!hasTodayItem ? (
-            <Button
-              icon={
-                <PlusCircle
-                  width={24}
-                  height={24}
-                  color={colors.primaryButtonText}
-                />
-              }
-              onPress={() => {
-                navigation.navigate("LogCreate", {
-                  dateTime: dayjs().toISOString(),
-                });
-              }}
-            >
-              {t("add_today_entry")}
-            </Button>
-          ) : (
+          {hasTodayItem ? (
             <Button
               icon={
                 <PlusCircle
@@ -61,6 +44,23 @@ export const CalendarFooter = () => {
               }}
             >
               {t("add_today_another_entry")}
+            </Button>
+          ) : (
+            <Button
+              icon={
+                <PlusCircle
+                  width={24}
+                  height={24}
+                  color={colors.primaryButtonText}
+                />
+              }
+              onPress={() => {
+                navigation.navigate("LogCreate", {
+                  dateTime: dayjs().toISOString(),
+                });
+              }}
+            >
+              {t("add_today_entry")}
             </Button>
           )}
         </View>

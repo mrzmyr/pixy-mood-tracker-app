@@ -245,12 +245,12 @@ const deviceRegion = Localization.getLocales()[0]?.regionCode ?? null;
 i18n.locale = deviceLocale;
 i18n.fallbacks = true;
 
-export const locale = i18n.locale;
+export const { locale } = i18n;
 export const language = i18n.locale.split("-")[0];
 
 const _getFirstDayOfWeek = (region: string): number => {
   for (const dayStr in firstDayOfWeek) {
-    let dayNumber = parseInt(dayStr);
+    const dayNumber = Number.parseInt(dayStr);
     if (firstDayOfWeek[dayNumber].includes(region)) {
       return dayNumber;
     }
@@ -261,7 +261,9 @@ const _getFirstDayOfWeek = (region: string): number => {
 
 export const initializeDayjs = () => {
   let locale = deviceLocale;
-  if (locale.includes("-")) locale = locale.split("-")[0];
+  if (locale.includes("-")) {
+    locale = locale.split("-")[0];
+  }
 
   if (locale in dayjs_locales) {
     dayjs.locale(locale);
@@ -276,6 +278,5 @@ export const initializeDayjs = () => {
   dayjs.extend(localizedFormat);
 };
 
-export const t = (key: keyof typeof en | string, options?: any) => {
-  return i18n.t(key, options);
-};
+export const t = (key: keyof typeof en | string, options?: any) =>
+  i18n.t(key, options);

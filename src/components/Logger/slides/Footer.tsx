@@ -7,20 +7,18 @@ export const Footer = ({
 }: {
   children: React.ReactNode;
   style?: ViewStyle;
-}) => {
-  return (
-    <View
-      style={{
-        height: 54,
-        marginTop: 16,
-        width: "100%",
-        flexDirection: "row",
-        justifyContent: "flex-start",
-        alignItems: "center",
-        ...style,
-      }}
-    >
-      {children}
-    </View>
-  );
-};
+}) => (
+  <View
+    style={{
+      height: 54,
+      marginTop: 16,
+      width: "100%",
+      flexDirection: "row",
+      justifyContent: "flex-start",
+      alignItems: "center",
+      ...style,
+    }}
+  >
+    {children}
+  </View>
+);

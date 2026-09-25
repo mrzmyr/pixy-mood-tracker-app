@@ -97,11 +97,15 @@ export const useDatagate = (): {
         tags: migratedData.settings.tags || migratedData.tags || [],
       });
       importSettings(migratedData.settings);
-      if (!options.muted) showImportSuccess();
+      if (!options.muted) {
+        showImportSuccess();
+      }
       analytics.track("data_import_success");
     } else {
       console.log("import failed, json schema:", jsonSchemaType);
-      if (!options.muted) showImportError();
+      if (!options.muted) {
+        showImportError();
+      }
       analytics.track("data_import_error", {
         reason: "invalid_json_schema",
       });
@@ -119,8 +123,8 @@ export const useDatagate = (): {
     analytics.reset();
   };
 
-  const openImportDialog = async (): Promise<void> => {
-    return askToImport().then(async () => {
+  const openImportDialog = async (): Promise<void> =>
+    askToImport().then(async () => {
       try {
         analytics.track("data_import_start");
 
@@ -138,14 +142,13 @@ export const useDatagate = (): {
 
           _import(data);
         }
-      } catch (error) {
+      } catch {
         showImportError();
         analytics.track("data_import_error", {
           reason: "document_picker_error",
         });
       }
     });
-  };
 
   const openResetDialog = async (type: ResetType) => {
     analytics.track("data_reset_asked");
@@ -154,7 +157,7 @@ export const useDatagate = (): {
     if (Platform.OS === "web") {
       resetFn();
       alert(t("reset_data_success_message"));
-      return Promise.resolve();
+      return;
     }
 
     return askToReset<ResetType>(type)
@@ -174,7 +177,7 @@ export const useDatagate = (): {
     const data: ExportData = {
       version: pkg.version,
       items: logState.items,
-      tags: tags,
+      tags,
       settings: {
         passcodeEnabled: settings.passcodeEnabled,
         passcode: settings.passcode,

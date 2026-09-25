@@ -32,7 +32,7 @@ export interface SettingsState {
   passcodeEnabled: boolean | null;
   passcode: string | null;
   scaleType: (typeof SCALE_TYPES)[number];
-  reminderEnabled: Boolean;
+  reminderEnabled: boolean;
   reminderTime: string;
   analyticsEnabled: boolean;
   actionsDone: IAction[];
@@ -73,7 +73,7 @@ type Value = {
   addActionDone: (action: IAction["title"]) => void;
   hasActionDone: (actionTitle: IAction["title"]) => boolean;
   removeActionDone: (actionTitle: IAction["title"]) => void;
-  toggleStep: (step: ConfigurableLoggerStep, value?: Boolean) => void;
+  toggleStep: (step: ConfigurableLoggerStep, value?: boolean) => void;
   hasStep: (step: KnownSettingsStep) => boolean;
 };
 
@@ -118,12 +118,18 @@ function SettingsProvider({ children }: { children: React.ReactNode }) {
       let json: SettingsState | null;
       try {
         json = await load<SettingsState>(STORAGE_KEY);
-      } catch (error) {
+      } catch {
         // Keep `loaded: false` so the persist effect below stays disabled;
         // falling back to the initial state would overwrite stored settings.
         return;
       }
-      if (json !== null) {
+      if (json === null) {
+        setSettings({
+          ...INITIAL_STATE,
+          deviceId: uuidv4(),
+          loaded: true,
+        });
+      } else {
         if (!json.deviceId) {
           json.deviceId = uuidv4();
         }
@@ -131,12 +137,6 @@ function SettingsProvider({ children }: { children: React.ReactNode }) {
           ...INITIAL_STATE,
           ...json,
           steps: sanitizeSteps(json.steps),
-          loaded: true,
-        });
-      } else {
-        setSettings({
-          ...INITIAL_STATE,
-          deviceId: uuidv4(),
           loaded: true,
         });
       }
@@ -182,16 +182,13 @@ function SettingsProvider({ children }: { children: React.ReactNode }) {
   );
 
   const hasActionDone = useCallback(
-    (actionTitle: IAction["title"]) => {
-      return settings.actionsDone.some(
-        (action) => action.title === actionTitle
-      );
-    },
+    (actionTitle: IAction["title"]) =>
+      settings.actionsDone.some((action) => action.title === actionTitle),
     [settings.actionsDone]
   );
 
   const toggleStep = useCallback(
-    (step: ConfigurableLoggerStep, value: Boolean) => {
+    (step: ConfigurableLoggerStep, value: boolean) => {
       setSettings((settings) => {
         const shouldAdd = _.isBoolean(value)
           ? value
@@ -206,21 +203,19 @@ function SettingsProvider({ children }: { children: React.ReactNode }) {
             ...settings,
             steps: _.uniq([...settings.steps, step]),
           };
-        } else {
-          return {
-            ...settings,
-            steps: settings.steps.filter((s) => s !== step),
-          };
         }
+        return {
+          ...settings,
+          steps: settings.steps.filter((s) => s !== step),
+        };
       });
     },
     []
   );
 
   const hasStep = useCallback(
-    (step: KnownSettingsStep) => {
-      return settings.steps.some((configuredStep) => configuredStep === step);
-    },
+    (step: KnownSettingsStep) =>
+      settings.steps.some((configuredStep) => configuredStep === step),
     [settings.steps]
   );
 

@@ -7,7 +7,7 @@ export const Grid = ({ width, relativeY }) => {
 
   return (
     <>
-      {RATING_KEYS.slice(0, RATING_KEYS.length - 1).map((rating, index) => {
+      {RATING_KEYS.slice(0, -1).map((rating, index) => {
         const y = relativeY(index);
         return (
           <Line

@@ -56,17 +56,16 @@ export const HeaderImage = ({
         }
       />
     );
-  } else {
-    return (
-      <Image
-        style={style}
-        {...props}
-        source={
-          isAndroid
-            ? HEADER_IMAGES.androidLight[index]
-            : HEADER_IMAGES.iosLight[index]
-        }
-      />
-    );
   }
+  return (
+    <Image
+      style={style}
+      {...props}
+      source={
+        isAndroid
+          ? HEADER_IMAGES.androidLight[index]
+          : HEADER_IMAGES.iosLight[index]
+      }
+    />
+  );
 };

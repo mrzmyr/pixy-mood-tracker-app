@@ -5,7 +5,9 @@ import { View } from "react-native";
 import { SectionHeader } from "./SectionHeader";
 
 export const Sleep = ({ item }: { item: LogItem }) => {
-  if (!item.sleep?.quality) return null;
+  if (!item.sleep?.quality) {
+    return null;
+  }
 
   return (
     <View style={{}}>

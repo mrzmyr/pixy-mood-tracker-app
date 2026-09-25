@@ -36,7 +36,9 @@ export const PromoCardYear = ({
     addActionDone(YEAR_REPORT_SLUG);
   };
 
-  if (hasActionDone(YEAR_REPORT_SLUG)) return null;
+  if (hasActionDone(YEAR_REPORT_SLUG)) {
+    return null;
+  }
 
   return (
     <Animated.View

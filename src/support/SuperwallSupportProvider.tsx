@@ -80,7 +80,9 @@ const SuperwallSupportBridge = ({
   });
 
   useEffect(() => {
-    if (!isConfigured) return;
+    if (!isConfigured) {
+      return;
+    }
 
     void setEventTrackingBehavior(
       analytics.isEnabled ? "superwallOnly" : "none"

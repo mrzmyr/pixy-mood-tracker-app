@@ -67,8 +67,8 @@ export const MiniButton = ({
         await haptics.selection();
         onPress?.();
       }}
-      testID={"log-tags-edit"}
-      accessibilityRole={"button"}
+      testID="log-tags-edit"
+      accessibilityRole="button"
     >
       {icon}
       <Text

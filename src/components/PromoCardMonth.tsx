@@ -36,7 +36,9 @@ export const PromoCardMonth = ({
     addActionDone(MONTH_REPORT_SLUG);
   };
 
-  if (hasActionDone(MONTH_REPORT_SLUG)) return null;
+  if (hasActionDone(MONTH_REPORT_SLUG)) {
+    return null;
+  }
 
   return (
     <Animated.View

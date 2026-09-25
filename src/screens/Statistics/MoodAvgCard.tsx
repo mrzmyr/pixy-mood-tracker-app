@@ -25,22 +25,20 @@ export const MoodAvgCard = ({ data }: { data: MoodAvgData }) => {
           borderRadius: 4,
         }}
       >
-        {data.distribution.map((item) => {
-          return (
-            <View
-              key={item.key}
-              style={{
-                flex: 1,
-                flexDirection: "row",
-                alignItems: "center",
-                justifyContent: "center",
-                backgroundColor: scale.colors[item.key].background,
-                flexBasis: `${(item.count / data.itemsCount) * 100}%`,
-                height: 24,
-              }}
-            />
-          );
-        })}
+        {data.distribution.map((item) => (
+          <View
+            key={item.key}
+            style={{
+              flex: 1,
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "center",
+              backgroundColor: scale.colors[item.key].background,
+              flexBasis: `${(item.count / data.itemsCount) * 100}%`,
+              height: 24,
+            }}
+          />
+        ))}
       </View>
       <CardFeedback
         analyticsId="mood_avg"

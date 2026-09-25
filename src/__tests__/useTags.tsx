@@ -34,8 +34,8 @@ const wrapper = ({ children }) => (
   </SettingsProvider>
 );
 
-const _renderHook = () => {
-  return renderHook(
+const _renderHook = () =>
+  renderHook(
     () => ({
       state: useTagsState(),
       updater: useTagsUpdater(),
@@ -45,7 +45,6 @@ const _renderHook = () => {
     }),
     { wrapper }
   );
-};
 
 const waitForLoaded = (hook) =>
   waitFor(() => {
@@ -218,7 +217,7 @@ describe("useTags()", () => {
       hook.result.current.updater.deleteTag("1");
     });
 
-    const items = hook.result.current.logsState.items;
+    const { items } = hook.result.current.logsState;
     expect(items.map((item) => item.id)).toEqual([
       testItems[0].id,
       testItems[1].id,
