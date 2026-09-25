@@ -70,7 +70,9 @@ export const PasscodeView = ({
             setCode(code.slice(0, -1));
           }}
           onPress={(value) => {
-            if (code.length >= 4) return;
+            if (code.length >= 4) {
+              return;
+            }
 
             const newCode = code + value;
             setCode(newCode);
@@ -82,7 +84,7 @@ export const PasscodeView = ({
                   setCode("");
                   bounce();
                 }
-              });
+              }, 0);
             }
           }}
         />

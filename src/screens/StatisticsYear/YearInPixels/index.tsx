@@ -38,9 +38,9 @@ const YearInPixels = ({ date }: { date: Dayjs }) => {
   const logState = useLogState();
   const { anonymizeItem } = useAnonymizer();
 
-  const items = logState.items.filter((item) => {
-    return date.isSame(item.dateTime, "year");
-  });
+  const items = logState.items.filter((item) =>
+    date.isSame(item.dateTime, "year")
+  );
 
   const dummyItems = _.range(0, 365).map(
     (i) =>

@@ -58,7 +58,7 @@ export const UserDataImportList = () => {
       <MenuListHeadline>Load User Data</MenuListHeadline>
       <MenuList style={{}}>
         <MenuListItem
-          title={"Reload"}
+          title="Reload"
           iconLeft={<Repeat width={18} color={colors.menuListItemIcon} />}
           onPress={() => loadUsers()}
           isLast
@@ -80,7 +80,7 @@ export const UserDataImportList = () => {
               padding: 16,
             }}
           >
-            <ActivityIndicator size={"small"} color={colors.loadingIndicator} />
+            <ActivityIndicator size="small" color={colors.loadingIndicator} />
           </View>
         )}
         {!loading &&

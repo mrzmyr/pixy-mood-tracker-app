@@ -3,19 +3,17 @@ import type { RootStackScreenProps } from "../../types";
 
 export const NotFoundScreen = ({
   navigation,
-}: RootStackScreenProps<"NotFound">) => {
-  return (
-    <View style={styles.container}>
-      <Text style={styles.title}>This screen doesn't exist.</Text>
-      <TouchableOpacity
-        onPress={() => navigation.replace("tabs")}
-        style={styles.link}
-      >
-        <Text style={styles.linkText}>Go to home screen!</Text>
-      </TouchableOpacity>
-    </View>
-  );
-};
+}: RootStackScreenProps<"NotFound">) => (
+  <View style={styles.container}>
+    <Text style={styles.title}>This screen doesn't exist.</Text>
+    <TouchableOpacity
+      onPress={() => navigation.replace("tabs")}
+      style={styles.link}
+    >
+      <Text style={styles.linkText}>Go to home screen!</Text>
+    </TouchableOpacity>
+  </View>
+);
 
 const styles = StyleSheet.create({
   container: {

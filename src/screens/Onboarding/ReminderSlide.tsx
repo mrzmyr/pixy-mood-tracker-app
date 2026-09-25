@@ -72,7 +72,9 @@ export const ReminderSlide = ({
   const enable = async () => {
     const has = await hasPermission();
     const granted = has || (await askForPermission());
-    if (!granted) return;
+    if (!granted) {
+      return;
+    }
 
     await (async () => {
       await cancelAll();

@@ -19,20 +19,18 @@ const HeaderPaginationDot = ({ active }: { active: boolean }) => {
   );
 };
 
-export const HeaderPagination = ({ index }: { index: number }) => {
-  return (
-    <View
-      style={{
-        flexDirection: "row",
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <HeaderPaginationDot active={index === 0} />
-      <HeaderPaginationDot active={index === 1} />
-      <HeaderPaginationDot active={index === 2} />
-      <HeaderPaginationDot active={index === 3} />
-      <HeaderPaginationDot active={index === 4} />
-    </View>
-  );
-};
+export const HeaderPagination = ({ index }: { index: number }) => (
+  <View
+    style={{
+      flexDirection: "row",
+      justifyContent: "center",
+      alignItems: "center",
+    }}
+  >
+    <HeaderPaginationDot active={index === 0} />
+    <HeaderPaginationDot active={index === 1} />
+    <HeaderPaginationDot active={index === 2} />
+    <HeaderPaginationDot active={index === 3} />
+    <HeaderPaginationDot active={index === 4} />
+  </View>
+);

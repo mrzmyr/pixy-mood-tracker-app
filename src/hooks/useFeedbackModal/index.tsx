@@ -107,7 +107,7 @@ export default function useFeedbackModal() {
                 }}
               >
                 <ActivityIndicator
-                  size={"small"}
+                  size="small"
                   color={colors.loadingIndicator}
                 />
               </View>

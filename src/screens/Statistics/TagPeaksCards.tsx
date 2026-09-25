@@ -54,7 +54,9 @@ const DayDot = ({
         opacity: pressed ? 0.8 : 1,
       })}
       onPress={async () => {
-        if (!item) return;
+        if (!item) {
+          return;
+        }
 
         await haptics.selection();
         calendarNavigation.openDay(dayjs(date).format(DATE_FORMAT));

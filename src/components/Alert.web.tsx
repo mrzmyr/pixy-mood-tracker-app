@@ -12,8 +12,8 @@ export default {
         onPress: () => void;
       },
     ]
-  ) => {
-    return new Promise((resolve, reject) => {
+  ) =>
+    new Promise((resolve, reject) => {
       const message = `${title}: ${body}`;
       if (confirm(message)) {
         callbacks[0]?.onPress();
@@ -22,6 +22,5 @@ export default {
         callbacks[1]?.onPress();
         reject({});
       }
-    });
-  },
+    }),
 };

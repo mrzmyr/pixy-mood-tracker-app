@@ -46,15 +46,14 @@ const testItems: LogsState["items"] = [
   }),
 ];
 
-const _renderHook = () => {
-  return renderHook(
+const _renderHook = () =>
+  renderHook(
     () => ({
       state: useLogState(),
       updater: useLogUpdater(),
     }),
     { wrapper }
   );
-};
 
 const waitForLoaded = (hook) =>
   waitFor(() => {

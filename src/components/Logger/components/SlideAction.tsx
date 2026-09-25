@@ -38,7 +38,9 @@ export const SlideAction = ({
     };
   }, []);
 
-  if (type === "hidden") return null;
+  if (type === "hidden") {
+    return null;
+  }
 
   const bottom =
     Math.round(keyboard.keyboardHeight) - (Platform.OS === "ios" ? 20 : 0);
@@ -60,7 +62,9 @@ export const SlideAction = ({
       <FloatButton
         testID={`logger-${type}`}
         onPress={async () => {
-          if (disabled) return;
+          if (disabled) {
+            return;
+          }
           await haptics.selection();
           onPress?.();
         }}

@@ -20,9 +20,7 @@ const wrapper = ({ children }) => (
   </SettingsProvider>
 );
 
-const _renderHook = () => {
-  return renderHook(() => useCalendarFilters(), { wrapper });
-};
+const _renderHook = () => renderHook(() => useCalendarFilters(), { wrapper });
 
 const testItems: LogsState["items"] = [
   _generateItem({

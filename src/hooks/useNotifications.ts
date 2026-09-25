@@ -30,17 +30,15 @@ export const createDailyTrigger = (
 });
 
 const useNotification = () => {
-  const getScheduled = async () => {
-    return await Notifications.getAllScheduledNotificationsAsync();
-  };
+  const getScheduled = async () =>
+    await Notifications.getAllScheduledNotificationsAsync();
 
   const hasPermission = async (): Promise<boolean> => {
     if (Device.isDevice) {
       const { status } = await Notifications.getPermissionsAsync();
       return status === "granted";
-    } else {
-      alert("Must use physical device for Push Notifications");
     }
+    alert("Must use physical device for Push Notifications");
 
     return false;
   };
@@ -55,9 +53,8 @@ const useNotification = () => {
 
       const { status } = await Notifications.requestPermissionsAsync();
       return status === "granted";
-    } else {
-      alert("Must use physical device for Push Notifications");
     }
+    alert("Must use physical device for Push Notifications");
 
     return false;
   };

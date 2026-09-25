@@ -57,45 +57,39 @@ export const EmotionsDistributionContent = ({
 }: {
   data: EmotionsDistributionData;
   limit?: number;
-}) => {
-  return (
-    <View
-      style={{
-        flexDirection: "column",
-      }}
-    >
-      {data.emotions.slice(0, limit).map((emotion) => {
-        return (
-          <EmotionBar
-            key={emotion?.details?.key}
-            emotion={emotion.details}
-            count={emotion.count}
-          />
-        );
-      })}
-    </View>
-  );
-};
+}) => (
+  <View
+    style={{
+      flexDirection: "column",
+    }}
+  >
+    {data.emotions.slice(0, limit).map((emotion) => (
+      <EmotionBar
+        key={emotion?.details?.key}
+        emotion={emotion.details}
+        count={emotion.count}
+      />
+    ))}
+  </View>
+);
 
 export const EmotionsDistributionCard = ({
   data,
 }: {
   data: EmotionsDistributionData;
-}) => {
-  return (
-    <Card
-      subtitle={t("emotions")}
-      title={t("statistics_emotions_distribution_title", {
-        count: data.emotions.length,
-      })}
-    >
-      <EmotionsDistributionContent data={data} />
-      <CardFeedback
-        analyticsId="emotions_distribution"
-        analyticsData={{
-          emotions: data.emotions,
-        }}
-      />
-    </Card>
-  );
-};
+}) => (
+  <Card
+    subtitle={t("emotions")}
+    title={t("statistics_emotions_distribution_title", {
+      count: data.emotions.length,
+    })}
+  >
+    <EmotionsDistributionContent data={data} />
+    <CardFeedback
+      analyticsId="emotions_distribution"
+      analyticsData={{
+        emotions: data.emotions,
+      }}
+    />
+  </Card>
+);

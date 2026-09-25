@@ -9,146 +9,151 @@ import useHaptics from "../../../hooks/useHaptics";
 import type { LogItem } from "../../../hooks/useLogs";
 import { useSettings } from "../../../hooks/useSettings";
 
-const CalendarDay = memo(function CalendarDay({
-  dateString,
-  rating,
-  isFiltered,
-  isFiltering,
-  onPress,
-}: {
-  dateString: string;
-  rating?: LogItem["rating"] | null;
-  isFiltering: boolean;
-  isFiltered: boolean;
-  onPress: () => void;
-}) {
-  const {
-    settings: { scaleType },
-  } = useSettings();
-  const colors = useColors();
-  const haptics = useHaptics();
+const CalendarDay = memo(
+  ({
+    dateString,
+    rating,
+    isFiltered,
+    isFiltering,
+    onPress,
+  }: {
+    dateString: string;
+    rating?: LogItem["rating"] | null;
+    isFiltering: boolean;
+    isFiltered: boolean;
+    onPress: () => void;
+  }) => {
+    const {
+      settings: { scaleType },
+    } = useSettings();
+    const colors = useColors();
+    const haptics = useHaptics();
 
-  const _isFiltered = !isFiltered && isFiltering;
+    const _isFiltered = !isFiltered && isFiltering;
 
-  const day = useMemo(() => dayjs(dateString).date(), [dateString]);
+    const day = useMemo(() => dayjs(dateString).date(), [dateString]);
 
-  const isFuture = useMemo(() => {
-    return dayjs(dateString).isAfter(dayjs(), "day");
-  }, [dateString, dayjs().format(DATE_FORMAT)]);
+    const isFuture = useMemo(
+      () => dayjs(dateString).isAfter(dayjs(), "day"),
+      [dateString, dayjs().format(DATE_FORMAT)]
+    );
 
-  const isToday = useMemo(() => {
-    return dayjs(dateString).isSame(dayjs(), "day");
-  }, [dateString, dayjs().format(DATE_FORMAT)]);
+    const isToday = useMemo(
+      () => dayjs(dateString).isSame(dayjs(), "day"),
+      [dateString, dayjs().format(DATE_FORMAT)]
+    );
 
-  const backgroundColor = useMemo(
-    () =>
-      isFuture || _isFiltered || (!rating && isFiltering)
-        ? colors.calendarItemBackgroundFuture
-        : _isFiltered
-          ? colors.calendarBackground
+    const backgroundColor = useMemo(
+      () =>
+        isFuture || _isFiltered || (!rating && isFiltering)
+          ? colors.calendarItemBackgroundFuture
+          : _isFiltered
+            ? colors.calendarBackground
+            : rating
+              ? colors.scales[scaleType][rating].background
+              : colors.scales[scaleType].empty.background,
+      [colors, isFuture, _isFiltered, isFiltering, rating, scaleType]
+    );
+
+    const containerStyles = useStyle(
+      () => [
+        styles.container,
+        {
+          backgroundColor,
+          borderWidth: rating === null && !isFuture ? 2 : 0,
+          borderStyle:
+            !isFuture && !rating && !isFiltering ? "dotted" : "solid",
+          borderColor:
+            !isFiltering && !rating
+              ? colors.scales[scaleType].empty.border
+              : "transparent",
+        },
+      ],
+      [rating, isFuture, isFiltering, scaleType, backgroundColor, colors]
+    );
+
+    const textColor = useMemo(
+      () =>
+        _isFiltered
+          ? colors.text
           : rating
-            ? colors.scales[scaleType][rating].background
-            : colors.scales[scaleType].empty.background,
-    [colors, isFuture, _isFiltered, isFiltering, rating, scaleType]
-  );
+            ? colors.scales[scaleType][rating].textSecondary
+            : colors.scales[scaleType].empty.text,
+      [rating, scaleType, colors]
+    );
 
-  const containerStyles = useStyle(
-    () => [
-      styles.container,
-      {
-        backgroundColor: backgroundColor,
-        borderWidth: rating === null && !isFuture ? 2 : 0,
-        borderStyle: !isFuture && !rating && !isFiltering ? "dotted" : "solid",
-        borderColor:
-          !isFiltering && !rating
-            ? colors.scales[scaleType].empty.border
-            : "transparent",
-      },
-    ],
-    [rating, isFuture, isFiltering, scaleType, backgroundColor, colors]
-  );
+    const dayNumberBackgroundColor = useMemo(
+      () =>
+        isToday
+          ? chroma(backgroundColor).luminance() < 0.5
+            ? "rgba(255,255,255,0.7)"
+            : "rgba(0,0,0,0.5)"
+          : "transparent",
+      [isToday, backgroundColor]
+    );
 
-  const textColor = useMemo(
-    () =>
-      _isFiltered
-        ? colors.text
-        : rating
-          ? colors.scales[scaleType][rating].textSecondary
-          : colors.scales[scaleType].empty.text,
-    [rating, scaleType, colors]
-  );
+    const dayNumberParent2Styles = useStyle(
+      () => [
+        styles.dayNumberParent2,
+        {
+          backgroundColor: dayNumberBackgroundColor,
+        },
+      ],
+      [dayNumberBackgroundColor]
+    );
 
-  const dayNumberBackgroundColor = useMemo(
-    () =>
-      isToday
-        ? chroma(backgroundColor).luminance() < 0.5
-          ? "rgba(255,255,255,0.7)"
-          : "rgba(0,0,0,0.5)"
-        : "transparent",
-    [isToday, backgroundColor]
-  );
+    const dayNumberTextStyles = useStyle(
+      () => [
+        {
+          fontSize: 12,
+          opacity:
+            !isToday && (isFuture || _isFiltered || (!rating && isFiltering))
+              ? 0.3
+              : 1,
+          color:
+            _isFiltered && !isToday
+              ? colors.text
+              : isToday
+                ? chroma(backgroundColor).luminance() < 0.5
+                  ? "black"
+                  : "white"
+                : textColor,
+        },
+      ],
+      [
+        isToday,
+        isFuture,
+        _isFiltered,
+        isFiltering,
+        rating,
+        backgroundColor,
+        textColor,
+      ]
+    );
 
-  const dayNumberParent2Styles = useStyle(
-    () => [
-      styles.dayNumberParent2,
-      {
-        backgroundColor: dayNumberBackgroundColor,
-      },
-    ],
-    [dayNumberBackgroundColor]
-  );
+    const _onPress = useCallback(() => {
+      if (!isFuture) {
+        haptics.selection();
+        onPress();
+      }
+    }, [dateString, isFuture, onPress]);
 
-  const dayNumberTextStyles = useStyle(
-    () => [
-      {
-        fontSize: 12,
-        opacity:
-          !isToday && (isFuture || _isFiltered || (!rating && isFiltering))
-            ? 0.3
-            : 1,
-        color:
-          _isFiltered && !isToday
-            ? colors.text
-            : isToday
-              ? chroma(backgroundColor).luminance() < 0.5
-                ? "black"
-                : "white"
-              : textColor,
-      },
-    ],
-    [
-      isToday,
-      isFuture,
-      _isFiltered,
-      isFiltering,
-      rating,
-      backgroundColor,
-      textColor,
-    ]
-  );
-
-  const _onPress = useCallback(() => {
-    if (!isFuture) {
-      haptics.selection();
-      onPress();
-    }
-  }, [dateString, isFuture, onPress]);
-
-  return (
-    <Pressable
-      testID={`calendar-day-${dateString}`}
-      disabled={isFuture}
-      onPress={_onPress}
-      style={containerStyles}
-    >
-      <View style={styles.dayNumberParent1}>
-        <View style={dayNumberParent2Styles}>
-          <Text style={dayNumberTextStyles}>{day}</Text>
+    return (
+      <Pressable
+        testID={`calendar-day-${dateString}`}
+        disabled={isFuture}
+        onPress={_onPress}
+        style={containerStyles}
+      >
+        <View style={styles.dayNumberParent1}>
+          <View style={dayNumberParent2Styles}>
+            <Text style={dayNumberTextStyles}>{day}</Text>
+          </View>
         </View>
-      </View>
-    </Pressable>
-  );
-});
+      </Pressable>
+    );
+  }
+);
 
 const styles = StyleSheet.create({
   container: {

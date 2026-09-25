@@ -45,7 +45,9 @@ export default function Tag({
         ...style,
       })}
       onPress={async () => {
-        if (!onPress) return;
+        if (!onPress) {
+          return;
+        }
         await haptics.selection();
         onPress?.();
       }}

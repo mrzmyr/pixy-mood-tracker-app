@@ -37,14 +37,14 @@ export const StatisticsScreen = ({
   const [refreshing, setRefreshing] = useState(false);
 
   // times of the last two weeks
-  const items = logState.items.filter((item) => {
-    return dayjs(item.dateTime).isBetween(
+  const items = logState.items.filter((item) =>
+    dayjs(item.dateTime).isBetween(
       dayjs().subtract(14, "day"),
       dayjs(),
       null,
       "[]"
-    );
-  });
+    )
+  );
 
   const statisticsUnlocked = items.length >= STATISTIC_MIN_LOGS;
 
@@ -84,7 +84,7 @@ export const StatisticsScreen = ({
   return (
     <ScrollView
       refreshControl={
-        Platform.OS !== "web" ? (
+        Platform.OS === "web" ? undefined : (
           <RefreshControl
             refreshing={refreshing}
             onRefresh={() => {
@@ -95,7 +95,7 @@ export const StatisticsScreen = ({
               }
             }}
           />
-        ) : undefined
+        )
       }
       style={{
         backgroundColor: colors.statisticsBackground,

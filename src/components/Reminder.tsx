@@ -25,8 +25,8 @@ const Reminder = () => {
   const analytics = useAnalytics();
 
   const hourAndMinute = reminderTime.split(":");
-  const hour = parseInt(hourAndMinute[0]);
-  const minute = parseInt(hourAndMinute[1]);
+  const hour = Number.parseInt(hourAndMinute[0]);
+  const minute = Number.parseInt(hourAndMinute[1]);
   const timeDate = dayjs().hour(hour).minute(minute).toDate();
 
   const onEnabledChange = async (value: boolean) => {
@@ -90,7 +90,7 @@ const Reminder = () => {
             />
           }
           isLast={!reminderEnabled}
-        ></MenuListItem>
+        />
         {reminderEnabled && (
           <View
             style={{
