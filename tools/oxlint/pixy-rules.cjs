@@ -18,8 +18,6 @@ const getFunctionName = (node) => {
   ) {
     return parent.key.name;
   }
-
-  return undefined;
 };
 
 const getDeclaredBooleanType = (node) => {
@@ -96,7 +94,7 @@ const booleanFunctionPrefix = {
       if (
         name &&
         getDeclaredBooleanType(node) &&
-        !/^(is|has|can|should|was|will)[A-Z_]/u.test(name)
+        !/^(?:is|has|can|should|was|will)[A-Z_]/u.test(name)
       ) {
         context.report({
           messageId: "prefix",

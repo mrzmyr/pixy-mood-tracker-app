@@ -1,9 +1,8 @@
 import type { ExpoConfig, ConfigContext } from "@expo/config";
 
-export default ({ config }: ConfigContext): ExpoConfig => {
+const appConfig = ({ config }: ConfigContext): ExpoConfig => {
   const _config: ExpoConfig = { ...config };
 
-  const PROFILE = process.env.PROFILE || "development";
   const isDevClient = process.env.DEV_CLIENT === "true";
 
   if (isDevClient) {
@@ -21,10 +20,12 @@ export default ({ config }: ConfigContext): ExpoConfig => {
   }
 
   // console.log('------------------------------');
-  // console.log('Profile:', PROFILE);
+  // console.log('Profile:', process.env.PROFILE || 'development');
   // console.log('Building with config:');
   // console.log(JSON.stringify(_config, null, 2));
   // console.log('------------------------------');
 
   return _config;
 };
+
+export default appConfig;

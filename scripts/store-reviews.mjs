@@ -4,7 +4,6 @@ import { readFile } from "node:fs/promises";
 import { createPrivateKey, createSign } from "node:crypto";
 import { pathToFileURL } from "node:url";
 
-const DEFAULT_APPLE_ID = "1605327124";
 const DEFAULT_PLAY_PACKAGE = "com.devmood.pixymoodtracker";
 const APPLE_API = "https://api.appstoreconnect.apple.com/v1";
 const PLAY_API = "https://androidpublisher.googleapis.com/androidpublisher/v3";
@@ -15,6 +14,44 @@ const fail = ({ status, message, why, fix }) => {
   const error = new Error(message);
   error.details = { status, message, why, fix };
   throw error;
+};
+
+const validateOptions = (options) => {
+  if (!options.help && !["all", "app-store", "play"].includes(options.store)) {
+    fail({
+      status: 2,
+      message: "Invalid store",
+      why: "Store must be all, app-store, or play.",
+      fix: "Pass --store all, --store app-store, or --store play.",
+    });
+  }
+  if (
+    !options.help &&
+    (!Number.isInteger(options.limit) ||
+      options.limit < 1 ||
+      options.limit > 1000)
+  ) {
+    fail({
+      status: 2,
+      message: "Invalid limit",
+      why: "Limit must be an integer from 1 to 1000.",
+      fix: "Pass --limit with a value from 1 to 1000.",
+    });
+  }
+  if (
+    !options.help &&
+    (![options.minRating, options.maxRating].every(Number.isInteger) ||
+      options.minRating < 1 ||
+      options.maxRating > 5 ||
+      options.minRating > options.maxRating)
+  ) {
+    fail({
+      status: 2,
+      message: "Invalid rating range",
+      why: "Ratings must be integers from 1 to 5, with minimum no greater than maximum.",
+      fix: "Adjust --min-rating and --max-rating.",
+    });
+  }
 };
 
 const parseArgs = (argv) => {
@@ -51,7 +88,8 @@ const parseArgs = (argv) => {
           fix: `Pass a value after ${arg}.`,
         });
       }
-      options[values.get(arg)] = argv[++i];
+      i += 1;
+      options[values.get(arg)] = argv[i];
     } else {
       fail({
         status: 2,
@@ -67,41 +105,7 @@ const parseArgs = (argv) => {
   options.maxRating = Number(options.maxRating);
   options.appleBundleId ??= "com.devmood.pixymoodtracker";
   options.playPackage ??= DEFAULT_PLAY_PACKAGE;
-  if (!options.help && !["all", "app-store", "play"].includes(options.store)) {
-    fail({
-      status: 2,
-      message: "Invalid store",
-      why: "Store must be all, app-store, or play.",
-      fix: "Pass --store all, --store app-store, or --store play.",
-    });
-  }
-  if (
-    !options.help &&
-    (!Number.isInteger(options.limit) ||
-      options.limit < 1 ||
-      options.limit > 1000)
-  ) {
-    fail({
-      status: 2,
-      message: "Invalid limit",
-      why: "Limit must be an integer from 1 to 1000.",
-      fix: "Pass --limit with a value from 1 to 1000.",
-    });
-  }
-  if (
-    !options.help &&
-    (![options.minRating, options.maxRating].every(Number.isInteger) ||
-      options.minRating < 1 ||
-      options.maxRating > 5 ||
-      options.minRating > options.maxRating)
-  ) {
-    fail({
-      status: 2,
-      message: "Invalid rating range",
-      why: "Ratings must be integers from 1 to 5, with minimum no greater than maximum.",
-      fix: "Adjust --min-rating and --max-rating.",
-    });
-  }
+  validateOptions(options);
   return options;
 };
 
@@ -257,11 +261,7 @@ const fetchAppleReviews = async (options) => {
         version: "",
       });
     }
-    if (page.links?.next) {
-      url = new URL(page.links.next);
-    } else {
-      url = null;
-    }
+    url = page.links?.next ? new URL(page.links.next) : null;
   }
   return reviews;
 };
@@ -406,7 +406,7 @@ const fetchPlayReviews = async (options) => {
 };
 
 const sortReviews = (reviews) =>
-  reviews.sort(
+  reviews.toSorted(
     (a, b) =>
       b.date.localeCompare(a.date) ||
       a.store.localeCompare(b.store) ||
@@ -419,17 +419,14 @@ const printTable = (reviews) => {
     return;
   }
   for (const review of reviews) {
-    let territory = "";
-    if (review.territory) {
-      territory = ` · ${review.territory}`;
-    }
+    const territory = review.territory ? ` · ${review.territory}` : "";
     process.stdout.write(
       `[${review.store}] ${review.date} · ${review.rating}/5 · ${review.author}${territory}\n`
     );
     if (review.title) {
       process.stdout.write(`${review.title}\n`);
     }
-    process.stdout.write(`${review.text.replaceAll(/\s+/g, " ").trim()}\n\n`);
+    process.stdout.write(`${review.text.replaceAll(/\s+/gu, " ").trim()}\n\n`);
   }
 };
 
@@ -444,21 +441,15 @@ export const main = async (argv = process.argv.slice(2)) => {
       process.stdout.write(help());
       return 0;
     }
-    let stores;
-    if (options.store === "all") {
-      stores = ["app-store", "play"];
-    } else {
-      stores = [options.store];
-    }
+    const stores =
+      options.store === "all" ? ["app-store", "play"] : [options.store];
     const settled = await Promise.all(
       stores.map(async (store) => {
         try {
-          let reviews;
-          if (store === "app-store") {
-            reviews = await fetchAppleReviews(options);
-          } else {
-            reviews = await fetchPlayReviews(options);
-          }
+          const reviews =
+            store === "app-store"
+              ? await fetchAppleReviews(options)
+              : await fetchPlayReviews(options);
           return { store, reviews };
         } catch (error) {
           let { details } = error;
