@@ -454,8 +454,12 @@ const getStaleReason = (session: Session, maxAgeMs: number) => {
   return null;
 };
 
+// A test's process group can outlive its leader: when the leader dies,
+// children such as xcodebuild keep running with the same group ID.
+const isGroupAlive = (pid: number) => isProcessAlive(pid) || isProcessAlive(-pid);
+
 const killProcessTree = async (pid: number | undefined) => {
-  if (!pid || !isProcessAlive(pid)) {
+  if (!pid || !isGroupAlive(pid)) {
     return;
   }
   const signal = (name: NodeJS.Signals) => {
@@ -470,7 +474,7 @@ const killProcessTree = async (pid: number | undefined) => {
   };
   signal("SIGTERM");
   await sleep(3000);
-  if (isProcessAlive(pid)) {
+  if (isGroupAlive(pid)) {
     signal("SIGKILL");
   }
 };
