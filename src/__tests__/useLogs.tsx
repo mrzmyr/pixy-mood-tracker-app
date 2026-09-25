@@ -12,6 +12,7 @@ import {
 import { SettingsProvider } from "../hooks/useSettings";
 import { _generateItem } from "./utils";
 
+// oxlint-disable-next-line anti-slop/no-module-mocking -- useLogs reports through the Sentry SDK imported directly in storage.ts; the test asserts on captureException
 jest.mock("@sentry/react-native", () => ({
   captureException: jest.fn(),
 }));
@@ -63,7 +64,7 @@ const waitForLoaded = (hook) =>
 const _console_error = console.error;
 
 describe("useLogs()", () => {
-  beforeEach(async () => {
+  beforeEach(() => {
     jest.clearAllMocks();
     console.error = jest.fn();
     global.fetch = jest.fn().mockResolvedValue({ ok: true });

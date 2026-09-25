@@ -21,6 +21,7 @@ import { TagsProvider, useTagsState, useTagsUpdater } from "../hooks/useTags";
 import { _generateItem } from "./utils";
 import pkg from "../../package.json";
 
+// oxlint-disable-next-line anti-slop/no-module-mocking -- expo-sharing is a native module unavailable in Jest; the export test asserts on shareAsync
 jest.mock("expo-sharing", () => ({
   isAvailableAsync: jest.fn().mockResolvedValue(true),
   shareAsync: jest.fn().mockResolvedValue(undefined),
@@ -132,7 +133,7 @@ const waitForLoaded = (hook) =>
 const _console_error = console.error;
 
 describe("useLogs()", () => {
-  beforeEach(async () => {
+  beforeEach(() => {
     console.error = jest.fn();
     jest.clearAllMocks();
   });
