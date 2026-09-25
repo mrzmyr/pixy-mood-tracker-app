@@ -642,5 +642,13 @@ const DEVICES_COMMANDS = new Map(
   } satisfies Record<string, Command>)
 );
 
-/** `bun devices` commands, plus device lookup and Android env for sessions. */
-export { DEVICES_COMMANDS, findDevice, getAndroidBuildEnv, getTrustFix };
+/** `bun devices` commands, device lookup and Android env for sessions, and
+ * device state for the dashboard. */
+export {
+  DEVICES_COMMANDS,
+  findDevice,
+  getAndroidBuildEnv,
+  getTrustFix,
+  listDevices,
+  readLeases,
+};

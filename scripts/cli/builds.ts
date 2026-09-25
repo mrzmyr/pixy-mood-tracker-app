@@ -301,5 +301,5 @@ const BUILDS_COMMANDS = new Map(
   } satisfies Record<string, Command>)
 );
 
-/** `bun builds` commands. */
-export { BUILDS_COMMANDS };
+/** `bun builds` commands, plus the build list for the dashboard. */
+export { BUILDS_COMMANDS, listBuilds };

@@ -10,6 +10,7 @@
     "devices": "bun scripts/cli/index.ts devices",
     "sessions": "bun scripts/cli/index.ts sessions",
     "builds": "bun scripts/cli/index.ts builds",
+    "dashboard": "bun scripts/cli/dashboard.ts",
     "web": "expo start --web",
     "eject": "expo eject",
     "test": "jest --watchAll --env=jsdom",
