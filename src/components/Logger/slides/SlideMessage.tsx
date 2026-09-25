@@ -11,7 +11,7 @@ import { getAverageMood } from "@/lib/utils";
 import type { Dayjs } from "dayjs";
 import dayjs from "dayjs";
 import sortBy from "lodash/sortBy";
-import { forwardRef, useEffect, useRef, useState } from "react";
+import { forwardRef, useEffect, useMemo, useState } from "react";
 import {
   Keyboard,
   KeyboardAvoidingView,
@@ -34,7 +34,7 @@ const randomInt = (min, max) =>
 
 const MAX_LENGTH = 10 * 1000;
 
-const getMoodValueYesterday = (today: Dayjs): number | null => {
+const useMoodValueYesterday = (today: Dayjs): number | null => {
   const logState = useLogState();
 
   if (logState.items.length === 0) {
@@ -54,7 +54,7 @@ const getMoodValueYesterday = (today: Dayjs): number | null => {
   return RATING_MAPPING[yesterdayAverageMood];
 };
 
-const getMoodValueNow = (): number | null => {
+const useMoodValueNow = (): number | null => {
   const tempLog = useTemporaryLog();
 
   if (tempLog?.data?.rating === null) {
@@ -68,13 +68,14 @@ const Tips = ({ onClose }: { onClose: () => void }) => {
   const colors = useColors();
   const tempLog = useTemporaryLog();
 
-  const placeholder = useRef<string | null>(null);
-  if (placeholder.current === null) {
-    placeholder.current = t(`log_modal_message_placeholder_${randomInt(1, 6)}`);
-  }
+  // Picked once per mount so the placeholder does not change on re-render.
+  const placeholder = useMemo(
+    () => t(`log_modal_message_placeholder_${randomInt(1, 6)}`),
+    []
+  );
   const date = dayjs(tempLog.data.dateTime);
-  const todayMoodValue = getMoodValueNow();
-  const yesterdayMoodValue = getMoodValueYesterday(date);
+  const todayMoodValue = useMoodValueNow();
+  const yesterdayMoodValue = useMoodValueYesterday(date);
 
   const questions: string[] = [];
 
@@ -121,7 +122,7 @@ const Tips = ({ onClose }: { onClose: () => void }) => {
   }
 
   if (questions.length < 2) {
-    questions.push(placeholder.current);
+    questions.push(placeholder);
   }
 
   return (

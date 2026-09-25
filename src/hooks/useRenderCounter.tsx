@@ -17,8 +17,12 @@ export const useRenderCounter = () => {
     ref.current += 1;
   });
 
+  // Debug-only helper: showing the render count requires reading the ref
+  // during render; the displayed value is intentionally one render behind.
   return {
+    // oxlint-disable-next-line react/refs -- debug helper exists to display a ref-held render count; state would re-render in a loop
     count: ref.current,
+    // oxlint-disable-next-line react/refs -- debug helper displays the ref-held render count by design
     Counter: <Text style={styles.text}>{ref.current}</Text>,
   };
 };

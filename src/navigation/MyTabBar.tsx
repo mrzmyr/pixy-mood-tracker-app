@@ -1,4 +1,3 @@
-import { useCallback, useMemo } from "react";
 import { Pressable, Text, View } from "react-native";
 import {
   Calendar as CalendarIcon,
@@ -80,17 +79,14 @@ export const MyTabBar = ({ state, descriptors, navigation }) => {
 
         const Icon = ROUTES.find((r) => r.name === route.name)?.icon;
 
-        const accessibilityState = useMemo(
-          () => ({
-            selected: isFocused,
-          }),
-          [isFocused]
-        );
+        const accessibilityState = {
+          selected: isFocused,
+        };
 
-        const _onPress = useCallback(async () => {
+        const _onPress = async () => {
           await haptics.selection();
           onPress?.();
-        }, [onPress, haptics]);
+        };
 
         return (
           <Pressable

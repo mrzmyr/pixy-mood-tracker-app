@@ -11,7 +11,7 @@ import { useTemporaryLog } from "@/hooks/useTemporaryLog";
 import type { Emotion, TagReference } from "@/types";
 import dayjs from "dayjs";
 import type { ReactElement } from "react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useEffectEvent, useMemo, useRef, useState } from "react";
 import type { TextInput } from "react-native";
 import { Dimensions, Keyboard, Platform, Text, View } from "react-native";
 import type { CarouselRef } from "react-native-reanimated-carousel";
@@ -53,12 +53,15 @@ const EMOTIONS_INDEX_MAPPING = {
 
 const getAvailableStepsForCreate = ({
   question,
+  hasStep,
+  reminderEnabled,
+  itemsCount,
 }: {
   question: IQuestion | null;
+  hasStep: ReturnType<typeof useSettings>["hasStep"];
+  reminderEnabled: boolean;
+  itemsCount: number;
 }) => {
-  const { hasStep, settings } = useSettings();
-  const logState = useLogState();
-
   const slides: LoggerStep[] = ["rating"];
 
   if (hasStep("emotions")) {
@@ -71,20 +74,24 @@ const getAvailableStepsForCreate = ({
     slides.push("message");
   }
 
-  if (logState.items.length === 1 && !settings.reminderEnabled) {
+  if (itemsCount === 1 && !reminderEnabled) {
     slides.push("reminder");
   }
 
-  if (logState.items.length >= 3 && question !== null && hasStep("feedback")) {
+  if (itemsCount >= 3 && question !== null && hasStep("feedback")) {
     slides.push("feedback");
   }
 
   return slides;
 };
 
-const getAvailableStepsForEdit = ({ item }: { item: LogItem }) => {
-  const { hasStep } = useSettings();
-
+const getAvailableStepsForEdit = ({
+  item,
+  hasStep,
+}: {
+  item: LogItem;
+  hasStep: ReturnType<typeof useSettings>["hasStep"];
+}) => {
   const slides: LoggerStep[] = ["rating"];
 
   if (hasStep("emotions") || item.emotions.length > 0) {
@@ -294,17 +301,20 @@ export const Logger = ({
     []
   );
 
-  const onScrollEnd = (index: number) => {
-    Keyboard.dismiss();
-
-    if (index === messageSlideIndex && hasMessageSlide && mode === "create") {
-      texAreaRef.current?.focus();
-    }
-  };
+  // Effect event: reads the latest message slide position without re-running
+  // the effect below when it changes; only slide changes should dismiss the
+  // keyboard or focus the message input.
+  const getFocusableMessageSlideIndex = useEffectEvent(() =>
+    hasMessageSlide && mode === "create" ? messageSlideIndex : null
+  );
 
   useEffect(() => {
     if (isMounted.current) {
-      onScrollEnd(slideIndex);
+      Keyboard.dismiss();
+
+      if (slideIndex === getFocusableMessageSlideIndex()) {
+        texAreaRef.current?.focus();
+      }
     }
   }, [slideIndex]);
 
@@ -376,6 +386,7 @@ export const LoggerEdit = ({
   initialStep?: LoggerStep;
 }) => {
   const logState = useLogState();
+  const { hasStep } = useSettings();
   const initialItem = logState?.items.find((item) => item.id === id);
 
   if (initialItem === undefined) {
@@ -388,6 +399,7 @@ export const LoggerEdit = ({
 
   const avaliableSteps = getAvailableStepsForEdit({
     item: initialItem,
+    hasStep,
   });
 
   return (
@@ -409,18 +421,17 @@ export const LoggerCreate = ({
   initialStep?: LoggerStep;
   avaliableSteps?: LoggerStep[];
 }) => {
-  const _id = useRef<string | null>(null);
-  if (_id.current === null) {
-    _id.current = uuidv4();
-  }
-  const createdAt = useRef<string | null>(null);
-  if (createdAt.current === null) {
-    createdAt.current = dayjs().toISOString();
-  }
+  // Generated once per mount so the new entry keeps a stable id and timestamp.
+  const { id, createdAt } = useMemo(
+    () => ({ id: uuidv4(), createdAt: dayjs().toISOString() }),
+    []
+  );
   const questioner = useQuestioner();
+  const { hasStep, settings } = useSettings();
+  const logState = useLogState();
 
   const initialItem = {
-    id: _id.current,
+    id,
     date: dateTime
       ? dayjs(dateTime).format(DATE_FORMAT)
       : dayjs().format(DATE_FORMAT),
@@ -432,13 +443,16 @@ export const LoggerCreate = ({
     sleep: {
       quality: null,
     },
-    createdAt: createdAt.current,
+    createdAt,
   };
 
   const steps =
     avaliableSteps ||
     getAvailableStepsForCreate({
       question: questioner.question,
+      hasStep,
+      reminderEnabled: settings.reminderEnabled,
+      itemsCount: logState.items.length,
     });
 
   return (

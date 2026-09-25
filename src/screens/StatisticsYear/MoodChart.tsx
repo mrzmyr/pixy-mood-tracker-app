@@ -10,7 +10,7 @@ import { BigCard } from "@/components/BigCard";
 import type { ScaleItem } from "@/components/RatingChart";
 import { RatingChart } from "@/components/RatingChart";
 import { NotEnoughDataOverlay } from "@/components/Statistics/NotEnoughDataOverlay";
-import { useRef } from "react";
+import { useMemo } from "react";
 import random from "lodash/random";
 import range from "lodash/range";
 
@@ -25,14 +25,16 @@ export const MoodChart = ({ date }: { date: Dayjs }) => {
     dayjs(item.dateTime).isSame(date, "year")
   );
 
-  const dataDummy = useRef<ScaleItem[] | null>(null);
-  if (dataDummy.current === null) {
-    dataDummy.current = range(0, 11).map((i) => ({
-      key: dayjs().month(i).format("MMM")[0],
-      count: random(3, 6),
-      value: random(1, 6),
-    }));
-  }
+  // Placeholder data is generated once per mount so it does not change on re-render.
+  const dataDummy = useMemo<ScaleItem[]>(
+    () =>
+      range(0, 11).map((i) => ({
+        key: dayjs().month(i).format("MMM")[0],
+        count: random(3, 6),
+        value: random(1, 6),
+      })),
+    []
+  );
 
   const data = getRatingDistributionForYear(items);
   const validatedData = data.filter((d) => d.value !== null);
@@ -64,7 +66,7 @@ export const MoodChart = ({ date }: { date: Dayjs }) => {
       ) : (
         <RatingChart
           showAverage={true}
-          data={dataDummy.current}
+          data={dataDummy}
           height={height}
           width={width}
         />
