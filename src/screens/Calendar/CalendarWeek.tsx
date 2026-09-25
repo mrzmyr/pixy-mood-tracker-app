@@ -11,21 +11,17 @@ import { getAverageMood } from "@/lib/utils";
 import CalendarDay from "./CalendarDay";
 import { useCalendarNavigation } from "@/hooks/useCalendarNavigation";
 
-dayjs.extend(isSameOrBefore)
+dayjs.extend(isSameOrBefore);
 
-const CalendarDayContainer = memo(({
-  children,
-}: {
-  children?: React.ReactNode;
-}) => {
-  return (
-    <View style={styles.dayContainer}>{children}</View>
-  )
-})
+const CalendarDayContainer = memo(
+  ({ children }: { children?: React.ReactNode }) => {
+    return <View style={styles.dayContainer}>{children}</View>;
+  }
+);
 
 type DayMapItem = {
   dateString: string;
-}
+};
 
 const CalendarWeek = memo(function CalendarWeek({
   startDate,
@@ -40,27 +36,27 @@ const CalendarWeek = memo(function CalendarWeek({
   isLast?: boolean;
   itemMap: {
     [key: string]: LogItem[];
-  }
+  };
 }) {
-  const calendarNavigation = useCalendarNavigation()
+  const calendarNavigation = useCalendarNavigation();
   const navigation = useNavigation();
-  const calendarFilters = useCalendarFilters()
+  const calendarFilters = useCalendarFilters();
 
   let justifyContent = "space-around";
-  if (isFirst) justifyContent = 'flex-end';
-  if (isLast) justifyContent = 'flex-start';
+  if (isFirst) justifyContent = "flex-end";
+  if (isLast) justifyContent = "flex-start";
 
   const days = useMemo(() => {
     const days: string[] = [];
     let date = dayjs(startDate);
 
-    while (date.isSameOrBefore(endDate, 'day')) {
+    while (date.isSameOrBefore(endDate, "day")) {
       days.push(date.format(DATE_FORMAT));
-      date = date.add(1, 'day');
+      date = date.add(1, "day");
     }
 
     return days;
-  }, [startDate, endDate])
+  }, [startDate, endDate]);
 
   const emptyDays = useMemo(() => {
     const emptyDays: null[] = [];
@@ -68,24 +64,27 @@ const CalendarWeek = memo(function CalendarWeek({
     return emptyDays;
   }, [days]);
 
-  const daysMap: DayMapItem[] = days.map(dateString => {
+  const daysMap: DayMapItem[] = days.map((dateString) => {
     return {
       dateString,
-    }
+    };
   });
 
-  const onPressDay = useCallback((date: string) => {
-    calendarNavigation.openDay(date)
-  }, [navigation, calendarNavigation])
+  const onPressDay = useCallback(
+    (date: string) => {
+      calendarNavigation.openDay(date);
+    },
+    [navigation, calendarNavigation]
+  );
 
   const filteredItemIds = useMemo(() => {
-    return calendarFilters.data.filteredItems.map(item => item.id)
-  }, [JSON.stringify(calendarFilters.data.filteredItems)])
+    return calendarFilters.data.filteredItems.map((item) => item.id);
+  }, [JSON.stringify(calendarFilters.data.filteredItems)]);
 
   const renderDay = ({ date }) => {
     const items = itemMap[date] || [];
-    const averageRating = items.length < 1 ? null : getAverageMood(items)
-    const isFiltered = items.some(item => filteredItemIds.includes(item.id))
+    const averageRating = items.length < 1 ? null : getAverageMood(items);
+    const isFiltered = items.some((item) => filteredItemIds.includes(item.id));
 
     return (
       <CalendarDay
@@ -95,36 +94,38 @@ const CalendarWeek = memo(function CalendarWeek({
         isFiltering={calendarFilters.data.isFiltering}
         onPress={() => onPressDay(date)}
       />
-    )
-  }
+    );
+  };
 
   return (
     <View
       style={{
         flexDirection: "row",
-        justifyContent: 'space-around',
+        justifyContent: "space-around",
         marginLeft: -4,
         marginRight: -4,
       }}
     >
-      {!isLast && emptyDays.map((day, index) => <CalendarDayContainer key={index} />)}
+      {!isLast &&
+        emptyDays.map((day, index) => <CalendarDayContainer key={index} />)}
 
-      {daysMap.map(day => (
+      {daysMap.map((day) => (
         <CalendarDayContainer key={day.dateString}>
           {renderDay({ date: day.dateString })}
-        </CalendarDayContainer>)
-      )}
+        </CalendarDayContainer>
+      ))}
 
-      {isLast && emptyDays.map((day, index) => <CalendarDayContainer key={index} />)}
+      {isLast &&
+        emptyDays.map((day, index) => <CalendarDayContainer key={index} />)}
     </View>
-  )
-})
+  );
+});
 
 const styles = StyleSheet.create({
   dayContainer: {
     flex: 7,
     margin: 3,
-  }
-})
+  },
+});
 
-export default CalendarWeek
+export default CalendarWeek;

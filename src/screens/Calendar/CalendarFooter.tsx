@@ -15,42 +15,53 @@ export const CalendarFooter = () => {
   const logState = useLogState();
   const navigation = useNavigation();
 
-  const hasTodayItem = logState.items.find(item => {
-    return dayjs(item.dateTime).isSame(dayjs(), 'day');
+  const hasTodayItem = logState.items.find((item) => {
+    return dayjs(item.dateTime).isSame(dayjs(), "day");
   });
 
   return (
-    <View
-      style={{}}
-    >
+    <View style={{}}>
       <View
         style={{
           marginTop: 24,
         }}
       >
-        <View
-          style={{
-          }}
-        >
+        <View style={{}}>
           {!hasTodayItem ? (
             <Button
-              icon={<PlusCircle width={24} height={24} color={colors.primaryButtonText} />}
+              icon={
+                <PlusCircle
+                  width={24}
+                  height={24}
+                  color={colors.primaryButtonText}
+                />
+              }
               onPress={() => {
                 navigation.navigate("LogCreate", {
                   dateTime: dayjs().toISOString(),
                 });
               }}
-            >{t('add_today_entry')}</Button>
+            >
+              {t("add_today_entry")}
+            </Button>
           ) : (
             <Button
-              icon={<PlusCircle width={24} height={24} color={colors.tertiaryButtonText} />}
+              icon={
+                <PlusCircle
+                  width={24}
+                  height={24}
+                  color={colors.tertiaryButtonText}
+                />
+              }
               type="tertiary"
               onPress={() => {
                 navigation.navigate("LogCreate", {
                   dateTime: dayjs().toISOString(),
                 });
               }}
-            >{t('add_today_another_entry')}</Button>
+            >
+              {t("add_today_another_entry")}
+            </Button>
           )}
         </View>
       </View>
