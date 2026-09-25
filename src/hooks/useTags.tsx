@@ -13,15 +13,16 @@ import {
 import { useAnalytics } from "./useAnalytics";
 import { useLogUpdater } from "./useLogs";
 import { useSettings } from "./useSettings";
+import { createMissingProviderError } from "@/lib/errors";
 
 export const STORAGE_KEY = "PIXEL_TRACKER_TAGS";
 
-export type Tag = {
+export interface Tag {
   id: string;
   title: string;
   color: (typeof TAG_COLOR_NAMES)[number];
   isArchived?: boolean;
-};
+}
 
 interface State {
   loaded?: boolean;
@@ -35,7 +36,7 @@ type StateAction =
   | { type: "import"; payload: State }
   | { type: "reset"; payload: State };
 
-interface StateValue extends State {}
+type StateValue = State;
 
 interface UpdaterValue {
   createTag: (tag: Tag) => void;
@@ -45,7 +46,9 @@ interface UpdaterValue {
   import: (data: State) => void;
 }
 
+// SAFETY: every consumer renders inside TagsProvider, which supplies the full state.
 const TagsStateContext = createContext({} as StateValue);
+// SAFETY: every consumer renders inside TagsProvider, which supplies the full updater.
 const TagsUpdaterContext = createContext({} as UpdaterValue);
 
 const reducer = (state: State, action: StateAction): State => {
@@ -204,7 +207,7 @@ function TagsProvider({ children }: { children: React.ReactNode }) {
 function useTagsState(): StateValue {
   const context = useContext(TagsStateContext);
   if (context === undefined) {
-    throw new Error("useTagsState must be used within a TagsProvider");
+    throw createMissingProviderError("useTagsState", "TagsProvider");
   }
   return context;
 }
@@ -212,7 +215,7 @@ function useTagsState(): StateValue {
 function useTagsUpdater(): UpdaterValue {
   const context = useContext(TagsUpdaterContext);
   if (context === undefined) {
-    throw new Error("useTagsUpdater must be used within a TagsProvider");
+    throw createMissingProviderError("useTagsUpdater", "TagsProvider");
   }
   return context;
 }

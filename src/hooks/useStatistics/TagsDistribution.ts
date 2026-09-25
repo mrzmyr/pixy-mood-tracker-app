@@ -63,12 +63,12 @@ export const getTagsDistributionData = (
     items.flatMap((item) => item?.tags?.map((tag) => tag?.id))
   );
   const _tags = Object.keys(distribution)
-    .map((key) => ({
-      details: tags.find((tag) => tag.id === key)!,
-      id: key,
-      count: distribution[key],
-    }))
-    .filter((tag) => tag.details !== undefined)
+    .flatMap((key) => {
+      const details = tags.find((tag) => tag.id === key);
+      return details === undefined
+        ? []
+        : [{ details, id: key, count: distribution[key] }];
+    })
     .filter((tag) => !tag.details.isArchived)
     .sort((a, b) => b.count - a.count);
 

@@ -26,10 +26,19 @@ export const getTagsPeaksData = (
         distribution[key] >= MIN_PEAKS && tag !== undefined && !tag.isArchived
       );
     })
-    .map((key) => ({
-      ...settingsTags.find((tag) => tag.id === key)!,
-      items: items.filter((item) => item.tags.find((tag) => tag.id === key)),
-    }))
+    .flatMap((key) => {
+      const settingsTag = settingsTags.find((tag) => tag.id === key);
+      return settingsTag === undefined
+        ? []
+        : [
+            {
+              ...settingsTag,
+              items: items.filter((item) =>
+                item.tags.find((tag) => tag.id === key)
+              ),
+            },
+          ];
+    })
     .filter((tag) => tag && tag.items.length > 0);
 
   return {

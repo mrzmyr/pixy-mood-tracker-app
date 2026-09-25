@@ -2,10 +2,10 @@ import dayjs from "dayjs";
 import type { LogItem } from "../useLogs";
 import { RATING_MAPPING } from "../useLogs";
 
-type PeriodDataPoint = {
+interface PeriodDataPoint {
   date: Date;
   value: number;
-};
+}
 
 export interface MoodTrendData {
   avgPeriod1: number;

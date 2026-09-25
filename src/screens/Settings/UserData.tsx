@@ -21,25 +21,22 @@ export const UserDataImportList = () => {
   const [loadedUserIds, setLoadedUserIds] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
 
-  const loadUsers = () => {
+  const loadUsers = async () => {
     setLoading(true);
 
-    fetch("http://192.168.1.254:3000/persons", {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((res) => res.json())
-      .then((res: User[]) => {
-        setUsers(res);
-        setLoadedUserIds([]);
-      })
-      .catch(() => {
-        console.log("Error: Didn't load user list");
-      })
-      .finally(() => {
-        setLoading(false);
+    try {
+      const response = await fetch("http://192.168.1.254:3000/persons", {
+        headers: {
+          "Content-Type": "application/json",
+        },
       });
+      const userList: User[] = await response.json();
+      setUsers(userList);
+      setLoadedUserIds([]);
+    } catch {
+      console.log("Error: Didn't load user list");
+    }
+    setLoading(false);
   };
 
   useEffect(() => {

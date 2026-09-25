@@ -1,6 +1,9 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { act, renderHook, waitFor } from "@testing-library/react-native";
-import { PostHogProvider } from "posthog-react-native";
+import {
+  PostHogProvider,
+  usePostHog as getPostHogTestClient,
+} from "posthog-react-native";
 import { AnalyticsProvider, useAnalytics } from "../hooks/useAnalytics";
 import {
   INITIAL_STATE,
@@ -48,22 +51,14 @@ const waitForLoaded = (hook) =>
 const _console_error = console.error;
 const STATIC_DEVICE_ID = "test-device-id";
 
-const mockOptOut = jest.fn();
-const mockOptIn = jest.fn();
-const mockIdentify = jest.fn();
-const mockCapture = jest.fn();
-const mockReset = jest.fn();
-
-jest.mock("posthog-react-native", () => ({
-  PostHogProvider: ({ children }) => children,
-  usePostHog: () => ({
-    identify: mockIdentify,
-    optOut: mockOptOut,
-    optIn: mockOptIn,
-    reset: mockReset,
-    capture: mockCapture,
-  }),
-}));
+// jest.setup.js replaces posthog-react-native with one shared fake client.
+const {
+  optOut: mockOptOut,
+  optIn: mockOptIn,
+  identify: mockIdentify,
+  capture: mockCapture,
+  reset: mockReset,
+} = getPostHogTestClient();
 
 describe("useAnalytics()", () => {
   beforeEach(async () => {
@@ -88,7 +83,7 @@ describe("useAnalytics()", () => {
     const hook = await _renderHook();
     await waitForLoaded(hook);
 
-    await act(async () => {
+    await act(() => {
       hook.result.current.settingsState.setSettings({
         ...hook.result.current.settingsState.settings,
         analyticsEnabled: false,

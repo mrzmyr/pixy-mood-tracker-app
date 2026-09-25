@@ -8,7 +8,7 @@ export default function useCachedResources() {
 
   // Load any resources or data that we need prior to rendering the app
   useEffect(() => {
-    async function loadResourcesAndDataAsync() {
+    function loadResourcesAndDataAsync() {
       try {
         // await Font.loadAsync({
         //   'sora-regular': require('../assets/fonts/Sora-Regular.ttf'),

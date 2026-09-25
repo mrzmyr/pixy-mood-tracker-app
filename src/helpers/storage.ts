@@ -1,5 +1,8 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as Sentry from "@sentry/react-native";
+import type { useFeedback } from "@/hooks/useFeedback";
+
+type StorageFeedback = ReturnType<typeof useFeedback>;
 
 type StorageError = Error & {
   status: string;
@@ -19,8 +22,14 @@ const createStorageError = (
     fix,
   });
 
-const errorMessage = (error: unknown) =>
-  error instanceof Error ? error.message : String(error);
+const errorMessage = (cause: unknown) =>
+  cause instanceof Error ? cause.message : String(cause);
+
+const isStorageError = (error: unknown): error is StorageError =>
+  error instanceof Error &&
+  "status" in error &&
+  "why" in error &&
+  "fix" in error;
 
 const captureStorageError = (error: StorageError, key: string) => {
   console.error(error);
@@ -65,7 +74,11 @@ const createInvalidStoredValueError = (
     "Restore valid JSON data or remove the corrupted storage entry"
   );
 
-const reportLoadError = (error: StorageError, key: string, feedback?: any) => {
+const reportLoadError = (
+  error: StorageError,
+  key: string,
+  feedback?: StorageFeedback
+) => {
   console.error(error);
   try {
     feedback?.send({
@@ -110,7 +123,7 @@ const reportLoadError = (error: StorageError, key: string, feedback?: any) => {
 // the stored data.
 export const load = async <ReturnValue>(
   key: string,
-  feedback?: any
+  feedback?: StorageFeedback
 ): Promise<ReturnValue | null> => {
   let data: string | null;
 
@@ -141,16 +154,12 @@ export const load = async <ReturnValue>(
     }
     return parsed;
   } catch (error) {
-    const storageError =
-      error instanceof Error &&
-      "status" in error &&
-      "why" in error &&
-      "fix" in error
-        ? (error as StorageError)
-        : createInvalidStoredValueError(
-            key,
-            `could not be parsed: ${errorMessage(error)}`
-          );
+    const storageError = isStorageError(error)
+      ? error
+      : createInvalidStoredValueError(
+          key,
+          `could not be parsed: ${errorMessage(error)}`
+        );
     reportLoadError(storageError, key, feedback);
     throw storageError;
   }

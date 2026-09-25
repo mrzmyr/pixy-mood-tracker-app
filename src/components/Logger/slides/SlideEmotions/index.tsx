@@ -99,13 +99,15 @@ export const SlideEmotions = ({
 
   basicEmotions = basicEmotions.map((emotion) => ({
     ...emotion,
-    category: {
-      very_bad: "bad",
-      bad: "bad",
-      neutral: "neutral",
-      good: "good",
-      very_good: "good",
-    }[emotion.category] as Emotion["category"],
+    category: (
+      {
+        very_bad: "bad",
+        bad: "bad",
+        neutral: "neutral",
+        good: "good",
+        very_good: "good",
+      } satisfies Record<Emotion["category"], Emotion["category"]>
+    )[emotion.category],
   }));
 
   const toggleMode = () => {

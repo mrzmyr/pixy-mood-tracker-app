@@ -35,6 +35,7 @@ const LOADED_STATE = {
   deviceId: STATIC_DEVICE_ID,
 };
 
+// oxlint-disable-next-line anti-slop/no-module-mocking -- useSettings generates the device ID with uuid directly; the test needs a deterministic ID
 jest.mock("uuid", () => ({ v4: () => STATIC_DEVICE_ID }));
 
 describe("useSettings()", () => {
@@ -120,7 +121,7 @@ describe("useSettings()", () => {
       hook.result.current.state.importSettings({
         ...INITIAL_STATE,
         steps: [...INITIAL_STATE.steps, "sleep"],
-      } as any);
+      });
     });
 
     expect(hook.result.current.state.settings.steps).toEqual(
@@ -147,7 +148,7 @@ describe("useSettings()", () => {
       ACTIONS_DONE
     );
     const json = await AsyncStorage.getItem(STORAGE_KEY);
-    expect(JSON.parse(json!)).toEqual({
+    expect(JSON.parse(json ?? "null")).toEqual({
       ..._.omit(LOADED_STATE, "loaded"),
       actionsDone: ACTIONS_DONE,
     });
@@ -176,7 +177,7 @@ describe("useSettings()", () => {
       ACTIONS_DONE
     );
     const json = await AsyncStorage.getItem(STORAGE_KEY);
-    expect(JSON.parse(json!)).toEqual({
+    expect(JSON.parse(json ?? "null")).toEqual({
       ..._.omit(LOADED_STATE, "loaded"),
       actionsDone: ACTIONS_DONE,
     });

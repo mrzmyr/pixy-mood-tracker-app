@@ -108,7 +108,7 @@ export const CardFeedback = ({
   style = {},
 }: {
   analyticsId: string;
-  analyticsData?: any;
+  analyticsData?: object;
   variant?: "default" | "minimal";
   style?: ViewStyle;
 }) => {
@@ -157,13 +157,20 @@ export const CardFeedback = ({
 
     analytics.track("statistics_feedback", body);
 
-    return fetch(STATISTICS_FEEDBACK_URL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(body),
-    }).finally(() => onSendDone());
+    try {
+      const response = await fetch(STATISTICS_FEEDBACK_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(body),
+      });
+      onSendDone();
+      return response;
+    } catch (error) {
+      onSendDone();
+      throw error;
+    }
   };
 
   const handleFeedback = async (emoji) => {
@@ -185,13 +192,14 @@ export const CardFeedback = ({
       send(emoji);
       if ((await StoreReview.hasAction()) && variant === "default") {
         analytics.track("statistics_feedback_store_review_request");
-        StoreReview.requestReview()
-          .then(() => {
+        void (async () => {
+          try {
+            await StoreReview.requestReview();
             analytics.track("statistics_feedback_store_review_done");
-          })
-          .catch(() => {
+          } catch {
             analytics.track("statistics_feedback_store_review_error");
-          });
+          }
+        })();
       }
     }
   };

@@ -210,7 +210,7 @@ export const Logger = ({
   const initialIndex = indexFound === -1 ? 0 : indexFound;
   const [slideIndex, setSlideIndex] = useState(initialIndex);
 
-  const close = async () => {
+  const close = () => {
     tempLog.reset();
     navigation.goBack();
   };
@@ -235,9 +235,11 @@ export const Logger = ({
 
     if (mode === "edit") {
       analytics.track("log_changed", eventData);
+      // SAFETY: rating is non-null after the fallback above; a null sleep.quality is stored as-is and statistics treat it as missing.
       logUpdater.editLog(data as LogItem);
     } else {
       analytics.track("log_created", eventData);
+      // SAFETY: rating is non-null after the fallback above; a null sleep.quality is stored as-is and statistics treat it as missing.
       logUpdater.addLog(data as LogItem);
 
       const itemsOnDate = logState.items.filter((item) =>
@@ -297,6 +299,7 @@ export const Logger = ({
                 rating,
               });
             } else {
+              // oxlint-disable-next-line node/callback-return -- `next` advances the carousel, it is not a Node-style callback; `tempLog.update` must still run afterwards
               next();
             }
           }
@@ -352,11 +355,10 @@ export const Logger = ({
           onChange={(tags: TagReference[]) => {
             tempLog.update({ tags });
           }}
-          onDisableStep={() => {
-            askToDisableStep().then(() => {
-              toggleStep("tags");
-              next();
-            });
+          onDisableStep={async () => {
+            await askToDisableStep();
+            toggleStep("tags");
+            next();
           }}
           showDisable={showDisable}
         />
@@ -372,11 +374,10 @@ export const Logger = ({
           onChange={(message) => {
             tempLog.update({ message });
           }}
-          onDisableStep={() => {
-            askToDisableStep().then(() => {
-              toggleStep("message");
-              next();
-            });
+          onDisableStep={async () => {
+            await askToDisableStep();
+            toggleStep("message");
+            next();
           }}
           ref={texAreaRef}
           showDisable={showDisable}
@@ -400,11 +401,10 @@ export const Logger = ({
         <SlideFeedback
           question={question}
           onPress={next}
-          onDisableStep={() => {
-            askToDisableFeedbackStep().then(() => {
-              toggleStep("feedback");
-              next();
-            });
+          onDisableStep={async () => {
+            await askToDisableFeedbackStep();
+            toggleStep("feedback");
+            next();
           }}
         />
       ),
@@ -479,24 +479,26 @@ export const Logger = ({
             }}
             backVisible={slideIndex > 0}
             isDeleteable={isEditing}
-            onClose={() => {
+            onClose={async () => {
               if (tempLog.isDirty) {
-                askToCancel()
-                  .then(() => cancel())
-                  .catch(() => {});
+                try {
+                  await askToCancel();
+                  cancel();
+                } catch {
+                  // Keep editing when the user dismisses the prompt.
+                }
               } else {
                 cancel();
               }
             }}
-            onDelete={() => {
+            onDelete={async () => {
               if (
                 tempLog.data.message.length > 0 ||
                 tempLog.data.tags.length > 0
               ) {
-                askToRemove().then(() => remove());
-              } else {
-                remove();
+                await askToRemove();
               }
+              remove();
             }}
           />
         </View>

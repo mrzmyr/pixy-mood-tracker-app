@@ -16,7 +16,13 @@ export const EmotionPage = ({
   selectedEmotions: Emotion[];
 }) => {
   const chunks = _.chunk(emotions, 2).map((d) =>
-    d.length === 1 ? [...d, { key: "empty", label: "" } as Emotion] : d
+    d.length === 1
+      ? [
+          ...d,
+          // SAFETY: the "empty" placeholder is only rendered by EmotionButtonEmpty, which reads no Emotion fields.
+          { key: "empty", label: "" } as Emotion,
+        ]
+      : d
   );
 
   return (

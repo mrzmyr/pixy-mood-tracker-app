@@ -53,6 +53,26 @@ const EmptryState = () => {
   );
 };
 
+interface HighlightCards {
+  mood_avg_show: boolean;
+  mood_avg_type?: MoodAvgData["ratingHighestKey"];
+  mood_avg_percentage?: MoodAvgData["ratingHighestPercentage"];
+  mood_peaks_positive_show: boolean;
+  mood_peaks_positive_count?: number;
+  mood_peaks_negative_show: boolean;
+  mood_peaks_negative_count?: number;
+  tags_peaks_show: boolean;
+  tags_peaks_count?: number;
+  tags_distribution_show: boolean;
+  tags_distribution_tag_count?: number;
+  tags_distribution_item_count?: number;
+  mood_chart_show: boolean;
+  mood_chart_item_count?: number;
+  emotions_distribution_show: boolean;
+  emotions_distribution_item_count?: number;
+  sleep_quality_distribution_show: boolean;
+}
+
 export const HighlightsSection = ({ items }: { items: LogItem[] }) => {
   const colors = useColors();
   const navigation = useNavigation();
@@ -81,25 +101,7 @@ export const HighlightsSection = ({ items }: { items: LogItem[] }) => {
       return;
     }
 
-    const cards: {
-      mood_avg_show: boolean;
-      mood_avg_type?: MoodAvgData["ratingHighestKey"];
-      mood_avg_percentage?: MoodAvgData["ratingHighestPercentage"];
-      mood_peaks_positive_show: boolean;
-      mood_peaks_positive_count?: number;
-      mood_peaks_negative_show: boolean;
-      mood_peaks_negative_count?: number;
-      tags_peaks_show: boolean;
-      tags_peaks_count?: number;
-      tags_distribution_show: boolean;
-      tags_distribution_tag_count?: number;
-      tags_distribution_item_count?: number;
-      mood_chart_show: boolean;
-      mood_chart_item_count?: number;
-      emotions_distribution_show: boolean;
-      emotions_distribution_item_count?: number;
-      sleep_quality_distribution_show: boolean;
-    } = {
+    const cards: HighlightCards = {
       mood_avg_show: showMoodAvg,
       mood_peaks_positive_show: showMoodPeaksPositve,
       mood_peaks_negative_show: showMoodPeaksNegative,

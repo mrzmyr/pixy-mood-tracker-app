@@ -7,23 +7,20 @@ import { useEffect } from "react";
 import { Platform, View, useColorScheme } from "react-native";
 import * as Sentry from "@sentry/react-native";
 import type { RootStackParamList } from "../../types";
-import {
-  ColorsScreen,
-  DataScreen,
-  LogList,
-  LicensesScreen,
-  LogCreate,
-  LogEdit,
-  NotFoundScreen,
-  PrivacyScreen,
-  ReminderScreen,
-  SettingsScreen,
-  StatisticsHighlights,
-  TagCreate,
-  TagEdit,
-  SettingsTags,
-  SettingsTagsArchive,
-} from "../screens";
+import { ColorsScreen } from "../screens/Colors";
+import { DataScreen } from "../screens/Data";
+import { LogList } from "../screens/LogList";
+import { LicensesScreen } from "../screens/Licenses";
+import { LogCreate } from "../screens/Log/Create";
+import { LogEdit } from "../screens/Log/Edit";
+import { NotFoundScreen } from "../screens/NotFound";
+import { PrivacyScreen } from "../screens/Privacy";
+import { ReminderScreen } from "../screens/Reminder";
+import { SettingsScreen } from "../screens/Settings";
+import { StatisticsHighlights } from "../screens/Statistics/Highlights";
+import { TagCreate } from "../screens/TagCreate";
+import { TagEdit } from "../screens/TagEdit";
+import { SettingsTags, SettingsTagsArchive } from "../screens/Settings/Tags";
 
 import Providers from "@/components/Providers";
 import Colors from "@/constants/Colors";
@@ -89,7 +86,7 @@ export default function Navigation() {
   return (
     <NavigationContainer
       linking={NAVIGATION_LINKING}
-      // @ts-ignore
+      // @ts-expect-error Colors has no primary/card/border/notification keys; leaving them unset preserves current navigation styling.
       theme={
         scheme === "dark"
           ? {

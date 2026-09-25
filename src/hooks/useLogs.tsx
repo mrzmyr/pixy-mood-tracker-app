@@ -18,6 +18,7 @@ import { v4 as uuidv4 } from "uuid";
 import type z from "zod";
 import type { AtLeast } from "../../types";
 import { useAnalytics } from "./useAnalytics";
+import { createMissingProviderError } from "@/lib/errors";
 
 export const STORAGE_KEY = "PIXEL_TRACKER_LOGS";
 
@@ -39,9 +40,11 @@ export const SLEEP_QUALITY_MAPPING = {
   very_bad: 0,
 };
 
+// SAFETY: Object.keys of these literal constants returns exactly their declared keys.
 export const RATING_KEYS = Object.keys(
   RATING_MAPPING
 ) as (keyof typeof RATING_MAPPING)[];
+// SAFETY: Object.keys of these literal constants returns exactly their declared keys.
 export const SLEEP_QUALITY_KEYS = Object.keys(
   SLEEP_QUALITY_MAPPING
 ) as (keyof typeof SLEEP_QUALITY_MAPPING)[];
@@ -79,16 +82,18 @@ export interface UpdaterValue {
   import: (data: LogsState) => void;
 }
 
-interface StateValue extends LogsState {}
+type StateValue = LogsState;
 
-const LogStateContext = createContext<StateValue>(undefined as any);
-const LogUpdaterContext = createContext<UpdaterValue>(undefined as any);
+// SAFETY: every consumer renders inside LogsProvider, which supplies the value; the default is never read.
+const LogStateContext = createContext<StateValue>(undefined as never);
+// SAFETY: every consumer renders inside LogsProvider, which supplies the value; the default is never read.
+const LogUpdaterContext = createContext<UpdaterValue>(undefined as never);
 
 function reducer(state: LogsState, action: LogAction): LogsState {
   switch (action.type) {
     case "import": {
       return migrate({
-        ...(action.payload as LogsState),
+        ...action.payload,
         loaded: true,
       });
     }
@@ -311,7 +316,7 @@ function LogsProvider({ children }: { children: React.ReactNode }) {
 function useLogState(): StateValue {
   const context = useContext(LogStateContext);
   if (context === undefined) {
-    throw new Error("useLogState must be used within a LogsProvider");
+    throw createMissingProviderError("useLogState", "LogsProvider");
   }
   return context;
 }
@@ -319,7 +324,7 @@ function useLogState(): StateValue {
 function useLogUpdater(): UpdaterValue {
   const context = useContext(LogUpdaterContext);
   if (context === undefined) {
-    throw new Error("useLogUpdater must be used within a LogsProvider");
+    throw createMissingProviderError("useLogUpdater", "LogsProvider");
   }
   return context;
 }

@@ -8,6 +8,7 @@ import {
   useSuperwallEvents,
 } from "expo-superwall";
 import { useAnalytics } from "@/hooks/useAnalytics";
+import { createStructuredError } from "@/lib/errors";
 import type { SupportClient, SupportFlowError } from "./index";
 import { disabledSupportClient, SupportProvider } from "./index";
 
@@ -29,9 +30,8 @@ const SuperwallConsumableEvents = () => {
       if (
         Platform.OS !== "android" ||
         event.event !== "transactionComplete" ||
-        !SUPPORT_PRODUCT_IDS.includes(
-          event.product
-            .productIdentifier as (typeof SUPPORT_PRODUCT_IDS)[number]
+        !SUPPORT_PRODUCT_IDS.some(
+          (productId) => productId === event.product.productIdentifier
         )
       ) {
         return;
@@ -48,14 +48,18 @@ const SuperwallConsumableEvents = () => {
         return;
       }
 
-      void SuperwallExpoModule.consume(purchaseToken).catch(() => {
-        logSupportError({
-          status: "support_consumption_failed",
-          message: "Support purchase could not be finalized",
-          why: "Google Play could not consume the completed contribution.",
-          fix: "Try a different contribution amount or contact support.",
-        });
-      });
+      void (async () => {
+        try {
+          await SuperwallExpoModule.consume(purchaseToken);
+        } catch {
+          logSupportError({
+            status: "support_consumption_failed",
+            message: "Support purchase could not be finalized",
+            why: "Google Play could not consume the completed contribution.",
+            fix: "Try a different contribution amount or contact support.",
+          });
+        }
+      })();
     },
   });
 
@@ -84,16 +88,20 @@ const SuperwallSupportBridge = ({
       return;
     }
 
-    void setEventTrackingBehavior(
-      analytics.isEnabled ? "superwallOnly" : "none"
-    ).catch(() => {
-      logSupportError({
-        status: "support_configuration_failed",
-        message: "Support privacy setting could not be applied",
-        why: "Superwall rejected the requested event-tracking behavior.",
-        fix: "Support stays available; restart Pixy before contributing.",
-      });
-    });
+    void (async () => {
+      try {
+        await setEventTrackingBehavior(
+          analytics.isEnabled ? "superwallOnly" : "none"
+        );
+      } catch {
+        logSupportError({
+          status: "support_configuration_failed",
+          message: "Support privacy setting could not be applied",
+          why: "Superwall rejected the requested event-tracking behavior.",
+          fix: "Support stays available; restart Pixy before contributing.",
+        });
+      }
+    })();
   }, [analytics.isEnabled, isConfigured, setEventTrackingBehavior]);
 
   const client = useMemo<SupportClient>(
@@ -105,21 +113,21 @@ const SuperwallSupportBridge = ({
         try {
           await registerPlacement({ placement: SUPPORT_PLACEMENT });
         } catch {
-          throw {
+          throw createStructuredError({
             status: "support_placement_failed",
             message: "Support could not open",
             why: "Superwall could not register the support placement.",
             fix: "Check your connection and try again.",
-          } satisfies SupportFlowError;
+          }) satisfies SupportFlowError;
         }
 
         if (placementErrorRef.current !== null) {
-          throw {
+          throw createStructuredError({
             status: "support_placement_failed",
             message: "Support could not open",
             why: "Superwall could not present the support paywall.",
             fix: "Check your connection and try again.",
-          } satisfies SupportFlowError;
+          }) satisfies SupportFlowError;
         }
       },
     }),

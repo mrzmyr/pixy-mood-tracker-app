@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { isValidElement, useCallback } from "react";
 import type { TextStyle, ViewStyle } from "react-native";
 import { Pressable, Text, View } from "react-native";
 import { ChevronRight } from "react-native-feather";
@@ -18,7 +18,7 @@ export default ({
   testID,
 }: {
   title?: string | React.ReactElement;
-  onPress?: any | null;
+  onPress?: (() => void) | null;
   iconLeft?: React.ReactElement | null;
   iconRight?: React.ReactElement | null;
   children?: React.ReactNode;
@@ -30,6 +30,7 @@ export default ({
 }) => {
   const colors = useColors();
   const haptics = useHaptics();
+  const titleText = isValidElement(title) ? undefined : title;
 
   iconRight = iconRight || null;
 
@@ -61,7 +62,7 @@ export default ({
         accessible={Boolean(onPress)}
         accessibilityRole={onPress ? "button" : undefined}
         accessibilityLabel={
-          onPress && typeof title === "string" ? title : undefined
+          onPress && titleText !== undefined ? titleText : undefined
         }
         style={({ pressed }) => [
           {
@@ -89,7 +90,9 @@ export default ({
             {iconLeft && (
               <View style={{ marginRight: 15, flexShrink: 0 }}>{iconLeft}</View>
             )}
-            {typeof title === "string" ? (
+            {titleText === undefined ? (
+              <View style={{ flex: 1, minWidth: 0 }}>{title}</View>
+            ) : (
               <Text
                 style={{
                   flex: 1,
@@ -99,10 +102,8 @@ export default ({
                 }}
                 numberOfLines={1}
               >
-                {title}
+                {titleText}
               </Text>
-            ) : (
-              <View style={{ flex: 1, minWidth: 0 }}>{title}</View>
             )}
           </View>
         )}

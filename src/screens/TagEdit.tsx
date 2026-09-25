@@ -44,13 +44,13 @@ export const TagEdit = ({
   const analytics = useAnalytics();
 
   const tagExists = tagState.tags.find((tag) => tag.id === route.params.id);
-  const defaultTag = tagExists
+  const defaultTag: ITag = tagExists
     ? tagExists
-    : ({
+    : {
         id: uuidv4(),
         title: "",
         color: "slate",
-      } as ITag);
+      };
 
   const [tag, setTag] = useState(tagExists ? tagExists : defaultTag);
 

@@ -41,7 +41,7 @@ const testImportData: ImportData = {
 };
 
 describe("MigrationHelper", () => {
-  test("should `migrateImportData`", async () => {
+  test("should `migrateImportData`", () => {
     const newData = migrateImportData(testImportData);
 
     expect(newData).toEqual({
@@ -50,7 +50,7 @@ describe("MigrationHelper", () => {
     });
   });
 
-  test("migrate `tags` in `settings`", async () => {
+  test("migrate `tags` in `settings`", () => {
     const items = {
       "2022-01-01": _generateItem({
         date: "2022-01-01",
@@ -100,7 +100,7 @@ describe("MigrationHelper", () => {
     });
   });
 
-  test("should `migrateImportData` from settings tags", async () => {
+  test("should `migrateImportData` from settings tags", () => {
     const newData = migrateImportData(
       _.omit(
         {
