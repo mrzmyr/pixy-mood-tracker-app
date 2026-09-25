@@ -56,6 +56,11 @@ Structured errors must include:
 
 The fields must be specific enough for an operator or developer to understand what happened, why it happened, and what action resolves it.
 
+- `status` is a stable machine-readable status or error code.
+- Preserve all four fields when wrapping or rethrowing errors.
+- Never put secrets or personal data in these fields.
+- Follow the [evlog structured error pattern](https://www.evlog.dev/).
+
 ✅ Use
 
 ```ts
