@@ -98,7 +98,7 @@ export const MyTabBar = ({ state, descriptors, navigation }) => {
             accessibilityRole="button"
             accessibilityState={accessibilityState}
             accessibilityLabel={options.tabBarAccessibilityLabel}
-            testID={options.tabBarTestID}
+            testID={options.tabBarButtonTestID}
             onPress={_onPress}
             style={{
               flex: 1,
