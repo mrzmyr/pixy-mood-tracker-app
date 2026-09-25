@@ -7,7 +7,7 @@ import useFeedbackModal from "../../hooks/useFeedbackModal";
 export const FeedbackBox = ({
   prefix,
   style = {},
-  emoji = '',
+  emoji = "",
 }: {
   prefix: string;
   style?: ViewStyle;
@@ -17,10 +17,7 @@ export const FeedbackBox = ({
   const { show: showFeedbackModal, Modal: FeedbackModal } = useFeedbackModal();
 
   return (
-    <View
-      style={{
-      }}
-    >
+    <View style={{}}>
       <View
         style={{
           marginBottom: 24,
@@ -34,21 +31,30 @@ export const FeedbackBox = ({
         }}
       >
         <FeedbackModal />
-        <Text style={{
-          fontSize: 17,
-          marginBottom: 8,
-          fontWeight: 'bold',
-          color: colors.text
-        }}>{emoji ? `${emoji} ` : ''}{t(`${prefix}_title`)}</Text>
-        <Text style={{
-          fontSize: 17,
-          marginBottom: 16,
-          lineHeight: 24,
-          color: colors.textSecondary
-        }}>{t(`${prefix}_body`)}</Text>
+        <Text
+          style={{
+            fontSize: 17,
+            marginBottom: 8,
+            fontWeight: "bold",
+            color: colors.text,
+          }}
+        >
+          {emoji ? `${emoji} ` : ""}
+          {t(`${prefix}_title`)}
+        </Text>
+        <Text
+          style={{
+            fontSize: 17,
+            marginBottom: 16,
+            lineHeight: 24,
+            color: colors.textSecondary,
+          }}
+        >
+          {t(`${prefix}_body`)}
+        </Text>
         <View
           style={{
-            flexWrap: 'wrap',
+            flexWrap: "wrap",
             marginHorizontal: -20,
             paddingHorizontal: 12,
             marginBottom: -16,
@@ -61,9 +67,11 @@ export const FeedbackBox = ({
           <LinkButton
             style={{}}
             onPress={() => {
-              showFeedbackModal({ type: 'idea' });
+              showFeedbackModal({ type: "idea" });
             }}
-          >{t(`give_feedback`)}</LinkButton>
+          >
+            {t(`give_feedback`)}
+          </LinkButton>
         </View>
       </View>
     </View>

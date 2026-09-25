@@ -24,18 +24,15 @@ export const SectionHeader = ({
         <Text
           style={{
             fontSize: 17,
-            fontWeight: 'bold',
-            color: colors.text
+            fontWeight: "bold",
+            color: colors.text,
           }}
         >
           {title}
         </Text>
       </View>
       {onEdit && (
-        <LinkButton
-          onPress={onEdit}
-          type="secondary"
-        >
+        <LinkButton onPress={onEdit} type="secondary">
           <Edit size={20} color={colors.textSecondary} />
         </LinkButton>
       )}

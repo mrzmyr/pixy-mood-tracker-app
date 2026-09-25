@@ -1,10 +1,10 @@
-import useColors from '@/hooks/useColors';
-import { LogItem } from '@/hooks/useLogs';
-import { useTagsState } from '@/hooks/useTags';
-import { useNavigation } from '@react-navigation/native';
-import { t } from 'i18n-js';
-import { Text, View, useColorScheme } from 'react-native';
-import { SectionHeader } from './SectionHeader';
+import useColors from "@/hooks/useColors";
+import { LogItem } from "@/hooks/useLogs";
+import { useTagsState } from "@/hooks/useTags";
+import { useNavigation } from "@react-navigation/native";
+import { t } from "i18n-js";
+import { Text, View, useColorScheme } from "react-native";
+import { SectionHeader } from "./SectionHeader";
 
 const Tag = ({
   title,
@@ -21,14 +21,15 @@ const Tag = ({
   return (
     <View
       style={{
-        justifyContent: 'center',
-        alignItems: 'center',
-        flexDirection: 'row',
+        justifyContent: "center",
+        alignItems: "center",
+        flexDirection: "row",
         borderRadius: 100,
         marginRight: 8,
         marginBottom: 8,
         backgroundColor: colors.tagBackground,
-        borderColor: colorScheme === 'light' ? 'rgba(0,0,0,0.1)' : 'rgba(255,255,255,0.1)',
+        borderColor:
+          colorScheme === "light" ? "rgba(0,0,0,0.1)" : "rgba(255,255,255,0.1)",
         borderWidth: 1,
         paddingHorizontal: 12,
         paddingVertical: 6,
@@ -44,61 +45,59 @@ const Tag = ({
           backgroundColor: colors.tags[colorName]?.dot,
         }}
       />
-      <Text style={{
-        color: colors.tagText,
-        fontSize: 17,
-      }}>{title}</Text>
+      <Text
+        style={{
+          color: colors.tagText,
+          fontSize: 17,
+        }}
+      >
+        {title}
+      </Text>
     </View>
-  )
+  );
 };
 
-export const Tags = ({
-  item,
-}: {
-  item: LogItem;
-}) => {
+export const Tags = ({ item }: { item: LogItem }) => {
   const colors = useColors();
   const { tags } = useTagsState();
   const navigation = useNavigation();
 
   return (
-    <View
-      style={{
-      }}
-    >
+    <View style={{}}>
       <SectionHeader
-        title={t('tags')}
+        title={t("tags")}
         onEdit={() => {
-          navigation.navigate('LogEdit', {
+          navigation.navigate("LogEdit", {
             id: item.id,
-            step: 'tags',
+            step: "tags",
           });
         }}
       />
       <View
         style={{
-          flexDirection: 'row',
-          flexWrap: 'wrap',
+          flexDirection: "row",
+          flexWrap: "wrap",
         }}
       >
-        {item && item.tags.length > 0 ? item.tags.map(tag => {
-          const _tag = tags.find(t => t.id === tag.id);
+        {item && item.tags.length > 0 ? (
+          item.tags.map((tag) => {
+            const _tag = tags.find((t) => t.id === tag.id);
 
-          if (!_tag)
-            return null;
+            if (!_tag) return null;
 
-          return (
-            <Tag
-              key={tag.id}
-              title={_tag.title}
-              colorName={_tag.color}
-              style={{
-                backgroundColor: colors.entryBackground,
-                borderColor: colors.entryItemBorder,
-              }}
-            />
-          );
-        }) : (
+            return (
+              <Tag
+                key={tag.id}
+                title={_tag.title}
+                colorName={_tag.color}
+                style={{
+                  backgroundColor: colors.entryBackground,
+                  borderColor: colors.entryItemBorder,
+                }}
+              />
+            );
+          })
+        ) : (
           <View
             style={{
               paddingTop: 4,
@@ -106,7 +105,9 @@ export const Tags = ({
               paddingHorizontal: 8,
             }}
           >
-            <Text style={{ color: colors.textSecondary, fontSize: 17 }}>{t('view_log_tags_empty')}</Text>
+            <Text style={{ color: colors.textSecondary, fontSize: 17 }}>
+              {t("view_log_tags_empty")}
+            </Text>
           </View>
         )}
       </View>
