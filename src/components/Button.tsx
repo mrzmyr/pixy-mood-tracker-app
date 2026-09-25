@@ -1,6 +1,6 @@
 import isString from "lodash/isString";
 import type { ViewStyle } from "react-native";
-import { ActivityIndicator, Pressable, Text, View } from "react-native";
+import { Pressable, Text, View } from "react-native";
 import useColors from "@/hooks/useColors";
 import useHaptics from "@/hooks/useHaptics";
 
@@ -21,7 +21,6 @@ const Button = ({
   icon,
   testID,
   onPress,
-  isLoading = false,
   disabled = false,
   children,
   style = DEFAULT_STYLE,
@@ -29,7 +28,6 @@ const Button = ({
   type?: "primary" | "secondary" | "danger" | "tertiary";
   icon?: React.ReactNode;
   testID?: string;
-  isLoading?: boolean;
   disabled?: boolean;
   children: React.ReactNode;
   style?: ViewStyle;
@@ -98,28 +96,20 @@ const Button = ({
       testID={testID}
       accessibilityRole="button"
     >
-      {isLoading ? (
-        <ActivityIndicator color={buttonColors.text} size="small" />
+      {icon && <View style={{ marginRight: children ? 8 : 0 }}>{icon}</View>}
+      {isString(children) ? (
+        <Text
+          style={{
+            fontSize: 17,
+            color: disabled ? buttonColors.disabledText : buttonColors.text,
+            fontWeight: "600",
+          }}
+          numberOfLines={1}
+        >
+          {children}
+        </Text>
       ) : (
-        <>
-          {icon && (
-            <View style={{ marginRight: children ? 8 : 0 }}>{icon}</View>
-          )}
-          {isString(children) ? (
-            <Text
-              style={{
-                fontSize: 17,
-                color: disabled ? buttonColors.disabledText : buttonColors.text,
-                fontWeight: "600",
-              }}
-              numberOfLines={1}
-            >
-              {children}
-            </Text>
-          ) : (
-            children
-          )}
-        </>
+        children
       )}
     </Pressable>
   );

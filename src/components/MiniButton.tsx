@@ -1,51 +1,17 @@
 import useColors from "@/hooks/useColors";
 import useHaptics from "@/hooks/useHaptics";
-import type { ViewStyle } from "react-native";
 import { Pressable, Text } from "react-native";
-
-const DEFAULT_STYLE = {};
 
 /** Small pill button that plays selection haptics before `onPress`. */
 export const MiniButton = ({
   onPress,
   children,
-  icon,
-  style = DEFAULT_STYLE,
-  variant = "primary",
 }: {
   onPress: () => void;
   children: React.ReactNode;
-  icon?: React.ReactNode;
-  style?: ViewStyle;
-  variant?: "primary" | "secondary" | "tertiary";
 }) => {
   const colors = useColors();
   const haptics = useHaptics();
-
-  const buttonColors = {
-    primary: {
-      background: colors.primaryButtonBackground,
-      text: colors.primaryButtonText,
-      border: colors.primaryButtonBorder,
-      disabledBackground: colors.primaryButtonBackgroundDisabled,
-      disabledText: colors.primaryButtonTextDisabled,
-      disabledBorder: colors.primaryButtonBorderDisabled,
-    },
-    secondary: {
-      background: colors.secondaryButtonBackground,
-      text: colors.secondaryButtonText,
-      border: colors.secondaryButtonBorder,
-      disabledBorder: colors.secondaryButtonBorderDisabled,
-      disabledBackground: colors.secondaryButtonBackgroundDisabled,
-      disabledText: colors.secondaryButtonTextDisabled,
-    },
-    tertiary: {
-      background: colors.tertiaryButtonBackground,
-      text: colors.tertiaryButtonText,
-      border: colors.tertiaryButtonBorder,
-      disabledBorder: colors.tertiaryButtonBorderDisabled,
-    },
-  }[variant];
 
   return (
     <Pressable
@@ -59,11 +25,10 @@ export const MiniButton = ({
           alignItems: "center",
           flexDirection: "row",
           borderRadius: 100,
-          backgroundColor: buttonColors.background,
+          backgroundColor: colors.primaryButtonBackground,
           opacity: pressed ? 0.8 : 1,
           marginRight: 8,
           marginBottom: 8,
-          ...style,
         },
       ]}
       onPress={async () => {
@@ -73,10 +38,9 @@ export const MiniButton = ({
       testID="log-tags-edit"
       accessibilityRole="button"
     >
-      {icon}
       <Text
         style={{
-          color: buttonColors.text,
+          color: colors.primaryButtonText,
           fontSize: 17,
           fontWeight: "500",
         }}

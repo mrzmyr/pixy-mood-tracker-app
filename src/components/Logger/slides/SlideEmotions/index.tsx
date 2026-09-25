@@ -54,13 +54,11 @@ export const SlideEmotions = ({
   onDisableStep = noop,
   onChange,
   showDisable,
-  showFooter = true,
 }: {
   defaultIndex?: number;
   onDisableStep?: () => void;
   onChange: (emotions: Emotion[]) => void;
   showDisable: boolean;
-  showFooter?: boolean;
 }) => {
   const colors = useColors();
   const marginTop = getLogEditMarginTop();
@@ -222,25 +220,23 @@ export const SlideEmotions = ({
             />
           )}
         </View>
-        {showFooter && (
-          <Footer
-            style={{
-              marginHorizontal: 16,
-            }}
-          >
-            {showDisable && (
-              <LinkButton
-                type="secondary"
-                onPress={onDisableStep}
-                style={{
-                  fontWeight: "400",
-                }}
-              >
-                {t("log_emotions_disable")}
-              </LinkButton>
-            )}
-          </Footer>
-        )}
+        <Footer
+          style={{
+            marginHorizontal: 16,
+          }}
+        >
+          {showDisable && (
+            <LinkButton
+              type="secondary"
+              onPress={onDisableStep}
+              style={{
+                fontWeight: "400",
+              }}
+            >
+              {t("log_emotions_disable")}
+            </LinkButton>
+          )}
+        </Footer>
       </View>
     </View>
   );
