@@ -4,6 +4,11 @@ import { RATING_KEYS } from "@/constants/Ratings";
 import type { SettingsState } from "./useSettings";
 import { useSettings } from "./useSettings";
 
+/**
+ * Mood colors for the user's scale, or for `type` when given.
+ *
+ * Only rating keys are filled; `colors.empty` is not set.
+ */
 export default function useScale(type?: SettingsState["scaleType"]) {
   const colors = useColors();
   const { settings } = useSettings();

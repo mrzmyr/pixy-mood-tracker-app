@@ -4,6 +4,12 @@ import { getLogDays } from "@/lib/utils";
 
 const MOOD_GROUPS = ["negative", "neutral", "positive"] as const;
 
+/**
+ * Mood balance for the statistics mood average card.
+ *
+ * `ratingHighestKey` is counted over day averages; `distribution` counts
+ * single entries, ordered worst to best.
+ */
 export interface MoodAvgData {
   ratingHighestKey: (typeof MOOD_GROUPS)[number];
   ratingHighestPercentage: number;
@@ -14,6 +20,7 @@ export interface MoodAvgData {
   itemsCount: number;
 }
 
+/** Empty state before statistics load. */
 export const defaultMoodAvgData: MoodAvgData = {
   ratingHighestKey: "neutral",
   ratingHighestPercentage: 0,
@@ -21,6 +28,12 @@ export const defaultMoodAvgData: MoodAvgData = {
   distribution: [],
 };
 
+/**
+ * Compute the dominant mood group and rating distribution.
+ *
+ * Ties go to the more positive group. `ratingHighestPercentage` is `NaN`
+ * when `items` is empty.
+ */
 export const getMoodAvgData = (items: LogItem[]): MoodAvgData => {
   const keys: LogItem["rating"][] = RATING_KEYS.toReversed();
 

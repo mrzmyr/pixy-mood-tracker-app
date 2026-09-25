@@ -1,6 +1,12 @@
 import { uniqueId } from "lodash";
 import type { LogItem } from "../hooks/useLogs";
 
+/**
+ * Build a complete {@link LogItem} for tests from a partial override.
+ *
+ * When only `date` is given, `dateTime` and `createdAt` derive from it so
+ * the item lands on that day. The `id` is unique per test process only.
+ */
 export const _generateItem = (item: Partial<LogItem>): LogItem => {
   const newItem: LogItem = {
     id: uniqueId(),

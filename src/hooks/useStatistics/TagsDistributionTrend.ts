@@ -11,10 +11,12 @@ interface DistributionTag extends Tag {
   type: "increase" | "decrease" | "same";
 }
 
+/** Tags whose usage changed between the older and newer 4-week period. */
 export interface TagsDistributionTrendData {
   tags: DistributionTag[];
 }
 
+/** Empty state before statistics load. */
 export const defaultTagsDistributionTrendData: TagsDistributionTrendData = {
   tags: [],
 };
@@ -41,6 +43,13 @@ const getTrendType = (
 const SCALE_TYPE = "week";
 const SCALE_RANGE = 8;
 
+/**
+ * Compare tag usage over the last 8 weeks.
+ *
+ * Only tags used in both periods with a difference above 3 are returned.
+ * Every tag on an entry from the last 8 weeks must exist in `tags`,
+ * otherwise the count lookup throws.
+ */
 export const getTagsDistributionTrendData = (
   items: LogItem[],
   tags: Tag[]

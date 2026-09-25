@@ -1,3 +1,4 @@
+/** Tailwind CSS color palette, used for tag colors and UI accents. */
 export default {
   inherit: "inherit",
   current: "currentColor",

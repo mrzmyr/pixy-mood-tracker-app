@@ -24,6 +24,10 @@ import { useContentStableValue } from "./useContentStableValue";
 
 type KnownSettingsStep = ConfigurableLoggerStep | "sleep";
 
+/**
+ * AsyncStorage key for settings. Keep the legacy name; changing it resets
+ * every user's settings.
+ */
 export const STORAGE_KEY = "PIXEL_TRACKER_SETTINGS";
 
 const SCALE_TYPES = [
@@ -33,8 +37,13 @@ const SCALE_TYPES = [
   "ColorBrew-BrBG",
 ];
 
-// ATTENTION: If you change the settings state, you need to update
-// the export variables also in the DataGate
+/**
+ * Persisted user settings.
+ *
+ * When changing this shape, update the export data in `useDatagate` too.
+ * `tags` exists only in legacy data; `TagsProvider` moves it into the tags
+ * store on load. `trackBehaviour` is legacy and unused.
+ */
 export interface SettingsState {
   loaded: boolean;
   deviceId: string | null;
@@ -54,6 +63,10 @@ export interface SettingsState {
   tags?: Tag[];
 }
 
+/**
+ * Settings included in data exports. The device id is excluded so an import
+ * never clones another device's identity.
+ */
 export type ExportSettings = Omit<SettingsState, "loaded" | "deviceId">;
 
 interface IAction {

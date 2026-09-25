@@ -262,6 +262,10 @@ const light = {
   palette: colors,
 };
 
+/**
+ * Theme colors passed to `NavigationContainer` and read via `useColors`.
+ * Light and dark themes must define the same keys.
+ */
 export type IColors = typeof light & {
   scales: typeof scales.light;
   tags: typeof tagsLight;
@@ -491,6 +495,10 @@ const dark: IColors & {
   palette: colors,
 };
 
+/**
+ * Light and dark themes; the navigator picks one from the system color
+ * scheme.
+ */
 export default {
   light,
   dark,

@@ -6,6 +6,10 @@ import react from "ultracite/oxlint/react";
 
 const jsPlugins = selectJsPlugins(["react-doctor"]);
 
+/**
+ * Oxlint config: Ultracite presets plus the local `pixy-standards` rules
+ * from `tools/oxlint/pixy-rules.cjs`.
+ */
 export default defineConfig({
   extends: [core, react, antiSlop, jsPlugins],
   ignorePatterns: [

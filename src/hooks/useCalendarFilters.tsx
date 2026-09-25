@@ -19,6 +19,13 @@ interface FiltersData {
   tagIds: Tag["id"][];
 }
 
+/**
+ * Active calendar filters and their result.
+ *
+ * `filteredItems` is a snapshot taken when the filters are set; it does not
+ * update when logs change until the filters are set again. Selected tags
+ * must all be present on an entry for it to match.
+ */
 export interface CalendarFiltersData extends FiltersData {
   filteredItems: LogItem[];
   filterCount: number;

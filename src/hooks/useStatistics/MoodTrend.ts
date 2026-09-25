@@ -7,6 +7,14 @@ interface PeriodDataPoint {
   value: number;
 }
 
+/**
+ * Mood trend comparing two consecutive periods of {@link SCALE_RANGE} / 2
+ * weeks.
+ *
+ * Period 1 is the older half, period 2 ends with the current week. Both
+ * point lists run newest first. `status` is `"declined"` when averages are
+ * equal.
+ */
 export interface MoodTrendData {
   avgPeriod1: number;
   avgPeriod2: number;
@@ -17,6 +25,7 @@ export interface MoodTrendData {
   items: (LogItem & { value: number })[];
 }
 
+/** Empty state before statistics load. */
 export const defaultMoodTrendData: MoodTrendData = {
   avgPeriod1: 0,
   avgPeriod2: 0,
@@ -27,10 +36,18 @@ export const defaultMoodTrendData: MoodTrendData = {
   items: [],
 };
 
+/** dayjs unit of one trend bucket; also shown in the trend card label. */
 export const SCALE_TYPE = "week";
+/** Number of {@link SCALE_TYPE} buckets across both periods; must be even. */
 export const SCALE_RANGE = 24;
 const DEFAULT_WEEK_AVG = 3;
 
+/**
+ * Compute weekly rating averages for the trend card.
+ *
+ * Weeks without entries count as neutral (3), which pulls sparse periods
+ * toward the middle.
+ */
 export const getMoodTrendData = (items: LogItem[]): MoodTrendData => {
   const ratingsPeriode1: PeriodDataPoint[] = [];
   const ratingsPeriode2: PeriodDataPoint[] = [];

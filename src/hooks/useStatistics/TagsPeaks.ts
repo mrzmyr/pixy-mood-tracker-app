@@ -2,6 +2,7 @@ import countBy from "lodash/countBy";
 import type { LogItem } from "../useLogs";
 import type { Tag } from "../useTags";
 
+/** Tags used at least 3 times, each with the entries that use it. */
 export interface TagsPeakData {
   tags: (Tag & {
     items: LogItem[];
@@ -10,6 +11,10 @@ export interface TagsPeakData {
 
 const MIN_PEAKS = 3;
 
+/**
+ * Find frequently used tags. Tags that are archived or missing from
+ * `settingsTags` are dropped.
+ */
 export const getTagsPeaksData = (
   items: LogItem[],
   settingsTags: Tag[]

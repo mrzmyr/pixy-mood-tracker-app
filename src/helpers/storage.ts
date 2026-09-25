@@ -48,6 +48,12 @@ const captureStorageError = (error: StorageError, key: string) => {
   }
 };
 
+/**
+ * Persist `state` as JSON under `key`.
+ *
+ * Never rejects: write failures are only reported to Sentry, so callers
+ * cannot detect a failed save.
+ */
 export const store = async <State>(key: string, state: State) => {
   try {
     await AsyncStorage.setItem(key, JSON.stringify(state));
@@ -118,10 +124,15 @@ const reportLoadError = (
   }
 };
 
-// Returns `null` only when no data exists for `key`. Read or parse failures
-// throw, so callers can tell "no data yet" apart from "data exists but could
-// not be loaded" — treating a failed load as empty state must never overwrite
-// the stored data.
+/**
+ * Read and parse the JSON value stored under `key`.
+ *
+ * Returns `null` only when no data exists for `key`. Read or parse failures
+ * throw a `StorageError` (`storage_read_failed` or `storage_invalid_value`),
+ * so callers can tell "no data yet" apart from "data exists but could not be
+ * loaded". Treating a failed load as empty state must never overwrite the
+ * stored data.
+ */
 export const load = async <ReturnValue>(
   key: string,
   feedback?: StorageFeedback

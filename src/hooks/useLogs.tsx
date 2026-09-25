@@ -26,10 +26,20 @@ import { useAnalytics } from "./useAnalytics";
 import { useContentStableValue } from "./useContentStableValue";
 import { createMissingProviderError } from "@/lib/errors";
 
+/**
+ * AsyncStorage key for logs. Keep the legacy name; changing it orphans all
+ * stored entries.
+ */
 export const STORAGE_KEY = "PIXEL_TRACKER_LOGS";
 
+/** A single mood entry as stored and exported. */
 export type LogItem = z.infer<typeof LogItemSchema>;
 
+/**
+ * Entries grouped into one local calendar day with day averages.
+ *
+ * `date` uses `DATE_FORMAT`; `ratingAvg` is the rounded mean rating.
+ */
 export interface LogDay {
   date: string;
   items: LogItem[];
@@ -37,6 +47,10 @@ export interface LogDay {
   sleepQualityAvg: number | null;
 }
 
+/**
+ * Logs store state. `loaded` stays `false` until storage is read; nothing
+ * is persisted before that.
+ */
 export interface LogsState {
   loaded?: boolean;
   items: LogItem[];
@@ -51,6 +65,13 @@ type LogAction =
   | { type: "removeTag"; payload: string }
   | { type: "reset"; payload: LogsState };
 
+/**
+ * Mutations for the logs store from `useLogUpdater`.
+ *
+ * `editLog` shallow-merges into the entry with the same `id` and ignores
+ * unknown ids. `updateLogs` replaces all entries. `import` also migrates
+ * legacy data (keyed items, missing ids, tags, or emotions).
+ */
 export interface UpdaterValue {
   addLog: (item: LogItem) => void;
   editLog: (item: Partial<LogItem>) => void;

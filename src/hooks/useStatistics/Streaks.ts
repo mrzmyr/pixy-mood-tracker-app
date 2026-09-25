@@ -4,13 +4,20 @@ import sortBy from "lodash/sortBy";
 import type { LogItem } from "../useLogs";
 import { getLogDays } from "@/lib/utils";
 
+/** Empty state before statistics load; also defines {@link StreaksData}. */
 export const defaultStreaksData = {
   longest: 0,
   current: 0,
 };
 
+/** Streak lengths in consecutive local calendar days. */
 export type StreaksData = typeof defaultStreaksData;
 
+/**
+ * Consecutive days with entries, counting back from today.
+ *
+ * Returns 0 when today has no entry yet, even if yesterday had one.
+ */
 export const getCurrentStreak = (items: LogItem[]) => {
   const dayLogs = getLogDays(items);
   const itemsSorted = sortBy(dayLogs, (log) => log.date);
@@ -33,6 +40,7 @@ export const getCurrentStreak = (items: LogItem[]) => {
   return currentStreak;
 };
 
+/** Longest run of consecutive days with entries; 0 for no entries. */
 export const getLongestStreak = (items: LogItem[]) => {
   const dayLogs = getLogDays(items);
   const itemsSorted = sortBy(dayLogs, (log) => log.date);

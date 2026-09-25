@@ -40,6 +40,12 @@ const anonymizeDay = (day: LogDay): AnonmizedLogDay => ({
   items: day.items.map(anonymizeItem),
 });
 
+/**
+ * Strip user-written text from tags and entries before they reach analytics.
+ *
+ * Titles and messages are replaced by their lengths; every other field,
+ * including emotion keys, passes through unchanged.
+ */
 export const useAnonymizer = () => ({
   anonymizeTag,
   anonymizeItem,
