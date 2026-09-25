@@ -14,6 +14,7 @@ import { CalendarFooter } from "./CalendarFooter";
 import CalendarHeader from "./CalendarHeader";
 import { ScrollToBottomButton } from "./ScrollToBottomButton";
 import { t } from "@/helpers/translation";
+import { ObserveInteractiveMarker } from "expo-observe";
 
 const CalendarScreenComponent = () => {
   const colors = useColors();
@@ -82,6 +83,7 @@ const CalendarScreenComponent = () => {
         />
       </View>
       {Platform.OS !== "web" && <CalendarBottomSheet />}
+      <ObserveInteractiveMarker />
     </View>
   );
 };
