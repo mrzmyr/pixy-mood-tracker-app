@@ -9,7 +9,7 @@ import { DATE_FORMAT } from "@/constants/Config";
 const DEFAULT_MONTH_COUNT = 12;
 
 const Calendar = memo(
-  forwardRef(function Calendar({}, ref: React.RefObject<View>) {
+  forwardRef(({}, ref: React.RefObject<View>) => {
     const logState = useLogState();
     const monthDates = useMemo(() => {
       const defaultStart = dayjs()
@@ -18,7 +18,9 @@ const Calendar = memo(
       const earliestItemDate = logState.items.reduce<dayjs.Dayjs | null>(
         (earliest, item) => {
           const date = dayjs(item.dateTime || item.date);
-          if (!date.isValid()) return earliest;
+          if (!date.isValid()) {
+            return earliest;
+          }
           return earliest === null || date.isBefore(earliest) ? date : earliest;
         },
         null

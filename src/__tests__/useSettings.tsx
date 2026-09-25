@@ -12,14 +12,13 @@ const wrapper = ({ children }) => (
   <SettingsProvider>{children}</SettingsProvider>
 );
 
-const _renderHook = () => {
-  return renderHook(
+const _renderHook = () =>
+  renderHook(
     () => ({
       state: useSettings(),
     }),
     { wrapper }
   );
-};
 
 const waitForLoaded = (hook) =>
   waitFor(() => {

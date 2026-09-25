@@ -32,9 +32,7 @@ export type Emotion = z.infer<typeof EmotionSchema>;
 export const LogItemSchema = z.object({
   id: z.string().uuid(),
   date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
-  dateTime: z.string().refine((value) => {
-    return isISODate(value);
-  }),
+  dateTime: z.string().refine((value) => isISODate(value)),
   rating: z.enum([
     "extremely_good",
     "very_good",
@@ -48,9 +46,7 @@ export const LogItemSchema = z.object({
     quality: z.enum(["very_good", "good", "neutral", "bad", "very_bad"]),
   }),
   message: z.string(),
-  createdAt: z.string().refine((value) => {
-    return isISODate(value);
-  }),
+  createdAt: z.string().refine((value) => isISODate(value)),
   tags: z.array(TagReferenceSchema),
   emotions: z.array(EmotionKeySchema),
 });

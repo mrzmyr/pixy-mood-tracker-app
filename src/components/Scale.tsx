@@ -14,7 +14,7 @@ export default function Scale({
   value?: LogItem["rating"] | LogItem["rating"][];
   onPress?: any;
 }) {
-  let { colors, labels } = useScale(type);
+  const { colors, labels } = useScale(type);
   const _labels = labels.slice().reverse();
   const haptics = useHaptics();
 

@@ -124,7 +124,7 @@ async function readCredential({ pathEnv, missingMessage, fix }) {
     });
   }
   try {
-    return await readFile(filePath, "utf8");
+    return await readFile(filePath, "utf-8");
   } catch {
     fail({
       status: 2,
@@ -148,7 +148,7 @@ async function createAppleToken() {
     });
   }
   try {
-    const privateKey = await readFile(keyPath, "utf8");
+    const privateKey = await readFile(keyPath, "utf-8");
     const now = Math.floor(Date.now() / 1000);
     const unsigned = `${encodeBase64Url(JSON.stringify({ alg: "ES256", kid: keyId, typ: "JWT" }))}.${encodeBase64Url(JSON.stringify({ iss: issuer, iat: now, exp: now + 15 * 60, aud: "appstoreconnect-v1" }))}`;
     const signer = createSign("SHA256");
@@ -431,7 +431,7 @@ function printTable(reviews) {
     if (review.title) {
       process.stdout.write(`${review.title}\n`);
     }
-    process.stdout.write(`${review.text.replace(/\s+/g, " ").trim()}\n\n`);
+    process.stdout.write(`${review.text.replaceAll(/\s+/g, " ").trim()}\n\n`);
   }
 }
 
@@ -463,7 +463,7 @@ export async function main(argv = process.argv.slice(2)) {
           }
           return { store, reviews };
         } catch (error) {
-          let details = error.details;
+          let { details } = error;
           if (!details) {
             details = {
               status: 1,
@@ -494,8 +494,9 @@ export async function main(argv = process.argv.slice(2)) {
       );
     } else {
       printTable(all);
-      for (const error of errors)
+      for (const error of errors) {
         process.stderr.write(`${JSON.stringify(error)}\n`);
+      }
       if (stores.includes("play")) {
         process.stderr.write(
           `Note: ${PLAY_REVIEW_LIMITATION} Use Play Console's CSV export for older reviews.\n`
@@ -507,7 +508,7 @@ export async function main(argv = process.argv.slice(2)) {
     }
     return 0;
   } catch (error) {
-    let details = error.details;
+    let { details } = error;
     if (!details) {
       details = {
         status: 1,

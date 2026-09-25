@@ -54,7 +54,9 @@ export const useQuestioner = () => {
     return fetch(QUESTIONS_PULL_URL)
       .then((response) => response.json())
       .then((data) => {
-        if (!data) return null;
+        if (!data) {
+          return null;
+        }
 
         const question = data.find((question: IQuestion) => {
           const satisfiesVersion = question.appVersion
@@ -65,31 +67,32 @@ export const useQuestioner = () => {
           );
           const isInMyLanguage = question.text[language] !== undefined;
 
-          if (!satisfiesVersion)
+          if (!satisfiesVersion) {
             console.log(
               "Question not shown because version does not match",
               question.appVersion,
               pkg.version
             );
-          if (hasBeenAnswered)
+          }
+          if (hasBeenAnswered) {
             console.log(
               "Question not shown because it has been answered",
               question.id
             );
-          if (!isInMyLanguage)
+          }
+          if (!isInMyLanguage) {
             console.log(
               "Question not shown because it is not in my language",
               question.text
             );
+          }
 
           return satisfiesVersion && !hasBeenAnswered && isInMyLanguage;
         });
 
         return question || null;
       })
-      .catch((error) => {
-        return null;
-      });
+      .catch((error) => null);
   };
 
   const submit = (question: IQuestion, answers: IQuestion["answers"]) => {
@@ -110,7 +113,7 @@ export const useQuestioner = () => {
       .join(", ");
 
     const metaData = {
-      locale: locale,
+      locale,
       version: pkg.version,
       os: Platform.OS,
       deviceId: settings.deviceId,

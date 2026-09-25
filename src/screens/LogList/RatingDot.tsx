@@ -17,7 +17,7 @@ export const RatingDot = ({ rating }: { rating: LogItem["rating"] }) => {
         alignItems: "center",
         padding: 4,
         borderRadius: 6,
-        backgroundColor: backgroundColor,
+        backgroundColor,
         width: 32,
         aspectRatio: 1,
       }}

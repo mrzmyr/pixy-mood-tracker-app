@@ -139,7 +139,7 @@ export const CardFeedback = ({
 
     const metaData = {
       date: new Date().toISOString(),
-      locale: locale,
+      locale,
       version: pkg.version,
       os: Platform.OS,
       deviceId: __DEV__ ? "__DEV__" : settings.deviceId,
@@ -167,7 +167,9 @@ export const CardFeedback = ({
   };
 
   const handleFeedback = async (emoji) => {
-    if (loading) return;
+    if (loading) {
+      return;
+    }
 
     setEmojiSelected(emoji);
 
@@ -232,9 +234,9 @@ export const CardFeedback = ({
                 paddingBottom: 8,
               }}
             >
-              {!feedbackSent
-                ? t("statistics_feedback_question")
-                : `🫶 ${t("statistics_feedback_thanks")}`}
+              {feedbackSent
+                ? `🫶 ${t("statistics_feedback_thanks")}`
+                : t("statistics_feedback_question")}
             </Text>
           </>
         )}
@@ -247,7 +249,7 @@ export const CardFeedback = ({
               marginBottom: 8,
             }}
           >
-            <ActivityIndicator size={"small"} color={colors.loadingIndicator} />
+            <ActivityIndicator size="small" color={colors.loadingIndicator} />
           </View>
         )}
         {!feedbackSent && (

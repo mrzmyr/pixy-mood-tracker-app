@@ -53,7 +53,9 @@ const DayDot = ({ date, day }: { date: Date; day: LogDay | undefined }) => {
         opacity: pressed ? 0.8 : isFuture ? 0.5 : 1,
       })}
       onPress={async () => {
-        if (!day) return;
+        if (!day) {
+          return;
+        }
         await haptics.selection();
         calendarNavigation.openDay(dayjs(date).format(DATE_FORMAT));
       }}
@@ -145,27 +147,25 @@ export const MoodPeaksCard = ({
   data: MoodPeaksNegativeData | MoodPeaksPositiveData;
   startDate: string;
   endDate: string;
-}) => {
-  return (
-    <Card
-      subtitle={t("mood")}
-      title={t(
-        data.days.length > 1
-          ? "statistics_mood_peaks_title_plural"
-          : "statistics_mood_peaks_title_singular",
-        {
-          rating_word: t(`statistics_mood_peaks_${type}_direction`),
-          rating_count: data.days.length,
-        }
-      )}
-    >
-      <MoodPeaksContent data={data} startDate={startDate} endDate={endDate} />
-      <CardFeedback
-        analyticsId={`mood_peaks_${type}`}
-        analyticsData={{
-          days_count: data.days.length,
-        }}
-      />
-    </Card>
-  );
-};
+}) => (
+  <Card
+    subtitle={t("mood")}
+    title={t(
+      data.days.length > 1
+        ? "statistics_mood_peaks_title_plural"
+        : "statistics_mood_peaks_title_singular",
+      {
+        rating_word: t(`statistics_mood_peaks_${type}_direction`),
+        rating_count: data.days.length,
+      }
+    )}
+  >
+    <MoodPeaksContent data={data} startDate={startDate} endDate={endDate} />
+    <CardFeedback
+      analyticsId={`mood_peaks_${type}`}
+      analyticsData={{
+        days_count: data.days.length,
+      }}
+    />
+  </Card>
+);

@@ -12,7 +12,7 @@ import {
 const wrapper = ({ children }) => (
   <SettingsProvider>
     <PostHogProvider
-      apiKey={"POSTHOG_API_KEY"}
+      apiKey="POSTHOG_API_KEY"
       options={{
         host: "https://app.posthog.com",
         defaultOptIn: false,
@@ -31,15 +31,14 @@ const wrapper = ({ children }) => (
   </SettingsProvider>
 );
 
-const _renderHook = () => {
-  return renderHook(
+const _renderHook = () =>
+  renderHook(
     () => ({
       state: useAnalytics(),
       settingsState: useSettings(),
     }),
     { wrapper }
   );
-};
 
 const waitForLoaded = (hook) =>
   waitFor(() => {
@@ -55,18 +54,16 @@ const mockIdentify = jest.fn();
 const mockCapture = jest.fn();
 const mockReset = jest.fn();
 
-jest.mock("posthog-react-native", () => {
-  return {
-    PostHogProvider: ({ children }) => children,
-    usePostHog: () => ({
-      identify: mockIdentify,
-      optOut: mockOptOut,
-      optIn: mockOptIn,
-      reset: mockReset,
-      capture: mockCapture,
-    }),
-  };
-});
+jest.mock("posthog-react-native", () => ({
+  PostHogProvider: ({ children }) => children,
+  usePostHog: () => ({
+    identify: mockIdentify,
+    optOut: mockOptOut,
+    optIn: mockOptIn,
+    reset: mockReset,
+    capture: mockCapture,
+  }),
+}));
 
 describe("useAnalytics()", () => {
   beforeEach(async () => {

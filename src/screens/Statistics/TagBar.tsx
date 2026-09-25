@@ -40,7 +40,7 @@ export const TagBar = ({
     >
       <View
         style={{
-          backgroundColor: backgroundColor,
+          backgroundColor,
           height,
           width,
           borderRadius: 4,

@@ -72,14 +72,12 @@ export const EmotionButtonAdvanced = ({
   );
 };
 
-export const EmotionButtonEmpty = () => {
-  return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    />
-  );
-};
+export const EmotionButtonEmpty = () => (
+  <View
+    style={{
+      flex: 1,
+      justifyContent: "center",
+      alignItems: "center",
+    }}
+  />
+);

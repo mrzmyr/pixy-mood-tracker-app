@@ -1,8 +1,8 @@
 import Alert from "@/components/Alert";
 import { t } from "./translation";
 
-export const askToCancel = () => {
-  return new Promise((resolve, reject) => {
+export const askToCancel = () =>
+  new Promise((resolve, reject) => {
     Alert.alert(
       t("cancel_confirm_title"),
       t("cancel_confirm_message"),
@@ -21,10 +21,9 @@ export const askToCancel = () => {
       { cancelable: true }
     );
   });
-};
 
-export const askToRemove = () => {
-  return new Promise((resolve, reject) => {
+export const askToRemove = () =>
+  new Promise((resolve, reject) => {
     Alert.alert(
       t("delete_confirm_title"),
       t("delete_confirm_message"),
@@ -43,10 +42,9 @@ export const askToRemove = () => {
       { cancelable: true }
     );
   });
-};
 
-export const askToImport = () => {
-  return new Promise((resolve, reject) => {
+export const askToImport = () =>
+  new Promise((resolve, reject) => {
     Alert.alert(
       t("import_confirm_title"),
       t("import_confirm_message"),
@@ -65,10 +63,9 @@ export const askToImport = () => {
       { cancelable: true }
     );
   });
-};
 
-export const askToReset = <Type>(type: Type) => {
-  return new Promise((resolve, reject) => {
+export const askToReset = <Type>(type: Type) =>
+  new Promise((resolve, reject) => {
     Alert.alert(
       t(`reset_${type}_confirm_title`),
       t(`reset_${type}_confirm_message`),
@@ -87,7 +84,6 @@ export const askToReset = <Type>(type: Type) => {
       { cancelable: true }
     );
   });
-};
 
 export const showImportSuccess = () => {
   Alert.alert(
@@ -125,8 +121,8 @@ export const showResetSuccess = <Type>(type: Type) => {
   );
 };
 
-export const askToDisableStep = () => {
-  return new Promise((resolve, reject) => {
+export const askToDisableStep = () =>
+  new Promise((resolve, reject) => {
     Alert.alert(
       t("disable_step_confirm_title"),
       t("disable_step_confirm_message"),
@@ -145,10 +141,9 @@ export const askToDisableStep = () => {
       { cancelable: true }
     );
   });
-};
 
-export const askToDisableFeedbackStep = () => {
-  return new Promise((resolve, reject) => {
+export const askToDisableFeedbackStep = () =>
+  new Promise((resolve, reject) => {
     Alert.alert(
       t("disable_feedback_step_confirm_title"),
       t("disable_feedback_step_confirm_message"),
@@ -167,4 +162,3 @@ export const askToDisableFeedbackStep = () => {
       { cancelable: true }
     );
   });
-};

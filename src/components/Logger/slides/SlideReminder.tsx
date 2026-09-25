@@ -32,7 +32,9 @@ export const SlideReminder = ({ onPress }: { onPress?: () => void }) => {
   const enable = async () => {
     const has = await hasPermission();
     const granted = has || (await askForPermission());
-    if (!granted) return;
+    if (!granted) {
+      return;
+    }
 
     await (async () => {
       await cancelAll();
@@ -89,7 +91,7 @@ export const SlideReminder = ({ onPress }: { onPress?: () => void }) => {
             alignItems: "center",
           }}
         >
-          <Bell color={"#fff"} width={20} strokeWidth={2} />
+          <Bell color="#fff" width={20} strokeWidth={2} />
         </View>
         <SlideHeadline
           style={{

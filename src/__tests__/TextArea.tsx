@@ -7,7 +7,7 @@ xdescribe("<TextArea>", () => {
     const { getByPlaceholderText } = await render(
       <TextArea
         onChange={onChange}
-        value={"Text value"}
+        value="Text value"
         placeholder="message placeholder"
         maxLength={50}
       />
@@ -22,7 +22,7 @@ xdescribe("<TextArea>", () => {
     const { getByPlaceholderText } = await render(
       <TextArea
         onChange={onChange}
-        value={"Text value"}
+        value="Text value"
         placeholder="message placeholder"
         maxLength={50}
       />
@@ -34,7 +34,7 @@ xdescribe("<TextArea>", () => {
   test("should cut off string longer than maxLength", async () => {
     const { getByPlaceholderText } = await render(
       <TextArea
-        value={"Text value"}
+        value="Text value"
         placeholder="message placeholder"
         maxLength={50}
       />

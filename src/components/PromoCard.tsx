@@ -32,7 +32,9 @@ export const PromoCard = ({
     addActionDone(slug);
   };
 
-  if (hasActionDone(slug)) return null;
+  if (hasActionDone(slug)) {
+    return null;
+  }
 
   return (
     <Pressable

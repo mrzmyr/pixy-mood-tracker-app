@@ -106,7 +106,7 @@ export const ColorsScreen = ({ navigation }) => {
             justifyContent: "center",
             alignItems: "center",
           }}
-        ></View>
+        />
       </ScrollView>
     </PageWithHeaderLayout>
   );

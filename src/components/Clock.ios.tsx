@@ -10,17 +10,15 @@ const Clock = ({
   timeDate: Date;
   onChange: any;
   style: ViewStyle;
-}) => {
-  return (
-    <DateTimePicker
-      locale={locale}
-      testID="reminder-time"
-      style={{ width: "100%", height: 35, ...style }}
-      mode="time"
-      value={timeDate}
-      onChange={onChange}
-    />
-  );
-};
+}) => (
+  <DateTimePicker
+    locale={locale}
+    testID="reminder-time"
+    style={{ width: "100%", height: 35, ...style }}
+    mode="time"
+    value={timeDate}
+    onChange={onChange}
+  />
+);
 
 export default Clock;

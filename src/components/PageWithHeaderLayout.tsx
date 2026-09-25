@@ -7,14 +7,12 @@ export const PageWithHeaderLayout = ({
 }: {
   children: React.ReactNode;
   style?: ViewStyle;
-}) => {
-  return (
-    <View
-      style={{
-        ...style,
-      }}
-    >
-      {children}
-    </View>
-  );
-};
+}) => (
+  <View
+    style={{
+      ...style,
+    }}
+  >
+    {children}
+  </View>
+);

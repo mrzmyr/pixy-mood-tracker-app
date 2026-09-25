@@ -83,7 +83,9 @@ export const Tags = ({ item }: { item: LogItem }) => {
           item.tags.map((tag) => {
             const _tag = tags.find((t) => t.id === tag.id);
 
-            if (!_tag) return null;
+            if (!_tag) {
+              return null;
+            }
 
             return (
               <Tag
