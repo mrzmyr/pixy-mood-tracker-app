@@ -1,12 +1,12 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { renderHook, act, waitFor } from "@testing-library/react-native";
 import { AnalyticsProvider } from "../hooks/useAnalytics";
+import type { LogsState } from "../hooks/useLogs";
 import {
   LogsProvider,
   useLogState,
   useLogUpdater,
   STORAGE_KEY as STORAGE_KEY_LOGS,
-  LogsState,
 } from "../hooks/useLogs";
 import {
   SettingsProvider,
@@ -15,9 +15,9 @@ import {
   INITIAL_STATE as INITIAL_STATE_SETTINGS,
 } from "../hooks/useSettings";
 
+import type { Tag } from "../hooks/useTags";
 import {
   STORAGE_KEY as STORAGE_KEY_TAGS,
-  Tag,
   TagsProvider,
   useTagsState,
   useTagsUpdater,

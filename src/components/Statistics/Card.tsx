@@ -1,5 +1,5 @@
 import _ from "lodash";
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 import { Text, View } from "react-native";
 import useColors from "@/hooks/useColors";
 

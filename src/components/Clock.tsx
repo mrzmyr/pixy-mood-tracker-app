@@ -1,5 +1,6 @@
 import dayjs from "dayjs";
-import { Pressable, Text, ViewStyle } from "react-native";
+import type { ViewStyle } from "react-native";
+import { Pressable, Text } from "react-native";
 import useColors from "@/hooks/useColors";
 
 const Clock = ({

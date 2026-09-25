@@ -1,6 +1,7 @@
 import useColors from "@/hooks/useColors";
 import useHaptics from "@/hooks/useHaptics";
-import { Pressable, Text, ViewStyle } from "react-native";
+import type { ViewStyle } from "react-native";
+import { Pressable, Text } from "react-native";
 
 export const MiniButton = ({
   onPress,

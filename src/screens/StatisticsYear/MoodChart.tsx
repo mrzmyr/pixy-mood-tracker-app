@@ -1,4 +1,5 @@
-import dayjs, { Dayjs } from "dayjs";
+import type { Dayjs } from "dayjs";
+import dayjs from "dayjs";
 import { Dimensions, View } from "react-native";
 import { t } from "@/helpers/translation";
 import { useLogState } from "../../hooks/useLogs";

@@ -1,5 +1,5 @@
 import useColors from "@/hooks/useColors";
-import { LogItem } from "@/hooks/useLogs";
+import type { LogItem } from "@/hooks/useLogs";
 import { useTagsState } from "@/hooks/useTags";
 import { useNavigation } from "@react-navigation/native";
 import { t } from "i18n-js";

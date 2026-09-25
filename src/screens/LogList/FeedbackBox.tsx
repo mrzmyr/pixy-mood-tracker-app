@@ -1,4 +1,5 @@
-import { Text, View, ViewStyle } from "react-native";
+import type { ViewStyle } from "react-native";
+import { Text, View } from "react-native";
 import LinkButton from "@/components/LinkButton";
 import { t } from "@/helpers/translation";
 import useColors from "../../hooks/useColors";

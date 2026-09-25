@@ -15,7 +15,8 @@ import TextArea from "@/components/TextArea";
 import { t } from "@/helpers/translation";
 import { useAnalytics } from "../useAnalytics";
 import useColors from "../useColors";
-import { FeedackType, useFeedback } from "../useFeedback";
+import type { FeedackType } from "../useFeedback";
+import { useFeedback } from "../useFeedback";
 import { TypeSelector } from "./TypeSelector";
 
 export default function useFeedbackModal() {

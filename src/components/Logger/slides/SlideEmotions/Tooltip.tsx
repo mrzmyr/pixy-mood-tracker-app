@@ -1,6 +1,6 @@
 import useColors from "@/hooks/useColors";
 import useHaptics from "@/hooks/useHaptics";
-import { Emotion } from "@/types";
+import type { Emotion } from "@/types";
 import { Pressable, Text, View } from "react-native";
 import { X } from "react-native-feather";
 import Animated, { FadeInDown } from "react-native-reanimated";

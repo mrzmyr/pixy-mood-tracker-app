@@ -1,5 +1,5 @@
 import { t } from "@/helpers/translation";
-import { Emotion } from "@/types";
+import type { Emotion } from "@/types";
 
 export type LoggerStep =
   | "rating"

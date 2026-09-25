@@ -1,8 +1,10 @@
-import dayjs, { Dayjs } from "dayjs";
+import type { Dayjs } from "dayjs";
+import dayjs from "dayjs";
 import _ from "lodash";
-import React, { ReactNode } from "react";
+import type { ReactNode } from "react";
+import React from "react";
 import { View } from "react-native";
-import { LogItem } from "../../../hooks/useLogs";
+import type { LogItem } from "../../../hooks/useLogs";
 import { getAverageMood } from "@/lib/utils";
 import { Day } from "./Day";
 import { YAxis } from "./YAxis";

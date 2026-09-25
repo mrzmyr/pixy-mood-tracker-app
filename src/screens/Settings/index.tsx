@@ -29,7 +29,7 @@ import { useAnalytics } from "../../hooks/useAnalytics";
 import useColors from "../../hooks/useColors";
 import useFeedbackModal from "../../hooks/useFeedbackModal";
 import pkg from "../../../package.json";
-import { RootStackScreenProps } from "../../../types";
+import type { RootStackScreenProps } from "../../../types";
 import { UserDataImportList } from "./UserData";
 import * as Updates from "expo-updates";
 import { Tag } from "lucide-react-native";

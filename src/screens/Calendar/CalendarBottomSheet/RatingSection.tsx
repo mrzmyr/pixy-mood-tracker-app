@@ -2,7 +2,7 @@ import { View } from "react-native";
 import Scale from "@/components/Scale";
 import TextHeadline from "@/components/TextHeadline";
 import { t } from "@/helpers/translation";
-import { LogItem } from "../../../hooks/useLogs";
+import type { LogItem } from "../../../hooks/useLogs";
 import { useSettings } from "../../../hooks/useSettings";
 
 export const RatingSection = ({

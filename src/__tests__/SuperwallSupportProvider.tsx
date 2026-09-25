@@ -5,7 +5,8 @@ import {
   ConfiguredSupportProvider,
   SUPPORT_PLACEMENT,
 } from "../support/SuperwallSupportProvider";
-import { SupportClient, useSupport } from "@/support";
+import type { SupportClient } from "@/support";
+import { useSupport } from "@/support";
 
 const mockRegisterPlacement = jest.fn().mockResolvedValue(undefined);
 const mockSetEventTrackingBehavior = jest.fn().mockResolvedValue(undefined);

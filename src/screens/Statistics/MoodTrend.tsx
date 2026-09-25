@@ -3,11 +3,8 @@ import Svg, { Circle, Line } from "react-native-svg";
 import { Card } from "@/components/Statistics/Card";
 import { t } from "@/helpers/translation";
 import useColors from "../../hooks/useColors";
-import {
-  MoodTrendData,
-  SCALE_RANGE,
-  SCALE_TYPE,
-} from "../../hooks/useStatistics/MoodTrend";
+import type { MoodTrendData } from "../../hooks/useStatistics/MoodTrend";
+import { SCALE_RANGE, SCALE_TYPE } from "../../hooks/useStatistics/MoodTrend";
 import { CardFeedback } from "@/components/Statistics/CardFeedback";
 import dayjs from "dayjs";
 

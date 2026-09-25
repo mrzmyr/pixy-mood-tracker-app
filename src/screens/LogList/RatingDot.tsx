@@ -1,5 +1,5 @@
 import useColors from "@/hooks/useColors";
-import { LogItem } from "@/hooks/useLogs";
+import type { LogItem } from "@/hooks/useLogs";
 import { useSettings } from "@/hooks/useSettings";
 import { View } from "react-native";
 

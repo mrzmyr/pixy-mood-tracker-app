@@ -4,7 +4,7 @@ import { DATE_FORMAT } from "@/constants/Config";
 import { t } from "@/helpers/translation";
 import dayjs from "dayjs";
 import { useAnonymizer } from "../../hooks/useAnonymizer";
-import { LogDay } from "../../hooks/useLogs";
+import type { LogDay } from "../../hooks/useLogs";
 import {
   getMoodPeaksNegativeData,
   getMoodPeaksPositiveData,

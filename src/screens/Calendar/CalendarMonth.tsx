@@ -1,10 +1,11 @@
 import { DATE_FORMAT } from "@/constants/Config";
-import dayjs, { Dayjs } from "dayjs";
+import type { Dayjs } from "dayjs";
+import dayjs from "dayjs";
 import React, { memo } from "react";
 import { Platform, StyleSheet, Text, View } from "react-native";
 import { useStyle } from "react-native-style-utilities";
 import useColors from "../../hooks/useColors";
-import { LogItem } from "../../hooks/useLogs";
+import type { LogItem } from "../../hooks/useLogs";
 import CalendarWeek from "./CalendarWeek";
 
 const CalendarMonth = memo(function CalendarMonth({

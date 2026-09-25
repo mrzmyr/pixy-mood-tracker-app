@@ -1,5 +1,6 @@
 import dayjs from "dayjs";
-import React, { ReactNode } from "react";
+import type { ReactNode } from "react";
+import React from "react";
 import { Text, View } from "react-native";
 import useColors from "../../../hooks/useColors";
 

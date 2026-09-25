@@ -1,5 +1,5 @@
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { RootStackScreenProps } from "../../types";
+import type { RootStackScreenProps } from "../../types";
 
 export const NotFoundScreen = ({
   navigation,

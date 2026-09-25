@@ -4,7 +4,7 @@ import dayjs from "dayjs";
 import localizedFormat from "dayjs/plugin/localizedFormat";
 import weekOfYear from "dayjs/plugin/weekOfYear";
 
-import en from "../../assets/locales/en.json";
+import type en from "../../assets/locales/en.json";
 
 i18n.translations = {
   ar: require("../../assets/locales/ar.json"),

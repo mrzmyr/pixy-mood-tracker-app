@@ -3,7 +3,8 @@ import { NotEnoughDataOverlay } from "@/components/Statistics/NotEnoughDataOverl
 import { t } from "@/helpers/translation";
 import useColors from "@/hooks/useColors";
 import { RATING_MAPPING, useLogState } from "@/hooks/useLogs";
-import dayjs, { Dayjs } from "dayjs";
+import type { Dayjs } from "dayjs";
+import dayjs from "dayjs";
 import _ from "lodash";
 import { Text, View } from "react-native";
 

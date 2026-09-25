@@ -7,29 +7,28 @@ import {
 } from "@/helpers/prompts";
 import { useAnalytics } from "@/hooks/useAnalytics";
 import useColors from "@/hooks/useColors";
-import { LogItem, useLogState, useLogUpdater } from "@/hooks/useLogs";
-import { IQuestion, useQuestioner } from "@/hooks/useQuestioner";
+import type { LogItem } from "@/hooks/useLogs";
+import { useLogState, useLogUpdater } from "@/hooks/useLogs";
+import type { IQuestion } from "@/hooks/useQuestioner";
+import { useQuestioner } from "@/hooks/useQuestioner";
 import { useSettings } from "@/hooks/useSettings";
-import { TemporaryLogState, useTemporaryLog } from "@/hooks/useTemporaryLog";
-import { Emotion, TagReference } from "@/types";
+import type { TemporaryLogState } from "@/hooks/useTemporaryLog";
+import { useTemporaryLog } from "@/hooks/useTemporaryLog";
+import type { Emotion, TagReference } from "@/types";
 import { useNavigation } from "@react-navigation/native";
 import dayjs from "dayjs";
-import { ReactElement, useEffect, useRef, useState } from "react";
-import {
-  Dimensions,
-  Keyboard,
-  Platform,
-  Text,
-  TextInput,
-  View,
-} from "react-native";
-import { Carousel, CarouselRef } from "react-native-reanimated-carousel";
+import type { ReactElement } from "react";
+import { useEffect, useRef, useState } from "react";
+import type { TextInput } from "react-native";
+import { Dimensions, Keyboard, Platform, Text, View } from "react-native";
+import type { CarouselRef } from "react-native-reanimated-carousel";
+import { Carousel } from "react-native-reanimated-carousel";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { v4 as uuidv4 } from "uuid";
 import { SlideAction } from "./components/SlideAction";
 import { SlideHeader } from "./components/SlideHeader";
 import { Stepper } from "./components/Stepper";
-import { LoggerStep } from "./config";
+import type { LoggerStep } from "./config";
 import { SlideEmotions } from "./slides/SlideEmotions";
 import { SlideFeedback } from "./slides/SlideFeedback";
 import { SlideMessage } from "./slides/SlideMessage";

@@ -1,4 +1,5 @@
-import React, { forwardRef, RefObject } from "react";
+import type { RefObject } from "react";
+import React, { forwardRef } from "react";
 import { View } from "react-native";
 import useColors from "@/hooks/useColors";
 

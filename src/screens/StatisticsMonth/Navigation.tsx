@@ -1,4 +1,4 @@
-import { Dayjs } from "dayjs";
+import type { Dayjs } from "dayjs";
 import { View } from "react-native";
 import { ChevronLeft, ChevronRight } from "react-native-feather";
 import Button from "@/components/Button";
