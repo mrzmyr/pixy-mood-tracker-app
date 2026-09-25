@@ -20,12 +20,16 @@ $ bun install
 $ bun start
 ```
 
-4. Run in iOS Simulator or Android Emulator
+4. Install and run on a device
 
 ```shell
-$ bun ios
-$ bun android
+$ bun ios --device <device-id>
+$ bun android --device <device-name>
 ```
+
+Android builds need Android SDK packages and JDK 17+. `bun android` resolves `ANDROID_HOME`, `ANDROID_SDK_ROOT`, the standard macOS SDK path, or Homebrew's Android command line tools, plus Homebrew's JDK 17. Set `ANDROID_HOME` or `JAVA_HOME` when using another install location.
+
+Run `bun ios` or `bun android` without `--device` to select a simulator or emulator.
 
 ### Build cache
 
