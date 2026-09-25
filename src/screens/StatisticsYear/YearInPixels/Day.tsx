@@ -11,7 +11,7 @@ export const Day = ({
   rating,
 }: {
   date: string;
-  rating: LogItem['rating'] | null;
+  rating: LogItem["rating"] | null;
 }) => {
   const colors = useColors();
   const scale = useScale();
@@ -20,13 +20,17 @@ export const Day = ({
     <View
       style={{
         aspectRatio: 1,
-        width: '100%',
+        width: "100%",
         borderRadius: 100,
-        backgroundColor: rating ? scale.colors[rating].background : 'transparent',
+        backgroundColor: rating
+          ? scale.colors[rating].background
+          : "transparent",
         borderWidth: 2,
-        borderColor: rating ? scale.colors[rating].background : colors.yearPixelsEmptyDot,
-        justifyContent: 'center',
-        alignItems: 'center',
+        borderColor: rating
+          ? scale.colors[rating].background
+          : colors.yearPixelsEmptyDot,
+        justifyContent: "center",
+        alignItems: "center",
       }}
     >
       {/* if date dayjs is today */}
@@ -36,8 +40,11 @@ export const Day = ({
             width: 8,
             height: 8,
             borderRadius: 100,
-            backgroundColor: rating ? colors.cardBackground : colors.yearPixelsEmptyDot,
-          }} />
+            backgroundColor: rating
+              ? colors.cardBackground
+              : colors.yearPixelsEmptyDot,
+          }}
+        />
       )}
     </View>
   );

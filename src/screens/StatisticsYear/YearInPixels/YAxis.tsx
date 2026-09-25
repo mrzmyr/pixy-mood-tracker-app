@@ -8,18 +8,20 @@ export const YAxis = ({ dayCount }) => {
   return (
     <View
       style={{
-        alignItems: 'flex-start',
-        justifyContent: 'center',
+        alignItems: "flex-start",
+        justifyContent: "center",
         width: 25,
       }}
     >
       <Text
         style={{
           fontSize: 12,
-          fontWeight: 'bold',
+          fontWeight: "bold",
           color: colors.yearPixelsLegendText,
         }}
-      >{dayCount}</Text>
+      >
+        {dayCount}
+      </Text>
     </View>
   );
 };

@@ -34,7 +34,6 @@ export const TrendsSection = () => {
         </View>
       ) : (
         <>
-
           {/* {statistics.isAvailable("tags_distribution_trend") && (
             <>
               {statistics.state.trends.tagsDistributionData.tags.map((tag, index) => (
