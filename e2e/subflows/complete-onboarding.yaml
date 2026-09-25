@@ -4,19 +4,13 @@ appId: com.devmood.pixymoodtracker
 - assertVisible: "Welcome 👋"
 - tapOn:
     text: "I never used a Mood Tracker"
-    waitToSettleTimeoutMs: 1200
 - tapOn:
     text: "Next"
-    waitToSettleTimeoutMs: 1200
 - tapOn:
     text: "Next"
-    waitToSettleTimeoutMs: 1200
 - tapOn:
     text: "Next"
-    waitToSettleTimeoutMs: 1200
 - tapOn:
     text: "Maybe later"
-    waitToSettleTimeoutMs: 1200
 - tapOn:
     text: "Understood"
-    waitToSettleTimeoutMs: 1200

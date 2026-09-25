@@ -1,22 +1,12 @@
-// Entry point for the local device, session, and build CLIs:
-//   bun devices <command>    simulators, emulators, phones
-//   bun sessions <command>   e2e runs on those devices
-//   bun builds <command>     the shared native build cache
-// Run `bun <noun> help` for options.
+// Entry point for the local build cache CLI:
+//   bun builds <command>    the shared native build cache
+// Devices and e2e runs use agent-device (`bun e2e`, `bunx agent-device`).
+// Run `bun builds help` for options.
 import { BUILDS_COMMANDS } from "./builds.ts";
-import { DEVICES_COMMANDS } from "./devices.ts";
-import { SESSIONS_COMMANDS } from "./sessions.ts";
 import { CliError, parseCli } from "./shared.ts";
 
-const NOUNS = new Map([
-  ["builds", BUILDS_COMMANDS],
-  ["devices", DEVICES_COMMANDS],
-  ["sessions", SESSIONS_COMMANDS],
-]);
-const ALIASES = new Map([
-  ["ls", "list"],
-  ["ps", "list"],
-]);
+const NOUNS = new Map([["builds", BUILDS_COMMANDS]]);
+const ALIASES = new Map([["ls", "list"]]);
 
 const main = async () => {
   const { positionals, values } = parseCli();
@@ -24,10 +14,10 @@ const main = async () => {
   const commands = NOUNS.get(noun);
   if (!commands) {
     throw new CliError({
-      fix: "Run `bun devices`, `bun sessions`, or `bun builds`.",
+      fix: "Run `bun builds`. For devices and e2e runs, use `bunx agent-device` and `bun e2e`.",
       message: `Unknown CLI "${noun}"`,
       status: "unknown_cli",
-      why: "The first argument must be devices, sessions, or builds.",
+      why: "The first argument must be builds.",
     });
   }
   const command = commands.get(
@@ -51,10 +41,10 @@ try {
     error instanceof CliError
       ? error
       : {
-          fix: "Rerun the command. If it fails again, check the device with `bun devices list --all`.",
+          fix: "Rerun the command. If it fails again, run `bun builds list` to check the cache.",
           message: error instanceof Error ? error.message : String(error),
           status: "unexpected_error",
-          why: "An underlying tool (xcrun, adb, emulator, maestro-runner) failed.",
+          why: "Reading the build cache or computing the native fingerprint failed.",
         };
   console.error(
     `error [${fields.status}]: ${fields.message}\n  why: ${fields.why}\n  fix: ${fields.fix}`

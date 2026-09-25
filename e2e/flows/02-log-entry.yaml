@@ -8,6 +8,8 @@ tags: [log]
 # 2.1 Create entry for today (rating only)
 - tapOn: "Add New Entry"
 - assertVisible: "How was your day?"
+# A tap during the logger's slide-in animation is lost.
+- waitForAnimationToEnd
 - tapOn:
     id: "mood-good"
 - runFlow: ../subflows/finish-logger.yaml
@@ -19,11 +21,14 @@ tags: [log]
 - runScript: ../scripts/set-output-date.js
 - tapOn:
     id: "calendar-day-${output.today}"
-- back
+- tapOn:
+    id: "log-list-close"
 
 # 2.4 Second entry for today (different rating)
 - tapOn: "Add another entry for today"
 - assertVisible: "How was your day?"
+# A tap during the logger's slide-in animation is lost.
+- waitForAnimationToEnd
 - tapOn:
     id: "mood-very_good"
 - runFlow: ../subflows/finish-logger-with-reminder.yaml

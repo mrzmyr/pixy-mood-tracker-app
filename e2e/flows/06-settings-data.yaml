@@ -25,7 +25,10 @@ tags: [settings, data]
 - tapOn:
     id: "reset-data"
 - assertVisible: "Are you sure you want to reset all entries and tags?"
-- tapOn: "Reset"
+# The dialog title is also "Reset"; tap the button under the message.
+- tapOn:
+    text: "Reset"
+    below: "Are you sure you want to reset all entries and tags?"
 - assertVisible: "All data has been reset."
 - tapOn: "OK"
 

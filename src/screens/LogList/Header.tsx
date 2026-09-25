@@ -62,6 +62,8 @@ export const Header = ({
           }}
         >
           <Pressable
+            accessibilityRole="button"
+            testID="log-list-close"
             style={{
               padding: 12,
             }}
