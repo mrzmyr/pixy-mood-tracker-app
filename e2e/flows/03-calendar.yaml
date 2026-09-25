@@ -17,25 +17,16 @@ tags: [calendar]
 - assertVisible:
     id: "calendar-day-${output.today}"
 
-# 3.2 Find the historical date. Create an entry only when fixture is absent.
-- scrollUntilVisible:
-    element:
-      id: "calendar-day-2024-09-24"
-    direction: UP
-    timeout: 120000
-    speed: 80
-    centerElement: true
-    waitToSettleTimeoutMs: 1200
-- assertVisible:
-    id: "calendar-day-2024-09-24"
-- scrollUntilVisible:
-    element:
-      id: "calendar-day-2023-09-24"
-    direction: UP
-    timeout: 120000
-    speed: 80
-    centerElement: true
-    waitToSettleTimeoutMs: 1200
+# 3.2 Find the historical date. Short swipes avoid skipping past older cells.
+- repeat:
+    times: 120
+    while:
+      notVisible:
+        id: "calendar-day-2023-09-24"
+    commands:
+      - swipe:
+          start: 50%, 65%
+          end: 50%, 55%
 - assertVisible:
     id: "calendar-day-2023-09-24"
 - tapOn:
@@ -52,28 +43,37 @@ tags: [calendar]
       visible: "Add Entry"
     commands:
       - back
-- scrollUntilVisible:
-    element:
-      id: "calendar-day-2023-09-24"
-    direction: UP
-    timeout: 120000
-    speed: 80
+- repeat:
+    times: 120
+    while:
+      notVisible:
+        id: "calendar-day-2023-09-24"
+    commands:
+      - swipe:
+          start: 50%, 65%
+          end: 50%, 55%
 - assertVisible:
     id: "calendar-day-2023-09-24"
-- scrollUntilVisible:
-    element:
-      id: "calendar-day-2022-09-24"
-    direction: UP
-    timeout: 120000
-    speed: 80
+- repeat:
+    times: 120
+    while:
+      notVisible:
+        id: "calendar-day-2022-09-24"
+    commands:
+      - swipe:
+          start: 50%, 65%
+          end: 50%, 55%
 - assertVisible:
     id: "calendar-day-2022-09-24"
-- scrollUntilVisible:
-    element:
-      id: "calendar-day-2021-09-24"
-    direction: UP
-    timeout: 120000
-    speed: 80
+- repeat:
+    times: 120
+    while:
+      notVisible:
+        id: "calendar-day-2021-09-24"
+    commands:
+      - swipe:
+          start: 50%, 65%
+          end: 50%, 55%
 - assertVisible:
     id: "calendar-day-2021-09-24"
 

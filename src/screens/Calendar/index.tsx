@@ -41,6 +41,12 @@ const CalendarScreenComponent = () => {
     scrollOffset < calendarHeight - window.height && !calendarFilters.isOpen;
 
   const loadEarlierMonths = () => {
+    if (!isInitialPositionSet.current || isLoadingEarlierMonths.current) {
+      return;
+    }
+
+    isLoadingEarlierMonths.current = true;
+    requestedFromMonthCount.current = monthCount;
     setMonthCount((count) => count + monthsPerPage);
   };
 
@@ -48,13 +54,16 @@ const CalendarScreenComponent = () => {
     const offset = event.nativeEvent.contentOffset.y;
     setScrollOffset(offset);
 
-    if (
-      isInitialPositionSet.current &&
-      offset < 100 &&
-      !isLoadingEarlierMonths.current
-    ) {
-      isLoadingEarlierMonths.current = true;
-      requestedFromMonthCount.current = monthCount;
+    if (Platform.OS === "web" && offset < 100) {
+      loadEarlierMonths();
+    }
+  };
+
+  const onScrollBoundary = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+    const offset = event.nativeEvent.contentOffset.y;
+    setScrollOffset(offset);
+
+    if (offset < 100) {
       loadEarlierMonths();
     }
   };
@@ -104,6 +113,10 @@ const CalendarScreenComponent = () => {
         scrollEventThrottle={100}
         maintainVisibleContentPosition={{ minIndexForVisible: 0 }}
         onScroll={onScroll}
+        onScrollEndDrag={Platform.OS === "web" ? undefined : onScrollBoundary}
+        onMomentumScrollEnd={
+          Platform.OS === "web" ? undefined : onScrollBoundary
+        }
         onContentSizeChange={onContentSizeChange}
         ref={scrollRef}
       >
