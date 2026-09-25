@@ -1,4 +1,11 @@
-import { createContext, useContext, useEffect, useMemo, useState } from "react";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import type { LogItem } from "./useLogs";
 import { createMissingProviderError } from "@/lib/errors";
 
@@ -30,7 +37,7 @@ const TemporaryLogProvider = ({ children }: { children: React.ReactNode }) => {
   );
   const [isInitialized, setIsInitialized] = useState(false);
 
-  const update = (next: Partial<TemporaryLogState>) => {
+  const update = useCallback((next: Partial<TemporaryLogState>) => {
     setTemporaryLog((current) => {
       setIsDirty(true);
       return {
@@ -38,24 +45,24 @@ const TemporaryLogProvider = ({ children }: { children: React.ReactNode }) => {
         ...next,
       };
     });
-  };
+  }, []);
 
-  const initialize = (log: TemporaryLogState) => {
+  const initialize = useCallback((log: TemporaryLogState) => {
     setTemporaryLog(log);
     setIsInitialized(true);
-  };
+  }, []);
 
-  const set = (log: TemporaryLogState) => {
+  const set = useCallback((log: TemporaryLogState) => {
     setTemporaryLog(log);
     setIsDirty(true);
-  };
+  }, []);
 
-  const reset = () => {
+  const reset = useCallback(() => {
     // SAFETY: empty placeholder until initialize(); isInitialized is reset to false below.
     setTemporaryLog({} as TemporaryLogState);
     setIsDirty(false);
     setIsInitialized(false);
-  };
+  }, []);
 
   const value = useMemo(
     () => ({
@@ -65,22 +72,13 @@ const TemporaryLogProvider = ({ children }: { children: React.ReactNode }) => {
       update,
       reset,
       isDirty,
+      isInitialized,
     }),
-    [temporaryLog, isDirty]
+    [temporaryLog, initialize, set, update, reset, isDirty, isInitialized]
   );
 
   return (
-    <TemporaryLogStateContext.Provider
-      value={{
-        data: temporaryLog,
-        initialize,
-        set,
-        update,
-        reset,
-        isDirty,
-        isInitialized,
-      }}
-    >
+    <TemporaryLogStateContext.Provider value={value}>
       {children}
     </TemporaryLogStateContext.Provider>
   );

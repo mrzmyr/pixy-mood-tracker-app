@@ -414,8 +414,14 @@ export const LoggerCreate = ({
   initialStep?: LoggerStep;
   avaliableSteps?: LoggerStep[];
 }) => {
-  const _id = useRef(uuidv4());
-  const createdAt = useRef(dayjs().toISOString());
+  const _id = useRef<string | null>(null);
+  if (_id.current === null) {
+    _id.current = uuidv4();
+  }
+  const createdAt = useRef<string | null>(null);
+  if (createdAt.current === null) {
+    createdAt.current = dayjs().toISOString();
+  }
   const questioner = useQuestioner();
 
   const initialItem = {

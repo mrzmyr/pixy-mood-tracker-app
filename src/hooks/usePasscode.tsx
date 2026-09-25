@@ -1,4 +1,11 @@
-import { createContext, useContext, useEffect, useRef, useState } from "react";
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { AppState } from "react-native";
 import { useSettings } from "./useSettings";
 import * as LocalAuthentication from "expo-local-authentication";
@@ -20,7 +27,6 @@ const PasscodeProvider = ({ children }: { children: React.ReactNode }) => {
   const [isEnabled, setIsEnabled] = useState<PasscodeState["isEnabled"]>(null);
 
   const appState = useRef(AppState.currentState);
-  const [appStateVisible, setAppStateVisible] = useState(appState.current);
 
   useEffect(() => {
     if (isEnabled && !isAuthenticated) {
@@ -38,7 +44,6 @@ const PasscodeProvider = ({ children }: { children: React.ReactNode }) => {
       }
 
       appState.current = nextAppState;
-      setAppStateVisible(appState.current);
     });
 
     return () => {
@@ -52,11 +57,14 @@ const PasscodeProvider = ({ children }: { children: React.ReactNode }) => {
     setIsEnabled(settings.passcodeEnabled);
   }, [settings.passcodeEnabled]);
 
-  const value: PasscodeState = {
-    isAuthenticated,
-    isEnabled,
-    setIsAuthenticated,
-  };
+  const value: PasscodeState = useMemo(
+    () => ({
+      isAuthenticated,
+      isEnabled,
+      setIsAuthenticated,
+    }),
+    [isAuthenticated, isEnabled]
+  );
 
   return (
     <PasscodeContext.Provider value={value}>

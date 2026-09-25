@@ -1,6 +1,12 @@
 import dayjs from "dayjs";
 import _ from "lodash";
-import { createContext, useContext, useState } from "react";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useMemo,
+  useState,
+} from "react";
 import type { LogItem } from "../useLogs";
 import { useLogState } from "../useLogs";
 import { useTagsState } from "../useTags";
@@ -101,139 +107,158 @@ export const StatisticsProvider = ({
     },
   });
 
-  const load = ({ force = false }: { force?: boolean }) => {
-    const highlightItems = logState.items.filter((item) =>
-      dayjs(item.dateTime).isAfter(dayjs().subtract(14, "day"))
-    );
-    const trendsItems = logState.items;
-
-    const highlightItemsChanged = !_.isEqual(
-      prevHighlightItems,
-      highlightItems
-    );
-    const trendsItemsChanged = !_.isEqual(prevTrendsItems, trendsItems);
-
-    if (!highlightItemsChanged && !trendsItemsChanged && !force) {
-      return;
-    }
-
-    setIsLoading(true);
-
-    const moodAvgData = getMoodAvgData(highlightItems);
-    const moodPeaksPositiveData = getMoodPeaksPositiveData(highlightItems);
-    const moodPeaksNegativeData = getMoodPeaksNegativeData(highlightItems);
-    const tagsPeaksData = getTagsPeaksData(highlightItems, tags);
-    const tagsDistributionData = getTagsDistributionData(highlightItems, tags);
-
-    const emotionsDistributionData =
-      getEmotionsDistributionData(highlightItems);
-
-    const sleepQualityDistributionData = getSleepQualityDistributionForXDays(
-      highlightItems,
-      dayjs().subtract(14, "day").format(DATE_FORMAT),
-      30
-    );
-
-    const newState = {
-      loaded: true,
-      itemsCount: highlightItems.length,
-      moodAvgData,
-      moodPeaksPositiveData,
-      moodPeaksNegativeData,
-      tagsPeaksData,
-      tagsDistributionData,
-      emotionsDistributionData,
-      sleepQualityDistributionData,
-      streaks: {
-        longest: getLongestStreak(logState.items),
-        current: getCurrentStreak(logState.items),
-      },
-    };
-
-    setPrevHighlightItems(highlightItems);
-    setPrevTrendsItems(trendsItems);
-    setState(newState);
-
-    setTimeout(() => {
-      setIsLoading(false);
-    }, DELAY_LOADING);
-
-    return newState;
-  };
-
-  const isAvailable = (type: (typeof STATISTIC_TYPES)[number]) => {
-    if (type === "mood_avg") {
-      return state.moodAvgData?.itemsCount > 0;
-    }
-    if (type === "mood_peaks_positive") {
-      return state.moodPeaksPositiveData?.days.length > 0;
-    }
-    if (type === "mood_peaks_negative") {
-      return state.moodPeaksNegativeData?.days.length > 0;
-    }
-    if (type === "tags_peaks") {
-      return state.tagsPeaksData?.tags.length > 0;
-    }
-    if (type === "tags_distribution") {
-      return state.tagsDistributionData?.tags.length > 0;
-    }
-    if (type === "emotions_distribution") {
-      return state.emotionsDistributionData?.emotions.length > 3;
-    }
-    if (type === "sleep_quality_distribution") {
-      return state.sleepQualityDistributionData?.some(
-        (item) => item.value !== null
+  const load = useCallback(
+    ({ force = false }: { force?: boolean }) => {
+      const highlightItems = logState.items.filter((item) =>
+        dayjs(item.dateTime).isAfter(dayjs().subtract(14, "day"))
       );
-    }
-    return false;
-  };
+      const trendsItems = logState.items;
 
-  const isHighlighted = (type: (typeof STATISTIC_TYPES)[number]) => {
-    if (type === "mood_avg") {
-      return (
-        isAvailable(type) && state.moodAvgData.ratingHighestPercentage > 60
+      const highlightItemsChanged = !_.isEqual(
+        prevHighlightItems,
+        highlightItems
       );
-    }
+      const trendsItemsChanged = !_.isEqual(prevTrendsItems, trendsItems);
 
-    if (type === "mood_peaks_positive") {
-      return isAvailable(type) && state.moodPeaksPositiveData.days.length >= 2;
-    }
+      if (!highlightItemsChanged && !trendsItemsChanged && !force) {
+        return;
+      }
 
-    if (type === "mood_peaks_negative") {
-      return isAvailable(type) && state.moodPeaksNegativeData.days.length >= 2;
-    }
+      setIsLoading(true);
 
-    if (type === "tags_peaks") {
-      return (
-        isAvailable(type) &&
-        state.tagsPeaksData.tags.filter((tag) => tag.items.length > 5).length >
-          0
+      const moodAvgData = getMoodAvgData(highlightItems);
+      const moodPeaksPositiveData = getMoodPeaksPositiveData(highlightItems);
+      const moodPeaksNegativeData = getMoodPeaksNegativeData(highlightItems);
+      const tagsPeaksData = getTagsPeaksData(highlightItems, tags);
+      const tagsDistributionData = getTagsDistributionData(
+        highlightItems,
+        tags
       );
-    }
 
-    if (type === "tags_distribution") {
-      return isAvailable(type);
-    }
+      const emotionsDistributionData =
+        getEmotionsDistributionData(highlightItems);
 
-    if (type === "emotions_distribution") {
-      return (
-        isAvailable(type) &&
-        state.emotionsDistributionData.emotions.some(
-          (emotion) => emotion.count > 5
-        )
+      const sleepQualityDistributionData = getSleepQualityDistributionForXDays(
+        highlightItems,
+        dayjs().subtract(14, "day").format(DATE_FORMAT),
+        30
       );
-    }
 
-    return false;
-  };
+      const newState = {
+        loaded: true,
+        itemsCount: highlightItems.length,
+        moodAvgData,
+        moodPeaksPositiveData,
+        moodPeaksNegativeData,
+        tagsPeaksData,
+        tagsDistributionData,
+        emotionsDistributionData,
+        sleepQualityDistributionData,
+        streaks: {
+          longest: getLongestStreak(logState.items),
+          current: getCurrentStreak(logState.items),
+        },
+      };
 
-  const value: Value = {
-    load,
-    isAvailable,
-    isHighlighted,
-    isLoading,
-    state,
-  };
+      setPrevHighlightItems(highlightItems);
+      setPrevTrendsItems(trendsItems);
+      setState(newState);
+
+      setTimeout(() => {
+        setIsLoading(false);
+      }, DELAY_LOADING);
+
+      return newState;
+    },
+    [logState.items, prevHighlightItems, prevTrendsItems, tags]
+  );
+
+  const isAvailable = useCallback(
+    (type: (typeof STATISTIC_TYPES)[number]) => {
+      if (type === "mood_avg") {
+        return state.moodAvgData?.itemsCount > 0;
+      }
+      if (type === "mood_peaks_positive") {
+        return state.moodPeaksPositiveData?.days.length > 0;
+      }
+      if (type === "mood_peaks_negative") {
+        return state.moodPeaksNegativeData?.days.length > 0;
+      }
+      if (type === "tags_peaks") {
+        return state.tagsPeaksData?.tags.length > 0;
+      }
+      if (type === "tags_distribution") {
+        return state.tagsDistributionData?.tags.length > 0;
+      }
+      if (type === "emotions_distribution") {
+        return state.emotionsDistributionData?.emotions.length > 3;
+      }
+      if (type === "sleep_quality_distribution") {
+        return state.sleepQualityDistributionData?.some(
+          (item) => item.value !== null
+        );
+      }
+      return false;
+    },
+    [state]
+  );
+
+  const isHighlighted = useCallback(
+    (type: (typeof STATISTIC_TYPES)[number]) => {
+      if (type === "mood_avg") {
+        return (
+          isAvailable(type) && state.moodAvgData.ratingHighestPercentage > 60
+        );
+      }
+
+      if (type === "mood_peaks_positive") {
+        return (
+          isAvailable(type) && state.moodPeaksPositiveData.days.length >= 2
+        );
+      }
+
+      if (type === "mood_peaks_negative") {
+        return (
+          isAvailable(type) && state.moodPeaksNegativeData.days.length >= 2
+        );
+      }
+
+      if (type === "tags_peaks") {
+        return (
+          isAvailable(type) &&
+          state.tagsPeaksData.tags.filter((tag) => tag.items.length > 5)
+            .length > 0
+        );
+      }
+
+      if (type === "tags_distribution") {
+        return isAvailable(type);
+      }
+
+      if (type === "emotions_distribution") {
+        return (
+          isAvailable(type) &&
+          state.emotionsDistributionData.emotions.some(
+            (emotion) => emotion.count > 5
+          )
+        );
+      }
+
+      return false;
+    },
+    [isAvailable, state]
+  );
+
+  const value: Value = useMemo(
+    () => ({
+      load,
+      isAvailable,
+      isHighlighted,
+      isLoading,
+      state,
+    }),
+    [load, isAvailable, isHighlighted, isLoading, state]
+  );
 
   return (
     <StatisticsContext.Provider value={value}>

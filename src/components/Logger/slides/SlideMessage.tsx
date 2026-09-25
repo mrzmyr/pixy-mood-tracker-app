@@ -67,9 +67,10 @@ const Tips = ({ onClose }: { onClose: () => void }) => {
   const colors = useColors();
   const tempLog = useTemporaryLog();
 
-  const placeholder = useRef(
-    t(`log_modal_message_placeholder_${randomInt(1, 6)}`)
-  );
+  const placeholder = useRef<string | null>(null);
+  if (placeholder.current === null) {
+    placeholder.current = t(`log_modal_message_placeholder_${randomInt(1, 6)}`);
+  }
   const date = dayjs(tempLog.data.dateTime);
   const todayMoodValue = getMoodValueNow();
   const yesterdayMoodValue = getMoodValueYesterday(date);

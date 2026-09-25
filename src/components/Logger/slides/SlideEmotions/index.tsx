@@ -52,7 +52,7 @@ export const SlideEmotions = ({
   const initialSelectedEmotions = useRef(
     tempLog.data?.emotions?.map((d) => EMOTIONS_BY_KEY[d]) || []
   );
-  const [selectedEmotions, setSelectedEmotions] = useState<Emotion[]>(
+  const [selectedEmotions, setSelectedEmotions] = useState<Emotion[]>(() =>
     EMOTIONS.filter((d) => tempLog.data?.emotions?.includes(d.key))
   );
   const [showTooltip, setShowTooltip] = useState(false);

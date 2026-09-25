@@ -2,6 +2,7 @@ import _ from "lodash";
 import { useRef } from "react";
 import { Dimensions } from "react-native";
 import { BigCard } from "@/components/BigCard";
+import type { ScaleItem } from "@/components/RatingChart";
 import { RatingChart } from "@/components/RatingChart";
 import { t } from "@/helpers/translation";
 import { getRatingDistributionForXDays } from "../../hooks/useStatistics/RatingDistribution";
@@ -20,13 +21,14 @@ export const MoodChart = ({ date, items }) => {
   const width = Dimensions.get("window").width - 80;
   const height = width / 2.5;
 
-  const dataDummy = useRef(
-    _.range(1, 30).map((i) => ({
+  const dataDummy = useRef<ScaleItem[] | null>(null);
+  if (dataDummy.current === null) {
+    dataDummy.current = _.range(1, 30).map((i) => ({
       key: `${i}`,
       count: _.random(3, 6),
       value: _.random(1, 6),
-    }))
-  );
+    }));
+  }
 
   const validatedData = data.filter((d) => d.value !== null);
 
