@@ -63,8 +63,12 @@ const renderSettings = (supportClient: SupportClient) =>
   );
 
 const collectTestIds = (node: any): string[] => {
-  if (Array.isArray(node)) return node.flatMap(collectTestIds);
-  if (!node || typeof node !== "object") return [];
+  if (Array.isArray(node)) {
+    return node.flatMap(collectTestIds);
+  }
+  if (!node || typeof node !== "object") {
+    return [];
+  }
 
   const testId = node.props?.testID;
   return [

@@ -87,7 +87,7 @@ export const PromoCards = () => {
             id: item.guid || item.link,
             published: item.pubDate,
             slug: (item.guid || item.link)
-              .replace(/[^a-z0-9]/gi, "_")
+              .replaceAll(/[^a-z0-9]/gi, "_")
               .toLowerCase(),
           }));
 
@@ -148,7 +148,9 @@ export const PromoCards = () => {
     );
   }
 
-  if (promoCards.length === 0) return null;
+  if (promoCards.length === 0) {
+    return null;
+  }
 
   return (
     <View

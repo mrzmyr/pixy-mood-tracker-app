@@ -101,9 +101,9 @@ export const SlideHeader = ({
     ? new Date(tempLog.data.dateTime)
     : new Date();
   const dateTimeTitle =
-    tempLog.data.dateTime !== null
-      ? getItemDateTitle(tempLog.data.dateTime)
-      : "?";
+    tempLog.data.dateTime === null
+      ? "?"
+      : getItemDateTitle(tempLog.data.dateTime);
 
   return (
     <View

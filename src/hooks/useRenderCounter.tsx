@@ -5,7 +5,7 @@ export const useRenderCounter = () => {
   const ref = useRef(0);
 
   useEffect(() => {
-    ref.current = ref.current + 1;
+    ref.current += 1;
   });
 
   return {

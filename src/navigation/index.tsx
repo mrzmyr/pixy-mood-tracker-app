@@ -159,7 +159,7 @@ function RootNavigator() {
   const defaultPageOptions = {
     headerLeft: () =>
       Platform.OS === "ios" ? null : (
-        <BackButton testID={"settings-back-button"} />
+        <BackButton testID="settings-back-button" />
       ),
   };
 

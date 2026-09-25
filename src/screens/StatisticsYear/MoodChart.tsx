@@ -20,9 +20,9 @@ const MIN_ITEMS = 5;
 export const MoodChart = ({ date }: { date: Dayjs }) => {
   const logState = useLogState();
 
-  const items = logState.items.filter((item) => {
-    return dayjs(item.dateTime).isSame(date, "year");
-  });
+  const items = logState.items.filter((item) =>
+    dayjs(item.dateTime).isSame(date, "year")
+  );
 
   const dataDummy = useRef(
     _.range(0, 11).map((i) => ({

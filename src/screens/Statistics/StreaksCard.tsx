@@ -18,7 +18,7 @@ export const StreaksCard = () => {
       <ActionCard
         icon={<Fire color={colors.text} />}
         title={`${statistics.state.streaks.current} days`}
-        subtitle={`Current Streak`}
+        subtitle="Current Streak"
         style={{
           flex: 1,
           marginRight: 8,
@@ -27,7 +27,7 @@ export const StreaksCard = () => {
       <ActionCard
         icon={<Crown color={colors.text} />}
         title={`${statistics.state.streaks.longest} days`}
-        subtitle={`Longest Streak`}
+        subtitle="Longest Streak"
         style={{
           flex: 1,
         }}

@@ -109,8 +109,8 @@ const testTags: Tag[] = [
   },
 ];
 
-const _renderHook = () => {
-  return renderHook(
+const _renderHook = () =>
+  renderHook(
     () => ({
       datagate: useDatagate(),
       logState: useLogState(),
@@ -121,7 +121,6 @@ const _renderHook = () => {
     }),
     { wrapper }
   );
-};
 
 const waitForLoaded = (hook) =>
   waitFor(() => {

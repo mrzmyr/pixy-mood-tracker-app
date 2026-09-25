@@ -27,8 +27,8 @@ export default function usePasscodeModal({
     setIsVisibile(false);
   };
 
-  const ModalElement = useCallback(() => {
-    return (
+  const ModalElement = useCallback(
+    () => (
       <Modal
         animationType={
           Platform.OS === "web" || mode === "confirm" ? "none" : "slide"
@@ -48,8 +48,9 @@ export default function usePasscodeModal({
           <PasscodeView mode={mode} onClose={hide} onSubmit={onSubmit} />
         </SafeAreaView>
       </Modal>
-    );
-  }, [isVisibile]);
+    ),
+    [isVisibile]
+  );
 
   return {
     Modal: ModalElement,

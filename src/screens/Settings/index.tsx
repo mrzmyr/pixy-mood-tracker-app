@@ -54,7 +54,9 @@ export const SettingsScreen = ({
     analytics.track("rate_app");
 
     const storeUrl = StoreReview.storeUrl();
-    if (storeUrl !== null) Linking.openURL(storeUrl);
+    if (storeUrl !== null) {
+      Linking.openURL(storeUrl);
+    }
   };
 
   // const { settings, setSettings } = useSettings()

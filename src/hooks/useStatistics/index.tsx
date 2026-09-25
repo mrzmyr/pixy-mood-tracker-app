@@ -100,9 +100,9 @@ export function StatisticsProvider({
   });
 
   const load = ({ force = false }: { force?: boolean }) => {
-    const highlightItems = logState.items.filter((item) => {
-      return dayjs(item.dateTime).isAfter(dayjs().subtract(14, "day"));
-    });
+    const highlightItems = logState.items.filter((item) =>
+      dayjs(item.dateTime).isAfter(dayjs().subtract(14, "day"))
+    );
     const trendsItems = logState.items;
 
     const highlightItemsChanged = !_.isEqual(

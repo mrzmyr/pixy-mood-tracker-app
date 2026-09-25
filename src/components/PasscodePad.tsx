@@ -72,13 +72,13 @@ export const PasscodePad = ({
             marginBottom: 25,
           }}
         >
-          {mode !== "confirm" ? (
+          {mode === "confirm" ? (
+            <PasscodeEmptyPad />
+          ) : (
             <PasscodePadIcon
               icon={<X height={30} width={30} color={colors.text} />}
               onPress={onClose}
             />
-          ) : (
-            <PasscodeEmptyPad />
           )}
           <PasscodePadButton value="0" onPress={onPress} />
           <PasscodePadIcon

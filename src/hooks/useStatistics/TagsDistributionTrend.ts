@@ -97,13 +97,12 @@ export const getTagsDistributionTrendData = (
             ? "decrease"
             : ("same" as DistributionTag["type"]),
     }))
-    .filter((tag) => {
-      return (
+    .filter(
+      (tag) =>
         Math.abs(tag.periode1Count - tag.periode2Count) > 3 &&
         tag.periode1Count >= 1 &&
         tag.periode2Count >= 1
-      );
-    });
+    );
 
   return {
     tags: _tags,
