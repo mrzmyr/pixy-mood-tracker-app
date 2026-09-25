@@ -170,23 +170,42 @@ const getIosPhoneState = (
 /** What to do on an attached phone that is not ready for tests yet. */
 const getTrustFix = (device: Device) => device.setupFix ?? ANDROID_TRUST_FIX;
 
-const listIosPhones = (): Device[] => {
+// Runs a devicectl command and returns its JSON `result`, or null.
+const readDevicectl = <T>(args: string[]): T | null => {
   const file = path.join(
     os.tmpdir(),
     `pixy-mood-tracker-devicectl-${process.pid}.json`
   );
-  if (
-    tryRun(
-      "xcrun",
-      ["devicectl", "list", "devices", "--quiet", "--json-output", file],
-      20_000
-    ) === null
-  ) {
-    return [];
-  }
-  const result = readJson<{ result: { devices: DevicectlDevice[] } }>(file);
+  const output = tryRun(
+    "xcrun",
+    ["devicectl", ...args, "--quiet", "--json-output", file],
+    20_000
+  );
+  const json = output === null ? null : readJson<{ result: T }>(file);
   fs.rmSync(file, { force: true });
-  return (result?.result.devices ?? [])
+  return json?.result ?? null;
+};
+
+// `list devices` keeps a stale Developer Mode status until a tunnel opens.
+// Asking for details opens one and reads the live value.
+const refreshIfStale = (device: DevicectlDevice, udid: string) =>
+  device.deviceProperties.developerModeStatus === "disabled" &&
+  device.connectionProperties.pairingState === "paired" &&
+  device.connectionProperties.tunnelState !== "connected"
+    ? (readDevicectl<DevicectlDevice>([
+        "device",
+        "info",
+        "details",
+        "--device",
+        udid,
+      ]) ?? device)
+    : device;
+
+const listIosPhones = (): Device[] =>
+  (
+    readDevicectl<{ devices: DevicectlDevice[] }>(["list", "devices"])
+      ?.devices ?? []
+  )
     .filter(
       (device) =>
         device.hardwareProperties.platform === "iOS" &&
@@ -194,8 +213,9 @@ const listIosPhones = (): Device[] => {
         device.hardwareProperties.reality !== "virtual" &&
         device.hardwareProperties.udid
     )
-    .map((device): Device => {
-      const udid = device.hardwareProperties.udid ?? "";
+    .map((listed): Device => {
+      const udid = listed.hardwareProperties.udid ?? "";
+      const device = refreshIfStale(listed, udid);
       const setupFix = getIosSetupFix(device, udid);
       return {
         id: udid,
@@ -206,7 +226,6 @@ const listIosPhones = (): Device[] => {
         state: getIosPhoneState(device, setupFix),
       };
     });
-};
 
 const getAvdName = (serial: string) =>
   tryRun("adb", ["-s", serial, "emu", "avd", "name"])?.split("\n")[0].trim() ??

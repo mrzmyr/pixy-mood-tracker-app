@@ -28,6 +28,7 @@ import {
   getWorktree,
   parseDuration,
   printTable,
+  readJson,
   requireId,
   writeJson,
 } from "./shared.ts";
@@ -48,6 +49,30 @@ const waitForExit = async (child: ChildProcess) => {
   } catch {
     return 127;
   }
+};
+
+// The app's team from app.json. It is public in the repo already.
+const getAppTeamId = () =>
+  readJson<{ expo?: { ios?: { appleTeamId?: string } } }>(
+    path.join(getWorktree(), "app.json")
+  )?.expo?.ios?.appleTeamId;
+
+// maestro-runner signs its XCUITest runner on real iPhones with this team.
+const getSigningArgs = (device: Device, flag: string | undefined) => {
+  if (device.platform !== "ios" || device.kind !== "physical") {
+    return [];
+  }
+  const teamId =
+    flag ?? process.env.PIXY_MOOD_TRACKER_APPLE_TEAM_ID ?? getAppTeamId();
+  if (!teamId) {
+    throw new CliError({
+      fix: "Pass --team-id <APPLE_TEAM_ID> or set PIXY_MOOD_TRACKER_APPLE_TEAM_ID.",
+      message: "No Apple team to sign the test runner",
+      status: "team_id_missing",
+      why: "maestro-runner code-signs its runner on real iPhones, and app.json has no ios.appleTeamId.",
+    });
+  }
+  return ["--team-id", teamId];
 };
 
 // Print to the console and the session log, so old sessions show what ran.
@@ -143,7 +168,12 @@ const assertRunnable = (device: Device) => {
 const cmdRun = async (
   id: string,
   flows: string[],
-  options: { isBuild: boolean; isRecord: boolean; isForce: boolean }
+  options: {
+    isBuild: boolean;
+    isRecord: boolean;
+    isForce: boolean;
+    teamId?: string;
+  }
 ) => {
   const device = findDevice(id);
   assertRunnable(device);
@@ -177,6 +207,7 @@ const cmdRun = async (
 
   // Resolve before the session exists, so a missing SDK or JDK leaves no record.
   const buildEnv = getBuildEnv(device, options.isBuild);
+  const signingArgs = getSigningArgs(device, options.teamId);
 
   const sessionId = `${new Date().toISOString().slice(5, 10).replace("-", "")}-${crypto.randomBytes(3).toString("hex")}`;
   const worktree = getWorktree();
@@ -263,6 +294,7 @@ const cmdRun = async (
     "--no-ansi",
     // Never reinstall or wipe a phone's TestFlight build.
     ...(device.kind === "physical" ? ["--no-app-install"] : []),
+    ...signingArgs,
     "test",
     "--output",
     session.reportDir,
@@ -375,11 +407,13 @@ const SESSIONS_HELP = `Run e2e flows and track which test runs on which device.
 
 Usage: bun sessions <command> [options]
 
-  run <device-id> [flows...] [--build] [--record] [--force]
+  run <device-id> [flows...] [--build] [--record] [--force] [--team-id <id>]
       Run Maestro flows through maestro-runner (default: e2e/flows).
       --build installs a release build of this worktree first
       (simulator/emulator, reused from the build cache when possible).
       --record keeps a video of every flow. --force takes over a busy device.
+      --team-id signs the runner on a real iPhone (default:
+      PIXY_MOOD_TRACKER_APPLE_TEAM_ID, then app.json ios.appleTeamId).
   list [--all] [--json]
       Sessions with device, flows, worktree, age, and status. --all includes
       finished sessions.
@@ -404,6 +438,7 @@ const SESSIONS_COMMANDS = new Map(
         isBuild: values.build ?? false,
         isForce: values.force ?? false,
         isRecord: values.record ?? false,
+        teamId: values["team-id"],
       }),
   } satisfies Record<string, Command>)
 );

@@ -220,6 +220,7 @@ const parseCli = () =>
       record: { type: "boolean" },
       release: { type: "boolean" },
       stale: { type: "boolean" },
+      "team-id": { type: "string" },
     },
   });
 
