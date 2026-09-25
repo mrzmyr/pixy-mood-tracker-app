@@ -10,6 +10,12 @@ import orderBy from "lodash/orderBy";
 import sumBy from "lodash/sumBy";
 import { Text, View } from "react-native";
 
+/**
+ * Best month of the year of `date`.
+ *
+ * Ranks months by the sum of rating values, not the mean, so months with
+ * more entries rank higher.
+ */
 export const BestMonth = ({ date }: { date: Dayjs }) => {
   const colors = useColors();
   const logState = useLogState();

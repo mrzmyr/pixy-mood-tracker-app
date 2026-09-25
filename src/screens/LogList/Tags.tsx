@@ -60,6 +60,10 @@ const Tag = ({
   );
 };
 
+/**
+ * Tags section of an entry card; editing opens the logger at the tags
+ * step. Tag references without a matching tag are skipped.
+ */
 export const Tags = ({ item }: { item: LogItem }) => {
   const colors = useColors();
   const { tags } = useTagsState();

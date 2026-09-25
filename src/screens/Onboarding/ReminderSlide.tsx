@@ -49,6 +49,11 @@ const Body = ({ index }: { index: number }) => {
   );
 };
 
+/**
+ * Onboarding reminder opt-in. Enabling replaces all scheduled
+ * notifications with one daily reminder; the flow continues even when
+ * permission is denied.
+ */
 export const ReminderSlide = ({
   index,
   setIndex,

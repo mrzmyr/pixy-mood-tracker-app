@@ -5,6 +5,7 @@ import { Fire } from "@/components/icons/Fire";
 import useColors from "../../hooks/useColors";
 import { useStatistics } from "../../hooks/useStatistics";
 
+/** Current and longest streak cards. Labels are not translated yet. */
 export const StreaksCard = () => {
   const statistics = useStatistics();
   const colors = useColors();

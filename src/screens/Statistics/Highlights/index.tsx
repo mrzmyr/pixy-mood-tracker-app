@@ -36,6 +36,11 @@ interface HighlightCards {
   sleep_quality_chart_show: boolean;
 }
 
+/**
+ * Full highlights screen with every available statistics card for the
+ * last 14 days. Must render inside `StatisticsProvider`; cards appear once
+ * statistics are loaded.
+ */
 export const StatisticsHighlights = () => {
   const insets = useSafeAreaInsets();
   const colors = useColors();

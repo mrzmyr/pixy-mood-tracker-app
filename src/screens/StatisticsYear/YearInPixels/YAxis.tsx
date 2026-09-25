@@ -2,6 +2,7 @@ import React from "react";
 import { Text, View } from "react-native";
 import useColors from "../../../hooks/useColors";
 
+/** Day-of-month label at the start of a year grid row. */
 export const YAxis = ({ dayCount }) => {
   const colors = useColors();
 

@@ -3,6 +3,10 @@ import useColors from "@/hooks/useColors";
 import { Edit } from "lucide-react-native";
 import { Text, View } from "react-native";
 
+/**
+ * Section title inside an entry card; the edit action shows only when
+ * `onEdit` is given.
+ */
 export const SectionHeader = ({
   title,
   onEdit,

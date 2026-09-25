@@ -11,6 +11,10 @@ import MenuList from "@/components/MenuList";
 import MenuListItem from "@/components/MenuListItem";
 import TextInfo from "@/components/TextInfo";
 
+/**
+ * Settings > Privacy: privacy summary, link to the full policy, and the
+ * analytics opt-in switch.
+ */
 export const PrivacyScreen = () => {
   const colors = useColors();
   const analytics = useAnalytics();

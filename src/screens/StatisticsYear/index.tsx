@@ -15,6 +15,7 @@ import YearInPixels from "./YearInPixels";
 import { TagDistribution } from "@/components/Statistics/TagDistribution";
 import { EmotionsDistribution } from "@/components/Statistics/EmotionsDistribution";
 
+/** Year report screen. Invalid `date` params fall back to the current year. */
 export const StatisticsYearScreen = ({
   route,
 }: RootStackScreenProps<"StatisticsYear">) => {

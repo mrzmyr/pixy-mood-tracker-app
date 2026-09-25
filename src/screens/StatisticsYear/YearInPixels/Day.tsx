@@ -6,6 +6,10 @@ import useColors from "../../../hooks/useColors";
 import type { LogItem } from "../../../hooks/useLogs";
 import useScale from "../../../hooks/useScale";
 
+/**
+ * One pixel in the year grid; `null` ratings render an empty ring and
+ * today gets a marker.
+ */
 export const Day = ({
   date,
   rating,

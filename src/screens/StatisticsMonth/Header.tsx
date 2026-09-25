@@ -6,6 +6,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import LinkButton from "@/components/LinkButton";
 import useColors from "../../hooks/useColors";
 
+/** Gradient header with back button for the month report. */
 export const Header = ({
   title,
   subtitle,

@@ -51,6 +51,7 @@ const EmotionBar = ({
   );
 };
 
+/** Emotion bars for the top `limit` entries of `data`, most used first. */
 export const EmotionsDistributionContent = ({
   data,
   limit = 5,
@@ -73,6 +74,7 @@ export const EmotionsDistributionContent = ({
   </View>
 );
 
+/** Statistics highlight card for emotion usage in the last 14 days. */
 export const EmotionsDistributionCard = ({
   data,
 }: {

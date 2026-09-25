@@ -22,6 +22,7 @@ const styles = StyleSheet.create({
   },
 });
 
+/** Fallback screen for unknown deep links. */
 export const NotFoundScreen = ({
   navigation,
 }: RootStackScreenProps<"NotFound">) => (

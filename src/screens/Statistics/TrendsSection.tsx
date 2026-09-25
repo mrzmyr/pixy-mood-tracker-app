@@ -8,6 +8,10 @@ import { useStatistics } from "../../hooks/useStatistics";
 import { Subtitle } from "./Subtitle";
 import { Title } from "./Title";
 
+/**
+ * Trends section of the Statistics tab. Not rendered at the moment; the
+ * trend cards inside are disabled.
+ */
 export const TrendsSection = () => {
   const colors = useColors();
   const statistics = useStatistics();

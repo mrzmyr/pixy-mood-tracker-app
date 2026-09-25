@@ -12,6 +12,10 @@ import { CardFeedback } from "@/components/Statistics/CardFeedback";
 
 const MIN_ITEMS = 5;
 
+/**
+ * Mood line chart for every day of the month of `date`. `items` must
+ * already be limited to that month.
+ */
 export const MoodChart = ({ date, items }) => {
   const data = getRatingDistributionForXDays(
     items,

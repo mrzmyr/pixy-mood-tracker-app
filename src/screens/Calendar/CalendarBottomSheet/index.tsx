@@ -154,6 +154,12 @@ const GestureCalendarBottomSheet = () => {
   );
 };
 
+/**
+ * Calendar filter sheet, opened from the tab header's filter button.
+ *
+ * iOS uses a full-screen overlay `Modal`; other platforms use a gesture
+ * bottom sheet. Visibility follows `useCalendarFilters().isOpen`.
+ */
 export const CalendarBottomSheet = () => {
   if (Platform.OS === "ios") {
     return <IOSCalendarBottomSheet />;

@@ -18,6 +18,10 @@ dayjs.extend(isSameOrAfter);
 
 const MIN_ITEMS = 5;
 
+/**
+ * Monthly average mood chart for the year of `date`. Below 5 months with
+ * data it shows placeholder data behind the "not enough data" overlay.
+ */
 export const MoodChart = ({ date }: { date: Dayjs }) => {
   const logState = useLogState();
 

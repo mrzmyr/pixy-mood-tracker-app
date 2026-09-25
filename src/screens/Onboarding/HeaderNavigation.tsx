@@ -5,6 +5,7 @@ import useColors from "../../hooks/useColors";
 import useHaptics from "../../hooks/useHaptics";
 import { HeaderPagination } from "./HeaderPagination";
 
+/** Back, pagination, and skip controls above onboarding slides. */
 export const HeaderNavigation = ({
   index,
   setIndex,

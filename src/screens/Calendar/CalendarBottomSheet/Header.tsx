@@ -4,6 +4,10 @@ import { t } from "@/helpers/translation";
 import { useCalendarFilters } from "../../../hooks/useCalendarFilters";
 import useColors from "../../../hooks/useColors";
 
+/**
+ * Filter sheet header with close and reset actions; reset is disabled
+ * while no filter is active.
+ */
 export const Header = ({ onClose }: { onClose?: () => void }) => {
   const calendarFilters = useCalendarFilters();
   const colors = useColors();

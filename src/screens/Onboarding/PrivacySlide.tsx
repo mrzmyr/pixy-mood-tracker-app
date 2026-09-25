@@ -42,6 +42,10 @@ const ListItem = ({ children, delay }) => {
   );
 };
 
+/**
+ * Last onboarding slide with the privacy summary; `onPress` finishes
+ * onboarding.
+ */
 export const PrivacySlide = ({ onPress }: { onPress: () => void }) => {
   const colors = useColors();
 

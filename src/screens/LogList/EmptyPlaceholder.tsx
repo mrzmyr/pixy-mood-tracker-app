@@ -2,6 +2,7 @@ import { Text, View } from "react-native";
 import { t } from "@/helpers/translation";
 import useColors from "../../hooks/useColors";
 
+/** "No entries" message for an empty day list. */
 export const EmptyPlaceholder = () => {
   const colors = useColors();
 

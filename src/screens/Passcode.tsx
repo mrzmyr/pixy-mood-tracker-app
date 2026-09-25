@@ -3,6 +3,10 @@ import { usePasscode } from "../hooks/usePasscode";
 import { useAnalytics } from "../hooks/useAnalytics";
 import { useSettings } from "../hooks/useSettings";
 
+/**
+ * Passcode confirmation screen. Not registered in navigation while the
+ * passcode lock is disabled.
+ */
 export const PasscodeScreen = () => {
   const passcode = usePasscode();
   const { settings } = useSettings();

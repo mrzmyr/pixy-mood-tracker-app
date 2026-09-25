@@ -4,6 +4,10 @@ import { ChevronLeft, ChevronRight } from "react-native-feather";
 import Button from "@/components/Button";
 import useColors from "../../hooks/useColors";
 
+/**
+ * Previous/next month buttons. A direction is disabled when that month has
+ * no entries. `nextMonth` and `prevMonth` are unused.
+ */
 export const Navigation = ({
   onNext,
   onPrev,

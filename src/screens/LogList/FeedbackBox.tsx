@@ -7,6 +7,10 @@ import useFeedbackModal from "../../hooks/useFeedbackModal";
 
 const DEFAULT_STYLE = {};
 
+/**
+ * Feedback prompt card. `prefix` selects the `<prefix>_title`,
+ * `<prefix>_body`, and `<prefix>_button` translation keys.
+ */
 export const FeedbackBox = ({
   prefix,
   style = DEFAULT_STYLE,

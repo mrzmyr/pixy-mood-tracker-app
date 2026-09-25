@@ -123,6 +123,10 @@ const BodyWeek = ({
   </View>
 );
 
+/**
+ * Highlight card for a frequently used tag, marking its days in the weeks
+ * covering the last 14 days.
+ */
 export const TagPeaksCard = ({ tag }: { tag: TagsPeakData["tags"][0] }) => {
   const colors = useColors();
 

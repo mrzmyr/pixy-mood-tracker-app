@@ -13,6 +13,10 @@ import _ from "lodash";
 import { Platform, ScrollView, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
+/**
+ * Tag manager modal opened from the logger's tag slide. Archived tags are
+ * hidden here but still count toward {@link MAX_TAGS}.
+ */
 export const Tags = ({ navigation }: RootStackScreenProps<"Tags">) => {
   const colors = useColors();
   const insets = useSafeAreaInsets();

@@ -8,6 +8,10 @@ interface Item {
   value: string;
 }
 
+/**
+ * Settings > Licenses: third-party notices from `disclaimer.js`, one list
+ * item per `-----` section.
+ */
 export const LicensesScreen = () => {
   const colors = useColors();
   const slices = disclaimer.split("-----");
