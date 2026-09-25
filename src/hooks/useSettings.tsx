@@ -198,7 +198,7 @@ const SettingsProvider = ({ children }: { children: React.ReactNode }) => {
   }, []);
 
   const toggleStep = useCallback(
-    (step: ConfigurableLoggerStep, value: boolean) => {
+    (step: ConfigurableLoggerStep, value?: boolean) => {
       setSettings((currentSettings) => {
         const shouldAdd = isBoolean(value)
           ? value

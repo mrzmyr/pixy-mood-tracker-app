@@ -7,7 +7,7 @@ interface AnonmizedTag extends Omit<Tag, "title"> {
 }
 
 interface AnonmizedLogItem extends Omit<LogItem, "tags" | "message"> {
-  tags?: AnonmizedTag[];
+  tags?: LogItem["tags"];
   messageLength: number;
 }
 
@@ -28,8 +28,9 @@ const anonymizeItem = (item: LogItem): AnonmizedLogItem => {
     ["message", "tags"]
   );
 
+  // Entries store tag references (`{ id }`) only, so there is no title to strip.
   if (item?.tags) {
-    resultItem.tags = item.tags.map(anonymizeTag);
+    resultItem.tags = item.tags.map(({ id }) => ({ id }));
   }
 
   return resultItem;

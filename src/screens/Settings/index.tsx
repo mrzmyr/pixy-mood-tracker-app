@@ -40,7 +40,7 @@ import { useSupport } from "@/support";
  */
 export const SettingsScreen = ({
   navigation,
-}: RootStackScreenProps<"Settings">) => {
+}: Pick<RootStackScreenProps<"Settings">, "navigation">) => {
   const insets = useSafeAreaInsets();
   const colors = useColors();
   const analytics = useAnalytics();
