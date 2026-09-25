@@ -1,6 +1,8 @@
 import { EMOTIONS } from "@/components/Logger/config";
 import type { Emotion } from "@/types";
-import _ from "lodash";
+import countBy from "lodash/countBy";
+import random from "lodash/random";
+import sampleSize from "lodash/sampleSize";
 import type { LogItem } from "../useLogs";
 
 export interface EmotionsDistributionData {
@@ -16,17 +18,17 @@ export const defaultEmotionsDistributionData: EmotionsDistributionData = {
 };
 
 export const dummyEmotionsDistributionData: EmotionsDistributionData = {
-  emotions: _.sampleSize(EMOTIONS, 4).map((emotion) => ({
+  emotions: sampleSize(EMOTIONS, 4).map((emotion) => ({
     id: emotion.key,
     details: emotion,
-    count: _.random(1, 10),
+    count: random(1, 10),
   })),
 };
 
 export const getEmotionsDistributionData = (
   items: LogItem[]
 ): EmotionsDistributionData => {
-  const distribution = _.countBy(items.flatMap((item) => item?.emotions));
+  const distribution = countBy(items.flatMap((item) => item?.emotions));
   const _emotions = Object.keys(distribution)
     .flatMap((key) => {
       const details = EMOTIONS.find((emotion) => emotion.key === key);
@@ -34,7 +36,7 @@ export const getEmotionsDistributionData = (
         ? []
         : [{ details, id: key, count: distribution[key] }];
     })
-    .sort((a, b) => b.count - a.count);
+    .toSorted((a, b) => b.count - a.count);
 
   return {
     emotions: _emotions,

@@ -1,6 +1,6 @@
 import { LinearGradient } from "expo-linear-gradient";
 import { Pressable, Text, View } from "react-native";
-import { ChevronRight, Moon, X } from "react-native-feather";
+import { Moon, X } from "react-native-feather";
 import useColors from "@/hooks/useColors";
 import { t } from "@/helpers/translation";
 import useHaptics from "@/hooks/useHaptics";

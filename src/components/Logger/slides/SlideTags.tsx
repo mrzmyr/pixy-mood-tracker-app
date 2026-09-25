@@ -13,8 +13,7 @@ import { MiniButton } from "../../MiniButton";
 import Tag from "../../Tag";
 import { SlideHeadline } from "../components/SlideHeadline";
 import { Footer } from "./Footer";
-
-const noop = () => {};
+import noop from "lodash/noop";
 
 export const SlideTags = ({
   onChange,
@@ -33,13 +32,17 @@ export const SlideTags = ({
   const colors = useColors();
   const { tags } = useTagsState();
 
-  const _tags = tags.filter((t) => {
-    const inTempLog = tempLog?.data?.tags?.map((d) => d.id).includes(t.id);
+  const tempLogTagIds = tempLog?.data?.tags
+    ? new Set(tempLog.data.tags.map((d) => d.id))
+    : undefined;
+
+  const _tags = tags.filter((tag) => {
+    const inTempLog = tempLogTagIds?.has(tag.id);
 
     return (
-      (!inTempLog && !t.isArchived) ||
-      (inTempLog && t.isArchived) ||
-      (inTempLog && !t.isArchived)
+      (!inTempLog && !tag.isArchived) ||
+      (inTempLog && tag.isArchived) ||
+      (inTempLog && !tag.isArchived)
     );
   });
 
@@ -102,18 +105,16 @@ export const SlideTags = ({
             {_tags?.map((tag) => (
               <Tag
                 onPress={() => {
-                  const newTags = tempLog?.data?.tags
-                    ?.map((d) => d.id)
-                    .includes(tag.id)
-                    ? tempLog?.data?.tags.filter((t) => t.id !== tag.id)
+                  const newTags = tempLogTagIds?.has(tag.id)
+                    ? tempLog?.data?.tags.filter(
+                        (selectedTag) => selectedTag.id !== tag.id
+                      )
                     : [...(tempLog?.data.tags || []), tag];
                   onChange(newTags);
                 }}
                 title={tag.title}
                 colorName={tag.color}
-                selected={tempLog?.data?.tags
-                  ?.map((d) => d.id)
-                  .includes(tag.id)}
+                selected={tempLogTagIds?.has(tag.id)}
                 key={tag.id}
               />
             ))}

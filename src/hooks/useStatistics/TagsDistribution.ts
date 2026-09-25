@@ -1,4 +1,4 @@
-import _ from "lodash";
+import countBy from "lodash/countBy";
 import type { LogItem } from "../useLogs";
 import type { Tag } from "../useTags";
 
@@ -59,18 +59,17 @@ export const getTagsDistributionData = (
   items: LogItem[],
   tags: Tag[]
 ): TagsDistributionData => {
-  const distribution = _.countBy(
+  const distribution = countBy(
     items.flatMap((item) => item?.tags?.map((tag) => tag?.id))
   );
   const _tags = Object.keys(distribution)
     .flatMap((key) => {
       const details = tags.find((tag) => tag.id === key);
-      return details === undefined
+      return details === undefined || details.isArchived
         ? []
         : [{ details, id: key, count: distribution[key] }];
     })
-    .filter((tag) => !tag.details.isArchived)
-    .sort((a, b) => b.count - a.count);
+    .toSorted((a, b) => b.count - a.count);
 
   return {
     tags: _tags,

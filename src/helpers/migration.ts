@@ -1,4 +1,7 @@
-import _ from "lodash";
+import clone from "lodash/clone";
+import isArray from "lodash/isArray";
+import omit from "lodash/omit";
+import values from "lodash/values";
 import type { LogItem } from "@/hooks/useLogs";
 import type { ImportData } from "./Import";
 
@@ -9,10 +12,10 @@ interface MigratedData extends ImportData {
 export const migrateImportData = (data: ImportData): MigratedData => {
   const { items, settings, tags, version } = data;
 
-  let newItems = _.clone(items);
+  let newItems = clone(items);
 
-  if (!_.isArray(newItems)) {
-    newItems = _.values(newItems);
+  if (!isArray(newItems)) {
+    newItems = values(newItems);
   }
 
   newItems = newItems.map((item) => {
@@ -32,7 +35,7 @@ export const migrateImportData = (data: ImportData): MigratedData => {
     return tag;
   });
 
-  const _settings = _.omit(settings, "tags");
+  const _settings = omit(settings, "tags");
 
   if (!_settings.actionsDone) {
     _settings.actionsDone = [];

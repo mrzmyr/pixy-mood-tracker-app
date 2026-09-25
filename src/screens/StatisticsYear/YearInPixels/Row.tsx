@@ -1,6 +1,6 @@
 import type { Dayjs } from "dayjs";
 import dayjs from "dayjs";
-import _ from "lodash";
+import padStart from "lodash/padStart";
 import type { ReactNode } from "react";
 import React from "react";
 import { View } from "react-native";
@@ -22,9 +22,9 @@ export const Row = ({
 
   const year = date.year();
 
-  for (let i = 0; i < 12; i++) {
-    const monthString = `${year}-${_.padStart(`${i + 1}`, 2, "0")}`;
-    const dateString = `${monthString}-${_.padStart(`${dayCount}`, 2, "0")}`;
+  for (let i = 0; i < 12; i += 1) {
+    const monthString = `${year}-${padStart(`${i + 1}`, 2, "0")}`;
+    const dateString = `${monthString}-${padStart(`${dayCount}`, 2, "0")}`;
     const inThisMonth = dayjs(dateString).month() === i;
 
     const _items = items.filter(

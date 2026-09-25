@@ -1,5 +1,6 @@
 import type { Dayjs } from "dayjs";
-import _ from "lodash";
+import range from "lodash/range";
+import sample from "lodash/sample";
 import type { ReactNode } from "react";
 import React from "react";
 import { View } from "react-native";
@@ -9,7 +10,6 @@ import { t } from "@/helpers/translation";
 import type { LogItem } from "../../../hooks/useLogs";
 import { useLogState } from "../../../hooks/useLogs";
 import { RATING_KEYS } from "@/constants/Ratings";
-import { CardFeedback } from "@/components/Statistics/CardFeedback";
 import { NotEnoughDataOverlay } from "@/components/Statistics/NotEnoughDataOverlay";
 
 import { Row } from "./Row";
@@ -29,7 +29,7 @@ const YearDotsContent = ({
 
   const rows: ReactNode[] = [];
 
-  for (let i = 1; i <= DAY_COUNT; i++) {
+  for (let i = 1; i <= DAY_COUNT; i += 1) {
     rows.push(<Row items={items} date={date} dayCount={i} key={i} />);
   }
   return rows;
@@ -43,13 +43,13 @@ const YearInPixels = ({ date }: { date: Dayjs }) => {
     date.isSame(item.dateTime, "year")
   );
 
-  const dummyItems = _.range(0, 365).map(
+  const dummyItems = range(0, 365).map(
     (i) =>
       // SAFETY: placeholder items only; Row reads them via optional-chained dateTime, so the missing LogItem fields are never dereferenced.
       ({
         id: `${i}`,
         date: date.add(i, "day").format(DATE_FORMAT),
-        rating: _.sample(RATING_KEYS.slice(0, 6)),
+        rating: sample(RATING_KEYS.slice(0, 6)),
         message: "I am feeling",
         createdAt: date.add(i, "day").toISOString(),
       }) as LogItem

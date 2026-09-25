@@ -1,4 +1,5 @@
-import _ from "lodash";
+import isArray from "lodash/isArray";
+import isStringValue from "lodash/isString";
 import type { TextStyle, ViewStyle } from "react-native";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import type { SvgProps } from "react-native-svg";
@@ -8,12 +9,12 @@ import useHaptics from "@/hooks/useHaptics";
 const DEFAULT_STYLE = {};
 
 const isString = (children: React.ReactNode): children is string => {
-  if (_.isString(children)) {
+  if (isStringValue(children)) {
     return true;
   }
 
-  if (_.isArray(children)) {
-    return children.every((d) => _.isString(d));
+  if (isArray(children)) {
+    return children.every((d) => isStringValue(d));
   }
 
   return false;
@@ -28,6 +29,16 @@ const styles = StyleSheet.create({
   },
   iconContainer: { marginRight: 5 },
 });
+
+const getPressableOpacity = (
+  isDisabled: boolean | undefined,
+  isPressed: boolean
+) => {
+  if (isDisabled) {
+    return 0.5;
+  }
+  return isPressed ? 0.8 : 1;
+};
 
 const LinkButton = ({
   type = "primary",
@@ -78,7 +89,7 @@ const LinkButton = ({
           alignItems: "center",
           justifyContent: "center",
           padding: 8,
-          opacity: disabled ? 0.5 : pressed ? 0.8 : 1,
+          opacity: getPressableOpacity(disabled, pressed),
           ...style,
         },
       ]}

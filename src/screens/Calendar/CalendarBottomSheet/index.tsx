@@ -109,10 +109,8 @@ const GestureCalendarBottomSheet = () => {
       if (bottomSheetRef.current !== null) {
         bottomSheetRef.current.snapToIndex(1);
       }
-    } else {
-      if (bottomSheetRef.current !== null) {
-        bottomSheetRef.current.close();
-      }
+    } else if (bottomSheetRef.current !== null) {
+      bottomSheetRef.current.close();
     }
   }, [calendarFilters.isOpen]);
 

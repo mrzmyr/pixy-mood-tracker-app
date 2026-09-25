@@ -25,8 +25,8 @@ interface MockSuperwallEventCallbacks {
   onSuperwallEvent: (eventInfo: MockSuperwallEventInfo) => void;
 }
 
-const mockRegisterPlacement = jest.fn().mockResolvedValue(undefined);
-const mockSetEventTrackingBehavior = jest.fn().mockResolvedValue(undefined);
+const mockRegisterPlacement = jest.fn(() => Promise.resolve());
+const mockSetEventTrackingBehavior = jest.fn(() => Promise.resolve());
 let mockProviderProps: { children: React.ReactNode } | undefined;
 const mockUseSuperwallEvents = jest.fn<
   undefined,

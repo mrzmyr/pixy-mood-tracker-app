@@ -1,4 +1,4 @@
-import _ from "lodash";
+import difference from "lodash/difference";
 import {
   createContext,
   useCallback,
@@ -45,6 +45,29 @@ const initialState: CalendarFiltersData = {
   filteredItems: [],
 };
 
+const isMatchingFilters = (item: LogItem, filters: FiltersData) => {
+  const matchesText = item.message
+    .toLowerCase()
+    .includes(filters.text.toLowerCase());
+  const matchesRatings = filters.ratings.includes(item.rating);
+  const tagIds = item?.tags?.map((tag) => tag.id);
+  const matchesTags = difference(filters.tagIds, tagIds).length === 0;
+
+  const conditions: boolean[] = [];
+
+  if (filters.text !== "") {
+    conditions.push(matchesText);
+  }
+  if (filters.ratings.length !== 0) {
+    conditions.push(matchesRatings);
+  }
+  if (filters.tagIds.length !== 0) {
+    conditions.push(matchesTags);
+  }
+
+  return conditions.every(Boolean);
+};
+
 const CalendarFiltersProvider = ({
   children,
 }: {
@@ -55,52 +78,31 @@ const CalendarFiltersProvider = ({
   const [data, setData] = useState<CalendarFiltersData>(initialState);
   const [isOpen, setIsOpen] = useState(false);
 
-  const _isMatching = (item: LogItem, data: CalendarFiltersData) => {
-    const matchesText = item.message
-      .toLowerCase()
-      .includes(data.text.toLowerCase());
-    const matchesRatings = data.ratings.includes(item.rating);
-    const tagIds = item?.tags?.map((tag) => tag.id);
-    const matchesTags = _.difference(data.tagIds, tagIds).length === 0;
-
-    const conditions: boolean[] = [];
-
-    if (data.text !== "") {
-      conditions.push(matchesText);
-    }
-    if (data.ratings.length !== 0) {
-      conditions.push(matchesRatings);
-    }
-    if (data.tagIds.length !== 0) {
-      conditions.push(matchesTags);
-    }
-
-    return conditions.every((condition) => condition);
-  };
-
-  const _getFilteredItems = (data): LogItem[] =>
-    logState.items.filter((item) => _isMatching(item, data));
+  const _getFilteredItems = (filters: FiltersData): LogItem[] =>
+    logState.items.filter((item) => isMatchingFilters(item, filters));
 
   const set = useCallback(
-    (data: FiltersData) => {
+    (filters: FiltersData) => {
       analytics.track("calendar_filters_filtered", {
-        textLength: data.text.length,
-        ratings: data.ratings,
-        ratingsCount: data.ratings.length,
-        tagsCount: data.tagIds.length,
+        textLength: filters.text.length,
+        ratings: filters.ratings,
+        ratingsCount: filters.ratings.length,
+        tagsCount: filters.tagIds.length,
       });
 
       const isFiltering =
-        data.text !== "" ||
-        data.ratings.length !== 0 ||
-        data.tagIds.length !== 0;
+        filters.text !== "" ||
+        filters.ratings.length !== 0 ||
+        filters.tagIds.length !== 0;
 
       const filterCount =
-        (data.text === "" ? 0 : 1) + data.ratings.length + data.tagIds.length;
+        (filters.text === "" ? 0 : 1) +
+        filters.ratings.length +
+        filters.tagIds.length;
 
       setData({
-        ...data,
-        filteredItems: _getFilteredItems(data),
+        ...filters,
+        filteredItems: _getFilteredItems(filters),
         isFiltering,
         filterCount,
       });

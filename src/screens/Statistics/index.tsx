@@ -1,4 +1,3 @@
-import { FeedbackBox } from "@/components/FeedbackBox";
 import MenuList from "@/components/MenuList";
 import MenuListHeadline from "@/components/MenuListHeadline";
 import MenuListItem from "@/components/MenuListItem";

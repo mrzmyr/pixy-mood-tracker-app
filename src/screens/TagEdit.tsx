@@ -44,28 +44,26 @@ export const TagEdit = ({
   const analytics = useAnalytics();
 
   const tagExists = tagState.tags.find((tag) => tag.id === route.params.id);
-  const defaultTag: ITag = tagExists
-    ? tagExists
-    : {
-        id: uuidv4(),
-        title: "",
-        color: "slate",
-      };
+  const defaultTag: ITag = tagExists || {
+    id: uuidv4(),
+    title: "",
+    color: "slate",
+  };
 
-  const [tag, setTag] = useState(tagExists ? tagExists : defaultTag);
+  const [tag, setTag] = useState(tagExists || defaultTag);
 
-  const onDelete = (tag: ITag) => {
-    tagsUpdater.deleteTag(tag.id);
+  const onDelete = (tagToDelete: ITag) => {
+    tagsUpdater.deleteTag(tagToDelete.id);
     navigation.goBack();
   };
 
-  const askToDelete = async (tag: ITag) => {
+  const askToDelete = async (tagToDelete: ITag) => {
     await haptics.selection();
 
     analytics.track("delete_tag_ask", {
-      titleLength: tag.title,
-      color: tag.color,
-      containsEmoji: REGEX_EMOJI.test(tag.title),
+      titleLength: tagToDelete.title,
+      color: tagToDelete.color,
+      containsEmoji: REGEX_EMOJI.test(tagToDelete.title),
     });
 
     Alert.alert(
@@ -76,11 +74,11 @@ export const TagEdit = ({
           text: t("delete"),
           onPress: () => {
             analytics.track("tag_delete_success", {
-              titleLength: tag.title,
-              color: tag.color,
-              containsEmoji: REGEX_EMOJI.test(tag.title),
+              titleLength: tagToDelete.title,
+              color: tagToDelete.color,
+              containsEmoji: REGEX_EMOJI.test(tagToDelete.title),
             });
-            onDelete(tag);
+            onDelete(tagToDelete);
           },
           style: "destructive",
         },
@@ -96,8 +94,8 @@ export const TagEdit = ({
     );
   };
 
-  const onSubmit = (tag: ITag) => {
-    tagsUpdater.updateTag(tag);
+  const onSubmit = (updatedTag: ITag) => {
+    tagsUpdater.updateTag(updatedTag);
     navigation.goBack();
   };
 
@@ -148,8 +146,8 @@ export const TagEdit = ({
             maxLength={MAX_TAG_LENGTH}
             value={tag.title}
             onChangeText={(text) => {
-              setTag((tag) => ({
-                ...tag,
+              setTag((currentTag) => ({
+                ...currentTag,
                 title: text,
               }));
             }}
@@ -182,8 +180,8 @@ export const TagEdit = ({
                 }}
                 onPress={async () => {
                   await haptics.selection();
-                  setTag((tag) => ({
-                    ...tag,
+                  setTag((currentTag) => ({
+                    ...currentTag,
                     color: colorName,
                   }));
                 }}
@@ -208,9 +206,9 @@ export const TagEdit = ({
                   testID="tag-archived"
                   ios_backgroundColor={colors.backgroundSecondary}
                   onValueChange={() => {
-                    setTag((tag) => ({
-                      ...tag,
-                      isArchived: !tag.isArchived,
+                    setTag((currentTag) => ({
+                      ...currentTag,
+                      isArchived: !currentTag.isArchived,
                     }));
                   }}
                   value={tag.isArchived}

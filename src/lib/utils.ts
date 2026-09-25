@@ -1,6 +1,7 @@
 import { Dimensions } from "react-native";
 import dayjs from "dayjs";
-import _ from "lodash";
+import groupBy from "lodash/groupBy";
+import sortBy from "lodash/sortBy";
 import { t } from "@/helpers/translation";
 import { DATE_FORMAT } from "@/constants/Config";
 import type { LogDay, LogItem } from "@/hooks/useLogs";
@@ -15,7 +16,7 @@ const SCREEN_WIDTH = Dimensions.get("window").width;
 export const getItemsCoverage = (items: LogItem[]) => {
   let itemsCoverage = 0;
 
-  const itemsSorted = _.sortBy(items, (item) => item.dateTime);
+  const itemsSorted = sortBy(items, (item) => item.dateTime);
 
   if (itemsSorted.length > 0) {
     const days = dayjs().diff(dayjs(itemsSorted[0].dateTime), "day");
@@ -64,19 +65,19 @@ export const getAverageSleepQuality = (items: LogItem[]): number | null => {
 
 export const getWordCount = (text = "") => {
   const normalized = text.trim();
-  return normalized === "" ? 0 : normalized.split(/\s+/).length;
+  return normalized === "" ? 0 : normalized.split(/\s+/u).length;
 };
 
 export const getLogDays = (items: LogItem[]): LogDay[] => {
-  const moodsPerDay = _.groupBy(items, (item) =>
+  const moodsPerDay = groupBy(items, (item) =>
     dayjs(item.dateTime).format(DATE_FORMAT)
   );
 
   return Object.keys(moodsPerDay)
     .map((date) => {
-      const items = moodsPerDay[date];
-      const avgMood = getAverageMood(items);
-      const avgSleepQuality = getAverageSleepQuality(items);
+      const dayItems = moodsPerDay[date];
+      const avgMood = getAverageMood(dayItems);
+      const avgSleepQuality = getAverageSleepQuality(dayItems);
 
       if (avgMood === null) {
         return null;
@@ -86,7 +87,7 @@ export const getLogDays = (items: LogItem[]): LogDay[] => {
         date,
         ratingAvg: avgMood,
         sleepQualityAvg: avgSleepQuality,
-        items,
+        items: dayItems,
       };
     })
     .filter((item): item is LogDay => item !== null);
@@ -120,33 +121,31 @@ export const getDayDateTitle = (date: LogDay["date"]) => {
   return dayjs(date).format("dddd, L");
 };
 
-const isoDateRegExp = new RegExp(
-  /(\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d\.\d+([+-][0-2]\d:[0-5]\d|Z))|(\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d([+-][0-2]\d:[0-5]\d|Z))|(\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d([+-][0-2]\d:[0-5]\d|Z))/
-);
+const isoDateRegExp =
+  /(?:\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d\.\d+(?:[+-][0-2]\d:[0-5]\d|Z))|(?:\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d(?:[+-][0-2]\d:[0-5]\d|Z))|(?:\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d(?:[+-][0-2]\d:[0-5]\d|Z))/u;
 
 export const isISODate = (date: string) => isoDateRegExp.test(date);
 
 export const getMostUsedEmotions = (items: LogItem[]) => {
-  const emotions = items.reduce<Record<string, number>>((acc, item) => {
+  const emotions: Record<string, number> = {};
+  for (const item of items) {
     if (item.emotions) {
-      item.emotions.forEach((emotion) => {
-        if (acc[emotion]) {
-          acc[emotion] += 1;
+      for (const emotion of item.emotions) {
+        if (emotions[emotion]) {
+          emotions[emotion] += 1;
         } else {
-          acc[emotion] = 1;
+          emotions[emotion] = 1;
         }
-      });
+      }
     }
-
-    return acc;
-  }, {});
+  }
 
   return Object.keys(emotions)
     .map((emotion) => ({
       key: emotion,
       count: emotions[emotion],
     }))
-    .sort((a, b) => b.count - a.count);
+    .toSorted((a, b) => b.count - a.count);
 };
 
 export const getItemsCountPerDayAverage = (items: LogItem[]) => {
@@ -154,7 +153,7 @@ export const getItemsCountPerDayAverage = (items: LogItem[]) => {
     return 0;
   }
 
-  const itemsSorted = _.sortBy(items, (item) => item.dateTime);
+  const itemsSorted = sortBy(items, (item) => item.dateTime);
   const days = dayjs().diff(dayjs(itemsSorted[0].dateTime), "day");
   return Math.round(items.length / days);
 };

@@ -1,7 +1,7 @@
 import { getLogDays } from "@/lib/utils";
 import dayjs from "dayjs";
 import type { LogItem } from "../useLogs";
-import _ from "lodash";
+import random from "lodash/random";
 
 const MONTH_MAPPING = {
   0: "Jan",
@@ -28,10 +28,10 @@ export const defaultSleepQualityDistributionDataForXDays =
   (): SleepQualityDistributionData => {
     const result: SleepQualityDistributionData = [];
 
-    for (let i = 0; i <= 30; i++) {
+    for (let i = 0; i <= 30; i += 1) {
       result.push({
         key: dayjs().add(i, "day").format("D"),
-        count: _.random(0, 5),
+        count: random(0, 5),
         value: null,
       });
     }
@@ -44,7 +44,7 @@ export const getSleepQualityDistributionForYear = (
 ): SleepQualityDistributionData => {
   const result: SleepQualityDistributionData = [];
 
-  for (const month in Object.keys(MONTH_MAPPING)) {
+  for (const month of Object.keys(MONTH_MAPPING)) {
     let value: null | number = null;
 
     const logDays = getLogDays(items);
@@ -55,10 +55,10 @@ export const getSleepQualityDistributionForYear = (
         day.sleepQualityAvg !== null
     );
 
-    days.forEach((item) => {
+    for (const item of days) {
       const sleepQuality = item.sleepQualityAvg;
       if (sleepQuality === null) {
-        return;
+        continue;
       }
 
       if (value === null) {
@@ -66,7 +66,7 @@ export const getSleepQualityDistributionForYear = (
       } else {
         value += sleepQuality;
       }
-    });
+    }
 
     result.push({
       key: MONTH_MAPPING[month][0],
@@ -87,7 +87,7 @@ export const getSleepQualityDistributionForXDays = (
 
   const logDays = getLogDays(items);
 
-  for (let i = 0; i <= dayCount; i++) {
+  for (let i = 0; i <= dayCount; i += 1) {
     let value: null | number = null;
     const date = dayjs(startDate).add(i, "day");
 
@@ -96,10 +96,10 @@ export const getSleepQualityDistributionForXDays = (
         dayjs(item.date).isSame(date, "day") && item.sleepQualityAvg !== null
     );
 
-    days.forEach((item) => {
+    for (const item of days) {
       const sleepQuality = item.sleepQualityAvg;
       if (sleepQuality === null) {
-        return;
+        continue;
       }
 
       if (value === null) {
@@ -107,7 +107,7 @@ export const getSleepQualityDistributionForXDays = (
       } else {
         value += sleepQuality;
       }
-    });
+    }
 
     result.push({
       key: date.format("D"),

@@ -20,6 +20,8 @@ export const SlideSleepButton = ({
 }) => {
   const colors = useColors();
   const colorScheme = useColorScheme();
+  const unselectedBorderColor =
+    colorScheme === "light" ? "rgba(0,0,0,0.1)" : "rgba(255,255,255,0.1)";
   const haptics = useHaptics();
 
   const _value = SLEEP_QUALITY_MAPPING[value];
@@ -39,11 +41,7 @@ export const SlideSleepButton = ({
           alignItems: "center",
           justifyContent: "center",
           backgroundColor: colors.logCardBackground,
-          borderColor: selected
-            ? colors.tint
-            : colorScheme === "light"
-              ? "rgba(0,0,0,0.1)"
-              : "rgba(255,255,255,0.1)",
+          borderColor: selected ? colors.tint : unselectedBorderColor,
           borderWidth: selected ? 2 : 1,
           borderRadius: 8,
           paddingLeft: selected ? 7 : 8,

@@ -4,6 +4,7 @@ import { DATE_FORMAT } from "@/constants/Config";
 import { t } from "@/helpers/translation";
 import { useNavigation } from "@react-navigation/native";
 import dayjs from "dayjs";
+import type { ReactElement } from "react";
 import { useEffect } from "react";
 import { Text, View } from "react-native";
 import { Activity } from "react-native-feather";
@@ -73,7 +74,7 @@ interface HighlightCards {
   sleep_quality_distribution_show: boolean;
 }
 
-export const HighlightsSection = ({ items }: { items: LogItem[] }) => {
+export const HighlightsSection = (_props: { items: LogItem[] }) => {
   const colors = useColors();
   const navigation = useNavigation();
   const analytics = useAnalytics();
@@ -148,6 +149,18 @@ export const HighlightsSection = ({ items }: { items: LogItem[] }) => {
     });
   }, [JSON.stringify(statistics.state)]);
 
+  const tagPeaksCards: ReactElement[] = [];
+  if (showTagPeaks) {
+    const peakTags = statistics.state.tagsPeaksData.tags;
+    // oxlint-disable-next-line unicorn/no-array-sort -- sorts shared statistics state in place on purpose; StatisticsHighlights renders the same array and relies on this order.
+    peakTags.sort((a, b) => b.items.length - a.items.length);
+    for (const tag of peakTags) {
+      if (tag.items.length > 5) {
+        tagPeaksCards.push(<TagPeaksCard key={tag.id} tag={tag} />);
+      }
+    }
+  }
+
   return (
     <>
       <Title>{t("statistics_highlights")}</Title>
@@ -209,16 +222,7 @@ export const HighlightsSection = ({ items }: { items: LogItem[] }) => {
           <TagsDistributionCard data={statistics.state.tagsDistributionData} />
         )}
 
-        {showTagPeaks && (
-          <>
-            {statistics.state.tagsPeaksData.tags
-              .sort((a, b) => b.items.length - a.items.length)
-              .filter((tag) => tag.items.length > 5)
-              .map((tag) => (
-                <TagPeaksCard key={tag.id} tag={tag} />
-              ))}
-          </>
-        )}
+        {showTagPeaks && tagPeaksCards}
 
         <MenuList
           style={{

@@ -67,17 +67,15 @@ export const useFeedback = () => {
             { cancelable: false }
           );
         }
+      } else if (onCancel) {
+        onCancel();
       } else {
-        if (onCancel) {
-          onCancel();
-        } else {
-          Alert.alert(
-            t("feedback_error_title"),
-            t("feedback_error_message"),
-            [{ text: t("ok") }],
-            { cancelable: false }
-          );
-        }
+        Alert.alert(
+          t("feedback_error_title"),
+          t("feedback_error_message"),
+          [{ text: t("ok") }],
+          { cancelable: false }
+        );
       }
     } catch {
       if (onCancel) {

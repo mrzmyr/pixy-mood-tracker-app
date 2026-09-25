@@ -29,7 +29,7 @@ export const getRatingDistributionForYear = (
 ): RatingDistributionData => {
   const result: RatingDistributionData = [];
 
-  for (const month in Object.keys(MONTH_MAPPING)) {
+  for (const month of Object.keys(MONTH_MAPPING)) {
     let value: null | number = null;
 
     const logDays = getLogDays(items);
@@ -38,13 +38,13 @@ export const getRatingDistributionForYear = (
       (day) => dayjs(day.date).month() === Number(month)
     );
 
-    days.forEach((item) => {
+    for (const item of days) {
       if (value === null) {
         value = RATING_MAPPING[item.ratingAvg];
       } else {
         value += RATING_MAPPING[item.ratingAvg];
       }
-    });
+    }
 
     result.push({
       key: MONTH_MAPPING[month][0],
@@ -65,7 +65,7 @@ export const getRatingDistributionForXDays = (
 
   const logDays = getLogDays(items);
 
-  for (let i = 0; i <= dayCount; i++) {
+  for (let i = 0; i <= dayCount; i += 1) {
     let value: null | number = null;
     const date = dayjs(startDate).add(i, "day");
 
@@ -73,13 +73,13 @@ export const getRatingDistributionForXDays = (
       (item) => dayjs(item.date).date() === date.date()
     );
 
-    days.forEach((item) => {
+    for (const item of days) {
       if (value === null) {
         value = RATING_MAPPING[item.ratingAvg];
       } else {
         value += RATING_MAPPING[item.ratingAvg];
       }
-    });
+    }
 
     result.push({
       key: date.format("D"),

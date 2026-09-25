@@ -1,8 +1,6 @@
 import { Fragment, useCallback, useEffect, useState } from "react";
 import { ScrollView, View } from "react-native";
-import MenuList from "@/components/MenuList";
 import MenuListHeadline from "@/components/MenuListHeadline";
-import MenuListItem from "@/components/MenuListItem";
 import TextInfo from "@/components/TextInfo";
 import { t } from "@/helpers/translation";
 import { useAnalytics } from "../../hooks/useAnalytics";
@@ -12,38 +10,38 @@ import { Radio } from "./Radio";
 import { Scale } from "./Scale";
 import { PageWithHeaderLayout } from "@/components/PageWithHeaderLayout";
 
-export const ColorsScreen = ({ navigation }) => {
+const typesNames = [
+  {
+    id: `ColorBrew-RdYlGn`,
+    disabled: false,
+  },
+  {
+    id: `ColorBrew-PuOr`,
+    disabled: true,
+  },
+  {
+    id: `ColorBrew-BrBG`,
+    disabled: true,
+  },
+  {
+    id: `ColorBrew-RdYG`,
+    disabled: false,
+  },
+  {
+    id: `ColorBrew-RdYlGn-old`,
+    disabled: false,
+  },
+];
+
+export const ColorsScreen = () => {
   const { setSettings, settings } = useSettings();
   const colors = useColors();
   const analytics = useAnalytics();
 
   const [scaleType, setScaleType] = useState(settings.scaleType);
 
-  const typesNames = [
-    {
-      id: `ColorBrew-RdYlGn`,
-      disabled: false,
-    },
-    {
-      id: `ColorBrew-PuOr`,
-      disabled: true,
-    },
-    {
-      id: `ColorBrew-BrBG`,
-      disabled: true,
-    },
-    {
-      id: `ColorBrew-RdYG`,
-      disabled: false,
-    },
-    {
-      id: `ColorBrew-RdYlGn-old`,
-      disabled: false,
-    },
-  ];
-
   useEffect(() => {
-    setSettings((settings) => ({ ...settings, scaleType }));
+    setSettings((currentSettings) => ({ ...currentSettings, scaleType }));
     analytics.track("colors_scale_changed", { scaleType });
   }, [scaleType]);
 

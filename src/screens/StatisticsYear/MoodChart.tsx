@@ -1,6 +1,6 @@
 import type { Dayjs } from "dayjs";
 import dayjs from "dayjs";
-import { Dimensions, View } from "react-native";
+import { Dimensions } from "react-native";
 import { t } from "@/helpers/translation";
 import { useLogState } from "../../hooks/useLogs";
 import { getRatingDistributionForYear } from "../../hooks/useStatistics/RatingDistribution";
@@ -9,10 +9,10 @@ import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
 import { BigCard } from "@/components/BigCard";
 import type { ScaleItem } from "@/components/RatingChart";
 import { RatingChart } from "@/components/RatingChart";
-import { CardFeedback } from "@/components/Statistics/CardFeedback";
 import { NotEnoughDataOverlay } from "@/components/Statistics/NotEnoughDataOverlay";
 import { useRef } from "react";
-import _ from "lodash";
+import random from "lodash/random";
+import range from "lodash/range";
 
 dayjs.extend(isSameOrAfter);
 
@@ -27,10 +27,10 @@ export const MoodChart = ({ date }: { date: Dayjs }) => {
 
   const dataDummy = useRef<ScaleItem[] | null>(null);
   if (dataDummy.current === null) {
-    dataDummy.current = _.range(0, 11).map((i) => ({
+    dataDummy.current = range(0, 11).map((i) => ({
       key: dayjs().month(i).format("MMM")[0],
-      count: _.random(3, 6),
-      value: _.random(1, 6),
+      count: random(3, 6),
+      value: random(1, 6),
     }));
   }
 

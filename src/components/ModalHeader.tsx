@@ -42,7 +42,7 @@ const ModalHeader = ({
           width: "30%",
         }}
       >
-        {left ? left : null}
+        {left || null}
       </View>
       <View
         style={{

@@ -1,4 +1,4 @@
-import _ from "lodash";
+import isString from "lodash/isString";
 import type { ReactNode } from "react";
 import { Text, View } from "react-native";
 import useColors from "@/hooks/useColors";
@@ -50,7 +50,7 @@ export const Card = ({
           marginBottom: 16,
         }}
       >
-        {_.isString(title) ? (
+        {isString(title) ? (
           <Text
             style={{
               letterSpacing: -0.1,

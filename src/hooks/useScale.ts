@@ -12,9 +12,9 @@ export default function useScale(type?: SettingsState["scaleType"]) {
 
   // SAFETY: the loop below assigns every rating key; callers never read `empty` from this map.
   const scaleColors = {} as IScale;
-  RATING_KEYS.forEach((label, index) => {
+  for (const label of RATING_KEYS) {
     scaleColors[label] = colors.scales[_type][label];
-  });
+  }
 
   return {
     colors: scaleColors,

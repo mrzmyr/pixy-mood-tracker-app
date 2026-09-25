@@ -27,11 +27,11 @@ export const StatisticsMonthScreen = ({
     dayjs(route.params.date).isValid() ? dayjs(route.params.date) : dayjs()
   );
 
-  const _setDate = (date: dayjs.Dayjs) => {
+  const _setDate = (nextDate: dayjs.Dayjs) => {
     navigation.setParams({
-      date: date.format(DATE_FORMAT),
+      date: nextDate.format(DATE_FORMAT),
     });
-    setDate(date);
+    setDate(nextDate);
   };
 
   const prevMonth = date.subtract(1, "month");

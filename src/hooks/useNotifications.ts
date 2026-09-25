@@ -4,7 +4,7 @@ import type {
   NotificationContentInput,
   NotificationTriggerInput,
 } from "expo-notifications";
-import { Platform } from "react-native";
+import { Alert, Platform } from "react-native";
 import { t } from "@/helpers/translation";
 
 const isWeb = Platform.OS === "web";
@@ -38,7 +38,7 @@ const hasPermission = async (): Promise<boolean> => {
     const { status } = await Notifications.getPermissionsAsync();
     return status === "granted";
   }
-  alert("Must use physical device for Push Notifications");
+  Alert.alert("Alert", "Must use physical device for Push Notifications");
 
   return false;
 };
@@ -54,7 +54,7 @@ const askForPermission = async (): Promise<boolean> => {
     const { status } = await Notifications.requestPermissionsAsync();
     return status === "granted";
   }
-  alert("Must use physical device for Push Notifications");
+  Alert.alert("Alert", "Must use physical device for Push Notifications");
 
   return false;
 };
@@ -81,8 +81,8 @@ const useNotification = () =>
     ? {
         hasPermission: () => Promise.resolve(true),
         askForPermission: () => Promise.resolve(true),
-        schedule: async () => {},
-        cancelAll: async () => {},
+        schedule: () => Promise.resolve(),
+        cancelAll: () => Promise.resolve(),
         getScheduled: () => Promise.resolve([]),
       }
     : {

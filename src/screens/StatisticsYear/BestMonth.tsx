@@ -1,4 +1,3 @@
-import { BigCard } from "@/components/BigCard";
 import { NotEnoughDataOverlay } from "@/components/Statistics/NotEnoughDataOverlay";
 import { t } from "@/helpers/translation";
 import useColors from "@/hooks/useColors";
@@ -6,30 +5,38 @@ import { useLogState } from "@/hooks/useLogs";
 import { RATING_MAPPING } from "@/constants/Ratings";
 import type { Dayjs } from "dayjs";
 import dayjs from "dayjs";
-import _ from "lodash";
+import groupBy from "lodash/groupBy";
+import orderBy from "lodash/orderBy";
+import sumBy from "lodash/sumBy";
 import { Text, View } from "react-native";
 
 export const BestMonth = ({ date }: { date: Dayjs }) => {
   const colors = useColors();
   const logState = useLogState();
 
-  const items = logState.items
-    .filter((item) => dayjs(item.dateTime).isSame(date, "year"))
-    .map((item) => ({
-      ...item,
-      month: dayjs(item.dateTime).format("YYYY-MM"),
-      ratingValue: RATING_MAPPING[item.rating],
-    }));
+  const items = logState.items.flatMap((item) =>
+    dayjs(item.dateTime).isSame(date, "year")
+      ? [
+          {
+            ...item,
+            month: dayjs(item.dateTime).format("YYYY-MM"),
+            ratingValue: RATING_MAPPING[item.rating],
+          },
+        ]
+      : []
+  );
 
-  const bestMonthByRatingValue = _.chain(items)
-    .groupBy("month")
-    .map((items, month) => ({
+  const monthRatingValues = Object.entries(groupBy(items, "month")).map(
+    ([month, monthItems]) => ({
       month,
-      ratingValue: _.sumBy(items, "ratingValue"),
-    }))
-    .orderBy("ratingValue", "desc")
-    .first()
-    .value();
+      ratingValue: sumBy(monthItems, "ratingValue"),
+    })
+  );
+  const [bestMonthByRatingValue] = orderBy(
+    monthRatingValues,
+    "ratingValue",
+    "desc"
+  );
 
   const month = bestMonthByRatingValue
     ? dayjs(bestMonthByRatingValue.month).format("MMMM")

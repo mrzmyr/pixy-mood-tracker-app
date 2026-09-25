@@ -1,14 +1,10 @@
-import Indicator from "@/components/Indicator";
 import LinkButton from "@/components/LinkButton";
 import { t } from "@/helpers/translation";
 import { useCalendarFilters } from "@/hooks/useCalendarFilters";
 import useColors from "@/hooks/useColors";
 import type { BottomTabBarProps } from "@react-navigation/bottom-tabs";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { useNavigation } from "@react-navigation/native";
-import dayjs from "dayjs";
-import * as Updates from "expo-updates";
-import { Platform, Pressable, View } from "react-native";
+import { Platform, View } from "react-native";
 import { Filter } from "react-native-feather";
 import { SettingsScreen } from "../screens/Settings";
 import { StatisticsScreen } from "../screens/Statistics";
@@ -49,7 +45,6 @@ const renderTabBar = (props: BottomTabBarProps) => <MyTabBar {...props} />;
 
 export const BottomTabs = () => {
   const colors = useColors();
-  const navigation = useNavigation();
 
   const defaultOptions = {
     headerTintColor: colors.text,
@@ -68,7 +63,7 @@ export const BottomTabs = () => {
   return (
     <Tab.Navigator
       initialRouteName="Calendar"
-      screenOptions={({ route }) => ({
+      screenOptions={() => ({
         headerStyle: {
           borderBottomColor: "#fff",
         },
@@ -78,7 +73,7 @@ export const BottomTabs = () => {
       <Tab.Screen
         name="Statistics"
         component={StatisticsScreen}
-        options={({ navigation }) => ({
+        options={() => ({
           ...defaultOptions,
           headerShown: false,
           tabBarTestID: "statistics",
@@ -88,7 +83,7 @@ export const BottomTabs = () => {
       <Tab.Screen
         name="Calendar"
         component={CalendarScreen}
-        options={({ navigation }) => ({
+        options={() => ({
           ...defaultOptions,
           headerRight: renderCalendarHeaderRight,
           tabBarTestID: "calendar",
@@ -98,7 +93,7 @@ export const BottomTabs = () => {
       <Tab.Screen
         name="Settings"
         component={SettingsScreen}
-        options={({ navigation }) => ({
+        options={() => ({
           ...defaultOptions,
           headerShown: false,
           tabBarTestID: "settings",

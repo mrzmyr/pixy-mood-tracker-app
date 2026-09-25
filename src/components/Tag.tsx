@@ -22,6 +22,8 @@ const Tag = ({
   const colors = useColors();
   const haptics = useHaptics();
   const colorScheme = useColorScheme();
+  const unselectedBorderColor =
+    colorScheme === "light" ? "rgba(0,0,0,0.1)" : "rgba(255,255,255,0.1)";
 
   return (
     <Pressable
@@ -35,11 +37,7 @@ const Tag = ({
         backgroundColor: selected
           ? colors.tagBackgroundActive
           : colors.tagBackground,
-        borderColor: selected
-          ? colors.tint
-          : colorScheme === "light"
-            ? "rgba(0,0,0,0.1)"
-            : "rgba(255,255,255,0.1)",
+        borderColor: selected ? colors.tint : unselectedBorderColor,
         borderWidth: 1,
         paddingHorizontal: 16,
         paddingVertical: 8,

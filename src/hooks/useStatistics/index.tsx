@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-import _ from "lodash";
+import isEqual from "lodash/isEqual";
 import {
   createContext,
   useCallback,
@@ -114,11 +114,11 @@ export const StatisticsProvider = ({
       );
       const trendsItems = logState.items;
 
-      const highlightItemsChanged = !_.isEqual(
+      const highlightItemsChanged = !isEqual(
         prevHighlightItems,
         highlightItems
       );
-      const trendsItemsChanged = !_.isEqual(prevTrendsItems, trendsItems);
+      const trendsItemsChanged = !isEqual(prevTrendsItems, trendsItems);
 
       if (!highlightItemsChanged && !trendsItemsChanged && !force) {
         return;
@@ -226,8 +226,7 @@ export const StatisticsProvider = ({
       if (type === "tags_peaks") {
         return (
           isAvailable(type) &&
-          state.tagsPeaksData.tags.filter((tag) => tag.items.length > 5)
-            .length > 0
+          state.tagsPeaksData.tags.some((tag) => tag.items.length > 5)
         );
       }
 

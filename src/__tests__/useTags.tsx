@@ -191,9 +191,9 @@ describe("useTags()", () => {
       hook.result.current.updater.deleteTag("1");
     });
 
-    Object.values(hook.result.current.logsState.items).forEach((item) => {
+    for (const item of Object.values(hook.result.current.logsState.items)) {
       expect(item.tags?.length).toBe(1);
-    });
+    }
   });
 
   test("should keep logs added before deleteTag re-renders", async () => {
@@ -223,9 +223,9 @@ describe("useTags()", () => {
       testItems[1].id,
       newItem.id,
     ]);
-    items.forEach((item) => {
+    for (const item of items) {
       expect(item.tags.map((tag) => tag.id)).not.toContain("1");
-    });
+    }
 
     await waitFor(async () => {
       const stored = JSON.parse(
@@ -251,10 +251,10 @@ describe("useTags()", () => {
       hook.result.current.updater.deleteTag("1");
     });
 
-    itemsBefore.forEach((item, index) => {
+    for (const [index, item] of itemsBefore.entries()) {
       expect(item.tags).toBe(tagsBefore[index]);
       expect(item.tags.map((tag) => tag.id)).toContain("1");
-    });
+    }
   });
 
   test("should reset", async () => {

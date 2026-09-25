@@ -46,7 +46,8 @@ describe("getJSONSchemaType", () => {
       items: {
         "2022-01-03": {
           date: "2022-01-03",
-          rating: "really_good", // wrong rating
+          // wrong rating
+          rating: "really_good",
           message: "test message 2",
         },
       },

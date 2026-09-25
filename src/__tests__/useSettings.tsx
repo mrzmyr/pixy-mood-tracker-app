@@ -94,7 +94,7 @@ describe("useSettings()", () => {
 
   test("should initiate with empty `settings` when async storage is falsely", async () => {
     AsyncStorage.setItem(STORAGE_KEY, "🐇");
-    const hook = await _renderHook();
+    await _renderHook();
     await waitFor(() => expect(console.error).toHaveBeenCalled());
     expect(console.error).toHaveBeenCalled();
   });

@@ -1,4 +1,4 @@
-import _ from "lodash";
+import omit from "lodash/omit";
 import type { LogDay, LogItem } from "./useLogs";
 import type { Tag } from "./useTags";
 
@@ -16,11 +16,11 @@ interface AnonmizedLogDay extends Omit<LogDay, "items"> {
 }
 
 const anonymizeTag = (tag: Tag): AnonmizedTag => ({
-  ..._.omit(tag, "title"),
+  ...omit(tag, "title"),
   titleLength: tag?.title?.length,
 });
 const anonymizeItem = (item: LogItem): AnonmizedLogItem => {
-  const resultItem: AnonmizedLogItem = _.omit(
+  const resultItem: AnonmizedLogItem = omit(
     {
       ...item,
       messageLength: item.message.length,

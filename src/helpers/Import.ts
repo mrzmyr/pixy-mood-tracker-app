@@ -25,7 +25,7 @@ export const pixySchema = z
         id: z.string().optional(),
         date: z
           .string()
-          .refine((date: LogItem["date"]) => /^\d{4}-\d{2}-\d{2}$/.test(date)),
+          .refine((date: LogItem["date"]) => /^\d{4}-\d{2}-\d{2}$/u.test(date)),
         rating: z
           .string()
           .refine((rating: LogItem["rating"]) => RATING_KEYS.includes(rating)),

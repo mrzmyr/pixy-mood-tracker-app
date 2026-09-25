@@ -128,7 +128,7 @@ export const Logger = ({
 
   const [touched, setTouched] = useState(false);
 
-  const indexFound = avaliableSteps.findIndex((slide) => slide === initialStep);
+  const indexFound = initialStep ? avaliableSteps.indexOf(initialStep) : -1;
   const initialIndex = indexFound === -1 ? 0 : indexFound;
   const [slideIndex, setSlideIndex] = useState(initialIndex);
 
@@ -149,10 +149,8 @@ export const Logger = ({
 
     if (slideIndex + 1 === slideKeys.length) {
       save(tempLog.data);
-    } else {
-      if (_carousel.current) {
-        _carousel.current.next();
-      }
+    } else if (_carousel.current) {
+      _carousel.current.next();
     }
   };
 
@@ -161,6 +159,9 @@ export const Logger = ({
     slide: ReactElement;
     action?: ReactElement;
   }[] = [];
+
+  const isRatingActionVisible = slideIndex !== 0 || touched || mode === "edit";
+  const ratingActionType = content.length === 1 ? "save" : "next";
 
   content.push({
     key: "rating",
@@ -184,13 +185,7 @@ export const Logger = ({
     ),
     action: (
       <SlideAction
-        type={
-          slideIndex !== 0 || touched || mode === "edit"
-            ? content.length === 1
-              ? "save"
-              : "next"
-            : "hidden"
-        }
+        type={isRatingActionVisible ? ratingActionType : "hidden"}
         onPress={next}
       />
     ),
@@ -440,7 +435,7 @@ export const LoggerCreate = ({
     createdAt: createdAt.current,
   };
 
-  avaliableSteps =
+  const steps =
     avaliableSteps ||
     getAvailableStepsForCreate({
       question: questioner.question,
@@ -451,7 +446,7 @@ export const LoggerCreate = ({
       mode="create"
       initialItem={initialItem}
       initialStep={initialStep}
-      avaliableSteps={avaliableSteps}
+      avaliableSteps={steps}
       question={questioner.question}
     />
   );

@@ -28,7 +28,7 @@ export const Content = ({
           marginTop: 16,
         }}
       >
-        {[...RATING_KEYS].reverse().map((ratingName) => (
+        {RATING_KEYS.toReversed().map((ratingName) => (
           <Bar
             key={`rating-bar-${ratingName}`}
             height={(data.values[ratingName] / data.total) * 400}
@@ -44,7 +44,7 @@ export const Content = ({
           paddingHorizontal: 16,
         }}
       >
-        {[...RATING_KEYS].reverse().map((ratingName) => (
+        {RATING_KEYS.toReversed().map((ratingName) => (
           <View
             style={{
               alignItems: "center",

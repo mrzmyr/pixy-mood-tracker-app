@@ -5,7 +5,7 @@ import { t } from "@/helpers/translation";
 import { useCalendarNavigation } from "@/hooks/useCalendarNavigation";
 import type { Dayjs } from "dayjs";
 import dayjs from "dayjs";
-import _ from "lodash";
+import range from "lodash/range";
 import { Pressable, Text, View } from "react-native";
 import useColors from "../../hooks/useColors";
 import useHaptics from "../../hooks/useHaptics";
@@ -16,6 +16,13 @@ import type {
   MoodPeaksPositiveData,
 } from "../../hooks/useStatistics/MoodPeaks";
 import { HeaderWeek } from "./HeaderWeek";
+
+const getDayDotOpacity = (isPressed: boolean, isFuture: boolean) => {
+  if (isPressed) {
+    return 0.8;
+  }
+  return isFuture ? 0.5 : 1;
+};
 
 const DayDot = ({ date, day }: { date: Date; day: LogDay | undefined }) => {
   const colors = useColors();
@@ -50,7 +57,7 @@ const DayDot = ({ date, day }: { date: Date; day: LogDay | undefined }) => {
         maxHeight: 32,
         borderColor: color?.border,
         borderWidth: dayjs(date).isSame(dayjs(), "day") ? 2 : 0,
-        opacity: pressed ? 0.8 : isFuture ? 0.5 : 1,
+        opacity: getDayDotOpacity(pressed, isFuture),
       })}
       onPress={async () => {
         if (!day) {
@@ -72,38 +79,36 @@ const DayDot = ({ date, day }: { date: Date; day: LogDay | undefined }) => {
   );
 };
 
-const BodyWeek = ({ days, start }: { days: LogDay[]; start: Dayjs }) => {
-  const _days = [0, 1, 2, 3, 4, 5, 6];
+const WEEK_DAY_OFFSETS = [0, 1, 2, 3, 4, 5, 6];
 
-  return (
-    <View
-      style={{
-        width: "100%",
-        flexDirection: "row",
-        justifyContent: "space-between",
-        marginTop: 16,
-      }}
-    >
-      {_days.map((dayCount) => {
-        const date = dayjs(start).add(dayCount, "day").toDate();
-        const day = days.find((item) => dayjs(item.date).isSame(date, "day"));
+const BodyWeek = ({ days, start }: { days: LogDay[]; start: Dayjs }) => (
+  <View
+    style={{
+      width: "100%",
+      flexDirection: "row",
+      justifyContent: "space-between",
+      marginTop: 16,
+    }}
+  >
+    {WEEK_DAY_OFFSETS.map((dayCount) => {
+      const date = dayjs(start).add(dayCount, "day").toDate();
+      const day = days.find((item) => dayjs(item.date).isSame(date, "day"));
 
-        return (
-          <View
-            key={dayCount}
-            style={{
-              flex: 7,
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <DayDot date={date} day={day} />
-          </View>
-        );
-      })}
-    </View>
-  );
-};
+      return (
+        <View
+          key={dayCount}
+          style={{
+            flex: 7,
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <DayDot date={date} day={day} />
+        </View>
+      );
+    })}
+  </View>
+);
 
 export const MoodPeaksContent = ({
   data,
@@ -128,7 +133,7 @@ export const MoodPeaksContent = ({
       }}
     >
       <HeaderWeek date={_startDate.format(DATE_FORMAT)} />
-      {_.range(weekCount).map((week) => {
+      {range(weekCount).map((week) => {
         const weekStart = dayjs(_startDate).add(week, "week");
 
         return <BodyWeek key={week} days={data.days} start={weekStart} />;

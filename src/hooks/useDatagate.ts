@@ -99,7 +99,7 @@ export const useDatagate = (): DatagateValue => {
 
   const _import = (
     data: ImportData,
-    options: { muted: boolean } = { muted: false }
+    { muted = false }: { muted?: boolean } = {}
   ) => {
     const migratedData = migrateImportData(data);
     const jsonSchemaType = getJSONSchemaType(migratedData);
@@ -112,13 +112,13 @@ export const useDatagate = (): DatagateValue => {
         tags: migratedData.settings.tags || migratedData.tags || [],
       });
       importSettings(migratedData.settings);
-      if (!options.muted) {
+      if (!muted) {
         showImportSuccess();
       }
       analytics.track("data_import_success");
     } else {
       console.log("import failed, json schema:", jsonSchemaType);
-      if (!options.muted) {
+      if (!muted) {
         showImportError();
       }
       analytics.track("data_import_error", {
@@ -170,6 +170,7 @@ export const useDatagate = (): DatagateValue => {
 
     if (Platform.OS === "web") {
       resetFn();
+      // oxlint-disable-next-line eslint/no-alert -- web-only branch: react-native-web's Alert.alert is a no-op, so the browser dialog is the only way to confirm the reset.
       alert(t("reset_data_success_message"));
       return;
     }
@@ -218,7 +219,7 @@ export const useDatagate = (): DatagateValue => {
     );
 
     if (!(await Sharing.isAvailableAsync())) {
-      alert(t("export_failed_title"));
+      Alert.alert("Alert", t("export_failed_title"));
       return;
     }
 

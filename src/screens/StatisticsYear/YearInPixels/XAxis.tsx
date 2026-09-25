@@ -8,7 +8,7 @@ export const XAxis = () => {
   const months: ReactNode[] = [];
   const colors = useColors();
 
-  for (let i = 0; i < 12; i++) {
+  for (let i = 0; i < 12; i += 1) {
     months.push(
       <View
         key={`month-${i}`}

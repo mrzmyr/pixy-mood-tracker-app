@@ -68,10 +68,10 @@ export const SupportCard = () => {
       async () => {
         try {
           await support.openSupport();
-        } catch (cause) {
-          const error = normalizeSupportFlowError(cause);
+        } catch (error) {
+          const supportError = normalizeSupportFlowError(error);
 
-          Alert.alert(error.message, error.fix, [
+          Alert.alert(supportError.message, supportError.fix, [
             { text: t("cancel"), style: "cancel" },
             {
               text: t("support_pixy_retry"),

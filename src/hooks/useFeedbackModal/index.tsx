@@ -37,19 +37,19 @@ export default function useFeedbackModal() {
     setVisible(false);
   };
 
-  const ModalElement = ({ data }: { data?: object }) => {
+  const ModalElement = (_props: { data?: object }) => {
     const [type, setType] = useState<FeedackType>(defaultType);
     const [message, setMessage] = useState("");
     const [email, setEmail] = useState("");
     const [isLoading, setIsLoading] = useState(false);
 
-    const setTypeProxy = (type: FeedackType) => {
-      analytics.track("feedback_type_change", { type });
-      setType(type);
+    const setTypeProxy = (nextType: FeedackType) => {
+      analytics.track("feedback_type_change", { type: nextType });
+      setType(nextType);
     };
 
-    const setMessageProxy = (message: string) => {
-      setMessage(message);
+    const setMessageProxy = (nextMessage: string) => {
+      setMessage(nextMessage);
     };
 
     const send = async () => {
@@ -161,7 +161,7 @@ export default function useFeedbackModal() {
                 </Text>
                 <TypeSelector
                   selected={type}
-                  onPress={(type) => setTypeProxy(type)}
+                  onPress={(selectedType) => setTypeProxy(selectedType)}
                 />
                 <View
                   style={{

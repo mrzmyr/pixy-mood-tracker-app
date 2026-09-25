@@ -29,6 +29,10 @@ interface ParsedRssItem {
   pubDate: string;
 }
 
+const isParsedRssItem = (
+  item: Partial<ParsedRssItem> | undefined
+): item is ParsedRssItem => !!item?.title && !!item?.link && !!item?.pubDate;
+
 const rssParser = new XMLParser({
   ignoreAttributes: false,
   processEntities: false,
@@ -79,20 +83,22 @@ export const PromoCards = () => {
         const rawItems = parsed?.rss?.channel?.item;
         const items: RssItem[] = (
           Array.isArray(rawItems) ? rawItems : [rawItems]
-        )
-          .filter(
-            (item): item is ParsedRssItem =>
-              !!item?.title && !!item?.link && !!item?.pubDate
-          )
-          .filter((item) => dayjs(item.pubDate).isAfter("2023-01-09"))
-          .map((item) => ({
-            title: item.title,
-            id: item.guid || item.link,
-            published: item.pubDate,
-            slug: (item.guid || item.link)
-              .replaceAll(/[^a-z0-9]/gi, "_")
-              .toLowerCase(),
-          }));
+        ).flatMap((item) =>
+          isParsedRssItem(item) && dayjs(item.pubDate).isAfter("2023-01-09")
+            ? [
+                {
+                  title: item.title,
+                  id: item.guid || item.link,
+                  published: item.pubDate,
+                  // Explicit ASCII ranges instead of `i`: with `u`, `i` would also
+                  // fold non-ASCII letters and change existing slugs.
+                  slug: (item.guid || item.link)
+                    .replaceAll(/[^a-zA-Z0-9]/gu, "_")
+                    .toLowerCase(),
+                },
+              ]
+            : []
+        );
 
         if (items.length !== 0) {
           setMostRecentRssItem(items[0]);

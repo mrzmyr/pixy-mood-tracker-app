@@ -22,6 +22,8 @@ export const EmotionButtonAdvanced = ({
   const colors = useColors();
   const haptics = useHaptics();
   const colorScheme = useColorScheme();
+  const unselectedBorderColor =
+    colorScheme === "light" ? "rgba(0,0,0,0.1)" : "rgba(255,255,255,0.1)";
 
   return (
     <RectButton
@@ -45,11 +47,7 @@ export const EmotionButtonAdvanced = ({
           backgroundColor: colors.logCardBackground,
           borderRadius: 8,
           borderWidth: selected ? 2 : 1,
-          borderColor: selected
-            ? colors.tint
-            : colorScheme === "light"
-              ? "rgba(0,0,0,0.1)"
-              : "rgba(255,255,255,0.1)",
+          borderColor: selected ? colors.tint : unselectedBorderColor,
           flexDirection: "row",
           alignItems: "center",
           paddingVertical: selected ? 11 : 12,

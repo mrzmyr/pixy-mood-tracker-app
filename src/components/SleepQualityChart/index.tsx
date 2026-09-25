@@ -54,28 +54,26 @@ export const SleepQualityChart = ({
     Math.floor(index * itemWidth + itemWidth / 2) + YLegendWidth + paddingLeft;
 
   const polygonPoints = scaleItems
-    .map((item, index) => {
+    .flatMap((item, index) => {
       if (item.value === null) {
-        return null;
+        return [];
       }
 
       const x = Math.round(relativeX(index));
       const y = Math.round(relativeY(item.value || 0)) + rowHeight / 2;
 
-      return `${x},${y}`;
+      return [`${x},${y}`];
     })
-    .filter(Boolean)
     .join(" ");
 
   const nonNullItems = scaleItems.filter((item) => item.value !== null);
-  const average =
-    nonNullItems.reduce((acc, item) => {
-      if (item.value === null) {
-        return acc;
-      }
-
-      return acc + item.value;
-    }, 0) / nonNullItems.length;
+  let valueSum = 0;
+  for (const item of nonNullItems) {
+    if (item.value !== null) {
+      valueSum += item.value;
+    }
+  }
+  const average = valueSum / nonNullItems.length;
 
   return (
     <Svg
@@ -111,7 +109,6 @@ export const SleepQualityChart = ({
         relativeY={relativeY}
         YLegendWidth={YLegendWidth}
         rowHeight={rowHeight}
-        width={outerWidth}
       />
 
       <XLabels

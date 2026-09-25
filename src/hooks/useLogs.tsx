@@ -1,9 +1,12 @@
 import { DATE_FORMAT } from "@/constants/Config";
 import { load, store } from "@/helpers/storage";
 import type { LogItemSchema } from "@/types";
+// oxlint-disable-next-line unicorn/prefer-node-protocol -- `buffer` is the npm polyfill bundled for React Native; `node:buffer` does not resolve in Hermes.
 import { Buffer } from "buffer";
 import dayjs from "dayjs";
-import _ from "lodash";
+import isArray from "lodash/isArray";
+import omit from "lodash/omit";
+import pick from "lodash/pick";
 import {
   createContext,
   useCallback,
@@ -68,7 +71,7 @@ const migrate = (data: LogsState): LogsState => {
     ...data,
   };
 
-  if (!_.isArray(data.items)) {
+  if (!isArray(data.items)) {
     result.items = Object.values(result.items);
   }
 
@@ -93,7 +96,7 @@ const migrate = (data: LogsState): LogsState => {
       newItem.emotions = [];
     }
 
-    newItem.tags = newItem.tags.map((tag) => _.pick(tag, ["id"]));
+    newItem.tags = newItem.tags.map((tag) => pick(tag, ["id"]));
 
     return newItem;
   });
@@ -162,16 +165,19 @@ const reducer = (state: LogsState, action: LogAction): LogsState => {
         loaded: true,
       };
     }
+    default: {
+      return state;
+    }
   }
+};
+
+const INITIAL_STATE: LogsState = {
+  loaded: false,
+  items: [],
 };
 
 const LogsProvider = ({ children }: { children: React.ReactNode }) => {
   const analyitcs = useAnalytics();
-
-  const INITIAL_STATE: LogsState = {
-    loaded: false,
-    items: [],
-  };
 
   const [state, dispatch] = useReducer(reducer, INITIAL_STATE);
   const [storageStatus, setStorageStatus] = useState<
@@ -213,7 +219,7 @@ const LogsProvider = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     if (storageStatus === "ready" && state.loaded) {
-      store<Omit<LogsState, "loaded">>(STORAGE_KEY, _.omit(state, "loaded"));
+      store<Omit<LogsState, "loaded">>(STORAGE_KEY, omit(state, "loaded"));
     }
   }, [JSON.stringify(state), storageStatus]);
 
