@@ -1,6 +1,7 @@
 import * as Localization from "expo-localization";
 import { Alert, Platform } from "react-native";
 import { FEEDBACK_URL } from "@/constants/API";
+import { serviceFetch } from "@/lib/serviceFetch";
 import { t } from "@/helpers/translation";
 import pkg from "../../package.json";
 import { useAnalytics } from "./useAnalytics";
@@ -60,7 +61,7 @@ export const useFeedback = () => {
     analytics.track("feedback_send", body);
 
     try {
-      const resp = await fetch(FEEDBACK_URL, {
+      const resp = await serviceFetch(FEEDBACK_URL, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

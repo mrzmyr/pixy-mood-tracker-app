@@ -1,4 +1,5 @@
 import { QUESTIONS_PULL_URL, QUESTION_SUBMIT_URL } from "@/constants/API";
+import { serviceFetch } from "@/lib/serviceFetch";
 import { language, locale } from "@/helpers/translation";
 import dayjs from "dayjs";
 import { useEffect, useEffectEvent, useState } from "react";
@@ -63,7 +64,7 @@ export const useQuestioner = () => {
     }
 
     try {
-      const response = await fetch(QUESTIONS_PULL_URL);
+      const response = await serviceFetch(QUESTIONS_PULL_URL);
       const data = await response.json();
       if (!data) {
         return null;
@@ -153,7 +154,7 @@ export const useQuestioner = () => {
       return;
     }
 
-    await fetch(QUESTION_SUBMIT_URL, {
+    await serviceFetch(QUESTION_SUBMIT_URL, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

@@ -1,5 +1,5 @@
 appId: ${APP_ID}
-tags: [log]
+tags: [log, smoke]
 ---
 - launchApp:
 - runScript: ../scripts/set-output-date.js

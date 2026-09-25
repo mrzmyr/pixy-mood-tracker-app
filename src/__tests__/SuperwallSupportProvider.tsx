@@ -170,4 +170,32 @@ describe("Superwall support provider", () => {
       });
     }
   });
+
+  test("never configures Superwall when the flag is off", async () => {
+    let supportClient: SupportClient | undefined;
+
+    render(
+      <ConfiguredSupportProvider
+        apiKeys={{
+          android: "test_android_public_key",
+          ios: "test_ios_public_key",
+        }}
+        isEnabled={false}
+      >
+        <Probe
+          onClient={(client) => {
+            supportClient = client;
+          }}
+        />
+      </ConfiguredSupportProvider>
+    );
+
+    await waitFor(() => expect(supportClient?.enabled).toBe(false));
+    expect(mockProviderProps).toBeUndefined();
+    expect(mockUseSuperwallEvents).not.toHaveBeenCalled();
+
+    await supportClient?.openSupport();
+
+    expect(mockRegisterPlacement).not.toHaveBeenCalled();
+  });
 });

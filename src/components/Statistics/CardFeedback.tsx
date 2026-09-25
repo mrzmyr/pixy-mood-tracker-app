@@ -1,4 +1,5 @@
 import { STATISTICS_FEEDBACK_URL } from "@/constants/API";
+import { serviceFetch } from "@/lib/serviceFetch";
 import { locale, t } from "@/helpers/translation";
 import { useAnalytics } from "@/hooks/useAnalytics";
 import useColors from "@/hooks/useColors";
@@ -169,7 +170,7 @@ export const CardFeedback = ({
     analytics.track("statistics_feedback", body);
 
     try {
-      const response = await fetch(STATISTICS_FEEDBACK_URL, {
+      const response = await serviceFetch(STATISTICS_FEEDBACK_URL, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

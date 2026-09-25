@@ -25,6 +25,7 @@ import Providers from "@/components/Providers";
 import { SENTRY_DSN } from "@/constants/API";
 import { APP_VARIANT, HAS_APP_VARIANT } from "@/constants/AppVariant";
 import Colors from "@/constants/Colors";
+import { SERVICE_MOCKS } from "@/constants/Services";
 import { initializeDayjs, t } from "@/helpers/translation";
 import { useAnalytics } from "@/hooks/useAnalytics";
 import { useAnonymizer } from "@/hooks/useAnonymizer";
@@ -47,8 +48,9 @@ import { BottomTabs } from "./BottomTabs";
 enableScreens();
 
 // Initialize before the first render so startup errors are reported too.
-// Each variant reports to its own Sentry project; Jest has no variant.
-if (HAS_APP_VARIANT) {
+// Each variant reports to its own Sentry project; Jest has no variant, and
+// builds with service mocks stay offline.
+if (HAS_APP_VARIANT && !SERVICE_MOCKS) {
   Sentry.init({
     dsn: SENTRY_DSN,
     environment: APP_VARIANT,

@@ -2,6 +2,7 @@ import { PromoCard } from "@/components/PromoCard";
 import { MONTH_REPORT_SLUG, PromoCardMonth } from "@/components/PromoCardMonth";
 import { PromoCardYear, YEAR_REPORT_SLUG } from "@/components/PromoCardYear";
 import { DATE_FORMAT, STATISTIC_MIN_LOGS } from "@/constants/Config";
+import { SERVICE_MOCKS } from "@/constants/Services";
 import { t } from "@/helpers/translation";
 import { useAnalytics } from "@/hooks/useAnalytics";
 import { useSettings } from "@/hooks/useSettings";
@@ -107,6 +108,10 @@ export const PromoCards = () => {
     !!mostRecentRssItem && !hasActionDone(mostRecentRssItem.slug);
 
   useEffect(() => {
+    // Mocked builds stay offline; the changelog card is optional.
+    if (SERVICE_MOCKS) {
+      return;
+    }
     const controller = new AbortController();
 
     void (async () => {

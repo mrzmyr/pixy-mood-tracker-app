@@ -7,6 +7,7 @@ import {
   useSuperwall,
   useSuperwallEvents,
 } from "expo-superwall";
+import { SUPERWALL_ENABLED } from "@/constants/Services";
 import { useAnalytics } from "@/hooks/useAnalytics";
 import { createStructuredError } from "@/lib/errors";
 import type { SupportClient, SupportFlowError } from "./index";
@@ -150,17 +151,21 @@ const SuperwallSupportBridge = ({
 /**
  * Superwall-backed support provider for iOS and Android.
  *
- * Falls back to the disabled client when no API key exists for the
- * platform. Must render inside the analytics provider: Superwall event
- * tracking is off unless the user enabled analytics. On Android, completed
- * support purchases are consumed so the same amount can be bought again.
+ * Falls back to the disabled client when Superwall is switched off
+ * (`EXPO_PUBLIC_SUPERWALL_ENABLED=false`) or no API key exists for the
+ * platform; Superwall is then never configured or called. Must render inside
+ * the analytics provider: Superwall event tracking is off unless the user
+ * enabled analytics. On Android, completed support purchases are consumed so
+ * the same amount can be bought again.
  */
 export const ConfiguredSupportProvider = ({
   children,
   apiKeys: configuredApiKeys,
+  isEnabled = SUPERWALL_ENABLED,
 }: {
   children: React.ReactNode;
   apiKeys?: { android?: string; ios?: string };
+  isEnabled?: boolean;
 }) => {
   const analytics = useAnalytics();
   const apiKeys = configuredApiKeys ?? {
@@ -173,7 +178,7 @@ export const ConfiguredSupportProvider = ({
     ios: apiKeys.ios,
   });
 
-  if (!platformApiKey) {
+  if (!isEnabled || !platformApiKey) {
     return (
       <SupportProvider client={disabledSupportClient}>
         {children}

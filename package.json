@@ -9,6 +9,8 @@
     "ios": "bun scripts/run-native.ts ios",
     "ios:preview": "EXPO_PUBLIC_APP_VARIANT=preview bun scripts/run-native.ts ios --configuration Release --no-bundler",
     "android:preview": "EXPO_PUBLIC_APP_VARIANT=preview bun scripts/run-native.ts android --variant release --no-bundler",
+    "ios:e2e": "EXPO_PUBLIC_APP_VARIANT=preview EXPO_PUBLIC_PIXY_SERVICE_MOCKS=true bun scripts/run-native.ts ios --configuration Release --no-bundler",
+    "android:e2e": "EXPO_PUBLIC_APP_VARIANT=preview EXPO_PUBLIC_PIXY_SERVICE_MOCKS=true bun scripts/run-native.ts android --variant release --no-bundler",
     "e2e": "bun scripts/cli/index.ts e2e",
     "builds": "bun scripts/cli/index.ts builds",
     "dashboard": "bun scripts/cli/dashboard.ts",

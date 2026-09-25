@@ -9,9 +9,11 @@ import { SupportProvider } from "./index";
 export const ConfiguredSupportProvider = ({
   children,
   apiKeys: _apiKeys,
+  isEnabled: _isEnabled,
 }: {
   children: React.ReactNode;
   apiKeys?: { android?: string; ios?: string };
+  isEnabled?: boolean;
 }) => (
   <SupportProvider client={disabledSupportClient}>{children}</SupportProvider>
 );

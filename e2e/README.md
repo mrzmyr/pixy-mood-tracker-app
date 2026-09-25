@@ -16,13 +16,14 @@ End-to-end tests are [Maestro](https://maestro.mobile.dev) YAML flows. [agent-de
 bunx agent-device boot --platform ios --device "iPhone 17 Pro"
 bunx agent-device boot --platform android --device medium_phone --headless
 
-# 2. Install a preview release build of this worktree (bun builds check --release shows cache reuse).
-bun ios:preview --device <udid>
-bun android:preview --device <avd-name>
+# 2. Install a preview release build of this worktree with service mocks (see Service mocks).
+bun ios:e2e --device <udid>
+bun android:e2e --device <avd-name>
 
 # 3. Run flows. --device is required, so the run never lands on another agent's device.
-bun e2e run --platform ios --device <udid>                  # e2e/flows and the iOS-only e2e/apple
-bun e2e run --platform android --device emulator-5554       # e2e/flows
+bun e2e run --platform ios --device <udid> --tier quick     # smoke flows only, for every PR
+bun e2e run --platform ios --device <udid>                  # full: e2e/flows and the iOS-only e2e/apple
+bun e2e run --platform android --device emulator-5554       # full: e2e/flows
 bun e2e run --platform ios --device <udid> e2e/flows/02-log-entry.yaml --record
 bun e2e run --platform ios --device <udid> -- --retries 1 --fail-fast
 
@@ -38,6 +39,28 @@ bun dashboard                                               # runs, devices, and
 - **Failures:** a failing step prints the file and line, a screen snapshot, and ranked selector suggestions. Debug live with `bunx agent-device replay <flow>.yaml --maestro --platform ios --udid <udid> -e APP_ID=com.devmood.pixymoodtracker.preview -e APP_SCHEME=pixy-preview`, then `bunx agent-device snapshot -i`.
 - **Devices in use:** `bunx agent-device device status` lists which worktree holds which device. `bun e2e run` refuses a device with an active run or another worktree's live agent-device session (`device_busy`). The error names the owner, estimates when it finishes, and lists free devices on the same platform; `--force` skips the check. `bunx agent-device close --session <address>` releases one. `bunx agent-device shutdown --platform ios --udid <udid>` stops an idle simulator.
 - **Physical phones:** flows use `launchApp: clearState: true`, which wipes the app's data. Run them against the preview app, which holds only test data. Never pass `--variant production` on a phone with real data.
+
+## Tiers
+
+`bun e2e run --tier quick|full` picks which flows run. Tiers filter the given paths (or the defaults) by the flow's `tags:` header.
+
+| Tier | Runs | When |
+| --- | --- | --- |
+| `quick` | Flows tagged `smoke`: 01-onboarding, 02-log-entry, 10-stability | Every PR |
+| `full` (default) | Every flow in the paths | Before a release, and for PRs that touch a covered area |
+
+Add `smoke` to a flow's `tags:` only when it covers a core path and stays fast. Keep the quick tier under a few minutes.
+
+## Service mocks
+
+`bun ios:e2e` and `bun android:e2e` build the preview app with `EXPO_PUBLIC_PIXY_SERVICE_MOCKS=true`, so flows need no network and no real accounts:
+
+- **Webhooks and questions API** (feedback, statistics feedback, question answers, question list) get fake responses from [`src/lib/serviceFetch.ts`](../src/lib/serviceFetch.ts). The question list is empty, so no question slide appears. Any other URL through `serviceFetch` fails with `service_mock_missing`.
+- **Superwall** is never configured. Settings shows Support Pixy backed by the fake support client; `EXPO_PUBLIC_PIXY_SUPPORT_FAKE_MODE=failed` makes it fail.
+- **PostHog and Sentry** stay off. The changelog card skips its RSS fetch.
+- **Not mocked:** expo-updates still checks for updates on launch. It does not block startup (`fallbackToCacheTimeout: 0`) and fails quietly offline.
+
+The production variant ignores the variable, so release builds keep every real service. The build cache key covers `EXPO_PUBLIC_*` values, so mocked and plain preview builds are cached separately. Plain `bun ios:preview` builds still run the flows, but they reach real services.
 
 ## Suites
 
