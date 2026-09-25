@@ -1,4 +1,4 @@
-import Svg, { Line, Polyline } from "react-native-svg";
+import Svg, { Polyline } from "react-native-svg";
 import useColors from "@/hooks/useColors";
 import { SLEEP_QUALITY_KEYS } from "@/constants/Ratings";
 import { Grid } from "./Grid";
@@ -18,19 +18,16 @@ export interface ScaleItem {
 /**
  * SVG line chart of average sleep quality.
  *
- * Values are rounded to whole steps before plotting. `showAverage` draws
- * the mean of non-empty buckets.
+ * Values are rounded to whole steps before plotting.
  */
 export const SleepQualityChart = ({
   data,
   height,
   width,
-  showAverage = false,
 }: {
   height: number;
   width: number;
   data: ScaleItem[];
-  showAverage?: boolean;
 }) => {
   const colors = useColors();
 
@@ -75,15 +72,6 @@ export const SleepQualityChart = ({
       return [`${x},${y}`];
     })
     .join(" ");
-
-  const nonNullItems = scaleItems.filter((item) => item.value !== null);
-  let valueSum = 0;
-  for (const item of nonNullItems) {
-    if (item.value !== null) {
-      valueSum += item.value;
-    }
-  }
-  const average = valueSum / nonNullItems.length;
 
   return (
     <Svg
@@ -136,18 +124,6 @@ export const SleepQualityChart = ({
         strokeLinejoin="round"
         points={polygonPoints}
       />
-
-      {showAverage && (
-        <Line
-          key="avg-line"
-          x1={relativeX(0)}
-          y1={relativeY(average)}
-          x2={width - paddingRight}
-          y2={relativeY(average)}
-          stroke={colors.tint}
-          strokeWidth={2}
-        />
-      )}
     </Svg>
   );
 };

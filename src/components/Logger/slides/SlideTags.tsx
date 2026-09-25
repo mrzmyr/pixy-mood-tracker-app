@@ -23,12 +23,10 @@ export const SlideTags = ({
   onChange,
   onDisableStep = noop,
   showDisable,
-  showFooter = true,
 }: {
   onChange: (tags: TagReference[]) => void;
   onDisableStep?: () => void;
   showDisable: boolean;
-  showFooter?: boolean;
 }) => {
   const tempLog = useTemporaryLog();
   const navigation = useNavigation();
@@ -134,21 +132,19 @@ export const SlideTags = ({
           </View>
         </ScrollView>
       </View>
-      {showFooter && (
-        <Footer>
-          {showDisable && (
-            <LinkButton
-              type="secondary"
-              onPress={onDisableStep}
-              style={{
-                fontWeight: "400",
-              }}
-            >
-              {t("log_tags_disable")}
-            </LinkButton>
-          )}
-        </Footer>
-      )}
+      <Footer>
+        {showDisable && (
+          <LinkButton
+            type="secondary"
+            onPress={onDisableStep}
+            style={{
+              fontWeight: "400",
+            }}
+          >
+            {t("log_tags_disable")}
+          </LinkButton>
+        )}
+      </Footer>
     </View>
   );
 };
