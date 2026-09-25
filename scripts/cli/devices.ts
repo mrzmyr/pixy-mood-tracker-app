@@ -48,7 +48,7 @@ const getAndroidSdk = () =>
     "/opt/homebrew/share/android-commandlinetools",
   ].find((dir) => dir && fs.existsSync(path.join(dir, "emulator", "emulator")));
 
-const getEmulatorBinary = () => {
+const requireAndroidSdk = () => {
   const sdk = getAndroidSdk();
   if (!sdk) {
     throw new CliError({
@@ -58,7 +58,40 @@ const getEmulatorBinary = () => {
       why: "No emulator binary in ANDROID_HOME, ANDROID_SDK_ROOT, or default SDK paths.",
     });
   }
-  return path.join(sdk, "emulator", "emulator");
+  return sdk;
+};
+
+const getEmulatorBinary = () =>
+  path.join(requireAndroidSdk(), "emulator", "emulator");
+
+// Gradle needs JDK 17+. Homebrew's openjdk@17 is not registered with
+// java_home unless it was symlinked into /Library/Java.
+const getJavaHome = () =>
+  [
+    process.env.JAVA_HOME,
+    tryRun("/usr/libexec/java_home", ["-v", "17+"]),
+    "/opt/homebrew/opt/openjdk@17/libexec/openjdk.jdk/Contents/Home",
+    "/opt/homebrew/opt/openjdk/libexec/openjdk.jdk/Contents/Home",
+  ].find((dir) => dir && fs.existsSync(path.join(dir, "bin", "java")));
+
+/** Env for Android builds: the SDK and JDK the CLI found, even when unset. */
+const getAndroidBuildEnv = () => {
+  const javaHome = getJavaHome();
+  if (!javaHome) {
+    throw new CliError({
+      fix: "Install JDK 17 (`brew install openjdk@17`) or set JAVA_HOME to a JDK 17+ home.",
+      message: "Java runtime not found",
+      status: "java_missing",
+      why: "Gradle needs JDK 17+. None found in JAVA_HOME, java_home, or Homebrew.",
+    });
+  }
+  const sdk = requireAndroidSdk();
+  return {
+    ANDROID_HOME: sdk,
+    ANDROID_SDK_ROOT: sdk,
+    JAVA_HOME: javaHome,
+    PATH: [path.join(javaHome, "bin"), process.env.PATH].join(path.delimiter),
+  };
 };
 
 interface SimctlDevice {
@@ -545,5 +578,5 @@ const DEVICES_COMMANDS = new Map(
   } satisfies Record<string, Command>)
 );
 
-/** `bun devices` commands, plus device lookup for sessions. */
-export { DEVICES_COMMANDS, findDevice };
+/** `bun devices` commands, plus device lookup and Android env for sessions. */
+export { DEVICES_COMMANDS, findDevice, getAndroidBuildEnv };
