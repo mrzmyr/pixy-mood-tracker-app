@@ -2,26 +2,126 @@ appId: com.devmood.pixymoodtracker
 tags: [log]
 ---
 - launchApp:
-    clearState: true
-- runFlow: ../subflows/complete-onboarding.yaml
+- runScript: ../scripts/set-output-date.js
+- runFlow:
+    when:
+      visible: "Welcome 👋"
+    commands:
+      - runFlow: ../subflows/complete-onboarding.yaml
 
-# 2.1 Create entry for today (rating only)
-- tapOn: "Add New Entry"
+# 2.1 Create entry for today and manage tags from logger
+- runFlow:
+    when:
+      visible: "Add New Entry"
+    commands:
+      - tapOn: "Add New Entry"
+- runFlow:
+    when:
+      visible: "Add another entry for today"
+    commands:
+      - tapOn: "Add another entry for today"
 - assertVisible: "How was your day?"
 - tapOn:
     id: "mood-good"
-- runFlow: ../subflows/finish-logger.yaml
+- tapOn:
+    id: "logger-next"
+- assertVisible: "Add tags"
 
-# 2.2 Entry saved: calendar footer now offers another entry
+# 2.2 Create and rename a tag from the logger
+- scrollUntilVisible:
+    element:
+      text: "Edit Tags"
+    direction: DOWN
+    timeout: 15000
+- tapOn: "Edit Tags"
+- tapOn: "Create Tag"
+- tapOn:
+    id: "tag-name"
+- inputText: "e2e-log-${output.runId}"
+- tapOn: "Create"
+- scrollUntilVisible:
+    element:
+      text: "e2e-log-${output.runId}"
+    direction: DOWN
+    timeout: 15000
+- assertVisible: "e2e-log-${output.runId}"
+- tapOn: "e2e-log-${output.runId}"
+- tapOn:
+    id: "tag-name"
+- eraseText
+- inputText: "e2e-renamed-${output.runId}"
+- hideKeyboard
+- tapOn: "Save"
+- assertVisible: "e2e-renamed-${output.runId}"
+
+# 2.3 Delete another tag through logger tag management
+- tapOn: "Create Tag"
+- tapOn:
+    id: "tag-name"
+- inputText: "e2e-delete-${output.runId}"
+- tapOn: "Create"
+- scrollUntilVisible:
+    element:
+      text: "e2e-delete-${output.runId}"
+    direction: DOWN
+    timeout: 15000
+- assertVisible: "e2e-delete-${output.runId}"
+- tapOn: "e2e-delete-${output.runId}"
+- scrollUntilVisible:
+    element:
+      text: "Delete"
+    direction: DOWN
+    timeout: 15000
+- tapOn: "Delete"
+- assertVisible: "The tag will be removed from all entries.*"
+- tapOn:
+    text: "Delete"
+    index: 0
+- assertNotVisible: "e2e-delete-${output.runId}"
+
+# 2.4 Android system Back returns from tag manager to logger
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - pressKey: BACK
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - tapOn: "Done"
+- assertVisible: "Add tags"
+- tapOn: "e2e-renamed-${output.runId}"
+- tapOn:
+    id: "logger-next"
+- assertVisible: "Write about your day"
+- inputText: "e2e note ${output.runId} persisted"
+- hideKeyboard
+- runFlow:
+    when:
+      visible:
+        id: "logger-save"
+    commands:
+      - tapOn:
+          id: "logger-save"
+- runFlow:
+    when:
+      notVisible:
+        id: "logger-save"
+    commands:
+      - tapOn:
+          id: "logger-next"
+      - tapOn: "Not Now"
 - assertVisible: "Add another entry for today"
 
-# 2.3 Today cell opens day view (LogList)
-- runScript: ../scripts/set-output-date.js
+# 2.5 Saved tag and note appear in the entry
 - tapOn:
     id: "calendar-day-${output.today}"
-- back
+- assertVisible: "e2e-renamed-${output.runId}"
+- assertVisible: "e2e note ${output.runId} persisted"
 
-# 2.4 Second entry for today (different rating)
+# 2.6 Second entry for today (different rating)
+- back
 - tapOn: "Add another entry for today"
 - assertVisible: "How was your day?"
 - tapOn:

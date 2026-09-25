@@ -38,7 +38,7 @@ Logs and reports (with `--record` videos) land in `~/.cache/pixy-mood-tracker/de
 | Flow | Covers |
 | --- | --- |
 | 01-onboarding | Welcome, explainer slides, reminder skip, privacy accept, persistence across relaunch |
-| 02-log-entry | Create entry (rating), day view, second entry per day |
+| 02-log-entry | Create entry, create/edit/delete tags in logger, persist selected tag and note, Android system Back, day view, second entry per day |
 | 03-calendar | Starts at today, loads calendar history past 12 months, keeps loading older months, scroll-to-today button, filters open/close |
 | 04-tags | Create, rename, use in logger, delete |
 | 05-statistics | Stats tab, highlights/empty state, month + year report |
@@ -54,7 +54,7 @@ Import-from-file (Data → Import) is not automated because the system file pick
 
 ## Conventions
 
-- Flows reset app state (`clearState: true`) and complete onboarding via `subflows/complete-onboarding.yaml`.
+- Flows reset app state (`clearState: true`) and complete onboarding via `subflows/complete-onboarding.yaml`. `02-log-entry` keeps physical-device tester data, completes onboarding only when needed, and uses run-specific tag and note values.
 - Logger slides use deterministic first-entry and reminder sequences, avoiding slow conditional selector polling.
 - Selectors prefer `testID`s: `mood-<rating>`, `logger-next`, `logger-save`, `calendar-day-<YYYY-MM-DD>`, `scroll-to-bottom`, tab ids `calendar`/`statistics`/`settings`.
 - English device locale assumed (text selectors come from `assets/locales/en.json`).

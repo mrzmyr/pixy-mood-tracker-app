@@ -17,3 +17,4 @@ const now = new Date();
 output.monthYear = `${months[now.getMonth()]} ${now.getFullYear()}`;
 output.today = now.toISOString().slice(0, 10);
 output.scrollHint = "The future will be great.";
+output.runId = now.getTime().toString(36);
