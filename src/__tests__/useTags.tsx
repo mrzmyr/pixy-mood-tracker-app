@@ -1,27 +1,14 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { STORAGE_KEYS } from "../helpers/storage";
 import { renderHook, act, waitFor } from "@testing-library/react-native";
 import { AnalyticsProvider } from "../hooks/useAnalytics";
 import type { LogsState } from "../hooks/useLogs";
-import {
-  LogsProvider,
-  useLogState,
-  useLogUpdater,
-  STORAGE_KEY as STORAGE_KEY_LOGS,
-} from "../hooks/useLogs";
-import {
-  SettingsProvider,
-  useSettings,
-  STORAGE_KEY as STORAGE_KEY_SETTINGS,
-} from "../hooks/useSettings";
+import { LogsProvider, useLogState, useLogUpdater } from "../hooks/useLogs";
+import { SettingsProvider, useSettings } from "../hooks/useSettings";
 import { INITIAL_STATE as INITIAL_STATE_SETTINGS } from "../constants/Settings";
 
 import type { Tag } from "../hooks/useTags";
-import {
-  STORAGE_KEY as STORAGE_KEY_TAGS,
-  TagsProvider,
-  useTagsState,
-  useTagsUpdater,
-} from "../hooks/useTags";
+import { TagsProvider, useTagsState, useTagsUpdater } from "../hooks/useTags";
 import { _generateItem } from "./utils";
 
 const wrapper = ({ children }) => (
@@ -100,11 +87,14 @@ describe("useTags()", () => {
       },
     ];
 
-    AsyncStorage.setItem(STORAGE_KEY_TAGS, JSON.stringify({ tags: _testTags }));
+    AsyncStorage.setItem(
+      STORAGE_KEYS.tags,
+      JSON.stringify({ tags: _testTags })
+    );
     const hook = await _renderHook();
     await waitForLoaded(hook);
     expect(hook.result.current.state.tags).toEqual(_testTags);
-    expect(await AsyncStorage.getItem(STORAGE_KEY_TAGS)).toEqual(
+    expect(await AsyncStorage.getItem(STORAGE_KEYS.tags)).toEqual(
       JSON.stringify({ tags: _testTags })
     );
   });
@@ -120,7 +110,7 @@ describe("useTags()", () => {
     ];
 
     AsyncStorage.setItem(
-      STORAGE_KEY_SETTINGS,
+      STORAGE_KEYS.settings,
       JSON.stringify({
         ...INITIAL_STATE_SETTINGS,
         tags: _testTags,
@@ -129,7 +119,7 @@ describe("useTags()", () => {
     const hook = await _renderHook();
     await waitForLoaded(hook);
     expect(hook.result.current.state.tags).toEqual(_testTags);
-    expect(await AsyncStorage.getItem(STORAGE_KEY_TAGS)).toEqual(
+    expect(await AsyncStorage.getItem(STORAGE_KEYS.tags)).toEqual(
       JSON.stringify({ tags: _testTags })
     );
   });
@@ -159,7 +149,7 @@ describe("useTags()", () => {
 
   test("should updateTag", async () => {
     AsyncStorage.setItem(
-      STORAGE_KEY_LOGS,
+      STORAGE_KEYS.logs,
       JSON.stringify({ items: testItems })
     );
 
@@ -180,7 +170,7 @@ describe("useTags()", () => {
 
   test("should deleteTag", async () => {
     AsyncStorage.setItem(
-      STORAGE_KEY_LOGS,
+      STORAGE_KEYS.logs,
       JSON.stringify({ items: testItems })
     );
 
@@ -198,7 +188,7 @@ describe("useTags()", () => {
 
   test("should keep logs added before deleteTag re-renders", async () => {
     AsyncStorage.setItem(
-      STORAGE_KEY_LOGS,
+      STORAGE_KEYS.logs,
       JSON.stringify({ items: testItems })
     );
 
@@ -229,7 +219,7 @@ describe("useTags()", () => {
 
     await waitFor(async () => {
       const stored = JSON.parse(
-        (await AsyncStorage.getItem(STORAGE_KEY_LOGS)) ?? "null"
+        (await AsyncStorage.getItem(STORAGE_KEYS.logs)) ?? "null"
       );
       expect(stored.items.map((item) => item.id)).toContain(newItem.id);
     });
@@ -237,7 +227,7 @@ describe("useTags()", () => {
 
   test("should not mutate log items when deleting a tag", async () => {
     AsyncStorage.setItem(
-      STORAGE_KEY_LOGS,
+      STORAGE_KEYS.logs,
       JSON.stringify({ items: testItems })
     );
 
@@ -258,7 +248,7 @@ describe("useTags()", () => {
   });
 
   test("should reset", async () => {
-    AsyncStorage.setItem(STORAGE_KEY_TAGS, JSON.stringify({ tags: testTags }));
+    AsyncStorage.setItem(STORAGE_KEYS.tags, JSON.stringify({ tags: testTags }));
 
     const hook = await _renderHook();
     await waitForLoaded(hook);
@@ -286,7 +276,7 @@ describe("useTags()", () => {
       });
     });
 
-    const json = await AsyncStorage.getItem(STORAGE_KEY_TAGS);
+    const json = await AsyncStorage.getItem(STORAGE_KEYS.tags);
     expect(JSON.parse(json ?? "null")).toEqual({
       tags: hook.result.current.state.tags,
     });

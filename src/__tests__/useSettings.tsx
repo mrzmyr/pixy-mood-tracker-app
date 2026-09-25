@@ -1,12 +1,9 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { STORAGE_KEYS } from "../helpers/storage";
 import { act, renderHook, waitFor } from "@testing-library/react-native";
 import _ from "lodash";
 import { INITIAL_STATE } from "../constants/Settings";
-import {
-  SettingsProvider,
-  STORAGE_KEY,
-  useSettings,
-} from "../hooks/useSettings";
+import { SettingsProvider, useSettings } from "../hooks/useSettings";
 
 const wrapper = ({ children }) => (
   <SettingsProvider>{children}</SettingsProvider>
@@ -56,7 +53,7 @@ describe("useSettings()", () => {
 
   test("should load from settings async storage & initialize device id if missing", async () => {
     AsyncStorage.setItem(
-      STORAGE_KEY,
+      STORAGE_KEYS.settings,
       JSON.stringify({
         ...INITIAL_STATE,
         reminderTime: "12:00",
@@ -70,7 +67,7 @@ describe("useSettings()", () => {
 
   test("should remove retired sleep step from stored settings", async () => {
     await AsyncStorage.setItem(
-      STORAGE_KEY,
+      STORAGE_KEYS.settings,
       JSON.stringify({
         ...INITIAL_STATE,
         steps: [...INITIAL_STATE.steps, "sleep"],
@@ -93,7 +90,7 @@ describe("useSettings()", () => {
   });
 
   test("should initiate with empty `settings` when async storage is falsely", async () => {
-    AsyncStorage.setItem(STORAGE_KEY, "🐇");
+    AsyncStorage.setItem(STORAGE_KEYS.settings, "🐇");
     await _renderHook();
     await waitFor(() => expect(console.error).toHaveBeenCalled());
     expect(console.error).toHaveBeenCalled();
@@ -147,7 +144,7 @@ describe("useSettings()", () => {
     expect(hook.result.current.state.settings.actionsDone).toEqual(
       ACTIONS_DONE
     );
-    const json = await AsyncStorage.getItem(STORAGE_KEY);
+    const json = await AsyncStorage.getItem(STORAGE_KEYS.settings);
     expect(JSON.parse(json ?? "null")).toEqual({
       ..._.omit(LOADED_STATE, "loaded"),
       actionsDone: ACTIONS_DONE,
@@ -176,7 +173,7 @@ describe("useSettings()", () => {
     expect(hook.result.current.state.settings.actionsDone).toEqual(
       ACTIONS_DONE
     );
-    const json = await AsyncStorage.getItem(STORAGE_KEY);
+    const json = await AsyncStorage.getItem(STORAGE_KEYS.settings);
     expect(JSON.parse(json ?? "null")).toEqual({
       ..._.omit(LOADED_STATE, "loaded"),
       actionsDone: ACTIONS_DONE,

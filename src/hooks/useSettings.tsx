@@ -13,7 +13,7 @@ import "react-native-get-random-values";
 import { v4 as uuidv4 } from "uuid";
 import type { ConfigurableLoggerStep } from "@/components/Logger/config";
 import { STEP_OPTIONS } from "@/components/Logger/config";
-import { load, store } from "@/helpers/storage";
+import { load, STORAGE_KEYS, store } from "@/helpers/storage";
 import type { Tag } from "./useTags";
 import {
   createMissingProviderError,
@@ -28,7 +28,7 @@ type KnownSettingsStep = ConfigurableLoggerStep | "sleep";
  * AsyncStorage key for settings. Keep the legacy name; changing it resets
  * every user's settings.
  */
-export const STORAGE_KEY = "PIXEL_TRACKER_SETTINGS";
+const STORAGE_KEY = STORAGE_KEYS.settings;
 
 const SCALE_TYPES = [
   "ColorBrew-RdYlGn",

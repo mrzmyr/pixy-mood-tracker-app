@@ -1,4 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { STORAGE_KEYS } from "../helpers/storage";
 import { act, renderHook, waitFor } from "@testing-library/react-native";
 import {
   PostHogProvider,
@@ -6,11 +7,7 @@ import {
 } from "posthog-react-native";
 import { AnalyticsProvider, useAnalytics } from "../hooks/useAnalytics";
 import { INITIAL_STATE } from "../constants/Settings";
-import {
-  SettingsProvider,
-  STORAGE_KEY,
-  useSettings,
-} from "../hooks/useSettings";
+import { SettingsProvider, useSettings } from "../hooks/useSettings";
 
 const wrapper = ({ children }) => (
   <SettingsProvider>
@@ -95,7 +92,7 @@ describe("useAnalytics()", () => {
 
   test("should `identify`", async () => {
     AsyncStorage.setItem(
-      STORAGE_KEY,
+      STORAGE_KEYS.settings,
       JSON.stringify({
         ...INITIAL_STATE,
         deviceId: STATIC_DEVICE_ID,
@@ -145,7 +142,7 @@ describe("useAnalytics()", () => {
 
   test("should `track` with properties", async () => {
     AsyncStorage.setItem(
-      STORAGE_KEY,
+      STORAGE_KEYS.settings,
       JSON.stringify({
         ...INITIAL_STATE,
         deviceId: STATIC_DEVICE_ID,

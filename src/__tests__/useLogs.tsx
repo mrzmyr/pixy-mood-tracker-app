@@ -1,14 +1,10 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { STORAGE_KEYS } from "../helpers/storage";
 import * as Sentry from "@sentry/react-native";
 import { act, renderHook, waitFor } from "@testing-library/react-native";
 import { AnalyticsProvider } from "../hooks/useAnalytics";
 import type { LogsState } from "../hooks/useLogs";
-import {
-  LogsProvider,
-  STORAGE_KEY,
-  useLogState,
-  useLogUpdater,
-} from "../hooks/useLogs";
+import { LogsProvider, useLogState, useLogUpdater } from "../hooks/useLogs";
 import { SettingsProvider } from "../hooks/useSettings";
 import { _generateItem } from "./utils";
 
@@ -87,7 +83,10 @@ describe("useLogs()", () => {
   });
 
   test("should load `state` from async storage", async () => {
-    AsyncStorage.setItem(STORAGE_KEY, JSON.stringify({ items: testItems }));
+    AsyncStorage.setItem(
+      STORAGE_KEYS.logs,
+      JSON.stringify({ items: testItems })
+    );
 
     const hook = await _renderHook();
     await waitForLoaded(hook);
@@ -102,7 +101,7 @@ describe("useLogs()", () => {
   });
 
   test("should preserve stored logs when async storage cannot be parsed", async () => {
-    await AsyncStorage.setItem(STORAGE_KEY, "🐇");
+    await AsyncStorage.setItem(STORAGE_KEYS.logs, "🐇");
     const setItemSpy = jest.spyOn(AsyncStorage, "setItem");
     setItemSpy.mockClear();
 
@@ -113,8 +112,11 @@ describe("useLogs()", () => {
     });
 
     expect(hook.result.current.state.loaded).toBe(false);
-    expect(setItemSpy).not.toHaveBeenCalledWith(STORAGE_KEY, expect.anything());
-    expect(await AsyncStorage.getItem(STORAGE_KEY)).toBe("🐇");
+    expect(setItemSpy).not.toHaveBeenCalledWith(
+      STORAGE_KEYS.logs,
+      expect.anything()
+    );
+    expect(await AsyncStorage.getItem(STORAGE_KEYS.logs)).toBe("🐇");
   });
 
   test("should keep logs unloaded when async storage cannot be read", async () => {
@@ -122,19 +124,21 @@ describe("useLogs()", () => {
     const getItemSpy = jest
       .spyOn(AsyncStorage, "getItem")
       .mockImplementation((key) =>
-        key === STORAGE_KEY ? Promise.reject(readError) : Promise.resolve(null)
+        key === STORAGE_KEYS.logs
+          ? Promise.reject(readError)
+          : Promise.resolve(null)
       );
     const setItemSpy = jest.spyOn(AsyncStorage, "setItem");
 
     const hook = await _renderHook();
 
     await waitFor(() => {
-      expect(getItemSpy).toHaveBeenCalledWith(STORAGE_KEY);
+      expect(getItemSpy).toHaveBeenCalledWith(STORAGE_KEYS.logs);
       expect(Sentry.captureException).toHaveBeenCalledWith(
         expect.objectContaining({
           status: "storage_read_failed",
           message: "Stored data could not be read",
-          why: `Reading storage key "${STORAGE_KEY}" failed: disk unavailable`,
+          why: `Reading storage key "${STORAGE_KEYS.logs}" failed: disk unavailable`,
           fix: "Retry the operation and check device storage access",
         }),
         expect.anything()
@@ -142,7 +146,10 @@ describe("useLogs()", () => {
     });
 
     expect(hook.result.current.state.loaded).toBe(false);
-    expect(setItemSpy).not.toHaveBeenCalledWith(STORAGE_KEY, expect.anything());
+    expect(setItemSpy).not.toHaveBeenCalledWith(
+      STORAGE_KEYS.logs,
+      expect.anything()
+    );
 
     getItemSpy.mockRestore();
     setItemSpy.mockRestore();
@@ -193,7 +200,7 @@ describe("useLogs()", () => {
   });
 
   test("should updateLogs", async () => {
-    AsyncStorage.setItem(STORAGE_KEY, JSON.stringify({ items: [] }));
+    AsyncStorage.setItem(STORAGE_KEYS.logs, JSON.stringify({ items: [] }));
 
     const hook = await _renderHook();
     await waitForLoaded(hook);
@@ -238,7 +245,7 @@ describe("useLogs()", () => {
   });
 
   test("should reset", async () => {
-    AsyncStorage.setItem(STORAGE_KEY, JSON.stringify({ items: [] }));
+    AsyncStorage.setItem(STORAGE_KEYS.logs, JSON.stringify({ items: [] }));
 
     const hook = await _renderHook();
     await waitForLoaded(hook);
