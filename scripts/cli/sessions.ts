@@ -7,7 +7,7 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 
-import { findDevice, getAndroidBuildEnv } from "./devices.ts";
+import { findDevice, getAndroidBuildEnv, getTrustFix } from "./devices.ts";
 import {
   getStaleReason,
   isActive,
@@ -28,6 +28,7 @@ import {
   getWorktree,
   parseDuration,
   printTable,
+  readJson,
   requireId,
   writeJson,
 } from "./shared.ts";
@@ -47,6 +48,46 @@ const waitForExit = async (child: ChildProcess) => {
     return code ?? 1;
   } catch {
     return 127;
+  }
+};
+
+// The app's team from app.json. It is public in the repo already.
+const getAppTeamId = () =>
+  readJson<{ expo?: { ios?: { appleTeamId?: string } } }>(
+    path.join(getWorktree(), "app.json")
+  )?.expo?.ios?.appleTeamId;
+
+// maestro-runner signs its XCUITest runner on real iPhones with this team.
+const getSigningArgs = (device: Device, flag: string | undefined) => {
+  if (device.platform !== "ios" || device.kind !== "physical") {
+    return [];
+  }
+  const teamId =
+    flag ?? process.env.PIXY_MOOD_TRACKER_APPLE_TEAM_ID ?? getAppTeamId();
+  if (!teamId) {
+    throw new CliError({
+      fix: "Pass --team-id <APPLE_TEAM_ID> or set PIXY_MOOD_TRACKER_APPLE_TEAM_ID.",
+      message: "No Apple team to sign the test runner",
+      status: "team_id_missing",
+      why: "maestro-runner code-signs its runner on real iPhones, and app.json has no ios.appleTeamId.",
+    });
+  }
+  return ["--team-id", teamId];
+};
+
+// Print to the console and the session log, so old sessions show what ran.
+const logLine = (log: number, line: string) => {
+  console.log(line);
+  fs.writeSync(log, `${line}\n`);
+};
+
+// maestro-runner cannot capture a physical iPhone's screen from the host.
+const warnNoPhoneVideo = (log: number, device: Device, isRecord: boolean) => {
+  if (isRecord && device.platform === "ios" && device.kind === "physical") {
+    logLine(
+      log,
+      "warning: --record is not supported on physical iPhones. Screenshots from takeScreenshot are still saved."
+    );
   }
 };
 
@@ -81,7 +122,7 @@ const startBuild = (
           "release",
           "--no-bundler",
         ];
-  console.log(`Building: bunx ${args.join(" ")}`);
+  logLine(log, `Building: bunx ${args.join(" ")}`);
   return spawn("bunx", args, {
     cwd: getWorktree(),
     detached: true,
@@ -97,11 +138,14 @@ const listFlowFiles = (target: string): string[] =>
         .flatMap((entry) => listFlowFiles(path.join(target, entry)))
     : [target].filter((file) => /\.ya?ml$/u.test(file));
 
+// `clearState` as a command or launchApp option, outside YAML comments.
+const CLEAR_STATE = /^[^#\n]*\bclearState\b/mu;
+
 // Phones run installed TestFlight builds with real tester data.
 const assertNoClearState = (flows: string[]) => {
   const unsafe = flows
     .flatMap(listFlowFiles)
-    .filter((file) => fs.readFileSync(file, "utf-8").includes("clearState"));
+    .filter((file) => CLEAR_STATE.test(fs.readFileSync(file, "utf-8")));
   if (unsafe.length > 0) {
     throw new CliError({
       fix: "Run these flows on a simulator or emulator, or pass flows without clearState.",
@@ -112,12 +156,15 @@ const assertNoClearState = (flows: string[]) => {
   }
 };
 
-const cmdRun = async (
-  id: string,
-  flows: string[],
-  options: { isBuild: boolean; isRecord: boolean; isForce: boolean }
-) => {
-  const device = findDevice(id);
+const assertRunnable = (device: Device) => {
+  if (device.state === "unauthorized") {
+    throw new CliError({
+      fix: getTrustFix(device),
+      message: `${device.name} is not ready for tests`,
+      status: "device_unauthorized",
+      why: "The phone is attached, but it has not trusted this Mac or developer access is off.",
+    });
+  }
   if (device.state !== "booted" && device.state !== "connected") {
     throw new CliError({
       fix: `Run \`bun devices boot ${device.id}\` first.`,
@@ -126,6 +173,20 @@ const cmdRun = async (
       why: `Device state is ${device.state}.`,
     });
   }
+};
+
+const cmdRun = async (
+  id: string,
+  flows: string[],
+  options: {
+    isBuild: boolean;
+    isRecord: boolean;
+    isForce: boolean;
+    teamId?: string;
+  }
+) => {
+  const device = findDevice(id);
+  assertRunnable(device);
   const busy = readSessions().find(
     (session) => isActive(session) && session.deviceId === device.id
   );
@@ -156,6 +217,7 @@ const cmdRun = async (
 
   // Resolve before the session exists, so a missing SDK or JDK leaves no record.
   const buildEnv = getBuildEnv(device, options.isBuild);
+  const signingArgs = getSigningArgs(device, options.teamId);
 
   const sessionId = `${new Date().toISOString().slice(5, 10).replace("-", "")}-${crypto.randomBytes(3).toString("hex")}`;
   const worktree = getWorktree();
@@ -242,6 +304,7 @@ const cmdRun = async (
     "--no-ansi",
     // Never reinstall or wipe a phone's TestFlight build.
     ...(device.kind === "physical" ? ["--no-app-install"] : []),
+    ...signingArgs,
     "test",
     "--output",
     session.reportDir,
@@ -249,7 +312,8 @@ const cmdRun = async (
     ...(options.isRecord ? ["--record"] : []),
     ...selectedFlows,
   ];
-  console.log(`Running: maestro-runner ${args.join(" ")}`);
+  warnNoPhoneVideo(log, device, options.isRecord);
+  logLine(log, `Running: maestro-runner ${args.join(" ")}`);
   const child = spawn(fs.existsSync(runner) ? runner : "maestro-runner", args, {
     cwd: worktree,
     detached: true,
@@ -354,11 +418,13 @@ const SESSIONS_HELP = `Run e2e flows and track which test runs on which device.
 
 Usage: bun sessions <command> [options]
 
-  run <device-id> [flows...] [--build] [--record] [--force]
+  run <device-id> [flows...] [--build] [--record] [--force] [--team-id <id>]
       Run Maestro flows through maestro-runner (default: e2e/flows).
       --build installs a release build of this worktree first
       (simulator/emulator, reused from the build cache when possible).
       --record keeps a video of every flow. --force takes over a busy device.
+      --team-id signs the runner on a real iPhone (default:
+      PIXY_MOOD_TRACKER_APPLE_TEAM_ID, then app.json ios.appleTeamId).
   list [--all] [--json]
       Sessions with device, flows, worktree, age, and status. --all includes
       finished sessions.
@@ -383,6 +449,7 @@ const SESSIONS_COMMANDS = new Map(
         isBuild: values.build ?? false,
         isForce: values.force ?? false,
         isRecord: values.record ?? false,
+        teamId: values["team-id"],
       }),
   } satisfies Record<string, Command>)
 );

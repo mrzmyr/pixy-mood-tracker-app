@@ -10,7 +10,13 @@ import { parseArgs } from "node:util";
 
 type Platform = "ios" | "android";
 type DeviceKind = "simulator" | "emulator" | "physical";
-type DeviceState = "booted" | "shutdown" | "connected" | "unavailable";
+// `unauthorized`: a phone is attached but has not trusted this Mac yet.
+type DeviceState =
+  | "booted"
+  | "shutdown"
+  | "connected"
+  | "unauthorized"
+  | "unavailable";
 
 interface Device {
   id: string;
@@ -18,6 +24,8 @@ interface Device {
   kind: DeviceKind;
   name: string;
   state: DeviceState;
+  // Set for `unauthorized` phones: the step still missing on this phone.
+  setupFix?: string | null;
 }
 
 // A device this CLI booted or created. `gc` shuts it down once idle.
@@ -212,6 +220,7 @@ const parseCli = () =>
       record: { type: "boolean" },
       release: { type: "boolean" },
       stale: { type: "boolean" },
+      "team-id": { type: "string" },
     },
   });
 

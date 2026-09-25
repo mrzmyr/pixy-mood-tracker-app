@@ -134,45 +134,98 @@ const listIosSimulators = (): Device[] => {
 
 interface DevicectlDevice {
   connectionProperties: { tunnelState?: string; pairingState?: string };
-  deviceProperties: { name: string };
+  deviceProperties: { name: string; developerModeStatus?: string };
   hardwareProperties: { udid?: string; platform?: string; reality?: string };
 }
 
-const listIosPhones = (): Device[] => {
+const ANDROID_TRUST_FIX =
+  "Unlock the phone and accept Allow USB debugging (check Always allow). Then rerun `bun devices list`.";
+
+// The first missing setup step on an iPhone, or null when it is ready.
+const getIosSetupFix = (
+  { connectionProperties, deviceProperties }: DevicectlDevice,
+  udid: string
+) => {
+  if (connectionProperties.pairingState !== "paired") {
+    return `Unlock the iPhone and tap Trust, then pair it for developer tools: \`xcrun devicectl manage pair --device ${udid}\`.`;
+  }
+  if (deviceProperties.developerModeStatus === "disabled") {
+    return "Turn on Settings > Privacy & Security > Developer Mode on the iPhone, restart it, and confirm Turn On after unlocking.";
+  }
+  return null;
+};
+
+const getIosPhoneState = (
+  { connectionProperties: { tunnelState } }: DevicectlDevice,
+  setupFix: string | null
+): DeviceState => {
+  if (setupFix) {
+    return "unauthorized";
+  }
+  return tunnelState === "connected" || tunnelState === "disconnected"
+    ? "connected"
+    : "unavailable";
+};
+
+/** What to do on an attached phone that is not ready for tests yet. */
+const getTrustFix = (device: Device) => device.setupFix ?? ANDROID_TRUST_FIX;
+
+// Runs a devicectl command and returns its JSON `result`, or null.
+const readDevicectl = <T>(args: string[]): T | null => {
   const file = path.join(
     os.tmpdir(),
     `pixy-mood-tracker-devicectl-${process.pid}.json`
   );
-  if (
-    tryRun(
-      "xcrun",
-      ["devicectl", "list", "devices", "--quiet", "--json-output", file],
-      20_000
-    ) === null
-  ) {
-    return [];
-  }
-  const result = readJson<{ result: { devices: DevicectlDevice[] } }>(file);
+  const output = tryRun(
+    "xcrun",
+    ["devicectl", ...args, "--quiet", "--json-output", file],
+    20_000
+  );
+  const json = output === null ? null : readJson<{ result: T }>(file);
   fs.rmSync(file, { force: true });
-  return (result?.result.devices ?? [])
+  return json?.result ?? null;
+};
+
+// `list devices` keeps a stale Developer Mode status until a tunnel opens.
+// Asking for details opens one and reads the live value.
+const refreshIfStale = (device: DevicectlDevice, udid: string) =>
+  device.deviceProperties.developerModeStatus === "disabled" &&
+  device.connectionProperties.pairingState === "paired" &&
+  device.connectionProperties.tunnelState !== "connected"
+    ? (readDevicectl<DevicectlDevice>([
+        "device",
+        "info",
+        "details",
+        "--device",
+        udid,
+      ]) ?? device)
+    : device;
+
+const listIosPhones = (): Device[] =>
+  (
+    readDevicectl<{ devices: DevicectlDevice[] }>(["list", "devices"])
+      ?.devices ?? []
+  )
     .filter(
       (device) =>
         device.hardwareProperties.platform === "iOS" &&
-        device.hardwareProperties.reality === "physical" &&
+        // Unpaired phones omit `reality`; devicectl never lists simulators.
+        device.hardwareProperties.reality !== "virtual" &&
         device.hardwareProperties.udid
     )
-    .map((device) => ({
-      id: device.hardwareProperties.udid ?? "",
-      kind: "physical" as const,
-      name: device.deviceProperties.name,
-      platform: "ios" as const,
-      state:
-        device.connectionProperties.tunnelState === "connected" ||
-        device.connectionProperties.tunnelState === "disconnected"
-          ? ("connected" as const)
-          : ("unavailable" as const),
-    }));
-};
+    .map((listed): Device => {
+      const udid = listed.hardwareProperties.udid ?? "";
+      const device = refreshIfStale(listed, udid);
+      const setupFix = getIosSetupFix(device, udid);
+      return {
+        id: udid,
+        kind: "physical",
+        name: device.deviceProperties.name,
+        platform: "ios",
+        setupFix,
+        state: getIosPhoneState(device, setupFix),
+      };
+    });
 
 const getAvdName = (serial: string) =>
   tryRun("adb", ["-s", serial, "emu", "avd", "name"])?.split("\n")[0].trim() ??
@@ -194,6 +247,8 @@ const listAndroidDevices = (): Device[] => {
       let state: DeviceState = "unavailable";
       if (adbState === "device") {
         state = isEmulator ? "booted" : "connected";
+      } else if (adbState === "unauthorized") {
+        state = "unauthorized";
       }
       return {
         id: serial,
@@ -398,7 +453,10 @@ const cmdList = (
   const sessions = readSessions().filter(isActive);
   const devices = listDevices(platform).filter(
     (device) =>
-      isAll || device.state === "booted" || device.state === "connected"
+      isAll ||
+      device.state === "booted" ||
+      device.state === "connected" ||
+      device.state === "unauthorized"
   );
   const rows = devices.map((device) => ({
     ...device,
@@ -432,6 +490,12 @@ const cmdList = (
       session ? describeSession(session) : "-",
     ])
   );
+  for (const device of devices.filter(
+    ({ state }) => state === "unauthorized"
+  )) {
+    console.log(`\n${device.name} (${device.id}) is unauthorized.`);
+    console.log(`  fix: ${getTrustFix(device)}`);
+  }
 };
 
 const cmdCreate = async (
@@ -579,4 +643,4 @@ const DEVICES_COMMANDS = new Map(
 );
 
 /** `bun devices` commands, plus device lookup and Android env for sessions. */
-export { DEVICES_COMMANDS, findDevice, getAndroidBuildEnv };
+export { DEVICES_COMMANDS, findDevice, getAndroidBuildEnv, getTrustFix };
