@@ -80,34 +80,6 @@ const NAVIGATION_LINKING: LinkingOptions<RootStackParamList> = {
   },
 };
 
-const Navigation = () => {
-  const scheme = useColorScheme();
-
-  return (
-    <NavigationContainer
-      linking={NAVIGATION_LINKING}
-      // @ts-expect-error Colors has no primary/card/border/notification keys; leaving them unset preserves current navigation styling.
-      theme={
-        scheme === "dark"
-          ? {
-              dark: true,
-              colors: Colors.dark,
-            }
-          : {
-              dark: false,
-              colors: Colors.light,
-            }
-      }
-    >
-      <Providers>
-        <RootNavigator />
-      </Providers>
-    </NavigationContainer>
-  );
-};
-
-export default Navigation;
-
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const RootNavigator = () => {
@@ -381,3 +353,31 @@ const RootNavigator = () => {
     // )
   );
 };
+
+const Navigation = () => {
+  const scheme = useColorScheme();
+
+  return (
+    <NavigationContainer
+      linking={NAVIGATION_LINKING}
+      // @ts-expect-error Colors has no primary/card/border/notification keys; leaving them unset preserves current navigation styling.
+      theme={
+        scheme === "dark"
+          ? {
+              dark: true,
+              colors: Colors.dark,
+            }
+          : {
+              dark: false,
+              colors: Colors.light,
+            }
+      }
+    >
+      <Providers>
+        <RootNavigator />
+      </Providers>
+    </NavigationContainer>
+  );
+};
+
+export default Navigation;

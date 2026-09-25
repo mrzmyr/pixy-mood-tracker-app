@@ -8,6 +8,15 @@ import useColors from "../../hooks/useColors";
 import type { LogItem } from "../../hooks/useLogs";
 import CalendarWeek from "./CalendarWeek";
 
+const styles = StyleSheet.create({
+  textStyles: {
+    margin: 12,
+    marginTop: 16,
+    textAlign: "center",
+    fontSize: 17,
+  },
+});
+
 const CalendarMonthComponent = ({
   dateString,
   itemMap,
@@ -80,14 +89,5 @@ const CalendarMonthComponent = ({
 };
 
 const CalendarMonth = memo(CalendarMonthComponent);
-
-const styles = StyleSheet.create({
-  textStyles: {
-    margin: 12,
-    marginTop: 16,
-    textAlign: "center",
-    fontSize: 17,
-  },
-});
 
 export default CalendarMonth;

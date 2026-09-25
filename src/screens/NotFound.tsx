@@ -1,20 +1,6 @@
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import type { RootStackScreenProps } from "../../types";
 
-export const NotFoundScreen = ({
-  navigation,
-}: RootStackScreenProps<"NotFound">) => (
-  <View style={styles.container}>
-    <Text style={styles.title}>This screen doesn't exist.</Text>
-    <TouchableOpacity
-      onPress={() => navigation.replace("tabs")}
-      style={styles.link}
-    >
-      <Text style={styles.linkText}>Go to home screen!</Text>
-    </TouchableOpacity>
-  </View>
-);
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -35,3 +21,17 @@ const styles = StyleSheet.create({
     color: "#2e78b7",
   },
 });
+
+export const NotFoundScreen = ({
+  navigation,
+}: RootStackScreenProps<"NotFound">) => (
+  <View style={styles.container}>
+    <Text style={styles.title}>This screen doesn't exist.</Text>
+    <TouchableOpacity
+      onPress={() => navigation.replace("tabs")}
+      style={styles.link}
+    >
+      <Text style={styles.linkText}>Go to home screen!</Text>
+    </TouchableOpacity>
+  </View>
+);

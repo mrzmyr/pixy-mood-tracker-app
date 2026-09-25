@@ -17,14 +17,6 @@ import { useCalendarFilters } from "../../../hooks/useCalendarFilters";
 import useColors from "../../../hooks/useColors";
 import { Body } from "./Body";
 
-export const CalendarBottomSheet = () => {
-  if (Platform.OS === "ios") {
-    return <IOSCalendarBottomSheet />;
-  }
-
-  return <GestureCalendarBottomSheet />;
-};
-
 const IOSCalendarBottomSheet = () => {
   const colors = useColors();
   const calendarFilters = useCalendarFilters();
@@ -152,4 +144,12 @@ const GestureCalendarBottomSheet = () => {
       </BottomSheetScrollView>
     </BottomSheet>
   );
+};
+
+export const CalendarBottomSheet = () => {
+  if (Platform.OS === "ios") {
+    return <IOSCalendarBottomSheet />;
+  }
+
+  return <GestureCalendarBottomSheet />;
 };
