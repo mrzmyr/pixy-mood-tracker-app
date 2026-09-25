@@ -59,6 +59,12 @@ Configured native builds use `EXPO_PUBLIC_SUPERWALL_IOS_API_KEY` and `EXPO_PUBLI
 
 ## Building
 
+### iOS physical device signing
+
+iOS device builds require Xcode and CocoaPods. Use `DEV_CLIENT=true bun ios --device <device-id>` to build the `Pixy Dev` app with its `.dev` bundle ID. Automatic signing needs an Apple development team and provisioning profile for that bundle ID with Push Notifications enabled. Pixy requests the `aps-environment` entitlement through `expo-notifications`; a wildcard profile without that capability fails during Xcode signing.
+
+On Macs using Homebrew CocoaPods with RVM, clear RVM's gem paths if `pod` fails to load: `env -u GEM_HOME -u GEM_PATH DEV_CLIENT=true bun ios --device <device-id>`.
+
 | Environment | OS | Channel | `bun run` command | Extension | Installation |
 | --- | --- | --- | --- | --- | --- |
 | `development` | iOS | Physical Device | `build:ios:dev` | `.ipa` | Install `.ipa` file via [Apple Configurator](https://apps.apple.com/us/app/apple-configurator/id1037126344?mt=12) |
