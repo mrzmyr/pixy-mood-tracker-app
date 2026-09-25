@@ -11,7 +11,6 @@
     "builds": "bun scripts/cli/index.ts builds",
     "dashboard": "bun scripts/cli/dashboard.ts",
     "web": "expo start --web",
-    "eject": "expo eject",
     "test": "jest --watchAll --env=jsdom",
     "test:ci": "jest --env=jsdom",
     "build:ios:dev": "bunx eas-cli build -p ios --local --profile=development",
@@ -75,7 +74,6 @@
     "expo-web-browser": "~57.0.2",
     "fast-xml-parser": "^5.10.1",
     "i18n-js": "^3.8.0",
-    "jotai": "^2.20.3",
     "lodash": "^4.17.21",
     "lucide-react-native": "^0.562.0",
     "posthog-react-native": "^4.61.1",
@@ -97,16 +95,13 @@
     "react-native-web": "^0.21.0",
     "react-native-worklets": "0.10.1",
     "semver": "^7.5.2",
-    "use-debounce": "^9.0.4",
     "uuid": "^11.1.1",
     "zod": "^4.4.3"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
-    "@babel/preset-react": "^7.18.6",
     "@google-cloud/translate": "^10.1.0",
     "@react-native/jest-preset": "0.86.2",
-    "@react-native/metro-config": "0.86.2",
     "@testing-library/react-native": "^14.0.1",
     "@types/i18n-js": "^3.8.2",
     "@types/jest": "29.5.14",
@@ -129,15 +124,6 @@
     "markdown-it": "^15.0.0"
   },
   "jest": {
-    "collectCoverage": false,
-    "collectCoverageFrom": [
-      "./hooks/*.{js,jsx,ts,tsx}",
-      "./helpers/*.{js,jsx,ts,tsx}",
-      "!**/coverage/**",
-      "!**/node_modules/**",
-      "!**/babel.config.js",
-      "!**/jest.setup.js"
-    ],
     "preset": "jest-expo",
     "setupFilesAfterEnv": [
       "<rootDir>/jest.setup.js"
