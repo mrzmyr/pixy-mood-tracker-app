@@ -2,7 +2,7 @@ name: update
 on:
   push:
     branches:
-      - 'releases/**'
+      - "releases/**"
       - production
       - preview
 
