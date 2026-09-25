@@ -1,5 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import * as Sentry from '@sentry/react-native';
+import * as Sentry from "@sentry/react-native";
 
 type StorageError = Error & {
   status: string;
@@ -11,7 +11,7 @@ const createStorageError = (
   status: string,
   message: string,
   why: string,
-  fix: string,
+  fix: string
 ): StorageError =>
   Object.assign(new Error(message), {
     status,
@@ -27,12 +27,14 @@ const captureStorageError = (error: StorageError, key: string) => {
   try {
     Sentry.captureException(error);
   } catch (captureError) {
-    console.error(createStorageError(
-      "storage_telemetry_failed",
-      "Storage error reporting failed",
-      `Sentry failed while reporting storage key "${key}": ${errorMessage(captureError)}`,
-      "Check the Sentry SDK configuration",
-    ));
+    console.error(
+      createStorageError(
+        "storage_telemetry_failed",
+        "Storage error reporting failed",
+        `Sentry failed while reporting storage key "${key}": ${errorMessage(captureError)}`,
+        "Check the Sentry SDK configuration"
+      )
+    );
   }
 };
 
@@ -40,24 +42,27 @@ export const store = async <State>(key: string, state: State) => {
   try {
     await AsyncStorage.setItem(key, JSON.stringify(state));
   } catch (error) {
-    captureStorageError(createStorageError(
-      "storage_write_failed",
-      "Stored data could not be saved",
-      `Writing storage key "${key}" failed: ${errorMessage(error)}`,
-      "Retry the operation and check available device storage",
-    ), key);
+    captureStorageError(
+      createStorageError(
+        "storage_write_failed",
+        "Stored data could not be saved",
+        `Writing storage key "${key}" failed: ${errorMessage(error)}`,
+        "Retry the operation and check available device storage"
+      ),
+      key
+    );
   }
-}
+};
 
 const createInvalidStoredValueError = (
   key: string,
-  why: string,
+  why: string
 ): StorageError =>
   createStorageError(
     "storage_invalid_value",
     "Stored data is invalid",
     `Storage key "${key}" ${why}`,
-    "Restore valid JSON data or remove the corrupted storage entry",
+    "Restore valid JSON data or remove the corrupted storage entry"
   );
 
 const reportLoadError = (error: StorageError, key: string, feedback?: any) => {
@@ -72,36 +77,41 @@ const reportLoadError = (error: StorageError, key: string, feedback?: any) => {
       }),
       email: "team@pixy.day",
       source: "error",
-      onCancel: () => {
-      },
-      onOk: () => {
-      }
-    })
+      onCancel: () => {},
+      onOk: () => {},
+    });
   } catch (feedbackError) {
-    console.error(createStorageError(
-      "storage_feedback_failed",
-      "Storage feedback could not be sent",
-      `Feedback failed for storage key "${key}": ${errorMessage(feedbackError)}`,
-      "Retry later and check the feedback service configuration",
-    ));
+    console.error(
+      createStorageError(
+        "storage_feedback_failed",
+        "Storage feedback could not be sent",
+        `Feedback failed for storage key "${key}": ${errorMessage(feedbackError)}`,
+        "Retry later and check the feedback service configuration"
+      )
+    );
   }
   try {
     Sentry.captureException(error);
   } catch (captureError) {
-    console.error(createStorageError(
-      "storage_telemetry_failed",
-      "Storage error reporting failed",
-      `Sentry failed while reporting storage key "${key}": ${errorMessage(captureError)}`,
-      "Check the Sentry SDK configuration",
-    ));
+    console.error(
+      createStorageError(
+        "storage_telemetry_failed",
+        "Storage error reporting failed",
+        `Sentry failed while reporting storage key "${key}": ${errorMessage(captureError)}`,
+        "Check the Sentry SDK configuration"
+      )
+    );
   }
-}
+};
 
 // Returns `null` only when no data exists for `key`. Read or parse failures
 // throw, so callers can tell "no data yet" apart from "data exists but could
 // not be loaded" — treating a failed load as empty state must never overwrite
 // the stored data.
-export const load = async <ReturnValue>(key: string, feedback?: any): Promise<ReturnValue | null> => {
+export const load = async <ReturnValue>(
+  key: string,
+  feedback?: any
+): Promise<ReturnValue | null> => {
   let data: string | null;
 
   try {
@@ -111,7 +121,7 @@ export const load = async <ReturnValue>(key: string, feedback?: any): Promise<Re
       "storage_read_failed",
       "Stored data could not be read",
       `Reading storage key "${key}" failed: ${errorMessage(error)}`,
-      "Retry the operation and check device storage access",
+      "Retry the operation and check device storage access"
     );
     reportLoadError(storageError, key, feedback);
     throw storageError;
@@ -136,11 +146,11 @@ export const load = async <ReturnValue>(key: string, feedback?: any): Promise<Re
       "status" in error &&
       "why" in error &&
       "fix" in error
-        ? error as StorageError
+        ? (error as StorageError)
         : createInvalidStoredValueError(
-          key,
-          `could not be parsed: ${errorMessage(error)}`,
-        );
+            key,
+            `could not be parsed: ${errorMessage(error)}`
+          );
     reportLoadError(storageError, key, feedback);
     throw storageError;
   }

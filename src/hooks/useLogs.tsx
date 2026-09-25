@@ -13,7 +13,7 @@ import {
   useReducer,
   useState,
 } from "react";
-import * as Sentry from '@sentry/react-native';
+import * as Sentry from "@sentry/react-native";
 import { v4 as uuidv4 } from "uuid";
 import z from "zod";
 import { AtLeast } from "../../types";
@@ -127,9 +127,9 @@ function reducer(state: LogsState, action: LogAction): LogsState {
         items: state.items.map((item) =>
           item.tags.some((tag) => tag.id === action.payload)
             ? {
-              ...item,
-              tags: item.tags.filter((tag) => tag.id !== action.payload),
-            }
+                ...item,
+                tags: item.tags.filter((tag) => tag.id !== action.payload),
+              }
             : item
         ),
       };
@@ -264,7 +264,15 @@ function LogsProvider({ children }: { children: React.ReactNode }) {
       reset,
       import: importState,
     }),
-    [addLog, editLog, updateLogs, deleteLog, removeTagFromLogs, reset, importState]
+    [
+      addLog,
+      editLog,
+      updateLogs,
+      deleteLog,
+      removeTagFromLogs,
+      reset,
+      importState,
+    ]
   );
 
   const stateValue: StateValue = useMemo(

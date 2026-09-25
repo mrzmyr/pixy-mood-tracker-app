@@ -84,16 +84,18 @@ export const getTagsDistributionTrendData = (
       ...tag,
       periode1Count: distributionPeriode1[tag.id].count,
       periode2Count: distributionPeriode2[tag.id].count,
-      total: distributionPeriode1[tag.id].count + distributionPeriode2[tag.id].count,
-      diff:
-        Math.abs(distributionPeriode2[tag.id].count - distributionPeriode1[tag.id].count),
+      total:
+        distributionPeriode1[tag.id].count + distributionPeriode2[tag.id].count,
+      diff: Math.abs(
+        distributionPeriode2[tag.id].count - distributionPeriode1[tag.id].count
+      ),
       type:
         distributionPeriode2[tag.id].count > distributionPeriode1[tag.id].count
           ? "increase"
           : distributionPeriode2[tag.id].count <
-            distributionPeriode1[tag.id].count
+              distributionPeriode1[tag.id].count
             ? "decrease"
-            : "same" as DistributionTag["type"],
+            : ("same" as DistributionTag["type"]),
     }))
     .filter((tag) => {
       return (
@@ -104,6 +106,6 @@ export const getTagsDistributionTrendData = (
     });
 
   return {
-    tags: _tags
+    tags: _tags,
   };
 };

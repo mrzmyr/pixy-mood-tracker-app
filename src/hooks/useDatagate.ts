@@ -6,22 +6,42 @@ import * as Sharing from "expo-sharing";
 import { Alert, Platform } from "react-native";
 import { getJSONSchemaType, ImportData } from "@/helpers/Import";
 import { migrateImportData } from "@/helpers/migration";
-import { askToImport, askToReset, showImportError, showImportSuccess, showResetSuccess } from "@/helpers/prompts";
+import {
+  askToImport,
+  askToReset,
+  showImportError,
+  showImportSuccess,
+  showResetSuccess,
+} from "@/helpers/prompts";
 import { t } from "@/helpers/translation";
-import pkg from '../../package.json';
+import pkg from "../../package.json";
 import { useAnalytics } from "./useAnalytics";
-import { LogsState, STORAGE_KEY as STORAGE_KEY_LOGS, useLogState, useLogUpdater } from "./useLogs";
-import { ExportSettings, STORAGE_KEY as STORAGE_KEY_SETTINGS, useSettings } from "./useSettings";
-import { STORAGE_KEY as STORAGE_KEY_TAGS, Tag, useTagsState, useTagsUpdater } from "./useTags";
+import {
+  LogsState,
+  STORAGE_KEY as STORAGE_KEY_LOGS,
+  useLogState,
+  useLogUpdater,
+} from "./useLogs";
+import {
+  ExportSettings,
+  STORAGE_KEY as STORAGE_KEY_SETTINGS,
+  useSettings,
+} from "./useSettings";
+import {
+  STORAGE_KEY as STORAGE_KEY_TAGS,
+  Tag,
+  useTagsState,
+  useTagsUpdater,
+} from "./useTags";
 
-type ResetType = "factory" | "data"
+type ResetType = "factory" | "data";
 
 type ExportData = {
   version: string;
   tags: Tag[];
-  items: LogsState['items'];
+  items: LogsState["items"];
   settings: ExportSettings;
-}
+};
 
 export const useDatagate = (): {
   openExportDialog: () => Promise<void>;
@@ -40,20 +60,31 @@ export const useDatagate = (): {
 
   const dangerouslyImportDirectlyToAsyncStorage = async (data: ImportData) => {
     await AsyncStorage.removeItem(STORAGE_KEY_TAGS);
-    await AsyncStorage.setItem(STORAGE_KEY_LOGS, JSON.stringify({
-      items: data.items,
-    }));
-    await AsyncStorage.setItem(STORAGE_KEY_SETTINGS, JSON.stringify({
-      ...data.settings,
-      actionsDone: [{
-        date: new Date().toISOString(),
-        title: 'onboarding',
-      }],
-      tags: data.tags
-    }));
+    await AsyncStorage.setItem(
+      STORAGE_KEY_LOGS,
+      JSON.stringify({
+        items: data.items,
+      })
+    );
+    await AsyncStorage.setItem(
+      STORAGE_KEY_SETTINGS,
+      JSON.stringify({
+        ...data.settings,
+        actionsDone: [
+          {
+            date: new Date().toISOString(),
+            title: "onboarding",
+          },
+        ],
+        tags: data.tags,
+      })
+    );
   };
 
-  const _import = async (data: ImportData, options: { muted: boolean } = { muted: false }) => {
+  const _import = async (
+    data: ImportData,
+    options: { muted: boolean } = { muted: false }
+  ) => {
     const migratedData = migrateImportData(data);
     const jsonSchemaType = getJSONSchemaType(migratedData);
 
@@ -62,16 +93,16 @@ export const useDatagate = (): {
         items: migratedData.items,
       });
       tagsUpdater.import({
-        tags: migratedData.settings.tags || migratedData.tags || []
+        tags: migratedData.settings.tags || migratedData.tags || [],
       });
       importSettings(migratedData.settings);
-      if (!options.muted) showImportSuccess()
+      if (!options.muted) showImportSuccess();
       analytics.track("data_import_success");
     } else {
-      console.log('import failed, json schema:', jsonSchemaType);
-      if (!options.muted) showImportError()
+      console.log("import failed, json schema:", jsonSchemaType);
+      if (!options.muted) showImportError();
       analytics.track("data_import_error", {
-        reason: "invalid_json_schema"
+        reason: "invalid_json_schema",
       });
     }
   };
@@ -79,39 +110,40 @@ export const useDatagate = (): {
   const reset = () => {
     logUpdater.reset();
     tagsUpdater.reset();
-  }
+  };
 
   const factoryReset = () => {
-    reset()
+    reset();
     resetSettings();
-    analytics.reset()
+    analytics.reset();
   };
 
   const openImportDialog = async (): Promise<void> => {
-    return askToImport()
-      .then(async () => {
-        try {
-          analytics.track("data_import_start");
+    return askToImport().then(async () => {
+      try {
+        analytics.track("data_import_start");
 
-          const doc = await DocumentPicker.getDocumentAsync({
-            type: "application/json",
-            copyToCacheDirectory: true,
-          });
+        const doc = await DocumentPicker.getDocumentAsync({
+          type: "application/json",
+          copyToCacheDirectory: true,
+        });
 
-          if (!doc.canceled) {
-            analytics.track("data_import_success");
-            const contents = await FileSystem.readAsStringAsync(doc.assets[0].uri);
-            const data = JSON.parse(contents);
+        if (!doc.canceled) {
+          analytics.track("data_import_success");
+          const contents = await FileSystem.readAsStringAsync(
+            doc.assets[0].uri
+          );
+          const data = JSON.parse(contents);
 
-            _import(data);
-          }
-        } catch (error) {
-          showImportError()
-          analytics.track("data_import_error", {
-            reason: "document_picker_error"
-          });
+          _import(data);
         }
-      })
+      } catch (error) {
+        showImportError();
+        analytics.track("data_import_error", {
+          reason: "document_picker_error",
+        });
+      }
+    });
   };
 
   const openResetDialog = async (type: ResetType) => {
@@ -119,22 +151,22 @@ export const useDatagate = (): {
     const resetFn = type === "factory" ? factoryReset : reset;
 
     if (Platform.OS === "web") {
-      resetFn()
+      resetFn();
       alert(t("reset_data_success_message"));
       return Promise.resolve();
     }
 
     return askToReset<ResetType>(type)
       .then(() => {
-        resetFn()
+        resetFn();
         analytics.track("data_reset_success", {
-          type
+          type,
         });
-        showResetSuccess<ResetType>(type)
+        showResetSuccess<ResetType>(type);
       })
       .catch(() => {
         analytics.track("data_reset_cancel");
-      })
+      });
   };
 
   const openExportDialog = async () => {
@@ -161,7 +193,7 @@ export const useDatagate = (): {
       return Alert.alert("Not supported on web");
     }
 
-    const filename = `pixy-mood-tracker-${dayjs().format("YYYY-MM-DD")}${__DEV__ ? '-DEV' : ''}.json`;
+    const filename = `pixy-mood-tracker-${dayjs().format("YYYY-MM-DD")}${__DEV__ ? "-DEV" : ""}.json`;
 
     await FileSystem.writeAsStringAsync(
       FileSystem.documentDirectory + filename,
