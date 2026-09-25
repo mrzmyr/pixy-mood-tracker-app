@@ -37,7 +37,7 @@
     "@gorhom/bottom-sheet": "^5.2.14",
     "@react-native-async-storage/async-storage": "2.2.0",
     "@react-native-community/datetimepicker": "9.1.0",
-    "@react-navigation/bottom-tabs": "^6.3.1",
+    "@react-navigation/bottom-tabs": "^7.19.2",
     "@react-navigation/native": "^6.0.2",
     "@react-navigation/native-stack": "^6.9.7",
     "@sentry/react-native": "~7.11.0",
