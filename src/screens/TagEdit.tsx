@@ -1,107 +1,126 @@
-import { useState } from 'react';
-import { Platform, Switch, TextInput, TouchableOpacity, View } from 'react-native';
-import { Check } from 'react-native-feather';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { v4 as uuidv4 } from 'uuid';
-import Alert from '@/components/Alert';
-import Button from '@/components/Button';
-import DismissKeyboard from '@/components/DismisKeyboard';
-import LinkButton from '@/components/LinkButton';
-import ModalHeader from '@/components/ModalHeader';
-import { MAX_TAG_LENGTH, MIN_TAG_LENGTH, TAG_COLOR_NAMES } from '@/constants/Config';
-import { t } from '@/helpers/translation';
-import { useAnalytics } from '../hooks/useAnalytics';
-import useColors from '../hooks/useColors';
-import useHaptics from '../hooks/useHaptics';
-import { Tag as ITag, useTagsState, useTagsUpdater } from '../hooks/useTags';
-import { RootStackScreenProps } from '../../types';
-import MenuList from '@/components/MenuList';
-import MenuListItem from '@/components/MenuListItem';
-import TextInfo from '@/components/TextInfo';
+import { useState } from "react";
+import {
+  Platform,
+  Switch,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from "react-native";
+import { Check } from "react-native-feather";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { v4 as uuidv4 } from "uuid";
+import Alert from "@/components/Alert";
+import Button from "@/components/Button";
+import DismissKeyboard from "@/components/DismisKeyboard";
+import LinkButton from "@/components/LinkButton";
+import ModalHeader from "@/components/ModalHeader";
+import {
+  MAX_TAG_LENGTH,
+  MIN_TAG_LENGTH,
+  TAG_COLOR_NAMES,
+} from "@/constants/Config";
+import { t } from "@/helpers/translation";
+import { useAnalytics } from "../hooks/useAnalytics";
+import useColors from "../hooks/useColors";
+import useHaptics from "../hooks/useHaptics";
+import { Tag as ITag, useTagsState, useTagsUpdater } from "../hooks/useTags";
+import { RootStackScreenProps } from "../../types";
+import MenuList from "@/components/MenuList";
+import MenuListItem from "@/components/MenuListItem";
+import TextInfo from "@/components/TextInfo";
 
 const REGEX_EMOJI = /\p{Emoji}/u;
 
-export const TagEdit = ({ navigation, route }: RootStackScreenProps<'TagEdit'>) => {
-  const colors = useColors()
-  const haptics = useHaptics()
+export const TagEdit = ({
+  navigation,
+  route,
+}: RootStackScreenProps<"TagEdit">) => {
+  const colors = useColors();
+  const haptics = useHaptics();
   const insets = useSafeAreaInsets();
-  const tagState = useTagsState()
-  const tagsUpdater = useTagsUpdater()
-  const analytics = useAnalytics()
+  const tagState = useTagsState();
+  const tagsUpdater = useTagsUpdater();
+  const analytics = useAnalytics();
 
-  const tagExists = tagState.tags.find(tag => tag.id === route.params.id)
-  const defaultTag = tagExists ? tagExists : {
-    id: uuidv4(),
-    title: '',
-    color: 'slate',
-  } as ITag;
+  const tagExists = tagState.tags.find((tag) => tag.id === route.params.id);
+  const defaultTag = tagExists
+    ? tagExists
+    : ({
+        id: uuidv4(),
+        title: "",
+        color: "slate",
+      } as ITag);
 
   const [tag, setTag] = useState(tagExists ? tagExists : defaultTag);
 
   const askToDelete = async (tag: ITag) => {
-    await haptics.selection()
+    await haptics.selection();
 
-    analytics.track('delete_tag_ask', {
+    analytics.track("delete_tag_ask", {
       titleLength: tag.title,
       color: tag.color,
       containsEmoji: REGEX_EMOJI.test(tag.title),
-    })
+    });
 
     Alert.alert(
-      t('delete_tag_confirm_title'),
-      t('delete_tag_confirm_message'),
+      t("delete_tag_confirm_title"),
+      t("delete_tag_confirm_message"),
       [
         {
-          text: t('delete'),
+          text: t("delete"),
           onPress: () => {
-            analytics.track('tag_delete_success', {
+            analytics.track("tag_delete_success", {
               titleLength: tag.title,
               color: tag.color,
               containsEmoji: REGEX_EMOJI.test(tag.title),
-            })
-            onDelete(tag)
+            });
+            onDelete(tag);
           },
-          style: "destructive"
+          style: "destructive",
         },
         {
-          text: t('cancel'),
+          text: t("cancel"),
           onPress: () => {
-            analytics.track('tag_delete_cancelled')
+            analytics.track("tag_delete_cancelled");
           },
-          style: "cancel"
-        }
+          style: "cancel",
+        },
       ],
       { cancelable: true }
     );
-  }
+  };
 
   const onDelete = (tag: ITag) => {
-    tagsUpdater.deleteTag(tag.id)
-    navigation.goBack()
-  }
+    tagsUpdater.deleteTag(tag.id);
+    navigation.goBack();
+  };
 
   const onSubmit = (tag: ITag) => {
-    tagsUpdater.updateTag(tag)
+    tagsUpdater.updateTag(tag);
     navigation.goBack();
-  }
+  };
 
   return (
     <DismissKeyboard>
-      <View style={{
-        flex: 1,
-        justifyContent: 'flex-start',
-        backgroundColor: colors.background,
-        marginTop: Platform.OS === 'android' ? insets.top : 0,
-      }}>
+      <View
+        style={{
+          flex: 1,
+          justifyContent: "flex-start",
+          backgroundColor: colors.background,
+          marginTop: Platform.OS === "android" ? insets.top : 0,
+        }}
+      >
         <ModalHeader
-          title={t('edit_tag')}
+          title={t("edit_tag")}
           left={
             <LinkButton
               onPress={() => {
                 navigation.goBack();
               }}
-              type='primary'
-            >{t('cancel')}</LinkButton>
+              type="primary"
+            >
+              {t("cancel")}
+            </LinkButton>
           }
         />
         <View
@@ -111,58 +130,58 @@ export const TagEdit = ({ navigation, route }: RootStackScreenProps<'TagEdit'>) 
           }}
         >
           <TextInput
-            accessibilityLabel={t('tags_add_placeholder')}
-            testID='tag-name'
+            accessibilityLabel={t("tags_add_placeholder")}
+            testID="tag-name"
             autoCorrect={false}
             style={{
               fontSize: 17,
               color: colors.textInputText,
               backgroundColor: colors.textInputBackground,
-              width: '100%',
+              width: "100%",
               padding: 16,
               borderRadius: 8,
               marginBottom: 16,
             }}
-            placeholder={t('tags_add_placeholder')}
+            placeholder={t("tags_add_placeholder")}
             placeholderTextColor={colors.textInputPlaceholder}
             maxLength={MAX_TAG_LENGTH}
             value={tag.title}
-            onChangeText={text => {
-              setTag(tag => ({
+            onChangeText={(text) => {
+              setTag((tag) => ({
                 ...tag,
                 title: text,
-              }))
+              }));
             }}
           />
           <View
             style={{
-              flexDirection: 'row',
-              flexWrap: 'wrap',
-              alignItems: 'center',
-              width: '100%',
+              flexDirection: "row",
+              flexWrap: "wrap",
+              alignItems: "center",
+              width: "100%",
             }}
           >
-            {TAG_COLOR_NAMES.map(colorName => (
+            {TAG_COLOR_NAMES.map((colorName) => (
               <TouchableOpacity
                 key={colorName}
                 accessibilityLabel={colorName}
-                accessibilityRole='radio'
+                accessibilityRole="radio"
                 accessibilityState={{ selected: tag.color === colorName }}
                 testID={`tag-color-${colorName}`}
                 style={{
                   flex: 1,
-                  flexBasis: `${(100 / 7) - 2}%`,
-                  maxWidth: `${(100 / 7) - 2}%`,
+                  flexBasis: `${100 / 7 - 2}%`,
+                  maxWidth: `${100 / 7 - 2}%`,
                   aspectRatio: 1,
                   borderRadius: 100,
                   backgroundColor: colors.tags[colorName].dot,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  margin: '1%',
+                  justifyContent: "center",
+                  alignItems: "center",
+                  margin: "1%",
                 }}
                 onPress={async () => {
                   await haptics.selection();
-                  setTag(tag => ({
+                  setTag((tag) => ({
                     ...tag,
                     color: colorName,
                   }));
@@ -181,14 +200,14 @@ export const TagEdit = ({ navigation, route }: RootStackScreenProps<'TagEdit'>) 
             }}
           >
             <MenuListItem
-              title={t('archive_tag_enabled')}
+              title={t("archive_tag_enabled")}
               iconRight={
                 <Switch
-                  accessibilityLabel={t('archive_tag_enabled')}
-                  testID='tag-archived'
+                  accessibilityLabel={t("archive_tag_enabled")}
+                  testID="tag-archived"
                   ios_backgroundColor={colors.backgroundSecondary}
                   onValueChange={() => {
-                    setTag(tag => ({
+                    setTag((tag) => ({
                       ...tag,
                       isArchived: !tag.isArchived,
                     }));
@@ -199,34 +218,41 @@ export const TagEdit = ({ navigation, route }: RootStackScreenProps<'TagEdit'>) 
               isLast
             />
           </MenuList>
-          <TextInfo>{t('archive_tag_description')}</TextInfo>
+          <TextInfo>{t("archive_tag_description")}</TextInfo>
 
           <View
             style={{
-              justifyContent: 'center',
-              alignItems: 'center',
+              justifyContent: "center",
+              alignItems: "center",
               marginTop: 32,
             }}
           >
             <Button
               style={{
-                width: '100%',
+                width: "100%",
               }}
               onPress={() => onSubmit(tag)}
-              type='primary'
-              disabled={tag?.title?.length < MIN_TAG_LENGTH || tag?.title?.length > MAX_TAG_LENGTH}
-            >{t('save')}</Button>
+              type="primary"
+              disabled={
+                tag?.title?.length < MIN_TAG_LENGTH ||
+                tag?.title?.length > MAX_TAG_LENGTH
+              }
+            >
+              {t("save")}
+            </Button>
             <Button
               style={{
                 marginTop: 12,
-                width: '100%',
+                width: "100%",
               }}
               onPress={() => askToDelete(tag)}
-              type='danger'
-            >{t('delete')}</Button>
+              type="danger"
+            >
+              {t("delete")}
+            </Button>
           </View>
         </View>
       </View>
     </DismissKeyboard>
   );
-}
+};

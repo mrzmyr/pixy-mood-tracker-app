@@ -1,13 +1,13 @@
-import { createContext, useContext } from 'react';
+import { createContext, useContext } from "react";
 
-export type DevelopmentSupportMode = 'available' | 'failed';
+export type DevelopmentSupportMode = "available" | "failed";
 export type SupportFlowStatus =
-  | 'support_configuration_failed'
-  | 'support_consumption_failed'
-  | 'support_consumption_token_missing'
-  | 'support_fake_failed'
-  | 'support_flow_failed'
-  | 'support_placement_failed';
+  | "support_configuration_failed"
+  | "support_consumption_failed"
+  | "support_consumption_token_missing"
+  | "support_fake_failed"
+  | "support_flow_failed"
+  | "support_placement_failed";
 
 export interface SupportFlowError {
   status: SupportFlowStatus;
@@ -31,7 +31,7 @@ export interface FakeSupportClient extends SupportClient {
 }
 
 export const createFakeSupportClient = (
-  mode: DevelopmentSupportMode = 'available',
+  mode: DevelopmentSupportMode = "available",
   ...nextModes: DevelopmentSupportMode[]
 ): FakeSupportClient => {
   const modes = [mode, ...nextModes];
@@ -46,12 +46,12 @@ export const createFakeSupportClient = (
       const currentMode = modes[Math.min(attempts, modes.length - 1)];
       attempts += 1;
 
-      if (currentMode === 'failed') {
+      if (currentMode === "failed") {
         const error: SupportFlowError = {
-          status: 'support_fake_failed',
-          message: 'Support unavailable',
-          why: 'Development fake provider was configured to fail.',
-          fix: 'Try again. Pixy remains fully usable.',
+          status: "support_fake_failed",
+          message: "Support unavailable",
+          why: "Development fake provider was configured to fail.",
+          fix: "Try again. Pixy remains fully usable.",
         };
 
         throw error;
@@ -67,10 +67,7 @@ export const resolveDevelopmentSupportClient = ({
   isDevelopment: boolean;
   mode?: string;
 }): SupportClient | undefined => {
-  if (
-    isDevelopment
-    && (mode === 'available' || mode === 'failed')
-  ) {
+  if (isDevelopment && (mode === "available" || mode === "failed")) {
     return createFakeSupportClient(mode);
   }
 
@@ -87,9 +84,7 @@ export function SupportProvider({
   client?: SupportClient;
 }) {
   return (
-    <SupportContext.Provider value={client}>
-      {children}
-    </SupportContext.Provider>
+    <SupportContext.Provider value={client}>{children}</SupportContext.Provider>
   );
 }
 

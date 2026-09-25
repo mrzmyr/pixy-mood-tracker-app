@@ -63,7 +63,7 @@ const Card = ({
 export const DevelopmentTools = () => {
   const colors = useColors();
   const logState = useLogState();
-  const { tags } = useTagsState()
+  const { tags } = useTagsState();
   const { settings, setSettings, removeActionDone } = useSettings();
 
   const words_total = logState.items
@@ -116,17 +116,12 @@ export const DevelopmentTools = () => {
             {tags?.length}
           </Card>
           <Card title={t("development_statistics_days_tagged")}>
-            {
-              logState.items.filter((d) => d.tags.length > 0)
-                .length
-            }
+            {logState.items.filter((d) => d.tags.length > 0).length}
           </Card>
         </View>
         <MenuListHeadline>Device Information</MenuListHeadline>
         <MenuList>
-          <MenuListItem
-            isLast
-          >
+          <MenuListItem isLast>
             <View>
               <Text
                 style={{
@@ -136,7 +131,6 @@ export const DevelopmentTools = () => {
                 }}
               >
                 Device ID
-
               </Text>
               <Text
                 style={{
@@ -194,7 +188,9 @@ export const DevelopmentTools = () => {
                   onPress={() => {
                     removeActionDone(action.title);
                   }}
-                ><Trash size={20} color={colors.tint} /></LinkButton>
+                >
+                  <Trash size={20} color={colors.tint} />
+                </LinkButton>
               </View>
             </MenuListItem>
           ))}

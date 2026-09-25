@@ -1,4 +1,4 @@
-import { Image, ImageProps, Platform, useColorScheme } from 'react-native';
+import { Image, ImageProps, Platform, useColorScheme } from "react-native";
 
 const HEADER_IMAGES = {
   androidDark: [
@@ -29,19 +29,43 @@ const HEADER_IMAGES = {
     require(`../../../assets/images/onboarding/ios-light-4.png`),
     require(`../../../assets/images/onboarding/ios-light-5.png`),
   ],
-}
+};
 
-export const HeaderImage = ({ index, style, ...props }: {
+export const HeaderImage = ({
+  index,
+  style,
+  ...props
+}: {
   index: number;
-  style?: ImageProps['style'];
+  style?: ImageProps["style"];
   props?: ImageProps;
 }) => {
-  const isAndroid = Platform.OS === 'android';
+  const isAndroid = Platform.OS === "android";
   const scheme = useColorScheme();
 
-  if (scheme === 'dark') {
-    return <Image style={style} {...props} source={isAndroid ? HEADER_IMAGES.androidDark[index] : HEADER_IMAGES.iosDark[index]} />;
+  if (scheme === "dark") {
+    return (
+      <Image
+        style={style}
+        {...props}
+        source={
+          isAndroid
+            ? HEADER_IMAGES.androidDark[index]
+            : HEADER_IMAGES.iosDark[index]
+        }
+      />
+    );
   } else {
-    return <Image style={style} {...props} source={isAndroid ? HEADER_IMAGES.androidLight[index] : HEADER_IMAGES.iosLight[index]} />;
+    return (
+      <Image
+        style={style}
+        {...props}
+        source={
+          isAndroid
+            ? HEADER_IMAGES.androidLight[index]
+            : HEADER_IMAGES.iosLight[index]
+        }
+      />
+    );
   }
 };

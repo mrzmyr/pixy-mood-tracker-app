@@ -48,7 +48,7 @@ export const UserDataImportList = () => {
 
   const onPress = (user: User) => {
     datagate.import(user.importData, {
-      muted: true
+      muted: true,
     });
     setLoadedUserIds((loadedUserIds) => [...loadedUserIds, user.id]);
   };
