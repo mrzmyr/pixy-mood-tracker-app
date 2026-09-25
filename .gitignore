@@ -31,3 +31,6 @@ build-*.aab
 
 /*.app
 /*.tar.gz
+
+# agent-device sessions and e2e artifacts
+.agent-device/

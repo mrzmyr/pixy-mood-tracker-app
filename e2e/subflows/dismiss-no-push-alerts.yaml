@@ -1,0 +1,13 @@
+appId: com.devmood.pixymoodtracker
+---
+# Simulators and emulators have no push token. Toggling the reminder shows
+# "Must use physical device for Push Notifications" once or twice (permission
+# check, then request). Flows never run on phones (clearState).
+- extendedWaitUntil:
+    visible: "OK"
+    timeout: 10000
+- tapOn: "OK"
+- waitForAnimationToEnd
+- tapOn:
+    text: "OK"
+    optional: true

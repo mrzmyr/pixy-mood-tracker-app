@@ -37,14 +37,14 @@ export const getRatingDistributionForYear = (
   items: LogItem[]
 ): RatingDistributionData => {
   const result: RatingDistributionData = [];
+  const logDays = getLogDays(items);
 
   for (const month of Object.keys(MONTH_MAPPING)) {
     let value: null | number = null;
 
-    const logDays = getLogDays(items);
-
+    // `day.date` is `YYYY-MM-DD`; its month part is 1-based.
     const days = logDays.filter(
-      (day) => dayjs(day.date).month() === Number(month)
+      (day) => Number(day.date.slice(5, 7)) - 1 === Number(month)
     );
 
     for (const item of days) {

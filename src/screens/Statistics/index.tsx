@@ -22,6 +22,7 @@ import { HighlightsSection } from "./HighlightsSection";
 import { DATE_FORMAT, STATISTIC_MIN_LOGS } from "@/constants/Config";
 import isBetween from "dayjs/plugin/isBetween";
 import type { RootStackScreenProps } from "../../../types";
+import { getItemTime } from "@/lib/logDates";
 
 dayjs.extend(isBetween);
 
@@ -40,14 +41,12 @@ export const StatisticsScreen = ({
   const logState = useLogState();
 
   // times of the last two weeks
-  const items = logState.items.filter((item) =>
-    dayjs(item.dateTime).isBetween(
-      dayjs().subtract(14, "day"),
-      dayjs(),
-      null,
-      "[]"
-    )
-  );
+  const periodEnd = dayjs().valueOf();
+  const periodStart = dayjs().subtract(14, "day").valueOf();
+  const items = logState.items.filter((item) => {
+    const time = getItemTime(item);
+    return time >= periodStart && time <= periodEnd;
+  });
 
   const statisticsUnlocked = items.length >= STATISTIC_MIN_LOGS;
 

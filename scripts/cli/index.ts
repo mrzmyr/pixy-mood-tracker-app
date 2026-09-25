@@ -1,47 +1,157 @@
-// Entry point for the local device, session, and build CLIs:
-//   bun devices <command>    simulators, emulators, phones
-//   bun sessions <command>   e2e runs on those devices
-//   bun builds <command>     the shared native build cache
-// Run `bun <noun> help` for options.
-import { BUILDS_COMMANDS } from "./builds.ts";
-import { DEVICES_COMMANDS } from "./devices.ts";
-import { SESSIONS_COMMANDS } from "./sessions.ts";
-import { CliError, parseCli } from "./shared.ts";
+// Entry point for the local CLIs:
+//   bun builds <command>    the shared native build cache
+//   bun e2e <command>       e2e runs through agent-device
+// Devices use agent-device directly (`bunx agent-device devices`).
+// Run `bun <noun> --help` or `bun <noun> <command> --help` for options.
+import { parseArgs } from "node:util";
 
-const NOUNS = new Map([
-  ["builds", BUILDS_COMMANDS],
-  ["devices", DEVICES_COMMANDS],
-  ["sessions", SESSIONS_COMMANDS],
+import { BUILDS } from "./builds.ts";
+import { E2E } from "./e2e.ts";
+import { CliError } from "./shared.ts";
+import type { CommandSpec, Noun } from "./shared.ts";
+
+const NOUNS = new Map<string, Noun>([
+  ["builds", BUILDS],
+  ["e2e", E2E],
 ]);
 const ALIASES = new Map([
   ["ls", "list"],
-  ["ps", "list"],
+  ["remove", "rm"],
 ]);
+const HELP_FLAGS = new Set(["-h", "--help", "help"]);
 
-const main = async () => {
-  const { positionals, values } = parseCli();
-  const [noun = "", verb = "list", ...args] = positionals;
-  const commands = NOUNS.get(noun);
-  if (!commands) {
-    throw new CliError({
-      fix: "Run `bun devices`, `bun sessions`, or `bun builds`.",
-      message: `Unknown CLI "${noun}"`,
-      status: "unknown_cli",
-      why: "The first argument must be devices, sessions, or builds.",
+const usageError = (
+  fields: Omit<ConstructorParameters<typeof CliError>[0], "exitCode">
+) => new CliError({ ...fields, exitCode: 2 });
+
+const formatUsage = (noun: string, verb: string, spec: CommandSpec) =>
+  [
+    `bun ${noun} ${verb}`,
+    ...(spec.args ?? []),
+    ...(spec.options ? ["[options]"] : []),
+    ...(spec.hasPassthrough ? ["[-- <args>]"] : []),
+  ].join(" ");
+
+const printNounHelp = (noun: string, { commands, footer, summary }: Noun) => {
+  const width = Math.max(...Object.keys(commands).map((verb) => verb.length));
+  const lines = Object.entries(commands).map(
+    ([verb, spec]) => `  ${verb.padEnd(width)}  ${spec.summary}`
+  );
+  const aliases = [...ALIASES]
+    .filter(([, verb]) => verb in commands)
+    .map(([alias, verb]) => `${alias} = ${verb}`)
+    .join(", ");
+  console.log(`${summary}
+
+Usage: bun ${noun} <command> [options]
+
+Commands:
+${lines.join("\n")}
+${footer ? `\n${footer}\n` : ""}
+Run \`bun ${noun} <command> --help\` for options. Aliases: ${aliases}.`);
+};
+
+const printCommandHelp = (noun: string, verb: string, spec: CommandSpec) => {
+  console.log(`${spec.summary}\n\nUsage: ${formatUsage(noun, verb, spec)}`);
+  if (spec.details) {
+    console.log(`\n${spec.details}`);
+  }
+};
+
+// Required `<x>` and optional `[x]` positionals; `...` accepts any number.
+const checkArgs = (
+  noun: string,
+  verb: string,
+  spec: CommandSpec,
+  args: string[]
+) => {
+  const declared = spec.args ?? [];
+  const required = declared.filter((arg) => arg.startsWith("<"));
+  const isVariadic = declared.some((arg) => arg.includes("..."));
+  const usage = formatUsage(noun, verb, spec);
+  if (args.length < required.length) {
+    throw usageError({
+      fix: spec.argsSource
+        ? `Find one with \`${spec.argsSource}\`, then run: ${usage}.`
+        : `Run: ${usage}.`,
+      message: `Missing ${required[args.length]}`,
+      status: "missing_argument",
+      why: `Usage: ${usage}.`,
     });
   }
-  const command = commands.get(
-    values.help ? "help" : (ALIASES.get(verb) ?? verb)
-  );
-  if (!command) {
-    throw new CliError({
-      fix: `Run \`bun ${noun} help\` to see all commands.`,
+  if (!isVariadic && args.length > declared.length) {
+    throw usageError({
+      fix: `Run: ${usage}.`,
+      message: `Unexpected argument "${args[declared.length]}"`,
+      status: "unexpected_argument",
+      why: `bun ${noun} ${verb} takes ${declared.length === 0 ? "no arguments" : declared.join(" ")}.`,
+    });
+  }
+};
+
+const parseFlags = (
+  noun: string,
+  verb: string,
+  spec: CommandSpec,
+  argv: string[]
+) => {
+  try {
+    return parseArgs({
+      allowPositionals: true,
+      args: argv,
+      options: { ...spec.options, help: { short: "h", type: "boolean" } },
+    });
+  } catch (error) {
+    throw usageError({
+      fix: `Run \`bun ${noun} ${verb} --help\` to see its options.`,
+      message: error instanceof Error ? error.message : String(error),
+      status: "invalid_option",
+      why: `bun ${noun} ${verb} does not accept this option or value.`,
+    });
+  }
+};
+
+// `-- <args>` goes unparsed to commands that forward it to another tool.
+const splitPassthrough = (spec: CommandSpec, argv: string[]) => {
+  const index = argv.indexOf("--");
+  return spec.hasPassthrough && index !== -1
+    ? { own: argv.slice(0, index), passthrough: argv.slice(index + 1) }
+    : { own: argv, passthrough: [] };
+};
+
+const main = async () => {
+  const [noun = "", verb, ...argv] = process.argv.slice(2);
+  const nounSpec = NOUNS.get(noun);
+  if (!nounSpec) {
+    throw usageError({
+      fix: "Run `bun builds --help` or `bun e2e --help`. For devices, use `bunx agent-device`.",
+      message: `Unknown CLI "${noun}"`,
+      status: "unknown_cli",
+      why: "The first argument must be builds or e2e.",
+    });
+  }
+  if (verb === undefined || HELP_FLAGS.has(verb)) {
+    printNounHelp(noun, nounSpec);
+    return;
+  }
+  const name = ALIASES.get(verb) ?? verb;
+  const spec = nounSpec.commands[name];
+  if (!spec) {
+    throw usageError({
+      fix: `Run \`bun ${noun} --help\` to see all commands.`,
       message: `Unknown command "${verb}"`,
       status: "unknown_command",
       why: `bun ${noun} has no command "${verb}".`,
     });
   }
-  await command(args, values);
+  const { own, passthrough } = splitPassthrough(spec, argv);
+  const { positionals, values } = parseFlags(noun, name, spec, own);
+  if (values.help) {
+    printCommandHelp(noun, name, spec);
+    return;
+  }
+  checkArgs(noun, name, spec, positionals);
+  await spec.run(positionals, values, passthrough);
 };
 
 try {
@@ -51,13 +161,14 @@ try {
     error instanceof CliError
       ? error
       : {
-          fix: "Rerun the command. If it fails again, check the device with `bun devices list --all`.",
+          exitCode: 1,
+          fix: "Rerun the command. If it fails again, run it with --help to check its usage.",
           message: error instanceof Error ? error.message : String(error),
           status: "unexpected_error",
-          why: "An underlying tool (xcrun, adb, emulator, maestro-runner) failed.",
+          why: "Reading the build cache, e2e runs, or the native fingerprint failed.",
         };
   console.error(
     `error [${fields.status}]: ${fields.message}\n  why: ${fields.why}\n  fix: ${fields.fix}`
   );
-  process.exitCode = 1;
+  process.exitCode = fields.exitCode;
 }

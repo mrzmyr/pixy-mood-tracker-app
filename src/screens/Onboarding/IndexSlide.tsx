@@ -5,15 +5,8 @@ import { t } from "@/helpers/translation";
 import useColors from "../../hooks/useColors";
 import { HeaderImage } from "./HeaderImage";
 
-/**
- * First onboarding slide asking whether the user used a mood tracker
- * before; `onPress` receives 0 for yes and 1 for no.
- */
-export const IndexSlide = ({
-  onPress,
-}: {
-  onPress: (answer: number) => void;
-}) => {
+/** First onboarding slide introducing Pixy. */
+export const IndexSlide = ({ onPress }: { onPress: () => void }) => {
   const colors = useColors();
 
   return (
@@ -80,18 +73,7 @@ export const IndexSlide = ({
               marginTop: 32,
             }}
           >
-            <Button onPress={() => onPress(0)}>
-              {t("onboarding_step_1_button_1")}
-            </Button>
-            <Button
-              type="secondary"
-              onPress={() => onPress(1)}
-              style={{
-                marginTop: 8,
-              }}
-            >
-              {t("onboarding_step_1_button_2")}
-            </Button>
+            <Button onPress={onPress}>{t("onboarding_step_1_button_2")}</Button>
           </View>
         </View>
       </View>

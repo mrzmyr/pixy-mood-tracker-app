@@ -20,12 +20,16 @@ $ bun install
 $ bun start
 ```
 
-4. Run in iOS Simulator or Android Emulator
+4. Install and run on a device
 
 ```shell
-$ bun ios
-$ bun android
+$ bun ios --device <device-id>
+$ bun android --device <device-name>
 ```
+
+Android builds need Android SDK packages and JDK 17+. `bun android` resolves `ANDROID_HOME`, `ANDROID_SDK_ROOT`, the standard macOS SDK path, or Homebrew's Android command line tools, plus Homebrew's JDK 17. Set `ANDROID_HOME` or `JAVA_HOME` when using another install location.
+
+Run `bun ios` or `bun android` without `--device` to select a simulator or emulator.
 
 ### Build cache
 
@@ -37,7 +41,7 @@ $ bun android
 - **Inspect and clean up with `bun builds`:**
   - `bun builds list` shows each build's variant, source branch and commit, size, and last use.
   - `bun builds check [--release]` tells whether this worktree gets a cached build, and why not.
-  - `bun builds prune` keeps the newest 3 builds per platform and variant plus everything used in the last 7 days.
+  - `bun builds prune` keeps the newest 3 builds per platform and variant (`--keep`) plus everything used in the last 7 days (`--keep-within`).
 - Physical device builds are never cached.
 
 The provider lives in [`scripts/build-cache-provider.cjs`](../scripts/build-cache-provider.cjs).
@@ -54,6 +58,12 @@ Configured native builds use `EXPO_PUBLIC_SUPERWALL_IOS_API_KEY` and `EXPO_PUBLI
 - `production`: Builds used for production
 
 ## Building
+
+### iOS physical device signing
+
+iOS device builds require Xcode and CocoaPods. Use `DEV_CLIENT=true bun ios --device <device-id>` to build the `Pixy Dev` app with its `.dev` bundle ID. Automatic signing needs an Apple development team and provisioning profile for that bundle ID with Push Notifications enabled. Pixy requests the `aps-environment` entitlement through `expo-notifications`; a wildcard profile without that capability fails during Xcode signing.
+
+On Macs using Homebrew CocoaPods with RVM, clear RVM's gem paths if `pod` fails to load: `env -u GEM_HOME -u GEM_PATH DEV_CLIENT=true bun ios --device <device-id>`.
 
 | Environment | OS | Channel | `bun run` command | Extension | Installation |
 | --- | --- | --- | --- | --- | --- |

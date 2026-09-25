@@ -24,6 +24,7 @@ import { Subtitle } from "./Subtitle";
 import { TagPeaksCard } from "./TagPeaksCards";
 import { TagsDistributionCard } from "./TagsDistributionCard";
 import { Title } from "./Title";
+import { getItemTime } from "@/lib/logDates";
 
 const EmptryState = () => {
   const colors = useColors();
@@ -94,10 +95,11 @@ export const HighlightsSection = (_props: { items: LogItem[] }) => {
   const showEmotionsDistribution = statistics.isAvailable(
     "emotions_distribution"
   );
-  const showMoodChart =
-    logState.items.filter((item) =>
-      dayjs(item.dateTime).isAfter(dayjs().subtract(14, "day"))
-    ).length >= 4;
+  const highlightsStartTime = dayjs().subtract(14, "day").valueOf();
+  const highlightsItemCount = logState.items.filter(
+    (item) => getItemTime(item) > highlightsStartTime
+  ).length;
+  const showMoodChart = highlightsItemCount >= 4;
   const showSleepQualityChart = statistics.isAvailable(
     "sleep_quality_distribution"
   );
@@ -137,9 +139,7 @@ export const HighlightsSection = (_props: { items: LogItem[] }) => {
         statistics.state.tagsDistributionData.tags.length;
     }
     if (showMoodChart) {
-      cards.mood_chart_item_count = logState.items.filter((item) =>
-        dayjs(item.dateTime).isAfter(dayjs().subtract(14, "day"))
-      ).length;
+      cards.mood_chart_item_count = highlightsItemCount;
     }
     if (showEmotionsDistribution) {
       cards.emotions_distribution_item_count =

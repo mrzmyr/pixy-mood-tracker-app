@@ -21,6 +21,8 @@ tags: [log]
     commands:
       - tapOn: "Add another entry for today"
 - assertVisible: "How was your day?"
+# A tap during the logger's slide-in animation is lost.
+- waitForAnimationToEnd
 - tapOn:
     id: "mood-good"
 - tapOn:
@@ -140,11 +142,15 @@ tags: [log]
     timeout: 15000
 - assertVisible: "e2e-renamed-${output.runId}"
 - assertVisible: "e2e note ${output.runId} persisted"
+- tapOn:
+    id: "log-list-close"
 
 # 2.6 Second entry for today (different rating)
 - back
 - tapOn: "Add another entry for today"
 - assertVisible: "How was your day?"
+# A tap during the logger's slide-in animation is lost.
+- waitForAnimationToEnd
 - tapOn:
     id: "mood-very_good"
 - runFlow: ../subflows/finish-logger-with-reminder.yaml

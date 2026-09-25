@@ -15,6 +15,7 @@ import groupBy from "lodash/groupBy";
 import keys from "lodash/keys";
 import range from "lodash/range";
 import { useCalendarNavigation } from "@/hooks/useCalendarNavigation";
+import { getItemDate } from "@/lib/logDates";
 
 const DayDot = ({
   date,
@@ -134,9 +135,7 @@ export const TagPeaksCard = ({ tag }: { tag: TagsPeakData["tags"][0] }) => {
   const endDate = dayjs().endOf("week");
   const weekCount = dayjs(endDate).diff(dayjs(startDate), "week") + 1;
 
-  const daysCount = keys(
-    groupBy(tag.items, (item) => dayjs(item.dateTime).format(DATE_FORMAT))
-  ).length;
+  const daysCount = keys(groupBy(tag.items, getItemDate)).length;
 
   return (
     <Card

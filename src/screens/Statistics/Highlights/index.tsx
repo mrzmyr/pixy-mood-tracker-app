@@ -17,6 +17,7 @@ import { DATE_FORMAT } from "@/constants/Config";
 import { MoodChart } from "../MoodChart";
 import { useLogState } from "../../../hooks/useLogs";
 import { SleepQualityChartCard } from "../SleepQualityGraph";
+import { getItemTime } from "@/lib/logDates";
 
 interface HighlightCards {
   mood_avg_show: boolean;
@@ -58,10 +59,11 @@ export const StatisticsHighlights = () => {
   const showSleepQualityChart = statistics.isAvailable(
     "sleep_quality_distribution"
   );
-  const showMoodChart =
-    logState.items.filter((item) =>
-      dayjs(item.dateTime).isAfter(dayjs().subtract(14, "day"))
-    ).length >= 4;
+  const highlightsStartTime = dayjs().subtract(14, "day").valueOf();
+  const highlightsItemCount = logState.items.filter(
+    (item) => getItemTime(item) > highlightsStartTime
+  ).length;
+  const showMoodChart = highlightsItemCount >= 4;
 
   // Effect event: tracks with the latest visibility flags and analytics, but
   // only when the statistics content changes (see the effect below).
@@ -97,9 +99,7 @@ export const StatisticsHighlights = () => {
         statistics.state.tagsDistributionData.tags.length;
     }
     if (showMoodChart) {
-      cards.mood_chart_item_count = logState.items.filter((item) =>
-        dayjs(item.dateTime).isAfter(dayjs().subtract(14, "day"))
-      ).length;
+      cards.mood_chart_item_count = highlightsItemCount;
     }
 
     analytics.track("statistics_all_highlights", {

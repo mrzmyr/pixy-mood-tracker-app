@@ -17,7 +17,8 @@ tags: [calendar]
 - assertVisible:
     id: "calendar-day-${output.today}"
 
-# 3.2 Find the historical date. Short swipes avoid skipping past older cells.
+# 3.2 Page quickly, then require viewport visibility before tapping.
+# Recycled overscan cells can already exist off-screen.
 - repeat:
     times: 120
     while:
@@ -25,8 +26,15 @@ tags: [calendar]
         id: "calendar-day-2023-09-24"
     commands:
       - swipe:
-          start: 50%, 65%
-          end: 50%, 55%
+          start: 50%, 35%
+          end: 50%, 65%
+- scrollUntilVisible:
+    element:
+      id: "calendar-day-2023-09-24"
+    direction: UP
+    timeout: 60000
+    speed: 40
+    visibilityPercentage: 100
 - assertVisible:
     id: "calendar-day-2023-09-24"
 - tapOn:
@@ -50,8 +58,15 @@ tags: [calendar]
         id: "calendar-day-2023-09-24"
     commands:
       - swipe:
-          start: 50%, 65%
-          end: 50%, 55%
+          start: 50%, 35%
+          end: 50%, 65%
+- scrollUntilVisible:
+    element:
+      id: "calendar-day-2023-09-24"
+    direction: UP
+    timeout: 60000
+    speed: 40
+    visibilityPercentage: 100
 - assertVisible:
     id: "calendar-day-2023-09-24"
 - repeat:
@@ -61,8 +76,15 @@ tags: [calendar]
         id: "calendar-day-2022-09-24"
     commands:
       - swipe:
-          start: 50%, 65%
-          end: 50%, 55%
+          start: 50%, 35%
+          end: 50%, 65%
+- scrollUntilVisible:
+    element:
+      id: "calendar-day-2022-09-24"
+    direction: UP
+    timeout: 60000
+    speed: 40
+    visibilityPercentage: 100
 - assertVisible:
     id: "calendar-day-2022-09-24"
 - repeat:
@@ -72,21 +94,28 @@ tags: [calendar]
         id: "calendar-day-2021-09-24"
     commands:
       - swipe:
-          start: 50%, 65%
-          end: 50%, 55%
+          start: 50%, 35%
+          end: 50%, 65%
+- scrollUntilVisible:
+    element:
+      id: "calendar-day-2021-09-24"
+    direction: UP
+    timeout: 60000
+    speed: 40
+    visibilityPercentage: 100
 - assertVisible:
     id: "calendar-day-2021-09-24"
 
 # 3.4 Scroll back several months (bounded swipes that stay off the tab bar)
 - swipe:
-    start: 50%, 30%
-    end: 50%, 65%
+    start: 50%, 65%
+    end: 50%, 30%
 - swipe:
-    start: 50%, 30%
-    end: 50%, 65%
+    start: 50%, 65%
+    end: 50%, 30%
 - swipe:
-    start: 50%, 30%
-    end: 50%, 65%
+    start: 50%, 65%
+    end: 50%, 30%
 
 # 3.5 Return to today (re-enter calendar tab, then scroll; use button if present)
 - tapOn:
@@ -108,28 +137,25 @@ tags: [calendar]
             id: "calendar-day-${output.today}"
           direction: DOWN
           timeout: 60000
-          speed: 60
-          visibilityPercentage: 50
 
 # 3.6 Filters open, search visible, close
 - tapOn:
     point: 76%,7%
 - assertVisible: "Filters"
 - assertVisible: "Search"
+# iOS shows a modal with Done; Android a gesture sheet that back closes.
 - runFlow:
     when:
-      visible:
-        id: "calendar-filter-done"
+      platform: iOS
     commands:
       - tapOn:
           id: "calendar-filter-done"
 - runFlow:
     when:
-      notVisible:
-        id: "calendar-filter-done"
+      platform: Android
     commands:
       - back
-# Closing filters can land on the Statistics tab (app behavior) — re-enter calendar
+# Closing filters can land on the Statistics tab (app behavior); re-enter calendar
 - tapOn:
     id: "calendar"
 - assertVisible:

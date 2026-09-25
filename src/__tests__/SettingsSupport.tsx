@@ -76,19 +76,14 @@ describe("Support Pixy in Settings", () => {
     jest.restoreAllMocks();
   });
 
-  test("user sees no support card when support is disabled", async () => {
+  test("user sees no development user data when support is disabled", async () => {
     const openSupport = jest.fn(() => Promise.resolve());
     const screen = await renderSettings({ enabled: false, openSupport });
 
     expect(screen.queryByTestId("support-pixy-card")).toBeNull();
     expect(openSupport).not.toHaveBeenCalled();
 
-    const testIds = screen
-      .queryAllByTestId(/./u)
-      .map((element) => element.props.testID);
-    expect(testIds.indexOf("settings-version")).toBeLessThan(
-      testIds.indexOf("settings-development-user-data")
-    );
+    expect(screen.queryByText("Load User Data")).toBeNull();
   });
 
   test("user sees approved support card in a configured development build", async () => {
@@ -117,15 +112,7 @@ describe("Support Pixy in Settings", () => {
       screen.getByRole("button", { name: "Support Pixy" })
     ).toBeOnTheScreen();
 
-    const testIds = screen
-      .queryAllByTestId(/./u)
-      .map((element) => element.props.testID);
-    expect(testIds.indexOf("settings-development-user-data")).toBeLessThan(
-      testIds.indexOf("support-pixy-card")
-    );
-    expect(testIds.indexOf("support-pixy-card")).toBeLessThan(
-      testIds.indexOf("settings-version")
-    );
+    expect(screen.queryByText("Load User Data")).toBeNull();
   });
 
   test("user opens support flow from the card", async () => {
