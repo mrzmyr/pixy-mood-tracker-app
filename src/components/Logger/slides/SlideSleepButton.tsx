@@ -10,18 +10,16 @@ const DEFAULT_STYLE = {};
 /** Sleep quality bar; also reused read-only in the entry list. */
 export const SlideSleepButton = ({
   value,
-  selected,
   onPress,
   style = DEFAULT_STYLE,
 }: {
   value: LogItem["sleep"]["quality"];
-  selected?: boolean;
   onPress?: () => void;
   style?: ViewStyle;
 }) => {
   const colors = useColors();
   const colorScheme = useColorScheme();
-  const unselectedBorderColor =
+  const borderColor =
     colorScheme === "light" ? "rgba(0,0,0,0.1)" : "rgba(255,255,255,0.1)";
   const haptics = useHaptics();
 
@@ -42,11 +40,10 @@ export const SlideSleepButton = ({
           alignItems: "center",
           justifyContent: "center",
           backgroundColor: colors.logCardBackground,
-          borderColor: selected ? colors.tint : unselectedBorderColor,
-          borderWidth: selected ? 2 : 1,
+          borderColor,
+          borderWidth: 1,
           borderRadius: 8,
-          paddingLeft: selected ? 7 : 8,
-          paddingRight: selected ? 7 : 8,
+          paddingHorizontal: 8,
           paddingVertical: 16,
           height: HEIGHT + 32,
           margin: 4,

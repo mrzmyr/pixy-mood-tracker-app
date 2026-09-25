@@ -55,7 +55,6 @@ const Providers = ({
   return (
     <SafeAreaProvider>
       <SettingsProvider>
-        {/* <PasscodeProvider> */}
         <PostHogProvider
           apiKey={POSTHOG_API_KEY}
           options={{
@@ -70,7 +69,6 @@ const Providers = ({
             {supportContent}
           </AnalyticsProvider>
         </PostHogProvider>
-        {/* </PasscodeProvider> */}
       </SettingsProvider>
     </SafeAreaProvider>
   );

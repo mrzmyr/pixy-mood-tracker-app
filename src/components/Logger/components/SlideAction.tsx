@@ -1,4 +1,3 @@
-import { useKeyboard } from "@react-native-community/hooks";
 import { useEffect, useState } from "react";
 import { Keyboard, Platform, View } from "react-native";
 import { ArrowRight, Check } from "react-native-feather";
@@ -27,14 +26,15 @@ export const SlideAction = ({
 }) => {
   const haptics = useHaptics();
   const colors = useColors();
-  const keyboard = useKeyboard();
   const insets = useSafeAreaInsets();
 
-  const [shouldMove, setShouldMove] = useState(false);
+  const [keyboardHeight, setKeyboardHeight] = useState(0);
 
   useEffect(() => {
-    const r1 = Keyboard.addListener(ON_EVENT_NAME, () => setShouldMove(true));
-    const r2 = Keyboard.addListener(OFF_EVENT_NAME, () => setShouldMove(false));
+    const r1 = Keyboard.addListener(ON_EVENT_NAME, (e) =>
+      setKeyboardHeight(e.endCoordinates.height)
+    );
+    const r2 = Keyboard.addListener(OFF_EVENT_NAME, () => setKeyboardHeight(0));
 
     return () => {
       r1.remove();
@@ -46,8 +46,9 @@ export const SlideAction = ({
     return null;
   }
 
-  const bottom =
-    Math.round(keyboard.keyboardHeight) - (Platform.OS === "ios" ? 20 : 0);
+  const bottom = keyboardHeight
+    ? Math.round(keyboardHeight) - (Platform.OS === "ios" ? 20 : 0)
+    : 0;
 
   return (
     <View
@@ -58,7 +59,7 @@ export const SlideAction = ({
         paddingBottom: insets.bottom + 16,
         paddingRight: 32,
         position: "absolute",
-        bottom: shouldMove ? bottom : 0,
+        bottom,
         right: 0,
         zIndex: 999,
       }}

@@ -57,13 +57,13 @@ bun dashboard                                               # runs, devices, and
 | 10-stability | Background/foreground, cold restart (2nd-launch crash regression), tab smoke |
 | apple/ios-regressions | iOS filter modal, narrow check-in layout/switch accessibility, tag form accessibility |
 
-Suite 08 (passcode) intentionally absent: the passcode feature is commented out in the app (`src/screens/Settings/index.tsx`).
+Suite 08 (passcode) intentionally absent: the app has no passcode feature.
 
 Import-from-file (Data → Import) is not automated because the system file picker is flaky to drive. The fixture includes a visible entry from 2023-09-24. The calendar flow uses that entry when present; otherwise, it creates a good entry on that date through Calendar, then continues paging through empty months in 2022 and 2021.
 
 ## Conventions
 
-- Most flows reset app state (`clearState: true`) and complete onboarding via `subflows/complete-onboarding.yaml`. `02-log-entry` keeps physical-device tester data, completes onboarding only when needed, and uses run-specific tag and note values.
+- Most flows reset app state (`clearState: true`) and complete onboarding via `subflows/complete-onboarding.yaml`. `02-log-entry` keeps physical-device tester data, requires one or fewer existing entries so both saves avoid Product Questions, completes onboarding only when needed, and uses run-specific tag and note values.
 - Logger slides use deterministic first-entry and reminder sequences, avoiding slow conditional selector polling.
 - Selectors prefer `testID`s: `mood-<rating>`, `logger-next`, `logger-save`, `calendar-day-<YYYY-MM-DD>`, `scroll-to-bottom`, tab ids `calendar`/`statistics`/`settings`.
 - English device locale assumed (text selectors come from `assets/locales/en.json`).

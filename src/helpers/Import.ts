@@ -84,18 +84,12 @@ export const pixySchema = z.strictObject({
   }),
 });
 
-const DEBUG = false;
-
 /**
  * Classify an import file; anything that fails {@link pixySchema} is
  * `"unknown"` and must not be imported.
  */
 export const getJSONSchemaType = (json: ImportData): "pixy" | "unknown" => {
   const result = pixySchema.safeParse(json);
-
-  if (!result.success && DEBUG) {
-    console.log(result.error.issues);
-  }
 
   return result.success ? "pixy" : "unknown";
 };

@@ -3,6 +3,7 @@ tags: [log]
 ---
 - launchApp:
 - runScript: ../scripts/set-output-date.js
+# Keep the profile at one or fewer entries so both saves avoid Product Questions.
 - runFlow:
     when:
       visible: "Welcome 👋"
