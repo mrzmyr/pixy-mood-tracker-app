@@ -8,7 +8,7 @@ import {
   RATING_KEYS,
   RATING_MAPPING,
   SLEEP_QUALITY_MAPPING,
-} from "@/hooks/useLogs";
+} from "@/constants/Ratings";
 
 const SCREEN_WIDTH = Dimensions.get("window").width;
 

@@ -1,7 +1,7 @@
 import _ from "lodash";
 import type { ImportData } from "../helpers/Import";
 import { migrateImportData } from "../helpers/migration";
-import { INITIAL_STATE } from "../hooks/useSettings";
+import { INITIAL_STATE } from "../constants/Settings";
 import type { Tag } from "../hooks/useTags";
 import { _generateItem } from "./utils";
 

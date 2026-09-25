@@ -1,6 +1,6 @@
 import { View } from "react-native";
 import useColors from "../../hooks/useColors";
-import { RATING_KEYS } from "../../hooks/useLogs";
+import { RATING_KEYS } from "@/constants/Ratings";
 import { ColorDot } from "./ColorDot";
 
 export const Scale = ({ type }: { type: string }) => {

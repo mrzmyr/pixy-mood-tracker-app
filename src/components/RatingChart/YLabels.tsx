@@ -1,4 +1,4 @@
-import { RATING_KEYS } from "@/hooks/useLogs";
+import { RATING_KEYS } from "@/constants/Ratings";
 import useScale from "@/hooks/useScale";
 import { Rect } from "react-native-svg";
 

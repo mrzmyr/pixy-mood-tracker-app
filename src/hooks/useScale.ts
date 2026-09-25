@@ -1,6 +1,6 @@
 import type { IScale } from "@/constants/Colors/Scales";
 import useColors from "./useColors";
-import { RATING_KEYS } from "./useLogs";
+import { RATING_KEYS } from "@/constants/Ratings";
 import type { SettingsState } from "./useSettings";
 import { useSettings } from "./useSettings";
 

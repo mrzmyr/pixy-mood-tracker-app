@@ -1,6 +1,6 @@
 import Svg, { Line, Polyline } from "react-native-svg";
 import useColors from "@/hooks/useColors";
-import { RATING_KEYS } from "@/hooks/useLogs";
+import { RATING_KEYS } from "@/constants/Ratings";
 import { Grid } from "./Grid";
 import { XLabels } from "./XLabels";
 import { YLabels } from "./YLabels";

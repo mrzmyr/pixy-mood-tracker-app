@@ -1,5 +1,5 @@
 import useColors from "@/hooks/useColors";
-import { SLEEP_QUALITY_KEYS } from "@/hooks/useLogs";
+import { SLEEP_QUALITY_KEYS } from "@/constants/Ratings";
 import { Line } from "react-native-svg";
 
 export const Grid = ({ width, relativeY }) => {

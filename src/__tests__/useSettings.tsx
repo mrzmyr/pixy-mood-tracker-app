@@ -1,8 +1,8 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { act, renderHook, waitFor } from "@testing-library/react-native";
 import _ from "lodash";
+import { INITIAL_STATE } from "../constants/Settings";
 import {
-  INITIAL_STATE,
   SettingsProvider,
   STORAGE_KEY,
   useSettings,

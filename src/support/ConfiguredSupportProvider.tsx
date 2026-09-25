@@ -1,4 +1,5 @@
-import { disabledSupportClient, SupportProvider } from "./index";
+import { disabledSupportClient } from "./clients";
+import { SupportProvider } from "./index";
 
 export const ConfiguredSupportProvider = ({
   children,

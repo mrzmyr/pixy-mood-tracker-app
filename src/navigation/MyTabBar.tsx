@@ -24,7 +24,7 @@ interface TabRoute {
   path?: string;
 }
 
-export const ROUTES: TabRoute[] = [
+const ROUTES: TabRoute[] = [
   {
     name: "Statistics",
     component: StatisticsScreen,

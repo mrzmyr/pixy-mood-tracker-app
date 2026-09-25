@@ -47,7 +47,7 @@ import { createMissingProviderError } from "@/lib/errors";
 
 const DELAY_LOADING = 1 * 1000;
 
-export const STATISTIC_TYPES = [
+const STATISTIC_TYPES = [
   "mood_avg",
   "mood_peaks_negative",
   "mood_peaks_positive",

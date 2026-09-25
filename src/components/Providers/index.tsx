@@ -10,7 +10,8 @@ import { StatisticsProvider } from "@/hooks/useStatistics";
 import { TagsProvider } from "@/hooks/useTags";
 import { TemporaryLogProvider } from "@/hooks/useTemporaryLog";
 import type { SupportClient } from "@/support";
-import { SupportProvider, resolveDevelopmentSupportClient } from "@/support";
+import { SupportProvider } from "@/support";
+import { resolveDevelopmentSupportClient } from "@/support/clients";
 import { ConfiguredSupportProvider } from "@/support/ConfiguredSupportProvider";
 
 const Providers = ({

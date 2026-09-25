@@ -1,5 +1,5 @@
 import { View } from "react-native";
-import { RATING_KEYS } from "@/hooks/useLogs";
+import { RATING_KEYS } from "@/constants/Ratings";
 import useScale from "@/hooks/useScale";
 
 export const Bar = ({ height, ratingName }) => {

@@ -11,11 +11,8 @@ import _ from "lodash";
 import type { LogsState } from "../hooks/useLogs";
 import { LogsProvider, useLogState, useLogUpdater } from "../hooks/useLogs";
 import type { ExportSettings } from "../hooks/useSettings";
-import {
-  INITIAL_STATE,
-  SettingsProvider,
-  useSettings,
-} from "../hooks/useSettings";
+import { INITIAL_STATE } from "../constants/Settings";
+import { SettingsProvider, useSettings } from "../hooks/useSettings";
 import type { Tag } from "../hooks/useTags";
 import { TagsProvider, useTagsState, useTagsUpdater } from "../hooks/useTags";
 import { _generateItem } from "./utils";
