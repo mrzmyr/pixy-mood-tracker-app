@@ -6,8 +6,8 @@ import { useLogState } from "@/features/logs";
 import type { IQuestion } from "@/features/questioner";
 import { useQuestioner } from "@/features/questioner";
 import { useSettings } from "@/state/settings";
-import type { TemporaryLogState } from "@/features/logs/temporaryLog";
-import { useTemporaryLog } from "@/features/logs/temporaryLog";
+import type { TemporaryLogState } from "./temporaryLog";
+import { useTemporaryLog } from "./temporaryLog";
 import type { Emotion, TagReference } from "@/types";
 import dayjs from "dayjs";
 import type { ReactElement } from "react";
@@ -27,7 +27,7 @@ import { SlideMessage } from "./slides/SlideMessage";
 import { SlideMood } from "./slides/SlideMood";
 import { SlideReminder } from "./slides/SlideReminder";
 import { SlideTags } from "./slides/SlideTags";
-import { useLoggerActions } from "./useLoggerActions";
+import { useLoggerActions } from "./hooks/useLoggerActions";
 
 /** Whether the logger creates a new entry or edits an existing one. */
 export type LoggerMode = "create" | "edit";

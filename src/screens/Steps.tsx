@@ -1,5 +1,5 @@
-import type { LoggerStep } from "@/components/Logger/config";
-import { STEP_OPTIONS } from "@/components/Logger/config";
+import type { LoggerStep } from "@/features/logger/config";
+import { STEP_OPTIONS } from "@/features/logger/config";
 import MenuList from "@/components/MenuList";
 import MenuListItem from "@/components/MenuListItem";
 import { PageWithHeaderLayout } from "@/components/PageWithHeaderLayout";

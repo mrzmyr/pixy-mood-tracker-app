@@ -1,7 +1,7 @@
 import { useNavigation } from "@react-navigation/native";
 import _ from "lodash";
 import { Pressable, Text, View } from "react-native";
-import { Card } from "@/components/Statistics/Card";
+import { Card } from "@/features/statistics/components/Card";
 import { t } from "@/helpers/translation";
 import { useAnonymizer } from "@/state/analytics/anonymizer";
 import { useCalendarFilters } from "@/features/calendar/filters";
@@ -9,7 +9,7 @@ import useColors from "../../hooks/useColors";
 import useHaptics from "../../hooks/useHaptics";
 import type { TagsDistributionData } from "@/features/statistics/TagsDistribution";
 import type { Tag } from "@/features/tags";
-import { CardFeedback } from "@/components/Statistics/CardFeedback";
+import { CardFeedback } from "@/features/statistics/components/CardFeedback";
 
 /**
  * Tag bars for the top `limit` tags. Tapping a bar filters the calendar to

@@ -2,10 +2,10 @@ import type { DateTimePickerEvent } from "@react-native-community/datetimepicker
 import dayjs from "dayjs";
 import { useEffect, useState } from "react";
 import { Platform, Switch, Text, View } from "react-native";
-import Clock from "@/components/Clock";
+import Clock from "./Clock";
 import MenuList from "@/components/MenuList";
 import MenuListItem from "@/components/MenuListItem";
-import NotificationPreview from "@/components/NotificationPreview";
+import NotificationPreview from "./NotificationPreview";
 import { t } from "@/helpers/translation";
 import { useAnalytics } from "@/state/analytics";
 import useColors from "@/hooks/useColors";

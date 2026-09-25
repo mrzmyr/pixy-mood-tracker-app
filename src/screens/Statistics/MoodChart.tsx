@@ -1,13 +1,13 @@
 import dayjs from "dayjs";
 import { Dimensions, View } from "react-native";
-import { Card } from "@/components/Statistics/Card";
+import { Card } from "@/features/statistics/components/Card";
 import { t } from "@/helpers/translation";
 import { useLogState } from "@/features/logs";
 import { getRatingDistributionForXDays } from "@/features/statistics/RatingDistribution";
 
 import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
-import { RatingChart } from "@/components/RatingChart";
-import { CardFeedback } from "@/components/Statistics/CardFeedback";
+import { RatingChart } from "@/features/statistics/components/RatingChart";
+import { CardFeedback } from "@/features/statistics/components/CardFeedback";
 import { getItemTime } from "@/lib/logDates";
 
 dayjs.extend(isSameOrAfter);

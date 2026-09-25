@@ -1,4 +1,4 @@
-import { EMOTIONS } from "@/components/Logger/config";
+import { EMOTIONS } from "@/features/logger/config";
 import type { Emotion } from "@/types";
 import countBy from "lodash/countBy";
 import random from "lodash/random";

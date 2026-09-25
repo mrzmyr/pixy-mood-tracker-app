@@ -5,7 +5,7 @@ import type { ViewStyle } from "react-native";
 import { Dimensions } from "react-native";
 import type { CarouselRef } from "react-native-reanimated-carousel";
 import { Carousel } from "react-native-reanimated-carousel";
-import { EMOTIONS } from "../../config";
+import { EMOTIONS } from "@/features/logger/config";
 import { EMOTION_BUTTON_HEIGHT } from "./constants";
 import { EmotionPage } from "./EmotionPage";
 

@@ -6,10 +6,10 @@ import { useLogState } from "@/features/logs";
 import { getRatingDistributionForYear } from "@/features/statistics/RatingDistribution";
 
 import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
-import { BigCard } from "@/components/BigCard";
-import type { ScaleItem } from "@/components/RatingChart";
-import { RatingChart } from "@/components/RatingChart";
-import { NotEnoughDataOverlay } from "@/components/Statistics/NotEnoughDataOverlay";
+import { BigCard } from "@/features/statistics/components/BigCard";
+import type { ScaleItem } from "@/features/statistics/components/RatingChart";
+import { RatingChart } from "@/features/statistics/components/RatingChart";
+import { NotEnoughDataOverlay } from "@/features/statistics/components/NotEnoughDataOverlay";
 import { useMemo } from "react";
 import random from "lodash/random";
 import range from "lodash/range";

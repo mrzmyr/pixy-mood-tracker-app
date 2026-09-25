@@ -1,5 +1,5 @@
-import { Card } from "@/components/Statistics/Card";
-import { CardFeedback } from "@/components/Statistics/CardFeedback";
+import { Card } from "@/features/statistics/components/Card";
+import { CardFeedback } from "@/features/statistics/components/CardFeedback";
 import { t } from "@/helpers/translation";
 import useColors from "@/hooks/useColors";
 import type { EmotionsDistributionData } from "@/features/statistics/EmotionsDistributuon";

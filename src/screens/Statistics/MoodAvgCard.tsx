@@ -1,9 +1,9 @@
 import { View } from "react-native";
-import { Card } from "@/components/Statistics/Card";
+import { Card } from "@/features/statistics/components/Card";
 import { t } from "@/helpers/translation";
 import useScale from "../../hooks/useScale";
 import type { MoodAvgData } from "@/features/statistics/MoodAvg";
-import { CardFeedback } from "@/components/Statistics/CardFeedback";
+import { CardFeedback } from "@/features/statistics/components/CardFeedback";
 
 /**
  * Card with the dominant mood group and a stacked bar of entries per

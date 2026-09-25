@@ -7,8 +7,8 @@ import { useLogState, useLogUpdater } from "@/features/logs";
 import type {
   TemporaryLogState,
   TemporaryLogValue,
-} from "@/features/logs/temporaryLog";
-import type { LoggerMode } from ".";
+} from "@/features/logger/temporaryLog";
+import type { LoggerMode } from "@/features/logger";
 import { getItemDate } from "@/lib/logDates";
 
 /**

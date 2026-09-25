@@ -7,7 +7,7 @@ import {
   useMemo,
   useState,
 } from "react";
-import type { LogItem } from "./";
+import type { LogItem } from "@/features/logs";
 import { createMissingProviderError } from "@/lib/errors";
 
 /**

@@ -1,4 +1,4 @@
-import { EMOTIONS } from "@/components/Logger/config";
+import { EMOTIONS } from "@/features/logger/config";
 import useColors from "@/hooks/useColors";
 import type { LogItem } from "@/features/logs";
 import type { Emotion } from "@/types";

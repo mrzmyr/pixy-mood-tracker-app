@@ -4,14 +4,14 @@ import { Platform, Text, View } from "react-native";
 import { Bell } from "react-native-feather";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Button from "@/components/Button";
-import Clock from "@/components/Clock";
+import Clock from "@/features/notifications/components/Clock";
 import LinkButton from "@/components/LinkButton";
 import useColors from "@/hooks/useColors";
 import useNotification, { createDailyTrigger } from "@/features/notifications";
 import { useAnalytics } from "@/state/analytics";
 import type { SettingsState } from "@/state/settings";
 import { useSettings } from "@/state/settings";
-import { SlideHeadline } from "../components/SlideHeadline";
+import { SlideHeadline } from "@/features/logger/components/SlideHeadline";
 import { getLogEditMarginTop } from "@/helpers/responsive";
 import { t } from "@/helpers/translation";
 

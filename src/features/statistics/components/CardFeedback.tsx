@@ -15,9 +15,9 @@ import {
   Text,
   View,
 } from "react-native";
-import pkg from "../../../package.json";
-import Button from "../Button";
-import TextArea from "../TextArea";
+import pkg from "../../../../package.json";
+import Button from "@/components/Button";
+import TextArea from "@/components/TextArea";
 
 const DEFAULT_ANALYTICS_DATA = {};
 const DEFAULT_STYLE = {};
@@ -26,31 +26,31 @@ const EMOJI_SCALE_IMAGES_DEFAULT = [
   {
     emoji: "😍",
     active: require(
-      `../../../assets/images/emojis/smiling-face-with-heart-eyes_1f60d.png`
+      `../../../../assets/images/emojis/smiling-face-with-heart-eyes_1f60d.png`
     ),
     disabled: require(
-      `../../../assets/images/emojis/smiling-face-with-heart-eyes_1f60d-disabled.png`
+      `../../../../assets/images/emojis/smiling-face-with-heart-eyes_1f60d-disabled.png`
     ),
   },
   {
     emoji: "🎉",
-    active: require(`../../../assets/images/emojis/party-popper.png`),
+    active: require(`../../../../assets/images/emojis/party-popper.png`),
     disabled: require(
-      `../../../assets/images/emojis/party-popper-disabled.png`
+      `../../../../assets/images/emojis/party-popper-disabled.png`
     ),
   },
   {
     emoji: "😴",
-    active: require(`../../../assets/images/emojis/sleeping-face_1f634.png`),
+    active: require(`../../../../assets/images/emojis/sleeping-face_1f634.png`),
     disabled: require(
-      `../../../assets/images/emojis/sleeping-face_1f634-disabled.png`
+      `../../../../assets/images/emojis/sleeping-face_1f634-disabled.png`
     ),
   },
   {
     emoji: "👎",
-    active: require(`../../../assets/images/emojis/thumbs-down_1f44e.png`),
+    active: require(`../../../../assets/images/emojis/thumbs-down_1f44e.png`),
     disabled: require(
-      `../../../assets/images/emojis/thumbs-down_1f44e-disabled.png`
+      `../../../../assets/images/emojis/thumbs-down_1f44e-disabled.png`
     ),
   },
 ];
@@ -58,16 +58,16 @@ const EMOJI_SCALE_IMAGES_DEFAULT = [
 const EMOJI_SCALE_IMAGES_MINIMAL = [
   {
     emoji: "👍",
-    active: require(`../../../assets/images/emojis/thumbs-up_1f44d.png`),
+    active: require(`../../../../assets/images/emojis/thumbs-up_1f44d.png`),
     disabled: require(
-      `../../../assets/images/emojis/thumbs-up_1f44d-disabled.png`
+      `../../../../assets/images/emojis/thumbs-up_1f44d-disabled.png`
     ),
   },
   {
     emoji: "👎",
-    active: require(`../../../assets/images/emojis/thumbs-down_1f44e.png`),
+    active: require(`../../../../assets/images/emojis/thumbs-down_1f44e.png`),
     disabled: require(
-      `../../../assets/images/emojis/thumbs-down_1f44e-disabled.png`
+      `../../../../assets/images/emojis/thumbs-down_1f44e-disabled.png`
     ),
   },
 ];
