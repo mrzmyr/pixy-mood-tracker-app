@@ -6,17 +6,24 @@ export default function TextInfo({
   style,
 }: {
   children: React.ReactNode;
-  style?: ViewStyle,
+  style?: ViewStyle;
 }) {
   const colors = useColors();
 
   return (
-    <Text style={[{
-      fontSize: 13,
-      color: colors.textSecondary,
-      padding: 16,
-      paddingTop: 0,
-      marginTop: 8,
-    }, style]}>{children}</Text>
-  )
+    <Text
+      style={[
+        {
+          fontSize: 13,
+          color: colors.textSecondary,
+          padding: 16,
+          paddingTop: 0,
+          marginTop: 8,
+        },
+        style,
+      ]}
+    >
+      {children}
+    </Text>
+  );
 }

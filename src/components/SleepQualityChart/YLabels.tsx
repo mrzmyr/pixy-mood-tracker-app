@@ -1,16 +1,16 @@
-import { SLEEP_QUALITY_KEYS, SLEEP_QUALITY_MAPPING } from '@/hooks/useLogs';
-import { G, Mask, Rect } from 'react-native-svg';
+import { SLEEP_QUALITY_KEYS, SLEEP_QUALITY_MAPPING } from "@/hooks/useLogs";
+import { G, Mask, Rect } from "react-native-svg";
 
-export const YLabels = ({
-  relativeY, YLegendWidth, rowHeight, width
-}) => {
+export const YLabels = ({ relativeY, YLegendWidth, rowHeight, width }) => {
   return (
     <>
       {[...SLEEP_QUALITY_KEYS].reverse().map((sleepQuality, index) => {
         const y = relativeY(index);
 
         const height = 16;
-        const value = height / 5 * SLEEP_QUALITY_MAPPING[sleepQuality] + SLEEP_QUALITY_MAPPING[sleepQuality];
+        const value =
+          (height / 5) * SLEEP_QUALITY_MAPPING[sleepQuality] +
+          SLEEP_QUALITY_MAPPING[sleepQuality];
         const rest = height - value;
 
         return (
@@ -23,7 +23,7 @@ export const YLabels = ({
           >
             <Mask
               id={`mask0_1_5${index}`}
-              style={{ maskType: 'alpha' }}
+              style={{ maskType: "alpha" }}
               // @ts-ignore
               maskUnits="userSpaceOnUse"
               x="0"
@@ -55,7 +55,6 @@ export const YLabels = ({
               />
             </G>
           </G>
-
         );
       })}
     </>

@@ -1,42 +1,42 @@
-import { LinearGradient } from "expo-linear-gradient"
-import { Pressable, Text, View } from "react-native"
-import { ChevronRight, Moon, X } from "react-native-feather"
-import useColors from "@/hooks/useColors"
-import { t } from "@/helpers/translation"
-import useHaptics from "@/hooks/useHaptics"
-import { useSettings } from "@/hooks/useSettings"
-import Animated, { FadeIn, LinearTransition } from "react-native-reanimated"
+import { LinearGradient } from "expo-linear-gradient";
+import { Pressable, Text, View } from "react-native";
+import { ChevronRight, Moon, X } from "react-native-feather";
+import useColors from "@/hooks/useColors";
+import { t } from "@/helpers/translation";
+import useHaptics from "@/hooks/useHaptics";
+import { useSettings } from "@/hooks/useSettings";
+import Animated, { FadeIn, LinearTransition } from "react-native-reanimated";
 
-export const MONTH_REPORT_SLUG = `promo_month_report_${(new Date()).getFullYear()}_${(new Date()).getMonth()}_closed`
+export const MONTH_REPORT_SLUG = `promo_month_report_${new Date().getFullYear()}_${new Date().getMonth()}_closed`;
 
 export const PromoCardMonth = ({
   title,
   onPress,
 }: {
-  title: string
-  onPress: () => void
+  title: string;
+  onPress: () => void;
 }) => {
-  const colors = useColors()
-  const haptics = useHaptics()
-  const { addActionDone, hasActionDone } = useSettings()
+  const colors = useColors();
+  const haptics = useHaptics();
+  const { addActionDone, hasActionDone } = useSettings();
 
   const gradientColors: [string, string, string] = [
     colors.palette.indigo[900],
     colors.palette.indigo[600],
-    colors.palette.indigo[500]
-  ]
+    colors.palette.indigo[500],
+  ];
 
   const _onPress = () => {
-    haptics.selection()
-    onPress()
-  }
+    haptics.selection();
+    onPress();
+  };
 
   const onClose = () => {
-    haptics.selection()
-    addActionDone(MONTH_REPORT_SLUG)
-  }
+    haptics.selection();
+    addActionDone(MONTH_REPORT_SLUG);
+  };
 
-  if (hasActionDone(MONTH_REPORT_SLUG)) return null
+  if (hasActionDone(MONTH_REPORT_SLUG)) return null;
 
   return (
     <Animated.View
@@ -47,23 +47,26 @@ export const PromoCardMonth = ({
       }}
     >
       <Pressable
-        style={({ pressed }) => [{
-          backgroundColor: colors.cardBackground,
-          borderRadius: 12,
-          overflow: 'hidden',
-          paddingVertical: 24,
-          paddingHorizontal: 16,
-          opacity: pressed ? 0.8 : 1,
-          minHeight: 140,
-        }]}
+        style={({ pressed }) => [
+          {
+            backgroundColor: colors.cardBackground,
+            borderRadius: 12,
+            overflow: "hidden",
+            paddingVertical: 24,
+            paddingHorizontal: 16,
+            opacity: pressed ? 0.8 : 1,
+            minHeight: 140,
+          },
+        ]}
         onPress={_onPress}
       >
         <LinearGradient
           locations={[0, 0.3, 1]}
-          start={{ x: 0, y: 1 }} end={{ x: 1, y: 0 }}
+          start={{ x: 0, y: 1 }}
+          end={{ x: 1, y: 0 }}
           colors={gradientColors}
           style={{
-            position: 'absolute',
+            position: "absolute",
             left: 0,
             right: 0,
             top: 0,
@@ -72,16 +75,21 @@ export const PromoCardMonth = ({
         />
         <View
           style={{
-            position: 'absolute',
+            position: "absolute",
             left: 16,
             top: -100,
           }}
         >
-          <Moon width={400} height={400} fill={gradientColors[0]} color={gradientColors[0]} />
+          <Moon
+            width={400}
+            height={400}
+            fill={gradientColors[0]}
+            color={gradientColors[0]}
+          />
         </View>
         <View
           style={{
-            position: 'absolute',
+            position: "absolute",
             left: 16,
             top: 16,
           }}
@@ -91,14 +99,16 @@ export const PromoCardMonth = ({
               fontSize: 14,
               color: colors.palette.white,
             }}
-          >{t('month_report')}</Text>
+          >
+            {t("month_report")}
+          </Text>
         </View>
         <Pressable
           style={{
             padding: 4,
             borderRadius: 100,
             width: 32,
-            position: 'absolute',
+            position: "absolute",
             right: 12,
             top: 12,
           }}
@@ -108,16 +118,16 @@ export const PromoCardMonth = ({
         </Pressable>
         <View
           style={{
-            flexDirection: 'column',
-            width: '55%',
+            flexDirection: "column",
+            width: "55%",
             flex: 1,
-            justifyContent: 'flex-end',
+            justifyContent: "flex-end",
           }}
         >
           <Text
             style={{
               fontSize: 20,
-              fontWeight: 'bold',
+              fontWeight: "bold",
               color: colors.palette.white,
               marginTop: 8,
               lineHeight: 26,
@@ -128,5 +138,5 @@ export const PromoCardMonth = ({
         </View>
       </Pressable>
     </Animated.View>
-  )
-}
+  );
+};
