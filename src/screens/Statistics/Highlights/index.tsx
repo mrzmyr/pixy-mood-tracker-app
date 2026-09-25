@@ -1,4 +1,5 @@
-import { useEffect } from "react";
+import { useEffect, useEffectEvent } from "react";
+import { useContentStableValue } from "../../../hooks/useContentStableValue";
 import { ActivityIndicator, ScrollView, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import useColors from "../../../hooks/useColors";
@@ -57,11 +58,9 @@ export const StatisticsHighlights = () => {
       dayjs(item.dateTime).isAfter(dayjs().subtract(14, "day"))
     ).length >= 4;
 
-  useEffect(() => {
-    if (!statistics.state.loaded) {
-      return;
-    }
-
+  // Effect event: tracks with the latest visibility flags and analytics, but
+  // only when the statistics content changes (see the effect below).
+  const trackHighlights = useEffectEvent(() => {
     const cards: HighlightCards = {
       mood_avg_show: showMoodAvg,
       mood_peaks_positive_show: showMoodPeaksPositve,
@@ -102,7 +101,18 @@ export const StatisticsHighlights = () => {
       itemsCount: statistics.state.itemsCount,
       ...cards,
     });
-  }, [JSON.stringify(statistics.state)]);
+  });
+
+  // Stays referentially equal while the statistics content is unchanged.
+  const stableStatisticsState = useContentStableValue(statistics.state);
+
+  useEffect(() => {
+    if (!stableStatisticsState.loaded) {
+      return;
+    }
+
+    trackHighlights();
+  }, [stableStatisticsState]);
 
   return (
     <View

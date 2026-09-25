@@ -76,21 +76,24 @@ const cancelAll = async () => {
   await Notifications.cancelAllScheduledNotificationsAsync();
 };
 
-const useNotification = () =>
-  isWeb
-    ? {
-        hasPermission: () => Promise.resolve(true),
-        askForPermission: () => Promise.resolve(true),
-        schedule: () => Promise.resolve(),
-        cancelAll: () => Promise.resolve(),
-        getScheduled: () => Promise.resolve([]),
-      }
-    : {
-        hasPermission,
-        askForPermission,
-        schedule,
-        cancelAll,
-        getScheduled,
-      };
+// Module-level so the returned functions are stable across renders and safe
+// to use as effect dependencies.
+const notifications = isWeb
+  ? {
+      hasPermission: () => Promise.resolve(true),
+      askForPermission: () => Promise.resolve(true),
+      schedule: () => Promise.resolve(),
+      cancelAll: () => Promise.resolve(),
+      getScheduled: () => Promise.resolve([]),
+    }
+  : {
+      hasPermission,
+      askForPermission,
+      schedule,
+      cancelAll,
+      getScheduled,
+    };
+
+const useNotification = () => notifications;
 
 export default useNotification;

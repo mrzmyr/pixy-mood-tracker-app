@@ -22,10 +22,10 @@ export default function usePasscodeModal({
     setIsVisibile(true);
   };
 
-  const hide = () => {
+  const hide = useCallback(() => {
     analytics.track("passcode_modal_hide");
     setIsVisibile(false);
-  };
+  }, [analytics]);
 
   const ModalElement = useCallback(
     () => (
@@ -49,7 +49,7 @@ export default function usePasscodeModal({
         </SafeAreaView>
       </Modal>
     ),
-    [isVisibile]
+    [isVisibile, mode, colors.backgroundSecondary, hide, onSubmit]
   );
 
   return {

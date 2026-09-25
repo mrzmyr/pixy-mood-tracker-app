@@ -9,6 +9,7 @@ import {
 import { useAnalytics } from "./useAnalytics";
 import type { LogItem } from "./useLogs";
 import { useLogState } from "./useLogs";
+import { useContentStableValue } from "./useContentStableValue";
 import type { Tag } from "./useTags";
 import { createMissingProviderError } from "@/lib/errors";
 
@@ -78,9 +79,6 @@ const CalendarFiltersProvider = ({
   const [data, setData] = useState<CalendarFiltersData>(initialState);
   const [isOpen, setIsOpen] = useState(false);
 
-  const _getFilteredItems = (filters: FiltersData): LogItem[] =>
-    logState.items.filter((item) => isMatchingFilters(item, filters));
-
   const set = useCallback(
     (filters: FiltersData) => {
       analytics.track("calendar_filters_filtered", {
@@ -102,7 +100,9 @@ const CalendarFiltersProvider = ({
 
       setData({
         ...filters,
-        filteredItems: _getFilteredItems(filters),
+        filteredItems: logState.items.filter((item) =>
+          isMatchingFilters(item, filters)
+        ),
         isFiltering,
         filterCount,
       });
@@ -125,16 +125,19 @@ const CalendarFiltersProvider = ({
     setIsOpen(false);
   }, [analytics]);
 
+  // Keep the context value stable when filters are set to equal data.
+  const stableData = useContentStableValue(data);
+
   const value: Value = useMemo(
     () => ({
-      data,
+      data: stableData,
       set,
       reset,
       open,
       close,
       isOpen,
     }),
-    [JSON.stringify(data), set, reset, open, close, isOpen]
+    [stableData, set, reset, open, close, isOpen]
   );
 
   return (

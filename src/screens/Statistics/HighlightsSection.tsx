@@ -5,7 +5,8 @@ import { t } from "@/helpers/translation";
 import { useNavigation } from "@react-navigation/native";
 import dayjs from "dayjs";
 import type { ReactElement } from "react";
-import { useEffect } from "react";
+import { useEffect, useEffectEvent } from "react";
+import { useContentStableValue } from "../../hooks/useContentStableValue";
 import { Text, View } from "react-native";
 import { Activity } from "react-native-feather";
 import { useAnalytics } from "../../hooks/useAnalytics";
@@ -97,11 +98,9 @@ export const HighlightsSection = (_props: { items: LogItem[] }) => {
     "sleep_quality_distribution"
   );
 
-  useEffect(() => {
-    if (!statistics.state.loaded) {
-      return;
-    }
-
+  // Effect event: tracks with the latest visibility flags and analytics, but
+  // only when the statistics content changes (see the effect below).
+  const trackHighlights = useEffectEvent(() => {
     const cards: HighlightCards = {
       mood_avg_show: showMoodAvg,
       mood_peaks_positive_show: showMoodPeaksPositve,
@@ -147,7 +146,18 @@ export const HighlightsSection = (_props: { items: LogItem[] }) => {
       itemsCount: statistics.state.itemsCount,
       ...cards,
     });
-  }, [JSON.stringify(statistics.state)]);
+  });
+
+  // Stays referentially equal while the statistics content is unchanged.
+  const stableStatisticsState = useContentStableValue(statistics.state);
+
+  useEffect(() => {
+    if (!stableStatisticsState.loaded) {
+      return;
+    }
+
+    trackHighlights();
+  }, [stableStatisticsState]);
 
   const tagPeaksCards: ReactElement[] = [];
   if (showTagPeaks) {

@@ -1,4 +1,10 @@
-import { Fragment, useCallback, useEffect, useState } from "react";
+import {
+  Fragment,
+  useCallback,
+  useEffect,
+  useEffectEvent,
+  useState,
+} from "react";
 import { ScrollView, View } from "react-native";
 import MenuListHeadline from "@/components/MenuListHeadline";
 import TextInfo from "@/components/TextInfo";
@@ -40,10 +46,18 @@ export const ColorsScreen = () => {
 
   const [scaleType, setScaleType] = useState(settings.scaleType);
 
+  // Effect event: tracks with the latest analytics instance without re-running
+  // the effect when analytics changes.
+  const trackScaleChange = useEffectEvent(
+    (changedScaleType: typeof scaleType) => {
+      analytics.track("colors_scale_changed", { scaleType: changedScaleType });
+    }
+  );
+
   useEffect(() => {
     setSettings((currentSettings) => ({ ...currentSettings, scaleType }));
-    analytics.track("colors_scale_changed", { scaleType });
-  }, [scaleType]);
+    trackScaleChange(scaleType);
+  }, [scaleType, setSettings]);
 
   const onSelect = useCallback((id) => {
     setScaleType(id);

@@ -33,7 +33,7 @@ export const Radio = ({
       haptics.selection();
       onPress();
     }
-  }, [onPress, isDisabled]);
+  }, [onPress, isDisabled, haptics]);
 
   return (
     <Pressable

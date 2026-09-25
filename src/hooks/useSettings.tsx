@@ -20,6 +20,7 @@ import {
   createStructuredError,
 } from "@/lib/errors";
 import { INITIAL_STATE } from "@/constants/Settings";
+import { useContentStableValue } from "./useContentStableValue";
 
 type KnownSettingsStep = ConfigurableLoggerStep | "sleep";
 
@@ -98,19 +99,16 @@ const SettingsProvider = ({ children }: { children: React.ReactNode }) => {
       deviceId: uuidv4(),
       loaded: true,
     });
-  }, [INITIAL_STATE]);
+  }, []);
 
-  const importSettings = useCallback(
-    (importedSettings: ExportSettings) => {
-      setSettings({
-        ...INITIAL_STATE,
-        ...importedSettings,
-        steps: sanitizeSteps(importedSettings.steps),
-        loaded: true,
-      });
-    },
-    [INITIAL_STATE]
-  );
+  const importSettings = useCallback((importedSettings: ExportSettings) => {
+    setSettings({
+      ...INITIAL_STATE,
+      ...importedSettings,
+      steps: sanitizeSteps(importedSettings.steps),
+      loaded: true,
+    });
+  }, []);
 
   useEffect(() => {
     (async () => {
@@ -142,11 +140,14 @@ const SettingsProvider = ({ children }: { children: React.ReactNode }) => {
     })();
   }, []);
 
+  // Persist only content changes, not equal copies of the settings object.
+  const stableSettings = useContentStableValue(settings);
+
   useEffect(() => {
-    if (settings.loaded) {
-      store(STORAGE_KEY, omit(settings, "loaded"));
+    if (stableSettings.loaded) {
+      store(STORAGE_KEY, omit(stableSettings, "loaded"));
     }
-  }, [JSON.stringify(settings)]);
+  }, [stableSettings]);
 
   const hasActionDone = useCallback(
     (actionTitle: IAction["title"]) =>
@@ -171,7 +172,7 @@ const SettingsProvider = ({ children }: { children: React.ReactNode }) => {
         ],
       }));
     },
-    [settings.actionsDone]
+    [hasActionDone]
   );
 
   const removeActionDone = useCallback((actionTitle: IAction["title"]) => {

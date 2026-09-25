@@ -3,7 +3,6 @@ import { memo, useCallback, useMemo } from "react";
 import { StyleSheet, View } from "react-native";
 import { DATE_FORMAT } from "@/constants/Config";
 
-import { useNavigation } from "@react-navigation/native";
 import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
 import { useCalendarFilters } from "../../hooks/useCalendarFilters";
 import type { LogItem } from "../../hooks/useLogs";
@@ -47,7 +46,6 @@ const CalendarWeekComponent = ({
   };
 }) => {
   const calendarNavigation = useCalendarNavigation();
-  const navigation = useNavigation();
   const calendarFilters = useCalendarFilters();
 
   const days = useMemo(() => {
@@ -79,12 +77,13 @@ const CalendarWeekComponent = ({
     (date: string) => {
       calendarNavigation.openDay(date);
     },
-    [navigation, calendarNavigation]
+    [calendarNavigation]
   );
 
   const filteredItemIds = useMemo(
     () => new Set(calendarFilters.data.filteredItems.map((item) => item.id)),
-    [JSON.stringify(calendarFilters.data.filteredItems)]
+    // `data` keeps its reference while the filter content is unchanged.
+    [calendarFilters.data.filteredItems]
   );
 
   const renderDay = ({ date }) => {

@@ -7,11 +7,13 @@ import {
   useCallback,
   useContext,
   useEffect,
+  useEffectEvent,
   useMemo,
   useReducer,
 } from "react";
 import { useLogUpdater } from "./useLogs";
 import { useSettings } from "./useSettings";
+import { useContentStableValue } from "./useContentStableValue";
 import { createMissingProviderError } from "@/lib/errors";
 
 export const STORAGE_KEY = "PIXEL_TRACKER_TAGS";
@@ -121,12 +123,14 @@ const TagsProvider = ({ children }: { children: React.ReactNode }) => {
   const { settings } = useSettings();
   const logsUpdater = useLogUpdater();
 
-  // Built per render so default tag titles follow the current locale.
-  const INITIAL_STATE = getInitialState();
+  // Default tags are built when needed so their titles follow the current
+  // locale.
+  const [state, dispatch] = useReducer(reducer, undefined, getInitialState);
+  // Reducer updates can produce equal copies; only content changes should
+  // persist or notify consumers.
+  const stableState = useContentStableValue(state);
 
-  const [state, dispatch] = useReducer(reducer, INITIAL_STATE);
-
-  const stateValue: StateValue = useMemo(() => state, [JSON.stringify(state)]);
+  const stateValue: StateValue = stableState;
 
   const createTag = useCallback(
     (tag: Tag) => dispatch({ type: "add", payload: tag }),
@@ -146,7 +150,7 @@ const TagsProvider = ({ children }: { children: React.ReactNode }) => {
   );
 
   const reset = useCallback(
-    () => dispatch({ type: "reset", payload: INITIAL_STATE }),
+    () => dispatch({ type: "reset", payload: getInitialState() }),
     [dispatch]
   );
   const importData = useCallback(
@@ -165,10 +169,16 @@ const TagsProvider = ({ children }: { children: React.ReactNode }) => {
     [createTag, updateTag, deleteTag, reset, importData]
   );
 
+  // Effect event: legacy tags are read when the load effect runs, without
+  // re-running the load when settings tags change.
+  const getLegacySettingsTags = useEffectEvent(() => settings.tags);
+
   useEffect(() => {
     if (!settings.loaded) {
       return;
     }
+
+    const legacySettingsTags = getLegacySettingsTags();
 
     (async () => {
       let json: State | null;
@@ -181,24 +191,24 @@ const TagsProvider = ({ children }: { children: React.ReactNode }) => {
       }
       if (json !== null) {
         dispatch({ type: "import", payload: json });
-      } else if (settings?.tags) {
+      } else if (legacySettingsTags) {
         dispatch({
           type: "import",
           payload: {
-            tags: settings.tags,
+            tags: legacySettingsTags,
           },
         });
       } else {
-        dispatch({ type: "reset", payload: INITIAL_STATE });
+        dispatch({ type: "reset", payload: getInitialState() });
       }
     })();
   }, [settings.loaded]);
 
   useEffect(() => {
-    if (state.loaded) {
-      store<Omit<State, "loaded">>(STORAGE_KEY, omit(state, "loaded"));
+    if (stableState.loaded) {
+      store<Omit<State, "loaded">>(STORAGE_KEY, omit(stableState, "loaded"));
     }
-  }, [JSON.stringify(state)]);
+  }, [stableState]);
 
   return (
     <TagsStateContext.Provider value={stateValue}>
