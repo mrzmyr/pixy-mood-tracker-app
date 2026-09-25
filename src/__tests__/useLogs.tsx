@@ -137,6 +137,42 @@ describe("useLogs()", () => {
     expect(countLogSaves()).toBe(1);
   });
 
+  test("should save logs restored to the loaded entries", async () => {
+    await AsyncStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify({ items: [testItems[0]] })
+    );
+
+    const hook = await _renderHook();
+    await waitForLoaded(hook);
+    const loadedItems = hook.result.current.state.items;
+
+    await act(() => hook.result.current.updater.updateLogs([testItems[1]]));
+    await act(() => hook.result.current.updater.updateLogs(loadedItems));
+
+    await waitFor(async () => {
+      expect(
+        JSON.parse((await AsyncStorage.getItem(STORAGE_KEY)) ?? "null")
+      ).toEqual({
+        items: loadedItems,
+      });
+    });
+  });
+
+  test("should migrate entries with null tag references", async () => {
+    await AsyncStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify({ items: [{ ...testItems[0], tags: [null] }] })
+    );
+
+    const hook = await _renderHook();
+    await waitForLoaded(hook);
+
+    expect(hook.result.current.state.items).toEqual([
+      { ...testItems[0], tags: [{}] },
+    ]);
+  });
+
   test("should initiate `state` with empty `items` when async storage is empty", async () => {
     const hook = await _renderHook();
     await waitForLoaded(hook);

@@ -94,7 +94,11 @@ const isMigrated = (item: LogItem) =>
   Boolean(item.createdAt && item.dateTime && item.id) &&
   Array.isArray(item.emotions) &&
   Array.isArray(item.tags) &&
-  item.tags.every((tag) => Object.keys(tag).length === 1 && "id" in tag);
+  // Stored data is unvalidated JSON: legacy tag references can be null or
+  // carry extra keys; those take the migration path.
+  item.tags.every(
+    (tag) => tag?.id !== undefined && Object.keys(tag).length === 1
+  );
 
 const migrate = (data: LogsState): LogsState => {
   const result = {
@@ -292,12 +296,14 @@ const LogsProvider = ({ children }: { children: React.ReactNode }) => {
   }, [storageStatus]);
 
   useEffect(() => {
-    // Skip saving logs that were just loaded and needed no migration.
-    if (
-      storageStatus === "ready" &&
-      state.loaded &&
-      state.items !== loadedItems.current
-    ) {
+    if (storageStatus !== "ready" || !state.loaded) {
+      return;
+    }
+    // Skip saving logs that were just loaded and needed no migration. Only
+    // the first save can match; later states must always be written.
+    const isJustLoaded = state.items === loadedItems.current;
+    loadedItems.current = null;
+    if (!isJustLoaded) {
       store<Omit<LogsState, "loaded">>(STORAGE_KEY, omit(state, "loaded"));
     }
   }, [state, storageStatus]);
