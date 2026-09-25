@@ -40,10 +40,15 @@
 - Never expose credentials, secrets, or personal data in evidence.
 - If evidence cannot be produced, keep the pull request in draft, document the blocker, and get explicit human approval before merging.
 
-## Physical iOS end-to-end tests
+## Devices and end-to-end tests
 
-- Use [`maestro-runner`](https://github.com/devicelab-dev/maestro-runner) for physical iPhone end-to-end tests. Use direct XCUITest only when the runner cannot express the behavior.
-- Test installed TestFlight builds with `--no-app-install`; never use `clearState` because it can remove tester data.
+- Manage simulators, emulators, phones, and e2e runs only through `bun devices` ([`scripts/devices.ts`](scripts/devices.ts)). Never call `simctl create/boot`, `emulator`, `maestro`, or `maestro-runner` directly. Run `bun devices help` for all options.
+- Start with `bun devices list`. It shows every running device, who booted it, and which e2e session runs on it. Never use a device that has a session from another worktree.
+- Get your own device: `bun devices create --platform ios`, or `bun devices boot avd:<name>` for Android. Emulators start read-only, so several can share one AVD.
+- Run tests with `bun devices test <id> [flows...]`. Add `--build` to install a release build of your worktree first, and `--record` to save videos for pull request proof.
+- Builds are cached across worktrees (see [build cache](docs/development.md#build-cache)). Never delete the cache or DerivedData, never run `expo prebuild --clean` for tests, and never symlink `Pods` between worktrees.
+- Before you finish, run `bun devices shutdown <id>` for every device you created or booted. If you see a stale session or a leftover device, run `bun devices gc`.
+- Physical iPhones run installed TestFlight builds. The CLI skips app installation on phones and refuses flows that use `clearState`, because it can remove tester data. Use direct XCUITest only when `maestro-runner` cannot express the behavior.
 - Keep device and signing-team identifiers local. Attach generated artifacts to the pull request.
 
 ## Errors
