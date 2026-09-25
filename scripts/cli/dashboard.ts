@@ -17,31 +17,13 @@ import {
   runDir,
 } from "./runs.ts";
 import type { Run } from "./runs.ts";
+import { agentDevice } from "./agent-device.ts";
+import type { AgentDevice, Claim } from "./agent-device.ts";
 import { CliError } from "./shared.ts";
-
-interface AgentDevice {
-  id: string;
-  name: string;
-  platform: string;
-  kind: "simulator" | "emulator" | "device";
-  booted?: boolean;
-}
-
-interface Claim {
-  classification: string;
-  device: AgentDevice;
-  owner: { session: string; workspace: string; pid: number; startTime: string };
-}
 
 const DEFAULT_PORT = 4848;
 const HTML_FILE = path.join(import.meta.dir, "dashboard.html");
 const CLI_FILE = path.join(import.meta.dir, "index.ts");
-const AGENT_DEVICE = path.join(
-  REPO_ROOT,
-  "node_modules",
-  ".bin",
-  "agent-device"
-);
 const PR_CACHE_MS = 60_000;
 // Device IDs, run IDs, and agent-device session addresses
 // (cwd:<hash>:android, UUIDs, serials, emulator-5554).
@@ -86,42 +68,6 @@ const toErrorFields = ({ reason }: PromiseRejectedResult): ErrorFields =>
         status: "agent_device_failed",
         why: "agent-device failed while listing devices or their owners.",
       };
-
-// Runs agent-device with --json and returns its data, or throws its error.
-const agentDevice = async <T>(args: string[]): Promise<T> => {
-  const child = Bun.spawn([AGENT_DEVICE, ...args, "--json"], {
-    cwd: REPO_ROOT,
-    stderr: "pipe",
-    stdout: "pipe",
-  });
-  const [stdout, stderr] = await Promise.all([
-    new Response(child.stdout).text(),
-    new Response(child.stderr).text(),
-    child.exited,
-  ]);
-  let body: {
-    success?: boolean;
-    data?: T;
-    error?: { code?: string; message?: string; hint?: string };
-  } | null = null;
-  try {
-    // SAFETY: agent-device --json prints one { success, data | error } object.
-    body = JSON.parse(stdout);
-  } catch {
-    body = null;
-  }
-  if (body?.success && body.data !== undefined) {
-    return body.data;
-  }
-  throw new CliError({
-    fix:
-      body?.error?.hint ??
-      `Run \`bunx agent-device ${args.join(" ")}\` in a terminal to see the full output.`,
-    message: body?.error?.message ?? `agent-device ${args[0]} failed`,
-    status: body?.error?.code?.toLowerCase() ?? "agent_device_failed",
-    why: stderr.trim() || "agent-device returned no JSON result.",
-  });
-};
 
 const toKind = (device: AgentDevice) =>
   device.kind === "device" ? "physical" : device.kind;
