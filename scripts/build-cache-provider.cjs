@@ -31,7 +31,11 @@ const isDebugVariant = (variant) =>
   ["debug", "unknown"].includes(variant.toLowerCase());
 
 const git = (projectRoot, args, env = process.env) =>
-  execFileSync("git", args, { cwd: projectRoot, encoding: "utf-8", env }).trim();
+  execFileSync("git", args, {
+    cwd: projectRoot,
+    encoding: "utf-8",
+    env,
+  }).trim();
 
 // Hashes the working tree, including uncommitted and untracked files, without
 // touching the real index. Starts from a copy of it so unchanged files are not
@@ -80,6 +84,8 @@ const getPublicEnvHash = () =>
     )
     .digest("hex");
 
+const bundleHashes = new Map();
+
 const getCacheKey = ({
   platform,
   fingerprintHash,
@@ -91,13 +97,21 @@ const getCacheKey = ({
   if (isDebugVariant(variant)) {
     return key;
   }
-  const bundleHash = crypto
-    .createHash("sha1")
-    .update(getSourceTreeHash(projectRoot))
-    .update(getPublicEnvHash())
-    .digest("hex")
-    .slice(0, 12);
-  return `${key}-${bundleHash}`;
+  // Expo CLI resolves the cache before bundling and uploads after the native
+  // build. Reuse the hash from the lookup, so edits made while the build runs
+  // cannot label this build with newer source.
+  if (!bundleHashes.has(projectRoot)) {
+    bundleHashes.set(
+      projectRoot,
+      crypto
+        .createHash("sha1")
+        .update(getSourceTreeHash(projectRoot))
+        .update(getPublicEnvHash())
+        .digest("hex")
+        .slice(0, 12)
+    );
+  }
+  return `${key}-${bundleHashes.get(projectRoot)}`;
 };
 
 /**
