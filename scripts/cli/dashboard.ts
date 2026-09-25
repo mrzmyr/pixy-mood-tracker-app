@@ -1,6 +1,7 @@
-// `bun dashboard`: a local read-only web view of devices, e2e sessions, and
-// cached builds. Serves dashboard.html and a JSON snapshot of the same state
-// the CLIs read, plus session logs, reports, and recordings.
+// `bun dashboard`: a local web view of devices, e2e sessions, and cached
+// builds. Serves dashboard.html, a JSON snapshot of the state the CLIs read,
+// session logs, reports, and recordings. Actions run the same CLI commands
+// (`bun builds prune`, `bun sessions kill`, ...) so behavior never diverges.
 import fs from "node:fs";
 import path from "node:path";
 import { parseArgs } from "node:util";
@@ -31,6 +32,22 @@ interface Report {
 
 const DEFAULT_PORT = 4848;
 const HTML_FILE = path.join(import.meta.dir, "dashboard.html");
+const CLI_FILE = path.join(import.meta.dir, "index.ts");
+const REPO_ROOT = path.resolve(import.meta.dir, "../..");
+const PR_CACHE_MS = 60_000;
+// Device, session, and build IDs: UUIDs, serials, emulator-5554, avd:name.
+const SAFE_ID = /^[\w.:-]+$/u;
+// Browsers send this header only from same-origin scripts; cross-site pages
+// would need a CORS preflight, which this server never answers.
+const ACTION_HEADER = "x-pixy-mood-tracker-dashboard";
+
+interface PullRequest {
+  number: number;
+  url: string;
+  state: "OPEN" | "CLOSED" | "MERGED";
+  isDraft: boolean;
+  headRefName: string;
+}
 
 interface ErrorFields {
   status: string;
@@ -69,7 +86,55 @@ const describeSession = (session: Session, maxAgeMs: number) => {
   };
 };
 
+// Branch -> newest pull request, refreshed in the background from `gh`.
+const pullRequests = {
+  byBranch: new Map<string, PullRequest>(),
+  fetchedAt: 0,
+  isFetching: false,
+};
+
+const refreshPullRequests = async () => {
+  if (
+    pullRequests.isFetching ||
+    Date.now() - pullRequests.fetchedAt < PR_CACHE_MS
+  ) {
+    return;
+  }
+  pullRequests.isFetching = true;
+  try {
+    const child = Bun.spawn(
+      [
+        "gh",
+        "pr",
+        "list",
+        "--state",
+        "all",
+        "--limit",
+        "200",
+        "--json",
+        "number,url,state,isDraft,headRefName",
+      ],
+      { cwd: REPO_ROOT, stderr: "ignore", stdout: "pipe" }
+    );
+    const output = await new Response(child.stdout).text();
+    if ((await child.exited) === 0) {
+      // SAFETY: shape requested with --json above.
+      const list = JSON.parse(output) as PullRequest[];
+      // gh lists newest first; keep the newest PR per branch.
+      pullRequests.byBranch = new Map(
+        list.toReversed().map((pr) => [pr.headRefName, pr])
+      );
+    }
+  } catch {
+    // gh missing or offline: keep the last known links.
+  } finally {
+    pullRequests.fetchedAt = Date.now();
+    pullRequests.isFetching = false;
+  }
+};
+
 const getState = () => {
+  void refreshPullRequests();
   const maxAgeMs = parseDuration(DEFAULT_MAX_AGE);
   const sessions = readSessions()
     .toReversed()
@@ -88,7 +153,13 @@ const getState = () => {
   const builds = listBuilds().toSorted((a, b) =>
     b.lastUsedAt.localeCompare(a.lastUsedAt)
   );
-  return { builds, devices, generatedAt: new Date().toISOString(), sessions };
+  return {
+    builds,
+    devices,
+    generatedAt: new Date().toISOString(),
+    pullRequests: Object.fromEntries(pullRequests.byBranch),
+    sessions,
+  };
 };
 
 const findSession = (id: string) =>
@@ -149,12 +220,158 @@ const handleSession = (url: URL) => {
   return null;
 };
 
+// Runs `bun <noun> <verb> [args]` and maps its error output back to fields.
+const runCli = async (args: string[]) => {
+  const child = Bun.spawn(["bun", CLI_FILE, ...args], {
+    cwd: REPO_ROOT,
+    stderr: "pipe",
+    stdout: "pipe",
+  });
+  const [stdout, stderr, exitCode] = await Promise.all([
+    new Response(child.stdout).text(),
+    new Response(child.stderr).text(),
+    child.exited,
+  ]);
+  if (exitCode === 0) {
+    return Response.json({ output: stdout.trim() });
+  }
+  const match =
+    /error \[(?<status>[^\]]+)\]: (?<message>.*)\n\s+why: (?<why>.*)\n\s+fix: (?<fix>.*)/u.exec(
+      stderr
+    );
+  return errorResponse(
+    500,
+    match?.groups
+      ? {
+          fix: match.groups.fix,
+          message: match.groups.message,
+          status: match.groups.status,
+          why: match.groups.why,
+        }
+      : {
+          fix: `Run \`bun ${args.join(" ")}\` in a terminal to see the full output.`,
+          message: `bun ${args.slice(0, 2).join(" ")} failed`,
+          status: "cli_failed",
+          why: stderr.trim() || `Exited with code ${exitCode}.`,
+        }
+  );
+};
+
+// AppleScript run with argv, so names are never spliced into the script.
+const FOCUS_SCRIPT = `on run argv
+  set needle to item 1 of argv
+  tell application "System Events"
+    set procNames to name of every process
+    repeat with i from 1 to count of procNames
+      set procName to item i of procNames
+      if procName is "Simulator" or procName starts with "qemu-system" then
+        set p to process i
+        repeat with j from 1 to (count of windows of p)
+          try
+            set w to window j of p
+            if (name of w as text) contains needle then
+              set frontmost of p to true
+              perform action "AXRaise" of w
+              delay 0.2
+              if not frontmost of p then set frontmost of p to true
+              return "ok"
+            end if
+          end try
+        end repeat
+      end if
+    end repeat
+  end tell
+  return "missing"
+end run`;
+
+// Brings a simulator or emulator window to the front.
+const focusDevice = async (id: string) => {
+  const device = listDevices().find((candidate) => candidate.id === id);
+  if (!device || device.kind === "physical" || device.state !== "booted") {
+    return errorResponse(400, {
+      fix: "Boot the device with `bun devices boot <id>` first.",
+      message: "Device has no window",
+      status: "focus_unavailable",
+      why: "Only booted simulators and emulators have a window to show.",
+    });
+  }
+  // Simulator titles windows "<name> – iOS 26.4"; the emulator uses
+  // "Android Emulator - <avd>:<port>".
+  const needle =
+    device.platform === "ios"
+      ? `${device.name.replace(/ \(iOS [\d.]+\)$/u, "")} – `
+      : `:${device.id.replace("emulator-", "")}`;
+  const child = Bun.spawn(["osascript", "-e", FOCUS_SCRIPT, needle], {
+    stderr: "pipe",
+    stdout: "pipe",
+  });
+  const [stdout, stderr] = await Promise.all([
+    new Response(child.stdout).text(),
+    new Response(child.stderr).text(),
+    child.exited,
+  ]);
+  if (stdout.trim() === "ok") {
+    return Response.json({ output: `Showing ${device.name}` });
+  }
+  return errorResponse(stderr ? 500 : 404, {
+    fix: stderr
+      ? "Allow your terminal under System Settings > Privacy & Security > Accessibility."
+      : "The emulator may run without a window (-no-window). Restart it with a window.",
+    message: `No window found for ${device.name}`,
+    status: stderr ? "focus_denied" : "window_not_found",
+    why:
+      stderr.trim() ||
+      `No Simulator or emulator window title contains "${needle}".`,
+  });
+};
+
+const ACTIONS = new Map<string, (id: string) => Promise<Response>>([
+  ["builds/prune", () => runCli(["builds", "prune"])],
+  ["builds/rm", (id) => runCli(["builds", "rm", id])],
+  ["devices/focus", focusDevice],
+  ["devices/shutdown", (id) => runCli(["devices", "shutdown", id])],
+  ["sessions/kill", (id) => runCli(["sessions", "kill", id])],
+]);
+
+// POST /api/<noun>/<verb>[/<id>]
+const handleAction = (request: Request, url: URL) => {
+  const origin = request.headers.get("origin");
+  if (
+    request.headers.get(ACTION_HEADER) !== "1" ||
+    (origin !== null && origin !== url.origin)
+  ) {
+    return errorResponse(403, {
+      fix: "Use the buttons in the dashboard.",
+      message: "Action rejected",
+      status: "action_forbidden",
+      why: "Actions only run from the dashboard page itself.",
+    });
+  }
+  const [noun = "", verb = "", rawId = ""] = url.pathname
+    .split("/")
+    .slice(2)
+    .map(decodeURIComponent);
+  const action = ACTIONS.get(`${noun}/${verb}`);
+  if (!action || (rawId !== "" && !SAFE_ID.test(rawId))) {
+    return errorResponse(404, {
+      fix: "Use the buttons in the dashboard.",
+      message: `Unknown action ${noun}/${verb}`,
+      status: "unknown_action",
+      why: "The action or ID is not supported.",
+    });
+  }
+  return action(rawId);
+};
+
 const handle = (request: Request) => {
   const url = new URL(request.url);
   if (url.pathname === "/") {
     return new Response(Bun.file(HTML_FILE), {
       headers: { "content-type": "text/html; charset=utf-8" },
     });
+  }
+  if (request.method === "POST" && url.pathname.startsWith("/api/")) {
+    return handleAction(request, url);
   }
   if (url.pathname === "/api/state") {
     return Response.json(getState(), {
@@ -171,7 +388,7 @@ const handle = (request: Request) => {
     fix: "Open the dashboard at /.",
     message: `No route for ${url.pathname}`,
     status: "not_found",
-    why: "The dashboard serves /, /api/state, and /sessions/<id>/log|report.",
+    why: "The dashboard serves /, /api/state, POST /api/<noun>/<verb>, and /sessions/<id>/log|report.",
   });
 };
 
@@ -193,9 +410,9 @@ const getPort = () => {
 
 try {
   const server = Bun.serve({
-    fetch: (request) => {
+    fetch: async (request) => {
       try {
-        return handle(request);
+        return await handle(request);
       } catch (error) {
         return errorResponse(500, {
           fix: "Reload the page. If it fails again, run `bun devices list` to see the underlying error.",

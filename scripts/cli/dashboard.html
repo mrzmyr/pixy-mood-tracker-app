@@ -168,8 +168,13 @@
       .nowrap {
         white-space: nowrap;
       }
+      /* Flexible columns share the leftover width and truncate, so tables
+         never scroll sideways. */
+      td.fill {
+        max-width: 0;
+      }
       .truncate {
-        max-width: 200px;
+        max-width: 100%;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
@@ -260,6 +265,60 @@
       .links {
         display: inline-flex;
         gap: 12px;
+        align-items: center;
+      }
+      .cell {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        min-width: 0;
+      }
+      .cell > .truncate {
+        min-width: 0;
+      }
+      .pr {
+        flex: none;
+        color: var(--tone, var(--muted));
+        text-decoration: none;
+        font-size: 13px;
+      }
+      .pr:hover {
+        text-decoration: underline;
+      }
+      .action {
+        color: var(--muted);
+        text-decoration: underline;
+        text-decoration-color: var(--line);
+        text-underline-offset: 3px;
+      }
+      .action.danger:hover {
+        color: var(--bad);
+      }
+      .action:disabled {
+        color: var(--faint);
+        cursor: progress;
+      }
+      .focus {
+        color: inherit;
+        text-align: left;
+        max-width: 100%;
+      }
+      .focus:hover {
+        text-decoration: underline;
+        text-underline-offset: 3px;
+      }
+      .notice {
+        position: fixed;
+        right: 24px;
+        bottom: 24px;
+        max-width: 480px;
+        padding: 12px 16px;
+        border-radius: 6px;
+        background: var(--fg);
+        color: var(--bg);
+        white-space: pre-wrap;
+        font-size: 13px;
+        box-shadow: 0 8px 24px rgb(0 0 0 / 0.16);
       }
       .detail td {
         padding: 0 0 16px;
@@ -341,11 +400,19 @@
             <h2 id="builds-title">
               Builds<span class="count" id="builds-count"></span>
             </h2>
+            <button
+              type="button"
+              data-action="builds/prune"
+              data-confirm="Delete old builds? Keeps the newest 3 per platform and variant, plus every build used in the last 7 days."
+            >
+              Prune old builds
+            </button>
           </div>
           <div class="table-wrap" id="builds"></div>
         </section>
       </main>
     </div>
+    <div class="notice" id="notice" hidden role="status"></div>
 
     <script>
       const POLL_MS = 5000;
@@ -415,6 +482,23 @@
       };
       const kindLabel = (kind) => esc(KIND_LABELS[kind] ?? kind);
 
+      // GitHub's colors: open green, draft gray, merged violet, closed red.
+      const prChip = (branch) => {
+        const pr = state.pullRequests?.[branch];
+        if (!pr) return "";
+        const [tone, label] =
+          pr.isDraft && pr.state === "OPEN"
+            ? ["idle", "draft"]
+            : {
+                CLOSED: ["bad", "closed"],
+                MERGED: ["link", "merged"],
+                OPEN: ["ok", "open"],
+              }[pr.state];
+        return `<a class="pr tone-${tone}" href="${esc(pr.url)}" target="_blank" rel="noreferrer" title="Pull request #${pr.number} (${label})">#${pr.number}</a>`;
+      };
+      const actionButton = (action, id, label, confirmText) =>
+        `<button type="button" class="action danger" data-action="${esc(action)}" data-id="${esc(id)}" data-confirm="${esc(confirmText)}">${label}</button>`;
+
       // tone: ok | bad | warn | info | idle. kind: dot | pulse | ring | badge | outline.
       const indicator = (tone, label, kind = "dot", title = "") => {
         const attr = title ? ` title="${esc(title)}"` : "";
@@ -429,7 +513,7 @@
       const sessionStatus = (s) => {
         if (s.staleReason)
           return indicator("warn", "Stale", "outline", s.staleReason);
-        if (s.status === "failed") return indicator("bad", "Failed", "badge");
+        if (s.status === "failed") return indicator("bad", "Failed");
         if (s.status === "killed") return indicator("idle", "Killed", "ring");
         if (s.status === "passed") return indicator("ok", "Passed");
         if (s.status === "building")
@@ -438,7 +522,7 @@
       };
 
       const FLOW_STATUS = {
-        failed: ["bad", "badge"],
+        failed: ["bad", "dot"],
         passed: ["ok", "dot"],
         running: ["info", "pulse"],
       };
@@ -481,6 +565,14 @@
           const passed = s.summary?.passed ?? 0;
           const end = s.finishedAt ? Date.parse(s.finishedAt) : Date.now();
           const links = [
+            isActive(s)
+              ? actionButton(
+                  "sessions/kill",
+                  s.id,
+                  "Kill",
+                  `Kill session ${s.id} on ${s.deviceName}? Its test processes stop.`
+                )
+              : "",
             `<a href="/sessions/${encodeURIComponent(s.id)}/log" target="_blank" rel="noreferrer">Log</a>`,
             s.hasReport
               ? `<a href="/sessions/${encodeURIComponent(s.id)}/report/" target="_blank" rel="noreferrer">Report</a>`
@@ -490,11 +582,11 @@
             <td class="nowrap"><button type="button" data-expand="${esc(s.id)}" aria-expanded="${open}" aria-label="Flows of ${esc(s.id)}"><span class="expand">${open ? "−" : "+"}</span><span class="mono">${esc(s.id)}</span></button></td>
             <td>${sessionStatus(s)}</td>
             <td class="nowrap">${passed}/${total}</td>
-            <td><div class="truncate" title="${esc(s.deviceName)}">${esc(s.deviceName)}</div></td>
+            <td class="fill" style="width: 22%"><div class="truncate" title="${esc(s.deviceName)}">${esc(s.deviceName)}</div></td>
             <td class="nowrap">${platformLabel(s.platform)}</td>
             <td class="nowrap">${kindLabel(s.kind)}</td>
-            <td><div class="truncate" title="${esc(s.worktree)}"><span class="mono">${esc(s.branch)}</span> <span class="faint">${esc(base(s.worktree))}</span></div></td>
-            <td><span title="${esc(exact(s.startedAt))}">${ago(s.startedAt)}</span> <span class="faint">· ${duration(end - Date.parse(s.startedAt))}</span></td>
+            <td class="fill" style="width: 28%"><div class="cell"><span class="truncate mono" title="${esc(`${s.branch}\n${s.worktree}`)}">${esc(s.branch)}</span>${prChip(s.branch)}</div></td>
+            <td class="nowrap"><span title="${esc(exact(s.startedAt))}">${ago(s.startedAt)}</span> <span class="faint">· ${duration(end - Date.parse(s.startedAt))}</span></td>
             <td class="nowrap"><span class="links">${links}</span></td>
           </tr>`;
           if (!open) return row;
@@ -556,6 +648,9 @@
         d.state === "connected" ||
         d.state === "unauthorized";
 
+      // Booted simulators and emulators have a window and can be shut down.
+      const canFocus = (d) => d.kind !== "physical" && d.state === "booted";
+
       const renderDevices = () => {
         const running = isOnline;
         const all = state.devices.toSorted(
@@ -581,16 +676,17 @@
         const rows = shown.map((d) => {
           const session = d.sessionId ? sessions.get(d.sessionId) : null;
           return `<tr class="row">
-            <td><div class="truncate" title="${esc(`${d.name}\n${d.id}`)}">${esc(d.name)} <span class="faint mono">${esc(d.id)}</span></div></td>
+            <td class="fill" style="width: 34%"><div class="truncate" title="${esc(`${d.name}\n${d.id}`)}">${canFocus(d) ? `<button type="button" class="focus" data-action="devices/focus" data-id="${esc(d.id)}" title="Bring window to front">${esc(d.name)}</button>` : esc(d.name)} <span class="faint mono">${esc(d.id)}</span></div></td>
             <td>${deviceState(d)}</td>
             <td class="nowrap">${platformLabel(d.platform)}</td>
             <td class="nowrap">${kindLabel(d.kind)}</td>
-            <td>${d.lease ? `<div class="truncate">${esc(base(d.lease.worktree))} <span class="faint">· ${ago(d.lease.bootedAt)}</span></div>` : `<span class="faint">–</span>`}</td>
+            <td class="fill" style="width: 20%">${d.lease ? `<div class="truncate">${esc(base(d.lease.worktree))} <span class="faint">· ${ago(d.lease.bootedAt)}</span></div>` : `<span class="faint">–</span>`}</td>
             <td class="nowrap">${session ? indicator(session.status === "building" ? "warn" : "info", `<span class="mono">${esc(session.id)}</span>`, "pulse") : `<span class="faint">Idle</span>`}</td>
+            <td class="nowrap">${canFocus(d) ? actionButton("devices/shutdown", d.id, "Shut down", `Shut down ${d.name}?${session ? ` Session ${session.id} is still running on it.` : ""} Simulators made by \`bun devices create\` are deleted.`) : ""}</td>
           </tr>`;
         });
         $("devices").innerHTML = table(
-          ["Device", "State", "Platform", "Type", "Owner", "Session"],
+          ["Device", "State", "Platform", "Type", "Owner", "Session", ""],
           rows
         );
       };
@@ -606,16 +702,17 @@
         const rows = builds.map((b) => {
           const m = b.meta ?? {};
           const source = m.commit
-            ? `<span class="mono">${esc(m.branch || "detached")}</span> <span class="faint mono">${esc(m.commit.slice(0, 7))}${m.isDirty ? "+dirty" : ""}</span>`
+            ? `<div class="cell"><span class="truncate"><span class="mono">${esc(m.branch || "detached")}</span> <span class="faint mono">${esc(m.commit.slice(0, 7))}${m.isDirty ? "+dirty" : ""}</span></span>${m.branch ? prChip(m.branch) : ""}</div>`
             : `<span class="faint">Unknown</span>`;
           return `<tr class="row">
             <td class="nowrap"><span class="mono">${esc(b.id)}</span></td>
             <td class="nowrap">${platformLabel(b.platform)}</td>
             <td class="nowrap">${esc(b.variant)}${b.isRelease ? "" : ` <span class="faint">debug</span>`}</td>
-            <td><div class="truncate">${source}</div></td>
+            <td class="fill" style="width: 30%">${source}</td>
             <td class="nowrap">${size(b.sizeBytes)}</td>
             <td class="nowrap" title="${esc(exact(b.createdAt))}">${ago(b.createdAt)}</td>
             <td class="nowrap" title="${esc(exact(b.lastUsedAt))}">${ago(b.lastUsedAt)}</td>
+            <td class="nowrap">${actionButton("builds/rm", b.id, "Delete", `Delete build ${b.id} (${size(b.sizeBytes)})? The next build for this source compiles again.`)}</td>
           </tr>`;
         });
         $("builds").innerHTML = table(
@@ -627,6 +724,7 @@
             "Size",
             "Created",
             "Last used",
+            "",
           ],
           rows
         );
@@ -684,12 +782,59 @@
                 }
           );
         } finally {
-          setTimeout(poll, POLL_MS);
+          clearTimeout(timer);
+          timer = setTimeout(poll, POLL_MS);
         }
       };
-      const poll = () => (document.hidden ? setTimeout(poll, POLL_MS) : load());
+      let timer;
+      const poll = () =>
+        document.hidden ? (timer = setTimeout(poll, POLL_MS)) : load();
+
+      const notify = (text) => {
+        const box = $("notice");
+        box.textContent = text;
+        box.hidden = false;
+        clearTimeout(notify.timer);
+        notify.timer = setTimeout(() => (box.hidden = true), 5000);
+      };
+
+      // POSTs an action; the server runs the matching CLI command.
+      const runAction = async (button) => {
+        const { action, id = "", confirm: question } = button.dataset;
+        if (question && !confirm(question)) return;
+        button.disabled = true;
+        try {
+          const path = `/api/${action}${id ? `/${encodeURIComponent(id)}` : ""}`;
+          const response = await fetch(path, {
+            headers: { "x-pixy-mood-tracker-dashboard": "1" },
+            method: "POST",
+          });
+          const body = await response.json();
+          if (!response.ok) throw body;
+          if (action !== "devices/focus") notify(body.output || "Done");
+          $("error").hidden = true;
+        } catch (error) {
+          showError(
+            error?.why
+              ? error
+              : {
+                  message: "Action failed",
+                  why: String(error),
+                  fix: "Reload the page and try again.",
+                }
+          );
+        } finally {
+          button.disabled = false;
+          load();
+        }
+      };
 
       document.addEventListener("click", (event) => {
+        const actionTarget = event.target.closest("[data-action]");
+        if (actionTarget) {
+          runAction(actionTarget);
+          return;
+        }
         const expand = event.target.closest("[data-expand]");
         if (expand) {
           const id = expand.dataset.expand;

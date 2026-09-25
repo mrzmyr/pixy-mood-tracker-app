@@ -23,7 +23,7 @@ bun sessions list                          # which tests run on which device
 bun sessions kill <session-id|device-id>   # stop one run
 bun devices shutdown <id>                  # stop a device; deletes simulators made by create
 bun devices gc                             # stop stale sessions, release idle devices
-bun dashboard                              # live web view of devices, sessions, builds (http://127.0.0.1:4848)
+bun dashboard                              # live web view: kill sessions, shut down devices, prune builds
 bun builds check --release                 # will --build reuse a cached build?
 ```
 
