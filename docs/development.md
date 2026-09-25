@@ -71,10 +71,10 @@ On Macs using Homebrew CocoaPods with RVM, clear RVM's gem paths if `pod` fails 
 | `development` | Android | Physical Device | `build:android:dev` | `.apk` | Install manually (enable "Install from unknown sources") |
 | `emulator` | iOS | Simulator | `build:ios:emulator` | `.app` | Accept the EAS prompt to install the build on a running simulator |
 | `emulator` | Android | Emulator | `build:android:emulator` | `.apk` | Install the `.apk` file via drag and drop |
-| `preview` | iOS | TestFlight | `build:ios:preview` | `.ipa` | Submit `.ipa` file to App Store via `bun run submit:ios:preview` |
-| `preview` | Android | Google Play Console | `build:android:preview` | `.aab` | Submit `.aab` file to Google Play Console via `bun run submit:android:preview` |
-| `production` | iOS | Physical Device | `build:ios:prod` | `.ipa` | Submit `.ipa` file via `bun run submit:ios:production` |
-| `production` | Android | Physical Device | `build:android:prod` | `.aab` | Submit `.aab` file via `bun run submit:android:production` |
+| `preview` | iOS | TestFlight | `build:ios:preview` | `.ipa` | Submit `.ipa` file to App Store via `bun run submit` (uploads newest `.aab` and `.ipa`) |
+| `preview` | Android | Google Play Console | `build:android:preview` | `.aab` | Submit `.aab` file to Google Play Console via `bun run submit` (uploads newest `.aab` and `.ipa`) |
+| `production` | iOS | Physical Device | `build:ios:prod` | `.ipa` | Submit `.ipa` file via `bun run submit` (uploads newest `.aab` and `.ipa`) |
+| `production` | Android | Physical Device | `build:android:prod` | `.aab` | Submit `.aab` file via `bun run submit` (uploads newest `.aab` and `.ipa`) |
 
 ## Releasing
 
