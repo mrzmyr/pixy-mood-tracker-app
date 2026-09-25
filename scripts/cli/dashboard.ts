@@ -9,34 +9,15 @@ import path from "node:path";
 import { parseArgs } from "node:util";
 
 import { listBuilds } from "./builds.ts";
-import { CliError, isProcessAlive, readJson, tryRun } from "./shared.ts";
-
-type Platform = "ios" | "android";
-
-interface RunFlow {
-  artifactsDir: string;
-  attempts: number;
-  durationMs: number | null;
-  file: string;
-  message: string | null;
-  status: string;
-  video: string | null;
-}
-
-// Written by scripts/cli/e2e-reporter.mjs.
-interface Run {
-  branch: string;
-  deviceId: string | null;
-  finishedAt: string | null;
-  flows: RunFlow[];
-  id: string;
-  pid: number;
-  pidStartedAt: string | null;
-  platform: Platform | null;
-  startedAt: string;
-  status: "running" | "passed" | "failed";
-  worktree: string;
-}
+import {
+  REPO_ROOT,
+  findRun,
+  getStaleReason,
+  readRuns,
+  runDir,
+} from "./runs.ts";
+import type { Run } from "./runs.ts";
+import { CliError } from "./shared.ts";
 
 interface AgentDevice {
   id: string;
@@ -55,14 +36,12 @@ interface Claim {
 const DEFAULT_PORT = 4848;
 const HTML_FILE = path.join(import.meta.dir, "dashboard.html");
 const CLI_FILE = path.join(import.meta.dir, "index.ts");
-const REPO_ROOT = path.resolve(import.meta.dir, "../..");
 const AGENT_DEVICE = path.join(
   REPO_ROOT,
   "node_modules",
   ".bin",
   "agent-device"
 );
-const ARTIFACTS_DIR = path.join(".agent-device", "test-artifacts");
 const PR_CACHE_MS = 60_000;
 // Device IDs, run IDs, and agent-device session addresses
 // (cwd:<hash>:android, UUIDs, serials, emulator-5554).
@@ -144,26 +123,6 @@ const agentDevice = async <T>(args: string[]): Promise<T> => {
   });
 };
 
-// Every checkout of this repo, so runs from all worktrees show up.
-const listWorktrees = () =>
-  (tryRun("git", ["-C", REPO_ROOT, "worktree", "list", "--porcelain"]) ?? "")
-    .split("\n")
-    .filter((line) => line.startsWith("worktree "))
-    .map((line) => line.slice("worktree ".length));
-
-const runDir = (run: Run) => path.join(run.worktree, ARTIFACTS_DIR, run.id);
-
-const readRuns = () =>
-  listWorktrees().flatMap((worktree) => {
-    const root = path.join(worktree, ARTIFACTS_DIR);
-    return fs.existsSync(root)
-      ? fs
-          .readdirSync(root)
-          .map((id) => readJson<Run>(path.join(root, id, "run.json")))
-          .filter((run): run is Run => run !== null)
-      : [];
-  });
-
 const toKind = (device: AgentDevice) =>
   device.kind === "device" ? "physical" : device.kind;
 
@@ -173,19 +132,6 @@ const toState = (device: AgentDevice) => {
   }
   return device.booted ? "booted" : "shutdown";
 };
-
-// PIDs get reused, so the process must also have the start time the reporter
-// recorded. Runs without one never count as alive.
-const isRunProcessAlive = (run: Run) =>
-  isProcessAlive(run.pid) &&
-  Boolean(run.pidStartedAt) &&
-  tryRun("ps", ["-o", "lstart=", "-p", String(run.pid)]) === run.pidStartedAt;
-
-// A run whose CLI process died never wrote its final status.
-const getStaleReason = (run: Run) =>
-  run.status === "running" && !isRunProcessAlive(run)
-    ? "its agent-device process exited without a result"
-    : null;
 
 // Adds device details and the per-flow results the dashboard renders.
 const describeRun = (run: Run, devices: AgentDevice[]) => {
@@ -285,8 +231,8 @@ const getState = async () => {
     (device) => device.platform === "ios" || device.platform === "android"
   );
   const sessions = readRuns()
-    .map((run) => describeRun(run, found))
-    .toSorted((a, b) => b.startedAt.localeCompare(a.startedAt));
+    .toReversed()
+    .map((run) => describeRun(run, found));
   const devices = found.map((device) => {
     const claim = claims.find((candidate) => candidate.device.id === device.id);
     // Test sessions are named <workspace>:<platform>:test:<run-id>:...
@@ -321,8 +267,6 @@ const getState = async () => {
   };
 };
 
-const findRun = (id: string) => readRuns().find((run) => run.id === id) ?? null;
-
 // Serves a file from inside `root` only; rejects paths that escape it.
 const serveFile = (root: string, relative: string) => {
   const file = path.resolve(root, relative);
@@ -336,7 +280,7 @@ const serveFile = (root: string, relative: string) => {
   }
   if (!fs.existsSync(file) || fs.statSync(file).isDirectory()) {
     return errorResponse(404, {
-      fix: "Rerun the flow with `bun e2e`. Delete .agent-device/test-artifacts to drop old runs.",
+      fix: "Rerun the flow with `bun e2e run`. Delete .agent-device/test-artifacts to drop old runs.",
       message: "File not found",
       status: "file_not_found",
       why: `${relative} does not exist in the run's artifacts.`,
@@ -525,23 +469,6 @@ const shutdownDevice = async (id: string) => {
   );
 };
 
-// Stops a running `bun e2e` the same way Ctrl+C does.
-const killRun = (id: string) => {
-  const run = findRun(id);
-  if (!run || run.status !== "running" || !isRunProcessAlive(run)) {
-    return Promise.resolve(
-      errorResponse(404, {
-        fix: "Reload the dashboard. Finished runs cannot be stopped.",
-        message: `No running e2e run ${id}`,
-        status: "run_not_running",
-        why: "The run finished or its agent-device process already exited.",
-      })
-    );
-  }
-  process.kill(run.pid, "SIGINT");
-  return Promise.resolve(Response.json({ output: `Stopping run ${id}` }));
-};
-
 const ACTIONS = new Map<string, (id: string) => Promise<Response>>([
   ["builds/prune", () => runCli(["builds", "prune"])],
   ["builds/rm", (id) => runCli(["builds", "rm", id])],
@@ -552,7 +479,7 @@ const ACTIONS = new Map<string, (id: string) => Promise<Response>>([
       runAgentDevice(["close", "--session", address], `Released ${address}`),
   ],
   ["devices/shutdown", shutdownDevice],
-  ["sessions/kill", killRun],
+  ["e2e/stop", (id) => runCli(["e2e", "stop", id])],
 ]);
 
 // POST /api/<noun>/<verb>[/<id>]

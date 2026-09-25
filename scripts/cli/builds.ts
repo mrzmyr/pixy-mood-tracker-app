@@ -7,15 +7,18 @@ import path from "node:path";
 import {
   CliError,
   DEFAULT_KEEP_BUILDS,
-  DEFAULT_KEEP_RECENT,
+  DEFAULT_KEEP_WITHIN,
+  PLATFORM_OPTION,
+  defineCommand,
   formatAge,
   getPlatform,
   getWorktree,
+  note,
   parseDuration,
   printTable,
   readJson,
 } from "./shared.ts";
-import type { Command, Platform } from "./shared.ts";
+import type { Noun, Platform } from "./shared.ts";
 
 interface RunOptions {
   configuration?: string;
@@ -179,40 +182,77 @@ const getRunOptions = (platform: Platform, isRelease: boolean): RunOptions => {
   return isRelease ? { configuration: "Release" } : {};
 };
 
+interface CheckResult {
+  platform: Platform;
+  variant: "debug" | "release";
+  isHit: boolean;
+  key: string;
+  // The matching cached build, for a hit.
+  buildId: string | null;
+  // Why the next build compiles, for a miss.
+  reason: string | null;
+}
+
+const checkBuild = (
+  platform: Platform,
+  isRelease: boolean,
+  fingerprintHash: string,
+  builds: Build[]
+): CheckResult => {
+  const key = buildCacheProvider.getCacheKey({
+    fingerprintHash,
+    platform,
+    projectRoot: getWorktree(),
+    runOptions: getRunOptions(platform, isRelease),
+  });
+  const variant = isRelease ? "release" : "debug";
+  const hit = builds.find((build) => build.key === key);
+  if (hit) {
+    return {
+      buildId: hit.id,
+      isHit: true,
+      key,
+      platform,
+      reason: null,
+      variant,
+    };
+  }
+  const sameNative = builds.filter(
+    (build) =>
+      build.platform === platform &&
+      build.fingerprint === fingerprintHash &&
+      build.isRelease === isRelease
+  );
+  const reason =
+    sameNative.length > 0
+      ? `native code matches ${sameNative.length} cached build(s), but app source or EXPO_PUBLIC_* values differ. Xcode or Gradle rebuilds incrementally when this worktree built before`
+      : "no cached build has this native fingerprint. Expect a full native build (about 10 minutes)";
+  return { buildId: null, isHit: false, key, platform, reason, variant };
+};
+
 const cmdBuildsCheck = async (
   platform: Platform | undefined,
-  isRelease: boolean
+  isRelease: boolean,
+  isJson: boolean
 ) => {
-  const worktree = getWorktree();
-  console.log("Computing native fingerprint (takes up to a minute)...");
-  const fingerprintHash = await getFingerprint(worktree);
+  note("Computing native fingerprint (takes up to a minute)...");
+  const fingerprintHash = await getFingerprint(getWorktree());
   const builds = listBuilds();
-  for (const os_ of platform ? [platform] : (["ios", "android"] as const)) {
-    const key = buildCacheProvider.getCacheKey({
-      fingerprintHash,
-      platform: os_,
-      projectRoot: worktree,
-      runOptions: getRunOptions(os_, isRelease),
-    });
-    const hit = builds.find((build) => build.key === key);
-    const label = `${os_} ${isRelease ? "release" : "debug"}`;
-    if (hit) {
-      console.log(
-        `${label}: HIT ${hit.id} from ${describeSource(hit.meta)}, ${formatAge(hit.createdAt)} old. --build installs it without compiling.`
-      );
-      continue;
-    }
-    const sameNative = builds.filter(
-      (build) =>
-        build.platform === os_ &&
-        build.fingerprint === fingerprintHash &&
-        build.isRelease === isRelease
+  const results = (platform ? [platform] : (["ios", "android"] as const)).map(
+    (os_) => checkBuild(os_, isRelease, fingerprintHash, builds)
+  );
+  if (isJson) {
+    console.log(JSON.stringify(results, null, 2));
+    return;
+  }
+  for (const result of results) {
+    const label = `${result.platform} ${result.variant}`;
+    const hit = builds.find((build) => build.id === result.buildId);
+    console.log(
+      hit
+        ? `${label}: HIT ${hit.id} from ${describeSource(hit.meta)}, ${formatAge(hit.createdAt)} old. \`bun ${result.platform}\` installs it without compiling.`
+        : `${label}: MISS ${result.key}\n  ${result.reason}.`
     );
-    const reason =
-      sameNative.length > 0
-        ? `native code matches ${sameNative.length} cached build(s), but app source or EXPO_PUBLIC_* values differ. Xcode or Gradle rebuilds incrementally when this worktree built before`
-        : "no cached build has this native fingerprint. Expect a full native build (about 10 minutes)";
-    console.log(`${label}: MISS ${key}\n  ${reason}.`);
   }
 };
 
@@ -224,10 +264,24 @@ const removeBuild = (build: Build) => {
   );
 };
 
+const parseKeep = (value: string) => {
+  const keep = Number(value);
+  if (!/^\d+$/u.test(value) || !Number.isSafeInteger(keep)) {
+    throw new CliError({
+      exitCode: 2,
+      fix: `Pass a whole number, for example --keep ${DEFAULT_KEEP_BUILDS}.`,
+      message: `Invalid --keep "${value}"`,
+      status: "invalid_keep",
+      why: "--keep is how many builds to keep per platform and variant.",
+    });
+  }
+  return keep;
+};
+
 // Keeps the newest `keep` builds per platform and variant, plus every build
-// used within `keepRecent`. Removes the rest and abandoned temp copies.
-const pruneBuilds = (keep: number, keepRecent: string, isDryRun: boolean) => {
-  const keepRecentMs = parseDuration(keepRecent);
+// used within `keepWithin`. Removes the rest and abandoned temp copies.
+const pruneBuilds = (keep: number, keepWithin: string, isDryRun: boolean) => {
+  const keepWithinMs = parseDuration(keepWithin);
   const groups = Map.groupBy(
     listBuilds(),
     (build) => `${build.platform}-${build.variant}`
@@ -237,7 +291,7 @@ const pruneBuilds = (keep: number, keepRecent: string, isDryRun: boolean) => {
       .toSorted((a, b) => b.lastUsedAt.localeCompare(a.lastUsedAt))
       .slice(keep)
       .filter(
-        (build) => Date.now() - Date.parse(build.lastUsedAt) > keepRecentMs
+        (build) => Date.now() - Date.parse(build.lastUsedAt) > keepWithinMs
       )
   );
   for (const build of stale) {
@@ -264,14 +318,14 @@ const pruneBuilds = (keep: number, keepRecent: string, isDryRun: boolean) => {
   );
 };
 
-const cmdBuildsRm = (target: string | undefined) => {
+const cmdBuildsRm = (target: string) => {
   const matches = listBuilds().filter(
-    (build) => target && (build.id === target || build.key.includes(target))
+    (build) => build.id === target || build.key.includes(target)
   );
   if (matches.length !== 1) {
     throw new CliError({
       fix: "Run `bun builds list` and pass one ID from the first column.",
-      message: `${matches.length === 0 ? "No" : "More than one"} build matches "${target ?? ""}"`,
+      message: `${matches.length === 0 ? "No" : "More than one"} build matches "${target}"`,
       status: matches.length === 0 ? "build_not_found" : "build_ambiguous",
       why: "rm removes exactly one build.",
     });
@@ -280,36 +334,59 @@ const cmdBuildsRm = (target: string | undefined) => {
   console.log(`Removed build ${matches[0].id}`);
 };
 
-const BUILDS_HELP = `Inspect and prune the shared build cache.
-
-Usage: bun builds <command> [options]
-
-  list [--platform ios|android] [--json]
-      Cached builds with variant, source branch and commit, size, and last use.
-  check [--platform ios|android] [--release]
-      Whether this worktree gets a cached build, and why not.
-  prune [--keep ${DEFAULT_KEEP_BUILDS}] [--keep-recent ${DEFAULT_KEEP_RECENT}] [--dry-run]
-      Keep the newest builds per platform and variant plus every build used
-      within --keep-recent. Remove the rest.
-  rm <id>
-      Remove one cached build.`;
-
-const BUILDS_COMMANDS = new Map(
-  Object.entries({
-    check: (_args, values) =>
-      cmdBuildsCheck(getPlatform(values), values.release ?? false),
-    help: () => console.log(BUILDS_HELP),
-    list: (_args, values) =>
-      cmdBuildsList(getPlatform(values), values.json ?? false),
-    prune: (_args, values) =>
-      pruneBuilds(
-        Number(values.keep),
-        values["keep-recent"],
-        values["dry-run"] ?? false
-      ),
-    rm: ([target]) => cmdBuildsRm(target),
-  } satisfies Record<string, Command>)
-);
+const BUILDS: Noun = {
+  commands: {
+    list: defineCommand({
+      details: `--platform ios|android  Only this platform.
+--json                  Print JSON instead of a table.`,
+      options: { ...PLATFORM_OPTION, json: { type: "boolean" } },
+      run: (_args, values) =>
+        cmdBuildsList(getPlatform(values.platform), values.json ?? false),
+      summary: "List cached builds with variant, source, size, and last use",
+    }),
+    check: defineCommand({
+      details: `--platform ios|android  Only this platform.
+--release               Check the release build e2e runs need.
+--json                  Print JSON instead of text.`,
+      options: {
+        ...PLATFORM_OPTION,
+        json: { type: "boolean" },
+        release: { type: "boolean" },
+      },
+      run: (_args, values) =>
+        cmdBuildsCheck(
+          getPlatform(values.platform),
+          values.release ?? false,
+          values.json ?? false
+        ),
+      summary: "Tell whether this worktree gets a cached build, and why not",
+    }),
+    rm: defineCommand({
+      args: ["<id>"],
+      argsSource: "bun builds list",
+      run: ([target]) => cmdBuildsRm(target),
+      summary: "Remove one cached build",
+    }),
+    prune: defineCommand({
+      details: `--keep <n>                Builds to keep per platform and variant (default: ${DEFAULT_KEEP_BUILDS}).
+--keep-within <duration>  Also keep builds used this recently (default: ${DEFAULT_KEEP_WITHIN}).
+--dry-run                 Print what would be removed.`,
+      options: {
+        "dry-run": { type: "boolean" },
+        keep: { default: String(DEFAULT_KEEP_BUILDS), type: "string" },
+        "keep-within": { default: DEFAULT_KEEP_WITHIN, type: "string" },
+      },
+      run: (_args, values) =>
+        pruneBuilds(
+          parseKeep(values.keep),
+          values["keep-within"],
+          values["dry-run"] ?? false
+        ),
+      summary: "Remove old builds, keeping the newest and recently used",
+    }),
+  },
+  summary: "Inspect and prune the shared build cache.",
+};
 
 /** `bun builds` commands, plus the build list and IDs for the dashboard. */
-export { BUILDS_COMMANDS, listBuilds, toBuildId };
+export { BUILDS, listBuilds, toBuildId };

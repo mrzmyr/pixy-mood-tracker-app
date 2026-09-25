@@ -679,7 +679,7 @@
             : "";
         if (shown.length === 0) {
           $("sessions").innerHTML =
-            `<p class="empty">No e2e runs. Start one with <span class="mono">bun e2e --platform ios</span>.</p>`;
+            `<p class="empty">No e2e runs. Start one with <span class="mono">bun e2e run --platform ios --device &lt;udid&gt;</span>.</p>`;
           return;
         }
         const rows = shown.map((s) => {
@@ -688,9 +688,9 @@
           const links = [
             isActive(s)
               ? actionButton(
-                  "sessions/kill",
+                  "e2e/stop",
                   s.id,
-                  "Kill",
+                  "Stop",
                   `Stop run ${s.id} on ${s.deviceName}?`
                 )
               : "",

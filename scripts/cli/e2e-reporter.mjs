@@ -1,4 +1,4 @@
-// agent-device reporter for `bun e2e`: writes run.json into the suite's
+// agent-device reporter for `bun e2e run`: writes run.json into the suite's
 // artifacts directory, so `bun dashboard` can show which worktree tested which
 // device, each flow's status, and its recording. agent-device keeps the rest
 // (replay.ad, result.txt, failure.txt, recording.mp4) next to it.
