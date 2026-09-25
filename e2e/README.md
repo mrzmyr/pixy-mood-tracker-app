@@ -4,32 +4,31 @@ End-to-end tests using [Maestro](https://maestro.mobile.dev). The same flows can
 
 ## Prereqs
 
-- [maestro-runner](https://github.com/devicelab-dev/maestro-runner) for `bun devices test`, or the Maestro CLI (`curl -Ls https://get.maestro.mobile.dev | bash`) for `./e2e/run.sh`
+- [maestro-runner](https://github.com/devicelab-dev/maestro-runner) for `bun sessions run`, or the Maestro CLI (`curl -Ls https://get.maestro.mobile.dev | bash`) for `./e2e/run.sh`
 - JDK 17+ (`JAVA_HOME` set or discoverable via `/usr/libexec/java_home`)
 - Device connected with USB debugging, app installed: `adb install -r android/app/build/outputs/apk/release/app-release.apk`
 - Or a booted iOS simulator with Pixy installed.
 
 ## Run
 
-Use `bun devices` to pick a device, run flows, and see what runs where. It runs [maestro-runner](https://github.com/devicelab-dev/maestro-runner), which needs no JDK.
+Use the repo CLIs to pick a device, run flows, and see what runs where. Flows run through [maestro-runner](https://github.com/devicelab-dev/maestro-runner), which needs no JDK.
 
 ```sh
-bun devices list --platform ios            # running devices, owners, sessions (--all for stopped ones)
-bun devices create --platform ios          # fresh simulator for this worktree
-bun devices boot avd:pixy-e2e              # Android emulator (read-only, parallel-safe)
-bun devices test <id> --build --record     # release build of this worktree, all flows, videos
-bun devices test <id> e2e/flows/02-log-entry.yaml
-bun devices sessions                       # which tests run on which device
-bun devices kill <session-id|device-id>    # stop one run; `kill --stale` stops dead ones
+bun devices list                           # running devices, owners, sessions (--all for stopped ones)
+bun devices create --platform ios          # own simulator for this worktree
+bun devices boot avd:<name>                # Android emulator (read-only, parallel-safe)
+bun sessions run <id> --build --record     # release build of this worktree, all flows, videos
+bun sessions run <id> e2e/flows/02-log-entry.yaml
+bun sessions list                          # which tests run on which device
+bun sessions kill <session-id|device-id>   # stop one run
 bun devices shutdown <id>                  # stop a device; deletes simulators made by create
-bun devices gc                             # kill stale sessions, release idle devices, prune builds
+bun devices gc                             # stop stale sessions, release idle devices
 bun builds check --release                 # will --build reuse a cached build?
-bun builds list                            # cached builds: branch, commit, size, last use
 ```
 
-A session is stale when its process died, its heartbeat stopped for 2 minutes, or it ran longer than `--max-age` (default 60m). `gc` releases devices booted by the CLI once idle for `--max-age`. It lists other booted devices but never touches them.
+A session is stale when its process died, its heartbeat stopped for 2 minutes, or it ran longer than `--max-age` (default 60m). `bun devices gc` releases devices the CLI started once idle for `--max-age`, and never touches other devices.
 
-Logs and reports (with `--record` videos) land in `~/.cache/pixy/devices/{logs,reports}/<session-id>`. Set `PIXY_DEVICES_DIR` to move this state.
+Logs and reports (with `--record` videos) land in `~/.cache/pixy-mood-tracker/devices/{logs,reports}/<session-id>`. Set `PIXY_MOOD_TRACKER_DEVICES_DIR` to move this state.
 
 `./e2e/run.sh` still runs all flows on a single connected Android device with Maestro.
 

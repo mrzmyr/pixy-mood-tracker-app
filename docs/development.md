@@ -37,7 +37,7 @@ $ bun android
 - **Inspect and clean up with `bun builds`:**
   - `bun builds list` shows each build's variant, source branch and commit, size, and last use.
   - `bun builds check [--release]` tells whether this worktree gets a cached build, and why not.
-  - `bun builds prune` keeps the newest 3 builds per platform and variant plus everything used in the last 7 days. `bun devices gc` runs it too.
+  - `bun builds prune` keeps the newest 3 builds per platform and variant plus everything used in the last 7 days.
 - Physical device builds are never cached.
 
 The provider lives in [`scripts/build-cache-provider.cjs`](../scripts/build-cache-provider.cjs).

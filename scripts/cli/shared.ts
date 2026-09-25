@@ -1,6 +1,6 @@
 // Shared types, state paths, and helpers for `bun devices`, `bun sessions`,
-// and `bun builds`. State lives in ~/.cache/pixy/devices (override with
-// PIXY_DEVICES_DIR), so every checkout and git worktree sees the same devices,
+// and `bun builds`. State lives in ~/.cache/pixy-mood-tracker/devices (override with
+// PIXY_MOOD_TRACKER_DEVICES_DIR), so every checkout and git worktree sees the same devices,
 // leases, and test sessions.
 import { execFileSync } from "node:child_process";
 import fs from "node:fs";
@@ -75,8 +75,8 @@ class CliError extends Error {
 }
 
 const STATE_DIR =
-  process.env.PIXY_DEVICES_DIR ||
-  path.join(os.homedir(), ".cache", "pixy", "devices");
+  process.env.PIXY_MOOD_TRACKER_DEVICES_DIR ||
+  path.join(os.homedir(), ".cache", "pixy-mood-tracker", "devices");
 const SESSIONS_DIR = path.join(STATE_DIR, "sessions");
 const LEASES_DIR = path.join(STATE_DIR, "leases");
 const LOGS_DIR = path.join(STATE_DIR, "logs");

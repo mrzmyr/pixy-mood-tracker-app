@@ -106,7 +106,10 @@ interface DevicectlDevice {
 }
 
 const listIosPhones = (): Device[] => {
-  const file = path.join(os.tmpdir(), `pixy-devicectl-${process.pid}.json`);
+  const file = path.join(
+    os.tmpdir(),
+    `pixy-mood-tracker-devicectl-${process.pid}.json`
+  );
   if (
     tryRun(
       "xcrun",
@@ -410,7 +413,7 @@ const cmdCreate = async (
       why: "Android emulators are started from existing AVDs.",
     });
   }
-  const name = `pixy-${path.basename(getWorktree())}-${crypto.randomBytes(2).toString("hex")}`;
+  const name = `pixy-mood-tracker-${path.basename(getWorktree())}-${crypto.randomBytes(2).toString("hex")}`;
   const udid =
     run("xcrun", ["simctl", "create", name, deviceType]).split("\n").at(-1) ??
     "";
