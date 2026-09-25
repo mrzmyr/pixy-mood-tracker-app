@@ -1,4 +1,4 @@
-import { TAG_COLOR_NAMES } from "@/constants/Config";
+import type { TAG_COLOR_NAMES } from "@/constants/Config";
 import { load, store } from "@/helpers/storage";
 import { t } from "@/helpers/translation";
 import _ from "lodash";

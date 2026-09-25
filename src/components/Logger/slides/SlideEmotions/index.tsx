@@ -4,7 +4,7 @@ import useColors from "@/hooks/useColors";
 import { useLogState } from "@/hooks/useLogs";
 import { useTemporaryLog } from "@/hooks/useTemporaryLog";
 import { getMostUsedEmotions } from "@/lib/utils";
-import { Emotion } from "@/types";
+import type { Emotion } from "@/types";
 import { LinearGradient } from "expo-linear-gradient";
 import _ from "lodash";
 import { useRef, useState } from "react";

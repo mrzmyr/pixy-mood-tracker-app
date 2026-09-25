@@ -8,12 +8,10 @@ import {
 } from "react";
 import "react-native-get-random-values";
 import { v4 as uuidv4 } from "uuid";
-import {
-  ConfigurableLoggerStep,
-  STEP_OPTIONS,
-} from "@/components/Logger/config";
+import type { ConfigurableLoggerStep } from "@/components/Logger/config";
+import { STEP_OPTIONS } from "@/components/Logger/config";
 import { load, store } from "@/helpers/storage";
-import { Tag } from "./useTags";
+import type { Tag } from "./useTags";
 
 type KnownSettingsStep = ConfigurableLoggerStep | "sleep";
 

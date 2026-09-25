@@ -4,7 +4,8 @@ import * as DocumentPicker from "expo-document-picker";
 import * as FileSystem from "expo-file-system/legacy";
 import * as Sharing from "expo-sharing";
 import { Alert, Platform } from "react-native";
-import { getJSONSchemaType, ImportData } from "@/helpers/Import";
+import type { ImportData } from "@/helpers/Import";
+import { getJSONSchemaType } from "@/helpers/Import";
 import { migrateImportData } from "@/helpers/migration";
 import {
   askToImport,
@@ -16,20 +17,20 @@ import {
 import { t } from "@/helpers/translation";
 import pkg from "../../package.json";
 import { useAnalytics } from "./useAnalytics";
+import type { LogsState } from "./useLogs";
 import {
-  LogsState,
   STORAGE_KEY as STORAGE_KEY_LOGS,
   useLogState,
   useLogUpdater,
 } from "./useLogs";
+import type { ExportSettings } from "./useSettings";
 import {
-  ExportSettings,
   STORAGE_KEY as STORAGE_KEY_SETTINGS,
   useSettings,
 } from "./useSettings";
+import type { Tag } from "./useTags";
 import {
   STORAGE_KEY as STORAGE_KEY_TAGS,
-  Tag,
   useTagsState,
   useTagsUpdater,
 } from "./useTags";

@@ -3,14 +3,15 @@ import { CardFeedback } from "@/components/Statistics/CardFeedback";
 import { DATE_FORMAT } from "@/constants/Config";
 import { t } from "@/helpers/translation";
 import { useCalendarNavigation } from "@/hooks/useCalendarNavigation";
-import dayjs, { Dayjs } from "dayjs";
+import type { Dayjs } from "dayjs";
+import dayjs from "dayjs";
 import _ from "lodash";
 import { Pressable, Text, View } from "react-native";
 import useColors from "../../hooks/useColors";
 import useHaptics from "../../hooks/useHaptics";
-import { LogDay } from "../../hooks/useLogs";
+import type { LogDay } from "../../hooks/useLogs";
 import useScale from "../../hooks/useScale";
-import {
+import type {
   MoodPeaksNegativeData,
   MoodPeaksPositiveData,
 } from "../../hooks/useStatistics/MoodPeaks";

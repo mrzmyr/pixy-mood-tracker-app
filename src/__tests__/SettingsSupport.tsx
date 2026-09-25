@@ -3,10 +3,10 @@ import { act, render, userEvent, waitFor } from "@testing-library/react-native";
 import { Alert } from "react-native";
 import Providers from "@/components/Providers";
 import Colors from "@/constants/Colors";
+import type { SupportClient } from "@/support";
 import {
   createFakeSupportClient,
   resolveDevelopmentSupportClient,
-  SupportClient,
 } from "@/support";
 import { SettingsScreen } from "@/screens/Settings";
 

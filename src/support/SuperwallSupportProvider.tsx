@@ -8,12 +8,8 @@ import {
   useSuperwallEvents,
 } from "expo-superwall";
 import { useAnalytics } from "@/hooks/useAnalytics";
-import {
-  disabledSupportClient,
-  SupportClient,
-  SupportFlowError,
-  SupportProvider,
-} from "./index";
+import type { SupportClient, SupportFlowError } from "./index";
+import { disabledSupportClient, SupportProvider } from "./index";
 
 export const SUPPORT_PLACEMENT = "support_pixy";
 export const SUPPORT_PRODUCT_IDS = [

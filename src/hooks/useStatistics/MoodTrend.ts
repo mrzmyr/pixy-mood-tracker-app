@@ -1,5 +1,6 @@
 import dayjs from "dayjs";
-import { LogItem, RATING_MAPPING } from "../useLogs";
+import type { LogItem } from "../useLogs";
+import { RATING_MAPPING } from "../useLogs";
 
 type PeriodDataPoint = {
   date: Date;

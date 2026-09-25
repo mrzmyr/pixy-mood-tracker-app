@@ -1,9 +1,10 @@
-import { LoggerStep, STEP_OPTIONS } from "@/components/Logger/config";
+import type { LoggerStep } from "@/components/Logger/config";
+import { STEP_OPTIONS } from "@/components/Logger/config";
 import MenuList from "@/components/MenuList";
 import MenuListItem from "@/components/MenuListItem";
 import { PageWithHeaderLayout } from "@/components/PageWithHeaderLayout";
 import { t } from "@/helpers/translation";
-import { ReactElement } from "react";
+import type { ReactElement } from "react";
 import { ScrollView, Switch, Text, View } from "react-native";
 import {
   Bell,
@@ -13,7 +14,7 @@ import {
   Sun,
   Tag,
 } from "react-native-feather";
-import { RootStackScreenProps } from "../../types";
+import type { RootStackScreenProps } from "../../types";
 import useColors from "../hooks/useColors";
 import { useSettings } from "../hooks/useSettings";
 

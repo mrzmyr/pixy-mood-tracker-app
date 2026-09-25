@@ -22,7 +22,7 @@ import { HighlightsSection } from "./HighlightsSection";
 
 import { DATE_FORMAT, STATISTIC_MIN_LOGS } from "@/constants/Config";
 import isBetween from "dayjs/plugin/isBetween";
-import { RootStackScreenProps } from "../../../types";
+import type { RootStackScreenProps } from "../../../types";
 
 dayjs.extend(isBetween);
 

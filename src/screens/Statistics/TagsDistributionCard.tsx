@@ -1,14 +1,15 @@
 import { useNavigation } from "@react-navigation/native";
 import _ from "lodash";
-import { DimensionValue, Pressable, Text, View } from "react-native";
+import type { DimensionValue } from "react-native";
+import { Pressable, Text, View } from "react-native";
 import { Card } from "@/components/Statistics/Card";
 import { t } from "@/helpers/translation";
 import { useAnonymizer } from "../../hooks/useAnonymizer";
 import { useCalendarFilters } from "../../hooks/useCalendarFilters";
 import useColors from "../../hooks/useColors";
 import useHaptics from "../../hooks/useHaptics";
-import { TagsDistributionData } from "../../hooks/useStatistics/TagsDistribution";
-import { Tag } from "../../hooks/useTags";
+import type { TagsDistributionData } from "../../hooks/useStatistics/TagsDistribution";
+import type { Tag } from "../../hooks/useTags";
 import { CardFeedback } from "@/components/Statistics/CardFeedback";
 
 export const TagDistributionContent = ({

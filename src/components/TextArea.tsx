@@ -1,5 +1,6 @@
 import { forwardRef } from "react";
-import { TextInput, ViewStyle } from "react-native";
+import type { ViewStyle } from "react-native";
+import { TextInput } from "react-native";
 import useColors from "@/hooks/useColors";
 
 export default forwardRef(function TextArea(

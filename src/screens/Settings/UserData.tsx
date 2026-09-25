@@ -1,7 +1,7 @@
 import MenuList from "@/components/MenuList";
 import MenuListHeadline from "@/components/MenuListHeadline";
 import MenuListItem from "@/components/MenuListItem";
-import { ImportData } from "@/helpers/Import";
+import type { ImportData } from "@/helpers/Import";
 import { useEffect, useState } from "react";
 import { ActivityIndicator, View } from "react-native";
 import { CheckCircle, Repeat, UploadCloud } from "react-native-feather";

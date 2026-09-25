@@ -1,6 +1,6 @@
 import _ from "lodash";
-import { LogDay, LogItem } from "./useLogs";
-import { Tag } from "./useTags";
+import type { LogDay, LogItem } from "./useLogs";
+import type { Tag } from "./useTags";
 
 interface AnonmizedTag extends Omit<Tag, "title"> {
   titleLength: number;

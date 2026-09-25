@@ -1,7 +1,7 @@
 import _ from "lodash";
 import { View } from "react-native";
 import { t } from "@/helpers/translation";
-import { LogItem } from "../../hooks/useLogs";
+import type { LogItem } from "../../hooks/useLogs";
 import { StatsCard } from "./StatsCard";
 import { getWordCount } from "@/lib/utils";
 

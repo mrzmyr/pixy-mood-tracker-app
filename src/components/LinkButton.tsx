@@ -1,12 +1,6 @@
 import _ from "lodash";
-import {
-  Pressable,
-  StyleSheet,
-  Text,
-  TextStyle,
-  View,
-  ViewStyle,
-} from "react-native";
+import type { TextStyle, ViewStyle } from "react-native";
+import { Pressable, StyleSheet, Text, View } from "react-native";
 import * as FeatherIcons from "react-native-feather";
 import useColors from "@/hooks/useColors";
 import useHaptics from "@/hooks/useHaptics";

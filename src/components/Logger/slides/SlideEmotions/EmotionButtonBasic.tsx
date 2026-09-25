@@ -1,7 +1,8 @@
 import useColors from "@/hooks/useColors";
 import useHaptics from "@/hooks/useHaptics";
-import { Emotion } from "@/types";
-import { Pressable, Text, useColorScheme, View, ViewStyle } from "react-native";
+import type { Emotion } from "@/types";
+import type { ViewStyle } from "react-native";
+import { Pressable, Text, useColorScheme, View } from "react-native";
 import { EmotionIndicator } from "./EmotionsIndicator";
 
 export const EmotionButtonBasic = ({

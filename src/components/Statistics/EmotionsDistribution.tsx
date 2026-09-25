@@ -1,4 +1,4 @@
-import { LogItem } from "@/hooks/useLogs";
+import type { LogItem } from "@/hooks/useLogs";
 import {
   dummyEmotionsDistributionData,
   getEmotionsDistributionData,

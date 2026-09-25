@@ -1,11 +1,13 @@
-import { Dayjs } from "dayjs";
+import type { Dayjs } from "dayjs";
 import _ from "lodash";
-import React, { ReactNode } from "react";
+import type { ReactNode } from "react";
+import React from "react";
 import { View } from "react-native";
 import { BigCard } from "@/components/BigCard";
 import { DATE_FORMAT } from "@/constants/Config";
 import { t } from "@/helpers/translation";
-import { LogItem, RATING_KEYS, useLogState } from "../../../hooks/useLogs";
+import type { LogItem } from "../../../hooks/useLogs";
+import { RATING_KEYS, useLogState } from "../../../hooks/useLogs";
 import { CardFeedback } from "@/components/Statistics/CardFeedback";
 import { NotEnoughDataOverlay } from "@/components/Statistics/NotEnoughDataOverlay";
 

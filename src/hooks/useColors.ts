@@ -1,5 +1,5 @@
 import { useTheme } from "@react-navigation/native";
-import { IColors } from "@/constants/Colors";
+import type { IColors } from "@/constants/Colors";
 
 export default function useColors(): IColors {
   const { colors } = useTheme() as any;
