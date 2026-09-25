@@ -27,7 +27,7 @@ import { CHANGELOG_URL, FEEDBACK_FEATURES_URL } from "@/constants/Config";
 import { t } from "@/helpers/translation";
 import { useAnalytics } from "@/state/analytics";
 import useColors from "../../hooks/useColors";
-import useFeedbackModal from "@/features/feedback/modal";
+import useFeedbackModal from "@/features/feedback/hooks/useFeedbackModal";
 import pkg from "../../../package.json";
 import type { RootStackScreenProps } from "../../../types";
 import * as Updates from "expo-updates";

@@ -17,7 +17,7 @@ import { useAnalytics } from "@/state/analytics";
 import useColors from "@/hooks/useColors";
 import type { FeedackType } from "@/features/feedback";
 import { useFeedback } from "@/features/feedback";
-import { TypeSelector } from "./TypeSelector";
+import { TypeSelector } from "@/features/feedback/components/TypeSelector";
 
 const FeedbackModalContent = ({
   visible,

@@ -1,7 +1,7 @@
 import Button from "@/components/Button";
 import { locale, t } from "@/helpers/translation";
 import useColors from "@/hooks/useColors";
-import useFeedbackModal from "@/features/feedback/modal";
+import useFeedbackModal from "@/features/feedback/hooks/useFeedbackModal";
 import useHaptics from "@/hooks/useHaptics";
 import { useTemporaryLog } from "@/features/logs/temporaryLog";
 import { getItemDateTitle } from "@/lib/utils";
