@@ -1,4 +1,5 @@
 // Session records: one JSON file per e2e run, shared by all worktrees.
+import fs from "node:fs";
 import path from "node:path";
 import { setTimeout as sleep } from "node:timers/promises";
 
@@ -10,9 +11,39 @@ import {
   readDir,
   writeJson,
 } from "./shared.ts";
-import type { Session } from "./shared.ts";
+import type { Session, SessionBuild } from "./shared.ts";
 
 const sessionFile = (id: string) => path.join(SESSIONS_DIR, `${id}.json`);
+
+// Messages from scripts/build-cache-provider.cjs in a session log.
+const CACHE_HIT =
+  /› Using cached build \S*\/(?<key>[^/\s]+?)(?:\.app|\.apk)?\s*$/mu;
+const CACHE_SAVE =
+  /› Saved build to cache \S*\/(?<key>[^/\s]+?)(?:\.app|\.apk)?\s*$/mu;
+const CACHE_MISS = /› No cached build for (?<key>\S+)/u;
+
+// Reads which build a session installed from its log. Sessions from before
+// builds were recorded have only their log.
+const readBuildFromLog = (logFile: string): SessionBuild => {
+  let log = "";
+  try {
+    log = fs.readFileSync(logFile, "utf-8");
+  } catch {
+    // No log: nothing was built.
+  }
+  const hit = CACHE_HIT.exec(log)?.groups?.key;
+  if (hit) {
+    return { installedBy: null, key: hit, source: "cache", version: null };
+  }
+  const built =
+    CACHE_SAVE.exec(log)?.groups?.key ?? CACHE_MISS.exec(log)?.groups?.key;
+  return {
+    installedBy: null,
+    key: built ?? null,
+    source: built ? "built" : "installed",
+    version: null,
+  };
+};
 
 const readSessions = () =>
   readDir<Session>(SESSIONS_DIR).toSorted((a, b) =>
@@ -100,6 +131,7 @@ export {
   isActive,
   killSession,
   killStaleSessions,
+  readBuildFromLog,
   readSessions,
   sessionFile,
 };

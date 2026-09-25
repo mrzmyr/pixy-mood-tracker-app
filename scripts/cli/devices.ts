@@ -14,9 +14,11 @@ import {
   readSessions,
 } from "./session-store.ts";
 import {
+  APP_ID,
   CliError,
   DEFAULT_IOS_DEVICE_TYPE,
   DEFAULT_MAX_AGE,
+  INSTALLS_DIR,
   LEASES_DIR,
   LOGS_DIR,
   formatAge,
@@ -35,6 +37,7 @@ import type {
   Command,
   Device,
   DeviceState,
+  Install,
   Lease,
   Platform,
   Session,
@@ -310,6 +313,92 @@ const leaseFile = (deviceId: string) =>
   path.join(LEASES_DIR, `${deviceId.replaceAll(/[^\w.-]/gu, "_")}.json`);
 
 const readLeases = () => readDir<Lease>(LEASES_DIR);
+
+const installFile = (deviceId: string) =>
+  path.join(INSTALLS_DIR, `${deviceId.replaceAll(/[^\w.-]/gu, "_")}.json`);
+
+const readInstall = (deviceId: string) =>
+  readJson<Install>(installFile(deviceId));
+
+const recordInstall = (deviceId: string, key: string, sessionId: string) =>
+  writeJson(installFile(deviceId), {
+    deviceId,
+    installedAt: new Date().toISOString(),
+    key,
+    sessionId,
+  } satisfies Install);
+
+const formatVersion = (version?: string, build?: string) =>
+  version && build && build !== version
+    ? `${version} (${build})`
+    : (version ?? build ?? null);
+
+// Version of the app installed on a device, or null when it is missing.
+const readInstalledApp = (device: Device): string | null => {
+  if (device.platform === "android") {
+    const output = tryRun("adb", [
+      "-s",
+      device.id,
+      "shell",
+      "dumpsys",
+      "package",
+      APP_ID,
+    ]);
+    const name = /versionName=(?<value>\S+)/u.exec(output ?? "")?.groups?.value;
+    const code = /versionCode=(?<value>\d+)/u.exec(output ?? "")?.groups?.value;
+    return formatVersion(name, code);
+  }
+  if (device.kind === "simulator") {
+    const output = tryRun("xcrun", ["simctl", "appinfo", device.id, APP_ID]);
+    // simctl prints only the identifier when the app is not installed.
+    if (!output?.includes("Bundle =")) {
+      return null;
+    }
+    const field = (name: string) =>
+      new RegExp(`${name} = "?(?<value>[^";]+)"?;`, "u").exec(output)?.groups
+        ?.value;
+    return formatVersion(
+      field("CFBundleShortVersionString"),
+      field("CFBundleVersion")
+    );
+  }
+  const file = path.join(
+    os.tmpdir(),
+    `pixy-mood-tracker-apps-${process.pid}.json`
+  );
+  tryRun(
+    "xcrun",
+    [
+      "devicectl",
+      "device",
+      "info",
+      "apps",
+      "--device",
+      device.id,
+      "--include-all-apps",
+      "--bundle-id",
+      APP_ID,
+      "--quiet",
+      "--json-output",
+      file,
+    ],
+    30_000
+  );
+  const result = readJson<{
+    result?: {
+      apps?: {
+        bundleIdentifier?: string;
+        version?: string;
+        bundleVersion?: string;
+      }[];
+    };
+  }>(file);
+  fs.rmSync(file, { force: true });
+  const app = result?.result?.apps?.find(
+    (candidate) => candidate.bundleIdentifier === APP_ID
+  );
+  return app ? formatVersion(app.version, app.bundleVersion) : null;
+};
 
 const writeLease = (device: Device, isCreated: boolean) =>
   writeJson(leaseFile(device.id), {
@@ -650,5 +739,8 @@ export {
   getAndroidBuildEnv,
   getTrustFix,
   listDevices,
+  readInstall,
+  readInstalledApp,
   readLeases,
+  recordInstall,
 };

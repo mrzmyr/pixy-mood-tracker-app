@@ -6,16 +6,20 @@ import fs from "node:fs";
 import path from "node:path";
 import { parseArgs } from "node:util";
 
-import { listBuilds } from "./builds.ts";
+import { listBuilds, toBuildId } from "./builds.ts";
 import { listDevices, readLeases } from "./devices.ts";
-import { getStaleReason, readSessions } from "./session-store.ts";
+import {
+  getStaleReason,
+  readBuildFromLog,
+  readSessions,
+} from "./session-store.ts";
 import {
   CliError,
   DEFAULT_MAX_AGE,
   parseDuration,
   readJson,
 } from "./shared.ts";
-import type { Session } from "./shared.ts";
+import type { Session, SessionBuild } from "./shared.ts";
 
 interface ReportFlow {
   name: string;
@@ -28,6 +32,9 @@ interface ReportFlow {
 interface Report {
   summary?: Record<string, number>;
   flows?: ReportFlow[];
+  device?: { osVersion?: string };
+  app?: { id?: string; version?: string; build?: string };
+  maestroRunner?: { version?: string; driver?: string };
 }
 
 const DEFAULT_PORT = 4848;
@@ -59,7 +66,25 @@ interface ErrorFields {
 const errorResponse = (httpStatus: number, fields: ErrorFields) =>
   Response.json(fields, { status: httpStatus });
 
-// Adds the maestro-runner report summary and per-flow recordings.
+const sessionBuilds = new Map<string, SessionBuild>();
+
+// Sessions record their build since `bun sessions run` saves it; older ones
+// fall back to their log, parsed once after they finish.
+const getSessionBuild = (session: Session) => {
+  if (session.build) {
+    return session.build;
+  }
+  const cached = sessionBuilds.get(session.id);
+  if (cached && session.finishedAt) {
+    return cached;
+  }
+  const build = readBuildFromLog(session.logFile);
+  sessionBuilds.set(session.id, build);
+  return build;
+};
+
+// Adds the maestro-runner report summary, per-flow recordings, and the
+// build and device the session used.
 const describeSession = (session: Session, maxAgeMs: number) => {
   const report = readJson<Report>(path.join(session.reportDir, "report.json"));
   const flows = (report?.flows ?? []).map((flow) => {
@@ -77,9 +102,17 @@ const describeSession = (session: Session, maxAgeMs: number) => {
           : null,
     };
   });
+  const build = getSessionBuild(session);
   return {
     ...session,
+    app: report?.app ?? null,
+    build: {
+      ...build,
+      id: build.key ? toBuildId(build.key) : null,
+    },
     flowResults: flows,
+    osVersion: report?.device?.osVersion ?? null,
+    runner: report?.maestroRunner ?? null,
     hasReport: fs.existsSync(path.join(session.reportDir, "report.html")),
     staleReason: getStaleReason(session, maxAgeMs),
     summary: report?.summary ?? null,
