@@ -1,10 +1,8 @@
-import { Line } from 'react-native-svg';
-import useColors from '@/hooks/useColors';
-import { RATING_KEYS, RATING_MAPPING } from '@/hooks/useLogs';
+import { Line } from "react-native-svg";
+import useColors from "@/hooks/useColors";
+import { RATING_KEYS, RATING_MAPPING } from "@/hooks/useLogs";
 
-export const Grid = ({
-  width, relativeY,
-}) => {
+export const Grid = ({ width, relativeY }) => {
   const colors = useColors();
 
   return (
@@ -25,5 +23,5 @@ export const Grid = ({
         );
       })}
     </>
-  )
+  );
 };

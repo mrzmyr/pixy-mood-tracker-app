@@ -8,5 +8,5 @@ export default function DismissKeyboard({ children }) {
     >
       {children}
     </TouchableWithoutFeedback>
-  )
-};
+  );
+}

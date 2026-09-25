@@ -10,11 +10,11 @@ export default function Tag({
   onPress,
   style = {},
 }: {
-  title: string,
-  selected?: boolean,
-  colorName: typeof TAG_COLOR_NAMES[number],
-  onPress?: () => void,
-  style?: ViewStyle
+  title: string;
+  selected?: boolean;
+  colorName: (typeof TAG_COLOR_NAMES)[number];
+  onPress?: () => void;
+  style?: ViewStyle;
 }) {
   const colors = useColors();
   const haptics = useHaptics();
@@ -23,14 +23,20 @@ export default function Tag({
   return (
     <Pressable
       style={({ pressed }) => ({
-        justifyContent: 'center',
-        alignItems: 'center',
-        flexDirection: 'row',
+        justifyContent: "center",
+        alignItems: "center",
+        flexDirection: "row",
         borderRadius: 100,
         marginRight: 8,
         marginBottom: 8,
-        backgroundColor: selected ? colors.tagBackgroundActive : colors.tagBackground,
-        borderColor: selected ? colors.tint : colorScheme === 'light' ? 'rgba(0,0,0,0.1)' : 'rgba(255,255,255,0.1)',
+        backgroundColor: selected
+          ? colors.tagBackgroundActive
+          : colors.tagBackground,
+        borderColor: selected
+          ? colors.tint
+          : colorScheme === "light"
+            ? "rgba(0,0,0,0.1)"
+            : "rgba(255,255,255,0.1)",
         borderWidth: 1,
         paddingHorizontal: 16,
         paddingVertical: 8,
@@ -52,10 +58,14 @@ export default function Tag({
           backgroundColor: colors.tags[colorName]?.dot,
         }}
       />
-      <Text style={{
-        color: selected ? colors.tagTextActive : colors.tagText,
-        fontSize: 17,
-      }}>{title}</Text>
+      <Text
+        style={{
+          color: selected ? colors.tagTextActive : colors.tagText,
+          fontSize: 17,
+        }}
+      >
+        {title}
+      </Text>
     </Pressable>
-  )
+  );
 }

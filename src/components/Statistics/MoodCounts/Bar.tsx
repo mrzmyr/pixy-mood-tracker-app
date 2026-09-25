@@ -2,10 +2,7 @@ import { View } from "react-native";
 import { RATING_KEYS } from "@/hooks/useLogs";
 import useScale from "@/hooks/useScale";
 
-
-export const Bar = ({
-  height, ratingName,
-}) => {
+export const Bar = ({ height, ratingName }) => {
   const scale = useScale();
 
   return (
@@ -20,11 +17,12 @@ export const Bar = ({
       <View
         style={{
           height,
-          width: '100%',
+          width: "100%",
           backgroundColor: scale.colors[ratingName].background,
           borderTopLeftRadius: 4,
           borderTopRightRadius: 4,
-        }} />
+        }}
+      />
     </View>
   );
 };

@@ -1,8 +1,9 @@
-import { Pressable, View } from 'react-native';
-import useColors from '@/hooks/useColors';
+import { Pressable, View } from "react-native";
+import useColors from "@/hooks/useColors";
 
 export const PasscodePadIcon = ({
-  icon, onPress,
+  icon,
+  onPress,
 }: {
   icon: React.ReactNode;
   onPress: () => void;
@@ -12,9 +13,9 @@ export const PasscodePadIcon = ({
     <Pressable
       onPress={() => onPress()}
       style={({ pressed }) => ({
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center',
+        flexDirection: "row",
+        justifyContent: "center",
+        alignItems: "center",
         borderRadius: 999,
         width: 80,
         height: 80,
@@ -22,13 +23,12 @@ export const PasscodePadIcon = ({
         margin: 10,
       })}
     >
-
       <View
         style={{
-          width: '100%',
-          height: '100%',
-          justifyContent: 'center',
-          alignItems: 'center',
+          width: "100%",
+          height: "100%",
+          justifyContent: "center",
+          alignItems: "center",
         }}
       >
         {icon}

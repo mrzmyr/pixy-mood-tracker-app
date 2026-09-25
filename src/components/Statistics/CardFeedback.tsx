@@ -1,53 +1,83 @@
-import { STATISTICS_FEEDBACK_URL } from '@/constants/API';
-import { locale, t } from '@/helpers/translation';
-import { useAnalytics } from '@/hooks/useAnalytics';
-import useColors from '@/hooks/useColors';
-import useHaptics from '@/hooks/useHaptics';
-import { useSettings } from '@/hooks/useSettings';
-import * as StoreReview from 'expo-store-review';
-import { useState } from 'react';
-import { ActivityIndicator, Image, Platform, Pressable, Text, View, ViewStyle } from 'react-native';
-import pkg from '../../../package.json';
-import Button from '../Button';
-import TextArea from '../TextArea';
+import { STATISTICS_FEEDBACK_URL } from "@/constants/API";
+import { locale, t } from "@/helpers/translation";
+import { useAnalytics } from "@/hooks/useAnalytics";
+import useColors from "@/hooks/useColors";
+import useHaptics from "@/hooks/useHaptics";
+import { useSettings } from "@/hooks/useSettings";
+import * as StoreReview from "expo-store-review";
+import { useState } from "react";
+import {
+  ActivityIndicator,
+  Image,
+  Platform,
+  Pressable,
+  Text,
+  View,
+  ViewStyle,
+} from "react-native";
+import pkg from "../../../package.json";
+import Button from "../Button";
+import TextArea from "../TextArea";
 
-const EMOJI_SCALE_IMAGES_DEFAULT = [{
-  emoji: '😍',
-  active: require(`../../../assets/images/emojis/smiling-face-with-heart-eyes_1f60d.png`),
-  disabled: require(`../../../assets/images/emojis/smiling-face-with-heart-eyes_1f60d-disabled.png`)
-}, {
-  emoji: '🎉',
-  active: require(`../../../assets/images/emojis/party-popper.png`),
-  disabled: require(`../../../assets/images/emojis/party-popper-disabled.png`)
-}, {
-  emoji: '😴',
-  active: require(`../../../assets/images/emojis/sleeping-face_1f634.png`),
-  disabled: require(`../../../assets/images/emojis/sleeping-face_1f634-disabled.png`)
-}, {
-  emoji: '👎',
-  active: require(`../../../assets/images/emojis/thumbs-down_1f44e.png`),
-  disabled: require(`../../../assets/images/emojis/thumbs-down_1f44e-disabled.png`)
-}]
+const EMOJI_SCALE_IMAGES_DEFAULT = [
+  {
+    emoji: "😍",
+    active: require(
+      `../../../assets/images/emojis/smiling-face-with-heart-eyes_1f60d.png`
+    ),
+    disabled: require(
+      `../../../assets/images/emojis/smiling-face-with-heart-eyes_1f60d-disabled.png`
+    ),
+  },
+  {
+    emoji: "🎉",
+    active: require(`../../../assets/images/emojis/party-popper.png`),
+    disabled: require(
+      `../../../assets/images/emojis/party-popper-disabled.png`
+    ),
+  },
+  {
+    emoji: "😴",
+    active: require(`../../../assets/images/emojis/sleeping-face_1f634.png`),
+    disabled: require(
+      `../../../assets/images/emojis/sleeping-face_1f634-disabled.png`
+    ),
+  },
+  {
+    emoji: "👎",
+    active: require(`../../../assets/images/emojis/thumbs-down_1f44e.png`),
+    disabled: require(
+      `../../../assets/images/emojis/thumbs-down_1f44e-disabled.png`
+    ),
+  },
+];
 
-const EMOJI_SCALE_IMAGES_MINIMAL = [{
-  emoji: '👍',
-  active: require(`../../../assets/images/emojis/thumbs-up_1f44d.png`),
-  disabled: require(`../../../assets/images/emojis/thumbs-up_1f44d-disabled.png`)
-}, {
-  emoji: '👎',
-  active: require(`../../../assets/images/emojis/thumbs-down_1f44e.png`),
-  disabled: require(`../../../assets/images/emojis/thumbs-down_1f44e-disabled.png`)
-}]
+const EMOJI_SCALE_IMAGES_MINIMAL = [
+  {
+    emoji: "👍",
+    active: require(`../../../assets/images/emojis/thumbs-up_1f44d.png`),
+    disabled: require(
+      `../../../assets/images/emojis/thumbs-up_1f44d-disabled.png`
+    ),
+  },
+  {
+    emoji: "👎",
+    active: require(`../../../assets/images/emojis/thumbs-down_1f44e.png`),
+    disabled: require(
+      `../../../assets/images/emojis/thumbs-down_1f44e-disabled.png`
+    ),
+  },
+];
 
 const CardFeedbackEmoji = ({ image, onPress, selected }) => {
-  const haptics = useHaptics()
-  const colors = useColors()
+  const haptics = useHaptics();
+  const colors = useColors();
 
   return (
     <Pressable
       style={{
-        flexDirection: 'row',
-        alignItems: 'center',
+        flexDirection: "row",
+        alignItems: "center",
         paddingLeft: 10,
         paddingRight: 10,
         paddingTop: 8,
@@ -56,50 +86,53 @@ const CardFeedbackEmoji = ({ image, onPress, selected }) => {
         backgroundColor: colors.statisticsFeedbackEmojiBackground,
       }}
       onPress={async () => {
-        await haptics.selection()
-        onPress?.()
+        await haptics.selection();
+        onPress?.();
       }}
     >
-      <Image style={{
-        opacity: selected ? 1 : colors.statisticsFeedbackEmojiOpacity,
-        width: 20,
-        height: 20,
-      }} source={image} />
+      <Image
+        style={{
+          opacity: selected ? 1 : colors.statisticsFeedbackEmojiOpacity,
+          width: 20,
+          height: 20,
+        }}
+        source={image}
+      />
     </Pressable>
-  )
-}
+  );
+};
 export const CardFeedback = ({
   analyticsId,
   analyticsData = {},
-  variant = 'default',
+  variant = "default",
   style = {},
 }: {
-  analyticsId: string,
+  analyticsId: string;
   analyticsData?: any;
-  variant?: 'default' | 'minimal',
-  style?: ViewStyle,
+  variant?: "default" | "minimal";
+  style?: ViewStyle;
 }) => {
   const analytics = useAnalytics();
   const colors = useColors();
-  const { settings } = useSettings()
+  const { settings } = useSettings();
 
   const [feedbackSent, setFeedbackSent] = useState(false);
   const [emojiSelected, setEmojiSelected] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  const [comment, setComment] = useState('');
+  const [comment, setComment] = useState("");
   const [showTextInput, setShowTextInput] = useState(false);
 
   const onSendDone = () => {
     setLoading(false);
-    setShowTextInput(false)
-    setFeedbackSent(true)
-    setEmojiSelected(null)
+    setShowTextInput(false);
+    setFeedbackSent(true);
+    setEmojiSelected(null);
 
     setTimeout(() => {
-      setFeedbackSent(false)
-    }, 5000)
-  }
+      setFeedbackSent(false);
+    }, 5000);
+  };
 
   const send = async (emoji) => {
     setLoading(true);
@@ -109,8 +142,8 @@ export const CardFeedback = ({
       locale: locale,
       version: pkg.version,
       os: Platform.OS,
-      deviceId: __DEV__ ? '__DEV__' : settings.deviceId,
-    }
+      deviceId: __DEV__ ? "__DEV__" : settings.deviceId,
+    };
 
     const body = {
       type: analyticsId,
@@ -118,21 +151,20 @@ export const CardFeedback = ({
       comment,
       details: analyticsData,
       ...metaData,
-    }
+    };
 
-    console.log('Sending statistics feedback', body);
+    console.log("Sending statistics feedback", body);
 
-    analytics.track('statistics_feedback', body);
+    analytics.track("statistics_feedback", body);
 
     return fetch(STATISTICS_FEEDBACK_URL, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify(body),
-    })
-      .finally(() => onSendDone())
-  }
+    }).finally(() => onSendDone());
+  };
 
   const handleFeedback = async (emoji) => {
     if (loading) return;
@@ -140,32 +172,37 @@ export const CardFeedback = ({
     setEmojiSelected(emoji);
 
     if (emoji === emojiSelected) {
-      setEmojiSelected(null)
-      setShowTextInput(false)
+      setEmojiSelected(null);
+      setShowTextInput(false);
       return;
     }
 
-    if (['👎', '😴'].includes(emoji)) {
+    if (["👎", "😴"].includes(emoji)) {
       setShowTextInput(true);
     } else {
       send(emoji);
-      if (await StoreReview.hasAction() && variant === 'default') {
-        analytics.track('statistics_feedback_store_review_request');
-        StoreReview.requestReview().then(() => {
-          analytics.track('statistics_feedback_store_review_done');
-        }).catch(() => {
-          analytics.track('statistics_feedback_store_review_error');
-        })
+      if ((await StoreReview.hasAction()) && variant === "default") {
+        analytics.track("statistics_feedback_store_review_request");
+        StoreReview.requestReview()
+          .then(() => {
+            analytics.track("statistics_feedback_store_review_done");
+          })
+          .catch(() => {
+            analytics.track("statistics_feedback_store_review_error");
+          });
       }
     }
   };
 
-  const options = variant === 'default' ? EMOJI_SCALE_IMAGES_DEFAULT : EMOJI_SCALE_IMAGES_MINIMAL;
+  const options =
+    variant === "default"
+      ? EMOJI_SCALE_IMAGES_DEFAULT
+      : EMOJI_SCALE_IMAGES_MINIMAL;
 
   return (
     <View
       style={{
-        flexDirection: 'column',
+        flexDirection: "column",
         marginTop: 16,
         paddingTop: 8,
         borderTopWidth: 1,
@@ -180,9 +217,9 @@ export const CardFeedback = ({
     >
       <View
         style={{
-          flexDirection: 'row',
-          alignItems: 'center',
-          justifyContent: 'space-between',
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "space-between",
         }}
       >
         {!loading && (
@@ -195,25 +232,29 @@ export const CardFeedback = ({
                 paddingBottom: 8,
               }}
             >
-              {!feedbackSent ? t('statistics_feedback_question') : `🫶 ${t('statistics_feedback_thanks')}`}
+              {!feedbackSent
+                ? t("statistics_feedback_question")
+                : `🫶 ${t("statistics_feedback_thanks")}`}
             </Text>
           </>
         )}
         {loading && (
-          <View style={{
-            flexDirection: 'row',
-            justifyContent: 'center',
-            alignItems: 'center',
-            marginBottom: 8,
-          }}>
-            <ActivityIndicator size={'small'} color={colors.loadingIndicator} />
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "center",
+              alignItems: "center",
+              marginBottom: 8,
+            }}
+          >
+            <ActivityIndicator size={"small"} color={colors.loadingIndicator} />
           </View>
         )}
         {!feedbackSent && (
           <View
             style={{
-              flexDirection: 'row',
-              alignItems: 'center',
+              flexDirection: "row",
+              alignItems: "center",
             }}
           >
             {options.map((emojiScale, index) => (
@@ -225,7 +266,11 @@ export const CardFeedback = ({
               >
                 <CardFeedbackEmoji
                   selected={emojiSelected === emojiScale.emoji}
-                  image={emojiSelected === emojiScale.emoji ? emojiScale.active : emojiScale.disabled}
+                  image={
+                    emojiSelected === emojiScale.emoji
+                      ? emojiScale.active
+                      : emojiScale.disabled
+                  }
                   onPress={() => handleFeedback(emojiScale.emoji)}
                 />
               </View>
@@ -241,7 +286,7 @@ export const CardFeedback = ({
           }}
         >
           <TextArea
-            placeholder={t('statistics_feedback_placeholder')}
+            placeholder={t("statistics_feedback_placeholder")}
             value={comment}
             onChange={setComment}
             style={{
@@ -258,7 +303,9 @@ export const CardFeedback = ({
             style={{
               marginTop: 8,
             }}
-          >{t('send')}</Button>
+          >
+            {t("send")}
+          </Button>
         </View>
       )}
     </View>

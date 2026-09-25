@@ -1,11 +1,11 @@
-import { View, ViewStyle } from 'react-native';
+import { View, ViewStyle } from "react-native";
 
 export const PageWithHeaderLayout = ({
   children,
   style = {},
 }: {
-  children: React.ReactNode,
-  style?: ViewStyle,
+  children: React.ReactNode;
+  style?: ViewStyle;
 }) => {
   return (
     <View
@@ -16,4 +16,4 @@ export const PageWithHeaderLayout = ({
       {children}
     </View>
   );
-}
+};

@@ -1,19 +1,19 @@
-import useColors from '@/hooks/useColors';
-import useHaptics from '@/hooks/useHaptics';
-import { Pressable, Text, ViewStyle } from 'react-native';
+import useColors from "@/hooks/useColors";
+import useHaptics from "@/hooks/useHaptics";
+import { Pressable, Text, ViewStyle } from "react-native";
 
 export const MiniButton = ({
   onPress,
   children,
   icon,
   style = {},
-  variant = 'primary',
+  variant = "primary",
 }: {
-  onPress: () => void,
-  children: React.ReactNode,
-  icon?: React.ReactNode,
-  style?: ViewStyle,
-  variant?: 'primary' | 'secondary' | 'tertiary',
+  onPress: () => void;
+  children: React.ReactNode;
+  icon?: React.ReactNode;
+  style?: ViewStyle;
+  variant?: "primary" | "secondary" | "tertiary";
 }) => {
   const colors = useColors();
   const haptics = useHaptics();
@@ -45,36 +45,40 @@ export const MiniButton = ({
 
   return (
     <Pressable
-      style={({ pressed }) => [{
-        paddingTop: 8,
-        paddingBottom: 8,
-        paddingLeft: 16,
-        paddingRight: 16,
-        justifyContent: 'center',
-        alignItems: 'center',
-        flexDirection: 'row',
-        borderRadius: 100,
-        backgroundColor: buttonColors.background,
-        opacity: pressed ? 0.8 : 1,
-        marginRight: 8,
-        marginBottom: 8,
-        ...style,
-      }]}
+      style={({ pressed }) => [
+        {
+          paddingTop: 8,
+          paddingBottom: 8,
+          paddingLeft: 16,
+          paddingRight: 16,
+          justifyContent: "center",
+          alignItems: "center",
+          flexDirection: "row",
+          borderRadius: 100,
+          backgroundColor: buttonColors.background,
+          opacity: pressed ? 0.8 : 1,
+          marginRight: 8,
+          marginBottom: 8,
+          ...style,
+        },
+      ]}
       onPress={async () => {
-        await haptics.selection()
+        await haptics.selection();
         onPress?.();
       }}
-      testID={'log-tags-edit'}
-      accessibilityRole={'button'}
+      testID={"log-tags-edit"}
+      accessibilityRole={"button"}
     >
       {icon}
       <Text
         style={{
           color: buttonColors.text,
           fontSize: 17,
-          fontWeight: '500',
+          fontWeight: "500",
         }}
-      >{children}</Text>
+      >
+        {children}
+      </Text>
     </Pressable>
   );
 };
