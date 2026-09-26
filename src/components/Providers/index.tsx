@@ -2,6 +2,7 @@ import { PostHogProvider } from "posthog-react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { POSTHOG_API_KEY } from "@/constants/API";
 import { TRACKING_ENABLED } from "@/constants/Config";
+import { SERVICE_MOCKS } from "@/constants/Services";
 import { AnalyticsProvider } from "@/state/analytics";
 import { CalendarFiltersProvider } from "@/features/calendar/filters";
 import { LogsProvider } from "@/features/logs";
@@ -23,6 +24,7 @@ const Providers = ({
 }) => {
   const developmentSupportClient = resolveDevelopmentSupportClient({
     isDevelopment: __DEV__,
+    isServiceMocks: SERVICE_MOCKS,
     mode: process.env.EXPO_PUBLIC_PIXY_SUPPORT_FAKE_MODE,
   });
   const injectedSupportClient = supportClient ?? developmentSupportClient;

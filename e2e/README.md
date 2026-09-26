@@ -16,9 +16,9 @@ End-to-end tests are [Maestro](https://maestro.mobile.dev) YAML flows. [agent-de
 bunx agent-device boot --platform ios --device "iPhone 17 Pro"
 bunx agent-device boot --platform android --device medium_phone --headless
 
-# 2. Install a preview release build of this worktree (bun builds check --release shows cache reuse).
-bun ios:preview --device <udid>
-bun android:preview --device <avd-name>
+# 2. Install a preview release build of this worktree with service mocks (see Service mocks).
+bun ios:e2e --device <udid>
+bun android:e2e --device <avd-name>
 
 # 3. Run flows. --device is required, so the run never lands on another agent's device.
 bun e2e run --platform ios --device <udid>                  # e2e/flows and the iOS-only e2e/apple
@@ -70,6 +70,17 @@ Preview and development builds load named fixtures from [`src/dev/fixtures`](../
 - **By hand:** Settings > Development > Test data, or open the link on the device.
 - **On iPhones:** agent-device cannot `clearState` on physical iOS devices. Load `fresh` instead.
 - **New fixture:** export data from Settings > Data, save the JSON in `src/dev/fixtures`, and register it in `index.ts`.
+
+## Service mocks
+
+`bun ios:e2e` and `bun android:e2e` build the preview app with `EXPO_PUBLIC_PIXY_SERVICE_MOCKS=true`. Flows then need no network and no real accounts.
+
+- Webhooks and questions API get fake responses ([`src/lib/serviceFetch.ts`](../src/lib/serviceFetch.ts)). Unknown URLs fail with `service_mock_missing`.
+- Superwall is never configured. Support Pixy uses the fake support client ([`src/support/clients.ts`](../src/support/clients.ts)).
+- PostHog, Sentry, and the changelog RSS fetch are off.
+- Not mocked: expo-updates. Its launch check does not block startup (`fallbackToCacheTimeout: 0`).
+- Production variant ignores the variable.
+- Build cache key covers `EXPO_PUBLIC_*`, so mocked and plain preview builds cache separately.
 
 ## Conventions
 

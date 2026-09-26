@@ -63,16 +63,24 @@ export const createFakeSupportClient = (
 /**
  * Pick the fake client from `EXPO_PUBLIC_PIXY_SUPPORT_FAKE_MODE`.
  *
- * Returns `undefined` outside development or for unknown modes, so the
- * configured provider is used instead.
+ * Builds with service mocks always get a fake client (`available` unless the
+ * mode is `failed`), so they never reach Superwall. Otherwise returns
+ * `undefined` outside development or for unknown modes, so the configured
+ * provider is used instead.
  */
 export const resolveDevelopmentSupportClient = ({
   isDevelopment,
+  isServiceMocks = false,
   mode,
 }: {
   isDevelopment: boolean;
+  isServiceMocks?: boolean;
   mode?: string;
 }): SupportClient | undefined => {
+  if (isServiceMocks) {
+    return createFakeSupportClient(mode === "failed" ? "failed" : "available");
+  }
+
   if (isDevelopment && (mode === "available" || mode === "failed")) {
     return createFakeSupportClient(mode);
   }

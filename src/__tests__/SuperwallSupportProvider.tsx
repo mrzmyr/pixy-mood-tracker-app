@@ -208,7 +208,10 @@ describe("Superwall flag", () => {
     expect(resolveSuperwallEnabled({ value: "true" })).toBe(true);
   });
 
-  test("turns off with false", () => {
+  test("turns off with false or with service mocks", () => {
     expect(resolveSuperwallEnabled({ value: "false" })).toBe(false);
+    expect(
+      resolveSuperwallEnabled({ isServiceMocks: true, value: undefined })
+    ).toBe(false);
   });
 });

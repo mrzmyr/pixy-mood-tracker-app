@@ -1,4 +1,5 @@
 import { PromoCard } from "@/components/PromoCard";
+import { SERVICE_MOCKS } from "@/constants/Services";
 import { t } from "@/helpers/translation";
 import { useAnalytics } from "@/state/analytics";
 import { useSettings } from "@/state/settings";
@@ -78,6 +79,10 @@ export const PromoCards = () => {
     !!mostRecentRssItem && !hasActionDone(mostRecentRssItem.slug);
 
   useEffect(() => {
+    // Mocked builds stay offline; the changelog card is optional.
+    if (SERVICE_MOCKS) {
+      return;
+    }
     const controller = new AbortController();
 
     void (async () => {
