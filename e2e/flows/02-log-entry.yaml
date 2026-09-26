@@ -41,9 +41,12 @@ tags: [log]
 - tapOn:
     id: "tag-name"
 - inputText: "e2e-log-${output.runId}"
-- hideKeyboard
-- tapOn:
-    point: "50%,45%"
+- runFlow:
+    when:
+      visible: "Type English and German"
+    commands:
+      - tapOn: "Continue"
+- tapOn: "Create"
 - assertVisible: "Tags"
 - scrollUntilVisible:
     element:
@@ -57,7 +60,6 @@ tags: [log]
     id: "tag-name"
 - eraseText
 - inputText: "e2e-renamed-${output.runId}"
-- hideKeyboard
 - scrollUntilVisible:
     element:
       text: "Save"
@@ -72,9 +74,7 @@ tags: [log]
 - tapOn:
     id: "tag-name"
 - inputText: "e2e-temp-${output.runId}"
-- hideKeyboard
-- tapOn:
-    point: "50%,45%"
+- tapOn: "Create"
 - assertVisible: "Tags"
 - scrollUntilVisible:
     element:
@@ -113,7 +113,6 @@ tags: [log]
     id: "logger-next"
 - assertVisible: "Write about your day"
 - inputText: "e2e note ${output.runId} persisted"
-- hideKeyboard
 - runFlow:
     when:
       visible:
