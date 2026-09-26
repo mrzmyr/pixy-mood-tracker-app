@@ -1,4 +1,5 @@
 import type { ConfigContext, ExpoConfig } from "@expo/config";
+import { withGradleProperties } from "expo/config-plugins";
 
 /**
  * App variants, installable side by side on one device.
@@ -59,9 +60,28 @@ export const getAppVariant = (
   });
 };
 
+/**
+ * Gradle JVM memory. The React Native default (`-Xmx2048m
+ * -XX:MaxMetaspaceSize=512m`) runs out of Metaspace in release builds
+ * (`> Metaspace`), so this doubles both.
+ */
+const GRADLE_JVM_ARGS = "-Xmx4096m -XX:MaxMetaspaceSize=1024m";
+
+const withGradleMemory = (config: ExpoConfig) =>
+  withGradleProperties(config, (gradle) => {
+    gradle.modResults = [
+      ...gradle.modResults.filter(
+        (item) =>
+          !(item.type === "property" && item.key === "org.gradle.jvmargs")
+      ),
+      { type: "property", key: "org.gradle.jvmargs", value: GRADLE_JVM_ARGS },
+    ];
+    return gradle;
+  });
+
 const appConfig = ({ config }: ConfigContext): ExpoConfig => {
   const variant = APP_VARIANTS[getAppVariant()];
-  return {
+  return withGradleMemory({
     ...config,
     name: variant.name,
     slug: config.slug ?? "pixy-mood-tracker",
@@ -80,7 +100,7 @@ const appConfig = ({ config }: ConfigContext): ExpoConfig => {
         foregroundImage: variant.adaptiveIcon,
       },
     },
-  };
+  });
 };
 
 export default appConfig;
