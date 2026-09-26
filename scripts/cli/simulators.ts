@@ -329,7 +329,7 @@ through agent-device. Prints the UDID on stdout.`,
     }),
   },
   footer:
-    "List and boot devices: `bunx agent-device devices`, `bunx agent-device boot`.",
+    "List devices: `bun devices list`. Boot one: `bunx agent-device boot`.",
   summary: "Create simulators (iOS) and emulators (Android).",
 };
 

@@ -31,7 +31,7 @@ import {
 } from "./shared.ts";
 import type { Noun, Platform, Steps } from "./shared.ts";
 
-// A device from `--device <id>`, plus what the CLI derives from it.
+// A device from `--device <id|name>`, plus what the CLI derives from it.
 interface SelectedDevice {
   device: AgentDevice;
   // Every device agent-device lists, for suggestions in errors.
@@ -58,7 +58,7 @@ const selectDevice = async (
   const { device, platform } = findAgentDevice(devices, id);
   if (device.kind !== "device" && !device.booted) {
     throw new CliError({
-      fix: `Run \`bunx agent-device boot --platform ${platform} ${deviceFlag(platform)} ${id}\`, then retry.`,
+      fix: `Run \`bunx agent-device boot --platform ${platform} ${deviceFlag(platform)} ${device.id}\`, then retry.`,
       message: `${device.name} is not booted`,
       status: "device_not_booted",
       why: "Builds install only on a running simulator or emulator.",
@@ -435,7 +435,7 @@ const cmdBuild = async (options: {
   } else {
     throw new CliError({
       exitCode: 2,
-      fix: "Pass --device <id>, or --destination simulator|device when no device is connected (CI).",
+      fix: "Pass --device <id|name>, or --destination simulator|device when no device is connected (CI).",
       message: options.destination
         ? `Unknown --destination "${options.destination}"`
         : "Missing --device or --destination",
@@ -452,7 +452,7 @@ const cmdBuild = async (options: {
   });
   steps.printTimings();
   note(
-    `\nBuild ID: ${buildId}\nInstall: bun app install ${buildId} --device <id>`
+    `\nBuild ID: ${buildId}\nInstall: bun app install ${buildId} --device <id|name>`
   );
   console.log(buildId);
 };
@@ -1474,7 +1474,7 @@ const requireDevice = (value: string | undefined) => {
   if (!value) {
     throw new CliError({
       exitCode: 2,
-      fix: "Find one with `bunx agent-device devices`, then pass --device <id>.",
+      fix: "Find one with `bun devices list`, then pass --device <id|name>.",
       message: "Missing --device",
       status: "missing_device",
       why: "Without a device, the command may land on a device another worktree is using.",
@@ -1501,7 +1501,7 @@ const requireVariantFlag = (value: string | undefined) => {
 const APP: Noun = {
   commands: {
     doctor: defineCommand({
-      details: `--device <id>       Required. UDID (iOS) or serial (Android) from \`bunx agent-device devices\`.
+      details: `--device <id|name>  Required. ID or name from \`bun devices list\`.
                     Platform and simulator/physical come from the device.
 --variant <name>    Required. development, preview, or production.
 --force             Skip the check that no other worktree uses the device.
@@ -1522,10 +1522,10 @@ provisioning profile includes it.`,
         });
       },
       summary: "Check a device is ready for a build",
-      usage: "--device <id> [options]",
+      usage: "--device <id|name> [options]",
     }),
     build: defineCommand({
-      details: `--device <id>                    Picks simulator or physical build from the device.
+      details: `--device <id|name>               Picks simulator or physical build from the device.
 --destination simulator|device   Override when no device is given (CI).
 --variant <name>                 Required. development, preview, or production.
 --rebuild                        Compile even when a cached build exists.
@@ -1553,7 +1553,7 @@ Progress and log path go to stderr. Android not supported yet.`,
       args: ["<build-id>"],
       argsSource: "bun builds list",
       details: `<build-id>          ID from \`bun builds list\`, or path to a .app.
---device <id>       Required.
+--device <id|name>  Required.
 --force             Skip the check that no other worktree uses the device.
 
 Runs the doctor checks, checks the build fits the device (simulator vs
@@ -1570,7 +1570,7 @@ physical, embedded provisioning profile), then installs through agent-device.`,
         });
       },
       summary: "Install a cached build on a device",
-      usage: "<build-id> --device <id> [options]",
+      usage: "<build-id> --device <id|name> [options]",
     }),
     run: defineCommand({
       details: `--rebuild           Compile even when a cached build exists.
@@ -1594,10 +1594,10 @@ the app stays open, Metro keeps running in the background. Stop both with
         });
       },
       summary: "Doctor, build, install, and open in one go",
-      usage: "--device <id> --variant <name> [options]",
+      usage: "--device <id|name> --variant <name> [options]",
     }),
     close: defineCommand({
-      details: `--device <id>       Required.
+      details: `--device <id|name>  Required.
 --variant <name>    Quit only this variant: development, preview, or production.
                     Default: all variants.
 --force             Skip the check that no other worktree uses the device.
@@ -1623,10 +1623,10 @@ after an interrupted run, \`bun e2e run\`, or manual agent-device commands.`,
         });
       },
       summary: "Close the app, release the device, shut down simulators",
-      usage: "--device <id> [--variant <name>] [options]",
+      usage: "--device <id|name> [--variant <name>] [options]",
     }),
   },
-  footer: "Devices: `bunx agent-device devices`. Build cache: `bun builds`.",
+  footer: "Devices: `bun devices list`. Build cache: `bun builds`.",
   summary: "Build, install, and run the app on one device.",
 };
 
