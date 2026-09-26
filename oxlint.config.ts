@@ -44,7 +44,33 @@ export default defineConfig({
     {
       // App code runs on Hermes; scripts run on Bun and Node.
       files: ["src/**", "App.tsx"],
-      rules: { "pixy-standards/no-hermes-missing-array-methods": "error" },
+      rules: {
+        "pixy-standards/no-hermes-missing-array-methods": "error",
+        // Log through `@/lib/logger`, which picks console or Sentry.
+        "no-console": "error",
+        "no-restricted-imports": [
+          "error",
+          {
+            paths: [
+              {
+                name: "@sentry/react-native",
+                message:
+                  "Report errors with `logger.error` from `@/lib/logger`.",
+              },
+            ],
+          },
+        ],
+      },
+    },
+    {
+      // The logger itself, Sentry.init, and tests that assert on the SDKs.
+      files: [
+        "src/lib/logger.ts",
+        "src/navigation/index.tsx",
+        "src/__tests__/**",
+        "src/__mocks__/**",
+      ],
+      rules: { "no-console": "off", "no-restricted-imports": "off" },
     },
   ],
 });

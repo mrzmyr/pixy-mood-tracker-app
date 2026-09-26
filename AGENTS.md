@@ -24,6 +24,7 @@
 - Run `bun run check` and `bun run test:ci` before pushing. CI (`.github/workflows/ci.yml`) runs the same scripts, and a pre-commit hook runs `oxlint --fix` and `oxfmt` on staged files.
 - React Compiler is enabled (`app.json` `experiments.reactCompiler`). Do not add `useMemo`, `useCallback`, or `React.memo` unless a non-React API needs a stable reference or the value is an effect dependency.
 - Put screen-only components in `src/screens/<Screen>/`, shared UI in `src/components/`, and generic hooks in `src/hooks/`. Check `src/components/` before creating a new component.
+- Log with `logger` from [`src/lib/logger.ts`](src/lib/logger.ts), never `console` or Sentry. Lint enforces this.
 - TypeScript runs in `strict` mode except `noImplicitAny`. Type new code fully.
 
 ### Footguns
