@@ -21,6 +21,7 @@ bun ios:preview --device <udid>
 bun android:preview --device <avd-name>
 
 # 3. Run flows. --device is required, so the run never lands on another agent's device.
+#    It takes the ID or name from `bun devices list`.
 bun e2e run --device <udid>                                 # e2e/flows, plus e2e/apple on iOS
 bun e2e run --device emulator-5554                          # e2e/flows
 bun e2e run --device <udid> e2e/flows/02-log-entry.yaml --record

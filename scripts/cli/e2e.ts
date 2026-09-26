@@ -199,7 +199,7 @@ const describeAlternatives = (
 ) => {
   if (!state.devices) {
     return [
-      `List devices with \`bunx agent-device devices\` (listing failed: ${state.errors.join("; ")}).`,
+      `List devices with \`bun devices list\` (listing failed: ${state.errors.join("; ")}).`,
     ];
   }
   const free = listFreeDevices(
@@ -391,7 +391,8 @@ const E2E: Noun = {
   commands: {
     run: defineCommand({
       args: ["[paths...]"],
-      details: `--device <id>       Required. Platform comes from the device.
+      details: `--device <id|name>  Required. ID or name from \`bun devices list\`.
+                    Platform comes from the device.
 --variant <name>    preview (default). e2e builds are preview builds.
 --record            Record every flow to recording.mp4.
 --force             Run even if another worktree uses the device.
@@ -412,18 +413,18 @@ worktree. Exits with agent-device's exit code.`,
         if (!values.device) {
           throw new CliError({
             exitCode: 2,
-            fix: "Find one with `bunx agent-device devices`, then pass --device <id>.",
+            fix: "Find one with `bun devices list`, then pass --device <id|name>.",
             message: "Missing --device",
             status: "missing_device",
             why: "Without a device, agent-device may pick one another worktree is using.",
           });
         }
-        const { platform } = findAgentDevice(
+        const { device, platform } = findAgentDevice(
           await listAgentDevices(),
           values.device
         );
         await cmdRun(paths, {
-          device: values.device,
+          device: device.id,
           isForce: values.force ?? false,
           isRecord: values.record ?? false,
           passthrough,
@@ -452,7 +453,7 @@ Lists runs from every worktree of this repo.`,
       summary: "Stop a running e2e run",
     }),
   },
-  footer: `Devices: \`bunx agent-device devices\`, \`boot\`, \`shutdown\`. See e2e/README.md.`,
+  footer: `Devices: \`bun devices list\`. Boot and shut down: \`bunx agent-device boot\`, \`shutdown\`. See e2e/README.md.`,
   summary: "Run e2e flows with agent-device and track runs across worktrees.",
 };
 

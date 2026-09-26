@@ -182,23 +182,38 @@ const listAgentDevices = async () => {
   }
 };
 
-// `--device <id>` is the only device selector of the bun CLIs. Platform and
-// simulator vs physical come from the device.
-const findAgentDevice = (devices: AgentDevice[], id: string) => {
-  const device = devices.find((candidate) => candidate.id === id);
+const describeAgentDevice = (device: AgentDevice) =>
+  `${device.id} (${device.platform} ${device.kind === "device" ? "physical" : device.kind}, ${device.name})`;
+
+// `--device <id|name>` is the only device selector of the bun CLIs. It takes
+// the UDID or serial, or the device name. Platform and simulator vs physical
+// come from the device.
+const findAgentDevice = (devices: AgentDevice[], selector: string) => {
+  const byName = devices.filter(
+    (candidate) => candidate.name.toLowerCase() === selector.toLowerCase()
+  );
+  const device =
+    devices.find((candidate) => candidate.id === selector) ??
+    (byName.length === 1 ? byName[0] : undefined);
+  if (byName.length > 1 && !device) {
+    throw new CliError({
+      exitCode: 2,
+      fix: `Pass the ID instead:\n       ${byName.map(describeAgentDevice).join("\n       ")}`,
+      message: `${byName.length} devices are named ${selector}`,
+      status: "device_ambiguous",
+      why: "A name selects a device only when no other device has it.",
+    });
+  }
   if (!device) {
-    const known = devices.map(
-      (candidate) =>
-        `${candidate.id} (${candidate.platform} ${candidate.kind === "device" ? "physical" : candidate.kind}, ${candidate.name})`
-    );
+    const known = devices.map(describeAgentDevice);
     throw new CliError({
       exitCode: 2,
       fix: known.length
-        ? `Pass one of:\n       ${known.join("\n       ")}`
+        ? `Pass one of these IDs or names:\n       ${known.join("\n       ")}`
         : "Connect a phone, or boot a device with `bunx agent-device boot --platform <ios|android> --device <name>`.",
-      message: `No device ${id}`,
+      message: `No device ${selector}`,
       status: "device_not_found",
-      why: "agent-device does not list it. Phones must be connected and unlocked.",
+      why: "agent-device lists no device with this ID or name. Phones must be connected and unlocked.",
     });
   }
   if (device.platform !== "ios" && device.platform !== "android") {

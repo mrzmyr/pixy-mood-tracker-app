@@ -275,7 +275,7 @@ const cmdBuildsStatus = async (
     const hit = builds.find((build) => build.id === result.buildId);
     console.log(
       hit
-        ? `${label}: HIT ${hit.id} from ${describeSource(hit.meta)}, ${formatAge(hit.createdAt)} old. \`bun app install ${hit.id} --device <id>\` installs it without compiling.`
+        ? `${label}: HIT ${hit.id} from ${describeSource(hit.meta)}, ${formatAge(hit.createdAt)} old. \`bun app install ${hit.id} --device <id|name>\` installs it without compiling.`
         : `${label}: MISS ${result.key}\n  ${result.reason}.`
     );
   }

@@ -13,12 +13,13 @@ description: Build, install, and run the app on a device. Use when asked to run 
 # Steps
 
 1. Pick a device
-   - Run `bunx agent-device devices`, `bunx agent-device device status`, `bun e2e list`
+   - Run `bun devices list`, `bunx agent-device device status`, `bun e2e list`
    - Choose one no other worktree owns. Prefer physical, fallback simulator
    - If no device exists, `bun simulators create --platform ios|android`
-2. Run `bun app run --device <id> --variant development|preview`
+2. Run `bun app run --device <id|name> --variant development|preview`
+   - `--device` takes the ID or name from `bun devices list`
    - Use `preview` for e2e and PR proof
 3. Use the app: `bunx agent-device help workflow`
-4. Close `bun app close --device <id>`
+4. Close `bun app close --device <id|name>`
    - Physical: quits all variants, or one with `--variant <name>`
    - Simulator: shuts down simulator
