@@ -1,6 +1,7 @@
 import { render, waitFor } from "@testing-library/react-native";
 import { Platform } from "react-native";
 import { SuperwallExpoModule } from "expo-superwall";
+import { resolveSuperwallEnabled } from "@/constants/Services";
 import {
   ConfiguredSupportProvider,
   SUPPORT_PLACEMENT,
@@ -169,5 +170,45 @@ describe("Superwall support provider", () => {
         value: originalPlatform,
       });
     }
+  });
+
+  test("never configures Superwall when the flag is off", async () => {
+    let supportClient: SupportClient | undefined;
+
+    render(
+      <ConfiguredSupportProvider
+        apiKeys={{
+          android: "test_android_public_key",
+          ios: "test_ios_public_key",
+        }}
+        isEnabled={false}
+      >
+        <Probe
+          onClient={(client) => {
+            supportClient = client;
+          }}
+        />
+      </ConfiguredSupportProvider>
+    );
+
+    await waitFor(() => expect(supportClient?.enabled).toBe(false));
+    expect(mockProviderProps).toBeUndefined();
+    expect(mockUseSuperwallEvents).not.toHaveBeenCalled();
+
+    await supportClient?.openSupport();
+
+    expect(mockRegisterPlacement).not.toHaveBeenCalled();
+  });
+});
+
+describe("Superwall flag", () => {
+  test("stays on by default so production keeps today's behavior", () => {
+    expect(resolveSuperwallEnabled({ value: undefined })).toBe(true);
+    expect(resolveSuperwallEnabled({ value: "" })).toBe(true);
+    expect(resolveSuperwallEnabled({ value: "true" })).toBe(true);
+  });
+
+  test("turns off with false", () => {
+    expect(resolveSuperwallEnabled({ value: "false" })).toBe(false);
   });
 });
