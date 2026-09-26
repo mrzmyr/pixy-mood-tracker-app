@@ -170,11 +170,27 @@ const findApp = (productsDir: string) => {
   return path.join(productsDir, app);
 };
 
+// A phone UDID lets -allowProvisioningDeviceRegistration register the phone.
+const xcodeDestination = (destination: Destination, phoneId?: string) => {
+  if (phoneId) {
+    return `id=${phoneId}`;
+  }
+  return destination === "device"
+    ? "generic/platform=iOS"
+    : "generic/platform=iOS Simulator";
+};
+
 const buildIos = async (
   options: {
     destination: Destination;
     variant: AppVariant;
     isRebuild: boolean;
+    // Physical iPhone UDID. xcodebuild registers it in the Apple Developer
+    // portal and adds it to the profile.
+    phoneId?: string;
+    // False when a cached .app cannot install on the phone, for example
+    // because its embedded profile predates the phone's registration.
+    canReuse?: (app: string) => boolean;
   },
   steps: Steps
 ) => {
@@ -204,10 +220,13 @@ const buildIos = async (
   const key = buildCacheProvider.getCacheKey(cacheProps);
   const cached = path.join(buildCacheProvider.resolveCacheDir(), `${key}.app`);
   if (fs.existsSync(cached) && !options.isRebuild) {
-    note(
-      "  Cached build found, nothing to compile. Pass --rebuild to compile anyway."
-    );
-    return key;
+    if (options.canReuse?.(cached) ?? true) {
+      note(
+        "  Cached build found, nothing to compile. Pass --rebuild to compile anyway."
+      );
+      return key;
+    }
+    note("  Cached build does not fit the phone, compiling again.");
   }
 
   await timed(
@@ -251,13 +270,12 @@ const buildIos = async (
     "-configuration",
     configuration,
     "-destination",
-    destination === "device"
-      ? "generic/platform=iOS"
-      : "generic/platform=iOS Simulator",
+    xcodeDestination(destination, options.phoneId),
     "-derivedDataPath",
     derivedData,
     "-showBuildTimingSummary",
     ...(destination === "device" ? ["-allowProvisioningUpdates"] : []),
+    ...(options.phoneId ? ["-allowProvisioningDeviceRegistration"] : []),
     ...(team ? [`DEVELOPMENT_TEAM=${team}`] : []),
     "build",
   ];
