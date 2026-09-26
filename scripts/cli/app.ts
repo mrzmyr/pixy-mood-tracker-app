@@ -285,15 +285,17 @@ const waitReady = async (platform: Platform, id: string) => {
         );
         return;
       } catch (error) {
-        if (
-          !(error instanceof CliError) ||
-          ![
+        const isNotVisible =
+          error instanceof CliError &&
+          ([
             "assertion_failed",
             "element_not_found",
             "not_visible",
             "is_not_visible",
-          ].includes(error.status)
-        ) {
+          ].includes(error.status) ||
+            (error.status === "command_failed" &&
+              error.why.startsWith("selector_not_found")));
+        if (!isNotVisible) {
           throw error;
         }
       }
@@ -379,7 +381,12 @@ const seed = async (platform: Platform, fixtureId: string) => {
         ...getDeviceArgs(platform, device.id),
       ]);
     } catch (error) {
-      if (!(error instanceof CliError && error.status === "alert_not_found")) {
+      const isMissingAlert =
+        error instanceof CliError &&
+        (error.status === "alert_not_found" ||
+          (error.status === "command_failed" &&
+            error.message === "alert not found"));
+      if (!isMissingAlert) {
         throw error;
       }
     }
