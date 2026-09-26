@@ -57,6 +57,7 @@ Three variants install side by side, each with its own name, icon, bundle ID, an
 - `bun app seed <ios|android> <fixture-id>` loads fresh, empty, seed, or year test data and prints a screenshot path.
 - `bun app close <ios|android>` ends the session, resets app data, shuts down the device, then prunes old builds.
 - App commands take no flags. iOS gets one `pixy-mood-tracker-<hash>` simulator per checkout. Android uses the machine-wide `pixy-mood-tracker` AVD.
+- `bun e2e run <ios|android> [paths...]` runs Maestro flows on the checkout's device. Artifacts and `junit.xml` go under `~/.cache/pixy-mood-tracker/checkouts/<hash>/e2e/`.
 - Physical phones remain human-only through `bun ios --device <udid>`.
 
 ### Build cache

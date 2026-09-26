@@ -41,10 +41,16 @@ tags: [log]
 - tapOn:
     id: "tag-name"
 - inputText: "e2e-log-${output.runId}"
-- hideKeyboard
-- tapOn:
-    text: "Create"
-    point: "50%,45%"
+- runFlow:
+    when:
+      visible: "Type English and German"
+    commands:
+      - tapOn: "Continue"
+- runFlow: ../subflows/dismiss-keyboard.yaml
+- tapOn: "Create"
+- waitForAnimationToEnd
+- assertNotVisible:
+    id: "tag-name"
 - assertVisible: "Tags"
 - scrollUntilVisible:
     element:
@@ -58,13 +64,16 @@ tags: [log]
     id: "tag-name"
 - eraseText
 - inputText: "e2e-renamed-${output.runId}"
-- hideKeyboard
+- runFlow: ../subflows/dismiss-keyboard.yaml
 - scrollUntilVisible:
     element:
       text: "Save"
     direction: DOWN
     timeout: 15000
 - tapOn: "Save"
+- waitForAnimationToEnd
+- assertNotVisible:
+    id: "tag-name"
 - assertVisible: "Tags"
 - assertVisible: "e2e-renamed-${output.runId}"
 
@@ -73,18 +82,31 @@ tags: [log]
 - tapOn:
     id: "tag-name"
 - inputText: "e2e-temp-${output.runId}"
-- hideKeyboard
-- tapOn:
-    text: "Create"
-    point: "50%,45%"
+- runFlow: ../subflows/dismiss-keyboard.yaml
+- tapOn: "Create"
+- waitForAnimationToEnd
+- assertNotVisible:
+    id: "tag-name"
 - assertVisible: "Tags"
 - scrollUntilVisible:
     element:
       text: "e2e-temp-${output.runId}"
     direction: DOWN
     timeout: 15000
+- swipe:
+    start: 50%, 65%
+    end: 50%, 25%
 - assertVisible: "e2e-temp-${output.runId}"
+- waitForAnimationToEnd
 - tapOn: "e2e-temp-${output.runId}"
+- runFlow:
+    when:
+      notVisible: "Edit Tag"
+    commands:
+      - tapOn: "e2e-temp-${output.runId}"
+- extendedWaitUntil:
+    visible: "Edit Tag"
+    timeout: 5000
 - scrollUntilVisible:
     element:
       text: "Delete"
@@ -113,24 +135,10 @@ tags: [log]
 - tapOn: "e2e-renamed-${output.runId}"
 - tapOn:
     id: "logger-next"
-- assertVisible: "Write about your day"
+- assertVisible: "Write about your day…"
 - inputText: "e2e note ${output.runId} persisted"
-- hideKeyboard
-- runFlow:
-    when:
-      visible:
-        id: "logger-save"
-    commands:
-      - tapOn:
-          id: "logger-save"
-- runFlow:
-    when:
-      notVisible:
-        id: "logger-save"
-    commands:
-      - tapOn:
-          id: "logger-next"
-      - tapOn: "Not Now"
+- tapOn:
+    id: "logger-save"
 - assertVisible: "Add another entry for today"
 
 # 2.5 Saved tag and note appear in the entry
@@ -147,7 +155,6 @@ tags: [log]
     id: "log-list-close"
 
 # 2.6 Second entry for today (different rating)
-- back
 - tapOn: "Add another entry for today"
 - assertVisible: "How was your day?"
 # A tap during the logger's slide-in animation is lost.
