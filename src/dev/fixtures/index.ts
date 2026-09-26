@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-import type { ImportData } from "@/helpers/Import";
+import type { ImportData } from "@/features/datagate/import";
 import empty from "./empty.json";
 import fresh from "./fresh.json";
 import seed from "./seed.json";

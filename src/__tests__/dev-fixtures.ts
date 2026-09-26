@@ -1,7 +1,7 @@
 import dayjs from "dayjs";
 import { FIXTURES, getFixture, getFixtureData } from "@/dev/fixtures";
-import { getJSONSchemaType } from "@/helpers/Import";
-import { migrateImportData } from "@/helpers/migration";
+import { getJSONSchemaType } from "@/features/datagate/import";
+import { migrateImportData } from "@/features/datagate/migration";
 
 const requireFixture = (id: string) => {
   const fixture = getFixture(id);
