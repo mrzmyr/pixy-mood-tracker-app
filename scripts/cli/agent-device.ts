@@ -1,13 +1,19 @@
 // agent-device, pinned in package.json: devices, their owners, and e2e runs.
 // Used by `bun e2e` and `bun dashboard`.
 import { X509Certificate } from "node:crypto";
+import os from "node:os";
 import path from "node:path";
 import { setTimeout as sleep } from "node:timers/promises";
 
 import { getAndroidSdk } from "../run-native.ts";
+import {
+  checkDaemonEnv,
+  findDaemonHolders,
+  staleDaemonError,
+} from "./daemon-env.ts";
 import { REPO_ROOT } from "./runs.ts";
-import { CliError, tryRun } from "./shared.ts";
-import type { Platform } from "./shared.ts";
+import { CliError, isProcessAlive, note, readJson, tryRun } from "./shared.ts";
+import type { Platform, Steps } from "./shared.ts";
 
 interface AgentDevice {
   id: string;
@@ -63,7 +69,8 @@ let agentDeviceEnv: NodeJS.ProcessEnv | null = null;
 
 // Environment for agent-device. On physical iPhones, agent-device needs a
 // signed runner app. The daemon reads the signing team at start, so every
-// call passes it. Values set by the user win. With several teams, nothing is
+// call passes it, and ensureDaemonSigningEnv restarts a daemon started
+// without it. Values set by the user win. With several teams, nothing is
 // set and agent-device fails with signing_no_development_team and a hint.
 const getAgentDeviceEnv = () => {
   if (!agentDeviceEnv) {
@@ -213,6 +220,67 @@ const listAgentDevices = async () => {
   }
 };
 
+// State dir of the daemon all worktrees share.
+const STATE_DIR =
+  process.env.AGENT_DEVICE_STATE_DIR ??
+  path.join(os.homedir(), ".agent-device");
+const STOP_DAEMON = `bunx agent-device daemon stop --state-dir ${STATE_DIR.replace(os.homedir(), "~")}`;
+
+// Physical iPhones only. The daemon reads the signing values of
+// getAgentDeviceEnv only at start. When another command started it without
+// them, stops it, so the next call restarts it with them. Fails instead when
+// live sessions hold the daemon.
+const ensureDaemonSigningEnv = async (steps: Steps) => {
+  const info = path.join(STATE_DIR, "daemon.json");
+  steps.step(
+    "Check the agent-device daemon has the iOS signing team",
+    `ps eww -o command= -p <pid in ${info.replace(os.homedir(), "~")}>`
+  );
+  const pid = readJson<{ pid?: number }>(info)?.pid;
+  const state = checkDaemonEnv(
+    getAgentDeviceEnv(),
+    pid ? tryRun("ps", ["eww", "-o", "command=", "-p", String(pid)]) : null
+  );
+  if (state.kind === "missing") {
+    note("  ok: no daemon runs; the next call starts it with the team");
+    return;
+  }
+  if (state.kind === "unreadable") {
+    note("  warning: cannot read the daemon environment; skipped");
+    return;
+  }
+  if (state.kind === "current") {
+    note("  ok: daemon has the team");
+    return;
+  }
+  const { claims } = await agentDevice<{ claims: Claim[] }>([
+    "device",
+    "status",
+  ]);
+  const holders = findDaemonHolders(claims);
+  if (holders.length > 0) {
+    throw staleDaemonError(state.keys, holders, STOP_DAEMON);
+  }
+  steps.step(
+    `Stop the daemon: it lacks ${state.keys.join(" and ")}, and no live session holds it`,
+    STOP_DAEMON
+  );
+  tryRun(AGENT_DEVICE, ["daemon", "stop", "--state-dir", STATE_DIR]);
+  for (let attempt = 0; attempt < 25 && isProcessAlive(pid); attempt += 1) {
+    // oxlint-disable-next-line no-await-in-loop -- polling must wait between checks
+    await sleep(200);
+  }
+  if (isProcessAlive(pid)) {
+    throw new CliError({
+      fix: `Run \`${STOP_DAEMON}\` in a terminal to see its output, then retry.`,
+      message: "agent-device daemon did not stop",
+      status: "agent_device_daemon_stop_failed",
+      why: `Daemon PID ${pid} still runs 5s after \`${STOP_DAEMON}\`.`,
+    });
+  }
+  note("  ok: stopped; the next call restarts it with the team");
+};
+
 const describeAgentDevice = (device: AgentDevice) =>
   `${device.id} (${device.platform} ${device.kind === "device" ? "physical" : device.kind}, ${device.name})`;
 
@@ -264,6 +332,7 @@ const findAgentDevice = (devices: AgentDevice[], selector: string) => {
 export {
   AGENT_DEVICE,
   agentDevice,
+  ensureDaemonSigningEnv,
   findAgentDevice,
   getAgentDeviceEnv,
   listAgentDevices,
