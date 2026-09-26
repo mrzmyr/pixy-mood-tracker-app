@@ -136,6 +136,16 @@ const toCliError = <T>(
   });
 };
 
+// Bundle ID of agent-device's iOS runner app, resolved like agent-device does.
+const getRunnerBundleId = () => {
+  const env = getAgentDeviceEnv();
+  return (
+    env.AGENT_DEVICE_IOS_BUNDLE_ID?.trim() ||
+    env.AGENT_DEVICE_IOS_RUNNER_APP_BUNDLE_ID?.trim() ||
+    "com.callstack.agentdevice.runner"
+  );
+};
+
 // Runs agent-device with --json and returns its data, or throws its error.
 // `timeoutMs` stops a hanging call, so a stuck device cannot block the CLI
 // and its cleanup forever.
@@ -335,6 +345,7 @@ export {
   ensureDaemonSigningEnv,
   findAgentDevice,
   getAgentDeviceEnv,
+  getRunnerBundleId,
   listAgentDevices,
 };
 export type { AgentDevice, Claim };

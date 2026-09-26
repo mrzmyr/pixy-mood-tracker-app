@@ -13,6 +13,8 @@ import {
   agentDevice,
   ensureDaemonSigningEnv,
   findAgentDevice,
+  getAgentDeviceEnv,
+  getRunnerBundleId,
   listAgentDevices,
 } from "./agent-device.ts";
 import type { AgentDevice } from "./agent-device.ts";
@@ -21,6 +23,16 @@ import type { Destination } from "./app-build.ts";
 import { listBuilds, toBuildId } from "./builds.ts";
 import { assertDeviceFree, requireVariant } from "./e2e.ts";
 import { getAndroidSdk } from "../run-native.ts";
+import {
+  checkRunnerSigning,
+  findRunnerCaches,
+  hasXcodeAccount,
+  includesPhone,
+  matchesBundleId,
+  readLocalProfiles,
+  readProfile,
+} from "./provisioning.ts";
+import type { Profile } from "./provisioning.ts";
 import { isRunnerStartFailure } from "./runner-error.ts";
 import { REPO_ROOT } from "./runs.ts";
 import {
@@ -156,88 +168,6 @@ const checkIosPhone = (steps: Steps, device: AgentDevice) => {
   pass("paired, Developer Mode on");
 };
 
-interface Profile {
-  name: string;
-  appId: string;
-  devices: string[];
-  isAllDevices: boolean;
-  hasPush: boolean;
-  expires: number;
-}
-
-const PROFILE_DIRS = [
-  path.join(
-    os.homedir(),
-    "Library/Developer/Xcode/UserData/Provisioning Profiles"
-  ),
-  path.join(os.homedir(), "Library/MobileDevice/Provisioning Profiles"),
-];
-
-// Reads the few plist keys needed with regexes. plutil cannot convert profiles
-// to JSON because they contain <date> and <data> values.
-const parseProfile = (xml: string): Profile | null => {
-  const read = (key: string, type: string) =>
-    new RegExp(
-      `<key>${key}</key>\\s*<${type}>(?<value>[^<]*)</${type}>`,
-      "u"
-    ).exec(xml)?.groups?.value;
-  const appId = read("application-identifier", "string");
-  const expires = read("ExpirationDate", "date");
-  if (!appId || !expires) {
-    return null;
-  }
-  const devices =
-    /<key>ProvisionedDevices<\/key>\s*<array>(?<list>[\s\S]*?)<\/array>/u.exec(
-      xml
-    )?.groups?.list ?? "";
-  return {
-    appId,
-    devices: [
-      ...devices.matchAll(/<string>(?<udid>[^<]+)<\/string>/gu),
-    ].flatMap((match) => match.groups?.udid ?? []),
-    expires: Date.parse(expires),
-    hasPush: xml.includes("<key>aps-environment</key>"),
-    isAllDevices: /<key>ProvisionsAllDevices<\/key>\s*<true\/>/u.test(xml),
-    name: read("Name", "string") ?? "unnamed profile",
-  };
-};
-
-const readProfile = (file: string) => {
-  const xml = tryRun("security", ["cms", "-D", "-i", file]);
-  return xml ? parseProfile(xml) : null;
-};
-
-const readLocalProfiles = () =>
-  PROFILE_DIRS.flatMap((dir) =>
-    fs.existsSync(dir)
-      ? fs
-          .readdirSync(dir)
-          .filter((file) => file.endsWith(".mobileprovision"))
-          .flatMap((file) => readProfile(path.join(dir, file)) ?? [])
-      : []
-  );
-
-// application-identifier is "<team>.<bundle id>", or a wildcard like "<team>.*".
-const matchesBundleId = (profile: Profile, bundleId: string) => {
-  const pattern = profile.appId.slice(profile.appId.indexOf(".") + 1);
-  return pattern.endsWith("*")
-    ? bundleId.startsWith(pattern.slice(0, -1))
-    : pattern === bundleId;
-};
-
-// Xcode lists signed-in Apple IDs here. An empty list prints `( )`.
-const hasXcodeAccount = () => {
-  const accounts = tryRun("defaults", [
-    "read",
-    "com.apple.dt.Xcode",
-    "DVTDeveloperAccountManagerAppleIDLists",
-  ]);
-  return accounts !== null && /\(\s*[^\s)]/u.test(accounts);
-};
-
-const includesPhone = (profile: Profile, udid: string) =>
-  profile.isAllDevices || profile.devices.includes(udid);
-
 // Passes when one profile includes the phone; otherwise suggests phones that
 // the profiles include.
 const assertProfileIncludes = (
@@ -322,6 +252,75 @@ const checkLocalProfiles = (
   );
 };
 
+const physicalIphone = (selected: SelectedDevice) =>
+  selected.platform === "ios" && selected.destination === "device"
+    ? selected.device
+    : undefined;
+
+// agent-device drives physical iPhones through its own runner app, signed
+// apart from Pixy. Fails early instead of at install with 0xe8008012. Never
+// moves files itself: another worktree may run the cached runner right now,
+// and provisioning profiles belong to Xcode.
+const checkRunnerProfile = (steps: Steps, selected: SelectedDevice) => {
+  steps.step(
+    "Check the agent-device runner's provisioning profile includes the phone",
+    'security cms -D -i "~/.agent-device/apple-runner/derived/ios-device/<cache>/Build/Products/Debug-iphoneos/AgentDeviceRunner.app/embedded.mobileprovision"'
+  );
+  const env = getAgentDeviceEnv();
+  const phone = selected.device;
+  const result = checkRunnerSigning({
+    bundleId: getRunnerBundleId(),
+    caches: findRunnerCaches(
+      env.AGENT_DEVICE_IOS_RUNNER_DERIVED_PATH?.trim() || undefined
+    ).map(({ dir, files }) => ({ dir, profiles: files.map(readProfile) })),
+    localProfiles: readLocalProfiles(),
+    now: Date.now(),
+    teamId: env.AGENT_DEVICE_IOS_TEAM_ID?.trim() || undefined,
+    udid: phone.id,
+  });
+  if (result.status === "ok") {
+    pass(
+      `"${result.profile.name}" (${result.source === "cache" ? "cached runner" : "local profile"}) includes ${phone.name}`
+    );
+    return;
+  }
+  if (result.status === "unknown") {
+    note(
+      "  warning: no cached runner and no local profile for it. Xcode creates the profile when agent-device builds the runner."
+    );
+    return;
+  }
+  const stale = [
+    ...result.caches,
+    ...result.profiles.map((profile) => profile.file),
+  ];
+  throw new CliError({
+    fix: [
+      hasXcodeAccount()
+        ? ""
+        : "Open Xcode > Settings > Accounts and add the Apple ID of the signing team.",
+      `Move the stale files aside, then retry: ${stale.map((file) => `mv "${file}" ~/.Trash/`).join(" && ")}.`,
+      "agent-device then rebuilds the runner, and Xcode fetches a fresh team profile.",
+      `If the fresh profile still lacks the phone, register the phone first: \`bun app build --device ${phone.id} --variant <name>\`.`,
+    ]
+      .filter(Boolean)
+      .join(" "),
+    message: `agent-device runner profile does not include ${phone.name}`,
+    status: "runner_provisioning_device_missing",
+    why: [
+      ...result.caches.map(
+        (dir) =>
+          `Cached runner in ${dir} is signed with a profile that is expired or lacks the phone.`
+      ),
+      ...result.profiles.map(
+        (profile) =>
+          `Local profile "${profile.name}" (${profile.file}) lacks the phone.`
+      ),
+      "iOS refuses such a runner with 0xe8008012.",
+    ].join(" "),
+  });
+};
+
 const runDoctorChecks = async (
   steps: Steps,
   selected: SelectedDevice,
@@ -344,6 +343,9 @@ const cmdDoctor = async (options: {
   const steps = createSteps();
   const selected = await selectDevice(steps, options.id);
   await runDoctorChecks(steps, selected, options.variant, options.isForce);
+  if (physicalIphone(selected)) {
+    checkRunnerProfile(steps, selected);
+  }
   note("\nAll checks passed.");
 };
 
@@ -368,11 +370,6 @@ const adb = (serial: string, args: string[], input?: string) =>
     stdio: [input === undefined ? "ignore" : "pipe", "pipe", "pipe"],
     timeout: 60_000,
   }).trim();
-
-const physicalIphone = (selected: SelectedDevice) =>
-  selected.platform === "ios" && selected.destination === "device"
-    ? selected.device
-    : undefined;
 
 // Compiles, or reuses a cached build; returns the build ID. For a physical
 // iPhone, compiles again when the cached build's profile lacks the phone.
@@ -1510,6 +1507,10 @@ const cmdRun = async (options: {
     const build = resolveBuild(steps, buildId);
     appPath = build.path;
     await installBuild(steps, build, selected, !options.isReinstall);
+    // After the build, which registers a new phone in the portal.
+    if (physicalIphone(selected)) {
+      checkRunnerProfile(steps, selected);
+    }
     isOpen = true;
     await openApp(steps, selected, build.bundleId, isDevelopment);
     await verifyApp(steps, metro);
@@ -1658,7 +1659,7 @@ const APP: Noun = {
 
 Checks, in order: agent-device answers with the pinned version, device exists
 and runs, no other worktree uses it, and for iPhones: paired, Developer Mode on,
-provisioning profile includes it.`,
+provisioning profiles of the app and of the agent-device runner include it.`,
       options: {
         device: { type: "string" },
         force: { type: "boolean" },
