@@ -51,24 +51,44 @@ Three variants install side by side, each with its own name, icon, bundle ID, an
 
 ### App CLI
 
-- `bun app build <ios|android>` compiles the preview release into the shared cache. JavaScript is embedded. Metro stays off.
+- `bun app build <ios|android>` compiles a preview release with embedded JavaScript into the shared cache.
 - `bun app install <ios|android>` installs the cached preview build on this checkout's device.
+- `bun app seed <ios|android> <fixture-id>` loads `fresh`, `empty`, `seed`, or `year` data and prints a screenshot path.
 - `bun app open <ios|android>` launches by app ID, waits for onboarding or calendar, then prints a screenshot path.
-- `bun app seed <ios|android> <fixture-id>` loads fresh, empty, seed, or year test data and prints a screenshot path.
 - `bun app close <ios|android>` ends the session, resets app data, shuts down the device, then prunes old builds.
-- App commands take no flags. iOS gets one `pixy-mood-tracker-<hash>` simulator per checkout. Android uses the machine-wide `pixy-mood-tracker` AVD.
-- `bun e2e run <ios|android> [paths...]` runs Maestro flows on the checkout's device. Artifacts and `junit.xml` go under `~/.cache/pixy-mood-tracker/checkouts/<hash>/e2e/`.
+- `bun e2e run <ios|android> [paths...]` runs Maestro flows on this checkout's device.
+- `bun builds list` lists cached builds. `bun builds rm <id>` removes one. `bun builds prune` removes old builds and deleted checkout state.
+- App and e2e verbs take no flags. The CLI selects the preview variant and device. Metro stays off.
 - Physical phones remain human-only through `bun ios --device <udid>`.
 
 ### Build cache
 
-- Shared cache: `~/.cache/pixy-mood-tracker/build-cache`. Both platforms reuse an exact preview build key.
-- Release keys include native fingerprint, app source, and `EXPO_PUBLIC_*` values. Same key skips native compilation and JavaScript bundling.
-- `bun builds list` shows cached builds. `bun builds rm <id>` removes one. `bun builds prune` removes old builds and deleted checkout state.
-- Checkout state: `~/.cache/pixy-mood-tracker/checkouts/<hash>/`. `checkout.txt` names the worktree. `e2e/`, `build/`, `screenshots/`, and logs stay outside source.
-- Worktrees build and install on separate iOS simulators. Android uses one emulator per machine.
+- Shared builds live under `~/.cache/pixy-mood-tracker/build-cache/`.
+- Preview build keys include native fingerprint, app source, and `EXPO_PUBLIC_*` values.
+- An exact cache hit skips native compilation and JavaScript bundling.
+- `bun builds prune` keeps one build per OS, target, and variant, plus builds used within two days.
 
 The cache provider lives in [`scripts/build-cache-provider.cjs`](../scripts/build-cache-provider.cjs).
+
+### Run files
+
+- Checkout state lives under `~/.cache/pixy-mood-tracker/checkouts/<hash>/`. `checkout.txt` records its worktree path.
+- `e2e/` contains test artifacts and `junit.xml`. `build/` contains Expo build output. `screenshots/` contains app screenshots. Logs stay in the checkout state dir.
+- CLI state stays outside the worktree. Expo owns generated `ios/` and `android/` folders.
+
+### Parallel runs
+
+- Each worktree gets one iPhone 17 Pro simulator named `pixy-mood-tracker-<hash>`. The CLI boots it with `simctl`.
+- Two worktrees can build, install, open, and run iOS e2e flows at the same time. Device claims keep their sessions separate.
+- Android uses one `pixy-mood-tracker` AVD per machine. Android runs serialize through device claims.
+- Physical phones are not supported by app or e2e verbs. Humans use `bun ios --device <udid>`.
+
+### Disk cleanup and errors
+
+- Worktrees contain source and generated native folders only. Remove a finished worktree, then run `bun builds prune`.
+- Prune deletes its simulator, agent-device sessions and claims, checkout logs, artifacts, and state.
+- `bun app close <ios|android>` resets device data and runs prune.
+- CLI failures report `status`, `message`, `why`, and `fix`. Failed steps stop without another strategy.
 
 ### Preview Support Pixy
 
