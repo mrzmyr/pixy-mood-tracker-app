@@ -30,9 +30,6 @@ class CliError extends Error {
   }
 }
 
-const DEFAULT_KEEP_BUILDS = 3;
-const DEFAULT_KEEP_WITHIN = "7d";
-
 const run = (command: string, args: string[], timeout = 60_000) =>
   execFileSync(command, args, {
     encoding: "utf-8",
@@ -55,23 +52,6 @@ const readJson = <T>(file: string): T | null => {
   } catch {
     return null;
   }
-};
-
-const parseDuration = (value: string) => {
-  const match = /^(?<amount>\d+)(?<unit>[smhd])$/u.exec(value);
-  if (!match) {
-    throw new CliError({
-      exitCode: 2,
-      fix: "Use a number with s, m, h, or d, for example 45m or 2h.",
-      message: `Invalid duration "${value}"`,
-      status: "invalid_duration",
-      why: "Durations need a unit.",
-    });
-  }
-  const unitMs = { d: 86_400_000, h: 3_600_000, m: 60_000, s: 1000 };
-  // SAFETY: the regex only matches the units s, m, h, and d.
-  const unit = match.groups?.unit as keyof typeof unitMs;
-  return Number(match.groups?.amount) * unitMs[unit];
 };
 
 const formatAge = (iso: string) => {
@@ -205,8 +185,6 @@ export {
   CHECKOUTS_DIR,
   CHECKOUT_FILE,
   CliError,
-  DEFAULT_KEEP_BUILDS,
-  DEFAULT_KEEP_WITHIN,
   PLATFORM_OPTION,
   defineCommand,
   formatAge,
@@ -215,7 +193,6 @@ export {
   getPlatform,
   isProcessAlive,
   note,
-  parseDuration,
   printTable,
   readJson,
   tryRun,
