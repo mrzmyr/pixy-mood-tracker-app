@@ -106,7 +106,7 @@
     "@testing-library/react-native": "^14.0.1",
     "@types/i18n-js": "^3.8.2",
     "@types/jest": "29.5.14",
-    "@types/lodash": "^4.14.195",
+    "@types/lodash": "^4.17.25",
     "@types/node": "^26.6.2",
     "@types/react": "~19.2.10",
     "agent-device": "0.21.14",
