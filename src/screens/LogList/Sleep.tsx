@@ -1,6 +1,6 @@
 import { SlideSleepButton } from "@/features/logger/slides/SlideSleepButton";
 import type { LogItem } from "@/features/logs";
-import { t } from "i18n-js";
+import { t } from "../../helpers/translation";
 import { View } from "react-native";
 import { SectionHeader } from "./SectionHeader";
 
