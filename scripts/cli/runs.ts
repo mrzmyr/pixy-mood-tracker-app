@@ -1,10 +1,10 @@
 // E2E runs: the run.json that scripts/cli/e2e-reporter.mjs writes into each
-// worktree's .agent-device/test-artifacts. Read by `bun e2e` and
-// `bun dashboard`.
+// checkout's external state directory. Read by `bun e2e` and `bun dashboard`.
+import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
 
-import { isProcessAlive, readJson, tryRun } from "./shared.ts";
+import { CHECKOUTS_DIR, isProcessAlive, readJson, tryRun } from "./shared.ts";
 import type { Platform } from "./shared.ts";
 
 interface RunFlow {
@@ -34,22 +34,20 @@ interface Run {
 }
 
 const REPO_ROOT = path.resolve(import.meta.dir, "../..");
-const ARTIFACTS_DIR = path.join(".agent-device", "test-artifacts");
-
-// Every checkout of this repo, so runs from all worktrees show up.
-const listWorktrees = () =>
-  (tryRun("git", ["-C", REPO_ROOT, "worktree", "list", "--porcelain"]) ?? "")
-    .split("\n")
-    .filter((line) => line.startsWith("worktree "))
-    .map((line) => line.slice("worktree ".length));
-
-const runDir = (run: Run) => path.join(run.worktree, ARTIFACTS_DIR, run.id);
+const runDir = (run: Run) => {
+  const hash = crypto
+    .createHash("sha256")
+    .update(run.worktree)
+    .digest("hex")
+    .slice(0, 12);
+  return path.join(CHECKOUTS_DIR, hash, "e2e", run.id);
+};
 
 // Oldest first.
 const readRuns = () =>
-  listWorktrees()
-    .flatMap((worktree) => {
-      const root = path.join(worktree, ARTIFACTS_DIR);
+  (fs.existsSync(CHECKOUTS_DIR) ? fs.readdirSync(CHECKOUTS_DIR) : [])
+    .flatMap((hash) => {
+      const root = path.join(CHECKOUTS_DIR, hash, "e2e");
       return fs.existsSync(root)
         ? fs
             .readdirSync(root)
@@ -92,7 +90,6 @@ const markStopped = (run: Run) => {
 
 /** Reads and classifies e2e runs across all worktrees. */
 export {
-  ARTIFACTS_DIR,
   REPO_ROOT,
   findRun,
   markStopped,

@@ -143,6 +143,16 @@ const getCheckoutDir = (root: string) => {
   return dir;
 };
 
+/** Keeps generated files in the checkout's external state directory. */
+const getStateDir = (kind: "e2e" | "build" | "screenshots") => {
+  const dir = path.join(
+    getCheckoutDir(path.resolve(import.meta.dir, "../..")),
+    kind
+  );
+  fs.mkdirSync(dir, { recursive: true });
+  return dir;
+};
+
 // Status messages go to stderr, so stdout stays pipeable.
 const note = (message: string) => console.error(message);
 
@@ -278,6 +288,7 @@ export {
   defineCommand,
   formatAge,
   getCheckoutDir,
+  getStateDir,
   getPlatform,
   getWorktree,
   isProcessAlive,

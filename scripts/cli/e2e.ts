@@ -19,7 +19,6 @@ import {
 } from "./agent-device.ts";
 import type { AgentDevice, Claim } from "./agent-device.ts";
 import {
-  ARTIFACTS_DIR,
   findRun,
   getStaleReason,
   isActive,
@@ -34,6 +33,7 @@ import {
   defineCommand,
   formatAge,
   getWorktree,
+  getStateDir,
   note,
   printTable,
 } from "./shared.ts";
@@ -281,7 +281,7 @@ const cmdRun = async (
     selector,
     options.device,
     "--artifacts-dir",
-    ARTIFACTS_DIR,
+    getStateDir("e2e"),
     "--reporter",
     "default",
     "--reporter",
@@ -371,7 +371,7 @@ const cmdStop = async (id: string) => {
       status: "run_not_running",
       why: run
         ? "The run finished or its agent-device process already exited."
-        : "No worktree has a run with this ID in .agent-device/test-artifacts.",
+        : "No checkout has a run with this ID in its state directory.",
     });
   }
   process.kill(run.pid, "SIGINT");
@@ -405,8 +405,8 @@ const E2E: Noun = {
 -- <args>           Passed to \`agent-device test\`, e.g. -- --retries 1.
 
 Runs Maestro flows (default: e2e/flows, plus e2e/apple on iOS). Paths replace
-the default. Artifacts land in .agent-device/test-artifacts/<run-id>/ of this
-worktree. Exits with agent-device's exit code.`,
+the default. Artifacts land in the checkout state directory's e2e/<run-id>/.
+Exits with agent-device's exit code.`,
       hasPassthrough: true,
       usage: "[paths...] [options] [-- <args>]",
       options: {

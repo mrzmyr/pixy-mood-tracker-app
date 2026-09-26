@@ -52,6 +52,7 @@ import {
   CliError,
   createSteps,
   defineCommand,
+  getStateDir,
   note,
   readJson,
   tryRun,
@@ -1259,8 +1260,8 @@ const prepareIosRunner = async (steps: Steps, selected: SelectedDevice) => {
   pass("runner ready");
 };
 
-const SCREENSHOT = "/tmp/pixy-mood-tracker-app-run.png";
-const SNAPSHOT = "/tmp/pixy-mood-tracker-app-run.snapshot.txt";
+const SCREENSHOT = path.join(getStateDir("screenshots"), "app-run.png");
+const SNAPSHOT = path.join(getStateDir("screenshots"), "app-run.snapshot.txt");
 
 // The app rendered its first screen: the Calendar tab of the main app, or the
 // Start button of onboarding on a fresh install. agent-device does not match
