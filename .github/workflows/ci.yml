@@ -1,0 +1,53 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
+
+# Jobs only check out the repo and run checks.
+permissions:
+  contents: read
+
+jobs:
+  check:
+    name: ${{ matrix.script }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        script: [lint, "format:check", type-check, "test:ci"]
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        with:
+          persist-credentials: false
+      - name: Set up Node.js
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version-file: .node-version
+      - name: Set up Bun
+        uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
+        with:
+          bun-version-file: package.json
+      - name: Install dependencies
+        run: bun ci
+      - name: Run ${{ matrix.script }}
+        run: bun run ${{ matrix.script }}
+
+  # One stable check name for branch protection, however many matrix jobs run.
+  # The result is asserted in `run`, so a bad expression can never report a false pass.
+  checks-passed:
+    name: checks passed
+    if: always()
+    needs: [check]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Require all checks to succeed
+        env:
+          RESULT: ${{ needs.check.result }}
+        run: test "$RESULT" = "success"

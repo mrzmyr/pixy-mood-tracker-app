@@ -9,3 +9,14 @@ updates:
     directory: "/" # Location of package manifests
     schedule:
       interval: "monthly"
+    # Wait a week before adopting new releases, so compromised versions are caught first.
+    cooldown:
+      default-days: 7
+  # Keeps SHA-pinned actions current; the version comment is updated too.
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "monthly"
+    # Wait a week before adopting new releases, so compromised versions are caught first.
+    cooldown:
+      default-days: 7
