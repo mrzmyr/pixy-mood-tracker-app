@@ -80,14 +80,14 @@ On Macs using Homebrew CocoaPods with RVM, clear RVM's gem paths if `pod` fails 
 
 | Environment | OS | Channel | `bun run` command | Extension | Installation |
 | --- | --- | --- | --- | --- | --- |
-| `development` | iOS | Physical Device | `build:ios:dev` | `.ipa` | Install `.ipa` file via [Apple Configurator](https://apps.apple.com/us/app/apple-configurator/id1037126344?mt=12) |
-| `development` | Android | Physical Device | `build:android:dev` | `.apk` | Install manually (enable "Install from unknown sources") |
-| `emulator` | iOS | Simulator | `build:ios:emulator` | `.app` | Accept the EAS prompt to install the build on a running simulator |
-| `emulator` | Android | Emulator | `build:android:emulator` | `.apk` | Install the `.apk` file via drag and drop |
-| `preview` | iOS | Physical Device | `build:ios:preview` | `.ipa` | Internal distribution: register devices with `bunx eas-cli device:create`, then install the `.ipa` |
-| `preview` | Android | Physical Device | `build:android:preview` | `.apk` | Install with `adb install` |
-| `production` | iOS | TestFlight | `build:ios:prod` | `.ipa` | Submit `.ipa` file via `bun run submit` (uploads newest `.aab` and `.ipa`) |
-| `production` | Android | Google Play Console | `build:android:prod` | `.aab` | Submit `.aab` file via `bun run submit` (uploads newest `.aab` and `.ipa`) |
+| `development` | iOS | Physical Device | `eas:ios:dev` | `.ipa` | Install `.ipa` file via [Apple Configurator](https://apps.apple.com/us/app/apple-configurator/id1037126344?mt=12) |
+| `development` | Android | Physical Device | `eas:android:dev` | `.apk` | Install manually (enable "Install from unknown sources") |
+| `emulator` | iOS | Simulator | `eas:ios:emulator` | `.app` | Accept the EAS prompt to install the build on a running simulator |
+| `emulator` | Android | Emulator | `eas:android:emulator` | `.apk` | Install the `.apk` file via drag and drop |
+| `preview` | iOS | Physical Device | `eas:ios:preview` | `.ipa` | Internal distribution: register devices with `bunx eas-cli device:create`, then install the `.ipa` |
+| `preview` | Android | Physical Device | `eas:android:preview` | `.apk` | Install with `adb install` |
+| `production` | iOS | TestFlight | `eas:ios:prod` | `.ipa` | Submit `.ipa` file via `bun run submit` (uploads newest `.aab` and `.ipa`) |
+| `production` | Android | Google Play Console | `eas:android:prod` | `.aab` | Submit `.aab` file via `bun run submit` (uploads newest `.aab` and `.ipa`) |
 
 ## Releasing
 
@@ -95,4 +95,4 @@ Merging a Release Please PR creates the GitHub release, builds the production iO
 
 See [TestFlight release workflow](./testflight-release-workflow.md) for prerequisites, operation, and verification criteria.
 
-Android store submissions remain manual: run `bun run build:android:prod`, then `bunx eas-cli submit --platform android --path <path-to-aab>`.
+Android store submissions remain manual: run `bun run eas:android:prod`, then `bunx eas-cli submit --platform android --path <path-to-aab>`.
