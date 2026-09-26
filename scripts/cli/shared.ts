@@ -1,6 +1,9 @@
 // Shared types and helpers for `bun builds`, `bun e2e`, and `bun dashboard`.
 import { execFileSync } from "node:child_process";
+import crypto from "node:crypto";
 import fs from "node:fs";
+import os from "node:os";
+import path from "node:path";
 
 type Platform = "ios" | "android";
 
@@ -113,6 +116,25 @@ const printTable = (columns: string[], rows: string[][]) => {
 
 const getWorktree = () =>
   tryRun("git", ["rev-parse", "--show-toplevel"]) ?? process.cwd();
+
+// State of one checkout that must not leak into other worktrees, such as
+// build locks. Lives outside the worktree, keyed by the checkout's real path.
+const getCheckoutDir = (root: string) => {
+  const hash = crypto
+    .createHash("sha256")
+    .update(fs.realpathSync(root))
+    .digest("hex")
+    .slice(0, 12);
+  const dir = path.join(
+    os.homedir(),
+    ".cache",
+    "pixy-mood-tracker",
+    "checkouts",
+    hash
+  );
+  fs.mkdirSync(dir, { recursive: true });
+  return dir;
+};
 
 // Status messages go to stderr, so stdout stays pipeable.
 const note = (message: string) => console.error(message);
@@ -246,6 +268,7 @@ export {
   createSteps,
   defineCommand,
   formatAge,
+  getCheckoutDir,
   getPlatform,
   getWorktree,
   isProcessAlive,
