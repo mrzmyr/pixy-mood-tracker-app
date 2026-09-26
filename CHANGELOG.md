@@ -2,6 +2,55 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.88.0](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.87.1...v1.88.0) (2026-09-26)
+
+
+### Features
+
+* add bun dashboard for devices, sessions, and builds ([d1e5c97](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/d1e5c972e586780420a837fa42d306cd1e9c926f))
+* add dashboard actions, PR links, and window focus ([4ba4040](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/4ba4040bb9d78a763d4c9080c7f8bec4da02ae09))
+* attach every session to its device and build ([734e178](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/734e178b2ccab53578190c90e26e0a3d80b0725d))
+* **build:** add development, preview, and production app variants ([#338](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/338)) ([d0ad2b6](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/d0ad2b64f4c775f381f08618c92428524a5298bf))
+* **build:** give development and preview apps ribbon icons ([#339](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/339)) ([11fca3f](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/11fca3f575bde5669594016dc741375da7a48288))
+* **calendar:** load older months on scroll ([9f18fbe](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/9f18fbee55ebba28ce65eff75c42d9a70705ca08))
+* **cli:** `bun e2e run|list|stop` and per-command flags and help ([#315](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/315)) ([7abc869](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/7abc869db2905f2bc20abe148be1903c15e2a8b6))
+* **dev:** load test data fixtures from Settings and deep links ([#340](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/340)) ([87d09db](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/87d09db2f1975a1062822c13c157b1de2970e694))
+* **e2e:** explain busy devices and list free ones ([#341](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/341)) ([976abee](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/976abee44855bf4c4fe12130b54581fb9726f9fb))
+* **e2e:** refuse busy devices in bun e2e run ([#320](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/320)) ([8cb8fc2](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/8cb8fc22d5070b70d7de0780d37bfa5b56c808c9))
+* **logger:** remove writing tips view ([ded93dc](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/ded93dc904b7fd1f994301d256fa0365492cb4c3))
+* **observe:** report startup metrics to EAS Observe ([#327](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/327)) ([f75e080](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/f75e08091c41a0b3e12a4fd7df749ae66b13f5a4))
+* **onboarding:** localize start button label ([#337](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/337)) ([0668734](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/06687341268b02cd81c5cdaf00760f618307d52d))
+* show device sessions and icon-only platforms in dashboard ([d8c1367](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/d8c1367ed6fbd9f1882b8ddf2a23f59d0c0c794b))
+* **skills:** add babysit-pr and test-pr skills ([#311](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/311)) ([8d7666a](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/8d7666ac73cd520b9cb27a951224c0a1a4d16b2f))
+* **skills:** add competitor analysis skill ([#274](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/274)) ([876f30d](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/876f30d4ca71140e1c056b4bc87d6f6848bb6b0a))
+* **store-reviews:** add store review listing CLI ([baf19a5](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/baf19a540293a0f89bb4b81af44d003232ff735e))
+
+
+### Bug Fixes
+
+* **android:** resolve native build environment ([#312](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/312)) ([6ef7eb4](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/6ef7eb4796093ef49d9923a1e3ad587f8688a09d))
+* avoid array methods missing from Hermes ([#305](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/305)) ([bdde7c3](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/bdde7c364cc2a3c7a96f7ed049ff66dc4b3f09ea))
+* **build:** keep release cache when only tooling changes ([6394b62](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/6394b622c3b48c4bb85f0d306bca11a6c30d7377))
+* **build:** set development client variant ([#314](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/314)) ([016671d](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/016671d997904c9f2b3fe49d996f5754257c4ff5))
+* **calendar:** virtualize month scrolling ([#319](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/319)) ([56efb7c](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/56efb7cf5073880d9f9558021b8a1596eff2548e))
+* **cli:** pass Android SDK and JDK to release builds ([#297](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/297)) ([3a2f897](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/3a2f897f79c3f20cddd6f80d9478e0158514bcad))
+* **cli:** support physical phones in devices and sessions ([#299](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/299)) ([a5b89ce](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/a5b89ce6447e16c60828dcf21ac6c6ddb8accae5))
+* correct React hook dependencies ([84e374a](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/84e374a026d24be4aa13137fd08e8fbd3a672fad))
+* **logs:** apply tag removal to current log state ([f114645](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/f114645089ff2e25f383b085cb2c0d5cd6572012))
+* **notifications:** schedule Android daily reminders ([#329](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/329)) ([4eec06a](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/4eec06ad9da39befb8d577807f608448c064c71b))
+* **onboarding:** remove tracker experience choice ([#317](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/317)) ([6c86347](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/6c863472c61171450598dc55b9884af42dc30b17))
+* **onboarding:** support Android system back ([#323](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/323)) ([5f83f1d](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/5f83f1d753d11a19b5b8e0936cedb55e2dc32b64))
+* restore green CI on main ([#366](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/366)) ([629cd4a](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/629cd4ae31ae91bba92e9c16be161ee7e8e0d6f1))
+* **reviews:** disclose Google Play API history limit ([e2c8231](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/e2c82319d7bcd529edcbc98101bff258d96ab41d))
+* **sentry:** initialize once before the first render ([#328](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/328)) ([586030e](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/586030ed1c5105fd41991a96a0bc0e66fcd0e4dc))
+* **settings:** remove development user data loader ([#316](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/316)) ([e2d527f](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/e2d527f1b7282bd0ba3c2b422386862ac4e457bd))
+
+
+### Performance Improvements
+
+* **logs:** cache entry dates instead of reparsing on every render ([#324](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/324)) ([a5af780](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/a5af7805f510a8021dadaac72dfafdafe60e2d7f))
+* **navigation:** freeze hidden tabs ([#325](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/325)) ([c8aab00](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/c8aab00a6cbfc81468e2f8c8e6dc045ed9e0b7a4))
+
 ## [1.87.1](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.87.0...v1.87.1) (2026-08-03)
 
 ### Bug Fixes
