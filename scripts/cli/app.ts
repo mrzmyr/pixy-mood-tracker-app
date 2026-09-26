@@ -553,7 +553,7 @@ const close = async (platform: Platform) => {
       }
     }
   }
-  pruneBuilds();
+  await pruneBuilds();
   note("Closed device session");
 };
 

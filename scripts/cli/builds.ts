@@ -1,18 +1,19 @@
+import { execFileSync } from "node:child_process";
+import crypto from "node:crypto";
 import fs from "node:fs";
 import { createRequire } from "node:module";
+import os from "node:os";
 import path from "node:path";
 
+import { agentDevice, stopStaleDaemon } from "./agent-device.ts";
 import {
   CHECKOUTS_DIR,
   CHECKOUT_FILE,
   CliError,
-  DEFAULT_KEEP_BUILDS,
-  DEFAULT_KEEP_WITHIN,
   PLATFORM_OPTION,
   defineCommand,
   formatAge,
   getPlatform,
-  parseDuration,
   printTable,
   readJson,
 } from "./shared.ts";
@@ -63,6 +64,14 @@ interface Build {
   createdAt: string;
   lastUsedAt: string;
 }
+
+interface DeviceClaim {
+  owner?: { workspace?: string };
+  device?: { id: string; platform: string };
+}
+
+const KEEP_BUILDS = 1;
+const KEEP_WITHIN_MS = 2 * 24 * 60 * 60_000;
 
 const localRequire = createRequire(import.meta.url);
 // SAFETY: the provider module exports these functions; see its module.exports.
@@ -185,47 +194,148 @@ const removeBuild = (build: Build) => {
   );
 };
 
-const parseKeep = (value: string) => {
-  const keep = Number(value);
-  if (!/^\d+$/u.test(value) || !Number.isSafeInteger(keep)) {
-    throw new CliError({
-      exitCode: 2,
-      fix: `Pass a whole number, for example --keep ${DEFAULT_KEEP_BUILDS}.`,
-      message: `Invalid --keep "${value}"`,
-      status: "invalid_keep",
-      why: "--keep is how many builds to keep per platform and variant.",
-    });
-  }
-  return keep;
-};
-
-const pruneCheckouts = (isDryRun: boolean) => {
-  if (!fs.existsSync(CHECKOUTS_DIR)) {
-    return;
-  }
-  for (const entry of fs.readdirSync(CHECKOUTS_DIR)) {
-    const dir = path.join(CHECKOUTS_DIR, entry);
-    const file = path.join(dir, CHECKOUT_FILE);
-    const checkout = fs.existsSync(file)
-      ? fs.readFileSync(file, "utf-8").trim()
-      : "";
-    if (checkout && !fs.existsSync(checkout)) {
-      console.log(
-        `${isDryRun ? "Would remove" : "Removed"} run files of deleted checkout ${checkout}`
-      );
-      if (!isDryRun) {
-        fs.rmSync(dir, { force: true, recursive: true });
-      }
+const releaseClaims = async (checkout: string) => {
+  const live = await agentDevice<{ claims: DeviceClaim[] }>([
+    "device",
+    "status",
+  ]);
+  const stale = await agentDevice<{ claims: DeviceClaim[] }>([
+    "device",
+    "status",
+    "--stale",
+  ]);
+  const claims = [...live.claims, ...stale.claims].filter(
+    (claim) => claim.owner?.workspace === checkout
+  );
+  for (const claim of claims) {
+    const { device } = claim;
+    if (!device || !["ios", "android"].includes(device.platform)) {
+      throw new CliError({
+        status: "prune_claim_invalid",
+        message: "Deleted checkout has an unsupported device claim",
+        why: `Claim for ${checkout} has no supported device identity.`,
+        fix: "Inspect `agent-device device status --json`, then retry prune.",
+      });
+    }
+    const selector = device.platform === "ios" ? "--udid" : "--serial";
+    // oxlint-disable-next-line no-await-in-loop -- release each exact claim before deleting sessions
+    const result = await agentDevice<{
+      released: unknown[];
+      retained: unknown[];
+      refused: unknown[];
+      changed: unknown[];
+    }>([
+      "device",
+      "release",
+      "--stale",
+      "--platform",
+      device.platform,
+      selector,
+      device.id,
+    ]);
+    if (
+      result.released.length !== 1 ||
+      result.retained.length !== 0 ||
+      result.refused.length !== 0 ||
+      result.changed.length !== 0
+    ) {
+      throw new CliError({
+        status: "prune_claim_release_failed",
+        message: "Deleted checkout device claim was not released",
+        why: `agent-device retained or refused ${device.platform} device ${device.id}.`,
+        fix: "Inspect `agent-device device status --json`, then retry prune.",
+      });
     }
   }
 };
 
-const pruneBuilds = (
-  keep = DEFAULT_KEEP_BUILDS,
-  keepWithin = DEFAULT_KEEP_WITHIN,
-  isDryRun = false
-) => {
-  const keepWithinMs = parseDuration(keepWithin);
+const removeSessions = (checkout: string) => {
+  const sessionHash = crypto
+    .createHash("sha256")
+    .update(checkout)
+    .digest("hex")
+    .slice(0, 16);
+  const sessionsDir = path.join(os.homedir(), ".agent-device", "sessions");
+  if (!fs.existsSync(sessionsDir)) {
+    return;
+  }
+  for (const session of fs.readdirSync(sessionsDir)) {
+    if (session.startsWith(`cwd_${sessionHash}_`)) {
+      fs.rmSync(path.join(sessionsDir, session), {
+        recursive: true,
+        force: true,
+      });
+    }
+  }
+};
+
+const deleteSimulator = (entry: string) => {
+  const rawDevices = execFileSync(
+    "xcrun",
+    ["simctl", "list", "devices", "-j"],
+    {
+      encoding: "utf-8",
+    }
+  );
+  // SAFETY: simctl list devices -j returns runtime groups with UDID, name, and state.
+  const devices = JSON.parse(rawDevices) as {
+    devices: Record<string, { udid: string; name: string; state: string }[]>;
+  };
+  const name = `pixy-mood-tracker-${entry}`;
+  const simulator = Object.values(devices.devices)
+    .flat()
+    .find((device) => device.name === name);
+  if (!simulator) {
+    return;
+  }
+  if (simulator.state !== "Shutdown") {
+    execFileSync("xcrun", ["simctl", "shutdown", simulator.udid]);
+  }
+  execFileSync("xcrun", ["simctl", "delete", simulator.udid]);
+  console.log(`Deleted simulator ${name}`);
+};
+
+const pruneCheckout = async (entry: string) => {
+  const dir = path.join(CHECKOUTS_DIR, entry);
+  const file = path.join(dir, CHECKOUT_FILE);
+  try {
+    const checkout = fs.existsSync(file)
+      ? fs.readFileSync(file, "utf-8").trim()
+      : "";
+    if (!checkout || fs.existsSync(checkout)) {
+      return;
+    }
+    // A daemon started from this deleted worktree cannot release its claims.
+    await stopStaleDaemon();
+    await releaseClaims(checkout);
+    removeSessions(checkout);
+    deleteSimulator(entry);
+    fs.rmSync(dir, { force: true, recursive: true });
+    console.log(`Removed run files of deleted checkout ${checkout}`);
+  } catch (error) {
+    if (error instanceof CliError) {
+      throw error;
+    }
+    throw new CliError({
+      status: "prune_checkout_failed",
+      message: "Deleted checkout could not be pruned",
+      why: error instanceof Error ? error.message : String(error),
+      fix: "Inspect simulator and checkout state, then retry prune.",
+    });
+  }
+};
+
+const pruneCheckouts = async () => {
+  if (!fs.existsSync(CHECKOUTS_DIR)) {
+    return;
+  }
+  for (const entry of fs.readdirSync(CHECKOUTS_DIR)) {
+    // oxlint-disable-next-line no-await-in-loop -- prune one checkout at a time
+    await pruneCheckout(entry);
+  }
+};
+
+const pruneBuilds = async () => {
   const groups = Map.groupBy(
     listBuilds(),
     (build) => `${build.platform}-${build.target}-${build.variant}`
@@ -233,21 +343,19 @@ const pruneBuilds = (
   const stale = [...groups.values()].flatMap((group) =>
     group
       .toSorted((a, b) => b.lastUsedAt.localeCompare(a.lastUsedAt))
-      .slice(keep)
+      .slice(KEEP_BUILDS)
       .filter(
-        (build) => Date.now() - Date.parse(build.lastUsedAt) > keepWithinMs
+        (build) => Date.now() - Date.parse(build.lastUsedAt) > KEEP_WITHIN_MS
       )
   );
   for (const build of stale) {
     console.log(
-      `${isDryRun ? "Would remove" : "Removed"} build ${build.id} (${formatSize(build.sizeBytes)}, last used ${formatAge(build.lastUsedAt)} ago)`
+      `Removed build ${build.id} (${formatSize(build.sizeBytes)}, last used ${formatAge(build.lastUsedAt)} ago)`
     );
-    if (!isDryRun) {
-      removeBuild(build);
-    }
+    removeBuild(build);
   }
   const tmpDir = path.join(buildCacheProvider.resolveCacheDir(), ".tmp");
-  if (!isDryRun && fs.existsSync(tmpDir)) {
+  if (fs.existsSync(tmpDir)) {
     for (const entry of fs.readdirSync(tmpDir)) {
       const tmpPath = path.join(tmpDir, entry);
       // Uploads finish within minutes; older temp copies are leftovers.
@@ -256,11 +364,9 @@ const pruneBuilds = (
       }
     }
   }
-  pruneCheckouts(isDryRun);
+  await pruneCheckouts();
   const freed = stale.reduce((sum, build) => sum + build.sizeBytes, 0);
-  console.log(
-    `${stale.length} build(s) ${isDryRun ? "to remove" : "removed"}, ${formatSize(freed)}.`
-  );
+  console.log(`${stale.length} build(s) removed, ${formatSize(freed)}.`);
 };
 
 const cmdBuildsRm = (target: string) => {
@@ -296,29 +402,13 @@ const BUILDS: Noun = {
       summary: "Remove one cached build",
     }),
     prune: defineCommand({
-      details: `--keep <n>                Builds to keep per platform and variant (default: ${DEFAULT_KEEP_BUILDS}).
---keep-within <duration>  Also keep builds used this recently (default: ${DEFAULT_KEEP_WITHIN}).
---dry-run                 Print what would be removed.
-
-Also removes run files (build locks, build logs, Metro PID and log) of deleted
-worktrees from ~/.cache/pixy-mood-tracker/checkouts.`,
-      options: {
-        "dry-run": { type: "boolean" },
-        keep: { default: String(DEFAULT_KEEP_BUILDS), type: "string" },
-        "keep-within": { default: DEFAULT_KEEP_WITHIN, type: "string" },
-      },
-      run: (_args, values) =>
-        pruneBuilds(
-          parseKeep(values.keep),
-          values["keep-within"],
-          values["dry-run"] ?? false
-        ),
-      summary: "Remove old builds, keeping the newest and recently used",
+      run: () => pruneBuilds(),
+      summary: "Remove old builds and state of deleted worktrees",
     }),
   },
   footer: "Create builds with `bun app build`.",
   summary: "Inspect and prune the shared build cache.",
 };
 
-/** `bun builds` commands, plus the build list and IDs for the dashboard. */
+/** `bun builds` commands, build list, and cache IDs. */
 export { BUILDS, listBuilds, pruneBuilds, toBuildId };
