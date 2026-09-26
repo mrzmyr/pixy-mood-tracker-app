@@ -1,12 +1,13 @@
 import * as Localization from "expo-localization";
-import i18n from "i18n-js";
+import { I18n } from "i18n-js";
+import type { TranslateOptions } from "i18n-js";
 import dayjs from "dayjs";
 import localizedFormat from "dayjs/plugin/localizedFormat";
 import weekOfYear from "dayjs/plugin/weekOfYear";
 
 import type en from "../../assets/locales/en.json";
 
-i18n.translations = {
+const i18n = new I18n({
   ar: require("../../assets/locales/ar.json"),
   zh: require("../../assets/locales/zh.json"),
   hr: require("../../assets/locales/hr.json"),
@@ -38,7 +39,7 @@ i18n.translations = {
   tr: require("../../assets/locales/tr.json"),
   uk: require("../../assets/locales/uk.json"),
   vi: require("../../assets/locales/vi.json"),
-};
+});
 
 // https://unicode.org/Public/cldr/37/core.zip
 const firstDayOfWeek = {
@@ -243,7 +244,8 @@ const deviceLocale = Localization.getLocales()[0]?.languageTag ?? "en";
 const deviceRegion = Localization.getLocales()[0]?.regionCode ?? null;
 
 i18n.locale = deviceLocale;
-i18n.fallbacks = true;
+i18n.defaultLocale = "en";
+i18n.enableFallback = true;
 
 /** Device locale tag (for example `de-DE`), read once at startup. */
 export const { locale } = i18n;
@@ -287,7 +289,5 @@ export const initializeDayjs = () => {
 };
 
 /** Translate `key` for the device locale, falling back to English. */
-export const t = (
-  key: keyof typeof en | string,
-  options?: i18n.TranslateOptions
-) => i18n.t(key, options);
+export const t = (key: keyof typeof en | string, options?: TranslateOptions) =>
+  i18n.t(key, options);
