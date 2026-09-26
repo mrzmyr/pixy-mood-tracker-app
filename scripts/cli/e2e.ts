@@ -34,6 +34,7 @@ const getPlatform = (value: string | undefined): Platform => {
 const run = async (platform: Platform, paths: string[]) => {
   const device = await ensureDevice(platform);
   await stopStaleDaemon();
+  const artifactsDir = getStateDir("e2e");
   const args = [
     "test",
     ...(paths.length ? paths : DEFAULT_PATHS[platform]),
@@ -43,9 +44,11 @@ const run = async (platform: Platform, paths: string[]) => {
     deviceFlag(platform),
     device.id,
     "--artifacts-dir",
-    getStateDir("e2e"),
+    artifactsDir,
     "--reporter",
     "default",
+    "--reporter",
+    `junit:${path.join(artifactsDir, "junit.xml")}`,
     "--env",
     `APP_ID=${APP_VARIANTS.preview.appId}`,
     "--env",
@@ -55,11 +58,40 @@ const run = async (platform: Platform, paths: string[]) => {
   const child = spawn(AGENT_DEVICE, args, {
     cwd: REPO_ROOT,
     env: getAgentDeviceEnv(),
-    stdio: "inherit",
+    stdio: ["inherit", "pipe", "pipe"],
   });
-  // SAFETY: ChildProcess exit passes exit code as its first value.
-  const [code] = (await once(child, "exit")) as [number | null];
+  let output = "";
+  child.stdout.on("data", (chunk: Buffer) => {
+    const text = chunk.toString();
+    output += text;
+    process.stdout.write(text);
+  });
+  child.stderr.on("data", (chunk: Buffer) => {
+    const text = chunk.toString();
+    output += text;
+    process.stderr.write(text);
+  });
+  let code: number | null;
+  try {
+    // SAFETY: ChildProcess close passes exit code as its first value.
+    [code] = (await once(child, "close")) as [number | null];
+  } catch (error) {
+    throw new CliError({
+      status: "e2e_start_failed",
+      message: "E2E runner could not start",
+      why: error instanceof Error ? error.message : String(error),
+      fix: "Check agent-device installation, then retry.",
+    });
+  }
   if (code !== 0) {
+    if (output.includes("DEVICE_IN_USE")) {
+      throw new CliError({
+        status: "DEVICE_IN_USE",
+        message: "E2E device is in use",
+        why: `agent-device holds ${device.name} for another run.`,
+        fix: "Wait for the other run to finish, then retry.",
+      });
+    }
     throw new CliError({
       status: "e2e_failed",
       message: "E2E flow failed",
