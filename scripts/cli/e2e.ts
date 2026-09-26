@@ -84,7 +84,10 @@ const run = async (platform: Platform, paths: string[]) => {
     });
   }
   if (code !== 0) {
-    if (output.includes("DEVICE_IN_USE")) {
+    if (
+      output.includes("DEVICE_IN_USE") ||
+      output.includes("is owned by session")
+    ) {
       throw new CliError({
         status: "DEVICE_IN_USE",
         message: "E2E device is in use",
