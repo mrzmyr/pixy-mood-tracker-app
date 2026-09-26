@@ -20,5 +20,5 @@ description: Build, install, and run the app on a device. Use when asked to run 
    - Use `preview` for e2e and PR proof
 3. Use the app: `bunx agent-device help workflow`
 4. Close `bun app close --device <id>`
-   - Physical: quits app
+   - Physical: quits all variants, or one with `--variant <name>`
    - Simulator: shuts down simulator
