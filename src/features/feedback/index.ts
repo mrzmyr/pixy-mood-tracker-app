@@ -1,11 +1,11 @@
 import * as Localization from "expo-localization";
 import { Alert, Platform } from "react-native";
 import { FEEDBACK_URL } from "@/constants/API";
+import { APP_VARIANT, HAS_APP_VARIANT } from "@/constants/AppVariant";
 import { t } from "@/helpers/translation";
 import pkg from "../../../package.json";
 import { useAnalytics } from "@/state/analytics";
 import { useSettings } from "@/state/settings";
-import * as Updates from "expo-updates";
 
 /**
  * Feedback category sent with the report; also selects the modal's type tab.
@@ -47,7 +47,7 @@ export const useFeedback = () => {
       date: new Date().toISOString(),
       source,
       deviceId: settings.deviceId,
-      environment: Updates.channel,
+      environment: HAS_APP_VARIANT ? APP_VARIANT : undefined,
     };
 
     const body = {
