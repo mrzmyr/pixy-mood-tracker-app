@@ -14,6 +14,10 @@ import { createFingerprintAsync } from "@expo/fingerprint";
 
 import type { AppVariant } from "../../app.config.ts";
 import { ensurePrebuild, getAndroidBuildEnv } from "../run-native.ts";
+import {
+  GRADLE_FAILURE_HEADER,
+  summarizeGradleFailure,
+} from "./gradle-error.ts";
 import { REPO_ROOT } from "./runs.ts";
 import { CliError, note } from "./shared.ts";
 import type { Platform, Steps } from "./shared.ts";
@@ -103,11 +107,25 @@ const runLogged = async (
     stdio: ["ignore", "pipe", "pipe"],
   });
   let firstError = "";
+  // Gradle's cause tree under "* What went wrong:", up to the next blank line.
+  let gradleFailure: string[] | null = null;
+  let isGradleFailureDone = false;
   const timings: { task: string; seconds: number }[] = [];
   const onLine = (line: string) => {
     const at = (performance.now() - start) / 1000;
     options.log.write(`[${at.toFixed(1).padStart(7)}s] ${line}\n`);
-    const plain = stripVTControlCharacters(line).trim();
+    const text = stripVTControlCharacters(line);
+    const plain = text.trim();
+    if (gradleFailure && !isGradleFailureDone) {
+      if (plain === "") {
+        isGradleFailureDone = true;
+      } else {
+        gradleFailure.push(text);
+      }
+    }
+    if (plain === GRADLE_FAILURE_HEADER) {
+      gradleFailure ??= [];
+    }
     const timing = TIMING_LINE.exec(plain)?.groups;
     if (timing) {
       timings.push({ seconds: Number(timing.seconds), task: timing.task });
@@ -122,6 +140,9 @@ const runLogged = async (
   readline.createInterface({ input: child.stderr }).on("line", onLine);
   // SAFETY: a ChildProcess "exit" event passes (code: number | null, signal).
   const [code] = (await once(child, "exit")) as [number | null];
+  if (firstError === GRADLE_FAILURE_HEADER && gradleFailure) {
+    firstError = summarizeGradleFailure(gradleFailure) ?? firstError;
+  }
   return { code, firstError, timings };
 };
 
