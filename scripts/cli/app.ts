@@ -1,6 +1,6 @@
 // `bun app`: check a device, then build, install, and run the app on it. Every
 // step prints the command it runs, so a person can repeat it by hand.
-import { execFileSync, spawn } from "node:child_process";
+import { execFileSync } from "node:child_process";
 import type { ChildProcess } from "node:child_process";
 import fs from "node:fs";
 import os from "node:os";
@@ -39,13 +39,19 @@ import {
   readProfile,
 } from "./provisioning.ts";
 import type { Profile } from "./provisioning.ts";
+import {
+  METRO_LOG,
+  METRO_PID,
+  METRO_PORT,
+  readMetroPid,
+  startMetro,
+  stopMetro,
+} from "./metro.ts";
 import { isRunnerStartFailure } from "./runner-error.ts";
-import { REPO_ROOT } from "./runs.ts";
 import {
   CliError,
   createSteps,
   defineCommand,
-  getCheckoutDir,
   note,
   readJson,
   tryRun,
@@ -856,81 +862,6 @@ const cmdInstall = async (options: {
   note(`\n${describeNext(build.bundleId)}`);
 };
 
-const METRO_PORT = 8081;
-// Per checkout, so worktrees never read or stop each other's Metro.
-const METRO_LOG = path.join(getCheckoutDir(REPO_ROOT), "metro.log");
-// Written by `app run`, so `app close` stops only a Metro this CLI started.
-const METRO_PID = path.join(getCheckoutDir(REPO_ROOT), "metro.pid");
-
-const isMetroRunning = async () => {
-  try {
-    const response = await fetch(`http://localhost:${METRO_PORT}/status`, {
-      signal: AbortSignal.timeout(1000),
-    });
-    const body = await response.text();
-    return body.includes("packager-status:running");
-  } catch {
-    return false;
-  }
-};
-
-// Stops Metro's process group by PID and removes the PID file. A dead PID is
-// skipped.
-const stopMetro = (pid: number | undefined) => {
-  if (!pid) {
-    return false;
-  }
-  fs.rmSync(METRO_PID, { force: true });
-  try {
-    process.kill(-pid, "SIGINT");
-    return true;
-  } catch {
-    return false;
-  }
-};
-
-// Starts Metro (`bun start`) unless one already runs on the port. Returns the
-// process this CLI started, or null.
-const startMetro = async (steps: Steps) => {
-  steps.step("Start Metro", "bun start");
-  if (await isMetroRunning()) {
-    note(
-      `  Metro already runs on port ${METRO_PORT}. Reusing it; stop it first if another worktree started it.`
-    );
-    return null;
-  }
-  const log = fs.openSync(METRO_LOG, "w");
-  // Own process group, so Metro outlives `bun app run` and `stopMetro` also
-  // stops the Expo process that `bun start` launches.
-  const child = spawn("bun", ["start"], {
-    cwd: REPO_ROOT,
-    detached: true,
-    stdio: ["ignore", log, log],
-  });
-  child.unref();
-  fs.writeFileSync(METRO_PID, `${child.pid}\n`);
-  const deadline = Date.now() + 120_000;
-  // oxlint-disable-next-line no-await-in-loop -- polling must wait between checks
-  while (!(await isMetroRunning())) {
-    if (child.exitCode !== null || Date.now() > deadline) {
-      stopMetro(child.pid);
-      throw new CliError({
-        fix: `Read ${METRO_LOG}, fix the error, then retry.`,
-        message: "Metro did not start",
-        status: "metro_start_failed",
-        why:
-          child.exitCode === null
-            ? `No answer on port ${METRO_PORT} within 2 minutes.`
-            : `\`bun start\` exited with ${child.exitCode}.`,
-      });
-    }
-    // oxlint-disable-next-line no-await-in-loop -- polling must wait between checks
-    await sleep(1000);
-  }
-  pass(`running on port ${METRO_PORT}, log: ${METRO_LOG}`);
-  return child;
-};
-
 // One screen check or screenshot. Longer means the device or runner is stuck.
 const CHECK_TIMEOUT_MS = 30_000;
 
@@ -1228,7 +1159,7 @@ const wakeAndroidScreen = (steps: Steps, serial: string) => {
   pass("screen on");
 };
 
-// USB forwards the device's localhost:8081 to Metro on this Mac, so phones
+// USB forwards the device's localhost:<Metro port> to Metro on this Mac, so phones
 // need no Wi-Fi and no Local Network permission.
 const openOnAndroid = async (
   steps: Steps,
@@ -1629,14 +1560,7 @@ const cmdClose = async (options: {
       "Stop Metro started by bun app run",
       `kill -INT $(cat ${METRO_PID})`
     );
-    const pid = fs.existsSync(METRO_PID)
-      ? Math.trunc(Number(fs.readFileSync(METRO_PID, "utf-8")))
-      : Number.NaN;
-    pass(
-      stopMetro(Number.isInteger(pid) ? pid : undefined)
-        ? "stopped"
-        : "not running"
-    );
+    pass(stopMetro(readMetroPid()) ? "stopped" : "not running");
   }
   if (selected.destination === "simulator") {
     const flag = deviceFlag(selected.platform);
