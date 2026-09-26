@@ -63,6 +63,18 @@ export default defineConfig({
                   "Report errors with `logger.error` from `@/lib/logger`.",
               },
             ],
+            patterns: [
+              {
+                group: [
+                  "../**",
+                  "!../**/types",
+                  "!../**/package.json",
+                  "!../**/assets/**",
+                  "!../**/disclaimer",
+                ],
+                message: "Import files in src through the `@/` alias.",
+              },
+            ],
           },
         ],
       },
