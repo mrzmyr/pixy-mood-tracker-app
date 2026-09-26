@@ -93,6 +93,9 @@ tags: [log]
       text: "e2e-temp-${output.runId}"
     direction: DOWN
     timeout: 15000
+- swipe:
+    start: 50%, 65%
+    end: 50%, 25%
 - assertVisible: "e2e-temp-${output.runId}"
 - waitForAnimationToEnd
 - tapOn: "e2e-temp-${output.runId}"
