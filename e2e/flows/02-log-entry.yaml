@@ -85,7 +85,16 @@ tags: [log]
     direction: DOWN
     timeout: 15000
 - assertVisible: "e2e-temp-${output.runId}"
+- waitForAnimationToEnd
 - tapOn: "e2e-temp-${output.runId}"
+- runFlow:
+    when:
+      notVisible: "Edit Tag"
+    commands:
+      - tapOn: "e2e-temp-${output.runId}"
+- extendedWaitUntil:
+    visible: "Edit Tag"
+    timeout: 5000
 - scrollUntilVisible:
     element:
       text: "Delete"
