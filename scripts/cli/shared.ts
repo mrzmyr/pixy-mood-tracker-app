@@ -117,22 +117,29 @@ const printTable = (columns: string[], rows: string[][]) => {
 const getWorktree = () =>
   tryRun("git", ["rev-parse", "--show-toplevel"]) ?? process.cwd();
 
-// State of one checkout that must not leak into other worktrees, such as
-// build locks. Lives outside the worktree, keyed by the checkout's real path.
+const CHECKOUTS_DIR = path.join(
+  os.homedir(),
+  ".cache",
+  "pixy-mood-tracker",
+  "checkouts"
+);
+// Records which checkout a folder belongs to, so `bun builds prune` can remove
+// folders of deleted worktrees.
+const CHECKOUT_FILE = "checkout.txt";
+
+// State of one checkout that must not leak into other worktrees: build locks,
+// build logs, and Metro's PID and log. Lives outside the worktree, keyed by the
+// checkout's real path.
 const getCheckoutDir = (root: string) => {
+  const checkout = fs.realpathSync(root);
   const hash = crypto
     .createHash("sha256")
-    .update(fs.realpathSync(root))
+    .update(checkout)
     .digest("hex")
     .slice(0, 12);
-  const dir = path.join(
-    os.homedir(),
-    ".cache",
-    "pixy-mood-tracker",
-    "checkouts",
-    hash
-  );
+  const dir = path.join(CHECKOUTS_DIR, hash);
   fs.mkdirSync(dir, { recursive: true });
+  fs.writeFileSync(path.join(dir, CHECKOUT_FILE), `${checkout}\n`);
   return dir;
 };
 
@@ -261,6 +268,8 @@ interface Noun {
 
 /** Types, constants, and helpers shared by the CLIs and `bun dashboard`. */
 export {
+  CHECKOUTS_DIR,
+  CHECKOUT_FILE,
   CliError,
   DEFAULT_KEEP_BUILDS,
   DEFAULT_KEEP_WITHIN,
