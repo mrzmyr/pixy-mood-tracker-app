@@ -1,8 +1,8 @@
 import type { Dayjs } from "dayjs";
 import type { LogItem } from "@/hooks/useLogs";
 import { RATING_KEYS } from "@/constants/Ratings";
-import { NotEnoughDataOverlay } from "../NotEnoughDataOverlay";
-import { BigCard } from "../../BigCard";
+import { NotEnoughDataOverlay } from "@/components/Statistics/NotEnoughDataOverlay";
+import { BigCard } from "@/components/BigCard";
 import { Content } from "./Content";
 
 const MIN_ITEMS = 14;

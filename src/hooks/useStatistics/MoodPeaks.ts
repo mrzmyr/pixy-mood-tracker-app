@@ -1,5 +1,5 @@
 import { getLogDays } from "@/lib/utils";
-import type { LogDay, LogItem } from "../useLogs";
+import type { LogDay, LogItem } from "@/hooks/useLogs";
 
 /** Days whose average rating is good or better. */
 export interface MoodPeaksPositiveData {

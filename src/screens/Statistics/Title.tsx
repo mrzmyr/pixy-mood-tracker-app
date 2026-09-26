@@ -1,5 +1,5 @@
 import { Text } from "react-native";
-import useColors from "../../hooks/useColors";
+import useColors from "@/hooks/useColors";
 
 /** Section title on the Statistics tab. */
 export const Title = ({ children }: { children: string }) => {

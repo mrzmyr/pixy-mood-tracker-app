@@ -6,8 +6,8 @@ import { useMappingHelper } from "@shopify/flash-list";
 import type { getGeometry } from "./layout";
 import { Platform, StyleSheet, Text, View } from "react-native";
 import { useStyle } from "react-native-style-utilities";
-import useColors from "../../hooks/useColors";
-import type { LogItem } from "../../hooks/useLogs";
+import useColors from "@/hooks/useColors";
+import type { LogItem } from "@/hooks/useLogs";
 import CalendarWeek from "./CalendarWeek";
 
 const styles = StyleSheet.create({

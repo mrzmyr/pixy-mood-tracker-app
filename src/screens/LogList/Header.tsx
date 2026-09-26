@@ -1,7 +1,7 @@
 import { Pressable, Text, View } from "react-native";
 import { X } from "react-native-feather";
-import useColors from "../../hooks/useColors";
-import useHaptics from "../../hooks/useHaptics";
+import useColors from "@/hooks/useColors";
+import useHaptics from "@/hooks/useHaptics";
 
 /** Modal header of the day entry list with the day title and close action. */
 export const Header = ({

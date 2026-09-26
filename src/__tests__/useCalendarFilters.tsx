@@ -1,14 +1,14 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { STORAGE_KEYS } from "../helpers/storage";
+import { STORAGE_KEYS } from "@/helpers/storage";
 import { act, renderHook } from "@testing-library/react-native";
-import { AnalyticsProvider } from "../hooks/useAnalytics";
+import { AnalyticsProvider } from "@/hooks/useAnalytics";
 import {
   CalendarFiltersProvider,
   useCalendarFilters,
-} from "../hooks/useCalendarFilters";
-import type { LogsState } from "../hooks/useLogs";
-import { LogsProvider } from "../hooks/useLogs";
-import { SettingsProvider } from "../hooks/useSettings";
+} from "@/hooks/useCalendarFilters";
+import type { LogsState } from "@/hooks/useLogs";
+import { LogsProvider } from "@/hooks/useLogs";
+import { SettingsProvider } from "@/hooks/useSettings";
 import { _generateItem } from "./utils";
 
 const wrapper = ({ children }) => (

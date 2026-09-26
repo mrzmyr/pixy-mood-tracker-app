@@ -6,9 +6,9 @@ import type { BottomTabBarProps } from "@react-navigation/bottom-tabs";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Platform, View } from "react-native";
 import { Filter } from "react-native-feather";
-import { SettingsScreen } from "../screens/Settings";
-import { StatisticsScreen } from "../screens/Statistics";
-import CalendarScreen from "../screens/Calendar";
+import { SettingsScreen } from "@/screens/Settings";
+import { StatisticsScreen } from "@/screens/Statistics";
+import CalendarScreen from "@/screens/Calendar";
 import { MyTabBar } from "./MyTabBar";
 
 const Tab = createBottomTabNavigator();

@@ -5,7 +5,7 @@ import useColors from "@/hooks/useColors";
 import type { EmotionsDistributionData } from "@/hooks/useStatistics/EmotionsDistributuon";
 import type { Emotion } from "@/types";
 import { Text, View } from "react-native";
-import { EmotionItem } from "../LogList/EmotionItem";
+import { EmotionItem } from "@/screens/LogList/EmotionItem";
 
 const EmotionBar = ({
   emotion,

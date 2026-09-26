@@ -16,8 +16,8 @@ import {
   View,
 } from "react-native";
 import pkg from "../../../package.json";
-import Button from "../Button";
-import TextArea from "../TextArea";
+import Button from "@/components/Button";
+import TextArea from "@/components/TextArea";
 import { logger } from "@/lib/logger";
 
 const DEFAULT_ANALYTICS_DATA = {};

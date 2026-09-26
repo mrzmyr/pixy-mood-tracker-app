@@ -1,7 +1,7 @@
 import { PageWithHeaderLayout } from "@/components/PageWithHeaderLayout";
 import { Text, VirtualizedList } from "react-native";
 import disclaimer from "../../disclaimer";
-import useColors from "../hooks/useColors";
+import useColors from "@/hooks/useColors";
 
 interface Item {
   key: string;

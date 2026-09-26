@@ -2,7 +2,7 @@ import { Card } from "@/components/Statistics/Card";
 import { t } from "@/helpers/translation";
 import dayjs from "dayjs";
 import { Dimensions, View } from "react-native";
-import { useLogState } from "../../hooks/useLogs";
+import { useLogState } from "@/hooks/useLogs";
 
 import { SleepQualityChart } from "@/components/SleepQualityChart";
 import { CardFeedback } from "@/components/Statistics/CardFeedback";

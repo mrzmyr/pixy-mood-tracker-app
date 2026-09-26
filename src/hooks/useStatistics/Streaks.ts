@@ -1,6 +1,6 @@
 import { DATE_FORMAT } from "@/constants/Config";
 import dayjs from "dayjs";
-import type { LogItem } from "../useLogs";
+import type { LogItem } from "@/hooks/useLogs";
 import { RATING_MAPPING } from "@/constants/Ratings";
 import { getItemDate } from "@/lib/logDates";
 

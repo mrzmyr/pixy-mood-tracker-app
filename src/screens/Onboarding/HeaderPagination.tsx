@@ -1,5 +1,5 @@
 import { View } from "react-native";
-import useColors from "../../hooks/useColors";
+import useColors from "@/hooks/useColors";
 
 const HeaderPaginationDot = ({ active }: { active: boolean }) => {
   const colors = useColors();

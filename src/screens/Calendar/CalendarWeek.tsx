@@ -5,8 +5,8 @@ import { StyleSheet, View } from "react-native";
 import { DATE_FORMAT } from "@/constants/Config";
 
 import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
-import { useCalendarFilters } from "../../hooks/useCalendarFilters";
-import type { LogItem } from "../../hooks/useLogs";
+import { useCalendarFilters } from "@/hooks/useCalendarFilters";
+import type { LogItem } from "@/hooks/useLogs";
 import { getAverageMood } from "@/lib/utils";
 import CalendarDay from "./CalendarDay";
 import { useCalendarNavigation } from "@/hooks/useCalendarNavigation";

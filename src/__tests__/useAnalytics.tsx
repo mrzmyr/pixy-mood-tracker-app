@@ -1,13 +1,13 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { STORAGE_KEYS } from "../helpers/storage";
+import { STORAGE_KEYS } from "@/helpers/storage";
 import { act, renderHook, waitFor } from "@testing-library/react-native";
 import {
   PostHogProvider,
   usePostHog as getPostHogTestClient,
 } from "posthog-react-native";
-import { AnalyticsProvider, useAnalytics } from "../hooks/useAnalytics";
-import { INITIAL_STATE } from "../constants/Settings";
-import { SettingsProvider, useSettings } from "../hooks/useSettings";
+import { AnalyticsProvider, useAnalytics } from "@/hooks/useAnalytics";
+import { INITIAL_STATE } from "@/constants/Settings";
+import { SettingsProvider, useSettings } from "@/hooks/useSettings";
 
 const wrapper = ({ children }) => (
   <SettingsProvider>

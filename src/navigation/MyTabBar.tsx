@@ -9,9 +9,9 @@ import type { SvgProps } from "react-native-svg";
 import { t } from "@/helpers/translation";
 import useColors from "@/hooks/useColors";
 import useHaptics from "@/hooks/useHaptics";
-import { SettingsScreen } from "../screens/Settings";
-import { StatisticsScreen } from "../screens/Statistics";
-import CalendarScreen from "../screens/Calendar";
+import { SettingsScreen } from "@/screens/Settings";
+import { StatisticsScreen } from "@/screens/Statistics";
+import CalendarScreen from "@/screens/Calendar";
 
 interface TabRoute {
   name: string;

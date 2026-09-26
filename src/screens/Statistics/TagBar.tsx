@@ -1,7 +1,7 @@
 import type { DimensionValue } from "react-native";
 import { Text, View } from "react-native";
 import type { TAG_COLOR_NAMES } from "@/constants/Config";
-import useColors from "../../hooks/useColors";
+import useColors from "@/hooks/useColors";
 
 /**
  * Horizontal bar in a tag's color; `muted` switches to neutral trend

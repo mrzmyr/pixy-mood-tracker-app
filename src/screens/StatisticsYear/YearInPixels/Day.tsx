@@ -2,9 +2,9 @@ import dayjs from "dayjs";
 import React from "react";
 import { View } from "react-native";
 import { DATE_FORMAT } from "@/constants/Config";
-import useColors from "../../../hooks/useColors";
-import type { LogItem } from "../../../hooks/useLogs";
-import useScale from "../../../hooks/useScale";
+import useColors from "@/hooks/useColors";
+import type { LogItem } from "@/hooks/useLogs";
+import useScale from "@/hooks/useScale";
 
 /**
  * One pixel in the year grid; `null` ratings render an empty ring and
