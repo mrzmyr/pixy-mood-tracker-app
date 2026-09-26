@@ -12,6 +12,7 @@ import type { AppVariant } from "../../app.config.ts";
 import {
   AGENT_DEVICE,
   agentDevice,
+  ensureDaemonSigningEnv,
   findAgentDevice,
   getAgentDeviceEnv,
   listAgentDevices,
@@ -29,6 +30,7 @@ import {
 import type { Run } from "./runs.ts";
 import {
   CliError,
+  createSteps,
   defineCommand,
   formatAge,
   getWorktree,
@@ -255,6 +257,7 @@ const cmdRun = async (
   options: {
     platform: Platform;
     device: string;
+    isPhysical: boolean;
     isForce: boolean;
     isRecord: boolean;
     passthrough: string[];
@@ -263,6 +266,9 @@ const cmdRun = async (
 ) => {
   if (!options.isForce) {
     await assertDeviceFree(options.platform, options.device);
+  }
+  if (options.platform === "ios" && options.isPhysical) {
+    await ensureDaemonSigningEnv(createSteps());
   }
   // The reporter reads --udid or --serial to record which device ran.
   const selector = options.platform === "ios" ? "--udid" : "--serial";
@@ -426,6 +432,7 @@ worktree. Exits with agent-device's exit code.`,
         await cmdRun(paths, {
           device: device.id,
           isForce: values.force ?? false,
+          isPhysical: device.kind === "device",
           isRecord: values.record ?? false,
           passthrough,
           platform,

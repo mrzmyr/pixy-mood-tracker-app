@@ -11,6 +11,7 @@ import { APP_VARIANTS } from "../../app.config.ts";
 import type { AppVariant } from "../../app.config.ts";
 import {
   agentDevice,
+  ensureDaemonSigningEnv,
   findAgentDevice,
   listAgentDevices,
 } from "./agent-device.ts";
@@ -331,6 +332,7 @@ const runDoctorChecks = async (
   if (selected.platform === "ios" && selected.destination === "device") {
     checkIosPhone(steps, selected.device);
     checkLocalProfiles(steps, selected, APP_VARIANTS[variant].appId);
+    await ensureDaemonSigningEnv(steps);
   }
 };
 
@@ -842,6 +844,9 @@ const cmdInstall = async (options: {
   await checkDeviceFree(steps, selected, options.isForce);
   if (selected.destination === "device") {
     checkIosPhone(steps, selected.device);
+  }
+  if (physicalIphone(selected)) {
+    await ensureDaemonSigningEnv(steps);
   }
   await installBuild(steps, build, selected);
   steps.printTimings();
