@@ -158,6 +158,7 @@ interface Profile {
   appId: string;
   devices: string[];
   isAllDevices: boolean;
+  hasPush: boolean;
   expires: number;
 }
 
@@ -192,6 +193,7 @@ const parseProfile = (xml: string): Profile | null => {
       ...devices.matchAll(/<string>(?<udid>[^<]+)<\/string>/gu),
     ].flatMap((match) => match.groups?.udid ?? []),
     expires: Date.parse(expires),
+    hasPush: xml.includes("<key>aps-environment</key>"),
     isAllDevices: /<key>ProvisionsAllDevices<\/key>\s*<true\/>/u.test(xml),
     name: read("Name", "string") ?? "unnamed profile",
   };
@@ -220,6 +222,19 @@ const matchesBundleId = (profile: Profile, bundleId: string) => {
     : pattern === bundleId;
 };
 
+// Xcode lists signed-in Apple IDs here. An empty list prints `( )`.
+const hasXcodeAccount = () => {
+  const accounts = tryRun("defaults", [
+    "read",
+    "com.apple.dt.Xcode",
+    "DVTDeveloperAccountManagerAppleIDLists",
+  ]);
+  return accounts !== null && /\(\s*[^\s)]/u.test(accounts);
+};
+
+const includesPhone = (profile: Profile, udid: string) =>
+  profile.isAllDevices || profile.devices.includes(udid);
+
 // Passes when one profile includes the phone; otherwise suggests phones that
 // the profiles include.
 const assertProfileIncludes = (
@@ -228,9 +243,7 @@ const assertProfileIncludes = (
   profiles: Profile[]
 ) => {
   const phone = selected.device;
-  const covering = profiles.find(
-    (profile) => profile.isAllDevices || profile.devices.includes(phone.id)
-  );
+  const covering = profiles.find((profile) => includesPhone(profile, phone.id));
   if (covering) {
     pass(`"${covering.name}" includes ${phone.name}`);
     return;
@@ -245,7 +258,9 @@ const assertProfileIncludes = (
     .map((device) => `${device.name} (${device.id})`);
   throw new CliError({
     fix: [
-      `Register the phone in the Apple Developer portal (Certificates, IDs & Profiles > Devices), then run \`bun app build --device ${phone.id} --variant <name> --rebuild\` to refresh the profile.`,
+      hasXcodeAccount()
+        ? `Run \`bun app build --device ${phone.id} --variant <name>\`. It registers the phone in the Apple Developer portal and refreshes the profile.`
+        : "Open Xcode > Settings > Accounts, add the Apple ID of the signing team, then retry. The build then registers the phone.",
       covered.length
         ? `Or pick a phone the profile includes: ${covered.join(", ")}.`
         : "",
@@ -258,26 +273,50 @@ const assertProfileIncludes = (
   });
 };
 
+// Pixy requests the aps-environment entitlement through expo-notifications,
+// so profiles without Push Notifications (like the team wildcard) fail signing.
 const checkLocalProfiles = (
   steps: Steps,
   selected: SelectedDevice,
   bundleId: string
 ) => {
   steps.step(
-    `Check a provisioning profile for ${bundleId} includes the phone`,
+    `Check a provisioning profile for ${bundleId} with Push Notifications includes the phone`,
     'security cms -D -i "~/Library/Developer/Xcode/UserData/Provisioning Profiles/<file>.mobileprovision"'
   );
   const profiles = readLocalProfiles().filter(
     (profile) =>
-      profile.expires > Date.now() && matchesBundleId(profile, bundleId)
+      profile.expires > Date.now() &&
+      profile.hasPush &&
+      matchesBundleId(profile, bundleId)
   );
   if (profiles.length === 0) {
+    if (!hasXcodeAccount()) {
+      throw new CliError({
+        fix: "Open Xcode > Settings > Accounts, add the Apple ID of the signing team, then retry. The build then creates the profile.",
+        message: `No provisioning profile with Push Notifications for ${bundleId}`,
+        status: "xcode_account_missing",
+        why: "Xcode has no Apple ID signed in, so -allowProvisioningUpdates cannot create the profile. The team wildcard profile lacks Push Notifications.",
+      });
+    }
     note(
-      `  warning: no local profile for ${bundleId}. Xcode creates one during the build if the phone is registered.`
+      `  warning: no local profile with Push Notifications for ${bundleId}. Xcode creates one during the build.`
     );
     return;
   }
-  assertProfileIncludes(selected, bundleId, profiles);
+  // Not fatal: device builds register the phone and refresh the profile.
+  const phone = selected.device;
+  const covering = profiles.find((profile) => includesPhone(profile, phone.id));
+  if (covering) {
+    pass(`"${covering.name}" includes ${phone.name}`);
+    return;
+  }
+  if (!hasXcodeAccount()) {
+    assertProfileIncludes(selected, bundleId, profiles);
+  }
+  note(
+    `  warning: no local profile for ${bundleId} includes ${phone.name}. The build registers the phone in the Apple Developer portal and refreshes the profile.`
+  );
 };
 
 const runDoctorChecks = async (
@@ -326,7 +365,13 @@ const adb = (serial: string, args: string[], input?: string) =>
     timeout: 60_000,
   }).trim();
 
-// Compiles, or reuses a cached build; returns the build ID.
+const physicalIphone = (selected: SelectedDevice) =>
+  selected.platform === "ios" && selected.destination === "device"
+    ? selected.device
+    : undefined;
+
+// Compiles, or reuses a cached build; returns the build ID. For a physical
+// iPhone, compiles again when the cached build's profile lacks the phone.
 const buildApp = async (
   steps: Steps,
   options: {
@@ -334,12 +379,28 @@ const buildApp = async (
     destination: Destination;
     variant: AppVariant;
     isRebuild: boolean;
+    phone?: AgentDevice;
   }
 ) => {
+  const { phone } = options;
   const key =
     options.platform === "android"
       ? await buildAndroid(options, steps)
-      : await buildIos(options, steps);
+      : await buildIos(
+          {
+            ...options,
+            canReuse: phone
+              ? (app) => {
+                  const profile = readProfile(
+                    path.join(app, "embedded.mobileprovision")
+                  );
+                  return profile !== null && includesPhone(profile, phone.id);
+                }
+              : undefined,
+            phoneId: phone?.id,
+          },
+          steps
+        );
   return toBuildId(key);
 };
 
@@ -352,6 +413,7 @@ const cmdBuild = async (options: {
   const steps = createSteps();
   let platform: Platform = "ios";
   let destination: Destination;
+  let phone: AgentDevice | undefined;
   if (options.id) {
     const selected = await selectDevice(steps, options.id);
     if (options.destination && options.destination !== selected.destination) {
@@ -364,6 +426,7 @@ const cmdBuild = async (options: {
       });
     }
     ({ destination, platform } = selected);
+    phone = physicalIphone(selected);
   } else if (
     options.destination === "device" ||
     options.destination === "simulator"
@@ -383,6 +446,7 @@ const cmdBuild = async (options: {
   const buildId = await buildApp(steps, {
     destination,
     isRebuild: options.isRebuild,
+    phone,
     platform,
     variant: options.variant,
   });
@@ -1289,6 +1353,7 @@ const cmdRun = async (options: {
     const buildId = await buildApp(steps, {
       destination: selected.destination,
       isRebuild: options.isRebuild,
+      phone: physicalIphone(selected),
       platform: selected.platform,
       variant: options.variant,
     });
