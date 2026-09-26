@@ -16,15 +16,15 @@ End-to-end tests are [Maestro](https://maestro.mobile.dev) YAML flows. [agent-de
 bunx agent-device boot --platform ios --device "iPhone 17 Pro"
 bunx agent-device boot --platform android --device medium_phone --headless
 
-# 2. Install a preview release build of this worktree (bun builds check --release shows cache reuse).
+# 2. Install a preview release build of this worktree (bun builds status --release shows cache reuse).
 bun ios:preview --device <udid>
 bun android:preview --device <avd-name>
 
 # 3. Run flows. --device is required, so the run never lands on another agent's device.
-bun e2e run --platform ios --device <udid>                  # e2e/flows and the iOS-only e2e/apple
-bun e2e run --platform android --device emulator-5554       # e2e/flows
-bun e2e run --platform ios --device <udid> e2e/flows/02-log-entry.yaml --record
-bun e2e run --platform ios --device <udid> -- --retries 1 --fail-fast
+bun e2e run --device <udid>                                 # e2e/flows, plus e2e/apple on iOS
+bun e2e run --device emulator-5554                          # e2e/flows
+bun e2e run --device <udid> e2e/flows/02-log-entry.yaml --record
+bun e2e run --device <udid> -- --retries 1 --fail-fast
 
 # 4. Watch and stop runs across worktrees.
 bun e2e list                                                # running runs (--all for finished)

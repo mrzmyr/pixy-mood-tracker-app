@@ -35,6 +35,8 @@ const getJavaHome = () => {
   try {
     javaHome = execFileSync("/usr/libexec/java_home", ["-v", "17+"], {
       encoding: "utf-8",
+      // Without a registered JDK it prints an error; Homebrew is checked next.
+      stdio: ["ignore", "pipe", "ignore"],
     }).trim();
   } catch {
     // Homebrew JDKs are not always registered with java_home.
@@ -99,8 +101,12 @@ const readStamp = (platform: Platform): PrebuildStamp | null => {
   }
 };
 
+// Full path, so it runs no matter how the caller was started. Only
+// `bun <script>` puts node_modules/.bin on PATH.
+const EXPO = path.join(ROOT, "node_modules", ".bin", "expo");
+
 const runExpo = (args: string[], env: NodeJS.ProcessEnv) => {
-  const result = spawnSync("expo", args, { cwd: ROOT, env, stdio: "inherit" });
+  const result = spawnSync(EXPO, args, { cwd: ROOT, env, stdio: "inherit" });
   if (result.error) {
     throw new CliError({
       fix: "Run `bun install` and retry.",
@@ -189,20 +195,26 @@ const main = async () => {
   process.exitCode = runExpo([`run:${platform}`, ...args], env);
 };
 
-try {
-  await main();
-} catch (error) {
-  const fields =
-    error instanceof CliError
-      ? error
-      : {
-          fix: "Check the output above, then retry.",
-          message: "Native build could not start",
-          status: "native_build_error",
-          why: error instanceof Error ? error.message : String(error),
-        };
-  console.error(
-    `error [${fields.status}]: ${fields.message}\n  why: ${fields.why}\n  fix: ${fields.fix}`
-  );
-  process.exitCode = 1;
+// `bun app build` imports ensurePrebuild; only a direct run builds.
+if (import.meta.main) {
+  try {
+    await main();
+  } catch (error) {
+    const fields =
+      error instanceof CliError
+        ? error
+        : {
+            fix: "Check the output above, then retry.",
+            message: "Native build could not start",
+            status: "native_build_error",
+            why: error instanceof Error ? error.message : String(error),
+          };
+    console.error(
+      `error [${fields.status}]: ${fields.message}\n  why: ${fields.why}\n  fix: ${fields.fix}`
+    );
+    process.exitCode = 1;
+  }
 }
+
+/** Prebuild plus the Android SDK and JDK lookup, for `bun app`. */
+export { ensurePrebuild, getAndroidBuildEnv, getAndroidSdk };

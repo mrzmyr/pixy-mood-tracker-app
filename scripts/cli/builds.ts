@@ -38,6 +38,8 @@ interface BuildCacheProvider {
 interface BuildMeta {
   key?: string;
   platform?: Platform;
+  target?: string;
+  appVariant?: string;
   variant?: string;
   branch?: string;
   commit?: string;
@@ -53,6 +55,8 @@ interface Build {
   id: string;
   file: string;
   platform: string;
+  // simulator, emulator, or device.
+  target: string;
   fingerprint: string;
   variant: string;
   isRelease: boolean;
@@ -69,7 +73,7 @@ const buildCacheProvider = localRequire(
 ) as BuildCacheProvider;
 
 const BUILD_KEY =
-  /^(?<platform>ios|android)-(?<fingerprint>[0-9a-f]{40})-(?<variant>[^-]+)(?:-(?<bundle>[0-9a-f]{12}))?$/u;
+  /^(?<platform>ios|android)(?<device>-device)?-(?<fingerprint>[0-9a-f]{40})-(?<variant>[^-]+)(?:-(?<bundle>[0-9a-f]{12}))?$/u;
 
 const getSize = (target: string): number => {
   const stats = fs.statSync(target);
@@ -80,14 +84,15 @@ const getSize = (target: string): number => {
     : stats.size;
 };
 
-// Short ID for a cache key: ios-f2ab57cc-Release-88f1470e0d69.
+// Short ID for a cache key: ios-f2ab57cc-Release-88f1470e0d69, or
+// ios-device-f2ab57cc-unknown for a physical device build.
 const toBuildId = (key: string) => {
   const groups = BUILD_KEY.exec(key)?.groups;
   if (!groups) {
     return key;
   }
-  const { bundle, fingerprint, platform, variant } = groups;
-  return `${platform}-${fingerprint.slice(0, 8)}-${variant}${bundle ? `-${bundle}` : ""}`;
+  const { bundle, device = "", fingerprint, platform, variant } = groups;
+  return `${platform}${device}-${fingerprint.slice(0, 8)}-${variant}${bundle ? `-${bundle}` : ""}`;
 };
 
 const formatSize = (bytes: number) => `${Math.round(bytes / 1_000_000)}M`;
@@ -103,7 +108,7 @@ const listBuilds = (): Build[] => {
     if (!match?.groups || file.endsWith(".json")) {
       return [];
     }
-    const { bundle, fingerprint, platform, variant } = match.groups;
+    const { bundle, device, fingerprint, platform, variant } = match.groups;
     const fullPath = path.join(cacheDir, file);
     const meta = readJson<BuildMeta>(path.join(cacheDir, `${key}.json`)) ?? {};
     const createdAt =
@@ -120,6 +125,9 @@ const listBuilds = (): Build[] => {
         meta,
         platform,
         sizeBytes: meta.sizeBytes ?? getSize(fullPath),
+        target: device
+          ? "device"
+          : (meta.target ?? (platform === "ios" ? "simulator" : "emulator")),
         variant,
       },
     ];
@@ -144,10 +152,22 @@ const cmdBuildsList = (platform: Platform | undefined, isJson: boolean) => {
     return;
   }
   printTable(
-    ["ID", "OS", "VARIANT", "SOURCE", "SIZE", "CREATED", "LAST USED"],
+    [
+      "ID",
+      "OS",
+      "TARGET",
+      "APP",
+      "VARIANT",
+      "SOURCE",
+      "SIZE",
+      "CREATED",
+      "LAST USED",
+    ],
     builds.map((build) => [
       build.id,
       build.platform,
+      build.target,
+      build.meta.appVariant ?? "-",
       build.variant,
       describeSource(build.meta),
       formatSize(build.sizeBytes),
@@ -220,6 +240,7 @@ const checkBuild = (
   const sameNative = builds.filter(
     (build) =>
       build.platform === platform &&
+      build.target !== "device" &&
       build.fingerprint === fingerprintHash &&
       build.isRelease === isRelease
   );
@@ -230,7 +251,7 @@ const checkBuild = (
   return { buildId: null, isHit: false, key, platform, reason, variant };
 };
 
-const cmdBuildsCheck = async (
+const cmdBuildsStatus = async (
   platform: Platform | undefined,
   isRelease: boolean,
   isJson: boolean
@@ -254,7 +275,7 @@ const cmdBuildsCheck = async (
     const hit = builds.find((build) => build.id === result.buildId);
     console.log(
       hit
-        ? `${label}: HIT ${hit.id} from ${describeSource(hit.meta)}, ${formatAge(hit.createdAt)} old. \`bun ${result.platform}${isRelease ? ":preview" : ""}\` installs it without compiling.`
+        ? `${label}: HIT ${hit.id} from ${describeSource(hit.meta)}, ${formatAge(hit.createdAt)} old. \`bun app install ${hit.id} --device <id>\` installs it without compiling.`
         : `${label}: MISS ${result.key}\n  ${result.reason}.`
     );
   }
@@ -288,7 +309,7 @@ const pruneBuilds = (keep: number, keepWithin: string, isDryRun: boolean) => {
   const keepWithinMs = parseDuration(keepWithin);
   const groups = Map.groupBy(
     listBuilds(),
-    (build) => `${build.platform}-${build.variant}`
+    (build) => `${build.platform}-${build.target}-${build.variant}`
   );
   const stale = [...groups.values()].flatMap((group) =>
     group
@@ -348,7 +369,7 @@ const BUILDS: Noun = {
         cmdBuildsList(getPlatform(values.platform), values.json ?? false),
       summary: "List cached builds with variant, source, size, and last use",
     }),
-    check: defineCommand({
+    status: defineCommand({
       details: `--platform ios|android  Only this platform.
 --release               Check the release build e2e runs need.
 --json                  Print JSON instead of text.`,
@@ -358,12 +379,13 @@ const BUILDS: Noun = {
         release: { type: "boolean" },
       },
       run: (_args, values) =>
-        cmdBuildsCheck(
+        cmdBuildsStatus(
           getPlatform(values.platform),
           values.release ?? false,
           values.json ?? false
         ),
-      summary: "Tell whether this worktree gets a cached build, and why not",
+      summary:
+        "Tell whether this worktree resolves to a cached build, and why not",
     }),
     rm: defineCommand({
       args: ["<id>"],
@@ -389,6 +411,7 @@ const BUILDS: Noun = {
       summary: "Remove old builds, keeping the newest and recently used",
     }),
   },
+  footer: "Create builds with `bun app build`.",
   summary: "Inspect and prune the shared build cache.",
 };
 

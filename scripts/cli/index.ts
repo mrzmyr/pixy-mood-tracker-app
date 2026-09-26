@@ -1,18 +1,24 @@
 // Entry point for the local CLIs:
+//   bun app <command>       check a device, build, install, and run the app
 //   bun builds <command>    the shared native build cache
+//   bun simulators <command> create simulators and emulators
 //   bun e2e <command>       e2e runs through agent-device
 // Devices use agent-device directly (`bunx agent-device devices`).
 // Run `bun <noun> --help` or `bun <noun> <command> --help` for options.
 import { parseArgs } from "node:util";
 
+import { APP } from "./app.ts";
 import { BUILDS } from "./builds.ts";
 import { E2E } from "./e2e.ts";
+import { SIMULATORS } from "./simulators.ts";
 import { CliError } from "./shared.ts";
 import type { CommandSpec, Noun } from "./shared.ts";
 
 const NOUNS = new Map<string, Noun>([
+  ["app", APP],
   ["builds", BUILDS],
   ["e2e", E2E],
+  ["simulators", SIMULATORS],
 ]);
 const ALIASES = new Map([
   ["ls", "list"],
@@ -25,12 +31,14 @@ const usageError = (
 ) => new CliError({ ...fields, exitCode: 2 });
 
 const formatUsage = (noun: string, verb: string, spec: CommandSpec) =>
-  [
-    `bun ${noun} ${verb}`,
-    ...(spec.args ?? []),
-    ...(spec.options ? ["[options]"] : []),
-    ...(spec.hasPassthrough ? ["[-- <args>]"] : []),
-  ].join(" ");
+  spec.usage
+    ? `bun ${noun} ${verb} ${spec.usage}`
+    : [
+        `bun ${noun} ${verb}`,
+        ...(spec.args ?? []),
+        ...(spec.options ? ["[options]"] : []),
+        ...(spec.hasPassthrough ? ["[-- <args>]"] : []),
+      ].join(" ");
 
 const printNounHelp = (noun: string, { commands, footer, summary }: Noun) => {
   const width = Math.max(...Object.keys(commands).map((verb) => verb.length));
@@ -48,7 +56,7 @@ Usage: bun ${noun} <command> [options]
 Commands:
 ${lines.join("\n")}
 ${footer ? `\n${footer}\n` : ""}
-Run \`bun ${noun} <command> --help\` for options. Aliases: ${aliases}.`);
+Run \`bun ${noun} <command> --help\` for options.${aliases ? ` Aliases: ${aliases}.` : ""}`);
 };
 
 const printCommandHelp = (noun: string, verb: string, spec: CommandSpec) => {
@@ -124,10 +132,10 @@ const main = async () => {
   const nounSpec = NOUNS.get(noun);
   if (!nounSpec) {
     throw usageError({
-      fix: "Run `bun builds --help` or `bun e2e --help`. For devices, use `bunx agent-device`.",
+      fix: "Run `bun app --help`, `bun builds --help`, `bun e2e --help`, or `bun simulators --help`. For devices, use `bunx agent-device`.",
       message: `Unknown CLI "${noun}"`,
       status: "unknown_cli",
-      why: "The first argument must be builds or e2e.",
+      why: "The first argument must be app, builds, e2e, or simulators.",
     });
   }
   if (verb === undefined || HELP_FLAGS.has(verb)) {
