@@ -21,6 +21,7 @@ import type { AgentDevice } from "./agent-device.ts";
 import { buildAndroid, buildIos } from "./app-build.ts";
 import type { Destination } from "./app-build.ts";
 import { listBuilds, toBuildId } from "./builds.ts";
+import { deviceFlag } from "./device.ts";
 import { assertDeviceFree, requireVariant } from "./e2e.ts";
 import {
   RUNNER_TIMEOUT_MS,
@@ -72,10 +73,6 @@ const pass = (message: string) => note(`  ok: ${message}`);
 
 // Install, launch, or attach. Longer means the device is stuck.
 const OPEN_TIMEOUT_MS = 120_000;
-
-// agent-device flag for one device: --udid on iOS, --serial on Android.
-const deviceFlag = (platform: Platform) =>
-  platform === "ios" ? "--udid" : "--serial";
 
 const selectDevice = async (
   steps: Steps,
