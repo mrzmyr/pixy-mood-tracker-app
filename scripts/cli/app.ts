@@ -25,6 +25,7 @@ import {
   CliError,
   createSteps,
   defineCommand,
+  getCheckoutDir,
   note,
   readJson,
   tryRun,
@@ -723,9 +724,10 @@ const cmdInstall = async (options: {
 };
 
 const METRO_PORT = 8081;
-const METRO_LOG = "/tmp/pixy-mood-tracker-metro.log";
+// Per checkout, so worktrees never read or stop each other's Metro.
+const METRO_LOG = path.join(getCheckoutDir(REPO_ROOT), "metro.log");
 // Written by `app run`, so `app close` stops only a Metro this CLI started.
-const METRO_PID = "/tmp/pixy-mood-tracker-metro.pid";
+const METRO_PID = path.join(getCheckoutDir(REPO_ROOT), "metro.pid");
 
 const isMetroRunning = async () => {
   try {

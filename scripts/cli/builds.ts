@@ -5,6 +5,8 @@ import { createRequire } from "node:module";
 import path from "node:path";
 
 import {
+  CHECKOUTS_DIR,
+  CHECKOUT_FILE,
   CliError,
   DEFAULT_KEEP_BUILDS,
   DEFAULT_KEEP_WITHIN,
@@ -303,6 +305,29 @@ const parseKeep = (value: string) => {
   return keep;
 };
 
+// Removes run state (locks, logs, Metro PID) of deleted checkouts. Folders
+// without a checkout record are left alone.
+const pruneCheckouts = (isDryRun: boolean) => {
+  if (!fs.existsSync(CHECKOUTS_DIR)) {
+    return;
+  }
+  for (const entry of fs.readdirSync(CHECKOUTS_DIR)) {
+    const dir = path.join(CHECKOUTS_DIR, entry);
+    const file = path.join(dir, CHECKOUT_FILE);
+    const checkout = fs.existsSync(file)
+      ? fs.readFileSync(file, "utf-8").trim()
+      : "";
+    if (checkout && !fs.existsSync(checkout)) {
+      console.log(
+        `${isDryRun ? "Would remove" : "Removed"} run files of deleted checkout ${checkout}`
+      );
+      if (!isDryRun) {
+        fs.rmSync(dir, { force: true, recursive: true });
+      }
+    }
+  }
+};
+
 // Keeps the newest `keep` builds per platform and variant, plus every build
 // used within `keepWithin`. Removes the rest and abandoned temp copies.
 const pruneBuilds = (keep: number, keepWithin: string, isDryRun: boolean) => {
@@ -337,6 +362,7 @@ const pruneBuilds = (keep: number, keepWithin: string, isDryRun: boolean) => {
       }
     }
   }
+  pruneCheckouts(isDryRun);
   const freed = stale.reduce((sum, build) => sum + build.sizeBytes, 0);
   console.log(
     `${stale.length} build(s) ${isDryRun ? "to remove" : "removed"}, ${formatSize(freed)}.`
@@ -396,7 +422,10 @@ const BUILDS: Noun = {
     prune: defineCommand({
       details: `--keep <n>                Builds to keep per platform and variant (default: ${DEFAULT_KEEP_BUILDS}).
 --keep-within <duration>  Also keep builds used this recently (default: ${DEFAULT_KEEP_WITHIN}).
---dry-run                 Print what would be removed.`,
+--dry-run                 Print what would be removed.
+
+Also removes run files (build locks, build logs, Metro PID and log) of deleted
+worktrees from ~/.cache/pixy-mood-tracker/checkouts.`,
       options: {
         "dry-run": { type: "boolean" },
         keep: { default: String(DEFAULT_KEEP_BUILDS), type: "string" },

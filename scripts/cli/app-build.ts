@@ -21,7 +21,7 @@ import {
   summarizeGradleFailure,
 } from "./gradle-error.ts";
 import { REPO_ROOT } from "./runs.ts";
-import { CliError, note } from "./shared.ts";
+import { CliError, getCheckoutDir, note } from "./shared.ts";
 import type { Platform, Steps } from "./shared.ts";
 
 // Where the build runs: xcodebuild `generic/platform=iOS` or `iOS Simulator`.
@@ -298,7 +298,10 @@ const buildIos = async (
       () => ensurePrebuild("ios", variant, process.env, fingerprintHash)
     );
 
-    const logFile = `/tmp/pixy-mood-tracker-ios-${destination}-${variant}-build.log`;
+    const logFile = path.join(
+      getCheckoutDir(REPO_ROOT),
+      `ios-${destination}-${variant}-build.log`
+    );
     const log = fs.createWriteStream(logFile);
     note(`\nFollow along: tail -f ${logFile}`);
 
@@ -444,7 +447,10 @@ const buildAndroid = async (
       () => ensurePrebuild("android", variant, env, fingerprintHash)
     );
 
-    const logFile = `/tmp/pixy-mood-tracker-android-${variant}-build.log`;
+    const logFile = path.join(
+      getCheckoutDir(REPO_ROOT),
+      `android-${variant}-build.log`
+    );
     const log = fs.createWriteStream(logFile);
     note(`\nFollow along: tail -f ${logFile}`);
     const task = `app:assemble${gradleVariant === "debug" ? "Debug" : "Release"}`;
