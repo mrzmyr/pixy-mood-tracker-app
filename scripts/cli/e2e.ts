@@ -1,4 +1,3 @@
-// Maestro flows on the device assigned to this checkout.
 import { spawn } from "node:child_process";
 import { once } from "node:events";
 import path from "node:path";
@@ -81,5 +80,4 @@ const E2E: Noun = {
   summary: "Run Maestro flows on the preview app.",
 };
 
-/** Closed e2e command. */
 export { E2E };

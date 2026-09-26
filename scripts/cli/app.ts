@@ -506,8 +506,44 @@ const close = async (platform: Platform) => {
     }
     if (platform === "ios") {
       try {
+        const deviceLine = execFileSync(
+          "xcrun",
+          ["simctl", "list", "devices"],
+          {
+            encoding: "utf-8",
+          }
+        )
+          .split("\n")
+          .find((line) => line.includes(device.id));
+        if (deviceLine?.includes("(Booted)")) {
+          execFileSync("xcrun", ["simctl", "shutdown", device.id]);
+        }
+        const deadline = Date.now() + 30_000;
+        while (
+          !execFileSync("xcrun", ["simctl", "list", "devices"], {
+            encoding: "utf-8",
+          })
+            .split("\n")
+            .some(
+              (line) => line.includes(device.id) && line.includes("(Shutdown)")
+            )
+        ) {
+          if (Date.now() >= deadline) {
+            throw new CliError({
+              status: "simulator_shutdown_timeout",
+              message: "iOS simulator did not shut down",
+              why: `Simulator ${device.id} was still running after 30 seconds.`,
+              fix: "Check simulator state, then retry close.",
+            });
+          }
+          // oxlint-disable-next-line no-await-in-loop -- wait for simulator shutdown
+          await sleep(500);
+        }
         execFileSync("xcrun", ["simctl", "erase", device.id]);
       } catch (error) {
+        if (error instanceof CliError) {
+          throw error;
+        }
         throw new CliError({
           status: "simulator_erase_failed",
           message: "iOS simulator could not be erased",

@@ -1,4 +1,3 @@
-// Shared CLI types and helpers.
 import { execFileSync } from "node:child_process";
 import crypto from "node:crypto";
 import fs from "node:fs";
@@ -12,7 +11,6 @@ interface CliErrorFields {
   message: string;
   why: string;
   fix: string;
-  // 2 for invalid usage (unknown command, option, or argument), 1 otherwise.
   exitCode?: number;
 }
 
@@ -120,11 +118,8 @@ const CHECKOUTS_DIR = path.join(
   "pixy-mood-tracker",
   "checkouts"
 );
-// Records which checkout a folder belongs to, so `bun builds prune` can remove
-// folders of deleted worktrees.
 const CHECKOUT_FILE = "checkout.txt";
 
-// External state keyed by the checkout's real path.
 const getCheckoutDir = (root: string) => {
   const checkout = fs.realpathSync(root);
   const hash = crypto
@@ -138,7 +133,6 @@ const getCheckoutDir = (root: string) => {
   return dir;
 };
 
-/** Keeps generated files in the checkout's external state directory. */
 const getStateDir = (kind: "e2e" | "build" | "screenshots") => {
   const dir = path.join(
     getCheckoutDir(path.resolve(import.meta.dir, "../..")),
@@ -148,7 +142,6 @@ const getStateDir = (kind: "e2e" | "build" | "screenshots") => {
   return dir;
 };
 
-// Status messages go to stderr, so stdout stays pipeable.
 const note = (message: string) => console.error(message);
 
 const isPlatform = (value: string): value is Platform =>
@@ -173,7 +166,6 @@ type OptionSpec =
   | { type: "boolean"; short?: string }
   | { type: "string"; short?: string; default?: string };
 type Options = Record<string, OptionSpec>;
-// Unset boolean flags are undefined; string flags fall back to their default.
 type OptionValue<S extends OptionSpec> = S extends { type: "boolean" }
   ? boolean | undefined
   : S extends { default: string }
@@ -181,22 +173,14 @@ type OptionValue<S extends OptionSpec> = S extends { type: "boolean" }
     : string | undefined;
 type OptionValues<O extends Options> = { [K in keyof O]: OptionValue<O[K]> };
 
-// One subcommand, such as `bun builds prune`. The entry point parses only the
-// flags in `options`, so a flag of another command is an error.
 interface CommandSpec<O extends Options = Options> {
   summary: string;
-  // Positionals for usage and validation: `<id>` is required, `[paths...]`
-  // is optional and variadic.
   args?: string[];
-  // Where to find a valid value for a missing argument.
   argsSource?: string;
   options?: O;
   // Accept `-- <args>` and pass them to `run` unparsed.
   hasPassthrough?: boolean;
-  // Usage after `bun <noun> <verb>`, when it should name required flags.
-  // Generated from args and options when unset.
   usage?: string;
-  // Extra help: what the options do, defaults, and side effects.
   details?: string;
   run: (
     args: string[],
@@ -214,11 +198,9 @@ const defineCommand = <const O extends Options = Record<never, never>>(
 interface Noun {
   summary: string;
   commands: Record<string, CommandSpec>;
-  // Shown after the command list in `bun <noun> --help`.
   footer?: string;
 }
 
-/** Types, constants, and helpers shared by the CLIs. */
 export {
   CHECKOUTS_DIR,
   CHECKOUT_FILE,

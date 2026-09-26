@@ -1,8 +1,3 @@
-// Entry point for the local CLIs:
-//   bun app <command>       check a device, build, install, and run the app
-//   bun builds <command>    the shared native build cache
-//   bun e2e <command>       e2e runs through agent-device
-// Run `bun <noun> --help` or `bun <noun> <command> --help` for options.
 import { parseArgs } from "node:util";
 
 import { APP } from "./app.ts";

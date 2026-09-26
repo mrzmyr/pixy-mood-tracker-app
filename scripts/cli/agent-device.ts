@@ -1,4 +1,3 @@
-// Pinned agent-device client and stale shared-daemon guard.
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
@@ -71,7 +70,6 @@ interface AgentDeviceResult<T> {
   };
 }
 
-/** Runs agent-device and returns its JSON result or a structured error. */
 const agentDevice = async <T>(
   args: string[],
   options: { timeoutMs?: number } = {}

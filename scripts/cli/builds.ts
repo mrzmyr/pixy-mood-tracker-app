@@ -1,5 +1,3 @@
-// `bun builds`: inspect and prune the shared build cache written by
-// scripts/build-cache-provider.cjs.
 import fs from "node:fs";
 import { createRequire } from "node:module";
 import path from "node:path";
@@ -84,8 +82,6 @@ const getSize = (target: string): number => {
     : stats.size;
 };
 
-// Short ID for a cache key: ios-f2ab57cc-Release-88f1470e0d69, or
-// ios-device-f2ab57cc-unknown for a physical device build.
 const toBuildId = (key: string) => {
   const groups = BUILD_KEY.exec(key)?.groups;
   if (!groups) {
@@ -203,8 +199,6 @@ const parseKeep = (value: string) => {
   return keep;
 };
 
-// Removes run state (locks, logs, Metro PID) of deleted checkouts. Folders
-// without a checkout record are left alone.
 const pruneCheckouts = (isDryRun: boolean) => {
   if (!fs.existsSync(CHECKOUTS_DIR)) {
     return;
@@ -226,8 +220,6 @@ const pruneCheckouts = (isDryRun: boolean) => {
   }
 };
 
-// Keeps the newest `keep` builds per platform and variant, plus every build
-// used within `keepWithin`. Removes the rest and abandoned temp copies.
 const pruneBuilds = (
   keep = DEFAULT_KEEP_BUILDS,
   keepWithin = DEFAULT_KEEP_WITHIN,
