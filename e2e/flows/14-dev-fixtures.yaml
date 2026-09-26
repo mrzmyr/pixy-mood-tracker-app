@@ -1,0 +1,34 @@
+appId: ${APP_ID}
+tags: [dev, fixtures]
+---
+# Fixture deep links replace all data; Settings lists the fixtures.
+- runFlow:
+    file: ../subflows/load-fixture.yaml
+    env:
+      FIXTURE: year
+- tapOn:
+    id: "settings"
+- scrollUntilVisible:
+    element:
+      text: "Statistics for Nerds"
+    direction: DOWN
+- tapOn: "Statistics for Nerds"
+- assertVisible: "365"
+
+- runFlow:
+    file: ../subflows/load-fixture.yaml
+    env:
+      FIXTURE: empty
+- tapOn:
+    id: "settings"
+- scrollUntilVisible:
+    element:
+      id: "dev-fixtures"
+    direction: DOWN
+- tapOn:
+    id: "dev-fixtures"
+- assertVisible: "One year"
+- tapOn:
+    id: "fixture-fresh"
+- tapOn: "Replace data"
+- assertVisible: "Welcome 👋"

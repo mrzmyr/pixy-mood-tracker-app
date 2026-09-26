@@ -235,7 +235,11 @@ const cmdBuildsCheck = async (
   isRelease: boolean,
   isJson: boolean
 ) => {
-  note("Computing native fingerprint (takes up to a minute)...");
+  // Same default variant as `bun ios` (debug) and `bun ios:preview` (release).
+  process.env.EXPO_PUBLIC_APP_VARIANT ??= isRelease ? "preview" : "development";
+  note(
+    `Computing native fingerprint for ${process.env.EXPO_PUBLIC_APP_VARIANT} (takes up to a minute)...`
+  );
   const fingerprintHash = await getFingerprint(getWorktree());
   const builds = listBuilds();
   const results = (platform ? [platform] : (["ios", "android"] as const)).map(
@@ -250,7 +254,7 @@ const cmdBuildsCheck = async (
     const hit = builds.find((build) => build.id === result.buildId);
     console.log(
       hit
-        ? `${label}: HIT ${hit.id} from ${describeSource(hit.meta)}, ${formatAge(hit.createdAt)} old. \`bun ${result.platform}\` installs it without compiling.`
+        ? `${label}: HIT ${hit.id} from ${describeSource(hit.meta)}, ${formatAge(hit.createdAt)} old. \`bun ${result.platform}${isRelease ? ":preview" : ""}\` installs it without compiling.`
         : `${label}: MISS ${result.key}\n  ${result.reason}.`
     );
   }

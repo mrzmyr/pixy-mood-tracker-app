@@ -1,18 +1,13 @@
 import { PromoCard } from "@/components/PromoCard";
-import { MONTH_REPORT_SLUG, PromoCardMonth } from "@/components/PromoCardMonth";
-import { PromoCardYear, YEAR_REPORT_SLUG } from "@/components/PromoCardYear";
-import { DATE_FORMAT, STATISTIC_MIN_LOGS } from "@/constants/Config";
 import { t } from "@/helpers/translation";
-import { useAnalytics } from "@/state/analytics";
-import { useSettings } from "@/state/settings";
-import { useNavigation } from "@react-navigation/native";
+import { useAnalytics } from "@/hooks/useAnalytics";
+import { useSettings } from "@/hooks/useSettings";
 import dayjs from "dayjs";
 import { XMLParser } from "fast-xml-parser";
 import type { ReactElement } from "react";
 import React, { useEffect, useState } from "react";
 import { View } from "react-native";
 import useColors from "../../hooks/useColors";
-import { useLogState } from "@/features/logs";
 import * as WebBrowser from "expo-web-browser";
 
 interface RssItem {
@@ -66,39 +61,15 @@ const parseChangelogItems = (str: string): RssItem[] => {
 };
 
 /**
- * Promo cards under the calendar: last month's report (first days of a
- * month), the year report (December, 30+ entries), and the latest
- * changelog post.
- *
- * Report promos need unlocked statistics. The changelog feed is fetched
- * once per mount; offline it is skipped silently.
+ * Promo card under the calendar for the latest changelog post, hidden once
+ * dismissed. The changelog feed is fetched once per mount; offline it is
+ * skipped silently.
  */
 export const PromoCards = () => {
-  const navigation = useNavigation();
-  const logState = useLogState();
   const analytics = useAnalytics();
   const colors = useColors();
   const { hasActionDone } = useSettings();
 
-  const statisticsUnlocked = logState.items.length >= STATISTIC_MIN_LOGS;
-  const isBeginningOfMonth = dayjs().isBetween(
-    dayjs().startOf("month"),
-    dayjs().startOf("month").add(3, "day"),
-    null,
-    "[]"
-  );
-  const isDecember = dayjs().month() === 11;
-  const enoughtLogsForYearPromo = logState.items.length > 30;
-
-  const hasMonthPromo =
-    isBeginningOfMonth &&
-    statisticsUnlocked &&
-    !hasActionDone(MONTH_REPORT_SLUG);
-  const hasYearPromo =
-    enoughtLogsForYearPromo &&
-    isDecember &&
-    statisticsUnlocked &&
-    !hasActionDone(YEAR_REPORT_SLUG);
   const [mostRecentRssItem, setMostRecentRssItem] = useState<RssItem | null>(
     null
   );
@@ -131,39 +102,6 @@ export const PromoCards = () => {
   }, []);
 
   const promoCards: ReactElement[] = [];
-
-  if (hasMonthPromo) {
-    promoCards.push(
-      <PromoCardMonth
-        key="month"
-        title={t("promo_card_month_title", {
-          month: dayjs().subtract(1, "month").format("MMMM"),
-        })}
-        onPress={() =>
-          navigation.navigate("StatisticsMonth", {
-            date: dayjs()
-              .subtract(1, "month")
-              .startOf("month")
-              .format(DATE_FORMAT),
-          })
-        }
-      />
-    );
-  }
-
-  if (hasYearPromo) {
-    promoCards.push(
-      <PromoCardYear
-        key="year"
-        title={t("promo_card_year_title", { year: dayjs().format("YYYY") })}
-        onPress={() =>
-          navigation.navigate("StatisticsYear", {
-            date: dayjs().startOf("year").format(DATE_FORMAT),
-          })
-        }
-      />
-    );
-  }
 
   if (hasMostRecentRssItem) {
     promoCards.push(

@@ -16,9 +16,9 @@ End-to-end tests are [Maestro](https://maestro.mobile.dev) YAML flows. [agent-de
 bunx agent-device boot --platform ios --device "iPhone 17 Pro"
 bunx agent-device boot --platform android --device medium_phone --headless
 
-# 2. Install a release build of this worktree (bun builds check --release shows cache reuse).
-bun ios --device <udid> --configuration Release --no-bundler
-bun android --device <avd-name> --variant release --no-bundler
+# 2. Install a preview release build of this worktree (bun builds check --release shows cache reuse).
+bun ios:preview --device <udid>
+bun android:preview --device <avd-name>
 
 # 3. Run flows. --device is required, so the run never lands on another agent's device.
 bun e2e run --platform ios --device <udid>                  # e2e/flows and the iOS-only e2e/apple
@@ -32,12 +32,12 @@ bun e2e stop <run-id>                                       # like Ctrl+C in the
 bun dashboard                                               # runs, devices, and builds in a web view
 ```
 
-`bun e2e run` wraps `agent-device test --maestro` with the repo reporter. Paths replace the default flows. Flags after `--` go to agent-device (`--retries 1`, `--fail-fast`, `--reporter junit:<file>`). Every command has `--help`; invalid usage exits with code 2.
+`bun e2e run` wraps `agent-device test --maestro` with the repo reporter. Flows target the preview app through `${APP_ID}`; pass `--variant development|production` to test another installed variant. Paths replace the default flows. Flags after `--` go to agent-device (`--retries 1`, `--fail-fast`, `--reporter junit:<file>`). Every command has `--help`; invalid usage exits with code 2.
 
 - **Artifacts:** each run writes `.agent-device/test-artifacts/<run-id>/` in the worktree: `run.json` (from [`scripts/cli/e2e-reporter.mjs`](../scripts/cli/e2e-reporter.mjs), read by `bun dashboard`), and per flow `replay.ad`, `result.txt`, `failure.txt`, `replay-timing.ndjson`, and `recording.mp4` with `--record-video`.
-- **Failures:** a failing step prints the file and line, a screen snapshot, and ranked selector suggestions. Debug live with `bunx agent-device replay <flow>.yaml --maestro --platform ios --udid <udid>`, then `bunx agent-device snapshot -i`.
-- **Devices in use:** `bunx agent-device device status` lists which worktree holds which device. `bun e2e run` refuses a device with an active run or another worktree's live agent-device session (`device_busy`); `--force` skips the check. `bunx agent-device close --session <address>` releases one. `bunx agent-device shutdown --platform ios --udid <udid>` stops an idle simulator.
-- **Physical phones:** flows use `launchApp: clearState: true`, which wipes app data on Android phones. Never run them on a phone with real data. Only run flows without `clearState` against installed TestFlight or internal-testing builds.
+- **Failures:** a failing step prints the file and line, a screen snapshot, and ranked selector suggestions. Debug live with `bunx agent-device replay <flow>.yaml --maestro --platform ios --udid <udid> -e APP_ID=com.devmood.pixymoodtracker.preview -e APP_SCHEME=pixy-preview`, then `bunx agent-device snapshot -i`.
+- **Devices in use:** `bunx agent-device device status` lists which worktree holds which device. `bun e2e run` refuses a device with an active run or another worktree's live agent-device session (`device_busy`). The error names the owner, estimates when it finishes, and lists free devices on the same platform; `--force` skips the check. `bunx agent-device close --session <address>` releases one. `bunx agent-device shutdown --platform ios --udid <udid>` stops an idle simulator.
+- **Physical phones:** flows use `launchApp: clearState: true`, which wipes the app's data. Run them against the preview app, which holds only test data. Never pass `--variant production` on a phone with real data.
 
 ## Suites
 
@@ -55,11 +55,21 @@ bun dashboard                                               # runs, devices, and
 | 13-onboarding-skip | Skip onboarding from an explainer slide |
 | 09-appearance | Colors screen, steps config, privacy toggle |
 | 10-stability | Background/foreground, cold restart (2nd-launch crash regression), tab smoke |
+| 14-dev-fixtures | Fixture deep link replaces data, Settings > Test data lists fixtures and loads one |
 | apple/ios-regressions | iOS filter modal, narrow check-in layout/switch accessibility, tag form accessibility |
 
 Suite 08 (passcode) intentionally absent: the app has no passcode feature.
 
-Import-from-file (Data → Import) is not automated because the system file picker is flaky to drive. The fixture includes a visible entry from 2023-09-24. The calendar flow uses that entry when present; otherwise, it creates a good entry on that date through Calendar, then continues paging through empty months in 2022 and 2021.
+Import-from-file (Data → Import) is not automated because the system file picker is flaky to drive; flows load fixtures instead. The `seed` fixture includes a visible entry from 2023-09-24. The calendar flow uses that entry when present; otherwise, it creates a good entry on that date through Calendar, then continues paging through empty months in 2022 and 2021.
+
+## Test data
+
+Preview and development builds load named fixtures from [`src/dev/fixtures`](../src/dev/fixtures/index.ts): `fresh`, `empty`, `seed`, and `year`. Loading one replaces all entries, tags, and settings.
+
+- **In flows:** `runFlow` [`subflows/load-fixture.yaml`](subflows/load-fixture.yaml) with `env: { FIXTURE: <id> }`. It opens `${APP_SCHEME}://dev/fixture?id=<id>`.
+- **By hand:** Settings > Development > Test data, or open the link on the device.
+- **On iPhones:** agent-device cannot `clearState` on physical iOS devices. Load `fresh` instead.
+- **New fixture:** export data from Settings > Data, save the JSON in `src/dev/fixtures`, and register it in `index.ts`.
 
 ## Conventions
 

@@ -1,4 +1,4 @@
-appId: com.devmood.pixymoodtracker
+appId: ${APP_ID}
 ---
 # Walks the deterministic default first-entry sequence after mood auto-advance:
 # emotions → tags → message → save.

@@ -24,6 +24,7 @@ import MenuListItem from "@/components/MenuListItem";
 import { SupportCard } from "@/components/SupportCard";
 import TextInfo from "@/components/TextInfo";
 import { CHANGELOG_URL, FEEDBACK_FEATURES_URL } from "@/constants/Config";
+import { DEV_TOOLS } from "@/dev";
 import { t } from "@/helpers/translation";
 import { useAnalytics } from "@/state/analytics";
 import useColors from "../../hooks/useColors";
@@ -179,6 +180,15 @@ export const SettingsScreen = ({
             onPress={() => navigation.navigate("DevelopmentTools")}
             isLink
           />
+          {DEV_TOOLS && (
+            <MenuListItem
+              title="Test data"
+              iconLeft={<Database width={18} color={colors.menuListItemIcon} />}
+              onPress={() => navigation.navigate("DevFixtures")}
+              isLink
+              testID="dev-fixtures"
+            />
+          )}
           <MenuListItem
             title={t("app_is_open_source")}
             onPress={() => {
