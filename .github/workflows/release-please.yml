@@ -18,7 +18,7 @@ jobs:
       release_sha: ${{ steps.release.outputs.sha }}
     steps:
       - id: release
-        uses: google-github-actions/release-please-action@db8f2c60ee802b3748b512940dde88eabd7b7e01 # v3.7.13
+        uses: google-github-actions/release-please-action@e4dc86ba9405554aeba3c6bb2d169500e7d3b4ee # v4.1.1
         with:
           release-type: expo
           package-name: release-please-action
