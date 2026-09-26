@@ -61,6 +61,7 @@ Three variants install side by side, each with its own name, icon, bundle ID, an
   - `bun builds status [--release]` tells whether this worktree resolves to a cached build, and why not.
   - `bun builds prune` keeps the newest 3 builds per platform and variant (`--keep`) plus everything used in the last 7 days (`--keep-within`). It also removes run files of deleted worktrees.
 - **Run files per worktree:** build locks, build logs, and Metro's PID and log live in `~/.cache/pixy-mood-tracker/checkouts/<hash>/`. `checkout.txt` names the worktree. Commands print the log path.
+- **Metro port per worktree:** `bun app run` starts Metro on a port from 8082 to 8181, derived from the worktree ([`scripts/cli/metro.ts`](../scripts/cli/metro.ts)). It reuses only its own worktree's Metro. 8081 stays free for `bun start`.
 - **Parallel runs:** runs in one worktree share one native build per platform ([`scripts/cli/build-lock.ts`](../scripts/cli/build-lock.ts)). Other runs wait, then reuse the cached build. Worktrees and platforms never wait for each other. Two variants of one platform in one worktree run one after another, and each switch rebuilds, so use separate worktrees for them.
 - `bun ios --device` builds for phones are never cached. `bun app build --device <id>` caches phone builds; install them with `bun app install <build-id> --device <id>`.
 
