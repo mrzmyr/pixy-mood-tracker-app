@@ -636,9 +636,15 @@ interface InstallRecord {
   stamp: string;
 }
 
-// Path and modification time: `--rebuild` writes a new file at the same path.
-const getBuildIdentity = (build: AppBuild) =>
-  `${build.path}@${fs.statSync(build.path).mtimeMs}`;
+// Path plus when the cache stored it: `--rebuild` stores a new build at the
+// same path. File times do not work, because copying keeps the compiler
+// output's time. Builds outside the cache fall back to the file time.
+const getBuildIdentity = (build: AppBuild) => {
+  const meta = build.metaFile
+    ? readJson<{ createdAt?: string }>(build.metaFile)
+    : null;
+  return `${build.path}@${meta?.createdAt ?? fs.statSync(build.path).mtimeMs}`;
+};
 
 const readIosAppUrl = (udid: string, bundleId: string) => {
   const file = path.join(

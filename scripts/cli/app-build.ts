@@ -46,7 +46,7 @@ interface BuildCacheProvider {
   getCacheKey: (props: CacheProps) => string;
   resolveCacheDir: () => string;
   uploadBuildCache: (
-    props: CacheProps & { buildPath: string }
+    props: CacheProps & { buildPath: string; replace?: boolean }
   ) => Promise<string | null>;
 }
 
@@ -375,7 +375,11 @@ const buildIos = async (
       "Store in build cache",
       `cp -R ${path.relative(REPO_ROOT, app)} ${buildCacheProvider.resolveCacheDir()}/${key}.app`,
       () =>
-        buildCacheProvider.uploadBuildCache({ ...cacheProps, buildPath: app })
+        buildCacheProvider.uploadBuildCache({
+          ...cacheProps,
+          buildPath: app,
+          replace: options.isRebuild,
+        })
     );
     if (!stored) {
       throw new CliError({
@@ -484,7 +488,11 @@ const buildAndroid = async (
       "Store in build cache",
       `cp ${path.relative(REPO_ROOT, apk)} ${buildCacheProvider.resolveCacheDir()}/${key}.apk`,
       () =>
-        buildCacheProvider.uploadBuildCache({ ...cacheProps, buildPath: apk })
+        buildCacheProvider.uploadBuildCache({
+          ...cacheProps,
+          buildPath: apk,
+          replace: options.isRebuild,
+        })
     );
     if (!stored) {
       throw new CliError({
