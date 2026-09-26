@@ -87,6 +87,48 @@ const getAgentDeviceEnv = () => {
   return agentDeviceEnv;
 };
 
+// What `agent-device --json` prints.
+interface AgentDeviceResult<T> {
+  success?: boolean;
+  data?: T;
+  error?: {
+    code?: string;
+    message?: string;
+    hint?: string;
+    logPath?: string;
+    details?: { reason?: string };
+  };
+}
+
+// The reason names the classified cause, for example a signing failure.
+// The log is xcodebuild's runner log when the runner failed to start.
+const toCliError = <T>(
+  args: string[],
+  body: AgentDeviceResult<T> | null,
+  stderr: string
+) => {
+  const error = body?.error;
+  const why = [
+    stderr.trim(),
+    error?.details?.reason ? `Reason: ${error.details.reason}.` : "",
+    error?.logPath ? `Log: ${error.logPath}` : "",
+  ]
+    .filter(Boolean)
+    .join(" ");
+  return new CliError({
+    fix:
+      error?.hint ??
+      `Run \`bunx agent-device ${args.join(" ")}\` in a terminal to see the full output.`,
+    message: error?.message ?? `agent-device ${args[0]} failed`,
+    status: error?.code?.toLowerCase() ?? "agent_device_failed",
+    why:
+      why ||
+      (body
+        ? "agent-device gave no details."
+        : "agent-device returned no JSON result."),
+  });
+};
+
 // Runs agent-device with --json and returns its data, or throws its error.
 // `timeoutMs` stops a hanging call, so a stuck device cannot block the CLI
 // and its cleanup forever.
@@ -134,11 +176,7 @@ const agentDevice = async <T>(
     abort.abort();
   }
   const [stdout, stderr] = result;
-  let body: {
-    success?: boolean;
-    data?: T;
-    error?: { code?: string; message?: string; hint?: string };
-  } | null = null;
+  let body: AgentDeviceResult<T> | null = null;
   try {
     // SAFETY: agent-device --json prints one { success, data | error } object.
     body = JSON.parse(stdout);
@@ -148,14 +186,7 @@ const agentDevice = async <T>(
   if (body?.success && body.data !== undefined) {
     return body.data;
   }
-  throw new CliError({
-    fix:
-      body?.error?.hint ??
-      `Run \`bunx agent-device ${args.join(" ")}\` in a terminal to see the full output.`,
-    message: body?.error?.message ?? `agent-device ${args[0]} failed`,
-    status: body?.error?.code?.toLowerCase() ?? "agent_device_failed",
-    why: stderr.trim() || "agent-device returned no JSON result.",
-  });
+  throw toCliError(args, body, stderr);
 };
 
 // Lists devices through the shared daemon, so it also catches a daemon that
