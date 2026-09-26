@@ -10,9 +10,9 @@ import { t } from "@/helpers/translation";
 import useColors from "@/hooks/useColors";
 import type { LogItem } from "@/features/logs";
 import { RATING_KEYS } from "@/constants/Ratings";
-import { useTemporaryLog } from "@/features/logs/temporaryLog";
-import { SlideHeadline } from "../components/SlideHeadline";
-import { SlideMoodButton } from "../components/SlideMoodButton";
+import { useTemporaryLog } from "@/features/logger/temporaryLog";
+import { SlideHeadline } from "@/features/logger/components/SlideHeadline";
+import { SlideMoodButton } from "@/features/logger/components/SlideMoodButton";
 
 /**
  * Rating slide, always the first logger slide. Must render inside

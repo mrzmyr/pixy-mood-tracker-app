@@ -36,7 +36,7 @@ const NotificationPreview = () => {
             width: undefined,
             height: undefined,
           }}
-          source={require("../../assets/images/icon-notification.png")}
+          source={require("../../../../assets/images/icon-notification.png")}
           resizeMode="contain"
         />
       </View>

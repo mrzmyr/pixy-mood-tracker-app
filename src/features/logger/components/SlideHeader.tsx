@@ -3,7 +3,7 @@ import { locale, t } from "@/helpers/translation";
 import useColors from "@/hooks/useColors";
 import useFeedbackModal from "@/features/feedback/hooks/useFeedbackModal";
 import useHaptics from "@/hooks/useHaptics";
-import { useTemporaryLog } from "@/features/logs/temporaryLog";
+import { useTemporaryLog } from "@/features/logger/temporaryLog";
 import { getItemDateTitle } from "@/lib/utils";
 import dayjs from "dayjs";
 import { useState } from "react";

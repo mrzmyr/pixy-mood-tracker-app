@@ -2,7 +2,7 @@ import { act, renderHook, waitFor } from "@testing-library/react-native";
 import {
   TemporaryLogProvider,
   useTemporaryLog,
-} from "@/features/logs/temporaryLog";
+} from "@/features/logger/temporaryLog";
 import { _generateItem } from "@/__tests__/utils";
 
 const wrapper = ({ children }) => (

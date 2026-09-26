@@ -1,5 +1,5 @@
-import { BigCard } from "@/components/BigCard";
-import { NotEnoughDataOverlay } from "@/components/Statistics/NotEnoughDataOverlay";
+import { BigCard } from "@/features/statistics/components/BigCard";
+import { NotEnoughDataOverlay } from "@/features/statistics/components/NotEnoughDataOverlay";
 import { DATE_FORMAT } from "@/constants/Config";
 import { t } from "@/helpers/translation";
 import dayjs from "dayjs";

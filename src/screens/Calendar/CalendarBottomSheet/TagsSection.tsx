@@ -1,5 +1,5 @@
 import { View } from "react-native";
-import Tag from "@/components/Tag";
+import Tag from "@/features/tags/components/Tag";
 import TextHeadline from "@/components/TextHeadline";
 import type { Tag as ITag } from "@/features/tags";
 

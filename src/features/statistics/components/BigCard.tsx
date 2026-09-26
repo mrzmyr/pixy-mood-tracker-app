@@ -6,12 +6,12 @@ import type { ViewStyle } from "react-native";
 import { ActivityIndicator, Image, Text, View } from "react-native";
 import { Share } from "react-native-feather";
 import { captureRef } from "react-native-view-shot";
-import LinkButton from "./LinkButton";
-import { CardFeedback } from "./Statistics/CardFeedback";
+import LinkButton from "@/components/LinkButton";
+import { CardFeedback } from "./CardFeedback";
 
 const DEFAULT_ANALYTICS_DATA = {};
 
-const LOGO = require("../../assets/images/icon.png");
+const LOGO = require("../../../../assets/images/icon.png");
 
 const Title = ({ children }: { children: string }) => {
   const colors = useColors();

@@ -1,4 +1,4 @@
-import { NotEnoughDataOverlay } from "@/components/Statistics/NotEnoughDataOverlay";
+import { NotEnoughDataOverlay } from "@/features/statistics/components/NotEnoughDataOverlay";
 import { t } from "@/helpers/translation";
 import useColors from "@/hooks/useColors";
 import { useLogState } from "@/features/logs";

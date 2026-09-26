@@ -8,7 +8,7 @@ import { LogsProvider } from "@/features/logs";
 import { SettingsProvider } from "@/state/settings";
 import { StatisticsProvider } from "@/features/statistics";
 import { TagsProvider } from "@/features/tags";
-import { TemporaryLogProvider } from "@/features/logs/temporaryLog";
+import { TemporaryLogProvider } from "@/features/logger/temporaryLog";
 import type { SupportClient } from "@/support";
 import { SupportProvider } from "@/support";
 import { resolveDevelopmentSupportClient } from "@/support/clients";

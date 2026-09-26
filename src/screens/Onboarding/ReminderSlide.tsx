@@ -4,7 +4,7 @@ import useColors from "../../hooks/useColors";
 import { HeaderImage } from "./HeaderImage";
 import { HeaderNavigation } from "./HeaderNavigation";
 import Animated, { FadeIn } from "react-native-reanimated";
-import Clock from "@/components/Clock";
+import Clock from "@/features/notifications/components/Clock";
 import useNotification, { createDailyTrigger } from "@/features/notifications";
 import { useState } from "react";
 import dayjs from "dayjs";

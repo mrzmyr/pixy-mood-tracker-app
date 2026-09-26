@@ -1,8 +1,8 @@
 import type { Dayjs } from "dayjs";
 import dayjs from "dayjs";
 import { Pressable, Text, View } from "react-native";
-import { Card } from "@/components/Statistics/Card";
-import { CardFeedback } from "@/components/Statistics/CardFeedback";
+import { Card } from "@/features/statistics/components/Card";
+import { CardFeedback } from "@/features/statistics/components/CardFeedback";
 import { DATE_FORMAT } from "@/constants/Config";
 import { t } from "@/helpers/translation";
 import useColors from "../../hooks/useColors";

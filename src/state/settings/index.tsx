@@ -11,8 +11,8 @@ import {
 } from "react";
 import "react-native-get-random-values";
 import { v4 as uuidv4 } from "uuid";
-import type { ConfigurableLoggerStep } from "@/components/Logger/config";
-import { STEP_OPTIONS } from "@/components/Logger/config";
+import type { ConfigurableLoggerStep } from "@/features/logger/config";
+import { STEP_OPTIONS } from "@/features/logger/config";
 import { load, store } from "@/state/persisted";
 import type { Tag } from "@/features/tags";
 import {

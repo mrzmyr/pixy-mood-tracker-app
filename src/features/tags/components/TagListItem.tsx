@@ -1,7 +1,7 @@
 import { Text, View } from "react-native";
 import { Edit2 } from "react-native-feather";
 import MenuListItem from "@/components/MenuListItem";
-import useColors from "../hooks/useColors";
+import useColors from "@/hooks/useColors";
 import type { Tag } from "@/features/tags";
 
 /** Row for one tag in {@link TagList}, showing its color dot and title. */
