@@ -1,6 +1,10 @@
 import useColors from "@/hooks/useColors";
 import type { LinkingOptions } from "@react-navigation/native";
-import { NavigationContainer, useNavigation } from "@react-navigation/native";
+import {
+  DefaultTheme,
+  NavigationContainer,
+  useNavigation,
+} from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import * as Linking from "expo-linking";
 import { useEffect, useEffectEvent } from "react";
@@ -115,7 +119,7 @@ const RootNavigator = () => {
   const defaultOptions = {
     headerTintColor: colors.text,
     headerBackTitle: "",
-    headerBackTitleVisible: false,
+    headerBackButtonDisplayMode: "minimal" as const,
     headerBackButtonMenuEnabled: false,
     headerStyle: {
       backgroundColor: colors.background,
@@ -376,10 +380,12 @@ const Navigation = () => {
           ? {
               dark: true,
               colors: Colors.dark,
+              fonts: DefaultTheme.fonts,
             }
           : {
               dark: false,
               colors: Colors.light,
+              fonts: DefaultTheme.fonts,
             }
       }
     >

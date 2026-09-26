@@ -84,7 +84,7 @@ export const BottomTabs = () => {
         options={() => ({
           ...defaultOptions,
           headerShown: false,
-          tabBarTestID: "statistics",
+          tabBarButtonTestID: "statistics",
           title: t("statistics"),
         })}
       />
@@ -94,7 +94,7 @@ export const BottomTabs = () => {
         options={() => ({
           ...defaultOptions,
           headerRight: renderCalendarHeaderRight,
-          tabBarTestID: "calendar",
+          tabBarButtonTestID: "calendar",
           title: t("calendar"),
         })}
       />
@@ -104,7 +104,7 @@ export const BottomTabs = () => {
         options={() => ({
           ...defaultOptions,
           headerShown: false,
-          tabBarTestID: "settings",
+          tabBarButtonTestID: "settings",
           title: t("settings"),
         })}
       />
