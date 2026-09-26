@@ -14,6 +14,7 @@ import { createFingerprintAsync } from "@expo/fingerprint";
 
 import type { AppVariant } from "../../app.config.ts";
 import { ensurePrebuild, getAndroidBuildEnv } from "../run-native.ts";
+import { withBuildLock } from "./build-lock.ts";
 import {
   GRADLE_FAILURE_HEADER,
   summarizeGradleFailure,
@@ -191,6 +192,10 @@ const findApp = (productsDir: string) => {
   return path.join(productsDir, app);
 };
 
+// Modification time of a cached build, or undefined when there is none.
+const getCachedAt = (file: string) =>
+  fs.statSync(file, { throwIfNoEntry: false })?.mtimeMs;
+
 // A phone UDID lets -allowProvisioningDeviceRegistration register the phone.
 const xcodeDestination = (destination: Destination, phoneId?: string) => {
   if (phoneId) {
@@ -240,108 +245,123 @@ const buildIos = async (
   };
   const key = buildCacheProvider.getCacheKey(cacheProps);
   const cached = path.join(buildCacheProvider.resolveCacheDir(), `${key}.app`);
-  if (fs.existsSync(cached) && !options.isRebuild) {
+  const isCacheHit = () => {
+    if (!fs.existsSync(cached) || options.isRebuild) {
+      return false;
+    }
     if (options.canReuse?.(cached) ?? true) {
       note(
         "  Cached build found, nothing to compile. Pass --rebuild to compile anyway."
       );
-      return key;
+      return true;
     }
     note("  Cached build does not fit the phone, compiling again.");
+    return false;
+  };
+  const cachedAt = getCachedAt(cached);
+  if (isCacheHit()) {
+    return key;
   }
-
-  await timed(
-    `Generate ios/ for ${variant}, if stale`,
-    `EXPO_PUBLIC_APP_VARIANT=${variant} expo prebuild --clean --platform ios`,
-    () => ensurePrebuild("ios", variant, process.env)
-  );
-
-  const logFile = `/tmp/pixy-mood-tracker-ios-${destination}-${variant}-build.log`;
-  const log = fs.createWriteStream(logFile);
-  note(`\nFollow along: tail -f ${logFile}`);
-
-  if (!arePodsCurrent()) {
-    const pods = await timed("Install pods", "cd ios && pod install", () =>
-      runLogged("pod", ["install"], { cwd: IOS_DIR, env: process.env, log })
+  return withBuildLock(REPO_ROOT, "ios", steps, async () => {
+    // Another run in this worktree may have stored the build while this one
+    // waited for the lock.
+    if (getCachedAt(cached) !== cachedAt && isCacheHit()) {
+      return key;
+    }
+    await timed(
+      `Generate ios/ for ${variant}, if stale`,
+      `EXPO_PUBLIC_APP_VARIANT=${variant} expo prebuild --clean --platform ios`,
+      () => ensurePrebuild("ios", variant, process.env, fingerprintHash)
     );
-    if (pods.code !== 0) {
+
+    const logFile = `/tmp/pixy-mood-tracker-ios-${destination}-${variant}-build.log`;
+    const log = fs.createWriteStream(logFile);
+    note(`\nFollow along: tail -f ${logFile}`);
+
+    if (!arePodsCurrent()) {
+      const pods = await timed("Install pods", "cd ios && pod install", () =>
+        runLogged("pod", ["install"], { cwd: IOS_DIR, env: process.env, log })
+      );
+      if (pods.code !== 0) {
+        throw new CliError({
+          fix: `Read ${logFile}. With RVM, retry as \`env -u GEM_HOME -u GEM_PATH bun app build ...\`.`,
+          message: "pod install failed",
+          status: "pod_install_failed",
+          why: pods.firstError || `pod install exited with ${pods.code}.`,
+        });
+      }
+    }
+
+    const team =
+      destination === "device"
+        ? await timed("Resolve signing team", undefined, () =>
+            codeSigning.ensureDeviceIsCodeSignedForDeploymentAsync(REPO_ROOT)
+          )
+        : null;
+
+    const { scheme, workspace } = getXcodeProject();
+    const derivedData = path.join(IOS_DIR, "build");
+    const args = [
+      "-workspace",
+      workspace,
+      "-scheme",
+      scheme,
+      "-configuration",
+      configuration,
+      "-destination",
+      xcodeDestination(destination, options.phoneId),
+      "-derivedDataPath",
+      derivedData,
+      "-showBuildTimingSummary",
+      ...(destination === "device" ? ["-allowProvisioningUpdates"] : []),
+      ...(options.phoneId ? ["-allowProvisioningDeviceRegistration"] : []),
+      ...(team ? [`DEVELOPMENT_TEAM=${team}`] : []),
+      "build",
+    ];
+    const shown = args
+      .map((arg) =>
+        arg.startsWith("DEVELOPMENT_TEAM=") ? "DEVELOPMENT_TEAM=<team>" : arg
+      )
+      .map((arg) => (arg.includes(" ") ? `"${arg}"` : arg))
+      .join(" ");
+    const build = await timed(
+      `Compile ${scheme} (${configuration}, ${destination})`,
+      `xcodebuild ${shown}`,
+      () =>
+        runLogged("xcodebuild", args, { cwd: REPO_ROOT, env: process.env, log })
+    );
+    log.end();
+    if (build.code !== 0) {
       throw new CliError({
-        fix: `Read ${logFile}. With RVM, retry as \`env -u GEM_HOME -u GEM_PATH bun app build ...\`.`,
-        message: "pod install failed",
-        status: "pod_install_failed",
-        why: pods.firstError || `pod install exited with ${pods.code}.`,
+        fix: `Read ${logFile}, fix the first error, then rerun.`,
+        message: "xcodebuild failed",
+        status: "native_build_failed",
+        why: build.firstError || `xcodebuild exited with ${build.code}.`,
       });
     }
-  }
 
-  const team =
-    destination === "device"
-      ? await timed("Resolve signing team", undefined, () =>
-          codeSigning.ensureDeviceIsCodeSignedForDeploymentAsync(REPO_ROOT)
-        )
-      : null;
-
-  const { scheme, workspace } = getXcodeProject();
-  const derivedData = path.join(IOS_DIR, "build");
-  const args = [
-    "-workspace",
-    workspace,
-    "-scheme",
-    scheme,
-    "-configuration",
-    configuration,
-    "-destination",
-    xcodeDestination(destination, options.phoneId),
-    "-derivedDataPath",
-    derivedData,
-    "-showBuildTimingSummary",
-    ...(destination === "device" ? ["-allowProvisioningUpdates"] : []),
-    ...(options.phoneId ? ["-allowProvisioningDeviceRegistration"] : []),
-    ...(team ? [`DEVELOPMENT_TEAM=${team}`] : []),
-    "build",
-  ];
-  const shown = args
-    .map((arg) =>
-      arg.startsWith("DEVELOPMENT_TEAM=") ? "DEVELOPMENT_TEAM=<team>" : arg
-    )
-    .map((arg) => (arg.includes(" ") ? `"${arg}"` : arg))
-    .join(" ");
-  const build = await timed(
-    `Compile ${scheme} (${configuration}, ${destination})`,
-    `xcodebuild ${shown}`,
-    () =>
-      runLogged("xcodebuild", args, { cwd: REPO_ROOT, env: process.env, log })
-  );
-  log.end();
-  if (build.code !== 0) {
-    throw new CliError({
-      fix: `Read ${logFile}, fix the first error, then rerun.`,
-      message: "xcodebuild failed",
-      status: "native_build_failed",
-      why: build.firstError || `xcodebuild exited with ${build.code}.`,
-    });
-  }
-
-  const sdk = destination === "device" ? "iphoneos" : "iphonesimulator";
-  const app = findApp(
-    path.join(derivedData, "Build", "Products", `${configuration}-${sdk}`)
-  );
-  const stored = await timed(
-    "Store in build cache",
-    `cp -R ${path.relative(REPO_ROOT, app)} ${buildCacheProvider.resolveCacheDir()}/${key}.app`,
-    () => buildCacheProvider.uploadBuildCache({ ...cacheProps, buildPath: app })
-  );
-  if (!stored) {
-    throw new CliError({
-      fix: "Check free disk space and permissions of the cache directory, then retry.",
-      message: "Could not store the build",
-      status: "build_cache_write_failed",
-      why: `Copying ${app} into ${buildCacheProvider.resolveCacheDir()} failed.`,
-    });
-  }
-  printTaskTimings(build.timings);
-  note(`\nLog: ${logFile}`);
-  return key;
+    const sdk = destination === "device" ? "iphoneos" : "iphonesimulator";
+    const app = findApp(
+      path.join(derivedData, "Build", "Products", `${configuration}-${sdk}`)
+    );
+    const stored = await timed(
+      "Store in build cache",
+      `cp -R ${path.relative(REPO_ROOT, app)} ${buildCacheProvider.resolveCacheDir()}/${key}.app`,
+      () =>
+        buildCacheProvider.uploadBuildCache({ ...cacheProps, buildPath: app })
+    );
+    if (!stored) {
+      throw new CliError({
+        fix: "Check free disk space and permissions of the cache directory, then retry.",
+        message: "Could not store the build",
+        status: "build_cache_write_failed",
+        why: `Copying ${app} into ${buildCacheProvider.resolveCacheDir()} failed.`,
+      });
+    }
+    printTaskTimings(build.timings);
+    note(`\nLog: ${logFile}`);
+    return key;
+  });
 };
 
 const ANDROID_DIR = path.join(REPO_ROOT, "android");
@@ -374,64 +394,79 @@ const buildAndroid = async (
   };
   const key = buildCacheProvider.getCacheKey(cacheProps);
   const cached = path.join(buildCacheProvider.resolveCacheDir(), `${key}.apk`);
-  if (fs.existsSync(cached) && !options.isRebuild) {
+  const isCacheHit = () => {
+    if (!fs.existsSync(cached) || options.isRebuild) {
+      return false;
+    }
     note(
       "  Cached build found, nothing to compile. Pass --rebuild to compile anyway."
     );
+    return true;
+  };
+  const cachedAt = getCachedAt(cached);
+  if (isCacheHit()) {
     return key;
   }
+  return withBuildLock(REPO_ROOT, "android", steps, async () => {
+    // Another run in this worktree may have stored the build while this one
+    // waited for the lock.
+    if (getCachedAt(cached) !== cachedAt && isCacheHit()) {
+      return key;
+    }
 
-  await timed(
-    `Generate android/ for ${variant}, if stale`,
-    `EXPO_PUBLIC_APP_VARIANT=${variant} expo prebuild --clean --platform android`,
-    () => ensurePrebuild("android", variant, env)
-  );
+    await timed(
+      `Generate android/ for ${variant}, if stale`,
+      `EXPO_PUBLIC_APP_VARIANT=${variant} expo prebuild --clean --platform android`,
+      () => ensurePrebuild("android", variant, env, fingerprintHash)
+    );
 
-  const logFile = `/tmp/pixy-mood-tracker-android-${variant}-build.log`;
-  const log = fs.createWriteStream(logFile);
-  note(`\nFollow along: tail -f ${logFile}`);
-  const task = `app:assemble${gradleVariant === "debug" ? "Debug" : "Release"}`;
-  const build = await timed(
-    `Compile with Gradle (${gradleVariant})`,
-    `cd android && ./gradlew ${task} --console=plain`,
-    () =>
-      runLogged("./gradlew", [task, "--console=plain"], {
-        cwd: ANDROID_DIR,
-        env,
-        log,
-      })
-  );
-  log.end();
-  if (build.code !== 0) {
-    throw new CliError({
-      fix: `Read ${logFile}, fix the first error, then rerun.`,
-      message: "Gradle build failed",
-      status: "native_build_failed",
-      why: build.firstError || `gradlew exited with ${build.code}.`,
-    });
-  }
+    const logFile = `/tmp/pixy-mood-tracker-android-${variant}-build.log`;
+    const log = fs.createWriteStream(logFile);
+    note(`\nFollow along: tail -f ${logFile}`);
+    const task = `app:assemble${gradleVariant === "debug" ? "Debug" : "Release"}`;
+    const build = await timed(
+      `Compile with Gradle (${gradleVariant})`,
+      `cd android && ./gradlew ${task} --console=plain`,
+      () =>
+        runLogged("./gradlew", [task, "--console=plain"], {
+          cwd: ANDROID_DIR,
+          env,
+          log,
+        })
+    );
+    log.end();
+    if (build.code !== 0) {
+      throw new CliError({
+        fix: `Read ${logFile}, fix the first error, then rerun.`,
+        message: "Gradle build failed",
+        status: "native_build_failed",
+        why: build.firstError || `gradlew exited with ${build.code}.`,
+      });
+    }
 
-  const apk = path.join(
-    ANDROID_DIR,
-    "app/build/outputs/apk",
-    gradleVariant,
-    `app-${gradleVariant}.apk`
-  );
-  const stored = await timed(
-    "Store in build cache",
-    `cp ${path.relative(REPO_ROOT, apk)} ${buildCacheProvider.resolveCacheDir()}/${key}.apk`,
-    () => buildCacheProvider.uploadBuildCache({ ...cacheProps, buildPath: apk })
-  );
-  if (!stored) {
-    throw new CliError({
-      fix: "Check the APK exists and the cache directory is writable, then retry.",
-      message: "Could not store the build",
-      status: "build_cache_write_failed",
-      why: `Copying ${apk} into ${buildCacheProvider.resolveCacheDir()} failed.`,
-    });
-  }
-  note(`\nLog: ${logFile}`);
-  return key;
+    const apk = path.join(
+      ANDROID_DIR,
+      "app/build/outputs/apk",
+      gradleVariant,
+      `app-${gradleVariant}.apk`
+    );
+    const stored = await timed(
+      "Store in build cache",
+      `cp ${path.relative(REPO_ROOT, apk)} ${buildCacheProvider.resolveCacheDir()}/${key}.apk`,
+      () =>
+        buildCacheProvider.uploadBuildCache({ ...cacheProps, buildPath: apk })
+    );
+    if (!stored) {
+      throw new CliError({
+        fix: "Check the APK exists and the cache directory is writable, then retry.",
+        message: "Could not store the build",
+        status: "build_cache_write_failed",
+        why: `Copying ${apk} into ${buildCacheProvider.resolveCacheDir()} failed.`,
+      });
+    }
+    note(`\nLog: ${logFile}`);
+    return key;
+  });
 };
 
 /** Compile one variant and return its cache key. */

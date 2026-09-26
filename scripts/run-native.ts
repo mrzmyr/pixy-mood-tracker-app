@@ -81,6 +81,11 @@ const getAndroidBuildEnv = () => {
   };
 };
 
+const getFingerprintHash = async () => {
+  const fingerprint = await createFingerprintAsync(ROOT);
+  return fingerprint.hash;
+};
+
 // Written after each prebuild. Identifies what the native folder was made from.
 interface PrebuildStamp {
   variant: string;
@@ -129,9 +134,11 @@ const runExpo = (args: string[], env: NodeJS.ProcessEnv) => {
 const ensurePrebuild = async (
   platform: Platform,
   variant: string,
-  env: NodeJS.ProcessEnv
+  env: NodeJS.ProcessEnv,
+  // Pass the hash when already computed; computing it takes seconds.
+  fingerprintHash?: string
 ) => {
-  const { hash } = await createFingerprintAsync(ROOT);
+  const hash = fingerprintHash ?? (await getFingerprintHash());
   const stamp = readStamp(platform);
   if (stamp?.variant === variant && stamp.fingerprint === hash) {
     return;
