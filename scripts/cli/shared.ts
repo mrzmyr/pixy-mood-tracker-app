@@ -114,9 +114,6 @@ const printTable = (columns: string[], rows: string[][]) => {
   }
 };
 
-const getWorktree = () =>
-  tryRun("git", ["rev-parse", "--show-toplevel"]) ?? process.cwd();
-
 const CHECKOUTS_DIR = path.join(
   os.homedir(),
   ".cache",
@@ -155,59 +152,6 @@ const getStateDir = (kind: "e2e" | "build" | "screenshots") => {
 
 // Status messages go to stderr, so stdout stays pipeable.
 const note = (message: string) => console.error(message);
-
-// Numbered, timed steps. Each prints the command it runs, so a person can
-// repeat it by hand. A step lasts until the next one starts; `printTimings`
-// ends the last one and prints the time per step.
-const createSteps = () => {
-  let count = 0;
-  let current: { title: string; start: number } | null = null;
-  const timings: { step: string; seconds: number }[] = [];
-  const closeCurrent = () => {
-    if (current) {
-      timings.push({
-        seconds: (performance.now() - current.start) / 1000,
-        step: current.title,
-      });
-      current = null;
-    }
-  };
-  const step = (title: string, command?: string) => {
-    closeCurrent();
-    count += 1;
-    current = { start: performance.now(), title };
-    note(`\nStep ${count}: ${title}${command ? `\n  $ ${command}` : ""}`);
-  };
-  const timed = async <T>(
-    title: string,
-    command: string | undefined,
-    work: () => T | Promise<T>
-  ) => {
-    step(title, command);
-    const result = await work();
-    closeCurrent();
-    return result;
-  };
-  const printTimings = () => {
-    closeCurrent();
-    const total = timings.reduce((sum, { seconds }) => sum + seconds, 0);
-    console.log("");
-    printTable(
-      ["STEP", "TIME", "SHARE"],
-      [
-        ...timings.map(({ seconds, step: title }) => [
-          title,
-          `${seconds.toFixed(1)}s`,
-          `${total > 0 ? Math.round((seconds / total) * 100) : 0}%`,
-        ]),
-        ["Total", `${total.toFixed(1)}s`, ""],
-      ]
-    );
-  };
-  return { printTimings, step, timed };
-};
-
-type Steps = ReturnType<typeof createSteps>;
 
 const isPlatform = (value: string): value is Platform =>
   value === "ios" || value === "android";
@@ -284,13 +228,11 @@ export {
   DEFAULT_KEEP_BUILDS,
   DEFAULT_KEEP_WITHIN,
   PLATFORM_OPTION,
-  createSteps,
   defineCommand,
   formatAge,
   getCheckoutDir,
   getStateDir,
   getPlatform,
-  getWorktree,
   isProcessAlive,
   note,
   parseDuration,
@@ -298,4 +240,4 @@ export {
   readJson,
   tryRun,
 };
-export type { CommandSpec, Noun, Platform, Steps };
+export type { CommandSpec, Noun, Platform };

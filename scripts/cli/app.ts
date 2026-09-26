@@ -4,6 +4,7 @@ import { once } from "node:events";
 import fs from "node:fs";
 import { createRequire } from "node:module";
 import path from "node:path";
+import { finished } from "node:stream/promises";
 import { setTimeout as sleep } from "node:timers/promises";
 
 import { createFingerprintAsync } from "@expo/fingerprint";
@@ -85,6 +86,7 @@ const runLogged = async (
     env: NodeJS.ProcessEnv;
     logFile: string;
     prefix?: string;
+    isInstalled?: () => boolean;
   }
 ) => {
   const log = fs.createWriteStream(options.logFile);
@@ -113,7 +115,18 @@ const runLogged = async (
     });
   }
   log.end();
+  await finished(log);
   if (code !== 0) {
+    const output = fs.readFileSync(options.logFile, "utf-8");
+    if (
+      options.isInstalled &&
+      output.includes("› Opening on") &&
+      output.includes("Error: xcrun simctl openurl") &&
+      options.isInstalled()
+    ) {
+      note("Expo launch failed after install; app is installed");
+      return;
+    }
     throw new CliError({
       status: "native_build_failed",
       message: `${command} failed`,
@@ -262,6 +275,27 @@ const install = async (platform: Platform) => {
     logFile,
     prefix:
       platform === "android" ? `Using --device ${device.name}` : undefined,
+    isInstalled: () => {
+      try {
+        if (platform === "ios") {
+          execFileSync("xcrun", [
+            "simctl",
+            "get_app_container",
+            device.id,
+            PREVIEW.appId,
+          ]);
+          return true;
+        }
+        const output = execFileSync(
+          "adb",
+          ["-s", device.id, "shell", "pm", "path", PREVIEW.appId],
+          { encoding: "utf-8" }
+        );
+        return output.includes("package:");
+      } catch {
+        return false;
+      }
+    },
   });
   note(`Installed on ${device.name}`);
 };
