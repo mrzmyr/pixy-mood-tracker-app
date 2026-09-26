@@ -43,7 +43,6 @@ tags: [log]
 - inputText: "e2e-log-${output.runId}"
 - hideKeyboard
 - tapOn:
-    text: "Create"
     point: "50%,45%"
 - assertVisible: "Tags"
 - scrollUntilVisible:
@@ -75,7 +74,6 @@ tags: [log]
 - inputText: "e2e-temp-${output.runId}"
 - hideKeyboard
 - tapOn:
-    text: "Create"
     point: "50%,45%"
 - assertVisible: "Tags"
 - scrollUntilVisible:
