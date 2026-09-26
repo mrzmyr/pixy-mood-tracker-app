@@ -134,7 +134,6 @@ tags: [log]
     id: "log-list-close"
 
 # 2.6 Second entry for today (different rating)
-- back
 - tapOn: "Add another entry for today"
 - assertVisible: "How was your day?"
 # A tap during the logger's slide-in animation is lost.
