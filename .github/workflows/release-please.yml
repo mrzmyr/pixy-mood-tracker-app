@@ -54,7 +54,7 @@ jobs:
           bun-version-file: package.json
 
       - name: Set up Expo and EAS
-        uses: expo/expo-github-action@eab7a230208c952974db8c3245cfd78402c7b385 # 9
+        uses: expo/expo-github-action@eab7a230208c952974db8c3245cfd78402c7b385 # v9.0.0
         with:
           eas-version: 21.4.0
           token: ${{ secrets.EXPO_TOKEN }}
