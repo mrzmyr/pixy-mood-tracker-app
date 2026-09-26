@@ -3,6 +3,10 @@
 - the project is called `pixy-mood-tracker`, use that slug always when creating folders, exeutables etc (not `pixy`, `pixy-app` etc)
 - Folder layout: domain modules in `src/features/<name>/`, app-wide state (settings, analytics, persistence) in `src/state/<name>/`, generic hooks in `src/hooks/`. Keep a module's context, storage, and `__tests__/` together; UI used by one feature goes in its `components/`, its hooks in `hooks/`. Shared UI stays in `src/components/`.
 
+## PRs
+
+- When multiple things have beend worked on in one go, you want to create PR, suggest the user to create multiple PRs by topics for easier reviews; If you are sure, just go ahead and create multiple PRs even when the user said "create PR"
+
 ## Metadata
 
 - https://apps.apple.com/de/app/pixy-mood-tracker/id1605327124
@@ -82,8 +86,8 @@
 ✅ Good
 ```
 - Configured native builds use `EXPO_PUBLIC_SUPERWALL_IOS_API_KEY` and `EXPO_PUBLIC_SUPERWALL_ANDROID_API_KEY`
-- Switch Superwall off: `EXPO_PUBLIC_SUPERWALL_ENABLED=false`
-- E2E builds (`bun ios:e2e`, `bun android:e2e`) turn it off through [service mocks](e2e/README.md#service-mocks)
+- Wwitch Superwall off: `EXPO_PUBLIC_SUPERWALL_ENABLED=false` 
+- E2E builds (`bun ios:e2e`, `bun android:e2e`) turn it off through [service mocks](../e2e/README.md#service-mocks)
 - Development builds can expose the support card without Superwall by setting `EXPO_PUBLIC_PIXY_SUPPORT_FAKE_MODE` to `available` or `failed`
 ```
 
@@ -99,7 +103,6 @@ Configured native builds use `EXPO_PUBLIC_SUPERWALL_IOS_API_KEY` and `EXPO_PUBLI
 ## Suites
 
 Path: `e2e/flows/*.yaml`
-
 ```
 
 ❌ Bad
@@ -130,7 +133,7 @@ Path: `e2e/flows/*.yaml`
 
 ❌ Bad
 ```
-- **Webhooks and questions API** (feedback, statistics feedback, question answers, question list) get fake responses from [`src/lib/serviceFetch.ts`](src/lib/serviceFetch.ts). The question list is empty, so no question slide appears. Any other URL through `serviceFetch` fails with `service_mock_missing`.
+- **Webhooks and questions API** (feedback, statistics feedback, question answers, question list) get fake responses from [`src/lib/serviceFetch.ts`](../src/lib/serviceFetch.ts). The question list is empty, so no question slide appears. Any other URL through `serviceFetch` fails with `service_mock_missing`.
 - **Superwall** is never configured. Settings shows Support Pixy backed by the fake support client; `EXPO_PUBLIC_PIXY_SUPPORT_FAKE_MODE=failed` makes it fail.
 ```
 
