@@ -1,4 +1,4 @@
-// Shared types and helpers for `bun builds`, `bun e2e`, and `bun dashboard`.
+// Shared CLI types and helpers.
 import { execFileSync } from "node:child_process";
 import crypto from "node:crypto";
 import fs from "node:fs";
@@ -124,9 +124,7 @@ const CHECKOUTS_DIR = path.join(
 // folders of deleted worktrees.
 const CHECKOUT_FILE = "checkout.txt";
 
-// State of one checkout that must not leak into other worktrees: build locks,
-// build logs, and Metro's PID and log. Lives outside the worktree, keyed by the
-// checkout's real path.
+// External state keyed by the checkout's real path.
 const getCheckoutDir = (root: string) => {
   const checkout = fs.realpathSync(root);
   const hash = crypto
@@ -220,7 +218,7 @@ interface Noun {
   footer?: string;
 }
 
-/** Types, constants, and helpers shared by the CLIs and `bun dashboard`. */
+/** Types, constants, and helpers shared by the CLIs. */
 export {
   CHECKOUTS_DIR,
   CHECKOUT_FILE,

@@ -315,7 +315,7 @@ const waitReady = async (platform: Platform, id: string) => {
         // oxlint-disable-next-line no-await-in-loop -- inspect current screen
         await agentDevice(
           ["is", "visible", selector, ...getDeviceArgs(platform, id)],
-          { timeoutMs: 3000 }
+          { timeoutMs: 10_000 }
         );
         return;
       } catch (error) {
@@ -326,6 +326,7 @@ const waitReady = async (platform: Platform, id: string) => {
             "element_not_found",
             "not_visible",
             "is_not_visible",
+            "agent_device_timeout",
           ].includes(error.status) ||
             (error.status === "command_failed" &&
               error.why.startsWith("selector_not_found")));
@@ -377,13 +378,14 @@ const open = async (platform: Platform) => {
 };
 
 const seed = async (platform: Platform, fixtureId: string) => {
-  if (!FIXTURES.some((fixture) => fixture.id === fixtureId)) {
+  const fixture = FIXTURES.find((candidate) => candidate.id === fixtureId);
+  if (!fixture) {
     throw new CliError({
       exitCode: 2,
       status: "fixture_not_found",
       message: `Unknown fixture "${fixtureId}"`,
       why: "No fixture has that ID.",
-      fix: `Use one of: ${FIXTURES.map((fixture) => fixture.id).join(", ")}.`,
+      fix: `Use one of: ${FIXTURES.map((candidate) => candidate.id).join(", ")}.`,
     });
   }
   const device = await ensureDevice(platform);
@@ -426,6 +428,33 @@ const seed = async (platform: Platform, fixtureId: string) => {
     }
   }
   await waitReady(platform, device.id);
+  if (fixtureId === "seed") {
+    const { items } = fixture.data;
+    if (!Array.isArray(items) || items.length === 0) {
+      throw new CliError({
+        status: "fixture_invalid",
+        message: "Seed fixture has no entries",
+        why: "Calendar screenshot needs an entry date, but seed data has none.",
+        fix: "Restore entries in src/dev/fixtures/seed.json, then retry.",
+      });
+    }
+    let latest = items[0].date;
+    for (const item of items) {
+      if (item.date > latest) {
+        latest = item.date;
+      }
+    }
+    await agentDevice(
+      [
+        "scroll",
+        "up",
+        "--until",
+        `id="calendar-day-${latest}"`,
+        ...getDeviceArgs(platform, device.id),
+      ],
+      { timeoutMs: READY_TIMEOUT_MS }
+    );
+  }
   await screenshot(platform, device.id, `seed-${fixtureId}.png`);
 };
 
