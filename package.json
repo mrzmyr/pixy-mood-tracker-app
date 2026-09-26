@@ -14,8 +14,6 @@
     "e2e": "bun scripts/cli/index.ts e2e",
     "simulators": "bun scripts/cli/index.ts simulators",
     "builds": "bun scripts/cli/index.ts builds",
-    "devices": "bun scripts/cli/index.ts devices",
-    "dashboard": "bun scripts/cli/dashboard.ts",
     "web": "EXPO_PUBLIC_APP_VARIANT=development expo start --web",
     "test": "jest --watchAll --env=jsdom",
     "test:ci": "jest --env=jsdom",
