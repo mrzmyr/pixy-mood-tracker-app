@@ -20,11 +20,11 @@ import {
   TAG_COLOR_NAMES,
 } from "@/constants/Config";
 import { t } from "@/helpers/translation";
-import { useAnalytics } from "../hooks/useAnalytics";
+import { useAnalytics } from "@/state/analytics";
 import useColors from "../hooks/useColors";
 import useHaptics from "../hooks/useHaptics";
-import type { Tag as ITag } from "../hooks/useTags";
-import { useTagsState, useTagsUpdater } from "../hooks/useTags";
+import type { Tag as ITag } from "@/features/tags";
+import { useTagsState, useTagsUpdater } from "@/features/tags";
 import type { RootStackScreenProps } from "../../types";
 import MenuList from "@/components/MenuList";
 import MenuListItem from "@/components/MenuListItem";

@@ -1,7 +1,7 @@
-import { NotEnoughDataOverlay } from "@/components/Statistics/NotEnoughDataOverlay";
+import { NotEnoughDataOverlay } from "@/features/statistics/components/NotEnoughDataOverlay";
 import { t } from "@/helpers/translation";
 import useColors from "@/hooks/useColors";
-import { useLogState } from "@/hooks/useLogs";
+import { useLogState } from "@/features/logs";
 import { RATING_MAPPING } from "@/constants/Ratings";
 import type { Dayjs } from "dayjs";
 import dayjs from "dayjs";

@@ -1,8 +1,8 @@
 import { View } from "react-native";
 import useHaptics from "@/hooks/useHaptics";
-import type { LogItem } from "@/hooks/useLogs";
+import type { LogItem } from "@/features/logs";
 import useScale from "@/hooks/useScale";
-import type { SettingsState } from "@/hooks/useSettings";
+import type { SettingsState } from "@/state/settings";
 import ScaleButton from "./ScaleButton";
 
 const Scale = ({

@@ -7,10 +7,6 @@
     "icon": "./assets/images/icon.png",
     "scheme": "pixy",
     "userInterfaceStyle": "automatic",
-    "updates": {
-      "fallbackToCacheTimeout": 0,
-      "url": "https://u.expo.dev/8917be91-f1cc-4276-a252-674a28490ac3"
-    },
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "bundleIdentifier": "com.devmood.pixymoodtracker",
@@ -114,9 +110,6 @@
         }
       ]
     ],
-    "runtimeVersion": {
-      "policy": "appVersion"
-    },
     "buildCacheProvider": {
       "plugin": "./scripts/build-cache-provider.cjs"
     },
@@ -124,6 +117,9 @@
       "eas": {
         "projectId": "8917be91-f1cc-4276-a252-674a28490ac3"
       }
+    },
+    "experiments": {
+      "reactCompiler": true
     }
   }
 }

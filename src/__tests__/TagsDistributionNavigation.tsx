@@ -4,14 +4,14 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { render, screen, userEvent } from "@testing-library/react-native";
 import { Text } from "react-native";
 import Colors from "@/constants/Colors";
-import { AnalyticsProvider } from "@/hooks/useAnalytics";
+import { AnalyticsProvider } from "@/state/analytics";
 import {
   CalendarFiltersProvider,
   useCalendarFilters,
-} from "@/hooks/useCalendarFilters";
-import { LogsProvider } from "@/hooks/useLogs";
-import { SettingsProvider } from "@/hooks/useSettings";
-import type { TagsDistributionData } from "@/hooks/useStatistics/TagsDistribution";
+} from "@/features/calendar/filters";
+import { LogsProvider } from "@/features/logs";
+import { SettingsProvider } from "@/state/settings";
+import type { TagsDistributionData } from "@/features/statistics/TagsDistribution";
 import { TagDistributionContent } from "@/screens/Statistics/TagsDistributionCard";
 
 // oxlint-disable-next-line anti-slop/no-module-mocking -- react-native-safe-area-context needs native insets that Jest does not provide

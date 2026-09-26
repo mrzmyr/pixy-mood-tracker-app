@@ -2,13 +2,13 @@ import random from "lodash/random";
 import range from "lodash/range";
 import { useMemo } from "react";
 import { Dimensions } from "react-native";
-import { BigCard } from "@/components/BigCard";
-import type { ScaleItem } from "@/components/RatingChart";
-import { RatingChart } from "@/components/RatingChart";
+import { BigCard } from "@/features/statistics/components/BigCard";
+import type { ScaleItem } from "@/features/statistics/components/RatingChart";
+import { RatingChart } from "@/features/statistics/components/RatingChart";
 import { t } from "@/helpers/translation";
-import { getRatingDistributionForXDays } from "../../hooks/useStatistics/RatingDistribution";
-import { NotEnoughDataOverlay } from "@/components/Statistics/NotEnoughDataOverlay";
-import { CardFeedback } from "@/components/Statistics/CardFeedback";
+import { getRatingDistributionForXDays } from "@/features/statistics/RatingDistribution";
+import { NotEnoughDataOverlay } from "@/features/statistics/components/NotEnoughDataOverlay";
+import { CardFeedback } from "@/features/statistics/components/CardFeedback";
 
 const MIN_ITEMS = 5;
 

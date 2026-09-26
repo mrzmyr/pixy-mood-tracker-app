@@ -1,2 +1,4 @@
-// Sets output.today like "2026-07-01" for flows that select today
-output.today = new Date().toISOString().slice(0, 10);
+// Sets today's date and a unique value for log-entry test data.
+const now = new Date();
+output.today = now.toISOString().slice(0, 10);
+output.runId = now.getTime().toString(36);

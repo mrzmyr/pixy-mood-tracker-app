@@ -1,14 +1,14 @@
-import { BigCard } from "@/components/BigCard";
-import { NotEnoughDataOverlay } from "@/components/Statistics/NotEnoughDataOverlay";
+import { BigCard } from "@/features/statistics/components/BigCard";
+import { NotEnoughDataOverlay } from "@/features/statistics/components/NotEnoughDataOverlay";
 import { DATE_FORMAT } from "@/constants/Config";
 import { t } from "@/helpers/translation";
 import dayjs from "dayjs";
-import { useAnonymizer } from "../../hooks/useAnonymizer";
-import type { MoodPeaksNegativeData } from "../../hooks/useStatistics/MoodPeaks";
+import { useAnonymizer } from "@/state/analytics/anonymizer";
+import type { MoodPeaksNegativeData } from "@/features/statistics/MoodPeaks";
 import {
   getMoodPeaksNegativeData,
   getMoodPeaksPositiveData,
-} from "../../hooks/useStatistics/MoodPeaks";
+} from "@/features/statistics/MoodPeaks";
 import { MoodPeaksContent } from "../Statistics/MoodPeaksCards";
 
 const MIN_ITEMS = 1;

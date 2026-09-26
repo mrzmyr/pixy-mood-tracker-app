@@ -1,5 +1,5 @@
 import { PageWithHeaderLayout } from "@/components/PageWithHeaderLayout";
-import Reminder from "@/components/Reminder";
+import Reminder from "@/features/notifications/components/Reminder";
 import { ScrollView } from "react-native";
 import useColors from "../hooks/useColors";
 

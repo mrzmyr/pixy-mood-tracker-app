@@ -4,15 +4,13 @@ import useColors from "../../hooks/useColors";
 import { HeaderImage } from "./HeaderImage";
 import { HeaderNavigation } from "./HeaderNavigation";
 import Animated, { FadeIn } from "react-native-reanimated";
-import Clock from "@/components/Clock";
-import useNotification, {
-  createDailyTrigger,
-} from "../../hooks/useNotifications";
+import Clock from "@/features/notifications/components/Clock";
+import useNotification, { createDailyTrigger } from "@/features/notifications";
 import { useState } from "react";
 import dayjs from "dayjs";
-import type { SettingsState } from "../../hooks/useSettings";
-import { useSettings } from "../../hooks/useSettings";
-import { useAnalytics } from "../../hooks/useAnalytics";
+import type { SettingsState } from "@/state/settings";
+import { useSettings } from "@/state/settings";
+import { useAnalytics } from "@/state/analytics";
 import LinkButton from "@/components/LinkButton";
 import { t } from "@/helpers/translation";
 

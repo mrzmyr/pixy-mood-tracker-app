@@ -3,7 +3,7 @@ import dayjs from "dayjs";
 import groupBy from "lodash/groupBy";
 import sortBy from "lodash/sortBy";
 import { t } from "@/helpers/translation";
-import type { LogDay, LogItem } from "@/hooks/useLogs";
+import type { LogDay, LogItem } from "@/features/logs";
 import {
   RATING_KEYS,
   RATING_MAPPING,

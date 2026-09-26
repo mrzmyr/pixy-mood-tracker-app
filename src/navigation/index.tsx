@@ -26,16 +26,19 @@ import { TagEdit } from "../screens/TagEdit";
 import { SettingsTags, SettingsTagsArchive } from "../screens/Settings/Tags";
 
 import Providers from "@/components/Providers";
+import { SENTRY_DSN } from "@/constants/API";
+import { APP_VARIANT, HAS_APP_VARIANT } from "@/constants/AppVariant";
 import Colors from "@/constants/Colors";
 import { initializeDayjs, t } from "@/helpers/translation";
-import { useAnalytics } from "@/hooks/useAnalytics";
-import { useAnonymizer } from "@/hooks/useAnonymizer";
-import { useLogState } from "@/hooks/useLogs";
-import { useSettings } from "@/hooks/useSettings";
-import { useTagsState } from "@/hooks/useTags";
+import { useAnalytics } from "@/state/analytics";
+import { useAnonymizer } from "@/state/analytics/anonymizer";
+import { useLogState } from "@/features/logs";
+import { useSettings } from "@/state/settings";
+import { useTagsState } from "@/features/tags";
 import { getItemsCountPerDayAverage, getItemsCoverage } from "@/lib/utils";
 import dayjs from "dayjs";
 import { enableScreens } from "react-native-screens";
+import { DEV_TOOLS } from "../dev";
 import { DevelopmentTools } from "../screens/DevelopmentTools";
 import { Onboarding } from "../screens/Onboarding";
 import { StatisticsMonthScreen } from "../screens/StatisticsMonth";
@@ -48,9 +51,11 @@ import { BottomTabs } from "./BottomTabs";
 enableScreens();
 
 // Initialize before the first render so startup errors are reported too.
-if (!__DEV__) {
+// Each variant reports to its own Sentry project; Jest has no variant.
+if (HAS_APP_VARIANT) {
   Sentry.init({
-    dsn: "https://d98d0f519b324d9cb0c947b8f29cd0cf@o1112922.ingest.sentry.io/6142792",
+    dsn: SENTRY_DSN,
+    environment: APP_VARIANT,
   });
 }
 
@@ -74,6 +79,10 @@ const NAVIGATION_LINKING: LinkingOptions<RootStackParamList> = {
       Reminder: "settings/reminder",
       Privacy: "settings/privacy",
       DevelopmentTools: "settings/development-tools",
+      ...(DEV_TOOLS && {
+        DevFixtures: "dev/fixtures",
+        DevFixture: "dev/fixture",
+      }),
       // Tags: 'settings/tags',;
       StatisticsHighlights: "statistics/highlights",
       StatisticsMonth: "statistics/month/:date",
@@ -336,6 +345,23 @@ const RootNavigator = () => {
               ...defaultPageOptions,
             }}
           />
+          {DEV_TOOLS && (
+            <Stack.Screen
+              name="DevFixtures"
+              component={DEV_TOOLS.DevFixturesScreen}
+              options={{
+                title: "Test data",
+                ...defaultPageOptions,
+              }}
+            />
+          )}
+          {DEV_TOOLS && (
+            <Stack.Screen
+              name="DevFixture"
+              component={DEV_TOOLS.DevFixtureLinkScreen}
+              options={{ headerShown: false }}
+            />
+          )}
         </Stack.Group>
       </Stack.Navigator>
     </View>

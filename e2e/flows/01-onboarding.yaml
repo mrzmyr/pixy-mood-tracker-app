@@ -1,4 +1,4 @@
-appId: com.devmood.pixymoodtracker
+appId: ${APP_ID}
 tags: [onboarding]
 ---
 # 1.1 Fresh install shows Welcome
@@ -7,11 +7,10 @@ tags: [onboarding]
 - assertVisible: "Welcome 👋"
 
 # 1.2 One entry button visible
-- assertNotVisible: "I used a Mood Tracker before"
-- assertVisible: "I never used a Mood Tracker"
+- assertVisible: "Start"
 
 # 1.3 Explainer slides forward
-- tapOn: "I never used a Mood Tracker"
+- tapOn: "Start"
 - assertVisible: "Calendar"
 - tapOn: "Next"
 - assertVisible: "Statistics"

@@ -23,14 +23,15 @@ import MenuListHeadline from "@/components/MenuListHeadline";
 import MenuListItem from "@/components/MenuListItem";
 import { SupportCard } from "@/components/SupportCard";
 import TextInfo from "@/components/TextInfo";
+import { APP_VARIANT, HAS_APP_VARIANT } from "@/constants/AppVariant";
 import { CHANGELOG_URL, FEEDBACK_FEATURES_URL } from "@/constants/Config";
+import { DEV_TOOLS } from "@/dev";
 import { t } from "@/helpers/translation";
-import { useAnalytics } from "../../hooks/useAnalytics";
+import { useAnalytics } from "@/state/analytics";
 import useColors from "../../hooks/useColors";
-import useFeedbackModal from "../../hooks/useFeedbackModal";
+import useFeedbackModal from "@/features/feedback/hooks/useFeedbackModal";
 import pkg from "../../../package.json";
 import type { RootStackScreenProps } from "../../../types";
-import * as Updates from "expo-updates";
 import { Tag } from "lucide-react-native";
 import { useSupport } from "@/support";
 
@@ -179,6 +180,15 @@ export const SettingsScreen = ({
             onPress={() => navigation.navigate("DevelopmentTools")}
             isLink
           />
+          {DEV_TOOLS && (
+            <MenuListItem
+              title="Test data"
+              iconLeft={<Database width={18} color={colors.menuListItemIcon} />}
+              onPress={() => navigation.navigate("DevFixtures")}
+              isLink
+              testID="dev-fixtures"
+            />
+          )}
           <MenuListItem
             title={t("app_is_open_source")}
             onPress={() => {
@@ -212,7 +222,7 @@ export const SettingsScreen = ({
           >
             Pixy v{pkg.version}
           </Text>
-          {Updates.channel && (
+          {HAS_APP_VARIANT && (
             <Text
               style={{
                 fontSize: 14,
@@ -220,7 +230,7 @@ export const SettingsScreen = ({
                 color: colors.textSecondary,
               }}
             >
-              {Updates.channel}
+              {APP_VARIANT}
             </Text>
           )}
         </View>

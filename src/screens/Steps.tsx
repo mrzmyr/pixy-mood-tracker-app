@@ -1,5 +1,5 @@
-import type { LoggerStep } from "@/components/Logger/config";
-import { STEP_OPTIONS } from "@/components/Logger/config";
+import type { LoggerStep } from "@/features/logger/config";
+import { STEP_OPTIONS } from "@/features/logger/config";
 import MenuList from "@/components/MenuList";
 import MenuListItem from "@/components/MenuListItem";
 import { PageWithHeaderLayout } from "@/components/PageWithHeaderLayout";
@@ -16,7 +16,7 @@ import {
 } from "react-native-feather";
 import type { RootStackScreenProps } from "../../types";
 import useColors from "../hooks/useColors";
-import { useSettings } from "../hooks/useSettings";
+import { useSettings } from "@/state/settings";
 
 /**
  * Settings > Steps: toggle optional logger steps. `rating` cannot be

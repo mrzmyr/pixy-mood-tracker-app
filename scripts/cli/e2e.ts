@@ -7,8 +7,16 @@ import fs from "node:fs";
 import path from "node:path";
 import { setTimeout as sleep } from "node:timers/promises";
 
-import { AGENT_DEVICE, agentDevice } from "./agent-device.ts";
-import type { Claim } from "./agent-device.ts";
+import { APP_VARIANTS, getAppVariant } from "../../app.config.ts";
+import type { AppVariant } from "../../app.config.ts";
+import {
+  AGENT_DEVICE,
+  agentDevice,
+  findAgentDevice,
+  getAgentDeviceEnv,
+  listAgentDevices,
+} from "./agent-device.ts";
+import type { AgentDevice, Claim } from "./agent-device.ts";
 import {
   ARTIFACTS_DIR,
   findRun,
@@ -21,10 +29,8 @@ import {
 import type { Run } from "./runs.ts";
 import {
   CliError,
-  PLATFORM_OPTION,
   defineCommand,
   formatAge,
-  getPlatform,
   getWorktree,
   note,
   printTable,
@@ -39,18 +45,18 @@ const DEFAULT_PATHS: Record<Platform, string[]> = {
   ios: ["e2e/flows", "e2e/apple"],
 };
 
-const requirePlatform = (value: string | undefined) => {
-  const platform = getPlatform(value);
-  if (!platform) {
+const requireVariant = (value = "preview") => {
+  try {
+    return getAppVariant(value);
+  } catch {
     throw new CliError({
       exitCode: 2,
-      fix: "Pass --platform ios or --platform android.",
-      message: "Missing --platform",
-      status: "missing_platform",
-      why: "agent-device needs the platform to find the device.",
+      fix: `Pass --variant ${Object.keys(APP_VARIANTS).join(", --variant ")}.`,
+      message: "Unknown --variant",
+      status: "invalid_variant",
+      why: `--variant is "${value}".`,
     });
   }
-  return platform;
 };
 
 // Resolves symlinks such as /tmp -> /private/tmp, so paths compare equal.
@@ -62,49 +68,182 @@ const realPath = (file: string) => {
   }
 };
 
+// Median duration of passed runs on this platform, or null without history.
+// Failed runs often stop early, so they would understate the wait.
+const getTypicalDurationMs = (platform: Platform | null) => {
+  const durations = readRuns()
+    .filter(
+      (run) =>
+        run.status === "passed" &&
+        run.finishedAt !== null &&
+        run.platform === platform
+    )
+    .map((run) => Date.parse(run.finishedAt ?? "") - Date.parse(run.startedAt))
+    .toSorted((a, b) => a - b);
+  return durations.length > 0
+    ? durations[Math.floor(durations.length / 2)]
+    : null;
+};
+
+const formatDuration = (ms: number) =>
+  ms < 90_000
+    ? `${Math.max(1, Math.round(ms / 1000))}s`
+    : `${Math.round(ms / 60_000)}m`;
+
+// What an active run has done so far and when it should free the device.
+const describeRunProgress = (run: Run) => {
+  const done = run.flows.length;
+  const failed = run.flows.filter((flow) => flow.status === "failed").length;
+  const progress = `${done} flow(s) finished${failed > 0 ? `, ${failed} failed` : ""}`;
+  const typical = getTypicalDurationMs(run.platform);
+  if (typical === null) {
+    return `${progress}. No passed ${run.platform ?? ""} runs yet, so no time estimate.`;
+  }
+  const remaining = typical - (Date.now() - Date.parse(run.startedAt));
+  return remaining > 0
+    ? `${progress}. passed ${run.platform} runs take ~${formatDuration(typical)}, so it should finish in ~${formatDuration(remaining)}.`
+    : `${progress}. passed ${run.platform} runs take ~${formatDuration(typical)}, so it should finish soon.`;
+};
+
+// Devices and their agent-device owners. Either list is empty when
+// agent-device fails; `errors` says why.
+const readDeviceState = async () => {
+  const [devicesResult, claimsResult] = await Promise.allSettled([
+    agentDevice<{ devices: AgentDevice[] }>(["devices"]),
+    agentDevice<{ claims: Claim[] }>(["device", "status"]),
+  ]);
+  const errors = [devicesResult, claimsResult].flatMap((result) =>
+    result.status === "rejected"
+      ? [
+          result.reason instanceof Error
+            ? result.reason.message
+            : String(result.reason),
+        ]
+      : []
+  );
+  return {
+    claims:
+      claimsResult.status === "fulfilled" ? claimsResult.value.claims : null,
+    devices:
+      devicesResult.status === "fulfilled" ? devicesResult.value.devices : null,
+    errors,
+  };
+};
+
+// A live agent-device session from another worktree. This worktree's own
+// sessions do not count.
+const isForeignClaim = (claim: Claim, worktree: string) =>
+  claim.classification === "live" &&
+  realPath(claim.owner.workspace) !== worktree;
+
 // Who else uses the device: an active `bun e2e` run in any worktree, or a live
-// agent-device session from another worktree. This worktree's own sessions
-// do not count.
-const findDeviceUser = async (device: string) => {
+// agent-device session from another worktree.
+const findDeviceUser = (device: string, claims: Claim[] | null) => {
   const run = readRuns().find(
     (candidate) => isActive(candidate) && candidate.deviceId === device
   );
   if (run) {
     return {
       fix: `Stop it with \`bun e2e stop ${run.id}\``,
-      why: `e2e run ${run.id} from ${path.basename(run.worktree)} (${run.branch}) started ${formatAge(run.startedAt)} ago.`,
+      wait: `Wait until run ${run.id} finishes (\`bun e2e list\` shows it)`,
+      why: `e2e run ${run.id} from ${path.basename(run.worktree)} (${run.branch}) started ${formatAge(run.startedAt)} ago. ${describeRunProgress(run)}`,
     };
   }
-  let claims: Claim[] = [];
-  try {
-    ({ claims } = await agentDevice<{ claims: Claim[] }>(["device", "status"]));
-  } catch (error) {
-    note(
-      `warning: could not check who uses ${device}: ${error instanceof Error ? error.message : String(error)}`
-    );
-    return null;
-  }
   const worktree = realPath(getWorktree());
-  const claim = claims.find(
+  const claim = claims?.find(
     (candidate) =>
-      candidate.classification === "live" &&
-      candidate.device.id === device &&
-      realPath(candidate.owner.workspace) !== worktree
+      candidate.device.id === device && isForeignClaim(candidate, worktree)
   );
   return claim
     ? {
         fix: `Release it with \`bunx agent-device close --session ${claim.owner.session}\` once its owner is done`,
-        why: `agent-device session ${claim.owner.session} from ${claim.owner.workspace} (PID ${claim.owner.pid}) holds it.`,
+        wait: `Wait until the agent in ${path.basename(claim.owner.workspace)} is done with it`,
+        why: `agent-device session ${claim.owner.session} from ${claim.owner.workspace} (PID ${claim.owner.pid}) holds it since ${formatAge(new Date(claim.owner.startTime).toISOString())} ago.`,
       }
     : null;
 };
 
-const assertDeviceFree = async (device: string) => {
-  const user = await findDeviceUser(device);
+// Booted devices on the platform that no run or other worktree uses.
+const listFreeDevices = (
+  platform: Platform,
+  busyDevice: string,
+  devices: AgentDevice[],
+  claims: Claim[]
+) => {
+  const worktree = realPath(getWorktree());
+  const used = new Set([
+    busyDevice,
+    ...readRuns()
+      .filter(isActive)
+      .flatMap((run) => (run.deviceId ? [run.deviceId] : [])),
+    ...claims
+      .filter((claim) => isForeignClaim(claim, worktree))
+      .map((claim) => claim.device.id),
+  ]);
+  return devices.filter(
+    (device) =>
+      device.platform === platform &&
+      (device.booted || device.kind === "device") &&
+      !used.has(device.id)
+  );
+};
+
+const describeDevice = (device: AgentDevice) =>
+  `${device.name} (${device.kind === "device" ? "physical" : device.kind})`;
+
+// Other devices to use: free ones with a ready command, or how to boot one.
+const describeAlternatives = (
+  platform: Platform,
+  busyDevice: string,
+  state: Awaited<ReturnType<typeof readDeviceState>>
+) => {
+  if (!state.devices) {
+    return [
+      `List devices with \`bun devices list\` (listing failed: ${state.errors.join("; ")}).`,
+    ];
+  }
+  const free = listFreeDevices(
+    platform,
+    busyDevice,
+    state.devices,
+    state.claims ?? []
+  );
+  if (free.length === 0) {
+    const example = platform === "ios" ? '"iPhone 17 Pro"' : "medium_phone";
+    return [
+      `No other booted ${platform} device is free. Boot one: \`bunx agent-device boot --platform ${platform} --device ${example}\`.`,
+    ];
+  }
+  const idWidth = Math.max(...free.map((device) => device.id.length));
+  const labelWidth = Math.max(
+    ...free.map((device) => describeDevice(device).length)
+  );
+  return [
+    `Free ${platform} devices:`,
+    ...free.map(
+      (device) =>
+        `    ${device.id.padEnd(idWidth)}  ${describeDevice(device).padEnd(labelWidth)}  -> bun e2e run --device ${device.id}`
+    ),
+  ];
+};
+
+const assertDeviceFree = async (platform: Platform, device: string) => {
+  const state = await readDeviceState();
+  if (!state.claims) {
+    note(
+      `warning: could not check agent-device owners of ${device}: ${state.errors.join("; ")}`
+    );
+  }
+  const user = findDeviceUser(device, state.claims);
   if (user) {
+    const name = state.devices?.find(({ id }) => id === device)?.name;
     throw new CliError({
-      fix: `Pick a free device (\`bunx agent-device device status\` lists owners). ${user.fix}, or pass --force to run anyway.`,
-      message: `${device} is busy`,
+      fix: [
+        `${user.wait}, or use another device.`,
+        ...describeAlternatives(platform, device, state),
+        `Or: ${user.fix}, or pass --force to run anyway.`,
+      ].join("\n       "),
+      message: `${name ? `${name} (${device})` : device} is busy`,
       status: "device_busy",
       why: user.why,
     });
@@ -119,10 +258,11 @@ const cmdRun = async (
     isForce: boolean;
     isRecord: boolean;
     passthrough: string[];
+    variant: AppVariant;
   }
 ) => {
   if (!options.isForce) {
-    await assertDeviceFree(options.device);
+    await assertDeviceFree(options.platform, options.device);
   }
   // The reporter reads --udid or --serial to record which device ran.
   const selector = options.platform === "ios" ? "--udid" : "--serial";
@@ -140,12 +280,18 @@ const cmdRun = async (
     "default",
     "--reporter",
     REPORTER,
+    // Flows target the installed variant through ${APP_ID} and ${APP_SCHEME}.
+    "--env",
+    `APP_ID=${APP_VARIANTS[options.variant].appId}`,
+    "--env",
+    `APP_SCHEME=${APP_VARIANTS[options.variant].scheme}`,
     ...(options.isRecord ? ["--record-video"] : []),
     ...options.passthrough,
   ];
   note(`Running: agent-device ${args.join(" ")}`);
   const child = spawn(AGENT_DEVICE, args, {
     cwd: getWorktree(),
+    env: getAgentDeviceEnv(),
     stdio: "inherit",
   });
   // Ctrl+C reaches agent-device through the shared process group; stay alive
@@ -245,44 +391,45 @@ const E2E: Noun = {
   commands: {
     run: defineCommand({
       args: ["[paths...]"],
-      details: `Runs Maestro flows through agent-device (default: e2e/flows, plus
-e2e/apple on iOS). Paths replace the default.
+      details: `--device <id|name>  Required. ID or name from \`bun devices list\`.
+                    Platform comes from the device.
+--variant <name>    preview (default). e2e builds are preview builds.
+--record            Record every flow to recording.mp4.
+--force             Run even if another worktree uses the device.
+-- <args>           Passed to \`agent-device test\`, e.g. -- --retries 1.
 
---platform ios|android  Required.
---device <id>           Required. Simulator UDID or Android serial, so the run
-                        never lands on another agent's device.
---record                Record every flow to recording.mp4.
---force                 Run even if another worktree's e2e run or agent-device
-                        session uses the device.
--- <args>               Pass the rest to \`agent-device test\`,
-                        e.g. -- --retries 1 --fail-fast.
-
-Artifacts land in .agent-device/test-artifacts/<run-id>/ of this worktree.
-Exits with agent-device's exit code.`,
+Runs Maestro flows (default: e2e/flows, plus e2e/apple on iOS). Paths replace
+the default. Artifacts land in .agent-device/test-artifacts/<run-id>/ of this
+worktree. Exits with agent-device's exit code.`,
       hasPassthrough: true,
+      usage: "[paths...] [options] [-- <args>]",
       options: {
-        ...PLATFORM_OPTION,
         device: { type: "string" },
         force: { type: "boolean" },
         record: { type: "boolean" },
+        variant: { type: "string" },
       },
       run: async (paths, values, passthrough) => {
-        const platform = requirePlatform(values.platform);
         if (!values.device) {
           throw new CliError({
             exitCode: 2,
-            fix: "Find one with `bunx agent-device devices`, then pass --device <id>.",
+            fix: "Find one with `bun devices list`, then pass --device <id|name>.",
             message: "Missing --device",
             status: "missing_device",
             why: "Without a device, agent-device may pick one another worktree is using.",
           });
         }
+        const { device, platform } = findAgentDevice(
+          await listAgentDevices(),
+          values.device
+        );
         await cmdRun(paths, {
-          device: values.device,
+          device: device.id,
           isForce: values.force ?? false,
           isRecord: values.record ?? false,
           passthrough,
           platform,
+          variant: requireVariant(values.variant),
         });
       },
       summary: "Run e2e flows on a device",
@@ -306,9 +453,9 @@ Lists runs from every worktree of this repo.`,
       summary: "Stop a running e2e run",
     }),
   },
-  footer: `Devices: \`bunx agent-device devices\`, \`boot\`, and \`shutdown\`. See e2e/README.md.`,
+  footer: `Devices: \`bun devices list\`. Boot and shut down: \`bunx agent-device boot\`, \`shutdown\`. See e2e/README.md.`,
   summary: "Run e2e flows with agent-device and track runs across worktrees.",
 };
 
-/** `bun e2e` commands. */
-export { E2E };
+/** `bun e2e` commands, plus device and flag checks `bun app` reuses. */
+export { E2E, assertDeviceFree, requireVariant };

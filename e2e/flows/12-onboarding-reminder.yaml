@@ -1,4 +1,4 @@
-appId: com.devmood.pixymoodtracker
+appId: ${APP_ID}
 tags: [onboarding, reminder]
 ---
 # Reusable on installed devices; do not clear app data.
@@ -34,7 +34,7 @@ tags: [onboarding, reminder]
       - tapOn: "Onboarding"
 
 - assertVisible: "Welcome 👋"
-- tapOn: "I never used a Mood Tracker"
+- tapOn: "Start"
 - tapOn: "Next"
 - tapOn: "Next"
 - tapOn: "Next"

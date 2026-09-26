@@ -1,4 +1,4 @@
-appId: com.devmood.pixymoodtracker
+appId: ${APP_ID}
 ---
 # Simulators and emulators have no push token. Toggling the reminder shows
 # "Must use physical device for Push Notifications" once or twice (permission

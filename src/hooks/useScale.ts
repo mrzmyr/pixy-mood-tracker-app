@@ -1,8 +1,8 @@
 import type { IScale } from "@/constants/Colors/Scales";
 import useColors from "./useColors";
 import { RATING_KEYS } from "@/constants/Ratings";
-import type { SettingsState } from "./useSettings";
-import { useSettings } from "./useSettings";
+import type { SettingsState } from "@/state/settings";
+import { useSettings } from "@/state/settings";
 
 /**
  * Mood colors for the user's scale, or for `type` when given.
