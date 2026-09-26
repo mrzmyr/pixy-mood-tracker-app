@@ -30,6 +30,7 @@
 - Never write storage after a failed read. A read error must keep the stored data, not replace it with defaults (commits 1a1ddd8, f165aad).
 - Hermes lacks some modern array methods. `pixy-standards/no-hermes-missing-array-methods` enforces the safe forms.
 - Keep all `@react-navigation/*` packages on the same major version. Mixing v6 and v7 breaks native navigation.
+- React Compiler plus `freezeOnBlur` tabs can leave FlashList headers or footers stale after the tab unfreezes. `src/screens/Calendar/index.tsx` opts out with `"use no memo"`. Run the e2e suite after enabling the compiler for more code.
 - Initialize Sentry once, at module load in `src/navigation/index.tsx`, before the first render.
 
 ## Releases
