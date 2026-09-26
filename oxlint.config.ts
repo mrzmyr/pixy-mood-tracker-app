@@ -53,6 +53,11 @@ export default defineConfig({
           {
             paths: [
               {
+                name: "@react-native-async-storage/async-storage",
+                message:
+                  "Use load/store/write/remove from `@/helpers/storage`, which types keys and keeps stored data on read errors.",
+              },
+              {
                 name: "@sentry/react-native",
                 message:
                   "Report errors with `logger.error` from `@/lib/logger`.",
@@ -63,9 +68,10 @@ export default defineConfig({
       },
     },
     {
-      // The logger itself, Sentry.init, and tests that assert on the SDKs.
+      // The wrappers themselves, Sentry.init, and tests that assert on the SDKs.
       files: [
         "src/lib/logger.ts",
+        "src/helpers/storage.ts",
         "src/navigation/index.tsx",
         "src/__tests__/**",
         "src/__mocks__/**",
