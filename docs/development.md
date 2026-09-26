@@ -58,9 +58,9 @@ Three variants install side by side, each with its own name, icon, bundle ID, an
 - **`package.json` scripts are ignored:** [`fingerprint.config.cjs`](../fingerprint.config.cjs) skips them, so adding or editing a script keeps cached builds. Native modules, config plugins, and `app.json` changes still produce a new fingerprint.
 - **Inspect and clean up with `bun builds`:**
   - `bun builds list` shows each build's variant, source branch and commit, size, and last use.
-  - `bun builds check [--release]` tells whether this worktree gets a cached build, and why not.
+  - `bun builds status [--release]` tells whether this worktree resolves to a cached build, and why not.
   - `bun builds prune` keeps the newest 3 builds per platform and variant (`--keep`) plus everything used in the last 7 days (`--keep-within`).
-- Physical device builds are never cached.
+- `bun ios --device` builds for phones are never cached. `bun app build --device <id>` caches phone builds; install them with `bun app install <build-id> --device <id>`.
 
 The provider lives in [`scripts/build-cache-provider.cjs`](../scripts/build-cache-provider.cjs).
 

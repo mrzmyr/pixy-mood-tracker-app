@@ -9,7 +9,13 @@ import { setTimeout as sleep } from "node:timers/promises";
 
 import { APP_VARIANTS, getAppVariant } from "../../app.config.ts";
 import type { AppVariant } from "../../app.config.ts";
-import { AGENT_DEVICE, agentDevice } from "./agent-device.ts";
+import {
+  AGENT_DEVICE,
+  agentDevice,
+  findAgentDevice,
+  getAgentDeviceEnv,
+  listAgentDevices,
+} from "./agent-device.ts";
 import type { AgentDevice, Claim } from "./agent-device.ts";
 import {
   ARTIFACTS_DIR,
@@ -23,10 +29,8 @@ import {
 import type { Run } from "./runs.ts";
 import {
   CliError,
-  PLATFORM_OPTION,
   defineCommand,
   formatAge,
-  getPlatform,
   getWorktree,
   note,
   printTable,
@@ -39,20 +43,6 @@ const REPORTER = path.join(import.meta.dir, "e2e-reporter.mjs");
 const DEFAULT_PATHS: Record<Platform, string[]> = {
   android: ["e2e/flows"],
   ios: ["e2e/flows", "e2e/apple"],
-};
-
-const requirePlatform = (value: string | undefined) => {
-  const platform = getPlatform(value);
-  if (!platform) {
-    throw new CliError({
-      exitCode: 2,
-      fix: "Pass --platform ios or --platform android.",
-      message: "Missing --platform",
-      status: "missing_platform",
-      why: "agent-device needs the platform to find the device.",
-    });
-  }
-  return platform;
 };
 
 const requireVariant = (value = "preview") => {
@@ -232,7 +222,7 @@ const describeAlternatives = (
     `Free ${platform} devices:`,
     ...free.map(
       (device) =>
-        `    ${device.id.padEnd(idWidth)}  ${describeDevice(device).padEnd(labelWidth)}  -> bun e2e run --platform ${platform} --device ${device.id}`
+        `    ${device.id.padEnd(idWidth)}  ${describeDevice(device).padEnd(labelWidth)}  -> bun e2e run --device ${device.id}`
     ),
   ];
 };
@@ -301,6 +291,7 @@ const cmdRun = async (
   note(`Running: agent-device ${args.join(" ")}`);
   const child = spawn(AGENT_DEVICE, args, {
     cwd: getWorktree(),
+    env: getAgentDeviceEnv(),
     stdio: "inherit",
   });
   // Ctrl+C reaches agent-device through the shared process group; stay alive
@@ -400,32 +391,24 @@ const E2E: Noun = {
   commands: {
     run: defineCommand({
       args: ["[paths...]"],
-      details: `Runs Maestro flows through agent-device (default: e2e/flows, plus
-e2e/apple on iOS). Paths replace the default.
+      details: `--device <id>       Required. Platform comes from the device.
+--variant <name>    preview (default). e2e builds are preview builds.
+--record            Record every flow to recording.mp4.
+--force             Run even if another worktree uses the device.
+-- <args>           Passed to \`agent-device test\`, e.g. -- --retries 1.
 
---platform ios|android  Required.
---device <id>           Required. Simulator UDID or Android serial, so the run
-                        never lands on another agent's device.
---variant <name>        App variant installed on the device: preview (default),
-                        development, or production.
---record                Record every flow to recording.mp4.
---force                 Run even if another worktree's e2e run or agent-device
-                        session uses the device.
--- <args>               Pass the rest to \`agent-device test\`,
-                        e.g. -- --retries 1 --fail-fast.
-
-Artifacts land in .agent-device/test-artifacts/<run-id>/ of this worktree.
-Exits with agent-device's exit code.`,
+Runs Maestro flows (default: e2e/flows, plus e2e/apple on iOS). Paths replace
+the default. Artifacts land in .agent-device/test-artifacts/<run-id>/ of this
+worktree. Exits with agent-device's exit code.`,
       hasPassthrough: true,
+      usage: "[paths...] [options] [-- <args>]",
       options: {
-        ...PLATFORM_OPTION,
         device: { type: "string" },
         force: { type: "boolean" },
         record: { type: "boolean" },
         variant: { type: "string" },
       },
       run: async (paths, values, passthrough) => {
-        const platform = requirePlatform(values.platform);
         if (!values.device) {
           throw new CliError({
             exitCode: 2,
@@ -435,6 +418,10 @@ Exits with agent-device's exit code.`,
             why: "Without a device, agent-device may pick one another worktree is using.",
           });
         }
+        const { platform } = findAgentDevice(
+          await listAgentDevices(),
+          values.device
+        );
         await cmdRun(paths, {
           device: values.device,
           isForce: values.force ?? false,
@@ -465,9 +452,9 @@ Lists runs from every worktree of this repo.`,
       summary: "Stop a running e2e run",
     }),
   },
-  footer: `Devices: \`bunx agent-device devices\`, \`boot\`, and \`shutdown\`. See e2e/README.md.`,
+  footer: `Devices: \`bunx agent-device devices\`, \`boot\`, \`shutdown\`. See e2e/README.md.`,
   summary: "Run e2e flows with agent-device and track runs across worktrees.",
 };
 
-/** `bun e2e` commands. */
-export { E2E };
+/** `bun e2e` commands, plus device and flag checks `bun app` reuses. */
+export { E2E, assertDeviceFree, requireVariant };
