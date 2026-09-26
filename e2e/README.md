@@ -21,8 +21,9 @@ bun ios:preview --device <udid>
 bun android:preview --device <avd-name>
 
 # 3. Run flows. --device is required, so the run never lands on another agent's device.
-bun e2e run --platform ios --device <udid>                  # e2e/flows and the iOS-only e2e/apple
-bun e2e run --platform android --device emulator-5554       # e2e/flows
+bun e2e run --platform ios --device <udid> --tier quick     # smoke flows only, for every PR
+bun e2e run --platform ios --device <udid>                  # full: e2e/flows and the iOS-only e2e/apple
+bun e2e run --platform android --device emulator-5554       # full: e2e/flows
 bun e2e run --platform ios --device <udid> e2e/flows/02-log-entry.yaml --record
 bun e2e run --platform ios --device <udid> -- --retries 1 --fail-fast
 
@@ -38,6 +39,14 @@ bun dashboard                                               # runs, devices, and
 - **Failures:** a failing step prints the file and line, a screen snapshot, and ranked selector suggestions. Debug live with `bunx agent-device replay <flow>.yaml --maestro --platform ios --udid <udid> -e APP_ID=com.devmood.pixymoodtracker.preview -e APP_SCHEME=pixy-preview`, then `bunx agent-device snapshot -i`.
 - **Devices in use:** `bunx agent-device device status` lists which worktree holds which device. `bun e2e run` refuses a device with an active run or another worktree's live agent-device session (`device_busy`). The error names the owner, estimates when it finishes, and lists free devices on the same platform; `--force` skips the check. `bunx agent-device close --session <address>` releases one. `bunx agent-device shutdown --platform ios --udid <udid>` stops an idle simulator.
 - **Physical phones:** flows use `launchApp: clearState: true`, which wipes the app's data. Run them against the preview app, which holds only test data. Never pass `--variant production` on a phone with real data.
+
+## Tiers
+
+`bun e2e run --tier quick|full` filters the given paths (or the defaults) by each flow's `tags:` header.
+
+- `quick`: flows tagged `smoke` (01-onboarding, 02-log-entry, 10-stability). Run on every PR.
+- `full` (default): every flow in the paths. Run before a release and for PRs that touch a covered area.
+- Add `smoke` to a flow only when it covers a core path and stays fast. Keep the quick tier under a few minutes.
 
 ## Suites
 

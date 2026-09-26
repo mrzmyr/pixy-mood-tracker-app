@@ -1,5 +1,5 @@
 appId: ${APP_ID}
-tags: [onboarding]
+tags: [onboarding, smoke]
 ---
 # 1.1 Fresh install shows Welcome
 - launchApp:

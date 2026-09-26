@@ -41,6 +41,81 @@ const DEFAULT_PATHS: Record<Platform, string[]> = {
   ios: ["e2e/flows", "e2e/apple"],
 };
 
+/**
+ * Test tiers. `quick` runs flows tagged `smoke` (every PR); `full` runs every
+ * flow (before releases). Flows declare tags in their header: `tags: [smoke]`.
+ */
+const TIERS = { full: null, quick: "smoke" } as const;
+type Tier = keyof typeof TIERS;
+
+const isTier = (value: string): value is Tier => Object.hasOwn(TIERS, value);
+
+const requireTier = (value = "full"): Tier => {
+  if (!isTier(value)) {
+    throw new CliError({
+      exitCode: 2,
+      fix: `Pass --tier ${Object.keys(TIERS).join(" or --tier ")}.`,
+      message: "Unknown --tier",
+      status: "invalid_tier",
+      why: `--tier is "${value}".`,
+    });
+  }
+  return value;
+};
+
+// Tags from the flow header (before `---`), e.g. `tags: [onboarding, smoke]`.
+const readFlowTags = (file: string) => {
+  const [header = ""] = fs.readFileSync(file, "utf-8").split(/^---$/mu);
+  const list = /^tags:\s*\[(?<tags>[^\]]*)\]/mu.exec(header)?.groups?.tags;
+  return list ? list.split(",").map((tag) => tag.trim()) : [];
+};
+
+// Flow files under the given paths; directories expand to their *.yaml files
+// (not subflows, which live in their own directory).
+const expandFlows = (paths: string[]) =>
+  paths.flatMap((entry) => {
+    const absolute = path.resolve(getWorktree(), entry);
+    if (!fs.existsSync(absolute)) {
+      throw new CliError({
+        exitCode: 2,
+        fix: "Pass flow files or directories that exist, relative to the worktree.",
+        message: `Flow path not found: ${entry}`,
+        status: "flow_path_missing",
+        why: `${absolute} does not exist.`,
+      });
+    }
+    if (!fs.statSync(absolute).isDirectory()) {
+      return [entry];
+    }
+    return fs
+      .readdirSync(absolute)
+      .filter((name) => name.endsWith(".yaml"))
+      .toSorted()
+      .map((name) => path.join(entry, name));
+  });
+
+// Paths to hand agent-device for the tier. `full` keeps the paths as they
+// are; other tiers keep only flows with the tier's tag.
+const selectFlows = (paths: string[], tier: Tier) => {
+  const tag = TIERS[tier];
+  if (tag === null) {
+    return paths;
+  }
+  const flows = expandFlows(paths).filter((flow) =>
+    readFlowTags(path.resolve(getWorktree(), flow)).includes(tag)
+  );
+  if (flows.length === 0) {
+    throw new CliError({
+      exitCode: 2,
+      fix: `Add \`${tag}\` to a flow's tags header, pass other paths, or use --tier full.`,
+      message: `No ${tier} flows in ${paths.join(", ")}`,
+      status: "tier_empty",
+      why: `No flow under these paths has the \`${tag}\` tag.`,
+    });
+  }
+  return flows;
+};
+
 const requirePlatform = (value: string | undefined) => {
   const platform = getPlatform(value);
   if (!platform) {
@@ -268,9 +343,14 @@ const cmdRun = async (
     isForce: boolean;
     isRecord: boolean;
     passthrough: string[];
+    tier: Tier;
     variant: AppVariant;
   }
 ) => {
+  const flows = selectFlows(
+    paths.length > 0 ? paths : DEFAULT_PATHS[options.platform],
+    options.tier
+  );
   if (!options.isForce) {
     await assertDeviceFree(options.platform, options.device);
   }
@@ -278,7 +358,7 @@ const cmdRun = async (
   const selector = options.platform === "ios" ? "--udid" : "--serial";
   const args = [
     "test",
-    ...(paths.length > 0 ? paths : DEFAULT_PATHS[options.platform]),
+    ...flows,
     "--maestro",
     "--platform",
     options.platform,
@@ -298,6 +378,7 @@ const cmdRun = async (
     ...(options.isRecord ? ["--record-video"] : []),
     ...options.passthrough,
   ];
+  note(`Tier ${options.tier}: ${flows.join(" ")}`);
   note(`Running: agent-device ${args.join(" ")}`);
   const child = spawn(AGENT_DEVICE, args, {
     cwd: getWorktree(),
@@ -403,6 +484,8 @@ const E2E: Noun = {
       details: `Runs Maestro flows through agent-device (default: e2e/flows, plus
 e2e/apple on iOS). Paths replace the default.
 
+--tier quick|full       quick: only flows tagged \`smoke\` (fast, every PR).
+                        full: every flow (default, before releases).
 --platform ios|android  Required.
 --device <id>           Required. Simulator UDID or Android serial, so the run
                         never lands on another agent's device.
@@ -422,6 +505,7 @@ Exits with agent-device's exit code.`,
         device: { type: "string" },
         force: { type: "boolean" },
         record: { type: "boolean" },
+        tier: { type: "string" },
         variant: { type: "string" },
       },
       run: async (paths, values, passthrough) => {
@@ -441,6 +525,7 @@ Exits with agent-device's exit code.`,
           isRecord: values.record ?? false,
           passthrough,
           platform,
+          tier: requireTier(values.tier),
           variant: requireVariant(values.variant),
         });
       },

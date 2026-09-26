@@ -1,5 +1,5 @@
 appId: ${APP_ID}
-tags: [stability]
+tags: [stability, smoke]
 ---
 - launchApp:
     clearState: true
