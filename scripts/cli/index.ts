@@ -1,14 +1,12 @@
 // Entry point for the local CLIs:
 //   bun app <command>       check a device, build, install, and run the app
 //   bun builds <command>    the shared native build cache
-//   bun devices <command>   devices with the IDs and names --device accepts
 //   bun e2e <command>       e2e runs through agent-device
 // Run `bun <noun> --help` or `bun <noun> <command> --help` for options.
 import { parseArgs } from "node:util";
 
 import { APP } from "./app.ts";
 import { BUILDS } from "./builds.ts";
-import { DEVICES } from "./devices.ts";
 import { E2E } from "./e2e.ts";
 import { CliError } from "./shared.ts";
 import type { CommandSpec, Noun } from "./shared.ts";
@@ -16,7 +14,6 @@ import type { CommandSpec, Noun } from "./shared.ts";
 const NOUNS = new Map<string, Noun>([
   ["app", APP],
   ["builds", BUILDS],
-  ["devices", DEVICES],
   ["e2e", E2E],
 ]);
 const ALIASES = new Map([
@@ -131,10 +128,10 @@ const main = async () => {
   const nounSpec = NOUNS.get(noun);
   if (!nounSpec) {
     throw usageError({
-      fix: "Run `bun app --help`, `bun builds --help`, `bun devices --help`, or `bun e2e --help`.",
+      fix: "Run `bun app --help`, `bun builds --help`, or `bun e2e --help`.",
       message: `Unknown CLI "${noun}"`,
       status: "unknown_cli",
-      why: "The first argument must be app, builds, devices, or e2e.",
+      why: "The first argument must be app, builds, or e2e.",
     });
   }
   if (verb === undefined || HELP_FLAGS.has(verb)) {

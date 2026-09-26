@@ -280,15 +280,8 @@ const waitReady = async (platform: Platform, id: string) => {
       try {
         // oxlint-disable-next-line no-await-in-loop -- inspect current screen
         await agentDevice(
-          [
-            "is",
-            "visible",
-            selector,
-            ...getDeviceArgs(platform, id),
-            "--timeout",
-            "3000",
-          ],
-          { timeoutMs: 5000 }
+          ["is", "visible", selector, ...getDeviceArgs(platform, id)],
+          { timeoutMs: 3000 }
         );
         return;
       } catch (error) {

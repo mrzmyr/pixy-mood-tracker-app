@@ -14,8 +14,6 @@ import {
   defineCommand,
   formatAge,
   getPlatform,
-  getWorktree,
-  note,
   parseDuration,
   printTable,
   readJson,
@@ -183,106 +181,6 @@ const cmdBuildsList = (platform: Platform | undefined, isJson: boolean) => {
   );
 };
 
-interface Fingerprinter {
-  createFingerprintAsync: (projectRoot: string) => Promise<{ hash: string }>;
-}
-
-// Same call Expo CLI makes before it looks up the cache.
-const getFingerprint = async (worktree: string) => {
-  const worktreeRequire = createRequire(path.join(worktree, "package.json"));
-  // SAFETY: @expo/fingerprint exports createFingerprintAsync; Expo CLI uses it.
-  const fingerprinter = worktreeRequire("@expo/fingerprint") as Fingerprinter;
-  const { hash } = await fingerprinter.createFingerprintAsync(worktree);
-  return hash;
-};
-
-// Mirrors the options `bun ios` and `bun android` pass to Expo for debug and release builds.
-const getRunOptions = (platform: Platform, isRelease: boolean): RunOptions => {
-  if (platform === "android") {
-    return { variant: isRelease ? "release" : "debug" };
-  }
-  return isRelease ? { configuration: "Release" } : {};
-};
-
-interface CheckResult {
-  platform: Platform;
-  variant: "debug" | "release";
-  isHit: boolean;
-  key: string;
-  // The matching cached build, for a hit.
-  buildId: string | null;
-  // Why the next build compiles, for a miss.
-  reason: string | null;
-}
-
-const checkBuild = (
-  platform: Platform,
-  isRelease: boolean,
-  fingerprintHash: string,
-  builds: Build[]
-): CheckResult => {
-  const key = buildCacheProvider.getCacheKey({
-    fingerprintHash,
-    platform,
-    projectRoot: getWorktree(),
-    runOptions: getRunOptions(platform, isRelease),
-  });
-  const variant = isRelease ? "release" : "debug";
-  const hit = builds.find((build) => build.key === key);
-  if (hit) {
-    return {
-      buildId: hit.id,
-      isHit: true,
-      key,
-      platform,
-      reason: null,
-      variant,
-    };
-  }
-  const sameNative = builds.filter(
-    (build) =>
-      build.platform === platform &&
-      build.target !== "device" &&
-      build.fingerprint === fingerprintHash &&
-      build.isRelease === isRelease
-  );
-  const reason =
-    sameNative.length > 0
-      ? `native code matches ${sameNative.length} cached build(s), but app source or EXPO_PUBLIC_* values differ. Xcode or Gradle rebuilds incrementally when this worktree built before`
-      : "no cached build has this native fingerprint. Expect a full native build (about 10 minutes)";
-  return { buildId: null, isHit: false, key, platform, reason, variant };
-};
-
-const cmdBuildsStatus = async (
-  platform: Platform | undefined,
-  isRelease: boolean,
-  isJson: boolean
-) => {
-  // Same default variant as `bun ios` (debug) and `bun ios:preview` (release).
-  process.env.EXPO_PUBLIC_APP_VARIANT ??= isRelease ? "preview" : "development";
-  note(
-    `Computing native fingerprint for ${process.env.EXPO_PUBLIC_APP_VARIANT} (takes up to a minute)...`
-  );
-  const fingerprintHash = await getFingerprint(getWorktree());
-  const builds = listBuilds();
-  const results = (platform ? [platform] : (["ios", "android"] as const)).map(
-    (os_) => checkBuild(os_, isRelease, fingerprintHash, builds)
-  );
-  if (isJson) {
-    console.log(JSON.stringify(results, null, 2));
-    return;
-  }
-  for (const result of results) {
-    const label = `${result.platform} ${result.variant}`;
-    const hit = builds.find((build) => build.id === result.buildId);
-    console.log(
-      hit
-        ? `${label}: HIT ${hit.id} from ${describeSource(hit.meta)}, ${formatAge(hit.createdAt)} old. \`bun app install ${hit.id} --device <id|name>\` installs it without compiling.`
-        : `${label}: MISS ${result.key}\n  ${result.reason}.`
-    );
-  }
-};
-
 const removeBuild = (build: Build) => {
   fs.rmSync(build.file, { force: true, recursive: true });
   fs.rmSync(
@@ -398,24 +296,6 @@ const BUILDS: Noun = {
       run: (_args, values) =>
         cmdBuildsList(getPlatform(values.platform), values.json ?? false),
       summary: "List cached builds with variant, source, size, and last use",
-    }),
-    status: defineCommand({
-      details: `--platform ios|android  Only this platform.
---release               Check the release build e2e runs need.
---json                  Print JSON instead of text.`,
-      options: {
-        ...PLATFORM_OPTION,
-        json: { type: "boolean" },
-        release: { type: "boolean" },
-      },
-      run: (_args, values) =>
-        cmdBuildsStatus(
-          getPlatform(values.platform),
-          values.release ?? false,
-          values.json ?? false
-        ),
-      summary:
-        "Tell whether this worktree resolves to a cached build, and why not",
     }),
     rm: defineCommand({
       args: ["<id>"],
