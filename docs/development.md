@@ -78,6 +78,15 @@ Configured native builds use `EXPO_PUBLIC_SUPERWALL_IOS_API_KEY` and `EXPO_PUBLI
 
 iOS device builds require Xcode and CocoaPods. `bun ios --device <device-id>` builds the `Pixy Dev` app with its `.dev` bundle ID. Automatic signing needs an Apple development team and provisioning profile for that bundle ID with Push Notifications enabled. Pixy requests the `aps-environment` entitlement through `expo-notifications`; a wildcard profile without that capability fails during Xcode signing.
 
+agent-device runner signing on physical iPhones:
+
+- agent-device builds its own runner app and signs it with the team wildcard profile `iOS Team Provisioning Profile: *`
+- Runner cache: `~/.agent-device/apple-runner/derived/ios-device/`
+- Stale wildcard profile or cache without a new phone: install fails with `0xe8008012 (This provisioning profile cannot be installed on this device.)`
+- `bun app doctor` and `bun app run` fail early with `runner_provisioning_device_missing`; its fix lists the files to move to `~/.Trash/`
+- CLI never moves files itself; another worktree can use the runner cache
+- Phone not registered yet: run `bun app build --device <id> --variant <name>` first
+
 On Macs using Homebrew CocoaPods with RVM, clear RVM's gem paths if `pod` fails to load: `env -u GEM_HOME -u GEM_PATH bun ios --device <device-id>`.
 
 | Environment | OS | Channel | `bun run` command | Extension | Installation |
