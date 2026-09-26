@@ -201,12 +201,4 @@ const withBuildLock = <T>(
 };
 
 /** Serializes native builds per checkout and platform. */
-export {
-  getBuildLockFile,
-  getStartTime,
-  isHolderAlive,
-  removeStale,
-  withBuildLock,
-  withLock,
-};
-export type { LockHolder, LockOptions };
+export { withBuildLock };
