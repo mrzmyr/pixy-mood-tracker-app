@@ -1,6 +1,6 @@
 ---
 name: test-pr
-description: Run e2e tests for a pull request and attach video proof
+description: Run e2e tests for a pull request and attach video proof (only if user explicitly asks for it)
 ---
 
 - run e2e tests on android and ios
