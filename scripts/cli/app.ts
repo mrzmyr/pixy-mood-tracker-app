@@ -622,10 +622,114 @@ const touchBuild = (metaFile: string | null) => {
 };
 
 // Checks the build fits the device, then installs it.
+// The build the CLI last installed per device and app, with the device's
+// install stamp at that time.
+const INSTALLS_FILE = path.join(
+  os.homedir(),
+  ".cache",
+  "pixy-mood-tracker",
+  "installs.json"
+);
+
+interface InstallRecord {
+  build: string;
+  stamp: string;
+}
+
+// Path and modification time: `--rebuild` writes a new file at the same path.
+const getBuildIdentity = (build: AppBuild) =>
+  `${build.path}@${fs.statSync(build.path).mtimeMs}`;
+
+const readIosAppUrl = (udid: string, bundleId: string) => {
+  const file = path.join(
+    os.tmpdir(),
+    `pixy-mood-tracker-devicectl-apps-${process.pid}.json`
+  );
+  try {
+    execFileSync(
+      "xcrun",
+      [
+        "devicectl",
+        "device",
+        "info",
+        "apps",
+        "--device",
+        udid,
+        "--bundle-id",
+        bundleId,
+        "--json-output",
+        file,
+      ],
+      { stdio: "ignore", timeout: 60_000 }
+    );
+    // SAFETY: devicectl --json-output writes { result: { apps: [...] } }.
+    const { result } = JSON.parse(fs.readFileSync(file, "utf-8")) as {
+      result: { apps: { url?: string }[] };
+    };
+    return result.apps[0]?.url ?? null;
+  } catch {
+    return null;
+  } finally {
+    fs.rmSync(file, { force: true });
+  }
+};
+
+// Changes on every install, also installs outside this CLI: Android's
+// lastUpdateTime, or the iOS bundle path, which gets a new UUID per install.
+// Null when the app is missing or the device does not answer.
+const getInstallStamp = (selected: SelectedDevice, bundleId: string) => {
+  const { id } = selected.device;
+  if (selected.platform === "android") {
+    const dump = tryRun(getAdb(), [
+      "-s",
+      id,
+      "shell",
+      "dumpsys",
+      "package",
+      bundleId,
+    ]);
+    return /lastUpdateTime=(?<time>.+)/u.exec(dump ?? "")?.groups?.time ?? null;
+  }
+  return selected.destination === "simulator"
+    ? tryRun("xcrun", ["simctl", "get_app_container", id, bundleId, "app"])
+    : readIosAppUrl(id, bundleId);
+};
+
+const getInstallKey = (selected: SelectedDevice, bundleId: string) =>
+  `${selected.device.id}:${bundleId}`;
+
+const isInstalled = (selected: SelectedDevice, build: AppBuild) => {
+  const installs = readJson<Record<string, InstallRecord>>(INSTALLS_FILE);
+  const record = installs?.[getInstallKey(selected, build.bundleId)];
+  if (!record || record.build !== getBuildIdentity(build)) {
+    return false;
+  }
+  return record.stamp === getInstallStamp(selected, build.bundleId);
+};
+
+// A lost update between parallel runs only costs one extra install.
+const recordInstall = (selected: SelectedDevice, build: AppBuild) => {
+  const stamp = getInstallStamp(selected, build.bundleId);
+  if (!stamp) {
+    return;
+  }
+  const installs = readJson<Record<string, InstallRecord>>(INSTALLS_FILE) ?? {};
+  installs[getInstallKey(selected, build.bundleId)] = {
+    build: getBuildIdentity(build),
+    stamp,
+  };
+  const tmp = `${INSTALLS_FILE}.${process.pid}.tmp`;
+  fs.mkdirSync(path.dirname(INSTALLS_FILE), { recursive: true });
+  fs.writeFileSync(tmp, `${JSON.stringify(installs, null, 2)}\n`);
+  fs.renameSync(tmp, INSTALLS_FILE);
+};
+
 const installBuild = async (
   steps: Steps,
   build: AppBuild,
-  selected: SelectedDevice
+  selected: SelectedDevice,
+  // Skip when the device still has the build this CLI installed last.
+  canSkip = false
 ) => {
   if (build.platform !== selected.platform) {
     throw new CliError({
@@ -635,6 +739,18 @@ const installBuild = async (
       status: "build_target_mismatch",
       why: "iOS and Android builds only install on their own platform.",
     });
+  }
+  if (canSkip) {
+    steps.step(
+      `Check ${selected.device.name} already has this build`,
+      `pass --reinstall to install anyway`
+    );
+    if (isInstalled(selected, build)) {
+      pass("same build installed, skipping install");
+      touchBuild(build.metaFile);
+      return;
+    }
+    pass("different or unknown build, installing");
   }
   if (build.platform === "android") {
     const { device } = selected;
@@ -655,6 +771,7 @@ const installBuild = async (
       { timeoutMs: OPEN_TIMEOUT_MS }
     );
     pass("installed");
+    recordInstall(selected, build);
     touchBuild(build.metaFile);
     return;
   }
@@ -694,6 +811,7 @@ const installBuild = async (
     throw error;
   }
   pass("installed");
+  recordInstall(selected, build);
   touchBuild(build.metaFile);
 };
 
@@ -1339,6 +1457,7 @@ const cmdRun = async (options: {
   id: string;
   variant: AppVariant;
   isRebuild: boolean;
+  isReinstall: boolean;
   isForce: boolean;
 }) => {
   const steps = createSteps();
@@ -1361,7 +1480,7 @@ const cmdRun = async (options: {
     });
     const build = resolveBuild(steps, buildId);
     appPath = build.path;
-    await installBuild(steps, build, selected);
+    await installBuild(steps, build, selected, !options.isReinstall);
     isOpen = true;
     await openApp(steps, selected, build.bundleId, isDevelopment);
     await verifyApp(steps, metro);
@@ -1576,6 +1695,7 @@ physical, embedded provisioning profile), then installs through agent-device.`,
     }),
     run: defineCommand({
       details: `--rebuild           Compile even when a cached build exists.
+--reinstall         Install even when the device has the same build.
 --force             Skip the worktree ownership check.
 
 development starts Metro first. Exits once the app shows its first screen:
@@ -1585,6 +1705,7 @@ the app stays open, Metro keeps running in the background. Stop both with
         device: { type: "string" },
         force: { type: "boolean" },
         rebuild: { type: "boolean" },
+        reinstall: { type: "boolean" },
         variant: { type: "string" },
       },
       run: async (_args, values) => {
@@ -1592,6 +1713,7 @@ the app stays open, Metro keeps running in the background. Stop both with
           id: requireDevice(values.device),
           isForce: values.force ?? false,
           isRebuild: values.rebuild ?? false,
+          isReinstall: values.reinstall ?? false,
           variant: requireVariantFlag(values.variant),
         });
       },
