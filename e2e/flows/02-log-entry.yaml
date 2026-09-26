@@ -116,21 +116,8 @@ tags: [log]
     id: "logger-next"
 - assertVisible: "Write about your day…"
 - inputText: "e2e note ${output.runId} persisted"
-- runFlow:
-    when:
-      visible:
-        id: "logger-save"
-    commands:
-      - tapOn:
-          id: "logger-save"
-- runFlow:
-    when:
-      notVisible:
-        id: "logger-save"
-    commands:
-      - tapOn:
-          id: "logger-next"
-      - tapOn: "Not Now"
+- tapOn:
+    id: "logger-save"
 - assertVisible: "Add another entry for today"
 
 # 2.5 Saved tag and note appear in the entry
