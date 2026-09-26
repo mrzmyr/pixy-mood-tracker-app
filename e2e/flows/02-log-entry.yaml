@@ -114,9 +114,8 @@ tags: [log]
 - tapOn: "e2e-renamed-${output.runId}"
 - tapOn:
     id: "logger-next"
-- assertVisible: "Write about your day"
+- assertVisible: "Write about your day…"
 - inputText: "e2e note ${output.runId} persisted"
-- runFlow: ../subflows/dismiss-keyboard.yaml
 - runFlow:
     when:
       visible:
