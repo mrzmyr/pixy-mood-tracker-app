@@ -48,6 +48,9 @@ tags: [log]
       - tapOn: "Continue"
 - runFlow: ../subflows/dismiss-keyboard.yaml
 - tapOn: "Create"
+- waitForAnimationToEnd
+- assertNotVisible:
+    id: "tag-name"
 - assertVisible: "Tags"
 - scrollUntilVisible:
     element:
@@ -68,6 +71,9 @@ tags: [log]
     direction: DOWN
     timeout: 15000
 - tapOn: "Save"
+- waitForAnimationToEnd
+- assertNotVisible:
+    id: "tag-name"
 - assertVisible: "Tags"
 - assertVisible: "e2e-renamed-${output.runId}"
 
@@ -78,6 +84,9 @@ tags: [log]
 - inputText: "e2e-temp-${output.runId}"
 - runFlow: ../subflows/dismiss-keyboard.yaml
 - tapOn: "Create"
+- waitForAnimationToEnd
+- assertNotVisible:
+    id: "tag-name"
 - assertVisible: "Tags"
 - scrollUntilVisible:
     element:
