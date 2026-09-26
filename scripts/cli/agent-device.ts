@@ -1,6 +1,7 @@
 // agent-device, pinned in package.json: devices, their owners, and e2e runs.
 // Used by `bun e2e` and `bun dashboard`.
 import { X509Certificate } from "node:crypto";
+import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { setTimeout as sleep } from "node:timers/promises";
@@ -36,6 +37,45 @@ const AGENT_DEVICE = path.join(
   ".bin",
   "agent-device"
 );
+
+let wasDaemonChecked = false;
+
+// agent-device's daemon is shared by worktrees. Its entry script disappears
+// when the worktree that started it is deleted.
+const stopStaleDaemon = async () => {
+  if (wasDaemonChecked) {
+    return;
+  }
+  const stateDir = path.join(os.homedir(), ".agent-device");
+  const info = readJson<{ pid?: number; scriptPath?: string }>(
+    path.join(stateDir, "daemon.json")
+  );
+  const pid = info?.pid;
+  if (!pid || !isProcessAlive(pid)) {
+    wasDaemonChecked = true;
+    return;
+  }
+  const command = tryRun("ps", ["-o", "command=", "-p", String(pid)]) ?? "";
+  const script =
+    info.scriptPath ??
+    /(?<script>\/\S*node_modules\/agent-device\/\S+\.js)/u.exec(command)?.groups
+      ?.script;
+  if (!script || fs.existsSync(script)) {
+    wasDaemonChecked = true;
+    return;
+  }
+  tryRun(AGENT_DEVICE, ["daemon", "stop", "--state-dir", stateDir]);
+  const deadline = Date.now() + 5000;
+  while (isProcessAlive(pid) && Date.now() < deadline) {
+    // oxlint-disable-next-line no-await-in-loop -- wait for daemon to exit
+    await sleep(200);
+  }
+  if (isProcessAlive(pid)) {
+    process.kill(pid, "SIGKILL");
+  }
+  note(`note: stopped stale agent-device daemon from ${script}`);
+  wasDaemonChecked = true;
+};
 
 const RUNNER_BUNDLE_ID = "com.devmood.pixymoodtracker.agentdevice";
 
@@ -153,6 +193,7 @@ const agentDevice = async <T>(
   args: string[],
   options: { timeoutMs?: number } = {}
 ): Promise<T> => {
+  await stopStaleDaemon();
   const child = Bun.spawn([AGENT_DEVICE, ...args, "--json"], {
     cwd: REPO_ROOT,
     env: getAgentDeviceEnv(),

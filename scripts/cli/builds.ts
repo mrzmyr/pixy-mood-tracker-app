@@ -330,7 +330,11 @@ const pruneCheckouts = (isDryRun: boolean) => {
 
 // Keeps the newest `keep` builds per platform and variant, plus every build
 // used within `keepWithin`. Removes the rest and abandoned temp copies.
-const pruneBuilds = (keep: number, keepWithin: string, isDryRun: boolean) => {
+const pruneBuilds = (
+  keep = DEFAULT_KEEP_BUILDS,
+  keepWithin = DEFAULT_KEEP_WITHIN,
+  isDryRun = false
+) => {
   const keepWithinMs = parseDuration(keepWithin);
   const groups = Map.groupBy(
     listBuilds(),
@@ -445,4 +449,4 @@ worktrees from ~/.cache/pixy-mood-tracker/checkouts.`,
 };
 
 /** `bun builds` commands, plus the build list and IDs for the dashboard. */
-export { BUILDS, listBuilds, toBuildId };
+export { BUILDS, listBuilds, pruneBuilds, toBuildId };

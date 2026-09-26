@@ -245,6 +245,16 @@ const ensureAndroidDevice = async () => {
   return { id: await bootAndroidEmulator(), name: ANDROID_NAME };
 };
 
+/** Finds this checkout's device without creating or booting it. */
+export const findDevice = (platform: Platform) => {
+  if (platform === "ios") {
+    const device = findIosSimulator();
+    return device ? { id: device.udid, name: IOS_NAME } : null;
+  }
+  const serial = findEmulatorSerial(getAndroidBuildEnv().ANDROID_HOME);
+  return serial ? { id: serial, name: ANDROID_NAME } : null;
+};
+
 /** Creates and boots the device assigned to this checkout. */
 export const ensureDevice = (platform: Platform) =>
   platform === "ios"

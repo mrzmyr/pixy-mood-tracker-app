@@ -49,23 +49,25 @@ Three variants install side by side, each with its own name, icon, bundle ID, an
 - TestFlight builds are production builds. Apple promotes the tested TestFlight binary to the App Store.
 - `ios/` and `android/` are generated ([Continuous Native Generation](https://docs.expo.dev/workflow/continuous-native-generation/)). [`scripts/run-native.ts`](../scripts/run-native.ts) reruns `expo prebuild --clean` when the variant or native fingerprint changed since the last prebuild. Never edit these folders.
 
+### App CLI
+
+- `bun app build <ios|android>` compiles the preview release into the shared cache. JavaScript is embedded. Metro stays off.
+- `bun app install <ios|android>` installs the cached preview build on this checkout's device.
+- `bun app open <ios|android>` launches by app ID, waits for onboarding or calendar, then prints a screenshot path.
+- `bun app seed <ios|android> <fixture-id>` loads fresh, empty, seed, or year test data and prints a screenshot path.
+- `bun app close <ios|android>` ends the session, resets app data, shuts down the device, then prunes old builds.
+- App commands take no flags. iOS gets one `pixy-mood-tracker-<hash>` simulator per checkout. Android uses the machine-wide `pixy-mood-tracker` AVD.
+- Physical phones remain human-only through `bun ios --device <udid>`.
+
 ### Build cache
 
-`bun ios` and `bun android` cache compiled simulator and emulator debug builds, keyed by the project's native fingerprint. When native code and configuration are unchanged, the cached build is installed and compilation is skipped. JavaScript-only changes never need a new build.
+- Shared cache: `~/.cache/pixy-mood-tracker/build-cache`. Both platforms reuse an exact preview build key.
+- Release keys include native fingerprint, app source, and `EXPO_PUBLIC_*` values. Same key skips native compilation and JavaScript bundling.
+- `bun builds list` shows cached builds. `bun builds rm <id>` removes one. `bun builds prune` removes old builds and deleted checkout state.
+- Checkout state: `~/.cache/pixy-mood-tracker/checkouts/<hash>/`. `checkout.txt` names the worktree. `e2e/`, `build/`, `screenshots/`, and logs stay outside source.
+- Worktrees build and install on separate iOS simulators. Android uses one emulator per machine.
 
-- **Shared across worktrees:** the cache lives in `~/.cache/pixy-mood-tracker/build-cache`, so every checkout and git worktree reuses the same builds. Set `PIXY_MOOD_TRACKER_BUILD_CACHE_DIR` to use another directory.
-- **Debug only:** release builds (`--configuration Release`, `--variant release`) embed the JavaScript bundle. The fingerprint ignores JavaScript, so a cached release build could run another branch's code. Release builds always compile.
-- **`package.json` scripts are ignored:** [`fingerprint.config.cjs`](../fingerprint.config.cjs) skips them, so adding or editing a script keeps cached builds. Native modules, config plugins, and `app.json` changes still produce a new fingerprint.
-- **Inspect and clean up with `bun builds`:**
-  - `bun builds list` shows each build's variant, source branch and commit, size, and last use.
-  - `bun builds status [--release]` tells whether this worktree resolves to a cached build, and why not.
-  - `bun builds prune` keeps the newest 3 builds per platform and variant (`--keep`) plus everything used in the last 7 days (`--keep-within`). It also removes run files of deleted worktrees.
-- **Run files per worktree:** `~/.cache/pixy-mood-tracker/checkouts/<hash>/` contains `e2e/` artifacts, `build/` output, `screenshots/`, and logs. `checkout.txt` names the worktree. Commands print the log path.
-- **Metro port per worktree:** `bun app run` starts Metro on a port from 8082 to 8181, derived from the worktree ([`scripts/cli/metro.ts`](../scripts/cli/metro.ts)). It reuses only its own worktree's Metro. 8081 stays free for `bun start`.
-- **Parallel runs:** runs in one worktree share one native build per platform ([`scripts/cli/build-lock.ts`](../scripts/cli/build-lock.ts)). Other runs wait, then reuse the cached build. Worktrees and platforms never wait for each other. Two variants of one platform in one worktree run one after another, and each switch rebuilds, so use separate worktrees for them.
-- `bun ios --device` builds for phones are never cached. `bun app build --device <id>` caches phone builds; install them with `bun app install <build-id> --device <id>`.
-
-The provider lives in [`scripts/build-cache-provider.cjs`](../scripts/build-cache-provider.cjs).
+The cache provider lives in [`scripts/build-cache-provider.cjs`](../scripts/build-cache-provider.cjs).
 
 ### Preview Support Pixy
 
@@ -84,9 +86,7 @@ agent-device runner signing on physical iPhones:
 - agent-device builds its own runner app and signs it with the team wildcard profile `iOS Team Provisioning Profile: *`
 - Runner cache: `~/.agent-device/apple-runner/derived/ios-device/`
 - Stale wildcard profile or cache without a new phone: install fails with `0xe8008012 (This provisioning profile cannot be installed on this device.)`
-- `bun app doctor` and `bun app run` fail early with `runner_provisioning_device_missing`; its fix lists the files to move to `~/.Trash/`
 - CLI never moves files itself; another worktree can use the runner cache
-- Phone not registered yet: run `bun app build --device <id> --variant <name>` first
 
 On Macs using Homebrew CocoaPods with RVM, clear RVM's gem paths if `pod` fails to load: `env -u GEM_HOME -u GEM_PATH bun ios --device <device-id>`.
 
