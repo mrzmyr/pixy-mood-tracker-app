@@ -1,7 +1,7 @@
 import * as Localization from "expo-localization";
 import { Alert, Platform } from "react-native";
 import { FEEDBACK_URL } from "@/constants/API";
-import { APP_VARIANT } from "@/constants/AppVariant";
+import { APP_VARIANT, HAS_APP_VARIANT } from "@/constants/AppVariant";
 import { t } from "@/helpers/translation";
 import pkg from "../../../package.json";
 import { useAnalytics } from "@/state/analytics";
@@ -47,7 +47,7 @@ export const useFeedback = () => {
       date: new Date().toISOString(),
       source,
       deviceId: settings.deviceId,
-      environment: APP_VARIANT,
+      environment: HAS_APP_VARIANT ? APP_VARIANT : undefined,
     };
 
     const body = {
