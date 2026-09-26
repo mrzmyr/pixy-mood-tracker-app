@@ -18,6 +18,7 @@ import {
   listAgentDevices,
 } from "./agent-device.ts";
 import type { AgentDevice, Claim } from "./agent-device.ts";
+import { ensureDevice } from "./device.ts";
 import {
   findRun,
   getStaleReason,
@@ -32,6 +33,7 @@ import {
   createSteps,
   defineCommand,
   formatAge,
+  getPlatform,
   getWorktree,
   getStateDir,
   note,
@@ -399,6 +401,7 @@ const E2E: Noun = {
       args: ["[paths...]"],
       details: `--device <id|name>  Required. ID or name from \`bun devices list\`.
                     Platform comes from the device.
+--platform ios|android  Derive this checkout's device when --device is omitted.
 --variant <name>    preview (default). e2e builds are preview builds.
 --record            Record every flow to recording.mp4.
 --force             Run even if another worktree uses the device.
@@ -412,22 +415,29 @@ Exits with agent-device's exit code.`,
       options: {
         device: { type: "string" },
         force: { type: "boolean" },
+        platform: { type: "string" },
         record: { type: "boolean" },
         variant: { type: "string" },
       },
       run: async (paths, values, passthrough) => {
-        if (!values.device) {
-          throw new CliError({
-            exitCode: 2,
-            fix: "Find one with `bun devices list`, then pass --device <id|name>.",
-            message: "Missing --device",
-            status: "missing_device",
-            why: "Without a device, agent-device may pick one another worktree is using.",
-          });
+        const selectedPlatform = getPlatform(values.platform);
+        let deviceId = values.device;
+        if (!deviceId) {
+          if (!selectedPlatform) {
+            throw new CliError({
+              exitCode: 2,
+              fix: "Pass --platform ios or --platform android.",
+              message: "Missing --platform or --device",
+              status: "missing_device",
+              why: "Device selection needs a platform.",
+            });
+          }
+          const derived = await ensureDevice(selectedPlatform);
+          deviceId = derived.id;
         }
         const { device, platform } = findAgentDevice(
           await listAgentDevices(),
-          values.device
+          deviceId
         );
         await cmdRun(paths, {
           device: device.id,
