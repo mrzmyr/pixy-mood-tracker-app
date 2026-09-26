@@ -22,6 +22,12 @@ import { buildAndroid, buildIos } from "./app-build.ts";
 import type { Destination } from "./app-build.ts";
 import { listBuilds, toBuildId } from "./builds.ts";
 import { assertDeviceFree, requireVariant } from "./e2e.ts";
+import {
+  RUNNER_TIMEOUT_MS,
+  prepareRunnerArgs,
+  toRunnerError,
+  withProgress,
+} from "./ios-runner.ts";
 import { getAndroidSdk } from "../run-native.ts";
 import {
   checkRunnerSigning,
@@ -1295,6 +1301,33 @@ const openApp = async (
   }
 };
 
+// Starts the runner before any screen check, so a first runner build does
+// not eat the 30s check and 2-minute verify budgets.
+const prepareIosRunner = async (steps: Steps, selected: SelectedDevice) => {
+  if (selected.platform !== "ios") {
+    return;
+  }
+  const args = prepareRunnerArgs(selected.device.id);
+  steps.step(
+    "Start the agent-device runner",
+    `bunx agent-device ${args.join(" ")}`
+  );
+  note(
+    `  First use on ${selected.device.name} builds the runner: several minutes. Later runs reuse it.`
+  );
+  try {
+    await withProgress(
+      agentDevice(args, { timeoutMs: RUNNER_TIMEOUT_MS + 30_000 }),
+      (seconds) => note(`  ${seconds}s: still starting the runner`)
+    );
+  } catch (error) {
+    throw toRunnerError(
+      error instanceof Error ? error : new Error(String(error))
+    );
+  }
+  pass("runner ready");
+};
+
 const SCREENSHOT = "/tmp/pixy-mood-tracker-app-run.png";
 const SNAPSHOT = "/tmp/pixy-mood-tracker-app-run.snapshot.txt";
 
@@ -1512,6 +1545,7 @@ const cmdRun = async (options: {
       checkRunnerProfile(steps, selected);
     }
     isOpen = true;
+    await prepareIosRunner(steps, selected);
     await openApp(steps, selected, build.bundleId, isDevelopment);
     await verifyApp(steps, metro);
     // Ends the session, which removes the automation overlay. The app stays
