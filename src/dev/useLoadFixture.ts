@@ -1,7 +1,7 @@
-import { useDatagate } from "@/hooks/useDatagate";
-import { useLogState } from "@/hooks/useLogs";
-import { useSettings } from "@/hooks/useSettings";
-import { useTagsState } from "@/hooks/useTags";
+import { useDatagate } from "@/features/datagate";
+import { useLogState } from "@/features/logs";
+import { useSettings } from "@/state/settings";
+import { useTagsState } from "@/features/tags";
 import type { Fixture } from "./fixtures";
 import { getFixtureData } from "./fixtures";
 
