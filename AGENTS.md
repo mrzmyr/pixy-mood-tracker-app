@@ -1,6 +1,7 @@
 # Repository conventions
 
 - the project is called `pixy-mood-tracker`, use that slug always when creating folders, exeutables etc (not `pixy`, `pixy-app` etc)
+- Folder layout: domain modules in `src/features/<name>/`, app-wide state (settings, analytics, persistence) in `src/state/<name>/`, generic hooks in `src/hooks/`. Keep a module's context, storage, and `__tests__/` together; UI used by one feature goes in its `components/`, its hooks in `hooks/`. Shared UI stays in `src/components/`.
 
 ## Metadata
 

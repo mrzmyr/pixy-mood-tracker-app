@@ -1,5 +1,5 @@
 import { uniqueId } from "lodash";
-import type { LogItem } from "../hooks/useLogs";
+import type { LogItem } from "@/features/logs";
 
 /**
  * Build a complete {@link LogItem} for tests from a partial override.

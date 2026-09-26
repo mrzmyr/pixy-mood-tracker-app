@@ -1,12 +1,12 @@
-import { Card } from "@/components/Statistics/Card";
+import { Card } from "@/features/statistics/components/Card";
 import { t } from "@/helpers/translation";
 import dayjs from "dayjs";
 import { Dimensions, View } from "react-native";
-import { useLogState } from "../../hooks/useLogs";
+import { useLogState } from "@/features/logs";
 
-import { SleepQualityChart } from "@/components/SleepQualityChart";
-import { CardFeedback } from "@/components/Statistics/CardFeedback";
-import { getSleepQualityDistributionForXDays } from "@/hooks/useStatistics/SleepQualityDistribution";
+import { SleepQualityChart } from "@/features/statistics/components/SleepQualityChart";
+import { CardFeedback } from "@/features/statistics/components/CardFeedback";
+import { getSleepQualityDistributionForXDays } from "@/features/statistics/SleepQualityDistribution";
 import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
 import { getItemTime } from "@/lib/logDates";
 

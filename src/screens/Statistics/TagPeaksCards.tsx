@@ -1,20 +1,20 @@
 import type { Dayjs } from "dayjs";
 import dayjs from "dayjs";
 import { Pressable, Text, View } from "react-native";
-import { Card } from "@/components/Statistics/Card";
-import { CardFeedback } from "@/components/Statistics/CardFeedback";
+import { Card } from "@/features/statistics/components/Card";
+import { CardFeedback } from "@/features/statistics/components/CardFeedback";
 import { DATE_FORMAT } from "@/constants/Config";
 import { t } from "@/helpers/translation";
 import useColors from "../../hooks/useColors";
 import useHaptics from "../../hooks/useHaptics";
-import type { LogItem } from "../../hooks/useLogs";
-import type { TagsPeakData } from "../../hooks/useStatistics/TagsPeaks";
-import type { Tag as ITag } from "../../hooks/useTags";
+import type { LogItem } from "@/features/logs";
+import type { TagsPeakData } from "@/features/statistics/TagsPeaks";
+import type { Tag as ITag } from "@/features/tags";
 import { HeaderWeek } from "./HeaderWeek";
 import groupBy from "lodash/groupBy";
 import keys from "lodash/keys";
 import range from "lodash/range";
-import { useCalendarNavigation } from "@/hooks/useCalendarNavigation";
+import { useCalendarNavigation } from "@/features/calendar/navigation";
 import { getItemDate } from "@/lib/logDates";
 
 const DayDot = ({

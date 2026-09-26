@@ -1,7 +1,7 @@
 import round from "lodash/round";
 import { View } from "react-native";
 import { t } from "@/helpers/translation";
-import type { LogItem } from "../../hooks/useLogs";
+import type { LogItem } from "@/features/logs";
 import { StatsCard } from "./StatsCard";
 import { getWordCount } from "@/lib/utils";
 

@@ -1,7 +1,7 @@
 import { PromoCard } from "@/components/PromoCard";
 import { t } from "@/helpers/translation";
-import { useAnalytics } from "@/hooks/useAnalytics";
-import { useSettings } from "@/hooks/useSettings";
+import { useAnalytics } from "@/state/analytics";
+import { useSettings } from "@/state/settings";
 import dayjs from "dayjs";
 import { XMLParser } from "fast-xml-parser";
 import type { ReactElement } from "react";

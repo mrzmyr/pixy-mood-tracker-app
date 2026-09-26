@@ -1,4 +1,4 @@
-import { EmotionIndicator } from "@/components/Logger/slides/SlideEmotions/EmotionsIndicator";
+import { EmotionIndicator } from "@/features/logger/slides/SlideEmotions/EmotionsIndicator";
 import useColors from "@/hooks/useColors";
 import { t } from "i18n-js";
 import type { Emotion } from "@/types";

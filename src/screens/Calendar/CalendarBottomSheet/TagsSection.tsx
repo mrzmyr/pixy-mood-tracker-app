@@ -1,7 +1,7 @@
 import { View } from "react-native";
-import Tag from "@/components/Tag";
+import Tag from "@/features/tags/components/Tag";
 import TextHeadline from "@/components/TextHeadline";
-import type { Tag as ITag } from "../../../hooks/useTags";
+import type { Tag as ITag } from "@/features/tags";
 
 /**
  * Tag filter chips; `onSelect` receives the tapped tag so the parent can

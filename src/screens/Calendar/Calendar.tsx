@@ -9,7 +9,7 @@ import type {
   NativeSyntheticEvent,
 } from "react-native";
 import { DATE_FORMAT } from "@/constants/Config";
-import { useLogState } from "@/hooks/useLogs";
+import { useLogState } from "@/features/logs";
 import CalendarMonth from "./CalendarMonth";
 import { getGeometry, getMonths } from "./layout";
 import type { Month } from "./layout";
