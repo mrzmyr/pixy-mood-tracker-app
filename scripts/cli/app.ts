@@ -1193,11 +1193,9 @@ const verifyApp = async (steps: Steps, metro: ChildProcess | null) => {
 
 // agent-device `close` ends the session but leaves the app running on
 // physical iPhones. devicectl quits it, so the phone shows the home screen.
-// Executable names of all app variants. Expo sets PRODUCT_NAME to the app
+// Executable name of an app variant. Expo sets PRODUCT_NAME to the app
 // name without spaces or special characters: "Pixy Dev" runs as "PixyDev".
-const VARIANT_EXECUTABLES = Object.values(APP_VARIANTS).map(({ name }) =>
-  name.replaceAll(/[^a-zA-Z0-9]/gu, "")
-);
+const toExecutable = (name: string) => name.replaceAll(/[^a-zA-Z0-9]/gu, "");
 
 const quitIosApp = (udid: string, executables: string[]) => {
   const file = path.join(
@@ -1332,8 +1330,15 @@ const cmdRun = async (options: {
   );
 };
 
-const cmdClose = async (options: { id: string; isForce: boolean }) => {
+const cmdClose = async (options: {
+  id: string;
+  isForce: boolean;
+  variant?: AppVariant;
+}) => {
   const steps = createSteps();
+  const variants = options.variant
+    ? [APP_VARIANTS[options.variant]]
+    : Object.values(APP_VARIANTS);
   const selected = await selectDevice(steps, options.id);
   await checkDeviceFree(steps, selected, options.isForce);
   steps.step(
@@ -1353,7 +1358,7 @@ const cmdClose = async (options: { id: string; isForce: boolean }) => {
     );
     quitAndroidApps(
       selected.device.id,
-      Object.values(APP_VARIANTS).map(({ appId }) => appId)
+      variants.map(({ appId }) => appId)
     );
     pass("stopped");
   } else if (selected.destination === "device") {
@@ -1361,21 +1366,28 @@ const cmdClose = async (options: { id: string; isForce: boolean }) => {
       "Quit Pixy apps on the phone",
       `xcrun devicectl device info processes --device ${selected.device.id}`
     );
-    const count = quitIosApp(selected.device.id, VARIANT_EXECUTABLES) ?? 0;
+    const count =
+      quitIosApp(
+        selected.device.id,
+        variants.map(({ name }) => toExecutable(name))
+      ) ?? 0;
     pass(count > 0 ? `quit ${count} app(s)` : "none running");
   }
-  steps.step(
-    "Stop Metro started by bun app run",
-    `kill -INT $(cat ${METRO_PID})`
-  );
-  const pid = fs.existsSync(METRO_PID)
-    ? Math.trunc(Number(fs.readFileSync(METRO_PID, "utf-8")))
-    : Number.NaN;
-  pass(
-    stopMetro(Number.isInteger(pid) ? pid : undefined)
-      ? "stopped"
-      : "not running"
-  );
+  // Metro serves only the development variant.
+  if (!options.variant || options.variant === "development") {
+    steps.step(
+      "Stop Metro started by bun app run",
+      `kill -INT $(cat ${METRO_PID})`
+    );
+    const pid = fs.existsSync(METRO_PID)
+      ? Math.trunc(Number(fs.readFileSync(METRO_PID, "utf-8")))
+      : Number.NaN;
+    pass(
+      stopMetro(Number.isInteger(pid) ? pid : undefined)
+        ? "stopped"
+        : "not running"
+    );
+  }
   if (selected.destination === "simulator") {
     const flag = deviceFlag(selected.platform);
     steps.step(
@@ -1521,24 +1533,32 @@ the app stays open, Metro keeps running in the background. Stop both with
     }),
     close: defineCommand({
       details: `--device <id>       Required.
+--variant <name>    Quit only this variant: development, preview, or production.
+                    Default: all variants.
 --force             Skip the check that no other worktree uses the device.
 
-Closes this worktree's agent-device session, quits all Pixy variants on a
-physical device, stops a Metro that \`bun app run\` started, and shuts down a
-simulator or emulator. Use it after an interrupted run, \`bun e2e run\`, or
-manual agent-device commands.`,
+Closes this worktree's agent-device session, quits Pixy apps on a device,
+stops a Metro that \`bun app run\` started, and shuts down a simulator or
+emulator. Shutdown quits every app, so --variant matters only on physical
+devices. With a --variant other than development, Metro keeps running. Use it
+after an interrupted run, \`bun e2e run\`, or manual agent-device commands.`,
       options: {
         device: { type: "string" },
         force: { type: "boolean" },
+        variant: { type: "string" },
       },
       run: async (_args, values) => {
         await cmdClose({
           id: requireDevice(values.device),
           isForce: values.force ?? false,
+          variant:
+            values.variant === undefined
+              ? undefined
+              : requireVariant(values.variant),
         });
       },
       summary: "Close the app, release the device, shut down simulators",
-      usage: "--device <id> [options]",
+      usage: "--device <id> [--variant <name>] [options]",
     }),
   },
   footer: "Devices: `bunx agent-device devices`. Build cache: `bun builds`.",
