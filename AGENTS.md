@@ -26,9 +26,7 @@
 
 ## Code
 
-- Run `bun run check` and `bun run test:ci` before pushing. CI (`.github/workflows/ci.yml`) runs the same scripts, and a pre-commit hook runs `oxlint --fix` and `oxfmt` on staged files.
-- React Compiler is enabled (`app.json` `experiments.reactCompiler`). Do not add `useMemo`, `useCallback`, or `React.memo` unless a non-React API needs a stable reference or the value is an effect dependency.
-- Put screen-only components in `src/screens/<Screen>/`, shared UI in `src/components/`, and generic hooks in `src/hooks/`. Check `src/components/` before creating a new component.
+- read [CODING_STANDARDS.md]
 
 ### Footguns
 
@@ -48,30 +46,6 @@
 - Format descriptions as `<type>[optional scope]: <description>`.
 - Use `feat` for features and `fix` for bug fixes. Use `build`, `chore`, `ci`, `docs`, `refactor`, `style`, or `test` when they fit.
 - Mark breaking changes with `!` before `:` or a `BREAKING CHANGE:` footer.
-
-## Pull request proof
-
-- Every agent-authored pull request must prove to the human reviewer that the change works before it is marked ready or merged.
-- Attach screenshots or a video directly to the pull request body or a pull request comment. For non-visual changes, show the relevant observable behavior or test execution.
-- Use `gh pr comment --attach` to upload screenshot or video proof without committing evidence files ([`test-pr`](.agents/skills/test-pr/SKILL.md) skill).
-- Never commit proof-only screenshots, videos, or evidence files to the repository. Commit a visual file only when it is a product or documentation asset needed independently of the pull request.
-- Show before and after evidence when behavior or UI is changed or removed.
-- Present two or more screenshots in a two-column grid in the pull request body or comment so they remain reviewable at normal viewport sizes. Put before and after screenshots side by side.
-- Document the environment and exact steps used to produce the evidence so the reviewer can reproduce it.
-- Document the edge cases checked, including each expected result and actual result. Cover failure, empty, loading, boundary, and regression states when relevant.
-- Never expose credentials, secrets, or personal data in evidence.
-- If evidence cannot be produced, keep the pull request in draft, document the blocker, and get explicit human approval before merging.
-
-## Devices and end-to-end tests
-
-- Use [agent-device](https://github.com/callstack/agent-device) (`bunx agent-device`, `bun e2e run`) for devices, e2e runs, and live app checks, and `bun builds` for the build cache. Never use raw `simctl`, `emulator`, or `maestro`. See [e2e/README.md](e2e/README.md) and [build cache](docs/development.md#build-cache).
-- Use only the agent-device version pinned in `package.json` (`bunx agent-device`). Never run `bunx agent-device@latest` or a global install. All worktrees share one daemon (`~/.agent-device`). An older client refuses a newer daemon (`Daemon ... is newer than this client`), which locks out every worktree.
-- Run the app on a device with `bun app run`, or build once with `bun app build` and install with `bun app install` ([`run-app`](.agents/skills/run-app/SKILL.md) skill).
-- Always pass the device so runs never land on another agent's device: `--device <id|name>` for `bun` CLIs (`bun devices list`), `--udid` or `--serial` for raw `bunx agent-device`.
-- For live checks and PR proof, open the app (`bunx agent-device open com.devmood.pixymoodtracker.preview --platform ios --udid <udid>`) and act on `snapshot -i` refs. `bunx agent-device help workflow` covers the rest.
-- Test the preview app ([app variants](docs/development.md#app-variants)). Never run flows with `clearState` against the production app on a phone; it wipes real data.
-- Shut down devices you booted and close your agent-device sessions before you finish.
-- Keep device and signing-team identifiers local.
 
 ## Errors
 

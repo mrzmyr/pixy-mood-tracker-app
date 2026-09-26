@@ -1,0 +1,1 @@
+- Do not write unit tests for cli commands
