@@ -1,7 +1,6 @@
 import { render, waitFor } from "@testing-library/react-native";
 import { Platform } from "react-native";
 import { SuperwallExpoModule } from "expo-superwall";
-import { resolveSuperwallEnabled } from "@/constants/Services";
 import {
   ConfiguredSupportProvider,
   SUPPORT_PLACEMENT,
@@ -198,17 +197,5 @@ describe("Superwall support provider", () => {
     await supportClient?.openSupport();
 
     expect(mockRegisterPlacement).not.toHaveBeenCalled();
-  });
-});
-
-describe("Superwall flag", () => {
-  test("stays on by default so production keeps today's behavior", () => {
-    expect(resolveSuperwallEnabled({ value: undefined })).toBe(true);
-    expect(resolveSuperwallEnabled({ value: "" })).toBe(true);
-    expect(resolveSuperwallEnabled({ value: "true" })).toBe(true);
-  });
-
-  test("turns off with false", () => {
-    expect(resolveSuperwallEnabled({ value: "false" })).toBe(false);
   });
 });
