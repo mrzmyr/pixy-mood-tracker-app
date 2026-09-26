@@ -46,6 +46,7 @@ tags: [log]
       visible: "Type English and German"
     commands:
       - tapOn: "Continue"
+- runFlow: ../subflows/dismiss-keyboard.yaml
 - tapOn: "Create"
 - assertVisible: "Tags"
 - scrollUntilVisible:
@@ -60,6 +61,7 @@ tags: [log]
     id: "tag-name"
 - eraseText
 - inputText: "e2e-renamed-${output.runId}"
+- runFlow: ../subflows/dismiss-keyboard.yaml
 - scrollUntilVisible:
     element:
       text: "Save"
@@ -74,6 +76,7 @@ tags: [log]
 - tapOn:
     id: "tag-name"
 - inputText: "e2e-temp-${output.runId}"
+- runFlow: ../subflows/dismiss-keyboard.yaml
 - tapOn: "Create"
 - assertVisible: "Tags"
 - scrollUntilVisible:
@@ -113,6 +116,7 @@ tags: [log]
     id: "logger-next"
 - assertVisible: "Write about your day"
 - inputText: "e2e note ${output.runId} persisted"
+- runFlow: ../subflows/dismiss-keyboard.yaml
 - runFlow:
     when:
       visible:
