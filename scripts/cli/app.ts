@@ -20,6 +20,7 @@ import type { Destination } from "./app-build.ts";
 import { listBuilds, toBuildId } from "./builds.ts";
 import { assertDeviceFree, requireVariant } from "./e2e.ts";
 import { getAndroidSdk } from "../run-native.ts";
+import { isRunnerStartFailure } from "./runner-error.ts";
 import { REPO_ROOT } from "./runs.ts";
 import {
   CliError,
@@ -800,15 +801,28 @@ const startMetro = async (steps: Steps) => {
 const CHECK_TIMEOUT_MS = 30_000;
 
 // `is` exits with an error when the predicate does not hold. The last error
-// explains a failed check.
+// explains a failed check. A runner that cannot start fails every check, so
+// its error ends the wait at once. `deadline` shortens the last check, so a
+// polling loop stops close to its own deadline.
 let lastCheckError = "";
-const isVisible = async (selector: string) => {
+const isVisible = async (selector: string, deadline = Infinity) => {
   try {
     await agentDevice(["is", "visible", selector], {
-      timeoutMs: CHECK_TIMEOUT_MS,
+      timeoutMs: Math.max(
+        1000,
+        Math.min(CHECK_TIMEOUT_MS, deadline - Date.now())
+      ),
     });
     return true;
   } catch (error) {
+    if (isRunnerStartFailure(error)) {
+      throw new CliError({
+        fix: error.fix,
+        message: "agent-device cannot start its runner on the device",
+        status: "agent_device_runner_failed",
+        why: `agent-device ${error.status}: ${error.message}. ${error.why}`,
+      });
+    }
     lastCheckError = `${selector}: ${error instanceof CliError ? `${error.status}: ${error.message}` : String(error)}`;
     return false;
   }
@@ -1203,15 +1217,19 @@ const verifyApp = async (steps: Steps, metro: ChildProcess | null) => {
     // Expo's developer menu covers the app but leaves its elements in the
     // tree, so a ready marker alone is not enough.
     // oxlint-disable-next-line no-await-in-loop -- each check reads the current screen
-    if (await isVisible(DEV_MENU_OPEN)) {
+    if (await isVisible(DEV_MENU_OPEN, deadline)) {
       lastCheckError = `Expo's developer menu covers the app (${DEV_MENU_OPEN} is visible)`;
       // oxlint-disable-next-line no-await-in-loop -- polling must wait between checks
       await sleep(1000);
       continue;
     }
     for (const selector of READY_SELECTORS) {
-      // oxlint-disable-next-line no-await-in-loop -- stop at the first visible marker
-      if (!ready && (await isVisible(selector))) {
+      if (
+        !ready &&
+        Date.now() < deadline &&
+        // oxlint-disable-next-line no-await-in-loop -- stop at the first visible marker
+        (await isVisible(selector, deadline))
+      ) {
         ready = selector;
       }
     }
