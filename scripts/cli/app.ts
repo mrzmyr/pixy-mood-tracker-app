@@ -1376,6 +1376,21 @@ const cmdClose = async (options: { id: string; isForce: boolean }) => {
       ? "stopped"
       : "not running"
   );
+  if (selected.destination === "simulator") {
+    const flag = deviceFlag(selected.platform);
+    steps.step(
+      `Shut down ${selected.device.name}`,
+      `bunx agent-device shutdown --platform ${selected.platform} ${flag} ${selected.device.id}`
+    );
+    await agentDevice([
+      "shutdown",
+      "--platform",
+      selected.platform,
+      flag,
+      selected.device.id,
+    ]);
+    pass("shut down");
+  }
 };
 
 const requireDevice = (value: string | undefined) => {
@@ -1509,8 +1524,9 @@ the app stays open, Metro keeps running in the background. Stop both with
 --force             Skip the check that no other worktree uses the device.
 
 Closes this worktree's agent-device session, quits all Pixy variants on a
-physical iPhone, and stops a Metro that \`bun app run\` started. Use it after
-an interrupted run, \`bun e2e run\`, or manual agent-device commands.`,
+physical device, stops a Metro that \`bun app run\` started, and shuts down a
+simulator or emulator. Use it after an interrupted run, \`bun e2e run\`, or
+manual agent-device commands.`,
       options: {
         device: { type: "string" },
         force: { type: "boolean" },
@@ -1521,7 +1537,7 @@ an interrupted run, \`bun e2e run\`, or manual agent-device commands.`,
           isForce: values.force ?? false,
         });
       },
-      summary: "Close the app and release the device",
+      summary: "Close the app, release the device, shut down simulators",
       usage: "--device <id> [options]",
     }),
   },
