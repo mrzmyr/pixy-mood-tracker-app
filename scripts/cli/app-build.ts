@@ -3,6 +3,7 @@
 // Expo's build-only mode (`expo run:ios --device generic`) targets simulators
 // only, so this calls xcodebuild directly for both targets.
 import { spawn } from "node:child_process";
+import type { ChildProcess } from "node:child_process";
 import { once } from "node:events";
 import fs from "node:fs";
 import { createRequire } from "node:module";
@@ -94,6 +95,27 @@ const LIVE_LINE =
 // xcodebuild -showBuildTimingSummary: "CompileC (812 tasks) | 402.113 seconds".
 const TIMING_LINE = /^(?<task>.+?) \| (?<seconds>[\d.]+) seconds$/u;
 
+// Native tools running now, so a signal can stop them before the build lock
+// is released.
+const children = new Set<ChildProcess>();
+// Tools get 30 seconds to stop, then are killed.
+const CHILD_STOP_MS = 30_000;
+
+const stopChildren = async (signal: NodeJS.Signals) => {
+  await Promise.all(
+    [...children].map(async (child) => {
+      if (child.exitCode !== null || child.signalCode !== null) {
+        return;
+      }
+      const exited = once(child, "exit");
+      child.kill(signal);
+      const timer = setTimeout(() => child.kill("SIGKILL"), CHILD_STOP_MS);
+      await exited;
+      clearTimeout(timer);
+    })
+  );
+};
+
 // Runs a command, writes every line with elapsed seconds to the log, prints
 // errors live, and collects the xcodebuild timing summary.
 const runLogged = async (
@@ -107,6 +129,7 @@ const runLogged = async (
     env: options.env,
     stdio: ["ignore", "pipe", "pipe"],
   });
+  children.add(child);
   let firstError = "";
   // Gradle's cause tree under "* What went wrong:", up to the next blank line.
   let gradleFailure: string[] | null = null;
@@ -141,6 +164,7 @@ const runLogged = async (
   readline.createInterface({ input: child.stderr }).on("line", onLine);
   // SAFETY: a ChildProcess "exit" event passes (code: number | null, signal).
   const [code] = (await once(child, "exit")) as [number | null];
+  children.delete(child);
   if (firstError === GRADLE_FAILURE_HEADER && gradleFailure) {
     firstError = summarizeGradleFailure(gradleFailure) ?? firstError;
   }
@@ -262,7 +286,7 @@ const buildIos = async (
   if (isCacheHit()) {
     return key;
   }
-  return withBuildLock(REPO_ROOT, "ios", steps, async () => {
+  return withBuildLock(REPO_ROOT, "ios", steps, stopChildren, async () => {
     // Another run in this worktree may have stored the build while this one
     // waited for the lock.
     if (getCachedAt(cached) !== cachedAt && isCacheHit()) {
@@ -407,7 +431,7 @@ const buildAndroid = async (
   if (isCacheHit()) {
     return key;
   }
-  return withBuildLock(REPO_ROOT, "android", steps, async () => {
+  return withBuildLock(REPO_ROOT, "android", steps, stopChildren, async () => {
     // Another run in this worktree may have stored the build while this one
     // waited for the lock.
     if (getCachedAt(cached) !== cachedAt && isCacheHit()) {

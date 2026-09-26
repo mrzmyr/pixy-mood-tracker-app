@@ -5,7 +5,12 @@ import os from "node:os";
 import path from "node:path";
 import { setTimeout as sleep } from "node:timers/promises";
 
-import { getStartTime, isHolderAlive, withLock } from "../build-lock.ts";
+import {
+  getStartTime,
+  isHolderAlive,
+  removeStale,
+  withLock,
+} from "../build-lock.ts";
 import type { LockHolder, LockOptions } from "../build-lock.ts";
 import { CliError } from "../shared.ts";
 
@@ -131,6 +136,76 @@ describe("withLock", () => {
     );
 
     expect(fs.existsSync(file)).toBe(true);
+  });
+});
+
+describe("removeStale", () => {
+  const stale = `${JSON.stringify({ command: "crashed", pid: 1, startedAt: "start" })}\n`;
+
+  it("removes the lock while it still holds the stale holder", () => {
+    fs.writeFileSync(file, stale);
+
+    expect(removeStale(file, stale)).toBe(true);
+    expect(fs.existsSync(file)).toBe(false);
+  });
+
+  it("keeps a lock that a new holder took after the stale read", () => {
+    writeLock({ command: "new run", pid: 2, startedAt: "start" });
+
+    expect(removeStale(file, stale)).toBe(true);
+    expect(fs.existsSync(file)).toBe(true);
+  });
+
+  it("leaves the lock to a waiter that is already reaping", () => {
+    fs.writeFileSync(file, stale);
+    fs.mkdirSync(`${file}.reaper`);
+
+    expect(removeStale(file, stale)).toBe(false);
+    expect(fs.readFileSync(file, "utf-8")).toBe(stale);
+  });
+
+  it("clears a reaper left by a killed run", async () => {
+    fs.writeFileSync(file, stale);
+    fs.mkdirSync(`${file}.reaper`);
+    const old = new Date(Date.now() - 60_000);
+    fs.utimesSync(`${file}.reaper`, old, old);
+
+    await expect(
+      withLock(
+        file,
+        () => Promise.resolve("built"),
+        options(2, { isAlive: () => false })
+      )
+    ).resolves.toBe("built");
+  });
+});
+
+describe("withLock on a signal", () => {
+  it("stops the work's processes, then releases the lock and exits", async () => {
+    // SAFETY: the mock never exits; `never` only satisfies exit's type.
+    const exit = jest
+      .spyOn(process, "exit")
+      .mockImplementation(() => undefined as never);
+    const events: string[] = [];
+    const gate = new EventTarget();
+    const run = withLock(file, blockingWork(gate, events, "build"), {
+      ...options(1),
+      stopWork: (signal) => {
+        events.push(`stop ${signal}, lock held: ${fs.existsSync(file)}`);
+        return Promise.resolve();
+      },
+    });
+    await sleep(20);
+
+    process.emit("SIGTERM", "SIGTERM");
+    await sleep(20);
+
+    expect(events).toEqual(["build start", "stop SIGTERM, lock held: true"]);
+    expect(fs.existsSync(file)).toBe(false);
+    expect(exit).toHaveBeenCalledWith(143);
+    exit.mockRestore();
+    gate.dispatchEvent(new Event("finish"));
+    await run;
   });
 });
 

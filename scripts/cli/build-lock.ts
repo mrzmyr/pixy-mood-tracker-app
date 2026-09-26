@@ -23,6 +23,9 @@ interface LockOptions {
   isAlive: (holder: LockHolder) => boolean;
   pollMs: number;
   onWait: (holder: LockHolder) => void;
+  // Stops processes `work` started, such as xcodebuild or Gradle, before a
+  // signal releases the lock. They would keep writing to the checkout.
+  stopWork?: (signal: NodeJS.Signals) => Promise<void>;
 }
 
 // `LC_ALL=C` keeps the format the same for runs with other locales.
@@ -58,24 +61,33 @@ const parseHolder = (text: string) => {
   }
 };
 
-// Moves the lock aside, so only one waiter removes it. If a new holder took
-// the lock in between, puts its lock back.
+// A reaper holds this only for one read and one unlink. Older means its run
+// was killed in between.
+const REAPER_STALE_MS = 10_000;
+
+// Removes a lock whose holder is dead. One waiter at a time reaps, holding an
+// exclusive reaper directory. It unlinks the lock only while it still holds
+// `staleText`: a new holder can only link its lock after the unlink, and a
+// dead holder never releases. Returns false when another waiter reaps.
 const removeStale = (file: string, staleText: string) => {
-  const aside = `${file}.${process.pid}.stale`;
+  const reaper = `${file}.reaper`;
   try {
-    fs.renameSync(file, aside);
+    fs.mkdirSync(reaper);
   } catch {
-    // Another waiter moved it first.
-    return;
-  }
-  if (readText(aside) !== staleText) {
-    try {
-      fs.linkSync(aside, file);
-    } catch {
-      // A third run already holds the lock.
+    const reaperAt = fs.statSync(reaper, { throwIfNoEntry: false })?.mtimeMs;
+    if (reaperAt !== undefined && Date.now() - reaperAt > REAPER_STALE_MS) {
+      fs.rmSync(reaper, { force: true, recursive: true });
     }
+    return false;
   }
-  fs.rmSync(aside, { force: true });
+  try {
+    if (readText(file) === staleText) {
+      fs.rmSync(file, { force: true });
+    }
+    return true;
+  } finally {
+    fs.rmSync(reaper, { force: true, recursive: true });
+  }
 };
 
 // Writes the holder to a temp file and hard-links it into place. `link` fails
@@ -106,13 +118,13 @@ const acquire = async (file: string, options: LockOptions) => {
       }
       const current = readText(file);
       const holder = current === null ? null : parseHolder(current);
-      if (current !== null && (!holder || !options.isAlive(holder))) {
-        removeStale(file, current);
-      } else if (holder) {
-        if (current !== announced) {
-          options.onWait(holder);
-          announced = current ?? "";
-        }
+      const isStale = current !== null && (!holder || !options.isAlive(holder));
+      if (!isStale && holder && current !== announced) {
+        options.onWait(holder);
+        announced = current ?? "";
+      }
+      // Retries at once after reaping or when the lock just vanished.
+      if (current !== null && !(isStale && removeStale(file, current))) {
         // oxlint-disable-next-line no-await-in-loop -- polling must wait between checks
         await sleep(options.pollMs);
       }
@@ -123,8 +135,8 @@ const acquire = async (file: string, options: LockOptions) => {
 };
 
 // Holds the lock while `work` runs. Releases it when `work` ends or throws, and
-// on Ctrl-C or SIGTERM, which skip `finally`. A lock left by a killed run is
-// taken over once its holder is dead.
+// on Ctrl-C or SIGTERM, which skip `finally`: those stop `work`'s processes
+// first. A lock left by a killed run is taken over once its holder is dead.
 const withLock = async <T>(
   file: string,
   work: () => Promise<T>,
@@ -136,9 +148,13 @@ const withLock = async <T>(
       fs.rmSync(file, { force: true });
     }
   };
-  const onSignal = (signal: NodeJS.Signals) => {
-    release();
-    process.exit(signal === "SIGINT" ? 130 : 143);
+  const onSignal = async (signal: NodeJS.Signals) => {
+    try {
+      await options.stopWork?.(signal);
+    } finally {
+      release();
+      process.exit(signal === "SIGINT" ? 130 : 143);
+    }
   };
   process.on("exit", release);
   process.once("SIGINT", onSignal);
@@ -161,6 +177,7 @@ const withBuildLock = <T>(
   root: string,
   platform: Platform,
   steps: Steps,
+  stopWork: (signal: NodeJS.Signals) => Promise<void>,
   work: () => Promise<T>
 ) => {
   let isWaiting = false;
@@ -179,6 +196,7 @@ const withBuildLock = <T>(
       note(`  Held by PID ${holder.pid}: ${holder.command}`);
     },
     pollMs: 2000,
+    stopWork,
   });
 };
 
@@ -187,6 +205,7 @@ export {
   getBuildLockFile,
   getStartTime,
   isHolderAlive,
+  removeStale,
   withBuildLock,
   withLock,
 };
