@@ -1,0 +1,27 @@
+Build the preview app into the shared cache.
+
+Usage: bun app build (--platform=<ios|android> | --target=<target>)
+
+Options:
+  --platform=<ios|android>  Build for simulator (ios) or emulator (android).
+  --target=<target>         Build for this phone. Copy the value from `bun devices list`.
+                            iPhone: signed phone build. Android phone: same build as emulator.
+
+Output:
+  Build ID on stdout. Log path on stderr.
+
+Examples:
+  bun app build --platform=ios
+  bun app build --target=pixel-8-09yw
+
+Errors:
+  missing_option           Neither --platform nor --target passed
+  conflicting_options      Both --platform and --target passed
+  invalid_platform         --platform is not ios or android
+  target_not_found         No connected phone has this target
+  signing_team_missing     No Apple Development team to sign with
+  signing_profile_missing  Provisioning profile lacks this iPhone
+  native_build_failed      Compiler failed, read the log
+  build_lock_timeout       Another build held the cache lock 30 minutes
+
+Exit codes: 0 ok, 1 failure, 2 usage error

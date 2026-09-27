@@ -1,9 +1,15 @@
 import fs from "node:fs";
+import { X509Certificate } from "node:crypto";
 import os from "node:os";
 import path from "node:path";
 import { setTimeout as sleep } from "node:timers/promises";
 
 import { getAndroidSdk } from "../run-native.ts";
+import {
+  checkDaemonEnv,
+  findDaemonHolders,
+  staleDaemonError,
+} from "./daemon-env.ts";
 import { CliError, isProcessAlive, note, readJson, tryRun } from "./shared.ts";
 
 const REPO_ROOT = path.resolve(import.meta.dir, "../..");
@@ -14,14 +20,73 @@ const AGENT_DEVICE = path.join(
   "agent-device"
 );
 const STATE_DIR = path.join(os.homedir(), ".agent-device");
+const RUNNER_BUNDLE_ID = "com.devmood.pixymoodtracker.agentdevice";
 let wasDaemonChecked = false;
 
-const getAgentDeviceEnv = () => {
-  const sdk = getAndroidSdk();
-  return sdk
-    ? { ...process.env, ANDROID_HOME: sdk, ANDROID_SDK_ROOT: sdk }
-    : process.env;
+const readSigningTeams = () => {
+  const pem = tryRun("security", [
+    "find-certificate",
+    "-a",
+    "-c",
+    "Apple Development",
+    "-p",
+  ]);
+  const certs =
+    pem?.match(
+      /-----BEGIN CERTIFICATE-----[\s\S]+?-----END CERTIFICATE-----/gu
+    ) ?? [];
+  return [
+    ...new Set(
+      certs.flatMap((cert) => {
+        const x509 = new X509Certificate(cert);
+        if (Date.parse(x509.validTo) < Date.now()) {
+          return [];
+        }
+        return (
+          /^OU=(?<team>[A-Z0-9]{10})$/mu.exec(x509.subject)?.groups?.team ?? []
+        );
+      })
+    ),
+  ];
 };
+
+let agentDeviceEnv: NodeJS.ProcessEnv | null = null;
+
+const getAgentDeviceEnv = () => {
+  if (!agentDeviceEnv) {
+    const teams = process.env.AGENT_DEVICE_IOS_TEAM_ID
+      ? []
+      : readSigningTeams();
+    const derived: NodeJS.ProcessEnv = {};
+    const sdk = getAndroidSdk();
+    if (sdk) {
+      derived.ANDROID_HOME = sdk;
+      derived.ANDROID_SDK_ROOT = sdk;
+    }
+    if (teams.length === 1) {
+      [derived.AGENT_DEVICE_IOS_TEAM_ID] = teams;
+      derived.AGENT_DEVICE_IOS_BUNDLE_ID = RUNNER_BUNDLE_ID;
+    }
+    agentDeviceEnv = { ...derived, ...process.env };
+  }
+  return agentDeviceEnv;
+};
+
+const getRunnerBundleId = () => {
+  const env = getAgentDeviceEnv();
+  return (
+    env.AGENT_DEVICE_IOS_BUNDLE_ID?.trim() ||
+    env.AGENT_DEVICE_IOS_RUNNER_APP_BUNDLE_ID?.trim() ||
+    "com.callstack.agentdevice.runner"
+  );
+};
+
+const redactSigningTeam = (text: string) => {
+  const team = getAgentDeviceEnv().AGENT_DEVICE_IOS_TEAM_ID?.trim();
+  return team ? text.replaceAll(team, "<team>") : text;
+};
+
+const STOP_DAEMON = `bunx agent-device daemon stop --state-dir ${STATE_DIR.replace(os.homedir(), "~")}`;
 
 // A daemon started from a deleted worktree cannot load its own modules.
 const stopStaleDaemon = async () => {
@@ -70,12 +135,27 @@ interface AgentDeviceResult<T> {
   };
 }
 
+// agent-device keeps one default session per checkout and platform. Simulator
+// and phones of one platform would share it, so each phone gets its own.
+let phoneSession: string | null = null;
+
+/** Run later device commands in a session named after the phone target. */
+const setPhoneSession = (target: string) => {
+  phoneSession = target;
+};
+
+const getSessionArgs = (args: string[]) =>
+  phoneSession && (args.includes("--udid") || args.includes("--serial"))
+    ? ["--session", phoneSession]
+    : [];
+
 const agentDevice = async <T>(
   args: string[],
   options: { timeoutMs?: number } = {}
 ): Promise<T> => {
   await stopStaleDaemon();
-  const child = Bun.spawn([AGENT_DEVICE, ...args, "--json"], {
+  const command = [AGENT_DEVICE, ...args, ...getSessionArgs(args), "--json"];
+  const child = Bun.spawn(command, {
     cwd: REPO_ROOT,
     env: getAgentDeviceEnv(),
     stderr: "pipe",
@@ -125,14 +205,77 @@ const agentDevice = async <T>(
   const error = body?.error;
   throw new CliError({
     status: error?.code?.toLowerCase() ?? "agent_device_failed",
-    message: error?.message ?? `agent-device ${args[0]} failed`,
-    why:
+    message: redactSigningTeam(
+      error?.message ?? `agent-device ${args[0]} failed`
+    ),
+    why: redactSigningTeam(
       [stderr.trim(), error?.details?.reason, error?.logPath]
         .filter(Boolean)
-        .join(" ") || "agent-device returned no successful JSON result.",
-    fix:
-      error?.hint ?? `Run \`bunx agent-device ${args[0]} --help\`, then retry.`,
+        .join(" ") || "agent-device returned no successful JSON result."
+    ),
+    fix: redactSigningTeam(
+      error?.hint ?? `Run \`bunx agent-device ${args[0]} --help\`, then retry.`
+    ),
   });
 };
 
-export { AGENT_DEVICE, agentDevice, getAgentDeviceEnv, stopStaleDaemon };
+const ensureDaemonSigningEnv = async () => {
+  const info = path.join(STATE_DIR, "daemon.json");
+  note("Check agent-device daemon signing environment");
+  const pid = readJson<{ pid?: number }>(info)?.pid;
+  const state = checkDaemonEnv(
+    getAgentDeviceEnv(),
+    pid ? tryRun("ps", ["eww", "-o", "command=", "-p", String(pid)]) : null
+  );
+  if (
+    state.kind === "missing" ||
+    state.kind === "unreadable" ||
+    state.kind === "current"
+  ) {
+    return;
+  }
+  const { claims } = await agentDevice<{
+    claims: {
+      classification: string;
+      device: { id: string; name: string; platform: string; kind: "device" };
+      owner: {
+        session: string;
+        workspace: string;
+        pid: number;
+        startTime: string;
+      };
+    }[];
+  }>(["device", "status"]);
+  const holders = findDaemonHolders(claims);
+  if (holders.length) {
+    throw staleDaemonError(state.keys, holders, STOP_DAEMON);
+  }
+  tryRun(AGENT_DEVICE, ["daemon", "stop", "--state-dir", STATE_DIR]);
+  for (let attempt = 0; attempt < 25 && isProcessAlive(pid); attempt += 1) {
+    // oxlint-disable-next-line no-await-in-loop -- poll daemon shutdown
+    await sleep(200);
+  }
+  if (isProcessAlive(pid)) {
+    throw new CliError({
+      status: "agent_device_daemon_stop_failed",
+      message: "agent-device daemon did not stop",
+      why: `Daemon still runs after ${STOP_DAEMON}.`,
+      fix: `Run ${STOP_DAEMON}, then retry.`,
+    });
+  }
+  note(
+    "Stopped stale agent-device daemon; next call starts it with signing environment"
+  );
+};
+
+export {
+  AGENT_DEVICE,
+  agentDevice,
+  ensureDaemonSigningEnv,
+  getAgentDeviceEnv,
+  getRunnerBundleId,
+  readSigningTeams,
+  redactSigningTeam,
+  stopStaleDaemon,
+  setPhoneSession,
+};

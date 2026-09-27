@@ -1,0 +1,25 @@
+List simulator, emulator, and connected phones.
+
+Usage: bun devices list [--platform=<ios|android>]
+
+Options:
+  --platform=<ios|android>  Optional. Show only this platform. Default: both.
+
+Output:
+  Table on stdout, one row per device.
+  OPTION   Copy this value into any `bun app` or `bun e2e` command
+  KIND     simulator, emulator, or phone
+  OS       ios or android
+  NAME     Device name
+  STATE    ready, booted, shutdown, not created, in use, or blocked
+  PROBLEM  Cause when STATE is in use or blocked, else empty
+
+Examples:
+  bun devices list
+  bun devices list --platform=android
+
+Errors:
+  invalid_platform     --platform is not ios or android
+  android_sdk_missing  No Android SDK found
+
+Exit codes: 0 ok, 1 failure, 2 usage error

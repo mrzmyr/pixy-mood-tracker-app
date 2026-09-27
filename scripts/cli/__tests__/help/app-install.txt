@@ -1,0 +1,28 @@
+Install the preview app on one device. Builds first when cache has no match.
+
+Usage: bun app install (--platform=<ios|android> | --target=<target>)
+
+Options:
+  --platform=<ios|android>  Simulator (ios) or emulator (android) of this checkout.
+                            CLI creates and boots it.
+  --target=<target>         One phone. Copy the value from `bun devices list`.
+
+Examples:
+  bun app install --platform=android
+  bun app install --target=pixel-8-09yw
+
+Errors:
+  missing_option           Neither --platform nor --target passed
+  conflicting_options      Both --platform and --target passed
+  invalid_platform         --platform is not ios or android
+  target_not_found         No connected phone has this target
+  phone_offline            Phone not reachable
+  phone_unauthorized       Android phone refuses USB debugging
+  phone_not_paired         iPhone does not trust this Mac
+  developer_mode_off       iPhone has Developer Mode off
+  phone_locked             Phone is locked
+  device_in_use            Another run holds this device
+  signing_profile_missing  Provisioning profile lacks this iPhone
+  install_failed           Device refused the build
+
+Exit codes: 0 ok, 1 failure, 2 usage error

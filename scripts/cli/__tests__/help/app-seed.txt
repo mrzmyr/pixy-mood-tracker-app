@@ -1,0 +1,35 @@
+Load a fixture and capture its first screen.
+
+Usage: bun app seed (--platform=<ios|android> | --target=<target>) --fixture=<id>
+
+Options:
+  --platform=<ios|android>  Simulator (ios) or emulator (android) of this checkout.
+                            CLI creates and boots it.
+  --target=<target>         One phone. Copy the value from `bun devices list`.
+  --fixture=<id>            Required. One of: fresh, empty, seed, year.
+
+Requires:
+  Preview app installed. Run `bun app install` with the same device option first.
+
+Output:
+  Screenshot path on stdout.
+
+Examples:
+  bun app seed --platform=ios --fixture=year
+  bun app seed --target=pixel-8-09yw --fixture=empty
+
+Errors:
+  missing_option       Neither --platform nor --target passed, or no --fixture
+  conflicting_options  Both --platform and --target passed
+  invalid_platform     --platform is not ios or android
+  target_not_found     No connected phone has this target
+  phone_offline        Phone not reachable
+  phone_unauthorized   Android phone refuses USB debugging
+  phone_not_paired     iPhone does not trust this Mac
+  developer_mode_off   iPhone has Developer Mode off
+  phone_locked         Phone is locked
+  device_in_use        Another run holds this device
+  fixture_not_found    --fixture has no match
+  app_not_ready        First screen did not appear in 120 seconds
+
+Exit codes: 0 ok, 1 failure, 2 usage error
