@@ -1,0 +1,145 @@
+{
+  "PIXEL_TRACKER_LOGS": {
+    "items": [
+      {
+        "id": "legacy-item-1",
+        "date": "2025-06-15",
+        "dateTime": "2025-06-15T12:15:00.000Z",
+        "createdAt": "2025-06-15T12:15:30.000Z",
+        "rating": "good",
+        "message": "legacy note survives",
+        "emotions": ["accomplished", "cheerful"],
+        "tags": [
+          {
+            "id": "1"
+          },
+          {
+            "id": "legacy-custom"
+          }
+        ]
+      },
+      {
+        "id": "legacy-item-2",
+        "date": "2025-06-15",
+        "dateTime": "2025-06-15T07:15:00.000Z",
+        "createdAt": "2025-06-15T07:15:30.000Z",
+        "rating": "very_good",
+        "message": "",
+        "emotions": [],
+        "tags": []
+      },
+      {
+        "id": "legacy-item-3",
+        "date": "2025-06-14",
+        "dateTime": "2025-06-14T12:15:00.000Z",
+        "createdAt": "2025-06-14T12:15:30.000Z",
+        "rating": "neutral",
+        "message": "archived tag entry",
+        "emotions": [],
+        "tags": [
+          {
+            "id": "legacy-archived"
+          }
+        ]
+      },
+      {
+        "id": "legacy-item-4",
+        "date": "2025-06-13",
+        "dateTime": "2025-06-13T12:15:00.000Z",
+        "createdAt": "2025-06-13T12:15:30.000Z",
+        "rating": "bad",
+        "message": "",
+        "emotions": [],
+        "tags": []
+      },
+      {
+        "id": "legacy-item-5",
+        "date": "2025-06-12",
+        "dateTime": "2025-06-12T12:15:00.000Z",
+        "createdAt": "2025-06-12T12:15:30.000Z",
+        "rating": "extremely_good",
+        "message": "",
+        "emotions": [],
+        "tags": []
+      },
+      {
+        "id": "legacy-item-6",
+        "date": "2025-06-10",
+        "dateTime": "2025-06-10T12:15:00.000Z",
+        "createdAt": "2025-06-10T12:15:30.000Z",
+        "rating": "good",
+        "message": "",
+        "emotions": [],
+        "tags": []
+      },
+      {
+        "id": "legacy-item-7",
+        "date": "2025-06-09",
+        "dateTime": "2025-06-09T12:15:00.000Z",
+        "createdAt": "2025-06-09T12:15:30.000Z",
+        "rating": "very_bad",
+        "message": "",
+        "emotions": [],
+        "tags": []
+      },
+      {
+        "id": "legacy-item-8",
+        "date": "2025-06-05",
+        "dateTime": "2025-06-05T12:15:00.000Z",
+        "createdAt": "2025-06-05T12:15:30.000Z",
+        "rating": "good",
+        "message": "",
+        "emotions": [],
+        "tags": []
+      }
+    ]
+  },
+  "PIXEL_TRACKER_SETTINGS": {
+    "deviceId": "legacy-device-1-68",
+    "passcodeEnabled": null,
+    "passcode": null,
+    "scaleType": "ColorBrew-RdYlGn",
+    "reminderEnabled": false,
+    "reminderTime": "18:00",
+    "analyticsEnabled": true,
+    "actionsDone": [
+      {
+        "title": "onboarding",
+        "date": "2024-01-10T10:00:00.000Z"
+      }
+    ],
+    "steps": ["rating", "tags", "emotions", "message", "feedback"],
+    "tags": [
+      {
+        "id": "1",
+        "title": "Family 🏡",
+        "color": "slate"
+      }
+    ],
+    "trackBehaviour": true
+  },
+  "PIXEL_TRACKER_TAGS": {
+    "tags": [
+      {
+        "id": "1",
+        "title": "Family 🏡",
+        "color": "slate"
+      },
+      {
+        "id": "2",
+        "title": "Work 💼",
+        "color": "blue"
+      },
+      {
+        "id": "legacy-custom",
+        "title": "Legacy custom",
+        "color": "red"
+      },
+      {
+        "id": "legacy-archived",
+        "title": "Legacy archived",
+        "color": "green"
+      }
+    ]
+  }
+}

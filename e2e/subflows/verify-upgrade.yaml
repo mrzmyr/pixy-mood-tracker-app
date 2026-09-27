@@ -1,0 +1,94 @@
+appId: ${APP_ID}
+---
+# Checks data from the legacy storage fixtures after an upgrade, then writes
+# a new entry and checks nothing got lost.
+- runScript: ../scripts/set-output-date.js
+- extendedWaitUntil:
+    visible: "Add another entry for today"
+    timeout: 15000
+- assertNotVisible: "Welcome 👋"
+
+# Today's legacy entry keeps note, emotions, and tags. Two entries share today,
+# oldest first.
+- tapOn:
+    id: "calendar-day-${output.today}"
+- runFlow:
+    when:
+      notVisible: "legacy note survives"
+    commands:
+      - swipe:
+          start: 80%, 50%
+          end: 20%, 50%
+- assertVisible: "legacy note survives"
+- assertVisible: "Accomplished"
+- assertVisible: "Cheerful"
+- assertVisible: "Family 🏡"
+- assertVisible: "Legacy custom"
+- tapOn:
+    id: "log-list-close"
+
+# Legacy steps include feedback. The live questions API can add a slide
+# without a save button, so turn it off. This also reads legacy steps.
+- tapOn:
+    id: "settings"
+- tapOn: "Check-in"
+- tapOn:
+    id: "step-feedback-enabled"
+- back
+
+# First write after the upgrade.
+- tapOn:
+    id: "calendar"
+- tapOn: "Add another entry for today"
+- assertVisible: "How was your day?"
+- waitForAnimationToEnd
+- tapOn:
+    id: "mood-good"
+- tapOn:
+    id: "logger-next"
+- tapOn:
+    id: "logger-next"
+- assertVisible: "Write about your day…"
+- tapOn:
+    id: "log-message"
+- inputText: "after upgrade ${output.runId}"
+- tapOn:
+    id: "logger-save"
+
+# Legacy and new data survive a cold start: 8 legacy entries plus 1 new.
+- stopApp
+- launchApp
+- extendedWaitUntil:
+    visible: "Add another entry for today"
+    timeout: 15000
+- tapOn:
+    id: "settings"
+- scrollUntilVisible:
+    element:
+      text: "Statistics for Nerds"
+    direction: DOWN
+- tapOn: "Statistics for Nerds"
+- assertVisible: "9"
+- back
+- tapOn:
+    id: "calendar"
+- tapOn:
+    id: "calendar-day-${output.today}"
+# Three entries now: swipe up to two pages.
+- runFlow:
+    when:
+      notVisible: "legacy note survives"
+    commands:
+      - swipe:
+          start: 80%, 50%
+          end: 20%, 50%
+- runFlow:
+    when:
+      notVisible: "legacy note survives"
+    commands:
+      - swipe:
+          start: 80%, 50%
+          end: 20%, 50%
+- assertVisible: "legacy note survives"
+- tapOn:
+    id: "log-list-close"
