@@ -281,7 +281,7 @@ const E2E: Noun = {
           value: "<path,...>",
           description: [
             "Optional. Flow files or folders, comma-separated, relative to repository root.",
-            "Default: e2e/flows. iOS adds e2e/apple.",
+            "Default: e2e/flows.",
           ],
         },
       },
@@ -306,8 +306,8 @@ const E2E: Noun = {
           title: "Examples",
           lines: [
             "bun e2e run --platform=ios",
-            "bun e2e run --target=pixel-8-09yw --paths=e2e/flows/02-log-entry.yaml",
-            "bun e2e run --platform=ios --paths=e2e/flows,e2e/apple",
+            "bun e2e run --target=pixel-8-09yw --paths=e2e/flows/entry-full.yaml",
+            "bun e2e run --platform=ios --paths=e2e/flows/first-launch.yaml,e2e/flows/entry-cancel.yaml",
           ],
         },
       ],

@@ -65,7 +65,7 @@ describe("CLI options", () => {
         "path_not_found",
       ],
       [
-        ["e2e", "run", "--platform=ios", "--paths=e2e/flows,,e2e/apple"],
+        ["e2e", "run", "--platform=ios", "--paths=e2e/flows,,e2e/subflows"],
         2,
         "invalid_value",
       ],

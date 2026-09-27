@@ -7,7 +7,7 @@ Options:
                             CLI creates and boots it.
   --target=<target>         One phone. Copy the value from `bun devices list`.
   --paths=<path,...>        Optional. Flow files or folders, comma-separated, relative to repository root.
-                            Default: e2e/flows. iOS adds e2e/apple.
+                            Default: e2e/flows.
 
 Behavior:
   Removes the preview app and its data, installs the current build, then runs flows.
@@ -19,8 +19,8 @@ Output:
 
 Examples:
   bun e2e run --platform=ios
-  bun e2e run --target=pixel-8-09yw --paths=e2e/flows/02-log-entry.yaml
-  bun e2e run --platform=ios --paths=e2e/flows,e2e/apple
+  bun e2e run --target=pixel-8-09yw --paths=e2e/flows/entry-full.yaml
+  bun e2e run --platform=ios --paths=e2e/flows/first-launch.yaml,e2e/flows/entry-cancel.yaml
 
 Errors:
   missing_option              Neither --platform nor --target passed
