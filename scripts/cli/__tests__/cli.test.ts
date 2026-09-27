@@ -5,36 +5,27 @@ import { describe, expect, test } from "bun:test";
 
 const root = path.resolve(import.meta.dir, "../../..");
 const cli = path.join(root, "scripts/cli/index.ts");
-let captureId = 0;
+let callId = 0;
+
+// Output goes to files: inside `bun test` in this repo, child pipes return
+// empty output.
 const call = async (...args: string[]) => {
-  captureId += 1;
+  callId += 1;
   const prefix = path.join(
     os.tmpdir(),
-    `pixy-mood-tracker-cli-${process.pid}-${captureId}`
+    `pixy-mood-tracker-cli-${process.pid}-${callId}`
   );
-  const stdoutFile = `${prefix}.out`;
-  const stderrFile = `${prefix}.err`;
-  const child = Bun.spawn(
-    [
-      "/bin/zsh",
-      "-c",
-      'bun "$@" > "$CLI_OUT" 2> "$CLI_ERR"',
-      "cli",
-      cli,
-      ...args,
-    ],
-    {
-      cwd: root,
-      env: { ...process.env, CLI_OUT: stdoutFile, CLI_ERR: stderrFile },
-      stdout: "ignore",
-      stderr: "ignore",
-    }
-  );
+  const child = Bun.spawn([process.execPath, cli, ...args], {
+    cwd: root,
+    stderr: Bun.file(`${prefix}.err`),
+    stdout: Bun.file(`${prefix}.out`),
+  });
   const status = await child.exited;
-  const stdout = fs.readFileSync(stdoutFile, "utf-8");
-  const stderr = fs.readFileSync(stderrFile, "utf-8");
-  fs.rmSync(stdoutFile, { force: true });
-  fs.rmSync(stderrFile, { force: true });
+  const [stdout, stderr] = [`${prefix}.out`, `${prefix}.err`].map((file) => {
+    const text = fs.readFileSync(file, "utf-8");
+    fs.rmSync(file, { force: true });
+    return text;
+  });
   return { status, stdout, stderr };
 };
 
