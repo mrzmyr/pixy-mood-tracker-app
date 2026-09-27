@@ -121,6 +121,23 @@ const resetPreview = (device: Device) => {
   }
 };
 
+const resetBeforeRun = (device: Device) => {
+  try {
+    resetPreview(device);
+  } catch (error) {
+    // Phone errors already carry their own status and fix.
+    if (error instanceof CliError) {
+      throw error;
+    }
+    throw new CliError({
+      status: "app_reset_failed",
+      message: "Could not reset preview app before E2E run",
+      why: error instanceof Error ? error.message : String(error),
+      fix: "Check device state, then retry E2E run.",
+    });
+  }
+};
+
 const preparePhoneRunner = async (device: Device) => {
   if (device.kind === "phone" && device.platform === "ios") {
     await prepareIosRunner(device);
@@ -145,16 +162,7 @@ const run = async (device: Device, paths: string[]) => {
       throw error;
     }
   }
-  try {
-    resetPreview(device);
-  } catch (error) {
-    throw new CliError({
-      status: "app_reset_failed",
-      message: "Could not reset preview app before E2E run",
-      why: error instanceof Error ? error.message : String(error),
-      fix: "Check device state, then retry E2E run.",
-    });
-  }
+  resetBeforeRun(device);
   await installBuild(device);
   await stopStaleDaemon();
   await preparePhoneRunner(device);
