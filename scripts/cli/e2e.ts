@@ -328,6 +328,42 @@ const runIosPhoneFlows = async (
   }
 };
 
+// A failed stop must not hide the flow result, so it is reported, not thrown.
+const stopPreview = (device: Device) => {
+  const { appId, name } = APP_VARIANTS.preview;
+  try {
+    if (device.kind === "phone") {
+      stopPhoneApp(device, appId, name);
+    } else if (device.platform === "ios") {
+      execFileSync("xcrun", ["simctl", "terminate", device.id, appId], {
+        encoding: "utf-8",
+        stdio: ["ignore", "pipe", "pipe"],
+      });
+    } else {
+      execFileSync(getAdb(), [
+        "-s",
+        device.id,
+        "shell",
+        "am",
+        "force-stop",
+        appId,
+      ]);
+    }
+  } catch (error) {
+    const why = error instanceof Error ? error.message : String(error);
+    if (why.includes("found nothing to terminate")) {
+      return;
+    }
+    const option =
+      device.kind === "phone"
+        ? `--target=${device.key}`
+        : `--platform=${device.platform}`;
+    note(
+      `warning [app_stop_failed]: Preview app still runs on ${device.key}\n  why: ${why.split("\n")[0]}\n  fix: Run \`bun app close ${option}\`.`
+    );
+  }
+};
+
 const run = async (device: Device, paths: string[]) => {
   const { platform } = device;
   const selectedPaths = paths.length ? paths : DEFAULT_PATHS[platform];
@@ -355,18 +391,22 @@ const run = async (device: Device, paths: string[]) => {
   const artifactsDir = path.join(getStateDir("e2e"), device.key);
   fs.mkdirSync(artifactsDir, { recursive: true });
   note(`Running agent-device test on ${device.name}`);
-  if (device.kind === "phone" && platform === "ios") {
-    await runIosPhoneFlows(device, selectedPaths, artifactsDir);
-    return;
-  }
-  const { code, output } = await runTest(
-    device,
-    selectedPaths,
-    artifactsDir,
-    "junit.xml"
-  );
-  if (code !== 0) {
-    throw toRunError(device, code, output);
+  try {
+    if (device.kind === "phone" && platform === "ios") {
+      await runIosPhoneFlows(device, selectedPaths, artifactsDir);
+      return;
+    }
+    const { code, output } = await runTest(
+      device,
+      selectedPaths,
+      artifactsDir,
+      "junit.xml"
+    );
+    if (code !== 0) {
+      throw toRunError(device, code, output);
+    }
+  } finally {
+    stopPreview(device);
   }
 };
 
@@ -391,6 +431,7 @@ const E2E: Noun = {
           lines: [
             "Removes the preview app and its data, installs the current build, then runs flows.",
             "Builds first when cache has no match.",
+            "Stops the preview app after the run. Device stays on.",
           ],
         },
         {

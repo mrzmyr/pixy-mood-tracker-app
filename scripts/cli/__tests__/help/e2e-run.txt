@@ -12,6 +12,7 @@ Options:
 Behavior:
   Removes the preview app and its data, installs the current build, then runs flows.
   Builds first when cache has no match.
+  Stops the preview app after the run. Device stays on.
 
 Output:
   Flow results on stdout.
