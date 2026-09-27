@@ -98,6 +98,11 @@ Known limits. A phone run fails with `flows_unsupported_on_phone` before it chan
 - Flows start from a fixture (`load-fixture.yaml`) unless they test first launch.
 - Each flow asserts a result. Opening a screen is not a test.
 
+### Upgrade tests
+
+- Storage fixtures (`legacy-1.81.1`, `legacy-1.68`) hold raw AsyncStorage as those versions wrote it ([`src/dev/fixtures/index.ts`](../src/dev/fixtures/index.ts)).
+- `upgrade-from-*.yaml` flows (`p0`) write them, restart the app, and check entries, tags, and a first new entry.
+
 ### Build cache
 
 - Shared builds live under `~/.cache/pixy-mood-tracker/build-cache/`.
