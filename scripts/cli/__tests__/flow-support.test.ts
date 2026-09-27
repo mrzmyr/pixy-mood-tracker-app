@@ -3,7 +3,11 @@ import os from "node:os";
 import path from "node:path";
 import { afterEach, beforeEach, describe, expect, test } from "bun:test";
 
-import { assertFlowsSupported, findBlockedFlows } from "../flow-support.ts";
+import {
+  assertFlowsSupported,
+  findBlockedFlows,
+  findFixture,
+} from "../flow-support.ts";
 import { CliError } from "../shared.ts";
 
 let root = "";
@@ -40,10 +44,18 @@ beforeEach(() => {
   );
   write("flows/04-link.yaml", "- runFlow:\n    file: ../subflows/link.yaml\n");
   write("flows/05-plain.yaml", "- launchApp\n- tapOn: Start\n");
+  write(
+    "flows/06-fixture.yaml",
+    "- runFlow:\n    file: ../subflows/load-fixture.yaml\n    env:\n      FIXTURE: empty\n"
+  );
   fs.mkdirSync(path.join(root, "subflows"));
   fs.writeFileSync(
     path.join(root, "subflows/link.yaml"),
     "- openLink: app://dev/fixture?id=seed\n"
+  );
+  fs.writeFileSync(
+    path.join(root, "subflows/load-fixture.yaml"),
+    "- launchApp\n- openLink: app://dev/fixture?id=empty\n"
   );
 });
 
@@ -54,12 +66,20 @@ afterEach(() => {
 describe("findBlockedFlows", () => {
   test("iPhone blocks clearState and links from subflows", () => {
     const { blocked, flows } = findBlockedFlows(root, "ios", ["flows"]);
-    expect(flows).toHaveLength(5);
+    expect(flows).toHaveLength(6);
     expect(blocked.map(({ flow }) => flow)).toEqual([
       "flows/01-clear.yaml",
       "flows/04-link.yaml",
     ]);
     expect(blocked[1].reasons[0]).toContain("issues/2998");
+  });
+
+  test("iPhone accepts fixture subflow but blocks another link subflow", () => {
+    const { blocked } = findBlockedFlows(root, "ios", ["flows"]);
+    expect(blocked.map(({ flow }) => flow)).not.toContain(
+      "flows/06-fixture.yaml"
+    );
+    expect(blocked.map(({ flow }) => flow)).toContain("flows/04-link.yaml");
   });
 
   test("Android phone blocks eraseText outside iOS-only blocks", () => {
@@ -74,6 +94,16 @@ describe("findBlockedFlows", () => {
     ]);
     expect(flows).toEqual(["flows/05-plain.yaml"]);
     expect(blocked).toEqual([]);
+  });
+});
+
+describe("findFixture", () => {
+  test("finds a top-level fixture", () => {
+    expect(findFixture(root, "flows/06-fixture.yaml")).toBe("empty");
+  });
+
+  test("returns null for a flow without a fixture", () => {
+    expect(findFixture(root, "flows/05-plain.yaml")).toBeNull();
   });
 });
 
@@ -94,7 +124,7 @@ describe("assertFlowsSupported", () => {
     const { fix, message, status, why } = thrown as CliError;
     expect(status).toBe("flows_unsupported_on_phone");
     expect(message).toBe(
-      "2 of 5 flows use steps agent-device cannot run on my-iphone-14-201e"
+      "2 of 6 flows use steps agent-device cannot run on my-iphone-14-201e"
     );
     expect(why).toContain(
       "clearState works on iOS simulators only in agent-device: flows/01-clear.yaml"
@@ -103,7 +133,7 @@ describe("assertFlowsSupported", () => {
       "bun e2e run --platform=ios --paths=flows/01-clear.yaml,flows/04-link.yaml."
     );
     expect(fix).toContain(
-      "bun e2e run --target=my-iphone-14-201e --paths=flows/02-erase.yaml,flows/03-android-only.yaml,flows/05-plain.yaml."
+      "bun e2e run --target=my-iphone-14-201e --paths=flows/02-erase.yaml,flows/03-android-only.yaml,flows/05-plain.yaml,flows/06-fixture.yaml."
     );
   });
 

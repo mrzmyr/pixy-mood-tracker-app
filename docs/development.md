@@ -84,7 +84,7 @@ bun e2e run --target=pixel-8-09yw --paths=e2e/flows/entry-full.yaml
 Known limits. A phone run fails with `flows_unsupported_on_phone` before it changes anything on the phone, and names every blocked flow plus the command to run it elsewhere:
 
 - Android phone: flows with `eraseText`. Non-ASCII `inputText` fails during the run with `android_phone_text_input_unsupported`. Cause: agent-device 0.21.15 enables its test keyboard on phones only through `open --test-ime` ([agent-device#2997](https://github.com/callstack/agent-device/issues/2997)).
-- iPhone: flows with `openLink`, for example [`load-fixture.yaml`](../e2e/subflows/load-fixture.yaml). Cause: agent-device 0.21.15 passes `--payload-url` after the bundle ID, so `devicectl` hands it to the app as a program argument ([agent-device#2998](https://github.com/callstack/agent-device/issues/2998)). `bun app seed` calls `devicectl` itself and works.
+- iPhone: flows with `openLink` outside [`load-fixture.yaml`](../e2e/subflows/load-fixture.yaml) ([agent-device#2998](https://github.com/callstack/agent-device/issues/2998)). For `load-fixture.yaml`, `bun e2e run` loads the fixture with `devicectl` before each flow and runs flows one at a time.
 - iPhone: flows with `clearState`. agent-device clears app state on simulators only.
 
 ### E2E flows

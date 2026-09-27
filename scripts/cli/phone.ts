@@ -273,7 +273,8 @@ export const isPhoneAppInstalled = (phone: Device, bundleId: string) =>
 export const openIosPhoneLink = (
   phone: Device,
   bundleId: string,
-  url: string
+  url: string,
+  options: { terminateExisting?: boolean } = {}
 ) =>
   run("xcrun", [
     "devicectl",
@@ -282,6 +283,7 @@ export const openIosPhoneLink = (
     "launch",
     "--device",
     phone.id,
+    ...(options.terminateExisting ? ["--terminate-existing"] : []),
     "--payload-url",
     url,
     bundleId,
