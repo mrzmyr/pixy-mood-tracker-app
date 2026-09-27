@@ -1,14 +1,16 @@
-import { spawn } from "node:child_process";
+import { execFileSync, spawn } from "node:child_process";
 import { once } from "node:events";
 import path from "node:path";
 
 import { APP_VARIANTS } from "../../app.config.ts";
+import { installBuild } from "./app.ts";
 import {
   AGENT_DEVICE,
+  agentDevice,
   getAgentDeviceEnv,
   stopStaleDaemon,
 } from "./agent-device.ts";
-import { deviceFlag, ensureDevice } from "./device.ts";
+import { deviceFlag, ensureDevice, getAdb } from "./device.ts";
 import { CliError, defineCommand, getStateDir, note } from "./shared.ts";
 import type { Noun, Platform } from "./shared.ts";
 
@@ -33,6 +35,69 @@ const getPlatform = (value: string | undefined): Platform => {
 
 const run = async (platform: Platform, paths: string[]) => {
   const device = await ensureDevice(platform);
+  const selector = ["--platform", platform, deviceFlag(platform), device.id];
+  try {
+    await agentDevice(["close", ...selector]);
+  } catch (error) {
+    if (
+      !(
+        error instanceof CliError &&
+        ["session_not_found", "no_open_session"].includes(error.status)
+      )
+    ) {
+      throw error;
+    }
+  }
+  try {
+    if (platform === "ios") {
+      const apps = execFileSync("xcrun", ["simctl", "listapps", device.id], {
+        encoding: "utf-8",
+      });
+      const json = execFileSync(
+        "plutil",
+        ["-convert", "json", "-o", "-", "-"],
+        {
+          encoding: "utf-8",
+          input: apps,
+        }
+      );
+      // SAFETY: simctl listapps returns a property list keyed by bundle ID.
+      const installed = JSON.parse(json) as Record<
+        string,
+        { CFBundleIdentifier?: string }
+      >;
+      if (Object.hasOwn(installed, APP_VARIANTS.preview.appId)) {
+        execFileSync("xcrun", [
+          "simctl",
+          "uninstall",
+          device.id,
+          APP_VARIANTS.preview.appId,
+        ]);
+      }
+    } else {
+      const installed = execFileSync(
+        getAdb(),
+        ["-s", device.id, "shell", "pm", "path", APP_VARIANTS.preview.appId],
+        { encoding: "utf-8" }
+      );
+      if (installed.trim()) {
+        execFileSync(getAdb(), [
+          "-s",
+          device.id,
+          "uninstall",
+          APP_VARIANTS.preview.appId,
+        ]);
+      }
+    }
+  } catch (error) {
+    throw new CliError({
+      status: "app_reset_failed",
+      message: "Could not reset preview app before E2E run",
+      why: error instanceof Error ? error.message : String(error),
+      fix: "Check device state, then retry E2E run.",
+    });
+  }
+  await installBuild(platform, device);
   await stopStaleDaemon();
   const artifactsDir = getStateDir("e2e");
   const args = [
