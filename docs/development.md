@@ -61,6 +61,17 @@ Three variants install side by side, each with its own name, icon, bundle ID, an
 - App and e2e verbs take no flags. The CLI selects the preview variant and device. Metro stays off.
 - Physical phones remain human-only through `bun ios --device <udid>`.
 
+### E2E flows
+
+- Flows: `e2e/flows/*.yaml`. Shared steps: `e2e/subflows/`.
+- Each flow has one severity tag in `tags`:
+  - `p0`: core loop or data loss. Run on every PR, iOS and Android.
+  - `p1`: important feature. Run nightly.
+  - `p2`: smoke check. Run before release.
+- Pick severity from usage in the "Pixy App - Production" PostHog project, then raise it for data risk.
+- Flows start from a fixture (`load-fixture.yaml`) unless they test first launch.
+- Each flow asserts a result. Opening a screen is not a test.
+
 ### Build cache
 
 - Shared builds live under `~/.cache/pixy-mood-tracker/build-cache/`.

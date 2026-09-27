@@ -222,6 +222,8 @@ export const SlideHeader = ({
         >
           {isDeleteable && (
             <Pressable
+              accessibilityRole="button"
+              testID="logger-delete"
               style={{
                 height: 42,
                 width: 42,
@@ -237,6 +239,8 @@ export const SlideHeader = ({
             </Pressable>
           )}
           <Pressable
+            accessibilityRole="button"
+            testID="logger-close"
             style={{
               height: 42,
               width: 42,

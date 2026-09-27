@@ -57,6 +57,7 @@ const EntryHeader = ({
         }}
       >
         <LinkButton
+          testID="log-list-edit"
           onPress={() => {
             onEdit(item);
           }}
@@ -74,6 +75,7 @@ const EntryHeader = ({
           <Edit color={colors.tint} size={22} />
         </LinkButton>
         <LinkButton
+          testID="log-list-delete"
           style={{
             marginLeft: -8,
             marginTop: -8,
