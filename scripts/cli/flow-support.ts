@@ -1,5 +1,5 @@
-// Maestro steps that agent-device 0.21.15 cannot run on phones. A phone run
-// with such a flow fails before it touches the device.
+// Maestro steps that agent-device cannot run on phones. Fixture links on
+// iPhones are seeded by e2e.ts. Other unsupported steps fail before a run.
 import fs from "node:fs";
 import path from "node:path";
 
@@ -15,6 +15,7 @@ interface Step {
   // Path or URL of `runFlow: <file>`, `openLink: <url>`, and similar.
   target?: string;
   clearState?: boolean;
+  env?: { FIXTURE?: string };
   platform?: string;
   steps: Step[];
 }
@@ -36,6 +37,7 @@ const stepSchema: z.ZodType<Step> = z.lazy(() =>
         z.string(),
         z.looseObject({
           clearState: z.boolean().optional(),
+          env: z.looseObject({ FIXTURE: z.string().optional() }).optional(),
           file: z.string().optional(),
           when: z.looseObject({ platform: z.string().optional() }).optional(),
           commands: z.array(stepSchema).optional(),
@@ -46,6 +48,7 @@ const stepSchema: z.ZodType<Step> = z.lazy(() =>
         return {
           name,
           clearState: value?.clearState,
+          env: value?.env,
           platform: value?.when?.platform,
           steps: value?.commands ?? [],
           target: value?.file,
@@ -68,6 +71,15 @@ const IPHONE_LINK_ISSUE =
   "https://github.com/callstack/agent-device/issues/2998";
 const ANDROID_TEXT_ISSUE =
   "https://github.com/callstack/agent-device/issues/2997";
+const FIXTURE_SUBFLOW = "load-fixture.yaml";
+
+// `bun e2e run` seeds the fixture itself on iPhones, so the link in this
+// subflow does not need to work there.
+const isFixtureStep = (step: Step) =>
+  step.name === "runFlow" &&
+  step.target !== undefined &&
+  path.basename(step.target) === FIXTURE_SUBFLOW &&
+  step.env?.FIXTURE !== undefined;
 
 /** Why a phone cannot run one Maestro step, or null when it can. */
 const findLimit = (platform: Platform, step: Step) => {
@@ -125,7 +137,11 @@ const collectLimits = (
       continue;
     }
     collectLimits(platform, file, step.steps, limits, seen);
-    if (step.name === "runFlow" && step.target) {
+    if (
+      step.name === "runFlow" &&
+      step.target &&
+      !(platform === "ios" && isFixtureStep(step))
+    ) {
       const subflow = path.resolve(path.dirname(file), step.target);
       if (!seen.has(subflow)) {
         seen.add(subflow);
@@ -135,7 +151,8 @@ const collectLimits = (
   }
 };
 
-const listFlows = (root: string, paths: string[]) =>
+/** Expand selected flow files and folders in run order. */
+export const listFlows = (root: string, paths: string[]) =>
   paths.flatMap((item) => {
     const absolute = path.resolve(root, item);
     return fs.statSync(absolute).isDirectory()
@@ -146,6 +163,12 @@ const listFlows = (root: string, paths: string[]) =>
           .map((name) => path.join(item, name))
       : [item];
   });
+
+/** Fixture ID a flow loads through load-fixture.yaml, or null. */
+export const findFixture = (root: string, flow: string) => {
+  const step = readSteps(path.resolve(root, flow)).find(isFixtureStep);
+  return step?.env?.FIXTURE ?? null;
+};
 
 /** Blocked flows of one phone, each with the reasons agent-device cannot run it. */
 export const findBlockedFlows = (
