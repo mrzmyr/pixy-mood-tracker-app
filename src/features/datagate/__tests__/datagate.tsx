@@ -1,3 +1,4 @@
+import { setFileTransferOverride } from "@/features/datagate/fileTransfer";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { act, renderHook, waitFor } from "@testing-library/react-native";
 import * as DocumentPicker from "expo-document-picker";
@@ -198,6 +199,23 @@ describe("useLogs()", () => {
     expect(FileSystem.writeAsStringAsync).toBeCalled();
     expect(JSON.parse(calledJson)).toEqual(expectedJson);
     expect(Sharing.shareAsync).toBeCalledWith(expect.any(String));
+  });
+
+  test("`openExportDialog` uses the file transfer override", async () => {
+    const hook = await _renderHook();
+    const share = jest.fn(() => Promise.resolve(true));
+    setFileTransferOverride({ share, pickJson: () => Promise.resolve(null) });
+    jest.spyOn(FileSystem, "writeAsStringAsync").mockResolvedValueOnce();
+    jest.mocked(Sharing.shareAsync).mockClear();
+
+    await waitForLoaded(hook);
+    await act(async () => {
+      await hook.result.current.datagate.openExportDialog();
+    });
+    setFileTransferOverride(null);
+
+    expect(share).toBeCalledWith(expect.stringMatching(/\.json$/u));
+    expect(Sharing.shareAsync).not.toBeCalled();
   });
 
   test("should `openResetDialog` with type `factory`", async () => {

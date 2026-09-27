@@ -1,9 +1,8 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import dayjs from "dayjs";
-import * as DocumentPicker from "expo-document-picker";
 import * as FileSystem from "expo-file-system/legacy";
-import * as Sharing from "expo-sharing";
 import { Alert, Platform } from "react-native";
+import { getFileTransfer } from "./fileTransfer";
 import type { ImportData } from "./import";
 import { getJSONSchemaType } from "./import";
 import { migrateImportData } from "./migration";
@@ -68,13 +67,10 @@ const dangerouslyImportDirectlyToAsyncStorage = async (data: ImportData) => {
 };
 
 const openDangerousImportDirectlyToAsyncStorageDialog = async () => {
-  const doc = await DocumentPicker.getDocumentAsync({
-    type: "application/json",
-    copyToCacheDirectory: true,
-  });
+  const uri = await getFileTransfer().pickJson();
 
-  if (!doc.canceled) {
-    const contents = await FileSystem.readAsStringAsync(doc.assets[0].uri);
+  if (uri) {
+    const contents = await FileSystem.readAsStringAsync(uri);
     const data = JSON.parse(contents);
     dangerouslyImportDirectlyToAsyncStorage(data);
   }
@@ -150,14 +146,11 @@ export const useDatagate = (): DatagateValue => {
     try {
       analytics.track("data_import_start");
 
-      const doc = await DocumentPicker.getDocumentAsync({
-        type: "application/json",
-        copyToCacheDirectory: true,
-      });
+      const uri = await getFileTransfer().pickJson();
 
-      if (!doc.canceled) {
+      if (uri) {
         analytics.track("data_import_success");
-        const contents = await FileSystem.readAsStringAsync(doc.assets[0].uri);
+        const contents = await FileSystem.readAsStringAsync(uri);
         const data = JSON.parse(contents);
 
         _import(data);
@@ -224,12 +217,12 @@ export const useDatagate = (): DatagateValue => {
       JSON.stringify(data)
     );
 
-    if (!(await Sharing.isAvailableAsync())) {
+    const isShared = await getFileTransfer().share(
+      FileSystem.documentDirectory + filename
+    );
+    if (!isShared) {
       Alert.alert("Alert", t("export_failed_title"));
-      return;
     }
-
-    return Sharing.shareAsync(FileSystem.documentDirectory + filename);
   };
 
   return {

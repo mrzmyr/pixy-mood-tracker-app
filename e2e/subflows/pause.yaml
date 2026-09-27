@@ -1,8 +1,0 @@
-appId: ${APP_ID}
----
-# Waits 3 seconds. System share sheets and file pickers are remote views, so
-# waitForAnimationToEnd returns before they finish opening.
-- extendedWaitUntil:
-    visible: "__pause_never_visible__"
-    timeout: 3000
-    optional: true
