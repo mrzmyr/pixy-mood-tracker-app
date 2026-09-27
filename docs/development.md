@@ -87,6 +87,17 @@ Known limits. A phone run fails with `flows_unsupported_on_phone` before it chan
 - iPhone: flows with `openLink`, for example [`load-fixture.yaml`](../e2e/subflows/load-fixture.yaml). Cause: agent-device 0.21.15 passes `--payload-url` after the bundle ID, so `devicectl` hands it to the app as a program argument ([agent-device#2998](https://github.com/callstack/agent-device/issues/2998)). `bun app seed` calls `devicectl` itself and works.
 - iPhone: flows with `clearState`. agent-device clears app state on simulators only.
 
+### E2E flows
+
+- Flows: `e2e/flows/*.yaml`. Shared steps: `e2e/subflows/`.
+- Each flow has one severity tag in `tags`:
+  - `p0`: core loop or data loss. Run on every PR, iOS and Android.
+  - `p1`: important feature. Run nightly.
+  - `p2`: smoke check. Run before release.
+- Pick severity from usage in the "Pixy App - Production" PostHog project, then raise it for data risk.
+- Flows start from a fixture (`load-fixture.yaml`) unless they test first launch.
+- Each flow asserts a result. Opening a screen is not a test.
+
 ### Build cache
 
 - Shared builds live under `~/.cache/pixy-mood-tracker/build-cache/`.

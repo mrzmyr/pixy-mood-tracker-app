@@ -59,7 +59,7 @@ const createRedactingWriter = (
 };
 const DEFAULT_PATHS: Record<Platform, string[]> = {
   android: ["e2e/flows"],
-  ios: ["e2e/flows", "e2e/apple"],
+  ios: ["e2e/flows"],
 };
 
 const resetPhonePreview = (device: Device) => {
