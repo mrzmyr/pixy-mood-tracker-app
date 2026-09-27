@@ -1,0 +1,34 @@
+Stop the preview app and reset its data.
+
+Usage: bun app close (--platform=<ios|android> | --target=<target>)
+
+Options:
+  --platform=<ios|android>  Simulator (ios) or emulator (android) of this checkout.
+                            CLI creates and boots it.
+  --target=<target>         One phone. Copy the value from `bun devices list`.
+
+Behavior:
+  Simulator, emulator  Reset data, shut down device, prune old builds.
+  Phone                Stop app, remove preview app data, prune old builds.
+                       Phone stays on. No other app is touched.
+
+Examples:
+  bun app close --platform=android
+  bun app close --target=pixel-8-09yw
+
+Errors:
+  missing_option              Neither --platform nor --target passed
+  conflicting_options         Both --platform and --target passed
+  invalid_platform            --platform is not ios or android
+  target_not_found            No connected phone has this target
+  phone_offline               Phone not reachable
+  phone_unauthorized          Android phone refuses USB debugging
+  phone_not_paired            iPhone does not trust this Mac
+  developer_mode_off          iPhone has Developer Mode off
+  phone_locked                Phone is locked
+  device_in_use               Another run holds this device
+  app_clear_failed            App data was not removed
+  simulator_shutdown_timeout  Simulator did not shut down in 30 seconds
+  simulator_erase_failed      Simulator was not erased
+
+Exit codes: 0 ok, 1 failure, 2 usage error

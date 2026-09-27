@@ -1,0 +1,15 @@
+Remove one cached build.
+
+Usage: bun builds rm --build=<id>
+
+Options:
+  --build=<id>  Required. ID from the first column of `bun builds list`.
+
+Examples:
+  bun builds rm --build=ios-3fa91c02-Release-9b1e44d0a7c2
+
+Errors:
+  missing_option   No --build passed
+  build_not_found  No build, or more than one build, matches --build
+
+Exit codes: 0 ok, 1 failure, 2 usage error

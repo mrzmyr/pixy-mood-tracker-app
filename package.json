@@ -12,7 +12,9 @@
     "android:preview": "EXPO_PUBLIC_APP_VARIANT=preview bun scripts/run-native.ts android --variant release --no-bundler",
     "app": "bun scripts/cli/index.ts app",
     "e2e": "bun scripts/cli/index.ts e2e",
+    "devices": "bun scripts/cli/index.ts devices",
     "builds": "bun scripts/cli/index.ts builds",
+    "test:cli": "bun test scripts/cli",
     "web": "EXPO_PUBLIC_APP_VARIANT=development expo start --web",
     "test": "jest --watchAll --env=jsdom",
     "test:ci": "jest --env=jsdom",
@@ -133,7 +135,8 @@
       "<rootDir>/jest.setup.js"
     ],
     "testPathIgnorePatterns": [
-      "./__tests__/utils.ts"
+      "./__tests__/utils.ts",
+      "<rootDir>/scripts/"
     ]
   },
   "engines": {

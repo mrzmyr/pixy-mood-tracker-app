@@ -1,0 +1,34 @@
+Open the preview app and capture its first screen.
+
+Usage: bun app open (--platform=<ios|android> | --target=<target>)
+
+Options:
+  --platform=<ios|android>  Simulator (ios) or emulator (android) of this checkout.
+                            CLI creates and boots it.
+  --target=<target>         One phone. Copy the value from `bun devices list`.
+
+Requires:
+  Preview app installed. Run `bun app install` with the same device option first.
+
+Output:
+  Screenshot path on stdout.
+
+Examples:
+  bun app open --platform=ios
+  bun app open --target=pixel-8-09yw
+
+Errors:
+  missing_option        Neither --platform nor --target passed
+  conflicting_options   Both --platform and --target passed
+  invalid_platform      --platform is not ios or android
+  target_not_found      No connected phone has this target
+  phone_offline         Phone not reachable
+  phone_unauthorized    Android phone refuses USB debugging
+  phone_not_paired      iPhone does not trust this Mac
+  developer_mode_off    iPhone has Developer Mode off
+  phone_locked          Phone is locked
+  device_in_use         Another run holds this device
+  ios_runner_not_ready  agent-device runner did not start on iPhone
+  app_not_ready         First screen did not appear in 120 seconds
+
+Exit codes: 0 ok, 1 failure, 2 usage error

@@ -5,6 +5,27 @@ import os from "node:os";
 import path from "node:path";
 
 type Platform = "ios" | "android";
+interface OptionSpec {
+  value: string;
+  description: string[];
+  isRequired?: boolean;
+  choices?: readonly string[];
+  invalidStatus?: string;
+}
+interface HelpSection {
+  title: "Behavior" | "Requires" | "Output" | "Examples";
+  lines: string[];
+}
+interface CommandSpec {
+  summary: string;
+  usage?: string;
+  options?: Record<string, OptionSpec>;
+  exactlyOne?: string[];
+  sections?: HelpSection[];
+  errors?: Record<string, string>;
+  successWord?: "ok" | "pass";
+  run: (values: Record<string, string | undefined>) => Promise<void> | void;
+}
 
 interface CliErrorFields {
   status: string;
@@ -124,12 +145,17 @@ const getStateDir = (kind: "e2e" | "build" | "screenshots") => {
 
 const note = (message: string) => console.error(message);
 
-interface CommandSpec {
-  summary: string;
-  args?: string[];
-  argsSource?: string;
-  run: (args: string[]) => Promise<void> | void;
-}
+// The build cache provider logs with console.log, as Expo CLI expects.
+// CLI stdout carries results only, so its lines go to stderr here.
+const withLogsOnStderr = async <T>(work: () => Promise<T>): Promise<T> => {
+  const { log } = console;
+  console.log = console.error;
+  try {
+    return await work();
+  } finally {
+    console.log = log;
+  }
+};
 
 const defineCommand = (spec: CommandSpec) => spec;
 
@@ -137,6 +163,8 @@ interface Noun {
   summary: string;
   commands: Record<string, CommandSpec>;
   footer?: string;
+  helpTail?: string[];
+  commandOrder?: string[];
 }
 
 export {
@@ -149,8 +177,9 @@ export {
   getStateDir,
   isProcessAlive,
   note,
+  withLogsOnStderr,
   printTable,
   readJson,
   tryRun,
 };
-export type { CommandSpec, Noun, Platform };
+export type { CommandSpec, HelpSection, Noun, OptionSpec, Platform };

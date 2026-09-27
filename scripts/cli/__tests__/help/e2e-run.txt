@@ -1,0 +1,42 @@
+Reinstall the preview app, then run Maestro flows on one device.
+
+Usage: bun e2e run (--platform=<ios|android> | --target=<target>) [--paths=<path,...>]
+
+Options:
+  --platform=<ios|android>  Simulator (ios) or emulator (android) of this checkout.
+                            CLI creates and boots it.
+  --target=<target>         One phone. Copy the value from `bun devices list`.
+  --paths=<path,...>        Optional. Flow files or folders, comma-separated, relative to repository root.
+                            Default: e2e/flows.
+
+Behavior:
+  Removes the preview app and its data, installs the current build, then runs flows.
+  Builds first when cache has no match.
+
+Output:
+  Flow results on stdout.
+  Artifacts path on stderr. Folder includes junit.xml.
+
+Examples:
+  bun e2e run --platform=ios
+  bun e2e run --target=pixel-8-09yw --paths=e2e/flows/entry-full.yaml
+  bun e2e run --platform=ios --paths=e2e/flows/first-launch.yaml,e2e/flows/entry-cancel.yaml
+
+Errors:
+  missing_option              Neither --platform nor --target passed
+  conflicting_options         Both --platform and --target passed
+  invalid_platform            --platform is not ios or android
+  target_not_found            No connected phone has this target
+  phone_offline               Phone not reachable
+  phone_unauthorized          Android phone refuses USB debugging
+  phone_not_paired            iPhone does not trust this Mac
+  developer_mode_off          iPhone has Developer Mode off
+  phone_locked                Phone is locked
+  device_in_use               Another run holds this device
+  path_not_found              One --paths entry does not exist
+  flows_unsupported_on_phone  Selected flows use steps agent-device cannot run on this phone
+  app_reset_failed            Preview app was not removed before the run
+  ios_runner_not_ready        agent-device runner did not start on iPhone
+  e2e_failed                  One or more flows failed, read artifacts
+
+Exit codes: 0 pass, 1 failure, 2 usage error
