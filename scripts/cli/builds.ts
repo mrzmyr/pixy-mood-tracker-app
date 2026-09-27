@@ -373,6 +373,7 @@ const cmdBuildsRm = (target: string) => {
   );
   if (matches.length !== 1) {
     throw new CliError({
+      exitCode: 2,
       fix: "Run `bun builds list` and pass one ID from the first column.",
       message: `${matches.length === 0 ? "No" : "More than one"} build matches "${target}"`,
       status: matches.length === 0 ? "build_not_found" : "build_ambiguous",
