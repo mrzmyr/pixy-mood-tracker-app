@@ -71,6 +71,7 @@ describe("CLI options", () => {
       ],
       [["builds", "rm"], 2, "missing_option"],
       [["builds", "rm", "some-id"], 2, "unexpected_argument"],
+      [["builds", "rm", "--build=no-such-build-id"], 2, "build_not_found"],
     ];
     await Promise.all(
       cases.map(async ([args, code, status]) => {
