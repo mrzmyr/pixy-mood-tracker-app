@@ -159,6 +159,30 @@ export const preflightPhone = (phone: Device) => {
         "Open Settings > Privacy & Security > Developer Mode, then retry."
       );
     }
+    // `info details` is the call that hangs when Apple's device service is
+    // stuck. Other failures of this probe say nothing, so they pass.
+    try {
+      withJsonFile("details", (file) =>
+        run(
+          "xcrun",
+          [
+            "devicectl",
+            "device",
+            "info",
+            "details",
+            "--device",
+            phone.id,
+            "--json-output",
+            file,
+          ],
+          15_000
+        )
+      );
+    } catch (error) {
+      if (error instanceof CliError) {
+        throw error;
+      }
+    }
     const lock = withJsonFile("lock", (file) => {
       run("xcrun", [
         "devicectl",
