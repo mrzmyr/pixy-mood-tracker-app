@@ -76,15 +76,6 @@ Three variants install side by side, each with its own name, icon, bundle ID, an
 
 - Storage fixtures (`legacy-1.81.1`, `legacy-1.68`) hold raw AsyncStorage as those versions wrote it ([`src/dev/fixtures/index.ts`](../src/dev/fixtures/index.ts)).
 - `upgrade-from-*.yaml` flows (`p0`) write them, restart the app, and check entries, tags, and a first new entry.
-- Real old build before a release, iOS only: `bun e2e upgrade ios <old.app> e2e/upgrade/seed-<version>.yaml`.
-  - Installs the old build as the preview app, adds an entry through its UI, installs this build over it, then runs `e2e/upgrade/verify.yaml`.
-  - Seed flows tap screen positions for an iPhone 17 Pro, because old buttons do not take label taps.
-- Build an old tag for the simulator:
-  1. `git worktree add /tmp/pixy-mood-tracker-<tag> <tag>`, then `yarn install --ignore-engines`.
-  2. `expo prebuild -p ios`, then `pod install` in `ios/`.
-  3. Xcode 26 patches: `ERB.new(template, trim_mode: '->')` in `react_native_pods_utils/script_phases.rb`, boost URL `archives.boost.io`, `operator""_x` without a space, `#include <exception>`, `#include <sys/_types/_ucontext64.h>`, and non-const `std::vector` in Sentry, `#if targetEnvironment(simulator)` in `expo-dev-menu`, `hash_base` typedefs in boost `container_hash/hash.hpp`.
-  4. `NODE_OPTIONS=--openssl-legacy-provider xcodebuild -workspace ios/Pixy.xcworkspace -scheme Pixy -configuration Release -sdk iphonesimulator -derivedDataPath /tmp/pixy-<tag>-dd CODE_SIGNING_ALLOWED=NO build`.
-  5. Keep `-derivedDataPath` outside the worktree. Metro watches the worktree and crashes on Xcode temp files.
 
 ### Build cache
 

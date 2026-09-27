@@ -113,7 +113,7 @@ const getCheckoutDir = (root: string) => {
   return dir;
 };
 
-const getStateDir = (kind: "e2e" | "build" | "screenshots" | "upgrade") => {
+const getStateDir = (kind: "e2e" | "build" | "screenshots") => {
   const dir = path.join(
     getCheckoutDir(path.resolve(import.meta.dir, "../..")),
     kind

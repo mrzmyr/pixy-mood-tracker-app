@@ -33,20 +33,11 @@ const getPlatform = (value: string | undefined): Platform => {
   });
 };
 
-interface Device {
-  id: string;
-  name: string;
-}
-
-const closeSession = async (platform: Platform, device: Device) => {
+const run = async (platform: Platform, paths: string[]) => {
+  const device = await ensureDevice(platform);
+  const selector = ["--platform", platform, deviceFlag(platform), device.id];
   try {
-    await agentDevice([
-      "close",
-      "--platform",
-      platform,
-      deviceFlag(platform),
-      device.id,
-    ]);
+    await agentDevice(["close", ...selector]);
   } catch (error) {
     if (
       !(
@@ -57,10 +48,6 @@ const closeSession = async (platform: Platform, device: Device) => {
       throw error;
     }
   }
-};
-
-// Uninstalls the preview app, which also deletes its data.
-const resetApp = (platform: Platform, device: Device) => {
   try {
     if (platform === "ios") {
       const apps = execFileSync("xcrun", ["simctl", "listapps", device.id], {
@@ -110,18 +97,12 @@ const resetApp = (platform: Platform, device: Device) => {
       fix: "Check device state, then retry E2E run.",
     });
   }
-};
-
-const runFlows = async (
-  platform: Platform,
-  device: Device,
-  paths: string[]
-) => {
+  await installBuild(platform, device);
   await stopStaleDaemon();
   const artifactsDir = getStateDir("e2e");
   const args = [
     "test",
-    ...paths,
+    ...(paths.length ? paths : DEFAULT_PATHS[platform]),
     "--maestro",
     "--platform",
     platform,
@@ -188,89 +169,12 @@ const runFlows = async (
   }
 };
 
-const run = async (platform: Platform, paths: string[]) => {
-  const device = await ensureDevice(platform);
-  await closeSession(platform, device);
-  resetApp(platform, device);
-  await installBuild(platform, device);
-  await runFlows(
-    platform,
-    device,
-    paths.length ? paths : DEFAULT_PATHS[platform]
-  );
-};
-
-// Copies an old simulator build and gives it the preview bundle ID, so the
-// current preview build installs over it like a store update.
-const prepareOldApp = (oldApp: string) => {
-  const target = path.join(getStateDir("upgrade"), "old.app");
-  try {
-    execFileSync("rm", ["-rf", target]);
-    execFileSync("cp", ["-R", oldApp, target]);
-    // App extensions keep the old bundle ID prefix and block install.
-    execFileSync("rm", ["-rf", path.join(target, "PlugIns")]);
-    execFileSync("/usr/libexec/PlistBuddy", [
-      "-c",
-      `Set CFBundleIdentifier ${APP_VARIANTS.preview.appId}`,
-      path.join(target, "Info.plist"),
-    ]);
-    execFileSync("codesign", ["-f", "-s", "-", "--deep", target], {
-      stdio: ["ignore", "pipe", "pipe"],
-    });
-  } catch (error) {
-    throw new CliError({
-      status: "old_app_prepare_failed",
-      message: "Could not prepare old app build",
-      why: error instanceof Error ? error.message : String(error),
-      fix: "Pass a Release-iphonesimulator .app path, then retry.",
-    });
-  }
-  return target;
-};
-
-const upgrade = async (
-  platform: Platform,
-  oldApp: string | undefined,
-  seedFlow: string | undefined
-) => {
-  if (platform !== "ios" || !oldApp || !seedFlow) {
-    throw new CliError({
-      exitCode: 2,
-      status: "invalid_upgrade_args",
-      message: "Upgrade test needs ios, an old .app, and a seed flow",
-      why: "Only iOS simulators install old builds without store signing.",
-      fix: "Run bun e2e upgrade ios <old.app> e2e/upgrade/seed-<version>.yaml.",
-    });
-  }
-  const device = await ensureDevice(platform);
-  await closeSession(platform, device);
-  resetApp(platform, device);
-  execFileSync("xcrun", [
-    "simctl",
-    "install",
-    device.id,
-    prepareOldApp(path.resolve(oldApp)),
-  ]);
-  note(`Installed old build on ${device.name}`);
-  await runFlows(platform, device, [seedFlow]);
-  await closeSession(platform, device);
-  // simctl install over an installed app keeps its data, like a store update.
-  await installBuild(platform, device);
-  await runFlows(platform, device, ["e2e/upgrade/verify.yaml"]);
-};
-
 const E2E: Noun = {
   commands: {
     run: defineCommand({
       args: ["<ios|android>", "[paths...]"],
       run: ([platform, ...paths]) => run(getPlatform(platform), paths),
       summary: "Run Maestro flows on this checkout's device",
-    }),
-    upgrade: defineCommand({
-      args: ["<ios>", "<old.app>", "<seed-flow>"],
-      run: ([platform, oldApp, seedFlow]) =>
-        upgrade(getPlatform(platform), oldApp, seedFlow),
-      summary: "Seed an old build, install this build over it, verify data",
     }),
   },
   summary: "Run Maestro flows on the preview app.",
