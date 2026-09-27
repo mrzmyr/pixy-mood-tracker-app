@@ -5,6 +5,7 @@ import fs from "node:fs";
 
 import { APP_VARIANTS } from "../../app.config.ts";
 import { installBuild } from "./app-install.ts";
+import { assertFlowsSupported } from "./flow-support.ts";
 import { prepareIosRunner } from "./app.ts";
 import {
   AGENT_DEVICE,
@@ -146,7 +147,9 @@ const preparePhoneRunner = async (device: Device) => {
 
 const run = async (device: Device, paths: string[]) => {
   const { platform } = device;
+  const selectedPaths = paths.length ? paths : DEFAULT_PATHS[platform];
   if (device.kind === "phone") {
+    assertFlowsSupported(REPO_ROOT, device, selectedPaths);
     await preflightPhone(device);
   }
   const selector = ["--platform", platform, deviceFlag(platform), device.id];
@@ -168,7 +171,6 @@ const run = async (device: Device, paths: string[]) => {
   await preparePhoneRunner(device);
   const artifactsDir = path.join(getStateDir("e2e"), device.key);
   fs.mkdirSync(artifactsDir, { recursive: true });
-  const selectedPaths = paths.length ? paths : DEFAULT_PATHS[platform];
   const args = [
     "test",
     ...selectedPaths,
@@ -245,7 +247,7 @@ const run = async (device: Device, paths: string[]) => {
         status: "android_phone_text_input_unsupported",
         message:
           "Flow needs text input that agent-device cannot do on an Android phone",
-        why: "agent-device 0.21.14 erases text and types non-ASCII text on Android phones only in sessions opened with --test-ime. Flow runs cannot set it.",
+        why: "agent-device 0.21.15 erases text and types non-ASCII text on Android phones only in sessions opened with --test-ime. Flow runs cannot set it (https://github.com/callstack/agent-device/issues/2997).",
         fix: "Run this flow on the emulator: bun e2e run --platform=android --paths=<same paths>. Flows without eraseText run on the phone.",
       });
     }
@@ -312,6 +314,8 @@ const E2E: Noun = {
       errors: {
         ...DEVICE_ERRORS,
         path_not_found: "One --paths entry does not exist",
+        flows_unsupported_on_phone:
+          "Selected flows use steps agent-device cannot run on this phone",
         app_reset_failed: "Preview app was not removed before the run",
         ios_runner_not_ready: "agent-device runner did not start on iPhone",
         e2e_failed: "One or more flows failed, read artifacts",
