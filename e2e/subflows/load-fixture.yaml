@@ -12,3 +12,11 @@ appId: ${APP_ID}
       visible: "Open"
     commands:
       - tapOn: "Open"
+# Replaced data can leave the calendar scrolled away from today.
+- runFlow:
+    when:
+      visible:
+        id: "scroll-to-bottom"
+    commands:
+      - tapOn:
+          id: "scroll-to-bottom"

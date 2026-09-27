@@ -90,6 +90,7 @@ const SlideMessageComponent = (
               >
                 <TextArea
                   ref={ref}
+                  testID="log-message"
                   value={tempLog?.data?.message}
                   onChange={onChange}
                   maxLength={MAX_LENGTH}

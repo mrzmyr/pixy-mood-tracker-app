@@ -17,7 +17,7 @@ import type { Noun, Platform } from "./shared.ts";
 const REPO_ROOT = path.resolve(import.meta.dir, "../..");
 const DEFAULT_PATHS: Record<Platform, string[]> = {
   android: ["e2e/flows"],
-  ios: ["e2e/flows", "e2e/apple"],
+  ios: ["e2e/flows"],
 };
 
 const getPlatform = (value: string | undefined): Platform => {

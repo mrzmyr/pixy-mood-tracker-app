@@ -1,0 +1,80 @@
+appId: ${APP_ID}
+tags: [p0, calendar]
+---
+# Returning user with a year of data: calendar opens on today, scrolls past
+# the year, and saves an entry on an old day.
+- runFlow:
+    file: ../subflows/load-fixture.yaml
+    env:
+      FIXTURE: year
+- runScript: ../scripts/set-output-date.js
+
+# With 3+ entries the logger can add a question slide from the live
+# questions API. It has no save button, so turn the step off.
+- tapOn:
+    id: "settings"
+- tapOn: "Check-in"
+- tapOn:
+    id: "step-feedback-enabled"
+- back
+- tapOn:
+    id: "calendar"
+- assertVisible:
+    id: "calendar-day-${output.today}"
+
+# The fixture has an entry today.
+- tapOn:
+    id: "calendar-day-${output.today}"
+- assertVisible: "Add Entry"
+- tapOn:
+    id: "log-list-close"
+
+# Scroll back past the fixture year.
+- scrollUntilVisible:
+    element:
+      id: "calendar-day-${output.pastDay}"
+    direction: UP
+    timeout: 180000
+
+# The day lies before the fixture, so it opens the logger.
+- tapOn:
+    id: "calendar-day-${output.pastDay}"
+- assertVisible: "How was your day?"
+- waitForAnimationToEnd
+- tapOn:
+    id: "mood-good"
+- tapOn:
+    id: "logger-next"
+- tapOn:
+    id: "logger-next"
+- assertVisible: "Write about your day…"
+- tapOn:
+    id: "log-message"
+- inputText: "e2e past ${output.runId}"
+- tapOn:
+    id: "logger-save"
+
+# Saving returns to the calendar. The old day now shows the entry.
+- scrollUntilVisible:
+    element:
+      id: "calendar-day-${output.pastDay}"
+    direction: UP
+    timeout: 60000
+- tapOn:
+    id: "calendar-day-${output.pastDay}"
+- assertVisible: "e2e past ${output.runId}"
+- tapOn:
+    id: "log-list-close"
+
+# Back to today.
+- runFlow:
+    when:
+      visible:
+        id: "scroll-to-bottom"
+    commands:
+      - tapOn:
+          id: "scroll-to-bottom"
+- extendedWaitUntil:
+    visible:
+      id: "calendar-day-${output.today}"
+    timeout: 15000
