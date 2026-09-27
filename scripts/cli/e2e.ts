@@ -12,6 +12,7 @@ import {
   findFixture,
   listFlows,
 } from "./flow-support.ts";
+import { createProgressReader } from "./flow-progress.ts";
 import { prepareIosRunner } from "./app.ts";
 import {
   AGENT_DEVICE,
@@ -178,6 +179,9 @@ const runTest = async (
     "--env",
     `APP_SCHEME=${APP_VARIANTS.preview.scheme}`,
   ];
+  note(`Artifacts: ${artifactsDir}`);
+  const progress = createProgressReader(artifactsDir, note);
+  progress.start();
   const child = spawn(AGENT_DEVICE, args, {
     cwd: REPO_ROOT,
     env: getAgentDeviceEnv(),
@@ -210,6 +214,8 @@ const runTest = async (
       why: error instanceof Error ? error.message : String(error),
       fix: "Check agent-device installation, then retry.",
     });
+  } finally {
+    progress.stop();
   }
   stdoutWriter.flush();
   stderrWriter.flush();
@@ -393,6 +399,7 @@ const E2E: Noun = {
             "Flow results on stdout.",
             "Artifacts folder includes junit.xml.",
             "iPhone: one junit-<flow>.xml per flow.",
+            "Artifacts path and finished steps on stderr.",
           ],
         },
         {

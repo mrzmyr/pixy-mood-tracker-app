@@ -17,6 +17,7 @@ Output:
   Flow results on stdout.
   Artifacts folder includes junit.xml.
   iPhone: one junit-<flow>.xml per flow.
+  Artifacts path and finished steps on stderr.
 
 Examples:
   bun e2e run --platform=ios
