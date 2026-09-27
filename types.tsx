@@ -46,6 +46,7 @@ export type RootStackParamList = {
     /** Fixture ID from `src/dev/fixtures`. */
     id: string;
   };
+  DevFakeFiles: undefined;
 
   SettingsTags: undefined;
   SettingsTagsArchive: undefined;
