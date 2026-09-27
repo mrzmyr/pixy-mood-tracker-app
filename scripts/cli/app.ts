@@ -14,7 +14,7 @@ import { FIXTURES } from "../../src/dev/fixtures/index.ts";
 import { ensurePrebuild, getAndroidBuildEnv } from "../run-native.ts";
 import { agentDevice } from "./agent-device.ts";
 import { pruneBuilds, toBuildId } from "./builds.ts";
-import { deviceFlag, ensureDevice, findDevice } from "./device.ts";
+import { deviceFlag, ensureDevice, findDevice, getAdb } from "./device.ts";
 import { CliError, defineCommand, getStateDir, note } from "./shared.ts";
 import type { Noun, Platform } from "./shared.ts";
 
@@ -22,7 +22,6 @@ const REPO_ROOT = path.resolve(import.meta.dir, "../..");
 const PREVIEW = APP_VARIANTS.preview;
 const READY_SELECTORS = ['role="button" label="Start"', 'id="calendar"'];
 const READY_TIMEOUT_MS = 120_000;
-const BUILD_TIMEOUT_MS = 30 * 60_000;
 
 interface CacheProps {
   platform: Platform;
@@ -32,6 +31,7 @@ interface CacheProps {
 }
 interface BuildCacheProvider {
   getCacheKey: (props: CacheProps) => string;
+  resolveBuildCache: (props: CacheProps) => Promise<string | null>;
   resolveCacheDir: () => string;
   uploadBuildCache: (
     props: CacheProps & { buildPath: string }
@@ -85,14 +85,9 @@ const runLogged = async (
     cwd: string;
     env: NodeJS.ProcessEnv;
     logFile: string;
-    prefix?: string;
-    isInstalled?: () => boolean;
   }
 ) => {
   const log = fs.createWriteStream(options.logFile);
-  if (options.prefix) {
-    log.write(`${options.prefix}\n`);
-  }
   note(`Log: ${options.logFile}`);
   const child = spawn(command, args, {
     cwd: options.cwd,
@@ -117,16 +112,6 @@ const runLogged = async (
   log.end();
   await finished(log);
   if (code !== 0) {
-    const output = fs.readFileSync(options.logFile, "utf-8");
-    if (
-      options.isInstalled &&
-      output.includes("› Opening on") &&
-      output.includes("Error: xcrun simctl openurl") &&
-      options.isInstalled()
-    ) {
-      note("Expo launch failed after install; app is installed");
-      return;
-    }
     throw new CliError({
       status: "native_build_failed",
       message: `${command} failed`,
@@ -171,12 +156,11 @@ const buildWithLock = async (file: string, work: () => Promise<void>) => {
   }
 };
 
-const build = async (platform: Platform) => {
+const ensureBuild = async (platform: Platform) => {
   const cache = await getCache(platform);
   if (fs.existsSync(cache.file)) {
     note("Cached build found");
-    console.log(toBuildId(cache.key));
-    return;
+    return cache;
   }
   await buildWithLock(cache.file, async () => {
     if (platform === "ios") {
@@ -248,56 +232,57 @@ const build = async (platform: Platform) => {
       });
     }
   });
-  console.log(toBuildId(cache.key));
+  return cache;
+};
+
+const build = async (platform: Platform) => {
+  const { key } = await ensureBuild(platform);
+  console.log(toBuildId(key));
+};
+
+/** Install the exact cached preview build on this checkout's device. */
+export const installBuild = async (
+  platform: Platform,
+  device: { id: string; name: string }
+) => {
+  const cache = await ensureBuild(platform);
+  const file = await buildCacheProvider.resolveBuildCache(cache.props);
+  if (!file) {
+    throw new CliError({
+      status: "build_cache_missing",
+      message: "Cached preview build could not be resolved",
+      why: `No build for ${cache.key} after ensureBuild.`,
+      fix: "Check build cache state, then retry install.",
+    });
+  }
+  const command = platform === "ios" ? "xcrun" : getAdb();
+  const args =
+    platform === "ios"
+      ? ["simctl", "install", device.id, file]
+      : ["-s", device.id, "install", "-r", file];
+  try {
+    execFileSync(command, args, {
+      encoding: "utf-8",
+      stdio: ["ignore", "pipe", "pipe"],
+    });
+  } catch (error) {
+    const stderr =
+      error instanceof Error && "stderr" in error ? String(error.stderr) : "";
+    throw new CliError({
+      status: "install_failed",
+      message: `Could not install preview build on ${device.name}`,
+      why:
+        stderr.trim().split("\n")[0] ||
+        (error instanceof Error ? error.message : String(error)),
+      fix: "Check device state and cached build, then retry install.",
+    });
+  }
+  note(`Installed on ${device.name}`);
 };
 
 const install = async (platform: Platform) => {
   const device = await ensureDevice(platform);
-  const args = ["scripts/run-native.ts", platform];
-  if (platform === "ios") {
-    args.push(
-      "--configuration",
-      "Release",
-      "--no-bundler",
-      "--device",
-      device.id
-    );
-  } else {
-    args.push("--variant", "release", "--no-bundler", "--device", device.name);
-  }
-  const logFile = path.join(
-    path.dirname(getStateDir("build")),
-    `${platform}-install.log`
-  );
-  await runLogged("bun", args, {
-    cwd: REPO_ROOT,
-    env: { ...process.env, EXPO_PUBLIC_APP_VARIANT: "preview" },
-    logFile,
-    prefix:
-      platform === "android" ? `Using --device ${device.name}` : undefined,
-    isInstalled: () => {
-      try {
-        if (platform === "ios") {
-          execFileSync("xcrun", [
-            "simctl",
-            "get_app_container",
-            device.id,
-            PREVIEW.appId,
-          ]);
-          return true;
-        }
-        const output = execFileSync(
-          "adb",
-          ["-s", device.id, "shell", "pm", "path", PREVIEW.appId],
-          { encoding: "utf-8" }
-        );
-        return output.includes("package:");
-      } catch {
-        return false;
-      }
-    },
-  });
-  note(`Installed on ${device.name}`);
+  await installBuild(platform, device);
 };
 
 const getDeviceArgs = (platform: Platform, id: string) => [
@@ -464,7 +449,7 @@ const close = async (platform: Platform) => {
     if (platform === "android") {
       try {
         const result = execFileSync(
-          "adb",
+          getAdb(),
           ["-s", device.id, "shell", "pm", "clear", PREVIEW.appId],
           { encoding: "utf-8" }
         ).trim();

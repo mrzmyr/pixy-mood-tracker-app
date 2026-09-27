@@ -18,6 +18,10 @@ const EMULATOR_LOG = path.join(
   "android-emulator.log"
 );
 
+/** Use adb from the SDK selected for native builds. */
+export const getAdb = () =>
+  path.join(getAndroidBuildEnv().ANDROID_HOME, "platform-tools", `adb`);
+
 interface SimctlDevice {
   name: string;
   udid: string;
@@ -133,7 +137,7 @@ const findSystemImage = () => {
 
 const tryAdb = (sdk: string, args: string[]) => {
   try {
-    return execFileSync(path.join(sdk, "platform-tools", "adb"), args, {
+    return execFileSync(getAdb(), args, {
       encoding: "utf-8",
       stdio: ["ignore", "pipe", "ignore"],
       timeout: 15_000,

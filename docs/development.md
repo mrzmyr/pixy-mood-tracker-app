@@ -52,7 +52,7 @@ Three variants install side by side, each with its own name, icon, bundle ID, an
 ### App CLI
 
 - `bun app build <ios|android>` compiles a preview release with embedded JavaScript into the shared cache.
-- `bun app install <ios|android>` installs the cached preview build on this checkout's device.
+- `bun app install <ios|android>` installs the cached preview binary directly, no prebuild.
 - `bun app seed <ios|android> <fixture-id>` loads `fresh`, `empty`, `seed`, or `year` data and prints a screenshot path.
 - `bun app open <ios|android>` launches by app ID, waits for onboarding or calendar, then prints a screenshot path.
 - `bun app close <ios|android>` ends the session, resets app data, shuts down the device, then prunes old builds.
