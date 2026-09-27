@@ -1,9 +1,10 @@
 appId: ${APP_ID}
 tags: [settings, appearance]
 ---
-- launchApp:
-    clearState: true
-- runFlow: ../subflows/complete-onboarding.yaml
+- runFlow:
+    file: ../subflows/load-fixture.yaml
+    env:
+      FIXTURE: empty
 
 # 9.1 Colors screen opens (colorblind schemes listed)
 - tapOn:

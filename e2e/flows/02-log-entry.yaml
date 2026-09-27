@@ -1,26 +1,15 @@
 appId: ${APP_ID}
 tags: [log]
 ---
-- launchApp:
-- runScript: ../scripts/set-output-date.js
-# Keep the profile at one or fewer entries so both saves avoid Product Questions.
+# Start without entries so both saves avoid Product Questions.
 - runFlow:
-    when:
-      visible: "Welcome 👋"
-    commands:
-      - runFlow: ../subflows/complete-onboarding.yaml
+    file: ../subflows/load-fixture.yaml
+    env:
+      FIXTURE: empty
+- runScript: ../scripts/set-output-date.js
 
 # 2.1 Create entry for today and manage tags from logger
-- runFlow:
-    when:
-      visible: "Add New Entry"
-    commands:
-      - tapOn: "Add New Entry"
-- runFlow:
-    when:
-      visible: "Add another entry for today"
-    commands:
-      - tapOn: "Add another entry for today"
+- tapOn: "Add New Entry"
 - assertVisible: "How was your day?"
 # A tap during the logger's slide-in animation is lost.
 - waitForAnimationToEnd

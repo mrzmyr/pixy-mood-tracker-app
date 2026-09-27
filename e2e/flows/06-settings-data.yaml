@@ -1,9 +1,10 @@
 appId: ${APP_ID}
 tags: [settings, data]
 ---
-- launchApp:
-    clearState: true
-- runFlow: ../subflows/complete-onboarding.yaml
+- runFlow:
+    file: ../subflows/load-fixture.yaml
+    env:
+      FIXTURE: empty
 
 # Create one entry first so reset has something to clear
 - runFlow: ../subflows/create-basic-entry.yaml

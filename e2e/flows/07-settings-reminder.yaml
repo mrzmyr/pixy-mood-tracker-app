@@ -1,9 +1,10 @@
 appId: ${APP_ID}
 tags: [settings, reminder]
 ---
-- launchApp:
-    clearState: true
-- runFlow: ../subflows/complete-onboarding.yaml
+- runFlow:
+    file: ../subflows/load-fixture.yaml
+    env:
+      FIXTURE: empty
 
 # 7.1 Open Settings → Reminder
 - tapOn:

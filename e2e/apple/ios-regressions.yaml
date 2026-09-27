@@ -1,9 +1,10 @@
 appId: ${APP_ID}
 tags: [ios, regressions]
 ---
-- launchApp:
-    clearState: true
-- runFlow: ../subflows/complete-onboarding.yaml
+- runFlow:
+    file: ../subflows/load-fixture.yaml
+    env:
+      FIXTURE: empty
 
 # Filters expose content and an explicit iOS close action.
 - tapOn:

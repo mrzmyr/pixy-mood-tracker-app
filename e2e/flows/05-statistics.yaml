@@ -1,9 +1,10 @@
 appId: ${APP_ID}
 tags: [statistics]
 ---
-- launchApp:
-    clearState: true
-- runFlow: ../subflows/complete-onboarding.yaml
+- runFlow:
+    file: ../subflows/load-fixture.yaml
+    env:
+      FIXTURE: empty
 
 # Seed one entry so screens have minimal data
 - runFlow: ../subflows/create-basic-entry.yaml

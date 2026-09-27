@@ -1,9 +1,10 @@
 appId: ${APP_ID}
 tags: [tags]
 ---
-- launchApp:
-    clearState: true
-- runFlow: ../subflows/complete-onboarding.yaml
+- runFlow:
+    file: ../subflows/load-fixture.yaml
+    env:
+      FIXTURE: empty
 
 # 4.1 Open Settings → Tags
 - tapOn:

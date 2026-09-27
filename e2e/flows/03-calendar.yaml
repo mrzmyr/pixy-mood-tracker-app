@@ -1,12 +1,10 @@
 appId: ${APP_ID}
 tags: [calendar]
 ---
-- launchApp
 - runFlow:
-    when:
-      visible: "Welcome 👋"
-    commands:
-      - runFlow: ../subflows/complete-onboarding.yaml
+    file: ../subflows/load-fixture.yaml
+    env:
+      FIXTURE: empty
 - tapOn:
     id: "calendar"
 

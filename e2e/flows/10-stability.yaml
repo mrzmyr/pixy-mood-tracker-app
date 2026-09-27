@@ -1,9 +1,10 @@
 appId: ${APP_ID}
 tags: [stability]
 ---
-- launchApp:
-    clearState: true
-- runFlow: ../subflows/complete-onboarding.yaml
+- runFlow:
+    file: ../subflows/load-fixture.yaml
+    env:
+      FIXTURE: empty
 - runFlow: ../subflows/create-basic-entry.yaml
 
 # 10.1 Background + foreground, data intact. Android only: agent-device
