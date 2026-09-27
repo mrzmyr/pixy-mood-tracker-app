@@ -22,14 +22,7 @@ const usageError = (
 ) => new CliError({ ...fields, exitCode: 2 });
 
 const formatUsage = (noun: string, verb: string, spec: CommandSpec) =>
-  spec.usage
-    ? `bun ${noun} ${verb} ${spec.usage}`
-    : [
-        `bun ${noun} ${verb}`,
-        ...(spec.args ?? []),
-        ...(spec.options ? ["[options]"] : []),
-        ...(spec.hasPassthrough ? ["[-- <args>]"] : []),
-      ].join(" ");
+  [`bun ${noun} ${verb}`, ...(spec.args ?? [])].join(" ");
 
 const printNounHelp = (noun: string, { commands, footer, summary }: Noun) => {
   const width = Math.max(...Object.keys(commands).map((verb) => verb.length));
@@ -42,19 +35,16 @@ const printNounHelp = (noun: string, { commands, footer, summary }: Noun) => {
     .join(", ");
   console.log(`${summary}
 
-Usage: bun ${noun} <command> [options]
+Usage: bun ${noun} <command>
 
 Commands:
 ${lines.join("\n")}
 ${footer ? `\n${footer}\n` : ""}
-Run \`bun ${noun} <command> --help\` for options.${aliases ? ` Aliases: ${aliases}.` : ""}`);
+Run \`bun ${noun} <command> --help\` for command help.${aliases ? ` Aliases: ${aliases}.` : ""}`);
 };
 
 const printCommandHelp = (noun: string, verb: string, spec: CommandSpec) => {
   console.log(`${spec.summary}\n\nUsage: ${formatUsage(noun, verb, spec)}`);
-  if (spec.details) {
-    console.log(`\n${spec.details}`);
-  }
 };
 
 // Required `<x>` and optional `[x]` positionals; `...` accepts any number.
@@ -88,34 +78,21 @@ const checkArgs = (
   }
 };
 
-const parseFlags = (
-  noun: string,
-  verb: string,
-  spec: CommandSpec,
-  argv: string[]
-) => {
+const parseFlags = (noun: string, verb: string, argv: string[]) => {
   try {
     return parseArgs({
       allowPositionals: true,
       args: argv,
-      options: { ...spec.options, help: { short: "h", type: "boolean" } },
+      options: { help: { short: "h", type: "boolean" } },
     });
   } catch (error) {
     throw usageError({
-      fix: `Run \`bun ${noun} ${verb} --help\` to see its options.`,
+      fix: `Run \`bun ${noun} ${verb} --help\` to see usage.`,
       message: error instanceof Error ? error.message : String(error),
       status: "invalid_option",
       why: `bun ${noun} ${verb} does not accept this option or value.`,
     });
   }
-};
-
-// `-- <args>` goes unparsed to commands that forward it to another tool.
-const splitPassthrough = (spec: CommandSpec, argv: string[]) => {
-  const index = argv.indexOf("--");
-  return spec.hasPassthrough && index !== -1
-    ? { own: argv.slice(0, index), passthrough: argv.slice(index + 1) }
-    : { own: argv, passthrough: [] };
 };
 
 const main = async () => {
@@ -143,14 +120,13 @@ const main = async () => {
       why: `bun ${noun} has no command "${verb}".`,
     });
   }
-  const { own, passthrough } = splitPassthrough(spec, argv);
-  const { positionals, values } = parseFlags(noun, name, spec, own);
+  const { positionals, values } = parseFlags(noun, name, argv);
   if (values.help) {
     printCommandHelp(noun, name, spec);
     return;
   }
   checkArgs(noun, name, spec, positionals);
-  await spec.run(positionals, values, passthrough);
+  await spec.run(positionals);
 };
 
 try {

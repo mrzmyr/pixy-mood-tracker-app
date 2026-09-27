@@ -10,10 +10,8 @@ import {
   CHECKOUTS_DIR,
   CHECKOUT_FILE,
   CliError,
-  PLATFORM_OPTION,
   defineCommand,
   formatAge,
-  getPlatform,
   printTable,
   readJson,
 } from "./shared.ts";
@@ -144,14 +142,10 @@ const describeSource = (meta: BuildMeta) =>
     ? `${meta.branch || "detached"} ${meta.commit.slice(0, 7)}${meta.isDirty ? "+dirty" : ""}`
     : "unknown";
 
-const cmdBuildsList = (platform: Platform | undefined, isJson: boolean) => {
-  const builds = listBuilds()
-    .filter((build) => !platform || build.platform === platform)
-    .toSorted((a, b) => b.lastUsedAt.localeCompare(a.lastUsedAt));
-  if (isJson) {
-    console.log(JSON.stringify(builds, null, 2));
-    return;
-  }
+const cmdBuildsList = () => {
+  const builds = listBuilds().toSorted((a, b) =>
+    b.lastUsedAt.localeCompare(a.lastUsedAt)
+  );
   if (builds.length === 0) {
     console.log(`No cached builds in ${buildCacheProvider.resolveCacheDir()}.`);
     return;
@@ -388,11 +382,7 @@ const cmdBuildsRm = (target: string) => {
 const BUILDS: Noun = {
   commands: {
     list: defineCommand({
-      details: `--platform ios|android  Only this platform.
---json                  Print JSON instead of a table.`,
-      options: { ...PLATFORM_OPTION, json: { type: "boolean" } },
-      run: (_args, values) =>
-        cmdBuildsList(getPlatform(values.platform), values.json ?? false),
+      run: () => cmdBuildsList(),
       summary: "List cached builds with variant, source, size, and last use",
     }),
     rm: defineCommand({

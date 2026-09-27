@@ -12,7 +12,6 @@
     "android:preview": "EXPO_PUBLIC_APP_VARIANT=preview bun scripts/run-native.ts android --variant release --no-bundler",
     "app": "bun scripts/cli/index.ts app",
     "e2e": "bun scripts/cli/index.ts e2e",
-    "simulators": "bun scripts/cli/index.ts simulators",
     "builds": "bun scripts/cli/index.ts builds",
     "web": "EXPO_PUBLIC_APP_VARIANT=development expo start --web",
     "test": "jest --watchAll --env=jsdom",

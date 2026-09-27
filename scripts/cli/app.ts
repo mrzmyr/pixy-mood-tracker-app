@@ -1,4 +1,3 @@
-// Closed preview app commands. Device and variant belong to the CLI.
 import { execFileSync, spawn } from "node:child_process";
 import { once } from "node:events";
 import fs from "node:fs";
@@ -344,10 +343,16 @@ const seed = async (platform: Platform, fixtureId: string) => {
   await agentDevice([
     "open",
     PREVIEW.appId,
+    ...getDeviceArgs(platform, device.id),
+  ]);
+  await agentDevice([
+    "open",
+    PREVIEW.appId,
     url,
     ...getDeviceArgs(platform, device.id),
   ]);
   if (platform === "ios") {
+    await sleep(2000);
     try {
       const alert = await agentDevice<{ message: string }>([
         "alert",
@@ -409,6 +414,62 @@ const seed = async (platform: Platform, fixtureId: string) => {
   await screenshot(platform, device.id, `seed-${fixtureId}.png`);
 };
 
+const waitForAndroidShutdown = async (id: string) => {
+  const deadline = Date.now() + 60_000;
+  while (true) {
+    let devices: string;
+    try {
+      devices = execFileSync(getAdb(), ["devices"], { encoding: "utf-8" });
+    } catch (error) {
+      throw new CliError({
+        status: "emulator_shutdown_check_failed",
+        message: "Could not check Android emulator shutdown",
+        why: error instanceof Error ? error.message : String(error),
+        fix: "Check Android SDK and emulator state, then retry close.",
+      });
+    }
+    if (!devices.split("\n").some((line) => line.startsWith(`${id}\t`))) {
+      return;
+    }
+    if (Date.now() >= deadline) {
+      throw new CliError({
+        status: "emulator_shutdown_timeout",
+        message: "Android emulator did not shut down",
+        why: `Emulator ${id} was still listed after 60 seconds.`,
+        fix: "Check emulator state, then retry close.",
+      });
+    }
+    // oxlint-disable-next-line no-await-in-loop -- wait for emulator shutdown
+    await sleep(500);
+  }
+};
+
+const shutdownDeviceSession = async (platform: Platform, id: string) => {
+  try {
+    await agentDevice(["close", ...getDeviceArgs(platform, id), "--shutdown"]);
+  } catch (error) {
+    const isMissingSession =
+      error instanceof CliError &&
+      ["session_not_found", "no_open_session"].includes(error.status);
+    if (!isMissingSession) {
+      throw error;
+    }
+    if (platform === "android") {
+      try {
+        execFileSync(getAdb(), ["-s", id, "emu", "kill"]);
+      } catch (killError) {
+        throw new CliError({
+          status: "emulator_shutdown_failed",
+          message: "Could not shut down Android emulator",
+          why:
+            killError instanceof Error ? killError.message : String(killError),
+          fix: "Check emulator state, then retry close.",
+        });
+      }
+    }
+  }
+};
+
 const close = async (platform: Platform) => {
   const device = findDevice(platform);
   if (device) {
@@ -439,21 +500,9 @@ const close = async (platform: Platform) => {
         });
       }
     }
-    try {
-      await agentDevice([
-        "close",
-        ...getDeviceArgs(platform, device.id),
-        "--shutdown",
-      ]);
-    } catch (error) {
-      if (
-        !(
-          error instanceof CliError &&
-          ["session_not_found", "no_open_session"].includes(error.status)
-        )
-      ) {
-        throw error;
-      }
+    await shutdownDeviceSession(platform, device.id);
+    if (platform === "android") {
+      await waitForAndroidShutdown(device.id);
     }
     if (platform === "ios") {
       try {
