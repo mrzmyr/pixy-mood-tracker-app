@@ -73,6 +73,7 @@ export const Header = ({
           }}
         >
           <LinkButton
+            testID="statistics-back"
             style={{}}
             onPress={() => {
               navigation.goBack();
