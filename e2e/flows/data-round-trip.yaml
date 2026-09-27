@@ -2,36 +2,24 @@ appId: ${APP_ID}
 tags: [p1, data]
 ---
 # Export all data, reset, then import the export. All 365 entries return.
+# The share sheet and document picker are system screens, so the flow swaps
+# them for a fake that keeps the exported file (src/dev/fakeFileTransfer.ts).
+# Check the real system screens by hand before a release.
 - runFlow:
     file: ../subflows/load-fixture.yaml
     env:
       FIXTURE: year
+- openLink: ${APP_SCHEME}://dev/fake-files
+- extendedWaitUntil:
+    visible:
+      id: "calendar"
+    timeout: 10000
+
 - tapOn:
     id: "settings"
 - tapOn:
     id: "data"
-
-# iOS: save the export to Files. Share sheet and file picker are remote views
-# without accessibility nodes, so taps use screen positions.
-- runFlow:
-    when:
-      platform: iOS
-    commands:
-      - tapOn: "Export"
-      - runFlow: ../subflows/pause.yaml
-      # "Save to Files"
-      - tapOn:
-          point: 61%,89%
-      - runFlow: ../subflows/pause.yaml
-      # "Save"
-      - tapOn:
-          point: 87%,13%
-      - runFlow: ../subflows/pause.yaml
-      # "Replace" when a same-day export exists. Else empty screen space.
-      - tapOn:
-          point: 50%,54%
-      - runFlow: ../subflows/pause.yaml
-      - assertVisible: "Export all data as a JSON file"
+- tapOn: "Export"
 
 # Reset leaves an empty calendar. Regression: a stale calendar footer kept
 # "Add another entry for today" after reset (src/screens/Calendar/index.tsx).
@@ -52,32 +40,24 @@ tags: [p1, data]
     id: "calendar"
 - assertVisible: "Add New Entry"
 
-# iOS: import the newest file in Recents.
-- runFlow:
-    when:
-      platform: iOS
-    commands:
-      - tapOn:
-          id: "settings"
-      - tapOn:
-          id: "data"
-      - tapOn: "Import"
-      - assertVisible: "Are you sure you want to import data?.*"
-      - tapOn:
-          text: "Import"
-          below: "Are you sure you want to import data?.*"
-      - runFlow: ../subflows/pause.yaml
-      # First file in Recents
-      - tapOn:
-          point: 17%,30%
-      - extendedWaitUntil:
-          visible: "Import successful"
-          timeout: 10000
-      - tapOn: "Ok"
-      - back
-      - scrollUntilVisible:
-          element:
-            text: "Statistics for Nerds"
-          direction: DOWN
-      - tapOn: "Statistics for Nerds"
-      - assertVisible: "365"
+# Import the exported file.
+- tapOn:
+    id: "settings"
+- tapOn:
+    id: "data"
+- tapOn: "Import"
+- assertVisible: "Are you sure you want to import data?.*"
+- tapOn:
+    text: "Import"
+    below: "Are you sure you want to import data?.*"
+- extendedWaitUntil:
+    visible: "Import successful"
+    timeout: 10000
+- tapOn: "Ok|OK"
+- back
+- scrollUntilVisible:
+    element:
+      text: "Statistics for Nerds"
+    direction: DOWN
+- tapOn: "Statistics for Nerds"
+- assertVisible: "365"

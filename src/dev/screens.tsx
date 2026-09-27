@@ -12,6 +12,8 @@ import type { RootStackParamList, RootStackScreenProps } from "../../types";
 import pkg from "../../package.json";
 import type { Fixture } from "./fixtures";
 import { FIXTURES, getFixture } from "./fixtures";
+import { setFileTransferOverride } from "@/features/datagate/fileTransfer";
+import { fakeFileTransfer } from "./fakeFileTransfer";
 import { useLoadFixture } from "./useLoadFixture";
 
 // Drops every screen behind the new state, like a fresh app start.
@@ -127,4 +129,19 @@ export const DevFixtureLinkScreen = ({
       )}
     </View>
   );
+};
+
+/**
+ * Target of `<scheme>://dev/fake-files`. Swaps the share sheet and document
+ * picker for `fakeFileTransfer` until the app restarts, then opens the app.
+ */
+export const DevFakeFilesLinkScreen = ({
+  navigation,
+}: RootStackScreenProps<"DevFakeFiles">) => {
+  useEffect(() => {
+    setFileTransferOverride(fakeFileTransfer);
+    navigation.reset({ index: 0, routes: [{ name: "tabs" }] });
+  }, [navigation]);
+
+  return <ActivityIndicator testID="dev-fake-files-link" />;
 };

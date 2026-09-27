@@ -82,6 +82,7 @@ const NAVIGATION_LINKING: LinkingOptions<RootStackParamList> = {
       ...(DEV_TOOLS && {
         DevFixtures: "dev/fixtures",
         DevFixture: "dev/fixture",
+        DevFakeFiles: "dev/fake-files",
       }),
       // Tags: 'settings/tags',;
       StatisticsHighlights: "statistics/highlights",
@@ -359,6 +360,13 @@ const RootNavigator = () => {
             <Stack.Screen
               name="DevFixture"
               component={DEV_TOOLS.DevFixtureLinkScreen}
+              options={{ headerShown: false }}
+            />
+          )}
+          {DEV_TOOLS && (
+            <Stack.Screen
+              name="DevFakeFiles"
+              component={DEV_TOOLS.DevFakeFilesLinkScreen}
               options={{ headerShown: false }}
             />
           )}
