@@ -14,6 +14,7 @@ import { FIXTURES } from "../../src/dev/fixtures/index.ts";
 import { ensurePrebuild, getAndroidBuildEnv } from "../run-native.ts";
 import { agentDevice } from "./agent-device.ts";
 import { pruneBuilds, toBuildId } from "./builds.ts";
+import { withCacheLock } from "./cache-lock.ts";
 import { deviceFlag, ensureDevice, findDevice, getAdb } from "./device.ts";
 import { CliError, defineCommand, getStateDir, note } from "./shared.ts";
 import type { Noun, Platform } from "./shared.ts";
@@ -121,48 +122,13 @@ const runLogged = async (
   }
 };
 
-// One cache-key lock spans worktrees. A second build waits for the first upload.
-const buildWithLock = async (file: string, work: () => Promise<void>) => {
-  const lock = `${file}.lock`;
-  fs.mkdirSync(path.dirname(file), { recursive: true });
-  const deadline = Date.now() + BUILD_TIMEOUT_MS;
-  while (!fs.existsSync(file)) {
-    try {
-      fs.mkdirSync(lock);
-      try {
-        if (!fs.existsSync(file)) {
-          // oxlint-disable-next-line no-await-in-loop -- one lock owner builds
-          await work();
-        }
-      } finally {
-        fs.rmSync(lock, { recursive: true, force: true });
-      }
-      return;
-    } catch (error) {
-      if (!(error instanceof Error && error.message.includes("EEXIST"))) {
-        throw error;
-      }
-    }
-    if (Date.now() >= deadline) {
-      throw new CliError({
-        status: "build_lock_timeout",
-        message: "Build cache remained locked",
-        why: `Another build held ${lock} for 30 minutes.`,
-        fix: "Check the other build log and clear the stale lock after its process exits.",
-      });
-    }
-    // oxlint-disable-next-line no-await-in-loop -- wait for other worktree's upload
-    await sleep(1000);
-  }
-};
-
 const ensureBuild = async (platform: Platform) => {
   const cache = await getCache(platform);
   if (fs.existsSync(cache.file)) {
     note("Cached build found");
     return cache;
   }
-  await buildWithLock(cache.file, async () => {
+  await withCacheLock(cache.file, async () => {
     if (platform === "ios") {
       await runLogged(
         "bun",
