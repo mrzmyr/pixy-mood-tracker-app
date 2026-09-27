@@ -56,7 +56,7 @@ Three variants install side by side, each with its own name, icon, bundle ID, an
 - `bun app seed <ios|android> <fixture-id>` loads `fresh`, `empty`, `seed`, or `year` data and prints a screenshot path.
 - `bun app open <ios|android>` launches by app ID, waits for onboarding or calendar, then prints a screenshot path.
 - `bun app close <ios|android>` ends the session, resets app data, shuts down the device, then prunes old builds.
-- `bun e2e run <ios|android> [paths...]` runs Maestro flows on this checkout's device.
+- `bun e2e run <ios|android> [paths...]` closes this checkout's session, reinstalls the app, then runs Maestro flows.
 - `bun builds list` lists cached builds. `bun builds rm <id>` removes one. `bun builds prune` removes old builds and deleted checkout state.
 - App and e2e verbs take no flags. The CLI selects the preview variant and device. Metro stays off.
 - Physical phones remain human-only through `bun ios --device <udid>`.
