@@ -1,6 +1,6 @@
 import type { NavigationProp } from "@react-navigation/native";
 import * as Linking from "expo-linking";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ActivityIndicator, Alert, ScrollView, Text, View } from "react-native";
 import MenuList from "@/components/MenuList";
 import MenuListHeadline from "@/components/MenuListHeadline";
@@ -11,10 +11,15 @@ import useColors from "@/hooks/useColors";
 import type { RootStackParamList, RootStackScreenProps } from "../../types";
 import pkg from "../../package.json";
 import type { Fixture } from "./fixtures";
-import { FIXTURES, getFixture } from "./fixtures";
+import {
+  FIXTURES,
+  getFixture,
+  getStorageFixture,
+  STORAGE_FIXTURES,
+} from "./fixtures";
 import { setFileTransferOverride } from "@/features/datagate/fileTransfer";
 import { fakeFileTransfer } from "./fakeFileTransfer";
-import { useLoadFixture } from "./useLoadFixture";
+import { useLoadFixture, writeStorageFixture } from "./useLoadFixture";
 
 // Drops every screen behind the new state, like a fresh app start.
 const openApp = (
@@ -75,6 +80,11 @@ export const DevFixturesScreen = ({
           {`${fixture.title} (${fixture.id}): ${fixture.description}`}
         </TextInfo>
       ))}
+      {STORAGE_FIXTURES.map((fixture) => (
+        <TextInfo key={fixture.id}>
+          {`${fixture.id} (link only, restart after): ${fixture.description}`}
+        </TextInfo>
+      ))}
       <TextInfo>
         {`Tests load a fixture with ${Linking.createURL("dev/fixture")}?id=<id>. Variant ${APP_VARIANT}, version ${pkg.version}.`}
       </TextInfo>
@@ -85,7 +95,8 @@ export const DevFixturesScreen = ({
 
 /**
  * Target of `<scheme>://dev/fixture?id=<id>`. Loads the fixture once every
- * store has read storage, then opens the app on the new data.
+ * store has read storage, then opens the app on the new data. A storage
+ * fixture is written to AsyncStorage instead and needs an app restart.
  */
 export const DevFixtureLinkScreen = ({
   navigation,
@@ -94,16 +105,47 @@ export const DevFixtureLinkScreen = ({
   const colors = useColors();
   const { isReady, load } = useLoadFixture();
   const isLoaded = useRef(false);
+  const [message, setMessage] = useState<string | null>(null);
   const fixture = getFixture(route.params.id);
+  const storageFixture = getStorageFixture(route.params.id);
 
   useEffect(() => {
-    if (!fixture || !isReady || isLoaded.current) {
+    if ((!fixture && !storageFixture) || !isReady || isLoaded.current) {
       return;
     }
     isLoaded.current = true;
-    load(fixture);
-    openApp(navigation, fixture);
-  }, [fixture, isReady, load, navigation]);
+    if (storageFixture) {
+      const write = async () => {
+        try {
+          await writeStorageFixture(storageFixture);
+          setMessage("Storage written. Restart Pixy to load it.");
+        } catch (error) {
+          setMessage(
+            [
+              "fixture_storage_failed: Could not write storage fixture",
+              `why: ${error instanceof Error ? error.message : String(error)}`,
+              "fix: Restart Pixy, then open the link again.",
+            ].join("\n")
+          );
+        }
+      };
+      write();
+      return;
+    }
+    if (fixture) {
+      load(fixture);
+      openApp(navigation, fixture);
+    }
+  }, [fixture, storageFixture, isReady, load, navigation]);
+
+  let text = message;
+  if (!text && !fixture && !storageFixture) {
+    text = [
+      `fixture_unknown: Unknown fixture "${route.params.id}"`,
+      "why: No fixture in src/dev/fixtures has this ID.",
+      "fix: Open Settings > Test data for the list of fixture IDs.",
+    ].join("\n");
+  }
 
   return (
     <View
@@ -116,16 +158,10 @@ export const DevFixtureLinkScreen = ({
       }}
       testID="dev-fixture-link"
     >
-      {fixture ? (
-        <ActivityIndicator />
+      {text ? (
+        <Text style={{ color: colors.text, fontSize: 15 }}>{text}</Text>
       ) : (
-        <Text style={{ color: colors.text, fontSize: 15 }}>
-          {[
-            `fixture_unknown: Unknown fixture "${route.params.id}"`,
-            "why: No fixture in src/dev/fixtures has this ID.",
-            "fix: Open Settings > Test data for the list of fixture IDs.",
-          ].join("\n")}
-        </Text>
+        <ActivityIndicator />
       )}
     </View>
   );

@@ -2,6 +2,8 @@ import dayjs from "dayjs";
 import type { ImportData } from "@/features/datagate/import";
 import empty from "./empty.json";
 import fresh from "./fresh.json";
+import legacy168 from "./legacy-1.68.json";
+import legacy181 from "./legacy-1.81.1.json";
 import seed from "./seed.json";
 import year from "./year.json";
 
@@ -65,14 +67,16 @@ export const FIXTURES: Fixture[] = [
 export const getFixture = (id: string) =>
   FIXTURES.find((fixture) => fixture.id === id) ?? null;
 
-/** Returns the fixture's import data, shifted to today when `endsToday`. */
-export const getFixtureData = (
-  fixture: Fixture,
-  today = dayjs()
-): ImportData => {
-  const items = Array.isArray(fixture.data.items) ? fixture.data.items : [];
-  if (!fixture.endsToday || items.length === 0) {
-    return fixture.data;
+interface DatedItem {
+  date: string;
+  dateTime: string;
+  createdAt: string;
+}
+
+// Shifts every date so the newest item lands on `today`.
+const shiftToToday = <T extends DatedItem>(items: T[], today: dayjs.Dayjs) => {
+  if (items.length === 0) {
+    return items;
   }
   let newest = items[0].date;
   for (const item of items) {
@@ -82,13 +86,77 @@ export const getFixtureData = (
   }
   const days = today.startOf("day").diff(dayjs(newest), "day");
   const shift = (value: string) => dayjs(value).add(days, "day");
-  return {
-    ...fixture.data,
-    items: items.map((item) => ({
-      ...item,
-      date: shift(item.date).format("YYYY-MM-DD"),
-      dateTime: shift(item.dateTime).toISOString(),
-      createdAt: shift(item.createdAt).toISOString(),
-    })),
+  return items.map((item) => ({
+    ...item,
+    date: shift(item.date).format("YYYY-MM-DD"),
+    dateTime: shift(item.dateTime).toISOString(),
+    createdAt: shift(item.createdAt).toISOString(),
+  }));
+};
+
+/** Returns the fixture's import data, shifted to today when `endsToday`. */
+export const getFixtureData = (
+  fixture: Fixture,
+  today = dayjs()
+): ImportData => {
+  const items = Array.isArray(fixture.data.items) ? fixture.data.items : [];
+  if (!fixture.endsToday || items.length === 0) {
+    return fixture.data;
+  }
+  return { ...fixture.data, items: shiftToToday(items, today) };
+};
+
+/**
+ * Raw AsyncStorage values as an old app version wrote them. Loading one
+ * skips the import, so the next app start reads it like an upgrade does.
+ */
+export interface StorageFixture {
+  /** Stable ID used by `<scheme>://dev/fixture?id=<id>` and e2e flows. */
+  id: string;
+  description: string;
+  /** Value per AsyncStorage key, stored with `JSON.stringify`. */
+  storage: {
+    PIXEL_TRACKER_LOGS: { items: DatedItem[] };
+    PIXEL_TRACKER_SETTINGS: object;
+    PIXEL_TRACKER_TAGS: object;
   };
+}
+
+/** Storage of released versions that users still upgrade from. */
+export const STORAGE_FIXTURES: StorageFixture[] = [
+  {
+    id: "legacy-1.81.1",
+    description:
+      "Storage of 1.81.1: sleep, archived tag, settings.tags leftover.",
+    storage: legacy181,
+  },
+  {
+    id: "legacy-1.68",
+    description: "Storage of 1.68.x: no sleep, no archived tags.",
+    storage: legacy168,
+  },
+];
+
+/** Looks up a storage fixture by ID, or `null` for an unknown ID. */
+export const getStorageFixture = (id: string) =>
+  STORAGE_FIXTURES.find((fixture) => fixture.id === id) ?? null;
+
+/** Returns key-value pairs for `AsyncStorage.multiSet`, logs shifted to today. */
+export const getStorageFixtureEntries = (
+  fixture: StorageFixture,
+  today = dayjs()
+): [string, string][] => {
+  const { PIXEL_TRACKER_LOGS, PIXEL_TRACKER_SETTINGS, PIXEL_TRACKER_TAGS } =
+    fixture.storage;
+  return [
+    [
+      "PIXEL_TRACKER_LOGS",
+      JSON.stringify({
+        ...PIXEL_TRACKER_LOGS,
+        items: shiftToToday(PIXEL_TRACKER_LOGS.items, today),
+      }),
+    ],
+    ["PIXEL_TRACKER_SETTINGS", JSON.stringify(PIXEL_TRACKER_SETTINGS)],
+    ["PIXEL_TRACKER_TAGS", JSON.stringify(PIXEL_TRACKER_TAGS)],
+  ];
 };
