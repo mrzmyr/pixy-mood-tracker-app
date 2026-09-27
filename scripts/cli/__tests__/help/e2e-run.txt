@@ -27,6 +27,7 @@ Errors:
   conflicting_options         Both --platform and --target passed
   invalid_platform            --platform is not ios or android
   target_not_found            No connected phone has this target
+  ipad_unsupported            iPad is not a supported target
   phone_offline               Phone not reachable
   phone_unauthorized          Android phone refuses USB debugging
   phone_not_paired            iPhone does not trust this Mac

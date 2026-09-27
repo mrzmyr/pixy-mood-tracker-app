@@ -135,6 +135,14 @@ export const preflightPhone = (phone: Device) => {
     const device = readIosPhoneStates().find(
       (entry) => entry.hardwareProperties?.udid === phone.id
     );
+    if (device?.hardwareProperties?.deviceType === "iPad") {
+      throw phoneError(
+        "ipad_unsupported",
+        phone,
+        "iPad runs the preview app in iPhone compatibility mode, where agent-device taps miss.",
+        "Use an iPhone, or the simulator with --platform=ios."
+      );
+    }
     if (!device || device.deviceProperties?.bootState !== "booted") {
       throw phoneError(
         "phone_offline",

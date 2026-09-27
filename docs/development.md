@@ -75,6 +75,7 @@ bun e2e run --target=pixel-8-09yw --paths=e2e/flows/entry-full.yaml
 
 - Target: slug of phone name plus last 4 characters of phone ID, for example `pixel-8-09yw`. Same phone gives same target in every checkout.
 - Phone must be connected, unlocked, and trusted. `bun devices list` names the problem when not.
+- iPads are blocked (`ipad_unsupported`). Preview app is iPhone only.
 - iPhone builds are signed phone builds with cache key prefix `ios-device`. Cache entry is reused only when its provisioning profile includes the phone.
 - Android phones use the same build as the emulator.
 - `bun app close` on a phone never shuts down or erases the phone. Android: stops the app and clears its data. iPhone: stops and uninstalls the preview app.

@@ -39,7 +39,7 @@ export interface TargetInput {
 }
 /** Relevant devicectl fields for one iOS phone. */
 export interface IosState {
-  hardwareProperties?: { udid?: string };
+  hardwareProperties?: { udid?: string; deviceType?: string };
   connectionProperties?: { pairingState?: string; tunnelState?: string };
   deviceProperties?: { bootState?: string; developerModeStatus?: string };
 }
@@ -63,6 +63,12 @@ const phoneProblem = (phone: AgentPhone, input: TargetInput) => {
     const device = input.iosDevices?.find(
       (item) => item.hardwareProperties?.udid === phone.id
     );
+    if (device?.hardwareProperties?.deviceType === "iPad") {
+      return [
+        "ipad_unsupported",
+        "iPad not supported. Preview app runs in iPhone compatibility mode, taps miss. Use an iPhone.",
+      ];
+    }
     if (!device || device.deviceProperties?.bootState !== "booted") {
       return [
         "phone_offline",

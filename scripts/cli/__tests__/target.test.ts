@@ -73,6 +73,42 @@ describe("phone targets", () => {
       "Phone not reachable."
     );
   });
+  test("blocks a reachable iPad", () => {
+    const rows = buildRows({
+      ...base,
+      agentDevices: [ipad],
+      iosDevices: [
+        {
+          hardwareProperties: { udid: ipad.id, deviceType: "iPad" },
+          connectionProperties: { pairingState: "paired" },
+          deviceProperties: {
+            bootState: "booted",
+            developerModeStatus: "enabled",
+          },
+        },
+      ],
+    });
+    const row = rows.find((entry) => entry.id === ipad.id);
+    expect(row?.state).toBe("blocked");
+    expect(row?.problem).toMatch(/^iPad not supported/u);
+  });
+  test("keeps a reachable iPhone ready", () => {
+    const rows = buildRows({
+      ...base,
+      agentDevices: [ipad],
+      iosDevices: [
+        {
+          hardwareProperties: { udid: ipad.id, deviceType: "iPhone" },
+          connectionProperties: { pairingState: "paired" },
+          deviceProperties: {
+            bootState: "booted",
+            developerModeStatus: "enabled",
+          },
+        },
+      ],
+    });
+    expect(rows.find((entry) => entry.id === ipad.id)?.state).toBe("ready");
+  });
   test("reports iPhone trust, developer mode, and lock blockers", () => {
     expect(
       buildRows({

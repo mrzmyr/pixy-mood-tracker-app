@@ -47,6 +47,7 @@ const APP: Noun = {
         conflicting_options: "Both --platform and --target passed",
         invalid_platform: "--platform is not ios or android",
         target_not_found: "No connected phone has this target",
+        ipad_unsupported: "iPad is not a supported target",
         signing_team_missing: "No Apple Development team to sign with",
         signing_profile_missing: "Provisioning profile lacks this iPhone",
         native_build_failed: "Compiler failed, read the log",
