@@ -90,6 +90,7 @@ const SlideMessageComponent = (
               >
                 <TextArea
                   ref={ref}
+                  accessibilityLabel={t("log_note_question")}
                   testID="log-message"
                   value={tempLog?.data?.message}
                   onChange={onChange}
