@@ -74,6 +74,7 @@ export const Header = ({
           }}
         >
           <LinkButton
+            testID="statistics-back"
             style={{
               padding: 16,
               margin: -16,

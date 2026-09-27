@@ -6,4 +6,21 @@ output.today = toId(now);
 // The `year` fixture starts 364 days back, so 370 days back has no entry.
 const past = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 370);
 output.pastDay = toId(past);
+const MONTHS = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+];
+// Month and Year Report titles, in English.
+output.monthTitle = `${MONTHS[now.getMonth()]} ${now.getFullYear()}`;
+output.year = String(now.getFullYear());
 output.runId = now.getTime().toString(36);

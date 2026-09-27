@@ -1,0 +1,110 @@
+appId: ${APP_ID}
+tags: [p1, tags]
+---
+# Tag changes keep past entries correct: rename keeps the tag on 80 entries,
+# archive hides it from the logger, delete removes it from filters.
+- runFlow:
+    file: ../subflows/load-fixture.yaml
+    env:
+      FIXTURE: year
+- runScript: ../scripts/set-output-date.js
+- tapOn:
+    id: "settings"
+- tapOn: "Tags"
+
+# Rename. iOS only: on Android, agent-device 0.21.14 types nothing into this
+# prefilled field.
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - tapOn: "Sport"
+      - assertVisible: "Edit Tag"
+      - tapOn:
+          id: "tag-name"
+      - eraseText
+      - inputText: "Running"
+      - runFlow: ../subflows/dismiss-keyboard.yaml
+      - scrollUntilVisible:
+          element:
+            text: "Save"
+          direction: DOWN
+      - tapOn: "Save"
+      - assertVisible: "Running"
+      - assertNotVisible: "Sport"
+
+# Archive.
+- tapOn: "Work"
+- assertVisible: "Edit Tag"
+- tapOn:
+    id: "tag-archived"
+- scrollUntilVisible:
+    element:
+      text: "Save"
+    direction: DOWN
+- tapOn: "Save"
+- assertNotVisible: "Work"
+
+# Delete.
+- tapOn: "Family"
+- scrollUntilVisible:
+    element:
+      text: "Delete"
+    direction: DOWN
+- tapOn: "Delete"
+- assertVisible: "The tag will be removed from all entries.*"
+- tapOn:
+    text: "Delete"
+    index: 0
+- assertNotVisible: "Family"
+
+# Create.
+- tapOn: "Create Tag"
+- tapOn:
+    id: "tag-name"
+- inputText: "e2e-${output.runId}"
+- runFlow: ../subflows/dismiss-keyboard.yaml
+- tapOn: "Create"
+- scrollUntilVisible:
+    element:
+      text: "e2e-${output.runId}"
+    direction: DOWN
+- back
+
+# Logger offers the new tag, not the archived or deleted ones.
+- tapOn:
+    id: "calendar"
+- tapOn: "Add another entry for today"
+- waitForAnimationToEnd
+- tapOn:
+    id: "mood-good"
+- tapOn:
+    id: "logger-next"
+- assertVisible: "Add tags"
+- assertVisible: "e2e-${output.runId}"
+- assertNotVisible: "Work"
+- assertNotVisible: "Family"
+- tapOn:
+    id: "logger-close"
+- runFlow:
+    when:
+      visible: "Discard Changes"
+    commands:
+      - tapOn: "Discard Changes"
+
+# Renamed tag keeps all 80 entries (iOS shows the count). Deleted tag is
+# gone from filters.
+- tapOn:
+    id: "filters"
+- tapOn: "Running|Sport"
+- assertVisible: "Filters \\(1\\)"
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - scrollUntilVisible:
+          element:
+            text: "80 Results"
+          direction: DOWN
+- assertNotVisible: "Family"
+- runFlow: ../subflows/close-filters.yaml
