@@ -83,8 +83,9 @@ bun e2e run --target=pixel-8-09yw --paths=e2e/flows/05-statistics.yaml
 
 Known limits:
 
-- Android phone: flows with `eraseText` or non-ASCII `inputText` fail with `android_phone_text_input_unsupported`. Run them on the emulator. Cause: agent-device 0.21.14 enables its test keyboard on phones only through `open --test-ime`.
-- iPhone: `bun app seed` and flows that use [`load-fixture.yaml`](../e2e/subflows/load-fixture.yaml) stay on onboarding. Cause: agent-device opens links on phones with an app launch, and the app opens onboarding after launch.
+- Android phone: flows with `eraseText` or non-ASCII `inputText` fail with `android_phone_text_input_unsupported`. Run them on the emulator. Cause: agent-device 0.21.15 enables its test keyboard on phones only through `open --test-ime` ([agent-device#2997](https://github.com/callstack/agent-device/issues/2997)).
+- iPhone: flows with `openLink`, for example [`load-fixture.yaml`](../e2e/subflows/load-fixture.yaml), never open the link. Cause: agent-device 0.21.15 passes `--payload-url` after the bundle ID, so `devicectl` hands it to the app as a program argument. `bun app seed` calls `devicectl` itself and works.
+- iPhone: flows with `launchApp` and `clearState` fail with `iphone_flow_step_unsupported`. agent-device clears app state on simulators only.
 
 ### Build cache
 

@@ -265,6 +265,28 @@ export const isPhoneAppInstalled = (phone: Device, bundleId: string) =>
       })
     : Boolean(run(getAdb(), ["-s", phone.id, "shell", "pm", "path", bundleId]));
 
+/**
+ * Open a link in a running or stopped app on an iPhone. agent-device 0.21.15
+ * passes `--payload-url` after the bundle ID, where devicectl hands it to the
+ * app as a program argument, so the link never opens.
+ */
+export const openIosPhoneLink = (
+  phone: Device,
+  bundleId: string,
+  url: string
+) =>
+  run("xcrun", [
+    "devicectl",
+    "device",
+    "process",
+    "launch",
+    "--device",
+    phone.id,
+    "--payload-url",
+    url,
+    bundleId,
+  ]);
+
 /** Remove preview app from one physical phone. */
 export const uninstallPhoneApp = (phone: Device, bundleId: string) =>
   phone.platform === "ios"

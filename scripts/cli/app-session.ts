@@ -35,6 +35,7 @@ import { CliError, getStateDir, note } from "./shared.ts";
 import type { Platform } from "./shared.ts";
 import {
   clearPhoneAppData,
+  openIosPhoneLink,
   preflightPhone,
   stopPhoneApp,
   uninstallPhoneApp,
@@ -286,12 +287,16 @@ const seed = async (device: Device, fixtureId: string) => {
     ]);
     await waitReady(platform, device.id, device.key);
   }
-  await agentDevice([
-    "open",
-    ...(device.kind === "phone" ? [url] : [PREVIEW.appId, url]),
-    ...getDeviceArgs(platform, device.id),
-  ]);
-  await acceptPreviewAlert(platform, device.id);
+  if (device.kind === "phone" && platform === "ios") {
+    openIosPhoneLink(device, PREVIEW.appId, url);
+  } else {
+    await agentDevice([
+      "open",
+      ...(device.kind === "phone" ? [url] : [PREVIEW.appId, url]),
+      ...getDeviceArgs(platform, device.id),
+    ]);
+    await acceptPreviewAlert(platform, device.id);
+  }
   await waitReady(
     platform,
     device.id,
