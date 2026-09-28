@@ -120,6 +120,8 @@ export interface StorageFixture {
     PIXEL_TRACKER_SETTINGS: object;
     PIXEL_TRACKER_TAGS: object;
   };
+  /** Written as-is under `PIXEL_TRACKER_LOGS` instead of `storage`, e.g. corrupt JSON. */
+  rawLogs?: string;
 }
 
 /** Storage of released versions that users still upgrade from. */
@@ -134,6 +136,13 @@ export const STORAGE_FIXTURES: StorageFixture[] = [
     id: "legacy-1.68",
     description: "Storage of 1.68.x: no sleep, no archived tags.",
     storage: legacy168,
+  },
+  {
+    id: "corrupt-logs",
+    description:
+      "Unreadable logs, 1.81.1 settings and tags. Shows the load error screen. Clear app data to recover.",
+    storage: legacy181,
+    rawLogs: '{"items":[',
   },
 ];
 
@@ -151,10 +160,11 @@ export const getStorageFixtureEntries = (
   return [
     [
       "PIXEL_TRACKER_LOGS",
-      JSON.stringify({
-        ...PIXEL_TRACKER_LOGS,
-        items: shiftToToday(PIXEL_TRACKER_LOGS.items, today),
-      }),
+      fixture.rawLogs ??
+        JSON.stringify({
+          ...PIXEL_TRACKER_LOGS,
+          items: shiftToToday(PIXEL_TRACKER_LOGS.items, today),
+        }),
     ],
     ["PIXEL_TRACKER_SETTINGS", JSON.stringify(PIXEL_TRACKER_SETTINGS)],
     ["PIXEL_TRACKER_TAGS", JSON.stringify(PIXEL_TRACKER_TAGS)],
