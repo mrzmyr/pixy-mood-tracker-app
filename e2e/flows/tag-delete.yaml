@@ -4,6 +4,7 @@ tags: [p0, tags]
 # Deleting a tag keeps the entries that used it and removes the tag from them
 # (#261). Both survive a cold start. tags.yaml covers delete in filters and
 # logger only.
+# Tag names, notes, and the native alert button have no test ids; they use text.
 # Limit: #261 needs a tag delete and a log add in the same tick. A UI flow
 # cannot hit that timing; the logs Jest tests cover it.
 - runFlow:
@@ -15,7 +16,8 @@ tags: [p0, tags]
 # The fixture's entry today has tag "Work" and a note.
 - tapOn:
     id: "calendar-day-${output.today}"
-- assertVisible: "Add Entry"
+- assertVisible:
+    id: "log-list-add"
 - assertVisible: "Work"
 - scrollUntilVisible:
     element:
@@ -27,13 +29,15 @@ tags: [p0, tags]
 
 - tapOn:
     id: "settings"
-- tapOn: "Tags"
+- tapOn:
+    id: "tags"
 - tapOn: "Work"
 - scrollUntilVisible:
     element:
-      text: "Delete"
+      id: "tag-delete"
     direction: DOWN
-- tapOn: "Delete"
+- tapOn:
+    id: "tag-delete"
 - assertVisible: "The tag will be removed from all entries.*"
 - tapOn:
     text: "Delete"
@@ -43,13 +47,15 @@ tags: [p0, tags]
 - stopApp
 - launchApp
 - extendedWaitUntil:
-    visible: "Add another entry for today"
+    visible:
+      id: "calendar-day-${output.today}"
     timeout: 10000
 
 # Entry stays, without the deleted tag.
 - tapOn:
     id: "calendar-day-${output.today}"
-- assertVisible: "Add Entry"
+- assertVisible:
+    id: "log-list-add"
 - assertNotVisible: "Work"
 - scrollUntilVisible:
     element:
@@ -62,6 +68,7 @@ tags: [p0, tags]
 # Tag deletion persisted.
 - tapOn:
     id: "settings"
-- tapOn: "Tags"
+- tapOn:
+    id: "tags"
 - assertVisible: "Family"
 - assertNotVisible: "Work"

@@ -125,6 +125,7 @@ export const LogList = ({
           style={{
             marginTop: 12,
           }}
+          testID="log-list-add"
           onPress={add}
         >
           {t("add_entry")}

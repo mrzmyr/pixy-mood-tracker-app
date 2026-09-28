@@ -9,7 +9,9 @@ appId: ${APP_ID}
     timeout: 10000
 - tapOn:
     id: "calendar-day-${DATE}"
-- assertNotVisible: "How was your day?"
-- assertVisible: "Add Entry"
+- assertNotVisible:
+    id: "mood-good"
+- assertVisible:
+    id: "log-list-add"
 - tapOn:
     id: "log-list-close"

@@ -251,6 +251,7 @@ export const TagEdit = ({
                 marginTop: 12,
                 width: "100%",
               }}
+              testID="tag-delete"
               onPress={() => askToDelete(tag)}
               type="danger"
             >

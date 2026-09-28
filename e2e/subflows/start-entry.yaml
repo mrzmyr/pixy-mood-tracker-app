@@ -10,7 +10,8 @@ appId: ${APP_ID}
 - tapOn:
     id: "calendar-day-${DATE}"
 # Only empty days open the logger.
-- assertVisible: "How was your day?"
+- assertVisible:
+    id: "mood-good"
 # A tap during the logger's slide-in animation is lost.
 - waitForAnimationToEnd
 - tapOn:

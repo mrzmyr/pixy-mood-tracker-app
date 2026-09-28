@@ -12,7 +12,7 @@ tags: [p0, entry]
 - runScript: ../scripts/set-output-date.js
 
 - runFlow:
-    file: ../subflows/start-entry-on-day.yaml
+    file: ../subflows/start-entry.yaml
     env:
       DATE: ${output.daysAgo3}
 - runFlow: ../subflows/finish-logger.yaml
@@ -24,7 +24,7 @@ tags: [p0, entry]
     timeout: 10000
 
 - runFlow:
-    file: ../subflows/start-entry-on-day.yaml
+    file: ../subflows/start-entry.yaml
     env:
       DATE: ${output.daysAgo2}
 - runFlow: ../subflows/finish-logger-with-reminder.yaml
@@ -36,7 +36,7 @@ tags: [p0, entry]
     timeout: 10000
 
 - runFlow:
-    file: ../subflows/start-entry-on-day.yaml
+    file: ../subflows/start-entry.yaml
     env:
       DATE: ${output.daysAgo1}
 - runFlow: ../subflows/finish-logger.yaml
@@ -48,14 +48,14 @@ tags: [p0, entry]
     timeout: 10000
 
 - runFlow:
-    file: ../subflows/assert-day-has-entry.yaml
+    file: ../subflows/has-entry.yaml
     env:
       DATE: ${output.daysAgo3}
 - runFlow:
-    file: ../subflows/assert-day-has-entry.yaml
+    file: ../subflows/has-entry.yaml
     env:
       DATE: ${output.daysAgo2}
 - runFlow:
-    file: ../subflows/assert-day-has-entry.yaml
+    file: ../subflows/has-entry.yaml
     env:
       DATE: ${output.daysAgo1}

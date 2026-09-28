@@ -104,6 +104,7 @@ export const SettingsScreen = ({
             isLink
           />
           <MenuListItem
+            testID="tags"
             title={t("tags")}
             iconLeft={<Tag width={18} color={colors.menuListItemIcon} />}
             onPress={() => navigation.navigate("SettingsTags")}
