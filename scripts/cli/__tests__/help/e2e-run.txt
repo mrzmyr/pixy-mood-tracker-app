@@ -12,6 +12,8 @@ Options:
 Behavior:
   Removes the preview app and its data, installs the current build, then runs flows.
   Builds first when cache has no match.
+  Shuts down the simulator or emulator after the run if the run booted it.
+  Deletes simulators and run files of deleted checkouts first.
 
 Output:
   Flow results on stdout.
