@@ -5,11 +5,16 @@ appId: ${APP_ID}
 - launchApp
 - openLink: ${APP_SCHEME}://dev/fixture?id=${FIXTURE}
 - waitForAnimationToEnd
+# iOS asks once per app before a custom-scheme link opens it. Android never asks.
 - runFlow:
     when:
-      visible: "Open"
+      platform: iOS
     commands:
-      - tapOn: "Open"
+      - runFlow:
+          when:
+            visible: "Open"
+          commands:
+            - tapOn: "Open"
 - extendedWaitUntil:
     visible: "Storage written.*"
     timeout: 10000
