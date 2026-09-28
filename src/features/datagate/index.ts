@@ -79,7 +79,7 @@ const openDangerousImportDirectlyToAsyncStorageDialog = async () => {
 interface DatagateValue {
   openExportDialog: () => Promise<void>;
   openImportDialog: () => Promise<void>;
-  import: (data: ImportData, options: { muted: boolean }) => void;
+  import: (data: ImportData, options: { muted: boolean }) => Promise<void>;
   openDangerousImportDirectlyToAsyncStorageDialog: () => Promise<void>;
   openResetDialog: (type: ResetType) => Promise<void>;
 }
@@ -89,6 +89,8 @@ interface DatagateValue {
  *
  * Must render inside the logs, tags, and settings providers. Import and
  * reset ask for confirmation first; cancelling leaves data unchanged.
+ * Logs are written first; when that write fails, tags and settings stay
+ * unchanged and no success message shows.
  */
 export const useDatagate = (): DatagateValue => {
   const logState = useLogState();
@@ -99,7 +101,7 @@ export const useDatagate = (): DatagateValue => {
 
   const analytics = useAnalytics();
 
-  const _import = (
+  const _import = async (
     data: ImportData,
     { muted = false }: { muted?: boolean } = {}
   ) => {
@@ -107,9 +109,11 @@ export const useDatagate = (): DatagateValue => {
     const jsonSchemaType = getJSONSchemaType(migratedData);
 
     if (jsonSchemaType === "pixy") {
-      logUpdater.import({
-        items: migratedData.items,
-      });
+      // On failure the logs updater already alerted; skip tags and settings
+      // so the import does not half apply.
+      if (!(await logUpdater.import({ items: migratedData.items }))) {
+        return;
+      }
       tagsUpdater.import({
         tags: migratedData.settings.tags || migratedData.tags || [],
       });
@@ -129,15 +133,22 @@ export const useDatagate = (): DatagateValue => {
     }
   };
 
-  const reset = () => {
-    logUpdater.reset();
+  // Resolves `false` when the logs reset failed; tags then stay unchanged.
+  const reset = async () => {
+    if (!(await logUpdater.reset())) {
+      return false;
+    }
     tagsUpdater.reset();
+    return true;
   };
 
-  const factoryReset = () => {
-    reset();
+  const factoryReset = async () => {
+    if (!(await reset())) {
+      return false;
+    }
     resetSettings();
     analytics.reset();
+    return true;
   };
 
   const openImportDialog = async (): Promise<void> => {
@@ -153,7 +164,7 @@ export const useDatagate = (): DatagateValue => {
         const contents = await FileSystem.readAsStringAsync(uri);
         const data = JSON.parse(contents);
 
-        _import(data);
+        await _import(data);
       }
     } catch {
       showImportError();
@@ -168,7 +179,9 @@ export const useDatagate = (): DatagateValue => {
     const resetFn = type === "factory" ? factoryReset : reset;
 
     if (Platform.OS === "web") {
-      resetFn();
+      if (!(await resetFn())) {
+        return;
+      }
       // oxlint-disable-next-line eslint/no-alert -- web-only branch: react-native-web's Alert.alert is a no-op, so the browser dialog is the only way to confirm the reset.
       alert(t("reset_data_success_message"));
       return;
@@ -176,13 +189,17 @@ export const useDatagate = (): DatagateValue => {
 
     try {
       await askToReset<ResetType>(type);
-      resetFn();
+    } catch {
+      analytics.track("data_reset_cancel");
+      return;
+    }
+
+    // On failure the logs updater already alerted; skip the success message.
+    if (await resetFn()) {
       analytics.track("data_reset_success", {
         type,
       });
       showResetSuccess<ResetType>(type);
-    } catch {
-      analytics.track("data_reset_cancel");
     }
   };
 

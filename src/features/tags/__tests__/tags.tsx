@@ -1,5 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { renderHook, act, waitFor } from "@testing-library/react-native";
+import { Alert } from "react-native";
 import { AnalyticsProvider } from "@/state/analytics";
 import type { LogsState } from "@/features/logs";
 import {
@@ -255,6 +256,49 @@ describe("useTags()", () => {
       expect(item.tags).toBe(tagsBefore[index]);
       expect(item.tags.map((tag) => tag.id)).toContain("1");
     }
+  });
+
+  test("should keep the tag when removing it from logs fails", async () => {
+    AsyncStorage.setItem(STORAGE_KEY_TAGS, JSON.stringify({ tags: testTags }));
+    AsyncStorage.setItem(
+      STORAGE_KEY_LOGS,
+      JSON.stringify({ items: testItems })
+    );
+
+    const hook = await _renderHook();
+    await waitForLoaded(hook);
+    await waitFor(() => {
+      expect(hook.result.current.logsState.loaded).toBe(true);
+    });
+
+    const alertSpy = jest.spyOn(Alert, "alert").mockImplementation(() => {});
+    const { setItem } = AsyncStorage;
+    const setItemSpy = jest
+      .spyOn(AsyncStorage, "setItem")
+      .mockImplementation((key, value) =>
+        key === STORAGE_KEY_LOGS
+          ? Promise.reject(new Error("disk full"))
+          : setItem(key, value)
+      );
+    const consoleErrorSpy = jest
+      .spyOn(console, "error")
+      .mockImplementation(() => {});
+
+    let deleted: boolean | undefined;
+    await act(async () => {
+      deleted = await hook.result.current.updater.deleteTag("1");
+    });
+
+    expect(deleted).toBe(false);
+    expect(alertSpy).toHaveBeenCalled();
+    expect(hook.result.current.state.tags.map((tag) => tag.id)).toContain("1");
+    for (const item of hook.result.current.logsState.items) {
+      expect(item.tags.map((tag) => tag.id)).toContain("1");
+    }
+
+    alertSpy.mockRestore();
+    setItemSpy.mockRestore();
+    consoleErrorSpy.mockRestore();
   });
 
   test("should reset", async () => {

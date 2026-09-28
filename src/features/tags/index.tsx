@@ -52,7 +52,8 @@ type StateValue = State;
 interface UpdaterValue {
   createTag: (tag: Tag) => void;
   updateTag: (tag: Tag) => void;
-  deleteTag: (tagId: Tag["id"]) => void;
+  /** Resolves `false` when removing the tag from logs failed; the tag stays. */
+  deleteTag: (tagId: Tag["id"]) => Promise<boolean>;
   reset: () => void;
   import: (data: State) => void;
 }
@@ -151,10 +152,15 @@ const TagsProvider = ({ children }: { children: React.ReactNode }) => {
     [dispatch]
   );
 
+  // Removes the tag from logs first. When that write fails, the tag stays so
+  // no log references a missing tag.
   const deleteTag = useCallback(
-    (tagId: Tag["id"]) => {
+    async (tagId: Tag["id"]) => {
+      if (!(await logsUpdater.removeTagFromLogs(tagId))) {
+        return false;
+      }
       dispatch({ type: "delete", payload: tagId });
-      logsUpdater.removeTagFromLogs(tagId);
+      return true;
     },
     [dispatch, logsUpdater]
   );

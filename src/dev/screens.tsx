@@ -48,8 +48,8 @@ export const DevFixturesScreen = ({
       [
         { style: "cancel", text: "Cancel" },
         {
-          onPress: () => {
-            load(fixture);
+          onPress: async () => {
+            await load(fixture);
             openApp(navigation, fixture);
           },
           style: "destructive",
@@ -133,8 +133,11 @@ export const DevFixtureLinkScreen = ({
       return;
     }
     if (fixture) {
-      load(fixture);
-      openApp(navigation, fixture);
+      const loadAndOpen = async () => {
+        await load(fixture);
+        openApp(navigation, fixture);
+      };
+      loadAndOpen();
     }
   }, [fixture, storageFixture, isReady, load, navigation]);
 

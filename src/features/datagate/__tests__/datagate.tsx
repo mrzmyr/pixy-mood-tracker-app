@@ -10,7 +10,12 @@ import { useDatagate } from "@/features/datagate";
 
 import _ from "lodash";
 import type { LogsState } from "@/features/logs";
-import { LogsProvider, useLogState, useLogUpdater } from "@/features/logs";
+import {
+  LogsProvider,
+  STORAGE_KEY as STORAGE_KEY_LOGS,
+  useLogState,
+  useLogUpdater,
+} from "@/features/logs";
 import type { ExportSettings } from "@/state/settings";
 import { INITIAL_STATE } from "@/constants/Settings";
 import { SettingsProvider, useSettings } from "@/state/settings";
@@ -336,5 +341,49 @@ describe("useLogs()", () => {
       ...testSettings,
       loaded: true,
     });
+  });
+
+  test("`import` keeps tags and settings when saving logs fails", async () => {
+    const hook = await _renderHook();
+
+    await waitForLoaded(hook);
+
+    const tagsBefore = hook.result.current.tagsState.tags;
+    const settingsBefore = hook.result.current.settingsState.settings;
+
+    const alertSpy = jest.spyOn(Alert, "alert").mockImplementation(() => {});
+    const { setItem } = AsyncStorage;
+    const setItemSpy = jest
+      .spyOn(AsyncStorage, "setItem")
+      .mockImplementation((key, value) =>
+        key === STORAGE_KEY_LOGS
+          ? Promise.reject(new Error("disk full"))
+          : setItem(key, value)
+      );
+
+    await act(() =>
+      hook.result.current.datagate.import(
+        {
+          version: "1.0.0",
+          items: testItems,
+          settings: testSettings,
+          tags: testTags,
+        },
+        { muted: false }
+      )
+    );
+
+    expect(alertSpy).toHaveBeenCalledTimes(1);
+    expect(alertSpy).toHaveBeenCalledWith(
+      "Stored data could not be saved",
+      "Retry the operation and check available device storage",
+      expect.any(Array)
+    );
+    expect(hook.result.current.logState.items).toEqual([]);
+    expect(hook.result.current.tagsState.tags).toEqual(tagsBefore);
+    expect(hook.result.current.settingsState.settings).toEqual(settingsBefore);
+
+    alertSpy.mockRestore();
+    setItemSpy.mockRestore();
   });
 });

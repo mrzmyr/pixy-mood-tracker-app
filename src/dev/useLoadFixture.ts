@@ -26,9 +26,9 @@ export const useLoadFixture = () => {
 
   const isReady = Boolean(logState.loaded && isTagsLoaded && settings.loaded);
 
-  const load = (fixture: Fixture) => {
+  // Resolves after the import finished, so callers navigate on saved data.
+  const load = (fixture: Fixture) =>
     datagate.import(getFixtureData(fixture), { muted: true });
-  };
 
   return { isReady, load };
 };

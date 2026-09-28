@@ -62,15 +62,17 @@ export const LogList = ({
     navigation.navigate("LogEdit", { id: item.id });
   };
 
-  const remove = (item: LogItem) => {
+  const remove = async (item: LogItem) => {
+    // On failure the logs updater already alerted and the entry stays.
+    if (!(await logUpdater.deleteLog(item.id))) {
+      return;
+    }
     analytics.track("log_list_delete");
-    logUpdater.deleteLog(item.id);
-    // navigation.goBack();
   };
 
   const _delete = async (item: LogItem) => {
     await askToRemove();
-    remove(item);
+    await remove(item);
   };
 
   const _carouselRef = useRef<CarouselRef>(null);

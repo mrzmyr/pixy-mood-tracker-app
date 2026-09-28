@@ -56,8 +56,11 @@ export const TagEdit = ({
 
   const [tag, setTag] = useState(tagExists || defaultTag);
 
-  const onDelete = (tagToDelete: ITag) => {
-    tagsUpdater.deleteTag(tagToDelete.id);
+  const onDelete = async (tagToDelete: ITag) => {
+    // On failure the logs updater already alerted; stay on the screen.
+    if (!(await tagsUpdater.deleteTag(tagToDelete.id))) {
+      return;
+    }
     navigation.goBack();
   };
 
