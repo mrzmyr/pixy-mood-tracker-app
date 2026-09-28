@@ -16,6 +16,13 @@ tags: [p0, storage]
 - assertNotVisible:
     id: "calendar"
 
+# Export shares the stored data and keeps the error screen.
+- tapOn:
+    id: "storage-load-error-export"
+- assertNotVisible: "Export failed"
+- assertVisible:
+    id: "storage-load-error"
+
 # The error screen has no way out, so clear app data for the next flow.
 - launchApp:
     clearState: true

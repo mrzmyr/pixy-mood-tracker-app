@@ -1,8 +1,15 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { DefaultTheme, NavigationContainer } from "@react-navigation/native";
-import { render, screen } from "@testing-library/react-native";
+import {
+  render,
+  screen,
+  userEvent,
+  waitFor,
+} from "@testing-library/react-native";
+import * as FileSystem from "expo-file-system/legacy";
 import { Text } from "react-native";
 import Colors from "@/constants/Colors";
+import { setFileTransferOverride } from "@/features/datagate/fileTransfer";
 import { LogsProvider, STORAGE_KEY as LOGS_KEY } from "@/features/logs";
 import { TagsProvider } from "@/features/tags";
 import { StorageLoadGate } from "@/navigation/StorageLoadGate";
@@ -81,5 +88,26 @@ describe("StorageLoadGate", () => {
     expect(screen.getByText("Contact support")).toBeOnTheScreen();
     expect(screen.queryByText("Calendar")).toBeNull();
     expect(await AsyncStorage.getItem(LOGS_KEY)).toBe("🐇");
+  });
+
+  test("user can export stored data from the error screen", async () => {
+    await AsyncStorage.setItem(LOGS_KEY, "🐇");
+    const share = jest.fn().mockResolvedValue(true);
+    setFileTransferOverride({ share, pickJson: jest.fn() });
+    const writeSpy = jest
+      .spyOn(FileSystem, "writeAsStringAsync")
+      .mockResolvedValue();
+    const user = userEvent.setup();
+
+    await renderApp();
+    await user.press(await screen.findByText("Export data"));
+
+    await waitFor(() => expect(share).toHaveBeenCalledTimes(1));
+    expect(JSON.parse(writeSpy.mock.calls[0][1]).storage[LOGS_KEY]).toBe("🐇");
+    expect(screen.getByTestId("storage-load-error")).toBeOnTheScreen();
+    expect(await AsyncStorage.getItem(LOGS_KEY)).toBe("🐇");
+
+    setFileTransferOverride(null);
+    writeSpy.mockRestore();
   });
 });

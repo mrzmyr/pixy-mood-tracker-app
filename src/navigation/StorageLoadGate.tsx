@@ -1,7 +1,9 @@
-import { ScrollView, Text, View } from "react-native";
+import * as Sentry from "@sentry/react-native";
+import { Alert, ScrollView, Text, View } from "react-native";
 import { AlertCircle } from "react-native-feather";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Button from "@/components/Button";
+import { exportRawStorage } from "@/features/datagate/rawExport";
 import useFeedbackModal from "@/features/feedback/hooks/useFeedbackModal";
 import { useLogLoad } from "@/features/logs";
 import { useTagsLoad } from "@/features/tags";
@@ -9,6 +11,15 @@ import { t } from "@/helpers/translation";
 import useColors from "@/hooks/useColors";
 import type { StructuredError } from "@/lib/errors";
 import { useSettingsLoad } from "@/state/settings";
+
+const exportData = async () => {
+  try {
+    await exportRawStorage();
+  } catch (error) {
+    Sentry.captureException(error);
+    Alert.alert(t("export_failed_title"));
+  }
+};
 
 const StorageLoadErrorScreen = ({ error }: { error: StructuredError }) => {
   const colors = useColors();
@@ -69,9 +80,13 @@ const StorageLoadErrorScreen = ({ error }: { error: StructuredError }) => {
         >
           {t("storage_load_error_advice")}
         </Text>
+        <Button onPress={exportData} testID="storage-load-error-export">
+          {t("storage_load_error_export")}
+        </Button>
         <Button
           type="secondary"
           onPress={() => showFeedbackModal({ type: "issue" })}
+          style={{ marginTop: 12 }}
           testID="storage-load-error-contact"
         >
           {t("storage_load_error_contact")}
