@@ -20,7 +20,7 @@ import {
   stopStaleDaemon,
 } from "./agent-device.ts";
 import { deviceFlag, resolveDevice } from "./device.ts";
-import { getAdb } from "./adb.ts";
+import { getAdb, listPackagesArgs, listsPackage } from "./adb.ts";
 import { DEVICE_ERRORS, DEVICE_OPTIONS } from "./options.ts";
 import {
   clearPhoneAppData,
@@ -104,12 +104,12 @@ const resetIosSimulatorPreview = (deviceId: string) => {
 };
 
 const resetAndroidEmulatorPreview = (deviceId: string) => {
-  const installed = execFileSync(
+  const packages = execFileSync(
     getAdb(),
-    ["-s", deviceId, "shell", "pm", "path", APP_VARIANTS.preview.appId],
+    listPackagesArgs(deviceId, APP_VARIANTS.preview.appId),
     { encoding: "utf-8" }
   );
-  if (installed.trim()) {
+  if (listsPackage(packages, APP_VARIANTS.preview.appId)) {
     execFileSync(getAdb(), [
       "-s",
       deviceId,
