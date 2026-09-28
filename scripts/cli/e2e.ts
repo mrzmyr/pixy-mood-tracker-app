@@ -161,10 +161,15 @@ const preparePhoneRunner = async (device: Device) => {
   }
 };
 
+interface RunOptions {
+  artifactsDir: string;
+  isVideo: boolean;
+}
+
 const runTest = async (
   device: Device,
   paths: string[],
-  artifactsDir: string,
+  { artifactsDir, isVideo }: RunOptions,
   junitName: string
 ) => {
   const { platform } = device;
@@ -178,6 +183,7 @@ const runTest = async (
     device.id,
     "--artifacts-dir",
     artifactsDir,
+    ...(isVideo ? ["--record-video"] : []),
     "--reporter",
     "default",
     "--reporter",
@@ -279,8 +285,9 @@ const FIXTURE_SETTLE_MS = 5000;
 const runIosPhoneFlows = async (
   device: Device,
   paths: string[],
-  artifactsDir: string
+  options: RunOptions
 ) => {
+  const { artifactsDir } = options;
   const flows = listFlows(REPO_ROOT, paths);
   const failed: string[] = [];
   for (const flow of flows) {
@@ -310,7 +317,7 @@ const runIosPhoneFlows = async (
     const { code, output } = await runTest(
       device,
       [flow],
-      artifactsDir,
+      options,
       `junit-${name}.xml`
     );
     if (code !== 0) {
@@ -331,7 +338,20 @@ const runIosPhoneFlows = async (
   }
 };
 
-const run = async (device: Device, paths: string[]) => {
+/** Print recordings of this run, oldest first. */
+const printVideos = (artifactsDir: string, since: number) => {
+  const videos = fs
+    .readdirSync(artifactsDir, { recursive: true, encoding: "utf-8" })
+    .filter((file) => path.basename(file) === "recording.mp4")
+    .map((file) => path.join(artifactsDir, file))
+    .filter((file) => fs.statSync(file).mtimeMs >= since)
+    .toSorted((a, b) => fs.statSync(a).mtimeMs - fs.statSync(b).mtimeMs);
+  if (videos.length) {
+    console.log(`Videos:\n${videos.map((file) => `  ${file}`).join("\n")}`);
+  }
+};
+
+const run = async (device: Device, paths: string[], isVideo: boolean) => {
   const { platform } = device;
   const selectedPaths = paths.length ? paths : DEFAULT_PATHS[platform];
   if (device.kind === "phone") {
@@ -358,18 +378,26 @@ const run = async (device: Device, paths: string[]) => {
   const artifactsDir = path.join(getStateDir("e2e"), device.key);
   fs.mkdirSync(artifactsDir, { recursive: true });
   note(`Running agent-device test on ${device.name}`);
-  if (device.kind === "phone" && platform === "ios") {
-    await runIosPhoneFlows(device, selectedPaths, artifactsDir);
-    return;
-  }
-  const { code, output } = await runTest(
-    device,
-    selectedPaths,
-    artifactsDir,
-    "junit.xml"
-  );
-  if (code !== 0) {
-    throw toRunError(device, code, output);
+  const options = { artifactsDir, isVideo };
+  const startedAt = Date.now();
+  try {
+    if (device.kind === "phone" && platform === "ios") {
+      await runIosPhoneFlows(device, selectedPaths, options);
+      return;
+    }
+    const { code, output } = await runTest(
+      device,
+      selectedPaths,
+      options,
+      "junit.xml"
+    );
+    if (code !== 0) {
+      throw toRunError(device, code, output);
+    }
+  } finally {
+    if (isVideo) {
+      printVideos(artifactsDir, startedAt);
+    }
   }
 };
 
@@ -399,7 +427,8 @@ const shutdownNow = (device: Device) => {
 // Shut down a simulator or emulator this run booted; leave running ones alone.
 const runAndShutdown = async (
   values: { platform?: string; target?: string },
-  paths: string[]
+  paths: string[],
+  isVideo: boolean
 ) => {
   await warnOnFailure(() => withLogsOnStderr(pruneCheckouts));
   const { platform } = values;
@@ -409,7 +438,7 @@ const runAndShutdown = async (
       : true;
   const device = await resolveDevice(values);
   if (wasBooted) {
-    return run(device, paths);
+    return run(device, paths, isVideo);
   }
   const onSignal = (signal: NodeJS.Signals) => {
     shutdownNow(device);
@@ -419,7 +448,7 @@ const runAndShutdown = async (
   process.on("SIGINT", onSignal);
   process.on("SIGTERM", onSignal);
   try {
-    await run(device, paths);
+    await run(device, paths, isVideo);
   } finally {
     process.removeListener("SIGINT", onSignal);
     process.removeListener("SIGTERM", onSignal);
@@ -438,6 +467,11 @@ const E2E: Noun = {
           description: [
             "Optional. Flow files or folders, comma-separated, relative to repository root.",
             "Default: e2e/flows.",
+          ],
+        },
+        video: {
+          description: [
+            "Optional. Record each flow attempt to recording.mp4 in its artifacts folder.",
           ],
         },
       },
@@ -459,6 +493,7 @@ const E2E: Noun = {
             "Flow results on stdout.",
             "Artifacts folder includes junit.xml.",
             "iPhone: one junit-<flow>.xml per flow.",
+            "--video: video paths on stdout after the run, also when flows fail.",
           ],
         },
         {
@@ -467,6 +502,7 @@ const E2E: Noun = {
             "bun e2e run --platform=ios",
             "bun e2e run --target=pixel-8-09yw --paths=e2e/flows/entry-full.yaml",
             "bun e2e run --platform=ios --paths=e2e/flows/first-launch.yaml,e2e/flows/entry-cancel.yaml",
+            "bun e2e run --platform=android --paths=e2e/flows/tags.yaml --video",
           ],
         },
       ],
@@ -504,7 +540,7 @@ const E2E: Noun = {
             });
           }
         }
-        return runAndShutdown(values, paths);
+        return runAndShutdown(values, paths, values.video === "true");
       },
       summary:
         "Reinstall the preview app, then run Maestro flows on one device.",

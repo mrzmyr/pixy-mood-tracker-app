@@ -6,7 +6,8 @@ import path from "node:path";
 
 type Platform = "ios" | "android";
 interface OptionSpec {
-  value: string;
+  /** Placeholder after `=`. Omit for a flag, which takes no value. */
+  value?: string;
   description: string[];
   isRequired?: boolean;
   choices?: readonly string[];

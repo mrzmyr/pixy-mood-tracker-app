@@ -4,7 +4,7 @@ import { BUILDS } from "./builds.ts";
 import { E2E } from "./e2e.ts";
 import { DEVICES } from "./devices.ts";
 import { CliError } from "./shared.ts";
-import type { CommandSpec, Noun } from "./shared.ts";
+import type { CommandSpec, Noun, OptionSpec } from "./shared.ts";
 
 const NOUNS = new Map<string, Noun>([
   ["app", APP],
@@ -18,19 +18,21 @@ const ALIASES = new Map([
 ]);
 const choices = (spec: CommandSpec) =>
   Object.keys(spec.options ?? {}).map((key) => `--${key}`);
+const optionLabel = (name: string, option: OptionSpec) =>
+  option.value === undefined ? `--${name}` : `--${name}=${option.value}`;
 const helpText = (noun: string, verb: string, spec: CommandSpec) => {
   const options = Object.entries(spec.options ?? {});
   const sections: string[] = [
     spec.summary,
     spec.usage ??
-      `Usage: bun ${noun} ${verb}${spec.exactlyOne ? " (--platform=<ios|android> | --target=<target>)" : ""}${spec.options?.fixture ? " --fixture=<id>" : ""}${spec.options?.paths ? " [--paths=<path,...>]" : ""}${spec.options?.build ? " --build=<id>" : ""}`,
+      `Usage: bun ${noun} ${verb}${spec.exactlyOne ? " (--platform=<ios|android> | --target=<target>)" : ""}${spec.options?.fixture ? " --fixture=<id>" : ""}${spec.options?.paths ? " [--paths=<path,...>]" : ""}${spec.options?.video ? " [--video]" : ""}${spec.options?.build ? " --build=<id>" : ""}`,
   ];
   if (options.length) {
     const width = Math.max(
-      ...options.map(([name, option]) => `--${name}=${option.value}`.length)
+      ...options.map(([name, option]) => optionLabel(name, option).length)
     );
     sections.push(
-      `Options:\n${options.flatMap(([name, option]) => option.description.map((line, i) => `  ${i ? " ".repeat(width) : `--${name}=${option.value}`.padEnd(width)}  ${line}`)).join("\n")}`
+      `Options:\n${options.flatMap(([name, option]) => option.description.map((line, i) => `  ${i ? " ".repeat(width) : optionLabel(name, option).padEnd(width)}  ${line}`)).join("\n")}`
     );
   }
   for (const section of spec.sections ?? []) {
@@ -83,11 +85,47 @@ interface ParsedInvocation {
   noun: string;
   commandName: string;
   spec: CommandSpec;
-  definitions: Record<string, { type: "string" }>;
+  definitions: Record<string, { type: "string" | "boolean" }>;
   tokens: ReturnType<typeof parseArgs>["tokens"];
   positionals: string[];
   values: Record<string, string | undefined>;
 }
+
+/** Flags take no value; every other option needs one. */
+const validateOptionValue = (
+  {
+    noun,
+    commandName,
+    spec,
+    definitions,
+  }: Pick<ParsedInvocation, "noun" | "commandName" | "spec" | "definitions">,
+  name: string,
+  value: string | undefined
+) => {
+  if (definitions[name]?.type === "boolean") {
+    if (value !== undefined) {
+      throw usage(
+        noun,
+        commandName,
+        "unexpected_value",
+        `Option --${name} takes no value`,
+        `--${name} is a flag. Passing it turns it on.`,
+        `Pass --${name} without "=".`
+      );
+    }
+    return;
+  }
+  if (value === undefined || value === "") {
+    throw usage(
+      noun,
+      commandName,
+      "missing_value",
+      `Option --${name} has no value`,
+      `--${name} needs a value: --${name}=${spec.options?.[name]?.value}.`,
+      `Run \`bun ${noun} ${commandName} --help\`.`
+    );
+  }
+};
 
 const validateTokens = ({
   noun,
@@ -117,16 +155,11 @@ const validateTokens = ({
   for (const token of tokens) {
     if (token.kind === "option" && token.name !== "help") {
       counts.set(token.name, (counts.get(token.name) ?? 0) + 1);
-      if (token.value === undefined || token.value === "") {
-        throw usage(
-          noun,
-          commandName,
-          "missing_value",
-          `Option --${token.name} has no value`,
-          `--${token.name} needs a value: --${token.name}=${spec.options?.[token.name]?.value}.`,
-          `Run \`bun ${noun} ${commandName} --help\`.`
-        );
-      }
+      validateOptionValue(
+        { noun, commandName, spec, definitions },
+        token.name,
+        token.value
+      );
     }
   }
   for (const [name, count] of counts) {
@@ -239,9 +272,9 @@ const runCommand = async ({
   argv: string[];
 }) => {
   const definitions = Object.fromEntries(
-    Object.entries(spec.options ?? {}).map(([key]) => [
+    Object.entries(spec.options ?? {}).map(([key, option]) => [
       key,
-      { type: "string" as const },
+      { type: option.value === undefined ? "boolean" : "string" } as const,
     ])
   );
   const parsed = parseArgs({
@@ -252,8 +285,14 @@ const runCommand = async ({
     allowPositionals: true,
   });
   const { tokens } = parsed;
-  // SAFETY: parser definitions include every declared string option.
-  const values = parsed.values as Record<string, string | undefined>;
+  // SAFETY: parser definitions include every declared option. Flags parse to
+  // true, and validateTokens rejects flags with a value.
+  const values = Object.fromEntries(
+    Object.entries(parsed.values).map(([key, value]) => [
+      key,
+      value === true ? "true" : value,
+    ])
+  ) as Record<string, string | undefined>;
   validateTokens({
     noun,
     commandName,

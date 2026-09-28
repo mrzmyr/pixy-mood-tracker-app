@@ -61,6 +61,7 @@ Three variants install side by side, each with its own name, icon, bundle ID, an
 - `bun app open` launches by app ID, waits for onboarding or calendar, then prints a screenshot path.
 - `bun app close` ends the session and resets app data. See [Phones](#phones) for phone behavior.
 - `bun e2e run [--paths=<path,...>]` closes the session, reinstalls the app, then runs Maestro flows. Default path: `e2e/flows`.
+- `bun e2e run --video` records each flow attempt to `recording.mp4` in its artifacts folder and prints the paths.
 - `bun builds list` lists cached builds. `bun builds rm --build=<id>` removes one. `bun builds prune` removes old builds and deleted checkout state.
 - Commands take options only, no positional arguments. `bun <noun> <command> --help` lists options, examples, and errors.
 - The CLI selects the preview variant. Metro stays off.
@@ -116,7 +117,7 @@ The cache provider lives in [`scripts/build-cache-provider.cjs`](../scripts/buil
 ### Run files
 
 - Checkout state lives under `~/.cache/pixy-mood-tracker/checkouts/<hash>/`. `checkout.txt` records its worktree path.
-- `e2e/<device>/` contains test artifacts and `junit.xml`. `screenshots/<device>/` contains app screenshots. `<device>` is `ios`, `android`, or the phone target.
+- `e2e/<device>/` contains test artifacts, `junit.xml`, and `--video` recordings. `screenshots/<device>/` contains app screenshots. `<device>` is `ios`, `android`, or the phone target.
 - `build/` contains Expo build output. Logs stay in the checkout state dir.
 - CLI state stays outside the worktree. Expo owns generated `ios/` and `android/` folders.
 
