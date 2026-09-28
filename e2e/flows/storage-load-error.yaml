@@ -1,0 +1,27 @@
+appId: ${APP_ID}
+tags: [p0, storage]
+---
+# Unreadable stored logs block the app with an error screen instead of an
+# empty calendar, so users cannot reset or overwrite data they think is gone.
+- runFlow:
+    file: ../subflows/load-storage-fixture.yaml
+    env:
+      FIXTURE: corrupt-logs
+- extendedWaitUntil:
+    visible:
+      id: "storage-load-error"
+    timeout: 10000
+- assertVisible: "Your entries could not be loaded"
+- assertVisible: "Error code: storage_invalid_value"
+- assertNotVisible:
+    id: "calendar"
+
+# Retry reads storage again; the data is still unreadable, so the screen stays.
+- tapOn:
+    id: "storage-load-error-retry"
+- assertVisible:
+    id: "storage-load-error"
+
+# The error screen has no way out, so clear app data for the next flow.
+- launchApp:
+    clearState: true

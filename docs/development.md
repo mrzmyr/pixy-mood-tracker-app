@@ -102,6 +102,7 @@ Known limits. A phone run fails with `flows_unsupported_on_phone` before it chan
 
 - Storage fixtures (`legacy-1.81.1`, `legacy-1.68`) hold raw AsyncStorage as those versions wrote it ([`src/dev/fixtures/index.ts`](../src/dev/fixtures/index.ts)).
 - `upgrade-from-*.yaml` flows (`p0`) write them, restart the app, and check entries, tags, and a first new entry.
+- `storage-load-error.yaml` writes `corrupt-logs` (unreadable logs) and checks the load error screen ([`src/navigation/StorageLoadGate.tsx`](../src/navigation/StorageLoadGate.tsx)). It ends with `clearState`, so it runs on simulators and emulators only.
 
 ### Build cache
 
