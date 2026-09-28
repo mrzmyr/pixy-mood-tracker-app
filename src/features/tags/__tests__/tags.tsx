@@ -11,6 +11,7 @@ import {
 import {
   SettingsProvider,
   useSettings,
+  useSettingsLoad,
   STORAGE_KEY as STORAGE_KEY_SETTINGS,
 } from "@/state/settings";
 import { INITIAL_STATE as INITIAL_STATE_SETTINGS } from "@/constants/Settings";
@@ -19,6 +20,7 @@ import type { Tag } from "@/features/tags";
 import {
   STORAGE_KEY as STORAGE_KEY_TAGS,
   TagsProvider,
+  useTagsLoad,
   useTagsState,
   useTagsUpdater,
 } from "@/features/tags";
@@ -39,6 +41,8 @@ const _renderHook = () =>
     () => ({
       state: useTagsState(),
       updater: useTagsUpdater(),
+      load: useTagsLoad(),
+      settingsLoad: useSettingsLoad(),
       settings: useSettings(),
       logsState: useLogState(),
       logsUpdater: useLogUpdater(),
@@ -304,5 +308,72 @@ describe("useTags()", () => {
 
     expect(hook.result.current.state.tags.length).toBe(2);
     expect(hook.result.current.state.tags[0].title).toBe("test1");
+  });
+
+  test("should expose load error and never store when stored tags cannot be parsed", async () => {
+    await AsyncStorage.setItem(STORAGE_KEY_TAGS, "🐇");
+    const setItemSpy = jest.spyOn(AsyncStorage, "setItem");
+    setItemSpy.mockClear();
+
+    const hook = await _renderHook();
+    await waitFor(() => {
+      expect(hook.result.current.load.status).toBe("error");
+    });
+    expect(hook.result.current.load.error).toEqual(
+      expect.objectContaining({
+        status: "storage_invalid_value",
+        why: expect.stringContaining(STORAGE_KEY_TAGS),
+      })
+    );
+
+    // `reset` sets `loaded`; it still must not overwrite storage.
+    await act(() => {
+      hook.result.current.updater.reset();
+    });
+
+    expect(setItemSpy).not.toHaveBeenCalledWith(
+      STORAGE_KEY_TAGS,
+      expect.anything()
+    );
+    expect(await AsyncStorage.getItem(STORAGE_KEY_TAGS)).toBe("🐇");
+  });
+
+  test("should stay loading while settings cannot be loaded", async () => {
+    await AsyncStorage.setItem(STORAGE_KEY_SETTINGS, "🐇");
+    await AsyncStorage.setItem(
+      STORAGE_KEY_TAGS,
+      JSON.stringify({ tags: testTags })
+    );
+
+    const hook = await _renderHook();
+    await waitFor(() => {
+      expect(hook.result.current.settingsLoad.status).toBe("error");
+    });
+
+    expect(hook.result.current.load.status).toBe("loading");
+    expect(hook.result.current.state.loaded).toBe(false);
+    expect(await AsyncStorage.getItem(STORAGE_KEY_TAGS)).toBe(
+      JSON.stringify({ tags: testTags })
+    );
+  });
+
+  test("should load stored tags on retry after a failed load", async () => {
+    await AsyncStorage.setItem(STORAGE_KEY_TAGS, "🐇");
+    const hook = await _renderHook();
+    await waitFor(() => {
+      expect(hook.result.current.load.status).toBe("error");
+    });
+
+    await AsyncStorage.setItem(
+      STORAGE_KEY_TAGS,
+      JSON.stringify({ tags: testTags })
+    );
+    await act(() => {
+      hook.result.current.load.retry();
+    });
+
+    await waitForLoaded(hook);
+    expect(hook.result.current.load.status).toBe("ready");
+    expect(hook.result.current.state.tags).toEqual(testTags);
   });
 });

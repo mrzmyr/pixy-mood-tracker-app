@@ -1,5 +1,7 @@
 import type { TAG_COLOR_NAMES } from "@/constants/Config";
 import { load, store } from "@/state/persisted";
+import type { StorageLoad } from "@/state/persisted/useStorageLoad";
+import { useStorageLoad } from "@/state/persisted/useStorageLoad";
 import { t } from "@/helpers/translation";
 import omit from "lodash/omit";
 import {
@@ -61,6 +63,8 @@ interface UpdaterValue {
 const TagsStateContext = createContext({} as StateValue);
 // SAFETY: every consumer renders inside TagsProvider, which supplies the full updater.
 const TagsUpdaterContext = createContext({} as UpdaterValue);
+// SAFETY: every consumer renders inside TagsProvider, which supplies the value; the default is never read.
+const TagsLoadContext = createContext<StorageLoad>(undefined as never);
 
 const reducer = (state: State, action: StateAction): State => {
   switch (action.type) {
@@ -136,6 +140,13 @@ const TagsProvider = ({ children }: { children: React.ReactNode }) => {
   // Default tags are built when needed so their titles follow the current
   // locale.
   const [state, dispatch] = useReducer(reducer, undefined, getInitialState);
+  // Stays `loading` until settings load: legacy tags live in settings.
+  const {
+    load: storageLoad,
+    markReady,
+    markFailed,
+  } = useStorageLoad(STORAGE_KEY);
+  const storageStatus = storageLoad.status;
   // Reducer updates can produce equal copies; only content changes should
   // persist or notify consumers.
   const stableState = useContentStableValue(state);
@@ -183,8 +194,10 @@ const TagsProvider = ({ children }: { children: React.ReactNode }) => {
   // re-running the load when settings tags change.
   const getLegacySettingsTags = useEffectEvent(() => settings.tags);
 
+  // Reads once settings load, and again after `retry` moves `error` back to
+  // `loading`.
   useEffect(() => {
-    if (!settings.loaded) {
+    if (!settings.loaded || storageStatus !== "loading") {
       return;
     }
 
@@ -194,9 +207,10 @@ const TagsProvider = ({ children }: { children: React.ReactNode }) => {
       let json: State | null;
       try {
         json = await load<State>(STORAGE_KEY);
-      } catch {
+      } catch (error) {
         // Keep `loaded: false` so the persist effect below stays disabled;
         // resetting to the default tags would overwrite the stored ones.
+        markFailed(error);
         return;
       }
       if (json !== null) {
@@ -211,19 +225,24 @@ const TagsProvider = ({ children }: { children: React.ReactNode }) => {
       } else {
         dispatch({ type: "reset", payload: getInitialState() });
       }
+      markReady();
     })();
-  }, [settings.loaded]);
+  }, [settings.loaded, storageStatus, markReady, markFailed]);
 
+  // Never persist after a failed read: `import` and `reset` set `loaded`, so
+  // also require a successful load.
   useEffect(() => {
-    if (stableState.loaded) {
+    if (storageStatus === "ready" && stableState.loaded) {
       store<Omit<State, "loaded">>(STORAGE_KEY, omit(stableState, "loaded"));
     }
-  }, [stableState]);
+  }, [stableState, storageStatus]);
 
   return (
     <TagsStateContext.Provider value={stateValue}>
       <TagsUpdaterContext.Provider value={updaterValue}>
-        {children}
+        <TagsLoadContext.Provider value={storageLoad}>
+          {children}
+        </TagsLoadContext.Provider>
       </TagsUpdaterContext.Provider>
     </TagsStateContext.Provider>
   );
@@ -245,4 +264,13 @@ const useTagsUpdater = (): UpdaterValue => {
   return context;
 };
 
-export { TagsProvider, useTagsState, useTagsUpdater };
+/** Load status of the tags store; `error` means stored tags exist but could not be read. */
+const useTagsLoad = (): StorageLoad => {
+  const context = useContext(TagsLoadContext);
+  if (context === undefined) {
+    throw createMissingProviderError("useTagsLoad", "TagsProvider");
+  }
+  return context;
+};
+
+export { TagsProvider, useTagsLoad, useTagsState, useTagsUpdater };

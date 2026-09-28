@@ -14,6 +14,8 @@ import { v4 as uuidv4 } from "uuid";
 import type { ConfigurableLoggerStep } from "@/features/logger/config";
 import { STEP_OPTIONS } from "@/features/logger/config";
 import { load, store } from "@/state/persisted";
+import type { StorageLoad } from "@/state/persisted/useStorageLoad";
+import { useStorageLoad } from "@/state/persisted/useStorageLoad";
 import type { Tag } from "@/features/tags";
 import {
   createMissingProviderError,
@@ -90,6 +92,8 @@ interface Value {
 
 // SAFETY: every consumer renders inside SettingsProvider, which provides the full Value.
 const SettingsStateContext = createContext({} as Value);
+// SAFETY: every consumer renders inside SettingsProvider, which supplies the value; the default is never read.
+const SettingsLoadContext = createContext<StorageLoad>(undefined as never);
 
 const isConfigurableLoggerStep = (
   step: unknown
@@ -105,6 +109,12 @@ const sanitizeSteps = (
 
 const SettingsProvider = ({ children }: { children: React.ReactNode }) => {
   const [settings, setSettings] = useState<SettingsState>(INITIAL_STATE);
+  const {
+    load: storageLoad,
+    markReady,
+    markFailed,
+  } = useStorageLoad(STORAGE_KEY);
+  const storageStatus = storageLoad.status;
 
   const resetSettings = useCallback(() => {
     setSettings({
@@ -123,14 +133,19 @@ const SettingsProvider = ({ children }: { children: React.ReactNode }) => {
     });
   }, []);
 
+  // Reads on mount and again after `retry` moves `error` back to `loading`.
   useEffect(() => {
+    if (storageStatus !== "loading") {
+      return;
+    }
     (async () => {
       let json: SettingsState | null;
       try {
         json = await load<SettingsState>(STORAGE_KEY);
-      } catch {
+      } catch (error) {
         // Keep `loaded: false` so the persist effect below stays disabled;
         // falling back to the initial state would overwrite stored settings.
+        markFailed(error);
         return;
       }
       if (json === null) {
@@ -150,17 +165,20 @@ const SettingsProvider = ({ children }: { children: React.ReactNode }) => {
           loaded: true,
         });
       }
+      markReady();
     })();
-  }, []);
+  }, [storageStatus, markReady, markFailed]);
 
   // Persist only content changes, not equal copies of the settings object.
   const stableSettings = useContentStableValue(settings);
 
+  // Never persist after a failed read: `importSettings` or `resetSettings`
+  // set `loaded`, so also require a successful load.
   useEffect(() => {
-    if (stableSettings.loaded) {
+    if (storageStatus === "ready" && stableSettings.loaded) {
       store(STORAGE_KEY, omit(stableSettings, "loaded"));
     }
-  }, [stableSettings]);
+  }, [stableSettings, storageStatus]);
 
   const hasActionDone = useCallback(
     (actionTitle: IAction["title"]) =>
@@ -260,7 +278,9 @@ const SettingsProvider = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <SettingsStateContext.Provider value={value}>
-      {children}
+      <SettingsLoadContext.Provider value={storageLoad}>
+        {children}
+      </SettingsLoadContext.Provider>
     </SettingsStateContext.Provider>
   );
 };
@@ -273,4 +293,13 @@ const useSettings = (): Value => {
   return context;
 };
 
-export { SettingsProvider, useSettings };
+/** Load status of the settings store; `error` means stored settings exist but could not be read. */
+const useSettingsLoad = (): StorageLoad => {
+  const context = useContext(SettingsLoadContext);
+  if (context === undefined) {
+    throw createMissingProviderError("useSettingsLoad", "SettingsProvider");
+  }
+  return context;
+};
+
+export { SettingsProvider, useSettings, useSettingsLoad };

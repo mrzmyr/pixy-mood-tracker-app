@@ -47,6 +47,7 @@ import { StepsScreen } from "../screens/Steps";
 import { Tags } from "../screens/Tags";
 import { BackButton } from "./BackButton";
 import { BottomTabs } from "./BottomTabs";
+import { StorageLoadGate } from "./StorageLoadGate";
 
 enableScreens();
 
@@ -398,7 +399,9 @@ const Navigation = () => {
       }
     >
       <Providers>
-        <RootNavigator />
+        <StorageLoadGate>
+          <RootNavigator />
+        </StorageLoadGate>
       </Providers>
     </NavigationContainer>
   );
