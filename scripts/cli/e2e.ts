@@ -7,6 +7,8 @@ import { setTimeout as sleep } from "node:timers/promises";
 import { APP_VARIANTS } from "../../app.config.ts";
 import { FIXTURES } from "../../src/dev/fixtures/index.ts";
 import { installBuild } from "./app-install.ts";
+import { shutdownDevice } from "./app-session.ts";
+import { pruneCheckouts } from "./builds.ts";
 import {
   assertFlowsSupported,
   findFixture,
@@ -19,7 +21,7 @@ import {
   getAgentDeviceEnv,
   stopStaleDaemon,
 } from "./agent-device.ts";
-import { deviceFlag, resolveDevice } from "./device.ts";
+import { deviceFlag, isDeviceBooted, resolveDevice } from "./device.ts";
 import { getAdb } from "./adb.ts";
 import { DEVICE_ERRORS, DEVICE_OPTIONS } from "./options.ts";
 import {
@@ -30,7 +32,14 @@ import {
   stopPhoneApp,
   uninstallPhoneApp,
 } from "./phone.ts";
-import { CliError, defineCommand, getStateDir, note } from "./shared.ts";
+import {
+  CliError,
+  defineCommand,
+  getStateDir,
+  note,
+  tryRun,
+  withLogsOnStderr,
+} from "./shared.ts";
 import type { Noun, Platform } from "./shared.ts";
 import type { Device } from "./device.ts";
 
@@ -392,6 +401,62 @@ const run = async (device: Device, paths: string[], isVideo: boolean) => {
   }
 };
 
+// Cleanup failures must not hide the run result.
+const warnOnFailure = async (work: () => Promise<void>) => {
+  try {
+    await work();
+  } catch (error) {
+    if (!(error instanceof CliError)) {
+      throw error;
+    }
+    note(
+      `warning [${error.status}]: ${error.message}\n  why: ${error.why}\n  fix: ${error.fix}`
+    );
+  }
+};
+
+// Ctrl-C skips `finally`, so shut down without waiting before exit.
+const shutdownNow = (device: Device) => {
+  if (device.platform === "ios") {
+    tryRun("xcrun", ["simctl", "shutdown", device.id]);
+  } else {
+    tryRun(getAdb(), ["-s", device.id, "emu", "kill"]);
+  }
+};
+
+// Shut down a simulator or emulator this run booted; leave running ones alone.
+const runAndShutdown = async (
+  values: { platform?: string; target?: string },
+  paths: string[],
+  isVideo: boolean
+) => {
+  await warnOnFailure(() => withLogsOnStderr(pruneCheckouts));
+  const { platform } = values;
+  const wasBooted =
+    platform === "ios" || platform === "android"
+      ? isDeviceBooted(platform)
+      : true;
+  const device = await resolveDevice(values);
+  if (wasBooted) {
+    return run(device, paths, isVideo);
+  }
+  const onSignal = (signal: NodeJS.Signals) => {
+    shutdownNow(device);
+    process.removeListener(signal, onSignal);
+    process.kill(process.pid, signal);
+  };
+  process.on("SIGINT", onSignal);
+  process.on("SIGTERM", onSignal);
+  try {
+    await run(device, paths, isVideo);
+  } finally {
+    process.removeListener("SIGINT", onSignal);
+    process.removeListener("SIGTERM", onSignal);
+    note(`Shutting down ${device.name}`);
+    await warnOnFailure(() => shutdownDevice(device));
+  }
+};
+
 const E2E: Noun = {
   commands: {
     run: defineCommand({
@@ -418,6 +483,8 @@ const E2E: Noun = {
           lines: [
             "Removes the preview app and its data, installs the current build, then runs flows.",
             "Builds first when cache has no match.",
+            "Shuts down the simulator or emulator after the run if the run booted it.",
+            "Deletes simulators and run files of deleted checkouts first.",
           ],
         },
         {
@@ -473,9 +540,7 @@ const E2E: Noun = {
             });
           }
         }
-        return resolveDevice(values).then((device) =>
-          run(device, paths, values.video === "true")
-        );
+        return runAndShutdown(values, paths, values.video === "true");
       },
       summary:
         "Reinstall the preview app, then run Maestro flows on one device.",
