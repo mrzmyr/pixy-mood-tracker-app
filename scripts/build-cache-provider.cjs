@@ -127,15 +127,19 @@ const getSource = (projectRoot) => {
 
 const bundleHashes = new Map();
 
+// `target` is "device" for physical device builds from `bun app build`.
+// Expo CLI caches only simulator and emulator builds and never passes it.
 const getCacheKey = ({
   platform,
   fingerprintHash,
   runOptions,
   projectRoot,
+  target,
 }) => {
   getSource(projectRoot);
   const variant = getBuildVariant(runOptions);
-  const key = `${platform}-${fingerprintHash}-${variant}`;
+  const prefix = target === "device" ? `${platform}-device` : platform;
+  const key = `${prefix}-${fingerprintHash}-${variant}`;
   if (isDebugVariant(variant)) {
     return key;
   }
@@ -217,7 +221,9 @@ const resolveBuildCache = async (props) => {
  * Copies a finished build into the shared cache. Parallel worktrees can
  * finish the same build at once, so each copy lands in a temp path first and
  * is moved into place atomically.
- * @param {{ platform: string, fingerprintHash: string, buildPath: string, runOptions: object, projectRoot: string }} props Finished build from Expo CLI.
+ * An existing copy is kept, unless `replace` is set: `bun app build --rebuild`
+ * swaps it for the new build, so the run installs what it just compiled.
+ * @param {{ platform: string, fingerprintHash: string, buildPath: string, runOptions: object, projectRoot: string, target?: string, replace?: boolean }} props Finished build from Expo CLI or `bun app build`.
  * @returns {Promise<string | null>} Path to the cached copy, or null on failure.
  */
 const uploadBuildCache = async (props) => {
@@ -227,7 +233,7 @@ const uploadBuildCache = async (props) => {
     cacheDir,
     `${key}${path.extname(props.buildPath)}`
   );
-  if (fs.existsSync(destPath)) {
+  if (fs.existsSync(destPath) && !props.replace) {
     return destPath;
   }
   const tmpRoot = path.join(cacheDir, ".tmp");
@@ -237,14 +243,22 @@ const uploadBuildCache = async (props) => {
   try {
     await fs.promises.cp(props.buildPath, tmpPath, { recursive: true });
     const sizeBytes = getSize(tmpPath);
+    if (props.replace && fs.existsSync(destPath)) {
+      // A .app is a directory, and rename cannot replace a non-empty one.
+      // The old copy moves into the temp dir, which `finally` removes.
+      await fs.promises.rename(destPath, path.join(tmpDir, "replaced"));
+    }
     await fs.promises.rename(tmpPath, destPath);
     const now = new Date().toISOString();
     writeMeta(cacheDir, key, {
+      appVariant: process.env.EXPO_PUBLIC_APP_VARIANT,
       createdAt: now,
       key,
       lastUsedAt: now,
       platform: props.platform,
       sizeBytes,
+      target:
+        props.target ?? (props.platform === "ios" ? "simulator" : "emulator"),
       variant: getBuildVariant(props.runOptions),
       ...getSource(props.projectRoot),
     });

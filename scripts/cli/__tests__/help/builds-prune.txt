@@ -1,0 +1,5 @@
+Remove old builds and state of deleted worktrees
+
+Usage: bun builds prune
+
+Exit codes: 0 ok, 1 failure, 2 usage error

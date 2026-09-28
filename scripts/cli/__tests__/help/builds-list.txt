@@ -1,0 +1,5 @@
+List cached builds with variant, source, size, and last use
+
+Usage: bun builds list
+
+Exit codes: 0 ok, 1 failure, 2 usage error

@@ -49,7 +49,7 @@ const LinkButton = ({
   testID,
   disabled,
 }: {
-  type?: "primary" | "secondary" | "danger";
+  type?: "primary" | "secondary";
   onPress: () => void;
   children?: React.ReactNode;
   style?: ViewStyle & TextStyle;
@@ -67,9 +67,6 @@ const LinkButton = ({
     secondary: disabled
       ? colors.linkButtonTextSecondaryDisabled
       : colors.linkButtonTextSecondary,
-    danger: disabled
-      ? colors.linkButtonTextDangerDisabled
-      : colors.linkButtonTextDanger,
   }[type];
 
   const _onPress = () => {

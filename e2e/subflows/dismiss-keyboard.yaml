@@ -1,4 +1,4 @@
-appId: com.devmood.pixymoodtracker
+appId: ${APP_ID}
 ---
 # iOS keyboards without a dismiss key reject hideKeyboard; Enter ends editing.
 # On Android, Enter leaves the next text field without input, so hide instead.

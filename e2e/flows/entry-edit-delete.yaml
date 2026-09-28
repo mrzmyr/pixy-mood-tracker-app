@@ -1,0 +1,96 @@
+appId: ${APP_ID}
+tags: [p0, entry]
+---
+# Edit an entry, add a second entry for the day, delete the first.
+# The remaining entry survives a cold start.
+- runFlow:
+    file: ../subflows/load-fixture.yaml
+    env:
+      FIXTURE: empty
+- runScript: ../scripts/set-output-date.js
+- runFlow: ../subflows/create-basic-entry.yaml
+
+# Edit: new mood, emotion, and note.
+- tapOn:
+    id: "calendar-day-${output.today}"
+- tapOn:
+    id: "log-list-edit"
+    index: 0
+- assertVisible: "How was your day?"
+- waitForAnimationToEnd
+- tapOn:
+    id: "mood-bad"
+- assertVisible: "How did you feel?"
+- scrollUntilVisible:
+    element:
+      text: "Tired"
+    direction: DOWN
+    timeout: 15000
+- tapOn: "Tired"
+- tapOn:
+    id: "logger-next"
+- assertVisible: "Add tags"
+- tapOn:
+    id: "logger-next"
+- assertVisible: "Write about your day…"
+- tapOn:
+    id: "log-message"
+- inputText: "e2e edited ${output.runId}"
+- tapOn:
+    id: "logger-save"
+# Saving an edit returns to the day list.
+- assertVisible: "Tired"
+- assertVisible: "e2e edited ${output.runId}"
+
+# Second entry from the day list. The second-ever entry adds the reminder slide.
+- tapOn: "Add Entry"
+- assertVisible: "How was your day?"
+- waitForAnimationToEnd
+- tapOn:
+    id: "mood-very_good"
+- tapOn:
+    id: "logger-next"
+- tapOn:
+    id: "logger-next"
+- assertVisible: "Write about your day…"
+- tapOn:
+    id: "log-message"
+- inputText: "e2e second ${output.runId}"
+- tapOn:
+    id: "logger-next"
+- tapOn: "Maybe later"
+
+# Delete the edited entry. Both entries can share the same minute, so the
+# day list order is not fixed.
+- tapOn:
+    id: "calendar-day-${output.today}"
+- runFlow:
+    when:
+      notVisible: "e2e edited ${output.runId}"
+    commands:
+      - swipe:
+          start: 80%, 50%
+          end: 20%, 50%
+- assertVisible: "e2e edited ${output.runId}"
+- tapOn:
+    id: "log-list-delete"
+- assertVisible: "Are you sure you want to delete this entry?"
+- tapOn:
+    text: "Delete"
+    below: "Are you sure you want to delete this entry?"
+- assertNotVisible: "e2e edited ${output.runId}"
+- assertVisible: "e2e second ${output.runId}"
+- tapOn:
+    id: "log-list-close"
+
+- stopApp
+- launchApp
+- extendedWaitUntil:
+    visible: "Add another entry for today"
+    timeout: 10000
+- tapOn:
+    id: "calendar-day-${output.today}"
+- assertVisible: "e2e second ${output.runId}"
+- assertNotVisible: "e2e edited ${output.runId}"
+- tapOn:
+    id: "log-list-close"

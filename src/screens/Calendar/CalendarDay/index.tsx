@@ -6,8 +6,8 @@ import { useStyle } from "react-native-style-utilities";
 import { DATE_FORMAT } from "@/constants/Config";
 import useColors from "../../../hooks/useColors";
 import useHaptics from "../../../hooks/useHaptics";
-import type { LogItem } from "../../../hooks/useLogs";
-import { useSettings } from "../../../hooks/useSettings";
+import type { LogItem } from "@/features/logs";
+import { useSettings } from "@/state/settings";
 
 const styles = StyleSheet.create({
   container: {

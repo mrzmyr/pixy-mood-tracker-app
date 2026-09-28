@@ -2,10 +2,10 @@ import Button from "@/components/Button";
 import { PageModalLayout } from "@/components/PageModalLayout";
 import { askToRemove } from "@/helpers/prompts";
 import { t } from "@/helpers/translation";
-import { useAnalytics } from "@/hooks/useAnalytics";
+import { useAnalytics } from "@/state/analytics";
 import useColors from "@/hooks/useColors";
-import type { LogItem } from "@/hooks/useLogs";
-import { useLogState, useLogUpdater } from "@/hooks/useLogs";
+import type { LogItem } from "@/features/logs";
+import { useLogState, useLogUpdater } from "@/features/logs";
 import { getDayDateTitle } from "@/lib/utils";
 import dayjs from "dayjs";
 import { useRef } from "react";
@@ -16,6 +16,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import type { RootStackScreenProps } from "../../../types";
 import { Entry } from "./Entry";
 import { Header } from "./Header";
+import { getItemDate, getItemTime } from "@/lib/logDates";
 
 const WINDOW_WIDTH = Dimensions.get("window").width;
 
@@ -38,8 +39,8 @@ export const LogList = ({
   const logUpdater = useLogUpdater();
 
   const items = logState.items
-    .filter((item) => dayjs(item.dateTime).isSame(dayjs(date), "day"))
-    .sort((a, b) => (dayjs(a.dateTime).isBefore(dayjs(b.dateTime)) ? -1 : 1));
+    .filter((item) => getItemDate(item) === date)
+    .sort((a, b) => (getItemTime(a) < getItemTime(b) ? -1 : 1));
 
   const close = () => {
     analytics.track("log_list_close");

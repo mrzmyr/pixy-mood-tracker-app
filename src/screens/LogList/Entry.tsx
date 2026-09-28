@@ -1,6 +1,6 @@
 import LinkButton from "@/components/LinkButton";
 import useColors from "@/hooks/useColors";
-import type { LogItem } from "@/hooks/useLogs";
+import type { LogItem } from "@/features/logs";
 import dayjs from "dayjs";
 import { LinearGradient } from "expo-linear-gradient";
 import { Edit, Trash } from "lucide-react-native";
@@ -57,6 +57,7 @@ const EntryHeader = ({
         }}
       >
         <LinkButton
+          testID="log-list-edit"
           onPress={() => {
             onEdit(item);
           }}
@@ -74,6 +75,7 @@ const EntryHeader = ({
           <Edit color={colors.tint} size={22} />
         </LinkButton>
         <LinkButton
+          testID="log-list-delete"
           style={{
             marginLeft: -8,
             marginTop: -8,

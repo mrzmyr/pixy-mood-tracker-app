@@ -1,172 +1,327 @@
-// Entry point for the local CLIs:
-//   bun builds <command>    the shared native build cache
-//   bun e2e <command>       e2e runs through agent-device
-// Devices use agent-device directly (`bunx agent-device devices`).
-// Run `bun <noun> --help` or `bun <noun> <command> --help` for options.
 import { parseArgs } from "node:util";
-
+import { APP } from "./app.ts";
 import { BUILDS } from "./builds.ts";
 import { E2E } from "./e2e.ts";
+import { DEVICES } from "./devices.ts";
 import { CliError } from "./shared.ts";
 import type { CommandSpec, Noun } from "./shared.ts";
 
 const NOUNS = new Map<string, Noun>([
+  ["app", APP],
   ["builds", BUILDS],
   ["e2e", E2E],
+  ["devices", DEVICES],
 ]);
 const ALIASES = new Map([
   ["ls", "list"],
   ["remove", "rm"],
 ]);
-const HELP_FLAGS = new Set(["-h", "--help", "help"]);
-
-const usageError = (
-  fields: Omit<ConstructorParameters<typeof CliError>[0], "exitCode">
-) => new CliError({ ...fields, exitCode: 2 });
-
-const formatUsage = (noun: string, verb: string, spec: CommandSpec) =>
-  [
-    `bun ${noun} ${verb}`,
-    ...(spec.args ?? []),
-    ...(spec.options ? ["[options]"] : []),
-    ...(spec.hasPassthrough ? ["[-- <args>]"] : []),
-  ].join(" ");
-
-const printNounHelp = (noun: string, { commands, footer, summary }: Noun) => {
-  const width = Math.max(...Object.keys(commands).map((verb) => verb.length));
-  const lines = Object.entries(commands).map(
-    ([verb, spec]) => `  ${verb.padEnd(width)}  ${spec.summary}`
+const choices = (spec: CommandSpec) =>
+  Object.keys(spec.options ?? {}).map((key) => `--${key}`);
+const helpText = (noun: string, verb: string, spec: CommandSpec) => {
+  const options = Object.entries(spec.options ?? {});
+  const sections: string[] = [
+    spec.summary,
+    spec.usage ??
+      `Usage: bun ${noun} ${verb}${spec.exactlyOne ? " (--platform=<ios|android> | --target=<target>)" : ""}${spec.options?.fixture ? " --fixture=<id>" : ""}${spec.options?.paths ? " [--paths=<path,...>]" : ""}${spec.options?.build ? " --build=<id>" : ""}`,
+  ];
+  if (options.length) {
+    const width = Math.max(
+      ...options.map(([name, option]) => `--${name}=${option.value}`.length)
+    );
+    sections.push(
+      `Options:\n${options.flatMap(([name, option]) => option.description.map((line, i) => `  ${i ? " ".repeat(width) : `--${name}=${option.value}`.padEnd(width)}  ${line}`)).join("\n")}`
+    );
+  }
+  for (const section of spec.sections ?? []) {
+    sections.push(
+      `${section.title}:\n${section.lines.map((line) => `  ${line}`).join("\n")}`
+    );
+  }
+  if (spec.errors) {
+    const entries = Object.entries(spec.errors);
+    const width = Math.max(...entries.map(([key]) => key.length));
+    sections.push(
+      `Errors:\n${entries.map(([key, description]) => `  ${key.padEnd(width)}  ${description}`).join("\n")}`
+    );
+  }
+  sections.push(
+    `Exit codes: 0 ${spec.successWord ?? "ok"}, 1 failure, 2 usage error`
   );
-  const aliases = [...ALIASES]
-    .filter(([, verb]) => verb in commands)
-    .map(([alias, verb]) => `${alias} = ${verb}`)
-    .join(", ");
-  console.log(`${summary}
-
-Usage: bun ${noun} <command> [options]
-
-Commands:
-${lines.join("\n")}
-${footer ? `\n${footer}\n` : ""}
-Run \`bun ${noun} <command> --help\` for options. Aliases: ${aliases}.`);
+  return sections.join("\n\n");
 };
-
-const printCommandHelp = (noun: string, verb: string, spec: CommandSpec) => {
-  console.log(`${spec.summary}\n\nUsage: ${formatUsage(noun, verb, spec)}`);
-  if (spec.details) {
-    console.log(`\n${spec.details}`);
-  }
+const nounHelp = (noun: string, spec: Noun) => {
+  const width = Math.max(
+    ...Object.keys(spec.commands).map((key) => key.length)
+  );
+  const entries = (spec.commandOrder ?? Object.keys(spec.commands)).map(
+    (key) => [key, spec.commands[key]] as const
+  );
+  return [
+    spec.summary,
+    `Usage: bun ${noun} <command> [options]`,
+    `Commands:\n${entries.map(([key, cmd]) => `  ${key.padEnd(width)}  ${cmd.summary.split(". ")[0].replace(/\.$/u, "")}`).join("\n")}`,
+    ...(spec.helpTail ?? [`Run \`bun ${noun} <command> --help\` for details.`]),
+  ].join("\n\n");
 };
-
-// Required `<x>` and optional `[x]` positionals; `...` accepts any number.
-const checkArgs = (
+const usage = (
   noun: string,
   verb: string,
-  spec: CommandSpec,
-  args: string[]
-) => {
-  const declared = spec.args ?? [];
-  const required = declared.filter((arg) => arg.startsWith("<"));
-  const isVariadic = declared.some((arg) => arg.includes("..."));
-  const usage = formatUsage(noun, verb, spec);
-  if (args.length < required.length) {
-    throw usageError({
-      fix: spec.argsSource
-        ? `Find one with \`${spec.argsSource}\`, then run: ${usage}.`
-        : `Run: ${usage}.`,
-      message: `Missing ${required[args.length]}`,
-      status: "missing_argument",
-      why: `Usage: ${usage}.`,
-    });
+  status: string,
+  message: string,
+  why: string,
+  fix: string
+) =>
+  new CliError({
+    exitCode: 2,
+    status,
+    message,
+    why,
+    fix: fix.replaceAll("<noun>", noun).replaceAll("<verb>", verb),
+  });
+interface ParsedInvocation {
+  noun: string;
+  commandName: string;
+  spec: CommandSpec;
+  definitions: Record<string, { type: "string" }>;
+  tokens: ReturnType<typeof parseArgs>["tokens"];
+  positionals: string[];
+  values: Record<string, string | undefined>;
+}
+
+const validateTokens = ({
+  noun,
+  commandName,
+  spec,
+  definitions,
+  tokens,
+  positionals,
+}: ParsedInvocation) => {
+  for (const token of tokens) {
+    if (
+      token.kind === "option" &&
+      !Object.hasOwn(definitions, token.name) &&
+      token.name !== "help"
+    ) {
+      throw usage(
+        noun,
+        commandName,
+        "invalid_option",
+        `Unknown option "--${token.name}"`,
+        `bun ${noun} ${commandName} accepts: ${choices(spec).join(", ") || "none"}.`,
+        `Run \`bun ${noun} ${commandName} --help\`.`
+      );
+    }
   }
-  if (!isVariadic && args.length > declared.length) {
-    throw usageError({
-      fix: `Run: ${usage}.`,
-      message: `Unexpected argument "${args[declared.length]}"`,
-      status: "unexpected_argument",
-      why: `bun ${noun} ${verb} takes ${declared.length === 0 ? "no arguments" : declared.join(" ")}.`,
-    });
+  const counts = new Map<string, number>();
+  for (const token of tokens) {
+    if (token.kind === "option" && token.name !== "help") {
+      counts.set(token.name, (counts.get(token.name) ?? 0) + 1);
+      if (token.value === undefined || token.value === "") {
+        throw usage(
+          noun,
+          commandName,
+          "missing_value",
+          `Option --${token.name} has no value`,
+          `--${token.name} needs a value: --${token.name}=${spec.options?.[token.name]?.value}.`,
+          `Run \`bun ${noun} ${commandName} --help\`.`
+        );
+      }
+    }
+  }
+  for (const [name, count] of counts) {
+    if (count > 1) {
+      throw usage(
+        noun,
+        commandName,
+        "duplicate_option",
+        `Option --${name} passed ${count} times`,
+        "Every option is allowed once.",
+        `Pass --${name} once.`
+      );
+    }
+  }
+  const [positional] = positionals;
+  if (positional !== undefined) {
+    const choiceName = Object.entries(spec.options ?? {}).find(([, value]) =>
+      value.choices?.includes(positional)
+    )?.[0];
+    throw usage(
+      noun,
+      commandName,
+      "unexpected_argument",
+      `Unexpected argument "${positional}"`,
+      `bun ${noun} ${commandName} takes options only, no positional arguments.`,
+      choiceName
+        ? `Pass --${choiceName}=${positional}.`
+        : `Run \`bun ${noun} ${commandName} --help\`.`
+    );
   }
 };
 
-const parseFlags = (
-  noun: string,
-  verb: string,
-  spec: CommandSpec,
-  argv: string[]
-) => {
-  try {
-    return parseArgs({
-      allowPositionals: true,
-      args: argv,
-      options: { ...spec.options, help: { short: "h", type: "boolean" } },
-    });
-  } catch (error) {
-    throw usageError({
-      fix: `Run \`bun ${noun} ${verb} --help\` to see its options.`,
-      message: error instanceof Error ? error.message : String(error),
-      status: "invalid_option",
-      why: `bun ${noun} ${verb} does not accept this option or value.`,
-    });
+const validateValues = ({
+  noun,
+  commandName,
+  spec,
+  values,
+}: ParsedInvocation) => {
+  // SAFETY: parser definitions include every declared string option.
+  for (const [name, option] of Object.entries(spec.options ?? {})) {
+    const value = values[name];
+    if (value && option.choices && !option.choices.includes(value)) {
+      const status = option.invalidStatus ?? "invalid_value";
+      const data = {
+        invalid_platform: [
+          `Unknown platform "${values[name]}"`,
+          "--platform accepts: ios, android.",
+          "Pass --platform=ios or --platform=android.",
+        ],
+        fixture_not_found: [
+          `Unknown fixture "${values[name]}"`,
+          `--fixture accepts: ${option.choices.join(", ")}.`,
+          "Pass one accepted value.",
+        ],
+      } satisfies Record<string, [string, string, string]>;
+      const [message, why, fix] = data[status] ?? [
+        `Invalid value "${values[name]}" for --${name}`,
+        `--${name} accepts: ${option.choices.join(", ")}.`,
+        "Pass one accepted value.",
+      ];
+      throw usage(noun, commandName, status, message, why, fix);
+    }
+  }
+  for (const [name, option] of Object.entries(spec.options ?? {})) {
+    if (option.isRequired && values[name] === undefined) {
+      throw usage(
+        noun,
+        commandName,
+        "missing_option",
+        `Missing --${name}`,
+        `bun ${noun} ${commandName} requires --${name}.`,
+        `Pass --${name}=${option.value}.`
+      );
+    }
+  }
+  if (spec.exactlyOne) {
+    const passed = spec.exactlyOne.filter((name) => values[name] !== undefined);
+    if (passed.length > 1) {
+      throw usage(
+        noun,
+        commandName,
+        "conflicting_options",
+        "Both --platform and --target passed",
+        "Each option selects one device. Two devices per command are not allowed.",
+        "Pass exactly one of --platform, --target."
+      );
+    }
+    if (passed.length === 0) {
+      throw usage(
+        noun,
+        commandName,
+        "missing_option",
+        "Missing --platform or --target",
+        `bun ${noun} ${commandName} needs one device.`,
+        `Pass --platform=<ios|android> for simulator or emulator, or --target=<target> for a phone. Run \`bun devices list\` to see both.`
+      );
+    }
   }
 };
 
-// `-- <args>` goes unparsed to commands that forward it to another tool.
-const splitPassthrough = (spec: CommandSpec, argv: string[]) => {
-  const index = argv.indexOf("--");
-  return spec.hasPassthrough && index !== -1
-    ? { own: argv.slice(0, index), passthrough: argv.slice(index + 1) }
-    : { own: argv, passthrough: [] };
+const runCommand = async ({
+  noun,
+  commandName,
+  spec,
+  argv,
+}: {
+  noun: string;
+  commandName: string;
+  spec: CommandSpec;
+  argv: string[];
+}) => {
+  const definitions = Object.fromEntries(
+    Object.entries(spec.options ?? {}).map(([key]) => [
+      key,
+      { type: "string" as const },
+    ])
+  );
+  const parsed = parseArgs({
+    args: argv,
+    options: definitions,
+    strict: false,
+    tokens: true,
+    allowPositionals: true,
+  });
+  const { tokens } = parsed;
+  // SAFETY: parser definitions include every declared string option.
+  const values = parsed.values as Record<string, string | undefined>;
+  validateTokens({
+    noun,
+    commandName,
+    spec,
+    definitions,
+    tokens,
+    positionals: parsed.positionals,
+    values,
+  });
+  validateValues({
+    noun,
+    commandName,
+    spec,
+    definitions,
+    tokens,
+    positionals: parsed.positionals,
+    values,
+  });
+  await spec.run(values);
 };
 
 const main = async () => {
   const [noun = "", verb, ...argv] = process.argv.slice(2);
   const nounSpec = NOUNS.get(noun);
   if (!nounSpec) {
-    throw usageError({
-      fix: "Run `bun builds --help` or `bun e2e --help`. For devices, use `bunx agent-device`.",
-      message: `Unknown CLI "${noun}"`,
-      status: "unknown_cli",
-      why: "The first argument must be builds or e2e.",
-    });
+    throw usage(
+      "",
+      "",
+      "unknown_cli",
+      `Unknown CLI "${noun}"`,
+      "The first argument must be app, builds, devices, or e2e.",
+      "Run `bun app --help`, `bun builds --help`, `bun devices --help`, or `bun e2e --help`."
+    );
   }
-  if (verb === undefined || HELP_FLAGS.has(verb)) {
-    printNounHelp(noun, nounSpec);
+  if (!verb || ["--help", "-h", "help"].includes(verb)) {
+    console.log(nounHelp(noun, nounSpec));
     return;
   }
-  const name = ALIASES.get(verb) ?? verb;
-  const spec = nounSpec.commands[name];
+  const commandName = ALIASES.get(verb) ?? verb;
+  const spec = nounSpec.commands[commandName];
   if (!spec) {
-    throw usageError({
-      fix: `Run \`bun ${noun} --help\` to see all commands.`,
-      message: `Unknown command "${verb}"`,
-      status: "unknown_command",
-      why: `bun ${noun} has no command "${verb}".`,
-    });
+    throw usage(
+      noun,
+      verb,
+      "unknown_command",
+      `Unknown command "${verb}"`,
+      `bun ${noun} has no command "${verb}".`,
+      `Run \`bun ${noun} --help\` to see all commands.`
+    );
   }
-  const { own, passthrough } = splitPassthrough(spec, argv);
-  const { positionals, values } = parseFlags(noun, name, spec, own);
-  if (values.help) {
-    printCommandHelp(noun, name, spec);
+  if (argv.includes("--help") || argv.includes("-h")) {
+    console.log(helpText(noun, commandName, spec));
     return;
   }
-  checkArgs(noun, name, spec, positionals);
-  await spec.run(positionals, values, passthrough);
+  await runCommand({ noun, commandName, spec, argv });
 };
-
 try {
   await main();
 } catch (error) {
   const fields =
     error instanceof CliError
       ? error
-      : {
-          exitCode: 1,
-          fix: "Rerun the command. If it fails again, run it with --help to check its usage.",
-          message: error instanceof Error ? error.message : String(error),
+      : new CliError({
           status: "unexpected_error",
-          why: "Reading the build cache, e2e runs, or the native fingerprint failed.",
-        };
+          message: error instanceof Error ? error.message : String(error),
+          why: "Command failed unexpectedly.",
+          fix: "Rerun the command and inspect the error.",
+        });
   console.error(
     `error [${fields.status}]: ${fields.message}\n  why: ${fields.why}\n  fix: ${fields.fix}`
   );

@@ -1,0 +1,10 @@
+Inspect and prune the shared build cache.
+
+Usage: bun builds <command> [options]
+
+Commands:
+  list   List cached builds with variant, source, size, and last use
+  rm     Remove one cached build
+  prune  Remove old builds and state of deleted worktrees
+
+Run `bun builds <command> --help` for details. Aliases: ls = list, remove = rm.

@@ -4,20 +4,21 @@ on:
       - main
 name: release-please
 
-permissions:
-  contents: write
-  issues: write
-  pull-requests: write
+permissions: {}
 
 jobs:
   release-please:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
     outputs:
       release_created: ${{ steps.release.outputs.release_created }}
       release_sha: ${{ steps.release.outputs.sha }}
     steps:
       - id: release
-        uses: google-github-actions/release-please-action@db8f2c60ee802b3748b512940dde88eabd7b7e01 # v3.7.13
+        uses: google-github-actions/release-please-action@e4dc86ba9405554aeba3c6bb2d169500e7d3b4ee # v4.1.1
         with:
           release-type: expo
           package-name: release-please-action
@@ -37,13 +38,13 @@ jobs:
       contents: read
     steps:
       - name: Checkout released commit
-        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           ref: ${{ needs.release-please.outputs.release_sha }}
           persist-credentials: false
 
       - name: Set up Node.js
-        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version-file: .node-version
 
@@ -53,7 +54,7 @@ jobs:
           bun-version-file: package.json
 
       - name: Set up Expo and EAS
-        uses: expo/expo-github-action@c7b66a9c327a43a8fa7c0158e7f30d6040d2481e # 8.2.1
+        uses: expo/expo-github-action@eab7a230208c952974db8c3245cfd78402c7b385 # 9.0.0
         with:
           eas-version: 21.4.0
           token: ${{ secrets.EXPO_TOKEN }}
@@ -62,5 +63,7 @@ jobs:
         run: bun ci
 
       - name: Build and submit iOS release
+        env:
+          EXPO_PUBLIC_APP_VARIANT: production
         run: >-
           eas build --platform ios --profile production --auto-submit --non-interactive --no-wait --freeze-credentials

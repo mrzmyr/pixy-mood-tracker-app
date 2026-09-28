@@ -1,4 +1,4 @@
-import type { SettingsState } from "@/hooks/useSettings";
+import type { SettingsState } from "@/state/settings";
 
 /**
  * Settings used before storage loads and for fresh installs.

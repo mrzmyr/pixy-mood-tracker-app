@@ -3,10 +3,10 @@ import { ActivityIndicator, Platform, Text, View } from "react-native";
 import type { NativeScrollEvent, NativeSyntheticEvent } from "react-native";
 import type { FlashListRef } from "@shopify/flash-list";
 import type { Month } from "./layout";
-import { useCalendarFilters } from "@/hooks/useCalendarFilters";
+import { useCalendarFilters } from "@/features/calendar/filters";
 import useColors from "@/hooks/useColors";
-import { useLogState } from "@/hooks/useLogs";
-import { useSettings } from "@/hooks/useSettings";
+import { useLogState } from "@/features/logs";
+import { useSettings } from "@/state/settings";
 import Calendar from "./Calendar";
 import { CalendarBottomSheet } from "./CalendarBottomSheet";
 import { Body } from "./CalendarBottomSheet/Body";
@@ -14,8 +14,16 @@ import { CalendarFooter } from "./CalendarFooter";
 import CalendarHeader from "./CalendarHeader";
 import { ScrollToBottomButton } from "./ScrollToBottomButton";
 import { t } from "@/helpers/translation";
+import { ObserveInteractiveMarker } from "expo-observe";
 
 const CalendarScreenComponent = () => {
+  /*
+   * Opt out of React Compiler. Compiled, this screen returns a cached footer
+   * element while its tab is frozen (freezeOnBlur). After unfreezing, FlashList
+   * kept the stale footer: resetting data in Settings left "Add another entry
+   * for today" on an empty calendar (e2e/flows/data-round-trip.yaml).
+   */
+  "use no memo";
   const colors = useColors();
   const { settings } = useSettings();
   const logState = useLogState();
@@ -82,6 +90,7 @@ const CalendarScreenComponent = () => {
         />
       </View>
       {Platform.OS !== "web" && <CalendarBottomSheet />}
+      <ObserveInteractiveMarker />
     </View>
   );
 };

@@ -1,15 +1,15 @@
-import { useNavigation } from "@react-navigation/native";
+import { StackActions, useNavigation } from "@react-navigation/native";
 import _ from "lodash";
 import { Pressable, Text, View } from "react-native";
-import { Card } from "@/components/Statistics/Card";
+import { Card } from "@/features/statistics/components/Card";
 import { t } from "@/helpers/translation";
-import { useAnonymizer } from "../../hooks/useAnonymizer";
-import { useCalendarFilters } from "../../hooks/useCalendarFilters";
+import { useAnonymizer } from "@/state/analytics/anonymizer";
+import { useCalendarFilters } from "@/features/calendar/filters";
 import useColors from "../../hooks/useColors";
 import useHaptics from "../../hooks/useHaptics";
-import type { TagsDistributionData } from "../../hooks/useStatistics/TagsDistribution";
-import type { Tag } from "../../hooks/useTags";
-import { CardFeedback } from "@/components/Statistics/CardFeedback";
+import type { TagsDistributionData } from "@/features/statistics/TagsDistribution";
+import type { Tag } from "@/features/tags";
+import { CardFeedback } from "@/features/statistics/components/CardFeedback";
 
 /**
  * Tag bars for the top `limit` tags. Tapping a bar filters the calendar to
@@ -33,7 +33,9 @@ export const TagDistributionContent = ({
       ...calendarFilters.data,
       tagIds: [tagId],
     });
-    navigation.navigate("Calendar");
+    // React Navigation 7 no longer finds nested tab screens by name. `popTo`
+    // also closes the Highlights screen instead of pushing a second tab stack.
+    navigation.dispatch(StackActions.popTo("tabs", { screen: "Calendar" }));
   };
 
   return (

@@ -1,0 +1,22 @@
+appId: ${APP_ID}
+tags: [p0, upgrade]
+---
+# Users on 1.68.x upgrade without data loss. Loads 1.68.x storage as written by
+# that version, restarts, and checks entries, tags, and a first new entry.
+- runFlow:
+    file: ../subflows/load-storage-fixture.yaml
+    env:
+      FIXTURE: legacy-1.68
+- runFlow: ../subflows/verify-upgrade.yaml
+
+# Tags keep titles and archive state.
+- tapOn:
+    id: "settings"
+- scrollUntilVisible:
+    element:
+      text: "Tags"
+    direction: UP
+- tapOn: "Tags"
+- assertVisible: "Legacy custom"
+- assertVisible: "Work 💼"
+- assertVisible: "Legacy archived"

@@ -26,7 +26,7 @@ export const EMOTION_CATEGORIES: Emotion["category"][] = [
 
 /**
  * Emotion key as stored on log entries; must match a key in the emotion
- * list in `src/components/Logger/config.ts`.
+ * list in `src/features/logger/config.ts`.
  */
 export const EmotionKeySchema = z.string();
 

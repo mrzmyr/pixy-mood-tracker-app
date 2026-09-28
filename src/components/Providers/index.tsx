@@ -2,13 +2,13 @@ import { PostHogProvider } from "posthog-react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { POSTHOG_API_KEY } from "@/constants/API";
 import { TRACKING_ENABLED } from "@/constants/Config";
-import { AnalyticsProvider } from "@/hooks/useAnalytics";
-import { CalendarFiltersProvider } from "@/hooks/useCalendarFilters";
-import { LogsProvider } from "@/hooks/useLogs";
-import { SettingsProvider } from "@/hooks/useSettings";
-import { StatisticsProvider } from "@/hooks/useStatistics";
-import { TagsProvider } from "@/hooks/useTags";
-import { TemporaryLogProvider } from "@/hooks/useTemporaryLog";
+import { AnalyticsProvider } from "@/state/analytics";
+import { CalendarFiltersProvider } from "@/features/calendar/filters";
+import { LogsProvider } from "@/features/logs";
+import { SettingsProvider } from "@/state/settings";
+import { StatisticsProvider } from "@/features/statistics";
+import { TagsProvider } from "@/features/tags";
+import { TemporaryLogProvider } from "@/features/logger/temporaryLog";
 import type { SupportClient } from "@/support";
 import { SupportProvider } from "@/support";
 import { resolveDevelopmentSupportClient } from "@/support/clients";
@@ -55,7 +55,6 @@ const Providers = ({
   return (
     <SafeAreaProvider>
       <SettingsProvider>
-        {/* <PasscodeProvider> */}
         <PostHogProvider
           apiKey={POSTHOG_API_KEY}
           options={{
@@ -70,7 +69,6 @@ const Providers = ({
             {supportContent}
           </AnalyticsProvider>
         </PostHogProvider>
-        {/* </PasscodeProvider> */}
       </SettingsProvider>
     </SafeAreaProvider>
   );

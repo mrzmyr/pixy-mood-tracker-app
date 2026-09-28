@@ -1,15 +1,37 @@
-// Shared types and helpers for `bun builds`, `bun e2e`, and `bun dashboard`.
 import { execFileSync } from "node:child_process";
+import crypto from "node:crypto";
 import fs from "node:fs";
+import os from "node:os";
+import path from "node:path";
 
 type Platform = "ios" | "android";
+interface OptionSpec {
+  value: string;
+  description: string[];
+  isRequired?: boolean;
+  choices?: readonly string[];
+  invalidStatus?: string;
+}
+interface HelpSection {
+  title: "Behavior" | "Requires" | "Output" | "Examples";
+  lines: string[];
+}
+interface CommandSpec {
+  summary: string;
+  usage?: string;
+  options?: Record<string, OptionSpec>;
+  exactlyOne?: string[];
+  sections?: HelpSection[];
+  errors?: Record<string, string>;
+  successWord?: "ok" | "pass";
+  run: (values: Record<string, string | undefined>) => Promise<void> | void;
+}
 
 interface CliErrorFields {
   status: string;
   message: string;
   why: string;
   fix: string;
-  // 2 for invalid usage (unknown command, option, or argument), 1 otherwise.
   exitCode?: number;
 }
 
@@ -28,9 +50,6 @@ class CliError extends Error {
     this.exitCode = exitCode;
   }
 }
-
-const DEFAULT_KEEP_BUILDS = 3;
-const DEFAULT_KEEP_WITHIN = "7d";
 
 const run = (command: string, args: string[], timeout = 60_000) =>
   execFileSync(command, args, {
@@ -54,23 +73,6 @@ const readJson = <T>(file: string): T | null => {
   } catch {
     return null;
   }
-};
-
-const parseDuration = (value: string) => {
-  const match = /^(?<amount>\d+)(?<unit>[smhd])$/u.exec(value);
-  if (!match) {
-    throw new CliError({
-      exitCode: 2,
-      fix: "Use a number with s, m, h, or d, for example 45m or 2h.",
-      message: `Invalid duration "${value}"`,
-      status: "invalid_duration",
-      why: "Durations need a unit.",
-    });
-  }
-  const unitMs = { d: 86_400_000, h: 3_600_000, m: 60_000, s: 1000 };
-  // SAFETY: the regex only matches the units s, m, h, and d.
-  const unit = match.groups?.unit as keyof typeof unitMs;
-  return Number(match.groups?.amount) * unitMs[unit];
 };
 
 const formatAge = (iso: string) => {
@@ -111,91 +113,73 @@ const printTable = (columns: string[], rows: string[][]) => {
   }
 };
 
-const getWorktree = () =>
-  tryRun("git", ["rev-parse", "--show-toplevel"]) ?? process.cwd();
+const CHECKOUTS_DIR = path.join(
+  os.homedir(),
+  ".cache",
+  "pixy-mood-tracker",
+  "checkouts"
+);
+const CHECKOUT_FILE = "checkout.txt";
 
-// Status messages go to stderr, so stdout stays pipeable.
-const note = (message: string) => console.error(message);
-
-const isPlatform = (value: string): value is Platform =>
-  value === "ios" || value === "android";
-
-const PLATFORM_OPTION = { platform: { type: "string" } } as const;
-
-const getPlatform = (value: string | undefined) => {
-  if (value === undefined || isPlatform(value)) {
-    return value;
-  }
-  throw new CliError({
-    exitCode: 2,
-    fix: "Use --platform ios or --platform android.",
-    message: `Unknown platform "${value}"`,
-    status: "invalid_platform",
-    why: "Only iOS and Android devices are supported.",
-  });
+const getCheckoutDir = (root: string) => {
+  const checkout = fs.realpathSync(root);
+  const hash = crypto
+    .createHash("sha256")
+    .update(checkout)
+    .digest("hex")
+    .slice(0, 12);
+  const dir = path.join(CHECKOUTS_DIR, hash);
+  fs.mkdirSync(dir, { recursive: true });
+  fs.writeFileSync(path.join(dir, CHECKOUT_FILE), `${checkout}\n`);
+  return dir;
 };
 
-type OptionSpec =
-  | { type: "boolean"; short?: string }
-  | { type: "string"; short?: string; default?: string };
-type Options = Record<string, OptionSpec>;
-// Unset boolean flags are undefined; string flags fall back to their default.
-type OptionValue<S extends OptionSpec> = S extends { type: "boolean" }
-  ? boolean | undefined
-  : S extends { default: string }
-    ? string
-    : string | undefined;
-type OptionValues<O extends Options> = { [K in keyof O]: OptionValue<O[K]> };
+const getStateDir = (kind: "e2e" | "build" | "screenshots") => {
+  const dir = path.join(
+    getCheckoutDir(path.resolve(import.meta.dir, "../..")),
+    kind
+  );
+  fs.mkdirSync(dir, { recursive: true });
+  return dir;
+};
 
-// One subcommand, such as `bun builds prune`. The entry point parses only the
-// flags in `options`, so a flag of another command is an error.
-interface CommandSpec<O extends Options = Options> {
-  summary: string;
-  // Positionals for usage and validation: `<id>` is required, `[paths...]`
-  // is optional and variadic.
-  args?: string[];
-  // Where to find a valid value for a missing argument.
-  argsSource?: string;
-  options?: O;
-  // Accept `-- <args>` and pass them to `run` unparsed.
-  hasPassthrough?: boolean;
-  // Extra help: what the options do, defaults, and side effects.
-  details?: string;
-  run: (
-    args: string[],
-    values: OptionValues<O>,
-    passthrough: string[]
-  ) => Promise<void> | void;
-}
+const note = (message: string) => console.error(message);
 
-const defineCommand = <const O extends Options = Record<never, never>>(
-  spec: CommandSpec<O>
-) =>
-  // SAFETY: the entry point parses flags with exactly `spec.options`.
-  spec as CommandSpec;
+// The build cache provider logs with console.log, as Expo CLI expects.
+// CLI stdout carries results only, so its lines go to stderr here.
+const withLogsOnStderr = async <T>(work: () => Promise<T>): Promise<T> => {
+  const { log } = console;
+  console.log = console.error;
+  try {
+    return await work();
+  } finally {
+    console.log = log;
+  }
+};
+
+const defineCommand = (spec: CommandSpec) => spec;
 
 interface Noun {
   summary: string;
   commands: Record<string, CommandSpec>;
-  // Shown after the command list in `bun <noun> --help`.
   footer?: string;
+  helpTail?: string[];
+  commandOrder?: string[];
 }
 
-/** Types, constants, and helpers shared by the CLIs and `bun dashboard`. */
 export {
+  CHECKOUTS_DIR,
+  CHECKOUT_FILE,
   CliError,
-  DEFAULT_KEEP_BUILDS,
-  DEFAULT_KEEP_WITHIN,
-  PLATFORM_OPTION,
   defineCommand,
   formatAge,
-  getPlatform,
-  getWorktree,
+  getCheckoutDir,
+  getStateDir,
   isProcessAlive,
   note,
-  parseDuration,
+  withLogsOnStderr,
   printTable,
   readJson,
   tryRun,
 };
-export type { CommandSpec, Noun, Platform };
+export type { CommandSpec, HelpSection, Noun, OptionSpec, Platform };

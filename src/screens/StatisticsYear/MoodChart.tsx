@@ -2,17 +2,18 @@ import type { Dayjs } from "dayjs";
 import dayjs from "dayjs";
 import { Dimensions } from "react-native";
 import { t } from "@/helpers/translation";
-import { useLogState } from "../../hooks/useLogs";
-import { getRatingDistributionForYear } from "../../hooks/useStatistics/RatingDistribution";
+import { useLogState } from "@/features/logs";
+import { getRatingDistributionForYear } from "@/features/statistics/RatingDistribution";
 
 import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
-import { BigCard } from "@/components/BigCard";
-import type { ScaleItem } from "@/components/RatingChart";
-import { RatingChart } from "@/components/RatingChart";
-import { NotEnoughDataOverlay } from "@/components/Statistics/NotEnoughDataOverlay";
+import { BigCard } from "@/features/statistics/components/BigCard";
+import type { ScaleItem } from "@/features/statistics/components/RatingChart";
+import { RatingChart } from "@/features/statistics/components/RatingChart";
+import { NotEnoughDataOverlay } from "@/features/statistics/components/NotEnoughDataOverlay";
 import { useMemo } from "react";
 import random from "lodash/random";
 import range from "lodash/range";
+import { getItemDate } from "@/lib/logDates";
 
 dayjs.extend(isSameOrAfter);
 
@@ -25,8 +26,9 @@ const MIN_ITEMS = 5;
 export const MoodChart = ({ date }: { date: Dayjs }) => {
   const logState = useLogState();
 
+  const year = date.format("YYYY");
   const items = logState.items.filter((item) =>
-    dayjs(item.dateTime).isSame(date, "year")
+    getItemDate(item).startsWith(year)
   );
 
   // Placeholder data is generated once per mount so it does not change on re-render.

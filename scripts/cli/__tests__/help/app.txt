@@ -1,0 +1,16 @@
+Build, install, seed, open, and close the preview app.
+
+Usage: bun app <command> [options]
+
+Commands:
+  build    Build the preview app into the shared cache
+  install  Install the preview app on one device
+  seed     Load a fixture and capture its first screen
+  open     Open the preview app and capture its first screen
+  close    Stop the preview app and reset its data
+
+Every command needs one device. Pass exactly one:
+  --platform=<ios|android>  Simulator or emulator of this checkout
+  --target=<target>         One phone from `bun devices list`
+
+Run `bun app <command> --help` for details.

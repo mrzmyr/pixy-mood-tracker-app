@@ -1,4 +1,4 @@
-appId: com.devmood.pixymoodtracker
+appId: ${APP_ID}
 ---
 # The second-ever entry adds Pixy's reminder prompt after the message slide.
 - tapOn:

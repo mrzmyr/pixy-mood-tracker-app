@@ -1,4 +1,4 @@
-import { MoodCounts } from "@/components/Statistics/MoodCounts";
+import { MoodCounts } from "@/features/statistics/components/MoodCounts";
 import { t } from "@/helpers/translation";
 import dayjs from "dayjs";
 import { useMemo } from "react";
@@ -6,14 +6,15 @@ import { ScrollView, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import type { RootStackScreenProps } from "../../../types";
 import useColors from "../../hooks/useColors";
-import { useLogState } from "../../hooks/useLogs";
+import { useLogState } from "@/features/logs";
 import { BestMonth } from "./BestMonth";
 import { Header } from "./Header";
 import { MoodChart } from "./MoodChart";
 import { WorstMonth } from "./WorstMonth";
 import YearInPixels from "./YearInPixels";
-import { TagDistribution } from "@/components/Statistics/TagDistribution";
-import { EmotionsDistribution } from "@/components/Statistics/EmotionsDistribution";
+import { TagDistribution } from "@/features/statistics/components/TagDistribution";
+import { EmotionsDistribution } from "@/features/statistics/components/EmotionsDistribution";
+import { getItemDate } from "@/lib/logDates";
 
 /** Year report screen. Invalid `date` params fall back to the current year. */
 export const StatisticsYearScreen = ({
@@ -29,8 +30,9 @@ export const StatisticsYearScreen = ({
   );
 
   const logState = useLogState();
+  const year = date.format("YYYY");
   const items = logState.items.filter((item) =>
-    dayjs(item.dateTime).isSame(date, "year")
+    getItemDate(item).startsWith(year)
   );
 
   return (

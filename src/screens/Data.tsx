@@ -5,7 +5,7 @@ import MenuListItem from "@/components/MenuListItem";
 import TextInfo from "@/components/TextInfo";
 import { t } from "@/helpers/translation";
 import useColors from "../hooks/useColors";
-import { useDatagate } from "../hooks/useDatagate";
+import { useDatagate } from "@/features/datagate";
 import type { RootStackScreenProps } from "../../types";
 import { PageWithHeaderLayout } from "@/components/PageWithHeaderLayout";
 

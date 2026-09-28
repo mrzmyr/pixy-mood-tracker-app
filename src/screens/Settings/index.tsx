@@ -23,14 +23,15 @@ import MenuListHeadline from "@/components/MenuListHeadline";
 import MenuListItem from "@/components/MenuListItem";
 import { SupportCard } from "@/components/SupportCard";
 import TextInfo from "@/components/TextInfo";
+import { APP_VARIANT, HAS_APP_VARIANT } from "@/constants/AppVariant";
 import { CHANGELOG_URL, FEEDBACK_FEATURES_URL } from "@/constants/Config";
+import { DEV_TOOLS } from "@/dev";
 import { t } from "@/helpers/translation";
-import { useAnalytics } from "../../hooks/useAnalytics";
+import { useAnalytics } from "@/state/analytics";
 import useColors from "../../hooks/useColors";
-import useFeedbackModal from "../../hooks/useFeedbackModal";
+import useFeedbackModal from "@/features/feedback/hooks/useFeedbackModal";
 import pkg from "../../../package.json";
 import type { RootStackScreenProps } from "../../../types";
-import * as Updates from "expo-updates";
 import { Tag } from "lucide-react-native";
 import { useSupport } from "@/support";
 
@@ -55,24 +56,6 @@ export const SettingsScreen = ({
       Linking.openURL(storeUrl);
     }
   };
-
-  // const { settings, setSettings } = useSettings()
-  // const passcodeSupported = supportedSecurityLevel > 0;
-  // const [passcodeEnabled, setPasscodeEnabled] = useState(settings.passcodeEnabled);
-  // const [supportedSecurityLevel, setSupportedSecurityLevel] = useState<LocalAuthentication.SecurityLevel>(0);
-
-  // useEffect(() => {
-  //   analytics.track('passcode_enable', { enabled: passcodeEnabled })
-  //   setSettings((settings) => ({ ...settings, passcodeEnabled }))
-  // }, [passcodeEnabled])
-
-  // useEffect(() => {
-  //   LocalAuthentication
-  //     .getEnrolledLevelAsync()
-  //     .then(level => {
-  //       setSupportedSecurityLevel(level)
-  //     })
-  // })
 
   return (
     <View
@@ -135,35 +118,6 @@ export const SettingsScreen = ({
             isLink
             isLast
           />
-          {/* <MenuListItem
-            title={t('passcode')}
-            deactivated={!passcodeSupported}
-            iconLeft={
-              passcodeEnabled ? 
-              <Lock width={18} color={colors.menuListItemIcon} /> :
-              <Unlock width={18} color={colors.menuListItemIcon} />
-            }
-            iconRight={
-              <Switch
-                ios_backgroundColor={colors.backgroundSecondary}
-                disabled={!passcodeSupported}
-                onValueChange={() => {
-                  analytics.track('passcode_toggle', { enabled: !passcodeEnabled })
-                  if(passcodeEnabled) {
-                    setPasscodeEnabled(false)
-                  } else {
-                    LocalAuthentication.authenticateAsync().then((result) => {
-                      setPasscodeEnabled(result.success)
-                    })
-                  }
-                }}
-                value={passcodeEnabled}
-                testID={`passcode-enabled`}
-              />
-            }
-            testID='passcode'
-            isLast
-          /> */}
         </MenuList>
 
         <MenuListHeadline>{t("settings_feedback")}</MenuListHeadline>
@@ -226,6 +180,15 @@ export const SettingsScreen = ({
             onPress={() => navigation.navigate("DevelopmentTools")}
             isLink
           />
+          {DEV_TOOLS && (
+            <MenuListItem
+              title="Test data"
+              iconLeft={<Database width={18} color={colors.menuListItemIcon} />}
+              onPress={() => navigation.navigate("DevFixtures")}
+              isLink
+              testID="dev-fixtures"
+            />
+          )}
           <MenuListItem
             title={t("app_is_open_source")}
             onPress={() => {
@@ -259,7 +222,7 @@ export const SettingsScreen = ({
           >
             Pixy v{pkg.version}
           </Text>
-          {Updates.channel && (
+          {HAS_APP_VARIANT && (
             <Text
               style={{
                 fontSize: 14,
@@ -267,7 +230,7 @@ export const SettingsScreen = ({
                 color: colors.textSecondary,
               }}
             >
-              {Updates.channel}
+              {APP_VARIANT}
             </Text>
           )}
         </View>

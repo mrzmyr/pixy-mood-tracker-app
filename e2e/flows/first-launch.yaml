@@ -1,0 +1,29 @@
+appId: ${APP_ID}
+tags: [p0, onboarding]
+---
+# New user: onboarding, first entry, entry survives a cold start.
+- launchApp:
+    clearState: true
+- assertVisible: "Welcome 👋"
+- tapOn: "Start"
+- assertVisible: "Calendar"
+- tapOn: "Next"
+- assertVisible: "Statistics"
+- tapOn: "Next"
+- assertVisible: "Filters"
+- tapOn: "Next"
+- assertVisible: "Daily Reminder"
+- tapOn: "Maybe later"
+- assertVisible: "We take privacy serious and handle your data with care."
+- tapOn: "Understood"
+- assertVisible:
+    id: "calendar"
+
+- runFlow: ../subflows/create-basic-entry.yaml
+
+- stopApp
+- launchApp
+- assertNotVisible: "Welcome 👋"
+- extendedWaitUntil:
+    visible: "Add another entry for today"
+    timeout: 10000

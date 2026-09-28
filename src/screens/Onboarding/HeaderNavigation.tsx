@@ -30,6 +30,7 @@ export const HeaderNavigation = ({
       }}
     >
       <TouchableOpacity
+        testID="onboarding-back"
         style={{
           padding: 16,
           marginLeft: -16,

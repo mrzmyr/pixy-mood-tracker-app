@@ -7,7 +7,7 @@ import type { getGeometry } from "./layout";
 import { Platform, StyleSheet, Text, View } from "react-native";
 import { useStyle } from "react-native-style-utilities";
 import useColors from "../../hooks/useColors";
-import type { LogItem } from "../../hooks/useLogs";
+import type { LogItem } from "@/features/logs";
 import CalendarWeek from "./CalendarWeek";
 
 const styles = StyleSheet.create({

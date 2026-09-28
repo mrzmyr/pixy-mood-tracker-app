@@ -1,9 +1,9 @@
-import { useState } from "react";
-import { View } from "react-native";
+import { useEffect, useEffectEvent, useState } from "react";
+import { BackHandler, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import useColors from "../../hooks/useColors";
-import { useAnalytics } from "../../hooks/useAnalytics";
-import { useSettings } from "../../hooks/useSettings";
+import { useAnalytics } from "@/state/analytics";
+import { useSettings } from "@/state/settings";
 import type { RootStackScreenProps } from "../../../types";
 import { ExplainerSlide } from "./ExplainerSlide";
 import { IndexSlide } from "./IndexSlide";
@@ -45,6 +45,24 @@ export const Onboarding = ({
     analytics.track("onboarding_slide", { index: nextIndex });
   };
 
+  const onHardwareBack = useEffectEvent(() => {
+    if (index === 0) {
+      return true;
+    }
+
+    goToSlide(index - 1);
+    return true;
+  });
+
+  useEffect(() => {
+    const subscription = BackHandler.addEventListener(
+      "hardwareBackPress",
+      onHardwareBack
+    );
+
+    return () => subscription.remove();
+  }, []);
+
   const finish = () => {
     addActionDone("onboarding");
     analytics.track("onboarding_finished");
@@ -58,18 +76,7 @@ export const Onboarding = ({
   };
 
   const slides = [
-    <IndexSlide
-      key="index"
-      onPress={(answer) => {
-        analytics.track("onboarding_question_1", {
-          answer:
-            answer === 0
-              ? "used_mood_tracker_before"
-              : "never_used_mood_tracker",
-        });
-        goToSlide(1);
-      }}
-    />,
+    <IndexSlide key="index" onPress={() => goToSlide(1)} />,
     <CalendarSlide
       key="calendar"
       onSkip={skip}

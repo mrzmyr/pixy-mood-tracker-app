@@ -1,0 +1,8 @@
+Run Maestro flows on the preview app.
+
+Usage: bun e2e <command> [options]
+
+Commands:
+  run  Reinstall the preview app, then run Maestro flows on one device
+
+Run `bun e2e <command> --help` for details.

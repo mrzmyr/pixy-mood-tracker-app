@@ -1,5 +1,5 @@
-import { MoodCounts } from "@/components/Statistics/MoodCounts";
-import { TagDistribution } from "@/components/Statistics/TagDistribution";
+import { MoodCounts } from "@/features/statistics/components/MoodCounts";
+import { TagDistribution } from "@/features/statistics/components/TagDistribution";
 import { DATE_FORMAT } from "@/constants/Config";
 import { t } from "@/helpers/translation";
 import dayjs from "dayjs";
@@ -8,13 +8,14 @@ import { ScrollView, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import type { RootStackScreenProps } from "../../../types";
 import useColors from "../../hooks/useColors";
-import { useLogState } from "../../hooks/useLogs";
+import { useLogState } from "@/features/logs";
 import { Header } from "./Header";
 import { MoodChart } from "./MoodChart";
 import { MoodPeaks } from "./MoodPeaks";
 import { Navigation } from "./Navigation";
 import { Stats } from "./Stats";
-import { EmotionsDistribution } from "@/components/Statistics/EmotionsDistribution";
+import { EmotionsDistribution } from "@/features/statistics/components/EmotionsDistribution";
+import { getItemDate } from "@/lib/logDates";
 
 /**
  * Month report screen.
@@ -45,15 +46,15 @@ export const StatisticsMonthScreen = ({
 
   const logState = useLogState();
 
-  const prevItems = logState.items.filter((item) =>
-    dayjs(item.dateTime).isSame(prevMonth, "month")
-  );
-  const nextItems = logState.items.filter((item) =>
-    dayjs(item.dateTime).isSame(nextMonth, "month")
-  );
-  const items = logState.items.filter((item) =>
-    dayjs(item.dateTime).isSame(date, "month")
-  );
+  const itemsInMonth = (month: dayjs.Dayjs) => {
+    const prefix = month.format("YYYY-MM");
+    return logState.items.filter((item) =>
+      getItemDate(item).startsWith(prefix)
+    );
+  };
+  const prevItems = itemsInMonth(prevMonth);
+  const nextItems = itemsInMonth(nextMonth);
+  const items = itemsInMonth(date);
 
   return (
     <View

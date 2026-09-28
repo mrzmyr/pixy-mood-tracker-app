@@ -1,0 +1,150 @@
+import { getLogEditMarginTop } from "@/helpers/responsive";
+import { t } from "@/helpers/translation";
+import useColors from "@/hooks/useColors";
+import { useTagsState } from "@/features/tags";
+import { useTemporaryLog } from "@/features/logger/temporaryLog";
+import type { TagReference } from "@/types";
+import { useNavigation } from "@react-navigation/native";
+import { LinearGradient } from "expo-linear-gradient";
+import { ScrollView, View } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import LinkButton from "@/components/LinkButton";
+import { MiniButton } from "@/components/MiniButton";
+import Tag from "@/features/tags/components/Tag";
+import { SlideHeadline } from "@/features/logger/components/SlideHeadline";
+import { Footer } from "./Footer";
+import noop from "lodash/noop";
+
+/**
+ * Tag picker slide. Archived tags are hidden unless the draft already has
+ * them.
+ */
+export const SlideTags = ({
+  onChange,
+  onDisableStep = noop,
+  showDisable,
+}: {
+  onChange: (tags: TagReference[]) => void;
+  onDisableStep?: () => void;
+  showDisable: boolean;
+}) => {
+  const tempLog = useTemporaryLog();
+  const navigation = useNavigation();
+  const insets = useSafeAreaInsets();
+  const colors = useColors();
+  const { tags } = useTagsState();
+
+  const tempLogTagIds = tempLog?.data?.tags
+    ? new Set(tempLog.data.tags.map((d) => d.id))
+    : undefined;
+
+  const _tags = tags.filter((tag) => {
+    const inTempLog = tempLogTagIds?.has(tag.id);
+
+    return (
+      (!inTempLog && !tag.isArchived) ||
+      (inTempLog && tag.isArchived) ||
+      (inTempLog && !tag.isArchived)
+    );
+  });
+
+  const marginTop = getLogEditMarginTop();
+
+  return (
+    <View
+      style={{
+        flex: 1,
+        width: "100%",
+        paddingHorizontal: 20,
+        paddingBottom: insets.bottom + 20,
+        marginTop,
+      }}
+    >
+      <SlideHeadline>{t("log_tags_question")}</SlideHeadline>
+      <View
+        style={{
+          position: "relative",
+          flex: 1,
+        }}
+      >
+        <LinearGradient
+          pointerEvents="none"
+          colors={[colors.logBackground, colors.logBackgroundTransparent]}
+          style={{
+            position: "absolute",
+            height: 24,
+            top: 0,
+            zIndex: 1,
+            width: "100%",
+          }}
+        />
+        <LinearGradient
+          colors={[colors.logBackgroundTransparent, colors.logBackground]}
+          style={{
+            position: "absolute",
+            height: 32,
+            bottom: 0,
+            zIndex: 1,
+            width: "100%",
+          }}
+          pointerEvents="none"
+        />
+        <ScrollView
+          style={{
+            flex: 1,
+          }}
+        >
+          <View
+            style={{
+              flexDirection: "row",
+              flexWrap: "wrap",
+              alignItems: "flex-start",
+              justifyContent: "flex-start",
+              marginTop: 24,
+              paddingBottom: insets.bottom,
+            }}
+          >
+            {_tags?.map((tag) => (
+              <Tag
+                onPress={() => {
+                  const newTags = tempLogTagIds?.has(tag.id)
+                    ? tempLog?.data?.tags.filter(
+                        (selectedTag) => selectedTag.id !== tag.id
+                      )
+                    : [...(tempLog?.data.tags || []), tag];
+                  onChange(newTags);
+                }}
+                title={tag.title}
+                colorName={tag.color}
+                selected={tempLogTagIds?.has(tag.id)}
+                key={tag.id}
+              />
+            ))}
+            <View>
+              <MiniButton
+                onPress={() => {
+                  navigation.navigate("Tags");
+                }}
+              >
+                {t("tags_edit")}
+              </MiniButton>
+            </View>
+          </View>
+        </ScrollView>
+      </View>
+      <Footer>
+        {showDisable && (
+          <LinkButton
+            type="secondary"
+            onPress={onDisableStep}
+            style={{
+              fontWeight: "400",
+            }}
+          >
+            {t("log_tags_disable")}
+          </LinkButton>
+        )}
+      </Footer>
+    </View>
+  );
+};

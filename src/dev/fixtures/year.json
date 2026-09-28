@@ -1,0 +1,6187 @@
+{
+  "version": "1.87.1",
+  "items": [
+    {
+      "id": "14386be1-75b0-5971-af67-8adedd16956d",
+      "date": "2025-09-26",
+      "dateTime": "2025-09-26T20:14:00.000Z",
+      "createdAt": "2025-09-26T20:14:00.000Z",
+      "rating": "good",
+      "sleep": {
+        "quality": "very_good"
+      },
+      "message": "Went for a run.",
+      "emotions": [],
+      "tags": [
+        {
+          "id": "c8d7c978-ea23-501c-b006-3d92dac9e297"
+        },
+        {
+          "id": "ad3d979b-4bf1-5bd8-8fcf-407b2606649c"
+        }
+      ]
+    },
+    {
+      "id": "01fba9f6-b594-537b-999c-86d91cc33306",
+      "date": "2025-09-26",
+      "dateTime": "2025-09-26T12:13:00.000Z",
+      "createdAt": "2025-09-26T12:13:00.000Z",
+      "rating": "extremely_good",
+      "sleep": {
+        "quality": "very_bad"
+      },
+      "message": "",
+      "emotions": ["ecstatic", "thrilled"],
+      "tags": []
+    },
+    {
+      "id": "15ae9697-e6ef-51b3-8943-9332037f9d4f",
+      "date": "2025-09-27",
+      "dateTime": "2025-09-27T20:48:00.000Z",
+      "createdAt": "2025-09-27T20:48:00.000Z",
+      "rating": "bad",
+      "sleep": {
+        "quality": null
+      },
+      "message": "Productive morning, slow afternoon.",
+      "emotions": ["concerned"],
+      "tags": []
+    },
+    {
+      "id": "42362c66-6cdd-54c9-8416-5c3a8bde1f85",
+      "date": "2025-09-28",
+      "dateTime": "2025-09-28T20:24:00.000Z",
+      "createdAt": "2025-09-28T20:24:00.000Z",
+      "rating": "very_good",
+      "sleep": {
+        "quality": "neutral"
+      },
+      "message": "Great dinner with friends.",
+      "emotions": [],
+      "tags": [
+        {
+          "id": "c8d7c978-ea23-501c-b006-3d92dac9e297"
+        },
+        {
+          "id": "ad3d979b-4bf1-5bd8-8fcf-407b2606649c"
+        }
+      ]
+    },
+    {
+      "id": "9d74c1ea-c61a-56f5-9509-cc75de5e7941",
+      "date": "2025-09-29",
+      "dateTime": "2025-09-29T20:53:00.000Z",
+      "createdAt": "2025-09-29T20:53:00.000Z",
+      "rating": "neutral",
+      "sleep": {
+        "quality": "neutral"
+      },
+      "message": "Long walk after work.",
+      "emotions": ["focused", "engaged"],
+      "tags": [
+        {
+          "id": "2d6bd365-df70-5fd3-9b20-22d063bbbeec"
+        },
+        {
+          "id": "8d7098f9-52b8-5d78-ae86-36265f183635"
+        }
+      ]
+    },
+    {
+      "id": "35c02533-140f-5ad6-a38a-3584261a93dc",
+      "date": "2025-09-30",
+      "dateTime": "2025-09-30T20:24:00.000Z",
+      "createdAt": "2025-09-30T20:24:00.000Z",
+      "rating": "bad",
+      "sleep": {
+        "quality": "neutral"
+      },
+      "message": "",
+      "emotions": ["concerned"],
+      "tags": []
+    },
+    {
+      "id": "10e7d8e8-1c50-5903-afd4-2ec4da75381e",
+      "date": "2025-10-01",
+      "dateTime": "2025-10-01T20:04:00.000Z",
+      "createdAt": "2025-10-01T20:04:00.000Z",
+      "rating": "neutral",
+      "sleep": {
+        "quality": "good"
+      },
+      "message": "Went for a run.",
+      "emotions": ["focused", "engaged"],
+      "tags": [
+        {
+          "id": "c8d7c978-ea23-501c-b006-3d92dac9e297"
+        }
+      ]
+    },
+    {
+      "id": "6a07ca49-60e6-52bb-918c-576eda81ec8f",
+      "date": "2025-10-02",
+      "dateTime": "2025-10-02T20:14:00.000Z",
+      "createdAt": "2025-10-02T20:14:00.000Z",
+      "rating": "neutral",
+      "sleep": {
+        "quality": "very_good"
+      },
+      "message": "Long walk after work.",
+      "emotions": [],
+      "tags": [
+        {
+          "id": "c8d7c978-ea23-501c-b006-3d92dac9e297"
+        }
+      ]
+    },
+    {
+      "id": "1de9e2d9-c321-54c9-9879-4253e63a8c9b",
+      "date": "2025-10-03",
+      "dateTime": "2025-10-03T20:56:00.000Z",
+      "createdAt": "2025-10-03T20:56:00.000Z",
+      "rating": "very_bad",
+      "sleep": {
+        "quality": null
+      },
+      "message": "Long walk after work.",
+      "emotions": ["angry", "anxious"],
+      "tags": [
+        {
+          "id": "c8d7c978-ea23-501c-b006-3d92dac9e297"
+        },
+        {
+          "id": "2d6bd365-df70-5fd3-9b20-22d063bbbeec"
+        }
+      ]
+    },
+    {
+      "id": "f2f00e74-bd31-5497-92d9-6c6527e6adbd",
+      "date": "2025-10-04",
+      "dateTime": "2025-10-04T20:16:00.000Z",
+      "createdAt": "2025-10-04T20:16:00.000Z",
+      "rating": "neutral",
+      "sleep": {
+        "quality": null
+      },
+      "message": "Productive morning, slow afternoon.",
+      "emotions": ["curious", "engaged"],
+      "tags": []
+    },
+    {
+      "id": "419ae6c3-caf7-50ad-9ec5-5c91379f839b",
+      "date": "2025-10-05",
+      "dateTime": "2025-10-05T20:48:00.000Z",
+      "createdAt": "2025-10-05T20:48:00.000Z",
+      "rating": "good",
+      "sleep": {
+        "quality": "very_good"
+      },
+      "message": "",
+      "emotions": ["cheerful", "hopeful"],
+      "tags": [
+        {
+          "id": "c154947d-318c-5e75-9b66-6a2a0c610af4"
+        }
+      ]
+    },
+    {
+      "id": "6db4719a-9a37-53b4-94bd-6cd344ae8176",
+      "date": "2025-10-07",
+      "dateTime": "2025-10-07T20:35:00.000Z",
+      "createdAt": "2025-10-07T20:35:00.000Z",
+      "rating": "good",
+      "sleep": {
+        "quality": null
+      },
+      "message": "",
+      "emotions": ["pleased", "hopeful"],
+      "tags": [
+        {
+          "id": "8d7098f9-52b8-5d78-ae86-36265f183635"
+        },
+        {
+          "id": "c154947d-318c-5e75-9b66-6a2a0c610af4"
+        }
+      ]
+    },
+    {
+      "id": "811789c1-8f9b-5689-8613-b5baf394e702",
+      "date": "2025-10-08",
+      "dateTime": "2025-10-08T20:46:00.000Z",
+      "createdAt": "2025-10-08T20:46:00.000Z",
+      "rating": "good",
+      "sleep": {
+        "quality": null
+      },
+      "message": "Great dinner with friends.",
+      "emotions": ["cheerful", "hopeful"],
+      "tags": []
+    },
+    {
+      "id": "4cdd006b-cad6-5989-9f0a-bb5239e0f6d3",
+      "date": "2025-10-09",
+      "dateTime": "2025-10-09T20:38:00.000Z",
+      "createdAt": "2025-10-09T20:38:00.000Z",
+      "rating": "neutral",
+      "sleep": {
+        "quality": "neutral"
+      },
+      "message": "",
+      "emotions": ["engaged", "focused"],
+      "tags": [
+        {
+          "id": "8d7098f9-52b8-5d78-ae86-36265f183635"
+        },
+        {
+          "id": "c8d7c978-ea23-501c-b006-3d92dac9e297"
+        }
+      ]
+    },
+    {
+      "id": "345e22fb-7145-5b2b-9c09-0535c8ac0351",
+      "date": "2025-10-11",
+      "dateTime": "2025-10-11T20:19:00.000Z",
+      "createdAt": "2025-10-11T20:19:00.000Z",
+      "rating": "bad",
+      "sleep": {
+        "quality": "good"
+      },
+      "message": "",
+      "emotions": [],
+      "tags": [
+        {
+          "id": "c8d7c978-ea23-501c-b006-3d92dac9e297"
+        },
+        {
+          "id": "ad3d979b-4bf1-5bd8-8fcf-407b2606649c"
+        }
+      ]
+    },
+    {
+      "id": "0f0ac614-caab-5612-9989-1be169b56c41",
+      "date": "2025-10-12",
+      "dateTime": "2025-10-12T20:42:00.000Z",
+      "createdAt": "2025-10-12T20:42:00.000Z",
+      "rating": "very_good",
+      "sleep": {
+        "quality": "very_bad"
+      },
+      "message": "",
+      "emotions": ["joyful"],
+      "tags": [
+        {
+          "id": "c8d7c978-ea23-501c-b006-3d92dac9e297"
+        },
+        {
+          "id": "2d6bd365-df70-5fd3-9b20-22d063bbbeec"
+        }
+      ]
+    },
+    {
+      "id": "e5e6e5ac-1894-5926-8230-cf22c26d9fea",
+      "date": "2025-10-13",
+      "dateTime": "2025-10-13T20:45:00.000Z",
+      "createdAt": "2025-10-13T20:45:00.000Z",
+      "rating": "neutral",
+      "sleep": {
+        "quality": "neutral"
+      },
+      "message": "Rainy day, stayed in.",
+      "emotions": ["curious", "focused"],
+      "tags": []
+    },
+    {
+      "id": "bb5c687b-9df9-5b7c-b5b9-f3b79b6b7fd9",
+      "date": "2025-10-14",
+      "dateTime": "2025-10-14T20:14:00.000Z",
+      "createdAt": "2025-10-14T20:14:00.000Z",
+      "rating": "neutral",
+      "sleep": {
+        "quality": "very_good"
+      },
+      "message": "",
+      "emotions": ["engaged", "focused"],
+      "tags": []
+    },
+    {
+      "id": "b539bcfe-ce82-59c6-b91e-91b32499f99d",
+      "date": "2025-10-17",
+      "dateTime": "2025-10-17T20:31:00.000Z",
+      "createdAt": "2025-10-17T20:31:00.000Z",
+      "rating": "good",
+      "sleep": {
+        "quality": "good"
+      },
+      "message": "Rainy day, stayed in.",
+      "emotions": [],
+      "tags": [
+        {
+          "id": "c8d7c978-ea23-501c-b006-3d92dac9e297"
+        }
+      ]
+    },
+    {
+      "id": "b71d8625-aa61-5dc4-9c88-34022a3fb750",
+      "date": "2025-10-18",
+      "dateTime": "2025-10-18T20:27:00.000Z",
+      "createdAt": "2025-10-18T20:27:00.000Z",
+      "rating": "good",
+      "sleep": {
+        "quality": "very_good"
+      },
+      "message": "",
+      "emotions": [],
+      "tags": [
+        {
+          "id": "8d7098f9-52b8-5d78-ae86-36265f183635"
+        }
+      ]
+    },
+    {
+      "id": "738c3aa9-0e32-56cf-a62f-4d695b53495c",
+      "date": "2025-10-18",
+      "dateTime": "2025-10-18T12:06:00.000Z",
+      "createdAt": "2025-10-18T12:06:00.000Z",
+      "rating": "bad",
+      "sleep": {
+        "quality": "good"
+      },
+      "message": "Went for a run.",
+      "emotions": ["annoyed"],
+      "tags": [
+        {
+          "id": "2d6bd365-df70-5fd3-9b20-22d063bbbeec"
+        }
+      ]
+    },
+    {
+      "id": "32ea726b-9907-50dd-865c-5b4c291aeb95",
+      "date": "2025-10-19",
+      "dateTime": "2025-10-19T20:28:00.000Z",
+      "createdAt": "2025-10-19T20:28:00.000Z",
+      "rating": "very_bad",
+      "sleep": {
+        "quality": null
+      },
+      "message": "Went for a run.",
+      "emotions": [],
+      "tags": []
+    },
+    {
+      "id": "486f6fba-6cd3-51f8-83dc-5ad5b3b6e9a2",
+      "date": "2025-10-20",
+      "dateTime": "2025-10-20T20:05:00.000Z",
+      "createdAt": "2025-10-20T20:05:00.000Z",
+      "rating": "extremely_good",
+      "sleep": {
+        "quality": null
+      },
+      "message": "Long walk after work.",
+      "emotions": [],
+      "tags": [
+        {
+          "id": "c8d7c978-ea23-501c-b006-3d92dac9e297"
+        }
+      ]
+    },
+    {
+      "id": "c9256429-5dc2-55b6-817f-9665bd13dd29",
+      "date": "2025-10-21",
+      "dateTime": "2025-10-21T20:10:00.000Z",
+      "createdAt": "2025-10-21T20:10:00.000Z",
+      "rating": "bad",
+      "sleep": {
+        "quality": "bad"
+      },
+      "message": "Great dinner with friends.",
+      "emotions": ["concerned"],
+      "tags": [
+        {
+          "id": "c154947d-318c-5e75-9b66-6a2a0c610af4"
+        }
+      ]
+    },
+    {
+      "id": "c106dba6-7efa-577b-9ecb-4e8adfd1ff2c",
+      "date": "2025-10-22",
+      "dateTime": "2025-10-22T20:13:00.000Z",
+      "createdAt": "2025-10-22T20:13:00.000Z",
+      "rating": "very_good",
+      "sleep": {
+        "quality": null
+      },
+      "message": "Went for a run.",
+      "emotions": [],
+      "tags": [
+        {
+          "id": "8d7098f9-52b8-5d78-ae86-36265f183635"
+        },
+        {
+          "id": "ad3d979b-4bf1-5bd8-8fcf-407b2606649c"
+        }
+      ]
+    },
+    {
+      "id": "bd913bd7-57dc-5ad8-86be-c5eaca2fe40e",
+      "date": "2025-10-24",
+      "dateTime": "2025-10-24T20:03:00.000Z",
+      "createdAt": "2025-10-24T20:03:00.000Z",
+      "rating": "good",
+      "sleep": {
+        "quality": null
+      },
+      "message": "",
+      "emotions": [],
+      "tags": []
+    },
+    {
+      "id": "5365c035-1ad0-53b5-8e46-ebe079f61e65",
+      "date": "2025-10-25",
+      "dateTime": "2025-10-25T20:07:00.000Z",
+      "createdAt": "2025-10-25T20:07:00.000Z",
+      "rating": "good",
+      "sleep": {
+        "quality": null
+      },
+      "message": "Long walk after work.",
+      "emotions": ["pleased", "hopeful"],
+      "tags": []
+    },
+    {
+      "id": "64fe1a88-71cf-504a-b679-404fb7ee0832",
+      "date": "2025-10-26",
+      "dateTime": "2025-10-26T20:59:00.000Z",
+      "createdAt": "2025-10-26T20:59:00.000Z",
+      "rating": "good",
+      "sleep": {
+        "quality": "neutral"
+      },
+      "message": "Long walk after work.",
+      "emotions": ["focused"],
+      "tags": []
+    },
+    {
+      "id": "8e3e21d6-b897-5554-afa7-200a1aab4e43",
+      "date": "2025-10-27",
+      "dateTime": "2025-10-27T20:48:00.000Z",
+      "createdAt": "2025-10-27T20:48:00.000Z",
+      "rating": "good",
+      "sleep": {
+        "quality": null
+      },
+      "message": "",
+      "emotions": ["pleased"],
+      "tags": []
+    },
+    {
+      "id": "8a0c9213-7bfb-53bc-95c8-df44053fd2a3",
+      "date": "2025-10-28",
+      "dateTime": "2025-10-28T20:22:00.000Z",
+      "createdAt": "2025-10-28T20:22:00.000Z",
+      "rating": "very_good",
+      "sleep": {
+        "quality": null
+      },
+      "message": "Long walk after work.",
+      "emotions": ["excited"],
+      "tags": []
+    },
+    {
+      "id": "2f39d09b-da24-50ec-af75-6ed0ee5c5094",
+      "date": "2025-10-29",
+      "dateTime": "2025-10-29T20:51:00.000Z",
+      "createdAt": "2025-10-29T20:51:00.000Z",
+      "rating": "good",
+      "sleep": {
+        "quality": "very_good"
+      },
+      "message": "Went for a run.",
+      "emotions": ["pleased"],
+      "tags": []
+    },
+    {
+      "id": "144eb340-4250-52f2-8c1f-75b79ee2e6e5",
+      "date": "2025-10-30",
+      "dateTime": "2025-10-30T20:09:00.000Z",
+      "createdAt": "2025-10-30T20:09:00.000Z",
+      "rating": "neutral",
+      "sleep": {
+        "quality": "very_bad"
+      },
+      "message": "Long walk after work.",
+      "emotions": ["curious", "focused"],
+      "tags": [
+        {
+          "id": "8d7098f9-52b8-5d78-ae86-36265f183635"
+        },
+        {
+          "id": "c8d7c978-ea23-501c-b006-3d92dac9e297"
+        }
+      ]
+    },
+    {
+      "id": "75ec950e-401d-526b-864a-a70fcc5768d0",
+      "date": "2025-10-31",
+      "dateTime": "2025-10-31T20:40:00.000Z",
+      "createdAt": "2025-10-31T20:40:00.000Z",
+      "rating": "very_good",
+      "sleep": {
+        "quality": "neutral"
+      },
+      "message": "",
+      "emotions": [],
+      "tags": [
+        {
+          "id": "2d6bd365-df70-5fd3-9b20-22d063bbbeec"
+        }
+      ]
+    },
+    {
+      "id": "d5aa1d2f-b533-525b-9c18-e9a92f1db9d8",
+      "date": "2025-11-01",
+      "dateTime": "2025-11-01T20:35:00.000Z",
+      "createdAt": "2025-11-01T20:35:00.000Z",
+      "rating": "neutral",
+      "sleep": {
+        "quality": null
+      },
+      "message": "Went for a run.",
+      "emotions": [],
+      "tags": []
+    },
+    {
+      "id": "578918ec-9981-5ae8-b90e-62238517e5be",
+      "date": "2025-11-03",
+      "dateTime": "2025-11-03T20:53:00.000Z",
+      "createdAt": "2025-11-03T20:53:00.000Z",
+      "rating": "neutral",
+      "sleep": {
+        "quality": "very_bad"
+      },
+      "message": "",
+      "emotions": ["focused"],
+      "tags": []
+    },
+    {
+      "id": "352a5838-1cc0-5ddb-ae71-a95a2821a272",
+      "date": "2025-11-04",
+      "dateTime": "2025-11-04T20:55:00.000Z",
+      "createdAt": "2025-11-04T20:55:00.000Z",
+      "rating": "bad",
+      "sleep": {
+        "quality": "neutral"
+      },
+      "message": "Long walk after work.",
+      "emotions": ["annoyed", "anxious"],
+      "tags": [
+        {
+          "id": "c154947d-318c-5e75-9b66-6a2a0c610af4"
+        }
+      ]
+    },
+    {
+      "id": "eac41780-1aac-5e3a-8d2e-94b4d94383ad",
+      "date": "2025-11-05",
+      "dateTime": "2025-11-05T20:09:00.000Z",
+      "createdAt": "2025-11-05T20:09:00.000Z",
+      "rating": "neutral",
+      "sleep": {
+        "quality": null
+      },
+      "message": "Long walk after work.",
+      "emotions": [],
+      "tags": []
+    },
+    {
+      "id": "b04379e7-62e6-5132-9bf0-7f709d603a02",
+      "date": "2025-11-06",
+      "dateTime": "2025-11-06T20:21:00.000Z",
+      "createdAt": "2025-11-06T20:21:00.000Z",
+      "rating": "neutral",
+      "sleep": {
+        "quality": null
+      },
+      "message": "Productive morning, slow afternoon.",
+      "emotions": ["engaged", "focused"],
+      "tags": [
+        {
+          "id": "2d6bd365-df70-5fd3-9b20-22d063bbbeec"
+        }
+      ]
+    },
+    {
+      "id": "cee6cdbf-adb8-5bc0-b697-8f9d6aaa7c00",
+      "date": "2025-11-06",
+      "dateTime": "2025-11-06T12:06:00.000Z",
+      "createdAt": "2025-11-06T12:06:00.000Z",
+      "rating": "bad",
+      "sleep": {
+        "quality": "very_good"
+      },
+      "message": "Rainy day, stayed in.",
+      "emotions": [],
+      "tags": []
+    },
+    {
+      "id": "83807dbc-c663-5aea-b3b1-d03365be33c9",
+      "date": "2025-11-07",
+      "dateTime": "2025-11-07T20:50:00.000Z",
+      "createdAt": "2025-11-07T20:50:00.000Z",
+      "rating": "good",
+      "sleep": {
+        "quality": null
+      },
+      "message": "Long walk after work.",
+      "emotions": [],
+      "tags": [
+        {
+          "id": "2d6bd365-df70-5fd3-9b20-22d063bbbeec"
+        },
+        {
+          "id": "c8d7c978-ea23-501c-b006-3d92dac9e297"
+        }
+      ]
+    },
+    {
+      "id": "4c0950b1-9bea-5065-b9f7-33fa139d3edf",
+      "date": "2025-11-08",
+      "dateTime": "2025-11-08T20:17:00.000Z",
+      "createdAt": "2025-11-08T20:17:00.000Z",
+      "rating": "very_bad",
+      "sleep": {
+        "quality": "very_bad"
+      },
+      "message": "Productive morning, slow afternoon.",
+      "emotions": ["angry", "anxious"],
+      "tags": []
+    },
+    {
+      "id": "9ce2bb6b-5e83-5f45-a4af-8848bafe2ad9",
+      "date": "2025-11-09",
+      "dateTime": "2025-11-09T20:16:00.000Z",
+      "createdAt": "2025-11-09T20:16:00.000Z",
+      "rating": "neutral",
+      "sleep": {
+        "quality": "very_bad"
+      },
+      "message": "Productive morning, slow afternoon.",
+      "emotions": ["engaged"],
+      "tags": [
+        {
+          "id": "c8d7c978-ea23-501c-b006-3d92dac9e297"
+        }
+      ]
+    },
+    {
+      "id": "62ec7583-b047-51f5-8856-4cd7186d5a21",
+      "date": "2025-11-10",
+      "dateTime": "2025-11-10T20:36:00.000Z",
+      "createdAt": "2025-11-10T20:36:00.000Z",
+      "rating": "good",
+      "sleep": {
+        "quality": "very_good"
+      },
+      "message": "Productive morning, slow afternoon.",
+      "emotions": [],
+      "tags": [
+        {
+          "id": "c154947d-318c-5e75-9b66-6a2a0c610af4"
+        },
+        {
+          "id": "2d6bd365-df70-5fd3-9b20-22d063bbbeec"
+        }
+      ]
+    },
+    {
+      "id": "96541980-2f96-5419-9d7f-9c9890ffadf4",
+      "date": "2025-11-11",
+      "dateTime": "2025-11-11T20:21:00.000Z",
+      "createdAt": "2025-11-11T20:21:00.000Z",
+      "rating": "neutral",
+      "sleep": {
+        "quality": "very_good"
+      },
+      "message": "Great dinner with friends.",
+      "emotions": ["curious", "engaged"],
+      "tags": [
+        {
+          "id": "c8d7c978-ea23-501c-b006-3d92dac9e297"
+        }
+      ]
+    },
+    {
+      "id": "3a4eb2bb-618b-55b1-842e-27056cc35fe5",
+      "date": "2025-11-11",
+      "dateTime": "2025-11-11T12:35:00.000Z",
+      "createdAt": "2025-11-11T12:35:00.000Z",
+      "rating": "neutral",
+      "sleep": {
+        "quality": "bad"
+      },
+      "message": "Productive morning, slow afternoon.",
+      "emotions": ["engaged", "focused"],
+      "tags": [
+        {
+          "id": "c154947d-318c-5e75-9b66-6a2a0c610af4"
+        },
+        {
+          "id": "8d7098f9-52b8-5d78-ae86-36265f183635"
+        }
+      ]
+    },
+    {
+      "id": "a781c6e5-ecd5-5c3b-af25-28b6c330b60f",
+      "date": "2025-11-12",
+      "dateTime": "2025-11-12T20:13:00.000Z",
+      "createdAt": "2025-11-12T20:13:00.000Z",
+      "rating": "good",
+      "sleep": {
+        "quality": "very_bad"
+      },
+      "message": "Slept badly, tired all day.",
+      "emotions": ["focused"],
+      "tags": [
+        {
+          "id": "2d6bd365-df70-5fd3-9b20-22d063bbbeec"
+        }
+      ]
+    },
+    {
+      "id": "b63240f3-cc4d-5ad6-847a-d8e7239fa68a",
+      "date": "2025-11-13",
+      "dateTime": "2025-11-13T20:47:00.000Z",
+      "createdAt": "2025-11-13T20:47:00.000Z",
+      "rating": "very_bad",
+      "sleep": {
+        "quality": "very_good"
+      },
+      "message": "Great dinner with friends.",
+      "emotions": ["angry", "anxious"],
+      "tags": []
+    },
+    {
+      "id": "c7c3ba7c-873c-54ed-b265-e28dff1fc2c6",
+      "date": "2025-11-14",
+      "dateTime": "2025-11-14T20:01:00.000Z",
+      "createdAt": "2025-11-14T20:01:00.000Z",
+      "rating": "very_good",
+      "sleep": {
+        "quality": "bad"
+      },
+      "message": "",
+      "emotions": ["excited"],
+      "tags": [
+        {
+          "id": "c154947d-318c-5e75-9b66-6a2a0c610af4"
+        },
+        {
+          "id": "2d6bd365-df70-5fd3-9b20-22d063bbbeec"
+        }
+      ]
+    },
+    {
+      "id": "72a76c37-1ea9-5349-b46e-05e5d4dd80b4",
+      "date": "2025-11-15",
+      "dateTime": "2025-11-15T20:09:00.000Z",
+      "createdAt": "2025-11-15T20:09:00.000Z",
+      "rating": "good",
+      "sleep": {
+        "quality": "very_good"
+      },
+      "message": "",
+      "emotions": ["cheerful"],
+      "tags": []
+    },
+    {
+      "id": "61cc2be8-5221-5fd6-b9f6-0bac65660e70",
+      "date": "2025-11-16",
+      "dateTime": "2025-11-16T20:35:00.000Z",
+      "createdAt": "2025-11-16T20:35:00.000Z",
+      "rating": "good",
+      "sleep": {
+        "quality": "very_good"
+      },
+      "message": "Rainy day, stayed in.",
+      "emotions": [],
+      "tags": [
+        {
+          "id": "c154947d-318c-5e75-9b66-6a2a0c610af4"
+        }
+      ]
+    },
+    {
+      "id": "f05d28f5-ef27-5b18-a51d-4d763a9bfa9c",
+      "date": "2025-11-17",
+      "dateTime": "2025-11-17T20:57:00.000Z",
+      "createdAt": "2025-11-17T20:57:00.000Z",
+      "rating": "very_bad",
+      "sleep": {
+        "quality": "very_bad"
+      },
+      "message": "Productive morning, slow afternoon.",
+      "emotions": ["angry", "anxious"],
+      "tags": [
+        {
+          "id": "c8d7c978-ea23-501c-b006-3d92dac9e297"
+        },
+        {
+          "id": "c154947d-318c-5e75-9b66-6a2a0c610af4"
+        }
+      ]
+    },
+    {
+      "id": "9e98ae89-63bd-5bf6-afb2-2896f3f8a104",
+      "date": "2025-11-18",
+      "dateTime": "2025-11-18T20:49:00.000Z",
+      "createdAt": "2025-11-18T20:49:00.000Z",
+      "rating": "neutral",
+      "sleep": {
+        "quality": null
+      },
+      "message": "Rainy day, stayed in.",
+      "emotions": ["focused", "curious"],
+      "tags": [
+        {
+          "id": "ad3d979b-4bf1-5bd8-8fcf-407b2606649c"
+        }
+      ]
+    },
+    {
+      "id": "8c835351-6054-5984-abb4-e785d6981679",
+      "date": "2025-11-19",
+      "dateTime": "2025-11-19T20:57:00.000Z",
+      "createdAt": "2025-11-19T20:57:00.000Z",
+      "rating": "good",
+      "sleep": {
+        "quality": "good"
+      },
+      "message": "",
+      "emotions": [],
+      "tags": [
+        {
+          "id": "2d6bd365-df70-5fd3-9b20-22d063bbbeec"
+        }
+      ]
+    },
+    {
+      "id": "91d396cf-ba29-58ff-8ed0-7421daa83cc0",
+      "date": "2025-11-20",
+      "dateTime": "2025-11-20T20:34:00.000Z",
+      "createdAt": "2025-11-20T20:34:00.000Z",
+      "rating": "good",
+      "sleep": {
+        "quality": "very_good"
+      },
+      "message": "Long walk after work.",
+      "emotions": ["focused"],
+      "tags": [
+        {
+          "id": "ad3d979b-4bf1-5bd8-8fcf-407b2606649c"
+        },
+        {
+          "id": "c8d7c978-ea23-501c-b006-3d92dac9e297"
+        }
+      ]
+    },
+    {
+      "id": "ce0cbaf9-b5f5-5e9c-a1f2-8aa04901cb0d",
+      "date": "2025-11-20",
+      "dateTime": "2025-11-20T12:22:00.000Z",
+      "createdAt": "2025-11-20T12:22:00.000Z",
+      "rating": "good",
+      "sleep": {
+        "quality": "bad"
+      },
+      "message": "Productive morning, slow afternoon.",
+      "emotions": ["cheerful", "focused"],
+      "tags": []
+    },
+    {
+      "id": "94b220eb-a3ba-5a17-9dd9-c0a155a4b991",
+      "date": "2025-11-21",
+      "dateTime": "2025-11-21T20:42:00.000Z",
+      "createdAt": "2025-11-21T20:42:00.000Z",
+      "rating": "good",
+      "sleep": {
+        "quality": "bad"
+      },
+      "message": "",
+      "emotions": ["cheerful"],
+      "tags": [
+        {
+          "id": "c154947d-318c-5e75-9b66-6a2a0c610af4"
+        },
+        {
+          "id": "ad3d979b-4bf1-5bd8-8fcf-407b2606649c"
+        }
+      ]
+    },
+    {
+      "id": "e2a7213b-2672-54bb-8bd6-7e760b9d85fd",
+      "date": "2025-11-22",
+      "dateTime": "2025-11-22T20:05:00.000Z",
+      "createdAt": "2025-11-22T20:05:00.000Z",
+      "rating": "neutral",
+      "sleep": {
+        "quality": "good"
+      },
+      "message": "Rainy day, stayed in.",
+      "emotions": [],
+      "tags": []
+    },
+    {
+      "id": "f5fbf3dd-2be8-5cb7-94f8-011bddb74353",
+      "date": "2025-11-23",
+      "dateTime": "2025-11-23T20:21:00.000Z",
+      "createdAt": "2025-11-23T20:21:00.000Z",
+      "rating": "good",
+      "sleep": {
+        "quality": null
+      },
+      "message": "Productive morning, slow afternoon.",
+      "emotions": ["focused"],
+      "tags": [
+        {
+          "id": "ad3d979b-4bf1-5bd8-8fcf-407b2606649c"
+        }
+      ]
+    },
+    {
+      "id": "5aaaed43-af7b-546b-9751-4ed034906eef",
+      "date": "2025-11-24",
+      "dateTime": "2025-11-24T20:22:00.000Z",
+      "createdAt": "2025-11-24T20:22:00.000Z",
+      "rating": "very_good",
+      "sleep": {
+        "quality": "very_good"
+      },
+      "message": "",
+      "emotions": [],
+      "tags": []
+    },
+    {
+      "id": "f477e863-859a-5342-bd42-f452e42720ab",
+      "date": "2025-11-25",
+      "dateTime": "2025-11-25T20:08:00.000Z",
+      "createdAt": "2025-11-25T20:08:00.000Z",
+      "rating": "very_good",
+      "sleep": {
+        "quality": "very_good"
+      },
+      "message": "Long walk after work.",
+      "emotions": ["joyful"],
+      "tags": [
+        {
+          "id": "8d7098f9-52b8-5d78-ae86-36265f183635"
+        }
+      ]
+    },
+    {
+      "id": "70eb938e-23c6-5390-870d-ec98e07a6ae4",
+      "date": "2025-11-25",
+      "dateTime": "2025-11-25T12:38:00.000Z",
+      "createdAt": "2025-11-25T12:38:00.000Z",
+      "rating": "very_good",
+      "sleep": {
+        "quality": null
+      },
+      "message": "",
+      "emotions": [],
+      "tags": [
+        {
+          "id": "ad3d979b-4bf1-5bd8-8fcf-407b2606649c"
+        }
+      ]
+    },
+    {
+      "id": "551713f5-bd84-593f-88ce-794187e58d2e",
+      "date": "2025-11-26",
+      "dateTime": "2025-11-26T20:58:00.000Z",
+      "createdAt": "2025-11-26T20:58:00.000Z",
+      "rating": "neutral",
+      "sleep": {
+        "quality": null
+      },
+      "message": "Productive morning, slow afternoon.",
+      "emotions": ["focused", "engaged"],
+      "tags": [
+        {
+          "id": "2d6bd365-df70-5fd3-9b20-22d063bbbeec"
+        },
+        {
+          "id": "ad3d979b-4bf1-5bd8-8fcf-407b2606649c"
+        }
+      ]
+    },
+    {
+      "id": "ef6d59a1-6f31-599f-8dc9-4a6aec54965e",
+      "date": "2025-11-27",
+      "dateTime": "2025-11-27T20:51:00.000Z",
+      "createdAt": "2025-11-27T20:51:00.000Z",
+      "rating": "neutral",
+      "sleep": {
+        "quality": "very_bad"
+      },
+      "message": "",
+      "emotions": ["engaged"],
+      "tags": [
+        {
+          "id": "8d7098f9-52b8-5d78-ae86-36265f183635"
+        }
+      ]
+    },
+    {
+      "id": "a3e792a3-1d7e-5c80-a72c-c7af7e4f12f0",
+      "date": "2025-11-29",
+      "dateTime": "2025-11-29T20:31:00.000Z",
+      "createdAt": "2025-11-29T20:31:00.000Z",
+      "rating": "good",
+      "sleep": {
+        "quality": "neutral"
+      },
+      "message": "Rainy day, stayed in.",
+      "emotions": ["cheerful", "focused"],
+      "tags": []
+    },
+    {
+      "id": "0fcddec7-db2a-5aa1-94d3-44f1a37592ab",
+      "date": "2025-11-29",
+      "dateTime": "2025-11-29T12:41:00.000Z",
+      "createdAt": "2025-11-29T12:41:00.000Z",
+      "rating": "neutral",
+      "sleep": {
+        "quality": "very_bad"
+      },
+      "message": "Rainy day, stayed in.",
+      "emotions": ["curious"],
+      "tags": [
+        {
+          "id": "c154947d-318c-5e75-9b66-6a2a0c610af4"
+        },
+        {
+          "id": "8d7098f9-52b8-5d78-ae86-36265f183635"
+        }
+      ]
+    },
+    {
+      "id": "67c5a101-345c-5c35-9a76-e7910b557b92",
+      "date": "2025-11-30",
+      "dateTime": "2025-11-30T20:17:00.000Z",
+      "createdAt": "2025-11-30T20:17:00.000Z",
+      "rating": "very_bad",
+      "sleep": {
+        "quality": null
+      },
+      "message": "Long walk after work.",
+      "emotions": ["angry"],
+      "tags": [
+        {
+          "id": "ad3d979b-4bf1-5bd8-8fcf-407b2606649c"
+        }
+      ]
+    },
+    {
+      "id": "505180e4-7a42-5785-93d4-1d438c1943e9",
+      "date": "2025-12-01",
+      "dateTime": "2025-12-01T20:22:00.000Z",
+      "createdAt": "2025-12-01T20:22:00.000Z",
+      "rating": "good",
+      "sleep": {
+        "quality": null
+      },
+      "message": "Slept badly, tired all day.",
+      "emotions": ["hopeful"],
+      "tags": [
+        {
+          "id": "ad3d979b-4bf1-5bd8-8fcf-407b2606649c"
+        },
+        {
+          "id": "2d6bd365-df70-5fd3-9b20-22d063bbbeec"
+        }
+      ]
+    },
+    {
+      "id": "385bc6b3-0e23-54ee-b07f-d93781b5cc35",
+      "date": "2025-12-02",
+      "dateTime": "2025-12-02T20:48:00.000Z",
+      "createdAt": "2025-12-02T20:48:00.000Z",
+      "rating": "good",
+      "sleep": {
+        "quality": "bad"
+      },
+      "message": "Rainy day, stayed in.",
+      "emotions": ["pleased"],
+      "tags": []
+    },
+    {
+      "id": "feaf7665-234e-515d-93f8-af4735c6b585",
+      "date": "2025-12-03",
+      "dateTime": "2025-12-03T20:42:00.000Z",
+      "createdAt": "2025-12-03T20:42:00.000Z",
+      "rating": "good",
+      "sleep": {
+        "quality": "bad"
+      },
+      "message": "Went for a run.",
+      "emotions": ["hopeful", "cheerful"],
+      "tags": [
+        {
+          "id": "c154947d-318c-5e75-9b66-6a2a0c610af4"
+        },
+        {
+          "id": "8d7098f9-52b8-5d78-ae86-36265f183635"
+        }
+      ]
+    },
+    {
+      "id": "312adf65-0bc6-5436-89dd-d3e8d90d8c27",
+      "date": "2025-12-04",
+      "dateTime": "2025-12-04T20:14:00.000Z",
+      "createdAt": "2025-12-04T20:14:00.000Z",
+      "rating": "good",
+      "sleep": {
+        "quality": "good"
+      },
+      "message": "Slept badly, tired all day.",
+      "emotions": [],
+      "tags": [
+        {
+          "id": "c154947d-318c-5e75-9b66-6a2a0c610af4"
+        },
+        {
+          "id": "2d6bd365-df70-5fd3-9b20-22d063bbbeec"
+        }
+      ]
+    },
+    {
+      "id": "8c60d932-a672-5844-89b6-3338bf677d2b",
+      "date": "2025-12-05",
+      "dateTime": "2025-12-05T20:37:00.000Z",
+      "createdAt": "2025-12-05T20:37:00.000Z",
+      "rating": "good",
+      "sleep": {
+        "quality": null
+      },
+      "message": "Went for a run.",
+      "emotions": ["hopeful", "pleased"],
+      "tags": []
+    },
+    {
+      "id": "14923762-1b1e-5f95-9aeb-55e88a04cd27",
+      "date": "2025-12-06",
+      "dateTime": "2025-12-06T20:45:00.000Z",
+      "createdAt": "2025-12-06T20:45:00.000Z",
+      "rating": "good",
+      "sleep": {
+        "quality": "neutral"
+      },
+      "message": "",
+      "emotions": [],
+      "tags": [
+        {
+          "id": "8d7098f9-52b8-5d78-ae86-36265f183635"
+        },
+        {
+          "id": "2d6bd365-df70-5fd3-9b20-22d063bbbeec"
+        }
+      ]
+    },
+    {
+      "id": "4a103bb3-8b27-525e-9400-9ea2756b824c",
+      "date": "2025-12-07",
+      "dateTime": "2025-12-07T20:00:00.000Z",
+      "createdAt": "2025-12-07T20:00:00.000Z",
+      "rating": "very_good",
+      "sleep": {
+        "quality": "bad"
+      },
+      "message": "Rainy day, stayed in.",
+      "emotions": ["excited"],
+      "tags": []
+    },
+    {
+      "id": "981f1663-6be8-52a5-8586-56224f14b2ff",
+      "date": "2025-12-08",
+      "dateTime": "2025-12-08T20:07:00.000Z",
+      "createdAt": "2025-12-08T20:07:00.000Z",
+      "rating": "bad",
+      "sleep": {
+        "quality": null
+      },
+      "message": "Productive morning, slow afternoon.",
+      "emotions": ["annoyed"],
+      "tags": [
+        {
+          "id": "ad3d979b-4bf1-5bd8-8fcf-407b2606649c"
+        },
+        {
+          "id": "2d6bd365-df70-5fd3-9b20-22d063bbbeec"
+        }
+      ]
+    },
+    {
+      "id": "71348216-a2ca-549e-bbb1-d4dcbf3b76c8",
+      "date": "2025-12-09",
+      "dateTime": "2025-12-09T20:15:00.000Z",
+      "createdAt": "2025-12-09T20:15:00.000Z",
+      "rating": "good",
+      "sleep": {
+        "quality": "bad"
+      },
+      "message": "Long walk after work.",
+      "emotions": ["focused", "cheerful"],
+      "tags": [
+        {
+          "id": "8d7098f9-52b8-5d78-ae86-36265f183635"
+        }
+      ]
+    },
+    {
+      "id": "8135c247-35a2-505a-902b-633ade01d1f3",
+      "date": "2025-12-10",
+      "dateTime": "2025-12-10T20:39:00.000Z",
+      "createdAt": "2025-12-10T20:39:00.000Z",
+      "rating": "good",
+      "sleep": {
+        "quality": "very_good"
+      },
+      "message": "Long walk after work.",
+      "emotions": ["cheerful", "focused"],
+      "tags": [
+        {
+          "id": "ad3d979b-4bf1-5bd8-8fcf-407b2606649c"
+        },
+        {
+          "id": "2d6bd365-df70-5fd3-9b20-22d063bbbeec"
+        }
+      ]
+    },
+    {
+      "id": "bcc52087-8d5f-5cf3-8d99-d9933ca3f839",
+      "date": "2025-12-11",
+      "dateTime": "2025-12-11T20:26:00.000Z",
+      "createdAt": "2025-12-11T20:26:00.000Z",
+      "rating": "very_good",
+      "sleep": {
+        "quality": "very_bad"
+      },
+      "message": "Rainy day, stayed in.",
+      "emotions": ["happy"],
+      "tags": []
+    },
+    {
+      "id": "10a55fb0-ae0e-50ad-88fd-9d2b4f1091c9",
+      "date": "2025-12-12",
+      "dateTime": "2025-12-12T20:04:00.000Z",
+      "createdAt": "2025-12-12T20:04:00.000Z",
+      "rating": "bad",
+      "sleep": {
+        "quality": "neutral"
+      },
+      "message": "Long walk after work.",
+      "emotions": ["annoyed"],
+      "tags": [
+        {
+          "id": "2d6bd365-df70-5fd3-9b20-22d063bbbeec"
+        },
+        {
+          "id": "c154947d-318c-5e75-9b66-6a2a0c610af4"
+        }
+      ]
+    },
+    {
+      "id": "cc0f7b04-75a4-5a86-9680-7a3c68780341",
+      "date": "2025-12-13",
+      "dateTime": "2025-12-13T20:10:00.000Z",
+      "createdAt": "2025-12-13T20:10:00.000Z",
+      "rating": "very_good",
+      "sleep": {
+        "quality": null
+      },
+      "message": "Great dinner with friends.",
+      "emotions": ["happy"],
+      "tags": [
+        {
+          "id": "8d7098f9-52b8-5d78-ae86-36265f183635"
+        }
+      ]
+    },
+    {
+      "id": "3626a1b5-4204-52ed-9e6d-8837dc416e2f",
+      "date": "2025-12-14",
+      "dateTime": "2025-12-14T20:31:00.000Z",
+      "createdAt": "2025-12-14T20:31:00.000Z",
+      "rating": "good",
+      "sleep": {
+        "quality": "very_bad"
+      },
+      "message": "",
+      "emotions": ["hopeful"],
+      "tags": [
+        {
+          "id": "8d7098f9-52b8-5d78-ae86-36265f183635"
+        },
+        {
+          "id": "ad3d979b-4bf1-5bd8-8fcf-407b2606649c"
+        }
+      ]
+    },
+    {
+      "id": "15ef5b1b-9090-5d17-bfec-3feb043454e1",
+      "date": "2025-12-15",
+      "dateTime": "2025-12-15T20:36:00.000Z",
+      "createdAt": "2025-12-15T20:36:00.000Z",
+      "rating": "bad",
+      "sleep": {
+        "quality": "very_good"
+      },
+      "message": "Great dinner with friends.",
+      "emotions": ["annoyed", "anxious"],
+      "tags": [
+        {
+          "id": "c154947d-318c-5e75-9b66-6a2a0c610af4"
+        }
+      ]
+    },
+    {
+      "id": "9e3d9705-b7d4-583e-a698-5f3c6073d1b2",
+      "date": "2025-12-16",
+      "dateTime": "2025-12-16T20:37:00.000Z",
+      "createdAt": "2025-12-16T20:37:00.000Z",
+      "rating": "very_good",
+      "sleep": {
+        "quality": "bad"
+      },
+      "message": "",
+      "emotions": ["excited"],
+      "tags": [
+        {
+          "id": "8d7098f9-52b8-5d78-ae86-36265f183635"
+        }
+      ]
+    },
+    {
+      "id": "c1e6ae00-192d-5cc3-9c49-78d3a74b9d53",
+      "date": "2025-12-17",
+      "dateTime": "2025-12-17T20:26:00.000Z",
+      "createdAt": "2025-12-17T20:26:00.000Z",
+      "rating": "very_good",
+      "sleep": {
+        "quality": "neutral"
+      },
+      "message": "Productive morning, slow afternoon.",
+      "emotions": ["happy", "excited"],
+      "tags": []
+    },
+    {
+      "id": "8544b899-2ede-5e81-95e1-0750c3d3afc9",
+      "date": "2025-12-18",
+      "dateTime": "2025-12-18T20:25:00.000Z",
+      "createdAt": "2025-12-18T20:25:00.000Z",
+      "rating": "extremely_bad",
+      "sleep": {
+        "quality": null
+      },
+      "message": "",
+      "emotions": ["anxious", "angry"],
+      "tags": []
+    },
+    {
+      "id": "fe8ef4ed-d09c-5eaa-89ec-95d8f16cfa74",
+      "date": "2025-12-19",
+      "dateTime": "2025-12-19T20:40:00.000Z",
+      "createdAt": "2025-12-19T20:40:00.000Z",
+      "rating": "neutral",
+      "sleep": {
+        "quality": "very_good"
+      },
+      "message": "Long walk after work.",
+      "emotions": ["engaged"],
+      "tags": []
+    },
+    {
+      "id": "e697c849-6a09-5bc0-9427-9f60f58eeb98",
+      "date": "2025-12-20",
+      "dateTime": "2025-12-20T20:07:00.000Z",
+      "createdAt": "2025-12-20T20:07:00.000Z",
+      "rating": "neutral",
+      "sleep": {
+        "quality": "very_bad"
+      },
+      "message": "Long walk after work.",
+      "emotions": ["focused", "curious"],
+      "tags": [
+        {
+          "id": "ad3d979b-4bf1-5bd8-8fcf-407b2606649c"
+        },
+        {
+          "id": "c8d7c978-ea23-501c-b006-3d92dac9e297"
+        }
+      ]
+    },
+    {
+      "id": "069a19f2-7a97-593d-a7bf-560db061f3dc",
+      "date": "2025-12-21",
+      "dateTime": "2025-12-21T20:29:00.000Z",
+      "createdAt": "2025-12-21T20:29:00.000Z",
+      "rating": "very_bad",
+      "sleep": {
+        "quality": null
+      },
+      "message": "",
+      "emotions": ["angry"],
+      "tags": [
+        {
+          "id": "8d7098f9-52b8-5d78-ae86-36265f183635"
+        },
+        {
+          "id": "c8d7c978-ea23-501c-b006-3d92dac9e297"
+        }
+      ]
+    },
+    {
+      "id": "881c7d02-81ae-541d-b0bf-0decc3c6c6e0",
+      "date": "2025-12-22",
+      "dateTime": "2025-12-22T20:35:00.000Z",
+      "createdAt": "2025-12-22T20:35:00.000Z",
+      "rating": "good",
+      "sleep": {
+        "quality": "good"
+      },
+      "message": "Went for a run.",
+      "emotions": ["cheerful", "pleased"],
+      "tags": [
+        {
+          "id": "c8d7c978-ea23-501c-b006-3d92dac9e297"
+        }
+      ]
+    },
+    {
+      "id": "18f8a558-92a5-54f8-9b89-dc685f87cbc4",
+      "date": "2025-12-23",
+      "dateTime": "2025-12-23T20:00:00.000Z",
+      "createdAt": "2025-12-23T20:00:00.000Z",
+      "rating": "good",
+      "sleep": {
+        "quality": "neutral"
+      },
+      "message": "Rainy day, stayed in.",
+      "emotions": [],
+      "tags": [
+        {
+          "id": "c154947d-318c-5e75-9b66-6a2a0c610af4"
+        }
+      ]
+    },
+    {
+      "id": "7c3d94a5-2a4e-5008-8437-2a2ef1090e0e",
+      "date": "2025-12-24",
+      "dateTime": "2025-12-24T20:24:00.000Z",
+      "createdAt": "2025-12-24T20:24:00.000Z",
+      "rating": "neutral",
+      "sleep": {
+        "quality": "neutral"
+      },
+      "message": "Long walk after work.",
+      "emotions": ["focused", "curious"],
+      "tags": []
+    },
+    {
+      "id": "1a77c746-a24f-582d-850a-56f74f721c32",
+      "date": "2025-12-25",
+      "dateTime": "2025-12-25T20:30:00.000Z",
+      "createdAt": "2025-12-25T20:30:00.000Z",
+      "rating": "good",
+      "sleep": {
+        "quality": null
+      },
+      "message": "Productive morning, slow afternoon.",
+      "emotions": ["cheerful"],
+      "tags": [
+        {
+          "id": "ad3d979b-4bf1-5bd8-8fcf-407b2606649c"
+        }
+      ]
+    },
+    {
+      "id": "550df141-4700-5045-998e-dc16c1e8a6b7",
+      "date": "2025-12-26",
+      "dateTime": "2025-12-26T20:06:00.000Z",
+      "createdAt": "2025-12-26T20:06:00.000Z",
+      "rating": "good",
+      "sleep": {
+        "quality": null
+      },
+      "message": "Rainy day, stayed in.",
+      "emotions": [],
+      "tags": [
+        {
+          "id": "c8d7c978-ea23-501c-b006-3d92dac9e297"
+        },
+        {
+          "id": "ad3d979b-4bf1-5bd8-8fcf-407b2606649c"
+        }
+      ]
+    },
+    {
+      "id": "a9c97e53-678e-54fa-a0ff-7d8f49cf1ef1",
+      "date": "2025-12-27",
+      "dateTime": "2025-12-27T20:09:00.000Z",
+      "createdAt": "2025-12-27T20:09:00.000Z",
+      "rating": "neutral",
+      "sleep": {
+        "quality": "neutral"
+      },
+      "message": "Slept badly, tired all day.",
+      "emotions": ["engaged", "curious"],
+      "tags": [
+        {
+          "id": "ad3d979b-4bf1-5bd8-8fcf-407b2606649c"
+        },
+        {
+          "id": "8d7098f9-52b8-5d78-ae86-36265f183635"
+        }
+      ]
+    },
+    {
+      "id": "1926d34d-1275-5616-9acb-72013c76360e",
+      "date": "2025-12-28",
+      "dateTime": "2025-12-28T20:20:00.000Z",
+      "createdAt": "2025-12-28T20:20:00.000Z",
+      "rating": "good",
+      "sleep": {
+        "quality": "bad"
+      },
+      "message": "Went for a run.",
+      "emotions": [],
+      "tags": [
+        {
+          "id": "ad3d979b-4bf1-5bd8-8fcf-407b2606649c"
+        },
+        {
+          "id": "2d6bd365-df70-5fd3-9b20-22d063bbbeec"
+        }
+      ]
+    },
+    {
+      "id": "bb262013-df08-5645-8389-10362abc3865",
+      "date": "2025-12-29",
+      "dateTime": "2025-12-29T20:47:00.000Z",
+      "createdAt": "2025-12-29T20:47:00.000Z",
+      "rating": "extremely_bad",
+      "sleep": {
+        "quality": "very_good"
+      },
+      "message": "",
+      "emotions": ["angry"],
+      "tags": [
+        {
+          "id": "8d7098f9-52b8-5d78-ae86-36265f183635"
+        },
+        {
+          "id": "ad3d979b-4bf1-5bd8-8fcf-407b2606649c"
+        }
+      ]
+    },
+    {
+      "id": "498546c4-de25-5efc-aec6-612d74aaf103",
+      "date": "2025-12-31",
+      "dateTime": "2025-12-31T20:09:00.000Z",
+      "createdAt": "2025-12-31T20:09:00.000Z",
+      "rating": "good",
+      "sleep": {
+        "quality": "bad"
+      },
+      "message": "",
+      "emotions": [],
+      "tags": []
+    },
+    {
+      "id": "ed94d41d-e9b5-513d-8773-460e4421b58d",
+      "date": "2026-01-02",
+      "dateTime": "2026-01-02T20:58:00.000Z",
+      "createdAt": "2026-01-02T20:58:00.000Z",
+      "rating": "good",
+      "sleep": {
+        "quality": "good"
+      },
+      "message": "Rainy day, stayed in.",
+      "emotions": ["hopeful", "cheerful"],
+      "tags": [
+        {
+          "id": "ad3d979b-4bf1-5bd8-8fcf-407b2606649c"
+        }
+      ]
+    },
+    {
+      "id": "77ba04b7-7bf2-5e7a-bac8-bf7fe4c6ab75",
+      "date": "2026-01-03",
+      "dateTime": "2026-01-03T20:34:00.000Z",
+      "createdAt": "2026-01-03T20:34:00.000Z",
+      "rating": "good",
+      "sleep": {
+        "quality": "bad"
+      },
+      "message": "Slept badly, tired all day.",
+      "emotions": ["hopeful", "focused"],
+      "tags": [
+        {
+          "id": "8d7098f9-52b8-5d78-ae86-36265f183635"
+        }
+      ]
+    },
+    {
+      "id": "ebc03f5c-5111-5520-9457-f2f5121e37b3",
+      "date": "2026-01-04",
+      "dateTime": "2026-01-04T20:54:00.000Z",
+      "createdAt": "2026-01-04T20:54:00.000Z",
+      "rating": "extremely_bad",
+      "sleep": {
+        "quality": "good"
+      },
+      "message": "Productive morning, slow afternoon.",
+      "emotions": ["anxious", "angry"],
+      "tags": [
+        {
+          "id": "8d7098f9-52b8-5d78-ae86-36265f183635"
+        },
+        {
+          "id": "ad3d979b-4bf1-5bd8-8fcf-407b2606649c"
+        }
+      ]
+    },
+    {
+      "id": "93bcf465-e5b0-59ae-9945-7b6017ef876d",
+      "date": "2026-01-05",
+      "dateTime": "2026-01-05T20:36:00.000Z",
+      "createdAt": "2026-01-05T20:36:00.000Z",
+      "rating": "good",
+      "sleep": {
+        "quality": null
+      },
+      "message": "",
+      "emotions": ["focused", "cheerful"],
+      "tags": []
+    },
+    {
+      "id": "320f4e95-2c9b-5fdb-921e-45d1d5a7dac2",
+      "date": "2026-01-06",
+      "dateTime": "2026-01-06T20:39:00.000Z",
+      "createdAt": "2026-01-06T20:39:00.000Z",
+      "rating": "neutral",
+      "sleep": {
+        "quality": "good"
+      },
+      "message": "",
+      "emotions": ["engaged", "focused"],
+      "tags": [
+        {
+          "id": "c8d7c978-ea23-501c-b006-3d92dac9e297"
+        }
+      ]
+    },
+    {
+      "id": "09568eeb-ccd8-5563-88c9-92699f8b203c",
+      "date": "2026-01-08",
+      "dateTime": "2026-01-08T20:20:00.000Z",
+      "createdAt": "2026-01-08T20:20:00.000Z",
+      "rating": "bad",
+      "sleep": {
+        "quality": null
+      },
+      "message": "",
+      "emotions": [],
+      "tags": []
+    },
+    {
+      "id": "a27af7ed-e46b-57fb-80a4-7bed99ce639a",
+      "date": "2026-01-09",
+      "dateTime": "2026-01-09T20:32:00.000Z",
+      "createdAt": "2026-01-09T20:32:00.000Z",
+      "rating": "good",
+      "sleep": {
+        "quality": null
+      },
+      "message": "",
+      "emotions": ["focused"],
+      "tags": [
+        {
+          "id": "8d7098f9-52b8-5d78-ae86-36265f183635"
+        }
+      ]
+    },
+    {
+      "id": "7e44cc93-24e3-50d9-8a2b-95b514cb04ec",
+      "date": "2026-01-10",
+      "dateTime": "2026-01-10T20:48:00.000Z",
+      "createdAt": "2026-01-10T20:48:00.000Z",
+      "rating": "very_good",
+      "sleep": {
+        "quality": null
+      },
+      "message": "Productive morning, slow afternoon.",
+      "emotions": ["excited", "happy"],
+      "tags": [
+        {
+          "id": "ad3d979b-4bf1-5bd8-8fcf-407b2606649c"
+        }
+      ]
+    },
+    {
+      "id": "48df2225-eacb-568b-b868-204bbae4d29f",
+      "date": "2026-01-11",
+      "dateTime": "2026-01-11T20:47:00.000Z",
+      "createdAt": "2026-01-11T20:47:00.000Z",
+      "rating": "good",
+      "sleep": {
+        "quality": "very_bad"
+      },
+      "message": "Productive morning, slow afternoon.",
+      "emotions": ["hopeful", "pleased"],
+      "tags": [
+        {
+          "id": "2d6bd365-df70-5fd3-9b20-22d063bbbeec"
+        },
+        {
+          "id": "c8d7c978-ea23-501c-b006-3d92dac9e297"
+        }
+      ]
+    },
+    {
+      "id": "9d6ccfae-bf46-5b76-a92f-24e0476e6c28",
+      "date": "2026-01-13",
+      "dateTime": "2026-01-13T20:14:00.000Z",
+      "createdAt": "2026-01-13T20:14:00.000Z",
+      "rating": "very_bad",
+      "sleep": {
+        "quality": "bad"
+      },
+      "message": "Great dinner with friends.",
+      "emotions": ["angry", "anxious"],
+      "tags": []
+    },
+    {
+      "id": "8e6005c2-8ef2-5344-add2-ea5683f6c210",
+      "date": "2026-01-16",
+      "dateTime": "2026-01-16T20:34:00.000Z",
+      "createdAt": "2026-01-16T20:34:00.000Z",
+      "rating": "good",
+      "sleep": {
+        "quality": "bad"
+      },
+      "message": "Slept badly, tired all day.",
+      "emotions": ["focused", "hopeful"],
+      "tags": [
+        {
+          "id": "2d6bd365-df70-5fd3-9b20-22d063bbbeec"
+        },
+        {
+          "id": "c8d7c978-ea23-501c-b006-3d92dac9e297"
+        }
+      ]
+    },
+    {
+      "id": "205a16fd-46d8-5942-b7d7-63adba0c5b3b",
+      "date": "2026-01-17",
+      "dateTime": "2026-01-17T20:17:00.000Z",
+      "createdAt": "2026-01-17T20:17:00.000Z",
+      "rating": "neutral",
+      "sleep": {
+        "quality": "neutral"
+      },
+      "message": "Long walk after work.",
+      "emotions": ["curious"],
+      "tags": []
+    },
+    {
+      "id": "d033d4db-a32c-51b9-a97c-05bb5da67703",
+      "date": "2026-01-18",
+      "dateTime": "2026-01-18T20:34:00.000Z",
+      "createdAt": "2026-01-18T20:34:00.000Z",
+      "rating": "neutral",
+      "sleep": {
+        "quality": null
+      },
+      "message": "Slept badly, tired all day.",
+      "emotions": [],
+      "tags": [
+        {
+          "id": "8d7098f9-52b8-5d78-ae86-36265f183635"
+        }
+      ]
+    },
+    {
+      "id": "c99a2d7e-3faa-5e58-9eaa-79f0154f142c",
+      "date": "2026-01-18",
+      "dateTime": "2026-01-18T12:07:00.000Z",
+      "createdAt": "2026-01-18T12:07:00.000Z",
+      "rating": "very_good",
+      "sleep": {
+        "quality": null
+      },
+      "message": "Rainy day, stayed in.",
+      "emotions": [],
+      "tags": [
+        {
+          "id": "2d6bd365-df70-5fd3-9b20-22d063bbbeec"
+        },
+        {
+          "id": "ad3d979b-4bf1-5bd8-8fcf-407b2606649c"
+        }
+      ]
+    },
+    {
+      "id": "01fbc25f-e1f0-515e-a556-d9a5beb8ba47",
+      "date": "2026-01-20",
+      "dateTime": "2026-01-20T20:13:00.000Z",
+      "createdAt": "2026-01-20T20:13:00.000Z",
+      "rating": "bad",
+      "sleep": {
+        "quality": "very_bad"
+      },
+      "message": "Long walk after work.",
+      "emotions": ["annoyed", "anxious"],
+      "tags": [
+        {
+          "id": "2d6bd365-df70-5fd3-9b20-22d063bbbeec"
+        }
+      ]
+    },
+    {
+      "id": "b2a97278-bb5e-5d0d-bf2c-ec7b4a995275",
+      "date": "2026-01-21",
+      "dateTime": "2026-01-21T20:09:00.000Z",
+      "createdAt": "2026-01-21T20:09:00.000Z",
+      "rating": "good",
+      "sleep": {
+        "quality": null
+      },
+      "message": "Went for a run.",
+      "emotions": ["cheerful"],
+      "tags": []
+    },
+    {
+      "id": "992fc6bb-0a2b-50ee-8edf-7b36e2197555",
+      "date": "2026-01-22",
+      "dateTime": "2026-01-22T20:50:00.000Z",
+      "createdAt": "2026-01-22T20:50:00.000Z",
+      "rating": "extremely_good",
+      "sleep": {
+        "quality": null
+      },
+      "message": "Slept badly, tired all day.",
+      "emotions": [],
+      "tags": []
+    },
+    {
+      "id": "7501eae4-bd99-53ea-90ba-514c0b24366a",
+      "date": "2026-01-22",
+      "dateTime": "2026-01-22T12:08:00.000Z",
+      "createdAt": "2026-01-22T12:08:00.000Z",
+      "rating": "good",
+      "sleep": {
+        "quality": null
+      },
+      "message": "Went for a run.",
+      "emotions": [],
+      "tags": [
+        {
+          "id": "ad3d979b-4bf1-5bd8-8fcf-407b2606649c"
+        },
+        {
+          "id": "c8d7c978-ea23-501c-b006-3d92dac9e297"
+        }
+      ]
+    },
+    {
+      "id": "ccc11ab0-865d-5c5b-94e1-dc895fc1b101",
+      "date": "2026-01-23",
+      "dateTime": "2026-01-23T20:28:00.000Z",
+      "createdAt": "2026-01-23T20:28:00.000Z",
+      "rating": "neutral",
+      "sleep": {
+        "quality": "very_bad"
+      },
+      "message": "",
+      "emotions": ["engaged", "curious"],
+      "tags": [
+        {
+          "id": "ad3d979b-4bf1-5bd8-8fcf-407b2606649c"
+        }
+      ]
+    },
+    {
+      "id": "e47a752b-bd4d-58bb-98be-d142dd52648c",
+      "date": "2026-01-25",
+      "dateTime": "2026-01-25T20:31:00.000Z",
+      "createdAt": "2026-01-25T20:31:00.000Z",
+      "rating": "neutral",
+      "sleep": {
+        "quality": null
+      },
+      "message": "Rainy day, stayed in.",
+      "emotions": [],
+      "tags": []
+    },
+    {
+      "id": "68ae72a5-e60d-55d4-a3d9-37a9a2a6c501",
+      "date": "2026-01-26",
+      "dateTime": "2026-01-26T20:39:00.000Z",
+      "createdAt": "2026-01-26T20:39:00.000Z",
+      "rating": "very_good",
+      "sleep": {
+        "quality": "very_bad"
+      },
+      "message": "Slept badly, tired all day.",
+      "emotions": ["joyful"],
+      "tags": [
+        {
+          "id": "8d7098f9-52b8-5d78-ae86-36265f183635"
+        },
+        {
+          "id": "c8d7c978-ea23-501c-b006-3d92dac9e297"
+        }
+      ]
+    },
+    {
+      "id": "d0347eba-a284-50c9-8ab7-f8529eebebc7",
+      "date": "2026-01-27",
+      "dateTime": "2026-01-27T20:07:00.000Z",
+      "createdAt": "2026-01-27T20:07:00.000Z",
+      "rating": "bad",
+      "sleep": {
+        "quality": null
+      },
+      "message": "Went for a run.",
+      "emotions": ["annoyed", "concerned"],
+      "tags": [
+        {
+          "id": "2d6bd365-df70-5fd3-9b20-22d063bbbeec"
+        }
+      ]
+    },
+    {
+      "id": "a968a9ff-b42e-5aa8-aecb-db697110fa8e",
+      "date": "2026-01-28",
+      "dateTime": "2026-01-28T20:46:00.000Z",
+      "createdAt": "2026-01-28T20:46:00.000Z",
+      "rating": "good",
+      "sleep": {
+        "quality": "bad"
+      },
+      "message": "Slept badly, tired all day.",
+      "emotions": ["hopeful", "cheerful"],
+      "tags": []
+    },
+    {
+      "id": "e7bbf301-4c6d-5b0d-9884-cead948bc7b5",
+      "date": "2026-01-29",
+      "dateTime": "2026-01-29T20:05:00.000Z",
+      "createdAt": "2026-01-29T20:05:00.000Z",
+      "rating": "very_good",
+      "sleep": {
+        "quality": "very_good"
+      },
+      "message": "Slept badly, tired all day.",
+      "emotions": [],
+      "tags": [
+        {
+          "id": "ad3d979b-4bf1-5bd8-8fcf-407b2606649c"
+        },
+        {
+          "id": "8d7098f9-52b8-5d78-ae86-36265f183635"
+        }
+      ]
+    },
+    {
+      "id": "06781167-6a75-5f43-b2bb-c84bccbbd16c",
+      "date": "2026-01-30",
+      "dateTime": "2026-01-30T20:48:00.000Z",
+      "createdAt": "2026-01-30T20:48:00.000Z",
+      "rating": "bad",
+      "sleep": {
+        "quality": "very_good"
+      },
+      "message": "Great dinner with friends.",
+      "emotions": ["concerned", "anxious"],
+      "tags": []
+    },
+    {
+      "id": "417b15ac-eaec-59ca-acda-80a6f700ce59",
+      "date": "2026-01-31",
+      "dateTime": "2026-01-31T20:14:00.000Z",
+      "createdAt": "2026-01-31T20:14:00.000Z",
+      "rating": "neutral",
+      "sleep": {
+        "quality": null
+      },
+      "message": "Slept badly, tired all day.",
+      "emotions": ["curious", "focused"],
+      "tags": [
+        {
+          "id": "c154947d-318c-5e75-9b66-6a2a0c610af4"
+        }
+      ]
+    },
+    {
+      "id": "184c40dd-e27f-564c-9880-38dc0b6d568a",
+      "date": "2026-02-01",
+      "dateTime": "2026-02-01T20:49:00.000Z",
+      "createdAt": "2026-02-01T20:49:00.000Z",
+      "rating": "neutral",
+      "sleep": {
+        "quality": null
+      },
+      "message": "Went for a run.",
+      "emotions": [],
+      "tags": [
+        {
+          "id": "8d7098f9-52b8-5d78-ae86-36265f183635"
+        },
+        {
+          "id": "ad3d979b-4bf1-5bd8-8fcf-407b2606649c"
+        }
+      ]
+    },
+    {
+      "id": "7bd59090-4af4-5c7f-ab6d-349f59e08590",
+      "date": "2026-02-02",
+      "dateTime": "2026-02-02T20:21:00.000Z",
+      "createdAt": "2026-02-02T20:21:00.000Z",
+      "rating": "good",
+      "sleep": {
+        "quality": "good"
+      },
+      "message": "",
+      "emotions": ["focused", "pleased"],
+      "tags": []
+    },
+    {
+      "id": "f869d79d-2801-55f6-81ae-525ce3976216",
+      "date": "2026-02-03",
+      "dateTime": "2026-02-03T20:33:00.000Z",
+      "createdAt": "2026-02-03T20:33:00.000Z",
+      "rating": "very_good",
+      "sleep": {
+        "quality": "bad"
+      },
+      "message": "Rainy day, stayed in.",
+      "emotions": ["happy"],
+      "tags": [
+        {
+          "id": "8d7098f9-52b8-5d78-ae86-36265f183635"
+        }
+      ]
+    },
+    {
+      "id": "3c65c6a9-f65f-5808-8ced-dd8957077e4d",
+      "date": "2026-02-04",
+      "dateTime": "2026-02-04T20:05:00.000Z",
+      "createdAt": "2026-02-04T20:05:00.000Z",
+      "rating": "neutral",
+      "sleep": {
+        "quality": null
+      },
+      "message": "",
+      "emotions": [],
+      "tags": [
+        {
+          "id": "ad3d979b-4bf1-5bd8-8fcf-407b2606649c"
+        },
+        {
+          "id": "c154947d-318c-5e75-9b66-6a2a0c610af4"
+        }
+      ]
+    },
+    {
+      "id": "31b6dc25-f81b-592e-a6d8-d3286750048d",
+      "date": "2026-02-05",
+      "dateTime": "2026-02-05T20:28:00.000Z",
+      "createdAt": "2026-02-05T20:28:00.000Z",
+      "rating": "good",
+      "sleep": {
+        "quality": "good"
+      },
+      "message": "Went for a run.",
+      "emotions": [],
+      "tags": [
+        {
+          "id": "c8d7c978-ea23-501c-b006-3d92dac9e297"
+        }
+      ]
+    },
+    {
+      "id": "dd7a1c62-ceeb-5558-97d6-b640ef713baa",
+      "date": "2026-02-06",
+      "dateTime": "2026-02-06T20:33:00.000Z",
+      "createdAt": "2026-02-06T20:33:00.000Z",
+      "rating": "neutral",
+      "sleep": {
+        "quality": "very_good"
+      },
+      "message": "Long walk after work.",
+      "emotions": ["engaged"],
+      "tags": []
+    },
+    {
+      "id": "62643a40-4097-574c-b0aa-dcc3bfb63e18",
+      "date": "2026-02-08",
+      "dateTime": "2026-02-08T20:16:00.000Z",
+      "createdAt": "2026-02-08T20:16:00.000Z",
+      "rating": "very_good",
+      "sleep": {
+        "quality": "very_good"
+      },
+      "message": "",
+      "emotions": ["joyful"],
+      "tags": [
+        {
+          "id": "2d6bd365-df70-5fd3-9b20-22d063bbbeec"
+        }
+      ]
+    },
+    {
+      "id": "936167cc-67ff-5343-9f59-9d8b24baad75",
+      "date": "2026-02-09",
+      "dateTime": "2026-02-09T20:35:00.000Z",
+      "createdAt": "2026-02-09T20:35:00.000Z",
+      "rating": "good",
+      "sleep": {
+        "quality": null
+      },
+      "message": "Slept badly, tired all day.",
+      "emotions": [],
+      "tags": [
+        {
+          "id": "ad3d979b-4bf1-5bd8-8fcf-407b2606649c"
+        }
+      ]
+    },
+    {
+      "id": "d3345b7b-702d-5fa1-aa41-87704eb20a5f",
+      "date": "2026-02-10",
+      "dateTime": "2026-02-10T20:20:00.000Z",
+      "createdAt": "2026-02-10T20:20:00.000Z",
+      "rating": "very_good",
+      "sleep": {
+        "quality": "very_bad"
+      },
+      "message": "Productive morning, slow afternoon.",
+      "emotions": ["joyful", "excited"],
+      "tags": [
+        {
+          "id": "ad3d979b-4bf1-5bd8-8fcf-407b2606649c"
+        }
+      ]
+    },
+    {
+      "id": "9febe7e4-37f6-5ccd-ac8d-2eafa1f1c1f7",
+      "date": "2026-02-11",
+      "dateTime": "2026-02-11T20:39:00.000Z",
+      "createdAt": "2026-02-11T20:39:00.000Z",
+      "rating": "very_good",
+      "sleep": {
+        "quality": "neutral"
+      },
+      "message": "",
+      "emotions": ["happy"],
+      "tags": []
+    },
+    {
+      "id": "4e2dd2a1-0310-53df-8671-0903f523a4ab",
+      "date": "2026-02-12",
+      "dateTime": "2026-02-12T20:55:00.000Z",
+      "createdAt": "2026-02-12T20:55:00.000Z",
+      "rating": "very_good",
+      "sleep": {
+        "quality": "neutral"
+      },
+      "message": "Long walk after work.",
+      "emotions": ["happy"],
+      "tags": []
+    },
+    {
+      "id": "80f200fe-9873-567b-b9a5-4cceff6609b9",
+      "date": "2026-02-13",
+      "dateTime": "2026-02-13T20:57:00.000Z",
+      "createdAt": "2026-02-13T20:57:00.000Z",
+      "rating": "good",
+      "sleep": {
+        "quality": null
+      },
+      "message": "Slept badly, tired all day.",
+      "emotions": ["cheerful", "pleased"],
+      "tags": []
+    },
+    {
+      "id": "a1027281-3156-51c5-8c73-92904a746fc6",
+      "date": "2026-02-14",
+      "dateTime": "2026-02-14T20:48:00.000Z",
+      "createdAt": "2026-02-14T20:48:00.000Z",
+      "rating": "neutral",
+      "sleep": {
+        "quality": null
+      },
+      "message": "",
+      "emotions": [],
+      "tags": [
+        {
+          "id": "c8d7c978-ea23-501c-b006-3d92dac9e297"
+        },
+        {
+          "id": "c154947d-318c-5e75-9b66-6a2a0c610af4"
+        }
+      ]
+    },
+    {
+      "id": "66e268ac-7fb0-5a25-b2a9-d87aa12d785a",
+      "date": "2026-02-15",
+      "dateTime": "2026-02-15T20:59:00.000Z",
+      "createdAt": "2026-02-15T20:59:00.000Z",
+      "rating": "good",
+      "sleep": {
+        "quality": null
+      },
+      "message": "Slept badly, tired all day.",
+      "emotions": ["hopeful", "pleased"],
+      "tags": [
+        {
+          "id": "ad3d979b-4bf1-5bd8-8fcf-407b2606649c"
+        }
+      ]
+    },
+    {
+      "id": "2ae9f1b0-d246-55c0-85d7-139319254532",
+      "date": "2026-02-16",
+      "dateTime": "2026-02-16T20:37:00.000Z",
+      "createdAt": "2026-02-16T20:37:00.000Z",
+      "rating": "bad",
+      "sleep": {
+        "quality": "very_bad"
+      },
+      "message": "",
+      "emotions": ["concerned"],
+      "tags": [
+        {
+          "id": "ad3d979b-4bf1-5bd8-8fcf-407b2606649c"
+        }
+      ]
+    },
+    {
+      "id": "985c28c0-47b1-5d1f-9b0f-674d17ec49c5",
+      "date": "2026-02-18",
+      "dateTime": "2026-02-18T20:54:00.000Z",
+      "createdAt": "2026-02-18T20:54:00.000Z",
+      "rating": "bad",
+      "sleep": {
+        "quality": "very_bad"
+      },
+      "message": "Went for a run.",
+      "emotions": ["concerned"],
+      "tags": [
+        {
+          "id": "c154947d-318c-5e75-9b66-6a2a0c610af4"
+        },
+        {
+          "id": "ad3d979b-4bf1-5bd8-8fcf-407b2606649c"
+        }
+      ]
+    },
+    {
+      "id": "88c1581a-4e10-5057-8bad-0b8179b83c65",
+      "date": "2026-02-18",
+      "dateTime": "2026-02-18T12:51:00.000Z",
+      "createdAt": "2026-02-18T12:51:00.000Z",
+      "rating": "good",
+      "sleep": {
+        "quality": "good"
+      },
+      "message": "Slept badly, tired all day.",
+      "emotions": ["focused", "hopeful"],
+      "tags": []
+    },
+    {
+      "id": "53212f98-cc52-5431-abfe-3e83f27cb18e",
+      "date": "2026-02-19",
+      "dateTime": "2026-02-19T20:53:00.000Z",
+      "createdAt": "2026-02-19T20:53:00.000Z",
+      "rating": "bad",
+      "sleep": {
+        "quality": "very_good"
+      },
+      "message": "Went for a run.",
+      "emotions": ["annoyed", "anxious"],
+      "tags": []
+    },
+    {
+      "id": "6739c911-0c70-58b0-b81a-2ce8cea1d9cd",
+      "date": "2026-02-20",
+      "dateTime": "2026-02-20T20:39:00.000Z",
+      "createdAt": "2026-02-20T20:39:00.000Z",
+      "rating": "good",
+      "sleep": {
+        "quality": "neutral"
+      },
+      "message": "Great dinner with friends.",
+      "emotions": ["focused"],
+      "tags": [
+        {
+          "id": "c154947d-318c-5e75-9b66-6a2a0c610af4"
+        }
+      ]
+    },
+    {
+      "id": "c9203f46-91b5-5fe2-83cf-ea4214305360",
+      "date": "2026-02-22",
+      "dateTime": "2026-02-22T20:35:00.000Z",
+      "createdAt": "2026-02-22T20:35:00.000Z",
+      "rating": "good",
+      "sleep": {
+        "quality": "neutral"
+      },
+      "message": "Great dinner with friends.",
+      "emotions": ["cheerful", "focused"],
+      "tags": []
+    },
+    {
+      "id": "7e0fa712-ed08-5536-a5b1-1f754a542198",
+      "date": "2026-02-23",
+      "dateTime": "2026-02-23T20:41:00.000Z",
+      "createdAt": "2026-02-23T20:41:00.000Z",
+      "rating": "good",
+      "sleep": {
+        "quality": "bad"
+      },
+      "message": "",
+      "emotions": ["pleased", "cheerful"],
+      "tags": [
+        {
+          "id": "c8d7c978-ea23-501c-b006-3d92dac9e297"
+        },
+        {
+          "id": "8d7098f9-52b8-5d78-ae86-36265f183635"
+        }
+      ]
+    },
+    {
+      "id": "f13e183a-1eda-58fb-bd34-0022b05733e4",
+      "date": "2026-02-24",
+      "dateTime": "2026-02-24T20:47:00.000Z",
+      "createdAt": "2026-02-24T20:47:00.000Z",
+      "rating": "bad",
+      "sleep": {
+        "quality": null
+      },
+      "message": "Went for a run.",
+      "emotions": [],
+      "tags": [
+        {
+          "id": "c8d7c978-ea23-501c-b006-3d92dac9e297"
+        },
+        {
+          "id": "8d7098f9-52b8-5d78-ae86-36265f183635"
+        }
+      ]
+    },
+    {
+      "id": "d1df840b-a183-5824-ae4e-aadbc08ee800",
+      "date": "2026-02-26",
+      "dateTime": "2026-02-26T20:49:00.000Z",
+      "createdAt": "2026-02-26T20:49:00.000Z",
+      "rating": "good",
+      "sleep": {
+        "quality": "good"
+      },
+      "message": "",
+      "emotions": [],
+      "tags": []
+    },
+    {
+      "id": "12d4058f-7c03-543c-8819-480bae4b3b04",
+      "date": "2026-02-27",
+      "dateTime": "2026-02-27T20:34:00.000Z",
+      "createdAt": "2026-02-27T20:34:00.000Z",
+      "rating": "good",
+      "sleep": {
+        "quality": null
+      },
+      "message": "Went for a run.",
+      "emotions": [],
+      "tags": [
+        {
+          "id": "8d7098f9-52b8-5d78-ae86-36265f183635"
+        },
+        {
+          "id": "2d6bd365-df70-5fd3-9b20-22d063bbbeec"
+        }
+      ]
+    },
+    {
+      "id": "5663d790-08ea-55cb-b79d-d6ab1642ef86",
+      "date": "2026-02-28",
+      "dateTime": "2026-02-28T20:44:00.000Z",
+      "createdAt": "2026-02-28T20:44:00.000Z",
+      "rating": "very_good",
+      "sleep": {
+        "quality": null
+      },
+      "message": "",
+      "emotions": ["excited", "happy"],
+      "tags": [
+        {
+          "id": "8d7098f9-52b8-5d78-ae86-36265f183635"
+        }
+      ]
+    },
+    {
+      "id": "bfa23ab0-3f07-5bf3-a083-a25da4c237f9",
+      "date": "2026-03-01",
+      "dateTime": "2026-03-01T20:18:00.000Z",
+      "createdAt": "2026-03-01T20:18:00.000Z",
+      "rating": "good",
+      "sleep": {
+        "quality": null
+      },
+      "message": "Rainy day, stayed in.",
+      "emotions": [],
+      "tags": [
+        {
+          "id": "2d6bd365-df70-5fd3-9b20-22d063bbbeec"
+        },
+        {
+          "id": "8d7098f9-52b8-5d78-ae86-36265f183635"
+        }
+      ]
+    },
+    {
+      "id": "bf003dd8-501b-58da-9ee1-2e7921dd6b06",
+      "date": "2026-03-02",
+      "dateTime": "2026-03-02T20:12:00.000Z",
+      "createdAt": "2026-03-02T20:12:00.000Z",
+      "rating": "bad",
+      "sleep": {
+        "quality": "very_bad"
+      },
+      "message": "Rainy day, stayed in.",
+      "emotions": ["concerned"],
+      "tags": [
+        {
+          "id": "c154947d-318c-5e75-9b66-6a2a0c610af4"
+        }
+      ]
+    },
+    {
+      "id": "99c699e3-3cec-574b-8290-8a8ae9e91b83",
+      "date": "2026-03-03",
+      "dateTime": "2026-03-03T20:51:00.000Z",
+      "createdAt": "2026-03-03T20:51:00.000Z",
+      "rating": "bad",
+      "sleep": {
+        "quality": "neutral"
+      },
+      "message": "",
+      "emotions": ["concerned", "anxious"],
+      "tags": [
+        {
+          "id": "ad3d979b-4bf1-5bd8-8fcf-407b2606649c"
+        },
+        {
+          "id": "c154947d-318c-5e75-9b66-6a2a0c610af4"
+        }
+      ]
+    },
+    {
+      "id": "f6778dc0-466a-5eb6-884d-1f867468e8ee",
+      "date": "2026-03-04",
+      "dateTime": "2026-03-04T20:57:00.000Z",
+      "createdAt": "2026-03-04T20:57:00.000Z",
+      "rating": "good",
+      "sleep": {
+        "quality": "bad"
+      },
+      "message": "",
+      "emotions": [],
+      "tags": [
+        {
+          "id": "8d7098f9-52b8-5d78-ae86-36265f183635"
+        }
+      ]
+    },
+    {
+      "id": "875d3cdf-1231-5bfe-ab31-428484f39a29",
+      "date": "2026-03-05",
+      "dateTime": "2026-03-05T20:23:00.000Z",
+      "createdAt": "2026-03-05T20:23:00.000Z",
+      "rating": "good",
+      "sleep": {
+        "quality": "very_good"
+      },
+      "message": "Slept badly, tired all day.",
+      "emotions": [],
+      "tags": []
+    },
+    {
+      "id": "3ec832cb-94dd-57d4-9fcc-057d265eebee",
+      "date": "2026-03-06",
+      "dateTime": "2026-03-06T20:21:00.000Z",
+      "createdAt": "2026-03-06T20:21:00.000Z",
+      "rating": "neutral",
+      "sleep": {
+        "quality": null
+      },
+      "message": "",
+      "emotions": [],
+      "tags": [
+        {
+          "id": "c8d7c978-ea23-501c-b006-3d92dac9e297"
+        }
+      ]
+    },
+    {
+      "id": "ba6633b3-8cbd-53c8-bf0e-14cf029a0ec4",
+      "date": "2026-03-06",
+      "dateTime": "2026-03-06T12:08:00.000Z",
+      "createdAt": "2026-03-06T12:08:00.000Z",
+      "rating": "neutral",
+      "sleep": {
+        "quality": null
+      },
+      "message": "Rainy day, stayed in.",
+      "emotions": ["engaged"],
+      "tags": []
+    },
+    {
+      "id": "3f3aae4b-5d48-58df-86f7-ab440d6af7f8",
+      "date": "2026-03-07",
+      "dateTime": "2026-03-07T20:09:00.000Z",
+      "createdAt": "2026-03-07T20:09:00.000Z",
+      "rating": "very_good",
+      "sleep": {
+        "quality": "very_bad"
+      },
+      "message": "Went for a run.",
+      "emotions": ["happy"],
+      "tags": [
+        {
+          "id": "2d6bd365-df70-5fd3-9b20-22d063bbbeec"
+        }
+      ]
+    },
+    {
+      "id": "2933df27-15cc-5e12-ae32-d81d361077e2",
+      "date": "2026-03-07",
+      "dateTime": "2026-03-07T12:03:00.000Z",
+      "createdAt": "2026-03-07T12:03:00.000Z",
+      "rating": "good",
+      "sleep": {
+        "quality": "very_bad"
+      },
+      "message": "Rainy day, stayed in.",
+      "emotions": [],
+      "tags": []
+    },
+    {
+      "id": "c96b4326-e228-5330-83b9-c040cd461e1e",
+      "date": "2026-03-08",
+      "dateTime": "2026-03-08T20:40:00.000Z",
+      "createdAt": "2026-03-08T20:40:00.000Z",
+      "rating": "good",
+      "sleep": {
+        "quality": "good"
+      },
+      "message": "",
+      "emotions": ["focused"],
+      "tags": []
+    },
+    {
+      "id": "a1495a13-2183-5854-960f-d971241af4ec",
+      "date": "2026-03-09",
+      "dateTime": "2026-03-09T20:42:00.000Z",
+      "createdAt": "2026-03-09T20:42:00.000Z",
+      "rating": "good",
+      "sleep": {
+        "quality": "very_bad"
+      },
+      "message": "Slept badly, tired all day.",
+      "emotions": [],
+      "tags": [
+        {
+          "id": "c154947d-318c-5e75-9b66-6a2a0c610af4"
+        },
+        {
+          "id": "ad3d979b-4bf1-5bd8-8fcf-407b2606649c"
+        }
+      ]
+    },
+    {
+      "id": "3ebaa5c1-a179-5f18-a23f-362a20356652",
+      "date": "2026-03-10",
+      "dateTime": "2026-03-10T20:23:00.000Z",
+      "createdAt": "2026-03-10T20:23:00.000Z",
+      "rating": "neutral",
+      "sleep": {
+        "quality": "very_good"
+      },
+      "message": "Slept badly, tired all day.",
+      "emotions": [],
+      "tags": [
+        {
+          "id": "2d6bd365-df70-5fd3-9b20-22d063bbbeec"
+        }
+      ]
+    },
+    {
+      "id": "899bcf95-5144-5501-a5e7-ba94f06ad652",
+      "date": "2026-03-11",
+      "dateTime": "2026-03-11T20:47:00.000Z",
+      "createdAt": "2026-03-11T20:47:00.000Z",
+      "rating": "neutral",
+      "sleep": {
+        "quality": null
+      },
+      "message": "",
+      "emotions": [],
+      "tags": [
+        {
+          "id": "c154947d-318c-5e75-9b66-6a2a0c610af4"
+        }
+      ]
+    },
+    {
+      "id": "a738ae04-f656-5700-9082-1fd6f8dc5f73",
+      "date": "2026-03-12",
+      "dateTime": "2026-03-12T20:43:00.000Z",
+      "createdAt": "2026-03-12T20:43:00.000Z",
+      "rating": "bad",
+      "sleep": {
+        "quality": "bad"
+      },
+      "message": "",
+      "emotions": [],
+      "tags": []
+    },
+    {
+      "id": "031f38e5-dbe4-5dab-afbc-816ec3cec7f5",
+      "date": "2026-03-13",
+      "dateTime": "2026-03-13T20:12:00.000Z",
+      "createdAt": "2026-03-13T20:12:00.000Z",
+      "rating": "extremely_good",
+      "sleep": {
+        "quality": "good"
+      },
+      "message": "",
+      "emotions": ["thrilled"],
+      "tags": [
+        {
+          "id": "c8d7c978-ea23-501c-b006-3d92dac9e297"
+        },
+        {
+          "id": "c154947d-318c-5e75-9b66-6a2a0c610af4"
+        }
+      ]
+    },
+    {
+      "id": "0cb12f61-ad2f-582b-9123-a7d174c26898",
+      "date": "2026-03-14",
+      "dateTime": "2026-03-14T20:22:00.000Z",
+      "createdAt": "2026-03-14T20:22:00.000Z",
+      "rating": "very_good",
+      "sleep": {
+        "quality": null
+      },
+      "message": "",
+      "emotions": ["excited", "joyful"],
+      "tags": []
+    },
+    {
+      "id": "921c212a-4cdf-532c-b4fd-1ba0ea7f47bc",
+      "date": "2026-03-15",
+      "dateTime": "2026-03-15T20:28:00.000Z",
+      "createdAt": "2026-03-15T20:28:00.000Z",
+      "rating": "good",
+      "sleep": {
+        "quality": null
+      },
+      "message": "Productive morning, slow afternoon.",
+      "emotions": ["cheerful"],
+      "tags": [
+        {
+          "id": "c8d7c978-ea23-501c-b006-3d92dac9e297"
+        }
+      ]
+    },
+    {
+      "id": "5d6175b6-a210-5235-965d-8fd47d9fa433",
+      "date": "2026-03-16",
+      "dateTime": "2026-03-16T20:05:00.000Z",
+      "createdAt": "2026-03-16T20:05:00.000Z",
+      "rating": "good",
+      "sleep": {
+        "quality": null
+      },
+      "message": "",
+      "emotions": ["cheerful"],
+      "tags": [
+        {
+          "id": "8d7098f9-52b8-5d78-ae86-36265f183635"
+        },
+        {
+          "id": "c154947d-318c-5e75-9b66-6a2a0c610af4"
+        }
+      ]
+    },
+    {
+      "id": "b87ed93d-8c43-5dfb-be5d-ec744d687df2",
+      "date": "2026-03-17",
+      "dateTime": "2026-03-17T20:28:00.000Z",
+      "createdAt": "2026-03-17T20:28:00.000Z",
+      "rating": "good",
+      "sleep": {
+        "quality": "bad"
+      },
+      "message": "",
+      "emotions": ["focused", "cheerful"],
+      "tags": [
+        {
+          "id": "ad3d979b-4bf1-5bd8-8fcf-407b2606649c"
+        }
+      ]
+    },
+    {
+      "id": "ce24795a-dc4a-5083-99c7-aa86ec133a40",
+      "date": "2026-03-18",
+      "dateTime": "2026-03-18T20:27:00.000Z",
+      "createdAt": "2026-03-18T20:27:00.000Z",
+      "rating": "neutral",
+      "sleep": {
+        "quality": "very_good"
+      },
+      "message": "",
+      "emotions": ["engaged", "curious"],
+      "tags": [
+        {
+          "id": "c154947d-318c-5e75-9b66-6a2a0c610af4"
+        }
+      ]
+    },
+    {
+      "id": "30d69c7a-1978-55af-ae3e-87ee7a7b1372",
+      "date": "2026-03-19",
+      "dateTime": "2026-03-19T20:09:00.000Z",
+      "createdAt": "2026-03-19T20:09:00.000Z",
+      "rating": "very_bad",
+      "sleep": {
+        "quality": null
+      },
+      "message": "Rainy day, stayed in.",
+      "emotions": [],
+      "tags": []
+    },
+    {
+      "id": "dc68037d-bdbd-5ef6-910f-1ddb76c5e438",
+      "date": "2026-03-21",
+      "dateTime": "2026-03-21T20:36:00.000Z",
+      "createdAt": "2026-03-21T20:36:00.000Z",
+      "rating": "good",
+      "sleep": {
+        "quality": "good"
+      },
+      "message": "Rainy day, stayed in.",
+      "emotions": ["hopeful"],
+      "tags": [
+        {
+          "id": "ad3d979b-4bf1-5bd8-8fcf-407b2606649c"
+        }
+      ]
+    },
+    {
+      "id": "7bf4bf15-137f-5e13-a4e2-9a316f67f83b",
+      "date": "2026-03-22",
+      "dateTime": "2026-03-22T20:41:00.000Z",
+      "createdAt": "2026-03-22T20:41:00.000Z",
+      "rating": "good",
+      "sleep": {
+        "quality": "very_good"
+      },
+      "message": "",
+      "emotions": ["cheerful", "focused"],
+      "tags": [
+        {
+          "id": "c8d7c978-ea23-501c-b006-3d92dac9e297"
+        },
+        {
+          "id": "ad3d979b-4bf1-5bd8-8fcf-407b2606649c"
+        }
+      ]
+    },
+    {
+      "id": "1c85b47b-3202-5fcc-9491-e1b52b84a766",
+      "date": "2026-03-23",
+      "dateTime": "2026-03-23T20:39:00.000Z",
+      "createdAt": "2026-03-23T20:39:00.000Z",
+      "rating": "good",
+      "sleep": {
+        "quality": "bad"
+      },
+      "message": "Long walk after work.",
+      "emotions": [],
+      "tags": []
+    },
+    {
+      "id": "f99e48c3-b390-5ba9-a53e-980e4a6424a0",
+      "date": "2026-03-24",
+      "dateTime": "2026-03-24T20:28:00.000Z",
+      "createdAt": "2026-03-24T20:28:00.000Z",
+      "rating": "bad",
+      "sleep": {
+        "quality": null
+      },
+      "message": "Slept badly, tired all day.",
+      "emotions": ["concerned", "annoyed"],
+      "tags": [
+        {
+          "id": "c154947d-318c-5e75-9b66-6a2a0c610af4"
+        },
+        {
+          "id": "8d7098f9-52b8-5d78-ae86-36265f183635"
+        }
+      ]
+    },
+    {
+      "id": "1960b629-ea4f-5f16-a334-d2f069814eb5",
+      "date": "2026-03-25",
+      "dateTime": "2026-03-25T20:59:00.000Z",
+      "createdAt": "2026-03-25T20:59:00.000Z",
+      "rating": "neutral",
+      "sleep": {
+        "quality": null
+      },
+      "message": "",
+      "emotions": ["engaged"],
+      "tags": []
+    },
+    {
+      "id": "174de5eb-9ae7-56af-a3f7-7996de992d8b",
+      "date": "2026-03-26",
+      "dateTime": "2026-03-26T20:50:00.000Z",
+      "createdAt": "2026-03-26T20:50:00.000Z",
+      "rating": "very_good",
+      "sleep": {
+        "quality": "neutral"
+      },
+      "message": "Went for a run.",
+      "emotions": ["excited", "joyful"],
+      "tags": [
+        {
+          "id": "2d6bd365-df70-5fd3-9b20-22d063bbbeec"
+        },
+        {
+          "id": "ad3d979b-4bf1-5bd8-8fcf-407b2606649c"
+        }
+      ]
+    },
+    {
+      "id": "13539b0b-291d-5446-94b0-b3e409e934e1",
+      "date": "2026-03-28",
+      "dateTime": "2026-03-28T20:26:00.000Z",
+      "createdAt": "2026-03-28T20:26:00.000Z",
+      "rating": "good",
+      "sleep": {
+        "quality": null
+      },
+      "message": "",
+      "emotions": [],
+      "tags": [
+        {
+          "id": "ad3d979b-4bf1-5bd8-8fcf-407b2606649c"
+        }
+      ]
+    },
+    {
+      "id": "db2f13e7-a14f-51d1-b84a-3678e6f30dd7",
+      "date": "2026-03-29",
+      "dateTime": "2026-03-29T20:56:00.000Z",
+      "createdAt": "2026-03-29T20:56:00.000Z",
+      "rating": "good",
+      "sleep": {
+        "quality": null
+      },
+      "message": "Went for a run.",
+      "emotions": ["cheerful", "pleased"],
+      "tags": [
+        {
+          "id": "c154947d-318c-5e75-9b66-6a2a0c610af4"
+        }
+      ]
+    },
+    {
+      "id": "78d73456-fe33-522e-b122-d0cd2b38972a",
+      "date": "2026-03-30",
+      "dateTime": "2026-03-30T20:09:00.000Z",
+      "createdAt": "2026-03-30T20:09:00.000Z",
+      "rating": "very_good",
+      "sleep": {
+        "quality": "good"
+      },
+      "message": "Slept badly, tired all day.",
+      "emotions": ["happy", "excited"],
+      "tags": [
+        {
+          "id": "8d7098f9-52b8-5d78-ae86-36265f183635"
+        },
+        {
+          "id": "ad3d979b-4bf1-5bd8-8fcf-407b2606649c"
+        }
+      ]
+    },
+    {
+      "id": "9ccdf2dc-ef69-5be6-af30-d682d5a582be",
+      "date": "2026-03-30",
+      "dateTime": "2026-03-30T12:40:00.000Z",
+      "createdAt": "2026-03-30T12:40:00.000Z",
+      "rating": "good",
+      "sleep": {
+        "quality": null
+      },
+      "message": "Great dinner with friends.",
+      "emotions": [],
+      "tags": [
+        {
+          "id": "8d7098f9-52b8-5d78-ae86-36265f183635"
+        },
+        {
+          "id": "ad3d979b-4bf1-5bd8-8fcf-407b2606649c"
+        }
+      ]
+    },
+    {
+      "id": "336d8c3d-5b67-5f1a-9933-5f5a1f36d508",
+      "date": "2026-03-31",
+      "dateTime": "2026-03-31T20:09:00.000Z",
+      "createdAt": "2026-03-31T20:09:00.000Z",
+      "rating": "very_bad",
+      "sleep": {
+        "quality": "very_bad"
+      },
+      "message": "Slept badly, tired all day.",
+      "emotions": ["anxious", "angry"],
+      "tags": []
+    },
+    {
+      "id": "e6918084-9081-58ce-826a-61f33d0206b9",
+      "date": "2026-04-02",
+      "dateTime": "2026-04-02T20:49:00.000Z",
+      "createdAt": "2026-04-02T20:49:00.000Z",
+      "rating": "neutral",
+      "sleep": {
+        "quality": "very_bad"
+      },
+      "message": "",
+      "emotions": ["engaged"],
+      "tags": [
+        {
+          "id": "8d7098f9-52b8-5d78-ae86-36265f183635"
+        },
+        {
+          "id": "c154947d-318c-5e75-9b66-6a2a0c610af4"
+        }
+      ]
+    },
+    {
+      "id": "bc813cca-6ad1-5ce9-8805-149516c444aa",
+      "date": "2026-04-03",
+      "dateTime": "2026-04-03T20:19:00.000Z",
+      "createdAt": "2026-04-03T20:19:00.000Z",
+      "rating": "neutral",
+      "sleep": {
+        "quality": "very_good"
+      },
+      "message": "",
+      "emotions": ["curious"],
+      "tags": [
+        {
+          "id": "c8d7c978-ea23-501c-b006-3d92dac9e297"
+        }
+      ]
+    },
+    {
+      "id": "87393dbf-b8f6-5d6e-ab5b-21a3aa112c5d",
+      "date": "2026-04-04",
+      "dateTime": "2026-04-04T20:45:00.000Z",
+      "createdAt": "2026-04-04T20:45:00.000Z",
+      "rating": "good",
+      "sleep": {
+        "quality": "neutral"
+      },
+      "message": "Productive morning, slow afternoon.",
+      "emotions": [],
+      "tags": [
+        {
+          "id": "c154947d-318c-5e75-9b66-6a2a0c610af4"
+        }
+      ]
+    },
+    {
+      "id": "58116d66-c090-53a6-8593-7a19036ecb16",
+      "date": "2026-04-05",
+      "dateTime": "2026-04-05T20:17:00.000Z",
+      "createdAt": "2026-04-05T20:17:00.000Z",
+      "rating": "good",
+      "sleep": {
+        "quality": "good"
+      },
+      "message": "",
+      "emotions": [],
+      "tags": [
+        {
+          "id": "c8d7c978-ea23-501c-b006-3d92dac9e297"
+        }
+      ]
+    },
+    {
+      "id": "5a23d849-4f81-53fd-815d-d688ed2fbcf3",
+      "date": "2026-04-06",
+      "dateTime": "2026-04-06T20:57:00.000Z",
+      "createdAt": "2026-04-06T20:57:00.000Z",
+      "rating": "very_bad",
+      "sleep": {
+        "quality": "neutral"
+      },
+      "message": "Slept badly, tired all day.",
+      "emotions": [],
+      "tags": []
+    },
+    {
+      "id": "cd8e0d43-b9a5-55c6-8bf4-1e40ede164eb",
+      "date": "2026-04-07",
+      "dateTime": "2026-04-07T20:19:00.000Z",
+      "createdAt": "2026-04-07T20:19:00.000Z",
+      "rating": "good",
+      "sleep": {
+        "quality": "very_good"
+      },
+      "message": "Productive morning, slow afternoon.",
+      "emotions": ["focused", "pleased"],
+      "tags": []
+    },
+    {
+      "id": "346b52ba-2366-5581-ba67-725b25941103",
+      "date": "2026-04-08",
+      "dateTime": "2026-04-08T20:38:00.000Z",
+      "createdAt": "2026-04-08T20:38:00.000Z",
+      "rating": "good",
+      "sleep": {
+        "quality": null
+      },
+      "message": "Rainy day, stayed in.",
+      "emotions": ["pleased"],
+      "tags": []
+    },
+    {
+      "id": "1093f8c4-bc89-5d16-95b5-4fa5be481c22",
+      "date": "2026-04-08",
+      "dateTime": "2026-04-08T12:56:00.000Z",
+      "createdAt": "2026-04-08T12:56:00.000Z",
+      "rating": "good",
+      "sleep": {
+        "quality": "neutral"
+      },
+      "message": "Productive morning, slow afternoon.",
+      "emotions": ["pleased"],
+      "tags": [
+        {
+          "id": "ad3d979b-4bf1-5bd8-8fcf-407b2606649c"
+        }
+      ]
+    },
+    {
+      "id": "904559b4-fab8-50f8-bfd9-381eb0e2368d",
+      "date": "2026-04-09",
+      "dateTime": "2026-04-09T20:04:00.000Z",
+      "createdAt": "2026-04-09T20:04:00.000Z",
+      "rating": "neutral",
+      "sleep": {
+        "quality": "bad"
+      },
+      "message": "Went for a run.",
+      "emotions": ["engaged"],
+      "tags": [
+        {
+          "id": "c154947d-318c-5e75-9b66-6a2a0c610af4"
+        },
+        {
+          "id": "ad3d979b-4bf1-5bd8-8fcf-407b2606649c"
+        }
+      ]
+    },
+    {
+      "id": "650e6d2e-93f7-51f1-b422-89f8e93431b6",
+      "date": "2026-04-10",
+      "dateTime": "2026-04-10T20:21:00.000Z",
+      "createdAt": "2026-04-10T20:21:00.000Z",
+      "rating": "good",
+      "sleep": {
+        "quality": "neutral"
+      },
+      "message": "",
+      "emotions": [],
+      "tags": [
+        {
+          "id": "c154947d-318c-5e75-9b66-6a2a0c610af4"
+        },
+        {
+          "id": "c8d7c978-ea23-501c-b006-3d92dac9e297"
+        }
+      ]
+    },
+    {
+      "id": "535dbf10-47a5-5f11-ba39-590d25e7e183",
+      "date": "2026-04-10",
+      "dateTime": "2026-04-10T12:02:00.000Z",
+      "createdAt": "2026-04-10T12:02:00.000Z",
+      "rating": "good",
+      "sleep": {
+        "quality": "neutral"
+      },
+      "message": "Rainy day, stayed in.",
+      "emotions": ["focused", "pleased"],
+      "tags": [
+        {
+          "id": "c154947d-318c-5e75-9b66-6a2a0c610af4"
+        },
+        {
+          "id": "2d6bd365-df70-5fd3-9b20-22d063bbbeec"
+        }
+      ]
+    },
+    {
+      "id": "908706cc-a680-5e9f-a7c7-7ee161314d38",
+      "date": "2026-04-11",
+      "dateTime": "2026-04-11T20:39:00.000Z",
+      "createdAt": "2026-04-11T20:39:00.000Z",
+      "rating": "very_good",
+      "sleep": {
+        "quality": null
+      },
+      "message": "Great dinner with friends.",
+      "emotions": ["excited", "joyful"],
+      "tags": [
+        {
+          "id": "c154947d-318c-5e75-9b66-6a2a0c610af4"
+        },
+        {
+          "id": "8d7098f9-52b8-5d78-ae86-36265f183635"
+        }
+      ]
+    },
+    {
+      "id": "09787e95-ba09-5fca-b52a-0b511e9254bd",
+      "date": "2026-04-12",
+      "dateTime": "2026-04-12T20:07:00.000Z",
+      "createdAt": "2026-04-12T20:07:00.000Z",
+      "rating": "good",
+      "sleep": {
+        "quality": null
+      },
+      "message": "Great dinner with friends.",
+      "emotions": ["pleased", "hopeful"],
+      "tags": [
+        {
+          "id": "8d7098f9-52b8-5d78-ae86-36265f183635"
+        }
+      ]
+    },
+    {
+      "id": "d25b42ad-4886-5900-bc47-197079b145ee",
+      "date": "2026-04-12",
+      "dateTime": "2026-04-12T12:50:00.000Z",
+      "createdAt": "2026-04-12T12:50:00.000Z",
+      "rating": "very_bad",
+      "sleep": {
+        "quality": null
+      },
+      "message": "Long walk after work.",
+      "emotions": ["anxious", "angry"],
+      "tags": []
+    },
+    {
+      "id": "bfabd418-c6e7-505a-9851-126f7441e28e",
+      "date": "2026-04-13",
+      "dateTime": "2026-04-13T20:24:00.000Z",
+      "createdAt": "2026-04-13T20:24:00.000Z",
+      "rating": "neutral",
+      "sleep": {
+        "quality": "good"
+      },
+      "message": "",
+      "emotions": ["engaged", "focused"],
+      "tags": []
+    },
+    {
+      "id": "6d43f500-419f-58be-8f3f-4fd83fc1ccb0",
+      "date": "2026-04-15",
+      "dateTime": "2026-04-15T20:26:00.000Z",
+      "createdAt": "2026-04-15T20:26:00.000Z",
+      "rating": "neutral",
+      "sleep": {
+        "quality": "very_bad"
+      },
+      "message": "Rainy day, stayed in.",
+      "emotions": ["engaged", "focused"],
+      "tags": [
+        {
+          "id": "2d6bd365-df70-5fd3-9b20-22d063bbbeec"
+        },
+        {
+          "id": "c154947d-318c-5e75-9b66-6a2a0c610af4"
+        }
+      ]
+    },
+    {
+      "id": "4c4bc114-6d40-574c-ae7f-b58335fe1459",
+      "date": "2026-04-16",
+      "dateTime": "2026-04-16T20:24:00.000Z",
+      "createdAt": "2026-04-16T20:24:00.000Z",
+      "rating": "good",
+      "sleep": {
+        "quality": "good"
+      },
+      "message": "Rainy day, stayed in.",
+      "emotions": ["hopeful", "focused"],
+      "tags": [
+        {
+          "id": "8d7098f9-52b8-5d78-ae86-36265f183635"
+        }
+      ]
+    },
+    {
+      "id": "64c775cf-9fdf-5d48-bad3-1d0eb1b8afb4",
+      "date": "2026-04-17",
+      "dateTime": "2026-04-17T20:35:00.000Z",
+      "createdAt": "2026-04-17T20:35:00.000Z",
+      "rating": "good",
+      "sleep": {
+        "quality": "neutral"
+      },
+      "message": "Great dinner with friends.",
+      "emotions": ["cheerful", "hopeful"],
+      "tags": [
+        {
+          "id": "c8d7c978-ea23-501c-b006-3d92dac9e297"
+        },
+        {
+          "id": "8d7098f9-52b8-5d78-ae86-36265f183635"
+        }
+      ]
+    },
+    {
+      "id": "70a571aa-c953-5481-80b2-c320c7c4ed6b",
+      "date": "2026-04-18",
+      "dateTime": "2026-04-18T20:46:00.000Z",
+      "createdAt": "2026-04-18T20:46:00.000Z",
+      "rating": "very_bad",
+      "sleep": {
+        "quality": "very_good"
+      },
+      "message": "Went for a run.",
+      "emotions": ["angry"],
+      "tags": [
+        {
+          "id": "2d6bd365-df70-5fd3-9b20-22d063bbbeec"
+        }
+      ]
+    },
+    {
+      "id": "73fd41cb-f12c-59b1-b7f0-ee7796f0d7eb",
+      "date": "2026-04-19",
+      "dateTime": "2026-04-19T20:22:00.000Z",
+      "createdAt": "2026-04-19T20:22:00.000Z",
+      "rating": "neutral",
+      "sleep": {
+        "quality": null
+      },
+      "message": "Great dinner with friends.",
+      "emotions": ["curious", "focused"],
+      "tags": []
+    },
+    {
+      "id": "b831c446-f103-5cf2-9c6a-6a06efd93e32",
+      "date": "2026-04-20",
+      "dateTime": "2026-04-20T20:17:00.000Z",
+      "createdAt": "2026-04-20T20:17:00.000Z",
+      "rating": "neutral",
+      "sleep": {
+        "quality": "very_bad"
+      },
+      "message": "Long walk after work.",
+      "emotions": [],
+      "tags": []
+    },
+    {
+      "id": "9c817e2e-cf26-5872-83c2-a3f421ee2c55",
+      "date": "2026-04-21",
+      "dateTime": "2026-04-21T20:03:00.000Z",
+      "createdAt": "2026-04-21T20:03:00.000Z",
+      "rating": "neutral",
+      "sleep": {
+        "quality": "neutral"
+      },
+      "message": "Rainy day, stayed in.",
+      "emotions": [],
+      "tags": [
+        {
+          "id": "2d6bd365-df70-5fd3-9b20-22d063bbbeec"
+        },
+        {
+          "id": "ad3d979b-4bf1-5bd8-8fcf-407b2606649c"
+        }
+      ]
+    },
+    {
+      "id": "ccda5101-60af-579a-a613-78c8356a21f3",
+      "date": "2026-04-22",
+      "dateTime": "2026-04-22T20:41:00.000Z",
+      "createdAt": "2026-04-22T20:41:00.000Z",
+      "rating": "very_good",
+      "sleep": {
+        "quality": null
+      },
+      "message": "Rainy day, stayed in.",
+      "emotions": ["joyful"],
+      "tags": []
+    },
+    {
+      "id": "f7c0c55c-4eb6-530b-9999-a88bcdc50bad",
+      "date": "2026-04-23",
+      "dateTime": "2026-04-23T20:03:00.000Z",
+      "createdAt": "2026-04-23T20:03:00.000Z",
+      "rating": "good",
+      "sleep": {
+        "quality": null
+      },
+      "message": "",
+      "emotions": ["cheerful", "hopeful"],
+      "tags": [
+        {
+          "id": "ad3d979b-4bf1-5bd8-8fcf-407b2606649c"
+        },
+        {
+          "id": "2d6bd365-df70-5fd3-9b20-22d063bbbeec"
+        }
+      ]
+    },
+    {
+      "id": "e2e04681-6abd-5473-90ef-0b5abf8eeb26",
+      "date": "2026-04-24",
+      "dateTime": "2026-04-24T20:02:00.000Z",
+      "createdAt": "2026-04-24T20:02:00.000Z",
+      "rating": "very_bad",
+      "sleep": {
+        "quality": null
+      },
+      "message": "Productive morning, slow afternoon.",
+      "emotions": ["anxious"],
+      "tags": [
+        {
+          "id": "8d7098f9-52b8-5d78-ae86-36265f183635"
+        },
+        {
+          "id": "ad3d979b-4bf1-5bd8-8fcf-407b2606649c"
+        }
+      ]
+    },
+    {
+      "id": "764d5e86-f8e1-533d-a433-907477919ed5",
+      "date": "2026-04-26",
+      "dateTime": "2026-04-26T20:18:00.000Z",
+      "createdAt": "2026-04-26T20:18:00.000Z",
+      "rating": "extremely_bad",
+      "sleep": {
+        "quality": "very_bad"
+      },
+      "message": "Went for a run.",
+      "emotions": ["angry"],
+      "tags": [
+        {
+          "id": "c8d7c978-ea23-501c-b006-3d92dac9e297"
+        },
+        {
+          "id": "8d7098f9-52b8-5d78-ae86-36265f183635"
+        }
+      ]
+    },
+    {
+      "id": "bac07cd2-d56d-5803-ad7b-5695346352b7",
+      "date": "2026-04-27",
+      "dateTime": "2026-04-27T20:29:00.000Z",
+      "createdAt": "2026-04-27T20:29:00.000Z",
+      "rating": "very_good",
+      "sleep": {
+        "quality": "good"
+      },
+      "message": "",
+      "emotions": ["excited", "joyful"],
+      "tags": [
+        {
+          "id": "2d6bd365-df70-5fd3-9b20-22d063bbbeec"
+        },
+        {
+          "id": "c154947d-318c-5e75-9b66-6a2a0c610af4"
+        }
+      ]
+    },
+    {
+      "id": "5664945c-8239-5f40-b10e-d4db9d45819a",
+      "date": "2026-04-28",
+      "dateTime": "2026-04-28T20:27:00.000Z",
+      "createdAt": "2026-04-28T20:27:00.000Z",
+      "rating": "good",
+      "sleep": {
+        "quality": "very_good"
+      },
+      "message": "Productive morning, slow afternoon.",
+      "emotions": ["pleased", "focused"],
+      "tags": []
+    },
+    {
+      "id": "992ab3b4-5394-5dbf-b6a0-3d1b16380b98",
+      "date": "2026-04-29",
+      "dateTime": "2026-04-29T20:24:00.000Z",
+      "createdAt": "2026-04-29T20:24:00.000Z",
+      "rating": "extremely_good",
+      "sleep": {
+        "quality": "neutral"
+      },
+      "message": "Slept badly, tired all day.",
+      "emotions": ["proud"],
+      "tags": [
+        {
+          "id": "c154947d-318c-5e75-9b66-6a2a0c610af4"
+        },
+        {
+          "id": "ad3d979b-4bf1-5bd8-8fcf-407b2606649c"
+        }
+      ]
+    },
+    {
+      "id": "20c1dedb-f7bf-5eb8-8287-2046c5603618",
+      "date": "2026-04-30",
+      "dateTime": "2026-04-30T20:42:00.000Z",
+      "createdAt": "2026-04-30T20:42:00.000Z",
+      "rating": "good",
+      "sleep": {
+        "quality": "neutral"
+      },
+      "message": "",
+      "emotions": ["hopeful"],
+      "tags": [
+        {
+          "id": "ad3d979b-4bf1-5bd8-8fcf-407b2606649c"
+        },
+        {
+          "id": "8d7098f9-52b8-5d78-ae86-36265f183635"
+        }
+      ]
+    },
+    {
+      "id": "d76e5d50-a220-5c67-9473-1a1b2996874c",
+      "date": "2026-05-01",
+      "dateTime": "2026-05-01T20:30:00.000Z",
+      "createdAt": "2026-05-01T20:30:00.000Z",
+      "rating": "very_bad",
+      "sleep": {
+        "quality": "very_bad"
+      },
+      "message": "Slept badly, tired all day.",
+      "emotions": ["angry"],
+      "tags": [
+        {
+          "id": "2d6bd365-df70-5fd3-9b20-22d063bbbeec"
+        },
+        {
+          "id": "c154947d-318c-5e75-9b66-6a2a0c610af4"
+        }
+      ]
+    },
+    {
+      "id": "27bc45e8-2936-58e2-912e-746e7d347ccd",
+      "date": "2026-05-02",
+      "dateTime": "2026-05-02T20:33:00.000Z",
+      "createdAt": "2026-05-02T20:33:00.000Z",
+      "rating": "bad",
+      "sleep": {
+        "quality": "neutral"
+      },
+      "message": "",
+      "emotions": ["annoyed", "anxious"],
+      "tags": [
+        {
+          "id": "c154947d-318c-5e75-9b66-6a2a0c610af4"
+        },
+        {
+          "id": "2d6bd365-df70-5fd3-9b20-22d063bbbeec"
+        }
+      ]
+    },
+    {
+      "id": "fe253fdc-0d8f-5ae9-8dd7-8487d9be8604",
+      "date": "2026-05-03",
+      "dateTime": "2026-05-03T20:33:00.000Z",
+      "createdAt": "2026-05-03T20:33:00.000Z",
+      "rating": "good",
+      "sleep": {
+        "quality": "good"
+      },
+      "message": "Rainy day, stayed in.",
+      "emotions": [],
+      "tags": [
+        {
+          "id": "c8d7c978-ea23-501c-b006-3d92dac9e297"
+        },
+        {
+          "id": "ad3d979b-4bf1-5bd8-8fcf-407b2606649c"
+        }
+      ]
+    },
+    {
+      "id": "b1e26f30-dcb8-5834-a23f-0fb085a3dd1b",
+      "date": "2026-05-04",
+      "dateTime": "2026-05-04T20:03:00.000Z",
+      "createdAt": "2026-05-04T20:03:00.000Z",
+      "rating": "good",
+      "sleep": {
+        "quality": "neutral"
+      },
+      "message": "",
+      "emotions": ["hopeful"],
+      "tags": []
+    },
+    {
+      "id": "83a7402b-b957-5c14-ad45-cd262dced6de",
+      "date": "2026-05-05",
+      "dateTime": "2026-05-05T20:22:00.000Z",
+      "createdAt": "2026-05-05T20:22:00.000Z",
+      "rating": "very_good",
+      "sleep": {
+        "quality": null
+      },
+      "message": "Went for a run.",
+      "emotions": [],
+      "tags": []
+    },
+    {
+      "id": "ea4e73df-ab1b-5a7e-b7dc-0b67eccfbb89",
+      "date": "2026-05-06",
+      "dateTime": "2026-05-06T20:11:00.000Z",
+      "createdAt": "2026-05-06T20:11:00.000Z",
+      "rating": "good",
+      "sleep": {
+        "quality": null
+      },
+      "message": "Productive morning, slow afternoon.",
+      "emotions": ["focused"],
+      "tags": [
+        {
+          "id": "c8d7c978-ea23-501c-b006-3d92dac9e297"
+        }
+      ]
+    },
+    {
+      "id": "bdcf325b-0453-5842-b095-91b5c687daf8",
+      "date": "2026-05-07",
+      "dateTime": "2026-05-07T20:34:00.000Z",
+      "createdAt": "2026-05-07T20:34:00.000Z",
+      "rating": "neutral",
+      "sleep": {
+        "quality": "neutral"
+      },
+      "message": "",
+      "emotions": [],
+      "tags": [
+        {
+          "id": "c8d7c978-ea23-501c-b006-3d92dac9e297"
+        },
+        {
+          "id": "2d6bd365-df70-5fd3-9b20-22d063bbbeec"
+        }
+      ]
+    },
+    {
+      "id": "2a243a7e-6d7e-5beb-83ff-2a8d3507cd54",
+      "date": "2026-05-08",
+      "dateTime": "2026-05-08T20:01:00.000Z",
+      "createdAt": "2026-05-08T20:01:00.000Z",
+      "rating": "extremely_good",
+      "sleep": {
+        "quality": null
+      },
+      "message": "Rainy day, stayed in.",
+      "emotions": ["proud", "thrilled"],
+      "tags": [
+        {
+          "id": "c8d7c978-ea23-501c-b006-3d92dac9e297"
+        },
+        {
+          "id": "2d6bd365-df70-5fd3-9b20-22d063bbbeec"
+        }
+      ]
+    },
+    {
+      "id": "ee1e35f2-937d-5af0-bd7a-a120f38a41b9",
+      "date": "2026-05-09",
+      "dateTime": "2026-05-09T20:59:00.000Z",
+      "createdAt": "2026-05-09T20:59:00.000Z",
+      "rating": "good",
+      "sleep": {
+        "quality": null
+      },
+      "message": "",
+      "emotions": [],
+      "tags": [
+        {
+          "id": "c8d7c978-ea23-501c-b006-3d92dac9e297"
+        },
+        {
+          "id": "ad3d979b-4bf1-5bd8-8fcf-407b2606649c"
+        }
+      ]
+    },
+    {
+      "id": "01a8137a-1b83-558a-8224-947427e0c50c",
+      "date": "2026-05-10",
+      "dateTime": "2026-05-10T20:28:00.000Z",
+      "createdAt": "2026-05-10T20:28:00.000Z",
+      "rating": "neutral",
+      "sleep": {
+        "quality": "very_good"
+      },
+      "message": "Long walk after work.",
+      "emotions": ["focused", "curious"],
+      "tags": [
+        {
+          "id": "2d6bd365-df70-5fd3-9b20-22d063bbbeec"
+        }
+      ]
+    },
+    {
+      "id": "2c9de2c4-a3fd-5529-adc2-261cbd170e26",
+      "date": "2026-05-10",
+      "dateTime": "2026-05-10T12:48:00.000Z",
+      "createdAt": "2026-05-10T12:48:00.000Z",
+      "rating": "good",
+      "sleep": {
+        "quality": null
+      },
+      "message": "",
+      "emotions": [],
+      "tags": [
+        {
+          "id": "8d7098f9-52b8-5d78-ae86-36265f183635"
+        },
+        {
+          "id": "2d6bd365-df70-5fd3-9b20-22d063bbbeec"
+        }
+      ]
+    },
+    {
+      "id": "266b3379-b9e7-5977-9e41-dbc1d99781db",
+      "date": "2026-05-11",
+      "dateTime": "2026-05-11T20:38:00.000Z",
+      "createdAt": "2026-05-11T20:38:00.000Z",
+      "rating": "good",
+      "sleep": {
+        "quality": null
+      },
+      "message": "Slept badly, tired all day.",
+      "emotions": [],
+      "tags": [
+        {
+          "id": "2d6bd365-df70-5fd3-9b20-22d063bbbeec"
+        }
+      ]
+    },
+    {
+      "id": "e325b064-b71b-5156-99e4-4cce81779d7c",
+      "date": "2026-05-12",
+      "dateTime": "2026-05-12T20:17:00.000Z",
+      "createdAt": "2026-05-12T20:17:00.000Z",
+      "rating": "good",
+      "sleep": {
+        "quality": "very_bad"
+      },
+      "message": "",
+      "emotions": ["focused", "hopeful"],
+      "tags": [
+        {
+          "id": "ad3d979b-4bf1-5bd8-8fcf-407b2606649c"
+        }
+      ]
+    },
+    {
+      "id": "4452997d-2af1-5b2b-af6c-00d45c88326b",
+      "date": "2026-05-13",
+      "dateTime": "2026-05-13T20:50:00.000Z",
+      "createdAt": "2026-05-13T20:50:00.000Z",
+      "rating": "neutral",
+      "sleep": {
+        "quality": "bad"
+      },
+      "message": "Productive morning, slow afternoon.",
+      "emotions": [],
+      "tags": [
+        {
+          "id": "c8d7c978-ea23-501c-b006-3d92dac9e297"
+        }
+      ]
+    },
+    {
+      "id": "b95a6296-63c9-568c-a997-7eb9ee9ab231",
+      "date": "2026-05-14",
+      "dateTime": "2026-05-14T20:14:00.000Z",
+      "createdAt": "2026-05-14T20:14:00.000Z",
+      "rating": "good",
+      "sleep": {
+        "quality": "good"
+      },
+      "message": "Rainy day, stayed in.",
+      "emotions": [],
+      "tags": [
+        {
+          "id": "c8d7c978-ea23-501c-b006-3d92dac9e297"
+        },
+        {
+          "id": "c154947d-318c-5e75-9b66-6a2a0c610af4"
+        }
+      ]
+    },
+    {
+      "id": "318d6b38-ffed-5f76-91a5-95a479177561",
+      "date": "2026-05-15",
+      "dateTime": "2026-05-15T20:13:00.000Z",
+      "createdAt": "2026-05-15T20:13:00.000Z",
+      "rating": "good",
+      "sleep": {
+        "quality": "very_good"
+      },
+      "message": "Rainy day, stayed in.",
+      "emotions": ["pleased"],
+      "tags": [
+        {
+          "id": "2d6bd365-df70-5fd3-9b20-22d063bbbeec"
+        },
+        {
+          "id": "ad3d979b-4bf1-5bd8-8fcf-407b2606649c"
+        }
+      ]
+    },
+    {
+      "id": "bf128175-4dbc-5762-b11d-53e34acdea4b",
+      "date": "2026-05-16",
+      "dateTime": "2026-05-16T20:55:00.000Z",
+      "createdAt": "2026-05-16T20:55:00.000Z",
+      "rating": "neutral",
+      "sleep": {
+        "quality": "very_bad"
+      },
+      "message": "Went for a run.",
+      "emotions": [],
+      "tags": [
+        {
+          "id": "2d6bd365-df70-5fd3-9b20-22d063bbbeec"
+        }
+      ]
+    },
+    {
+      "id": "38e81bb5-3dc0-5777-90cd-6d49e5d51b27",
+      "date": "2026-05-17",
+      "dateTime": "2026-05-17T20:00:00.000Z",
+      "createdAt": "2026-05-17T20:00:00.000Z",
+      "rating": "very_bad",
+      "sleep": {
+        "quality": "good"
+      },
+      "message": "",
+      "emotions": ["angry", "anxious"],
+      "tags": [
+        {
+          "id": "c154947d-318c-5e75-9b66-6a2a0c610af4"
+        },
+        {
+          "id": "2d6bd365-df70-5fd3-9b20-22d063bbbeec"
+        }
+      ]
+    },
+    {
+      "id": "d0ea275d-4c4b-51e9-8e93-e3480a507648",
+      "date": "2026-05-18",
+      "dateTime": "2026-05-18T20:18:00.000Z",
+      "createdAt": "2026-05-18T20:18:00.000Z",
+      "rating": "good",
+      "sleep": {
+        "quality": "very_bad"
+      },
+      "message": "Slept badly, tired all day.",
+      "emotions": ["hopeful"],
+      "tags": [
+        {
+          "id": "c154947d-318c-5e75-9b66-6a2a0c610af4"
+        }
+      ]
+    },
+    {
+      "id": "32c86a1d-f023-5153-a704-a867e5df4f48",
+      "date": "2026-05-19",
+      "dateTime": "2026-05-19T20:46:00.000Z",
+      "createdAt": "2026-05-19T20:46:00.000Z",
+      "rating": "bad",
+      "sleep": {
+        "quality": "neutral"
+      },
+      "message": "Long walk after work.",
+      "emotions": ["concerned"],
+      "tags": [
+        {
+          "id": "ad3d979b-4bf1-5bd8-8fcf-407b2606649c"
+        }
+      ]
+    },
+    {
+      "id": "9ee441eb-f562-5fa4-bd6a-2e4271c5591f",
+      "date": "2026-05-20",
+      "dateTime": "2026-05-20T20:16:00.000Z",
+      "createdAt": "2026-05-20T20:16:00.000Z",
+      "rating": "very_good",
+      "sleep": {
+        "quality": "very_bad"
+      },
+      "message": "Productive morning, slow afternoon.",
+      "emotions": ["happy"],
+      "tags": []
+    },
+    {
+      "id": "c71b32a8-5544-5a54-98f7-538315443bdb",
+      "date": "2026-05-21",
+      "dateTime": "2026-05-21T20:31:00.000Z",
+      "createdAt": "2026-05-21T20:31:00.000Z",
+      "rating": "bad",
+      "sleep": {
+        "quality": "neutral"
+      },
+      "message": "Great dinner with friends.",
+      "emotions": ["anxious"],
+      "tags": [
+        {
+          "id": "c8d7c978-ea23-501c-b006-3d92dac9e297"
+        },
+        {
+          "id": "c154947d-318c-5e75-9b66-6a2a0c610af4"
+        }
+      ]
+    },
+    {
+      "id": "843dc5a6-90a9-597b-a8a9-bf194e34089b",
+      "date": "2026-05-22",
+      "dateTime": "2026-05-22T20:46:00.000Z",
+      "createdAt": "2026-05-22T20:46:00.000Z",
+      "rating": "very_good",
+      "sleep": {
+        "quality": "good"
+      },
+      "message": "Went for a run.",
+      "emotions": ["happy", "joyful"],
+      "tags": []
+    },
+    {
+      "id": "6e1b6474-9310-59c9-81f0-945165aafde9",
+      "date": "2026-05-23",
+      "dateTime": "2026-05-23T20:26:00.000Z",
+      "createdAt": "2026-05-23T20:26:00.000Z",
+      "rating": "neutral",
+      "sleep": {
+        "quality": "good"
+      },
+      "message": "",
+      "emotions": ["focused", "engaged"],
+      "tags": []
+    },
+    {
+      "id": "80e190d1-dea9-5be3-a6ed-34e66c498e4b",
+      "date": "2026-05-24",
+      "dateTime": "2026-05-24T20:42:00.000Z",
+      "createdAt": "2026-05-24T20:42:00.000Z",
+      "rating": "neutral",
+      "sleep": {
+        "quality": null
+      },
+      "message": "Rainy day, stayed in.",
+      "emotions": ["curious", "focused"],
+      "tags": []
+    },
+    {
+      "id": "06c5a36d-8a68-5c47-a3ba-a479f998e03b",
+      "date": "2026-05-25",
+      "dateTime": "2026-05-25T20:46:00.000Z",
+      "createdAt": "2026-05-25T20:46:00.000Z",
+      "rating": "extremely_good",
+      "sleep": {
+        "quality": "neutral"
+      },
+      "message": "",
+      "emotions": ["proud", "thrilled"],
+      "tags": []
+    },
+    {
+      "id": "c635c43b-e175-536a-a38c-7cf5f09f68ec",
+      "date": "2026-05-26",
+      "dateTime": "2026-05-26T20:12:00.000Z",
+      "createdAt": "2026-05-26T20:12:00.000Z",
+      "rating": "very_good",
+      "sleep": {
+        "quality": "neutral"
+      },
+      "message": "Slept badly, tired all day.",
+      "emotions": ["excited"],
+      "tags": []
+    },
+    {
+      "id": "e1fe25f4-5575-5948-a7d8-8a39c9ad4b57",
+      "date": "2026-05-26",
+      "dateTime": "2026-05-26T12:25:00.000Z",
+      "createdAt": "2026-05-26T12:25:00.000Z",
+      "rating": "good",
+      "sleep": {
+        "quality": "good"
+      },
+      "message": "Long walk after work.",
+      "emotions": ["pleased"],
+      "tags": [
+        {
+          "id": "ad3d979b-4bf1-5bd8-8fcf-407b2606649c"
+        },
+        {
+          "id": "c154947d-318c-5e75-9b66-6a2a0c610af4"
+        }
+      ]
+    },
+    {
+      "id": "8793706f-7647-5f79-8fc5-7066bfbf965b",
+      "date": "2026-05-27",
+      "dateTime": "2026-05-27T20:40:00.000Z",
+      "createdAt": "2026-05-27T20:40:00.000Z",
+      "rating": "good",
+      "sleep": {
+        "quality": "good"
+      },
+      "message": "",
+      "emotions": ["focused"],
+      "tags": [
+        {
+          "id": "8d7098f9-52b8-5d78-ae86-36265f183635"
+        },
+        {
+          "id": "ad3d979b-4bf1-5bd8-8fcf-407b2606649c"
+        }
+      ]
+    },
+    {
+      "id": "d4310630-4dbe-5593-9eed-c3be0ce296fe",
+      "date": "2026-05-28",
+      "dateTime": "2026-05-28T20:57:00.000Z",
+      "createdAt": "2026-05-28T20:57:00.000Z",
+      "rating": "good",
+      "sleep": {
+        "quality": null
+      },
+      "message": "Rainy day, stayed in.",
+      "emotions": ["pleased"],
+      "tags": []
+    },
+    {
+      "id": "23972644-4f31-51b4-b7a4-aafdc8835b17",
+      "date": "2026-05-29",
+      "dateTime": "2026-05-29T20:42:00.000Z",
+      "createdAt": "2026-05-29T20:42:00.000Z",
+      "rating": "neutral",
+      "sleep": {
+        "quality": "neutral"
+      },
+      "message": "",
+      "emotions": [],
+      "tags": [
+        {
+          "id": "2d6bd365-df70-5fd3-9b20-22d063bbbeec"
+        },
+        {
+          "id": "c8d7c978-ea23-501c-b006-3d92dac9e297"
+        }
+      ]
+    },
+    {
+      "id": "2bb86137-da46-545c-8cb7-87bbee4d143f",
+      "date": "2026-05-30",
+      "dateTime": "2026-05-30T20:36:00.000Z",
+      "createdAt": "2026-05-30T20:36:00.000Z",
+      "rating": "neutral",
+      "sleep": {
+        "quality": null
+      },
+      "message": "Productive morning, slow afternoon.",
+      "emotions": ["engaged", "curious"],
+      "tags": [
+        {
+          "id": "2d6bd365-df70-5fd3-9b20-22d063bbbeec"
+        }
+      ]
+    },
+    {
+      "id": "c1c3023a-4939-5492-a2f5-9583f690326d",
+      "date": "2026-05-31",
+      "dateTime": "2026-05-31T20:47:00.000Z",
+      "createdAt": "2026-05-31T20:47:00.000Z",
+      "rating": "very_good",
+      "sleep": {
+        "quality": null
+      },
+      "message": "",
+      "emotions": [],
+      "tags": [
+        {
+          "id": "2d6bd365-df70-5fd3-9b20-22d063bbbeec"
+        }
+      ]
+    },
+    {
+      "id": "1facd1ca-379c-5488-ab5f-1bd023c483bd",
+      "date": "2026-06-01",
+      "dateTime": "2026-06-01T20:38:00.000Z",
+      "createdAt": "2026-06-01T20:38:00.000Z",
+      "rating": "neutral",
+      "sleep": {
+        "quality": "neutral"
+      },
+      "message": "",
+      "emotions": ["curious", "engaged"],
+      "tags": [
+        {
+          "id": "2d6bd365-df70-5fd3-9b20-22d063bbbeec"
+        }
+      ]
+    },
+    {
+      "id": "a3bbb226-dc40-55e3-aac6-a053bc1874fd",
+      "date": "2026-06-02",
+      "dateTime": "2026-06-02T20:43:00.000Z",
+      "createdAt": "2026-06-02T20:43:00.000Z",
+      "rating": "good",
+      "sleep": {
+        "quality": "bad"
+      },
+      "message": "",
+      "emotions": ["hopeful", "pleased"],
+      "tags": [
+        {
+          "id": "ad3d979b-4bf1-5bd8-8fcf-407b2606649c"
+        },
+        {
+          "id": "c154947d-318c-5e75-9b66-6a2a0c610af4"
+        }
+      ]
+    },
+    {
+      "id": "ca7163a5-13cf-572b-8a4c-9eacd5426c23",
+      "date": "2026-06-03",
+      "dateTime": "2026-06-03T20:09:00.000Z",
+      "createdAt": "2026-06-03T20:09:00.000Z",
+      "rating": "bad",
+      "sleep": {
+        "quality": null
+      },
+      "message": "Slept badly, tired all day.",
+      "emotions": ["annoyed"],
+      "tags": []
+    },
+    {
+      "id": "6f06bc52-0d6a-53f5-8faf-4f8a896f9987",
+      "date": "2026-06-05",
+      "dateTime": "2026-06-05T20:08:00.000Z",
+      "createdAt": "2026-06-05T20:08:00.000Z",
+      "rating": "good",
+      "sleep": {
+        "quality": "bad"
+      },
+      "message": "Rainy day, stayed in.",
+      "emotions": ["focused", "pleased"],
+      "tags": []
+    },
+    {
+      "id": "4b9ce53e-4555-5b69-95bd-7ca44a08f4db",
+      "date": "2026-06-06",
+      "dateTime": "2026-06-06T20:50:00.000Z",
+      "createdAt": "2026-06-06T20:50:00.000Z",
+      "rating": "neutral",
+      "sleep": {
+        "quality": "bad"
+      },
+      "message": "",
+      "emotions": ["curious"],
+      "tags": [
+        {
+          "id": "ad3d979b-4bf1-5bd8-8fcf-407b2606649c"
+        }
+      ]
+    },
+    {
+      "id": "ce4658af-e530-5037-85ca-7d3136dc2c23",
+      "date": "2026-06-07",
+      "dateTime": "2026-06-07T20:15:00.000Z",
+      "createdAt": "2026-06-07T20:15:00.000Z",
+      "rating": "extremely_bad",
+      "sleep": {
+        "quality": "good"
+      },
+      "message": "Productive morning, slow afternoon.",
+      "emotions": [],
+      "tags": []
+    },
+    {
+      "id": "5cd215ee-139b-5e5d-af2c-cb6677c72aa8",
+      "date": "2026-06-08",
+      "dateTime": "2026-06-08T20:10:00.000Z",
+      "createdAt": "2026-06-08T20:10:00.000Z",
+      "rating": "very_good",
+      "sleep": {
+        "quality": "bad"
+      },
+      "message": "Great dinner with friends.",
+      "emotions": ["happy"],
+      "tags": [
+        {
+          "id": "8d7098f9-52b8-5d78-ae86-36265f183635"
+        }
+      ]
+    },
+    {
+      "id": "b3804f8a-5dec-5464-a5ef-f77897b6e44c",
+      "date": "2026-06-09",
+      "dateTime": "2026-06-09T20:39:00.000Z",
+      "createdAt": "2026-06-09T20:39:00.000Z",
+      "rating": "good",
+      "sleep": {
+        "quality": "very_good"
+      },
+      "message": "",
+      "emotions": ["pleased"],
+      "tags": [
+        {
+          "id": "8d7098f9-52b8-5d78-ae86-36265f183635"
+        }
+      ]
+    },
+    {
+      "id": "d3924481-6102-5c2a-a997-10dc9ff481c4",
+      "date": "2026-06-10",
+      "dateTime": "2026-06-10T20:28:00.000Z",
+      "createdAt": "2026-06-10T20:28:00.000Z",
+      "rating": "bad",
+      "sleep": {
+        "quality": "very_bad"
+      },
+      "message": "",
+      "emotions": ["concerned"],
+      "tags": [
+        {
+          "id": "2d6bd365-df70-5fd3-9b20-22d063bbbeec"
+        },
+        {
+          "id": "c8d7c978-ea23-501c-b006-3d92dac9e297"
+        }
+      ]
+    },
+    {
+      "id": "300ce983-fd58-5129-95c6-e4380d4926e3",
+      "date": "2026-06-11",
+      "dateTime": "2026-06-11T20:18:00.000Z",
+      "createdAt": "2026-06-11T20:18:00.000Z",
+      "rating": "very_bad",
+      "sleep": {
+        "quality": null
+      },
+      "message": "Rainy day, stayed in.",
+      "emotions": ["anxious", "angry"],
+      "tags": [
+        {
+          "id": "8d7098f9-52b8-5d78-ae86-36265f183635"
+        }
+      ]
+    },
+    {
+      "id": "bb715ff3-ccf1-5762-90b1-2724ff5f7a53",
+      "date": "2026-06-12",
+      "dateTime": "2026-06-12T20:36:00.000Z",
+      "createdAt": "2026-06-12T20:36:00.000Z",
+      "rating": "very_good",
+      "sleep": {
+        "quality": "very_bad"
+      },
+      "message": "",
+      "emotions": ["joyful", "happy"],
+      "tags": [
+        {
+          "id": "c8d7c978-ea23-501c-b006-3d92dac9e297"
+        },
+        {
+          "id": "2d6bd365-df70-5fd3-9b20-22d063bbbeec"
+        }
+      ]
+    },
+    {
+      "id": "d3425c6d-99fa-5383-9e39-aeac18548c35",
+      "date": "2026-06-13",
+      "dateTime": "2026-06-13T20:52:00.000Z",
+      "createdAt": "2026-06-13T20:52:00.000Z",
+      "rating": "neutral",
+      "sleep": {
+        "quality": null
+      },
+      "message": "Productive morning, slow afternoon.",
+      "emotions": ["curious", "focused"],
+      "tags": [
+        {
+          "id": "8d7098f9-52b8-5d78-ae86-36265f183635"
+        },
+        {
+          "id": "2d6bd365-df70-5fd3-9b20-22d063bbbeec"
+        }
+      ]
+    },
+    {
+      "id": "814eaaa3-5286-54b5-a44c-bb067dbbe38d",
+      "date": "2026-06-14",
+      "dateTime": "2026-06-14T20:24:00.000Z",
+      "createdAt": "2026-06-14T20:24:00.000Z",
+      "rating": "good",
+      "sleep": {
+        "quality": "very_bad"
+      },
+      "message": "Rainy day, stayed in.",
+      "emotions": ["focused", "hopeful"],
+      "tags": [
+        {
+          "id": "c8d7c978-ea23-501c-b006-3d92dac9e297"
+        },
+        {
+          "id": "ad3d979b-4bf1-5bd8-8fcf-407b2606649c"
+        }
+      ]
+    },
+    {
+      "id": "eec09422-18ff-5952-b675-040c334f1084",
+      "date": "2026-06-15",
+      "dateTime": "2026-06-15T20:34:00.000Z",
+      "createdAt": "2026-06-15T20:34:00.000Z",
+      "rating": "bad",
+      "sleep": {
+        "quality": "very_good"
+      },
+      "message": "",
+      "emotions": [],
+      "tags": [
+        {
+          "id": "8d7098f9-52b8-5d78-ae86-36265f183635"
+        },
+        {
+          "id": "2d6bd365-df70-5fd3-9b20-22d063bbbeec"
+        }
+      ]
+    },
+    {
+      "id": "7f49c75d-a5a7-504c-b1a8-87e18ad1a7a8",
+      "date": "2026-06-16",
+      "dateTime": "2026-06-16T20:43:00.000Z",
+      "createdAt": "2026-06-16T20:43:00.000Z",
+      "rating": "extremely_bad",
+      "sleep": {
+        "quality": "neutral"
+      },
+      "message": "Productive morning, slow afternoon.",
+      "emotions": [],
+      "tags": []
+    },
+    {
+      "id": "32551c8c-d997-51ce-87b1-13c65b6de86c",
+      "date": "2026-06-16",
+      "dateTime": "2026-06-16T12:14:00.000Z",
+      "createdAt": "2026-06-16T12:14:00.000Z",
+      "rating": "very_good",
+      "sleep": {
+        "quality": "very_bad"
+      },
+      "message": "Went for a run.",
+      "emotions": ["joyful", "happy"],
+      "tags": [
+        {
+          "id": "8d7098f9-52b8-5d78-ae86-36265f183635"
+        }
+      ]
+    },
+    {
+      "id": "ffcf14ec-ed2a-5bb8-9a8b-231aba3d7eb4",
+      "date": "2026-06-17",
+      "dateTime": "2026-06-17T20:32:00.000Z",
+      "createdAt": "2026-06-17T20:32:00.000Z",
+      "rating": "neutral",
+      "sleep": {
+        "quality": "very_good"
+      },
+      "message": "Rainy day, stayed in.",
+      "emotions": [],
+      "tags": [
+        {
+          "id": "c8d7c978-ea23-501c-b006-3d92dac9e297"
+        }
+      ]
+    },
+    {
+      "id": "c7d6658a-b383-5836-b219-3dc3d67f28d7",
+      "date": "2026-06-18",
+      "dateTime": "2026-06-18T20:46:00.000Z",
+      "createdAt": "2026-06-18T20:46:00.000Z",
+      "rating": "bad",
+      "sleep": {
+        "quality": "neutral"
+      },
+      "message": "Slept badly, tired all day.",
+      "emotions": ["annoyed"],
+      "tags": [
+        {
+          "id": "c8d7c978-ea23-501c-b006-3d92dac9e297"
+        },
+        {
+          "id": "8d7098f9-52b8-5d78-ae86-36265f183635"
+        }
+      ]
+    },
+    {
+      "id": "e9c20dea-1966-5b34-9a90-d8f3e5c8d253",
+      "date": "2026-06-18",
+      "dateTime": "2026-06-18T12:28:00.000Z",
+      "createdAt": "2026-06-18T12:28:00.000Z",
+      "rating": "good",
+      "sleep": {
+        "quality": null
+      },
+      "message": "Rainy day, stayed in.",
+      "emotions": ["pleased"],
+      "tags": [
+        {
+          "id": "ad3d979b-4bf1-5bd8-8fcf-407b2606649c"
+        }
+      ]
+    },
+    {
+      "id": "764dc17c-55ba-547b-977c-a82b97e5605d",
+      "date": "2026-06-19",
+      "dateTime": "2026-06-19T20:41:00.000Z",
+      "createdAt": "2026-06-19T20:41:00.000Z",
+      "rating": "bad",
+      "sleep": {
+        "quality": "good"
+      },
+      "message": "Long walk after work.",
+      "emotions": ["annoyed", "anxious"],
+      "tags": [
+        {
+          "id": "c154947d-318c-5e75-9b66-6a2a0c610af4"
+        }
+      ]
+    },
+    {
+      "id": "9c207b3d-b8c5-5dc5-b6fd-7e73ab429bb2",
+      "date": "2026-06-20",
+      "dateTime": "2026-06-20T20:40:00.000Z",
+      "createdAt": "2026-06-20T20:40:00.000Z",
+      "rating": "bad",
+      "sleep": {
+        "quality": "bad"
+      },
+      "message": "Productive morning, slow afternoon.",
+      "emotions": [],
+      "tags": [
+        {
+          "id": "c154947d-318c-5e75-9b66-6a2a0c610af4"
+        },
+        {
+          "id": "2d6bd365-df70-5fd3-9b20-22d063bbbeec"
+        }
+      ]
+    },
+    {
+      "id": "53e9207f-7ff8-5b38-a4aa-726c4f2cbf20",
+      "date": "2026-06-21",
+      "dateTime": "2026-06-21T20:13:00.000Z",
+      "createdAt": "2026-06-21T20:13:00.000Z",
+      "rating": "extremely_good",
+      "sleep": {
+        "quality": "very_good"
+      },
+      "message": "",
+      "emotions": ["ecstatic", "thrilled"],
+      "tags": [
+        {
+          "id": "2d6bd365-df70-5fd3-9b20-22d063bbbeec"
+        }
+      ]
+    },
+    {
+      "id": "4bc0ebd1-164d-5c32-baa5-293ddc724689",
+      "date": "2026-06-22",
+      "dateTime": "2026-06-22T20:33:00.000Z",
+      "createdAt": "2026-06-22T20:33:00.000Z",
+      "rating": "bad",
+      "sleep": {
+        "quality": null
+      },
+      "message": "Slept badly, tired all day.",
+      "emotions": ["concerned", "anxious"],
+      "tags": [
+        {
+          "id": "ad3d979b-4bf1-5bd8-8fcf-407b2606649c"
+        },
+        {
+          "id": "8d7098f9-52b8-5d78-ae86-36265f183635"
+        }
+      ]
+    },
+    {
+      "id": "aca9d97d-6ab0-590f-91fa-d89bc4130a2b",
+      "date": "2026-06-23",
+      "dateTime": "2026-06-23T20:43:00.000Z",
+      "createdAt": "2026-06-23T20:43:00.000Z",
+      "rating": "very_good",
+      "sleep": {
+        "quality": null
+      },
+      "message": "Great dinner with friends.",
+      "emotions": ["joyful", "happy"],
+      "tags": [
+        {
+          "id": "2d6bd365-df70-5fd3-9b20-22d063bbbeec"
+        },
+        {
+          "id": "8d7098f9-52b8-5d78-ae86-36265f183635"
+        }
+      ]
+    },
+    {
+      "id": "e145faf2-5dc6-5df9-b6d6-71ef0101afec",
+      "date": "2026-06-24",
+      "dateTime": "2026-06-24T20:44:00.000Z",
+      "createdAt": "2026-06-24T20:44:00.000Z",
+      "rating": "very_good",
+      "sleep": {
+        "quality": "bad"
+      },
+      "message": "Productive morning, slow afternoon.",
+      "emotions": ["happy", "excited"],
+      "tags": [
+        {
+          "id": "2d6bd365-df70-5fd3-9b20-22d063bbbeec"
+        }
+      ]
+    },
+    {
+      "id": "da04d191-5228-586f-8c82-abf3c1be0400",
+      "date": "2026-06-25",
+      "dateTime": "2026-06-25T20:59:00.000Z",
+      "createdAt": "2026-06-25T20:59:00.000Z",
+      "rating": "very_bad",
+      "sleep": {
+        "quality": null
+      },
+      "message": "Went for a run.",
+      "emotions": [],
+      "tags": [
+        {
+          "id": "8d7098f9-52b8-5d78-ae86-36265f183635"
+        }
+      ]
+    },
+    {
+      "id": "a10aa488-67f9-5021-961c-a4b8d2a2d3eb",
+      "date": "2026-06-26",
+      "dateTime": "2026-06-26T20:03:00.000Z",
+      "createdAt": "2026-06-26T20:03:00.000Z",
+      "rating": "good",
+      "sleep": {
+        "quality": null
+      },
+      "message": "",
+      "emotions": ["cheerful"],
+      "tags": []
+    },
+    {
+      "id": "3034ba29-0994-52e6-8044-dcd35d171a2d",
+      "date": "2026-06-27",
+      "dateTime": "2026-06-27T20:31:00.000Z",
+      "createdAt": "2026-06-27T20:31:00.000Z",
+      "rating": "good",
+      "sleep": {
+        "quality": "bad"
+      },
+      "message": "Productive morning, slow afternoon.",
+      "emotions": ["focused", "cheerful"],
+      "tags": []
+    },
+    {
+      "id": "c1035d00-ec73-5ab7-adde-6d71dcde8925",
+      "date": "2026-06-28",
+      "dateTime": "2026-06-28T20:18:00.000Z",
+      "createdAt": "2026-06-28T20:18:00.000Z",
+      "rating": "neutral",
+      "sleep": {
+        "quality": "good"
+      },
+      "message": "Went for a run.",
+      "emotions": ["focused"],
+      "tags": [
+        {
+          "id": "c154947d-318c-5e75-9b66-6a2a0c610af4"
+        }
+      ]
+    },
+    {
+      "id": "bb2f45d4-a24b-5b7c-923c-1a41f6da1ab4",
+      "date": "2026-06-28",
+      "dateTime": "2026-06-28T12:49:00.000Z",
+      "createdAt": "2026-06-28T12:49:00.000Z",
+      "rating": "neutral",
+      "sleep": {
+        "quality": "very_bad"
+      },
+      "message": "",
+      "emotions": ["focused", "curious"],
+      "tags": [
+        {
+          "id": "8d7098f9-52b8-5d78-ae86-36265f183635"
+        },
+        {
+          "id": "ad3d979b-4bf1-5bd8-8fcf-407b2606649c"
+        }
+      ]
+    },
+    {
+      "id": "cd72911a-9ccd-599d-99b8-6f8d50191551",
+      "date": "2026-06-29",
+      "dateTime": "2026-06-29T20:27:00.000Z",
+      "createdAt": "2026-06-29T20:27:00.000Z",
+      "rating": "very_good",
+      "sleep": {
+        "quality": "good"
+      },
+      "message": "Great dinner with friends.",
+      "emotions": [],
+      "tags": [
+        {
+          "id": "8d7098f9-52b8-5d78-ae86-36265f183635"
+        }
+      ]
+    },
+    {
+      "id": "07dfa7b8-ca9b-5f35-abc7-e6f444755d5f",
+      "date": "2026-06-30",
+      "dateTime": "2026-06-30T20:07:00.000Z",
+      "createdAt": "2026-06-30T20:07:00.000Z",
+      "rating": "good",
+      "sleep": {
+        "quality": null
+      },
+      "message": "Long walk after work.",
+      "emotions": [],
+      "tags": [
+        {
+          "id": "c154947d-318c-5e75-9b66-6a2a0c610af4"
+        },
+        {
+          "id": "8d7098f9-52b8-5d78-ae86-36265f183635"
+        }
+      ]
+    },
+    {
+      "id": "115355c3-3dcd-5753-9632-659f3d198152",
+      "date": "2026-07-01",
+      "dateTime": "2026-07-01T20:39:00.000Z",
+      "createdAt": "2026-07-01T20:39:00.000Z",
+      "rating": "good",
+      "sleep": {
+        "quality": "good"
+      },
+      "message": "Long walk after work.",
+      "emotions": [],
+      "tags": [
+        {
+          "id": "8d7098f9-52b8-5d78-ae86-36265f183635"
+        },
+        {
+          "id": "c154947d-318c-5e75-9b66-6a2a0c610af4"
+        }
+      ]
+    },
+    {
+      "id": "3d0e2b4f-f228-5287-ad7b-6e3799824e53",
+      "date": "2026-07-02",
+      "dateTime": "2026-07-02T20:18:00.000Z",
+      "createdAt": "2026-07-02T20:18:00.000Z",
+      "rating": "extremely_bad",
+      "sleep": {
+        "quality": "neutral"
+      },
+      "message": "Went for a run.",
+      "emotions": ["angry", "anxious"],
+      "tags": [
+        {
+          "id": "ad3d979b-4bf1-5bd8-8fcf-407b2606649c"
+        }
+      ]
+    },
+    {
+      "id": "0522e2ea-be6d-5d74-9ffa-364fe6c06fbf",
+      "date": "2026-07-03",
+      "dateTime": "2026-07-03T20:55:00.000Z",
+      "createdAt": "2026-07-03T20:55:00.000Z",
+      "rating": "very_good",
+      "sleep": {
+        "quality": "good"
+      },
+      "message": "Slept badly, tired all day.",
+      "emotions": [],
+      "tags": [
+        {
+          "id": "c8d7c978-ea23-501c-b006-3d92dac9e297"
+        },
+        {
+          "id": "c154947d-318c-5e75-9b66-6a2a0c610af4"
+        }
+      ]
+    },
+    {
+      "id": "8bbb1fee-f392-52f2-bf81-73d801f87bb0",
+      "date": "2026-07-04",
+      "dateTime": "2026-07-04T20:24:00.000Z",
+      "createdAt": "2026-07-04T20:24:00.000Z",
+      "rating": "neutral",
+      "sleep": {
+        "quality": "very_good"
+      },
+      "message": "Productive morning, slow afternoon.",
+      "emotions": ["engaged", "curious"],
+      "tags": [
+        {
+          "id": "8d7098f9-52b8-5d78-ae86-36265f183635"
+        },
+        {
+          "id": "c8d7c978-ea23-501c-b006-3d92dac9e297"
+        }
+      ]
+    },
+    {
+      "id": "7a5cccc9-691f-534a-8f76-c78511ae074c",
+      "date": "2026-07-05",
+      "dateTime": "2026-07-05T20:49:00.000Z",
+      "createdAt": "2026-07-05T20:49:00.000Z",
+      "rating": "extremely_good",
+      "sleep": {
+        "quality": null
+      },
+      "message": "",
+      "emotions": ["thrilled", "proud"],
+      "tags": []
+    },
+    {
+      "id": "d03f300d-2ba7-5860-ab4e-99dd9ef99212",
+      "date": "2026-07-06",
+      "dateTime": "2026-07-06T20:52:00.000Z",
+      "createdAt": "2026-07-06T20:52:00.000Z",
+      "rating": "very_bad",
+      "sleep": {
+        "quality": "neutral"
+      },
+      "message": "Slept badly, tired all day.",
+      "emotions": ["angry"],
+      "tags": [
+        {
+          "id": "c154947d-318c-5e75-9b66-6a2a0c610af4"
+        },
+        {
+          "id": "2d6bd365-df70-5fd3-9b20-22d063bbbeec"
+        }
+      ]
+    },
+    {
+      "id": "b95a950d-a302-5879-bc0e-f05ccceaf18d",
+      "date": "2026-07-07",
+      "dateTime": "2026-07-07T20:43:00.000Z",
+      "createdAt": "2026-07-07T20:43:00.000Z",
+      "rating": "good",
+      "sleep": {
+        "quality": null
+      },
+      "message": "",
+      "emotions": [],
+      "tags": [
+        {
+          "id": "c8d7c978-ea23-501c-b006-3d92dac9e297"
+        },
+        {
+          "id": "ad3d979b-4bf1-5bd8-8fcf-407b2606649c"
+        }
+      ]
+    },
+    {
+      "id": "53a934e6-cfd4-5994-8098-62ecc81d6f6b",
+      "date": "2026-07-08",
+      "dateTime": "2026-07-08T20:00:00.000Z",
+      "createdAt": "2026-07-08T20:00:00.000Z",
+      "rating": "good",
+      "sleep": {
+        "quality": null
+      },
+      "message": "Productive morning, slow afternoon.",
+      "emotions": [],
+      "tags": [
+        {
+          "id": "2d6bd365-df70-5fd3-9b20-22d063bbbeec"
+        },
+        {
+          "id": "8d7098f9-52b8-5d78-ae86-36265f183635"
+        }
+      ]
+    },
+    {
+      "id": "86a6e393-0436-5a1b-abf2-fcada128a05e",
+      "date": "2026-07-09",
+      "dateTime": "2026-07-09T20:41:00.000Z",
+      "createdAt": "2026-07-09T20:41:00.000Z",
+      "rating": "good",
+      "sleep": {
+        "quality": "very_good"
+      },
+      "message": "Slept badly, tired all day.",
+      "emotions": ["cheerful", "pleased"],
+      "tags": [
+        {
+          "id": "8d7098f9-52b8-5d78-ae86-36265f183635"
+        }
+      ]
+    },
+    {
+      "id": "df0673b1-b5e2-59c5-b7fc-b6fce225a51e",
+      "date": "2026-07-10",
+      "dateTime": "2026-07-10T20:05:00.000Z",
+      "createdAt": "2026-07-10T20:05:00.000Z",
+      "rating": "good",
+      "sleep": {
+        "quality": null
+      },
+      "message": "",
+      "emotions": [],
+      "tags": [
+        {
+          "id": "ad3d979b-4bf1-5bd8-8fcf-407b2606649c"
+        }
+      ]
+    },
+    {
+      "id": "34041168-8f0a-5fad-9c98-919c61d380ea",
+      "date": "2026-07-11",
+      "dateTime": "2026-07-11T20:00:00.000Z",
+      "createdAt": "2026-07-11T20:00:00.000Z",
+      "rating": "neutral",
+      "sleep": {
+        "quality": "neutral"
+      },
+      "message": "",
+      "emotions": ["engaged"],
+      "tags": []
+    },
+    {
+      "id": "39914290-5987-5a86-814d-661e2a7ccf83",
+      "date": "2026-07-12",
+      "dateTime": "2026-07-12T20:51:00.000Z",
+      "createdAt": "2026-07-12T20:51:00.000Z",
+      "rating": "very_good",
+      "sleep": {
+        "quality": "neutral"
+      },
+      "message": "Slept badly, tired all day.",
+      "emotions": ["happy"],
+      "tags": [
+        {
+          "id": "2d6bd365-df70-5fd3-9b20-22d063bbbeec"
+        }
+      ]
+    },
+    {
+      "id": "2f296afb-755c-555a-8496-206ed51d8c7f",
+      "date": "2026-07-13",
+      "dateTime": "2026-07-13T20:36:00.000Z",
+      "createdAt": "2026-07-13T20:36:00.000Z",
+      "rating": "very_good",
+      "sleep": {
+        "quality": "good"
+      },
+      "message": "Rainy day, stayed in.",
+      "emotions": ["joyful"],
+      "tags": []
+    },
+    {
+      "id": "cfaee53a-6d2e-5e5b-9434-afbfaa2501bc",
+      "date": "2026-07-14",
+      "dateTime": "2026-07-14T20:43:00.000Z",
+      "createdAt": "2026-07-14T20:43:00.000Z",
+      "rating": "good",
+      "sleep": {
+        "quality": "good"
+      },
+      "message": "",
+      "emotions": [],
+      "tags": []
+    },
+    {
+      "id": "2b7420e5-6fba-5706-8df5-65099fcdabc6",
+      "date": "2026-07-15",
+      "dateTime": "2026-07-15T20:27:00.000Z",
+      "createdAt": "2026-07-15T20:27:00.000Z",
+      "rating": "good",
+      "sleep": {
+        "quality": "good"
+      },
+      "message": "Long walk after work.",
+      "emotions": ["pleased"],
+      "tags": []
+    },
+    {
+      "id": "62c382ea-036a-5f6a-b88d-4a26c365ed1a",
+      "date": "2026-07-16",
+      "dateTime": "2026-07-16T20:49:00.000Z",
+      "createdAt": "2026-07-16T20:49:00.000Z",
+      "rating": "neutral",
+      "sleep": {
+        "quality": null
+      },
+      "message": "",
+      "emotions": ["curious", "focused"],
+      "tags": [
+        {
+          "id": "c154947d-318c-5e75-9b66-6a2a0c610af4"
+        },
+        {
+          "id": "2d6bd365-df70-5fd3-9b20-22d063bbbeec"
+        }
+      ]
+    },
+    {
+      "id": "1e3f1c06-8078-51c6-8f09-28ea811ff9bc",
+      "date": "2026-07-17",
+      "dateTime": "2026-07-17T20:57:00.000Z",
+      "createdAt": "2026-07-17T20:57:00.000Z",
+      "rating": "very_good",
+      "sleep": {
+        "quality": null
+      },
+      "message": "Long walk after work.",
+      "emotions": ["excited"],
+      "tags": []
+    },
+    {
+      "id": "08c5198d-600d-5b85-b14b-09750a066201",
+      "date": "2026-07-18",
+      "dateTime": "2026-07-18T20:56:00.000Z",
+      "createdAt": "2026-07-18T20:56:00.000Z",
+      "rating": "very_good",
+      "sleep": {
+        "quality": null
+      },
+      "message": "Slept badly, tired all day.",
+      "emotions": ["happy"],
+      "tags": [
+        {
+          "id": "c154947d-318c-5e75-9b66-6a2a0c610af4"
+        }
+      ]
+    },
+    {
+      "id": "f737ce4e-744a-5e2d-bfa8-2af47d73730d",
+      "date": "2026-07-19",
+      "dateTime": "2026-07-19T20:30:00.000Z",
+      "createdAt": "2026-07-19T20:30:00.000Z",
+      "rating": "very_good",
+      "sleep": {
+        "quality": null
+      },
+      "message": "",
+      "emotions": [],
+      "tags": [
+        {
+          "id": "ad3d979b-4bf1-5bd8-8fcf-407b2606649c"
+        },
+        {
+          "id": "c154947d-318c-5e75-9b66-6a2a0c610af4"
+        }
+      ]
+    },
+    {
+      "id": "f823607b-5379-51f0-9bcf-6838a651cc78",
+      "date": "2026-07-20",
+      "dateTime": "2026-07-20T20:50:00.000Z",
+      "createdAt": "2026-07-20T20:50:00.000Z",
+      "rating": "very_good",
+      "sleep": {
+        "quality": "neutral"
+      },
+      "message": "Went for a run.",
+      "emotions": ["excited"],
+      "tags": [
+        {
+          "id": "c8d7c978-ea23-501c-b006-3d92dac9e297"
+        },
+        {
+          "id": "ad3d979b-4bf1-5bd8-8fcf-407b2606649c"
+        }
+      ]
+    },
+    {
+      "id": "2eecb34d-d603-53da-8e36-b3741f7fd58f",
+      "date": "2026-07-20",
+      "dateTime": "2026-07-20T12:34:00.000Z",
+      "createdAt": "2026-07-20T12:34:00.000Z",
+      "rating": "neutral",
+      "sleep": {
+        "quality": "neutral"
+      },
+      "message": "",
+      "emotions": ["focused"],
+      "tags": [
+        {
+          "id": "2d6bd365-df70-5fd3-9b20-22d063bbbeec"
+        },
+        {
+          "id": "c154947d-318c-5e75-9b66-6a2a0c610af4"
+        }
+      ]
+    },
+    {
+      "id": "a786fa3b-5c6d-5619-887e-6dd5c527cdb2",
+      "date": "2026-07-21",
+      "dateTime": "2026-07-21T20:53:00.000Z",
+      "createdAt": "2026-07-21T20:53:00.000Z",
+      "rating": "neutral",
+      "sleep": {
+        "quality": "very_good"
+      },
+      "message": "Great dinner with friends.",
+      "emotions": ["curious", "focused"],
+      "tags": []
+    },
+    {
+      "id": "eff0e1c1-cd2a-539d-a6d9-5fa969f89a51",
+      "date": "2026-07-22",
+      "dateTime": "2026-07-22T20:39:00.000Z",
+      "createdAt": "2026-07-22T20:39:00.000Z",
+      "rating": "very_good",
+      "sleep": {
+        "quality": "neutral"
+      },
+      "message": "",
+      "emotions": [],
+      "tags": []
+    },
+    {
+      "id": "c9689b3d-c7ed-5b2d-87d7-3a045a66af3a",
+      "date": "2026-07-23",
+      "dateTime": "2026-07-23T20:22:00.000Z",
+      "createdAt": "2026-07-23T20:22:00.000Z",
+      "rating": "very_good",
+      "sleep": {
+        "quality": "neutral"
+      },
+      "message": "",
+      "emotions": ["happy"],
+      "tags": [
+        {
+          "id": "8d7098f9-52b8-5d78-ae86-36265f183635"
+        },
+        {
+          "id": "ad3d979b-4bf1-5bd8-8fcf-407b2606649c"
+        }
+      ]
+    },
+    {
+      "id": "257a3fe5-a9af-5157-b4dc-af0c7f88812a",
+      "date": "2026-07-24",
+      "dateTime": "2026-07-24T20:17:00.000Z",
+      "createdAt": "2026-07-24T20:17:00.000Z",
+      "rating": "bad",
+      "sleep": {
+        "quality": "neutral"
+      },
+      "message": "",
+      "emotions": ["concerned"],
+      "tags": [
+        {
+          "id": "8d7098f9-52b8-5d78-ae86-36265f183635"
+        },
+        {
+          "id": "ad3d979b-4bf1-5bd8-8fcf-407b2606649c"
+        }
+      ]
+    },
+    {
+      "id": "2a1cbd19-4050-5cf5-978f-f758437229d1",
+      "date": "2026-07-24",
+      "dateTime": "2026-07-24T12:36:00.000Z",
+      "createdAt": "2026-07-24T12:36:00.000Z",
+      "rating": "good",
+      "sleep": {
+        "quality": "good"
+      },
+      "message": "Great dinner with friends.",
+      "emotions": [],
+      "tags": [
+        {
+          "id": "ad3d979b-4bf1-5bd8-8fcf-407b2606649c"
+        },
+        {
+          "id": "2d6bd365-df70-5fd3-9b20-22d063bbbeec"
+        }
+      ]
+    },
+    {
+      "id": "f8a039f9-70d0-51fb-b606-2eace1f98f2e",
+      "date": "2026-07-25",
+      "dateTime": "2026-07-25T20:00:00.000Z",
+      "createdAt": "2026-07-25T20:00:00.000Z",
+      "rating": "bad",
+      "sleep": {
+        "quality": "bad"
+      },
+      "message": "Slept badly, tired all day.",
+      "emotions": ["annoyed"],
+      "tags": []
+    },
+    {
+      "id": "69580f3d-2197-579d-8c4b-a3bc74cd3685",
+      "date": "2026-07-25",
+      "dateTime": "2026-07-25T12:54:00.000Z",
+      "createdAt": "2026-07-25T12:54:00.000Z",
+      "rating": "very_bad",
+      "sleep": {
+        "quality": "bad"
+      },
+      "message": "Long walk after work.",
+      "emotions": ["anxious"],
+      "tags": [
+        {
+          "id": "8d7098f9-52b8-5d78-ae86-36265f183635"
+        }
+      ]
+    },
+    {
+      "id": "02317b55-a310-5b74-9ab6-7a44fd7ce23c",
+      "date": "2026-07-26",
+      "dateTime": "2026-07-26T20:32:00.000Z",
+      "createdAt": "2026-07-26T20:32:00.000Z",
+      "rating": "good",
+      "sleep": {
+        "quality": "very_good"
+      },
+      "message": "",
+      "emotions": [],
+      "tags": [
+        {
+          "id": "ad3d979b-4bf1-5bd8-8fcf-407b2606649c"
+        },
+        {
+          "id": "c8d7c978-ea23-501c-b006-3d92dac9e297"
+        }
+      ]
+    },
+    {
+      "id": "73de4969-5af2-5bf8-97dd-bf9b6d5ffc47",
+      "date": "2026-07-26",
+      "dateTime": "2026-07-26T12:29:00.000Z",
+      "createdAt": "2026-07-26T12:29:00.000Z",
+      "rating": "very_good",
+      "sleep": {
+        "quality": null
+      },
+      "message": "Great dinner with friends.",
+      "emotions": ["happy"],
+      "tags": [
+        {
+          "id": "c8d7c978-ea23-501c-b006-3d92dac9e297"
+        },
+        {
+          "id": "ad3d979b-4bf1-5bd8-8fcf-407b2606649c"
+        }
+      ]
+    },
+    {
+      "id": "f085ded7-1fdb-5f40-bacb-dd920318c429",
+      "date": "2026-07-27",
+      "dateTime": "2026-07-27T20:47:00.000Z",
+      "createdAt": "2026-07-27T20:47:00.000Z",
+      "rating": "bad",
+      "sleep": {
+        "quality": "bad"
+      },
+      "message": "Slept badly, tired all day.",
+      "emotions": ["concerned", "annoyed"],
+      "tags": [
+        {
+          "id": "c154947d-318c-5e75-9b66-6a2a0c610af4"
+        },
+        {
+          "id": "2d6bd365-df70-5fd3-9b20-22d063bbbeec"
+        }
+      ]
+    },
+    {
+      "id": "9c9b25d4-77cb-5e67-90a8-f5e1bb806443",
+      "date": "2026-07-28",
+      "dateTime": "2026-07-28T20:34:00.000Z",
+      "createdAt": "2026-07-28T20:34:00.000Z",
+      "rating": "extremely_good",
+      "sleep": {
+        "quality": "very_good"
+      },
+      "message": "Slept badly, tired all day.",
+      "emotions": [],
+      "tags": [
+        {
+          "id": "c8d7c978-ea23-501c-b006-3d92dac9e297"
+        },
+        {
+          "id": "8d7098f9-52b8-5d78-ae86-36265f183635"
+        }
+      ]
+    },
+    {
+      "id": "77e36c7b-1911-52d8-8b64-55a5089bb149",
+      "date": "2026-07-29",
+      "dateTime": "2026-07-29T20:31:00.000Z",
+      "createdAt": "2026-07-29T20:31:00.000Z",
+      "rating": "good",
+      "sleep": {
+        "quality": null
+      },
+      "message": "",
+      "emotions": ["hopeful", "pleased"],
+      "tags": []
+    },
+    {
+      "id": "56c71c6c-fc5a-53ac-803e-4512c1a55ec5",
+      "date": "2026-07-30",
+      "dateTime": "2026-07-30T20:44:00.000Z",
+      "createdAt": "2026-07-30T20:44:00.000Z",
+      "rating": "good",
+      "sleep": {
+        "quality": null
+      },
+      "message": "Rainy day, stayed in.",
+      "emotions": ["pleased", "hopeful"],
+      "tags": []
+    },
+    {
+      "id": "51adb1a1-5c9d-584c-ba3a-3761a4744cf4",
+      "date": "2026-07-31",
+      "dateTime": "2026-07-31T20:37:00.000Z",
+      "createdAt": "2026-07-31T20:37:00.000Z",
+      "rating": "good",
+      "sleep": {
+        "quality": "bad"
+      },
+      "message": "",
+      "emotions": [],
+      "tags": [
+        {
+          "id": "8d7098f9-52b8-5d78-ae86-36265f183635"
+        }
+      ]
+    },
+    {
+      "id": "270c6d07-5ee9-5757-9910-54acf0b5d955",
+      "date": "2026-08-01",
+      "dateTime": "2026-08-01T20:53:00.000Z",
+      "createdAt": "2026-08-01T20:53:00.000Z",
+      "rating": "good",
+      "sleep": {
+        "quality": null
+      },
+      "message": "Slept badly, tired all day.",
+      "emotions": ["hopeful"],
+      "tags": []
+    },
+    {
+      "id": "ab14c455-02cc-5afa-afd3-ddd567e6b703",
+      "date": "2026-08-03",
+      "dateTime": "2026-08-03T20:09:00.000Z",
+      "createdAt": "2026-08-03T20:09:00.000Z",
+      "rating": "neutral",
+      "sleep": {
+        "quality": "bad"
+      },
+      "message": "Rainy day, stayed in.",
+      "emotions": ["curious"],
+      "tags": []
+    },
+    {
+      "id": "31b0b077-89bc-5106-a1b5-6c447bb2a26e",
+      "date": "2026-08-04",
+      "dateTime": "2026-08-04T20:19:00.000Z",
+      "createdAt": "2026-08-04T20:19:00.000Z",
+      "rating": "very_good",
+      "sleep": {
+        "quality": "very_good"
+      },
+      "message": "",
+      "emotions": [],
+      "tags": [
+        {
+          "id": "8d7098f9-52b8-5d78-ae86-36265f183635"
+        },
+        {
+          "id": "ad3d979b-4bf1-5bd8-8fcf-407b2606649c"
+        }
+      ]
+    },
+    {
+      "id": "298d9d2f-26e8-53ae-ac11-fb1fb3e7dbdf",
+      "date": "2026-08-05",
+      "dateTime": "2026-08-05T20:45:00.000Z",
+      "createdAt": "2026-08-05T20:45:00.000Z",
+      "rating": "very_good",
+      "sleep": {
+        "quality": "neutral"
+      },
+      "message": "Productive morning, slow afternoon.",
+      "emotions": ["happy", "excited"],
+      "tags": [
+        {
+          "id": "2d6bd365-df70-5fd3-9b20-22d063bbbeec"
+        }
+      ]
+    },
+    {
+      "id": "20d5209b-c826-56ff-9162-dfac66d203f9",
+      "date": "2026-08-07",
+      "dateTime": "2026-08-07T20:15:00.000Z",
+      "createdAt": "2026-08-07T20:15:00.000Z",
+      "rating": "neutral",
+      "sleep": {
+        "quality": "very_good"
+      },
+      "message": "",
+      "emotions": [],
+      "tags": []
+    },
+    {
+      "id": "bdff1492-7383-55aa-84a2-6a00c5c40b93",
+      "date": "2026-08-09",
+      "dateTime": "2026-08-09T20:25:00.000Z",
+      "createdAt": "2026-08-09T20:25:00.000Z",
+      "rating": "very_good",
+      "sleep": {
+        "quality": "very_good"
+      },
+      "message": "Great dinner with friends.",
+      "emotions": [],
+      "tags": []
+    },
+    {
+      "id": "d1a04a3d-ced0-56d5-868a-94882452ccac",
+      "date": "2026-08-10",
+      "dateTime": "2026-08-10T20:51:00.000Z",
+      "createdAt": "2026-08-10T20:51:00.000Z",
+      "rating": "neutral",
+      "sleep": {
+        "quality": "neutral"
+      },
+      "message": "",
+      "emotions": [],
+      "tags": [
+        {
+          "id": "ad3d979b-4bf1-5bd8-8fcf-407b2606649c"
+        }
+      ]
+    },
+    {
+      "id": "53b21cde-2d12-51e7-8998-0d87690fa5ad",
+      "date": "2026-08-11",
+      "dateTime": "2026-08-11T20:25:00.000Z",
+      "createdAt": "2026-08-11T20:25:00.000Z",
+      "rating": "bad",
+      "sleep": {
+        "quality": "bad"
+      },
+      "message": "Productive morning, slow afternoon.",
+      "emotions": [],
+      "tags": [
+        {
+          "id": "2d6bd365-df70-5fd3-9b20-22d063bbbeec"
+        }
+      ]
+    },
+    {
+      "id": "47b43b1d-1a4a-5bfd-bbef-1290a9c005d2",
+      "date": "2026-08-12",
+      "dateTime": "2026-08-12T20:09:00.000Z",
+      "createdAt": "2026-08-12T20:09:00.000Z",
+      "rating": "good",
+      "sleep": {
+        "quality": "very_bad"
+      },
+      "message": "Long walk after work.",
+      "emotions": ["hopeful", "cheerful"],
+      "tags": [
+        {
+          "id": "c154947d-318c-5e75-9b66-6a2a0c610af4"
+        }
+      ]
+    },
+    {
+      "id": "8d65e7ff-571b-5f5a-a42a-be1da52907f7",
+      "date": "2026-08-13",
+      "dateTime": "2026-08-13T20:26:00.000Z",
+      "createdAt": "2026-08-13T20:26:00.000Z",
+      "rating": "good",
+      "sleep": {
+        "quality": "very_bad"
+      },
+      "message": "Long walk after work.",
+      "emotions": ["pleased", "cheerful"],
+      "tags": [
+        {
+          "id": "8d7098f9-52b8-5d78-ae86-36265f183635"
+        },
+        {
+          "id": "c8d7c978-ea23-501c-b006-3d92dac9e297"
+        }
+      ]
+    },
+    {
+      "id": "8520def8-1cc4-5b3b-b4c7-40fd1a27513a",
+      "date": "2026-08-13",
+      "dateTime": "2026-08-13T12:31:00.000Z",
+      "createdAt": "2026-08-13T12:31:00.000Z",
+      "rating": "neutral",
+      "sleep": {
+        "quality": "very_bad"
+      },
+      "message": "Went for a run.",
+      "emotions": ["curious"],
+      "tags": [
+        {
+          "id": "2d6bd365-df70-5fd3-9b20-22d063bbbeec"
+        }
+      ]
+    },
+    {
+      "id": "ab764553-c4c8-59a2-9d20-9aaa3b55512b",
+      "date": "2026-08-15",
+      "dateTime": "2026-08-15T20:17:00.000Z",
+      "createdAt": "2026-08-15T20:17:00.000Z",
+      "rating": "bad",
+      "sleep": {
+        "quality": "bad"
+      },
+      "message": "Went for a run.",
+      "emotions": ["anxious"],
+      "tags": []
+    },
+    {
+      "id": "c1587e7e-e844-54ff-9f73-551a1cbb8da7",
+      "date": "2026-08-15",
+      "dateTime": "2026-08-15T12:06:00.000Z",
+      "createdAt": "2026-08-15T12:06:00.000Z",
+      "rating": "extremely_bad",
+      "sleep": {
+        "quality": "good"
+      },
+      "message": "Great dinner with friends.",
+      "emotions": ["angry", "anxious"],
+      "tags": [
+        {
+          "id": "c8d7c978-ea23-501c-b006-3d92dac9e297"
+        },
+        {
+          "id": "8d7098f9-52b8-5d78-ae86-36265f183635"
+        }
+      ]
+    },
+    {
+      "id": "49e049aa-642c-5008-8a9a-052530f27b30",
+      "date": "2026-08-16",
+      "dateTime": "2026-08-16T20:15:00.000Z",
+      "createdAt": "2026-08-16T20:15:00.000Z",
+      "rating": "very_good",
+      "sleep": {
+        "quality": "neutral"
+      },
+      "message": "",
+      "emotions": ["joyful", "excited"],
+      "tags": [
+        {
+          "id": "c154947d-318c-5e75-9b66-6a2a0c610af4"
+        },
+        {
+          "id": "2d6bd365-df70-5fd3-9b20-22d063bbbeec"
+        }
+      ]
+    },
+    {
+      "id": "0f1f084d-8749-5e9f-8d8f-3b7e0b0a5bf6",
+      "date": "2026-08-17",
+      "dateTime": "2026-08-17T20:56:00.000Z",
+      "createdAt": "2026-08-17T20:56:00.000Z",
+      "rating": "extremely_bad",
+      "sleep": {
+        "quality": null
+      },
+      "message": "Went for a run.",
+      "emotions": ["angry"],
+      "tags": [
+        {
+          "id": "ad3d979b-4bf1-5bd8-8fcf-407b2606649c"
+        }
+      ]
+    },
+    {
+      "id": "c3754b22-6ac8-5622-aa98-d939c7ba9bdb",
+      "date": "2026-08-18",
+      "dateTime": "2026-08-18T20:33:00.000Z",
+      "createdAt": "2026-08-18T20:33:00.000Z",
+      "rating": "very_good",
+      "sleep": {
+        "quality": "neutral"
+      },
+      "message": "Long walk after work.",
+      "emotions": [],
+      "tags": [
+        {
+          "id": "2d6bd365-df70-5fd3-9b20-22d063bbbeec"
+        }
+      ]
+    },
+    {
+      "id": "968f9007-09c3-5726-a489-127acd94836c",
+      "date": "2026-08-19",
+      "dateTime": "2026-08-19T20:01:00.000Z",
+      "createdAt": "2026-08-19T20:01:00.000Z",
+      "rating": "good",
+      "sleep": {
+        "quality": "good"
+      },
+      "message": "",
+      "emotions": ["hopeful", "pleased"],
+      "tags": [
+        {
+          "id": "c8d7c978-ea23-501c-b006-3d92dac9e297"
+        }
+      ]
+    },
+    {
+      "id": "ec014c01-baef-549f-b3fb-de2572f767f8",
+      "date": "2026-08-20",
+      "dateTime": "2026-08-20T20:10:00.000Z",
+      "createdAt": "2026-08-20T20:10:00.000Z",
+      "rating": "good",
+      "sleep": {
+        "quality": null
+      },
+      "message": "Productive morning, slow afternoon.",
+      "emotions": ["focused", "hopeful"],
+      "tags": [
+        {
+          "id": "2d6bd365-df70-5fd3-9b20-22d063bbbeec"
+        }
+      ]
+    },
+    {
+      "id": "ad8ca30e-6ca2-5bdc-a2f7-bc371e0065a5",
+      "date": "2026-08-21",
+      "dateTime": "2026-08-21T20:39:00.000Z",
+      "createdAt": "2026-08-21T20:39:00.000Z",
+      "rating": "bad",
+      "sleep": {
+        "quality": null
+      },
+      "message": "Long walk after work.",
+      "emotions": ["anxious", "annoyed"],
+      "tags": [
+        {
+          "id": "8d7098f9-52b8-5d78-ae86-36265f183635"
+        }
+      ]
+    },
+    {
+      "id": "aaf54bab-b808-5506-8025-022a64cf1552",
+      "date": "2026-08-22",
+      "dateTime": "2026-08-22T20:00:00.000Z",
+      "createdAt": "2026-08-22T20:00:00.000Z",
+      "rating": "very_good",
+      "sleep": {
+        "quality": null
+      },
+      "message": "Productive morning, slow afternoon.",
+      "emotions": ["happy", "joyful"],
+      "tags": [
+        {
+          "id": "8d7098f9-52b8-5d78-ae86-36265f183635"
+        },
+        {
+          "id": "2d6bd365-df70-5fd3-9b20-22d063bbbeec"
+        }
+      ]
+    },
+    {
+      "id": "7ba067cb-83da-5940-9fbb-350b89b62645",
+      "date": "2026-08-23",
+      "dateTime": "2026-08-23T20:21:00.000Z",
+      "createdAt": "2026-08-23T20:21:00.000Z",
+      "rating": "good",
+      "sleep": {
+        "quality": null
+      },
+      "message": "Long walk after work.",
+      "emotions": ["hopeful"],
+      "tags": []
+    },
+    {
+      "id": "3f6bff01-10eb-558d-9d8c-34d0024d32fe",
+      "date": "2026-08-24",
+      "dateTime": "2026-08-24T20:42:00.000Z",
+      "createdAt": "2026-08-24T20:42:00.000Z",
+      "rating": "bad",
+      "sleep": {
+        "quality": "neutral"
+      },
+      "message": "Rainy day, stayed in.",
+      "emotions": [],
+      "tags": [
+        {
+          "id": "2d6bd365-df70-5fd3-9b20-22d063bbbeec"
+        }
+      ]
+    },
+    {
+      "id": "1e84c52a-d540-5848-aa45-0b461ddc4a68",
+      "date": "2026-08-25",
+      "dateTime": "2026-08-25T20:06:00.000Z",
+      "createdAt": "2026-08-25T20:06:00.000Z",
+      "rating": "good",
+      "sleep": {
+        "quality": null
+      },
+      "message": "",
+      "emotions": ["focused"],
+      "tags": [
+        {
+          "id": "c8d7c978-ea23-501c-b006-3d92dac9e297"
+        },
+        {
+          "id": "2d6bd365-df70-5fd3-9b20-22d063bbbeec"
+        }
+      ]
+    },
+    {
+      "id": "d944f9fd-c64c-52d4-8675-37660de2d977",
+      "date": "2026-08-25",
+      "dateTime": "2026-08-25T12:31:00.000Z",
+      "createdAt": "2026-08-25T12:31:00.000Z",
+      "rating": "bad",
+      "sleep": {
+        "quality": null
+      },
+      "message": "Slept badly, tired all day.",
+      "emotions": ["concerned", "annoyed"],
+      "tags": [
+        {
+          "id": "c154947d-318c-5e75-9b66-6a2a0c610af4"
+        }
+      ]
+    },
+    {
+      "id": "dc9543c3-7937-5f23-ba29-4698120a6029",
+      "date": "2026-08-26",
+      "dateTime": "2026-08-26T20:04:00.000Z",
+      "createdAt": "2026-08-26T20:04:00.000Z",
+      "rating": "very_good",
+      "sleep": {
+        "quality": null
+      },
+      "message": "",
+      "emotions": ["happy"],
+      "tags": [
+        {
+          "id": "8d7098f9-52b8-5d78-ae86-36265f183635"
+        }
+      ]
+    },
+    {
+      "id": "168038b0-e42e-5d46-ba80-98231bc99c35",
+      "date": "2026-08-27",
+      "dateTime": "2026-08-27T20:24:00.000Z",
+      "createdAt": "2026-08-27T20:24:00.000Z",
+      "rating": "very_good",
+      "sleep": {
+        "quality": "very_good"
+      },
+      "message": "Went for a run.",
+      "emotions": [],
+      "tags": [
+        {
+          "id": "c154947d-318c-5e75-9b66-6a2a0c610af4"
+        }
+      ]
+    },
+    {
+      "id": "bb66b8fe-51fb-5274-8fe2-e8fc218958a4",
+      "date": "2026-08-27",
+      "dateTime": "2026-08-27T12:57:00.000Z",
+      "createdAt": "2026-08-27T12:57:00.000Z",
+      "rating": "extremely_bad",
+      "sleep": {
+        "quality": "very_good"
+      },
+      "message": "Productive morning, slow afternoon.",
+      "emotions": ["angry", "anxious"],
+      "tags": []
+    },
+    {
+      "id": "4b1c4efa-7203-53af-902b-93d541c6c944",
+      "date": "2026-08-29",
+      "dateTime": "2026-08-29T20:35:00.000Z",
+      "createdAt": "2026-08-29T20:35:00.000Z",
+      "rating": "good",
+      "sleep": {
+        "quality": null
+      },
+      "message": "Went for a run.",
+      "emotions": ["hopeful"],
+      "tags": [
+        {
+          "id": "2d6bd365-df70-5fd3-9b20-22d063bbbeec"
+        }
+      ]
+    },
+    {
+      "id": "582319b7-3e0d-5ece-b9e5-ce3d83f29977",
+      "date": "2026-08-30",
+      "dateTime": "2026-08-30T20:31:00.000Z",
+      "createdAt": "2026-08-30T20:31:00.000Z",
+      "rating": "neutral",
+      "sleep": {
+        "quality": "neutral"
+      },
+      "message": "",
+      "emotions": ["focused"],
+      "tags": [
+        {
+          "id": "c154947d-318c-5e75-9b66-6a2a0c610af4"
+        }
+      ]
+    },
+    {
+      "id": "ed0d172b-2415-5145-b6c0-905ecb71f557",
+      "date": "2026-08-31",
+      "dateTime": "2026-08-31T20:40:00.000Z",
+      "createdAt": "2026-08-31T20:40:00.000Z",
+      "rating": "very_good",
+      "sleep": {
+        "quality": "very_good"
+      },
+      "message": "Rainy day, stayed in.",
+      "emotions": [],
+      "tags": [
+        {
+          "id": "c8d7c978-ea23-501c-b006-3d92dac9e297"
+        }
+      ]
+    },
+    {
+      "id": "5079d453-dd01-5517-891e-fd8a9e272f13",
+      "date": "2026-08-31",
+      "dateTime": "2026-08-31T12:57:00.000Z",
+      "createdAt": "2026-08-31T12:57:00.000Z",
+      "rating": "good",
+      "sleep": {
+        "quality": "very_good"
+      },
+      "message": "Went for a run.",
+      "emotions": ["cheerful"],
+      "tags": [
+        {
+          "id": "c8d7c978-ea23-501c-b006-3d92dac9e297"
+        }
+      ]
+    },
+    {
+      "id": "7b3e9f2c-45e5-55d4-a741-d29142e282b7",
+      "date": "2026-09-01",
+      "dateTime": "2026-09-01T20:29:00.000Z",
+      "createdAt": "2026-09-01T20:29:00.000Z",
+      "rating": "good",
+      "sleep": {
+        "quality": "neutral"
+      },
+      "message": "",
+      "emotions": [],
+      "tags": [
+        {
+          "id": "ad3d979b-4bf1-5bd8-8fcf-407b2606649c"
+        },
+        {
+          "id": "c154947d-318c-5e75-9b66-6a2a0c610af4"
+        }
+      ]
+    },
+    {
+      "id": "7e20a97a-edd9-55f3-8a18-5de32c2454b0",
+      "date": "2026-09-02",
+      "dateTime": "2026-09-02T20:48:00.000Z",
+      "createdAt": "2026-09-02T20:48:00.000Z",
+      "rating": "good",
+      "sleep": {
+        "quality": "very_bad"
+      },
+      "message": "",
+      "emotions": ["focused"],
+      "tags": [
+        {
+          "id": "c8d7c978-ea23-501c-b006-3d92dac9e297"
+        },
+        {
+          "id": "2d6bd365-df70-5fd3-9b20-22d063bbbeec"
+        }
+      ]
+    },
+    {
+      "id": "3afe85fe-f61b-5b21-8016-14983e78e134",
+      "date": "2026-09-03",
+      "dateTime": "2026-09-03T20:45:00.000Z",
+      "createdAt": "2026-09-03T20:45:00.000Z",
+      "rating": "bad",
+      "sleep": {
+        "quality": "very_bad"
+      },
+      "message": "Went for a run.",
+      "emotions": ["anxious", "annoyed"],
+      "tags": []
+    },
+    {
+      "id": "a11e71d3-2f63-58be-a994-8f036551330b",
+      "date": "2026-09-03",
+      "dateTime": "2026-09-03T12:28:00.000Z",
+      "createdAt": "2026-09-03T12:28:00.000Z",
+      "rating": "very_bad",
+      "sleep": {
+        "quality": "good"
+      },
+      "message": "Long walk after work.",
+      "emotions": [],
+      "tags": []
+    },
+    {
+      "id": "d4186b12-6bc2-5e5a-b6bf-6fa346f5fc78",
+      "date": "2026-09-06",
+      "dateTime": "2026-09-06T20:09:00.000Z",
+      "createdAt": "2026-09-06T20:09:00.000Z",
+      "rating": "bad",
+      "sleep": {
+        "quality": null
+      },
+      "message": "Great dinner with friends.",
+      "emotions": ["anxious"],
+      "tags": []
+    },
+    {
+      "id": "3d41b5aa-8d0c-5223-b8af-9eac3f1ade23",
+      "date": "2026-09-07",
+      "dateTime": "2026-09-07T20:54:00.000Z",
+      "createdAt": "2026-09-07T20:54:00.000Z",
+      "rating": "neutral",
+      "sleep": {
+        "quality": "bad"
+      },
+      "message": "",
+      "emotions": ["engaged", "curious"],
+      "tags": []
+    },
+    {
+      "id": "108762ff-bd5d-588f-bb77-2a41cc09c741",
+      "date": "2026-09-08",
+      "dateTime": "2026-09-08T20:48:00.000Z",
+      "createdAt": "2026-09-08T20:48:00.000Z",
+      "rating": "neutral",
+      "sleep": {
+        "quality": null
+      },
+      "message": "",
+      "emotions": [],
+      "tags": [
+        {
+          "id": "ad3d979b-4bf1-5bd8-8fcf-407b2606649c"
+        },
+        {
+          "id": "8d7098f9-52b8-5d78-ae86-36265f183635"
+        }
+      ]
+    },
+    {
+      "id": "44865975-4073-52d0-a597-2ae9c7607341",
+      "date": "2026-09-09",
+      "dateTime": "2026-09-09T20:16:00.000Z",
+      "createdAt": "2026-09-09T20:16:00.000Z",
+      "rating": "bad",
+      "sleep": {
+        "quality": "bad"
+      },
+      "message": "Rainy day, stayed in.",
+      "emotions": [],
+      "tags": []
+    },
+    {
+      "id": "3d84e616-f319-50ac-863c-5c8138293eba",
+      "date": "2026-09-10",
+      "dateTime": "2026-09-10T20:44:00.000Z",
+      "createdAt": "2026-09-10T20:44:00.000Z",
+      "rating": "neutral",
+      "sleep": {
+        "quality": "bad"
+      },
+      "message": "Slept badly, tired all day.",
+      "emotions": ["focused", "engaged"],
+      "tags": [
+        {
+          "id": "c8d7c978-ea23-501c-b006-3d92dac9e297"
+        },
+        {
+          "id": "8d7098f9-52b8-5d78-ae86-36265f183635"
+        }
+      ]
+    },
+    {
+      "id": "8dcf7476-b6b8-54ca-8952-ef78cb00b12c",
+      "date": "2026-09-11",
+      "dateTime": "2026-09-11T20:19:00.000Z",
+      "createdAt": "2026-09-11T20:19:00.000Z",
+      "rating": "bad",
+      "sleep": {
+        "quality": "bad"
+      },
+      "message": "",
+      "emotions": [],
+      "tags": []
+    },
+    {
+      "id": "a99609ae-2626-5eb0-8d00-fc85c5286d79",
+      "date": "2026-09-11",
+      "dateTime": "2026-09-11T12:47:00.000Z",
+      "createdAt": "2026-09-11T12:47:00.000Z",
+      "rating": "good",
+      "sleep": {
+        "quality": "neutral"
+      },
+      "message": "Great dinner with friends.",
+      "emotions": ["focused", "hopeful"],
+      "tags": [
+        {
+          "id": "ad3d979b-4bf1-5bd8-8fcf-407b2606649c"
+        },
+        {
+          "id": "2d6bd365-df70-5fd3-9b20-22d063bbbeec"
+        }
+      ]
+    },
+    {
+      "id": "3e749c9d-2043-5298-a528-64befd2ea562",
+      "date": "2026-09-12",
+      "dateTime": "2026-09-12T20:31:00.000Z",
+      "createdAt": "2026-09-12T20:31:00.000Z",
+      "rating": "good",
+      "sleep": {
+        "quality": null
+      },
+      "message": "Slept badly, tired all day.",
+      "emotions": [],
+      "tags": [
+        {
+          "id": "2d6bd365-df70-5fd3-9b20-22d063bbbeec"
+        },
+        {
+          "id": "ad3d979b-4bf1-5bd8-8fcf-407b2606649c"
+        }
+      ]
+    },
+    {
+      "id": "650c0197-49cf-5900-8f62-560806d9117f",
+      "date": "2026-09-13",
+      "dateTime": "2026-09-13T20:54:00.000Z",
+      "createdAt": "2026-09-13T20:54:00.000Z",
+      "rating": "very_good",
+      "sleep": {
+        "quality": "very_bad"
+      },
+      "message": "",
+      "emotions": [],
+      "tags": []
+    },
+    {
+      "id": "0834ab21-2134-5fbc-83a2-e8e4d21e6e00",
+      "date": "2026-09-14",
+      "dateTime": "2026-09-14T20:02:00.000Z",
+      "createdAt": "2026-09-14T20:02:00.000Z",
+      "rating": "very_good",
+      "sleep": {
+        "quality": "neutral"
+      },
+      "message": "Long walk after work.",
+      "emotions": ["excited"],
+      "tags": [
+        {
+          "id": "c154947d-318c-5e75-9b66-6a2a0c610af4"
+        }
+      ]
+    },
+    {
+      "id": "99f86022-fc66-5fd8-a4af-e1815412cb46",
+      "date": "2026-09-15",
+      "dateTime": "2026-09-15T20:15:00.000Z",
+      "createdAt": "2026-09-15T20:15:00.000Z",
+      "rating": "neutral",
+      "sleep": {
+        "quality": "very_bad"
+      },
+      "message": "Rainy day, stayed in.",
+      "emotions": [],
+      "tags": [
+        {
+          "id": "c154947d-318c-5e75-9b66-6a2a0c610af4"
+        }
+      ]
+    },
+    {
+      "id": "21d7f34a-6be5-5732-abdb-c4f818e19fa1",
+      "date": "2026-09-16",
+      "dateTime": "2026-09-16T20:16:00.000Z",
+      "createdAt": "2026-09-16T20:16:00.000Z",
+      "rating": "bad",
+      "sleep": {
+        "quality": null
+      },
+      "message": "",
+      "emotions": ["annoyed"],
+      "tags": [
+        {
+          "id": "ad3d979b-4bf1-5bd8-8fcf-407b2606649c"
+        }
+      ]
+    },
+    {
+      "id": "56be0b77-606b-5df2-aabe-61a10832bc15",
+      "date": "2026-09-17",
+      "dateTime": "2026-09-17T20:54:00.000Z",
+      "createdAt": "2026-09-17T20:54:00.000Z",
+      "rating": "very_bad",
+      "sleep": {
+        "quality": "good"
+      },
+      "message": "Long walk after work.",
+      "emotions": ["angry"],
+      "tags": [
+        {
+          "id": "ad3d979b-4bf1-5bd8-8fcf-407b2606649c"
+        },
+        {
+          "id": "c154947d-318c-5e75-9b66-6a2a0c610af4"
+        }
+      ]
+    },
+    {
+      "id": "7d042910-1e9b-5457-a42b-4bcd81395d3a",
+      "date": "2026-09-18",
+      "dateTime": "2026-09-18T20:51:00.000Z",
+      "createdAt": "2026-09-18T20:51:00.000Z",
+      "rating": "very_good",
+      "sleep": {
+        "quality": "neutral"
+      },
+      "message": "Great dinner with friends.",
+      "emotions": ["joyful", "excited"],
+      "tags": [
+        {
+          "id": "c8d7c978-ea23-501c-b006-3d92dac9e297"
+        }
+      ]
+    },
+    {
+      "id": "bb3d16e0-ad0e-5632-9162-c93b09f0eb5e",
+      "date": "2026-09-19",
+      "dateTime": "2026-09-19T20:19:00.000Z",
+      "createdAt": "2026-09-19T20:19:00.000Z",
+      "rating": "very_good",
+      "sleep": {
+        "quality": "very_bad"
+      },
+      "message": "Productive morning, slow afternoon.",
+      "emotions": ["happy", "joyful"],
+      "tags": [
+        {
+          "id": "8d7098f9-52b8-5d78-ae86-36265f183635"
+        },
+        {
+          "id": "c154947d-318c-5e75-9b66-6a2a0c610af4"
+        }
+      ]
+    },
+    {
+      "id": "82aae8c6-b4a5-5765-91be-8fd99f4d1c98",
+      "date": "2026-09-20",
+      "dateTime": "2026-09-20T20:17:00.000Z",
+      "createdAt": "2026-09-20T20:17:00.000Z",
+      "rating": "very_good",
+      "sleep": {
+        "quality": "neutral"
+      },
+      "message": "Great dinner with friends.",
+      "emotions": ["joyful", "excited"],
+      "tags": []
+    },
+    {
+      "id": "4586c67c-df8c-59a9-8e11-456a45616a9e",
+      "date": "2026-09-21",
+      "dateTime": "2026-09-21T20:51:00.000Z",
+      "createdAt": "2026-09-21T20:51:00.000Z",
+      "rating": "bad",
+      "sleep": {
+        "quality": null
+      },
+      "message": "Productive morning, slow afternoon.",
+      "emotions": ["concerned", "annoyed"],
+      "tags": [
+        {
+          "id": "ad3d979b-4bf1-5bd8-8fcf-407b2606649c"
+        },
+        {
+          "id": "c8d7c978-ea23-501c-b006-3d92dac9e297"
+        }
+      ]
+    },
+    {
+      "id": "9c3b0651-5e9b-5b60-9082-c8a5c3bee3bf",
+      "date": "2026-09-22",
+      "dateTime": "2026-09-22T20:24:00.000Z",
+      "createdAt": "2026-09-22T20:24:00.000Z",
+      "rating": "good",
+      "sleep": {
+        "quality": null
+      },
+      "message": "Long walk after work.",
+      "emotions": ["cheerful"],
+      "tags": [
+        {
+          "id": "c154947d-318c-5e75-9b66-6a2a0c610af4"
+        },
+        {
+          "id": "c8d7c978-ea23-501c-b006-3d92dac9e297"
+        }
+      ]
+    },
+    {
+      "id": "78305cd2-ac41-55ed-af39-c9597058d8d0",
+      "date": "2026-09-23",
+      "dateTime": "2026-09-23T20:54:00.000Z",
+      "createdAt": "2026-09-23T20:54:00.000Z",
+      "rating": "good",
+      "sleep": {
+        "quality": "very_bad"
+      },
+      "message": "",
+      "emotions": ["pleased"],
+      "tags": [
+        {
+          "id": "2d6bd365-df70-5fd3-9b20-22d063bbbeec"
+        }
+      ]
+    },
+    {
+      "id": "95fd2c93-33d3-5826-b6df-fec068ff4c7f",
+      "date": "2026-09-24",
+      "dateTime": "2026-09-24T20:58:00.000Z",
+      "createdAt": "2026-09-24T20:58:00.000Z",
+      "rating": "neutral",
+      "sleep": {
+        "quality": "neutral"
+      },
+      "message": "",
+      "emotions": [],
+      "tags": [
+        {
+          "id": "2d6bd365-df70-5fd3-9b20-22d063bbbeec"
+        }
+      ]
+    },
+    {
+      "id": "b4e69720-ca77-5f71-9788-e735d10406db",
+      "date": "2026-09-25",
+      "dateTime": "2026-09-25T20:21:00.000Z",
+      "createdAt": "2026-09-25T20:21:00.000Z",
+      "rating": "bad",
+      "sleep": {
+        "quality": "very_bad"
+      },
+      "message": "Great dinner with friends.",
+      "emotions": ["annoyed"],
+      "tags": [
+        {
+          "id": "ad3d979b-4bf1-5bd8-8fcf-407b2606649c"
+        }
+      ]
+    }
+  ],
+  "tags": [
+    {
+      "id": "ad3d979b-4bf1-5bd8-8fcf-407b2606649c",
+      "title": "Work",
+      "color": "blue"
+    },
+    {
+      "id": "2d6bd365-df70-5fd3-9b20-22d063bbbeec",
+      "title": "Sport",
+      "color": "green"
+    },
+    {
+      "id": "8d7098f9-52b8-5d78-ae86-36265f183635",
+      "title": "Family",
+      "color": "orange"
+    },
+    {
+      "id": "c8d7c978-ea23-501c-b006-3d92dac9e297",
+      "title": "Friends",
+      "color": "pink"
+    },
+    {
+      "id": "c154947d-318c-5e75-9b66-6a2a0c610af4",
+      "title": "Sleep in",
+      "color": "violet"
+    }
+  ],
+  "settings": {
+    "actionsDone": [
+      {
+        "date": "2026-01-01T09:00:00.000Z",
+        "title": "onboarding"
+      }
+    ]
+  }
+}

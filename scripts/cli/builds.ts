@@ -1,20 +1,17 @@
-// `bun builds`: inspect and prune the shared build cache written by
-// scripts/build-cache-provider.cjs.
+import { execFileSync } from "node:child_process";
+import crypto from "node:crypto";
 import fs from "node:fs";
 import { createRequire } from "node:module";
+import os from "node:os";
 import path from "node:path";
 
+import { agentDevice, stopStaleDaemon } from "./agent-device.ts";
 import {
+  CHECKOUTS_DIR,
+  CHECKOUT_FILE,
   CliError,
-  DEFAULT_KEEP_BUILDS,
-  DEFAULT_KEEP_WITHIN,
-  PLATFORM_OPTION,
   defineCommand,
   formatAge,
-  getPlatform,
-  getWorktree,
-  note,
-  parseDuration,
   printTable,
   readJson,
 } from "./shared.ts";
@@ -38,6 +35,8 @@ interface BuildCacheProvider {
 interface BuildMeta {
   key?: string;
   platform?: Platform;
+  target?: string;
+  appVariant?: string;
   variant?: string;
   branch?: string;
   commit?: string;
@@ -53,6 +52,8 @@ interface Build {
   id: string;
   file: string;
   platform: string;
+  // simulator, emulator, or device.
+  target: string;
   fingerprint: string;
   variant: string;
   isRelease: boolean;
@@ -62,6 +63,14 @@ interface Build {
   lastUsedAt: string;
 }
 
+interface DeviceClaim {
+  owner?: { workspace?: string };
+  device?: { id: string; platform: string };
+}
+
+const KEEP_BUILDS = 1;
+const KEEP_WITHIN_MS = 2 * 24 * 60 * 60_000;
+
 const localRequire = createRequire(import.meta.url);
 // SAFETY: the provider module exports these functions; see its module.exports.
 const buildCacheProvider = localRequire(
@@ -69,7 +78,7 @@ const buildCacheProvider = localRequire(
 ) as BuildCacheProvider;
 
 const BUILD_KEY =
-  /^(?<platform>ios|android)-(?<fingerprint>[0-9a-f]{40})-(?<variant>[^-]+)(?:-(?<bundle>[0-9a-f]{12}))?$/u;
+  /^(?<platform>ios|android)(?<device>-device)?-(?<fingerprint>[0-9a-f]{40})-(?<variant>[^-]+)(?:-(?<bundle>[0-9a-f]{12}))?$/u;
 
 const getSize = (target: string): number => {
   const stats = fs.statSync(target);
@@ -80,14 +89,13 @@ const getSize = (target: string): number => {
     : stats.size;
 };
 
-// Short ID for a cache key: ios-f2ab57cc-Release-88f1470e0d69.
 const toBuildId = (key: string) => {
   const groups = BUILD_KEY.exec(key)?.groups;
   if (!groups) {
     return key;
   }
-  const { bundle, fingerprint, platform, variant } = groups;
-  return `${platform}-${fingerprint.slice(0, 8)}-${variant}${bundle ? `-${bundle}` : ""}`;
+  const { bundle, device = "", fingerprint, platform, variant } = groups;
+  return `${platform}${device}-${fingerprint.slice(0, 8)}-${variant}${bundle ? `-${bundle}` : ""}`;
 };
 
 const formatSize = (bytes: number) => `${Math.round(bytes / 1_000_000)}M`;
@@ -103,7 +111,7 @@ const listBuilds = (): Build[] => {
     if (!match?.groups || file.endsWith(".json")) {
       return [];
     }
-    const { bundle, fingerprint, platform, variant } = match.groups;
+    const { bundle, device, fingerprint, platform, variant } = match.groups;
     const fullPath = path.join(cacheDir, file);
     const meta = readJson<BuildMeta>(path.join(cacheDir, `${key}.json`)) ?? {};
     const createdAt =
@@ -120,6 +128,9 @@ const listBuilds = (): Build[] => {
         meta,
         platform,
         sizeBytes: meta.sizeBytes ?? getSize(fullPath),
+        target: device
+          ? "device"
+          : (meta.target ?? (platform === "ios" ? "simulator" : "emulator")),
         variant,
       },
     ];
@@ -144,10 +155,22 @@ const cmdBuildsList = (platform: Platform | undefined, isJson: boolean) => {
     return;
   }
   printTable(
-    ["ID", "OS", "VARIANT", "SOURCE", "SIZE", "CREATED", "LAST USED"],
+    [
+      "ID",
+      "OS",
+      "TARGET",
+      "APP",
+      "VARIANT",
+      "SOURCE",
+      "SIZE",
+      "CREATED",
+      "LAST USED",
+    ],
     builds.map((build) => [
       build.id,
       build.platform,
+      build.target,
+      build.meta.appVariant ?? "-",
       build.variant,
       describeSource(build.meta),
       formatSize(build.sizeBytes),
@@ -161,101 +184,6 @@ const cmdBuildsList = (platform: Platform | undefined, isJson: boolean) => {
   );
 };
 
-interface Fingerprinter {
-  createFingerprintAsync: (projectRoot: string) => Promise<{ hash: string }>;
-}
-
-// Same call Expo CLI makes before it looks up the cache.
-const getFingerprint = async (worktree: string) => {
-  const worktreeRequire = createRequire(path.join(worktree, "package.json"));
-  // SAFETY: @expo/fingerprint exports createFingerprintAsync; Expo CLI uses it.
-  const fingerprinter = worktreeRequire("@expo/fingerprint") as Fingerprinter;
-  const { hash } = await fingerprinter.createFingerprintAsync(worktree);
-  return hash;
-};
-
-// Mirrors the options `bun ios` and `bun android` pass to Expo for debug and release builds.
-const getRunOptions = (platform: Platform, isRelease: boolean): RunOptions => {
-  if (platform === "android") {
-    return { variant: isRelease ? "release" : "debug" };
-  }
-  return isRelease ? { configuration: "Release" } : {};
-};
-
-interface CheckResult {
-  platform: Platform;
-  variant: "debug" | "release";
-  isHit: boolean;
-  key: string;
-  // The matching cached build, for a hit.
-  buildId: string | null;
-  // Why the next build compiles, for a miss.
-  reason: string | null;
-}
-
-const checkBuild = (
-  platform: Platform,
-  isRelease: boolean,
-  fingerprintHash: string,
-  builds: Build[]
-): CheckResult => {
-  const key = buildCacheProvider.getCacheKey({
-    fingerprintHash,
-    platform,
-    projectRoot: getWorktree(),
-    runOptions: getRunOptions(platform, isRelease),
-  });
-  const variant = isRelease ? "release" : "debug";
-  const hit = builds.find((build) => build.key === key);
-  if (hit) {
-    return {
-      buildId: hit.id,
-      isHit: true,
-      key,
-      platform,
-      reason: null,
-      variant,
-    };
-  }
-  const sameNative = builds.filter(
-    (build) =>
-      build.platform === platform &&
-      build.fingerprint === fingerprintHash &&
-      build.isRelease === isRelease
-  );
-  const reason =
-    sameNative.length > 0
-      ? `native code matches ${sameNative.length} cached build(s), but app source or EXPO_PUBLIC_* values differ. Xcode or Gradle rebuilds incrementally when this worktree built before`
-      : "no cached build has this native fingerprint. Expect a full native build (about 10 minutes)";
-  return { buildId: null, isHit: false, key, platform, reason, variant };
-};
-
-const cmdBuildsCheck = async (
-  platform: Platform | undefined,
-  isRelease: boolean,
-  isJson: boolean
-) => {
-  note("Computing native fingerprint (takes up to a minute)...");
-  const fingerprintHash = await getFingerprint(getWorktree());
-  const builds = listBuilds();
-  const results = (platform ? [platform] : (["ios", "android"] as const)).map(
-    (os_) => checkBuild(os_, isRelease, fingerprintHash, builds)
-  );
-  if (isJson) {
-    console.log(JSON.stringify(results, null, 2));
-    return;
-  }
-  for (const result of results) {
-    const label = `${result.platform} ${result.variant}`;
-    const hit = builds.find((build) => build.id === result.buildId);
-    console.log(
-      hit
-        ? `${label}: HIT ${hit.id} from ${describeSource(hit.meta)}, ${formatAge(hit.createdAt)} old. \`bun ${result.platform}\` installs it without compiling.`
-        : `${label}: MISS ${result.key}\n  ${result.reason}.`
-    );
-  }
-};
-
 const removeBuild = (build: Build) => {
   fs.rmSync(build.file, { force: true, recursive: true });
   fs.rmSync(
@@ -264,46 +192,168 @@ const removeBuild = (build: Build) => {
   );
 };
 
-const parseKeep = (value: string) => {
-  const keep = Number(value);
-  if (!/^\d+$/u.test(value) || !Number.isSafeInteger(keep)) {
-    throw new CliError({
-      exitCode: 2,
-      fix: `Pass a whole number, for example --keep ${DEFAULT_KEEP_BUILDS}.`,
-      message: `Invalid --keep "${value}"`,
-      status: "invalid_keep",
-      why: "--keep is how many builds to keep per platform and variant.",
-    });
+const releaseClaims = async (checkout: string) => {
+  const live = await agentDevice<{ claims: DeviceClaim[] }>([
+    "device",
+    "status",
+  ]);
+  const stale = await agentDevice<{ claims: DeviceClaim[] }>([
+    "device",
+    "status",
+    "--stale",
+  ]);
+  const claims = [...live.claims, ...stale.claims].filter(
+    (claim) => claim.owner?.workspace === checkout
+  );
+  for (const claim of claims) {
+    const { device } = claim;
+    if (!device || !["ios", "android"].includes(device.platform)) {
+      throw new CliError({
+        status: "prune_claim_invalid",
+        message: "Deleted checkout has an unsupported device claim",
+        why: `Claim for ${checkout} has no supported device identity.`,
+        fix: "Inspect `agent-device device status --json`, then retry prune.",
+      });
+    }
+    const selector = device.platform === "ios" ? "--udid" : "--serial";
+    // oxlint-disable-next-line no-await-in-loop -- release each exact claim before deleting sessions
+    const result = await agentDevice<{
+      released: unknown[];
+      retained: unknown[];
+      refused: unknown[];
+      changed: unknown[];
+    }>([
+      "device",
+      "release",
+      "--stale",
+      "--platform",
+      device.platform,
+      selector,
+      device.id,
+    ]);
+    if (
+      result.released.length !== 1 ||
+      result.retained.length !== 0 ||
+      result.refused.length !== 0 ||
+      result.changed.length !== 0
+    ) {
+      throw new CliError({
+        status: "prune_claim_release_failed",
+        message: "Deleted checkout device claim was not released",
+        why: `agent-device retained or refused ${device.platform} device ${device.id}.`,
+        fix: "Inspect `agent-device device status --json`, then retry prune.",
+      });
+    }
   }
-  return keep;
 };
 
-// Keeps the newest `keep` builds per platform and variant, plus every build
-// used within `keepWithin`. Removes the rest and abandoned temp copies.
-const pruneBuilds = (keep: number, keepWithin: string, isDryRun: boolean) => {
-  const keepWithinMs = parseDuration(keepWithin);
+const removeSessions = (checkout: string) => {
+  const sessionHash = crypto
+    .createHash("sha256")
+    .update(checkout)
+    .digest("hex")
+    .slice(0, 16);
+  const sessionsDir = path.join(os.homedir(), ".agent-device", "sessions");
+  if (!fs.existsSync(sessionsDir)) {
+    return;
+  }
+  for (const session of fs.readdirSync(sessionsDir)) {
+    if (session.startsWith(`cwd_${sessionHash}_`)) {
+      fs.rmSync(path.join(sessionsDir, session), {
+        recursive: true,
+        force: true,
+      });
+    }
+  }
+};
+
+const deleteSimulator = (entry: string) => {
+  const rawDevices = execFileSync(
+    "xcrun",
+    ["simctl", "list", "devices", "-j"],
+    {
+      encoding: "utf-8",
+    }
+  );
+  // SAFETY: simctl list devices -j returns runtime groups with UDID, name, and state.
+  const devices = JSON.parse(rawDevices) as {
+    devices: Record<string, { udid: string; name: string; state: string }[]>;
+  };
+  const name = `pixy-mood-tracker-${entry}`;
+  const simulator = Object.values(devices.devices)
+    .flat()
+    .find((device) => device.name === name);
+  if (!simulator) {
+    return;
+  }
+  if (simulator.state !== "Shutdown") {
+    execFileSync("xcrun", ["simctl", "shutdown", simulator.udid]);
+  }
+  execFileSync("xcrun", ["simctl", "delete", simulator.udid]);
+  console.log(`Deleted simulator ${name}`);
+};
+
+const pruneCheckout = async (entry: string) => {
+  const dir = path.join(CHECKOUTS_DIR, entry);
+  const file = path.join(dir, CHECKOUT_FILE);
+  try {
+    const checkout = fs.existsSync(file)
+      ? fs.readFileSync(file, "utf-8").trim()
+      : "";
+    if (!checkout || fs.existsSync(checkout)) {
+      return;
+    }
+    // A daemon started from this deleted worktree cannot release its claims.
+    await stopStaleDaemon();
+    await releaseClaims(checkout);
+    removeSessions(checkout);
+    deleteSimulator(entry);
+    fs.rmSync(dir, { force: true, recursive: true });
+    console.log(`Removed run files of deleted checkout ${checkout}`);
+  } catch (error) {
+    if (error instanceof CliError) {
+      throw error;
+    }
+    throw new CliError({
+      status: "prune_checkout_failed",
+      message: "Deleted checkout could not be pruned",
+      why: error instanceof Error ? error.message : String(error),
+      fix: "Inspect simulator and checkout state, then retry prune.",
+    });
+  }
+};
+
+const pruneCheckouts = async () => {
+  if (!fs.existsSync(CHECKOUTS_DIR)) {
+    return;
+  }
+  for (const entry of fs.readdirSync(CHECKOUTS_DIR)) {
+    // oxlint-disable-next-line no-await-in-loop -- prune one checkout at a time
+    await pruneCheckout(entry);
+  }
+};
+
+const pruneBuilds = async () => {
   const groups = Map.groupBy(
     listBuilds(),
-    (build) => `${build.platform}-${build.variant}`
+    (build) => `${build.platform}-${build.target}-${build.variant}`
   );
   const stale = [...groups.values()].flatMap((group) =>
     group
       .toSorted((a, b) => b.lastUsedAt.localeCompare(a.lastUsedAt))
-      .slice(keep)
+      .slice(KEEP_BUILDS)
       .filter(
-        (build) => Date.now() - Date.parse(build.lastUsedAt) > keepWithinMs
+        (build) => Date.now() - Date.parse(build.lastUsedAt) > KEEP_WITHIN_MS
       )
   );
   for (const build of stale) {
     console.log(
-      `${isDryRun ? "Would remove" : "Removed"} build ${build.id} (${formatSize(build.sizeBytes)}, last used ${formatAge(build.lastUsedAt)} ago)`
+      `Removed build ${build.id} (${formatSize(build.sizeBytes)}, last used ${formatAge(build.lastUsedAt)} ago)`
     );
-    if (!isDryRun) {
-      removeBuild(build);
-    }
+    removeBuild(build);
   }
   const tmpDir = path.join(buildCacheProvider.resolveCacheDir(), ".tmp");
-  if (!isDryRun && fs.existsSync(tmpDir)) {
+  if (fs.existsSync(tmpDir)) {
     for (const entry of fs.readdirSync(tmpDir)) {
       const tmpPath = path.join(tmpDir, entry);
       // Uploads finish within minutes; older temp copies are leftovers.
@@ -312,10 +362,9 @@ const pruneBuilds = (keep: number, keepWithin: string, isDryRun: boolean) => {
       }
     }
   }
+  await pruneCheckouts();
   const freed = stale.reduce((sum, build) => sum + build.sizeBytes, 0);
-  console.log(
-    `${stale.length} build(s) ${isDryRun ? "to remove" : "removed"}, ${formatSize(freed)}.`
-  );
+  console.log(`${stale.length} build(s) removed, ${formatSize(freed)}.`);
 };
 
 const cmdBuildsRm = (target: string) => {
@@ -324,6 +373,7 @@ const cmdBuildsRm = (target: string) => {
   );
   if (matches.length !== 1) {
     throw new CliError({
+      exitCode: 2,
       fix: "Run `bun builds list` and pass one ID from the first column.",
       message: `${matches.length === 0 ? "No" : "More than one"} build matches "${target}"`,
       status: matches.length === 0 ? "build_not_found" : "build_ambiguous",
@@ -337,56 +387,43 @@ const cmdBuildsRm = (target: string) => {
 const BUILDS: Noun = {
   commands: {
     list: defineCommand({
-      details: `--platform ios|android  Only this platform.
---json                  Print JSON instead of a table.`,
-      options: { ...PLATFORM_OPTION, json: { type: "boolean" } },
-      run: (_args, values) =>
-        cmdBuildsList(getPlatform(values.platform), values.json ?? false),
+      run: () => cmdBuildsList(undefined, false),
       summary: "List cached builds with variant, source, size, and last use",
     }),
-    check: defineCommand({
-      details: `--platform ios|android  Only this platform.
---release               Check the release build e2e runs need.
---json                  Print JSON instead of text.`,
-      options: {
-        ...PLATFORM_OPTION,
-        json: { type: "boolean" },
-        release: { type: "boolean" },
-      },
-      run: (_args, values) =>
-        cmdBuildsCheck(
-          getPlatform(values.platform),
-          values.release ?? false,
-          values.json ?? false
-        ),
-      summary: "Tell whether this worktree gets a cached build, and why not",
-    }),
     rm: defineCommand({
-      args: ["<id>"],
-      argsSource: "bun builds list",
-      run: ([target]) => cmdBuildsRm(target),
-      summary: "Remove one cached build",
+      options: {
+        build: {
+          value: "<id>",
+          description: [
+            "Required. ID from the first column of `bun builds list`.",
+          ],
+          isRequired: true,
+        },
+      },
+      sections: [
+        {
+          title: "Examples",
+          lines: ["bun builds rm --build=ios-3fa91c02-Release-9b1e44d0a7c2"],
+        },
+      ],
+      errors: {
+        missing_option: "No --build passed",
+        build_not_found: "No build, or more than one build, matches --build",
+      },
+      run: (values) => cmdBuildsRm(values.build ?? ""),
+      summary: "Remove one cached build.",
     }),
     prune: defineCommand({
-      details: `--keep <n>                Builds to keep per platform and variant (default: ${DEFAULT_KEEP_BUILDS}).
---keep-within <duration>  Also keep builds used this recently (default: ${DEFAULT_KEEP_WITHIN}).
---dry-run                 Print what would be removed.`,
-      options: {
-        "dry-run": { type: "boolean" },
-        keep: { default: String(DEFAULT_KEEP_BUILDS), type: "string" },
-        "keep-within": { default: DEFAULT_KEEP_WITHIN, type: "string" },
-      },
-      run: (_args, values) =>
-        pruneBuilds(
-          parseKeep(values.keep),
-          values["keep-within"],
-          values["dry-run"] ?? false
-        ),
-      summary: "Remove old builds, keeping the newest and recently used",
+      run: () => pruneBuilds(),
+      summary: "Remove old builds and state of deleted worktrees",
     }),
   },
+  footer: "Create builds with `bun app build`.",
   summary: "Inspect and prune the shared build cache.",
+  helpTail: [
+    "Run `bun builds <command> --help` for details. Aliases: ls = list, remove = rm.",
+  ],
 };
 
-/** `bun builds` commands, plus the build list and IDs for the dashboard. */
-export { BUILDS, listBuilds, toBuildId };
+/** `bun builds` commands, build list, and cache IDs. */
+export { BUILDS, listBuilds, pruneBuilds, toBuildId };

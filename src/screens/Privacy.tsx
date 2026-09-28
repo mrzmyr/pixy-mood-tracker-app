@@ -4,7 +4,7 @@ import { Shield } from "react-native-feather";
 import Markdown from "react-native-markdown-display";
 import LinkButton from "@/components/LinkButton";
 import useColors from "../hooks/useColors";
-import { useAnalytics } from "../hooks/useAnalytics";
+import { useAnalytics } from "@/state/analytics";
 import { t } from "@/helpers/translation";
 import { PageWithHeaderLayout } from "@/components/PageWithHeaderLayout";
 import MenuList from "@/components/MenuList";

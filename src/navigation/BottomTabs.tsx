@@ -1,6 +1,6 @@
 import LinkButton from "@/components/LinkButton";
 import { t } from "@/helpers/translation";
-import { useCalendarFilters } from "@/hooks/useCalendarFilters";
+import { useCalendarFilters } from "@/features/calendar/filters";
 import useColors from "@/hooks/useColors";
 import type { BottomTabBarProps } from "@react-navigation/bottom-tabs";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
@@ -72,6 +72,9 @@ export const BottomTabs = () => {
         headerStyle: {
           borderBottomColor: "#fff",
         },
+        // Hidden tabs skip renders until focused again. Otherwise a visited
+        // Statistics tab recomputes its charts on every saved entry.
+        freezeOnBlur: true,
       })}
       tabBar={renderTabBar}
     >
@@ -81,7 +84,7 @@ export const BottomTabs = () => {
         options={() => ({
           ...defaultOptions,
           headerShown: false,
-          tabBarTestID: "statistics",
+          tabBarButtonTestID: "statistics",
           title: t("statistics"),
         })}
       />
@@ -91,7 +94,7 @@ export const BottomTabs = () => {
         options={() => ({
           ...defaultOptions,
           headerRight: renderCalendarHeaderRight,
-          tabBarTestID: "calendar",
+          tabBarButtonTestID: "calendar",
           title: t("calendar"),
         })}
       />
@@ -101,7 +104,7 @@ export const BottomTabs = () => {
         options={() => ({
           ...defaultOptions,
           headerShown: false,
-          tabBarTestID: "settings",
+          tabBarButtonTestID: "settings",
           title: t("settings"),
         })}
       />

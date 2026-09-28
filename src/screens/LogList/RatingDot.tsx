@@ -1,6 +1,6 @@
 import useColors from "@/hooks/useColors";
-import type { LogItem } from "@/hooks/useLogs";
-import { useSettings } from "@/hooks/useSettings";
+import type { LogItem } from "@/features/logs";
+import { useSettings } from "@/state/settings";
 import { View } from "react-native";
 
 /** Rating color dot for an entry, using the user's selected scale. */

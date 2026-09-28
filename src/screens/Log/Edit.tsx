@@ -1,4 +1,4 @@
-import { LoggerEdit } from "@/components/Logger";
+import { LoggerEdit } from "@/features/logger";
 import type { RootStackScreenProps } from "../../../types";
 
 /**

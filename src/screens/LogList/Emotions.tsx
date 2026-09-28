@@ -1,9 +1,9 @@
-import { EMOTIONS } from "@/components/Logger/config";
+import { EMOTIONS } from "@/features/logger/config";
 import useColors from "@/hooks/useColors";
-import type { LogItem } from "@/hooks/useLogs";
+import type { LogItem } from "@/features/logs";
 import type { Emotion } from "@/types";
 import { useNavigation } from "@react-navigation/native";
-import { t } from "i18n-js";
+import { t } from "../../helpers/translation";
 import get from "lodash/get";
 import keyBy from "lodash/keyBy";
 import sortBy from "lodash/sortBy";
