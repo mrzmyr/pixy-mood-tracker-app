@@ -92,15 +92,10 @@ const LogUpdaterContext = createContext<UpdaterValue>(undefined as never);
 // SAFETY: every consumer renders inside LogsProvider, which supplies the value; the default is never read.
 const LogLoadContext = createContext<StorageLoad>(undefined as never);
 
-const isMigrated = (item: LogItem) =>
-  Boolean(item.createdAt && item.dateTime && item.id) &&
-  Array.isArray(item.emotions) &&
-  Array.isArray(item.tags) &&
-  // Stored data is unvalidated JSON: legacy tag references can be null or
-  // carry extra keys; those take the migration path.
-  item.tags.every(
-    (tag) => tag?.id !== undefined && Object.keys(tag).length === 1
-  );
+// Stored data is unvalidated JSON: legacy tag references can be null or
+// carry extra keys.
+const isTagReference = (tag: LogItem["tags"][number]) =>
+  tag?.id !== undefined && Object.keys(tag).length === 1;
 
 const migrate = (data: LogsState): LogsState => {
   const result = {
@@ -112,19 +107,19 @@ const migrate = (data: LogsState): LogsState => {
   }
 
   result.items = result.items.map((item) => {
-    if (isMigrated(item)) {
-      return item;
-    }
-
-    const date = dayjs(item.date).format(DATE_FORMAT);
-
     const newItem = { ...item };
 
-    if (!newItem.createdAt) {
-      newItem.createdAt = dayjs(date).toISOString();
-    }
-    if (!newItem.dateTime) {
-      newItem.dateTime = dayjs(date).toISOString();
+    // Date parsing dominates load time with many entries; only entries
+    // without timestamps need it.
+    if (!newItem.createdAt || !newItem.dateTime) {
+      const date = dayjs(item.date).format(DATE_FORMAT);
+
+      if (!newItem.createdAt) {
+        newItem.createdAt = dayjs(date).toISOString();
+      }
+      if (!newItem.dateTime) {
+        newItem.dateTime = dayjs(date).toISOString();
+      }
     }
     if (!newItem.id) {
       newItem.id = uuidv4();
@@ -136,7 +131,9 @@ const migrate = (data: LogsState): LogsState => {
       newItem.emotions = [];
     }
 
-    newItem.tags = newItem.tags.map((tag) => pick(tag, ["id"]));
+    newItem.tags = newItem.tags.map((tag) =>
+      isTagReference(tag) ? tag : pick(tag, ["id"])
+    );
 
     return newItem;
   });
