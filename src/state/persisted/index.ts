@@ -5,7 +5,8 @@ import noop from "lodash/noop";
 
 type StorageFeedback = ReturnType<typeof useFeedback>;
 
-type StorageError = Error & {
+/** Storage failure with the project error fields. */
+export type StorageError = Error & {
   status: string;
   why: string;
   fix: string;
@@ -51,22 +52,26 @@ const captureStorageError = (error: StorageError, key: string) => {
 /**
  * Persist `state` as JSON under `key`.
  *
- * Never rejects: write failures are only reported to Sentry, so callers
- * cannot detect a failed save.
+ * Never rejects. Resolves `null` on success. On failure it reports a
+ * `storage_write_failed` error to Sentry and resolves that error, so callers
+ * can keep their state unchanged and tell the user.
  */
-export const store = async <State>(key: string, state: State) => {
+export const store = async <State>(
+  key: string,
+  state: State
+): Promise<StorageError | null> => {
   try {
     await AsyncStorage.setItem(key, JSON.stringify(state));
+    return null;
   } catch (error) {
-    captureStorageError(
-      createStorageError(
-        "storage_write_failed",
-        "Stored data could not be saved",
-        `Writing storage key "${key}" failed: ${errorMessage(error)}`,
-        "Retry the operation and check available device storage"
-      ),
-      key
+    const storageError = createStorageError(
+      "storage_write_failed",
+      "Stored data could not be saved",
+      `Writing storage key "${key}" failed: ${errorMessage(error)}`,
+      "Retry the operation and check available device storage"
     );
+    captureStorageError(storageError, key);
+    return storageError;
   }
 };
 

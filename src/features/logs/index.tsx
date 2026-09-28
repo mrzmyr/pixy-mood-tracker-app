@@ -1,4 +1,5 @@
 import { DATE_FORMAT } from "@/constants/Config";
+import { t } from "@/helpers/translation";
 import { load, store } from "@/state/persisted";
 import type { LogItemSchema } from "@/types";
 // oxlint-disable-next-line unicorn/prefer-node-protocol -- `buffer` is the npm polyfill bundled for React Native; `node:buffer` does not resolve in Hermes.
@@ -13,9 +14,10 @@ import {
   useEffect,
   useEffectEvent,
   useMemo,
-  useReducer,
+  useRef,
   useState,
 } from "react";
+import { Alert } from "react-native";
 import * as Sentry from "@sentry/react-native";
 import { v4 as uuidv4 } from "uuid";
 import type z from "zod";
@@ -23,7 +25,10 @@ import type { AtLeast } from "../../../types";
 import type { RATING_KEYS } from "@/constants/Ratings";
 import { useAnalytics } from "@/state/analytics";
 import { useContentStableValue } from "@/hooks/useContentStableValue";
-import { createMissingProviderError } from "@/lib/errors";
+import {
+  createMissingProviderError,
+  createStructuredError,
+} from "@/lib/errors";
 
 /**
  * AsyncStorage key for logs. Keep the legacy name; changing it orphans all
@@ -67,18 +72,22 @@ type LogAction =
 /**
  * Mutations for the logs store from `useLogUpdater`.
  *
+ * Each updater saves first and publishes the new state only after the write
+ * succeeds. It resolves `true` when saved. On failure it alerts the user,
+ * keeps the state unchanged, and resolves `false`; callers must stop there.
+ *
  * `editLog` shallow-merges into the entry with the same `id` and ignores
  * unknown ids. `updateLogs` replaces all entries. `import` also migrates
  * legacy data (keyed items, missing ids, tags, or emotions).
  */
 export interface UpdaterValue {
-  addLog: (item: LogItem) => void;
-  editLog: (item: Partial<LogItem>) => void;
-  updateLogs: (items: LogsState["items"]) => void;
-  deleteLog: (id: LogItem["id"]) => void;
-  removeTagFromLogs: (tagId: string) => void;
-  reset: () => void;
-  import: (data: LogsState) => void;
+  addLog: (item: LogItem) => Promise<boolean>;
+  editLog: (item: AtLeast<LogItem, "id">) => Promise<boolean>;
+  updateLogs: (items: LogsState["items"]) => Promise<boolean>;
+  deleteLog: (id: LogItem["id"]) => Promise<boolean>;
+  removeTagFromLogs: (tagId: string) => Promise<boolean>;
+  reset: () => Promise<boolean>;
+  import: (data: LogsState) => Promise<boolean>;
 }
 
 type StateValue = LogsState;
@@ -166,8 +175,8 @@ const reducer = (state: LogsState, action: LogAction): LogsState => {
         items: state.items.filter((item) => item.id !== action.payload),
       };
     }
-    // Runs against the reducer's current state, not a caller's snapshot, so
-    // logs added in the same tick are kept.
+    // Runs against the last saved state, not a caller's snapshot, so logs
+    // added in the same tick are kept.
     case "removeTag": {
       return {
         ...state,
@@ -198,15 +207,24 @@ const INITIAL_STATE: LogsState = {
   items: [],
 };
 
+const createLogsNotLoadedError = () =>
+  createStructuredError({
+    status: "logs_not_loaded",
+    message: "Logs could not be saved",
+    why: "Stored logs are still loading or could not be read",
+    fix: "Restart the app and try again",
+  });
+
 const LogsProvider = ({ children }: { children: React.ReactNode }) => {
   const analyitcs = useAnalytics();
 
-  const [state, dispatch] = useReducer(reducer, INITIAL_STATE);
-  const [storageStatus, setStorageStatus] = useState<
-    "loading" | "ready" | "error"
-  >("loading");
-  // Reducer updates can produce equal copies (e.g. saving an unchanged log);
-  // only content changes should persist or notify consumers.
+  const [state, setState] = useState(INITIAL_STATE);
+  // Last saved state. Queued writes build on it, not on a render snapshot.
+  const savedState = useRef(INITIAL_STATE);
+  // Last queued write. The next write waits for it, even when it failed.
+  const writeQueue = useRef<Promise<boolean> | null>(null);
+  // Equal copies (e.g. saving an unchanged log) keep the previous reference,
+  // so consumers only re-render on content changes.
   const stableState = useContentStableValue(state);
 
   // Effect event: the load effect runs once on mount but tracks with the
@@ -219,20 +237,13 @@ const LogsProvider = ({ children }: { children: React.ReactNode }) => {
     (async () => {
       try {
         const value = await load<LogsState>(STORAGE_KEY);
-        if (value === null) {
-          dispatch({
-            type: "import",
-            payload: {
-              ...INITIAL_STATE,
-            },
-          });
-        } else {
-          dispatch({
-            type: "import",
-            payload: value,
-          });
-        }
-        setStorageStatus("ready");
+        // A read error throws above and keeps `loaded: false`, so no write
+        // can replace the stored logs.
+        savedState.current = reducer(INITIAL_STATE, {
+          type: "import",
+          payload: value ?? INITIAL_STATE,
+        });
+        setState(savedState.current);
 
         try {
           const size = new TextEncoder().encode(JSON.stringify(value)).length;
@@ -242,52 +253,74 @@ const LogsProvider = ({ children }: { children: React.ReactNode }) => {
           Sentry.captureException(error);
         }
       } catch (error) {
-        setStorageStatus("error");
         Sentry.captureException(error);
       }
     })();
   }, []);
 
-  useEffect(() => {
-    if (storageStatus === "ready" && stableState.loaded) {
-      store<Omit<LogsState, "loaded">>(
-        STORAGE_KEY,
-        omit(stableState, "loaded")
-      );
-    }
-  }, [stableState, storageStatus]);
+  // Saves before showing a change, so a failed write never looks saved.
+  // Writes run one after another; each builds on the last saved state.
+  const apply = useCallback((action: LogAction): Promise<boolean> => {
+    const previousWrite = writeQueue.current;
+    const write = (async () => {
+      try {
+        await previousWrite;
+      } catch {
+        // The earlier caller already received that failure.
+      }
 
-  const importState = useCallback((data: LogsState) => {
-    dispatch({
-      type: "import",
-      payload: data,
-    });
+      if (!savedState.current.loaded) {
+        const error = createLogsNotLoadedError();
+        console.error(error);
+        Alert.alert(error.message, error.fix, [{ text: t("ok") }]);
+        return false;
+      }
+
+      const next = reducer(savedState.current, action);
+      const error = await store<Omit<LogsState, "loaded">>(
+        STORAGE_KEY,
+        omit(next, "loaded")
+      );
+      if (error) {
+        Alert.alert(error.message, error.fix, [{ text: t("ok") }]);
+        return false;
+      }
+
+      savedState.current = next;
+      setState(next);
+      return true;
+    })();
+    writeQueue.current = write;
+    return write;
   }, []);
 
+  const importState = useCallback(
+    (payload: LogsState) => apply({ type: "import", payload }),
+    [apply]
+  );
   const addLog = useCallback(
-    (payload: LogItem) => dispatch({ type: "add", payload }),
-    []
+    (payload: LogItem) => apply({ type: "add", payload }),
+    [apply]
   );
   const editLog = useCallback(
-    (payload: AtLeast<LogItem, "id">) => dispatch({ type: "edit", payload }),
-    []
+    (payload: AtLeast<LogItem, "id">) => apply({ type: "edit", payload }),
+    [apply]
   );
   const updateLogs = useCallback(
-    (items: LogsState["items"]) =>
-      dispatch({ type: "batchEdit", payload: items }),
-    []
+    (items: LogsState["items"]) => apply({ type: "batchEdit", payload: items }),
+    [apply]
   );
   const deleteLog = useCallback(
-    (payload: LogItem["id"]) => dispatch({ type: "delete", payload }),
-    []
+    (payload: LogItem["id"]) => apply({ type: "delete", payload }),
+    [apply]
   );
   const removeTagFromLogs = useCallback(
-    (tagId: string) => dispatch({ type: "removeTag", payload: tagId }),
-    []
+    (tagId: string) => apply({ type: "removeTag", payload: tagId }),
+    [apply]
   );
   const reset = useCallback(
-    () => dispatch({ type: "reset", payload: INITIAL_STATE }),
-    []
+    () => apply({ type: "reset", payload: INITIAL_STATE }),
+    [apply]
   );
 
   const updaterValue: UpdaterValue = useMemo(

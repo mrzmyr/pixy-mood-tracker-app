@@ -81,7 +81,7 @@ describe("Storage", () => {
 
   it("should `store`", async () => {
     AsyncStorage.setItem = jest.fn(() => Promise.resolve());
-    await store(TEST_KEY, { foo: "123" });
+    expect(await store(TEST_KEY, { foo: "123" })).toBeNull();
     expect(AsyncStorage.setItem).toHaveBeenCalledWith(
       TEST_KEY,
       '{"foo":"123"}'
@@ -93,15 +93,15 @@ describe("Storage", () => {
       Promise.reject(new Error("disk full"))
     );
 
-    await store(TEST_KEY, { foo: "123" });
+    const error = await store(TEST_KEY, { foo: "123" });
 
-    expect(Sentry.captureException).toHaveBeenCalledWith(
-      expect.objectContaining({
-        status: "storage_write_failed",
-        message: "Stored data could not be saved",
-        why: `Writing storage key "${TEST_KEY}" failed: disk full`,
-        fix: "Retry the operation and check available device storage",
-      })
-    );
+    const expectedError = expect.objectContaining({
+      status: "storage_write_failed",
+      message: "Stored data could not be saved",
+      why: `Writing storage key "${TEST_KEY}" failed: disk full`,
+      fix: "Retry the operation and check available device storage",
+    });
+    expect(error).toEqual(expectedError);
+    expect(Sentry.captureException).toHaveBeenCalledWith(expectedError);
   });
 });

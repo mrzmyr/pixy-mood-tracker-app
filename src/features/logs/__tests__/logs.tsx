@@ -1,6 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as Sentry from "@sentry/react-native";
 import { act, renderHook, waitFor } from "@testing-library/react-native";
+import { Alert } from "react-native";
 import { AnalyticsProvider } from "@/state/analytics";
 import type { LogsState } from "@/features/logs";
 import {
@@ -145,6 +146,100 @@ describe("useLogs()", () => {
 
     getItemSpy.mockRestore();
     setItemSpy.mockRestore();
+  });
+
+  test("should alert and keep state when saving logs fails", async () => {
+    const hook = await _renderHook();
+    await waitForLoaded(hook);
+
+    const alertSpy = jest.spyOn(Alert, "alert").mockImplementation(() => {});
+    jest
+      .spyOn(AsyncStorage, "setItem")
+      .mockRejectedValueOnce(new Error("disk full"));
+
+    let saved: boolean | undefined;
+    await act(async () => {
+      saved = await hook.result.current.updater.addLog(testItems[0]);
+    });
+
+    expect(saved).toBe(false);
+    expect(hook.result.current.state.items).toEqual([]);
+    expect(alertSpy).toHaveBeenCalledWith(
+      "Stored data could not be saved",
+      "Retry the operation and check available device storage",
+      expect.any(Array)
+    );
+  });
+
+  test("should keep both logs when adding concurrently", async () => {
+    const hook = await _renderHook();
+    await waitForLoaded(hook);
+
+    await act(async () => {
+      await Promise.all([
+        hook.result.current.updater.addLog(testItems[0]),
+        hook.result.current.updater.addLog(testItems[1]),
+      ]);
+    });
+
+    expect(hook.result.current.state.items).toEqual(testItems);
+    expect(
+      JSON.parse((await AsyncStorage.getItem(STORAGE_KEY)) ?? "null").items
+    ).toEqual(testItems);
+  });
+
+  test("should build on the last saved state after a failed write", async () => {
+    const hook = await _renderHook();
+    await waitForLoaded(hook);
+
+    jest.spyOn(Alert, "alert").mockImplementation(() => {});
+    jest
+      .spyOn(AsyncStorage, "setItem")
+      .mockRejectedValueOnce(new Error("disk full"));
+
+    let results: boolean[] = [];
+    await act(async () => {
+      results = await Promise.all([
+        hook.result.current.updater.addLog(testItems[0]),
+        hook.result.current.updater.addLog(testItems[1]),
+      ]);
+    });
+
+    expect(results).toEqual([false, true]);
+    expect(hook.result.current.state.items).toEqual([testItems[1]]);
+    expect(
+      JSON.parse((await AsyncStorage.getItem(STORAGE_KEY)) ?? "null").items
+    ).toEqual([testItems[1]]);
+  });
+
+  test("should reject changes while logs are unloaded", async () => {
+    await AsyncStorage.setItem(STORAGE_KEY, "invalid");
+    const hook = await _renderHook();
+    await waitFor(() => {
+      expect(Sentry.captureException).toHaveBeenCalled();
+    });
+    const alertSpy = jest.spyOn(Alert, "alert").mockImplementation(() => {});
+
+    let saved: boolean | undefined;
+    await act(async () => {
+      saved = await hook.result.current.updater.addLog(testItems[0]);
+    });
+
+    expect(saved).toBe(false);
+    expect(console.error).toHaveBeenCalledWith(
+      expect.objectContaining({
+        status: "logs_not_loaded",
+        message: "Logs could not be saved",
+        why: "Stored logs are still loading or could not be read",
+        fix: "Restart the app and try again",
+      })
+    );
+    expect(alertSpy).toHaveBeenCalledWith(
+      "Logs could not be saved",
+      "Restart the app and try again",
+      expect.any(Array)
+    );
+    expect(await AsyncStorage.getItem(STORAGE_KEY)).toBe("invalid");
   });
 
   test("should import", async () => {
