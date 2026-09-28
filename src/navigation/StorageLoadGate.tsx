@@ -10,15 +10,7 @@ import useColors from "@/hooks/useColors";
 import type { StructuredError } from "@/lib/errors";
 import { useSettingsLoad } from "@/state/settings";
 
-const StorageLoadErrorScreen = ({
-  error,
-  isRetrying,
-  onRetry,
-}: {
-  error: StructuredError;
-  isRetrying: boolean;
-  onRetry: () => void;
-}) => {
+const StorageLoadErrorScreen = ({ error }: { error: StructuredError }) => {
   const colors = useColors();
   const insets = useSafeAreaInsets();
   const { Modal: FeedbackModal, show: showFeedbackModal } = useFeedbackModal();
@@ -78,16 +70,8 @@ const StorageLoadErrorScreen = ({
           {t("storage_load_error_advice")}
         </Text>
         <Button
-          onPress={onRetry}
-          disabled={isRetrying}
-          testID="storage-load-error-retry"
-        >
-          {t("storage_load_error_retry")}
-        </Button>
-        <Button
           type="secondary"
           onPress={() => showFeedbackModal({ type: "issue" })}
-          style={{ marginTop: 12 }}
           testID="storage-load-error-contact"
         >
           {t("storage_load_error_contact")}
@@ -128,25 +112,9 @@ export const StorageLoadGate = ({
   const tagsLoad = useTagsLoad();
   const loads = [settingsLoad, logLoad, tagsLoad];
 
-  // `error` stays set during a retry, so the error screen stays up until the
-  // failed stores are read.
   const error = loads
     .map((load) => load.error)
     .find((loadError) => loadError !== null);
 
-  if (!error) {
-    return children;
-  }
-
-  return (
-    <StorageLoadErrorScreen
-      error={error}
-      isRetrying={loads.every((load) => load.status !== "error")}
-      onRetry={() => {
-        for (const load of loads) {
-          load.retry();
-        }
-      }}
-    />
-  );
+  return error ? <StorageLoadErrorScreen error={error} /> : children;
 };

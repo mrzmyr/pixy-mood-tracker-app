@@ -221,11 +221,7 @@ const LogsProvider = ({ children }: { children: React.ReactNode }) => {
     analyitcs.track("loaded_logs", { size: megaBytes, unit: "mb" });
   });
 
-  // Reads on mount and again after `retry` moves `error` back to `loading`.
   useEffect(() => {
-    if (storageStatus !== "loading") {
-      return;
-    }
     (async () => {
       try {
         const value = await load<LogsState>(STORAGE_KEY);
@@ -256,7 +252,7 @@ const LogsProvider = ({ children }: { children: React.ReactNode }) => {
         Sentry.captureException(error);
       }
     })();
-  }, [storageStatus, markReady, markFailed]);
+  }, [markReady, markFailed]);
 
   useEffect(() => {
     if (storageStatus === "ready" && stableState.loaded) {

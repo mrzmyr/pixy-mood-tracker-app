@@ -158,28 +158,6 @@ describe("useLogs()", () => {
     expect(await AsyncStorage.getItem(STORAGE_KEY)).toBe("🐇");
   });
 
-  test("should load stored logs on retry after a failed load", async () => {
-    await AsyncStorage.setItem(STORAGE_KEY, "🐇");
-
-    const hook = await _renderHook();
-    await waitFor(() => {
-      expect(hook.result.current.load.status).toBe("error");
-    });
-
-    await AsyncStorage.setItem(
-      STORAGE_KEY,
-      JSON.stringify({ items: testItems })
-    );
-    await act(() => {
-      hook.result.current.load.retry();
-    });
-
-    await waitForLoaded(hook);
-    expect(hook.result.current.load.status).toBe("ready");
-    expect(hook.result.current.load.error).toBeNull();
-    expect(hook.result.current.state.items).toEqual(testItems);
-  });
-
   test("should keep logs unloaded when async storage cannot be read", async () => {
     const readError = new Error("disk unavailable");
     const getItemSpy = jest

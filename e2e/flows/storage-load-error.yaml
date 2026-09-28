@@ -16,12 +16,6 @@ tags: [p0, storage]
 - assertNotVisible:
     id: "calendar"
 
-# Retry reads storage again; the data is still unreadable, so the screen stays.
-- tapOn:
-    id: "storage-load-error-retry"
-- assertVisible:
-    id: "storage-load-error"
-
 # The error screen has no way out, so clear app data for the next flow.
 - launchApp:
     clearState: true
