@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { ScrollView, Text, View } from "react-native";
 import { AlertCircle } from "react-native-feather";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -16,7 +15,7 @@ const StorageLoadErrorScreen = ({
   isRetrying,
   onRetry,
 }: {
-  error: StructuredError | null;
+  error: StructuredError;
   isRetrying: boolean;
   onRetry: () => void;
 }) => {
@@ -93,20 +92,18 @@ const StorageLoadErrorScreen = ({
         >
           {t("storage_load_error_contact")}
         </Button>
-        {error ? (
-          <Text
-            selectable
-            style={{
-              color: colors.textSecondary,
-              fontSize: 12,
-              textAlign: "center",
-              marginTop: 24,
-            }}
-            testID="storage-load-error-status"
-          >
-            {t("storage_load_error_code", { status: error.status })}
-          </Text>
-        ) : null}
+        <Text
+          selectable
+          style={{
+            color: colors.textSecondary,
+            fontSize: 12,
+            textAlign: "center",
+            marginTop: 24,
+          }}
+          testID="storage-load-error-status"
+        >
+          {t("storage_load_error_code", { status: error.status })}
+        </Text>
       </ScrollView>
       <FeedbackModal />
     </View>
@@ -131,34 +128,25 @@ export const StorageLoadGate = ({
   const tagsLoad = useTagsLoad();
   const loads = [settingsLoad, logLoad, tagsLoad];
 
-  // After "Try again", keep the error screen up until every store is ready,
-  // so the app never flashes with half-loaded data.
-  const [hasRetried, setHasRetried] = useState(false);
-  const [lastError, setLastError] = useState<StructuredError | null>(null);
+  // `error` stays set during a retry, so the error screen stays up until the
+  // failed stores are read.
+  const error = loads
+    .map((load) => load.error)
+    .find((loadError) => loadError !== null);
 
-  const failedLoad = loads.find((load) => load.status === "error");
-  const isLoading = loads.some((load) => load.status === "loading");
-  const isRetrying = hasRetried && !failedLoad && isLoading;
-
-  if (!failedLoad && !isRetrying) {
+  if (!error) {
     return children;
   }
 
-  const retry = () => {
-    setHasRetried(true);
-    setLastError(failedLoad?.error ?? null);
-    for (const load of loads) {
-      if (load.status === "error") {
-        load.retry();
-      }
-    }
-  };
-
   return (
     <StorageLoadErrorScreen
-      error={failedLoad?.error ?? lastError}
-      isRetrying={isRetrying}
-      onRetry={retry}
+      error={error}
+      isRetrying={loads.every((load) => load.status !== "error")}
+      onRetry={() => {
+        for (const load of loads) {
+          load.retry();
+        }
+      }}
     />
   );
 };
