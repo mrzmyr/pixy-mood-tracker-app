@@ -1,11 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { DefaultTheme, NavigationContainer } from "@react-navigation/native";
-import {
-  render,
-  screen,
-  userEvent,
-  waitFor,
-} from "@testing-library/react-native";
+import { render, screen } from "@testing-library/react-native";
 import { Text } from "react-native";
 import Colors from "@/constants/Colors";
 import { LogsProvider, STORAGE_KEY as LOGS_KEY } from "@/features/logs";
@@ -86,38 +81,5 @@ describe("StorageLoadGate", () => {
     expect(screen.getByText("Contact support")).toBeOnTheScreen();
     expect(screen.queryByText("Calendar")).toBeNull();
     expect(await AsyncStorage.getItem(LOGS_KEY)).toBe("🐇");
-  });
-
-  test("user keeps seeing the error screen when retry fails again", async () => {
-    await AsyncStorage.setItem(LOGS_KEY, "🐇");
-    const user = userEvent.setup();
-
-    const getItemSpy = jest.spyOn(AsyncStorage, "getItem");
-    getItemSpy.mockClear();
-    const logReads = () =>
-      getItemSpy.mock.calls.filter(([key]) => key === LOGS_KEY).length;
-
-    await renderApp();
-    await user.press(await screen.findByText("Try again"));
-
-    await waitFor(() => expect(logReads()).toBe(2));
-    expect(
-      await screen.findByText("Error code: storage_invalid_value")
-    ).toBeOnTheScreen();
-    expect(screen.queryByText("Calendar")).toBeNull();
-    expect(await AsyncStorage.getItem(LOGS_KEY)).toBe("🐇");
-  });
-
-  test("user sees the app after retry once stored logs can be read", async () => {
-    await AsyncStorage.setItem(LOGS_KEY, "🐇");
-    const user = userEvent.setup();
-
-    await renderApp();
-    const retryButton = await screen.findByText("Try again");
-    await AsyncStorage.setItem(LOGS_KEY, JSON.stringify({ items: [] }));
-    await user.press(retryButton);
-
-    expect(await screen.findByText("Calendar")).toBeOnTheScreen();
-    expect(screen.queryByTestId("storage-load-error")).toBeNull();
   });
 });

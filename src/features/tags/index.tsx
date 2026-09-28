@@ -194,10 +194,8 @@ const TagsProvider = ({ children }: { children: React.ReactNode }) => {
   // re-running the load when settings tags change.
   const getLegacySettingsTags = useEffectEvent(() => settings.tags);
 
-  // Reads once settings load, and again after `retry` moves `error` back to
-  // `loading`.
   useEffect(() => {
-    if (!settings.loaded || storageStatus !== "loading") {
+    if (!settings.loaded) {
       return;
     }
 
@@ -227,7 +225,7 @@ const TagsProvider = ({ children }: { children: React.ReactNode }) => {
       }
       markReady();
     })();
-  }, [settings.loaded, storageStatus, markReady, markFailed]);
+  }, [settings.loaded, markReady, markFailed]);
 
   // Never persist after a failed read: `import` and `reset` set `loaded`, so
   // also require a successful load.

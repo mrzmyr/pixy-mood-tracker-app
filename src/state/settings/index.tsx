@@ -133,11 +133,7 @@ const SettingsProvider = ({ children }: { children: React.ReactNode }) => {
     });
   }, []);
 
-  // Reads on mount and again after `retry` moves `error` back to `loading`.
   useEffect(() => {
-    if (storageStatus !== "loading") {
-      return;
-    }
     (async () => {
       let json: SettingsState | null;
       try {
@@ -167,7 +163,7 @@ const SettingsProvider = ({ children }: { children: React.ReactNode }) => {
       }
       markReady();
     })();
-  }, [storageStatus, markReady, markFailed]);
+  }, [markReady, markFailed]);
 
   // Persist only content changes, not equal copies of the settings object.
   const stableSettings = useContentStableValue(settings);

@@ -581,7 +581,6 @@
   "storage_load_error_body": "Your data is still stored on this device. Nothing was deleted.",
   "storage_load_error_code": "Error code: {{status}}",
   "storage_load_error_contact": "Contact support",
-  "storage_load_error_retry": "Try again",
   "storage_load_error_title": "Your entries could not be loaded",
   "tags_add_placeholder": "#bigday",
   "tags_add": "Add Tag",

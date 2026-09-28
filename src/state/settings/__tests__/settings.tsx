@@ -282,24 +282,4 @@ describe("useSettings()", () => {
     expect(setItemSpy).not.toHaveBeenCalledWith(STORAGE_KEY, expect.anything());
     expect(await AsyncStorage.getItem(STORAGE_KEY)).toBe("🐇");
   });
-
-  test("should load stored settings on retry after a failed load", async () => {
-    await AsyncStorage.setItem(STORAGE_KEY, "🐇");
-    const hook = await _renderHook();
-    await waitFor(() => {
-      expect(hook.result.current.load.status).toBe("error");
-    });
-
-    await AsyncStorage.setItem(
-      STORAGE_KEY,
-      JSON.stringify({ ...LOADED_STATE, reminderEnabled: true })
-    );
-    await act(() => {
-      hook.result.current.load.retry();
-    });
-
-    await waitForLoaded(hook);
-    expect(hook.result.current.load.status).toBe("ready");
-    expect(hook.result.current.state.settings.reminderEnabled).toBe(true);
-  });
 });

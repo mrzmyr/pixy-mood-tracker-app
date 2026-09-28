@@ -356,24 +356,4 @@ describe("useTags()", () => {
       JSON.stringify({ tags: testTags })
     );
   });
-
-  test("should load stored tags on retry after a failed load", async () => {
-    await AsyncStorage.setItem(STORAGE_KEY_TAGS, "🐇");
-    const hook = await _renderHook();
-    await waitFor(() => {
-      expect(hook.result.current.load.status).toBe("error");
-    });
-
-    await AsyncStorage.setItem(
-      STORAGE_KEY_TAGS,
-      JSON.stringify({ tags: testTags })
-    );
-    await act(() => {
-      hook.result.current.load.retry();
-    });
-
-    await waitForLoaded(hook);
-    expect(hook.result.current.load.status).toBe("ready");
-    expect(hook.result.current.state.tags).toEqual(testTags);
-  });
 });
