@@ -26,7 +26,8 @@ const createStorageError = (
 const errorMessage = (cause: unknown) =>
   cause instanceof Error ? cause.message : String(cause);
 
-const isStorageError = (error: unknown): error is StorageError =>
+/** True for errors that carry `status`, `why`, and `fix`, like every error `load()` throws. */
+export const isStorageError = (error: unknown): error is StorageError =>
   error instanceof Error &&
   "status" in error &&
   "why" in error &&
