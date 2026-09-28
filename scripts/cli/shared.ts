@@ -5,6 +5,27 @@ import os from "node:os";
 import path from "node:path";
 
 type Platform = "ios" | "android";
+interface OptionSpec {
+  value: string;
+  description: string[];
+  isRequired?: boolean;
+  choices?: readonly string[];
+  invalidStatus?: string;
+}
+interface HelpSection {
+  title: "Behavior" | "Requires" | "Output" | "Examples";
+  lines: string[];
+}
+interface CommandSpec {
+  summary: string;
+  usage?: string;
+  options?: Record<string, OptionSpec>;
+  exactlyOne?: string[];
+  sections?: HelpSection[];
+  errors?: Record<string, string>;
+  successWord?: "ok" | "pass";
+  run: (values: Record<string, string | undefined>) => Promise<void> | void;
+}
 
 interface CliErrorFields {
   status: string;
@@ -124,77 +145,41 @@ const getStateDir = (kind: "e2e" | "build" | "screenshots") => {
 
 const note = (message: string) => console.error(message);
 
-const isPlatform = (value: string): value is Platform =>
-  value === "ios" || value === "android";
-
-const PLATFORM_OPTION = { platform: { type: "string" } } as const;
-
-const getPlatform = (value: string | undefined) => {
-  if (value === undefined || isPlatform(value)) {
-    return value;
+// The build cache provider logs with console.log, as Expo CLI expects.
+// CLI stdout carries results only, so its lines go to stderr here.
+const withLogsOnStderr = async <T>(work: () => Promise<T>): Promise<T> => {
+  const { log } = console;
+  console.log = console.error;
+  try {
+    return await work();
+  } finally {
+    console.log = log;
   }
-  throw new CliError({
-    exitCode: 2,
-    fix: "Use --platform ios or --platform android.",
-    message: `Unknown platform "${value}"`,
-    status: "invalid_platform",
-    why: "Only iOS and Android devices are supported.",
-  });
 };
 
-type OptionSpec =
-  | { type: "boolean"; short?: string }
-  | { type: "string"; short?: string; default?: string };
-type Options = Record<string, OptionSpec>;
-type OptionValue<S extends OptionSpec> = S extends { type: "boolean" }
-  ? boolean | undefined
-  : S extends { default: string }
-    ? string
-    : string | undefined;
-type OptionValues<O extends Options> = { [K in keyof O]: OptionValue<O[K]> };
-
-interface CommandSpec<O extends Options = Options> {
-  summary: string;
-  args?: string[];
-  argsSource?: string;
-  options?: O;
-  // Accept `-- <args>` and pass them to `run` unparsed.
-  hasPassthrough?: boolean;
-  usage?: string;
-  details?: string;
-  run: (
-    args: string[],
-    values: OptionValues<O>,
-    passthrough: string[]
-  ) => Promise<void> | void;
-}
-
-const defineCommand = <const O extends Options = Record<never, never>>(
-  spec: CommandSpec<O>
-) =>
-  // SAFETY: the entry point parses flags with exactly `spec.options`.
-  spec as CommandSpec;
+const defineCommand = (spec: CommandSpec) => spec;
 
 interface Noun {
   summary: string;
   commands: Record<string, CommandSpec>;
   footer?: string;
+  helpTail?: string[];
+  commandOrder?: string[];
 }
 
 export {
   CHECKOUTS_DIR,
   CHECKOUT_FILE,
   CliError,
-  PLATFORM_OPTION,
   defineCommand,
   formatAge,
   getCheckoutDir,
   getStateDir,
-  getPlatform,
   isProcessAlive,
   note,
+  withLogsOnStderr,
   printTable,
   readJson,
   tryRun,
 };
-export type { CommandSpec, Noun, Platform };
+export type { CommandSpec, HelpSection, Noun, OptionSpec, Platform };

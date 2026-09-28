@@ -6,6 +6,7 @@ import type { LogsState } from "@/features/logs";
 import {
   LogsProvider,
   STORAGE_KEY,
+  useLogLoad,
   useLogState,
   useLogUpdater,
 } from "@/features/logs";
@@ -52,6 +53,7 @@ const _renderHook = () =>
     () => ({
       state: useLogState(),
       updater: useLogUpdater(),
+      load: useLogLoad(),
     }),
     { wrapper }
   );
@@ -113,6 +115,45 @@ describe("useLogs()", () => {
     });
 
     expect(hook.result.current.state.loaded).toBe(false);
+    expect(setItemSpy).not.toHaveBeenCalledWith(STORAGE_KEY, expect.anything());
+    expect(await AsyncStorage.getItem(STORAGE_KEY)).toBe("🐇");
+  });
+
+  test("should expose load status `ready` after a successful load", async () => {
+    const hook = await _renderHook();
+    await waitForLoaded(hook);
+    expect(hook.result.current.load).toEqual(
+      expect.objectContaining({ status: "ready", error: null })
+    );
+  });
+
+  test("should expose load error and never store when stored logs cannot be parsed", async () => {
+    await AsyncStorage.setItem(STORAGE_KEY, "🐇");
+    const setItemSpy = jest.spyOn(AsyncStorage, "setItem");
+    setItemSpy.mockClear();
+
+    const hook = await _renderHook();
+
+    await waitFor(() => {
+      expect(hook.result.current.load.status).toBe("error");
+    });
+    expect(hook.result.current.load.error).toEqual(
+      expect.objectContaining({
+        status: "storage_invalid_value",
+        message: "Stored data is invalid",
+        why: expect.stringContaining(STORAGE_KEY),
+        fix: expect.any(String),
+      })
+    );
+
+    // Updaters still change memory but must not persist over stored data.
+    await act(() => {
+      hook.result.current.updater.addLog(testItems[0]);
+    });
+    await act(() => {
+      hook.result.current.updater.reset();
+    });
+
     expect(setItemSpy).not.toHaveBeenCalledWith(STORAGE_KEY, expect.anything());
     expect(await AsyncStorage.getItem(STORAGE_KEY)).toBe("🐇");
   });

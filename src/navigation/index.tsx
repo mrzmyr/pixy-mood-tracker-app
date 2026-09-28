@@ -47,6 +47,7 @@ import { StepsScreen } from "../screens/Steps";
 import { Tags } from "../screens/Tags";
 import { BackButton } from "./BackButton";
 import { BottomTabs } from "./BottomTabs";
+import { StorageLoadGate } from "./StorageLoadGate";
 
 enableScreens();
 
@@ -82,6 +83,7 @@ const NAVIGATION_LINKING: LinkingOptions<RootStackParamList> = {
       ...(DEV_TOOLS && {
         DevFixtures: "dev/fixtures",
         DevFixture: "dev/fixture",
+        DevFakeFiles: "dev/fake-files",
       }),
       // Tags: 'settings/tags',;
       StatisticsHighlights: "statistics/highlights",
@@ -362,6 +364,13 @@ const RootNavigator = () => {
               options={{ headerShown: false }}
             />
           )}
+          {DEV_TOOLS && (
+            <Stack.Screen
+              name="DevFakeFiles"
+              component={DEV_TOOLS.DevFakeFilesLinkScreen}
+              options={{ headerShown: false }}
+            />
+          )}
         </Stack.Group>
       </Stack.Navigator>
     </View>
@@ -390,7 +399,9 @@ const Navigation = () => {
       }
     >
       <Providers>
-        <RootNavigator />
+        <StorageLoadGate>
+          <RootNavigator />
+        </StorageLoadGate>
       </Providers>
     </NavigationContainer>
   );

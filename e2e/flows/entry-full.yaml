@@ -1,0 +1,85 @@
+appId: ${APP_ID}
+tags: [p0, entry]
+---
+# Entry with mood, emotions, new tag, and note. All parts survive a cold start.
+- runFlow:
+    file: ../subflows/load-fixture.yaml
+    env:
+      FIXTURE: empty
+- runScript: ../scripts/set-output-date.js
+- tapOn: "Add New Entry"
+- assertVisible: "How was your day?"
+# A tap during the logger's slide-in animation is lost.
+- waitForAnimationToEnd
+- tapOn:
+    id: "mood-good"
+
+# Mood auto-advances to emotions.
+- assertVisible: "How did you feel?"
+- tapOn: "Happy"
+- tapOn: "Calm"
+- tapOn:
+    id: "logger-next"
+
+# Create a tag from the logger, then select it.
+- assertVisible: "Add tags"
+- scrollUntilVisible:
+    element:
+      text: "Edit Tags"
+    direction: DOWN
+    timeout: 15000
+- tapOn: "Edit Tags"
+- tapOn: "Create Tag"
+- tapOn:
+    id: "tag-name"
+- inputText: "e2e-tag-${output.runId}"
+- runFlow:
+    when:
+      visible: "Type English and German"
+    commands:
+      - tapOn: "Continue"
+- runFlow: ../subflows/dismiss-keyboard.yaml
+- tapOn: "Create"
+- waitForAnimationToEnd
+- assertNotVisible:
+    id: "tag-name"
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - pressKey: BACK
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - tapOn: "Done"
+- assertVisible: "Add tags"
+- tapOn: "e2e-tag-${output.runId}"
+- tapOn:
+    id: "logger-next"
+
+- assertVisible: "Write about your day…"
+- tapOn:
+    id: "log-message"
+- inputText: "e2e note ${output.runId}"
+- tapOn:
+    id: "logger-save"
+- assertVisible: "Add another entry for today"
+
+- stopApp
+- launchApp
+- extendedWaitUntil:
+    visible: "Add another entry for today"
+    timeout: 10000
+- tapOn:
+    id: "calendar-day-${output.today}"
+- assertVisible: "Happy"
+- assertVisible: "Calm"
+- assertVisible: "e2e-tag-${output.runId}"
+- scrollUntilVisible:
+    element:
+      text: "e2e note ${output.runId}"
+    direction: DOWN
+    timeout: 15000
+- tapOn:
+    id: "log-list-close"

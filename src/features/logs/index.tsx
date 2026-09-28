@@ -1,5 +1,7 @@
 import { DATE_FORMAT } from "@/constants/Config";
 import { load, store } from "@/state/persisted";
+import type { StorageLoad } from "@/state/persisted/useStorageLoad";
+import { useStorageLoad } from "@/state/persisted/useStorageLoad";
 import type { LogItemSchema } from "@/types";
 // oxlint-disable-next-line unicorn/prefer-node-protocol -- `buffer` is the npm polyfill bundled for React Native; `node:buffer` does not resolve in Hermes.
 import dayjs from "dayjs";
@@ -14,7 +16,6 @@ import {
   useEffectEvent,
   useMemo,
   useReducer,
-  useState,
 } from "react";
 import * as Sentry from "@sentry/react-native";
 import { v4 as uuidv4 } from "uuid";
@@ -87,6 +88,8 @@ type StateValue = LogsState;
 const LogStateContext = createContext<StateValue>(undefined as never);
 // SAFETY: every consumer renders inside LogsProvider, which supplies the value; the default is never read.
 const LogUpdaterContext = createContext<UpdaterValue>(undefined as never);
+// SAFETY: every consumer renders inside LogsProvider, which supplies the value; the default is never read.
+const LogLoadContext = createContext<StorageLoad>(undefined as never);
 
 const migrate = (data: LogsState): LogsState => {
   const result = {
@@ -202,9 +205,12 @@ const LogsProvider = ({ children }: { children: React.ReactNode }) => {
   const analyitcs = useAnalytics();
 
   const [state, dispatch] = useReducer(reducer, INITIAL_STATE);
-  const [storageStatus, setStorageStatus] = useState<
-    "loading" | "ready" | "error"
-  >("loading");
+  const {
+    load: storageLoad,
+    markReady,
+    markFailed,
+  } = useStorageLoad(STORAGE_KEY);
+  const storageStatus = storageLoad.status;
   // Reducer updates can produce equal copies (e.g. saving an unchanged log);
   // only content changes should persist or notify consumers.
   const stableState = useContentStableValue(state);
@@ -232,7 +238,7 @@ const LogsProvider = ({ children }: { children: React.ReactNode }) => {
             payload: value,
           });
         }
-        setStorageStatus("ready");
+        markReady();
 
         try {
           const size = new TextEncoder().encode(JSON.stringify(value)).length;
@@ -242,11 +248,11 @@ const LogsProvider = ({ children }: { children: React.ReactNode }) => {
           Sentry.captureException(error);
         }
       } catch (error) {
-        setStorageStatus("error");
+        markFailed(error);
         Sentry.captureException(error);
       }
     })();
-  }, []);
+  }, [markReady, markFailed]);
 
   useEffect(() => {
     if (storageStatus === "ready" && stableState.loaded) {
@@ -321,7 +327,9 @@ const LogsProvider = ({ children }: { children: React.ReactNode }) => {
   return (
     <LogStateContext.Provider value={stateValue}>
       <LogUpdaterContext.Provider value={updaterValue}>
-        {children}
+        <LogLoadContext.Provider value={storageLoad}>
+          {children}
+        </LogLoadContext.Provider>
       </LogUpdaterContext.Provider>
     </LogStateContext.Provider>
   );
@@ -343,4 +351,13 @@ const useLogUpdater = (): UpdaterValue => {
   return context;
 };
 
-export { LogsProvider, useLogState, useLogUpdater };
+/** Load status of the logs store; `error` means stored logs exist but could not be read. */
+const useLogLoad = (): StorageLoad => {
+  const context = useContext(LogLoadContext);
+  if (context === undefined) {
+    throw createMissingProviderError("useLogLoad", "LogsProvider");
+  }
+  return context;
+};
+
+export { LogsProvider, useLogLoad, useLogState, useLogUpdater };

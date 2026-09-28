@@ -2,7 +2,12 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { act, renderHook, waitFor } from "@testing-library/react-native";
 import _ from "lodash";
 import { INITIAL_STATE } from "@/constants/Settings";
-import { SettingsProvider, STORAGE_KEY, useSettings } from "@/state/settings";
+import {
+  SettingsProvider,
+  STORAGE_KEY,
+  useSettings,
+  useSettingsLoad,
+} from "@/state/settings";
 
 const wrapper = ({ children }) => (
   <SettingsProvider>{children}</SettingsProvider>
@@ -12,6 +17,7 @@ const _renderHook = () =>
   renderHook(
     () => ({
       state: useSettings(),
+      load: useSettingsLoad(),
     }),
     { wrapper }
   );
@@ -247,5 +253,33 @@ describe("useSettings()", () => {
     });
 
     expect(hook.result.current.state.hasStep("feedback")).toEqual(false);
+  });
+
+  test("should expose load error and never store when stored settings cannot be parsed", async () => {
+    await AsyncStorage.setItem(STORAGE_KEY, "🐇");
+    const setItemSpy = jest.spyOn(AsyncStorage, "setItem");
+    setItemSpy.mockClear();
+
+    const hook = await _renderHook();
+    await waitFor(() => {
+      expect(hook.result.current.load.status).toBe("error");
+    });
+    expect(hook.result.current.load.error).toEqual(
+      expect.objectContaining({
+        status: "storage_invalid_value",
+        message: "Stored data is invalid",
+        why: expect.stringContaining(STORAGE_KEY),
+        fix: expect.any(String),
+      })
+    );
+    expect(hook.result.current.state.settings.loaded).toBe(false);
+
+    // `resetSettings` sets `loaded`; it still must not overwrite storage.
+    await act(() => {
+      hook.result.current.state.resetSettings();
+    });
+
+    expect(setItemSpy).not.toHaveBeenCalledWith(STORAGE_KEY, expect.anything());
+    expect(await AsyncStorage.getItem(STORAGE_KEY)).toBe("🐇");
   });
 });

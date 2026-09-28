@@ -45,21 +45,64 @@ Three variants install side by side, each with its own name, icon, bundle ID, an
 - Each variant reports to its own PostHog project ("Pixy App - Development", "Pixy App - Preview", "Pixy App - Production") and Sentry project. Sentry events carry the variant as `environment`.
 - Metro's `cacheVersion` includes the variant ([`metro.config.js`](../metro.config.js)), because inlined `EXPO_PUBLIC_*` values are not part of Metro's cache key.
 - Development and preview icons carry a ribbon with the variant name (a label pill on Android adaptive icons). After changing `icon.png` or `adaptive-icon.png`, regenerate them with `swift scripts/generate-variant-icons.swift`.
-- Development and preview builds add Settings > Development > Test data and `<scheme>://dev/fixture?id=<id>` to load [fixtures](../e2e/README.md#test-data). Production bundles do not contain them: [`src/dev/index.ts`](../src/dev/index.ts) checks the inlined variant at the `require`, so Metro drops the code.
+- Development and preview builds add Settings > Development > Test data and `<scheme>://dev/fixture?id=<id>` to load [fixtures](../src/dev/fixtures/index.ts). Production bundles do not contain them: [`src/dev/index.ts`](../src/dev/index.ts) checks the inlined variant at the `require`, so Metro drops the code.
 - TestFlight builds are production builds. Apple promotes the tested TestFlight binary to the App Store.
 - `ios/` and `android/` are generated ([Continuous Native Generation](https://docs.expo.dev/workflow/continuous-native-generation/)). [`scripts/run-native.ts`](../scripts/run-native.ts) reruns `expo prebuild --clean` when the variant or native fingerprint changed since the last prebuild. Never edit these folders.
 
 ### App CLI
 
-- `bun app build <ios|android>` compiles a preview release with embedded JavaScript into the shared cache.
-- `bun app install <ios|android>` installs the cached preview binary directly, no prebuild.
-- `bun app seed <ios|android> <fixture-id>` loads `fresh`, `empty`, `seed`, or `year` data and prints a screenshot path.
-- `bun app open <ios|android>` launches by app ID, waits for onboarding or calendar, then prints a screenshot path.
-- `bun app close <ios|android>` ends the session, resets app data, shuts down the device, then prunes old builds.
-- `bun e2e run <ios|android> [paths...]` runs Maestro flows on this checkout's device.
-- `bun builds list` lists cached builds. `bun builds rm <id>` removes one. `bun builds prune` removes old builds and deleted checkout state.
-- App and e2e verbs take no flags. The CLI selects the preview variant and device. Metro stays off.
-- Physical phones remain human-only through `bun ios --device <udid>`.
+- Every device command takes exactly one device option:
+  - `--platform=<ios|android>`: simulator or emulator that the CLI manages for this checkout
+  - `--target=<target>`: one connected phone
+- `bun devices list` prints the option to copy for every device, plus state and problem. `--platform=<ios|android>` filters by OS.
+- `bun app build` compiles a preview release with embedded JavaScript into the shared cache.
+- `bun app install` installs the cached preview binary directly, no prebuild. Builds first when cache has no match.
+- `bun app seed --fixture=<id>` loads `fresh`, `empty`, `seed`, or `year` data and prints a screenshot path.
+- `bun app open` launches by app ID, waits for onboarding or calendar, then prints a screenshot path.
+- `bun app close` ends the session and resets app data. See [Phones](#phones) for phone behavior.
+- `bun e2e run [--paths=<path,...>]` closes the session, reinstalls the app, then runs Maestro flows. Default path: `e2e/flows`.
+- `bun builds list` lists cached builds. `bun builds rm --build=<id>` removes one. `bun builds prune` removes old builds and deleted checkout state.
+- Commands take options only, no positional arguments. `bun <noun> <command> --help` lists options, examples, and errors.
+- The CLI selects the preview variant. Metro stays off.
+
+```shell
+bun devices list
+bun app install --platform=ios
+bun e2e run --target=pixel-8-09yw --paths=e2e/flows/entry-full.yaml
+```
+
+### Phones
+
+- Target: slug of phone name plus last 4 characters of phone ID, for example `pixel-8-09yw`. Same phone gives same target in every checkout.
+- Phone must be connected, unlocked, and trusted. `bun devices list` names the problem when not.
+- iPhone builds are signed phone builds with cache key prefix `ios-device`. Cache entry is reused only when its provisioning profile includes the phone.
+- Android phones use the same build as the emulator.
+- `bun app close` on a phone never shuts down or erases the phone. Android: stops the app and clears its data. iPhone: stops and uninstalls the preview app.
+- One device per command. Start one command per phone to run phones in parallel.
+- Humans can still use `bun ios --device <udid>` for development builds.
+
+Known limits. A phone run fails with `flows_unsupported_on_phone` before it changes anything on the phone, and names every blocked flow plus the command to run it elsewhere:
+
+- Android phone: flows with `eraseText`. Non-ASCII `inputText` fails during the run with `android_phone_text_input_unsupported`. Cause: agent-device 0.21.15 enables its test keyboard on phones only through `open --test-ime` ([agent-device#2997](https://github.com/callstack/agent-device/issues/2997)).
+- iPhone: flows with `openLink` outside [`load-fixture.yaml`](../e2e/subflows/load-fixture.yaml) ([agent-device#2998](https://github.com/callstack/agent-device/issues/2998)). For `load-fixture.yaml`, `bun e2e run` loads the fixture with `devicectl` before each flow and runs flows one at a time.
+- iPhone: flows with `clearState`. agent-device clears app state on simulators only.
+
+### E2E flows
+
+- Flows: `e2e/flows/*.yaml`. Shared steps: `e2e/subflows/`.
+- Each flow has one severity tag in `tags`:
+  - `p0`: core loop or data loss. Run on every PR, iOS and Android.
+  - `p1`: important feature. Run nightly.
+  - `p2`: smoke check. Run before release.
+- Pick severity from usage in the "Pixy App - Production" PostHog project, then raise it for data risk.
+- Flows start from a fixture (`load-fixture.yaml`) unless they test first launch.
+- Each flow asserts a result. Opening a screen is not a test.
+
+### Upgrade tests
+
+- Storage fixtures (`legacy-1.81.1`, `legacy-1.68`) hold raw AsyncStorage as those versions wrote it ([`src/dev/fixtures/index.ts`](../src/dev/fixtures/index.ts)).
+- `upgrade-from-*.yaml` flows (`p0`) write them, restart the app, and check entries, tags, and a first new entry.
+- `storage-load-error.yaml` writes `corrupt-logs` (unreadable logs) and checks the load error screen and its export ([`src/navigation/StorageLoadGate.tsx`](../src/navigation/StorageLoadGate.tsx)). It ends with `clearState`, so it runs on simulators and emulators only.
 
 ### Build cache
 
@@ -73,7 +116,8 @@ The cache provider lives in [`scripts/build-cache-provider.cjs`](../scripts/buil
 ### Run files
 
 - Checkout state lives under `~/.cache/pixy-mood-tracker/checkouts/<hash>/`. `checkout.txt` records its worktree path.
-- `e2e/` contains test artifacts and `junit.xml`. `build/` contains Expo build output. `screenshots/` contains app screenshots. Logs stay in the checkout state dir.
+- `e2e/<device>/` contains test artifacts and `junit.xml`. `screenshots/<device>/` contains app screenshots. `<device>` is `ios`, `android`, or the phone target.
+- `build/` contains Expo build output. Logs stay in the checkout state dir.
 - CLI state stays outside the worktree. Expo owns generated `ios/` and `android/` folders.
 
 ### Parallel runs
@@ -81,13 +125,13 @@ The cache provider lives in [`scripts/build-cache-provider.cjs`](../scripts/buil
 - Each worktree gets one iPhone 17 Pro simulator named `pixy-mood-tracker-<hash>`. The CLI boots it with `simctl`.
 - Two worktrees can build, install, open, and run iOS e2e flows at the same time. Device claims keep their sessions separate.
 - Android uses one `pixy-mood-tracker` AVD per machine. Android runs serialize through device claims.
-- Physical phones are not supported by app or e2e verbs. Humans use `bun ios --device <udid>`.
+- Phones are shared by all worktrees. A second command on a busy phone fails with `device_in_use`.
 
 ### Disk cleanup and errors
 
 - Worktrees contain source and generated native folders only. Remove a finished worktree, then run `bun builds prune`.
-- Prune deletes its simulator, agent-device sessions and claims, checkout logs, artifacts, and state.
-- `bun app close <ios|android>` resets device data and runs prune.
+- Prune deletes its simulator, agent-device sessions and claims, checkout logs, artifacts, and state. Prune never changes a phone.
+- `bun app close` resets app data and runs prune.
 - CLI failures report `status`, `message`, `why`, and `fix`. Failed steps stop without another strategy.
 
 ### Preview Support Pixy

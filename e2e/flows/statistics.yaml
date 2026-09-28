@@ -1,0 +1,42 @@
+appId: ${APP_ID}
+tags: [p1, statistics]
+---
+# Returning user with a year of data: statistics unlock and reports open on
+# the current month and year.
+- runFlow:
+    file: ../subflows/load-fixture.yaml
+    env:
+      FIXTURE: year
+- runScript: ../scripts/set-output-date.js
+- tapOn:
+    id: "statistics"
+- assertVisible: "Highlights"
+- assertNotVisible: "Add .* more days.*"
+
+- scrollUntilVisible:
+    element:
+      text: "Month Report"
+    direction: DOWN
+- tapOn: "Month Report"
+- assertVisible: "${output.monthTitle}"
+- assertVisible: "Entries"
+- tapOn:
+    id: "statistics-back"
+- scrollUntilVisible:
+    element:
+      text: "Year Report"
+    direction: DOWN
+- tapOn: "Year Report"
+- assertVisible: "${output.year}"
+- tapOn:
+    id: "statistics-back"
+
+# All 365 fixture entries are counted.
+- tapOn:
+    id: "settings"
+- scrollUntilVisible:
+    element:
+      text: "Statistics for Nerds"
+    direction: DOWN
+- tapOn: "Statistics for Nerds"
+- assertVisible: "365"

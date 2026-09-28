@@ -5,7 +5,11 @@ import path from "node:path";
 import { setTimeout as sleep } from "node:timers/promises";
 
 import { getAndroidBuildEnv } from "../run-native.ts";
+import { getAdb } from "./adb.ts";
+import { setPhoneSession } from "./agent-device.ts";
 import { CliError, getCheckoutDir, note } from "./shared.ts";
+import { preflightPhone, readPhones } from "./phone.ts";
+import { buildRows, findPhone, toToken } from "./target.ts";
 import type { Platform } from "./shared.ts";
 
 const REPO_ROOT = path.resolve(import.meta.dir, "../..");
@@ -17,10 +21,6 @@ const EMULATOR_LOG = path.join(
   getCheckoutDir(REPO_ROOT),
   "android-emulator.log"
 );
-
-/** Use adb from the SDK selected for native builds. */
-export const getAdb = () =>
-  path.join(getAndroidBuildEnv().ANDROID_HOME, "platform-tools", `adb`);
 
 interface SimctlDevice {
   name: string;
@@ -253,18 +253,183 @@ const ensureAndroidDevice = async () => {
 export const findDevice = (platform: Platform) => {
   if (platform === "ios") {
     const device = findIosSimulator();
-    return device ? { id: device.udid, name: IOS_NAME } : null;
+    return device
+      ? {
+          platform,
+          kind: "simulator",
+          id: device.udid,
+          name: IOS_NAME,
+          key: platform,
+        }
+      : null;
   }
   const serial = findEmulatorSerial(getAndroidBuildEnv().ANDROID_HOME);
-  return serial ? { id: serial, name: ANDROID_NAME } : null;
+  return serial
+    ? {
+        platform,
+        kind: "emulator",
+        id: serial,
+        name: ANDROID_NAME,
+        key: platform,
+      }
+    : null;
 };
 
 /** Creates and boots the device assigned to this checkout. */
-export const ensureDevice = (platform: Platform) =>
-  platform === "ios"
-    ? Promise.resolve(ensureIosDevice())
-    : ensureAndroidDevice();
+export const ensureDevice = async (platform: Platform): Promise<Device> => {
+  const managed =
+    platform === "ios" ? ensureIosDevice() : await ensureAndroidDevice();
+  return {
+    ...managed,
+    platform,
+    kind: platform === "ios" ? "simulator" : "emulator",
+    key: platform,
+  };
+};
 
 /** Returns the agent-device selector for the platform. */
 export const deviceFlag = (platform: Platform) =>
   platform === "ios" ? "--udid" : "--serial";
+
+const iosState = (state?: string) => {
+  if (!state) {
+    return "not created";
+  }
+  return state === "Booted" ? "booted" : "shutdown";
+};
+
+const androidState = (booted?: boolean, exists?: boolean) => {
+  if (booted) {
+    return "booted";
+  }
+  return exists ? "shutdown" : "not created";
+};
+
+/** Read this checkout's managed device names and states without booting them. */
+export const readManagedDevices = async () => {
+  const ios = findIosSimulator();
+  const androidExists = avdmanager(["list", "avd", "-c"])
+    .split("\n")
+    .includes(ANDROID_NAME);
+  const agent = await import("./agent-device.ts")
+    .then(({ agentDevice }) =>
+      agentDevice<{
+        devices: {
+          kind: string;
+          name: string;
+          booted: boolean;
+          claimedBy?: { workspace?: string };
+        }[];
+      }>(["devices"])
+    )
+    .catch(() => ({ devices: [] }));
+  const iosAgent = agent.devices.find(
+    (device) => device.kind === "simulator" && device.name === IOS_NAME
+  );
+  const androidAgent = agent.devices.find(
+    (device) => device.kind === "emulator" && device.name === ANDROID_NAME
+  );
+  return [
+    {
+      platform: "ios" as const,
+      name: IOS_NAME,
+      id: ios?.udid,
+      state: iosState(ios?.state),
+      claimedBy: iosAgent?.claimedBy?.workspace,
+    },
+    {
+      platform: "android" as const,
+      name: ANDROID_NAME,
+      id: androidAgent?.name,
+      state: androidState(androidAgent?.booted, androidExists),
+      claimedBy: androidAgent?.claimedBy?.workspace,
+    },
+  ];
+};
+
+/** Device selected by platform or phone target. `key` scopes artifacts per device. */
+export interface Device {
+  platform: Platform;
+  kind: "simulator" | "emulator" | "phone";
+  id: string;
+  name: string;
+  key: string;
+}
+
+/** Resolve one managed device or preflight one physical phone target. */
+export const resolveDevice = async (values: {
+  platform?: string;
+  target?: string;
+}): Promise<Device> => {
+  if (values.platform) {
+    const { platform } = values;
+    if (platform !== "ios" && platform !== "android") {
+      throw new CliError({
+        exitCode: 2,
+        status: "invalid_platform",
+        message: `Invalid platform "${platform}"`,
+        why: "Platform must be ios or android.",
+        fix: "Pass --platform=ios or --platform=android.",
+      });
+    }
+    return ensureDevice(platform);
+  }
+  if (!values.target) {
+    throw new CliError({
+      exitCode: 2,
+      status: "missing_option",
+      message: "Missing --platform or --target",
+      why: "One device is required.",
+      fix: "Pass exactly one device option.",
+    });
+  }
+  const phoneData = await readPhones();
+  const { phones } = phoneData;
+  const candidates = phones.filter(
+    (item) => item.kind === "device" && item.target === "mobile"
+  );
+  let phone;
+  try {
+    phone = findPhone(candidates, values.target);
+  } catch (error) {
+    if (!(error instanceof CliError) || error.status !== "target_not_found") {
+      throw error;
+    }
+    const rows = buildRows({
+      agentDevices: phones,
+      iosDevices: phoneData.iosDevices,
+      lockStates: phoneData.lockStates,
+      adbStates: phoneData.adbStates,
+      managed: [],
+      repositoryRoot: REPO_ROOT,
+    });
+    const blocked = rows.filter((row) => row.state === "blocked");
+    const valid = rows
+      .filter((row) => row.kind === "phone" && row.option !== "-")
+      .map((row) => row.option.replace("--target=", ""));
+    const blockedWhy = blocked.length
+      ? ` ${blocked.length} connected phone${blocked.length === 1 ? " is" : "s are"} blocked: ${blocked.map((row) => `${row.token} (${row.problem})`).join(", ")}.`
+      : "";
+    throw new CliError({
+      exitCode: 2,
+      status: "target_not_found",
+      message: `No connected phone has target "${values.target}"`,
+      why: `No matching phone is connected.${blockedWhy}`,
+      fix: valid.length
+        ? `Run \`bun devices list\` and pass one current target: ${valid.join(", ")}. Simulators and emulators use --platform.`
+        : "No phone connected. Run `bun devices list` after connecting a phone.",
+    });
+  }
+  const token = toToken(phone.name, phone.id);
+  const device: Device = {
+    platform: phone.platform,
+    kind: "phone",
+    id: phone.id,
+    name: phone.name,
+    key: token,
+  };
+  await preflightPhone(device);
+  setPhoneSession(token);
+  note(`Using ${token}`);
+  return device;
+};

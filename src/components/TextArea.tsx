@@ -8,6 +8,7 @@ const TextAreaComponent = (
   {
     value = "",
     placeholder = "",
+    accessibilityLabel,
     testID,
     maxLength = 500,
     autoFocus = false,
@@ -16,6 +17,7 @@ const TextAreaComponent = (
   }: {
     value?: string;
     placeholder?: string;
+    accessibilityLabel?: string;
     testID?: string;
     maxLength?: number;
     autoFocus?: boolean;
@@ -29,7 +31,7 @@ const TextAreaComponent = (
   return (
     <TextInput
       ref={ref}
-      accessibilityLabel={placeholder}
+      accessibilityLabel={accessibilityLabel || placeholder || undefined}
       testID={testID}
       autoFocus={autoFocus}
       multiline

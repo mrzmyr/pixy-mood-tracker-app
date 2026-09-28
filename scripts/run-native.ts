@@ -131,6 +131,24 @@ const runExpo = (args: string[], env: NodeJS.ProcessEnv) => {
   return result.status ?? 1;
 };
 
+// Expo prebuild runs `pod install`. When `pod` is missing or broken, Expo
+// tries to install CocoaPods itself and fails with an unclear message.
+const ensureCocoaPods = () => {
+  const result = spawnSync("pod", ["--version"], { encoding: "utf-8" });
+  if (result.status === 0) {
+    return;
+  }
+  const output = `${result.stderr ?? ""}${result.stdout ?? ""}`.trim();
+  throw new CliError({
+    fix: "Run `which -a pod`. Remove or repair the first entry, or install CocoaPods with `brew install cocoapods`, then retry.",
+    message: "CocoaPods does not run",
+    status: "cocoapods_unavailable",
+    why: result.error
+      ? `\`pod\` was not found: ${result.error.message}`
+      : `\`pod --version\` exited with ${result.status}: ${output.split("\n").at(-1) ?? ""}`,
+  });
+};
+
 const ensurePrebuild = async (
   platform: Platform,
   variant: string,
@@ -148,6 +166,9 @@ const ensurePrebuild = async (
       ? `${platform}/ was generated for ${stamp.variant} with other native inputs. Regenerating for ${variant}.`
       : `${platform}/ has no prebuild stamp. Generating it for ${variant}.`
   );
+  if (platform === "ios") {
+    ensureCocoaPods();
+  }
   // The native folders are gitignored, so the git status prompt never applies.
   const status = runExpo(["prebuild", "--clean", "--platform", platform], {
     ...env,

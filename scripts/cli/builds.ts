@@ -10,10 +10,8 @@ import {
   CHECKOUTS_DIR,
   CHECKOUT_FILE,
   CliError,
-  PLATFORM_OPTION,
   defineCommand,
   formatAge,
-  getPlatform,
   printTable,
   readJson,
 } from "./shared.ts";
@@ -375,6 +373,7 @@ const cmdBuildsRm = (target: string) => {
   );
   if (matches.length !== 1) {
     throw new CliError({
+      exitCode: 2,
       fix: "Run `bun builds list` and pass one ID from the first column.",
       message: `${matches.length === 0 ? "No" : "More than one"} build matches "${target}"`,
       status: matches.length === 0 ? "build_not_found" : "build_ambiguous",
@@ -388,18 +387,31 @@ const cmdBuildsRm = (target: string) => {
 const BUILDS: Noun = {
   commands: {
     list: defineCommand({
-      details: `--platform ios|android  Only this platform.
---json                  Print JSON instead of a table.`,
-      options: { ...PLATFORM_OPTION, json: { type: "boolean" } },
-      run: (_args, values) =>
-        cmdBuildsList(getPlatform(values.platform), values.json ?? false),
+      run: () => cmdBuildsList(undefined, false),
       summary: "List cached builds with variant, source, size, and last use",
     }),
     rm: defineCommand({
-      args: ["<id>"],
-      argsSource: "bun builds list",
-      run: ([target]) => cmdBuildsRm(target),
-      summary: "Remove one cached build",
+      options: {
+        build: {
+          value: "<id>",
+          description: [
+            "Required. ID from the first column of `bun builds list`.",
+          ],
+          isRequired: true,
+        },
+      },
+      sections: [
+        {
+          title: "Examples",
+          lines: ["bun builds rm --build=ios-3fa91c02-Release-9b1e44d0a7c2"],
+        },
+      ],
+      errors: {
+        missing_option: "No --build passed",
+        build_not_found: "No build, or more than one build, matches --build",
+      },
+      run: (values) => cmdBuildsRm(values.build ?? ""),
+      summary: "Remove one cached build.",
     }),
     prune: defineCommand({
       run: () => pruneBuilds(),
@@ -408,6 +420,9 @@ const BUILDS: Noun = {
   },
   footer: "Create builds with `bun app build`.",
   summary: "Inspect and prune the shared build cache.",
+  helpTail: [
+    "Run `bun builds <command> --help` for details. Aliases: ls = list, remove = rm.",
+  ],
 };
 
 /** `bun builds` commands, build list, and cache IDs. */
