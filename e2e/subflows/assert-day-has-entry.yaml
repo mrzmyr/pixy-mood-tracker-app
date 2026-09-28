@@ -1,0 +1,15 @@
+appId: ${APP_ID}
+---
+# Passes when day ${DATE} (YYYY-MM-DD) has an entry. Days with entries open
+# the day list; empty days open the logger.
+- scrollUntilVisible:
+    element:
+      id: "calendar-day-${DATE}"
+    direction: UP
+    timeout: 10000
+- tapOn:
+    id: "calendar-day-${DATE}"
+- assertNotVisible: "How was your day?"
+- assertVisible: "Add Entry"
+- tapOn:
+    id: "log-list-close"

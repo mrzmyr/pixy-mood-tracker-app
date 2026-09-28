@@ -1,0 +1,61 @@
+appId: ${APP_ID}
+tags: [p0, entry]
+---
+# Entries saved in 3 separate app sessions all survive (#215: single days
+# went missing). Each save is followed by a cold start.
+# 3 entries keep the logger steps fixed: entry 2 adds the reminder slide, and
+# from entry 4 a question slide can come from the live questions API.
+- runFlow:
+    file: ../subflows/load-fixture.yaml
+    env:
+      FIXTURE: empty
+- runScript: ../scripts/set-output-date.js
+
+- runFlow:
+    file: ../subflows/start-entry-on-day.yaml
+    env:
+      DATE: ${output.daysAgo3}
+- runFlow: ../subflows/finish-logger.yaml
+- stopApp
+- launchApp
+- extendedWaitUntil:
+    visible:
+      id: "calendar-day-${output.today}"
+    timeout: 10000
+
+- runFlow:
+    file: ../subflows/start-entry-on-day.yaml
+    env:
+      DATE: ${output.daysAgo2}
+- runFlow: ../subflows/finish-logger-with-reminder.yaml
+- stopApp
+- launchApp
+- extendedWaitUntil:
+    visible:
+      id: "calendar-day-${output.today}"
+    timeout: 10000
+
+- runFlow:
+    file: ../subflows/start-entry-on-day.yaml
+    env:
+      DATE: ${output.daysAgo1}
+- runFlow: ../subflows/finish-logger.yaml
+- stopApp
+- launchApp
+- extendedWaitUntil:
+    visible:
+      id: "calendar-day-${output.today}"
+    timeout: 10000
+
+- runFlow:
+    file: ../subflows/assert-day-has-entry.yaml
+    env:
+      DATE: ${output.daysAgo3}
+- runFlow:
+    file: ../subflows/assert-day-has-entry.yaml
+    env:
+      DATE: ${output.daysAgo2}
+- runFlow:
+    file: ../subflows/assert-day-has-entry.yaml
+    env:
+      DATE: ${output.daysAgo1}

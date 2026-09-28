@@ -1,0 +1,17 @@
+appId: ${APP_ID}
+---
+# Opens the logger on empty day ${DATE} (YYYY-MM-DD) and picks rating "good".
+# Mood auto-advances to emotions; finish with finish-logger.yaml.
+- scrollUntilVisible:
+    element:
+      id: "calendar-day-${DATE}"
+    direction: UP
+    timeout: 10000
+- tapOn:
+    id: "calendar-day-${DATE}"
+# Only empty days open the logger.
+- assertVisible: "How was your day?"
+# A tap during the logger's slide-in animation is lost.
+- waitForAnimationToEnd
+- tapOn:
+    id: "mood-good"

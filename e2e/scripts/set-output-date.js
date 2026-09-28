@@ -6,6 +6,12 @@ output.today = toId(now);
 // The `year` fixture starts 364 days back, so 370 days back has no entry.
 const past = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 370);
 output.pastDay = toId(past);
+// Recent past days, for entries on separate days.
+for (const daysAgo of [1, 2, 3]) {
+  output[`daysAgo${daysAgo}`] = toId(
+    new Date(now.getFullYear(), now.getMonth(), now.getDate() - daysAgo)
+  );
+}
 const MONTHS = [
   "January",
   "February",

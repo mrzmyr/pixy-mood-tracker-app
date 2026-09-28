@@ -1,0 +1,67 @@
+appId: ${APP_ID}
+tags: [p0, tags]
+---
+# Deleting a tag keeps the entries that used it and removes the tag from them
+# (#261). Both survive a cold start. tags.yaml covers delete in filters and
+# logger only.
+# Limit: #261 needs a tag delete and a log add in the same tick. A UI flow
+# cannot hit that timing; the logs Jest tests cover it.
+- runFlow:
+    file: ../subflows/load-fixture.yaml
+    env:
+      FIXTURE: year
+- runScript: ../scripts/set-output-date.js
+
+# The fixture's entry today has tag "Work" and a note.
+- tapOn:
+    id: "calendar-day-${output.today}"
+- assertVisible: "Add Entry"
+- assertVisible: "Work"
+- scrollUntilVisible:
+    element:
+      text: "Great dinner with friends."
+    direction: DOWN
+    timeout: 15000
+- tapOn:
+    id: "log-list-close"
+
+- tapOn:
+    id: "settings"
+- tapOn: "Tags"
+- tapOn: "Work"
+- scrollUntilVisible:
+    element:
+      text: "Delete"
+    direction: DOWN
+- tapOn: "Delete"
+- assertVisible: "The tag will be removed from all entries.*"
+- tapOn:
+    text: "Delete"
+    index: 0
+- assertNotVisible: "Work"
+
+- stopApp
+- launchApp
+- extendedWaitUntil:
+    visible: "Add another entry for today"
+    timeout: 10000
+
+# Entry stays, without the deleted tag.
+- tapOn:
+    id: "calendar-day-${output.today}"
+- assertVisible: "Add Entry"
+- assertNotVisible: "Work"
+- scrollUntilVisible:
+    element:
+      text: "Great dinner with friends."
+    direction: DOWN
+    timeout: 15000
+- tapOn:
+    id: "log-list-close"
+
+# Tag deletion persisted.
+- tapOn:
+    id: "settings"
+- tapOn: "Tags"
+- assertVisible: "Family"
+- assertNotVisible: "Work"
