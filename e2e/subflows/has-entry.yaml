@@ -2,10 +2,12 @@ appId: ${APP_ID}
 ---
 # Passes when day ${DATE} (YYYY-MM-DD) has an entry. Days with entries open
 # the day list; empty days open the logger.
+# Recent days sit at the list end. Replaced data can leave the calendar
+# scrolled up without the scroll-to-bottom button, so scroll down.
 - scrollUntilVisible:
     element:
       id: "calendar-day-${DATE}"
-    direction: UP
+    direction: DOWN
     timeout: 10000
 - tapOn:
     id: "calendar-day-${DATE}"

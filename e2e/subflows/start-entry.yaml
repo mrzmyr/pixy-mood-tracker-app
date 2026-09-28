@@ -2,10 +2,12 @@ appId: ${APP_ID}
 ---
 # Opens the logger on empty day ${DATE} (YYYY-MM-DD) and picks rating "good".
 # Mood auto-advances to emotions; finish with finish-logger.yaml.
+# Recent days sit at the list end. Replaced data can leave the calendar
+# scrolled up without the scroll-to-bottom button, so scroll down.
 - scrollUntilVisible:
     element:
       id: "calendar-day-${DATE}"
-    direction: UP
+    direction: DOWN
     timeout: 10000
 - tapOn:
     id: "calendar-day-${DATE}"
