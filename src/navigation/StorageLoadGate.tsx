@@ -1,5 +1,5 @@
 import * as Sentry from "@sentry/react-native";
-import { Alert, ScrollView, Text, View } from "react-native";
+import { Alert, Linking, Platform, ScrollView, Text, View } from "react-native";
 import { AlertCircle } from "react-native-feather";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Button from "@/components/Button";
@@ -11,6 +11,9 @@ import { t } from "@/helpers/translation";
 import useColors from "@/hooks/useColors";
 import type { StructuredError } from "@/lib/errors";
 import { useSettingsLoad } from "@/state/settings";
+import pkg from "../../package.json";
+
+const SUPPORT_EMAIL = "care@pixy.day";
 
 const exportData = async () => {
   try {
@@ -21,10 +24,26 @@ const exportData = async () => {
   }
 };
 
+// Holds the error code only: `why` can quote stored user data.
+const getSupportMailUrl = (error: StructuredError) => {
+  const subject = "Pixy: stored data could not be loaded";
+  const body = `\n\nError code: ${error.status}\nApp version: ${pkg.version}\nPlatform: ${Platform.OS}`;
+  return `mailto:${SUPPORT_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+};
+
 const StorageLoadErrorScreen = ({ error }: { error: StructuredError }) => {
   const colors = useColors();
   const insets = useSafeAreaInsets();
   const { Modal: FeedbackModal, show: showFeedbackModal } = useFeedbackModal();
+
+  const contactSupport = async () => {
+    try {
+      await Linking.openURL(getSupportMailUrl(error));
+    } catch {
+      // No mail app: fall back to the feedback form.
+      showFeedbackModal({ type: "issue" });
+    }
+  };
 
   return (
     <View
@@ -85,7 +104,7 @@ const StorageLoadErrorScreen = ({ error }: { error: StructuredError }) => {
         </Button>
         <Button
           type="secondary"
-          onPress={() => showFeedbackModal({ type: "issue" })}
+          onPress={contactSupport}
           style={{ marginTop: 12 }}
           testID="storage-load-error-contact"
         >

@@ -7,7 +7,7 @@ import {
   waitFor,
 } from "@testing-library/react-native";
 import * as FileSystem from "expo-file-system/legacy";
-import { Text } from "react-native";
+import { Linking, Text } from "react-native";
 import Colors from "@/constants/Colors";
 import { setFileTransferOverride } from "@/features/datagate/fileTransfer";
 import { LogsProvider, STORAGE_KEY as LOGS_KEY } from "@/features/logs";
@@ -109,5 +109,37 @@ describe("StorageLoadGate", () => {
 
     setFileTransferOverride(null);
     writeSpy.mockRestore();
+  });
+
+  test("user can mail support with the error code and no stored data", async () => {
+    await AsyncStorage.setItem(LOGS_KEY, "🐇");
+    const openURLSpy = jest.spyOn(Linking, "openURL").mockResolvedValue(true);
+    const user = userEvent.setup();
+
+    await renderApp();
+    await user.press(await screen.findByText("Contact support"));
+
+    const url = decodeURIComponent(openURLSpy.mock.calls[0][0]);
+    expect(url).toContain("mailto:care@pixy.day");
+    expect(url).toContain("Error code: storage_invalid_value");
+    expect(url).not.toContain("🐇");
+    expect(screen.queryByText("Send Feedback")).toBeNull();
+
+    openURLSpy.mockRestore();
+  });
+
+  test("user sees the feedback form when no mail app opens", async () => {
+    await AsyncStorage.setItem(LOGS_KEY, "🐇");
+    const openURLSpy = jest
+      .spyOn(Linking, "openURL")
+      .mockRejectedValue(new Error("no mail app"));
+    const user = userEvent.setup();
+
+    await renderApp();
+    await user.press(await screen.findByText("Contact support"));
+
+    expect(await screen.findByText("Send Feedback")).toBeOnTheScreen();
+
+    openURLSpy.mockRestore();
   });
 });
