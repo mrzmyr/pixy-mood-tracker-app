@@ -122,45 +122,6 @@ describe("useLogs()", () => {
     ]);
   });
 
-  test("should not save logs that were just loaded unchanged", async () => {
-    await AsyncStorage.setItem(
-      STORAGE_KEY,
-      JSON.stringify({ items: [testItems[0]] })
-    );
-    jest.mocked(AsyncStorage.setItem).mockClear();
-
-    const hook = await _renderHook();
-    await waitForLoaded(hook);
-
-    expect(countLogSaves()).toBe(0);
-
-    await act(() => hook.result.current.updater.addLog(testItems[1]));
-
-    expect(countLogSaves()).toBe(1);
-  });
-
-  test("should save logs restored to the loaded entries", async () => {
-    await AsyncStorage.setItem(
-      STORAGE_KEY,
-      JSON.stringify({ items: [testItems[0]] })
-    );
-
-    const hook = await _renderHook();
-    await waitForLoaded(hook);
-    const loadedItems = hook.result.current.state.items;
-
-    await act(() => hook.result.current.updater.updateLogs([testItems[1]]));
-    await act(() => hook.result.current.updater.updateLogs(loadedItems));
-
-    await waitFor(async () => {
-      expect(
-        JSON.parse((await AsyncStorage.getItem(STORAGE_KEY)) ?? "null")
-      ).toEqual({
-        items: loadedItems,
-      });
-    });
-  });
-
   test("should migrate entries with null tag references", async () => {
     await AsyncStorage.setItem(
       STORAGE_KEY,

@@ -111,8 +111,7 @@ const migrate = (data: LogsState): LogsState => {
     result.items = Object.values(result.items);
   }
 
-  const { items } = result;
-  result.items = items.map((item) => {
+  result.items = result.items.map((item) => {
     if (isMigrated(item)) {
       return item;
     }
@@ -141,15 +140,6 @@ const migrate = (data: LogsState): LogsState => {
 
     return newItem;
   });
-
-  // Keep the loaded array when nothing changed, so LogsProvider can skip
-  // saving data it just read.
-  if (
-    result.items.length === items.length &&
-    result.items.every((item, index) => item === items[index])
-  ) {
-    result.items = items;
-  }
 
   return result;
 };
@@ -242,7 +232,6 @@ const LogsProvider = ({ children }: { children: React.ReactNode }) => {
 
   const [state, dispatch] = useReducer(reducer, INITIAL_STATE);
   const loadedValue = useRef<LogsState | null>(null);
-  const loadedItems = useRef<LogsState["items"] | null>(null);
   const {
     load: storageLoad,
     markReady,
@@ -276,7 +265,6 @@ const LogsProvider = ({ children }: { children: React.ReactNode }) => {
         markReady();
 
         loadedValue.current = value;
-        loadedItems.current = value?.items ?? null;
       } catch (error) {
         markFailed(error);
         Sentry.captureException(error);
@@ -303,14 +291,7 @@ const LogsProvider = ({ children }: { children: React.ReactNode }) => {
   }, [storageStatus]);
 
   useEffect(() => {
-    if (storageStatus !== "ready" || !state.loaded) {
-      return;
-    }
-    // Skip saving logs that were just loaded and needed no migration. Only
-    // the first save can match; later states must always be written.
-    const isJustLoaded = state.items === loadedItems.current;
-    loadedItems.current = null;
-    if (!isJustLoaded) {
+    if (storageStatus === "ready" && state.loaded) {
       store<Omit<LogsState, "loaded">>(STORAGE_KEY, omit(state, "loaded"));
     }
   }, [state, storageStatus]);
