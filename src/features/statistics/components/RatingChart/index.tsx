@@ -59,6 +59,9 @@ export const RatingChart = ({
   const relativeY = (value: number) =>
     Math.floor(_height - (value / maxY) * _height);
 
+  // Rating rows span `relativeY(value)` to `relativeY(value) + rowHeight`.
+  const rowCenterY = (value: number) => relativeY(value) + rowHeight / 2;
+
   const relativeX = (index: number) =>
     Math.floor(index * itemWidth + itemWidth / 2) + YLegendWidth + paddingLeft;
 
@@ -69,7 +72,7 @@ export const RatingChart = ({
       }
 
       const x = Math.round(relativeX(index));
-      const y = Math.round(relativeY(item.value || 0)) + rowHeight / 2;
+      const y = Math.round(rowCenterY(item.value || 0));
 
       return [`${x},${y}`];
     })
@@ -129,6 +132,7 @@ export const RatingChart = ({
       <Grid width={width} relativeY={relativeY} />
 
       <Polyline
+        testID="rating-chart-line"
         fill="none"
         stroke={colors.statisticsLinePrimary}
         strokeWidth="2"
@@ -159,10 +163,11 @@ export const RatingChart = ({
       {showAverage && (
         <Line
           key="avg-line"
+          testID="rating-chart-average"
           x1={relativeX(0)}
-          y1={relativeY(average)}
+          y1={rowCenterY(average)}
           x2={width - paddingRight}
-          y2={relativeY(average)}
+          y2={rowCenterY(average)}
           stroke={colors.tint}
           strokeWidth={2}
         />
