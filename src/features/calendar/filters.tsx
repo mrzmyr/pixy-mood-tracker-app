@@ -7,8 +7,9 @@ import {
   useState,
 } from "react";
 import { useAnalytics } from "@/state/analytics";
-import type { LogItem } from "@/features/logs";
 import { useLogState } from "@/features/logs";
+import type { LogItem } from "@/features/logs";
+
 import { useContentStableValue } from "@/hooks/useContentStableValue";
 import type { Tag } from "@/features/tags";
 import { createMissingProviderError } from "@/lib/errors";

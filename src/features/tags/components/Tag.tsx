@@ -1,5 +1,6 @@
-import type { ViewStyle } from "react-native";
 import { Pressable, Text, View, useColorScheme } from "react-native";
+import type { ViewStyle } from "react-native";
+
 import useColors from "@/hooks/useColors";
 import useHaptics from "@/hooks/useHaptics";
 import type { TAG_COLOR_NAMES } from "@/constants/Config";

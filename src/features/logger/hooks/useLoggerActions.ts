@@ -3,13 +3,11 @@ import { useNavigation, StackActions } from "@react-navigation/native";
 import dayjs from "dayjs";
 import { useEffect, useRef } from "react";
 import { useAnalytics } from "@/state/analytics";
-import type { LogItem } from "@/features/logs";
 import { useLogState, useLogUpdater } from "@/features/logs";
-import type {
-  TemporaryLogState,
-  TemporaryLogValue,
-} from "@/features/logger/temporaryLog";
-import type { LoggerMode } from "@/features/logger";
+import type { LogItem } from "@/features/logs";
+
+import type { TemporaryLogState, TemporaryLogValue } from "../temporaryLog";
+import type { LoggerMode } from "../Logger";
 import { getItemDate } from "@/lib/logDates";
 
 /**

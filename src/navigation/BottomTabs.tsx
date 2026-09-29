@@ -1,15 +1,15 @@
 import LinkButton from "@/components/LinkButton";
 import { t } from "@/helpers/translation";
-import { useCalendarFilters } from "@/features/calendar/filters";
+import { useCalendarFilters, CalendarScreen } from "@/features/calendar";
 import useColors from "@/hooks/useColors";
-import type { BottomTabBarProps } from "@react-navigation/bottom-tabs";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import type { BottomTabBarProps } from "@react-navigation/bottom-tabs";
+
 import { Platform, View } from "react-native";
 import { Filter } from "react-native-feather";
-import { SettingsScreen } from "../screens/Settings";
-import { StatisticsScreen } from "../screens/Statistics";
-import CalendarScreen from "../screens/Calendar";
-import { MyTabBar } from "./MyTabBar";
+import { SettingsScreen } from "@/features/settings";
+import { StatisticsScreen } from "@/features/statistics";
+import { MyTabBar } from "@/navigation/MyTabBar";
 
 const Tab = createBottomTabNavigator();
 

@@ -3,7 +3,7 @@ import useHaptics from "@/hooks/useHaptics";
 import type { LogItem } from "@/features/logs";
 import useScale from "@/hooks/useScale";
 import type { SettingsState } from "@/state/settings";
-import ScaleButton from "./ScaleButton";
+import ScaleButton from "@/components/ScaleButton";
 
 const Scale = ({
   type,

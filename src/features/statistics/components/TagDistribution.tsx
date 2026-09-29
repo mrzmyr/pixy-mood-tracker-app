@@ -3,9 +3,9 @@ import type { LogItem } from "@/features/logs";
 import {
   dummyTagsDistributionData,
   getTagsDistributionData,
-} from "@/features/statistics/TagsDistribution";
+} from "../TagsDistribution";
 import { useTagsState } from "@/features/tags";
-import { TagDistributionContent } from "@/screens/Statistics/TagsDistributionCard";
+import { TagDistributionContent } from "../screens/Statistics/TagsDistributionCard";
 import { BigCard } from "./BigCard";
 import { NotEnoughDataOverlay } from "./NotEnoughDataOverlay";
 

@@ -1,5 +1,5 @@
-import { disabledSupportClient } from "./clients";
-import { SupportProvider } from "./index";
+import { disabledSupportClient } from "@/support/clients";
+import { SupportProvider } from "@/support";
 
 /**
  * Web fallback: support purchases are unavailable, so it always provides

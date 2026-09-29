@@ -3,7 +3,7 @@ import { render } from "@testing-library/react-native";
 
 import Colors from "@/constants/Colors";
 
-import TextArea from "../TextArea";
+import TextArea from "@/components/TextArea";
 
 const renderField = (props: React.ComponentProps<typeof TextArea>) =>
   render(

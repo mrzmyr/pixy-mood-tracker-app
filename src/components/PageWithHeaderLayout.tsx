@@ -1,5 +1,5 @@
-import type { ViewStyle } from "react-native";
 import { View } from "react-native";
+import type { ViewStyle } from "react-native";
 
 const DEFAULT_STYLE = {};
 

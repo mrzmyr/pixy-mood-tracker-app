@@ -1,5 +1,5 @@
-import { getJSONSchemaType } from "@/features/datagate/import";
-import { migrateImportData } from "@/features/datagate/migration";
+import { getJSONSchemaType } from "../import";
+import { migrateImportData } from "../migration";
 import { INITIAL_STATE } from "@/constants/Settings";
 
 describe("getJSONSchemaType", () => {

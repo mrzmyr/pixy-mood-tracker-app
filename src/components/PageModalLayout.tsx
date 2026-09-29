@@ -1,5 +1,6 @@
-import type { ViewStyle } from "react-native";
 import { Platform, View } from "react-native";
+import type { ViewStyle } from "react-native";
+
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const DEFAULT_STYLE = {};

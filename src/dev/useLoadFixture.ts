@@ -3,8 +3,8 @@ import { useDatagate } from "@/features/datagate";
 import { useLogState } from "@/features/logs";
 import { useSettings } from "@/state/settings";
 import { useTagsState } from "@/features/tags";
-import type { Fixture, StorageFixture } from "./fixtures";
-import { getFixtureData, getStorageFixtureEntries } from "./fixtures";
+import { getFixtureData, getStorageFixtureEntries } from "@/dev/fixtures";
+import type { Fixture, StorageFixture } from "@/dev/fixtures";
 
 /**
  * Writes a storage fixture to AsyncStorage. Stores keep their loaded state

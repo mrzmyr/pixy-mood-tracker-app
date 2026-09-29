@@ -1,5 +1,6 @@
-import type { Theme } from "@react-navigation/native";
 import { useTheme } from "@react-navigation/native";
+import type { Theme } from "@react-navigation/native";
+
 import type { IColors } from "@/constants/Colors";
 
 /**

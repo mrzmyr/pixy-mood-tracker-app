@@ -1,7 +1,7 @@
 import dayjs from "dayjs";
 import { DATE_FORMAT } from "@/constants/Config";
 import { getItemDate, getItemTime } from "@/lib/logDates";
-import { _generateItem } from "./utils";
+import { _generateItem } from "@/__tests__/utils";
 
 describe("logDates", () => {
   it("returns the local day and epoch time of dateTime", () => {

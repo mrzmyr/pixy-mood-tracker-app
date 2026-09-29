@@ -1,6 +1,7 @@
 import isString from "lodash/isString";
-import type { ViewStyle } from "react-native";
 import { Pressable, Text, View } from "react-native";
+import type { ViewStyle } from "react-native";
+
 import useColors from "@/hooks/useColors";
 import useHaptics from "@/hooks/useHaptics";
 

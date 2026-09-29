@@ -49,7 +49,7 @@ export const TAG_COLOR_NAMES = [
  * Analytics follow user consent in every app variant; each variant reports
  * to its own PostHog project (see `POSTHOG_API_KEY`). Off in Jest.
  */
-export { HAS_APP_VARIANT as TRACKING_ENABLED } from "./AppVariant";
+export { HAS_APP_VARIANT as TRACKING_ENABLED } from "@/constants/AppVariant";
 
 /** Changelog board opened in the in-app browser from Settings. */
 export const CHANGELOG_URL = "https://pixy.hellonext.co/embed/c?no_header=true";

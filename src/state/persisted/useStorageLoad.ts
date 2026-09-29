@@ -1,6 +1,7 @@
 import { useCallback, useState } from "react";
-import type { StructuredError } from "@/lib/errors";
 import { createStructuredError } from "@/lib/errors";
+import type { StructuredError } from "@/lib/errors";
+
 import { isStorageError } from "@/state/persisted";
 
 /** Load status a persisted store exposes to the app. */

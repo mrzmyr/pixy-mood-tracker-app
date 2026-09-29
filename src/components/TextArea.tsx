@@ -1,6 +1,7 @@
 import { forwardRef } from "react";
-import type { ViewStyle } from "react-native";
 import { TextInput } from "react-native";
+import type { ViewStyle } from "react-native";
+
 import useColors from "@/hooks/useColors";
 import noop from "lodash/noop";
 

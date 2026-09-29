@@ -1,4 +1,4 @@
-import { setFileTransferOverride } from "@/features/datagate/fileTransfer";
+import { setFileTransferOverride } from "../fileTransfer";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { act, renderHook, waitFor } from "@testing-library/react-native";
 import * as DocumentPicker from "expo-document-picker";
@@ -6,16 +6,19 @@ import * as FileSystem from "expo-file-system/legacy";
 import * as Sharing from "expo-sharing";
 import { Alert } from "react-native";
 import { AnalyticsProvider } from "@/state/analytics";
-import { useDatagate } from "@/features/datagate";
+import { useDatagate } from "../DataGate";
 
 import _ from "lodash";
-import type { LogsState } from "@/features/logs";
 import { LogsProvider, useLogState, useLogUpdater } from "@/features/logs";
+import type { LogsState } from "@/features/logs";
+
+import { SettingsProvider, useSettings } from "@/state/settings";
 import type { ExportSettings } from "@/state/settings";
 import { INITIAL_STATE } from "@/constants/Settings";
-import { SettingsProvider, useSettings } from "@/state/settings";
-import type { Tag } from "@/features/tags";
+
 import { TagsProvider, useTagsState, useTagsUpdater } from "@/features/tags";
+import type { Tag } from "@/features/tags";
+
 import { _generateItem } from "@/__tests__/utils";
 import pkg from "../../../../package.json";
 

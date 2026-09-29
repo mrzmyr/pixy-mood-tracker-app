@@ -1,7 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as FileSystem from "expo-file-system/legacy";
-import { setFileTransferOverride } from "@/features/datagate/fileTransfer";
-import { exportRawStorage } from "@/features/datagate/rawExport";
+import { setFileTransferOverride } from "../fileTransfer";
+import { exportRawStorage } from "../rawExport";
 import { STORAGE_KEY as STORAGE_KEY_LOGS } from "@/features/logs";
 import { STORAGE_KEY as STORAGE_KEY_TAGS } from "@/features/tags";
 import { STORAGE_KEY as STORAGE_KEY_SETTINGS } from "@/state/settings";

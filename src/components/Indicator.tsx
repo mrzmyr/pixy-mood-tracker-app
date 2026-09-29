@@ -1,5 +1,6 @@
-import type { ViewStyle } from "react-native";
 import { Text, View } from "react-native";
+import type { ViewStyle } from "react-native";
+
 import useColors from "@/hooks/useColors";
 import type { TAG_COLOR_NAMES } from "@/constants/Config";
 

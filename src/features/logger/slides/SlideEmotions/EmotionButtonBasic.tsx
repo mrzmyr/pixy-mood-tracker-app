@@ -1,8 +1,9 @@
 import useColors from "@/hooks/useColors";
 import useHaptics from "@/hooks/useHaptics";
 import type { Emotion } from "@/types";
-import type { ViewStyle } from "react-native";
 import { Pressable, Text, useColorScheme, View } from "react-native";
+import type { ViewStyle } from "react-native";
+
 import { EmotionIndicator } from "./EmotionsIndicator";
 
 const DEFAULT_STYLE = {};

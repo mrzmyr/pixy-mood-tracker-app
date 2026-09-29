@@ -1,11 +1,14 @@
-import type { Emotion } from "@/types";
 import { EMOTION_CATEGORIES } from "@/types";
+import type { Emotion } from "@/types";
+
 import { useRef } from "react";
-import type { ViewStyle } from "react-native";
 import { Dimensions } from "react-native";
-import type { CarouselRef } from "react-native-reanimated-carousel";
+import type { ViewStyle } from "react-native";
+
 import { Carousel } from "react-native-reanimated-carousel";
-import { EMOTIONS } from "@/features/logger/config";
+import type { CarouselRef } from "react-native-reanimated-carousel";
+
+import { EMOTIONS } from "../../config";
 import { EMOTION_BUTTON_HEIGHT } from "./constants";
 import { EmotionPage } from "./EmotionPage";
 

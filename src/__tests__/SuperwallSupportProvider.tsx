@@ -4,9 +4,9 @@ import { SuperwallExpoModule } from "expo-superwall";
 import {
   ConfiguredSupportProvider,
   SUPPORT_PLACEMENT,
-} from "../support/SuperwallSupportProvider";
-import type { SupportClient } from "@/support";
+} from "@/support/SuperwallSupportProvider";
 import { useSupport } from "@/support";
+import type { SupportClient } from "@/support";
 
 interface MockSuperwallState {
   isConfigured: boolean;

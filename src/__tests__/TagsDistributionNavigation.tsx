@@ -8,11 +8,11 @@ import { AnalyticsProvider } from "@/state/analytics";
 import {
   CalendarFiltersProvider,
   useCalendarFilters,
-} from "@/features/calendar/filters";
+} from "@/features/calendar";
 import { LogsProvider } from "@/features/logs";
 import { SettingsProvider } from "@/state/settings";
-import type { TagsDistributionData } from "@/features/statistics/TagsDistribution";
-import { TagDistributionContent } from "@/screens/Statistics/TagsDistributionCard";
+import { TagDistributionContent } from "@/features/statistics";
+import type { TagsDistributionData } from "@/features/statistics";
 
 // oxlint-disable-next-line anti-slop/no-module-mocking -- react-native-safe-area-context needs native insets that Jest does not provide
 jest.mock("react-native-safe-area-context", () => {

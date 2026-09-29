@@ -1,6 +1,7 @@
 import React from "react";
-import type { ViewStyle } from "react-native";
 import { View } from "react-native";
+import type { ViewStyle } from "react-native";
+
 import useColors from "@/hooks/useColors";
 
 const DEFAULT_STYLE = {};

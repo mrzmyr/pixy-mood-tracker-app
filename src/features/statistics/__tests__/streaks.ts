@@ -1,7 +1,4 @@
-import {
-  getCurrentStreak,
-  getLongestStreak,
-} from "@/features/statistics/Streaks";
+import { getCurrentStreak, getLongestStreak } from "../Streaks";
 import { _generateItem } from "@/__tests__/utils";
 
 const testItems = [

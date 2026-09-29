@@ -1,13 +1,14 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { renderHook, act, waitFor } from "@testing-library/react-native";
 import { AnalyticsProvider } from "@/state/analytics";
-import type { LogsState } from "@/features/logs";
 import {
   LogsProvider,
   useLogState,
   useLogUpdater,
   STORAGE_KEY as STORAGE_KEY_LOGS,
 } from "@/features/logs";
+import type { LogsState } from "@/features/logs";
+
 import {
   SettingsProvider,
   useSettings,
@@ -16,14 +17,15 @@ import {
 } from "@/state/settings";
 import { INITIAL_STATE as INITIAL_STATE_SETTINGS } from "@/constants/Settings";
 
-import type { Tag } from "@/features/tags";
 import {
   STORAGE_KEY as STORAGE_KEY_TAGS,
   TagsProvider,
   useTagsLoad,
   useTagsState,
   useTagsUpdater,
-} from "@/features/tags";
+} from "../TagsProvider";
+import type { Tag } from "../TagsProvider";
+
 import { _generateItem } from "@/__tests__/utils";
 
 const wrapper = ({ children }) => (

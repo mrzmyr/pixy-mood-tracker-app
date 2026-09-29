@@ -1,0 +1,124 @@
+import { StackActions, useNavigation } from "@react-navigation/native";
+import _ from "lodash";
+import { Pressable, Text, View } from "react-native";
+import { Card } from "../../components/Card";
+import { t } from "@/helpers/translation";
+import { useAnonymizer } from "@/state/analytics/anonymizer";
+import { useCalendarFilters } from "@/features/calendar";
+import useColors from "@/hooks/useColors";
+import useHaptics from "@/hooks/useHaptics";
+import type { TagsDistributionData } from "../../TagsDistribution";
+import type { Tag } from "@/features/tags";
+import { CardFeedback } from "../../components/CardFeedback";
+
+/**
+ * Tag bars for the top `limit` tags. Tapping a bar filters the calendar to
+ * that tag only and switches to the Calendar tab.
+ */
+export const TagDistributionContent = ({
+  data,
+  limit = 5,
+}: {
+  data: TagsDistributionData;
+  limit?: number;
+}) => {
+  const colors = useColors();
+  const haptic = useHaptics();
+  const calendarFilters = useCalendarFilters();
+  const navigation = useNavigation();
+
+  const onPress = (tagId: Tag["id"]) => {
+    haptic.selection();
+    calendarFilters.set({
+      ...calendarFilters.data,
+      tagIds: [tagId],
+    });
+    // React Navigation 7 no longer finds nested tab screens by name. `popTo`
+    // also closes the Highlights screen instead of pushing a second tab stack.
+    navigation.dispatch(StackActions.popTo("tabs", { screen: "Calendar" }));
+  };
+
+  return (
+    <View
+      style={{
+        flexDirection: "column",
+      }}
+    >
+      {data.tags.slice(0, limit).map((tag) => (
+        <Pressable
+          key={tag?.details?.id}
+          onPress={() => onPress(tag.id)}
+          style={{
+            position: "relative",
+            height: 32,
+            marginBottom: 8,
+            justifyContent: "center",
+          }}
+        >
+          <View
+            style={{
+              backgroundColor: colors.tags[tag?.details?.color]?.background,
+              height: 32,
+              width: `${(tag.count / data.tags[0].count) * 100}%` as const,
+              borderRadius: 4,
+              position: "absolute",
+            }}
+          />
+          <Text
+            style={{
+              color: colors.tags[tag?.details?.color]?.text,
+              fontSize: 14,
+              fontWeight: "600",
+              position: "relative",
+              marginLeft: 8,
+            }}
+          >
+            {tag.count}x {tag?.details?.title}
+          </Text>
+        </Pressable>
+      ))}
+      {data.tags.length > limit && (
+        <View
+          style={{
+            marginTop: 8,
+          }}
+        >
+          <Text
+            style={{
+              fontSize: 14,
+              color: colors.textSecondary,
+            }}
+          >
+            And {data.tags.length - limit} more
+          </Text>
+        </View>
+      )}
+    </View>
+  );
+};
+
+/** Highlight card for tag usage; tag titles are anonymized in feedback. */
+export const TagsDistributionCard = ({
+  data,
+}: {
+  data: TagsDistributionData;
+}) => {
+  const { anonymizeTag } = useAnonymizer();
+
+  return (
+    <Card
+      subtitle={t("tags")}
+      title={t("statistics_tags_distribution_title", {
+        count: data.tags.length,
+      })}
+    >
+      <TagDistributionContent data={data} />
+      <CardFeedback
+        analyticsId="tags_distribution"
+        analyticsData={{
+          tags: data.tags.map((tag) => anonymizeTag(tag.details)),
+        }}
+      />
+    </Card>
+  );
+};

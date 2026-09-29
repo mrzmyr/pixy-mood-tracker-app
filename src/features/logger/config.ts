@@ -1,31 +1,11 @@
 import { t } from "@/helpers/translation";
 import type { Emotion } from "@/types";
 
-/**
- * Logger slides. The carousel always uses a fixed order, whatever order a
- * step list has.
- */
-export type LoggerStep =
-  | "rating"
-  | "tags"
-  | "message"
-  | "feedback"
-  | "reminder"
-  | "emotions";
-/**
- * Steps users can toggle in settings; the reminder slide only shows for new
- * users and is not configurable.
- */
-export type ConfigurableLoggerStep = Exclude<LoggerStep, "reminder">;
-
-/** Order of the toggles on the Steps settings screen. */
-export const STEP_OPTIONS: ConfigurableLoggerStep[] = [
-  "rating",
-  "tags",
-  "emotions",
-  "message",
-  "feedback",
-];
+export type {
+  LoggerStep,
+  ConfigurableLoggerStep,
+} from "@/constants/LoggerSteps";
+export { STEP_OPTIONS } from "@/constants/LoggerSteps";
 
 /**
  * All emotions the logger offers.

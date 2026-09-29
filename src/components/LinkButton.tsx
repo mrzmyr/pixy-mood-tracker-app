@@ -1,7 +1,8 @@
 import isArray from "lodash/isArray";
 import isStringValue from "lodash/isString";
-import type { TextStyle, ViewStyle } from "react-native";
 import { Pressable, StyleSheet, Text, View } from "react-native";
+import type { TextStyle, ViewStyle } from "react-native";
+
 import type { SvgProps } from "react-native-svg";
 import useColors from "@/hooks/useColors";
 import useHaptics from "@/hooks/useHaptics";

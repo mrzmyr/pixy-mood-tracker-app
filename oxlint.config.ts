@@ -42,6 +42,11 @@ export default defineConfig({
   },
   overrides: [
     {
+      // Feature entry files intentionally re-export public symbols.
+      files: ["src/features/*/index.ts"],
+      rules: { "oxc/no-barrel-file": "off" },
+    },
+    {
       // App code runs on Hermes; scripts run on Bun and Node.
       files: ["src/**", "App.tsx"],
       rules: { "pixy-standards/no-hermes-missing-array-methods": "error" },

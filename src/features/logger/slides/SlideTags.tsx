@@ -1,8 +1,8 @@
 import { getLogEditMarginTop } from "@/helpers/responsive";
 import { t } from "@/helpers/translation";
 import useColors from "@/hooks/useColors";
-import { useTagsState } from "@/features/tags";
-import { useTemporaryLog } from "@/features/logger/temporaryLog";
+import { useTagsState, TagComponent as Tag } from "@/features/tags";
+import { useTemporaryLog } from "../temporaryLog";
 import type { TagReference } from "@/types";
 import { useNavigation } from "@react-navigation/native";
 import { LinearGradient } from "expo-linear-gradient";
@@ -10,8 +10,7 @@ import { ScrollView, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import LinkButton from "@/components/LinkButton";
 import { MiniButton } from "@/components/MiniButton";
-import Tag from "@/features/tags/components/Tag";
-import { SlideHeadline } from "@/features/logger/components/SlideHeadline";
+import { SlideHeadline } from "../components/SlideHeadline";
 import { Footer } from "./Footer";
 import noop from "lodash/noop";
 

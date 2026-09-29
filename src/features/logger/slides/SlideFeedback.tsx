@@ -4,10 +4,11 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { language, t } from "@/helpers/translation";
 import useColors from "@/hooks/useColors";
 import useHaptics from "@/hooks/useHaptics";
-import type { IQuestion } from "@/features/questioner";
 import { useQuestioner } from "@/features/questioner";
+import type { IQuestion } from "@/features/questioner";
+
 import LinkButton from "@/components/LinkButton";
-import { SlideHeadline } from "@/features/logger/components/SlideHeadline";
+import { SlideHeadline } from "../components/SlideHeadline";
 import { Footer } from "./Footer";
 
 const AnswerSelector = ({

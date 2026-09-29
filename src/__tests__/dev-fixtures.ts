@@ -6,8 +6,7 @@ import {
   getStorageFixtureEntries,
   STORAGE_FIXTURES,
 } from "@/dev/fixtures";
-import { getJSONSchemaType } from "@/features/datagate/import";
-import { migrateImportData } from "@/features/datagate/migration";
+import { getJSONSchemaType, migrateImportData } from "@/features/datagate";
 
 const requireFixture = (id: string) => {
   const fixture = getFixture(id);

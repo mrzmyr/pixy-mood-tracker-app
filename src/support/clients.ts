@@ -2,7 +2,7 @@ import type {
   DevelopmentSupportMode,
   SupportClient,
   SupportFlowError,
-} from "./index";
+} from "@/support";
 import { createStructuredError } from "@/lib/errors";
 
 /**

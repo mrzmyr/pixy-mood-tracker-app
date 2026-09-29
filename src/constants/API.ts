@@ -1,4 +1,4 @@
-import { APP_VARIANT } from "./AppVariant";
+import { APP_VARIANT } from "@/constants/AppVariant";
 
 /** Webhook that receives in-app feedback from {@link useFeedback}. */
 export const FEEDBACK_URL = `https://eocfnkx0gbrjzvp.m.pipedream.net`;
