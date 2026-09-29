@@ -1,4 +1,4 @@
-import { useSettings } from "@/state/settings";
+import { useSetting } from "@/state/settings";
 import useScale from "@/hooks/useScale";
 import type { Emotion } from "@/types";
 import { View } from "react-native";
@@ -12,8 +12,8 @@ export const EmotionIndicator = ({
 }: {
   category: Emotion["category"];
 }) => {
-  const { settings } = useSettings();
-  const scale = useScale(settings.scaleType);
+  const scaleType = useSetting("scaleType");
+  const scale = useScale(scaleType);
   const colorMapping = {
     very_good: scale.colors.very_good,
     good: scale.colors.very_good,

@@ -1,4 +1,4 @@
-import { useSettings } from "@/state/settings";
+import { useSetting } from "@/state/settings";
 import { Card } from "../../components/Card";
 import { CardFeedback } from "../../components/CardFeedback";
 import { DATE_FORMAT } from "@/constants/Config";
@@ -28,8 +28,8 @@ const getDayDotOpacity = (isPressed: boolean, isFuture: boolean) => {
 
 const DayDot = ({ date, day }: { date: Date; day: LogDay | undefined }) => {
   const colors = useColors();
-  const { settings } = useSettings();
-  const scale = useScale(settings.scaleType);
+  const scaleType = useSetting("scaleType");
+  const scale = useScale(scaleType);
   const haptics = useHaptics();
   const calendarNavigation = useCalendarNavigation();
 

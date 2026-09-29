@@ -3,7 +3,7 @@ import Scale from "@/components/Scale";
 import TextHeadline from "@/components/TextHeadline";
 import { t } from "@/lib/translation";
 import type { LogItem } from "@/features/logs";
-import { useSettings } from "@/state/settings";
+import { useSetting } from "@/state/settings";
 
 /**
  * Rating filter using the user's color scale; `onChange` receives the
@@ -16,7 +16,7 @@ export const RatingSection = ({
   value: LogItem["rating"][];
   onChange: (value: LogItem["rating"]) => void;
 }) => {
-  const { settings } = useSettings();
+  const scaleType = useSetting("scaleType");
 
   return (
     <View
@@ -25,7 +25,7 @@ export const RatingSection = ({
       }}
     >
       <TextHeadline style={{ marginBottom: 12 }}>{t("mood")}</TextHeadline>
-      <Scale value={value} onPress={onChange} type={settings.scaleType} />
+      <Scale value={value} onPress={onChange} type={scaleType} />
     </View>
   );
 };

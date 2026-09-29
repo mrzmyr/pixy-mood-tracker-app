@@ -1,4 +1,4 @@
-import { useSettings } from "@/state/settings";
+import { useSetting } from "@/state/settings";
 import { View } from "react-native";
 import { Card } from "../../components/Card";
 import { t } from "@/lib/translation";
@@ -11,8 +11,8 @@ import { CardFeedback } from "../../components/CardFeedback";
  * rating.
  */
 export const MoodAvgCard = ({ data }: { data: MoodAvgData }) => {
-  const { settings } = useSettings();
-  const scale = useScale(settings.scaleType);
+  const scaleType = useSetting("scaleType");
+  const scale = useScale(scaleType);
 
   return (
     <Card

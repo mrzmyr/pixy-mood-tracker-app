@@ -1,7 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useDatagate } from "@/features/datagate";
 import { useLogState } from "@/features/logs";
-import { useSettings } from "@/state/settings";
+import { useSetting } from "@/state/settings";
 import { useTagsState } from "@/features/tags";
 import { getFixtureData, getStorageFixtureEntries } from "@/dev/fixtures";
 import type { Fixture, StorageFixture } from "@/dev/fixtures";
@@ -21,10 +21,10 @@ export const writeStorageFixture = (fixture: StorageFixture) =>
 export const useLoadFixture = () => {
   const logState = useLogState();
   const { loaded: isTagsLoaded } = useTagsState();
-  const { settings } = useSettings();
+  const isSettingsLoaded = useSetting("loaded");
   const datagate = useDatagate();
 
-  const isReady = Boolean(logState.loaded && isTagsLoaded && settings.loaded);
+  const isReady = Boolean(logState.loaded && isTagsLoaded && isSettingsLoaded);
 
   const load = (fixture: Fixture) => {
     datagate.import(getFixtureData(fixture), { muted: true });

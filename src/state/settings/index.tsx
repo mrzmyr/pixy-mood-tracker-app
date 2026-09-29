@@ -292,6 +292,11 @@ const useSettings = (): Value => {
   return context;
 };
 
+/** Read one setting through the existing context; all context changes still rerender subscribers. */
+const useSetting = <Key extends keyof SettingsState>(
+  key: Key
+): SettingsState[Key] => useSettings().settings[key];
+
 /** Load status of the settings store; `error` means stored settings exist but could not be read. */
 const useSettingsLoad = (): StorageLoad => {
   const context = useContext(SettingsLoadContext);
@@ -301,4 +306,4 @@ const useSettingsLoad = (): StorageLoad => {
   return context;
 };
 
-export { SettingsProvider, useSettings, useSettingsLoad };
+export { SettingsProvider, useSetting, useSettings, useSettingsLoad };

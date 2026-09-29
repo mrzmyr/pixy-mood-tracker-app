@@ -7,7 +7,7 @@ import type { Month } from "./layout";
 import { useCalendarFilters } from "../../filters";
 import useColors from "@/hooks/useColors";
 import { useLogState } from "@/features/logs";
-import { useSettings } from "@/state/settings";
+import { useSetting } from "@/state/settings";
 import { useAnalytics } from "@/state/analytics";
 import Calendar from "./Calendar";
 import { CalendarBottomSheet } from "./CalendarBottomSheet";
@@ -27,7 +27,7 @@ const CalendarScreenComponent = () => {
    */
   "use no memo";
   const colors = useColors();
-  const { settings } = useSettings();
+  const isSettingsLoaded = useSetting("loaded");
   const analytics = useAnalytics();
   const logState = useLogState();
   const calendarFilters = useCalendarFilters();
@@ -45,7 +45,7 @@ const CalendarScreenComponent = () => {
     []
   );
 
-  if (!settings.loaded || !logState.loaded) {
+  if (!isSettingsLoaded || !logState.loaded) {
     return (
       <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
         <ActivityIndicator size="small" color={colors.text} />
