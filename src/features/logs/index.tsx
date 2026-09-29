@@ -225,7 +225,7 @@ const INITIAL_STATE: LogsState = {
 };
 
 const LogsProvider = ({ children }: { children: React.ReactNode }) => {
-  const analyitcs = useAnalytics();
+  const analytics = useAnalytics();
 
   const [state, dispatch] = useReducer(reducer, INITIAL_STATE);
   const loadedValue = useRef<LogsState | null>(null);
@@ -239,7 +239,7 @@ const LogsProvider = ({ children }: { children: React.ReactNode }) => {
   // Effect event: the load effect runs once on mount but tracks with the
   // latest analytics instance.
   const trackLoadedLogs = useEffectEvent((megaBytes: number) => {
-    analyitcs.track("loaded_logs", { size: megaBytes, unit: "mb" });
+    analytics.track("app:logs_loaded", { size_mb: megaBytes });
   });
 
   useEffect(() => {

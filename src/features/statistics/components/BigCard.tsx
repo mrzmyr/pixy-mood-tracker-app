@@ -115,8 +115,8 @@ export const BigCard = ({
         dialogTitle:
           'Hey I use this app called "Pixy Mood Tracker" and I wanted to share this with you!',
       });
-      analytics.track("statstics_shared", {
-        type: analyticsId,
+      analytics.track("statistics:card_shared", {
+        card: analyticsId,
       });
     } catch (error) {
       console.log(error);

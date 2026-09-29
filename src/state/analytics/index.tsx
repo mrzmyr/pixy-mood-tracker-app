@@ -1,5 +1,4 @@
 import { usePostHog } from "posthog-react-native";
-import type { PostHog } from "posthog-react-native";
 import {
   createContext,
   useCallback,
@@ -10,15 +9,14 @@ import {
 } from "react";
 import { useSettings } from "@/state/settings";
 import { createMissingProviderError } from "@/lib/errors";
+import type { AnalyticsEvent, TrackArgs } from "./events";
 import { Observe } from "expo-observe";
-
-type EventProperties = Parameters<PostHog["capture"]>[1];
 
 interface AnaylticsState {
   enable: () => void;
   disable: () => void;
   reset: () => void;
-  track: (event: string, properties?: EventProperties) => void;
+  track: <Event extends AnalyticsEvent>(...args: TrackArgs<Event>) => void;
   identify: <Properties extends object>(properties?: Properties) => void;
   isIdentified: boolean;
   isEnabled: boolean;
@@ -98,7 +96,7 @@ const AnalyticsProvider = ({
           analyticsEnabled: false,
         }));
       },
-      track: (eventName, properties) => {
+      track: (...[eventName, properties]) => {
         if (!isEnabled) {
           return;
         }

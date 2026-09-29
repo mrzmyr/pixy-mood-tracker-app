@@ -64,10 +64,10 @@ export const TagEdit = ({
   const askToDelete = async (tagToDelete: ITag) => {
     await haptics.selection();
 
-    analytics.track("delete_tag_ask", {
-      titleLength: tagToDelete.title.length,
+    analytics.track("tags:delete_requested", {
+      title_length: tagToDelete.title.length,
       color: tagToDelete.color,
-      containsEmoji: REGEX_EMOJI.test(tagToDelete.title),
+      has_emoji: REGEX_EMOJI.test(tagToDelete.title),
     });
 
     Alert.alert(
@@ -77,10 +77,10 @@ export const TagEdit = ({
         {
           text: t("delete"),
           onPress: () => {
-            analytics.track("tag_delete_success", {
-              titleLength: tagToDelete.title.length,
+            analytics.track("tags:tag_deleted", {
+              title_length: tagToDelete.title.length,
               color: tagToDelete.color,
-              containsEmoji: REGEX_EMOJI.test(tagToDelete.title),
+              has_emoji: REGEX_EMOJI.test(tagToDelete.title),
             });
             onDelete(tagToDelete);
           },
@@ -89,7 +89,7 @@ export const TagEdit = ({
         {
           text: t("cancel"),
           onPress: () => {
-            analytics.track("tag_delete_cancelled");
+            analytics.track("tags:delete_cancelled");
           },
           style: "cancel",
         },

@@ -49,7 +49,7 @@ export const SettingsScreen = ({
   const { show: showFeedbackModal, Modal: FeedbackModal } = useFeedbackModal();
 
   const askToRateApp = () => {
-    analytics.track("rate_app");
+    analytics.track("settings:rate_app_tapped");
 
     const storeUrl = StoreReview.storeUrl();
     if (storeUrl !== null) {
@@ -137,7 +137,7 @@ export const SettingsScreen = ({
           <MenuListItem
             title={t("vote_features")}
             onPress={async () => {
-              analytics.track("settings_vote_features");
+              analytics.track("settings:vote_features_tapped");
               await WebBrowser.openBrowserAsync(FEEDBACK_FEATURES_URL);
             }}
             iconLeft={
@@ -148,7 +148,7 @@ export const SettingsScreen = ({
           <MenuListItem
             title={t("changelog")}
             onPress={async () => {
-              analytics.track("settings_changelog");
+              analytics.track("settings:changelog_tapped");
               await WebBrowser.openBrowserAsync(CHANGELOG_URL);
             }}
             iconLeft={<BookOpen width={18} color={colors.menuListItemIcon} />}

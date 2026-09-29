@@ -30,6 +30,7 @@
 
 ### Footguns
 
+- Analytics events live in [`src/state/analytics/events.ts`](src/state/analytics/events.ts). Never send entry content (rating, emotions, sleep, text) or user text to PostHog. Send counts, lengths, and booleans. Record every event rename in [docs/analytics.md](docs/analytics.md#event-history).
 - Never write storage after a failed read. A read error must keep the stored data, not replace it with defaults (commits 1a1ddd8, f165aad).
 - Hermes lacks some modern array methods. `pixy-standards/no-hermes-missing-array-methods` enforces the safe forms.
 - Keep all `@react-navigation/*` packages on the same major version. Mixing v6 and v7 breaks native navigation.

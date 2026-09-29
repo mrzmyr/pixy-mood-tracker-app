@@ -42,7 +42,7 @@ export const Onboarding = ({
 
   const goToSlide = (nextIndex: number) => {
     setIndex(nextIndex);
-    analytics.track("onboarding_slide", { index: nextIndex });
+    analytics.track("onboarding:slide_viewed", { index: nextIndex });
   };
 
   const onHardwareBack = useEffectEvent(() => {
@@ -65,14 +65,14 @@ export const Onboarding = ({
 
   const finish = () => {
     addActionDone("onboarding");
-    analytics.track("onboarding_finished");
+    analytics.track("onboarding:flow_completed");
     navigation.popToTop();
   };
 
   const skip = () => {
     addActionDone("onboarding");
     navigation.popToTop();
-    analytics.track("onboarding_skipped", { index });
+    analytics.track("onboarding:flow_skipped", { index });
   };
 
   const slides = [

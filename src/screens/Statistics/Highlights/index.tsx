@@ -4,13 +4,13 @@ import { ActivityIndicator, ScrollView, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import useColors from "../../../hooks/useColors";
 import { useAnalytics } from "@/state/analytics";
+import type { HighlightsProperties } from "@/state/analytics/events";
 import { useStatistics } from "@/features/statistics";
 import { MoodAvgCard } from "../MoodAvgCard";
 import { MoodPeaksCard } from "../MoodPeaksCards";
 import { TagPeaksCard } from "../TagPeaksCards";
 import { TagsDistributionCard } from "../TagsDistributionCard";
 import { Title } from "../Title";
-import type { MoodAvgData } from "@/features/statistics/MoodAvg";
 import { t } from "@/helpers/translation";
 import dayjs from "dayjs";
 import { DATE_FORMAT } from "@/constants/Config";
@@ -18,24 +18,6 @@ import { MoodChart } from "../MoodChart";
 import { useLogState } from "@/features/logs";
 import { SleepQualityChartCard } from "../SleepQualityGraph";
 import { getItemTime } from "@/lib/logDates";
-
-interface HighlightCards {
-  mood_avg_show: boolean;
-  mood_avg_type?: MoodAvgData["ratingHighestKey"];
-  mood_avg_percentage?: MoodAvgData["ratingHighestPercentage"];
-  mood_peaks_positive_show: boolean;
-  mood_peaks_positive_count?: number;
-  mood_peaks_negative_show: boolean;
-  mood_peaks_negative_count?: number;
-  tags_peaks_show: boolean;
-  tags_peaks_count?: number;
-  tags_distribution_show: boolean;
-  tags_distribution_tag_count?: number;
-  tags_distribution_item_count?: number;
-  mood_chart_show: boolean;
-  mood_chart_item_count?: number;
-  sleep_quality_chart_show: boolean;
-}
 
 /**
  * Full highlights screen with every available statistics card for the
@@ -68,44 +50,37 @@ export const StatisticsHighlights = () => {
   // Effect event: tracks with the latest visibility flags and analytics, but
   // only when the statistics content changes (see the effect below).
   const trackHighlights = useEffectEvent(() => {
-    const cards: HighlightCards = {
+    const highlights: HighlightsProperties = {
+      items_count: statistics.state.itemsCount,
       mood_avg_show: showMoodAvg,
       mood_peaks_positive_show: showMoodPeaksPositve,
       mood_peaks_negative_show: showMoodPeaksNegative,
       tags_peaks_show: showTagPeaks,
       tags_distribution_show: showTagsDistribution,
       mood_chart_show: showMoodChart,
-      sleep_quality_chart_show: showSleepQualityChart,
+      sleep_quality_distribution_show: showSleepQualityChart,
     };
 
-    if (showMoodAvg) {
-      cards.mood_avg_type = statistics.state.moodAvgData.ratingHighestKey;
-      cards.mood_avg_percentage =
-        statistics.state.moodAvgData.ratingHighestPercentage;
-    }
     if (showMoodPeaksPositve) {
-      cards.mood_peaks_positive_count =
+      highlights.mood_peaks_positive_count =
         statistics.state.moodPeaksPositiveData.days.length;
     }
     if (showMoodPeaksNegative) {
-      cards.mood_peaks_negative_count =
+      highlights.mood_peaks_negative_count =
         statistics.state.moodPeaksNegativeData.days.length;
     }
     if (showTagPeaks) {
-      cards.tags_peaks_count = statistics.state.tagsPeaksData.tags.length;
+      highlights.tags_peaks_count = statistics.state.tagsPeaksData.tags.length;
     }
     if (showTagsDistribution) {
-      cards.tags_distribution_tag_count =
+      highlights.tags_distribution_tag_count =
         statistics.state.tagsDistributionData.tags.length;
     }
     if (showMoodChart) {
-      cards.mood_chart_item_count = highlightsItemCount;
+      highlights.mood_chart_item_count = highlightsItemCount;
     }
 
-    analytics.track("statistics_all_highlights", {
-      itemsCount: statistics.state.itemsCount,
-      ...cards,
-    });
+    analytics.track("statistics:all_highlights_viewed", highlights);
   });
 
   // Stays referentially equal while the statistics content is unchanged.

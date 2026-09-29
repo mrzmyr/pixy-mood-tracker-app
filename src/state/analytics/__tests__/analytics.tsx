@@ -156,10 +156,32 @@ describe("useAnalytics()", () => {
     });
 
     await act(() => {
-      hook.result.current.state.track("test-event", { test: true });
+      hook.result.current.state.track("settings:analytics_toggled", {
+        enabled: true,
+      });
     });
 
-    expect(mockCapture).toBeCalledWith("test-event", { test: true });
+    expect(mockCapture).toBeCalledWith("settings:analytics_toggled", {
+      enabled: true,
+    });
+  });
+
+  test("should only accept catalog events and properties", async () => {
+    const hook = await _renderHook();
+    await waitForLoaded(hook);
+    const { track } = hook.result.current.state;
+
+    // Type-level checks, enforced by `bun run type-check`.
+    const calls = [
+      // @ts-expect-error unknown event
+      () => track("unknown_event"),
+      // @ts-expect-error missing required properties
+      () => track("settings:analytics_toggled"),
+      // @ts-expect-error unknown property
+      () => track("settings:analytics_toggled", { enabled: true, text: "" }),
+    ];
+
+    expect(calls).toHaveLength(3);
   });
 
   test("should not `track` while disabled", async () => {
@@ -167,7 +189,9 @@ describe("useAnalytics()", () => {
     await waitForLoaded(hook);
 
     await act(() => {
-      hook.result.current.state.track("test-event", { test: true });
+      hook.result.current.state.track("settings:analytics_toggled", {
+        enabled: true,
+      });
     });
 
     expect(mockCapture).not.toBeCalled();

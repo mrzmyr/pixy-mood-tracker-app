@@ -56,7 +56,9 @@ export const ColorsScreen = () => {
   // the effect when analytics changes.
   const trackScaleChange = useEffectEvent(
     (changedScaleType: typeof scaleType) => {
-      analytics.track("colors_scale_changed", { scaleType: changedScaleType });
+      analytics.track("settings:scale_changed", {
+        scale_type: changedScaleType,
+      });
     }
   );
 
