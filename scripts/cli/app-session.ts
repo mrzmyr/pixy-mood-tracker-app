@@ -466,40 +466,38 @@ const closeAndroid = async (device: Device) => {
   await waitForAndroidShutdown(device.id);
 };
 
-const closeIos = async (device: Device) => {
+const isSimulatorIn = (id: string, state: "Booted" | "Shutdown") =>
+  execFileSync("xcrun", ["simctl", "list", "devices"], { encoding: "utf-8" })
+    .split("\n")
+    .some((line) => line.includes(id) && line.includes(`(${state})`));
+
+const shutdownIos = async (id: string) => {
   await ignoreMissingSession([
     "close",
-    ...getDeviceArgs("ios", device.id),
+    ...getDeviceArgs("ios", id),
     "--shutdown",
   ]);
+  if (isSimulatorIn(id, "Booted")) {
+    execFileSync("xcrun", ["simctl", "shutdown", id]);
+  }
+  const deadline = Date.now() + 30_000;
+  while (!isSimulatorIn(id, "Shutdown")) {
+    if (Date.now() >= deadline) {
+      throw new CliError({
+        status: "simulator_shutdown_timeout",
+        message: "iOS simulator did not shut down",
+        why: `Simulator ${id} was still running after 30 seconds.`,
+        fix: "Check simulator state, then retry close.",
+      });
+    }
+    // oxlint-disable-next-line no-await-in-loop -- wait for simulator shutdown
+    await sleep(500);
+  }
+};
+
+const closeIos = async (device: Device) => {
   try {
-    const deviceLine = execFileSync("xcrun", ["simctl", "list", "devices"], {
-      encoding: "utf-8",
-    })
-      .split("\n")
-      .find((line) => line.includes(device.id));
-    if (deviceLine?.includes("(Booted)")) {
-      execFileSync("xcrun", ["simctl", "shutdown", device.id]);
-    }
-    const deadline = Date.now() + 30_000;
-    while (
-      !execFileSync("xcrun", ["simctl", "list", "devices"], {
-        encoding: "utf-8",
-      })
-        .split("\n")
-        .some((line) => line.includes(device.id) && line.includes("(Shutdown)"))
-    ) {
-      if (Date.now() >= deadline) {
-        throw new CliError({
-          status: "simulator_shutdown_timeout",
-          message: "iOS simulator did not shut down",
-          why: `Simulator ${device.id} was still running after 30 seconds.`,
-          fix: "Check simulator state, then retry close.",
-        });
-      }
-      // oxlint-disable-next-line no-await-in-loop -- wait for simulator shutdown
-      await sleep(500);
-    }
+    await shutdownIos(device.id);
     execFileSync("xcrun", ["simctl", "erase", device.id]);
   } catch (error) {
     if (error instanceof CliError) {
@@ -510,6 +508,28 @@ const closeIos = async (device: Device) => {
       message: "iOS simulator could not be erased",
       why: error instanceof Error ? error.message : String(error),
       fix: "Check simulator state with `xcrun simctl list devices`, then retry.",
+    });
+  }
+};
+
+/** Shut down a simulator or emulator and end its agent-device session. Keeps app data. */
+export const shutdownDevice = async (device: Device) => {
+  if (device.platform === "android") {
+    await shutdownAndroid(device.id);
+    await waitForAndroidShutdown(device.id);
+    return;
+  }
+  try {
+    await shutdownIos(device.id);
+  } catch (error) {
+    if (error instanceof CliError) {
+      throw error;
+    }
+    throw new CliError({
+      status: "simulator_shutdown_failed",
+      message: "iOS simulator could not be shut down",
+      why: error instanceof Error ? error.message : String(error),
+      fix: "Run `bun app close --platform=ios`.",
     });
   }
 };

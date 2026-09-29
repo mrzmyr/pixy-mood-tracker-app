@@ -275,6 +275,12 @@ export const findDevice = (platform: Platform) => {
     : null;
 };
 
+/** Reports whether this checkout's simulator or emulator is running. */
+export const isDeviceBooted = (platform: Platform) =>
+  platform === "ios"
+    ? findIosSimulator()?.state === "Booted"
+    : Boolean(findEmulatorSerial(getAndroidBuildEnv().ANDROID_HOME));
+
 /** Creates and boots the device assigned to this checkout. */
 export const ensureDevice = async (platform: Platform): Promise<Device> => {
   const managed =

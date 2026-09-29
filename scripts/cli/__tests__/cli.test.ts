@@ -69,6 +69,12 @@ describe("CLI options", () => {
         2,
         "invalid_value",
       ],
+      [["e2e", "run", "--platform=ios", "--video=yes"], 2, "unexpected_value"],
+      [
+        ["e2e", "run", "--platform=ios", "--video", "--video"],
+        2,
+        "duplicate_option",
+      ],
       [["builds", "rm"], 2, "missing_option"],
       [["builds", "rm", "some-id"], 2, "unexpected_argument"],
       [["builds", "rm", "--build=no-such-build-id"], 2, "build_not_found"],

@@ -577,7 +577,7 @@
   "statistics": "Statistics",
   "steps_introduction": "Select your check-in steps below.",
   "steps": "Check-in",
-  "storage_load_error_advice": "Close and reopen the app. If this keeps happening, export your data and contact support.",
+  "storage_load_error_advice": "Close and reopen the app. If this keeps happening, export your data and contact support at care@pixy.day.",
   "storage_load_error_body": "Your data is still stored on this device. Nothing was deleted.",
   "storage_load_error_code": "Error code: {{status}}",
   "storage_load_error_contact": "Contact support",

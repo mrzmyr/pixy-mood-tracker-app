@@ -3,7 +3,7 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { agentDevice } from "./agent-device.ts";
-import { getAdb } from "./adb.ts";
+import { getAdb, listPackagesArgs, listsPackage } from "./adb.ts";
 import { CliError } from "./shared.ts";
 import type { Device } from "./device.ts";
 import type { AgentPhone, IosState } from "./target.ts";
@@ -287,7 +287,10 @@ export const isPhoneAppInstalled = (phone: Device, bundleId: string) =>
         ).result?.apps;
         return (apps?.length ?? 0) > 0;
       })
-    : Boolean(run(getAdb(), ["-s", phone.id, "shell", "pm", "path", bundleId]));
+    : listsPackage(
+        run(getAdb(), listPackagesArgs(phone.id, bundleId)),
+        bundleId
+      );
 
 /**
  * Open a link in a running or stopped app on an iPhone. agent-device 0.21.15

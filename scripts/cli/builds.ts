@@ -426,4 +426,4 @@ const BUILDS: Noun = {
 };
 
 /** `bun builds` commands, build list, and cache IDs. */
-export { BUILDS, listBuilds, pruneBuilds, toBuildId };
+export { BUILDS, listBuilds, pruneBuilds, pruneCheckouts, toBuildId };
