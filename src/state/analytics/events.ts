@@ -1,4 +1,5 @@
 import type { FeedackType, FeedbackSource } from "@/features/feedback";
+import type { LoggerStep } from "@/features/logger/config";
 import type { SettingsState } from "@/state/settings";
 
 /**
@@ -12,6 +13,8 @@ import type { SettingsState } from "@/state/settings";
  */
 export interface AnalyticsEvents {
   "app:logs_loaded": { size_mb: number };
+  "app:storage_load_failed": { status: string | number };
+  "app:storage_recovery_tapped": { action: "export" | "contact" };
 
   "onboarding:slide_viewed": { index: number };
   "onboarding:reminder_enabled": undefined;
@@ -19,8 +22,17 @@ export interface AnalyticsEvents {
   "onboarding:flow_completed": undefined;
   "onboarding:flow_skipped": { index: number };
 
+  "logger:flow_started": { mode: "create" | "edit"; steps_count: number };
+  "logger:step_viewed": {
+    mode: "create" | "edit";
+    step: LoggerStep;
+    index: number;
+    steps_count: number;
+  };
+  "logger:step_disabled": { step: LoggerStep };
   "logger:log_saved": {
     mode: "create" | "edit";
+    duration_ms: number;
     has_rating: boolean;
     message_length: number;
     tags_count: number;
@@ -37,6 +49,13 @@ export interface AnalyticsEvents {
   "day:delete_tapped": undefined;
   "day:closed": undefined;
 
+  "calendar:day_opened": {
+    source: "calendar" | "mood_peaks" | "tag_peaks";
+    entries_count: number;
+    days_ago: number;
+  };
+  "calendar:add_today_tapped": { has_entries: boolean };
+  "calendar:today_tapped": undefined;
   "calendar:filters_opened": undefined;
   "calendar:filters_applied": {
     text_length: number;
@@ -81,6 +100,12 @@ export interface AnalyticsEvents {
     color: string;
     has_emoji: boolean;
   };
+  "tags:tag_updated": {
+    title_length: number;
+    color: string;
+    has_emoji: boolean;
+    is_archived: boolean;
+  };
   "tags:delete_requested": AnalyticsEvents["tags:tag_created"];
   "tags:tag_deleted": AnalyticsEvents["tags:tag_created"];
   "tags:delete_cancelled": undefined;
@@ -89,13 +114,19 @@ export interface AnalyticsEvents {
   "settings:vote_features_tapped": undefined;
   "settings:changelog_tapped": undefined;
   "settings:scale_changed": { scale_type: SettingsState["scaleType"] };
+  "settings:step_toggled": { step: LoggerStep; enabled: boolean };
   "settings:privacy_policy_opened": undefined;
   "settings:analytics_toggled": { enabled: boolean };
 
-  "reminders:reminder_toggled": { enabled: boolean };
+  "reminders:reminder_toggled": {
+    enabled: boolean;
+    permission_granted: boolean;
+  };
   "reminders:time_changed": { time: string };
 
   "data:export_started": undefined;
+  "data:export_completed": undefined;
+  "data:export_failed": undefined;
   "data:import_started": undefined;
   "data:import_completed": undefined;
   "data:import_failed": {
@@ -113,6 +144,7 @@ export interface AnalyticsEvents {
     message_length: number;
     has_email: boolean;
   };
+  "feedback:submit_failed": { http_status: number | null };
   "feedback:modal_closed": undefined;
   "feedback:question_answered": { question_id: string; answer_ids: string[] };
 }

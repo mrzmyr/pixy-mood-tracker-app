@@ -1,6 +1,7 @@
 import { DATE_FORMAT } from "@/constants/Config";
 import { useNavigation, StackActions } from "@react-navigation/native";
 import dayjs from "dayjs";
+import { useEffect, useRef } from "react";
 import { useAnalytics } from "@/state/analytics";
 import type { LogItem } from "@/features/logs";
 import { useLogState, useLogUpdater } from "@/features/logs";
@@ -24,6 +25,11 @@ export const useLoggerActions = ({
 }) => {
   const navigation = useNavigation();
   const analytics = useAnalytics();
+  const startedAt = useRef(0);
+
+  useEffect(() => {
+    startedAt.current = Date.now();
+  }, []);
   const logState = useLogState();
   const logUpdater = useLogUpdater();
 
@@ -35,6 +41,7 @@ export const useLoggerActions = ({
   const save = (data: TemporaryLogState) => {
     analytics.track("logger:log_saved", {
       mode,
+      duration_ms: Date.now() - startedAt.current,
       has_rating: data.rating !== null,
       message_length: data.message.length,
       tags_count: data.tags.length,

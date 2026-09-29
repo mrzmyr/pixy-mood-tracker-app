@@ -17,6 +17,7 @@ import {
 import type { RootStackScreenProps } from "../../types";
 import useColors from "../hooks/useColors";
 import { useSettings } from "@/state/settings";
+import { useAnalytics } from "@/state/analytics";
 
 /**
  * Settings > Steps: toggle optional logger steps. `rating` cannot be
@@ -35,6 +36,7 @@ export const StepsScreen = (_props: RootStackScreenProps<"Steps">) => {
   };
 
   const { settings, setSettings } = useSettings();
+  const analytics = useAnalytics();
 
   return (
     <PageWithHeaderLayout
@@ -96,7 +98,11 @@ export const StepsScreen = (_props: RootStackScreenProps<"Steps">) => {
                   <Switch
                     accessibilityLabel={t(`logger_step_${option}`)}
                     testID={`step-${option}-enabled`}
-                    onValueChange={() => {
+                    onValueChange={(enabled) => {
+                      analytics.track("settings:step_toggled", {
+                        step: option,
+                        enabled,
+                      });
                       setSettings((currentSettings) => ({
                         ...currentSettings,
                         steps: currentSettings.steps.includes(option)

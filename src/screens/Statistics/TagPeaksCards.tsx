@@ -61,7 +61,10 @@ const DayDot = ({
         }
 
         await haptics.selection();
-        calendarNavigation.openDay(dayjs(date).format(DATE_FORMAT));
+        calendarNavigation.openDay({
+          date: dayjs(date).format(DATE_FORMAT),
+          source: "tag_peaks",
+        });
       }}
     >
       <Text

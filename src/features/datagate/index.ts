@@ -218,8 +218,12 @@ export const useDatagate = (): DatagateValue => {
       FileSystem.documentDirectory + filename
     );
     if (!isShared) {
+      analytics.track("data:export_failed");
       Alert.alert("Alert", t("export_failed_title"));
+      return;
     }
+
+    analytics.track("data:export_completed");
   };
 
   return {

@@ -83,17 +83,23 @@ export const useFeedback = () => {
             { cancelable: false }
           );
         }
-      } else if (onCancel) {
-        onCancel();
       } else {
-        Alert.alert(
-          t("feedback_error_title"),
-          t("feedback_error_message"),
-          [{ text: t("ok") }],
-          { cancelable: false }
-        );
+        analytics.track("feedback:submit_failed", {
+          http_status: resp.status,
+        });
+        if (onCancel) {
+          onCancel();
+        } else {
+          Alert.alert(
+            t("feedback_error_title"),
+            t("feedback_error_message"),
+            [{ text: t("ok") }],
+            { cancelable: false }
+          );
+        }
       }
     } catch {
+      analytics.track("feedback:submit_failed", { http_status: null });
       if (onCancel) {
         onCancel();
       } else {

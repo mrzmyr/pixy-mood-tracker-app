@@ -38,7 +38,10 @@ const Reminder = () => {
     if (!value) {
       await cancelAll();
     }
-    analytics.track("reminders:reminder_toggled", { enabled: value });
+    analytics.track("reminders:reminder_toggled", {
+      enabled: value,
+      permission_granted: Boolean(has),
+    });
 
     const enable = value && Boolean(has);
 

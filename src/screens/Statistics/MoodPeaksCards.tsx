@@ -64,7 +64,10 @@ const DayDot = ({ date, day }: { date: Date; day: LogDay | undefined }) => {
           return;
         }
         await haptics.selection();
-        calendarNavigation.openDay(dayjs(date).format(DATE_FORMAT));
+        calendarNavigation.openDay({
+          date: dayjs(date).format(DATE_FORMAT),
+          source: "mood_peaks",
+        });
       }}
     >
       <Text

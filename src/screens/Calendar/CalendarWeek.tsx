@@ -78,7 +78,7 @@ const CalendarWeekComponent = ({
 
   const onPressDay = useCallback(
     (date: string) => {
-      calendarNavigation.openDay(date);
+      calendarNavigation.openDay({ date, source: "calendar" });
     },
     [calendarNavigation]
   );

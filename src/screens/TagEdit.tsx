@@ -99,6 +99,12 @@ export const TagEdit = ({
   };
 
   const onSubmit = (updatedTag: ITag) => {
+    analytics.track("tags:tag_updated", {
+      title_length: updatedTag.title.length,
+      color: updatedTag.color,
+      has_emoji: REGEX_EMOJI.test(updatedTag.title),
+      is_archived: Boolean(updatedTag.isArchived),
+    });
     tagsUpdater.updateTag(updatedTag);
     navigation.goBack();
   };
