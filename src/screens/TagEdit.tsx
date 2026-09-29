@@ -65,7 +65,7 @@ export const TagEdit = ({
     await haptics.selection();
 
     analytics.track("delete_tag_ask", {
-      titleLength: tagToDelete.title,
+      titleLength: tagToDelete.title.length,
       color: tagToDelete.color,
       containsEmoji: REGEX_EMOJI.test(tagToDelete.title),
     });
@@ -78,7 +78,7 @@ export const TagEdit = ({
           text: t("delete"),
           onPress: () => {
             analytics.track("tag_delete_success", {
-              titleLength: tagToDelete.title,
+              titleLength: tagToDelete.title.length,
               color: tagToDelete.color,
               containsEmoji: REGEX_EMOJI.test(tagToDelete.title),
             });

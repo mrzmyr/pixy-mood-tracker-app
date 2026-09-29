@@ -90,7 +90,6 @@ const CalendarFiltersProvider = ({
     (filters: FiltersData) => {
       analytics.track("calendar_filters_filtered", {
         textLength: filters.text.length,
-        ratings: filters.ratings,
         ratingsCount: filters.ratings.length,
         tagsCount: filters.tagIds.length,
       });

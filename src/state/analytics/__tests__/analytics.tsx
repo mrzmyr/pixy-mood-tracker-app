@@ -159,7 +159,18 @@ describe("useAnalytics()", () => {
       hook.result.current.state.track("test-event", { test: true });
     });
 
-    expect(mockCapture).toBeCalledWith("test-event");
+    expect(mockCapture).toBeCalledWith("test-event", { test: true });
+  });
+
+  test("should not `track` while disabled", async () => {
+    const hook = await _renderHook();
+    await waitForLoaded(hook);
+
+    await act(() => {
+      hook.result.current.state.track("test-event", { test: true });
+    });
+
+    expect(mockCapture).not.toBeCalled();
   });
 
   test("should `reset`", async () => {

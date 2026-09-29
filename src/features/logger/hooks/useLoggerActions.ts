@@ -34,12 +34,8 @@ export const useLoggerActions = ({
 
   const save = (data: TemporaryLogState) => {
     const eventData = {
-      date: data?.date,
-      dateTime: data?.dateTime,
       messageLength: data?.message.length,
-      rating: data?.rating,
       tagsCount: data?.tags.length,
-      emotions: data?.emotions,
       emotionsCount: data?.emotions.length,
     };
 
