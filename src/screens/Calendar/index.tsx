@@ -7,6 +7,7 @@ import { useCalendarFilters } from "@/features/calendar/filters";
 import useColors from "@/hooks/useColors";
 import { useLogState } from "@/features/logs";
 import { useSettings } from "@/state/settings";
+import { useAnalytics } from "@/state/analytics";
 import Calendar from "./Calendar";
 import { CalendarBottomSheet } from "./CalendarBottomSheet";
 import { Body } from "./CalendarBottomSheet/Body";
@@ -26,6 +27,7 @@ const CalendarScreenComponent = () => {
   "use no memo";
   const colors = useColors();
   const { settings } = useSettings();
+  const analytics = useAnalytics();
   const logState = useLogState();
   const calendarFilters = useCalendarFilters();
   const [isAwayFromToday, setIsAwayFromToday] = useState(false);
@@ -56,6 +58,7 @@ const CalendarScreenComponent = () => {
       {showScrollTopButton && (
         <ScrollToBottomButton
           onPress={() => {
+            analytics.track("calendar:today_tapped");
             scrollRef.current?.scrollToEnd({ animated: true });
           }}
         />

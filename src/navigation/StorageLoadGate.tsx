@@ -1,4 +1,5 @@
 import * as Sentry from "@sentry/react-native";
+import { useEffect, useEffectEvent } from "react";
 import { Alert, Linking, Platform, ScrollView, Text, View } from "react-native";
 import { AlertCircle } from "react-native-feather";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -10,6 +11,7 @@ import { useTagsLoad } from "@/features/tags";
 import { t } from "@/helpers/translation";
 import useColors from "@/hooks/useColors";
 import type { StructuredError } from "@/lib/errors";
+import { useAnalytics } from "@/state/analytics";
 import { useSettingsLoad } from "@/state/settings";
 import pkg from "../../package.json";
 
@@ -35,8 +37,22 @@ const StorageLoadErrorScreen = ({ error }: { error: StructuredError }) => {
   const colors = useColors();
   const insets = useSafeAreaInsets();
   const { Modal: FeedbackModal, show: showFeedbackModal } = useFeedbackModal();
+  const analytics = useAnalytics();
+
+  // Effect event: reads the latest analytics without re-running the effect.
+  // Settings can load after this screen, so track once analytics is on.
+  const trackLoadFailed = useEffectEvent(() => {
+    analytics.track("app:storage_load_failed", { status: error.status });
+  });
+
+  useEffect(() => {
+    if (analytics.isEnabled) {
+      trackLoadFailed();
+    }
+  }, [analytics.isEnabled]);
 
   const contactSupport = async () => {
+    analytics.track("app:storage_recovery_tapped", { action: "contact" });
     try {
       await Linking.openURL(getSupportMailUrl(error));
     } catch {
@@ -99,7 +115,15 @@ const StorageLoadErrorScreen = ({ error }: { error: StructuredError }) => {
         >
           {t("storage_load_error_advice")}
         </Text>
-        <Button onPress={exportData} testID="storage-load-error-export">
+        <Button
+          onPress={() => {
+            analytics.track("app:storage_recovery_tapped", {
+              action: "export",
+            });
+            void exportData();
+          }}
+          testID="storage-load-error-export"
+        >
           {t("storage_load_error_export")}
         </Button>
         <Button

@@ -6,6 +6,7 @@ import { useLogState } from "@/features/logs";
 import type { IQuestion } from "@/features/questioner";
 import { useQuestioner } from "@/features/questioner";
 import { useSettings } from "@/state/settings";
+import { useAnalytics } from "@/state/analytics";
 import type { TemporaryLogState } from "./temporaryLog";
 import { useTemporaryLog } from "./temporaryLog";
 import type { Emotion, TagReference } from "@/types";
@@ -135,6 +136,7 @@ export const Logger = ({
   const logState = useLogState();
 
   const { toggleStep } = useSettings();
+  const analytics = useAnalytics();
 
   const tempLog = useTemporaryLog(initialItem);
 
@@ -243,6 +245,7 @@ export const Logger = ({
           }}
           onDisableStep={async () => {
             await askToDisableStep();
+            analytics.track("logger:step_disabled", { step: "tags" });
             toggleStep("tags");
             next();
           }}
@@ -262,6 +265,7 @@ export const Logger = ({
           }}
           onDisableStep={async () => {
             await askToDisableStep();
+            analytics.track("logger:step_disabled", { step: "message" });
             toggleStep("message");
             next();
           }}
@@ -289,6 +293,7 @@ export const Logger = ({
           onPress={next}
           onDisableStep={async () => {
             await askToDisableFeedbackStep();
+            analytics.track("logger:step_disabled", { step: "feedback" });
             toggleStep("feedback");
             next();
           }}
@@ -317,7 +322,30 @@ export const Logger = ({
     hasMessageSlide && mode === "create" ? messageSlideIndex : null
   );
 
+  // Effect event: reads the latest slides without re-running the effects
+  // below; only mount and slide changes should send events.
+  const trackFlowStarted = useEffectEvent(() => {
+    analytics.track("logger:flow_started", {
+      mode,
+      steps_count: slideKeys.length,
+    });
+  });
+  const trackStepViewed = useEffectEvent(() => {
+    analytics.track("logger:step_viewed", {
+      mode,
+      step: slideKeys[slideIndex],
+      index: slideIndex,
+      steps_count: slideKeys.length,
+    });
+  });
+
   useEffect(() => {
+    trackFlowStarted();
+  }, []);
+
+  useEffect(() => {
+    trackStepViewed();
+
     if (isMounted.current) {
       Keyboard.dismiss();
 

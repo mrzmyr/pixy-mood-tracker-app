@@ -14,7 +14,12 @@ import { LogsProvider, STORAGE_KEY as LOGS_KEY } from "@/features/logs";
 import { TagsProvider } from "@/features/tags";
 import { StorageLoadGate } from "@/navigation/StorageLoadGate";
 import { AnalyticsProvider } from "@/state/analytics";
-import { SettingsProvider } from "@/state/settings";
+import { INITIAL_STATE } from "@/constants/Settings";
+import {
+  SettingsProvider,
+  STORAGE_KEY as SETTINGS_KEY,
+} from "@/state/settings";
+import { usePostHog as getPostHogTestClient } from "posthog-react-native";
 
 // oxlint-disable-next-line anti-slop/no-module-mocking -- react-native-safe-area-context needs native insets that Jest does not provide
 jest.mock("react-native-safe-area-context", () => ({
@@ -27,7 +32,7 @@ jest.mock("@sentry/react-native", () => ({
   captureException: jest.fn(),
 }));
 
-const renderApp = () =>
+const renderApp = ({ isTrackingEnabled = false } = {}) =>
   render(
     <NavigationContainer
       theme={{
@@ -37,7 +42,7 @@ const renderApp = () =>
       }}
     >
       <SettingsProvider>
-        <AnalyticsProvider>
+        <AnalyticsProvider options={{ enabled: isTrackingEnabled }}>
           <LogsProvider>
             <TagsProvider>
               <StorageLoadGate>
@@ -88,6 +93,25 @@ describe("StorageLoadGate", () => {
     expect(screen.getByText("Contact support")).toBeOnTheScreen();
     expect(screen.queryByText("Calendar")).toBeNull();
     expect(await AsyncStorage.getItem(LOGS_KEY)).toBe("🐇");
+  });
+
+  test("load failure code goes to analytics when the user opted in", async () => {
+    // jest.setup.js replaces posthog-react-native with one shared fake client.
+    const { capture } = getPostHogTestClient();
+    jest.mocked(capture).mockClear();
+    await AsyncStorage.setItem(
+      SETTINGS_KEY,
+      JSON.stringify({ ...INITIAL_STATE, analyticsEnabled: true })
+    );
+    await AsyncStorage.setItem(LOGS_KEY, "🐇");
+
+    await renderApp({ isTrackingEnabled: true });
+
+    await waitFor(() =>
+      expect(capture).toHaveBeenCalledWith("app:storage_load_failed", {
+        status: "storage_invalid_value",
+      })
+    );
   });
 
   test("user can export stored data from the error screen", async () => {
