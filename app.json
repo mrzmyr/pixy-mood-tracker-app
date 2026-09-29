@@ -11,7 +11,6 @@
     "ios": {
       "bundleIdentifier": "com.devmood.pixymoodtracker",
       "appleTeamId": "8VVNC4724B",
-      "buildNumber": "1.88.0",
       "supportsTablet": false,
       "appStoreUrl": "https://apps.apple.com/de/app/pixy-mood-tracker/id1605327124",
       "infoPlist": {
@@ -60,7 +59,6 @@
     },
     "android": {
       "package": "com.devmood.pixymoodtracker",
-      "versionCode": 570018800,
       "allowBackup": false,
       "permissions": [],
       "blockedPermissions": ["android.permission.SYSTEM_ALERT_WINDOW"],
