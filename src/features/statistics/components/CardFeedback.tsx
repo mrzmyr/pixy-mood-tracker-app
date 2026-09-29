@@ -3,7 +3,7 @@ import { locale, t } from "@/lib/translation";
 import { useAnalytics } from "@/state/analytics";
 import useColors from "@/hooks/useColors";
 import useHaptics from "@/hooks/useHaptics";
-import { useSettings } from "@/state/settings";
+import { useSetting } from "@/state/settings";
 import * as StoreReview from "expo-store-review";
 import { useState } from "react";
 import {
@@ -126,7 +126,7 @@ export const CardFeedback = ({
 }) => {
   const analytics = useAnalytics();
   const colors = useColors();
-  const { settings } = useSettings();
+  const deviceId = useSetting("deviceId");
 
   const [feedbackSent, setFeedbackSent] = useState(false);
   const [emojiSelected, setEmojiSelected] = useState(null);
@@ -154,7 +154,7 @@ export const CardFeedback = ({
       locale,
       version: pkg.version,
       os: Platform.OS,
-      deviceId: __DEV__ ? "__DEV__" : settings.deviceId,
+      deviceId: __DEV__ ? "__DEV__" : deviceId,
     };
 
     const body = {

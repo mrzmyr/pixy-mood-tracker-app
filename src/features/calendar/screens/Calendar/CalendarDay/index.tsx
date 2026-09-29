@@ -7,7 +7,7 @@ import { DATE_FORMAT } from "@/constants/Config";
 import useColors from "@/hooks/useColors";
 import useHaptics from "@/hooks/useHaptics";
 import type { LogItem } from "@/features/logs";
-import { useSettings } from "@/state/settings";
+import { useSetting } from "@/state/settings";
 
 const styles = StyleSheet.create({
   container: {
@@ -51,9 +51,7 @@ const CalendarDayComponent = ({
   isFiltered: boolean;
   onPress: () => void;
 }) => {
-  const {
-    settings: { scaleType },
-  } = useSettings();
+  const scaleType = useSetting("scaleType");
   const colors = useColors();
   const haptics = useHaptics();
 

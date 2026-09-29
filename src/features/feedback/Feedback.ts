@@ -5,7 +5,7 @@ import { APP_VARIANT, HAS_APP_VARIANT } from "@/constants/AppVariant";
 import { t } from "@/lib/translation";
 import pkg from "../../../package.json";
 import { useAnalytics } from "@/state/analytics";
-import { useSettings } from "@/state/settings";
+import { useSetting } from "@/state/settings";
 import type { FeedackType, FeedbackSource } from "@/types/Feedback";
 
 export type { FeedackType, FeedbackSource } from "@/types/Feedback";
@@ -18,7 +18,7 @@ export type { FeedackType, FeedbackSource } from "@/types/Feedback";
  * Network and HTTP errors never reject.
  */
 export const useFeedback = () => {
-  const { settings } = useSettings();
+  const deviceId = useSetting("deviceId");
   const analytics = useAnalytics();
 
   const send = async ({
@@ -42,7 +42,7 @@ export const useFeedback = () => {
       os: Platform.OS,
       date: new Date().toISOString(),
       source,
-      deviceId: settings.deviceId,
+      deviceId,
       environment: HAS_APP_VARIANT ? APP_VARIANT : undefined,
     };
 
