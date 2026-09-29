@@ -40,7 +40,7 @@ const FeedbackModalContent = ({
   const [isLoading, setIsLoading] = useState(false);
 
   const setTypeProxy = (nextType: FeedackType) => {
-    analytics.track("feedback_type_change", { type: nextType });
+    analytics.track("feedback:type_changed", { type: nextType });
     setType(nextType);
   };
 
@@ -233,12 +233,12 @@ export default function useFeedbackModal() {
   const [defaultType, setDefaultType] = useState<FeedackType>("issue");
 
   const show = ({ type = "issue" }: { type: FeedackType }) => {
-    analytics.track("feedback_open");
+    analytics.track("feedback:modal_opened", { type });
     setDefaultType(type);
     setVisible(true);
   };
   const hide = () => {
-    analytics.track("feedback_close");
+    analytics.track("feedback:modal_closed");
     setVisible(false);
   };
 

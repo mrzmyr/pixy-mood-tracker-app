@@ -214,7 +214,7 @@ export const SlideEmotions = ({
             <Tooltip
               emotion={selectedEmotions.at(-1)}
               onClose={() => {
-                analytics.track("log_emotions_tooltip_close");
+                analytics.track("logger:emotions_tooltip_closed");
                 setShowTooltip(false);
               }}
             />

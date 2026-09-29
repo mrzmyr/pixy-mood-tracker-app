@@ -117,13 +117,13 @@ export const useDatagate = (): DatagateValue => {
       if (!muted) {
         showImportSuccess();
       }
-      analytics.track("data_import_success");
+      analytics.track("data:import_completed");
     } else {
       console.log("import failed, json schema:", jsonSchemaType);
       if (!muted) {
         showImportError();
       }
-      analytics.track("data_import_error", {
+      analytics.track("data:import_failed", {
         reason: "invalid_json_schema",
       });
     }
@@ -144,12 +144,11 @@ export const useDatagate = (): DatagateValue => {
     await askToImport();
 
     try {
-      analytics.track("data_import_start");
+      analytics.track("data:import_started");
 
       const uri = await getFileTransfer().pickJson();
 
       if (uri) {
-        analytics.track("data_import_success");
         const contents = await FileSystem.readAsStringAsync(uri);
         const data = JSON.parse(contents);
 
@@ -157,14 +156,14 @@ export const useDatagate = (): DatagateValue => {
       }
     } catch {
       showImportError();
-      analytics.track("data_import_error", {
+      analytics.track("data:import_failed", {
         reason: "document_picker_error",
       });
     }
   };
 
   const openResetDialog = async (type: ResetType) => {
-    analytics.track("data_reset_asked");
+    analytics.track("data:reset_requested", { kind: type });
     const resetFn = type === "factory" ? factoryReset : reset;
 
     if (Platform.OS === "web") {
@@ -177,12 +176,10 @@ export const useDatagate = (): DatagateValue => {
     try {
       await askToReset<ResetType>(type);
       resetFn();
-      analytics.track("data_reset_success", {
-        type,
-      });
+      analytics.track("data:reset_completed", { kind: type });
       showResetSuccess<ResetType>(type);
     } catch {
-      analytics.track("data_reset_cancel");
+      analytics.track("data:reset_cancelled", { kind: type });
     }
   };
 
@@ -204,7 +201,7 @@ export const useDatagate = (): DatagateValue => {
       },
     };
 
-    analytics.track("data_export_started");
+    analytics.track("data:export_started");
 
     if (Platform.OS === "web") {
       return Alert.alert("Not supported on web");

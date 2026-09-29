@@ -94,12 +94,12 @@ export const ReminderSlide = ({
   };
 
   const onLater = () => {
-    analytics.track("onboarding_reminder_later");
+    analytics.track("onboarding:reminder_postponed");
     setIndex(index + 1);
   };
 
   const onEnable = async () => {
-    analytics.track("onboarding_reminder_enable");
+    analytics.track("onboarding:reminder_enabled");
     await enable();
     setIndex(index + 1);
   };

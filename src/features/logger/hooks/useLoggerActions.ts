@@ -33,25 +33,22 @@ export const useLoggerActions = ({
   };
 
   const save = (data: TemporaryLogState) => {
-    const eventData = {
-      messageLength: data?.message.length,
-      tagsCount: data?.tags.length,
-      emotionsCount: data?.emotions.length,
-    };
+    analytics.track("logger:log_saved", {
+      mode,
+      has_rating: data.rating !== null,
+      message_length: data.message.length,
+      tags_count: data.tags.length,
+      emotions_count: data.emotions.length,
+    });
 
     if (data.rating === null) {
-      analytics.track("log_saved_without_rating", eventData);
       data.rating = "neutral";
     }
 
-    analytics.track("log_saved", eventData);
-
     if (mode === "edit") {
-      analytics.track("log_changed", eventData);
       // SAFETY: rating is non-null after the fallback above; a null sleep.quality is stored as-is and statistics treat it as missing.
       logUpdater.editLog(data as LogItem);
     } else {
-      analytics.track("log_created", eventData);
       // SAFETY: rating is non-null after the fallback above; a null sleep.quality is stored as-is and statistics treat it as missing.
       logUpdater.addLog(data as LogItem);
 
@@ -71,13 +68,13 @@ export const useLoggerActions = ({
   };
 
   const remove = () => {
-    analytics.track("log_deleted");
+    analytics.track("logger:log_deleted");
     logUpdater.deleteLog(tempLog.data.id);
     close();
   };
 
   const cancel = () => {
-    analytics.track("log_cancled");
+    analytics.track("logger:flow_cancelled", { mode });
     close();
   };
 

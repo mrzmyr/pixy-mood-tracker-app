@@ -43,10 +43,10 @@ export const TagCreate = ({
   });
 
   const onCreate = () => {
-    analytics.track("tag_create", {
-      titleLength: tempTag.title.length,
+    analytics.track("tags:tag_created", {
+      title_length: tempTag.title.length,
       color: tempTag.color,
-      containsEmoji: REGEX_EMOJI.test(tempTag.title),
+      has_emoji: REGEX_EMOJI.test(tempTag.title),
     });
 
     setTempTag({

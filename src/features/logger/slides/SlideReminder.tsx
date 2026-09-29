@@ -56,12 +56,12 @@ export const SlideReminder = ({ onPress }: { onPress?: () => void }) => {
   };
 
   const onLater = () => {
-    analytics.track("log_reminder_later");
+    analytics.track("logger:reminder_postponed");
     onPress?.();
   };
 
   const onEnable = async () => {
-    analytics.track("log_reminder_enable");
+    analytics.track("logger:reminder_enabled");
     await enable();
     onPress?.();
   };
@@ -147,7 +147,7 @@ export const SlideReminder = ({ onPress }: { onPress?: () => void }) => {
               marginBottom: 8,
             }}
           >
-            {t("log_reminder_enable")}
+            {t("logger:reminder_enabled")}
           </Button>
           <LinkButton
             type="secondary"
@@ -157,7 +157,7 @@ export const SlideReminder = ({ onPress }: { onPress?: () => void }) => {
               paddingBottom: 16,
             }}
           >
-            {t("log_reminder_later")}
+            {t("logger:reminder_postponed")}
           </LinkButton>
         </View>
       </View>

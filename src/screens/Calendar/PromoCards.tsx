@@ -112,7 +112,7 @@ export const PromoCards = () => {
         subtitle={t("new_release")}
         title={mostRecentRssItem.title}
         onPress={() => {
-          analytics.track("promo_changelog_clicked");
+          analytics.track("calendar:promo_tapped", { card: "changelog" });
           WebBrowser.openBrowserAsync(mostRecentRssItem.id);
         }}
       />

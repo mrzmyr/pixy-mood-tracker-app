@@ -23,7 +23,7 @@ export const PrivacyScreen = () => {
     await WebBrowser.openBrowserAsync("https://pixy.day/privacy", {
       readerMode: true,
     });
-    analytics.track("privacy_policy_opened");
+    analytics.track("settings:privacy_policy_opened");
   };
 
   return (
@@ -87,7 +87,7 @@ export const PrivacyScreen = () => {
                 <Switch
                   ios_backgroundColor={colors.backgroundSecondary}
                   onValueChange={() => {
-                    analytics.track("analytics_toggle", {
+                    analytics.track("settings:analytics_toggled", {
                       enabled: !analytics.isEnabled,
                     });
                     if (analytics.isEnabled) {

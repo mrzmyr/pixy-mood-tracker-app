@@ -88,10 +88,10 @@ const CalendarFiltersProvider = ({
 
   const set = useCallback(
     (filters: FiltersData) => {
-      analytics.track("calendar_filters_filtered", {
-        textLength: filters.text.length,
-        ratingsCount: filters.ratings.length,
-        tagsCount: filters.tagIds.length,
+      analytics.track("calendar:filters_applied", {
+        text_length: filters.text.length,
+        ratings_count: filters.ratings.length,
+        tags_count: filters.tagIds.length,
       });
 
       const isFiltering =
@@ -117,17 +117,17 @@ const CalendarFiltersProvider = ({
   );
 
   const reset = useCallback(() => {
-    analytics.track("calendar_filters_reset");
+    analytics.track("calendar:filters_reset");
     setData(initialState);
   }, [analytics]);
 
   const open = useCallback(() => {
-    analytics.track("calendar_filters_opened");
+    analytics.track("calendar:filters_opened");
     setIsOpen(true);
   }, [analytics]);
 
   const close = useCallback(() => {
-    analytics.track("calendar_filters_closed");
+    analytics.track("calendar:filters_closed");
     setIsOpen(false);
   }, [analytics]);
 

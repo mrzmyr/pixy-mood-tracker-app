@@ -38,7 +38,7 @@ const Reminder = () => {
     if (!value) {
       await cancelAll();
     }
-    analytics.track("reminder_enabled_change", { enabled: value });
+    analytics.track("reminders:reminder_toggled", { enabled: value });
 
     const enable = value && Boolean(has);
 
@@ -71,7 +71,7 @@ const Reminder = () => {
   ]);
 
   const onTimeChange = (event: DateTimePickerEvent, selectedDate?: Date) => {
-    analytics.track("reminder_time_change", {
+    analytics.track("reminders:time_changed", {
       time: dayjs(selectedDate).format("HH:mm"),
     });
     setReminderTime(dayjs(selectedDate).format("HH:mm"));

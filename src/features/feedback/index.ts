@@ -57,11 +57,11 @@ export const useFeedback = () => {
       email,
     };
 
-    analytics.track("feedback_send", {
+    analytics.track("feedback:feedback_submitted", {
       type,
       source,
-      messageLength: message.length,
-      hasEmail: Boolean(email),
+      message_length: message.length,
+      has_email: Boolean(email),
     });
 
     try {

@@ -43,12 +43,12 @@ export const LogList = ({
     .sort((a, b) => (getItemTime(a) < getItemTime(b) ? -1 : 1));
 
   const close = () => {
-    analytics.track("log_list_close");
+    analytics.track("day:closed");
     navigation.goBack();
   };
 
   const add = () => {
-    analytics.track("log_list_add");
+    analytics.track("day:add_tapped");
     navigation.navigate("LogCreate", {
       dateTime: dayjs(date)
         .hour(dayjs().hour())
@@ -58,12 +58,12 @@ export const LogList = ({
   };
 
   const edit = (item: LogItem) => {
-    analytics.track("log_list_edit");
+    analytics.track("day:edit_tapped");
     navigation.navigate("LogEdit", { id: item.id });
   };
 
   const remove = (item: LogItem) => {
-    analytics.track("log_list_delete");
+    analytics.track("day:delete_tapped");
     logUpdater.deleteLog(item.id);
     // navigation.goBack();
   };

@@ -166,10 +166,10 @@ export const CardFeedback = ({
 
     console.log("Sending statistics feedback", body);
 
-    analytics.track("statistics_feedback", {
-      type: analyticsId,
+    analytics.track("statistics:card_feedback_submitted", {
+      card: analyticsId,
       emoji,
-      commentLength: comment.length,
+      comment_length: comment.length,
     });
 
     try {
@@ -206,13 +206,13 @@ export const CardFeedback = ({
     } else {
       send(emoji);
       if ((await StoreReview.hasAction()) && variant === "default") {
-        analytics.track("statistics_feedback_store_review_request");
+        analytics.track("statistics:store_review_requested");
         void (async () => {
           try {
             await StoreReview.requestReview();
-            analytics.track("statistics_feedback_store_review_done");
+            analytics.track("statistics:store_review_completed");
           } catch {
-            analytics.track("statistics_feedback_store_review_error");
+            analytics.track("statistics:store_review_failed");
           }
         })();
       }
