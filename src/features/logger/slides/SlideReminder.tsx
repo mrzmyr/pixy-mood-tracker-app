@@ -152,7 +152,7 @@ export const SlideReminder = ({ onPress }: { onPress?: () => void }) => {
               marginBottom: 8,
             }}
           >
-            {t("logger:reminder_enabled")}
+            {t("log_reminder_enable")}
           </Button>
           <LinkButton
             type="secondary"
@@ -162,7 +162,7 @@ export const SlideReminder = ({ onPress }: { onPress?: () => void }) => {
               paddingBottom: 16,
             }}
           >
-            {t("logger:reminder_postponed")}
+            {t("log_reminder_later")}
           </LinkButton>
         </View>
       </View>

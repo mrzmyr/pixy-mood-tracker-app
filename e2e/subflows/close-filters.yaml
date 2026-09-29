@@ -8,6 +8,7 @@ appId: ${APP_ID}
     commands:
       - tapOn:
           id: "calendar-filter-done"
+      - waitForAnimationToEnd
 - runFlow:
     when:
       platform: Android

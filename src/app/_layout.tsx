@@ -6,6 +6,7 @@ import {
   DefaultTheme,
   useRootNavigationState,
   useRouter,
+  usePathname,
 } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { useEffect, useEffectEvent } from "react";
@@ -36,6 +37,7 @@ Observe.configure({ dispatchingEnabled: false });
 const AppShell = () => {
   const { settings, hasActionDone } = useSettings();
   const router = useRouter();
+  const pathname = usePathname();
   const rootState = useRootNavigationState();
   const analytics = useAnalytics();
   const logState = useLogState();
@@ -44,7 +46,12 @@ const AppShell = () => {
   useScreenTracking();
 
   const onSettingsLoaded = useEffectEvent(() => {
-    if (!hasActionDone("onboarding")) {
+    // Fixture links replace fresh state before onboarding chooses a route.
+    if (
+      !hasActionDone("onboarding") &&
+      pathname !== "/dev/fixture" &&
+      pathname !== "/dev/fake-files"
+    ) {
       router.replace("/onboarding");
     }
     if (!analytics.isIdentified) {

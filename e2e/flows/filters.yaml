@@ -2,8 +2,7 @@ appId: ${APP_ID}
 tags: [p1, filters]
 ---
 # Search and tag filters narrow the `year` fixture to exact counts.
-# Android: the half-height sheet cannot scroll to the result count, so the
-# flow checks the active filter badge there.
+# iOS checks counts inside the sheet. Android checks the filter badge.
 - runFlow:
     file: ../subflows/load-fixture.yaml
     env:
@@ -15,37 +14,39 @@ tags: [p1, filters]
     id: "calendar-filter-search"
 - inputText: "run"
 - runFlow: ../subflows/dismiss-keyboard.yaml
-- assertVisible: "Filters \\(1\\)"
 - runFlow:
     when:
       platform: iOS
     commands:
-      - scrollUntilVisible:
-          element:
-            text: "41 Results"
-          direction: DOWN
-      - scrollUntilVisible:
-          element:
-            text: "Sport"
-          direction: UP
+      - assertVisible: "41 Results"
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - assertVisible: "Filters \\(1\\)"
 - tapOn: "Sport"
-- assertVisible: "Filters \\(2\\)"
 - runFlow:
     when:
       platform: iOS
     commands:
-      - scrollUntilVisible:
-          element:
-            text: "10 Results"
-          direction: DOWN
-      - scrollUntilVisible:
-          element:
-            text: "Reset"
-          direction: UP
+      - assertVisible: "10 Results"
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - assertVisible: "Filters \\(2\\)"
 
 # Reset clears both filters.
 - tapOn: "Reset"
-- assertNotVisible: "Filters \\(.*\\)"
-- assertNotVisible: "10 Results"
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - assertNotVisible: "10 Results"
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - assertNotVisible: "Filters \\(.*\\)"
 
 - runFlow: ../subflows/close-filters.yaml

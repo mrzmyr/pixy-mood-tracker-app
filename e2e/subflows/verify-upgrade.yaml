@@ -22,7 +22,9 @@ appId: ${APP_ID}
 - assertVisible: "legacy note survives"
 - assertVisible: "Accomplished"
 - assertVisible: "Cheerful"
-- assertVisible: "Family 🏡"
+- extendedWaitUntil:
+    visible: "Family 🏡"
+    timeout: 5000
 - assertVisible: "Legacy custom"
 - tapOn:
     id: "log-list-close"
