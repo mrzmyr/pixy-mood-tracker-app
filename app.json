@@ -7,9 +7,7 @@
     "icon": "./assets/images/icon.png",
     "scheme": "pixy",
     "userInterfaceStyle": "automatic",
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "bundleIdentifier": "com.devmood.pixymoodtracker",
       "appleTeamId": "8VVNC4724B",
@@ -65,9 +63,7 @@
       "versionCode": 570018800,
       "allowBackup": false,
       "permissions": [],
-      "blockedPermissions": [
-        "android.permission.SYSTEM_ALERT_WINDOW"
-      ],
+      "blockedPermissions": ["android.permission.SYSTEM_ALERT_WINDOW"],
       "icon": "./assets/images/icon.png",
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
