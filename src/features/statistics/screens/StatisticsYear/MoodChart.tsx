@@ -2,7 +2,7 @@ import dayjs from "dayjs";
 import type { Dayjs } from "dayjs";
 
 import { Dimensions } from "react-native";
-import { t } from "@/helpers/translation";
+import { t } from "@/lib/translation";
 import { useLogState } from "@/features/logs";
 import { getRatingDistributionForYear } from "../../RatingDistribution";
 

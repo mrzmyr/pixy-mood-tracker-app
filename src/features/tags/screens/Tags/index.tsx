@@ -8,7 +8,7 @@ import LinkButton from "@/components/LinkButton";
 import ModalHeader from "@/components/ModalHeader";
 import { TagList } from "../../components/TagList";
 import { MAX_TAGS } from "@/constants/Config";
-import { t } from "@/helpers/translation";
+import { t } from "@/lib/translation";
 import { LinearGradient } from "expo-linear-gradient";
 import _ from "lodash";
 import { Platform, ScrollView, View } from "react-native";

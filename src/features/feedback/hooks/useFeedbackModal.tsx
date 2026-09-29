@@ -12,7 +12,7 @@ import DismissKeyboard from "@/components/DismisKeyboard";
 import LinkButton from "@/components/LinkButton";
 import ModalHeader from "@/components/ModalHeader";
 import TextArea from "@/components/TextArea";
-import { t } from "@/helpers/translation";
+import { t } from "@/lib/translation";
 import { useAnalytics } from "@/state/analytics";
 import useColors from "@/hooks/useColors";
 import { useFeedback } from "../Feedback";

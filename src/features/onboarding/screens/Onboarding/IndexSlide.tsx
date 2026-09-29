@@ -1,7 +1,7 @@
 import { Text, View } from "react-native";
 import Animated, { FadeInUp } from "react-native-reanimated";
 import Button from "@/components/Button";
-import { t } from "@/helpers/translation";
+import { t } from "@/lib/translation";
 import useColors from "@/hooks/useColors";
 import { HeaderImage } from "./HeaderImage";
 

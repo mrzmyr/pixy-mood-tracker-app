@@ -1,5 +1,6 @@
 import dayjs from "dayjs";
 import { DATE_FORMAT } from "@/constants/Config";
+// oxlint-disable-next-line eslint/no-restricted-imports -- Persisted feature types stay in their modules until storage refactor.
 import type { LogItem } from "@/features/logs";
 
 // Log updates replace entry objects instead of mutating them, so values

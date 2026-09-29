@@ -1,5 +1,5 @@
 import { Card } from "../../components/Card";
-import { t } from "@/helpers/translation";
+import { t } from "@/lib/translation";
 import dayjs from "dayjs";
 import { Dimensions, View } from "react-native";
 import { useLogState } from "@/features/logs";

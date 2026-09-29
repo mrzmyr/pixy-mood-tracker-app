@@ -38,7 +38,7 @@ import Providers from "@/components/Providers";
 import { SENTRY_DSN } from "@/constants/API";
 import { APP_VARIANT, HAS_APP_VARIANT } from "@/constants/AppVariant";
 import Colors from "@/constants/Colors";
-import { initializeDayjs, t } from "@/helpers/translation";
+import { initializeDayjs, t } from "@/lib/translation";
 import { useAnalytics } from "@/state/analytics";
 import { navigationRef, useScreenTracking } from "@/navigation/screenTracking";
 import { useAnonymizer } from "@/state/analytics/anonymizer";

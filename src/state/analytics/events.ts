@@ -1,5 +1,5 @@
-import type { FeedackType, FeedbackSource } from "@/features/feedback";
-import type { LoggerStep } from "@/features/logger";
+import type { FeedackType, FeedbackSource } from "@/types/Feedback";
+import type { LoggerStep } from "@/constants/LoggerSteps";
 import type { SettingsState } from "@/state/settings";
 
 /**

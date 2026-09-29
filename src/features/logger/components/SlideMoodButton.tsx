@@ -1,3 +1,4 @@
+import { useSettings } from "@/state/settings";
 import {
   Dimensions,
   Platform,
@@ -26,7 +27,8 @@ export const SlideMoodButton = ({
   onPress: () => void;
 }) => {
   const haptics = useHaptics();
-  const scale = useScale();
+  const { settings } = useSettings();
+  const scale = useScale(settings.scaleType);
   const colorScheme = useColorScheme();
 
   const height = Math.max(40, (SCREEN_HEIGHT * 0.48) / 7);

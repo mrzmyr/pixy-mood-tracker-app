@@ -1,5 +1,5 @@
 import { Image, Platform, Text, View } from "react-native";
-import { t } from "@/helpers/translation";
+import { t } from "@/lib/translation";
 import useColors from "@/hooks/useColors";
 
 const NotificationPreview = () => {

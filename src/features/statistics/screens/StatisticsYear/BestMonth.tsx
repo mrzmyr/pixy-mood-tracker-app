@@ -1,5 +1,5 @@
 import { NotEnoughDataOverlay } from "../../components/NotEnoughDataOverlay";
-import { t } from "@/helpers/translation";
+import { t } from "@/lib/translation";
 import useColors from "@/hooks/useColors";
 import { useLogState } from "@/features/logs";
 import { RATING_MAPPING } from "@/constants/Ratings";

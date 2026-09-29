@@ -5,7 +5,7 @@ import type {
   NotificationTriggerInput,
 } from "expo-notifications";
 import { Alert, Platform } from "react-native";
-import { t } from "@/helpers/translation";
+import { t } from "@/lib/translation";
 
 const isWeb = Platform.OS === "web";
 

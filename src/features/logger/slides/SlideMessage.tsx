@@ -1,5 +1,5 @@
 import { getLogEditMarginTop } from "@/helpers/responsive";
-import { t } from "@/helpers/translation";
+import { t } from "@/lib/translation";
 import useColors from "@/hooks/useColors";
 import type { LogItem } from "@/features/logs";
 import { useTemporaryLog } from "../temporaryLog";

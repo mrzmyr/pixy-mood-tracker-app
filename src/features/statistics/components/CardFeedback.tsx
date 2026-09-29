@@ -1,5 +1,5 @@
 import { STATISTICS_FEEDBACK_URL } from "@/constants/API";
-import { locale, t } from "@/helpers/translation";
+import { locale, t } from "@/lib/translation";
 import { useAnalytics } from "@/state/analytics";
 import useColors from "@/hooks/useColors";
 import useHaptics from "@/hooks/useHaptics";

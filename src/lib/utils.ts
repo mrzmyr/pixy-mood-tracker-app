@@ -2,7 +2,8 @@ import { Dimensions } from "react-native";
 import dayjs from "dayjs";
 import groupBy from "lodash/groupBy";
 import sortBy from "lodash/sortBy";
-import { t } from "@/helpers/translation";
+import { t } from "@/lib/translation";
+// oxlint-disable-next-line eslint/no-restricted-imports -- Persisted feature types stay in their modules until storage refactor.
 import type { LogDay, LogItem } from "@/features/logs";
 import {
   RATING_KEYS,

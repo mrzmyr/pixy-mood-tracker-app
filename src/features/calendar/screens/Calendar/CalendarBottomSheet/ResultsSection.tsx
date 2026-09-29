@@ -1,5 +1,5 @@
 import { Text, View } from "react-native";
-import { t } from "@/helpers/translation";
+import { t } from "@/lib/translation";
 import useColors from "@/hooks/useColors";
 
 /** Number of entries that match the current calendar filters. */

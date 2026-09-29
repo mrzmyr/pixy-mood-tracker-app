@@ -6,7 +6,7 @@ import {
 } from "react-native-feather";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import type { SvgProps } from "react-native-svg";
-import { t } from "@/helpers/translation";
+import { t } from "@/lib/translation";
 import useColors from "@/hooks/useColors";
 import useHaptics from "@/hooks/useHaptics";
 import { SettingsScreen } from "@/features/settings";

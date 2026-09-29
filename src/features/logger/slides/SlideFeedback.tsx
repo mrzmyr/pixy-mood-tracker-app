@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Pressable, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { language, t } from "@/helpers/translation";
+import { language, t } from "@/lib/translation";
 import useColors from "@/hooks/useColors";
 import useHaptics from "@/hooks/useHaptics";
 import { useQuestioner } from "@/features/questioner";

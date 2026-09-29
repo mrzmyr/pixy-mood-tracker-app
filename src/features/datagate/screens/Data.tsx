@@ -3,7 +3,7 @@ import { Download, Trash, Upload } from "react-native-feather";
 import MenuList from "@/components/MenuList";
 import MenuListItem from "@/components/MenuListItem";
 import TextInfo from "@/components/TextInfo";
-import { t } from "@/helpers/translation";
+import { t } from "@/lib/translation";
 import useColors from "@/hooks/useColors";
 import { useDatagate } from "../DataGate";
 import type { RootStackScreenProps } from "../../../../types";

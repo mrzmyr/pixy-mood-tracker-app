@@ -1,5 +1,5 @@
 import LinkButton from "@/components/LinkButton";
-import { t } from "@/helpers/translation";
+import { t } from "@/lib/translation";
 import { useFeedbackModal } from "@/features/feedback";
 import type { Emotion } from "@/types";
 import chunk from "lodash/chunk";

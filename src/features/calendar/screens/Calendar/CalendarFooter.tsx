@@ -1,5 +1,5 @@
 import Button from "@/components/Button";
-import { t } from "@/helpers/translation";
+import { t } from "@/lib/translation";
 import useColors from "@/hooks/useColors";
 import { useLogState } from "@/features/logs";
 import { useNavigation } from "@react-navigation/native";

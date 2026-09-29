@@ -6,7 +6,7 @@ import { BigCard } from "../../components/BigCard";
 import { RatingChart } from "../../components/RatingChart";
 import type { ScaleItem } from "../../components/RatingChart";
 
-import { t } from "@/helpers/translation";
+import { t } from "@/lib/translation";
 import { getRatingDistributionForXDays } from "../../RatingDistribution";
 import { NotEnoughDataOverlay } from "../../components/NotEnoughDataOverlay";
 import { CardFeedback } from "../../components/CardFeedback";

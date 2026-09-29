@@ -8,7 +8,7 @@ import { exportRawStorage } from "@/features/datagate";
 import { useFeedbackModal } from "@/features/feedback";
 import { useLogLoad } from "@/features/logs";
 import { useTagsLoad } from "@/features/tags";
-import { t } from "@/helpers/translation";
+import { t } from "@/lib/translation";
 import useColors from "@/hooks/useColors";
 import type { StructuredError } from "@/lib/errors";
 import { useAnalytics } from "@/state/analytics";

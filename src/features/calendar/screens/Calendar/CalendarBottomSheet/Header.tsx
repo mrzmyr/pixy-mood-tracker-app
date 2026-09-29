@@ -1,6 +1,6 @@
 import { Text, View } from "react-native";
 import LinkButton from "@/components/LinkButton";
-import { t } from "@/helpers/translation";
+import { t } from "@/lib/translation";
 import { useCalendarFilters } from "../../../filters";
 import useColors from "@/hooks/useColors";
 

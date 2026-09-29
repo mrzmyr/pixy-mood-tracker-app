@@ -1,5 +1,7 @@
 import omit from "lodash/omit";
+// oxlint-disable-next-line eslint/no-restricted-imports -- Persisted feature types stay in their modules until storage refactor.
 import type { LogDay, LogItem } from "@/features/logs";
+// oxlint-disable-next-line eslint/no-restricted-imports -- Persisted feature types stay in their modules until storage refactor.
 import type { Tag } from "@/features/tags";
 
 interface AnonmizedTag extends Omit<Tag, "title"> {

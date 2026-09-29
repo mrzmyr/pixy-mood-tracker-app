@@ -1,5 +1,5 @@
 import LinkButton from "@/components/LinkButton";
-import { t } from "@/helpers/translation";
+import { t } from "@/lib/translation";
 import { useCalendarFilters, CalendarScreen } from "@/features/calendar";
 import useColors from "@/hooks/useColors";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";

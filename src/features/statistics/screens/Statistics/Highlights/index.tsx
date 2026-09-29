@@ -11,7 +11,7 @@ import { MoodPeaksCard } from "../MoodPeaksCards";
 import { TagPeaksCard } from "../TagPeaksCards";
 import { TagsDistributionCard } from "../TagsDistributionCard";
 import { Title } from "../Title";
-import { t } from "@/helpers/translation";
+import { t } from "@/lib/translation";
 import dayjs from "dayjs";
 import { DATE_FORMAT } from "@/constants/Config";
 import { MoodChart } from "../MoodChart";

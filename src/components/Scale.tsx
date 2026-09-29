@@ -1,5 +1,6 @@
 import { View } from "react-native";
 import useHaptics from "@/hooks/useHaptics";
+// oxlint-disable-next-line eslint/no-restricted-imports -- Persisted feature types stay in their modules until storage refactor.
 import type { LogItem } from "@/features/logs";
 import useScale from "@/hooks/useScale";
 import type { SettingsState } from "@/state/settings";

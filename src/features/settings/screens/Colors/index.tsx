@@ -8,7 +8,7 @@ import {
 import { ScrollView, View } from "react-native";
 import MenuListHeadline from "@/components/MenuListHeadline";
 import TextInfo from "@/components/TextInfo";
-import { t } from "@/helpers/translation";
+import { t } from "@/lib/translation";
 import { useAnalytics } from "@/state/analytics";
 import useColors from "@/hooks/useColors";
 import { useSettings } from "@/state/settings";

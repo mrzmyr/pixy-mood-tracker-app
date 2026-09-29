@@ -26,7 +26,7 @@ import TextInfo from "@/components/TextInfo";
 import { APP_VARIANT, HAS_APP_VARIANT } from "@/constants/AppVariant";
 import { CHANGELOG_URL, FEEDBACK_FEATURES_URL } from "@/constants/Config";
 import { DEV_TOOLS } from "@/dev";
-import { t } from "@/helpers/translation";
+import { t } from "@/lib/translation";
 import { useAnalytics } from "@/state/analytics";
 import useColors from "@/hooks/useColors";
 import { useFeedbackModal } from "@/features/feedback";

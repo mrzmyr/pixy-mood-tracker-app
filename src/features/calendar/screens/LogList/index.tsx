@@ -1,7 +1,7 @@
 import Button from "@/components/Button";
 import { PageModalLayout } from "@/components/PageModalLayout";
 import { askToRemove } from "@/helpers/prompts";
-import { t } from "@/helpers/translation";
+import { t } from "@/lib/translation";
 import { useAnalytics } from "@/state/analytics";
 import useColors from "@/hooks/useColors";
 import { useLogState, useLogUpdater } from "@/features/logs";

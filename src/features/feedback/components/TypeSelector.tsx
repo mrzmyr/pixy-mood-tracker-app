@@ -1,6 +1,6 @@
 import { Pressable, Text, View } from "react-native";
 import { MoreHorizontal } from "react-native-feather";
-import { t } from "@/helpers/translation";
+import { t } from "@/lib/translation";
 import useColors from "@/hooks/useColors";
 import type { FeedackType } from "../Feedback";
 import useHaptics from "@/hooks/useHaptics";

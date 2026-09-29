@@ -1,6 +1,6 @@
 import { Card } from "../../components/Card";
 import { CardFeedback } from "../../components/CardFeedback";
-import { t } from "@/helpers/translation";
+import { t } from "@/lib/translation";
 import useColors from "@/hooks/useColors";
 import type { EmotionsDistributionData } from "../../EmotionsDistributuon";
 import type { Emotion } from "@/types";

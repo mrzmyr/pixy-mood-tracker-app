@@ -6,7 +6,7 @@ import Clock from "./Clock";
 import MenuList from "@/components/MenuList";
 import MenuListItem from "@/components/MenuListItem";
 import NotificationPreview from "./NotificationPreview";
-import { t } from "@/helpers/translation";
+import { t } from "@/lib/translation";
 import { useAnalytics } from "@/state/analytics";
 import useColors from "@/hooks/useColors";
 import useNotification, { createDailyTrigger } from "../Notifications";

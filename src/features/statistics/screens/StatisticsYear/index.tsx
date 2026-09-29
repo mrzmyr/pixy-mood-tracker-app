@@ -1,5 +1,5 @@
 import { MoodCounts } from "../../components/MoodCounts";
-import { t } from "@/helpers/translation";
+import { t } from "@/lib/translation";
 import dayjs from "dayjs";
 import { useMemo } from "react";
 import { ScrollView, View } from "react-native";

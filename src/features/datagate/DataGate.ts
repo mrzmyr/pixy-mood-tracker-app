@@ -14,7 +14,7 @@ import {
   showImportSuccess,
   showResetSuccess,
 } from "@/helpers/prompts";
-import { t } from "@/helpers/translation";
+import { t } from "@/lib/translation";
 import pkg from "../../../package.json";
 import { useAnalytics } from "@/state/analytics";
 import {
