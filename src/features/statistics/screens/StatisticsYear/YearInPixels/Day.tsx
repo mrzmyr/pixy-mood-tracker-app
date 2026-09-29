@@ -1,3 +1,4 @@
+import { useSettings } from "@/state/settings";
 import dayjs from "dayjs";
 import React from "react";
 import { View } from "react-native";
@@ -18,7 +19,8 @@ export const Day = ({
   rating: LogItem["rating"] | null;
 }) => {
   const colors = useColors();
-  const scale = useScale();
+  const { settings } = useSettings();
+  const scale = useScale(settings.scaleType);
 
   return (
     <View

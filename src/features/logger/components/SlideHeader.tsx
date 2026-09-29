@@ -1,5 +1,5 @@
 import Button from "@/components/Button";
-import { locale, t } from "@/helpers/translation";
+import { locale, t } from "@/lib/translation";
 import useColors from "@/hooks/useColors";
 import { useFeedbackModal } from "@/features/feedback";
 import useHaptics from "@/hooks/useHaptics";

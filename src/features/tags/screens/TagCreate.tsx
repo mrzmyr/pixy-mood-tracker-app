@@ -12,7 +12,7 @@ import {
   MIN_TAG_LENGTH,
   TAG_COLOR_NAMES,
 } from "@/constants/Config";
-import { t } from "@/helpers/translation";
+import { t } from "@/lib/translation";
 import { useAnalytics } from "@/state/analytics";
 import useColors from "@/hooks/useColors";
 import useHaptics from "@/hooks/useHaptics";

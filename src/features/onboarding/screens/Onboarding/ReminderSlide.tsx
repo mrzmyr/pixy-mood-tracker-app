@@ -17,7 +17,7 @@ import type { SettingsState } from "@/state/settings";
 
 import { useAnalytics } from "@/state/analytics";
 import LinkButton from "@/components/LinkButton";
-import { t } from "@/helpers/translation";
+import { t } from "@/lib/translation";
 
 const Body = ({ index }: { index: number }) => {
   const colors = useColors();

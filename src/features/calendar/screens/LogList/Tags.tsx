@@ -2,7 +2,7 @@ import useColors from "@/hooks/useColors";
 import type { LogItem } from "@/features/logs";
 import { useTagsState } from "@/features/tags";
 import { useNavigation } from "@react-navigation/native";
-import { t } from "@/helpers/translation";
+import { t } from "@/lib/translation";
 import { Text, View, useColorScheme } from "react-native";
 import type { ViewStyle } from "react-native";
 

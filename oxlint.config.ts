@@ -42,6 +42,53 @@ export default defineConfig({
   },
   overrides: [
     {
+      // Lower layers never import upward into feature screens or logic.
+      files: [
+        "src/state/**",
+        "src/components/**",
+        "src/hooks/**",
+        "src/lib/**",
+        "src/helpers/**",
+        "src/constants/**",
+        "src/types/**",
+      ],
+      rules: {
+        "no-restricted-imports": [
+          "error",
+          {
+            patterns: [
+              {
+                group: ["@/features/**", "@/screens/**"],
+                message: "Lower layer must not import features or screens.",
+              },
+            ],
+          },
+        ],
+      },
+    },
+    {
+      // Feature consumers use the public entry file.
+      files: ["src/features/**", "src/navigation/**"],
+      rules: {
+        "no-restricted-imports": [
+          "error",
+          {
+            patterns: [
+              {
+                regex: "^@/features/[^/]+/.+",
+                message: "Import other features through their entry file.",
+              },
+            ],
+          },
+        ],
+      },
+    },
+    {
+      // D8 moves provider composition into the router shell. Composition must import feature providers until then.
+      files: ["src/components/Providers/index.tsx"],
+      rules: { "no-restricted-imports": "off" },
+    },
+    {
       // Feature entry files intentionally re-export public symbols.
       files: ["src/features/*/index.ts"],
       rules: { "oxc/no-barrel-file": "off" },

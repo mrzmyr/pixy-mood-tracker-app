@@ -1,7 +1,7 @@
 import MenuList from "@/components/MenuList";
 import MenuListItem from "@/components/MenuListItem";
 import { DATE_FORMAT } from "@/constants/Config";
-import { t } from "@/helpers/translation";
+import { t } from "@/lib/translation";
 import { useNavigation } from "@react-navigation/native";
 import dayjs from "dayjs";
 import { useEffect, useEffectEvent } from "react";

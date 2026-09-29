@@ -2,17 +2,13 @@ import * as Localization from "expo-localization";
 import { Alert, Platform } from "react-native";
 import { FEEDBACK_URL } from "@/constants/API";
 import { APP_VARIANT, HAS_APP_VARIANT } from "@/constants/AppVariant";
-import { t } from "@/helpers/translation";
+import { t } from "@/lib/translation";
 import pkg from "../../../package.json";
 import { useAnalytics } from "@/state/analytics";
 import { useSettings } from "@/state/settings";
+import type { FeedackType, FeedbackSource } from "@/types/Feedback";
 
-/**
- * Feedback category sent with the report; also selects the modal's type tab.
- */
-export type FeedackType = "issue" | "idea" | "other" | "emoji" | "custom";
-/** Where in the app the feedback was sent from; used for triage only. */
-export type FeedbackSource = "tags" | "modal" | "statistics" | "error";
+export type { FeedackType, FeedbackSource } from "@/types/Feedback";
 
 /**
  * Send feedback with device metadata (locale, app version, OS, device id)

@@ -18,6 +18,7 @@ import { load, store } from "@/state/persisted";
 import { useStorageLoad } from "@/state/persisted/useStorageLoad";
 import type { StorageLoad } from "@/state/persisted/useStorageLoad";
 
+// oxlint-disable-next-line eslint/no-restricted-imports -- Persisted feature types stay in their modules until storage refactor.
 import type { Tag } from "@/features/tags";
 import {
   createMissingProviderError,

@@ -1,7 +1,7 @@
 import { View } from "react-native";
 import Scale from "@/components/Scale";
 import TextHeadline from "@/components/TextHeadline";
-import { t } from "@/helpers/translation";
+import { t } from "@/lib/translation";
 import type { LogItem } from "@/features/logs";
 import { useSettings } from "@/state/settings";
 

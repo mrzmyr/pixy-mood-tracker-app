@@ -18,7 +18,7 @@ import type { SettingsState } from "@/state/settings";
 
 import { SlideHeadline } from "../components/SlideHeadline";
 import { getLogEditMarginTop } from "@/helpers/responsive";
-import { t } from "@/helpers/translation";
+import { t } from "@/lib/translation";
 
 /**
  * Reminder opt-in slide shown to new users. Enabling replaces all

@@ -7,7 +7,7 @@ import Button from "@/components/Button";
 import MenuList from "@/components/MenuList";
 import MenuListItem from "@/components/MenuListItem";
 import { MAX_TAGS } from "@/constants/Config";
-import { t } from "@/helpers/translation";
+import { t } from "@/lib/translation";
 import { LinearGradient } from "expo-linear-gradient";
 import sortBy from "lodash/sortBy";
 import { Archive } from "lucide-react-native";

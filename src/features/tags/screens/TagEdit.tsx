@@ -9,7 +9,7 @@ import {
 import { Check } from "react-native-feather";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { v4 as uuidv4 } from "uuid";
-import Alert from "@/components/Alert";
+import Alert from "@/lib/Alert";
 import Button from "@/components/Button";
 import DismissKeyboard from "@/components/DismisKeyboard";
 import LinkButton from "@/components/LinkButton";
@@ -19,7 +19,7 @@ import {
   MIN_TAG_LENGTH,
   TAG_COLOR_NAMES,
 } from "@/constants/Config";
-import { t } from "@/helpers/translation";
+import { t } from "@/lib/translation";
 import { useAnalytics } from "@/state/analytics";
 import useColors from "@/hooks/useColors";
 import useHaptics from "@/hooks/useHaptics";

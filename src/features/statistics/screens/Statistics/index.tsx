@@ -1,7 +1,7 @@
 import MenuList from "@/components/MenuList";
 import MenuListHeadline from "@/components/MenuListHeadline";
 import MenuListItem from "@/components/MenuListItem";
-import { t } from "@/helpers/translation";
+import { t } from "@/lib/translation";
 import dayjs from "dayjs";
 import { useEffect, useEffectEvent } from "react";
 import {

@@ -1,5 +1,7 @@
 import { useAnonymizer } from "@/state/analytics/anonymizer";
+// oxlint-disable-next-line eslint/no-restricted-imports -- Persisted feature types stay in their modules until storage refactor.
 import type { LogsState } from "@/features/logs";
+// oxlint-disable-next-line eslint/no-restricted-imports -- Persisted feature types stay in their modules until storage refactor.
 import type { Tag } from "@/features/tags";
 import { _generateItem } from "@/__tests__/utils";
 

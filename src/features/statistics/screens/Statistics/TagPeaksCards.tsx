@@ -5,7 +5,7 @@ import { Pressable, Text, View } from "react-native";
 import { Card } from "../../components/Card";
 import { CardFeedback } from "../../components/CardFeedback";
 import { DATE_FORMAT } from "@/constants/Config";
-import { t } from "@/helpers/translation";
+import { t } from "@/lib/translation";
 import useColors from "@/hooks/useColors";
 import useHaptics from "@/hooks/useHaptics";
 import type { LogItem } from "@/features/logs";

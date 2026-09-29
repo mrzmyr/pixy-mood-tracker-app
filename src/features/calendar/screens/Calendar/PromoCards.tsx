@@ -1,5 +1,5 @@
 import { PromoCard } from "@/components/PromoCard";
-import { t } from "@/helpers/translation";
+import { t } from "@/lib/translation";
 import { useAnalytics } from "@/state/analytics";
 import { useSettings } from "@/state/settings";
 import dayjs from "dayjs";

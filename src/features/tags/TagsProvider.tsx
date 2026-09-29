@@ -3,7 +3,7 @@ import { load, store } from "@/state/persisted";
 import { useStorageLoad } from "@/state/persisted/useStorageLoad";
 import type { StorageLoad } from "@/state/persisted/useStorageLoad";
 
-import { t } from "@/helpers/translation";
+import { t } from "@/lib/translation";
 import omit from "lodash/omit";
 import {
   createContext,

@@ -5,7 +5,7 @@ import MenuListHeadline from "@/components/MenuListHeadline";
 import MenuListItem from "@/components/MenuListItem";
 import { PageWithHeaderLayout } from "@/components/PageWithHeaderLayout";
 import TextInfo from "@/components/TextInfo";
-import { t } from "@/helpers/translation";
+import { t } from "@/lib/translation";
 import dayjs from "dayjs";
 import { ScrollView, Text, View } from "react-native";
 import type { ViewStyle } from "react-native";

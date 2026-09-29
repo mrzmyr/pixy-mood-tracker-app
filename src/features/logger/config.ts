@@ -1,4 +1,4 @@
-import { t } from "@/helpers/translation";
+import { t } from "@/lib/translation";
 import type { Emotion } from "@/types";
 
 export type {

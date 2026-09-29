@@ -1,6 +1,6 @@
 import { EmotionIndicator } from "@/features/logger";
 import useColors from "@/hooks/useColors";
-import { t } from "@/helpers/translation";
+import { t } from "@/lib/translation";
 import type { Emotion } from "@/types";
 import { Text, View } from "react-native";
 

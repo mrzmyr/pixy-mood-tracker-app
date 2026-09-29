@@ -15,7 +15,7 @@ import { Body } from "./CalendarBottomSheet/Body";
 import { CalendarFooter } from "./CalendarFooter";
 import CalendarHeader from "./CalendarHeader";
 import { ScrollToBottomButton } from "./ScrollToBottomButton";
-import { t } from "@/helpers/translation";
+import { t } from "@/lib/translation";
 import { ObserveInteractiveMarker } from "expo-observe";
 
 const CalendarScreenComponent = () => {

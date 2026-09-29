@@ -1,6 +1,6 @@
-import Alert from "@/components/Alert";
+import Alert from "@/lib/Alert";
 import { createStructuredError } from "@/lib/errors";
-import { t } from "@/helpers/translation";
+import { t } from "@/lib/translation";
 import noop from "lodash/noop";
 
 const askToConfirm = ({

@@ -7,7 +7,7 @@ import type { ReactNode } from "react";
 import { View } from "react-native";
 import { BigCard } from "../../../components/BigCard";
 import { DATE_FORMAT } from "@/constants/Config";
-import { t } from "@/helpers/translation";
+import { t } from "@/lib/translation";
 import { useLogState } from "@/features/logs";
 import type { LogItem } from "@/features/logs";
 

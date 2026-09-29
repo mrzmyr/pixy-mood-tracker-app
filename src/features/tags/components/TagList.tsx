@@ -1,7 +1,7 @@
 import { Text, View } from "react-native";
 import MenuList from "@/components/MenuList";
 import { MAX_TAGS } from "@/constants/Config";
-import { t } from "@/helpers/translation";
+import { t } from "@/lib/translation";
 import useColors from "@/hooks/useColors";
 import type { Tag } from "../TagsProvider";
 import { TagListItem } from "./TagListItem";

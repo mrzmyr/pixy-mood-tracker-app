@@ -1,3 +1,4 @@
+import { useSettings } from "@/state/settings";
 import { RATING_KEYS } from "@/constants/Ratings";
 import useScale from "@/hooks/useScale";
 import { Rect } from "react-native-svg";
@@ -7,7 +8,8 @@ import { Rect } from "react-native-svg";
  * top.
  */
 export const YLabels = ({ relativeY, YLegendWidth, rowHeight }) => {
-  const scale = useScale();
+  const { settings } = useSettings();
+  const scale = useScale(settings.scaleType);
 
   return (
     <>

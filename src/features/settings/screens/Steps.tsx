@@ -4,7 +4,7 @@ import type { LoggerStep } from "@/features/logger";
 import MenuList from "@/components/MenuList";
 import MenuListItem from "@/components/MenuListItem";
 import { PageWithHeaderLayout } from "@/components/PageWithHeaderLayout";
-import { t } from "@/helpers/translation";
+import { t } from "@/lib/translation";
 import type { ReactElement } from "react";
 import { ScrollView, Switch, Text, View } from "react-native";
 import {

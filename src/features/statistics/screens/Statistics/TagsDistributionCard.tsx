@@ -2,7 +2,7 @@ import { StackActions, useNavigation } from "@react-navigation/native";
 import _ from "lodash";
 import { Pressable, Text, View } from "react-native";
 import { Card } from "../../components/Card";
-import { t } from "@/helpers/translation";
+import { t } from "@/lib/translation";
 import { useAnonymizer } from "@/state/analytics/anonymizer";
 import { useCalendarFilters } from "@/features/calendar";
 import useColors from "@/hooks/useColors";

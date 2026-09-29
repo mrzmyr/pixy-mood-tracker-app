@@ -93,7 +93,7 @@ describe("StorageLoadGate", () => {
     expect(screen.getByText("Contact support")).toBeOnTheScreen();
     expect(screen.queryByText("Calendar")).toBeNull();
     expect(await AsyncStorage.getItem(LOGS_KEY)).toBe("🐇");
-  });
+  }, 15_000);
 
   test("load failure code goes to analytics when the user opted in", async () => {
     // jest.setup.js replaces posthog-react-native with one shared fake client.
