@@ -1,5 +1,5 @@
 import chroma from "chroma-js";
-import colors from "./TailwindColors";
+import colors from "@/constants/Colors/TailwindColors";
 
 interface IScaleMood {
   background: string;

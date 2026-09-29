@@ -2,15 +2,16 @@ import { getLogEditMarginTop } from "@/helpers/responsive";
 import { t } from "@/helpers/translation";
 import useColors from "@/hooks/useColors";
 import type { LogItem } from "@/features/logs";
-import { useTemporaryLog } from "@/features/logger/temporaryLog";
+import { useTemporaryLog } from "../temporaryLog";
 import { forwardRef, useEffect, useState } from "react";
 import { Keyboard, KeyboardAvoidingView, Platform, View } from "react-native";
 import type { TextInput } from "react-native";
+
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import DismissKeyboard from "@/components/DismisKeyboard";
 import LinkButton from "@/components/LinkButton";
 import TextArea from "@/components/TextArea";
-import { SlideHeadline } from "@/features/logger/components/SlideHeadline";
+import { SlideHeadline } from "../components/SlideHeadline";
 import { Footer } from "./Footer";
 
 const MAX_LENGTH = 10 * 1000;

@@ -3,8 +3,8 @@ import { ActivityIndicator, Alert, Pressable, Text, View } from "react-native";
 import { Heart } from "react-native-feather";
 import { t } from "@/helpers/translation";
 import useColors from "@/hooks/useColors";
-import type { SupportFlowError } from "@/support";
 import { useSupport } from "@/support";
+import type { SupportFlowError } from "@/support";
 
 const isSupportFlowError = (error: unknown): error is SupportFlowError => {
   if (typeof error !== "object" || error === null) {

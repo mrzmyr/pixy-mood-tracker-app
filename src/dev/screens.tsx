@@ -10,16 +10,17 @@ import { APP_VARIANT } from "@/constants/AppVariant";
 import useColors from "@/hooks/useColors";
 import type { RootStackParamList, RootStackScreenProps } from "../../types";
 import pkg from "../../package.json";
-import type { Fixture } from "./fixtures";
 import {
   FIXTURES,
   getFixture,
   getStorageFixture,
   STORAGE_FIXTURES,
-} from "./fixtures";
-import { setFileTransferOverride } from "@/features/datagate/fileTransfer";
-import { fakeFileTransfer } from "./fakeFileTransfer";
-import { useLoadFixture, writeStorageFixture } from "./useLoadFixture";
+} from "@/dev/fixtures";
+import type { Fixture } from "@/dev/fixtures";
+
+import { setFileTransferOverride } from "@/features/datagate";
+import { fakeFileTransfer } from "@/dev/fakeFileTransfer";
+import { useLoadFixture, writeStorageFixture } from "@/dev/useLoadFixture";
 
 // Drops every screen behind the new state, like a fresh app start.
 const openApp = (

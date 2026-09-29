@@ -1,0 +1,133 @@
+import {
+  Fragment,
+  useCallback,
+  useEffect,
+  useEffectEvent,
+  useState,
+} from "react";
+import { ScrollView, View } from "react-native";
+import MenuListHeadline from "@/components/MenuListHeadline";
+import TextInfo from "@/components/TextInfo";
+import { t } from "@/helpers/translation";
+import { useAnalytics } from "@/state/analytics";
+import useColors from "@/hooks/useColors";
+import { useSettings } from "@/state/settings";
+import { Radio } from "./Radio";
+import { Scale } from "./Scale";
+import { PageWithHeaderLayout } from "@/components/PageWithHeaderLayout";
+
+const typesNames = [
+  {
+    id: `ColorBrew-RdYlGn`,
+    disabled: false,
+  },
+  {
+    id: `ColorBrew-PuOr`,
+    disabled: true,
+  },
+  {
+    id: `ColorBrew-BrBG`,
+    disabled: true,
+  },
+  {
+    id: `ColorBrew-RdYG`,
+    disabled: false,
+  },
+  {
+    id: `ColorBrew-RdYlGn-old`,
+    disabled: false,
+  },
+];
+
+/**
+ * Settings > Colors: pick the mood color scale.
+ *
+ * A selection is saved to settings immediately. Scale ids are persisted,
+ * so they must stay in sync with the keys in `constants/Colors/Scales.ts`.
+ */
+export const ColorsScreen = () => {
+  const { setSettings, settings } = useSettings();
+  const colors = useColors();
+  const analytics = useAnalytics();
+
+  const [scaleType, setScaleType] = useState(settings.scaleType);
+
+  // Effect event: tracks with the latest analytics instance without re-running
+  // the effect when analytics changes.
+  const trackScaleChange = useEffectEvent(
+    (changedScaleType: typeof scaleType) => {
+      analytics.track("settings:scale_changed", {
+        scale_type: changedScaleType,
+      });
+    }
+  );
+
+  useEffect(() => {
+    setSettings((currentSettings) => ({ ...currentSettings, scaleType }));
+    trackScaleChange(scaleType);
+  }, [scaleType, setSettings]);
+
+  const onSelect = useCallback((id) => {
+    setScaleType(id);
+  }, []);
+
+  return (
+    <PageWithHeaderLayout
+      style={{
+        flex: 1,
+        backgroundColor: colors.background,
+      }}
+    >
+      <ScrollView
+        style={{
+          padding: 20,
+        }}
+      >
+        {typesNames
+          .filter((d) => !d.disabled)
+          .map((type) => (
+            <Fragment key={type.id}>
+              <Radio
+                isSelected={type.id === scaleType}
+                onPress={() => onSelect(type.id)}
+                isDisabled={type.disabled}
+              >
+                <Scale type={type.id} />
+              </Radio>
+              {type.id === "ColorBrew-RdYlGn-old" && (
+                <TextInfo
+                  style={{
+                    marginTop: 0,
+                  }}
+                >
+                  {t("colorblind_disclaimer")}
+                </TextInfo>
+              )}
+            </Fragment>
+          ))}
+        <MenuListHeadline>Coming Soon…</MenuListHeadline>
+        <View style={{}}>
+          {typesNames
+            .filter((d) => d.disabled)
+            .map((type) => (
+              <Radio
+                key={type.id}
+                isSelected={type.id === scaleType}
+                onPress={() => onSelect(type.id)}
+                isDisabled={type.disabled}
+              >
+                <Scale type={type.id} />
+              </Radio>
+            ))}
+        </View>
+        <View
+          style={{
+            marginBottom: 8,
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        />
+      </ScrollView>
+    </PageWithHeaderLayout>
+  );
+};

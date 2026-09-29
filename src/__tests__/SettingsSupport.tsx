@@ -8,7 +8,7 @@ import {
   createFakeSupportClient,
   resolveDevelopmentSupportClient,
 } from "@/support/clients";
-import { SettingsScreen } from "@/screens/Settings";
+import { SettingsScreen } from "@/features/settings";
 import noop from "lodash/noop";
 
 // oxlint-disable-next-line anti-slop/no-module-mocking -- lucide-react-native renders native SVG components that Jest cannot render

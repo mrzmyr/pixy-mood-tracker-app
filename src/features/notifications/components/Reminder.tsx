@@ -9,9 +9,9 @@ import NotificationPreview from "./NotificationPreview";
 import { t } from "@/helpers/translation";
 import { useAnalytics } from "@/state/analytics";
 import useColors from "@/hooks/useColors";
-import useNotification, { createDailyTrigger } from "@/features/notifications";
-import type { SettingsState } from "@/state/settings";
+import useNotification, { createDailyTrigger } from "../Notifications";
 import { useSettings } from "@/state/settings";
+import type { SettingsState } from "@/state/settings";
 
 const Reminder = () => {
   const { setSettings, settings } = useSettings();

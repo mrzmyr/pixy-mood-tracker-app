@@ -2,8 +2,9 @@ import { useAnalytics } from "@/state/analytics";
 import useColors from "@/hooks/useColors";
 import * as Sharing from "expo-sharing";
 import { useRef, useState } from "react";
-import type { ViewStyle } from "react-native";
 import { ActivityIndicator, Image, Text, View } from "react-native";
+import type { ViewStyle } from "react-native";
+
 import { Share } from "react-native-feather";
 import { captureRef } from "react-native-view-shot";
 import LinkButton from "@/components/LinkButton";

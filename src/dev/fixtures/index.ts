@@ -1,11 +1,11 @@
 import dayjs from "dayjs";
-import type { ImportData } from "@/features/datagate/import";
-import empty from "./empty.json";
-import fresh from "./fresh.json";
-import legacy168 from "./legacy-1.68.json";
-import legacy181 from "./legacy-1.81.1.json";
-import seed from "./seed.json";
-import year from "./year.json";
+import type { ImportData } from "@/features/datagate";
+import empty from "@/dev/fixtures/empty.json";
+import fresh from "@/dev/fixtures/fresh.json";
+import legacy168 from "@/dev/fixtures/legacy-1.68.json";
+import legacy181 from "@/dev/fixtures/legacy-1.81.1.json";
+import seed from "@/dev/fixtures/seed.json";
+import year from "@/dev/fixtures/year.json";
 
 type FixtureFile = typeof fresh | typeof empty | typeof seed | typeof year;
 

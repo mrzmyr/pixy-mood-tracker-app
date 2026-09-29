@@ -3,14 +3,15 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import { POSTHOG_API_KEY } from "@/constants/API";
 import { TRACKING_ENABLED } from "@/constants/Config";
 import { AnalyticsProvider } from "@/state/analytics";
-import { CalendarFiltersProvider } from "@/features/calendar/filters";
+import { CalendarFiltersProvider } from "@/features/calendar";
 import { LogsProvider } from "@/features/logs";
 import { SettingsProvider } from "@/state/settings";
 import { StatisticsProvider } from "@/features/statistics";
 import { TagsProvider } from "@/features/tags";
-import { TemporaryLogProvider } from "@/features/logger/temporaryLog";
-import type { SupportClient } from "@/support";
+import { TemporaryLogProvider } from "@/features/logger";
 import { SupportProvider } from "@/support";
+import type { SupportClient } from "@/support";
+
 import { resolveDevelopmentSupportClient } from "@/support/clients";
 import { ConfiguredSupportProvider } from "@/support/ConfiguredSupportProvider";
 

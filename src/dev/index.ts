@@ -1,4 +1,4 @@
-import type * as Screens from "./screens";
+import type * as Screens from "@/dev/screens";
 
 /**
  * Developer tools (test data fixtures), present only in development and
@@ -12,5 +12,5 @@ export const DEV_TOOLS: typeof Screens | null =
   process.env.EXPO_PUBLIC_APP_VARIANT === "development" ||
   process.env.EXPO_PUBLIC_APP_VARIANT === "preview"
     ? // oxlint-disable-next-line typescript/no-require-imports -- a static import would ship developer tools in production bundles.
-      require("./screens")
+      require("@/dev/screens")
     : null;

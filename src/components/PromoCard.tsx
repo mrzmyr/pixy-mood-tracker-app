@@ -3,7 +3,7 @@ import useHaptics from "@/hooks/useHaptics";
 import { useSettings } from "@/state/settings";
 import { Pressable, Text, View } from "react-native";
 import { X } from "react-native-feather";
-import Indicator from "./Indicator";
+import Indicator from "@/components/Indicator";
 
 /**
  * Dismissible promo card on the calendar screen.

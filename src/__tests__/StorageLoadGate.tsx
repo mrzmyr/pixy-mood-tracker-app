@@ -9,7 +9,7 @@ import {
 import * as FileSystem from "expo-file-system/legacy";
 import { Linking, Text } from "react-native";
 import Colors from "@/constants/Colors";
-import { setFileTransferOverride } from "@/features/datagate/fileTransfer";
+import { setFileTransferOverride } from "@/features/datagate";
 import { LogsProvider, STORAGE_KEY as LOGS_KEY } from "@/features/logs";
 import { TagsProvider } from "@/features/tags";
 import { StorageLoadGate } from "@/navigation/StorageLoadGate";

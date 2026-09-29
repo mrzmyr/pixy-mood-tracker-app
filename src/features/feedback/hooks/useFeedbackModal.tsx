@@ -15,9 +15,10 @@ import TextArea from "@/components/TextArea";
 import { t } from "@/helpers/translation";
 import { useAnalytics } from "@/state/analytics";
 import useColors from "@/hooks/useColors";
-import type { FeedackType } from "@/features/feedback";
-import { useFeedback } from "@/features/feedback";
-import { TypeSelector } from "@/features/feedback/components/TypeSelector";
+import { useFeedback } from "../Feedback";
+import type { FeedackType } from "../Feedback";
+
+import { TypeSelector } from "../components/TypeSelector";
 
 const FeedbackModalContent = ({
   visible,

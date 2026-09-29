@@ -1,1 +1,1 @@
-export { ConfiguredSupportProvider } from "./SuperwallSupportProvider";
+export { ConfiguredSupportProvider } from "@/support/SuperwallSupportProvider";

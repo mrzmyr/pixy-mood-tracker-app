@@ -1,5 +1,5 @@
 import { createContext, useContext } from "react";
-import { disabledSupportClient } from "./clients";
+import { disabledSupportClient } from "@/support/clients";
 
 /** Fake support outcomes selectable in development builds. */
 export type DevelopmentSupportMode = "available" | "failed";

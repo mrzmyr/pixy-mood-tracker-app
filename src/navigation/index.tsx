@@ -1,29 +1,38 @@
 import useColors from "@/hooks/useColors";
-import type { LinkingOptions } from "@react-navigation/native";
 import {
   DefaultTheme,
   NavigationContainer,
   useNavigation,
 } from "@react-navigation/native";
+import type { LinkingOptions } from "@react-navigation/native";
+
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import * as Linking from "expo-linking";
 import { useEffect, useEffectEvent } from "react";
 import { Platform, View, useColorScheme } from "react-native";
 import * as Sentry from "@sentry/react-native";
 import type { RootStackParamList } from "../../types";
-import { ColorsScreen } from "../screens/Colors";
-import { DataScreen } from "../screens/Data";
-import { LogList } from "../screens/LogList";
-import { LicensesScreen } from "../screens/Licenses";
-import { LogCreate } from "../screens/Log/Create";
-import { LogEdit } from "../screens/Log/Edit";
-import { PrivacyScreen } from "../screens/Privacy";
-import { ReminderScreen } from "../screens/Reminder";
-import { SettingsScreen } from "../screens/Settings";
-import { StatisticsHighlights } from "../screens/Statistics/Highlights";
-import { TagCreate } from "../screens/TagCreate";
-import { TagEdit } from "../screens/TagEdit";
-import { SettingsTags, SettingsTagsArchive } from "../screens/Settings/Tags";
+import {
+  ColorsScreen,
+  LicensesScreen,
+  PrivacyScreen,
+  SettingsScreen,
+  SettingsTags,
+  SettingsTagsArchive,
+  DevelopmentTools,
+  StepsScreen,
+} from "@/features/settings";
+import { DataScreen } from "@/features/datagate";
+import { LogList } from "@/features/calendar";
+import { LogCreate, LogEdit } from "@/features/logger";
+
+import { ReminderScreen } from "@/features/notifications";
+import {
+  StatisticsHighlights,
+  StatisticsMonthScreen,
+  StatisticsYearScreen,
+} from "@/features/statistics";
+import { TagCreate, TagEdit, useTagsState, Tags } from "@/features/tags";
 
 import Providers from "@/components/Providers";
 import { SENTRY_DSN } from "@/constants/API";
@@ -31,24 +40,20 @@ import { APP_VARIANT, HAS_APP_VARIANT } from "@/constants/AppVariant";
 import Colors from "@/constants/Colors";
 import { initializeDayjs, t } from "@/helpers/translation";
 import { useAnalytics } from "@/state/analytics";
-import { navigationRef, useScreenTracking } from "./screenTracking";
+import { navigationRef, useScreenTracking } from "@/navigation/screenTracking";
 import { useAnonymizer } from "@/state/analytics/anonymizer";
 import { useLogState } from "@/features/logs";
 import { useSettings } from "@/state/settings";
-import { useTagsState } from "@/features/tags";
+
 import { getItemsCountPerDayAverage, getItemsCoverage } from "@/lib/utils";
 import dayjs from "dayjs";
 import { enableScreens } from "react-native-screens";
-import { DEV_TOOLS } from "../dev";
-import { DevelopmentTools } from "../screens/DevelopmentTools";
-import { Onboarding } from "../screens/Onboarding";
-import { StatisticsMonthScreen } from "../screens/StatisticsMonth";
-import { StatisticsYearScreen } from "../screens/StatisticsYear";
-import { StepsScreen } from "../screens/Steps";
-import { Tags } from "../screens/Tags";
-import { BackButton } from "./BackButton";
-import { BottomTabs } from "./BottomTabs";
-import { StorageLoadGate } from "./StorageLoadGate";
+import { DEV_TOOLS } from "@/dev";
+import { Onboarding } from "@/features/onboarding";
+
+import { BackButton } from "@/navigation/BackButton";
+import { BottomTabs } from "@/navigation/BottomTabs";
+import { StorageLoadGate } from "@/navigation/StorageLoadGate";
 
 enableScreens();
 

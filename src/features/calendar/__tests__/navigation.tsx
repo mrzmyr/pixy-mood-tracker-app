@@ -13,7 +13,7 @@ import { Pressable, Text } from "react-native";
 import { _generateItem } from "@/__tests__/utils";
 import { INITIAL_STATE } from "@/constants/Settings";
 import { DATE_FORMAT } from "@/constants/Config";
-import { useCalendarNavigation } from "@/features/calendar/navigation";
+import { useCalendarNavigation } from "../navigation";
 import { LogsProvider, STORAGE_KEY as LOGS_KEY } from "@/features/logs";
 import { AnalyticsProvider } from "@/state/analytics";
 import {

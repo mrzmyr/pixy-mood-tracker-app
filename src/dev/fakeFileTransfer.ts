@@ -1,5 +1,5 @@
 import * as FileSystem from "expo-file-system/legacy";
-import type { FileTransfer } from "@/features/datagate/fileTransfer";
+import type { FileTransfer } from "@/features/datagate";
 
 const FILE = `${FileSystem.documentDirectory}fake-file-transfer.json`;
 

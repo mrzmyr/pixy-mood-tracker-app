@@ -1,7 +1,7 @@
-import colors from "./TailwindColors";
+import colors from "@/constants/Colors/TailwindColors";
 
-import { TAG_COLOR_NAMES } from "../Config";
-import scales from "./Scales";
+import { TAG_COLOR_NAMES } from "@/constants/Config";
+import scales from "@/constants/Colors/Scales";
 
 type TagColorKey = (typeof TAG_COLOR_NAMES)[number];
 

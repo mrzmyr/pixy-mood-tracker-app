@@ -9,7 +9,7 @@ import {
 } from "react";
 import { useSettings } from "@/state/settings";
 import { createMissingProviderError } from "@/lib/errors";
-import type { AnalyticsEvent, TrackArgs } from "./events";
+import type { AnalyticsEvent, TrackArgs } from "@/state/analytics/events";
 import { Observe } from "expo-observe";
 
 interface AnaylticsState {

@@ -1,4 +1,4 @@
-import { getSleepQualityDistributionForXDays } from "@/features/statistics/SleepQualityDistribution";
+import { getSleepQualityDistributionForXDays } from "../SleepQualityDistribution";
 import type { LogItem } from "@/features/logs";
 import { getAverageSleepQuality, getWordCount } from "@/lib/utils";
 

@@ -1,12 +1,10 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { act, renderHook } from "@testing-library/react-native";
 import { AnalyticsProvider } from "@/state/analytics";
-import {
-  CalendarFiltersProvider,
-  useCalendarFilters,
-} from "@/features/calendar/filters";
-import type { LogsState } from "@/features/logs";
+import { CalendarFiltersProvider, useCalendarFilters } from "../filters";
 import { LogsProvider, STORAGE_KEY } from "@/features/logs";
+import type { LogsState } from "@/features/logs";
+
 import { SettingsProvider } from "@/state/settings";
 import { _generateItem } from "@/__tests__/utils";
 

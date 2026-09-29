@@ -2,14 +2,15 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as Sentry from "@sentry/react-native";
 import { act, renderHook, waitFor } from "@testing-library/react-native";
 import { AnalyticsProvider } from "@/state/analytics";
-import type { LogsState } from "@/features/logs";
 import {
   LogsProvider,
   STORAGE_KEY,
   useLogLoad,
   useLogState,
   useLogUpdater,
-} from "@/features/logs";
+} from "../LogsProvider";
+import type { LogsState } from "../LogsProvider";
+
 import { SettingsProvider } from "@/state/settings";
 import { _generateItem } from "@/__tests__/utils";
 

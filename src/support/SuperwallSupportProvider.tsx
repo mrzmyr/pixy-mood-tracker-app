@@ -9,9 +9,9 @@ import {
 } from "expo-superwall";
 import { useAnalytics } from "@/state/analytics";
 import { createStructuredError } from "@/lib/errors";
-import type { SupportClient, SupportFlowError } from "./index";
-import { disabledSupportClient } from "./clients";
-import { SupportProvider } from "./index";
+import { SupportProvider } from "@/support";
+import type { SupportClient, SupportFlowError } from "@/support";
+import { disabledSupportClient } from "@/support/clients";
 
 /**
  * Superwall placement that shows the support paywall. It must match the

@@ -4,7 +4,7 @@ import type {
   NavigatorScreenParams,
 } from "@react-navigation/native";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
-import type { LoggerStep } from "@/features/logger/config";
+import type { LoggerStep } from "@/features/logger";
 
 // React Navigation 6 types useNavigation() through this documented global
 // declaration merge; only a namespace plus an extending interface can merge it.

@@ -2,8 +2,8 @@ import type { LogItem } from "@/features/logs";
 import {
   dummyEmotionsDistributionData,
   getEmotionsDistributionData,
-} from "@/features/statistics/EmotionsDistributuon";
-import { EmotionsDistributionContent } from "@/screens/Statistics/EmotionsDistributionCard";
+} from "../EmotionsDistributuon";
+import { EmotionsDistributionContent } from "../screens/Statistics/EmotionsDistributionCard";
 import { BigCard } from "./BigCard";
 import { NotEnoughDataOverlay } from "./NotEnoughDataOverlay";
 
