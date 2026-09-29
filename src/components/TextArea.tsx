@@ -1,6 +1,6 @@
 import { forwardRef } from "react";
 import { TextInput } from "react-native";
-import type { ViewStyle } from "react-native";
+import type { TextStyle } from "react-native";
 
 import useColors from "@/hooks/useColors";
 import noop from "lodash/noop";
@@ -22,7 +22,7 @@ const TextAreaComponent = (
     testID?: string;
     maxLength?: number;
     autoFocus?: boolean;
-    style?: ViewStyle;
+    style?: TextStyle;
     onChange?: (text: string) => void;
   },
   ref: React.ForwardedRef<TextInput>

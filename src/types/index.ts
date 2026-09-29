@@ -71,3 +71,6 @@ export const LogItemSchema = z.object({
   tags: z.array(TagReferenceSchema),
   emotions: z.array(EmotionKeySchema),
 });
+
+/** Partial value with required identifying keys. */
+export type AtLeast<T, K extends keyof T> = Partial<T> & Pick<T, K>;

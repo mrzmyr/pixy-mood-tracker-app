@@ -1,3 +1,4 @@
+import { useRouter } from "expo-router";
 import { useState } from "react";
 import { Platform, Pressable, TextInput, View } from "react-native";
 import { Check } from "react-native-feather";
@@ -19,8 +20,6 @@ import useHaptics from "@/hooks/useHaptics";
 import { useTagsUpdater } from "../TagsProvider";
 import type { Tag as ITag } from "../TagsProvider";
 
-import type { RootStackScreenProps } from "../../../../types";
-
 const REGEX_EMOJI = /\p{Emoji}/u;
 
 /**
@@ -28,9 +27,8 @@ const REGEX_EMOJI = /\p{Emoji}/u;
  * {@link MAX_TAG_LENGTH} characters; the color defaults to the first tag
  * color.
  */
-export const TagCreate = ({
-  navigation,
-}: RootStackScreenProps<"TagCreate">) => {
+export const TagCreate = () => {
+  const router = useRouter();
   const colors = useColors();
   const haptics = useHaptics();
   const insets = useSafeAreaInsets();
@@ -58,7 +56,7 @@ export const TagCreate = ({
 
     tagsUpdater.createTag(tempTag);
 
-    navigation.goBack();
+    router.back();
   };
 
   return (
@@ -76,7 +74,7 @@ export const TagCreate = ({
           left={
             <LinkButton
               onPress={() => {
-                navigation.goBack();
+                router.back();
               }}
               type="primary"
             >

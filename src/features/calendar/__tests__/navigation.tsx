@@ -1,12 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import {
-  render,
-  screen,
-  userEvent,
-  waitFor,
-} from "@testing-library/react-native";
+import { Stack, useLocalSearchParams } from "expo-router";
+import { renderRouter } from "expo-router/testing-library";
+import { userEvent, waitFor } from "@testing-library/react-native";
 import dayjs from "dayjs";
 import { usePostHog as getPostHogTestClient } from "posthog-react-native";
 import { Pressable, Text } from "react-native";
@@ -20,19 +15,14 @@ import {
   SettingsProvider,
   STORAGE_KEY as SETTINGS_KEY,
 } from "@/state/settings";
-import type { RootStackParamList } from "../../../../types";
 
-// jest.setup.js replaces posthog-react-native with one shared fake client.
 const { capture: mockCapture } = getPostHogTestClient();
-
-const Stack = createNativeStackNavigator<RootStackParamList>();
 const today = dayjs().format(DATE_FORMAT);
 const twoDaysAgo = dayjs().subtract(2, "day").format(DATE_FORMAT);
 const twoDaysAgoNoon = dayjs(twoDaysAgo).hour(12).toISOString();
 
 const Days = () => {
   const calendarNavigation = useCalendarNavigation();
-
   return (
     <>
       <Pressable
@@ -53,24 +43,37 @@ const Days = () => {
   );
 };
 
-const Empty = () => <Text>Opened</Text>;
+const OpenedDay = () => {
+  const { date } = useLocalSearchParams<{ date: string }>();
+  return <Text>{`Opened ${date}`}</Text>;
+};
 
-const renderDays = () =>
-  render(
-    <NavigationContainer>
-      <SettingsProvider>
-        <AnalyticsProvider options={{ enabled: true }}>
-          <LogsProvider>
-            <Stack.Navigator>
-              <Stack.Screen name="Calendar" component={Days} />
-              <Stack.Screen name="LogCreate" component={Empty} />
-              <Stack.Screen name="LogList" component={Empty} />
-            </Stack.Navigator>
-          </LogsProvider>
-        </AnalyticsProvider>
-      </SettingsProvider>
-    </NavigationContainer>
+const OpenedCreate = () => {
+  const { dateTime } = useLocalSearchParams<{ dateTime: string }>();
+  return <Text>{`Opened ${dateTime}`}</Text>;
+};
+
+const renderDays = async () => {
+  const result = await renderRouter(
+    {
+      _layout: () => (
+        <SettingsProvider>
+          <AnalyticsProvider options={{ enabled: true }}>
+            <LogsProvider>
+              <Stack />
+            </LogsProvider>
+          </AnalyticsProvider>
+        </SettingsProvider>
+      ),
+      calendar: Days,
+      "days/[date]": OpenedDay,
+      "logs/create/[dateTime]": OpenedCreate,
+    },
+    { initialUrl: "/calendar" }
   );
+  jest.useRealTimers();
+  return result;
+};
 
 describe("useCalendarNavigation()", () => {
   beforeEach(async () => {
@@ -91,12 +94,9 @@ describe("useCalendarNavigation()", () => {
     );
   });
 
-  test("should track opening a day with its source, entry count, and age", async () => {
-    const user = userEvent.setup();
-    await renderDays();
-
-    await user.press(await screen.findByText("Open two days ago"));
-
+  test("tracks opening a day with its source, entry count, and age", async () => {
+    const result = await renderDays();
+    await userEvent.press(await result.findByText("Open two days ago"));
     await waitFor(() =>
       expect(mockCapture).toHaveBeenCalledWith("calendar:day_opened", {
         source: "mood_peaks",
@@ -104,15 +104,12 @@ describe("useCalendarNavigation()", () => {
         days_ago: 2,
       })
     );
-    expect(await screen.findByText("Opened")).toBeOnTheScreen();
+    expect(await result.findByText(`Opened ${twoDaysAgo}`)).toBeOnTheScreen();
   });
 
-  test("should track opening an empty day", async () => {
-    const user = userEvent.setup();
-    await renderDays();
-
-    await user.press(await screen.findByText("Open today"));
-
+  test("tracks opening an empty day", async () => {
+    const result = await renderDays();
+    await userEvent.press(await result.findByText("Open today"));
     await waitFor(() =>
       expect(mockCapture).toHaveBeenCalledWith("calendar:day_opened", {
         source: "calendar",
@@ -120,5 +117,6 @@ describe("useCalendarNavigation()", () => {
         days_ago: 0,
       })
     );
+    expect(await result.findByText(/^Opened .*T.*Z$/u)).toBeOnTheScreen();
   });
 });

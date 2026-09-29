@@ -1,3 +1,4 @@
+import { useRouter } from "expo-router";
 import * as Linking from "expo-linking";
 import * as StoreReview from "expo-store-review";
 import * as WebBrowser from "expo-web-browser";
@@ -31,16 +32,14 @@ import { useAnalytics } from "@/state/analytics";
 import useColors from "@/hooks/useColors";
 import { useFeedbackModal } from "@/features/feedback";
 import pkg from "../../../../../package.json";
-import type { RootStackScreenProps } from "../../../../../types";
 import { Tag } from "lucide-react-native";
 import { useSupport } from "@/support";
 
 /**
  * Settings tab. The support card shows only when a support client is enabled.
  */
-export const SettingsScreen = ({
-  navigation,
-}: RootStackScreenProps<"Settings">) => {
+export const SettingsScreen = () => {
+  const router = useRouter();
   const insets = useSafeAreaInsets();
   const colors = useColors();
   const analytics = useAnalytics();
@@ -86,27 +85,27 @@ export const SettingsScreen = ({
           <MenuListItem
             title={t("data")}
             iconLeft={<Database width={18} color={colors.menuListItemIcon} />}
-            onPress={() => navigation.navigate("Data")}
+            onPress={() => router.push("/settings/data")}
             testID="data"
             isLink
           />
           <MenuListItem
             title={t("reminder")}
             iconLeft={<Bell width={18} color={colors.menuListItemIcon} />}
-            onPress={() => navigation.navigate("Reminder")}
+            onPress={() => router.push("/settings/reminder")}
             testID="reminder"
             isLink
           />
           <MenuListItem
             title={t("colors")}
             iconLeft={<Droplet width={18} color={colors.menuListItemIcon} />}
-            onPress={() => navigation.navigate("Colors")}
+            onPress={() => router.push("/settings/colors")}
             isLink
           />
           <MenuListItem
             title={t("tags")}
             iconLeft={<Tag width={18} color={colors.menuListItemIcon} />}
-            onPress={() => navigation.navigate("SettingsTags")}
+            onPress={() => router.push("/settings/tags")}
             isLink
           />
           <MenuListItem
@@ -114,7 +113,7 @@ export const SettingsScreen = ({
             iconLeft={
               <CheckCircle width={18} color={colors.menuListItemIcon} />
             }
-            onPress={() => navigation.navigate("Steps")}
+            onPress={() => router.push("/settings/steps")}
             isLink
             isLast
           />
@@ -161,7 +160,7 @@ export const SettingsScreen = ({
           />
           <MenuListItem
             title={t("privacy")}
-            onPress={() => navigation.navigate("Privacy")}
+            onPress={() => router.push("/settings/privacy")}
             iconLeft={<Shield width={18} color={colors.menuListItemIcon} />}
             isLink
           />
@@ -172,19 +171,19 @@ export const SettingsScreen = ({
           <MenuListItem
             title={`${t("onboarding")}`}
             iconLeft={<Smartphone width={18} color={colors.menuListItemIcon} />}
-            onPress={() => navigation.navigate("Onboarding")}
+            onPress={() => router.push("/onboarding")}
           />
           <MenuListItem
             title={`${t("settings_development_statistics")}`}
             iconLeft={<PieChart width={18} color={colors.menuListItemIcon} />}
-            onPress={() => navigation.navigate("DevelopmentTools")}
+            onPress={() => router.push("/settings/development-tools")}
             isLink
           />
           {DEV_TOOLS && (
             <MenuListItem
               title="Test data"
               iconLeft={<Database width={18} color={colors.menuListItemIcon} />}
-              onPress={() => navigation.navigate("DevFixtures")}
+              onPress={() => router.push("/dev/fixtures")}
               isLink
               testID="dev-fixtures"
             />
@@ -201,7 +200,7 @@ export const SettingsScreen = ({
           <MenuListItem
             title={t("licenses")}
             iconLeft={<Award width={18} color={colors.menuListItemIcon} />}
-            onPress={() => navigation.navigate("Licenses")}
+            onPress={() => router.push("/settings/licenses")}
             isLink
             isLast
           />

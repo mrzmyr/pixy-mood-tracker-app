@@ -1,3 +1,6 @@
+globalThis.URL = require("node:url").URL;
+globalThis.URLSearchParams = require("node:url").URLSearchParams;
+
 // oxlint-disable-next-line anti-slop/no-module-mocking -- posthog-react-native needs native modules that do not exist in Jest; every provider test needs this fake client
 jest.mock("posthog-react-native", () => {
   const client = {

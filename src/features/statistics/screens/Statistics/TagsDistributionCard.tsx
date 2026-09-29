@@ -1,4 +1,4 @@
-import { StackActions, useNavigation } from "@react-navigation/native";
+import { useRouter } from "expo-router";
 import _ from "lodash";
 import { Pressable, Text, View } from "react-native";
 import { Card } from "../../components/Card";
@@ -25,7 +25,7 @@ export const TagDistributionContent = ({
   const colors = useColors();
   const haptic = useHaptics();
   const calendarFilters = useCalendarFilters();
-  const navigation = useNavigation();
+  const router = useRouter();
 
   const onPress = (tagId: Tag["id"]) => {
     haptic.selection();
@@ -33,9 +33,7 @@ export const TagDistributionContent = ({
       ...calendarFilters.data,
       tagIds: [tagId],
     });
-    // React Navigation 7 no longer finds nested tab screens by name. `popTo`
-    // also closes the Highlights screen instead of pushing a second tab stack.
-    navigation.dispatch(StackActions.popTo("tabs", { screen: "Calendar" }));
+    router.dismissTo("/calendar");
   };
 
   return (

@@ -1,4 +1,4 @@
-import type { RootStackScreenProps } from "../../../../../types";
+import { useRouter } from "expo-router";
 import { TagList, useTagsState, TagListItem } from "@/features/tags";
 import type { Tag } from "@/features/tags";
 import useColors from "@/hooks/useColors";
@@ -18,9 +18,8 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
  * Settings > Tags: active tags plus a link to archived ones. Archived tags
  * still count toward {@link MAX_TAGS}.
  */
-export const SettingsTags = ({
-  navigation,
-}: RootStackScreenProps<"SettingsTags">) => {
+export const SettingsTags = () => {
+  const router = useRouter();
   const colors = useColors();
   const insets = useSafeAreaInsets();
   const { tags } = useTagsState();
@@ -69,7 +68,7 @@ export const SettingsTags = ({
                 width: "100%",
               }}
               onPress={() => {
-                navigation.navigate("TagCreate");
+                router.push("/tags/create");
               }}
             >
               {t("create_tag")}
@@ -91,7 +90,7 @@ export const SettingsTags = ({
               isLink
               isLast
               onPress={() => {
-                navigation.navigate("SettingsTagsArchive");
+                router.push("/settings/tags/archive");
               }}
             />
           </MenuList>
@@ -110,9 +109,8 @@ export const SettingsTags = ({
 };
 
 /** Archived tags, sorted by title; rows open the tag editor to unarchive. */
-export const SettingsTagsArchive = ({
-  navigation,
-}: RootStackScreenProps<"SettingsTagsArchive">) => {
+export const SettingsTagsArchive = () => {
+  const router = useRouter();
   const colors = useColors();
   const insets = useSafeAreaInsets();
   const { tags } = useTagsState();
@@ -123,7 +121,7 @@ export const SettingsTagsArchive = ({
   );
 
   const onEdit = (tag: Tag) => {
-    navigation.navigate("TagEdit", { id: tag.id });
+    router.push({ pathname: "/tags/[id]", params: { id: tag.id } });
   };
 
   return (

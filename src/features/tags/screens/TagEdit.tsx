@@ -1,3 +1,4 @@
+import { useLocalSearchParams, useRouter } from "expo-router";
 import { useState } from "react";
 import {
   Platform,
@@ -26,7 +27,6 @@ import useHaptics from "@/hooks/useHaptics";
 import { useTagsState, useTagsUpdater } from "../TagsProvider";
 import type { Tag as ITag } from "../TagsProvider";
 
-import type { RootStackScreenProps } from "../../../../types";
 import MenuList from "@/components/MenuList";
 import MenuListItem from "@/components/MenuListItem";
 import TextInfo from "@/components/TextInfo";
@@ -37,10 +37,9 @@ const REGEX_EMOJI = /\p{Emoji}/u;
  * Edit, archive, or delete a tag. Deleting also removes the tag from all
  * entries. An unknown `id` opens an empty form.
  */
-export const TagEdit = ({
-  navigation,
-  route,
-}: RootStackScreenProps<"TagEdit">) => {
+export const TagEdit = () => {
+  const router = useRouter();
+  const { id } = useLocalSearchParams<{ id: string }>();
   const colors = useColors();
   const haptics = useHaptics();
   const insets = useSafeAreaInsets();
@@ -48,7 +47,7 @@ export const TagEdit = ({
   const tagsUpdater = useTagsUpdater();
   const analytics = useAnalytics();
 
-  const tagExists = tagState.tags.find((tag) => tag.id === route.params.id);
+  const tagExists = tagState.tags.find((tag) => tag.id === id);
   const defaultTag: ITag = tagExists || {
     id: uuidv4(),
     title: "",
@@ -59,7 +58,7 @@ export const TagEdit = ({
 
   const onDelete = (tagToDelete: ITag) => {
     tagsUpdater.deleteTag(tagToDelete.id);
-    navigation.goBack();
+    router.back();
   };
 
   const askToDelete = async (tagToDelete: ITag) => {
@@ -107,7 +106,7 @@ export const TagEdit = ({
       is_archived: Boolean(updatedTag.isArchived),
     });
     tagsUpdater.updateTag(updatedTag);
-    navigation.goBack();
+    router.back();
   };
 
   return (
@@ -125,7 +124,7 @@ export const TagEdit = ({
           left={
             <LinkButton
               onPress={() => {
-                navigation.goBack();
+                router.back();
               }}
               type="primary"
             >

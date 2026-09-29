@@ -1,3 +1,4 @@
+import { useLocalSearchParams, useRouter } from "expo-router";
 import Button from "@/components/Button";
 import { PageModalLayout } from "@/components/PageModalLayout";
 import { askToRemove } from "@/helpers/prompts";
@@ -15,7 +16,6 @@ import { Carousel } from "react-native-reanimated-carousel";
 import type { CarouselRef } from "react-native-reanimated-carousel";
 
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import type { RootStackScreenProps } from "../../../../../types";
 import { Entry } from "./Entry";
 import { Header } from "./Header";
 import { getItemDate, getItemTime } from "@/lib/logDates";
@@ -29,12 +29,10 @@ const WINDOW_WIDTH = Dimensions.get("window").width;
  * shown oldest first. New entries from here use the current time on that
  * day.
  */
-export const LogList = ({
-  route,
-  navigation,
-}: RootStackScreenProps<"LogList">) => {
+export const LogList = () => {
+  const router = useRouter();
+  const { date } = useLocalSearchParams<{ date: string }>();
   const colors = useColors();
-  const { date } = route.params;
   const logState = useLogState();
   const analytics = useAnalytics();
   const insets = useSafeAreaInsets();
@@ -46,22 +44,25 @@ export const LogList = ({
 
   const close = () => {
     analytics.track("day:closed");
-    navigation.goBack();
+    router.back();
   };
 
   const add = () => {
     analytics.track("day:add_tapped");
-    navigation.navigate("LogCreate", {
-      dateTime: dayjs(date)
-        .hour(dayjs().hour())
-        .minute(dayjs().minute())
-        .toISOString(),
+    router.push({
+      pathname: "/logs/create/[dateTime]",
+      params: {
+        dateTime: dayjs(date)
+          .hour(dayjs().hour())
+          .minute(dayjs().minute())
+          .toISOString(),
+      },
     });
   };
 
   const edit = (item: LogItem) => {
     analytics.track("day:edit_tapped");
-    navigation.navigate("LogEdit", { id: item.id });
+    router.push({ pathname: "/logs/[id]/edit", params: { id: item.id } });
   };
 
   const remove = (item: LogItem) => {

@@ -86,6 +86,7 @@
       ],
       "@react-native-community/datetimepicker",
       "expo-asset",
+      "expo-router",
       "expo-font",
       "expo-notifications",
       "expo-localization",
@@ -119,7 +120,8 @@
       }
     },
     "experiments": {
-      "reactCompiler": true
+      "reactCompiler": true,
+      "typedRoutes": true
     }
   }
 }

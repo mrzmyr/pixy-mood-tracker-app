@@ -2,7 +2,7 @@
   "name": "pixel-tracker",
   "version": "1.88.0",
   "private": true,
-  "main": "node_modules/expo/AppEntry.js",
+  "main": "expo-router/entry",
   "scripts": {
     "prepare": "husky",
     "start": "EXPO_PUBLIC_APP_VARIANT=development expo start --dev-client",
@@ -66,6 +66,7 @@
     "expo-localization": "~57.0.2",
     "expo-notifications": "~57.0.21",
     "expo-observe": "~57.0.24",
+    "expo-router": "~57.0.23",
     "expo-sharing": "~57.0.22",
     "expo-splash-screen": "~57.0.9",
     "expo-status-bar": "~57.0.1",

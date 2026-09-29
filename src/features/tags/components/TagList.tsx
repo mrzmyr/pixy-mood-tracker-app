@@ -5,7 +5,7 @@ import { t } from "@/lib/translation";
 import useColors from "@/hooks/useColors";
 import type { Tag } from "../TagsProvider";
 import { TagListItem } from "./TagListItem";
-import { useNavigation } from "@react-navigation/native";
+import { useRouter } from "expo-router";
 
 /**
  * Tag list for the tag settings screens; rows open the tag editor. Shows a
@@ -13,10 +13,10 @@ import { useNavigation } from "@react-navigation/native";
  */
 export const TagList = ({ tags }: { tags: Tag[] }) => {
   const colors = useColors();
-  const navigation = useNavigation();
+  const router = useRouter();
 
   const onEdit = (tag: Tag) => {
-    navigation.navigate("TagEdit", { id: tag.id });
+    router.push({ pathname: "/tags/[id]", params: { id: tag.id } });
   };
 
   return (

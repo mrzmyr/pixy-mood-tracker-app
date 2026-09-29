@@ -1,5 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { DefaultTheme, NavigationContainer } from "@react-navigation/native";
+import { DefaultTheme, ThemeProvider } from "expo-router";
 import {
   render,
   screen,
@@ -12,7 +12,7 @@ import Colors from "@/constants/Colors";
 import { setFileTransferOverride } from "@/features/datagate";
 import { LogsProvider, STORAGE_KEY as LOGS_KEY } from "@/features/logs";
 import { TagsProvider } from "@/features/tags";
-import { StorageLoadGate } from "@/navigation/StorageLoadGate";
+import { StorageLoadGate } from "@/shell/StorageLoadGate";
 import { AnalyticsProvider } from "@/state/analytics";
 import { INITIAL_STATE } from "@/constants/Settings";
 import {
@@ -34,8 +34,8 @@ jest.mock("@sentry/react-native", () => ({
 
 const renderApp = ({ isTrackingEnabled = false } = {}) =>
   render(
-    <NavigationContainer
-      theme={{
+    <ThemeProvider
+      value={{
         ...DefaultTheme,
         dark: false,
         colors: { ...DefaultTheme.colors, ...Colors.light },
@@ -52,7 +52,7 @@ const renderApp = ({ isTrackingEnabled = false } = {}) =>
           </LogsProvider>
         </AnalyticsProvider>
       </SettingsProvider>
-    </NavigationContainer>
+    </ThemeProvider>
   );
 
 const _console_error = console.error;

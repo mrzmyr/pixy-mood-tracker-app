@@ -3,7 +3,7 @@ import { load, store } from "@/state/persisted";
 import { useStorageLoad } from "@/state/persisted/useStorageLoad";
 import type { StorageLoad } from "@/state/persisted/useStorageLoad";
 
-import type { LogItemSchema } from "@/types";
+import type { AtLeast, LogItemSchema } from "@/types";
 // oxlint-disable-next-line unicorn/prefer-node-protocol -- `buffer` is the npm polyfill bundled for React Native; `node:buffer` does not resolve in Hermes.
 import dayjs from "dayjs";
 import isArray from "lodash/isArray";
@@ -23,7 +23,6 @@ import {
 import * as Sentry from "@sentry/react-native";
 import { v4 as uuidv4 } from "uuid";
 import type z from "zod";
-import type { AtLeast } from "../../../types";
 import type { RATING_KEYS } from "@/constants/Ratings";
 import { useAnalytics } from "@/state/analytics";
 import { createMissingProviderError } from "@/lib/errors";

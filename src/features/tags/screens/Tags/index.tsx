@@ -1,4 +1,4 @@
-import type { RootStackScreenProps } from "../../../../../types";
+import { useRouter } from "expo-router";
 import useColors from "@/hooks/useColors";
 import { useTagsState } from "../../TagsProvider";
 import type { Tag } from "../../TagsProvider";
@@ -18,7 +18,8 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
  * Tag manager modal opened from the logger's tag slide. Archived tags are
  * hidden here but still count toward {@link MAX_TAGS}.
  */
-export const Tags = ({ navigation }: RootStackScreenProps<"Tags">) => {
+export const Tags = () => {
+  const router = useRouter();
   const colors = useColors();
   const insets = useSafeAreaInsets();
   const { tags } = useTagsState();
@@ -39,7 +40,7 @@ export const Tags = ({ navigation }: RootStackScreenProps<"Tags">) => {
         right={
           <LinkButton
             onPress={() => {
-              navigation.goBack();
+              router.back();
             }}
             type="primary"
           >
@@ -82,7 +83,7 @@ export const Tags = ({ navigation }: RootStackScreenProps<"Tags">) => {
                 width: "100%",
               }}
               onPress={() => {
-                navigation.navigate("TagCreate");
+                router.push("/tags/create");
               }}
             >
               {t("create_tag")}

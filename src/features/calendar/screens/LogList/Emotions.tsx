@@ -2,7 +2,7 @@ import { EMOTIONS } from "@/features/logger";
 import useColors from "@/hooks/useColors";
 import type { LogItem } from "@/features/logs";
 import type { Emotion } from "@/types";
-import { useNavigation } from "@react-navigation/native";
+import { useRouter } from "expo-router";
 import { t } from "@/lib/translation";
 import get from "lodash/get";
 import keyBy from "lodash/keyBy";
@@ -28,7 +28,7 @@ const EMOTIONS_CATEGORY_ORDER = {
  */
 export const Emotions = ({ item }: { item: LogItem }) => {
   const colors = useColors();
-  const navigation = useNavigation();
+  const router = useRouter();
 
   const emotionsByKey = keyBy(EMOTIONS, "key");
   const emotions = get(item, "emotions", []).map((e: Emotion["key"]) => ({
@@ -42,9 +42,12 @@ export const Emotions = ({ item }: { item: LogItem }) => {
       <SectionHeader
         title={t("view_log_emotions")}
         onEdit={() => {
-          navigation.navigate("LogEdit", {
-            id: item.id,
-            step: "emotions",
+          router.push({
+            pathname: "/logs/[id]/edit",
+            params: {
+              id: item.id,
+              step: "emotions",
+            },
           });
         }}
       />

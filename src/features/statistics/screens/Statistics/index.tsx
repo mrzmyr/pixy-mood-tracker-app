@@ -1,3 +1,4 @@
+import { useNavigation, useRouter } from "expo-router";
 import MenuList from "@/components/MenuList";
 import MenuListHeadline from "@/components/MenuListHeadline";
 import MenuListItem from "@/components/MenuListItem";
@@ -21,7 +22,6 @@ import { HighlightsSection } from "./HighlightsSection";
 
 import { DATE_FORMAT, STATISTIC_MIN_LOGS } from "@/constants/Config";
 import isBetween from "dayjs/plugin/isBetween";
-import type { RootStackScreenProps } from "../../../../../types";
 import { getItemTime } from "@/lib/logDates";
 
 dayjs.extend(isBetween);
@@ -32,9 +32,9 @@ dayjs.extend(isBetween);
  * Unlocks with {@link STATISTIC_MIN_LOGS} entries in the last 14 days, not
  * in total. Statistics reload when the tab gains focus.
  */
-export const StatisticsScreen = ({
-  navigation,
-}: RootStackScreenProps<"Statistics">) => {
+export const StatisticsScreen = () => {
+  const router = useRouter();
+  const navigation = useNavigation();
   const insets = useSafeAreaInsets();
   const colors = useColors();
   const statistics = useStatistics();
@@ -125,8 +125,11 @@ export const StatisticsScreen = ({
               <MenuListItem
                 title={t("month_report")}
                 onPress={() =>
-                  navigation.navigate("StatisticsMonth", {
-                    date: dayjs().startOf("month").format(DATE_FORMAT),
+                  router.push({
+                    pathname: "/statistics/month/[date]",
+                    params: {
+                      date: dayjs().startOf("month").format(DATE_FORMAT),
+                    },
                   })
                 }
                 iconLeft={
@@ -141,8 +144,11 @@ export const StatisticsScreen = ({
               <MenuListItem
                 title={t("year_report")}
                 onPress={() =>
-                  navigation.navigate("StatisticsYear", {
-                    date: dayjs().startOf("year").format(DATE_FORMAT),
+                  router.push({
+                    pathname: "/statistics/year/[date]",
+                    params: {
+                      date: dayjs().startOf("year").format(DATE_FORMAT),
+                    },
                   })
                 }
                 iconLeft={

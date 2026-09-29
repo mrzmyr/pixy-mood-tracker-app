@@ -1,6 +1,6 @@
 import useColors from "@/hooks/useColors";
 import type { LogItem } from "@/features/logs";
-import { useNavigation } from "@react-navigation/native";
+import { useRouter } from "expo-router";
 import { t } from "@/lib/translation";
 import { Text, View } from "react-native";
 import { SectionHeader } from "./SectionHeader";
@@ -10,7 +10,7 @@ import { SectionHeader } from "./SectionHeader";
  * message step.
  */
 export const Message = ({ item }: { item: LogItem }) => {
-  const navigation = useNavigation();
+  const router = useRouter();
   const colors = useColors();
 
   return (
@@ -18,9 +18,12 @@ export const Message = ({ item }: { item: LogItem }) => {
       <SectionHeader
         title={t("view_log_message")}
         onEdit={() => {
-          navigation.navigate("LogEdit", {
-            id: item.id,
-            step: "message",
+          router.push({
+            pathname: "/logs/[id]/edit",
+            params: {
+              id: item.id,
+              step: "message",
+            },
           });
         }}
       />

@@ -1,4 +1,4 @@
-import { useNavigation } from "@react-navigation/native";
+import { useRouter } from "expo-router";
 import { LinearGradient } from "expo-linear-gradient";
 import { Dimensions, Text, View } from "react-native";
 import { ArrowLeft, Star } from "react-native-feather";
@@ -18,7 +18,7 @@ export const Header = ({
 }) => {
   const insets = useSafeAreaInsets();
   const colors = useColors();
-  const navigation = useNavigation();
+  const router = useRouter();
 
   return (
     <View
@@ -80,7 +80,7 @@ export const Header = ({
               margin: -16,
             }}
             onPress={() => {
-              navigation.goBack();
+              router.back();
             }}
           >
             <ArrowLeft width={24} height={24} color={colors.palette.white} />

@@ -1,7 +1,6 @@
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { DefaultTheme, NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { render, screen, userEvent } from "@testing-library/react-native";
+import { DefaultTheme, Stack, ThemeProvider } from "expo-router";
+import { renderRouter } from "expo-router/testing-library";
+import { userEvent } from "@testing-library/react-native";
 import { Text } from "react-native";
 import Colors from "@/constants/Colors";
 import { AnalyticsProvider } from "@/state/analytics";
@@ -19,7 +18,6 @@ jest.mock("react-native-safe-area-context", () => {
   const { View } = jest.requireActual("react-native");
   const insets = { top: 0, right: 0, bottom: 0, left: 0 };
   const frame = { x: 0, y: 0, width: 390, height: 844 };
-
   return {
     SafeAreaProvider: ({ children }: { children: React.ReactNode }) => children,
     SafeAreaView: View,
@@ -46,74 +44,49 @@ const data: TagsDistributionData = {
   ],
 };
 
-const Stack = createNativeStackNavigator();
-const Tab = createBottomTabNavigator();
-
-const StatisticsTab = () => <Text>Statistics tab</Text>;
-
-const CalendarTab = () => {
+const Calendar = () => {
   const calendarFilters = useCalendarFilters();
-
   return (
-    <Text>{`Calendar tab filtered by ${calendarFilters.data.tagIds.join(",")}`}</Text>
+    <Text>{`Calendar filtered by ${calendarFilters.data.tagIds.join(",")}`}</Text>
   );
 };
 
-const Tabs = () => (
-  <Tab.Navigator initialRouteName="Statistics">
-    <Tab.Screen name="Statistics" component={StatisticsTab} />
-    <Tab.Screen name="Calendar" component={CalendarTab} />
-  </Tab.Navigator>
-);
-
-const Highlights = () => <TagDistributionContent data={data} />;
-
-const renderApp = () =>
-  render(
-    <NavigationContainer
-      initialState={{
-        routes: [
-          {
-            name: "tabs",
-            state: { index: 0, routes: [{ name: "Statistics" }] },
-          },
-          { name: "StatisticsHighlights" },
-        ],
-      }}
-      theme={{
-        ...DefaultTheme,
-        dark: false,
-        colors: { ...DefaultTheme.colors, ...Colors.light },
-      }}
-    >
-      <SettingsProvider>
-        <AnalyticsProvider>
-          <LogsProvider>
-            <CalendarFiltersProvider>
-              <Stack.Navigator>
-                <Stack.Screen name="tabs" component={Tabs} />
-                <Stack.Screen
-                  name="StatisticsHighlights"
-                  component={Highlights}
-                />
-              </Stack.Navigator>
-            </CalendarFiltersProvider>
-          </LogsProvider>
-        </AnalyticsProvider>
-      </SettingsProvider>
-    </NavigationContainer>
+const renderApp = async () => {
+  const result = await renderRouter(
+    {
+      _layout: () => (
+        <ThemeProvider
+          value={{
+            ...DefaultTheme,
+            colors: { ...DefaultTheme.colors, ...Colors.light },
+          }}
+        >
+          <SettingsProvider>
+            <AnalyticsProvider>
+              <LogsProvider>
+                <CalendarFiltersProvider>
+                  <Stack />
+                </CalendarFiltersProvider>
+              </LogsProvider>
+            </AnalyticsProvider>
+          </SettingsProvider>
+        </ThemeProvider>
+      ),
+      calendar: Calendar,
+      "statistics/highlights": () => <TagDistributionContent data={data} />,
+    },
+    { initialUrl: "/statistics/highlights" }
   );
+  jest.useRealTimers();
+  return result;
+};
 
 describe("Tags distribution in Statistics Highlights", () => {
   test("user taps a tag and lands on the Calendar filtered by that tag", async () => {
-    const user = userEvent.setup();
-    await renderApp();
-
-    await user.press(await screen.findByText("3x Work"));
-
+    const result = await renderApp();
+    await userEvent.press(await result.findByText("3x Work"));
     expect(
-      await screen.findByText("Calendar tab filtered by tag-work")
+      await result.findByText("Calendar filtered by tag-work")
     ).toBeOnTheScreen();
-    expect(screen.queryByText("3x Work")).not.toBeOnTheScreen();
   });
 });

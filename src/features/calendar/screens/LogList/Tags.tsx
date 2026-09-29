@@ -1,7 +1,7 @@
 import useColors from "@/hooks/useColors";
 import type { LogItem } from "@/features/logs";
 import { useTagsState } from "@/features/tags";
-import { useNavigation } from "@react-navigation/native";
+import { useRouter } from "expo-router";
 import { t } from "@/lib/translation";
 import { Text, View, useColorScheme } from "react-native";
 import type { ViewStyle } from "react-native";
@@ -68,16 +68,19 @@ const Tag = ({
 export const Tags = ({ item }: { item: LogItem }) => {
   const colors = useColors();
   const { tags } = useTagsState();
-  const navigation = useNavigation();
+  const router = useRouter();
 
   return (
     <View style={{}}>
       <SectionHeader
         title={t("tags")}
         onEdit={() => {
-          navigation.navigate("LogEdit", {
-            id: item.id,
-            step: "tags",
+          router.push({
+            pathname: "/logs/[id]/edit",
+            params: {
+              id: item.id,
+              step: "tags",
+            },
           });
         }}
       />
