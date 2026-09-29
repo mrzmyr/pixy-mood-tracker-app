@@ -1,4 +1,4 @@
-import type { NavigationProp } from "@react-navigation/native";
+import { useLocalSearchParams, useRouter } from "expo-router";
 import * as Linking from "expo-linking";
 import { useEffect, useRef, useState } from "react";
 import { ActivityIndicator, Alert, ScrollView, Text, View } from "react-native";
@@ -8,7 +8,6 @@ import MenuListItem from "@/components/MenuListItem";
 import TextInfo from "@/components/TextInfo";
 import { APP_VARIANT } from "@/constants/AppVariant";
 import useColors from "@/hooks/useColors";
-import type { RootStackParamList, RootStackScreenProps } from "../../types";
 import pkg from "../../package.json";
 import {
   FIXTURES,
@@ -23,22 +22,14 @@ import { fakeFileTransfer } from "@/dev/fakeFileTransfer";
 import { useLoadFixture, writeStorageFixture } from "@/dev/useLoadFixture";
 
 // Drops every screen behind the new state, like a fresh app start.
-const openApp = (
-  navigation: NavigationProp<RootStackParamList>,
-  fixture: Fixture
-) => {
-  navigation.reset({
-    index: 0,
-    routes: fixture.isFresh
-      ? [{ name: "tabs" }, { name: "Onboarding" }]
-      : [{ name: "tabs" }],
-  });
+const openApp = (router: ReturnType<typeof useRouter>, fixture: Fixture) => {
+  router.dismissAll();
+  router.replace(fixture.isFresh ? "/onboarding" : "/calendar");
 };
 
 /** Settings > Test data: replace all data with a fixture. */
-export const DevFixturesScreen = ({
-  navigation,
-}: RootStackScreenProps<"DevFixtures">) => {
+export const DevFixturesScreen = () => {
+  const router = useRouter();
   const colors = useColors();
   const { isReady, load } = useLoadFixture();
 
@@ -51,7 +42,7 @@ export const DevFixturesScreen = ({
         {
           onPress: () => {
             load(fixture);
-            openApp(navigation, fixture);
+            openApp(router, fixture);
           },
           style: "destructive",
           text: "Replace data",
@@ -99,16 +90,15 @@ export const DevFixturesScreen = ({
  * store has read storage, then opens the app on the new data. A storage
  * fixture is written to AsyncStorage instead and needs an app restart.
  */
-export const DevFixtureLinkScreen = ({
-  navigation,
-  route,
-}: RootStackScreenProps<"DevFixture">) => {
+export const DevFixtureLinkScreen = () => {
+  const router = useRouter();
+  const { id } = useLocalSearchParams<{ id: string }>();
   const colors = useColors();
   const { isReady, load } = useLoadFixture();
   const isLoaded = useRef(false);
   const [message, setMessage] = useState<string | null>(null);
-  const fixture = getFixture(route.params.id);
-  const storageFixture = getStorageFixture(route.params.id);
+  const fixture = getFixture(id);
+  const storageFixture = getStorageFixture(id);
 
   useEffect(() => {
     if ((!fixture && !storageFixture) || !isReady || isLoaded.current) {
@@ -135,14 +125,14 @@ export const DevFixtureLinkScreen = ({
     }
     if (fixture) {
       load(fixture);
-      openApp(navigation, fixture);
+      openApp(router, fixture);
     }
-  }, [fixture, storageFixture, isReady, load, navigation]);
+  }, [fixture, storageFixture, isReady, load, router]);
 
   let text = message;
   if (!text && !fixture && !storageFixture) {
     text = [
-      `fixture_unknown: Unknown fixture "${route.params.id}"`,
+      `fixture_unknown: Unknown fixture "${id}"`,
       "why: No fixture in src/dev/fixtures has this ID.",
       "fix: Open Settings > Test data for the list of fixture IDs.",
     ].join("\n");
@@ -172,13 +162,13 @@ export const DevFixtureLinkScreen = ({
  * Target of `<scheme>://dev/fake-files`. Swaps the share sheet and document
  * picker for `fakeFileTransfer` until the app restarts, then opens the app.
  */
-export const DevFakeFilesLinkScreen = ({
-  navigation,
-}: RootStackScreenProps<"DevFakeFiles">) => {
+export const DevFakeFilesLinkScreen = () => {
+  const router = useRouter();
   useEffect(() => {
     setFileTransferOverride(fakeFileTransfer);
-    navigation.reset({ index: 0, routes: [{ name: "tabs" }] });
-  }, [navigation]);
+    router.dismissAll();
+    router.replace("/calendar");
+  }, [router]);
 
   return <ActivityIndicator testID="dev-fake-files-link" />;
 };

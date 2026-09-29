@@ -4,7 +4,7 @@ import useColors from "@/hooks/useColors";
 import { useTagsState, TagComponent as Tag } from "@/features/tags";
 import { useTemporaryLog } from "../temporaryLog";
 import type { TagReference } from "@/types";
-import { useNavigation } from "@react-navigation/native";
+import { useRouter } from "expo-router";
 import { LinearGradient } from "expo-linear-gradient";
 import { ScrollView, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -28,7 +28,7 @@ export const SlideTags = ({
   showDisable: boolean;
 }) => {
   const tempLog = useTemporaryLog();
-  const navigation = useNavigation();
+  const router = useRouter();
   const insets = useSafeAreaInsets();
   const colors = useColors();
   const { tags } = useTagsState();
@@ -122,7 +122,7 @@ export const SlideTags = ({
             <View>
               <MiniButton
                 onPress={() => {
-                  navigation.navigate("Tags");
+                  router.push("/tags");
                 }}
               >
                 {t("tags_edit")}

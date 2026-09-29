@@ -9,43 +9,29 @@ import type { SvgProps } from "react-native-svg";
 import { t } from "@/lib/translation";
 import useColors from "@/hooks/useColors";
 import useHaptics from "@/hooks/useHaptics";
-import { SettingsScreen } from "@/features/settings";
-import { StatisticsScreen } from "@/features/statistics";
-import { CalendarScreen } from "@/features/calendar";
 
 interface TabRoute {
   name: string;
   icon: (props: SvgProps) => React.JSX.Element;
-  component:
-    | typeof StatisticsScreen
-    | typeof CalendarScreen
-    | typeof SettingsScreen;
-  path?: string;
 }
 
 const ROUTES: TabRoute[] = [
   {
-    name: "Statistics",
-    component: StatisticsScreen,
+    name: "statistics",
     icon: PieChart,
-    path: "statistics",
   },
   {
-    name: "Calendar",
-    component: CalendarScreen,
+    name: "calendar",
     icon: CalendarIcon,
-    path: "calendar",
   },
   {
-    name: "Settings",
-    component: SettingsScreen,
+    name: "settings",
     icon: SettingsIcon,
-    path: "settings",
   },
 ];
 
 /**
- * Custom tab bar for {@link BottomTabs}. Tab icons are looked up by route
+ * Custom tab bar for Router tabs. Tab icons are looked up by route
  * name, so a new tab needs an entry in `ROUTES`.
  */
 export const MyTabBar = ({ state, descriptors, navigation }) => {

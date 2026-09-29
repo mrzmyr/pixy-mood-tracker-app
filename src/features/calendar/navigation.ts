@@ -1,4 +1,4 @@
-import { useNavigation } from "@react-navigation/native";
+import { useRouter } from "expo-router";
 import { useLogState } from "@/features/logs";
 import dayjs from "dayjs";
 import { getItemDate } from "@/lib/logDates";
@@ -9,7 +9,7 @@ import { useAnalytics } from "@/state/analytics";
  * current time of day when the day has no entries.
  */
 export const useCalendarNavigation = () => {
-  const navigation = useNavigation();
+  const router = useRouter();
   const logsState = useLogState();
   const analytics = useAnalytics();
 
@@ -29,16 +29,19 @@ export const useCalendarNavigation = () => {
     });
 
     if (items.length === 0) {
-      navigation.navigate("LogCreate", {
-        dateTime: dayjs(date)
-          .hour(dayjs().hour())
-          .minute(dayjs().minute())
-          .toISOString(),
+      router.push({
+        pathname: "/logs/create/[dateTime]",
+        params: {
+          dateTime: dayjs(date)
+            .hour(dayjs().hour())
+            .minute(dayjs().minute())
+            .toISOString(),
+        },
       });
       return;
     }
 
-    navigation.navigate("LogList", { date });
+    router.push({ pathname: "/days/[date]", params: { date } });
   };
 
   return {

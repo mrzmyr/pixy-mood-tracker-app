@@ -1,4 +1,4 @@
-import { DefaultTheme, NavigationContainer } from "@react-navigation/native";
+import { DefaultTheme, ThemeProvider } from "expo-router";
 import { render } from "@testing-library/react-native";
 
 import Colors from "@/constants/Colors";
@@ -7,14 +7,14 @@ import TextArea from "@/components/TextArea";
 
 const renderField = (props: React.ComponentProps<typeof TextArea>) =>
   render(
-    <NavigationContainer
-      theme={{
+    <ThemeProvider
+      value={{
         ...DefaultTheme,
         colors: { ...DefaultTheme.colors, ...Colors.light },
       }}
     >
       <TextArea testID="field" {...props} />
-    </NavigationContainer>
+    </ThemeProvider>
   );
 
 describe("<TextArea> accessibility label", () => {

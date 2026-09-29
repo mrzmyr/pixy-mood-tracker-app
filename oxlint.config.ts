@@ -67,8 +67,8 @@ export default defineConfig({
       },
     },
     {
-      // Feature consumers use the public entry file.
-      files: ["src/features/**", "src/navigation/**"],
+      // Feature consumers use public entry files.
+      files: ["src/features/**", "src/shell/**", "src/app/**"],
       rules: {
         "no-restricted-imports": [
           "error",
@@ -76,17 +76,12 @@ export default defineConfig({
             patterns: [
               {
                 regex: "^@/features/[^/]+/.+",
-                message: "Import other features through their entry file.",
+                message: "Import features through their entry file.",
               },
             ],
           },
         ],
       },
-    },
-    {
-      // D8 moves provider composition into the router shell. Composition must import feature providers until then.
-      files: ["src/components/Providers/index.tsx"],
-      rules: { "no-restricted-imports": "off" },
     },
     {
       // Feature entry files intentionally re-export public symbols.
@@ -95,7 +90,7 @@ export default defineConfig({
     },
     {
       // App code runs on Hermes; scripts run on Bun and Node.
-      files: ["src/**", "App.tsx"],
+      files: ["src/**"],
       rules: { "pixy-standards/no-hermes-missing-array-methods": "error" },
     },
   ],

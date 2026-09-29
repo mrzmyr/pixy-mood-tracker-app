@@ -1,5 +1,5 @@
 import { Text } from "react-native";
-import type { ViewStyle } from "react-native";
+import type { TextStyle } from "react-native";
 
 import useColors from "@/hooks/useColors";
 
@@ -8,7 +8,7 @@ const TextInfo = ({
   style,
 }: {
   children: React.ReactNode;
-  style?: ViewStyle;
+  style?: TextStyle;
 }) => {
   const colors = useColors();
 

@@ -10,5 +10,5 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["src/**/*", "./App.tsx"]
+  "include": ["src/**/*", ".expo/types/**/*.ts", "expo-env.d.ts"]
 }

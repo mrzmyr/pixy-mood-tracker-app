@@ -2,7 +2,7 @@ import Button from "@/components/Button";
 import { t } from "@/lib/translation";
 import useColors from "@/hooks/useColors";
 import { useLogState } from "@/features/logs";
-import { useNavigation } from "@react-navigation/native";
+import { useRouter } from "expo-router";
 import dayjs from "dayjs";
 import { DATE_FORMAT } from "@/constants/Config";
 import React from "react";
@@ -19,7 +19,7 @@ import { useAnalytics } from "@/state/analytics";
 export const CalendarFooter = () => {
   const colors = useColors();
   const logState = useLogState();
-  const navigation = useNavigation();
+  const router = useRouter();
   const analytics = useAnalytics();
 
   const today = dayjs().format(DATE_FORMAT);
@@ -49,8 +49,11 @@ export const CalendarFooter = () => {
                 analytics.track("calendar:add_today_tapped", {
                   has_entries: hasTodayItem,
                 });
-                navigation.navigate("LogCreate", {
-                  dateTime: dayjs().toISOString(),
+                router.push({
+                  pathname: "/logs/create/[dateTime]",
+                  params: {
+                    dateTime: dayjs().toISOString(),
+                  },
                 });
               }}
             >
@@ -69,8 +72,11 @@ export const CalendarFooter = () => {
                 analytics.track("calendar:add_today_tapped", {
                   has_entries: hasTodayItem,
                 });
-                navigation.navigate("LogCreate", {
-                  dateTime: dayjs().toISOString(),
+                router.push({
+                  pathname: "/logs/create/[dateTime]",
+                  params: {
+                    dateTime: dayjs().toISOString(),
+                  },
                 });
               }}
             >

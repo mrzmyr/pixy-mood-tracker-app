@@ -1,4 +1,4 @@
-import { useNavigation } from "@react-navigation/native";
+import { useRouter } from "expo-router";
 import dayjs from "dayjs";
 import { useState } from "react";
 import { Platform, View } from "react-native";
@@ -25,7 +25,7 @@ export const SlideMood = ({
 }) => {
   const colors = useColors();
   const tempLog = useTemporaryLog();
-  const navigation = useNavigation();
+  const router = useRouter();
   const insets = useSafeAreaInsets();
 
   const marginTop = getLogEditMarginTop();
@@ -63,9 +63,7 @@ export const SlideMood = ({
                 date: dayjs(date).format(DATE_FORMAT),
                 dateTime: dayjs(date).toISOString(),
               });
-              navigation.setParams({
-                date: dayjs(date).format(DATE_FORMAT),
-              });
+              router.setParams({ dateTime: dayjs(date).toISOString() });
             }}
             onCancel={() => setIsDatePickerVisible(false)}
           />

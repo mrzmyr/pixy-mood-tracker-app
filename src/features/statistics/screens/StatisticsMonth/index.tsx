@@ -1,3 +1,4 @@
+import { useLocalSearchParams, useRouter } from "expo-router";
 import { MoodCounts } from "../../components/MoodCounts";
 import { TagDistribution } from "../../components/TagDistribution";
 import { DATE_FORMAT } from "@/constants/Config";
@@ -6,7 +7,6 @@ import dayjs from "dayjs";
 import { useState } from "react";
 import { ScrollView, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import type { RootStackScreenProps } from "../../../../../types";
 import useColors from "@/hooks/useColors";
 import { useLogState } from "@/features/logs";
 import { Header } from "./Header";
@@ -23,19 +23,18 @@ import { getItemDate } from "@/lib/logDates";
  * Invalid `date` params fall back to the current month. Navigating months
  * updates the route param so deep links and back navigation stay in sync.
  */
-export const StatisticsMonthScreen = ({
-  navigation,
-  route,
-}: RootStackScreenProps<"StatisticsMonth">) => {
+export const StatisticsMonthScreen = () => {
+  const router = useRouter();
+  const { date: routeDate } = useLocalSearchParams<{ date: string }>();
   const colors = useColors();
   const inset = useSafeAreaInsets();
 
   const [date, setDate] = useState(
-    dayjs(route.params.date).isValid() ? dayjs(route.params.date) : dayjs()
+    dayjs(routeDate).isValid() ? dayjs(routeDate) : dayjs()
   );
 
   const _setDate = (nextDate: dayjs.Dayjs) => {
-    navigation.setParams({
+    router.setParams({
       date: nextDate.format(DATE_FORMAT),
     });
     setDate(nextDate);

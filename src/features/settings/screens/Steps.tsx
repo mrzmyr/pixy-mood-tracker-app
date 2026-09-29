@@ -15,7 +15,6 @@ import {
   Sun,
   Tag,
 } from "react-native-feather";
-import type { RootStackScreenProps } from "../../../../types";
 import useColors from "@/hooks/useColors";
 import { useSettings } from "@/state/settings";
 import { useAnalytics } from "@/state/analytics";
@@ -24,7 +23,7 @@ import { useAnalytics } from "@/state/analytics";
  * Settings > Steps: toggle optional logger steps. `rating` cannot be
  * turned off.
  */
-export const StepsScreen = (_props: RootStackScreenProps<"Steps">) => {
+export const StepsScreen = () => {
   const colors = useColors();
 
   const ICONS_MAP: Record<LoggerStep, ReactElement> = {

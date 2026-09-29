@@ -1,8 +1,8 @@
 import MenuList from "@/components/MenuList";
 import MenuListItem from "@/components/MenuListItem";
 import { DATE_FORMAT } from "@/constants/Config";
+import { useRouter } from "expo-router";
 import { t } from "@/lib/translation";
-import { useNavigation } from "@react-navigation/native";
 import dayjs from "dayjs";
 import { useEffect, useEffectEvent } from "react";
 import type { ReactElement } from "react";
@@ -64,7 +64,7 @@ const EmptryState = () => {
  */
 export const HighlightsSection = (_props: { items: LogItem[] }) => {
   const colors = useColors();
-  const navigation = useNavigation();
+  const router = useRouter();
   const analytics = useAnalytics();
   const statistics = useStatistics();
   const logState = useLogState();
@@ -222,7 +222,7 @@ export const HighlightsSection = (_props: { items: LogItem[] }) => {
             title={t("statistics_highlights_more")}
             isLink
             isLast
-            onPress={() => navigation.navigate("StatisticsHighlights")}
+            onPress={() => router.push("/statistics/highlights")}
             iconLeft={<Activity width={18} height={18} color={colors.text} />}
           />
         </MenuList>

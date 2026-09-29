@@ -1,5 +1,5 @@
 import { DATE_FORMAT } from "@/constants/Config";
-import { useNavigation, StackActions } from "@react-navigation/native";
+import { useRouter } from "expo-router";
 import dayjs from "dayjs";
 import { useEffect, useRef } from "react";
 import { useAnalytics } from "@/state/analytics";
@@ -21,7 +21,7 @@ export const useLoggerActions = ({
   mode: LoggerMode;
   tempLog: TemporaryLogValue;
 }) => {
-  const navigation = useNavigation();
+  const router = useRouter();
   const analytics = useAnalytics();
   const startedAt = useRef(0);
 
@@ -33,7 +33,7 @@ export const useLoggerActions = ({
 
   const close = () => {
     tempLog.reset();
-    navigation.goBack();
+    router.back();
   };
 
   const save = (data: TemporaryLogState) => {
@@ -63,7 +63,7 @@ export const useLoggerActions = ({
       );
 
       if (itemsOnDate.length === 1) {
-        navigation.dispatch(StackActions.popToTop());
+        router.dismissTo("/calendar");
         tempLog.reset();
         return;
       }

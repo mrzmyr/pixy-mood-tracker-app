@@ -1,14 +1,14 @@
-import { useTheme } from "@react-navigation/native";
-import type { Theme } from "@react-navigation/native";
+import { useTheme } from "expo-router";
+import type { Theme } from "expo-router";
 
 import type { IColors } from "@/constants/Colors";
 
 /**
- * Current theme colors. Must render inside the app's `NavigationContainer`,
+ * Current theme colors. Must render inside the app's `ThemeProvider`,
  * which receives the light or dark theme.
  */
 export default function useColors(): IColors {
-  // SAFETY: NavigationContainer receives Colors.light or Colors.dark as its theme colors.
+  // SAFETY: App ThemeProvider adds every IColors key to the Router theme.
   const { colors } = useTheme() as Theme & { colors: IColors };
   return colors;
 }

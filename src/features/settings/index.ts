@@ -6,3 +6,8 @@ export { SettingsScreen } from "./screens/Settings";
 export { SettingsTags } from "./screens/Settings/Tags";
 export { SettingsTagsArchive } from "./screens/Settings/Tags";
 export { StepsScreen } from "./screens/Steps";
+export {
+  DevFixturesScreen,
+  DevFixtureLinkScreen,
+  DevFakeFilesLinkScreen,
+} from "./DevRoutes";

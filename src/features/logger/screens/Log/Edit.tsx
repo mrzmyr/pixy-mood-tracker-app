@@ -1,10 +1,15 @@
+import { useLocalSearchParams } from "expo-router";
+import type { LoggerStep } from "../../config";
 import { LoggerEdit } from "../../Logger";
-import type { RootStackScreenProps } from "../../../../../types";
 
 /**
  * Route wrapper that opens the logger for an existing entry, optionally at
  * a given step.
  */
-export const LogEdit = ({ route }: RootStackScreenProps<"LogEdit">) => (
-  <LoggerEdit id={route.params.id} initialStep={route.params.step} />
-);
+export const LogEdit = () => {
+  const { id, step } = useLocalSearchParams<{
+    id: string;
+    step?: LoggerStep;
+  }>();
+  return <LoggerEdit id={id} initialStep={step} />;
+};

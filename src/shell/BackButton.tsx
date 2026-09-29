@@ -1,4 +1,4 @@
-import { useNavigation } from "@react-navigation/native";
+import { useRouter } from "expo-router";
 import { Pressable } from "react-native";
 import { ArrowLeft } from "react-native-feather";
 import useColors from "@/hooks/useColors";
@@ -8,7 +8,7 @@ import useColors from "@/hooks/useColors";
  * back button.
  */
 export const BackButton = ({ testID }: { testID?: string }) => {
-  const navigation = useNavigation();
+  const router = useRouter();
   const colors = useColors();
 
   return (
@@ -17,7 +17,7 @@ export const BackButton = ({ testID }: { testID?: string }) => {
         padding: 15,
         marginLeft: 5,
       }}
-      onPress={() => navigation.goBack()}
+      onPress={() => router.back()}
       testID={testID}
     >
       <ArrowLeft width={24} color={colors.text} />

@@ -1,7 +1,7 @@
-import { DefaultTheme, NavigationContainer } from "@react-navigation/native";
+import { DefaultTheme, ThemeProvider } from "expo-router";
 import { act, render, userEvent, waitFor } from "@testing-library/react-native";
 import { Alert } from "react-native";
-import Providers from "@/components/Providers";
+import Providers from "@/shell/Providers";
 import Colors from "@/constants/Colors";
 import type { SupportClient } from "@/support";
 import {
@@ -48,27 +48,19 @@ jest.mock("react-native-safe-area-context", () => ({
   useSafeAreaInsets: () => ({ top: 0, right: 0, bottom: 0, left: 0 }),
 }));
 
-const navigation = {
-  navigate: jest.fn(),
-};
-
 const renderSettings = (supportClient: SupportClient) =>
   render(
-    <NavigationContainer
-      theme={{
+    <ThemeProvider
+      value={{
         ...DefaultTheme,
         dark: false,
         colors: { ...DefaultTheme.colors, ...Colors.light },
       }}
     >
       <Providers supportClient={supportClient}>
-        <SettingsScreen
-          // SAFETY: SettingsScreen only calls navigation.navigate, which the mock provides.
-          navigation={navigation as never}
-          route={{ key: "settings", name: "Settings" }}
-        />
+        <SettingsScreen />
       </Providers>
-    </NavigationContainer>
+    </ThemeProvider>
   );
 
 describe("Support Pixy in Settings", () => {

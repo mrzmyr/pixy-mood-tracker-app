@@ -1,10 +1,10 @@
+import { useRouter } from "expo-router";
 import { useEffect, useEffectEvent, useState } from "react";
 import { BackHandler, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import useColors from "@/hooks/useColors";
 import { useAnalytics } from "@/state/analytics";
 import { useSettings } from "@/state/settings";
-import type { RootStackScreenProps } from "../../../../../types";
 import { ExplainerSlide } from "./ExplainerSlide";
 import { IndexSlide } from "./IndexSlide";
 import { PrivacySlide } from "./PrivacySlide";
@@ -30,9 +30,8 @@ const FiltersSlide = ({ ...props }: SlideProps) => (
  * Onboarding flow, shown on start until the `onboarding` action is done.
  * Finishing or skipping records that action and returns to the root.
  */
-export const Onboarding = ({
-  navigation,
-}: RootStackScreenProps<"Onboarding">) => {
+export const Onboarding = () => {
+  const router = useRouter();
   const { addActionDone } = useSettings();
   const colors = useColors();
   const analytics = useAnalytics();
@@ -66,12 +65,12 @@ export const Onboarding = ({
   const finish = () => {
     addActionDone("onboarding");
     analytics.track("onboarding:flow_completed");
-    navigation.popToTop();
+    router.replace("/calendar");
   };
 
   const skip = () => {
     addActionDone("onboarding");
-    navigation.popToTop();
+    router.replace("/calendar");
     analytics.track("onboarding:flow_skipped", { index });
   };
 

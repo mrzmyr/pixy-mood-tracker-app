@@ -2,7 +2,11 @@ appId: ${APP_ID}
 ---
 # Writes storage fixture ${FIXTURE} (raw AsyncStorage of an old version) and
 # restarts the app, so stores read it like an upgrade does.
+- stopApp
 - launchApp
+- extendedWaitUntil:
+    visible: "Calendar"
+    timeout: 10000
 - openLink: ${APP_SCHEME}://dev/fixture?id=${FIXTURE}
 - waitForAnimationToEnd
 # iOS asks once per app before a custom-scheme link opens it. Android never asks.
