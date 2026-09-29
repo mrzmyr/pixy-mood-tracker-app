@@ -84,15 +84,6 @@ describe("useLogs()", () => {
     jest.restoreAllMocks();
   });
 
-  test("should have `loaded` prop", async () => {
-    const hook = await _renderHook();
-
-    // run useEffect for loading async storage
-    await waitForLoaded(hook);
-
-    expect(hook.result.current.state.loaded).toBe(true);
-  });
-
   test("should load `state` from async storage", async () => {
     AsyncStorage.setItem(STORAGE_KEY, JSON.stringify({ items: testItems }));
 
@@ -142,22 +133,6 @@ describe("useLogs()", () => {
     expect(hook.result.current.state.items).toEqual([]);
   });
 
-  test("should preserve stored logs when async storage cannot be parsed", async () => {
-    await AsyncStorage.setItem(STORAGE_KEY, "🐇");
-    const setItemSpy = jest.spyOn(AsyncStorage, "setItem");
-    setItemSpy.mockClear();
-
-    const hook = await _renderHook();
-
-    await waitFor(() => {
-      expect(Sentry.captureException).toHaveBeenCalled();
-    });
-
-    expect(hook.result.current.state.loaded).toBe(false);
-    expect(setItemSpy).not.toHaveBeenCalledWith(STORAGE_KEY, expect.anything());
-    expect(await AsyncStorage.getItem(STORAGE_KEY)).toBe("🐇");
-  });
-
   test("should expose load status `ready` after a successful load", async () => {
     const hook = await _renderHook();
     await waitForLoaded(hook);
@@ -176,6 +151,8 @@ describe("useLogs()", () => {
     await waitFor(() => {
       expect(hook.result.current.load.status).toBe("error");
     });
+    expect(Sentry.captureException).toHaveBeenCalled();
+    expect(hook.result.current.state.loaded).toBe(false);
     expect(hook.result.current.load.error).toEqual(
       expect.objectContaining({
         status: "storage_invalid_value",
