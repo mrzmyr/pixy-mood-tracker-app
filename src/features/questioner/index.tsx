@@ -143,7 +143,10 @@ export const useQuestioner = () => {
       ...metaData,
     };
 
-    analytics.track("questioner_submit", body);
+    analytics.track("questioner_submit", {
+      questionId: answeredQuestion.id,
+      answerIds: answers.map((answer) => answer.id),
+    });
 
     console.log("Sending Question Feedback", body);
 

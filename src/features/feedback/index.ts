@@ -57,7 +57,12 @@ export const useFeedback = () => {
       email,
     };
 
-    analytics.track("feedback_send", body);
+    analytics.track("feedback_send", {
+      type,
+      source,
+      messageLength: message.length,
+      hasEmail: Boolean(email),
+    });
 
     try {
       const resp = await fetch(FEEDBACK_URL, {
