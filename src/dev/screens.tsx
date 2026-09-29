@@ -23,7 +23,8 @@ import { useLoadFixture, writeStorageFixture } from "@/dev/useLoadFixture";
 
 // Drops every screen behind the new state, like a fresh app start.
 const openApp = (router: ReturnType<typeof useRouter>, fixture: Fixture) => {
-  router.dismissTo(fixture.isFresh ? "/onboarding" : "/calendar");
+  router.dismissAll();
+  router.replace(fixture.isFresh ? "/onboarding" : "/calendar");
 };
 
 /** Settings > Test data: replace all data with a fixture. */
@@ -165,7 +166,8 @@ export const DevFakeFilesLinkScreen = () => {
   const router = useRouter();
   useEffect(() => {
     setFileTransferOverride(fakeFileTransfer);
-    router.dismissTo("/calendar");
+    router.dismissAll();
+    router.replace("/calendar");
   }, [router]);
 
   return <ActivityIndicator testID="dev-fake-files-link" />;
