@@ -61,7 +61,7 @@ const Providers = ({
             host: "https://app.posthog.com",
             disabled: !TRACKING_ENABLED,
             defaultOptIn: false,
-            captureAppLifecycleEvents: false,
+            captureAppLifecycleEvents: true,
           }}
           autocapture={false}
         >

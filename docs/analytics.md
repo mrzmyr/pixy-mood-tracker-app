@@ -1,6 +1,8 @@
 # Analytics
 
 - Event catalog: [`src/state/analytics/events.ts`](../src/state/analytics/events.ts)
+- Screens: `$screen` with the route name, from [`src/navigation/screenTracking.ts`](../src/navigation/screenTracking.ts)
+- Super properties on every event: `scale_type`, `reminder_enabled`, `steps` ([`src/state/analytics/index.tsx`](../src/state/analytics/index.tsx))
 - Privacy rule: [AGENTS.md footguns](../AGENTS.md#footguns)
 
 ## Event history
