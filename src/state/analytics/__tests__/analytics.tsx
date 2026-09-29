@@ -54,6 +54,8 @@ const {
   identify: mockIdentify,
   capture: mockCapture,
   reset: mockReset,
+  screen: mockScreen,
+  register: mockRegister,
 } = getPostHogTestClient();
 
 describe("useAnalytics()", () => {
@@ -195,6 +197,48 @@ describe("useAnalytics()", () => {
     });
 
     expect(mockCapture).not.toBeCalled();
+  });
+
+  test("should send `screen` only while enabled", async () => {
+    const hook = await _renderHook();
+    await waitForLoaded(hook);
+
+    await act(() => {
+      hook.result.current.state.screen("Calendar");
+    });
+    expect(mockScreen).not.toBeCalled();
+
+    await act(() => {
+      hook.result.current.state.enable();
+    });
+    await act(() => {
+      hook.result.current.state.screen("Calendar");
+    });
+    expect(mockScreen).toBeCalledWith("Calendar");
+  });
+
+  test("should register settings as super properties", async () => {
+    const hook = await _renderHook();
+    await waitForLoaded(hook);
+
+    expect(mockRegister).toHaveBeenLastCalledWith({
+      scale_type: INITIAL_STATE.scaleType,
+      reminder_enabled: INITIAL_STATE.reminderEnabled,
+      steps: INITIAL_STATE.steps,
+    });
+
+    await act(() => {
+      hook.result.current.settingsState.setSettings((settings) => ({
+        ...settings,
+        reminderEnabled: !INITIAL_STATE.reminderEnabled,
+      }));
+    });
+
+    expect(mockRegister).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        reminder_enabled: !INITIAL_STATE.reminderEnabled,
+      })
+    );
   });
 
   test("should `reset`", async () => {

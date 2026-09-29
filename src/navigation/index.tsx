@@ -31,6 +31,7 @@ import { APP_VARIANT, HAS_APP_VARIANT } from "@/constants/AppVariant";
 import Colors from "@/constants/Colors";
 import { initializeDayjs, t } from "@/helpers/translation";
 import { useAnalytics } from "@/state/analytics";
+import { navigationRef, useScreenTracking } from "./screenTracking";
 import { useAnonymizer } from "@/state/analytics/anonymizer";
 import { useLogState } from "@/features/logs";
 import { useSettings } from "@/state/settings";
@@ -117,6 +118,7 @@ const RootNavigator = () => {
   const logState = useLogState();
   const { tags } = useTagsState();
   const { anonymizeTag } = useAnonymizer();
+  useScreenTracking();
 
   const defaultOptions = {
     headerTintColor: colors.text,
@@ -382,6 +384,7 @@ const Navigation = () => {
 
   return (
     <NavigationContainer
+      ref={navigationRef}
       linking={NAVIGATION_LINKING}
       // @ts-expect-error Colors has no primary/card/border/notification keys; leaving them unset preserves current navigation styling.
       theme={

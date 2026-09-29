@@ -17,6 +17,8 @@ interface AnaylticsState {
   disable: () => void;
   reset: () => void;
   track: <Event extends AnalyticsEvent>(...args: TrackArgs<Event>) => void;
+  /** Send a `$screen` event for the route now in view. */
+  screen: (name: string) => void;
   identify: <Properties extends object>(properties?: Properties) => void;
   isIdentified: boolean;
   isEnabled: boolean;
@@ -64,6 +66,25 @@ const AnalyticsProvider = ({
     Observe.configure({ dispatchingEnabled: settings.analyticsEnabled });
   }, [settings.loaded, settings.analyticsEnabled, posthog]);
 
+  // Super properties: PostHog adds them to every later event.
+  useEffect(() => {
+    if (!settings.loaded) {
+      return;
+    }
+
+    void posthog?.register({
+      scale_type: settings.scaleType,
+      reminder_enabled: settings.reminderEnabled,
+      steps: settings.steps,
+    });
+  }, [
+    settings.loaded,
+    settings.scaleType,
+    settings.reminderEnabled,
+    settings.steps,
+    posthog,
+  ]);
+
   const identify = useCallback<AnaylticsState["identify"]>((properties) => {
     if (DEBUG) {
       console.log("useAnalytics: anonymous session", properties);
@@ -110,6 +131,13 @@ const AnalyticsProvider = ({
         }
 
         posthog?.capture(eventName, properties);
+      },
+      screen: (name) => {
+        if (!isEnabled || !options.enabled) {
+          return;
+        }
+
+        void posthog?.screen(name);
       },
       isIdentified,
       isEnabled,
