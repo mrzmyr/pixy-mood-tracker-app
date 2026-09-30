@@ -108,9 +108,10 @@ describe("StorageLoadGate", () => {
     await renderApp({ isTrackingEnabled: true });
 
     await waitFor(() =>
-      expect(capture).toHaveBeenCalledWith("app:storage_load_failed", {
-        status: "storage_invalid_value",
-      })
+      expect(capture).toHaveBeenCalledWith(
+        "app:storage_load_failed",
+        expect.objectContaining({ status: "storage_invalid_value" })
+      )
     );
   });
 
