@@ -9,6 +9,7 @@ import { getAdb } from "./adb.ts";
 import { setPhoneSession } from "./agent-device.ts";
 import { CliError, getCheckoutDir, note } from "./shared.ts";
 import { preflightPhone, readPhones } from "./phone.ts";
+import { assertNotReserved } from "./reservation.ts";
 import { buildRows, findPhone, toToken } from "./target.ts";
 import type { Platform } from "./shared.ts";
 
@@ -434,6 +435,7 @@ export const resolveDevice = async (values: {
     name: phone.name,
     key: token,
   };
+  assertNotReserved(phone.id);
   await preflightPhone(device);
   setPhoneSession(token);
   note(`Using ${token}`);

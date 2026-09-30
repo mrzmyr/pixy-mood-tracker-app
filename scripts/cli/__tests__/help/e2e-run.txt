@@ -39,6 +39,7 @@ Errors:
   developer_mode_off          iPhone has Developer Mode off
   phone_locked                Phone is locked
   device_in_use               Another run holds this device
+  device_reserved             Another checkout reserved this phone
   path_not_found              One --paths entry does not exist
   flows_unsupported_on_phone  Selected flows use steps agent-device cannot run on this phone
   app_reset_failed            Preview app was not removed before the run

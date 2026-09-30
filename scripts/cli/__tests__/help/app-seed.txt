@@ -29,6 +29,7 @@ Errors:
   developer_mode_off   iPhone has Developer Mode off
   phone_locked         Phone is locked
   device_in_use        Another run holds this device
+  device_reserved      Another checkout reserved this phone
   fixture_not_found    --fixture has no match
   app_not_ready        First screen did not appear in 120 seconds
 

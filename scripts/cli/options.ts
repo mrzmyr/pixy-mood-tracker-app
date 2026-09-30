@@ -33,6 +33,7 @@ export const DEVICE_ERRORS = {
   developer_mode_off: "iPhone has Developer Mode off",
   phone_locked: "Phone is locked",
   device_in_use: "Another run holds this device",
+  device_reserved: "Another checkout reserved this phone",
 };
 
 /** Validate platform values after parser precedence checks. */

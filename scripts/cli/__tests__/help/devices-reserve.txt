@@ -1,0 +1,27 @@
+Reserve one phone for this checkout. Other checkouts cannot use it until release or expiry.
+
+Usage: bun devices reserve --target=<target> [--minutes=<minutes>]
+
+Options:
+  --target=<target>    One phone. Copy the value from `bun devices list`.
+  --minutes=<minutes>  Optional. Reservation length. Default: 60.
+                       Run reserve again to extend it.
+
+Behavior:
+  Every `bun app` and `bun e2e` command in other checkouts fails with device_reserved.
+  Reservation ends at release, at expiry, or when its checkout is deleted.
+
+Output:
+  One line on stdout: <target> <expiry time>.
+
+Examples:
+  bun devices reserve --target=pixel-8-09yw
+  bun devices reserve --target=pixel-8-09yw --minutes=120
+
+Errors:
+  missing_option    --target not passed
+  invalid_value     --minutes is not a whole number of 1 or more
+  target_not_found  No connected phone has this target
+  device_reserved   Another checkout reserved this phone
+
+Exit codes: 0 ok, 1 failure, 2 usage error
