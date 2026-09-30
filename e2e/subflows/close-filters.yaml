@@ -1,7 +1,6 @@
 appId: ${APP_ID}
 ---
-# iOS shows a modal with Done; Android a sheet that Back closes. Closing can
-# land on another tab, so reopen the calendar.
+# iOS closes through Done. Android Back closes the sheet and keeps Calendar.
 - runFlow:
     when:
       platform: iOS
@@ -14,7 +13,7 @@ appId: ${APP_ID}
       platform: Android
     commands:
       - back
-- tapOn:
-    id: "calendar"
 - assertVisible:
     id: "calendar-list"
+- assertNotVisible:
+    id: "calendar-filter-search"
