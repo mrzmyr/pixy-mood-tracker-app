@@ -1,0 +1,40 @@
+{
+  "verifiedOn": "2026-09-30",
+  "name": "Pixy Mood Tracker",
+  "slug": "pixy-mood-tracker",
+  "tagline": "Track your mood, one pixel at a time.",
+  "shortDescription": "Pixy is a free, open-source mood tracker for iPhone and Android. Log moods, add notes and tags, and explore your history in a pixel calendar.",
+  "description": "Pixy Mood Tracker helps you record your mood in a simple, colorful daily log. Add optional notes and tags, browse past days in a pixel calendar, filter entries, and view mood statistics. Mood entries are stored on your device. The app is free, and its source code is available under the MIT license.",
+  "category": "Mood tracker",
+  "tags": ["Mood tracking", "Journaling", "Mental health", "Open source"],
+  "features": [
+    "Daily mood log",
+    "Optional notes and tags",
+    "Pixel calendar",
+    "Entry filters",
+    "Mood statistics",
+    "Local mood-entry storage",
+    "Data export"
+  ],
+  "pricing": "Free",
+  "license": "MIT",
+  "sourceDevelopment": "active",
+  "platforms": ["iPhone", "Android phone", "Android tablet"],
+  "links": {
+    "website": "https://pixy.day/",
+    "source": "https://github.com/mrzmyr/pixy-mood-tracker-app",
+    "license": "https://github.com/mrzmyr/pixy-mood-tracker-app/blob/main/LICENSE.md",
+    "appStore": "https://apps.apple.com/app/id1605327124",
+    "googlePlay": "https://play.google.com/store/apps/details?id=com.devmood.pixymoodtracker",
+    "supportEmail": "team@pixy.day"
+  },
+  "publicRelease": {
+    "version": "1.68.0",
+    "date": "2022-12-24"
+  },
+  "sourceRelease": {
+    "version": "1.88.0",
+    "date": "2026-09-28",
+    "url": "https://github.com/mrzmyr/pixy-mood-tracker-app/releases/tag/v1.88.0"
+  }
+}
