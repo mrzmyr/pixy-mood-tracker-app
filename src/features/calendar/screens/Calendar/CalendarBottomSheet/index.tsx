@@ -3,9 +3,11 @@ import BottomSheet, {
   BottomSheetScrollView,
 } from "@gorhom/bottom-sheet";
 import type { BottomSheetBackdropProps } from "@gorhom/bottom-sheet";
+import { useFocusEffect } from "expo-router";
 
-import { useEffect, useMemo, useRef } from "react";
+import { useCallback, useEffect, useMemo, useRef } from "react";
 import {
+  BackHandler,
   Keyboard,
   Modal,
   Platform,
@@ -101,9 +103,31 @@ const IOSCalendarBottomSheet = () => {
 const GestureCalendarBottomSheet = () => {
   const colors = useColors();
   const calendarFilters = useCalendarFilters();
+  const { isOpen, close } = calendarFilters;
 
   const bottomSheetRef = useRef<BottomSheet>(null);
   const snapPoints = useMemo(() => ["30%", "50%", "90%"], []);
+
+  // Consume Back before the tab navigator. Remove the listener on blur so
+  // a sheet retained by an inactive Calendar tab cannot block other screens.
+  useFocusEffect(
+    useCallback(() => {
+      if (!isOpen) {
+        return;
+      }
+
+      const subscription = BackHandler.addEventListener(
+        "hardwareBackPress",
+        () => {
+          Keyboard.dismiss();
+          close();
+          return true;
+        }
+      );
+
+      return () => subscription.remove();
+    }, [isOpen, close])
+  );
 
   useEffect(() => {
     if (calendarFilters.isOpen) {
@@ -116,7 +140,7 @@ const GestureCalendarBottomSheet = () => {
   }, [calendarFilters.isOpen]);
 
   const handleSheetChanges = (index: number) => {
-    if (index === -1) {
+    if (index === -1 && calendarFilters.isOpen) {
       Keyboard.dismiss();
       calendarFilters.close();
     }
