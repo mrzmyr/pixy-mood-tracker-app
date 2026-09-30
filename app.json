@@ -95,7 +95,8 @@
         "expo-build-properties",
         {
           "android": {
-            "minSdkVersion": 24
+            "minSdkVersion": 24,
+            "buildReactNativeFromSource": true
           },
           "ios": {
             "deploymentTarget": "16.4"

@@ -91,6 +91,9 @@
       },
     },
   },
+  "patchedDependencies": {
+    "react-native@0.86.3": "patches/react-native@0.86.3.patch",
+  },
   "overrides": {
     "markdown-it": "^15.0.0",
   },

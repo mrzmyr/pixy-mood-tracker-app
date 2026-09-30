@@ -1,0 +1,4 @@
+- React Native 0.86.3 leaves its shadow-node lifetime fix disabled. Concurrent commits can free nodes during tag lookup.
+- Bun patch backports [upstream fix](https://github.com/react/react-native/pull/56850), keeping current revision alive during lookup.
+- Android builds React Native from source through `expo-build-properties`. Prebuilt Maven binaries do not include local C++ patches.
+- Remove patch and source-build option when Expo supports React Native with this fix enabled by default.
