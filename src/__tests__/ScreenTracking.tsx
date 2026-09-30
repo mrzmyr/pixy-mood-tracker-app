@@ -6,7 +6,8 @@ import { usePostHog as getPostHogTestClient } from "posthog-react-native";
 import { Pressable, Text } from "react-native";
 import { INITIAL_STATE } from "@/constants/Settings";
 import { useScreenTracking } from "@/shell/screenTracking";
-import { AnalyticsProvider, useAnalytics } from "@/state/analytics";
+import { useAnalytics } from "@/state/analytics";
+import { ConfiguredAnalyticsProvider } from "@/state/analytics/ConfiguredAnalyticsProvider";
 import { SettingsProvider, STORAGE_KEY } from "@/state/settings";
 
 const { screen: mockScreen } = getPostHogTestClient();
@@ -37,9 +38,9 @@ const renderApp = async () => {
     {
       _layout: () => (
         <SettingsProvider>
-          <AnalyticsProvider options={{ enabled: true }}>
+          <ConfiguredAnalyticsProvider enabled>
             <Tracker />
-          </AnalyticsProvider>
+          </ConfiguredAnalyticsProvider>
         </SettingsProvider>
       ),
       "settings/privacy": Home,

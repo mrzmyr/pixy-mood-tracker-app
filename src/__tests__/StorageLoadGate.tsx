@@ -13,7 +13,7 @@ import { setFileTransferOverride } from "@/features/datagate";
 import { LogsProvider, STORAGE_KEY as LOGS_KEY } from "@/features/logs";
 import { TagsProvider } from "@/features/tags";
 import { StorageLoadGate } from "@/shell/StorageLoadGate";
-import { AnalyticsProvider } from "@/state/analytics";
+import { ConfiguredAnalyticsProvider } from "@/state/analytics/ConfiguredAnalyticsProvider";
 import { INITIAL_STATE } from "@/constants/Settings";
 import {
   SettingsProvider,
@@ -42,7 +42,7 @@ const renderApp = ({ isTrackingEnabled = false } = {}) =>
       }}
     >
       <SettingsProvider>
-        <AnalyticsProvider options={{ enabled: isTrackingEnabled }}>
+        <ConfiguredAnalyticsProvider enabled={isTrackingEnabled}>
           <LogsProvider>
             <TagsProvider>
               <StorageLoadGate>
@@ -50,7 +50,7 @@ const renderApp = ({ isTrackingEnabled = false } = {}) =>
               </StorageLoadGate>
             </TagsProvider>
           </LogsProvider>
-        </AnalyticsProvider>
+        </ConfiguredAnalyticsProvider>
       </SettingsProvider>
     </ThemeProvider>
   );

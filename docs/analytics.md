@@ -1,8 +1,8 @@
 # Analytics
 
 - Event catalog: [`src/state/analytics/events.ts`](../src/state/analytics/events.ts)
-- Screens: `$screen` with the route name, from [`src/navigation/screenTracking.ts`](../src/navigation/screenTracking.ts)
-- Super properties on every event: `scale_type`, `reminder_enabled`, `steps` ([`src/state/analytics/index.tsx`](../src/state/analytics/index.tsx))
+- Screens: `$screen` with route name, from [`src/shell/screenTracking.ts`](../src/shell/screenTracking.ts)
+- Settings context from first capture: `scale_type`, `reminder_enabled`, `steps` ([`ConfiguredAnalyticsProvider`](../src/state/analytics/ConfiguredAnalyticsProvider.tsx))
 - Privacy rule: [AGENTS.md footguns](../AGENTS.md#footguns)
 
 ## Event history
