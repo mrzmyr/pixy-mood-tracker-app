@@ -28,6 +28,7 @@ Errors:
   developer_mode_off    iPhone has Developer Mode off
   phone_locked          Phone is locked
   device_in_use         Another run holds this device
+  device_reserved       Another checkout reserved this phone
   ios_runner_not_ready  agent-device runner did not start on iPhone
   app_not_ready         First screen did not appear in 120 seconds
 

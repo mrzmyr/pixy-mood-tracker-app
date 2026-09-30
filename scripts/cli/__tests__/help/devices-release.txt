@@ -1,0 +1,16 @@
+Release this checkout's reservation of one phone.
+
+Usage: bun devices release --target=<target>
+
+Options:
+  --target=<target>  One phone. Copy the value from `bun devices list`.
+
+Examples:
+  bun devices release --target=pixel-8-09yw
+
+Errors:
+  missing_option    --target not passed
+  target_not_found  No connected phone has this target
+  device_reserved   Another checkout reserved this phone
+
+Exit codes: 0 ok, 1 failure, 2 usage error

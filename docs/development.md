@@ -80,6 +80,7 @@ bun e2e run --target=pixel-8-09yw --paths=e2e/flows/entry-full.yaml
 - Android phones use the same build as the emulator.
 - `bun app close` on a phone never shuts down or erases the phone. Android: stops the app and clears its data. iPhone: stops and uninstalls the preview app.
 - One device per command. Start one command per phone to run phones in parallel.
+- Reserve a phone for a whole task: `bun devices reserve --target=<target>`. Other checkouts then fail with `device_reserved`. Release with `bun devices release --target=<target>`. Reservations expire after 60 minutes (`--minutes=<n>`) or when their checkout is deleted.
 - Humans can still use `bun ios --device <udid>` for development builds.
 
 Known limits. A phone run fails with `flows_unsupported_on_phone` before it changes anything on the phone, and names every blocked flow plus the command to run it elsewhere:
@@ -127,6 +128,7 @@ The cache provider lives in [`scripts/build-cache-provider.cjs`](../scripts/buil
 - Two worktrees can build, install, open, and run iOS e2e flows at the same time. Device claims keep their sessions separate.
 - Android uses one `pixy-mood-tracker` AVD per machine. Android runs serialize through device claims.
 - Phones are shared by all worktrees. A second command on a busy phone fails with `device_in_use`.
+- Reservations live under `~/.cache/pixy-mood-tracker/reservations/`, one file per phone. See [Phones](#phones).
 
 ### Disk cleanup and errors
 

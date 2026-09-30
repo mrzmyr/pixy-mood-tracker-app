@@ -27,6 +27,8 @@ export interface TargetInput {
   iosDevices?: IosState[];
   lockStates?: Record<string, boolean | undefined>;
   adbStates?: Record<string, string>;
+  /** Active reservations by other checkouts, keyed by phone ID. */
+  reservations?: Record<string, { holder: string; expiresAt: string }>;
   managed: {
     platform: Platform;
     name: string;
@@ -138,12 +140,18 @@ export const buildRows = (input: TargetInput): DeviceRow[] => {
     const useId = phoneTokens.filter((item) => item === token).length > 1;
     const problem = phoneProblem(phone, input);
     const heldBy = phone.claimedBy?.workspace;
+    const reservation = input.reservations?.[phone.id];
     let state = "ready";
+    let why = problem?.[1] ?? "";
     if (problem) {
       state = "blocked";
     }
     if (heldBy && heldBy !== input.repositoryRoot) {
       state = "in use";
+      why = `Held by ${heldBy}.`;
+    } else if (reservation) {
+      state = "in use";
+      why = `Reserved by ${reservation.holder} until ${reservation.expiresAt}.`;
     }
     rows.push({
       option: useId ? `--target=${phone.id}` : `--target=${token}`,
@@ -151,10 +159,7 @@ export const buildRows = (input: TargetInput): DeviceRow[] => {
       os: phone.platform,
       name: phone.name,
       state,
-      problem:
-        heldBy && heldBy !== input.repositoryRoot
-          ? `Held by ${heldBy}.`
-          : (problem?.[1] ?? ""),
+      problem: why,
       id: phone.id,
       token,
     });

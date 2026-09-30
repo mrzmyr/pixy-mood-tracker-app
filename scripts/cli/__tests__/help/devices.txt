@@ -1,8 +1,10 @@
-List devices that can run the preview app.
+List and reserve devices that can run the preview app.
 
 Usage: bun devices <command> [options]
 
 Commands:
-  list  List simulator, emulator, and connected phones
+  list     List simulator, emulator, and connected phones
+  reserve  Reserve one phone for this checkout
+  release  Release this checkout's reservation of one phone
 
 Run `bun devices <command> --help` for details.

@@ -27,6 +27,7 @@ Errors:
   developer_mode_off          iPhone has Developer Mode off
   phone_locked                Phone is locked
   device_in_use               Another run holds this device
+  device_reserved             Another checkout reserved this phone
   app_clear_failed            App data was not removed
   simulator_shutdown_timeout  Simulator did not shut down in 30 seconds
   simulator_erase_failed      Simulator was not erased
