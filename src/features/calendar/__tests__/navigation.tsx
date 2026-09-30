@@ -98,11 +98,14 @@ describe("useCalendarNavigation()", () => {
     const result = await renderDays();
     await userEvent.press(await result.findByText("Open two days ago"));
     await waitFor(() =>
-      expect(mockCapture).toHaveBeenCalledWith("calendar:day_opened", {
-        source: "mood_peaks",
-        entries_count: 2,
-        days_ago: 2,
-      })
+      expect(mockCapture).toHaveBeenCalledWith(
+        "calendar:day_opened",
+        expect.objectContaining({
+          source: "mood_peaks",
+          entries_count: 2,
+          days_ago: 2,
+        })
+      )
     );
     expect(await result.findByText(`Opened ${twoDaysAgo}`)).toBeOnTheScreen();
   });
@@ -111,11 +114,14 @@ describe("useCalendarNavigation()", () => {
     const result = await renderDays();
     await userEvent.press(await result.findByText("Open today"));
     await waitFor(() =>
-      expect(mockCapture).toHaveBeenCalledWith("calendar:day_opened", {
-        source: "calendar",
-        entries_count: 0,
-        days_ago: 0,
-      })
+      expect(mockCapture).toHaveBeenCalledWith(
+        "calendar:day_opened",
+        expect.objectContaining({
+          source: "calendar",
+          entries_count: 0,
+          days_ago: 0,
+        })
+      )
     );
     expect(await result.findByText(/^Opened .*T.*Z$/u)).toBeOnTheScreen();
   });

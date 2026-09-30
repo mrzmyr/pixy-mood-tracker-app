@@ -164,8 +164,30 @@ describe("useAnalytics()", () => {
     });
 
     expect(mockCapture).toBeCalledWith("settings:analytics_toggled", {
+      scale_type: INITIAL_STATE.scaleType,
+      reminder_enabled: INITIAL_STATE.reminderEnabled,
+      steps: INITIAL_STATE.steps,
       enabled: true,
     });
+  });
+
+  test("event properties win over settings properties", async () => {
+    const hook = await _renderHook();
+    await waitForLoaded(hook);
+
+    await act(() => {
+      hook.result.current.state.enable();
+    });
+    await act(() => {
+      hook.result.current.state.track("settings:scale_changed", {
+        scale_type: "ColorBrew-PiYG",
+      });
+    });
+
+    expect(mockCapture).toBeCalledWith(
+      "settings:scale_changed",
+      expect.objectContaining({ scale_type: "ColorBrew-PiYG" })
+    );
   });
 
   test("should only accept catalog events and properties", async () => {
@@ -214,7 +236,11 @@ describe("useAnalytics()", () => {
     await act(() => {
       hook.result.current.state.screen("Calendar");
     });
-    expect(mockScreen).toBeCalledWith("Calendar");
+    expect(mockScreen).toBeCalledWith("Calendar", {
+      scale_type: INITIAL_STATE.scaleType,
+      reminder_enabled: INITIAL_STATE.reminderEnabled,
+      steps: INITIAL_STATE.steps,
+    });
   });
 
   test("should register settings as super properties", async () => {

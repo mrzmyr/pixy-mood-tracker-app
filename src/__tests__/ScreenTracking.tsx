@@ -10,6 +10,11 @@ import { AnalyticsProvider, useAnalytics } from "@/state/analytics";
 import { SettingsProvider, STORAGE_KEY } from "@/state/settings";
 
 const { screen: mockScreen } = getPostHogTestClient();
+const settingsProperties = {
+  scale_type: INITIAL_STATE.scaleType,
+  reminder_enabled: INITIAL_STATE.reminderEnabled,
+  steps: INITIAL_STATE.steps,
+};
 
 const Home = () => {
   const router = useRouter();
@@ -57,19 +62,19 @@ describe("useScreenTracking()", () => {
     await AsyncStorage.clear();
   });
 
-  test("sends a screen event per route change, without params", async () => {
+  test("sends a screen event per route change with settings, without params", async () => {
     await AsyncStorage.setItem(
       STORAGE_KEY,
       JSON.stringify({ ...INITIAL_STATE, analyticsEnabled: true })
     );
     const result = await renderApp();
 
-    await waitFor(() => expect(mockScreen).toHaveBeenCalledWith("Privacy"));
+    await waitFor(() => expect(mockScreen).toHaveBeenCalled());
     await userEvent.press(result.getByText("Open detail"));
-    await waitFor(() => expect(mockScreen).toHaveBeenCalledWith("LogEdit"));
+    await waitFor(() => expect(mockScreen).toHaveBeenCalledTimes(2));
     expect(jest.mocked(mockScreen).mock.calls).toEqual([
-      ["Privacy"],
-      ["LogEdit"],
+      ["Privacy", settingsProperties],
+      ["LogEdit", settingsProperties],
     ]);
   });
 
@@ -80,6 +85,8 @@ describe("useScreenTracking()", () => {
     expect(mockScreen).not.toHaveBeenCalled();
 
     await userEvent.press(result.getByText("Enable analytics"));
-    await waitFor(() => expect(mockScreen).toHaveBeenCalledWith("Privacy"));
+    await waitFor(() =>
+      expect(mockScreen).toHaveBeenCalledWith("Privacy", settingsProperties)
+    );
   });
 });

@@ -66,24 +66,24 @@ const AnalyticsProvider = ({
     Observe.configure({ dispatchingEnabled: settings.analyticsEnabled });
   }, [settings.loaded, settings.analyticsEnabled, posthog]);
 
-  // Super properties: PostHog adds them to every later event.
+  const settingsProperties = useMemo(
+    () => ({
+      scale_type: settings.scaleType,
+      reminder_enabled: settings.reminderEnabled,
+      steps: settings.steps,
+    }),
+    [settings.scaleType, settings.reminderEnabled, settings.steps]
+  );
+
+  // Super properties cover SDK lifecycle events. `track` and `screen` also
+  // send them directly: child effects can capture before this effect runs.
   useEffect(() => {
     if (!settings.loaded) {
       return;
     }
 
-    void posthog?.register({
-      scale_type: settings.scaleType,
-      reminder_enabled: settings.reminderEnabled,
-      steps: settings.steps,
-    });
-  }, [
-    settings.loaded,
-    settings.scaleType,
-    settings.reminderEnabled,
-    settings.steps,
-    posthog,
-  ]);
+    void posthog?.register(settingsProperties);
+  }, [settings.loaded, settingsProperties, posthog]);
 
   const identify = useCallback<AnaylticsState["identify"]>((properties) => {
     if (DEBUG) {
@@ -130,19 +130,27 @@ const AnalyticsProvider = ({
           return;
         }
 
-        posthog?.capture(eventName, properties);
+        posthog?.capture(eventName, { ...settingsProperties, ...properties });
       },
       screen: (name) => {
         if (!isEnabled || !options.enabled) {
           return;
         }
 
-        void posthog?.screen(name);
+        void posthog?.screen(name, settingsProperties);
       },
       isIdentified,
       isEnabled,
     }),
-    [identify, posthog, setSettings, isEnabled, options.enabled, isIdentified]
+    [
+      identify,
+      posthog,
+      setSettings,
+      isEnabled,
+      options.enabled,
+      isIdentified,
+      settingsProperties,
+    ]
   );
 
   return (
