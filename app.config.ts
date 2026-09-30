@@ -1,5 +1,5 @@
 import type { ConfigContext, ExpoConfig } from "@expo/config";
-import { withGradleProperties } from "expo/config-plugins";
+import { withGradleProperties, withMainApplication } from "expo/config-plugins";
 
 /**
  * App variants, installable side by side on one device.
@@ -79,28 +79,97 @@ const withGradleMemory = (config: ExpoConfig) =>
     return gradle;
   });
 
+const SHADOW_NODE_FIX_MARKER = "fixFindShadowNodeByTagRaceCondition";
+
+const SHADOW_NODE_FIX_IMPORTS = `
+import android.util.Log
+import com.facebook.react.internal.featureflags.ReactNativeFeatureFlags
+import com.facebook.react.internal.featureflags.ReactNativeFeatureFlagsOverrides_RNOSS_Canary_Android
+import com.facebook.react.internal.featureflags.ReactNativeFeatureFlagsOverrides_RNOSS_Experimental_Android
+import com.facebook.react.internal.featureflags.ReactNativeFeatureFlagsOverrides_RNOSS_Stable_Android
+import com.facebook.react.internal.featureflags.ReactNativeFeatureFlagsProvider`;
+
+const SHADOW_NODE_FIX_CALL = `
+    // React Native 0.86 ships this fix behind a flag that is off by default.
+    // Remove this block with React Native 0.87, which always applies it.
+    // https://github.com/react/react-native/pull/56850
+    val releaseFlags: ReactNativeFeatureFlagsProvider =
+      when (DefaultNewArchitectureEntryPoint.releaseLevel) {
+        ReleaseLevel.EXPERIMENTAL -> ReactNativeFeatureFlagsOverrides_RNOSS_Experimental_Android()
+        ReleaseLevel.CANARY -> ReactNativeFeatureFlagsOverrides_RNOSS_Canary_Android()
+        ReleaseLevel.STABLE -> ReactNativeFeatureFlagsOverrides_RNOSS_Stable_Android()
+      }
+    val accessedFlags = ReactNativeFeatureFlags.dangerouslyForceOverride(
+      object : ReactNativeFeatureFlagsProvider by releaseFlags {
+        override fun ${SHADOW_NODE_FIX_MARKER}(): Boolean = true
+      }
+    )
+    if (accessedFlags != null) {
+      Log.w("PixyFeatureFlags", "Flags read before override: $accessedFlags")
+    }`;
+
+const insertAfter = (source: string, anchor: string, addition: string) => {
+  if (!source.includes(anchor)) {
+    const why = `MainApplication.kt has no \`${anchor}\`.`;
+    const fix =
+      "Update withShadowNodeLookupFix in app.config.ts for the new Expo template.";
+    throw Object.assign(
+      new Error(`Cannot enable shadow node lookup fix. ${why} ${fix}`),
+      { fix, status: "main_application_anchor_missing", why }
+    );
+  }
+  return source.replace(anchor, `${anchor}${addition}`);
+};
+
+/**
+ * Concurrent commits can free the shadow tree root while
+ * `findShadowNodeByTag_DEPRECATED` walks it, which crashes Android. React
+ * Native 0.86 has the fix behind `fixFindShadowNodeByTagRaceCondition`. This
+ * turns the flag on and keeps every other flag at its release-level value.
+ * `loadReactNative` already sets the flags, so only a force override works.
+ */
+const withShadowNodeLookupFix = (config: ExpoConfig) =>
+  withMainApplication(config, (mainApplication) => {
+    const { contents } = mainApplication.modResults;
+    if (contents.includes(SHADOW_NODE_FIX_MARKER)) {
+      return mainApplication;
+    }
+    mainApplication.modResults.contents = insertAfter(
+      insertAfter(
+        contents,
+        "import com.facebook.react.defaults.DefaultNewArchitectureEntryPoint",
+        SHADOW_NODE_FIX_IMPORTS
+      ),
+      "loadReactNative(this)",
+      SHADOW_NODE_FIX_CALL
+    );
+    return mainApplication;
+  });
+
 const appConfig = ({ config }: ConfigContext): ExpoConfig => {
   const variant = APP_VARIANTS[getAppVariant()];
-  return withGradleMemory({
-    ...config,
-    name: variant.name,
-    slug: config.slug ?? "pixy-mood-tracker",
-    icon: variant.icon,
-    scheme: variant.scheme,
-    ios: {
-      ...config.ios,
-      bundleIdentifier: variant.appId,
-    },
-    android: {
-      ...config.android,
-      package: variant.appId,
+  return withShadowNodeLookupFix(
+    withGradleMemory({
+      ...config,
+      name: variant.name,
+      slug: config.slug ?? "pixy-mood-tracker",
       icon: variant.icon,
-      adaptiveIcon: {
-        ...config.android?.adaptiveIcon,
-        foregroundImage: variant.adaptiveIcon,
+      scheme: variant.scheme,
+      ios: {
+        ...config.ios,
+        bundleIdentifier: variant.appId,
       },
-    },
-  });
+      android: {
+        ...config.android,
+        package: variant.appId,
+        icon: variant.icon,
+        adaptiveIcon: {
+          ...config.android?.adaptiveIcon,
+          foregroundImage: variant.adaptiveIcon,
+        },
+      },
+    })
+  );
 };
 
 export default appConfig;
