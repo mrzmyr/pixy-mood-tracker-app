@@ -79,6 +79,9 @@ updates:
       - dependency-name: "@react-native/jest-preset"
         update-types:
           ["version-update:semver-major", "version-update:semver-minor"]
+      # Metro and jest 29 need Babel 7; Babel 8 breaks jest (#455).
+      - dependency-name: "@babel/core"
+        update-types: ["version-update:semver-major"]
       - dependency-name: "react-native-gesture-handler"
         update-types:
           ["version-update:semver-major", "version-update:semver-minor"]
