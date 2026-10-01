@@ -9,7 +9,6 @@ import type { ScaleItem } from "../../components/RatingChart";
 import { t } from "@/lib/translation";
 import { getRatingDistributionForXDays } from "../../RatingDistribution";
 import { NotEnoughDataOverlay } from "../../components/NotEnoughDataOverlay";
-import { CardFeedback } from "../../components/CardFeedback";
 
 const MIN_ITEMS = 5;
 
@@ -48,10 +47,6 @@ export const MoodChart = ({ date, items }) => {
       })}
       isShareable={true}
       analyticsId="rating-distribution"
-      analyticsData={{
-        date: date.format("YYYY-MM"),
-        data,
-      }}
     >
       {validatedData.length < MIN_ITEMS && (
         <NotEnoughDataOverlay limit={MIN_ITEMS - validatedData.length} />
@@ -71,10 +66,6 @@ export const MoodChart = ({ date, items }) => {
           width={width}
         />
       )}
-      <CardFeedback
-        analyticsId="rating_distribution_month_report"
-        analyticsData={data}
-      />
     </BigCard>
   );
 };

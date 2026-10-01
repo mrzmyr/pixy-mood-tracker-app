@@ -16,7 +16,6 @@ import { NotEnoughDataOverlay } from "../../../components/NotEnoughDataOverlay";
 
 import { Row } from "./Row";
 import { XAxis } from "./XAxis";
-import { useAnonymizer } from "@/state/analytics/anonymizer";
 
 const MIN_ITEMS = 30;
 
@@ -39,7 +38,6 @@ const YearDotsContent = ({
 
 const YearInPixels = ({ date }: { date: Dayjs }) => {
   const logState = useLogState();
-  const { anonymizeItem } = useAnonymizer();
 
   const items = logState.items.filter((item) =>
     date.isSame(item.dateTime, "year")
@@ -62,9 +60,7 @@ const YearInPixels = ({ date }: { date: Dayjs }) => {
       title={t("year_in_pixels")}
       subtitle={t("year_in_pixels_description", { date: date.format("YYYY") })}
       isShareable
-      hasFeedback
       analyticsId="year-in-pixels"
-      analyticsData={items.map((item) => anonymizeItem(item))}
     >
       <>
         <View

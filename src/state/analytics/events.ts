@@ -86,14 +86,6 @@ export interface AnalyticsEvents {
   };
   "statistics:all_highlights_viewed": AnalyticsEvents["statistics:highlights_viewed"];
   "statistics:card_shared": { card: string };
-  "statistics:card_feedback_submitted": {
-    card: string;
-    emoji: string;
-    comment_length: number;
-  };
-  "statistics:store_review_requested": undefined;
-  "statistics:store_review_completed": undefined;
-  "statistics:store_review_failed": undefined;
 
   "tags:tag_created": {
     title_length: number;

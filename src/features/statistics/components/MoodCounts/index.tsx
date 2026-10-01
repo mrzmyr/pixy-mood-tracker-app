@@ -60,7 +60,6 @@ export const MoodCounts = ({
       title={title}
       subtitle={subtitle}
       isShareable
-      hasFeedback
       analyticsId="rating-count"
     >
       {total < MIN_ITEMS && <NotEnoughDataOverlay limit={MIN_ITEMS - total} />}

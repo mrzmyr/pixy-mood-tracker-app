@@ -3,7 +3,6 @@ import type { Dayjs } from "dayjs";
 
 import { Pressable, Text, View } from "react-native";
 import { Card } from "../../components/Card";
-import { CardFeedback } from "../../components/CardFeedback";
 import { DATE_FORMAT } from "@/constants/Config";
 import { t } from "@/lib/translation";
 import useColors from "@/hooks/useColors";
@@ -189,10 +188,6 @@ export const TagPeaksCard = ({ tag }: { tag: TagsPeakData["tags"][0] }) => {
           );
         })}
       </View>
-      <CardFeedback
-        analyticsId="tags_peaks"
-        analyticsData={{ count: tag.items.length }}
-      />
     </Card>
   );
 };

@@ -1,5 +1,4 @@
 import { Card } from "../../components/Card";
-import { CardFeedback } from "../../components/CardFeedback";
 import { t } from "@/lib/translation";
 import useColors from "@/hooks/useColors";
 import type { EmotionsDistributionData } from "../../EmotionsDistributuon";
@@ -87,11 +86,5 @@ export const EmotionsDistributionCard = ({
     })}
   >
     <EmotionsDistributionContent data={data} />
-    <CardFeedback
-      analyticsId="emotions_distribution"
-      analyticsData={{
-        emotions: data.emotions,
-      }}
-    />
   </Card>
 );

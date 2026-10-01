@@ -4,7 +4,6 @@ import { Card } from "../../components/Card";
 import { t } from "@/lib/translation";
 import useScale from "@/hooks/useScale";
 import type { MoodAvgData } from "../../MoodAvg";
-import { CardFeedback } from "../../components/CardFeedback";
 
 /**
  * Card with the dominant mood group and a stacked bar of entries per
@@ -46,13 +45,6 @@ export const MoodAvgCard = ({ data }: { data: MoodAvgData }) => {
           />
         ))}
       </View>
-      <CardFeedback
-        analyticsId="mood_avg"
-        analyticsData={{
-          percentage: data.ratingHighestPercentage,
-          data: data.distribution,
-        }}
-      />
     </Card>
   );
 };

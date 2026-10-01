@@ -3,13 +3,11 @@ import _ from "lodash";
 import { Pressable, Text, View } from "react-native";
 import { Card } from "../../components/Card";
 import { t } from "@/lib/translation";
-import { useAnonymizer } from "@/state/analytics/anonymizer";
 import { useCalendarFilters } from "@/features/calendar";
 import useColors from "@/hooks/useColors";
 import useHaptics from "@/hooks/useHaptics";
 import type { TagsDistributionData } from "../../TagsDistribution";
 import type { Tag } from "@/features/tags";
-import { CardFeedback } from "../../components/CardFeedback";
 
 /**
  * Tag bars for the top `limit` tags. Tapping a bar filters the calendar to
@@ -95,28 +93,18 @@ export const TagDistributionContent = ({
   );
 };
 
-/** Highlight card for tag usage; tag titles are anonymized in feedback. */
+/** Highlight card for tag usage. */
 export const TagsDistributionCard = ({
   data,
 }: {
   data: TagsDistributionData;
-}) => {
-  const { anonymizeTag } = useAnonymizer();
-
-  return (
-    <Card
-      subtitle={t("tags")}
-      title={t("statistics_tags_distribution_title", {
-        count: data.tags.length,
-      })}
-    >
-      <TagDistributionContent data={data} />
-      <CardFeedback
-        analyticsId="tags_distribution"
-        analyticsData={{
-          tags: data.tags.map((tag) => anonymizeTag(tag.details)),
-        }}
-      />
-    </Card>
-  );
-};
+}) => (
+  <Card
+    subtitle={t("tags")}
+    title={t("statistics_tags_distribution_title", {
+      count: data.tags.length,
+    })}
+  >
+    <TagDistributionContent data={data} />
+  </Card>
+);

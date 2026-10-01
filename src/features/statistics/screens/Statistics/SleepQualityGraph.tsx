@@ -5,7 +5,6 @@ import { Dimensions, View } from "react-native";
 import { useLogState } from "@/features/logs";
 
 import { SleepQualityChart } from "../../components/SleepQualityChart";
-import { CardFeedback } from "../../components/CardFeedback";
 import { getSleepQualityDistributionForXDays } from "../../SleepQualityDistribution";
 import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
 import { getItemTime } from "@/lib/logDates";
@@ -38,7 +37,6 @@ export const SleepQualityChartCard = ({
         }}
       >
         <SleepQualityChart data={data} height={height} width={width} />
-        <CardFeedback analyticsId="sleep_quality_chart" analyticsData={data} />
       </View>
     </Card>
   );
