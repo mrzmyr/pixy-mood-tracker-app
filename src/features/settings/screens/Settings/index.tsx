@@ -115,6 +115,10 @@ export const SettingsScreen = () => {
   };
 
   const isIOS = Platform.OS === "ios";
+  // iOS `Form` styles footers itself. Android footers need explicit styling.
+  const footerTextStyle = isIOS
+    ? undefined
+    : { fontSize: 14, color: colors.textSecondary };
 
   const list = (
     <FieldGroup
@@ -176,7 +180,7 @@ export const SettingsScreen = () => {
           testID="send_feedback"
         />
         <FieldGroup.SectionFooter>
-          <Text>{t("feedback_help")}</Text>
+          <Text textStyle={footerTextStyle}>{t("feedback_help")}</Text>
         </FieldGroup.SectionFooter>
       </FieldGroup.Section>
 

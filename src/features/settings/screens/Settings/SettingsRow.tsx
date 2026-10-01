@@ -14,7 +14,8 @@ const CHEVRON = Icon.select({
  * item on Android. iOS uses `SettingsRow.ios.tsx`.
  *
  * Android drops `ListItem`'s `testID`, so the row passes it as a Compose
- * test tag.
+ * test tag. `FieldGroup.Section` already wraps each row in a filled list
+ * item, so the row container stays transparent.
  */
 export const SettingsRow = ({
   title,
@@ -29,6 +30,7 @@ export const SettingsRow = ({
     <ListItem
       onPress={onPress}
       testID={testID}
+      colors={{ containerColor: "transparent" }}
       modifiers={
         Platform.OS === "android" && testID
           ? [composeTestID(testID)]
