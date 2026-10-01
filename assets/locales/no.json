@@ -98,7 +98,6 @@
   "statistics_mood_peaks_title_singular": "Humøret ditt toppet seg {{rating_word}} én gang.",
   "statistics_mood_peaks_title_plural": "Humøret ditt toppet seg {{rating_word}} {{rating_count}} ganger.",
   "calendar_filters": "Filtre",
-  "calendar_filters_reset": "Nullstille",
   "calendar_filters_results": "Resultater",
   "calendar_filters_search": "Søk",
   "today": "I dag",

@@ -98,7 +98,6 @@
   "statistics_mood_peaks_title_singular": "Ruh haliniz bir kez {{rating_word}} doruğa ulaştı.",
   "statistics_mood_peaks_title_plural": "Ruh haliniz {{rating_word}} {{rating_count}} kez zirve yaptı.",
   "calendar_filters": "Filtreler",
-  "calendar_filters_reset": "Sıfırla",
   "calendar_filters_results": "Sonuçlar",
   "calendar_filters_search": "Arama",
   "today": "Bugün",

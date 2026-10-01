@@ -98,7 +98,6 @@
   "statistics_mood_peaks_title_singular": "您的情绪一度达到顶峰 {{rating_word}}。",
   "statistics_mood_peaks_title_plural": "您的情绪达到了 {{rating_word}} {{rating_count}} 次。",
   "calendar_filters": "过滤器",
-  "calendar_filters_reset": "重置",
   "calendar_filters_results": "结果",
   "calendar_filters_search": "搜索",
   "today": "今天",

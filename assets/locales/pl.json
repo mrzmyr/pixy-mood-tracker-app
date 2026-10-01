@@ -98,7 +98,6 @@
   "statistics_mood_peaks_title_singular": "Twój nastrój osiągnął szczyt {{rating_word}} raz.",
   "statistics_mood_peaks_title_plural": "Twój nastrój osiągnął szczyt {{rating_word}} {{rating_count}} razy.",
   "calendar_filters": "Filtry",
-  "calendar_filters_reset": "Resetowanie",
   "calendar_filters_results": "Wyniki",
   "calendar_filters_search": "Szukaj",
   "today": "Dziś",

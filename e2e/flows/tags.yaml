@@ -93,11 +93,15 @@ tags: [p1, tags]
       - tapOn: "Discard Changes"
 
 # Renamed tag keeps all 80 entries (iOS shows the count). Deleted tag is
-# gone from filters.
+# gone from filters. The iOS sheet hides the header badge from Maestro.
 - tapOn:
     id: "filters"
 - tapOn: "Running|Sport"
-- assertVisible: "Filters \\(1\\)"
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - assertVisible: "Filters \\(1\\)"
 - runFlow:
     when:
       platform: iOS

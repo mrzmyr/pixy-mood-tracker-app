@@ -98,7 +98,6 @@
   "statistics_mood_peaks_title_singular": "Η διάθεσή σας κορυφώθηκε {{rating_word}} μία φορά.",
   "statistics_mood_peaks_title_plural": "Η διάθεσή σας κορυφώθηκε {{rating_word}} {{rating_count}} φορές.",
   "calendar_filters": "Φίλτρα",
-  "calendar_filters_reset": "Επαναφορά",
   "calendar_filters_results": "Αποτελέσματα",
   "calendar_filters_search": "Αναζήτηση",
   "today": "Σήμερα",

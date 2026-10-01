@@ -98,7 +98,6 @@
   "statistics_mood_peaks_title_singular": "Vaše nálada jednou vyvrcholila {{rating_word}}.",
   "statistics_mood_peaks_title_plural": "Vaše nálada vyvrcholila {{rating_word}} {{rating_count}}krát.",
   "calendar_filters": "Filtry",
-  "calendar_filters_reset": "Resetovat",
   "calendar_filters_results": "Výsledek",
   "calendar_filters_search": "Vyhledávání",
   "today": "Dnes",

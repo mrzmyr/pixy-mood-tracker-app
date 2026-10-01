@@ -98,7 +98,6 @@
   "statistics_mood_peaks_title_singular": "あなたの気分は {{rating_word}} 回最高潮に達しました。",
   "statistics_mood_peaks_title_plural": "あなたの気分は {{rating_word}} {{rating_count}} 回ピークに達しました。",
   "calendar_filters": "フィルター",
-  "calendar_filters_reset": "リセット",
   "calendar_filters_results": "結果",
   "calendar_filters_search": "探す",
   "today": "今日",

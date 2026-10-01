@@ -98,7 +98,6 @@
   "statistics_mood_peaks_title_singular": "Votre humeur a culminé à {{rating_word}} une fois.",
   "statistics_mood_peaks_title_plural": "Votre humeur a culminé {{rating_word}} {{rating_count}} fois.",
   "calendar_filters": "Filtres",
-  "calendar_filters_reset": "Réinitialiser",
   "calendar_filters_results": "Résultats",
   "calendar_filters_search": "Chercher",
   "today": "Aujourd'hui",

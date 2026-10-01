@@ -98,7 +98,6 @@
   "statistics_mood_peaks_title_singular": "आपका मूड एक बार चरम पर था {{rating_word}}।",
   "statistics_mood_peaks_title_plural": "आपका मूड {{rating_word}} {{rating_count}} बार चरम पर था।",
   "calendar_filters": "फिल्टर",
-  "calendar_filters_reset": "रीसेट",
   "calendar_filters_results": "परिणाम",
   "calendar_filters_search": "खोज",
   "today": "आज",

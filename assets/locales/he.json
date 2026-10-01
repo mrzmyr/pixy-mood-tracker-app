@@ -98,7 +98,6 @@
   "statistics_mood_peaks_title_singular": "מצב הרוח שלך הגיע לשיא {{rating_word}} פעם אחת.",
   "statistics_mood_peaks_title_plural": "מצב הרוח שלך הגיע לשיא {{rating_word}} {{rating_count}} פעמים.",
   "calendar_filters": "מסננים",
-  "calendar_filters_reset": "אִתחוּל",
   "calendar_filters_results": "תוצאות",
   "calendar_filters_search": "לחפש",
   "today": "היום",

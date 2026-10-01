@@ -98,7 +98,6 @@
   "statistics_mood_peaks_title_singular": "Suasana hati Anda memuncak {{rating_word}} satu kali.",
   "statistics_mood_peaks_title_plural": "Suasana hati Anda memuncak {{rating_word}} {{rating_count}} kali.",
   "calendar_filters": "Filter",
-  "calendar_filters_reset": "Mengatur ulang",
   "calendar_filters_results": "Hasil",
   "calendar_filters_search": "Mencari",
   "today": "Hari ini",

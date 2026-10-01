@@ -98,7 +98,6 @@
   "statistics_mood_peaks_title_singular": "Tâm trạng của bạn đã lên đến đỉnh điểm {{rating_word}} một lần.",
   "statistics_mood_peaks_title_plural": "Tâm trạng của bạn đạt đỉnh {{rating_word}} {{rating_count}} lần.",
   "calendar_filters": "Bộ lọc",
-  "calendar_filters_reset": "Cài lại",
   "calendar_filters_results": "Kết quả",
   "calendar_filters_search": "Tìm kiếm",
   "today": "Hôm nay",

@@ -127,9 +127,11 @@ const CalendarFiltersProvider = ({
     setIsOpen(true);
   }, [analytics]);
 
+  // Closing clears the filters: the sheet has no reset button.
   const close = useCallback(() => {
     analytics.track("calendar:filters_closed");
     setIsOpen(false);
+    setData(initialState);
   }, [analytics]);
 
   // Keep the context value stable when filters are set to equal data.

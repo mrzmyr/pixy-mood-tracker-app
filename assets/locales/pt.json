@@ -98,7 +98,6 @@
   "statistics_mood_peaks_title_singular": "Seu humor atingiu o pico {{rating_word}} uma vez.",
   "statistics_mood_peaks_title_plural": "Seu humor atingiu o pico {{rating_word}} {{rating_count}} vezes.",
   "calendar_filters": "Filtros",
-  "calendar_filters_reset": "Redefinir",
   "calendar_filters_results": "Resultados",
   "calendar_filters_search": "Procurar",
   "today": "Hoje",

@@ -98,7 +98,6 @@
   "statistics_mood_peaks_title_singular": "Dit humør toppede {{rating_word}} én gang.",
   "statistics_mood_peaks_title_plural": "Dit humør toppede {{rating_word}} {{rating_count}} gange.",
   "calendar_filters": "Filtre",
-  "calendar_filters_reset": "Nulstil",
   "calendar_filters_results": "Resultater",
   "calendar_filters_search": "Søg",
   "today": "I dag",

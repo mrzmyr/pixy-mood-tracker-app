@@ -98,7 +98,6 @@
   "statistics_mood_peaks_title_singular": "A hangulatod egyszer elérte a {{rating_word}} csúcsot.",
   "statistics_mood_peaks_title_plural": "A hangulatod {{rating_word}} {{rating_count}} alkalommal érte el a csúcsot.",
   "calendar_filters": "Szűrők",
-  "calendar_filters_reset": "Visszaállítás",
   "calendar_filters_results": "Eredmények",
   "calendar_filters_search": "Keresés",
   "today": "Ma",
