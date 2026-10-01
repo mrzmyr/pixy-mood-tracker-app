@@ -38,6 +38,14 @@ const wrapper = ({ children }) => (
   </SettingsProvider>
 );
 
+const testPhoto = {
+  id: "8f8a7d3e-6c1f-4f59-9a52-2c9a5d1e7b10",
+  fileName: "8f8a7d3e-6c1f-4f59-9a52-2c9a5d1e7b10.jpg",
+  width: 1536,
+  height: 2048,
+  createdAt: "2022-01-02T10:00:00.000Z",
+};
+
 const testItems: LogsState["items"] = [
   _generateItem({
     date: "2022-01-01",
@@ -57,6 +65,7 @@ const testItems: LogsState["items"] = [
         id: "bb65f208-4e4c-11ed-bdc3-0242ac120002",
       },
     ],
+    photos: [testPhoto],
   }),
 ];
 
@@ -158,6 +167,7 @@ describe("useLogs()", () => {
       loaded: true,
       items: testItems,
     });
+    expect(hook.result.current.logState.items[1].photos).toEqual([testPhoto]);
     expect(hook.result.current.tagsState).toEqual({
       loaded: true,
       tags: testTags,
@@ -203,6 +213,8 @@ describe("useLogs()", () => {
 
     expect(FileSystem.writeAsStringAsync).toBeCalled();
     expect(JSON.parse(calledJson)).toEqual(expectedJson);
+    // Metadata only: export files never contain photo files.
+    expect(JSON.parse(calledJson).items[1].photos).toEqual([testPhoto]);
     expect(Sharing.shareAsync).toBeCalledWith(expect.any(String));
   });
 

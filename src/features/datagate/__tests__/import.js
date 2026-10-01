@@ -56,4 +56,45 @@ describe("getJSONSchemaType", () => {
     const migrated = migrateImportData(json);
     expect(getJSONSchemaType(migrated)).toBe("unknown");
   });
+  test("pixy schema: accepts photo metadata", () => {
+    const json = {
+      items: [
+        {
+          date: "2022-01-23",
+          rating: "good",
+          message: "",
+          tags: [],
+          photos: [
+            {
+              id: "8f8a7d3e-6c1f-4f59-9a52-2c9a5d1e7b10",
+              fileName: "8f8a7d3e-6c1f-4f59-9a52-2c9a5d1e7b10.jpg",
+              width: 1536,
+              height: 2048,
+              createdAt: "2022-01-23T10:00:00.000Z",
+            },
+          ],
+        },
+      ],
+      settings: { ...INITIAL_STATE },
+    };
+
+    expect(getJSONSchemaType(migrateImportData(json))).toBe("pixy");
+  });
+
+  test("pixy schema: reject invalid photo metadata", () => {
+    const json = {
+      items: [
+        {
+          date: "2022-01-23",
+          rating: "good",
+          message: "",
+          tags: [],
+          photos: [{ id: "1", fileName: "1.jpg", width: "wide" }],
+        },
+      ],
+      settings: { ...INITIAL_STATE },
+    };
+
+    expect(getJSONSchemaType(migrateImportData(json))).toBe("unknown");
+  });
 });

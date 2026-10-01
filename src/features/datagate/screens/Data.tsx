@@ -52,6 +52,9 @@ export const DataScreen = () => {
           />
         </MenuList>
         <TextInfo>{t("export_help")}</TextInfo>
+        <TextInfo style={{ paddingTop: 0 }}>
+          {t("data_export_photos_note")}
+        </TextInfo>
         <MenuList style={{ marginTop: 16 }}>
           <MenuListItem
             testID="reset-data"
