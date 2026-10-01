@@ -195,6 +195,8 @@ describe("useLogs()", () => {
       settings: _.omit(testSettings, [
         "loaded",
         "deviceId",
+        "storeReviewPromptedAt",
+        "storeReviewPromptedAppVersion",
       ]) satisfies ExportSettings,
       tags: testTags,
     };
