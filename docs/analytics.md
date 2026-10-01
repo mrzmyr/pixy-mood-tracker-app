@@ -33,6 +33,16 @@ Use this section to join old and new events in PostHog, for example with an Acti
   - `log_changed` = `logger:log_saved` with `mode: "edit"`
   - `log_saved_without_rating` = `logger:log_saved` with `has_rating: false`
 
+**Added events**
+
+- Photo attachments, first release with photos ([`src/features/photos`](../src/features/photos))
+  - `logger:photo_added`: `source`, `photos_count`, `mode`
+  - `logger:photo_removed`: `photos_count`, `mode`
+  - `logger:photo_limit_reached`, `logger:camera_permission_denied`: no properties
+  - `day:photo_opened`: `photos_count`, `index`
+  - `logger:log_saved`: new `photos_count`
+  - `photos_count`: photos on the entry after the action. Never file names, dimensions, or URIs
+
 **Changed meaning**
 
 - `data_import_success` fired twice per import: once when a file was picked, once after the import. `data:import_completed` fires only after the import
