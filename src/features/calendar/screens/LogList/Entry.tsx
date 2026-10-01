@@ -7,6 +7,7 @@ import { Edit, Trash } from "lucide-react-native";
 import { ScrollView, Text, View } from "react-native";
 import { Emotions } from "./Emotions";
 import { Message } from "./Message";
+import { Photos } from "./Photos";
 import { RatingDot } from "./RatingDot";
 import { Sleep } from "./Sleep";
 import { Tags } from "./Tags";
@@ -98,8 +99,9 @@ const EntryHeader = ({
 };
 
 /**
- * Card for one entry in the day list with its sleep, emotions, tags, and
- * message sections. The trash button calls `onDelete` without asking, so
+ * Card for one entry in the day list with its sleep, emotions, tags,
+ * photos, and message sections. The photos section shows only when the
+ * entry has photos. The trash button calls `onDelete` without asking, so
  * the caller must confirm.
  */
 export const Entry = ({
@@ -159,6 +161,15 @@ export const Entry = ({
             >
               <Tags item={item} />
             </View>
+            {item.photos.length > 0 && (
+              <View
+                style={{
+                  marginTop: 8,
+                }}
+              >
+                <Photos item={item} />
+              </View>
+            )}
             <View
               style={{
                 marginTop: 8,
