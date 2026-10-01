@@ -1,4 +1,4 @@
-import { Text, View } from "react-native";
+import { ScrollView, Text, View } from "react-native";
 import { Lock } from "react-native-feather";
 import Animated, { FadeInRight } from "react-native-reanimated";
 import Button from "@/components/Button";
@@ -43,8 +43,8 @@ const ListItem = ({ children, delay }) => {
 };
 
 /**
- * Last onboarding slide with the privacy summary; `onPress` finishes
- * onboarding.
+ * Last onboarding slide with the privacy summary and a note that anonymous
+ * usage data is on; `onPress` finishes onboarding.
  */
 export const PrivacySlide = ({ onPress }: { onPress: () => void }) => {
   const colors = useColors();
@@ -62,10 +62,11 @@ export const PrivacySlide = ({ onPress }: { onPress: () => void }) => {
           paddingHorizontal: 32,
         }}
       >
-        <View
-          style={{
-            flex: 1,
+        <ScrollView
+          style={{ flex: 1 }}
+          contentContainerStyle={{
             paddingTop: 32,
+            paddingBottom: 16,
             justifyContent: "flex-start",
             alignItems: "center",
           }}
@@ -99,12 +100,54 @@ export const PrivacySlide = ({ onPress }: { onPress: () => void }) => {
           >
             {t(`onboarding_step_5_title`)}
           </Text>
-          <ListItem delay={100}>{t(`onboarding_step_5_body_1`)}</ListItem>
-          <ListItem delay={200}>{t(`onboarding_step_5_body_2`)}</ListItem>
-          <ListItem delay={300}>{t(`onboarding_step_5_body_3`)}</ListItem>
-          <ListItem delay={400}>{t(`onboarding_step_5_body_4`)}</ListItem>
-          <ListItem delay={500}>{t(`onboarding_step_5_body_5`)}</ListItem>
-        </View>
+          <ListItem delay={100}>{t(`onboarding_step_5_body_2`)}</ListItem>
+          <ListItem delay={200}>{t(`onboarding_step_5_body_3`)}</ListItem>
+          <ListItem delay={300}>{t(`onboarding_step_5_body_4`)}</ListItem>
+          <ListItem delay={400}>{t(`onboarding_step_5_body_5`)}</ListItem>
+          <Animated.View
+            entering={FadeInRight.delay(500)}
+            style={{
+              width: "100%",
+              marginTop: 16,
+              padding: 16,
+              borderRadius: 12,
+              borderWidth: 1,
+              borderColor: colors.onboardingBottomBorder,
+              backgroundColor: colors.onboardingBottomBackground,
+            }}
+          >
+            <Text
+              style={{
+                color: colors.onboardingTitle,
+                fontSize: 17,
+                lineHeight: 24,
+                fontWeight: "bold",
+                marginBottom: 4,
+              }}
+            >
+              {t("onboarding_step_5_personal_title")}
+            </Text>
+            <Text
+              style={{
+                color: colors.onboardingListItemText,
+                fontSize: 15,
+                lineHeight: 22,
+              }}
+            >
+              {t("onboarding_step_5_personal_body")}
+            </Text>
+            <Text
+              style={{
+                color: colors.onboardingTitle,
+                fontSize: 15,
+                lineHeight: 22,
+                marginTop: 8,
+              }}
+            >
+              {t("onboarding_step_5_analytics_info")}
+            </Text>
+          </Animated.View>
+        </ScrollView>
         <View
           style={{
             width: "100%",

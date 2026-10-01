@@ -51,7 +51,9 @@ const AnalyticsProvider = ({
   // A stored device id identifies the anonymous session.
   const isIdentified = identifyCalled || settings.deviceId !== null;
   // Derived from settings; `enable`, `disable`, and `reset` update settings.
-  const isEnabled = settings.analyticsEnabled;
+  // Stays off until stored settings load: the default is on, but a stored
+  // opt-out must win before the first event.
+  const isEnabled = settings.loaded && settings.analyticsEnabled;
 
   useEffect(() => {
     if (!settings.loaded) {
@@ -109,12 +111,13 @@ const AnalyticsProvider = ({
           analyticsEnabled: false,
         }));
       },
+      // New anonymous id, then the default (on), like a fresh install.
       reset: () => {
         posthog?.reset();
-        posthog?.optOut();
+        posthog?.optIn();
         setSettings((currentSettings) => ({
           ...currentSettings,
-          analyticsEnabled: false,
+          analyticsEnabled: true,
         }));
       },
       track: (...[eventName, properties]) => {

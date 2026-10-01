@@ -70,11 +70,14 @@ describe("useAnalytics()", () => {
     console.error = _console_error;
   });
 
-  test("should `isEnabled` = false initially", async () => {
-    const { result } = await _renderHook();
+  test("should `isEnabled` = true initially", async () => {
+    const hook = await _renderHook();
+    await waitForLoaded(hook);
 
-    expect(result.current.settingsState.settings.analyticsEnabled).toBe(false);
-    expect(result.current.state.isEnabled).toBe(false);
+    expect(hook.result.current.settingsState.settings.analyticsEnabled).toBe(
+      true
+    );
+    expect(hook.result.current.state.isEnabled).toBe(true);
   });
 
   test("should `isEnabled` = false if disabled in settings", async () => {
@@ -213,6 +216,10 @@ describe("useAnalytics()", () => {
     await waitForLoaded(hook);
 
     await act(() => {
+      hook.result.current.state.disable();
+    });
+
+    await act(() => {
       hook.result.current.state.track("settings:analytics_toggled", {
         enabled: true,
       });
@@ -224,6 +231,10 @@ describe("useAnalytics()", () => {
   test("should send `screen` only while enabled", async () => {
     const hook = await _renderHook();
     await waitForLoaded(hook);
+
+    await act(() => {
+      hook.result.current.state.disable();
+    });
 
     await act(() => {
       hook.result.current.state.screen("Calendar");
@@ -267,19 +278,21 @@ describe("useAnalytics()", () => {
     );
   });
 
-  test("should `reset`", async () => {
+  test("should `reset` to on", async () => {
     const hook = await _renderHook();
     await waitForLoaded(hook);
 
+    await act(() => {
+      hook.result.current.state.disable();
+    });
     await act(() => {
       hook.result.current.state.reset();
     });
 
     expect(mockReset).toBeCalled();
-    expect(mockOptOut).toBeCalled();
-    expect(hook.result.current.state.isEnabled).toBe(false);
+    expect(hook.result.current.state.isEnabled).toBe(true);
     expect(hook.result.current.settingsState.settings.analyticsEnabled).toBe(
-      false
+      true
     );
   });
 });

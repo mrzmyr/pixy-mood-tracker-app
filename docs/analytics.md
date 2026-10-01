@@ -4,6 +4,8 @@
 - Screens: `$screen` with the route name, from [`src/navigation/screenTracking.ts`](../src/navigation/screenTracking.ts)
 - Super properties on every event: `scale_type`, `reminder_enabled`, `steps` ([`src/state/analytics/index.tsx`](../src/state/analytics/index.tsx))
 - Privacy rule: [AGENTS.md footguns](../AGENTS.md#footguns)
+- Default: on for all users. Onboarding privacy slide says so. Factory reset turns it back on ([`src/constants/Settings.ts`](../src/constants/Settings.ts))
+- Off switch: Settings > Privacy > Behavioral Data
 
 ## Event history
 
