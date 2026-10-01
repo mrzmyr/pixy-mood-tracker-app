@@ -64,6 +64,12 @@ tags: [p0, entry]
 - inputText: "e2e note ${output.runId}"
 - tapOn:
     id: "logger-save"
+
+# A good mood gets a celebrating message, then the feeling check.
+- assertVisible: "Nice one!"
+- assertVisible: "How are you feeling now?"
+- tapOn:
+    id: "feeling-check-better"
 - assertVisible: "Add another entry for today"
 
 - stopApp

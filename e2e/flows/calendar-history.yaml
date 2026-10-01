@@ -53,6 +53,7 @@ tags: [p0, calendar]
 - inputText: "e2e past ${output.runId}"
 - tapOn:
     id: "logger-save"
+- runFlow: ../subflows/answer-feeling-check.yaml
 
 # Saving returns to the calendar. The old day now shows the entry.
 - scrollUntilVisible:

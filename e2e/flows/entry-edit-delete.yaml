@@ -59,6 +59,7 @@ tags: [p0, entry]
 - tapOn:
     id: "logger-next"
 - tapOn: "Maybe later"
+- runFlow: ../subflows/answer-feeling-check.yaml
 
 # Delete the edited entry. Both entries can share the same minute, so the
 # day list order is not fixed.
