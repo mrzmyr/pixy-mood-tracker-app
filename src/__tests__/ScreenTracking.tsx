@@ -79,6 +79,10 @@ describe("useScreenTracking()", () => {
   });
 
   test("sends the route in view once analytics turns on", async () => {
+    await AsyncStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify({ ...INITIAL_STATE, analyticsEnabled: false })
+    );
     const result = await renderApp();
     await result.findByText("Enable analytics");
     await act(async () => {});

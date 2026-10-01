@@ -6,6 +6,7 @@ import {
 } from "posthog-react-native";
 import { AnalyticsProvider, useAnalytics } from "@/state/analytics";
 import { INITIAL_STATE } from "@/constants/Settings";
+import { DEFAULT_ANALYTICS_ENABLED } from "@/state/analytics/consent";
 import { SettingsProvider, STORAGE_KEY, useSettings } from "@/state/settings";
 
 const wrapper = ({ children }) => (
@@ -70,11 +71,14 @@ describe("useAnalytics()", () => {
     console.error = _console_error;
   });
 
-  test("should `isEnabled` = false initially", async () => {
-    const { result } = await _renderHook();
+  test("should `isEnabled` = regional default initially", async () => {
+    const hook = await _renderHook();
+    await waitForLoaded(hook);
 
-    expect(result.current.settingsState.settings.analyticsEnabled).toBe(false);
-    expect(result.current.state.isEnabled).toBe(false);
+    expect(hook.result.current.settingsState.settings.analyticsEnabled).toBe(
+      DEFAULT_ANALYTICS_ENABLED
+    );
+    expect(hook.result.current.state.isEnabled).toBe(DEFAULT_ANALYTICS_ENABLED);
   });
 
   test("should `isEnabled` = false if disabled in settings", async () => {
@@ -213,6 +217,10 @@ describe("useAnalytics()", () => {
     await waitForLoaded(hook);
 
     await act(() => {
+      hook.result.current.state.disable();
+    });
+
+    await act(() => {
       hook.result.current.state.track("settings:analytics_toggled", {
         enabled: true,
       });
@@ -224,6 +232,10 @@ describe("useAnalytics()", () => {
   test("should send `screen` only while enabled", async () => {
     const hook = await _renderHook();
     await waitForLoaded(hook);
+
+    await act(() => {
+      hook.result.current.state.disable();
+    });
 
     await act(() => {
       hook.result.current.state.screen("Calendar");
@@ -267,19 +279,21 @@ describe("useAnalytics()", () => {
     );
   });
 
-  test("should `reset`", async () => {
+  test("should `reset` to the regional default", async () => {
     const hook = await _renderHook();
     await waitForLoaded(hook);
 
+    await act(() => {
+      hook.result.current.state.disable();
+    });
     await act(() => {
       hook.result.current.state.reset();
     });
 
     expect(mockReset).toBeCalled();
-    expect(mockOptOut).toBeCalled();
-    expect(hook.result.current.state.isEnabled).toBe(false);
+    expect(hook.result.current.state.isEnabled).toBe(DEFAULT_ANALYTICS_ENABLED);
     expect(hook.result.current.settingsState.settings.analyticsEnabled).toBe(
-      false
+      DEFAULT_ANALYTICS_ENABLED
     );
   });
 });
