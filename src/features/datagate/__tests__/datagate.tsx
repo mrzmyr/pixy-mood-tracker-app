@@ -173,6 +173,8 @@ describe("useLogs()", () => {
 
     jest.spyOn(Alert, "alert");
     jest.spyOn(FileSystem, "writeAsStringAsync").mockResolvedValueOnce();
+    jest.spyOn(FileSystem, "readDirectoryAsync").mockResolvedValue([]);
+    jest.spyOn(FileSystem, "deleteAsync").mockResolvedValue();
     jest.mocked(Sharing.shareAsync).mockClear();
 
     await waitForLoaded(hook);
@@ -187,8 +189,8 @@ describe("useLogs()", () => {
       await hook.result.current.datagate.openExportDialog();
     });
 
-    const calledJson =
-      jest.mocked(FileSystem.writeAsStringAsync).mock.calls[0]?.[1] ?? "";
+    const [calledUri, calledJson = ""] =
+      jest.mocked(FileSystem.writeAsStringAsync).mock.calls[0] ?? [];
     const expectedJson = {
       version: pkg.version,
       items: testItems,
@@ -201,9 +203,14 @@ describe("useLogs()", () => {
       tags: testTags,
     };
 
-    expect(FileSystem.writeAsStringAsync).toBeCalled();
+    expect(calledUri).toMatch(
+      new RegExp(
+        `^${FileSystem.cacheDirectory}pixy-mood-tracker-.*\\.json$`,
+        "u"
+      )
+    );
     expect(JSON.parse(calledJson)).toEqual(expectedJson);
-    expect(Sharing.shareAsync).toBeCalledWith(expect.any(String));
+    expect(Sharing.shareAsync).toBeCalledWith(calledUri);
   });
 
   test("`openExportDialog` uses the file transfer override", async () => {
@@ -211,6 +218,8 @@ describe("useLogs()", () => {
     const share = jest.fn(() => Promise.resolve(true));
     setFileTransferOverride({ share, pickJson: () => Promise.resolve(null) });
     jest.spyOn(FileSystem, "writeAsStringAsync").mockResolvedValueOnce();
+    jest.spyOn(FileSystem, "readDirectoryAsync").mockResolvedValue([]);
+    jest.spyOn(FileSystem, "deleteAsync").mockResolvedValue();
     jest.mocked(Sharing.shareAsync).mockClear();
 
     await waitForLoaded(hook);

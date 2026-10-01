@@ -2,6 +2,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import dayjs from "dayjs";
 import * as FileSystem from "expo-file-system/legacy";
 import { Alert, Platform } from "react-native";
+import { shareExportFile } from "./exportFile";
 import { getFileTransfer } from "./fileTransfer";
 import { getJSONSchemaType } from "./import";
 import type { ImportData } from "./import";
@@ -210,14 +211,7 @@ export const useDatagate = (): DatagateValue => {
 
     const filename = `pixy-mood-tracker-${dayjs().format("YYYY-MM-DD")}${__DEV__ ? "-DEV" : ""}.json`;
 
-    await FileSystem.writeAsStringAsync(
-      FileSystem.documentDirectory + filename,
-      JSON.stringify(data)
-    );
-
-    const isShared = await getFileTransfer().share(
-      FileSystem.documentDirectory + filename
-    );
+    const isShared = await shareExportFile(filename, JSON.stringify(data));
     if (!isShared) {
       analytics.track("data:export_failed");
       Alert.alert("Alert", t("export_failed_title"));
