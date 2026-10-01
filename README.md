@@ -24,12 +24,19 @@
   <img src="./docs/screen-1.png" width="400px">
 </p>
 
+Pixy is a free, open source mood tracker for iPhone and Android. No ads, no account.
+
+- Log mood, emotions, tags, and notes. More than one entry per day.
+- Year in Pixels, calendar, filters, and statistics
+- Entries stored on device. Export and import backups.
+- 31 languages ([docs/i18n.md](./docs/i18n.md))
+
+Full list: [docs/features.md](./docs/features.md).
+
 ### Built With
 
-This section should list any major frameworks that you built your project using. Leave any add-ons/plugins for the acknowledgements section. Here are a few examples.
-
 - [React Native](https://reactnative.dev/)
-- [Expo](https://expo.dev/)
+- [Expo](https://expo.dev/) and [Expo Router](https://docs.expo.dev/router/introduction/)
 
 ## Development
 
