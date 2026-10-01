@@ -192,8 +192,6 @@ export const useDatagate = (): DatagateValue => {
       items: logState.items,
       tags,
       settings: {
-        passcodeEnabled: settings.passcodeEnabled,
-        passcode: settings.passcode,
         scaleType: settings.scaleType,
         reminderEnabled: settings.reminderEnabled,
         reminderTime: settings.reminderTime,
