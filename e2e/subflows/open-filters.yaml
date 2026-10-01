@@ -1,7 +1,9 @@
 appId: ${APP_ID}
 ---
 # Filters sit in the calendar header menu ("More"). Native menu items have
-# no test IDs, so this subflow taps by label.
+# no test IDs, so this subflow taps by label. The sheet has no title, so
+# its search field proves it is open.
 - tapOn: "More"
 - tapOn: "Filters"
-- assertVisible: "Filters"
+- assertVisible:
+    id: "calendar-filter-search"
