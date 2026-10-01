@@ -58,6 +58,10 @@ export interface SettingsState {
   analyticsEnabled: boolean;
   actionsDone: IAction[];
   steps: KnownSettingsStep[];
+  /** ISO date of the automatic store review prompt; `null` until shown once. */
+  storeReviewPromptedAt: string | null;
+  /** App version that showed the automatic store review prompt. */
+  storeReviewPromptedAppVersion: string | null;
 
   // removed in previous version
   // replaced with analyticsEnabled
@@ -68,9 +72,16 @@ export interface SettingsState {
 
 /**
  * Settings included in data exports. The device id is excluded so an import
- * never clones another device's identity.
+ * never clones another device's identity. Store review prompt state belongs
+ * to the device and store account, so imports keep the current values.
  */
-export type ExportSettings = Omit<SettingsState, "loaded" | "deviceId">;
+export type ExportSettings = Omit<
+  SettingsState,
+  | "loaded"
+  | "deviceId"
+  | "storeReviewPromptedAt"
+  | "storeReviewPromptedAppVersion"
+>;
 
 interface IAction {
   title: string;
@@ -126,12 +137,15 @@ const SettingsProvider = ({ children }: { children: React.ReactNode }) => {
   }, []);
 
   const importSettings = useCallback((importedSettings: ExportSettings) => {
-    setSettings({
+    setSettings((currentSettings) => ({
       ...INITIAL_STATE,
       ...importedSettings,
       steps: sanitizeSteps(importedSettings.steps),
+      storeReviewPromptedAt: currentSettings.storeReviewPromptedAt,
+      storeReviewPromptedAppVersion:
+        currentSettings.storeReviewPromptedAppVersion,
       loaded: true,
-    });
+    }));
   }, []);
 
   useEffect(() => {

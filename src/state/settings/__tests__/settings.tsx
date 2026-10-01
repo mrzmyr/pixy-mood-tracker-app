@@ -131,6 +131,32 @@ describe("useSettings()", () => {
     );
   });
 
+  test("should keep store review prompt state on import", async () => {
+    await AsyncStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify({
+        ...INITIAL_STATE,
+        storeReviewPromptedAt: "2026-09-01T10:00:00.000Z",
+        storeReviewPromptedAppVersion: "1.89.0",
+      })
+    );
+    const hook = await _renderHook();
+    await waitForLoaded(hook);
+
+    await act(() => {
+      hook.result.current.state.importSettings({
+        ...INITIAL_STATE,
+        reminderTime: "12:00",
+      });
+    });
+
+    expect(hook.result.current.state.settings).toMatchObject({
+      reminderTime: "12:00",
+      storeReviewPromptedAt: "2026-09-01T10:00:00.000Z",
+      storeReviewPromptedAppVersion: "1.89.0",
+    });
+  });
+
   test("should addActionDone", async () => {
     const hook = await _renderHook();
     await waitForLoaded(hook);
