@@ -56,6 +56,7 @@ appId: ${APP_ID}
 - inputText: "after upgrade ${output.runId}"
 - tapOn:
     id: "logger-save"
+- runFlow: answer-feeling-check.yaml
 
 # Legacy and new data survive a cold start: 8 legacy entries plus 1 new.
 - stopApp
