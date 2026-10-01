@@ -27,6 +27,9 @@ export interface ImportData {
  *
  * `z.strictObject` rejects unknown top-level keys: add every new export field
  * here, or the app rejects its own exports.
+ *
+ * `photos` holds metadata only. Export files never contain photo files, so
+ * imported references can point to files missing on this device.
  */
 export const pixySchema = z.strictObject({
   version: z.string().optional(),
@@ -50,6 +53,17 @@ export const pixySchema = z.strictObject({
             .optional(),
         })
       ),
+      photos: z
+        .array(
+          z.object({
+            id: z.string(),
+            fileName: z.string(),
+            width: z.number(),
+            height: z.number(),
+            createdAt: z.string(),
+          })
+        )
+        .optional(),
     })
   ),
 
