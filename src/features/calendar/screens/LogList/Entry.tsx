@@ -2,6 +2,7 @@ import LinkButton from "@/components/LinkButton";
 import useColors from "@/hooks/useColors";
 import type { LogItem } from "@/features/logs";
 import dayjs from "dayjs";
+import { useRouter } from "expo-router";
 import { LinearGradient } from "expo-linear-gradient";
 import { Edit, Trash } from "lucide-react-native";
 import { ScrollView, Text, View } from "react-native";
@@ -114,6 +115,7 @@ export const Entry = ({
   onDelete: (item: LogItem) => void;
 }) => {
   const colors = useColors();
+  const router = useRouter();
 
   return (
     <View
@@ -167,7 +169,15 @@ export const Entry = ({
                   marginTop: 8,
                 }}
               >
-                <Photos item={item} />
+                <Photos
+                  item={item}
+                  onEdit={() => {
+                    router.push({
+                      pathname: "/logs/[id]/edit",
+                      params: { id: item.id, step: "photos" },
+                    });
+                  }}
+                />
               </View>
             )}
             <View

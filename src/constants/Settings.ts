@@ -14,7 +14,9 @@ export const INITIAL_STATE: SettingsState = {
   reminderTime: "18:00",
   analyticsEnabled: true,
   actionsDone: [],
-  steps: ["rating", "emotions", "tags", "message", "feedback"],
+  // `photos` is on for new installs only. Stored settings keep their own
+  // step list, so existing users turn it on in Settings > Steps.
+  steps: ["rating", "emotions", "tags", "message", "photos", "feedback"],
   storeReviewPromptedAt: null,
   storeReviewPromptedAppVersion: null,
 };

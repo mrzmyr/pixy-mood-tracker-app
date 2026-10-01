@@ -33,6 +33,7 @@ import { SlideEmotions } from "./slides/SlideEmotions";
 import { SlideFeedback } from "./slides/SlideFeedback";
 import { SlideMessage } from "./slides/SlideMessage";
 import { SlideMood } from "./slides/SlideMood";
+import { SlidePhotos } from "./slides/SlidePhotos";
 import { SlideReminder } from "./slides/SlideReminder";
 import { SlideTags } from "./slides/SlideTags";
 import { useLoggerActions } from "./hooks/useLoggerActions";
@@ -49,6 +50,7 @@ const SLIDE_ORDER: LoggerStep[] = [
   "emotions",
   "tags",
   "message",
+  "photos",
   "reminder",
   "feedback",
 ];
@@ -85,6 +87,9 @@ const getAvailableStepsForCreate = ({
   if (hasStep("message")) {
     slides.push("message");
   }
+  if (hasStep("photos")) {
+    slides.push("photos");
+  }
 
   if (itemsCount === 1 && !reminderEnabled) {
     slides.push("reminder");
@@ -115,8 +120,50 @@ const getAvailableStepsForEdit = ({
   if (hasStep("message") || item.message.length > 0) {
     slides.push("message");
   }
+  if (hasStep("photos") || item.photos.length > 0) {
+    slides.push("photos");
+  }
 
   return slides;
+};
+
+// Sends `logger:flow_started` on mount and `logger:step_viewed` on every
+// slide change.
+const useStepTracking = ({
+  mode,
+  slideKeys,
+  slideIndex,
+}: {
+  mode: LoggerMode;
+  slideKeys: LoggerStep[];
+  slideIndex: number;
+}) => {
+  const analytics = useAnalytics();
+
+  // Effect event: reads the latest slides without re-running the effects
+  // below; only mount and slide changes should send events.
+  const trackFlowStarted = useEffectEvent(() => {
+    analytics.track("logger:flow_started", {
+      mode,
+      steps_count: slideKeys.length,
+    });
+  });
+  const trackStepViewed = useEffectEvent((index: number) => {
+    analytics.track("logger:step_viewed", {
+      mode,
+      step: slideKeys[index],
+      index,
+      steps_count: slideKeys.length,
+    });
+  });
+
+  useEffect(() => {
+    trackFlowStarted();
+  }, []);
+
+  useEffect(() => {
+    trackStepViewed(slideIndex);
+  }, [slideIndex]);
 };
 
 /**
@@ -186,6 +233,13 @@ export const Logger = ({
     } else if (_carousel.current) {
       _carousel.current.next();
     }
+  };
+
+  const disableStep = async (step: "tags" | "message" | "photos") => {
+    await askToDisableStep();
+    analytics.track("logger:step_disabled", { step });
+    toggleStep(step);
+    next();
   };
 
   const content: {
@@ -259,12 +313,7 @@ export const Logger = ({
           onChange={(tags: TagReference[]) => {
             tempLog.update({ tags });
           }}
-          onDisableStep={async () => {
-            await askToDisableStep();
-            analytics.track("logger:step_disabled", { step: "tags" });
-            toggleStep("tags");
-            next();
-          }}
+          onDisableStep={() => disableStep("tags")}
           showDisable={showDisable}
         />
       ),
@@ -279,13 +328,22 @@ export const Logger = ({
           onChange={(message) => {
             tempLog.update({ message });
           }}
-          onDisableStep={async () => {
-            await askToDisableStep();
-            analytics.track("logger:step_disabled", { step: "message" });
-            toggleStep("message");
-            next();
-          }}
+          onDisableStep={() => disableStep("message")}
           ref={texAreaRef}
+          showDisable={showDisable}
+        />
+      ),
+    });
+  }
+
+  if (slideKeys.includes("photos")) {
+    content.push({
+      key: "photos",
+      slide: (
+        <SlidePhotos
+          mode={mode}
+          onChange={(photos) => tempLog.update({ photos })}
+          onDisableStep={() => disableStep("photos")}
           showDisable={showDisable}
         />
       ),

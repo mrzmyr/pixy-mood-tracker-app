@@ -1,7 +1,9 @@
 appId: ${APP_ID}
 ---
 # Walks the deterministic default first-entry sequence after mood auto-advance:
-# emotions → tags → message → save.
+# emotions → tags → message → photos → save.
+- tapOn:
+    id: "logger-next"
 - tapOn:
     id: "logger-next"
 - tapOn:

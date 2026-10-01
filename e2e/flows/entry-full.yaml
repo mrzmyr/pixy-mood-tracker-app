@@ -63,6 +63,9 @@ tags: [p0, entry]
     id: "log-message"
 - inputText: "e2e note ${output.runId}"
 - tapOn:
+    id: "logger-next"
+- assertVisible: "Add a photo of your day"
+- tapOn:
     id: "logger-save"
 
 # Saving shows the confirmation.

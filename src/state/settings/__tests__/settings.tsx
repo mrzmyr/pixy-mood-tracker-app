@@ -242,7 +242,7 @@ describe("useSettings()", () => {
       hook.result.current.state.toggleStep("feedback");
     });
 
-    expect(hook.result.current.state.settings.steps.length).toEqual(4);
+    expect(hook.result.current.state.settings.steps.length).toEqual(5);
 
     await act(() => {
       hook.result.current.state.toggleStep("feedback");
@@ -265,9 +265,26 @@ describe("useSettings()", () => {
       "rating",
       "emotions",
       "message",
+      "photos",
       "feedback",
       "tags",
     ]);
+  });
+
+  test("new installs get the photos step, stored step lists stay as they are", async () => {
+    const fresh = await _renderHook();
+    await waitForLoaded(fresh);
+    expect(fresh.result.current.state.hasStep("photos")).toBe(true);
+    await fresh.unmount();
+
+    await AsyncStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify({ steps: ["rating", "message"] })
+    );
+    const existing = await _renderHook();
+    await waitForLoaded(existing);
+
+    expect(existing.result.current.state.hasStep("photos")).toBe(false);
   });
 
   test("should `hasStep`", async () => {
