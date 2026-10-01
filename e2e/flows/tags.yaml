@@ -100,7 +100,7 @@ tags: [p1, tags]
     when:
       platform: Android
     commands:
-      - assertVisible: "Filters \\(1\\)"
+      - assertVisible: "More, 1"
 - runFlow:
     when:
       platform: iOS
