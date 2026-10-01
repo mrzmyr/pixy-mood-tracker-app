@@ -3,6 +3,7 @@ import { ActivityIndicator, Platform, Text, View } from "react-native";
 import type { NativeScrollEvent, NativeSyntheticEvent } from "react-native";
 
 import type { FlashListRef } from "@shopify/flash-list";
+import { SafeAreaView } from "react-native-screens/experimental";
 import type { Month } from "./layout";
 import { useCalendarFilters } from "../../filters";
 import useColors from "@/hooks/useColors";
@@ -56,42 +57,59 @@ const CalendarScreenComponent = () => {
   return (
     <View style={{ flex: 1 }}>
       <CalendarHeader />
-      {showScrollTopButton && (
-        <ScrollToBottomButton
-          onPress={() => {
-            analytics.track("calendar:today_tapped");
-            scrollRef.current?.scrollToEnd({ animated: true });
-          }}
-        />
-      )}
-      <View style={{ flex: 1, backgroundColor: colors.calendarBackground }}>
-        <Calendar
-          listRef={scrollRef}
-          onScroll={onScroll}
-          header={
-            Platform.OS === "web" && calendarFilters.isOpen ? <Body /> : null
-          }
-          footer={
-            <>
-              <View style={{ paddingBottom: 32 }}>
-                <CalendarFooter />
-              </View>
-              <View style={{}}>
-                <Text
-                  style={{
-                    fontSize: 14,
-                    color: colors.textSecondary,
-                    marginTop: 20,
-                    textAlign: "center",
-                    marginBottom: -60,
-                  }}
-                >
-                  🙏 {t("calendar_foot_note")}
-                </Text>
-              </View>
-            </>
-          }
-        />
+      {/*
+       * Clip the list at the top. The native SafeAreaView includes the tab
+       * bar (JS insets do not), so the list frame ends above the bar. The
+       * list draws past its frame, under the bar.
+       */}
+      <View
+        style={{
+          flex: 1,
+          overflow: "hidden",
+          backgroundColor: colors.calendarBackground,
+        }}
+      >
+        <SafeAreaView edges={{ bottom: true }} style={{ flex: 1 }}>
+          <View style={{ flex: 1 }}>
+            <Calendar
+              listRef={scrollRef}
+              onScroll={onScroll}
+              header={
+                Platform.OS === "web" && calendarFilters.isOpen ? (
+                  <Body />
+                ) : null
+              }
+              footer={
+                <>
+                  <View style={{ paddingBottom: 32 }}>
+                    <CalendarFooter />
+                  </View>
+                  <View style={{}}>
+                    <Text
+                      style={{
+                        fontSize: 14,
+                        color: colors.textSecondary,
+                        marginTop: 20,
+                        textAlign: "center",
+                        marginBottom: -60,
+                      }}
+                    >
+                      🙏 {t("calendar_foot_note")}
+                    </Text>
+                  </View>
+                </>
+              }
+            />
+            {showScrollTopButton && (
+              <ScrollToBottomButton
+                onPress={() => {
+                  analytics.track("calendar:today_tapped");
+                  scrollRef.current?.scrollToEnd({ animated: true });
+                }}
+              />
+            )}
+          </View>
+        </SafeAreaView>
       </View>
       {Platform.OS !== "web" && <CalendarBottomSheet />}
       <ObserveInteractiveMarker />

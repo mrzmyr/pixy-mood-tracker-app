@@ -1,93 +1,58 @@
-import { Tabs } from "expo-router/js-tabs";
-import { Filter } from "react-native-feather";
-import { Platform, View } from "react-native";
-import LinkButton from "@/components/LinkButton";
-import { useCalendarFilters } from "@/features/calendar";
+import { NativeTabs } from "expo-router/unstable-native-tabs";
 import { t } from "@/lib/translation";
 import useColors from "@/hooks/useColors";
-import { MyTabBar } from "@/shell/MyTabBar";
+import useHaptics from "@/hooks/useHaptics";
 
-const CalendarFiltersHeaderButton = () => {
-  const calendarFilters = useCalendarFilters();
-  return (
-    <View style={{ paddingRight: 16 }}>
-      <LinkButton
-        onPress={() => {
-          if (calendarFilters.isOpen) {
-            calendarFilters.close();
-          } else {
-            calendarFilters.open();
-          }
-        }}
-        testID="filters"
-        type="primary"
-        icon={Filter}
-      >
-        {t("calendar_filters")}{" "}
-        {calendarFilters.data.isFiltering
-          ? `(${calendarFilters.data.filterCount})`
-          : ""}
-      </LinkButton>
-    </View>
-  );
-};
-const renderCalendarHeaderRight = () => <CalendarFiltersHeaderButton />;
-
-const renderTabBar = (props: React.ComponentProps<typeof MyTabBar>) => (
-  <MyTabBar {...props} />
-);
-
-/** Tabs retain custom bar and frozen offscreen screens. */
+/**
+ * Native system tab bar. Tabs needing a header nest their own Stack. Content
+ * scrolls under the tab bar and ends above it. Calendar handles its own
+ * insets, because native insets break FlashList's start-at-end position.
+ */
 const TabsLayout = () => {
   const colors = useColors();
-  const defaultOptions = {
-    headerTintColor: colors.text,
-    headerStyle: {
-      backgroundColor: colors.background,
-      shadowColor: "transparent",
-      borderBottomWidth: 1,
-      borderBottomColor: colors.headerBorder,
-    },
-    headerShadowVisible: Platform.OS !== "web",
-    tabBarStyle: { borderTopColor: colors.headerBorder },
-  };
+  const haptics = useHaptics();
+
   return (
-    <Tabs
-      initialRouteName="calendar"
-      screenOptions={{
-        freezeOnBlur: true,
-        headerStyle: { borderBottomColor: "#fff" },
+    <NativeTabs
+      backgroundColor={colors.tabsBackground}
+      iconColor={{
+        default: colors.tabsIconInactive,
+        selected: colors.tabsIconActive,
       }}
-      tabBar={renderTabBar}
+      labelStyle={{
+        default: { color: colors.tabsTextInactive },
+        selected: { color: colors.tabsTextActive },
+      }}
+      tintColor={colors.tabsIconActive}
+      screenListeners={{
+        tabPress: () => {
+          void haptics.selection();
+        },
+      }}
     >
-      <Tabs.Screen
-        name="statistics"
-        options={{
-          ...defaultOptions,
-          headerShown: false,
-          tabBarButtonTestID: "statistics",
-          title: t("statistics"),
-        }}
-      />
-      <Tabs.Screen
+      <NativeTabs.Trigger name="statistics" testID="statistics">
+        <NativeTabs.Trigger.Icon
+          sf={{ default: "chart.pie", selected: "chart.pie.fill" }}
+          md="pie_chart"
+        />
+        <NativeTabs.Trigger.Label>{t("statistics")}</NativeTabs.Trigger.Label>
+      </NativeTabs.Trigger>
+      <NativeTabs.Trigger
         name="calendar"
-        options={{
-          ...defaultOptions,
-          headerRight: renderCalendarHeaderRight,
-          tabBarButtonTestID: "calendar",
-          title: t("calendar"),
-        }}
-      />
-      <Tabs.Screen
-        name="settings"
-        options={{
-          ...defaultOptions,
-          headerShown: false,
-          tabBarButtonTestID: "settings",
-          title: t("settings"),
-        }}
-      />
-    </Tabs>
+        testID="calendar"
+        disableAutomaticContentInsets
+      >
+        <NativeTabs.Trigger.Icon sf="calendar" md="calendar_month" />
+        <NativeTabs.Trigger.Label>{t("calendar")}</NativeTabs.Trigger.Label>
+      </NativeTabs.Trigger>
+      <NativeTabs.Trigger name="settings" testID="settings">
+        <NativeTabs.Trigger.Icon
+          sf={{ default: "gearshape", selected: "gearshape.fill" }}
+          md="settings"
+        />
+        <NativeTabs.Trigger.Label>{t("settings")}</NativeTabs.Trigger.Label>
+      </NativeTabs.Trigger>
+    </NativeTabs>
   );
 };
 

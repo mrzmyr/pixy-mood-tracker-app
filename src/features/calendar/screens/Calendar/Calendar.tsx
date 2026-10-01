@@ -96,6 +96,8 @@ const CalendarComponent = ({
           renderItem={renderMonth}
           keyExtractor={getKey}
           getItemType={getType}
+          // Draw under the tab bar while the frame ends above it.
+          style={{ overflow: "visible" }}
           contentContainerStyle={contentStyle}
           maintainVisibleContentPosition={positionConfig}
           onStartReached={loadEarlierMonths}

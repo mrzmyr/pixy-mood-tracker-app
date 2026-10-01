@@ -65,6 +65,9 @@ export const SettingsScreen = () => {
       }}
     >
       <ScrollView
+        // Native tabs inset only a screen's first ScrollView; this one is
+        // nested. Content scrolls under the tab bar and ends above it.
+        contentInsetAdjustmentBehavior="automatic"
         style={{
           padding: 20,
         }}
