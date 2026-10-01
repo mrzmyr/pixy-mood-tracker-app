@@ -4,8 +4,6 @@ import Animated, { FadeInRight } from "react-native-reanimated";
 import Button from "@/components/Button";
 import { t } from "@/lib/translation";
 import useColors from "@/hooks/useColors";
-import { useAnalytics } from "@/state/analytics";
-import { DEVICE_REQUIRES_CONSENT } from "@/state/analytics/consent";
 
 const ListItem = ({ children, delay }) => {
   const colors = useColors();
@@ -45,29 +43,11 @@ const ListItem = ({ children, delay }) => {
 };
 
 /**
- * Last onboarding slide with the privacy summary; `onPress` finishes
- * onboarding. Where analytics needs consent, the user picks share or don't
- * share with equal buttons; elsewhere analytics is on and the slide says how
- * to turn it off.
+ * Last onboarding slide with the privacy summary and a note that anonymous
+ * usage data is on; `onPress` finishes onboarding.
  */
-export const PrivacySlide = ({
-  onPress,
-  needsConsent = DEVICE_REQUIRES_CONSENT,
-}: {
-  onPress: () => void;
-  needsConsent?: boolean;
-}) => {
+export const PrivacySlide = ({ onPress }: { onPress: () => void }) => {
   const colors = useColors();
-  const analytics = useAnalytics();
-
-  const choose = (share: boolean) => {
-    if (share) {
-      analytics.enable();
-    } else {
-      analytics.disable();
-    }
-    onPress();
-  };
 
   return (
     <View
@@ -162,46 +142,19 @@ export const PrivacySlide = ({
                 fontSize: 15,
                 lineHeight: 22,
                 marginTop: 8,
-                fontWeight: needsConsent ? "600" : "normal",
               }}
             >
-              {needsConsent
-                ? t("onboarding_step_5_consent_question")
-                : t("onboarding_step_5_consent_info")}
+              {t("onboarding_step_5_analytics_info")}
             </Text>
           </Animated.View>
         </ScrollView>
-        {needsConsent ? (
-          // Equal buttons: declining must be as easy as agreeing.
-          <View style={{ width: "100%", flexDirection: "row", gap: 12 }}>
-            <View style={{ flex: 1 }}>
-              <Button
-                type="secondary"
-                onPress={() => choose(false)}
-                testID="analytics-consent-deny"
-              >
-                {t("onboarding_step_5_consent_deny")}
-              </Button>
-            </View>
-            <View style={{ flex: 1 }}>
-              <Button
-                type="secondary"
-                onPress={() => choose(true)}
-                testID="analytics-consent-allow"
-              >
-                {t("onboarding_step_5_consent_allow")}
-              </Button>
-            </View>
-          </View>
-        ) : (
-          <View
-            style={{
-              width: "100%",
-            }}
-          >
-            <Button onPress={onPress}>{t("onboarding_step_5_button")}</Button>
-          </View>
-        )}
+        <View
+          style={{
+            width: "100%",
+          }}
+        >
+          <Button onPress={onPress}>{t("onboarding_step_5_button")}</Button>
+        </View>
       </View>
     </View>
   );

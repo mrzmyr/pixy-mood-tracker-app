@@ -11,7 +11,6 @@ import { useSettings } from "@/state/settings";
 import { createMissingProviderError } from "@/lib/errors";
 import type { AnalyticsEvent, TrackArgs } from "@/state/analytics/events";
 import { Observe } from "expo-observe";
-import { DEFAULT_ANALYTICS_ENABLED } from "@/state/analytics/consent";
 
 interface AnaylticsState {
   enable: () => void;
@@ -52,8 +51,8 @@ const AnalyticsProvider = ({
   // A stored device id identifies the anonymous session.
   const isIdentified = identifyCalled || settings.deviceId !== null;
   // Derived from settings; `enable`, `disable`, and `reset` update settings.
-  // Stays off until stored settings load: the default can be on, but a
-  // stored opt-out must win before the first event.
+  // Stays off until stored settings load: the default is on, but a stored
+  // opt-out must win before the first event.
   const isEnabled = settings.loaded && settings.analyticsEnabled;
 
   useEffect(() => {
@@ -112,17 +111,13 @@ const AnalyticsProvider = ({
           analyticsEnabled: false,
         }));
       },
-      // New anonymous id, then the regional default, like a fresh install.
+      // New anonymous id, then the default (on), like a fresh install.
       reset: () => {
         posthog?.reset();
-        if (DEFAULT_ANALYTICS_ENABLED) {
-          posthog?.optIn();
-        } else {
-          posthog?.optOut();
-        }
+        posthog?.optIn();
         setSettings((currentSettings) => ({
           ...currentSettings,
-          analyticsEnabled: DEFAULT_ANALYTICS_ENABLED,
+          analyticsEnabled: true,
         }));
       },
       track: (...[eventName, properties]) => {

@@ -6,7 +6,6 @@ import {
 } from "posthog-react-native";
 import { AnalyticsProvider, useAnalytics } from "@/state/analytics";
 import { INITIAL_STATE } from "@/constants/Settings";
-import { DEFAULT_ANALYTICS_ENABLED } from "@/state/analytics/consent";
 import { SettingsProvider, STORAGE_KEY, useSettings } from "@/state/settings";
 
 const wrapper = ({ children }) => (
@@ -71,14 +70,14 @@ describe("useAnalytics()", () => {
     console.error = _console_error;
   });
 
-  test("should `isEnabled` = regional default initially", async () => {
+  test("should `isEnabled` = true initially", async () => {
     const hook = await _renderHook();
     await waitForLoaded(hook);
 
     expect(hook.result.current.settingsState.settings.analyticsEnabled).toBe(
-      DEFAULT_ANALYTICS_ENABLED
+      true
     );
-    expect(hook.result.current.state.isEnabled).toBe(DEFAULT_ANALYTICS_ENABLED);
+    expect(hook.result.current.state.isEnabled).toBe(true);
   });
 
   test("should `isEnabled` = false if disabled in settings", async () => {
@@ -279,7 +278,7 @@ describe("useAnalytics()", () => {
     );
   });
 
-  test("should `reset` to the regional default", async () => {
+  test("should `reset` to on", async () => {
     const hook = await _renderHook();
     await waitForLoaded(hook);
 
@@ -291,9 +290,9 @@ describe("useAnalytics()", () => {
     });
 
     expect(mockReset).toBeCalled();
-    expect(hook.result.current.state.isEnabled).toBe(DEFAULT_ANALYTICS_ENABLED);
+    expect(hook.result.current.state.isEnabled).toBe(true);
     expect(hook.result.current.settingsState.settings.analyticsEnabled).toBe(
-      DEFAULT_ANALYTICS_ENABLED
+      true
     );
   });
 });

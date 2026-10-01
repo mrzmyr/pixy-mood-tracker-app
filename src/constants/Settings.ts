@@ -1,4 +1,3 @@
-import { DEFAULT_ANALYTICS_ENABLED } from "@/state/analytics/consent";
 import type { SettingsState } from "@/state/settings";
 
 /**
@@ -15,7 +14,7 @@ export const INITIAL_STATE: SettingsState = {
   scaleType: "ColorBrew-RdYlGn",
   reminderEnabled: false,
   reminderTime: "18:00",
-  analyticsEnabled: DEFAULT_ANALYTICS_ENABLED,
+  analyticsEnabled: true,
   actionsDone: [],
   steps: ["rating", "emotions", "tags", "message", "feedback"],
 };
