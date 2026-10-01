@@ -45,7 +45,7 @@ const translations = {
 };
 
 /** i18n for `locale` (for example `de-DE`), falling back to English. */
-export const createI18n = (locale: string) => {
+const createI18n = (locale: string) => {
   const instance = new I18n(translations);
   instance.locale = locale;
   instance.defaultLocale = "en";
