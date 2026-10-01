@@ -35,6 +35,7 @@ Use this section to join old and new events in PostHog, for example with an Acti
   - `logger:photo_removed`: `photos_count`, `mode`
   - `logger:photo_limit_reached`, `logger:camera_permission_denied`: no properties
   - `day:photo_opened`: `photos_count`, `index`
+  - `logger:photo_hint_shown`: no properties. Note slide add-photo pulse played in full, once per device
   - `logger:log_saved`: new `photos_count`
   - `photos_count`: photos on the entry after the action. Never file names, dimensions, or URIs
 

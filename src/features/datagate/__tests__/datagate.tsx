@@ -207,6 +207,7 @@ describe("useLogs()", () => {
         "deviceId",
         "storeReviewPromptedAt",
         "storeReviewPromptedAppVersion",
+        "photosHintShown",
       ]) satisfies ExportSettings,
       tags: testTags,
     };

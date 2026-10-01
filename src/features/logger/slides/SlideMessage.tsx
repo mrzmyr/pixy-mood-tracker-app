@@ -2,8 +2,10 @@ import { getLogEditMarginTop } from "@/helpers/responsive";
 import { t } from "@/lib/translation";
 import useColors from "@/hooks/useColors";
 import type { LogItem } from "@/features/logs";
+import { PhotoViewerModal, usePhotoActions } from "@/features/photos";
+import type { LogPhoto } from "@/types";
 import { useTemporaryLog } from "../temporaryLog";
-import { forwardRef, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Keyboard,
   KeyboardAvoidingView,
@@ -17,9 +19,19 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import DismissKeyboard from "@/components/DismisKeyboard";
 import LinkButton from "@/components/LinkButton";
 import TextArea from "@/components/TextArea";
+import { PhotoStrip } from "../components/PhotoStrip";
+import { PhotoToolbar } from "../components/PhotoToolbar";
+import { usePhotosHint } from "../hooks/usePhotosHint";
 import { Footer } from "./Footer";
 
 const MAX_LENGTH = 10 * 1000;
+
+const NO_PHOTOS: LogPhoto[] = [];
+
+// Space the floating next/save button covers at the slide's right edge:
+// `SlideAction` right padding 32 plus button 54, minus slide padding 20,
+// plus 8 gap.
+const FLOAT_BUTTON_CLEARANCE = 74;
 
 // Keeps the last lines above the floating next/save button while typing.
 const INPUT_BOTTOM_PADDING_TYPING = 72;
@@ -51,23 +63,65 @@ const useKeyboardVisible = () => {
   return keyboardVisible;
 };
 
-const SlideMessageComponent = (
-  {
-    onChange,
-    onDisableStep,
-    showDisable,
-  }: {
-    onChange: (text: LogItem["message"]) => void;
-    onDisableStep: () => void;
-    showDisable: boolean;
-  },
-  ref: React.ForwardedRef<TextInput>
-) => {
+/**
+ * Free-text note slide with the photo toolbar. The question is the input
+ * placeholder and the text fills the slide without a box. Draft photos show
+ * in a strip between input and toolbar. `inputRef` points at the text input
+ * so the logger can focus it.
+ */
+export const SlideMessage = ({
+  inputRef,
+  isActive,
+  mode,
+  onChange,
+  onDisableStep,
+  showDisable,
+}: {
+  inputRef: React.RefObject<TextInput | null>;
+  /** The slide is current; starts the one-time photo hint. */
+  isActive: boolean;
+  mode: "create" | "edit";
+  onChange: (text: LogItem["message"]) => void;
+  onDisableStep: () => void;
+  showDisable: boolean;
+}) => {
   const insets = useSafeAreaInsets();
   const colors = useColors();
   const tempLog = useTemporaryLog();
   const marginTop = getLogEditMarginTop();
   const keyboardVisible = useKeyboardVisible();
+  const [viewerIndex, setViewerIndex] = useState<number | null>(null);
+
+  // The draft is an empty object until the logger initializes it.
+  const photos = tempLog.data.photos ?? NO_PHOTOS;
+  const photoActions = usePhotoActions({
+    photos,
+    mode,
+    onChange: (next) => {
+      tempLog.update({ photos: next });
+    },
+  });
+  const photosHint = usePhotosHint({
+    isActive,
+    draftPhotosCount: photos.length,
+  });
+
+  const handleHintEnd = () => {
+    photosHint.markShown();
+  };
+
+  const handleRemovePhoto = (photo: LogPhoto) => {
+    photoActions.remove(photo);
+  };
+
+  // Pickers take the focus. Give it back so the user keeps typing.
+  const addPhotos = async (add: () => Promise<void>) => {
+    const shouldRefocus = keyboardVisible;
+    await add();
+    if (shouldRefocus) {
+      inputRef.current?.focus();
+    }
+  };
 
   // The footer only exists while the disable link shows and the keyboard is
   // hidden, so typing gets the full height between header and keyboard.
@@ -98,7 +152,7 @@ const SlideMessageComponent = (
             }}
           >
             <TextArea
-              ref={ref}
+              ref={inputRef}
               accessibilityLabel={t("log_note_question")}
               testID="log-message"
               placeholder={t("log_note_question")}
@@ -120,6 +174,23 @@ const SlideMessageComponent = (
               }}
             />
           </View>
+          {photos.length > 0 && (
+            <PhotoStrip
+              photos={photos}
+              reservedEnd={FLOAT_BUTTON_CLEARANCE}
+              onOpen={setViewerIndex}
+              onRemove={handleRemovePhoto}
+            />
+          )}
+          <PhotoToolbar
+            count={photos.length}
+            disabled={photoActions.isAdding}
+            isPulsing={photosHint.isVisible}
+            onPulseEnd={handleHintEnd}
+            reservedEnd={FLOAT_BUTTON_CLEARANCE}
+            onLibrary={() => addPhotos(photoActions.addFromLibrary)}
+            onCamera={() => addPhotos(photoActions.addFromCamera)}
+          />
           {footerVisible && (
             <Footer>
               <LinkButton
@@ -135,13 +206,14 @@ const SlideMessageComponent = (
           )}
         </View>
       </DismissKeyboard>
+      {viewerIndex !== null && (
+        <PhotoViewerModal
+          isVisible
+          photos={photos}
+          initialIndex={viewerIndex}
+          onClose={() => setViewerIndex(null)}
+        />
+      )}
     </KeyboardAvoidingView>
   );
 };
-
-/**
- * Free-text note slide. The question is the input placeholder and the text
- * fills the slide without a box. The ref points at the text input so the
- * logger can focus it.
- */
-export const SlideMessage = forwardRef(SlideMessageComponent);

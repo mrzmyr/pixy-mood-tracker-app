@@ -2,7 +2,6 @@ import { DATE_FORMAT } from "@/constants/Config";
 import { askToDisableFeedbackStep, askToDisableStep } from "@/helpers/prompts";
 import useColors from "@/hooks/useColors";
 import { useLogState } from "@/features/logs";
-import type { LogItem } from "@/features/logs";
 
 import { useQuestioner } from "@/features/questioner";
 import type { IQuestion } from "@/features/questioner";
@@ -35,6 +34,7 @@ import { SlideMood } from "./slides/SlideMood";
 import { SlideReminder } from "./slides/SlideReminder";
 import { SlideTags } from "./slides/SlideTags";
 import { useLoggerActions } from "./hooks/useLoggerActions";
+import { getAvailableStepsForCreate, getAvailableStepsForEdit } from "./steps";
 
 /** Whether the logger creates a new entry or edits an existing one. */
 export type LoggerMode = "create" | "edit";
@@ -57,62 +57,6 @@ const EMOTIONS_INDEX_MAPPING = {
   good: 3,
   very_good: 3,
   extremely_good: 4,
-};
-
-const getAvailableStepsForCreate = ({
-  question,
-  hasStep,
-  reminderEnabled,
-  itemsCount,
-}: {
-  question: IQuestion | null;
-  hasStep: ReturnType<typeof useSettings>["hasStep"];
-  reminderEnabled: boolean;
-  itemsCount: number;
-}) => {
-  const slides: LoggerStep[] = ["rating"];
-
-  if (hasStep("emotions")) {
-    slides.push("emotions");
-  }
-  if (hasStep("tags")) {
-    slides.push("tags");
-  }
-  if (hasStep("message")) {
-    slides.push("message");
-  }
-
-  if (itemsCount === 1 && !reminderEnabled) {
-    slides.push("reminder");
-  }
-
-  if (itemsCount >= 3 && question !== null && hasStep("feedback")) {
-    slides.push("feedback");
-  }
-
-  return slides;
-};
-
-const getAvailableStepsForEdit = ({
-  item,
-  hasStep,
-}: {
-  item: LogItem;
-  hasStep: ReturnType<typeof useSettings>["hasStep"];
-}) => {
-  const slides: LoggerStep[] = ["rating"];
-
-  if (hasStep("emotions") || item.emotions.length > 0) {
-    slides.push("emotions");
-  }
-  if (hasStep("tags") || item.tags.length > 0) {
-    slides.push("tags");
-  }
-  if (hasStep("message") || item.message.length > 0) {
-    slides.push("message");
-  }
-
-  return slides;
 };
 
 /**
@@ -275,7 +219,9 @@ export const Logger = ({
             toggleStep("message");
             next();
           }}
-          ref={texAreaRef}
+          inputRef={texAreaRef}
+          isActive={slideKeys[slideIndex] === "message"}
+          mode={mode}
           showDisable={showDisable}
         />
       ),

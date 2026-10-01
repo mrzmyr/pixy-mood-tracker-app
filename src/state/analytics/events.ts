@@ -57,6 +57,7 @@ export interface AnalyticsEvents {
   "logger:photo_removed": { photos_count: number; mode: "create" | "edit" };
   "logger:photo_limit_reached": undefined;
   "logger:camera_permission_denied": undefined;
+  "logger:photo_hint_shown": undefined;
 
   "day:add_tapped": undefined;
   "day:edit_tapped": undefined;

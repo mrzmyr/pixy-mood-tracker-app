@@ -157,6 +157,21 @@ describe("useSettings()", () => {
     });
   });
 
+  test("should keep photos hint flag on import", async () => {
+    await AsyncStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify({ ...INITIAL_STATE, photosHintShown: true })
+    );
+    const hook = await _renderHook();
+    await waitForLoaded(hook);
+
+    await act(() => {
+      hook.result.current.state.importSettings({ ...INITIAL_STATE });
+    });
+
+    expect(hook.result.current.state.settings.photosHintShown).toBe(true);
+  });
+
   test("should addActionDone", async () => {
     const hook = await _renderHook();
     await waitForLoaded(hook);
