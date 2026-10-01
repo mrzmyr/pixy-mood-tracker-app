@@ -119,7 +119,7 @@
     "oxlint": "^1.85.0",
     "oxlint-plugin-react-doctor": "^0.9.14",
     "test-renderer": "^1.3.0",
-    "typescript": "~6.0.3",
+    "typescript": "~7.0.2",
     "ultracite": "7.12.0"
   },
   "overrides": {
