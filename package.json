@@ -39,6 +39,7 @@
     "fix": "oxlint --fix && oxfmt"
   },
   "dependencies": {
+    "@expo/material-symbols": "^0.1.1",
     "@expo/ui": "~57.0.21",
     "@react-native-async-storage/async-storage": "2.2.0",
     "@react-native-community/datetimepicker": "9.1.0",

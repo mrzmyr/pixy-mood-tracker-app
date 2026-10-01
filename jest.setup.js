@@ -46,8 +46,43 @@ jest.mock(
   () => new Proxy({}, { get: () => require("react-native").View })
 );
 
-// oxlint-disable-next-line anti-slop/no-module-mocking -- feature entry files load calendar UI; the native sheet has no Jest view.
-jest.mock("@expo/ui", () => ({
-  BottomSheet: () => null,
-  RNHostView: () => null,
-}));
+// Renders an Expo UI container's children as plain React Native children.
+const mockPassthrough = ({ children }) => children ?? null;
+// `FieldGroup` carries slot components, so it needs its own function object.
+const mockFieldGroup = ({ children }) => children ?? null;
+
+// oxlint-disable-next-line anti-slop/no-module-mocking -- feature entry files load calendar and settings UI; native Expo UI views have no Jest view.
+jest.mock("@expo/ui", () => {
+  const { Text } = require("react-native");
+
+  return {
+    BottomSheet: () => null,
+    FieldGroup: Object.assign(mockFieldGroup, {
+      Section: mockPassthrough,
+      SectionHeader: mockPassthrough,
+      SectionFooter: mockPassthrough,
+    }),
+    Host: mockPassthrough,
+    Icon: Object.assign(() => null, { select: (spec) => spec.ios }),
+    RNHostView: mockPassthrough,
+    Text: ({ children }) => <Text>{children}</Text>,
+  };
+});
+
+// oxlint-disable-next-line anti-slop/no-module-mocking -- iOS settings rows render SwiftUI views; Jest renders them as React Native views.
+jest.mock("@expo/ui/swift-ui", () => {
+  const { Pressable, Text } = require("react-native");
+
+  return {
+    Button: ({ onPress, testID, children }) => (
+      <Pressable accessibilityRole="button" onPress={onPress} testID={testID}>
+        {children}
+      </Pressable>
+    ),
+    HStack: mockPassthrough,
+    Image: () => null,
+    Label: ({ title }) => <Text>{title}</Text>,
+    NavigationStack: mockPassthrough,
+    Spacer: () => null,
+  };
+});
