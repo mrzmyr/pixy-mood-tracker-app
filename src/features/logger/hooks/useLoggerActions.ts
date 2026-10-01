@@ -13,7 +13,9 @@ import { getItemDate } from "@/lib/logDates";
 
 /**
  * Save, remove and cancel handlers for the logger.
- * Every handler closes the logger and resets the temporary log; `save` stores unrated logs as "neutral".
+ * Every handler closes the logger, resets the temporary log, and sweeps
+ * photo files no stored entry references (draft photos after cancel,
+ * removed photos after save). `save` stores unrated logs as "neutral".
  */
 export const useLoggerActions = ({
   mode,
@@ -35,6 +37,7 @@ export const useLoggerActions = ({
 
   const close = () => {
     tempLog.reset();
+    logUpdater.sweepPhotos();
     router.back();
   };
 
@@ -69,6 +72,7 @@ export const useLoggerActions = ({
       if (itemsOnDate.length === 1) {
         router.dismissTo("/calendar");
         tempLog.reset();
+        logUpdater.sweepPhotos();
         return;
       }
     }

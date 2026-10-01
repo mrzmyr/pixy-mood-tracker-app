@@ -113,6 +113,7 @@ export const useDatagate = (): DatagateValue => {
       logUpdater.import({
         items: migratedData.items,
       });
+      logUpdater.sweepPhotos();
       tagsUpdater.import({
         tags: migratedData.settings.tags || migratedData.tags || [],
       });
@@ -134,6 +135,7 @@ export const useDatagate = (): DatagateValue => {
 
   const reset = () => {
     logUpdater.reset();
+    logUpdater.sweepPhotos();
     tagsUpdater.reset();
   };
 
