@@ -1,5 +1,5 @@
 import { Image } from "expo-image";
-import { ImageOff, X } from "lucide-react-native";
+import { ImageOff, Trash, X } from "lucide-react-native";
 import { useState } from "react";
 import {
   Modal,
@@ -50,20 +50,29 @@ const ViewerPhoto = ({ photo }: { photo: LogPhoto }) => {
 /**
  * Full-screen photo pager: swipe between photos, page dots, counter, close
  * button. Works for stored entries and drafts: the caller passes the photos.
+ *
+ * The trash button shows only with `onRemove`. After the caller drops the
+ * photo from `photos`, the pager shows the next photo, or the previous one
+ * when the last photo was removed. Closing on an empty list is up to the
+ * caller.
  */
 export const PhotoViewer = ({
   photos,
   initialIndex = 0,
   onClose,
+  onRemove,
 }: {
   photos: LogPhoto[];
   initialIndex?: number;
   onClose: () => void;
+  onRemove?: (photo: LogPhoto) => void;
 }) => {
   const insets = useSafeAreaInsets();
   const { width } = useWindowDimensions();
-  const startIndex = Math.min(Math.max(initialIndex, 0), photos.length - 1);
-  const [index, setIndex] = useState(startIndex);
+  const [index, setIndex] = useState(initialIndex);
+  // Clamped: a removed last photo leaves `index` past the end.
+  const currentIndex = Math.max(Math.min(index, photos.length - 1), 0);
+  const currentPhoto = photos[currentIndex];
 
   return (
     <View
@@ -72,10 +81,12 @@ export const PhotoViewer = ({
     >
       {photos.length > 0 && (
         <Carousel
+          // Remount on removal so the pager lands on `currentIndex`.
+          key={photos.length}
           loop={false}
           data={photos}
           itemSize={width}
-          defaultIndex={startIndex}
+          defaultIndex={currentIndex}
           onSnapToItem={setIndex}
           style={{ flex: 1, width }}
           renderItem={({ item }) => <ViewerPhoto photo={item} />}
@@ -120,10 +131,30 @@ export const PhotoViewer = ({
             }}
           >
             {t("photos_viewer_counter", {
-              index: index + 1,
+              index: currentIndex + 1,
               count: photos.length,
             })}
           </Text>
+        )}
+        {onRemove && currentPhoto && (
+          <Pressable
+            onPress={() => onRemove(currentPhoto)}
+            accessibilityRole="button"
+            accessibilityLabel={t("photos_remove_label", {
+              index: currentIndex + 1,
+            })}
+            testID="photo-viewer-remove"
+            style={{
+              position: "absolute",
+              right: 8,
+              width: 44,
+              height: 44,
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <Trash color={FOREGROUND} size={24} />
+          </Pressable>
         )}
       </View>
       {photos.length > 1 && (
@@ -147,7 +178,7 @@ export const PhotoViewer = ({
                 height: 8,
                 borderRadius: 4,
                 backgroundColor:
-                  dotIndex === index ? FOREGROUND : FOREGROUND_MUTED,
+                  dotIndex === currentIndex ? FOREGROUND : FOREGROUND_MUTED,
               }}
             />
           ))}

@@ -72,6 +72,20 @@ export const askToRemove = () =>
   });
 
 /**
+ * Ask before removing a photo from a stored entry.
+ *
+ * @returns Resolves when the user confirms; rejects with a `prompt_cancelled`
+ *   error on cancel.
+ */
+export const askToRemovePhoto = () =>
+  askToConfirm({
+    title: t("photos_remove"),
+    message: t("photos_remove_confirm_message"),
+    confirmText: t("photos_remove_confirm"),
+    cancelText: t("cancel"),
+  });
+
+/**
  * Ask before an import replaces existing data.
  *
  * @returns Resolves when the user confirms; rejects with a `prompt_cancelled`

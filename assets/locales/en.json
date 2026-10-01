@@ -641,6 +641,8 @@
   "photos_choose_library": "Choose from library",
   "photos_take_photo": "Take photo",
   "photos_remove": "Remove photo",
+  "photos_remove_confirm": "Remove",
+  "photos_remove_confirm_message": "The photo is removed from this entry.",
   "photos_limit_reached": "Up to {{max}} photos per entry",
   "photos_add_failed": "Photo could not be added. Try again or pick another photo.",
   "photos_camera_permission_title": "Camera access needed",

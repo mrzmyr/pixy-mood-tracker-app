@@ -100,9 +100,9 @@ const EntryHeader = ({
 
 /**
  * Card for one entry in the day list with its sleep, emotions, tags,
- * photos, and message sections. The photos section shows only when the
- * entry has photos. The trash button calls `onDelete` without asking, so
- * the caller must confirm.
+ * photos, and message sections. The photos section always shows: it is
+ * where photos are added. The trash button calls `onDelete` without
+ * asking, so the caller must confirm.
  */
 export const Entry = ({
   item,
@@ -161,15 +161,13 @@ export const Entry = ({
             >
               <Tags item={item} />
             </View>
-            {item.photos.length > 0 && (
-              <View
-                style={{
-                  marginTop: 8,
-                }}
-              >
-                <Photos item={item} />
-              </View>
-            )}
+            <View
+              style={{
+                marginTop: 8,
+              }}
+            >
+              <Photos item={item} />
+            </View>
             <View
               style={{
                 marginTop: 8,

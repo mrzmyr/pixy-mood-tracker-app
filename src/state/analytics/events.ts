@@ -63,6 +63,7 @@ export interface AnalyticsEvents {
   "day:delete_tapped": undefined;
   "day:closed": undefined;
   "day:photo_opened": { photos_count: number; index: number };
+  "day:photo_add_tapped": undefined;
 
   "calendar:day_opened": {
     source: "calendar" | "mood_peaks" | "tag_peaks";
