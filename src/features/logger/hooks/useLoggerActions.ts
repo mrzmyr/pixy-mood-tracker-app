@@ -49,6 +49,7 @@ export const useLoggerActions = ({
       message_length: data.message.length,
       tags_count: data.tags.length,
       emotions_count: data.emotions.length,
+      photos_count: data.photos.length,
     });
 
     if (data.rating === null) {

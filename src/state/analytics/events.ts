@@ -7,8 +7,9 @@ import type { SettingsState } from "@/state/settings";
  *
  * - Name: `<area>:<object>_<verb>`, verb in past tense
  * - Properties: snake_case, JSON values only
- * - Never send entry content (rating, emotions, sleep, text) or user text.
- *   Send counts, lengths, and booleans instead.
+ * - Never send entry content (rating, emotions, sleep, text, photos) or user
+ *   text. Send counts, lengths, and booleans instead. Photo events never
+ *   carry file names, dimensions, or URIs.
  * - `undefined`: the event has no properties
  */
 export interface AnalyticsEvents {
@@ -37,6 +38,7 @@ export interface AnalyticsEvents {
     message_length: number;
     tags_count: number;
     emotions_count: number;
+    photos_count: number;
   };
   "logger:log_deleted": undefined;
   "logger:flow_cancelled": { mode: "create" | "edit" };
@@ -47,11 +49,20 @@ export interface AnalyticsEvents {
     trigger: "entries_7";
     entries_count: number;
   };
+  "logger:photo_added": {
+    source: "library" | "camera";
+    photos_count: number;
+    mode: "create" | "edit";
+  };
+  "logger:photo_removed": { photos_count: number; mode: "create" | "edit" };
+  "logger:photo_limit_reached": undefined;
+  "logger:camera_permission_denied": undefined;
 
   "day:add_tapped": undefined;
   "day:edit_tapped": undefined;
   "day:delete_tapped": undefined;
   "day:closed": undefined;
+  "day:photo_opened": { photos_count: number; index: number };
 
   "calendar:day_opened": {
     source: "calendar" | "mood_peaks" | "tag_peaks";
