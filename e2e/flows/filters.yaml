@@ -1,9 +1,9 @@
 appId: ${APP_ID}
 tags: [p1, filters]
 ---
-# Search and tag filters narrow the `year` fixture to exact counts.
-# iOS checks counts inside the sheet. Android checks the menu badge, which
-# TalkBack reads as "More, <count>".
+# Search and tag filters narrow the `year` fixture to exact counts shown in
+# the sheet. The Android sheet is its own window, so the header badge is not
+# in the hierarchy while it is open.
 - runFlow:
     file: ../subflows/load-fixture.yaml
     env:
@@ -13,27 +13,9 @@ tags: [p1, filters]
     id: "calendar-filter-search"
 - inputText: "run"
 - runFlow: ../subflows/dismiss-keyboard.yaml
-- runFlow:
-    when:
-      platform: iOS
-    commands:
-      - assertVisible: "41 Results"
-- runFlow:
-    when:
-      platform: Android
-    commands:
-      - assertVisible: "More, 1"
+- assertVisible: "41 Results"
 - tapOn: "Sport"
-- runFlow:
-    when:
-      platform: iOS
-    commands:
-      - assertVisible: "10 Results"
-- runFlow:
-    when:
-      platform: Android
-    commands:
-      - assertVisible: "More, 2"
+- assertVisible: "10 Results"
 
 # Closing clears both filters. Reopening shows no results.
 - runFlow: ../subflows/close-filters.yaml

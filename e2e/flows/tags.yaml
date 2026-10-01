@@ -92,22 +92,13 @@ tags: [p1, tags]
     commands:
       - tapOn: "Discard Changes"
 
-# Renamed tag keeps all 80 entries (iOS shows the count). Deleted tag is
-# gone from filters. The iOS sheet hides the header badge from Maestro.
+# Renamed tag keeps all 80 entries. Deleted tag is gone from filters. Both
+# sheets hide the header from Maestro, so the count is read inside the sheet.
 - runFlow: ../subflows/open-filters.yaml
 - tapOn: "Running|Sport"
-- runFlow:
-    when:
-      platform: Android
-    commands:
-      - assertVisible: "More, 1"
-- runFlow:
-    when:
-      platform: iOS
-    commands:
-      - scrollUntilVisible:
-          element:
-            text: "80 Results"
-          direction: DOWN
+- scrollUntilVisible:
+    element:
+      text: "80 Results"
+    direction: DOWN
 - assertNotVisible: "Family"
 - runFlow: ../subflows/close-filters.yaml
