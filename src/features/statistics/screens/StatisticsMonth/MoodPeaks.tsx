@@ -3,7 +3,6 @@ import { NotEnoughDataOverlay } from "../../components/NotEnoughDataOverlay";
 import { DATE_FORMAT } from "@/constants/Config";
 import { t } from "@/lib/translation";
 import dayjs from "dayjs";
-import { useAnonymizer } from "@/state/analytics/anonymizer";
 import {
   getMoodPeaksNegativeData,
   getMoodPeaksPositiveData,
@@ -16,11 +15,9 @@ const MIN_ITEMS = 1;
 
 /**
  * Month report cards for good and bad peak days. `items` must already be
- * limited to the month; days are anonymized in feedback.
+ * limited to the month.
  */
 export const MoodPeaks = ({ date, items }) => {
-  const { anonymizeDay } = useAnonymizer();
-
   const dataNegative = getMoodPeaksNegativeData(items);
   const dataPositive = getMoodPeaksPositiveData(items);
 
@@ -71,9 +68,7 @@ export const MoodPeaks = ({ date, items }) => {
           date: date.format("MMMM, YYYY"),
         })}
         isShareable
-        hasFeedback
         analyticsId="mood-peaks-positive"
-        analyticsData={dataNegative.days.map((day) => anonymizeDay(day))}
       >
         {dataPositive.days.length < MIN_ITEMS && <NotEnoughDataOverlay />}
         {dataPositive.days.length >= MIN_ITEMS ? (
@@ -96,9 +91,7 @@ export const MoodPeaks = ({ date, items }) => {
           date: date.format("MMMM, YYYY"),
         })}
         isShareable
-        hasFeedback
         analyticsId="mood-peaks-negative"
-        analyticsData={dataNegative.days.map((day) => anonymizeDay(day))}
       >
         {dataNegative.days.length < MIN_ITEMS && <NotEnoughDataOverlay />}
         {dataNegative.days.length >= MIN_ITEMS ? (

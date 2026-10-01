@@ -8,9 +8,6 @@ import type { ViewStyle } from "react-native";
 import { Share } from "react-native-feather";
 import { captureRef } from "react-native-view-shot";
 import LinkButton from "@/components/LinkButton";
-import { CardFeedback } from "./CardFeedback";
-
-const DEFAULT_ANALYTICS_DATA = {};
 
 const LOGO = require("../../../../assets/images/icon.png");
 
@@ -82,7 +79,7 @@ const Container = ({
 };
 
 /**
- * Statistics card with optional share and feedback actions.
+ * Statistics card with optional share action.
  *
  * With `isShareable`, `children` render a second time in an off-screen copy
  * that is captured as the share image, so children must tolerate double
@@ -93,17 +90,13 @@ export const BigCard = ({
   subtitle,
   children,
   isShareable,
-  hasFeedback,
   analyticsId,
-  analyticsData = DEFAULT_ANALYTICS_DATA,
 }: {
   title?: string;
   subtitle?: string;
   children: React.ReactNode;
   isShareable?: boolean;
-  hasFeedback?: boolean;
   analyticsId: string;
-  analyticsData?: object;
 }) => {
   const colors = useColors();
   const viewRef = useRef(null);
@@ -175,13 +168,6 @@ export const BigCard = ({
         </View>
         {subtitle && <SubTitle>{subtitle}</SubTitle>}
         {children}
-
-        {hasFeedback && (
-          <CardFeedback
-            analyticsId={analyticsId}
-            analyticsData={analyticsData}
-          />
-        )}
       </Container>
       {/* Share copy */}
       {isShareable && (

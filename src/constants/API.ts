@@ -2,8 +2,6 @@ import { APP_VARIANT } from "@/constants/AppVariant";
 
 /** Webhook that receives in-app feedback from {@link useFeedback}. */
 export const FEEDBACK_URL = `https://eocfnkx0gbrjzvp.m.pipedream.net`;
-/** Webhook that receives thumbs up/down feedback on statistics cards. */
-export const STATISTICS_FEEDBACK_URL = `https://eoupo57tzejgnqq.m.pipedream.net`;
 /** Webhook that receives answers to in-app questions. */
 export const QUESTION_SUBMIT_URL = `https://eod7mfqgj8fcpa1.m.pipedream.net`;
 /**

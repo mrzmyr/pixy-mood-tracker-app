@@ -57,9 +57,7 @@ export const MoodChart = ({ date }: { date: Dayjs }) => {
         date: date.format("YYYY"),
       })}
       isShareable
-      hasFeedback
       analyticsId="rating-distribution"
-      analyticsData={data}
     >
       {validatedData.length < MIN_ITEMS && (
         <NotEnoughDataOverlay limit={MIN_ITEMS - validatedData.length} />

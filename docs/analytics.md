@@ -33,9 +33,17 @@ Use this section to join old and new events in PostHog, for example with an Acti
 - `calendar_filters_filtered`: `ratings`
 - `statistics_relevant_highlights`, `statistics_all_highlights`: `mood_avg_type`, `mood_avg_percentage`
 - `feedback_send`: `message`, `email`, `deviceId`, `locale`, `version`, `os`, `date`, `environment`
-- `statistics_feedback`: `comment`, `details`, `deviceId`, `locale`, `version`, `os`, `date`
 - `questioner_submit`: `question_text`, `answer_texts`, `question`, `deviceId`, `language`, `locale`, `version`, `os`, `date`
 - `loaded_logs`: `unit` (always `mb`)
+
+**Removed events**
+
+- Statistics card feedback and its App Store review prompt removed in first release after `v1.88.0`. Last sent in `v1.88.0`. No replacement
+  - `statistics_feedback`
+  - `statistics_feedback_store_review_request`
+  - `statistics_feedback_store_review_done`
+  - `statistics_feedback_store_review_error`
+- New names never shipped in a release: `statistics:card_feedback_submitted`, `statistics:store_review_requested`, `statistics:store_review_completed`, `statistics:store_review_failed`
 
 **Renames**
 
@@ -68,10 +76,6 @@ Use this section to join old and new events in PostHog, for example with an Acti
 | `statistics_relevant_highlights` | `statistics:highlights_viewed` | `itemsCount` to `items_count` |
 | `statistics_all_highlights` | `statistics:all_highlights_viewed` | `itemsCount` to `items_count`. `sleep_quality_chart_show` to `sleep_quality_distribution_show` |
 | `statstics_shared` | `statistics:card_shared` | `type` to `card` |
-| `statistics_feedback` | `statistics:card_feedback_submitted` | `type` to `card`. New: `comment_length` |
-| `statistics_feedback_store_review_request` | `statistics:store_review_requested` |  |
-| `statistics_feedback_store_review_done` | `statistics:store_review_completed` |  |
-| `statistics_feedback_store_review_error` | `statistics:store_review_failed` |  |
 | `tag_create` | `tags:tag_created` | `titleLength`, `containsEmoji` to `title_length`, `has_emoji` |
 | `delete_tag_ask` | `tags:delete_requested` | Same as `tag_create`. Old `titleLength` held the tag title, not its length |
 | `tag_delete_success` | `tags:tag_deleted` | Same as `delete_tag_ask` |

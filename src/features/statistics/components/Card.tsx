@@ -5,7 +5,7 @@ import useColors from "@/hooks/useColors";
 
 /**
  * Plain statistics card with a title and optional subtitle; unlike
- * `BigCard` it has no share or feedback actions.
+ * `BigCard` it has no share action.
  */
 export const Card = ({
   subtitle,
