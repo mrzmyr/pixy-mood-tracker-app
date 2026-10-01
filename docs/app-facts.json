@@ -1,6 +1,6 @@
 {
   "$comment": "Single source of truth for Pixy app facts. Store text, README, website, and directories derive from this file. Change facts here only. Verify against source and live stores before editing.",
-  "verifiedOn": "2026-10-01",
+  "verifiedOn": "2026-10-02",
   "identity": {
     "name": "Pixy",
     "storeName": "Pixy Mood Tracker",
@@ -283,9 +283,9 @@
       "label": "Data stays on your device",
       "status": "available",
       "group": "data",
-      "description": "Entries are stored only on the device by default. No account or sign-up.",
+      "description": "Entries are stored on the device. No account or sign-up. The phone's own backup (iCloud, computer, or Google Account) may include them.",
       "competitorKey": "local",
-      "evidence": ["src/features/datagate/", "assets/locales/en.json"]
+      "evidence": ["src/features/datagate/", "docs/backup.md"]
     },
     {
       "id": "export",
@@ -320,18 +320,23 @@
       "label": "Cloud backup and sync",
       "status": "unavailable",
       "group": "data",
-      "description": "No automatic backup, no sync between devices.",
+      "description": "No sync between devices. No Pixy cloud. See automatic-backup for the OS backup.",
       "competitorKey": "sync",
       "evidence": []
     },
     {
       "id": "automatic-backup",
       "label": "Automatic backup",
-      "status": "unavailable",
+      "status": "available",
       "group": "data",
-      "description": "No automatic copy of entries off the device. Export is manual.",
+      "description": "Entries are part of the phone backup: iOS device backup (iCloud or computer) and Android Auto Backup to the Google Account, encrypted with the screen lock. Pixy never sees the data.",
       "competitorKey": "backup",
-      "evidence": []
+      "evidence": [
+        "plugins/withAndroidBackupRules.js",
+        "src/features/settings/screens/Backup.tsx",
+        "docs/backup.md"
+      ],
+      "note": "Android Auto Backup is in source since the first release after 1.88.0. Not in the store version."
     },
     {
       "id": "app-lock",

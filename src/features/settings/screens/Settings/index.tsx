@@ -13,6 +13,7 @@ import {
   Droplet,
   Flag,
   Github,
+  HardDrive,
   PieChart,
   Shield,
   Smartphone,
@@ -87,6 +88,13 @@ export const SettingsScreen = () => {
             iconLeft={<Database width={18} color={colors.menuListItemIcon} />}
             onPress={() => router.push("/settings/data")}
             testID="data"
+            isLink
+          />
+          <MenuListItem
+            title={t("backup")}
+            iconLeft={<HardDrive width={18} color={colors.menuListItemIcon} />}
+            onPress={() => router.push("/settings/backup")}
+            testID="backup"
             isLink
           />
           <MenuListItem

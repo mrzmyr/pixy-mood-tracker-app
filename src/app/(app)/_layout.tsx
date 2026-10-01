@@ -84,6 +84,10 @@ const AppLayout = () => {
             options={{ ...pageOptions, title: t("data") }}
           />
           <Stack.Screen
+            name="settings/backup"
+            options={{ ...pageOptions, title: t("backup") }}
+          />
+          <Stack.Screen
             name="settings/reminder"
             options={{ ...pageOptions, title: t("reminder") }}
           />

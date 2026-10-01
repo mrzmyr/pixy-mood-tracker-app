@@ -58,7 +58,7 @@
     },
     "android": {
       "package": "com.devmood.pixymoodtracker",
-      "allowBackup": false,
+      "allowBackup": true,
       "permissions": [],
       "blockedPermissions": ["android.permission.SYSTEM_ALERT_WINDOW"],
       "icon": "./assets/images/icon.png",
@@ -106,7 +106,8 @@
         {
           "appleTeamId": "8VVNC4724B"
         }
-      ]
+      ],
+      "./plugins/withAndroidBackupRules"
     ],
     "buildCacheProvider": {
       "plugin": "./scripts/build-cache-provider.cjs"

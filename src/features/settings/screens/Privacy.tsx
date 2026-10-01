@@ -1,8 +1,8 @@
 import * as WebBrowser from "expo-web-browser";
 import { ScrollView, Switch, View } from "react-native";
 import { Shield } from "react-native-feather";
-import Markdown from "react-native-markdown-display";
 import LinkButton from "@/components/LinkButton";
+import { MarkdownBody } from "@/components/MarkdownBody";
 import useColors from "@/hooks/useColors";
 import { useAnalytics } from "@/state/analytics";
 import { t } from "@/lib/translation";
@@ -52,29 +52,7 @@ export const PrivacyScreen = () => {
           >
             <Shield color={colors.text} width={80} height={30} />
           </View>
-          <Markdown
-            style={{
-              body: { color: colors.text, fontSize: 16, lineHeight: 24 },
-              heading3: {
-                fontWeight: "bold",
-                fontSize: 21,
-                lineHeight: 28,
-                marginBottom: 0,
-                marginTop: 20,
-              },
-              list_item: { marginTop: 5, marginLeft: -5 },
-              bullet_list: { marginBottom: 10 },
-              hr: {
-                backgroundColor: colors.text,
-                marginTop: 20,
-                marginBottom: 20,
-                opacity: 0.2,
-              },
-              em: { color: colors.text, opacity: 0.5, fontStyle: "normal" },
-            }}
-          >
-            {t("privacy_content")}
-          </Markdown>
+          <MarkdownBody>{t("privacy_content")}</MarkdownBody>
 
           <MenuList
             style={{
