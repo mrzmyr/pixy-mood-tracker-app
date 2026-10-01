@@ -30,6 +30,7 @@ updates:
           - "react"
           - "react-dom"
           - "react-native"
+          - "@react-native/jest-preset"
           - "react-native-gesture-handler"
           - "react-native-get-random-values"
           - "react-native-reanimated"
@@ -72,6 +73,10 @@ updates:
         update-types:
           ["version-update:semver-major", "version-update:semver-minor"]
       - dependency-name: "react-native"
+        update-types:
+          ["version-update:semver-major", "version-update:semver-minor"]
+      # Must match the react-native version; 0.87 breaks jest on 0.86 (#459).
+      - dependency-name: "@react-native/jest-preset"
         update-types:
           ["version-update:semver-major", "version-update:semver-minor"]
       - dependency-name: "react-native-gesture-handler"
