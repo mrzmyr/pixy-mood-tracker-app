@@ -1,0 +1,7 @@
+appId: ${APP_ID}
+---
+# Filters sit in the calendar header menu ("More"). Native menu items have
+# no test IDs, so this subflow taps by label.
+- tapOn: "More"
+- tapOn: "Filters"
+- assertVisible: "Filters"

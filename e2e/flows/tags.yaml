@@ -94,8 +94,7 @@ tags: [p1, tags]
 
 # Renamed tag keeps all 80 entries (iOS shows the count). Deleted tag is
 # gone from filters. The iOS sheet hides the header badge from Maestro.
-- tapOn:
-    id: "filters"
+- runFlow: ../subflows/open-filters.yaml
 - tapOn: "Running|Sport"
 - runFlow:
     when:

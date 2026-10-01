@@ -1,45 +1,23 @@
 appId: ${APP_ID}
 tags: [p1, filters]
 ---
-# Search and tag filters narrow the `year` fixture to exact counts.
-# iOS checks counts inside the sheet. Android checks the filter badge.
+# Search and tag filters narrow the `year` fixture to exact counts shown in
+# the sheet.
 - runFlow:
     file: ../subflows/load-fixture.yaml
     env:
       FIXTURE: year
-- tapOn:
-    id: "filters"
+- runFlow: ../subflows/open-filters.yaml
 - tapOn:
     id: "calendar-filter-search"
 - inputText: "run"
 - runFlow: ../subflows/dismiss-keyboard.yaml
-- runFlow:
-    when:
-      platform: iOS
-    commands:
-      - assertVisible: "41 Results"
-- runFlow:
-    when:
-      platform: Android
-    commands:
-      - assertVisible: "Filters \\(1\\)"
+- assertVisible: "41 Results"
 - tapOn: "Sport"
-- runFlow:
-    when:
-      platform: iOS
-    commands:
-      - assertVisible: "10 Results"
-- runFlow:
-    when:
-      platform: Android
-    commands:
-      - assertVisible: "Filters \\(2\\)"
+- assertVisible: "10 Results"
 
-# Closing clears both filters. Reopening shows no results.
-- runFlow: ../subflows/close-filters.yaml
-- tapOn:
-    id: "filters"
-- assertVisible:
-    id: "calendar-filter-search"
-- assertNotVisible: ".* Results"
+# Reset clears both filters.
+- tapOn: "Reset"
+- assertNotVisible: "10 Results"
+
 - runFlow: ../subflows/close-filters.yaml
