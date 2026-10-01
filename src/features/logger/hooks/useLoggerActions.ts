@@ -14,6 +14,7 @@ import { getItemDate } from "@/lib/logDates";
 /**
  * Save, remove and cancel handlers for the logger.
  * Every handler closes the logger and resets the temporary log; `save` stores unrated logs as "neutral".
+ * Saving a new entry then opens the feeling check sheet.
  */
 export const useLoggerActions = ({
   mode,
@@ -68,9 +69,12 @@ export const useLoggerActions = ({
 
       if (itemsOnDate.length === 1) {
         router.dismissTo("/calendar");
-        tempLog.reset();
-        return;
+      } else {
+        router.back();
       }
+      tempLog.reset();
+      router.push({ pathname: "/logs/[id]/feeling", params: { id: data.id } });
+      return;
     }
 
     close();
