@@ -96,10 +96,6 @@ const light = {
   tabsTextActive: tintColorLight,
   tabsTextInactive: colors.neutral[400],
 
-  passcodeDotBackground: colors.neutral[300],
-  passcodePadBackground: colors.neutral[200],
-  passcodePadBackgroundActive: colors.neutral[400],
-
   menuListItemBackground: "#FFF",
   menuListItemText: "#000",
   menuListItemIcon: "#000",
@@ -286,10 +282,6 @@ const dark: IColors & {
   tabsIconInactive: colors.neutral[600],
   tabsTextActive: tintColorDark,
   tabsTextInactive: colors.neutral[600],
-
-  passcodeDotBackground: colors.neutral[600],
-  passcodePadBackground: colors.neutral[800],
-  passcodePadBackgroundActive: colors.neutral[700],
 
   menuListItemBackground: colors.neutral[900],
   menuListItemText: colors.neutral[50],

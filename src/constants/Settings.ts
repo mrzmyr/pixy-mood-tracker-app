@@ -9,8 +9,6 @@ import type { SettingsState } from "@/state/settings";
 export const INITIAL_STATE: SettingsState = {
   loaded: false,
   deviceId: null,
-  passcodeEnabled: null,
-  passcode: null,
   scaleType: "ColorBrew-RdYlGn",
   reminderEnabled: false,
   reminderTime: "18:00",

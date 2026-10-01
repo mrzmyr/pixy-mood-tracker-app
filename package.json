@@ -62,7 +62,6 @@
     "expo-haptics": "~57.0.3",
     "expo-linear-gradient": "~57.0.2",
     "expo-linking": "~57.0.11",
-    "expo-local-authentication": "~57.0.3",
     "expo-localization": "~57.0.2",
     "expo-notifications": "~57.0.21",
     "expo-observe": "~57.0.24",

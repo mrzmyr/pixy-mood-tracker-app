@@ -40,10 +40,6 @@
 
 - Configure a daily reminder notification to log your mood
 
-## Security
-
-- **Passcode lock** — protect the app with a device passcode/biometric check
-
 ## Onboarding
 
 - Guided first-run walkthrough explaining Calendar, Statistics, and Filters

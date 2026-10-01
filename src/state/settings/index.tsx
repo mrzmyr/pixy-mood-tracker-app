@@ -52,8 +52,6 @@ const SCALE_TYPES = [
 export interface SettingsState {
   loaded: boolean;
   deviceId: string | null;
-  passcodeEnabled: boolean | null;
-  passcode: string | null;
   scaleType: (typeof SCALE_TYPES)[number];
   reminderEnabled: boolean;
   reminderTime: string;
