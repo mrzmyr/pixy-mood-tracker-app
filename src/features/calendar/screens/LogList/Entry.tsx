@@ -3,6 +3,7 @@ import useColors from "@/hooks/useColors";
 import type { LogItem } from "@/features/logs";
 import dayjs from "dayjs";
 import { LinearGradient } from "expo-linear-gradient";
+import { useRouter } from "expo-router";
 import { Edit, Trash } from "lucide-react-native";
 import { ScrollView, Text, View } from "react-native";
 import { Emotions } from "./Emotions";
@@ -101,8 +102,9 @@ const EntryHeader = ({
 /**
  * Card for one entry in the day list with its sleep, emotions, tags,
  * photos, and message sections. The photos section shows only when the
- * entry has photos. The trash button calls `onDelete` without asking, so
- * the caller must confirm.
+ * entry has photos; its edit action opens the logger at the photos step.
+ * The trash button calls `onDelete` without asking, so the caller must
+ * confirm.
  */
 export const Entry = ({
   item,
@@ -114,6 +116,7 @@ export const Entry = ({
   onDelete: (item: LogItem) => void;
 }) => {
   const colors = useColors();
+  const router = useRouter();
 
   return (
     <View
@@ -167,7 +170,15 @@ export const Entry = ({
                   marginTop: 8,
                 }}
               >
-                <Photos item={item} />
+                <Photos
+                  item={item}
+                  onEdit={() => {
+                    router.push({
+                      pathname: "/logs/[id]/edit",
+                      params: { id: item.id, step: "photos" },
+                    });
+                  }}
+                />
               </View>
             )}
             <View

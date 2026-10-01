@@ -9,6 +9,7 @@ import type { ReactElement } from "react";
 import { ScrollView, Switch, Text, View } from "react-native";
 import {
   Bell,
+  Camera,
   FileText,
   Heart,
   MessageSquare,
@@ -29,6 +30,7 @@ export const StepsScreen = () => {
   const ICONS_MAP: Record<LoggerStep, ReactElement> = {
     rating: <Sun width={20} height={20} stroke={colors.text} />,
     message: <FileText width={20} height={20} color={colors.text} />,
+    photos: <Camera width={20} height={20} color={colors.text} />,
     tags: <Tag width={20} height={20} color={colors.text} />,
     emotions: <Heart width={20} height={20} color={colors.text} />,
     feedback: <MessageSquare width={20} height={20} color={colors.text} />,

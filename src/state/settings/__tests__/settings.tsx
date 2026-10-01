@@ -87,6 +87,76 @@ describe("useSettings()", () => {
     );
   });
 
+  test("should enable the photos step for new installs", async () => {
+    const hook = await _renderHook();
+    await waitForLoaded(hook);
+
+    expect(hook.result.current.state.hasStep("photos")).toBe(true);
+  });
+
+  test("should keep stored steps without photos unchanged", async () => {
+    const storedSteps = ["rating", "emotions", "tags", "message", "feedback"];
+    await AsyncStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify({ ...INITIAL_STATE, steps: storedSteps })
+    );
+
+    const hook = await _renderHook();
+    await waitForLoaded(hook);
+
+    expect(hook.result.current.state.settings.steps).toEqual(storedSteps);
+    expect(hook.result.current.state.hasStep("photos")).toBe(false);
+  });
+
+  test("should keep the photos step from stored settings", async () => {
+    await AsyncStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify({ ...INITIAL_STATE, steps: ["rating", "photos"] })
+    );
+
+    const hook = await _renderHook();
+    await waitForLoaded(hook);
+
+    expect(hook.result.current.state.settings.steps).toEqual([
+      "rating",
+      "photos",
+    ]);
+  });
+
+  test("should keep the photos step from imported settings", async () => {
+    const hook = await _renderHook();
+    await waitForLoaded(hook);
+
+    await act(() => {
+      hook.result.current.state.importSettings({
+        ...INITIAL_STATE,
+        steps: ["rating", "photos", "sleep"],
+      });
+    });
+
+    expect(hook.result.current.state.settings.steps).toEqual([
+      "rating",
+      "photos",
+    ]);
+  });
+
+  test("should `toggleStep` photos", async () => {
+    const hook = await _renderHook();
+    await waitForLoaded(hook);
+
+    await act(() => {
+      hook.result.current.state.toggleStep("photos");
+    });
+
+    expect(hook.result.current.state.hasStep("photos")).toBe(false);
+
+    await act(() => {
+      hook.result.current.state.toggleStep("photos");
+    });
+
+    expect(hook.result.current.state.hasStep("photos")).toBe(true);
+  });
+
   test("should initiate with empty `settings` when async storage is empty", async () => {
     const hook = await _renderHook();
     await waitForLoaded(hook);
@@ -242,7 +312,7 @@ describe("useSettings()", () => {
       hook.result.current.state.toggleStep("feedback");
     });
 
-    expect(hook.result.current.state.settings.steps.length).toEqual(4);
+    expect(hook.result.current.state.settings.steps.length).toEqual(5);
 
     await act(() => {
       hook.result.current.state.toggleStep("feedback");
@@ -265,6 +335,7 @@ describe("useSettings()", () => {
       "rating",
       "emotions",
       "message",
+      "photos",
       "feedback",
       "tags",
     ]);

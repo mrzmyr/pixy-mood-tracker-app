@@ -37,6 +37,7 @@ Use this section to join old and new events in PostHog, for example with an Acti
   - `day:photo_opened`: `photos_count`, `index`
   - `logger:log_saved`: new `photos_count`
   - `photos_count`: photos on the entry after the action. Never file names, dimensions, or URIs
+  - New step value `photos` in `steps`, `logger:step_viewed`, `logger:step_disabled`, `settings:step_toggled`
 
 **Changed meaning**
 

@@ -52,6 +52,9 @@ tags: [p0, calendar]
     id: "log-message"
 - inputText: "e2e past ${output.runId}"
 - tapOn:
+    id: "logger-next"
+- assertVisible: "Add a photo of your day"
+- tapOn:
     id: "logger-save"
 
 # Saving returns to the calendar. The old day now shows the entry.

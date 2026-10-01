@@ -2,7 +2,6 @@ import { DATE_FORMAT } from "@/constants/Config";
 import { askToDisableFeedbackStep, askToDisableStep } from "@/helpers/prompts";
 import useColors from "@/hooks/useColors";
 import { useLogState } from "@/features/logs";
-import type { LogItem } from "@/features/logs";
 
 import { useQuestioner } from "@/features/questioner";
 import type { IQuestion } from "@/features/questioner";
@@ -27,14 +26,19 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { v4 as uuidv4 } from "uuid";
 import { SlideAction } from "./components/SlideAction";
 import { LoggerHeader } from "./components/LoggerHeader";
-import type { LoggerStep } from "./config";
+import type { ConfigurableLoggerStep, LoggerStep } from "./config";
 import { SlideEmotions } from "./slides/SlideEmotions";
 import { SlideFeedback } from "./slides/SlideFeedback";
 import { SlideMessage } from "./slides/SlideMessage";
 import { SlideMood } from "./slides/SlideMood";
+import { SlidePhotos } from "./slides/SlidePhotos";
 import { SlideReminder } from "./slides/SlideReminder";
 import { SlideTags } from "./slides/SlideTags";
 import { useLoggerActions } from "./hooks/useLoggerActions";
+import {
+  getAvailableStepsForCreate,
+  getAvailableStepsForEdit,
+} from "./availableSteps";
 
 /** Whether the logger creates a new entry or edits an existing one. */
 export type LoggerMode = "create" | "edit";
@@ -45,9 +49,20 @@ const SLIDE_ORDER: LoggerStep[] = [
   "emotions",
   "tags",
   "message",
+  "photos",
   "reminder",
   "feedback",
 ];
+
+interface SlideContent {
+  key: string;
+  slide: ReactElement;
+  action?: ReactElement;
+}
+
+// Rejects when the user cancels the prompt; the step then stays on.
+const askToDisable = ({ step }: { step: ConfigurableLoggerStep }) =>
+  step === "feedback" ? askToDisableFeedbackStep() : askToDisableStep();
 
 const EMOTIONS_INDEX_MAPPING = {
   extremely_bad: 0,
@@ -57,62 +72,6 @@ const EMOTIONS_INDEX_MAPPING = {
   good: 3,
   very_good: 3,
   extremely_good: 4,
-};
-
-const getAvailableStepsForCreate = ({
-  question,
-  hasStep,
-  reminderEnabled,
-  itemsCount,
-}: {
-  question: IQuestion | null;
-  hasStep: ReturnType<typeof useSettings>["hasStep"];
-  reminderEnabled: boolean;
-  itemsCount: number;
-}) => {
-  const slides: LoggerStep[] = ["rating"];
-
-  if (hasStep("emotions")) {
-    slides.push("emotions");
-  }
-  if (hasStep("tags")) {
-    slides.push("tags");
-  }
-  if (hasStep("message")) {
-    slides.push("message");
-  }
-
-  if (itemsCount === 1 && !reminderEnabled) {
-    slides.push("reminder");
-  }
-
-  if (itemsCount >= 3 && question !== null && hasStep("feedback")) {
-    slides.push("feedback");
-  }
-
-  return slides;
-};
-
-const getAvailableStepsForEdit = ({
-  item,
-  hasStep,
-}: {
-  item: LogItem;
-  hasStep: ReturnType<typeof useSettings>["hasStep"];
-}) => {
-  const slides: LoggerStep[] = ["rating"];
-
-  if (hasStep("emotions") || item.emotions.length > 0) {
-    slides.push("emotions");
-  }
-  if (hasStep("tags") || item.tags.length > 0) {
-    slides.push("tags");
-  }
-  if (hasStep("message") || item.message.length > 0) {
-    slides.push("message");
-  }
-
-  return slides;
 };
 
 /**
@@ -178,11 +137,14 @@ export const Logger = ({
     }
   };
 
-  const content: {
-    key: string;
-    slide: ReactElement;
-    action?: ReactElement;
-  }[] = [];
+  const disableStep = async (step: ConfigurableLoggerStep) => {
+    await askToDisable({ step });
+    analytics.track("logger:step_disabled", { step });
+    toggleStep(step);
+    next();
+  };
+
+  const content: SlideContent[] = [];
 
   const isRatingActionVisible = slideIndex !== 0 || touched || mode === "edit";
   const ratingActionType = content.length === 1 ? "save" : "next";
@@ -249,12 +211,7 @@ export const Logger = ({
           onChange={(tags: TagReference[]) => {
             tempLog.update({ tags });
           }}
-          onDisableStep={async () => {
-            await askToDisableStep();
-            analytics.track("logger:step_disabled", { step: "tags" });
-            toggleStep("tags");
-            next();
-          }}
+          onDisableStep={() => disableStep("tags")}
           showDisable={showDisable}
         />
       ),
@@ -269,13 +226,21 @@ export const Logger = ({
           onChange={(message) => {
             tempLog.update({ message });
           }}
-          onDisableStep={async () => {
-            await askToDisableStep();
-            analytics.track("logger:step_disabled", { step: "message" });
-            toggleStep("message");
-            next();
-          }}
+          onDisableStep={() => disableStep("message")}
           ref={texAreaRef}
+          showDisable={showDisable}
+        />
+      ),
+    });
+  }
+
+  if (slideKeys.includes("photos")) {
+    content.push({
+      key: "photos",
+      slide: (
+        <SlidePhotos
+          mode={mode}
+          onDisableStep={() => disableStep("photos")}
           showDisable={showDisable}
         />
       ),
@@ -297,12 +262,7 @@ export const Logger = ({
         <SlideFeedback
           question={question}
           onPress={next}
-          onDisableStep={async () => {
-            await askToDisableFeedbackStep();
-            analytics.track("logger:step_disabled", { step: "feedback" });
-            toggleStep("feedback");
-            next();
-          }}
+          onDisableStep={() => disableStep("feedback")}
         />
       ),
       action: <SlideAction type="hidden" />,
