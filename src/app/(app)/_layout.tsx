@@ -39,6 +39,10 @@ const AppLayout = () => {
             name="logs/create/[dateTime]"
             options={{ ...modalOptions, gestureEnabled: false }}
           />
+          <Stack.Screen
+            name="logs/[id]/saved"
+            options={{ ...modalOptions, gestureEnabled: false }}
+          />
           <Stack.Screen name="days/[date]" options={modalOptions} />
           <Stack.Screen
             name="logs/[id]/edit"

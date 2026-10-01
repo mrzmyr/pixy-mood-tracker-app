@@ -4,6 +4,7 @@ export { EMOTIONS } from "./config";
 export { EmotionIndicator } from "./slides/SlideEmotions/EmotionsIndicator";
 export { LogCreate } from "./screens/Log/Create";
 export { LogEdit } from "./screens/Log/Edit";
+export { LogSaved } from "./screens/Log/Saved";
 export { STEP_OPTIONS } from "./config";
 export { SlideSleepButton } from "./slides/SlideSleepButton";
 export { TemporaryLogProvider } from "./temporaryLog";

@@ -14,6 +14,7 @@ import { getItemDate } from "@/lib/logDates";
 /**
  * Save, remove and cancel handlers for the logger.
  * Every handler closes the logger and resets the temporary log; `save` stores unrated logs as "neutral".
+ * Saving a new entry replaces the logger with the saved screen (feeling check).
  */
 export const useLoggerActions = ({
   mode,
@@ -66,11 +67,15 @@ export const useLoggerActions = ({
         (item) => getItemDate(item) === date
       );
 
-      if (itemsOnDate.length === 1) {
-        router.dismissTo("/calendar");
-        tempLog.reset();
-        return;
-      }
+      tempLog.reset();
+      router.replace({
+        pathname: "/logs/[id]/saved",
+        params: {
+          id: data.id,
+          closeTo: itemsOnDate.length === 1 ? "calendar" : "back",
+        },
+      });
+      return;
     }
 
     close();
