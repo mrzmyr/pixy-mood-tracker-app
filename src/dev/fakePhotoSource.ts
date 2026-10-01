@@ -1,4 +1,5 @@
 import { Asset } from "expo-asset";
+import noop from "lodash/noop";
 import type { PhotoSource } from "@/features/photos";
 import { createStructuredError } from "@/lib/errors";
 
@@ -28,12 +29,27 @@ const loadSample = async (module: number) => {
 };
 
 /**
- * Stands in for the library picker and camera in preview builds: returns
- * bundled sample photos without system screens or permission dialogs.
- * The library returns up to 3 photos, the camera always 1.
+ * Stands in for the library picker, camera, and photo library in preview
+ * builds: returns bundled sample photos without system screens or
+ * permission dialogs. The picker returns up to 3 photos, the camera always
+ * 1, and every day holds the 3 samples. Library access is always granted.
  */
 export const fakePhotoSource: PhotoSource = {
   pickFromLibrary: ({ limit }) =>
     Promise.all(SAMPLES.slice(0, Math.max(limit, 0)).map(loadSample)),
   takePhoto: () => loadSample(SAMPLES[0]),
+  getLibraryPermission: () => Promise.resolve("granted"),
+  requestLibraryPermission: () => Promise.resolve("granted"),
+  manageLibraryAccess: () => Promise.resolve(),
+  // The samples never change.
+  addLibraryListener: () => noop,
+  listPhotosOnDate: async () => {
+    const samples = await Promise.all(SAMPLES.map(loadSample));
+    return samples.map(({ uri }, index) => ({
+      id: `sample-photo-${index + 1}`,
+      uri,
+    }));
+  },
+  // Sample files sit in the cache already, so the preview URI imports as is.
+  getLibraryPhotoUri: ({ photo }) => Promise.resolve(photo.uri),
 };

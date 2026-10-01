@@ -57,6 +57,12 @@ const source = {
     Parameters<PhotoSource["pickFromLibrary"]>
   >(),
   takePhoto: jest.fn<ReturnType<PhotoSource["takePhoto"]>, []>(),
+  getLibraryPermission: jest.fn(),
+  requestLibraryPermission: jest.fn(),
+  manageLibraryAccess: jest.fn(),
+  addLibraryListener: jest.fn(),
+  listPhotosOnDate: jest.fn(),
+  getLibraryPhotoUri: jest.fn(),
 };
 
 const renderPhotoActions = async ({
