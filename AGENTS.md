@@ -16,6 +16,12 @@
 
 - This project is public open source, so never include credentials or secret values in code, configuration, documentation, commits, pull requests, issues, comments, logs, or artifacts; reference secret names only and store values in approved secret managers.
 
+## Directory listings
+
+- Use [`docs/directory-listing.json`](docs/directory-listing.json) for Pixy listing text, links, license, platforms, and public release facts.
+- Update that file after store releases or listing fact changes. Verify claims against live stores and source before submitting listings.
+- Keep directory credentials and account recovery details outside this public repository.
+
 ## Tools
 
 - Posthog for product analytics (MCP installed)
