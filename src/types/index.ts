@@ -45,6 +45,24 @@ export const EmotionSchema = z.object({
 export type Emotion = z.infer<typeof EmotionSchema>;
 
 /**
+ * Photo attached to a log entry. The image file lives on the device only.
+ *
+ * `fileName` is relative to the photos directory (`<id>.jpg`). Never store an
+ * absolute path: the iOS app container path changes between installs and
+ * updates.
+ */
+export const LogPhotoSchema = z.object({
+  id: z.uuid(),
+  fileName: z.string(),
+  width: z.number().int().positive(),
+  height: z.number().int().positive(),
+  createdAt: z.string().refine((value) => isISODate(value)),
+});
+
+/** Photo reference stored on a log entry. */
+export type LogPhoto = z.infer<typeof LogPhotoSchema>;
+
+/**
  * Shape of a persisted log entry.
  *
  * Used for type inference only; stored data is not parsed with it. `date`
@@ -70,6 +88,7 @@ export const LogItemSchema = z.object({
   createdAt: z.string().refine((value) => isISODate(value)),
   tags: z.array(TagReferenceSchema),
   emotions: z.array(EmotionKeySchema),
+  photos: z.array(LogPhotoSchema),
 });
 
 /** Partial value with required identifying keys. */
