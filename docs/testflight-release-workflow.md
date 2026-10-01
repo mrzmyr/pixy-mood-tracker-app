@@ -31,6 +31,13 @@ Submission stops at TestFlight. Releasing the build publicly still requires manu
 7. Verify tester distribution in App Store Connect.
 8. After testing, manually promote that same build for App Review when ready.
 
+## Force a version
+
+- Release Please picks the next version from commit types. Override it with a `Release-As` footer.
+- Squash merge the PR with `gh pr merge <PR> --squash --body "Release-As: 1.90.0"`. Repository squash message setting is `BLANK`, so the footer must come from `--body`.
+- Release Please updates the open Release Please PR to the forced version.
+- Use this when a version string already has a TestFlight build that never shipped from `main`. Example: build `1.89.0 (100)` came from `fix/release-1.89.0`.
+
 ## Verification criteria
 
 ### Before merging this workflow
