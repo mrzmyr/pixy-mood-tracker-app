@@ -22,7 +22,6 @@
 - Never create another facts file, feature list, or metadata table. README, store text, directory listings, and the website derive from this file.
 - Public copy may claim a feature only when its `status` is `available`. Check `claims` before stating free, no ads, no account, local storage.
 - Update after store releases or feature changes. Verify against source and live stores first. Bump `verifiedOn`.
-- [`docs/__tests__/app-facts.ts`](docs/__tests__/app-facts.ts) checks shape, versions against `app.json`, locale count, and competitor key consistency.
 - Keep directory credentials and account recovery details outside this public repository.
 
 ## Tools
