@@ -16,10 +16,13 @@
 
 - This project is public open source, so never include credentials or secret values in code, configuration, documentation, commits, pull requests, issues, comments, logs, or artifacts; reference secret names only and store values in approved secret managers.
 
-## Directory listings
+## App facts
 
-- Use [`docs/directory-listing.json`](docs/directory-listing.json) for Pixy listing text, links, license, platforms, and public release facts.
-- Update that file after store releases or listing fact changes. Verify claims against live stores and source before submitting listings.
+- [`docs/app-facts.json`](docs/app-facts.json) is the only place for app facts: name, ids, links, license, claims, feature list with status, store and source versions.
+- Never create another facts file, feature list, or metadata table. README, store text, directory listings, and the website derive from this file.
+- Public copy may claim a feature only when its `status` is `available`. Check `claims` before stating free, no ads, no account, local storage.
+- Update after store releases or feature changes. Verify against source and live stores first. Bump `verifiedOn`.
+- [`docs/__tests__/app-facts.ts`](docs/__tests__/app-facts.ts) checks shape, versions against `app.json`, locale count, and competitor key consistency.
 - Keep directory credentials and account recovery details outside this public repository.
 
 ## Tools

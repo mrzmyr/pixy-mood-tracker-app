@@ -1,0 +1,449 @@
+{
+  "$comment": "Single source of truth for Pixy app facts. Store text, README, website, and directories derive from this file. Change facts here only. Verify against source and live stores before editing.",
+  "verifiedOn": "2026-10-01",
+  "identity": {
+    "name": "Pixy",
+    "storeName": "Pixy Mood Tracker",
+    "slug": "pixy-mood-tracker",
+    "tagline": "Track your mood, one pixel at a time.",
+    "shortDescription": "Pixy is a free, open-source mood tracker for iPhone and Android. Log moods, add notes and tags, and explore your history in a pixel calendar.",
+    "description": "Pixy Mood Tracker helps you record your mood in a simple, colorful daily log. Add optional notes and tags, browse past days in a pixel calendar, filter entries, and view mood statistics. Mood entries are stored on your device. The app is free, and its source code is available under the MIT license.",
+    "category": "Mood tracker",
+    "tags": ["Mood tracking", "Journaling", "Mental health", "Open source"],
+    "developer": "Moritz Meyer",
+    "license": {
+      "id": "MIT",
+      "url": "https://github.com/mrzmyr/pixy-mood-tracker-app/blob/main/LICENSE.md"
+    },
+    "ids": {
+      "appStore": "1605327124",
+      "bundle": "com.devmood.pixymoodtracker",
+      "package": "com.devmood.pixymoodtracker"
+    },
+    "links": {
+      "website": "https://pixy.day/",
+      "source": "https://github.com/mrzmyr/pixy-mood-tracker-app",
+      "appStore": "https://apps.apple.com/app/id1605327124",
+      "googlePlay": "https://play.google.com/store/apps/details?id=com.devmood.pixymoodtracker",
+      "featureBoard": "https://pixy.hellonext.co",
+      "supportEmail": "team@pixy.day",
+      "privacyEmail": "care@pixy.day"
+    }
+  },
+  "platforms": ["iPhone", "Android phone", "Android tablet"],
+  "languages": 31,
+  "claims": {
+    "$comment": "Booleans the public copy may state. Each must stay true for the store version and the source version.",
+    "free": true,
+    "ads": false,
+    "account": false,
+    "subscription": false,
+    "localFirst": true,
+    "openSource": true,
+    "dataExport": true,
+    "optionalTip": {
+      "available": false,
+      "since": "1.87.0",
+      "note": "Optional one-time tip in Settings exists in source since 1.87.0. Not in the store version. Set available to true after the store release."
+    }
+  },
+  "releases": {
+    "source": {
+      "version": "1.88.0",
+      "date": "2026-09-28",
+      "url": "https://github.com/mrzmyr/pixy-mood-tracker-app/releases/tag/v1.88.0"
+    },
+    "store": {
+      "version": "1.68.0",
+      "date": "2022-12-24",
+      "verifiedOn": "2026-09-30",
+      "note": "Same version on App Store and Google Play. Update after each store release."
+    }
+  },
+  "featureStatuses": {
+    "available": "Works in the source version. Public copy may claim it.",
+    "legacy": "Only shows data created by older versions. Do not claim.",
+    "removed": "Existed in an earlier version. Do not claim.",
+    "unavailable": "Never existed. Listed so comparisons can say no."
+  },
+  "features": [
+    {
+      "id": "mood-rating",
+      "label": "Mood rating",
+      "status": "available",
+      "group": "logging",
+      "description": "Rate a moment on a 7-step color scale, from extremely bad to extremely good.",
+      "competitorKey": "mood",
+      "evidence": [
+        "src/constants/Ratings.ts",
+        "src/features/logger/slides/SlideMood.tsx"
+      ]
+    },
+    {
+      "id": "multiple-entries",
+      "label": "Several entries per day",
+      "status": "available",
+      "group": "logging",
+      "description": "Log as many entries per day as you like. The calendar groups them by day.",
+      "since": "1.88.0",
+      "evidence": [
+        "src/app/(app)/logs/create/[dateTime].tsx",
+        "src/features/calendar/screens/Calendar/Calendar.tsx"
+      ]
+    },
+    {
+      "id": "edit-entries",
+      "label": "Add and edit past entries",
+      "status": "available",
+      "group": "logging",
+      "description": "Create an entry for any day and edit existing entries.",
+      "evidence": [
+        "src/app/(app)/logs/[id]/edit.tsx",
+        "src/app/(app)/days/[date].tsx"
+      ]
+    },
+    {
+      "id": "emotions",
+      "label": "Emotions with descriptions",
+      "status": "available",
+      "group": "logging",
+      "description": "Pick one or more of 72 emotions. Each emotion has a short description.",
+      "note": "161 emotions defined, 89 disabled. 30 in the basic view, 42 more expanded.",
+      "evidence": [
+        "src/features/logger/config.ts",
+        "src/features/logger/slides/SlideEmotions/"
+      ]
+    },
+    {
+      "id": "tags",
+      "label": "Custom tags",
+      "status": "available",
+      "group": "logging",
+      "description": "Create your own tags for activities, people, or places. Add them to entries, edit and archive them.",
+      "competitorKey": "tags",
+      "evidence": [
+        "src/features/tags/",
+        "src/app/(app)/settings/tags/index.tsx"
+      ]
+    },
+    {
+      "id": "notes",
+      "label": "Notes",
+      "status": "available",
+      "group": "logging",
+      "description": "Write about your day in an optional note on each entry.",
+      "competitorKey": "notes",
+      "evidence": ["src/features/logger/slides/SlideMessage.tsx"]
+    },
+    {
+      "id": "configurable-steps",
+      "label": "Choose your check-in steps",
+      "status": "available",
+      "group": "logging",
+      "description": "Turn each check-in step on or off: mood, tags, emotions, note, feedback.",
+      "evidence": [
+        "src/constants/LoggerSteps.ts",
+        "src/app/(app)/settings/steps.tsx"
+      ]
+    },
+    {
+      "id": "sleep",
+      "label": "Sleep quality",
+      "status": "legacy",
+      "group": "logging",
+      "description": "Sleep quality cannot be logged anymore. Entries and the sleep chart only show ratings saved by older versions.",
+      "competitorKey": "health",
+      "evidence": [
+        "src/features/calendar/screens/LogList/Sleep.tsx",
+        "src/features/statistics/screens/Statistics/SleepQualityGraph.tsx"
+      ]
+    },
+    {
+      "id": "writing-prompts",
+      "label": "Writing tips and prompts",
+      "status": "removed",
+      "group": "logging",
+      "description": "Removed in 1.88.0.",
+      "competitorKey": "prompts",
+      "until": "1.87.1",
+      "evidence": ["CHANGELOG.md"]
+    },
+    {
+      "id": "pixel-calendar",
+      "label": "Pixel calendar",
+      "status": "available",
+      "group": "calendar",
+      "description": "Every day is one colored square in a month calendar. Scroll back to older months.",
+      "competitorKey": "pixels",
+      "evidence": ["src/features/calendar/screens/Calendar/"]
+    },
+    {
+      "id": "year-in-pixels",
+      "label": "Year in pixels",
+      "status": "available",
+      "group": "calendar",
+      "description": "A whole year of moods on one screen, one pixel per day, in the yearly report.",
+      "competitorKey": "pixels",
+      "evidence": [
+        "src/features/statistics/screens/StatisticsYear/YearInPixels/"
+      ]
+    },
+    {
+      "id": "filters",
+      "label": "Search and filters",
+      "status": "available",
+      "group": "calendar",
+      "description": "Filter the calendar by text, mood rating, and tags.",
+      "evidence": ["src/features/calendar/filters.tsx"]
+    },
+    {
+      "id": "statistics-overview",
+      "label": "Statistics highlights",
+      "status": "available",
+      "group": "statistics",
+      "description": "Mood average, mood chart, mood peaks, tag peaks, tag distribution, and emotion distribution.",
+      "competitorKey": "insights",
+      "evidence": ["src/features/statistics/screens/Statistics/"]
+    },
+    {
+      "id": "monthly-report",
+      "label": "Monthly report",
+      "status": "available",
+      "group": "statistics",
+      "description": "Mood chart, mood peaks, mood counts, entries per day, tags used, words written, most used emotions and tags.",
+      "competitorKey": "insights",
+      "evidence": ["src/features/statistics/screens/StatisticsMonth/"]
+    },
+    {
+      "id": "yearly-report",
+      "label": "Yearly report",
+      "status": "available",
+      "group": "statistics",
+      "description": "Year in pixels, mood chart, best and worst month.",
+      "competitorKey": "insights",
+      "evidence": ["src/features/statistics/screens/StatisticsYear/"]
+    },
+    {
+      "id": "streaks",
+      "label": "Streaks and goals",
+      "status": "unavailable",
+      "group": "statistics",
+      "description": "Streaks are calculated in code but not shown anywhere in the app. No goals or achievements.",
+      "competitorKey": "goals",
+      "evidence": ["src/features/statistics/Streaks.ts"]
+    },
+    {
+      "id": "factor-associations",
+      "label": "Correlations between tags and mood",
+      "status": "unavailable",
+      "group": "statistics",
+      "description": "Statistics show tag counts and peaks, not correlations.",
+      "competitorKey": "correlations",
+      "evidence": []
+    },
+    {
+      "id": "daily-reminder",
+      "label": "Daily reminder",
+      "status": "available",
+      "group": "reminders",
+      "description": "One daily notification at a time you choose.",
+      "competitorKey": "reminders",
+      "evidence": ["src/features/notifications/Notifications.ts"]
+    },
+    {
+      "id": "color-scales",
+      "label": "Color scales",
+      "status": "available",
+      "group": "personalization",
+      "description": "Choose one of 5 mood color scales.",
+      "evidence": [
+        "src/constants/Colors/Scales.ts",
+        "src/features/settings/screens/Colors/index.tsx"
+      ]
+    },
+    {
+      "id": "dark-mode",
+      "label": "Dark mode",
+      "status": "available",
+      "group": "personalization",
+      "description": "Follows the system light or dark setting.",
+      "evidence": ["app.json"]
+    },
+    {
+      "id": "languages",
+      "label": "31 languages",
+      "status": "available",
+      "group": "personalization",
+      "description": "The app is translated into 31 languages.",
+      "note": "The App Store listing lists English only.",
+      "evidence": ["assets/locales/", "docs/i18n.md"]
+    },
+    {
+      "id": "local-storage",
+      "label": "Data stays on your device",
+      "status": "available",
+      "group": "data",
+      "description": "Entries are stored only on the device by default. No account or sign-up.",
+      "competitorKey": "local",
+      "evidence": ["src/features/datagate/", "assets/locales/en.json"]
+    },
+    {
+      "id": "export",
+      "label": "Export",
+      "status": "available",
+      "group": "data",
+      "description": "Export all entries as a JSON file through the share sheet.",
+      "competitorKey": "export",
+      "evidence": [
+        "src/features/datagate/DataGate.ts",
+        "src/features/datagate/fileTransfer.ts"
+      ]
+    },
+    {
+      "id": "import",
+      "label": "Import",
+      "status": "available",
+      "group": "data",
+      "description": "Import a Pixy JSON export, for example on a new phone. No import from other apps.",
+      "evidence": ["src/features/datagate/import.ts"]
+    },
+    {
+      "id": "delete-data",
+      "label": "Delete your data",
+      "status": "available",
+      "group": "data",
+      "description": "Reset entries or reset the whole app from settings.",
+      "evidence": ["src/features/datagate/screens/Data.tsx"]
+    },
+    {
+      "id": "cloud-backup-sync",
+      "label": "Cloud backup and sync",
+      "status": "unavailable",
+      "group": "data",
+      "description": "No automatic backup, no sync between devices.",
+      "competitorKey": "sync",
+      "evidence": []
+    },
+    {
+      "id": "automatic-backup",
+      "label": "Automatic backup",
+      "status": "unavailable",
+      "group": "data",
+      "description": "No automatic copy of entries off the device. Export is manual.",
+      "competitorKey": "backup",
+      "evidence": []
+    },
+    {
+      "id": "app-lock",
+      "label": "App lock",
+      "status": "removed",
+      "group": "data",
+      "description": "Passcode lock removed in 1.10.1. No PIN or Face ID lock.",
+      "competitorKey": "lock",
+      "until": "1.10.0",
+      "evidence": ["git: 2235cbbe remove passcode feature"]
+    },
+    {
+      "id": "anonymous-analytics",
+      "label": "Anonymous usage analytics and crash reports",
+      "status": "available",
+      "group": "data",
+      "description": "Anonymous usage data (PostHog) and crash reports (Sentry) help find errors. Disclosure, not a selling point.",
+      "evidence": ["package.json", "assets/locales/en.json"]
+    },
+    {
+      "id": "no-ads",
+      "label": "No ads",
+      "status": "available",
+      "group": "data",
+      "description": "No ads in the app.",
+      "evidence": ["assets/locales/en.json"]
+    },
+    {
+      "id": "open-source",
+      "label": "Open source",
+      "status": "available",
+      "group": "community",
+      "description": "Source code is public on GitHub under the MIT license.",
+      "evidence": ["LICENSE.md"]
+    },
+    {
+      "id": "feature-voting",
+      "label": "Vote on features",
+      "status": "available",
+      "group": "community",
+      "description": "Vote on upcoming features from the settings.",
+      "evidence": ["src/features/settings/screens/Settings/index.tsx"]
+    },
+    {
+      "id": "in-app-feedback",
+      "label": "In-app feedback and surveys",
+      "status": "available",
+      "group": "community",
+      "description": "Send feedback or report an issue. An optional check-in step asks short survey questions.",
+      "evidence": ["src/features/feedback/", "src/features/questioner/"]
+    },
+    {
+      "id": "onboarding",
+      "label": "Guided onboarding",
+      "status": "available",
+      "group": "community",
+      "description": "First-run walkthrough of calendar, statistics, filters, reminder, and privacy.",
+      "evidence": ["src/app/(app)/onboarding.tsx"]
+    },
+    {
+      "id": "widgets",
+      "label": "Home screen widgets",
+      "status": "unavailable",
+      "group": "platforms",
+      "description": "Not in the app.",
+      "competitorKey": "widgets",
+      "evidence": []
+    },
+    {
+      "id": "watch",
+      "label": "Apple Watch and Wear OS",
+      "status": "unavailable",
+      "group": "platforms",
+      "description": "Not in the app.",
+      "competitorKey": "watch",
+      "evidence": []
+    },
+    {
+      "id": "ai",
+      "label": "AI features",
+      "status": "unavailable",
+      "group": "platforms",
+      "description": "Not in the app.",
+      "competitorKey": "ai",
+      "evidence": []
+    },
+    {
+      "id": "photos",
+      "label": "Photos",
+      "status": "unavailable",
+      "group": "platforms",
+      "description": "Not in the app.",
+      "competitorKey": "photos",
+      "evidence": []
+    },
+    {
+      "id": "voice",
+      "label": "Voice notes",
+      "status": "unavailable",
+      "group": "platforms",
+      "description": "Not in the app.",
+      "competitorKey": "voice",
+      "evidence": []
+    },
+    {
+      "id": "cbt",
+      "label": "CBT exercises",
+      "status": "unavailable",
+      "group": "platforms",
+      "description": "Not in the app.",
+      "competitorKey": "cbt",
+      "evidence": []
+    }
+  ]
+}

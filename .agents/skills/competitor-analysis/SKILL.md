@@ -7,7 +7,7 @@ description: Competitor analysis for Pixy (or any mobile app) from public App St
 
 Engine: `scripts/competitors.mjs` (Node 18+, no dependencies). Run `node scripts/competitors.mjs --help` for commands. Every command writes JSON into `~/competitor-analysis/<run>/` (`COMPETITOR_DATA` overrides the root) and prints a compact JSON result. Reuse one `--run` name per analysis so data accumulates; the run folder is the source of truth for follow-up questions.
 
-Pixy is the default `--self` (App Store `1605327124`, Play `com.devmood.pixymoodtracker`). Pixy's feature list: [`docs/features.md`](../../../docs/features.md).
+Pixy is the default `--self` (App Store `1605327124`, Play `com.devmood.pixymoodtracker`). Pixy's feature list: [`docs/app-facts.json`](../../../docs/app-facts.json) (`features[]`, use `status: available` only).
 
 ## Evidence rules
 
@@ -19,7 +19,7 @@ Pixy is the default `--self` (App Store `1605327124`, Play `com.devmood.pixymood
 
 ## Steps
 
-1. **Seed terms.** Write 6 to 10 terms a user would type: category nouns (`mood tracker`, `mood diary`), Pixy's hooks (`year in pixels`, `pixel diary`), adjacent jobs (`emotion tracker`, `mental health journal`). Pick 1 to 3 `--must` words a true competitor has in its name or description. Done when every Pixy core feature in `docs/features.md` maps to at least one term.
+1. **Seed terms.** Write 6 to 10 terms a user would type: category nouns (`mood tracker`, `mood diary`), Pixy's hooks (`year in pixels`, `pixel diary`), adjacent jobs (`emotion tracker`, `mental health journal`). Pick 1 to 3 `--must` words a true competitor has in its name or description. Done when every available Pixy feature in `docs/app-facts.json` maps to at least one term.
 2. **Find.** `find --terms "a|b|c" --must "mood|emotion|feel" --run <run>`. Pick 8 to 12 competitors from the Apple list in `shortlist.json`; each selected app must have an Apple ID. Classify each as **direct** (mood logging is the core loop) or **adjacent** (journal, CBT, habit, self-care pet). Set `size` to **giant** for apps with more than 100k ratings; otherwise use **standard**. Done when the set includes the category leader, the closest pixel/calendar look-alike, and at least one small indie app.
 3. **Profile.** `profile <ids...> --country us,de --run <run> --play "<known mappings>"`. Include Pixy. Done when every app has subtitle, price, IAP list, rating, rating count, last update, and a verified Play entry or `none`.
 4. **Reviews.** `reviews --country us,gb,de --run <run>` (up to 500 recent per storefront). Then `mentions --terms "..."` with complaint and praise words: pricing (`subscription`, `premium`, `paywall`, `ads`), trust (`sync`, `backup`, `lost`, `export`, `privacy`), product (`widget`, `reminder`, `stats`, `calendar`, `pixel`, `tags`). Read the 1 to 2 star reviews of each leader in full. Done when each direct competitor has 2 or more complaint themes and 1 or more praise theme, each with a search term, exact counts, and 1 to 3 quote review IDs.
