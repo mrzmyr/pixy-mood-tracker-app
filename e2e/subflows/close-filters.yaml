@@ -1,12 +1,13 @@
 appId: ${APP_ID}
 ---
-# iOS closes through Done. Android Back closes the sheet and keeps Calendar.
+# iOS closes by tapping outside the sheet. Android Back closes the sheet and
+# keeps Calendar. Closing clears all filters.
 - runFlow:
     when:
       platform: iOS
     commands:
       - tapOn:
-          id: "calendar-filter-done"
+          point: "50%,15%"
       - waitForAnimationToEnd
 - runFlow:
     when:
@@ -17,3 +18,4 @@ appId: ${APP_ID}
     id: "calendar-list"
 - assertNotVisible:
     id: "calendar-filter-search"
+- assertNotVisible: "Filters \\(.*\\)"

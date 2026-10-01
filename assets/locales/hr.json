@@ -112,7 +112,6 @@
   "statistics_mood_peaks_title_singular": "Vaše raspoloženje je jednom bilo na vrhuncu {{rating_word}}.",
   "statistics_mood_peaks_title_plural": "Vaše je raspoloženje bilo na vrhuncu {{rating_word}} {{rating_count}} puta.",
   "calendar_filters": "Filteri",
-  "calendar_filters_reset": "Resetiraj",
   "calendar_filters_results": "Rezultati",
   "calendar_filters_search": "traži",
   "today": "Danas",

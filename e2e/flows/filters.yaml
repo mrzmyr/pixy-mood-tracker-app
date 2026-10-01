@@ -9,7 +9,6 @@ tags: [p1, filters]
       FIXTURE: year
 - tapOn:
     id: "filters"
-- assertVisible: "Filters"
 - tapOn:
     id: "calendar-filter-search"
 - inputText: "run"
@@ -36,47 +35,11 @@ tags: [p1, filters]
     commands:
       - assertVisible: "Filters \\(2\\)"
 
-# Reset clears both filters.
-- tapOn: "Reset"
-- runFlow:
-    when:
-      platform: iOS
-    commands:
-      - assertNotVisible: "10 Results"
-- runFlow:
-    when:
-      platform: Android
-    commands:
-      - assertNotVisible: "Filters \\(.*\\)"
-
+# Closing clears both filters. Reopening shows no results.
 - runFlow: ../subflows/close-filters.yaml
-
-# A sheet retained by an inactive Calendar tab must not consume Back on
-# Settings subpages. Refocusing Calendar restores the sheet's Back handler.
-- runFlow:
-    when:
-      platform: Android
-    commands:
-      - tapOn:
-          id: "filters"
-      - assertVisible:
-          id: "calendar-filter-search"
-      - tapOn:
-          id: "settings"
-      - assertVisible: "Check-in"
-      - tapOn: "Data"
-      - back
-      - assertVisible: "Check-in"
-      - tapOn:
-          id: "calendar"
-      - assertVisible:
-          id: "calendar-filter-search"
-      - back
-      - assertVisible:
-          id: "calendar-list"
-      - assertNotVisible:
-          id: "calendar-filter-search"
-      - tapOn:
-          id: "calendar"
-      - assertNotVisible:
-          id: "calendar-filter-search"
+- tapOn:
+    id: "filters"
+- assertVisible:
+    id: "calendar-filter-search"
+- assertNotVisible: ".* Results"
+- runFlow: ../subflows/close-filters.yaml

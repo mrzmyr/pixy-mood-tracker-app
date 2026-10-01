@@ -112,7 +112,6 @@
   "statistics_mood_peaks_title_singular": "Один раз твій настрій підвищився {{rating_word}}.",
   "statistics_mood_peaks_title_plural": "Ваш настрій підвищувався {{rating_word}} {{rating_count}} разів.",
   "calendar_filters": "Фільтри",
-  "calendar_filters_reset": "Скинути",
   "calendar_filters_results": "Результати",
   "calendar_filters_search": "Пошук",
   "today": "Сьогодні",

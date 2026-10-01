@@ -112,7 +112,6 @@
   "statistics_mood_peaks_title_singular": "Mood anda memuncak {{rating_word}} sekali.",
   "statistics_mood_peaks_title_plural": "Suasana anda memuncak {{rating_word}} {{rating_count}} kali.",
   "calendar_filters": "Penapis",
-  "calendar_filters_reset": "Tetapkan semula",
   "calendar_filters_results": "Keputusan",
   "calendar_filters_search": "Cari",
   "today": "Hari ini",

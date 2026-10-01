@@ -112,7 +112,6 @@
   "statistics_mood_peaks_title_singular": "Je humeur bereikte een keer {{rating_word}} een hoogtepunt.",
   "statistics_mood_peaks_title_plural": "Je humeur piekte {{rating_word}} {{rating_count}} keer.",
   "calendar_filters": "Filters",
-  "calendar_filters_reset": "Resetten",
   "calendar_filters_results": "Resultaten",
   "calendar_filters_search": "Zoeken",
   "today": "Vandaag",

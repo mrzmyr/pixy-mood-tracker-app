@@ -112,7 +112,6 @@
   "statistics_mood_peaks_title_singular": "بلغ مزاجك ذروته {{rating_word}} مرة واحدة.",
   "statistics_mood_peaks_title_plural": "بلغ حالتك المزاجية ذروته {{rating_word}} {{rating_count}} مرة.",
   "calendar_filters": "المرشحات",
-  "calendar_filters_reset": "إعادة ضبط",
   "calendar_filters_results": "نتائج",
   "calendar_filters_search": "يبحث",
   "today": "اليوم",

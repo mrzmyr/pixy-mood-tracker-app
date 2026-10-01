@@ -112,7 +112,6 @@
   "statistics_mood_peaks_title_singular": "기분이 한 번 {{rating_word}} 최고조에 달했습니다.",
   "statistics_mood_peaks_title_plural": "기분이 {{rating_word}} {{rating_count}} 번 최고조에 달했습니다.",
   "calendar_filters": "필터",
-  "calendar_filters_reset": "초기화",
   "calendar_filters_results": "결과",
   "calendar_filters_search": "검색",
   "today": "오늘",

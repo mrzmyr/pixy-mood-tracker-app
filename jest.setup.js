@@ -46,10 +46,8 @@ jest.mock(
   () => new Proxy({}, { get: () => require("react-native").View })
 );
 
-// oxlint-disable-next-line anti-slop/no-module-mocking -- feature entry files load calendar UI; bottom sheet needs native Reanimated.
-jest.mock("@gorhom/bottom-sheet", () => ({
-  __esModule: true,
-  default: () => null,
-  BottomSheetBackdrop: () => null,
-  BottomSheetScrollView: () => null,
+// oxlint-disable-next-line anti-slop/no-module-mocking -- feature entry files load calendar UI; the native sheet has no Jest view.
+jest.mock("@expo/ui", () => ({
+  BottomSheet: () => null,
+  RNHostView: () => null,
 }));

@@ -112,7 +112,6 @@
   "statistics_mood_peaks_title_singular": "Ваше настроение достигло пика {{rating_word}} один раз.",
   "statistics_mood_peaks_title_plural": "Ваше настроение достигло максимума {{rating_word}} {{rating_count}} раз.",
   "calendar_filters": "Фильтры",
-  "calendar_filters_reset": "Перезагрузить",
   "calendar_filters_results": "Полученные результаты",
   "calendar_filters_search": "Поиск",
   "today": "Сегодня",

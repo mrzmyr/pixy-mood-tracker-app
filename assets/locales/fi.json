@@ -112,7 +112,6 @@
   "statistics_mood_peaks_title_singular": "Mieliallasi oli huippuluokkaa {{rating_word}} kerran.",
   "statistics_mood_peaks_title_plural": "Mieliallasi oli huipussaan {{rating_word}} {{rating_count}} kertaa.",
   "calendar_filters": "Suodattimet",
-  "calendar_filters_reset": "Nollaa",
   "calendar_filters_results": "Tulokset",
   "calendar_filters_search": "Hae",
   "today": "Tänään",
