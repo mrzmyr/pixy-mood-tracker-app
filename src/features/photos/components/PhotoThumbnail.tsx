@@ -13,19 +13,26 @@ const REMOVE_BUTTON_BACKGROUND = "rgba(0, 0, 0, 0.6)";
 const REMOVE_BUTTON_SIZE = 28;
 // 28pt button plus 8pt on every side gives the 44pt minimum target.
 const REMOVE_HIT_SLOP = 8;
+// Small tiles get a 20pt badge on the corner; 12pt slop keeps 44pt.
+const COMPACT_REMOVE_BUTTON_SIZE = 20;
+const COMPACT_REMOVE_HIT_SLOP = 12;
+const COMPACT_REMOVE_OFFSET = -6;
 
 /**
  * Square photo tile with radius 12. Shows an `ImageOff` placeholder when the
  * file is missing or unreadable, for example after an import from another
  * device. Never removes the reference itself.
  *
- * Without `size`, the tile fills the width of its parent.
+ * Without `size`, the tile fills the width of its parent. `isCompact` puts a
+ * smaller remove badge on the top-right corner, partly outside the tile, so
+ * it does not hide small tiles. Leave 6pt of space above and right of it.
  */
 export const PhotoThumbnail = ({
   photo,
   index,
   count,
   size,
+  isCompact,
   onPress,
   onRemove,
 }: {
@@ -34,6 +41,7 @@ export const PhotoThumbnail = ({
   index: number;
   count: number;
   size?: number;
+  isCompact?: boolean;
   onPress?: () => void;
   onRemove?: () => void;
 }) => {
@@ -42,6 +50,10 @@ export const PhotoThumbnail = ({
   const file = getPhotoFile(photo);
   const isMissing = hasLoadError || !file.exists;
   const position = index + 1;
+  const removeSize = isCompact
+    ? COMPACT_REMOVE_BUTTON_SIZE
+    : REMOVE_BUTTON_SIZE;
+  const removeOffset = isCompact ? COMPACT_REMOVE_OFFSET : 4;
 
   return (
     <View style={{ width: size ?? "100%", aspectRatio: 1 }}>
@@ -98,23 +110,23 @@ export const PhotoThumbnail = ({
       {onRemove && (
         <Pressable
           onPress={onRemove}
-          hitSlop={REMOVE_HIT_SLOP}
+          hitSlop={isCompact ? COMPACT_REMOVE_HIT_SLOP : REMOVE_HIT_SLOP}
           accessibilityRole="button"
           accessibilityLabel={t("photos_remove_label", { index: position })}
           testID={`photo-remove-${position}`}
           style={{
             position: "absolute",
-            top: 4,
-            right: 4,
-            width: REMOVE_BUTTON_SIZE,
-            height: REMOVE_BUTTON_SIZE,
-            borderRadius: REMOVE_BUTTON_SIZE / 2,
+            top: removeOffset,
+            right: removeOffset,
+            width: removeSize,
+            height: removeSize,
+            borderRadius: removeSize / 2,
             alignItems: "center",
             justifyContent: "center",
             backgroundColor: REMOVE_BUTTON_BACKGROUND,
           }}
         >
-          <X color="white" size={16} />
+          <X color="white" size={isCompact ? 12 : 16} />
         </Pressable>
       )}
     </View>

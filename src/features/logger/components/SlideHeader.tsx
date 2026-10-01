@@ -6,6 +6,7 @@ import useHaptics from "@/hooks/useHaptics";
 import { useTemporaryLog } from "../temporaryLog";
 import { getItemDateTitle } from "@/lib/utils";
 import dayjs from "dayjs";
+import { Paperclip } from "lucide-react-native";
 import { useState } from "react";
 import { Platform, Pressable, Text, View } from "react-native";
 import { ArrowLeft, Trash, X } from "react-native-feather";
@@ -78,7 +79,8 @@ const DatePickerHeader = ({ onChange }: { onChange: (date: Date) => void }) => {
 };
 
 /**
- * Logger header with the entry time, close, back, and delete actions.
+ * Logger header with the entry time, close, back, delete, and add photo
+ * actions. The add photo button shows only with `onAddPhoto`.
  *
  * Must render inside `TemporaryLogProvider`. Changing the time updates only
  * the draft's `dateTime`; `date` keeps the day the draft started with.
@@ -89,12 +91,14 @@ export const SlideHeader = ({
   onBack,
   onClose,
   onDelete,
+  onAddPhoto,
 }: {
   isDeleteable: boolean;
   backVisible?: boolean;
   onBack?: () => void;
   onClose?: () => void;
   onDelete?: () => void;
+  onAddPhoto?: () => void;
 }) => {
   const { Modal } = useFeedbackModal();
   const haptics = useHaptics();
@@ -218,6 +222,7 @@ export const SlideHeader = ({
         <View
           style={{
             flexDirection: "row",
+            alignItems: "center",
           }}
         >
           {isDeleteable && (
@@ -236,6 +241,29 @@ export const SlideHeader = ({
               }}
             >
               <Trash color={colors.logHeaderText} width={24} height={24} />
+            </Pressable>
+          )}
+          {onAddPhoto && (
+            <Pressable
+              accessibilityRole="button"
+              accessibilityLabel={t("photos_add")}
+              accessibilityHint={t("photos_attach_hint")}
+              testID="logger-add-photo"
+              style={({ pressed }) => ({
+                height: 44,
+                width: 44,
+                // Keeps the paperclip clear of the close button.
+                marginRight: 12,
+                justifyContent: "center",
+                alignItems: "center",
+                opacity: pressed ? 0.5 : 1,
+              })}
+              onPress={async () => {
+                await haptics.selection();
+                onAddPhoto();
+              }}
+            >
+              <Paperclip color={colors.logHeaderText} size={22} />
             </Pressable>
           )}
           <Pressable

@@ -101,8 +101,9 @@ const EntryHeader = ({
 /**
  * Card for one entry in the day list with its sleep, emotions, tags,
  * photos, and message sections. The photos section shows only when the
- * entry has photos. The trash button calls `onDelete` without asking, so
- * the caller must confirm.
+ * entry has photos; its edit action opens the logger at the first step,
+ * where the attachment tray shows the photos. The trash button calls
+ * `onDelete` without asking, so the caller must confirm.
  */
 export const Entry = ({
   item,
@@ -167,7 +168,7 @@ export const Entry = ({
                   marginTop: 8,
                 }}
               >
-                <Photos item={item} />
+                <Photos item={item} onEdit={() => onEdit(item)} />
               </View>
             )}
             <View

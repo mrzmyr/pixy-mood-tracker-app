@@ -652,6 +652,7 @@
   "photos_viewer_counter": "{{index}} / {{count}}",
   "photos_viewer_close": "Close",
   "photos_missing": "Photo unavailable",
+  "photos_attach_hint": "Adds photos from your library or camera to this entry",
   "view_log_photos": "Photos",
   "log_photos_question": "Add a photo of your day",
   "log_photos_disable": "I don't add photos",

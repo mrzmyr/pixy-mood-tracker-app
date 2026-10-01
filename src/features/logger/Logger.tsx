@@ -26,6 +26,7 @@ import type { CarouselRef } from "react-native-reanimated-carousel";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { v4 as uuidv4 } from "uuid";
 import { SlideAction } from "./components/SlideAction";
+import { AttachmentTray } from "./components/AttachmentTray";
 import { LoggerHeader } from "./components/LoggerHeader";
 import type { LoggerStep } from "./config";
 import { SlideEmotions } from "./slides/SlideEmotions";
@@ -35,6 +36,7 @@ import { SlideMood } from "./slides/SlideMood";
 import { SlideReminder } from "./slides/SlideReminder";
 import { SlideTags } from "./slides/SlideTags";
 import { useLoggerActions } from "./hooks/useLoggerActions";
+import { useLoggerPhotos } from "./hooks/useLoggerPhotos";
 
 /** Whether the logger creates a new entry or edits an existing one. */
 export type LoggerMode = "create" | "edit";
@@ -157,6 +159,10 @@ export const Logger = ({
   const [slideIndex, setSlideIndex] = useState(initialIndex);
 
   const { save, remove, cancel } = useLoggerActions({ mode, tempLog });
+  const { photos, addPhoto, removePhoto, slideAreaStyle } = useLoggerPhotos({
+    mode,
+    tempLog,
+  });
 
   const _carousel = useRef<CarouselRef>(null);
 
@@ -384,13 +390,9 @@ export const Logger = ({
           tempLog={tempLog}
           onCancel={cancel}
           onRemove={remove}
+          onAddPhoto={addPhoto}
         />
-        <View
-          style={{
-            flex: 1,
-            flexDirection: "column",
-          }}
-        >
+        <View style={slideAreaStyle}>
           <Carousel
             loop={false}
             itemSize={Dimensions.get("window").width}
@@ -417,6 +419,7 @@ export const Logger = ({
           ) : (
             <SlideAction type="next" onPress={next} />
           )))}
+      <AttachmentTray photos={photos} onRemove={removePhoto} />
     </View>
   );
 };

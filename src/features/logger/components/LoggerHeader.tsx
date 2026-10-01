@@ -19,6 +19,7 @@ export const LoggerHeader = ({
   tempLog,
   onCancel,
   onRemove,
+  onAddPhoto,
 }: {
   carouselRef: RefObject<CarouselRef | null>;
   slideCount: number;
@@ -28,6 +29,7 @@ export const LoggerHeader = ({
   tempLog: TemporaryLogValue;
   onCancel: () => void;
   onRemove: () => void;
+  onAddPhoto: () => void;
 }) => (
   <View
     style={{
@@ -54,6 +56,7 @@ export const LoggerHeader = ({
       }}
       backVisible={slideIndex > 0}
       isDeleteable={isEditing}
+      onAddPhoto={onAddPhoto}
       onClose={async () => {
         if (tempLog.isDirty) {
           try {
