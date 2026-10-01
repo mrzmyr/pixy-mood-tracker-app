@@ -160,9 +160,9 @@ export const RatingChart = ({
         <Line
           key="avg-line"
           x1={relativeX(0)}
-          y1={relativeY(average)}
+          y1={relativeY(average) + rowHeight / 2}
           x2={width - paddingRight}
-          y2={relativeY(average)}
+          y2={relativeY(average) + rowHeight / 2}
           stroke={colors.tint}
           strokeWidth={2}
         />
