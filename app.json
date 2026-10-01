@@ -106,6 +106,15 @@
         {
           "appleTeamId": "8VVNC4724B"
         }
+      ],
+      "expo-image",
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Pixy adds photos you choose to your entries. Photos stay on your device.",
+          "cameraPermission": "Pixy takes a photo for your entry. Photos stay on your device.",
+          "microphonePermission": false
+        }
       ]
     ],
     "buildCacheProvider": {
