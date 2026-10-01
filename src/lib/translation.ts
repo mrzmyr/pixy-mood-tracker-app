@@ -8,7 +8,7 @@ import weekOfYear from "dayjs/plugin/weekOfYear";
 
 import type en from "../../assets/locales/en.json";
 
-const i18n = new I18n({
+const translations = {
   ar: require("../../assets/locales/ar.json"),
   zh: require("../../assets/locales/zh.json"),
   hr: require("../../assets/locales/hr.json"),
@@ -28,6 +28,8 @@ const i18n = new I18n({
   ja: require("../../assets/locales/ja.json"),
   ko: require("../../assets/locales/ko.json"),
   ms: require("../../assets/locales/ms.json"),
+  // no.json is Norwegian Bokmål. iOS and Android report Bokmål as `nb`.
+  nb: require("../../assets/locales/no.json"),
   nn: require("../../assets/locales/no.json"),
   pl: require("../../assets/locales/pl.json"),
   pt: require("../../assets/locales/pt.json"),
@@ -40,7 +42,16 @@ const i18n = new I18n({
   tr: require("../../assets/locales/tr.json"),
   uk: require("../../assets/locales/uk.json"),
   vi: require("../../assets/locales/vi.json"),
-});
+};
+
+/** i18n for `locale` (for example `de-DE`), falling back to English. */
+export const createI18n = (locale: string) => {
+  const instance = new I18n(translations);
+  instance.locale = locale;
+  instance.defaultLocale = "en";
+  instance.enableFallback = true;
+  return instance;
+};
 
 // https://unicode.org/Public/cldr/37/core.zip
 const firstDayOfWeek = {
@@ -227,6 +238,7 @@ const dayjs_locales = {
   ja: require("dayjs/locale/ja"),
   ko: require("dayjs/locale/ko"),
   ms: require("dayjs/locale/ms"),
+  nb: require("dayjs/locale/nb"),
   nn: require("dayjs/locale/nn"),
   pl: require("dayjs/locale/pl"),
   pt: require("dayjs/locale/pt"),
@@ -244,9 +256,7 @@ const dayjs_locales = {
 const deviceLocale = Localization.getLocales()[0]?.languageTag ?? "en";
 const deviceRegion = Localization.getLocales()[0]?.regionCode ?? null;
 
-i18n.locale = deviceLocale;
-i18n.defaultLocale = "en";
-i18n.enableFallback = true;
+const i18n = createI18n(deviceLocale);
 
 /** Device locale tag (for example `de-DE`), read once at startup. */
 export const { locale } = i18n;
