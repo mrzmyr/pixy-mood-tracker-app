@@ -1,9 +1,9 @@
 import { APP_VARIANT } from "@/constants/AppVariant";
 
-/** Webhook that receives in-app feedback from {@link useFeedback}. */
-export const FEEDBACK_URL = `https://eocfnkx0gbrjzvp.m.pipedream.net`;
-/** Webhook that receives answers to in-app questions. */
-export const QUESTION_SUBMIT_URL = `https://eod7mfqgj8fcpa1.m.pipedream.net`;
+/** Website webhook that stores in-app feedback from {@link useFeedback}. */
+export const FEEDBACK_URL = `https://pixy.day/api/feedback`;
+/** Website webhook that stores answers to in-app questions. */
+export const QUESTION_SUBMIT_URL = `https://pixy.day/api/question-answers`;
 /**
  * Source of in-app questions. Development builds expect the website dev
  * server on port 3000.
