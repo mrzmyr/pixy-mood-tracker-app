@@ -18,7 +18,9 @@ import {
 import type { Fixture } from "@/dev/fixtures";
 
 import { setFileTransferOverride } from "@/features/datagate";
+import { setPhotoSourceOverride } from "@/features/photos";
 import { fakeFileTransfer } from "@/dev/fakeFileTransfer";
+import { fakePhotoSource } from "@/dev/fakePhotoSource";
 import { useLoadFixture, writeStorageFixture } from "@/dev/useLoadFixture";
 
 // Drops every screen behind the new state, like a fresh app start.
@@ -160,12 +162,14 @@ export const DevFixtureLinkScreen = () => {
 
 /**
  * Target of `<scheme>://dev/fake-files`. Swaps the share sheet and document
- * picker for `fakeFileTransfer` until the app restarts, then opens the app.
+ * picker for `fakeFileTransfer`, and the photo picker and camera for
+ * `fakePhotoSource`, until the app restarts. Then opens the app.
  */
 export const DevFakeFilesLinkScreen = () => {
   const router = useRouter();
   useEffect(() => {
     setFileTransferOverride(fakeFileTransfer);
+    setPhotoSourceOverride(fakePhotoSource);
     router.dismissAll();
     router.replace("/calendar");
   }, [router]);
