@@ -115,6 +115,16 @@
           "cameraPermission": "Pixy takes a photo for your entry. Photos stay on your device.",
           "microphonePermission": false
         }
+      ],
+      [
+        "expo-media-library",
+        {
+          "photosPermission": "Pixy adds photos you choose to your entries. Photos stay on your device.",
+          "savePhotosPermission": false,
+          "isAccessMediaLocationEnabled": false,
+          "preventAutomaticLimitedAccessAlert": true,
+          "granularPermissions": ["photo"]
+        }
       ]
     ],
     "buildCacheProvider": {
