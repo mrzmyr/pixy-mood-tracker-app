@@ -6,6 +6,10 @@
 - Privacy rule: [AGENTS.md footguns](../AGENTS.md#footguns)
 - Default: on for all users. Onboarding privacy slide says so. Factory reset turns it back on ([`src/constants/Settings.ts`](../src/constants/Settings.ts))
 - Off switch: Settings > Privacy > Behavioral Data
+- Store review prompt: `logger:store_review_requested` ([`src/features/review`](../src/features/review))
+  - Fires once per install, after the save that reaches 7 entries
+  - Properties: `trigger`, `entries_count`
+  - OS decides whether prompt shows
 
 ## Event history
 
@@ -46,6 +50,7 @@ Use this section to join old and new events in PostHog, for example with an Acti
   - `statistics_feedback_store_review_done`
   - `statistics_feedback_store_review_error`
 - New names never shipped in a release: `statistics:card_feedback_submitted`, `statistics:store_review_requested`, `statistics:store_review_completed`, `statistics:store_review_failed`
+- `feedback:type_changed`: feedback modal lost its type selector. Settings opens it as "Request a feature" (`type: "idea"`) or "Report a bug" (`type: "issue"`). Use `type` on `feedback:modal_opened`
 
 **Renames**
 

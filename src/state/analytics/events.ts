@@ -43,6 +43,10 @@ export interface AnalyticsEvents {
   "logger:emotions_tooltip_closed": undefined;
   "logger:reminder_enabled": undefined;
   "logger:reminder_postponed": undefined;
+  "logger:store_review_requested": {
+    trigger: "entries_7";
+    entries_count: number;
+  };
 
   "day:add_tapped": undefined;
   "day:edit_tapped": undefined;
@@ -129,7 +133,6 @@ export interface AnalyticsEvents {
   "data:reset_cancelled": { kind: ResetKind };
 
   "feedback:modal_opened": { type: FeedackType };
-  "feedback:type_changed": { type: FeedackType };
   "feedback:feedback_submitted": {
     type: FeedackType;
     source: FeedbackSource;

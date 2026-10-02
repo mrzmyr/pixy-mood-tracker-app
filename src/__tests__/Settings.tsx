@@ -11,11 +11,6 @@ import {
 import { SettingsScreen } from "@/features/settings";
 import noop from "lodash/noop";
 
-// oxlint-disable-next-line anti-slop/no-module-mocking -- lucide-react-native renders native SVG components that Jest cannot render
-jest.mock("lucide-react-native", () => ({
-  Tag: () => null,
-}));
-
 // oxlint-disable-next-line anti-slop/no-module-mocking -- expo-superwall is a native module imported transitively by Providers; the support client itself is injected
 jest.mock(
   "expo-superwall",
@@ -179,5 +174,62 @@ describe("Support Pixy in Settings", () => {
 
     finishSupport();
     await waitFor(() => expect(button).toBeEnabled());
+  });
+});
+
+describe("Feedback in Settings", () => {
+  beforeEach(() => {
+    global.fetch = jest.fn().mockResolvedValue({ ok: true });
+  });
+
+  afterEach(() => {
+    jest.restoreAllMocks();
+  });
+
+  test.each([
+    {
+      item: "Request a feature",
+      placeholder: "It would be great if…",
+      type: "idea",
+    },
+    { item: "Report a bug", placeholder: "I noticed that…", type: "issue" },
+  ])(
+    "user sends $type feedback from $item without picking a type",
+    async ({ item, placeholder, type }) => {
+      jest.spyOn(Alert, "alert").mockImplementation();
+      const screen = await renderSettings({
+        enabled: false,
+        openSupport: () => Promise.resolve(),
+      });
+
+      await userEvent.press(screen.getByText(item));
+
+      expect(screen.getAllByText(item)).toHaveLength(2);
+      expect(screen.queryByRole("radio")).toBeNull();
+
+      await userEvent.type(
+        screen.getByPlaceholderText(placeholder),
+        "Calendar export"
+      );
+      await userEvent.press(screen.getByTestId("feedback-modal-send"));
+
+      await waitFor(() => expect(global.fetch).toHaveBeenCalledTimes(1));
+      const [[, request]] = jest.mocked(global.fetch).mock.calls;
+      expect(JSON.parse(String(request?.body))).toMatchObject({
+        type,
+        message: "Calendar export",
+        source: "modal",
+      });
+    }
+  );
+
+  test("user sees store rating as third feedback item", async () => {
+    const screen = await renderSettings({
+      enabled: false,
+      openSupport: () => Promise.resolve(),
+    });
+
+    expect(screen.getByText("Rate Pixy in the App Store")).toBeOnTheScreen();
+    expect(screen.queryByText("Rate this app")).toBeNull();
   });
 });

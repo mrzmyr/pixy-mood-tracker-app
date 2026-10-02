@@ -1,9 +1,8 @@
-import { STEP_OPTIONS } from "@/features/logger";
-import type { LoggerStep } from "@/features/logger";
+import { STEP_OPTIONS } from "@/constants/LoggerSteps";
+import type { LoggerStep } from "@/constants/LoggerSteps";
 
 import MenuList from "@/components/MenuList";
 import MenuListItem from "@/components/MenuListItem";
-import { PageWithHeaderLayout } from "@/components/PageWithHeaderLayout";
 import { t } from "@/lib/translation";
 import type { ReactElement } from "react";
 import { ScrollView, Switch, Text, View } from "react-native";
@@ -39,7 +38,7 @@ export const StepsScreen = () => {
   const analytics = useAnalytics();
 
   return (
-    <PageWithHeaderLayout
+    <View
       style={{
         flex: 1,
         backgroundColor: colors.background,
@@ -119,6 +118,6 @@ export const StepsScreen = () => {
           ))}
         </MenuList>
       </ScrollView>
-    </PageWithHeaderLayout>
+    </View>
   );
 };

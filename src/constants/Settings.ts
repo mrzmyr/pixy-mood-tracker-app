@@ -15,4 +15,6 @@ export const INITIAL_STATE: SettingsState = {
   analyticsEnabled: true,
   actionsDone: [],
   steps: ["rating", "emotions", "tags", "message", "feedback"],
+  storeReviewPromptedAt: null,
+  storeReviewPromptedAppVersion: null,
 };

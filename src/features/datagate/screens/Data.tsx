@@ -1,4 +1,4 @@
-import { ScrollView } from "react-native";
+import { ScrollView, View } from "react-native";
 import { Download, Trash, Upload } from "react-native-feather";
 import MenuList from "@/components/MenuList";
 import MenuListItem from "@/components/MenuListItem";
@@ -6,7 +6,6 @@ import TextInfo from "@/components/TextInfo";
 import { t } from "@/lib/translation";
 import useColors from "@/hooks/useColors";
 import { useDatagate } from "../DataGate";
-import { PageWithHeaderLayout } from "@/components/PageWithHeaderLayout";
 
 /**
  * Settings > Data: import, export, and reset of all user data via
@@ -17,7 +16,7 @@ export const DataScreen = () => {
   const datagate = useDatagate();
 
   return (
-    <PageWithHeaderLayout
+    <View
       style={{
         flex: 1,
         backgroundColor: colors.background,
@@ -87,6 +86,6 @@ export const DataScreen = () => {
         </MenuList>
         <TextInfo>{t("reset_factory_description")}</TextInfo>
       </ScrollView>
-    </PageWithHeaderLayout>
+    </View>
   );
 };

@@ -1,4 +1,4 @@
-import { getLogEditMarginTop } from "@/helpers/responsive";
+import { getSlideMarginTop } from "./marginTop";
 import { t } from "@/lib/translation";
 import useColors from "@/hooks/useColors";
 import type { LogItem } from "@/features/logs";
@@ -66,7 +66,7 @@ const SlideMessageComponent = (
   const insets = useSafeAreaInsets();
   const colors = useColors();
   const tempLog = useTemporaryLog();
-  const marginTop = getLogEditMarginTop();
+  const marginTop = getSlideMarginTop();
   const keyboardVisible = useKeyboardVisible();
 
   // The footer only exists while the disable link shows and the keyboard is

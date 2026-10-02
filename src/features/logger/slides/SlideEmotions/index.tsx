@@ -1,4 +1,4 @@
-import { getLogEditMarginTop } from "@/helpers/responsive";
+import { getSlideMarginTop } from "../marginTop";
 import { t } from "@/lib/translation";
 import useColors from "@/hooks/useColors";
 import { useLogState } from "@/features/logs";
@@ -61,7 +61,7 @@ export const SlideEmotions = ({
   showDisable: boolean;
 }) => {
   const colors = useColors();
-  const marginTop = getLogEditMarginTop();
+  const marginTop = getSlideMarginTop();
   const tempLog = useTemporaryLog();
   const logState = useLogState();
   const analytics = useAnalytics();

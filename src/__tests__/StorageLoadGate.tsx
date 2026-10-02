@@ -148,7 +148,7 @@ describe("StorageLoadGate", () => {
     expect(url).toContain("mailto:care@pixy.day");
     expect(url).toContain("Error code: storage_invalid_value");
     expect(url).not.toContain("🐇");
-    expect(screen.queryByText("Send Feedback")).toBeNull();
+    expect(screen.queryByText("Report a bug")).toBeNull();
 
     openURLSpy.mockRestore();
   });
@@ -163,7 +163,7 @@ describe("StorageLoadGate", () => {
     await renderApp();
     await user.press(await screen.findByText("Contact support"));
 
-    expect(await screen.findByText("Send Feedback")).toBeOnTheScreen();
+    expect(await screen.findByText("Report a bug")).toBeOnTheScreen();
 
     openURLSpy.mockRestore();
   });

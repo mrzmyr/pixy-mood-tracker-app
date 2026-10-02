@@ -1,5 +1,5 @@
 import { useLocalSearchParams } from "expo-router";
-import type { LoggerStep } from "../../config";
+import type { LoggerStep } from "@/constants/LoggerSteps";
 import { LoggerEdit } from "../../Logger";
 
 /**

@@ -8,7 +8,6 @@
   "calendar": "Kalender",
   "settings": "Innstillinger",
   "licenses": "Lisenser",
-  "rate_this_app": "Ranger denne appen",
   "reset_data_button": "Tilbakestill alle data og innstillinger",
   "reset_data_confirm_title": "Nullstille",
   "reset_data_confirm_message": "Er du sikker på at du vil tilbakestille alle oppføringer og tagger?",
@@ -26,8 +25,6 @@
   "issue": "Utgave",
   "idea": "Idé",
   "other": "Annen",
-  "send_feedback_issue": "Rapporter problem",
-  "send_feedback_idea": "Send inn idé",
   "feedback_modal_title": "Send tilbakemelding",
   "feedback_modal_description": "Tilbakemeldingen din hjelper meg mye med å forstå hvordan du bruker appen og hvordan jeg kan forbedre den.",
   "feedback_modal_textarea_placeholder": "Jeg la merke til det…",
@@ -38,7 +35,6 @@
   "feedback_error_title": "Tilbakemelding mislyktes",
   "feedback_error_message": "Noe gikk galt under sending av tilbakemelding.",
   "feedback_help": "Denne appen er utviklet av én person. Jeg setter stor pris på tilbakemeldingen din. Det hjelper meg å forstå hvordan du bruker appen og hvordan jeg kan forbedre den.",
-  "send_feedback": "Gi tilbakemelding",
   "back_to_today": "Tilbake til i dag",
   "data": "Data",
   "reminder": "Påminnelse",
@@ -629,5 +625,10 @@
   "archive_tag_enabled": "Arkivert",
   "colorblind_disclaimer": "Dette fargeskjemaet er optimalisert for fargeblinde basert på forskningen til Dr. Cynthia Brewer fra Pennsylvania State University. Hvis du fortsatt har problemer med å se fargene, vennligst gi meg beskjed på care@pixy.day.",
   "new_release": "Ny utgivelse",
-  "statistics_sleep_quality_chart_highlights_title": "Søvnkvaliteten din de siste 14 dagene."
+  "statistics_sleep_quality_chart_highlights_title": "Søvnkvaliteten din de siste 14 dagene.",
+  "request_a_feature": "Foreslå en funksjon",
+  "report_a_bug": "Rapporter en feil",
+  "rate_pixy_app_store": "Vurder Pixy i App Store",
+  "rate_pixy_google_play": "Vurder Pixy på Google Play",
+  "feedback_modal_message_placeholder_idea": "Det hadde vært flott om…"
 }

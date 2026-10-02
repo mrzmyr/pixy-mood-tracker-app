@@ -1,6 +1,6 @@
 > [!IMPORTANT]
 > - **Source development resumed in 2026.** See [latest source release](https://github.com/mrzmyr/pixy-mood-tracker-app/releases/latest).
-> - **Store updates are pending.** App Store and Google Play still offer version 1.68.0 from December 24, 2022. See [listing metadata](./docs/directory-listing.json) for verified release details.
+> - **Store updates are pending.** App Store and Google Play still offer version 1.68.0 from December 24, 2022. See [app facts](./docs/app-facts.json) for verified release details.
 
 <br />
 <p align="center">
@@ -31,7 +31,7 @@ Pixy is a free, open source mood tracker for iPhone and Android. No ads, no acco
 - Entries stored on device. Export and import backups.
 - 31 languages ([docs/i18n.md](./docs/i18n.md))
 
-Full list: [docs/features.md](./docs/features.md).
+Full list with status: [docs/app-facts.json](./docs/app-facts.json).
 
 ### Built With
 

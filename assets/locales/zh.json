@@ -7,7 +7,6 @@
   "calendar": "日历",
   "settings": "设置",
   "licenses": "许可证",
-  "rate_this_app": "给这个应用程序评分",
   "reset_data_button": "重置所有数据和设置",
   "reset_data_confirm_title": "重置",
   "reset_data_confirm_message": "您确定要重置所有条目和标签吗？",
@@ -26,8 +25,6 @@
   "issue": "问题",
   "idea": "主意",
   "other": "其他",
-  "send_feedback_issue": "报告问题",
-  "send_feedback_idea": "提交想法",
   "feedback_modal_title": "发送反馈",
   "feedback_modal_description": "您的反馈有助于我更好地了解您如何使用该应用程序以及如何改进它。",
   "feedback_modal_textarea_placeholder": "我注意到……",
@@ -38,7 +35,6 @@
   "feedback_error_title": "反馈失败",
   "feedback_error_message": "发送您的反馈时出现问题。",
   "feedback_help": "这个应用程序是由一个人开发的。我非常重视您的反馈。它可以帮助我更好地了解您如何使用该应用程序以及如何改进它。",
-  "send_feedback": "给予反馈",
   "back_to_today": "回到今天",
   "data": "数据",
   "reminder": "提醒",
@@ -629,5 +625,10 @@
   "archive_tag_enabled": "存档",
   "colorblind_disclaimer": "此配色方案根据宾夕法尼亚州立大学 Cynthia Brewer 博士的研究针对色盲人士进行了优化。如果您仍然看不清颜色，请通过 care@pixy.day 告诉我。",
   "new_release": "新品发布",
-  "statistics_sleep_quality_chart_highlights_title": "您过去 14 天的睡眠质量。"
+  "statistics_sleep_quality_chart_highlights_title": "您过去 14 天的睡眠质量。",
+  "request_a_feature": "请求新功能",
+  "report_a_bug": "报告错误",
+  "rate_pixy_app_store": "在 App Store 为 Pixy 评分",
+  "rate_pixy_google_play": "在 Google Play 为 Pixy 评分",
+  "feedback_modal_message_placeholder_idea": "如果能……就太好了"
 }

@@ -8,7 +8,6 @@
   "calendar": "Kalendář",
   "settings": "Nastavení",
   "licenses": "licence",
-  "rate_this_app": "Ohodnoťte tuto aplikaci",
   "reset_data_button": "Obnovte všechna data a nastavení",
   "reset_data_confirm_title": "Resetovat",
   "reset_data_confirm_message": "Opravdu chcete obnovit všechny položky a štítky?",
@@ -26,8 +25,6 @@
   "issue": "Problém",
   "idea": "Idea",
   "other": "jiný",
-  "send_feedback_issue": "Nahlásit problém",
-  "send_feedback_idea": "Odeslat nápad",
   "feedback_modal_title": "Poslat zpětnou vazbu",
   "feedback_modal_description": "Vaše zpětná vazba mi velmi pomáhá lépe porozumět tomu, jak aplikaci používáte a jak ji mohu zlepšit.",
   "feedback_modal_textarea_placeholder": "Všimnul jsem si, že…",
@@ -38,7 +35,6 @@
   "feedback_error_title": "Zpětná vazba selhala",
   "feedback_error_message": "Při odesílání zpětné vazby se něco pokazilo.",
   "feedback_help": "Tuto aplikaci vyvíjí jedna osoba. Velmi si vážím vaší zpětné vazby. Pomáhá mi to lépe pochopit, jak aplikaci používáte a jak ji mohu zlepšit.",
-  "send_feedback": "Dát zpětnou vazbu",
   "back_to_today": "Zpět k dnešku",
   "data": "Data",
   "reminder": "Připomínka",
@@ -629,5 +625,10 @@
   "archive_tag_enabled": "Archivováno",
   "colorblind_disclaimer": "Toto barevné schéma je optimalizováno pro barvoslepé na základě výzkumu Dr. Cynthie Brewer z Pennsylvania State University. Pokud stále máte potíže se zobrazením barev, dejte mi prosím vědět na care@pixy.day.",
   "new_release": "Nové vydání",
-  "statistics_sleep_quality_chart_highlights_title": "Kvalita spánku za posledních 14 dní."
+  "statistics_sleep_quality_chart_highlights_title": "Kvalita spánku za posledních 14 dní.",
+  "request_a_feature": "Navrhnout funkci",
+  "report_a_bug": "Nahlásit chybu",
+  "rate_pixy_app_store": "Ohodnoťte Pixy v App Store",
+  "rate_pixy_google_play": "Ohodnoťte Pixy na Google Play",
+  "feedback_modal_message_placeholder_idea": "Bylo by skvělé, kdyby…"
 }

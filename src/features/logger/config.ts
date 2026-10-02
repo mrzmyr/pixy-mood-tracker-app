@@ -1,12 +1,6 @@
 import { t } from "@/lib/translation";
 import type { Emotion } from "@/types";
 
-export type {
-  LoggerStep,
-  ConfigurableLoggerStep,
-} from "@/constants/LoggerSteps";
-export { STEP_OPTIONS } from "@/constants/LoggerSteps";
-
 /**
  * All emotions the logger offers.
  *

@@ -2,7 +2,7 @@ import { useRouter } from "expo-router";
 import * as Linking from "expo-linking";
 import * as StoreReview from "expo-store-review";
 import * as WebBrowser from "expo-web-browser";
-import { ScrollView, Text, View } from "react-native";
+import { Platform, ScrollView, Text, View } from "react-native";
 import {
   ArrowUpCircle,
   Award,
@@ -11,7 +11,6 @@ import {
   CheckCircle,
   Database,
   Droplet,
-  Flag,
   Github,
   PieChart,
   Shield,
@@ -31,7 +30,7 @@ import { useAnalytics } from "@/state/analytics";
 import useColors from "@/hooks/useColors";
 import { useFeedbackModal } from "@/features/feedback";
 import pkg from "../../../../../package.json";
-import { Tag } from "lucide-react-native";
+import { Bug, Lightbulb, Tag } from "lucide-react-native";
 import { useSupport } from "@/support";
 
 /**
@@ -108,10 +107,26 @@ export const SettingsScreen = () => {
         <MenuListHeadline>{t("settings_feedback")}</MenuListHeadline>
         <MenuList style={{}}>
           <MenuListItem
-            title={t("send_feedback")}
+            title={t("request_a_feature")}
+            onPress={() => showFeedbackModal({ type: "idea" })}
+            iconLeft={<Lightbulb width={18} color={colors.menuListItemIcon} />}
+            testID="request_a_feature"
+          />
+          <MenuListItem
+            title={t("report_a_bug")}
             onPress={() => showFeedbackModal({ type: "issue" })}
-            iconLeft={<Flag width={18} color={colors.menuListItemIcon} />}
-            testID="send_feedback"
+            iconLeft={<Bug width={18} color={colors.menuListItemIcon} />}
+            testID="report_a_bug"
+          />
+          <MenuListItem
+            title={t(
+              Platform.OS === "ios"
+                ? "rate_pixy_app_store"
+                : "rate_pixy_google_play"
+            )}
+            onPress={() => askToRateApp()}
+            iconLeft={<Star width={18} color={colors.menuListItemIcon} />}
+            testID="rate_pixy"
             isLast
           />
         </MenuList>
@@ -138,11 +153,6 @@ export const SettingsScreen = () => {
             }}
             iconLeft={<BookOpen width={18} color={colors.menuListItemIcon} />}
             testID="changelog"
-          />
-          <MenuListItem
-            title={t("rate_this_app")}
-            onPress={() => askToRateApp()}
-            iconLeft={<Star width={18} color={colors.menuListItemIcon} />}
           />
           <MenuListItem
             title={t("privacy")}

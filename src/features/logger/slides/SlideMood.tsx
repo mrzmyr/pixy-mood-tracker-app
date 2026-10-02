@@ -5,7 +5,7 @@ import { Platform, View } from "react-native";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { DATE_FORMAT } from "@/constants/Config";
-import { getLogEditMarginTop } from "@/helpers/responsive";
+import { getSlideMarginTop } from "./marginTop";
 import { t } from "@/lib/translation";
 import useColors from "@/hooks/useColors";
 import type { LogItem } from "@/features/logs";
@@ -28,7 +28,7 @@ export const SlideMood = ({
   const router = useRouter();
   const insets = useSafeAreaInsets();
 
-  const marginTop = getLogEditMarginTop();
+  const marginTop = getSlideMarginTop();
   const [isDatePickerVisible, setIsDatePickerVisible] = useState(false);
 
   return (
