@@ -53,7 +53,8 @@ tags: [p0, calendar]
 - inputText: "e2e past ${output.runId}"
 - tapOn:
     id: "logger-next"
-- assertVisible: "Add a photo of your day"
+- assertVisible:
+    id: "slide-photos"
 - tapOn:
     id: "logger-save"
 - runFlow: ../subflows/answer-confirmation.yaml

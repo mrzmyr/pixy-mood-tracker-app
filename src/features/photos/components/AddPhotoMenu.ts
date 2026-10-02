@@ -2,34 +2,36 @@ import { ActionSheetIOS, Alert, Platform } from "react-native";
 import { t } from "@/lib/translation";
 
 /**
- * Asks where the photo comes from: library or camera. iOS shows an action
- * sheet, other platforms an alert. Cancel calls neither callback.
- *
- * Concepts with separate library and camera buttons skip this menu.
+ * Asks where the photo comes from: library or camera. With `dayAccess`, a
+ * third option asks for photo library access, so photos of the day stay
+ * reachable after the user dismissed the permission row. iOS shows an
+ * action sheet, other platforms an alert. Cancel calls no callback.
  */
 export const showAddPhotoMenu = ({
   onLibrary,
   onCamera,
+  dayAccess,
 }: {
   onLibrary: () => void;
   onCamera: () => void;
+  dayAccess?: { label: string; onPress: () => void };
 }) => {
+  const options = [
+    { text: t("photos_choose_library"), onPress: onLibrary },
+    { text: t("photos_take_photo"), onPress: onCamera },
+    ...(dayAccess
+      ? [{ text: dayAccess.label, onPress: dayAccess.onPress }]
+      : []),
+  ];
+
   if (Platform.OS === "ios") {
     ActionSheetIOS.showActionSheetWithOptions(
       {
-        options: [
-          t("photos_choose_library"),
-          t("photos_take_photo"),
-          t("cancel"),
-        ],
-        cancelButtonIndex: 2,
+        options: [...options.map(({ text }) => text), t("cancel")],
+        cancelButtonIndex: options.length,
       },
       (buttonIndex) => {
-        if (buttonIndex === 0) {
-          onLibrary();
-        } else if (buttonIndex === 1) {
-          onCamera();
-        }
+        options[buttonIndex]?.onPress();
       }
     );
     return;
@@ -38,11 +40,7 @@ export const showAddPhotoMenu = ({
   Alert.alert(
     t("photos_add"),
     undefined,
-    [
-      { text: t("photos_choose_library"), onPress: onLibrary },
-      { text: t("photos_take_photo"), onPress: onCamera },
-      { text: t("cancel"), style: "cancel" },
-    ],
+    [...options, { text: t("cancel"), style: "cancel" }],
     { cancelable: true }
   );
 };

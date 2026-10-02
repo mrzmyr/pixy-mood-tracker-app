@@ -64,7 +64,12 @@ tags: [p0, entry]
 - inputText: "e2e note ${output.runId}"
 - tapOn:
     id: "logger-next"
-- assertVisible: "Add a photo of your day"
+- assertVisible:
+    id: "slide-photos"
+# Library access is undetermined on a fresh install: the row asks, the
+# step never shows the system dialog on its own.
+- assertVisible:
+    id: "photos-day-access"
 - tapOn:
     id: "logger-save"
 

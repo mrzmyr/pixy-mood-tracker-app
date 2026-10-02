@@ -62,6 +62,11 @@ export interface SettingsState {
   storeReviewPromptedAt: string | null;
   /** App version that showed the automatic store review prompt. */
   storeReviewPromptedAppVersion: string | null;
+  /**
+   * The user dismissed the "See your photos from …" row in the photos step,
+   * or denied library access. The row never shows again on this install.
+   */
+  photosDayAccessDismissed: boolean;
 
   // removed in previous version
   // replaced with analyticsEnabled
@@ -73,7 +78,8 @@ export interface SettingsState {
 /**
  * Settings included in data exports. The device id is excluded so an import
  * never clones another device's identity. Store review prompt state belongs
- * to the device and store account, so imports keep the current values.
+ * to the device and store account, and photo library access to the device,
+ * so imports keep the current values.
  */
 export type ExportSettings = Omit<
   SettingsState,
@@ -81,6 +87,7 @@ export type ExportSettings = Omit<
   | "deviceId"
   | "storeReviewPromptedAt"
   | "storeReviewPromptedAppVersion"
+  | "photosDayAccessDismissed"
 >;
 
 interface IAction {
@@ -144,6 +151,7 @@ const SettingsProvider = ({ children }: { children: React.ReactNode }) => {
       storeReviewPromptedAt: currentSettings.storeReviewPromptedAt,
       storeReviewPromptedAppVersion:
         currentSettings.storeReviewPromptedAppVersion,
+      photosDayAccessDismissed: currentSettings.photosDayAccessDismissed,
       loaded: true,
     }));
   }, []);
@@ -173,6 +181,7 @@ const SettingsProvider = ({ children }: { children: React.ReactNode }) => {
           ...INITIAL_STATE,
           ...json,
           steps: sanitizeSteps(json.steps),
+          photosDayAccessDismissed: json.photosDayAccessDismissed === true,
           loaded: true,
         });
       }

@@ -1,18 +1,11 @@
 import { Image } from "expo-image";
-import { ImageOff, X } from "lucide-react-native";
+import { ImageOff } from "lucide-react-native";
 import { useState } from "react";
 import { Pressable, Text, View } from "react-native";
 import useColors from "@/hooks/useColors";
 import { t } from "@/lib/translation";
 import type { LogPhoto } from "@/types";
 import { getPhotoFile } from "../storage";
-
-// Sits on the photo, not on a themed surface, so it stays dark in both
-// color schemes for contrast.
-const REMOVE_BUTTON_BACKGROUND = "rgba(0, 0, 0, 0.6)";
-const REMOVE_BUTTON_SIZE = 28;
-// 28pt button plus 8pt on every side gives the 44pt minimum target.
-const REMOVE_HIT_SLOP = 8;
 
 /**
  * Square photo tile with radius 12. Shows an `ImageOff` placeholder when the
@@ -27,7 +20,6 @@ export const PhotoThumbnail = ({
   count,
   size,
   onPress,
-  onRemove,
 }: {
   photo: LogPhoto;
   /** Position in the entry, from 0. Used for accessibility labels. */
@@ -35,7 +27,6 @@ export const PhotoThumbnail = ({
   count: number;
   size?: number;
   onPress?: () => void;
-  onRemove?: () => void;
 }) => {
   const colors = useColors();
   const [hasLoadError, setHasLoadError] = useState(false);
@@ -95,28 +86,6 @@ export const PhotoThumbnail = ({
           />
         )}
       </Pressable>
-      {onRemove && (
-        <Pressable
-          onPress={onRemove}
-          hitSlop={REMOVE_HIT_SLOP}
-          accessibilityRole="button"
-          accessibilityLabel={t("photos_remove_label", { index: position })}
-          testID={`photo-remove-${position}`}
-          style={{
-            position: "absolute",
-            top: 4,
-            right: 4,
-            width: REMOVE_BUTTON_SIZE,
-            height: REMOVE_BUTTON_SIZE,
-            borderRadius: REMOVE_BUTTON_SIZE / 2,
-            alignItems: "center",
-            justifyContent: "center",
-            backgroundColor: REMOVE_BUTTON_BACKGROUND,
-          }}
-        >
-          <X color="white" size={16} />
-        </Pressable>
-      )}
     </View>
   );
 };

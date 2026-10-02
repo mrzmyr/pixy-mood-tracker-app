@@ -2,7 +2,6 @@ import { DATE_FORMAT } from "@/constants/Config";
 import { askToDisableFeedbackStep, askToDisableStep } from "@/helpers/prompts";
 import useColors from "@/hooks/useColors";
 import { useLogState } from "@/features/logs";
-import type { LogItem } from "@/features/logs";
 
 import { useQuestioner } from "@/features/questioner";
 import type { IQuestion } from "@/features/questioner";
@@ -40,6 +39,7 @@ import { useLoggerActions } from "./hooks/useLoggerActions";
 import { useLoggerTracking } from "./hooks/useLoggerTracking";
 import type { SavedEntry } from "./hooks/useLoggerActions";
 import { Confirmation } from "./confirmation/Confirmation";
+import { getAvailableStepsForCreate, getAvailableStepsForEdit } from "./steps";
 
 /** Whether the logger creates a new entry or edits an existing one. */
 export type LoggerMode = "create" | "edit";
@@ -63,68 +63,6 @@ const EMOTIONS_INDEX_MAPPING = {
   good: 3,
   very_good: 3,
   extremely_good: 4,
-};
-
-const getAvailableStepsForCreate = ({
-  question,
-  hasStep,
-  reminderEnabled,
-  itemsCount,
-}: {
-  question: IQuestion | null;
-  hasStep: ReturnType<typeof useSettings>["hasStep"];
-  reminderEnabled: boolean;
-  itemsCount: number;
-}) => {
-  const slides: LoggerStep[] = ["rating"];
-
-  if (hasStep("emotions")) {
-    slides.push("emotions");
-  }
-  if (hasStep("tags")) {
-    slides.push("tags");
-  }
-  if (hasStep("message")) {
-    slides.push("message");
-  }
-  if (hasStep("photos")) {
-    slides.push("photos");
-  }
-
-  if (itemsCount === 1 && !reminderEnabled) {
-    slides.push("reminder");
-  }
-
-  if (itemsCount >= 3 && question !== null && hasStep("feedback")) {
-    slides.push("feedback");
-  }
-
-  return slides;
-};
-
-const getAvailableStepsForEdit = ({
-  item,
-  hasStep,
-}: {
-  item: LogItem;
-  hasStep: ReturnType<typeof useSettings>["hasStep"];
-}) => {
-  const slides: LoggerStep[] = ["rating"];
-
-  if (hasStep("emotions") || item.emotions.length > 0) {
-    slides.push("emotions");
-  }
-  if (hasStep("tags") || item.tags.length > 0) {
-    slides.push("tags");
-  }
-  if (hasStep("message") || item.message.length > 0) {
-    slides.push("message");
-  }
-  if (hasStep("photos") || item.photos.length > 0) {
-    slides.push("photos");
-  }
-
-  return slides;
 };
 
 // Sends `logger:flow_started` on mount and `logger:step_viewed` on every
@@ -342,6 +280,7 @@ export const Logger = ({
       slide: (
         <SlidePhotos
           mode={mode}
+          isActive={slideKeys[slideIndex] === "photos"}
           onChange={(photos) => tempLog.update({ photos })}
           onDisableStep={() => disableStep("photos")}
           showDisable={showDisable}

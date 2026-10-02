@@ -1,54 +1,63 @@
 import { useState } from "react";
 import { View } from "react-native";
-import type { LogPhoto } from "@/types";
-import { MAX_PHOTOS_PER_ENTRY } from "../storage";
+import type { PhotoTile } from "../hooks/usePhotoSelection";
 import { AddPhotoTile } from "./AddPhotoTile";
-import { PhotoThumbnail } from "./PhotoThumbnail";
+import { SelectableTile } from "./SelectableTile";
 
 const COLUMNS = 3;
 const GAP = 8;
 
 /**
- * Three-column grid of photo tiles. Shows {@link AddPhotoTile} as last cell
- * when `onAdd` is given and the entry holds fewer than
- * {@link MAX_PHOTOS_PER_ENTRY} photos. Remove buttons show only with
- * `onRemove`.
+ * Photos step grid: 3 columns of square tiles, 8 pt apart, all the same
+ * size. The add tile comes first. At the limit (`isFull`), the add tile is
+ * disabled and unselected tiles fade.
  */
 export const PhotoGrid = ({
-  photos,
-  onOpen,
+  tiles,
+  isFull,
+  isAddDisabled,
   onAdd,
-  onRemove,
+  onToggle,
+  onOpen,
 }: {
-  photos: LogPhoto[];
-  onOpen: (index: number) => void;
-  onAdd?: () => void;
-  onRemove?: (photo: LogPhoto) => void;
+  tiles: PhotoTile[];
+  isFull: boolean;
+  isAddDisabled: boolean;
+  onAdd: () => void;
+  onToggle: (tile: PhotoTile) => void;
+  /** Long press on an imported tile. */
+  onOpen: (tile: PhotoTile) => void;
 }) => {
   const [width, setWidth] = useState(0);
+  // Floor, so three tiles plus two gaps never exceed the row and wrap.
   const cellSize = Math.floor((width - GAP * (COLUMNS - 1)) / COLUMNS);
-  const isAddVisible = !!onAdd && photos.length < MAX_PHOTOS_PER_ENTRY;
 
   return (
     <View
+      testID="photo-grid"
       onLayout={(event) => setWidth(event.nativeEvent.layout.width)}
       style={{ flexDirection: "row", flexWrap: "wrap", gap: GAP }}
     >
+      {width > 0 && (
+        <AddPhotoTile
+          onPress={onAdd}
+          size={cellSize}
+          disabled={isFull || isAddDisabled}
+        />
+      )}
       {width > 0 &&
-        photos.map((photo, index) => (
-          <PhotoThumbnail
-            key={photo.id}
-            photo={photo}
+        tiles.map((tile, index) => (
+          <SelectableTile
+            key={tile.key}
+            tile={tile}
             index={index}
-            count={photos.length}
+            count={tiles.length}
             size={cellSize}
-            onPress={() => onOpen(index)}
-            onRemove={onRemove ? () => onRemove(photo) : undefined}
+            isDimmed={isFull && !tile.isSelected}
+            onPress={() => onToggle(tile)}
+            onLongPress={tile.photo ? () => onOpen(tile) : undefined}
           />
         ))}
-      {width > 0 && isAddVisible && onAdd && (
-        <AddPhotoTile onPress={onAdd} size={cellSize} />
-      )}
     </View>
   );
 };

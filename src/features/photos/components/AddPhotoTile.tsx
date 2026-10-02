@@ -31,6 +31,7 @@ export const AddPhotoTile = ({
       testID="photo-add-tile"
       style={({ pressed }) => ({
         width: size ?? "100%",
+        height: size,
         aspectRatio: 1,
         borderRadius: 12,
         borderWidth: 1.5,
@@ -39,7 +40,7 @@ export const AddPhotoTile = ({
         alignItems: "center",
         justifyContent: "center",
         padding: 4,
-        opacity: disabled || pressed ? 0.5 : 1,
+        opacity: disabled || pressed ? 0.4 : 1,
       })}
     >
       <ImagePlus color={colors.textSecondary} size={24} />

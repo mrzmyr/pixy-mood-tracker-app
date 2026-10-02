@@ -19,4 +19,5 @@ export const INITIAL_STATE: SettingsState = {
   steps: ["rating", "emotions", "tags", "message", "photos", "feedback"],
   storeReviewPromptedAt: null,
   storeReviewPromptedAppVersion: null,
+  photosDayAccessDismissed: false,
 };
