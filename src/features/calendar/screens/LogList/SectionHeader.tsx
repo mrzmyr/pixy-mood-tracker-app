@@ -22,6 +22,8 @@ export const SectionHeader = ({
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "space-between",
+        // Edit button height: headers with and without it keep one rhythm.
+        minHeight: 36,
       }}
     >
       <View>

@@ -57,7 +57,7 @@ export const Photos = ({ item }: { item: LogItem }) => {
       <ScrollView
         horizontal
         showsHorizontalScrollIndicator={false}
-        contentContainerStyle={{ gap: 8, paddingTop: 8, paddingBottom: 8 }}
+        contentContainerStyle={{ gap: 8, paddingTop: 4, paddingBottom: 8 }}
       >
         {photos.map((photo, index) => (
           <PhotoThumbnail
