@@ -2,7 +2,6 @@ import { useEffect, useEffectEvent, useRef } from "react";
 import type { LogItem } from "@/features/logs";
 import { useAnalytics } from "@/state/analytics";
 import type { FeelingCheckAnswer } from "@/state/analytics/events";
-import { getEncouragement } from "./encouragement";
 import { getEntryProperties } from "./entryProperties";
 
 /** Answers in display order, worst to best. */
@@ -75,7 +74,6 @@ export const useFeelingCheck = ({
   }, []);
 
   return {
-    encouragement: getEncouragement(item.rating),
     answer,
     skip,
   };

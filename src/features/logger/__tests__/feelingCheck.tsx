@@ -10,6 +10,7 @@ import {
   countWords,
   getEntryProperties,
 } from "../feelingCheck/entryProperties";
+import { getEncouragement } from "../feelingCheck/encouragement";
 import { useFeelingCheck } from "../feelingCheck/useFeelingCheck";
 
 // jest.setup.js replaces posthog-react-native with one shared fake client.
@@ -128,20 +129,16 @@ describe("useFeelingCheck()", () => {
       expect.objectContaining(properties)
     );
   });
+});
 
-  test("supports bad days and celebrates good days", async () => {
-    const bad = await renderFeelingCheck();
-    const good = await renderFeelingCheck("very_good");
-    await waitFor(() => expect(good.result.current).not.toBeNull());
-
-    expect(bad.result.current.encouragement).toEqual({
+describe("getEncouragement()", () => {
+  test("supports bad days and celebrates good days", () => {
+    expect(getEncouragement("very_bad")).toEqual({
       tone: "bad",
       title: t("log_saved_bad_title"),
       body: t("log_saved_bad_body"),
     });
-    expect(good.result.current.encouragement.tone).toBe("good");
-    expect(good.result.current.encouragement.title).toBe(
-      t("log_saved_good_title")
-    );
+    expect(getEncouragement("neutral").tone).toBe("neutral");
+    expect(getEncouragement("extremely_good").tone).toBe("good");
   });
 });
