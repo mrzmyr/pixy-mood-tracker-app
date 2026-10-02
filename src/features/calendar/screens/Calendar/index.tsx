@@ -1,10 +1,12 @@
-import React, { memo, useCallback, useRef, useState } from "react";
+import React, { memo, useCallback, useContext, useRef, useState } from "react";
 import { ActivityIndicator, Platform, Text, View } from "react-native";
 import type { NativeScrollEvent, NativeSyntheticEvent } from "react-native";
 
 import type { FlashListRef } from "@shopify/flash-list";
+import { HeaderHeightContext } from "expo-router/react-navigation";
 import type { Month } from "./layout";
 import { useCalendarFilters } from "../../filters";
+import { HAS_FLOATING_HEADER } from "../../floatingHeader";
 import useColors from "@/hooks/useColors";
 import { useLogState } from "@/features/logs";
 import { useSetting } from "@/state/settings";
@@ -34,6 +36,10 @@ const CalendarScreenComponent = () => {
   const calendarFilters = useCalendarFilters();
   const [isAwayFromToday, setIsAwayFromToday] = useState(false);
   const scrollRef = useRef<FlashListRef<Month>>(null);
+  const headerHeight = useContext(HeaderHeightContext) ?? 0;
+  const [weekdayHeight, setWeekdayHeight] = useState(0);
+  // A floating header overlaps the list, so the list starts below it.
+  const topInset = HAS_FLOATING_HEADER ? headerHeight + weekdayHeight : 0;
   const showScrollTopButton = isAwayFromToday && !calendarFilters.isOpen;
   const onScroll = useCallback(
     (event: NativeSyntheticEvent<NativeScrollEvent>) => {
@@ -54,9 +60,57 @@ const CalendarScreenComponent = () => {
     );
   }
 
+  const calendarList = (
+    <View style={{ flex: 1, backgroundColor: colors.calendarBackground }}>
+      <Calendar
+        listRef={scrollRef}
+        onScroll={onScroll}
+        topInset={topInset}
+        header={
+          Platform.OS === "web" && calendarFilters.isOpen ? <Body /> : null
+        }
+        footer={
+          <>
+            <View style={{ paddingBottom: 32 }}>
+              <CalendarFooter />
+            </View>
+            <View style={{}}>
+              <Text
+                style={{
+                  fontSize: 14,
+                  color: colors.textSecondary,
+                  marginTop: 20,
+                  textAlign: "center",
+                  marginBottom: -60,
+                }}
+              >
+                🙏 {t("calendar_foot_note")}
+              </Text>
+            </View>
+          </>
+        }
+      />
+    </View>
+  );
+
   return (
-    <View style={{ flex: 1 }}>
-      <CalendarHeader />
+    <View style={{ flex: 1, backgroundColor: colors.calendarBackground }}>
+      {HAS_FLOATING_HEADER ? (
+        <>
+          {/* List first: iOS applies the scroll edge effect only to a scroll
+              view in the first-child chain of the screen. */}
+          {calendarList}
+          <CalendarHeader
+            floatingTop={headerHeight}
+            onHeightChange={setWeekdayHeight}
+          />
+        </>
+      ) : (
+        <>
+          <CalendarHeader />
+          {calendarList}
+        </>
+      )}
       {showScrollTopButton && (
         <ScrollToBottomButton
           onPress={() => {
@@ -65,35 +119,6 @@ const CalendarScreenComponent = () => {
           }}
         />
       )}
-      <View style={{ flex: 1, backgroundColor: colors.calendarBackground }}>
-        <Calendar
-          listRef={scrollRef}
-          onScroll={onScroll}
-          header={
-            Platform.OS === "web" && calendarFilters.isOpen ? <Body /> : null
-          }
-          footer={
-            <>
-              <View style={{ paddingBottom: 32 }}>
-                <CalendarFooter />
-              </View>
-              <View style={{}}>
-                <Text
-                  style={{
-                    fontSize: 14,
-                    color: colors.textSecondary,
-                    marginTop: 20,
-                    textAlign: "center",
-                    marginBottom: -60,
-                  }}
-                >
-                  🙏 {t("calendar_foot_note")}
-                </Text>
-              </View>
-            </>
-          }
-        />
-      </View>
       {Platform.OS !== "web" && <CalendarBottomSheet />}
       <ObserveInteractiveMarker />
     </View>

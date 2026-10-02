@@ -6,6 +6,7 @@ import { StorageLoadGate } from "@/shell/StorageLoadGate";
 import { t } from "@/lib/translation";
 import useColors from "@/hooks/useColors";
 import { DEV_TOOLS } from "@/dev";
+import { HAS_FLOATING_HEADER } from "@/features/calendar";
 
 const renderHeaderLeft = () =>
   Platform.OS === "ios" ? null : <BackButton testID="settings-back-button" />;
@@ -37,8 +38,17 @@ const AppLayout = () => {
               title: t("calendar"),
               headerTitle: "",
               headerTintColor: colors.text,
-              headerStyle: { backgroundColor: colors.calendarBackground },
               headerShadowVisible: false,
+              ...(HAS_FLOATING_HEADER
+                ? {
+                    headerTransparent: true,
+                    scrollEdgeEffects: { top: "soft" as const },
+                  }
+                : {
+                    headerStyle: {
+                      backgroundColor: colors.calendarBackground,
+                    },
+                  }),
             }}
           />
           <Stack.Screen
