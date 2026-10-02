@@ -36,7 +36,7 @@ Move storage out of AsyncStorage (MMKV, expo-sqlite, files) and the rules must f
 
 ## Settings > Data > Backup
 
-Data screen shows one status row ("Part of your iPhone backup" / "Part of your Android backup"). It opens [`src/features/settings/screens/Backup.tsx`](../src/features/settings/screens/Backup.tsx), which explains the platform backup and who can read it. Copy lives in `backup_content_ios` and `backup_content_android` in [`assets/locales/en.json`](../assets/locales/en.json).
+Data screen shows row "Backup" with value "iCloud" or "Google". It opens [`src/features/settings/screens/Backup.tsx`](../src/features/settings/screens/Backup.tsx): status row, privacy facts, how to leave Pixy out. Copy lives in `backup_*` keys in [`assets/locales/en.json`](../assets/locales/en.json).
 
 ## Privacy notes
 

@@ -21,11 +21,11 @@ describe("BackupScreen", () => {
 
     const result = await renderBackup();
 
-    expect(
-      await result.findByText("Your entries are part of your iPhone backup")
-    ).toBeTruthy();
+    expect(await result.findByText("iCloud Backup")).toBeTruthy();
+    expect(result.getByText("Included")).toBeTruthy();
     expect(result.getByText(/Advanced Data Protection/u)).toBeTruthy();
     expect(result.getByText(/Pixy has no server/u)).toBeTruthy();
+    expect(result.getByText(/Manage Storage > Backups/u)).toBeTruthy();
   });
 
   test("explains the Android backup and the screen lock requirement", async () => {
@@ -33,9 +33,8 @@ describe("BackupScreen", () => {
 
     const result = await renderBackup();
 
-    expect(
-      await result.findByText("Your entries are part of your Android backup")
-    ).toBeTruthy();
+    expect(await result.findByText("Google Backup")).toBeTruthy();
+    expect(result.getByText("Included")).toBeTruthy();
     expect(result.getByText(/Without a screen lock/u)).toBeTruthy();
     expect(result.getByText(/Pixy has no server/u)).toBeTruthy();
   });

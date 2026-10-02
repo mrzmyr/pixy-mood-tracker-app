@@ -8,8 +8,39 @@ import useHaptics from "@/hooks/useHaptics";
 
 const DEFAULT_STYLE = {};
 
+/** Spoken label of a pressable row: title, then value when present. */
+const getAccessibilityLabel = (
+  onPress: (() => void) | null,
+  title: string | undefined,
+  value: string | undefined
+) => {
+  if (!onPress || title === undefined) {
+    return;
+  }
+  return value ? `${title}, ${value}` : title;
+};
+
+const MenuListItemValue = ({ value }: { value: string }) => {
+  const colors = useColors();
+
+  return (
+    <Text
+      style={{
+        flexShrink: 0,
+        marginLeft: 12,
+        fontSize: 17,
+        color: colors.textSecondary,
+      }}
+      numberOfLines={1}
+    >
+      {value}
+    </Text>
+  );
+};
+
 const MenuListItem = ({
   title,
+  value,
   onPress = null,
   iconLeft = null,
   iconRight = null,
@@ -21,6 +52,8 @@ const MenuListItem = ({
   testID,
 }: {
   title?: string | React.ReactElement;
+  /** Current value or status, shown in gray before the right icon. */
+  value?: string;
   onPress?: (() => void) | null;
   iconLeft?: React.ReactElement | null;
   iconRight?: React.ReactElement | null;
@@ -64,9 +97,7 @@ const MenuListItem = ({
         onPress={onPress ? _onPress : undefined}
         accessible={Boolean(onPress)}
         accessibilityRole={onPress ? "button" : undefined}
-        accessibilityLabel={
-          onPress && titleText !== undefined ? titleText : undefined
-        }
+        accessibilityLabel={getAccessibilityLabel(onPress, titleText, value)}
         style={({ pressed }) => [
           {
             flexDirection: "row",
@@ -121,6 +152,7 @@ const MenuListItem = ({
             {children}
           </View>
         )}
+        {value && <MenuListItemValue value={value} />}
         {rightIcon && (
           <View
             style={{

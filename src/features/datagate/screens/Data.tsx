@@ -1,6 +1,6 @@
 import { useRouter } from "expo-router";
 import { Platform, ScrollView } from "react-native";
-import { Download, HardDrive, Trash, Upload } from "react-native-feather";
+import { Cloud, Download, Trash, Upload } from "react-native-feather";
 import MenuList from "@/components/MenuList";
 import MenuListItem from "@/components/MenuListItem";
 import TextInfo from "@/components/TextInfo";
@@ -19,10 +19,10 @@ export const DataScreen = () => {
   const router = useRouter();
   const datagate = useDatagate();
 
-  const backupStatus =
+  const backupValue =
     Platform.OS === "android"
-      ? t("backup_status_android")
-      : t("backup_status_ios");
+      ? t("backup_value_android")
+      : t("backup_value_ios");
 
   return (
     <PageWithHeaderLayout
@@ -39,9 +39,10 @@ export const DataScreen = () => {
       >
         <MenuList style={{ marginTop: 16 }}>
           <MenuListItem
-            title={backupStatus}
+            title={t("backup")}
+            value={backupValue}
             onPress={() => router.push("/settings/data/backup")}
-            iconLeft={<HardDrive width={18} color={colors.menuListItemIcon} />}
+            iconLeft={<Cloud width={18} color={colors.menuListItemIcon} />}
             testID="backup"
             isLink
             isLast
