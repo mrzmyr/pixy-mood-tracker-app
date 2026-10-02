@@ -1,11 +1,12 @@
 import chroma from "chroma-js";
 import dayjs from "dayjs";
 import { LinearGradient } from "expo-linear-gradient";
-import { Text, View } from "react-native";
+import { useState } from "react";
+import { StyleSheet, Text, View } from "react-native";
 import useColors from "@/hooks/useColors";
 
-// Height of the fade above and below the floating weekday row.
-const FADE_HEIGHT = 12;
+// Height of the fade below the floating weekday row.
+const FADE_HEIGHT = 24;
 
 const HeaderDay = ({ children }: { children: string }) => {
   const colors = useColors();
@@ -53,10 +54,12 @@ const WeekdayRow = () => (
 /**
  * Weekday names above the calendar.
  *
- * Pass `floatingTop` when the header is transparent: the row then floats at
- * that offset over the scrolling calendar, with short fades above and below
- * so months blend in instead of cutting off. `onHeightChange` reports the
- * row height, so the list can start below it.
+ * Pass `floatingTop` (the header height) when the header is transparent. One
+ * gradient then covers the whole top area, from the screen top through the
+ * row, and fades out below it. Months scrolling under the buttons and the row
+ * stay continuous and only grow fainter; an opaque row band would hide the
+ * rows under it and leave cut-off content above it. `onHeightChange` reports
+ * the row height, so the list can start below it.
  */
 const CalendarHeader = ({
   floatingTop,
@@ -66,6 +69,7 @@ const CalendarHeader = ({
   onHeightChange?: (height: number) => void;
 }) => {
   const colors = useColors();
+  const [rowHeight, setRowHeight] = useState(0);
 
   if (floatingTop === undefined) {
     return (
@@ -92,28 +96,52 @@ const CalendarHeader = ({
     );
   }
 
-  const solid = colors.calendarBackground;
-  const clear = chroma(solid).alpha(0).css();
+  const background = chroma(colors.calendarBackground);
+  const height = floatingTop + rowHeight + FADE_HEIGHT;
 
   return (
     <View
       pointerEvents="none"
       style={{
         position: "absolute",
-        top: floatingTop - FADE_HEIGHT,
+        top: 0,
         left: 0,
         right: 0,
+        height,
         zIndex: 3,
       }}
     >
-      <LinearGradient colors={[clear, solid]} style={{ height: FADE_HEIGHT }} />
+      <LinearGradient
+        colors={[
+          background.alpha(0.85).css(),
+          background.alpha(0.9).css(),
+          background.alpha(0.95).css(),
+          background.alpha(0).css(),
+        ]}
+        locations={[
+          0,
+          floatingTop / height,
+          (floatingTop + rowHeight) / height,
+          1,
+        ]}
+        style={StyleSheet.absoluteFill}
+      />
       <View
-        onLayout={(event) => onHeightChange?.(event.nativeEvent.layout.height)}
-        style={{ paddingHorizontal: 16, backgroundColor: solid }}
+        onLayout={(event) => {
+          const { height: measured } = event.nativeEvent.layout;
+          setRowHeight(measured);
+          onHeightChange?.(measured);
+        }}
+        style={{
+          position: "absolute",
+          top: floatingTop,
+          left: 0,
+          right: 0,
+          paddingHorizontal: 16,
+        }}
       >
         <WeekdayRow />
       </View>
-      <LinearGradient colors={[solid, clear]} style={{ height: FADE_HEIGHT }} />
     </View>
   );
 };
