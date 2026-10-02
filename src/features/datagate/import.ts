@@ -61,6 +61,8 @@ export const pixySchema = z.strictObject({
             width: z.number(),
             height: z.number(),
             createdAt: z.string(),
+            source: z.enum(["day", "library", "camera"]),
+            libraryId: z.string().optional(),
           })
         )
         .optional(),

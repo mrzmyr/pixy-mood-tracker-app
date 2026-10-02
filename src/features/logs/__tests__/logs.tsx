@@ -86,6 +86,7 @@ const storedPhoto = {
   width: 1536,
   height: 2048,
   createdAt: "2026-01-01T00:00:00.000Z",
+  source: "library" as const,
 };
 
 const _console_error = console.error;

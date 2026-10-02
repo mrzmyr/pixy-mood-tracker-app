@@ -48,6 +48,7 @@ const createStoredPhoto = (index: number): LogPhoto => ({
   width: 100,
   height: 100,
   createdAt: "2026-01-01T00:00:00.000Z",
+  source: "library",
 });
 
 const source = {
@@ -84,17 +85,25 @@ const renderPhotoActions = async ({
   return hook;
 };
 
-const PHOTO_EVENTS = new Set([
-  "logger:photo_added",
-  "logger:photo_removed",
-  "logger:photo_limit_reached",
-  "logger:camera_permission_denied",
-]);
-
 const getTrackedEvents = () =>
   jest
     .mocked(mockCapture)
-    .mock.calls.filter(([event]) => PHOTO_EVENTS.has(String(event)));
+    .mock.calls.filter(([event]) => String(event).startsWith("photos:"));
+
+// Keys that would leak photo content or device data.
+const FORBIDDEN_KEYS = [
+  "uri",
+  "fileName",
+  "file_name",
+  "width",
+  "height",
+  "exif",
+  "location",
+  "createdAt",
+  "created_at",
+  "libraryId",
+  "library_id",
+];
 
 const _console_error = console.error;
 
@@ -128,20 +137,35 @@ describe("usePhotoActions()", () => {
       limit: MAX_PHOTOS_PER_ENTRY - 1,
     });
     expect(hook.result.current.photos).toHaveLength(3);
+    expect(hook.result.current.photos[2].source).toBe("library");
     expect(getTrackedEvents()).toEqual([
       [
-        "logger:photo_added",
+        "photos:picker_opened",
+        expect.objectContaining({ source: "library", remaining: 5 }),
+      ],
+      [
+        "photos:photo_selected",
         expect.objectContaining({
           source: "library",
-          photos_count: 3,
+          selected_count: 2,
           mode: "create",
         }),
       ],
+      ["photos:photo_selected", expect.objectContaining({ selected_count: 3 })],
+      [
+        "photos:picker_closed",
+        expect.objectContaining({
+          source: "library",
+          picked_count: 2,
+          is_cancelled: false,
+        }),
+      ],
     ]);
-    const [[, properties]] = getTrackedEvents();
-    expect(properties).not.toHaveProperty("uri");
-    expect(properties).not.toHaveProperty("fileName");
-    expect(properties).not.toHaveProperty("width");
+    for (const [, properties] of getTrackedEvents()) {
+      for (const key of FORBIDDEN_KEYS) {
+        expect(properties).not.toHaveProperty(key);
+      }
+    }
   });
 
   test("never adds more than the limit", async () => {
@@ -173,8 +197,8 @@ describe("usePhotoActions()", () => {
     expect(source.takePhoto).not.toHaveBeenCalled();
     expect(Alert.alert).toHaveBeenCalledTimes(2);
     expect(getTrackedEvents()).toEqual([
-      ["logger:photo_limit_reached", expect.anything()],
-      ["logger:photo_limit_reached", expect.anything()],
+      ["photos:limit_reached", expect.objectContaining({ mode: "create" })],
+      ["photos:limit_reached", expect.objectContaining({ mode: "create" })],
     ]);
   });
 
@@ -187,7 +211,18 @@ describe("usePhotoActions()", () => {
     await act(() => hook.result.current.actions.addFromCamera());
 
     expect(hook.result.current.photos).toEqual([]);
-    expect(getTrackedEvents()).toEqual([]);
+    expect(
+      getTrackedEvents().filter(([event]) => event === "photos:picker_closed")
+    ).toEqual([
+      [
+        "photos:picker_closed",
+        expect.objectContaining({ source: "library", is_cancelled: true }),
+      ],
+      [
+        "photos:picker_closed",
+        expect.objectContaining({ source: "camera", is_cancelled: true }),
+      ],
+    ]);
     expect(Alert.alert).not.toHaveBeenCalled();
   });
 
@@ -198,11 +233,10 @@ describe("usePhotoActions()", () => {
     await act(() => hook.result.current.actions.addFromCamera());
 
     expect(hook.result.current.photos).toHaveLength(1);
-    expect(getTrackedEvents()).toEqual([
-      [
-        "logger:photo_added",
-        expect.objectContaining({ source: "camera", photos_count: 1 }),
-      ],
+    expect(hook.result.current.photos[0].source).toBe("camera");
+    expect(getTrackedEvents()).toContainEqual([
+      "photos:photo_selected",
+      expect.objectContaining({ source: "camera", selected_count: 1 }),
     ]);
   });
 
@@ -222,7 +256,8 @@ describe("usePhotoActions()", () => {
 
     expect(hook.result.current.photos).toEqual([]);
     expect(getTrackedEvents()).toEqual([
-      ["logger:camera_permission_denied", expect.anything()],
+      ["photos:picker_opened", expect.objectContaining({ source: "camera" })],
+      ["photos:camera_access_denied", expect.anything()],
     ]);
     const [[title, , buttons]] = jest.mocked(Alert.alert).mock.calls;
     expect(title).toBe("Camera access needed");
@@ -245,7 +280,13 @@ describe("usePhotoActions()", () => {
     expect(console.error).toHaveBeenCalledWith(
       expect.objectContaining({ status: "photo_import_failed" })
     );
-    expect(getTrackedEvents()).toEqual([]);
+    expect(getTrackedEvents()).toContainEqual([
+      "photos:import_failed",
+      expect.objectContaining({
+        source: "library",
+        status: "photo_import_failed",
+      }),
+    ]);
   });
 
   test("removes a photo and tracks the new count", async () => {
@@ -260,8 +301,12 @@ describe("usePhotoActions()", () => {
     expect(hook.result.current.photos).toEqual([createStoredPhoto(2)]);
     expect(getTrackedEvents()).toEqual([
       [
-        "logger:photo_removed",
-        expect.objectContaining({ photos_count: 1, mode: "create" }),
+        "photos:photo_deselected",
+        expect.objectContaining({
+          source: "library",
+          selected_count: 1,
+          mode: "create",
+        }),
       ],
     ]);
   });

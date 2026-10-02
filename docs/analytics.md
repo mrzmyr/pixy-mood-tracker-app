@@ -36,12 +36,16 @@ Use this section to join old and new events in PostHog, for example with an Acti
 **Added events**
 
 - Photo attachments, first release with photos ([`src/features/photos`](../src/features/photos))
-  - `logger:photo_added`: `source`, `photos_count`, `mode`
-  - `logger:photo_removed`: `photos_count`, `mode`
-  - `logger:photo_limit_reached`, `logger:camera_permission_denied`: no properties
-  - `day:photo_opened`: `photos_count`, `index`
-  - `logger:log_saved`: new `photos_count`
-  - `photos_count`: photos on the entry after the action. Never file names, dimensions, or URIs
+  - `photos:picker_opened`: `source` (`library`, `camera`), `remaining`
+  - `photos:picker_closed`: `source`, `picked_count`, `is_cancelled`
+  - `photos:photo_selected`, `photos:photo_deselected`: `source` (`day`, `library`, `camera`), `selected_count`, `mode`
+  - `photos:limit_reached`: `mode`
+  - `photos:import_failed`: `source`, `status`
+  - `photos:camera_access_denied`: no properties
+  - `photos:viewer_closed`: `context` (`logger`, `day`), `photos_count`, `viewed_count`
+  - `logger:log_saved`: new `photos_count`, `photos_day_count`, `photos_library_count`, `photos_camera_count`
+  - Counts and enums only. Never file names, URIs, dimensions, EXIF, location, photo timestamps, or library ids
+- Never shipped in a release, replaced before the first photos release: `logger:photo_added` (now `photos:photo_selected`), `logger:photo_removed` (now `photos:photo_deselected`), `logger:photo_limit_reached` (now `photos:limit_reached`), `logger:camera_permission_denied` (now `photos:camera_access_denied`), `day:photo_opened` (now `photos:viewer_closed` with `context: "day"`)
 
 **Changed meaning**
 

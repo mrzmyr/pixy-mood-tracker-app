@@ -2,7 +2,7 @@ import type { FeedackType, FeedbackSource } from "@/types/Feedback";
 import type { LoggerStep } from "@/constants/LoggerSteps";
 import type { SettingsState } from "@/state/settings";
 import type { z } from "zod";
-import type { LogItemSchema } from "@/types";
+import type { LogItemSchema, PhotoSourceKind } from "@/types";
 
 /**
  * Every analytics event the app sends, keyed by name, with its properties.
@@ -11,7 +11,8 @@ import type { LogItemSchema } from "@/types";
  * - Properties: snake_case, JSON values only
  * - Never send free text (notes, custom tag names). Send counts and lengths
  *   instead. Fixed values (rating, emotion keys, sleep quality) are fine.
- * - Photo events never carry file names, dimensions, or URIs.
+ * - Photo events never carry file names, URIs, dimensions, EXIF, location,
+ *   photo timestamps, or library ids.
  * - `undefined`: the event has no properties
  */
 export interface AnalyticsEvents {
@@ -41,6 +42,10 @@ export interface AnalyticsEvents {
     tags_count: number;
     emotions_count: number;
     photos_count: number;
+    /** Photos by origin. The three counts add up to `photos_count`. */
+    photos_day_count: number;
+    photos_library_count: number;
+    photos_camera_count: number;
   };
   "logger:log_deleted": undefined;
   "logger:flow_cancelled": { mode: "create" | "edit" };
@@ -57,20 +62,43 @@ export interface AnalyticsEvents {
     trigger: "entries_7";
     entries_count: number;
   };
-  "logger:photo_added": {
-    source: "library" | "camera";
-    photos_count: number;
-    mode: "create" | "edit";
-  };
-  "logger:photo_removed": { photos_count: number; mode: "create" | "edit" };
-  "logger:photo_limit_reached": undefined;
-  "logger:camera_permission_denied": undefined;
 
   "day:add_tapped": undefined;
   "day:edit_tapped": undefined;
   "day:delete_tapped": undefined;
   "day:closed": undefined;
-  "day:photo_opened": { photos_count: number; index: number };
+
+  /** `remaining`: photos the entry can still take. */
+  "photos:picker_opened": {
+    source: "library" | "camera";
+    remaining: number;
+  };
+  "photos:picker_closed": {
+    source: "library" | "camera";
+    picked_count: number;
+    is_cancelled: boolean;
+  };
+  /** `selected_count`: photos attached to the entry after the tap. */
+  "photos:photo_selected": {
+    source: PhotoSourceKind;
+    selected_count: number;
+    mode: "create" | "edit";
+  };
+  "photos:photo_deselected": {
+    source: PhotoSourceKind;
+    selected_count: number;
+    mode: "create" | "edit";
+  };
+  "photos:limit_reached": { mode: "create" | "edit" };
+  /** `status`: structured error status, for example `photo_import_failed`. */
+  "photos:import_failed": { source: PhotoSourceKind; status: string };
+  "photos:camera_access_denied": undefined;
+  /** `viewed_count`: distinct photos shown before close. */
+  "photos:viewer_closed": {
+    context: "logger" | "day";
+    photos_count: number;
+    viewed_count: number;
+  };
 
   "calendar:day_opened": {
     source: "calendar" | "mood_peaks" | "tag_peaks";
@@ -204,6 +232,14 @@ export type UsageSummary = {
   steps: SettingsState["steps"];
   onboarding_done: boolean;
   questions_answered_count: number;
+  /** Value of the `photos` feature flag on this install. */
+  photos_enabled: boolean;
+  /** Share of entries in the last 30 days with at least 1 photo, 0 to 100. */
+  photos_pct_30d: number | null;
+  /** Photos on all entries. */
+  photos_count: number;
+  /** Share of stored photos with `source: "day"`, 0 to 100. */
+  photos_day_pct: number | null;
 };
 
 /** Usage summary fields written once, on the first send. */

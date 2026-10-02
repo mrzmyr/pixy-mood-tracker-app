@@ -3,7 +3,6 @@ import { ScrollView, View } from "react-native";
 import type { LogItem } from "@/features/logs";
 import { PhotoThumbnail } from "@/features/photos";
 import { t } from "@/lib/translation";
-import { useAnalytics } from "@/state/analytics";
 import { SectionHeader } from "./SectionHeader";
 
 const THUMBNAIL_SIZE = 96;
@@ -20,14 +19,9 @@ export const Photos = ({
   onEdit?: () => void;
 }) => {
   const router = useRouter();
-  const analytics = useAnalytics();
   const { photos } = item;
 
   const open = (index: number) => {
-    analytics.track("day:photo_opened", {
-      photos_count: photos.length,
-      index,
-    });
     router.push({
       pathname: "/photos/[id]",
       params: { id: item.id, index: String(index) },

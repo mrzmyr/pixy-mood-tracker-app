@@ -71,6 +71,8 @@ describe("getJSONSchemaType", () => {
               width: 1536,
               height: 2048,
               createdAt: "2022-01-23T10:00:00.000Z",
+              source: "day",
+              libraryId: "ABC-123/L0/001",
             },
           ],
         },

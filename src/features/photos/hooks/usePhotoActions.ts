@@ -10,7 +10,7 @@ import { getPhotoSource } from "../photoSource";
 import type { PickedPhoto } from "../photoSource";
 import { MAX_PHOTOS_PER_ENTRY, importPhoto } from "../storage";
 
-type PhotoSourceKind = "library" | "camera";
+type PickerSource = "library" | "camera";
 
 type PickResult =
   | { status: "picked"; photos: PickedPhoto[] }
@@ -23,6 +23,10 @@ const isCameraDenied = (error: unknown): error is StructuredError =>
 
 const getCauseMessage = (cause: unknown) =>
   cause instanceof Error ? cause.message : String(cause);
+
+// Structured errors carry a stable `status`. Anything else is unexpected.
+const isStructuredError = (error: unknown): error is StructuredError =>
+  error instanceof Error && "status" in error;
 
 const reportError = (cause: unknown) => {
   console.error(cause);
@@ -51,7 +55,7 @@ const pickPhotos = async ({
   source,
   limit,
 }: {
-  source: PhotoSourceKind;
+  source: PickerSource;
   limit: number;
 }): Promise<PickResult> => {
   try {
@@ -76,46 +80,61 @@ const pickPhotos = async ({
   }
 };
 
-const importPhotos = async ({ picked }: { picked: PickedPhoto[] }) => {
+const importPhotos = async ({
+  picked,
+  source,
+}: {
+  picked: PickedPhoto[];
+  source: PickerSource;
+}) => {
   const added: LogPhoto[] = [];
-  let hasFailed = false;
+  let failedStatus: string | null = null;
   for (const photo of picked) {
     try {
       // oxlint-disable-next-line eslint/no-await-in-loop, react-doctor/async-await-in-loop -- one full-size image in memory at a time; six 12 MP images in parallel need hundreds of MB.
-      added.push(await importPhoto({ uri: photo.uri }));
+      added.push(await importPhoto({ uri: photo.uri, source }));
     } catch (error) {
-      hasFailed = true;
+      failedStatus ??= isStructuredError(error)
+        ? String(error.status)
+        : "unknown";
       reportError(error);
     }
   }
-  return { added, hasFailed };
+  return { added, failedStatus };
 };
+
+type AddResult =
+  | { status: "camera_denied" }
+  | { status: "done"; pickedCount: number; failedStatus: string | null };
 
 const addPhotos = async ({
   source,
   photos,
   onAdded,
 }: {
-  source: PhotoSourceKind;
+  source: PickerSource;
   photos: LogPhoto[];
   onAdded: (photos: LogPhoto[]) => void;
-}): Promise<"added" | "camera_denied" | "failed"> => {
+}): Promise<AddResult> => {
   try {
     const remaining = MAX_PHOTOS_PER_ENTRY - photos.length;
     const result = await pickPhotos({ source, limit: remaining });
     if (result.status === "camera_denied") {
-      return "camera_denied";
+      return { status: "camera_denied" };
     }
-    const { added, hasFailed } = await importPhotos({
-      picked: result.photos.slice(0, remaining),
-    });
+    const picked = result.photos.slice(0, remaining);
+    const { added, failedStatus } = await importPhotos({ picked, source });
     if (added.length > 0) {
       onAdded([...photos, ...added]);
     }
-    return hasFailed ? "failed" : "added";
+    return { status: "done", pickedCount: picked.length, failedStatus };
   } catch (error) {
     reportError(error);
-    return "failed";
+    return {
+      status: "done",
+      pickedCount: 0,
+      failedStatus: isStructuredError(error) ? String(error.status) : "unknown",
+    };
   }
 };
 
@@ -141,47 +160,70 @@ export const usePhotoActions = ({
   const [isAdding, setIsAdding] = useState(false);
   const isFull = photos.length >= MAX_PHOTOS_PER_ENTRY;
 
-  const add = async (source: PhotoSourceKind) => {
+  const add = async (source: PickerSource) => {
     if (isAdding) {
       return;
     }
     if (isFull) {
-      analytics.track("logger:photo_limit_reached");
+      analytics.track("photos:limit_reached", { mode });
       Alert.alert(t("photos_limit_reached", { max: MAX_PHOTOS_PER_ENTRY }));
       return;
     }
 
     setIsAdding(true);
+    analytics.track("photos:picker_opened", {
+      source,
+      remaining: MAX_PHOTOS_PER_ENTRY - photos.length,
+    });
     const result = await addPhotos({
       source,
       photos,
       onAdded: (next) => {
         onChange(next);
-        analytics.track("logger:photo_added", {
-          source,
-          photos_count: next.length,
-          mode,
-        });
+        for (
+          let selectedCount = photos.length + 1;
+          selectedCount <= next.length;
+          selectedCount += 1
+        ) {
+          analytics.track("photos:photo_selected", {
+            source,
+            selected_count: selectedCount,
+            mode,
+          });
+        }
       },
     });
     setIsAdding(false);
 
-    if (result === "camera_denied") {
-      analytics.track("logger:camera_permission_denied");
+    if (result.status === "camera_denied") {
+      analytics.track("photos:camera_access_denied");
       showCameraDeniedAlert();
-    } else if (result === "failed") {
+      return;
+    }
+    analytics.track("photos:picker_closed", {
+      source,
+      picked_count: result.pickedCount,
+      is_cancelled: result.pickedCount === 0 && result.failedStatus === null,
+    });
+    if (result.failedStatus !== null) {
+      analytics.track("photos:import_failed", {
+        source,
+        status: result.failedStatus,
+      });
       Alert.alert(t("photos_add_failed"));
     }
   };
 
   const remove = ({ id }: Pick<LogPhoto, "id">) => {
-    const next = photos.filter((photo) => photo.id !== id);
-    if (next.length === photos.length) {
+    const removed = photos.find((photo) => photo.id === id);
+    if (!removed) {
       return;
     }
+    const next = photos.filter((photo) => photo.id !== id);
     onChange(next);
-    analytics.track("logger:photo_removed", {
-      photos_count: next.length,
+    analytics.track("photos:photo_deselected", {
+      source: removed.source,
+      selected_count: next.length,
       mode,
     });
   };

@@ -4,11 +4,13 @@ import pkg from "../../package.json";
 import { DATE_FORMAT, STATISTIC_MIN_LOGS } from "@/constants/Config";
 import { getItemDate } from "@/lib/logDates";
 import { useAnalytics } from "@/state/analytics";
+import { useFeatureFlag } from "@/state/featureFlags";
 import type { UsageSummary } from "@/state/analytics/events";
 import { useSettings } from "@/state/settings";
 import type { SettingsState } from "@/state/settings";
 import { useLogState } from "@/features/logs";
 import type { LogItem } from "@/features/logs";
+import { countPhotosBySource } from "@/features/photos";
 import { getCurrentStreak, getLongestStreak } from "@/features/statistics";
 import { useTagsState } from "@/features/tags";
 import type { Tag } from "@/features/tags";
@@ -26,13 +28,14 @@ const getReminderHour = (time: string) => {
 /**
  * Usage profile of this install from local data, at `now`.
  *
- * Counts, shares, and booleans only: never ratings, emotions, text, or tag
- * titles. Day windows include today, in device local time.
+ * Counts, shares, and booleans only: never ratings, emotions, text, tag
+ * titles, or photo metadata. Day windows include today, in device local time.
  */
 export const getUsageSummary = ({
   items,
   tags,
   settings,
+  isPhotosEnabled,
   now,
 }: {
   items: LogItem[];
@@ -41,8 +44,13 @@ export const getUsageSummary = ({
     SettingsState,
     "reminderEnabled" | "reminderTime" | "scaleType" | "steps" | "actionsDone"
   >;
+  /** Value of the `photos` feature flag. */
+  isPhotosEnabled: boolean;
   now: Date;
 }): UsageSummary => {
+  const photos = items.flatMap((item) => item.photos);
+  const photoCounts = countPhotosBySource({ photos });
+
   const today = dayjs(now).format(DATE_FORMAT);
   const start7d = dayjs(now).subtract(6, "day").format(DATE_FORMAT);
   const start14d = dayjs(now).subtract(13, "day").format(DATE_FORMAT);
@@ -124,6 +132,13 @@ export const getUsageSummary = ({
     questions_answered_count: settings.actionsDone.filter((action) =>
       action.title.startsWith(QUESTION_ACTION_PREFIX)
     ).length,
+    photos_enabled: isPhotosEnabled,
+    photos_pct_30d: getPercent(
+      items30d.filter((item) => item.photos.length > 0).length,
+      items30d.length
+    ),
+    photos_count: photos.length,
+    photos_day_pct: getPercent(photoCounts.day, photos.length),
   };
 };
 
@@ -139,6 +154,7 @@ export const useUsageSummarySync = () => {
   const logState = useLogState();
   const { tags, loaded: tagsLoaded } = useTagsState();
   const lastSent = useRef<string | null>(null);
+  const isPhotosEnabled = useFeatureFlag("photos");
 
   const { reminderEnabled, reminderTime, scaleType, steps, actionsDone } =
     settings;
@@ -159,6 +175,7 @@ export const useUsageSummarySync = () => {
         steps,
         actionsDone,
       },
+      isPhotosEnabled,
       now: new Date(),
     });
     const serialized = JSON.stringify(properties);
@@ -180,5 +197,6 @@ export const useUsageSummarySync = () => {
     scaleType,
     steps,
     actionsDone,
+    isPhotosEnabled,
   ]);
 };

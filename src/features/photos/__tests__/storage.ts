@@ -40,18 +40,37 @@ beforeEach(() => {
 });
 
 describe("importPhoto", () => {
+  test("stores photos at 1600 px and JPEG quality 0.75", () => {
+    expect(MAX_PHOTO_EDGE).toBe(1600);
+    expect(PHOTO_JPEG_QUALITY).toBe(0.75);
+  });
+
+  test("keeps the library id of a day photo", async () => {
+    const uri = `${Paths.cache.uri}day-photo.jpg`;
+    __setImageSize({ uri, width: 900, height: 1200 });
+
+    const photo = await importPhoto({
+      uri,
+      source: "day",
+      libraryId: "ABC-123/L0/001",
+    });
+
+    expect(photo).toMatchObject({ source: "day", libraryId: "ABC-123/L0/001" });
+  });
+
   test("scales a large photo down to the longest edge limit", async () => {
     const uri = `${Paths.cache.uri}picked-large.heic`;
     __setImageSize({ uri, width: 4032, height: 3024 });
 
-    const photo = await importPhoto({ uri });
+    const photo = await importPhoto({ uri, source: "library" });
 
     expect(photo).toEqual({
       id: expect.any(String),
       fileName: `${photo.id}.jpg`,
       width: MAX_PHOTO_EDGE,
-      height: 1536,
+      height: 1200,
       createdAt: expect.any(String),
+      source: "library",
     });
     const context = jest.mocked(ImageManipulator.manipulate).mock.results[0]
       .value;
@@ -68,29 +87,29 @@ describe("importPhoto", () => {
     const uri = `${Paths.cache.uri}picked-tall.jpg`;
     __setImageSize({ uri, width: 3000, height: 4000 });
 
-    const photo = await importPhoto({ uri });
+    const photo = await importPhoto({ uri, source: "camera" });
 
-    expect(photo.width).toBe(1536);
+    expect(photo.width).toBe(1200);
     expect(photo.height).toBe(MAX_PHOTO_EDGE);
   });
 
   test("keeps the size of a photo under the limit", async () => {
     const uri = `${Paths.cache.uri}picked-small.jpg`;
-    __setImageSize({ uri, width: 1200, height: 1600 });
+    __setImageSize({ uri, width: 900, height: 1200 });
 
-    const photo = await importPhoto({ uri });
+    const photo = await importPhoto({ uri, source: "library" });
 
     const context = jest.mocked(ImageManipulator.manipulate).mock.results[0]
       .value;
     expect(context.resize).not.toHaveBeenCalled();
-    expect(photo.width).toBe(1200);
-    expect(photo.height).toBe(1600);
+    expect(photo.width).toBe(900);
+    expect(photo.height).toBe(1200);
     expect(getPhotoFile(photo).exists).toBe(true);
   });
 
   test("rejects with a structured error when the image cannot be read", async () => {
     await expect(
-      importPhoto({ uri: `${Paths.cache.uri}missing.jpg` })
+      importPhoto({ uri: `${Paths.cache.uri}missing.jpg`, source: "day" })
     ).rejects.toMatchObject({
       status: "photo_import_failed",
       message: expect.any(String),
@@ -129,6 +148,7 @@ describe("getReferencedFileNames", () => {
       width: 1,
       height: 1,
       createdAt: "2026-01-01T00:00:00.000Z",
+      source: "library" as const,
     };
 
     expect(

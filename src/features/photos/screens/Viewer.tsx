@@ -1,6 +1,6 @@
 import { Image } from "expo-image";
 import { ImageOff, X } from "lucide-react-native";
-import { useState } from "react";
+import { useEffect, useEffectEvent, useRef, useState } from "react";
 import {
   Modal,
   Pressable,
@@ -11,6 +11,7 @@ import {
 import { Carousel } from "react-native-reanimated-carousel";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { t } from "@/lib/translation";
+import { useAnalytics } from "@/state/analytics";
 import type { LogPhoto } from "@/types";
 import { getPhotoFile } from "../storage";
 
@@ -47,23 +48,50 @@ const ViewerPhoto = ({ photo }: { photo: LogPhoto }) => {
   );
 };
 
+/** Screen that opened the viewer, for analytics. */
+export type PhotoViewerContext = "logger" | "day";
+
 /**
  * Full-screen photo pager: swipe between photos, page dots, counter, close
  * button. Works for stored entries and drafts: the caller passes the photos.
+ * Tracks `photos:viewer_closed` on unmount, so every way out counts (close
+ * button, Android back).
  */
 export const PhotoViewer = ({
   photos,
   initialIndex = 0,
+  context,
   onClose,
 }: {
   photos: LogPhoto[];
   initialIndex?: number;
+  context: PhotoViewerContext;
   onClose: () => void;
 }) => {
+  const analytics = useAnalytics();
   const insets = useSafeAreaInsets();
   const { width } = useWindowDimensions();
   const startIndex = Math.min(Math.max(initialIndex, 0), photos.length - 1);
   const [index, setIndex] = useState(startIndex);
+  const viewedIds = useRef(new Set<string>());
+
+  const markViewed = (photoIndex: number) => {
+    const photo = photos[photoIndex];
+    if (photo) {
+      viewedIds.current.add(photo.id);
+    }
+  };
+
+  const trackClosed = useEffectEvent(() => {
+    markViewed(index);
+    analytics.track("photos:viewer_closed", {
+      context,
+      photos_count: photos.length,
+      viewed_count: viewedIds.current.size,
+    });
+  });
+
+  useEffect(() => () => trackClosed(), []);
 
   return (
     <View
@@ -76,7 +104,10 @@ export const PhotoViewer = ({
           data={photos}
           itemSize={width}
           defaultIndex={startIndex}
-          onSnapToItem={setIndex}
+          onSnapToItem={(nextIndex) => {
+            markViewed(nextIndex);
+            setIndex(nextIndex);
+          }}
           style={{ flex: 1, width }}
           renderItem={({ item }) => <ViewerPhoto photo={item} />}
         />
@@ -164,11 +195,13 @@ export const PhotoViewer = ({
 export const PhotoViewerModal = ({
   photos,
   initialIndex,
+  context,
   isVisible,
   onClose,
 }: {
   photos: LogPhoto[];
   initialIndex?: number;
+  context: PhotoViewerContext;
   isVisible: boolean;
   onClose: () => void;
 }) => (
@@ -181,6 +214,7 @@ export const PhotoViewerModal = ({
     <PhotoViewer
       photos={photos}
       initialIndex={initialIndex}
+      context={context}
       onClose={onClose}
     />
   </Modal>

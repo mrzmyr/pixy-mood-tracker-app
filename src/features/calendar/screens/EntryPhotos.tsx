@@ -17,6 +17,7 @@ export const EntryPhotosScreen = () => {
     <PhotoViewer
       photos={item?.photos ?? []}
       initialIndex={Number(index ?? 0)}
+      context="day"
       onClose={() => router.back()}
     />
   );

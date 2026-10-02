@@ -3,16 +3,21 @@ import { Directory, File, Paths } from "expo-file-system";
 import { ImageManipulator, SaveFormat } from "expo-image-manipulator";
 import { v4 as uuidv4 } from "uuid";
 import { createStructuredError } from "@/lib/errors";
-import type { LogPhoto } from "@/types";
+import type { LogPhoto, PhotoSourceKind } from "@/types";
 
 /** Most photos one entry holds. Pickers get the remaining count as limit. */
 export const MAX_PHOTOS_PER_ENTRY = 6;
 
-/** Longest edge in pixels of an imported photo. Larger photos are scaled down. */
-export const MAX_PHOTO_EDGE = 2048;
+/**
+ * Longest edge in pixels of an imported photo. Larger photos are scaled
+ * down. 1600 still exceeds the full-screen width of every iPhone (max 1320).
+ * Measured on 10 real 12 MP photos: average 398 KB at 1600 and 0.75,
+ * 672 KB at 2048 and 0.82.
+ */
+export const MAX_PHOTO_EDGE = 1600;
 
 /** JPEG quality of imported photos, from 0 to 1. */
-export const PHOTO_JPEG_QUALITY = 0.82;
+export const PHOTO_JPEG_QUALITY = 0.75;
 
 const DIRECTORY_NAME = "photos";
 
@@ -98,8 +103,13 @@ const getResizeTarget = ({
  */
 export const importPhoto = async ({
   uri,
+  source,
+  libraryId,
 }: {
   uri: string;
+  source: PhotoSourceKind;
+  /** Library asset id, only for `day` photos. */
+  libraryId?: string;
 }): Promise<LogPhoto> => {
   const directory = createDirectory();
   const id = uuidv4();
@@ -127,13 +137,18 @@ export const importPhoto = async ({
     // copy would leave a second file there.
     await new File(result.uri).move(new File(directory, fileName));
 
-    return {
+    const photo: LogPhoto = {
       id,
       fileName,
       width: result.width,
       height: result.height,
       createdAt: dayjs().toISOString(),
+      source,
     };
+    if (libraryId !== undefined) {
+      photo.libraryId = libraryId;
+    }
+    return photo;
   } catch (error) {
     throw createStructuredError({
       status: "photo_import_failed",
@@ -148,7 +163,9 @@ export const importPhoto = async ({
  * Deletes every file in the photos directory that no entry references.
  *
  * One cleanup for every path that drops a photo: entry delete, photo
- * removed in edit, cancel after adding, import, and reset. Callers pass
+ * removed in edit, cancel after adding, and reset. Never after a data
+ * import: the import replaces all entries, so a sweep would delete the
+ * files of every entry missing from the backup, for good. Callers pass
  * file names of stored entries only after storage loaded. A failed load
  * must never lead to a sweep, or it deletes every photo.
  *

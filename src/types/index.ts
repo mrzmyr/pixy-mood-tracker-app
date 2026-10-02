@@ -44,6 +44,12 @@ export const EmotionSchema = z.object({
 /** Emotion definition from the logger's emotion list. */
 export type Emotion = z.infer<typeof EmotionSchema>;
 
+/** Origin of an entry photo. */
+export const PhotoSourceKindSchema = z.enum(["day", "library", "camera"]);
+
+/** Origin of an entry photo. */
+export type PhotoSourceKind = z.infer<typeof PhotoSourceKindSchema>;
+
 /**
  * Photo attached to a log entry. The image file lives on the device only.
  *
@@ -57,6 +63,17 @@ export const LogPhotoSchema = z.object({
   width: z.number().int().positive(),
   height: z.number().int().positive(),
   createdAt: z.string().refine((value) => isISODate(value)),
+  /**
+   * Where the photo came from: `day` (photos of the entry's day), `library`
+   * (system picker), or `camera`. Feeds analytics counts only.
+   */
+  source: PhotoSourceKindSchema,
+  /**
+   * Library asset id of a `day` photo (iOS local identifier). Device-local,
+   * not content. Marks the library photo as selected when the entry opens
+   * again, so it is not offered twice.
+   */
+  libraryId: z.string().optional(),
 });
 
 /** Photo reference stored on a log entry. */
