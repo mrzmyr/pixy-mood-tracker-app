@@ -2,6 +2,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { act, renderHook, waitFor } from "@testing-library/react-native";
 import { usePostHog as getPostHogTestClient } from "posthog-react-native";
 import { _generateItem } from "@/__tests__/utils";
+import { t } from "@/lib/translation";
 import { INITIAL_STATE } from "@/constants/Settings";
 import { AnalyticsProvider } from "@/state/analytics";
 import { SettingsProvider, STORAGE_KEY, useSettings } from "@/state/settings";
@@ -135,9 +136,12 @@ describe("useFeelingCheck()", () => {
 
     expect(bad.result.current.encouragement).toEqual({
       tone: "bad",
-      title: "Thanks for checking in",
-      body: "Naming how you feel is a real step. Be kind to yourself today.",
+      title: t("log_saved_bad_title"),
+      body: t("log_saved_bad_body"),
     });
-    expect(good.result.current.encouragement.title).toBe("Nice one!");
+    expect(good.result.current.encouragement.tone).toBe("good");
+    expect(good.result.current.encouragement.title).toBe(
+      t("log_saved_good_title")
+    );
   });
 });

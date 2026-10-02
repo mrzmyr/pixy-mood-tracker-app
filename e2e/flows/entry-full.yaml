@@ -65,8 +65,9 @@ tags: [p0, entry]
 - tapOn:
     id: "logger-save"
 
-# A good mood gets a celebrating message, then the feeling check.
-- assertVisible: "Nice one!"
+# Saving shows the feeling check.
+- assertVisible:
+    id: "feeling-check"
 - assertVisible: "How are you feeling now?"
 - tapOn:
     id: "feeling-check-better"
