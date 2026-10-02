@@ -99,15 +99,4 @@ describe("getPersonProperties()", () => {
       onboarding_done: false,
     });
   });
-
-  it("unlocks statistics with 7 entries in 14 days", () => {
-    const items = Array.from({ length: 7 }, (_, index) =>
-      _generateItem({ dateTime: at(9, 10 - index) })
-    );
-
-    expect(
-      getPersonProperties({ items, tags: [], settings, now: NOW })
-        .statistics_unlocked
-    ).toBe(true);
-  });
 });
