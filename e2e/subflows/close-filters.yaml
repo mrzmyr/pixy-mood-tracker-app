@@ -9,11 +9,19 @@ appId: ${APP_ID}
       - tapOn:
           point: "50%,15%"
       - waitForAnimationToEnd
+# Back collapses a fully expanded Android sheet to half height first, so a
+# sheet still on screen takes a second Back.
 - runFlow:
     when:
       platform: Android
     commands:
       - back
+      - runFlow:
+          when:
+            visible:
+              id: "calendar-filter-search"
+          commands:
+            - back
 - assertVisible:
     id: "calendar-list"
 - assertNotVisible:
