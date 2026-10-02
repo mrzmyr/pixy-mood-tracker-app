@@ -1,7 +1,7 @@
 import ExpoModulesCore
 
 /// Thrown when iOS refuses to change the backup flag of the storage folder.
-internal final class BackupFlagException: GenericException<String> {
+internal final class BackupFlagException: GenericException<String>, @unchecked Sendable {
   override var code: String {
     "backup_flag_failed"
   }
