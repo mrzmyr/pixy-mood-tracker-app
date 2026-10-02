@@ -17,7 +17,7 @@ import { useSettings } from "@/state/settings";
 import type { SettingsState } from "@/state/settings";
 
 import { SlideHeadline } from "../components/SlideHeadline";
-import { getLogEditMarginTop } from "@/helpers/responsive";
+import { getSlideMarginTop } from "./marginTop";
 import { t } from "@/lib/translation";
 
 /**
@@ -30,7 +30,7 @@ export const SlideReminder = ({ onPress }: { onPress?: () => void }) => {
   const insets = useSafeAreaInsets();
   const analytics = useAnalytics();
   const colors = useColors();
-  const marginTop = getLogEditMarginTop();
+  const marginTop = getSlideMarginTop();
 
   const { askForPermission, hasPermission, schedule, cancelAll } =
     useNotification();
