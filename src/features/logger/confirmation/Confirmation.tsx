@@ -1,8 +1,8 @@
 import { ArrowDownRight, ArrowRight, ArrowUpRight } from "lucide-react-native";
 import type { LucideIcon } from "lucide-react-native";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Platform, Pressable, Text, View } from "react-native";
-import Animated, { FadeInDown } from "react-native-reanimated";
+import Animated, { useReducedMotion } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useLogState } from "@/features/logs";
 import type { LogItem } from "@/features/logs";
@@ -13,6 +13,7 @@ import { t } from "@/lib/translation";
 import type { ConfirmationAnswer } from "@/state/analytics/events";
 import { getEncouragement } from "./encouragement";
 import { ConfirmationHero } from "./ConfirmationHero";
+import { createRise, getEaseOutCss, LAND_MS } from "./motion";
 import { getWeekPixels } from "./weekPixels";
 import { CONFIRMATION_ANSWERS, useConfirmation } from "./useConfirmation";
 
@@ -28,7 +29,8 @@ const CLOSE_DELAY_MS = 500;
 /**
  * Last logger step after a new entry: the entry's pixel in its week and a
  * warm message at the top, "How are you feeling now?" with three answers at
- * the bottom. Only the top part animates.
+ * the bottom. Only the top part animates in; answers are there at once and
+ * only give press feedback.
  *
  * Calls `onClose` after an answer or skip.
  */
@@ -56,10 +58,27 @@ export const Confirmation = ({
     entriesCount,
   });
   const [selected, setSelected] = useState<ConfirmationAnswer | null>(null);
+  const isReducedMotion = useReducedMotion();
+  const pressEasing = useMemo(() => getEaseOutCss(), []);
+  const titleEntering = useMemo(
+    () => createRise({ delay: 300, isReducedMotion }),
+    [isReducedMotion]
+  );
+  const bodyEntering = useMemo(
+    () => createRise({ delay: 360, isReducedMotion }),
+    [isReducedMotion]
+  );
 
+  // Success haptic on the same frame the pixel lands, not before it.
   useEffect(() => {
-    void haptics.success();
-  }, [haptics]);
+    const timeout = setTimeout(
+      () => {
+        void haptics.success();
+      },
+      isReducedMotion ? 0 : LAND_MS
+    );
+    return () => clearTimeout(timeout);
+  }, [haptics, isReducedMotion]);
 
   useEffect(() => {
     if (selected === null) {
@@ -92,10 +111,12 @@ export const Confirmation = ({
       >
         <ConfirmationHero pixels={pixels} />
         <Animated.Text
-          entering={FadeInDown.delay(250).duration(600)}
+          entering={titleEntering}
           style={{
             marginTop: 28,
             fontSize: 26,
+            lineHeight: 31,
+            letterSpacing: -0.4,
             fontWeight: "600",
             color: colors.text,
             textAlign: "center",
@@ -104,7 +125,7 @@ export const Confirmation = ({
           {encouragement.title}
         </Animated.Text>
         <Animated.Text
-          entering={FadeInDown.delay(400).duration(600)}
+          entering={bodyEntering}
           style={{
             marginTop: 10,
             fontSize: 17,
@@ -138,43 +159,65 @@ export const Confirmation = ({
             : colors.text;
 
           return (
-            <View key={value} style={{ flex: 1 }}>
-              <Pressable
-                testID={`confirmation-${value}`}
-                accessibilityRole="button"
-                accessibilityLabel={label}
-                accessibilityState={{ selected: isSelected }}
-                disabled={selected !== null}
-                onPress={() => {
-                  void haptics.selection();
-                  answer(value);
-                  setSelected(value);
-                }}
-                style={({ pressed }) => ({
-                  height: 104,
-                  borderRadius: 20,
-                  backgroundColor: isSelected
-                    ? colors.text
-                    : colors.logCardBackground,
-                  alignItems: "center",
-                  justifyContent: "center",
-                  gap: 10,
-                  opacity: pressed ? 0.7 : 1,
-                  shadowColor: "#000",
-                  shadowOpacity: 0.06,
-                  shadowRadius: 12,
-                  shadowOffset: { width: 0, height: 4 },
-                  elevation: 1,
-                })}
-              >
-                <Icon color={foreground} size={28} strokeWidth={1.75} />
-                <Text
-                  style={{ fontSize: 15, fontWeight: "500", color: foreground }}
+            <Pressable
+              key={value}
+              testID={`confirmation-${value}`}
+              accessibilityRole="button"
+              accessibilityLabel={label}
+              accessibilityState={{ selected: isSelected }}
+              disabled={selected !== null}
+              pressRetentionOffset={16}
+              onPress={() => {
+                void haptics.selection();
+                answer(value);
+                setSelected(value);
+              }}
+              style={{ flex: 1 }}
+            >
+              {({ pressed }) => (
+                <Animated.View
+                  style={{
+                    height: 104,
+                    borderRadius: 20,
+                    backgroundColor: isSelected
+                      ? colors.text
+                      : colors.logCardBackground,
+                    alignItems: "center",
+                    justifyContent: "center",
+                    gap: 10,
+                    shadowColor: "#000",
+                    shadowOpacity: 0.06,
+                    shadowRadius: 12,
+                    shadowOffset: { width: 0, height: 4 },
+                    elevation: 1,
+                    // Press feedback only: 0.97 scale in 120 ms. Reduced
+                    // motion dims instead of scaling.
+                    transform: [
+                      { scale: pressed && !isReducedMotion ? 0.97 : 1 },
+                    ],
+                    opacity: pressed && isReducedMotion ? 0.7 : 1,
+                    transitionProperty: [
+                      "transform",
+                      "opacity",
+                      "backgroundColor",
+                    ],
+                    transitionDuration: [120, 120, 150],
+                    transitionTimingFunction: pressEasing,
+                  }}
                 >
-                  {label}
-                </Text>
-              </Pressable>
-            </View>
+                  <Icon color={foreground} size={28} strokeWidth={1.75} />
+                  <Text
+                    style={{
+                      fontSize: 15,
+                      fontWeight: "500",
+                      color: foreground,
+                    }}
+                  >
+                    {label}
+                  </Text>
+                </Animated.View>
+              )}
+            </Pressable>
           );
         })}
       </View>

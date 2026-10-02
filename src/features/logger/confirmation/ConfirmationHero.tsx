@@ -1,45 +1,47 @@
 import dayjs from "dayjs";
 import { Text, View } from "react-native";
-import Animated, { Keyframe } from "react-native-reanimated";
+import { useMemo } from "react";
+import Animated, {
+  FadeIn,
+  Keyframe,
+  useReducedMotion,
+} from "react-native-reanimated";
 import useColors from "@/hooks/useColors";
 import { useSettings } from "@/state/settings";
+import { DROP_DELAY_MS, DROP_MS, getEaseOut, LAND_MS } from "./motion";
 import type { WeekPixel } from "./weekPixels";
 
 const PIXEL = 34;
 const TODAY_PIXEL = 52;
 const GAP = 8;
 
-// The entry's pixel drops into the row, overshoots, and settles. Built on
-// render, not at module load: the jest reanimated mock has no `Keyframe`.
-const createDrop = () =>
-  new Keyframe({
-    0: {
-      opacity: 0,
-      transform: [{ translateY: -90 }, { rotate: "-14deg" }, { scale: 0.7 }],
-    },
-    55: {
-      opacity: 1,
-      transform: [{ translateY: 6 }, { rotate: "4deg" }, { scale: 1.06 }],
-    },
-    80: {
-      transform: [{ translateY: -3 }, { rotate: "-1deg" }, { scale: 0.98 }],
-    },
+// The entry's pixel drops into its slot: no finger is involved, so no
+// overshoot. Never from scale 0.
+const createDrop = ({ isReducedMotion }: { isReducedMotion: boolean }) => {
+  if (isReducedMotion) {
+    return FadeIn.delay(DROP_DELAY_MS).duration(200);
+  }
+
+  return new Keyframe({
+    0: { opacity: 0, transform: [{ translateY: -24 }, { scale: 0.92 }] },
     100: {
       opacity: 1,
-      transform: [{ translateY: 0 }, { rotate: "0deg" }, { scale: 1 }],
+      transform: [{ translateY: 0 }, { scale: 1 }],
+      easing: getEaseOut(),
     },
   })
-    .delay(150)
-    .duration(900);
+    .delay(DROP_DELAY_MS)
+    .duration(DROP_MS);
+};
 
-// Soft outline that ripples out once the pixel lands.
+// Soft outline that ripples out the moment the pixel lands.
 const createRipple = () =>
   new Keyframe({
-    0: { opacity: 0.5, transform: [{ scale: 1 }] },
-    100: { opacity: 0, transform: [{ scale: 1.6 }] },
+    0: { opacity: 0.45, transform: [{ scale: 1 }] },
+    100: { opacity: 0, transform: [{ scale: 1.5 }], easing: getEaseOut() },
   })
-    .delay(650)
-    .duration(900);
+    .delay(LAND_MS)
+    .duration(450);
 
 /**
  * The saved entry's pixel dropping into its week, next to the 6 days
@@ -50,6 +52,12 @@ export const ConfirmationHero = ({ pixels }: { pixels: WeekPixel[] }) => {
   const { settings } = useSettings();
   const scale = colors.scales[settings.scaleType];
   const lastIndex = pixels.length - 1;
+  const isReducedMotion = useReducedMotion();
+  const drop = useMemo(
+    () => createDrop({ isReducedMotion }),
+    [isReducedMotion]
+  );
+  const ripple = useMemo(() => createRipple(), []);
 
   return (
     <View
@@ -75,9 +83,9 @@ export const ConfirmationHero = ({ pixels }: { pixels: WeekPixel[] }) => {
                 justifyContent: "center",
               }}
             >
-              {isEntryDay && (
+              {isEntryDay && !isReducedMotion && (
                 <Animated.View
-                  entering={createRipple()}
+                  entering={ripple}
                   style={{
                     position: "absolute",
                     width: size,
@@ -91,7 +99,7 @@ export const ConfirmationHero = ({ pixels }: { pixels: WeekPixel[] }) => {
               )}
               <Animated.View
                 testID={`confirmation-pixel-${pixel.date}`}
-                entering={isEntryDay ? createDrop() : undefined}
+                entering={isEntryDay ? drop : undefined}
                 style={{
                   width: size,
                   height: size,
