@@ -4,12 +4,16 @@ import { useEffect, useState } from "react";
 import { Platform, Pressable, Text, View } from "react-native";
 import Animated, { FadeInDown } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { useLogState } from "@/features/logs";
 import type { LogItem } from "@/features/logs";
+import { getItemDate } from "@/lib/logDates";
 import useColors from "@/hooks/useColors";
 import useHaptics from "@/hooks/useHaptics";
 import { t } from "@/lib/translation";
 import type { FeelingCheckAnswer } from "@/state/analytics/events";
+import { getEncouragement } from "./encouragement";
 import { FeelingCheckHero } from "./FeelingCheckHero";
+import { getWeekPixels } from "./weekPixels";
 import { FEELING_CHECK_ANSWERS, useFeelingCheck } from "./useFeelingCheck";
 
 const ICONS: Record<FeelingCheckAnswer, LucideIcon> = {
@@ -40,7 +44,14 @@ export const FeelingCheckCalm = ({
   const colors = useColors();
   const haptics = useHaptics();
   const insets = useSafeAreaInsets();
-  const { encouragement, answer, skip } = useFeelingCheck({
+  const logState = useLogState();
+  const pixels = getWeekPixels({
+    items: logState.items,
+    date: getItemDate(item),
+  });
+  // The message describes the day's pixel, which averages all its entries.
+  const encouragement = getEncouragement(pixels.at(-1)?.rating ?? item.rating);
+  const { answer, skip } = useFeelingCheck({
     item,
     entriesCount,
   });
@@ -79,7 +90,7 @@ export const FeelingCheckCalm = ({
           paddingHorizontal: 12,
         }}
       >
-        <FeelingCheckHero item={item} />
+        <FeelingCheckHero pixels={pixels} />
         <Animated.Text
           entering={FadeInDown.delay(250).duration(600)}
           style={{
