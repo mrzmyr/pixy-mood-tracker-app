@@ -16,6 +16,9 @@ appId: ${APP_ID}
       platform: Android
     commands:
       - back
+      # Check only after the close animation; a second Back on the calendar
+      # would leave the app.
+      - waitForAnimationToEnd
       - runFlow:
           when:
             visible:
