@@ -1,5 +1,5 @@
-import { STEP_OPTIONS } from "@/features/logger";
-import type { LoggerStep } from "@/features/logger";
+import { STEP_OPTIONS } from "@/constants/LoggerSteps";
+import type { LoggerStep } from "@/constants/LoggerSteps";
 
 import MenuList from "@/components/MenuList";
 import MenuListItem from "@/components/MenuListItem";

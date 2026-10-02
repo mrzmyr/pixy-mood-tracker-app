@@ -1,4 +1,4 @@
-import { getLogEditMarginTop } from "@/helpers/responsive";
+import { getSlideMarginTop } from "./marginTop";
 import { t } from "@/lib/translation";
 import useColors from "@/hooks/useColors";
 import { useTagsState, TagComponent as Tag } from "@/features/tags";
@@ -47,7 +47,7 @@ export const SlideTags = ({
     );
   });
 
-  const marginTop = getLogEditMarginTop();
+  const marginTop = getSlideMarginTop();
 
   return (
     <View

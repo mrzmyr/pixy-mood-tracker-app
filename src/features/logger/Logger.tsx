@@ -27,7 +27,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { v4 as uuidv4 } from "uuid";
 import { SlideAction } from "./components/SlideAction";
 import { LoggerHeader } from "./components/LoggerHeader";
-import type { LoggerStep } from "./config";
+import type { LoggerStep } from "@/constants/LoggerSteps";
 import { SlideEmotions } from "./slides/SlideEmotions";
 import { SlideFeedback } from "./slides/SlideFeedback";
 import { SlideMessage } from "./slides/SlideMessage";
