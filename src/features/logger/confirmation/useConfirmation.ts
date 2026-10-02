@@ -1,24 +1,24 @@
 import { useEffect, useEffectEvent, useRef } from "react";
 import type { LogItem } from "@/features/logs";
 import { useAnalytics } from "@/state/analytics";
-import type { FeelingCheckAnswer } from "@/state/analytics/events";
+import type { ConfirmationAnswer } from "@/state/analytics/events";
 import { getEntryProperties } from "./entryProperties";
 
 /** Answers in display order, worst to best. */
-export const FEELING_CHECK_ANSWERS: FeelingCheckAnswer[] = [
+export const CONFIRMATION_ANSWERS: ConfirmationAnswer[] = [
   "worse",
   "same",
   "better",
 ];
 
 /**
- * State and analytics for the feeling check after a new entry.
+ * State and analytics for the confirmation after a new entry.
  *
- * Sends `logger:feeling_check_viewed` once on mount. `answer` and `skip`
+ * Sends `logger:confirmation_viewed` once on mount. `answer` and `skip`
  * send their event only for the first call, so a double tap counts once.
  * Closing without an answer (swipe down, app kill excluded) counts as skip.
  */
-export const useFeelingCheck = ({
+export const useConfirmation = ({
   item,
   entriesCount,
 }: {
@@ -40,18 +40,18 @@ export const useFeelingCheck = ({
       return;
     }
     isDone.current = true;
-    analytics.track("logger:feeling_check_skipped", {
+    analytics.track("logger:confirmation_skipped", {
       ...properties,
       skip_ms: Date.now() - shownAt.current,
     });
   };
 
-  const answer = (value: FeelingCheckAnswer) => {
+  const answer = (value: ConfirmationAnswer) => {
     if (isDone.current) {
       return;
     }
     isDone.current = true;
-    analytics.track("logger:feeling_check_answered", {
+    analytics.track("logger:confirmation_answered", {
       ...properties,
       answer: value,
       answer_ms: Date.now() - shownAt.current,
@@ -60,7 +60,7 @@ export const useFeelingCheck = ({
 
   // Effect events: read the latest properties; only mount and unmount send.
   const trackViewed = useEffectEvent(() => {
-    analytics.track("logger:feeling_check_viewed", properties);
+    analytics.track("logger:confirmation_viewed", properties);
   });
   const skipOnClose = useEffectEvent(skip);
 

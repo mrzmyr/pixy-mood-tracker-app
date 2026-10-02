@@ -45,7 +45,7 @@ const createRipple = () =>
  * The saved entry's pixel dropping into its week, next to the 6 days
  * before. Every pixel has the calendar color of its day.
  */
-export const FeelingCheckHero = ({ pixels }: { pixels: WeekPixel[] }) => {
+export const ConfirmationHero = ({ pixels }: { pixels: WeekPixel[] }) => {
   const colors = useColors();
   const { settings } = useSettings();
   const scale = colors.scales[settings.scaleType];
@@ -53,7 +53,7 @@ export const FeelingCheckHero = ({ pixels }: { pixels: WeekPixel[] }) => {
 
   return (
     <View
-      testID="feeling-check-week"
+      testID="confirmation-week"
       style={{ flexDirection: "row", alignItems: "flex-end", gap: GAP }}
     >
       {pixels.map((pixel, index) => {
@@ -90,7 +90,7 @@ export const FeelingCheckHero = ({ pixels }: { pixels: WeekPixel[] }) => {
                 />
               )}
               <Animated.View
-                testID={`feeling-check-pixel-${pixel.date}`}
+                testID={`confirmation-pixel-${pixel.date}`}
                 entering={isEntryDay ? createDrop() : undefined}
                 style={{
                   width: size,

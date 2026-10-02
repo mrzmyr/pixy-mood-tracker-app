@@ -10,13 +10,13 @@ import { getItemDate } from "@/lib/logDates";
 import useColors from "@/hooks/useColors";
 import useHaptics from "@/hooks/useHaptics";
 import { t } from "@/lib/translation";
-import type { FeelingCheckAnswer } from "@/state/analytics/events";
+import type { ConfirmationAnswer } from "@/state/analytics/events";
 import { getEncouragement } from "./encouragement";
-import { FeelingCheckHero } from "./FeelingCheckHero";
+import { ConfirmationHero } from "./ConfirmationHero";
 import { getWeekPixels } from "./weekPixels";
-import { FEELING_CHECK_ANSWERS, useFeelingCheck } from "./useFeelingCheck";
+import { CONFIRMATION_ANSWERS, useConfirmation } from "./useConfirmation";
 
-const ICONS: Record<FeelingCheckAnswer, LucideIcon> = {
+const ICONS: Record<ConfirmationAnswer, LucideIcon> = {
   worse: ArrowDownRight,
   same: ArrowRight,
   better: ArrowUpRight,
@@ -32,7 +32,7 @@ const CLOSE_DELAY_MS = 500;
  *
  * Calls `onClose` after an answer or skip.
  */
-export const FeelingCheckCalm = ({
+export const Confirmation = ({
   item,
   entriesCount,
   onClose,
@@ -51,11 +51,11 @@ export const FeelingCheckCalm = ({
   });
   // The message describes the day's pixel, which averages all its entries.
   const encouragement = getEncouragement(pixels.at(-1)?.rating ?? item.rating);
-  const { answer, skip } = useFeelingCheck({
+  const { answer, skip } = useConfirmation({
     item,
     entriesCount,
   });
-  const [selected, setSelected] = useState<FeelingCheckAnswer | null>(null);
+  const [selected, setSelected] = useState<ConfirmationAnswer | null>(null);
 
   useEffect(() => {
     void haptics.success();
@@ -72,7 +72,7 @@ export const FeelingCheckCalm = ({
 
   return (
     <View
-      testID="feeling-check"
+      testID="confirmation"
       style={{
         flex: 1,
         backgroundColor: colors.logBackground,
@@ -90,7 +90,7 @@ export const FeelingCheckCalm = ({
           paddingHorizontal: 12,
         }}
       >
-        <FeelingCheckHero pixels={pixels} />
+        <ConfirmationHero pixels={pixels} />
         <Animated.Text
           entering={FadeInDown.delay(250).duration(600)}
           style={{
@@ -126,13 +126,13 @@ export const FeelingCheckCalm = ({
           marginBottom: 14,
         }}
       >
-        {t("log_feeling_check_question")}
+        {t("log_confirmation_question")}
       </Text>
       <View style={{ flexDirection: "row", gap: 10 }}>
-        {FEELING_CHECK_ANSWERS.map((value) => {
+        {CONFIRMATION_ANSWERS.map((value) => {
           const Icon = ICONS[value];
           const isSelected = selected === value;
-          const label = t(`log_feeling_check_${value}`);
+          const label = t(`log_confirmation_${value}`);
           const foreground = isSelected
             ? colors.logCardBackground
             : colors.text;
@@ -140,7 +140,7 @@ export const FeelingCheckCalm = ({
           return (
             <View key={value} style={{ flex: 1 }}>
               <Pressable
-                testID={`feeling-check-${value}`}
+                testID={`confirmation-${value}`}
                 accessibilityRole="button"
                 accessibilityLabel={label}
                 accessibilityState={{ selected: isSelected }}
@@ -180,7 +180,7 @@ export const FeelingCheckCalm = ({
       </View>
 
       <Pressable
-        testID="feeling-check-skip"
+        testID="confirmation-skip"
         accessibilityRole="button"
         hitSlop={8}
         disabled={selected !== null}
@@ -191,7 +191,7 @@ export const FeelingCheckCalm = ({
         style={{ alignSelf: "center", marginTop: 8, padding: 12 }}
       >
         <Text style={{ fontSize: 15, color: colors.textSecondary }}>
-          {t("log_feeling_check_skip")}
+          {t("log_confirmation_skip")}
         </Text>
       </Pressable>
     </View>

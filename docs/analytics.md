@@ -11,7 +11,7 @@
   - Fires once per install, after the save that reaches 7 entries
   - Properties: `trigger`, `entries_count`
   - OS decides whether prompt shows
-- Feeling check after a new entry: `logger:feeling_check_viewed`, `logger:feeling_check_answered`, `logger:feeling_check_skipped` ([`src/features/logger/feelingCheck`](../src/features/logger/feelingCheck))
+- Confirmation after a new entry: `logger:confirmation_viewed`, `logger:confirmation_answered`, `logger:confirmation_skipped` ([`src/features/logger/confirmation`](../src/features/logger/confirmation))
   - Answer: `worse`, `same`, `better`. Asked only after create, not edit
   - Entry metadata: `rating`, `emotions`, counts, `message_word_count`, `sleep_quality`, `entries_count`
 

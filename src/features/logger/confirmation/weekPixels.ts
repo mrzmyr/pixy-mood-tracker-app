@@ -4,7 +4,7 @@ import type { LogItem } from "@/features/logs";
 import { getItemDate } from "@/lib/logDates";
 import { getAverageMood } from "@/lib/utils";
 
-/** Days shown in the feeling check: the entry's day and the 6 days before. */
+/** Days shown in the confirmation: the entry's day and the 6 days before. */
 export const WEEK_DAYS = 7;
 
 /** One day in the pixel row. */

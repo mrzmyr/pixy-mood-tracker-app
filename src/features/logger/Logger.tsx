@@ -38,7 +38,7 @@ import { SlideTags } from "./slides/SlideTags";
 import { useLoggerActions } from "./hooks/useLoggerActions";
 import { useLoggerTracking } from "./hooks/useLoggerTracking";
 import type { SavedEntry } from "./hooks/useLoggerActions";
-import { FeelingCheckCalm } from "./feelingCheck/FeelingCheckCalm";
+import { Confirmation } from "./confirmation/Confirmation";
 
 /** Whether the logger creates a new entry or edits an existing one. */
 export type LoggerMode = "create" | "edit";
@@ -454,7 +454,7 @@ export const LoggerEdit = ({
  * Without `avaliableSteps`, the slides follow the user's enabled steps. The
  * reminder slide shows only when exactly one entry exists and reminders are
  * off; the feedback slide needs 3+ entries and an available question. After
- * saving, the slides make way for the feeling check.
+ * saving, the slides make way for the confirmation.
  */
 export const LoggerCreate = ({
   dateTime,
@@ -503,7 +503,7 @@ export const LoggerCreate = ({
 
   if (saved !== null) {
     return (
-      <FeelingCheckCalm
+      <Confirmation
         item={saved.item}
         entriesCount={logState.items.length}
         onClose={() => {

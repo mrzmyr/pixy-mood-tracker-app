@@ -65,12 +65,12 @@ tags: [p0, entry]
 - tapOn:
     id: "logger-save"
 
-# Saving shows the feeling check.
+# Saving shows the confirmation.
 - assertVisible:
-    id: "feeling-check"
+    id: "confirmation"
 - assertVisible: "How are you feeling now?"
 - tapOn:
-    id: "feeling-check-better"
+    id: "confirmation-better"
 - assertVisible: "Add another entry for today"
 
 - stopApp

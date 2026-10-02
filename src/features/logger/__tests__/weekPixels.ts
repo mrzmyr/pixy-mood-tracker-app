@@ -1,7 +1,7 @@
 import dayjs from "dayjs";
 import { _generateItem } from "@/__tests__/utils";
 import type { LogItem } from "@/features/logs";
-import { getWeekPixels } from "../feelingCheck/weekPixels";
+import { getWeekPixels } from "../confirmation/weekPixels";
 
 const entry = (date: string, rating: LogItem["rating"]) =>
   _generateItem({

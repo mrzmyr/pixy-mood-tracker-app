@@ -45,12 +45,12 @@ export interface AnalyticsEvents {
   "logger:emotions_tooltip_closed": undefined;
   "logger:reminder_enabled": undefined;
   "logger:reminder_postponed": undefined;
-  "logger:feeling_check_viewed": SavedEntryProperties;
-  "logger:feeling_check_answered": SavedEntryProperties & {
-    answer: FeelingCheckAnswer;
+  "logger:confirmation_viewed": SavedEntryProperties;
+  "logger:confirmation_answered": SavedEntryProperties & {
+    answer: ConfirmationAnswer;
     answer_ms: number;
   };
-  "logger:feeling_check_skipped": SavedEntryProperties & { skip_ms: number };
+  "logger:confirmation_skipped": SavedEntryProperties & { skip_ms: number };
   "logger:store_review_requested": {
     trigger: "entries_7";
     entries_count: number;
@@ -203,10 +203,10 @@ export type UsageSummaryOnce = {
 type LogItem = z.infer<typeof LogItemSchema>;
 
 /** Answer to "How are you feeling now?" after saving a new entry. */
-export type FeelingCheckAnswer = "worse" | "same" | "better";
+export type ConfirmationAnswer = "worse" | "same" | "better";
 
 /**
- * Saved entry metadata sent with the feeling check events. Holds no free
+ * Saved entry metadata sent with the confirmation events. Holds no free
  * text: notes and tag names are sent as counts only.
  */
 export interface SavedEntryProperties {

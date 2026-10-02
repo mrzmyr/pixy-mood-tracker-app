@@ -9,9 +9,9 @@ import { SettingsProvider, STORAGE_KEY, useSettings } from "@/state/settings";
 import {
   countWords,
   getEntryProperties,
-} from "../feelingCheck/entryProperties";
-import { getEncouragement } from "../feelingCheck/encouragement";
-import { useFeelingCheck } from "../feelingCheck/useFeelingCheck";
+} from "../confirmation/entryProperties";
+import { getEncouragement } from "../confirmation/encouragement";
+import { useConfirmation } from "../confirmation/useConfirmation";
 
 // jest.setup.js replaces posthog-react-native with one shared fake client.
 const { capture: mockCapture } = getPostHogTestClient();
@@ -47,9 +47,9 @@ const properties = {
   entries_count: 3,
 };
 
-const renderFeelingCheck = (rating = item.rating) =>
+const renderConfirmation = (rating = item.rating) =>
   renderHook(
-    () => useFeelingCheck({ item: { ...item, rating }, entriesCount: 3 }),
+    () => useConfirmation({ item: { ...item, rating }, entriesCount: 3 }),
     { wrapper }
   );
 
@@ -77,14 +77,14 @@ describe("getEntryProperties()", () => {
   });
 });
 
-describe("useFeelingCheck()", () => {
+describe("useConfirmation()", () => {
   test("tracks view on mount and the first answer only", async () => {
-    const hook = await renderFeelingCheck();
+    const hook = await renderConfirmation();
 
     await waitFor(() => expect(hook.result.current).not.toBeNull());
     await waitFor(() =>
       expect(mockCapture).toHaveBeenCalledWith(
-        "logger:feeling_check_viewed",
+        "logger:confirmation_viewed",
         expect.objectContaining(properties)
       )
     );
@@ -97,13 +97,13 @@ describe("useFeelingCheck()", () => {
 
     expect(mockCapture).toHaveBeenCalledTimes(2);
     expect(mockCapture).toHaveBeenLastCalledWith(
-      "logger:feeling_check_answered",
+      "logger:confirmation_answered",
       expect.objectContaining({ ...properties, answer: "better" })
     );
   });
 
   test("tracks skip", async () => {
-    const hook = await renderFeelingCheck();
+    const hook = await renderConfirmation();
     await waitFor(() => expect(hook.result.current).not.toBeNull());
 
     await act(() => {
@@ -111,13 +111,13 @@ describe("useFeelingCheck()", () => {
     });
 
     expect(mockCapture).toHaveBeenLastCalledWith(
-      "logger:feeling_check_skipped",
+      "logger:confirmation_skipped",
       expect.objectContaining({ ...properties, skip_ms: expect.any(Number) })
     );
   });
 
   test("tracks skip when closed without an answer", async () => {
-    const hook = await renderFeelingCheck();
+    const hook = await renderConfirmation();
     await waitFor(() => expect(hook.result.current).not.toBeNull());
 
     await act(() => {
@@ -125,7 +125,7 @@ describe("useFeelingCheck()", () => {
     });
 
     expect(mockCapture).toHaveBeenLastCalledWith(
-      "logger:feeling_check_skipped",
+      "logger:confirmation_skipped",
       expect.objectContaining(properties)
     );
   });
