@@ -25,6 +25,10 @@ describe("withAndroidBackupRules", () => {
     expect(application["android:dataExtractionRules"]).toBe(
       "@xml/pixy_data_extraction_rules"
     );
+    expect(application["android:backupAgent"]).toBe(
+      "expo.modules.pixymoodtrackerbackup.PixyBackupAgent"
+    );
+    expect(application["android:fullBackupOnly"]).toBe("true");
   });
 
   test("writes rules that include only the database domain", () => {

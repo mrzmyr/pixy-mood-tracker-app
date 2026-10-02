@@ -329,15 +329,15 @@
       "label": "Automatic backup",
       "status": "available",
       "group": "data",
-      "description": "Entries are part of the phone backup: iOS device backup (iCloud or computer) and Android Auto Backup to the Google Account, encrypted with the screen lock. Pixy never sees the data.",
+      "description": "Entries are part of the phone backup: iCloud or computer backup on iPhone, Google Account on Android (encrypted with the screen lock). On by default, switch in Settings > Data > Backup. Pixy never sees the data.",
       "competitorKey": "backup",
       "evidence": [
         "plugins/withAndroidBackupRules.js",
-        "src/features/datagate/screens/Data.tsx",
+        "modules/pixy-mood-tracker-backup/",
         "src/features/settings/screens/Backup.tsx",
         "docs/backup.md"
       ],
-      "note": "Android Auto Backup is in source since the first release after 1.88.0. Not in the store version."
+      "note": "New in source after 1.88.0. iOS versions up to 1.88.0 kept entries out of iPhone backups. Not in the store version."
     },
     {
       "id": "app-lock",

@@ -1,60 +1,73 @@
-import { Platform, ScrollView, Text } from "react-native";
-import { Cloud, Key, Shield, User } from "react-native-feather";
+import dayjs from "dayjs";
+import { useFocusEffect } from "expo-router";
+import { SymbolView } from "expo-symbols";
+import { useCallback, useState } from "react";
+import { Platform, ScrollView, Switch, View } from "react-native";
+import { CheckCircle, Cloud } from "react-native-feather";
+import { MarkdownBody } from "@/components/MarkdownBody";
 import MenuList from "@/components/MenuList";
-import MenuListHeadline from "@/components/MenuListHeadline";
 import MenuListItem from "@/components/MenuListItem";
 import { PageWithHeaderLayout } from "@/components/PageWithHeaderLayout";
-import TextInfo from "@/components/TextInfo";
 import useColors from "@/hooks/useColors";
+import { getLastBackupAt } from "@/lib/backup";
 import { t } from "@/lib/translation";
+import { useAnalytics } from "@/state/analytics";
+import { useSettings } from "@/state/settings";
 
-/** Picks the iOS or Android variant of a backup string. */
-const platformText = (ios: string, android: string) =>
-  Platform.OS === "android" ? t(android) : t(ios);
+/** iOS system blue, the color of the iCloud symbol in iOS Settings. */
+const ICLOUD_BLUE = "#007AFF";
+const SUCCESS_GREEN = "#34C759";
 
-/** Non-pressable list row whose text may wrap over several lines. */
-const InfoRow = ({
-  icon,
-  text,
-  isLast,
-}: {
-  icon: React.ReactElement;
-  text: string;
-  isLast?: boolean;
-}) => {
-  const colors = useColors();
+const isAndroid = () => Platform.OS === "android";
 
-  return (
-    <MenuListItem
-      iconLeft={icon}
-      title={
-        <Text
-          style={{
-            fontSize: 15,
-            lineHeight: 20,
-            color: colors.menuListItemText,
-          }}
-        >
-          {text}
-        </Text>
-      }
-      style={{ paddingTop: 12, paddingBottom: 12 }}
-      isLast={isLast}
+const ProviderIcon = ({ color }: { color: string }) =>
+  isAndroid() ? (
+    <Cloud width={18} color={color} />
+  ) : (
+    <SymbolView
+      name="icloud.fill"
+      size={22}
+      tintColor={ICLOUD_BLUE}
+      fallback={<Cloud width={18} color={ICLOUD_BLUE} />}
     />
   );
+
+/**
+ * Last Android backup, read again whenever the screen gains focus. iOS never
+ * reports backup times to apps, so the row does not show there.
+ */
+const useLastBackupAt = () => {
+  const [lastBackupAt, setLastBackupAt] = useState<number | null>(null);
+
+  useFocusEffect(
+    useCallback(() => {
+      setLastBackupAt(getLastBackupAt());
+    }, [])
+  );
+
+  return lastBackupAt;
 };
 
 /**
- * Settings > Data > Backup: Pixy is part of the phone backup (iOS device
- * backup, Android Auto Backup). Shows the status, who can read the backup,
- * and how to leave it.
+ * Settings > Data > Backup: switch for the phone backup (iCloud on iOS,
+ * Google on Android), the last Android backup, and what the backup means for
+ * privacy.
  *
- * Pixy has no backup code of its own here. The Android rules live in
- * `plugins/withAndroidBackupRules.js`; see docs/backup.md.
+ * The switch is stored in settings and applied to the OS by
+ * `useBackupSetting`. See docs/backup.md.
  */
 export const BackupScreen = () => {
   const colors = useColors();
-  const iconProps = { width: 18, color: colors.menuListItemIcon };
+  const analytics = useAnalytics();
+  const { settings, setSettings } = useSettings();
+  const lastBackupAt = useLastBackupAt();
+  const enabled = settings.backupEnabled;
+  const android = isAndroid();
+
+  const toggle = (value: boolean) => {
+    analytics.track("settings:backup_toggled", { enabled: value });
+    setSettings((current) => ({ ...current, backupEnabled: value }));
+  };
 
   return (
     <PageWithHeaderLayout
@@ -66,48 +79,44 @@ export const BackupScreen = () => {
       <ScrollView style={{ padding: 20 }}>
         <MenuList style={{ marginTop: 16 }}>
           <MenuListItem
-            title={platformText(
-              "backup_status_title_ios",
-              "backup_status_title_android"
-            )}
-            value={t("backup_status_value")}
-            iconLeft={<Cloud {...iconProps} />}
-            testID="backup-status"
-            isLast
+            title={
+              android ? t("backup_toggle_android") : t("backup_toggle_ios")
+            }
+            iconLeft={<ProviderIcon color={colors.menuListItemIcon} />}
+            iconRight={
+              <Switch
+                ios_backgroundColor={colors.backgroundSecondary}
+                onValueChange={toggle}
+                value={enabled}
+                testID="backup-enabled"
+              />
+            }
+            isLast={!(enabled && android)}
           />
-        </MenuList>
-        <TextInfo>
-          {platformText("backup_status_help_ios", "backup_status_help_android")}
-        </TextInfo>
-
-        <MenuListHeadline>{t("privacy")}</MenuListHeadline>
-        <MenuList>
-          <InfoRow
-            icon={<Shield {...iconProps} />}
-            text={t("backup_privacy_no_server")}
-          />
-          <InfoRow
-            icon={<Key {...iconProps} />}
-            text={platformText(
-              "backup_privacy_provider_ios",
-              "backup_privacy_provider_android"
-            )}
-          />
-          <InfoRow
-            icon={<User {...iconProps} />}
-            text={platformText(
-              "backup_privacy_account_ios",
-              "backup_privacy_account_android"
-            )}
-            isLast
-          />
-        </MenuList>
-        <TextInfo style={{ marginBottom: 80 }}>
-          {platformText(
-            "backup_privacy_help_ios",
-            "backup_privacy_help_android"
+          {enabled && android && (
+            <MenuListItem
+              title={t("backup_last_sync")}
+              value={
+                lastBackupAt
+                  ? dayjs(lastBackupAt).format("lll")
+                  : t("backup_last_sync_never")
+              }
+              iconRight={
+                lastBackupAt ? (
+                  <CheckCircle width={18} color={SUCCESS_GREEN} />
+                ) : null
+              }
+              testID="backup-last-sync"
+              isLast
+            />
           )}
-        </TextInfo>
+        </MenuList>
+
+        <View style={{ marginTop: 16, paddingBottom: 80 }}>
+          <MarkdownBody>
+            {android ? t("backup_privacy_android") : t("backup_privacy_ios")}
+          </MarkdownBody>
+        </View>
       </ScrollView>
     </PageWithHeaderLayout>
   );

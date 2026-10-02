@@ -15,6 +15,7 @@
       "appStoreUrl": "https://apps.apple.com/de/app/pixy-mood-tracker/id1605327124",
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false,
+        "RCTAsyncStorageExcludeFromBackup": false,
         "SKIncludeConsumableInAppPurchaseHistory": true
       },
       "privacyManifests": {

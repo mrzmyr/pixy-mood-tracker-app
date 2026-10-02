@@ -113,6 +113,7 @@ export interface AnalyticsEvents {
   "settings:step_toggled": { step: LoggerStep; enabled: boolean };
   "settings:privacy_policy_opened": undefined;
   "settings:analytics_toggled": { enabled: boolean };
+  "settings:backup_toggled": { enabled: boolean };
 
   "reminders:reminder_toggled": {
     enabled: boolean;

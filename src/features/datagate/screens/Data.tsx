@@ -1,5 +1,5 @@
 import { useRouter } from "expo-router";
-import { Platform, ScrollView } from "react-native";
+import { ScrollView } from "react-native";
 import { Cloud, Download, Trash, Upload } from "react-native-feather";
 import MenuList from "@/components/MenuList";
 import MenuListItem from "@/components/MenuListItem";
@@ -10,19 +10,14 @@ import { useDatagate } from "../DataGate";
 import { PageWithHeaderLayout } from "@/components/PageWithHeaderLayout";
 
 /**
- * Settings > Data: the data hub. Phone backup status (opens the Backup
- * page), import and export, and reset of all user data via `useDatagate`.
+ * Settings > Data: the data hub. Backup (opens the Backup page), import and
+ * export, and reset of all user data via `useDatagate`.
  * The direct AsyncStorage import is development-only.
  */
 export const DataScreen = () => {
   const colors = useColors();
   const router = useRouter();
   const datagate = useDatagate();
-
-  const backupValue =
-    Platform.OS === "android"
-      ? t("backup_value_android")
-      : t("backup_value_ios");
 
   return (
     <PageWithHeaderLayout
@@ -40,7 +35,6 @@ export const DataScreen = () => {
         <MenuList style={{ marginTop: 16 }}>
           <MenuListItem
             title={t("backup")}
-            value={backupValue}
             onPress={() => router.push("/settings/data/backup")}
             iconLeft={<Cloud width={18} color={colors.menuListItemIcon} />}
             testID="backup"

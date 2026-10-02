@@ -13,6 +13,7 @@ export const INITIAL_STATE: SettingsState = {
   reminderEnabled: false,
   reminderTime: "18:00",
   analyticsEnabled: true,
+  backupEnabled: true,
   actionsDone: [],
   steps: ["rating", "emotions", "tags", "message", "feedback"],
   storeReviewPromptedAt: null,

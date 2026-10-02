@@ -56,6 +56,8 @@ export interface SettingsState {
   reminderEnabled: boolean;
   reminderTime: string;
   analyticsEnabled: boolean;
+  /** Include stored data in the phone backup (iCloud, Google). Device setting. */
+  backupEnabled: boolean;
   actionsDone: IAction[];
   steps: KnownSettingsStep[];
   /** ISO date of the automatic store review prompt; `null` until shown once. */
@@ -72,13 +74,14 @@ export interface SettingsState {
 
 /**
  * Settings included in data exports. The device id is excluded so an import
- * never clones another device's identity. Store review prompt state belongs
- * to the device and store account, so imports keep the current values.
+ * never clones another device's identity. Store review prompt state and the
+ * backup switch belong to the device, so imports keep the current values.
  */
 export type ExportSettings = Omit<
   SettingsState,
   | "loaded"
   | "deviceId"
+  | "backupEnabled"
   | "storeReviewPromptedAt"
   | "storeReviewPromptedAppVersion"
 >;
@@ -141,6 +144,7 @@ const SettingsProvider = ({ children }: { children: React.ReactNode }) => {
       ...INITIAL_STATE,
       ...importedSettings,
       steps: sanitizeSteps(importedSettings.steps),
+      backupEnabled: currentSettings.backupEnabled,
       storeReviewPromptedAt: currentSettings.storeReviewPromptedAt,
       storeReviewPromptedAppVersion:
         currentSettings.storeReviewPromptedAppVersion,

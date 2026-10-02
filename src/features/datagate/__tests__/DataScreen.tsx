@@ -40,24 +40,24 @@ describe("DataScreen", () => {
     jest.restoreAllMocks();
   });
 
-  test("shows the Backup row with iCloud above export and import", async () => {
+  test("shows a plain Backup row above export and import", async () => {
     jest.replaceProperty(Platform, "OS", "ios");
 
     const result = await renderData();
 
     expect(await result.findByText("Backup")).toBeTruthy();
-    expect(result.getByText("iCloud")).toBeTruthy();
+    expect(result.queryByText("iCloud")).toBeNull();
     expect(result.getByText("Export")).toBeTruthy();
     expect(result.getByText("Import")).toBeTruthy();
   });
 
-  test("shows the Backup row with Google on Android", async () => {
+  test("shows a plain Backup row on Android", async () => {
     jest.replaceProperty(Platform, "OS", "android");
 
     const result = await renderData();
 
     expect(await result.findByText("Backup")).toBeTruthy();
-    expect(result.getByText("Google")).toBeTruthy();
+    expect(result.queryByText("Google")).toBeNull();
   });
 
   test("opens the Backup page from the status row", async () => {

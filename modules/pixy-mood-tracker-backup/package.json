@@ -1,0 +1,10 @@
+{
+  "name": "pixy-mood-tracker-backup",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Turns the phone backup of Pixy's stored data on or off and reports the last Android backup.",
+  "homepage": "https://github.com/mrzmyr/pixy-mood-tracker-app",
+  "license": "MIT",
+  "author": "Moritz Meyer",
+  "main": "src/index.ts"
+}

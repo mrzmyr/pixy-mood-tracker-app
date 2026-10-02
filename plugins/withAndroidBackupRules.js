@@ -19,9 +19,12 @@ const {
  * `disableIfNoEncryptionCapabilities="true"` keep mood data off Google's
  * servers unless the phone has a screen lock, because Android derives the
  * backup key from it (Android 9 and newer). Device-to-device transfer is
- * allowed without a cloud account. See docs/backup.md.
+ * allowed without a cloud account. The backup agent adds the user's switch
+ * and records the last cloud backup. See docs/backup.md.
  */
 const BACKUP_RULES_NAME = "pixy_backup_rules";
+/** Backup agent from `modules/pixy-mood-tracker-backup`: skips Pixy when the user turns backup off. */
+const BACKUP_AGENT = "expo.modules.pixymoodtrackerbackup.PixyBackupAgent";
 const DATA_EXTRACTION_RULES_NAME = "pixy_data_extraction_rules";
 
 /** `res/xml/pixy_backup_rules.xml`, read on Android 11 and lower. */
@@ -46,13 +49,16 @@ const DATA_EXTRACTION_RULES_XML = `<?xml version="1.0" encoding="utf-8"?>
 `;
 
 /**
- * Points the `<application>` element at the two rule files and turns Auto
- * Backup on. Returns the same manifest object.
+ * Points the `<application>` element at the two rule files and the backup
+ * agent, and turns Auto Backup on. `fullBackupOnly` keeps Auto Backup with a
+ * custom agent. Returns the same manifest object.
  */
 const applyBackupManifestAttributes = (androidManifest) => {
   const application =
     AndroidConfig.Manifest.getMainApplicationOrThrow(androidManifest);
   application.$["android:allowBackup"] = "true";
+  application.$["android:backupAgent"] = BACKUP_AGENT;
+  application.$["android:fullBackupOnly"] = "true";
   application.$["android:fullBackupContent"] = `@xml/${BACKUP_RULES_NAME}`;
   application.$["android:dataExtractionRules"] =
     `@xml/${DATA_EXTRACTION_RULES_NAME}`;
