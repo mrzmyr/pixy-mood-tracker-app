@@ -15,6 +15,7 @@ import type {
   WidgetCell,
   WidgetRating,
   WidgetSchemeColors,
+  YearDayCode,
   YearWidgetProps,
 } from "./widgetProps";
 
@@ -160,26 +161,34 @@ export const getMonthWidgetProps = (
   };
 };
 
-/** Props for the year widget: twelve rows of up to 31 days. */
+/** Props for the year widget: twelve rows of up to 31 day codes. */
 export const getYearWidgetProps = (input: WidgetDataInput): YearWidgetProps => {
   const today = (input.now ?? dayjs()).startOf("day");
   const ratings = getRatingsByDate(input.items);
+  const cells: WidgetCell[] = [];
   const months = Array.from({ length: 12 }, (_, monthIndex) => {
     const monthStart = today.month(monthIndex).startOf("month");
     const daysInMonth = monthStart.daysInMonth();
-    return Array.from({ length: 31 }, (__, dayIndex) =>
-      dayIndex < daysInMonth
-        ? makeCell(monthStart.add(dayIndex, "day"), today, ratings)
-        : PAD_CELL
-    );
+    return Array.from({ length: 31 }, (__, dayIndex): YearDayCode => {
+      if (dayIndex >= daysInMonth) {
+        return "p";
+      }
+      const cell = makeCell(monthStart.add(dayIndex, "day"), today, ratings);
+      cells.push(cell);
+      if (cell.rating !== "") {
+        return cell.rating;
+      }
+      return cell.isFuture ? "f" : "";
+    });
   });
   const monthLabels = months.map((_, monthIndex) =>
     today.month(monthIndex).format("MMM")
   );
   return {
-    ...getBaseProps(input, today.format("YYYY"), months.flat()),
+    ...getBaseProps(input, today.format("YYYY"), cells),
     monthLabels,
     months,
+    today: { month: today.month(), day: today.date() },
   };
 };
 

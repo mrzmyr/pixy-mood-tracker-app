@@ -65,10 +65,17 @@ export interface MonthWidgetProps extends WidgetBaseProps {
   weeks: WidgetCell[][];
 }
 
-/** Year widget props. `months` has twelve rows of 31 entries. */
+/** Day code in the year grid. Kept short: 372 cells per timeline entry. */
+export type YearDayCode = WidgetRating | "" | "f" | "p";
+
+/**
+ * Year widget props. `months` has twelve rows of 31 codes: a rating, `""`
+ * for a past day without entry, `"f"` for a future day, `"p"` for padding.
+ */
 export interface YearWidgetProps extends WidgetBaseProps {
   /** Short month labels, January first. */
   monthLabels: string[];
-  /** Twelve rows of 31; `PAD_CELL` fills short months. */
-  months: WidgetCell[][];
+  months: YearDayCode[][];
+  /** Today's position: 0-based month, 1-based day. */
+  today: { month: number; day: number };
 }

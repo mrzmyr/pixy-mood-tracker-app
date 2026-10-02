@@ -81,10 +81,13 @@ describe("getYearWidgetProps()", () => {
     expect(props.title).toBe("2026");
     expect(props.months).toHaveLength(12);
     expect(props.monthLabels[0]).toBe("Jan");
-    expect(props.months[1].filter((cell) => cell.day !== 0)).toHaveLength(28);
-    expect(props.months[9].filter((cell) => cell.day !== 0)).toHaveLength(31);
-    expect(props.months[9][14]?.isToday).toBe(true);
-    expect(props.months[11][30]?.isFuture).toBe(true);
+    expect(props.months[1].filter((code) => code !== "p")).toHaveLength(28);
+    expect(props.months[9].filter((code) => code !== "p")).toHaveLength(31);
+    expect(props.today).toEqual({ month: 9, day: 15 });
+    expect(props.months[9][12]).toBe("good");
+    expect(props.months[9][14]).toBe("neutral");
+    expect(props.months[11][30]).toBe("f");
+    expect(props.months[0][0]).toBe("");
   });
 });
 

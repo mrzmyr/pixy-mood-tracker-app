@@ -23,67 +23,53 @@ import type { MonthWidgetProps } from "../widgetProps";
 /**
  * Calendar grid of pixels for the current month. Runs in the widget runtime:
  * no hooks, no imports besides `@expo/ui`, and no module-scope values.
+ * Medium puts the title beside the grid because the grid is height-bound.
  */
 const PixyMonthWidget = (
   props: MonthWidgetProps,
   environment: WidgetEnvironment
 ) => {
   "widget";
-  const scheme = environment.colorScheme === "dark" ? props.dark : props.light;
-  const isSmall = environment.widgetFamily === "systemSmall";
-  const cellSpacing = isSmall ? 3 : 5;
-  const titleSize = isSmall ? 12 : 14;
+  try {
+    const scheme =
+      environment.colorScheme === "dark" ? props.dark : props.light;
+    const family = environment.widgetFamily;
+    const isSmall = family === "systemSmall";
+    const isMedium = family === "systemMedium";
+    const cellSpacing = isSmall ? 3 : 5;
+    const labelSize = isSmall ? 8 : 9;
 
-  return (
-    <VStack
-      alignment="leading"
-      spacing={isSmall ? 4 : 6}
-      modifiers={[
-        frame({
-          maxWidth: Infinity,
-          maxHeight: Infinity,
-          alignment: "topLeading",
-        }),
-        containerBackground(scheme.background, "widget"),
-        widgetURL(props.url),
-      ]}
-    >
-      <HStack>
-        <Text
-          modifiers={[
-            font({ size: titleSize, weight: "semibold" }),
-            foregroundStyle(scheme.text),
-          ]}
-        >
-          {props.title}
-        </Text>
-        <Spacer />
-        <Text
-          modifiers={[
-            font({ size: isSmall ? 10 : 12 }),
-            foregroundStyle(scheme.textSecondary),
-          ]}
-        >
-          {props.subtitle}
-        </Text>
-      </HStack>
-      {isSmall ? null : (
+    const cellFill = (rating: string, isFuture: boolean) => {
+      if (rating !== "") {
+        // SAFETY: a non-empty rating is a WidgetRating key.
+        return scheme.ratings[rating as keyof typeof scheme.ratings];
+      }
+      return isFuture ? scheme.future : scheme.empty;
+    };
+
+    const grid = (
+      <VStack spacing={cellSpacing}>
         <HStack spacing={cellSpacing}>
           {props.weekdays.map((label, index) => (
-            <Text
-              key={label + index}
-              modifiers={[
-                frame({ maxWidth: Infinity }),
-                font({ size: 9 }),
-                foregroundStyle(scheme.textSecondary),
-              ]}
-            >
-              {label}
-            </Text>
+            <ZStack key={label + index}>
+              <RoundedRectangle
+                cornerRadius={3}
+                modifiers={[
+                  aspectRatio({ ratio: 1, contentMode: "fit" }),
+                  opacity(0),
+                ]}
+              />
+              <Text
+                modifiers={[
+                  font({ size: labelSize }),
+                  foregroundStyle(scheme.textSecondary),
+                ]}
+              >
+                {label}
+              </Text>
+            </ZStack>
           ))}
         </HStack>
-      )}
-      <VStack spacing={cellSpacing}>
         {props.weeks.map((week, weekIndex) => (
           <HStack key={weekIndex} spacing={cellSpacing}>
             {week.map((cell, dayIndex) => {
@@ -99,12 +85,6 @@ const PixyMonthWidget = (
                   />
                 );
               }
-              let fill = scheme.empty;
-              if (cell.rating !== "") {
-                fill = scheme.ratings[cell.rating];
-              } else if (cell.isFuture) {
-                fill = scheme.future;
-              }
               return (
                 <ZStack
                   key={cell.day}
@@ -119,7 +99,7 @@ const PixyMonthWidget = (
                   <RoundedRectangle
                     cornerRadius={cell.isToday ? 2 : 4}
                     modifiers={[
-                      foregroundStyle(fill),
+                      foregroundStyle(cellFill(cell.rating, cell.isFuture)),
                       padding({ all: cell.isToday ? 1.5 : 0 }),
                     ]}
                   />
@@ -129,9 +109,86 @@ const PixyMonthWidget = (
           </HStack>
         ))}
       </VStack>
-      <Spacer />
-    </VStack>
-  );
+    );
+
+    const header = (
+      <HStack>
+        <Text
+          modifiers={[
+            font({ size: isSmall ? 12 : 14, weight: "semibold" }),
+            foregroundStyle(scheme.text),
+          ]}
+        >
+          {props.title}
+        </Text>
+        <Spacer />
+        <Text
+          modifiers={[
+            font({ size: isSmall ? 10 : 12 }),
+            foregroundStyle(scheme.textSecondary),
+          ]}
+        >
+          {props.subtitle}
+        </Text>
+      </HStack>
+    );
+
+    const rootModifiers = [
+      frame({
+        maxWidth: Infinity,
+        maxHeight: Infinity,
+        alignment: "topLeading",
+      }),
+      containerBackground(scheme.background, "widget"),
+      widgetURL(props.url),
+    ];
+
+    if (isMedium) {
+      return (
+        <HStack alignment="top" spacing={16} modifiers={rootModifiers}>
+          <VStack alignment="leading" spacing={4}>
+            <Text
+              modifiers={[
+                font({ size: 16, weight: "semibold" }),
+                foregroundStyle(scheme.text),
+              ]}
+            >
+              {props.title}
+            </Text>
+            <Text
+              modifiers={[
+                font({ size: 12 }),
+                foregroundStyle(scheme.textSecondary),
+              ]}
+            >
+              {props.subtitle}
+            </Text>
+            <Spacer />
+          </VStack>
+          <Spacer />
+          {grid}
+        </HStack>
+      );
+    }
+
+    return (
+      <VStack
+        alignment="leading"
+        spacing={isSmall ? 4 : 8}
+        modifiers={rootModifiers}
+      >
+        {header}
+        {grid}
+        <Spacer />
+      </VStack>
+    );
+  } catch (error) {
+    return (
+      <Text
+        modifiers={[font({ size: 10 })]}
+      >{`Pixy widget error: ${String(error)}`}</Text>
+    );
+  }
 };
 
 /** Month widget. The name must match `WIDGETS` in app.config.ts. */
