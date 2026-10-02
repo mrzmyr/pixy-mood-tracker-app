@@ -28,3 +28,14 @@ Real screenshots from an iPhone. Replace after a widget design change:
 - Unit: `bunx jest src/features/widget`
 - Fixture `two-days`: next entry is the 3rd logged day and opens the nudge
 - Device: widget gallery lists Week, Month, Year under Pixy; colors follow Settings > Colors
+
+## Build for an iPhone
+
+- `bun app install --target=<iphone>` fails when Xcode has no Apple account: the widget target needs the App Groups capability and its own profile
+- Working path: `EXPO_PUBLIC_APP_VARIANT=preview bunx eas-cli build -p ios --local --profile preview --output <ipa>` (interactive; EAS syncs capabilities and creates the extension profile), then `xcrun devicectl device install app --device <id> <ipa>`
+
+## Debug
+
+- Settings > Development tools > Widgets shows the last sync result (`ok` or `failed: <why>`)
+- `null` anywhere in props makes `updateTimeline` throw (`NSUserDefaults` rejects it) and leaves the widget blank. Test in [`__tests__/widgetData.ts`](../src/features/widget/__tests__/widgetData.ts) guards it
+- Extension logs on a phone: `brew install libimobiledevice`, `idevicesyslog -u <udid> | grep -E "ExpoWidgets|PixyPreview\(React\)"`
