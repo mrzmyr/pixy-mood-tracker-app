@@ -1,27 +1,49 @@
-import { Check } from "lucide-react-native";
 import { View } from "react-native";
-import Animated, { ZoomIn } from "react-native-reanimated";
+import Animated, { FadeInDown } from "react-native-reanimated";
 import type { LogItem } from "@/features/logs";
 import useColors from "@/hooks/useColors";
 
-/** Visual above the saved message. */
-export const FeelingCheckHero = (_props: { rating: LogItem["rating"] }) => {
+const WORD_DELAY_MS = 110;
+
+/** Title that writes itself in, one word at a time. No icon. */
+export const FeelingCheckHero = ({
+  title,
+}: {
+  rating: LogItem["rating"];
+  title: string;
+}) => {
   const colors = useColors();
 
   return (
-    <Animated.View entering={ZoomIn.springify().damping(14)}>
-      <View
-        style={{
-          width: 56,
-          height: 56,
-          borderRadius: 28,
-          backgroundColor: colors.logCardBackground,
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        <Check color={colors.text} size={26} strokeWidth={2} />
-      </View>
-    </Animated.View>
+    <View
+      accessible
+      accessibilityRole="header"
+      accessibilityLabel={title}
+      style={{
+        flexDirection: "row",
+        flexWrap: "wrap",
+        justifyContent: "center",
+        columnGap: 8,
+      }}
+    >
+      {title.split(" ").map((word, index) => (
+        <Animated.Text
+          // Words can repeat; position keeps keys unique.
+          key={`${index}-${word}`}
+          entering={FadeInDown.delay(200 + index * WORD_DELAY_MS)
+            .duration(500)
+            .springify()
+            .damping(18)}
+          style={{
+            fontSize: 30,
+            lineHeight: 38,
+            fontWeight: "600",
+            color: colors.text,
+          }}
+        >
+          {word}
+        </Animated.Text>
+      ))}
+    </View>
   );
 };

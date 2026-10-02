@@ -79,23 +79,11 @@ export const FeelingCheckCalm = ({
           paddingHorizontal: 12,
         }}
       >
-        <FeelingCheckHero rating={item.rating} />
+        <FeelingCheckHero rating={item.rating} title={encouragement.title} />
         <Animated.Text
-          entering={FadeInDown.delay(250).duration(600)}
+          entering={FadeInDown.delay(900).duration(600)}
           style={{
-            marginTop: 28,
-            fontSize: 26,
-            fontWeight: "600",
-            color: colors.text,
-            textAlign: "center",
-          }}
-        >
-          {encouragement.title}
-        </Animated.Text>
-        <Animated.Text
-          entering={FadeInDown.delay(400).duration(600)}
-          style={{
-            marginTop: 10,
+            marginTop: 14,
             fontSize: 17,
             lineHeight: 25,
             color: colors.textSecondary,
