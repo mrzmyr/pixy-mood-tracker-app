@@ -1,6 +1,8 @@
 import dayjs from "dayjs";
+import noop from "lodash/noop";
 import * as ImagePicker from "expo-image-picker";
 import * as MediaLibrary from "expo-media-library";
+import { Platform } from "react-native";
 import { createStructuredError } from "@/lib/errors";
 
 /** Most photos {@link PhotoSource.listPhotosOnDate} returns. */
@@ -28,14 +30,16 @@ export interface LibraryPhoto {
 
 /**
  * Photo library read access. `undetermined`: the app can still ask.
- * `limited`: the user picked which photos Pixy sees (iOS 14+, Android 14+).
- * `denied`: asking again shows no system dialog.
+ * `limited`: the user picked which photos Pixy sees (iOS 14+).
+ * `denied`: asking again shows no system dialog. `unavailable`: this
+ * platform has no photos of a day (Android).
  */
 export type LibraryPermission =
   | "undetermined"
   | "granted"
   | "limited"
-  | "denied";
+  | "denied"
+  | "unavailable";
 
 /**
  * OS boundary for photos: library picker and camera. Preview builds swap it
@@ -54,7 +58,10 @@ export interface PhotoSource {
    * when the user denies camera access.
    */
   takePhoto: () => Promise<PickedPhoto | null>;
-  /** Reads library permission. Never shows a system dialog. */
+  /**
+   * Reads library permission. Never shows a system dialog. `unavailable` on
+   * Android.
+   */
   getLibraryPermission: () => Promise<LibraryPermission>;
   /** Shows the system library permission dialog when the app can still ask. */
   requestLibraryPermission: () => Promise<LibraryPermission>;
@@ -94,9 +101,12 @@ export const getDayBounds = ({ date }: { date: string }) => {
   };
 };
 
-// Pixy reads photos only. Android 13+ then asks for images, not video or
-// audio. https://docs.expo.dev/versions/latest/sdk/media-library/
-const GRANULAR_PERMISSIONS: MediaLibrary.GranularPermission[] = ["photo"];
+// Photos of a day need broad library read access. Google Play allows
+// READ_MEDIA_IMAGES only for apps whose core purpose needs it, which a mood
+// tracker does not meet, so `app.json` blocks it and Android never queries
+// the library. Android adds photos through the system Photo Picker only.
+// https://support.google.com/googleplay/android-developer/answer/14115180
+const IS_LIBRARY_SUPPORTED = Platform.OS === "ios";
 
 const toLibraryPermission = (
   response: MediaLibrary.PermissionResponse
@@ -104,8 +114,7 @@ const toLibraryPermission = (
   if (response.granted) {
     return response.accessPrivileges === "limited" ? "limited" : "granted";
   }
-  // Android reports `denied` with `canAskAgain` after one refusal; the
-  // dialog still shows there.
+  // Before the first answer iOS reports `granted: false` with `canAskAgain`.
   return response.canAskAgain ? "undetermined" : "denied";
 };
 
@@ -144,19 +153,29 @@ const systemPhotoSource: PhotoSource = {
     return photo ?? null;
   },
   getLibraryPermission: async () =>
-    toLibraryPermission(
-      await MediaLibrary.getPermissionsAsync(false, GRANULAR_PERMISSIONS)
-    ),
+    IS_LIBRARY_SUPPORTED
+      ? toLibraryPermission(await MediaLibrary.getPermissionsAsync(false))
+      : "unavailable",
   requestLibraryPermission: async () =>
-    toLibraryPermission(
-      await MediaLibrary.requestPermissionsAsync(false, GRANULAR_PERMISSIONS)
-    ),
-  manageLibraryAccess: () => MediaLibrary.presentPermissionsPicker(["photo"]),
+    IS_LIBRARY_SUPPORTED
+      ? toLibraryPermission(await MediaLibrary.requestPermissionsAsync(false))
+      : "unavailable",
+  manageLibraryAccess: async () => {
+    if (IS_LIBRARY_SUPPORTED) {
+      await MediaLibrary.presentPermissionsPicker(["photo"]);
+    }
+  },
   addLibraryListener: (listener) => {
+    if (!IS_LIBRARY_SUPPORTED) {
+      return noop;
+    }
     const subscription = MediaLibrary.addListener(listener);
     return () => subscription.remove();
   },
   listPhotosOnDate: async ({ date }) => {
+    if (!IS_LIBRARY_SUPPORTED) {
+      return [];
+    }
     const { start, end } = getDayBounds({ date });
     const assets = await new MediaLibrary.Query()
       .eq(MediaLibrary.AssetField.MEDIA_TYPE, MediaLibrary.MediaType.IMAGE)

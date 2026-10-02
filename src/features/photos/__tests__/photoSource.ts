@@ -1,5 +1,6 @@
 import dayjs from "dayjs";
 import * as ExpoMediaLibrary from "expo-media-library";
+import { createStructuredError } from "@/lib/errors";
 import { DAY_PHOTOS_LIMIT, getDayBounds, getPhotoSource } from "../photoSource";
 
 // Helpers of the manual mock in src/__mocks__/expo-media-library.js.
@@ -82,7 +83,7 @@ describe("system photo source", () => {
     ).resolves.toBe("file:///library/abc.jpg");
   });
 
-  test("reads permission without asking and asks for photos only", async () => {
+  test("reads permission without asking, asks only on request", async () => {
     __setPermission({
       status: "granted",
       granted: true,
@@ -96,16 +97,13 @@ describe("system photo source", () => {
 
     await getPhotoSource().requestLibraryPermission();
     expect(ExpoMediaLibrary.requestPermissionsAsync).toHaveBeenCalledWith(
-      false,
-      ["photo"]
+      false
     );
   });
 
   test.each([
     [{ status: "granted", granted: true, accessPrivileges: "all" }, "granted"],
     [{ status: "undetermined", canAskAgain: true }, "undetermined"],
-    // Android after one refusal: the dialog still shows.
-    [{ status: "denied", canAskAgain: true }, "undetermined"],
     [{ status: "denied", canAskAgain: false }, "denied"],
   ] as const)("maps permission %o to %s", async (response, expected) => {
     __setPermission(response);
@@ -113,5 +111,52 @@ describe("system photo source", () => {
     await expect(getPhotoSource().getLibraryPermission()).resolves.toBe(
       expected
     );
+  });
+});
+
+// The platform is read at module load, so Android needs a fresh module
+// registry with `Platform.OS` set first.
+const loadAndroid = () => {
+  let loaded:
+    | {
+        source: ReturnType<typeof getPhotoSource>;
+        mediaLibrary: typeof ExpoMediaLibrary;
+      }
+    | undefined;
+  jest.isolateModules(() => {
+    // oxlint-disable-next-line typescript/no-require-imports -- same registry as the module under test.
+    const { Platform } = require("react-native");
+    Platform.OS = "android";
+    loaded = {
+      // oxlint-disable-next-line typescript/no-require-imports -- fresh module instance for Android.
+      source: require("../photoSource").getPhotoSource(),
+      // oxlint-disable-next-line typescript/no-require-imports -- the mock instance the module under test calls.
+      mediaLibrary: require("expo-media-library"),
+    };
+  });
+  if (!loaded) {
+    throw createStructuredError({
+      status: "test_setup_failed",
+      message: "Photo source did not load",
+      why: "jest.isolateModules ran without assigning the module",
+      fix: "Check the require paths in loadAndroid",
+    });
+  }
+  return loaded;
+};
+
+describe("system photo source on Android", () => {
+  test("never touches the media library: no photos of a day", async () => {
+    const { source, mediaLibrary } = loadAndroid();
+
+    await expect(source.getLibraryPermission()).resolves.toBe("unavailable");
+    await expect(source.requestLibraryPermission()).resolves.toBe(
+      "unavailable"
+    );
+    await expect(
+      source.listPhotosOnDate({ date: "2026-10-02" })
+    ).resolves.toEqual([]);
+    expect(mediaLibrary.getPermissionsAsync).not.toHaveBeenCalled();
+    expect(mediaLibrary.requestPermissionsAsync).not.toHaveBeenCalled();
   });
 });
