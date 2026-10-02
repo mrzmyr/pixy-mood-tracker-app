@@ -127,6 +127,17 @@ export const SettingsScreen = () => {
             testID="request_a_feature"
           />
           <MenuListItem
+            title={t("vote_features")}
+            onPress={async () => {
+              analytics.track("settings:vote_features_tapped");
+              await WebBrowser.openBrowserAsync(FEEDBACK_FEATURES_URL);
+            }}
+            iconLeft={
+              <ArrowUpCircle width={18} color={colors.menuListItemIcon} />
+            }
+            testID="vote_features"
+          />
+          <MenuListItem
             title={t("report_a_bug")}
             onPress={() => showFeedbackModal({ type: "issue" })}
             iconLeft={<Bug width={18} color={colors.menuListItemIcon} />}
@@ -149,17 +160,6 @@ export const SettingsScreen = () => {
         <MenuListHeadline>{t("settings_about")}</MenuListHeadline>
         <MenuList style={{}}>
           <MenuListItem
-            title={t("vote_features")}
-            onPress={async () => {
-              analytics.track("settings:vote_features_tapped");
-              await WebBrowser.openBrowserAsync(FEEDBACK_FEATURES_URL);
-            }}
-            iconLeft={
-              <ArrowUpCircle width={18} color={colors.menuListItemIcon} />
-            }
-            testID="vote_features"
-          />
-          <MenuListItem
             title={t("changelog")}
             onPress={async () => {
               analytics.track("settings:changelog_tapped");
@@ -174,17 +174,13 @@ export const SettingsScreen = () => {
             iconLeft={<Shield width={18} color={colors.menuListItemIcon} />}
             isLink
           />
-        </MenuList>
-
-        <MenuListHeadline>{t("settings_development")}</MenuListHeadline>
-        <MenuList style={{}}>
           <MenuListItem
-            title={`${t("onboarding")}`}
+            title={t("onboarding")}
             iconLeft={<Smartphone width={18} color={colors.menuListItemIcon} />}
             onPress={() => router.push("/onboarding")}
           />
           <MenuListItem
-            title={`${t("settings_development_statistics")}`}
+            title={t("settings_development_statistics")}
             iconLeft={<PieChart width={18} color={colors.menuListItemIcon} />}
             onPress={() => router.push("/settings/development-tools")}
             isLink
