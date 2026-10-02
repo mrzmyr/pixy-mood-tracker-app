@@ -1,8 +1,12 @@
 node_modules/
 .expo/
 dist/
-android/
-ios/
+/android/
+/ios/
+# Local Expo module build output
+modules/*/android/build/
+modules/*/android/.cxx/
+modules/*/ios/build/
 npm-debug.*
 *.jks
 *.p8
