@@ -50,7 +50,8 @@ appId: ${APP_ID}
     id: "logger-next"
 - tapOn:
     id: "logger-next"
-- assertVisible: "Write about your day…"
+- assertVisible:
+    id: "log-message"
 - tapOn:
     id: "log-message"
 - inputText: "after upgrade ${output.runId}"
