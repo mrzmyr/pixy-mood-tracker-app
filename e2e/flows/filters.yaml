@@ -17,8 +17,19 @@ tags: [p1, filters]
 - tapOn: "Sport"
 - assertVisible: "10 Results"
 
-# Closing clears both filters. Reopening shows no results.
+# Closing keeps both filters: Android reads the header badge, and reopening
+# shows the same results. Reset clears them.
 - runFlow: ../subflows/close-filters.yaml
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - assertVisible: "Filters, 2"
 - runFlow: ../subflows/open-filters.yaml
+- assertVisible: "10 Results"
+- tapOn:
+    id: "calendar-filter-reset"
 - assertNotVisible: ".* Results"
+- assertNotVisible:
+    id: "calendar-filter-reset"
 - runFlow: ../subflows/close-filters.yaml

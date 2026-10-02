@@ -2,6 +2,9 @@ import type { DebouncedFunc } from "lodash";
 import debounce from "lodash/debounce";
 import { useEffect, useRef, useState } from "react";
 import { View } from "react-native";
+import { RotateCcw } from "react-native-feather";
+import LinkButton from "@/components/LinkButton";
+import { t } from "@/lib/translation";
 import { useCalendarFilters } from "../../../filters";
 import { useTagsState } from "@/features/tags";
 import { RatingSection } from "./RatingSection";
@@ -12,7 +15,8 @@ import { TagsSection } from "./TagsSection";
 /**
  * Calendar filter form (text, ratings, tags). Archived tags cannot be
  * selected. Text search is debounced by 200 ms; rating and tag changes
- * apply at once. Must render inside `CalendarFiltersProvider`.
+ * apply at once. Filters stay when the sheet closes; Reset clears them.
+ * Must render inside `CalendarFiltersProvider`.
  */
 export const Body = () => {
   const calendarFilters = useCalendarFilters();
@@ -21,13 +25,14 @@ export const Body = () => {
   const _tags = tags.filter((tag) => !tag.isArchived);
   const selectedTagIds = new Set(calendarFilters.data.tagIds);
 
-  const [searchText, setSearchText] = useState("");
+  // Filters outlive the sheet, so reopening shows the kept search text.
+  const [searchText, setSearchText] = useState(calendarFilters.data.text);
 
   const onPressTag = (tag) => {
     calendarFilters.set({
       ...calendarFilters.data,
       tagIds: calendarFilters.data.tagIds.includes(tag.id)
-        ? calendarFilters.data.tagIds.filter((t) => t !== tag.id)
+        ? calendarFilters.data.tagIds.filter((id) => id !== tag.id)
         : [...calendarFilters.data.tagIds, tag.id],
     });
   };
@@ -59,9 +64,9 @@ export const Body = () => {
     (text: string) => void
   > | null>(null);
 
-  // Closing the sheet clears the filters and unmounts the form. A pending
-  // search must not apply after that.
-  useEffect(() => () => debouncedTextChangeRef.current?.cancel(), []);
+  // Closing the sheet unmounts the form but keeps the filters, so a pending
+  // search applies right away instead of getting lost.
+  useEffect(() => () => debouncedTextChangeRef.current?.flush(), []);
 
   const debounceOnTextChange = (text: string) => {
     if (debouncedTextChangeRef.current === null) {
@@ -97,6 +102,22 @@ export const Body = () => {
       />
       {calendarFilters.data.filteredItems.length !== 0 && (
         <ResultsSection count={calendarFilters.data.filteredItems.length} />
+      )}
+      {(calendarFilters.data.isFiltering || searchText !== "") && (
+        <View style={{ alignItems: "center", marginTop: 8 }}>
+          <LinkButton
+            type="secondary"
+            icon={RotateCcw}
+            testID="calendar-filter-reset"
+            onPress={() => {
+              debouncedTextChangeRef.current?.cancel();
+              setSearchText("");
+              calendarFilters.reset();
+            }}
+          >
+            {t("reset")}
+          </LinkButton>
+        </View>
       )}
     </View>
   );

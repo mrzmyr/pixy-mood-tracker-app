@@ -1,9 +1,10 @@
 appId: ${APP_ID}
 ---
 # Filters is a button in the calendar header. Native header items have no
-# test IDs, so this subflow taps by accessibility label. The sheet has no
-# title, so its search field proves it is open.
+# test IDs, so this subflow taps by accessibility label. With active filters,
+# Android reads the badge too ("Filters, 2"). The sheet has no title, so its
+# search field proves it is open.
 # Assumes the Calendar screen.
-- tapOn: "Filters"
+- tapOn: "Filters(, \\d+)?"
 - assertVisible:
     id: "calendar-filter-search"

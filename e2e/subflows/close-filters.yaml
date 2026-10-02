@@ -1,7 +1,7 @@
 appId: ${APP_ID}
 ---
 # iOS closes by tapping outside the sheet. Android Back closes the sheet and
-# keeps Calendar. Closing clears all filters.
+# keeps Calendar. Closing keeps the filters; the sheet's Reset clears them.
 - runFlow:
     when:
       platform: iOS
@@ -18,4 +18,3 @@ appId: ${APP_ID}
     id: "calendar-list"
 - assertNotVisible:
     id: "calendar-filter-search"
-- assertNotVisible: "More, .*"

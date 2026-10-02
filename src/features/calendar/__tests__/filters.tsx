@@ -2,7 +2,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { act, renderHook } from "@testing-library/react-native";
 import { AnalyticsProvider } from "@/state/analytics";
 import { CalendarFiltersProvider, useCalendarFilters } from "../filters";
-import { LogsProvider, STORAGE_KEY } from "@/features/logs";
+import { LogsProvider, STORAGE_KEY, useLogUpdater } from "@/features/logs";
 import type { LogsState } from "@/features/logs";
 
 import { SettingsProvider } from "@/state/settings";
@@ -256,5 +256,62 @@ xdescribe("useCalendarFilters()", () => {
     });
 
     expect(hook.result.current.data.filteredItems).toEqual([testItems[1]]);
+  });
+});
+
+// Runs apart from the suite above: that suite seeds AsyncStorage, which
+// leaves the provider tree unmounted, so it stays skipped.
+describe("useCalendarFilters() keeps filters", () => {
+  afterEach(async () => {
+    await AsyncStorage.clear();
+  });
+
+  test("should keep filters on `close`", async () => {
+    const hook = await _renderHook();
+    await act(async () => {});
+
+    await act(() => {
+      hook.result.current.set({ text: "", ratings: ["good"], tagIds: [] });
+    });
+    await act(() => {
+      hook.result.current.open();
+    });
+    await act(() => {
+      hook.result.current.close();
+    });
+
+    expect(hook.result.current.isOpen).toBe(false);
+    expect(hook.result.current.data.ratings).toEqual(["good"]);
+    expect(hook.result.current.data.isFiltering).toBe(true);
+    expect(hook.result.current.data.filterCount).toBe(1);
+  });
+
+  test("should match entries added while filtering", async () => {
+    const hook = await renderHook(
+      () => ({ filters: useCalendarFilters(), logs: useLogUpdater() }),
+      { wrapper }
+    );
+    await act(async () => {});
+
+    await act(() => {
+      hook.result.current.filters.set({
+        text: "",
+        ratings: ["good"],
+        tagIds: [],
+      });
+    });
+    expect(hook.result.current.filters.data.filteredItems).toEqual([]);
+
+    const added = _generateItem({
+      date: "2022-01-05",
+      rating: "good",
+      message: "",
+      tags: [],
+    });
+    await act(() => {
+      hook.result.current.logs.addLog(added);
+    });
+
+    expect(hook.result.current.filters.data.filteredItems).toEqual([added]);
   });
 });
