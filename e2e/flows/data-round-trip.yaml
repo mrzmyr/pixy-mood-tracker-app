@@ -1,7 +1,7 @@
 appId: ${APP_ID}
 tags: [p1, data]
 ---
-# Export all data, reset, then import the export. All 365 entries return.
+# Export all data, delete all data, then import the export. All 365 entries return.
 # The share sheet and document picker are system screens, so the flow swaps
 # them for a fake that keeps the exported file (src/dev/fakeFileTransfer.ts).
 # Check the real system screens by hand before a release.
@@ -21,19 +21,19 @@ tags: [p1, data]
     id: "data"
 - tapOn: "Export"
 
-# Reset leaves an empty calendar. Regression: a stale calendar footer kept
-# "Add another entry for today" after reset (src/screens/Calendar/index.tsx).
+# Delete all data leaves an empty calendar. Regression: a stale calendar
+# footer kept "Add another entry for today" after reset (src/screens/Calendar/index.tsx).
 - scrollUntilVisible:
     element:
-      id: "reset-data"
+      id: "delete-all-data"
     direction: DOWN
 - tapOn:
-    id: "reset-data"
-- assertVisible: "Are you sure you want to reset all entries and tags?"
+    id: "delete-all-data"
+- assertVisible: "Are you sure you want to delete all entries, tags, and settings?.*"
 - tapOn:
-    text: "Reset"
-    below: "Are you sure you want to reset all entries and tags?"
-- assertVisible: "All data has been reset."
+    text: "Delete"
+    below: "Are you sure you want to delete all entries, tags, and settings?.*"
+- assertVisible: "All your data has been deleted."
 - tapOn: "OK"
 - back
 - tapOn:

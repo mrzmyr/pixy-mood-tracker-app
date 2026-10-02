@@ -153,7 +153,8 @@ export type TrackArgs<Event extends AnalyticsEvent> =
     ? [event: Event]
     : [event: Event, properties: AnalyticsEvents[Event]];
 
-type ResetKind = "factory" | "data";
+/** `data` (entries and tags only) was last sent before the merged "Delete all my data" item. */
+type ResetKind = "factory";
 
 /**
  * Usage summary: anonymous usage counts of one install.

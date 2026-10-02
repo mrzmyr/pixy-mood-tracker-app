@@ -8,7 +8,7 @@ import useColors from "@/hooks/useColors";
 import { useDatagate } from "../DataGate";
 
 /**
- * Settings > Data: import, export, and reset of all user data via
+ * Settings > Data: import, export, and deletion of all user data via
  * `useDatagate`. The direct AsyncStorage import is development-only.
  */
 export const DataScreen = () => {
@@ -53,26 +53,11 @@ export const DataScreen = () => {
         <TextInfo>{t("export_help")}</TextInfo>
         <MenuList style={{ marginTop: 16 }}>
           <MenuListItem
-            testID="reset-data"
-            title={t("reset_data_button")}
+            testID="delete-all-data"
+            title={t("delete_all_data_button")}
             onPress={async () => {
               try {
-                await datagate.openResetDialog("data");
-              } catch (error) {
-                console.log(error);
-              }
-            }}
-            iconLeft={<Trash width={18} color="red" />}
-            style={{
-              color: "red",
-            }}
-          />
-          <MenuListItem
-            testID="reset-factory"
-            title={t("reset_factory_button")}
-            onPress={async () => {
-              try {
-                await datagate.openResetDialog("factory");
+                await datagate.openResetDialog();
               } catch (error) {
                 console.log(error);
               }
@@ -84,7 +69,7 @@ export const DataScreen = () => {
             isLast
           />
         </MenuList>
-        <TextInfo>{t("reset_factory_description")}</TextInfo>
+        <TextInfo>{t("delete_all_data_description")}</TextInfo>
       </ScrollView>
     </View>
   );
