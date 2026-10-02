@@ -32,6 +32,7 @@ Use this section to join old and new events in PostHog, for example with an Acti
 **Changed meaning**
 
 - `data_import_success` fired twice per import: once when a file was picked, once after the import. `data:import_completed` fires only after the import
+- `data:reset_*`: Settings > Data has one "Delete all my data" item since the first release after `v1.88.0`. It sends only `kind: "factory"`. `kind: "data"` (entries and tags only) is no longer sent
 
 **Removed properties** (never sent under the new names)
 
