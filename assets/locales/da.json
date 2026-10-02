@@ -8,7 +8,6 @@
   "calendar": "Kalender",
   "settings": "Indstillinger",
   "licenses": "Licenser",
-  "rate_this_app": "Bedøm denne app",
   "reset_data_button": "Nulstil alle data og indstillinger",
   "reset_data_confirm_title": "Nulstil",
   "reset_data_confirm_message": "Er du sikker på, at du vil nulstille alle poster og tags?",
@@ -26,8 +25,6 @@
   "issue": "Problem",
   "idea": "Ide",
   "other": "Andet",
-  "send_feedback_issue": "Rapportér problem",
-  "send_feedback_idea": "Send idé",
   "feedback_modal_title": "Send feedback",
   "feedback_modal_description": "Din feedback hjælper mig meget til bedre at forstå, hvordan du bruger appen, og hvordan jeg kan forbedre den.",
   "feedback_modal_textarea_placeholder": "Det bemærkede jeg…",
@@ -38,7 +35,6 @@
   "feedback_error_title": "Feedback mislykkedes",
   "feedback_error_message": "Noget gik galt, mens du sendte din feedback.",
   "feedback_help": "Denne app er udviklet af én person. Jeg værdsætter din feedback meget. Det hjælper mig med bedre at forstå, hvordan du bruger appen, og hvordan jeg kan forbedre den.",
-  "send_feedback": "Give tilbagemelding",
   "back_to_today": "Tilbage til i dag",
   "data": "Data",
   "reminder": "Påmindelse",
@@ -629,5 +625,10 @@
   "archive_tag_enabled": "Arkiveret",
   "colorblind_disclaimer": "Dette farveskema er optimeret til farveblinde baseret på forskning fra Dr. Cynthia Brewer fra Pennsylvania State University. Hvis du stadig har problemer med at se farverne, så lad mig det vide på care@pixy.day.",
   "new_release": "Ny udgivelse",
-  "statistics_sleep_quality_chart_highlights_title": "Din søvnkvalitet i løbet af de sidste 14 dage."
+  "statistics_sleep_quality_chart_highlights_title": "Din søvnkvalitet i løbet af de sidste 14 dage.",
+  "request_a_feature": "Foreslå en funktion",
+  "report_a_bug": "Rapportér en fejl",
+  "rate_pixy_app_store": "Bedøm Pixy i App Store",
+  "rate_pixy_google_play": "Bedøm Pixy på Google Play",
+  "feedback_modal_message_placeholder_idea": "Det ville være fedt, hvis…"
 }

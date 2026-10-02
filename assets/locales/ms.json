@@ -8,7 +8,6 @@
   "calendar": "Kalendar",
   "settings": "tetapan",
   "licenses": "Lesen",
-  "rate_this_app": "Nilaikan apl ini",
   "reset_data_button": "Tetapkan semula semua data & tetapan",
   "reset_data_confirm_title": "Tetapkan semula",
   "reset_data_confirm_message": "Adakah anda pasti mahu menetapkan semula semua entri dan teg?",
@@ -26,8 +25,6 @@
   "issue": "Isu",
   "idea": "Idea",
   "other": "Lain-lain",
-  "send_feedback_issue": "Laporan Isu",
-  "send_feedback_idea": "Hantar Idea",
   "feedback_modal_title": "Hantar maklumbalas",
   "feedback_modal_description": "Maklum balas anda banyak membantu saya untuk memahami dengan lebih baik cara anda menggunakan apl dan cara saya boleh memperbaikinya.",
   "feedback_modal_textarea_placeholder": "Saya perasan bahawa…",
@@ -38,7 +35,6 @@
   "feedback_error_title": "Maklum balas gagal",
   "feedback_error_message": "Kesilapan telah berlaku semasa menghantar maklum balas anda.",
   "feedback_help": "Aplikasi ini dibangunkan oleh satu orang. Saya sangat menghargai maklum balas anda. Ia membantu saya lebih memahami cara anda menggunakan apl dan cara saya boleh menambah baiknya.",
-  "send_feedback": "Beri Maklum Balas",
   "back_to_today": "Kembali ke hari ini",
   "data": "Data",
   "reminder": "Peringatan",
@@ -629,5 +625,10 @@
   "archive_tag_enabled": "Diarkibkan",
   "colorblind_disclaimer": "Skim warna ini dioptimumkan untuk orang buta warna berdasarkan penyelidikan Dr. Cynthia Brewer dari Pennsylvania State University. Jika anda masih menghadapi masalah melihat warna, sila beritahu saya di care@pixy.day.",
   "new_release": "Keluaran baru",
-  "statistics_sleep_quality_chart_highlights_title": "Kualiti tidur anda sepanjang 14 hari yang lalu."
+  "statistics_sleep_quality_chart_highlights_title": "Kualiti tidur anda sepanjang 14 hari yang lalu.",
+  "request_a_feature": "Minta ciri",
+  "report_a_bug": "Laporkan pepijat",
+  "rate_pixy_app_store": "Nilaikan Pixy di App Store",
+  "rate_pixy_google_play": "Nilaikan Pixy di Google Play",
+  "feedback_modal_message_placeholder_idea": "Alangkah baiknya jika…"
 }

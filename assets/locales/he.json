@@ -8,7 +8,6 @@
   "calendar": "לוּחַ שָׁנָה",
   "settings": "הגדרות",
   "licenses": "רישיונות",
-  "rate_this_app": "דרג את האפליקציה הזו",
   "reset_data_button": "אפס את כל הנתונים וההגדרות",
   "reset_data_confirm_title": "אִתחוּל",
   "reset_data_confirm_message": "האם אתה בטוח שברצונך לאפס את כל הערכים והתגים?",
@@ -26,8 +25,6 @@
   "issue": "נושא",
   "idea": "רַעְיוֹן",
   "other": "אַחֵר",
-  "send_feedback_issue": "דווח על בעיה",
-  "send_feedback_idea": "שלח רעיון",
   "feedback_modal_title": "שלח משוב",
   "feedback_modal_description": "המשוב שלך עוזר לי מאוד להבין טוב יותר איך אתה משתמש באפליקציה וכיצד אני יכול לשפר אותה.",
   "feedback_modal_textarea_placeholder": "שמתי לב לזה…",
@@ -38,7 +35,6 @@
   "feedback_error_title": "המשוב נכשל",
   "feedback_error_message": "משהו השתבש במהלך שליחת המשוב שלך.",
   "feedback_help": "אפליקציה זו פותחה על ידי אדם אחד. אני מעריך מאוד את המשוב שלך. זה עוזר לי להבין טוב יותר איך אתה משתמש באפליקציה וכיצד אני יכול לשפר אותה.",
-  "send_feedback": "תן משוב",
   "back_to_today": "בחזרה להיום",
   "data": "נתונים",
   "reminder": "תִזכּוֹרֶת",
@@ -629,5 +625,10 @@
   "archive_tag_enabled": "בארכיון",
   "colorblind_disclaimer": "ערכת צבעים זו מותאמת לעיוורי צבעים בהתבסס על המחקר של ד\"ר סינתיה ברואר מאוניברסיטת פנסילבניה סטייט. אם אתה עדיין מתקשה לראות את הצבעים, אנא הודע לי בכתובת care@pixy.day.",
   "new_release": "הוצאה חדשה",
-  "statistics_sleep_quality_chart_highlights_title": "איכות השינה שלך במהלך 14 הימים האחרונים."
+  "statistics_sleep_quality_chart_highlights_title": "איכות השינה שלך במהלך 14 הימים האחרונים.",
+  "request_a_feature": "בקשת תכונה",
+  "report_a_bug": "דיווח על באג",
+  "rate_pixy_app_store": "דרגו את Pixy ב-App Store",
+  "rate_pixy_google_play": "דרגו את Pixy ב-Google Play",
+  "feedback_modal_message_placeholder_idea": "זה יהיה נהדר אם…"
 }

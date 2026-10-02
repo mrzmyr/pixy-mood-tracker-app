@@ -8,7 +8,6 @@
   "calendar": "Kalender",
   "settings": "Instellingen",
   "licenses": "Licenties",
-  "rate_this_app": "Beoordeel deze app",
   "reset_data_button": "Alle gegevens en instellingen resetten",
   "reset_data_confirm_title": "Resetten",
   "reset_data_confirm_message": "Weet u zeker dat u alle vermeldingen en tags opnieuw wilt instellen?",
@@ -26,8 +25,6 @@
   "issue": "Probleem",
   "idea": "Idee",
   "other": "Ander",
-  "send_feedback_issue": "Probleem melden",
-  "send_feedback_idea": "Idee indienen",
   "feedback_modal_title": "Feedback verzenden",
   "feedback_modal_description": "Je feedback helpt me om beter te begrijpen hoe je de app gebruikt en hoe ik deze kan verbeteren.",
   "feedback_modal_textarea_placeholder": "Ik merkte dat…",
@@ -38,7 +35,6 @@
   "feedback_error_title": "Feedback mislukt",
   "feedback_error_message": "Er is iets misgegaan bij het verzenden van uw feedback.",
   "feedback_help": "Deze app is ontwikkeld door één persoon. Ik stel uw feedback zeer op prijs. Het helpt me beter te begrijpen hoe u de app gebruikt en hoe ik deze kan verbeteren.",
-  "send_feedback": "Geef feedback",
   "back_to_today": "terug naar vandaag",
   "data": "Gegevens",
   "reminder": "Herinnering",
@@ -632,5 +628,10 @@
   "archive_tag_enabled": "Gearchiveerd",
   "colorblind_disclaimer": "Dit kleurenschema is geoptimaliseerd voor kleurenblinde mensen op basis van het onderzoek van Dr. Cynthia Brewer van de Pennsylvania State University. Als je nog steeds moeite hebt met het zien van de kleuren, laat het me dan weten via care@pixy.day.",
   "new_release": "Nieuwe uitgave",
-  "statistics_sleep_quality_chart_highlights_title": "Uw slaapkwaliteit van de afgelopen 14 dagen."
+  "statistics_sleep_quality_chart_highlights_title": "Uw slaapkwaliteit van de afgelopen 14 dagen.",
+  "request_a_feature": "Functie aanvragen",
+  "report_a_bug": "Bug melden",
+  "rate_pixy_app_store": "Beoordeel Pixy in de App Store",
+  "rate_pixy_google_play": "Beoordeel Pixy op Google Play",
+  "feedback_modal_message_placeholder_idea": "Het zou fijn zijn als…"
 }

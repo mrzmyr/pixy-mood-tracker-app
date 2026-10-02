@@ -8,7 +8,6 @@
   "calendar": "Calendar",
   "settings": "Setări",
   "licenses": "Licențe",
-  "rate_this_app": "Evalueaza aceasta aplicatie",
   "reset_data_button": "Resetați toate datele și setările",
   "reset_data_confirm_title": "Resetați",
   "reset_data_confirm_message": "Sigur doriți să resetați toate intrările și etichetele?",
@@ -26,8 +25,6 @@
   "issue": "Problema",
   "idea": "Idee",
   "other": "Alte",
-  "send_feedback_issue": "Raportați o problemă",
-  "send_feedback_idea": "Trimiteți ideea",
   "feedback_modal_title": "Trimite feedback",
   "feedback_modal_description": "Feedbackul tău mă ajută foarte mult să înțeleg mai bine cum folosești aplicația și cum o pot îmbunătăți.",
   "feedback_modal_textarea_placeholder": "Am observat ca…",
@@ -38,7 +35,6 @@
   "feedback_error_title": "Feedback-ul nu a reușit",
   "feedback_error_message": "A apărut o eroare la trimiterea feedback-ului dvs.",
   "feedback_help": "Această aplicație este dezvoltată de o singură persoană. Apreciez foarte mult feedback-ul tău. Mă ajută să înțeleg mai bine cum folosești aplicația și cum o pot îmbunătăți.",
-  "send_feedback": "Dați feedback",
   "back_to_today": "Înapoi la ziua de azi",
   "data": "Date",
   "reminder": "Aducere aminte",
@@ -629,5 +625,10 @@
   "archive_tag_enabled": "Arhivat",
   "colorblind_disclaimer": "Această schemă de culori este optimizată pentru persoanele daltoniste pe baza cercetărilor Dr. Cynthia Brewer de la Universitatea de Stat din Pennsylvania. Dacă mai aveți probleme în a vedea culorile, vă rugăm să-mi spuneți la care@pixy.day.",
   "new_release": "Noua versiune",
-  "statistics_sleep_quality_chart_highlights_title": "Calitatea somnului dvs. în ultimele 14 zile."
+  "statistics_sleep_quality_chart_highlights_title": "Calitatea somnului dvs. în ultimele 14 zile.",
+  "request_a_feature": "Solicită o funcție",
+  "report_a_bug": "Raportează o eroare",
+  "rate_pixy_app_store": "Evaluează Pixy în App Store",
+  "rate_pixy_google_play": "Evaluează Pixy pe Google Play",
+  "feedback_modal_message_placeholder_idea": "Ar fi grozav dacă…"
 }

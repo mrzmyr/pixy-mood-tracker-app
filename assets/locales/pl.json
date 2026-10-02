@@ -8,7 +8,6 @@
   "calendar": "Kalendarz",
   "settings": "Ustawienia",
   "licenses": "Licencje",
-  "rate_this_app": "Oceń tę aplikację",
   "reset_data_button": "Zresetuj wszystkie dane i ustawienia",
   "reset_data_confirm_title": "Resetowanie",
   "reset_data_confirm_message": "Czy na pewno chcesz zresetować wszystkie wpisy i tagi?",
@@ -26,8 +25,6 @@
   "issue": "Wydanie",
   "idea": "Pomysł",
   "other": "Inny",
-  "send_feedback_issue": "Zgłoś problem",
-  "send_feedback_idea": "Prześlij pomysł",
   "feedback_modal_title": "Wyślij opinię",
   "feedback_modal_description": "Twoja opinia bardzo mi pomaga, aby lepiej zrozumieć, w jaki sposób korzystasz z aplikacji i jak mogę ją ulepszyć.",
   "feedback_modal_textarea_placeholder": "Zauważyłem to…",
@@ -38,7 +35,6 @@
   "feedback_error_title": "Opinia nie powiodła się",
   "feedback_error_message": "Coś poszło nie tak podczas wysyłania opinii.",
   "feedback_help": "Ta aplikacja została opracowana przez jedną osobę. Bardzo cenię twoją opinię. Pomaga mi lepiej zrozumieć, w jaki sposób korzystasz z aplikacji i jak mogę ją ulepszyć.",
-  "send_feedback": "Przekaż opinię",
   "back_to_today": "Powrót do dzisiaj",
   "data": "Dane",
   "reminder": "Przypomnienie",
@@ -629,5 +625,10 @@
   "archive_tag_enabled": "Zarchiwizowane",
   "colorblind_disclaimer": "Ten schemat kolorów jest zoptymalizowany dla osób ze daltonizmem w oparciu o badania dr Cynthii Brewer z Pennsylvania State University. Jeśli nadal masz problemy z widzeniem kolorów, daj mi znać na adres care@pixy.day.",
   "new_release": "Nowe wydanie",
-  "statistics_sleep_quality_chart_highlights_title": "Twoja jakość snu w ciągu ostatnich 14 dni."
+  "statistics_sleep_quality_chart_highlights_title": "Twoja jakość snu w ciągu ostatnich 14 dni.",
+  "request_a_feature": "Zaproponuj funkcję",
+  "report_a_bug": "Zgłoś błąd",
+  "rate_pixy_app_store": "Oceń Pixy w App Store",
+  "rate_pixy_google_play": "Oceń Pixy w Google Play",
+  "feedback_modal_message_placeholder_idea": "Byłoby świetnie, gdyby…"
 }

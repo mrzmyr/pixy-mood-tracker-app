@@ -8,7 +8,6 @@
   "calendar": "Naptár",
   "settings": "Beállítások",
   "licenses": "Licencek",
-  "rate_this_app": "Értékeld ezt az alkalmazást",
   "reset_data_button": "Adatok törlése",
   "reset_data_confirm_title": "Visszaállítás",
   "reset_data_confirm_message": "Biztosan visszaállítod az összes bejegyzést és címkét?",
@@ -26,8 +25,6 @@
   "issue": "Probléma",
   "idea": "Ötlet",
   "other": "Egyéb",
-  "send_feedback_issue": "Probléma bejelentése",
-  "send_feedback_idea": "Ötlet benyújtása",
   "feedback_modal_title": "Visszajelzés küldése",
   "feedback_modal_description": "Visszajelzése sokat segít abban, hogy jobban megértsem, hogyan használja az alkalmazást, és hogyan tudnám javítani.",
   "feedback_modal_textarea_placeholder": "Észrevettem…",
@@ -38,7 +35,6 @@
   "feedback_error_title": "A visszajelzés sikertelen",
   "feedback_error_message": "Hiba történt a visszajelzés elküldésekor.",
   "feedback_help": "Ezt az alkalmazást egy személy fejlesztette ki. Nagyon értékelem visszajelzésed. Segít jobban megérteni, hogyan használod az alkalmazást, és hogyan fejleszthetem azt.",
-  "send_feedback": "Adj visszajelzést",
   "back_to_today": "Vissza a mába",
   "data": "Adatok",
   "reminder": "Emlékeztetők",
@@ -629,5 +625,10 @@
   "archive_tag_enabled": "Archivált",
   "colorblind_disclaimer": "Ez a színséma színvakok számára lett optimalizálva Dr. Cynthia Brewer, a Pennsylvaniai Állami Egyetem kutatása alapján. Ha továbbra sem látja a színeket, kérjük, jelezze a care@pixy.day címen.",
   "new_release": "Új kiadás",
-  "statistics_sleep_quality_chart_highlights_title": "Alvásminősége az elmúlt 14 napban."
+  "statistics_sleep_quality_chart_highlights_title": "Alvásminősége az elmúlt 14 napban.",
+  "request_a_feature": "Funkció kérése",
+  "report_a_bug": "Hiba bejelentése",
+  "rate_pixy_app_store": "Értékeld a Pixyt az App Store-ban",
+  "rate_pixy_google_play": "Értékeld a Pixyt a Google Playen",
+  "feedback_modal_message_placeholder_idea": "Jó lenne, ha…"
 }

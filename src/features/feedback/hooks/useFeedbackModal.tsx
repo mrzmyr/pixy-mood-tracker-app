@@ -18,32 +18,32 @@ import useColors from "@/hooks/useColors";
 import { useFeedback } from "../Feedback";
 import type { FeedackType } from "../Feedback";
 
-import { TypeSelector } from "../components/TypeSelector";
+const TITLE_KEYS: Partial<Record<FeedackType, string>> = {
+  issue: "report_a_bug",
+  idea: "request_a_feature",
+};
+
+const PLACEHOLDER_KEYS: Partial<Record<FeedackType, string>> = {
+  idea: "feedback_modal_message_placeholder_idea",
+};
 
 const FeedbackModalContent = ({
   visible,
-  defaultType,
+  type,
   hide,
   close,
 }: {
   visible: boolean;
-  defaultType: FeedackType;
+  type: FeedackType;
   hide: () => void;
   close: () => void;
 }) => {
   const colors = useColors();
-  const analytics = useAnalytics();
   const feedback = useFeedback();
 
-  const [type, setType] = useState<FeedackType>(defaultType);
   const [message, setMessage] = useState("");
   const [email, setEmail] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-
-  const setTypeProxy = (nextType: FeedackType) => {
-    analytics.track("feedback:type_changed", { type: nextType });
-    setType(nextType);
-  };
 
   const setMessageProxy = (nextMessage: string) => {
     setMessage(nextMessage);
@@ -114,7 +114,7 @@ const FeedbackModalContent = ({
             }}
           >
             <ModalHeader
-              title={t("feedback_modal_title")}
+              title={t(TITLE_KEYS[type] ?? "feedback_modal_title")}
               left={
                 <LinkButton
                   testID="feedback-modal-cancel"
@@ -153,68 +153,46 @@ const FeedbackModalContent = ({
               >
                 {t("feedback_modal_description")}
               </Text>
-              <TypeSelector
-                selected={type}
-                onPress={(selectedType) => setTypeProxy(selectedType)}
+              <TextArea
+                testID="feedback-modal-message"
+                style={{
+                  height: 200,
+                }}
+                value={message}
+                onChange={(text) => setMessageProxy(text)}
+                placeholder={t(
+                  PLACEHOLDER_KEYS[type] ?? "feedback_modal_message_placeholder"
+                )}
               />
-              <View
+              <TextInput
+                accessibilityLabel={t("feedback_modal_email_placeholder")}
+                testID="feedback-modal-email"
                 style={{
-                  flexDirection: "row",
-                  width: "100%",
+                  marginTop: 8,
+                  backgroundColor: colors.textInputBackground,
+                  borderRadius: 8,
+                  padding: 16,
+                  color: colors.text,
+                  fontSize: 17,
+                }}
+                autoComplete="email"
+                keyboardType="email-address"
+                placeholderTextColor={colors.textInputPlaceholder}
+                value={email}
+                onChangeText={(text) => setEmail(text)}
+                placeholder={t("feedback_modal_email_placeholder")}
+              />
+              <Text
+                style={{
+                  fontSize: 14,
+                  color: colors.textSecondary,
+                  padding: 8,
+                  paddingTop: 0,
                   marginTop: 8,
                 }}
               >
-                <TextInput
-                  accessibilityLabel={t("feedback_modal_email_placeholder")}
-                  testID="feedback-modal-email"
-                  style={{
-                    flex: 1,
-                    backgroundColor: colors.textInputBackground,
-                    borderRadius: 8,
-                    padding: 16,
-                    color: colors.text,
-                    fontSize: 17,
-                  }}
-                  autoComplete="email"
-                  keyboardType="email-address"
-                  placeholderTextColor={colors.textInputPlaceholder}
-                  value={email}
-                  onChangeText={(text) => setEmail(text)}
-                  placeholder={t("feedback_modal_email_placeholder")}
-                />
-              </View>
-              <View
-                style={{
-                  flexDirection: "column",
-                  width: "100%",
-                  marginTop: 8,
-                  marginBottom: 8,
-                  flex: 1,
-                }}
-              >
-                <TextArea
-                  testID="feedback-modal-message"
-                  style={{
-                    flex: 1,
-                    height: "100%",
-                    maxHeight: 240,
-                  }}
-                  value={message}
-                  onChange={(text) => setMessageProxy(text)}
-                  placeholder={t("feedback_modal_message_placeholder")}
-                />
-                <Text
-                  style={{
-                    fontSize: 14,
-                    color: colors.textSecondary,
-                    padding: 8,
-                    paddingTop: 0,
-                    marginTop: 4,
-                  }}
-                >
-                  {t("feedback_modal_help")}
-                </Text>
-              </View>
+                {t("feedback_modal_help")}
+              </Text>
             </View>
           </View>
         </KeyboardAvoidingView>
@@ -225,17 +203,17 @@ const FeedbackModalContent = ({
 
 /**
  * Feedback form modal. Render the returned `Modal` once in the host screen;
- * `show` opens it with a preselected feedback type.
+ * `show` opens it for one feedback type, which sets title and placeholder.
  */
 export default function useFeedbackModal() {
   const [visible, setVisible] = useState(false);
   const analytics = useAnalytics();
 
-  const [defaultType, setDefaultType] = useState<FeedackType>("issue");
+  const [type, setType] = useState<FeedackType>("issue");
 
-  const show = ({ type = "issue" }: { type: FeedackType }) => {
-    analytics.track("feedback:modal_opened", { type });
-    setDefaultType(type);
+  const show = ({ type: nextType = "issue" }: { type: FeedackType }) => {
+    analytics.track("feedback:modal_opened", { type: nextType });
+    setType(nextType);
     setVisible(true);
   };
   const hide = () => {
@@ -248,7 +226,7 @@ export default function useFeedbackModal() {
   const ModalElement = (_props: { data?: object }) => (
     <FeedbackModalContent
       visible={visible}
-      defaultType={defaultType}
+      type={type}
       hide={hide}
       close={() => setVisible(false)}
     />

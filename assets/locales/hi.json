@@ -7,7 +7,6 @@
   "calendar": "पंचांग",
   "settings": "समायोजन",
   "licenses": "लाइसेंस",
-  "rate_this_app": "इस ऐप्लिकेशन को रेट करे",
   "reset_data_button": "सभी डेटा और सेटिंग रीसेट करें",
   "reset_data_confirm_title": "रीसेट",
   "reset_data_confirm_message": "क्या आप वाकई सभी प्रविष्टियां और टैग रीसेट करना चाहते हैं?",
@@ -26,8 +25,6 @@
   "issue": "मुद्दा",
   "idea": "विचार",
   "other": "अन्य",
-  "send_feedback_issue": "रिपोर्ट जारी करना",
-  "send_feedback_idea": "विचार सबमिट करें",
   "feedback_modal_title": "प्रतिक्रिया भेजें",
   "feedback_modal_description": "आपकी प्रतिक्रिया से मुझे यह समझने में बहुत मदद मिलती है कि आप ऐप का उपयोग कैसे करते हैं और मैं इसे कैसे बेहतर बना सकता हूं।",
   "feedback_modal_textarea_placeholder": "मैंने वह देखा…",
@@ -38,7 +35,6 @@
   "feedback_error_title": "प्रतिक्रिया विफल",
   "feedback_error_message": "आपका फ़ीडबैक भेजते समय कुछ गड़बड़ी हुई.",
   "feedback_help": "यह ऐप एक व्यक्ति द्वारा विकसित किया गया है। मैं आपकी प्रतिक्रिया को बहुत महत्व देता हूं। यह मुझे बेहतर ढंग से समझने में मदद करता है कि आप ऐप का उपयोग कैसे करते हैं और मैं इसे कैसे सुधार सकता हूं।",
-  "send_feedback": "प्रतिक्रिया दें",
   "back_to_today": "आज पर वापस",
   "data": "आंकड़े",
   "reminder": "अनुस्मारक",
@@ -629,5 +625,10 @@
   "archive_tag_enabled": "संग्रहीत",
   "colorblind_disclaimer": "यह रंग योजना पेन्सिलवेनिया राज्य विश्वविद्यालय के डॉ. सिंथिया ब्रेवर के शोध के आधार पर रंग-अंधा लोगों के लिए अनुकूलित है। यदि आपको अभी भी रंगों को देखने में परेशानी हो रही है, तो कृपया मुझे care@pixy.day पर बताएं।",
   "new_release": "नई रिलीज",
-  "statistics_sleep_quality_chart_highlights_title": "पिछले 14 दिनों में आपकी नींद की गुणवत्ता।"
+  "statistics_sleep_quality_chart_highlights_title": "पिछले 14 दिनों में आपकी नींद की गुणवत्ता।",
+  "request_a_feature": "सुविधा का अनुरोध करें",
+  "report_a_bug": "बग की रिपोर्ट करें",
+  "rate_pixy_app_store": "App Store पर Pixy को रेट करें",
+  "rate_pixy_google_play": "Google Play पर Pixy को रेट करें",
+  "feedback_modal_message_placeholder_idea": "बहुत अच्छा होगा अगर…"
 }

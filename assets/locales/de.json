@@ -473,7 +473,6 @@
   "privacy_content": "Pixy gibt dir die Möglichkeit, über deinen Tag zu reflektieren und sensible Informationen zu speichern. Ich möchte so transparent wie möglich über die Verwendung deiner Daten sein. Lass' mich kurz erklären, wie deine Daten verwendet werden und warum deine Daten sicher sind.\n\n### Wir haben keinen Zugriff\n\nDaten werden lokal auf deinem Gerät gespeichert. Sie werden nie an dritte weitergegeben, außer du entscheidest dich dafür, sie zu exportieren oder die Webhook-Funktionalität zu verwenden.\n\n### Fehlerprotokolle\n\n**Um Probleme zu finden und die Stabilität aufrechtzuerhalten, sehen wir uns gemeldete Fehlerprotokolle an.**\n\nWir sammeln Fehlerprotokolle mit dem Dienstleister Sentry. Das gibt uns die Möglichkeit, bspw. die Uhrzeit, den geöffneten Bildschirm und den Gerätetyp zu sehen. Wir verwenden dies, um den Fehler zu reproduzieren und eine Fehlerbehebung bereitzustellen.\n\n### Verhaltensdaten\n\nWenn du in der App navigierst oder eine Einstellung änderst, wird dies an eines unserer Analysetools gesendet. Diese Daten werden vollständig anonymisiert gesendet. Es werden keine deiner personenbezogenen Daten übermittelt. Beispiel: Wenn Laura Müller ihre Stimmung einträgt, wir sehen nur, dass die Benutzerin 101029 diese Aktion durchgeführt hat. \n\nWir verwenden Posthog Cloud, um Daten zu sammeln und zu visualisieren. Dies hilft uns, Trends besser zu verstehen und Verbesserungsmöglichkeiten zu finden.\n\n\n---------\n\nWenn du Fragen oder Bedenken hast, schreib mir gerne eine E-Mail an [care@pixy.day](mailto:care@pixy.day).\n\n**Ich verwende diese App selbst und würde niemals persönliche Daten an Entwickler*innen weitergeben wollen.**",
   "privacy_policy": "Datenschutzerklärung",
   "privacy": "Privatsphäre",
-  "rate_this_app": "App bewerten",
   "reminder_modal_body": "Richte eine tägliche Benachrichtigung als Erinnerung ein.",
   "reminder_modal_footer": "Noch nicht überzeugt? Keine Sorge, du kannst die Erinnerung später in den Einstellungen einrichten.",
   "reminder_modal_title": "Lass es uns zur Routine machen!",
@@ -492,9 +491,6 @@
   "reset": "Zurücksetzen",
   "save": "Speichern",
   "select_emotion": "Wähle die Emotion aus, die du gerade fühlst",
-  "send_feedback_idea": "Idee einreichen",
-  "send_feedback_issue": "Probleme melden",
-  "send_feedback": "Feedback geben",
   "send": "Abschicken",
   "settings_about": "Über",
   "settings_app": "App",
@@ -626,5 +622,10 @@
   "tags_archive_empty": "Noch keine archivierten Schlagwörter.",
   "colorblind_disclaimer": "Dieses Farbschema wurde basierend auf der Forschung von Dr. Cynthia Brewer von der Pennsylvania State University für farbenblinde Menschen optimiert. Wenn du Schwierigkeiten hast, die Farben zu sehen, sag mir gerne per E-Mail unter care@pixy.day Bescheid.",
   "new_release": "Neue Version",
-  "statistics_sleep_quality_chart_highlights_title": "Deine Schlafqualität in den letzten 14 Tagen."
+  "statistics_sleep_quality_chart_highlights_title": "Deine Schlafqualität in den letzten 14 Tagen.",
+  "request_a_feature": "Funktion wünschen",
+  "report_a_bug": "Fehler melden",
+  "rate_pixy_app_store": "Pixy im App Store bewerten",
+  "rate_pixy_google_play": "Pixy bei Google Play bewerten",
+  "feedback_modal_message_placeholder_idea": "Es wäre toll, wenn…"
 }

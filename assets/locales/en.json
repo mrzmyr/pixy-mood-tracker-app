@@ -471,7 +471,6 @@
   "privacy_content": "Pixy gives you the ability to reflect on your day and store potentially sensitive information. I want to be as transparent as possible on the usage of your data. So allow me to explain how the data is used and why your data is safe.\n\n### We don’t have access to your tracked information\n\nYour data is saved locally on your device. It is never shared with anyone except if you choose to export it or use the webhook functionality.\n\n### Error Logs\n\n**To find issues and maintain stability, we look at reported error logs.**\n\nWe collect error logs with the service provider Sentry. It gives us the possibility to see the time, the screen opened and the type of the device. We use this to reproduce the error and to provide a fix.\n\n### Behavioral Data\n\nWhen you open a screen or change a setting, this will be sent to one of our analytics tools. This data is sent anonymized. None of your personal data is sent. For example, if Laura Birmingham tracks her mood. We only see that user 101029 did this action.\n\nWe use Posthog Cloud to collect and visualize data. It helps us to better understand trends and to find areas for improvement.\n\n\n---------\n\nIf you have any questions or concerns, drop me a line at [care@pixy.day](mailto:care@pixy.day).\n\n**I use this app by myself and I would never want to share personal data with any developer.**",
   "privacy_policy": "Privacy Policy",
   "privacy": "Privacy",
-  "rate_this_app": "Rate this app",
   "reminder_modal_body": "Set up a daily reminder notification, so you never miss your tracked pixel.",
   "reminder_modal_footer": "Not convinced yet? No worries, you can set up the reminder in the app settings later.",
   "reminder_modal_title": "Make it a routine?",
@@ -490,9 +489,6 @@
   "reset": "Reset",
   "save": "Save",
   "select_emotion": "Select the emotion you feel right now",
-  "send_feedback_idea": "Submit Idea",
-  "send_feedback_issue": "Report Issue",
-  "send_feedback": "Give Feedback",
   "send": "Send",
   "support_pixy_body": "Pixy is free to use and supported by optional contributions. If it has been useful to you, you may support its continued development.",
   "support_pixy_button": "Support Pixy",
@@ -635,5 +631,10 @@
   "archive_tag_enabled": "Archived",
   "colorblind_disclaimer": "This color scheme is optimized for colorblind people based on the research of Dr. Cynthia Brewer from Pennsylvania State University. If you still have trouble seeing the colors, please let me know at care@pixy.day.",
   "new_release": "New Release",
-  "statistics_sleep_quality_chart_highlights_title": "Your sleep quality over the last 14 days."
+  "statistics_sleep_quality_chart_highlights_title": "Your sleep quality over the last 14 days.",
+  "request_a_feature": "Request a feature",
+  "report_a_bug": "Report a bug",
+  "rate_pixy_app_store": "Rate Pixy in the App Store",
+  "rate_pixy_google_play": "Rate Pixy on Google Play",
+  "feedback_modal_message_placeholder_idea": "It would be great if…"
 }

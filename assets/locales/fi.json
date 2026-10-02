@@ -8,7 +8,6 @@
   "calendar": "Kalenteri",
   "settings": "asetukset",
   "licenses": "Lisenssit",
-  "rate_this_app": "Arvostele tämä sovellus",
   "reset_data_button": "Nollaa kaikki tiedot ja asetukset",
   "reset_data_confirm_title": "Nollaa",
   "reset_data_confirm_message": "Haluatko varmasti nollata kaikki merkinnät ja tunnisteet?",
@@ -26,8 +25,6 @@
   "issue": "Ongelma",
   "idea": "Idea",
   "other": "Muut",
-  "send_feedback_issue": "Ilmoita ongelmasta",
-  "send_feedback_idea": "Lähetä Idea",
   "feedback_modal_title": "Lähetä palautetta",
   "feedback_modal_description": "Palautteesi auttaa minua ymmärtämään paremmin, kuinka käytät sovellusta ja miten voin parantaa sitä.",
   "feedback_modal_textarea_placeholder": "Huomasin sen…",
@@ -38,7 +35,6 @@
   "feedback_error_title": "Palaute epäonnistui",
   "feedback_error_message": "Jotain meni pieleen palautetta lähetettäessä.",
   "feedback_help": "Tämän sovelluksen on kehittänyt yksi henkilö. Arvostan suuresti palautettasi. Se auttaa minua ymmärtämään paremmin, kuinka käytät sovellusta ja miten voin parantaa sitä.",
-  "send_feedback": "Antaa palautetta",
   "back_to_today": "Takaisin tähän päivään",
   "data": "Data",
   "reminder": "Muistutus",
@@ -629,5 +625,10 @@
   "archive_tag_enabled": "Arkistoitu",
   "colorblind_disclaimer": "Tämä värimaailma on optimoitu värisokeille Pennsylvania State Universityn tohtori Cynthia Brewerin tutkimuksen perusteella. Jos sinulla on edelleen vaikeuksia nähdä värit, ilmoita minulle osoitteeseen care@pixy.day.",
   "new_release": "Uusi julkaisu",
-  "statistics_sleep_quality_chart_highlights_title": "Unenlaatusi viimeisen 14 päivän aikana."
+  "statistics_sleep_quality_chart_highlights_title": "Unenlaatusi viimeisen 14 päivän aikana.",
+  "request_a_feature": "Ehdota ominaisuutta",
+  "report_a_bug": "Ilmoita virheestä",
+  "rate_pixy_app_store": "Arvostele Pixy App Storessa",
+  "rate_pixy_google_play": "Arvostele Pixy Google Playssa",
+  "feedback_modal_message_placeholder_idea": "Olisi hienoa, jos…"
 }

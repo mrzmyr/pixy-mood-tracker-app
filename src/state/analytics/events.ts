@@ -133,7 +133,6 @@ export interface AnalyticsEvents {
   "data:reset_cancelled": { kind: ResetKind };
 
   "feedback:modal_opened": { type: FeedackType };
-  "feedback:type_changed": { type: FeedackType };
   "feedback:feedback_submitted": {
     type: FeedackType;
     source: FeedbackSource;

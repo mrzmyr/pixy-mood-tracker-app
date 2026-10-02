@@ -8,7 +8,6 @@
   "calendar": "Ημερολόγιο",
   "settings": "Ρυθμίσεις",
   "licenses": "Άδειες",
-  "rate_this_app": "Βαθμολόγησε αυτήν την εφαρμογή",
   "reset_data_button": "Επαναφέρετε όλα τα δεδομένα και τις ρυθμίσεις",
   "reset_data_confirm_title": "Επαναφορά",
   "reset_data_confirm_message": "Είστε βέβαιοι ότι θέλετε να επαναφέρετε όλες τις καταχωρήσεις και τις ετικέτες;",
@@ -26,8 +25,6 @@
   "issue": "Θέμα",
   "idea": "Ιδέα",
   "other": "Αλλα",
-  "send_feedback_issue": "Αναφορά ζητήματος",
-  "send_feedback_idea": "Υποβολή ιδέας",
   "feedback_modal_title": "Στείλετε τα σχόλιά σας",
   "feedback_modal_description": "Τα σχόλιά σας με βοηθούν πολύ να καταλάβω καλύτερα πώς χρησιμοποιείτε την εφαρμογή και πώς μπορώ να τη βελτιώσω.",
   "feedback_modal_textarea_placeholder": "Παρατήρησα ότι…",
@@ -38,7 +35,6 @@
   "feedback_error_title": "Τα σχόλια απέτυχαν",
   "feedback_error_message": "Παρουσιάστηκε κάποιο πρόβλημα κατά την αποστολή των σχολίων σας.",
   "feedback_help": "Αυτή η εφαρμογή έχει αναπτυχθεί από ένα άτομο. Εκτιμώ πολύ τα σχόλιά σας. Με βοηθά να κατανοήσω καλύτερα πώς χρησιμοποιείτε την εφαρμογή και πώς μπορώ να τη βελτιώσω.",
-  "send_feedback": "Δώστε σχόλια",
   "back_to_today": "Επιστροφή στο σήμερα",
   "data": "Δεδομένα",
   "reminder": "Υπενθύμιση",
@@ -629,5 +625,10 @@
   "archive_tag_enabled": "Αρχειοθετημένα",
   "colorblind_disclaimer": "Αυτός ο συνδυασμός χρωμάτων έχει βελτιστοποιηθεί για άτομα με αχρωματοψία με βάση την έρευνα της Δρ. Cynthia Brewer από το Πολιτειακό Πανεπιστήμιο της Πενσυλβάνια. Εάν εξακολουθείτε να δυσκολεύεστε να δείτε τα χρώματα, ενημερώστε με στο care@pixy.day.",
   "new_release": "Νέα έκδοση",
-  "statistics_sleep_quality_chart_highlights_title": "Η ποιότητα του ύπνου σας τις τελευταίες 14 ημέρες."
+  "statistics_sleep_quality_chart_highlights_title": "Η ποιότητα του ύπνου σας τις τελευταίες 14 ημέρες.",
+  "request_a_feature": "Πρόταση λειτουργίας",
+  "report_a_bug": "Αναφορά σφάλματος",
+  "rate_pixy_app_store": "Βαθμολόγησε το Pixy στο App Store",
+  "rate_pixy_google_play": "Βαθμολόγησε το Pixy στο Google Play",
+  "feedback_modal_message_placeholder_idea": "Θα ήταν υπέροχο αν…"
 }
