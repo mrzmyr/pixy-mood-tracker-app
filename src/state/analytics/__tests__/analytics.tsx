@@ -83,6 +83,7 @@ const USAGE_SUMMARY = {
   photos_pct_30d: 10,
   photos_count: 4,
   photos_day_pct: 50,
+  photo_library_access: "limited" as const,
 };
 
 describe("useAnalytics()", () => {

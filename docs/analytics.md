@@ -16,6 +16,32 @@
   - Answer: `worse`, `same`, `better`. Asked only after create, not edit
   - Entry metadata: `rating`, `emotions`, counts, `message_word_count`, `sleep_quality`, `entries_count`
 
+## Photos
+
+- Events: `photos:*` in [`events.ts`](../src/state/analytics/events.ts). Sent through `track()` only, so consent applies
+- Never file names, URIs, dimensions, EXIF, location, photo timestamps, or library ids
+- `mode`: `create` or `edit`. `entry_days_ago`: 0 for today, like `calendar:day_opened.days_ago`
+- Questions: [product-analytics.md](product-analytics.md#photos)
+
+| Event | When | Properties |
+| --- | --- | --- |
+| `logger:step_viewed` | Photos step shown | `step: "photos"` |
+| `photos:day_access_prompt_shown` | Permission row shows, once per step mount | `mode`, `entry_days_ago` |
+| `photos:day_access_prompt_dismissed` | Close button on the row | `mode` |
+| `photos:day_access_answered` | System dialog closes | `status`, `source` (`row`, `menu`) |
+| `photos:day_photos_loaded` | Day query resolves | `count` (0 to 20), `access`, `entry_days_ago` |
+| `photos:picker_opened` | Library picker or camera opens | `source`, `remaining` |
+| `photos:picker_closed` | Picker or camera returns | `source`, `picked_count`, `is_cancelled` |
+| `photos:photo_selected` | Tile becomes selected | `source` (`day`, `library`, `camera`), `selected_count`, `mode` |
+| `photos:photo_deselected` | Tile becomes unselected | `source`, `selected_count`, `mode` |
+| `photos:limit_reached` | Tap at 6 selected | `mode` |
+| `photos:import_failed` | Import error | `source`, `status` |
+| `photos:camera_access_denied` | Camera permission denied | none |
+| `photos:viewer_closed` | Viewer closes | `context` (`logger`, `day`), `photos_count`, `viewed_count` |
+| `logger:log_saved` | Save | `photos_count`, `photos_day_count`, `photos_library_count`, `photos_camera_count` |
+| `settings:step_toggled` | Check-in toggle | `step: "photos"` |
+| `logger:step_disabled` | "I don't add photos" | `step: "photos"` |
+
 ## Event history
 
 Use this section to join old and new events in PostHog, for example with an Action that matches both names.
@@ -36,6 +62,10 @@ Use this section to join old and new events in PostHog, for example with an Acti
 **Added events**
 
 - Photo attachments, first release with photos ([`src/features/photos`](../src/features/photos))
+  - `photos:day_access_prompt_shown`: `mode`, `entry_days_ago`
+  - `photos:day_access_prompt_dismissed`: `mode`
+  - `photos:day_access_answered`: `status` (`granted`, `limited`, `denied`), `source` (`row`, `menu`)
+  - `photos:day_photos_loaded`: `count`, `access` (`granted`, `limited`), `entry_days_ago`
   - `photos:picker_opened`: `source` (`library`, `camera`), `remaining`
   - `photos:picker_closed`: `source`, `picked_count`, `is_cancelled`
   - `photos:photo_selected`, `photos:photo_deselected`: `source` (`day`, `library`, `camera`), `selected_count`, `mode`
@@ -45,7 +75,7 @@ Use this section to join old and new events in PostHog, for example with an Acti
   - `photos:viewer_closed`: `context` (`logger`, `day`), `photos_count`, `viewed_count`
   - `logger:log_saved`: new `photos_count`, `photos_day_count`, `photos_library_count`, `photos_camera_count`
   - Counts and enums only. Never file names, URIs, dimensions, EXIF, location, photo timestamps, or library ids
-- Never shipped in a release, replaced before the first photos release: `logger:photo_added` (now `photos:photo_selected`), `logger:photo_removed` (now `photos:photo_deselected`), `logger:photo_limit_reached` (now `photos:limit_reached`), `logger:camera_permission_denied` (now `photos:camera_access_denied`), `day:photo_opened` (now `photos:viewer_closed` with `context: "day"`)
+- Never shipped in a release, replaced before the first photos release: `logger:library_permission_answered` (now `photos:day_access_answered`), `logger:photo_added` (now `photos:photo_selected`), `logger:photo_removed` (now `photos:photo_deselected`), `logger:photo_limit_reached` (now `photos:limit_reached`), `logger:camera_permission_denied` (now `photos:camera_access_denied`), `day:photo_opened` (now `photos:viewer_closed` with `context: "day"`)
 
 **Changed meaning**
 

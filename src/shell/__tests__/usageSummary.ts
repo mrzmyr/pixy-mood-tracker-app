@@ -64,6 +64,7 @@ describe("getUsageSummary()", () => {
         tags,
         settings,
         isPhotosEnabled: true,
+        photoLibraryAccess: "granted",
         now: NOW,
       })
     ).toEqual({
@@ -91,6 +92,7 @@ describe("getUsageSummary()", () => {
       photos_pct_30d: 0,
       photos_count: 0,
       photos_day_pct: null,
+      photo_library_access: "granted",
     });
   });
 
@@ -119,6 +121,7 @@ describe("getUsageSummary()", () => {
       tags: [],
       settings,
       isPhotosEnabled: false,
+      photoLibraryAccess: "limited",
       now: NOW,
     });
 
@@ -126,6 +129,7 @@ describe("getUsageSummary()", () => {
       photos_pct_30d: 50,
       photos_count: 4,
       photos_day_pct: 50,
+      photo_library_access: "limited",
     });
     const serialized = JSON.stringify(properties);
     expect(serialized).not.toContain("library-");
@@ -138,6 +142,7 @@ describe("getUsageSummary()", () => {
       tags: [],
       settings: { ...settings, reminderEnabled: false, actionsDone: [] },
       isPhotosEnabled: false,
+      photoLibraryAccess: "unavailable",
       now: NOW,
     });
 

@@ -68,6 +68,23 @@ export interface AnalyticsEvents {
   "day:delete_tapped": undefined;
   "day:closed": undefined;
 
+  /** `entry_days_ago`: 0 for today, like `calendar:day_opened.days_ago`. */
+  "photos:day_access_prompt_shown": {
+    mode: "create" | "edit";
+    entry_days_ago: number;
+  };
+  "photos:day_access_prompt_dismissed": { mode: "create" | "edit" };
+  /** `source`: the permission row or the add photo menu. */
+  "photos:day_access_answered": {
+    status: "granted" | "limited" | "denied";
+    source: "row" | "menu";
+  };
+  /** `count`: library photos of the entry's day, 0 to 20. */
+  "photos:day_photos_loaded": {
+    count: number;
+    access: "granted" | "limited";
+    entry_days_ago: number;
+  };
   /** `remaining`: photos the entry can still take. */
   "photos:picker_opened": {
     source: "library" | "camera";
@@ -240,6 +257,13 @@ export type UsageSummary = {
   photos_count: number;
   /** Share of stored photos with `source: "day"`, 0 to 100. */
   photos_day_pct: number | null;
+  /** Photo library read access. `unavailable`: Android, or photos off. */
+  photo_library_access:
+    | "undetermined"
+    | "granted"
+    | "limited"
+    | "denied"
+    | "unavailable";
 };
 
 /** Usage summary fields written once, on the first send. */
