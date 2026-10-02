@@ -12,18 +12,25 @@ import type { LogItem } from "@/features/logs";
 import useScale from "@/hooks/useScale";
 
 const SCREEN_HEIGHT = Dimensions.get("screen").height;
+// Share of the screen height for all 7 buttons. Compact buttons leave room
+// for the attachment tray below them.
+const HEIGHT_SHARE = 0.48;
+const COMPACT_HEIGHT_SHARE = 0.4;
 
 /**
  * Rating button on the mood slide, colored from the user's scale. Height
- * scales with the screen height measured at module load.
+ * scales with the screen height measured at module load; `isCompact` makes
+ * the button smaller.
  */
 export const SlideMoodButton = ({
   rating,
   selected,
+  isCompact,
   onPress,
 }: {
   rating: LogItem["rating"];
   selected: boolean;
+  isCompact?: boolean;
   onPress: () => void;
 }) => {
   const haptics = useHaptics();
@@ -31,7 +38,8 @@ export const SlideMoodButton = ({
   const scale = useScale(scaleType);
   const colorScheme = useColorScheme();
 
-  const height = Math.max(40, (SCREEN_HEIGHT * 0.48) / 7);
+  const share = isCompact ? COMPACT_HEIGHT_SHARE : HEIGHT_SHARE;
+  const height = Math.max(40, (SCREEN_HEIGHT * share) / 7);
   const width = height * 2.4;
 
   return (

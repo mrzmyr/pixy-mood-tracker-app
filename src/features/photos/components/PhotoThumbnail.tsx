@@ -13,10 +13,11 @@ const REMOVE_BUTTON_BACKGROUND = "rgba(0, 0, 0, 0.6)";
 const REMOVE_BUTTON_SIZE = 28;
 // 28pt button plus 8pt on every side gives the 44pt minimum target.
 const REMOVE_HIT_SLOP = 8;
-// Small tiles get a 20pt badge on the corner; 12pt slop keeps 44pt.
+// Small tiles get a 20pt badge on the corner. The slop grows outward, so the
+// 44pt target covers only the tile corner and a tap on the photo opens it.
 const COMPACT_REMOVE_BUTTON_SIZE = 20;
-const COMPACT_REMOVE_HIT_SLOP = 12;
-const COMPACT_REMOVE_OFFSET = -6;
+const COMPACT_REMOVE_HIT_SLOP = { top: 18, right: 18, bottom: 6, left: 6 };
+const COMPACT_REMOVE_OFFSET = -8;
 
 /**
  * Square photo tile with radius 12. Shows an `ImageOff` placeholder when the
@@ -25,7 +26,7 @@ const COMPACT_REMOVE_OFFSET = -6;
  *
  * Without `size`, the tile fills the width of its parent. `isCompact` puts a
  * smaller remove badge on the top-right corner, partly outside the tile, so
- * it does not hide small tiles. Leave 6pt of space above and right of it.
+ * it does not hide small tiles. Leave 8pt of space above and right of it.
  */
 export const PhotoThumbnail = ({
   photo,

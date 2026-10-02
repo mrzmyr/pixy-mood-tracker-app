@@ -13,6 +13,7 @@ import { RATING_KEYS } from "@/constants/Ratings";
 import { useTemporaryLog } from "../temporaryLog";
 import { SlideHeadline } from "../components/SlideHeadline";
 import { SlideMoodButton } from "../components/SlideMoodButton";
+import { isTrayVisible } from "../attachmentTray";
 
 /**
  * Rating slide, always the first logger slide. Must render inside
@@ -30,6 +31,10 @@ export const SlideMood = ({
 
   const marginTop = getLogEditMarginTop();
   const [isDatePickerVisible, setIsDatePickerVisible] = useState(false);
+  // Buttons do not shrink with the slide; compact ones keep clear of the tray.
+  const isCompact = isTrayVisible({
+    photosCount: tempLog.data.photos?.length ?? 0,
+  });
 
   return (
     <View
@@ -90,6 +95,7 @@ export const SlideMood = ({
               key={key}
               rating={key}
               selected={tempLog?.data?.rating === key}
+              isCompact={isCompact}
               onPress={() => onChange(key)}
             />
           ))}

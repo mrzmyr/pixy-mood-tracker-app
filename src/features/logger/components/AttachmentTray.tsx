@@ -16,6 +16,7 @@ import {
 } from "../attachmentTray";
 
 const THUMBNAIL_SIZE = 48;
+const BADGE_SPACE = 10;
 
 /**
  * Strip of draft photos above the floating next/save button, with remove
@@ -58,12 +59,13 @@ export const AttachmentTray = ({
         showsHorizontalScrollIndicator={false}
         keyboardShouldPersistTaps="handled"
         style={{ flex: 1 }}
-        // Vertical padding centers the 48pt tiles in the 64pt strip and
-        // leaves room for the compact remove badges above the tiles.
+        // 48pt tiles in the 64pt strip; the top padding leaves room for the
+        // compact remove badges that stick out above the tiles.
         contentContainerStyle={{
           gap: 12,
           paddingHorizontal: 20,
-          paddingVertical: (TRAY_HEIGHT - THUMBNAIL_SIZE) / 2,
+          paddingTop: BADGE_SPACE,
+          paddingBottom: TRAY_HEIGHT - THUMBNAIL_SIZE - BADGE_SPACE,
         }}
       >
         {photos.map((photo, index) => (
