@@ -223,7 +223,7 @@ describe("Feedback in Settings", () => {
     }
   );
 
-  test("user sees store rating as third feedback item", async () => {
+  test("user sees store rating as last feedback item", async () => {
     const screen = await renderSettings({
       enabled: false,
       openSupport: () => Promise.resolve(),
@@ -231,5 +231,21 @@ describe("Feedback in Settings", () => {
 
     expect(screen.getByText("Rate Pixy in the App Store")).toBeOnTheScreen();
     expect(screen.queryByText("Rate this app")).toBeNull();
+  });
+
+  test("user finds feedback, about and development items in their sections", async () => {
+    const screen = await renderSettings({
+      enabled: false,
+      openSupport: () => Promise.resolve(),
+    });
+
+    expect(screen.getByText("Feedback")).toBeOnTheScreen();
+    expect(screen.getByText("About")).toBeOnTheScreen();
+    expect(screen.getByText("Development")).toBeOnTheScreen();
+    expect(screen.getByText("Onboarding")).toBeOnTheScreen();
+    expect(screen.getByText("Vote Features")).toBeOnTheScreen();
+    expect(screen.getByText("What's new")).toBeOnTheScreen();
+    expect(screen.getByText("Statistics for Nerds")).toBeOnTheScreen();
+    expect(screen.getByText("Licenses")).toBeOnTheScreen();
   });
 });
