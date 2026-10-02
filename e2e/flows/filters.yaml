@@ -27,6 +27,11 @@ tags: [p1, filters]
       - assertVisible: "Filters, 2"
 - runFlow: ../subflows/open-filters.yaml
 - assertVisible: "10 Results"
+# Reset sits below the results; the half-height Android sheet cuts it off.
+- scrollUntilVisible:
+    element:
+      id: "calendar-filter-reset"
+    direction: DOWN
 - tapOn:
     id: "calendar-filter-reset"
 - assertNotVisible: ".* Results"
