@@ -1,5 +1,6 @@
 import React from "react";
 import { ChevronDown } from "react-native-feather";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
 import { FloatButton } from "@/components/FloatButton";
 import useColors from "@/hooks/useColors";
@@ -7,12 +8,13 @@ import useColors from "@/hooks/useColors";
 /** Floating button that scrolls the calendar to its end, the current month. */
 export const ScrollToBottomButton = ({ onPress }: { onPress: () => void }) => {
   const colors = useColors();
+  const insets = useSafeAreaInsets();
 
   return (
     <Animated.View
       style={{
         position: "absolute",
-        bottom: 20,
+        bottom: 20 + insets.bottom,
         right: 20,
         zIndex: 100,
       }}

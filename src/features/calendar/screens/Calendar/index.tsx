@@ -21,7 +21,8 @@ import { ObserveInteractiveMarker } from "expo-observe";
 const CalendarScreenComponent = () => {
   /*
    * Opt out of React Compiler. Compiled, this screen returns a cached footer
-   * element while its tab is frozen (freezeOnBlur). After unfreezing, FlashList
+   * element while its screen is frozen (freezeOnBlur, set on tabs until the
+   * tab bar was removed). After unfreezing, FlashList
    * kept the stale footer: resetting data in Settings left "Add another entry
    * for today" on an empty calendar (e2e/flows/data-round-trip.yaml).
    */

@@ -17,7 +17,7 @@ tags: [p0, onboarding]
 - assertVisible: "We take privacy serious and handle your data with care."
 - tapOn: "Understood"
 - assertVisible:
-    id: "calendar"
+    id: "calendar-list"
 
 - runFlow: ../subflows/create-basic-entry.yaml
 

@@ -8,8 +8,7 @@ tags: [p1, tags]
     env:
       FIXTURE: year
 - runScript: ../scripts/set-output-date.js
-- tapOn:
-    id: "settings"
+- runFlow: ../subflows/open-settings.yaml
 - tapOn: "Tags"
 
 # Rename. iOS only: on Android, agent-device 0.21.14 types nothing into this
@@ -70,10 +69,9 @@ tags: [p1, tags]
       text: "e2e-${output.runId}"
     direction: DOWN
 - back
+- back
 
 # Logger offers the new tag, not the archived or deleted ones.
-- tapOn:
-    id: "calendar"
 - tapOn: "Add another entry for today"
 - waitForAnimationToEnd
 - tapOn:

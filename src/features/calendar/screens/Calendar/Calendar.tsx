@@ -2,6 +2,7 @@ import { FlashList } from "@shopify/flash-list";
 import type { FlashListRef, ListRenderItemInfo } from "@shopify/flash-list";
 
 import dayjs from "dayjs";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import React, { memo, useCallback, useMemo, useRef, useState } from "react";
 import { Platform, useWindowDimensions, View } from "react-native";
 import type {
@@ -21,7 +22,6 @@ import { getItemDate } from "@/lib/logDates";
 const positionConfig = { startRenderingFromBottom: true };
 const getKey = (item: Month) => item.date;
 const getType = (item: Month) => item.weeks;
-const contentStyle = { paddingHorizontal: 16 };
 
 const CalendarComponent = ({
   listRef,
@@ -35,7 +35,13 @@ const CalendarComponent = ({
   onScroll: (event: NativeSyntheticEvent<NativeScrollEvent>) => void;
 }) => {
   const logState = useLogState();
+  const insets = useSafeAreaInsets();
   const { fontScale } = useWindowDimensions();
+  // No tab bar: the list clears the home indicator itself.
+  const contentStyle = useMemo(
+    () => ({ paddingHorizontal: 16, paddingBottom: insets.bottom }),
+    [insets.bottom]
+  );
   const [width, setWidth] = useState(0);
   const [monthCount, setMonthCount] = useState(13);
   const isLoaded = useRef(false);

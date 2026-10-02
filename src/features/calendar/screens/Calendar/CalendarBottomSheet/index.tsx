@@ -11,7 +11,7 @@ const sheetModifiers =
   Platform.OS === "ios" ? [presentationCornerRadius(16)] : undefined;
 
 /**
- * Calendar filter sheet, opened from the header menu (web: header button).
+ * Calendar filter sheet, opened from the calendar header Filters button.
  *
  * Native `@expo/ui` sheet: SwiftUI on iOS, Material 3 on Android. Swipe,
  * outside tap, and Android Back close it and clear the filters. Visibility

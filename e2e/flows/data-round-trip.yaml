@@ -12,11 +12,10 @@ tags: [p1, data]
 - openLink: ${APP_SCHEME}://dev/fake-files
 - extendedWaitUntil:
     visible:
-      id: "calendar"
+      id: "calendar-list"
     timeout: 10000
 
-- tapOn:
-    id: "settings"
+- runFlow: ../subflows/open-settings.yaml
 - tapOn:
     id: "data"
 - tapOn: "Export"
@@ -36,13 +35,11 @@ tags: [p1, data]
 - assertVisible: "All data has been reset."
 - tapOn: "OK"
 - back
-- tapOn:
-    id: "calendar"
+- back
 - assertVisible: "Add New Entry"
 
 # Import the exported file.
-- tapOn:
-    id: "settings"
+- runFlow: ../subflows/open-settings.yaml
 - tapOn:
     id: "data"
 - tapOn: "Import"
