@@ -80,11 +80,11 @@ const AppLayout = () => {
             options={{ ...pageOptions, title: t("steps") }}
           />
           <Stack.Screen
-            name="settings/data"
+            name="settings/data/index"
             options={{ ...pageOptions, title: t("data") }}
           />
           <Stack.Screen
-            name="settings/backup"
+            name="settings/data/backup"
             options={{ ...pageOptions, title: t("backup") }}
           />
           <Stack.Screen

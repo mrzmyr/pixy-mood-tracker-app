@@ -1,5 +1,6 @@
-import { ScrollView } from "react-native";
-import { Download, Trash, Upload } from "react-native-feather";
+import { useRouter } from "expo-router";
+import { Platform, ScrollView } from "react-native";
+import { Download, HardDrive, Trash, Upload } from "react-native-feather";
 import MenuList from "@/components/MenuList";
 import MenuListItem from "@/components/MenuListItem";
 import TextInfo from "@/components/TextInfo";
@@ -9,12 +10,19 @@ import { useDatagate } from "../DataGate";
 import { PageWithHeaderLayout } from "@/components/PageWithHeaderLayout";
 
 /**
- * Settings > Data: import, export, and reset of all user data via
- * `useDatagate`. The direct AsyncStorage import is development-only.
+ * Settings > Data: the data hub. Phone backup status (opens the Backup
+ * page), import and export, and reset of all user data via `useDatagate`.
+ * The direct AsyncStorage import is development-only.
  */
 export const DataScreen = () => {
   const colors = useColors();
+  const router = useRouter();
   const datagate = useDatagate();
+
+  const backupStatus =
+    Platform.OS === "android"
+      ? t("backup_status_android")
+      : t("backup_status_ios");
 
   return (
     <PageWithHeaderLayout
@@ -29,6 +37,16 @@ export const DataScreen = () => {
           flex: 1,
         }}
       >
+        <MenuList style={{ marginTop: 16 }}>
+          <MenuListItem
+            title={backupStatus}
+            onPress={() => router.push("/settings/data/backup")}
+            iconLeft={<HardDrive width={18} color={colors.menuListItemIcon} />}
+            testID="backup"
+            isLink
+            isLast
+          />
+        </MenuList>
         <MenuList style={{ marginTop: 16 }}>
           <MenuListItem
             title={t("import")}

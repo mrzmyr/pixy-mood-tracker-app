@@ -1,13 +1,10 @@
 import { renderRouter } from "expo-router/testing-library";
-import { userEvent } from "@testing-library/react-native";
-import { Platform, Text } from "react-native";
+import { Platform } from "react-native";
 import { BackupScreen } from "../screens/Backup";
-
-const DataScreen = () => <Text>Data screen</Text>;
 
 const renderBackup = async () => {
   const result = await renderRouter(
-    { index: BackupScreen, "settings/data": DataScreen },
+    { index: BackupScreen },
     { initialUrl: "/" }
   );
   jest.useRealTimers();
@@ -41,14 +38,5 @@ describe("BackupScreen", () => {
     ).toBeTruthy();
     expect(result.getByText(/Without a screen lock/u)).toBeTruthy();
     expect(result.getByText(/Pixy has no server/u)).toBeTruthy();
-  });
-
-  test("opens the Data screen for a file export", async () => {
-    jest.replaceProperty(Platform, "OS", "ios");
-
-    const result = await renderBackup();
-    await userEvent.press(await result.findByTestId("backup-export"));
-
-    expect(await result.findByText("Data screen")).toBeTruthy();
   });
 });

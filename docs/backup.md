@@ -34,9 +34,9 @@ Move storage out of AsyncStorage (MMKV, expo-sqlite, files) and the rules must f
 - iOS deletes the file when the share sheet closes. Android keeps it until the next export, because receiving apps may read it later
 - Each export deletes leftover export files from the documents folder. Versions up to 1.88.0 never removed them
 
-## Settings > Backup
+## Settings > Data > Backup
 
-[`src/features/settings/screens/Backup.tsx`](../src/features/settings/screens/Backup.tsx) explains the platform backup, who can read it, and links to the file export. Copy lives in `backup_content_ios` and `backup_content_android` in [`assets/locales/en.json`](../assets/locales/en.json).
+Data screen shows one status row ("Part of your iPhone backup" / "Part of your Android backup"). It opens [`src/features/settings/screens/Backup.tsx`](../src/features/settings/screens/Backup.tsx), which explains the platform backup and who can read it. Copy lives in `backup_content_ios` and `backup_content_android` in [`assets/locales/en.json`](../assets/locales/en.json).
 
 ## Privacy notes
 
