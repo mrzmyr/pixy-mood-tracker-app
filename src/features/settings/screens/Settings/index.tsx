@@ -175,15 +175,29 @@ export const SettingsScreen = () => {
             isLink
           />
           <MenuListItem
+            title={t("licenses")}
+            iconLeft={<Award width={18} color={colors.menuListItemIcon} />}
+            onPress={() => router.push("/settings/licenses")}
+            isLink
+          />
+          <MenuListItem
+            title={t("app_is_open_source")}
+            onPress={() => {
+              Linking.openURL(
+                "https://github.com/mrzmyr/pixy-mood-tracker-app"
+              );
+            }}
+            iconLeft={<Github width={18} color={colors.menuListItemIcon} />}
+            isLast
+          />
+        </MenuList>
+
+        <MenuListHeadline>{t("settings_development")}</MenuListHeadline>
+        <MenuList style={{}}>
+          <MenuListItem
             title={t("onboarding")}
             iconLeft={<Smartphone width={18} color={colors.menuListItemIcon} />}
             onPress={() => router.push("/onboarding")}
-          />
-          <MenuListItem
-            title={t("settings_development_statistics")}
-            iconLeft={<PieChart width={18} color={colors.menuListItemIcon} />}
-            onPress={() => router.push("/settings/development-tools")}
-            isLink
           />
           {DEV_TOOLS && (
             <MenuListItem
@@ -195,18 +209,9 @@ export const SettingsScreen = () => {
             />
           )}
           <MenuListItem
-            title={t("app_is_open_source")}
-            onPress={() => {
-              Linking.openURL(
-                "https://github.com/mrzmyr/pixy-mood-tracker-app"
-              );
-            }}
-            iconLeft={<Github width={18} color={colors.menuListItemIcon} />}
-          />
-          <MenuListItem
-            title={t("licenses")}
-            iconLeft={<Award width={18} color={colors.menuListItemIcon} />}
-            onPress={() => router.push("/settings/licenses")}
+            title={t("settings_development_statistics")}
+            iconLeft={<PieChart width={18} color={colors.menuListItemIcon} />}
+            onPress={() => router.push("/settings/development-tools")}
             isLink
             isLast
           />

@@ -136,6 +136,7 @@
   "onboarding": "การเริ่มต้นใช้งาน",
   "log_question_button": "บันทึก",
   "settings_app": "แอป",
+  "settings_development": "การพัฒนา",
   "settings_development_statistics": "สถิติสำหรับเนิร์ด",
   "development_statistics_days_logged": "วันที่เข้าสู่ระบบ",
   "development_statistics_days_tagged": "วันที่ติดแท็ก",
