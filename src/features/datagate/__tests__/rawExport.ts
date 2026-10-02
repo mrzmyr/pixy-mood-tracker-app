@@ -14,6 +14,8 @@ describe("exportRawStorage()", () => {
     share.mockReset().mockResolvedValue(true);
     setFileTransferOverride({ share, pickJson: jest.fn() });
     jest.spyOn(FileSystem, "writeAsStringAsync").mockResolvedValue();
+    jest.spyOn(FileSystem, "readDirectoryAsync").mockResolvedValue([]);
+    jest.spyOn(FileSystem, "deleteAsync").mockResolvedValue();
   });
 
   afterEach(() => {

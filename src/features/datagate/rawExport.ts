@@ -1,12 +1,11 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import dayjs from "dayjs";
-import * as FileSystem from "expo-file-system/legacy";
 import { STORAGE_KEY as STORAGE_KEY_LOGS } from "@/features/logs";
 import { STORAGE_KEY as STORAGE_KEY_TAGS } from "@/features/tags";
 import { createStructuredError } from "@/lib/errors";
 import { STORAGE_KEY as STORAGE_KEY_SETTINGS } from "@/state/settings";
 import pkg from "../../../package.json";
-import { getFileTransfer } from "./fileTransfer";
+import { shareExportFile } from "./exportFile";
 
 const STORAGE_KEYS = [STORAGE_KEY_LOGS, STORAGE_KEY_SETTINGS, STORAGE_KEY_TAGS];
 
@@ -18,19 +17,18 @@ const STORAGE_KEYS = [STORAGE_KEY_LOGS, STORAGE_KEY_SETTINGS, STORAGE_KEY_TAGS];
  * dialog rejects it.
  */
 export const exportRawStorage = async () => {
-  const uri = `${FileSystem.documentDirectory}pixy-mood-tracker-raw-${dayjs().format("YYYY-MM-DD")}.json`;
+  const filename = `pixy-mood-tracker-raw-${dayjs().format("YYYY-MM-DD")}.json`;
   let isShared: boolean;
 
   try {
     const entries = await AsyncStorage.multiGet(STORAGE_KEYS);
-    await FileSystem.writeAsStringAsync(
-      uri,
+    isShared = await shareExportFile(
+      filename,
       JSON.stringify({
         version: pkg.version,
         storage: Object.fromEntries(entries),
       })
     );
-    isShared = await getFileTransfer().share(uri);
   } catch (error) {
     throw createStructuredError({
       status: "raw_export_failed",
