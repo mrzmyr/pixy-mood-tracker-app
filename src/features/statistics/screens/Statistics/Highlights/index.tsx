@@ -6,6 +6,7 @@ import useColors from "@/hooks/useColors";
 import { useAnalytics } from "@/state/analytics";
 import type { HighlightsProperties } from "@/state/analytics/events";
 import { useStatistics } from "../../../StatisticsProvider";
+import { useScreenEngagement } from "../../../useScreenEngagement";
 import { MoodAvgCard } from "../MoodAvgCard";
 import { MoodPeaksCard } from "../MoodPeaksCards";
 import { TagPeaksCard } from "../TagPeaksCards";
@@ -29,6 +30,8 @@ export const StatisticsHighlights = () => {
   const colors = useColors();
   const analytics = useAnalytics();
   const statistics = useStatistics();
+  // Only reachable from unlocked statistics.
+  const { onScroll } = useScreenEngagement("highlights", true);
 
   const showMoodAvg = statistics.isAvailable("mood_avg");
   const showMoodPeaksPositve = statistics.isAvailable("mood_peaks_positive");
@@ -102,6 +105,8 @@ export const StatisticsHighlights = () => {
       }}
     >
       <ScrollView
+        onScroll={onScroll}
+        scrollEventThrottle={100}
         style={{
           padding: 20,
         }}

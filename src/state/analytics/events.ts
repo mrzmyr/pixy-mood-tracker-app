@@ -28,6 +28,7 @@ export interface AnalyticsEvents {
     step: LoggerStep;
     index: number;
     steps_count: number;
+    ms_since_start: number;
   };
   "logger:step_disabled": { step: LoggerStep };
   "logger:log_saved": {
@@ -37,9 +38,25 @@ export interface AnalyticsEvents {
     message_length: number;
     tags_count: number;
     emotions_count: number;
+    advanced_emotions_count: number;
+    /** Whole local days between the entry date and today; 0 = today. */
+    entry_days_ago: number;
+    /** Entries on the entry date after this save. */
+    entries_on_date: number;
+    steps_shown: LoggerStep[];
+    initial_step: LoggerStep | null;
+    /** Rating picks after the first one. */
+    rating_changes: number;
   };
   "logger:log_deleted": undefined;
-  "logger:flow_cancelled": { mode: "create" | "edit" };
+  "logger:flow_cancelled": {
+    mode: "create" | "edit";
+    step: LoggerStep;
+    index: number;
+    steps_count: number;
+    duration_ms: number;
+    has_rating: boolean;
+  };
   "logger:emotions_tooltip_closed": undefined;
   "logger:reminder_enabled": undefined;
   "logger:reminder_postponed": undefined;
@@ -69,6 +86,8 @@ export interface AnalyticsEvents {
   "calendar:filters_reset": undefined;
   "calendar:filters_closed": undefined;
   "calendar:promo_tapped": { card: "changelog" };
+  /** Calendar lost focus after the user scrolled into past months. */
+  "calendar:history_browsed": { months_back_max: number };
 
   "statistics:highlights_viewed": {
     items_count: number;
@@ -90,6 +109,20 @@ export interface AnalyticsEvents {
   };
   "statistics:all_highlights_viewed": AnalyticsEvents["statistics:highlights_viewed"];
   "statistics:card_shared": { card: string };
+  "statistics:report_viewed": {
+    kind: "month" | "year";
+    /** Months or years between the report and the current one; 0 = current. */
+    periods_ago: number;
+    entries_count: number;
+  };
+  /** A statistics screen lost focus. */
+  "statistics:screen_left": {
+    screen: StatisticsScreenName;
+    duration_ms: number;
+    /** Deepest scroll position, 0 to 100. */
+    scroll_depth_pct: number;
+    is_unlocked: boolean;
+  };
 
   "tags:tag_created": {
     title_length: number;
@@ -119,9 +152,11 @@ export interface AnalyticsEvents {
     permission_granted: boolean;
   };
   "reminders:time_changed": { time: string };
+  /** The user opened the app from a reminder notification. */
+  "reminders:notification_opened": { delay_minutes: number | null };
 
   "data:export_started": undefined;
-  "data:export_completed": undefined;
+  "data:export_completed": { entries_count: number; tags_count: number };
   "data:export_failed": undefined;
   "data:import_started": undefined;
   "data:import_completed": undefined;
@@ -154,6 +189,34 @@ export type TrackArgs<Event extends AnalyticsEvent> =
     : [event: Event, properties: AnalyticsEvents[Event]];
 
 type ResetKind = "factory" | "data";
+
+/** Statistics screens measured by `statistics:screen_left`. */
+export type StatisticsScreenName = "overview" | "highlights" | "month" | "year";
+
+/** How the current app session started. */
+export type SessionSource = "direct" | "reminder";
+
+/**
+ * Context sent with every event and screen view.
+ *
+ * - `local_hour`, `local_weekday`: device local time. PostHog stores UTC.
+ * - `session_source`: `reminder` after a reminder tap, until the app goes to the background
+ */
+export interface ContextProperties {
+  local_hour: number;
+  local_weekday: Weekday;
+  session_source: SessionSource;
+}
+
+/** English weekday name, independent of the app language. */
+export type Weekday =
+  | "sunday"
+  | "monday"
+  | "tuesday"
+  | "wednesday"
+  | "thursday"
+  | "friday"
+  | "saturday";
 
 /**
  * Usage summary: anonymous usage counts of one install.

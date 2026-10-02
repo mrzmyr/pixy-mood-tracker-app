@@ -20,6 +20,7 @@ import Colors from "@/constants/Colors";
 import { initializeDayjs } from "@/lib/translation";
 import { useSettings } from "@/state/settings";
 import { useUsageSummarySync } from "@/shell/usageSummary";
+import { useReminderOpenTracking } from "@/shell/reminderOpenTracking";
 import { useScreenTracking } from "@/shell/screenTracking";
 
 // Configure before first render; each app variant reports to its own project.
@@ -37,6 +38,7 @@ const AppShell = () => {
   const rootState = useRootNavigationState();
   useScreenTracking();
   useUsageSummarySync();
+  useReminderOpenTracking();
 
   const onSettingsLoaded = useEffectEvent(() => {
     // Fixture links replace fresh state before onboarding chooses a route.

@@ -2,7 +2,7 @@ import { useLocalSearchParams } from "expo-router";
 import { MoodCounts } from "../../components/MoodCounts";
 import { t } from "@/lib/translation";
 import dayjs from "dayjs";
-import { useMemo } from "react";
+import { useEffect, useEffectEvent, useMemo } from "react";
 import { ScrollView, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import useColors from "@/hooks/useColors";
@@ -15,6 +15,8 @@ import YearInPixels from "./YearInPixels";
 import { TagDistribution } from "../../components/TagDistribution";
 import { EmotionsDistribution } from "../../components/EmotionsDistribution";
 import { getItemDate } from "@/lib/logDates";
+import { useAnalytics } from "@/state/analytics";
+import { useScreenEngagement } from "../../useScreenEngagement";
 
 /** Year report screen. Invalid `date` params fall back to the current year. */
 export const StatisticsYearScreen = () => {
@@ -33,8 +35,24 @@ export const StatisticsYearScreen = () => {
     getItemDate(item).startsWith(year)
   );
 
+  const analytics = useAnalytics();
+  const { onScroll } = useScreenEngagement("year", true);
+  // Effect event: reads the latest entries without re-running on log changes.
+  const trackReportViewed = useEffectEvent((reportDate: dayjs.Dayjs) => {
+    analytics.track("statistics:report_viewed", {
+      kind: "year",
+      periods_ago: dayjs().year() - reportDate.year(),
+      entries_count: items.length,
+    });
+  });
+  useEffect(() => {
+    trackReportViewed(date);
+  }, [date]);
+
   return (
     <ScrollView
+      onScroll={onScroll}
+      scrollEventThrottle={100}
       style={{
         flex: 1,
         backgroundColor: colors.statisticsBackground,

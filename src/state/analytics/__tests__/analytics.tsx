@@ -1,4 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { AppState } from "react-native";
 import { act, renderHook, waitFor } from "@testing-library/react-native";
 import {
   PostHogProvider,
@@ -57,6 +58,12 @@ const {
   register: mockRegister,
   setPersonProperties: mockPostHogSet,
 } = getPostHogTestClient();
+
+const CONTEXT_PROPERTIES = {
+  local_hour: expect.any(Number),
+  local_weekday: expect.any(String),
+  session_source: "direct",
+};
 
 const USAGE_SUMMARY = {
   entries_count: 3,
@@ -173,6 +180,7 @@ describe("useAnalytics()", () => {
       scale_type: INITIAL_STATE.scaleType,
       reminder_enabled: INITIAL_STATE.reminderEnabled,
       steps: INITIAL_STATE.steps,
+      ...CONTEXT_PROPERTIES,
       enabled: true,
     });
   });
@@ -254,6 +262,7 @@ describe("useAnalytics()", () => {
       scale_type: INITIAL_STATE.scaleType,
       reminder_enabled: INITIAL_STATE.reminderEnabled,
       steps: INITIAL_STATE.steps,
+      ...CONTEXT_PROPERTIES,
     });
   });
 
@@ -296,6 +305,42 @@ describe("useAnalytics()", () => {
     expect(hook.result.current.state.isEnabled).toBe(true);
     expect(hook.result.current.settingsState.settings.analyticsEnabled).toBe(
       true
+    );
+  });
+
+  test("should send session source until the app goes to the background", async () => {
+    const appStateListeners: ((state: string) => void)[] = [];
+    jest
+      .spyOn(AppState, "addEventListener")
+      .mockImplementation((_type, listener) => {
+        appStateListeners.push(listener);
+        return { remove: jest.fn() };
+      });
+    const hook = await _renderHook();
+    await waitForLoaded(hook);
+
+    await act(() => {
+      hook.result.current.state.setSessionSource("reminder");
+    });
+    await act(() => {
+      hook.result.current.state.track("calendar:today_tapped");
+    });
+    expect(mockCapture).toHaveBeenLastCalledWith(
+      "calendar:today_tapped",
+      expect.objectContaining({ session_source: "reminder" })
+    );
+
+    await act(() => {
+      for (const listener of appStateListeners) {
+        listener("background");
+      }
+    });
+    await act(() => {
+      hook.result.current.state.track("calendar:today_tapped");
+    });
+    expect(mockCapture).toHaveBeenLastCalledWith(
+      "calendar:today_tapped",
+      expect.objectContaining({ session_source: "direct" })
     );
   });
 

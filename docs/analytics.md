@@ -4,6 +4,7 @@
 - Usage summary and behaviour signals: [product-analytics.md](product-analytics.md)
 - Screens: `$screen` with the route name, from [`src/shell/screenTracking.ts`](../src/shell/screenTracking.ts)
 - Super properties on every event: `scale_type`, `reminder_enabled`, `steps` ([`src/state/analytics/index.tsx`](../src/state/analytics/index.tsx))
+- Context on every event: `local_hour`, `local_weekday`, `session_source` ([`src/state/analytics/context.ts`](../src/state/analytics/context.ts))
 - Privacy rule: [AGENTS.md footguns](../AGENTS.md#footguns)
 - Default: on for all users. Onboarding privacy slide says so. Factory reset turns it back on ([`src/constants/Settings.ts`](../src/constants/Settings.ts))
 - Off switch: Settings > Privacy > Behavioral Data

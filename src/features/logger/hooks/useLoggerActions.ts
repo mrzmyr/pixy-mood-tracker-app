@@ -7,20 +7,30 @@ import { useLogState, useLogUpdater } from "@/features/logs";
 import type { LogItem } from "@/features/logs";
 import { useStoreReviewPrompt } from "@/features/review";
 
+import type { LoggerStep } from "@/constants/LoggerSteps";
 import type { TemporaryLogState, TemporaryLogValue } from "../temporaryLog";
 import type { LoggerMode } from "../Logger";
+import { getSavedEntryProperties } from "../analytics";
 import { getItemDate } from "@/lib/logDates";
 
 /**
  * Save, remove and cancel handlers for the logger.
  * Every handler closes the logger and resets the temporary log; `save` stores unrated logs as "neutral".
+ *
+ * `steps`, `initialStep`, and `getRatingChanges` only feed analytics.
  */
 export const useLoggerActions = ({
   mode,
   tempLog,
+  steps,
+  initialStep,
+  getRatingChanges,
 }: {
   mode: LoggerMode;
   tempLog: TemporaryLogValue;
+  steps: LoggerStep[];
+  initialStep: LoggerStep | null;
+  getRatingChanges: () => number;
 }) => {
   const router = useRouter();
   const analytics = useAnalytics();
@@ -38,14 +48,24 @@ export const useLoggerActions = ({
     router.back();
   };
 
+  const getElapsedMs = () => Date.now() - startedAt.current;
+
   const save = (data: TemporaryLogState) => {
     analytics.track("logger:log_saved", {
       mode,
-      duration_ms: Date.now() - startedAt.current,
+      duration_ms: getElapsedMs(),
       has_rating: data.rating !== null,
       message_length: data.message.length,
       tags_count: data.tags.length,
       emotions_count: data.emotions.length,
+      ...getSavedEntryProperties({
+        data,
+        items: logState.items,
+        now: new Date(),
+      }),
+      steps_shown: steps,
+      initial_step: initialStep,
+      rating_changes: getRatingChanges(),
     });
 
     if (data.rating === null) {
@@ -82,10 +102,17 @@ export const useLoggerActions = ({
     close();
   };
 
-  const cancel = () => {
-    analytics.track("logger:flow_cancelled", { mode });
+  const cancel = ({ step, index }: { step: LoggerStep; index: number }) => {
+    analytics.track("logger:flow_cancelled", {
+      mode,
+      step,
+      index,
+      steps_count: steps.length,
+      duration_ms: getElapsedMs(),
+      has_rating: tempLog.data.rating !== null,
+    });
     close();
   };
 
-  return { save, remove, cancel };
+  return { save, remove, cancel, getElapsedMs };
 };

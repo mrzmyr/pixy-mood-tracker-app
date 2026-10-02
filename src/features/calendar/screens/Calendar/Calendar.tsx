@@ -1,5 +1,9 @@
 import { FlashList } from "@shopify/flash-list";
-import type { FlashListRef, ListRenderItemInfo } from "@shopify/flash-list";
+import type {
+  FlashListRef,
+  ListRenderItemInfo,
+  ViewToken,
+} from "@shopify/flash-list";
 
 import dayjs from "dayjs";
 import React, { memo, useCallback, useMemo, useRef, useState } from "react";
@@ -28,11 +32,14 @@ const CalendarComponent = ({
   header,
   footer,
   onScroll,
+  onMonthsViewed,
 }: {
   listRef: React.RefObject<FlashListRef<Month> | null>;
   header: React.ReactElement | null;
   footer: React.ReactElement;
   onScroll: (event: NativeSyntheticEvent<NativeScrollEvent>) => void;
+  /** Months (first day, `DATE_FORMAT`) now on screen. Must be stable. */
+  onMonthsViewed: (dates: string[]) => void;
 }) => {
   const logState = useLogState();
   const { fontScale } = useWindowDimensions();
@@ -82,6 +89,14 @@ const CalendarComponent = ({
   const onLoad = useCallback(() => {
     isLoaded.current = true;
   }, []);
+  const onViewableItemsChanged = useCallback(
+    ({ viewableItems }: { viewableItems: ViewToken<Month>[] }) => {
+      onMonthsViewed(
+        viewableItems.flatMap((token) => (token.item ? [token.item.date] : []))
+      );
+    },
+    [onMonthsViewed]
+  );
   const onLayout = useCallback((event: LayoutChangeEvent) => {
     setWidth(event.nativeEvent.layout.width);
   }, []);
@@ -102,6 +117,7 @@ const CalendarComponent = ({
           onStartReachedThreshold={1}
           onLoad={onLoad}
           onScroll={onScroll}
+          onViewableItemsChanged={onViewableItemsChanged}
           scrollEventThrottle={32}
           ListHeaderComponent={header}
           ListFooterComponent={footer}

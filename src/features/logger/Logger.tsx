@@ -35,6 +35,7 @@ import { SlideMood } from "./slides/SlideMood";
 import { SlideReminder } from "./slides/SlideReminder";
 import { SlideTags } from "./slides/SlideTags";
 import { useLoggerActions } from "./hooks/useLoggerActions";
+import { useLoggerStepTracking } from "./hooks/useLoggerStepTracking";
 
 /** Whether the logger creates a new entry or edits an existing one. */
 export type LoggerMode = "create" | "edit";
@@ -156,15 +157,24 @@ export const Logger = ({
   const initialIndex = indexFound === -1 ? 0 : indexFound;
   const [slideIndex, setSlideIndex] = useState(initialIndex);
 
-  const { save, remove, cancel } = useLoggerActions({ mode, tempLog });
-
-  const _carousel = useRef<CarouselRef>(null);
-
   const slideKeys = SLIDE_ORDER.filter(
     (key) =>
       key === "rating" ||
       (avaliableSteps.includes(key) && (key !== "feedback" || !!question))
   );
+
+  // Rating picks that replace an earlier rating; analytics only.
+  const ratingChanges = useRef(0);
+
+  const { save, remove, cancel, getElapsedMs } = useLoggerActions({
+    mode,
+    tempLog,
+    steps: slideKeys,
+    initialStep: initialStep ?? null,
+    getRatingChanges: () => ratingChanges.current,
+  });
+
+  const _carousel = useRef<CarouselRef>(null);
 
   const next = () => {
     if (slideIndex + 1 === slideKeys.length - 1) {
@@ -192,6 +202,9 @@ export const Logger = ({
     slide: (
       <SlideMood
         onChange={(rating) => {
+          if (tempLog.data.rating !== null && tempLog.data.rating !== rating) {
+            ratingChanges.current += 1;
+          }
           if (tempLog.data.rating !== rating) {
             if (slideKeys.length === 1) {
               save({
@@ -328,30 +341,14 @@ export const Logger = ({
     hasMessageSlide && mode === "create" ? messageSlideIndex : null
   );
 
-  // Effect event: reads the latest slides without re-running the effects
-  // below; only mount and slide changes should send events.
-  const trackFlowStarted = useEffectEvent(() => {
-    analytics.track("logger:flow_started", {
-      mode,
-      steps_count: slideKeys.length,
-    });
-  });
-  const trackStepViewed = useEffectEvent(() => {
-    analytics.track("logger:step_viewed", {
-      mode,
-      step: slideKeys[slideIndex],
-      index: slideIndex,
-      steps_count: slideKeys.length,
-    });
+  useLoggerStepTracking({
+    mode,
+    steps: slideKeys,
+    slideIndex,
+    getElapsedMs,
   });
 
   useEffect(() => {
-    trackFlowStarted();
-  }, []);
-
-  useEffect(() => {
-    trackStepViewed();
-
     if (isMounted.current) {
       Keyboard.dismiss();
 
@@ -382,7 +379,9 @@ export const Logger = ({
           setSlideIndex={setSlideIndex}
           isEditing={isEditing}
           tempLog={tempLog}
-          onCancel={cancel}
+          onCancel={() =>
+            cancel({ step: slideKeys[slideIndex], index: slideIndex })
+          }
           onRemove={remove}
         />
         <View

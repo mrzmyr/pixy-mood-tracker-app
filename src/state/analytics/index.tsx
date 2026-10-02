@@ -1,11 +1,14 @@
 import { usePostHog } from "posthog-react-native";
-import { createContext, useContext, useEffect, useMemo } from "react";
+import { createContext, useContext, useEffect, useMemo, useRef } from "react";
+import { AppState } from "react-native";
 import { useSettings } from "@/state/settings";
 import { createMissingProviderError } from "@/lib/errors";
+import { getContextProperties } from "@/state/analytics/context";
 import type {
   AnalyticsEvent,
   UsageSummary,
   UsageSummaryOnce,
+  SessionSource,
   TrackArgs,
 } from "@/state/analytics/events";
 import { Observe } from "expo-observe";
@@ -22,6 +25,8 @@ interface AnaylticsState {
     properties: UsageSummary,
     propertiesOnce: UsageSummaryOnce
   ) => void;
+  /** Mark how the current session started. Resets to `direct` in the background. */
+  setSessionSource: (source: SessionSource) => void;
   isEnabled: boolean;
 }
 
@@ -48,6 +53,7 @@ const AnalyticsProvider = ({
   const { settings, setSettings } = useSettings();
   const posthog = usePostHog();
 
+  const sessionSource = useRef<SessionSource>("direct");
   // Derived from settings; `enable`, `disable`, and `reset` update settings.
   // Stays off until stored settings load: the default is on, but a stored
   // opt-out must win before the first event.
@@ -84,6 +90,15 @@ const AnalyticsProvider = ({
 
     void posthog?.register(settingsProperties);
   }, [settings.loaded, settingsProperties, posthog]);
+
+  useEffect(() => {
+    const subscription = AppState.addEventListener("change", (state) => {
+      if (state === "background") {
+        sessionSource.current = "direct";
+      }
+    });
+    return () => subscription.remove();
+  }, []);
 
   const value = useMemo<AnaylticsState>(
     () => ({
@@ -123,14 +138,21 @@ const AnalyticsProvider = ({
           return;
         }
 
-        posthog?.capture(eventName, { ...settingsProperties, ...properties });
+        posthog?.capture(eventName, {
+          ...settingsProperties,
+          ...getContextProperties(new Date(), sessionSource.current),
+          ...properties,
+        });
       },
       screen: (name) => {
         if (!isEnabled || !options.enabled) {
           return;
         }
 
-        void posthog?.screen(name, settingsProperties);
+        void posthog?.screen(name, {
+          ...settingsProperties,
+          ...getContextProperties(new Date(), sessionSource.current),
+        });
       },
       sendUsageSummary: (properties, propertiesOnce) => {
         if (!isEnabled || !options.enabled) {
@@ -147,6 +169,9 @@ const AnalyticsProvider = ({
 
         // No feature flags in use: skip the flag reload.
         posthog?.setPersonProperties(properties, propertiesOnce, false);
+      },
+      setSessionSource: (source) => {
+        sessionSource.current = source;
       },
       isEnabled,
     }),

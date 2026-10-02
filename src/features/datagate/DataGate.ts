@@ -218,7 +218,10 @@ export const useDatagate = (): DatagateValue => {
       return;
     }
 
-    analytics.track("data:export_completed");
+    analytics.track("data:export_completed", {
+      entries_count: logState.items.length,
+      tags_count: tags.length,
+    });
   };
 
   return {

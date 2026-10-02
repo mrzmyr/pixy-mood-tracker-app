@@ -10,10 +10,14 @@ import { AnalyticsProvider, useAnalytics } from "@/state/analytics";
 import { SettingsProvider, STORAGE_KEY } from "@/state/settings";
 
 const { screen: mockScreen } = getPostHogTestClient();
+// Settings super properties plus per-event context; never route params.
 const settingsProperties = {
   scale_type: INITIAL_STATE.scaleType,
   reminder_enabled: INITIAL_STATE.reminderEnabled,
   steps: INITIAL_STATE.steps,
+  local_hour: expect.any(Number),
+  local_weekday: expect.any(String),
+  session_source: "direct",
 };
 
 const Home = () => {

@@ -1,4 +1,13 @@
-import React, { memo, useCallback, useRef, useState } from "react";
+import dayjs from "dayjs";
+import { useNavigation } from "expo-router";
+import React, {
+  memo,
+  useCallback,
+  useEffect,
+  useEffectEvent,
+  useRef,
+  useState,
+} from "react";
 import { ActivityIndicator, Platform, Text, View } from "react-native";
 import type { NativeScrollEvent, NativeSyntheticEvent } from "react-native";
 
@@ -34,6 +43,38 @@ const CalendarScreenComponent = () => {
   const [isAwayFromToday, setIsAwayFromToday] = useState(false);
   const scrollRef = useRef<FlashListRef<Month>>(null);
   const showScrollTopButton = isAwayFromToday && !calendarFilters.isOpen;
+  // Deepest past month seen since the calendar gained focus; analytics only.
+  const monthsBackMax = useRef(0);
+  const onMonthsViewed = useCallback((dates: string[]) => {
+    const currentMonth = dayjs().startOf("month");
+    for (const date of dates) {
+      const monthsBack = currentMonth.diff(dayjs(date), "month");
+      if (monthsBack > monthsBackMax.current) {
+        monthsBackMax.current = monthsBack;
+      }
+    }
+  }, []);
+  const navigation = useNavigation();
+  // Effect event: reports with the latest analytics client without
+  // re-subscribing the blur listener.
+  const reportHistoryBrowsed = useEffectEvent(() => {
+    if (monthsBackMax.current > 0) {
+      analytics.track("calendar:history_browsed", {
+        months_back_max: monthsBackMax.current,
+      });
+    }
+    monthsBackMax.current = 0;
+  });
+  useEffect(() => {
+    const unsubscribe = navigation.addListener("blur", () => {
+      reportHistoryBrowsed();
+    });
+    return () => {
+      unsubscribe();
+      reportHistoryBrowsed();
+    };
+  }, [navigation]);
+
   const onScroll = useCallback(
     (event: NativeSyntheticEvent<NativeScrollEvent>) => {
       const { contentOffset, contentSize, layoutMeasurement } =
@@ -68,6 +109,7 @@ const CalendarScreenComponent = () => {
         <Calendar
           listRef={scrollRef}
           onScroll={onScroll}
+          onMonthsViewed={onMonthsViewed}
           header={
             Platform.OS === "web" && calendarFilters.isOpen ? <Body /> : null
           }

@@ -17,6 +17,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import useColors from "@/hooks/useColors";
 import { useLogState } from "@/features/logs";
 import { useStatistics } from "../../StatisticsProvider";
+import { useScreenEngagement } from "../../useScreenEngagement";
 import { EmptyPlaceholder } from "./EmptyPlaceholder";
 import { HighlightsSection } from "./HighlightsSection";
 
@@ -49,6 +50,7 @@ export const StatisticsScreen = () => {
   });
 
   const statisticsUnlocked = items.length >= STATISTIC_MIN_LOGS;
+  const { onScroll } = useScreenEngagement("overview", statisticsUnlocked);
 
   // Effect event: the focus listener reads the latest items and statistics
   // without re-subscribing whenever they change.
@@ -85,6 +87,8 @@ export const StatisticsScreen = () => {
 
   return (
     <ScrollView
+      onScroll={onScroll}
+      scrollEventThrottle={100}
       refreshControl={
         Platform.OS === "web" ? undefined : (
           <RefreshControl

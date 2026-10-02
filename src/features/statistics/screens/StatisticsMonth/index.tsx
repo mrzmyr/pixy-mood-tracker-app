@@ -4,7 +4,7 @@ import { TagDistribution } from "../../components/TagDistribution";
 import { DATE_FORMAT } from "@/constants/Config";
 import { t } from "@/lib/translation";
 import dayjs from "dayjs";
-import { useState } from "react";
+import { useEffect, useEffectEvent, useState } from "react";
 import { ScrollView, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import useColors from "@/hooks/useColors";
@@ -16,6 +16,8 @@ import { Navigation } from "./Navigation";
 import { Stats } from "./Stats";
 import { EmotionsDistribution } from "../../components/EmotionsDistribution";
 import { getItemDate } from "@/lib/logDates";
+import { useAnalytics } from "@/state/analytics";
+import { useScreenEngagement } from "../../useScreenEngagement";
 
 /**
  * Month report screen.
@@ -55,6 +57,22 @@ export const StatisticsMonthScreen = () => {
   const nextItems = itemsInMonth(nextMonth);
   const items = itemsInMonth(date);
 
+  const analytics = useAnalytics();
+  const { onScroll } = useScreenEngagement("month", true);
+  // Effect event: reads the latest entries without re-running on log changes.
+  const trackReportViewed = useEffectEvent((month: dayjs.Dayjs) => {
+    analytics.track("statistics:report_viewed", {
+      kind: "month",
+      periods_ago: dayjs()
+        .startOf("month")
+        .diff(month.startOf("month"), "month"),
+      entries_count: itemsInMonth(month).length,
+    });
+  });
+  useEffect(() => {
+    trackReportViewed(date);
+  }, [date]);
+
   return (
     <View
       style={{
@@ -62,7 +80,7 @@ export const StatisticsMonthScreen = () => {
         backgroundColor: colors.statisticsBackground,
       }}
     >
-      <ScrollView>
+      <ScrollView onScroll={onScroll} scrollEventThrottle={100}>
         <Header
           title={date.format("MMMM YYYY")}
           subtitle={t("month_report")}
