@@ -1,14 +1,18 @@
-import { View } from "react-native";
+import dayjs from "dayjs";
+import { Text, View } from "react-native";
 import Animated, { Keyframe } from "react-native-reanimated";
 import type { LogItem } from "@/features/logs";
+import { useLogState } from "@/features/logs";
 import useColors from "@/hooks/useColors";
-import useScale from "@/hooks/useScale";
+import { getItemDate } from "@/lib/logDates";
 import { useSettings } from "@/state/settings";
+import { getWeekPixels } from "./weekPixels";
 
-const SIZE = 64;
-const DAYS_BEFORE = 3;
+const PIXEL = 34;
+const TODAY_PIXEL = 52;
+const GAP = 8;
 
-// Today's pixel drops into the row, overshoots, and settles.
+// The entry's pixel drops into the row, overshoots, and settles.
 const drop = new Keyframe({
   0: {
     opacity: 0,
@@ -32,62 +36,91 @@ const drop = new Keyframe({
 // Soft outline that ripples out once the pixel lands.
 const ripple = new Keyframe({
   0: { opacity: 0.5, transform: [{ scale: 1 }] },
-  100: { opacity: 0, transform: [{ scale: 1.7 }] },
+  100: { opacity: 0, transform: [{ scale: 1.6 }] },
 })
   .delay(650)
   .duration(900);
 
-/** Today's pixel dropping into a row of empty days, like the calendar. */
-export const FeelingCheckHero = ({ rating }: { rating: LogItem["rating"] }) => {
+/**
+ * The saved entry's pixel dropping into its week, next to the 6 days
+ * before. Every pixel has the calendar color of its day.
+ */
+export const FeelingCheckHero = ({ item }: { item: LogItem }) => {
   const colors = useColors();
   const { settings } = useSettings();
-  const scale = useScale(settings.scaleType);
-  const mood = scale.colors[rating].background;
+  const logState = useLogState();
+  const scale = colors.scales[settings.scaleType];
+  const pixels = getWeekPixels({
+    items: logState.items,
+    date: getItemDate(item),
+  });
+  const lastIndex = pixels.length - 1;
 
   return (
-    <View style={{ flexDirection: "row", alignItems: "center", gap: 10 }}>
-      {Array.from({ length: DAYS_BEFORE }, (_, index) => (
-        <View
-          key={index}
-          style={{
-            width: SIZE * 0.6,
-            height: SIZE * 0.6,
-            borderRadius: 10,
-            backgroundColor: colors.logCardBackground,
-            opacity: 0.4 + index * 0.2,
-          }}
-        />
-      ))}
-      <View
-        style={{
-          width: SIZE,
-          height: SIZE,
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        <Animated.View
-          entering={ripple}
-          style={{
-            position: "absolute",
-            width: SIZE,
-            height: SIZE,
-            borderRadius: 18,
-            borderWidth: 2,
-            borderColor: mood,
-            opacity: 0,
-          }}
-        />
-        <Animated.View
-          entering={drop}
-          style={{
-            width: SIZE,
-            height: SIZE,
-            borderRadius: 18,
-            backgroundColor: mood,
-          }}
-        />
-      </View>
+    <View
+      testID="feeling-check-week"
+      style={{ flexDirection: "row", alignItems: "flex-end", gap: GAP }}
+    >
+      {pixels.map((pixel, index) => {
+        const isEntryDay = index === lastIndex;
+        const size = isEntryDay ? TODAY_PIXEL : PIXEL;
+        const radius = isEntryDay ? 15 : 10;
+        const background =
+          pixel.rating === null
+            ? scale.empty.background
+            : scale[pixel.rating].background;
+
+        return (
+          <View key={pixel.date} style={{ alignItems: "center", gap: 6 }}>
+            <View
+              style={{
+                width: size,
+                height: size,
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              {isEntryDay && (
+                <Animated.View
+                  entering={ripple}
+                  style={{
+                    position: "absolute",
+                    width: size,
+                    height: size,
+                    borderRadius: radius,
+                    borderWidth: 2,
+                    borderColor: background,
+                    opacity: 0,
+                  }}
+                />
+              )}
+              <Animated.View
+                testID={`feeling-check-pixel-${pixel.date}`}
+                entering={isEntryDay ? drop : undefined}
+                style={{
+                  width: size,
+                  height: size,
+                  borderRadius: radius,
+                  backgroundColor: background,
+                  // Days without entries look like empty calendar days.
+                  borderWidth: pixel.rating === null ? 2 : 0,
+                  borderStyle: "dotted",
+                  borderColor: scale.empty.border,
+                }}
+              />
+            </View>
+            <Text
+              style={{
+                fontSize: 12,
+                fontWeight: isEntryDay ? "600" : "400",
+                color: isEntryDay ? colors.text : colors.textSecondary,
+              }}
+            >
+              {dayjs(pixel.date).format("dd")}
+            </Text>
+          </View>
+        );
+      })}
     </View>
   );
 };
