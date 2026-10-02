@@ -8,7 +8,6 @@
   "calendar": "تقويم",
   "settings": "إعدادات",
   "licenses": "التراخيص",
-  "rate_this_app": "قيم هذا التطبيق",
   "reset_data_button": "إعادة تعيين كافة البيانات والإعدادات",
   "reset_data_confirm_title": "إعادة ضبط",
   "reset_data_confirm_message": "هل أنت متأكد أنك تريد إعادة تعيين كافة الإدخالات والعلامات؟",
@@ -26,8 +25,6 @@
   "issue": "القضية",
   "idea": "فكرة",
   "other": "آخر",
-  "send_feedback_issue": "قضية تقرير",
-  "send_feedback_idea": "إرسال الفكرة",
   "feedback_modal_title": "ارسل رأيك",
   "feedback_modal_description": "تساعدني تعليقاتك كثيرًا في فهم كيفية استخدامك للتطبيق بشكل أفضل وكيف يمكنني تحسينه.",
   "feedback_modal_textarea_placeholder": "لاحظت ذلك…",
@@ -38,7 +35,6 @@
   "feedback_error_title": "فشلت التعليقات",
   "feedback_error_message": "حدث خطأ ما أثناء إرسال ملاحظاتك.",
   "feedback_help": "تم تطوير هذا التطبيق من قبل شخص واحد. أنا أقدر ملاحظاتك كثيرا. يساعدني ذلك في فهم كيفية استخدامك للتطبيق بشكل أفضل وكيف يمكنني تحسينه.",
-  "send_feedback": "إعطاء ردود الفعل",
   "back_to_today": "العودة إلى اليوم",
   "data": "البيانات",
   "reminder": "تذكير",
@@ -629,5 +625,10 @@
   "archive_tag_enabled": "مؤرشف",
   "colorblind_disclaimer": "تم تحسين مخطط الألوان هذا للأشخاص الذين يعانون من عمى الألوان بناءً على بحث أجرته الدكتورة سينثيا بروير من جامعة ولاية بنسلفانيا. إذا كنت لا تزال تواجه مشكلة في رؤية الألوان ، فيرجى إبلاغي بذلك على care@pixy.day.",
   "new_release": "إصدار جديد",
-  "statistics_sleep_quality_chart_highlights_title": "جودة نومك خلال آخر 14 يومًا."
+  "statistics_sleep_quality_chart_highlights_title": "جودة نومك خلال آخر 14 يومًا.",
+  "request_a_feature": "طلب ميزة",
+  "report_a_bug": "الإبلاغ عن خطأ",
+  "rate_pixy_app_store": "قيّم Pixy في App Store",
+  "rate_pixy_google_play": "قيّم Pixy على Google Play",
+  "feedback_modal_message_placeholder_idea": "سيكون رائعًا لو…"
 }

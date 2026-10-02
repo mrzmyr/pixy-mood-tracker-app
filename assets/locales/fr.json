@@ -8,7 +8,6 @@
   "calendar": "Calendrier",
   "settings": "Réglages",
   "licenses": "Licences",
-  "rate_this_app": "Évaluer l'application",
   "reset_data_button": "Réinitialiser toutes les données et paramètres",
   "reset_data_confirm_title": "Réinitialiser",
   "reset_data_confirm_message": "Voulez-vous vraiment réinitialiser toutes les entrées et balises ?",
@@ -26,8 +25,6 @@
   "issue": "Publier",
   "idea": "Idée",
   "other": "Autre",
-  "send_feedback_issue": "Signaler un problème",
-  "send_feedback_idea": "Soumettre une idée",
   "feedback_modal_title": "Envoyer des commentaires",
   "feedback_modal_description": "Vos commentaires m'aident beaucoup à mieux comprendre comment vous utilisez l'application et comment je peux l'améliorer.",
   "feedback_modal_textarea_placeholder": "J'ai remarqué ça…",
@@ -38,7 +35,6 @@
   "feedback_error_title": "L'évaluation a échoué",
   "feedback_error_message": "Une erreur s'est produite lors de l'envoi de vos commentaires.",
   "feedback_help": "Cette application est développée par une seule personne. J'apprécie beaucoup vos commentaires. Cela m'aide à mieux comprendre comment vous utilisez l'application et comment je peux l'améliorer.",
-  "send_feedback": "Donnez votre avis",
   "back_to_today": "Retour à aujourd'hui",
   "data": "Données",
   "reminder": "Rappel",
@@ -630,5 +626,10 @@
   "archive_tag_enabled": "Archivé",
   "colorblind_disclaimer": "Cette palette de couleurs est optimisée pour les daltoniens sur la base des recherches du Dr Cynthia Brewer de l'Université d'État de Pennsylvanie. Si vous avez encore du mal à voir les couleurs, faites-le moi savoir à care@pixy.day.",
   "new_release": "Nouvelle version",
-  "statistics_sleep_quality_chart_highlights_title": "La qualité de votre sommeil au cours des 14 derniers jours."
+  "statistics_sleep_quality_chart_highlights_title": "La qualité de votre sommeil au cours des 14 derniers jours.",
+  "request_a_feature": "Proposer une fonctionnalité",
+  "report_a_bug": "Signaler un bug",
+  "rate_pixy_app_store": "Noter Pixy sur l'App Store",
+  "rate_pixy_google_play": "Noter Pixy sur Google Play",
+  "feedback_modal_message_placeholder_idea": "Ce serait génial si…"
 }

@@ -8,7 +8,6 @@
   "calendar": "Calendario",
   "settings": "Impostazioni",
   "licenses": "Licenze",
-  "rate_this_app": "Valuta questa applicazione",
   "reset_data_button": "Ripristina tutti i dati e le impostazioni",
   "reset_data_confirm_title": "Ripristina",
   "reset_data_confirm_message": "Sei sicuro di voler reimpostare tutte le voci e i tag?",
@@ -26,8 +25,6 @@
   "issue": "Problema",
   "idea": "Idea",
   "other": "Altro",
-  "send_feedback_issue": "Segnala problema",
-  "send_feedback_idea": "Invia idea",
   "feedback_modal_title": "Invia feedback",
   "feedback_modal_description": "Il tuo feedback mi aiuta molto a capire meglio come usi l'app e come posso migliorarla.",
   "feedback_modal_textarea_placeholder": "Ho notato che…",
@@ -38,7 +35,6 @@
   "feedback_error_title": "Feedback fallito",
   "feedback_error_message": "Qualcosa è andato storto durante l'invio del feedback.",
   "feedback_help": "Questa app è sviluppata da una sola persona. Apprezzo molto il tuo feedback. Mi aiuta a capire meglio come usi l'app e come posso migliorarla.",
-  "send_feedback": "Fornire un feedback",
   "back_to_today": "Ritorno ad oggi",
   "data": "Dati",
   "reminder": "Promemoria",
@@ -629,5 +625,10 @@
   "archive_tag_enabled": "Archiviato",
   "colorblind_disclaimer": "Questa combinazione di colori è ottimizzata per le persone daltoniche sulla base della ricerca della dottoressa Cynthia Brewer della Pennsylvania State University. Se hai ancora problemi a vedere i colori, fammelo sapere a care@pixy.day.",
   "new_release": "Nuova versione",
-  "statistics_sleep_quality_chart_highlights_title": "La qualità del tuo sonno negli ultimi 14 giorni."
+  "statistics_sleep_quality_chart_highlights_title": "La qualità del tuo sonno negli ultimi 14 giorni.",
+  "request_a_feature": "Richiedi una funzione",
+  "report_a_bug": "Segnala un bug",
+  "rate_pixy_app_store": "Valuta Pixy sull'App Store",
+  "rate_pixy_google_play": "Valuta Pixy su Google Play",
+  "feedback_modal_message_placeholder_idea": "Sarebbe fantastico se…"
 }

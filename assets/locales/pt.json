@@ -8,7 +8,6 @@
   "calendar": "Calendário",
   "settings": "Configurações",
   "licenses": "Licenças",
-  "rate_this_app": "Avalie este aplicativo",
   "reset_data_button": "Redefinir todos os dados e configurações",
   "reset_data_confirm_title": "Redefinir",
   "reset_data_confirm_message": "Tem certeza de que deseja redefinir todas as entradas e tags?",
@@ -26,8 +25,6 @@
   "issue": "Emitir",
   "idea": "Idéia",
   "other": "De outros",
-  "send_feedback_issue": "Reportar problema",
-  "send_feedback_idea": "Enviar ideia",
   "feedback_modal_title": "Enviar comentários",
   "feedback_modal_description": "Seu feedback me ajuda muito a entender melhor como você usa o aplicativo e como posso melhorá-lo.",
   "feedback_modal_textarea_placeholder": "Eu percebi isso…",
@@ -38,7 +35,6 @@
   "feedback_error_title": "Falha no feedback",
   "feedback_error_message": "Algo deu errado ao enviar seu feedback.",
   "feedback_help": "Este aplicativo é desenvolvido por uma pessoa. Eu valorizo muito o seu feedback. Isso me ajuda a entender melhor como você usa o aplicativo e como posso melhorá-lo.",
-  "send_feedback": "Dê retorno",
   "back_to_today": "De volta a hoje",
   "data": "Dados",
   "reminder": "Lembrete",
@@ -629,5 +625,10 @@
   "archive_tag_enabled": "arquivado",
   "colorblind_disclaimer": "Este esquema de cores é otimizado para pessoas daltônicas com base na pesquisa da Dra. Cynthia Brewer da Pennsylvania State University. Se você ainda tiver problemas para ver as cores, informe-me em care@pixy.day.",
   "new_release": "Novo lançamento",
-  "statistics_sleep_quality_chart_highlights_title": "Sua qualidade de sono nos últimos 14 dias."
+  "statistics_sleep_quality_chart_highlights_title": "Sua qualidade de sono nos últimos 14 dias.",
+  "request_a_feature": "Pedir um recurso",
+  "report_a_bug": "Relatar um bug",
+  "rate_pixy_app_store": "Avalie o Pixy na App Store",
+  "rate_pixy_google_play": "Avalie o Pixy no Google Play",
+  "feedback_modal_message_placeholder_idea": "Seria ótimo se…"
 }

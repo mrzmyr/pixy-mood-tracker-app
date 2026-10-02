@@ -8,7 +8,6 @@
   "calendar": "ปฏิทิน",
   "settings": "การตั้งค่า",
   "licenses": "ใบอนุญาต",
-  "rate_this_app": "ให้คะแนนแอปนี้",
   "reset_data_button": "รีเซ็ตข้อมูลและการตั้งค่าทั้งหมด",
   "reset_data_confirm_title": "รีเซ็ต",
   "reset_data_confirm_message": "คุณแน่ใจหรือไม่ว่าต้องการรีเซ็ตรายการและแท็กทั้งหมด",
@@ -26,8 +25,6 @@
   "issue": "ปัญหา",
   "idea": "ความคิด",
   "other": "อื่น",
-  "send_feedback_issue": "รายงานปัญหา",
-  "send_feedback_idea": "ส่งไอเดีย",
   "feedback_modal_title": "ส่งความคิดเห็น",
   "feedback_modal_description": "ความคิดเห็นของคุณช่วยให้ฉันเข้าใจมากขึ้นว่าคุณใช้งานแอปอย่างไรและฉันจะปรับปรุงได้อย่างไร",
   "feedback_modal_textarea_placeholder": "ฉันสังเกตว่า…",
@@ -38,7 +35,6 @@
   "feedback_error_title": "คำติชมล้มเหลว",
   "feedback_error_message": "เกิดข้อผิดพลาดขณะส่งความคิดเห็นของคุณ",
   "feedback_help": "แอพนี้พัฒนาโดยคนคนหนึ่ง ฉันให้ความสำคัญกับความคิดเห็นของคุณมาก ช่วยให้ฉันเข้าใจวิธีใช้งานแอปของคุณดีขึ้นและจะปรับปรุงได้อย่างไร",
-  "send_feedback": "ให้คำติชม",
   "back_to_today": "ย้อนวันวาน",
   "data": "ข้อมูล",
   "reminder": "เตือนความจำ",
@@ -629,5 +625,10 @@
   "archive_tag_enabled": "เก็บถาวร",
   "colorblind_disclaimer": "โทนสีนี้เหมาะสำหรับคนตาบอดสี จากผลการวิจัยของ Dr. Cynthia Brewer จาก Pennsylvania State University หากคุณยังคงมีปัญหาในการดูสี โปรดแจ้งให้เราทราบที่ care@pixy.day",
   "new_release": "รุ่นใหม่",
-  "statistics_sleep_quality_chart_highlights_title": "คุณภาพการนอนหลับของคุณในช่วง 14 วันที่ผ่านมา"
+  "statistics_sleep_quality_chart_highlights_title": "คุณภาพการนอนหลับของคุณในช่วง 14 วันที่ผ่านมา",
+  "request_a_feature": "ขอฟีเจอร์",
+  "report_a_bug": "รายงานข้อผิดพลาด",
+  "rate_pixy_app_store": "ให้คะแนน Pixy ใน App Store",
+  "rate_pixy_google_play": "ให้คะแนน Pixy ใน Google Play",
+  "feedback_modal_message_placeholder_idea": "จะดีมากถ้า…"
 }

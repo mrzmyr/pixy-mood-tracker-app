@@ -7,7 +7,6 @@
   "calendar": "Календарь",
   "settings": "Настройки",
   "licenses": "Лицензии",
-  "rate_this_app": "Оцените это приложение",
   "reset_data_button": "Сброс всех данных и настроек",
   "reset_data_confirm_title": "Перезагрузить",
   "reset_data_confirm_message": "Вы уверены, что хотите сбросить все записи и теги?",
@@ -26,8 +25,6 @@
   "issue": "Проблема",
   "idea": "Идея",
   "other": "Другой",
-  "send_feedback_issue": "Сообщить о проблеме",
-  "send_feedback_idea": "Отправить идею",
   "feedback_modal_title": "Отправить отзыв",
   "feedback_modal_description": "Ваши отзывы очень помогают мне лучше понять, как вы используете приложение и как я могу его улучшить.",
   "feedback_modal_textarea_placeholder": "Я заметил, что…",
@@ -38,7 +35,6 @@
   "feedback_error_title": "Ошибка обратной связи",
   "feedback_error_message": "Что-то пошло не так при отправке вашего отзыва.",
   "feedback_help": "Это приложение разработано одним человеком. Я очень ценю ваши отзывы. Это помогает мне лучше понять, как вы используете приложение и как я могу его улучшить.",
-  "send_feedback": "Дать обратную связь",
   "back_to_today": "Назад к сегодняшнему дню",
   "data": "Данные",
   "reminder": "Напоминание",
@@ -629,5 +625,10 @@
   "archive_tag_enabled": "В архиве",
   "colorblind_disclaimer": "Эта цветовая схема оптимизирована для дальтоников на основе исследования доктора Синтии Брюэр из Пенсильванского государственного университета. Если вы все еще не видите цвета, сообщите мне об этом по адресу care@pixy.day.",
   "new_release": "Новый релиз",
-  "statistics_sleep_quality_chart_highlights_title": "Качество вашего сна за последние 14 дней."
+  "statistics_sleep_quality_chart_highlights_title": "Качество вашего сна за последние 14 дней.",
+  "request_a_feature": "Предложить функцию",
+  "report_a_bug": "Сообщить об ошибке",
+  "rate_pixy_app_store": "Оцените Pixy в App Store",
+  "rate_pixy_google_play": "Оцените Pixy в Google Play",
+  "feedback_modal_message_placeholder_idea": "Было бы здорово, если бы…"
 }

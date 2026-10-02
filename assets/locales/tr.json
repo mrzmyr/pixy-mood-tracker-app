@@ -8,7 +8,6 @@
   "calendar": "Takvim",
   "settings": "Ayarlar",
   "licenses": "lisanslar",
-  "rate_this_app": "Bu uygulamayı oyla",
   "reset_data_button": "Tüm verileri ve ayarları sıfırla",
   "reset_data_confirm_title": "Sıfırla",
   "reset_data_confirm_message": "Tüm girişleri ve etiketleri sıfırlamak istediğinizden emin misiniz?",
@@ -26,8 +25,6 @@
   "issue": "Sorun",
   "idea": "Fikir",
   "other": "Diğer",
-  "send_feedback_issue": "Rapor bildir",
-  "send_feedback_idea": "Fikir Gönder",
   "feedback_modal_title": "Geribildirim yolla",
   "feedback_modal_description": "Geri bildiriminiz, uygulamayı nasıl kullandığınızı ve onu nasıl iyileştirebileceğimi daha iyi anlamama çok yardımcı oluyor.",
   "feedback_modal_textarea_placeholder": "Onu farkettim…",
@@ -38,7 +35,6 @@
   "feedback_error_title": "Geri bildirim başarısız oldu",
   "feedback_error_message": "Geri bildiriminiz gönderilirken bir şeyler ters gitti.",
   "feedback_help": "Bu uygulama bir kişi tarafından geliştirilmiştir. Geri bildiriminize çok değer veriyorum. Uygulamayı nasıl kullandığınızı ve onu nasıl geliştirebileceğimi daha iyi anlamama yardımcı oluyor.",
-  "send_feedback": "Geri bildirimde bulunun",
   "back_to_today": "bugüne dön",
   "data": "Veri",
   "reminder": "Hatırlatma",
@@ -629,5 +625,10 @@
   "archive_tag_enabled": "arşivlendi",
   "colorblind_disclaimer": "Bu renk şeması, Pennsylvania Eyalet Üniversitesi'nden Dr. Cynthia Brewer'ın araştırmasına dayalı olarak renk körü kişiler için optimize edilmiştir. Renkleri görmekte hala sorun yaşıyorsanız lütfen care@pixy.day adresinden bana bildirin.",
   "new_release": "Yeni sürüm",
-  "statistics_sleep_quality_chart_highlights_title": "Son 14 gündeki uyku kaliteniz."
+  "statistics_sleep_quality_chart_highlights_title": "Son 14 gündeki uyku kaliteniz.",
+  "request_a_feature": "Özellik iste",
+  "report_a_bug": "Hata bildir",
+  "rate_pixy_app_store": "Pixy'yi App Store'da değerlendir",
+  "rate_pixy_google_play": "Pixy'yi Google Play'de değerlendir",
+  "feedback_modal_message_placeholder_idea": "Şöyle olsa harika olurdu…"
 }
