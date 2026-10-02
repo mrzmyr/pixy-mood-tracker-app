@@ -17,7 +17,7 @@ export const PhotoStrip = ({
   onRemove,
 }: {
   photos: LogPhoto[];
-  /** End padding so the last tile scrolls clear of the floating button. */
+  /** End margin so no tile scrolls under the floating button. */
   reservedEnd: number;
   onOpen: (index: number) => void;
   onRemove: (photo: LogPhoto) => void;
@@ -27,11 +27,10 @@ export const PhotoStrip = ({
     testID="log-photo-strip"
     keyboardShouldPersistTaps="handled"
     showsHorizontalScrollIndicator={false}
-    style={{ flexGrow: 0 }}
+    style={{ flexGrow: 0, marginRight: reservedEnd }}
     contentContainerStyle={{
       gap: 8,
       paddingVertical: STRIP_PADDING,
-      paddingRight: reservedEnd,
     }}
   >
     {photos.map((photo, index) => (

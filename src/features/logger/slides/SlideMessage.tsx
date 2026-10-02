@@ -41,17 +41,28 @@ const ON_EVENT_NAME =
 const OFF_EVENT_NAME =
   Platform.OS === "ios" ? "keyboardWillHide" : "keyboardDidHide";
 
-const useKeyboardVisible = () => {
-  const [keyboardVisible, setKeyboardVisible] = useState(false);
+/**
+ * Keyboard state of the slide. `inset` is the bottom padding that keeps the
+ * content above the keyboard on iOS. The logger sheet ends at the screen
+ * bottom, so the keyboard covers the slide by its full height (same as
+ * `SlideAction`). A fixed `KeyboardAvoidingView` offset misses the sheet
+ * position. Android keeps the `KeyboardAvoidingView`, so `inset` stays 0.
+ */
+const useKeyboard = () => {
+  const [keyboard, setKeyboard] = useState({ visible: false, inset: 0 });
 
   useEffect(() => {
-    const show = Keyboard.addListener(ON_EVENT_NAME, () => {
+    const show = Keyboard.addListener(ON_EVENT_NAME, (event) => {
       LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-      setKeyboardVisible(true);
+      setKeyboard({
+        visible: true,
+        inset:
+          Platform.OS === "ios" ? Math.round(event.endCoordinates.height) : 0,
+      });
     });
     const hide = Keyboard.addListener(OFF_EVENT_NAME, () => {
       LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-      setKeyboardVisible(false);
+      setKeyboard({ visible: false, inset: 0 });
     });
 
     return () => {
@@ -60,7 +71,7 @@ const useKeyboardVisible = () => {
     };
   }, []);
 
-  return keyboardVisible;
+  return keyboard;
 };
 
 /**
@@ -89,7 +100,8 @@ export const SlideMessage = ({
   const colors = useColors();
   const tempLog = useTemporaryLog();
   const marginTop = getLogEditMarginTop();
-  const keyboardVisible = useKeyboardVisible();
+  const keyboard = useKeyboard();
+  const keyboardVisible = keyboard.visible;
   const [viewerIndex, setViewerIndex] = useState<number | null>(null);
 
   // The draft is an empty object until the logger initializes it.
@@ -129,10 +141,12 @@ export const SlideMessage = ({
 
   return (
     <KeyboardAvoidingView
+      enabled={Platform.OS === "android"}
       keyboardVerticalOffset={marginTop + insets.top + 16}
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      behavior="height"
       style={{
         flex: 1,
+        paddingBottom: keyboard.inset,
       }}
     >
       <DismissKeyboard>
