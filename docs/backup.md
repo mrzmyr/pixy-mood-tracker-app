@@ -32,7 +32,7 @@ Pixy has no server. User data leaves the phone only through the OS backup or a m
 - `requireFlags="clientSideEncryption"` and `disableIfNoEncryptionCapabilities="true"`: no cloud backup without a screen lock. Android 9 and newer derive the backup key from the screen lock; Google states it cannot read the data
 - `PixyBackupAgent` (`android:backupAgent`, `android:fullBackupOnly="true"`) wraps Auto Backup:
   - Switch off: writes nothing, so new backups hold no Pixy data. This covers device-to-device transfer too
-  - Switch on: records the time of each cloud backup ("Last sync"), then applies the rules above
+  - Switch on: records the time of each encrypted cloud backup ("Last sync"), then applies the rules above. Runs without a screen lock or device-to-device transfers do not count
 - Agent state lives in SharedPreferences `pixy_mood_tracker_backup`. The `sharedpref` domain is not backed up
 - Limit 25 MB per app. Ten years of daily entries with notes is about 2 MB
 - Google deletes the backup after about 60 days of device inactivity
