@@ -65,7 +65,7 @@ describe("getMonthWidgetProps()", () => {
     for (const week of props.weeks) {
       expect(week).toHaveLength(7);
     }
-    const cells = props.weeks.flat().filter((cell) => cell !== null);
+    const cells = props.weeks.flat().filter((cell) => cell.day !== 0);
     expect(cells).toHaveLength(31);
     expect(cells.map((cell) => cell.day)).toEqual(
       Array.from({ length: 31 }, (_, index) => index + 1)
@@ -81,10 +81,22 @@ describe("getYearWidgetProps()", () => {
     expect(props.title).toBe("2026");
     expect(props.months).toHaveLength(12);
     expect(props.monthLabels[0]).toBe("Jan");
-    expect(props.months[1].filter((cell) => cell !== null)).toHaveLength(28);
-    expect(props.months[9].filter((cell) => cell !== null)).toHaveLength(31);
+    expect(props.months[1].filter((cell) => cell.day !== 0)).toHaveLength(28);
+    expect(props.months[9].filter((cell) => cell.day !== 0)).toHaveLength(31);
     expect(props.months[9][14]?.isToday).toBe(true);
     expect(props.months[11][30]?.isFuture).toBe(true);
+  });
+});
+
+describe("props are property-list safe", () => {
+  // NSUserDefaults rejects null; a single null anywhere breaks every widget.
+  test("no null in any widget props", () => {
+    expect(JSON.stringify(getWeekWidgetProps(INPUT))).not.toContain("null");
+    expect(JSON.stringify(getMonthWidgetProps(INPUT))).not.toContain("null");
+    expect(JSON.stringify(getYearWidgetProps(INPUT))).not.toContain("null");
+    expect(
+      JSON.stringify(getWeekWidgetProps({ ...INPUT, items: [] }))
+    ).not.toContain("null");
   });
 });
 

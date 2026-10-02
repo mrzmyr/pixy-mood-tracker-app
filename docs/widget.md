@@ -14,14 +14,14 @@ iOS only. Built with [`expo-widgets`](https://docs.expo.dev/versions/latest/sdk/
 
 ## Screenshots in the guide
 
-Path: `assets/images/widget/{intro,step-1,step-2,step-3}.png`
+Path: `assets/images/widget/{intro,step-1,step-2,step-3}.jpg`
 
 Real screenshots from an iPhone. Replace after a widget design change:
 
 1. `bun app install --target=<iphone>`, `bun app seed --target=<iphone> --fixture=year`
 2. Add the Pixy widgets to the Home Screen
 3. Screenshot: Home Screen with widgets (`intro`), jiggle mode (`step-1`), Edit menu with Add Widget (`step-2`), widget gallery searched for Pixy (`step-3`)
-4. Crop to the phone screen, keep PNG, no status bar edits needed
+4. Crop to the top 1600 px of the 1170 px wide screenshot, resize to 600x820, save as JPEG quality 82
 
 ## Test
 

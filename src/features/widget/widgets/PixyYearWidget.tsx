@@ -78,7 +78,7 @@ const PixyYearWidget = (
               </Text>
             ) : null}
             {month.map((cell, dayIndex) => {
-              if (cell === null) {
+              if (cell.day === 0) {
                 return (
                   <RoundedRectangle
                     key={`pad${dayIndex}`}
@@ -91,7 +91,7 @@ const PixyYearWidget = (
                 );
               }
               let fill = scheme.empty;
-              if (cell.rating !== null) {
+              if (cell.rating !== "") {
                 fill = scheme.ratings[cell.rating];
               } else if (cell.isFuture) {
                 fill = scheme.future;

@@ -16,6 +16,19 @@ import PixyYearWidget from "./PixyYearWidget";
 /** Home screen widgets exist on iOS only. */
 export const IS_WIDGET_SUPPORTED = Platform.OS === "ios";
 
+/** Result of the last {@link syncWidgets} call, for Development tools. */
+export interface WidgetSyncStatus {
+  at: string;
+  status: "ok" | "failed";
+  /** Why the sync failed; empty on success. */
+  why: string;
+}
+
+let lastSync: WidgetSyncStatus | null = null;
+
+/** Last sync result; `null` before the first sync of this app run. */
+export const getWidgetSyncStatus = () => lastSync;
+
 /** Deep link every widget opens: the calendar of the installed variant. */
 export const getWidgetUrl = () => {
   const scheme = Constants.expoConfig?.scheme;
@@ -44,6 +57,7 @@ export const syncWidgets = ({
       getWidgetTimeline(input, getMonthWidgetProps)
     );
     PixyYearWidget.updateTimeline(getWidgetTimeline(input, getYearWidgetProps));
+    lastSync = { at: new Date().toISOString(), status: "ok", why: "" };
   } catch (error) {
     const structuredError = createStructuredError({
       status: "widget_sync_failed",
@@ -51,6 +65,11 @@ export const syncWidgets = ({
       why: `expo-widgets failed: ${error instanceof Error ? error.message : String(error)}`,
       fix: "Open Pixy again; widgets refresh on every start",
     });
+    lastSync = {
+      at: new Date().toISOString(),
+      status: "failed",
+      why: structuredError.why,
+    };
     console.error(structuredError);
     Sentry.captureException(structuredError);
   }

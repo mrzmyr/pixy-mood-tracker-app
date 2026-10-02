@@ -70,7 +70,7 @@ const PixyWeekWidget = (
       <HStack spacing={cellSpacing}>
         {props.days.map((day) => {
           let fill = scheme.empty;
-          if (day.rating !== null) {
+          if (day.rating !== "") {
             fill = scheme.ratings[day.rating];
           } else if (day.isFuture) {
             fill = scheme.future;

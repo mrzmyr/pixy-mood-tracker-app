@@ -87,7 +87,7 @@ const PixyMonthWidget = (
         {props.weeks.map((week, weekIndex) => (
           <HStack key={weekIndex} spacing={cellSpacing}>
             {week.map((cell, dayIndex) => {
-              if (cell === null) {
+              if (cell.day === 0) {
                 return (
                   <RoundedRectangle
                     key={`pad${dayIndex}`}
@@ -100,7 +100,7 @@ const PixyMonthWidget = (
                 );
               }
               let fill = scheme.empty;
-              if (cell.rating !== null) {
+              if (cell.rating !== "") {
                 fill = scheme.ratings[cell.rating];
               } else if (cell.isFuture) {
                 fill = scheme.future;

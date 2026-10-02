@@ -7,6 +7,7 @@ import type { LogItem } from "@/features/logs";
 import { getItemDate } from "@/lib/logDates";
 import { getAverageMood } from "@/lib/utils";
 import { t } from "@/lib/translation";
+import { PAD_CELL } from "./widgetProps";
 import type {
   MonthWidgetProps,
   WeekWidgetProps,
@@ -81,21 +82,21 @@ const makeCell = (
   const key = date.format(DATE_FORMAT);
   return {
     day: date.date(),
-    rating: ratings.get(key) ?? null,
+    rating: ratings.get(key) ?? "",
     isToday: date.isSame(today, "day"),
     isFuture: date.isAfter(today, "day"),
   };
 };
 
-const countLogged = (cells: (WidgetCell | null)[]) => {
+const countLogged = (cells: WidgetCell[]) => {
   let logged = 0;
   let elapsed = 0;
   for (const cell of cells) {
-    if (cell === null || cell.isFuture) {
+    if (cell.day === 0 || cell.isFuture) {
       continue;
     }
     elapsed += 1;
-    if (cell.rating !== null) {
+    if (cell.rating !== "") {
       logged += 1;
     }
   }
@@ -105,7 +106,7 @@ const countLogged = (cells: (WidgetCell | null)[]) => {
 const getBaseProps = (
   input: WidgetDataInput,
   title: string,
-  cells: (WidgetCell | null)[]
+  cells: WidgetCell[]
 ): WidgetBaseProps => ({
   url: input.url,
   title,
@@ -135,13 +136,15 @@ export const getMonthWidgetProps = (
   const monthStart = today.startOf("month");
   const gridStart = monthStart.startOf("week");
   const daysInMonth = today.daysInMonth();
-  const weeks: (WidgetCell | null)[][] = [];
+  const weeks: WidgetCell[][] = [];
   let cursor = gridStart;
   while (cursor.isBefore(monthStart.add(daysInMonth, "day"))) {
-    const week: (WidgetCell | null)[] = [];
+    const week: WidgetCell[] = [];
     for (let index = 0; index < 7; index += 1) {
       week.push(
-        cursor.isSame(today, "month") ? makeCell(cursor, today, ratings) : null
+        cursor.isSame(today, "month")
+          ? makeCell(cursor, today, ratings)
+          : PAD_CELL
       );
       cursor = cursor.add(1, "day");
     }
@@ -167,7 +170,7 @@ export const getYearWidgetProps = (input: WidgetDataInput): YearWidgetProps => {
     return Array.from({ length: 31 }, (__, dayIndex) =>
       dayIndex < daysInMonth
         ? makeCell(monthStart.add(dayIndex, "day"), today, ratings)
-        : null
+        : PAD_CELL
     );
   });
   const monthLabels = months.map((_, monthIndex) =>

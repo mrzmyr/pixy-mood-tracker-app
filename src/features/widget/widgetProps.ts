@@ -3,16 +3,29 @@ import type { LogItem } from "@/features/logs";
 /** Mood rating key, as stored on an entry. */
 export type WidgetRating = LogItem["rating"];
 
-/** One day in a widget grid. */
+/**
+ * One day in a widget grid.
+ *
+ * Props are stored in `NSUserDefaults`, which rejects `null`, so empty
+ * values are `""` and `0`, never `null` or `undefined`.
+ */
 export interface WidgetCell {
-  /** Day of month, 1 to 31. */
+  /** Day of month, 1 to 31. `0` pads a grid slot outside the range. */
   day: number;
-  /** Average rating of the day's entries; `null` when nothing was logged. */
-  rating: WidgetRating | null;
+  /** Average rating of the day's entries; `""` when nothing was logged. */
+  rating: WidgetRating | "";
   isToday: boolean;
   /** After today: drawn lighter, never counted as missing. */
   isFuture: boolean;
 }
+
+/** Grid slot outside the month or year. */
+export const PAD_CELL: WidgetCell = {
+  day: 0,
+  rating: "",
+  isToday: false,
+  isFuture: false,
+};
 
 /** Colors for one color scheme. Widgets cannot read the theme, so both come as props. */
 export interface WidgetSchemeColors {
@@ -48,14 +61,14 @@ export interface WeekWidgetProps extends WidgetBaseProps {
 export interface MonthWidgetProps extends WidgetBaseProps {
   /** Short weekday labels in week order. */
   weekdays: string[];
-  /** Rows of seven; `null` pads days outside the month. */
-  weeks: (WidgetCell | null)[][];
+  /** Rows of seven; `PAD_CELL` fills days outside the month. */
+  weeks: WidgetCell[][];
 }
 
 /** Year widget props. `months` has twelve rows of 31 entries. */
 export interface YearWidgetProps extends WidgetBaseProps {
   /** Short month labels, January first. */
   monthLabels: string[];
-  /** Twelve rows of 31; `null` pads short months. */
-  months: (WidgetCell | null)[][];
+  /** Twelve rows of 31; `PAD_CELL` fills short months. */
+  months: WidgetCell[][];
 }
