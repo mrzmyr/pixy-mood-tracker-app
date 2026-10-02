@@ -14,11 +14,14 @@ import {
 import { getLogEditMarginTop } from "@/helpers/responsive";
 import useColors from "@/hooks/useColors";
 import { t } from "@/lib/translation";
+import type { LogPhoto } from "@/types";
 import { SlideHeadline } from "../components/SlideHeadline";
 import { useTemporaryLog } from "../temporaryLog";
 import { Footer } from "./Footer";
 
 const BUTTON_HEIGHT = 56;
+// Stable fallback while the draft is still the empty placeholder.
+const NO_PHOTOS: LogPhoto[] = [];
 const ICON_SIZE = 22;
 
 /**
@@ -38,7 +41,7 @@ export const SlidePhotos = ({
   const colors = useColors();
   const insets = useSafeAreaInsets();
   const tempLog = useTemporaryLog();
-  const { photos } = tempLog.data;
+  const photos = tempLog.data.photos ?? NO_PHOTOS;
   const [viewerIndex, setViewerIndex] = useState<number | null>(null);
   const { addFromLibrary, addFromCamera, remove, isAdding } = usePhotoActions({
     photos,
