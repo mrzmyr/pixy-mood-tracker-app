@@ -1,3 +1,4 @@
+import { IS_PHOTOS_ENABLED } from "@/constants/FeatureFlags";
 import { STEP_OPTIONS } from "@/constants/LoggerSteps";
 import type { LoggerStep } from "@/constants/LoggerSteps";
 
@@ -25,6 +26,10 @@ import { useAnalytics } from "@/state/analytics";
  */
 export const StepsScreen = () => {
   const colors = useColors();
+  // The photos toggle exists only while the photos feature is on.
+  const visibleOptions = STEP_OPTIONS.filter(
+    (option) => option !== "photos" || IS_PHOTOS_ENABLED
+  );
 
   const ICONS_MAP: Record<LoggerStep, ReactElement> = {
     rating: <Sun width={20} height={20} stroke={colors.text} />,
@@ -37,6 +42,7 @@ export const StepsScreen = () => {
   };
 
   const { settings, setSettings } = useSettings();
+  const enabledSteps = new Set(settings.steps);
   const analytics = useAnalytics();
 
   return (
@@ -70,7 +76,7 @@ export const StepsScreen = () => {
           </Text>
         </View>
         <MenuList style={{ marginTop: 16 }}>
-          {STEP_OPTIONS.map((option) => (
+          {visibleOptions.map((option) => (
             <MenuListItem
               key={option}
               title={
@@ -106,16 +112,16 @@ export const StepsScreen = () => {
                       });
                       setSettings((currentSettings) => ({
                         ...currentSettings,
-                        steps: currentSettings.steps.includes(option)
+                        steps: new Set(currentSettings.steps).has(option)
                           ? currentSettings.steps.filter((s) => s !== option)
                           : [...currentSettings.steps, option],
                       }));
                     }}
-                    value={settings.steps.includes(option)}
+                    value={enabledSteps.has(option)}
                   />
                 )
               }
-              isLast={option === STEP_OPTIONS.at(-1)}
+              isLast={option === visibleOptions.at(-1)}
             />
           ))}
         </MenuList>

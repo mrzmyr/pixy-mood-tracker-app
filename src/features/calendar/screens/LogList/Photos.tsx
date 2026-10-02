@@ -1,23 +1,20 @@
 import { useRouter } from "expo-router";
-import { ScrollView, View } from "react-native";
+import { ScrollView, Text, View } from "react-native";
 import type { LogItem } from "@/features/logs";
 import { PhotoThumbnail } from "@/features/photos";
+import useColors from "@/hooks/useColors";
 import { t } from "@/lib/translation";
 import { SectionHeader } from "./SectionHeader";
 
 const THUMBNAIL_SIZE = 96;
 
 /**
- * Photos section of an entry card: a horizontal strip of thumbnails, each
- * opens the photo viewer. The edit action shows only with `onEdit`.
+ * Photos section of an entry card, like emotions and tags: the pencil opens
+ * the logger at the photos step, the only way to add photos here. Each
+ * thumbnail opens the viewer. Without photos: an empty line.
  */
-export const Photos = ({
-  item,
-  onEdit,
-}: {
-  item: LogItem;
-  onEdit?: () => void;
-}) => {
+export const Photos = ({ item }: { item: LogItem }) => {
+  const colors = useColors();
   const router = useRouter();
   const { photos } = item;
 
@@ -30,23 +27,39 @@ export const Photos = ({
 
   return (
     <View testID="log-list-photos">
-      <SectionHeader title={t("view_log_photos")} onEdit={onEdit} />
-      <ScrollView
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        contentContainerStyle={{ gap: 8, paddingTop: 4, paddingBottom: 8 }}
-      >
-        {photos.map((photo, index) => (
-          <PhotoThumbnail
-            key={photo.id}
-            photo={photo}
-            index={index}
-            count={photos.length}
-            size={THUMBNAIL_SIZE}
-            onPress={() => open(index)}
-          />
-        ))}
-      </ScrollView>
+      <SectionHeader
+        title={t("view_log_photos")}
+        onEdit={() => {
+          router.push({
+            pathname: "/logs/[id]/edit",
+            params: { id: item.id, step: "photos" },
+          });
+        }}
+      />
+      {photos.length > 0 ? (
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={{ gap: 8, paddingTop: 4, paddingBottom: 8 }}
+        >
+          {photos.map((photo, index) => (
+            <PhotoThumbnail
+              key={photo.id}
+              photo={photo}
+              index={index}
+              count={photos.length}
+              size={THUMBNAIL_SIZE}
+              onPress={() => open(index)}
+            />
+          ))}
+        </ScrollView>
+      ) : (
+        <View style={{ paddingTop: 4, paddingBottom: 8, paddingHorizontal: 8 }}>
+          <Text style={{ color: colors.textSecondary, fontSize: 17 }}>
+            {t("view_log_photos_empty")}
+          </Text>
+        </View>
+      )}
     </View>
   );
 };

@@ -2,13 +2,14 @@ import LinkButton from "@/components/LinkButton";
 import useColors from "@/hooks/useColors";
 import type { LogItem } from "@/features/logs";
 import dayjs from "dayjs";
-import { useRouter } from "expo-router";
 import { LinearGradient } from "expo-linear-gradient";
 import { Edit, Trash } from "lucide-react-native";
 import { ScrollView, Text, View } from "react-native";
 import { Emotions } from "./Emotions";
 import { Message } from "./Message";
 import { Photos } from "./Photos";
+import { IS_PHOTOS_ENABLED } from "@/constants/FeatureFlags";
+import { useSettings } from "@/state/settings";
 import { RatingDot } from "./RatingDot";
 import { Sleep } from "./Sleep";
 import { Tags } from "./Tags";
@@ -101,9 +102,9 @@ const EntryHeader = ({
 
 /**
  * Card for one entry in the day list with its sleep, emotions, tags,
- * photos, and message sections. The photos section shows only when the
- * entry has photos. The trash button calls `onDelete` without asking, so
- * the caller must confirm.
+ * photos, and message sections. The photos section needs
+ * `IS_PHOTOS_ENABLED`, and the photos step on or photos on the entry. The
+ * trash button calls `onDelete` without asking, so the caller must confirm.
  */
 export const Entry = ({
   item,
@@ -115,7 +116,7 @@ export const Entry = ({
   onDelete: (item: LogItem) => void;
 }) => {
   const colors = useColors();
-  const router = useRouter();
+  const { hasStep } = useSettings();
 
   return (
     <View
@@ -163,23 +164,16 @@ export const Entry = ({
             >
               <Tags item={item} />
             </View>
-            {item.photos.length > 0 && (
-              <View
-                style={{
-                  marginTop: 8,
-                }}
-              >
-                <Photos
-                  item={item}
-                  onEdit={() => {
-                    router.push({
-                      pathname: "/logs/[id]/edit",
-                      params: { id: item.id, step: "photos" },
-                    });
+            {IS_PHOTOS_ENABLED &&
+              (hasStep("photos") || item.photos.length > 0) && (
+                <View
+                  style={{
+                    marginTop: 8,
                   }}
-                />
-              </View>
-            )}
+                >
+                  <Photos item={item} />
+                </View>
+              )}
             <View
               style={{
                 marginTop: 8,
