@@ -2,7 +2,7 @@ import { ArrowDownRight, ArrowRight, ArrowUpRight } from "lucide-react-native";
 import type { LucideIcon } from "lucide-react-native";
 import { useEffect, useState } from "react";
 import { Platform, Pressable, Text, View } from "react-native";
-import Animated, { FadeIn, FadeInDown } from "react-native-reanimated";
+import Animated, { FadeInDown } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import type { LogItem } from "@/features/logs";
 import useColors from "@/hooks/useColors";
@@ -22,8 +22,9 @@ const ICONS: Record<FeelingCheckAnswer, LucideIcon> = {
 const CLOSE_DELAY_MS = 500;
 
 /**
- * Last logger step after a new entry: a warm message for the rating at the
- * top, "How are you feeling now?" with three answers at the bottom.
+ * Last logger step after a new entry: the entry's pixel in its week and a
+ * warm message at the top, "How are you feeling now?" with three answers at
+ * the bottom. Only the top part animates.
  *
  * Calls `onClose` after an answer or skip.
  */
@@ -59,9 +60,8 @@ export const FeelingCheckCalm = ({
   }, [selected, onClose]);
 
   return (
-    <Animated.View
+    <View
       testID="feeling-check"
-      entering={FadeIn.duration(300)}
       style={{
         flex: 1,
         backgroundColor: colors.logBackground,
@@ -79,7 +79,7 @@ export const FeelingCheckCalm = ({
           paddingHorizontal: 12,
         }}
       >
-        <FeelingCheckHero rating={item.rating} />
+        <FeelingCheckHero item={item} />
         <Animated.Text
           entering={FadeInDown.delay(250).duration(600)}
           style={{
@@ -106,8 +106,7 @@ export const FeelingCheckCalm = ({
         </Animated.Text>
       </View>
 
-      <Animated.Text
-        entering={FadeInDown.delay(600).duration(500)}
+      <Text
         style={{
           fontSize: 17,
           fontWeight: "600",
@@ -117,9 +116,9 @@ export const FeelingCheckCalm = ({
         }}
       >
         {t("log_feeling_check_question")}
-      </Animated.Text>
+      </Text>
       <View style={{ flexDirection: "row", gap: 10 }}>
-        {FEELING_CHECK_ANSWERS.map((value, index) => {
+        {FEELING_CHECK_ANSWERS.map((value) => {
           const Icon = ICONS[value];
           const isSelected = selected === value;
           const label = t(`log_feeling_check_${value}`);
@@ -128,13 +127,7 @@ export const FeelingCheckCalm = ({
             : colors.text;
 
           return (
-            <Animated.View
-              key={value}
-              entering={FadeInDown.delay(700 + index * 70)
-                .springify()
-                .damping(16)}
-              style={{ flex: 1 }}
-            >
+            <View key={value} style={{ flex: 1 }}>
               <Pressable
                 testID={`feeling-check-${value}`}
                 accessibilityRole="button"
@@ -155,7 +148,7 @@ export const FeelingCheckCalm = ({
                   alignItems: "center",
                   justifyContent: "center",
                   gap: 10,
-                  transform: [{ scale: pressed ? 0.96 : 1 }],
+                  opacity: pressed ? 0.7 : 1,
                   shadowColor: "#000",
                   shadowOpacity: 0.06,
                   shadowRadius: 12,
@@ -170,7 +163,7 @@ export const FeelingCheckCalm = ({
                   {label}
                 </Text>
               </Pressable>
-            </Animated.View>
+            </View>
           );
         })}
       </View>
@@ -190,6 +183,6 @@ export const FeelingCheckCalm = ({
           {t("log_feeling_check_skip")}
         </Text>
       </Pressable>
-    </Animated.View>
+    </View>
   );
 };
