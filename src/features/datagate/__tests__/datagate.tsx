@@ -20,6 +20,8 @@ import { TagsProvider, useTagsState, useTagsUpdater } from "@/features/tags";
 import type { Tag } from "@/features/tags";
 
 import { _generateItem } from "@/__tests__/utils";
+import { File } from "expo-file-system";
+import { getPhotosDirectory } from "@/features/photos";
 import pkg from "../../../../package.json";
 
 // oxlint-disable-next-line anti-slop/no-module-mocking -- expo-sharing is a native module unavailable in Jest; the export test asserts on shareAsync
@@ -44,6 +46,7 @@ const testPhoto = {
   width: 1536,
   height: 2048,
   createdAt: "2022-01-02T10:00:00.000Z",
+  source: "library" as const,
 };
 
 const testItems: LogsState["items"] = [
@@ -318,5 +321,33 @@ describe("useLogs()", () => {
       ...testSettings,
       loaded: true,
     });
+  });
+
+  test("keeps photo files of entries missing from the backup after `import`", async () => {
+    const hook = await _renderHook();
+    await waitForLoaded(hook);
+    // After the sweep on load, which would delete it first.
+    await act(async () => {});
+    const directory = getPhotosDirectory();
+    directory.create({ idempotent: true, intermediates: true });
+    const photoFile = new File(directory, "not-in-backup.jpg");
+    photoFile.create();
+
+    await act(() => {
+      hook.result.current.datagate.import(
+        {
+          version: "1.0.0",
+          items: testItems,
+          settings: testSettings,
+          tags: testTags,
+        },
+        { muted: true }
+      );
+    });
+
+    await act(async () => {});
+    expect(hook.result.current.logState.items).toEqual(testItems);
+    expect(photoFile.exists).toBe(true);
+    photoFile.delete();
   });
 });

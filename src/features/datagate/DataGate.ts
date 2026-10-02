@@ -109,10 +109,14 @@ export const useDatagate = (): DatagateValue => {
     const jsonSchemaType = getJSONSchemaType(migratedData);
 
     if (jsonSchemaType === "pixy") {
+      // No photo sweep right after the import: it replaces all entries, so a
+      // sweep here deletes the files of every entry missing from the backup
+      // at once. Files stay until the next sweep (logger close, entry
+      // delete, or app start), so a second import of the right backup
+      // still finds them.
       logUpdater.import({
         items: migratedData.items,
       });
-      logUpdater.sweepPhotos();
       tagsUpdater.import({
         tags: migratedData.settings.tags || migratedData.tags || [],
       });

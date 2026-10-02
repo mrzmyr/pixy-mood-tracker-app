@@ -80,8 +80,9 @@ type LogAction =
  *
  * `sweepPhotos` deletes photo files no stored entry references, after the
  * pending updates are applied. Call it after a change that can drop photo
- * references (logger closed, import, reset, delete). Never call it while a
- * logger draft holds unsaved photos: it deletes them.
+ * references (logger closed, reset, delete). Never after a data import: it
+ * deletes the files of every entry missing from the backup. Never call it
+ * while a logger draft holds unsaved photos: it deletes them.
  */
 export interface UpdaterValue {
   addLog: (item: LogItem) => void;
