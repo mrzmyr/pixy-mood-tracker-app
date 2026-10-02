@@ -12,6 +12,7 @@ import {
   Database,
   Droplet,
   Github,
+  Grid,
   PieChart,
   Shield,
   Smartphone,
@@ -30,6 +31,7 @@ import { t } from "@/lib/translation";
 import { useAnalytics } from "@/state/analytics";
 import useColors from "@/hooks/useColors";
 import { useFeedbackModal } from "@/features/feedback";
+import { IS_WIDGET_SUPPORTED } from "@/features/widget";
 import pkg from "../../../../../package.json";
 import { Bug, Lightbulb, Tag } from "lucide-react-native";
 import { useSupport } from "@/support";
@@ -114,8 +116,23 @@ export const SettingsScreen = () => {
             }
             onPress={() => router.push("/settings/steps")}
             isLink
-            isLast
+            isLast={!IS_WIDGET_SUPPORTED}
           />
+          {IS_WIDGET_SUPPORTED && (
+            <MenuListItem
+              title={t("widget")}
+              iconLeft={<Grid width={18} color={colors.menuListItemIcon} />}
+              onPress={() =>
+                router.push({
+                  pathname: "/widget",
+                  params: { source: "settings" },
+                })
+              }
+              testID="widget"
+              isLink
+              isLast
+            />
+          )}
         </MenuList>
 
         <MenuListHeadline>{t("settings_feedback")}</MenuListHeadline>

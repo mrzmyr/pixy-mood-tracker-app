@@ -36,6 +36,7 @@ const reportPromptError = (cause: unknown) => {
  *
  * Never throws and never delays the save. The OS decides whether the prompt
  * shows (iOS: max 3 times per 365 days; Google Play: undisclosed quota).
+ * Returns whether a prompt was scheduled, so other prompts can step aside.
  */
 export const useStoreReviewPrompt = () => {
   const { settings, setSettings } = useSettings();
@@ -68,7 +69,7 @@ export const useStoreReviewPrompt = () => {
     }
   };
 
-  return (entriesCount: number) => {
+  return (entriesCount: number): boolean => {
     const input = {
       entriesCount,
       promptedAt: settings.storeReviewPromptedAt,
@@ -82,12 +83,13 @@ export const useStoreReviewPrompt = () => {
       isPromptScheduled ||
       !shouldRequestStoreReview({ ...input, isReviewAvailable: true })
     ) {
-      return;
+      return false;
     }
 
     isPromptScheduled = true;
     setTimeout(() => {
       void requestPrompt(input);
     }, STORE_REVIEW_DELAY_MS);
+    return true;
   };
 };

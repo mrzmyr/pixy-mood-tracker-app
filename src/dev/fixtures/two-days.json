@@ -1,0 +1,34 @@
+{
+  "version": "1.87.1",
+  "items": [
+    {
+      "id": "two-days-1",
+      "date": "2023-09-24",
+      "dateTime": "2023-09-24T18:00:00.000Z",
+      "createdAt": "2023-09-24T18:00:00.000Z",
+      "rating": "good",
+      "tags": [],
+      "emotions": [],
+      "message": ""
+    },
+    {
+      "id": "two-days-2",
+      "date": "2023-09-25",
+      "dateTime": "2023-09-25T18:00:00.000Z",
+      "createdAt": "2023-09-25T18:00:00.000Z",
+      "rating": "very_good",
+      "tags": [],
+      "emotions": [],
+      "message": ""
+    }
+  ],
+  "tags": [],
+  "settings": {
+    "actionsDone": [
+      {
+        "date": "2026-01-01T09:00:00.000Z",
+        "title": "onboarding"
+      }
+    ]
+  }
+}

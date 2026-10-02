@@ -5,9 +5,15 @@ import fresh from "@/dev/fixtures/fresh.json";
 import legacy168 from "@/dev/fixtures/legacy-1.68.json";
 import legacy181 from "@/dev/fixtures/legacy-1.81.1.json";
 import seed from "@/dev/fixtures/seed.json";
+import twoDays from "@/dev/fixtures/two-days.json";
 import year from "@/dev/fixtures/year.json";
 
-type FixtureFile = typeof fresh | typeof empty | typeof seed | typeof year;
+type FixtureFile =
+  | typeof fresh
+  | typeof empty
+  | typeof seed
+  | typeof twoDays
+  | typeof year;
 
 // JSON imports widen string unions and fixtures omit default settings, so
 // their types never match ImportData. The regular import validates them.
@@ -52,6 +58,13 @@ export const FIXTURES: Fixture[] = [
     title: "E2E seed",
     description: "15 entries on fixed dates, including 2023-09-24.",
     data: asExport(seed),
+  },
+  {
+    id: "two-days",
+    title: "Two logged days",
+    description:
+      "2 entries on 2023-09-24 and 2023-09-25. The next entry is the 3rd logged day and opens the widget nudge.",
+    data: asExport(twoDays),
   },
   {
     id: "year",

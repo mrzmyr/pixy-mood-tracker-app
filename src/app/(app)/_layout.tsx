@@ -6,6 +6,7 @@ import { StorageLoadGate } from "@/shell/StorageLoadGate";
 import { t } from "@/lib/translation";
 import useColors from "@/hooks/useColors";
 import { DEV_TOOLS } from "@/dev";
+import { WidgetSync } from "@/features/widget";
 
 const renderHeaderLeft = () =>
   Platform.OS === "ios" ? null : <BackButton testID="settings-back-button" />;
@@ -27,6 +28,7 @@ const AppLayout = () => {
 
   return (
     <StorageLoadGate>
+      <WidgetSync />
       <View style={{ flex: 1, backgroundColor: colors.background }}>
         <Stack screenOptions={{ navigationBarColor: colors.tabsBackground }}>
           <Stack.Screen name="index" options={{ headerShown: false }} />
@@ -40,6 +42,7 @@ const AppLayout = () => {
             options={{ ...modalOptions, gestureEnabled: false }}
           />
           <Stack.Screen name="days/[date]" options={modalOptions} />
+          <Stack.Screen name="widget" options={modalOptions} />
           <Stack.Screen
             name="logs/[id]/edit"
             options={{ ...modalOptions, gestureEnabled: false }}
