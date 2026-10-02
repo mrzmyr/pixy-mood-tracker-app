@@ -18,12 +18,8 @@ import { SENTRY_DSN } from "@/constants/API";
 import { APP_VARIANT, HAS_APP_VARIANT } from "@/constants/AppVariant";
 import Colors from "@/constants/Colors";
 import { initializeDayjs } from "@/lib/translation";
-import { getItemsCountPerDayAverage, getItemsCoverage } from "@/lib/utils";
-import { useAnonymizer } from "@/state/analytics/anonymizer";
-import { useAnalytics } from "@/state/analytics";
-import { useLogState } from "@/features/logs";
 import { useSettings } from "@/state/settings";
-import { useTagsState } from "@/features/tags";
+import { usePersonPropertiesSync } from "@/shell/personProperties";
 import { useScreenTracking } from "@/shell/screenTracking";
 
 // Configure before first render; each app variant reports to its own project.
@@ -39,11 +35,8 @@ const AppShell = () => {
   const router = useRouter();
   const pathname = usePathname();
   const rootState = useRootNavigationState();
-  const analytics = useAnalytics();
-  const logState = useLogState();
-  const { tags } = useTagsState();
-  const { anonymizeTag } = useAnonymizer();
   useScreenTracking();
+  usePersonPropertiesSync();
 
   const onSettingsLoaded = useEffectEvent(() => {
     // Fixture links replace fresh state before onboarding chooses a route.
@@ -53,15 +46,6 @@ const AppShell = () => {
       pathname !== "/dev/fake-files"
     ) {
       router.replace("/onboarding");
-    }
-    if (!analytics.isIdentified) {
-      analytics.identify({
-        tags: tags.map((tag) => anonymizeTag(tag)),
-        tagsCount: tags.length,
-        itemsCount: logState.items.length,
-        itemsCoverage: getItemsCoverage(logState.items),
-        itemsCountPerDayAverage: getItemsCountPerDayAverage(logState.items),
-      });
     }
   });
 

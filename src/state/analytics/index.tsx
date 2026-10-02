@@ -1,15 +1,13 @@
 import { usePostHog } from "posthog-react-native";
-import {
-  createContext,
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
+import { createContext, useContext, useEffect, useMemo } from "react";
 import { useSettings } from "@/state/settings";
 import { createMissingProviderError } from "@/lib/errors";
-import type { AnalyticsEvent, TrackArgs } from "@/state/analytics/events";
+import type {
+  AnalyticsEvent,
+  PersonProperties,
+  PersonPropertiesOnce,
+  TrackArgs,
+} from "@/state/analytics/events";
 import { Observe } from "expo-observe";
 
 interface AnaylticsState {
@@ -19,8 +17,11 @@ interface AnaylticsState {
   track: <Event extends AnalyticsEvent>(...args: TrackArgs<Event>) => void;
   /** Send a `$screen` event for the route now in view. */
   screen: (name: string) => void;
-  identify: <Properties extends object>(properties?: Properties) => void;
-  isIdentified: boolean;
+  /** Update the person profile of this install. */
+  setPersonProperties: (
+    properties: PersonProperties,
+    propertiesOnce: PersonPropertiesOnce
+  ) => void;
   isEnabled: boolean;
 }
 
@@ -47,9 +48,6 @@ const AnalyticsProvider = ({
   const { settings, setSettings } = useSettings();
   const posthog = usePostHog();
 
-  const [identifyCalled, setIdentifyCalled] = useState(false);
-  // A stored device id identifies the anonymous session.
-  const isIdentified = identifyCalled || settings.deviceId !== null;
   // Derived from settings; `enable`, `disable`, and `reset` update settings.
   // Stays off until stored settings load: the default is on, but a stored
   // opt-out must win before the first event.
@@ -87,16 +85,8 @@ const AnalyticsProvider = ({
     void posthog?.register(settingsProperties);
   }, [settings.loaded, settingsProperties, posthog]);
 
-  const identify = useCallback<AnaylticsState["identify"]>((properties) => {
-    if (DEBUG) {
-      console.log("useAnalytics: anonymous session", properties);
-    }
-    setIdentifyCalled(true);
-  }, []);
-
   const value = useMemo<AnaylticsState>(
     () => ({
-      identify,
       enable: () => {
         posthog?.optIn();
         setSettings((currentSettings) => ({
@@ -142,18 +132,21 @@ const AnalyticsProvider = ({
 
         void posthog?.screen(name, settingsProperties);
       },
-      isIdentified,
+      setPersonProperties: (properties, propertiesOnce) => {
+        if (!isEnabled || !options.enabled) {
+          return;
+        }
+
+        if (DEBUG) {
+          console.log("useAnalytics: person", properties, propertiesOnce);
+        }
+
+        // No feature flags in use: skip the flag reload.
+        posthog?.setPersonProperties(properties, propertiesOnce, false);
+      },
       isEnabled,
     }),
-    [
-      identify,
-      posthog,
-      setSettings,
-      isEnabled,
-      options.enabled,
-      isIdentified,
-      settingsProperties,
-    ]
+    [posthog, setSettings, isEnabled, options.enabled, settingsProperties]
   );
 
   return (

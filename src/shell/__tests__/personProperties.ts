@@ -1,0 +1,113 @@
+import { _generateItem } from "@/__tests__/utils";
+import { INITIAL_STATE } from "@/constants/Settings";
+import { getPersonProperties } from "@/shell/personProperties";
+
+const at = (month: number, day: number) =>
+  new Date(2026, month, day, 12).toISOString();
+// Saturday, 10 October 2026, evening.
+const NOW = new Date(2026, 9, 10, 20);
+
+const settings = {
+  reminderEnabled: true,
+  reminderTime: "20:30",
+  scaleType: INITIAL_STATE.scaleType,
+  steps: INITIAL_STATE.steps,
+  actionsDone: [
+    { title: "onboarding", date: at(8, 1) },
+    { title: "question_slide_42", date: at(9, 1) },
+    { title: "promo_changelog", date: at(9, 2) },
+  ],
+};
+
+describe("getPersonProperties()", () => {
+  // Streak helpers read the clock directly.
+  beforeAll(() => {
+    jest.useFakeTimers({ now: NOW });
+  });
+  afterAll(() => {
+    jest.useRealTimers();
+  });
+
+  it("summarizes entries without their content", () => {
+    const items = [
+      // Outside the 30-day window.
+      _generateItem({
+        dateTime: at(7, 1),
+        message: "",
+        tags: [],
+        emotions: [],
+      }),
+      // Inside 30 days, outside 7 days.
+      _generateItem({
+        dateTime: at(8, 20),
+        message: "",
+        tags: [{ id: "t1" }],
+        emotions: [],
+      }),
+      // Today, twice, and yesterday.
+      _generateItem({
+        dateTime: at(9, 9),
+        message: "note",
+        emotions: ["alive"],
+      }),
+      _generateItem({ dateTime: at(9, 10), message: "", emotions: [] }),
+      _generateItem({ dateTime: at(9, 10), message: "", emotions: [] }),
+    ];
+    const tags = [
+      { id: "t1", title: "Work", color: "red" as const },
+      { id: "t2", title: "Gym", color: "blue" as const, isArchived: true },
+    ];
+
+    expect(getPersonProperties({ items, tags, settings, now: NOW })).toEqual({
+      entries_count: 5,
+      entries_30d: 4,
+      logged_days_7d: 2,
+      logged_days_30d: 3,
+      days_since_first_entry: 70,
+      days_since_last_entry: 0,
+      current_streak: 2,
+      longest_streak: 2,
+      notes_pct_30d: 25,
+      tags_pct_30d: 25,
+      emotions_pct_30d: 25,
+      statistics_unlocked: false,
+      tags_count: 1,
+      archived_tags_count: 1,
+      reminder_enabled: true,
+      reminder_hour: 20,
+      scale_type: INITIAL_STATE.scaleType,
+      steps: INITIAL_STATE.steps,
+      onboarding_done: true,
+      questions_answered_count: 1,
+    });
+  });
+
+  it("returns empty values for a fresh install", () => {
+    const properties = getPersonProperties({
+      items: [],
+      tags: [],
+      settings: { ...settings, reminderEnabled: false, actionsDone: [] },
+      now: NOW,
+    });
+
+    expect(properties).toMatchObject({
+      entries_count: 0,
+      days_since_first_entry: null,
+      days_since_last_entry: null,
+      notes_pct_30d: null,
+      reminder_hour: null,
+      onboarding_done: false,
+    });
+  });
+
+  it("unlocks statistics with 7 entries in 14 days", () => {
+    const items = Array.from({ length: 7 }, (_, index) =>
+      _generateItem({ dateTime: at(9, 10 - index) })
+    );
+
+    expect(
+      getPersonProperties({ items, tags: [], settings, now: NOW })
+        .statistics_unlocked
+    ).toBe(true);
+  });
+});

@@ -51,12 +51,35 @@ const STATIC_DEVICE_ID = "test-device-id";
 const {
   optOut: mockOptOut,
   optIn: mockOptIn,
-  identify: mockIdentify,
   capture: mockCapture,
   reset: mockReset,
   screen: mockScreen,
   register: mockRegister,
+  setPersonProperties: mockSetPersonProperties,
 } = getPostHogTestClient();
+
+const PERSON_PROPERTIES = {
+  entries_count: 3,
+  entries_30d: 3,
+  logged_days_7d: 2,
+  logged_days_30d: 2,
+  days_since_first_entry: 4,
+  days_since_last_entry: 0,
+  current_streak: 1,
+  longest_streak: 1,
+  notes_pct_30d: 33,
+  tags_pct_30d: 0,
+  emotions_pct_30d: 100,
+  statistics_unlocked: false,
+  tags_count: 2,
+  archived_tags_count: 0,
+  reminder_enabled: true,
+  reminder_hour: 20,
+  scale_type: INITIAL_STATE.scaleType,
+  steps: INITIAL_STATE.steps,
+  onboarding_done: true,
+  questions_answered_count: 1,
+};
 
 describe("useAnalytics()", () => {
   beforeEach(async () => {
@@ -92,26 +115,6 @@ describe("useAnalytics()", () => {
     });
 
     expect(hook.result.current.state.isEnabled).toBe(false);
-  });
-
-  test("should `identify`", async () => {
-    AsyncStorage.setItem(
-      STORAGE_KEY,
-      JSON.stringify({
-        ...INITIAL_STATE,
-        deviceId: STATIC_DEVICE_ID,
-      })
-    );
-
-    const hook = await _renderHook();
-    await waitForLoaded(hook);
-
-    await act(() => {
-      hook.result.current.state.identify();
-    });
-
-    expect(mockIdentify).not.toBeCalled();
-    expect(hook.result.current.state.isIdentified).toBe(true);
   });
 
   test("should `enable`", async () => {
@@ -294,5 +297,32 @@ describe("useAnalytics()", () => {
     expect(hook.result.current.settingsState.settings.analyticsEnabled).toBe(
       true
     );
+  });
+
+  test("should set person properties only while enabled", async () => {
+    const hook = await _renderHook();
+    await waitForLoaded(hook);
+
+    await act(() => {
+      hook.result.current.state.setPersonProperties(PERSON_PROPERTIES, {
+        first_app_version: "1.0.0",
+      });
+    });
+    expect(mockSetPersonProperties).toBeCalledWith(
+      PERSON_PROPERTIES,
+      { first_app_version: "1.0.0" },
+      false
+    );
+
+    jest.clearAllMocks();
+    await act(() => {
+      hook.result.current.state.disable();
+    });
+    await act(() => {
+      hook.result.current.state.setPersonProperties(PERSON_PROPERTIES, {
+        first_app_version: "1.0.0",
+      });
+    });
+    expect(mockSetPersonProperties).not.toBeCalled();
   });
 });

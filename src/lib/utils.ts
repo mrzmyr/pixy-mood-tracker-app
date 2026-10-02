@@ -1,7 +1,6 @@
 import { Dimensions } from "react-native";
 import dayjs from "dayjs";
 import groupBy from "lodash/groupBy";
-import sortBy from "lodash/sortBy";
 import { t } from "@/lib/translation";
 // oxlint-disable-next-line eslint/no-restricted-imports -- Persisted feature types stay in their modules until storage refactor.
 import type { LogDay, LogItem } from "@/features/logs";
@@ -13,25 +12,6 @@ import {
 import { getItemDate } from "@/lib/logDates";
 
 const SCREEN_WIDTH = Dimensions.get("window").width;
-
-/**
- * Entries per elapsed day since the first entry, as a rounded percentage.
- *
- * Counts entries, not distinct days, so it can exceed 100. Returns
- * `Infinity` when the first entry is from today (zero elapsed days).
- */
-export const getItemsCoverage = (items: LogItem[]) => {
-  let itemsCoverage = 0;
-
-  const itemsSorted = sortBy(items, (item) => item.dateTime);
-
-  if (itemsSorted.length > 0) {
-    const days = dayjs().diff(dayjs(itemsSorted[0].dateTime), "day");
-    itemsCoverage = Math.round((itemsSorted.length / days) * 100);
-  }
-
-  return itemsCoverage;
-};
 
 /**
  * Rounded mean rating on the {@link RATING_MAPPING} scale, or `null` for
@@ -179,19 +159,4 @@ export const getMostUsedEmotions = (items: LogItem[]) => {
       count: emotions[emotion],
     }))
     .sort((a, b) => b.count - a.count);
-};
-
-/**
- * Rounded entries per elapsed day since the first entry; 0 for no items.
- *
- * Returns `Infinity` when the first entry is from today.
- */
-export const getItemsCountPerDayAverage = (items: LogItem[]) => {
-  if (items.length === 0) {
-    return 0;
-  }
-
-  const itemsSorted = sortBy(items, (item) => item.dateTime);
-  const days = dayjs().diff(dayjs(itemsSorted[0].dateTime), "day");
-  return Math.round(items.length / days);
 };

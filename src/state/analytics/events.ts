@@ -155,6 +155,43 @@ export type TrackArgs<Event extends AnalyticsEvent> =
 
 type ResetKind = "factory" | "data";
 
+/**
+ * Person properties: current usage profile of one install.
+ *
+ * Counts, shares, and booleans only. Never entry content (rating, emotions,
+ * text) or tag titles.
+ */
+// oxlint-disable-next-line typescript/consistent-type-definitions -- PostHog takes index-signature objects; interfaces have no index signature.
+export type PersonProperties = {
+  entries_count: number;
+  entries_30d: number;
+  logged_days_7d: number;
+  logged_days_30d: number;
+  days_since_first_entry: number | null;
+  days_since_last_entry: number | null;
+  current_streak: number;
+  longest_streak: number;
+  /** Share of entries in the last 30 days with a note, 0 to 100. */
+  notes_pct_30d: number | null;
+  tags_pct_30d: number | null;
+  emotions_pct_30d: number | null;
+  statistics_unlocked: boolean;
+  tags_count: number;
+  archived_tags_count: number;
+  reminder_enabled: boolean;
+  reminder_hour: number | null;
+  scale_type: SettingsState["scaleType"];
+  steps: SettingsState["steps"];
+  onboarding_done: boolean;
+  questions_answered_count: number;
+};
+
+/** Person properties written once, on the first send. */
+// oxlint-disable-next-line typescript/consistent-type-definitions -- PostHog takes index-signature objects; interfaces have no index signature.
+export type PersonPropertiesOnce = {
+  first_app_version: string;
+};
+
 /** Properties of the statistics highlight events: shown cards and item counts. */
 export type HighlightsProperties =
   AnalyticsEvents["statistics:highlights_viewed"];
