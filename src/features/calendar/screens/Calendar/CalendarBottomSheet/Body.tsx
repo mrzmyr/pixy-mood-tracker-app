@@ -100,11 +100,20 @@ export const Body = () => {
         selectedTags={_tags.filter((tag) => selectedTagIds.has(tag.id))}
         onSelect={onPressTag}
       />
-      {calendarFilters.data.filteredItems.length !== 0 && (
-        <ResultsSection count={calendarFilters.data.filteredItems.length} />
-      )}
+      {/* Reset shares the result row: the half-height Android sheet cuts off
+          anything below it. */}
       {(calendarFilters.data.isFiltering || searchText !== "") && (
-        <View style={{ alignItems: "center", marginTop: 8 }}>
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "center",
+            alignItems: "center",
+            gap: 16,
+          }}
+        >
+          {calendarFilters.data.filteredItems.length !== 0 && (
+            <ResultsSection count={calendarFilters.data.filteredItems.length} />
+          )}
           <LinkButton
             type="secondary"
             icon={RotateCcw}
