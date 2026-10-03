@@ -6,7 +6,6 @@ import { useAnalytics } from "@/state/analytics";
 import { useLogState, useLogUpdater } from "@/features/logs";
 import type { LogItem } from "@/features/logs";
 import { useStoreReviewPrompt } from "@/features/review";
-import { useWidgetNudge } from "@/features/widget";
 
 import type { TemporaryLogState, TemporaryLogValue } from "../temporaryLog";
 import type { LoggerMode } from "../Logger";
@@ -33,7 +32,6 @@ export const useLoggerActions = ({
   const logState = useLogState();
   const logUpdater = useLogUpdater();
   const requestStoreReviewPrompt = useStoreReviewPrompt();
-  const requestWidgetNudge = useWidgetNudge();
 
   const close = () => {
     tempLog.reset();
@@ -61,13 +59,7 @@ export const useLoggerActions = ({
       // SAFETY: rating is non-null after the fallback above; a null sleep.quality is stored as-is and statistics treat it as missing.
       logUpdater.addLog(data as LogItem);
       // `logState` predates this save, so count the new entry.
-      const isReviewScheduled = requestStoreReviewPrompt(
-        logState.items.length + 1
-      );
-      if (!isReviewScheduled) {
-        // SAFETY: rating is non-null after the fallback above.
-        requestWidgetNudge([...logState.items, data as LogItem]);
-      }
+      requestStoreReviewPrompt(logState.items.length + 1);
 
       const date = dayjs(data.dateTime).format(DATE_FORMAT);
       const itemsOnDate = logState.items.filter(

@@ -122,12 +122,7 @@ export const SettingsScreen = () => {
             <MenuListItem
               title={t("widget")}
               iconLeft={<Grid width={18} color={colors.menuListItemIcon} />}
-              onPress={() =>
-                router.push({
-                  pathname: "/widget",
-                  params: { source: "settings" },
-                })
-              }
+              onPress={() => router.push("/widget")}
               testID="widget"
               isLink
               isLast

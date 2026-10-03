@@ -1,4 +1,4 @@
-import { useLocalSearchParams, useRouter } from "expo-router";
+import { useRouter } from "expo-router";
 import { useEffect, useEffectEvent, useState } from "react";
 import { Text, View } from "react-native";
 import Animated, { FadeIn } from "react-native-reanimated";
@@ -16,21 +16,18 @@ const STEPS = 3;
 
 /**
  * Modal that teaches how to add a Pixy widget to the iOS Home Screen.
- * Step 0 is the intro; steps 1 to 3 show one screenshot each. Opened by the
- * day-3 nudge (`source=nudge`) or from Settings (`source=settings`).
+ * Step 0 is the intro; steps 1 to 3 show one screenshot each. Opened from
+ * Settings > Home Screen widget.
  */
 export const WidgetGuide = () => {
   const router = useRouter();
   const colors = useColors();
   const insets = useSafeAreaInsets();
   const analytics = useAnalytics();
-  const { source } = useLocalSearchParams<{ source?: string }>();
   const [step, setStep] = useState(0);
 
   const trackOpened = useEffectEvent(() => {
-    analytics.track("widget:guide_opened", {
-      source: source === "nudge" ? "nudge" : "settings",
-    });
+    analytics.track("widget:guide_opened");
   });
 
   useEffect(() => {

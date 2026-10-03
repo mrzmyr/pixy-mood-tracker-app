@@ -48,8 +48,7 @@ export interface AnalyticsEvents {
     entries_count: number;
   };
 
-  "widget:nudge_shown": { days_count: number };
-  "widget:guide_opened": { source: "nudge" | "settings" };
+  "widget:guide_opened": undefined;
   "widget:guide_step_viewed": { step: number };
   "widget:guide_dismissed": { step: number };
   "widget:guide_completed": undefined;

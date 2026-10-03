@@ -1,0 +1,28 @@
+appId: ${APP_ID}
+tags: [p1, widget]
+---
+# iOS only: Settings > Home Screen widget opens the guide; Done closes it.
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - runFlow:
+          file: ../subflows/load-fixture.yaml
+          env:
+            FIXTURE: empty
+      - tapOn:
+          id: "settings"
+      - tapOn:
+          id: "widget"
+      - assertVisible: "Add widget"
+      - tapOn:
+          id: "widget-guide-next"
+      - assertVisible: "Touch and hold the Home Screen"
+      - tapOn:
+          id: "widget-guide-next"
+      - tapOn:
+          id: "widget-guide-next"
+      - assertVisible: "Search for Pixy and pick a size"
+      - tapOn:
+          id: "widget-guide-next"
+      - assertVisible: "Settings"

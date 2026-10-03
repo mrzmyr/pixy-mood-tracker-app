@@ -11,9 +11,8 @@ iOS only. Built with [`expo-widgets`](https://docs.expo.dev/versions/latest/sdk/
 - Reloads from the app are throttled by chronod and flushed when the app goes to background. Expect the Home Screen to update a few seconds after leaving Pixy, not while it is open
 - Tap: every widget opens `<scheme>://calendar`
 - Bundle ids: `<app id>.widgets`, app group `group.<app id>`, per variant. Xcode automatic signing registers the group on first phone build
-- Nudge: [`widgetNudge.ts`](../src/features/widget/widgetNudge.ts), day 3 or 4, once per install, stored as `widget_nudge` in `actionsDone`. Reset in Settings > Development tools
-- Guide: [`screens/WidgetGuide`](../src/features/widget/screens/WidgetGuide), route `/widget?source=nudge|settings`
-- Android: no widget. Nudge, guide, and Settings item hidden (`IS_WIDGET_SUPPORTED`)
+- Guide: [`screens/WidgetGuide`](../src/features/widget/screens/WidgetGuide), route `/widget`, opened from Settings > Home Screen widget. No automatic prompt
+- Android: no widget. Guide and Settings item hidden (`IS_WIDGET_SUPPORTED`)
 
 ## Screenshots in the guide
 
@@ -29,7 +28,6 @@ Real screenshots from an iPhone. Replace after a widget design change:
 ## Test
 
 - Unit: `bunx jest src/features/widget`
-- Fixture `two-days`: next entry is the 3rd logged day and opens the nudge
 - Device: widget gallery lists Week, Month, Year under Pixy; colors follow Settings > Colors
 
 ## Build for an iPhone
