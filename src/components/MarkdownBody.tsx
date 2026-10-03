@@ -1,14 +1,28 @@
 import Markdown from "react-native-markdown-display";
 import useColors from "@/hooks/useColors";
 
-/** Long-form settings copy (privacy, backup) in the app's text colors. */
-export const MarkdownBody = ({ children }: { children: string }) => {
+/**
+ * Long-form settings copy (privacy, backup) in the app's text colors.
+ * `subtle` renders small secondary-color text, like `TextInfo`, for notes
+ * below a list. Bullets take the same color as the text.
+ */
+export const MarkdownBody = ({
+  children,
+  subtle = false,
+}: {
+  children: string;
+  subtle?: boolean;
+}) => {
   const colors = useColors();
+  const textColor = subtle ? colors.textSecondary : colors.text;
 
   return (
     <Markdown
       style={{
-        body: { color: colors.text, fontSize: 16, lineHeight: 24 },
+        body: subtle
+          ? { color: textColor, fontSize: 13, lineHeight: 19 }
+          : { color: textColor, fontSize: 16, lineHeight: 24 },
+        bullet_list_icon: { color: textColor },
         heading3: {
           fontWeight: "bold",
           fontSize: 21,

@@ -169,7 +169,7 @@ describe("BackupProvider", () => {
       .mockResolvedValue(JSON.stringify(remoteFile("old-phone", 5)));
     const hook = await renderBackup();
     await waitFor(() =>
-      expect(hook.result.current.backup.hasBackup).toBe(true)
+      expect(hook.result.current.backup.canRestore).toBe(true)
     );
 
     await waitForAutoBackup();
@@ -187,7 +187,7 @@ describe("BackupProvider", () => {
       .mockResolvedValue(JSON.stringify(remoteFile("old-phone", 5)));
     const hook = await renderBackup();
     await waitFor(() =>
-      expect(hook.result.current.backup.hasBackup).toBe(true)
+      expect(hook.result.current.backup.canRestore).toBe(true)
     );
 
     await runConfirmed(() => hook.result.current.backup.restore());

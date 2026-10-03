@@ -87,8 +87,9 @@ describe("BackupScreen", () => {
     expect(await result.findByText("iCloud Backup")).toBeTruthy();
     expect(isSwitchOn(result.getByTestId("backup-enabled"))).toBe(true);
     expect(await result.findByText("Not yet")).toBeTruthy();
-    expect(result.getByText("Privacy")).toBeTruthy();
-    expect(result.getByText(/hidden folder of your iCloud/u)).toBeTruthy();
+    expect(result.getByText("Last Sync")).toBeTruthy();
+    expect(result.getByText("Good to Know")).toBeTruthy();
+    expect(result.getByText(/hidden iCloud folder/u)).toBeTruthy();
     expect(result.queryByTestId("backup-restore")).toBeNull();
   });
 
@@ -101,16 +102,16 @@ describe("BackupScreen", () => {
     expect(await result.findByText("Google Drive Backup")).toBeTruthy();
     expect(isSwitchOn(result.getByTestId("backup-enabled"))).toBe(false);
     expect(result.queryByTestId("backup-last-sync")).toBeNull();
-    expect(result.getByText(/Google can read the file/u)).toBeTruthy();
+    expect(result.getByText(/Google can read it/u)).toBeTruthy();
   });
 
-  test("existing backup: shows its date and Restore", async () => {
+  test("bigger backup from another phone: relative time and Restore", async () => {
     await seed(true);
     jest.mocked(cloud.readBackupFile).mockResolvedValue(
       JSON.stringify(
         createBackupFile({
           deviceId: "old-phone",
-          now: new Date(2026, 8, 30, 21, 15),
+          now: new Date(Date.now() - 2 * 60 * 60 * 1000),
           data: {
             version: "1.88.0",
             items: [
@@ -126,19 +127,41 @@ describe("BackupScreen", () => {
 
     const result = await renderScreen();
 
-    expect(await result.findByText("Restore from Backup")).toBeTruthy();
-    expect(result.getByText(/Sep 30, 2026/u)).toBeTruthy();
+    expect(await result.findByText("Restore from Backup…")).toBeTruthy();
+    expect(result.getByText("2 hours ago")).toBeTruthy();
   });
 
-  test("iCloud Drive off: problem row instead of Last sync", async () => {
+  test("iCloud Drive off: note instead of Last Sync", async () => {
     await seed(true);
     jest.mocked(cloud.isAvailable).mockResolvedValue(false);
 
     const result = await renderScreen();
 
     expect(
-      await result.findByText(/Turn on iCloud Drive in the Settings app/u)
+      await result.findByText("Turn on iCloud Drive in Settings to back up.")
     ).toBeTruthy();
-    expect(result.queryByText("Last sync")).toBeNull();
+    expect(result.queryByText("Last Sync")).toBeNull();
+  });
+
+  test("own backup: no Restore, so local changes cannot be overwritten", async () => {
+    await seed(true);
+    jest.mocked(cloud.readBackupFile).mockResolvedValue(
+      JSON.stringify(
+        createBackupFile({
+          deviceId: "this-phone",
+          data: {
+            version: "1.88.0",
+            items: [_generateItem({ date: "2026-10-01" })],
+            tags: [],
+            settings: { ...INITIAL_STATE },
+          },
+        })
+      )
+    );
+
+    const result = await renderScreen();
+
+    expect(await result.findByText("Last Sync")).toBeTruthy();
+    expect(result.queryByTestId("backup-restore")).toBeNull();
   });
 });

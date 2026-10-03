@@ -4,6 +4,7 @@ import type { TranslateOptions } from "i18n-js";
 
 import dayjs from "dayjs";
 import localizedFormat from "dayjs/plugin/localizedFormat";
+import relativeTime from "dayjs/plugin/relativeTime";
 import weekOfYear from "dayjs/plugin/weekOfYear";
 
 import type en from "../../assets/locales/en.json";
@@ -297,6 +298,7 @@ export const initializeDayjs = () => {
 
   dayjs.extend(weekOfYear);
   dayjs.extend(localizedFormat);
+  dayjs.extend(relativeTime);
 };
 
 /** Translate `key` for the device locale, falling back to English. */

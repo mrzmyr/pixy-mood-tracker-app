@@ -1,16 +1,15 @@
 import dayjs from "dayjs";
 import { SymbolView } from "expo-symbols";
-import { ScrollView, Switch, Text, View } from "react-native";
-import {
-  AlertCircle,
-  CheckCircle,
-  Cloud,
-  RotateCcw,
-} from "react-native-feather";
+import { useEffect, useState } from "react";
+import { ScrollView, Switch, View } from "react-native";
+import { Check, Cloud, RotateCcw } from "react-native-feather";
+import { GoogleDriveLogo } from "@/components/GoogleDriveLogo";
+import LinkButton from "@/components/LinkButton";
 import { MarkdownBody } from "@/components/MarkdownBody";
 import MenuList from "@/components/MenuList";
 import MenuListHeadline from "@/components/MenuListHeadline";
 import MenuListItem from "@/components/MenuListItem";
+import TextInfo from "@/components/TextInfo";
 import { useBackup } from "@/features/backup";
 import type { BackupValue } from "@/features/backup";
 import useColors from "@/hooks/useColors";
@@ -19,15 +18,10 @@ import { t } from "@/lib/translation";
 /** iOS system blue, the color of the iCloud symbol in iOS Settings. */
 const ICLOUD_BLUE = "#007AFF";
 const SUCCESS_GREEN = "#34C759";
-const WARNING_ORANGE = "#FF9500";
+/** "2 minutes ago" stays correct while the screen is open. */
+const RELATIVE_TIME_REFRESH_MS = 30_000;
 
-const ProviderIcon = ({
-  provider,
-  color,
-}: {
-  provider: BackupValue["provider"];
-  color: string;
-}) =>
+const ProviderIcon = ({ provider }: { provider: BackupValue["provider"] }) =>
   provider === "icloud" ? (
     <SymbolView
       name="icloud.fill"
@@ -36,10 +30,20 @@ const ProviderIcon = ({
       fallback={<Cloud width={18} color={ICLOUD_BLUE} />}
     />
   ) : (
-    <Cloud width={18} color={color} />
+    <GoogleDriveLogo size={20} />
   );
 
-/** Problem sentence for a status, or `null` when backup works. */
+/** Re-renders on an interval, so relative times stay current. */
+const useNow = (intervalMs: number) => {
+  const [now, setNow] = useState(() => Date.now());
+  useEffect(() => {
+    const timer = setInterval(() => setNow(Date.now()), intervalMs);
+    return () => clearInterval(timer);
+  }, [intervalMs]);
+  return now;
+};
+
+/** Problem sentence that says how to fix it, or `null` when backup works. */
 const getProblemText = ({
   provider,
   status,
@@ -55,50 +59,37 @@ const getProblemText = ({
   return problems[status] ?? null;
 };
 
-/** Value of the "Last sync" row: syncing, a date, or "Not yet". */
+/** "Syncing…", "2 minutes ago", or "Not yet". */
 const getLastSyncText = ({
   status,
   lastBackupAt,
-}: Pick<BackupValue, "status" | "lastBackupAt">): string => {
+  now,
+}: Pick<BackupValue, "status" | "lastBackupAt"> & { now: number }) => {
   if (status === "syncing") {
     return t("backup_syncing");
   }
   return lastBackupAt
-    ? dayjs(lastBackupAt).format("lll")
+    ? dayjs(lastBackupAt).from(now)
     : t("backup_last_sync_never");
-};
-
-/** Wrapping text for rows that hold a full sentence. */
-const RowText = ({ children }: { children: string }) => {
-  const colors = useColors();
-  return (
-    <Text
-      style={{ fontSize: 15, lineHeight: 20, color: colors.menuListItemText }}
-    >
-      {children}
-    </Text>
-  );
 };
 
 /**
  * Settings > Data > Backup: switch for the iCloud (iOS) or Google Drive
- * (Android) backup, last sync, restore, and what the backup means for
- * privacy. State and actions come from `BackupProvider`.
+ * (Android) backup, last sync, restore while auto-backup is paused, and
+ * notes on privacy. State and actions come from `BackupProvider`.
  */
 export const BackupScreen = () => {
   const colors = useColors();
   const backup = useBackup();
-  const { provider, enabled, status, lastBackupAt, hasBackup } = backup;
+  const { provider, enabled, status, lastBackupAt, canRestore } = backup;
+  const now = useNow(RELATIVE_TIME_REFRESH_MS);
+  const problem = enabled ? getProblemText({ provider, status }) : null;
+  const showLastSync = enabled && problem === null;
+  const showRestore = enabled && canRestore;
   const isSynced = status === "idle" && lastBackupAt !== null;
-  const problem = getProblemText({ provider, status });
 
   return (
-    <View
-      style={{
-        flex: 1,
-        backgroundColor: colors.background,
-      }}
-    >
+    <View style={{ flex: 1, backgroundColor: colors.background }}>
       <ScrollView style={{ padding: 20 }}>
         <MenuList style={{ marginTop: 16 }}>
           <MenuListItem
@@ -107,12 +98,7 @@ export const BackupScreen = () => {
                 ? t("backup_toggle_ios")
                 : t("backup_toggle_android")
             }
-            iconLeft={
-              <ProviderIcon
-                provider={provider}
-                color={colors.menuListItemIcon}
-              />
-            }
+            iconLeft={<ProviderIcon provider={provider} />}
             iconRight={
               <Switch
                 ios_backgroundColor={colors.backgroundSecondary}
@@ -121,35 +107,22 @@ export const BackupScreen = () => {
                 testID="backup-enabled"
               />
             }
-            isLast={!enabled}
+            isLast={!showLastSync && !showRestore}
           />
-          {enabled && problem !== null && (
-            <MenuListItem
-              title={<RowText>{problem}</RowText>}
-              iconLeft={<AlertCircle width={18} color={WARNING_ORANGE} />}
-              onPress={status === "signedOut" ? () => backup.reconnect() : null}
-              isLink={status === "signedOut"}
-              style={{ paddingTop: 12, paddingBottom: 12 }}
-              testID="backup-problem"
-              isLast={!hasBackup}
-            />
-          )}
-          {enabled && problem === null && (
+          {showLastSync && (
             <MenuListItem
               title={t("backup_last_sync")}
-              value={getLastSyncText({ status, lastBackupAt })}
+              value={getLastSyncText({ status, lastBackupAt, now })}
               iconRight={
-                isSynced ? (
-                  <CheckCircle width={18} color={SUCCESS_GREEN} />
-                ) : null
+                isSynced ? <Check width={18} color={SUCCESS_GREEN} /> : null
               }
               testID="backup-last-sync"
-              isLast={!hasBackup}
+              isLast={!showRestore}
             />
           )}
-          {enabled && hasBackup && (
+          {showRestore && (
             <MenuListItem
-              title={t("backup_restore")}
+              title={`${t("backup_restore")}…`}
               iconLeft={
                 <RotateCcw width={18} color={colors.menuListItemIcon} />
               }
@@ -159,10 +132,22 @@ export const BackupScreen = () => {
             />
           )}
         </MenuList>
+        {problem !== null && (
+          <TextInfo style={{ marginTop: 8 }}>{problem}</TextInfo>
+        )}
+        {enabled && status === "signedOut" && (
+          <LinkButton
+            onPress={() => backup.reconnect()}
+            testID="backup-sign-in"
+            style={{ alignSelf: "flex-start", marginLeft: 8 }}
+          >
+            {t("backup_sign_in")}
+          </LinkButton>
+        )}
 
-        <MenuListHeadline>{t("privacy")}</MenuListHeadline>
-        <View style={{ paddingHorizontal: 4, paddingBottom: 80 }}>
-          <MarkdownBody>
+        <MenuListHeadline>{t("backup_good_to_know")}</MenuListHeadline>
+        <View style={{ paddingHorizontal: 12, paddingBottom: 80 }}>
+          <MarkdownBody subtle>
             {provider === "icloud"
               ? t("backup_privacy_ios")
               : t("backup_privacy_android")}

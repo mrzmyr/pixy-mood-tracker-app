@@ -64,8 +64,12 @@ export interface BackupValue {
   status: BackupStatus;
   /** ISO time of the backup in the cloud, or `null` when there is none. */
   lastBackupAt: string | null;
-  /** A backup exists in the cloud and can be restored. */
-  hasBackup: boolean;
+  /**
+   * Restore is offered only while auto-backup is paused: this phone has no
+   * entries, or the cloud holds a bigger backup from another phone. Then
+   * restoring cannot discard newer local changes.
+   */
+  canRestore: boolean;
   /** Turns backup on (signs in on Android) or off (deletes the backup). */
   setEnabled: (enabled: boolean) => Promise<void>;
   /** Replaces local data with the cloud backup after confirmation. */
@@ -268,12 +272,29 @@ export const BackupProvider = ({ children }: { children: React.ReactNode }) => {
       enabled,
       status,
       lastBackupAt: remote?.createdAt ?? null,
-      hasBackup: remote !== null,
+      canRestore:
+        remote !== null &&
+        deviceId !== null &&
+        !canReplaceBackup({
+          existing: remote,
+          deviceId,
+          localItemCount: data.items.length,
+        }),
       setEnabled,
       restore,
       reconnect,
     }),
-    [provider, enabled, status, remote, setEnabled, restore, reconnect]
+    [
+      provider,
+      enabled,
+      status,
+      remote,
+      deviceId,
+      data.items.length,
+      setEnabled,
+      restore,
+      reconnect,
+    ]
   );
 
   return (
