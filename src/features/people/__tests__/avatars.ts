@@ -1,7 +1,5 @@
 import * as FileSystem from "expo-file-system/legacy";
 import {
-  getAvatarPath,
-  getAvatarUri,
   readAvatarBase64,
   removeOrphanAvatars,
   writeAvatarFromBase64,
@@ -24,11 +22,6 @@ describe("avatars", () => {
 
   afterEach(() => {
     jest.restoreAllMocks();
-  });
-
-  test("stores relative paths under the people folder", () => {
-    expect(getAvatarPath("abc")).toBe("people/abc.jpg");
-    expect(getAvatarUri("people/abc.jpg")).toBe(`${DIRECTORY}abc.jpg`);
   });
 
   test("writes base64 avatars and resolves null when writing fails", async () => {

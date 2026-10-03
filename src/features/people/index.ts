@@ -11,7 +11,6 @@ export { ContactImport } from "./screens/ContactImport";
 export { PersonCreate, PersonEdit } from "./screens/PersonForm";
 export {
   deleteAllAvatars,
-  getAvatarPath,
   getAvatarUri,
   readAvatarBase64,
   writeAvatarFromBase64,
