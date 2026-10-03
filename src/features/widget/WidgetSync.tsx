@@ -20,7 +20,9 @@ export const WidgetSync = () => {
     if (!IS_WIDGET_SUPPORTED || !loaded) {
       return;
     }
-    const sync = () => syncWidgets({ items, scaleType });
+    const sync = () => {
+      void syncWidgets({ items, scaleType });
+    };
     const timeout = setTimeout(sync, SYNC_DEBOUNCE_MS);
     const subscription = AppState.addEventListener("change", (state) => {
       if (state === "active") {

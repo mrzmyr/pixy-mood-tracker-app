@@ -20,7 +20,7 @@ export const IS_WIDGET_SUPPORTED = Platform.OS === "ios";
 export interface WidgetSyncStatus {
   at: string;
   status: "ok" | "failed";
-  /** Why the sync failed; empty on success. */
+  /** Why the sync failed, or the read-back summary on success. */
   why: string;
 }
 
@@ -36,11 +36,26 @@ export const getWidgetUrl = () => {
   return `${first ?? "pixy"}://calendar`;
 };
 
+const firstEntryKeys = (entries: { props: object }[]) =>
+  Object.keys(entries[0]?.props ?? {}).join(",");
+
+/** Entry counts and first-entry keys read back from the widget store. */
+const describeTimelines = async () => {
+  const [week, month, year] = await Promise.all([
+    PixyWeekWidget.getTimeline(),
+    PixyMonthWidget.getTimeline(),
+    PixyYearWidget.getTimeline(),
+  ]);
+  const keys = firstEntryKeys;
+  return `week ${week.length} [${keys(week)}] month ${month.length} [${keys(month)}] year ${year.length} [${keys(year)}]`;
+};
+
 /**
- * Pushes a fresh timeline to every widget. Never throws: a widget failure
- * must not break the app, so errors go to Sentry.
+ * Pushes a fresh timeline to every widget, then reads the store back so
+ * Development tools can show what the widgets will render. Never throws: a
+ * widget failure must not break the app, so errors go to Sentry.
  */
-export const syncWidgets = ({
+export const syncWidgets = async ({
   items,
   scaleType,
 }: {
@@ -57,7 +72,11 @@ export const syncWidgets = ({
       getWidgetTimeline(input, getMonthWidgetProps)
     );
     PixyYearWidget.updateTimeline(getWidgetTimeline(input, getYearWidgetProps));
-    lastSync = { at: new Date().toISOString(), status: "ok", why: "" };
+    lastSync = {
+      at: new Date().toISOString(),
+      status: "ok",
+      why: await describeTimelines(),
+    };
   } catch (error) {
     const structuredError = createStructuredError({
       status: "widget_sync_failed",
