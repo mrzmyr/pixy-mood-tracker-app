@@ -41,6 +41,7 @@
 ## Code
 
 - read [CODING_STANDARDS.md]
+- read [docs/design.md](docs/design.md) for UI, copy, layout, forms, and interaction guidelines
 
 ### Footguns
 
