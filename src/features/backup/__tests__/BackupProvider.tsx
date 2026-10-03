@@ -1,5 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { act, renderHook, waitFor } from "@testing-library/react-native";
+import { usePostHog as getPostHogTestClient } from "posthog-react-native";
 import { Alert } from "react-native";
 import { _generateItem } from "@/__tests__/utils";
 import { INITIAL_STATE } from "@/constants/Settings";
@@ -10,6 +11,7 @@ import {
 } from "@/features/logs";
 import { TagsProvider } from "@/features/tags";
 import { AnalyticsProvider } from "@/state/analytics";
+import { FeatureFlagsProvider } from "@/state/featureFlags";
 import {
   SettingsProvider,
   STORAGE_KEY as SETTINGS_KEY,
@@ -36,16 +38,25 @@ jest.mock("../cloud", () => ({
   deleteBackupFile: jest.fn(() => Promise.resolve()),
 }));
 
+// jest.setup.js replaces posthog-react-native with one shared fake client.
+const mockReloadFlags = jest.mocked(
+  getPostHogTestClient().reloadFeatureFlagsAsync
+);
+
 const DEVICE_ID = "this-phone";
+/** Onboarding done plus analytics on: consent, so feature flags load. */
+const ONBOARDED = [{ title: "onboarding", date: "2026-10-01T10:00:00.000Z" }];
 
 const wrapper = ({ children }: { children: React.ReactNode }) => (
   <SettingsProvider>
     <AnalyticsProvider>
-      <LogsProvider>
-        <TagsProvider>
-          <BackupProvider>{children}</BackupProvider>
-        </TagsProvider>
-      </LogsProvider>
+      <FeatureFlagsProvider options={{ enabled: true }}>
+        <LogsProvider>
+          <TagsProvider>
+            <BackupProvider>{children}</BackupProvider>
+          </TagsProvider>
+        </LogsProvider>
+      </FeatureFlagsProvider>
     </AnalyticsProvider>
   </SettingsProvider>
 );
@@ -59,7 +70,12 @@ const seed = async ({
 }) => {
   await AsyncStorage.setItem(
     SETTINGS_KEY,
-    JSON.stringify({ ...INITIAL_STATE, deviceId: DEVICE_ID, backupEnabled })
+    JSON.stringify({
+      ...INITIAL_STATE,
+      deviceId: DEVICE_ID,
+      backupEnabled,
+      actionsDone: ONBOARDED,
+    })
   );
   await AsyncStorage.setItem(
     LOGS_KEY,
@@ -128,6 +144,7 @@ describe("BackupProvider", () => {
     jest.mocked(cloud.resume).mockResolvedValue(true);
     jest.mocked(cloud.isAvailable).mockResolvedValue(true);
     jest.mocked(cloud.readBackupFile).mockResolvedValue(null);
+    mockReloadFlags.mockResolvedValue({ backup: true });
     jest.spyOn(Alert, "alert");
     await AsyncStorage.clear();
   });
@@ -150,6 +167,19 @@ describe("BackupProvider", () => {
     expect(written.deviceId).toBe(DEVICE_ID);
     expect(written.data.items).toHaveLength(2);
     expect(hook.result.current.backup.lastBackupAt).toBe(written.createdAt);
+  });
+
+  test("flag off: never reads or writes the cloud", async () => {
+    mockReloadFlags.mockResolvedValue({ backup: false });
+    await seed({ itemCount: 2 });
+    const hook = await renderBackup();
+    await waitFor(() => expect(mockReloadFlags).toHaveBeenCalled());
+
+    await waitForAutoBackup();
+
+    expect(hook.result.current.backup.enabled).toBe(false);
+    expect(cloud.readBackupFile).not.toHaveBeenCalled();
+    expect(cloud.writeBackupFile).not.toHaveBeenCalled();
   });
 
   test("never writes an empty backup", async () => {

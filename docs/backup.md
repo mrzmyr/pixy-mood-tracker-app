@@ -4,6 +4,7 @@ Pixy has no server. Data leaves the phone only through the cloud backup or a man
 
 ## Cloud backup
 
+- Behind PostHog feature flag `backup`. Flag off: no Settings > Data > Backup row, Backup deep link redirects to Settings > Data, no cloud read or write even when `backupEnabled` is on
 - One file `pixy-mood-tracker-backup.json` in the hidden app folder of iCloud (iOS) or Google Drive (Android)
 - Library: [`react-native-cloud-storage`](https://cloudstorage.kuatsu.de/), `AppData` scope
 - Code: [`src/features/backup/`](../src/features/backup/)

@@ -1,13 +1,17 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Stack } from "expo-router";
 import { renderRouter } from "expo-router/testing-library";
+import { userEvent } from "@testing-library/react-native";
+import { usePostHog as getPostHogTestClient } from "posthog-react-native";
 import { _generateItem } from "@/__tests__/utils";
+import { DataScreen } from "@/features/datagate";
 import { INITIAL_STATE } from "@/constants/Settings";
 import { LogsProvider, STORAGE_KEY as LOGS_KEY } from "@/features/logs";
 import { BackupScreen } from "@/features/settings";
 import { TagsProvider } from "@/features/tags";
 import { initializeDayjs } from "@/lib/translation";
 import { AnalyticsProvider } from "@/state/analytics";
+import { FeatureFlagsProvider } from "@/state/featureFlags";
 import {
   SettingsProvider,
   STORAGE_KEY as SETTINGS_KEY,
@@ -28,16 +32,26 @@ jest.mock("../cloud", () => ({
   deleteBackupFile: jest.fn(() => Promise.resolve()),
 }));
 
+// jest.setup.js replaces posthog-react-native with one shared fake client.
+const mockReloadFlags = jest.mocked(
+  getPostHogTestClient().reloadFeatureFlagsAsync
+);
+
+/** Onboarding done plus analytics on: consent, so feature flags load. */
+const ONBOARDED = [{ title: "onboarding", date: "2026-10-01T10:00:00.000Z" }];
+
 const Layout = () => (
   <SettingsProvider>
     <AnalyticsProvider>
-      <LogsProvider>
-        <TagsProvider>
-          <BackupProvider>
-            <Stack />
-          </BackupProvider>
-        </TagsProvider>
-      </LogsProvider>
+      <FeatureFlagsProvider options={{ enabled: true }}>
+        <LogsProvider>
+          <TagsProvider>
+            <BackupProvider>
+              <Stack />
+            </BackupProvider>
+          </TagsProvider>
+        </LogsProvider>
+      </FeatureFlagsProvider>
     </AnalyticsProvider>
   </SettingsProvider>
 );
@@ -45,7 +59,12 @@ const Layout = () => (
 const seed = async (backupEnabled: boolean) => {
   await AsyncStorage.setItem(
     SETTINGS_KEY,
-    JSON.stringify({ ...INITIAL_STATE, deviceId: "this-phone", backupEnabled })
+    JSON.stringify({
+      ...INITIAL_STATE,
+      deviceId: "this-phone",
+      backupEnabled,
+      actionsDone: ONBOARDED,
+    })
   );
   await AsyncStorage.setItem(
     LOGS_KEY,
@@ -53,12 +72,23 @@ const seed = async (backupEnabled: boolean) => {
   );
 };
 
-const renderScreen = async () => {
+const renderRoutes = async (initialUrl: string) => {
   const result = await renderRouter(
-    { _layout: Layout, index: BackupScreen },
-    { initialUrl: "/" }
+    {
+      _layout: Layout,
+      "settings/data/index": DataScreen,
+      "settings/data/backup": BackupScreen,
+    },
+    { initialUrl }
   );
   jest.useRealTimers();
+  return result;
+};
+
+/** Opens Backup from Settings > Data, like a user, once flags loaded. */
+const renderScreen = async () => {
+  const result = await renderRoutes("/settings/data");
+  await userEvent.press(await result.findByTestId("backup"));
   return result;
 };
 
@@ -76,7 +106,19 @@ describe("BackupScreen", () => {
     jest.mocked(cloud.getBackupProvider).mockReturnValue("icloud");
     jest.mocked(cloud.readBackupFile).mockResolvedValue(null);
     jest.mocked(cloud.isAvailable).mockResolvedValue(true);
+    mockReloadFlags.mockResolvedValue({ backup: true });
     await AsyncStorage.clear();
+  });
+
+  test("flag off: deep link lands on Data without a Backup row", async () => {
+    mockReloadFlags.mockResolvedValue({ backup: false });
+    await seed(true);
+
+    const result = await renderRoutes("/settings/data/backup");
+
+    expect(await result.findByText("Export")).toBeTruthy();
+    expect(result.queryByTestId("backup")).toBeNull();
+    expect(result.queryByTestId("backup-enabled")).toBeNull();
   });
 
   test("iCloud: switch on, Not yet, privacy bullets", async () => {

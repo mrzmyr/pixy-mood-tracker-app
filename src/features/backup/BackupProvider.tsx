@@ -18,6 +18,7 @@ import {
   createStructuredError,
 } from "@/lib/errors";
 import { useAnalytics } from "@/state/analytics";
+import { useFeatureFlag } from "@/state/featureFlags";
 import { useSettings } from "@/state/settings";
 import {
   canReplaceBackup,
@@ -85,7 +86,11 @@ const BackupContext = createContext<BackupValue>(undefined as never);
  * Keeps one backup file of all entries, tags, and settings in the hidden
  * app folder of iCloud (iOS) or Google Drive (Android). See docs/backup.md.
  *
- * Must render inside the settings, analytics, logs, and tags providers.
+ * Off while the `backup` feature flag is off: no cloud read or write, even
+ * when `backupEnabled` is on.
+ *
+ * Must render inside the settings, analytics, feature flags, logs, and tags
+ * providers.
  */
 export const BackupProvider = ({ children }: { children: React.ReactNode }) => {
   const { settings, setSettings } = useSettings();
@@ -93,8 +98,9 @@ export const BackupProvider = ({ children }: { children: React.ReactNode }) => {
   const { tags } = useTagsState();
   const datagate = useDatagate();
   const analytics = useAnalytics();
+  const isFeatureOn = useFeatureFlag("backup");
   const provider = getBackupProvider();
-  const enabled = settings.loaded && settings.backupEnabled;
+  const enabled = isFeatureOn && settings.loaded && settings.backupEnabled;
   const { deviceId } = settings;
 
   const [status, setStatus] = useState<BackupStatus>("off");
@@ -172,9 +178,15 @@ export const BackupProvider = ({ children }: { children: React.ReactNode }) => {
   );
   const dataKey = useMemo(() => JSON.stringify(data), [data]);
 
-  // Write the backup a short time after local data changes.
+  // Write the backup a short time after local data changes. `enabled` stops
+  // writes when the feature flag turns off during the session.
   useEffect(() => {
-    if (!isReady || deviceId === null || dataKey === lastWritten.current) {
+    if (
+      !enabled ||
+      !isReady ||
+      deviceId === null ||
+      dataKey === lastWritten.current
+    ) {
       return;
     }
     if (
@@ -200,7 +212,7 @@ export const BackupProvider = ({ children }: { children: React.ReactNode }) => {
       }
     }, AUTO_BACKUP_DELAY_MS);
     return () => clearTimeout(timer);
-  }, [isReady, deviceId, dataKey, data, remote]);
+  }, [enabled, isReady, deviceId, dataKey, data, remote]);
 
   const setEnabled = useCallback(
     async (value: boolean) => {

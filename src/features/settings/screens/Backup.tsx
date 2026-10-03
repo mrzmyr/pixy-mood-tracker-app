@@ -1,4 +1,5 @@
 import dayjs from "dayjs";
+import { Redirect } from "expo-router";
 import { SymbolView } from "expo-symbols";
 import { useEffect, useState } from "react";
 import { ScrollView, Switch, View } from "react-native";
@@ -14,6 +15,7 @@ import { useBackup } from "@/features/backup";
 import type { BackupValue } from "@/features/backup";
 import useColors from "@/hooks/useColors";
 import { t } from "@/lib/translation";
+import { useFeatureFlag } from "@/state/featureFlags";
 
 /** iOS system blue, the color of the iCloud symbol in iOS Settings. */
 const ICLOUD_BLUE = "#007AFF";
@@ -79,7 +81,8 @@ const getLastSyncText = ({
 /**
  * Settings > Data > Backup: switch for the iCloud (iOS) or Google Drive
  * (Android) backup, last sync, restore while auto-backup is paused, and
- * notes on privacy. State and actions come from `BackupProvider`.
+ * notes on privacy. State and actions come from `BackupProvider`. Without
+ * the `backup` feature flag, a deep link lands on Settings > Data.
  */
 export const BackupScreen = () => {
   const colors = useColors();
@@ -90,6 +93,11 @@ export const BackupScreen = () => {
   const showLastSync = enabled && problem === null;
   const showRestore = enabled && canRestore;
   const isSynced = status === "idle" && lastBackupAt !== null;
+  const isFeatureOn = useFeatureFlag("backup");
+
+  if (!isFeatureOn) {
+    return <Redirect href="/settings/data" />;
+  }
 
   return (
     <View style={{ flex: 1, backgroundColor: colors.background }}>
