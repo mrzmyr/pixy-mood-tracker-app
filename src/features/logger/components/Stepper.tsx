@@ -1,60 +1,54 @@
-import { Pressable, View } from "react-native";
+import { View } from "react-native";
+import Animated, {
+  LinearTransition,
+  ReduceMotion,
+} from "react-native-reanimated";
 import useColors from "@/hooks/useColors";
+import { t } from "@/lib/translation";
 
-/**
- * Progress segments above the logger slides; tapping a segment jumps to
- * that slide.
- */
-export const Stepper = ({
-  count,
-  index,
-  scrollTo,
-}: {
-  count: number;
-  index: number;
-  scrollTo: ({ index }) => void;
-}) => {
+const DOT_SIZE = 6;
+const ACTIVE_DOT_SCALE = 3;
+const DOT_MOVE_MS = 200;
+
+const StepDot = ({ active }: { active: boolean }) => {
   const colors = useColors();
-  const steps = Array.from({ length: count }, (_, step) => step);
 
   return (
-    <View
+    <Animated.View
+      layout={LinearTransition.duration(DOT_MOVE_MS).reduceMotion(
+        ReduceMotion.System
+      )}
       style={{
-        flexDirection: "row",
-        alignItems: "center",
-        width: "100%",
+        width: active ? DOT_SIZE * ACTIVE_DOT_SCALE : DOT_SIZE,
+        height: DOT_SIZE,
+        borderRadius: DOT_SIZE / 2,
+        backgroundColor: active
+          ? colors.stepperBackgroundActive
+          : colors.stepperBackground,
       }}
-    >
-      {steps.map((step) => (
-        <Pressable
-          key={step}
-          style={{
-            paddingTop: 20,
-            flexDirection: "row",
-            alignItems: "center",
-            flex: 4,
-            paddingLeft: step === 0 ? 0 : 8,
-            paddingRight: step === steps.length - 1 ? 0 : 8,
-            paddingBottom: 16,
-            overflow: "hidden",
-          }}
-          onPress={() => {
-            scrollTo({ index: step });
-          }}
-        >
-          <View
-            style={{
-              width: "100%",
-              height: 8,
-              borderRadius: 100,
-              backgroundColor:
-                step === index
-                  ? colors.stepperBackgroundActive
-                  : colors.stepperBackground,
-            }}
-          />
-        </Pressable>
-      ))}
-    </View>
+    />
   );
 };
+
+/** Progress dots match the widget guide: active step expands into a pill. */
+export const Stepper = ({ count, index }: { count: number; index: number }) => (
+  <View
+    accessible
+    accessibilityRole="progressbar"
+    accessibilityLabel={t("logger_step_progress", {
+      step: index + 1,
+      total: count,
+    })}
+    accessibilityValue={{ min: 1, max: count, now: index + 1 }}
+    testID="logger-stepper"
+    style={{
+      flexDirection: "row",
+      alignItems: "center",
+      gap: 8,
+    }}
+  >
+    {Array.from({ length: count }, (_, step) => (
+      <StepDot key={step} active={step === index} />
+    ))}
+  </View>
+);

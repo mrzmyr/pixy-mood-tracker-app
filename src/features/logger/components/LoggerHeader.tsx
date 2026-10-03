@@ -4,7 +4,6 @@ import type { CarouselRef } from "react-native-reanimated-carousel";
 import { askToCancel, askToRemove } from "@/helpers/prompts";
 import type { TemporaryLogValue } from "../temporaryLog";
 import { SlideHeader } from "./SlideHeader";
-import { Stepper } from "./Stepper";
 
 /**
  * Logger stepper and header controls.
@@ -14,7 +13,6 @@ export const LoggerHeader = ({
   carouselRef,
   slideCount,
   slideIndex,
-  setSlideIndex,
   isEditing,
   tempLog,
   onCancel,
@@ -23,7 +21,6 @@ export const LoggerHeader = ({
   carouselRef: RefObject<CarouselRef | null>;
   slideCount: number;
   slideIndex: number;
-  setSlideIndex: (index: number) => void;
   isEditing: boolean;
   tempLog: TemporaryLogValue;
   onCancel: () => void;
@@ -32,23 +29,12 @@ export const LoggerHeader = ({
   <View
     style={{
       paddingHorizontal: 20,
+      paddingTop: 16,
     }}
   >
-    {slideCount > 1 ? (
-      <Stepper
-        count={slideCount}
-        index={slideIndex}
-        scrollTo={({ index }) => {
-          if (carouselRef.current) {
-            carouselRef.current.scrollTo({ index, animated: false });
-          }
-          setSlideIndex(index);
-        }}
-      />
-    ) : (
-      <View style={{ height: 24 }} />
-    )}
     <SlideHeader
+      slideCount={slideCount}
+      slideIndex={slideIndex}
       onBack={() => {
         carouselRef.current?.prev();
       }}
