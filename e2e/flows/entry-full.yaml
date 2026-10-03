@@ -58,7 +58,8 @@ tags: [p0, entry]
 - tapOn:
     id: "logger-next"
 
-- assertVisible: "Write about your day…"
+- assertVisible:
+    id: "log-message"
 - tapOn:
     id: "log-message"
 - inputText: "e2e note ${output.runId}"

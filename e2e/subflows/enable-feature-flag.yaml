@@ -1,0 +1,23 @@
+appId: ${APP_ID}
+---
+# Turns feature flag ${FLAG} on with the dev override link until the app
+# restarts, then scrolls the calendar to today. Needs a development or preview build.
+# iPhones cannot run it: openLink never reaches the app there.
+- openLink: ${APP_SCHEME}://dev/feature-flag?key=${FLAG}&value=on
+# iOS asks once per app before a custom-scheme link opens it. Android never asks.
+- waitForAnimationToEnd
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - runFlow:
+          when:
+            visible: "Open"
+          commands:
+            - tapOn: "Open"
+# The link reopens the calendar, maybe above today. Today is the last day.
+- scrollUntilVisible:
+    element:
+      id: "calendar-day-${output.today}"
+    direction: DOWN
+    timeout: 10000
