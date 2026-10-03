@@ -1,3 +1,4 @@
+import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
 import { Check } from "lucide-react-native";
 import {
@@ -20,6 +21,7 @@ import { t } from "@/lib/translation";
 import { PersonAvatar } from "../components/PersonAvatar";
 import type { ContactRow as Row } from "../contactImport";
 import { useContactImport } from "../hooks/useContactImport";
+import { useContactThumbnail } from "../hooks/useContactThumbnail";
 
 const ROW_HEIGHT = 56;
 
@@ -35,6 +37,7 @@ const ContactRow = ({
 }) => {
   const colors = useColors();
   const haptics = useHaptics();
+  const thumbnailUri = useContactThumbnail(row.contactId);
 
   const pressedOpacity = row.isAdded ? 0.5 : 0.8;
   const restingOpacity = row.isAdded ? 0.5 : 1;
@@ -65,6 +68,7 @@ const ContactRow = ({
       <PersonAvatar
         person={{ id: row.contactId, name: row.name, avatar: null }}
         size={32}
+        previewUri={thumbnailUri}
       />
       <Text
         numberOfLines={1}
@@ -129,7 +133,7 @@ export const ContactImport = () => {
           </LinkButton>
         }
       />
-      <View style={{ paddingHorizontal: 16, paddingTop: 8 }}>
+      <View style={{ paddingHorizontal: 16, paddingTop: 8, paddingBottom: 12 }}>
         <TextInput
           accessibilityLabel={t("people_import_search")}
           testID="contact-import-search"
@@ -164,36 +168,49 @@ export const ContactImport = () => {
       {contactImport.isLoading ? (
         <ActivityIndicator style={{ marginTop: 32 }} />
       ) : (
-        <FlatList
-          data={contactImport.rows}
-          keyExtractor={(row) => row.contactId}
-          getItemLayout={(_, index) => ({
-            length: ROW_HEIGHT,
-            offset: ROW_HEIGHT * index,
-            index,
-          })}
-          keyboardShouldPersistTaps="handled"
-          keyboardDismissMode="on-drag"
-          contentContainerStyle={{ paddingBottom: insets.bottom + 16 }}
-          ListEmptyComponent={
-            <Text
-              style={{
-                padding: 32,
-                textAlign: "center",
-                color: colors.textSecondary,
-              }}
-            >
-              {t("people_import_empty")}
-            </Text>
-          }
-          renderItem={({ item }) => (
-            <ContactRow
-              row={item}
-              isSelected={contactImport.selectedIds.includes(item.contactId)}
-              onToggle={handleToggle}
-            />
-          )}
-        />
+        <View style={{ flex: 1 }}>
+          <FlatList
+            data={contactImport.rows}
+            keyExtractor={(row) => row.contactId}
+            getItemLayout={(_, index) => ({
+              length: ROW_HEIGHT,
+              offset: ROW_HEIGHT * index,
+              index,
+            })}
+            keyboardShouldPersistTaps="handled"
+            keyboardDismissMode="on-drag"
+            contentContainerStyle={{ paddingBottom: insets.bottom + 16 }}
+            ListEmptyComponent={
+              <Text
+                style={{
+                  padding: 32,
+                  textAlign: "center",
+                  color: colors.textSecondary,
+                }}
+              >
+                {t("people_import_empty")}
+              </Text>
+            }
+            renderItem={({ item }) => (
+              <ContactRow
+                row={item}
+                isSelected={contactImport.selectedIds.includes(item.contactId)}
+                onToggle={handleToggle}
+              />
+            )}
+          />
+          <LinearGradient
+            pointerEvents="none"
+            colors={[colors.background, colors.logBackgroundTransparent]}
+            style={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              right: 0,
+              height: 16,
+            }}
+          />
+        </View>
       )}
     </View>
   );

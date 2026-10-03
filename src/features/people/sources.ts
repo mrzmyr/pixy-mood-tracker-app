@@ -31,6 +31,8 @@ export interface PeopleSources {
   listContacts: () => Promise<ContactList>;
   /** Photo of one contact as a local URI, or `null` without a photo. */
   getContactImage: (contactId: string) => Promise<string | null>;
+  /** Small photo of one contact for list rows, or `null` without a photo. */
+  getContactThumbnail: (contactId: string) => Promise<string | null>;
   /** iOS 18+ limited access: lets the user share more contacts with Pixy. */
   shareMoreContacts: () => Promise<void>;
   /** Opens the photo library. Resolves the image URI, or `null` on cancel. */
@@ -61,6 +63,8 @@ const systemPeopleSources: PeopleSources = {
     };
   },
   getContactImage: (contactId) => new Contacts.Contact(contactId).getImage(),
+  getContactThumbnail: (contactId) =>
+    new Contacts.Contact(contactId).getThumbnail(),
   shareMoreContacts: async () => {
     await Contacts.Contact.presentAccessPicker();
   },

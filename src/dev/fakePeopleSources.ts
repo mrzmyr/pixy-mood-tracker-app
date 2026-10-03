@@ -32,6 +32,8 @@ export const fakePeopleSources: PeopleSources = {
     }),
   getContactImage: (contactId) =>
     contactId === "fake-contact-sam" ? writeAvatar() : Promise.resolve(null),
+  getContactThumbnail: (contactId) =>
+    contactId === "fake-contact-sam" ? writeAvatar() : Promise.resolve(null),
   shareMoreContacts: () => Promise.resolve(),
   pickImage: writeAvatar,
 };
