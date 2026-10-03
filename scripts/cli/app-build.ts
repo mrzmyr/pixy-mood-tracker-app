@@ -17,6 +17,8 @@ import { CliError, getStateDir, note, withLogsOnStderr } from "./shared.ts";
 import type { Platform } from "./shared.ts";
 
 const REPO_ROOT = path.resolve(import.meta.dir, "../..");
+/** App variants this CLI builds. `development` is the dev client, loads JS from Metro. */
+export type BuildVariant = "preview" | "development";
 interface CacheProps {
   platform: Platform;
   fingerprintHash: string;
@@ -37,17 +39,29 @@ const buildCacheProvider = localRequire(
   "../build-cache-provider.cjs"
 ) as BuildCacheProvider;
 
-const getCache = async (platform: Platform) => {
-  process.env.EXPO_PUBLIC_APP_VARIANT = "preview";
+// Expo CLI run options per variant. The dev client is a Debug build: Expo
+// reports iOS Debug as `unknown` and Android as `debug`. Its cache key covers
+// the native fingerprint only, so every worktree with the same native
+// dependencies shares one dev client.
+const RUN_OPTIONS: Record<
+  BuildVariant,
+  Record<Platform, CacheProps["runOptions"]>
+> = {
+  development: { android: { variant: "debug" }, ios: {} },
+  preview: {
+    android: { variant: "release" },
+    ios: { configuration: "Release" },
+  },
+};
+
+const getCache = async (platform: Platform, variant: BuildVariant) => {
+  process.env.EXPO_PUBLIC_APP_VARIANT = variant;
   const { hash } = await createFingerprintAsync(REPO_ROOT);
   const props: CacheProps = {
     platform,
     fingerprintHash: hash,
     projectRoot: REPO_ROOT,
-    runOptions:
-      platform === "ios"
-        ? { configuration: "Release" }
-        : { variant: "release" },
+    runOptions: RUN_OPTIONS[variant][platform],
   };
   const key = buildCacheProvider.getCacheKey(props);
   const extension = platform === "ios" ? ".app" : ".apk";
@@ -102,21 +116,25 @@ const runLogged = async (
   }
 };
 
-const ensureBuild = async (platform: Platform) => {
-  const cache = await getCache(platform);
+const ensureBuild = async (
+  platform: Platform,
+  variant: BuildVariant = "preview"
+) => {
+  const cache = await getCache(platform, variant);
   if (fs.existsSync(cache.file)) {
     note("Cached build found");
     return cache;
   }
+  const isRelease = variant === "preview";
   await withCacheLock(cache.file, async () => {
     if (platform === "ios") {
+      // Expo CLI stores a generic simulator build in the cache itself.
       await runLogged(
         "bun",
         [
           "scripts/run-native.ts",
           "ios",
-          "--configuration",
-          "Release",
+          ...(isRelease ? ["--configuration", "Release"] : []),
           "--no-bundler",
           "--device",
           "generic",
@@ -125,7 +143,7 @@ const ensureBuild = async (platform: Platform) => {
         ],
         {
           cwd: REPO_ROOT,
-          env: { ...process.env, EXPO_PUBLIC_APP_VARIANT: "preview" },
+          env: { ...process.env, EXPO_PUBLIC_APP_VARIANT: variant },
           logFile: path.join(
             path.dirname(getStateDir("build")),
             "ios-build.log"
@@ -136,25 +154,30 @@ const ensureBuild = async (platform: Platform) => {
       const env = {
         ...process.env,
         ...getAndroidBuildEnv(),
-        EXPO_PUBLIC_APP_VARIANT: "preview",
+        EXPO_PUBLIC_APP_VARIANT: variant,
       };
       await ensurePrebuild(
         "android",
-        "preview",
+        variant,
         env,
         cache.props.fingerprintHash
       );
-      await runLogged("./gradlew", ["app:assembleRelease", "--console=plain"], {
-        cwd: path.join(REPO_ROOT, "android"),
-        env,
-        logFile: path.join(
-          path.dirname(getStateDir("build")),
-          "android-build.log"
-        ),
-      });
+      const gradleVariant = isRelease ? "release" : "debug";
+      await runLogged(
+        "./gradlew",
+        [`app:assemble${isRelease ? "Release" : "Debug"}`, "--console=plain"],
+        {
+          cwd: path.join(REPO_ROOT, "android"),
+          env,
+          logFile: path.join(
+            path.dirname(getStateDir("build")),
+            "android-build.log"
+          ),
+        }
+      );
       const apk = path.join(
         REPO_ROOT,
-        "android/app/build/outputs/apk/release/app-release.apk"
+        `android/app/build/outputs/apk/${gradleVariant}/app-${gradleVariant}.apk`
       );
       const stored = await withLogsOnStderr(() =>
         buildCacheProvider.uploadBuildCache({
@@ -188,9 +211,12 @@ const build = async (platform: Platform) => {
   console.log(toBuildId(key));
 };
 
-/** Resolve the cached build for one platform, building when needed. */
-export const getCachedBuild = async (platform: Platform) => {
-  const cache = await ensureBuild(platform);
+/** Resolve the cached build for one platform and variant, building when needed. */
+export const getCachedBuild = async (
+  platform: Platform,
+  variant: BuildVariant = "preview"
+) => {
+  const cache = await ensureBuild(platform, variant);
   return {
     key: cache.key,
     file: await withLogsOnStderr(() =>

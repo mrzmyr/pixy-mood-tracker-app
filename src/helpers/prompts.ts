@@ -86,18 +86,16 @@ export const askToImport = () =>
   });
 
 /**
- * Ask before a reset. `type` selects the `reset_<type>_confirm_*`
- * translation keys, so it must be a reset type with translations
- * (`factory` or `data`).
+ * Ask before deleting all entries, tags, and settings.
  *
  * @returns Resolves when the user confirms; rejects with a `prompt_cancelled`
  *   error on cancel.
  */
-export const askToReset = <Type>(type: Type) =>
+export const askToReset = () =>
   askToConfirm({
-    title: t(`reset_${type}_confirm_title`),
-    message: t(`reset_${type}_confirm_message`),
-    confirmText: t("reset"),
+    title: t("delete_all_data_confirm_title"),
+    message: t("delete_all_data_confirm_message"),
+    confirmText: t("delete"),
     cancelText: t("cancel"),
   });
 
@@ -125,14 +123,11 @@ export const showImportError = () => {
   );
 };
 
-/**
- * Show the reset success alert. `type` selects the
- * `reset_<type>_success_*` translation keys (`factory` or `data`).
- */
-export const showResetSuccess = <Type>(type: Type) => {
+/** Show the "all data deleted" alert. */
+export const showResetSuccess = () => {
   Alert.alert(
-    t(`reset_${type}_success_title`),
-    t(`reset_${type}_success_message`),
+    t("delete_all_data_success_title"),
+    t("delete_all_data_success_message"),
     [
       {
         text: t("ok"),

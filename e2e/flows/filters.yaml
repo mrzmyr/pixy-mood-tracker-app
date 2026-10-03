@@ -35,11 +35,24 @@ tags: [p1, filters]
     commands:
       - assertVisible: "Filters \\(2\\)"
 
-# Closing clears both filters. Reopening shows no results.
+# Closing keeps both filters: the header badge shows them, and reopening
+# shows the same results. Reset clears them.
 - runFlow: ../subflows/close-filters.yaml
+- assertVisible: "Filters \\(2\\)"
 - tapOn:
     id: "filters"
 - assertVisible:
     id: "calendar-filter-search"
+- assertVisible: "10 Results"
+# Reset shares the result row; scroll in case the sheet cuts it off.
+- scrollUntilVisible:
+    element:
+      id: "calendar-filter-reset"
+    direction: DOWN
+- tapOn:
+    id: "calendar-filter-reset"
 - assertNotVisible: ".* Results"
+- assertNotVisible:
+    id: "calendar-filter-reset"
 - runFlow: ../subflows/close-filters.yaml
+- assertNotVisible: "Filters \\(.*\\)"

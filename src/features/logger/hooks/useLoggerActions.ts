@@ -11,6 +11,13 @@ import type { TemporaryLogState, TemporaryLogValue } from "../temporaryLog";
 import type { LoggerMode } from "../Logger";
 import { getItemDate } from "@/lib/logDates";
 
+/** New entry plus where the logger closes to once the user is done. */
+export interface SavedEntry {
+  item: LogItem;
+  /** `calendar` also closes the day list; `back` returns to the previous screen. */
+  closeTo: "calendar" | "back";
+}
+
 /**
  * Save, remove and cancel handlers for the logger.
  * Every handler closes the logger and resets the temporary log; `save` stores unrated logs as "neutral".
@@ -18,9 +25,12 @@ import { getItemDate } from "@/lib/logDates";
 export const useLoggerActions = ({
   mode,
   tempLog,
+  onCreated,
 }: {
   mode: LoggerMode;
   tempLog: TemporaryLogValue;
+  /** Called after a new entry is stored, instead of closing the logger. */
+  onCreated?: (saved: SavedEntry) => void;
 }) => {
   const router = useRouter();
   const analytics = useAnalytics();
@@ -66,7 +76,16 @@ export const useLoggerActions = ({
         (item) => getItemDate(item) === date
       );
 
-      if (itemsOnDate.length === 1) {
+      const closeTo = itemsOnDate.length === 1 ? "calendar" : "back";
+
+      if (onCreated) {
+        tempLog.reset();
+        // SAFETY: rating is non-null after the fallback above.
+        onCreated({ item: data as LogItem, closeTo });
+        return;
+      }
+
+      if (closeTo === "calendar") {
         router.dismissTo("/calendar");
         tempLog.reset();
         return;

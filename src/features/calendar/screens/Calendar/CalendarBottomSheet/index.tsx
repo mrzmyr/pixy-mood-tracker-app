@@ -14,7 +14,7 @@ const sheetModifiers =
  * Calendar filter sheet, opened from the tab header's filter button.
  *
  * Native `@expo/ui` sheet: SwiftUI on iOS, Material 3 on Android. Swipe,
- * outside tap, and Android Back close it and clear the filters. Visibility
+ * outside tap, and Android Back close it and keep the filters. Visibility
  * follows `useCalendarFilters().isOpen`.
  */
 export const CalendarBottomSheet = () => {
