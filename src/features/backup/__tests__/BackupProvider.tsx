@@ -230,4 +230,35 @@ describe("BackupProvider", () => {
       expect(hook.result.current.backup.status).toBe("unavailable")
     );
   });
+
+  test("reconnect signs in and loads the backup again", async () => {
+    await seed({ itemCount: 2 });
+    jest.mocked(cloud.resume).mockResolvedValueOnce(false);
+    const hook = await renderBackup();
+    await waitFor(() =>
+      expect(hook.result.current.backup.status).toBe("signedOut")
+    );
+
+    await act(() => hook.result.current.backup.reconnect());
+
+    expect(cloud.connect).toHaveBeenCalled();
+    await waitFor(() => expect(hook.result.current.backup.status).toBe("idle"));
+  });
+
+  test("turning off while signed out signs in before deleting", async () => {
+    await seed({ itemCount: 2 });
+    jest.mocked(cloud.resume).mockResolvedValue(false);
+    const hook = await renderBackup();
+    await waitFor(() =>
+      expect(hook.result.current.backup.status).toBe("signedOut")
+    );
+
+    await runConfirmed(() => hook.result.current.backup.setEnabled(false));
+
+    expect(cloud.connect).toHaveBeenCalled();
+    expect(cloud.deleteBackupFile).toHaveBeenCalled();
+    expect(jest.mocked(cloud.connect).mock.invocationCallOrder[0]).toBeLessThan(
+      jest.mocked(cloud.deleteBackupFile).mock.invocationCallOrder[0]
+    );
+  });
 });

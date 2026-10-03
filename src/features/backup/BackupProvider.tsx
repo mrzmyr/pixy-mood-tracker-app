@@ -70,6 +70,8 @@ export interface BackupValue {
   setEnabled: (enabled: boolean) => Promise<void>;
   /** Replaces local data with the cloud backup after confirmation. */
   restore: () => Promise<void>;
+  /** Signs in to Google Drive again after the session ended. */
+  reconnect: () => Promise<void>;
 }
 
 // SAFETY: every consumer renders inside BackupProvider; the default is never read.
@@ -115,43 +117,50 @@ export const BackupProvider = ({ children }: { children: React.ReactNode }) => {
     fail(why, failure)
   );
 
-  // Load the cloud backup whenever backup turns on.
-  useEffect(() => {
-    if (!enabled) {
-      return;
-    }
-    let isCancelled = false;
-    (async () => {
+  /** Reads the cloud backup. `isStopped` drops results after unmount. */
+  const load = useCallback(
+    async (isStopped: () => boolean) => {
       try {
         if (!(await resume())) {
-          if (!isCancelled) {
+          if (!isStopped()) {
             setStatus("signedOut");
           }
           return;
         }
         if (!(await isAvailable())) {
-          if (!isCancelled) {
+          if (!isStopped()) {
             setStatus("unavailable");
           }
           return;
         }
         const text = await readBackupFile();
-        if (isCancelled) {
+        if (isStopped()) {
           return;
         }
         setRemote(text === null ? null : parseBackupFile(text));
         setStatus("idle");
         setIsReady(true);
       } catch (error) {
-        if (!isCancelled) {
-          failInEffect(String(error), "backup_read_failed");
+        if (!isStopped()) {
+          fail(String(error), "backup_read_failed");
         }
       }
-    })();
+    },
+    [fail]
+  );
+
+  // Load the cloud backup whenever backup turns on.
+  useEffect(() => {
+    if (!enabled) {
+      return;
+    }
+    let isCancelled = false;
+    // oxlint-disable-next-line react/set-state-in-effect -- load awaits iCloud or Google Drive before any setState; this effect syncs with that external system
+    load(() => isCancelled);
     return () => {
       isCancelled = true;
     };
-  }, [enabled]);
+  }, [enabled, load]);
 
   const data = useMemo(
     () => buildExportData({ items, tags, settings }),
@@ -207,6 +216,10 @@ export const BackupProvider = ({ children }: { children: React.ReactNode }) => {
           return;
         }
         try {
+          // Deleting needs a session. Without it the file would stay behind.
+          if (status === "signedOut" && !(await connect())) {
+            return;
+          }
           await deleteBackupFile();
           await disconnect();
         } catch (error) {
@@ -221,8 +234,18 @@ export const BackupProvider = ({ children }: { children: React.ReactNode }) => {
       analytics.track("settings:backup_toggled", { enabled: value });
       setSettings((current) => ({ ...current, backupEnabled: value }));
     },
-    [analytics, fail, setSettings]
+    [analytics, fail, setSettings, status]
   );
+
+  const reconnect = useCallback(async () => {
+    try {
+      if (await connect()) {
+        await load(() => false);
+      }
+    } catch (error) {
+      fail(String(error), "backup_sign_in_failed");
+    }
+  }, [fail, load]);
 
   const restore = useCallback(async () => {
     if (remote === null || deviceId === null) {
@@ -248,8 +271,9 @@ export const BackupProvider = ({ children }: { children: React.ReactNode }) => {
       hasBackup: remote !== null,
       setEnabled,
       restore,
+      reconnect,
     }),
-    [provider, enabled, status, remote, setEnabled, restore]
+    [provider, enabled, status, remote, setEnabled, restore, reconnect]
   );
 
   return (

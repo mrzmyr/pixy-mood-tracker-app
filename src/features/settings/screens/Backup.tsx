@@ -108,6 +108,7 @@ export const BackupScreen = () => {
                   <CheckCircle width={18} color={SUCCESS_GREEN} />
                 ) : null
               }
+              onPress={status === "signedOut" ? () => backup.reconnect() : null}
               testID="backup-last-sync"
               isLast={!hasBackup}
             />
