@@ -1,0 +1,16 @@
+appId: ${APP_ID}
+---
+# Finishes the privacy slide. Consent regions (EU, EEA, UK, CH) show
+# share buttons; other regions show "Understood".
+- runFlow:
+    when:
+      visible: "Understood"
+    commands:
+      - tapOn: "Understood"
+- runFlow:
+    when:
+      visible:
+        id: "analytics-consent-allow"
+    commands:
+      - tapOn:
+          id: "analytics-consent-allow"

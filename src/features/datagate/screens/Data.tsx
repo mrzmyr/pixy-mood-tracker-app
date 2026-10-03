@@ -1,5 +1,5 @@
 import { useRouter } from "expo-router";
-import { ScrollView } from "react-native";
+import { ScrollView, View } from "react-native";
 import { Cloud, Download, Trash, Upload } from "react-native-feather";
 import MenuList from "@/components/MenuList";
 import MenuListItem from "@/components/MenuListItem";
@@ -7,12 +7,11 @@ import TextInfo from "@/components/TextInfo";
 import { t } from "@/lib/translation";
 import useColors from "@/hooks/useColors";
 import { useDatagate } from "../DataGate";
-import { PageWithHeaderLayout } from "@/components/PageWithHeaderLayout";
 
 /**
  * Settings > Data: the data hub. Backup (opens the Backup page), import and
- * export, and reset of all user data via `useDatagate`.
- * The direct AsyncStorage import is development-only.
+ * export, and deletion of all user data via `useDatagate`. The direct
+ * AsyncStorage import is development-only.
  */
 export const DataScreen = () => {
   const colors = useColors();
@@ -20,7 +19,7 @@ export const DataScreen = () => {
   const datagate = useDatagate();
 
   return (
-    <PageWithHeaderLayout
+    <View
       style={{
         flex: 1,
         backgroundColor: colors.background,
@@ -67,26 +66,11 @@ export const DataScreen = () => {
         <TextInfo>{t("export_help")}</TextInfo>
         <MenuList style={{ marginTop: 16 }}>
           <MenuListItem
-            testID="reset-data"
-            title={t("reset_data_button")}
+            testID="delete-all-data"
+            title={t("delete_all_data_button")}
             onPress={async () => {
               try {
-                await datagate.openResetDialog("data");
-              } catch (error) {
-                console.log(error);
-              }
-            }}
-            iconLeft={<Trash width={18} color="red" />}
-            style={{
-              color: "red",
-            }}
-          />
-          <MenuListItem
-            testID="reset-factory"
-            title={t("reset_factory_button")}
-            onPress={async () => {
-              try {
-                await datagate.openResetDialog("factory");
+                await datagate.openResetDialog();
               } catch (error) {
                 console.log(error);
               }
@@ -98,8 +82,8 @@ export const DataScreen = () => {
             isLast
           />
         </MenuList>
-        <TextInfo>{t("reset_factory_description")}</TextInfo>
+        <TextInfo>{t("delete_all_data_description")}</TextInfo>
       </ScrollView>
-    </PageWithHeaderLayout>
+    </View>
   );
 };

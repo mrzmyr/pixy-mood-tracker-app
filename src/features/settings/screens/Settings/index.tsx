@@ -2,7 +2,7 @@ import { useRouter } from "expo-router";
 import * as Linking from "expo-linking";
 import * as StoreReview from "expo-store-review";
 import * as WebBrowser from "expo-web-browser";
-import { ScrollView, Text, View } from "react-native";
+import { Platform, ScrollView, Text, View } from "react-native";
 import {
   ArrowUpCircle,
   Award,
@@ -11,7 +11,6 @@ import {
   CheckCircle,
   Database,
   Droplet,
-  Flag,
   Github,
   PieChart,
   Shield,
@@ -32,7 +31,7 @@ import { useAnalytics } from "@/state/analytics";
 import useColors from "@/hooks/useColors";
 import { useFeedbackModal } from "@/features/feedback";
 import pkg from "../../../../../package.json";
-import { Tag } from "lucide-react-native";
+import { Bug, Lightbulb, Tag } from "lucide-react-native";
 import { useSupport } from "@/support";
 
 /**
@@ -122,17 +121,11 @@ export const SettingsScreen = () => {
         <MenuListHeadline>{t("settings_feedback")}</MenuListHeadline>
         <MenuList style={{}}>
           <MenuListItem
-            title={t("send_feedback")}
-            onPress={() => showFeedbackModal({ type: "issue" })}
-            iconLeft={<Flag width={18} color={colors.menuListItemIcon} />}
-            testID="send_feedback"
-            isLast
+            title={t("request_a_feature")}
+            onPress={() => showFeedbackModal({ type: "idea" })}
+            iconLeft={<Lightbulb width={18} color={colors.menuListItemIcon} />}
+            testID="request_a_feature"
           />
-        </MenuList>
-        <TextInfo>{t("feedback_help")}</TextInfo>
-
-        <MenuListHeadline>{t("settings_about")}</MenuListHeadline>
-        <MenuList style={{}}>
           <MenuListItem
             title={t("vote_features")}
             onPress={async () => {
@@ -145,6 +138,28 @@ export const SettingsScreen = () => {
             testID="vote_features"
           />
           <MenuListItem
+            title={t("report_a_bug")}
+            onPress={() => showFeedbackModal({ type: "issue" })}
+            iconLeft={<Bug width={18} color={colors.menuListItemIcon} />}
+            testID="report_a_bug"
+          />
+          <MenuListItem
+            title={t(
+              Platform.OS === "ios"
+                ? "rate_pixy_app_store"
+                : "rate_pixy_google_play"
+            )}
+            onPress={() => askToRateApp()}
+            iconLeft={<Star width={18} color={colors.menuListItemIcon} />}
+            testID="rate_pixy"
+            isLast
+          />
+        </MenuList>
+        <TextInfo>{t("feedback_help")}</TextInfo>
+
+        <MenuListHeadline>{t("settings_about")}</MenuListHeadline>
+        <MenuList style={{}}>
+          <MenuListItem
             title={t("changelog")}
             onPress={async () => {
               analytics.track("settings:changelog_tapped");
@@ -154,30 +169,35 @@ export const SettingsScreen = () => {
             testID="changelog"
           />
           <MenuListItem
-            title={t("rate_this_app")}
-            onPress={() => askToRateApp()}
-            iconLeft={<Star width={18} color={colors.menuListItemIcon} />}
-          />
-          <MenuListItem
             title={t("privacy")}
             onPress={() => router.push("/settings/privacy")}
             iconLeft={<Shield width={18} color={colors.menuListItemIcon} />}
             isLink
+          />
+          <MenuListItem
+            title={t("licenses")}
+            iconLeft={<Award width={18} color={colors.menuListItemIcon} />}
+            onPress={() => router.push("/settings/licenses")}
+            isLink
+          />
+          <MenuListItem
+            title={t("app_is_open_source")}
+            onPress={() => {
+              Linking.openURL(
+                "https://github.com/mrzmyr/pixy-mood-tracker-app"
+              );
+            }}
+            iconLeft={<Github width={18} color={colors.menuListItemIcon} />}
+            isLast
           />
         </MenuList>
 
         <MenuListHeadline>{t("settings_development")}</MenuListHeadline>
         <MenuList style={{}}>
           <MenuListItem
-            title={`${t("onboarding")}`}
+            title={t("onboarding")}
             iconLeft={<Smartphone width={18} color={colors.menuListItemIcon} />}
             onPress={() => router.push("/onboarding")}
-          />
-          <MenuListItem
-            title={`${t("settings_development_statistics")}`}
-            iconLeft={<PieChart width={18} color={colors.menuListItemIcon} />}
-            onPress={() => router.push("/settings/development-tools")}
-            isLink
           />
           {DEV_TOOLS && (
             <MenuListItem
@@ -189,18 +209,9 @@ export const SettingsScreen = () => {
             />
           )}
           <MenuListItem
-            title={t("app_is_open_source")}
-            onPress={() => {
-              Linking.openURL(
-                "https://github.com/mrzmyr/pixy-mood-tracker-app"
-              );
-            }}
-            iconLeft={<Github width={18} color={colors.menuListItemIcon} />}
-          />
-          <MenuListItem
-            title={t("licenses")}
-            iconLeft={<Award width={18} color={colors.menuListItemIcon} />}
-            onPress={() => router.push("/settings/licenses")}
+            title={t("settings_development_statistics")}
+            iconLeft={<PieChart width={18} color={colors.menuListItemIcon} />}
+            onPress={() => router.push("/settings/development-tools")}
             isLink
             isLast
           />

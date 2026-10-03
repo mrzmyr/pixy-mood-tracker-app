@@ -38,8 +38,6 @@ import {
 } from "@/features/tags";
 import type { Tag } from "@/features/tags";
 
-type ResetType = "factory" | "data";
-
 /** Contents of an export file. Backups reuse this format. */
 export interface ExportData {
   version: string;
@@ -113,7 +111,7 @@ interface DatagateValue {
   openImportDialog: () => Promise<void>;
   import: (data: ImportData, options: { muted: boolean }) => void;
   openDangerousImportDirectlyToAsyncStorageDialog: () => Promise<void>;
-  openResetDialog: (type: ResetType) => Promise<void>;
+  openResetDialog: () => Promise<void>;
 }
 
 /**
@@ -164,10 +162,6 @@ export const useDatagate = (): DatagateValue => {
   const reset = () => {
     logUpdater.reset();
     tagsUpdater.reset();
-  };
-
-  const factoryReset = () => {
-    reset();
     resetSettings();
     analytics.reset();
   };
@@ -194,24 +188,23 @@ export const useDatagate = (): DatagateValue => {
     }
   };
 
-  const openResetDialog = async (type: ResetType) => {
-    analytics.track("data:reset_requested", { kind: type });
-    const resetFn = type === "factory" ? factoryReset : reset;
+  const openResetDialog = async () => {
+    analytics.track("data:reset_requested", { kind: "factory" });
 
     if (Platform.OS === "web") {
-      resetFn();
+      reset();
       // oxlint-disable-next-line eslint/no-alert -- web-only branch: react-native-web's Alert.alert is a no-op, so the browser dialog is the only way to confirm the reset.
-      alert(t("reset_data_success_message"));
+      alert(t("delete_all_data_success_message"));
       return;
     }
 
     try {
-      await askToReset<ResetType>(type);
-      resetFn();
-      analytics.track("data:reset_completed", { kind: type });
-      showResetSuccess<ResetType>(type);
+      await askToReset();
+      reset();
+      analytics.track("data:reset_completed", { kind: "factory" });
+      showResetSuccess();
     } catch {
-      analytics.track("data:reset_cancelled", { kind: type });
+      analytics.track("data:reset_cancelled", { kind: "factory" });
     }
   };
 

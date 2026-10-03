@@ -3,7 +3,6 @@ import LinkButton from "@/components/LinkButton";
 import MenuList from "@/components/MenuList";
 import MenuListHeadline from "@/components/MenuListHeadline";
 import MenuListItem from "@/components/MenuListItem";
-import { PageWithHeaderLayout } from "@/components/PageWithHeaderLayout";
 import TextInfo from "@/components/TextInfo";
 import { t } from "@/lib/translation";
 import dayjs from "dayjs";
@@ -78,7 +77,7 @@ export const DevelopmentTools = () => {
     .reduce((a, b) => a + b, 0);
 
   return (
-    <PageWithHeaderLayout
+    <View
       style={{
         flex: 1,
       }}
@@ -241,6 +240,6 @@ export const DevelopmentTools = () => {
           }}
         />
       </ScrollView>
-    </PageWithHeaderLayout>
+    </View>
   );
 };

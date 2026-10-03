@@ -6,7 +6,6 @@ import { MarkdownBody } from "@/components/MarkdownBody";
 import useColors from "@/hooks/useColors";
 import { useAnalytics } from "@/state/analytics";
 import { t } from "@/lib/translation";
-import { PageWithHeaderLayout } from "@/components/PageWithHeaderLayout";
 import MenuList from "@/components/MenuList";
 import MenuListItem from "@/components/MenuListItem";
 import TextInfo from "@/components/TextInfo";
@@ -27,7 +26,7 @@ export const PrivacyScreen = () => {
   };
 
   return (
-    <PageWithHeaderLayout
+    <View
       style={{
         flex: 1,
         backgroundColor: colors.background,
@@ -93,6 +92,6 @@ export const PrivacyScreen = () => {
           </LinkButton>
         </View>
       </ScrollView>
-    </PageWithHeaderLayout>
+    </View>
   );
 };

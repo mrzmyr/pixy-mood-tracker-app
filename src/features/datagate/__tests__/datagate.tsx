@@ -233,7 +233,7 @@ describe("useLogs()", () => {
     expect(Sharing.shareAsync).not.toBeCalled();
   });
 
-  test("should `openResetDialog` with type `factory`", async () => {
+  test("should `openResetDialog` delete entries, tags, and settings", async () => {
     const hook = await _renderHook();
 
     jest.spyOn(Alert, "alert");
@@ -247,7 +247,7 @@ describe("useLogs()", () => {
     });
 
     await act(() => {
-      hook.result.current.datagate.openResetDialog("factory");
+      hook.result.current.datagate.openResetDialog();
     });
 
     jest.mocked(Alert.alert).mock.calls[0]?.[2]?.[0]?.onPress?.();
@@ -272,50 +272,6 @@ describe("useLogs()", () => {
     expect(hook.result.current.settingsState.settings).toEqual({
       ...INITIAL_STATE,
       deviceId: expect.any(String),
-      loaded: true,
-    });
-  });
-
-  test("should `openResetDialog` with type `data`", async () => {
-    const hook = await _renderHook();
-
-    jest.spyOn(Alert, "alert");
-
-    await waitForLoaded(hook);
-
-    await act(() => {
-      hook.result.current.tagsUpdater.import({ tags: testTags });
-      hook.result.current.logUpdater.import({ items: testItems });
-      hook.result.current.settingsState.importSettings(testSettings);
-    });
-
-    await act(() => {
-      hook.result.current.datagate.openResetDialog("data");
-    });
-
-    jest.mocked(Alert.alert).mock.calls[0]?.[2]?.[0]?.onPress?.();
-
-    await waitFor(() => {
-      expect(hook.result.current.logState.items).toEqual([]);
-      expect(hook.result.current.tagsState.tags).toHaveLength(18);
-    });
-
-    expect(Alert.alert).toBeCalled();
-    expect(hook.result.current.logState).toEqual({
-      loaded: true,
-      items: [],
-    });
-
-    expect(hook.result.current.tagsState).toEqual({
-      loaded: true,
-      tags: expect.arrayContaining([
-        expect.objectContaining({ id: "1" }),
-        expect.objectContaining({ id: "18" }),
-      ]),
-    });
-
-    expect(hook.result.current.settingsState.settings).toEqual({
-      ...testSettings,
       loaded: true,
     });
   });

@@ -5,3 +5,4 @@ export { StatisticsScreen } from "./screens/Statistics";
 export { StatisticsYearScreen } from "./screens/StatisticsYear";
 export { TagDistributionContent } from "./screens/Statistics/TagsDistributionCard";
 export * from "./StatisticsProvider";
+export { getCurrentStreak, getLongestStreak } from "./Streaks";

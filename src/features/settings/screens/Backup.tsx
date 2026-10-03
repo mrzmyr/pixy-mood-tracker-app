@@ -6,7 +6,6 @@ import { MarkdownBody } from "@/components/MarkdownBody";
 import MenuList from "@/components/MenuList";
 import MenuListHeadline from "@/components/MenuListHeadline";
 import MenuListItem from "@/components/MenuListItem";
-import { PageWithHeaderLayout } from "@/components/PageWithHeaderLayout";
 import { useBackup } from "@/features/backup";
 import type { BackupValue } from "@/features/backup";
 import useColors from "@/hooks/useColors";
@@ -69,7 +68,7 @@ export const BackupScreen = () => {
   const isSynced = status === "idle" && lastBackupAt !== null;
 
   return (
-    <PageWithHeaderLayout
+    <View
       style={{
         flex: 1,
         backgroundColor: colors.background,
@@ -135,6 +134,6 @@ export const BackupScreen = () => {
           </MarkdownBody>
         </View>
       </ScrollView>
-    </PageWithHeaderLayout>
+    </View>
   );
 };

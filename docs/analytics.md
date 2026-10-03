@@ -1,7 +1,8 @@
 # Analytics
 
 - Event catalog: [`src/state/analytics/events.ts`](../src/state/analytics/events.ts)
-- Screens: `$screen` with the route name, from [`src/navigation/screenTracking.ts`](../src/navigation/screenTracking.ts)
+- Usage summary and behaviour signals: [product-analytics.md](product-analytics.md)
+- Screens: `$screen` with the route name, from [`src/shell/screenTracking.ts`](../src/shell/screenTracking.ts)
 - Super properties on every event: `scale_type`, `reminder_enabled`, `steps` ([`src/state/analytics/index.tsx`](../src/state/analytics/index.tsx))
 - Privacy rule: [AGENTS.md footguns](../AGENTS.md#footguns)
 - Default: on for all users. Onboarding privacy slide says so. Factory reset turns it back on ([`src/constants/Settings.ts`](../src/constants/Settings.ts))
@@ -10,6 +11,9 @@
   - Fires once per install, after the save that reaches 7 entries
   - Properties: `trigger`, `entries_count`
   - OS decides whether prompt shows
+- Confirmation after a new entry: `logger:confirmation_viewed`, `logger:confirmation_answered`, `logger:confirmation_skipped` ([`src/features/logger/confirmation`](../src/features/logger/confirmation))
+  - Answer: `worse`, `same`, `better`. Asked only after create, not edit
+  - Entry metadata: `rating`, `emotions`, counts, `message_word_count`, `sleep_quality`, `entries_count`
 
 ## Event history
 
@@ -31,6 +35,7 @@ Use this section to join old and new events in PostHog, for example with an Acti
 **Changed meaning**
 
 - `data_import_success` fired twice per import: once when a file was picked, once after the import. `data:import_completed` fires only after the import
+- `data:reset_*`: Settings > Data has one "Delete all my data" item since the first release after `v1.88.0`. It sends only `kind: "factory"`. `kind: "data"` (entries and tags only) is no longer sent
 
 **Removed properties** (never sent under the new names)
 
@@ -50,6 +55,7 @@ Use this section to join old and new events in PostHog, for example with an Acti
   - `statistics_feedback_store_review_done`
   - `statistics_feedback_store_review_error`
 - New names never shipped in a release: `statistics:card_feedback_submitted`, `statistics:store_review_requested`, `statistics:store_review_completed`, `statistics:store_review_failed`
+- `feedback:type_changed`: feedback modal lost its type selector. Settings opens it as "Request a feature" (`type: "idea"`) or "Report a bug" (`type: "issue"`). Use `type` on `feedback:modal_opened`
 
 **Renames**
 

@@ -14,7 +14,6 @@ import useColors from "@/hooks/useColors";
 import { useSettings } from "@/state/settings";
 import { Radio } from "./Radio";
 import { Scale } from "./Scale";
-import { PageWithHeaderLayout } from "@/components/PageWithHeaderLayout";
 
 const typesNames = [
   {
@@ -72,7 +71,7 @@ export const ColorsScreen = () => {
   }, []);
 
   return (
-    <PageWithHeaderLayout
+    <View
       style={{
         flex: 1,
         backgroundColor: colors.background,
@@ -128,6 +127,6 @@ export const ColorsScreen = () => {
           }}
         />
       </ScrollView>
-    </PageWithHeaderLayout>
+    </View>
   );
 };

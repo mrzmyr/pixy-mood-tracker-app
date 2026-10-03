@@ -1,5 +1,4 @@
-import { PageWithHeaderLayout } from "@/components/PageWithHeaderLayout";
-import { Text, VirtualizedList } from "react-native";
+import { Text, View, VirtualizedList } from "react-native";
 import disclaimer from "../../../../disclaimer";
 import useColors from "@/hooks/useColors";
 
@@ -17,7 +16,7 @@ export const LicensesScreen = () => {
   const slices = disclaimer.split("-----");
 
   return (
-    <PageWithHeaderLayout
+    <View
       style={{
         flex: 1,
         backgroundColor: colors.background,
@@ -47,6 +46,6 @@ export const LicensesScreen = () => {
           value: data[index],
         })}
       />
-    </PageWithHeaderLayout>
+    </View>
   );
 };

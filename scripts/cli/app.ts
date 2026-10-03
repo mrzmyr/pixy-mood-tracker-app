@@ -1,6 +1,7 @@
 // Closed preview app command specifications.
 import { FIXTURES } from "../../src/dev/fixtures/index.ts";
 import { buildFor } from "./app-build.ts";
+import { devFor } from "./app-dev.ts";
 import { installFor } from "./app-install.ts";
 import { closeFor, openFor, seedFor } from "./app-session.ts";
 import {
@@ -150,7 +151,8 @@ const APP: Noun = {
         {
           title: "Behavior",
           lines: [
-            "Simulator, emulator  Reset data, shut down device, prune old builds.",
+            "Simulator, emulator  Reset data, shut down device, stop this checkout's Metro,",
+            "                     prune old builds.",
             "Phone                Stop app, remove preview app data, prune old builds.",
             "                     Phone stays on. No other app is touched.",
           ],
@@ -172,9 +174,65 @@ const APP: Noun = {
       run: (values) => closeFor(values),
       summary: "Stop the preview app and reset its data.",
     }),
+    dev: defineCommand({
+      options: {
+        platform: {
+          ...PLATFORM_OPTION_SPEC,
+          description: [
+            "Required. Simulator (ios) or emulator (android) of this checkout.",
+            "CLI creates and boots it. Phones: use `bun ios --device <udid>`.",
+          ],
+          isRequired: true,
+        },
+      },
+      usage: "Usage: bun app dev --platform=<ios|android>",
+      sections: [
+        {
+          title: "Behavior",
+          lines: [
+            "Build  Reuses the cached dev client for this native fingerprint. All worktrees",
+            "       with the same native dependencies share it. Builds only on a miss.",
+            "Metro  Starts `bun start` for this checkout on its own port (8082-8181),",
+            "       detached. Reuses it when it already runs. `bun app close` stops it.",
+            "Open   Deep links the dev client to this Metro and waits for the first bundle.",
+            "       Edits reload in the app. Rerun the command to reload by hand.",
+          ],
+        },
+        {
+          title: "Output",
+          lines: [
+            "Screenshot path on stdout. Build ID, Metro port, and log path on stderr.",
+          ],
+        },
+        {
+          title: "Examples",
+          lines: [
+            "bun app dev --platform=ios",
+            "bun app dev --platform=android",
+          ],
+        },
+      ],
+      errors: {
+        missing_option: "No --platform passed",
+        invalid_platform: "--platform is not ios or android",
+        native_build_failed: "Compiler failed, read the log",
+        build_lock_timeout: "Another build held the cache lock 30 minutes",
+        install_failed: "Device refused the build",
+        metro_port_taken:
+          "Another process answers on this checkout's Metro port",
+        metro_start_failed: "Metro did not answer in 120 seconds",
+        dev_client_open_failed: "Deep link to the dev client failed",
+        bundle_failed: "Metro could not bundle the app",
+        bundle_timeout: "App did not load its bundle in 180 seconds",
+      },
+      run: (values) => devFor(values),
+      summary:
+        "Run the dev client with Metro. Installs the cached dev client, starts this checkout's Metro, opens the app.",
+    }),
   },
-  summary: "Build, install, seed, open, and close the preview app.",
-  commandOrder: ["build", "install", "seed", "open", "close"],
+  summary:
+    "Build, install, seed, open, and close the preview app. Run the dev client with Metro.",
+  commandOrder: ["build", "install", "seed", "open", "close", "dev"],
   helpTail: [
     "Every command needs one device. Pass exactly one:\n  --platform=<ios|android>  Simulator or emulator of this checkout\n  --target=<target>         One phone from `bun devices list`",
     "Run `bun app <command> --help` for details.",

@@ -8,7 +8,8 @@ Options:
   --target=<target>         One phone. Copy the value from `bun devices list`.
 
 Behavior:
-  Simulator, emulator  Reset data, shut down device, prune old builds.
+  Simulator, emulator  Reset data, shut down device, stop this checkout's Metro,
+                       prune old builds.
   Phone                Stop app, remove preview app data, prune old builds.
                        Phone stays on. No other app is touched.
 
