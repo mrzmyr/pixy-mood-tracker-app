@@ -672,5 +672,9 @@
   "log_people_disable": "Não registro pessoas",
   "people_manage": "Gerenciar pessoas",
   "people_slide_empty": "Adicione as pessoas com quem você passa tempo para ver como seu humor fica com elas.",
-  "view_log_people_empty": "Nenhuma pessoa ainda."
+  "view_log_people_empty": "Nenhuma pessoa ainda.",
+  "statistics_people_distribution_title": "Pessoas mais vistas nos últimos 14 dias.",
+  "statistics_people_more": "E mais {{count}}",
+  "statistics_people_peaks_title": "Seu humor com pessoas, ao lado da sua média de {{avg}}.",
+  "statistics_people_peaks_row": "Humor médio com {{name}}: {{avg}} ({{delta}})"
 }

@@ -672,5 +672,9 @@
   "log_people_disable": "En seuraa ihmisiä",
   "people_manage": "Hallitse ihmisiä",
   "people_slide_empty": "Lisää ihmiset, joiden kanssa vietät aikaa, nähdäksesi miten mielialasi on heidän kanssaan.",
-  "view_log_people_empty": "Ei vielä ihmisiä."
+  "view_log_people_empty": "Ei vielä ihmisiä.",
+  "statistics_people_distribution_title": "Eniten tapaamasi ihmiset viimeisen 14 päivän aikana.",
+  "statistics_people_more": "Ja {{count}} muuta",
+  "statistics_people_peaks_title": "Mielialasi ihmisten kanssa, keskiarvosi {{avg}} rinnalla.",
+  "statistics_people_peaks_row": "Keskim. mieliala {{name}}: {{avg}} ({{delta}})"
 }

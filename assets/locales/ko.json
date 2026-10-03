@@ -672,5 +672,9 @@
   "log_people_disable": "사람을 기록하지 않아요",
   "people_manage": "사람 관리",
   "people_slide_empty": "함께 시간을 보내는 사람을 추가하고 그들과 함께할 때의 기분을 확인하세요.",
-  "view_log_people_empty": "아직 사람이 없습니다."
+  "view_log_people_empty": "아직 사람이 없습니다.",
+  "statistics_people_distribution_title": "최근 14일 동안 가장 많이 만난 사람.",
+  "statistics_people_more": "외 {{count}}명",
+  "statistics_people_peaks_title": "사람들과 함께할 때의 기분. 평균 {{avg}}과 비교.",
+  "statistics_people_peaks_row": "{{name}}과(와)의 평균 기분: {{avg}} ({{delta}})"
 }

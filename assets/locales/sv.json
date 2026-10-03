@@ -672,5 +672,9 @@
   "log_people_disable": "Jag spårar inte personer",
   "people_manage": "Hantera personer",
   "people_slide_empty": "Lägg till personer du umgås med för att se hur ditt mående är med dem.",
-  "view_log_people_empty": "Inga personer ännu."
+  "view_log_people_empty": "Inga personer ännu.",
+  "statistics_people_distribution_title": "Personer du träffat mest de senaste 14 dagarna.",
+  "statistics_people_more": "Och {{count}} till",
+  "statistics_people_peaks_title": "Ditt mående med personer, bredvid ditt snitt på {{avg}}.",
+  "statistics_people_peaks_row": "Snittmående med {{name}}: {{avg}} ({{delta}})"
 }

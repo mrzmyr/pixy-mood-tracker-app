@@ -672,5 +672,9 @@
   "log_people_disable": "Ľudí nesledujem",
   "people_manage": "Spravovať ľudí",
   "people_slide_empty": "Pridaj ľudí, s ktorými tráviš čas, a uvidíš, akú máš s nimi náladu.",
-  "view_log_people_empty": "Zatiaľ žiadni ľudia."
+  "view_log_people_empty": "Zatiaľ žiadni ľudia.",
+  "statistics_people_distribution_title": "Najčastejšie videné osoby za posledných 14 dní.",
+  "statistics_people_more": "A {{count}} ďalších",
+  "statistics_people_peaks_title": "Tvoja nálada s ľuďmi vedľa tvojho priemeru {{avg}}.",
+  "statistics_people_peaks_row": "Priem. nálada s {{name}}: {{avg}} ({{delta}})"
 }

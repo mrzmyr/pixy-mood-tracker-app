@@ -675,5 +675,9 @@
   "log_people_disable": "Ik houd geen mensen bij",
   "people_manage": "Mensen beheren",
   "people_slide_empty": "Voeg mensen toe met wie je tijd doorbrengt om te zien hoe je stemming bij hen is.",
-  "view_log_people_empty": "Nog geen mensen."
+  "view_log_people_empty": "Nog geen mensen.",
+  "statistics_people_distribution_title": "Meest geziene mensen in de laatste 14 dagen.",
+  "statistics_people_more": "En nog {{count}}",
+  "statistics_people_peaks_title": "Je stemming met mensen, naast je gemiddelde van {{avg}}.",
+  "statistics_people_peaks_row": "Gem. stemming met {{name}}: {{avg}} ({{delta}})"
 }

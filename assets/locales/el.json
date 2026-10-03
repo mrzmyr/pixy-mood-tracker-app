@@ -672,5 +672,9 @@
   "log_people_disable": "Δεν καταγράφω άτομα",
   "people_manage": "Διαχείριση ατόμων",
   "people_slide_empty": "Πρόσθεσε τα άτομα με τα οποία περνάς χρόνο για να δεις πώς είναι η διάθεσή σου μαζί τους.",
-  "view_log_people_empty": "Δεν υπάρχουν άτομα ακόμα."
+  "view_log_people_empty": "Δεν υπάρχουν άτομα ακόμα.",
+  "statistics_people_distribution_title": "Τα άτομα που είδες πιο συχνά τις τελευταίες 14 ημέρες.",
+  "statistics_people_more": "Και {{count}} ακόμα",
+  "statistics_people_peaks_title": "Η διάθεσή σου με άτομα, δίπλα στον μέσο όρο σου {{avg}}.",
+  "statistics_people_peaks_row": "Μέση διάθεση με {{name}}: {{avg}} ({{delta}})"
 }
