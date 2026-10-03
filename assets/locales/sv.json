@@ -648,8 +648,6 @@
   "people_archive_empty": "Inga arkiverade personer.",
   "people_reached_max": "Du har nått maxgränsen på {{max_count}} personer. Ta bort några för att lägga till nya.",
   "people_change_photo": "Byt foto",
-  "people_photo_from_contacts": "Från kontakter…",
-  "people_photo_library": "Bildbibliotek…",
   "people_photo_remove": "Ta bort foto",
   "people_photo_failed_title": "Fotot sparades inte",
   "people_photo_failed_message": "Fotot kunde inte bearbetas. Välj ett annat foto.",

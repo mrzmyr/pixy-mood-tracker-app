@@ -648,8 +648,6 @@
   "people_archive_empty": "没有已归档的人物。",
   "people_reached_max": "已达到 {{max_count}} 人的上限。删除一些后才能添加新的人物。",
   "people_change_photo": "更换照片",
-  "people_photo_from_contacts": "从通讯录…",
-  "people_photo_library": "照片图库…",
   "people_photo_remove": "移除照片",
   "people_photo_failed_title": "照片未保存",
   "people_photo_failed_message": "无法处理该照片。请选择另一张照片。",

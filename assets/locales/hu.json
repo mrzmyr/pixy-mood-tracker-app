@@ -648,8 +648,6 @@
   "people_archive_empty": "Nincs archivált személy.",
   "people_reached_max": "Elérted a maximális {{max_count}} személyt. Törölj néhányat, hogy újakat adhass hozzá.",
   "people_change_photo": "Fotó módosítása",
-  "people_photo_from_contacts": "Névjegyekből…",
-  "people_photo_library": "Fotókönyvtár…",
   "people_photo_remove": "Fotó eltávolítása",
   "people_photo_failed_title": "A fotó nincs mentve",
   "people_photo_failed_message": "A fotót nem sikerült feldolgozni. Válassz másik fotót.",

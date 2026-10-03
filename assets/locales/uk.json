@@ -648,8 +648,6 @@
   "people_archive_empty": "Немає архівованих людей.",
   "people_reached_max": "Досягнуто максимум у {{max_count}} людей. Видали декого, щоб додати нових.",
   "people_change_photo": "Змінити фото",
-  "people_photo_from_contacts": "З контактів…",
-  "people_photo_library": "Медіатека…",
   "people_photo_remove": "Видалити фото",
   "people_photo_failed_title": "Фото не збережено",
   "people_photo_failed_message": "Не вдалося обробити фото. Вибери інше фото.",

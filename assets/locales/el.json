@@ -648,8 +648,6 @@
   "people_archive_empty": "Δεν υπάρχουν αρχειοθετημένα άτομα.",
   "people_reached_max": "Έφτασες το μέγιστο των {{max_count}} ατόμων. Διάγραψε μερικά για να προσθέσεις νέα.",
   "people_change_photo": "Αλλαγή φωτογραφίας",
-  "people_photo_from_contacts": "Από επαφές…",
-  "people_photo_library": "Βιβλιοθήκη φωτογραφιών…",
   "people_photo_remove": "Αφαίρεση φωτογραφίας",
   "people_photo_failed_title": "Η φωτογραφία δεν αποθηκεύτηκε",
   "people_photo_failed_message": "Η φωτογραφία δεν μπόρεσε να επεξεργαστεί. Επίλεξε άλλη φωτογραφία.",

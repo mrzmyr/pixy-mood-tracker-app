@@ -648,8 +648,6 @@
   "people_archive_empty": "Nema arhiviranih osoba.",
   "people_reached_max": "Dosegnuo/la si maksimum od {{max_count}} osoba. Izbriši neke da bi dodao/la nove.",
   "people_change_photo": "Promijeni fotografiju",
-  "people_photo_from_contacts": "Iz kontakata…",
-  "people_photo_library": "Biblioteka fotografija…",
   "people_photo_remove": "Ukloni fotografiju",
   "people_photo_failed_title": "Fotografija nije spremljena",
   "people_photo_failed_message": "Fotografiju nije bilo moguće obraditi. Odaberi drugu fotografiju.",

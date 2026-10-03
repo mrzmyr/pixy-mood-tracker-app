@@ -112,24 +112,9 @@ const PersonForm = ({ mode }: { mode: "create" | "edit" }) => {
     setName: handleNameChange,
     fromContacts: handleFromContacts,
     toggleArchived: handleToggleArchived,
+    fromLibrary: handlePickPhoto,
+    removePhoto: handleRemovePhoto,
   } = draft;
-
-  const askForPhoto = () => {
-    Alert.alert(t("people_change_photo"), undefined, [
-      { text: t("people_photo_from_contacts"), onPress: draft.fromContacts },
-      { text: t("people_photo_library"), onPress: draft.fromLibrary },
-      ...(draft.hasPhoto
-        ? [
-            {
-              text: t("people_photo_remove"),
-              onPress: draft.removePhoto,
-              style: "destructive" as const,
-            },
-          ]
-        : []),
-      { text: t("cancel"), style: "cancel" },
-    ]);
-  };
 
   return (
     <DismissKeyboard>
@@ -164,12 +149,21 @@ const PersonForm = ({ mode }: { mode: "create" | "edit" }) => {
               variant="large"
               person={{ ...draft.person, avatar: draft.previewAvatar }}
               previewUri={draft.previewUri}
-              onPress={askForPhoto}
+              onPress={handlePickPhoto}
               testID="person-avatar"
             />
-            <LinkButton onPress={askForPhoto} type="primary">
+            <LinkButton onPress={handlePickPhoto} type="primary">
               {t("people_change_photo")}
             </LinkButton>
+            {draft.hasPhoto && (
+              <LinkButton
+                onPress={handleRemovePhoto}
+                type="primary"
+                testID="person-remove-photo"
+              >
+                {t("people_photo_remove")}
+              </LinkButton>
+            )}
           </View>
           <TextInput
             accessibilityLabel={t("people_name_placeholder")}

@@ -648,8 +648,6 @@
   "people_archive_empty": "Tiada orang yang diarkibkan.",
   "people_reached_max": "Anda telah mencapai had maksimum {{max_count}} orang. Padam beberapa untuk menambah yang baharu.",
   "people_change_photo": "Tukar foto",
-  "people_photo_from_contacts": "Daripada kenalan…",
-  "people_photo_library": "Pustaka foto…",
   "people_photo_remove": "Buang foto",
   "people_photo_failed_title": "Foto tidak disimpan",
   "people_photo_failed_message": "Foto tidak dapat diproses. Pilih foto lain.",

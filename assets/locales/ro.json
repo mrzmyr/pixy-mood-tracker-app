@@ -648,8 +648,6 @@
   "people_archive_empty": "Nicio persoană arhivată.",
   "people_reached_max": "Ai atins maximul de {{max_count}} persoane. Șterge câteva pentru a adăuga altele.",
   "people_change_photo": "Schimbă fotografia",
-  "people_photo_from_contacts": "Din contacte…",
-  "people_photo_library": "Bibliotecă foto…",
   "people_photo_remove": "Elimină fotografia",
   "people_photo_failed_title": "Fotografia nu a fost salvată",
   "people_photo_failed_message": "Fotografia nu a putut fi procesată. Alege altă fotografie.",

@@ -648,8 +648,6 @@
   "people_archive_empty": "ไม่มีบุคคลที่เก็บถาวร",
   "people_reached_max": "คุณมีบุคคลครบจำนวนสูงสุด {{max_count}} คนแล้ว ลบบางคนเพื่อเพิ่มคนใหม่",
   "people_change_photo": "เปลี่ยนรูปภาพ",
-  "people_photo_from_contacts": "จากรายชื่อติดต่อ…",
-  "people_photo_library": "คลังรูปภาพ…",
   "people_photo_remove": "ลบรูปภาพ",
   "people_photo_failed_title": "ไม่ได้บันทึกรูปภาพ",
   "people_photo_failed_message": "ไม่สามารถประมวลผลรูปภาพได้ เลือกรูปภาพอื่น",

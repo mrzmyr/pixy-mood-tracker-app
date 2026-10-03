@@ -648,8 +648,6 @@
   "people_archive_empty": "कोई संग्रहीत व्यक्ति नहीं।",
   "people_reached_max": "आप {{max_count}} लोगों की अधिकतम सीमा तक पहुँच गए हैं। नए जोड़ने के लिए कुछ हटाएँ।",
   "people_change_photo": "फ़ोटो बदलें",
-  "people_photo_from_contacts": "संपर्कों से…",
-  "people_photo_library": "फ़ोटो लाइब्रेरी…",
   "people_photo_remove": "फ़ोटो हटाएँ",
   "people_photo_failed_title": "फ़ोटो सहेजी नहीं गई",
   "people_photo_failed_message": "फ़ोटो प्रोसेस नहीं हो सकी। कोई दूसरी फ़ोटो चुनें।",

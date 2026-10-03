@@ -648,8 +648,6 @@
   "people_archive_empty": "لا يوجد أشخاص مؤرشفون.",
   "people_reached_max": "وصلت إلى الحد الأقصى وهو {{max_count}} شخصًا. احذف بعضهم لإضافة أشخاص جدد.",
   "people_change_photo": "تغيير الصورة",
-  "people_photo_from_contacts": "من جهات الاتصال…",
-  "people_photo_library": "مكتبة الصور…",
   "people_photo_remove": "إزالة الصورة",
   "people_photo_failed_title": "لم يتم حفظ الصورة",
   "people_photo_failed_message": "تعذرت معالجة الصورة. اختر صورة أخرى.",

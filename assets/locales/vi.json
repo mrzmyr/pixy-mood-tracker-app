@@ -648,8 +648,6 @@
   "people_archive_empty": "Không có người nào được lưu trữ.",
   "people_reached_max": "Bạn đã đạt tối đa {{max_count}} người. Xóa một vài người để thêm người mới.",
   "people_change_photo": "Đổi ảnh",
-  "people_photo_from_contacts": "Từ danh bạ…",
-  "people_photo_library": "Thư viện ảnh…",
   "people_photo_remove": "Xóa ảnh",
   "people_photo_failed_title": "Ảnh chưa được lưu",
   "people_photo_failed_message": "Không thể xử lý ảnh. Hãy chọn ảnh khác.",

@@ -648,8 +648,6 @@
   "people_archive_empty": "Ei arkistoituja henkilöitä.",
   "people_reached_max": "Olet saavuttanut {{max_count}} henkilön enimmäismäärän. Poista joitakin lisätäksesi uusia.",
   "people_change_photo": "Vaihda kuva",
-  "people_photo_from_contacts": "Yhteystiedoista…",
-  "people_photo_library": "Kuvakirjasto…",
   "people_photo_remove": "Poista kuva",
   "people_photo_failed_title": "Kuvaa ei tallennettu",
   "people_photo_failed_message": "Kuvaa ei voitu käsitellä. Valitse toinen kuva.",

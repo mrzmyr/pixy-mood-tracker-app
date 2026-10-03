@@ -648,8 +648,6 @@
   "people_archive_empty": "אין אנשים בארכיון.",
   "people_reached_max": "הגעת למקסימום של {{max_count}} אנשים. מחק/י כמה כדי להוסיף חדשים.",
   "people_change_photo": "שינוי תמונה",
-  "people_photo_from_contacts": "מאנשי הקשר…",
-  "people_photo_library": "ספריית התמונות…",
   "people_photo_remove": "הסרת תמונה",
   "people_photo_failed_title": "התמונה לא נשמרה",
   "people_photo_failed_message": "לא ניתן היה לעבד את התמונה. בחר/י תמונה אחרת.",

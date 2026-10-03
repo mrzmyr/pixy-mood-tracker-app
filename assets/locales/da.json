@@ -648,8 +648,6 @@
   "people_archive_empty": "Ingen arkiverede personer.",
   "people_reached_max": "Du har nået maksimum på {{max_count}} personer. Slet nogle for at tilføje nye.",
   "people_change_photo": "Skift foto",
-  "people_photo_from_contacts": "Fra kontakter…",
-  "people_photo_library": "Fotobibliotek…",
   "people_photo_remove": "Fjern foto",
   "people_photo_failed_title": "Foto ikke gemt",
   "people_photo_failed_message": "Fotoet kunne ikke behandles. Vælg et andet foto.",

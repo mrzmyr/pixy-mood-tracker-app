@@ -648,8 +648,6 @@
   "people_archive_empty": "アーカイブされた人はいません。",
   "people_reached_max": "上限の{{max_count}}人に達しました。新しく追加するには、いくつか削除してください。",
   "people_change_photo": "写真を変更",
-  "people_photo_from_contacts": "連絡先から…",
-  "people_photo_library": "フォトライブラリ…",
   "people_photo_remove": "写真を削除",
   "people_photo_failed_title": "写真を保存できませんでした",
   "people_photo_failed_message": "写真を処理できませんでした。別の写真を選んでください。",

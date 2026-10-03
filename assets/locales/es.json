@@ -648,8 +648,6 @@
   "people_archive_empty": "No hay personas archivadas.",
   "people_reached_max": "Has alcanzado el máximo de {{max_count}} personas. Elimina algunas para añadir nuevas.",
   "people_change_photo": "Cambiar foto",
-  "people_photo_from_contacts": "Desde contactos…",
-  "people_photo_library": "Fototeca…",
   "people_photo_remove": "Quitar foto",
   "people_photo_failed_title": "Foto no guardada",
   "people_photo_failed_message": "No se pudo procesar la foto. Elige otra foto.",

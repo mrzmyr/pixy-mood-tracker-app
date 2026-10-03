@@ -651,8 +651,6 @@
   "people_archive_empty": "Geen gearchiveerde mensen.",
   "people_reached_max": "Je hebt het maximum van {{max_count}} mensen bereikt. Verwijder er een paar om nieuwe toe te voegen.",
   "people_change_photo": "Foto wijzigen",
-  "people_photo_from_contacts": "Uit contacten…",
-  "people_photo_library": "Fotobibliotheek…",
   "people_photo_remove": "Foto verwijderen",
   "people_photo_failed_title": "Foto niet opgeslagen",
   "people_photo_failed_message": "De foto kon niet worden verwerkt. Kies een andere foto.",

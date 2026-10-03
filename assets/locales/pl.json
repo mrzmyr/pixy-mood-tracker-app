@@ -648,8 +648,6 @@
   "people_archive_empty": "Brak zarchiwizowanych osób.",
   "people_reached_max": "Osiągnięto maksimum {{max_count}} osób. Usuń kilka, aby dodać nowe.",
   "people_change_photo": "Zmień zdjęcie",
-  "people_photo_from_contacts": "Z kontaktów…",
-  "people_photo_library": "Biblioteka zdjęć…",
   "people_photo_remove": "Usuń zdjęcie",
   "people_photo_failed_title": "Zdjęcie nie zostało zapisane",
   "people_photo_failed_message": "Nie udało się przetworzyć zdjęcia. Wybierz inne zdjęcie.",

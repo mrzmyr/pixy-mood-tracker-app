@@ -648,8 +648,6 @@
   "people_archive_empty": "Žádné archivované osoby.",
   "people_reached_max": "Dosáhl(a) jsi maxima {{max_count}} osob. Smaž některé, abys mohl(a) přidat nové.",
   "people_change_photo": "Změnit fotku",
-  "people_photo_from_contacts": "Z kontaktů…",
-  "people_photo_library": "Knihovna fotek…",
   "people_photo_remove": "Odebrat fotku",
   "people_photo_failed_title": "Fotka nebyla uložena",
   "people_photo_failed_message": "Fotku se nepodařilo zpracovat. Vyber jinou fotku.",

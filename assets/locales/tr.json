@@ -648,8 +648,6 @@
   "people_archive_empty": "Arşivlenmiş kişi yok.",
   "people_reached_max": "En fazla {{max_count}} kişi sınırına ulaştın. Yeni eklemek için bazılarını sil.",
   "people_change_photo": "Fotoğrafı değiştir",
-  "people_photo_from_contacts": "Rehberden…",
-  "people_photo_library": "Fotoğraf kitaplığı…",
   "people_photo_remove": "Fotoğrafı kaldır",
   "people_photo_failed_title": "Fotoğraf kaydedilmedi",
   "people_photo_failed_message": "Fotoğraf işlenemedi. Başka bir fotoğraf seç.",

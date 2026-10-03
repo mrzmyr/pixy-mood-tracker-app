@@ -654,8 +654,6 @@
   "people_archive_empty": "No archived people.",
   "people_reached_max": "You reached the maximum of {{max_count}} people. Delete some to add new ones.",
   "people_change_photo": "Change Photo",
-  "people_photo_from_contacts": "From Contacts…",
-  "people_photo_library": "Photo Library…",
   "people_photo_remove": "Remove Photo",
   "people_photo_failed_title": "Photo Not Saved",
   "people_photo_failed_message": "The photo could not be processed. Pick a different photo.",

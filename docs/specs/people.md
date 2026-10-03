@@ -13,7 +13,7 @@ Track who user was with per entry. Goal: statistics per person ("avg mood with S
 - No color per person. Fallback avatar: gray user icon
 - Max 50 people (`MAX_PEOPLE`), name max 30 chars (reuse `MAX_TAG_LENGTH`)
 - Delete mirrors tags: strips references from all entries, confirm shows entry count. Archive hides from slide, stats, filters; history stays
-- Contact photo update: re-pick contact via picker. No background sync, no extra permission prompt
+- Contact photo update: none. Photo changes come from the library. No background sync, no extra permission prompt
 - Export self contained: avatars base64 inline in JSON
 - Avatar files change only on save in the person form. Cancel keeps the stored file
 - All 33 locales translated before merge ([i18n](../i18n.md))
@@ -97,7 +97,7 @@ people: Array<
 - One component for slide, log detail, logs list, filters, stats. Consistent everywhere
 - Pill like [`Tag`](../../src/features/tags/components/Tag.tsx): 1px border, radius 100, selected = `tagBackgroundActive` + tint border
 - Left: 24px circle avatar or gray user icon. Right: name 17px
-- Variants: `chip` (default), `avatarOnly` (list rows stack), `large` (detail screen)
+- Variants: `chip` (default), `large` (detail screen)
 
 ### Logger slide `SlidePeople`
 
@@ -119,14 +119,14 @@ people: Array<
 ### Person detail (`/people/[id]`, create reuses with `/people/create`)
 
 - Large avatar centered, name below (see design reference in session screenshot)
-- Tap avatar: From contacts / Photo library / Remove photo
+- Tap avatar or Change Photo: photo library directly. Nobody takes a camera photo of a person while adding them
+- Remove Photo: link below, only when a photo is set
 - Name inline editable
 - Bottom: Archive (primary), Delete (secondary, confirm with entry count)
 
 ### Elsewhere
 
 - Log detail: chips under tags
-- Entry card header (day view): avatar stack next to the time, max 3, `avatarOnly` variant
 - Logs filter: multi select, OR logic, mirrors tag filter. Section hidden without flag or without active people
 
 ## Statistics
@@ -176,7 +176,7 @@ Names follow the `<area>:<object>_<verb>` convention of [events.ts](../../src/st
 ## PRs
 
 1. Foundation: store, avatars, export/import, settings screens, flag, i18n, e2e `people.yaml`
-2. Logger: slide, step toggle, log detail chips, list avatar stack, filters
+2. Logger: slide, step toggle, log detail chips, filters
 3. Statistics: `PeopleDistribution`, `PeoplePeaks`
 
 ## Rollout

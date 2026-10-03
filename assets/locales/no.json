@@ -648,8 +648,6 @@
   "people_archive_empty": "Ingen arkiverte personer.",
   "people_reached_max": "Du har nådd maksimum på {{max_count}} personer. Slett noen for å legge til nye.",
   "people_change_photo": "Bytt bilde",
-  "people_photo_from_contacts": "Fra kontakter…",
-  "people_photo_library": "Bildebibliotek…",
   "people_photo_remove": "Fjern bilde",
   "people_photo_failed_title": "Bildet ble ikke lagret",
   "people_photo_failed_message": "Bildet kunne ikke behandles. Velg et annet bilde.",
