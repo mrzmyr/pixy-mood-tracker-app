@@ -280,3 +280,6 @@ export const DevFeatureFlagLinkScreen = () => {
     </View>
   );
 };
+
+/** Settings > Design guide: every component and block with sample data. */
+export { DesignGuideScreen } from "@/dev/designGuide";

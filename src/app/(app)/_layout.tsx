@@ -127,6 +127,10 @@ const AppLayout = () => {
               name="dev/feature-flag"
               options={{ ...pageOptions, headerShown: false }}
             />
+            <Stack.Screen
+              name="dev/design-guide"
+              options={{ ...pageOptions, title: "Design guide" }}
+            />
           </Stack.Protected>
         </Stack>
       </View>
