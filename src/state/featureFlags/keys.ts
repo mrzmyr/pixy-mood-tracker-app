@@ -2,7 +2,11 @@
  * Feature flag keys. Each key needs a boolean flag with the same key in the
  * PostHog project of every app variant.
  */
-export const FEATURE_FLAGS = ["photos", "home-screen-widget"] as const;
+export const FEATURE_FLAGS = [
+  "photos",
+  "support-pixy",
+  "home-screen-widget",
+] as const;
 
 /** One key of {@link FEATURE_FLAGS}. */
 export type FeatureFlag = (typeof FEATURE_FLAGS)[number];

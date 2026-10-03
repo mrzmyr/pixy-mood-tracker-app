@@ -30,6 +30,7 @@ import { CHANGELOG_URL, FEEDBACK_FEATURES_URL } from "@/constants/Config";
 import { DEV_TOOLS } from "@/dev";
 import { t } from "@/lib/translation";
 import { useAnalytics } from "@/state/analytics";
+import { useFeatureFlag } from "@/state/featureFlags";
 import useColors from "@/hooks/useColors";
 import { useFeedbackModal } from "@/features/feedback";
 import { useIsWidgetEnabled } from "@/features/widget";
@@ -38,7 +39,7 @@ import { Bug, Lightbulb, Tag } from "lucide-react-native";
 import { useSupport } from "@/support";
 
 /**
- * Settings tab. The support card shows only when a support client is enabled.
+ * Settings tab. The support card needs its feature flag and an enabled client.
  */
 export const SettingsScreen = () => {
   const router = useRouter();
@@ -47,6 +48,7 @@ export const SettingsScreen = () => {
   const analytics = useAnalytics();
   const isWidgetEnabled = useIsWidgetEnabled();
   const support = useSupport();
+  const isSupportEnabled = useFeatureFlag("support-pixy");
 
   const { show: showFeedbackModal, Modal: FeedbackModal } = useFeedbackModal();
 
@@ -239,7 +241,7 @@ export const SettingsScreen = () => {
             isLast
           />
         </MenuList>
-        {support.enabled && <SupportCard />}
+        {isSupportEnabled && support.enabled && <SupportCard />}
         <View
           testID="settings-version"
           style={{
