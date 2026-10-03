@@ -13,22 +13,29 @@ import {
   MessageSquare,
   Sun,
   Tag,
+  Users,
 } from "react-native-feather";
 import useColors from "@/hooks/useColors";
 import { useSettings } from "@/state/settings";
 import { useAnalytics } from "@/state/analytics";
+import { useFeatureFlag } from "@/state/featureFlags";
 
 /**
  * Settings > Steps: toggle optional logger steps. `rating` cannot be
- * turned off.
+ * turned off. `people` shows only behind the `people` feature flag.
  */
 export const StepsScreen = () => {
   const colors = useColors();
+  const hasPeople = useFeatureFlag("people");
+  const options = STEP_OPTIONS.filter(
+    (option) => option !== "people" || hasPeople
+  );
 
   const ICONS_MAP: Record<LoggerStep, ReactElement> = {
     rating: <Sun width={20} height={20} stroke={colors.text} />,
     message: <FileText width={20} height={20} color={colors.text} />,
     tags: <Tag width={20} height={20} color={colors.text} />,
+    people: <Users width={20} height={20} color={colors.text} />,
     emotions: <Heart width={20} height={20} color={colors.text} />,
     feedback: <MessageSquare width={20} height={20} color={colors.text} />,
     reminder: <Bell width={20} height={20} color={colors.text} />,
@@ -36,6 +43,7 @@ export const StepsScreen = () => {
 
   const { settings, setSettings } = useSettings();
   const analytics = useAnalytics();
+  const enabledSteps = new Set(settings.steps);
 
   return (
     <View
@@ -68,7 +76,7 @@ export const StepsScreen = () => {
           </Text>
         </View>
         <MenuList style={{ marginTop: 16 }}>
-          {STEP_OPTIONS.map((option) => (
+          {options.map((option) => (
             <MenuListItem
               key={option}
               title={
@@ -104,16 +112,16 @@ export const StepsScreen = () => {
                       });
                       setSettings((currentSettings) => ({
                         ...currentSettings,
-                        steps: currentSettings.steps.includes(option)
+                        steps: new Set(currentSettings.steps).has(option)
                           ? currentSettings.steps.filter((s) => s !== option)
                           : [...currentSettings.steps, option],
                       }));
                     }}
-                    value={settings.steps.includes(option)}
+                    value={enabledSteps.has(option)}
                   />
                 )
               }
-              isLast={option === STEP_OPTIONS.at(-1)}
+              isLast={option === options.at(-1)}
             />
           ))}
         </MenuList>

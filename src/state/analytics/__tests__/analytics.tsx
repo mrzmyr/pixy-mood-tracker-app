@@ -73,6 +73,8 @@ const USAGE_SUMMARY = {
   statistics_unlocked: false,
   tags_count: 2,
   archived_tags_count: 0,
+  people_count: 0,
+  archived_people_count: 0,
   reminder_enabled: true,
   reminder_hour: 20,
   scale_type: INITIAL_STATE.scaleType,

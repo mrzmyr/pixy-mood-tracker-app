@@ -13,6 +13,17 @@ export const TagReferenceSchema = z.object({
 export type TagReference = z.infer<typeof TagReferenceSchema>;
 
 /**
+ * Reference from a log entry to a person by id; person details live in the
+ * people store.
+ */
+export const PersonReferenceSchema = z.object({
+  id: z.uuid(),
+});
+
+/** Person reference stored on a log entry. */
+export type PersonReference = z.infer<typeof PersonReferenceSchema>;
+
+/**
  * Emotion categories ordered worst to best; this is the page order in the
  * advanced emotion picker.
  */
@@ -69,6 +80,7 @@ export const LogItemSchema = z.object({
   message: z.string(),
   createdAt: z.string().refine((value) => isISODate(value)),
   tags: z.array(TagReferenceSchema),
+  people: z.array(PersonReferenceSchema),
   emotions: z.array(EmotionKeySchema),
 });
 
