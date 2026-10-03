@@ -32,9 +32,9 @@ export interface WidgetSchemeColors {
   background: string;
   text: string;
   textSecondary: string;
-  /** Fill for a past day without an entry. */
+  /** Fill for a past day without an entry: visible on the background. */
   empty: string;
-  /** Fill for a day after today. */
+  /** Fill for a day after today: fainter than `empty`. */
   future: string;
   /** Fill per rating, from the user's color scale. */
   ratings: Record<WidgetRating, string>;
@@ -51,16 +51,17 @@ export interface WidgetBaseProps {
   dark: WidgetSchemeColors;
 }
 
-/** Week widget props. `days` always has seven entries. */
+/**
+ * Week widget props. `weeks` holds `WEEK_WIDGET_WEEKS` rows of seven days,
+ * oldest first; the last row is the current week. Small shows every row,
+ * medium shows the current week only.
+ */
 export interface WeekWidgetProps extends WidgetBaseProps {
-  /** Seven days starting on the locale's first weekday. */
-  days: (WidgetCell & { label: string })[];
+  weeks: WidgetCell[][];
 }
 
 /** Month widget props. Every row in `weeks` has seven entries. */
 export interface MonthWidgetProps extends WidgetBaseProps {
-  /** Short weekday labels in week order. */
-  weekdays: string[];
   /** Rows of seven; `PAD_CELL` fills days outside the month. */
   weeks: WidgetCell[][];
 }
@@ -69,16 +70,14 @@ export interface MonthWidgetProps extends WidgetBaseProps {
 export type YearDayCode = WidgetRating | "" | "f" | "p";
 
 /**
- * Year grid, rendered by the app into a PNG. Twelve rows of 31 codes: a
- * rating, `""` for a past day without entry, `"f"` for a future day, `"p"`
- * for padding.
+ * Year grid, rendered by the app into a PNG. One column per week, seven
+ * codes per column in locale weekday order: a rating, `""` for a past day
+ * without entry, `"f"` for a future day, `"p"` for padding outside the year.
  */
 export interface YearGrid {
-  /** Short month labels, January first. */
-  monthLabels: string[];
-  months: YearDayCode[][];
-  /** Today's position: 0-based month, 1-based day. */
-  today: { month: number; day: number };
+  columns: YearDayCode[][];
+  /** Today's position: 0-based week column and weekday row. */
+  today: { column: number; row: number };
   /** Every real day, for the logged-days subtitle. */
   cells: WidgetCell[];
 }
@@ -90,8 +89,12 @@ export interface YearGrid {
  * `""` before the first capture.
  */
 export interface YearWidgetProps extends WidgetBaseProps {
+  /** One band of 53 week columns, for the medium family. */
   imageLight: string;
   imageDark: string;
+  /** Two stacked bands of 27 week columns, for the large family. */
+  imageLightLarge: string;
+  imageDarkLarge: string;
   /** Changes with every capture so the widget re-reads the file. */
   imageVersion: number;
 }

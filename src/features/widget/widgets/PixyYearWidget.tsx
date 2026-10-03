@@ -24,13 +24,17 @@ const PixyYearWidget = (
   "widget";
   try {
     const isDark = environment.colorScheme === "dark";
+    const isLarge = environment.widgetFamily === "systemLarge";
     const scheme = isDark ? props.dark : props.light;
-    const image = isDark ? props.imageDark : props.imageLight;
+    let image = isDark ? props.imageDark : props.imageLight;
+    if (isLarge) {
+      image = isDark ? props.imageDarkLarge : props.imageLightLarge;
+    }
 
     return (
       <VStack
         alignment="leading"
-        spacing={8}
+        spacing={10}
         modifiers={[
           frame({
             maxWidth: Infinity,
@@ -44,7 +48,7 @@ const PixyYearWidget = (
         <HStack>
           <Text
             modifiers={[
-              font({ size: 14, weight: "semibold" }),
+              font({ size: 15, weight: "semibold" }),
               foregroundStyle(scheme.text),
             ]}
           >

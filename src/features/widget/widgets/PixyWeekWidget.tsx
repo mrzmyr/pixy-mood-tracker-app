@@ -20,9 +20,9 @@ import type { WidgetEnvironment } from "expo-widgets";
 import type { WeekWidgetProps } from "../widgetProps";
 
 /**
- * Seven pixels for the current week. Runs in the widget runtime: no hooks,
- * no imports besides `@expo/ui`, and no module-scope values (see
- * https://docs.expo.dev/versions/latest/sdk/widgets/#the-widget-directive).
+ * Grid of the last weeks, seven pixels per row, current week last. Runs in
+ * the widget runtime: no hooks, no imports besides `@expo/ui`, and no
+ * module-scope values.
  */
 const PixyWeekWidget = (
   props: WeekWidgetProps,
@@ -32,13 +32,22 @@ const PixyWeekWidget = (
   try {
     const scheme =
       environment.colorScheme === "dark" ? props.dark : props.light;
-    const cellSpacing = environment.widgetFamily === "systemSmall" ? 4 : 8;
-    const labelSize = environment.widgetFamily === "systemSmall" ? 9 : 11;
+    const isSmall = environment.widgetFamily === "systemSmall";
+    const gap = isSmall ? 4 : 5;
+    const radius = isSmall ? 4 : 5;
+
+    const cellFill = (rating: string, isFuture: boolean) => {
+      if (rating !== "") {
+        // SAFETY: a non-empty rating is a WidgetRating key.
+        return scheme.ratings[rating as keyof typeof scheme.ratings];
+      }
+      return isFuture ? scheme.future : scheme.empty;
+    };
 
     return (
       <VStack
         alignment="leading"
-        spacing={6}
+        spacing={10}
         modifiers={[
           frame({
             maxWidth: Infinity,
@@ -52,7 +61,7 @@ const PixyWeekWidget = (
         <HStack>
           <Text
             modifiers={[
-              font({ size: 13, weight: "semibold" }),
+              font({ size: 15, weight: "semibold" }),
               foregroundStyle(scheme.text),
             ]}
           >
@@ -68,51 +77,32 @@ const PixyWeekWidget = (
             {props.subtitle}
           </Text>
         </HStack>
-        <Spacer />
-        <HStack spacing={cellSpacing}>
-          {props.days.map((day) => {
-            let fill = scheme.empty;
-            if (day.rating !== "") {
-              fill = scheme.ratings[day.rating];
-            } else if (day.isFuture) {
-              fill = scheme.future;
-            }
-            return (
-              <VStack key={day.label + day.day} spacing={4}>
+        <VStack spacing={gap}>
+          {props.weeks.map((week, weekIndex) => (
+            <HStack key={weekIndex} spacing={gap}>
+              {week.map((cell) => (
                 <ZStack
+                  key={cell.day}
                   modifiers={[aspectRatio({ ratio: 1, contentMode: "fit" })]}
                 >
-                  {day.isToday ? (
+                  {cell.isToday ? (
                     <RoundedRectangle
-                      cornerRadius={6}
+                      cornerRadius={radius}
                       modifiers={[foregroundStyle(scheme.text)]}
                     />
                   ) : null}
                   <RoundedRectangle
-                    cornerRadius={day.isToday ? 4 : 6}
+                    cornerRadius={cell.isToday ? radius - 2 : radius}
                     modifiers={[
-                      foregroundStyle(fill),
-                      padding({ all: day.isToday ? 2 : 0 }),
+                      foregroundStyle(cellFill(cell.rating, cell.isFuture)),
+                      padding({ all: cell.isToday ? 2 : 0 }),
                     ]}
                   />
                 </ZStack>
-                <Text
-                  modifiers={[
-                    font({
-                      size: labelSize,
-                      weight: day.isToday ? "bold" : "regular",
-                    }),
-                    foregroundStyle(
-                      day.isToday ? scheme.text : scheme.textSecondary
-                    ),
-                  ]}
-                >
-                  {day.label}
-                </Text>
-              </VStack>
-            );
-          })}
-        </HStack>
+              ))}
+            </HStack>
+          ))}
+        </VStack>
         <Spacer />
       </VStack>
     );

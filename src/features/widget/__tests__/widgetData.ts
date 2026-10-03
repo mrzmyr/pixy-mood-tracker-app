@@ -1,7 +1,9 @@
 import dayjs from "dayjs";
 import { _generateItem } from "@/__tests__/utils";
 import {
+  WEEK_WIDGET_WEEKS,
   WIDGET_TIMELINE_DAYS,
+  YEAR_GRID_COLUMNS,
   YEAR_WIDGET_TIMELINE_DAYS,
   getMonthWidgetProps,
   getWeekWidgetProps,
@@ -24,23 +26,29 @@ const INPUT = {
 };
 
 describe("getWeekWidgetProps()", () => {
-  test("builds seven days with today marked and the day average rating", () => {
+  test("builds four weeks with the current week last and today marked", () => {
     const props = getWeekWidgetProps(INPUT);
-    expect(props.days).toHaveLength(7);
+    expect(props.weeks).toHaveLength(WEEK_WIDGET_WEEKS);
     expect(props.url).toBe("pixy://calendar");
-    const today = props.days.find((day) => day.isToday);
+    for (const week of props.weeks) {
+      expect(week).toHaveLength(7);
+    }
+    const thisWeek = props.weeks.at(-1) ?? [];
+    const today = thisWeek.find((day) => day.isToday);
     expect(today?.day).toBe(15);
     // very_bad (1) and very_good (5) average to neutral (3).
     expect(today?.rating).toBe("neutral");
-    expect(props.days.find((day) => day.day === 13)?.rating).toBe("good");
+    expect(thisWeek.find((day) => day.day === 13)?.rating).toBe("good");
     expect(
-      props.days.filter((day) => day.isFuture).map((day) => day.day)
+      thisWeek.filter((day) => day.isFuture).map((day) => day.day)
     ).toEqual(expect.arrayContaining([16, 17]));
+    expect(props.weeks[0].some((day) => day.isToday)).toBe(false);
   });
 
-  test("subtitle counts logged days over elapsed days", () => {
+  test("subtitle counts logged days over elapsed days of the current week", () => {
     const props = getWeekWidgetProps(INPUT);
-    const elapsed = props.days.filter((day) => !day.isFuture).length;
+    const thisWeek = props.weeks.at(-1) ?? [];
+    const elapsed = thisWeek.filter((day) => !day.isFuture).length;
     expect(props.subtitle).toBe(`2/${elapsed}`);
   });
 
@@ -49,6 +57,7 @@ describe("getWeekWidgetProps()", () => {
     expect(props.light.ratings.good).toMatch(/^#/u);
     expect(props.dark.ratings.good).toMatch(/^#/u);
     expect(props.light.background).not.toBe(props.dark.background);
+    expect(props.light.empty).not.toBe(props.light.future);
   });
 
   test("falls back to the default scale for an unknown scale type", () => {
@@ -63,7 +72,6 @@ describe("getMonthWidgetProps()", () => {
   test("pads the first and last week and keeps 31 days", () => {
     const props = getMonthWidgetProps(INPUT);
     expect(props.title).toBe("October");
-    expect(props.weekdays).toHaveLength(7);
     for (const week of props.weeks) {
       expect(week).toHaveLength(7);
     }
@@ -78,18 +86,19 @@ describe("getMonthWidgetProps()", () => {
 });
 
 describe("getYearGrid()", () => {
-  test("builds twelve rows of 31 with padding for short months", () => {
+  test("builds 53 week columns of seven with padding outside the year", () => {
     const grid = getYearGrid(INPUT);
-    expect(grid.months).toHaveLength(12);
-    expect(grid.monthLabels[0]).toBe("Jan");
-    expect(grid.months[1].filter((code) => code !== "p")).toHaveLength(28);
-    expect(grid.months[9].filter((code) => code !== "p")).toHaveLength(31);
-    expect(grid.today).toEqual({ month: 9, day: 15 });
-    expect(grid.months[9][12]).toBe("good");
-    expect(grid.months[9][14]).toBe("neutral");
-    expect(grid.months[11][30]).toBe("f");
-    expect(grid.months[0][0]).toBe("");
+    expect(grid.columns).toHaveLength(YEAR_GRID_COLUMNS);
+    for (const column of grid.columns) {
+      expect(column).toHaveLength(7);
+    }
+    const codes = grid.columns.flat();
+    expect(codes.filter((code) => code !== "p")).toHaveLength(365);
     expect(grid.cells).toHaveLength(365);
+    const todayCode = grid.columns[grid.today.column][grid.today.row];
+    expect(todayCode).toBe("neutral");
+    expect(codes.filter((code) => code === "good")).toHaveLength(1);
+    expect(codes.filter((code) => code === "f")).toHaveLength(365 - 288);
   });
 });
 
@@ -98,12 +107,16 @@ describe("getYearWidgetProps()", () => {
     const images = {
       light: "file:///l.png",
       dark: "file:///d.png",
+      lightLarge: "file:///ll.png",
+      darkLarge: "file:///dl.png",
       version: 7,
     };
     const props = getYearWidgetProps(INPUT, images);
     expect(props.title).toBe("2026");
     expect(props.imageLight).toBe(images.light);
     expect(props.imageDark).toBe(images.dark);
+    expect(props.imageLightLarge).toBe(images.lightLarge);
+    expect(props.imageDarkLarge).toBe(images.darkLarge);
     expect(props.imageVersion).toBe(7);
     expect(props.subtitle).toBe("2/288");
   });
@@ -133,7 +146,9 @@ describe("getWidgetTimeline()", () => {
     expect(timeline).toHaveLength(WIDGET_TIMELINE_DAYS);
     expect(timeline[0].date).toEqual(NOW.toDate());
     expect(timeline[1].date).toEqual(NOW.add(1, "day").startOf("day").toDate());
-    expect(timeline[1].props.days.find((day) => day.isToday)?.day).toBe(16);
+    expect(
+      (timeline[1].props.weeks.at(-1) ?? []).find((day) => day.isToday)?.day
+    ).toBe(16);
   });
 
   test("year keeps one entry to stay under the extension memory limit", () => {

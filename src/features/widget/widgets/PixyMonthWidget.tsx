@@ -21,9 +21,10 @@ import type { WidgetEnvironment } from "expo-widgets";
 import type { MonthWidgetProps } from "../widgetProps";
 
 /**
- * Calendar grid of pixels for the current month. Runs in the widget runtime:
- * no hooks, no imports besides `@expo/ui`, and no module-scope values.
- * Medium puts the title beside the grid because the grid is height-bound.
+ * Calendar grid of pixels for the current month, rows are weeks. Runs in
+ * the widget runtime: no hooks, no imports besides `@expo/ui`, and no
+ * module-scope values. Medium puts the title beside the grid because the
+ * grid is height-bound.
  */
 const PixyMonthWidget = (
   props: MonthWidgetProps,
@@ -36,8 +37,8 @@ const PixyMonthWidget = (
     const family = environment.widgetFamily;
     const isSmall = family === "systemSmall";
     const isMedium = family === "systemMedium";
-    const cellSpacing = isSmall ? 3 : 5;
-    const labelSize = isSmall ? 8 : 9;
+    const cellSpacing = isSmall ? 4 : 5;
+    const radius = isSmall ? 4 : 5;
 
     const cellFill = (rating: string, isFuture: boolean) => {
       if (rating !== "") {
@@ -49,27 +50,6 @@ const PixyMonthWidget = (
 
     const grid = (
       <VStack spacing={cellSpacing}>
-        <HStack spacing={cellSpacing}>
-          {props.weekdays.map((label, index) => (
-            <ZStack key={label + index}>
-              <RoundedRectangle
-                cornerRadius={3}
-                modifiers={[
-                  aspectRatio({ ratio: 1, contentMode: "fit" }),
-                  opacity(0),
-                ]}
-              />
-              <Text
-                modifiers={[
-                  font({ size: labelSize }),
-                  foregroundStyle(scheme.textSecondary),
-                ]}
-              >
-                {label}
-              </Text>
-            </ZStack>
-          ))}
-        </HStack>
         {props.weeks.map((week, weekIndex) => (
           <HStack key={weekIndex} spacing={cellSpacing}>
             {week.map((cell, dayIndex) => {
@@ -77,7 +57,7 @@ const PixyMonthWidget = (
                 return (
                   <RoundedRectangle
                     key={`pad${dayIndex}`}
-                    cornerRadius={3}
+                    cornerRadius={radius}
                     modifiers={[
                       aspectRatio({ ratio: 1, contentMode: "fit" }),
                       opacity(0),
@@ -92,12 +72,12 @@ const PixyMonthWidget = (
                 >
                   {cell.isToday ? (
                     <RoundedRectangle
-                      cornerRadius={4}
+                      cornerRadius={radius}
                       modifiers={[foregroundStyle(scheme.text)]}
                     />
                   ) : null}
                   <RoundedRectangle
-                    cornerRadius={cell.isToday ? 2 : 4}
+                    cornerRadius={cell.isToday ? radius - 2 : radius}
                     modifiers={[
                       foregroundStyle(cellFill(cell.rating, cell.isFuture)),
                       padding({ all: cell.isToday ? 1.5 : 0 }),

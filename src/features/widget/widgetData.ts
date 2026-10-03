@@ -23,6 +23,9 @@ import type {
 /** Days of timeline entries. Each entry moves the today marker at local midnight. */
 export const WIDGET_TIMELINE_DAYS = 7;
 
+/** Rows in the week widget: the current week and the three before it. */
+export const WEEK_WIDGET_WEEKS = 4;
+
 /**
  * The year widget gets one entry. WidgetKit renders and archives every
  * entry when it builds a timeline, and 7 renders of 372 cells push the
@@ -79,8 +82,10 @@ export const getSchemeColors = (
     background: colors.widgetBackground,
     text: colors.widgetText,
     textSecondary: colors.widgetTextSecondary,
-    empty: scale.empty.background,
-    future: colors.widgetFutureDay,
+    // The calendar's empty background is nearly the widget background, so
+    // past empty days use the dotted-border color and future days the lighter one.
+    empty: scale.empty.border,
+    future: scale.empty.background,
     ratings,
   };
 };
@@ -126,16 +131,21 @@ const getBaseProps = (
   dark: getSchemeColors("dark", input.scaleType),
 });
 
-/** Props for the week widget: the current locale week. */
+/**
+ * Props for the week widget: the current locale week as the last row, with
+ * the three weeks before it. The subtitle counts the current week only.
+ */
 export const getWeekWidgetProps = (input: WidgetDataInput): WeekWidgetProps => {
   const today = (input.now ?? dayjs()).startOf("day");
   const ratings = getRatingsByDate(input.items);
-  const start = today.startOf("week");
-  const days = Array.from({ length: 7 }, (_, index) => {
-    const date = start.add(index, "day");
-    return { ...makeCell(date, today, ratings), label: date.format("dd") };
-  });
-  return { ...getBaseProps(input, t("widget_week_title"), days), days };
+  const start = today.startOf("week").subtract(WEEK_WIDGET_WEEKS - 1, "week");
+  const weeks = Array.from({ length: WEEK_WIDGET_WEEKS }, (_, weekIndex) =>
+    Array.from({ length: 7 }, (__, dayIndex) =>
+      makeCell(start.add(weekIndex * 7 + dayIndex, "day"), today, ratings)
+    )
+  );
+  const thisWeek = weeks.at(-1) ?? [];
+  return { ...getBaseProps(input, t("widget_week_title"), thisWeek), weeks };
 };
 
 /** Props for the month widget: the current month as calendar rows. */
@@ -161,51 +171,50 @@ export const getMonthWidgetProps = (
     }
     weeks.push(week);
   }
-  const weekdays = Array.from({ length: 7 }, (_, index) =>
-    gridStart.add(index, "day").format("dd")
-  );
   return {
     ...getBaseProps(input, today.format("MMMM"), weeks.flat()),
-    weekdays,
     weeks,
   };
 };
 
-/** Day codes and labels for the year grid image. */
+/** Week columns in the year grid: 53 covers every year and week start. */
+export const YEAR_GRID_COLUMNS = 53;
+
+/** Day codes for the year grid image, one column per week. */
 export const getYearGrid = (input: WidgetDataInput): YearGrid => {
   const today = (input.now ?? dayjs()).startOf("day");
   const ratings = getRatingsByDate(input.items);
+  const yearStart = today.startOf("year");
+  const yearEnd = today.endOf("year");
+  const gridStart = yearStart.startOf("week");
   const cells: WidgetCell[] = [];
-  const months = Array.from({ length: 12 }, (_, monthIndex) => {
-    const monthStart = today.month(monthIndex).startOf("month");
-    const daysInMonth = monthStart.daysInMonth();
-    return Array.from({ length: 31 }, (__, dayIndex): YearDayCode => {
-      if (dayIndex >= daysInMonth) {
+  let todayPosition = { column: 0, row: 0 };
+  const columns = Array.from({ length: YEAR_GRID_COLUMNS }, (_, column) =>
+    Array.from({ length: 7 }, (__, row): YearDayCode => {
+      const date = gridStart.add(column * 7 + row, "day");
+      if (date.isBefore(yearStart) || date.isAfter(yearEnd)) {
         return "p";
       }
-      const cell = makeCell(monthStart.add(dayIndex, "day"), today, ratings);
+      const cell = makeCell(date, today, ratings);
       cells.push(cell);
+      if (cell.isToday) {
+        todayPosition = { column, row };
+      }
       if (cell.rating !== "") {
         return cell.rating;
       }
       return cell.isFuture ? "f" : "";
-    });
-  });
-  const monthLabels = months.map((_, monthIndex) =>
-    today.month(monthIndex).format("MMM")
+    })
   );
-  return {
-    monthLabels,
-    months,
-    today: { month: today.month(), day: today.date() },
-    cells,
-  };
+  return { columns, today: todayPosition, cells };
 };
 
-/** `file://` URIs of the captured year images, one per color scheme. */
+/** `file://` URIs of the captured year images per color scheme and band count. */
 export interface YearImages {
   light: string;
   dark: string;
+  lightLarge: string;
+  darkLarge: string;
   version: number;
 }
 
@@ -220,6 +229,8 @@ export const getYearWidgetProps = (
     ...getBaseProps(input, today.format("YYYY"), cells),
     imageLight: images?.light ?? "",
     imageDark: images?.dark ?? "",
+    imageLightLarge: images?.lightLarge ?? "",
+    imageDarkLarge: images?.darkLarge ?? "",
     imageVersion: images?.version ?? 0,
   };
 };
