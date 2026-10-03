@@ -30,3 +30,9 @@ export const DevFakeFilesLinkScreen = () => {
   const Screen = DEV_TOOLS?.DevFakeFilesLinkScreen;
   return Screen ? <Screen /> : <Redirect href="/calendar" />;
 };
+
+/** Design guide is reachable only in development and preview builds. */
+export const DevDesignGuideScreen = () => {
+  const Screen = DEV_TOOLS?.DesignGuideScreen;
+  return Screen ? <Screen /> : <Redirect href="/calendar" />;
+};
