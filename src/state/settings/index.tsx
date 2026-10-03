@@ -144,6 +144,7 @@ const SettingsProvider = ({ children }: { children: React.ReactNode }) => {
       ...INITIAL_STATE,
       ...importedSettings,
       steps: sanitizeSteps(importedSettings.steps),
+      deviceId: currentSettings.deviceId,
       backupEnabled: currentSettings.backupEnabled,
       storeReviewPromptedAt: currentSettings.storeReviewPromptedAt,
       storeReviewPromptedAppVersion:

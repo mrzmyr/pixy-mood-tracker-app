@@ -164,6 +164,8 @@ describe("useLogs()", () => {
     });
     expect(hook.result.current.settingsState.settings).toEqual({
       ...testSettings,
+      // Imports keep this phone's identity.
+      deviceId: expect.any(String),
       loaded: true,
     });
   });
@@ -305,6 +307,8 @@ describe("useLogs()", () => {
 
     expect(hook.result.current.settingsState.settings).toEqual({
       ...testSettings,
+      // Imports keep this phone's identity.
+      deviceId: expect.any(String),
       loaded: true,
     });
   });
