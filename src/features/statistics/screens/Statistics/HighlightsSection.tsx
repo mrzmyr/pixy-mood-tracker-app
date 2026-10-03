@@ -27,6 +27,12 @@ import { TagPeaksCard } from "./TagPeaksCards";
 import { TagsDistributionCard } from "./TagsDistributionCard";
 import { Title } from "./Title";
 import { getItemTime } from "@/lib/logDates";
+import { useFeatureFlag } from "@/state/featureFlags";
+import { PeopleHighlights } from "./PeopleHighlights";
+import {
+  getPeopleHighlightProperties,
+  getPeopleHighlightsState,
+} from "./peopleHighlightsState";
 
 const EmptryState = () => {
   const colors = useColors();
@@ -85,6 +91,13 @@ export const HighlightsSection = (_props: { items: LogItem[] }) => {
   const showSleepQualityChart = statistics.isAvailable(
     "sleep_quality_distribution"
   );
+  const hasPeople = useFeatureFlag("people");
+  const peopleHighlights = getPeopleHighlightsState({
+    hasPeople,
+    highlightedOnly: true,
+    isAvailable: statistics.isAvailable,
+    isHighlighted: statistics.isHighlighted,
+  });
 
   // Effect event: tracks with the latest visibility flags and analytics, but
   // only when the statistics content changes (see the effect below).
@@ -123,6 +136,15 @@ export const HighlightsSection = (_props: { items: LogItem[] }) => {
       highlights.emotions_distribution_item_count =
         statistics.state.emotionsDistributionData.emotions.length;
     }
+    Object.assign(
+      highlights,
+      getPeopleHighlightProperties({
+        hasPeople,
+        state: peopleHighlights,
+        distribution: statistics.state.peopleDistributionData,
+        peaks: statistics.state.peoplePeaksData,
+      })
+    );
 
     analytics.track("statistics:highlights_viewed", highlights);
   });
@@ -165,6 +187,7 @@ export const HighlightsSection = (_props: { items: LogItem[] }) => {
           !showMoodPeaksNegative &&
           !showTagPeaks &&
           !showTagsDistribution &&
+          !peopleHighlights.showDistribution &&
           !showMoodChart && <EmptryState />}
 
         {showMoodChart && (
@@ -212,6 +235,12 @@ export const HighlightsSection = (_props: { items: LogItem[] }) => {
         )}
 
         {showTagPeaks && tagPeaksCards}
+
+        <PeopleHighlights
+          state={peopleHighlights}
+          distribution={statistics.state.peopleDistributionData}
+          peaks={statistics.state.peoplePeaksData}
+        />
 
         <MenuList
           style={{

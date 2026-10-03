@@ -7,6 +7,7 @@ import { AnalyticsProvider } from "@/state/analytics";
 import { FeatureFlagsProvider } from "@/state/featureFlags";
 import { CalendarFiltersProvider } from "@/features/calendar";
 import { LogsProvider } from "@/features/logs";
+import { PeopleProvider } from "@/features/people";
 import { SettingsProvider } from "@/state/settings";
 import { StatisticsProvider } from "@/features/statistics";
 import { TagsProvider } from "@/features/tags";
@@ -33,11 +34,13 @@ const Providers = ({
     <SupportProvider client={injectedSupportClient}>
       <LogsProvider>
         <TagsProvider>
-          <TemporaryLogProvider>
-            <CalendarFiltersProvider>
-              <StatisticsProvider>{children}</StatisticsProvider>
-            </CalendarFiltersProvider>
-          </TemporaryLogProvider>
+          <PeopleProvider>
+            <TemporaryLogProvider>
+              <CalendarFiltersProvider>
+                <StatisticsProvider>{children}</StatisticsProvider>
+              </CalendarFiltersProvider>
+            </TemporaryLogProvider>
+          </PeopleProvider>
         </TagsProvider>
       </LogsProvider>
     </SupportProvider>
@@ -45,11 +48,13 @@ const Providers = ({
     <ConfiguredSupportProvider>
       <LogsProvider>
         <TagsProvider>
-          <TemporaryLogProvider>
-            <CalendarFiltersProvider>
-              <StatisticsProvider>{children}</StatisticsProvider>
-            </CalendarFiltersProvider>
-          </TemporaryLogProvider>
+          <PeopleProvider>
+            <TemporaryLogProvider>
+              <CalendarFiltersProvider>
+                <StatisticsProvider>{children}</StatisticsProvider>
+              </CalendarFiltersProvider>
+            </TemporaryLogProvider>
+          </PeopleProvider>
         </TagsProvider>
       </LogsProvider>
     </ConfiguredSupportProvider>

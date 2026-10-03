@@ -9,10 +9,11 @@ import type { IQuestion } from "@/features/questioner";
 
 import { useSettings } from "@/state/settings";
 import { useAnalytics } from "@/state/analytics";
+import { useFeatureFlag } from "@/state/featureFlags";
 import { useTemporaryLog } from "./temporaryLog";
 import type { TemporaryLogState } from "./temporaryLog";
 
-import type { Emotion, TagReference } from "@/types";
+import type { Emotion, PersonReference, TagReference } from "@/types";
 import dayjs from "dayjs";
 import { useEffect, useEffectEvent, useMemo, useRef, useState } from "react";
 import { useRouter } from "expo-router";
@@ -34,6 +35,7 @@ import { SlideFeedback } from "./slides/SlideFeedback";
 import { SlideMessage } from "./slides/SlideMessage";
 import { SlideMood } from "./slides/SlideMood";
 import { SlideReminder } from "./slides/SlideReminder";
+import { SlidePeople } from "./slides/SlidePeople";
 import { SlideTags } from "./slides/SlideTags";
 import { useLoggerActions } from "./hooks/useLoggerActions";
 import { useLoggerTracking } from "./hooks/useLoggerTracking";
@@ -48,6 +50,7 @@ const SLIDE_ORDER: LoggerStep[] = [
   "rating",
   "emotions",
   "tags",
+  "people",
   "message",
   "reminder",
   "feedback",
@@ -66,11 +69,14 @@ const EMOTIONS_INDEX_MAPPING = {
 const getAvailableStepsForCreate = ({
   question,
   hasStep,
+  hasPeople,
   reminderEnabled,
   itemsCount,
 }: {
   question: IQuestion | null;
   hasStep: ReturnType<typeof useSettings>["hasStep"];
+  /** The `people` feature flag; off hides the slide even with the step on. */
+  hasPeople: boolean;
   reminderEnabled: boolean;
   itemsCount: number;
 }) => {
@@ -81,6 +87,9 @@ const getAvailableStepsForCreate = ({
   }
   if (hasStep("tags")) {
     slides.push("tags");
+  }
+  if (hasPeople && hasStep("people")) {
+    slides.push("people");
   }
   if (hasStep("message")) {
     slides.push("message");
@@ -100,9 +109,11 @@ const getAvailableStepsForCreate = ({
 const getAvailableStepsForEdit = ({
   item,
   hasStep,
+  hasPeople,
 }: {
   item: LogItem;
   hasStep: ReturnType<typeof useSettings>["hasStep"];
+  hasPeople: boolean;
 }) => {
   const slides: LoggerStep[] = ["rating"];
 
@@ -111,6 +122,10 @@ const getAvailableStepsForEdit = ({
   }
   if (hasStep("tags") || item.tags.length > 0) {
     slides.push("tags");
+  }
+  // Entries that already have people keep the slide, also without the flag.
+  if ((hasPeople && hasStep("people")) || item.people.length > 0) {
+    slides.push("people");
   }
   if (hasStep("message") || item.message.length > 0) {
     slides.push("message");
@@ -188,6 +203,14 @@ export const Logger = ({
     }
   };
 
+  // Shared by the optional slides: confirm, turn the step off, move on.
+  const disableStep = async (step: "tags" | "people" | "message") => {
+    await askToDisableStep();
+    analytics.track("logger:step_disabled", { step });
+    toggleStep(step);
+    next();
+  };
+
   const content: {
     key: string;
     slide: ReactElement;
@@ -259,12 +282,22 @@ export const Logger = ({
           onChange={(tags: TagReference[]) => {
             tempLog.update({ tags });
           }}
-          onDisableStep={async () => {
-            await askToDisableStep();
-            analytics.track("logger:step_disabled", { step: "tags" });
-            toggleStep("tags");
-            next();
+          onDisableStep={() => disableStep("tags")}
+          showDisable={showDisable}
+        />
+      ),
+    });
+  }
+
+  if (slideKeys.includes("people")) {
+    content.push({
+      key: "people",
+      slide: (
+        <SlidePeople
+          onChange={(people: PersonReference[]) => {
+            tempLog.update({ people });
           }}
+          onDisableStep={() => disableStep("people")}
           showDisable={showDisable}
         />
       ),
@@ -279,12 +312,7 @@ export const Logger = ({
           onChange={(message) => {
             tempLog.update({ message });
           }}
-          onDisableStep={async () => {
-            await askToDisableStep();
-            analytics.track("logger:step_disabled", { step: "message" });
-            toggleStep("message");
-            next();
-          }}
+          onDisableStep={() => disableStep("message")}
           ref={texAreaRef}
           showDisable={showDisable}
         />
@@ -423,6 +451,7 @@ export const LoggerEdit = ({
 }) => {
   const logState = useLogState();
   const { hasStep } = useSettings();
+  const hasPeople = useFeatureFlag("people");
   const initialItem = logState?.items.find((item) => item.id === id);
 
   if (initialItem === undefined) {
@@ -436,6 +465,7 @@ export const LoggerEdit = ({
   const avaliableSteps = getAvailableStepsForEdit({
     item: initialItem,
     hasStep,
+    hasPeople,
   });
 
   return (
@@ -472,6 +502,7 @@ export const LoggerCreate = ({
   );
   const questioner = useQuestioner();
   const { hasStep, settings } = useSettings();
+  const hasPeople = useFeatureFlag("people");
   const logState = useLogState();
   const router = useRouter();
   const [saved, setSaved] = useState<SavedEntry | null>(null);
@@ -486,6 +517,7 @@ export const LoggerCreate = ({
     message: "",
     emotions: [],
     tags: [],
+    people: [],
     sleep: {
       quality: null,
     },
@@ -497,6 +529,7 @@ export const LoggerCreate = ({
     getAvailableStepsForCreate({
       question: questioner.question,
       hasStep,
+      hasPeople,
       reminderEnabled: settings.reminderEnabled,
       itemsCount: logState.items.length,
     });
