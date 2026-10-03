@@ -29,7 +29,8 @@ const captureYearImage = async (view: View, scheme: "light" | "dark") => {
   const target = `${widgetsDirectory}year-${scheme}.png`;
   await FileSystem.deleteAsync(target, { idempotent: true });
   await FileSystem.copyAsync({ from, to: target });
-  await FileSystem.deleteAsync(from, { idempotent: true });
+  // The source stays in view-shot's tmp folder: the file system API cannot
+  // delete there, and view-shot clears it on the next launch.
   return target;
 };
 
