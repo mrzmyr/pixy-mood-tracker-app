@@ -114,6 +114,16 @@ export interface AnalyticsEvents {
   "tags:tag_deleted": AnalyticsEvents["tags:tag_created"];
   "tags:delete_cancelled": undefined;
 
+  "people:person_added": { source: "contacts" | "manual"; has_avatar: boolean };
+  "people:person_updated": {
+    name_changed: boolean;
+    avatar_changed: boolean;
+    is_archived: boolean;
+  };
+  "people:delete_requested": { entries_count: number };
+  "people:person_deleted": { entries_count: number };
+  "people:delete_cancelled": undefined;
+
   "settings:rate_app_tapped": undefined;
   "settings:vote_features_tapped": undefined;
   "settings:changelog_tapped": undefined;
@@ -187,6 +197,8 @@ export type UsageSummary = {
   statistics_unlocked: boolean;
   tags_count: number;
   archived_tags_count: number;
+  people_count: number;
+  archived_people_count: number;
   reminder_enabled: boolean;
   reminder_hour: number | null;
   scale_type: SettingsState["scaleType"];

@@ -106,7 +106,22 @@
         {
           "appleTeamId": "8VVNC4724B"
         }
-      ]
+      ],
+      [
+        "expo-contacts",
+        {
+          "contactsPermission": "Pixy opens the contact picker so you can add a person by name and photo. Pixy never reads your address book."
+        }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Pixy lets you pick a photo for a person. The photo stays on your device.",
+          "cameraPermission": false,
+          "microphonePermission": false
+        }
+      ],
+      "expo-image"
     ],
     "buildCacheProvider": {
       "plugin": "./scripts/build-cache-provider.cjs"

@@ -1,13 +1,19 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import dayjs from "dayjs";
 import { STORAGE_KEY as STORAGE_KEY_LOGS } from "@/features/logs";
+import { STORAGE_KEY as STORAGE_KEY_PEOPLE } from "@/features/people";
 import { STORAGE_KEY as STORAGE_KEY_TAGS } from "@/features/tags";
 import { createStructuredError } from "@/lib/errors";
 import { STORAGE_KEY as STORAGE_KEY_SETTINGS } from "@/state/settings";
 import pkg from "../../../package.json";
 import { shareExportFile } from "./exportFile";
 
-const STORAGE_KEYS = [STORAGE_KEY_LOGS, STORAGE_KEY_SETTINGS, STORAGE_KEY_TAGS];
+const STORAGE_KEYS = [
+  STORAGE_KEY_LOGS,
+  STORAGE_KEY_SETTINGS,
+  STORAGE_KEY_TAGS,
+  STORAGE_KEY_PEOPLE,
+];
 
 /**
  * Shares a backup file with the stored values as AsyncStorage holds them,

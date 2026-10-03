@@ -1,0 +1,92 @@
+appId: ${APP_ID}
+tags: [p1, people]
+---
+# People behind the `people` flag: add from the contact picker, block a
+# duplicate pick, archive, delete with the entry count, and keep the rest.
+# The contact picker and photo library are system screens, so the flow swaps
+# them for fakes (src/dev/fakePeopleSources.ts). Check the real pickers by
+# hand before a release.
+- runFlow:
+    file: ../subflows/load-fixture.yaml
+    env:
+      FIXTURE: people
+- openLink: ${APP_SCHEME}://dev/feature-flag?key=people&value=on
+- extendedWaitUntil:
+    visible:
+      id: "calendar"
+    timeout: 10000
+- openLink: ${APP_SCHEME}://dev/fake-files
+- extendedWaitUntil:
+    visible:
+      id: "calendar"
+    timeout: 10000
+
+# Settings lists active people; archived Mia sits behind the Archive link.
+- tapOn:
+    id: "settings"
+- tapOn:
+    id: "settings-people"
+- assertVisible: "Sam"
+- assertVisible: "Alex"
+- assertNotVisible: "Mia"
+- tapOn:
+    id: "people-archive"
+- assertVisible: "Mia"
+- back
+
+# Add from contacts: the fake picker returns "Sam Fake" with a photo.
+- tapOn:
+    id: "people-add"
+- assertVisible: "Add Person"
+- tapOn:
+    id: "person-from-contacts"
+- assertVisible: "Sam Fake"
+- tapOn:
+    id: "person-save"
+- assertVisible: "Sam Fake"
+
+# Picking the same contact again opens the existing person instead.
+- tapOn:
+    id: "people-add"
+- tapOn:
+    id: "person-from-contacts"
+- assertVisible: "Already Added"
+- tapOn: "Ok"
+- assertVisible: "Edit Person"
+- tapOn: "Cancel"
+
+# Manual add with a typed name.
+- tapOn:
+    id: "people-add"
+- tapOn:
+    id: "person-name"
+- inputText: "Jo"
+- runFlow: ../subflows/dismiss-keyboard.yaml
+- tapOn:
+    id: "person-save"
+- assertVisible: "Jo"
+
+# Archive Alex: gone from the list, still in the archive.
+- tapOn: "Alex"
+- assertVisible: "Edit Person"
+- tapOn:
+    id: "person-archived"
+- tapOn:
+    id: "person-save"
+- assertNotVisible: "Alex"
+- tapOn:
+    id: "people-archive"
+- assertVisible: "Alex"
+- back
+
+# Delete Sam: the confirm names the entry count (every 3rd of 365 entries).
+- tapOn: "Sam"
+- tapOn:
+    id: "person-delete"
+- assertVisible: "The person will be removed from 122 entries.*"
+- tapOn:
+    text: "Delete"
+    below: "The person will be removed from 122 entries.*"
+- assertNotVisible: "Sam"
+- assertVisible: "Jo"
+- assertVisible: "Sam Fake"

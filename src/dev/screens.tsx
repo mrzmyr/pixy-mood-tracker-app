@@ -20,6 +20,8 @@ import type { Fixture } from "@/dev/fixtures";
 
 import { setFileTransferOverride } from "@/features/datagate";
 import { fakeFileTransfer } from "@/dev/fakeFileTransfer";
+import { fakePeopleSources } from "@/dev/fakePeopleSources";
+import { setPeopleSourcesOverride } from "@/features/people";
 import {
   getOverrides,
   isOverride,
@@ -46,7 +48,7 @@ export const DevFixturesScreen = () => {
   const confirm = (fixture: Fixture) => {
     Alert.alert(
       `Load "${fixture.title}"?`,
-      "This replaces all entries, tags, and settings.",
+      "This replaces all entries, tags, people, and settings.",
       [
         { style: "cancel", text: "Cancel" },
         {
@@ -169,13 +171,15 @@ export const DevFixtureLinkScreen = () => {
 };
 
 /**
- * Target of `<scheme>://dev/fake-files`. Swaps the share sheet and document
- * picker for `fakeFileTransfer` until the app restarts, then opens the app.
+ * Target of `<scheme>://dev/fake-files`. Swaps the share sheet, document
+ * picker, contact picker, and photo library for fakes (`fakeFileTransfer`,
+ * `fakePeopleSources`) until the app restarts, then opens the app.
  */
 export const DevFakeFilesLinkScreen = () => {
   const router = useRouter();
   useEffect(() => {
     setFileTransferOverride(fakeFileTransfer);
+    setPeopleSourcesOverride(fakePeopleSources);
     router.dismissAll();
     router.replace("/calendar");
   }, [router]);
