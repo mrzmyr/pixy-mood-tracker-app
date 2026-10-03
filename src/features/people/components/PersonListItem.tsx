@@ -33,7 +33,6 @@ export const PersonListItem = ({
         <PersonAvatar person={person} size={32} />
         <Text
           numberOfLines={1}
-          accessibilityLabel={person.name}
           style={{
             flex: 1,
             marginLeft: 12,

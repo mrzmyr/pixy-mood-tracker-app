@@ -46,7 +46,6 @@ export const PersonAvatar = ({
           recyclingKey={`${person.id}-${person.updatedAt ?? ""}-${previewUri ?? ""}`}
           style={{ width: size, height: size }}
           contentFit="cover"
-          accessibilityLabel={person.name}
         />
       ) : (
         <User
