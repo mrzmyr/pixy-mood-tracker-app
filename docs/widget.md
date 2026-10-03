@@ -12,6 +12,9 @@ iOS only. Built with [`expo-widgets`](https://docs.expo.dev/versions/latest/sdk/
 - Tap: every widget opens `<scheme>://calendar`
 - Bundle ids: `<app id>.widgets`, app group `group.<app id>`, per variant. Xcode automatic signing registers the group on first phone build
 - Guide: [`screens/WidgetGuide`](../src/features/widget/screens/WidgetGuide), route `/widget`, opened from Settings > Home Screen widget. No automatic prompt
+- Feature flag: PostHog `home-screen-widget` ([`useIsWidgetEnabled.ts`](../src/features/widget/useIsWidgetEnabled.ts)). Off: Settings entry and guide hidden. On only with analytics consent
+- Flag does not hide the widgets: iOS lists them in the gallery for every install. Widgets keep syncing and work for anyone who adds one
+- Before the first sync a widget shows "Open Pixy to see your pixels."
 - Android: no widget. Guide and Settings item hidden (`IS_WIDGET_SUPPORTED`)
 
 ## Screenshots in the guide

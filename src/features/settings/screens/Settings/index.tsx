@@ -31,7 +31,7 @@ import { t } from "@/lib/translation";
 import { useAnalytics } from "@/state/analytics";
 import useColors from "@/hooks/useColors";
 import { useFeedbackModal } from "@/features/feedback";
-import { IS_WIDGET_SUPPORTED } from "@/features/widget";
+import { useIsWidgetEnabled } from "@/features/widget";
 import pkg from "../../../../../package.json";
 import { Bug, Lightbulb, Tag } from "lucide-react-native";
 import { useSupport } from "@/support";
@@ -44,6 +44,7 @@ export const SettingsScreen = () => {
   const insets = useSafeAreaInsets();
   const colors = useColors();
   const analytics = useAnalytics();
+  const isWidgetEnabled = useIsWidgetEnabled();
   const support = useSupport();
 
   const { show: showFeedbackModal, Modal: FeedbackModal } = useFeedbackModal();
@@ -116,9 +117,9 @@ export const SettingsScreen = () => {
             }
             onPress={() => router.push("/settings/steps")}
             isLink
-            isLast={!IS_WIDGET_SUPPORTED}
+            isLast={!isWidgetEnabled}
           />
-          {IS_WIDGET_SUPPORTED && (
+          {isWidgetEnabled && (
             <MenuListItem
               title={t("widget")}
               iconLeft={<Grid width={18} color={colors.menuListItemIcon} />}

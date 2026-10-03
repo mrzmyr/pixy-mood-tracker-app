@@ -31,6 +31,24 @@ const PixyWeekWidget = (
 ) => {
   "widget";
   try {
+    // Before the app's first sync the widget gets empty props.
+    if (props.light === undefined || props.weeks === undefined) {
+      return (
+        <VStack
+          modifiers={[
+            frame({ maxWidth: Infinity, maxHeight: Infinity }),
+            containerBackground(
+              environment.colorScheme === "dark" ? "#171717" : "#FFFFFF",
+              "widget"
+            ),
+          ]}
+        >
+          <Text modifiers={[font({ size: 13 }), foregroundStyle("#737373")]}>
+            Open Pixy to see your pixels.
+          </Text>
+        </VStack>
+      );
+    }
     const scheme =
       environment.colorScheme === "dark" ? props.dark : props.light;
     const isSmall = environment.widgetFamily === "systemSmall";

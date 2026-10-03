@@ -23,6 +23,24 @@ const PixyYearWidget = (
 ) => {
   "widget";
   try {
+    // Before the app's first sync the widget gets empty props.
+    if (props.light === undefined || props.imageLight === undefined) {
+      return (
+        <VStack
+          modifiers={[
+            frame({ maxWidth: Infinity, maxHeight: Infinity }),
+            containerBackground(
+              environment.colorScheme === "dark" ? "#171717" : "#FFFFFF",
+              "widget"
+            ),
+          ]}
+        >
+          <Text modifiers={[font({ size: 13 }), foregroundStyle("#737373")]}>
+            Open Pixy to see your pixels.
+          </Text>
+        </VStack>
+      );
+    }
     const isDark = environment.colorScheme === "dark";
     const isLarge = environment.widgetFamily === "systemLarge";
     const scheme = isDark ? props.dark : props.light;

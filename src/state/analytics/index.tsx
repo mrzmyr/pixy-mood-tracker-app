@@ -145,7 +145,7 @@ const AnalyticsProvider = ({
           );
         }
 
-        // No feature flags in use: skip the flag reload.
+        // Flags target by rollout, not person properties: skip the flag reload.
         posthog?.setPersonProperties(properties, propertiesOnce, false);
       },
       isEnabled,
@@ -169,3 +169,5 @@ const useAnalytics = (): AnaylticsState => {
 };
 
 export { AnalyticsProvider, useAnalytics };
+export { FEATURE_FLAGS, useIsFeatureFlagOn } from "./featureFlags";
+export type { FeatureFlag } from "./featureFlags";
