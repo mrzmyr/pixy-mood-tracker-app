@@ -14,6 +14,6 @@ Path: `assets/images/app-lock/`
 
 - Size: 600x820 JPEG, quality 82. Crop the top of the screenshot at full width
 - `ios-step-{1,2,3}.jpg`: Home Screen, Pixy menu with Require Face ID, confirm sheet
-- Take steps 2 and 3 on an iPhone with a passcode. The simulator has no passcode, so iOS never shows Require Face ID there
-- Crop: full width, top 1648 px from y 560 of a 1206 px wide screenshot
+- Take all iOS steps on one iPhone with a passcode. The simulator has no passcode, so iOS never shows Require Face ID there
+- Crop: full width, 1648 px from y 560 of a 1206 px wide screenshot. Same window for every step, so the icon stays in place
 - `android-private-space.jpg`: Settings > Security and privacy, Privacy section
