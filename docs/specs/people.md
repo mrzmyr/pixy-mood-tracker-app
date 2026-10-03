@@ -65,11 +65,13 @@ people: z.array(PersonReferenceSchema).default([]),
 
 ## Import sources
 
-- Contact: `Contact.presentPicker()` from `expo-contacts`, both platforms. Read `getFullName()` + `getImage()`. Never read phone, email, or other fields
+- Contacts: in-app import list `/people/import`, both platforms. Lists names via `Contact.getAllDetails([FULL_NAME])`, search, multi select, "Import (N)". Reads `getImage()` only for picked contacts on import. Never reads phone, email, or other fields. Selection stops at `MAX_PEOPLE`
+- Why not the system picker: `Contact.presentPicker()` picks one contact, Android has no multi select system picker
+- iOS 18+ limited access: list holds only shared contacts, "Share More Contacts…" opens `Contact.presentAccessPicker()`
 - Manual: name + optional photo from library (`expo-image-picker`)
-- Duplicate `contactId`: toast "already added", open existing person
-- Permissions: `expo-contacts` config plugin adds `READ_CONTACTS` + `WRITE_CONTACTS` (Android) and `NSContactsUsageDescription` (iOS). Keep plugin defaults. Document why in privacy policy and Play Console declaration: picker only, no address book read, no write
-- Permission prompt: `requestPermissionsAsync()` runs before `presentPicker()` on both platforms. Spike result (expo-contacts 57 source): the picker itself needs no permission, but `getFullName()` and `getImage()` read the picked contact from the contact store by id. Android throws `PermissionException(READ_CONTACTS)`, iOS `unifiedContact(withIdentifier:)` returns nothing without authorization. Denied: alert with "Open Settings", manual add stays available
+- Contact that is already a person (same `contactId`): row shows "Added", disabled
+- Permissions: `expo-contacts` config plugin adds `READ_CONTACTS` + `WRITE_CONTACTS` (Android) and `NSContactsUsageDescription` (iOS). Keep plugin defaults. Document why in privacy policy and Play Console declaration: names read on device for the import list, only picked contacts stored, no write
+- Permission prompt: `requestPermissionsAsync()` runs when the import list opens. Denied: alert with "Open Settings", list closes, manual add stays available
 - `contactId` is platform specific. Export from iOS imported on Android keeps id, duplicate check silently fails there. Accepted
 
 ## Export and import
@@ -144,7 +146,8 @@ Counts and booleans only. Never names, never images ([footguns](../../AGENTS.md#
 
 Names follow the `<area>:<object>_<verb>` convention of [events.ts](../../src/state/analytics/events.ts).
 
-- `people:person_added { source: "contacts" | "manual", has_avatar }`
+- `people:person_added { source: "manual", has_avatar }` (person form)
+- `people:contacts_imported { count, avatars_count, is_limited }` (import list, one event per import)
 - `people:person_updated { name_changed, avatar_changed, is_archived }` (archive is an update)
 - `people:delete_requested { entries_count }`, `people:person_deleted { entries_count }`, `people:delete_cancelled`
 - `logger:log_saved` gets `people_count` (like `tags_count`), no separate slide event
@@ -154,7 +157,7 @@ Names follow the `<area>:<object>_<verb>` convention of [events.ts](../../src/st
 
 ## Privacy
 
-- Privacy policy: "Contact name and photo stay on device. Included in your own backup file. Never sent to us"
+- Privacy policy: "Pixy lists contact names on device for the import list. Only picked contacts are saved (name, photo). They stay on device, are included in your own backup file, never sent to us"
 - Apple nutrition label: Contacts, not linked, not used for tracking
 - Play Console: contacts permission declaration, picker only
 - Testers must accept privacy policy to see flag ([AGENTS.md](../../AGENTS.md#feature-flags))

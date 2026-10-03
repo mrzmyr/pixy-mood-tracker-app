@@ -110,7 +110,7 @@
       [
         "expo-contacts",
         {
-          "contactsPermission": "Pixy opens the contact picker so you can add a person by name and photo. Pixy never reads your address book."
+          "contactsPermission": "Pixy lists your contacts so you can add people. Only the people you pick are saved, with name and photo, on your device."
         }
       ],
       [

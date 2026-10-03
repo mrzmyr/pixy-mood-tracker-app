@@ -1,9 +1,9 @@
 appId: ${APP_ID}
 tags: [p1, people]
 ---
-# People behind the `people` flag: add from the contact picker, block a
-# duplicate pick, archive, delete with the entry count, and keep the rest.
-# The contact picker and photo library are system screens, so the flow swaps
+# People behind the `people` flag: import several contacts at once, mark
+# contacts that are already people, archive, delete with the entry count,
+# and keep the rest. The address book and photo library are system data, so the flow swaps
 # them for fakes (src/dev/fakePeopleSources.ts). Check the real pickers by
 # hand before a release.
 - runFlow:
@@ -34,25 +34,33 @@ tags: [p1, people]
 - assertVisible: "Mia"
 - back
 
-# Add from contacts: the fake picker returns "Sam Fake" with a photo.
+# Import from contacts: the fake address book holds Sam, Kim, and Lee Fake.
+# Pick two at once.
 - tapOn:
     id: "people-add"
 - assertVisible: "Add Person"
 - tapOn:
     id: "person-from-contacts"
-- assertVisible: "Sam Fake"
 - tapOn:
-    id: "person-save"
+    id: "contact-import-fake-contact-sam"
+- tapOn:
+    id: "contact-import-fake-contact-kim"
+- tapOn:
+    id: "contact-import-save"
 - assertVisible: "Sam Fake"
+- assertVisible: "Kim Fake"
 
-# Picking the same contact again opens the existing person instead.
+# Contacts that are already people show as added; search narrows the list.
 - tapOn:
     id: "people-add"
 - tapOn:
     id: "person-from-contacts"
-- assertVisible: "Already Added"
-- tapOn: "Ok"
-- assertVisible: "Edit Person"
+- assertVisible: "Added"
+- tapOn:
+    id: "contact-import-search"
+- inputText: "lee"
+- assertVisible: "Lee Fake"
+- assertNotVisible: "Kim Fake"
 - tapOn: "Cancel"
 
 # Manual add with a typed name.

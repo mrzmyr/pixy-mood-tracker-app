@@ -1,4 +1,4 @@
-export type { PeopleSources, PickedContact } from "./sources";
+export type { ContactList, ContactSummary, PeopleSources } from "./sources";
 export { PeopleList } from "./components/PeopleList";
 export {
   PeopleModal,
@@ -7,6 +7,7 @@ export {
 } from "./screens/People";
 export { PersonAvatar } from "./components/PersonAvatar";
 export { PersonChip } from "./components/PersonChip";
+export { ContactImport } from "./screens/ContactImport";
 export { PersonCreate, PersonEdit } from "./screens/PersonForm";
 export {
   deleteAllAvatars,

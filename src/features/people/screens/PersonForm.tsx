@@ -110,7 +110,6 @@ const PersonForm = ({ mode }: { mode: "create" | "edit" }) => {
   const {
     save: handleSave,
     setName: handleNameChange,
-    fromContacts: handleFromContacts,
     toggleArchived: handleToggleArchived,
     fromLibrary: handlePickPhoto,
     removePhoto: handleRemovePhoto,
@@ -189,7 +188,7 @@ const PersonForm = ({ mode }: { mode: "create" | "edit" }) => {
           {mode === "create" ? (
             <Button
               type="secondary"
-              onPress={handleFromContacts}
+              onPress={() => router.replace("/people/import")}
               testID="person-from-contacts"
             >
               {t("people_add_from_contacts")}

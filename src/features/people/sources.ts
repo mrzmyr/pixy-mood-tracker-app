@@ -2,35 +2,43 @@ import * as Contacts from "expo-contacts";
 import * as ImagePicker from "expo-image-picker";
 import { createStructuredError } from "@/lib/errors";
 
-/** Name and photo of one contact the user picked. Nothing else is read. */
-export interface PickedContact {
-  /** OS contact id; only used to detect a second pick of the same contact. */
+/** One entry of the device address book. Only the name is read for the list. */
+export interface ContactSummary {
+  /** OS contact id; detects contacts that are already people. */
   contactId: string;
   name: string;
-  imageUri: string | null;
+}
+
+/** Contacts the app may read, and whether iOS limits them to a shared subset. */
+export interface ContactList {
+  contacts: ContactSummary[];
+  /** iOS 18+ "limited access": the list holds only contacts the user shared. */
+  isLimited: boolean;
 }
 
 /**
- * OS boundary of the people feature: the contact picker and the photo
+ * OS boundary of the people feature: the address book and the photo
  * library. E2E runs swap it for a fake (`src/dev/fakePeopleSources.ts`),
  * because the system screens are outside the app and tests cannot drive
  * them.
  */
 export interface PeopleSources {
   /**
-   * Opens the contact picker. Resolves `null` on cancel. Rejects with
-   * status `contacts_permission_denied` when the user refused access; the
-   * OS needs it to read the picked contact's name and photo.
+   * Asks for the contacts permission and reads the names of all readable
+   * contacts. Rejects with status `contacts_permission_denied` when the user
+   * refused access.
    */
-  pickContact: () => Promise<PickedContact | null>;
+  listContacts: () => Promise<ContactList>;
+  /** Photo of one contact as a local URI, or `null` without a photo. */
+  getContactImage: (contactId: string) => Promise<string | null>;
+  /** iOS 18+ limited access: lets the user share more contacts with Pixy. */
+  shareMoreContacts: () => Promise<void>;
   /** Opens the photo library. Resolves the image URI, or `null` on cancel. */
   pickImage: () => Promise<string | null>;
 }
 
 const systemPeopleSources: PeopleSources = {
-  pickContact: async () => {
-    // Both platforms read the picked contact from the contact store by id,
-    // which needs the permission even though the picker itself does not.
+  listContacts: async () => {
     const permission = await Contacts.requestPermissionsAsync();
     if (!permission.granted) {
       throw createStructuredError({
@@ -40,15 +48,21 @@ const systemPeopleSources: PeopleSources = {
         fix: "Allow Contacts for Pixy in the system settings, or add the person by name",
       });
     }
-    const contact = await Contacts.Contact.presentPicker();
-    if (contact === null) {
-      return null;
-    }
-    const [name, imageUri] = await Promise.all([
-      contact.getFullName(),
-      contact.getImage(),
+    const details = await Contacts.Contact.getAllDetails([
+      Contacts.ContactField.FULL_NAME,
     ]);
-    return { contactId: contact.id, name: name.trim(), imageUri };
+    const contacts = details.flatMap((detail) => {
+      const name = (detail.fullName ?? "").trim();
+      return name === "" ? [] : [{ contactId: detail.id, name }];
+    });
+    return {
+      contacts,
+      isLimited: permission.accessPrivileges === "limited",
+    };
+  },
+  getContactImage: (contactId) => new Contacts.Contact(contactId).getImage(),
+  shareMoreContacts: async () => {
+    await Contacts.Contact.presentAccessPicker();
   },
   pickImage: async () => {
     const result = await ImagePicker.launchImageLibraryAsync({

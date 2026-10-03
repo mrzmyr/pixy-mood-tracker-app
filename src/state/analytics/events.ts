@@ -120,7 +120,12 @@ export interface AnalyticsEvents {
   "tags:tag_deleted": AnalyticsEvents["tags:tag_created"];
   "tags:delete_cancelled": undefined;
 
-  "people:person_added": { source: "contacts" | "manual"; has_avatar: boolean };
+  "people:person_added": { source: "manual"; has_avatar: boolean };
+  "people:contacts_imported": {
+    count: number;
+    avatars_count: number;
+    is_limited: boolean;
+  };
   "people:person_updated": {
     name_changed: boolean;
     avatar_changed: boolean;

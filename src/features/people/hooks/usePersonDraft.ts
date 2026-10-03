@@ -1,7 +1,6 @@
 import { useRouter } from "expo-router";
 import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
-import { MAX_TAG_LENGTH } from "@/constants/Config";
 import Alert from "@/lib/Alert";
 import { t } from "@/lib/translation";
 import { useAnalytics } from "@/state/analytics";
@@ -9,7 +8,6 @@ import { deleteAvatar, saveAvatar } from "../avatars";
 import { usePeopleState, usePeopleUpdater } from "../PeopleProvider";
 import type { Person } from "../PeopleProvider";
 import { getPeopleSources } from "../sources";
-import { usePickContact } from "./usePickContact";
 
 /** Shortest accepted name; one character covers initials. */
 export const MIN_NAME_LENGTH = 1;
@@ -20,7 +18,6 @@ interface Draft {
   pendingImageUri: string | null;
   /** The stored avatar is dropped on save. */
   removeAvatar: boolean;
-  source: "contacts" | "manual";
 }
 
 const showPhotoFailed = () => {
@@ -43,7 +40,6 @@ export const usePersonDraft = ({
   const analytics = useAnalytics();
   const { people } = usePeopleState();
   const peopleUpdater = usePeopleUpdater();
-  const pickContact = usePickContact();
 
   const existing = people.find((person) => person.id === id);
   const [draft, setDraft] = useState<Draft>(() => ({
@@ -55,7 +51,6 @@ export const usePersonDraft = ({
     },
     pendingImageUri: null,
     removeAvatar: false,
-    source: "manual",
   }));
   const [isSaving, setIsSaving] = useState(false);
 
@@ -64,52 +59,6 @@ export const usePersonDraft = ({
     (!draft.removeAvatar && draft.person.avatar !== null);
   const canSave =
     draft.person.name.trim().length >= MIN_NAME_LENGTH && !isSaving;
-
-  const openExisting = (person: Person) => {
-    Alert.alert(
-      t("people_duplicate_title"),
-      t("people_duplicate_message", { name: person.name }),
-      [
-        {
-          text: t("ok"),
-          onPress: () =>
-            router.replace({
-              pathname: "/people/[id]",
-              params: { id: person.id },
-            }),
-        },
-      ]
-    );
-  };
-
-  const fromContacts = async () => {
-    const contact = await pickContact();
-    if (contact === null) {
-      return;
-    }
-    const duplicate = people.find(
-      (person) =>
-        person.contactId === contact.contactId && person.id !== draft.person.id
-    );
-    if (duplicate) {
-      openExisting(duplicate);
-      return;
-    }
-    setDraft((current) => ({
-      ...current,
-      source: "contacts",
-      pendingImageUri: contact.imageUri,
-      removeAvatar: contact.imageUri === null ? current.removeAvatar : false,
-      person: {
-        ...current.person,
-        contactId: contact.contactId,
-        name:
-          current.person.name === "" && contact.name !== ""
-            ? contact.name.slice(0, MAX_TAG_LENGTH)
-            : current.person.name,
-      },
-    }));
-  };
 
   const fromLibrary = async () => {
     const uri = await getPeopleSources().pickImage();
@@ -181,7 +130,7 @@ export const usePersonDraft = ({
 
     if (mode === "create") {
       analytics.track("people:person_added", {
-        source: draft.source,
+        source: "manual",
         has_avatar: avatar !== null,
       });
       peopleUpdater.createPerson(person);
@@ -204,7 +153,6 @@ export const usePersonDraft = ({
     canSave,
     setName,
     toggleArchived,
-    fromContacts,
     fromLibrary,
     removePhoto,
     save,

@@ -15,15 +15,22 @@ const writeAvatar = async () => {
 };
 
 /**
- * Stands in for the contact picker and photo library in e2e runs. Picking a
- * contact always returns the same person, so a second pick exercises the
- * duplicate check. Picking a photo returns a bundled gradient image.
+ * Stands in for the address book and photo library in e2e runs. The address
+ * book holds three contacts; only Sam has a photo. Picking a photo returns a
+ * bundled gradient image.
  */
 export const fakePeopleSources: PeopleSources = {
-  pickContact: async () => ({
-    contactId: "fake-contact-sam",
-    name: "Sam Fake",
-    imageUri: await writeAvatar(),
-  }),
+  listContacts: () =>
+    Promise.resolve({
+      contacts: [
+        { contactId: "fake-contact-sam", name: "Sam Fake" },
+        { contactId: "fake-contact-kim", name: "Kim Fake" },
+        { contactId: "fake-contact-lee", name: "Lee Fake" },
+      ],
+      isLimited: false,
+    }),
+  getContactImage: (contactId) =>
+    contactId === "fake-contact-sam" ? writeAvatar() : Promise.resolve(null),
+  shareMoreContacts: () => Promise.resolve(),
   pickImage: writeAvatar,
 };
