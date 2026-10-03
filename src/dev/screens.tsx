@@ -1,6 +1,7 @@
 import { useLocalSearchParams, useRouter } from "expo-router";
 import * as Linking from "expo-linking";
-import { useEffect, useRef, useState } from "react";
+import { Check } from "lucide-react-native";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { ActivityIndicator, Alert, ScrollView, Text, View } from "react-native";
 import MenuList from "@/components/MenuList";
 import MenuListHeadline from "@/components/MenuListHeadline";
@@ -19,6 +20,15 @@ import type { Fixture } from "@/dev/fixtures";
 
 import { setFileTransferOverride } from "@/features/datagate";
 import { fakeFileTransfer } from "@/dev/fakeFileTransfer";
+import {
+  getOverrides,
+  isOverride,
+  setOverride,
+  subscribe,
+} from "@/dev/featureFlagOverrides";
+import type { FeatureFlagOverride } from "@/dev/featureFlagOverrides";
+import { FEATURE_FLAGS, isFeatureFlag } from "@/state/featureFlags/keys";
+import { useSettings } from "@/state/settings";
 import { useLoadFixture, writeStorageFixture } from "@/dev/useLoadFixture";
 
 // Drops every screen behind the new state, like a fresh app start.
@@ -171,4 +181,102 @@ export const DevFakeFilesLinkScreen = () => {
   }, [router]);
 
   return <ActivityIndicator testID="dev-fake-files-link" />;
+};
+
+const OVERRIDE_OPTIONS: { value: FeatureFlagOverride; title: string }[] = [
+  { value: "remote", title: "PostHog (needs consent)" },
+  { value: "on", title: "On" },
+  { value: "off", title: "Off" },
+];
+
+/**
+ * Settings > Development > Feature flags: override PostHog flags on this device until the
+ * app restarts. Overrides work without analytics consent.
+ */
+export const DevFeatureFlagsScreen = () => {
+  const colors = useColors();
+  const overrides = useSyncExternalStore(subscribe, getOverrides);
+
+  return (
+    <ScrollView
+      style={{ backgroundColor: colors.background, flex: 1, padding: 16 }}
+    >
+      {FEATURE_FLAGS.map((key) => (
+        <View key={key}>
+          <MenuListHeadline>{key}</MenuListHeadline>
+          <MenuList>
+            {OVERRIDE_OPTIONS.map((option, index) => (
+              <MenuListItem
+                key={option.value}
+                title={option.title}
+                onPress={() => setOverride({ key, value: option.value })}
+                iconRight={
+                  (overrides[key] ?? "remote") === option.value ? (
+                    <Check size={18} color={colors.tint} />
+                  ) : null
+                }
+                isLast={index === OVERRIDE_OPTIONS.length - 1}
+                testID={`feature-flag-${key}-${option.value}`}
+              />
+            ))}
+          </MenuList>
+        </View>
+      ))}
+      <TextInfo>
+        {`Overrides end when the app restarts. Tests set one with ${Linking.createURL("dev/feature-flag")}?key=<key>&value=on|off|remote.`}
+      </TextInfo>
+      <View style={{ height: 100 }} />
+    </ScrollView>
+  );
+};
+
+/**
+ * Target of `<scheme>://dev/feature-flag?key=<key>&value=on|off|remote`.
+ * Sets the override until the app restarts, then opens the app.
+ */
+export const DevFeatureFlagLinkScreen = () => {
+  const router = useRouter();
+  const colors = useColors();
+  const { settings, hasActionDone } = useSettings();
+  const { key, value } = useLocalSearchParams<{
+    key: string;
+    value: string;
+  }>();
+  const isValid = isFeatureFlag(key) && isOverride(value);
+  const isOnboarded = hasActionDone("onboarding");
+
+  // Waits for settings: a cold start through the link has not read them yet.
+  useEffect(() => {
+    if (!isFeatureFlag(key) || !isOverride(value) || !settings.loaded) {
+      return;
+    }
+    setOverride({ key, value });
+    router.dismissAll();
+    router.replace(isOnboarded ? "/calendar" : "/onboarding");
+  }, [key, value, settings.loaded, isOnboarded, router]);
+
+  if (isValid) {
+    return <ActivityIndicator testID="dev-feature-flag-link" />;
+  }
+
+  return (
+    <View
+      style={{
+        alignItems: "center",
+        backgroundColor: colors.background,
+        flex: 1,
+        justifyContent: "center",
+        padding: 24,
+      }}
+      testID="dev-feature-flag-link"
+    >
+      <Text style={{ color: colors.text, fontSize: 15 }}>
+        {[
+          `feature_flag_override_invalid: Cannot override "${key}" with "${value}"`,
+          `why: Keys are ${FEATURE_FLAGS.join(", ")}. Values are on, off, remote.`,
+          "fix: Open the link with a listed key and value.",
+        ].join("\n")}
+      </Text>
+    </View>
+  );
 };

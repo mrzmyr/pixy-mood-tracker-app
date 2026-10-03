@@ -145,7 +145,7 @@ const AnalyticsProvider = ({
           );
         }
 
-        // No feature flags in use: skip the flag reload.
+        // Flags reload only after consent, in FeatureFlagsProvider.
         posthog?.setPersonProperties(properties, propertiesOnce, false);
       },
       isEnabled,
