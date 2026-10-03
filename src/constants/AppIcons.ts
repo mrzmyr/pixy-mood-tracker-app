@@ -1,7 +1,12 @@
 import type { ImageSourcePropType } from "react-native";
 
 /** Stable app icon ids. Analytics sends them, so do not rename them. */
-export type AppIconId = "default" | "sunburst" | "sunburst-inverse";
+export type AppIconId =
+  | "default"
+  | "sunburst"
+  | "sunburst-inverse"
+  | "sunburst-black"
+  | "sunburst-black-inverse";
 
 /** One selectable app icon in Settings > App Icon. */
 export interface AppIcon {
@@ -38,5 +43,17 @@ export const APP_ICONS: readonly AppIcon[] = [
     nativeName: "SunburstInverse",
     isFlagged: true,
     preview: require("../../assets/images/app-icons/preview-sunburst-inverse.png"),
+  },
+  {
+    id: "sunburst-black",
+    nativeName: "SunburstBlack",
+    isFlagged: true,
+    preview: require("../../assets/images/app-icons/preview-sunburst-black.png"),
+  },
+  {
+    id: "sunburst-black-inverse",
+    nativeName: "SunburstBlackInverse",
+    isFlagged: true,
+    preview: require("../../assets/images/app-icons/preview-sunburst-black-inverse.png"),
   },
 ];

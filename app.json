@@ -76,7 +76,7 @@
           "resizeMode": "contain",
           "backgroundColor": "#ffffff",
           "dark": {
-            "image": "./assets/images/splash-sunburst.png",
+            "image": "./assets/images/splash-sunburst-white.png",
             "backgroundColor": "#171717"
           },
           "imageWidth": 96
@@ -125,6 +125,22 @@
             "android": {
               "foregroundImage": "./assets/images/app-icons/sunburst-inverse-foreground.png",
               "backgroundColor": "#F97316"
+            }
+          },
+          {
+            "name": "SunburstBlack",
+            "ios": "./assets/images/app-icons/sunburst-black.png",
+            "android": {
+              "foregroundImage": "./assets/images/app-icons/sunburst-black-foreground.png",
+              "backgroundColor": "#FFFFFF"
+            }
+          },
+          {
+            "name": "SunburstBlackInverse",
+            "ios": "./assets/images/app-icons/sunburst-black-inverse.png",
+            "android": {
+              "foregroundImage": "./assets/images/app-icons/sunburst-inverse-foreground.png",
+              "backgroundColor": "#000000"
             }
           }
         ]

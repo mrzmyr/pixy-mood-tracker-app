@@ -18,9 +18,12 @@ import {
 
 /** Logo size in points. Matches `imageWidth` of `expo-splash-screen` in `app.json`. */
 const LAUNCH_LOGO_SIZE = 96;
-const LOGO_COLOR = "#F97316";
-// Matches `backgroundColor` of `expo-splash-screen` in `app.json`.
-const BACKGROUND = { light: "#ffffff", dark: "#171717" } as const;
+// Matches `expo-splash-screen` in `app.json`: black logo on white, white
+// logo on near-black in dark mode.
+const COLORS = {
+  light: { logo: "#000000", background: "#ffffff" },
+  dark: { logo: "#ffffff", background: "#171717" },
+} as const;
 
 /**
  * Takes over from the native splash: same logo, size, and background. Spins
@@ -34,7 +37,7 @@ export const LaunchSplash = () => {
   const rotation = useSharedValue(0);
   const scale = useSharedValue(1);
   const opacity = useSharedValue(1);
-  const background = scheme === "dark" ? BACKGROUND.dark : BACKGROUND.light;
+  const { logo, background } = scheme === "dark" ? COLORS.dark : COLORS.light;
 
   useEffect(() => {
     const fadeDelay = reduceMotion ? REDUCED_DELAY_MS : SPIN_MS - 100;
@@ -84,7 +87,7 @@ export const LaunchSplash = () => {
       <Animated.View style={logoStyle}>
         <SunburstLogo
           size={LAUNCH_LOGO_SIZE}
-          color={LOGO_COLOR}
+          color={logo}
           holeColor={background}
         />
       </Animated.View>
