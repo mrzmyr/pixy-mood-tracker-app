@@ -1,5 +1,6 @@
 import type { FeedackType, FeedbackSource } from "@/types/Feedback";
 import type { LoggerStep } from "@/constants/LoggerSteps";
+import type { AppIconId } from "@/constants/AppIcons";
 import type { SettingsState } from "@/state/settings";
 import type { z } from "zod";
 import type { LogItemSchema } from "@/types";
@@ -121,6 +122,7 @@ export interface AnalyticsEvents {
   "settings:step_toggled": { step: LoggerStep; enabled: boolean };
   "settings:privacy_policy_opened": undefined;
   "settings:analytics_toggled": { enabled: boolean };
+  "settings:app_icon_changed": { icon: AppIconId };
 
   "reminders:reminder_toggled": {
     enabled: boolean;
