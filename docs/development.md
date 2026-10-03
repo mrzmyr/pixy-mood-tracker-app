@@ -147,6 +147,11 @@ The cache provider lives in [`scripts/build-cache-provider.cjs`](../scripts/buil
 - `bun app close` resets app data and runs prune.
 - CLI failures report `status`, `message`, `why`, and `fix`. Failed steps stop without another strategy.
 
+### Preview App Icon
+
+- Enable `app-icons` in Settings > Development > Feature flags to unlock new icons in Settings > App Icon. Remote flag stays disabled.
+- Icons need a native build: [`expo-alternate-app-icons`](https://github.com/pchalupa/expo-alternate-app-icons) plugin config in [`app.json`](../app.json), catalog in [`src/constants/AppIcons.ts`](../src/constants/AppIcons.ts), SVG sources in [`assets/images/app-icons/`](../assets/images/app-icons/)
+
 ### Preview Support Pixy
 
 - Enable `support-pixy` in Settings > Development > Feature flags to show support card. Remote flag stays disabled.
