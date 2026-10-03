@@ -241,10 +241,12 @@ export const Demo = ({
           >
             {current.title}
           </Title>
+          {/* Two lines reserved, so the visual keeps its size across steps. */}
           <Secondary
             style={{
               textAlign: "left",
               marginTop: typeSpace.caption,
+              minHeight: 40,
             }}
           >
             {current.body}

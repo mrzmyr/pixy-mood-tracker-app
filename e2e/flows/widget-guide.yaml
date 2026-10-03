@@ -21,12 +21,12 @@ tags: [p1, widget]
           id: "settings"
       - tapOn:
           id: "widget"
-      - assertVisible: "Touch & Hold Home Screen"
+      - assertVisible: "Hold Home Screen"
       - tapOn:
           id: "widget-guide-next"
       - tapOn:
           id: "widget-guide-next"
-      - assertVisible: "Search for Pixy and pick a size"
+      - assertVisible: "Pick Widget"
       - tapOn:
           id: "widget-guide-next"
       - assertVisible: "Settings"
