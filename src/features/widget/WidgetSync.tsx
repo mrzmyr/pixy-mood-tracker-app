@@ -24,9 +24,12 @@ const DEFAULT_SCALE = "ColorBrew-RdYlGn";
  */
 const captureYearImage = async (view: View, scheme: "light" | "dark") => {
   const captured = await captureRef(view, { format: "png", quality: 1 });
+  // view-shot returns a bare path; the file system API wants a file URI.
+  const from = captured.startsWith("file://") ? captured : `file://${captured}`;
   const target = `${widgetsDirectory}year-${scheme}.png`;
   await FileSystem.deleteAsync(target, { idempotent: true });
-  await FileSystem.moveAsync({ from: captured, to: target });
+  await FileSystem.copyAsync({ from, to: target });
+  await FileSystem.deleteAsync(from, { idempotent: true });
   return target;
 };
 
