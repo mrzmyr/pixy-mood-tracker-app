@@ -21,7 +21,7 @@ tags: [p1, widget]
           id: "settings"
       - tapOn:
           id: "widget"
-      - assertVisible: "Touch and hold the Home Screen"
+      - assertVisible: "Touch & Hold Home Screen"
       - tapOn:
           id: "widget-guide-next"
       - tapOn:

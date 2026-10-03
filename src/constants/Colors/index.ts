@@ -178,8 +178,6 @@ const light = {
   widgetText: colors.neutral[900],
   widgetTextSecondary: colors.neutral[500],
   widgetGuideImageBackground: colors.neutral[200],
-  widgetGuideProgressActive: tintColorLight,
-  widgetGuideProgressInactive: colors.neutral[200],
   yearPixelsLegendText: colors.neutral[400],
 
   onboardingTitle: colors.black,
@@ -372,8 +370,6 @@ const dark: IColors & {
   widgetText: colors.white,
   widgetTextSecondary: colors.neutral[400],
   widgetGuideImageBackground: colors.neutral[800],
-  widgetGuideProgressActive: tintColorDark,
-  widgetGuideProgressInactive: colors.neutral[700],
   yearPixelsLegendText: colors.neutral[500],
 
   onboardingTitle: colors.white,
