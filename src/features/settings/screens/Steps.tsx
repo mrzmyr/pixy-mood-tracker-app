@@ -1,4 +1,3 @@
-import { IS_PHOTOS_ENABLED } from "@/constants/FeatureFlags";
 import { STEP_OPTIONS } from "@/constants/LoggerSteps";
 import type { LoggerStep } from "@/constants/LoggerSteps";
 
@@ -19,6 +18,7 @@ import {
 import useColors from "@/hooks/useColors";
 import { useSettings } from "@/state/settings";
 import { useAnalytics } from "@/state/analytics";
+import { useFeatureFlag } from "@/state/featureFlags";
 
 /**
  * Settings > Steps: toggle optional logger steps. `rating` cannot be
@@ -26,9 +26,10 @@ import { useAnalytics } from "@/state/analytics";
  */
 export const StepsScreen = () => {
   const colors = useColors();
-  // The photos toggle exists only while the photos feature is on.
+  const isPhotosEnabled = useFeatureFlag("photos");
+  // The photos toggle exists only while the photos feature flag is on.
   const visibleOptions = STEP_OPTIONS.filter(
-    (option) => option !== "photos" || IS_PHOTOS_ENABLED
+    (option) => option !== "photos" || isPhotosEnabled
   );
 
   const ICONS_MAP: Record<LoggerStep, ReactElement> = {

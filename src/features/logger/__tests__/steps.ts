@@ -1,13 +1,15 @@
 import { _generateItem } from "@/__tests__/utils";
+import type { LogPhoto } from "@/types";
 import { getAvailableStepsForCreate, getAvailableStepsForEdit } from "../steps";
 
-let mockIsPhotosEnabled = true;
-// oxlint-disable-next-line anti-slop/no-module-mocking -- the flag is a build-time constant; a getter lets each test pick on or off.
-jest.mock("@/constants/FeatureFlags", () => ({
-  get IS_PHOTOS_ENABLED() {
-    return mockIsPhotosEnabled;
-  },
-}));
+const PHOTO: LogPhoto = {
+  id: "photo-1",
+  fileName: "photo-1.jpg",
+  width: 1,
+  height: 1,
+  createdAt: "2026-10-02T10:00:00.000Z",
+  source: "camera",
+};
 
 const enabledSteps = new Set<string>([
   "rating",
@@ -18,21 +20,18 @@ const enabledSteps = new Set<string>([
 ]);
 const hasStep = (step: string) => enabledSteps.has(step);
 
-const getCreateSteps = () =>
+const getCreateSteps = ({ isPhotosEnabled }: { isPhotosEnabled: boolean }) =>
   getAvailableStepsForCreate({
     question: null,
     hasStep,
     reminderEnabled: true,
     itemsCount: 5,
+    isPhotosEnabled,
   });
 
 describe("logger steps and the photos flag", () => {
-  afterEach(() => {
-    mockIsPhotosEnabled = true;
-  });
-
   test("flag on: create shows the photos step after the message", () => {
-    expect(getCreateSteps()).toEqual([
+    expect(getCreateSteps({ isPhotosEnabled: true })).toEqual([
       "rating",
       "emotions",
       "tags",
@@ -42,31 +41,30 @@ describe("logger steps and the photos flag", () => {
   });
 
   test("flag off: create hides the photos step even when enabled", () => {
-    mockIsPhotosEnabled = false;
-    expect(getCreateSteps()).not.toContain("photos");
+    expect(getCreateSteps({ isPhotosEnabled: false })).not.toContain("photos");
   });
 
   test("edit shows the photos step for an entry with photos", () => {
-    const item = _generateItem({
-      photos: [
-        {
-          id: "photo-1",
-          fileName: "photo-1.jpg",
-          width: 1,
-          height: 1,
-          createdAt: "2026-10-02T10:00:00.000Z",
-          source: "camera",
-        },
-      ],
-    });
+    const item = _generateItem({ photos: [PHOTO] });
 
-    expect(getAvailableStepsForEdit({ item, hasStep: () => false })).toContain(
-      "photos"
-    );
-
-    mockIsPhotosEnabled = false;
     expect(
-      getAvailableStepsForEdit({ item, hasStep: () => true })
+      getAvailableStepsForEdit({
+        item,
+        hasStep: () => false,
+        isPhotosEnabled: true,
+      })
+    ).toContain("photos");
+  });
+
+  test("flag off: edit hides the photos step, also with photos", () => {
+    const item = _generateItem({ photos: [PHOTO] });
+
+    expect(
+      getAvailableStepsForEdit({
+        item,
+        hasStep: () => true,
+        isPhotosEnabled: false,
+      })
     ).not.toContain("photos");
   });
 });

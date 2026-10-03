@@ -10,11 +10,9 @@ import type { LogPhoto } from "@/types";
 import { Entry } from "../screens/LogList/Entry";
 
 let mockIsPhotosEnabled = true;
-// oxlint-disable-next-line anti-slop/no-module-mocking -- the flag is a build-time constant; a getter lets each test pick on or off.
-jest.mock("@/constants/FeatureFlags", () => ({
-  get IS_PHOTOS_ENABLED() {
-    return mockIsPhotosEnabled;
-  },
+// oxlint-disable-next-line anti-slop/no-module-mocking -- the photos flag comes from PostHog after consent; each test picks on or off.
+jest.mock("@/state/featureFlags", () => ({
+  useFeatureFlag: () => mockIsPhotosEnabled,
 }));
 
 const photo: LogPhoto = {
@@ -64,13 +62,14 @@ describe("day view photos section", () => {
     mockIsPhotosEnabled = true;
   });
 
-  test("flag on, no photos: empty line, no add tile", async () => {
+  test("flag on, no photos: empty line with pencil, no add tile", async () => {
     await renderEntry({ photos: [] });
 
     await waitFor(() => {
       expect(screen.getByTestId("log-list-photos")).toBeTruthy();
     });
     expect(screen.getByText("No photos yet.")).toBeTruthy();
+    expect(screen.getByTestId("log-list-photos-edit")).toBeTruthy();
     expect(screen.queryByTestId("photo-add-tile")).toBeNull();
   });
 
@@ -81,11 +80,22 @@ describe("day view photos section", () => {
       expect(screen.getByLabelText("Photo 1 of 1")).toBeTruthy();
     });
     expect(screen.queryByText("No photos yet.")).toBeNull();
+    expect(screen.getByTestId("log-list-photos-edit")).toBeTruthy();
   });
 
-  test("flag off: no photos section, even with photos", async () => {
+  test("flag off, with photos: stored photos stay, no pencil", async () => {
     mockIsPhotosEnabled = false;
     await renderEntry({ photos: [photo] });
+
+    await waitFor(() => {
+      expect(screen.getByLabelText("Photo 1 of 1")).toBeTruthy();
+    });
+    expect(screen.queryByTestId("log-list-photos-edit")).toBeNull();
+  });
+
+  test("flag off, no photos: no photos section", async () => {
+    mockIsPhotosEnabled = false;
+    await renderEntry({ photos: [] });
 
     await waitFor(() => {
       expect(screen.getByText("Tags")).toBeTruthy();

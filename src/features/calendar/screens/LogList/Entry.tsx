@@ -8,7 +8,7 @@ import { ScrollView, Text, View } from "react-native";
 import { Emotions } from "./Emotions";
 import { Message } from "./Message";
 import { Photos } from "./Photos";
-import { IS_PHOTOS_ENABLED } from "@/constants/FeatureFlags";
+import { useFeatureFlag } from "@/state/featureFlags";
 import { useSettings } from "@/state/settings";
 import { RatingDot } from "./RatingDot";
 import { Sleep } from "./Sleep";
@@ -102,9 +102,11 @@ const EntryHeader = ({
 
 /**
  * Card for one entry in the day list with its sleep, emotions, tags,
- * photos, and message sections. The photos section needs
- * `IS_PHOTOS_ENABLED`, and the photos step on or photos on the entry. The
- * trash button calls `onDelete` without asking, so the caller must confirm.
+ * photos, and message sections. Stored photos always show, so turning the
+ * `photos` feature flag or consent off never hides user data. With the flag
+ * on, the section also shows empty when the photos step is on, and its
+ * pencil opens the photos step. The trash button calls `onDelete` without
+ * asking, so the caller must confirm.
  */
 export const Entry = ({
   item,
@@ -117,6 +119,7 @@ export const Entry = ({
 }) => {
   const colors = useColors();
   const { hasStep } = useSettings();
+  const isPhotosEnabled = useFeatureFlag("photos");
 
   return (
     <View
@@ -164,16 +167,16 @@ export const Entry = ({
             >
               <Tags item={item} />
             </View>
-            {IS_PHOTOS_ENABLED &&
-              (hasStep("photos") || item.photos.length > 0) && (
-                <View
-                  style={{
-                    marginTop: 8,
-                  }}
-                >
-                  <Photos item={item} />
-                </View>
-              )}
+            {(item.photos.length > 0 ||
+              (isPhotosEnabled && hasStep("photos"))) && (
+              <View
+                style={{
+                  marginTop: 8,
+                }}
+              >
+                <Photos item={item} canEdit={isPhotosEnabled} />
+              </View>
+            )}
             <View
               style={{
                 marginTop: 8,

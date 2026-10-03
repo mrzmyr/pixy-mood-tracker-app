@@ -13,7 +13,14 @@ const THUMBNAIL_SIZE = 96;
  * the logger at the photos step, the only way to add photos here. Each
  * thumbnail opens the viewer. Without photos: an empty line.
  */
-export const Photos = ({ item }: { item: LogItem }) => {
+export const Photos = ({
+  item,
+  canEdit,
+}: {
+  item: LogItem;
+  /** Shows the pencil; off while the `photos` feature flag is off. */
+  canEdit: boolean;
+}) => {
   const colors = useColors();
   const router = useRouter();
   const { photos } = item;
@@ -29,12 +36,17 @@ export const Photos = ({ item }: { item: LogItem }) => {
     <View testID="log-list-photos">
       <SectionHeader
         title={t("view_log_photos")}
-        onEdit={() => {
-          router.push({
-            pathname: "/logs/[id]/edit",
-            params: { id: item.id, step: "photos" },
-          });
-        }}
+        editTestID="log-list-photos-edit"
+        onEdit={
+          canEdit
+            ? () => {
+                router.push({
+                  pathname: "/logs/[id]/edit",
+                  params: { id: item.id, step: "photos" },
+                });
+              }
+            : undefined
+        }
       />
       {photos.length > 0 ? (
         <ScrollView

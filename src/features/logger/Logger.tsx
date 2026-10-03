@@ -7,6 +7,7 @@ import { useQuestioner } from "@/features/questioner";
 import type { IQuestion } from "@/features/questioner";
 
 import { useSettings } from "@/state/settings";
+import { useFeatureFlag } from "@/state/featureFlags";
 import { useAnalytics } from "@/state/analytics";
 import { useTemporaryLog } from "./temporaryLog";
 import type { TemporaryLogState } from "./temporaryLog";
@@ -63,45 +64,6 @@ const EMOTIONS_INDEX_MAPPING = {
   good: 3,
   very_good: 3,
   extremely_good: 4,
-};
-
-// Sends `logger:flow_started` on mount and `logger:step_viewed` on every
-// slide change.
-const useStepTracking = ({
-  mode,
-  slideKeys,
-  slideIndex,
-}: {
-  mode: LoggerMode;
-  slideKeys: LoggerStep[];
-  slideIndex: number;
-}) => {
-  const analytics = useAnalytics();
-
-  // Effect event: reads the latest slides without re-running the effects
-  // below; only mount and slide changes should send events.
-  const trackFlowStarted = useEffectEvent(() => {
-    analytics.track("logger:flow_started", {
-      mode,
-      steps_count: slideKeys.length,
-    });
-  });
-  const trackStepViewed = useEffectEvent((index: number) => {
-    analytics.track("logger:step_viewed", {
-      mode,
-      step: slideKeys[index],
-      index,
-      steps_count: slideKeys.length,
-    });
-  });
-
-  useEffect(() => {
-    trackFlowStarted();
-  }, []);
-
-  useEffect(() => {
-    trackStepViewed(slideIndex);
-  }, [slideIndex]);
 };
 
 /**
@@ -420,6 +382,7 @@ export const LoggerEdit = ({
 }) => {
   const logState = useLogState();
   const { hasStep } = useSettings();
+  const isPhotosEnabled = useFeatureFlag("photos");
   const initialItem = logState?.items.find((item) => item.id === id);
 
   if (initialItem === undefined) {
@@ -433,6 +396,7 @@ export const LoggerEdit = ({
   const avaliableSteps = getAvailableStepsForEdit({
     item: initialItem,
     hasStep,
+    isPhotosEnabled,
   });
 
   return (
@@ -469,6 +433,7 @@ export const LoggerCreate = ({
   );
   const questioner = useQuestioner();
   const { hasStep, settings } = useSettings();
+  const isPhotosEnabled = useFeatureFlag("photos");
   const logState = useLogState();
   const router = useRouter();
   const [saved, setSaved] = useState<SavedEntry | null>(null);
@@ -497,6 +462,7 @@ export const LoggerCreate = ({
       hasStep,
       reminderEnabled: settings.reminderEnabled,
       itemsCount: logState.items.length,
+      isPhotosEnabled,
     });
 
   if (saved !== null) {

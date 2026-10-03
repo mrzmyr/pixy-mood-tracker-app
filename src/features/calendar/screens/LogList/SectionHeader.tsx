@@ -10,9 +10,11 @@ import { Text, View } from "react-native";
 export const SectionHeader = ({
   title,
   onEdit,
+  editTestID,
 }: {
   title: string;
   onEdit?: () => void;
+  editTestID?: string;
 }) => {
   const colors = useColors();
 
@@ -36,7 +38,7 @@ export const SectionHeader = ({
         </Text>
       </View>
       {onEdit && (
-        <LinkButton onPress={onEdit} type="secondary">
+        <LinkButton onPress={onEdit} type="secondary" testID={editTestID}>
           <Edit size={20} color={colors.textSecondary} />
         </LinkButton>
       )}

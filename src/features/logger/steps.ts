@@ -1,4 +1,3 @@
-import { IS_PHOTOS_ENABLED } from "@/constants/FeatureFlags";
 import type { LoggerStep } from "@/constants/LoggerSteps";
 import type { LogItem } from "@/features/logs";
 import type { IQuestion } from "@/features/questioner";
@@ -7,19 +6,22 @@ import type { useSettings } from "@/state/settings";
 /**
  * Steps of the create logger: enabled optional steps, plus the reminder
  * slide on the first entry while reminders are off, and the feedback slide
- * from the third entry when a question is available. `photos` needs
- * `IS_PHOTOS_ENABLED`.
+ * from the third entry when a question is available. `photos` needs the
+ * `photos` feature flag.
  */
 export const getAvailableStepsForCreate = ({
   question,
   hasStep,
   reminderEnabled,
   itemsCount,
+  isPhotosEnabled,
 }: {
   question: IQuestion | null;
   hasStep: ReturnType<typeof useSettings>["hasStep"];
   reminderEnabled: boolean;
   itemsCount: number;
+  /** Value of the `photos` feature flag. */
+  isPhotosEnabled: boolean;
 }) => {
   const slides: LoggerStep[] = ["rating"];
 
@@ -32,7 +34,7 @@ export const getAvailableStepsForCreate = ({
   if (hasStep("message")) {
     slides.push("message");
   }
-  if (IS_PHOTOS_ENABLED && hasStep("photos")) {
+  if (isPhotosEnabled && hasStep("photos")) {
     slides.push("photos");
   }
 
@@ -49,14 +51,18 @@ export const getAvailableStepsForCreate = ({
 
 /**
  * Steps of the edit logger: enabled optional steps, plus every step that
- * holds content on the entry. `photos` needs `IS_PHOTOS_ENABLED`.
+ * holds content on the entry. `photos` needs the `photos` feature flag,
+ * also when the entry has photos: the day view still shows them.
  */
 export const getAvailableStepsForEdit = ({
   item,
   hasStep,
+  isPhotosEnabled,
 }: {
   item: LogItem;
   hasStep: ReturnType<typeof useSettings>["hasStep"];
+  /** Value of the `photos` feature flag. */
+  isPhotosEnabled: boolean;
 }) => {
   const slides: LoggerStep[] = ["rating"];
 
@@ -69,7 +75,7 @@ export const getAvailableStepsForEdit = ({
   if (hasStep("message") || item.message.length > 0) {
     slides.push("message");
   }
-  if (IS_PHOTOS_ENABLED && (hasStep("photos") || item.photos.length > 0)) {
+  if (isPhotosEnabled && (hasStep("photos") || item.photos.length > 0)) {
     slides.push("photos");
   }
 

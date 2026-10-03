@@ -6,11 +6,9 @@ import { SettingsProvider } from "@/state/settings";
 import { StepsScreen } from "../screens/Steps";
 
 let mockIsPhotosEnabled = true;
-// oxlint-disable-next-line anti-slop/no-module-mocking -- the flag is a build-time constant; a getter lets each test pick on or off.
-jest.mock("@/constants/FeatureFlags", () => ({
-  get IS_PHOTOS_ENABLED() {
-    return mockIsPhotosEnabled;
-  },
+// oxlint-disable-next-line anti-slop/no-module-mocking -- the photos flag comes from PostHog after consent; each test picks on or off.
+jest.mock("@/state/featureFlags", () => ({
+  useFeatureFlag: () => mockIsPhotosEnabled,
 }));
 
 const renderSteps = () =>
