@@ -635,8 +635,5 @@
   "report_a_bug": "Fehler melden",
   "rate_pixy_app_store": "Pixy im App Store bewerten",
   "rate_pixy_google_play": "Pixy bei Google Play bewerten",
-  "feedback_modal_message_placeholder_idea": "Es wäre toll, wenn…",
-  "week_start": "Wochenbeginn",
-  "week_start_system": "System",
-  "week_start_help": "Gilt für Kalender und Wochenstatistiken. System übernimmt den ersten Wochentag deines Geräts."
+  "feedback_modal_message_placeholder_idea": "Es wäre toll, wenn…"
 }

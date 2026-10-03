@@ -638,8 +638,5 @@
   "report_a_bug": "Báo lỗi",
   "rate_pixy_app_store": "Đánh giá Pixy trên App Store",
   "rate_pixy_google_play": "Đánh giá Pixy trên Google Play",
-  "feedback_modal_message_placeholder_idea": "Sẽ thật tuyệt nếu…",
-  "week_start": "Ngày bắt đầu tuần",
-  "week_start_system": "Hệ thống",
-  "week_start_help": "Áp dụng cho lịch và thống kê hàng tuần. Hệ thống dùng ngày đầu tuần được đặt trên thiết bị."
+  "feedback_modal_message_placeholder_idea": "Sẽ thật tuyệt nếu…"
 }

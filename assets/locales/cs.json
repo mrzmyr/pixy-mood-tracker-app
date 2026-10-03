@@ -638,8 +638,5 @@
   "report_a_bug": "Nahlásit chybu",
   "rate_pixy_app_store": "Ohodnoťte Pixy v App Store",
   "rate_pixy_google_play": "Ohodnoťte Pixy na Google Play",
-  "feedback_modal_message_placeholder_idea": "Bylo by skvělé, kdyby…",
-  "week_start": "Začátek týdne",
-  "week_start_system": "Systém",
-  "week_start_help": "Platí pro kalendář a týdenní statistiky. Systém používá první den týdne nastavený v zařízení."
+  "feedback_modal_message_placeholder_idea": "Bylo by skvělé, kdyby…"
 }

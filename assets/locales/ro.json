@@ -638,8 +638,5 @@
   "report_a_bug": "Raportează o eroare",
   "rate_pixy_app_store": "Evaluează Pixy în App Store",
   "rate_pixy_google_play": "Evaluează Pixy pe Google Play",
-  "feedback_modal_message_placeholder_idea": "Ar fi grozav dacă…",
-  "week_start": "Începutul săptămânii",
-  "week_start_system": "Sistem",
-  "week_start_help": "Se aplică calendarului și statisticilor săptămânale. Sistem folosește prima zi a săptămânii de pe dispozitiv."
+  "feedback_modal_message_placeholder_idea": "Ar fi grozav dacă…"
 }

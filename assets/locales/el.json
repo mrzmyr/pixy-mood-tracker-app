@@ -638,8 +638,5 @@
   "report_a_bug": "Αναφορά σφάλματος",
   "rate_pixy_app_store": "Βαθμολόγησε το Pixy στο App Store",
   "rate_pixy_google_play": "Βαθμολόγησε το Pixy στο Google Play",
-  "feedback_modal_message_placeholder_idea": "Θα ήταν υπέροχο αν…",
-  "week_start": "Αρχή εβδομάδας",
-  "week_start_system": "Σύστημα",
-  "week_start_help": "Ισχύει για το ημερολόγιο και τα εβδομαδιαία στατιστικά. Το σύστημα ακολουθεί την πρώτη ημέρα της εβδομάδας της συσκευής σας."
+  "feedback_modal_message_placeholder_idea": "Θα ήταν υπέροχο αν…"
 }

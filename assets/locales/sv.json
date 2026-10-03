@@ -638,8 +638,5 @@
   "report_a_bug": "Rapportera en bugg",
   "rate_pixy_app_store": "Betygsätt Pixy i App Store",
   "rate_pixy_google_play": "Betygsätt Pixy på Google Play",
-  "feedback_modal_message_placeholder_idea": "Det vore toppen om…",
-  "week_start": "Veckan börjar på",
-  "week_start_system": "System",
-  "week_start_help": "Gäller kalender och veckostatistik. System använder enhetens första veckodag."
+  "feedback_modal_message_placeholder_idea": "Det vore toppen om…"
 }

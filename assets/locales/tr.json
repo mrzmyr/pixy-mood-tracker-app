@@ -638,8 +638,5 @@
   "report_a_bug": "Hata bildir",
   "rate_pixy_app_store": "Pixy'yi App Store'da değerlendir",
   "rate_pixy_google_play": "Pixy'yi Google Play'de değerlendir",
-  "feedback_modal_message_placeholder_idea": "Şöyle olsa harika olurdu…",
-  "week_start": "Haftanın ilk günü",
-  "week_start_system": "Sistem",
-  "week_start_help": "Takvim ve haftalık istatistikler için geçerlidir. Sistem, cihazınızda ayarlanan haftanın ilk gününü kullanır."
+  "feedback_modal_message_placeholder_idea": "Şöyle olsa harika olurdu…"
 }

@@ -118,9 +118,20 @@ dayjs.locale(dayjsLanguage);
 dayjs.extend(weekOfYear);
 dayjs.extend(localizedFormat);
 
-/** Week locale preserves translated dates and leaves global dayjs unchanged. */
-export const getWeekLocale = ({ weekStart }: { weekStart: number }) =>
-  `${dayjsLanguage}-week-${weekStart}`;
+/**
+ * Day.js uses Sunday=0. A missing browser calendar preference retains
+ * the date locale's week start without mutating existing date instances.
+ */
+export const getWeekLocale = ({
+  weekStart,
+}: {
+  weekStart: number | null;
+}): string => {
+  if (weekStart === null) {
+    return dayjsLanguage;
+  }
+  return `${dayjsLanguage}-week-${weekStart}`;
+};
 
 /** Translate `key` for the device locale, falling back to English. */
 export const t = (key: keyof typeof en | string, options?: TranslateOptions) =>

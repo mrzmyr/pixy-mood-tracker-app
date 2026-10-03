@@ -1,6 +1,5 @@
 import dayjs from "dayjs";
 import * as Localization from "expo-localization";
-import { getWeekStart, weekStartSchema } from "@/lib/weekStart";
 import { getWeekLocale } from "@/lib/translation";
 import { getMonths } from "@/features/calendar/screens/Calendar/layout";
 
@@ -18,7 +17,7 @@ describe("Week start", () => {
     "preserves system weekday %s",
     (firstWeekday) => {
       const locale = getWeekLocale({
-        weekStart: getWeekStart({ preference: "system", firstWeekday }),
+        weekStart: firstWeekday - 1,
       });
       const start = dayjs("2026-10-03").locale(locale).startOf("week");
 
@@ -27,23 +26,11 @@ describe("Week start", () => {
     }
   );
 
-  test.each([
-    { preference: "monday" as const, expected: "2026-09-28" },
-    { preference: "sunday" as const, expected: "2026-10-04" },
-  ])("$preference overrides system weekday", ({ preference, expected }) => {
-    const locale = getWeekLocale({
-      weekStart: getWeekStart({ preference, firstWeekday: 7 }),
-    });
-    expect(
-      dayjs("2026-10-04").locale(locale).startOf("week").format("YYYY-MM-DD")
-    ).toBe(expected);
+  test("retains date locale when browser has no calendar preference", () => {
+    expect(getWeekLocale({ weekStart: null })).toBe(dayjs.locale());
   });
 
-  test("uses Monday when browser has no calendar preference", () => {
-    expect(getWeekStart({ preference: "system", firstWeekday: null })).toBe(1);
-  });
-
-  test("month height follows selected week start", () => {
+  test("month height follows device week start", () => {
     expect(getRows(0)).toBe(4);
     expect(getRows(1)).toBe(5);
   });
@@ -70,7 +57,7 @@ describe("Week start", () => {
     }
   );
 
-  test("switching preference leaves existing dates and global locale intact", () => {
+  test("device changes leave existing dates and global locale intact", () => {
     const globalLocale = dayjs.locale();
     const sunday = dayjs("2026-10-03").locale(getWeekLocale({ weekStart: 0 }));
     const monday = dayjs("2026-10-03").locale(getWeekLocale({ weekStart: 1 }));
@@ -78,11 +65,4 @@ describe("Week start", () => {
     expect(monday.startOf("week").day()).toBe(1);
     expect(dayjs.locale()).toBe(globalLocale);
   });
-
-  test.each([undefined, null, "invalid", 1])(
-    "invalid choice %s uses system",
-    (value) => {
-      expect(weekStartSchema.parse(value)).toBe("system");
-    }
-  );
 });

@@ -638,8 +638,5 @@
   "report_a_bug": "Сообщить об ошибке",
   "rate_pixy_app_store": "Оцените Pixy в App Store",
   "rate_pixy_google_play": "Оцените Pixy в Google Play",
-  "feedback_modal_message_placeholder_idea": "Было бы здорово, если бы…",
-  "week_start": "Начало недели",
-  "week_start_system": "Система",
-  "week_start_help": "Применяется к календарю и недельной статистике. Система использует первый день недели, заданный на устройстве."
+  "feedback_modal_message_placeholder_idea": "Было бы здорово, если бы…"
 }

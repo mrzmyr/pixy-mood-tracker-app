@@ -1,4 +1,3 @@
-import { WeekStartSetting } from "./WeekStartSetting";
 import { useRouter } from "expo-router";
 import * as Linking from "expo-linking";
 import * as StoreReview from "expo-store-review";
@@ -105,7 +104,6 @@ export const SettingsScreen = () => {
             onPress={() => router.push("/settings/colors")}
             isLink
           />
-          <WeekStartSetting />
           <MenuListItem
             title={t("tags")}
             iconLeft={<Tag width={18} color={colors.menuListItemIcon} />}

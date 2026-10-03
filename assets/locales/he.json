@@ -638,8 +638,5 @@
   "report_a_bug": "דיווח על באג",
   "rate_pixy_app_store": "דרגו את Pixy ב-App Store",
   "rate_pixy_google_play": "דרגו את Pixy ב-Google Play",
-  "feedback_modal_message_placeholder_idea": "זה יהיה נהדר אם…",
-  "week_start": "תחילת השבוע",
-  "week_start_system": "מערכת",
-  "week_start_help": "חל על לוח השנה והסטטיסטיקה השבועית. המערכת משתמשת ביום הראשון בשבוע שהוגדר במכשיר."
+  "feedback_modal_message_placeholder_idea": "זה יהיה נהדר אם…"
 }

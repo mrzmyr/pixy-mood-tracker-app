@@ -638,8 +638,5 @@
   "report_a_bug": "Rapportér en fejl",
   "rate_pixy_app_store": "Bedøm Pixy i App Store",
   "rate_pixy_google_play": "Bedøm Pixy på Google Play",
-  "feedback_modal_message_placeholder_idea": "Det ville være fedt, hvis…",
-  "week_start": "Ugen starter på",
-  "week_start_system": "System",
-  "week_start_help": "Gælder kalender og ugentlig statistik. System bruger enhedens første ugedag."
+  "feedback_modal_message_placeholder_idea": "Det ville være fedt, hvis…"
 }

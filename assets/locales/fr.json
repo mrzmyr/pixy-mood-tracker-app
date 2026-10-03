@@ -639,8 +639,5 @@
   "report_a_bug": "Signaler un bug",
   "rate_pixy_app_store": "Noter Pixy sur l'App Store",
   "rate_pixy_google_play": "Noter Pixy sur Google Play",
-  "feedback_modal_message_placeholder_idea": "Ce serait génial si…",
-  "week_start": "Début de la semaine",
-  "week_start_system": "Système",
-  "week_start_help": "S’applique au calendrier et aux statistiques hebdomadaires. Système suit le premier jour de la semaine de votre appareil."
+  "feedback_modal_message_placeholder_idea": "Ce serait génial si…"
 }

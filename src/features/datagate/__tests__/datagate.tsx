@@ -62,7 +62,6 @@ const testItems: LogsState["items"] = [
 
 const testSettings = {
   ...INITIAL_STATE,
-  weekStart: "monday" as const,
   actionsDone: [
     {
       title: "test action",

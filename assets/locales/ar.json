@@ -638,8 +638,5 @@
   "report_a_bug": "الإبلاغ عن خطأ",
   "rate_pixy_app_store": "قيّم Pixy في App Store",
   "rate_pixy_google_play": "قيّم Pixy على Google Play",
-  "feedback_modal_message_placeholder_idea": "سيكون رائعًا لو…",
-  "week_start": "بداية الأسبوع",
-  "week_start_system": "النظام",
-  "week_start_help": "ينطبق على التقويم والإحصاءات الأسبوعية. يتبع النظام أول يوم في الأسبوع على جهازك."
+  "feedback_modal_message_placeholder_idea": "سيكون رائعًا لو…"
 }

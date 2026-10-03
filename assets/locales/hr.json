@@ -638,8 +638,5 @@
   "report_a_bug": "Prijavi grešku",
   "rate_pixy_app_store": "Ocijeni Pixy u App Storeu",
   "rate_pixy_google_play": "Ocijeni Pixy na Google Playu",
-  "feedback_modal_message_placeholder_idea": "Bilo bi super kad bi…",
-  "week_start": "Početak tjedna",
-  "week_start_system": "Sustav",
-  "week_start_help": "Vrijedi za kalendar i tjednu statistiku. Sustav koristi prvi dan tjedna postavljen na uređaju."
+  "feedback_modal_message_placeholder_idea": "Bilo bi super kad bi…"
 }

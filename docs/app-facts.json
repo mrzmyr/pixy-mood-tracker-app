@@ -1,6 +1,6 @@
 {
   "$comment": "Single source of truth for Pixy app facts. Store text, README, website, and directories derive from this file. Change facts here only. Verify against source and live stores before editing.",
-  "verifiedOn": "2026-10-03",
+  "verifiedOn": "2026-10-01",
   "identity": {
     "name": "Pixy",
     "storeName": "Pixy Mood Tracker",
@@ -173,7 +173,7 @@
       "label": "Pixel calendar",
       "status": "available",
       "group": "calendar",
-      "description": "Every day is one colored square in a month calendar. Scroll back to older months. Week starts follow device settings, with Monday or Sunday override in source.",
+      "description": "Every day is one colored square in a month calendar. Scroll back to older months.",
       "competitorKey": "pixels",
       "evidence": ["src/features/calendar/screens/Calendar/"]
     },

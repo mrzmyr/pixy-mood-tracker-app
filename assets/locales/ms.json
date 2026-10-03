@@ -638,8 +638,5 @@
   "report_a_bug": "Laporkan pepijat",
   "rate_pixy_app_store": "Nilaikan Pixy di App Store",
   "rate_pixy_google_play": "Nilaikan Pixy di Google Play",
-  "feedback_modal_message_placeholder_idea": "Alangkah baiknya jika…",
-  "week_start": "Hari pertama minggu",
-  "week_start_system": "Sistem",
-  "week_start_help": "Digunakan untuk kalendar dan statistik mingguan. Sistem mengikut hari pertama minggu pada peranti anda."
+  "feedback_modal_message_placeholder_idea": "Alangkah baiknya jika…"
 }

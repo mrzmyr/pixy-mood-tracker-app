@@ -1,5 +1,3 @@
-import { weekStartSchema } from "@/lib/weekStart";
-import type { WeekStart } from "@/lib/weekStart";
 import isBoolean from "lodash/isBoolean";
 import omit from "lodash/omit";
 import uniq from "lodash/uniq";
@@ -55,8 +53,6 @@ export interface SettingsState {
   loaded: boolean;
   deviceId: string | null;
   scaleType: (typeof SCALE_TYPES)[number];
-  /** System calendar preference, or an explicit Monday/Sunday override. */
-  weekStart: WeekStart;
   reminderEnabled: boolean;
   reminderTime: string;
   analyticsEnabled: boolean;
@@ -145,7 +141,6 @@ const SettingsProvider = ({ children }: { children: React.ReactNode }) => {
       ...INITIAL_STATE,
       ...importedSettings,
       steps: sanitizeSteps(importedSettings.steps),
-      weekStart: weekStartSchema.parse(importedSettings.weekStart),
       storeReviewPromptedAt: currentSettings.storeReviewPromptedAt,
       storeReviewPromptedAppVersion:
         currentSettings.storeReviewPromptedAppVersion,
@@ -178,7 +173,6 @@ const SettingsProvider = ({ children }: { children: React.ReactNode }) => {
           ...INITIAL_STATE,
           ...json,
           steps: sanitizeSteps(json.steps),
-          weekStart: weekStartSchema.parse(json.weekStart),
           loaded: true,
         });
       }

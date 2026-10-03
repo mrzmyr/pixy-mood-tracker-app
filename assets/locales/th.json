@@ -638,8 +638,5 @@
   "report_a_bug": "รายงานข้อผิดพลาด",
   "rate_pixy_app_store": "ให้คะแนน Pixy ใน App Store",
   "rate_pixy_google_play": "ให้คะแนน Pixy ใน Google Play",
-  "feedback_modal_message_placeholder_idea": "จะดีมากถ้า…",
-  "week_start": "วันเริ่มต้นสัปดาห์",
-  "week_start_system": "ระบบ",
-  "week_start_help": "ใช้กับปฏิทินและสถิติรายสัปดาห์ ระบบใช้วันแรกของสัปดาห์ที่ตั้งไว้ในอุปกรณ์ของคุณ"
+  "feedback_modal_message_placeholder_idea": "จะดีมากถ้า…"
 }
