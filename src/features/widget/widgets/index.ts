@@ -8,6 +8,7 @@ import {
   getWeekWidgetProps,
   getWidgetTimeline,
   getYearWidgetProps,
+  YEAR_WIDGET_TIMELINE_DAYS,
 } from "../widgetData";
 import PixyMonthWidget from "./PixyMonthWidget";
 import PixyWeekWidget from "./PixyWeekWidget";
@@ -71,7 +72,9 @@ export const syncWidgets = async ({
     PixyMonthWidget.updateTimeline(
       getWidgetTimeline(input, getMonthWidgetProps)
     );
-    PixyYearWidget.updateTimeline(getWidgetTimeline(input, getYearWidgetProps));
+    PixyYearWidget.updateTimeline(
+      getWidgetTimeline(input, getYearWidgetProps, YEAR_WIDGET_TIMELINE_DAYS)
+    );
     lastSync = {
       at: new Date().toISOString(),
       status: "ok",

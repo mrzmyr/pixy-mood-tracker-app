@@ -22,6 +22,14 @@ import type {
 /** Days of timeline entries. Each entry moves the today marker at local midnight. */
 export const WIDGET_TIMELINE_DAYS = 7;
 
+/**
+ * The year widget gets one entry. WidgetKit renders and archives every
+ * entry when it builds a timeline, and 7 renders of 372 cells push the
+ * extension over its 30 MB limit (crash, widget never updates). The app
+ * resyncs on every foreground, so the today marker lags at most one day.
+ */
+export const YEAR_WIDGET_TIMELINE_DAYS = 1;
+
 /** Inputs shared by every widget props builder. `items` may be empty. */
 export interface WidgetDataInput {
   items: LogItem[];
@@ -199,10 +207,11 @@ export const getYearWidgetProps = (input: WidgetDataInput): YearWidgetProps => {
  */
 export const getWidgetTimeline = <T extends object>(
   input: WidgetDataInput,
-  build: (input: WidgetDataInput) => T
+  build: (input: WidgetDataInput) => T,
+  days = WIDGET_TIMELINE_DAYS
 ) => {
   const now = input.now ?? dayjs();
-  return Array.from({ length: WIDGET_TIMELINE_DAYS }, (_, index) => {
+  return Array.from({ length: days }, (_, index) => {
     const date = index === 0 ? now : now.add(index, "day").startOf("day");
     return { date: date.toDate(), props: build({ ...input, now: date }) };
   });

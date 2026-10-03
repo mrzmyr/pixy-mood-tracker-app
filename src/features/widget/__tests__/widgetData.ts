@@ -2,6 +2,7 @@ import dayjs from "dayjs";
 import { _generateItem } from "@/__tests__/utils";
 import {
   WIDGET_TIMELINE_DAYS,
+  YEAR_WIDGET_TIMELINE_DAYS,
   getMonthWidgetProps,
   getWeekWidgetProps,
   getWidgetTimeline,
@@ -110,5 +111,15 @@ describe("getWidgetTimeline()", () => {
     expect(timeline[0].date).toEqual(NOW.toDate());
     expect(timeline[1].date).toEqual(NOW.add(1, "day").startOf("day").toDate());
     expect(timeline[1].props.days.find((day) => day.isToday)?.day).toBe(16);
+  });
+
+  test("year keeps one entry to stay under the extension memory limit", () => {
+    const timeline = getWidgetTimeline(
+      INPUT,
+      getYearWidgetProps,
+      YEAR_WIDGET_TIMELINE_DAYS
+    );
+    expect(timeline).toHaveLength(1);
+    expect(timeline[0].props.today).toEqual({ month: 9, day: 15 });
   });
 });

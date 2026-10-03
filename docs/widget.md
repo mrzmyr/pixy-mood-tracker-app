@@ -5,7 +5,8 @@ iOS only. Built with [`expo-widgets`](https://docs.expo.dev/versions/latest/sdk/
 - Widget kinds: `PixyWeek`, `PixyMonth`, `PixyYear` ([`app.config.ts`](../app.config.ts) `WIDGETS`)
 - Layouts: [`src/features/widget/widgets`](../src/features/widget/widgets). Each file starts with `"widget"` and runs in the widget runtime: no hooks, no imports besides `@expo/ui`, no module-scope values
 - Data: [`widgetData.ts`](../src/features/widget/widgetData.ts) turns entries plus the color scale into props. Both color schemes come as props; the widget picks one from `environment.colorScheme`
-- Sync: [`WidgetSync.tsx`](../src/features/widget/WidgetSync.tsx) pushes a 7 day timeline on every entry or scale change and on foreground. Each timeline entry moves the today marker at local midnight
+- Sync: [`WidgetSync.tsx`](../src/features/widget/WidgetSync.tsx) pushes a 7 day timeline on every entry or scale change and on foreground. Each timeline entry moves the today marker at local midnight. Year gets 1 entry: WidgetKit renders every entry at timeline build, and 7 renders of 372 cells crash the 30 MB extension
+- Reloads from the app are throttled by chronod and flushed when the app goes to background. Expect the Home Screen to update a few seconds after leaving Pixy, not while it is open
 - Tap: every widget opens `<scheme>://calendar`
 - Bundle ids: `<app id>.widgets`, app group `group.<app id>`, per variant. Xcode automatic signing registers the group on first phone build
 - Nudge: [`widgetNudge.ts`](../src/features/widget/widgetNudge.ts), day 3 or 4, once per install, stored as `widget_nudge` in `actionsDone`. Reset in Settings > Development tools
