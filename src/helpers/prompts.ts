@@ -85,6 +85,24 @@ export const askToImport = () =>
     cancelText: t("cancel"),
   });
 
+/** Ask before replacing local data with the cloud backup. */
+export const askToRestoreBackup = () =>
+  askToConfirm({
+    title: t("backup_restore_confirm_title"),
+    message: t("backup_restore_confirm_message"),
+    confirmText: t("backup_restore_confirm_ok"),
+    cancelText: t("cancel"),
+  });
+
+/** Ask before turning backup off, which deletes the cloud backup. */
+export const askToTurnOffBackup = () =>
+  askToConfirm({
+    title: t("backup_off_confirm_title"),
+    message: t("backup_off_confirm_message"),
+    confirmText: t("backup_off_confirm_ok"),
+    cancelText: t("cancel"),
+  });
+
 /**
  * Ask before a reset. `type` selects the `reset_<type>_confirm_*`
  * translation keys, so it must be a reset type with translations

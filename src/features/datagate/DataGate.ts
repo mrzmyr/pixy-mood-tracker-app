@@ -29,7 +29,7 @@ import {
   STORAGE_KEY as STORAGE_KEY_SETTINGS,
   useSettings,
 } from "@/state/settings";
-import type { ExportSettings } from "@/state/settings";
+import type { ExportSettings, SettingsState } from "@/state/settings";
 
 import {
   STORAGE_KEY as STORAGE_KEY_TAGS,
@@ -40,12 +40,40 @@ import type { Tag } from "@/features/tags";
 
 type ResetType = "factory" | "data";
 
-interface ExportData {
+/** Contents of an export file. Backups reuse this format. */
+export interface ExportData {
   version: string;
   tags: Tag[];
   items: LogsState["items"];
   settings: ExportSettings;
 }
+
+/**
+ * Builds the export payload from app state. Device-only settings (device id,
+ * backup switch, store review state) stay out.
+ */
+export const buildExportData = ({
+  items,
+  tags,
+  settings,
+}: {
+  items: LogsState["items"];
+  tags: Tag[];
+  settings: SettingsState;
+}): ExportData => ({
+  version: pkg.version,
+  items,
+  tags,
+  settings: {
+    scaleType: settings.scaleType,
+    reminderEnabled: settings.reminderEnabled,
+    reminderTime: settings.reminderTime,
+    trackBehaviour: settings.trackBehaviour,
+    analyticsEnabled: settings.analyticsEnabled,
+    actionsDone: settings.actionsDone,
+    steps: settings.steps,
+  },
+});
 
 const dangerouslyImportDirectlyToAsyncStorage = async (data: ImportData) => {
   await AsyncStorage.removeItem(STORAGE_KEY_TAGS);
@@ -188,20 +216,7 @@ export const useDatagate = (): DatagateValue => {
   };
 
   const openExportDialog = async () => {
-    const data: ExportData = {
-      version: pkg.version,
-      items: logState.items,
-      tags,
-      settings: {
-        scaleType: settings.scaleType,
-        reminderEnabled: settings.reminderEnabled,
-        reminderTime: settings.reminderTime,
-        trackBehaviour: settings.trackBehaviour,
-        analyticsEnabled: settings.analyticsEnabled,
-        actionsDone: settings.actionsDone,
-        steps: settings.steps,
-      },
-    };
+    const data = buildExportData({ items: logState.items, tags, settings });
 
     analytics.track("data:export_started");
 

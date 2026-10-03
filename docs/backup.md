@@ -1,45 +1,52 @@
 # Backup
 
-Pixy has no server. User data leaves the phone only through the OS backup or a manual export.
+Pixy has no server. Data leaves the phone only through the cloud backup or a manual export.
 
-## What is backed up
+## Cloud backup
 
-- All data lives in AsyncStorage: one SQLite database `RKStorage` on Android, one folder `RCTAsyncLocalStorage_V1` on iOS ([`src/state/persisted/index.ts`](../src/state/persisted/index.ts))
-- Nothing is encrypted at rest by Pixy. Encryption comes from the OS backup layer
+- One file `pixy-mood-tracker-backup.json` in the hidden app folder of iCloud (iOS) or Google Drive (Android)
+- Library: [`react-native-cloud-storage`](https://cloudstorage.kuatsu.de/), `AppData` scope
+- Code: [`src/features/backup/`](../src/features/backup/)
+- Screen: Settings > Data > Backup ([`src/features/settings/screens/Backup.tsx`](../src/features/settings/screens/Backup.tsx))
+- File = normal export ([`buildExportData`](../src/features/datagate/DataGate.ts)) plus `deviceId` and `createdAt`. "Last sync" shows `createdAt`
+- Writes 3 seconds after the last change of entries, tags, or exported settings
+- Restore uses the import flow. It replaces local data after a confirmation
 
-## Switch
+### Rules
 
-- Settings > Data > Backup has one switch: "iCloud Backup" on iOS, "Google Backup" on Android. Default on
-- Stored as `settings.backupEnabled`. Device setting: not exported, kept on import
-- [`src/shell/useBackupSetting.ts`](../src/shell/useBackupSetting.ts) applies it after settings load and on every change
-- Native side: local Expo module [`modules/pixy-mood-tracker-backup`](../modules/pixy-mood-tracker-backup)
-- Analytics: `settings:backup_toggled` with `enabled`
+- Never write a backup with 0 entries
+- Replace another phone's backup only when this phone has at least as many entries ([`canReplaceBackup`](../src/features/backup/backupFile.ts)). A fresh install must not wipe the backup before the user restores
+- Switch off deletes the cloud file after a confirmation. On Android it also signs out of Google
+- `settings.backupEnabled` is a device setting: not exported, kept on import. Default on for iOS, off for Android (needs Google sign-in)
 
-## iOS
+### Phone backup
 
-- AsyncStorage excludes its folder from backup unless Info.plist `RCTAsyncStorageExcludeFromBackup` is `false`. Versions up to 1.88.0 never set the key, so their entries were never in any iPhone backup
-- [`app.json`](../app.json) now sets the key to `false`. AsyncStorage applies it on every launch
-- Switch off: the module sets `isExcludedFromBackup` on the folder. It must run after AsyncStorage loads on each launch, because AsyncStorage resets the flag from Info.plist
-- No "Last sync": iOS never tells apps when it ran a backup
-- Restore = restore the whole iPhone. No per-app restore, no sync
-- Apple holds the iCloud Backup keys unless the user turns on Advanced Data Protection
+- Off on purpose. One cloud copy is enough
+- iOS: AsyncStorage excludes its folder from iPhone backups by default (Info.plist `RCTAsyncStorageExcludeFromBackup` unset)
+- Android: `allowBackup: false` in [`app.json`](../app.json)
 
-## Android
+## One-time setup
 
-- Auto Backup is on: `android.allowBackup: true` in [`app.json`](../app.json)
-- Rules come from [`plugins/withAndroidBackupRules.js`](../plugins/withAndroidBackupRules.js). Prebuild writes `res/xml/pixy_backup_rules.xml` (Android 11 and lower) and `res/xml/pixy_data_extraction_rules.xml` (Android 12 and higher)
-- Only the `database` domain is included. That is exactly AsyncStorage: no PostHog queue, no Sentry envelopes, no cache
-- `requireFlags="clientSideEncryption"` and `disableIfNoEncryptionCapabilities="true"`: no cloud backup without a screen lock. Android 9 and newer derive the backup key from the screen lock; Google states it cannot read the data
-- `PixyBackupAgent` (`android:backupAgent`, `android:fullBackupOnly="true"`) wraps Auto Backup:
-  - Switch off: writes nothing, so new backups hold no Pixy data. This covers device-to-device transfer too
-  - Switch on: records the time of each encrypted cloud backup ("Last sync"), then applies the rules above. Runs without a screen lock or device-to-device transfers do not count
-- Agent state lives in SharedPreferences `pixy_mood_tracker_backup`. The `sharedpref` domain is not backed up
-- Limit 25 MB per app. Ten years of daily entries with notes is about 2 MB
-- Google deletes the backup after about 60 days of device inactivity
+### Apple (iCloud)
 
-### Footgun
+- The `react-native-cloud-storage` config plugin adds the container `iCloud.<bundle id>` for each app variant
+- Run the first `eas build --local` per variant with Apple login. EAS capability sync then registers the container and adds it to the profile. The App Store Connect API cannot do this ([EAS iOS capabilities](https://docs.expo.dev/build-reference/ios-capabilities/))
+- Simulators without an Apple Account show "iCloud Drive is off"
 
-Move storage out of AsyncStorage (MMKV, expo-sqlite, files) and the rules must follow. Otherwise Auto Backup silently stops covering user data.
+### Google (Drive, Android)
+
+- Google Cloud project: enable the Google Drive API
+- OAuth consent screen with scope `https://www.googleapis.com/auth/drive.appdata`. It is non-sensitive: basic verification only
+- One Android OAuth client per package (`com.devmood.pixymoodtracker`, `.preview`, `.dev`) with the SHA-1 of each signing key: Play app signing, upload key, local debug key
+- Missing client: sign-in fails with `DEVELOPER_ERROR`
+- No `@react-native-google-signin/google-signin` config plugin: it needs an iOS client, and iOS uses iCloud
+
+## Privacy notes
+
+- Mood, emotions, and notes are health data (GDPR Article 9)
+- Apple can read the iCloud file unless the user turns on Advanced Data Protection. Google can read the Drive file. Privacy bullets on the Backup screen say so
+- Data in the user's own cloud that Pixy cannot read is not collection by Pixy. Still disclose it in the privacy policy at pixy.day/privacy, the App Store privacy label, and the Google Play Data safety form
+- Account takeover = backup takeover. Pixy has no app lock
 
 ## Export files
 
@@ -47,38 +54,8 @@ Move storage out of AsyncStorage (MMKV, expo-sqlite, files) and the rules must f
 - iOS deletes the file when the share sheet closes. Android keeps it until the next export, because receiving apps may read it later
 - Each export deletes leftover export files from the documents folder. Versions up to 1.88.0 never removed them
 
-## Settings > Data > Backup
+## Later
 
-- Data screen row "Backup" opens [`src/features/settings/screens/Backup.tsx`](../src/features/settings/screens/Backup.tsx)
-- Row title stays "Backup" with no value: later versions may offer more than one backup
-- Backup page: switch with the iCloud SF Symbol on iOS, "Last sync" with a green check on Android, privacy bullets
-- Copy: `backup_*` keys in [`assets/locales/en.json`](../assets/locales/en.json)
-
-## Privacy notes
-
-- Mood, emotions, and notes are health data (GDPR Article 9)
-- Data in the user's own iCloud or Google account that Pixy cannot read is not collection by Pixy. Still disclose it in the privacy policy at pixy.day/privacy and check the App Store privacy label and Google Play Data safety form before release
-- Account takeover = backup takeover. Pixy has no app lock, so the OS account is the only gate
-- Uninstalling the app does not delete the OS backup. Users delete it in iCloud or Google backup settings
-- Switch off does not delete existing backups. It only keeps Pixy out of new ones
-
-## Verify on device
-
-iOS: Settings > Apple Account > iCloud > Manage Account Storage > Backups > this iPhone. Pixy must appear in the app list with the switch on, and disappear after the next backup with the switch off.
-
-Android (emulator or device with a Google account and screen lock):
-
-```sh
-adb shell bmgr enabled
-adb shell bmgr backupnow com.devmood.pixymoodtracker
-adb shell dumpsys backup | grep -A3 pixymoodtracker
-```
-
-After `backupnow`, Settings > Data > Backup shows "Last sync" with the time.
-
-Restore check: uninstall, reinstall the same build, open Pixy. Entries must be present.
-
-## Later tiers
-
-- Tier 1: opt-in encrypted snapshot file in iCloud Drive / user-picked folder, restore on fresh install
-- Tier 2: multi-device sync. Not planned until the paid perk list in [`vision.md`](../vision.md) is locked
+- Encrypt the backup file with a key in iCloud Keychain, so Apple and Google cannot read it
+- Restore offer during onboarding when a backup exists
+- Multi-device sync: not planned until the paid perk list in [`vision.md`](../vision.md) is locked

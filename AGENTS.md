@@ -44,7 +44,7 @@
 - Keep all `@react-navigation/*` packages on the same major version. Mixing v6 and v7 breaks native navigation.
 - React Compiler plus `freezeOnBlur` tabs can leave FlashList headers or footers stale after the tab unfreezes. `src/features/calendar/screens/Calendar/index.tsx` opts out with `"use no memo"`. Run the e2e suite after enabling the compiler for more code.
 - Initialize Sentry once, at module load in `src/app/_layout.tsx`, before the first render.
-- Phone backup depends on AsyncStorage: Android rules cover only the `database` domain, iOS needs Info.plist `RCTAsyncStorageExcludeFromBackup: false`. Moving storage elsewhere needs new rules and a new exclude path. See [docs/backup.md](docs/backup.md).
+- Cloud backup replaces the cloud file. Keep [`canReplaceBackup`](src/features/backup/backupFile.ts) in every write path, or a fresh install wipes the user's backup. See [docs/backup.md](docs/backup.md).
 
 ## Releases
 

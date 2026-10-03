@@ -25,7 +25,6 @@ import { useLogState } from "@/features/logs";
 import { useSettings } from "@/state/settings";
 import { useTagsState } from "@/features/tags";
 import { useScreenTracking } from "@/shell/screenTracking";
-import { useBackupSetting } from "@/shell/useBackupSetting";
 
 // Configure before first render; each app variant reports to its own project.
 if (HAS_APP_VARIANT) {
@@ -45,7 +44,6 @@ const AppShell = () => {
   const { tags } = useTagsState();
   const { anonymizeTag } = useAnonymizer();
   useScreenTracking();
-  useBackupSetting();
 
   const onSettingsLoaded = useEffectEvent(() => {
     // Fixture links replace fresh state before onboarding chooses a route.

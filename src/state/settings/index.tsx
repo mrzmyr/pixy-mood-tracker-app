@@ -56,7 +56,7 @@ export interface SettingsState {
   reminderEnabled: boolean;
   reminderTime: string;
   analyticsEnabled: boolean;
-  /** Include stored data in the phone backup (iCloud, Google). Device setting. */
+  /** Keep a backup file in iCloud (iOS) or Google Drive (Android). Device setting. */
   backupEnabled: boolean;
   actionsDone: IAction[];
   steps: KnownSettingsStep[];

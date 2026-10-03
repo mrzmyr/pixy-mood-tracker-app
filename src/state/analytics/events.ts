@@ -133,6 +133,9 @@ export interface AnalyticsEvents {
   "data:reset_completed": { kind: ResetKind };
   "data:reset_cancelled": { kind: ResetKind };
 
+  "backup:failed": { status: string };
+  "backup:restored": undefined;
+
   "feedback:modal_opened": { type: FeedackType };
   "feedback:type_changed": { type: FeedackType };
   "feedback:feedback_submitted": {

@@ -1,74 +1,72 @@
 import dayjs from "dayjs";
-import { useFocusEffect } from "expo-router";
 import { SymbolView } from "expo-symbols";
-import { useCallback, useState } from "react";
-import { Platform, ScrollView, Switch, View } from "react-native";
-import { CheckCircle, Cloud } from "react-native-feather";
+import { ScrollView, Switch, View } from "react-native";
+import { CheckCircle, Cloud, RotateCcw } from "react-native-feather";
 import { MarkdownBody } from "@/components/MarkdownBody";
 import MenuList from "@/components/MenuList";
 import MenuListHeadline from "@/components/MenuListHeadline";
 import MenuListItem from "@/components/MenuListItem";
 import { PageWithHeaderLayout } from "@/components/PageWithHeaderLayout";
+import { useBackup } from "@/features/backup";
+import type { BackupValue } from "@/features/backup";
 import useColors from "@/hooks/useColors";
-import { getLastBackupAt } from "@/lib/backup";
 import { t } from "@/lib/translation";
-import { useAnalytics } from "@/state/analytics";
-import { useSettings } from "@/state/settings";
 
 /** iOS system blue, the color of the iCloud symbol in iOS Settings. */
 const ICLOUD_BLUE = "#007AFF";
 const SUCCESS_GREEN = "#34C759";
 
-const isAndroid = () => Platform.OS === "android";
-
-const ProviderIcon = ({ color }: { color: string }) =>
-  isAndroid() ? (
-    <Cloud width={18} color={color} />
-  ) : (
+const ProviderIcon = ({
+  provider,
+  color,
+}: {
+  provider: BackupValue["provider"];
+  color: string;
+}) =>
+  provider === "icloud" ? (
     <SymbolView
       name="icloud.fill"
       size={22}
       tintColor={ICLOUD_BLUE}
       fallback={<Cloud width={18} color={ICLOUD_BLUE} />}
     />
+  ) : (
+    <Cloud width={18} color={color} />
   );
 
-/**
- * Last Android backup, read again whenever the screen gains focus. iOS never
- * reports backup times to apps, so the row does not show there.
- */
-const useLastBackupAt = () => {
-  const [lastBackupAt, setLastBackupAt] = useState<number | null>(null);
-
-  useFocusEffect(
-    useCallback(() => {
-      setLastBackupAt(getLastBackupAt());
-    }, [])
-  );
-
-  return lastBackupAt;
+/** Text for the "Last sync" row. */
+const getLastSyncText = ({
+  provider,
+  status,
+  lastBackupAt,
+}: Pick<BackupValue, "provider" | "status" | "lastBackupAt">): string => {
+  const statusText: Partial<Record<BackupValue["status"], string>> = {
+    syncing: t("backup_syncing"),
+    unavailable:
+      provider === "icloud"
+        ? t("backup_unavailable_ios")
+        : t("backup_unavailable_android"),
+    signedOut: t("backup_signed_out"),
+    error: t("backup_failed"),
+  };
+  if (statusText[status]) {
+    return statusText[status];
+  }
+  return lastBackupAt
+    ? dayjs(lastBackupAt).format("lll")
+    : t("backup_last_sync_never");
 };
 
 /**
- * Settings > Data > Backup: switch for the phone backup (iCloud on iOS,
- * Google on Android), the last Android backup, and what the backup means for
- * privacy.
- *
- * The switch is stored in settings and applied to the OS by
- * `useBackupSetting`. See docs/backup.md.
+ * Settings > Data > Backup: switch for the iCloud (iOS) or Google Drive
+ * (Android) backup, last sync, restore, and what the backup means for
+ * privacy. State and actions come from `BackupProvider`.
  */
 export const BackupScreen = () => {
   const colors = useColors();
-  const analytics = useAnalytics();
-  const { settings, setSettings } = useSettings();
-  const lastBackupAt = useLastBackupAt();
-  const enabled = settings.backupEnabled;
-  const android = isAndroid();
-
-  const toggle = (value: boolean) => {
-    analytics.track("settings:backup_toggled", { enabled: value });
-    setSettings((current) => ({ ...current, backupEnabled: value }));
-  };
+  const backup = useBackup();
+  const { provider, enabled, status, lastBackupAt, hasBackup } = backup;
+  const isSynced = status === "idle" && lastBackupAt !== null;
 
   return (
     <PageWithHeaderLayout
@@ -81,33 +79,47 @@ export const BackupScreen = () => {
         <MenuList style={{ marginTop: 16 }}>
           <MenuListItem
             title={
-              android ? t("backup_toggle_android") : t("backup_toggle_ios")
+              provider === "icloud"
+                ? t("backup_toggle_ios")
+                : t("backup_toggle_android")
             }
-            iconLeft={<ProviderIcon color={colors.menuListItemIcon} />}
+            iconLeft={
+              <ProviderIcon
+                provider={provider}
+                color={colors.menuListItemIcon}
+              />
+            }
             iconRight={
               <Switch
                 ios_backgroundColor={colors.backgroundSecondary}
-                onValueChange={toggle}
+                onValueChange={(value) => backup.setEnabled(value)}
                 value={enabled}
                 testID="backup-enabled"
               />
             }
-            isLast={!(enabled && android)}
+            isLast={!enabled}
           />
-          {enabled && android && (
+          {enabled && (
             <MenuListItem
               title={t("backup_last_sync")}
-              value={
-                lastBackupAt
-                  ? dayjs(lastBackupAt).format("lll")
-                  : t("backup_last_sync_never")
-              }
+              value={getLastSyncText({ provider, status, lastBackupAt })}
               iconRight={
-                lastBackupAt ? (
+                isSynced ? (
                   <CheckCircle width={18} color={SUCCESS_GREEN} />
                 ) : null
               }
               testID="backup-last-sync"
+              isLast={!hasBackup}
+            />
+          )}
+          {enabled && hasBackup && (
+            <MenuListItem
+              title={t("backup_restore")}
+              iconLeft={
+                <RotateCcw width={18} color={colors.menuListItemIcon} />
+              }
+              onPress={() => backup.restore()}
+              testID="backup-restore"
               isLast
             />
           )}
@@ -116,7 +128,9 @@ export const BackupScreen = () => {
         <MenuListHeadline>{t("privacy")}</MenuListHeadline>
         <View style={{ paddingHorizontal: 4, paddingBottom: 80 }}>
           <MarkdownBody>
-            {android ? t("backup_privacy_android") : t("backup_privacy_ios")}
+            {provider === "icloud"
+              ? t("backup_privacy_ios")
+              : t("backup_privacy_android")}
           </MarkdownBody>
         </View>
       </ScrollView>

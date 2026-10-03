@@ -28,7 +28,7 @@ Pixy is a free, open source mood tracker for iPhone and Android. No ads, no acco
 
 - Log mood, emotions, tags, and notes. More than one entry per day.
 - Year in Pixels, calendar, filters, and statistics
-- Entries stored on device, backed up with your phone. Export and import files.
+- Entries stored on device. Optional iCloud or Google Drive backup. Export and import files.
 - 31 languages ([docs/i18n.md](./docs/i18n.md))
 
 Full list with status: [docs/app-facts.json](./docs/app-facts.json).

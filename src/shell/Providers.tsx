@@ -3,6 +3,7 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import { POSTHOG_API_KEY } from "@/constants/API";
 import { TRACKING_ENABLED } from "@/constants/Config";
 import { AnalyticsProvider } from "@/state/analytics";
+import { BackupProvider } from "@/features/backup";
 import { CalendarFiltersProvider } from "@/features/calendar";
 import { LogsProvider } from "@/features/logs";
 import { SettingsProvider } from "@/state/settings";
@@ -31,11 +32,13 @@ const Providers = ({
     <SupportProvider client={injectedSupportClient}>
       <LogsProvider>
         <TagsProvider>
-          <TemporaryLogProvider>
-            <CalendarFiltersProvider>
-              <StatisticsProvider>{children}</StatisticsProvider>
-            </CalendarFiltersProvider>
-          </TemporaryLogProvider>
+          <BackupProvider>
+            <TemporaryLogProvider>
+              <CalendarFiltersProvider>
+                <StatisticsProvider>{children}</StatisticsProvider>
+              </CalendarFiltersProvider>
+            </TemporaryLogProvider>
+          </BackupProvider>
         </TagsProvider>
       </LogsProvider>
     </SupportProvider>
@@ -43,11 +46,13 @@ const Providers = ({
     <ConfiguredSupportProvider>
       <LogsProvider>
         <TagsProvider>
-          <TemporaryLogProvider>
-            <CalendarFiltersProvider>
-              <StatisticsProvider>{children}</StatisticsProvider>
-            </CalendarFiltersProvider>
-          </TemporaryLogProvider>
+          <BackupProvider>
+            <TemporaryLogProvider>
+              <CalendarFiltersProvider>
+                <StatisticsProvider>{children}</StatisticsProvider>
+              </CalendarFiltersProvider>
+            </TemporaryLogProvider>
+          </BackupProvider>
         </TagsProvider>
       </LogsProvider>
     </ConfiguredSupportProvider>
