@@ -54,6 +54,11 @@ Three variants install side by side, each with its own name, icon, bundle ID, an
 - Without consent, or until flags load, every flag is off. Turning consent off turns flags off. Flags cached in an earlier session are never read
 - Development and preview builds override flags in Settings > Development > Feature flags, or with `<scheme>://dev/feature-flag?key=<key>&value=on|off|remote`. Overrides work without consent and end when the app restarts. Production builds ignore them
 
+### Photos
+
+- Code: [`src/features/photos`](../src/features/photos). Files: `Documents/photos/<id>.jpg`, 1600 px longest edge, JPEG 0.75
+- Entries store file names, never paths. Unreferenced files go after logger close, entry delete, and app start. Never right after a data import
+
 ### App CLI
 
 - Every device command takes exactly one device option:

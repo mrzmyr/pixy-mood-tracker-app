@@ -106,7 +106,8 @@
         {
           "appleTeamId": "8VVNC4724B"
         }
-      ]
+      ],
+      "expo-image"
     ],
     "buildCacheProvider": {
       "plugin": "./scripts/build-cache-provider.cjs"

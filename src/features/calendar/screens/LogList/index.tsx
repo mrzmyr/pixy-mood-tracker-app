@@ -68,6 +68,7 @@ export const LogList = () => {
   const remove = (item: LogItem) => {
     analytics.track("day:delete_tapped");
     logUpdater.deleteLog(item.id);
+    logUpdater.sweepPhotos();
     // navigation.goBack();
   };
 
