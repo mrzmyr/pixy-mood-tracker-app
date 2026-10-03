@@ -16,7 +16,6 @@ const makeItem = (
   sleep: { quality } as LogItem["sleep"],
   emotions: [],
   tags: [],
-  people: [],
 });
 
 describe("statistics regressions", () => {

@@ -106,22 +106,7 @@
         {
           "appleTeamId": "8VVNC4724B"
         }
-      ],
-      [
-        "expo-contacts",
-        {
-          "contactsPermission": "Pixy lists your contacts so you can add people. Only the people you pick are saved, with name and photo, on your device."
-        }
-      ],
-      [
-        "expo-image-picker",
-        {
-          "photosPermission": "Pixy lets you pick a photo for a person. The photo stays on your device.",
-          "cameraPermission": false,
-          "microphonePermission": false
-        }
-      ],
-      "expo-image"
+      ]
     ],
     "buildCacheProvider": {
       "plugin": "./scripts/build-cache-provider.cjs"

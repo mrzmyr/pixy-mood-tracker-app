@@ -64,7 +64,6 @@ type LogAction =
   | { type: "batchEdit"; payload: LogItem[] }
   | { type: "delete"; payload: LogItem["id"] }
   | { type: "removeTag"; payload: string }
-  | { type: "removePerson"; payload: string }
   | { type: "reset"; payload: LogsState };
 
 /**
@@ -72,7 +71,7 @@ type LogAction =
  *
  * `editLog` shallow-merges into the entry with the same `id` and ignores
  * unknown ids. `updateLogs` replaces all entries. `import` also migrates
- * legacy data (keyed items, missing ids, tags, people, or emotions).
+ * legacy data (keyed items, missing ids, tags, or emotions).
  */
 export interface UpdaterValue {
   addLog: (item: LogItem) => void;
@@ -80,8 +79,6 @@ export interface UpdaterValue {
   updateLogs: (items: LogsState["items"]) => void;
   deleteLog: (id: LogItem["id"]) => void;
   removeTagFromLogs: (tagId: string) => void;
-  /** Strips a deleted person from every entry that references them. */
-  removePersonFromLogs: (personId: string) => void;
   reset: () => void;
   import: (data: LogsState) => void;
 }
@@ -132,10 +129,6 @@ const migrate = (data: LogsState): LogsState => {
     }
     if (!newItem.emotions) {
       newItem.emotions = [];
-    }
-    // Entries from before the people feature have no `people` key.
-    if (!newItem.people) {
-      newItem.people = [];
     }
 
     newItem.tags = newItem.tags.map((tag) =>
@@ -209,28 +202,6 @@ const reducer = (state: LogsState, action: LogAction): LogsState => {
             ? {
                 ...item,
                 tags: item.tags.filter((tag) => tag.id !== action.payload),
-              }
-            : item
-        ),
-      };
-    }
-    case "removePerson": {
-      if (
-        !state.items.some((item) =>
-          item.people.some((person) => person.id === action.payload)
-        )
-      ) {
-        return state;
-      }
-      return {
-        ...state,
-        items: state.items.map((item) =>
-          item.people.some((person) => person.id === action.payload)
-            ? {
-                ...item,
-                people: item.people.filter(
-                  (person) => person.id !== action.payload
-                ),
               }
             : item
         ),
@@ -350,10 +321,6 @@ const LogsProvider = ({ children }: { children: React.ReactNode }) => {
     (tagId: string) => dispatch({ type: "removeTag", payload: tagId }),
     []
   );
-  const removePersonFromLogs = useCallback(
-    (personId: string) => dispatch({ type: "removePerson", payload: personId }),
-    []
-  );
   const reset = useCallback(
     () => dispatch({ type: "reset", payload: INITIAL_STATE }),
     []
@@ -366,7 +333,6 @@ const LogsProvider = ({ children }: { children: React.ReactNode }) => {
       updateLogs,
       deleteLog,
       removeTagFromLogs,
-      removePersonFromLogs,
       reset,
       import: importState,
     }),
@@ -376,7 +342,6 @@ const LogsProvider = ({ children }: { children: React.ReactNode }) => {
       updateLogs,
       deleteLog,
       removeTagFromLogs,
-      removePersonFromLogs,
       reset,
       importState,
     ]

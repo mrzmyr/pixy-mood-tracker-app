@@ -47,34 +47,7 @@ describe("MigrationHelper", () => {
     expect(newData).toEqual({
       ...testImportData,
       items: Object.values(testImportData.items),
-      people: [],
     });
-  });
-
-  test("adds empty `people` to exports from before the people feature", () => {
-    const legacyItem = _.omit(_generateItem({ date: "2022-01-01" }), "people");
-    const newData = migrateImportData({
-      ...testImportData,
-      // SAFETY: the test feeds an export from before `people` existed; the migration must add the key.
-      items: [legacyItem as typeof legacyItem & { people: never }],
-    });
-
-    expect(newData.people).toEqual([]);
-    expect(newData.items[0].people).toEqual([]);
-  });
-
-  test("keeps `people` of a current export", () => {
-    const people = [
-      {
-        id: "p1",
-        name: "Sam",
-        avatar: null,
-        createdAt: "2026-01-01T00:00:00.000Z",
-      },
-    ];
-    const newData = migrateImportData({ ...testImportData, people });
-
-    expect(newData.people).toEqual(people);
   });
 
   test("migrate `tags` in `settings`", () => {
@@ -124,7 +97,6 @@ describe("MigrationHelper", () => {
       })),
       settings: _.omit(importData.settings, "tags"),
       tags: testTags,
-      people: [],
     });
   });
 
@@ -145,7 +117,6 @@ describe("MigrationHelper", () => {
     expect(newData).toEqual({
       ...testImportData,
       items: Object.values(testImportData.items),
-      people: [],
     });
   });
 });

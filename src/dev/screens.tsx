@@ -20,9 +20,6 @@ import type { Fixture } from "@/dev/fixtures";
 
 import { setFileTransferOverride } from "@/features/datagate";
 import { fakeFileTransfer } from "@/dev/fakeFileTransfer";
-import { fakePeopleSources } from "@/dev/fakePeopleSources";
-import { addFakeContacts, removeFakeContacts } from "@/dev/fakeContacts";
-import { setPeopleSourcesOverride } from "@/features/people";
 import {
   getOverrides,
   isOverride,
@@ -49,7 +46,7 @@ export const DevFixturesScreen = () => {
   const confirm = (fixture: Fixture) => {
     Alert.alert(
       `Load "${fixture.title}"?`,
-      "This replaces all entries, tags, people, and settings.",
+      "This replaces all entries, tags, and settings.",
       [
         { style: "cancel", text: "Cancel" },
         {
@@ -172,92 +169,18 @@ export const DevFixtureLinkScreen = () => {
 };
 
 /**
- * Target of `<scheme>://dev/fake-files`. Swaps the share sheet, document
- * picker, contact picker, and photo library for fakes (`fakeFileTransfer`,
- * `fakePeopleSources`) until the app restarts, then opens the app.
+ * Target of `<scheme>://dev/fake-files`. Swaps the share sheet and document
+ * picker for `fakeFileTransfer` until the app restarts, then opens the app.
  */
 export const DevFakeFilesLinkScreen = () => {
   const router = useRouter();
   useEffect(() => {
     setFileTransferOverride(fakeFileTransfer);
-    setPeopleSourcesOverride(fakePeopleSources);
     router.dismissAll();
     router.replace("/calendar");
   }, [router]);
 
   return <ActivityIndicator testID="dev-fake-files-link" />;
-};
-
-/** Largest `count` the fake contacts link accepts. */
-const MAX_FAKE_CONTACTS = 2000;
-
-/**
- * Target of `<scheme>://dev/fake-contacts?count=<n>`. Writes `n` fake
- * contacts into the real device address book, or with `count=0` deletes
- * every fake contact it wrote before. Shows the result as text.
- */
-export const DevFakeContactsLinkScreen = () => {
-  const colors = useColors();
-  const { count } = useLocalSearchParams<{ count?: string }>();
-  const [message, setMessage] = useState<string | null>(null);
-  const parsed = Number(count);
-  const isValid =
-    Number.isInteger(parsed) && parsed >= 0 && parsed <= MAX_FAKE_CONTACTS;
-
-  useEffect(() => {
-    if (!isValid) {
-      return;
-    }
-    let isActive = true;
-    void (async () => {
-      let text: string;
-      try {
-        text =
-          parsed === 0
-            ? `Deleted ${await removeFakeContacts()} fake contacts.`
-            : `Added ${await addFakeContacts(parsed)} fake contacts.`;
-      } catch (error) {
-        text = [
-          "fake_contacts_failed: Could not change the address book",
-          `why: ${error instanceof Error ? error.message : String(error)}`,
-          "fix: Allow Contacts for Pixy Preview in the system settings, then open the link again.",
-        ].join("\n");
-      }
-      if (isActive) {
-        setMessage(text);
-      }
-    })();
-    return () => {
-      isActive = false;
-    };
-  }, [isValid, parsed]);
-
-  const text = isValid
-    ? message
-    : [
-        `fake_contacts_count_invalid: Count "${count}" is not a number from 0 to ${MAX_FAKE_CONTACTS}`,
-        "why: The link needs ?count=<n>; 0 deletes the fake contacts.",
-        "fix: Open the link again with a valid count.",
-      ].join("\n");
-
-  return (
-    <View
-      style={{
-        alignItems: "center",
-        backgroundColor: colors.background,
-        flex: 1,
-        justifyContent: "center",
-        padding: 24,
-      }}
-      testID="dev-fake-contacts-link"
-    >
-      {text ? (
-        <Text style={{ color: colors.text, fontSize: 15 }}>{text}</Text>
-      ) : (
-        <ActivityIndicator />
-      )}
-    </View>
-  );
 };
 
 const OVERRIDE_OPTIONS: { value: FeatureFlagOverride; title: string }[] = [

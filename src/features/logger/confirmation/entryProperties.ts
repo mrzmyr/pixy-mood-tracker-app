@@ -29,7 +29,6 @@ export const getEntryProperties = ({
   emotions: item.emotions,
   emotions_count: item.emotions.length,
   tags_count: item.tags.length,
-  people_count: item.people.length,
   message_length: item.message.length,
   message_word_count: countWords(item.message),
   sleep_quality: item.sleep?.quality ?? null,

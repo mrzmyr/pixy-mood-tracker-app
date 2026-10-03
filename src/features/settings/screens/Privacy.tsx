@@ -6,23 +6,17 @@ import LinkButton from "@/components/LinkButton";
 import useColors from "@/hooks/useColors";
 import { useAnalytics } from "@/state/analytics";
 import { t } from "@/lib/translation";
-import { useFeatureFlag } from "@/state/featureFlags";
 import MenuList from "@/components/MenuList";
 import MenuListItem from "@/components/MenuListItem";
 import TextInfo from "@/components/TextInfo";
 
 /**
  * Settings > Privacy: privacy summary, link to the full policy, and the
- * analytics opt-in switch. The people section shows only behind the
- * `people` feature flag.
+ * analytics opt-in switch.
  */
 export const PrivacyScreen = () => {
   const colors = useColors();
   const analytics = useAnalytics();
-  const hasPeople = useFeatureFlag("people");
-  const content = hasPeople
-    ? `${t("privacy_content")}\n\n${t("privacy_people_content")}`
-    : t("privacy_content");
 
   const _handlePressButtonAsync = async () => {
     await WebBrowser.openBrowserAsync("https://pixy.day/privacy", {
@@ -78,7 +72,7 @@ export const PrivacyScreen = () => {
               em: { color: colors.text, opacity: 0.5, fontStyle: "normal" },
             }}
           >
-            {content}
+            {t("privacy_content")}
           </Markdown>
 
           <MenuList
