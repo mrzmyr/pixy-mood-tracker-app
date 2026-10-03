@@ -1,3 +1,4 @@
+import { Platform } from "react-native";
 import { DEFAULT_ANALYTICS_ENABLED } from "@/state/analytics/consent";
 import type { SettingsState } from "@/state/settings";
 
@@ -14,6 +15,9 @@ export const INITIAL_STATE: SettingsState = {
   reminderEnabled: false,
   reminderTime: "18:00",
   analyticsEnabled: DEFAULT_ANALYTICS_ENABLED,
+  // iCloud backup needs no sign-in, so it starts on. Google Drive starts off
+  // until the user signs in.
+  backupEnabled: Platform.OS === "ios",
   actionsDone: [],
   steps: ["rating", "emotions", "tags", "message", "feedback"],
   storeReviewPromptedAt: null,

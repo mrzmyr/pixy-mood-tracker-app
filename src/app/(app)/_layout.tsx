@@ -80,8 +80,12 @@ const AppLayout = () => {
             options={{ ...pageOptions, title: t("steps") }}
           />
           <Stack.Screen
-            name="settings/data"
+            name="settings/data/index"
             options={{ ...pageOptions, title: t("data") }}
+          />
+          <Stack.Screen
+            name="settings/data/backup"
+            options={{ ...pageOptions, title: t("backup") }}
           />
           <Stack.Screen
             name="settings/reminder"
@@ -117,6 +121,10 @@ const AppLayout = () => {
             />
             <Stack.Screen
               name="dev/fake-files"
+              options={{ ...pageOptions, headerShown: false }}
+            />
+            <Stack.Screen
+              name="dev/fake-cloud"
               options={{ ...pageOptions, headerShown: false }}
             />
             <Stack.Screen

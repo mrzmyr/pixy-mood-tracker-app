@@ -1,3 +1,4 @@
+export { BackupScreen } from "./screens/Backup";
 export { ColorsScreen } from "./screens/Colors";
 export { DevelopmentTools } from "./screens/DevelopmentTools";
 export { LicensesScreen } from "./screens/Licenses";
@@ -10,6 +11,7 @@ export {
   DevFixturesScreen,
   DevFixtureLinkScreen,
   DevFakeFilesLinkScreen,
+  DevFakeCloudLinkScreen,
   DevFeatureFlagsScreen,
   DevFeatureFlagLinkScreen,
 } from "./DevRoutes";

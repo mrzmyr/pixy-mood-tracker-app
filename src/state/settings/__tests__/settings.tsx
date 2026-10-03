@@ -157,6 +157,32 @@ describe("useSettings()", () => {
     });
   });
 
+  test("should keep device id and backup switch on import", async () => {
+    await AsyncStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify({
+        ...INITIAL_STATE,
+        deviceId: "this-phone",
+        backupEnabled: false,
+      })
+    );
+    const hook = await _renderHook();
+    await waitForLoaded(hook);
+
+    await act(() => {
+      hook.result.current.state.importSettings({
+        ...INITIAL_STATE,
+        reminderTime: "12:00",
+      });
+    });
+
+    expect(hook.result.current.state.settings).toMatchObject({
+      reminderTime: "12:00",
+      deviceId: "this-phone",
+      backupEnabled: false,
+    });
+  });
+
   test("should addActionDone", async () => {
     const hook = await _renderHook();
     await waitForLoaded(hook);

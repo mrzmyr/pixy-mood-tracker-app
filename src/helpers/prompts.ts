@@ -85,6 +85,24 @@ export const askToImport = () =>
     cancelText: t("cancel"),
   });
 
+/** Ask before replacing local data with the cloud backup. */
+export const askToRestoreBackup = () =>
+  askToConfirm({
+    title: t("backup_restore_confirm_title"),
+    message: t("backup_restore_confirm_message"),
+    confirmText: t("backup_restore_confirm_ok"),
+    cancelText: t("cancel"),
+  });
+
+/** Ask before turning backup off, which deletes the cloud backup. */
+export const askToTurnOffBackup = () =>
+  askToConfirm({
+    title: t("backup_off_confirm_title"),
+    message: t("backup_off_confirm_message"),
+    confirmText: t("backup_off_confirm_ok"),
+    cancelText: t("cancel"),
+  });
+
 /**
  * Ask before deleting all entries, tags, and settings.
  *

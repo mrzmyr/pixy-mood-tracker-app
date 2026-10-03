@@ -106,7 +106,8 @@
         {
           "appleTeamId": "8VVNC4724B"
         }
-      ]
+      ],
+      "react-native-cloud-storage"
     ],
     "buildCacheProvider": {
       "plugin": "./scripts/build-cache-provider.cjs"

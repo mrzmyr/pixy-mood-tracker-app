@@ -164,6 +164,8 @@ describe("useLogs()", () => {
     });
     expect(hook.result.current.settingsState.settings).toEqual({
       ...testSettings,
+      // Imports keep this phone's identity.
+      deviceId: expect.any(String),
       loaded: true,
     });
   });
@@ -197,6 +199,7 @@ describe("useLogs()", () => {
       settings: _.omit(testSettings, [
         "loaded",
         "deviceId",
+        "backupEnabled",
         "storeReviewPromptedAt",
         "storeReviewPromptedAppVersion",
       ]) satisfies ExportSettings,
@@ -304,6 +307,8 @@ describe("useLogs()", () => {
 
     expect(hook.result.current.settingsState.settings).toEqual({
       ...testSettings,
+      // Imports keep this phone's identity.
+      deviceId: expect.any(String),
       loaded: true,
     });
   });

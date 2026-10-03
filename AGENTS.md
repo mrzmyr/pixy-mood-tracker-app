@@ -51,6 +51,7 @@
 - Keep all `@react-navigation/*` packages on the same major version. Mixing v6 and v7 breaks native navigation.
 - React Compiler plus `freezeOnBlur` tabs can leave FlashList headers or footers stale after the tab unfreezes. `src/features/calendar/screens/Calendar/index.tsx` opts out with `"use no memo"`. Run the e2e suite after enabling the compiler for more code.
 - Initialize Sentry once, at module load in `src/app/_layout.tsx`, before the first render.
+- Cloud backup replaces the cloud file. Keep [`canReplaceBackup`](src/features/backup/backupFile.ts) in every write path, or a fresh install wipes the user's backup. See [docs/backup.md](docs/backup.md).
 - Native builds live in `~/.cache/pixy-mood-tracker/build-cache`, shared by all worktrees. Check `bun builds list` before any compile. `ios/build` and Xcode DerivedData say nothing about cached builds. Dev client with Metro: `bun app dev --platform=<ios|android>` ([run-app skill](.agents/skills/run-app/SKILL.md)). Never create simulators by hand.
 
 ### Testing
