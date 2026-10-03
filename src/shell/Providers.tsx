@@ -2,8 +2,10 @@ import { PostHogProvider } from "posthog-react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { POSTHOG_API_KEY } from "@/constants/API";
 import { TRACKING_ENABLED } from "@/constants/Config";
+import { POSTHOG_OPTIONS } from "@/shell/posthogOptions";
 import { AnalyticsProvider } from "@/state/analytics";
 import { BackupProvider } from "@/features/backup";
+import { FeatureFlagsProvider } from "@/state/featureFlags";
 import { CalendarFiltersProvider } from "@/features/calendar";
 import { LogsProvider } from "@/features/logs";
 import { SettingsProvider } from "@/state/settings";
@@ -63,16 +65,13 @@ const Providers = ({
       <SettingsProvider>
         <PostHogProvider
           apiKey={POSTHOG_API_KEY}
-          options={{
-            host: "https://app.posthog.com",
-            disabled: !TRACKING_ENABLED,
-            defaultOptIn: false,
-            captureAppLifecycleEvents: true,
-          }}
+          options={POSTHOG_OPTIONS}
           autocapture={false}
         >
           <AnalyticsProvider options={{ enabled: TRACKING_ENABLED }}>
-            {supportContent}
+            <FeatureFlagsProvider options={{ enabled: TRACKING_ENABLED }}>
+              {supportContent}
+            </FeatureFlagsProvider>
           </AnalyticsProvider>
         </PostHogProvider>
       </SettingsProvider>

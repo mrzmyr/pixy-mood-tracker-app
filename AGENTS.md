@@ -3,6 +3,12 @@
 - the project is called `pixy-mood-tracker`, use that slug always when creating folders, exeutables etc (not `pixy`, `pixy-app` etc)
 - Folder layout and import boundaries: [oxlint.config.ts](oxlint.config.ts).
 
+## Feature Flags
+
+- We use Posthog for feature flags
+- User MUST agree to the privacy policy to be able to test features using feature flags
+- Setup, consent gate, and dev overrides: [docs/development.md](docs/development.md#feature-flags)
+
 ## PRs
 
 - When multiple things have beend worked on in one go, you want to create PR, suggest the user to create multiple PRs by topics for easier reviews; If you are sure, just go ahead and create multiple PRs even when the user said "create PR"

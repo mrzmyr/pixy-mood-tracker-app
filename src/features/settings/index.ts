@@ -12,4 +12,6 @@ export {
   DevFixtureLinkScreen,
   DevFakeFilesLinkScreen,
   DevFakeCloudLinkScreen,
+  DevFeatureFlagsScreen,
+  DevFeatureFlagLinkScreen,
 } from "./DevRoutes";
