@@ -60,6 +60,8 @@
   "entries_reached_max": "You reached the maximum of {{max_count}} entries. Please delete some entries to add new ones.",
   "entries": "Entries",
   "evening": "Evening",
+  "export_csv_help": "Export entries for spreadsheets. CSV files cannot be imported into Pixy.",
+  "export_failed_message": "Check available device storage and try exporting again.",
   "export_failed_title": "Export failed",
   "export_help": "Export all data as a JSON file",
   "export": "Export",

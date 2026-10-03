@@ -128,9 +128,9 @@ export interface AnalyticsEvents {
   };
   "reminders:time_changed": { time: string };
 
-  "data:export_started": undefined;
-  "data:export_completed": undefined;
-  "data:export_failed": undefined;
+  "data:export_started": { format: "json" | "csv" };
+  "data:export_completed": { format: "json" | "csv" };
+  "data:export_failed": { format: "json" | "csv" };
   "data:import_started": undefined;
   "data:import_completed": undefined;
   "data:import_failed": {
