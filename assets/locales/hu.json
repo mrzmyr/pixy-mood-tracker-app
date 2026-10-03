@@ -672,5 +672,9 @@
   "log_people_disable": "Nem követem az embereket",
   "people_manage": "Emberek kezelése",
   "people_slide_empty": "Add hozzá azokat, akikkel időt töltesz, hogy lásd, milyen a hangulatod velük.",
-  "view_log_people_empty": "Még nincsenek emberek."
+  "view_log_people_empty": "Még nincsenek emberek.",
+  "statistics_people_distribution_title": "A leggyakrabban látott emberek az utóbbi 14 napban.",
+  "statistics_people_more": "És még {{count}}",
+  "statistics_people_peaks_title": "Hangulatod az emberekkel, a {{avg}} átlagod mellett.",
+  "statistics_people_peaks_row": "Átl. hangulat {{name}} társaságában: {{avg}} ({{delta}})"
 }

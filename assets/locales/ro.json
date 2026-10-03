@@ -672,5 +672,9 @@
   "log_people_disable": "Nu urmăresc persoane",
   "people_manage": "Gestionează persoanele",
   "people_slide_empty": "Adaugă persoanele cu care petreci timp pentru a vedea cum îți este starea cu ele.",
-  "view_log_people_empty": "Nicio persoană încă."
+  "view_log_people_empty": "Nicio persoană încă.",
+  "statistics_people_distribution_title": "Persoanele văzute cel mai des în ultimele 14 zile.",
+  "statistics_people_more": "Și încă {{count}}",
+  "statistics_people_peaks_title": "Starea ta cu persoane, lângă media ta de {{avg}}.",
+  "statistics_people_peaks_row": "Stare medie cu {{name}}: {{avg}} ({{delta}})"
 }

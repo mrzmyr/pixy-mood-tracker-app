@@ -672,5 +672,9 @@
   "log_people_disable": "Я не відмічаю людей",
   "people_manage": "Керувати людьми",
   "people_slide_empty": "Додай людей, з якими проводиш час, щоб бачити, який у тебе з ними настрій.",
-  "view_log_people_empty": "Поки немає людей."
+  "view_log_people_empty": "Поки немає людей.",
+  "statistics_people_distribution_title": "Найчастіші люди за останні 14 днів.",
+  "statistics_people_more": "І ще {{count}}",
+  "statistics_people_peaks_title": "Твій настрій з людьми поряд із твоїм середнім {{avg}}.",
+  "statistics_people_peaks_row": "Сер. настрій з {{name}}: {{avg}} ({{delta}})"
 }

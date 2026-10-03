@@ -672,5 +672,9 @@
   "log_people_disable": "Ne pratim ljude",
   "people_manage": "Upravljaj ljudima",
   "people_slide_empty": "Dodaj ljude s kojima provodiš vrijeme da vidiš kakvo ti je raspoloženje s njima.",
-  "view_log_people_empty": "Još nema ljudi."
+  "view_log_people_empty": "Još nema ljudi.",
+  "statistics_people_distribution_title": "Najčešće viđene osobe u zadnjih 14 dana.",
+  "statistics_people_more": "I još {{count}}",
+  "statistics_people_peaks_title": "Tvoje raspoloženje s ljudima, uz tvoj prosjek od {{avg}}.",
+  "statistics_people_peaks_row": "Prosj. raspoloženje s {{name}}: {{avg}} ({{delta}})"
 }

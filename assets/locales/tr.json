@@ -672,5 +672,9 @@
   "log_people_disable": "Kişileri takip etmiyorum",
   "people_manage": "Kişileri yönet",
   "people_slide_empty": "Zaman geçirdiğin kişileri ekle ve onlarla ruh halinin nasıl olduğunu gör.",
-  "view_log_people_empty": "Henüz kişi yok."
+  "view_log_people_empty": "Henüz kişi yok.",
+  "statistics_people_distribution_title": "Son 14 günde en çok görüştüğün kişiler.",
+  "statistics_people_more": "Ve {{count}} kişi daha",
+  "statistics_people_peaks_title": "Kişilerle ruh halin, {{avg}} ortalamanın yanında.",
+  "statistics_people_peaks_row": "{{name}} ile ort. ruh hali: {{avg}} ({{delta}})"
 }

@@ -672,5 +672,9 @@
   "log_people_disable": "Tôi không theo dõi mọi người",
   "people_manage": "Quản lý mọi người",
   "people_slide_empty": "Thêm những người bạn dành thời gian cùng để xem tâm trạng của bạn với họ thế nào.",
-  "view_log_people_empty": "Chưa có người nào."
+  "view_log_people_empty": "Chưa có người nào.",
+  "statistics_people_distribution_title": "Những người gặp nhiều nhất trong 14 ngày qua.",
+  "statistics_people_more": "Và {{count}} người khác",
+  "statistics_people_peaks_title": "Tâm trạng của bạn với mọi người, bên cạnh mức trung bình {{avg}} của bạn.",
+  "statistics_people_peaks_row": "Tâm trạng TB với {{name}}: {{avg}} ({{delta}})"
 }

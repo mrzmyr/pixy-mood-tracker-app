@@ -672,5 +672,9 @@
   "log_people_disable": "人を記録しない",
   "people_manage": "人を管理",
   "people_slide_empty": "一緒に時間を過ごす人を追加して、その人といるときの気分を見てみましょう。",
-  "view_log_people_empty": "まだ人がいません。"
+  "view_log_people_empty": "まだ人がいません。",
+  "statistics_people_distribution_title": "過去14日間に最も多く会った人。",
+  "statistics_people_more": "他{{count}}人",
+  "statistics_people_peaks_title": "人と一緒のときの気分。あなたの平均{{avg}}との比較。",
+  "statistics_people_peaks_row": "{{name}}との平均気分: {{avg}} ({{delta}})"
 }

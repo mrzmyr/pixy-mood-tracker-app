@@ -672,5 +672,9 @@
   "log_people_disable": "Я не отмечаю людей",
   "people_manage": "Управлять людьми",
   "people_slide_empty": "Добавь людей, с которыми проводишь время, чтобы видеть, какое у тебя с ними настроение.",
-  "view_log_people_empty": "Пока нет людей."
+  "view_log_people_empty": "Пока нет людей.",
+  "statistics_people_distribution_title": "Самые частые люди за последние 14 дней.",
+  "statistics_people_more": "И ещё {{count}}",
+  "statistics_people_peaks_title": "Твоё настроение с людьми рядом с твоим средним {{avg}}.",
+  "statistics_people_peaks_row": "Ср. настроение с {{name}}: {{avg}} ({{delta}})"
 }

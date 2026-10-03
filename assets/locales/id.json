@@ -672,5 +672,9 @@
   "log_people_disable": "Aku tidak mencatat orang",
   "people_manage": "Kelola orang",
   "people_slide_empty": "Tambahkan orang yang menghabiskan waktu bersamamu untuk melihat bagaimana suasana hatimu bersama mereka.",
-  "view_log_people_empty": "Belum ada orang."
+  "view_log_people_empty": "Belum ada orang.",
+  "statistics_people_distribution_title": "Orang yang paling sering ditemui dalam 14 hari terakhir.",
+  "statistics_people_more": "Dan {{count}} lainnya",
+  "statistics_people_peaks_title": "Suasana hatimu bersama orang, di samping rata-ratamu {{avg}}.",
+  "statistics_people_peaks_row": "Rata-rata suasana hati bersama {{name}}: {{avg}} ({{delta}})"
 }

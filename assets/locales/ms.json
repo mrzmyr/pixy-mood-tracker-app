@@ -672,5 +672,9 @@
   "log_people_disable": "Saya tidak menjejak orang",
   "people_manage": "Urus orang",
   "people_slide_empty": "Tambah orang yang meluangkan masa bersama anda untuk melihat bagaimana mood anda bersama mereka.",
-  "view_log_people_empty": "Belum ada orang."
+  "view_log_people_empty": "Belum ada orang.",
+  "statistics_people_distribution_title": "Orang yang paling kerap ditemui dalam 14 hari lepas.",
+  "statistics_people_more": "Dan {{count}} lagi",
+  "statistics_people_peaks_title": "Mood anda bersama orang, di sebelah purata anda {{avg}}.",
+  "statistics_people_peaks_row": "Purata mood bersama {{name}}: {{avg}} ({{delta}})"
 }

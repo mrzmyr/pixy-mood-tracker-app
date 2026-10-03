@@ -672,5 +672,9 @@
   "log_people_disable": "Non registro le persone",
   "people_manage": "Gestisci persone",
   "people_slide_empty": "Aggiungi le persone con cui passi il tempo per vedere come va il tuo umore con loro.",
-  "view_log_people_empty": "Ancora nessuna persona."
+  "view_log_people_empty": "Ancora nessuna persona.",
+  "statistics_people_distribution_title": "Persone viste più spesso negli ultimi 14 giorni.",
+  "statistics_people_more": "E altre {{count}}",
+  "statistics_people_peaks_title": "Il tuo umore con le persone, accanto alla tua media di {{avg}}.",
+  "statistics_people_peaks_row": "Umore medio con {{name}}: {{avg}} ({{delta}})"
 }

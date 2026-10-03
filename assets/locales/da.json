@@ -672,5 +672,9 @@
   "log_people_disable": "Jeg registrerer ikke personer",
   "people_manage": "Administrer personer",
   "people_slide_empty": "Tilføj de personer, du bruger tid med, for at se, hvordan dit humør er sammen med dem.",
-  "view_log_people_empty": "Ingen personer endnu."
+  "view_log_people_empty": "Ingen personer endnu.",
+  "statistics_people_distribution_title": "Personer, du har set mest de sidste 14 dage.",
+  "statistics_people_more": "Og {{count}} mere",
+  "statistics_people_peaks_title": "Dit humør med personer, ved siden af dit gennemsnit på {{avg}}.",
+  "statistics_people_peaks_row": "Gns. humør med {{name}}: {{avg}} ({{delta}})"
 }
