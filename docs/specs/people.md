@@ -111,11 +111,13 @@ people: Array<
 - Step enabled and `people.length === 0`: simple empty state, one "Add people" button pushes `/people`. No skip
 - Disable link like tags
 
-### Settings > People (`/settings/people`)
+### Settings > Check-in > People (`/settings/steps/people`)
 
+- Settings root has no People row. Check-in lists People as a link with On/Off, like Tags (`/settings/steps/tags`)
 - Visible only with flag `people`
+- Top: "Track People" switch, same setting as the step. Off only hides the logger step; the list stays
 - List active, "Archived" link, "Add" button hidden at `MAX_PEOPLE`
-- Add sheet: **From contacts** / **Manual**
+- Add: person form with name, or **Pick From Contacts…** into the import list
 - Tap row opens detail
 
 ### Person detail (`/people/[id]`, create reuses with `/people/create`)

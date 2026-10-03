@@ -5,6 +5,7 @@ export { PrivacyScreen } from "./screens/Privacy";
 export { SettingsScreen } from "./screens/Settings";
 export { SettingsTags } from "./screens/Settings/Tags";
 export { SettingsTagsArchive } from "./screens/Settings/Tags";
+export { SettingsPeopleScreen } from "./screens/People";
 export { StepsScreen } from "./screens/Steps";
 export {
   DevFixturesScreen,

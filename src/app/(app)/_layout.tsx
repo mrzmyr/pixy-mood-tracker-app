@@ -80,7 +80,7 @@ const AppLayout = () => {
             options={{ ...pageOptions, title: t("licenses") }}
           />
           <Stack.Screen
-            name="settings/steps"
+            name="settings/steps/index"
             options={{ ...pageOptions, title: t("steps") }}
           />
           <Stack.Screen
@@ -103,19 +103,19 @@ const AppLayout = () => {
             }}
           />
           <Stack.Screen
-            name="settings/tags/index"
+            name="settings/steps/tags/index"
             options={{ ...pageOptions, title: t("tags") }}
           />
           <Stack.Screen
-            name="settings/tags/archive"
+            name="settings/steps/tags/archive"
             options={{ ...pageOptions, title: t("archive_tag") }}
           />
           <Stack.Screen
-            name="settings/people/index"
+            name="settings/steps/people/index"
             options={{ ...pageOptions, title: t("people") }}
           />
           <Stack.Screen
-            name="settings/people/archive"
+            name="settings/steps/people/archive"
             options={{ ...pageOptions, title: t("people_archive") }}
           />
           <Stack.Protected guard={DEV_TOOLS !== null}>

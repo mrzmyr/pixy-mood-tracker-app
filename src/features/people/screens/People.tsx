@@ -2,6 +2,7 @@ import { useRouter } from "expo-router";
 import { LinearGradient } from "expo-linear-gradient";
 import sortBy from "lodash/sortBy";
 import { Archive } from "lucide-react-native";
+import type { ReactNode } from "react";
 import { Platform, ScrollView, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Button from "@/components/Button";
@@ -108,10 +109,11 @@ export const PeopleModal = () => {
 };
 
 /**
- * Settings > People: active people plus a link to archived ones. Reachable
- * only while the `people` feature flag is on.
+ * Settings > Check-in > People: `header` (the step switch), active people,
+ * and a link to archived ones. Reachable only while the `people` feature
+ * flag is on.
  */
-export const SettingsPeople = () => {
+export const SettingsPeople = ({ header }: { header?: ReactNode }) => {
   const router = useRouter();
   const colors = useColors();
   const insets = useSafeAreaInsets();
@@ -122,6 +124,7 @@ export const SettingsPeople = () => {
     <View style={{ flex: 1, backgroundColor: colors.background }}>
       <AddPersonButton />
       <ScrollView>
+        {header}
         <View style={{ marginTop: 16, marginHorizontal: 16 }}>
           <MenuList>
             <MenuListItem
@@ -129,7 +132,7 @@ export const SettingsPeople = () => {
               iconLeft={<Archive size={20} color={colors.text} />}
               isLink
               isLast
-              onPress={() => router.push("/settings/people/archive")}
+              onPress={() => router.push("/settings/steps/people/archive")}
               testID="people-archive"
             />
           </MenuList>

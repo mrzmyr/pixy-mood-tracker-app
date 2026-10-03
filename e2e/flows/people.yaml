@@ -21,11 +21,12 @@ tags: [p1, people]
       id: "calendar"
     timeout: 10000
 
-# Settings lists active people; archived Mia sits behind the Archive link.
+# Check-in > People lists active people; archived Mia sits behind the Archive link.
 - tapOn:
     id: "settings"
+- tapOn: "Check-in"
 - tapOn:
-    id: "settings-people"
+    id: "step-people"
 - assertVisible: "Sam"
 - assertVisible: "Alex"
 - assertNotVisible: "Mia"

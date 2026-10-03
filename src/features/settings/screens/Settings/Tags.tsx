@@ -13,10 +13,11 @@ import sortBy from "lodash/sortBy";
 import { Archive } from "lucide-react-native";
 import { ScrollView, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { StepSwitch } from "../../components/StepSwitch";
 
 /**
- * Settings > Tags: active tags plus a link to archived ones. Archived tags
- * still count toward {@link MAX_TAGS}.
+ * Settings > Check-in > Tags: the step switch, active tags, and a link to
+ * archived ones. Archived tags still count toward {@link MAX_TAGS}.
  */
 export const SettingsTags = () => {
   const router = useRouter();
@@ -77,6 +78,7 @@ export const SettingsTags = () => {
         </>
       )}
       <ScrollView>
+        <StepSwitch step="tags" />
         <View
           style={{
             marginTop: 16,
@@ -90,7 +92,7 @@ export const SettingsTags = () => {
               isLink
               isLast
               onPress={() => {
-                router.push("/settings/tags/archive");
+                router.push("/settings/steps/tags/archive");
               }}
             />
           </MenuList>

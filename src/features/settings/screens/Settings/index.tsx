@@ -33,7 +33,7 @@ import { useFeatureFlag } from "@/state/featureFlags";
 import useColors from "@/hooks/useColors";
 import { useFeedbackModal } from "@/features/feedback";
 import pkg from "../../../../../package.json";
-import { Bug, Lightbulb, Tag, Users } from "lucide-react-native";
+import { Bug, Lightbulb } from "lucide-react-native";
 import { useSupport } from "@/support";
 
 /**
@@ -46,7 +46,6 @@ export const SettingsScreen = () => {
   const analytics = useAnalytics();
   const support = useSupport();
   const isSupportEnabled = useFeatureFlag("support-pixy");
-  const hasPeople = useFeatureFlag("people");
 
   const { show: showFeedbackModal, Modal: FeedbackModal } = useFeedbackModal();
 
@@ -105,21 +104,6 @@ export const SettingsScreen = () => {
             onPress={() => router.push("/settings/colors")}
             isLink
           />
-          <MenuListItem
-            title={t("tags")}
-            iconLeft={<Tag width={18} color={colors.menuListItemIcon} />}
-            onPress={() => router.push("/settings/tags")}
-            isLink
-          />
-          {hasPeople && (
-            <MenuListItem
-              title={t("people")}
-              iconLeft={<Users width={18} color={colors.menuListItemIcon} />}
-              onPress={() => router.push("/settings/people")}
-              isLink
-              testID="settings-people"
-            />
-          )}
           <MenuListItem
             title={t("steps")}
             iconLeft={

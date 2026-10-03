@@ -14,12 +14,15 @@ tags: [p1, people]
       id: "calendar"
     timeout: 10000
 
-# Enable the step. It is off by default.
+# Enable the step on Check-in > People. It is off by default.
 - tapOn:
     id: "settings"
-- tapOn: "Steps"
+- tapOn: "Check-in"
+- tapOn:
+    id: "step-people"
 - tapOn:
     id: "step-people-enabled"
+- back
 - back
 
 # New entry: mood, emotions, tags, then people.
