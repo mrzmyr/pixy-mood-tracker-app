@@ -20,7 +20,10 @@ import { SleepQualityChartCard } from "../SleepQualityGraph";
 import { getItemTime } from "@/lib/logDates";
 import { useFeatureFlag } from "@/state/featureFlags";
 import { PeopleHighlights } from "../PeopleHighlights";
-import { getPeopleHighlightsState } from "../peopleHighlightsState";
+import {
+  getPeopleHighlightProperties,
+  getPeopleHighlightsState,
+} from "../peopleHighlightsState";
 
 /**
  * Full highlights screen with every available statistics card for the
@@ -89,6 +92,15 @@ export const StatisticsHighlights = () => {
     if (showMoodChart) {
       highlights.mood_chart_item_count = highlightsItemCount;
     }
+    Object.assign(
+      highlights,
+      getPeopleHighlightProperties({
+        hasPeople,
+        state: peopleHighlights,
+        distribution: statistics.state.peopleDistributionData,
+        peaks: statistics.state.peoplePeaksData,
+      })
+    );
 
     analytics.track("statistics:all_highlights_viewed", highlights);
   });
