@@ -3,7 +3,7 @@ import { usePostHog as getPostHogTestClient } from "posthog-react-native";
 import { DefaultTheme, ThemeProvider } from "expo-router";
 import { render, userEvent, waitFor } from "@testing-library/react-native";
 import { Alert, Platform } from "react-native";
-import { setAlternateAppIcon } from "expo-alternate-app-icons";
+import { getAppIconName, setAlternateAppIcon } from "expo-alternate-app-icons";
 import Providers from "@/shell/Providers";
 import Colors from "@/constants/Colors";
 import { INITIAL_STATE } from "@/constants/Settings";
@@ -42,6 +42,7 @@ jest.mock("react-native-safe-area-context", () => ({
 
 const mockReload = jest.mocked(getPostHogTestClient().reloadFeatureFlagsAsync);
 const mockSetIcon = jest.mocked(setAlternateAppIcon);
+const mockGetIconName = jest.mocked(getAppIconName);
 
 beforeEach(async () => {
   await AsyncStorage.clear();
@@ -91,6 +92,21 @@ describe("Settings > App Icon", () => {
 
     await userEvent.press(screen.getByTestId("app-icon-sunburst"));
     expect(mockSetIcon).not.toHaveBeenCalled();
+  });
+
+  test("user still sees the active new icon and can go back when the flag is off", async () => {
+    mockReload.mockResolvedValue({ "app-icons": false });
+    mockGetIconName.mockReturnValueOnce("SunburstInverse");
+    const screen = await renderAppIcon();
+    await waitFor(() => expect(mockReload).toHaveBeenCalledTimes(1));
+
+    expect(screen.getByTestId("app-icon-sunburst-inverse")).toBeSelected();
+    expect(screen.getByTestId("app-icon-sunburst")).toBeDisabled();
+
+    await userEvent.press(screen.getByTestId("app-icon-default"));
+
+    expect(mockSetIcon).toHaveBeenCalledWith(null);
+    expect(screen.getByTestId("app-icon-default")).toBeSelected();
   });
 
   test("user selects the sunburst icon when the flag is on", async () => {

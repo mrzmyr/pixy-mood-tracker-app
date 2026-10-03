@@ -225,7 +225,9 @@ export const AppIconScreen = () => {
     ]);
   };
 
-  const hasLockedIcons = APP_ICONS.some(isLocked);
+  const hasLockedIcons = APP_ICONS.some(
+    (icon) => isLocked(icon) && icon.id !== activeId
+  );
 
   return (
     <View style={{ flex: 1, backgroundColor: colors.background }}>
@@ -239,7 +241,9 @@ export const AppIconScreen = () => {
               key={icon.id}
               icon={icon}
               isSelected={icon.id === activeId}
-              isLocked={isLocked(icon)}
+              // The active icon stays selected after the flag turns off, so
+              // the user sees it and can switch back to Default.
+              isLocked={isLocked(icon) && icon.id !== activeId}
               isLast={index === APP_ICONS.length - 1}
               onSelect={selectIcon}
             />
