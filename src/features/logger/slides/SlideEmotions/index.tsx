@@ -7,7 +7,7 @@ import { getMostUsedEmotions } from "@/lib/utils";
 import type { Emotion } from "@/types";
 import { LinearGradient } from "expo-linear-gradient";
 import keyBy from "lodash/keyBy";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { ScrollView, View } from "react-native";
 import LinkButton from "@/components/LinkButton";
 import { SlideHeadline } from "../../components/SlideHeadline";
@@ -90,20 +90,25 @@ export const SlideEmotions = ({
   const [mode, setMode] = useState<Mode>("basic");
   const scrollRef = useRef<ScrollView>(null);
   const [negativeRowY, setNegativeRowY] = useState<number | null>(null);
+  const [viewportHeight, setViewportHeight] = useState(0);
   const { rating } = tempLog.data;
+  const isNegative =
+    rating === "bad" || rating === "very_bad" || rating === "extremely_bad";
+  const scrollY =
+    isNegative && mode === "basic" ? Math.max(0, (negativeRowY ?? 0) - 12) : 0;
 
-  useEffect(() => {
-    if (negativeRowY === null) {
+  const scrollToRating = useCallback(() => {
+    if (negativeRowY === null || rating === null) {
       return;
     }
 
-    const isNegative =
-      rating === "bad" || rating === "very_bad" || rating === "extremely_bad";
     scrollRef.current?.scrollTo({
-      y: isNegative && mode === "basic" ? Math.max(0, negativeRowY - 12) : 0,
+      y: scrollY,
       animated: false,
     });
-  }, [mode, negativeRowY, rating]);
+  }, [negativeRowY, rating, scrollY]);
+
+  useEffect(scrollToRating, [scrollToRating]);
 
   const mostUsedEmotionKeys = new Set(
     getMostUsedEmotions(logState.items)
@@ -191,7 +196,14 @@ export const SlideEmotions = ({
               width: "100%",
             }}
           />
-          <ScrollView ref={scrollRef}>
+          <ScrollView
+            ref={scrollRef}
+            onLayout={(event) =>
+              setViewportHeight(event.nativeEvent.layout.height)
+            }
+            onContentSizeChange={scrollToRating}
+            contentContainerStyle={{ minHeight: viewportHeight + scrollY }}
+          >
             <EmotionBasicSelection
               emotions={basicEmotions}
               onNegativeRowLayout={setNegativeRowY}
