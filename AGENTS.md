@@ -53,6 +53,13 @@
 - Initialize Sentry once, at module load in `src/app/_layout.tsx`, before the first render.
 - Native builds live in `~/.cache/pixy-mood-tracker/build-cache`, shared by all worktrees. Check `bun builds list` before any compile. `ios/build` and Xcode DerivedData say nothing about cached builds. Dev client with Metro: `bun app dev --platform=<ios|android>` ([run-app skill](.agents/skills/run-app/SKILL.md)). Never create simulators by hand.
 
+### Testing
+
+- Never add tests that only check translated labels or copy strings are unique
+- Never add tests that only assert static content matches expected values (translation keys, UI copy, enum labels)
+- Type safety and translation tooling catch label collisions at build time
+- Write tests for behavior, logic, and user-facing outcomes, not for checking static data structures
+
 ## Releases
 
 - MUST run `app-store-review` skill before App Store release
