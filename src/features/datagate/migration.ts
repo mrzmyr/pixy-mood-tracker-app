@@ -12,12 +12,12 @@ interface MigratedData extends ImportData {
 /**
  * Normalize any supported export version to the current import shape.
  *
- * Converts keyed items to an array, moves `settings.tags` to `tags`, maps
- * the removed `stone` tag color to `slate`, and adds empty `people` where
- * an older export has none. Tag objects from `data` are mutated in place.
+ * Converts keyed items to an array, moves `settings.tags` to `tags`, and
+ * maps the removed `stone` tag color to `slate`. Tag objects from `data`
+ * are mutated in place.
  */
 export const migrateImportData = (data: ImportData): MigratedData => {
-  const { items, settings, tags, people, version } = data;
+  const { items, settings, tags, version } = data;
 
   let newItems = clone(items);
 
@@ -30,9 +30,6 @@ export const migrateImportData = (data: ImportData): MigratedData => {
 
     if (!item?.tags) {
       newItem.tags = [];
-    }
-    if (!item?.people) {
-      newItem.people = [];
     }
 
     return newItem;
@@ -56,6 +53,5 @@ export const migrateImportData = (data: ImportData): MigratedData => {
     items: newItems,
     settings: _settings,
     tags: _tags,
-    people: people ?? [],
   };
 };

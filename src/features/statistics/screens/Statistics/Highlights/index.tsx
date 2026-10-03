@@ -18,12 +18,6 @@ import { MoodChart } from "../MoodChart";
 import { useLogState } from "@/features/logs";
 import { SleepQualityChartCard } from "../SleepQualityGraph";
 import { getItemTime } from "@/lib/logDates";
-import { useFeatureFlag } from "@/state/featureFlags";
-import { PeopleHighlights } from "../PeopleHighlights";
-import {
-  getPeopleHighlightProperties,
-  getPeopleHighlightsState,
-} from "../peopleHighlightsState";
 
 /**
  * Full highlights screen with every available statistics card for the
@@ -41,13 +35,6 @@ export const StatisticsHighlights = () => {
   const showMoodPeaksNegative = statistics.isAvailable("mood_peaks_negative");
   const showTagPeaks = statistics.isAvailable("tags_peaks");
   const showTagsDistribution = statistics.isAvailable("tags_distribution");
-  const hasPeople = useFeatureFlag("people");
-  const peopleHighlights = getPeopleHighlightsState({
-    hasPeople,
-    highlightedOnly: false,
-    isAvailable: statistics.isAvailable,
-    isHighlighted: statistics.isHighlighted,
-  });
 
   const logState = useLogState();
 
@@ -92,15 +79,6 @@ export const StatisticsHighlights = () => {
     if (showMoodChart) {
       highlights.mood_chart_item_count = highlightsItemCount;
     }
-    Object.assign(
-      highlights,
-      getPeopleHighlightProperties({
-        hasPeople,
-        state: peopleHighlights,
-        distribution: statistics.state.peopleDistributionData,
-        peaks: statistics.state.peoplePeaksData,
-      })
-    );
 
     analytics.track("statistics:all_highlights_viewed", highlights);
   });
@@ -198,12 +176,6 @@ export const StatisticsHighlights = () => {
                   ))}
                 </>
               )}
-
-              <PeopleHighlights
-                state={peopleHighlights}
-                distribution={statistics.state.peopleDistributionData}
-                peaks={statistics.state.peoplePeaksData}
-              />
             </>
           )}
         </View>

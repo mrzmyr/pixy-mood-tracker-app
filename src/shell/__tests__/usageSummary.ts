@@ -58,11 +58,7 @@ describe("getUsageSummary()", () => {
       { id: "t2", title: "Gym", color: "blue" as const, isArchived: true },
     ];
 
-    const people = [{ id: "p1" }, { id: "p2", isArchived: true }];
-
-    expect(
-      getUsageSummary({ items, tags, people, settings, now: NOW })
-    ).toEqual({
+    expect(getUsageSummary({ items, tags, settings, now: NOW })).toEqual({
       entries_count: 5,
       entries_30d: 4,
       logged_days_7d: 2,
@@ -77,8 +73,6 @@ describe("getUsageSummary()", () => {
       statistics_unlocked: false,
       tags_count: 1,
       archived_tags_count: 1,
-      people_count: 1,
-      archived_people_count: 1,
       reminder_enabled: true,
       reminder_hour: 20,
       scale_type: INITIAL_STATE.scaleType,

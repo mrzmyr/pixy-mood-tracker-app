@@ -128,24 +128,6 @@ describe("useLogs()", () => {
     ]);
   });
 
-  test("should add empty people to entries from before the people feature", async () => {
-    const { people: _people, ...legacy } = _generateItem({
-      id: "legacy-without-people",
-      date: "2022-01-01",
-    });
-    await AsyncStorage.setItem(
-      STORAGE_KEY,
-      JSON.stringify({ items: [legacy] })
-    );
-
-    const hook = await _renderHook();
-    await waitForLoaded(hook);
-    const loaded = hook.result.current.state.items.find(
-      (item) => item.id === legacy.id
-    );
-    expect(loaded?.people).toEqual([]);
-  });
-
   test("should initiate `state` with empty `items` when async storage is empty", async () => {
     const hook = await _renderHook();
     await waitForLoaded(hook);
@@ -327,29 +309,6 @@ describe("useLogs()", () => {
     await act(() => hook.result.current.updater.deleteLog(testItems[0].id));
 
     expect(hook.result.current.state.items).toEqual([testItems[1]]);
-  });
-
-  test("should removePersonFromLogs", async () => {
-    const hook = await _renderHook();
-    await waitForLoaded(hook);
-    const withSam = _generateItem({
-      date: "2026-01-01",
-      people: [{ id: "sam" }, { id: "alex" }],
-    });
-    const withoutSam = _generateItem({ date: "2026-01-02", people: [] });
-
-    await act(() =>
-      hook.result.current.updater.updateLogs([withSam, withoutSam])
-    );
-    const before = hook.result.current.state;
-    await act(() => hook.result.current.updater.removePersonFromLogs("nobody"));
-    expect(hook.result.current.state).toBe(before);
-
-    await act(() => hook.result.current.updater.removePersonFromLogs("sam"));
-    expect(hook.result.current.state.items).toEqual([
-      { ...withSam, people: [{ id: "alex" }] },
-      withoutSam,
-    ]);
   });
 
   test("should reset", async () => {

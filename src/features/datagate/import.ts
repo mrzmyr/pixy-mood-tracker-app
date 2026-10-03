@@ -2,23 +2,14 @@ import { z } from "zod";
 import { TAG_COLOR_NAMES } from "@/constants/Config";
 import type { Tag } from "@/features/tags";
 import type { LogItem, LogsState } from "@/features/logs";
-import type { Person } from "@/features/people";
 import { RATING_KEYS } from "@/constants/Ratings";
 import type { ExportSettings } from "@/state/settings";
-
-/**
- * Person in an export file. The avatar travels inline as base64 JPEG so the
- * file stays self contained; `null` means no photo.
- */
-export type ExportPerson = Omit<Person, "avatar"> & {
-  avatar: { base64: string; mime: "image/jpeg" } | null;
-};
 
 /**
  * Parsed contents of an export file before {@link migrateImportData}.
  *
  * Older exports store `items` as an id-keyed object and keep tags under
- * `settings.tags`. Exports from before the people feature have no `people`.
+ * `settings.tags`.
  */
 export interface ImportData {
   version: string;
@@ -28,7 +19,6 @@ export interface ImportData {
         [key: string]: LogsState["items"][number];
       };
   tags?: Tag[];
-  people?: ExportPerson[];
   settings: ExportSettings;
 }
 
@@ -60,21 +50,8 @@ export const pixySchema = z.strictObject({
             .optional(),
         })
       ),
-      people: z.array(z.object({ id: z.string() })).optional(),
     })
   ),
-
-  people: z
-    .array(
-      z.object({
-        id: z.string(),
-        name: z.string(),
-        avatar: z
-          .object({ base64: z.string(), mime: z.literal("image/jpeg") })
-          .nullable(),
-      })
-    )
-    .optional(),
 
   tags: z
     .array(

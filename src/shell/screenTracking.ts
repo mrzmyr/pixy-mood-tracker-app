@@ -54,12 +54,11 @@ const getScreenName = (pathname: string): string | null => {
       "/settings/reminder": "Reminder",
       "/settings/privacy": "Privacy",
       "/settings/development-tools": "DevelopmentTools",
-      "/settings/steps/tags": "SettingsTags",
-      "/settings/steps/tags/archive": "SettingsTagsArchive",
+      "/settings/tags": "SettingsTags",
+      "/settings/tags/archive": "SettingsTagsArchive",
       "/dev/fixtures": "DevFixtures",
       "/dev/fixture": "DevFixture",
       "/dev/fake-files": "DevFakeFiles",
-      "/dev/fake-contacts": "DevFakeContacts",
     })
   );
   return settingsRoutes.get(pathname) ?? null;

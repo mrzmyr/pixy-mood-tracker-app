@@ -47,10 +47,6 @@ const AppLayout = () => {
           <Stack.Screen name="tags/index" options={modalOptions} />
           <Stack.Screen name="tags/create" options={modalOptions} />
           <Stack.Screen name="tags/[id]" options={modalOptions} />
-          <Stack.Screen name="people/index" options={modalOptions} />
-          <Stack.Screen name="people/create" options={modalOptions} />
-          <Stack.Screen name="people/import" options={modalOptions} />
-          <Stack.Screen name="people/[id]" options={modalOptions} />
           <Stack.Screen
             name="statistics/highlights"
             options={{ ...pageOptions, title: t("statistics_highlights") }}
@@ -80,7 +76,7 @@ const AppLayout = () => {
             options={{ ...pageOptions, title: t("licenses") }}
           />
           <Stack.Screen
-            name="settings/steps/index"
+            name="settings/steps"
             options={{ ...pageOptions, title: t("steps") }}
           />
           <Stack.Screen
@@ -103,20 +99,12 @@ const AppLayout = () => {
             }}
           />
           <Stack.Screen
-            name="settings/steps/tags/index"
+            name="settings/tags/index"
             options={{ ...pageOptions, title: t("tags") }}
           />
           <Stack.Screen
-            name="settings/steps/tags/archive"
+            name="settings/tags/archive"
             options={{ ...pageOptions, title: t("archive_tag") }}
-          />
-          <Stack.Screen
-            name="settings/steps/people/index"
-            options={{ ...pageOptions, title: t("people") }}
-          />
-          <Stack.Screen
-            name="settings/steps/people/archive"
-            options={{ ...pageOptions, title: t("people_archive") }}
           />
           <Stack.Protected guard={DEV_TOOLS !== null}>
             <Stack.Screen
@@ -129,10 +117,6 @@ const AppLayout = () => {
             />
             <Stack.Screen
               name="dev/fake-files"
-              options={{ ...pageOptions, headerShown: false }}
-            />
-            <Stack.Screen
-              name="dev/fake-contacts"
               options={{ ...pageOptions, headerShown: false }}
             />
             <Stack.Screen
