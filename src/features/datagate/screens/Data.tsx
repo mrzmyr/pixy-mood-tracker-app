@@ -1,6 +1,7 @@
 import { ScrollView, View } from "react-native";
 import { Download, Trash, Upload } from "react-native-feather";
 import MenuList from "@/components/MenuList";
+import MenuListHeadline from "@/components/MenuListHeadline";
 import MenuListItem from "@/components/MenuListItem";
 import TextInfo from "@/components/TextInfo";
 import { t } from "@/lib/translation";
@@ -33,6 +34,7 @@ export const DataScreen = () => {
             title={t("import")}
             onPress={() => datagate.openImportDialog()}
             iconLeft={<Download width={18} color={colors.menuListItemIcon} />}
+            isLast={!__DEV__}
           />
           {__DEV__ && (
             <MenuListItem
@@ -41,16 +43,27 @@ export const DataScreen = () => {
                 datagate.openDangerousImportDirectlyToAsyncStorageDialog()
               }
               iconLeft={<Download width={18} color={colors.menuListItemIcon} />}
+              isLast
             />
           )}
+        </MenuList>
+        <MenuListHeadline>{t("export")}</MenuListHeadline>
+        <MenuList>
           <MenuListItem
-            title={t("export")}
-            onPress={() => datagate.openExportDialog()}
+            testID="export-json"
+            title="JSON"
+            onPress={() => datagate.openExportDialog({ format: "json" })}
+            iconLeft={<Upload width={18} color={colors.menuListItemIcon} />}
+          />
+          <MenuListItem
+            testID="export-csv"
+            title="CSV"
+            onPress={() => datagate.openExportDialog({ format: "csv" })}
             iconLeft={<Upload width={18} color={colors.menuListItemIcon} />}
             isLast
           />
         </MenuList>
-        <TextInfo>{t("export_help")}</TextInfo>
+        <TextInfo>{`${t("export_help")}\n${t("export_csv_help")}`}</TextInfo>
         <MenuList style={{ marginTop: 16 }}>
           <MenuListItem
             testID="delete-all-data"

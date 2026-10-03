@@ -186,7 +186,7 @@ describe("useLogs()", () => {
     });
 
     await act(async () => {
-      await hook.result.current.datagate.openExportDialog();
+      await hook.result.current.datagate.openExportDialog({ format: "json" });
     });
 
     const [calledUri, calledJson = ""] =
@@ -210,7 +210,10 @@ describe("useLogs()", () => {
       )
     );
     expect(JSON.parse(calledJson)).toEqual(expectedJson);
-    expect(Sharing.shareAsync).toBeCalledWith(calledUri);
+    expect(Sharing.shareAsync).toBeCalledWith(calledUri, {
+      mimeType: "application/json",
+      UTI: "public.json",
+    });
   });
 
   test("`openExportDialog` uses the file transfer override", async () => {
@@ -224,12 +227,61 @@ describe("useLogs()", () => {
 
     await waitForLoaded(hook);
     await act(async () => {
-      await hook.result.current.datagate.openExportDialog();
+      await hook.result.current.datagate.openExportDialog({ format: "json" });
     });
     setFileTransferOverride(null);
 
     expect(share).toBeCalledWith(expect.stringMatching(/\.json$/u));
     expect(Sharing.shareAsync).not.toBeCalled();
+  });
+
+  test("exports CSV entries with the spreadsheet MIME type", async () => {
+    const hook = await _renderHook();
+    jest.spyOn(FileSystem, "writeAsStringAsync").mockResolvedValue();
+    jest.spyOn(FileSystem, "readDirectoryAsync").mockResolvedValue([]);
+    jest.spyOn(FileSystem, "deleteAsync").mockResolvedValue();
+
+    await waitForLoaded(hook);
+    await act(() => {
+      hook.result.current.logUpdater.import({ items: testItems });
+    });
+    await act(async () => {
+      await hook.result.current.datagate.openExportDialog({ format: "csv" });
+    });
+
+    const [[uri, contents]] = jest.mocked(FileSystem.writeAsStringAsync).mock
+      .calls;
+    expect(uri).toMatch(/\.csv$/u);
+    expect(contents).toContain('"note","sleep_quality"');
+    expect(contents).toContain('"test message"');
+    expect(contents).toContain('"🦄"');
+    expect(Sharing.shareAsync).toHaveBeenCalledWith(uri, {
+      mimeType: "text/csv",
+      UTI: "public.comma-separated-values-text",
+    });
+  });
+
+  test("shows recovery guidance when sharing is unavailable", async () => {
+    const hook = await _renderHook();
+    setFileTransferOverride({
+      share: () => Promise.resolve(false),
+      pickJson: () => Promise.resolve(null),
+    });
+    jest.spyOn(FileSystem, "writeAsStringAsync").mockResolvedValue();
+    jest.spyOn(FileSystem, "readDirectoryAsync").mockResolvedValue([]);
+    jest.spyOn(FileSystem, "deleteAsync").mockResolvedValue();
+    const alert = jest.spyOn(Alert, "alert");
+
+    await waitForLoaded(hook);
+    await act(async () => {
+      await hook.result.current.datagate.openExportDialog({ format: "csv" });
+    });
+    setFileTransferOverride(null);
+
+    expect(alert).toHaveBeenCalledWith(
+      "Export failed",
+      "Check available device storage and try exporting again."
+    );
   });
 
   test("should `openResetDialog` delete entries, tags, and settings", async () => {

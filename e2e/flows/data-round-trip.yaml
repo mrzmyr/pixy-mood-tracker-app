@@ -19,7 +19,8 @@ tags: [p1, data]
     id: "settings"
 - tapOn:
     id: "data"
-- tapOn: "Export"
+- tapOn:
+    id: "export-json"
 
 # Delete all data leaves an empty calendar. Regression: a stale calendar
 # footer kept "Add another entry for today" after reset (src/screens/Calendar/index.tsx).

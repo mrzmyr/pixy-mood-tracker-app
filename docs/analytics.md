@@ -9,6 +9,7 @@
 - Onboarding skip: consent regions land on the privacy slide before completion.
 - Off switch: Settings > Privacy > Behavioral Data
 - Feature flags load only with consent ([development.md](development.md#feature-flags))
+- Data exports: `data:export_started`, `data:export_completed`, `data:export_failed` send `format: "json" | "csv"`.
 - Store review prompt: `logger:store_review_requested` ([`src/features/review`](../src/features/review))
   - Fires once per install, after the save that reaches 7 entries
   - Properties: `trigger`, `entries_count`
