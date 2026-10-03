@@ -4,7 +4,13 @@ import type { WidgetSchemeColors, YearDayCode, YearGrid } from "./widgetProps";
 
 /** Width in points of the captured image. Widgets scale it to their width. */
 export const YEAR_IMAGE_WIDTH = 340;
-const GAP = 1.5;
+
+/**
+ * Week columns in the medium band. Seven rows must fill the medium widget
+ * height, so the band shows the trailing weeks that fit, ending today.
+ */
+export const YEAR_BAND_WEEKS = 22;
+const GAP = 2;
 const MONTH_GAP = 10;
 const MONTH_COLUMNS = 4;
 const RING = 1.5;
@@ -70,7 +76,10 @@ export const YearPixelsCanvas = ({
   ref: Ref<View>;
 }) => {
   if (layout === "band") {
-    const count = grid.columns.length;
+    const last = grid.today.column + 1;
+    const first = Math.max(0, last - YEAR_BAND_WEEKS);
+    const columns = grid.columns.slice(first, last);
+    const count = columns.length;
     const cell = (YEAR_IMAGE_WIDTH - (count - 1) * GAP) / count;
     return (
       <View
@@ -82,18 +91,18 @@ export const YearPixelsCanvas = ({
           backgroundColor: colors.background,
         }}
       >
-        {grid.columns.map((column, columnIndex) => (
-          <View key={columnIndex}>
+        {columns.map((column, offset) => (
+          <View key={offset}>
             {column.map((code, row) => (
               <Cell
                 key={row}
                 code={code}
                 size={cell}
                 isToday={
-                  grid.today.column === columnIndex && grid.today.row === row
+                  grid.today.column === first + offset && grid.today.row === row
                 }
                 colors={colors}
-                gapRight={columnIndex !== count - 1}
+                gapRight={offset !== count - 1}
                 gapBottom={row !== 6}
               />
             ))}

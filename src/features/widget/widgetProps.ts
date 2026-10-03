@@ -93,7 +93,7 @@ export interface YearGrid {
  * `""` before the first capture.
  */
 export interface YearWidgetProps extends WidgetBaseProps {
-  /** One band of 53 week columns, for the medium family. */
+  /** One band of the trailing `YEAR_BAND_WEEKS` week columns, for the medium family. */
   imageLight: string;
   imageDark: string;
   /** Twelve mini month calendars, for the large family. */
