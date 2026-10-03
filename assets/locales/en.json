@@ -646,6 +646,8 @@
   "rate_pixy_google_play": "Rate Pixy on Google Play",
   "feedback_modal_message_placeholder_idea": "It would be great if…",
   "photos_add": "Add Photo",
+  "photos_limit_reached": "Up to {{max}} Photos per Entry",
+  "photos_add_failed": "Photo could not be added. Try again or pick another photo.",
   "photos_thumbnail_label": "Photo {{index}} of {{count}}",
   "photos_viewer_counter": "{{index}} / {{count}}",
   "photos_viewer_close": "Close",
