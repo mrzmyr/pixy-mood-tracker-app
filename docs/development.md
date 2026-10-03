@@ -58,9 +58,12 @@ Three variants install side by side, each with its own name, icon, bundle ID, an
 
 - Code: [`src/features/photos`](../src/features/photos). Files: `Documents/photos/<id>.jpg`, 1600 px longest edge, JPEG 0.75
 - Entries store file names, never paths. Unreferenced files go after logger close, entry delete, and app start. Never right after a data import
+- Photos of the entry's day: iOS only. Android uses the system Photo Picker only. `app.json` blocks `READ_MEDIA_IMAGES` and related permissions (Google Play photo policy)
+- No camera. `expo-image-picker` plugin sets `cameraPermission: false`: Android blocks `android.permission.CAMERA`, iOS drops `NSCameraUsageDescription`
 - Export JSON holds photo metadata only, no files
 - Backups: iOS iCloud and Finder backups include `Documents/photos`, restored with entries
 - Android backups never include photos. #480 backs up the `database` domain only. Keep photos out: Android stops the whole app backup above 25 MB
+- Preview builds: `<scheme>://dev/fake-files` swaps picker and library for [`fakePhotoSource`](../src/dev/fakePhotoSource.ts). Library access starts `undetermined`
 
 ### App CLI
 
