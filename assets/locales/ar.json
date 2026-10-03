@@ -672,5 +672,9 @@
   "log_people_disable": "لا أسجّل الأشخاص",
   "people_manage": "إدارة الأشخاص",
   "people_slide_empty": "أضف الأشخاص الذين تقضي وقتك معهم لترى كيف يكون مزاجك معهم.",
-  "view_log_people_empty": "لا يوجد أشخاص بعد."
+  "view_log_people_empty": "لا يوجد أشخاص بعد.",
+  "statistics_people_distribution_title": "الأشخاص الأكثر لقاءً في آخر 14 يومًا.",
+  "statistics_people_more": "و{{count}} آخرين",
+  "statistics_people_peaks_title": "مزاجك مع الأشخاص، بجانب متوسطك {{avg}}.",
+  "statistics_people_peaks_row": "متوسط المزاج مع {{name}}: {{avg}} ({{delta}})"
 }

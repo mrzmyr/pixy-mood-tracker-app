@@ -672,5 +672,9 @@
   "log_people_disable": "No registro personas",
   "people_manage": "Gestionar personas",
   "people_slide_empty": "Añade a las personas con las que pasas tiempo para ver cómo va tu ánimo con ellas.",
-  "view_log_people_empty": "Aún no hay personas."
+  "view_log_people_empty": "Aún no hay personas.",
+  "statistics_people_distribution_title": "Personas más vistas en los últimos 14 días.",
+  "statistics_people_more": "Y {{count}} más",
+  "statistics_people_peaks_title": "Tu ánimo con personas, junto a tu promedio de {{avg}}.",
+  "statistics_people_peaks_row": "Ánimo medio con {{name}}: {{avg}} ({{delta}})"
 }

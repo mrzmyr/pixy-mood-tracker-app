@@ -132,9 +132,11 @@ people: Array<
 ## Statistics
 
 - `PeopleDistribution`: count per person, most seen first. Mirrors [`TagsDistribution`](../../src/features/statistics/TagsDistribution.ts)
-- `PeoplePeaks`: avg mood with person vs overall avg. Min 5 entries per person. All qualifying persons sorted by delta
-- Copy neutral: "avg mood with Sam: 4.2 (+0.6)". Never "worse"
-- Cards show `PersonChip`, single tint color, no per person color
+- `PeoplePeaks`: avg mood with person vs overall avg. Min 5 entries per person. All qualifying persons sorted by delta. One card with one row per person
+- Scale 1 to 7 (`RATING_MAPPING` plus one) so the worst rating reads 1, not 0
+- Statistics tab short list shows the peaks card only when one person differs by 0.5 or more; full highlights always
+- Copy neutral: "Avg. mood with Sam: 4.2 (+0.6)". Never "worse"
+- Cards show `PersonChip`, single tint color, no per person color. Tapping a distribution row filters the calendar to that person
 
 ## Analytics
 

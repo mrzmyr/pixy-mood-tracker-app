@@ -672,5 +672,9 @@
   "log_people_disable": "मैं लोगों को ट्रैक नहीं करता",
   "people_manage": "लोग प्रबंधित करें",
   "people_slide_empty": "जिन लोगों के साथ आप समय बिताते हैं उन्हें जोड़ें और देखें कि उनके साथ आपका मूड कैसा रहता है।",
-  "view_log_people_empty": "अभी कोई लोग नहीं।"
+  "view_log_people_empty": "अभी कोई लोग नहीं।",
+  "statistics_people_distribution_title": "पिछले 14 दिनों में सबसे अधिक मिले लोग।",
+  "statistics_people_more": "और {{count}} अन्य",
+  "statistics_people_peaks_title": "लोगों के साथ आपका मूड, आपके {{avg}} औसत के बगल में।",
+  "statistics_people_peaks_row": "{{name}} के साथ औसत मूड: {{avg}} ({{delta}})"
 }

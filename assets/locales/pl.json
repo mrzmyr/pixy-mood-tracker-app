@@ -672,5 +672,9 @@
   "log_people_disable": "Nie zapisuję osób",
   "people_manage": "Zarządzaj osobami",
   "people_slide_empty": "Dodaj osoby, z którymi spędzasz czas, aby zobaczyć, jaki masz z nimi nastrój.",
-  "view_log_people_empty": "Brak osób."
+  "view_log_people_empty": "Brak osób.",
+  "statistics_people_distribution_title": "Najczęściej widziane osoby w ostatnich 14 dniach.",
+  "statistics_people_more": "I {{count}} więcej",
+  "statistics_people_peaks_title": "Twój nastrój z osobami obok twojej średniej {{avg}}.",
+  "statistics_people_peaks_row": "Śr. nastrój z {{name}}: {{avg}} ({{delta}})"
 }

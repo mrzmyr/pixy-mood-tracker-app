@@ -672,5 +672,9 @@
   "log_people_disable": "我不记录人物",
   "people_manage": "管理人物",
   "people_slide_empty": "添加与你共度时光的人，看看和他们在一起时你的心情如何。",
-  "view_log_people_empty": "还没有人物。"
+  "view_log_people_empty": "还没有人物。",
+  "statistics_people_distribution_title": "最近 14 天最常见到的人。",
+  "statistics_people_more": "还有 {{count}} 人",
+  "statistics_people_peaks_title": "和人物在一起时的心情，对比你的平均值 {{avg}}。",
+  "statistics_people_peaks_row": "与 {{name}} 在一起的平均心情：{{avg}}（{{delta}}）"
 }

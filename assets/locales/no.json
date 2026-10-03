@@ -672,5 +672,9 @@
   "log_people_disable": "Jeg registrerer ikke personer",
   "people_manage": "Administrer personer",
   "people_slide_empty": "Legg til personene du bruker tid med for å se hvordan humøret ditt er med dem.",
-  "view_log_people_empty": "Ingen personer enda."
+  "view_log_people_empty": "Ingen personer enda.",
+  "statistics_people_distribution_title": "Personer du har sett mest de siste 14 dagene.",
+  "statistics_people_more": "Og {{count}} til",
+  "statistics_people_peaks_title": "Humøret ditt med personer, ved siden av snittet ditt på {{avg}}.",
+  "statistics_people_peaks_row": "Snitthumør med {{name}}: {{avg}} ({{delta}})"
 }

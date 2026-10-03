@@ -672,5 +672,9 @@
   "log_people_disable": "אני לא מתעד/ת אנשים",
   "people_manage": "ניהול אנשים",
   "people_slide_empty": "הוסף/י את האנשים שאת/ה מבלה איתם כדי לראות איך מצב הרוח שלך איתם.",
-  "view_log_people_empty": "אין אנשים עדיין."
+  "view_log_people_empty": "אין אנשים עדיין.",
+  "statistics_people_distribution_title": "האנשים שנפגשת איתם הכי הרבה ב-14 הימים האחרונים.",
+  "statistics_people_more": "ועוד {{count}}",
+  "statistics_people_peaks_title": "מצב הרוח שלך עם אנשים, לצד הממוצע שלך {{avg}}.",
+  "statistics_people_peaks_row": "מצב רוח ממוצע עם {{name}}: {{avg}} ({{delta}})"
 }

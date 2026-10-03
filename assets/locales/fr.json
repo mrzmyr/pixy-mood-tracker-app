@@ -673,5 +673,9 @@
   "log_people_disable": "Je ne suis pas les personnes",
   "people_manage": "Gérer les personnes",
   "people_slide_empty": "Ajoute les personnes avec qui tu passes du temps pour voir comment va ton humeur avec elles.",
-  "view_log_people_empty": "Pas encore de personnes."
+  "view_log_people_empty": "Pas encore de personnes.",
+  "statistics_people_distribution_title": "Personnes les plus vues ces 14 derniers jours.",
+  "statistics_people_more": "Et {{count}} de plus",
+  "statistics_people_peaks_title": "Ton humeur avec les personnes, à côté de ta moyenne de {{avg}}.",
+  "statistics_people_peaks_row": "Humeur moy. avec {{name}} : {{avg}} ({{delta}})"
 }

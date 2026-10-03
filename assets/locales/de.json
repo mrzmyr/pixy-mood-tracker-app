@@ -669,5 +669,9 @@
   "log_people_disable": "Ich erfasse keine Personen",
   "people_manage": "Personen verwalten",
   "people_slide_empty": "Füge Personen hinzu, mit denen du Zeit verbringst, um zu sehen, wie deine Stimmung mit ihnen ist.",
-  "view_log_people_empty": "Noch keine Personen."
+  "view_log_people_empty": "Noch keine Personen.",
+  "statistics_people_distribution_title": "Meistgesehene Personen der letzten 14 Tage.",
+  "statistics_people_more": "Und {{count}} weitere",
+  "statistics_people_peaks_title": "Deine Stimmung mit Personen, neben deinem Durchschnitt von {{avg}}.",
+  "statistics_people_peaks_row": "Ø Stimmung mit {{name}}: {{avg}} ({{delta}})"
 }
