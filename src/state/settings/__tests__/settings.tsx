@@ -50,6 +50,22 @@ describe("useSettings()", () => {
     console.error = _console_error;
   });
 
+  test.each([undefined, "monday", "sunday", "invalid"])(
+    "loads week start %s without resetting other settings",
+    async (weekStart) => {
+      await AsyncStorage.setItem(
+        STORAGE_KEY,
+        JSON.stringify({ ...INITIAL_STATE, weekStart, reminderTime: "12:00" })
+      );
+      const hook = await _renderHook();
+      await waitForLoaded(hook);
+      expect(hook.result.current.state.settings.weekStart).toBe(
+        weekStart === "monday" || weekStart === "sunday" ? weekStart : "system"
+      );
+      expect(hook.result.current.state.settings.reminderTime).toBe("12:00");
+    }
+  );
+
   test("should have `loaded` prop", async () => {
     const hook = await _renderHook();
     await waitForLoaded(hook);

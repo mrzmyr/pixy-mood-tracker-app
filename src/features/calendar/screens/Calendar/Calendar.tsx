@@ -1,3 +1,4 @@
+import { useWeekLocale } from "@/hooks/useWeekLocale";
 import { FlashList } from "@shopify/flash-list";
 import type { FlashListRef, ListRenderItemInfo } from "@shopify/flash-list";
 
@@ -40,7 +41,7 @@ const CalendarComponent = ({
   const [monthCount, setMonthCount] = useState(13);
   const isLoaded = useRef(false);
   const currentMonth = dayjs().startOf("month").format(DATE_FORMAT);
-  const locale = dayjs.locale();
+  const locale = useWeekLocale();
   const months = useMemo(
     () => getMonths({ end: currentMonth, count: monthCount, locale }),
     [currentMonth, monthCount, locale]

@@ -1,8 +1,15 @@
+import { useWeekLocale } from "@/hooks/useWeekLocale";
 import dayjs from "dayjs";
 import { Text, View } from "react-native";
 import useColors from "@/hooks/useColors";
 
-const HeaderDay = ({ children }: { children: string }) => {
+const HeaderDay = ({
+  children,
+  index,
+}: {
+  children: string;
+  index: number;
+}) => {
   const colors = useColors();
   return (
     <View
@@ -13,6 +20,7 @@ const HeaderDay = ({ children }: { children: string }) => {
       }}
     >
       <Text
+        testID={`calendar-weekday-${index}`}
         style={{
           fontSize: 12,
           fontWeight: "bold",
@@ -27,6 +35,7 @@ const HeaderDay = ({ children }: { children: string }) => {
 };
 
 const CalendarHeader = () => {
+  const locale = useWeekLocale();
   const colors = useColors();
 
   return (
@@ -58,25 +67,15 @@ const CalendarHeader = () => {
           paddingBottom: 8,
         }}
       >
-        <HeaderDay>{dayjs().startOf("week").format("ddd")}</HeaderDay>
-        <HeaderDay>
-          {dayjs().startOf("week").add(1, "day").format("ddd")}
-        </HeaderDay>
-        <HeaderDay>
-          {dayjs().startOf("week").add(2, "day").format("ddd")}
-        </HeaderDay>
-        <HeaderDay>
-          {dayjs().startOf("week").add(3, "day").format("ddd")}
-        </HeaderDay>
-        <HeaderDay>
-          {dayjs().startOf("week").add(4, "day").format("ddd")}
-        </HeaderDay>
-        <HeaderDay>
-          {dayjs().startOf("week").add(5, "day").format("ddd")}
-        </HeaderDay>
-        <HeaderDay>
-          {dayjs().startOf("week").add(6, "day").format("ddd")}
-        </HeaderDay>
+        {[0, 1, 2, 3, 4, 5, 6].map((index) => (
+          <HeaderDay key={index} index={index}>
+            {dayjs()
+              .locale(locale)
+              .startOf("week")
+              .add(index, "day")
+              .format("ddd")}
+          </HeaderDay>
+        ))}
       </View>
     </View>
   );

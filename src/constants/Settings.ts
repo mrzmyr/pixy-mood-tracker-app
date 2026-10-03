@@ -10,6 +10,7 @@ import type { SettingsState } from "@/state/settings";
 export const INITIAL_STATE: SettingsState = {
   loaded: false,
   deviceId: null,
+  weekStart: "system",
   scaleType: "ColorBrew-RdYlGn",
   reminderEnabled: false,
   reminderTime: "18:00",

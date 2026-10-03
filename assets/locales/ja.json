@@ -638,5 +638,8 @@
   "report_a_bug": "バグを報告",
   "rate_pixy_app_store": "App StoreでPixyを評価",
   "rate_pixy_google_play": "Google PlayでPixyを評価",
-  "feedback_modal_message_placeholder_idea": "こうなったら嬉しい…"
+  "feedback_modal_message_placeholder_idea": "こうなったら嬉しい…",
+  "week_start": "週の開始日",
+  "week_start_system": "システム",
+  "week_start_help": "カレンダーと週間統計に適用されます。システムはデバイスで設定された週の開始日を使用します。"
 }

@@ -638,5 +638,8 @@
   "report_a_bug": "버그 신고",
   "rate_pixy_app_store": "App Store에서 Pixy 평가하기",
   "rate_pixy_google_play": "Google Play에서 Pixy 평가하기",
-  "feedback_modal_message_placeholder_idea": "이런 기능이 있으면 좋겠어요…"
+  "feedback_modal_message_placeholder_idea": "이런 기능이 있으면 좋겠어요…",
+  "week_start": "주 시작 요일",
+  "week_start_system": "시스템",
+  "week_start_help": "달력과 주간 통계에 적용됩니다. 시스템은 기기에 설정된 주 시작 요일을 따릅니다."
 }

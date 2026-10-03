@@ -638,5 +638,8 @@
   "report_a_bug": "报告错误",
   "rate_pixy_app_store": "在 App Store 为 Pixy 评分",
   "rate_pixy_google_play": "在 Google Play 为 Pixy 评分",
-  "feedback_modal_message_placeholder_idea": "如果能……就太好了"
+  "feedback_modal_message_placeholder_idea": "如果能……就太好了",
+  "week_start": "每周开始于",
+  "week_start_system": "系统",
+  "week_start_help": "适用于日历和每周统计。系统选项使用设备设置的一周首日。"
 }

@@ -641,5 +641,8 @@
   "report_a_bug": "Bug melden",
   "rate_pixy_app_store": "Beoordeel Pixy in de App Store",
   "rate_pixy_google_play": "Beoordeel Pixy op Google Play",
-  "feedback_modal_message_placeholder_idea": "Het zou fijn zijn als…"
+  "feedback_modal_message_placeholder_idea": "Het zou fijn zijn als…",
+  "week_start": "Week begint op",
+  "week_start_system": "Systeem",
+  "week_start_help": "Geldt voor de kalender en weekstatistieken. Systeem volgt de eerste weekdag van je apparaat."
 }

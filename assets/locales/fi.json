@@ -638,5 +638,8 @@
   "report_a_bug": "Ilmoita virheestä",
   "rate_pixy_app_store": "Arvostele Pixy App Storessa",
   "rate_pixy_google_play": "Arvostele Pixy Google Playssa",
-  "feedback_modal_message_placeholder_idea": "Olisi hienoa, jos…"
+  "feedback_modal_message_placeholder_idea": "Olisi hienoa, jos…",
+  "week_start": "Viikon aloituspäivä",
+  "week_start_system": "Järjestelmä",
+  "week_start_help": "Koskee kalenteria ja viikkotilastoja. Järjestelmä käyttää laitteen viikon aloituspäivää."
 }

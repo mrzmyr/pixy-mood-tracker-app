@@ -638,5 +638,8 @@
   "report_a_bug": "बग की रिपोर्ट करें",
   "rate_pixy_app_store": "App Store पर Pixy को रेट करें",
   "rate_pixy_google_play": "Google Play पर Pixy को रेट करें",
-  "feedback_modal_message_placeholder_idea": "बहुत अच्छा होगा अगर…"
+  "feedback_modal_message_placeholder_idea": "बहुत अच्छा होगा अगर…",
+  "week_start": "सप्ताह का पहला दिन",
+  "week_start_system": "सिस्टम",
+  "week_start_help": "कैलेंडर और साप्ताहिक आँकड़ों पर लागू होता है। सिस्टम आपके डिवाइस के सप्ताह के पहले दिन का उपयोग करता है।"
 }

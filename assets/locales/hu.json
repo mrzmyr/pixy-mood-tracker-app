@@ -638,5 +638,8 @@
   "report_a_bug": "Hiba bejelentése",
   "rate_pixy_app_store": "Értékeld a Pixyt az App Store-ban",
   "rate_pixy_google_play": "Értékeld a Pixyt a Google Playen",
-  "feedback_modal_message_placeholder_idea": "Jó lenne, ha…"
+  "feedback_modal_message_placeholder_idea": "Jó lenne, ha…",
+  "week_start": "A hét első napja",
+  "week_start_system": "Rendszer",
+  "week_start_help": "A naptárra és a heti statisztikákra érvényes. A rendszer az eszközön beállított első hétköznapot használja."
 }

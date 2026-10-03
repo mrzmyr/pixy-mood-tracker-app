@@ -187,6 +187,7 @@ export const useDatagate = (): DatagateValue => {
       tags,
       settings: {
         scaleType: settings.scaleType,
+        weekStart: settings.weekStart,
         reminderEnabled: settings.reminderEnabled,
         reminderTime: settings.reminderTime,
         trackBehaviour: settings.trackBehaviour,
