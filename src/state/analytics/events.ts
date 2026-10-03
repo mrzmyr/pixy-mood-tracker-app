@@ -11,6 +11,8 @@ import type { LogItemSchema } from "@/types";
  * - Properties: snake_case, JSON values only
  * - Never send free text (notes, custom tag names). Send counts and lengths
  *   instead. Fixed values (rating, emotion keys, sleep quality) are fine.
+ * - Photo events never carry file names, URIs, dimensions, EXIF, location,
+ *   photo timestamps, or library ids.
  * - `undefined`: the event has no properties
  */
 export interface AnalyticsEvents {
@@ -60,6 +62,13 @@ export interface AnalyticsEvents {
   "day:edit_tapped": undefined;
   "day:delete_tapped": undefined;
   "day:closed": undefined;
+
+  /** `viewed_count`: distinct photos shown before close. */
+  "photos:viewer_closed": {
+    context: "logger" | "day";
+    photos_count: number;
+    viewed_count: number;
+  };
 
   "calendar:day_opened": {
     source: "calendar" | "mood_peaks" | "tag_peaks";
