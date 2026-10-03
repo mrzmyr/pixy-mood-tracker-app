@@ -164,7 +164,7 @@ const renderState = async (analyticsEnabled: boolean) => {
       actionsDone: ONBOARDED,
     })
   );
-  return renderHook(() => useFeatureFlagState("home-screen-widget"), {
+  return renderHook(() => useFeatureFlagState("ios-widget"), {
     wrapper,
   });
 };
@@ -185,7 +185,7 @@ describe("feature flag state", () => {
     expect(hook.result.current).toBe("loading");
 
     await act(() => {
-      pending.resolve({ "home-screen-widget": true });
+      pending.resolve({ "ios-widget": true });
     });
     expect(hook.result.current).toBe("on");
   });

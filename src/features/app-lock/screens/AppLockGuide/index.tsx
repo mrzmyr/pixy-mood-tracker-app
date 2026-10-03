@@ -6,7 +6,6 @@ import Button from "@/components/Button";
 import { Demo } from "@/components/Demo";
 import type { DemoStep } from "@/components/Demo";
 import { DemoImage } from "@/components/DemoImage";
-import { typeSpace } from "@/constants/typeSpace";
 import { t } from "@/lib/translation";
 import { useAnalytics } from "@/state/analytics";
 
@@ -40,7 +39,7 @@ const PrivateSpaceContent = ({
 }: {
   onWatchVideo: () => void;
 }) => (
-  <View style={{ flex: 1, minHeight: 0, gap: typeSpace.related }}>
+  <View style={{ flex: 1, minHeight: 0, gap: 24 }}>
     <DemoImage source={ANDROID_IMAGE} />
     <Button
       type="secondary"

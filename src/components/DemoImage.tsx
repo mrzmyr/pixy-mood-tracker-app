@@ -1,14 +1,13 @@
 import { useState } from "react";
 import { Image, View } from "react-native";
 import type { ImageSourcePropType, LayoutChangeEvent } from "react-native";
-import { typeSpace } from "@/constants/typeSpace";
 import useColors from "@/hooks/useColors";
 
 /** Same inset on every side of the screenshot. */
-const IMAGE_INSET = typeSpace.related;
+const IMAGE_INSET = 24;
 /** Top corners of the screenshot. Bottom corners stay square. */
 const IMAGE_TOP_RADIUS = 16;
-/** Demo screenshots are cropped to 600×820. See docs/widget.md. */
+/** Demo screenshots are cropped to 600×820. */
 const IMAGE_ASPECT = 600 / 820;
 
 /**

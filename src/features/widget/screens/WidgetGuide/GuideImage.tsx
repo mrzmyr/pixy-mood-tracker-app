@@ -2,7 +2,7 @@ import { DemoImage } from "@/components/DemoImage";
 
 /**
  * Real screenshots of the widget flow on iOS. Replace the files in
- * `assets/images/widget` after a widget change; see docs/widget.md.
+ * `assets/images/widget` after a widget change.
  */
 const GUIDE_IMAGES = [
   require("../../../../../assets/images/widget/step-1.jpg"),
