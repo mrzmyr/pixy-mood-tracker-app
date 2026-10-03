@@ -645,5 +645,16 @@
   "rate_pixy_app_store": "Rate Pixy in the App Store",
   "rate_pixy_google_play": "Rate Pixy on Google Play",
   "feedback_modal_message_placeholder_idea": "It would be great if…",
+  "photos_add": "Add Photo",
+  "photos_thumbnail_label": "Photo {{index}} of {{count}}",
+  "photos_viewer_counter": "{{index}} / {{count}}",
+  "photos_viewer_close": "Close",
+  "photos_missing": "Photo unavailable",
+  "photos_day_access_label": "See your photos from {{day}}",
+  "photos_day_access_allow": "Allow",
+  "photos_day_access_dismiss": "Not Now",
+  "photos_remove_label": "Remove Photo {{index}}",
+  "photos_suggestion_hint": "Adds the photo to this entry.",
+  "photos_viewer_remove": "Remove",
   "data_export_photos_note": "Photos stay on this device. Backups contain entries without photos."
 }

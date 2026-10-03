@@ -16,6 +16,15 @@
   - Answer: `worse`, `same`, `better`. Asked only after create, not edit
   - Entry metadata: `rating`, `emotions`, counts, `message_word_count`, `sleep_quality`, `entries_count`
 
+## Photos
+
+- Events: `photos:*` in [`events.ts`](../src/state/analytics/events.ts). Sent through `track()` only, so consent applies
+- Never file names, URIs, dimensions, EXIF, location, photo timestamps, or library ids
+
+| Event | When | Properties |
+| --- | --- | --- |
+| `photos:viewer_closed` | Viewer closes | `context` (`logger`, `day`), `photos_count`, `viewed_count` |
+
 ## Event history
 
 Use this section to join old and new events in PostHog, for example with an Action that matches both names.
@@ -32,6 +41,12 @@ Use this section to join old and new events in PostHog, for example with an Acti
   - `log_created` = `logger:log_saved` with `mode: "create"`
   - `log_changed` = `logger:log_saved` with `mode: "edit"`
   - `log_saved_without_rating` = `logger:log_saved` with `has_rating: false`
+
+**Added events**
+
+- Photo attachments, first release with photos ([`src/features/photos`](../src/features/photos))
+  - `photos:viewer_closed`: `context` (`logger`, `day`), `photos_count`, `viewed_count`
+  - Counts and enums only. Never file names, URIs, dimensions, EXIF, location, photo timestamps, or library ids
 
 **Changed meaning**
 
