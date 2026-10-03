@@ -59,6 +59,11 @@ const getScreenName = (pathname: string): string | null => {
       "/dev/fixtures": "DevFixtures",
       "/dev/fixture": "DevFixture",
       "/dev/fake-files": "DevFakeFiles",
+      "/dev/type": "TypeGuide",
+      "/dev/type/roles": "TypeRoles",
+      "/dev/type/gaps": "TypeGaps",
+      "/dev/type/lists": "TypeLists",
+      "/dev/type/screens": "TypeScreens",
     })
   );
   return settingsRoutes.get(pathname) ?? null;

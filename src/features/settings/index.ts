@@ -10,4 +10,9 @@ export {
   DevFixturesScreen,
   DevFixtureLinkScreen,
   DevFakeFilesLinkScreen,
+  TypeGapsScreen,
+  TypeListsScreen,
+  TypeOverviewScreen,
+  TypeRolesScreen,
+  TypeScreensScreen,
 } from "./DevRoutes";

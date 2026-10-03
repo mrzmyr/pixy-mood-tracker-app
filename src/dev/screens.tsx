@@ -172,3 +172,11 @@ export const DevFakeFilesLinkScreen = () => {
 
   return <ActivityIndicator testID="dev-fake-files-link" />;
 };
+
+export {
+  TypeGapsScreen,
+  TypeListsScreen,
+  TypeOverviewScreen,
+  TypeRolesScreen,
+  TypeScreensScreen,
+} from "@/dev/type";

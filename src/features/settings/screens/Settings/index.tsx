@@ -4,6 +4,7 @@ import * as StoreReview from "expo-store-review";
 import * as WebBrowser from "expo-web-browser";
 import { Platform, ScrollView, Text, View } from "react-native";
 import {
+  AlignLeft,
   ArrowUpCircle,
   Award,
   Bell,
@@ -200,13 +201,24 @@ export const SettingsScreen = () => {
             onPress={() => router.push("/onboarding")}
           />
           {DEV_TOOLS && (
-            <MenuListItem
-              title="Test data"
-              iconLeft={<Database width={18} color={colors.menuListItemIcon} />}
-              onPress={() => router.push("/dev/fixtures")}
-              isLink
-              testID="dev-fixtures"
-            />
+            <>
+              <MenuListItem
+                title="Test data"
+                iconLeft={<Database width={18} color={colors.menuListItemIcon} />}
+                onPress={() => router.push("/dev/fixtures")}
+                isLink
+                testID="dev-fixtures"
+              />
+              <MenuListItem
+                title="Type guide"
+                iconLeft={
+                  <AlignLeft width={18} color={colors.menuListItemIcon} />
+                }
+                onPress={() => router.push("/dev/type")}
+                isLink
+                testID="dev-type"
+              />
+            </>
           )}
           <MenuListItem
             title={t("settings_development_statistics")}

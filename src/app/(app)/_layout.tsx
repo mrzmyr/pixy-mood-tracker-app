@@ -119,6 +119,26 @@ const AppLayout = () => {
               name="dev/fake-files"
               options={{ ...pageOptions, headerShown: false }}
             />
+            <Stack.Screen
+              name="dev/type/index"
+              options={{ ...pageOptions, title: "Type" }}
+            />
+            <Stack.Screen
+              name="dev/type/roles"
+              options={{ ...pageOptions, title: "Roles" }}
+            />
+            <Stack.Screen
+              name="dev/type/gaps"
+              options={{ ...pageOptions, title: "Gaps" }}
+            />
+            <Stack.Screen
+              name="dev/type/lists"
+              options={{ ...pageOptions, title: "Lists" }}
+            />
+            <Stack.Screen
+              name="dev/type/screens"
+              options={{ ...pageOptions, title: "Screens" }}
+            />
           </Stack.Protected>
         </Stack>
       </View>
