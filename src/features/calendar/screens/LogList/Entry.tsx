@@ -7,6 +7,9 @@ import { Edit, Trash } from "lucide-react-native";
 import { ScrollView, Text, View } from "react-native";
 import { Emotions } from "./Emotions";
 import { Message } from "./Message";
+import { Photos } from "./Photos";
+import { useFeatureFlag } from "@/state/featureFlags";
+import { useSettings } from "@/state/settings";
 import { RatingDot } from "./RatingDot";
 import { Sleep } from "./Sleep";
 import { Tags } from "./Tags";
@@ -98,9 +101,12 @@ const EntryHeader = ({
 };
 
 /**
- * Card for one entry in the day list with its sleep, emotions, tags, and
- * message sections. The trash button calls `onDelete` without asking, so
- * the caller must confirm.
+ * Card for one entry in the day list with its sleep, emotions, tags,
+ * photos, and message sections. Stored photos always show, so turning the
+ * `photos` feature flag or consent off never hides user data. With the flag
+ * on, the section also shows empty when the photos step is on, and its
+ * pencil opens the photos step. The trash button calls `onDelete` without
+ * asking, so the caller must confirm.
  */
 export const Entry = ({
   item,
@@ -112,6 +118,8 @@ export const Entry = ({
   onDelete: (item: LogItem) => void;
 }) => {
   const colors = useColors();
+  const { hasStep } = useSettings();
+  const isPhotosEnabled = useFeatureFlag("photos");
 
   return (
     <View
@@ -159,6 +167,16 @@ export const Entry = ({
             >
               <Tags item={item} />
             </View>
+            {(item.photos.length > 0 ||
+              (isPhotosEnabled && hasStep("photos"))) && (
+              <View
+                style={{
+                  marginTop: 8,
+                }}
+              >
+                <Photos item={item} canEdit={isPhotosEnabled} />
+              </View>
+            )}
             <View
               style={{
                 marginTop: 8,
