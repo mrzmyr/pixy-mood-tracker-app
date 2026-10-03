@@ -52,3 +52,19 @@ jest.mock("@expo/ui", () => ({
   BottomSheet: () => null,
   RNHostView: () => null,
 }));
+
+// oxlint-disable-next-line anti-slop/no-module-mocking -- feature entry files load the widget sync; the ExpoWidgets native module does not exist in Jest.
+jest.mock("expo-widgets", () => ({
+  createWidget: () => ({
+    reload: () => null,
+    updateTimeline: () => null,
+    updateSnapshot: () => null,
+    getTimeline: () => Promise.resolve([]),
+  }),
+  widgetsDirectory: "",
+}));
+
+// oxlint-disable-next-line anti-slop/no-module-mocking -- the widget sync captures the year grid; view-shot has no native module in Jest.
+jest.mock("react-native-view-shot", () => ({
+  captureRef: () => Promise.resolve(""),
+}));
