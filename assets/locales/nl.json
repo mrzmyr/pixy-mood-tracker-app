@@ -670,5 +670,10 @@
   "people_contacts_denied_message": "Sta in de systeeminstellingen toegang tot Contacten toe voor Pixy om een contact te kiezen. Je kunt de naam ook typen.",
   "people_open_settings": "Instellingen openen",
   "logger_step_people": "Mensen",
-  "privacy_people_content": "### Mensen\n\nAls je een persoon uit je contacten toevoegt, leest Pixy alleen de naam en foto van dat contact. Beide blijven op je apparaat en maken deel uit van je exportbestand. Pixy leest nooit je adresboek en stuurt nooit namen of foto’s naar ons."
+  "privacy_people_content": "### Mensen\n\nAls je een persoon uit je contacten toevoegt, leest Pixy alleen de naam en foto van dat contact. Beide blijven op je apparaat en maken deel uit van je exportbestand. Pixy leest nooit je adresboek en stuurt nooit namen of foto’s naar ons.",
+  "log_people_question": "Met wie was je?",
+  "log_people_disable": "Ik houd geen mensen bij",
+  "people_manage": "Mensen beheren",
+  "people_slide_empty": "Voeg mensen toe met wie je tijd doorbrengt om te zien hoe je stemming bij hen is.",
+  "view_log_people_empty": "Nog geen mensen."
 }

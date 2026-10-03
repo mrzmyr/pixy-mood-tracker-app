@@ -667,5 +667,10 @@
   "people_contacts_denied_message": "Salli Pixylle Yhteystiedot järjestelmäasetuksissa valitaksesi yhteystiedon. Voit myös kirjoittaa nimen.",
   "people_open_settings": "Avaa asetukset",
   "logger_step_people": "Ihmiset",
-  "privacy_people_content": "### Ihmiset\n\nKun lisäät henkilön yhteystiedoistasi, Pixy lukee vain kyseisen yhteystiedon nimen ja kuvan. Molemmat pysyvät laitteellasi ja ovat osa vientitiedostoasi. Pixy ei koskaan lue osoitekirjaasi eikä lähetä nimiä tai kuvia meille."
+  "privacy_people_content": "### Ihmiset\n\nKun lisäät henkilön yhteystiedoistasi, Pixy lukee vain kyseisen yhteystiedon nimen ja kuvan. Molemmat pysyvät laitteellasi ja ovat osa vientitiedostoasi. Pixy ei koskaan lue osoitekirjaasi eikä lähetä nimiä tai kuvia meille.",
+  "log_people_question": "Kenen kanssa olit?",
+  "log_people_disable": "En seuraa ihmisiä",
+  "people_manage": "Hallitse ihmisiä",
+  "people_slide_empty": "Lisää ihmiset, joiden kanssa vietät aikaa, nähdäksesi miten mielialasi on heidän kanssaan.",
+  "view_log_people_empty": "Ei vielä ihmisiä."
 }

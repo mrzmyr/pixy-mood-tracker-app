@@ -667,5 +667,10 @@
   "people_contacts_denied_message": "Cho phép Pixy truy cập Danh bạ trong cài đặt hệ thống để chọn một liên hệ. Bạn cũng có thể gõ tên.",
   "people_open_settings": "Mở cài đặt",
   "logger_step_people": "Mọi người",
-  "privacy_people_content": "### Mọi người\n\nKhi bạn thêm một người từ danh bạ, Pixy chỉ đọc tên và ảnh của liên hệ đó. Cả hai đều ở lại trên thiết bị của bạn và là một phần của tệp xuất. Pixy không bao giờ đọc sổ địa chỉ của bạn và không bao giờ gửi tên hay ảnh cho chúng tôi."
+  "privacy_people_content": "### Mọi người\n\nKhi bạn thêm một người từ danh bạ, Pixy chỉ đọc tên và ảnh của liên hệ đó. Cả hai đều ở lại trên thiết bị của bạn và là một phần của tệp xuất. Pixy không bao giờ đọc sổ địa chỉ của bạn và không bao giờ gửi tên hay ảnh cho chúng tôi.",
+  "log_people_question": "Bạn đã ở cùng ai?",
+  "log_people_disable": "Tôi không theo dõi mọi người",
+  "people_manage": "Quản lý mọi người",
+  "people_slide_empty": "Thêm những người bạn dành thời gian cùng để xem tâm trạng của bạn với họ thế nào.",
+  "view_log_people_empty": "Chưa có người nào."
 }

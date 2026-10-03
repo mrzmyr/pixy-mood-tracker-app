@@ -667,5 +667,10 @@
   "people_contacts_denied_message": "请在系统设置中允许 Pixy 访问通讯录，以选择联系人。你也可以直接输入名字。",
   "people_open_settings": "打开设置",
   "logger_step_people": "人物",
-  "privacy_people_content": "### 人物\n\n当你从通讯录添加人物时，Pixy 只读取该联系人的名字和照片。两者都保存在你的设备上，并包含在你的导出文件中。Pixy 绝不会读取你的通讯录，也绝不会向我们发送名字或照片。"
+  "privacy_people_content": "### 人物\n\n当你从通讯录添加人物时，Pixy 只读取该联系人的名字和照片。两者都保存在你的设备上，并包含在你的导出文件中。Pixy 绝不会读取你的通讯录，也绝不会向我们发送名字或照片。",
+  "log_people_question": "你和谁在一起？",
+  "log_people_disable": "我不记录人物",
+  "people_manage": "管理人物",
+  "people_slide_empty": "添加与你共度时光的人，看看和他们在一起时你的心情如何。",
+  "view_log_people_empty": "还没有人物。"
 }

@@ -667,5 +667,10 @@
   "people_contacts_denied_message": "Povol Pixy přístup ke Kontaktům v nastavení systému, abys mohl(a) vybrat kontakt. Jméno můžeš také napsat.",
   "people_open_settings": "Otevřít nastavení",
   "logger_step_people": "Lidé",
-  "privacy_people_content": "### Lidé\n\nKdyž přidáš osobu z kontaktů, Pixy přečte jen jméno a fotku tohoto kontaktu. Obojí zůstává na tvém zařízení a je součástí exportního souboru. Pixy nikdy nečte tvůj adresář a nikdy nám neposílá jména ani fotky."
+  "privacy_people_content": "### Lidé\n\nKdyž přidáš osobu z kontaktů, Pixy přečte jen jméno a fotku tohoto kontaktu. Obojí zůstává na tvém zařízení a je součástí exportního souboru. Pixy nikdy nečte tvůj adresář a nikdy nám neposílá jména ani fotky.",
+  "log_people_question": "S kým jsi byl(a)?",
+  "log_people_disable": "Lidi nesleduji",
+  "people_manage": "Spravovat lidi",
+  "people_slide_empty": "Přidej lidi, se kterými trávíš čas, a uvidíš, jakou máš s nimi náladu.",
+  "view_log_people_empty": "Zatím žádní lidé."
 }

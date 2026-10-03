@@ -667,5 +667,10 @@
   "people_contacts_denied_message": "Bir kişi seçmek için sistem ayarlarında Pixy’ye Rehber erişimi ver. Adı elle de yazabilirsin.",
   "people_open_settings": "Ayarları aç",
   "logger_step_people": "Kişiler",
-  "privacy_people_content": "### Kişiler\n\nRehberinden bir kişi eklediğinde Pixy yalnızca o kişinin adını ve fotoğrafını okur. İkisi de cihazında kalır ve dışa aktarma dosyanın parçasıdır. Pixy adres defterini asla okumaz ve bize asla ad veya fotoğraf göndermez."
+  "privacy_people_content": "### Kişiler\n\nRehberinden bir kişi eklediğinde Pixy yalnızca o kişinin adını ve fotoğrafını okur. İkisi de cihazında kalır ve dışa aktarma dosyanın parçasıdır. Pixy adres defterini asla okumaz ve bize asla ad veya fotoğraf göndermez.",
+  "log_people_question": "Kiminle birlikteydin?",
+  "log_people_disable": "Kişileri takip etmiyorum",
+  "people_manage": "Kişileri yönet",
+  "people_slide_empty": "Zaman geçirdiğin kişileri ekle ve onlarla ruh halinin nasıl olduğunu gör.",
+  "view_log_people_empty": "Henüz kişi yok."
 }

@@ -667,5 +667,10 @@
   "people_contacts_denied_message": "연락처를 선택하려면 시스템 설정에서 Pixy의 연락처 접근을 허용하세요. 이름을 직접 입력할 수도 있습니다.",
   "people_open_settings": "설정 열기",
   "logger_step_people": "사람",
-  "privacy_people_content": "### 사람\n\n연락처에서 사람을 추가하면 Pixy는 해당 연락처의 이름과 사진만 읽습니다. 둘 다 기기에 남고 내보내기 파일에 포함됩니다. Pixy는 주소록을 읽지 않으며 이름이나 사진을 저희에게 보내지 않습니다."
+  "privacy_people_content": "### 사람\n\n연락처에서 사람을 추가하면 Pixy는 해당 연락처의 이름과 사진만 읽습니다. 둘 다 기기에 남고 내보내기 파일에 포함됩니다. Pixy는 주소록을 읽지 않으며 이름이나 사진을 저희에게 보내지 않습니다.",
+  "log_people_question": "누구와 함께 있었나요?",
+  "log_people_disable": "사람을 기록하지 않아요",
+  "people_manage": "사람 관리",
+  "people_slide_empty": "함께 시간을 보내는 사람을 추가하고 그들과 함께할 때의 기분을 확인하세요.",
+  "view_log_people_empty": "아직 사람이 없습니다."
 }

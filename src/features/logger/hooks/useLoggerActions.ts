@@ -55,6 +55,7 @@ export const useLoggerActions = ({
       has_rating: data.rating !== null,
       message_length: data.message.length,
       tags_count: data.tags.length,
+      people_count: data.people.length,
       emotions_count: data.emotions.length,
     });
 

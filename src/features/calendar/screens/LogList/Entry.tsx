@@ -4,12 +4,48 @@ import type { LogItem } from "@/features/logs";
 import dayjs from "dayjs";
 import { LinearGradient } from "expo-linear-gradient";
 import { Edit, Trash } from "lucide-react-native";
+import { useFeatureFlag } from "@/state/featureFlags";
+import { PersonChip, usePeopleState } from "@/features/people";
 import { ScrollView, Text, View } from "react-native";
 import { Emotions } from "./Emotions";
 import { Message } from "./Message";
+import { People } from "./People";
 import { RatingDot } from "./RatingDot";
 import { Sleep } from "./Sleep";
 import { Tags } from "./Tags";
+
+const MAX_STACK = 3;
+
+/** Up to three avatars of the entry's people, overlapping like a stack. */
+const AvatarStack = ({ item }: { item: LogItem }) => {
+  const { people } = usePeopleState();
+  const shown = item.people
+    .flatMap((reference) => {
+      const person = people.find((candidate) => candidate.id === reference.id);
+      return person ? [person] : [];
+    })
+    .slice(0, MAX_STACK);
+
+  if (shown.length === 0) {
+    return null;
+  }
+
+  return (
+    <View
+      style={{ flexDirection: "row", marginLeft: 12 }}
+      testID="log-list-people"
+    >
+      {shown.map((person, index) => (
+        <PersonChip
+          key={person.id}
+          person={person}
+          variant="avatarOnly"
+          style={{ marginLeft: index === 0 ? 0 : -8 }}
+        />
+      ))}
+    </View>
+  );
+};
 
 const EntryHeader = ({
   item,
@@ -21,6 +57,7 @@ const EntryHeader = ({
   onDelete: (item: LogItem) => void;
 }) => {
   const colors = useColors();
+  const hasPeople = useFeatureFlag("people");
 
   return (
     <View
@@ -49,6 +86,7 @@ const EntryHeader = ({
           {dayjs(item.dateTime).format("LT")}
         </Text>
       </View>
+      {hasPeople && <AvatarStack item={item} />}
       <View
         style={{
           flex: 1,
@@ -98,8 +136,8 @@ const EntryHeader = ({
 };
 
 /**
- * Card for one entry in the day list with its sleep, emotions, tags, and
- * message sections. The trash button calls `onDelete` without asking, so
+ * Card for one entry in the day list with its sleep, emotions, tags, people
+ * (behind the `people` flag), and message sections. The trash button calls `onDelete` without asking, so
  * the caller must confirm.
  */
 export const Entry = ({
@@ -112,6 +150,7 @@ export const Entry = ({
   onDelete: (item: LogItem) => void;
 }) => {
   const colors = useColors();
+  const hasPeople = useFeatureFlag("people");
 
   return (
     <View
@@ -159,6 +198,11 @@ export const Entry = ({
             >
               <Tags item={item} />
             </View>
+            {(hasPeople || item.people.length > 0) && (
+              <View style={{ marginTop: 8 }}>
+                <People item={item} />
+              </View>
+            )}
             <View
               style={{
                 marginTop: 8,
