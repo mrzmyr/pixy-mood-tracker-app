@@ -10,6 +10,7 @@ import { t } from "@/lib/translation";
 import { PAD_CELL } from "./widgetProps";
 import type {
   MonthWidgetProps,
+  YearGrid,
   WeekWidgetProps,
   WidgetBaseProps,
   WidgetCell,
@@ -63,7 +64,8 @@ export const getRatingsByDate = (items: LogItem[]) => {
   return ratings;
 };
 
-const getSchemeColors = (
+/** Colors for one scheme; also used by the year image renderer. */
+export const getSchemeColors = (
   theme: "light" | "dark",
   scaleType: string
 ): WidgetSchemeColors => {
@@ -169,8 +171,8 @@ export const getMonthWidgetProps = (
   };
 };
 
-/** Props for the year widget: twelve rows of up to 31 day codes. */
-export const getYearWidgetProps = (input: WidgetDataInput): YearWidgetProps => {
+/** Day codes and labels for the year grid image. */
+export const getYearGrid = (input: WidgetDataInput): YearGrid => {
   const today = (input.now ?? dayjs()).startOf("day");
   const ratings = getRatingsByDate(input.items);
   const cells: WidgetCell[] = [];
@@ -193,10 +195,32 @@ export const getYearWidgetProps = (input: WidgetDataInput): YearWidgetProps => {
     today.month(monthIndex).format("MMM")
   );
   return {
-    ...getBaseProps(input, today.format("YYYY"), cells),
     monthLabels,
     months,
     today: { month: today.month(), day: today.date() },
+    cells,
+  };
+};
+
+/** `file://` URIs of the captured year images, one per color scheme. */
+export interface YearImages {
+  light: string;
+  dark: string;
+  version: number;
+}
+
+/** Props for the year widget: title, subtitle, and the captured images. */
+export const getYearWidgetProps = (
+  input: WidgetDataInput,
+  images?: YearImages
+): YearWidgetProps => {
+  const today = (input.now ?? dayjs()).startOf("day");
+  const { cells } = getYearGrid(input);
+  return {
+    ...getBaseProps(input, today.format("YYYY"), cells),
+    imageLight: images?.light ?? "",
+    imageDark: images?.dark ?? "",
+    imageVersion: images?.version ?? 0,
   };
 };
 

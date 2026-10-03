@@ -1,16 +1,11 @@
+import { HStack, Image, Spacer, Text, VStack } from "@expo/ui/swift-ui";
 import {
-  HStack,
-  RoundedRectangle,
-  Spacer,
-  Text,
-  VStack,
-} from "@expo/ui/swift-ui";
-import {
+  aspectRatio,
   containerBackground,
   font,
   foregroundStyle,
   frame,
-  opacity,
+  resizable,
   widgetURL,
 } from "@expo/ui/swift-ui/modifiers";
 import { createWidget } from "expo-widgets";
@@ -18,9 +13,9 @@ import type { WidgetEnvironment } from "expo-widgets";
 import type { YearWidgetProps } from "../widgetProps";
 
 /**
- * Year in pixels: one row per month, one cell per day. Runs in the widget
+ * Year in pixels, shown as one image the app captured. Runs in the widget
  * runtime: no hooks, no imports besides `@expo/ui`, and no module-scope
- * values. Day codes come from `YearWidgetProps.months`.
+ * values. One image keeps the extension far under its 30 MB limit.
  */
 const PixyYearWidget = (
   props: YearWidgetProps,
@@ -28,28 +23,14 @@ const PixyYearWidget = (
 ) => {
   "widget";
   try {
-    const scheme =
-      environment.colorScheme === "dark" ? props.dark : props.light;
-    const isLarge = environment.widgetFamily === "systemLarge";
-    const cellSpacing = isLarge ? 3 : 2;
-    // Stacks stay under ten children each: 31 days as 8 + 8 + 8 + 7.
-    const chunkSize = 8;
-
-    const cellFill = (code: string) => {
-      if (code === "") {
-        return scheme.empty;
-      }
-      if (code === "f") {
-        return scheme.future;
-      }
-      // SAFETY: codes other than "", "f", "p" are rating keys (YearDayCode).
-      return scheme.ratings[code as keyof typeof scheme.ratings];
-    };
+    const isDark = environment.colorScheme === "dark";
+    const scheme = isDark ? props.dark : props.light;
+    const image = isDark ? props.imageDark : props.imageLight;
 
     return (
       <VStack
         alignment="leading"
-        spacing={isLarge ? 8 : 6}
+        spacing={8}
         modifiers={[
           frame({
             maxWidth: Infinity,
@@ -79,59 +60,26 @@ const PixyYearWidget = (
             {props.subtitle}
           </Text>
         </HStack>
-        <VStack spacing={cellSpacing}>
-          {props.months.map((month, monthIndex) => {
-            const chunks: string[][] = [];
-            for (let start = 0; start < month.length; start += chunkSize) {
-              chunks.push(month.slice(start, start + chunkSize));
-            }
-            return (
-              <HStack key={monthIndex} spacing={cellSpacing}>
-                {isLarge ? (
-                  <Text
-                    modifiers={[
-                      frame({ width: 24, alignment: "leading" }),
-                      font({ size: 9 }),
-                      foregroundStyle(scheme.textSecondary),
-                    ]}
-                  >
-                    {props.monthLabels[monthIndex]}
-                  </Text>
-                ) : null}
-                {chunks.map((chunk, chunkIndex) => (
-                  <HStack key={chunkIndex} spacing={cellSpacing}>
-                    {chunk.map((code, index) => {
-                      const dayIndex = chunkIndex * chunkSize + index;
-                      if (code === "p") {
-                        return (
-                          <RoundedRectangle
-                            key={dayIndex}
-                            cornerRadius={1.5}
-                            modifiers={[opacity(0)]}
-                          />
-                        );
-                      }
-                      const isToday =
-                        props.today.month === monthIndex &&
-                        props.today.day === dayIndex + 1;
-                      return (
-                        <RoundedRectangle
-                          key={dayIndex}
-                          cornerRadius={1.5}
-                          modifiers={[
-                            foregroundStyle(
-                              isToday ? scheme.text : cellFill(code)
-                            ),
-                          ]}
-                        />
-                      );
-                    })}
-                  </HStack>
-                ))}
-              </HStack>
-            );
-          })}
-        </VStack>
+        {image === "" ? (
+          <Text
+            modifiers={[
+              font({ size: 12 }),
+              foregroundStyle(scheme.textSecondary),
+            ]}
+          >
+            Open Pixy to fill this widget.
+          </Text>
+        ) : (
+          <Image
+            uiImage={image}
+            modifiers={[
+              resizable(),
+              aspectRatio({ contentMode: "fit" }),
+              frame({ maxWidth: Infinity }),
+            ]}
+          />
+        )}
+        <Spacer />
       </VStack>
     );
   } catch (error) {

@@ -6,6 +6,7 @@ import {
   getMonthWidgetProps,
   getWeekWidgetProps,
   getWidgetTimeline,
+  getYearGrid,
   getYearWidgetProps,
 } from "../widgetData";
 
@@ -76,19 +77,41 @@ describe("getMonthWidgetProps()", () => {
   });
 });
 
-describe("getYearWidgetProps()", () => {
+describe("getYearGrid()", () => {
   test("builds twelve rows of 31 with padding for short months", () => {
-    const props = getYearWidgetProps(INPUT);
+    const grid = getYearGrid(INPUT);
+    expect(grid.months).toHaveLength(12);
+    expect(grid.monthLabels[0]).toBe("Jan");
+    expect(grid.months[1].filter((code) => code !== "p")).toHaveLength(28);
+    expect(grid.months[9].filter((code) => code !== "p")).toHaveLength(31);
+    expect(grid.today).toEqual({ month: 9, day: 15 });
+    expect(grid.months[9][12]).toBe("good");
+    expect(grid.months[9][14]).toBe("neutral");
+    expect(grid.months[11][30]).toBe("f");
+    expect(grid.months[0][0]).toBe("");
+    expect(grid.cells).toHaveLength(365);
+  });
+});
+
+describe("getYearWidgetProps()", () => {
+  test("carries the captured images and counts logged days", () => {
+    const images = {
+      light: "file:///l.png",
+      dark: "file:///d.png",
+      version: 7,
+    };
+    const props = getYearWidgetProps(INPUT, images);
     expect(props.title).toBe("2026");
-    expect(props.months).toHaveLength(12);
-    expect(props.monthLabels[0]).toBe("Jan");
-    expect(props.months[1].filter((code) => code !== "p")).toHaveLength(28);
-    expect(props.months[9].filter((code) => code !== "p")).toHaveLength(31);
-    expect(props.today).toEqual({ month: 9, day: 15 });
-    expect(props.months[9][12]).toBe("good");
-    expect(props.months[9][14]).toBe("neutral");
-    expect(props.months[11][30]).toBe("f");
-    expect(props.months[0][0]).toBe("");
+    expect(props.imageLight).toBe(images.light);
+    expect(props.imageDark).toBe(images.dark);
+    expect(props.imageVersion).toBe(7);
+    expect(props.subtitle).toBe("2/288");
+  });
+
+  test("uses empty image URIs before the first capture", () => {
+    const props = getYearWidgetProps(INPUT);
+    expect(props.imageLight).toBe("");
+    expect(props.imageDark).toBe("");
   });
 });
 
@@ -120,6 +143,6 @@ describe("getWidgetTimeline()", () => {
       YEAR_WIDGET_TIMELINE_DAYS
     );
     expect(timeline).toHaveLength(1);
-    expect(timeline[0].props.today).toEqual({ month: 9, day: 15 });
+    expect(timeline[0].props.title).toBe("2026");
   });
 });

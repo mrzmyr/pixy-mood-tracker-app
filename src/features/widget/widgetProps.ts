@@ -69,13 +69,29 @@ export interface MonthWidgetProps extends WidgetBaseProps {
 export type YearDayCode = WidgetRating | "" | "f" | "p";
 
 /**
- * Year widget props. `months` has twelve rows of 31 codes: a rating, `""`
- * for a past day without entry, `"f"` for a future day, `"p"` for padding.
+ * Year grid, rendered by the app into a PNG. Twelve rows of 31 codes: a
+ * rating, `""` for a past day without entry, `"f"` for a future day, `"p"`
+ * for padding.
  */
-export interface YearWidgetProps extends WidgetBaseProps {
+export interface YearGrid {
   /** Short month labels, January first. */
   monthLabels: string[];
   months: YearDayCode[][];
   /** Today's position: 0-based month, 1-based day. */
   today: { month: number; day: number };
+  /** Every real day, for the logged-days subtitle. */
+  cells: WidgetCell[];
+}
+
+/**
+ * Year widget props. The widget shows one image per color scheme: 372
+ * SwiftUI cells exceed the 30 MB widget extension limit, an image does not.
+ * `imageLight` and `imageDark` are `file://` URIs in `widgetsDirectory`, or
+ * `""` before the first capture.
+ */
+export interface YearWidgetProps extends WidgetBaseProps {
+  imageLight: string;
+  imageDark: string;
+  /** Changes with every capture so the widget re-reads the file. */
+  imageVersion: number;
 }

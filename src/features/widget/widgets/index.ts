@@ -10,6 +10,7 @@ import {
   getYearWidgetProps,
   YEAR_WIDGET_TIMELINE_DAYS,
 } from "../widgetData";
+import type { YearImages } from "../widgetData";
 import PixyMonthWidget from "./PixyMonthWidget";
 import PixyWeekWidget from "./PixyWeekWidget";
 import PixyYearWidget from "./PixyYearWidget";
@@ -59,9 +60,12 @@ const describeTimelines = async () => {
 export const syncWidgets = async ({
   items,
   scaleType,
+  yearImages,
 }: {
   items: LogItem[];
   scaleType: string;
+  /** Captured year images; omitted when the capture failed. */
+  yearImages?: YearImages;
 }) => {
   if (!IS_WIDGET_SUPPORTED) {
     return;
@@ -73,7 +77,11 @@ export const syncWidgets = async ({
       getWidgetTimeline(input, getMonthWidgetProps)
     );
     PixyYearWidget.updateTimeline(
-      getWidgetTimeline(input, getYearWidgetProps, YEAR_WIDGET_TIMELINE_DAYS)
+      getWidgetTimeline(
+        input,
+        (entryInput) => getYearWidgetProps(entryInput, yearImages),
+        YEAR_WIDGET_TIMELINE_DAYS
+      )
     );
     lastSync = {
       at: new Date().toISOString(),
