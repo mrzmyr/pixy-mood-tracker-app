@@ -97,6 +97,10 @@ export interface AnalyticsEvents {
     emotions_distribution_show?: boolean;
     emotions_distribution_item_count?: number;
     sleep_quality_distribution_show?: boolean;
+    people_distribution_show?: boolean;
+    people_distribution_count?: number;
+    people_peaks_show?: boolean;
+    people_peaks_count?: number;
   };
   "statistics:all_highlights_viewed": AnalyticsEvents["statistics:highlights_viewed"];
   "statistics:card_shared": { card: string };

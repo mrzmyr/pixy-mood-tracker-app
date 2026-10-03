@@ -29,7 +29,10 @@ import { Title } from "./Title";
 import { getItemTime } from "@/lib/logDates";
 import { useFeatureFlag } from "@/state/featureFlags";
 import { PeopleHighlights } from "./PeopleHighlights";
-import { getPeopleHighlightsState } from "./peopleHighlightsState";
+import {
+  getPeopleHighlightProperties,
+  getPeopleHighlightsState,
+} from "./peopleHighlightsState";
 
 const EmptryState = () => {
   const colors = useColors();
@@ -133,6 +136,15 @@ export const HighlightsSection = (_props: { items: LogItem[] }) => {
       highlights.emotions_distribution_item_count =
         statistics.state.emotionsDistributionData.emotions.length;
     }
+    Object.assign(
+      highlights,
+      getPeopleHighlightProperties({
+        hasPeople,
+        state: peopleHighlights,
+        distribution: statistics.state.peopleDistributionData,
+        peaks: statistics.state.peoplePeaksData,
+      })
+    );
 
     analytics.track("statistics:highlights_viewed", highlights);
   });
