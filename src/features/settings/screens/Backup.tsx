@@ -6,6 +6,7 @@ import { Platform, ScrollView, Switch, View } from "react-native";
 import { CheckCircle, Cloud } from "react-native-feather";
 import { MarkdownBody } from "@/components/MarkdownBody";
 import MenuList from "@/components/MenuList";
+import MenuListHeadline from "@/components/MenuListHeadline";
 import MenuListItem from "@/components/MenuListItem";
 import { PageWithHeaderLayout } from "@/components/PageWithHeaderLayout";
 import useColors from "@/hooks/useColors";
@@ -112,7 +113,8 @@ export const BackupScreen = () => {
           )}
         </MenuList>
 
-        <View style={{ marginTop: 16, paddingBottom: 80 }}>
+        <MenuListHeadline>{t("privacy")}</MenuListHeadline>
+        <View style={{ paddingHorizontal: 4, paddingBottom: 80 }}>
           <MarkdownBody>
             {android ? t("backup_privacy_android") : t("backup_privacy_ios")}
           </MarkdownBody>
