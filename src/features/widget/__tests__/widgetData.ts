@@ -111,26 +111,26 @@ describe("getYearGrid()", () => {
 describe("getYearWidgetProps()", () => {
   test("carries the captured images and counts logged days", () => {
     const images = {
-      light: "file:///l.png",
-      dark: "file:///d.png",
-      lightLarge: "file:///ll.png",
-      darkLarge: "file:///dl.png",
+      light: ["file:///l0.png", "file:///l1.png"],
+      dark: ["file:///d0.png"],
+      lightLarge: ["file:///ll0.png"],
+      darkLarge: ["file:///dl0.png"],
       version: 7,
     };
     const props = getYearWidgetProps(INPUT, images);
     expect(props.title).toBe("2026");
-    expect(props.imageLight).toBe(images.light);
-    expect(props.imageDark).toBe(images.dark);
-    expect(props.imageLightLarge).toBe(images.lightLarge);
-    expect(props.imageDarkLarge).toBe(images.darkLarge);
+    expect(props.rowsLight).toEqual(images.light);
+    expect(props.rowsDark).toEqual(images.dark);
+    expect(props.rowsLightLarge).toEqual(images.lightLarge);
+    expect(props.rowsDarkLarge).toEqual(images.darkLarge);
     expect(props.imageVersion).toBe(7);
     expect(props.subtitle).toBe("2/288");
   });
 
   test("uses empty image URIs before the first capture", () => {
     const props = getYearWidgetProps(INPUT);
-    expect(props.imageLight).toBe("");
-    expect(props.imageDark).toBe("");
+    expect(props.rowsLight).toEqual([]);
+    expect(props.rowsDark).toEqual([]);
   });
 });
 

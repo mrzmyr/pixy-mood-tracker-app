@@ -245,12 +245,12 @@ export const getYearGrid = (input: WidgetDataInput): YearGrid => {
   return { columns, today: todayPosition, cells, months };
 };
 
-/** `file://` URIs of the captured year images per color scheme and band count. */
+/** `file://` URIs of the captured year row images per color scheme and size. */
 export interface YearImages {
-  light: string;
-  dark: string;
-  lightLarge: string;
-  darkLarge: string;
+  light: string[];
+  dark: string[];
+  lightLarge: string[];
+  darkLarge: string[];
   version: number;
 }
 
@@ -263,10 +263,10 @@ export const getYearWidgetProps = (
   const { cells } = getYearGrid(input);
   return {
     ...getBaseProps(input, today.format("YYYY"), cells),
-    imageLight: images?.light ?? "",
-    imageDark: images?.dark ?? "",
-    imageLightLarge: images?.lightLarge ?? "",
-    imageDarkLarge: images?.darkLarge ?? "",
+    rowsLight: images?.light ?? [],
+    rowsDark: images?.dark ?? [],
+    rowsLightLarge: images?.lightLarge ?? [],
+    rowsDarkLarge: images?.darkLarge ?? [],
     imageVersion: images?.version ?? 0,
   };
 };

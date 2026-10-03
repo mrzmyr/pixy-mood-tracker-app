@@ -6,15 +6,22 @@ import type { WidgetSchemeColors, YearDayCode, YearGrid } from "./widgetProps";
 export const YEAR_IMAGE_WIDTH = 340;
 
 /**
- * Week columns in the medium band, ending today. 25 keeps the band wide
- * enough that the image is always width-bound in the medium widget, so it
- * spans the full content width with the same side padding as the title.
+ * Week columns in the medium band, ending today. 22 square cells per row
+ * leave room for flexible gaps between the 7 rows on every iPhone size.
  */
-export const YEAR_BAND_WEEKS = 25;
+export const YEAR_BAND_WEEKS = 22;
+
+/** Weekday rows in the medium band, one image each. */
+export const YEAR_BAND_ROWS = 7;
+
+/** Month rows in the large widget, one image each. */
+export const YEAR_MONTH_ROWS = 3;
+
 const GAP = 2;
 const MONTH_GAP = 10;
-const MONTH_ROW_GAP = 26;
 const MONTH_COLUMNS = 4;
+/** Weeks a month can span; shorter months leave the last rows empty. */
+const MONTH_WEEKS = 6;
 const RING = 1.5;
 
 const cellFill = (code: YearDayCode, colors: WidgetSchemeColors) => {
@@ -60,21 +67,29 @@ const Cell = ({
 );
 
 /**
- * Year grid for the widget image. `layout: "band"` draws one column per
- * week, seven rows (medium widget). `layout: "months"` draws twelve mini
- * calendars in four columns (large widget). Captured with
- * react-native-view-shot, so it must stay mounted and `collapsable={false}`.
- * The parent positions it off screen.
+ * One row of the year grid, captured as one image. The widget stacks the
+ * rows with flexible spacers between them: each row spans the full width,
+ * the spacers fill the height, and cells stay square.
+ *
+ * - `layout: "band"`: weekday `row` (0 to 6) across the trailing
+ *   `YEAR_BAND_WEEKS` weeks (medium widget)
+ * - `layout: "months"`: months `row * 4` to `row * 4 + 3` as mini calendars
+ *   (large widget)
+ *
+ * Captured with react-native-view-shot, so it must stay mounted and
+ * `collapsable={false}`. The parent positions it off screen.
  */
 export const YearPixelsCanvas = ({
   grid,
   colors,
   layout,
+  row,
   ref,
 }: {
   grid: YearGrid;
   colors: WidgetSchemeColors;
   layout: "band" | "months";
+  row: number;
   ref: Ref<View>;
 }) => {
   if (layout === "band") {
@@ -94,21 +109,17 @@ export const YearPixelsCanvas = ({
         }}
       >
         {columns.map((column, offset) => (
-          <View key={offset}>
-            {column.map((code, row) => (
-              <Cell
-                key={row}
-                code={code}
-                size={cell}
-                isToday={
-                  grid.today.column === first + offset && grid.today.row === row
-                }
-                colors={colors}
-                gapRight={offset !== count - 1}
-                gapBottom={row !== 6}
-              />
-            ))}
-          </View>
+          <Cell
+            key={offset}
+            code={column[row]}
+            size={cell}
+            isToday={
+              grid.today.column === first + offset && grid.today.row === row
+            }
+            colors={colors}
+            gapRight={offset !== count - 1}
+            gapBottom={false}
+          />
         ))}
       </View>
     );
@@ -117,6 +128,10 @@ export const YearPixelsCanvas = ({
   const monthWidth =
     (YEAR_IMAGE_WIDTH - (MONTH_COLUMNS - 1) * MONTH_GAP) / MONTH_COLUMNS;
   const cell = (monthWidth - 6 * GAP) / 7;
+  const months = grid.months.slice(
+    row * MONTH_COLUMNS,
+    (row + 1) * MONTH_COLUMNS
+  );
   return (
     <View
       ref={ref}
@@ -124,24 +139,23 @@ export const YearPixelsCanvas = ({
       style={{
         width: YEAR_IMAGE_WIDTH,
         flexDirection: "row",
-        flexWrap: "wrap",
         backgroundColor: colors.background,
       }}
     >
-      {grid.months.map((month, monthIndex) => (
+      {months.map((month, column) => (
         <View
           key={month.label}
           style={{
             width: monthWidth,
-            marginRight:
-              monthIndex % MONTH_COLUMNS === MONTH_COLUMNS - 1 ? 0 : MONTH_GAP,
-            marginBottom: monthIndex >= 12 - MONTH_COLUMNS ? 0 : MONTH_ROW_GAP,
+            height: 15 + MONTH_WEEKS * cell + (MONTH_WEEKS - 1) * GAP,
+            marginRight: column === MONTH_COLUMNS - 1 ? 0 : MONTH_GAP,
           }}
         >
           {/* oxlint-disable-next-line react-doctor/no-tiny-text -- captured at 3x and read inside the widget, never as UI text */}
           <Text
             style={{
               fontSize: 9,
+              lineHeight: 12,
               color: colors.textSecondary,
               marginBottom: 3,
             }}

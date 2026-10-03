@@ -90,18 +90,18 @@ export interface YearGrid {
 }
 
 /**
- * Year widget props. The widget shows one image per color scheme: 372
- * SwiftUI cells exceed the 30 MB widget extension limit, an image does not.
- * `imageLight` and `imageDark` are `file://` URIs in `widgetsDirectory`, or
- * `""` before the first capture.
+ * Year widget props. The widget shows image rows the app captured: 372
+ * SwiftUI cells exceed the 30 MB widget extension limit, a few images do
+ * not. Each array holds `file://` URIs in `widgetsDirectory`, top row first,
+ * and stays empty until the first capture.
  */
 export interface YearWidgetProps extends WidgetBaseProps {
-  /** One band of the trailing `YEAR_BAND_WEEKS` week columns, for the medium family. */
-  imageLight: string;
-  imageDark: string;
-  /** Twelve mini month calendars, for the large family. */
-  imageLightLarge: string;
-  imageDarkLarge: string;
-  /** Changes with every capture so the widget re-reads the file. */
+  /** Medium: 7 weekday rows of the trailing weeks. */
+  rowsLight: string[];
+  rowsDark: string[];
+  /** Large: 3 rows of 4 month calendars. */
+  rowsLightLarge: string[];
+  rowsDarkLarge: string[];
+  /** Changes with every capture so the widget re-reads the files. */
   imageVersion: number;
 }

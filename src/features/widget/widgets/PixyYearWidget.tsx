@@ -13,9 +13,9 @@ import type { WidgetEnvironment } from "expo-widgets";
 import type { YearWidgetProps } from "../widgetProps";
 
 /**
- * Year in pixels, shown as one image the app captured. Runs in the widget
+ * Year in pixels, shown as row images the app captured. Runs in the widget
  * runtime: no hooks, no imports besides `@expo/ui`, and no module-scope
- * values. One image keeps the extension far under its 30 MB limit.
+ * values. A few images keep the extension far under its 30 MB limit.
  */
 const PixyYearWidget = (
   props: YearWidgetProps,
@@ -24,7 +24,7 @@ const PixyYearWidget = (
   "widget";
   try {
     // Before the app's first sync the widget gets empty props.
-    if (props.light === undefined || props.imageLight === undefined) {
+    if (props.light === undefined || props.rowsLight === undefined) {
       return (
         <VStack
           modifiers={[
@@ -66,9 +66,28 @@ const PixyYearWidget = (
     const isDark = environment.colorScheme === "dark";
     const isLarge = environment.widgetFamily === "systemLarge";
     const scheme = isDark ? props.dark : props.light;
-    let image = isDark ? props.imageDark : props.imageLight;
+    let rows = isDark ? props.rowsDark : props.rowsLight;
     if (isLarge) {
-      image = isDark ? props.imageDarkLarge : props.imageLightLarge;
+      rows = isDark ? props.rowsDarkLarge : props.rowsLightLarge;
+    }
+    // Rows span the full width; zero-minimum spacers between them fill the
+    // height. The grid touches all four content edges and cells stay square.
+    const stack: ReturnType<typeof Spacer>[] = [];
+    for (let index = 0; index < rows.length; index += 1) {
+      if (index > 0) {
+        stack.push(<Spacer key={`gap-${rows[index]}`} minLength={0} />);
+      }
+      stack.push(
+        <Image
+          key={rows[index]}
+          uiImage={rows[index]}
+          modifiers={[
+            resizable(),
+            aspectRatio({ contentMode: "fit" }),
+            frame({ maxWidth: Infinity }),
+          ]}
+        />
+      );
     }
 
     return (
@@ -104,7 +123,7 @@ const PixyYearWidget = (
             {props.subtitle}
           </Text>
         </HStack>
-        {image === "" ? (
+        {rows.length === 0 ? (
           <Text
             modifiers={[
               font({ size: 12 }),
@@ -114,18 +133,12 @@ const PixyYearWidget = (
             Open Pixy to fill this widget.
           </Text>
         ) : (
-          <Image
-            uiImage={image}
-            modifiers={[
-              resizable(),
-              aspectRatio({ contentMode: "fit" }),
-              frame({
-                maxWidth: Infinity,
-                maxHeight: Infinity,
-                alignment: "top",
-              }),
-            ]}
-          />
+          <VStack
+            spacing={0}
+            modifiers={[frame({ maxWidth: Infinity, maxHeight: Infinity })]}
+          >
+            {stack}
+          </VStack>
         )}
       </VStack>
     );

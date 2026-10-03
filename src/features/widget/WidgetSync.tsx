@@ -10,7 +10,11 @@ import { useFeatureFlagState } from "@/state/featureFlags";
 import { useSetting } from "@/state/settings";
 import { getSchemeColors, getYearGrid } from "./widgetData";
 import type { YearImages } from "./widgetData";
-import { YearPixelsCanvas } from "./YearPixelsCanvas";
+import {
+  YEAR_BAND_ROWS,
+  YEAR_MONTH_ROWS,
+  YearPixelsCanvas,
+} from "./YearPixelsCanvas";
 import { IS_WIDGET_SUPPORTED, syncWidgets } from "./widgets";
 
 /** Wait for a burst of changes (import, reset) before one widget update. */
@@ -47,10 +51,8 @@ export const WidgetSync = () => {
   const { items, loaded } = useLogState();
   const scaleType = useSetting("scaleType") ?? DEFAULT_SCALE;
   const flagState = useFeatureFlagState("home-screen-widget");
-  const lightRef = useRef<View>(null);
-  const darkRef = useRef<View>(null);
-  const lightLargeRef = useRef<View>(null);
-  const darkLargeRef = useRef<View>(null);
+  // One view per captured row: [scheme][layout][row].
+  const rowRefs = useRef<Record<string, View | null>>({});
 
   const grid = useMemo(
     () =>
@@ -66,28 +68,39 @@ export const WidgetSync = () => {
       return;
     }
     const isAvailable = flagState === "on";
+    const captureRows = (
+      scheme: "light" | "dark",
+      layout: "band" | "months",
+      count: number
+    ) => {
+      const names = Array.from(
+        { length: count },
+        (_, row) => `${scheme}-${layout}-${row}`
+      );
+      return Promise.all(
+        names.map((name) => {
+          const view = rowRefs.current[name];
+          if (!view) {
+            throw createStructuredError({
+              status: "widget_year_row_missing",
+              message: "Year widget row view is not mounted",
+              why: `No view for ${name} when the sync started`,
+              fix: "Open Pixy again; the year widget keeps its last image",
+            });
+          }
+          return captureYearImage(view, name);
+        })
+      );
+    };
     const sync = async () => {
       let yearImages: YearImages | undefined;
       try {
-        if (
-          isAvailable &&
-          lightRef.current &&
-          darkRef.current &&
-          lightLargeRef.current &&
-          darkLargeRef.current &&
-          widgetsDirectory
-        ) {
+        if (isAvailable && widgetsDirectory) {
           yearImages = {
-            light: await captureYearImage(lightRef.current, "light"),
-            dark: await captureYearImage(darkRef.current, "dark"),
-            lightLarge: await captureYearImage(
-              lightLargeRef.current,
-              "light-large"
-            ),
-            darkLarge: await captureYearImage(
-              darkLargeRef.current,
-              "dark-large"
-            ),
+            light: await captureRows("light", "band", YEAR_BAND_ROWS),
+            dark: await captureRows("dark", "band", YEAR_BAND_ROWS),
+            lightLarge: await captureRows("light", "months", YEAR_MONTH_ROWS),
+            darkLarge: await captureRows("dark", "months", YEAR_MONTH_ROWS),
             version: Date.now(),
           };
         }
@@ -129,30 +142,27 @@ export const WidgetSync = () => {
       importantForAccessibility="no-hide-descendants"
       style={{ position: "absolute", top: 0, left: 0, zIndex: -1 }}
     >
-      <YearPixelsCanvas
-        ref={lightRef}
-        grid={grid}
-        layout="band"
-        colors={getSchemeColors("light", scaleType)}
-      />
-      <YearPixelsCanvas
-        ref={darkRef}
-        grid={grid}
-        layout="band"
-        colors={getSchemeColors("dark", scaleType)}
-      />
-      <YearPixelsCanvas
-        ref={lightLargeRef}
-        grid={grid}
-        layout="months"
-        colors={getSchemeColors("light", scaleType)}
-      />
-      <YearPixelsCanvas
-        ref={darkLargeRef}
-        grid={grid}
-        layout="months"
-        colors={getSchemeColors("dark", scaleType)}
-      />
+      {(["light", "dark"] as const).flatMap((scheme) =>
+        (
+          [
+            ["band", YEAR_BAND_ROWS],
+            ["months", YEAR_MONTH_ROWS],
+          ] as const
+        ).flatMap(([layout, count]) =>
+          Array.from({ length: count }, (_, row) => (
+            <YearPixelsCanvas
+              key={`${scheme}-${layout}-${row}`}
+              ref={(view) => {
+                rowRefs.current[`${scheme}-${layout}-${row}`] = view;
+              }}
+              grid={grid}
+              layout={layout}
+              row={row}
+              colors={getSchemeColors(scheme, scaleType)}
+            />
+          ))
+        )
+      )}
     </View>
   );
 };
