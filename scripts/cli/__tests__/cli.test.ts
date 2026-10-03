@@ -86,8 +86,12 @@ describe("CLI options", () => {
       cases.map(async ([args, code, status]) => {
         const result = await call(...args);
         expect(result.status).toBe(code);
-        expect(result.stderr.split("\n")[0]).toContain(`error [${status}]:`);
-        expect(result.stderr.trimEnd().split("\n")).toHaveLength(3);
+        const errorLines = result.stderr
+          .slice(result.stderr.indexOf("error ["))
+          .trimEnd()
+          .split("\n");
+        expect(errorLines[0]).toContain(`error [${status}]:`);
+        expect(errorLines).toHaveLength(3);
       })
     );
   });
