@@ -13,6 +13,7 @@ import {
   Droplet,
   Flag,
   Github,
+  Grid,
   PieChart,
   Shield,
   Smartphone,
@@ -32,6 +33,7 @@ import { useAnalytics } from "@/state/analytics";
 import { useFeatureFlag } from "@/state/featureFlags";
 import useColors from "@/hooks/useColors";
 import { useFeedbackModal } from "@/features/feedback";
+import { useIsWidgetEnabled } from "@/features/widget";
 import pkg from "../../../../../package.json";
 import { Bug, Lightbulb, Tag } from "lucide-react-native";
 import { useSupport } from "@/support";
@@ -44,6 +46,7 @@ export const SettingsScreen = () => {
   const insets = useSafeAreaInsets();
   const colors = useColors();
   const analytics = useAnalytics();
+  const isWidgetEnabled = useIsWidgetEnabled();
   const support = useSupport();
   const isSupportEnabled = useFeatureFlag("support-pixy");
 
@@ -117,8 +120,18 @@ export const SettingsScreen = () => {
             }
             onPress={() => router.push("/settings/steps")}
             isLink
-            isLast
+            isLast={!isWidgetEnabled}
           />
+          {isWidgetEnabled && (
+            <MenuListItem
+              title={t("widget")}
+              iconLeft={<Grid width={18} color={colors.menuListItemIcon} />}
+              onPress={() => router.push("/widget")}
+              testID="widget"
+              isLink
+              isLast
+            />
+          )}
         </MenuList>
 
         <MenuListHeadline>{t("settings_feedback")}</MenuListHeadline>

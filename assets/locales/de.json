@@ -635,5 +635,15 @@
   "report_a_bug": "Fehler melden",
   "rate_pixy_app_store": "Pixy im App Store bewerten",
   "rate_pixy_google_play": "Pixy bei Google Play bewerten",
-  "feedback_modal_message_placeholder_idea": "Es wäre toll, wenn…"
+  "feedback_modal_message_placeholder_idea": "Es wäre toll, wenn…",
+  "widget": "Widgets",
+  "widget_week_title": "4 Wochen",
+  "widget_guide_back": "Zurück",
+  "widget_guide_step_1_title": "Home-Bildschirm halten",
+  "widget_guide_step_1_body": "Halte eine freie Stelle auf dem Home-Bildschirm gedrückt, bis die Apps wackeln.",
+  "widget_guide_step_2_title": "Bearbeiten → Widget hinzufügen",
+  "widget_guide_step_2_body": "Beides findest du oben links. Auf älteren iOS-Versionen tippe auf das Plus.",
+  "widget_guide_step_3_title": "Widget wählen",
+  "widget_guide_step_3_body": "Suche nach Pixy, wähle eine Größe und tippe auf „Widget hinzufügen“.",
+  "widget_not_available": "Nicht verfügbar"
 }

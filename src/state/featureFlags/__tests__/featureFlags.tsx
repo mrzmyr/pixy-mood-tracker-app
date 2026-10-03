@@ -7,7 +7,11 @@ import {
 } from "posthog-react-native";
 import { INITIAL_STATE } from "@/constants/Settings";
 import { POSTHOG_OPTIONS } from "@/shell/posthogOptions";
-import { FeatureFlagsProvider, useFeatureFlag } from "@/state/featureFlags";
+import {
+  FeatureFlagsProvider,
+  useFeatureFlag,
+  useFeatureFlagState,
+} from "@/state/featureFlags";
 import { SettingsProvider, STORAGE_KEY, useSettings } from "@/state/settings";
 
 // jest.setup.js replaces posthog-react-native with one shared fake client.
@@ -147,5 +151,59 @@ describe("feature flags", () => {
 
     expect(mockReload).toHaveBeenCalledTimes(2);
     expect(hook.result.current.isOn).toBe(false);
+  });
+});
+
+const renderState = async (analyticsEnabled: boolean) => {
+  await AsyncStorage.setItem(
+    STORAGE_KEY,
+    JSON.stringify({
+      ...INITIAL_STATE,
+      deviceId: "test-device-id",
+      analyticsEnabled,
+      actionsDone: ONBOARDED,
+    })
+  );
+  return renderHook(() => useFeatureFlagState("ios-widget"), {
+    wrapper,
+  });
+};
+
+describe("feature flag state", () => {
+  beforeEach(async () => {
+    mockReload.mockReset();
+    await AsyncStorage.clear();
+  });
+
+  test("is loading until the first flag request after consent resolves", async () => {
+    const pending = Promise.withResolvers<Record<string, boolean>>();
+    mockReload.mockReturnValue(pending.promise);
+    const hook = await renderState(true);
+    await waitFor(() => {
+      expect(mockReload).toHaveBeenCalled();
+    });
+    expect(hook.result.current).toBe("loading");
+
+    await act(() => {
+      pending.resolve({ "ios-widget": true });
+    });
+    expect(hook.result.current).toBe("on");
+  });
+
+  test("is off without consent, never loading", async () => {
+    const hook = await renderState(false);
+    await waitFor(() => {
+      expect(hook.result.current).toBe("off");
+    });
+    expect(mockReload).not.toHaveBeenCalled();
+  });
+
+  test("a failed flag request ends loading with the flag off", async () => {
+    // oxlint-disable-next-line unicorn/no-useless-undefined -- the SDK resolves `undefined` for a failed request.
+    mockReload.mockResolvedValue(undefined);
+    const hook = await renderState(true);
+    await waitFor(() => {
+      expect(hook.result.current).toBe("off");
+    });
   });
 });
