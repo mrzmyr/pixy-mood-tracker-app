@@ -38,10 +38,6 @@ tags: [p0, entry]
     id: "log-message"
 - inputText: "e2e edited ${output.runId}"
 - tapOn:
-    id: "logger-next"
-- assertVisible:
-    id: "slide-photos"
-- tapOn:
     id: "logger-save"
 # Saving an edit returns to the day list.
 - assertVisible: "Tired"
@@ -62,10 +58,6 @@ tags: [p0, entry]
 - tapOn:
     id: "log-message"
 - inputText: "e2e second ${output.runId}"
-- tapOn:
-    id: "logger-next"
-- assertVisible:
-    id: "slide-photos"
 - tapOn:
     id: "logger-next"
 - tapOn: "Maybe later"

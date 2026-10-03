@@ -1,0 +1,47 @@
+appId: ${APP_ID}
+tags: [p1, photos]
+---
+# Photos step behind the `photos` feature flag. Shared flows run without it,
+# so this flow turns the flag on with the dev override link.
+- runFlow:
+    file: ../subflows/load-fixture.yaml
+    env:
+      FIXTURE: empty
+- runFlow:
+    file: ../subflows/enable-feature-flag.yaml
+    env:
+      FLAG: photos
+- tapOn: "Add New Entry"
+- assertVisible: "How was your day?"
+# A tap during the logger's slide-in animation is lost.
+- waitForAnimationToEnd
+- tapOn:
+    id: "mood-good"
+- assertVisible: "How did you feel?"
+- tapOn:
+    id: "logger-next"
+- assertVisible: "Add tags"
+- tapOn:
+    id: "logger-next"
+- assertVisible:
+    id: "log-message"
+- tapOn:
+    id: "logger-next"
+- assertVisible:
+    id: "slide-photos"
+# Library access is undetermined on a fresh install: the row asks, the
+# step never shows the system dialog on its own.
+- assertVisible:
+    id: "photos-day-access"
+- tapOn:
+    id: "logger-save"
+- runFlow: ../subflows/answer-confirmation.yaml
+# Day view: empty photos section, and the pencil adds photos.
+- tapOn:
+    id: "calendar-day-${output.today}"
+- assertVisible:
+    id: "log-list-photos"
+- assertVisible:
+    id: "log-list-photos-edit"
+- tapOn:
+    id: "log-list-close"

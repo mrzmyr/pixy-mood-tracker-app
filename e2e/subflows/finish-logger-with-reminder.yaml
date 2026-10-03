@@ -1,8 +1,6 @@
 appId: ${APP_ID}
 ---
-# The second-ever entry adds Pixy's reminder prompt after the photos slide.
-- tapOn:
-    id: "logger-next"
+# The second-ever entry adds Pixy's reminder prompt after the message slide.
 - tapOn:
     id: "logger-next"
 - tapOn:
