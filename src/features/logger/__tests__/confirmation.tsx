@@ -41,6 +41,7 @@ const properties = {
   emotions: ["tired", "worried"],
   emotions_count: 2,
   tags_count: 1,
+  people_count: 0,
   message_length: 20,
   message_word_count: 4,
   sleep_quality: "bad",

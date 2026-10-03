@@ -4,9 +4,11 @@ import type { LogItem } from "@/features/logs";
 import dayjs from "dayjs";
 import { LinearGradient } from "expo-linear-gradient";
 import { Edit, Trash } from "lucide-react-native";
+import { useFeatureFlag } from "@/state/featureFlags";
 import { ScrollView, Text, View } from "react-native";
 import { Emotions } from "./Emotions";
 import { Message } from "./Message";
+import { People } from "./People";
 import { RatingDot } from "./RatingDot";
 import { Sleep } from "./Sleep";
 import { Tags } from "./Tags";
@@ -98,8 +100,8 @@ const EntryHeader = ({
 };
 
 /**
- * Card for one entry in the day list with its sleep, emotions, tags, and
- * message sections. The trash button calls `onDelete` without asking, so
+ * Card for one entry in the day list with its sleep, emotions, tags, people
+ * (behind the `people` flag), and message sections. The trash button calls `onDelete` without asking, so
  * the caller must confirm.
  */
 export const Entry = ({
@@ -112,6 +114,7 @@ export const Entry = ({
   onDelete: (item: LogItem) => void;
 }) => {
   const colors = useColors();
+  const hasPeople = useFeatureFlag("people");
 
   return (
     <View
@@ -159,6 +162,11 @@ export const Entry = ({
             >
               <Tags item={item} />
             </View>
+            {(hasPeople || item.people.length > 0) && (
+              <View style={{ marginTop: 8 }}>
+                <People item={item} />
+              </View>
+            )}
             <View
               style={{
                 marginTop: 8,
