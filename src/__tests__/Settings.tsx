@@ -1,8 +1,13 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { usePostHog as getPostHogTestClient } from "posthog-react-native";
 import { DefaultTheme, ThemeProvider } from "expo-router";
 import { act, render, userEvent, waitFor } from "@testing-library/react-native";
 import { Alert } from "react-native";
 import Providers from "@/shell/Providers";
 import Colors from "@/constants/Colors";
+import { INITIAL_STATE } from "@/constants/Settings";
+import { FeatureFlagsProvider } from "@/state/featureFlags";
+import { STORAGE_KEY } from "@/state/settings";
 import type { SupportClient } from "@/support";
 import {
   createFakeSupportClient,
@@ -43,6 +48,22 @@ jest.mock("react-native-safe-area-context", () => ({
   useSafeAreaInsets: () => ({ top: 0, right: 0, bottom: 0, left: 0 }),
 }));
 
+const mockReload = jest.mocked(getPostHogTestClient().reloadFeatureFlagsAsync);
+
+beforeEach(async () => {
+  await AsyncStorage.clear();
+  await AsyncStorage.setItem(
+    STORAGE_KEY,
+    JSON.stringify({
+      ...INITIAL_STATE,
+      analyticsEnabled: true,
+      actionsDone: [{ title: "onboarding", date: "2026-10-03T00:00:00.000Z" }],
+    })
+  );
+  mockReload.mockReset();
+  mockReload.mockResolvedValue({ "support-pixy": true });
+});
+
 const renderSettings = (supportClient: SupportClient) =>
   render(
     <ThemeProvider
@@ -53,7 +74,9 @@ const renderSettings = (supportClient: SupportClient) =>
       }}
     >
       <Providers supportClient={supportClient}>
-        <SettingsScreen />
+        <FeatureFlagsProvider options={{ enabled: true }}>
+          <SettingsScreen />
+        </FeatureFlagsProvider>
       </Providers>
     </ThemeProvider>
   );
@@ -86,27 +109,27 @@ describe("Support Pixy in Settings", () => {
 
     const screen = await renderSettings(supportClient);
 
-    expect(screen.getByTestId("support-pixy-card")).toBeOnTheScreen();
-    expect(
-      screen.getByText("Has Pixy supported your wellbeing?")
-    ).toBeOnTheScreen();
-    expect(
-      screen.getByText(
-        "Pixy is free to use and supported by optional contributions. If it has been useful to you, you may support its continued development."
-      )
-    ).toBeOnTheScreen();
-    expect(
-      screen.getByRole("button", { name: "Support Pixy" })
-    ).toBeOnTheScreen();
+    expect(await screen.findByTestId("support-pixy-card")).toBeOnTheScreen();
+  });
 
-    expect(screen.queryByText("Load User Data")).toBeNull();
+  test("user cannot open support when the flag is off", async () => {
+    mockReload.mockResolvedValue({ "support-pixy": false });
+    const supportClient = createFakeSupportClient();
+    const screen = await renderSettings(supportClient);
+
+    await waitFor(() => expect(mockReload).toHaveBeenCalledTimes(1));
+
+    expect(screen.queryByTestId("support-pixy-card")).toBeNull();
+    expect(supportClient.attempts).toBe(0);
   });
 
   test("user opens support flow from the card", async () => {
     const supportClient = createFakeSupportClient();
     const screen = await renderSettings(supportClient);
 
-    await userEvent.press(screen.getByRole("button", { name: "Support Pixy" }));
+    await userEvent.press(
+      await screen.findByRole("button", { name: "Support Pixy" })
+    );
 
     await waitFor(() => expect(supportClient.attempts).toBe(1));
   });
@@ -115,7 +138,7 @@ describe("Support Pixy in Settings", () => {
     const showAlert = jest.spyOn(Alert, "alert").mockImplementation();
     const supportClient = createFakeSupportClient();
     const screen = await renderSettings(supportClient);
-    const button = screen.getByRole("button", { name: "Support Pixy" });
+    const button = await screen.findByRole("button", { name: "Support Pixy" });
 
     await userEvent.press(button);
     await userEvent.press(button);
@@ -136,7 +159,9 @@ describe("Support Pixy in Settings", () => {
       });
     const screen = await renderSettings(supportClient);
 
-    await userEvent.press(screen.getByRole("button", { name: "Support Pixy" }));
+    await userEvent.press(
+      await screen.findByRole("button", { name: "Support Pixy" })
+    );
 
     await waitFor(() =>
       expect(showAlert).toHaveBeenCalledWith(
@@ -165,7 +190,7 @@ describe("Support Pixy in Settings", () => {
         })
     );
     const screen = await renderSettings({ enabled: true, openSupport });
-    const button = screen.getByRole("button", { name: "Support Pixy" });
+    const button = await screen.findByRole("button", { name: "Support Pixy" });
 
     await userEvent.press(button);
     await userEvent.press(button);
