@@ -56,6 +56,9 @@ Three variants install side by side, each with its own name, icon, bundle ID, an
 
 ### App CLI
 
+- Commands report host RAM on stderr before and after execution ([measurement](../scripts/cli/memory.ts)). Help and usage errors skip measurement.
+- RAM feedback shows free RAM, available estimate, and budget above recommended **4 GiB headroom**. Low headroom advises waiting before another session.
+- macOS estimate adds free, inactive, and speculative pages. Inactive pages may need writeback. Linux uses `MemAvailable`.
 - Every device command takes exactly one device option:
   - `--platform=<ios|android>`: simulator or emulator that the CLI manages for this checkout
   - `--target=<target>`: one connected phone
