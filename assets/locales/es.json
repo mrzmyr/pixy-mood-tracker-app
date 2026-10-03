@@ -667,5 +667,10 @@
   "people_contacts_denied_message": "Permite el acceso a Contactos para Pixy en los ajustes del sistema para elegir un contacto. También puedes escribir el nombre.",
   "people_open_settings": "Abrir ajustes",
   "logger_step_people": "Personas",
-  "privacy_people_content": "### Personas\n\nCuando añades una persona desde tus contactos, Pixy solo lee el nombre y la foto de ese contacto. Ambos permanecen en tu dispositivo y forman parte de tu archivo de exportación. Pixy nunca lee tu libreta de direcciones ni nos envía nombres o fotos."
+  "privacy_people_content": "### Personas\n\nCuando añades una persona desde tus contactos, Pixy solo lee el nombre y la foto de ese contacto. Ambos permanecen en tu dispositivo y forman parte de tu archivo de exportación. Pixy nunca lee tu libreta de direcciones ni nos envía nombres o fotos.",
+  "log_people_question": "¿Con quién estuviste?",
+  "log_people_disable": "No registro personas",
+  "people_manage": "Gestionar personas",
+  "people_slide_empty": "Añade a las personas con las que pasas tiempo para ver cómo va tu ánimo con ellas.",
+  "view_log_people_empty": "Aún no hay personas."
 }

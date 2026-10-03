@@ -126,8 +126,8 @@ people: Array<
 ### Elsewhere
 
 - Log detail: chips under tags
-- Logs list rows: avatar stack, max 3, `avatarOnly` variant
-- Logs filter: multi select, OR logic, mirrors tag filter
+- Entry card header (day view): avatar stack next to the time, max 3, `avatarOnly` variant
+- Logs filter: multi select, OR logic, mirrors tag filter. Section hidden without flag or without active people
 
 ## Statistics
 

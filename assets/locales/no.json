@@ -667,5 +667,10 @@
   "people_contacts_denied_message": "Tillat Kontakter for Pixy i systeminnstillingene for å velge en kontakt. Du kan også skrive inn navnet.",
   "people_open_settings": "Åpne innstillinger",
   "logger_step_people": "Personer",
-  "privacy_people_content": "### Personer\n\nNår du legger til en person fra kontaktene dine, leser Pixy bare navnet og bildet til den kontakten. Begge blir på enheten din og er en del av eksportfilen din. Pixy leser aldri adresseboken din og sender aldri navn eller bilder til oss."
+  "privacy_people_content": "### Personer\n\nNår du legger til en person fra kontaktene dine, leser Pixy bare navnet og bildet til den kontakten. Begge blir på enheten din og er en del av eksportfilen din. Pixy leser aldri adresseboken din og sender aldri navn eller bilder til oss.",
+  "log_people_question": "Hvem var du med?",
+  "log_people_disable": "Jeg registrerer ikke personer",
+  "people_manage": "Administrer personer",
+  "people_slide_empty": "Legg til personene du bruker tid med for å se hvordan humøret ditt er med dem.",
+  "view_log_people_empty": "Ingen personer enda."
 }

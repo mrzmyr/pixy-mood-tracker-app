@@ -38,6 +38,7 @@ export interface AnalyticsEvents {
     has_rating: boolean;
     message_length: number;
     tags_count: number;
+    people_count: number;
     emotions_count: number;
   };
   "logger:log_deleted": undefined;
@@ -73,6 +74,7 @@ export interface AnalyticsEvents {
     text_length: number;
     ratings_count: number;
     tags_count: number;
+    people_count: number;
   };
   "calendar:filters_reset": undefined;
   "calendar:filters_closed": undefined;
@@ -227,6 +229,7 @@ export interface SavedEntryProperties {
   emotions: LogItem["emotions"];
   emotions_count: number;
   tags_count: number;
+  people_count: number;
   message_length: number;
   /** Whitespace-separated words; Chinese, Japanese, and Thai notes count as 1. */
   message_word_count: number;

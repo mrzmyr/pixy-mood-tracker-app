@@ -667,5 +667,10 @@
   "people_contacts_denied_message": "Izinkan Pixy mengakses Kontak di pengaturan sistem untuk memilih kontak. Kamu juga bisa mengetik namanya.",
   "people_open_settings": "Buka pengaturan",
   "logger_step_people": "Orang",
-  "privacy_people_content": "### Orang\n\nSaat kamu menambahkan orang dari kontakmu, Pixy hanya membaca nama dan foto kontak tersebut. Keduanya tetap di perangkatmu dan menjadi bagian dari file ekspor. Pixy tidak pernah membaca buku alamatmu dan tidak pernah mengirim nama atau foto kepada kami."
+  "privacy_people_content": "### Orang\n\nSaat kamu menambahkan orang dari kontakmu, Pixy hanya membaca nama dan foto kontak tersebut. Keduanya tetap di perangkatmu dan menjadi bagian dari file ekspor. Pixy tidak pernah membaca buku alamatmu dan tidak pernah mengirim nama atau foto kepada kami.",
+  "log_people_question": "Kamu bersama siapa?",
+  "log_people_disable": "Aku tidak mencatat orang",
+  "people_manage": "Kelola orang",
+  "people_slide_empty": "Tambahkan orang yang menghabiskan waktu bersamamu untuk melihat bagaimana suasana hatimu bersama mereka.",
+  "view_log_people_empty": "Belum ada orang."
 }

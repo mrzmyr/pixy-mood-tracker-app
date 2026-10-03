@@ -667,5 +667,10 @@
   "people_contacts_denied_message": "Engedélyezd a Névjegyeket a Pixy számára a rendszerbeállításokban egy névjegy kiválasztásához. A nevet be is gépelheted.",
   "people_open_settings": "Beállítások megnyitása",
   "logger_step_people": "Emberek",
-  "privacy_people_content": "### Emberek\n\nAmikor a névjegyeidből adsz hozzá egy személyt, a Pixy csak annak a névjegynek a nevét és fotóját olvassa be. Mindkettő az eszközödön marad, és az exportfájlod része. A Pixy soha nem olvassa a címjegyzékedet, és soha nem küld nekünk neveket vagy fotókat."
+  "privacy_people_content": "### Emberek\n\nAmikor a névjegyeidből adsz hozzá egy személyt, a Pixy csak annak a névjegynek a nevét és fotóját olvassa be. Mindkettő az eszközödön marad, és az exportfájlod része. A Pixy soha nem olvassa a címjegyzékedet, és soha nem küld nekünk neveket vagy fotókat.",
+  "log_people_question": "Kivel voltál?",
+  "log_people_disable": "Nem követem az embereket",
+  "people_manage": "Emberek kezelése",
+  "people_slide_empty": "Add hozzá azokat, akikkel időt töltesz, hogy lásd, milyen a hangulatod velük.",
+  "view_log_people_empty": "Még nincsenek emberek."
 }

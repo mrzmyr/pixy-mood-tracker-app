@@ -667,5 +667,10 @@
   "people_contacts_denied_message": "Permite accesul la Contacte pentru Pixy în setările sistemului pentru a alege un contact. Poți și să scrii numele.",
   "people_open_settings": "Deschide setările",
   "logger_step_people": "Persoane",
-  "privacy_people_content": "### Persoane\n\nCând adaugi o persoană din contactele tale, Pixy citește doar numele și fotografia acelui contact. Ambele rămân pe dispozitivul tău și fac parte din fișierul de export. Pixy nu citește niciodată agenda ta și nu ne trimite niciodată nume sau fotografii."
+  "privacy_people_content": "### Persoane\n\nCând adaugi o persoană din contactele tale, Pixy citește doar numele și fotografia acelui contact. Ambele rămân pe dispozitivul tău și fac parte din fișierul de export. Pixy nu citește niciodată agenda ta și nu ne trimite niciodată nume sau fotografii.",
+  "log_people_question": "Cu cine ai fost?",
+  "log_people_disable": "Nu urmăresc persoane",
+  "people_manage": "Gestionează persoanele",
+  "people_slide_empty": "Adaugă persoanele cu care petreci timp pentru a vedea cum îți este starea cu ele.",
+  "view_log_people_empty": "Nicio persoană încă."
 }

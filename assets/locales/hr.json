@@ -667,5 +667,10 @@
   "people_contacts_denied_message": "Dopusti Pixyju pristup Kontaktima u postavkama sustava da bi odabrao/la kontakt. Ime možeš i upisati.",
   "people_open_settings": "Otvori postavke",
   "logger_step_people": "Ljudi",
-  "privacy_people_content": "### Ljudi\n\nKad dodaš osobu iz svojih kontakata, Pixy čita samo ime i fotografiju tog kontakta. Oboje ostaje na tvom uređaju i dio je tvoje izvozne datoteke. Pixy nikada ne čita tvoj adresar i nikada nam ne šalje imena ni fotografije."
+  "privacy_people_content": "### Ljudi\n\nKad dodaš osobu iz svojih kontakata, Pixy čita samo ime i fotografiju tog kontakta. Oboje ostaje na tvom uređaju i dio je tvoje izvozne datoteke. Pixy nikada ne čita tvoj adresar i nikada nam ne šalje imena ni fotografije.",
+  "log_people_question": "S kim si bio/bila?",
+  "log_people_disable": "Ne pratim ljude",
+  "people_manage": "Upravljaj ljudima",
+  "people_slide_empty": "Dodaj ljude s kojima provodiš vrijeme da vidiš kakvo ti je raspoloženje s njima.",
+  "view_log_people_empty": "Još nema ljudi."
 }

@@ -667,5 +667,10 @@
   "people_contacts_denied_message": "Benarkan Pixy mengakses Kenalan dalam tetapan sistem untuk memilih kenalan. Anda juga boleh menaip nama.",
   "people_open_settings": "Buka tetapan",
   "logger_step_people": "Orang",
-  "privacy_people_content": "### Orang\n\nApabila anda menambah orang daripada kenalan anda, Pixy hanya membaca nama dan foto kenalan itu. Kedua-duanya kekal pada peranti anda dan menjadi sebahagian daripada fail eksport anda. Pixy tidak pernah membaca buku alamat anda dan tidak pernah menghantar nama atau foto kepada kami."
+  "privacy_people_content": "### Orang\n\nApabila anda menambah orang daripada kenalan anda, Pixy hanya membaca nama dan foto kenalan itu. Kedua-duanya kekal pada peranti anda dan menjadi sebahagian daripada fail eksport anda. Pixy tidak pernah membaca buku alamat anda dan tidak pernah menghantar nama atau foto kepada kami.",
+  "log_people_question": "Anda bersama siapa?",
+  "log_people_disable": "Saya tidak menjejak orang",
+  "people_manage": "Urus orang",
+  "people_slide_empty": "Tambah orang yang meluangkan masa bersama anda untuk melihat bagaimana mood anda bersama mereka.",
+  "view_log_people_empty": "Belum ada orang."
 }
