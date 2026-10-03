@@ -151,7 +151,8 @@ const getEntering = ({ isReducedMotion }: { isReducedMotion: boolean }) => {
  * title, body, and visual share one horizontal inset.
  *
  * Step numbers are 1-based. On step 1 the back action stays mounted and
- * hidden so the visual does not grow.
+ * hidden so the visual does not grow. With one step the demo is a plain page:
+ * no step dots, no back action.
  */
 export const Demo = ({
   steps,
@@ -176,6 +177,7 @@ export const Demo = ({
   const current = steps[step - 1];
   const isFirst = step === 1;
   const isLast = step === steps.length;
+  const isSinglePage = steps.length === 1;
 
   if (!current) {
     return null;
@@ -217,7 +219,7 @@ export const Demo = ({
               paddingLeft: 12,
             }}
           >
-            <StepDots step={step} count={steps.length} />
+            {!isSinglePage && <StepDots step={step} count={steps.length} />}
           </View>
           <CloseButton
             label={labels.close}
@@ -273,21 +275,25 @@ export const Demo = ({
           >
             {isLast ? labels.done : labels.next}
           </Button>
-          <View
-            pointerEvents={isFirst ? "none" : "auto"}
-            accessibilityElementsHidden={isFirst}
-            importantForAccessibility={isFirst ? "no-hide-descendants" : "auto"}
-            style={{ opacity: isFirst ? 0 : 1 }}
-          >
-            <Button
-              type="tertiary"
-              disabled={isFirst}
-              testID={getTestId({ prefix: testID, name: "back" })}
-              onPress={() => goTo({ step: step - 1 })}
+          {!isSinglePage && (
+            <View
+              pointerEvents={isFirst ? "none" : "auto"}
+              accessibilityElementsHidden={isFirst}
+              importantForAccessibility={
+                isFirst ? "no-hide-descendants" : "auto"
+              }
+              style={{ opacity: isFirst ? 0 : 1 }}
             >
-              {labels.back}
-            </Button>
-          </View>
+              <Button
+                type="tertiary"
+                disabled={isFirst}
+                testID={getTestId({ prefix: testID, name: "back" })}
+                onPress={() => goTo({ step: step - 1 })}
+              >
+                {labels.back}
+              </Button>
+            </View>
+          )}
         </View>
       </View>
     </PageModalLayout>
