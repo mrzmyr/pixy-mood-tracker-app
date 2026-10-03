@@ -14,6 +14,8 @@ export type { PhotoViewerContext } from "./screens/Viewer";
 export { getViewerItem } from "./viewerItem";
 export type { PhotoViewerItem } from "./viewerItem";
 export { getPhotoSource, setPhotoSourceOverride } from "./photoSource";
+export { useDraftPhotos } from "./hooks/useDraftPhotos";
+export type { DraftPhoto } from "./hooks/useDraftPhotos";
 export {
   MAX_PHOTOS_PER_ENTRY,
   deleteUnreferencedPhotos,
