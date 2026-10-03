@@ -55,4 +55,4 @@ export { HAS_APP_VARIANT as TRACKING_ENABLED } from "@/constants/AppVariant";
 export const CHANGELOG_URL = "https://pixy.hellonext.co/embed/c?no_header=true";
 /** Feature request board opened in the in-app browser from Settings. */
 export const FEEDBACK_FEATURES_URL =
-  "https://pixy.featureos.app";
+  "https://pixy.featureos.app/embed/b/feedback?no_header=true";
