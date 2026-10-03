@@ -14,6 +14,7 @@ import {
   Flag,
   Github,
   Grid,
+  Lock,
   PieChart,
   Shield,
   Smartphone,
@@ -34,6 +35,7 @@ import { useFeatureFlag } from "@/state/featureFlags";
 import useColors from "@/hooks/useColors";
 import { useFeedbackModal } from "@/features/feedback";
 import { useIsWidgetEnabled } from "@/features/widget";
+import { IS_APP_LOCK_GUIDE_SUPPORTED } from "@/features/app-lock";
 import pkg from "../../../../../package.json";
 import { Bug, Lightbulb, Tag } from "lucide-react-native";
 import { useSupport } from "@/support";
@@ -120,8 +122,17 @@ export const SettingsScreen = () => {
             }
             onPress={() => router.push("/settings/steps")}
             isLink
-            isLast={!isWidgetEnabled}
           />
+          {IS_APP_LOCK_GUIDE_SUPPORTED && (
+            <MenuListItem
+              title={t("app_lock")}
+              iconLeft={<Lock width={18} color={colors.menuListItemIcon} />}
+              onPress={() => router.push("/app-lock")}
+              testID="app-lock"
+              isLink
+              isLast={!isWidgetEnabled}
+            />
+          )}
           {isWidgetEnabled && (
             <MenuListItem
               title={t("widget")}

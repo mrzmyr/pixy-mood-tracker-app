@@ -338,7 +338,7 @@
       "label": "App lock",
       "status": "removed",
       "group": "data",
-      "description": "Passcode lock removed in 1.10.1. No PIN or Face ID lock.",
+      "description": "Passcode lock removed in 1.10.1. No PIN or Face ID lock in the app. Settings explains the OS lock: Require Face ID on iOS 18, Private space on Android 15.",
       "competitorKey": "lock",
       "until": "1.10.0",
       "evidence": ["git: 2235cbbe remove passcode feature"]

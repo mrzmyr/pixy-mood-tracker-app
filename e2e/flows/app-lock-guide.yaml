@@ -1,0 +1,32 @@
+appId: ${APP_ID}
+tags: [p1, app-lock]
+---
+# Settings > Face ID Lock opens the guide; Done closes it.
+- runFlow:
+    file: ../subflows/load-fixture.yaml
+    env:
+      FIXTURE: empty
+- tapOn:
+    id: "settings"
+- tapOn:
+    id: "app-lock"
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - assertVisible: "Touch & hold the Pixy icon"
+      - tapOn:
+          id: "app-lock-guide-next"
+      - tapOn:
+          id: "app-lock-guide-next"
+      - assertVisible: "Tap Require Face ID again"
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - assertVisible: "Lock Pixy in a Private space"
+      - assertVisible:
+          id: "app-lock-guide-video"
+- tapOn:
+    id: "app-lock-guide-next"
+- assertVisible: "Settings"

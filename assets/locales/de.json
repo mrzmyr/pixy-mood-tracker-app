@@ -645,5 +645,15 @@
   "widget_guide_step_2_body": "Beides findest du oben links. Auf älteren iOS-Versionen tippe auf das Plus.",
   "widget_guide_step_3_title": "Suche nach Pixy und wähle eine Größe",
   "widget_guide_step_3_body": "Wähle Woche, Monat oder Jahr und tippe auf „Widget hinzufügen“. Fertig!",
-  "widget_not_available": "Nicht verfügbar"
+  "widget_not_available": "Nicht verfügbar",
+  "app_lock": "Face ID-Sperre",
+  "app_lock_guide_ios_step_1_title": "Pixy-Symbol gedrückt halten",
+  "app_lock_guide_ios_step_1_body": "Geh zum Home-Bildschirm und halte Pixy gedrückt, bis das Menü erscheint.",
+  "app_lock_guide_ios_step_2_title": "Tippe auf die Face ID-Option",
+  "app_lock_guide_ios_step_2_body": "Sie heißt etwa „Face ID anfordern“. Auf iPhones ohne Face ID steht dort Touch ID oder Code.",
+  "app_lock_guide_ios_step_3_title": "Noch einmal bestätigen",
+  "app_lock_guide_ios_step_3_body": "Pixy fragt jetzt bei jedem Öffnen nach Face ID. Mit „Ausblenden“ verschwindet Pixy zusätzlich vom Home-Bildschirm.",
+  "app_lock_guide_android_title": "Pixy im privaten Bereich sperren",
+  "app_lock_guide_android_body": "Ab Android 15 kannst du Apps in einem privaten Bereich ablegen. Er öffnet sich nur mit Fingerabdruck, Gesicht oder PIN. Richte ihn unter Einstellungen > Sicherheit & Datenschutz > Privater Bereich ein und installiere Pixy dort.",
+  "app_lock_guide_android_video": "Video ansehen"
 }

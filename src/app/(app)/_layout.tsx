@@ -43,6 +43,7 @@ const AppLayout = () => {
           />
           <Stack.Screen name="days/[date]" options={modalOptions} />
           <Stack.Screen name="widget" options={modalOptions} />
+          <Stack.Screen name="app-lock" options={modalOptions} />
           <Stack.Screen
             name="logs/[id]/edit"
             options={{ ...modalOptions, gestureEnabled: false }}
