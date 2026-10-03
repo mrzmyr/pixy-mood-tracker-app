@@ -654,6 +654,7 @@
   "photos_viewer_counter": "{{index}} / {{count}}",
   "photos_viewer_close": "Close",
   "photos_missing": "Photo unavailable",
+  "view_log_photos": "Photos",
   "log_photos_question": "Add Photo",
   "log_photos_disable": "I Don’t Add Photos",
   "photos_step_helper": "Up to {{max}} photos. Photos stay on your device.",
@@ -669,6 +670,8 @@
   "photos_day_today_title": "Today",
   "photos_day_yesterday_title": "Yesterday",
   "photos_from_day": "From {{day}}",
+  "view_log_photos_edit": "Edit Photos",
   "photos_manage_access": "Manage Access",
+  "view_log_photos_empty": "No photos yet.",
   "data_export_photos_note": "Photos stay on this device. Backups contain entries without photos."
 }
