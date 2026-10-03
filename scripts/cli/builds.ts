@@ -6,6 +6,7 @@ import os from "node:os";
 import path from "node:path";
 
 import { agentDevice, stopStaleDaemon } from "./agent-device.ts";
+import { stopMetroIn } from "./metro.ts";
 import {
   CHECKOUTS_DIR,
   CHECKOUT_FILE,
@@ -100,6 +101,10 @@ const toBuildId = (key: string) => {
 
 const formatSize = (bytes: number) => `${Math.round(bytes / 1_000_000)}M`;
 
+// Expo CLI names an iOS Debug build `unknown` when no configuration is passed.
+const formatVariant = (variant: string) =>
+  variant === "unknown" ? "Debug" : variant;
+
 const listBuilds = (): Build[] => {
   const cacheDir = buildCacheProvider.resolveCacheDir();
   if (!fs.existsSync(cacheDir)) {
@@ -171,7 +176,7 @@ const cmdBuildsList = (platform: Platform | undefined, isJson: boolean) => {
       build.platform,
       build.target,
       build.meta.appVariant ?? "-",
-      build.variant,
+      formatVariant(build.variant),
       describeSource(build.meta),
       formatSize(build.sizeBytes),
       formatAge(build.createdAt),
@@ -308,6 +313,7 @@ const pruneCheckout = async (entry: string) => {
     await releaseClaims(checkout);
     removeSessions(checkout);
     deleteSimulator(entry);
+    stopMetroIn(dir);
     fs.rmSync(dir, { force: true, recursive: true });
     console.log(`Removed run files of deleted checkout ${checkout}`);
   } catch (error) {

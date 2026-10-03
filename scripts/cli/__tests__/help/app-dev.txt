@@ -1,0 +1,36 @@
+Run the dev client with Metro. Installs the cached dev client, starts this checkout's Metro, opens the app.
+
+Usage: bun app dev --platform=<ios|android>
+
+Options:
+  --platform=<ios|android>  Required. Simulator (ios) or emulator (android) of this checkout.
+                            CLI creates and boots it. Phones: use `bun ios --device <udid>`.
+
+Behavior:
+  Build  Reuses the cached dev client for this native fingerprint. All worktrees
+         with the same native dependencies share it. Builds only on a miss.
+  Metro  Starts `bun start` for this checkout on its own port (8082-8181),
+         detached. Reuses it when it already runs. `bun app close` stops it.
+  Open   Deep links the dev client to this Metro and waits for the first bundle.
+         Edits reload in the app. Rerun the command to reload by hand.
+
+Output:
+  Screenshot path on stdout. Build ID, Metro port, and log path on stderr.
+
+Examples:
+  bun app dev --platform=ios
+  bun app dev --platform=android
+
+Errors:
+  missing_option          No --platform passed
+  invalid_platform        --platform is not ios or android
+  native_build_failed     Compiler failed, read the log
+  build_lock_timeout      Another build held the cache lock 30 minutes
+  install_failed          Device refused the build
+  metro_port_taken        Another process answers on this checkout's Metro port
+  metro_start_failed      Metro did not answer in 120 seconds
+  dev_client_open_failed  Deep link to the dev client failed
+  bundle_failed           Metro could not bundle the app
+  bundle_timeout          App did not load its bundle in 180 seconds
+
+Exit codes: 0 ok, 1 failure, 2 usage error
