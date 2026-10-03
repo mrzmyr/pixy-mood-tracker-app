@@ -6,10 +6,11 @@ import type { WidgetSchemeColors, YearDayCode, YearGrid } from "./widgetProps";
 export const YEAR_IMAGE_WIDTH = 340;
 
 /**
- * Week columns in the medium band. Seven rows must fill the medium widget
- * height, so the band shows the trailing weeks that fit, ending today.
+ * Week columns in the medium band, ending today. 25 keeps the band wide
+ * enough that the image is always width-bound in the medium widget, so it
+ * spans the full content width with the same side padding as the title.
  */
-export const YEAR_BAND_WEEKS = 22;
+export const YEAR_BAND_WEEKS = 25;
 const GAP = 2;
 const MONTH_GAP = 10;
 const MONTH_ROW_GAP = 26;

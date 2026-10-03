@@ -169,5 +169,9 @@ const useAnalytics = (): AnaylticsState => {
 };
 
 export { AnalyticsProvider, useAnalytics };
-export { FEATURE_FLAGS, useIsFeatureFlagOn } from "./featureFlags";
-export type { FeatureFlag } from "./featureFlags";
+export {
+  FEATURE_FLAGS,
+  useFeatureFlagState,
+  useIsFeatureFlagOn,
+} from "./featureFlags";
+export type { FeatureFlag, FeatureFlagState } from "./featureFlags";

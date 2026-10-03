@@ -1,7 +1,7 @@
 appId: ${APP_ID}
 tags: [p1, widget]
 ---
-# iOS only: Settings > Home Screen widget opens the guide; Done closes it.
+# iOS only: Settings > Widgets opens the guide; Done closes it.
 - runFlow:
     when:
       platform: iOS

@@ -41,6 +41,28 @@ const PixyYearWidget = (
         </VStack>
       );
     }
+    if (props.isAvailable === false) {
+      const unavailable =
+        environment.colorScheme === "dark" ? props.dark : props.light;
+      return (
+        <VStack
+          modifiers={[
+            frame({ maxWidth: Infinity, maxHeight: Infinity }),
+            containerBackground(unavailable.background, "widget"),
+            widgetURL(props.url),
+          ]}
+        >
+          <Text
+            modifiers={[
+              font({ size: 13 }),
+              foregroundStyle(unavailable.textSecondary),
+            ]}
+          >
+            {props.unavailableText}
+          </Text>
+        </VStack>
+      );
+    }
     const isDark = environment.colorScheme === "dark";
     const isLarge = environment.widgetFamily === "systemLarge";
     const scheme = isDark ? props.dark : props.light;
@@ -97,11 +119,14 @@ const PixyYearWidget = (
             modifiers={[
               resizable(),
               aspectRatio({ contentMode: "fit" }),
-              frame({ maxWidth: Infinity }),
+              frame({
+                maxWidth: Infinity,
+                maxHeight: Infinity,
+                alignment: "top",
+              }),
             ]}
           />
         )}
-        <Spacer />
       </VStack>
     );
   } catch (error) {

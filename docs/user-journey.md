@@ -5,7 +5,7 @@ What a new user should experience, day by day. One line per day. Code links show
 - Day 0: install, onboarding (4 slides, reminder opt-in, privacy), first entry on calendar ([`src/features/onboarding`](../src/features/onboarding))
 - Day 1: reminder at 18:00 if enabled, second entry; logger offers reminder after the first entry when off ([`src/features/logger/Logger.tsx`](../src/features/logger/Logger.tsx))
 - Day 2: two pixels on calendar, first sense of pattern; filters and day view discoverable
-- Day 3: third pixel; Settings > Home Screen widget explains how to add a widget (iOS only, no automatic prompt) ([`src/features/widget`](../src/features/widget))
+- Day 3: third pixel; Settings > Widgets explains how to add a widget (iOS only, no automatic prompt) ([`src/features/widget`](../src/features/widget))
 - Day 4: feedback question slide may appear in logger after 3 entries
 - Day 5 to 6: widget shows week progress (`n/7`) on Home Screen; one tap opens calendar
 - Day 7: seventh entry triggers the store review prompt (production only) ([`src/features/review/storeReview.ts`](../src/features/review/storeReview.ts)); week complete in widget

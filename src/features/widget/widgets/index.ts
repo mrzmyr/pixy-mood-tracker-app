@@ -60,10 +60,13 @@ const describeTimelines = async () => {
 export const syncWidgets = async ({
   items,
   scaleType,
+  isAvailable,
   yearImages,
 }: {
   items: LogItem[];
   scaleType: string;
+  /** Feature flag on. `false` makes every widget show "Not available". */
+  isAvailable: boolean;
   /** Captured year images; omitted when the capture failed. */
   yearImages?: YearImages;
 }) => {
@@ -71,7 +74,7 @@ export const syncWidgets = async ({
     return;
   }
   try {
-    const input = { items, scaleType, url: getWidgetUrl() };
+    const input = { items, scaleType, url: getWidgetUrl(), isAvailable };
     PixyWeekWidget.updateTimeline(getWidgetTimeline(input, getWeekWidgetProps));
     PixyMonthWidget.updateTimeline(
       getWidgetTimeline(input, getMonthWidgetProps)

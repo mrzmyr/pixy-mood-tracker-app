@@ -134,6 +134,15 @@ describe("getYearWidgetProps()", () => {
   });
 });
 
+describe("availability", () => {
+  test("widgets are available unless the flag says otherwise", () => {
+    expect(getWeekWidgetProps(INPUT).isAvailable).toBe(true);
+    const off = getMonthWidgetProps({ ...INPUT, isAvailable: false });
+    expect(off.isAvailable).toBe(false);
+    expect(off.unavailableText).toBe("Not available");
+  });
+});
+
 describe("props are property-list safe", () => {
   // NSUserDefaults rejects null; a single null anywhere breaks every widget.
   test("no null in any widget props", () => {

@@ -6,6 +6,7 @@ import { AppState, View } from "react-native";
 import { captureRef } from "react-native-view-shot";
 import { useLogState } from "@/features/logs";
 import { createStructuredError } from "@/lib/errors";
+import { FEATURE_FLAGS, useFeatureFlagState } from "@/state/analytics";
 import { useSetting } from "@/state/settings";
 import { getSchemeColors, getYearGrid } from "./widgetData";
 import type { YearImages } from "./widgetData";
@@ -35,7 +36,8 @@ const captureYearImage = async (view: View, name: string) => {
 };
 
 /**
- * Keeps the home screen widgets in sync with entries and the color scale.
+ * Keeps the home screen widgets in sync with entries, the color scale, and
+ * the `home-screen-widget` flag (off: widgets show "Not available").
  * Renders the year grid off screen, captures it as an image for the year
  * widget, then pushes every timeline. Also resyncs when the app returns to
  * the foreground, so the timeline never runs out while the app stays
@@ -44,6 +46,7 @@ const captureYearImage = async (view: View, name: string) => {
 export const WidgetSync = () => {
   const { items, loaded } = useLogState();
   const scaleType = useSetting("scaleType") ?? DEFAULT_SCALE;
+  const flagState = useFeatureFlagState(FEATURE_FLAGS.homeScreenWidget);
   const lightRef = useRef<View>(null);
   const darkRef = useRef<View>(null);
   const lightLargeRef = useRef<View>(null);
@@ -58,13 +61,16 @@ export const WidgetSync = () => {
   );
 
   useEffect(() => {
-    if (!IS_WIDGET_SUPPORTED || !loaded) {
+    // Wait for the flag: a `loading` state must not flash "Not available".
+    if (!IS_WIDGET_SUPPORTED || !loaded || flagState === "loading") {
       return;
     }
+    const isAvailable = flagState === "on";
     const sync = async () => {
       let yearImages: YearImages | undefined;
       try {
         if (
+          isAvailable &&
           lightRef.current &&
           darkRef.current &&
           lightLargeRef.current &&
@@ -95,7 +101,7 @@ export const WidgetSync = () => {
         console.error(structuredError);
         Sentry.captureException(structuredError);
       }
-      await syncWidgets({ items, scaleType, yearImages });
+      await syncWidgets({ items, scaleType, isAvailable, yearImages });
     };
     const timeout = setTimeout(() => {
       void sync();
@@ -109,7 +115,7 @@ export const WidgetSync = () => {
       clearTimeout(timeout);
       subscription.remove();
     };
-  }, [items, loaded, scaleType]);
+  }, [items, loaded, scaleType, flagState]);
 
   if (grid === null) {
     return null;

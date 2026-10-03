@@ -49,6 +49,28 @@ const PixyWeekWidget = (
         </VStack>
       );
     }
+    if (props.isAvailable === false) {
+      const unavailable =
+        environment.colorScheme === "dark" ? props.dark : props.light;
+      return (
+        <VStack
+          modifiers={[
+            frame({ maxWidth: Infinity, maxHeight: Infinity }),
+            containerBackground(unavailable.background, "widget"),
+            widgetURL(props.url),
+          ]}
+        >
+          <Text
+            modifiers={[
+              font({ size: 13 }),
+              foregroundStyle(unavailable.textSecondary),
+            ]}
+          >
+            {props.unavailableText}
+          </Text>
+        </VStack>
+      );
+    }
     const scheme =
       environment.colorScheme === "dark" ? props.dark : props.light;
     const isSmall = environment.widgetFamily === "systemSmall";

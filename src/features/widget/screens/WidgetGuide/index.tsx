@@ -17,7 +17,7 @@ const STEPS = 3;
 /**
  * Modal that teaches how to add a Pixy widget to the iOS Home Screen.
  * Step 0 is the intro; steps 1 to 3 show one screenshot each. Opened from
- * Settings > Home Screen widget.
+ * Settings > Widgets.
  */
 export const WidgetGuide = () => {
   const router = useRouter();

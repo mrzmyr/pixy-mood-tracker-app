@@ -6,14 +6,15 @@ iOS only. Built with [`expo-widgets`](https://docs.expo.dev/versions/latest/sdk/
 - Layouts: [`src/features/widget/widgets`](../src/features/widget/widgets). Each file starts with `"widget"` and runs in the widget runtime: no hooks, no imports besides `@expo/ui`, no module-scope values
 - Data: [`widgetData.ts`](../src/features/widget/widgetData.ts) turns entries plus the color scale into props. Both color schemes come as props; the widget picks one from `environment.colorScheme`
 - Sync: [`WidgetSync.tsx`](../src/features/widget/WidgetSync.tsx) pushes a 7 day timeline on every entry or scale change and on foreground. Each timeline entry moves the today marker at local midnight
-- Layout: title top left, logged count top right, grid of rounded squares below. Week shows the last 4 weeks (current week last, today ringed in the tint color). Month shows the calendar grid. Year medium shows the trailing 22 weeks as columns of seven; Year large shows 12 mini month calendars
+- Layout: title top left, logged count top right, grid of rounded squares below. Week shows the last 4 weeks (current week last, today ringed in the tint color). Month shows the calendar grid. Year medium shows the trailing 25 weeks as columns of seven; Year large shows 12 mini month calendars
 - Year widget shows an image: 372 SwiftUI cells exceed the widget extension limit of 30 MB (`memorystatus: ExpoWidgetsTarget exceeded mem limit`). The app renders [`YearPixelsCanvas.tsx`](../src/features/widget/YearPixelsCanvas.tsx) off screen, captures light and dark PNGs (week band for medium, month calendars for large) with react-native-view-shot into `widgetsDirectory`, and the widget shows one `Image`. Year gets 1 timeline entry
 - Reloads from the app are throttled by chronod and flushed when the app goes to background. Expect the Home Screen to update a few seconds after leaving Pixy, not while it is open
 - Tap: every widget opens `<scheme>://calendar`
 - Bundle ids: `<app id>.widgets`, app group `group.<app id>`, per variant. Xcode automatic signing registers the group on first phone build
-- Guide: [`screens/WidgetGuide`](../src/features/widget/screens/WidgetGuide), route `/widget`, opened from Settings > Home Screen widget. No automatic prompt
-- Feature flag: PostHog `home-screen-widget` ([`useIsWidgetEnabled.ts`](../src/features/widget/useIsWidgetEnabled.ts)). Off: Settings entry and guide hidden. On only with analytics consent
-- Flag does not hide the widgets: iOS lists them in the gallery for every install. Widgets keep syncing and work for anyone who adds one
+- Guide: [`screens/WidgetGuide`](../src/features/widget/screens/WidgetGuide), route `/widget`, opened from Settings > Widgets. No automatic prompt
+- Feature flag: PostHog `home-screen-widget` ([`useIsWidgetEnabled.ts`](../src/features/widget/useIsWidgetEnabled.ts)). On only with analytics consent
+- Flag off: Settings entry and guide hidden, every widget shows "Not available". iOS still lists the widgets in the gallery; a flag cannot hide a native widget
+- While flags load, sync waits, so widgets never flash "Not available"
 - Before the first sync a widget shows "Open Pixy to see your pixels."
 - Android: no widget. Guide and Settings item hidden (`IS_WIDGET_SUPPORTED`)
 

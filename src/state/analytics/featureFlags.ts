@@ -27,12 +27,45 @@ export const isFeatureFlagOn = ({
   value: unknown;
 }): boolean => analyticsEnabled && value === true;
 
-/** Whether `flag` is on for this install. Re-renders when flags load. */
-export const useIsFeatureFlagOn = (flag: FeatureFlag) => {
+/** Flag state: `loading` until PostHog serves a value for a consenting user. */
+export type FeatureFlagState = "on" | "off" | "loading";
+
+/**
+ * State of a flag. Without analytics consent PostHog never serves flags, so
+ * the state is `off` right away, not `loading`.
+ */
+export const getFeatureFlagState = ({
+  settingsLoaded,
+  analyticsEnabled,
+  value,
+}: {
+  settingsLoaded: boolean;
+  analyticsEnabled: boolean;
+  value: unknown;
+}): FeatureFlagState => {
+  if (!settingsLoaded) {
+    return "loading";
+  }
+  if (!analyticsEnabled) {
+    return "off";
+  }
+  if (value === undefined) {
+    return "loading";
+  }
+  return value === true ? "on" : "off";
+};
+
+/** State of `flag` for this install. Re-renders when flags load. */
+export const useFeatureFlagState = (flag: FeatureFlag): FeatureFlagState => {
   const { settings } = useSettings();
   const value = useFeatureFlag(flag);
-  return isFeatureFlagOn({
-    analyticsEnabled: settings.loaded && settings.analyticsEnabled,
+  return getFeatureFlagState({
+    settingsLoaded: settings.loaded,
+    analyticsEnabled: settings.analyticsEnabled,
     value,
   });
 };
+
+/** Whether `flag` is on for this install. Re-renders when flags load. */
+export const useIsFeatureFlagOn = (flag: FeatureFlag) =>
+  useFeatureFlagState(flag) === "on";
