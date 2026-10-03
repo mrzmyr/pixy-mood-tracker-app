@@ -11,20 +11,19 @@ import { useAnalytics } from "@/state/analytics";
 import { GuideImage } from "./GuideImage";
 import { GuideProgress } from "./GuideProgress";
 
-/** Steps after the intro: jiggle mode, add widget, pick Pixy. */
+/** Steps: jiggle mode, add widget, pick Pixy. */
 const STEPS = 3;
 
 /**
  * Modal that teaches how to add a Pixy widget to the iOS Home Screen.
- * Step 0 is the intro; steps 1 to 3 show one screenshot each. Opened from
- * Settings > Widgets.
+ * Steps 1 to 3 show one screenshot each. Opened from Settings > Widgets.
  */
 export const WidgetGuide = () => {
   const router = useRouter();
   const colors = useColors();
   const insets = useSafeAreaInsets();
   const analytics = useAnalytics();
-  const [step, setStep] = useState(0);
+  const [step, setStep] = useState(1);
 
   const trackOpened = useEffectEvent(() => {
     analytics.track("widget:guide_opened");
@@ -48,14 +47,8 @@ export const WidgetGuide = () => {
     router.back();
   };
 
-  const isIntro = step === 0;
+  const isFirst = step === 1;
   const isLast = step === STEPS;
-  let primaryLabel = t("onboarding_next");
-  if (isIntro) {
-    primaryLabel = t("widget_guide_add");
-  } else if (isLast) {
-    primaryLabel = t("done");
-  }
 
   return (
     <PageModalLayout
@@ -64,15 +57,11 @@ export const WidgetGuide = () => {
         paddingBottom: insets.bottom + 16,
       }}
     >
-      {isIntro ? (
-        <View style={{ height: 56 }} />
-      ) : (
-        <GuideProgress
-          step={step}
-          steps={STEPS}
-          onClose={() => close("dismissed")}
-        />
-      )}
+      <GuideProgress
+        step={step}
+        steps={STEPS}
+        onClose={() => close("dismissed")}
+      />
       <Animated.View
         key={step}
         entering={FadeIn.duration(300)}
@@ -83,7 +72,7 @@ export const WidgetGuide = () => {
             testID="widget-guide-title"
             style={{
               color: colors.text,
-              fontSize: isIntro ? 28 : 22,
+              fontSize: 22,
               fontWeight: "bold",
               textAlign: "center",
               marginBottom: 8,
@@ -109,15 +98,23 @@ export const WidgetGuide = () => {
             testID="widget-guide-next"
             onPress={() => (isLast ? close("completed") : goTo(step + 1))}
           >
-            {primaryLabel}
+            {t(isLast ? "done" : "onboarding_next")}
           </Button>
-          <Button
-            type="tertiary"
-            testID="widget-guide-secondary"
-            onPress={() => (isIntro ? close("dismissed") : goTo(step - 1))}
+          {/* Hidden, not removed, on step 1 so the image keeps its size. */}
+          <View
+            pointerEvents={isFirst ? "none" : "auto"}
+            accessibilityElementsHidden={isFirst}
+            importantForAccessibility={isFirst ? "no-hide-descendants" : "auto"}
+            style={{ opacity: isFirst ? 0 : 1 }}
           >
-            {t(isIntro ? "widget_guide_not_now" : "widget_guide_back")}
-          </Button>
+            <Button
+              type="tertiary"
+              testID="widget-guide-back"
+              onPress={() => goTo(step - 1)}
+            >
+              {t("widget_guide_back")}
+            </Button>
+          </View>
         </View>
       </Animated.View>
     </PageModalLayout>

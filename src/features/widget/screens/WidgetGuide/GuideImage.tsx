@@ -7,13 +7,12 @@ import useColors from "@/hooks/useColors";
  * `assets/images/widget` after a widget change; see docs/widget.md.
  */
 const GUIDE_IMAGES = [
-  require("../../../../../assets/images/widget/intro.jpg"),
   require("../../../../../assets/images/widget/step-1.jpg"),
   require("../../../../../assets/images/widget/step-2.jpg"),
   require("../../../../../assets/images/widget/step-3.jpg"),
 ];
 
-/** Screenshot card for a guide step; `step` must be 0 to 3. */
+/** Screenshot card for a guide step; `step` must be 1 to 3. */
 export const GuideImage = ({
   step,
   style,
@@ -38,7 +37,7 @@ export const GuideImage = ({
       }}
     >
       <Image
-        source={GUIDE_IMAGES[step]}
+        source={GUIDE_IMAGES[step - 1]}
         resizeMode="contain"
         style={[{ width: "100%", height: "100%" }, style]}
         accessibilityIgnoresInvertColors
