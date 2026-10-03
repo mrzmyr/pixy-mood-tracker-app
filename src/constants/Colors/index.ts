@@ -96,6 +96,10 @@ const light = {
   tabsTextActive: tintColorLight,
   tabsTextInactive: colors.neutral[400],
 
+  passcodeDotBackground: colors.neutral[300],
+  passcodePadBackground: colors.neutral[200],
+  passcodePadBackgroundActive: colors.neutral[400],
+
   menuListItemBackground: "#FFF",
   menuListItemText: "#000",
   menuListItemIcon: "#000",
@@ -152,6 +156,9 @@ const light = {
   statisticsBackground: colors.neutral[100],
   statisticsCardBackground: "#FFF",
   statisticsCardSubtitle: colors.neutral[500],
+  statisticsFeedbackEmojiOpacity: 1,
+  statisticsFeedbackEmojiBackground: colors.neutral[100],
+  statisticsFeedbackText: colors.neutral[500],
   statisticsWeekdayText: colors.neutral[400],
   statisticsWeekdayBorder: colors.neutral[200],
   statisticsCalendarDotBackground: colors.neutral[200],
@@ -283,6 +290,10 @@ const dark: IColors & {
   tabsTextActive: tintColorDark,
   tabsTextInactive: colors.neutral[600],
 
+  passcodeDotBackground: colors.neutral[600],
+  passcodePadBackground: colors.neutral[800],
+  passcodePadBackgroundActive: colors.neutral[700],
+
   menuListItemBackground: colors.neutral[900],
   menuListItemText: colors.neutral[50],
   menuListItemIcon: colors.neutral[200],
@@ -339,6 +350,9 @@ const dark: IColors & {
   statisticsBackground: "#000",
   statisticsCardBackground: colors.neutral[900],
   statisticsCardSubtitle: colors.neutral[400],
+  statisticsFeedbackEmojiOpacity: 0.6,
+  statisticsFeedbackEmojiBackground: colors.neutral[800],
+  statisticsFeedbackText: colors.neutral[500],
   statisticsWeekdayText: colors.neutral[400],
   statisticsWeekdayBorder: colors.neutral[800],
   statisticsCalendarDotBackground: colors.neutral[800],

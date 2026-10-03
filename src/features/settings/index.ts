@@ -7,9 +7,12 @@ export { SettingsTags } from "./screens/Settings/Tags";
 export { SettingsTagsArchive } from "./screens/Settings/Tags";
 export { StepsScreen } from "./screens/Steps";
 export {
-  DevFixturesScreen,
-  DevFixtureLinkScreen,
   DevFakeFilesLinkScreen,
-  DevFeatureFlagsScreen,
-  DevFeatureFlagLinkScreen,
+  DevFixtureLinkScreen,
+  DevFixturesScreen,
+  TypeGapsScreen,
+  TypeListsScreen,
+  TypeOverviewScreen,
+  TypeRolesScreen,
+  TypeScreensScreen,
 } from "./DevRoutes";
