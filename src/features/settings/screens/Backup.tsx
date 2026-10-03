@@ -68,9 +68,12 @@ const getLastSyncText = ({
   if (status === "syncing") {
     return t("backup_syncing");
   }
-  return lastBackupAt
-    ? dayjs(lastBackupAt).from(now)
-    : t("backup_last_sync_never");
+  if (!lastBackupAt) {
+    return t("backup_last_sync_never");
+  }
+  const backupTime = dayjs(lastBackupAt);
+  // The clock ticks every 30 s, so a fresh backup can be newer than `now`.
+  return backupTime.from(Math.max(now, backupTime.valueOf()));
 };
 
 /**

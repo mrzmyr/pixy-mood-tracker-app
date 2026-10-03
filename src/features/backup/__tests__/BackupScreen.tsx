@@ -164,4 +164,26 @@ describe("BackupScreen", () => {
     expect(await result.findByText("Last Sync")).toBeTruthy();
     expect(result.queryByTestId("backup-restore")).toBeNull();
   });
+
+  test("fresh backup never reads as a future time", async () => {
+    await seed(true);
+    jest.mocked(cloud.readBackupFile).mockResolvedValue(
+      JSON.stringify(
+        createBackupFile({
+          deviceId: "this-phone",
+          now: new Date(Date.now() + 20_000),
+          data: {
+            version: "1.88.0",
+            items: [_generateItem({ date: "2026-10-01" })],
+            tags: [],
+            settings: { ...INITIAL_STATE },
+          },
+        })
+      )
+    );
+
+    const result = await renderScreen();
+
+    expect(await result.findByText("a few seconds ago")).toBeTruthy();
+  });
 });
