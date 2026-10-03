@@ -12,6 +12,7 @@ export const YEAR_IMAGE_WIDTH = 340;
 export const YEAR_BAND_WEEKS = 22;
 const GAP = 2;
 const MONTH_GAP = 10;
+const MONTH_ROW_GAP = 26;
 const MONTH_COLUMNS = 4;
 const RING = 1.5;
 
@@ -133,7 +134,7 @@ export const YearPixelsCanvas = ({
             width: monthWidth,
             marginRight:
               monthIndex % MONTH_COLUMNS === MONTH_COLUMNS - 1 ? 0 : MONTH_GAP,
-            marginBottom: monthIndex >= 12 - MONTH_COLUMNS ? 0 : MONTH_GAP,
+            marginBottom: monthIndex >= 12 - MONTH_COLUMNS ? 0 : MONTH_ROW_GAP,
           }}
         >
           {/* oxlint-disable-next-line react-doctor/no-tiny-text -- captured at 3x and read inside the widget, never as UI text */}

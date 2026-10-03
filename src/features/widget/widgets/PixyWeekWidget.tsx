@@ -22,7 +22,8 @@ import type { WeekWidgetProps } from "../widgetProps";
 /**
  * Grid of the last weeks, seven pixels per row, current week last. Runs in
  * the widget runtime: no hooks, no imports besides `@expo/ui`, and no
- * module-scope values.
+ * module-scope values. Medium puts the title beside the grid because the
+ * grid is height-bound.
  */
 const PixyWeekWidget = (
   props: WeekWidgetProps,
@@ -44,20 +45,75 @@ const PixyWeekWidget = (
       return isFuture ? scheme.future : scheme.empty;
     };
 
+    const grid = (
+      <VStack spacing={gap}>
+        {props.weeks.map((week, weekIndex) => (
+          <HStack key={weekIndex} spacing={gap}>
+            {week.map((cell) => (
+              <ZStack
+                key={cell.day}
+                modifiers={[aspectRatio({ ratio: 1, contentMode: "fit" })]}
+              >
+                {cell.isToday ? (
+                  <RoundedRectangle
+                    cornerRadius={radius}
+                    modifiers={[foregroundStyle(scheme.today)]}
+                  />
+                ) : null}
+                <RoundedRectangle
+                  cornerRadius={cell.isToday ? radius - 2 : radius}
+                  modifiers={[
+                    foregroundStyle(cellFill(cell.rating, cell.isFuture)),
+                    padding({ all: cell.isToday ? 2 : 0 }),
+                  ]}
+                />
+              </ZStack>
+            ))}
+          </HStack>
+        ))}
+      </VStack>
+    );
+
+    const rootModifiers = [
+      frame({
+        maxWidth: Infinity,
+        maxHeight: Infinity,
+        alignment: "topLeading",
+      }),
+      containerBackground(scheme.background, "widget"),
+      widgetURL(props.url),
+    ];
+
+    if (!isSmall) {
+      return (
+        <HStack alignment="top" spacing={16} modifiers={rootModifiers}>
+          <VStack alignment="leading" spacing={4}>
+            <Text
+              modifiers={[
+                font({ size: 15, weight: "semibold" }),
+                foregroundStyle(scheme.text),
+              ]}
+            >
+              {props.title}
+            </Text>
+            <Text
+              modifiers={[
+                font({ size: 12 }),
+                foregroundStyle(scheme.textSecondary),
+              ]}
+            >
+              {props.subtitle}
+            </Text>
+            <Spacer />
+          </VStack>
+          <Spacer />
+          {grid}
+        </HStack>
+      );
+    }
+
     return (
-      <VStack
-        alignment="leading"
-        spacing={10}
-        modifiers={[
-          frame({
-            maxWidth: Infinity,
-            maxHeight: Infinity,
-            alignment: "topLeading",
-          }),
-          containerBackground(scheme.background, "widget"),
-          widgetURL(props.url),
-        ]}
-      >
+      <VStack alignment="leading" spacing={10} modifiers={rootModifiers}>
         <HStack>
           <Text
             modifiers={[
@@ -77,32 +133,7 @@ const PixyWeekWidget = (
             {props.subtitle}
           </Text>
         </HStack>
-        <VStack spacing={gap}>
-          {props.weeks.map((week, weekIndex) => (
-            <HStack key={weekIndex} spacing={gap}>
-              {week.map((cell) => (
-                <ZStack
-                  key={cell.day}
-                  modifiers={[aspectRatio({ ratio: 1, contentMode: "fit" })]}
-                >
-                  {cell.isToday ? (
-                    <RoundedRectangle
-                      cornerRadius={radius}
-                      modifiers={[foregroundStyle(scheme.text)]}
-                    />
-                  ) : null}
-                  <RoundedRectangle
-                    cornerRadius={cell.isToday ? radius - 2 : radius}
-                    modifiers={[
-                      foregroundStyle(cellFill(cell.rating, cell.isFuture)),
-                      padding({ all: cell.isToday ? 2 : 0 }),
-                    ]}
-                  />
-                </ZStack>
-              ))}
-            </HStack>
-          ))}
-        </VStack>
+        {grid}
         <Spacer />
       </VStack>
     );

@@ -73,7 +73,7 @@ const PixyMonthWidget = (
                   {cell.isToday ? (
                     <RoundedRectangle
                       cornerRadius={radius}
-                      modifiers={[foregroundStyle(scheme.text)]}
+                      modifiers={[foregroundStyle(scheme.today)]}
                     />
                   ) : null}
                   <RoundedRectangle
