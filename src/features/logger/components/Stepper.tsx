@@ -1,7 +1,8 @@
 import { View } from "react-native";
 import Animated, {
-  LinearTransition,
   ReduceMotion,
+  useAnimatedStyle,
+  withTiming,
 } from "react-native-reanimated";
 import useColors from "@/hooks/useColors";
 import { t } from "@/lib/translation";
@@ -12,20 +13,25 @@ const DOT_MOVE_MS = 200;
 
 const StepDot = ({ active }: { active: boolean }) => {
   const colors = useColors();
+  const animatedStyle = useAnimatedStyle(() => ({
+    width: withTiming(active ? DOT_SIZE * ACTIVE_DOT_SCALE : DOT_SIZE, {
+      duration: DOT_MOVE_MS,
+      reduceMotion: ReduceMotion.System,
+    }),
+  }));
 
   return (
     <Animated.View
-      layout={LinearTransition.duration(DOT_MOVE_MS).reduceMotion(
-        ReduceMotion.System
-      )}
-      style={{
-        width: active ? DOT_SIZE * ACTIVE_DOT_SCALE : DOT_SIZE,
-        height: DOT_SIZE,
-        borderRadius: DOT_SIZE / 2,
-        backgroundColor: active
-          ? colors.stepperBackgroundActive
-          : colors.stepperBackground,
-      }}
+      style={[
+        animatedStyle,
+        {
+          height: DOT_SIZE,
+          borderRadius: DOT_SIZE / 2,
+          backgroundColor: active
+            ? colors.stepperBackgroundActive
+            : colors.stepperBackground,
+        },
+      ]}
     />
   );
 };
