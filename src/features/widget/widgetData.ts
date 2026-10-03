@@ -86,6 +86,7 @@ export const getSchemeColors = (
     // past empty days use the dotted-border color and future days the lighter one.
     empty: scale.empty.border,
     future: scale.empty.background,
+    today: colors.tint,
     ratings,
   };
 };
@@ -133,7 +134,7 @@ const getBaseProps = (
 
 /**
  * Props for the week widget: the current locale week as the last row, with
- * the three weeks before it. The subtitle counts the current week only.
+ * the three weeks before it. The subtitle counts all four weeks.
  */
 export const getWeekWidgetProps = (input: WidgetDataInput): WeekWidgetProps => {
   const today = (input.now ?? dayjs()).startOf("day");
@@ -144,8 +145,10 @@ export const getWeekWidgetProps = (input: WidgetDataInput): WeekWidgetProps => {
       makeCell(start.add(weekIndex * 7 + dayIndex, "day"), today, ratings)
     )
   );
-  const thisWeek = weeks.at(-1) ?? [];
-  return { ...getBaseProps(input, t("widget_week_title"), thisWeek), weeks };
+  return {
+    ...getBaseProps(input, t("widget_week_title"), weeks.flat()),
+    weeks,
+  };
 };
 
 /** Props for the month widget: the current month as calendar rows. */
@@ -206,7 +209,36 @@ export const getYearGrid = (input: WidgetDataInput): YearGrid => {
       return cell.isFuture ? "f" : "";
     })
   );
-  return { columns, today: todayPosition, cells };
+  const months = Array.from({ length: 12 }, (_, monthIndex) => {
+    const monthStart = today.month(monthIndex).startOf("month");
+    const daysInMonth = monthStart.daysInMonth();
+    const firstRow = monthStart.startOf("week");
+    const weeks: YearDayCode[][] = [];
+    let todayDay = 0;
+    let cursor = firstRow;
+    while (cursor.isBefore(monthStart.add(daysInMonth, "day"))) {
+      const week: YearDayCode[] = [];
+      for (let index = 0; index < 7; index += 1) {
+        if (cursor.isSame(monthStart, "month")) {
+          const cell = makeCell(cursor, today, ratings);
+          if (cell.isToday) {
+            todayDay = cell.day;
+          }
+          if (cell.rating === "") {
+            week.push(cell.isFuture ? "f" : "");
+          } else {
+            week.push(cell.rating);
+          }
+        } else {
+          week.push("p");
+        }
+        cursor = cursor.add(1, "day");
+      }
+      weeks.push(week);
+    }
+    return { label: monthStart.format("MMM"), weeks, today: todayDay };
+  });
+  return { columns, today: todayPosition, cells, months };
 };
 
 /** `file://` URIs of the captured year images per color scheme and band count. */

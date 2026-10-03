@@ -1,11 +1,13 @@
 import type { Ref } from "react";
-import { View } from "react-native";
+import { Text, View } from "react-native";
 import type { WidgetSchemeColors, YearDayCode, YearGrid } from "./widgetProps";
 
 /** Width in points of the captured image. Widgets scale it to their width. */
 export const YEAR_IMAGE_WIDTH = 340;
 const GAP = 1.5;
-const BAND_GAP = 10;
+const MONTH_GAP = 10;
+const MONTH_COLUMNS = 4;
+const RING = 1.5;
 
 const cellFill = (code: YearDayCode, colors: WidgetSchemeColors) => {
   if (code === "p") {
@@ -20,73 +22,145 @@ const cellFill = (code: YearDayCode, colors: WidgetSchemeColors) => {
   return colors.ratings[code];
 };
 
+const Cell = ({
+  code,
+  size,
+  isToday,
+  colors,
+  gapRight,
+  gapBottom,
+}: {
+  code: YearDayCode;
+  size: number;
+  isToday: boolean;
+  colors: WidgetSchemeColors;
+  gapRight: boolean;
+  gapBottom: boolean;
+}) => (
+  <View
+    style={{
+      width: size,
+      height: size,
+      marginRight: gapRight ? GAP : 0,
+      marginBottom: gapBottom ? GAP : 0,
+      borderRadius: Math.max(1, size / 5),
+      backgroundColor: cellFill(code, colors),
+      borderWidth: isToday ? RING : 0,
+      borderColor: colors.today,
+    }}
+  />
+);
+
 /**
- * Year grid for the widget image: one column per week, seven rows, split
- * into `bands` stacked blocks so the large widget gets bigger cells.
- * Captured with react-native-view-shot, so it must stay mounted and
- * `collapsable={false}`. The parent positions it off screen.
+ * Year grid for the widget image. `layout: "band"` draws one column per
+ * week, seven rows (medium widget). `layout: "months"` draws twelve mini
+ * calendars in four columns (large widget). Captured with
+ * react-native-view-shot, so it must stay mounted and `collapsable={false}`.
+ * The parent positions it off screen.
  */
 export const YearPixelsCanvas = ({
   grid,
   colors,
-  bands,
+  layout,
   ref,
 }: {
   grid: YearGrid;
   colors: WidgetSchemeColors;
-  bands: 1 | 2;
+  layout: "band" | "months";
   ref: Ref<View>;
 }) => {
-  const perBand = Math.ceil(grid.columns.length / bands);
-  const cell = (YEAR_IMAGE_WIDTH - (perBand - 1) * GAP) / perBand;
-  const radius = Math.max(1, cell / 5);
+  if (layout === "band") {
+    const count = grid.columns.length;
+    const cell = (YEAR_IMAGE_WIDTH - (count - 1) * GAP) / count;
+    return (
+      <View
+        ref={ref}
+        collapsable={false}
+        style={{
+          width: YEAR_IMAGE_WIDTH,
+          flexDirection: "row",
+          backgroundColor: colors.background,
+        }}
+      >
+        {grid.columns.map((column, columnIndex) => (
+          <View key={columnIndex}>
+            {column.map((code, row) => (
+              <Cell
+                key={row}
+                code={code}
+                size={cell}
+                isToday={
+                  grid.today.column === columnIndex && grid.today.row === row
+                }
+                colors={colors}
+                gapRight={columnIndex !== count - 1}
+                gapBottom={row !== 6}
+              />
+            ))}
+          </View>
+        ))}
+      </View>
+    );
+  }
+
+  const monthWidth =
+    (YEAR_IMAGE_WIDTH - (MONTH_COLUMNS - 1) * MONTH_GAP) / MONTH_COLUMNS;
+  const cell = (monthWidth - 6 * GAP) / 7;
   return (
     <View
       ref={ref}
       collapsable={false}
-      style={{ width: YEAR_IMAGE_WIDTH, backgroundColor: colors.background }}
+      style={{
+        width: YEAR_IMAGE_WIDTH,
+        flexDirection: "row",
+        flexWrap: "wrap",
+        backgroundColor: colors.background,
+      }}
     >
-      {Array.from({ length: bands }, (_, band) => (
+      {grid.months.map((month, monthIndex) => (
         <View
-          key={band}
+          key={month.label}
           style={{
-            flexDirection: "row",
-            marginTop: band === 0 ? 0 : BAND_GAP,
+            width: monthWidth,
+            marginRight:
+              monthIndex % MONTH_COLUMNS === MONTH_COLUMNS - 1 ? 0 : MONTH_GAP,
+            marginBottom: monthIndex >= 12 - MONTH_COLUMNS ? 0 : MONTH_GAP,
           }}
         >
-          {grid.columns
-            .slice(band * perBand, (band + 1) * perBand)
-            .map((column, columnOffset) => {
-              const columnIndex = band * perBand + columnOffset;
-              return (
-                <View
-                  key={columnIndex}
-                  style={{
-                    marginRight: columnOffset === perBand - 1 ? 0 : GAP,
-                  }}
-                >
-                  {column.map((code, row) => {
-                    const isToday =
-                      grid.today.column === columnIndex &&
-                      grid.today.row === row;
-                    return (
-                      <View
-                        key={row}
-                        style={{
-                          width: cell,
-                          height: cell,
-                          marginBottom: row === 6 ? 0 : GAP,
-                          borderRadius: radius,
-                          backgroundColor: isToday
-                            ? colors.text
-                            : cellFill(code, colors),
-                        }}
-                      />
-                    );
-                  })}
-                </View>
-              );
-            })}
+          {/* oxlint-disable-next-line react-doctor/no-tiny-text -- captured at 3x and read inside the widget, never as UI text */}
+          <Text
+            style={{
+              fontSize: 9,
+              color: colors.textSecondary,
+              marginBottom: 3,
+            }}
+          >
+            {month.label}
+          </Text>
+          {month.weeks.map((week, weekIndex) => (
+            <View key={weekIndex} style={{ flexDirection: "row" }}>
+              {week.map((code, dayIndex) => {
+                const dayNumber =
+                  week.slice(0, dayIndex + 1).filter((item) => item !== "p")
+                    .length +
+                  month.weeks
+                    .slice(0, weekIndex)
+                    .flat()
+                    .filter((item) => item !== "p").length;
+                return (
+                  <Cell
+                    key={dayIndex}
+                    code={code}
+                    size={cell}
+                    isToday={code !== "p" && month.today === dayNumber}
+                    colors={colors}
+                    gapRight={dayIndex !== 6}
+                    gapBottom={weekIndex !== month.weeks.length - 1}
+                  />
+                );
+              })}
+            </View>
+          ))}
         </View>
       ))}
     </View>

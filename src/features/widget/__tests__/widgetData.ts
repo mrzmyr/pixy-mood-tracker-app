@@ -45,11 +45,11 @@ describe("getWeekWidgetProps()", () => {
     expect(props.weeks[0].some((day) => day.isToday)).toBe(false);
   });
 
-  test("subtitle counts logged days over elapsed days of the current week", () => {
+  test("subtitle counts logged days over elapsed days of all four weeks", () => {
     const props = getWeekWidgetProps(INPUT);
-    const thisWeek = props.weeks.at(-1) ?? [];
-    const elapsed = thisWeek.filter((day) => !day.isFuture).length;
+    const elapsed = props.weeks.flat().filter((day) => !day.isFuture).length;
     expect(props.subtitle).toBe(`2/${elapsed}`);
+    expect(elapsed).toBe(21 + 5);
   });
 
   test("resolves scale colors for both color schemes", () => {
@@ -99,6 +99,12 @@ describe("getYearGrid()", () => {
     expect(todayCode).toBe("neutral");
     expect(codes.filter((code) => code === "good")).toHaveLength(1);
     expect(codes.filter((code) => code === "f")).toHaveLength(365 - 288);
+    expect(grid.months).toHaveLength(12);
+    expect(grid.months[9].label).toBe("Oct");
+    expect(grid.months[9].today).toBe(15);
+    expect(
+      grid.months[1].weeks.flat().filter((code) => code !== "p")
+    ).toHaveLength(28);
   });
 });
 

@@ -36,6 +36,8 @@ export interface WidgetSchemeColors {
   empty: string;
   /** Fill for a day after today: fainter than `empty`. */
   future: string;
+  /** Ring around today's cell. */
+  today: string;
   /** Fill per rating, from the user's color scale. */
   ratings: Record<WidgetRating, string>;
 }
@@ -80,6 +82,8 @@ export interface YearGrid {
   today: { column: number; row: number };
   /** Every real day, for the logged-days subtitle. */
   cells: WidgetCell[];
+  /** Mini calendars for the large family: rows of seven codes, `"p"` pads. */
+  months: { label: string; weeks: YearDayCode[][]; today: number }[];
 }
 
 /**
@@ -92,7 +96,7 @@ export interface YearWidgetProps extends WidgetBaseProps {
   /** One band of 53 week columns, for the medium family. */
   imageLight: string;
   imageDark: string;
-  /** Two stacked bands of 27 week columns, for the large family. */
+  /** Twelve mini month calendars, for the large family. */
   imageLightLarge: string;
   imageDarkLarge: string;
   /** Changes with every capture so the widget re-reads the file. */

@@ -126,25 +126,25 @@ export const WidgetSync = () => {
       <YearPixelsCanvas
         ref={lightRef}
         grid={grid}
-        bands={1}
+        layout="band"
         colors={getSchemeColors("light", scaleType)}
       />
       <YearPixelsCanvas
         ref={darkRef}
         grid={grid}
-        bands={1}
+        layout="band"
         colors={getSchemeColors("dark", scaleType)}
       />
       <YearPixelsCanvas
         ref={lightLargeRef}
         grid={grid}
-        bands={2}
+        layout="months"
         colors={getSchemeColors("light", scaleType)}
       />
       <YearPixelsCanvas
         ref={darkLargeRef}
         grid={grid}
-        bands={2}
+        layout="months"
         colors={getSchemeColors("dark", scaleType)}
       />
     </View>
