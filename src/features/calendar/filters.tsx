@@ -23,9 +23,9 @@ interface FiltersData {
 /**
  * Active calendar filters and their result.
  *
- * `filteredItems` is a snapshot taken when the filters are set; it does not
- * update when logs change until the filters are set again. Selected tags
- * must all be present on an entry for it to match.
+ * `filteredItems` follows the current logs, so new and edited entries match
+ * while filters stay active. Selected tags must all be present on an entry
+ * for it to match.
  */
 export interface CalendarFiltersData extends FiltersData {
   filteredItems: LogItem[];
@@ -45,13 +45,10 @@ interface Value {
 // SAFETY: every consumer renders inside CalendarFiltersProvider, which supplies the full Value.
 const CalendarFiltersStateContext = createContext({} as Value);
 
-const initialState: CalendarFiltersData = {
+const initialFilters: FiltersData = {
   text: "",
   ratings: [],
   tagIds: [],
-  isFiltering: false,
-  filterCount: 0,
-  filteredItems: [],
 };
 
 const isMatchingFilters = (item: LogItem, filters: FiltersData) => {
@@ -84,42 +81,48 @@ const CalendarFiltersProvider = ({
 }) => {
   const analytics = useAnalytics();
   const logState = useLogState();
-  const [data, setData] = useState<CalendarFiltersData>(initialState);
+  const [filters, setFilters] = useState<FiltersData>(initialFilters);
   const [isOpen, setIsOpen] = useState(false);
 
   const set = useCallback(
-    (filters: FiltersData) => {
+    (next: FiltersData) => {
       analytics.track("calendar:filters_applied", {
-        text_length: filters.text.length,
-        ratings_count: filters.ratings.length,
-        tags_count: filters.tagIds.length,
+        text_length: next.text.length,
+        ratings_count: next.ratings.length,
+        tags_count: next.tagIds.length,
       });
-
-      const isFiltering =
-        filters.text !== "" ||
-        filters.ratings.length !== 0 ||
-        filters.tagIds.length !== 0;
-
-      const filterCount =
-        (filters.text === "" ? 0 : 1) +
-        filters.ratings.length +
-        filters.tagIds.length;
-
-      setData({
-        ...filters,
-        filteredItems: logState.items.filter((item) =>
-          isMatchingFilters(item, filters)
-        ),
-        isFiltering,
-        filterCount,
+      // Callers spread `data` into `next`; keep only the filter fields.
+      setFilters({
+        text: next.text,
+        ratings: next.ratings,
+        tagIds: next.tagIds,
       });
     },
-    [analytics, logState.items]
+    [analytics]
   );
+
+  const data: CalendarFiltersData = useMemo(() => {
+    const isFiltering =
+      filters.text !== "" ||
+      filters.ratings.length !== 0 ||
+      filters.tagIds.length !== 0;
+    const filterCount =
+      (filters.text === "" ? 0 : 1) +
+      filters.ratings.length +
+      filters.tagIds.length;
+    return {
+      ...filters,
+      isFiltering,
+      filterCount,
+      filteredItems: isFiltering
+        ? logState.items.filter((item) => isMatchingFilters(item, filters))
+        : [],
+    };
+  }, [filters, logState.items]);
 
   const reset = useCallback(() => {
     analytics.track("calendar:filters_reset");
-    setData(initialState);
+    setFilters(initialFilters);
   }, [analytics]);
 
   const open = useCallback(() => {
@@ -127,11 +130,11 @@ const CalendarFiltersProvider = ({
     setIsOpen(true);
   }, [analytics]);
 
-  // Closing clears the filters: the sheet has no reset button.
+  // Closing keeps the filters: the calendar stays filtered and the header
+  // badge shows the count. The sheet's Reset button clears them.
   const close = useCallback(() => {
     analytics.track("calendar:filters_closed");
     setIsOpen(false);
-    setData(initialState);
   }, [analytics]);
 
   // Keep the context value stable when filters are set to equal data.
