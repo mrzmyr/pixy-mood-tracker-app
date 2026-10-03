@@ -29,7 +29,7 @@ export const LoggerHeader = ({
   <View
     style={{
       paddingHorizontal: 20,
-      paddingTop: 16,
+      paddingTop: 12,
     }}
   >
     <SlideHeader
