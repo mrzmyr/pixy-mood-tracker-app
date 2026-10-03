@@ -193,11 +193,7 @@ export const AppIconScreen = () => {
   const isLocked = (icon: AppIcon) =>
     !supportsAlternateIcons || (icon.isFlagged && !isAppIconsEnabled);
 
-  const selectIcon = async (icon: AppIcon) => {
-    if (isLocked(icon) || icon.id === activeId) {
-      return;
-    }
-    await haptics.selection();
+  const applyIcon = async (icon: AppIcon) => {
     try {
       await setAlternateAppIcon(icon.nativeName);
     } catch (error) {
@@ -207,6 +203,26 @@ export const AppIconScreen = () => {
     }
     setActiveId(icon.id);
     analytics.track("settings:app_icon_changed", { icon: icon.id });
+  };
+
+  const selectIcon = async (icon: AppIcon) => {
+    if (isLocked(icon) || icon.id === activeId) {
+      return;
+    }
+    await haptics.selection();
+    if (Platform.OS !== "android") {
+      await applyIcon(icon);
+      return;
+    }
+    // Android switches icons by disabling the running activity, so Pixy
+    // closes. Ask first.
+    Alert.alert(t("app_icon_android_title"), t("app_icon_android_message"), [
+      { text: t("cancel"), style: "cancel" },
+      {
+        text: t("app_icon_android_confirm"),
+        onPress: () => applyIcon(icon),
+      },
+    ]);
   };
 
   const hasLockedIcons = APP_ICONS.some(isLocked);

@@ -2,7 +2,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { usePostHog as getPostHogTestClient } from "posthog-react-native";
 import { DefaultTheme, ThemeProvider } from "expo-router";
 import { render, userEvent, waitFor } from "@testing-library/react-native";
-import { Alert } from "react-native";
+import { Alert, Platform } from "react-native";
 import { setAlternateAppIcon } from "expo-alternate-app-icons";
 import Providers from "@/shell/Providers";
 import Colors from "@/constants/Colors";
@@ -75,6 +75,10 @@ const renderAppIcon = () =>
   );
 
 describe("Settings > App Icon", () => {
+  afterEach(() => {
+    jest.restoreAllMocks();
+  });
+
   test("user sees new icons locked when the flag is off", async () => {
     mockReload.mockResolvedValue({ "app-icons": false });
     const screen = await renderAppIcon();
@@ -102,6 +106,48 @@ describe("Settings > App Icon", () => {
     expect(mockSetIcon).toHaveBeenCalledWith("Sunburst");
     expect(screen.getByTestId("app-icon-sunburst")).toBeSelected();
     expect(screen.getByTestId("app-icon-default")).not.toBeSelected();
+  });
+
+  test("Android user keeps the icon when they cancel the close warning", async () => {
+    mockReload.mockResolvedValue({ "app-icons": true });
+    jest.replaceProperty(Platform, "OS", "android");
+    const alert = jest
+      .spyOn(Alert, "alert")
+      .mockImplementation((_title, _message, buttons) => {
+        buttons?.find((button) => button.style === "cancel")?.onPress?.();
+      });
+    const screen = await renderAppIcon();
+    await waitFor(() =>
+      expect(screen.getByTestId("app-icon-sunburst")).toBeEnabled()
+    );
+
+    await userEvent.press(screen.getByTestId("app-icon-sunburst"));
+
+    expect(alert).toHaveBeenCalledWith(
+      "Change App Icon?",
+      expect.any(String),
+      expect.any(Array)
+    );
+    expect(mockSetIcon).not.toHaveBeenCalled();
+    expect(screen.getByTestId("app-icon-default")).toBeSelected();
+  });
+
+  test("Android user changes the icon after confirming the close warning", async () => {
+    mockReload.mockResolvedValue({ "app-icons": true });
+    jest.replaceProperty(Platform, "OS", "android");
+    jest
+      .spyOn(Alert, "alert")
+      .mockImplementation((_title, _message, buttons) => {
+        buttons?.find((button) => button.style !== "cancel")?.onPress?.();
+      });
+    const screen = await renderAppIcon();
+    await waitFor(() =>
+      expect(screen.getByTestId("app-icon-sunburst")).toBeEnabled()
+    );
+
+    await userEvent.press(screen.getByTestId("app-icon-sunburst"));
+
+    expect(mockSetIcon).toHaveBeenCalledWith("Sunburst");
   });
 
   test("user keeps the old icon and sees an alert when the change fails", async () => {

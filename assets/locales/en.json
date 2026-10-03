@@ -656,5 +656,8 @@
   "app_icon_locked_info": "New icons are coming soon.",
   "app_icon_unsupported": "This device cannot change the app icon.",
   "app_icon_error_title": "Icon Not Changed",
-  "app_icon_error_message": "Pixy could not change the app icon. Try again."
+  "app_icon_error_message": "Pixy could not change the app icon. Try again.",
+  "app_icon_android_title": "Change App Icon?",
+  "app_icon_android_message": "Pixy closes to change the icon. Open Pixy again from your home screen.",
+  "app_icon_android_confirm": "Change Icon"
 }
