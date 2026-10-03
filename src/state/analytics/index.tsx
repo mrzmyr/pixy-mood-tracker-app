@@ -2,6 +2,7 @@ import { usePostHog } from "posthog-react-native";
 import { createContext, useContext, useEffect, useMemo } from "react";
 import { useSettings } from "@/state/settings";
 import { createMissingProviderError } from "@/lib/errors";
+import { DEFAULT_ANALYTICS_ENABLED } from "@/state/analytics/consent";
 import type {
   AnalyticsEvent,
   UsageSummary,
@@ -49,8 +50,8 @@ const AnalyticsProvider = ({
   const posthog = usePostHog();
 
   // Derived from settings; `enable`, `disable`, and `reset` update settings.
-  // Stays off until stored settings load: the default is on, but a stored
-  // opt-out must win before the first event.
+  // Stays off until stored settings load: the default can be on, but a
+  // stored opt-out must win before the first event.
   const isEnabled = settings.loaded && settings.analyticsEnabled;
 
   useEffect(() => {
@@ -101,13 +102,17 @@ const AnalyticsProvider = ({
           analyticsEnabled: false,
         }));
       },
-      // New anonymous id, then the default (on), like a fresh install.
+      // New anonymous id, then the regional default, like a fresh install.
       reset: () => {
         posthog?.reset();
-        posthog?.optIn();
+        if (DEFAULT_ANALYTICS_ENABLED) {
+          posthog?.optIn();
+        } else {
+          posthog?.optOut();
+        }
         setSettings((currentSettings) => ({
           ...currentSettings,
-          analyticsEnabled: true,
+          analyticsEnabled: DEFAULT_ANALYTICS_ENABLED,
         }));
       },
       track: (...[eventName, properties]) => {
@@ -145,7 +150,7 @@ const AnalyticsProvider = ({
           );
         }
 
-        // Flags reload only after consent, in FeatureFlagsProvider.
+        // No feature flags in use: skip the flag reload.
         posthog?.setPersonProperties(properties, propertiesOnce, false);
       },
       isEnabled,
