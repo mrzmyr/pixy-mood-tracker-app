@@ -41,7 +41,7 @@ const applyGoogleToken = async () => {
  * Signs in to Google Drive with a sign-in sheet. Resolves `false` when the
  * user cancels. iCloud needs no sign-in and resolves `true`.
  */
-export const connect = async (): Promise<boolean> => {
+const systemConnect = async (): Promise<boolean> => {
   if (!isGoogleDrive()) {
     return true;
   }
@@ -68,7 +68,7 @@ export const connect = async (): Promise<boolean> => {
  * Restores the Google Drive session without UI and refreshes the access
  * token. Resolves `false` when the user is not signed in anymore.
  */
-export const resume = async (): Promise<boolean> => {
+const systemResume = async (): Promise<boolean> => {
   if (!isGoogleDrive()) {
     return true;
   }
@@ -82,7 +82,7 @@ export const resume = async (): Promise<boolean> => {
 };
 
 /** Signs out of Google Drive. No-op on iCloud. */
-export const disconnect = async (): Promise<void> => {
+const systemDisconnect = async (): Promise<void> => {
   if (isGoogleDrive()) {
     configureGoogle();
     await GoogleSignin.signOut();
@@ -91,22 +91,72 @@ export const disconnect = async (): Promise<void> => {
 };
 
 /** `false` when iCloud Drive is off or Google Drive has no token. */
-export const isAvailable = (): Promise<boolean> =>
+const systemIsAvailable = (): Promise<boolean> =>
   CloudStorage.isCloudAvailable();
 
 /** Writes the backup file. Replaces an existing one. */
-export const writeBackupFile = (contents: string): Promise<void> =>
+const systemWriteBackupFile = (contents: string): Promise<void> =>
   CloudStorage.writeFile(BACKUP_FILE, contents);
 
 /** Reads the backup file, or `null` when there is none. */
-export const readBackupFile = async (): Promise<string | null> =>
+const systemReadBackupFile = async (): Promise<string | null> =>
   (await CloudStorage.exists(BACKUP_FILE))
     ? CloudStorage.readFile(BACKUP_FILE)
     : null;
 
 /** Deletes the backup file. No-op when there is none. */
-export const deleteBackupFile = async (): Promise<void> => {
+const systemDeleteBackupFile = async (): Promise<void> => {
   if (await CloudStorage.exists(BACKUP_FILE)) {
     await CloudStorage.unlink(BACKUP_FILE);
   }
 };
+
+/** Cloud operations behind the backup. Development builds can swap them. */
+export interface BackupCloud {
+  connect: () => Promise<boolean>;
+  resume: () => Promise<boolean>;
+  disconnect: () => Promise<void>;
+  isAvailable: () => Promise<boolean>;
+  readBackupFile: () => Promise<string | null>;
+  writeBackupFile: (contents: string) => Promise<void>;
+  deleteBackupFile: () => Promise<void>;
+}
+
+const systemCloud: BackupCloud = {
+  connect: systemConnect,
+  resume: systemResume,
+  disconnect: systemDisconnect,
+  isAvailable: systemIsAvailable,
+  readBackupFile: systemReadBackupFile,
+  writeBackupFile: systemWriteBackupFile,
+  deleteBackupFile: systemDeleteBackupFile,
+};
+
+let override: BackupCloud | null = null;
+
+/**
+ * Replaces iCloud and Google Drive until the app restarts. Used by the
+ * `dev/fake-cloud` link in development and preview builds, where no Apple
+ * Account or Google OAuth client exists.
+ */
+export const setBackupCloudOverride = (cloud: BackupCloud | null) => {
+  override = cloud;
+};
+
+const active = () => override ?? systemCloud;
+
+/** Signs in where needed. Resolves `false` when the user cancels. */
+export const connect = () => active().connect();
+/** Restores the session without UI. Resolves `false` when signed out. */
+export const resume = () => active().resume();
+/** Ends the session. No-op on iCloud. */
+export const disconnect = () => active().disconnect();
+/** `false` when iCloud Drive is off or Google Drive has no token. */
+export const isAvailable = () => active().isAvailable();
+/** Reads the backup file, or `null` when there is none. */
+export const readBackupFile = () => active().readBackupFile();
+/** Writes the backup file. Replaces an existing one. */
+export const writeBackupFile = (contents: string) =>
+  active().writeBackupFile(contents);
+/** Deletes the backup file. No-op when there is none. */
+export const deleteBackupFile = () => active().deleteBackupFile();

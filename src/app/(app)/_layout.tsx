@@ -123,6 +123,10 @@ const AppLayout = () => {
               name="dev/fake-files"
               options={{ ...pageOptions, headerShown: false }}
             />
+            <Stack.Screen
+              name="dev/fake-cloud"
+              options={{ ...pageOptions, headerShown: false }}
+            />
           </Stack.Protected>
         </Stack>
       </View>

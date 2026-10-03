@@ -6,3 +6,5 @@ export {
   parseBackupFile,
 } from "./backupFile";
 export type { BackupFile } from "./backupFile";
+export { BACKUP_FILE, setBackupCloudOverride } from "./cloud";
+export type { BackupCloud } from "./cloud";

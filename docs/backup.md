@@ -31,7 +31,7 @@ Pixy has no server. Data leaves the phone only through the cloud backup or a man
 
 - The `react-native-cloud-storage` config plugin adds the container `iCloud.<bundle id>` for each app variant
 - Run the first `eas build --local` per variant with Apple login. EAS capability sync then registers the container and adds it to the profile. The App Store Connect API cannot do this ([EAS iOS capabilities](https://docs.expo.dev/build-reference/ios-capabilities/))
-- Simulators without an Apple Account show "iCloud Drive is off"
+- Simulators without an Apple Account show "Turn on iCloud Drive in the Settings app to back up Pixy."
 
 ### Google (Drive, Android)
 
@@ -40,6 +40,12 @@ Pixy has no server. Data leaves the phone only through the cloud backup or a man
 - One Android OAuth client per package (`com.devmood.pixymoodtracker`, `.preview`, `.dev`) with the SHA-1 of each signing key: Play app signing, upload key, local debug key
 - Missing client: sign-in fails with `DEVELOPER_ERROR`
 - No `@react-native-google-signin/google-signin` config plugin: it needs an iOS client, and iOS uses iCloud
+
+### Fake cloud (development and preview builds)
+
+- Open `<scheme>://dev/fake-cloud`. It swaps iCloud and Google Drive for one file in the app's documents folder until the app restarts, and turns the switch off
+- Turn the switch on to back up. The file survives "Delete all my data", so restore works end to end
+- Code: [`src/dev/fakeBackupCloud.ts`](../src/dev/fakeBackupCloud.ts)
 
 ## Privacy notes
 

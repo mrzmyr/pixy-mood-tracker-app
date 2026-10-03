@@ -18,3 +18,9 @@ export const DevFakeFilesLinkScreen = () => {
   const Screen = DEV_TOOLS?.DevFakeFilesLinkScreen;
   return Screen ? <Screen /> : <Redirect href="/calendar" />;
 };
+
+/** Fake cloud deep link is reachable only in development and preview builds. */
+export const DevFakeCloudLinkScreen = () => {
+  const Screen = DEV_TOOLS?.DevFakeCloudLinkScreen;
+  return Screen ? <Screen /> : <Redirect href="/calendar" />;
+};

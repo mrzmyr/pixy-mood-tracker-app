@@ -75,6 +75,7 @@ describe("BackupScreen", () => {
     jest.clearAllMocks();
     jest.mocked(cloud.getBackupProvider).mockReturnValue("icloud");
     jest.mocked(cloud.readBackupFile).mockResolvedValue(null);
+    jest.mocked(cloud.isAvailable).mockResolvedValue(true);
     await AsyncStorage.clear();
   });
 
@@ -127,5 +128,17 @@ describe("BackupScreen", () => {
 
     expect(await result.findByText("Restore from Backup")).toBeTruthy();
     expect(result.getByText(/Sep 30, 2026/u)).toBeTruthy();
+  });
+
+  test("iCloud Drive off: problem row instead of Last sync", async () => {
+    await seed(true);
+    jest.mocked(cloud.isAvailable).mockResolvedValue(false);
+
+    const result = await renderScreen();
+
+    expect(
+      await result.findByText(/Turn on iCloud Drive in the Settings app/u)
+    ).toBeTruthy();
+    expect(result.queryByText("Last sync")).toBeNull();
   });
 });

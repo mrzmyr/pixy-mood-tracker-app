@@ -1,7 +1,12 @@
 import dayjs from "dayjs";
 import { SymbolView } from "expo-symbols";
-import { ScrollView, Switch, View } from "react-native";
-import { CheckCircle, Cloud, RotateCcw } from "react-native-feather";
+import { ScrollView, Switch, Text, View } from "react-native";
+import {
+  AlertCircle,
+  CheckCircle,
+  Cloud,
+  RotateCcw,
+} from "react-native-feather";
 import { MarkdownBody } from "@/components/MarkdownBody";
 import MenuList from "@/components/MenuList";
 import MenuListHeadline from "@/components/MenuListHeadline";
@@ -14,6 +19,7 @@ import { t } from "@/lib/translation";
 /** iOS system blue, the color of the iCloud symbol in iOS Settings. */
 const ICLOUD_BLUE = "#007AFF";
 const SUCCESS_GREEN = "#34C759";
+const WARNING_ORANGE = "#FF9500";
 
 const ProviderIcon = ({
   provider,
@@ -33,14 +39,12 @@ const ProviderIcon = ({
     <Cloud width={18} color={color} />
   );
 
-/** Text for the "Last sync" row. */
-const getLastSyncText = ({
+/** Problem sentence for a status, or `null` when backup works. */
+const getProblemText = ({
   provider,
   status,
-  lastBackupAt,
-}: Pick<BackupValue, "provider" | "status" | "lastBackupAt">): string => {
-  const statusText: Partial<Record<BackupValue["status"], string>> = {
-    syncing: t("backup_syncing"),
+}: Pick<BackupValue, "provider" | "status">): string | null => {
+  const problems: Partial<Record<BackupValue["status"], string>> = {
     unavailable:
       provider === "icloud"
         ? t("backup_unavailable_ios")
@@ -48,12 +52,32 @@ const getLastSyncText = ({
     signedOut: t("backup_signed_out"),
     error: t("backup_failed"),
   };
-  if (statusText[status]) {
-    return statusText[status];
+  return problems[status] ?? null;
+};
+
+/** Value of the "Last sync" row: syncing, a date, or "Not yet". */
+const getLastSyncText = ({
+  status,
+  lastBackupAt,
+}: Pick<BackupValue, "status" | "lastBackupAt">): string => {
+  if (status === "syncing") {
+    return t("backup_syncing");
   }
   return lastBackupAt
     ? dayjs(lastBackupAt).format("lll")
     : t("backup_last_sync_never");
+};
+
+/** Wrapping text for rows that hold a full sentence. */
+const RowText = ({ children }: { children: string }) => {
+  const colors = useColors();
+  return (
+    <Text
+      style={{ fontSize: 15, lineHeight: 20, color: colors.menuListItemText }}
+    >
+      {children}
+    </Text>
+  );
 };
 
 /**
@@ -66,6 +90,7 @@ export const BackupScreen = () => {
   const backup = useBackup();
   const { provider, enabled, status, lastBackupAt, hasBackup } = backup;
   const isSynced = status === "idle" && lastBackupAt !== null;
+  const problem = getProblemText({ provider, status });
 
   return (
     <View
@@ -98,16 +123,26 @@ export const BackupScreen = () => {
             }
             isLast={!enabled}
           />
-          {enabled && (
+          {enabled && problem !== null && (
+            <MenuListItem
+              title={<RowText>{problem}</RowText>}
+              iconLeft={<AlertCircle width={18} color={WARNING_ORANGE} />}
+              onPress={status === "signedOut" ? () => backup.reconnect() : null}
+              isLink={status === "signedOut"}
+              style={{ paddingTop: 12, paddingBottom: 12 }}
+              testID="backup-problem"
+              isLast={!hasBackup}
+            />
+          )}
+          {enabled && problem === null && (
             <MenuListItem
               title={t("backup_last_sync")}
-              value={getLastSyncText({ provider, status, lastBackupAt })}
+              value={getLastSyncText({ status, lastBackupAt })}
               iconRight={
                 isSynced ? (
                   <CheckCircle width={18} color={SUCCESS_GREEN} />
                 ) : null
               }
-              onPress={status === "signedOut" ? () => backup.reconnect() : null}
               testID="backup-last-sync"
               isLast={!hasBackup}
             />
