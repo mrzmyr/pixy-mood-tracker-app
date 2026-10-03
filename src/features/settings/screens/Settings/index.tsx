@@ -11,6 +11,7 @@ import {
   CheckCircle,
   Database,
   Droplet,
+  Flag,
   Github,
   Grid,
   PieChart,
@@ -219,6 +220,15 @@ export const SettingsScreen = () => {
               onPress={() => router.push("/dev/fixtures")}
               isLink
               testID="dev-fixtures"
+            />
+          )}
+          {DEV_TOOLS && (
+            <MenuListItem
+              title="Feature flags"
+              iconLeft={<Flag width={18} color={colors.menuListItemIcon} />}
+              onPress={() => router.push("/dev/feature-flags")}
+              isLink
+              testID="dev-feature-flags"
             />
           )}
           <MenuListItem

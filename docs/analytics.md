@@ -7,9 +7,9 @@
 - Privacy rule: [AGENTS.md footguns](../AGENTS.md#footguns)
 - Default: on for all users. Onboarding privacy slide says so. Factory reset turns it back on ([`src/constants/Settings.ts`](../src/constants/Settings.ts))
 - Off switch: Settings > Privacy > Behavioral Data
+- Feature flags load only with consent ([development.md](development.md#feature-flags))
 - Store review prompt: `logger:store_review_requested` ([`src/features/review`](../src/features/review))
 - Widget guide: `widget:guide_*`
-- Feature flags: [`featureFlags.ts`](../src/state/analytics/featureFlags.ts). A flag is on only with analytics consent. Create each flag in every variant's PostHog project ([`src/features/widget`](../src/features/widget), [widget.md](widget.md))
   - Fires once per install, after the save that reaches 7 entries
   - Properties: `trigger`, `entries_count`
   - OS decides whether prompt shows

@@ -1,4 +1,4 @@
-import { FEATURE_FLAGS, useIsFeatureFlagOn } from "@/state/analytics";
+import { useFeatureFlag } from "@/state/featureFlags";
 import { IS_WIDGET_SUPPORTED } from "./widgets";
 
 /**
@@ -7,6 +7,6 @@ import { IS_WIDGET_SUPPORTED } from "./widgets";
  * "Not available"; iOS still lists them in the gallery.
  */
 export const useIsWidgetEnabled = () => {
-  const isFlagOn = useIsFeatureFlagOn(FEATURE_FLAGS.homeScreenWidget);
+  const isFlagOn = useFeatureFlag("home-screen-widget");
   return IS_WIDGET_SUPPORTED && isFlagOn;
 };

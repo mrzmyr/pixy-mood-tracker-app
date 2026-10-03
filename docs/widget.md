@@ -12,7 +12,7 @@ iOS only. Built with [`expo-widgets`](https://docs.expo.dev/versions/latest/sdk/
 - Tap: every widget opens `<scheme>://calendar`
 - Bundle ids: `<app id>.widgets`, app group `group.<app id>`, per variant. Xcode automatic signing registers the group on first phone build
 - Guide: [`screens/WidgetGuide`](../src/features/widget/screens/WidgetGuide), route `/widget`, opened from Settings > Widgets. No automatic prompt
-- Feature flag: PostHog `home-screen-widget` ([`useIsWidgetEnabled.ts`](../src/features/widget/useIsWidgetEnabled.ts)). On only with analytics consent
+- Feature flag: `home-screen-widget` ([feature flags](development.md#feature-flags), [`useIsWidgetEnabled.ts`](../src/features/widget/useIsWidgetEnabled.ts)). Override in dev and preview: Settings > Development > Feature flags
 - Flag off: Settings entry and guide hidden, every widget shows "Not available". iOS still lists the widgets in the gallery; a flag cannot hide a native widget
 - While flags load, sync waits, so widgets never flash "Not available"
 - Before the first sync a widget shows "Open Pixy to see your pixels."

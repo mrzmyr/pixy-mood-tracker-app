@@ -6,7 +6,7 @@ import { AppState, View } from "react-native";
 import { captureRef } from "react-native-view-shot";
 import { useLogState } from "@/features/logs";
 import { createStructuredError } from "@/lib/errors";
-import { FEATURE_FLAGS, useFeatureFlagState } from "@/state/analytics";
+import { useFeatureFlagState } from "@/state/featureFlags";
 import { useSetting } from "@/state/settings";
 import { getSchemeColors, getYearGrid } from "./widgetData";
 import type { YearImages } from "./widgetData";
@@ -46,7 +46,7 @@ const captureYearImage = async (view: View, name: string) => {
 export const WidgetSync = () => {
   const { items, loaded } = useLogState();
   const scaleType = useSetting("scaleType") ?? DEFAULT_SCALE;
-  const flagState = useFeatureFlagState(FEATURE_FLAGS.homeScreenWidget);
+  const flagState = useFeatureFlagState("home-screen-widget");
   const lightRef = useRef<View>(null);
   const darkRef = useRef<View>(null);
   const lightLargeRef = useRef<View>(null);

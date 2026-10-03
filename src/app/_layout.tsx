@@ -39,11 +39,12 @@ const AppShell = () => {
   useUsageSummarySync();
 
   const onSettingsLoaded = useEffectEvent(() => {
-    // Fixture links replace fresh state before onboarding chooses a route.
+    // Fixture links replace fresh state, and dev links pick their own route.
     if (
       !hasActionDone("onboarding") &&
       pathname !== "/dev/fixture" &&
-      pathname !== "/dev/fake-files"
+      pathname !== "/dev/fake-files" &&
+      pathname !== "/dev/feature-flag"
     ) {
       router.replace("/onboarding");
     }

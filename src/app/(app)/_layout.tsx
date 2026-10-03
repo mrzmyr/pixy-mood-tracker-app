@@ -122,6 +122,14 @@ const AppLayout = () => {
               name="dev/fake-files"
               options={{ ...pageOptions, headerShown: false }}
             />
+            <Stack.Screen
+              name="dev/feature-flags"
+              options={{ ...pageOptions, title: "Feature flags" }}
+            />
+            <Stack.Screen
+              name="dev/feature-flag"
+              options={{ ...pageOptions, headerShown: false }}
+            />
           </Stack.Protected>
         </Stack>
       </View>
