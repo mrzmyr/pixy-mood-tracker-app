@@ -9,6 +9,7 @@ export { StepsScreen } from "./screens/Steps";
 export {
   DevFixturesScreen,
   DevFixtureLinkScreen,
+  DevFakeContactsLinkScreen,
   DevFakeFilesLinkScreen,
   DevFeatureFlagsScreen,
   DevFeatureFlagLinkScreen,

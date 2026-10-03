@@ -132,6 +132,10 @@ const AppLayout = () => {
               options={{ ...pageOptions, headerShown: false }}
             />
             <Stack.Screen
+              name="dev/fake-contacts"
+              options={{ ...pageOptions, headerShown: false }}
+            />
+            <Stack.Screen
               name="dev/feature-flags"
               options={{ ...pageOptions, title: "Feature flags" }}
             />

@@ -105,6 +105,7 @@ Known limits. A phone run fails with `flows_unsupported_on_phone` before it chan
 - Pick severity from usage in the "Pixy App - Production" PostHog project, then raise it for data risk.
 - Flows start from a fixture (`load-fixture.yaml`) unless they test first launch.
 - `<scheme>://dev/fake-files` swaps every system picker for a fake: share sheet and document picker ([`src/dev/fakeFileTransfer.ts`](../src/dev/fakeFileTransfer.ts)), address book and photo library ([`src/dev/fakePeopleSources.ts`](../src/dev/fakePeopleSources.ts)). Fakes end when the app restarts.
+- `<scheme>://dev/fake-contacts?count=<n>` writes `n` fake contacts (company "Pixy Test Contact", every fifth with a photo) into the real device address book. `count=0` deletes exactly those. Synced accounts (iCloud, Google) sync them too, so delete them after testing.
 - Each flow asserts a result. Opening a screen is not a test.
 
 ### Upgrade tests
