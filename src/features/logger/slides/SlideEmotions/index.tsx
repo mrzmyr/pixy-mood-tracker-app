@@ -7,7 +7,7 @@ import { getMostUsedEmotions } from "@/lib/utils";
 import type { Emotion } from "@/types";
 import { LinearGradient } from "expo-linear-gradient";
 import keyBy from "lodash/keyBy";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ScrollView, View } from "react-native";
 import LinkButton from "@/components/LinkButton";
 import { SlideHeadline } from "../../components/SlideHeadline";
@@ -46,7 +46,8 @@ const appendMissingEmotions = (
  * Emotion slide of the logger.
  *
  * Basic mode shows up to 36 emotions: the draft's picks, then the 20 most
- * used, then the predefined basic set. Must render inside
+ * used, then the predefined basic set. Negative ratings start at the first
+ * negative row. Must render inside
  * `TemporaryLogProvider` and `LogsProvider`.
  */
 export const SlideEmotions = ({
@@ -87,6 +88,22 @@ export const SlideEmotions = ({
   };
 
   const [mode, setMode] = useState<Mode>("basic");
+  const scrollRef = useRef<ScrollView>(null);
+  const [negativeRowY, setNegativeRowY] = useState<number | null>(null);
+  const { rating } = tempLog.data;
+
+  useEffect(() => {
+    if (negativeRowY === null) {
+      return;
+    }
+
+    const isNegative =
+      rating === "bad" || rating === "very_bad" || rating === "extremely_bad";
+    scrollRef.current?.scrollTo({
+      y: isNegative && mode === "basic" ? Math.max(0, negativeRowY - 12) : 0,
+      animated: false,
+    });
+  }, [mode, negativeRowY, rating]);
 
   const mostUsedEmotionKeys = new Set(
     getMostUsedEmotions(logState.items)
@@ -174,9 +191,10 @@ export const SlideEmotions = ({
               width: "100%",
             }}
           />
-          <ScrollView>
+          <ScrollView ref={scrollRef}>
             <EmotionBasicSelection
               emotions={basicEmotions}
+              onNegativeRowLayout={setNegativeRowY}
               onPress={(emotion) => {
                 if (selectedEmotions.map((d) => d.key).includes(emotion.key)) {
                   _setSelectedEmotions(

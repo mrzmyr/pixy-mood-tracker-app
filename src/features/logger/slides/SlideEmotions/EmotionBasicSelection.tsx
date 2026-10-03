@@ -21,11 +21,13 @@ export const EmotionBasicSelection = ({
   emotions,
   selectedEmotions,
   onPress,
+  onNegativeRowLayout,
   style = DEFAULT_STYLE,
 }: {
   emotions: Emotion[];
   selectedEmotions: Emotion[];
   onPress: (emotion: Emotion) => void;
+  onNegativeRowLayout: (y: number) => void;
   style?: ViewStyle;
 }) => {
   const { Modal, show } = useFeedbackModal();
@@ -43,6 +45,9 @@ export const EmotionBasicSelection = ({
     ),
     2
   );
+  const negativeRow = rows.find((row) =>
+    row.some((emotion) => emotion.category === "bad")
+  );
 
   return (
     <View
@@ -58,6 +63,11 @@ export const EmotionBasicSelection = ({
       {rows.map((row) => (
         <View
           key={`basic-emotion-row-${row[0].key}`}
+          onLayout={
+            row === negativeRow
+              ? (event) => onNegativeRowLayout(event.nativeEvent.layout.y)
+              : undefined
+          }
           style={{
             flexDirection: "row",
             marginBottom: 8,
