@@ -43,6 +43,15 @@ jest.mock("react-native-reanimated", () => {
     FadeInRight: animation,
     FadeInUp: animation,
     FadeOut: animation,
+    Easing: { cubic: (t) => t, quad: (t) => t, in: (f) => f, inOut: (f) => f },
+    useReducedMotion: () => false,
+    useSharedValue: (initial) => {
+      let current = initial;
+      return { get: () => current, set: (next) => (current = next) };
+    },
+    useAnimatedStyle: (worklet) => worklet(),
+    withTiming: (value) => value,
+    withDelay: (_delay, value) => value,
   };
 });
 

@@ -21,6 +21,7 @@ import { initializeDayjs } from "@/lib/translation";
 import { useSettings } from "@/state/settings";
 import { useUsageSummarySync } from "@/shell/usageSummary";
 import { useScreenTracking } from "@/shell/screenTracking";
+import { LaunchSplash } from "@/shell/LaunchSplash";
 
 // Configure before first render; each app variant reports to its own project.
 if (HAS_APP_VARIANT) {
@@ -85,6 +86,7 @@ const RootLayout = () => {
           <StatusBar />
         </Providers>
       </ThemeProvider>
+      <LaunchSplash />
     </GestureHandlerRootView>
   );
 };
