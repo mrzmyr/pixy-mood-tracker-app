@@ -12,7 +12,6 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Button from "@/components/Button";
 import { PageModalLayout } from "@/components/PageModalLayout";
 import { Secondary, Title } from "@/components/Type";
-import { typeSpace } from "@/constants/typeSpace";
 import useColors from "@/hooks/useColors";
 import useHaptics from "@/hooks/useHaptics";
 import { t } from "@/lib/translation";
@@ -226,9 +225,7 @@ export const Demo = ({
           />
         </View>
       </View>
-      <View
-        style={{ flex: 1, minHeight: 0, paddingHorizontal: typeSpace.screen }}
-      >
+      <View style={{ flex: 1, minHeight: 0, paddingHorizontal: 16 }}>
         <Animated.View
           key={step}
           entering={getEntering({ isReducedMotion: isReducedMotion === true })}
@@ -245,7 +242,7 @@ export const Demo = ({
           <Secondary
             style={{
               textAlign: "left",
-              marginTop: typeSpace.caption,
+              marginTop: 8,
               minHeight: 40,
             }}
           >
@@ -255,7 +252,7 @@ export const Demo = ({
             style={{
               flex: 1,
               minHeight: 0,
-              marginTop: typeSpace.related,
+              marginTop: 24,
               overflow: "hidden",
             }}
           >
@@ -264,8 +261,8 @@ export const Demo = ({
         </Animated.View>
         <View
           style={{
-            paddingTop: typeSpace.related,
-            paddingBottom: insets.bottom + typeSpace.screen,
+            paddingTop: 24,
+            paddingBottom: insets.bottom + 16,
             gap: 8,
           }}
         >

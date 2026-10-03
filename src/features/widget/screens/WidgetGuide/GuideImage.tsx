@@ -1,19 +1,18 @@
 import { useState } from "react";
 import { Image, View } from "react-native";
 import type { LayoutChangeEvent } from "react-native";
-import { typeSpace } from "@/constants/typeSpace";
 import useColors from "@/hooks/useColors";
 
 /** Same inset on every side of the screenshot. */
-const IMAGE_INSET = typeSpace.related;
+const IMAGE_INSET = 24;
 /** Top corners of the screenshot. Bottom corners stay square. */
 const IMAGE_TOP_RADIUS = 16;
-/** Cropped guide shots are 600×820. See docs/widget.md. */
+/** Cropped guide shots: top 1600 px of an iPhone screenshot, saved at 600×820. */
 const IMAGE_ASPECT = 600 / 820;
 
 /**
  * Real screenshots of the widget flow on iOS. Replace the files in
- * `assets/images/widget` after a widget change; see docs/widget.md.
+ * `assets/images/widget` after a widget change.
  */
 const GUIDE_IMAGES = [
   require("../../../../../assets/images/widget/step-1.jpg"),

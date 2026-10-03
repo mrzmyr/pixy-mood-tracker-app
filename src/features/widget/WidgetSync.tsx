@@ -41,7 +41,7 @@ const captureYearImage = async (view: View, name: string) => {
 
 /**
  * Keeps the home screen widgets in sync with entries, the color scale, and
- * the `home-screen-widget` flag (off: widgets show "Not available").
+ * the `ios-widget` flag (off: widgets show "Not available").
  * Renders the year grid off screen, captures it as an image for the year
  * widget, then pushes every timeline. Also resyncs when the app returns to
  * the foreground, so the timeline never runs out while the app stays
@@ -50,7 +50,7 @@ const captureYearImage = async (view: View, name: string) => {
 export const WidgetSync = () => {
   const { items, loaded } = useLogState();
   const scaleType = useSetting("scaleType") ?? DEFAULT_SCALE;
-  const flagState = useFeatureFlagState("home-screen-widget");
+  const flagState = useFeatureFlagState("ios-widget");
   // One view per captured row: [scheme][layout][row].
   const rowRefs = useRef<Record<string, View | null>>({});
 

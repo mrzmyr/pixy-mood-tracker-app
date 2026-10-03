@@ -10,8 +10,8 @@ tags: [p1, widget]
           file: ../subflows/load-fixture.yaml
           env:
             FIXTURE: empty
-      # Widgets sit behind the home-screen-widget flag; force it on.
-      - openLink: ${APP_SCHEME}://dev/feature-flag?key=home-screen-widget&value=on
+      # Widgets sit behind the ios-widget flag; force it on.
+      - openLink: ${APP_SCHEME}://dev/feature-flag?key=ios-widget&value=on
       - runFlow:
           when:
             visible: "Open"

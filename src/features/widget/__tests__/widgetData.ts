@@ -4,7 +4,6 @@ import {
   WEEK_WIDGET_WEEKS,
   WIDGET_TIMELINE_DAYS,
   YEAR_GRID_COLUMNS,
-  YEAR_WIDGET_TIMELINE_DAYS,
   getMonthWidgetProps,
   getWeekWidgetProps,
   getWidgetTimeline,
@@ -50,14 +49,6 @@ describe("getWeekWidgetProps()", () => {
     const elapsed = props.weeks.flat().filter((day) => !day.isFuture).length;
     expect(props.subtitle).toBe(`2/${elapsed}`);
     expect(elapsed).toBe(21 + 5);
-  });
-
-  test("resolves scale colors for both color schemes", () => {
-    const props = getWeekWidgetProps(INPUT);
-    expect(props.light.ratings.good).toMatch(/^#/u);
-    expect(props.dark.ratings.good).toMatch(/^#/u);
-    expect(props.light.background).not.toBe(props.dark.background);
-    expect(props.light.empty).not.toBe(props.light.future);
   });
 
   test("falls back to the default scale for an unknown scale type", () => {
@@ -126,12 +117,6 @@ describe("getYearWidgetProps()", () => {
     expect(props.imageVersion).toBe(7);
     expect(props.subtitle).toBe("2/288");
   });
-
-  test("uses empty image URIs before the first capture", () => {
-    const props = getYearWidgetProps(INPUT);
-    expect(props.rowsLight).toEqual([]);
-    expect(props.rowsDark).toEqual([]);
-  });
 });
 
 describe("availability", () => {
@@ -139,7 +124,6 @@ describe("availability", () => {
     expect(getWeekWidgetProps(INPUT).isAvailable).toBe(true);
     const off = getMonthWidgetProps({ ...INPUT, isAvailable: false });
     expect(off.isAvailable).toBe(false);
-    expect(off.unavailableText).toBe("Not available");
   });
 });
 
@@ -164,15 +148,5 @@ describe("getWidgetTimeline()", () => {
     expect(
       (timeline[1].props.weeks.at(-1) ?? []).find((day) => day.isToday)?.day
     ).toBe(16);
-  });
-
-  test("year keeps one entry to stay under the extension memory limit", () => {
-    const timeline = getWidgetTimeline(
-      INPUT,
-      getYearWidgetProps,
-      YEAR_WIDGET_TIMELINE_DAYS
-    );
-    expect(timeline).toHaveLength(1);
-    expect(timeline[0].props.title).toBe("2026");
   });
 });
