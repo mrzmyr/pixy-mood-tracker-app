@@ -243,7 +243,7 @@
   "step_status_off": "Av",
   "step_track_tags": "Spåra taggar",
   "step_track_people": "Spåra personer",
-  "step_track_description": "Visar det här steget när du checkar in. Din lista finns kvar här när steget är av.",
+  "step_track_description": "Visar det här steget när du checkar in.",
   "disable_step_confirm_title": "Inaktivera steg?",
   "disable_step_confirm_message": "Du kan återaktivera det senare i inställningarna.",
   "log_tags_disable": "Jag använder inte taggar",

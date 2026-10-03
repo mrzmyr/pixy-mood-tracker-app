@@ -564,7 +564,7 @@
   "step_status_off": "Aus",
   "step_track_tags": "Tags erfassen",
   "step_track_people": "Personen erfassen",
-  "step_track_description": "Zeigt diesen Schritt beim Check-in. Deine Liste bleibt hier, auch wenn der Schritt aus ist.",
+  "step_track_description": "Zeigt diesen Schritt beim Check-in.",
   "steps": "Check-in",
   "tags_add_placeholder": "#großertag",
   "tags_add": "Schlagwort hinzufügen",

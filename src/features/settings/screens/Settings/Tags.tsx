@@ -14,16 +14,19 @@ import { Archive } from "lucide-react-native";
 import { ScrollView, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { StepSwitch } from "../../components/StepSwitch";
+import { useStepEnabled } from "../../useStepEnabled";
 
 /**
- * Settings > Check-in > Tags: the step switch, active tags, and a link to
- * archived ones. Archived tags still count toward {@link MAX_TAGS}.
+ * Settings > Check-in > Tags: the step switch, then active tags and a link
+ * to archived ones while the step is on. Archived tags still count toward
+ * {@link MAX_TAGS}.
  */
 export const SettingsTags = () => {
   const router = useRouter();
   const colors = useColors();
   const insets = useSafeAreaInsets();
   const { tags } = useTagsState();
+  const { enabled } = useStepEnabled("tags");
 
   const _tags = tags.filter((tag: Tag) => !tag.isArchived);
 
@@ -34,7 +37,7 @@ export const SettingsTags = () => {
         backgroundColor: colors.background,
       }}
     >
-      {tags.length < MAX_TAGS && (
+      {enabled && tags.length < MAX_TAGS && (
         <>
           <LinearGradient
             pointerEvents="none"
@@ -79,32 +82,36 @@ export const SettingsTags = () => {
       )}
       <ScrollView>
         <StepSwitch step="tags" />
-        <View
-          style={{
-            marginTop: 16,
-            marginHorizontal: 16,
-          }}
-        >
-          <MenuList style={{}}>
-            <MenuListItem
-              title={t("archive_tag")}
-              iconLeft={<Archive size={20} color={colors.text} />}
-              isLink
-              isLast
-              onPress={() => {
-                router.push("/settings/steps/tags/archive");
+        {enabled && (
+          <>
+            <View
+              style={{
+                marginTop: 16,
+                marginHorizontal: 16,
+              }}
+            >
+              <MenuList style={{}}>
+                <MenuListItem
+                  title={t("archive_tag")}
+                  iconLeft={<Archive size={20} color={colors.text} />}
+                  isLink
+                  isLast
+                  onPress={() => {
+                    router.push("/settings/steps/tags/archive");
+                  }}
+                />
+              </MenuList>
+            </View>
+
+            <TagList tags={_tags} />
+            <View
+              style={{
+                width: "100%",
+                height: insets.bottom + 56,
               }}
             />
-          </MenuList>
-        </View>
-
-        <TagList tags={_tags} />
-        <View
-          style={{
-            width: "100%",
-            height: insets.bottom + 56,
-          }}
-        />
+          </>
+        )}
       </ScrollView>
     </View>
   );

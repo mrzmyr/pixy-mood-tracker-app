@@ -585,7 +585,7 @@
   "step_status_off": "Desactivado",
   "step_track_tags": "Registrar etiquetas",
   "step_track_people": "Registrar personas",
-  "step_track_description": "Muestra este paso al registrar tu día. Tu lista se queda aquí aunque el paso esté desactivado.",
+  "step_track_description": "Muestra este paso al registrar tu día.",
   "steps": "Pasos",
   "tags_add_placeholder": "#gran día",
   "tags_add": "Añadir etiqueta",

@@ -243,7 +243,7 @@
   "step_status_off": "Ki",
   "step_track_tags": "Címkék követése",
   "step_track_people": "Személyek követése",
-  "step_track_description": "Megjeleníti ezt a lépést a bejegyzésnél. A listád itt marad, ha a lépés ki van kapcsolva.",
+  "step_track_description": "Megjeleníti ezt a lépést a bejegyzésnél.",
   "disable_step_confirm_title": "Letiltod ezt a lépést?",
   "disable_step_confirm_message": "Később a beállításokban újra engedélyezheted.",
   "log_tags_disable": "Nem használok címkéket",

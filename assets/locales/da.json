@@ -243,7 +243,7 @@
   "step_status_off": "Fra",
   "step_track_tags": "Registrér tags",
   "step_track_people": "Registrér personer",
-  "step_track_description": "Viser dette trin, når du tjekker ind. Din liste bliver her, når trinnet er slået fra.",
+  "step_track_description": "Viser dette trin, når du tjekker ind.",
   "disable_step_confirm_title": "Deaktiver trin?",
   "disable_step_confirm_message": "Du kan genaktivere den senere i indstillingerne.",
   "log_tags_disable": "Jeg bruger ikke tags",

@@ -243,7 +243,7 @@
   "step_status_off": "Ανενεργό",
   "step_track_tags": "Καταγραφή ετικετών",
   "step_track_people": "Καταγραφή ατόμων",
-  "step_track_description": "Εμφανίζει αυτό το βήμα όταν κάνεις check-in. Η λίστα σου μένει εδώ όταν το βήμα είναι ανενεργό.",
+  "step_track_description": "Εμφανίζει αυτό το βήμα όταν κάνεις check-in.",
   "disable_step_confirm_title": "Απενεργοποίηση Βήματος;",
   "disable_step_confirm_message": "Μπορείτε να το ενεργοποιήσετε ξανά αργότερα στις ρυθμίσεις.",
   "log_tags_disable": "Δεν χρησιμοποιώ ετικέτες",

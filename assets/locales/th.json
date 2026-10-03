@@ -243,7 +243,7 @@
   "step_status_off": "ปิด",
   "step_track_tags": "บันทึกแท็ก",
   "step_track_people": "บันทึกผู้คน",
-  "step_track_description": "แสดงขั้นตอนนี้เมื่อคุณเช็กอิน รายการของคุณยังอยู่ที่นี่แม้ปิดขั้นตอนนี้",
+  "step_track_description": "แสดงขั้นตอนนี้เมื่อคุณเช็กอิน",
   "disable_step_confirm_title": "ปิดการใช้งานขั้นตอน?",
   "disable_step_confirm_message": "คุณสามารถเปิดใช้งานได้อีกครั้งในภายหลังในการตั้งค่า",
   "log_tags_disable": "ฉันไม่ใช้แท็ก",

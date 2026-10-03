@@ -27,6 +27,9 @@ tags: [p1, people]
 - tapOn: "Check-in"
 - tapOn:
     id: "step-people"
+# The list shows only while the step is on; it is off by default.
+- tapOn:
+    id: "step-people-enabled"
 - assertVisible: "Sam"
 - assertVisible: "Alex"
 - assertNotVisible: "Mia"

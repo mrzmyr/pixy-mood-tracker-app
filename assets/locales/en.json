@@ -567,7 +567,7 @@
   "step_status_off": "Off",
   "step_track_tags": "Track Tags",
   "step_track_people": "Track People",
-  "step_track_description": "Shows this step when you check in. Your list stays here when the step is off.",
+  "step_track_description": "Shows this step when you check in.",
   "steps": "Check-in",
   "storage_load_error_advice": "Close and reopen the app. If this keeps happening, export your data and contact support at care@pixy.day.",
   "storage_load_error_body": "Your data is still stored on this device. Nothing was deleted.",

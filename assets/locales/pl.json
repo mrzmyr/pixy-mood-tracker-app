@@ -243,7 +243,7 @@
   "step_status_off": "Wył.",
   "step_track_tags": "Śledź tagi",
   "step_track_people": "Śledź osoby",
-  "step_track_description": "Pokazuje ten krok podczas wpisu. Twoja lista zostaje tutaj, gdy krok jest wyłączony.",
+  "step_track_description": "Pokazuje ten krok podczas wpisu.",
   "disable_step_confirm_title": "Wyłączyć krok?",
   "disable_step_confirm_message": "Możesz ją ponownie włączyć później w ustawieniach.",
   "log_tags_disable": "Nie używam tagów",

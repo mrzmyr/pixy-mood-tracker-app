@@ -243,7 +243,7 @@
   "step_status_off": "Désactivé",
   "step_track_tags": "Suivre les tags",
   "step_track_people": "Suivre les personnes",
-  "step_track_description": "Affiche cette étape lors de ton check-in. Ta liste reste ici quand l'étape est désactivée.",
+  "step_track_description": "Affiche cette étape lors de ton check-in.",
   "disable_step_confirm_title": "Désactiver l'étape ?",
   "disable_step_confirm_message": "Vous pourrez le réactiver plus tard dans les paramètres.",
   "log_tags_disable": "je n'utilise pas de balises",

@@ -243,7 +243,7 @@
   "step_status_off": "オフ",
   "step_track_tags": "タグを記録",
   "step_track_people": "人を記録",
-  "step_track_description": "チェックイン時にこのステップを表示します。オフにしてもリストはここに残ります。",
+  "step_track_description": "チェックイン時にこのステップを表示します。",
   "disable_step_confirm_title": "ステップを無効にしますか?",
   "disable_step_confirm_message": "後で設定で再度有効にすることができます。",
   "log_tags_disable": "タグは使いません",

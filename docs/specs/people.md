@@ -115,7 +115,7 @@ people: Array<
 
 - Settings root has no People row. Check-in lists People as a link with On/Off, like Tags (`/settings/steps/tags`)
 - Visible only with flag `people`
-- Top: "Track People" switch, same setting as the step. Off only hides the logger step; the list stays
+- Top: "Track People" switch, same setting as the step. Off hides the logger step and the list, archive link, and add button on this page
 - List active, "Archived" link, "Add" button hidden at `MAX_PEOPLE`
 - Add: person form with name, or **Pick From Contacts…** into the import list
 - Tap row opens detail

@@ -243,7 +243,7 @@
   "step_status_off": "Nonaktif",
   "step_track_tags": "Catat Tag",
   "step_track_people": "Catat Orang",
-  "step_track_description": "Menampilkan langkah ini saat kamu check-in. Daftarmu tetap di sini saat langkah ini nonaktif.",
+  "step_track_description": "Menampilkan langkah ini saat kamu check-in.",
   "disable_step_confirm_title": "Nonaktifkan Langkah?",
   "disable_step_confirm_message": "Anda dapat mengaktifkannya kembali nanti di pengaturan.",
   "log_tags_disable": "Saya tidak menggunakan tag",

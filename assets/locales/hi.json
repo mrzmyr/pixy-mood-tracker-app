@@ -243,7 +243,7 @@
   "step_status_off": "बंद",
   "step_track_tags": "टैग ट्रैक करें",
   "step_track_people": "लोग ट्रैक करें",
-  "step_track_description": "चेक-इन करते समय यह चरण दिखाता है। चरण बंद होने पर भी आपकी सूची यहाँ रहती है।",
+  "step_track_description": "चेक-इन करते समय यह चरण दिखाता है।",
   "disable_step_confirm_title": "चरण अक्षम करें?",
   "disable_step_confirm_message": "आप इसे बाद में सेटिंग में पुनः सक्षम कर सकते हैं।",
   "log_tags_disable": "मैं टैग का उपयोग नहीं करता",

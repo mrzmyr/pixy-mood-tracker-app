@@ -109,11 +109,17 @@ export const PeopleModal = () => {
 };
 
 /**
- * Settings > Check-in > People: `header` (the step switch), active people,
- * and a link to archived ones. Reachable only while the `people` feature
- * flag is on.
+ * Settings > Check-in > People: `header` (the step switch), then active
+ * people and a link to archived ones while `isListVisible`. Reachable only
+ * while the `people` feature flag is on.
  */
-export const SettingsPeople = ({ header }: { header?: ReactNode }) => {
+export const SettingsPeople = ({
+  header,
+  isListVisible,
+}: {
+  header?: ReactNode;
+  isListVisible: boolean;
+}) => {
   const router = useRouter();
   const colors = useColors();
   const insets = useSafeAreaInsets();
@@ -122,27 +128,31 @@ export const SettingsPeople = ({ header }: { header?: ReactNode }) => {
 
   return (
     <View style={{ flex: 1, backgroundColor: colors.background }}>
-      <AddPersonButton />
+      {isListVisible && <AddPersonButton />}
       <ScrollView>
         {header}
-        <View style={{ marginTop: 16, marginHorizontal: 16 }}>
-          <MenuList>
-            <MenuListItem
-              title={t("people_archive")}
-              iconLeft={<Archive size={20} color={colors.text} />}
-              isLink
-              isLast
-              onPress={() => router.push("/settings/steps/people/archive")}
-              testID="people-archive"
+        {isListVisible && (
+          <>
+            <View style={{ marginTop: 16, marginHorizontal: 16 }}>
+              <MenuList>
+                <MenuListItem
+                  title={t("people_archive")}
+                  iconLeft={<Archive size={20} color={colors.text} />}
+                  isLink
+                  isLast
+                  onPress={() => router.push("/settings/steps/people/archive")}
+                  testID="people-archive"
+                />
+              </MenuList>
+            </View>
+            <PeopleList
+              people={active}
+              totalCount={people.length}
+              emptyText={t("people_empty")}
             />
-          </MenuList>
-        </View>
-        <PeopleList
-          people={active}
-          totalCount={people.length}
-          emptyText={t("people_empty")}
-        />
-        <View style={{ width: "100%", height: insets.bottom + 56 }} />
+            <View style={{ width: "100%", height: insets.bottom + 56 }} />
+          </>
+        )}
       </ScrollView>
     </View>
   );

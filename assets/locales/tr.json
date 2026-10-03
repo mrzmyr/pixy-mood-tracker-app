@@ -243,7 +243,7 @@
   "step_status_off": "Kapalı",
   "step_track_tags": "Etiketleri Takip Et",
   "step_track_people": "Kişileri Takip Et",
-  "step_track_description": "Giriş yaparken bu adımı gösterir. Adım kapalıyken listen burada kalır.",
+  "step_track_description": "Giriş yaparken bu adımı gösterir.",
   "disable_step_confirm_title": "Adım devre dışı bırakılsın mı?",
   "disable_step_confirm_message": "Daha sonra ayarlardan yeniden etkinleştirebilirsiniz.",
   "log_tags_disable": "etiket kullanmıyorum",

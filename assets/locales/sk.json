@@ -243,7 +243,7 @@
   "step_status_off": "Vypnuté",
   "step_track_tags": "Sledovať štítky",
   "step_track_people": "Sledovať ľudí",
-  "step_track_description": "Zobrazí tento krok pri zápise. Tvoj zoznam tu zostane, aj keď je krok vypnutý.",
+  "step_track_description": "Zobrazí tento krok pri zápise.",
   "disable_step_confirm_title": "Zakázať krok?",
   "disable_step_confirm_message": "Neskôr ho môžete znova povoliť v nastaveniach.",
   "log_tags_disable": "Nepoužívam značky",

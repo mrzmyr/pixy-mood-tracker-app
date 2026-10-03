@@ -243,7 +243,7 @@
   "step_status_off": "关",
   "step_track_tags": "记录标签",
   "step_track_people": "记录人物",
-  "step_track_description": "签到时显示此步骤。关闭此步骤后，你的列表仍保留在这里。",
+  "step_track_description": "签到时显示此步骤。",
   "disable_step_confirm_title": "禁用步骤？",
   "disable_step_confirm_message": "您可以稍后在设置中重新启用它。",
   "log_tags_disable": "我不使用标签",

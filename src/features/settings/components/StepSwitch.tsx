@@ -7,7 +7,7 @@ import { useStepEnabled } from "../useStepEnabled";
 
 /**
  * "Track Tags" / "Track People" switch on top of the step's settings page.
- * Turning it off only hides the step in the logger; the list below stays.
+ * Turning it off hides the step in the logger and the list on this page.
  */
 export const StepSwitch = ({ step }: { step: "tags" | "people" }) => {
   const { enabled, setEnabled } = useStepEnabled(step);

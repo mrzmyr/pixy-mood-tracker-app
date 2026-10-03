@@ -243,7 +243,7 @@
   "step_status_off": "Disattivo",
   "step_track_tags": "Registra tag",
   "step_track_people": "Registra persone",
-  "step_track_description": "Mostra questo passaggio durante il check-in. La tua lista resta qui anche quando il passaggio è disattivato.",
+  "step_track_description": "Mostra questo passaggio durante il check-in.",
   "disable_step_confirm_title": "Disattivare il passaggio?",
   "disable_step_confirm_message": "Puoi riattivarlo in seguito nelle impostazioni.",
   "log_tags_disable": "Non uso tag",

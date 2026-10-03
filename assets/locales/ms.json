@@ -243,7 +243,7 @@
   "step_status_off": "Mati",
   "step_track_tags": "Jejak Tag",
   "step_track_people": "Jejak Orang",
-  "step_track_description": "Menunjukkan langkah ini semasa daftar masuk. Senarai anda kekal di sini apabila langkah ini dimatikan.",
+  "step_track_description": "Menunjukkan langkah ini semasa daftar masuk.",
   "disable_step_confirm_title": "Lumpuhkan Langkah?",
   "disable_step_confirm_message": "Anda boleh mendayakannya semula kemudian dalam tetapan.",
   "log_tags_disable": "Saya tidak menggunakan tag",
