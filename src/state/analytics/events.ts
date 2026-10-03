@@ -41,6 +41,10 @@ export interface AnalyticsEvents {
     message_length: number;
     tags_count: number;
     emotions_count: number;
+    photos_count: number;
+    /** Photos by origin. The two counts add up to `photos_count`. */
+    photos_day_count: number;
+    photos_library_count: number;
   };
   "logger:log_deleted": undefined;
   "logger:flow_cancelled": { mode: "create" | "edit" };

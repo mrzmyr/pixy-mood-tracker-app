@@ -13,6 +13,7 @@ export { PhotoViewer, PhotoViewerModal } from "./screens/Viewer";
 export type { PhotoViewerContext } from "./screens/Viewer";
 export { getViewerItem } from "./viewerItem";
 export type { PhotoViewerItem } from "./viewerItem";
+export { countPhotosBySource } from "./sources";
 export { getPhotoSource, setPhotoSourceOverride } from "./photoSource";
 export { useDraftPhotos } from "./hooks/useDraftPhotos";
 export type { DraftPhoto } from "./hooks/useDraftPhotos";
