@@ -1,4 +1,3 @@
-
 **We prefer bullets over paragraphs**
 
 ✅ Good

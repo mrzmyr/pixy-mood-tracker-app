@@ -8,6 +8,7 @@
 
 - the project is called `pixy-mood-tracker`, use that slug always when creating folders, exeutables etc (not `pixy`, `pixy-app` etc)
 - remove worktree when branch merged
+- Do not document anything that an agent can easily find with code search
 
 ## Feature Flags
 
@@ -55,6 +56,6 @@
 
 ## References
 
-- read [CODING_STANDARDS.md](CODING_STANDARDS.md)
-- read [docs/documentation.md](docs/documentation.md)
-- read [docs/design.md](docs/design.md) for UI, copy, layout, forms, and interaction guidelines
+- MUST read [CODING_STANDARDS.md](CODING_STANDARDS.md)
+- MUST read [docs/documentation.md](docs/documentation.md)
+- MUST read [docs/design.md](docs/design.md) for UI, copy, layout, forms, and interaction guidelines
