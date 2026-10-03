@@ -21,6 +21,7 @@
 - Events: `photos:*` in [`events.ts`](../src/state/analytics/events.ts). Sent through `track()` only, so consent applies
 - Never file names, URIs, dimensions, EXIF, location, photo timestamps, or library ids
 - `mode`: `create` or `edit`. `entry_days_ago`: 0 for today, like `calendar:day_opened.days_ago`
+- Questions: [product-analytics.md](product-analytics.md#photos)
 
 | Event | When | Properties |
 | --- | --- | --- |

@@ -58,7 +58,16 @@ describe("getUsageSummary()", () => {
       { id: "t2", title: "Gym", color: "blue" as const, isArchived: true },
     ];
 
-    expect(getUsageSummary({ items, tags, settings, now: NOW })).toEqual({
+    expect(
+      getUsageSummary({
+        items,
+        tags,
+        settings,
+        isPhotosEnabled: true,
+        photoLibraryAccess: "granted",
+        now: NOW,
+      })
+    ).toEqual({
       entries_count: 5,
       entries_30d: 4,
       logged_days_7d: 2,
@@ -79,7 +88,52 @@ describe("getUsageSummary()", () => {
       steps: INITIAL_STATE.steps,
       onboarding_done: true,
       questions_answered_count: 1,
+      photos_enabled: true,
+      photos_pct_30d: 0,
+      photos_count: 0,
+      photos_day_pct: null,
+      photo_library_access: "granted",
     });
+  });
+
+  it("counts photos by entry and origin, without photo metadata", () => {
+    const photo = (source: "day" | "library", index: number) => ({
+      id: `photo-${index}`,
+      fileName: `photo-${index}.jpg`,
+      width: 1200,
+      height: 1600,
+      createdAt: at(9, 9),
+      source,
+      libraryId: `library-${index}`,
+    });
+    const items = [
+      // Outside 30 days: counts toward totals only.
+      _generateItem({ dateTime: at(7, 1), photos: [photo("library", 1)] }),
+      _generateItem({
+        dateTime: at(9, 9),
+        photos: [photo("day", 2), photo("day", 3), photo("library", 4)],
+      }),
+      _generateItem({ dateTime: at(9, 10), photos: [] }),
+    ];
+
+    const properties = getUsageSummary({
+      items,
+      tags: [],
+      settings,
+      isPhotosEnabled: false,
+      photoLibraryAccess: "limited",
+      now: NOW,
+    });
+
+    expect(properties).toMatchObject({
+      photos_pct_30d: 50,
+      photos_count: 4,
+      photos_day_pct: 50,
+      photo_library_access: "limited",
+    });
+    const serialized = JSON.stringify(properties);
+    expect(serialized).not.toContain("library-");
+    expect(serialized).not.toContain(".jpg");
   });
 
   it("returns empty values for a fresh install", () => {
@@ -87,6 +141,8 @@ describe("getUsageSummary()", () => {
       items: [],
       tags: [],
       settings: { ...settings, reminderEnabled: false, actionsDone: [] },
+      isPhotosEnabled: false,
+      photoLibraryAccess: "unavailable",
       now: NOW,
     });
 
@@ -97,6 +153,9 @@ describe("getUsageSummary()", () => {
       notes_pct_30d: null,
       reminder_hour: null,
       onboarding_done: false,
+      photos_pct_30d: null,
+      photos_count: 0,
+      photos_day_pct: null,
     });
   });
 });
