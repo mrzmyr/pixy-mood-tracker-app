@@ -1,4 +1,4 @@
-import { Pressable, Text, View, useColorScheme } from "react-native";
+import { Pressable, Text, useColorScheme } from "react-native";
 import type { ViewStyle } from "react-native";
 import useColors from "@/hooks/useColors";
 import useHaptics from "@/hooks/useHaptics";
@@ -12,7 +12,6 @@ const DEFAULT_STYLE = {};
  * and statistics so a person looks the same everywhere.
  *
  * - `chip`: avatar plus name, like a tag pill
- * - `avatarOnly`: avatar only, for stacked rows
  * - `large`: big avatar with the name below, for the person screen
  */
 export const PersonChip = ({
@@ -26,7 +25,7 @@ export const PersonChip = ({
 }: {
   person: Pick<Person, "id" | "name" | "avatar" | "updatedAt">;
   selected?: boolean;
-  variant?: "chip" | "avatarOnly" | "large";
+  variant?: "chip" | "large";
   onPress?: () => void;
   style?: ViewStyle;
   testID?: string;
@@ -73,24 +72,6 @@ export const PersonChip = ({
           {person.name}
         </Text>
       </Pressable>
-    );
-  }
-
-  if (variant === "avatarOnly") {
-    return (
-      <View
-        accessible
-        accessibilityLabel={person.name}
-        testID={testID}
-        style={{
-          borderWidth: 2,
-          borderColor: colors.logCardBackground,
-          borderRadius: 100,
-          ...style,
-        }}
-      >
-        <PersonAvatar person={person} size={24} />
-      </View>
     );
   }
 
