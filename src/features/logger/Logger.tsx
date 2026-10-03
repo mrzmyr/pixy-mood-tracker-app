@@ -368,7 +368,6 @@ export const Logger = ({
           carouselRef={_carousel}
           slideCount={content.length}
           slideIndex={slideIndex}
-          setSlideIndex={setSlideIndex}
           isEditing={isEditing}
           tempLog={tempLog}
           onCancel={cancel}
