@@ -1,14 +1,16 @@
 import type { FeedackType, FeedbackSource } from "@/types/Feedback";
 import type { LoggerStep } from "@/constants/LoggerSteps";
 import type { SettingsState } from "@/state/settings";
+import type { z } from "zod";
+import type { LogItemSchema } from "@/types";
 
 /**
  * Every analytics event the app sends, keyed by name, with its properties.
  *
  * - Name: `<area>:<object>_<verb>`, verb in past tense
  * - Properties: snake_case, JSON values only
- * - Never send entry content (rating, emotions, sleep, text) or user text.
- *   Send counts, lengths, and booleans instead.
+ * - Never send free text (notes, custom tag names). Send counts and lengths
+ *   instead. Fixed values (rating, emotion keys, sleep quality) are fine.
  * - `undefined`: the event has no properties
  */
 export interface AnalyticsEvents {
@@ -43,6 +45,12 @@ export interface AnalyticsEvents {
   "logger:emotions_tooltip_closed": undefined;
   "logger:reminder_enabled": undefined;
   "logger:reminder_postponed": undefined;
+  "logger:confirmation_viewed": SavedEntryProperties;
+  "logger:confirmation_answered": SavedEntryProperties & {
+    answer: ConfirmationAnswer;
+    answer_ms: number;
+  };
+  "logger:confirmation_skipped": SavedEntryProperties & { skip_ms: number };
   "logger:store_review_requested": {
     trigger: "entries_7";
     entries_count: number;
@@ -192,6 +200,28 @@ export type UsageSummary = {
 export type UsageSummaryOnce = {
   first_app_version: string;
 };
+
+type LogItem = z.infer<typeof LogItemSchema>;
+
+/** Answer to "How are you feeling now?" after saving a new entry. */
+export type ConfirmationAnswer = "worse" | "same" | "better";
+
+/**
+ * Saved entry metadata sent with the confirmation events. Holds no free
+ * text: notes and tag names are sent as counts only.
+ */
+export interface SavedEntryProperties {
+  rating: LogItem["rating"];
+  emotions: LogItem["emotions"];
+  emotions_count: number;
+  tags_count: number;
+  message_length: number;
+  /** Whitespace-separated words; Chinese, Japanese, and Thai notes count as 1. */
+  message_word_count: number;
+  sleep_quality: LogItem["sleep"]["quality"] | null;
+  /** All entries, including the saved one. */
+  entries_count: number;
+}
 
 /** Properties of the statistics highlight events: shown cards and item counts. */
 export type HighlightsProperties =

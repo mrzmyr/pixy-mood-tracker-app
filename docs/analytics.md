@@ -11,6 +11,9 @@
   - Fires once per install, after the save that reaches 7 entries
   - Properties: `trigger`, `entries_count`
   - OS decides whether prompt shows
+- Confirmation after a new entry: `logger:confirmation_viewed`, `logger:confirmation_answered`, `logger:confirmation_skipped` ([`src/features/logger/confirmation`](../src/features/logger/confirmation))
+  - Answer: `worse`, `same`, `better`. Asked only after create, not edit
+  - Entry metadata: `rating`, `emotions`, counts, `message_word_count`, `sleep_quality`, `entries_count`
 
 ## Event history
 

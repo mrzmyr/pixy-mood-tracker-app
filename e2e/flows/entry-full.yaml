@@ -64,6 +64,13 @@ tags: [p0, entry]
 - inputText: "e2e note ${output.runId}"
 - tapOn:
     id: "logger-save"
+
+# Saving shows the confirmation.
+- assertVisible:
+    id: "confirmation"
+- assertVisible: "How are you feeling now?"
+- tapOn:
+    id: "confirmation-better"
 - assertVisible: "Add another entry for today"
 
 - stopApp
