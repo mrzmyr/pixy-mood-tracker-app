@@ -106,6 +106,27 @@
         {
           "appleTeamId": "8VVNC4724B"
         }
+      ],
+      [
+        "expo-alternate-app-icons",
+        [
+          {
+            "name": "Sunburst",
+            "ios": "./assets/images/app-icons/sunburst.png",
+            "android": {
+              "foregroundImage": "./assets/images/app-icons/sunburst-foreground.png",
+              "backgroundColor": "#FFFFFF"
+            }
+          },
+          {
+            "name": "SunburstInverse",
+            "ios": "./assets/images/app-icons/sunburst-inverse.png",
+            "android": {
+              "foregroundImage": "./assets/images/app-icons/sunburst-inverse-foreground.png",
+              "backgroundColor": "#F97316"
+            }
+          }
+        ]
       ]
     ],
     "buildCacheProvider": {

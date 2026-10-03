@@ -644,5 +644,17 @@
   "report_a_bug": "Report a bug",
   "rate_pixy_app_store": "Rate Pixy in the App Store",
   "rate_pixy_google_play": "Rate Pixy on Google Play",
-  "feedback_modal_message_placeholder_idea": "It would be great if…"
+  "feedback_modal_message_placeholder_idea": "It would be great if…",
+  "app_icon": "App Icon",
+  "app_icon_default": "Default",
+  "app_icon_default_description": "The original Pixy icon",
+  "app_icon_sunburst": "Sunburst",
+  "app_icon_sunburst_description": "Orange sun on white",
+  "app_icon_sunburst_inverse": "Sunburst Inverse",
+  "app_icon_sunburst_inverse_description": "White sun on orange",
+  "app_icon_locked": "Locked",
+  "app_icon_locked_info": "New icons are coming soon.",
+  "app_icon_unsupported": "This device cannot change the app icon.",
+  "app_icon_error_title": "Icon Not Changed",
+  "app_icon_error_message": "Pixy could not change the app icon. Try again."
 }

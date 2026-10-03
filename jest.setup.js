@@ -21,6 +21,13 @@ jest.mock("posthog-react-native", () => {
   };
 });
 
+// oxlint-disable-next-line anti-slop/no-module-mocking -- expo-alternate-app-icons is a native module; the settings entry file loads it during provider tests
+jest.mock("expo-alternate-app-icons", () => ({
+  supportsAlternateIcons: true,
+  getAppIconName: jest.fn(() => null),
+  setAlternateAppIcon: jest.fn((name) => Promise.resolve(name)),
+}));
+
 // oxlint-disable-next-line anti-slop/no-module-mocking -- feature entry files load logger exports during provider tests; native carousel is unavailable in Jest.
 jest.mock("react-native-reanimated-carousel", () => ({ Carousel: () => null }));
 
