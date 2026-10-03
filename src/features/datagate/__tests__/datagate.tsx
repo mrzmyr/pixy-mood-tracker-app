@@ -20,6 +20,8 @@ import { TagsProvider, useTagsState, useTagsUpdater } from "@/features/tags";
 import type { Tag } from "@/features/tags";
 
 import { _generateItem } from "@/__tests__/utils";
+import { File } from "expo-file-system";
+import { getPhotosDirectory } from "@/features/photos";
 import pkg from "../../../../package.json";
 
 // oxlint-disable-next-line anti-slop/no-module-mocking -- expo-sharing is a native module unavailable in Jest; the export test asserts on shareAsync
@@ -37,6 +39,15 @@ const wrapper = ({ children }) => (
     </AnalyticsProvider>
   </SettingsProvider>
 );
+
+const testPhoto = {
+  id: "8f8a7d3e-6c1f-4f59-9a52-2c9a5d1e7b10",
+  fileName: "8f8a7d3e-6c1f-4f59-9a52-2c9a5d1e7b10.jpg",
+  width: 1536,
+  height: 2048,
+  createdAt: "2022-01-02T10:00:00.000Z",
+  source: "library" as const,
+};
 
 const testItems: LogsState["items"] = [
   _generateItem({
@@ -57,6 +68,7 @@ const testItems: LogsState["items"] = [
         id: "bb65f208-4e4c-11ed-bdc3-0242ac120002",
       },
     ],
+    photos: [testPhoto],
   }),
 ];
 
@@ -158,6 +170,7 @@ describe("useLogs()", () => {
       loaded: true,
       items: testItems,
     });
+    expect(hook.result.current.logState.items[1].photos).toEqual([testPhoto]);
     expect(hook.result.current.tagsState).toEqual({
       loaded: true,
       tags: testTags,
@@ -210,6 +223,8 @@ describe("useLogs()", () => {
       )
     );
     expect(JSON.parse(calledJson)).toEqual(expectedJson);
+    // Metadata only: export files never contain photo files.
+    expect(JSON.parse(calledJson).items[1].photos).toEqual([testPhoto]);
     expect(Sharing.shareAsync).toBeCalledWith(calledUri);
   });
 
@@ -306,5 +321,33 @@ describe("useLogs()", () => {
       ...testSettings,
       loaded: true,
     });
+  });
+
+  test("keeps photo files of entries missing from the backup after `import`", async () => {
+    const hook = await _renderHook();
+    await waitForLoaded(hook);
+    // After the sweep on load, which would delete it first.
+    await act(async () => {});
+    const directory = getPhotosDirectory();
+    directory.create({ idempotent: true, intermediates: true });
+    const photoFile = new File(directory, "not-in-backup.jpg");
+    photoFile.create();
+
+    await act(() => {
+      hook.result.current.datagate.import(
+        {
+          version: "1.0.0",
+          items: testItems,
+          settings: testSettings,
+          tags: testTags,
+        },
+        { muted: true }
+      );
+    });
+
+    await act(async () => {});
+    expect(hook.result.current.logState.items).toEqual(testItems);
+    expect(photoFile.exists).toBe(true);
+    photoFile.delete();
   });
 });
