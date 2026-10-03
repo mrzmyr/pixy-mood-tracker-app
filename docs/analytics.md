@@ -6,6 +6,7 @@
 - Super properties on every event: `scale_type`, `reminder_enabled`, `steps` ([`src/state/analytics/index.tsx`](../src/state/analytics/index.tsx))
 - Privacy rule: [AGENTS.md footguns](../AGENTS.md#footguns)
 - Default: off in consent regions and when region is unknown; on elsewhere. Factory reset restores the device-region default ([`src/state/analytics/consent.ts`](../src/state/analytics/consent.ts))
+- Onboarding skip: consent regions land on the privacy slide before completion.
 - Off switch: Settings > Privacy > Behavioral Data
 - Feature flags load only with consent ([development.md](development.md#feature-flags))
 - Store review prompt: `logger:store_review_requested` ([`src/features/review`](../src/features/review))
