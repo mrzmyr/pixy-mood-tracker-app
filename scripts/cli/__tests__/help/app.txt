@@ -1,4 +1,4 @@
-Build, install, seed, open, and close the preview app.
+Build, install, seed, open, and close the preview app. Run the dev client with Metro.
 
 Usage: bun app <command> [options]
 
@@ -8,6 +8,7 @@ Commands:
   seed     Load a fixture and capture its first screen
   open     Open the preview app and capture its first screen
   close    Stop the preview app and reset its data
+  dev      Run the dev client with Metro
 
 Every command needs one device. Pass exactly one:
   --platform=<ios|android>  Simulator or emulator of this checkout
