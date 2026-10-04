@@ -485,6 +485,7 @@ export const LoggerCreate = ({
     message: "",
     emotions: [],
     tags: [],
+    photos: [],
     sleep: {
       quality: null,
     },

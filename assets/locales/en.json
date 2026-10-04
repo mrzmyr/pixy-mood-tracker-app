@@ -715,5 +715,6 @@
   "log_summary_list_comma": ", ",
   "log_summary_more": "{{count}} more",
   "log_summary_tags_count": "Tags added: {{count}}.",
-  "log_summary_check_in": "Check-in #{{count}} today. Short and sweet."
+  "log_summary_check_in": "Check-in #{{count}} today. Short and sweet.",
+  "data_export_photos_note": "Photos stay on this device. Backups contain entries without photos."
 }
