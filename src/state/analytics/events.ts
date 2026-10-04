@@ -2,7 +2,7 @@ import type { FeedackType, FeedbackSource } from "@/types/Feedback";
 import type { LoggerStep } from "@/constants/LoggerSteps";
 import type { SettingsState } from "@/state/settings";
 import type { z } from "zod";
-import type { LogItemSchema } from "@/types";
+import type { LogItemSchema, PhotoSourceKind } from "@/types";
 
 /**
  * Every analytics event the app sends, keyed by name, with its properties.
@@ -58,6 +58,48 @@ export interface AnalyticsEvents {
   "day:delete_tapped": undefined;
   "day:closed": undefined;
 
+  /** `entry_days_ago`: 0 for today, like `calendar:day_opened.days_ago`. */
+  "photos:day_access_prompt_shown": {
+    mode: "create" | "edit";
+    entry_days_ago: number;
+  };
+  "photos:day_access_prompt_dismissed": { mode: "create" | "edit" };
+  /** `source`: the permission card or the "Show Photos from …" button after "Not Now". */
+  "photos:day_access_answered": {
+    status: "granted" | "limited" | "denied";
+    source: "card" | "button";
+  };
+  /** `count`: library photos of the entry's day, 0 to 20. */
+  "photos:day_photos_loaded": {
+    count: number;
+    access: "granted" | "limited";
+    entry_days_ago: number;
+  };
+  /** `remaining`: photos the entry can still take. */
+  "photos:picker_opened": {
+    remaining: number;
+  };
+  "photos:picker_closed": {
+    picked_count: number;
+    is_cancelled: boolean;
+  };
+  /**
+   * `count`: photos attached to the entry after the change, imports still
+   * running included.
+   */
+  "photos:photo_added": {
+    source: PhotoSourceKind;
+    count: number;
+    mode: "create" | "edit";
+  };
+  "photos:photo_removed": {
+    source: PhotoSourceKind;
+    count: number;
+    mode: "create" | "edit";
+  };
+  "photos:limit_reached": { mode: "create" | "edit" };
+  /** `status`: structured error status, for example `photo_import_failed`. */
+  "photos:import_failed": { source: PhotoSourceKind; status: string };
   /** `viewed_count`: distinct photos shown before close. */
   "photos:viewer_closed": {
     context: "logger" | "day";
