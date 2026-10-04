@@ -5,7 +5,9 @@ import Animated, {
   Easing,
   interpolate,
   interpolateColor,
+  ReduceMotion,
   useAnimatedStyle,
+  useReducedMotion,
   useSharedValue,
   withSpring,
   withTiming,
@@ -27,6 +29,15 @@ const BARS = [
   { offset: -ARM_OFFSET, from: 45, to: 0 },
   { offset: ARM_OFFSET, from: -45, to: -90 },
 ] as const;
+
+// Motion values follow https://emilkowal.ski/ui/great-animations.
+// On-screen morph: Apple-style spring, 500 ms, bounce 0.2.
+const MORPH_SPRING = { duration: 500, dampingRatio: 0.8 };
+// Color change: CSS `ease`, 150 ms. Kept with reduced motion: no movement.
+const COLOR_MS = 150;
+// Press feedback: 0.97 scale in 120 ms, strong ease-out.
+const PRESS_MS = 120;
+const PRESS_SCALE = 0.97;
 
 const styles = StyleSheet.create({
   bar: {
@@ -61,7 +72,7 @@ const useBarStyle = (
  * Floating button of the calendar. Away from today it is a tertiary chevron
  * that scrolls to the end. At the end it turns into a plus that adds an
  * entry: primary while today has no entry, tertiary after. The color fades
- * fast; the chevron morphs into the plus.
+ * fast; the chevron springs into the plus.
  */
 export const CalendarFloatButton = ({
   isAtBottom,
@@ -78,28 +89,50 @@ export const CalendarFloatButton = ({
   const insets = useSafeAreaInsets();
   const morphTarget = isAtBottom ? 1 : 0;
   const colorTarget = isAtBottom && !hasTodayEntry ? 1 : 0;
+  const isReducedMotion = useReducedMotion();
   const morph = useSharedValue(morphTarget);
   const color = useSharedValue(colorTarget);
+  const pressed = useSharedValue(0);
 
+  // Reduced motion: chevron and plus swap without the spring.
   useEffect(() => {
-    morph.set(withSpring(morphTarget, { damping: 16, stiffness: 220 }));
+    morph.set(withSpring(morphTarget, MORPH_SPRING));
   }, [morphTarget, morph]);
 
   useEffect(() => {
     color.set(
       withTiming(colorTarget, {
-        duration: 150,
-        easing: Easing.out(Easing.quad),
+        duration: COLOR_MS,
+        easing: Easing.bezier(0.25, 0.1, 0.25, 1),
+        reduceMotion: ReduceMotion.Never,
       })
     );
   }, [colorTarget, color]);
 
+  const setPressed = (value: 0 | 1) =>
+    pressed.set(
+      withTiming(value, {
+        duration: PRESS_MS,
+        easing: Easing.bezier(0.23, 1, 0.32, 1),
+        reduceMotion: ReduceMotion.Never,
+      })
+    );
+
+  // Reduced motion dims instead of scaling.
   const backgroundStyle = useAnimatedStyle(() => ({
     backgroundColor: interpolateColor(
       color.get(),
       [0, 1],
       [colors.tertiaryButtonBackground, colors.primaryButtonBackground]
     ),
+    opacity: isReducedMotion ? 1 - pressed.get() * 0.3 : 1,
+    transform: [
+      {
+        scale: isReducedMotion
+          ? 1
+          : interpolate(pressed.get(), [0, 1], [1, PRESS_SCALE]),
+      },
+    ],
   }));
   const firstBar = useBarStyle(
     0,
@@ -126,13 +159,14 @@ export const CalendarFloatButton = ({
           : t("back_to_today")
       }
       onPress={isAtBottom ? onAdd : onScrollToBottom}
-      style={({ pressed }) => ({
+      onPressIn={() => setPressed(1)}
+      onPressOut={() => setPressed(0)}
+      style={{
         position: "absolute",
         bottom: 20 + insets.bottom,
         right: 20,
         zIndex: 100,
-        opacity: pressed ? 0.8 : 1,
-      })}
+      }}
     >
       <Animated.View
         style={[
