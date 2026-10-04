@@ -1,10 +1,10 @@
-import { useNavigation, useRouter } from "expo-router";
+import { useFocusEffect, useRouter } from "expo-router";
 import MenuList from "@/components/MenuList";
 import MenuListHeadline from "@/components/MenuListHeadline";
 import MenuListItem from "@/components/MenuListItem";
 import { t } from "@/lib/translation";
 import dayjs from "dayjs";
-import { useEffect, useEffectEvent } from "react";
+import { useCallback } from "react";
 import {
   ActivityIndicator,
   Platform,
@@ -15,60 +15,36 @@ import {
 import { Moon, Star } from "react-native-feather";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import useColors from "@/hooks/useColors";
-import { useLogState } from "@/features/logs";
 import { useStatistics } from "../../StatisticsProvider";
 import { EmptyPlaceholder } from "./EmptyPlaceholder";
 import { HighlightsSection } from "./HighlightsSection";
 
-import { DATE_FORMAT, STATISTIC_MIN_LOGS } from "@/constants/Config";
-import isBetween from "dayjs/plugin/isBetween";
-import { getItemTime } from "@/lib/logDates";
-
-dayjs.extend(isBetween);
+import { DATE_FORMAT } from "@/constants/Config";
 
 /**
  * Statistics screen, opened from the calendar header.
  *
- * Unlocks with {@link STATISTIC_MIN_LOGS} entries in the last 14 days, not
- * in total. Statistics reload when the screen gains focus.
+ * Unlock rule and window come from the highlights report. Statistics
+ * refresh when the screen gains focus.
  */
 export const StatisticsScreen = () => {
   const router = useRouter();
-  const navigation = useNavigation();
   const insets = useSafeAreaInsets();
   const colors = useColors();
   const statistics = useStatistics();
-  const logState = useLogState();
+  const { report } = statistics;
 
-  // times of the last two weeks
-  const periodEnd = dayjs().valueOf();
-  const periodStart = dayjs().subtract(14, "day").valueOf();
-  const items = logState.items.filter((item) => {
-    const time = getItemTime(item);
-    return time >= periodStart && time <= periodEnd;
-  });
+  const { refresh } = statistics;
 
-  const statisticsUnlocked = items.length >= STATISTIC_MIN_LOGS;
+  // Runs on every focus, including the first. While focused, it runs again
+  // when `refresh` changes; an unchanged report makes that a no-op.
+  useFocusEffect(
+    useCallback(() => {
+      refresh();
+    }, [refresh])
+  );
 
-  // Effect event: the focus listener reads the latest items and statistics
-  // without re-subscribing whenever they change.
-  const onFocus = useEffectEvent(() => {
-    if (items.length >= STATISTIC_MIN_LOGS) {
-      statistics.load({
-        force: false,
-      });
-    }
-  });
-
-  useEffect(() => {
-    const unsubscribe = navigation.addListener("focus", () => {
-      onFocus();
-    });
-
-    return unsubscribe;
-  }, [navigation]);
-
-  if (statistics.isLoading) {
+  if (statistics.isLoading || report === null) {
     return (
       <View
         style={{
@@ -92,11 +68,7 @@ export const StatisticsScreen = () => {
             // as refreshing.
             refreshing={false}
             onRefresh={() => {
-              if (items.length >= STATISTIC_MIN_LOGS) {
-                statistics.load({
-                  force: true,
-                });
-              }
+              statistics.refresh({ force: true });
             }}
           />
         )
@@ -112,13 +84,11 @@ export const StatisticsScreen = () => {
           paddingBottom: insets.bottom + 20,
         }}
       >
-        {items.length < STATISTIC_MIN_LOGS && (
-          <EmptyPlaceholder count={STATISTIC_MIN_LOGS - items.length} />
-        )}
+        {!report.unlocked && <EmptyPlaceholder count={report.missingEntries} />}
 
-        {statisticsUnlocked && <HighlightsSection items={items} />}
+        {report.unlocked && <HighlightsSection report={report} />}
 
-        {statisticsUnlocked && (
+        {report.unlocked && (
           <>
             <MenuListHeadline>{t("more_statistics")}</MenuListHeadline>
             <MenuList style={{}}>

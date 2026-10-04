@@ -34,6 +34,8 @@ const CalendarViews = () => (
           <View testID="tag-weekdays">
             <TagPeaksCard
               tag={{ id: "test-tag", title: "Work", color: "blue", items: [] }}
+              startDate="2026-10-03"
+              endDate="2026-10-03"
             />
           </View>
         </LogsProvider>
