@@ -60,7 +60,13 @@
       "package": "com.devmood.pixymoodtracker",
       "allowBackup": false,
       "permissions": [],
-      "blockedPermissions": ["android.permission.SYSTEM_ALERT_WINDOW"],
+      "blockedPermissions": [
+        "android.permission.SYSTEM_ALERT_WINDOW",
+        "android.permission.READ_MEDIA_IMAGES",
+        "android.permission.READ_MEDIA_VIDEO",
+        "android.permission.READ_MEDIA_VISUAL_USER_SELECTED",
+        "android.permission.READ_EXTERNAL_STORAGE"
+      ],
       "icon": "./assets/images/icon.png",
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
@@ -105,6 +111,25 @@
         "expo-document-picker",
         {
           "appleTeamId": "8VVNC4724B"
+        }
+      ],
+      "expo-image",
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Pixy adds photos you choose to your entries. Photos stay on your device.",
+          "cameraPermission": false,
+          "microphonePermission": false
+        }
+      ],
+      [
+        "expo-media-library",
+        {
+          "photosPermission": "Pixy adds photos you choose to your entries. Photos stay on your device.",
+          "savePhotosPermission": false,
+          "isAccessMediaLocationEnabled": false,
+          "preventAutomaticLimitedAccessAlert": true,
+          "granularPermissions": []
         }
       ]
     ],

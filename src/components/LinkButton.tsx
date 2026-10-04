@@ -49,6 +49,8 @@ const LinkButton = ({
   icon: Icon = null,
   testID,
   disabled,
+  accessibilityLabel,
+  hitSlop,
 }: {
   type?: "primary" | "secondary";
   onPress: () => void;
@@ -57,6 +59,10 @@ const LinkButton = ({
   icon?: ((props: SvgProps) => React.JSX.Element) | null;
   testID?: string;
   disabled?: boolean;
+  /** Name for icon-only buttons. */
+  accessibilityLabel?: string;
+  /** Extra touch area around a small button. */
+  hitSlop?: number;
 }) => {
   const colors = useColors();
   const haptics = useHaptics();
@@ -80,7 +86,9 @@ const LinkButton = ({
   return (
     <Pressable
       accessibilityRole="button"
+      accessibilityLabel={accessibilityLabel}
       accessibilityState={{ disabled: Boolean(disabled) }}
+      hitSlop={hitSlop}
       style={({ pressed }) => [
         {
           flexDirection: "row",
