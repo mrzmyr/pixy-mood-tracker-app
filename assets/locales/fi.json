@@ -716,7 +716,6 @@
   "privacy_people_content": "### Ihmiset\n\nJotta voit tuoda ihmisiä yhteystiedoistasi, Pixy näyttää osoitekirjasi nimet laitteellasi. Pixy tallentaa vain valitsemasi yhteystiedot: nimen ja kuvan. Molemmat pysyvät laitteellasi ja sisältyvät vientitiedostoosi. Pixy ei koskaan lähetä nimiä tai kuvia meille.",
   "log_people_question": "Kenen kanssa olit?",
   "log_people_disable": "En seuraa ihmisiä",
-  "people_manage": "Hallitse ihmisiä",
   "people_slide_empty": "Lisää ihmiset, joiden kanssa vietät aikaa, nähdäksesi miten mielialasi on heidän kanssaan.",
   "view_log_people_empty": "Ei vielä ihmisiä.",
   "statistics_people_distribution_title": "Eniten tapaamasi ihmiset viimeisen 14 päivän aikana.",

@@ -718,7 +718,6 @@
   "privacy_people_content": "### Personen\n\nUm Personen aus deinen Kontakten zu importieren, listet Pixy die Namen in deinem Adressbuch auf deinem Gerät auf. Pixy speichert nur die Kontakte, die du auswählst: Name und Foto. Beides bleibt auf deinem Gerät und ist Teil deiner Exportdatei. Pixy sendet nie Namen oder Fotos an uns.",
   "log_people_question": "Mit wem warst du zusammen?",
   "log_people_disable": "Ich erfasse keine Personen",
-  "people_manage": "Personen verwalten",
   "people_slide_empty": "Füge Personen hinzu, mit denen du Zeit verbringst, um zu sehen, wie deine Stimmung mit ihnen ist.",
   "view_log_people_empty": "Noch keine Personen.",
   "statistics_people_distribution_title": "Meistgesehene Personen der letzten 14 Tage.",
