@@ -1,6 +1,6 @@
 import type { DateTimePickerEvent } from "@react-native-community/datetimepicker";
 import dayjs from "dayjs";
-import { useEffect, useState } from "react";
+import { useEffect, useEffectEvent } from "react";
 import { Platform, Switch, Text, View } from "react-native";
 import Clock from "./Clock";
 import MenuList from "@/components/MenuList";
@@ -9,75 +9,45 @@ import NotificationPreview from "./NotificationPreview";
 import { t } from "@/lib/translation";
 import { useAnalytics } from "@/state/analytics";
 import useColors from "@/hooks/useColors";
-import useNotification, { createDailyTrigger } from "../Notifications";
 import { reminderTimeToDate } from "../reminderTime";
-import { useSettings } from "@/state/settings";
-import type { SettingsState } from "@/state/settings";
+import { useReminder } from "../useReminder";
 
 const Reminder = () => {
-  const { setSettings, settings } = useSettings();
-  const { askForPermission, hasPermission, schedule, cancelAll } =
-    useNotification();
-
-  const [reminderEnabled, setReminderEnabled] = useState(
-    settings.reminderEnabled
-  );
-  const [reminderTime, setReminderTime] = useState(settings.reminderTime);
+  const reminder = useReminder();
   const colors = useColors();
   const analytics = useAnalytics();
 
-  const timeDate = reminderTimeToDate(reminderTime);
-  const hour = timeDate.getHours();
-  const minute = timeDate.getMinutes();
+  const reminderEnabled = reminder.enabled;
+  const timeDate = reminderTimeToDate(reminder.time);
+
+  // Reapply the stored reminder on open. Repairs the schedule after a data
+  // import or a lost notification. Never asks for permission.
+  const reapply = useEffectEvent(() => {
+    void reminder.setTime(reminder.time);
+  });
+  useEffect(() => {
+    reapply();
+  }, []);
 
   const onEnabledChange = async (value: boolean) => {
-    let has = await hasPermission();
-    if (value && !has) {
-      has = await askForPermission();
-    }
-    if (!value) {
-      await cancelAll();
+    let permissionGranted: boolean;
+    if (value) {
+      const result = await reminder.enable(reminder.time);
+      permissionGranted = result.status === "enabled";
+    } else {
+      const result = await reminder.disable();
+      ({ permissionGranted } = result);
     }
     analytics.track("reminders:reminder_toggled", {
       enabled: value,
-      permission_granted: Boolean(has),
+      permission_granted: permissionGranted,
     });
-
-    const enable = value && Boolean(has);
-
-    setReminderEnabled(enable);
   };
 
-  useEffect(() => {
-    (async () => {
-      await cancelAll();
-      if (reminderEnabled) {
-        await schedule({
-          trigger: createDailyTrigger(hour, minute),
-        });
-      }
-
-      setSettings((currentSettings: SettingsState) => ({
-        ...currentSettings,
-        reminderEnabled,
-        reminderTime,
-      }));
-    })();
-  }, [
-    reminderEnabled,
-    reminderTime,
-    hour,
-    minute,
-    schedule,
-    cancelAll,
-    setSettings,
-  ]);
-
   const onTimeChange = (event: DateTimePickerEvent, selectedDate?: Date) => {
-    analytics.track("reminders:time_changed", {
-      time: dayjs(selectedDate).format("HH:mm"),
-    });
-    setReminderTime(dayjs(selectedDate).format("HH:mm"));
+    const time = dayjs(selectedDate).format("HH:mm");
+    analytics.track("reminders:time_changed", { time });
+    void reminder.setTime(time);
   };
 
   return (

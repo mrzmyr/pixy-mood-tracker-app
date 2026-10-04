@@ -1,4 +1,3 @@
-import dayjs from "dayjs";
 import { useState } from "react";
 import { Platform, Text, View } from "react-native";
 import { Bell } from "react-native-feather";
@@ -6,17 +5,14 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Button from "@/components/Button";
 import {
   Clock,
-  useNotification,
-  createDailyTrigger,
   reminderTimeToDate,
+  useReminder,
 } from "@/features/notifications";
 import { DEFAULT_REMINDER_TIME } from "@/constants/Settings";
 import LinkButton from "@/components/LinkButton";
 import useColors from "@/hooks/useColors";
 
 import { useAnalytics } from "@/state/analytics";
-import { useSettings } from "@/state/settings";
-import type { SettingsState } from "@/state/settings";
 
 import { SlideHeadline } from "../components/SlideHeadline";
 import { getSlideMarginTop } from "./marginTop";
@@ -28,39 +24,16 @@ import { t } from "@/lib/translation";
  * denied, the slide still advances with reminders off.
  */
 export const SlideReminder = ({ onPress }: { onPress?: () => void }) => {
-  const { setSettings } = useSettings();
   const insets = useSafeAreaInsets();
   const analytics = useAnalytics();
   const colors = useColors();
   const marginTop = getSlideMarginTop();
 
-  const { askForPermission, hasPermission, schedule, cancelAll } =
-    useNotification();
+  const reminder = useReminder();
 
   const [time, setTime] = useState(() =>
     reminderTimeToDate(DEFAULT_REMINDER_TIME)
   );
-
-  const enable = async () => {
-    const has = await hasPermission();
-    const granted = has || (await askForPermission());
-    if (!granted) {
-      return;
-    }
-
-    await (async () => {
-      await cancelAll();
-      await schedule({
-        trigger: createDailyTrigger(dayjs(time).hour(), dayjs(time).minute()),
-      });
-
-      setSettings((settings: SettingsState) => ({
-        ...settings,
-        reminderEnabled: true,
-        reminderTime: dayjs(time).format("HH:mm"),
-      }));
-    })();
-  };
 
   const onLater = () => {
     analytics.track("logger:reminder_postponed");
@@ -69,7 +42,7 @@ export const SlideReminder = ({ onPress }: { onPress?: () => void }) => {
 
   const onEnable = async () => {
     analytics.track("logger:reminder_enabled");
-    await enable();
+    await reminder.enable(time);
     onPress?.();
   };
 
