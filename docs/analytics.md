@@ -17,6 +17,11 @@
 - Confirmation after a new entry: `logger:confirmation_viewed` ([`src/features/logger/confirmation`](../src/features/logger/confirmation))
   - Shown only after create, not edit
   - Entry metadata: `rating`, `emotions`, counts, `message_word_count`, `sleep_quality`, `entries_count`
+- Interventions: `interventions:*` ([`src/features/interventions`](../src/features/interventions)), flag `interventions`
+  - Card on confirmation and calendar: `card_shown`, then `option_selected` with a new `intervention_session_id`
+  - Flow: `intro_viewed`, `flow_started`, `step_viewed`, `step_back`, `flow_paused`, `flow_resumed`, then `flow_completed` or `flow_abandoned` (`how`: `close`, `end_early`)
+  - End check: `feedback_answered` or `feedback_skipped`
+  - No dismiss control and no cooldown: cards show for every matching entry of today
 - Reminder taps: `reminders:notification_opened` ([`src/features/notifications/reminderTaps.ts`](../src/features/notifications/reminderTaps.ts))
   - One event per tap on reminder body. Dismisses and other actions not sent
   - Properties: `cold_start`, `minutes_since_delivered`
@@ -62,6 +67,7 @@ Use this section to join old and new events in PostHog, for example with an Acti
 **New events**
 
 - `reminders:notification_opened`: added after `v1.88.0`. No older event. Earlier reminder taps sent nothing
+- `interventions:*`: added with the `interventions` flag
 
 **Removed events**
 

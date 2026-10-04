@@ -8,6 +8,7 @@ import type { Month } from "./layout";
 import { useCalendarFilters } from "../../filters";
 import { HAS_FLOATING_HEADER } from "../../floatingHeader";
 import useColors from "@/hooks/useColors";
+import { ForYouToday } from "@/features/interventions";
 import { useLogState } from "@/features/logs";
 import { useSetting } from "@/state/settings";
 import { useAnalytics } from "@/state/analytics";
@@ -91,6 +92,7 @@ const CalendarScreenComponent = () => {
               footerHeight.current = event.nativeEvent.layout.height;
             }}
           >
+            <ForYouToday />
             <View style={{ paddingBottom: 32 }}>
               <PromoCards />
             </View>
