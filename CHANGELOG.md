@@ -2,6 +2,53 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.90.0](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.88.0...v1.90.0) (2026-10-04)
+
+
+### Features
+
+* **analytics:** load PostHog feature flags only after consent ([#510](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/510)) ([5a92fb0](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/5a92fb0ade63e7e8bd4f22b86999182540e4c3e9))
+* **analytics:** send anonymous usage summary for cohorts ([#503](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/503)) ([89f26c5](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/89f26c5318ae66a5843ca83c2c2927709f69dca0))
+* **analytics:** track logger steps, day opens, and failures ([#439](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/439)) ([d0d86c2](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/d0d86c2894f36a22cacc437ff4f83ca725168fe9))
+* **analytics:** track screens, app lifecycle, and settings context ([#438](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/438)) ([57137e5](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/57137e52f21a2a9b705ced3ded2b66693d67d77e))
+* **calendar:** keep filters when the filter sheet closes ([#508](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/508)) ([6fe56b9](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/6fe56b9baa3156d3f7aa757bd8b3bd49f9aade8b))
+* **calendar:** use Expo UI bottom sheet for filters ([#473](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/473)) ([6b07ddc](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/6b07ddc9e635fe5bba06666f10ff1c3a1e626fdc))
+* **cli:** add `bun app dev` for the dev client with Metro ([#507](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/507)) ([bd4c424](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/bd4c42417adcd3251a13c4b708feab1dcf1ebe7c))
+* **cli:** report RAM headroom around commands ([#547](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/547)) ([6964061](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/6964061f9e032f90b633fc0ac854eb9d65767d16))
+* **data:** add CSV export menu items ([#548](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/548)) ([d62503c](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/d62503c170c8f04c3a712e13664a96fb5e6bb75a))
+* **logger:** end new entries with a confirmation showing the week's pixels ([#487](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/487)) ([a0416f8](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/a0416f8758650f0046e513acc26e1eba1d6fc155))
+* **logger:** give the note slide the full height while typing ([#467](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/467)) ([c7e5cef](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/c7e5cef7fb3d750c6cb00326dcff3f07420b08db))
+* **navigation:** migrate to Expo Router ([#445](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/445)) ([d8439f7](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/d8439f764d92d8cab91c71e85da9d51683f6d3f3))
+* **onboarding:** ask for analytics consent on the privacy slide ([#509](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/509)) ([4297f4e](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/4297f4e68f2c20d1ae743540f7d15551f04eb687))
+* **review:** ask for store review after seventh entry ([#474](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/474)) ([1aa8def](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/1aa8def2742e1de9fc2c61afecdf378c02551127))
+* **settings:** merge data reset items into "Delete all my data" ([#504](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/504)) ([7ec56c3](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/7ec56c34c12ba6135b2e281f75c8d1cba4804463))
+* **settings:** split feedback into feature request, bug report and store rating ([#494](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/494)) ([9da6b04](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/9da6b04061c959ef5699288170cc24d64b40f9dc))
+* **statistics:** remove card feedback ([#461](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/461)) ([77abd25](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/77abd258c3c97192fbd946bfbdb945749692b35d))
+
+
+### Bug Fixes
+
+* **analytics:** forward event properties to PostHog ([#436](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/436)) ([190c1e1](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/190c1e19e0b8932b387862154777e11384018534))
+* **analytics:** restore default from 1.68.0 ([#465](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/465)) ([ab52877](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/ab52877872e104811f32b673d1340a747851c66e))
+* **analytics:** send settings properties with first events ([#452](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/452)) ([5aa20d5](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/5aa20d5eafa53bb00a94590a84b891e2fe59eb94))
+* **android:** enable React Native shadow node lookup fix flag ([#454](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/454)) ([4badf49](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/4badf4952023f57cfc85e62895bbf19e3f993e41))
+* **calendar:** dismiss Android filters with hardware back ([#450](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/450)) ([ee28899](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/ee28899f3ebcd87e82c6278f4a85afdf96acb1bd))
+* **calendar:** follow system week start ([#550](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/550)) ([df382d6](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/df382d67bb2ea724a1478db84cc3004f2d349e9c))
+* **calendar:** stop Expo UI import from blanking the web app ([#540](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/540)) ([5377e66](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/5377e661116a2d95fce10484269440d39d704e86))
+* **datagate:** write exports to cache and remove leftover files ([#479](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/479)) ([3690b52](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/3690b52bb0d1a169d875ed4247ac328f7284460b))
+* **feedback:** send feedback and question answers to pixy.day ([#466](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/466)) ([78258f7](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/78258f7e4f5a5c9c1a8d20d55f5703dbfe36aa32))
+* **i18n:** show Norwegian translation on Bokmål devices ([#469](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/469)) ([04aa8c4](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/04aa8c4847f7c1a2a84de9d74f7241f007e517d8))
+* **logger:** center dot stepper between header controls ([#545](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/545)) ([babe2bf](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/babe2bff017076c0c690c8f38fd072124cb3149a))
+* **onboarding:** keep consent step when skipping ([#539](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/539)) ([e93f8dd](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/e93f8ddcfc930495965ab25fc54c5eead16430ab))
+* remove duplicate emotion labels in emotion picker ([#530](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/530)) ([7dc1c82](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/7dc1c822e9b8114bc661bff68407bc5938356b47))
+* **settings:** hide donate card behind PostHog flag ([#531](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/531)) ([4b424f3](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/4b424f33d16588a0887bca362ef10713a3d0d77f))
+* **settings:** update feature request link ([#542](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/542)) ([be5780b](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/be5780b6196a9da27f653c55d5025a93bff968a8))
+
+
+### Documentation
+
+* **release:** document forcing a version with Release-As ([#478](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/478)) ([6b06bf8](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/6b06bf86a8634438bb523fd87c22eb35dfd99221))
+
 ## [1.88.0](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.87.1...v1.88.0) (2026-09-28)
 
 ### Features
