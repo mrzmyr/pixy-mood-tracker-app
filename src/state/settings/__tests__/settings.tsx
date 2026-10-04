@@ -164,6 +164,7 @@ describe("useSettings()", () => {
         ...INITIAL_STATE,
         deviceId: "this-phone",
         backupEnabled: false,
+        backupWrittenAt: "2026-10-01T10:00:00.000Z",
       })
     );
     const hook = await _renderHook();
@@ -180,6 +181,7 @@ describe("useSettings()", () => {
       reminderTime: "12:00",
       deviceId: "this-phone",
       backupEnabled: false,
+      backupWrittenAt: "2026-10-01T10:00:00.000Z",
     });
   });
 

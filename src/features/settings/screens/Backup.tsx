@@ -144,6 +144,11 @@ export const BackupScreen = () => {
         {problem !== null && (
           <TextInfo style={{ marginTop: 8 }}>{problem}</TextInfo>
         )}
+        {showRestore && (
+          <TextInfo style={{ marginTop: 8 }}>
+            {t("backup_paused_other_phone")}
+          </TextInfo>
+        )}
         {enabled && status === "signedOut" && (
           <LinkButton
             onPress={() => backup.reconnect()}

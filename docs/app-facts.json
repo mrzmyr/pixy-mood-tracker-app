@@ -330,7 +330,7 @@
       "label": "Automatic backup",
       "status": "available",
       "group": "data",
-      "description": "Optional backup file in a hidden folder of iCloud (iPhone) or Google Drive (Android). Updates after each change, shows the last sync, restores on a new phone. Pixy never sees the data.",
+      "description": "Optional backup file in a hidden folder of iCloud (iPhone) or Google Drive (Android). Updates after each change, shows the last sync, restores entries, tags, people, and settings on a new phone. Photos stay on the phone. Pixy never sees the data.",
       "competitorKey": "backup",
       "evidence": [
         "src/features/backup/",

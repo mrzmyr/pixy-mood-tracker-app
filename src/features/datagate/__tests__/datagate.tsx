@@ -240,6 +240,7 @@ describe("useLogs()", () => {
         "loaded",
         "deviceId",
         "backupEnabled",
+        "backupWrittenAt",
         "storeReviewPromptedAt",
         "storeReviewPromptedAppVersion",
         "photosDayAccessDismissed",

@@ -266,6 +266,88 @@ describe("BackupProvider", () => {
     expect(hook.result.current.backup.canRestore).toBe(false);
   });
 
+  test("reads the cloud again before writing and pauses when another phone wrote since", async () => {
+    await seed({ itemCount: 3 });
+    const hook = await renderBackup();
+    await waitFor(() => expect(hook.result.current.backup.status).toBe("idle"));
+    await waitForAutoBackup();
+    await waitFor(() => expect(cloud.writeBackupFile).toHaveBeenCalledTimes(1));
+    await waitFor(() =>
+      expect(
+        hook.result.current.settings.settings.backupWrittenAt
+      ).not.toBeNull()
+    );
+
+    // The other phone writes a smaller, newer backup while this app is open.
+    const otherPhone = createBackupFile({
+      deviceId: "other-phone",
+      now: new Date(Date.now() + 60_000),
+      data: remoteFile("other-phone", 1).data,
+    });
+    jest
+      .mocked(cloud.readBackupFile)
+      .mockResolvedValue(JSON.stringify(otherPhone));
+    await act(() =>
+      hook.result.current.settings.setSettings((current) => ({
+        ...current,
+        steps: current.steps.filter((step) => step !== "sleep"),
+      }))
+    );
+    await waitForAutoBackup();
+
+    expect(cloud.writeBackupFile).toHaveBeenCalledTimes(1);
+    await waitFor(() =>
+      expect(hook.result.current.backup.canRestore).toBe(true)
+    );
+    expect(hook.result.current.backup.lastBackupAt).toBe(otherPhone.createdAt);
+  });
+
+  test("restore keeps this phone's consent and backup stays on", async () => {
+    await seed({ itemCount: 1 });
+    const backup = remoteFile("old-phone", 5);
+    backup.data.settings = {
+      ...backup.data.settings,
+      analyticsEnabled: false,
+      actionsDone: [],
+    };
+    jest.mocked(cloud.readBackupFile).mockResolvedValue(JSON.stringify(backup));
+    const hook = await renderBackup();
+    await waitFor(() =>
+      expect(hook.result.current.backup.canRestore).toBe(true)
+    );
+
+    await runConfirmed(() => hook.result.current.backup.restore());
+
+    await waitFor(() => expect(hook.result.current.logs.items).toHaveLength(5));
+    expect(hook.result.current.settings.settings.analyticsEnabled).toBe(true);
+    expect(hook.result.current.settings.settings.actionsDone).toEqual(
+      ONBOARDED
+    );
+    expect(hook.result.current.backup.enabled).toBe(true);
+    await waitForAutoBackup();
+    await waitFor(() => expect(cloud.writeBackupFile).toHaveBeenCalled());
+  });
+
+  test("restore confirmation names both entry counts", async () => {
+    await seed({ itemCount: 1 });
+    jest
+      .mocked(cloud.readBackupFile)
+      .mockResolvedValue(JSON.stringify(remoteFile("old-phone", 5)));
+    const hook = await renderBackup();
+    await waitFor(() =>
+      expect(hook.result.current.backup.canRestore).toBe(true)
+    );
+
+    await runConfirmed(() => hook.result.current.backup.restore());
+
+    const message =
+      jest
+        .mocked(Alert.alert)
+        .mock.calls.find(([title]) => title === "Restore Backup?")?.[1] ?? "";
+    expect(message).toContain("1 entries");
+    expect(message).toContain("5 entries");
+  });
+
   test("never replaces a cloud file it cannot parse", async () => {
     await seed({ itemCount: 2 });
     jest

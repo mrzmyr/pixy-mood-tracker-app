@@ -24,6 +24,7 @@ export const INITIAL_STATE: SettingsState = {
   // iCloud backup needs no sign-in, so it starts on. Google Drive starts off
   // until the user signs in.
   backupEnabled: Platform.OS === "ios",
+  backupWrittenAt: null,
   actionsDone: [],
   // `photos` is on for new installs only. Stored settings keep their own
   // step list, so existing users turn it on in Settings > Steps.
