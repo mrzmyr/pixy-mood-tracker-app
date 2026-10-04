@@ -88,7 +88,7 @@ const CalendarScreenComponent = () => {
                     marginBottom: -60,
                   }}
                 >
-                  🙏 {footNote}
+                  {footNote}
                 </Text>
               </View>
             </>
