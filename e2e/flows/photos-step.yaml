@@ -147,7 +147,7 @@ tags: [p1, photos]
     id: "photo-viewer"
 
 - runFlow: ../subflows/save-past-feedback.yaml
-- runFlow: ../subflows/answer-confirmation.yaml
+- runFlow: ../subflows/close-confirmation.yaml
 - tapOn:
     id: "calendar-day-${output.today}"
 - assertVisible:
