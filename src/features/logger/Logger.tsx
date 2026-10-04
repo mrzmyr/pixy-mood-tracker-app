@@ -41,7 +41,11 @@ import { useLoggerActions } from "./hooks/useLoggerActions";
 import { useLoggerTracking } from "./hooks/useLoggerTracking";
 import type { SavedEntry } from "./hooks/useLoggerActions";
 import { Confirmation } from "./confirmation/Confirmation";
-import { getAvailableStepsForCreate, getAvailableStepsForEdit } from "./steps";
+import {
+  getAvailableStepsForCreate,
+  getAvailableStepsForEdit,
+  getRatingActionType,
+} from "./steps";
 
 /** Whether the logger creates a new entry or edits an existing one. */
 export type LoggerMode = "create" | "edit";
@@ -251,9 +255,6 @@ export const Logger = ({
 
   const content: SlideContent[] = [];
 
-  const isRatingActionVisible = slideIndex !== 0 || touched || mode === "edit";
-  const ratingActionType = content.length === 1 ? "save" : "next";
-
   content.push({
     key: "rating",
     slide: (
@@ -276,7 +277,12 @@ export const Logger = ({
     ),
     action: (
       <SlideAction
-        type={isRatingActionVisible ? ratingActionType : "hidden"}
+        type={getRatingActionType({
+          slideCount: slideKeys.length,
+          slideIndex,
+          isTouched: touched,
+          mode,
+        })}
         onPress={next}
       />
     ),
