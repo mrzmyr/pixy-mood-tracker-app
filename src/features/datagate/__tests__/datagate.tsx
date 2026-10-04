@@ -240,6 +240,7 @@ describe("useLogs()", () => {
         "storeReviewPromptedAt",
         "storeReviewPromptedAppVersion",
         "photosDayAccessDismissed",
+        "colorScheme",
       ]) satisfies ExportSettings,
       tags: testTags,
       people: [],
