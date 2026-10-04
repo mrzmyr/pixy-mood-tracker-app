@@ -14,6 +14,8 @@ import type { LogItem } from "@/features/logs";
 import { countPhotosBySource, getPhotoSource } from "@/features/photos";
 import type { LibraryPermission } from "@/features/photos";
 import { getCurrentStreak, getLongestStreak } from "@/features/statistics";
+import { usePeopleState } from "@/features/people";
+import type { Person } from "@/features/people";
 import { useTagsState } from "@/features/tags";
 import type { Tag } from "@/features/tags";
 
@@ -49,11 +51,13 @@ const getReminderHour = (time: string) => {
  * Usage profile of this install from local data, at `now`.
  *
  * Counts, shares, and booleans only: never ratings, emotions, text, tag
- * titles, or photo metadata. Day windows include today, in device local time.
+ * titles, people names, or photo metadata. Day windows include today, in
+ * device local time.
  */
 export const getUsageSummary = ({
   items,
   tags,
+  people = [],
   settings,
   isPhotosEnabled,
   photoLibraryAccess,
@@ -61,6 +65,7 @@ export const getUsageSummary = ({
 }: {
   items: LogItem[];
   tags: Tag[];
+  people?: Pick<Person, "isArchived">[];
   settings: Pick<
     SettingsState,
     "reminderEnabled" | "reminderTime" | "scaleType" | "steps" | "actionsDone"
@@ -142,6 +147,8 @@ export const getUsageSummary = ({
     statistics_unlocked: entries14d >= STATISTIC_MIN_LOGS,
     tags_count: tags.filter((tag) => !tag.isArchived).length,
     archived_tags_count: tags.filter((tag) => tag.isArchived).length,
+    people_count: people.filter((person) => !person.isArchived).length,
+    archived_people_count: people.filter((person) => person.isArchived).length,
     reminder_enabled: settings.reminderEnabled,
     reminder_hour: settings.reminderEnabled
       ? getReminderHour(settings.reminderTime)
@@ -176,6 +183,7 @@ export const useUsageSummarySync = () => {
   const { settings } = useSettings();
   const logState = useLogState();
   const { tags, loaded: tagsLoaded } = useTagsState();
+  const { people, loaded: peopleLoaded } = usePeopleState();
   const lastSent = useRef<string | null>(null);
   const isPhotosEnabled = useFeatureFlag("photos");
   const [libraryAccess, setLibraryAccess] = useState<LibraryPermission | null>(
@@ -208,6 +216,7 @@ export const useUsageSummarySync = () => {
     settings.loaded &&
     logState.loaded &&
     tagsLoaded === true &&
+    peopleLoaded === true &&
     photoLibraryAccess !== null;
 
   useEffect(() => {
@@ -218,6 +227,7 @@ export const useUsageSummarySync = () => {
     const properties = getUsageSummary({
       items: logState.items,
       tags,
+      people,
       settings: {
         reminderEnabled,
         reminderTime,
@@ -243,6 +253,7 @@ export const useUsageSummarySync = () => {
     analytics,
     logState.items,
     tags,
+    people,
     reminderEnabled,
     reminderTime,
     scaleType,

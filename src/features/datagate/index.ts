@@ -1,5 +1,5 @@
 export type { FileTransfer } from "./fileTransfer";
-export type { ImportData } from "./import";
+export type { ExportPerson, ImportData } from "./import";
 export { DataScreen } from "./screens/Data";
 export { exportRawStorage } from "./rawExport";
 export { getJSONSchemaType } from "./import";

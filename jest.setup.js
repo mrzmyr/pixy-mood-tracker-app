@@ -77,3 +77,17 @@ jest.mock("@expo/ui", () => ({
   BottomSheet: () => null,
   RNHostView: () => null,
 }));
+
+// oxlint-disable-next-line anti-slop/no-module-mocking -- expo-contacts subclasses a native module at import time, which is unavailable in Jest; people tests use the sources override.
+jest.mock("expo-contacts", () => ({
+  Contact: { presentPicker: jest.fn() },
+  requestPermissionsAsync: jest.fn(),
+}));
+
+// oxlint-disable-next-line anti-slop/no-module-mocking -- the native module reports no directories in Jest; avatar paths and export files need stable roots.
+jest.mock("expo-file-system/legacy", () => ({
+  __esModule: true,
+  ...jest.requireActual("expo-file-system/legacy"),
+  documentDirectory: "file:///documents/",
+  cacheDirectory: "file:///cache/",
+}));

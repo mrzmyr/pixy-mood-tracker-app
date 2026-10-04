@@ -8,7 +8,7 @@ import { StepsScreen } from "../screens/Steps";
 let mockIsPhotosEnabled = true;
 // oxlint-disable-next-line anti-slop/no-module-mocking -- the photos flag comes from PostHog after consent; each test picks on or off.
 jest.mock("@/state/featureFlags", () => ({
-  useFeatureFlag: () => mockIsPhotosEnabled,
+  useFeatureFlag: (flag: string) => flag === "photos" && mockIsPhotosEnabled,
 }));
 
 const renderSteps = () =>
@@ -47,6 +47,6 @@ describe("Settings > Check-in", () => {
     await renderSteps();
 
     expect(screen.queryByTestId("step-photos-enabled")).toBeNull();
-    expect(screen.getByTestId("step-tags-enabled")).toBeTruthy();
+    expect(screen.getByTestId("step-emotions-enabled")).toBeTruthy();
   });
 });
