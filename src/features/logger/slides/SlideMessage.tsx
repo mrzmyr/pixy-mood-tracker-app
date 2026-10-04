@@ -3,13 +3,7 @@ import useColors from "@/hooks/useColors";
 import type { LogItem } from "@/features/logs";
 import { useTemporaryLog } from "../temporaryLog";
 import { forwardRef, useEffect, useState } from "react";
-import {
-  Keyboard,
-  KeyboardAvoidingView,
-  LayoutAnimation,
-  Platform,
-  View,
-} from "react-native";
+import { Keyboard, KeyboardAvoidingView, Platform, View } from "react-native";
 import type { TextInput } from "react-native";
 
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -30,16 +24,16 @@ const ON_EVENT_NAME =
 const OFF_EVENT_NAME =
   Platform.OS === "ios" ? "keyboardWillHide" : "keyboardDidHide";
 
+// No LayoutAnimation here: configureNext is global, so it also animated the
+// logger teardown on close and crashed Fabric (PIXY-APP-PRODUCTION-QM).
 const useKeyboardVisible = () => {
   const [keyboardVisible, setKeyboardVisible] = useState(false);
 
   useEffect(() => {
     const show = Keyboard.addListener(ON_EVENT_NAME, () => {
-      LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
       setKeyboardVisible(true);
     });
     const hide = Keyboard.addListener(OFF_EVENT_NAME, () => {
-      LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
       setKeyboardVisible(false);
     });
 
