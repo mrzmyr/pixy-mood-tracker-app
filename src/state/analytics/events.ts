@@ -229,6 +229,59 @@ export interface AnalyticsEvents {
   "feedback:submit_failed": { http_status: number | null };
   "feedback:modal_closed": undefined;
   "feedback:question_answered": { question_id: string; answer_ids: string[] };
+
+  "interventions:card_shown": {
+    surface: InterventionSurface;
+    cluster: InterventionCluster;
+    matched_emotions: string[];
+    options_shown: string[];
+    completed_today_count: number;
+  };
+  "interventions:option_selected": InterventionSessionProperties & {
+    cluster: InterventionCluster;
+    length: InterventionLength;
+    surface: InterventionSurface;
+    option_position: number;
+    /** Already completed today. */
+    repeat_today: boolean;
+  };
+  "interventions:intro_viewed": InterventionSessionProperties;
+  "interventions:flow_started": InterventionSessionProperties & {
+    intro_ms: number;
+    step_count: number;
+  };
+  "interventions:step_viewed": InterventionSessionProperties & {
+    step_index: number;
+    step_count: number;
+    step_type: InterventionStepType;
+  };
+  "interventions:step_back": InterventionSessionProperties & {
+    from_step: number;
+  };
+  "interventions:flow_paused": InterventionSessionProperties & {
+    step_index: number;
+  };
+  "interventions:flow_resumed": InterventionSessionProperties & {
+    step_index: number;
+  };
+  "interventions:flow_abandoned": InterventionSessionProperties & {
+    how: "close" | "end_early";
+    /** Step index, or `intro` when closed before starting. */
+    last_step: number | "intro";
+    total_ms: number;
+    pauses: number;
+  };
+  "interventions:flow_completed": InterventionSessionProperties & {
+    length: InterventionLength;
+    surface: InterventionSurface;
+    total_ms: number;
+    expected_ms: number;
+    pauses: number;
+  };
+  "interventions:feedback_answered": InterventionSessionProperties & {
+    answer: InterventionFeedback;
+  };
+  "interventions:feedback_skipped": InterventionSessionProperties;
 }
 
 /** Name of any event in {@link AnalyticsEvents}. */
@@ -298,6 +351,27 @@ export type UsageSummaryOnce = {
 };
 
 type LogItem = z.infer<typeof LogItemSchema>;
+
+/** Where an intervention card shows. */
+export type InterventionSurface = "confirmation" | "calendar";
+
+/** Emotion group that picks the suggested interventions. */
+export type InterventionCluster = "anxiety";
+
+/** Quick: 1-2 min, medium: 3-5 min, long: 6-10 min. */
+export type InterventionLength = "quick" | "medium" | "long";
+
+/** Step screen kind: breathing circle, thinking prompt, or timed text. */
+export type InterventionStepType = "breath" | "prompt" | "timed";
+
+/** Joins all events of one intervention run. */
+export interface InterventionSessionProperties {
+  intervention_session_id: string;
+  intervention_id: string;
+}
+
+/** Answer to "How do you feel compared to before?" after a flow. */
+export type InterventionFeedback = "worse" | "same" | "better";
 
 /**
  * Saved entry metadata sent with the confirmation events. Holds no free

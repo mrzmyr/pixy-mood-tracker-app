@@ -4,6 +4,7 @@
  */
 export const FEATURE_FLAGS = [
   "app-icons",
+  "interventions",
   "photos",
   "support-pixy",
   "people",
