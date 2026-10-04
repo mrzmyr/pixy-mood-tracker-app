@@ -7,6 +7,7 @@ import Button from "@/components/Button";
 import { exportRawStorage } from "@/features/datagate";
 import { useFeedbackModal } from "@/features/feedback";
 import { useLogLoad } from "@/features/logs";
+import { usePeopleLoad } from "@/features/people";
 import { useTagsLoad } from "@/features/tags";
 import { t } from "@/lib/translation";
 import useColors from "@/hooks/useColors";
@@ -168,7 +169,8 @@ export const StorageLoadGate = ({
   const settingsLoad = useSettingsLoad();
   const logLoad = useLogLoad();
   const tagsLoad = useTagsLoad();
-  const loads = [settingsLoad, logLoad, tagsLoad];
+  const peopleLoad = usePeopleLoad();
+  const loads = [settingsLoad, logLoad, tagsLoad, peopleLoad];
 
   const error = loads
     .map((load) => load.error)
