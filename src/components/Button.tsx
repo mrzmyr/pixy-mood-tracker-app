@@ -1,21 +1,12 @@
 import isString from "lodash/isString";
-import { Pressable, Text, View } from "react-native";
+import { Text, View } from "react-native";
 import type { ViewStyle } from "react-native";
 
 import useColors from "@/hooks/useColors";
 import useHaptics from "@/hooks/useHaptics";
+import { PressableScale } from "@/components/PressableScale";
 
 const DEFAULT_STYLE = {};
-
-const getPressableOpacity = (
-  isDisabled: boolean | undefined,
-  isPressed: boolean
-) => {
-  if (isDisabled) {
-    return 0.5;
-  }
-  return isPressed ? 0.8 : 1;
-};
 
 const Button = ({
   type = "primary",
@@ -68,8 +59,8 @@ const Button = ({
   }[type];
 
   return (
-    <Pressable
-      style={({ pressed }) => ({
+    <PressableScale
+      style={{
         padding: 16,
         paddingRight: 16,
         paddingLeft: 16,
@@ -77,7 +68,7 @@ const Button = ({
         justifyContent: "center",
         flexDirection: "row",
         borderRadius: 36,
-        opacity: getPressableOpacity(disabled, pressed),
+        opacity: disabled ? 0.5 : 1,
         backgroundColor: disabled
           ? buttonColors.disabledBackground
           : buttonColors.background,
@@ -86,9 +77,9 @@ const Button = ({
           ? buttonColors.disabledBorder
           : buttonColors?.border,
         ...style,
-      })}
-      onPress={async () => {
-        await haptics.selection();
+      }}
+      onPress={() => {
+        void haptics.selection();
         if (!disabled) {
           onPress?.();
         }
@@ -112,7 +103,7 @@ const Button = ({
       ) : (
         children
       )}
-    </Pressable>
+    </PressableScale>
   );
 };
 

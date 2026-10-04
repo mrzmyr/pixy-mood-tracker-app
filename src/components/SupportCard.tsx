@@ -1,9 +1,10 @@
 import { useRef, useState } from "react";
-import { ActivityIndicator, Alert, Pressable, Text, View } from "react-native";
+import { ActivityIndicator, Alert, Text, View } from "react-native";
 import { Heart } from "react-native-feather";
 import { t } from "@/lib/translation";
 import useColors from "@/hooks/useColors";
 import { useSupport } from "@/support";
+import { PressableScale } from "@/components/PressableScale";
 import type { SupportFlowError } from "@/support";
 
 const isSupportFlowError = (error: unknown): error is SupportFlowError => {
@@ -137,7 +138,7 @@ export const SupportCard = () => {
       >
         {t("support_pixy_body")}
       </Text>
-      <Pressable
+      <PressableScale
         accessibilityRole="button"
         accessibilityLabel={t("support_pixy_button")}
         accessibilityState={{ busy: isOpening, disabled: isOpening }}
@@ -145,7 +146,7 @@ export const SupportCard = () => {
         onPress={() => {
           void openSupport();
         }}
-        style={({ pressed }) => ({
+        style={{
           minHeight: 52,
           marginTop: 24,
           paddingHorizontal: 16,
@@ -154,9 +155,7 @@ export const SupportCard = () => {
           alignItems: "center",
           justifyContent: "center",
           backgroundColor: contentColor,
-          opacity: pressed ? 0.92 : 1,
-          transform: [{ scale: pressed ? 0.96 : 1 }],
-        })}
+        }}
       >
         {isOpening ? (
           <ActivityIndicator color={cardColor} size="small" />
@@ -172,7 +171,7 @@ export const SupportCard = () => {
             {t("support_pixy_button")}
           </Text>
         )}
-      </Pressable>
+      </PressableScale>
     </View>
   );
 };
