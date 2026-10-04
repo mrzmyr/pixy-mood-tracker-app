@@ -84,6 +84,14 @@ tags: [p1, tags]
 - assertVisible: "e2e-${output.runId}"
 - assertNotVisible: "Work"
 - assertNotVisible: "Family"
+
+# Logger tag manager links to the archive.
+- tapOn: "Edit Tags"
+- tapOn: "Archive"
+- assertVisible: "Work"
+- tapOn: "Done"
+- tapOn: "Done"
+- assertVisible: "Add tags"
 - tapOn:
     id: "logger-close"
 - runFlow:

@@ -1,5 +1,5 @@
 import { useRouter } from "expo-router";
-import { TagList, useTagsState, TagListItem } from "@/features/tags";
+import { ArchivedTagList, TagList, useTagsState } from "@/features/tags";
 import type { Tag } from "@/features/tags";
 import useColors from "@/hooks/useColors";
 
@@ -9,9 +9,8 @@ import MenuListItem from "@/components/MenuListItem";
 import { MAX_TAGS } from "@/constants/Config";
 import { t } from "@/lib/translation";
 import { LinearGradient } from "expo-linear-gradient";
-import sortBy from "lodash/sortBy";
 import { Archive } from "lucide-react-native";
-import { ScrollView, Text, View } from "react-native";
+import { ScrollView, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 /**
@@ -108,21 +107,10 @@ export const SettingsTags = () => {
   );
 };
 
-/** Archived tags, sorted by title; rows open the tag editor to unarchive. */
+/** Settings > Tags > Archive. */
 export const SettingsTagsArchive = () => {
-  const router = useRouter();
   const colors = useColors();
   const insets = useSafeAreaInsets();
-  const { tags } = useTagsState();
-
-  const _tags = sortBy(
-    tags.filter((tag: Tag) => tag.isArchived),
-    "title"
-  );
-
-  const onEdit = (tag: Tag) => {
-    router.push({ pathname: "/tags/[id]", params: { id: tag.id } });
-  };
 
   return (
     <View
@@ -136,45 +124,7 @@ export const SettingsTagsArchive = () => {
           flex: 1,
         }}
       >
-        <View
-          style={{
-            paddingTop: 16,
-            paddingLeft: 16,
-            paddingRight: 16,
-          }}
-        >
-          {_tags.length < 1 && (
-            <View
-              style={{
-                padding: 32,
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <Text
-                style={{
-                  color: colors.textSecondary,
-                }}
-              >
-                {t("tags_archive_empty")}
-              </Text>
-            </View>
-          )}
-          <MenuList
-            style={{
-              marginBottom: 40,
-            }}
-          >
-            {_tags.map((tag, index) => (
-              <TagListItem
-                key={tag.id}
-                tag={tag}
-                isLast={index === _tags.length - 1}
-                onPress={() => onEdit(tag)}
-              />
-            ))}
-          </MenuList>
-        </View>
+        <ArchivedTagList />
         <View
           style={{
             width: "100%",

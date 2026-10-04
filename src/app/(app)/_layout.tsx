@@ -46,6 +46,7 @@ const AppLayout = () => {
           />
           <Stack.Screen name="tags/index" options={modalOptions} />
           <Stack.Screen name="tags/create" options={modalOptions} />
+          <Stack.Screen name="tags/archive" options={modalOptions} />
           <Stack.Screen name="tags/[id]" options={modalOptions} />
           <Stack.Screen
             name="statistics/highlights"

@@ -5,18 +5,21 @@ import type { Tag } from "../../TagsProvider";
 
 import Button from "@/components/Button";
 import LinkButton from "@/components/LinkButton";
+import MenuList from "@/components/MenuList";
+import MenuListItem from "@/components/MenuListItem";
 import ModalHeader from "@/components/ModalHeader";
 import { TagList } from "../../components/TagList";
 import { MAX_TAGS } from "@/constants/Config";
 import { t } from "@/lib/translation";
 import { LinearGradient } from "expo-linear-gradient";
-import _ from "lodash";
+import { Archive } from "lucide-react-native";
 import { Platform, ScrollView, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 /**
  * Tag manager modal opened from the logger's tag slide. Archived tags are
- * hidden here but still count toward {@link MAX_TAGS}.
+ * hidden here, behind the archive link, but still count toward
+ * {@link MAX_TAGS}.
  */
 export const Tags = () => {
   const router = useRouter();
@@ -96,6 +99,24 @@ export const Tags = () => {
           flex: 1,
         }}
       >
+        <View
+          style={{
+            marginTop: 16,
+            marginHorizontal: 16,
+          }}
+        >
+          <MenuList>
+            <MenuListItem
+              title={t("archive_tag")}
+              iconLeft={<Archive size={20} color={colors.text} />}
+              isLink
+              isLast
+              onPress={() => {
+                router.push("/tags/archive");
+              }}
+            />
+          </MenuList>
+        </View>
         <TagList tags={_tags} />
         <View
           style={{
