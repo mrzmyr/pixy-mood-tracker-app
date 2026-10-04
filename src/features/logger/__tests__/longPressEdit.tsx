@@ -25,7 +25,7 @@ import { AnalyticsProvider } from "@/state/analytics";
 import { SettingsProvider } from "@/state/settings";
 import { SlidePeople } from "../slides/SlidePeople";
 import { SlideTags } from "../slides/SlideTags";
-import { TemporaryLogProvider, useTemporaryLog } from "../temporaryLog";
+import { LogDraftProvider } from "../logDraft";
 
 // oxlint-disable-next-line anti-slop/no-module-mocking -- react-native-safe-area-context needs native insets that Jest does not provide
 jest.mock("react-native-safe-area-context", () => {
@@ -49,27 +49,16 @@ const Editor = ({ kind }: { kind: string }) => {
 };
 
 const Slides = () => {
-  const tempLog = useTemporaryLog(_generateItem({ tags: [], people: [] }));
   const tagsLoad = useTagsLoad();
   const peopleLoad = usePeopleLoad();
-  if (
-    !tempLog.isInitialized ||
-    tagsLoad.status !== "ready" ||
-    peopleLoad.status !== "ready"
-  ) {
+  if (tagsLoad.status !== "ready" || peopleLoad.status !== "ready") {
     return null;
   }
   return (
-    <>
-      <SlideTags
-        onChange={(tags) => tempLog.update({ tags })}
-        showDisable={false}
-      />
-      <SlidePeople
-        onChange={(people) => tempLog.update({ people })}
-        showDisable={false}
-      />
-    </>
+    <LogDraftProvider initialDraft={_generateItem({ tags: [], people: [] })}>
+      <SlideTags showDisable={false} />
+      <SlidePeople showDisable={false} />
+    </LogDraftProvider>
   );
 };
 
@@ -88,9 +77,7 @@ const renderLogger = async () => {
               <LogsProvider>
                 <TagsProvider>
                   <PeopleProvider>
-                    <TemporaryLogProvider>
-                      <Stack />
-                    </TemporaryLogProvider>
+                    <Stack />
                   </PeopleProvider>
                 </TagsProvider>
               </LogsProvider>
