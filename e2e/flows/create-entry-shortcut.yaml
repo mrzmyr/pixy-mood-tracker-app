@@ -1,0 +1,40 @@
+appId: ${APP_ID}
+tags: [p1, entry, ios]
+---
+# iOS "Create Entry" App Intent opens the logger once. The intent stores its
+# request time in UserDefaults (plugins/LogMoodIntent.swift). E2E cannot press
+# the Action Button, so a launch argument stores the request the same way.
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - runFlow:
+          file: ../subflows/load-fixture.yaml
+          env:
+            FIXTURE: empty
+      - evalScript: ${output.requestedAt = String(Date.now())}
+      # iOS reads `-key value` launch arguments into UserDefaults. agent-device
+      # passes keys as written, so the key carries the dash. `<real>` keeps the
+      # value a number: a bare number arrives as a string.
+      - launchApp:
+          stopApp: true
+          arguments:
+            "-pixyLogMoodRequestedAt": "<real>${output.requestedAt}</real>"
+      - extendedWaitUntil:
+          visible: "How was your day?"
+          timeout: 10000
+      # A tap during the logger's slide-in animation is lost.
+      - waitForAnimationToEnd
+      - tapOn:
+          id: "mood-good"
+      - runFlow: ../subflows/finish-logger.yaml
+      - runFlow: ../subflows/answer-confirmation.yaml
+      - assertVisible: "Add another entry for today"
+
+      # The request is used up: a cold start without it opens the calendar.
+      - stopApp
+      - launchApp
+      - extendedWaitUntil:
+          visible: "Add another entry for today"
+          timeout: 10000
+      - assertNotVisible: "How was your day?"
