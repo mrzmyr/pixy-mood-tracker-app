@@ -1,0 +1,505 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pixy Mood Tracker: codebase deepening plan</title>
+<style>
+  :root {
+    --bg: #fafafa;
+    --fg: #0a0a0a;
+    --muted: #6b6b6b;
+    --line: #e4e4e4;
+    --card: #ffffff;
+    --leak: #e5484d;
+    --leak-bg: #fff0f0;
+    --deep: #0a7d4f;
+    --deep-bg: #eafaf2;
+    --iface: #0a0a0a;
+    --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    --sans: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0a0a0a; --fg: #ededed; --muted: #8f8f8f; --line: #262626; --card: #111;
+      --leak: #ff6369; --leak-bg: #2a1214; --deep: #3dd68c; --deep-bg: #0f2a1d; --iface: #ededed;
+    }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--fg); font: 15px/1.55 var(--sans); -webkit-font-smoothing: antialiased; }
+  main { max-width: 1080px; margin: 0 auto; padding: 64px 24px 120px; }
+  h1 { font-size: 40px; letter-spacing: -0.03em; line-height: 1.1; margin: 0 0 12px; }
+  h2 { font-size: 24px; letter-spacing: -0.02em; margin: 0 0 4px; }
+  h3 { font-size: 13px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin: 0 0 10px; font-weight: 600; }
+  p { margin: 0 0 12px; }
+  .lede { font-size: 18px; color: var(--muted); max-width: 680px; }
+  code, .mono { font-family: var(--mono); font-size: 12.5px; }
+  section { margin-top: 72px; }
+  .meta { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 20px; font-size: 13px; color: var(--muted); }
+  .meta span { border: 1px solid var(--line); border-radius: 999px; padding: 4px 12px; background: var(--card); }
+
+  /* glossary */
+  .glossary { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
+  .glossary div { background: var(--card); padding: 16px; }
+  .glossary b { display: block; margin-bottom: 4px; }
+  .glossary span { color: var(--muted); font-size: 13.5px; }
+
+  /* module shape */
+  .shapes { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .shape { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 24px; }
+  .mod { margin: 16px auto 8px; display: flex; flex-direction: column; align-items: center; }
+  .mod .iface { height: 22px; background: var(--iface); color: var(--bg); font: 600 11px/22px var(--mono); text-align: center; border-radius: 6px 6px 0 0; }
+  .mod .impl { border: 2px solid var(--iface); border-top: 0; border-radius: 0 0 6px 6px; padding: 8px; text-align: center; display: flex; align-items: center; justify-content: center; color: var(--muted); font-size: 12px; }
+  .mod.deep .iface { width: 38%; }
+  .mod.deep .impl { width: 38%; height: 150px; background: var(--deep-bg); border-color: var(--deep); }
+  .mod.deep .iface { background: var(--deep); }
+  .mod.shallow .iface { width: 92%; background: var(--leak); }
+  .mod.shallow .impl { width: 92%; height: 34px; background: var(--leak-bg); border-color: var(--leak); }
+  .caption { text-align: center; color: var(--muted); font-size: 13px; }
+
+  /* roadmap */
+  .road { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; counter-reset: step; }
+  .road div { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 16px; position: relative; }
+  .road div::before { counter-increment: step; content: counter(step); display: inline-grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; background: var(--fg); color: var(--bg); font: 600 12px var(--mono); margin-bottom: 10px; }
+  .road b { display: block; }
+  .road span { color: var(--muted); font-size: 13px; }
+  .road .bug::before { background: var(--leak); }
+
+  /* candidate */
+  .cand { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 28px; margin-top: 24px; }
+  .cand-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; flex-wrap: wrap; margin-bottom: 20px; }
+  .cand-head p { color: var(--muted); margin: 0; max-width: 620px; }
+  .tags { display: flex; gap: 6px; flex-wrap: wrap; }
+  .tag { font: 500 11.5px var(--mono); border: 1px solid var(--line); border-radius: 6px; padding: 3px 8px; white-space: nowrap; }
+  .tag.bug { color: var(--leak); border-color: var(--leak); }
+  .num { font: 600 13px var(--mono); color: var(--muted); }
+
+  .ba { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .pane { border: 1px dashed var(--line); border-radius: 12px; padding: 18px; }
+  .pane.before h3 { color: var(--leak); }
+  .pane.after h3 { color: var(--deep); }
+  .flow { display: grid; grid-template-columns: 1fr 28px 1fr; align-items: center; gap: 0; }
+  .callers { display: flex; flex-direction: column; gap: 8px; }
+  .caller { border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; font: 12px var(--mono); background: var(--bg); }
+  .caller .k { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 6px; }
+  .chip { font: 10.5px var(--mono); padding: 1px 6px; border-radius: 4px; }
+  .before .chip { background: var(--leak-bg); color: var(--leak); }
+  .after .chip { background: var(--deep-bg); color: var(--deep); }
+  .arrow { height: 2px; background: var(--muted); position: relative; margin: 0 4px; opacity: .5; }
+  .arrow::after { content: ""; position: absolute; right: -1px; top: -4px; border: 5px solid transparent; border-left-color: var(--muted); border-right: 0; }
+  .target { display: flex; flex-direction: column; align-items: stretch; }
+  .target .iface { background: var(--iface); color: var(--bg); font: 600 11px var(--mono); padding: 6px 8px; border-radius: 6px 6px 0 0; word-break: break-word; }
+  .target .impl { border: 2px solid var(--iface); border-top: 0; border-radius: 0 0 6px 6px; padding: 8px; display: flex; flex-wrap: wrap; gap: 4px; align-content: flex-start; font-size: 11px; color: var(--muted); }
+  .before .target .iface { background: var(--leak); }
+  .before .target .impl { border-color: var(--leak); min-height: 24px; }
+  .after .target { align-items: center; }
+  .after .target .iface { background: var(--deep); width: 72%; text-align: center; }
+  .after .target .impl { border-color: var(--deep); width: 72%; min-height: 120px; background: var(--deep-bg); }
+  .after .caller { color: var(--muted); }
+
+  pre { margin: 18px 0 0; background: var(--bg); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; overflow-x: auto; font: 12.5px/1.6 var(--mono); }
+  .kw { color: #c33ba8; } .ty { color: #2f6fdb; } .cm { color: var(--muted); }
+  @media (prefers-color-scheme: dark) { .kw { color: #ff7ad9; } .ty { color: #7aa8ff; } }
+
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 16px; font-size: 13.5px; }
+  .grid2 ul { margin: 0; padding-left: 18px; }
+  .grid2 li { margin-bottom: 4px; }
+
+  .small { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 12px; }
+  .small div { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 16px; font-size: 13.5px; }
+  .small b { display: block; margin-bottom: 4px; }
+  .small .from { color: var(--leak); font: 12px var(--mono); }
+  .small .to { color: var(--deep); font: 12px var(--mono); }
+
+  .keep { display: flex; flex-wrap: wrap; gap: 8px; }
+  .keep code { border: 1px solid var(--deep); color: var(--deep); background: var(--deep-bg); padding: 4px 10px; border-radius: 999px; }
+
+  .rules { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .rules div { border-left: 3px solid var(--fg); padding: 4px 0 4px 14px; }
+  .rules b { display: block; }
+  .rules span { color: var(--muted); font-size: 13.5px; }
+
+  @media (max-width: 760px) {
+    .shapes, .ba, .grid2, .rules { grid-template-columns: 1fr; }
+    .road { grid-template-columns: 1fr 1fr; }
+    h1 { font-size: 30px; }
+  }
+</style>
+</head>
+<body>
+<main>
+
+<header>
+  <h1>Codebase deepening plan</h1>
+  <p class="lede">Six places where knowledge leaks out of a shallow module into its callers. For each: what callers repeat today, the deeper interface that absorbs it, the seam, the test.</p>
+  <div class="meta">
+    <span>Baseline <code>main @ d0a3a2f4</code> (1.91.0)</span>
+    <span>Plan only, no code change</span>
+    <span>Text version: <a href="codebase-deepening.md">codebase-deepening.md</a></span>
+  </div>
+</header>
+
+<section>
+  <h3>Vocabulary</h3>
+  <div class="glossary">
+    <div><b>Module</b><span>Anything with an interface and an implementation. Function, hook, provider, folder.</span></div>
+    <div><b>Interface</b><span>Everything a caller must know: signature, ordering rules, error modes, invariants.</span></div>
+    <div><b>Depth</b><span>Behavior a caller gets per unit of interface learned.</span></div>
+    <div><b>Seam</b><span>Place where behavior can change without editing that place. Real only with 2+ adapters.</span></div>
+    <div><b>Leverage</b><span>Callers: one implementation pays back across N call sites.</span></div>
+    <div><b>Locality</b><span>Maintainers: fix once, fixed everywhere.</span></div>
+  </div>
+</section>
+
+<section>
+  <h3>The shape we want</h3>
+  <div class="shapes">
+    <div class="shape">
+      <b>Shallow</b> <span class="caption">today, in 6 places</span>
+      <div class="mod shallow"><div class="iface">markReady · markFailed · loaded · status · sweepPhotos · …</div><div class="impl">thin pass-through</div></div>
+      <p class="caption">Interface nearly as big as body. Rules live in callers, copied N times.</p>
+    </div>
+    <div class="shape">
+      <b>Deep</b> <span class="caption">target</span>
+      <div class="mod deep"><div class="iface">useLoad()</div><div class="impl">load · migrate · gate · persist · retry rules</div></div>
+      <p class="caption">Small interface, rules inside. Tests cross the same seam as callers.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h3>Order</h3>
+  <div class="road">
+    <div class="bug"><b>Gate people load</b><span>Bug fix. Add people to <code>StorageLoadGate</code>. Ship first.</span></div>
+    <div><b>1 · Persisted store</b><span>Unblocks app data and photo sweep.</span></div>
+    <div><b>2 · App data → 4 · Backup codec</b><span>Codec builds on app data snapshot.</span></div>
+    <div><b>3 · 5 · 6</b><span>Reminder, highlights report, log draft. Independent, any order.</span></div>
+  </div>
+</section>
+
+<!-- 1 -->
+<section>
+  <div class="cand">
+    <div class="cand-head">
+      <div><span class="num">01</span><h2>Persisted store</h2><p>Logs, tags, settings, people each hand-wire load, error, persist. One generic store owns the cycle.</p></div>
+      <div class="tags"><span class="tag">local-substitutable</span><span class="tag">AsyncStorage</span><span class="tag">4 → 1</span></div>
+    </div>
+    <div class="ba">
+      <div class="pane before"><h3>Before</h3>
+        <div class="flow">
+          <div class="callers">
+            <div class="caller">LogsProvider<div class="k"><span class="chip">markReady</span><span class="chip">markFailed</span><span class="chip">ready &amp;&amp; loaded</span></div></div>
+            <div class="caller">TagsProvider<div class="k"><span class="chip">markReady</span><span class="chip">markFailed</span><span class="chip">ready &amp;&amp; loaded</span></div></div>
+            <div class="caller">SettingsProvider<div class="k"><span class="chip">markReady</span><span class="chip">markFailed</span><span class="chip">ready &amp;&amp; loaded</span></div></div>
+            <div class="caller">PeopleProvider<div class="k"><span class="chip">markReady</span><span class="chip">markFailed</span><span class="chip">ready &amp;&amp; loaded</span></div></div>
+          </div>
+          <div class="arrow"></div>
+          <div class="target"><div class="iface">useStorageLoad → {status, error, load, markReady, markFailed}</div><div class="impl">useState</div></div>
+        </div>
+      </div>
+      <div class="pane after"><h3>After</h3>
+        <div class="flow">
+          <div class="callers">
+            <div class="caller">logs = createPersistedStore({…})</div>
+            <div class="caller">tags = createPersistedStore({…})</div>
+            <div class="caller">settings = createPersistedStore({…})</div>
+            <div class="caller">people = createPersistedStore({…})</div>
+          </div>
+          <div class="arrow"></div>
+          <div class="target"><div class="iface">useLoad() · useState() · useDispatch()</div><div class="impl"><span class="chip">no write before read</span><span class="chip">no write after failed read</span><span class="chip">write only on change</span><span class="chip">missing-provider guard</span></div></div>
+        </div>
+      </div>
+    </div>
+<pre><span class="kw">function</span> createPersistedStore&lt;S, A&gt;(config: {
+  key: <span class="ty">string</span>; name: <span class="ty">string</span>;
+  initial: () =&gt; S;
+  hydrate: (stored: <span class="ty">unknown</span> | <span class="ty">null</span>) =&gt; S;   <span class="cm">// migrate + sanitize, pure</span>
+  reducer: (state: S, action: A) =&gt; S;
+  waitFor?: () =&gt; <span class="ty">boolean</span>;                  <span class="cm">// tags waits for settings</span>
+}): { Provider; useState(): S; useDispatch(): Dispatch&lt;A&gt;; useLoad(): Load };</pre>
+    <div class="grid2">
+      <div><h3>Evidence</h3><ul>
+        <li>Two readiness signals: <code>state.loaded</code> and <code>status</code>. Callers pick at random.</li>
+        <li><code>createContext({} as …)</code>: missing-provider guard never fires in tags, settings.</li>
+        <li><code>load(key, feedback?)</code>: no caller passes <code>feedback</code>.</li>
+      </ul></div>
+      <div><h3>Seam · Tests</h3><ul>
+        <li><code>KeyValueStorage</code> port: AsyncStorage + in-memory adapter.</li>
+        <li>One contract suite replaces 3 copied "load error never stores" tests.</li>
+        <li><code>hydrate</code> and <code>reducer</code>: pure table tests.</li>
+      </ul></div>
+    </div>
+  </div>
+</section>
+
+<!-- 2 -->
+<section>
+  <div class="cand">
+    <div class="cand-head">
+      <div><span class="num">02</span><h2>App data</h2><p>The list of persisted stores is repeated by hand. One list missed people, so a failed people read does not block the app.</p></div>
+      <div class="tags"><span class="tag bug">bug: people not gated</span><span class="tag">local-substitutable</span></div>
+    </div>
+    <div class="ba">
+      <div class="pane before"><h3>Before</h3>
+        <div class="flow">
+          <div class="callers">
+            <div class="caller">StorageLoadGate<div class="k"><span class="chip">settings</span><span class="chip">logs</span><span class="chip">tags</span><span class="chip">people ✗</span></div></div>
+            <div class="caller">rawExport<div class="k"><span class="chip">4 keys</span><span class="chip">interventions ✗</span></div></div>
+            <div class="caller">DataGate reset<div class="k"><span class="chip">6 ordered calls</span></div></div>
+            <div class="caller">useLoadFixture · usageSummary<div class="k"><span class="chip">"all loaded" x3</span></div></div>
+          </div>
+          <div class="arrow"></div>
+          <div class="target"><div class="iface">useLogLoad · useTagsLoad · useSettingsLoad · usePeopleLoad (0 callers)</div><div class="impl">—</div></div>
+        </div>
+      </div>
+      <div class="pane after"><h3>After</h3>
+        <div class="flow">
+          <div class="callers">
+            <div class="caller">StorageLoadGate: load</div>
+            <div class="caller">rawExport: PERSISTED_STORES</div>
+            <div class="caller">DataGate: resetAll()</div>
+            <div class="caller">fixtures: replaceAll()</div>
+          </div>
+          <div class="arrow"></div>
+          <div class="target"><div class="iface">useAppData()</div><div class="impl"><span class="chip">store list</span><span class="chip">aggregate load</span><span class="chip">reset order</span><span class="chip">photo sweep</span><span class="chip">analytics reset</span></div></div>
+        </div>
+      </div>
+    </div>
+<pre><span class="kw">function</span> useAppData(): {
+  load: Load;                                    <span class="cm">// first error wins, ready when all ready</span>
+  snapshot(): <span class="ty">Promise</span>&lt;Snapshot&gt;;
+  replaceAll(snapshot: Snapshot): <span class="ty">Promise</span>&lt;<span class="ty">void</span>&gt;;
+  resetAll(): <span class="ty">void</span>;
+};</pre>
+    <div class="grid2">
+      <div><h3>Evidence</h3><ul>
+        <li><code>StorageLoadGate.tsx:168-171</code> checks 3 of 4 providers.</li>
+        <li><code>rawExport.ts:11-16</code> omits <code>PIXY_INTERVENTIONS</code>.</li>
+        <li>Provider nesting order matters but is implicit.</li>
+      </ul></div>
+      <div><h3>Tests</h3><ul>
+        <li>Table test over every key: corrupt one, expect <code>status: "error"</code>. Catches people bug.</li>
+        <li><code>resetAll</code> then reload gives defaults.</li>
+      </ul></div>
+    </div>
+  </div>
+</section>
+
+<!-- 3 -->
+<section>
+  <div class="cand">
+    <div class="cand-head">
+      <div><span class="num">03</span><h2>Reminder</h2><p>Three screens copy "ask permission, cancel all, schedule daily, save settings". One verb, one port, tested with a fake.</p></div>
+      <div class="tags"><span class="tag">true external</span><span class="tag">expo-notifications</span><span class="tag">3 → 1</span></div>
+    </div>
+    <div class="ba">
+      <div class="pane before"><h3>Before</h3>
+        <div class="flow">
+          <div class="callers">
+            <div class="caller">SlideReminder (logger)<div class="k"><span class="chip">permission</span><span class="chip">cancelAll</span><span class="chip">daily trigger</span><span class="chip">HH:mm</span></div></div>
+            <div class="caller">ReminderSlide (onboarding)<div class="k"><span class="chip">permission</span><span class="chip">cancelAll</span><span class="chip">daily trigger</span><span class="chip">HH:mm</span></div></div>
+            <div class="caller">Reminder (settings)<div class="k"><span class="chip">permission</span><span class="chip">cancelAll</span><span class="chip">daily trigger</span><span class="chip">getHours()</span></div></div>
+          </div>
+          <div class="arrow"></div>
+          <div class="target"><div class="iface">useNotification → {hasPermission, askForPermission, schedule, cancelAll}</div><div class="impl">OS pass-through</div></div>
+        </div>
+      </div>
+      <div class="pane after"><h3>After</h3>
+        <div class="flow">
+          <div class="callers">
+            <div class="caller">SlideReminder: enable(time)</div>
+            <div class="caller">ReminderSlide: enable(time)</div>
+            <div class="caller">Reminder: enable / disable</div>
+          </div>
+          <div class="arrow"></div>
+          <div class="target"><div class="iface">useReminder()</div><div class="impl"><span class="chip">permission</span><span class="chip">replace schedule</span><span class="chip">HH:mm format</span><span class="chip">settings write</span></div></div>
+        </div>
+      </div>
+    </div>
+<pre><span class="kw">function</span> useReminder(): {
+  enabled: <span class="ty">boolean</span>; time: <span class="ty">string</span>;        <span class="cm">// HH:mm</span>
+  enable(time: <span class="ty">Date</span> | <span class="ty">string</span>): <span class="ty">Promise</span>&lt;ReminderResult&gt;;   <span class="cm">// enabled | permission_denied</span>
+  disable(): <span class="ty">Promise</span>&lt;<span class="ty">void</span>&gt;;
+};
+<span class="kw">interface</span> <span class="ty">ReminderScheduler</span> { hasPermission; requestPermission; replaceDaily(hour, minute); cancelAll }</pre>
+    <div class="grid2">
+      <div><h3>Evidence</h3><ul>
+        <li>Slides track event before permission known. Settings tracks permission result.</li>
+        <li>No tests for any of the 3 flows.</li>
+      </ul></div>
+      <div><h3>Seam · Tests</h3><ul>
+        <li>Adapters: expo (native), no-op (web, exists), in-memory (tests).</li>
+        <li>Same pattern as <code>NotificationResponseSource</code> in <code>reminderTaps.ts</code>.</li>
+        <li>Assert settings + scheduled <code>(hour, minute)</code> for granted, denied, disable.</li>
+      </ul></div>
+    </div>
+  </div>
+</section>
+
+<!-- 4 -->
+<section>
+  <div class="cand">
+    <div class="cand-head">
+      <div><span class="num">04</span><h2>Backup codec</h2><p><code>useDatagate</code> mixes prompts, platform, analytics, file IO and the data format. Pull the format into a pure encode/decode pair.</p></div>
+      <div class="tags"><span class="tag">in-process</span><span class="tag">pure</span></div>
+    </div>
+    <div class="ba">
+      <div class="pane before"><h3>Before</h3>
+        <div class="flow">
+          <div class="callers">
+            <div class="caller">DataGate export<div class="k"><span class="chip">settings fields by hand</span></div></div>
+            <div class="caller">import.ts schema<div class="k"><span class="chip">"add every new field here"</span></div></div>
+            <div class="caller">DataGate import<div class="k"><span class="chip">settings.tags || tags</span><span class="chip">migrate twice</span></div></div>
+            <div class="caller">tests<div class="k"><span class="chip">Alert.mock.calls[0][2][0]</span></div></div>
+          </div>
+          <div class="arrow"></div>
+          <div class="target"><div class="iface">useDatagate → 5 dialog openers + import()</div><div class="impl">prompts + IO + format</div></div>
+        </div>
+      </div>
+      <div class="pane after"><h3>After</h3>
+        <div class="flow">
+          <div class="callers">
+            <div class="caller">useDatagate: prompts + analytics</div>
+            <div class="caller">settings: toExportSettings()</div>
+            <div class="caller">tests: round trip</div>
+          </div>
+          <div class="arrow"></div>
+          <div class="target"><div class="iface">encodeBackup · decodeBackup</div><div class="impl"><span class="chip">schema</span><span class="chip">migration</span><span class="chip">legacy shapes</span><span class="chip">version</span></div></div>
+        </div>
+      </div>
+    </div>
+<pre><span class="kw">export const</span> encodeBackup = (snapshot: Snapshot, version: <span class="ty">string</span>): <span class="ty">string</span>;
+<span class="kw">export const</span> decodeBackup = (raw: <span class="ty">string</span>):
+  | { ok: <span class="ty">true</span>; snapshot: Snapshot }
+  | { ok: <span class="ty">false</span>; reason: <span class="ty">"invalid_json"</span> | <span class="ty">"invalid_schema"</span> };</pre>
+    <div class="grid2">
+      <div><h3>Seam</h3><ul>
+        <li>Codec: none, pure.</li>
+        <li><code>FileTransfer</code> port gains <code>pickJsonText()</code>. Import no longer reads <code>FileSystem</code> directly.</li>
+      </ul></div>
+      <div><h3>Tests</h3><ul>
+        <li><code>decodeBackup(encodeBackup(s))</code> equals <code>s</code>.</li>
+        <li>Legacy fixtures in <code>src/dev/fixtures</code> decode.</li>
+        <li>Flow tests assert shared contents, not <code>FileSystem</code> calls.</li>
+      </ul></div>
+    </div>
+  </div>
+</section>
+
+<!-- 5 -->
+<section>
+  <div class="cand">
+    <div class="cand-head">
+      <div><span class="num">05</span><h2>Highlights report</h2><p>The 14-day window and card thresholds are recomputed in 6+ places with different edges. One pure function builds the whole report.</p></div>
+      <div class="tags"><span class="tag">in-process</span><span class="tag">pure</span><span class="tag">0 threshold tests today</span></div>
+    </div>
+    <div class="ba">
+      <div class="pane before"><h3>Before</h3>
+        <div class="flow">
+          <div class="callers">
+            <div class="caller">StatisticsProvider<div class="k"><span class="chip">time &gt; start</span></div></div>
+            <div class="caller">Statistics screen<div class="k"><span class="chip">time &gt;= start</span><span class="chip">MIN_LOGS x4</span></div></div>
+            <div class="caller">HighlightsSection · Highlights<div class="k"><span class="chip">window</span><span class="chip">count &gt;= 4</span><span class="chip">payload</span></div></div>
+            <div class="caller">usageSummary<div class="k"><span class="chip">subtract(13) days</span></div></div>
+          </div>
+          <div class="arrow"></div>
+          <div class="target"><div class="iface">{load, isAvailable(string), isHighlighted(string), isLoading, state: 11 datasets}</div><div class="impl">cache</div></div>
+        </div>
+      </div>
+      <div class="pane after"><h3>After</h3>
+        <div class="flow">
+          <div class="callers">
+            <div class="caller">screens: report.cards[id]</div>
+            <div class="caller">analytics: report</div>
+            <div class="caller">usageSummary: report.window</div>
+          </div>
+          <div class="arrow"></div>
+          <div class="target"><div class="iface">buildHighlightsReport({items, now})</div><div class="impl"><span class="chip">window</span><span class="chip">unlock rule</span><span class="chip">card thresholds</span><span class="chip">typed StatisticId</span></div></div>
+        </div>
+      </div>
+    </div>
+<pre><span class="kw">interface</span> <span class="ty">HighlightsReport</span> {
+  window: { start: <span class="ty">string</span>; end: <span class="ty">string</span> };
+  unlocked: <span class="ty">boolean</span>; missingEntries: <span class="ty">number</span>;
+  cards: <span class="ty">Record</span>&lt;StatisticId, { available: <span class="ty">boolean</span>; highlighted: <span class="ty">boolean</span> }&gt;;
+  data: StatisticsState;
+}</pre>
+    <div class="grid2">
+      <div><h3>Seam</h3><ul><li>None. Pure, <code>now</code> passed in. Provider becomes cache glue.</li></ul></div>
+      <div><h3>Tests</h3><ul><li>Table tests with fixed <code>now</code>: unlock edge, each threshold (60%, ≥2, &gt;5, Δ≥0.5), window edge.</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<!-- 6 -->
+<section>
+  <div class="cand">
+    <div class="cand-head">
+      <div><span class="num">06</span><h2>Log draft</h2><p>The draft is a raw state bag. Save rules, date sync and "has content" leak into Logger, slides and <code>useLoggerActions</code>.</p></div>
+      <div class="tags"><span class="tag bug">bug: Logger.tsx:255</span><span class="tag">in-process</span></div>
+    </div>
+    <div class="ba">
+      <div class="pane before"><h3>Before</h3>
+        <div class="flow">
+          <div class="callers">
+            <div class="caller">Logger<div class="k"><span class="chip">onChange + context</span><span class="chip">content.length bug</span></div></div>
+            <div class="caller">SlideMood · SlideHeader<div class="k"><span class="chip">date sync ≠</span></div></div>
+            <div class="caller">useLoggerActions<div class="k"><span class="chip">neutral fallback</span><span class="chip">3 casts</span><span class="chip">stale closeTo</span></div></div>
+            <div class="caller">LoggerHeader<div class="k"><span class="chip">hasContent misses photos</span></div></div>
+          </div>
+          <div class="arrow"></div>
+          <div class="target"><div class="iface">useTemporaryLog → {data, isDirty, initialize, set, update, reset}</div><div class="impl">useState</div></div>
+        </div>
+      </div>
+      <div class="pane after"><h3>After</h3>
+        <div class="flow">
+          <div class="callers">
+            <div class="caller">slides: setRating / setDateTime</div>
+            <div class="caller">Logger: commit()</div>
+            <div class="caller">header: hasContent</div>
+          </div>
+          <div class="arrow"></div>
+          <div class="target"><div class="iface">useLogDraft() · finalizeDraft()</div><div class="impl"><span class="chip">date sync</span><span class="chip">defaults</span><span class="chip">closeTo</span><span class="chip">hasContent</span></div></div>
+        </div>
+      </div>
+    </div>
+<pre><span class="kw">export const</span> finalizeDraft = (draft: Draft, existing: LogItem[]):
+  { item: LogItem; closeTo: <span class="ty">"calendar"</span> | <span class="ty">"back"</span> };</pre>
+    <div class="grid2">
+      <div><h3>Seam</h3><ul><li><code>finalizeDraft</code> pure. Navigation, analytics, photo sweep stay in thin adapter hook.</li></ul></div>
+      <div><h3>Tests</h3><ul><li><code>finalizeDraft</code>: neutral fallback, null sleep, <code>closeTo</code> with 0, 1, 2 entries that day.</li><li><code>setDateTime</code> keeps <code>date</code> in sync.</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h3>Smaller candidates</h3>
+  <div class="small">
+    <div><b>Photo sweep</b><span class="from">4 callers call sweepPhotos()</span><br><span class="to">logs store deletes files an action stopped referencing</span></div>
+    <div><b>Calendar filters</b><span class="from">callers spread data, hand-write toggles; core tests xdescribe</span><br><span class="to">matchesFilters() + toggleTag / togglePerson / toggleRating</span></div>
+    <div><b>Consent</b><span class="from">analytics and flags derive consent with different rules</span><br><span class="to">useConsent() + pure deriveConsent(settings)</span></div>
+    <div><b>Questioner</b><span class="from">second fetch for submit; prefix in 3 files</span><br><span class="to">pickNextQuestion() + QuestionsApi port</span></div>
+    <div><b>Mood groups</b><span class="from">positive / neutral / negative in 3 files</span><br><span class="to">getMoodGroup(rating)</span></div>
+    <div><b>Emotion catalog</b><span class="from">callers build own keyBy / find / filter</span><br><span class="to">getEmotion(key) + listSelectableEmotions()</span></div>
+  </div>
+</section>
+
+<section>
+  <h3>Already deep, keep</h3>
+  <div class="keep">
+    <code>persisted load/store</code><code>logDates</code><code>logger/steps</code><code>Streaks</code><code>reminderTaps</code><code>storeReview</code><code>calendar/navigation</code><code>SupportClient</code><code>fileTransfer</code>
+  </div>
+</section>
+
+<section>
+  <h3>Rules for every PR</h3>
+  <div class="rules">
+    <div><b>Replace, do not layer</b><span>Tests at new interface replace tests on old shallow modules.</span></div>
+    <div><b>Interface is test surface</b><span>Assert observable outcome. No assertions on internal state or mock call indexes.</span></div>
+    <div><b>Two adapters or no port</b><span>Production + test adapter. One adapter is only indirection.</span></div>
+  </div>
+</section>
+
+</main>
+</body>
+</html>
