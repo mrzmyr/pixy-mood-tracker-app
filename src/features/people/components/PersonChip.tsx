@@ -1,8 +1,9 @@
 import { Check } from "lucide-react-native";
 import { Pressable, Text, View, useColorScheme } from "react-native";
-import type { ViewStyle } from "react-native";
+import type { PressableProps, ViewStyle } from "react-native";
 import useColors from "@/hooks/useColors";
 import useHaptics from "@/hooks/useHaptics";
+import { t } from "@/lib/translation";
 import type { Person } from "../PeopleProvider";
 import { PersonAvatar } from "./PersonAvatar";
 
@@ -12,11 +13,17 @@ export const TILE_RING_GAP = 3;
 /** Selection ring of the `tile` variant; adds to the tile's outer size. */
 export const TILE_RING_WIDTH = 3;
 
+type LongPressProps = Pick<
+  PressableProps,
+  "onLongPress" | "accessibilityActions" | "onAccessibilityAction"
+>;
+
 /** `tile` variant of {@link PersonChip}; `onPress` already plays haptics. */
 const PersonTile = ({
   person,
   selected,
   onPress,
+  longPressProps,
   style,
   testID,
   size,
@@ -24,6 +31,7 @@ const PersonTile = ({
   person: Pick<Person, "id" | "name" | "avatar" | "updatedAt">;
   selected: boolean;
   onPress?: () => void;
+  longPressProps: LongPressProps;
   style: ViewStyle;
   testID?: string;
   size: number;
@@ -33,6 +41,7 @@ const PersonTile = ({
   return (
     <Pressable
       onPress={onPress}
+      {...longPressProps}
       accessibilityRole={onPress ? "button" : undefined}
       accessibilityState={onPress ? { selected } : undefined}
       accessibilityLabel={person.name}
@@ -96,12 +105,16 @@ const PersonTile = ({
  * - `large`: big avatar with the name below, for the person screen
  * - `tile`: grid cell for the logger slide; selection shows a ring and a
  *   check badge, so it reads without relying on color alone
+ *
+ * `onLongPress` opens the person editor in `chip` and `tile`; screen readers
+ * get it as the "edit" action.
  */
 export const PersonChip = ({
   person,
   selected = false,
   variant = "chip",
   onPress,
+  onLongPress,
   style = DEFAULT_STYLE,
   testID,
   previewUri = null,
@@ -111,6 +124,7 @@ export const PersonChip = ({
   selected?: boolean;
   variant?: "chip" | "large" | "tile";
   onPress?: () => void;
+  onLongPress?: () => void;
   style?: ViewStyle;
   testID?: string;
   /** Picked image not stored yet; only the `large` variant shows it. */
@@ -131,6 +145,21 @@ export const PersonChip = ({
     await haptics.selection();
     onPress();
   };
+
+  const longPressProps: LongPressProps = onLongPress
+    ? {
+        onLongPress: async () => {
+          await haptics.impact();
+          onLongPress();
+        },
+        accessibilityActions: [{ name: "edit", label: t("edit") }],
+        onAccessibilityAction: ({ nativeEvent }) => {
+          if (nativeEvent.actionName === "edit") {
+            onLongPress();
+          }
+        },
+      }
+    : {};
 
   if (variant === "large") {
     return (
@@ -167,6 +196,7 @@ export const PersonChip = ({
         person={person}
         selected={selected}
         onPress={onPress ? press : undefined}
+        longPressProps={longPressProps}
         style={style}
         testID={testID}
         size={size}
@@ -199,6 +229,7 @@ export const PersonChip = ({
         ...style,
       })}
       onPress={onPress ? press : undefined}
+      {...longPressProps}
     >
       <PersonAvatar person={person} size={24} />
       <Text
