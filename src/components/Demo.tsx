@@ -39,8 +39,6 @@ export interface DemoLabels {
   readonly next: string;
   /** Shown on the last step. */
   readonly done: string;
-  /** Returns to the previous step. */
-  readonly back: string;
   /** Dismisses the demo. */
   readonly close: string;
 }
@@ -149,8 +147,7 @@ const getEntering = ({ isReducedMotion }: { isReducedMotion: boolean }) => {
  * Full-screen demo. Close sits top right, step dots stay centered, and the
  * title, body, and visual share one horizontal inset.
  *
- * Step numbers are 1-based. On step 1 the back action stays mounted and
- * hidden so the visual does not grow.
+ * Step numbers are 1-based. Close is the only way out before the last step.
  */
 export const Demo = ({
   steps,
@@ -162,7 +159,7 @@ export const Demo = ({
 }: {
   steps: readonly DemoStep[];
   labels: DemoLabels;
-  /** Prefix for close, title, next, and back test IDs. */
+  /** Prefix for close, title, and next test IDs. */
   testID?: string;
   onDismiss: ({ step }: { step: number }) => void;
   onComplete: () => void;
@@ -173,21 +170,11 @@ export const Demo = ({
   const isReducedMotion = useReducedMotion();
   const [step, setStep] = useState(1);
   const current = steps[step - 1];
-  const isFirst = step === 1;
   const isLast = step === steps.length;
 
   if (!current) {
     return null;
   }
-
-  const goTo = ({ step: nextStep }: { step: number }) => {
-    if (nextStep < 1 || nextStep > steps.length) {
-      return;
-    }
-
-    setStep(nextStep);
-    onStepChange?.({ step: nextStep });
-  };
 
   const goNext = () => {
     if (isLast) {
@@ -195,7 +182,9 @@ export const Demo = ({
       return;
     }
 
-    goTo({ step: step + 1 });
+    const nextStep = step + 1;
+    setStep(nextStep);
+    onStepChange?.({ step: nextStep });
   };
 
   return (
@@ -263,7 +252,6 @@ export const Demo = ({
           style={{
             paddingTop: 24,
             paddingBottom: insets.bottom + 16,
-            gap: 8,
           }}
         >
           <Button
@@ -272,21 +260,6 @@ export const Demo = ({
           >
             {isLast ? labels.done : labels.next}
           </Button>
-          <View
-            pointerEvents={isFirst ? "none" : "auto"}
-            accessibilityElementsHidden={isFirst}
-            importantForAccessibility={isFirst ? "no-hide-descendants" : "auto"}
-            style={{ opacity: isFirst ? 0 : 1 }}
-          >
-            <Button
-              type="tertiary"
-              disabled={isFirst}
-              testID={getTestId({ prefix: testID, name: "back" })}
-              onPress={() => goTo({ step: step - 1 })}
-            >
-              {labels.back}
-            </Button>
-          </View>
         </View>
       </View>
     </PageModalLayout>
