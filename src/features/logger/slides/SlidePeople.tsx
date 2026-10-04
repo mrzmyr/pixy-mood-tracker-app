@@ -194,7 +194,7 @@ export const SlidePeople = ({
               {t("people_slide_empty")}
             </Text>
             <Button
-              onPress={() => router.push("/people")}
+              onPress={() => router.push("/people/create")}
               testID="log-people-add"
             >
               {t("people_add")}

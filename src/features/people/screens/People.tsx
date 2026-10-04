@@ -3,13 +3,11 @@ import { LinearGradient } from "expo-linear-gradient";
 import sortBy from "lodash/sortBy";
 import { Archive } from "lucide-react-native";
 import type { ReactNode } from "react";
-import { Platform, ScrollView, View } from "react-native";
+import { ScrollView, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Button from "@/components/Button";
-import LinkButton from "@/components/LinkButton";
 import MenuList from "@/components/MenuList";
 import MenuListItem from "@/components/MenuListItem";
-import ModalHeader from "@/components/ModalHeader";
 import { MAX_PEOPLE } from "@/constants/Config";
 import useColors from "@/hooks/useColors";
 import { t } from "@/lib/translation";
@@ -65,46 +63,6 @@ const AddPersonButton = () => {
         </Button>
       </View>
     </>
-  );
-};
-
-/**
- * `/people`: people manager modal opened from the logger slide. Archived
- * people are hidden here but still count toward {@link MAX_PEOPLE}.
- */
-export const PeopleModal = () => {
-  const router = useRouter();
-  const colors = useColors();
-  const insets = useSafeAreaInsets();
-  const { people } = usePeopleState();
-  const active = people.filter((person) => !person.isArchived);
-
-  return (
-    <View
-      style={{
-        flex: 1,
-        backgroundColor: colors.background,
-        marginTop: Platform.OS === "android" ? insets.top : 0,
-      }}
-    >
-      <ModalHeader
-        title={t("people")}
-        right={
-          <LinkButton onPress={() => router.back()} type="primary">
-            {t("done")}
-          </LinkButton>
-        }
-      />
-      <AddPersonButton />
-      <ScrollView style={{ flex: 1 }}>
-        <PeopleList
-          people={active}
-          totalCount={people.length}
-          emptyText={t("people_empty")}
-        />
-        <View style={{ width: "100%", height: insets.bottom + 56 }} />
-      </ScrollView>
-    </View>
   );
 };
 

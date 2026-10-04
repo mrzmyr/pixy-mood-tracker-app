@@ -1,10 +1,6 @@
 export type { ContactList, ContactSummary, PeopleSources } from "./sources";
 export { PeopleList } from "./components/PeopleList";
-export {
-  PeopleModal,
-  SettingsPeople,
-  SettingsPeopleArchive,
-} from "./screens/People";
+export { SettingsPeople, SettingsPeopleArchive } from "./screens/People";
 export { PersonAvatar } from "./components/PersonAvatar";
 export {
   PersonChip,
