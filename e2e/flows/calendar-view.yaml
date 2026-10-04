@@ -1,13 +1,15 @@
 appId: ${APP_ID}
 tags: [p1, calendar]
 ---
-# The View section of the Filters menu switches calendar days from average
-# mood color to a bar of all moods of the day. The choice survives a restart.
+# Behind the `calendar-view` flag. The View section of the Filters menu
+# switches calendar days from average mood color to a bar of all moods of the
+# day. The choice survives a restart.
 - runFlow:
     file: ../subflows/load-fixture.yaml
     env:
       FIXTURE: year
 - runScript: ../scripts/set-output-date.js
+- runFlow: ../subflows/enable-calendar-view.yaml
 
 - assertVisible:
     id: "calendar-day-${output.today}"
@@ -22,6 +24,7 @@ tags: [p1, calendar]
 # The view survives a restart.
 - stopApp
 - launchApp
+- runFlow: ../subflows/enable-calendar-view.yaml
 - extendedWaitUntil:
     visible:
       id: "calendar-day-bar-${output.today}"

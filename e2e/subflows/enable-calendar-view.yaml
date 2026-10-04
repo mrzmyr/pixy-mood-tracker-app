@@ -1,0 +1,17 @@
+appId: ${APP_ID}
+---
+# Turns on the `calendar-view` flag with a dev override. Overrides end when
+# the app restarts, so run this again after each launch. Needs a development
+# or preview build.
+- openLink: ${APP_SCHEME}://dev/feature-flag?key=calendar-view&value=on
+# iOS asks once per app before a custom-scheme link opens it.
+- waitForAnimationToEnd
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - runFlow:
+          when:
+            visible: "Open"
+          commands:
+            - tapOn: "Open"

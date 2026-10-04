@@ -8,7 +8,7 @@ import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
 import { useCalendarFilters } from "../../filters";
 import type { LogItem } from "@/features/logs";
 import { getAverageMood } from "@/lib/utils";
-import { useSetting } from "@/state/settings";
+import { useCalendarView } from "../../view";
 import CalendarDay from "./CalendarDay";
 import AllMoodsDay from "./CalendarDay/AllMoodsDay";
 import { getMoodBarSegments } from "./CalendarDay/moodBar";
@@ -53,7 +53,7 @@ const CalendarWeekComponent = ({
   const { getMappingKey } = useMappingHelper();
   const calendarNavigation = useCalendarNavigation();
   const calendarFilters = useCalendarFilters();
-  const isAllMoods = useSetting("calendarView") === "all";
+  const isAllMoods = useCalendarView().view === "all";
 
   const days = useMemo(() => {
     const weekDays: string[] = [];

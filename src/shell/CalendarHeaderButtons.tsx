@@ -24,8 +24,9 @@ const ICONS =
 
 /**
  * Calendar header buttons: Statistics on the left; Filters menu and Settings
- * (cog icon) on the right. The Filters menu opens the filter sheet and holds
- * the calendar view picker (Average Mood, All Moods).
+ * (cog icon) on the right. With the `calendar-view` flag on, Filters is a
+ * menu: it opens the filter sheet and holds the calendar view picker
+ * (Average Mood, All Moods). With the flag off, Filters opens the sheet.
  *
  * Native header items: Liquid Glass buttons on iOS 26 (floating over the
  * calendar, see `HAS_FLOATING_HEADER`), Material icon buttons on Android.
@@ -50,33 +51,45 @@ export const CalendarHeaderButtons = () => {
         />
       </Stack.Toolbar>
       <Stack.Toolbar placement="right">
-        <Stack.Toolbar.Menu
-          icon={ICONS.filters}
-          accessibilityLabel={t("calendar_filters")}
-        >
-          {isFiltering && (
-            <Stack.Toolbar.Badge>{`${filterCount}`}</Stack.Toolbar.Badge>
-          )}
-          <Stack.Toolbar.MenuAction
+        {calendarView.isEnabled ? (
+          <Stack.Toolbar.Menu
             icon={ICONS.filters}
+            accessibilityLabel={t("calendar_filters")}
+          >
+            {isFiltering && (
+              <Stack.Toolbar.Badge>{`${filterCount}`}</Stack.Toolbar.Badge>
+            )}
+            <Stack.Toolbar.MenuAction
+              icon={ICONS.filters}
+              onPress={() => calendarFilters.open()}
+            >
+              {isFiltering
+                ? `${t("calendar_filters_open")} (${filterCount})`
+                : t("calendar_filters_open")}
+            </Stack.Toolbar.MenuAction>
+            <Stack.Toolbar.Menu inline title={t("calendar_view")}>
+              {CALENDAR_VIEWS.map((view) => (
+                <Stack.Toolbar.MenuAction
+                  key={view}
+                  isOn={calendarView.view === view}
+                  onPress={() => calendarView.setView(view)}
+                >
+                  {getCalendarViewLabel(view)}
+                </Stack.Toolbar.MenuAction>
+              ))}
+            </Stack.Toolbar.Menu>
+          </Stack.Toolbar.Menu>
+        ) : (
+          <Stack.Toolbar.Button
+            icon={ICONS.filters}
+            accessibilityLabel={t("calendar_filters")}
             onPress={() => calendarFilters.open()}
           >
-            {isFiltering
-              ? `${t("calendar_filters_open")} (${filterCount})`
-              : t("calendar_filters_open")}
-          </Stack.Toolbar.MenuAction>
-          <Stack.Toolbar.Menu inline title={t("calendar_view")}>
-            {CALENDAR_VIEWS.map((view) => (
-              <Stack.Toolbar.MenuAction
-                key={view}
-                isOn={calendarView.view === view}
-                onPress={() => calendarView.setView(view)}
-              >
-                {getCalendarViewLabel(view)}
-              </Stack.Toolbar.MenuAction>
-            ))}
-          </Stack.Toolbar.Menu>
-        </Stack.Toolbar.Menu>
+            {isFiltering && (
+              <Stack.Toolbar.Badge>{`${filterCount}`}</Stack.Toolbar.Badge>
+            )}
+          </Stack.Toolbar.Button>
+        )}
         <Stack.Toolbar.Button
           icon={ICONS.settings}
           accessibilityLabel={t("settings")}
