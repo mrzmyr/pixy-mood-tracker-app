@@ -160,7 +160,6 @@ const FeedbackModalContent = ({
                     color: colors.text,
                     fontSize: 17,
                     fontWeight: "600",
-                    textAlign: "center",
                   }}
                 >
                   {t(questionKey)}
@@ -173,7 +172,6 @@ const FeedbackModalContent = ({
                   color: colors.textSecondary,
                   fontSize: 15,
                   lineHeight: 20,
-                  textAlign: "center",
                 }}
               >
                 {t(DESCRIPTION_KEYS[type] ?? "feedback_modal_description")}
