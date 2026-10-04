@@ -6,7 +6,11 @@ export {
   SettingsPeopleArchive,
 } from "./screens/People";
 export { PersonAvatar } from "./components/PersonAvatar";
-export { PersonChip } from "./components/PersonChip";
+export {
+  PersonChip,
+  TILE_RING_GAP,
+  TILE_RING_WIDTH,
+} from "./components/PersonChip";
 export { ContactImport } from "./screens/ContactImport";
 export { PersonCreate, PersonEdit } from "./screens/PersonForm";
 export {

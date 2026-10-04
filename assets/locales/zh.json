@@ -716,7 +716,6 @@
   "privacy_people_content": "### 人物\n\n为了从联系人中导入人物，Pixy 会在你的设备上列出通讯录中的姓名。Pixy 只保存你选择的联系人：姓名和照片。两者都保留在你的设备上，并包含在你的导出文件中。Pixy 绝不会把姓名或照片发送给我们。",
   "log_people_question": "你和谁在一起？",
   "log_people_disable": "我不记录人物",
-  "people_manage": "管理人物",
   "people_slide_empty": "添加与你共度时光的人，看看和他们在一起时你的心情如何。",
   "view_log_people_empty": "还没有人物。",
   "statistics_people_distribution_title": "最近 14 天最常见到的人。",

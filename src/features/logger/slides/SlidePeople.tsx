@@ -1,16 +1,25 @@
 import { useRouter } from "expo-router";
 import { LinearGradient } from "expo-linear-gradient";
 import noop from "lodash/noop";
-import { ScrollView, Text, View } from "react-native";
+import { Plus } from "lucide-react-native";
+import {
+  Pressable,
+  ScrollView,
+  Text,
+  View,
+  useWindowDimensions,
+} from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Button from "@/components/Button";
 import LinkButton from "@/components/LinkButton";
-import { MiniButton } from "@/components/MiniButton";
+import { MAX_PEOPLE } from "@/constants/Config";
 import useColors from "@/hooks/useColors";
 import { t } from "@/lib/translation";
 import { useLogState } from "@/features/logs";
 import {
   PersonChip,
+  TILE_RING_GAP,
+  TILE_RING_WIDTH,
   sortPeopleByUsage,
   usePeopleState,
 } from "@/features/people";
@@ -20,10 +29,75 @@ import { useTemporaryLog } from "../temporaryLog";
 import { Footer } from "./Footer";
 import { getSlideMarginTop } from "./marginTop";
 
+const COLUMNS = 3;
+const SLIDE_PADDING = 20;
+const COLUMN_GAP = 12;
+const MAX_AVATAR_SIZE = 96;
+
+/** Last grid cell: opens the person form, hidden at {@link MAX_PEOPLE}. */
+const AddPersonTile = ({ size }: { size: number }) => {
+  const router = useRouter();
+  const colors = useColors();
+  const outer = size + 2 * (TILE_RING_GAP + TILE_RING_WIDTH);
+
+  return (
+    <Pressable
+      onPress={() => router.push("/people/create")}
+      accessibilityRole="button"
+      accessibilityLabel={t("people_add")}
+      testID="log-people-add"
+      style={({ pressed }) => ({
+        alignItems: "center",
+        opacity: pressed ? 0.8 : 1,
+      })}
+    >
+      <View
+        style={{
+          width: outer,
+          height: outer,
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <View
+          style={{
+            width: size,
+            height: size,
+            borderRadius: size / 2,
+            borderWidth: 2,
+            borderStyle: "dashed",
+            borderColor: colors.textSecondary,
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <Plus
+            size={Math.round(size * 0.35)}
+            color={colors.textSecondary}
+            strokeWidth={1.5}
+          />
+        </View>
+      </View>
+      <Text
+        numberOfLines={1}
+        style={{
+          marginTop: 6,
+          maxWidth: outer,
+          fontSize: 15,
+          color: colors.text,
+        }}
+      >
+        {t("people_add")}
+      </Text>
+    </Pressable>
+  );
+};
+
 /**
  * People picker slide: "Who were you with?". Archived people are hidden
  * unless the draft already has them. Chips show the most used people of the
- * last 90 days first. Without people it offers one way out: add some.
+ * last 90 days first, in a grid of avatars that ends with an add tile.
+ * Without people it offers one way out: add some.
  */
 export const SlidePeople = ({
   onChange,
@@ -40,6 +114,13 @@ export const SlidePeople = ({
   const colors = useColors();
   const { people } = usePeopleState();
   const { items } = useLogState();
+  const { width } = useWindowDimensions();
+  const columnWidth =
+    (width - 2 * SLIDE_PADDING - (COLUMNS - 1) * COLUMN_GAP) / COLUMNS;
+  const avatarSize = Math.min(
+    MAX_AVATAR_SIZE,
+    Math.floor(columnWidth - 2 * (TILE_RING_GAP + TILE_RING_WIDTH))
+  );
 
   const selectedIds = new Set(
     (tempLog?.data?.people ?? []).map((person) => person.id)
@@ -64,7 +145,7 @@ export const SlidePeople = ({
       style={{
         flex: 1,
         width: "100%",
-        paddingHorizontal: 20,
+        paddingHorizontal: SLIDE_PADDING,
         paddingBottom: insets.bottom + 20,
         marginTop,
       }}
@@ -125,26 +206,32 @@ export const SlidePeople = ({
               style={{
                 flexDirection: "row",
                 flexWrap: "wrap",
-                alignItems: "flex-start",
-                justifyContent: "flex-start",
+                columnGap: COLUMN_GAP,
+                rowGap: 20,
                 marginTop: 24,
                 paddingBottom: insets.bottom,
               }}
             >
               {visible.map((person) => (
-                <PersonChip
+                <View
                   key={person.id}
-                  person={person}
-                  selected={selectedIds.has(person.id)}
-                  onPress={() => toggle(person.id)}
-                  testID={`log-person-${person.id}`}
-                />
+                  style={{ width: columnWidth, alignItems: "center" }}
+                >
+                  <PersonChip
+                    variant="tile"
+                    size={avatarSize}
+                    person={person}
+                    selected={selectedIds.has(person.id)}
+                    onPress={() => toggle(person.id)}
+                    testID={`log-person-${person.id}`}
+                  />
+                </View>
               ))}
-              <View>
-                <MiniButton onPress={() => router.push("/people")}>
-                  {t("people_manage")}
-                </MiniButton>
-              </View>
+              {people.length < MAX_PEOPLE && (
+                <View style={{ width: columnWidth, alignItems: "center" }}>
+                  <AddPersonTile size={avatarSize} />
+                </View>
+              )}
             </View>
           </ScrollView>
         )}

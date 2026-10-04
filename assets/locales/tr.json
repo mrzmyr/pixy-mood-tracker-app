@@ -716,7 +716,6 @@
   "privacy_people_content": "### Kişiler\n\nKişilerini içe aktarmak için Pixy, cihazında adres defterindeki adları listeler. Pixy yalnızca seçtiğin kişileri kaydeder: adı ve fotoğrafı. İkisi de cihazında kalır ve dışa aktarma dosyanın bir parçasıdır. Pixy adları veya fotoğrafları asla bize göndermez.",
   "log_people_question": "Kiminle birlikteydin?",
   "log_people_disable": "Kişileri takip etmiyorum",
-  "people_manage": "Kişileri yönet",
   "people_slide_empty": "Zaman geçirdiğin kişileri ekle ve onlarla ruh halinin nasıl olduğunu gör.",
   "view_log_people_empty": "Henüz kişi yok.",
   "statistics_people_distribution_title": "Son 14 günde en çok görüştüğün kişiler.",
