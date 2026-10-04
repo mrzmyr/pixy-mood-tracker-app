@@ -4,7 +4,7 @@ import { locale, t } from "@/lib/translation";
 import useColors from "@/hooks/useColors";
 import { useFeedbackModal } from "@/features/feedback";
 import useHaptics from "@/hooks/useHaptics";
-import { useTemporaryLog } from "../temporaryLog";
+import { useLogDraft } from "../logDraft";
 import { getItemDateTitle } from "@/lib/utils";
 import dayjs from "dayjs";
 import { useState } from "react";
@@ -15,7 +15,7 @@ import { Stepper } from "./Stepper";
 
 const DatePickerHeader = ({ onChange }: { onChange: (date: Date) => void }) => {
   const colors = useColors();
-  const tempLog = useTemporaryLog();
+  const { draft } = useLogDraft();
 
   return (
     <View
@@ -28,7 +28,7 @@ const DatePickerHeader = ({ onChange }: { onChange: (date: Date) => void }) => {
       <Button
         type="tertiary"
         onPress={() => {
-          onChange(dayjs(tempLog.data.dateTime).hour(8).minute(0).toDate());
+          onChange(dayjs(draft.dateTime).hour(8).minute(0).toDate());
         }}
         style={{
           width: "100%",
@@ -45,7 +45,7 @@ const DatePickerHeader = ({ onChange }: { onChange: (date: Date) => void }) => {
       <Button
         type="tertiary"
         onPress={() => {
-          onChange(dayjs(tempLog.data.dateTime).hour(13).minute(0).toDate());
+          onChange(dayjs(draft.dateTime).hour(13).minute(0).toDate());
         }}
         style={{
           width: "100%",
@@ -62,7 +62,7 @@ const DatePickerHeader = ({ onChange }: { onChange: (date: Date) => void }) => {
       <Button
         type="tertiary"
         onPress={() => {
-          onChange(dayjs(tempLog.data.dateTime).hour(20).minute(0).toDate());
+          onChange(dayjs(draft.dateTime).hour(20).minute(0).toDate());
         }}
         style={{
           width: "100%",
@@ -82,8 +82,8 @@ const DatePickerHeader = ({ onChange }: { onChange: (date: Date) => void }) => {
 /**
  * Logger header with the entry time, close, back, and delete actions.
  *
- * Must render inside `TemporaryLogProvider`. Changing the time updates only
- * the draft's `dateTime`; `date` keeps the day the draft started with.
+ * Must render inside `LogDraftProvider`. Changing the time updates the
+ * draft's `dateTime` and `date`.
  */
 export const SlideHeader = ({
   isDeleteable,
@@ -105,17 +105,13 @@ export const SlideHeader = ({
   const { Modal } = useFeedbackModal();
   const haptics = useHaptics();
   const colors = useColors();
-  const tempLog = useTemporaryLog();
+  const { draft, setDateTime } = useLogDraft();
 
   const [isDatePickerVisible, setIsDatePickerVisible] = useState(false);
 
-  const dateTime = tempLog.data.dateTime
-    ? new Date(tempLog.data.dateTime)
-    : new Date();
+  const dateTime = draft.dateTime ? new Date(draft.dateTime) : new Date();
   const dateTimeTitle =
-    tempLog.data.dateTime === null
-      ? "?"
-      : getItemDateTitle(tempLog.data.dateTime);
+    draft.dateTime === null ? "?" : getItemDateTitle(draft.dateTime);
 
   return (
     <View
@@ -134,9 +130,7 @@ export const SlideHeader = ({
             <DatePickerHeader
               onChange={(date) => {
                 setIsDatePickerVisible(false);
-                tempLog.update({
-                  dateTime: dayjs(date).toISOString(),
-                });
+                setDateTime(date.toISOString());
               }}
             />
           )}
@@ -147,9 +141,7 @@ export const SlideHeader = ({
           minuteInterval={10}
           onConfirm={(date) => {
             setIsDatePickerVisible(false);
-            tempLog.update({
-              dateTime: dayjs(date).toISOString(),
-            });
+            setDateTime(date.toISOString());
           }}
           onCancel={() => setIsDatePickerVisible(false)}
         />

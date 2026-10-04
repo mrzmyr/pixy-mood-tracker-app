@@ -9,7 +9,7 @@ import { EmotionIndicator } from "./EmotionsIndicator";
 
 const DEFAULT_STYLE = {};
 
-/** Emotion button in the advanced emotion pages, with a category dot. */
+/** Emotion button in the advanced emotion pages, with a category marker. */
 export const EmotionButtonAdvanced = ({
   emotion,
   onPress,
@@ -57,7 +57,7 @@ export const EmotionButtonAdvanced = ({
           paddingLeft: selected ? 13 : 14,
         }}
       >
-        <EmotionIndicator category={emotion.category} />
+        <EmotionIndicator emotion={emotion} />
         <Text
           style={{
             color: colors.text,

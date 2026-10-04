@@ -54,7 +54,7 @@ export const EmotionButtonBasic = ({
           paddingLeft: selected ? 13 : 14,
         }}
       >
-        <EmotionIndicator category={emotion.category} />
+        <EmotionIndicator emotion={emotion} />
         <Text
           style={{
             color: colors.text,

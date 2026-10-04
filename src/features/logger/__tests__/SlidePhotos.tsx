@@ -16,7 +16,7 @@ import type { LibraryPermission, PhotoSource } from "@/features/photos";
 import { AnalyticsProvider } from "@/state/analytics";
 import { SettingsProvider, useSettingsLoad } from "@/state/settings";
 import { SlidePhotos } from "../slides/SlidePhotos";
-import { TemporaryLogProvider, useTemporaryLog } from "../temporaryLog";
+import { LogDraftProvider } from "../logDraft";
 
 // oxlint-disable-next-line anti-slop/no-module-mocking -- react-native-safe-area-context needs native insets that Jest does not provide
 jest.mock("react-native-safe-area-context", () => ({
@@ -57,16 +57,14 @@ const source: PhotoSource = {
 };
 
 const Step = () => {
-  const tempLog = useTemporaryLog(_generateItem({ photos: [] }));
   const { status } = useSettingsLoad();
-  if (!tempLog.isInitialized || status !== "ready") {
+  if (status !== "ready") {
     return null;
   }
   return (
     <SlidePhotos
       mode="create"
       isActive
-      onChange={(photos) => tempLog.update({ photos })}
       onDisableStep={jest.fn()}
       showDisable={false}
     />
@@ -84,9 +82,9 @@ const renderStep = () =>
     >
       <SettingsProvider>
         <AnalyticsProvider>
-          <TemporaryLogProvider>
+          <LogDraftProvider initialDraft={_generateItem({ photos: [] })}>
             <Step />
-          </TemporaryLogProvider>
+          </LogDraftProvider>
         </AnalyticsProvider>
       </SettingsProvider>
     </ThemeProvider>

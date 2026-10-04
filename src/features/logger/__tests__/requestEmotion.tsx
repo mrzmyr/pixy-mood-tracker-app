@@ -6,6 +6,8 @@ import { ToastHost } from "@/components/Toast";
 import Colors from "@/constants/Colors";
 import { INITIAL_STATE } from "@/constants/Settings";
 import { STORAGE_KEY } from "@/state/settings";
+import { _generateItem } from "@/__tests__/utils";
+import { LogDraftProvider } from "../logDraft";
 import { SlideEmotions } from "../slides/SlideEmotions";
 
 // oxlint-disable-next-line anti-slop/no-module-mocking -- expo-superwall is a native module imported transitively by Providers
@@ -52,7 +54,9 @@ const renderSlide = () =>
       <Providers
         supportClient={{ enabled: false, openSupport: () => Promise.resolve() }}
       >
-        <SlideEmotions onChange={jest.fn()} showDisable={false} />
+        <LogDraftProvider initialDraft={_generateItem({ emotions: [] })}>
+          <SlideEmotions showDisable={false} />
+        </LogDraftProvider>
         <ToastHost />
       </Providers>
     </ThemeProvider>

@@ -10,6 +10,7 @@ export const FEATURE_FLAGS = [
   "people",
   "ios-widget",
   "development",
+  "emotion-icons",
   "feature-flag-overrides",
 ] as const;
 

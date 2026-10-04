@@ -8,6 +8,10 @@ import type { LogItem } from "@/features/logs";
 const localDates = new WeakMap<LogItem, string>();
 const times = new WeakMap<LogItem, number>();
 
+/** Local calendar day of an ISO `dateTime` in `DATE_FORMAT`. */
+export const toLogDate = (dateTime: string): string =>
+  dayjs(dateTime).format(DATE_FORMAT);
+
 /**
  * Local calendar day of the entry's `dateTime` in `DATE_FORMAT`.
  *
@@ -17,7 +21,7 @@ const times = new WeakMap<LogItem, number>();
 export const getItemDate = (item: LogItem): string => {
   let date = localDates.get(item);
   if (date === undefined) {
-    date = dayjs(item.dateTime).format(DATE_FORMAT);
+    date = toLogDate(item.dateTime);
     localDates.set(item, date);
   }
   return date;

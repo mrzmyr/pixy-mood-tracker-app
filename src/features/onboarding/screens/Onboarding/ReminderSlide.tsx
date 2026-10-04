@@ -6,16 +6,12 @@ import { HeaderNavigation } from "./HeaderNavigation";
 import Animated, { FadeIn } from "react-native-reanimated";
 import {
   Clock,
-  useNotification,
-  createDailyTrigger,
   reminderTimeToDate,
+  useReminder,
 } from "@/features/notifications";
 import { DEFAULT_REMINDER_TIME } from "@/constants/Settings";
 
 import { useState } from "react";
-import dayjs from "dayjs";
-import { useSettings } from "@/state/settings";
-import type { SettingsState } from "@/state/settings";
 
 import { useAnalytics } from "@/state/analytics";
 import LinkButton from "@/components/LinkButton";
@@ -69,36 +65,13 @@ export const ReminderSlide = ({
   onSkip: () => void;
 }) => {
   const colors = useColors();
-  const { setSettings } = useSettings();
   const analytics = useAnalytics();
 
-  const { askForPermission, hasPermission, schedule, cancelAll } =
-    useNotification();
+  const reminder = useReminder();
 
   const [time, setTime] = useState(() =>
     reminderTimeToDate(DEFAULT_REMINDER_TIME)
   );
-
-  const enable = async () => {
-    const has = await hasPermission();
-    const granted = has || (await askForPermission());
-    if (!granted) {
-      return;
-    }
-
-    await (async () => {
-      await cancelAll();
-      await schedule({
-        trigger: createDailyTrigger(dayjs(time).hour(), dayjs(time).minute()),
-      });
-
-      setSettings((settings: SettingsState) => ({
-        ...settings,
-        reminderEnabled: true,
-        reminderTime: dayjs(time).format("HH:mm"),
-      }));
-    })();
-  };
 
   const onLater = () => {
     analytics.track("onboarding:reminder_postponed");
@@ -107,7 +80,7 @@ export const ReminderSlide = ({
 
   const onEnable = async () => {
     analytics.track("onboarding:reminder_enabled");
-    await enable();
+    await reminder.enable(time);
     setIndex(index + 1);
   };
 
