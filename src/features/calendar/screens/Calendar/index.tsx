@@ -15,7 +15,7 @@ import { Body } from "./CalendarBottomSheet/Body";
 import { CalendarFooter } from "./CalendarFooter";
 import CalendarHeader from "./CalendarHeader";
 import { ScrollToBottomButton } from "./ScrollToBottomButton";
-import { t } from "@/lib/translation";
+import { useFootNote } from "./footNote";
 import { ObserveInteractiveMarker } from "expo-observe";
 
 const CalendarScreenComponent = () => {
@@ -31,6 +31,7 @@ const CalendarScreenComponent = () => {
   const analytics = useAnalytics();
   const logState = useLogState();
   const calendarFilters = useCalendarFilters();
+  const { text: footNote, onOverscroll: onFootNoteOverscroll } = useFootNote();
   const [isAwayFromToday, setIsAwayFromToday] = useState(false);
   const scrollRef = useRef<FlashListRef<Month>>(null);
   const showScrollTopButton = isAwayFromToday && !calendarFilters.isOpen;
@@ -38,11 +39,12 @@ const CalendarScreenComponent = () => {
     (event: NativeSyntheticEvent<NativeScrollEvent>) => {
       const { contentOffset, contentSize, layoutMeasurement } =
         event.nativeEvent;
-      setIsAwayFromToday(
-        contentSize.height - contentOffset.y - layoutMeasurement.height > 100
-      );
+      const distanceToEnd =
+        contentSize.height - contentOffset.y - layoutMeasurement.height;
+      setIsAwayFromToday(distanceToEnd > 100);
+      onFootNoteOverscroll(-distanceToEnd);
     },
-    []
+    [onFootNoteOverscroll]
   );
 
   if (!isSettingsLoaded || !logState.loaded) {
@@ -86,7 +88,7 @@ const CalendarScreenComponent = () => {
                     marginBottom: -60,
                   }}
                 >
-                  🙏 {t("calendar_foot_note")}
+                  🙏 {footNote}
                 </Text>
               </View>
             </>
