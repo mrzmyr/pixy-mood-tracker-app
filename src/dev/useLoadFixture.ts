@@ -1,9 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useDatagate } from "@/features/datagate";
-import { useLogLoad } from "@/features/logs";
-import { usePeopleLoad } from "@/features/people";
-import { useSettingsLoad } from "@/state/settings";
-import { useTagsLoad } from "@/features/tags";
+import { useAppData, useDatagate } from "@/features/datagate";
 import { getFixtureData, getStorageFixtureEntries } from "@/dev/fixtures";
 import type { Fixture, StorageFixture } from "@/dev/fixtures";
 
@@ -20,15 +16,10 @@ export const writeStorageFixture = (fixture: StorageFixture) =>
  * because a store that loads after the import would overwrite the fixture.
  */
 export const useLoadFixture = () => {
-  const loads = [
-    useLogLoad(),
-    useTagsLoad(),
-    usePeopleLoad(),
-    useSettingsLoad(),
-  ];
+  const { load: appLoad } = useAppData();
   const datagate = useDatagate();
 
-  const isReady = loads.every((load) => load.status === "ready");
+  const isReady = appLoad.status === "ready";
 
   const load = (fixture: Fixture) => {
     void datagate.import(getFixtureData(fixture), { muted: true });

@@ -11,6 +11,7 @@ import { getJSONSchemaType } from "./import";
 import type { ExportPerson, ImportData } from "./import";
 
 import { migrateImportData } from "./migration";
+import { useAppData } from "./appData";
 import {
   askToImport,
   askToReset,
@@ -142,7 +143,8 @@ export const useDatagate = (): DatagateValue => {
   const tagsUpdater = useTagsUpdater();
   const { people } = usePeopleState();
   const peopleUpdater = usePeopleUpdater();
-  const { resetSettings, importSettings, settings } = useSettings();
+  const { importSettings, settings } = useSettings();
+  const appData = useAppData();
 
   const analytics = useAnalytics();
 
@@ -185,14 +187,7 @@ export const useDatagate = (): DatagateValue => {
     }
   };
 
-  const reset = () => {
-    logUpdater.reset();
-    logUpdater.sweepPhotos();
-    tagsUpdater.reset();
-    peopleUpdater.reset();
-    resetSettings();
-    analytics.reset();
-  };
+  const reset = appData.resetAll;
 
   const openImportDialog = async (): Promise<void> => {
     await askToImport();
