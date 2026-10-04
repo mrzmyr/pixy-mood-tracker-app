@@ -1,16 +1,22 @@
 import {
   STORAGE_KEY as LOGS_KEY,
   useLogLoad,
+  useLogState,
   useLogUpdater,
 } from "@/features/logs";
 import {
   STORAGE_KEY as PEOPLE_KEY,
+  readAvatarBase64,
   usePeopleLoad,
+  usePeopleState,
   usePeopleUpdater,
+  writeAvatarFromBase64,
 } from "@/features/people";
+import type { Person } from "@/features/people";
 import {
   STORAGE_KEY as TAGS_KEY,
   useTagsLoad,
+  useTagsState,
   useTagsUpdater,
 } from "@/features/tags";
 import { INTERVENTIONS_STORAGE_KEY } from "@/features/interventions";
@@ -21,6 +27,9 @@ import {
   useSettings,
   useSettingsLoad,
 } from "@/state/settings";
+import { toExportSettings } from "@/state/settings/exportSettings";
+import type { Backup } from "./backup";
+import type { ExportPerson } from "./import";
 
 /**
  * Every storage key that holds user data. Raw export reads all of them.
@@ -51,7 +60,43 @@ export interface AppData {
    * avatars, settings (new device id), and the analytics identity.
    */
   resetAll: () => void;
+  /** Current data as a backup, avatar files read inline. */
+  snapshot: () => Promise<Backup>;
+  /**
+   * Replaces logs, tags, people, and settings with `backup`. Resolves once
+   * every store, including avatar files, holds the data. Settings keep
+   * device-bound fields. No photo sweep: see `useLogUpdater().sweepPhotos`.
+   */
+  replaceAll: (backup: Backup) => Promise<void>;
 }
+
+/** Inlines each avatar file as base64; a missing file exports as `null`. */
+const toExportPeople = (people: Person[]): Promise<ExportPerson[]> =>
+  Promise.all(
+    people.map(async (person) => {
+      const base64 = person.avatar
+        ? await readAvatarBase64(person.avatar)
+        : null;
+      return {
+        ...person,
+        avatar: base64 === null ? null : { base64, mime: "image/jpeg" },
+      };
+    })
+  );
+
+/** Writes each inline avatar to a file; a corrupt avatar imports as `null`. */
+const fromExportPeople = (people: ExportPerson[]): Promise<Person[]> =>
+  Promise.all(
+    people.map(async (person) => ({
+      ...person,
+      avatar: person.avatar?.base64
+        ? await writeAvatarFromBase64({
+            id: person.id,
+            base64: person.avatar.base64,
+          })
+        : null,
+    }))
+  );
 
 const combineLoads = (loads: Record<GatedStoreName, Load>): Load => {
   let isLoading = false;
@@ -79,10 +124,13 @@ export const useAppData = (): AppData => {
   const logsLoad = useLogLoad();
   const tagsLoad = useTagsLoad();
   const peopleLoad = usePeopleLoad();
+  const { items } = useLogState();
+  const { tags } = useTagsState();
+  const { people } = usePeopleState();
   const logUpdater = useLogUpdater();
   const tagsUpdater = useTagsUpdater();
   const peopleUpdater = usePeopleUpdater();
-  const { resetSettings } = useSettings();
+  const { settings, resetSettings, importSettings } = useSettings();
   const analytics = useAnalytics();
 
   const resetAll = () => {
@@ -101,5 +149,21 @@ export const useAppData = (): AppData => {
     people: peopleLoad,
   });
 
-  return { load, resetAll };
+  const snapshot = async (): Promise<Backup> => ({
+    items,
+    tags,
+    people: await toExportPeople(people),
+    settings: toExportSettings(settings),
+  });
+
+  const replaceAll = async (backup: Backup) => {
+    // Avatar files first: the store must never point at a missing file.
+    const importedPeople = await fromExportPeople(backup.people);
+    logUpdater.import({ items: backup.items });
+    tagsUpdater.import({ tags: backup.tags });
+    peopleUpdater.import({ people: importedPeople });
+    importSettings(backup.settings);
+  };
+
+  return { load, resetAll, snapshot, replaceAll };
 };

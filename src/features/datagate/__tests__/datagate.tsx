@@ -1,9 +1,10 @@
-import { setFileTransferOverride } from "../fileTransfer";
+import {
+  createMemoryFileTransfer,
+  setFileTransferOverride,
+} from "../fileTransfer";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { act, renderHook, waitFor } from "@testing-library/react-native";
-import * as DocumentPicker from "expo-document-picker";
 import * as FileSystem from "expo-file-system/legacy";
-import * as Sharing from "expo-sharing";
 import { Alert } from "react-native";
 import { AnalyticsProvider } from "@/state/analytics";
 import { useDatagate } from "../DataGate";
@@ -30,12 +31,6 @@ import { _generateItem } from "@/__tests__/utils";
 import { File } from "expo-file-system";
 import { getPhotosDirectory } from "@/features/photos";
 import pkg from "../../../../package.json";
-
-// oxlint-disable-next-line anti-slop/no-module-mocking -- expo-sharing is a native module unavailable in Jest; the export test asserts on shareAsync
-jest.mock("expo-sharing", () => ({
-  isAvailableAsync: jest.fn().mockResolvedValue(true),
-  shareAsync: jest.fn(() => Promise.resolve()),
-}));
 
 const wrapper = ({ children }) => (
   <SettingsProvider>
@@ -143,6 +138,12 @@ const testPeople: Person[] = [
 
 const _console_error = console.error;
 
+// Presses the confirming (destructive) button of the latest prompt.
+const confirmPrompt = () => {
+  const buttons = jest.mocked(Alert.alert).mock.lastCall?.[2] ?? [];
+  buttons.find((button) => button.style === "destructive")?.onPress?.();
+};
+
 describe("useLogs()", () => {
   beforeEach(() => {
     console.error = jest.fn();
@@ -151,6 +152,7 @@ describe("useLogs()", () => {
 
   afterEach(async () => {
     console.error = _console_error;
+    setFileTransferOverride(null);
     const keys = await AsyncStorage.getAllKeys();
     await AsyncStorage.multiRemove(keys);
   });
@@ -159,22 +161,13 @@ describe("useLogs()", () => {
     const hook = await _renderHook();
 
     jest.spyOn(Alert, "alert");
-    jest.spyOn(DocumentPicker, "getDocumentAsync").mockResolvedValueOnce({
-      canceled: false,
-      assets: [
-        {
-          uri: "file://something.json",
-          name: "1b1b1b1b-1b1b-1b1b-1b1b-1b1b1b1b1b1b.json",
-          size: 0,
-          lastModified: 0,
-        },
-      ],
-    });
-    jest.spyOn(FileSystem, "readAsStringAsync").mockResolvedValueOnce(
-      JSON.stringify({
-        items: testItems,
-        settings: testSettings,
-        tags: testTags,
+    setFileTransferOverride(
+      createMemoryFileTransfer({
+        picked: JSON.stringify({
+          items: testItems,
+          settings: testSettings,
+          tags: testTags,
+        }),
       })
     );
 
@@ -184,14 +177,13 @@ describe("useLogs()", () => {
       hook.result.current.datagate.openImportDialog();
     });
 
-    jest.mocked(Alert.alert).mock.calls[0]?.[2]?.[0]?.onPress?.();
+    confirmPrompt();
 
     await waitFor(() => {
       expect(hook.result.current.logState.items).toEqual(testItems);
       expect(hook.result.current.tagsState.tags).toEqual(testTags);
     });
 
-    expect(Alert.alert).toBeCalled();
     expect(hook.result.current.logState).toEqual({
       items: testItems,
     });
@@ -204,14 +196,29 @@ describe("useLogs()", () => {
     });
   });
 
+  test("keeps data when the picked file is not a Pixy export", async () => {
+    const hook = await _renderHook();
+    jest.spyOn(Alert, "alert");
+    setFileTransferOverride(
+      createMemoryFileTransfer({ picked: '{"items": "nope"}' })
+    );
+
+    await waitForLoaded(hook);
+    await act(() => {
+      hook.result.current.logUpdater.import({ items: testItems });
+    });
+    await act(() => {
+      hook.result.current.datagate.openImportDialog();
+    });
+    await act(() => Promise.resolve(confirmPrompt()));
+
+    expect(hook.result.current.logState.items).toEqual(testItems);
+  });
+
   test("should `openExportDialog`", async () => {
     const hook = await _renderHook();
-
-    jest.spyOn(Alert, "alert");
-    jest.spyOn(FileSystem, "writeAsStringAsync").mockResolvedValueOnce();
-    jest.spyOn(FileSystem, "readDirectoryAsync").mockResolvedValue([]);
-    jest.spyOn(FileSystem, "deleteAsync").mockResolvedValue();
-    jest.mocked(Sharing.shareAsync).mockClear();
+    const fileTransfer = createMemoryFileTransfer();
+    setFileTransferOverride(fileTransfer);
 
     await waitForLoaded(hook);
 
@@ -225,9 +232,10 @@ describe("useLogs()", () => {
       await hook.result.current.datagate.openExportDialog({ format: "json" });
     });
 
-    const [calledUri, calledJson = ""] =
-      jest.mocked(FileSystem.writeAsStringAsync).mock.calls[0] ?? [];
-    const expectedJson = {
+    expect(fileTransfer.shared).toHaveLength(1);
+    const [{ filename, contents }] = fileTransfer.shared;
+    expect(filename).toMatch(/^pixy-mood-tracker-.*\.json$/u);
+    expect(JSON.parse(contents)).toEqual({
       version: pkg.version,
       items: testItems,
       settings: _.omit(testSettings, [
@@ -239,47 +247,15 @@ describe("useLogs()", () => {
       ]) satisfies ExportSettings,
       tags: testTags,
       people: [],
-    };
-
-    expect(calledUri).toMatch(
-      new RegExp(
-        `^${FileSystem.cacheDirectory}pixy-mood-tracker-.*\\.json$`,
-        "u"
-      )
-    );
-    expect(JSON.parse(calledJson)).toEqual(expectedJson);
+    });
     // Metadata only: export files never contain photo files.
-    expect(JSON.parse(calledJson).items[1].photos).toEqual([testPhoto]);
-    expect(Sharing.shareAsync).toBeCalledWith(calledUri, {
-      mimeType: "application/json",
-      UTI: "public.json",
-    });
+    expect(JSON.parse(contents).items[1].photos).toEqual([testPhoto]);
   });
 
-  test("`openExportDialog` uses the file transfer override", async () => {
+  test("exports CSV entries", async () => {
     const hook = await _renderHook();
-    const share = jest.fn(() => Promise.resolve(true));
-    setFileTransferOverride({ share, pickJson: () => Promise.resolve(null) });
-    jest.spyOn(FileSystem, "writeAsStringAsync").mockResolvedValueOnce();
-    jest.spyOn(FileSystem, "readDirectoryAsync").mockResolvedValue([]);
-    jest.spyOn(FileSystem, "deleteAsync").mockResolvedValue();
-    jest.mocked(Sharing.shareAsync).mockClear();
-
-    await waitForLoaded(hook);
-    await act(async () => {
-      await hook.result.current.datagate.openExportDialog({ format: "json" });
-    });
-    setFileTransferOverride(null);
-
-    expect(share).toBeCalledWith(expect.stringMatching(/\.json$/u));
-    expect(Sharing.shareAsync).not.toBeCalled();
-  });
-
-  test("exports CSV entries with the spreadsheet MIME type", async () => {
-    const hook = await _renderHook();
-    jest.spyOn(FileSystem, "writeAsStringAsync").mockResolvedValue();
-    jest.spyOn(FileSystem, "readDirectoryAsync").mockResolvedValue([]);
-    jest.spyOn(FileSystem, "deleteAsync").mockResolvedValue();
+    const fileTransfer = createMemoryFileTransfer();
+    setFileTransferOverride(fileTransfer);
 
     await waitForLoaded(hook);
     await act(() => {
@@ -289,34 +265,23 @@ describe("useLogs()", () => {
       await hook.result.current.datagate.openExportDialog({ format: "csv" });
     });
 
-    const [[uri, contents]] = jest.mocked(FileSystem.writeAsStringAsync).mock
-      .calls;
-    expect(uri).toMatch(/\.csv$/u);
-    expect(contents).toContain('"note","sleep_quality"');
+    const [{ filename, contents }] = fileTransfer.shared;
+    expect(filename).toMatch(/\.csv$/u);
     expect(contents).toContain('"test message"');
     expect(contents).toContain('"🦄"');
-    expect(Sharing.shareAsync).toHaveBeenCalledWith(uri, {
-      mimeType: "text/csv",
-      UTI: "public.comma-separated-values-text",
-    });
   });
 
   test("shows recovery guidance when sharing is unavailable", async () => {
     const hook = await _renderHook();
-    setFileTransferOverride({
-      share: () => Promise.resolve(false),
-      pickJson: () => Promise.resolve(null),
-    });
-    jest.spyOn(FileSystem, "writeAsStringAsync").mockResolvedValue();
-    jest.spyOn(FileSystem, "readDirectoryAsync").mockResolvedValue([]);
-    jest.spyOn(FileSystem, "deleteAsync").mockResolvedValue();
+    setFileTransferOverride(
+      createMemoryFileTransfer({ isShareAvailable: false })
+    );
     const alert = jest.spyOn(Alert, "alert");
 
     await waitForLoaded(hook);
     await act(async () => {
       await hook.result.current.datagate.openExportDialog({ format: "csv" });
     });
-    setFileTransferOverride(null);
 
     expect(alert).toHaveBeenCalledWith(
       "Export failed",
@@ -343,7 +308,7 @@ describe("useLogs()", () => {
       hook.result.current.datagate.openResetDialog();
     });
 
-    jest.mocked(Alert.alert).mock.calls[0]?.[2]?.[0]?.onPress?.();
+    confirmPrompt();
 
     await waitFor(() => {
       expect(hook.result.current.logState.items).toEqual([]);
@@ -387,7 +352,8 @@ describe("useLogs()", () => {
       modificationTime: 0,
     });
     jest.spyOn(FileSystem, "readAsStringAsync").mockResolvedValue(base64);
-    jest.mocked(Sharing.shareAsync).mockClear();
+    const fileTransfer = createMemoryFileTransfer();
+    setFileTransferOverride(fileTransfer);
 
     await waitForLoaded(hook);
     await act(() => {
@@ -398,10 +364,7 @@ describe("useLogs()", () => {
       await hook.result.current.datagate.openExportDialog({ format: "json" });
     });
 
-    const exportCall = jest
-      .mocked(FileSystem.writeAsStringAsync)
-      .mock.calls.find(([uri]) => uri.endsWith(".json"));
-    const exported = JSON.parse(exportCall?.[1] ?? "{}");
+    const exported = JSON.parse(fileTransfer.shared[0].contents);
     expect(exported.people).toEqual([
       { ...testPeople[0], avatar: { base64, mime: "image/jpeg" } },
       { ...testPeople[1], avatar: null },
