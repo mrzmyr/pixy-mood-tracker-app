@@ -22,8 +22,14 @@ Pixy has no server. Data leaves the phone only through the cloud backup or a man
 - Restore waits for the import to finish before this phone claims the backup. Until then the next write would replace the backup with the old local data
 - Offline failures (`backup_offline` in [`cloud.ts`](../src/features/backup/cloud.ts)) pause backup with status `unavailable`. Other failures reach Sentry once per failure code and session
 - Replace another phone's backup only when this phone has at least as many entries ([`canReplaceBackup`](../src/features/backup/backupFile.ts)). A fresh install must not wipe the backup before the user restores
+- Never replace another phone's backup that is newer than this phone's last write (`settings.backupWrittenAt`). Backup pauses here, "Restore from Backup…" shows with a note. Two phones in use never clobber each other
+- Read the cloud file again right before every write and on every return to the app. Another phone may have written since
+- Restore keeps this phone's consent: `analyticsEnabled` and the onboarding action stay as they are here. Without this a backup with analytics off would unload the feature flags mid-restore and stop backup
+- Restore confirmation names both entry counts and the backup age
+- Photos are not in the backup (metadata only, like the export). Copy says so
 - Switch off deletes the cloud file after a confirmation. On Android it also signs out of Google
-- `settings.backupEnabled` is a device setting: not exported, kept on import. Default on for iOS, off for Android (needs Google sign-in)
+- `settings.backupEnabled` and `settings.backupWrittenAt` are device settings: not exported, kept on import. `backupEnabled` defaults on for iOS, off for Android (needs Google sign-in)
+- Backup needs the `backup` feature flag, so it needs analytics consent ([`FeatureFlagsProvider`](../src/state/featureFlags/index.tsx)). Settings > Privacy says so. Remove the flag after rollout so backup no longer depends on consent
 
 ### Phone backup
 

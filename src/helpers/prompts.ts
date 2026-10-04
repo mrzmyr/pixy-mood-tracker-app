@@ -85,11 +85,28 @@ export const askToImport = () =>
     cancelText: t("cancel"),
   });
 
-/** Ask before replacing local data with the cloud backup. */
-export const askToRestoreBackup = () =>
+/**
+ * Ask before replacing local data with the cloud backup. The message names
+ * both entry counts and the backup age, so losing newer local entries is a
+ * conscious choice.
+ */
+export const askToRestoreBackup = ({
+  localCount,
+  backupCount,
+  backupAge,
+}: {
+  localCount: number;
+  backupCount: number;
+  /** Relative time of the backup, for example "2 days ago". */
+  backupAge: string;
+}) =>
   askToConfirm({
     title: t("backup_restore_confirm_title"),
-    message: t("backup_restore_confirm_message"),
+    message: t("backup_restore_confirm_message", {
+      localCount,
+      backupCount,
+      backupAge,
+    }),
     confirmText: t("backup_restore_confirm_ok"),
     cancelText: t("cancel"),
   });

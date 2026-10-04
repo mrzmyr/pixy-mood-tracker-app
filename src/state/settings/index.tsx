@@ -58,6 +58,12 @@ export interface SettingsState {
   analyticsEnabled: boolean;
   /** Keep a backup file in iCloud (iOS) or Google Drive (Android). Device setting. */
   backupEnabled: boolean;
+  /**
+   * `createdAt` of the last backup this phone wrote, or `null` before the
+   * first write. A backup from another phone that is newer than this pauses
+   * writes. Device setting.
+   */
+  backupWrittenAt: string | null;
   actionsDone: IAction[];
   steps: KnownSettingsStep[];
   /** ISO date of the automatic store review prompt; `null` until shown once. */
@@ -88,6 +94,7 @@ export type ExportSettings = Omit<
   | "loaded"
   | "deviceId"
   | "backupEnabled"
+  | "backupWrittenAt"
   | "storeReviewPromptedAt"
   | "storeReviewPromptedAppVersion"
   | "photosDayAccessDismissed"
@@ -153,6 +160,7 @@ const SettingsProvider = ({ children }: { children: React.ReactNode }) => {
       steps: sanitizeSteps(importedSettings.steps),
       deviceId: currentSettings.deviceId,
       backupEnabled: currentSettings.backupEnabled,
+      backupWrittenAt: currentSettings.backupWrittenAt,
       storeReviewPromptedAt: currentSettings.storeReviewPromptedAt,
       storeReviewPromptedAppVersion:
         currentSettings.storeReviewPromptedAppVersion,

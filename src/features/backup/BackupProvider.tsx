@@ -1,4 +1,4 @@
-import * as Sentry from "@sentry/react-native";
+import dayjs from "dayjs";
 import {
   createContext,
   useCallback,
@@ -7,8 +7,8 @@ import {
   useEffectEvent,
   useMemo,
   useRef,
-  useState,
 } from "react";
+import { useContentStableValue } from "@/hooks/useContentStableValue";
 import {
   buildExportData,
   toExportSettings,
@@ -18,13 +18,11 @@ import { useLogState } from "@/features/logs";
 import { usePeopleState } from "@/features/people";
 import { useTagsState } from "@/features/tags";
 import { askToRestoreBackup, askToTurnOffBackup } from "@/helpers/prompts";
-import {
-  createMissingProviderError,
-  createStructuredError,
-} from "@/lib/errors";
+import { createMissingProviderError } from "@/lib/errors";
 import { useAnalytics } from "@/state/analytics";
 import { useFeatureFlag } from "@/state/featureFlags";
 import { useSettings } from "@/state/settings";
+import type { SettingsState } from "@/state/settings";
 import {
   canReplaceBackup,
   createBackupFile,
@@ -36,35 +34,52 @@ import {
   deleteBackupFile,
   disconnect,
   getBackupProvider,
-  isAvailable,
   readBackupFile,
   resume,
   writeBackupFile,
 } from "./cloud";
 import type { BackupProvider as Provider } from "./cloud";
-import { cloudFailureSchema, isOfflineFailure } from "./failure";
+import { cloudFailureSchema } from "./failure";
 import type { CloudFailure } from "./failure";
+import { useCloudFile } from "./useCloudFile";
+import type { BackupStatus } from "./useCloudFile";
+
+export type { BackupStatus } from "./useCloudFile";
 
 /** Wait after the last change before writing, so typing does not upload. */
 export const AUTO_BACKUP_DELAY_MS = 3000;
 
+/** Marker for "the data changed since the last write". Identity only. */
+type DataRevision = object;
+
 /**
- * - `off`: switch off
- * - `idle`: on and up to date, or waiting for the next change
- * - `syncing`: writing the backup file
- * - `unavailable`: iCloud Drive off or no internet
- * - `signedOut`: Google Drive session gone, user must turn backup on again
- * - `incompatible`: the cloud file comes from a newer Pixy; never overwritten
- * - `error`: last read or write failed (details in Sentry)
+ * Restoring must not change who consented on this phone: analytics stays as
+ * set here, and a done onboarding stays done. Otherwise a backup from a phone
+ * with analytics off would drop consent, unload the feature flags, and stop
+ * backup on this phone in the middle of the restore.
  */
-export type BackupStatus =
-  | "off"
-  | "idle"
-  | "syncing"
-  | "unavailable"
-  | "signedOut"
-  | "incompatible"
-  | "error";
+const keepConsent = (
+  data: BackupFile["data"],
+  current: Pick<SettingsState, "analyticsEnabled" | "actionsDone">
+): BackupFile["data"] => {
+  const onboarding = current.actionsDone.find(
+    (action) => action.title === "onboarding"
+  );
+  const hasOnboarding = data.settings.actionsDone.some(
+    (action) => action.title === "onboarding"
+  );
+  return {
+    ...data,
+    settings: {
+      ...data.settings,
+      analyticsEnabled: current.analyticsEnabled,
+      actionsDone:
+        onboarding && !hasOnboarding
+          ? [...data.settings.actionsDone, onboarding]
+          : data.settings.actionsDone,
+    },
+  };
+};
 
 /** Backup state and actions for the Backup screen. */
 export interface BackupValue {
@@ -111,111 +126,34 @@ export const BackupProvider = ({ children }: { children: React.ReactNode }) => {
   const isFeatureOn = useFeatureFlag("backup");
   const provider = getBackupProvider();
   const enabled = isFeatureOn && settings.loaded && settings.backupEnabled;
-  const { deviceId } = settings;
+  const { deviceId, backupWrittenAt } = settings;
 
-  const [status, setStatus] = useState<BackupStatus>("off");
-  const [remote, setRemote] = useState<BackupFile | null>(null);
-  const [isReady, setIsReady] = useState(false);
-  const lastWritten = useRef<string | null>(null);
-  /** Failure codes already sent to Sentry this session: one report each. */
-  const reported = useRef(new Set<string>());
-
-  /**
-   * Records a failed cloud call. Offline failures only pause backup: no
-   * Sentry report, status `unavailable`. Other failures reach Sentry once
-   * per code and session, so a phone without connection does not flood it.
-   */
-  const fail = useCallback(
-    (failure: CloudFailure, code: string) => {
-      if (isOfflineFailure(failure)) {
-        analytics.track("backup:failed", { status: "backup_offline" });
-        setStatus("unavailable");
-        return;
-      }
-      if (!reported.current.has(code)) {
-        reported.current.add(code);
-        Sentry.captureException(
-          createStructuredError({
-            status: code,
-            message: "Backup failed",
-            why: failure.message ?? "The cloud call failed without a message",
-            fix: "Check the internet connection and iCloud or Google Drive settings. Pixy retries on the next change.",
-          })
-        );
-      }
-      analytics.track("backup:failed", { status: code });
-      setStatus("error");
-    },
-    [analytics]
-  );
+  const {
+    status,
+    setStatus,
+    remote,
+    setRemote,
+    isReady,
+    setIsReady,
+    fail,
+    load,
+  } = useCloudFile({ enabled, analytics });
+  const lastWritten = useRef<DataRevision | null>(null);
   const failInEffect = useEffectEvent((failure: CloudFailure, code: string) =>
     fail(failure, code)
   );
-
-  /** Reads the cloud backup. `isStopped` drops results after unmount. */
-  const load = useCallback(
-    async (isStopped: () => boolean) => {
-      try {
-        if (!(await resume())) {
-          if (!isStopped()) {
-            setStatus("signedOut");
-          }
-          return;
-        }
-        if (!(await isAvailable())) {
-          if (!isStopped()) {
-            setStatus("unavailable");
-          }
-          return;
-        }
-        const text = await readBackupFile();
-        if (isStopped()) {
-          return;
-        }
-        const file = text === null ? null : parseBackupFile(text);
-        if (text !== null && file === null) {
-          // A newer Pixy wrote the file, or it is damaged. Never replace it:
-          // this version would drop data it does not understand.
-          setRemote(null);
-          setIsReady(false);
-          setStatus("incompatible");
-          return;
-        }
-        setRemote(file);
-        setStatus("idle");
-        setIsReady(true);
-      } catch (error) {
-        if (!isStopped()) {
-          fail(cloudFailureSchema.parse(error), "backup_read_failed");
-        }
-      }
-    },
-    [fail]
+  const setSettingsInEffect = useEffectEvent(
+    (update: (current: SettingsState) => SettingsState) => setSettings(update)
   );
 
-  // Load the cloud backup whenever backup turns on.
-  useEffect(() => {
-    if (!enabled) {
-      return;
-    }
-    let isCancelled = false;
-    // oxlint-disable-next-line react/set-state-in-effect -- load awaits iCloud or Google Drive before any setState; this effect syncs with that external system
-    load(() => isCancelled);
-    return () => {
-      isCancelled = true;
-    };
-  }, [enabled, load]);
-
-  // Avatars are files, so the key compares avatar paths. The write inlines them.
-  const dataKey = useMemo(
-    () =>
-      JSON.stringify({
-        items,
-        tags,
-        people,
-        settings: toExportSettings(settings),
-      }),
-    [items, tags, people, settings]
+  // Only exported settings count as a change; the device-only fields do not.
+  const exportSettings = useContentStableValue(toExportSettings(settings));
+  // A new object whenever backed-up data changes. Identity is enough: the
+  // write compares it with the last written one. No serialization of every
+  // entry on every change.
+  const dataKey = useMemo<DataRevision>(
+    () => ({ items, tags, people, exportSettings }),
+    [items, tags, people, exportSettings]
   );
 
   // Write the backup a short time after local data changes. `enabled` stops
@@ -235,6 +173,7 @@ export const BackupProvider = ({ children }: { children: React.ReactNode }) => {
         existing: remote,
         deviceId,
         localItemCount: items.length,
+        lastWrittenAt: backupWrittenAt,
       })
     ) {
       return;
@@ -243,12 +182,38 @@ export const BackupProvider = ({ children }: { children: React.ReactNode }) => {
       setStatus("syncing");
       try {
         await resume();
+        // Read again right before writing: another phone may have written
+        // since the last read. Then its file wins and backup pauses here.
+        const text = await readBackupFile();
+        const latest = text === null ? null : parseBackupFile(text);
+        if (text !== null && latest === null) {
+          setRemote(null);
+          setIsReady(false);
+          setStatus("incompatible");
+          return;
+        }
+        if (
+          !canReplaceBackup({
+            existing: latest,
+            deviceId,
+            localItemCount: items.length,
+            lastWrittenAt: backupWrittenAt,
+          })
+        ) {
+          setRemote(latest);
+          setStatus("idle");
+          return;
+        }
         const data = await buildExportData({ items, tags, people, settings });
         const file = createBackupFile({ data, deviceId });
         await writeBackupFile(JSON.stringify(file));
         lastWritten.current = dataKey;
         setRemote(file);
         setStatus("idle");
+        setSettingsInEffect((current) => ({
+          ...current,
+          backupWrittenAt: file.createdAt,
+        }));
       } catch (error) {
         failInEffect(cloudFailureSchema.parse(error), "backup_write_failed");
       }
@@ -259,12 +224,16 @@ export const BackupProvider = ({ children }: { children: React.ReactNode }) => {
     isReady,
     isLogsLoaded,
     deviceId,
+    backupWrittenAt,
     dataKey,
     items,
     tags,
     people,
     settings,
     remote,
+    setStatus,
+    setRemote,
+    setIsReady,
   ]);
 
   const setEnabled = useCallback(
@@ -303,7 +272,7 @@ export const BackupProvider = ({ children }: { children: React.ReactNode }) => {
       analytics.track("settings:backup_toggled", { enabled: value });
       setSettings((current) => ({ ...current, backupEnabled: value }));
     },
-    [analytics, fail, setSettings, status]
+    [analytics, fail, setSettings, status, setStatus, setRemote, setIsReady]
   );
 
   const reconnect = useCallback(async () => {
@@ -321,14 +290,20 @@ export const BackupProvider = ({ children }: { children: React.ReactNode }) => {
       return;
     }
     try {
-      await askToRestoreBackup();
+      await askToRestoreBackup({
+        localCount: items.length,
+        backupCount: remote.data.items.length,
+        backupAge: dayjs(remote.createdAt).fromNow(),
+      });
     } catch {
       return;
     }
     try {
       // Wait for every store: until then local data is still the old data,
       // and claiming the backup now would let the next write replace it.
-      await datagate.import(remote.data, { muted: false });
+      await datagate.import(keepConsent(remote.data, settings), {
+        muted: false,
+      });
     } catch (error) {
       fail(cloudFailureSchema.parse(error), "backup_restore_failed");
       return;
@@ -336,7 +311,16 @@ export const BackupProvider = ({ children }: { children: React.ReactNode }) => {
     analytics.track("backup:restored");
     // Local data now matches the backup, so this phone may replace it.
     setRemote({ ...remote, deviceId });
-  }, [remote, deviceId, datagate, analytics, fail]);
+  }, [
+    remote,
+    deviceId,
+    items.length,
+    settings,
+    datagate,
+    analytics,
+    fail,
+    setRemote,
+  ]);
 
   const value = useMemo<BackupValue>(
     () => ({
@@ -352,6 +336,7 @@ export const BackupProvider = ({ children }: { children: React.ReactNode }) => {
           existing: remote,
           deviceId,
           localItemCount: items.length,
+          lastWrittenAt: backupWrittenAt,
         }),
       setEnabled,
       restore,
@@ -363,6 +348,7 @@ export const BackupProvider = ({ children }: { children: React.ReactNode }) => {
       status,
       remote,
       deviceId,
+      backupWrittenAt,
       isLogsLoaded,
       items.length,
       setEnabled,

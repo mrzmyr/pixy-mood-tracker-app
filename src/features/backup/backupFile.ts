@@ -57,7 +57,9 @@ export const parseBackupFile = (text: string): BackupFile | null => {
 /**
  * Whether this phone may replace the backup in the cloud.
  *
- * Never replace a backup with nothing. Replace another phone's backup only
+ * Never replace a backup with nothing. Never replace another phone's backup
+ * that is newer than this phone's last write: that phone is in use, and a
+ * write here would drop its entries. Replace another phone's backup only
  * when this phone has at least as many entries. Otherwise a fresh install
  * with one entry would wipe years of backup before the user can restore.
  */
@@ -65,16 +67,22 @@ export const canReplaceBackup = ({
   existing,
   deviceId,
   localItemCount,
+  lastWrittenAt,
 }: {
   existing: BackupFile | null;
   deviceId: string;
   localItemCount: number;
+  /** `createdAt` of this phone's last write, `null` before the first. */
+  lastWrittenAt: string | null;
 }): boolean => {
   if (localItemCount === 0) {
     return false;
   }
   if (existing === null || existing.deviceId === deviceId) {
     return true;
+  }
+  if (lastWrittenAt !== null && existing.createdAt > lastWrittenAt) {
+    return false;
   }
   return localItemCount >= existing.data.items.length;
 };

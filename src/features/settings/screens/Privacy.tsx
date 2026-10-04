@@ -20,6 +20,7 @@ export const PrivacyScreen = () => {
   const colors = useColors();
   const analytics = useAnalytics();
   const hasPeople = useFeatureFlag("people");
+  const isBackupOn = useFeatureFlag("backup");
   const content = hasPeople
     ? `${t("privacy_content")}\n\n${t("privacy_people_content")}`
     : t("privacy_content");
@@ -86,6 +87,9 @@ export const PrivacyScreen = () => {
             />
           </MenuList>
           <TextInfo>{t("behavioral_data_help")}</TextInfo>
+          {isBackupOn && (
+            <TextInfo>{t("backup_needs_behavioral_data")}</TextInfo>
+          )}
 
           <LinkButton
             style={{

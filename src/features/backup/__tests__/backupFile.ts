@@ -48,6 +48,7 @@ describe("canReplaceBackup()", () => {
         existing: null,
         deviceId: "phone-a",
         localItemCount: 0,
+        lastWrittenAt: null,
       })
     ).toBe(false);
   });
@@ -58,6 +59,7 @@ describe("canReplaceBackup()", () => {
         existing: file("phone-a", 500),
         deviceId: "phone-a",
         localItemCount: 1,
+        lastWrittenAt: null,
       })
     ).toBe(true);
     expect(
@@ -65,6 +67,7 @@ describe("canReplaceBackup()", () => {
         existing: null,
         deviceId: "phone-a",
         localItemCount: 1,
+        lastWrittenAt: null,
       })
     ).toBe(true);
   });
@@ -75,6 +78,7 @@ describe("canReplaceBackup()", () => {
         existing: file("old-phone", 500),
         deviceId: "new-phone",
         localItemCount: 1,
+        lastWrittenAt: null,
       })
     ).toBe(false);
     expect(
@@ -82,6 +86,28 @@ describe("canReplaceBackup()", () => {
         existing: file("old-phone", 500),
         deviceId: "new-phone",
         localItemCount: 500,
+        lastWrittenAt: null,
+      })
+    ).toBe(true);
+  });
+
+  test("keeps another phone's backup written after this phone's last write", () => {
+    // file() is written 2026-10-03T08:00. This phone wrote before that.
+    expect(
+      canReplaceBackup({
+        existing: file("other-phone", 10),
+        deviceId: "this-phone",
+        localItemCount: 500,
+        lastWrittenAt: "2026-10-01T08:00:00.000Z",
+      })
+    ).toBe(false);
+    // This phone wrote after the other phone: a stale read, writing is fine.
+    expect(
+      canReplaceBackup({
+        existing: file("other-phone", 10),
+        deviceId: "this-phone",
+        localItemCount: 500,
+        lastWrittenAt: "2026-10-04T08:00:00.000Z",
       })
     ).toBe(true);
   });
