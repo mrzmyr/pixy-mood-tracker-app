@@ -127,6 +127,12 @@ export interface AnalyticsEvents {
     permission_granted: boolean;
   };
   "reminders:time_changed": { time: string };
+  "reminders:notification_opened": {
+    /** App launched from the tap, not resumed from background. */
+    cold_start: boolean;
+    /** Minutes from delivery to tap. */
+    minutes_since_delivered: number;
+  };
 
   "data:export_started": { format: "json" | "csv" };
   "data:export_completed": { format: "json" | "csv" };

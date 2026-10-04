@@ -17,6 +17,11 @@
 - Confirmation after a new entry: `logger:confirmation_viewed`, `logger:confirmation_answered`, `logger:confirmation_skipped` ([`src/features/logger/confirmation`](../src/features/logger/confirmation))
   - Answer: `worse`, `same`, `better`. Asked only after create, not edit
   - Entry metadata: `rating`, `emotions`, counts, `message_word_count`, `sleep_quality`, `entries_count`
+- Reminder taps: `reminders:notification_opened` ([`src/features/notifications/reminderTaps.ts`](../src/features/notifications/reminderTaps.ts))
+  - One event per tap on reminder body. Dismisses and other actions not sent
+  - Properties: `cold_start`, `minutes_since_delivered`
+  - Cold start taps wait for stored settings, so a stored opt-out wins
+  - Reminders scheduled before this event match by repeating trigger. New reminders carry `data.kind: "reminder"`
 
 ## Event history
 
@@ -49,6 +54,10 @@ Use this section to join old and new events in PostHog, for example with an Acti
 - `feedback_send`: `message`, `email`, `deviceId`, `locale`, `version`, `os`, `date`, `environment`
 - `questioner_submit`: `question_text`, `answer_texts`, `question`, `deviceId`, `language`, `locale`, `version`, `os`, `date`
 - `loaded_logs`: `unit` (always `mb`)
+
+**New events**
+
+- `reminders:notification_opened`: added after `v1.88.0`. No older event. Earlier reminder taps sent nothing
 
 **Removed events**
 
