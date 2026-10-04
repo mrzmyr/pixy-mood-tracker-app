@@ -1,5 +1,4 @@
 import { Text, View } from "react-native";
-import { Edit2 } from "react-native-feather";
 import MenuListItem from "@/components/MenuListItem";
 import useColors from "@/hooks/useColors";
 import type { Tag } from "../TagsProvider";
@@ -51,9 +50,6 @@ export const TagListItem = ({
           >
             {tag.title}
           </Text>
-        </View>
-        <View style={{}}>
-          <Edit2 width={20} color={colors.tint} />
         </View>
       </View>
     </MenuListItem>
