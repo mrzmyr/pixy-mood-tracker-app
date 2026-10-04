@@ -8,6 +8,7 @@ export const FEATURE_FLAGS = [
   "photos",
   "support-pixy",
   "people",
+  "ios-widget",
 ] as const;
 
 /** One key of {@link FEATURE_FLAGS}. */

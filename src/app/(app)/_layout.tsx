@@ -6,6 +6,7 @@ import { StorageLoadGate } from "@/shell/StorageLoadGate";
 import { t } from "@/lib/translation";
 import useColors from "@/hooks/useColors";
 import { DEV_TOOLS } from "@/dev";
+import { WidgetSync } from "@/features/widget";
 import { HAS_FLOATING_HEADER } from "@/features/calendar";
 
 const renderHeaderLeft = () =>
@@ -28,6 +29,7 @@ const AppLayout = () => {
 
   return (
     <StorageLoadGate>
+      <WidgetSync />
       <View style={{ flex: 1, backgroundColor: colors.background }}>
         <Stack screenOptions={{ navigationBarColor: colors.tabsBackground }}>
           <Stack.Screen name="index" options={{ headerShown: false }} />
@@ -72,6 +74,7 @@ const AppLayout = () => {
             options={{ ...modalOptions, gestureEnabled: false }}
           />
           <Stack.Screen name="days/[date]" options={modalOptions} />
+          <Stack.Screen name="widget" options={modalOptions} />
           <Stack.Screen
             name="interventions/[id]"
             options={{ ...modalOptions, gestureEnabled: false }}

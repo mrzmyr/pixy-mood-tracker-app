@@ -59,6 +59,11 @@ export interface AnalyticsEvents {
     entries_count: number;
   };
 
+  "widget:guide_opened": undefined;
+  "widget:guide_step_viewed": { step: number };
+  "widget:guide_dismissed": { step: number };
+  "widget:guide_completed": undefined;
+
   "day:add_tapped": undefined;
   "day:edit_tapped": undefined;
   "day:delete_tapped": undefined;

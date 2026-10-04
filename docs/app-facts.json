@@ -395,11 +395,11 @@
     {
       "id": "widgets",
       "label": "Home screen widgets",
-      "status": "unavailable",
+      "status": "available",
       "group": "platforms",
-      "description": "Not in the app.",
+      "description": "iOS Home Screen widgets show the week, month, or year in pixels. Not on Android.",
       "competitorKey": "widgets",
-      "evidence": []
+      "evidence": ["src/features/widget/widgets", "app.config.ts"]
     },
     {
       "id": "watch",

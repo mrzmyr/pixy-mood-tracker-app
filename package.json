@@ -80,6 +80,7 @@
     "expo-superwall": "1.2.0",
     "expo-system-ui": "~57.0.4",
     "expo-web-browser": "~57.0.3",
+    "expo-widgets": "~57.0.22",
     "fast-xml-parser": "^5.10.1",
     "i18n-js": "^4.5.3",
     "lodash": "^4.17.21",
