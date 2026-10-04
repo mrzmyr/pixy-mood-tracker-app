@@ -7,9 +7,16 @@ import { SectionHeader } from "./SectionHeader";
 
 /**
  * Message section of an entry card; editing opens the logger at the
- * message step.
+ * message step. A stored message always shows, also with the pencil off.
  */
-export const Message = ({ item }: { item: LogItem }) => {
+export const Message = ({
+  item,
+  canEdit,
+}: {
+  item: LogItem;
+  /** Shows the pencil; off when the edit logger has no message step. */
+  canEdit: boolean;
+}) => {
   const router = useRouter();
   const colors = useColors();
 
@@ -17,15 +24,20 @@ export const Message = ({ item }: { item: LogItem }) => {
     <View style={{}}>
       <SectionHeader
         title={t("view_log_message")}
-        onEdit={() => {
-          router.push({
-            pathname: "/logs/[id]/edit",
-            params: {
-              id: item.id,
-              step: "message",
-            },
-          });
-        }}
+        editTestID="log-list-message-edit"
+        onEdit={
+          canEdit
+            ? () => {
+                router.push({
+                  pathname: "/logs/[id]/edit",
+                  params: {
+                    id: item.id,
+                    step: "message",
+                  },
+                });
+              }
+            : undefined
+        }
       />
       <View
         style={{

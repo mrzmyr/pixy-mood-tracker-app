@@ -21,12 +21,19 @@ const EMOTIONS_CATEGORY_ORDER = {
 
 /**
  * Emotions section of an entry card; editing opens the logger at the
- * emotions step.
+ * emotions step. Stored emotions always show, also with the pencil off.
  *
  * Every emotion key on the entry must exist in `EMOTIONS`, otherwise the
  * lookup throws. Emotions show in stored order.
  */
-export const Emotions = ({ item }: { item: LogItem }) => {
+export const Emotions = ({
+  item,
+  canEdit,
+}: {
+  item: LogItem;
+  /** Shows the pencil; off when the edit logger has no emotions step. */
+  canEdit: boolean;
+}) => {
   const colors = useColors();
   const router = useRouter();
 
@@ -41,15 +48,20 @@ export const Emotions = ({ item }: { item: LogItem }) => {
     <View style={{}}>
       <SectionHeader
         title={t("view_log_emotions")}
-        onEdit={() => {
-          router.push({
-            pathname: "/logs/[id]/edit",
-            params: {
-              id: item.id,
-              step: "emotions",
-            },
-          });
-        }}
+        editTestID="log-list-emotions-edit"
+        onEdit={
+          canEdit
+            ? () => {
+                router.push({
+                  pathname: "/logs/[id]/edit",
+                  params: {
+                    id: item.id,
+                    step: "emotions",
+                  },
+                });
+              }
+            : undefined
+        }
       />
       <View
         style={{
