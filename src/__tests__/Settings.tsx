@@ -303,6 +303,17 @@ describe("Development section in Settings", () => {
     });
 
     expect(await screen.findByText("Development")).toBeOnTheScreen();
+    expect(screen.queryByText("Feature flags")).toBeNull();
+  });
+
+  test("tester sees feature flag toggles when the override flag is on", async () => {
+    mockReload.mockResolvedValue({ "feature-flag-overrides": true });
+    const screen = await renderSettings({
+      enabled: false,
+      openSupport: () => Promise.resolve(),
+    });
+
+    expect(await screen.findByText("Feature flags")).toBeOnTheScreen();
   });
 
   test("user unlocks development items with 20 taps on the version", async () => {

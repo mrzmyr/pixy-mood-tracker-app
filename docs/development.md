@@ -52,8 +52,9 @@ Three variants install side by side, each with its own name, icon, bundle ID, an
 - Each key needs a boolean flag with the same key in the PostHog project of every variant
 - Flags load only with consent: onboarding done and Settings > Privacy > Behavioral Data on. No flag request at startup (`preloadFeatureFlags: false`, [`src/shell/posthogOptions.ts`](../src/shell/posthogOptions.ts))
 - Without consent, or until flags load, every flag is off. Turning consent off turns flags off. Flags cached in an earlier session are never read
-- Development and preview builds override flags in Settings > Development > Feature flags, or with `<scheme>://dev/feature-flag?key=<key>&value=on|off|remote`. Overrides work without consent and end when the app restarts. Production builds ignore them
-- Settings > Development is hidden in production builds. Flag `development` or 20 taps on the version in Settings show it ([Settings screen](../src/features/settings/screens/Settings/index.tsx)). Taps last until app restart. Development and preview builds always show it
+- Development and preview builds override flags in Settings > Development > Feature flags, or with `<scheme>://dev/feature-flag?key=<key>&value=on|off|remote`. Overrides work without consent and end when the app restarts
+- Production builds apply overrides only while flag `feature-flag-overrides` is on. That flag also shows Settings > Development > Feature flags. It needs consent, so testers agreed to the privacy policy. It is never overridable itself ([`src/state/featureFlags/overrides.ts`](../src/state/featureFlags/overrides.ts))
+- Settings > Development is hidden in production builds. Flag `development`, flag `feature-flag-overrides`, or 20 taps on the version in Settings show it ([Settings screen](../src/features/settings/screens/Settings/index.tsx)). Taps last until app restart. Development and preview builds always show it
 - Enable `interventions` to show exercises after entries with anxious-type emotions ([`src/features/interventions`](../src/features/interventions))
 
 ### Photos

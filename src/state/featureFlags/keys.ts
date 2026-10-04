@@ -10,6 +10,7 @@ export const FEATURE_FLAGS = [
   "people",
   "ios-widget",
   "development",
+  "feature-flag-overrides",
 ] as const;
 
 /** One key of {@link FEATURE_FLAGS}. */
