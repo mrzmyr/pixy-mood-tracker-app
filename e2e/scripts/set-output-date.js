@@ -23,4 +23,8 @@ const MONTHS = [
 // Month and Year Report titles, in English.
 output.monthTitle = `${MONTHS[now.getMonth()]} ${now.getFullYear()}`;
 output.year = String(now.getFullYear());
+// Three months back: the year view opens this month in the month view.
+const pastMonth = new Date(now.getFullYear(), now.getMonth() - 3, 1);
+output.pastMonth = toId(pastMonth).slice(0, 7);
+output.pastMonthFirstDay = toId(pastMonth);
 output.runId = now.getTime().toString(36);

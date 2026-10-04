@@ -1,0 +1,49 @@
+appId: ${APP_ID}
+tags: [p1, calendar]
+---
+# The View menu switches the calendar between year, month, and week.
+- runFlow:
+    file: ../subflows/load-fixture.yaml
+    env:
+      FIXTURE: year
+- openLink: ${APP_SCHEME}://dev/feature-flag?key=calendar-views&value=on
+- waitForAnimationToEnd
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - runFlow:
+          when:
+            visible: "Open"
+          commands:
+            - tapOn: "Open"
+
+# Year view: a month opens in the month view.
+- tapOn: "View"
+- tapOn: "Year"
+- assertVisible:
+    id: "calendar-year-${output.year}"
+- scrollUntilVisible:
+    element:
+      id: "calendar-year-month-${output.pastMonth}"
+    direction: UP
+- tapOn:
+    id: "calendar-year-month-${output.pastMonth}"
+- assertVisible:
+    id: "calendar-day-${output.pastMonthFirstDay}"
+
+# Week view: opens on this week, goes back one week, returns with Today.
+- tapOn: "View"
+- tapOn: "Week"
+- assertVisible:
+    id: "calendar-week-day-${output.today}"
+- assertNotVisible:
+    id: "calendar-week-today"
+- tapOn:
+    id: "calendar-week-previous"
+- assertNotVisible:
+    id: "calendar-week-day-${output.today}"
+- tapOn:
+    id: "calendar-week-today"
+- assertVisible:
+    id: "calendar-week-day-${output.today}"

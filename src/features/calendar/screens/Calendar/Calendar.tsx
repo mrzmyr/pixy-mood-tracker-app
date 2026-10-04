@@ -12,12 +12,11 @@ import type {
 } from "react-native";
 
 import { DATE_FORMAT } from "@/constants/Config";
-import { useLogState } from "@/features/logs";
 import CalendarMonth from "./CalendarMonth";
 import { getGeometry, getMonths } from "./layout";
 import type { Month } from "./layout";
 
-import { getItemDate } from "@/lib/logDates";
+import { useItemsByDate } from "./itemsByDate";
 
 const positionConfig = { startRenderingFromBottom: true };
 const getKey = (item: Month) => item.date;
@@ -29,18 +28,37 @@ const CalendarComponent = ({
   header,
   footer,
   onScroll,
+  initialMonth = null,
 }: {
+  /** Any day of the month to open at. `null` opens at the current month. */
+  initialMonth?: string | null;
   listRef: React.RefObject<FlashListRef<Month> | null>;
   header: React.ReactElement | null;
   footer: React.ReactElement;
   onScroll: (event: NativeSyntheticEvent<NativeScrollEvent>) => void;
 }) => {
-  const logState = useLogState();
   const { fontScale } = useWindowDimensions();
   const [width, setWidth] = useState(0);
-  const [monthCount, setMonthCount] = useState(13);
-  const isLoaded = useRef(false);
   const currentMonth = dayjs().startOf("month").format(DATE_FORMAT);
+  // Months back from the current month to `initialMonth`. FlashList reads
+  // `initialScrollIndex` once; the screen remounts this list per month.
+  const initialOffset = useMemo(
+    () =>
+      initialMonth === null
+        ? 0
+        : Math.max(
+            dayjs(currentMonth).diff(
+              dayjs(initialMonth).startOf("month"),
+              "month"
+            ),
+            0
+          ),
+    [currentMonth, initialMonth]
+  );
+  const [monthCount, setMonthCount] = useState(() =>
+    Math.max(13, initialOffset + 1)
+  );
+  const isLoaded = useRef(false);
   const locale = useWeekLocale();
   const months = useMemo(
     () => getMonths({ end: currentMonth, count: monthCount, locale }),
@@ -51,17 +69,7 @@ const CalendarComponent = ({
       getGeometry({ width, fontScale, isAndroid: Platform.OS === "android" }),
     [width, fontScale]
   );
-  const itemMap = useMemo(() => {
-    const itemsByDate: Record<string, typeof logState.items> = {};
-    for (const item of logState.items) {
-      const date = getItemDate(item);
-      if (!itemsByDate[date]) {
-        itemsByDate[date] = [];
-      }
-      itemsByDate[date].push(item);
-    }
-    return itemsByDate;
-  }, [logState.items]);
+  const itemMap = useItemsByDate();
   const renderMonth = useCallback(
     ({ item }: ListRenderItemInfo<Month>) => (
       <CalendarMonth
@@ -101,6 +109,9 @@ const CalendarComponent = ({
           maintainVisibleContentPosition={positionConfig}
           onStartReached={loadEarlierMonths}
           onStartReachedThreshold={1}
+          initialScrollIndex={
+            initialOffset > 0 ? monthCount - 1 - initialOffset : undefined
+          }
           onLoad={onLoad}
           onScroll={onScroll}
           scrollEventThrottle={32}

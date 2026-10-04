@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useRef, useState } from "react";
+import React, { memo, useCallback, useEffect, useRef, useState } from "react";
 import { ActivityIndicator, Platform, Text, View } from "react-native";
 import type { NativeScrollEvent, NativeSyntheticEvent } from "react-native";
 
@@ -17,6 +17,10 @@ import CalendarHeader from "./CalendarHeader";
 import { ScrollToBottomButton } from "./ScrollToBottomButton";
 import { useFootNote } from "./footNote";
 import { ObserveInteractiveMarker } from "expo-observe";
+import { useNavigation } from "expo-router";
+import { useCalendarView } from "../../views";
+import { WeekView } from "./WeekView";
+import { YearView } from "./YearView";
 
 const CalendarScreenComponent = () => {
   /*
@@ -31,10 +35,32 @@ const CalendarScreenComponent = () => {
   const analytics = useAnalytics();
   const logState = useLogState();
   const calendarFilters = useCalendarFilters();
+  const calendarView = useCalendarView();
+  const { show: showView, isEnabled: isViewMenuEnabled } = calendarView;
+  const navigation = useNavigation();
+  // A centered title collides with the View and Filters header buttons.
+  useEffect(() => {
+    navigation.setOptions({
+      headerTitleAlign: isViewMenuEnabled ? "left" : "center",
+    });
+  }, [navigation, isViewMenuEnabled]);
   const { text: footNote, onOverscroll: onFootNoteOverscroll } = useFootNote();
   const [isAwayFromToday, setIsAwayFromToday] = useState(false);
   const scrollRef = useRef<FlashListRef<Month>>(null);
-  const showScrollTopButton = isAwayFromToday && !calendarFilters.isOpen;
+  const showScrollTopButton =
+    calendarView.view === "month" && isAwayFromToday && !calendarFilters.isOpen;
+  const onOpenMonth = useCallback(
+    (month: string) => {
+      analytics.track("calendar:view_changed", {
+        view: "month",
+        source: "year_month",
+      });
+      showView({ view: "month", date: month });
+    },
+    [analytics, showView]
+  );
+  const webFilters =
+    Platform.OS === "web" && calendarFilters.isOpen ? <Body /> : null;
   const onScroll = useCallback(
     (event: NativeSyntheticEvent<NativeScrollEvent>) => {
       const { contentOffset, contentSize, layoutMeasurement } =
@@ -57,44 +83,63 @@ const CalendarScreenComponent = () => {
 
   return (
     <View style={{ flex: 1 }}>
-      <CalendarHeader />
-      {showScrollTopButton && (
-        <ScrollToBottomButton
-          onPress={() => {
-            analytics.track("calendar:today_tapped");
-            scrollRef.current?.scrollToEnd({ animated: true });
+      {calendarView.view === "year" && (
+        <View style={{ flex: 1, backgroundColor: colors.calendarBackground }}>
+          <YearView onOpenMonth={onOpenMonth} header={webFilters} />
+        </View>
+      )}
+      {calendarView.view === "week" && (
+        <WeekView
+          date={calendarView.date}
+          header={webFilters}
+          onChangeDate={(date, direction) => {
+            analytics.track("calendar:week_changed", { direction });
+            calendarView.show({ view: "week", date });
           }}
         />
       )}
-      <View style={{ flex: 1, backgroundColor: colors.calendarBackground }}>
-        <Calendar
-          listRef={scrollRef}
-          onScroll={onScroll}
-          header={
-            Platform.OS === "web" && calendarFilters.isOpen ? <Body /> : null
-          }
-          footer={
-            <>
-              <View style={{ paddingBottom: 32 }}>
-                <CalendarFooter />
-              </View>
-              <View style={{}}>
-                <Text
-                  style={{
-                    fontSize: 14,
-                    color: colors.textSecondary,
-                    marginTop: 20,
-                    textAlign: "center",
-                    marginBottom: -60,
-                  }}
-                >
-                  {footNote}
-                </Text>
-              </View>
-            </>
-          }
-        />
-      </View>
+      {calendarView.view === "month" && (
+        <>
+          <CalendarHeader />
+          {showScrollTopButton && (
+            <ScrollToBottomButton
+              onPress={() => {
+                analytics.track("calendar:today_tapped");
+                scrollRef.current?.scrollToEnd({ animated: true });
+              }}
+            />
+          )}
+          <View style={{ flex: 1, backgroundColor: colors.calendarBackground }}>
+            <Calendar
+              key={calendarView.date ?? "today"}
+              initialMonth={calendarView.date}
+              listRef={scrollRef}
+              onScroll={onScroll}
+              header={webFilters}
+              footer={
+                <>
+                  <View style={{ paddingBottom: 32 }}>
+                    <CalendarFooter />
+                  </View>
+                  <View style={{}}>
+                    <Text
+                      style={{
+                        fontSize: 14,
+                        color: colors.textSecondary,
+                        marginTop: 20,
+                        textAlign: "center",
+                        marginBottom: -60,
+                      }}
+                    >
+                      {footNote}
+                    </Text>
+                  </View>
+                </>
+              }
+            />
+          </View>
+        </>
+      )}
       {Platform.OS !== "web" && <CalendarBottomSheet />}
       <ObserveInteractiveMarker />
     </View>

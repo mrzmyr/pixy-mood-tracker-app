@@ -77,6 +77,11 @@ export interface AnalyticsEvents {
   "calendar:filters_reset": undefined;
   "calendar:filters_closed": undefined;
   "calendar:promo_tapped": { card: "changelog" };
+  "calendar:view_changed": {
+    view: "year" | "month" | "week";
+    source: "menu" | "year_month";
+  };
+  "calendar:week_changed": { direction: "previous" | "next" | "today" };
 
   "statistics:highlights_viewed": {
     items_count: number;

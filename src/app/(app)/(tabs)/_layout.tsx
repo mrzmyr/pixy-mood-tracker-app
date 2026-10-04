@@ -2,7 +2,12 @@ import { Tabs } from "expo-router/js-tabs";
 import { Filter } from "react-native-feather";
 import { Platform, View } from "react-native";
 import LinkButton from "@/components/LinkButton";
-import { useCalendarFilters } from "@/features/calendar";
+import {
+  CalendarViewMenu,
+  useCalendarFilters,
+  useCalendarView,
+} from "@/features/calendar";
+import { useAnalytics } from "@/state/analytics";
 import { t } from "@/lib/translation";
 import useColors from "@/hooks/useColors";
 import { MyTabBar } from "@/shell/MyTabBar";
@@ -31,7 +36,29 @@ const CalendarFiltersHeaderButton = () => {
     </View>
   );
 };
-const renderCalendarHeaderRight = () => <CalendarFiltersHeaderButton />;
+/** View menu, behind the `calendar-views` flag, then Filters. */
+const CalendarHeaderRight = () => {
+  const calendarView = useCalendarView();
+  const analytics = useAnalytics();
+  return (
+    <View style={{ flexDirection: "row", alignItems: "center" }}>
+      {calendarView.isEnabled && (
+        <CalendarViewMenu
+          view={calendarView.view}
+          onChange={(view) => {
+            if (view === calendarView.view) {
+              return;
+            }
+            analytics.track("calendar:view_changed", { view, source: "menu" });
+            calendarView.show({ view });
+          }}
+        />
+      )}
+      <CalendarFiltersHeaderButton />
+    </View>
+  );
+};
+const renderCalendarHeaderRight = () => <CalendarHeaderRight />;
 
 const renderTabBar = (props: React.ComponentProps<typeof MyTabBar>) => (
   <MyTabBar {...props} />
