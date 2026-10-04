@@ -91,13 +91,8 @@ export const TagListContent = ({
             overflow: "hidden",
           }}
         >
-          {tags.map((tag, index) => (
-            <ItemComponent
-              key={tag.id}
-              tag={tag}
-              isLast={index === tags.length - 1}
-              onPress={() => onEdit(tag)}
-            />
+          {tags.map((tag) => (
+            <ItemComponent key={tag.id} tag={tag} onPress={() => onEdit(tag)} />
           ))}
         </MenuList>
       </View>

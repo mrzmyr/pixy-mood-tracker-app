@@ -93,7 +93,6 @@ export const SettingsTags = () => {
                   title={t("archive_tag")}
                   iconLeft={<Archive size={20} color={colors.text} />}
                   isLink
-                  isLast
                   onPress={() => {
                     router.push("/settings/tags/archive");
                   }}
