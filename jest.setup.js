@@ -43,15 +43,35 @@ jest.mock("react-native-reanimated", () => {
     FadeInRight: animation,
     FadeInUp: animation,
     FadeOut: animation,
+    FadeOutUp: animation,
+    Extrapolation: { CLAMP: "clamp" },
     Easing: { cubic: (t) => t, quad: (t) => t, in: (f) => f, inOut: (f) => f },
+    cancelAnimation: jest.fn(),
+    interpolate: () => 0,
     useReducedMotion: () => false,
     useSharedValue: (initial) => {
       let current = initial;
       return { get: () => current, set: (next) => (current = next) };
     },
     useAnimatedStyle: (worklet) => worklet(),
+    withSpring: (value) => value,
     withTiming: (value) => value,
     withDelay: (_delay, value) => value,
+  };
+});
+
+// oxlint-disable-next-line anti-slop/no-module-mocking -- the toast and the photo viewer schedule JS callbacks from worklets; the native worklets runtime is unavailable in Jest.
+jest.mock("react-native-worklets", () => ({
+  scheduleOnRN: (fn, ...args) => fn(...args),
+}));
+
+// oxlint-disable-next-line anti-slop/no-module-mocking -- the toast swipe uses native gesture handlers that Jest cannot run.
+jest.mock("react-native-gesture-handler", () => {
+  const { View } = require("react-native");
+  return {
+    GestureDetector: ({ children }) => children,
+    GestureHandlerRootView: View,
+    usePanGesture: () => ({}),
   };
 });
 

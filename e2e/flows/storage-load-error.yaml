@@ -14,7 +14,7 @@ tags: [p0, storage]
 - assertVisible: "Your entries could not be loaded"
 - assertVisible: "Error code: storage_invalid_value"
 - assertNotVisible:
-    id: "calendar"
+    id: "calendar-list"
 
 # Export shares the stored data and keeps the error screen.
 - tapOn:

@@ -14,6 +14,8 @@ import _ from "lodash";
 import { Platform, ScrollView, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
+const TagScrollView = Platform.OS === "ios" ? View : ScrollView;
+
 /**
  * Tag manager modal opened from the logger's tag slide. Archived tags are
  * hidden here but still count toward {@link MAX_TAGS}.
@@ -91,19 +93,16 @@ export const Tags = () => {
           </View>
         </>
       )}
-      <ScrollView
+      <TagScrollView
         style={{
           flex: 1,
         }}
       >
         <TagList tags={_tags} />
-        <View
-          style={{
-            width: "100%",
-            height: insets.bottom + 56,
-          }}
-        />
-      </ScrollView>
+        {Platform.OS !== "ios" && (
+          <View style={{ height: insets.bottom + 56 }} />
+        )}
+      </TagScrollView>
     </View>
   );
 };

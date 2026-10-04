@@ -8,7 +8,7 @@ description: Build, install, and run the app on a device. Use when asked to run 
 Run in order. Relay each `Step N` line. Do not pick variants; the CLI owns them.
 
 1. `bun devices list`. Copy one value of column `OPTION`: `--platform=<ios|android>` for simulator or emulator, `--target=<target>` for a phone. Use it as `<device>` below.
-   Phone: `bun devices reserve <device>` first, so other agents cannot take it. Pick another phone on `device_reserved`.
+   Phone: `bun devices reserve <device> --goal="<what you do>"` first, so other agents cannot take it. Pick another phone on `device_reserved`.
 2. `bun app install <device>`
 3. `bun app seed <device> --fixture=<id>` (ids: fresh, empty, seed, year)
 4. `bun app open <device>`

@@ -2,7 +2,7 @@ import * as FileSystem from "expo-file-system/legacy";
 import { Platform } from "react-native";
 import { getFileTransfer } from "./fileTransfer";
 
-const EXPORT_FILE_PATTERN = /^pixy-mood-tracker-.*\.json$/u;
+const EXPORT_FILE_PATTERN = /^pixy-mood-tracker-.*\.(?:json|csv)$/u;
 
 const getExportDirectories = (): string[] =>
   [FileSystem.cacheDirectory, FileSystem.documentDirectory].filter(

@@ -32,7 +32,8 @@ tags: [p0, entry]
 - assertVisible: "Add tags"
 - tapOn:
     id: "logger-next"
-- assertVisible: "Write about your day…"
+- assertVisible:
+    id: "log-message"
 - tapOn:
     id: "log-message"
 - inputText: "e2e edited ${output.runId}"
@@ -52,14 +53,15 @@ tags: [p0, entry]
     id: "logger-next"
 - tapOn:
     id: "logger-next"
-- assertVisible: "Write about your day…"
+- assertVisible:
+    id: "log-message"
 - tapOn:
     id: "log-message"
 - inputText: "e2e second ${output.runId}"
 - tapOn:
     id: "logger-next"
 - tapOn: "Maybe later"
-- runFlow: ../subflows/answer-confirmation.yaml
+- runFlow: ../subflows/close-confirmation.yaml
 
 # Delete the edited entry. Both entries can share the same minute, so the
 # day list order is not fixed.

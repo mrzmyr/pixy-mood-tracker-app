@@ -60,10 +60,15 @@
     "expo-document-picker": "~57.0.2",
     "expo-file-system": "~57.0.7",
     "expo-font": "~57.0.4",
+    "expo-glass-effect": "~57.0.4",
     "expo-haptics": "~57.0.3",
+    "expo-image": "~57.0.5",
+    "expo-image-manipulator": "~57.0.20",
+    "expo-image-picker": "~57.0.20",
     "expo-linear-gradient": "~57.0.2",
     "expo-linking": "~57.0.11",
     "expo-localization": "~57.0.2",
+    "expo-media-library": "~57.0.5",
     "expo-notifications": "~57.0.21",
     "expo-observe": "~57.0.24",
     "expo-router": "~57.0.23",
@@ -132,6 +137,9 @@
   },
   "jest": {
     "preset": "jest-expo",
+    "setupFiles": [
+      "./node_modules/react-native-gesture-handler/jestSetup.js"
+    ],
     "setupFilesAfterEnv": [
       "<rootDir>/jest.setup.js"
     ],

@@ -20,6 +20,7 @@ export const _generateItem = (item: Partial<LogItem>): LogItem => {
     dateTime: new Date().toISOString(),
     tags: [],
     emotions: [],
+    photos: [],
     ...item,
   };
 

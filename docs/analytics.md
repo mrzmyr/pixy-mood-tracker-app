@@ -9,13 +9,44 @@
 - Onboarding skip: consent regions land on the privacy slide before completion.
 - Off switch: Settings > Privacy > Behavioral Data
 - Feature flags load only with consent ([development.md](development.md#feature-flags))
+- Data exports: `data:export_started`, `data:export_completed`, `data:export_failed` send `format: "json" | "csv"`.
 - Store review prompt: `logger:store_review_requested` ([`src/features/review`](../src/features/review))
   - Fires once per install, after the save that reaches 7 entries
   - Properties: `trigger`, `entries_count`
   - OS decides whether prompt shows
-- Confirmation after a new entry: `logger:confirmation_viewed`, `logger:confirmation_answered`, `logger:confirmation_skipped` ([`src/features/logger/confirmation`](../src/features/logger/confirmation))
-  - Answer: `worse`, `same`, `better`. Asked only after create, not edit
+- Confirmation after a new entry: `logger:confirmation_viewed` ([`src/features/logger/confirmation`](../src/features/logger/confirmation))
+  - Shown only after create, not edit
   - Entry metadata: `rating`, `emotions`, counts, `message_word_count`, `sleep_quality`, `entries_count`
+- Reminder taps: `reminders:notification_opened` ([`src/features/notifications/reminderTaps.ts`](../src/features/notifications/reminderTaps.ts))
+  - One event per tap on reminder body. Dismisses and other actions not sent
+  - Properties: `cold_start`, `minutes_since_delivered`
+  - Cold start taps wait for stored settings, so a stored opt-out wins
+  - Reminders scheduled before this event match by repeating trigger. New reminders carry `data.kind: "reminder"`
+
+## Photos
+
+- Events: `photos:*` in [`events.ts`](../src/state/analytics/events.ts). Sent through `track()` only, so consent applies
+- Never file names, URIs, dimensions, EXIF, location, photo timestamps, or library ids
+- `mode`: `create` or `edit`. `entry_days_ago`: 0 for today, like `calendar:day_opened.days_ago`
+- Questions: [product-analytics.md](product-analytics.md#photos)
+
+| Event | When | Properties |
+| --- | --- | --- |
+| `logger:step_viewed` | Photos step shown | `step: "photos"` |
+| `photos:day_access_prompt_shown` | Permission card shows, once per step mount | `mode`, `entry_days_ago` |
+| `photos:day_access_prompt_dismissed` | Not Now on the card | `mode` |
+| `photos:day_access_answered` | System dialog closes | `status`, `source` (`card`, `button`) |
+| `photos:day_photos_loaded` | Day query resolves | `count` (0 to 20), `access`, `entry_days_ago` |
+| `photos:picker_opened` | Library picker opens | `remaining` |
+| `photos:picker_closed` | Library picker returns | `picked_count`, `is_cancelled` |
+| `photos:photo_added` | Photo attached: picked in the library picker, or a suggestion tapped. Before its import ends | `source` (`day`, `library`), `count`, `mode` |
+| `photos:photo_removed` | Remove button on a tile or in the viewer | `source`, `count`, `mode` |
+| `photos:limit_reached` | Unchecked photo or More… tapped at 6 attached | `mode` |
+| `photos:import_failed` | Import error | `source`, `status` |
+| `photos:viewer_closed` | Viewer closes | `context` (`logger`, `day`), `photos_count`, `viewed_count` |
+| `logger:log_saved` | Save | `photos_count`, `photos_day_count`, `photos_library_count` |
+| `settings:step_toggled` | Check-in toggle | `step: "photos"` |
+| `logger:step_disabled` | "I Don’t Add Photos" | `step: "photos"` |
 
 ## Event history
 
@@ -34,10 +65,31 @@ Use this section to join old and new events in PostHog, for example with an Acti
   - `log_changed` = `logger:log_saved` with `mode: "edit"`
   - `log_saved_without_rating` = `logger:log_saved` with `has_rating: false`
 
+**Added events**
+
+- Photo attachments, first release with photos ([`src/features/photos`](../src/features/photos))
+  - `photos:day_access_prompt_shown`: `mode`, `entry_days_ago`
+  - `photos:day_access_prompt_dismissed`: `mode`
+  - `photos:day_access_answered`: `status` (`granted`, `limited`, `denied`), `source` (`card`, `button`)
+  - `photos:day_photos_loaded`: `count`, `access` (`granted`, `limited`), `entry_days_ago`
+  - `photos:picker_opened`: `remaining`
+  - `photos:picker_closed`: `picked_count`, `is_cancelled`
+  - `photos:photo_added`, `photos:photo_removed`: `source` (`day`, `library`), `count` (attached after the change), `mode`
+  - `photos:limit_reached`: `mode`
+  - `photos:import_failed`: `source`, `status`
+  - `photos:viewer_closed`: `context` (`logger`, `day`), `photos_count`, `viewed_count`
+  - `logger:log_saved`: new `photos_count`, `photos_day_count`, `photos_library_count`
+  - Counts and enums only. Never file names, URIs, dimensions, EXIF, location, photo timestamps, or library ids
+- Never shipped in a release, replaced before the first photos release: `logger:library_permission_answered` (now `photos:day_access_answered`), `logger:photo_added` (now `photos:photo_added`), `logger:photo_removed` (now `photos:photo_removed`), `photos:photo_selected` (now `photos:photo_added`), `photos:photo_deselected` (now `photos:photo_removed`), `logger:photo_limit_reached` (now `photos:limit_reached`), `logger:camera_permission_denied` (dropped: no camera), `day:photo_opened` (now `photos:viewer_closed` with `context: "day"`)
+
 **Changed meaning**
 
 - `data_import_success` fired twice per import: once when a file was picked, once after the import. `data:import_completed` fires only after the import
 - `data:reset_*`: Settings > Data has one "Delete all my data" item since the first release after `v1.88.0`. It sends only `kind: "factory"`. `kind: "data"` (entries and tags only) is no longer sent
+
+**Removed events**
+
+- `logger:confirmation_answered`, `logger:confirmation_skipped`: the "How are you feeling now?" question left the confirmation. `logger:confirmation_viewed` stays
 
 **Removed properties** (never sent under the new names)
 
@@ -48,6 +100,10 @@ Use this section to join old and new events in PostHog, for example with an Acti
 - `feedback_send`: `message`, `email`, `deviceId`, `locale`, `version`, `os`, `date`, `environment`
 - `questioner_submit`: `question_text`, `answer_texts`, `question`, `deviceId`, `language`, `locale`, `version`, `os`, `date`
 - `loaded_logs`: `unit` (always `mb`)
+
+**New events**
+
+- `reminders:notification_opened`: added after `v1.88.0`. No older event. Earlier reminder taps sent nothing
 
 **Removed events**
 

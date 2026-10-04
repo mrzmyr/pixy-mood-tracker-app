@@ -1,6 +1,3 @@
-import LinkButton from "@/components/LinkButton";
-import { t } from "@/lib/translation";
-import { useFeedbackModal } from "@/features/feedback";
 import type { Emotion } from "@/types";
 import chunk from "lodash/chunk";
 import orderBy from "lodash/orderBy";
@@ -8,6 +5,7 @@ import { View } from "react-native";
 import type { ViewStyle } from "react-native";
 
 import { EmotionButtonBasic } from "./EmotionButtonBasic";
+import { MissingEmotionTile } from "./MissingEmotionTile";
 
 const DEFAULT_STYLE = {};
 
@@ -15,32 +13,37 @@ const DEFAULT_STYLE = {};
  * Two-column emotion grid, good first, then neutral, then bad.
  *
  * Expects categories already reduced to `good`, `neutral`, and `bad`;
- * `very_good` and `very_bad` have no sort rank.
+ * `very_good` and `very_bad` have no sort rank. A "Missing one?" tile ends
+ * the grid.
  */
 export const EmotionBasicSelection = ({
   emotions,
   selectedEmotions,
   onPress,
+  onRequestEmotion,
   style = DEFAULT_STYLE,
 }: {
   emotions: Emotion[];
   selectedEmotions: Emotion[];
   onPress: (emotion: Emotion) => void;
+  onRequestEmotion: () => void;
   style?: ViewStyle;
 }) => {
-  const { Modal, show } = useFeedbackModal();
-
-  const rows = chunk(
-    orderBy(
-      emotions,
-      (e) =>
-        ({
-          good: 1,
-          neutral: 0,
-          bad: -1,
-        })[e.category],
-      ["desc"]
-    ),
+  // `null` marks the "Missing one?" tile after the last emotion.
+  const rows = chunk<Emotion | null>(
+    [
+      ...orderBy(
+        emotions,
+        (e) =>
+          ({
+            good: 1,
+            neutral: 0,
+            bad: -1,
+          })[e.category],
+        ["desc"]
+      ),
+      null,
+    ],
     2
   );
 
@@ -53,11 +56,9 @@ export const EmotionBasicSelection = ({
         ...style,
       }}
     >
-      <Modal />
-
       {rows.map((row) => (
         <View
-          key={`basic-emotion-row-${row[0].key}`}
+          key={`basic-emotion-row-${row[0]?.key ?? "missing"}`}
           style={{
             flexDirection: "row",
             marginBottom: 8,
@@ -65,19 +66,23 @@ export const EmotionBasicSelection = ({
         >
           {row.map((emotion) => (
             <View
-              key={`basic-emotion-container-${emotion.key}`}
+              key={`basic-emotion-container-${emotion?.key ?? "missing"}`}
               style={{
                 marginRight: 8,
                 flex: 1,
               }}
             >
-              <EmotionButtonBasic
-                emotion={emotion}
-                onPress={onPress}
-                selected={selectedEmotions
-                  .map((d) => d.key)
-                  .includes(emotion.key)}
-              />
+              {emotion === null ? (
+                <MissingEmotionTile onPress={onRequestEmotion} />
+              ) : (
+                <EmotionButtonBasic
+                  emotion={emotion}
+                  onPress={onPress}
+                  selected={selectedEmotions
+                    .map((d) => d.key)
+                    .includes(emotion.key)}
+                />
+              )}
             </View>
           ))}
           {row.length === 1 && (
@@ -89,16 +94,6 @@ export const EmotionBasicSelection = ({
           )}
         </View>
       ))}
-
-      <LinkButton
-        type="secondary"
-        onPress={() => show({ type: "idea" })}
-        style={{
-          marginTop: 20,
-        }}
-      >
-        {t("give_feedback")}
-      </LinkButton>
     </View>
   );
 };

@@ -5,6 +5,7 @@ import { useEffect, useRef } from "react";
 import { useAnalytics } from "@/state/analytics";
 import { useLogState, useLogUpdater } from "@/features/logs";
 import type { LogItem } from "@/features/logs";
+import { countPhotosBySource } from "@/features/photos";
 import { useStoreReviewPrompt } from "@/features/review";
 
 import type { TemporaryLogState, TemporaryLogValue } from "../temporaryLog";
@@ -20,7 +21,9 @@ export interface SavedEntry {
 
 /**
  * Save, remove and cancel handlers for the logger.
- * Every handler closes the logger and resets the temporary log; `save` stores unrated logs as "neutral".
+ * Every handler closes the logger, resets the temporary log, and sweeps
+ * photo files no stored entry references (draft photos after cancel,
+ * removed photos after save). `save` stores unrated logs as "neutral".
  */
 export const useLoggerActions = ({
   mode,
@@ -45,10 +48,12 @@ export const useLoggerActions = ({
 
   const close = () => {
     tempLog.reset();
+    logUpdater.sweepPhotos();
     router.back();
   };
 
   const save = (data: TemporaryLogState) => {
+    const photoCounts = countPhotosBySource({ photos: data.photos });
     analytics.track("logger:log_saved", {
       mode,
       duration_ms: Date.now() - startedAt.current,
@@ -56,6 +61,9 @@ export const useLoggerActions = ({
       message_length: data.message.length,
       tags_count: data.tags.length,
       emotions_count: data.emotions.length,
+      photos_count: data.photos.length,
+      photos_day_count: photoCounts.day,
+      photos_library_count: photoCounts.library,
     });
 
     if (data.rating === null) {
@@ -88,6 +96,7 @@ export const useLoggerActions = ({
       if (closeTo === "calendar") {
         router.dismissTo("/calendar");
         tempLog.reset();
+        logUpdater.sweepPhotos();
         return;
       }
     }
