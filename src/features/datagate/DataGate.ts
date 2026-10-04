@@ -250,6 +250,7 @@ export const useDatagate = (): DatagateValue => {
         analyticsEnabled: settings.analyticsEnabled,
         actionsDone: settings.actionsDone,
         steps: settings.steps,
+        calendarView: settings.calendarView,
       },
     };
 

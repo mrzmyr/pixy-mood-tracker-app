@@ -8,7 +8,10 @@ import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
 import { useCalendarFilters } from "../../filters";
 import type { LogItem } from "@/features/logs";
 import { getAverageMood } from "@/lib/utils";
+import { useSetting } from "@/state/settings";
 import CalendarDay from "./CalendarDay";
+import AllMoodsDay from "./CalendarDay/AllMoodsDay";
+import { getMoodBarSegments } from "./CalendarDay/moodBar";
 import { useCalendarNavigation } from "../../navigation";
 
 dayjs.extend(isSameOrBefore);
@@ -50,6 +53,7 @@ const CalendarWeekComponent = ({
   const { getMappingKey } = useMappingHelper();
   const calendarNavigation = useCalendarNavigation();
   const calendarFilters = useCalendarFilters();
+  const isAllMoods = useSetting("calendarView") === "all";
 
   const days = useMemo(() => {
     const weekDays: string[] = [];
@@ -91,8 +95,21 @@ const CalendarWeekComponent = ({
 
   const renderDay = ({ date }) => {
     const items = itemMap[date] || [];
-    const averageRating = items.length < 1 ? null : getAverageMood(items);
     const isFiltered = items.some((item) => filteredItemIds.has(item.id));
+
+    if (isAllMoods) {
+      return (
+        <AllMoodsDay
+          dateString={date}
+          segments={getMoodBarSegments(items)}
+          isFiltered={isFiltered}
+          isFiltering={calendarFilters.data.isFiltering}
+          onPress={() => onPressDay(date)}
+        />
+      );
+    }
+
+    const averageRating = items.length < 1 ? null : getAverageMood(items);
 
     return (
       <CalendarDay

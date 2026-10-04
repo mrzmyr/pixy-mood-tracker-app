@@ -43,6 +43,13 @@ const SCALE_TYPES = [
 ];
 
 /**
+ * Calendar day cells: `average` colors each day by its average mood, `all`
+ * shows a bar with one segment per entry. Stored values are not validated;
+ * read through `useCalendarView`, which falls back to `average`.
+ */
+export type CalendarView = "average" | "all";
+
+/**
  * Persisted user settings.
  *
  * When changing this shape, update the export data in `useDatagate` too.
@@ -58,6 +65,8 @@ export interface SettingsState {
   analyticsEnabled: boolean;
   actionsDone: IAction[];
   steps: KnownSettingsStep[];
+  /** Calendar day cells: average mood color or a bar of every entry. */
+  calendarView: CalendarView;
   /** ISO date of the automatic store review prompt; `null` until shown once. */
   storeReviewPromptedAt: string | null;
   /** App version that showed the automatic store review prompt. */

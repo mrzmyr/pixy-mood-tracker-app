@@ -1,9 +1,10 @@
 appId: ${APP_ID}
 ---
-# Filters is a button in the calendar header. Native header items have no
-# test IDs, so this subflow taps by accessibility label. The sheet has no
+# Filters is a menu in the calendar header. Native header items have no
+# test IDs, so this subflow taps by accessibility label and menu item text. The sheet has no
 # title, so its search field proves it is open.
 # Assumes the Calendar screen.
 - tapOn: "Filters"
+- tapOn: "Filter Entries.*"
 - assertVisible:
     id: "calendar-filter-search"

@@ -24,6 +24,7 @@ export const INITIAL_STATE: SettingsState = {
   // `photos` is on for new installs only. Stored settings keep their own
   // step list, so existing users turn it on in Settings > Steps.
   steps: ["rating", "emotions", "tags", "message", "photos", "feedback"],
+  calendarView: "average",
   storeReviewPromptedAt: null,
   storeReviewPromptedAppVersion: null,
   photosDayAccessDismissed: false,

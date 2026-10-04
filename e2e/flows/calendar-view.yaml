@@ -1,0 +1,40 @@
+appId: ${APP_ID}
+tags: [p1, calendar]
+---
+# The View section of the Filters menu switches calendar days from average
+# mood color to a bar of all moods of the day. The choice survives a restart.
+- runFlow:
+    file: ../subflows/load-fixture.yaml
+    env:
+      FIXTURE: year
+- runScript: ../scripts/set-output-date.js
+
+- assertVisible:
+    id: "calendar-day-${output.today}"
+- assertNotVisible:
+    id: "calendar-day-bar-${output.today}"
+
+- tapOn: "Filters"
+- tapOn: "All Moods"
+- assertVisible:
+    id: "calendar-day-bar-${output.today}"
+
+# The view survives a restart.
+- stopApp
+- launchApp
+- extendedWaitUntil:
+    visible:
+      id: "calendar-day-bar-${output.today}"
+    timeout: 10000
+
+# The day still opens its entries.
+- tapOn:
+    id: "calendar-day-${output.today}"
+- assertVisible: "Add Entry"
+- tapOn:
+    id: "log-list-close"
+
+- tapOn: "Filters"
+- tapOn: "Average Mood"
+- assertNotVisible:
+    id: "calendar-day-bar-${output.today}"

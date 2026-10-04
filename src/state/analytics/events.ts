@@ -1,6 +1,6 @@
 import type { FeedackType, FeedbackSource } from "@/types/Feedback";
 import type { LoggerStep } from "@/constants/LoggerSteps";
-import type { SettingsState } from "@/state/settings";
+import type { CalendarView, SettingsState } from "@/state/settings";
 import type { z } from "zod";
 import type { LogItemSchema, PhotoSourceKind } from "@/types";
 
@@ -128,6 +128,7 @@ export interface AnalyticsEvents {
   };
   "calendar:filters_reset": undefined;
   "calendar:filters_closed": undefined;
+  "calendar:view_changed": { view: CalendarView };
   "calendar:promo_tapped": { card: "changelog" };
 
   "statistics:highlights_viewed": {

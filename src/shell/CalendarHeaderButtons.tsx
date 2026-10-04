@@ -1,6 +1,11 @@
 import { Stack, useRouter } from "expo-router";
 import { Platform } from "react-native";
-import { useCalendarFilters } from "@/features/calendar";
+import {
+  CALENDAR_VIEWS,
+  getCalendarViewLabel,
+  useCalendarFilters,
+  useCalendarView,
+} from "@/features/calendar";
 import { t } from "@/lib/translation";
 
 // Android renders only image icons in the header; iOS uses SF Symbols.
@@ -18,8 +23,9 @@ const ICONS =
       };
 
 /**
- * Calendar header buttons: Statistics on the left; Filters and Settings
- * (cog icon) on the right.
+ * Calendar header buttons: Statistics on the left; Filters menu and Settings
+ * (cog icon) on the right. The Filters menu opens the filter sheet and holds
+ * the calendar view picker (Average Mood, All Moods).
  *
  * Native header items: Liquid Glass buttons on iOS 26 (floating over the
  * calendar, see `HAS_FLOATING_HEADER`), Material icon buttons on Android.
@@ -32,6 +38,7 @@ export const CalendarHeaderButtons = () => {
   const router = useRouter();
   const calendarFilters = useCalendarFilters();
   const { filterCount, isFiltering } = calendarFilters.data;
+  const calendarView = useCalendarView();
 
   return (
     <>
@@ -43,15 +50,33 @@ export const CalendarHeaderButtons = () => {
         />
       </Stack.Toolbar>
       <Stack.Toolbar placement="right">
-        <Stack.Toolbar.Button
+        <Stack.Toolbar.Menu
           icon={ICONS.filters}
           accessibilityLabel={t("calendar_filters")}
-          onPress={() => calendarFilters.open()}
         >
           {isFiltering && (
             <Stack.Toolbar.Badge>{`${filterCount}`}</Stack.Toolbar.Badge>
           )}
-        </Stack.Toolbar.Button>
+          <Stack.Toolbar.MenuAction
+            icon={ICONS.filters}
+            onPress={() => calendarFilters.open()}
+          >
+            {isFiltering
+              ? `${t("calendar_filters_open")} (${filterCount})`
+              : t("calendar_filters_open")}
+          </Stack.Toolbar.MenuAction>
+          <Stack.Toolbar.Menu inline title={t("calendar_view")}>
+            {CALENDAR_VIEWS.map((view) => (
+              <Stack.Toolbar.MenuAction
+                key={view}
+                isOn={calendarView.view === view}
+                onPress={() => calendarView.setView(view)}
+              >
+                {getCalendarViewLabel(view)}
+              </Stack.Toolbar.MenuAction>
+            ))}
+          </Stack.Toolbar.Menu>
+        </Stack.Toolbar.Menu>
         <Stack.Toolbar.Button
           icon={ICONS.settings}
           accessibilityLabel={t("settings")}
