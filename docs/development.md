@@ -89,7 +89,8 @@ bun e2e run --target=pixel-8-09yw --paths=e2e/flows/entry-full.yaml
 - Android phones use the same build as the emulator.
 - `bun app close` on a phone never shuts down or erases the phone. Android: stops the app and clears its data. iPhone: stops and uninstalls the preview app.
 - One device per command. Start one command per phone to run phones in parallel.
-- Reserve a phone for a whole task: `bun devices reserve --target=<target>`. Other checkouts then fail with `device_reserved`. Release with `bun devices release --target=<target>`. Reservations expire after 60 minutes (`--minutes=<n>`) or when their checkout is deleted.
+- Reserve a phone for a whole task: `bun devices reserve --target=<target> --goal=<goal>`. Other checkouts then fail with `device_reserved`, which names the goal. Release with `bun devices release --target=<target>`. Reservations expire after 60 minutes (`--minutes=<n>`) or when their checkout is deleted.
+- See reservations in the macOS menu bar: `bun devices menubar` ([source](../tools/devices-menu-bar/main.swift)).
 - `bun app dev` has no phone support. Use `bun ios --device <udid>` or `bun android --device <name>` for the dev client on a phone.
 
 Known limits. A phone run fails with `flows_unsupported_on_phone` before it changes anything on the phone, and names every blocked flow plus the command to run it elsewhere:

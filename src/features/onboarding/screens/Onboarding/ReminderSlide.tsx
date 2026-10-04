@@ -8,7 +8,9 @@ import {
   Clock,
   useNotification,
   createDailyTrigger,
+  reminderTimeToDate,
 } from "@/features/notifications";
+import { DEFAULT_REMINDER_TIME } from "@/constants/Settings";
 
 import { useState } from "react";
 import dayjs from "dayjs";
@@ -74,7 +76,7 @@ export const ReminderSlide = ({
     useNotification();
 
   const [time, setTime] = useState(() =>
-    dayjs().hour(20).minute(0).second(0).toDate()
+    reminderTimeToDate(DEFAULT_REMINDER_TIME)
   );
 
   const enable = async () => {

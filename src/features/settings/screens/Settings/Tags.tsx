@@ -1,5 +1,5 @@
 import { useRouter } from "expo-router";
-import { TagList, useTagsState, TagListItem } from "@/features/tags";
+import { TagList, useTagsState } from "@/features/tags";
 import type { Tag } from "@/features/tags";
 import useColors from "@/hooks/useColors";
 
@@ -11,8 +11,10 @@ import { t } from "@/lib/translation";
 import { LinearGradient } from "expo-linear-gradient";
 import sortBy from "lodash/sortBy";
 import { Archive } from "lucide-react-native";
-import { ScrollView, Text, View } from "react-native";
+import { Platform, ScrollView, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+
+const TagScrollView = Platform.OS === "ios" ? View : ScrollView;
 
 /**
  * Settings > Tags: active tags plus a link to archived ones. Archived tags
@@ -76,40 +78,39 @@ export const SettingsTags = () => {
           </View>
         </>
       )}
-      <ScrollView>
-        <View
-          style={{
-            marginTop: 16,
-            marginHorizontal: 16,
-          }}
-        >
-          <MenuList style={{}}>
-            <MenuListItem
-              title={t("archive_tag")}
-              iconLeft={<Archive size={20} color={colors.text} />}
-              isLink
-              onPress={() => {
-                router.push("/settings/tags/archive");
+      <TagScrollView style={{ flex: 1 }}>
+        <TagList
+          tags={_tags}
+          header={
+            <View
+              style={{
+                marginTop: 16,
+                marginHorizontal: 16,
               }}
-            />
-          </MenuList>
-        </View>
-
-        <TagList tags={_tags} />
-        <View
-          style={{
-            width: "100%",
-            height: insets.bottom + 56,
-          }}
+            >
+              <MenuList style={{}}>
+                <MenuListItem
+                  title={t("archive_tag")}
+                  iconLeft={<Archive size={20} color={colors.text} />}
+                  isLink
+                  onPress={() => {
+                    router.push("/settings/tags/archive");
+                  }}
+                />
+              </MenuList>
+            </View>
+          }
         />
-      </ScrollView>
+        {Platform.OS !== "ios" && (
+          <View style={{ height: insets.bottom + 56 }} />
+        )}
+      </TagScrollView>
     </View>
   );
 };
 
 /** Archived tags, sorted by title; rows open the tag editor to unarchive. */
 export const SettingsTagsArchive = () => {
-  const router = useRouter();
   const colors = useColors();
   const insets = useSafeAreaInsets();
   const { tags } = useTagsState();
@@ -119,63 +120,14 @@ export const SettingsTagsArchive = () => {
     "title"
   );
 
-  const onEdit = (tag: Tag) => {
-    router.push({ pathname: "/tags/[id]", params: { id: tag.id } });
-  };
-
   return (
-    <View
-      style={{
-        flex: 1,
-        backgroundColor: colors.background,
-      }}
-    >
-      <ScrollView
-        style={{
-          flex: 1,
-        }}
-      >
-        <View
-          style={{
-            paddingTop: 16,
-            paddingLeft: 16,
-            paddingRight: 16,
-          }}
-        >
-          {_tags.length < 1 && (
-            <View
-              style={{
-                padding: 32,
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <Text
-                style={{
-                  color: colors.textSecondary,
-                }}
-              >
-                {t("tags_archive_empty")}
-              </Text>
-            </View>
-          )}
-          <MenuList
-            style={{
-              marginBottom: 40,
-            }}
-          >
-            {_tags.map((tag) => (
-              <TagListItem key={tag.id} tag={tag} onPress={() => onEdit(tag)} />
-            ))}
-          </MenuList>
-        </View>
-        <View
-          style={{
-            width: "100%",
-            height: insets.bottom + 56,
-          }}
-        />
-      </ScrollView>
+    <View style={{ flex: 1, backgroundColor: colors.background }}>
+      <TagScrollView style={{ flex: 1 }}>
+        <TagList tags={_tags} emptyMessage={t("tags_archive_empty")} />
+        {Platform.OS !== "ios" && (
+          <View style={{ height: insets.bottom + 56 }} />
+        )}
+      </TagScrollView>
     </View>
   );
 };
