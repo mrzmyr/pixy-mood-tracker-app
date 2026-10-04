@@ -41,6 +41,10 @@ export interface AnalyticsEvents {
     message_length: number;
     tags_count: number;
     emotions_count: number;
+    photos_count: number;
+    /** Photos by origin. The two counts add up to `photos_count`. */
+    photos_day_count: number;
+    photos_library_count: number;
   };
   "logger:log_deleted": undefined;
   "logger:flow_cancelled": { mode: "create" | "edit" };
@@ -245,6 +249,21 @@ export type UsageSummary = {
   steps: SettingsState["steps"];
   onboarding_done: boolean;
   questions_answered_count: number;
+  /** Value of the `photos` feature flag on this install. */
+  photos_enabled: boolean;
+  /** Share of entries in the last 30 days with at least 1 photo, 0 to 100. */
+  photos_pct_30d: number | null;
+  /** Photos on all entries. */
+  photos_count: number;
+  /** Share of stored photos with `source: "day"`, 0 to 100. */
+  photos_day_pct: number | null;
+  /** Photo library read access. `unavailable`: Android, or photos off. */
+  photo_library_access:
+    | "undetermined"
+    | "granted"
+    | "limited"
+    | "denied"
+    | "unavailable";
 };
 
 /** Usage summary fields written once, on the first send. */

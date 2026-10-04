@@ -1,5 +1,6 @@
 import { File, Paths } from "expo-file-system";
 import noop from "lodash/noop";
+import { Platform } from "react-native";
 import type { LibraryPermission, PhotoSource } from "@/features/photos";
 import { createStructuredError } from "@/lib/errors";
 
@@ -45,15 +46,19 @@ const writeImage = ({ name, base64 }: { name: string; base64: string }) => {
   return { uri: file.uri, width: IMAGE_WIDTH, height: IMAGE_HEIGHT };
 };
 
-// Library access starts `undetermined`, like a fresh install, so the
-// permission row and its Allow flow show. Allow grants it until restart.
-let permission: LibraryPermission = "undetermined";
+// Like the system source: Android has no photos of a day. iOS access starts
+// `undetermined`, like a fresh install, so the permission card and its
+// Allow flow show. Allow grants it until restart.
+const IS_LIBRARY_SUPPORTED = Platform.OS === "ios";
+let permission: LibraryPermission = IS_LIBRARY_SUPPORTED
+  ? "undetermined"
+  : "unavailable";
 let nextPickerImage = 0;
 
 /**
  * Stands in for the library picker and photo library in preview builds:
  * returns solid-color images without system screens or permission dialogs.
- * Each picker open returns the next of 3 colors, and every day holds 4
+ * Each picker open returns the next of 3 colors. On iOS every day holds 4
  * other colors.
  */
 export const fakePhotoSource: PhotoSource = {
@@ -68,7 +73,9 @@ export const fakePhotoSource: PhotoSource = {
   },
   getLibraryPermission: () => Promise.resolve(permission),
   requestLibraryPermission: () => {
-    permission = "granted";
+    if (IS_LIBRARY_SUPPORTED) {
+      permission = "granted";
+    }
     return Promise.resolve(permission);
   },
   manageLibraryAccess: () => Promise.resolve(),
@@ -76,7 +83,7 @@ export const fakePhotoSource: PhotoSource = {
   addLibraryListener: () => noop,
   listPhotosOnDate: () =>
     Promise.resolve(
-      DAY_ENTRIES.map(([name, base64]) => ({
+      (IS_LIBRARY_SUPPORTED ? DAY_ENTRIES : []).map(([name, base64]) => ({
         id: `fake-day-photo-${name}`,
         uri: writeImage({ name, base64 }).uri,
       }))

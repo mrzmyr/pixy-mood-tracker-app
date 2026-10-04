@@ -28,9 +28,11 @@
 - Events: `photos:*` in [`events.ts`](../src/state/analytics/events.ts). Sent through `track()` only, so consent applies
 - Never file names, URIs, dimensions, EXIF, location, photo timestamps, or library ids
 - `mode`: `create` or `edit`. `entry_days_ago`: 0 for today, like `calendar:day_opened.days_ago`
+- Questions: [product-analytics.md](product-analytics.md#photos)
 
 | Event | When | Properties |
 | --- | --- | --- |
+| `logger:step_viewed` | Photos step shown | `step: "photos"` |
 | `photos:day_access_prompt_shown` | Permission card shows, once per step mount | `mode`, `entry_days_ago` |
 | `photos:day_access_prompt_dismissed` | Not Now on the card | `mode` |
 | `photos:day_access_answered` | System dialog closes | `status`, `source` (`card`, `button`) |
@@ -42,6 +44,9 @@
 | `photos:limit_reached` | Unchecked photo or More… tapped at 6 attached | `mode` |
 | `photos:import_failed` | Import error | `source`, `status` |
 | `photos:viewer_closed` | Viewer closes | `context` (`logger`, `day`), `photos_count`, `viewed_count` |
+| `logger:log_saved` | Save | `photos_count`, `photos_day_count`, `photos_library_count` |
+| `settings:step_toggled` | Check-in toggle | `step: "photos"` |
+| `logger:step_disabled` | "I Don’t Add Photos" | `step: "photos"` |
 
 ## Event history
 
@@ -73,6 +78,7 @@ Use this section to join old and new events in PostHog, for example with an Acti
   - `photos:limit_reached`: `mode`
   - `photos:import_failed`: `source`, `status`
   - `photos:viewer_closed`: `context` (`logger`, `day`), `photos_count`, `viewed_count`
+  - `logger:log_saved`: new `photos_count`, `photos_day_count`, `photos_library_count`
   - Counts and enums only. Never file names, URIs, dimensions, EXIF, location, photo timestamps, or library ids
 - Never shipped in a release, replaced before the first photos release: `logger:library_permission_answered` (now `photos:day_access_answered`), `logger:photo_added` (now `photos:photo_added`), `logger:photo_removed` (now `photos:photo_removed`), `photos:photo_selected` (now `photos:photo_added`), `photos:photo_deselected` (now `photos:photo_removed`), `logger:photo_limit_reached` (now `photos:limit_reached`), `logger:camera_permission_denied` (dropped: no camera), `day:photo_opened` (now `photos:viewer_closed` with `context: "day"`)
 
