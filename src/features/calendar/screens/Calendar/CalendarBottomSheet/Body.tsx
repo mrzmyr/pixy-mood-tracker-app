@@ -3,7 +3,8 @@ import debounce from "lodash/debounce";
 import { useEffect, useRef, useState } from "react";
 import { View } from "react-native";
 import { RotateCcw } from "react-native-feather";
-import LinkButton from "@/components/LinkButton";
+import Button from "@/components/Button";
+import useColors from "@/hooks/useColors";
 import { t } from "@/lib/translation";
 import { useCalendarFilters } from "../../../filters";
 import { useTagsState } from "@/features/tags";
@@ -23,6 +24,7 @@ import { TagsSection } from "./TagsSection";
  * Must render inside `CalendarFiltersProvider`.
  */
 export const Body = () => {
+  const colors = useColors();
   const calendarFilters = useCalendarFilters();
   const { tags } = useTagsState();
   const { people } = usePeopleState();
@@ -138,9 +140,16 @@ export const Body = () => {
           {calendarFilters.data.filteredItems.length !== 0 && (
             <ResultsSection count={calendarFilters.data.filteredItems.length} />
           )}
-          <LinkButton
+          <Button
             type="secondary"
-            icon={RotateCcw}
+            size="small"
+            icon={
+              <RotateCcw
+                width={16}
+                height={16}
+                color={colors.secondaryButtonText}
+              />
+            }
             testID="calendar-filter-reset"
             onPress={() => {
               debouncedTextChangeRef.current?.cancel();
@@ -149,7 +158,7 @@ export const Body = () => {
             }}
           >
             {t("reset")}
-          </LinkButton>
+          </Button>
         </View>
       )}
     </View>

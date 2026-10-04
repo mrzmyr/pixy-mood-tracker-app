@@ -19,6 +19,7 @@ const getPressableOpacity = (
 
 const Button = ({
   type = "primary",
+  size = "default",
   icon,
   testID,
   onPress,
@@ -27,6 +28,7 @@ const Button = ({
   style = DEFAULT_STYLE,
 }: {
   type?: "primary" | "secondary" | "danger" | "tertiary";
+  size?: "default" | "small";
   icon?: React.ReactNode;
   testID?: string;
   disabled?: boolean;
@@ -36,6 +38,8 @@ const Button = ({
 }) => {
   const colors = useColors();
   const haptics = useHaptics();
+
+  const isSmall = size === "small";
 
   const buttonColors = {
     primary: {
@@ -70,13 +74,13 @@ const Button = ({
   return (
     <Pressable
       style={({ pressed }) => ({
-        padding: 16,
-        paddingRight: 16,
-        paddingLeft: 16,
+        padding: isSmall ? 8 : 16,
+        paddingRight: isSmall ? 12 : 16,
+        paddingLeft: isSmall ? 12 : 16,
         alignItems: "center",
         justifyContent: "center",
         flexDirection: "row",
-        borderRadius: 12,
+        borderRadius: isSmall ? 10 : 12,
         opacity: getPressableOpacity(disabled, pressed),
         backgroundColor: disabled
           ? buttonColors.disabledBackground
@@ -101,7 +105,7 @@ const Button = ({
       {isString(children) ? (
         <Text
           style={{
-            fontSize: 17,
+            fontSize: isSmall ? 15 : 17,
             color: disabled ? buttonColors.disabledText : buttonColors.text,
             fontWeight: "600",
           }}
