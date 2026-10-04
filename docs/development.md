@@ -54,6 +54,14 @@ Three variants install side by side, each with its own name, icon, bundle ID, an
 - Without consent, or until flags load, every flag is off. Turning consent off turns flags off. Flags cached in an earlier session are never read
 - Development and preview builds override flags in Settings > Development > Feature flags, or with `<scheme>://dev/feature-flag?key=<key>&value=on|off|remote`. Overrides work without consent and end when the app restarts. Production builds ignore them
 
+### Photos
+
+- Code: [`src/features/photos`](../src/features/photos). Files: `Documents/photos/<id>.jpg`, 1600 px longest edge, JPEG 0.75
+- Entries store file names, never paths. Unreferenced files go after logger close, entry delete, and app start. Never right after a data import
+- Export JSON holds photo metadata only, no files
+- Backups: iOS iCloud and Finder backups include `Documents/photos`, restored with entries
+- Android backups never include photos. #480 backs up the `database` domain only. Keep photos out: Android stops the whole app backup above 25 MB
+
 ### App CLI
 
 - Commands report host RAM on stderr before and after execution ([measurement](../scripts/cli/memory.ts)). Help and usage errors skip measurement.
