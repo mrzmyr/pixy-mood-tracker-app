@@ -10,5 +10,5 @@ appId: ${APP_ID}
 - tapOn:
     id: "mood-good"
 - runFlow: finish-logger.yaml
-- runFlow: answer-confirmation.yaml
+- runFlow: close-confirmation.yaml
 - assertVisible: "Add another entry for today"
