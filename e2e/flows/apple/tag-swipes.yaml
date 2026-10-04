@@ -1,0 +1,67 @@
+appId: ${APP_ID}
+tags: [p1, tags, ios]
+---
+- runFlow:
+    file: ../../subflows/load-fixture.yaml
+    env:
+      FIXTURE: year
+# Restart after fixture reset so dev navigation warnings cannot cover controls.
+- stopApp
+- launchApp
+- tapOn:
+    id: "settings"
+- tapOn: "Tags"
+
+# Archive acts immediately.
+- swipe:
+    from:
+      text: "Work"
+    direction: LEFT
+- tapOn:
+    text: "Archive"
+    index: 1
+- assertNotVisible: "Work"
+- assertNotVisible: "Edit Tag"
+
+# Cancel keeps tag. Confirm removes tag.
+- swipe:
+    from:
+      text: "Family"
+    direction: LEFT
+- tapOn: "Delete"
+- assertVisible: "The tag will be removed from all entries.*"
+- tapOn: "Cancel"
+- assertVisible: "Family"
+- swipe:
+    from:
+      text: "Family"
+    direction: LEFT
+- tapOn: "Delete"
+- tapOn:
+    text: "Delete"
+    below: "The tag will be removed from all entries.*"
+- assertNotVisible: "Family"
+
+# Archived rows still open editor and support confirmed deletion.
+- tapOn: "Archive"
+- assertVisible: "Work"
+- tapOn: "Work"
+- assertVisible: "Edit Tag"
+- tapOn: "Cancel"
+- swipe:
+    from:
+      text: "Work"
+    direction: LEFT
+- tapOn: "Delete"
+- tapOn: "Cancel"
+- assertVisible: "Work"
+- swipe:
+    from:
+      text: "Work"
+    direction: LEFT
+- tapOn: "Delete"
+- tapOn:
+    text: "Delete"
+    below: "The tag will be removed from all entries.*"
+- assertNotVisible: "Work"
+- assertVisible: "No archived tags yet."

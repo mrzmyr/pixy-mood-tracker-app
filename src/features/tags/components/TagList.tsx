@@ -11,7 +11,13 @@ import { useRouter } from "expo-router";
  * Tag list for the tag settings screens; rows open the tag editor. Shows a
  * notice once {@link MAX_TAGS} is reached.
  */
-export const TagList = ({ tags }: { tags: Tag[] }) => {
+export const TagList = ({
+  tags,
+}: {
+  tags: Tag[];
+  archived?: boolean;
+  showArchive?: boolean;
+}) => {
   const colors = useColors();
   const router = useRouter();
 

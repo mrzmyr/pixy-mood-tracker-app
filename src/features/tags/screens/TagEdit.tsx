@@ -10,7 +10,6 @@ import {
 import { Check } from "react-native-feather";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { v4 as uuidv4 } from "uuid";
-import Alert from "@/lib/Alert";
 import Button from "@/components/Button";
 import DismissKeyboard from "@/components/DismisKeyboard";
 import LinkButton from "@/components/LinkButton";
@@ -25,6 +24,7 @@ import { useAnalytics } from "@/state/analytics";
 import useColors from "@/hooks/useColors";
 import useHaptics from "@/hooks/useHaptics";
 import { useTagsState, useTagsUpdater } from "../TagsProvider";
+import { useTagActions } from "../useTagActions";
 import type { Tag as ITag } from "../TagsProvider";
 
 import MenuList from "@/components/MenuList";
@@ -56,47 +56,7 @@ export const TagEdit = () => {
 
   const [tag, setTag] = useState(tagExists || defaultTag);
 
-  const onDelete = (tagToDelete: ITag) => {
-    tagsUpdater.deleteTag(tagToDelete.id);
-    router.back();
-  };
-
-  const askToDelete = async (tagToDelete: ITag) => {
-    await haptics.selection();
-
-    analytics.track("tags:delete_requested", {
-      title_length: tagToDelete.title.length,
-      color: tagToDelete.color,
-      has_emoji: REGEX_EMOJI.test(tagToDelete.title),
-    });
-
-    Alert.alert(
-      t("delete_tag_confirm_title"),
-      t("delete_tag_confirm_message"),
-      [
-        {
-          text: t("delete"),
-          onPress: () => {
-            analytics.track("tags:tag_deleted", {
-              title_length: tagToDelete.title.length,
-              color: tagToDelete.color,
-              has_emoji: REGEX_EMOJI.test(tagToDelete.title),
-            });
-            onDelete(tagToDelete);
-          },
-          style: "destructive",
-        },
-        {
-          text: t("cancel"),
-          onPress: () => {
-            analytics.track("tags:delete_cancelled");
-          },
-          style: "cancel",
-        },
-      ],
-      { cancelable: true }
-    );
-  };
+  const { askToDelete } = useTagActions({ onDeleted: () => router.back() });
 
   const onSubmit = (updatedTag: ITag) => {
     analytics.track("tags:tag_updated", {
