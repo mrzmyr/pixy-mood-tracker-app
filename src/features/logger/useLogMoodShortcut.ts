@@ -17,12 +17,12 @@ const readRequestedAt = () => {
   return result.success ? result.data : 0;
 };
 
-/** True when the "Log Mood" intent ran within the last minute. */
+/** True when the "Create Entry" intent ran within the last minute. */
 const isLogMoodRequestFresh = (requestedAt: number, now: number) =>
   now - requestedAt >= 0 && now - requestedAt <= MAX_REQUEST_AGE_MS;
 
 /**
- * Opens the logger when the iOS "Log Mood" App Intent runs (Shortcuts, Siri,
+ * Opens the logger when the iOS "Create Entry" App Intent runs (Shortcuts, Siri,
  * Action Button). Waits for `isReady`: settings loaded, onboarding done,
  * router mounted.
  */

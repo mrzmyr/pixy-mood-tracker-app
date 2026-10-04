@@ -228,11 +228,11 @@ const withShadowNodeLookupFix = (config: ExpoConfig) =>
     return mainApplication;
   });
 
-/** Swift source of the "Log Mood" App Intent, relative to the project root. */
+/** Swift source of the "Create Entry" App Intent, relative to the project root. */
 const LOG_MOOD_INTENT_SOURCE = "plugins/LogMoodIntent.swift";
 
 /**
- * iOS "Log Mood" App Intent. Shortcuts, Siri, Spotlight, and the Action
+ * iOS "Create Entry" App Intent. Shortcuts, Siri, Spotlight, and the Action
  * Button list it without user setup.
  *
  * - Copies `plugins/LogMoodIntent.swift` into the app target folder.

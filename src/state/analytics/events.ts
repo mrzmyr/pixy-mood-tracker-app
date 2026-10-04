@@ -41,7 +41,7 @@ export interface AnalyticsEvents {
     emotions_count: number;
   };
   "logger:log_deleted": undefined;
-  /** iOS "Log Mood" App Intent opened the logger. */
+  /** iOS "Create Entry" App Intent opened the logger. */
   "logger:shortcut_opened": undefined;
   "logger:flow_cancelled": { mode: "create" | "edit" };
   "logger:emotions_tooltip_closed": undefined;

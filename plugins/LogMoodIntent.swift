@@ -8,8 +8,8 @@ import Foundation
 /// `Settings` API and opens the logger. Source:
 /// `src/features/logger/useLogMoodShortcut.ts`.
 struct LogMoodIntent: AppIntent {
-  static var title: LocalizedStringResource = "Log Mood"
-  static var description = IntentDescription("Open Pixy to log your mood.")
+  static var title: LocalizedStringResource = "Create Entry"
+  static var description = IntentDescription("Open Pixy to create an entry.")
   static var openAppWhenRun: Bool = true
 
   @MainActor
@@ -27,8 +27,8 @@ struct PixyAppShortcuts: AppShortcutsProvider {
   static var appShortcuts: [AppShortcut] {
     AppShortcut(
       intent: LogMoodIntent(),
-      phrases: ["Log mood in \(.applicationName)"],
-      shortTitle: "Log Mood",
+      phrases: ["Create entry in \(.applicationName)"],
+      shortTitle: "Create Entry",
       systemImageName: "face.smiling"
     )
   }
