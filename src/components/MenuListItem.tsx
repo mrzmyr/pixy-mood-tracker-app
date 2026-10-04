@@ -49,8 +49,8 @@ const MenuListItem = ({
   return (
     <View
       style={{
-        borderBottomWidth: 1,
-        borderBottomColor: colors.menuListItemBorder,
+        borderTopWidth: 1,
+        borderTopColor: colors.menuListItemBorder,
         marginRight: 16,
         marginLeft: 16,
         opacity: deactivated ? 0.5 : 1,
