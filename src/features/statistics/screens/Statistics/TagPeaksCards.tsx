@@ -130,14 +130,22 @@ const BodyWeek = ({
 
 /**
  * Highlight card for a frequently used tag, marking its days in the weeks
- * covering the last 14 days.
+ * covering `startDate` to `endDate` (`YYYY-MM-DD`).
  */
-export const TagPeaksCard = ({ tag }: { tag: TagsPeakData["tags"][0] }) => {
+export const TagPeaksCard = ({
+  tag,
+  startDate: start,
+  endDate: end,
+}: {
+  tag: TagsPeakData["tags"][0];
+  startDate: string;
+  endDate: string;
+}) => {
   const colors = useColors();
 
   const locale = useWeekLocale();
-  const startDate = dayjs().locale(locale).subtract(14, "days").startOf("week");
-  const endDate = dayjs().locale(locale).endOf("week");
+  const startDate = dayjs(start).locale(locale).startOf("week");
+  const endDate = dayjs(end).locale(locale).endOf("week");
   const weekCount = dayjs(endDate).diff(dayjs(startDate), "week") + 1;
 
   const daysCount = keys(groupBy(tag.items, getItemDate)).length;
