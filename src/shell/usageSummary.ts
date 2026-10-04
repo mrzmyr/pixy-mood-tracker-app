@@ -1,14 +1,18 @@
 import dayjs from "dayjs";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import pkg from "../../package.json";
 import { DATE_FORMAT, STATISTIC_MIN_LOGS } from "@/constants/Config";
+import { createStructuredError } from "@/lib/errors";
 import { getItemDate } from "@/lib/logDates";
 import { useAnalytics } from "@/state/analytics";
+import { useFeatureFlag } from "@/state/featureFlags";
 import type { UsageSummary } from "@/state/analytics/events";
 import { useSettings } from "@/state/settings";
 import type { SettingsState } from "@/state/settings";
 import { useLogState } from "@/features/logs";
 import type { LogItem } from "@/features/logs";
+import { countPhotosBySource, getPhotoSource } from "@/features/photos";
+import type { LibraryPermission } from "@/features/photos";
 import { getCurrentStreak, getLongestStreak } from "@/features/statistics";
 import { usePeopleState } from "@/features/people";
 import type { Person } from "@/features/people";
@@ -16,6 +20,24 @@ import { useTagsState } from "@/features/tags";
 import type { Tag } from "@/features/tags";
 
 const QUESTION_ACTION_PREFIX = "question_slide_";
+
+// Module function, not hook code: React Compiler does not support
+// try/catch around await in hooks.
+const readPhotoLibraryAccess = async (): Promise<LibraryPermission> => {
+  try {
+    return await getPhotoSource().getLibraryPermission();
+  } catch (error) {
+    console.error(
+      createStructuredError({
+        status: "photo_library_failed",
+        message: "Photo library permission could not be read",
+        why: `Reading the permission for the usage summary failed: ${error instanceof Error ? error.message : String(error)}`,
+        fix: "Restart Pixy. The summary reports unavailable until then",
+      })
+    );
+    return "unavailable";
+  }
+};
 
 const getPercent = (count: number, total: number) =>
   total === 0 ? null : Math.round((count / total) * 100);
@@ -29,13 +51,16 @@ const getReminderHour = (time: string) => {
  * Usage profile of this install from local data, at `now`.
  *
  * Counts, shares, and booleans only: never ratings, emotions, text, tag
- * titles, or people names. Day windows include today, in device local time.
+ * titles, people names, or photo metadata. Day windows include today, in
+ * device local time.
  */
 export const getUsageSummary = ({
   items,
   tags,
   people = [],
   settings,
+  isPhotosEnabled,
+  photoLibraryAccess,
   now,
 }: {
   items: LogItem[];
@@ -45,8 +70,14 @@ export const getUsageSummary = ({
     SettingsState,
     "reminderEnabled" | "reminderTime" | "scaleType" | "steps" | "actionsDone"
   >;
+  /** Value of the `photos` feature flag. */
+  isPhotosEnabled: boolean;
+  photoLibraryAccess: LibraryPermission;
   now: Date;
 }): UsageSummary => {
+  const photos = items.flatMap((item) => item.photos);
+  const photoCounts = countPhotosBySource({ photos });
+
   const today = dayjs(now).format(DATE_FORMAT);
   const start7d = dayjs(now).subtract(6, "day").format(DATE_FORMAT);
   const start14d = dayjs(now).subtract(13, "day").format(DATE_FORMAT);
@@ -130,6 +161,14 @@ export const getUsageSummary = ({
     questions_answered_count: settings.actionsDone.filter((action) =>
       action.title.startsWith(QUESTION_ACTION_PREFIX)
     ).length,
+    photos_enabled: isPhotosEnabled,
+    photos_pct_30d: getPercent(
+      items30d.filter((item) => item.photos.length > 0).length,
+      items30d.length
+    ),
+    photos_count: photos.length,
+    photos_day_pct: getPercent(photoCounts.day, photos.length),
+    photo_library_access: photoLibraryAccess,
   };
 };
 
@@ -146,6 +185,30 @@ export const useUsageSummarySync = () => {
   const { tags, loaded: tagsLoaded } = useTagsState();
   const { people, loaded: peopleLoaded } = usePeopleState();
   const lastSent = useRef<string | null>(null);
+  const isPhotosEnabled = useFeatureFlag("photos");
+  const [libraryAccess, setLibraryAccess] = useState<LibraryPermission | null>(
+    null
+  );
+  const photoLibraryAccess = isPhotosEnabled ? libraryAccess : "unavailable";
+
+  // Read once when the photos flag turns on. Never reads the library with
+  // photos off.
+  useEffect(() => {
+    if (!isPhotosEnabled) {
+      return;
+    }
+    let isCurrent = true;
+    const load = async () => {
+      const access = await readPhotoLibraryAccess();
+      if (isCurrent) {
+        setLibraryAccess(access);
+      }
+    };
+    void load();
+    return () => {
+      isCurrent = false;
+    };
+  }, [isPhotosEnabled]);
 
   const { reminderEnabled, reminderTime, scaleType, steps, actionsDone } =
     settings;
@@ -153,10 +216,11 @@ export const useUsageSummarySync = () => {
     settings.loaded &&
     logState.loaded &&
     tagsLoaded === true &&
-    peopleLoaded === true;
+    peopleLoaded === true &&
+    photoLibraryAccess !== null;
 
   useEffect(() => {
-    if (!isReady || !analytics.isEnabled) {
+    if (!isReady || !analytics.isEnabled || photoLibraryAccess === null) {
       return;
     }
 
@@ -171,6 +235,8 @@ export const useUsageSummarySync = () => {
         steps,
         actionsDone,
       },
+      isPhotosEnabled,
+      photoLibraryAccess,
       now: new Date(),
     });
     const serialized = JSON.stringify(properties);
@@ -193,5 +259,7 @@ export const useUsageSummarySync = () => {
     scaleType,
     steps,
     actionsDone,
+    isPhotosEnabled,
+    photoLibraryAccess,
   ]);
 };

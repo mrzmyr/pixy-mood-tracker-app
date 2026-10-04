@@ -21,7 +21,10 @@ export const INITIAL_STATE: SettingsState = {
   reminderTime: DEFAULT_REMINDER_TIME,
   analyticsEnabled: DEFAULT_ANALYTICS_ENABLED,
   actionsDone: [],
-  steps: ["rating", "emotions", "tags", "message", "feedback"],
+  // `photos` is on for new installs only. Stored settings keep their own
+  // step list, so existing users turn it on in Settings > Steps.
+  steps: ["rating", "emotions", "tags", "message", "photos", "feedback"],
   storeReviewPromptedAt: null,
   storeReviewPromptedAppVersion: null,
+  photosDayAccessDismissed: false,
 };

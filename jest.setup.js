@@ -37,14 +37,18 @@ jest.mock("react-native-reanimated", () => {
     FadeInUp: animation,
     FadeOut: animation,
     FadeOutUp: animation,
-    useSharedValue: (value) => ({ get: () => value, set: jest.fn() }),
+    Extrapolation: { CLAMP: "clamp" },
+    cancelAnimation: jest.fn(),
+    interpolate: () => 0,
     useAnimatedStyle: () => ({}),
+    useReducedMotion: () => false,
+    useSharedValue: (value) => ({ get: () => value, set: jest.fn() }),
     withSpring: (value) => value,
     withTiming: (value) => value,
   };
 });
 
-// oxlint-disable-next-line anti-slop/no-module-mocking -- the toast imports worklets; the native worklets runtime is unavailable in Jest.
+// oxlint-disable-next-line anti-slop/no-module-mocking -- the toast and the photo viewer schedule JS callbacks from worklets; the native worklets runtime is unavailable in Jest.
 jest.mock("react-native-worklets", () => ({
   scheduleOnRN: (fn, ...args) => fn(...args),
 }));

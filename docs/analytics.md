@@ -24,6 +24,31 @@
   - Cold start taps wait for stored settings, so a stored opt-out wins
   - Reminders scheduled before this event match by repeating trigger. New reminders carry `data.kind: "reminder"`
 
+## Photos
+
+- Events: `photos:*` in [`events.ts`](../src/state/analytics/events.ts). Sent through `track()` only, so consent applies
+- Never file names, URIs, dimensions, EXIF, location, photo timestamps, or library ids
+- `mode`: `create` or `edit`. `entry_days_ago`: 0 for today, like `calendar:day_opened.days_ago`
+- Questions: [product-analytics.md](product-analytics.md#photos)
+
+| Event | When | Properties |
+| --- | --- | --- |
+| `logger:step_viewed` | Photos step shown | `step: "photos"` |
+| `photos:day_access_prompt_shown` | Permission card shows, once per step mount | `mode`, `entry_days_ago` |
+| `photos:day_access_prompt_dismissed` | Not Now on the card | `mode` |
+| `photos:day_access_answered` | System dialog closes | `status`, `source` (`card`, `button`) |
+| `photos:day_photos_loaded` | Day query resolves | `count` (0 to 20), `access`, `entry_days_ago` |
+| `photos:picker_opened` | Library picker opens | `remaining` |
+| `photos:picker_closed` | Library picker returns | `picked_count`, `is_cancelled` |
+| `photos:photo_added` | Photo attached: picked in the library picker, or a suggestion tapped. Before its import ends | `source` (`day`, `library`), `count`, `mode` |
+| `photos:photo_removed` | Remove button on a tile or in the viewer | `source`, `count`, `mode` |
+| `photos:limit_reached` | Unchecked photo or More… tapped at 6 attached | `mode` |
+| `photos:import_failed` | Import error | `source`, `status` |
+| `photos:viewer_closed` | Viewer closes | `context` (`logger`, `day`), `photos_count`, `viewed_count` |
+| `logger:log_saved` | Save | `photos_count`, `photos_day_count`, `photos_library_count` |
+| `settings:step_toggled` | Check-in toggle | `step: "photos"` |
+| `logger:step_disabled` | "I Don’t Add Photos" | `step: "photos"` |
+
 ## Event history
 
 Use this section to join old and new events in PostHog, for example with an Action that matches both names.
@@ -40,6 +65,23 @@ Use this section to join old and new events in PostHog, for example with an Acti
   - `log_created` = `logger:log_saved` with `mode: "create"`
   - `log_changed` = `logger:log_saved` with `mode: "edit"`
   - `log_saved_without_rating` = `logger:log_saved` with `has_rating: false`
+
+**Added events**
+
+- Photo attachments, first release with photos ([`src/features/photos`](../src/features/photos))
+  - `photos:day_access_prompt_shown`: `mode`, `entry_days_ago`
+  - `photos:day_access_prompt_dismissed`: `mode`
+  - `photos:day_access_answered`: `status` (`granted`, `limited`, `denied`), `source` (`card`, `button`)
+  - `photos:day_photos_loaded`: `count`, `access` (`granted`, `limited`), `entry_days_ago`
+  - `photos:picker_opened`: `remaining`
+  - `photos:picker_closed`: `picked_count`, `is_cancelled`
+  - `photos:photo_added`, `photos:photo_removed`: `source` (`day`, `library`), `count` (attached after the change), `mode`
+  - `photos:limit_reached`: `mode`
+  - `photos:import_failed`: `source`, `status`
+  - `photos:viewer_closed`: `context` (`logger`, `day`), `photos_count`, `viewed_count`
+  - `logger:log_saved`: new `photos_count`, `photos_day_count`, `photos_library_count`
+  - Counts and enums only. Never file names, URIs, dimensions, EXIF, location, photo timestamps, or library ids
+- Never shipped in a release, replaced before the first photos release: `logger:library_permission_answered` (now `photos:day_access_answered`), `logger:photo_added` (now `photos:photo_added`), `logger:photo_removed` (now `photos:photo_removed`), `photos:photo_selected` (now `photos:photo_added`), `photos:photo_deselected` (now `photos:photo_removed`), `logger:photo_limit_reached` (now `photos:limit_reached`), `logger:camera_permission_denied` (dropped: no camera), `day:photo_opened` (now `photos:viewer_closed` with `context: "day"`)
 
 **Changed meaning**
 

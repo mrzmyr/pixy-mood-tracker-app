@@ -4,6 +4,7 @@ export type LoggerStep =
   | "tags"
   | "people"
   | "message"
+  | "photos"
   | "feedback"
   | "reminder"
   | "emotions";
@@ -21,5 +22,6 @@ export const STEP_OPTIONS: ConfigurableLoggerStep[] = [
   "people",
   "emotions",
   "message",
+  "photos",
   "feedback",
 ];

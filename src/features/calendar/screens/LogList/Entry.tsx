@@ -9,6 +9,8 @@ import { ScrollView, Text, View } from "react-native";
 import { Emotions } from "./Emotions";
 import { Message } from "./Message";
 import { People } from "./People";
+import { Photos } from "./Photos";
+import { useSettings } from "@/state/settings";
 import { RatingDot } from "./RatingDot";
 import { Sleep } from "./Sleep";
 import { Tags } from "./Tags";
@@ -100,9 +102,13 @@ const EntryHeader = ({
 };
 
 /**
- * Card for one entry in the day list with its sleep, emotions, tags, people
- * (behind the `people` flag), and message sections. The trash button calls `onDelete` without asking, so
- * the caller must confirm.
+ * Card for one entry in the day list with its sleep, emotions, tags,
+ * people, photos, and message sections. People show behind the `people`
+ * flag or when the entry has people. Stored photos always show, so turning
+ * the `photos` feature flag or consent off never hides user data. With the
+ * flag on, the section also shows empty when the photos step is on, and
+ * its pencil opens the photos step. The trash button calls `onDelete`
+ * without asking, so the caller must confirm.
  */
 export const Entry = ({
   item,
@@ -115,6 +121,8 @@ export const Entry = ({
 }) => {
   const colors = useColors();
   const hasPeople = useFeatureFlag("people");
+  const { hasStep } = useSettings();
+  const isPhotosEnabled = useFeatureFlag("photos");
 
   return (
     <View
@@ -165,6 +173,16 @@ export const Entry = ({
             {(hasPeople || item.people.length > 0) && (
               <View style={{ marginTop: 8 }}>
                 <People item={item} />
+              </View>
+            )}
+            {(item.photos.length > 0 ||
+              (isPhotosEnabled && hasStep("photos"))) && (
+              <View
+                style={{
+                  marginTop: 8,
+                }}
+              >
+                <Photos item={item} canEdit={isPhotosEnabled} />
               </View>
             )}
             <View

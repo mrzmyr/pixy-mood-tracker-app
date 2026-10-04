@@ -239,6 +239,7 @@ describe("useLogs()", () => {
         "deviceId",
         "storeReviewPromptedAt",
         "storeReviewPromptedAppVersion",
+        "photosDayAccessDismissed",
       ]) satisfies ExportSettings,
       tags: testTags,
       people: [],

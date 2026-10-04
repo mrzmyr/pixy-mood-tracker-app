@@ -76,6 +76,16 @@ const AppLayout = () => {
             name="logs/[id]/edit"
             options={{ ...modalOptions, gestureEnabled: false }}
           />
+          <Stack.Screen
+            name="photos/[id]"
+            options={{
+              // Transparent: the screen below shows through while a swipe
+              // closes the viewer.
+              presentation: "transparentModal",
+              animation: "fade",
+              headerShown: false,
+            }}
+          />
           <Stack.Screen name="tags/index" options={modalOptions} />
           <Stack.Screen name="tags/create" options={modalOptions} />
           <Stack.Screen name="tags/[id]" options={modalOptions} />

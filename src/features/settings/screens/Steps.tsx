@@ -13,6 +13,7 @@ import {
   Bell,
   FileText,
   Heart,
+  Image as ImageIcon,
   MessageSquare,
   Sun,
   Tag,
@@ -97,18 +98,22 @@ const StepRow = ({
 /**
  * Settings > Check-in: the logger steps in order. `rating` cannot be turned
  * off. Tags and People open their own page with the switch and their list.
- * `people` shows only behind the `people` feature flag.
+ * `people` and `photos` show only behind their feature flags.
  */
 export const StepsScreen = () => {
   const colors = useColors();
   const hasPeople = useFeatureFlag("people");
+  const isPhotosEnabled = useFeatureFlag("photos");
   const options = STEP_OPTIONS.filter(
-    (option) => option !== "people" || hasPeople
+    (option) =>
+      (option !== "people" || hasPeople) &&
+      (option !== "photos" || isPhotosEnabled)
   );
 
   const ICONS_MAP: Record<LoggerStep, ReactElement> = {
     rating: <Sun width={20} height={20} stroke={colors.text} />,
     message: <FileText width={20} height={20} color={colors.text} />,
+    photos: <ImageIcon width={20} height={20} color={colors.text} />,
     tags: <Tag width={20} height={20} color={colors.text} />,
     people: <Users width={20} height={20} color={colors.text} />,
     emotions: <Heart width={20} height={20} color={colors.text} />,
