@@ -11,14 +11,12 @@ tags: [p0, calendar]
 
 # With 3+ entries the logger can add a question slide from the live
 # questions API. It has no save button, so turn the step off.
-- tapOn:
-    id: "settings"
+- runFlow: ../subflows/open-settings.yaml
 - tapOn: "Check-in"
 - tapOn:
     id: "step-feedback-enabled"
 - back
-- tapOn:
-    id: "calendar"
+- back
 - assertVisible:
     id: "calendar-day-${output.today}"
 

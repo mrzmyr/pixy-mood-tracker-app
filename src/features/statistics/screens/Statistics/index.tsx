@@ -27,10 +27,10 @@ import { getItemTime } from "@/lib/logDates";
 dayjs.extend(isBetween);
 
 /**
- * Statistics tab.
+ * Statistics screen, opened from the calendar header.
  *
  * Unlocks with {@link STATISTIC_MIN_LOGS} entries in the last 14 days, not
- * in total. Statistics reload when the tab gains focus.
+ * in total. Statistics reload when the screen gains focus.
  */
 export const StatisticsScreen = () => {
   const router = useRouter();
@@ -108,7 +108,7 @@ export const StatisticsScreen = () => {
       <View
         style={{
           paddingHorizontal: 20,
-          paddingTop: insets.top + 20,
+          paddingTop: 20,
           paddingBottom: insets.bottom + 20,
         }}
       >

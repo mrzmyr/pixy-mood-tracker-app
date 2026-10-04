@@ -6,6 +6,7 @@ import { StorageLoadGate } from "@/shell/StorageLoadGate";
 import { t } from "@/lib/translation";
 import useColors from "@/hooks/useColors";
 import { DEV_TOOLS } from "@/dev";
+import { HAS_FLOATING_HEADER } from "@/features/calendar";
 
 const renderHeaderLeft = () =>
   Platform.OS === "ios" ? null : <BackButton testID="settings-back-button" />;
@@ -30,7 +31,38 @@ const AppLayout = () => {
       <View style={{ flex: 1, backgroundColor: colors.background }}>
         <Stack screenOptions={{ navigationBarColor: colors.tabsBackground }}>
           <Stack.Screen name="index" options={{ headerShown: false }} />
-          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          <Stack.Screen
+            name="calendar"
+            options={{
+              // Title stays the iOS back button label. The header shows none.
+              title: t("calendar"),
+              headerTitle: "",
+              headerTintColor: colors.text,
+              headerShadowVisible: false,
+              ...(HAS_FLOATING_HEADER
+                ? {
+                    headerTransparent: true,
+                    scrollEdgeEffects: { top: "soft" as const },
+                  }
+                : {
+                    headerStyle: {
+                      backgroundColor: colors.calendarBackground,
+                    },
+                  }),
+            }}
+          />
+          <Stack.Screen
+            name="statistics/index"
+            options={{
+              ...pageOptions,
+              title: t("statistics"),
+              headerStyle: { backgroundColor: colors.statisticsBackground },
+            }}
+          />
+          <Stack.Screen
+            name="settings/index"
+            options={{ ...pageOptions, title: t("settings") }}
+          />
           <Stack.Screen
             name="onboarding"
             options={{ ...modalOptions, gestureEnabled: false }}

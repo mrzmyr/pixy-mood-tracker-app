@@ -3,6 +3,7 @@ import { FlashList } from "@shopify/flash-list";
 import type { FlashListRef, ListRenderItemInfo } from "@shopify/flash-list";
 
 import dayjs from "dayjs";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import React, { memo, useCallback, useMemo, useRef, useState } from "react";
 import { Platform, useWindowDimensions, View } from "react-native";
 import type {
@@ -22,21 +23,34 @@ import { getItemDate } from "@/lib/logDates";
 const positionConfig = { startRenderingFromBottom: true };
 const getKey = (item: Month) => item.date;
 const getType = (item: Month) => item.weeks;
-const contentStyle = { paddingHorizontal: 16 };
 
 const CalendarComponent = ({
   listRef,
   header,
   footer,
   onScroll,
+  topInset = 0,
 }: {
   listRef: React.RefObject<FlashListRef<Month> | null>;
+  /** Space under a floating header; content and scroll bar start below it. */
+  topInset?: number;
   header: React.ReactElement | null;
   footer: React.ReactElement;
   onScroll: (event: NativeSyntheticEvent<NativeScrollEvent>) => void;
 }) => {
   const logState = useLogState();
+  const insets = useSafeAreaInsets();
   const { fontScale } = useWindowDimensions();
+  // No tab bar: the list clears the home indicator itself.
+  const contentStyle = useMemo(
+    () => ({
+      paddingHorizontal: 16,
+      paddingTop: topInset,
+      paddingBottom: insets.bottom,
+    }),
+    [topInset, insets.bottom]
+  );
+  const indicatorInsets = useMemo(() => ({ top: topInset }), [topInset]);
   const [width, setWidth] = useState(0);
   const [monthCount, setMonthCount] = useState(13);
   const isLoaded = useRef(false);
@@ -98,6 +112,7 @@ const CalendarComponent = ({
           keyExtractor={getKey}
           getItemType={getType}
           contentContainerStyle={contentStyle}
+          scrollIndicatorInsets={indicatorInsets}
           maintainVisibleContentPosition={positionConfig}
           onStartReached={loadEarlierMonths}
           onStartReachedThreshold={1}

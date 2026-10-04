@@ -18,7 +18,6 @@ import {
   Smartphone,
   Star,
 } from "react-native-feather";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 import MenuList from "@/components/MenuList";
 import MenuListHeadline from "@/components/MenuListHeadline";
 import MenuListItem from "@/components/MenuListItem";
@@ -37,11 +36,10 @@ import { Bug, Lightbulb, Tag } from "lucide-react-native";
 import { useSupport } from "@/support";
 
 /**
- * Settings tab. The support card needs its feature flag and an enabled client.
+ * Settings screen, opened from the calendar header. The support card needs its feature flag and an enabled client.
  */
 export const SettingsScreen = () => {
   const router = useRouter();
-  const insets = useSafeAreaInsets();
   const colors = useColors();
   const analytics = useAnalytics();
   const support = useSupport();
@@ -61,7 +59,6 @@ export const SettingsScreen = () => {
   return (
     <View
       style={{
-        paddingTop: insets.top,
         flex: 1,
         backgroundColor: colors.background,
       }}
@@ -72,17 +69,6 @@ export const SettingsScreen = () => {
         }}
       >
         <FeedbackModal />
-        <Text
-          style={{
-            fontSize: 32,
-            color: colors.text,
-            fontWeight: "bold",
-            marginTop: 32,
-            marginBottom: 18,
-          }}
-        >
-          {t("settings")}
-        </Text>
         <MenuList>
           <MenuListItem
             title={t("data")}

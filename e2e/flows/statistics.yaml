@@ -8,8 +8,7 @@ tags: [p1, statistics]
     env:
       FIXTURE: year
 - runScript: ../scripts/set-output-date.js
-- tapOn:
-    id: "statistics"
+- runFlow: ../subflows/open-statistics.yaml
 - assertVisible: "Highlights"
 - assertNotVisible: "Add .* more days.*"
 
@@ -32,8 +31,8 @@ tags: [p1, statistics]
     id: "statistics-back"
 
 # All 365 fixture entries are counted.
-- tapOn:
-    id: "settings"
+- back
+- runFlow: ../subflows/open-settings.yaml
 - scrollUntilVisible:
     element:
       text: "Statistics for Nerds"
