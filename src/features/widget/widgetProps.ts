@@ -133,4 +133,6 @@ export interface CheckInWidgetProps extends WidgetBaseProps {
   savedAt: number;
   /** Success line after a tap, the same for every rating. */
   savedText: string;
+  /** Hint under the success line: tapping the card shows the buttons again. */
+  againText: string;
 }

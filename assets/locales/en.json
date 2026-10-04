@@ -649,6 +649,7 @@
   "feedback_modal_message_placeholder_idea": "It would be great if…",
   "widget": "Widgets",
   "widget_week_title": "4 weeks",
+  "widget_check_in_again": "Tap to check in again",
   "widget_check_in_rating_label": "Mood {{value}} of {{total}}",
   "widget_check_in_saved": "Saved. Thanks for checking in.",
   "widget_check_in_title": "How are you right now?",

@@ -10,11 +10,17 @@ import {
 } from "@expo/ui/swift-ui";
 import {
   accessibilityLabel,
+  Animation,
+  animation,
+  aspectRatio,
   buttonStyle,
   containerBackground,
+  disabled,
   font,
   foregroundStyle,
   frame,
+  opacity,
+  scaleEffect,
   widgetURL,
 } from "@expo/ui/swift-ui/modifiers";
 import { createWidget } from "expo-widgets";
@@ -25,7 +31,7 @@ import type { CheckInWidgetProps } from "../widgetProps";
  * Seven rating pixels, worst to best, that log a mood without opening the
  * app. No rating words: colors carry the scale. A tap runs `onPress` in the
  * widget extension: it appends the tap to `taps`, moves the check mark, and
- * shows a success line; the app imports `taps` as entries on its
+ * swaps the buttons for an animated success card; the app imports `taps` as entries on its
  * next start or foreground. Runs in the widget runtime: no hooks, no
  * imports besides `@expo/ui`, and no module-scope values.
  */
@@ -110,64 +116,51 @@ const PixyCheckInWidget = (
       };
     };
 
-    return (
+    // Both layers stay mounted so WidgetKit keeps their identity and
+    // animates opacity and scale between renders.
+    const swap = animation(
+      Animation.spring({ duration: 0.5, bounce: 0.35 }),
+      isSaved
+    );
+
+    const checkIn = (
       <VStack
         alignment="leading"
         spacing={0}
         modifiers={[
           frame({ maxWidth: Infinity, maxHeight: Infinity }),
-          containerBackground(scheme.background, "widget"),
-          widgetURL(props.url),
+          opacity(isSaved ? 0 : 1),
+          scaleEffect(isSaved ? 0.9 : 1),
+          disabled(isSaved),
+          swap,
         ]}
       >
-        {isSaved ? (
-          <HStack spacing={6}>
-            <Image
-              systemName="checkmark.circle.fill"
-              size={15}
-              color={scheme.today}
-            />
-            <Text
-              modifiers={[
-                font({ size: 15, weight: "semibold" }),
-                foregroundStyle(scheme.text),
-              ]}
-            >
-              {props.savedText}
-            </Text>
-          </HStack>
-        ) : (
-          <HStack spacing={4}>
-            <Text
-              modifiers={[
-                font({ size: 15, weight: "semibold" }),
-                foregroundStyle(scheme.text),
-              ]}
-            >
-              {props.title}
-            </Text>
-            <Spacer />
-            {props.reminderTime === "" ? null : (
-              <HStack spacing={3}>
-                <Image
-                  systemName="bell"
-                  size={11}
-                  color={scheme.textSecondary}
-                />
-                <Text
-                  modifiers={[
-                    font({ size: 12 }),
-                    foregroundStyle(scheme.textSecondary),
-                  ]}
-                >
-                  {props.reminderTime}
-                </Text>
-              </HStack>
-            )}
-          </HStack>
-        )}
+        <HStack spacing={4}>
+          <Text
+            modifiers={[
+              font({ size: 18, weight: "semibold" }),
+              foregroundStyle(scheme.text),
+            ]}
+          >
+            {props.title}
+          </Text>
+          <Spacer />
+          {props.reminderTime === "" ? null : (
+            <HStack spacing={3}>
+              <Image systemName="bell" size={12} color={scheme.textSecondary} />
+              <Text
+                modifiers={[
+                  font({ size: 13 }),
+                  foregroundStyle(scheme.textSecondary),
+                ]}
+              >
+                {props.reminderTime}
+              </Text>
+            </HStack>
+          )}
+        </HStack>
         <Spacer />
-        <HStack spacing={6}>
+        <HStack spacing={8}>
           {ratings.map((rating) => (
             <Button
               key={rating}
@@ -177,7 +170,9 @@ const PixyCheckInWidget = (
                 accessibilityLabel(props.ratingLabels[rating]),
               ]}
             >
-              <ZStack modifiers={[frame({ maxWidth: Infinity, height: 52 })]}>
+              <ZStack
+                modifiers={[aspectRatio({ ratio: 1, contentMode: "fit" })]}
+              >
                 <RoundedRectangle
                   cornerRadius={10}
                   modifiers={[foregroundStyle(scheme.ratings[rating])]}
@@ -185,7 +180,7 @@ const PixyCheckInWidget = (
                 {props.selected === rating ? (
                   <Image
                     systemName="checkmark"
-                    size={15}
+                    size={16}
                     color={scheme.ratingTexts[rating]}
                   />
                 ) : null}
@@ -194,6 +189,60 @@ const PixyCheckInWidget = (
           ))}
         </HStack>
       </VStack>
+    );
+
+    // Tapping the success card brings the mood buttons back.
+    const saved = (
+      <Button
+        onPress={() => ({ savedAt: 0 })}
+        modifiers={[
+          buttonStyle("plain"),
+          disabled(!isSaved),
+          opacity(isSaved ? 1 : 0),
+          scaleEffect(isSaved ? 1 : 0.6),
+          swap,
+        ]}
+      >
+        <VStack
+          spacing={8}
+          modifiers={[frame({ maxWidth: Infinity, maxHeight: Infinity })]}
+        >
+          <Image
+            systemName="checkmark.circle.fill"
+            size={40}
+            color={scheme.today}
+          />
+          <Text
+            modifiers={[
+              font({ size: 18, weight: "semibold" }),
+              foregroundStyle(scheme.text),
+            ]}
+          >
+            {props.savedText}
+          </Text>
+          <Text
+            modifiers={[
+              font({ size: 13 }),
+              foregroundStyle(scheme.textSecondary),
+            ]}
+          >
+            {props.againText}
+          </Text>
+        </VStack>
+      </Button>
+    );
+
+    return (
+      <ZStack
+        modifiers={[
+          frame({ maxWidth: Infinity, maxHeight: Infinity }),
+          containerBackground(scheme.background, "widget"),
+          widgetURL(props.url),
+        ]}
+      >
+        {checkIn}
+        {saved}
+      </ZStack>
     );
   } catch (error) {
     return (

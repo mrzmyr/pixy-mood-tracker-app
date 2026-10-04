@@ -638,6 +638,7 @@
   "feedback_modal_message_placeholder_idea": "Es wäre toll, wenn…",
   "widget": "Widgets",
   "widget_week_title": "4 Wochen",
+  "widget_check_in_again": "Tippe, um erneut einzutragen",
   "widget_check_in_rating_label": "Stimmung {{value}} von {{total}}",
   "widget_check_in_saved": "Gespeichert. Danke fürs Eintragen.",
   "widget_check_in_title": "Wie geht es dir gerade?",

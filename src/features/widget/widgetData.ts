@@ -325,6 +325,7 @@ export const getCheckInWidgetProps = (
     ) as Record<WidgetRating, string>,
     savedAt: 0,
     savedText: t("widget_check_in_saved"),
+    againText: t("widget_check_in_again"),
   };
 };
 
