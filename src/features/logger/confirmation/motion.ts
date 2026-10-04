@@ -60,10 +60,13 @@ export const createJump = ({
 };
 
 /**
- * Content rises 8 pt and fades in. With reduced motion only the fade stays.
- * Call inside `useMemo`, keyed on reduced motion.
+ * Text fades in while it rises 8 pt. With reduced motion only the fade
+ * stays. Call inside `useMemo`, keyed on reduced motion.
+ *
+ * Use on `Animated.View`, not `Animated.Text`: entering animations on text
+ * do not run on iOS.
  */
-export const createRise = ({
+export const createFadeIn = ({
   delay,
   isReducedMotion,
 }: {
@@ -71,7 +74,7 @@ export const createRise = ({
   isReducedMotion: boolean;
 }) => {
   if (isReducedMotion) {
-    return FadeIn.delay(delay).duration(200);
+    return FadeIn.delay(delay).duration(400);
   }
 
   return new Keyframe({
@@ -79,5 +82,5 @@ export const createRise = ({
     100: { opacity: 1, transform: [{ translateY: 0 }], easing: getEaseOut() },
   })
     .delay(delay)
-    .duration(300);
+    .duration(700);
 };

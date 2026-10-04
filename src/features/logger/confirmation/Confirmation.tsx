@@ -19,7 +19,7 @@ import {
   SUMMARY_TAGS_MAX,
 } from "./daySummary";
 import type { SummarySegment } from "./daySummary";
-import { createJump, createRise, LAND_MS } from "./motion";
+import { createFadeIn, createJump, LAND_MS } from "./motion";
 import { Pixy } from "./Pixy";
 import { useConfirmation } from "./useConfirmation";
 
@@ -79,12 +79,17 @@ export const Confirmation = ({
     () => createJump({ isReducedMotion }),
     [isReducedMotion]
   );
+  // Title, sentence, and tags fade in one after the other.
   const titleEntering = useMemo(
-    () => createRise({ delay: 500, isReducedMotion }),
+    () => createFadeIn({ delay: 450, isReducedMotion }),
     [isReducedMotion]
   );
   const bodyEntering = useMemo(
-    () => createRise({ delay: 750, isReducedMotion }),
+    () => createFadeIn({ delay: 750, isReducedMotion }),
+    [isReducedMotion]
+  );
+  const tagsEntering = useMemo(
+    () => createFadeIn({ delay: 1050, isReducedMotion }),
     [isReducedMotion]
   );
 
@@ -116,51 +121,47 @@ export const Confirmation = ({
           <Animated.View entering={jump}>
             <Pixy size={56} tone={summary.tone} />
           </Animated.View>
-          <Animated.Text
-            entering={titleEntering}
-            accessibilityRole="header"
+          <Animated.View entering={titleEntering} style={{ flex: 1 }}>
+            <Text
+              accessibilityRole="header"
+              style={{ fontSize: 17, fontWeight: "600", color: colors.text }}
+            >
+              {getSummaryTitle(summary)}
+            </Text>
+          </Animated.View>
+        </View>
+        <Animated.View entering={bodyEntering} style={{ marginTop: 22 }}>
+          <Text
+            testID="confirmation-summary"
             style={{
-              flex: 1,
-              fontSize: 17,
+              fontSize: 24,
+              lineHeight: 36,
+              letterSpacing: -0.3,
               fontWeight: "600",
-              color: colors.text,
+              color: colors.textSecondary,
             }}
           >
-            {getSummaryTitle(summary)}
-          </Animated.Text>
-        </View>
-        <Animated.Text
-          testID="confirmation-summary"
-          entering={bodyEntering}
-          style={{
-            marginTop: 22,
-            fontSize: 24,
-            lineHeight: 36,
-            letterSpacing: -0.3,
-            fontWeight: "600",
-            color: colors.textSecondary,
-          }}
-        >
-          {segments.map((segment) =>
-            segment.mark ? (
-              <Text
-                // Marked texts are unique: one mood, distinct emotions.
-                key={`${segment.mark}:${segment.text}`}
-                style={{
-                  color: colors.text,
-                  backgroundColor: marks[segment.mark],
-                }}
-              >
-                {segment.text}
-              </Text>
-            ) : (
-              segment.text
-            )
-          )}
-        </Animated.Text>
+            {segments.map((segment) =>
+              segment.mark ? (
+                <Text
+                  // Marked texts are unique: one mood, distinct emotions.
+                  key={`${segment.mark}:${segment.text}`}
+                  style={{
+                    color: colors.text,
+                    backgroundColor: marks[segment.mark],
+                  }}
+                >
+                  {segment.text}
+                </Text>
+              ) : (
+                segment.text
+              )
+            )}
+          </Text>
+        </Animated.View>
         {dayTags.length > 0 && (
           <Animated.View
-            entering={bodyEntering}
+            entering={tagsEntering}
             style={{ flexDirection: "row", flexWrap: "wrap", marginTop: 20 }}
           >
             {dayTags.map((tag) => (
