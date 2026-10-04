@@ -1,17 +1,12 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { DefaultTheme, ThemeProvider } from "expo-router";
-import {
-  fireEvent,
-  render,
-  userEvent,
-  waitFor,
-} from "@testing-library/react-native";
+import { fireEvent, render, userEvent } from "@testing-library/react-native";
 import Providers from "@/shell/Providers";
 import { ToastHost } from "@/components/Toast";
 import Colors from "@/constants/Colors";
 import { INITIAL_STATE } from "@/constants/Settings";
 import { STORAGE_KEY } from "@/state/settings";
-import { SettingsEmotions } from "@/features/settings";
+import { SlideEmotions } from "../slides/SlideEmotions";
 
 // oxlint-disable-next-line anti-slop/no-module-mocking -- expo-superwall is a native module imported transitively by Providers
 jest.mock(
@@ -45,7 +40,7 @@ jest.mock("react-native-safe-area-context", () => ({
   useSafeAreaInsets: () => ({ top: 0, right: 0, bottom: 0, left: 0 }),
 }));
 
-const renderEmotions = () =>
+const renderSlide = () =>
   render(
     <ThemeProvider
       value={{
@@ -57,14 +52,11 @@ const renderEmotions = () =>
       <Providers
         supportClient={{ enabled: false, openSupport: () => Promise.resolve() }}
       >
-        <SettingsEmotions />
+        <SlideEmotions onChange={jest.fn()} showDisable={false} />
         <ToastHost />
       </Providers>
     </ThemeProvider>
   );
-
-const storedSteps = async () =>
-  JSON.parse((await AsyncStorage.getItem(STORAGE_KEY)) ?? "{}").steps;
 
 beforeEach(async () => {
   await AsyncStorage.clear();
@@ -82,9 +74,9 @@ afterEach(() => {
   jest.restoreAllMocks();
 });
 
-describe("Settings > Check-in > Emotions", () => {
+describe("Logger > emotions > request a missing emotion", () => {
   test("user requests a missing emotion", async () => {
-    const screen = await renderEmotions();
+    const screen = await renderSlide();
 
     await userEvent.press(await screen.findByTestId("request-emotion"));
     await userEvent.type(
@@ -100,13 +92,13 @@ describe("Settings > Check-in > Emotions", () => {
     const [[, request]] = jest.mocked(global.fetch).mock.calls;
     expect(JSON.parse(String(request?.body))).toMatchObject({
       type: "emotion",
-      source: "settings",
+      source: "logger",
       message: "Nostalgic",
     });
   });
 
   test("user sends no email unless they want a reply", async () => {
-    const screen = await renderEmotions();
+    const screen = await renderSlide();
 
     await userEvent.press(await screen.findByTestId("request-emotion"));
     expect(screen.queryByTestId("request-emotion-email")).toBeNull();
@@ -119,7 +111,7 @@ describe("Settings > Check-in > Emotions", () => {
   });
 
   test("user who wants a reply learns it comes by email", async () => {
-    const screen = await renderEmotions();
+    const screen = await renderSlide();
 
     await userEvent.press(await screen.findByTestId("request-emotion"));
     await userEvent.type(screen.getByTestId("request-emotion-word"), "Cozy");
@@ -139,7 +131,7 @@ describe("Settings > Check-in > Emotions", () => {
 
   test("user keeps the request when sending fails", async () => {
     global.fetch = jest.fn().mockResolvedValue({ ok: false, status: 500 });
-    const screen = await renderEmotions();
+    const screen = await renderSlide();
 
     await userEvent.press(await screen.findByTestId("request-emotion"));
     await userEvent.type(screen.getByTestId("request-emotion-word"), "Numb");
@@ -154,7 +146,7 @@ describe("Settings > Check-in > Emotions", () => {
   });
 
   test("user closes the request sheet without sending", async () => {
-    const screen = await renderEmotions();
+    const screen = await renderSlide();
 
     await userEvent.press(await screen.findByTestId("request-emotion"));
     await userEvent.type(screen.getByTestId("request-emotion-word"), "Numb");
@@ -162,20 +154,5 @@ describe("Settings > Check-in > Emotions", () => {
 
     expect(screen.queryByTestId("request-emotion-word")).toBeNull();
     expect(global.fetch).not.toHaveBeenCalled();
-  });
-
-  test("user turns off the emotions step", async () => {
-    const screen = await renderEmotions();
-    expect(await storedSteps()).toContain("emotions");
-
-    fireEvent(
-      await screen.findByTestId("step-emotions-enabled"),
-      "valueChange",
-      false
-    );
-
-    await waitFor(async () =>
-      expect(await storedSteps()).not.toContain("emotions")
-    );
   });
 });

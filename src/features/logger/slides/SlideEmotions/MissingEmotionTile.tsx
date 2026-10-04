@@ -27,7 +27,7 @@ export const MissingEmotionTile = ({
   return (
     <Pressable
       accessibilityRole="button"
-      accessibilityLabel={t("request_emotion")}
+      accessibilityLabel={t("request_emotion_title")}
       testID="request-emotion"
       onPress={() => {
         haptics.selection();
