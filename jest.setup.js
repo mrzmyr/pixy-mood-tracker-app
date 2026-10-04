@@ -24,13 +24,40 @@ jest.mock("posthog-react-native", () => {
 // oxlint-disable-next-line anti-slop/no-module-mocking -- feature entry files load logger exports during provider tests; native carousel is unavailable in Jest.
 jest.mock("react-native-reanimated-carousel", () => ({ Carousel: () => null }));
 
+const mockCreateAnimatedComponent = (component) => component;
+
 // oxlint-disable-next-line anti-slop/no-module-mocking -- feature entry files load animated UI during provider tests; native worklets are unavailable in Jest.
 jest.mock("react-native-reanimated", () => {
-  const { View } = require("react-native");
+  const { Text, View } = require("react-native");
   const animation = { duration: () => animation, delay: () => animation };
+  class Keyframe {
+    duration() {
+      return this;
+    }
+    delay() {
+      return this;
+    }
+  }
   return {
     __esModule: true,
-    default: { View },
+    default: {
+      View,
+      Text,
+      createAnimatedComponent: mockCreateAnimatedComponent,
+    },
+    createAnimatedComponent: mockCreateAnimatedComponent,
+    Keyframe,
+    Easing: {
+      bezier: () => ({}),
+      inOut: () => ({}),
+      sin: {},
+    },
+    interpolate: () => 0,
+    useAnimatedProps: () => ({}),
+    useReducedMotion: () => true,
+    withDelay: (_delay, value) => value,
+    withRepeat: (value) => value,
+    withSequence: (...values) => values.at(-1),
     FadeIn: animation,
     FadeInDown: animation,
     FadeInRight: animation,

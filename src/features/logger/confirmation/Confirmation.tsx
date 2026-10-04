@@ -20,7 +20,7 @@ import {
 } from "./daySummary";
 import type { SummarySegment } from "./daySummary";
 import { createFadeIn, createJump, LAND_MS } from "./motion";
-import { Pixy } from "./Pixy";
+import { Pixy } from "@/components/Pixy/Pixy";
 import { useConfirmation } from "./useConfirmation";
 
 const emotionLabel = (key: string) =>

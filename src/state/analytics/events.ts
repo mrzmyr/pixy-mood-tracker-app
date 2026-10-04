@@ -23,6 +23,20 @@ export interface AnalyticsEvents {
   "onboarding:reminder_postponed": undefined;
   "onboarding:flow_completed": undefined;
   "onboarding:flow_skipped": { index: number };
+  "onboarding:survey_question_viewed": { question: string; index: number };
+  /** Sent after the privacy step, so consent regions only send it with consent. */
+  "onboarding:survey_completed": {
+    experience: string | null;
+    goals: string[];
+    frequency: string | null;
+    reminder: string | null;
+    depth: string | null;
+    influences: string[];
+    skipped_count: number;
+    notifications_granted: boolean;
+  };
+  "onboarding:plan_viewed": { tips: string[] };
+  "onboarding:first_entry_opened": undefined;
 
   "logger:flow_started": { mode: "create" | "edit"; steps_count: number };
   "logger:step_viewed": {

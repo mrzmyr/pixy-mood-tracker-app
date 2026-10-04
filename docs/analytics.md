@@ -7,6 +7,9 @@
 - Privacy rule: [AGENTS.md footguns](../AGENTS.md#footguns)
 - Default: off in consent regions and when region is unknown; on elsewhere. Factory reset restores the device-region default ([`src/state/analytics/consent.ts`](../src/state/analytics/consent.ts))
 - Onboarding skip: consent regions land on the privacy slide before completion.
+- Onboarding survey (flag `onboarding-survey`): `onboarding:survey_question_viewed`, `onboarding:survey_completed`, `onboarding:plan_viewed`, `onboarding:first_entry_opened` ([`src/features/onboarding/screens/OnboardingSurvey`](../src/features/onboarding/screens/OnboardingSurvey))
+  - `survey_completed` fires after the privacy step, so a declined consent sends nothing
+  - Answers are fixed option values. No free text
 - Off switch: Settings > Privacy > Behavioral Data
 - Feature flags load only with consent ([development.md](development.md#feature-flags))
 - Data exports: `data:export_started`, `data:export_completed`, `data:export_failed` send `format: "json" | "csv"`.

@@ -192,6 +192,16 @@ const light = {
   onboardingPrivacyBadgeBackground: tintColorLight,
   onboardingPrivacyBadgeVector: colors.white,
 
+  onboardingSurveyAccent: "#FB6B0F",
+  onboardingSurveyAccentSoft: "#FFF2E8",
+  onboardingSurveyOptionBackground: colors.white,
+  onboardingSurveyOptionBorder: colors.neutral[200],
+  onboardingSurveyOptionText: colors.neutral[900],
+  onboardingSurveyHint: colors.neutral[500],
+  onboardingSurveyTrack: colors.neutral[200],
+  onboardingSurveyBackButton: colors.neutral[200],
+  onboardingSurveyBubble: colors.white,
+
   sharingLogoBackground: colors.white,
   sharingLogoText: colors.neutral[600],
 
@@ -376,6 +386,16 @@ const dark: IColors & {
 
   onboardingPrivacyBadgeBackground: tintColorDark,
   onboardingPrivacyBadgeVector: colors.white,
+
+  onboardingSurveyAccent: "#FB7A26",
+  onboardingSurveyAccentSoft: "rgba(251, 107, 15, 0.18)",
+  onboardingSurveyOptionBackground: colors.neutral[900],
+  onboardingSurveyOptionBorder: colors.neutral[700],
+  onboardingSurveyOptionText: colors.neutral[100],
+  onboardingSurveyHint: colors.neutral[400],
+  onboardingSurveyTrack: colors.neutral[700],
+  onboardingSurveyBackButton: colors.neutral[700],
+  onboardingSurveyBubble: colors.neutral[900],
   onboardingListItemDot: colors.neutral[700],
   onboardingListItemText: colors.neutral[300],
 
