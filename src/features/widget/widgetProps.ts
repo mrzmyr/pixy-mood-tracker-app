@@ -40,6 +40,8 @@ export interface WidgetSchemeColors {
   today: string;
   /** Fill per rating, from the user's color scale. */
   ratings: Record<WidgetRating, string>;
+  /** Check mark color on each rating fill. */
+  ratingTexts: Record<WidgetRating, string>;
 }
 
 /** Props every Pixy widget receives. */
@@ -104,4 +106,27 @@ export interface YearWidgetProps extends WidgetBaseProps {
   rowsDarkLarge: string[];
   /** Changes with every capture so the widget re-reads the files. */
   imageVersion: number;
+}
+
+/** One mood tap on the check-in widget, waiting for the app to import it. */
+export interface CheckInTap {
+  rating: WidgetRating;
+  /** Tap time in epoch milliseconds. Also derives the entry id. */
+  at: number;
+}
+
+/**
+ * Check-in widget props. A tap runs in the widget extension, never in the
+ * app: the button handler appends to `taps` and sets `selected`, and the app
+ * turns `taps` into entries on its next start or foreground.
+ */
+export interface CheckInWidgetProps extends WidgetBaseProps {
+  /** Rating with the check mark: last tap, else today's latest entry, else `""`. */
+  selected: WidgetRating | "";
+  /** Taps the app has not imported yet, oldest first. */
+  taps: CheckInTap[];
+  /** Reminder time like `20:30`; `""` when reminders are off. */
+  reminderTime: string;
+  /** Name per rating: accessibility labels, and the scale ends under the buttons. */
+  ratingLabels: Record<WidgetRating, string>;
 }

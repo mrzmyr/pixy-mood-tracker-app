@@ -1,21 +1,28 @@
 import * as Sentry from "@sentry/react-native";
 import { widgetsDirectory } from "expo-widgets";
 import * as FileSystem from "expo-file-system/legacy";
-import { useEffect, useMemo, useRef } from "react";
+import { useEffect, useEffectEvent, useMemo, useRef } from "react";
 import { AppState, View } from "react-native";
 import { captureRef } from "react-native-view-shot";
-import { useLogState } from "@/features/logs";
+import { useLogState, useLogUpdater } from "@/features/logs";
 import { createStructuredError } from "@/lib/errors";
+import { useAnalytics } from "@/state/analytics";
 import { useFeatureFlagState } from "@/state/featureFlags";
 import { useSetting } from "@/state/settings";
+import {
+  getCheckInLogItem,
+  getCheckInTapId,
+  getUnimportedTaps,
+} from "./checkIn";
 import { getSchemeColors, getYearGrid } from "./widgetData";
 import type { YearImages } from "./widgetData";
+import type { CheckInTap } from "./widgetProps";
 import {
   YEAR_BAND_ROWS,
   YEAR_MONTH_ROWS,
   YearPixelsCanvas,
 } from "./YearPixelsCanvas";
-import { IS_WIDGET_SUPPORTED, syncWidgets } from "./widgets";
+import { IS_WIDGET_SUPPORTED, readCheckInTaps, syncWidgets } from "./widgets";
 
 /** Wait for a burst of changes (import, reset) before one widget update. */
 const SYNC_DEBOUNCE_MS = 400;
@@ -42,6 +49,8 @@ const captureYearImage = async (view: View, name: string) => {
 /**
  * Keeps the home screen widgets in sync with entries, the color scale, and
  * the `ios-widget` flag (off: widgets show "Not available").
+ * First turns check-in widget taps into entries; adding them changes
+ * `items`, and the next sync clears the imported taps from the widget.
  * Renders the year grid off screen, captures it as an image for the year
  * widget, then pushes every timeline. Also resyncs when the app returns to
  * the foreground, so the timeline never runs out while the app stays
@@ -49,7 +58,26 @@ const captureYearImage = async (view: View, name: string) => {
  */
 export const WidgetSync = () => {
   const { items, loaded } = useLogState();
+  const logUpdater = useLogUpdater();
+  const analytics = useAnalytics();
   const scaleType = useSetting("scaleType") ?? DEFAULT_SCALE;
+  const reminderEnabled = useSetting("reminderEnabled") ?? false;
+  const reminderTime = useSetting("reminderTime") ?? null;
+  // Two syncs can read the same taps before `items` updates (start and
+  // foreground fire together), so remember what was already added.
+  const importedTapIds = useRef(new Set<string>());
+  const importTaps = useEffectEvent((taps: CheckInTap[]) => {
+    const fresh = taps.filter(
+      (tap) => !importedTapIds.current.has(getCheckInTapId(tap))
+    );
+    for (const tap of fresh) {
+      importedTapIds.current.add(getCheckInTapId(tap));
+      logUpdater.addLog(getCheckInLogItem(tap));
+    }
+    if (fresh.length > 0) {
+      analytics.track("widget:check_in_imported", { count: fresh.length });
+    }
+  });
   const flagState = useFeatureFlagState("ios-widget");
   // One view per captured row: [scheme][layout][row].
   const rowRefs = useRef<Record<string, View | null>>({});
@@ -92,7 +120,30 @@ export const WidgetSync = () => {
         })
       );
     };
+    /** Pending taps, or `null` when the widget store could not be read. */
+    const readTaps = async () => {
+      try {
+        return await readCheckInTaps();
+      } catch (error) {
+        const structuredError = createStructuredError({
+          status: "widget_check_in_read_failed",
+          message: "Check-in widget taps could not be read",
+          why: `expo-widgets failed: ${error instanceof Error ? error.message : String(error)}`,
+          fix: "Open Pixy again; the widget keeps its taps until the next import",
+        });
+        console.error(structuredError);
+        Sentry.captureException(structuredError);
+        return null;
+      }
+    };
     const sync = async () => {
+      const taps = await readTaps();
+      const unimported = taps === null ? null : getUnimportedTaps(taps, items);
+      if (unimported !== null && unimported.length > 0) {
+        importTaps(unimported);
+        // The new entries change `items`; that sync writes the widgets.
+        return;
+      }
       let yearImages: YearImages | undefined;
       try {
         if (isAvailable && widgetsDirectory) {
@@ -114,7 +165,14 @@ export const WidgetSync = () => {
         console.error(structuredError);
         Sentry.captureException(structuredError);
       }
-      await syncWidgets({ items, scaleType, isAvailable, yearImages });
+      await syncWidgets({
+        items,
+        scaleType,
+        isAvailable,
+        yearImages,
+        reminderTime: reminderEnabled ? reminderTime : null,
+        checkInTaps: unimported,
+      });
     };
     const timeout = setTimeout(() => {
       void sync();
@@ -128,7 +186,7 @@ export const WidgetSync = () => {
       clearTimeout(timeout);
       subscription.remove();
     };
-  }, [items, loaded, scaleType, flagState]);
+  }, [items, loaded, scaleType, flagState, reminderEnabled, reminderTime]);
 
   if (grid === null) {
     return null;

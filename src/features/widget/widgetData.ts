@@ -9,6 +9,8 @@ import { getAverageMood } from "@/lib/utils";
 import { t } from "@/lib/translation";
 import { PAD_CELL } from "./widgetProps";
 import type {
+  CheckInTap,
+  CheckInWidgetProps,
   MonthWidgetProps,
   YearGrid,
   WeekWidgetProps,
@@ -80,6 +82,10 @@ export const getSchemeColors = (
   const ratings = Object.fromEntries(
     RATING_KEYS.map((rating) => [rating, scale[rating].background])
   ) as Record<WidgetRating, string>;
+  // SAFETY: RATING_KEYS lists every WidgetRating exactly once.
+  const ratingTexts = Object.fromEntries(
+    RATING_KEYS.map((rating) => [rating, scale[rating].text])
+  ) as Record<WidgetRating, string>;
   return {
     background: colors.widgetBackground,
     text: colors.widgetText,
@@ -90,6 +96,7 @@ export const getSchemeColors = (
     future: scale.empty.background,
     today: colors.tint,
     ratings,
+    ratingTexts,
   };
 };
 
@@ -268,6 +275,47 @@ export const getYearWidgetProps = (
     rowsLightLarge: images?.lightLarge ?? [],
     rowsDarkLarge: images?.darkLarge ?? [],
     imageVersion: images?.version ?? 0,
+  };
+};
+
+/**
+ * Props for the check-in widget. `taps` are taps the app has not imported
+ * yet; they stay so a tap between read and write survives the next sync.
+ */
+export const getCheckInWidgetProps = (
+  input: WidgetDataInput & {
+    /** `HH:mm`, or `null` when reminders are off. */
+    reminderTime: string | null;
+    taps: CheckInTap[];
+  }
+): CheckInWidgetProps => {
+  const today = (input.now ?? dayjs()).format(DATE_FORMAT);
+  let latest: LogItem | null = null;
+  for (const item of input.items) {
+    if (
+      getItemDate(item) === today &&
+      (latest === null || item.dateTime > latest.dateTime)
+    ) {
+      latest = item;
+    }
+  }
+  const todayTaps = input.taps.filter(
+    (tap) => dayjs(tap.at).format(DATE_FORMAT) === today
+  );
+  const lastTap = todayTaps.at(-1);
+  return {
+    ...getBaseProps(input, t("widget_check_in_title"), []),
+    subtitle: "",
+    selected: lastTap?.rating ?? latest?.rating ?? "",
+    taps: input.taps,
+    reminderTime:
+      input.reminderTime === null
+        ? ""
+        : dayjs(`2000-01-01T${input.reminderTime}`).format("LT"),
+    // SAFETY: RATING_KEYS lists every WidgetRating exactly once.
+    ratingLabels: Object.fromEntries(
+      RATING_KEYS.map((rating) => [rating, t(rating)])
+    ) as Record<WidgetRating, string>,
   };
 };
 

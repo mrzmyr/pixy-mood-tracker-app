@@ -60,6 +60,8 @@ export interface AnalyticsEvents {
   "widget:guide_step_viewed": { step: number };
   "widget:guide_dismissed": { step: number };
   "widget:guide_completed": undefined;
+  /** Check-in widget taps turned into entries on app start or foreground. */
+  "widget:check_in_imported": { count: number };
 
   "day:add_tapped": undefined;
   "day:edit_tapped": undefined;

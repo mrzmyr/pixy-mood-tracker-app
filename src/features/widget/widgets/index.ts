@@ -3,7 +3,9 @@ import { Platform } from "react-native";
 import * as Sentry from "@sentry/react-native";
 import type { LogItem } from "@/features/logs";
 import { createStructuredError } from "@/lib/errors";
+import { collectCheckInTaps } from "../checkIn";
 import {
+  getCheckInWidgetProps,
   getMonthWidgetProps,
   getWeekWidgetProps,
   getWidgetTimeline,
@@ -11,6 +13,8 @@ import {
   YEAR_WIDGET_TIMELINE_DAYS,
 } from "../widgetData";
 import type { YearImages } from "../widgetData";
+import type { CheckInTap } from "../widgetProps";
+import PixyCheckInWidget from "./PixyCheckInWidget";
 import PixyMonthWidget from "./PixyMonthWidget";
 import PixyWeekWidget from "./PixyWeekWidget";
 import PixyYearWidget from "./PixyYearWidget";
@@ -43,13 +47,26 @@ const firstEntryKeys = (entries: { props: object }[]) =>
 
 /** Entry counts and first-entry keys read back from the widget store. */
 const describeTimelines = async () => {
-  const [week, month, year] = await Promise.all([
+  const [week, month, year, checkIn] = await Promise.all([
     PixyWeekWidget.getTimeline(),
     PixyMonthWidget.getTimeline(),
     PixyYearWidget.getTimeline(),
+    PixyCheckInWidget.getTimeline(),
   ]);
   const keys = firstEntryKeys;
-  return `week ${week.length} [${keys(week)}] month ${month.length} [${keys(month)}] year ${year.length} [${keys(year)}]`;
+  return `week ${week.length} [${keys(week)}] month ${month.length} [${keys(month)}] year ${year.length} [${keys(year)}] check-in ${checkIn.length} [${keys(checkIn)}]`;
+};
+
+/**
+ * Mood taps stored by the check-in widget, oldest first. Throws when the
+ * widget store cannot be read; the caller must then skip the check-in write,
+ * or pending taps are lost.
+ */
+export const readCheckInTaps = async (): Promise<CheckInTap[]> => {
+  if (!IS_WIDGET_SUPPORTED) {
+    return [];
+  }
+  return collectCheckInTaps(await PixyCheckInWidget.getTimeline());
 };
 
 /**
@@ -62,9 +79,18 @@ export const syncWidgets = async ({
   scaleType,
   isAvailable,
   yearImages,
+  reminderTime,
+  checkInTaps,
 }: {
   items: LogItem[];
   scaleType: string;
+  /** `HH:mm`, or `null` when reminders are off. */
+  reminderTime: string | null;
+  /**
+   * Taps not imported yet, kept in the check-in widget. `null` when the
+   * widget store could not be read: the check-in timeline is left alone.
+   */
+  checkInTaps: CheckInTap[] | null;
   /** Feature flag on. `false` makes every widget show "Not available". */
   isAvailable: boolean;
   /** Captured year images; omitted when the capture failed. */
@@ -86,6 +112,17 @@ export const syncWidgets = async ({
         YEAR_WIDGET_TIMELINE_DAYS
       )
     );
+    if (checkInTaps !== null) {
+      PixyCheckInWidget.updateTimeline(
+        getWidgetTimeline(input, (entryInput) =>
+          getCheckInWidgetProps({
+            ...entryInput,
+            reminderTime,
+            taps: checkInTaps,
+          })
+        )
+      );
+    }
     lastSync = {
       at: new Date().toISOString(),
       status: "ok",

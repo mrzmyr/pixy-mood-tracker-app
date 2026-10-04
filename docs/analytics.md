@@ -11,6 +11,7 @@
 - Feature flags load only with consent ([development.md](development.md#feature-flags))
 - Store review prompt: `logger:store_review_requested` ([`src/features/review`](../src/features/review))
 - Widget guide: `widget:guide_*`
+- Check-in widget: `widget:check_in_imported` fires when the app turns widget taps into entries. Property: `count`
   - Fires once per install, after the save that reaches 7 entries
   - Properties: `trigger`, `entries_count`
   - OS decides whether prompt shows

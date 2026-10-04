@@ -649,12 +649,13 @@
   "feedback_modal_message_placeholder_idea": "It would be great if…",
   "widget": "Widgets",
   "widget_week_title": "4 weeks",
+  "widget_check_in_title": "How are you right now?",
   "widget_guide_back": "Back",
   "widget_guide_step_1_title": "Hold Home Screen",
   "widget_guide_step_1_body": "Press an empty area on your Home Screen until the apps start to jiggle.",
   "widget_guide_step_2_title": "Tap Edit → Add Widget",
   "widget_guide_step_2_body": "Both sit in the top-left corner. On older iOS versions, tap the + button instead.",
   "widget_guide_step_3_title": "Pick Widget",
-  "widget_guide_step_3_body": "Search for Pixy, choose 4 weeks, Month, or Year, then tap Add Widget.",
+  "widget_guide_step_3_body": "Search for Pixy, choose 4 weeks, Month, Year, or Check-in, then tap Add Widget.",
   "widget_not_available": "Not available"
 }

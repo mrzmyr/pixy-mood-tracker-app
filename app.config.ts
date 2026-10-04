@@ -45,6 +45,12 @@ export type AppVariant = keyof typeof APP_VARIANTS;
  */
 export const WIDGETS = [
   {
+    name: "PixyCheckIn",
+    displayName: "Check-in",
+    description: "Log your mood with one tap.",
+    ios: { supportedFamilies: ["systemMedium"] },
+  },
+  {
     name: "PixyWeek",
     displayName: "4 weeks",
     description: "Your pixels for the last four weeks.",
