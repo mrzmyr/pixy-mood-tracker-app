@@ -763,5 +763,10 @@
   "log_summary_list_comma": ", ",
   "log_summary_more": "{{count}} weitere",
   "log_summary_tags_count": "Hinzugefügte Tags: {{count}}.",
-  "log_summary_check_in": "Check-in #{{count}} heute. Kurz und knackig."
+  "log_summary_check_in": "Check-in #{{count}} heute. Kurz und knackig.",
+  "settings_appearance": "Darstellung",
+  "theme": "Design",
+  "theme_system": "System",
+  "theme_light": "Hell",
+  "theme_dark": "Dunkel"
 }

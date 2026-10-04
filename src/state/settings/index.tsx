@@ -26,6 +26,8 @@ import {
 } from "@/lib/errors";
 import { INITIAL_STATE } from "@/constants/Settings";
 import { useContentStableValue } from "@/hooks/useContentStableValue";
+import { applyColorScheme, ColorSchemeSettingSchema } from "./colorScheme";
+import type { ColorSchemeSetting } from "./colorScheme";
 
 type KnownSettingsStep = ConfigurableLoggerStep | "sleep";
 
@@ -67,6 +69,8 @@ export interface SettingsState {
    * or denied library access. The row never shows again on this install.
    */
   photosDayAccessDismissed: boolean;
+  /** Theme for this device. */
+  colorScheme: ColorSchemeSetting;
 
   // removed in previous version
   // replaced with analyticsEnabled
@@ -78,8 +82,8 @@ export interface SettingsState {
 /**
  * Settings included in data exports. The device id is excluded so an import
  * never clones another device's identity. Store review prompt state belongs
- * to the device and store account, and photo library access to the device,
- * so imports keep the current values.
+ * to the device and store account, and photo library access and theme to the
+ * device, so imports keep the current values.
  */
 export type ExportSettings = Omit<
   SettingsState,
@@ -88,6 +92,7 @@ export type ExportSettings = Omit<
   | "storeReviewPromptedAt"
   | "storeReviewPromptedAppVersion"
   | "photosDayAccessDismissed"
+  | "colorScheme"
 >;
 
 interface IAction {
@@ -152,6 +157,7 @@ const SettingsProvider = ({ children }: { children: React.ReactNode }) => {
       storeReviewPromptedAppVersion:
         currentSettings.storeReviewPromptedAppVersion,
       photosDayAccessDismissed: currentSettings.photosDayAccessDismissed,
+      colorScheme: currentSettings.colorScheme,
       loaded: true,
     }));
   }, []);
@@ -182,12 +188,19 @@ const SettingsProvider = ({ children }: { children: React.ReactNode }) => {
           ...json,
           steps: sanitizeSteps(json.steps),
           photosDayAccessDismissed: json.photosDayAccessDismissed === true,
+          colorScheme:
+            ColorSchemeSettingSchema.safeParse(json.colorScheme).data ??
+            "system",
           loaded: true,
         });
       }
       markReady();
     })();
   }, [markReady, markFailed]);
+
+  useEffect(() => {
+    applyColorScheme(settings.colorScheme);
+  }, [settings.colorScheme]);
 
   // Persist only content changes, not equal copies of the settings object.
   const stableSettings = useContentStableValue(settings);
