@@ -72,6 +72,7 @@ const Pill = ({
   accessibilityLabel,
   accessibilityHint,
   testID,
+  isShrinkable,
   onPress,
 }: {
   icon: ReactElement;
@@ -79,6 +80,8 @@ const Pill = ({
   accessibilityLabel: string;
   accessibilityHint: string;
   testID: string;
+  /** Truncates the label when the row runs out of space. */
+  isShrinkable: boolean;
   onPress: () => void;
 }) => {
   const colors = useColors();
@@ -100,7 +103,7 @@ const Pill = ({
         alignItems: "center",
         gap: 6,
         minHeight: PILL_HEIGHT,
-        flexShrink: 1,
+        flexShrink: isShrinkable ? 1 : 0,
         paddingVertical: 6,
         paddingHorizontal: 12,
         backgroundColor: colors.logHeaderHighlight,
@@ -209,6 +212,7 @@ export const SlideMoodFooter = ({
       )}
       <Pill
         testID="logger-date"
+        isShrinkable={false}
         icon={<Clock {...iconProps} />}
         label={dateTimeTitle}
         accessibilityLabel={dateTimeTitle}
@@ -219,6 +223,7 @@ export const SlideMoodFooter = ({
         <>
           <Pill
             testID="logger-location"
+            isShrinkable
             icon={<MapPin {...iconProps} />}
             label={locationText}
             accessibilityLabel={locationText}

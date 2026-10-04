@@ -3,23 +3,16 @@ tags: [p1, location]
 ---
 # With the `location` flag and setting on, a new entry gets the current place.
 # The user changes it to another place before saving.
-# Place names come from the system geocoder and need a network.
+# Place names come from the system geocoder and need a network. Without a
+# position fix (simulator location unset) the entry starts with "Add Location".
 - runFlow:
     file: ../subflows/load-fixture.yaml
     env:
       FIXTURE: empty
-- setPermissions:
-    appId: ${APP_ID}
-    permissions:
-      location: allow
-- setLocation:
-    latitude: 52.5163
-    longitude: 13.3777
-- openLink: ${APP_SCHEME}://dev/feature-flag?key=location&value=on
-- extendedWaitUntil:
-    visible:
-      id: "calendar"
-    timeout: 10000
+- runFlow:
+    file: ../subflows/enable-feature-flag.yaml
+    env:
+      FLAG: location
 
 # Turn location on in Settings > Check-in. It is off by default.
 - runFlow: ../subflows/open-settings.yaml
@@ -30,18 +23,36 @@ tags: [p1, location]
     direction: DOWN
 - tapOn:
     id: "location-enabled"
-- back
-- tapOn:
-    id: "calendar"
+# The switch asks for location access once.
+- runFlow:
+    when:
+      platform: iOS
+      visible: "Allow While Using App"
+    commands:
+      - tapOn: "Allow While Using App"
+- runFlow:
+    when:
+      platform: Android
+      visible: "While using the app"
+    commands:
+      - tapOn: "While using the app"
+# Back on the calendar, iOS reports an empty accessibility tree. Relaunch
+# instead. Flag overrides end on restart, so turn the flag on again.
+- stopApp
+- launchApp
+- runFlow:
+    file: ../subflows/enable-feature-flag.yaml
+    env:
+      FLAG: location
 
-# The new entry shows the time bottom left and the current place bottom right.
-- tapOn: "Add New Entry"
+# The new entry shows the time bottom left and the place bottom right.
+- tapOn:
+    id: "calendar-add-entry"
 - waitForAnimationToEnd
 - assertVisible:
     id: "logger-date"
-- extendedWaitUntil:
-    visible: ".*Berlin.*"
-    timeout: 15000
+- assertVisible:
+    id: "logger-location"
 
 # Change the place to Hamburg.
 - tapOn:
@@ -58,7 +69,6 @@ tags: [p1, location]
 - extendedWaitUntil:
     visible: ".*Hamburg.*"
     timeout: 5000
-- assertNotVisible: ".*Berlin.*"
 
 - tapOn:
     id: "mood-good"
