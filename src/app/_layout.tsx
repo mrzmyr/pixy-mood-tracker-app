@@ -14,13 +14,14 @@ import { useColorScheme } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { enableScreens } from "react-native-screens";
 import Providers from "@/shell/Providers";
+import { ToastHost } from "@/components/Toast";
 import { SENTRY_DSN } from "@/constants/API";
 import { APP_VARIANT, HAS_APP_VARIANT } from "@/constants/AppVariant";
 import Colors from "@/constants/Colors";
-import { initializeDayjs } from "@/lib/translation";
 import { useSettings } from "@/state/settings";
 import { useUsageSummarySync } from "@/shell/usageSummary";
 import { useScreenTracking } from "@/shell/screenTracking";
+import { useReminderTapTracking } from "@/features/notifications";
 
 // Configure before first render; each app variant reports to its own project.
 if (HAS_APP_VARIANT) {
@@ -37,6 +38,7 @@ const AppShell = () => {
   const rootState = useRootNavigationState();
   useScreenTracking();
   useUsageSummarySync();
+  useReminderTapTracking();
 
   const onSettingsLoaded = useEffectEvent(() => {
     // Fixture links replace fresh state, and dev links pick their own route.
@@ -52,7 +54,6 @@ const AppShell = () => {
   });
 
   useEffect(() => {
-    initializeDayjs();
     if (settings.loaded && rootState?.key) {
       onSettingsLoaded();
     }
@@ -83,6 +84,7 @@ const RootLayout = () => {
       <ThemeProvider value={theme}>
         <Providers>
           <AppShell />
+          <ToastHost />
           <StatusBar />
         </Providers>
       </ThemeProvider>

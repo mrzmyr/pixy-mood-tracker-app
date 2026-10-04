@@ -139,7 +139,6 @@ export const SettingsPeople = ({
                   title={t("people_archive")}
                   iconLeft={<Archive size={20} color={colors.text} />}
                   isLink
-                  isLast
                   onPress={() => router.push("/settings/steps/people/archive")}
                   testID="people-archive"
                 />

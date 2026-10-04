@@ -1,6 +1,0 @@
-appId: ${APP_ID}
----
-# Every new entry ends with the confirmation. Answer it to close.
-- assertVisible: "How are you feeling now?"
-- tapOn:
-    id: "confirmation-same"

@@ -11,14 +11,12 @@ tags: [p0, calendar]
 
 # With 3+ entries the logger can add a question slide from the live
 # questions API. It has no save button, so turn the step off.
-- tapOn:
-    id: "settings"
+- runFlow: ../subflows/open-settings.yaml
 - tapOn: "Check-in"
 - tapOn:
     id: "step-feedback-enabled"
 - back
-- tapOn:
-    id: "calendar"
+- back
 - assertVisible:
     id: "calendar-day-${output.today}"
 
@@ -53,7 +51,7 @@ tags: [p0, calendar]
 - inputText: "e2e past ${output.runId}"
 - tapOn:
     id: "logger-save"
-- runFlow: ../subflows/answer-confirmation.yaml
+- runFlow: ../subflows/close-confirmation.yaml
 
 # Saving returns to the calendar. The old day now shows the entry.
 - scrollUntilVisible:

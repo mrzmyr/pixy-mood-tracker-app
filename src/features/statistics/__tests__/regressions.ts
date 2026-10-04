@@ -17,6 +17,7 @@ const makeItem = (
   emotions: [],
   tags: [],
   people: [],
+  photos: [],
 });
 
 describe("statistics regressions", () => {

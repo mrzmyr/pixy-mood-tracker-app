@@ -78,7 +78,6 @@ const EditActions = ({
               value={isArchived}
             />
           }
-          isLast
         />
       </MenuList>
       <TextInfo>{t("people_archive_description")}</TextInfo>

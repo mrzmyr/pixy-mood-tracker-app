@@ -56,11 +56,10 @@ export const PeopleList = ({
           </View>
         )}
         <MenuList style={{ marginBottom: 40 }}>
-          {people.map((person, index) => (
+          {people.map((person) => (
             <PersonListItem
               key={person.id}
               person={person}
-              isLast={index === people.length - 1}
               onPress={() =>
                 router.push({
                   pathname: "/people/[id]",

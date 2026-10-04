@@ -21,6 +21,7 @@ export const _generateItem = (item: Partial<LogItem>): LogItem => {
     tags: [],
     people: [],
     emotions: [],
+    photos: [],
     ...item,
   };
 

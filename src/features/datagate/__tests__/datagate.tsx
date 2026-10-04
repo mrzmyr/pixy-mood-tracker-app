@@ -26,6 +26,8 @@ import {
 import type { Person } from "@/features/people";
 
 import { _generateItem } from "@/__tests__/utils";
+import { File } from "expo-file-system";
+import { getPhotosDirectory } from "@/features/photos";
 import pkg from "../../../../package.json";
 
 // oxlint-disable-next-line anti-slop/no-module-mocking -- expo-sharing is a native module unavailable in Jest; the export test asserts on shareAsync
@@ -46,6 +48,15 @@ const wrapper = ({ children }) => (
   </SettingsProvider>
 );
 
+const testPhoto = {
+  id: "8f8a7d3e-6c1f-4f59-9a52-2c9a5d1e7b10",
+  fileName: "8f8a7d3e-6c1f-4f59-9a52-2c9a5d1e7b10.jpg",
+  width: 1536,
+  height: 2048,
+  createdAt: "2022-01-02T10:00:00.000Z",
+  source: "library" as const,
+};
+
 const testItems: LogsState["items"] = [
   _generateItem({
     date: "2022-01-01",
@@ -65,6 +76,7 @@ const testItems: LogsState["items"] = [
         id: "bb65f208-4e4c-11ed-bdc3-0242ac120002",
       },
     ],
+    photos: [testPhoto],
   }),
 ];
 
@@ -185,6 +197,7 @@ describe("useLogs()", () => {
       loaded: true,
       items: testItems,
     });
+    expect(hook.result.current.logState.items[1].photos).toEqual([testPhoto]);
     expect(hook.result.current.tagsState).toEqual({
       loaded: true,
       tags: testTags,
@@ -213,7 +226,7 @@ describe("useLogs()", () => {
     });
 
     await act(async () => {
-      await hook.result.current.datagate.openExportDialog();
+      await hook.result.current.datagate.openExportDialog({ format: "json" });
     });
 
     const [calledUri, calledJson = ""] =
@@ -238,7 +251,12 @@ describe("useLogs()", () => {
       )
     );
     expect(JSON.parse(calledJson)).toEqual(expectedJson);
-    expect(Sharing.shareAsync).toBeCalledWith(calledUri);
+    // Metadata only: export files never contain photo files.
+    expect(JSON.parse(calledJson).items[1].photos).toEqual([testPhoto]);
+    expect(Sharing.shareAsync).toBeCalledWith(calledUri, {
+      mimeType: "application/json",
+      UTI: "public.json",
+    });
   });
 
   test("`openExportDialog` uses the file transfer override", async () => {
@@ -252,12 +270,61 @@ describe("useLogs()", () => {
 
     await waitForLoaded(hook);
     await act(async () => {
-      await hook.result.current.datagate.openExportDialog();
+      await hook.result.current.datagate.openExportDialog({ format: "json" });
     });
     setFileTransferOverride(null);
 
     expect(share).toBeCalledWith(expect.stringMatching(/\.json$/u));
     expect(Sharing.shareAsync).not.toBeCalled();
+  });
+
+  test("exports CSV entries with the spreadsheet MIME type", async () => {
+    const hook = await _renderHook();
+    jest.spyOn(FileSystem, "writeAsStringAsync").mockResolvedValue();
+    jest.spyOn(FileSystem, "readDirectoryAsync").mockResolvedValue([]);
+    jest.spyOn(FileSystem, "deleteAsync").mockResolvedValue();
+
+    await waitForLoaded(hook);
+    await act(() => {
+      hook.result.current.logUpdater.import({ items: testItems });
+    });
+    await act(async () => {
+      await hook.result.current.datagate.openExportDialog({ format: "csv" });
+    });
+
+    const [[uri, contents]] = jest.mocked(FileSystem.writeAsStringAsync).mock
+      .calls;
+    expect(uri).toMatch(/\.csv$/u);
+    expect(contents).toContain('"note","sleep_quality"');
+    expect(contents).toContain('"test message"');
+    expect(contents).toContain('"🦄"');
+    expect(Sharing.shareAsync).toHaveBeenCalledWith(uri, {
+      mimeType: "text/csv",
+      UTI: "public.comma-separated-values-text",
+    });
+  });
+
+  test("shows recovery guidance when sharing is unavailable", async () => {
+    const hook = await _renderHook();
+    setFileTransferOverride({
+      share: () => Promise.resolve(false),
+      pickJson: () => Promise.resolve(null),
+    });
+    jest.spyOn(FileSystem, "writeAsStringAsync").mockResolvedValue();
+    jest.spyOn(FileSystem, "readDirectoryAsync").mockResolvedValue([]);
+    jest.spyOn(FileSystem, "deleteAsync").mockResolvedValue();
+    const alert = jest.spyOn(Alert, "alert");
+
+    await waitForLoaded(hook);
+    await act(async () => {
+      await hook.result.current.datagate.openExportDialog({ format: "csv" });
+    });
+    setFileTransferOverride(null);
+
+    expect(alert).toHaveBeenCalledWith(
+      "Export failed",
+      "Check available device storage and try exporting again."
+    );
   });
 
   test("should `openResetDialog` delete entries, tags, people, and settings", async () => {
@@ -334,7 +401,7 @@ describe("useLogs()", () => {
       hook.result.current.logUpdater.import({ items: testItems });
     });
     await act(async () => {
-      await hook.result.current.datagate.openExportDialog();
+      await hook.result.current.datagate.openExportDialog({ format: "json" });
     });
 
     const exportCall = jest
@@ -429,5 +496,33 @@ describe("useLogs()", () => {
       ...testSettings,
       loaded: true,
     });
+  });
+
+  test("keeps photo files of entries missing from the backup after `import`", async () => {
+    const hook = await _renderHook();
+    await waitForLoaded(hook);
+    // After the sweep on load, which would delete it first.
+    await act(async () => {});
+    const directory = getPhotosDirectory();
+    directory.create({ idempotent: true, intermediates: true });
+    const photoFile = new File(directory, "not-in-backup.jpg");
+    photoFile.create();
+
+    await act(() => {
+      hook.result.current.datagate.import(
+        {
+          version: "1.0.0",
+          items: testItems,
+          settings: testSettings,
+          tags: testTags,
+        },
+        { muted: true }
+      );
+    });
+
+    await act(async () => {});
+    expect(hook.result.current.logState.items).toEqual(testItems);
+    expect(photoFile.exists).toBe(true);
+    photoFile.delete();
   });
 });

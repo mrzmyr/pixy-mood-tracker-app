@@ -70,12 +70,11 @@ export const DevFixturesScreen = () => {
     >
       <MenuListHeadline>Fixtures</MenuListHeadline>
       <MenuList>
-        {FIXTURES.map((fixture, index) => (
+        {FIXTURES.map((fixture) => (
           <MenuListItem
             key={fixture.id}
             title={fixture.title}
             onPress={isReady ? () => confirm(fixture) : undefined}
-            isLast={index === FIXTURES.length - 1}
             testID={`fixture-${fixture.id}`}
           />
         ))}
@@ -282,7 +281,7 @@ export const DevFeatureFlagsScreen = () => {
         <View key={key}>
           <MenuListHeadline>{key}</MenuListHeadline>
           <MenuList>
-            {OVERRIDE_OPTIONS.map((option, index) => (
+            {OVERRIDE_OPTIONS.map((option) => (
               <MenuListItem
                 key={option.value}
                 title={option.title}
@@ -292,7 +291,6 @@ export const DevFeatureFlagsScreen = () => {
                     <Check size={18} color={colors.tint} />
                   ) : null
                 }
-                isLast={index === OVERRIDE_OPTIONS.length - 1}
                 testID={`feature-flag-${key}-${option.value}`}
               />
             ))}

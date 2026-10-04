@@ -25,7 +25,6 @@ export const StepSwitch = ({ step }: { step: "tags" | "people" }) => {
               value={enabled}
             />
           }
-          isLast
         />
       </MenuList>
       <TextInfo>{t("step_track_description")}</TextInfo>

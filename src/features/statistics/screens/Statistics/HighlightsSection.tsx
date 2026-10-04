@@ -250,7 +250,6 @@ export const HighlightsSection = (_props: { items: LogItem[] }) => {
           <MenuListItem
             title={t("statistics_highlights_more")}
             isLink
-            isLast
             onPress={() => router.push("/statistics/highlights")}
             iconLeft={<Activity width={18} height={18} color={colors.text} />}
           />

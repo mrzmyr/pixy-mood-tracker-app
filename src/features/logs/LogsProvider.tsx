@@ -19,6 +19,7 @@ import {
   useMemo,
   useReducer,
   useRef,
+  useState,
 } from "react";
 import * as Sentry from "@sentry/react-native";
 import { v4 as uuidv4 } from "uuid";
@@ -26,6 +27,10 @@ import type z from "zod";
 import type { RATING_KEYS } from "@/constants/Ratings";
 import { useAnalytics } from "@/state/analytics";
 import { createMissingProviderError } from "@/lib/errors";
+import {
+  deleteUnreferencedPhotos,
+  getReferencedFileNames,
+} from "@/features/photos";
 
 /**
  * AsyncStorage key for logs. Keep the legacy name; changing it orphans all
@@ -72,7 +77,13 @@ type LogAction =
  *
  * `editLog` shallow-merges into the entry with the same `id` and ignores
  * unknown ids. `updateLogs` replaces all entries. `import` also migrates
- * legacy data (keyed items, missing ids, tags, people, or emotions).
+ * legacy data (keyed items, missing ids, tags, people, emotions, or photos).
+ *
+ * `sweepPhotos` deletes photo files no stored entry references, after the
+ * pending updates are applied. Call it after a change that can drop photo
+ * references (logger closed, reset, delete). Never after a data import: it
+ * deletes the files of every entry missing from the backup. Never call it
+ * while a logger draft holds unsaved photos: it deletes them.
  */
 export interface UpdaterValue {
   addLog: (item: LogItem) => void;
@@ -84,6 +95,7 @@ export interface UpdaterValue {
   removePersonFromLogs: (personId: string) => void;
   reset: () => void;
   import: (data: LogsState) => void;
+  sweepPhotos: () => void;
 }
 
 type StateValue = LogsState;
@@ -136,6 +148,9 @@ const migrate = (data: LogsState): LogsState => {
     // Entries from before the people feature have no `people` key.
     if (!newItem.people) {
       newItem.people = [];
+    }
+    if (!newItem.photos) {
+      newItem.photos = [];
     }
 
     newItem.tags = newItem.tags.map((tag) =>
@@ -264,6 +279,9 @@ const LogsProvider = ({ children }: { children: React.ReactNode }) => {
     markFailed,
   } = useStorageLoad(STORAGE_KEY);
   const storageStatus = storageLoad.status;
+  // Bumped by `sweepPhotos`; the sweep effect reads committed items.
+  const [photoSweepRequest, setPhotoSweepRequest] = useState(0);
+  const lastPhotoSweep = useRef<number | null>(null);
 
   // Effect event: the load effect runs once on mount but tracks with the
   // latest analytics instance.
@@ -322,6 +340,33 @@ const LogsProvider = ({ children }: { children: React.ReactNode }) => {
     }
   }, [state, storageStatus]);
 
+  // Effect event: sweeps against the latest committed items without
+  // re-running the effect below on every edit.
+  const sweepUnreferencedPhotos = useEffectEvent(() => {
+    try {
+      deleteUnreferencedPhotos({
+        referencedFileNames: getReferencedFileNames({ items: state.items }),
+      });
+    } catch (error) {
+      console.error(error);
+      Sentry.captureException(error);
+    }
+  });
+
+  // Runs once after logs load and once per `sweepPhotos` request. Never
+  // runs after a failed load: unread entries reference photos too.
+  useEffect(() => {
+    if (
+      storageStatus !== "ready" ||
+      !state.loaded ||
+      lastPhotoSweep.current === photoSweepRequest
+    ) {
+      return;
+    }
+    lastPhotoSweep.current = photoSweepRequest;
+    sweepUnreferencedPhotos();
+  }, [storageStatus, state.loaded, photoSweepRequest]);
+
   const importState = useCallback((data: LogsState) => {
     dispatch({
       type: "import",
@@ -358,6 +403,10 @@ const LogsProvider = ({ children }: { children: React.ReactNode }) => {
     () => dispatch({ type: "reset", payload: INITIAL_STATE }),
     []
   );
+  const sweepPhotos = useCallback(
+    () => setPhotoSweepRequest((request) => request + 1),
+    []
+  );
 
   const updaterValue: UpdaterValue = useMemo(
     () => ({
@@ -369,6 +418,7 @@ const LogsProvider = ({ children }: { children: React.ReactNode }) => {
       removePersonFromLogs,
       reset,
       import: importState,
+      sweepPhotos,
     }),
     [
       addLog,
@@ -379,6 +429,7 @@ const LogsProvider = ({ children }: { children: React.ReactNode }) => {
       removePersonFromLogs,
       reset,
       importState,
+      sweepPhotos,
     ]
   );
 

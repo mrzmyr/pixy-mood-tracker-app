@@ -10,13 +10,19 @@
 - Off switch: Settings > Privacy > Behavioral Data
 - Feature flags load only with consent ([development.md](development.md#feature-flags))
 - People ([spec](specs/people.md#analytics)): `people:person_added`, `people:contacts_imported` (count, avatars count, limited access), `people:person_updated`, `people:delete_requested`, `people:person_deleted`, `people:delete_cancelled`. Counts and booleans only, never names or photos. `logger:log_saved`, confirmation events, and `calendar:filters_applied` add `people_count`. Usage summary adds `people_count` and `archived_people_count`. Highlights events add `people_distribution_show`, `people_distribution_count`, `people_peaks_show`, `people_peaks_count` while the flag is on
+- Data exports: `data:export_started`, `data:export_completed`, `data:export_failed` send `format: "json" | "csv"`.
 - Store review prompt: `logger:store_review_requested` ([`src/features/review`](../src/features/review))
   - Fires once per install, after the save that reaches 7 entries
   - Properties: `trigger`, `entries_count`
   - OS decides whether prompt shows
-- Confirmation after a new entry: `logger:confirmation_viewed`, `logger:confirmation_answered`, `logger:confirmation_skipped` ([`src/features/logger/confirmation`](../src/features/logger/confirmation))
-  - Answer: `worse`, `same`, `better`. Asked only after create, not edit
+- Confirmation after a new entry: `logger:confirmation_viewed` ([`src/features/logger/confirmation`](../src/features/logger/confirmation))
+  - Shown only after create, not edit
   - Entry metadata: `rating`, `emotions`, counts, `message_word_count`, `sleep_quality`, `entries_count`
+- Reminder taps: `reminders:notification_opened` ([`src/features/notifications/reminderTaps.ts`](../src/features/notifications/reminderTaps.ts))
+  - One event per tap on reminder body. Dismisses and other actions not sent
+  - Properties: `cold_start`, `minutes_since_delivered`
+  - Cold start taps wait for stored settings, so a stored opt-out wins
+  - Reminders scheduled before this event match by repeating trigger. New reminders carry `data.kind: "reminder"`
 
 ## Event history
 
@@ -40,6 +46,10 @@ Use this section to join old and new events in PostHog, for example with an Acti
 - `data_import_success` fired twice per import: once when a file was picked, once after the import. `data:import_completed` fires only after the import
 - `data:reset_*`: Settings > Data has one "Delete all my data" item since the first release after `v1.88.0`. It sends only `kind: "factory"`. `kind: "data"` (entries and tags only) is no longer sent
 
+**Removed events**
+
+- `logger:confirmation_answered`, `logger:confirmation_skipped`: the "How are you feeling now?" question left the confirmation. `logger:confirmation_viewed` stays
+
 **Removed properties** (never sent under the new names)
 
 - All events: `userId`
@@ -49,6 +59,10 @@ Use this section to join old and new events in PostHog, for example with an Acti
 - `feedback_send`: `message`, `email`, `deviceId`, `locale`, `version`, `os`, `date`, `environment`
 - `questioner_submit`: `question_text`, `answer_texts`, `question`, `deviceId`, `language`, `locale`, `version`, `os`, `date`
 - `loaded_logs`: `unit` (always `mb`)
+
+**New events**
+
+- `reminders:notification_opened`: added after `v1.88.0`. No older event. Earlier reminder taps sent nothing
 
 **Removed events**
 

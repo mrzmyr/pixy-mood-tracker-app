@@ -47,11 +47,6 @@ export interface AnalyticsEvents {
   "logger:reminder_enabled": undefined;
   "logger:reminder_postponed": undefined;
   "logger:confirmation_viewed": SavedEntryProperties;
-  "logger:confirmation_answered": SavedEntryProperties & {
-    answer: ConfirmationAnswer;
-    answer_ms: number;
-  };
-  "logger:confirmation_skipped": SavedEntryProperties & { skip_ms: number };
   "logger:store_review_requested": {
     trigger: "entries_7";
     entries_count: number;
@@ -148,10 +143,16 @@ export interface AnalyticsEvents {
     permission_granted: boolean;
   };
   "reminders:time_changed": { time: string };
+  "reminders:notification_opened": {
+    /** App launched from the tap, not resumed from background. */
+    cold_start: boolean;
+    /** Minutes from delivery to tap. */
+    minutes_since_delivered: number;
+  };
 
-  "data:export_started": undefined;
-  "data:export_completed": undefined;
-  "data:export_failed": undefined;
+  "data:export_started": { format: "json" | "csv" };
+  "data:export_completed": { format: "json" | "csv" };
+  "data:export_failed": { format: "json" | "csv" };
   "data:import_started": undefined;
   "data:import_completed": undefined;
   "data:import_failed": {
@@ -225,9 +226,6 @@ export type UsageSummaryOnce = {
 };
 
 type LogItem = z.infer<typeof LogItemSchema>;
-
-/** Answer to "How are you feeling now?" after saving a new entry. */
-export type ConfirmationAnswer = "worse" | "same" | "better";
 
 /**
  * Saved entry metadata sent with the confirmation events. Holds no free

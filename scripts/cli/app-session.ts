@@ -43,7 +43,7 @@ import {
 } from "./phone.ts";
 
 const PREVIEW = APP_VARIANTS.preview;
-const READY_SELECTORS = ['role="button" label="Start"', 'id="calendar"'];
+const READY_SELECTORS = ['role="button" label="Start"', 'id="calendar-list"'];
 const READY_TIMEOUT_MS = 120_000;
 
 const checkRunnerProfile = (device: Device) => {

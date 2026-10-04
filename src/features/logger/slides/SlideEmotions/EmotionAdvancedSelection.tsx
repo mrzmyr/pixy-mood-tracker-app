@@ -19,17 +19,19 @@ const WINDOW_WIDTH = Dimensions.get("window").width;
 /**
  * Swipeable emotion pages, one per category from worst to best, sorted by
  * label. `defaultIndex` picks the first page shown. Disabled emotions are
- * hidden.
+ * hidden. Every page ends with a "Missing one?" tile.
  */
 export const EmotionAdvancedSelection = ({
   defaultIndex = 0,
   selectedEmotions,
   onPress,
+  onRequestEmotion,
   style = DEFAULT_STYLE,
 }: {
   defaultIndex?: number;
   selectedEmotions: Emotion[];
   onPress: (emotion: Emotion) => void;
+  onRequestEmotion: () => void;
   style?: ViewStyle;
 }) => {
   const _carousel = useRef<CarouselRef>(null);
@@ -44,6 +46,7 @@ export const EmotionAdvancedSelection = ({
         key={`emotions-page-inner-${category}`}
         emotions={filteredEmotions}
         onPress={onPress}
+        onRequestEmotion={onRequestEmotion}
         selectedEmotions={selectedEmotions}
       />
     );

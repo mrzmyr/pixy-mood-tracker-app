@@ -37,11 +37,9 @@ const hasStepPage = (
 const StepRow = ({
   step,
   icon,
-  isLast,
 }: {
   step: ConfigurableLoggerStep;
   icon: ReactElement;
-  isLast: boolean;
 }) => {
   const colors = useColors();
   const router = useRouter();
@@ -92,7 +90,6 @@ const StepRow = ({
       isLink={page !== null}
       onPress={page === null ? null : () => router.push(page)}
       testID={page === null ? undefined : `step-${step}`}
-      isLast={isLast}
     />
   );
 };
@@ -151,12 +148,7 @@ export const StepsScreen = () => {
         </View>
         <MenuList style={{ marginTop: 16 }}>
           {options.map((option) => (
-            <StepRow
-              key={option}
-              step={option}
-              icon={ICONS_MAP[option]}
-              isLast={option === options.at(-1)}
-            />
+            <StepRow key={option} step={option} icon={ICONS_MAP[option]} />
           ))}
         </MenuList>
       </ScrollView>

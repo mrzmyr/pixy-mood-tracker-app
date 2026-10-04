@@ -8,21 +8,15 @@ import { PersonAvatar } from "./PersonAvatar";
 /** Row for one person in {@link PeopleList}, showing avatar and name. */
 export const PersonListItem = ({
   person,
-  isLast,
   onPress,
 }: {
   person: Person;
-  isLast: boolean;
   onPress: () => void;
 }) => {
   const colors = useColors();
 
   return (
-    <MenuListItem
-      onPress={onPress}
-      isLast={isLast}
-      testID={`person-${person.id}`}
-    >
+    <MenuListItem onPress={onPress} testID={`person-${person.id}`}>
       <View
         style={{
           flex: 1,

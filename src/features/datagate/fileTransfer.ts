@@ -19,7 +19,10 @@ const systemFileTransfer: FileTransfer = {
     if (!(await Sharing.isAvailableAsync())) {
       return false;
     }
-    await Sharing.shareAsync(uri);
+    const options = uri.endsWith(".csv")
+      ? { mimeType: "text/csv", UTI: "public.comma-separated-values-text" }
+      : { mimeType: "application/json", UTI: "public.json" };
+    await Sharing.shareAsync(uri, options);
     return true;
   },
   pickJson: async () => {

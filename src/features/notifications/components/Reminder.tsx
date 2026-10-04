@@ -10,6 +10,7 @@ import { t } from "@/lib/translation";
 import { useAnalytics } from "@/state/analytics";
 import useColors from "@/hooks/useColors";
 import useNotification, { createDailyTrigger } from "../Notifications";
+import { reminderTimeToDate } from "../reminderTime";
 import { useSettings } from "@/state/settings";
 import type { SettingsState } from "@/state/settings";
 
@@ -25,10 +26,9 @@ const Reminder = () => {
   const colors = useColors();
   const analytics = useAnalytics();
 
-  const hourAndMinute = reminderTime.split(":");
-  const hour = Number(hourAndMinute[0]);
-  const minute = Number(hourAndMinute[1]);
-  const timeDate = dayjs().hour(hour).minute(minute).toDate();
+  const timeDate = reminderTimeToDate(reminderTime);
+  const hour = timeDate.getHours();
+  const minute = timeDate.getMinutes();
 
   const onEnabledChange = async (value: boolean) => {
     let has = await hasPermission();
@@ -100,7 +100,6 @@ const Reminder = () => {
               testID="reminder-enabled"
             />
           }
-          isLast={!reminderEnabled}
         />
         {reminderEnabled && (
           <View

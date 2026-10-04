@@ -396,7 +396,6 @@ export const Logger = ({
           carouselRef={_carousel}
           slideCount={content.length}
           slideIndex={slideIndex}
-          setSlideIndex={setSlideIndex}
           isEditing={isEditing}
           tempLog={tempLog}
           onCancel={cancel}
@@ -518,6 +517,7 @@ export const LoggerCreate = ({
     emotions: [],
     tags: [],
     people: [],
+    photos: [],
     sleep: {
       quality: null,
     },

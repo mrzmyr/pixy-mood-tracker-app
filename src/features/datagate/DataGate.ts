@@ -1,3 +1,6 @@
+import * as Sentry from "@sentry/react-native";
+import { createStructuredError } from "@/lib/errors";
+import { createCsv } from "./csv";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import dayjs from "dayjs";
 import * as FileSystem from "expo-file-system/legacy";
@@ -117,7 +120,7 @@ const openDangerousImportDirectlyToAsyncStorageDialog = async () => {
 };
 
 interface DatagateValue {
-  openExportDialog: () => Promise<void>;
+  openExportDialog: (options: { format: "json" | "csv" }) => Promise<void>;
   openImportDialog: () => Promise<void>;
   /** Resolves once every store, including avatar files, holds the data. */
   import: (data: ImportData, options: { muted: boolean }) => Promise<void>;
@@ -151,6 +154,12 @@ export const useDatagate = (): DatagateValue => {
     const jsonSchemaType = getJSONSchemaType(migratedData);
 
     if (jsonSchemaType === "pixy") {
+      // No photo sweep right after the import: it replaces all entries, so a
+      // sweep here deletes the files of every entry missing from the backup
+      // at once. Files stay until the next sweep (logger close, entry
+      // delete, or app start), so a second import of the right backup
+      // still finds them.
+
       // Avatar files first: the store must never point at a missing file.
       const importedPeople = await fromExportPeople(migratedData.people ?? []);
       logUpdater.import({
@@ -178,6 +187,7 @@ export const useDatagate = (): DatagateValue => {
 
   const reset = () => {
     logUpdater.reset();
+    logUpdater.sweepPhotos();
     tagsUpdater.reset();
     peopleUpdater.reset();
     resetSettings();
@@ -226,7 +236,7 @@ export const useDatagate = (): DatagateValue => {
     }
   };
 
-  const openExportDialog = async () => {
+  const openExportDialog = async ({ format }: { format: "json" | "csv" }) => {
     const data: ExportData = {
       version: pkg.version,
       items: logState.items,
@@ -243,22 +253,37 @@ export const useDatagate = (): DatagateValue => {
       },
     };
 
-    analytics.track("data:export_started");
+    analytics.track("data:export_started", { format });
 
     if (Platform.OS === "web") {
       return Alert.alert("Not supported on web");
     }
 
-    const filename = `pixy-mood-tracker-${dayjs().format("YYYY-MM-DD")}${__DEV__ ? "-DEV" : ""}.json`;
-
-    const isShared = await shareExportFile(filename, JSON.stringify(data));
+    const filename = `pixy-mood-tracker-${dayjs().format("YYYY-MM-DD")}${__DEV__ ? "-DEV" : ""}.${format}`;
+    let isShared = false;
+    try {
+      const contents =
+        format === "csv"
+          ? createCsv({ items: logState.items, tags })
+          : JSON.stringify(data);
+      isShared = await shareExportFile(filename, contents);
+    } catch {
+      Sentry.captureException(
+        createStructuredError({
+          status: "data_export_failed",
+          message: "Data could not be exported",
+          why: "Creating or sharing the export file failed",
+          fix: "Check available device storage and export again",
+        })
+      );
+    }
     if (!isShared) {
-      analytics.track("data:export_failed");
-      Alert.alert("Alert", t("export_failed_title"));
+      analytics.track("data:export_failed", { format });
+      Alert.alert(t("export_failed_title"), t("export_failed_message"));
       return;
     }
 
-    analytics.track("data:export_completed");
+    analytics.track("data:export_completed", { format });
   };
 
   return {

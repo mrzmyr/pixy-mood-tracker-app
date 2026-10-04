@@ -8,8 +8,7 @@ tags: [p1, tags]
     env:
       FIXTURE: year
 - runScript: ../scripts/set-output-date.js
-- tapOn:
-    id: "settings"
+- runFlow: ../subflows/open-settings.yaml
 - tapOn: "Tags"
 
 # Rename. iOS only: on Android, agent-device 0.21.14 types nothing into this
@@ -70,10 +69,9 @@ tags: [p1, tags]
       text: "e2e-${output.runId}"
     direction: DOWN
 - back
+- back
 
 # Logger offers the new tag, not the archived or deleted ones.
-- tapOn:
-    id: "calendar"
 - tapOn: "Add another entry for today"
 - waitForAnimationToEnd
 - tapOn:
@@ -92,23 +90,13 @@ tags: [p1, tags]
     commands:
       - tapOn: "Discard Changes"
 
-# Renamed tag keeps all 80 entries (iOS shows the count). Deleted tag is
-# gone from filters. The iOS sheet hides the header badge from Maestro.
-- tapOn:
-    id: "filters"
+# Renamed tag keeps all 80 entries. Deleted tag is gone from filters. Both
+# sheets hide the header from Maestro, so the count is read inside the sheet.
+- runFlow: ../subflows/open-filters.yaml
 - tapOn: "Running|Sport"
-- runFlow:
-    when:
-      platform: Android
-    commands:
-      - assertVisible: "Filters \\(1\\)"
-- runFlow:
-    when:
-      platform: iOS
-    commands:
-      - scrollUntilVisible:
-          element:
-            text: "80 Results"
-          direction: DOWN
+- scrollUntilVisible:
+    element:
+      text: "80 Results"
+    direction: DOWN
 - assertNotVisible: "Family"
 - runFlow: ../subflows/close-filters.yaml

@@ -10,8 +10,7 @@ tags: [p0, upgrade]
 - runFlow: ../subflows/verify-upgrade.yaml
 
 # Tags keep titles and archive state. They live under Check-in > Tags.
-- tapOn:
-    id: "settings"
+- runFlow: ../subflows/open-settings.yaml
 - scrollUntilVisible:
     element:
       text: "Check-in"
