@@ -224,7 +224,6 @@ export const TagEdit = () => {
                   value={tag.isArchived}
                 />
               }
-              isLast
             />
           </MenuList>
           <TextInfo>{t("archive_tag_description")}</TextInfo>

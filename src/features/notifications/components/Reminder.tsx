@@ -100,7 +100,6 @@ const Reminder = () => {
               testID="reminder-enabled"
             />
           }
-          isLast={!reminderEnabled}
         />
         {reminderEnabled && (
           <View
