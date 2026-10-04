@@ -4,6 +4,7 @@ import type { LogItem } from "@/features/logs";
 import dayjs from "dayjs";
 import { LinearGradient } from "expo-linear-gradient";
 import { Edit, Trash } from "lucide-react-native";
+import { getAvailableStepsForEdit } from "@/features/logger";
 import { useFeatureFlag } from "@/state/featureFlags";
 import { ScrollView, Text, View } from "react-native";
 import { Emotions } from "./Emotions";
@@ -106,9 +107,10 @@ const EntryHeader = ({
  * people, photos, and message sections. People show behind the `people`
  * flag or when the entry has people. Stored photos always show, so turning
  * the `photos` feature flag or consent off never hides user data. With the
- * flag on, the section also shows empty when the photos step is on, and
- * its pencil opens the photos step. The trash button calls `onDelete`
- * without asking, so the caller must confirm.
+ * flag on, the section also shows empty when the photos step is on. A
+ * section pencil shows only when the edit logger has that step: the step
+ * is on in Settings > Steps, or the entry holds content for it. The trash
+ * button calls `onDelete` without asking, so the caller must confirm.
  */
 export const Entry = ({
   item,
@@ -123,6 +125,16 @@ export const Entry = ({
   const hasPeople = useFeatureFlag("people");
   const { hasStep } = useSettings();
   const isPhotosEnabled = useFeatureFlag("photos");
+  // Same steps as the edit logger. A pencil for a missing step would open
+  // the logger at the rating step instead.
+  const editSteps = getAvailableStepsForEdit({
+    item,
+    hasStep,
+    hasPeople,
+    isPhotosEnabled,
+  });
+  const canEdit = (step: (typeof editSteps)[number]) =>
+    editSteps.includes(step);
 
   return (
     <View
@@ -161,18 +173,18 @@ export const Entry = ({
                 marginTop: 8,
               }}
             >
-              <Emotions item={item} />
+              <Emotions item={item} canEdit={canEdit("emotions")} />
             </View>
             <View
               style={{
                 marginTop: 8,
               }}
             >
-              <Tags item={item} />
+              <Tags item={item} canEdit={canEdit("tags")} />
             </View>
             {(hasPeople || item.people.length > 0) && (
               <View style={{ marginTop: 8 }}>
-                <People item={item} />
+                <People item={item} canEdit={canEdit("people")} />
               </View>
             )}
             {(item.photos.length > 0 ||
@@ -182,7 +194,7 @@ export const Entry = ({
                   marginTop: 8,
                 }}
               >
-                <Photos item={item} canEdit={isPhotosEnabled} />
+                <Photos item={item} canEdit={canEdit("photos")} />
               </View>
             )}
             <View
@@ -190,7 +202,7 @@ export const Entry = ({
                 marginTop: 8,
               }}
             >
-              <Message item={item} />
+              <Message item={item} canEdit={canEdit("message")} />
             </View>
           </View>
         </ScrollView>

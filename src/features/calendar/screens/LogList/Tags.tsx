@@ -63,9 +63,17 @@ const Tag = ({
 
 /**
  * Tags section of an entry card; editing opens the logger at the tags
- * step. Tag references without a matching tag are skipped.
+ * step. Tag references without a matching tag are skipped. Stored tags
+ * always show, also with the pencil off.
  */
-export const Tags = ({ item }: { item: LogItem }) => {
+export const Tags = ({
+  item,
+  canEdit,
+}: {
+  item: LogItem;
+  /** Shows the pencil; off when the edit logger has no tags step. */
+  canEdit: boolean;
+}) => {
   const colors = useColors();
   const { tags } = useTagsState();
   const router = useRouter();
@@ -74,15 +82,20 @@ export const Tags = ({ item }: { item: LogItem }) => {
     <View style={{}}>
       <SectionHeader
         title={t("tags")}
-        onEdit={() => {
-          router.push({
-            pathname: "/logs/[id]/edit",
-            params: {
-              id: item.id,
-              step: "tags",
-            },
-          });
-        }}
+        editTestID="log-list-tags-edit"
+        onEdit={
+          canEdit
+            ? () => {
+                router.push({
+                  pathname: "/logs/[id]/edit",
+                  params: {
+                    id: item.id,
+                    step: "tags",
+                  },
+                });
+              }
+            : undefined
+        }
       />
       <View
         style={{
