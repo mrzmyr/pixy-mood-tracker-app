@@ -79,7 +79,7 @@ const useBarStyle = (
 /**
  * Floating button of the calendar. Away from today it is a tertiary chevron
  * that scrolls to the end. At the end it turns into a plus that adds an
- * entry: primary while today has no entry, tertiary after. The color fades
+ * entry, always primary, also after today has an entry. The color fades
  * fast; the chevron springs into the plus.
  */
 export const CalendarFloatButton = ({
@@ -96,7 +96,7 @@ export const CalendarFloatButton = ({
   const colors = useColors();
   const insets = useSafeAreaInsets();
   const morphTarget = isAtBottom ? 1 : 0;
-  const colorTarget = isAtBottom && !hasTodayEntry ? 1 : 0;
+  const colorTarget = isAtBottom ? 1 : 0;
   const isReducedMotion = useReducedMotion();
   const morph = useSharedValue(morphTarget);
   const color = useSharedValue(colorTarget);
@@ -212,11 +212,7 @@ export const CalendarFloatButton = ({
         {HAS_GLASS && (
           <GlassView
             isInteractive
-            tintColor={
-              isAtBottom && !hasTodayEntry
-                ? colors.primaryButtonBackground
-                : undefined
-            }
+            tintColor={isAtBottom ? colors.primaryButtonBackground : undefined}
             style={[StyleSheet.absoluteFill, { borderRadius: RADIUS }]}
           />
         )}
