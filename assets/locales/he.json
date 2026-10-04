@@ -693,7 +693,18 @@
   "feedback_modal_message_placeholder_idea": "זה יהיה נהדר אם…",
   "request_emotion": "הצע רגש",
   "request_emotion_title": "הצעת רגש",
-  "request_emotion_question": "איזה רגש תרצה להציע?",
-  "request_emotion_description": "רגשות מורכבים כמו בני אדם. רבים מהם חופפים ומתמזגים זה בזה. Pixy שומר על רשימה קצרה וברורה, כדי שתמצא כל רגש במהירות והוא יהיה ברור כשתסתכל אחורה. ספר לי איזה רגש חסר לך, ואבדוק איפה הוא מתאים.",
-  "request_emotion_placeholder": "לעיתים קרובות אני מרגיש…"
+  "request_emotion_description": "רגשות מורכבים כמו בני אדם. רבים מהם חופפים ומתמזגים זה בזה. Pixy שומר על רשימה קצרה וברורה, כדי שתמצא כל רגש במהירות והוא יהיה ברור כשתסתכל אחורה.",
+  "request_emotion_placeholder": "אני מרגיש…",
+  "request_emotion_tile": "חסר רגש?",
+  "request_emotion_subtitle": "איזה רגש חסר ברשימה שלך?",
+  "request_emotion_mood_good": "טוב",
+  "request_emotion_mood_mixed": "מעורב",
+  "request_emotion_mood_hard": "קשה",
+  "request_emotion_why": "למה לא כל הרגשות כאן?",
+  "request_emotion_reply": "רוצה תשובה?",
+  "request_emotion_send": "שליחת בקשה",
+  "request_emotion_sending": "שולח…",
+  "request_emotion_success_title": "תודה!",
+  "request_emotion_success_message": "נרשם. אני קורא כל בקשה.",
+  "request_emotion_error": "הבקשה לא נשלחה. בדוק את החיבור ונסה שוב."
 }

@@ -693,7 +693,18 @@
   "feedback_modal_message_placeholder_idea": "Было бы здорово, если бы…",
   "request_emotion": "Предложить эмоцию",
   "request_emotion_title": "Предложить эмоцию",
-  "request_emotion_question": "Какую эмоцию вы хотите предложить?",
-  "request_emotion_description": "Эмоции так же сложны, как люди. Многие из них пересекаются и переходят одна в другую. Pixy держит список коротким и чётким, чтобы каждую эмоцию было легко найти и понять, оглядываясь назад. Напишите, какой вам не хватает, и я посмотрю, где ей место.",
-  "request_emotion_placeholder": "Я часто чувствую…"
+  "request_emotion_description": "Эмоции так же сложны, как люди. Многие из них пересекаются и переходят одна в другую. Pixy держит список коротким и чётким, чтобы каждую эмоцию было легко найти и понять, оглядываясь назад.",
+  "request_emotion_placeholder": "Я чувствую…",
+  "request_emotion_tile": "Чего-то не хватает?",
+  "request_emotion_subtitle": "Какой эмоции не хватает в списке?",
+  "request_emotion_mood_good": "Хорошо",
+  "request_emotion_mood_mixed": "Смешанно",
+  "request_emotion_mood_hard": "Тяжело",
+  "request_emotion_why": "Почему здесь не все эмоции?",
+  "request_emotion_reply": "Хотите ответ?",
+  "request_emotion_send": "Отправить запрос",
+  "request_emotion_sending": "Отправка…",
+  "request_emotion_success_title": "Спасибо!",
+  "request_emotion_success_message": "Записал. Я читаю каждый запрос.",
+  "request_emotion_error": "Запрос не отправлен. Проверьте подключение и попробуйте снова."
 }

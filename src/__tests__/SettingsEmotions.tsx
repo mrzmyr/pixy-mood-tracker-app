@@ -6,7 +6,6 @@ import {
   userEvent,
   waitFor,
 } from "@testing-library/react-native";
-import { Alert } from "react-native";
 import Providers from "@/shell/Providers";
 import Colors from "@/constants/Colors";
 import { INITIAL_STATE } from "@/constants/Settings";
@@ -82,23 +81,54 @@ afterEach(() => {
 });
 
 describe("Settings > Check-in > Emotions", () => {
-  test("user requests a missing emotion", async () => {
-    jest.spyOn(Alert, "alert").mockImplementation();
+  test("user requests a missing emotion with its mood", async () => {
     const screen = await renderEmotions();
 
     await userEvent.press(await screen.findByTestId("request-emotion"));
     await userEvent.type(
-      screen.getByTestId("feedback-modal-message"),
+      screen.getByTestId("request-emotion-word"),
       "Nostalgic"
     );
-    await userEvent.press(screen.getByTestId("feedback-modal-send"));
+    await userEvent.press(screen.getByRole("radio", { name: "Hard" }));
+    await userEvent.press(screen.getByTestId("request-emotion-send"));
 
-    await waitFor(() => expect(global.fetch).toHaveBeenCalledTimes(1));
+    expect(await screen.findByTestId("request-emotion-sent")).toBeOnTheScreen();
     const [[, request]] = jest.mocked(global.fetch).mock.calls;
     expect(JSON.parse(String(request?.body))).toMatchObject({
       type: "emotion",
+      source: "settings",
       message: "Nostalgic",
+      mood: "hard",
     });
+  });
+
+  test("user sends no email unless they want a reply", async () => {
+    const screen = await renderEmotions();
+
+    await userEvent.press(await screen.findByTestId("request-emotion"));
+    expect(screen.queryByTestId("request-emotion-email")).toBeNull();
+    await userEvent.type(screen.getByTestId("request-emotion-word"), "Cozy");
+    await userEvent.press(screen.getByTestId("request-emotion-send"));
+
+    await screen.findByTestId("request-emotion-sent");
+    const [[, request]] = jest.mocked(global.fetch).mock.calls;
+    expect(JSON.parse(String(request?.body)).email).toBeUndefined();
+  });
+
+  test("user keeps the request when sending fails", async () => {
+    global.fetch = jest.fn().mockResolvedValue({ ok: false, status: 500 });
+    const screen = await renderEmotions();
+
+    await userEvent.press(await screen.findByTestId("request-emotion"));
+    await userEvent.type(screen.getByTestId("request-emotion-word"), "Numb");
+    await userEvent.press(screen.getByTestId("request-emotion-send"));
+
+    expect(
+      await screen.findByTestId("request-emotion-error")
+    ).toBeOnTheScreen();
+    expect(screen.getByTestId("request-emotion-word")).toHaveDisplayValue(
+      "Numb"
+    );
   });
 
   test("user turns off the emotions step", async () => {

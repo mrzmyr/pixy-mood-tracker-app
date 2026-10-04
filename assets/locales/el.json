@@ -692,8 +692,19 @@
   "rate_pixy_google_play": "Βαθμολόγησε το Pixy στο Google Play",
   "feedback_modal_message_placeholder_idea": "Θα ήταν υπέροχο αν…",
   "request_emotion": "Πρότεινε ένα συναίσθημα",
-  "request_emotion_title": "Πρόταση συναισθήματος",
-  "request_emotion_question": "Ποιο συναίσθημα θα ήθελες να προτείνεις;",
-  "request_emotion_description": "Τα συναισθήματα είναι τόσο σύνθετα όσο οι άνθρωποι. Πολλά επικαλύπτονται και αναμειγνύονται μεταξύ τους. Το Pixy κρατά τη λίστα μικρή και ξεκάθαρη, ώστε να βρίσκεις γρήγορα κάθε συναίσθημα και να είναι σαφές όταν κοιτάς πίσω. Πες μου ποιο σου λείπει και θα δω πού ταιριάζει.",
-  "request_emotion_placeholder": "Συχνά νιώθω…"
+  "request_emotion_title": "Πρότεινε ένα συναίσθημα",
+  "request_emotion_description": "Τα συναισθήματα είναι τόσο σύνθετα όσο οι άνθρωποι. Πολλά επικαλύπτονται και αναμειγνύονται μεταξύ τους. Το Pixy κρατά τη λίστα μικρή και ξεκάθαρη, ώστε να βρίσκεις γρήγορα κάθε συναίσθημα και να είναι σαφές όταν κοιτάς πίσω.",
+  "request_emotion_placeholder": "Νιώθω…",
+  "request_emotion_tile": "Λείπει κάποιο;",
+  "request_emotion_subtitle": "Ποιο συναίσθημα λείπει από τη λίστα σου;",
+  "request_emotion_mood_good": "Καλά",
+  "request_emotion_mood_mixed": "Ανάμεικτα",
+  "request_emotion_mood_hard": "Δύσκολα",
+  "request_emotion_why": "Γιατί δεν υπάρχουν όλα τα συναισθήματα;",
+  "request_emotion_reply": "Θέλεις απάντηση;",
+  "request_emotion_send": "Αποστολή αιτήματος",
+  "request_emotion_sending": "Αποστολή…",
+  "request_emotion_success_title": "Ευχαριστώ!",
+  "request_emotion_success_message": "Σημειώθηκε. Διαβάζω κάθε αίτημα.",
+  "request_emotion_error": "Το αίτημα δεν στάλθηκε. Έλεγξε τη σύνδεσή σου και δοκίμασε ξανά."
 }

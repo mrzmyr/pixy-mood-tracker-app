@@ -693,7 +693,18 @@
   "feedback_modal_message_placeholder_idea": "Bylo by skvělé, kdyby…",
   "request_emotion": "Navrhnout emoci",
   "request_emotion_title": "Navrhnout emoci",
-  "request_emotion_question": "Jakou emoci chcete navrhnout?",
-  "request_emotion_description": "Emoce jsou stejně složité jako lidé. Mnohé se překrývají a prolínají. Pixy drží seznam krátký a přehledný, abyste každou emoci rychle našli a při ohlédnutí jí jasně rozuměli. Napište mi, která vám chybí, a podívám se, kam patří.",
-  "request_emotion_placeholder": "Často se cítím…"
+  "request_emotion_description": "Emoce jsou stejně složité jako lidé. Mnohé se překrývají a prolínají. Pixy drží seznam krátký a přehledný, abyste každou emoci rychle našli a při ohlédnutí jí jasně rozuměli.",
+  "request_emotion_placeholder": "Cítím se…",
+  "request_emotion_tile": "Nějaká chybí?",
+  "request_emotion_subtitle": "Jaká emoce vám v seznamu chybí?",
+  "request_emotion_mood_good": "Dobře",
+  "request_emotion_mood_mixed": "Smíšeně",
+  "request_emotion_mood_hard": "Těžko",
+  "request_emotion_why": "Proč tu nejsou všechny emoce?",
+  "request_emotion_reply": "Chcete odpověď?",
+  "request_emotion_send": "Odeslat návrh",
+  "request_emotion_sending": "Odesílání…",
+  "request_emotion_success_title": "Děkuji!",
+  "request_emotion_success_message": "Zaznamenáno. Čtu každý návrh.",
+  "request_emotion_error": "Návrh nebyl odeslán. Zkontrolujte připojení a zkuste to znovu."
 }

@@ -693,7 +693,18 @@
   "feedback_modal_message_placeholder_idea": "बहुत अच्छा होगा अगर…",
   "request_emotion": "भावना सुझाएँ",
   "request_emotion_title": "भावना सुझाएँ",
-  "request_emotion_question": "आप कौन-सी भावना सुझाना चाहेंगे?",
-  "request_emotion_description": "भावनाएँ उतनी ही जटिल हैं जितने इंसान। कई भावनाएँ एक-दूसरे से मिलती-जुलती हैं और आपस में घुल-मिल जाती हैं। Pixy सूची को छोटा और अलग-अलग रखता है, ताकि हर भावना जल्दी मिले और पीछे देखने पर साफ़ समझ आए। मुझे बताइए कि कौन-सी भावना छूट रही है, मैं देखूँगा कि वह कहाँ फिट होती है।",
-  "request_emotion_placeholder": "मैं अक्सर महसूस करता हूँ…"
+  "request_emotion_description": "भावनाएँ उतनी ही जटिल हैं जितने इंसान। कई भावनाएँ एक-दूसरे से मिलती-जुलती हैं और आपस में घुल-मिल जाती हैं। Pixy सूची को छोटा और अलग-अलग रखता है, ताकि हर भावना जल्दी मिले और पीछे देखने पर साफ़ समझ आए।",
+  "request_emotion_placeholder": "मैं महसूस करता हूँ…",
+  "request_emotion_tile": "कोई छूट गई?",
+  "request_emotion_subtitle": "आपकी सूची में कौन-सी भावना नहीं है?",
+  "request_emotion_mood_good": "अच्छा",
+  "request_emotion_mood_mixed": "मिला-जुला",
+  "request_emotion_mood_hard": "मुश्किल",
+  "request_emotion_why": "यहाँ हर भावना क्यों नहीं है?",
+  "request_emotion_reply": "जवाब चाहिए?",
+  "request_emotion_send": "अनुरोध भेजें",
+  "request_emotion_sending": "भेजा जा रहा है…",
+  "request_emotion_success_title": "धन्यवाद!",
+  "request_emotion_success_message": "नोट कर लिया। मैं हर अनुरोध पढ़ता हूँ।",
+  "request_emotion_error": "अनुरोध नहीं भेजा गया। अपना कनेक्शन जाँचें और फिर कोशिश करें।"
 }

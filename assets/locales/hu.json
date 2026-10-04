@@ -693,7 +693,18 @@
   "feedback_modal_message_placeholder_idea": "Jó lenne, ha…",
   "request_emotion": "Érzelem javaslása",
   "request_emotion_title": "Érzelem javaslása",
-  "request_emotion_question": "Milyen érzelmet szeretnél javasolni?",
-  "request_emotion_description": "Az érzelmek ugyanolyan összetettek, mint az emberek. Sok közülük átfedi egymást és egymásba olvad. A Pixy rövid és jól elkülönülő listát tart, hogy minden érzelmet gyorsan megtalálj, és visszatekintve is egyértelmű legyen. Írd meg, melyik hiányzik, és megnézem, hová illik.",
-  "request_emotion_placeholder": "Gyakran érzem magam…"
+  "request_emotion_description": "Az érzelmek ugyanolyan összetettek, mint az emberek. Sok közülük átfedi egymást és egymásba olvad. A Pixy rövid és jól elkülönülő listát tart, hogy minden érzelmet gyorsan megtalálj, és visszatekintve is egyértelmű legyen.",
+  "request_emotion_placeholder": "Úgy érzem…",
+  "request_emotion_tile": "Hiányzik egy?",
+  "request_emotion_subtitle": "Melyik érzés hiányzik a listádról?",
+  "request_emotion_mood_good": "Jó",
+  "request_emotion_mood_mixed": "Vegyes",
+  "request_emotion_mood_hard": "Nehéz",
+  "request_emotion_why": "Miért nincs itt minden érzelem?",
+  "request_emotion_reply": "Szeretnél választ?",
+  "request_emotion_send": "Javaslat küldése",
+  "request_emotion_sending": "Küldés…",
+  "request_emotion_success_title": "Köszönöm!",
+  "request_emotion_success_message": "Feljegyeztem. Minden javaslatot elolvasok.",
+  "request_emotion_error": "A javaslat nem ment el. Ellenőrizd a kapcsolatot, és próbáld újra."
 }

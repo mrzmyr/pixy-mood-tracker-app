@@ -692,8 +692,19 @@
   "rate_pixy_google_play": "Betygsätt Pixy på Google Play",
   "feedback_modal_message_placeholder_idea": "Det vore toppen om…",
   "request_emotion": "Föreslå en känsla",
-  "request_emotion_title": "Föreslå känsla",
-  "request_emotion_question": "Vilken känsla vill du föreslå?",
-  "request_emotion_description": "Känslor är lika komplexa som människor. Många överlappar och går in i varandra. Pixy håller listan kort och tydlig, så att du snabbt hittar varje känsla och den är klar när du ser tillbaka. Berätta vilken du saknar, så ser jag var den passar in.",
-  "request_emotion_placeholder": "Jag känner mig ofta…"
+  "request_emotion_title": "Föreslå en känsla",
+  "request_emotion_description": "Känslor är lika komplexa som människor. Många överlappar och går in i varandra. Pixy håller listan kort och tydlig, så att du snabbt hittar varje känsla och den är klar när du ser tillbaka.",
+  "request_emotion_placeholder": "Jag känner mig…",
+  "request_emotion_tile": "Saknas någon?",
+  "request_emotion_subtitle": "Vilken känsla saknas i din lista?",
+  "request_emotion_mood_good": "Bra",
+  "request_emotion_mood_mixed": "Blandat",
+  "request_emotion_mood_hard": "Tungt",
+  "request_emotion_why": "Varför finns inte alla känslor här?",
+  "request_emotion_reply": "Vill du ha svar?",
+  "request_emotion_send": "Skicka förslag",
+  "request_emotion_sending": "Skickar…",
+  "request_emotion_success_title": "Tack!",
+  "request_emotion_success_message": "Noterat. Jag läser varje förslag.",
+  "request_emotion_error": "Förslaget skickades inte. Kontrollera anslutningen och försök igen."
 }

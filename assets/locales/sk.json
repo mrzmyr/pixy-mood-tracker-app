@@ -693,7 +693,18 @@
   "feedback_modal_message_placeholder_idea": "Bolo by skvelé, keby…",
   "request_emotion": "Navrhnúť emóciu",
   "request_emotion_title": "Navrhnúť emóciu",
-  "request_emotion_question": "Akú emóciu chcete navrhnúť?",
-  "request_emotion_description": "Emócie sú rovnako zložité ako ľudia. Mnohé sa prekrývajú a prelínajú. Pixy drží zoznam krátky a prehľadný, aby ste každú emóciu rýchlo našli a pri pohľade späť jej jasne rozumeli. Napíšte mi, ktorá vám chýba, a pozriem sa, kam patrí.",
-  "request_emotion_placeholder": "Často sa cítim…"
+  "request_emotion_description": "Emócie sú rovnako zložité ako ľudia. Mnohé sa prekrývajú a prelínajú. Pixy drží zoznam krátky a prehľadný, aby ste každú emóciu rýchlo našli a pri pohľade späť jej jasne rozumeli.",
+  "request_emotion_placeholder": "Cítim sa…",
+  "request_emotion_tile": "Nejaká chýba?",
+  "request_emotion_subtitle": "Aká emócia vám v zozname chýba?",
+  "request_emotion_mood_good": "Dobre",
+  "request_emotion_mood_mixed": "Zmiešane",
+  "request_emotion_mood_hard": "Ťažko",
+  "request_emotion_why": "Prečo tu nie sú všetky emócie?",
+  "request_emotion_reply": "Chcete odpoveď?",
+  "request_emotion_send": "Odoslať návrh",
+  "request_emotion_sending": "Odosiela sa…",
+  "request_emotion_success_title": "Ďakujem!",
+  "request_emotion_success_message": "Zaznamenané. Čítam každý návrh.",
+  "request_emotion_error": "Návrh sa neodoslal. Skontrolujte pripojenie a skúste to znova."
 }

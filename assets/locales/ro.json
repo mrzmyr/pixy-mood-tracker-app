@@ -693,7 +693,18 @@
   "feedback_modal_message_placeholder_idea": "Ar fi grozav dacă…",
   "request_emotion": "Propune o emoție",
   "request_emotion_title": "Propune o emoție",
-  "request_emotion_question": "Ce emoție ai vrea să propui?",
-  "request_emotion_description": "Emoțiile sunt la fel de complexe ca oamenii. Multe se suprapun și se amestecă între ele. Pixy păstrează lista scurtă și clară, ca să găsești repede fiecare emoție și să fie limpede când privești înapoi. Spune-mi care îți lipsește și voi vedea unde se potrivește.",
-  "request_emotion_placeholder": "Mă simt adesea…"
+  "request_emotion_description": "Emoțiile sunt la fel de complexe ca oamenii. Multe se suprapun și se amestecă între ele. Pixy păstrează lista scurtă și clară, ca să găsești repede fiecare emoție și să fie limpede când privești înapoi.",
+  "request_emotion_placeholder": "Mă simt…",
+  "request_emotion_tile": "Lipsește una?",
+  "request_emotion_subtitle": "Ce emoție lipsește din lista ta?",
+  "request_emotion_mood_good": "Bine",
+  "request_emotion_mood_mixed": "Amestecat",
+  "request_emotion_mood_hard": "Greu",
+  "request_emotion_why": "De ce nu sunt toate emoțiile aici?",
+  "request_emotion_reply": "Vrei un răspuns?",
+  "request_emotion_send": "Trimite cererea",
+  "request_emotion_sending": "Se trimite…",
+  "request_emotion_success_title": "Mulțumesc!",
+  "request_emotion_success_message": "Notat. Citesc fiecare cerere.",
+  "request_emotion_error": "Cererea nu a fost trimisă. Verifică conexiunea și încearcă din nou."
 }

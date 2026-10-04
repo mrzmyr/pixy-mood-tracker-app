@@ -693,7 +693,18 @@
   "feedback_modal_message_placeholder_idea": "Byłoby świetnie, gdyby…",
   "request_emotion": "Zaproponuj emocję",
   "request_emotion_title": "Zaproponuj emocję",
-  "request_emotion_question": "Jaką emocję chcesz zaproponować?",
-  "request_emotion_description": "Emocje są tak złożone jak ludzie. Wiele z nich się nakłada i przenika. Pixy utrzymuje krótką i wyraźną listę, aby każdą emocję łatwo było znaleźć i jasno zrozumieć, gdy patrzysz wstecz. Napisz mi, której brakuje, a sprawdzę, gdzie pasuje.",
-  "request_emotion_placeholder": "Często czuję się…"
+  "request_emotion_description": "Emocje są tak złożone jak ludzie. Wiele z nich się nakłada i przenika. Pixy utrzymuje krótką i wyraźną listę, aby każdą emocję łatwo było znaleźć i jasno zrozumieć, gdy patrzysz wstecz.",
+  "request_emotion_placeholder": "Czuję się…",
+  "request_emotion_tile": "Brakuje jakiejś?",
+  "request_emotion_subtitle": "Jakiej emocji brakuje na twojej liście?",
+  "request_emotion_mood_good": "Dobrze",
+  "request_emotion_mood_mixed": "Mieszanie",
+  "request_emotion_mood_hard": "Ciężko",
+  "request_emotion_why": "Dlaczego nie ma tu każdej emocji?",
+  "request_emotion_reply": "Chcesz odpowiedź?",
+  "request_emotion_send": "Wyślij prośbę",
+  "request_emotion_sending": "Wysyłanie…",
+  "request_emotion_success_title": "Dziękuję!",
+  "request_emotion_success_message": "Zapisane. Czytam każdą prośbę.",
+  "request_emotion_error": "Nie wysłano. Sprawdź połączenie i spróbuj ponownie."
 }

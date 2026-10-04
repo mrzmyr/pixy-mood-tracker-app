@@ -695,7 +695,18 @@
   "feedback_modal_message_placeholder_idea": "Es wäre toll, wenn…",
   "request_emotion": "Emotion vorschlagen",
   "request_emotion_title": "Emotion vorschlagen",
-  "request_emotion_question": "Welche Emotion möchtest du vorschlagen?",
-  "request_emotion_description": "Emotionen sind so vielschichtig wie wir Menschen. Viele überschneiden sich und gehen ineinander über. Pixy hält die Liste klein und klar unterscheidbar, damit du jede Emotion schnell findest und sie beim Zurückblicken eindeutig bleibt. Sag mir, welche dir fehlt, und ich schaue, wo sie passt.",
-  "request_emotion_placeholder": "Ich fühle mich oft…"
+  "request_emotion_description": "Emotionen sind so vielschichtig wie wir Menschen. Viele überschneiden sich und gehen ineinander über. Pixy hält die Liste klein und klar unterscheidbar, damit du jede Emotion schnell findest und sie beim Zurückblicken eindeutig bleibt.",
+  "request_emotion_placeholder": "Ich fühle mich…",
+  "request_emotion_tile": "Fehlt eine?",
+  "request_emotion_subtitle": "Welches Gefühl fehlt dir in der Liste?",
+  "request_emotion_mood_good": "Gut",
+  "request_emotion_mood_mixed": "Gemischt",
+  "request_emotion_mood_hard": "Schwer",
+  "request_emotion_why": "Warum gibt es nicht jede Emotion?",
+  "request_emotion_reply": "Antwort gewünscht?",
+  "request_emotion_send": "Vorschlag senden",
+  "request_emotion_sending": "Wird gesendet…",
+  "request_emotion_success_title": "Danke!",
+  "request_emotion_success_message": "Notiert. Ich lese jeden Vorschlag.",
+  "request_emotion_error": "Vorschlag nicht gesendet. Prüfe deine Verbindung und versuche es erneut."
 }

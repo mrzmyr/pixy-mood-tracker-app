@@ -692,8 +692,19 @@
   "rate_pixy_google_play": "Valora Pixy en Google Play",
   "feedback_modal_message_placeholder_idea": "Sería genial si…",
   "request_emotion": "Sugerir una emoción",
-  "request_emotion_title": "Sugerir emoción",
-  "request_emotion_question": "¿Qué emoción te gustaría sugerir?",
-  "request_emotion_description": "Las emociones son tan complejas como las personas. Muchas se superponen y se mezclan entre sí. Pixy mantiene una lista breve y clara para que encuentres cada emoción rápido y la entiendas bien al mirar atrás. Cuéntame cuál echas de menos y veré dónde encaja.",
-  "request_emotion_placeholder": "A menudo me siento…"
+  "request_emotion_title": "Sugerir una emoción",
+  "request_emotion_description": "Las emociones son tan complejas como las personas. Muchas se superponen y se mezclan entre sí. Pixy mantiene una lista breve y clara para que encuentres cada emoción rápido y la entiendas bien al mirar atrás.",
+  "request_emotion_placeholder": "Me siento…",
+  "request_emotion_tile": "¿Falta alguna?",
+  "request_emotion_subtitle": "¿Qué emoción falta en tu lista?",
+  "request_emotion_mood_good": "Bien",
+  "request_emotion_mood_mixed": "Mixto",
+  "request_emotion_mood_hard": "Difícil",
+  "request_emotion_why": "¿Por qué no están todas las emociones?",
+  "request_emotion_reply": "¿Quieres una respuesta?",
+  "request_emotion_send": "Enviar sugerencia",
+  "request_emotion_sending": "Enviando…",
+  "request_emotion_success_title": "¡Gracias!",
+  "request_emotion_success_message": "Anotado. Leo todas las sugerencias.",
+  "request_emotion_error": "No se envió. Revisa tu conexión e inténtalo de nuevo."
 }

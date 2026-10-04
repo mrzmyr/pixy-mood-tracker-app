@@ -696,7 +696,18 @@
   "feedback_modal_message_placeholder_idea": "Het zou fijn zijn als…",
   "request_emotion": "Emotie voorstellen",
   "request_emotion_title": "Emotie voorstellen",
-  "request_emotion_question": "Welke emotie wil je voorstellen?",
-  "request_emotion_description": "Emoties zijn net zo complex als mensen. Veel ervan overlappen en lopen in elkaar over. Pixy houdt de lijst klein en duidelijk, zodat je elke emotie snel vindt en die helder blijft als je terugkijkt. Vertel me welke je mist, dan kijk ik waar die past.",
-  "request_emotion_placeholder": "Ik voel me vaak…"
+  "request_emotion_description": "Emoties zijn net zo complex als mensen. Veel ervan overlappen en lopen in elkaar over. Pixy houdt de lijst klein en duidelijk, zodat je elke emotie snel vindt en die helder blijft als je terugkijkt.",
+  "request_emotion_placeholder": "Ik voel me…",
+  "request_emotion_tile": "Mis je er een?",
+  "request_emotion_subtitle": "Welk gevoel mis je in je lijst?",
+  "request_emotion_mood_good": "Goed",
+  "request_emotion_mood_mixed": "Gemengd",
+  "request_emotion_mood_hard": "Zwaar",
+  "request_emotion_why": "Waarom staat niet elke emotie erin?",
+  "request_emotion_reply": "Wil je een antwoord?",
+  "request_emotion_send": "Verzoek versturen",
+  "request_emotion_sending": "Versturen…",
+  "request_emotion_success_title": "Bedankt!",
+  "request_emotion_success_message": "Genoteerd. Ik lees elk verzoek.",
+  "request_emotion_error": "Verzoek niet verstuurd. Controleer je verbinding en probeer het opnieuw."
 }

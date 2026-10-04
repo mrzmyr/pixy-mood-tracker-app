@@ -693,7 +693,18 @@
   "feedback_modal_message_placeholder_idea": "จะดีมากถ้า…",
   "request_emotion": "เสนออารมณ์ใหม่",
   "request_emotion_title": "เสนออารมณ์",
-  "request_emotion_question": "คุณอยากเสนออารมณ์อะไร?",
-  "request_emotion_description": "อารมณ์ซับซ้อนพอ ๆ กับมนุษย์ หลายอารมณ์ซ้อนทับและผสมกัน Pixy จึงเก็บรายการให้สั้นและแยกชัด เพื่อให้คุณหาแต่ละอารมณ์ได้เร็วและเข้าใจชัดเมื่อย้อนดู บอกเราว่าอารมณ์ไหนที่ยังขาด แล้วเราจะดูว่าเหมาะกับตรงไหน",
-  "request_emotion_placeholder": "ฉันมักรู้สึก…"
+  "request_emotion_description": "อารมณ์ซับซ้อนพอ ๆ กับมนุษย์ หลายอารมณ์ซ้อนทับและผสมกัน Pixy จึงเก็บรายการให้สั้นและแยกชัด เพื่อให้คุณหาแต่ละอารมณ์ได้เร็วและเข้าใจชัดเมื่อย้อนดู",
+  "request_emotion_placeholder": "ฉันรู้สึก…",
+  "request_emotion_tile": "ขาดอารมณ์ไหนไหม?",
+  "request_emotion_subtitle": "รายการของคุณขาดอารมณ์อะไร?",
+  "request_emotion_mood_good": "ดี",
+  "request_emotion_mood_mixed": "ผสม",
+  "request_emotion_mood_hard": "ยาก",
+  "request_emotion_why": "ทำไมไม่มีทุกอารมณ์?",
+  "request_emotion_reply": "อยากได้คำตอบไหม?",
+  "request_emotion_send": "ส่งคำขอ",
+  "request_emotion_sending": "กำลังส่ง…",
+  "request_emotion_success_title": "ขอบคุณ!",
+  "request_emotion_success_message": "รับทราบแล้ว เราอ่านทุกคำขอ",
+  "request_emotion_error": "ส่งคำขอไม่สำเร็จ ตรวจสอบการเชื่อมต่อแล้วลองอีกครั้ง"
 }

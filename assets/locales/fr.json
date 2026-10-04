@@ -694,7 +694,18 @@
   "feedback_modal_message_placeholder_idea": "Ce serait génial si…",
   "request_emotion": "Proposer une émotion",
   "request_emotion_title": "Proposer une émotion",
-  "request_emotion_question": "Quelle émotion aimeriez-vous proposer ?",
-  "request_emotion_description": "Les émotions sont aussi complexes que les êtres humains. Beaucoup se chevauchent et se mêlent les unes aux autres. Pixy garde une liste courte et distincte, pour que chaque émotion soit rapide à trouver et claire quand vous regardez en arrière. Dites-moi laquelle vous manque, et je verrai où elle trouve sa place.",
-  "request_emotion_placeholder": "Je me sens souvent…"
+  "request_emotion_description": "Les émotions sont aussi complexes que les êtres humains. Beaucoup se chevauchent et se mêlent les unes aux autres. Pixy garde une liste courte et distincte, pour que chaque émotion soit rapide à trouver et claire quand vous regardez en arrière.",
+  "request_emotion_placeholder": "Je me sens…",
+  "request_emotion_tile": "Il en manque une ?",
+  "request_emotion_subtitle": "Quelle émotion manque à votre liste ?",
+  "request_emotion_mood_good": "Bien",
+  "request_emotion_mood_mixed": "Mitigé",
+  "request_emotion_mood_hard": "Difficile",
+  "request_emotion_why": "Pourquoi toutes les émotions ne sont-elles pas là ?",
+  "request_emotion_reply": "Vous voulez une réponse ?",
+  "request_emotion_send": "Envoyer la demande",
+  "request_emotion_sending": "Envoi…",
+  "request_emotion_success_title": "Merci !",
+  "request_emotion_success_message": "C’est noté. Je lis chaque demande.",
+  "request_emotion_error": "Demande non envoyée. Vérifiez votre connexion et réessayez."
 }

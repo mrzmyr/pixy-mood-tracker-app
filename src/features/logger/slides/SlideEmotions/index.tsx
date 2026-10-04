@@ -7,7 +7,7 @@ import { getMostUsedEmotions } from "@/lib/utils";
 import type { Emotion } from "@/types";
 import { LinearGradient } from "expo-linear-gradient";
 import keyBy from "lodash/keyBy";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { ScrollView, View } from "react-native";
 import LinkButton from "@/components/LinkButton";
 import { SlideHeadline } from "../../components/SlideHeadline";
@@ -20,7 +20,7 @@ import { EmotionBasicSelection } from "./EmotionBasicSelection";
 import { ExpandButton } from "./ExpandButton";
 import { Tooltip } from "./Tooltip";
 import { useAnalytics } from "@/state/analytics";
-import { useFeedbackModal } from "@/features/feedback";
+import { RequestEmotionSheet } from "@/features/feedback";
 import noop from "lodash/noop";
 
 type Mode = "basic" | "advanced";
@@ -66,7 +66,12 @@ export const SlideEmotions = ({
   const tempLog = useTemporaryLog();
   const logState = useLogState();
   const analytics = useAnalytics();
-  const { Modal: FeedbackModal, show: showFeedbackModal } = useFeedbackModal();
+  const [isRequestOpen, setIsRequestOpen] = useState(false);
+  const closeRequest = useCallback(() => setIsRequestOpen(false), []);
+  const openRequest = () => {
+    analytics.track("feedback:modal_opened", { type: "emotion" });
+    setIsRequestOpen(true);
+  };
 
   const EMOTIONS_BY_KEY = keyBy(EMOTIONS, "key");
 
@@ -189,6 +194,7 @@ export const SlideEmotions = ({
                 }
               }}
               selectedEmotions={selectedEmotions}
+              onRequestEmotion={openRequest}
               style={{
                 display: mode === "basic" ? "flex" : "none",
               }}
@@ -205,6 +211,7 @@ export const SlideEmotions = ({
                 }
               }}
               selectedEmotions={selectedEmotions}
+              onRequestEmotion={openRequest}
               style={{
                 display: mode === "advanced" ? "flex" : "none",
               }}
@@ -222,7 +229,11 @@ export const SlideEmotions = ({
             />
           )}
         </View>
-        <FeedbackModal />
+        <RequestEmotionSheet
+          visible={isRequestOpen}
+          source="logger"
+          onClose={closeRequest}
+        />
         <Footer
           style={{
             marginHorizontal: 16,
@@ -234,23 +245,11 @@ export const SlideEmotions = ({
               onPress={onDisableStep}
               style={{
                 fontWeight: "400",
-                flexShrink: 1,
               }}
             >
               {t("log_emotions_disable")}
             </LinkButton>
           )}
-          <LinkButton
-            type="secondary"
-            testID="request-emotion"
-            onPress={() => showFeedbackModal({ type: "emotion" })}
-            style={{
-              fontWeight: "400",
-              flexShrink: 1,
-            }}
-          >
-            {t("request_emotion")}
-          </LinkButton>
         </Footer>
       </View>
     </View>

@@ -703,8 +703,19 @@
   "rate_pixy_google_play": "Rate Pixy on Google Play",
   "feedback_modal_message_placeholder_idea": "It would be great if…",
   "request_emotion": "Ask to Add Emotion",
-  "request_emotion_title": "Request Emotion",
-  "request_emotion_question": "What emotion would you like to request?",
-  "request_emotion_description": "Emotions are as complex as people. Many overlap and blend into each other. Pixy keeps its list small and distinct, so each emotion is quick to find and clear when you look back. Tell me which one you miss, and I’ll see where it fits.",
-  "request_emotion_placeholder": "I often feel…"
+  "request_emotion_title": "Request an Emotion",
+  "request_emotion_description": "Emotions are as complex as people. Many overlap and blend into each other. Pixy keeps its list small and distinct, so each emotion is quick to find and clear when you look back.",
+  "request_emotion_placeholder": "I feel…",
+  "request_emotion_tile": "Missing one?",
+  "request_emotion_subtitle": "Which feeling is missing from your list?",
+  "request_emotion_mood_good": "Good",
+  "request_emotion_mood_mixed": "Mixed",
+  "request_emotion_mood_hard": "Hard",
+  "request_emotion_why": "Why isn’t every emotion here?",
+  "request_emotion_reply": "Want a reply?",
+  "request_emotion_send": "Send Request",
+  "request_emotion_sending": "Sending…",
+  "request_emotion_success_title": "Thank You!",
+  "request_emotion_success_message": "Noted. I read every request.",
+  "request_emotion_error": "Request not sent. Check your connection and try again."
 }

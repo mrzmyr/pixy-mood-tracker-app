@@ -21,20 +21,10 @@ import type { FeedackType } from "../Feedback";
 const TITLE_KEYS: Partial<Record<FeedackType, string>> = {
   issue: "report_a_bug",
   idea: "request_a_feature",
-  emotion: "request_emotion_title",
-};
-
-const QUESTION_KEYS: Partial<Record<FeedackType, string>> = {
-  emotion: "request_emotion_question",
-};
-
-const DESCRIPTION_KEYS: Partial<Record<FeedackType, string>> = {
-  emotion: "request_emotion_description",
 };
 
 const PLACEHOLDER_KEYS: Partial<Record<FeedackType, string>> = {
   idea: "feedback_modal_message_placeholder_idea",
-  emotion: "request_emotion_placeholder",
 };
 
 const FeedbackModalContent = ({
@@ -50,7 +40,6 @@ const FeedbackModalContent = ({
 }) => {
   const colors = useColors();
   const feedback = useFeedback();
-  const questionKey = QUESTION_KEYS[type];
 
   const [message, setMessage] = useState("");
   const [email, setEmail] = useState("");
@@ -152,29 +141,17 @@ const FeedbackModalContent = ({
                 flex: 1,
               }}
             >
-              {questionKey !== undefined && (
-                <Text
-                  accessibilityRole="header"
-                  style={{
-                    marginTop: 4,
-                    color: colors.text,
-                    fontSize: 17,
-                    fontWeight: "600",
-                  }}
-                >
-                  {t(questionKey)}
-                </Text>
-              )}
               <Text
                 style={{
-                  marginTop: questionKey === undefined ? 4 : 8,
+                  marginTop: 4,
                   marginBottom: 24,
                   color: colors.textSecondary,
                   fontSize: 15,
                   lineHeight: 20,
+                  textAlign: "center",
                 }}
               >
-                {t(DESCRIPTION_KEYS[type] ?? "feedback_modal_description")}
+                {t("feedback_modal_description")}
               </Text>
               <TextArea
                 testID="feedback-modal-message"
@@ -226,7 +203,7 @@ const FeedbackModalContent = ({
 
 /**
  * Feedback form modal. Render the returned `Modal` once in the host screen;
- * `show` opens it for one feedback type, which sets title, copy and placeholder.
+ * `show` opens it for one feedback type, which sets title and placeholder.
  */
 export default function useFeedbackModal() {
   const [visible, setVisible] = useState(false);

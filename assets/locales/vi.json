@@ -693,7 +693,18 @@
   "feedback_modal_message_placeholder_idea": "Sẽ thật tuyệt nếu…",
   "request_emotion": "Đề xuất cảm xúc",
   "request_emotion_title": "Đề xuất cảm xúc",
-  "request_emotion_question": "Bạn muốn đề xuất cảm xúc nào?",
-  "request_emotion_description": "Cảm xúc cũng phức tạp như con người. Nhiều cảm xúc chồng lên nhau và hòa lẫn vào nhau. Pixy giữ danh sách ngắn gọn và rõ ràng, để bạn tìm thấy mỗi cảm xúc thật nhanh và hiểu rõ khi nhìn lại. Hãy cho mình biết bạn thiếu cảm xúc nào, mình sẽ xem nó hợp ở đâu.",
-  "request_emotion_placeholder": "Mình thường cảm thấy…"
+  "request_emotion_description": "Cảm xúc cũng phức tạp như con người. Nhiều cảm xúc chồng lên nhau và hòa lẫn vào nhau. Pixy giữ danh sách ngắn gọn và rõ ràng, để bạn tìm thấy mỗi cảm xúc thật nhanh và hiểu rõ khi nhìn lại.",
+  "request_emotion_placeholder": "Mình cảm thấy…",
+  "request_emotion_tile": "Thiếu cảm xúc nào?",
+  "request_emotion_subtitle": "Danh sách của bạn đang thiếu cảm xúc nào?",
+  "request_emotion_mood_good": "Tốt",
+  "request_emotion_mood_mixed": "Lẫn lộn",
+  "request_emotion_mood_hard": "Khó khăn",
+  "request_emotion_why": "Sao không có mọi cảm xúc ở đây?",
+  "request_emotion_reply": "Muốn được trả lời?",
+  "request_emotion_send": "Gửi đề xuất",
+  "request_emotion_sending": "Đang gửi…",
+  "request_emotion_success_title": "Cảm ơn bạn!",
+  "request_emotion_success_message": "Đã ghi nhận. Mình đọc mọi đề xuất.",
+  "request_emotion_error": "Chưa gửi được. Hãy kiểm tra kết nối rồi thử lại."
 }

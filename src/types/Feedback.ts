@@ -8,4 +8,10 @@ export type FeedackType =
   | "emotion";
 
 /** Where feedback was sent from. */
-export type FeedbackSource = "tags" | "modal" | "statistics" | "error";
+export type FeedbackSource =
+  | "tags"
+  | "modal"
+  | "statistics"
+  | "error"
+  | "logger"
+  | "settings";

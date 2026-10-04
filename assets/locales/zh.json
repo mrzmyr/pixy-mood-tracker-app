@@ -693,7 +693,18 @@
   "feedback_modal_message_placeholder_idea": "如果能……就太好了",
   "request_emotion": "申请添加情绪",
   "request_emotion_title": "申请情绪",
-  "request_emotion_question": "你想申请添加哪种情绪？",
-  "request_emotion_description": "情绪和人一样复杂。很多情绪彼此重叠、相互交融。Pixy 让列表保持精简且彼此分明，这样你能快速找到每种情绪，回顾时也一目了然。告诉我你觉得缺少哪一种，我会看看它适合放在哪里。",
-  "request_emotion_placeholder": "我经常感到…"
+  "request_emotion_description": "情绪和人一样复杂。很多情绪彼此重叠、相互交融。Pixy 让列表保持精简且彼此分明，这样你能快速找到每种情绪，回顾时也一目了然。",
+  "request_emotion_placeholder": "我感到…",
+  "request_emotion_tile": "缺少哪种？",
+  "request_emotion_subtitle": "你的列表里缺少哪种情绪？",
+  "request_emotion_mood_good": "好",
+  "request_emotion_mood_mixed": "复杂",
+  "request_emotion_mood_hard": "难受",
+  "request_emotion_why": "为什么没有所有情绪？",
+  "request_emotion_reply": "需要回复吗？",
+  "request_emotion_send": "发送申请",
+  "request_emotion_sending": "正在发送…",
+  "request_emotion_success_title": "谢谢！",
+  "request_emotion_success_message": "已记下。我会阅读每一条申请。",
+  "request_emotion_error": "申请未发送。请检查网络连接后重试。"
 }

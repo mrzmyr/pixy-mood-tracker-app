@@ -693,7 +693,18 @@
   "feedback_modal_message_placeholder_idea": "こうなったら嬉しい…",
   "request_emotion": "感情の追加をリクエスト",
   "request_emotion_title": "感情をリクエスト",
-  "request_emotion_question": "どの感情をリクエストしますか？",
-  "request_emotion_description": "感情は人と同じくらい複雑です。多くの感情は重なり合い、混ざり合っています。Pixyはリストを少なく、はっきり区別できるように保っています。そのため、どの感情もすぐに見つかり、振り返ったときにもわかりやすくなります。足りない感情を教えてください。どこに合うか検討します。",
-  "request_emotion_placeholder": "よく感じるのは…"
+  "request_emotion_description": "感情は人と同じくらい複雑です。多くの感情は重なり合い、混ざり合っています。Pixyはリストを少なく、はっきり区別できるように保っています。そのため、どの感情もすぐに見つかり、振り返ったときにもわかりやすくなります。",
+  "request_emotion_placeholder": "わたしは…と感じる",
+  "request_emotion_tile": "足りない感情は？",
+  "request_emotion_subtitle": "リストに足りない感情は何ですか？",
+  "request_emotion_mood_good": "よい",
+  "request_emotion_mood_mixed": "複雑",
+  "request_emotion_mood_hard": "つらい",
+  "request_emotion_why": "なぜすべての感情がないの？",
+  "request_emotion_reply": "返信を希望しますか？",
+  "request_emotion_send": "リクエストを送信",
+  "request_emotion_sending": "送信中…",
+  "request_emotion_success_title": "ありがとう！",
+  "request_emotion_success_message": "受け取りました。すべてのリクエストに目を通します。",
+  "request_emotion_error": "送信できませんでした。接続を確認して、もう一度お試しください。"
 }

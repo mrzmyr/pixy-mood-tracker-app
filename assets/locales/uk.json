@@ -693,7 +693,18 @@
   "feedback_modal_message_placeholder_idea": "Було б чудово, якби…",
   "request_emotion": "Запропонувати емоцію",
   "request_emotion_title": "Запропонувати емоцію",
-  "request_emotion_question": "Яку емоцію ви хочете запропонувати?",
-  "request_emotion_description": "Емоції такі ж складні, як люди. Багато з них перетинаються та переходять одна в одну. Pixy тримає список коротким і чітким, щоб кожну емоцію було легко знайти й зрозуміти, озираючись назад. Напишіть, якої вам бракує, і я подивлюся, де їй місце.",
-  "request_emotion_placeholder": "Я часто відчуваю…"
+  "request_emotion_description": "Емоції такі ж складні, як люди. Багато з них перетинаються та переходять одна в одну. Pixy тримає список коротким і чітким, щоб кожну емоцію було легко знайти й зрозуміти, озираючись назад.",
+  "request_emotion_placeholder": "Я відчуваю…",
+  "request_emotion_tile": "Чогось бракує?",
+  "request_emotion_subtitle": "Якої емоції бракує у вашому списку?",
+  "request_emotion_mood_good": "Добре",
+  "request_emotion_mood_mixed": "Змішано",
+  "request_emotion_mood_hard": "Важко",
+  "request_emotion_why": "Чому тут не всі емоції?",
+  "request_emotion_reply": "Хочете відповідь?",
+  "request_emotion_send": "Надіслати запит",
+  "request_emotion_sending": "Надсилання…",
+  "request_emotion_success_title": "Дякую!",
+  "request_emotion_success_message": "Записав. Я читаю кожен запит.",
+  "request_emotion_error": "Запит не надіслано. Перевірте з’єднання і спробуйте ще раз."
 }

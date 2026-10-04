@@ -693,7 +693,18 @@
   "feedback_modal_message_placeholder_idea": "Bilo bi super kad bi…",
   "request_emotion": "Predloži emociju",
   "request_emotion_title": "Predloži emociju",
-  "request_emotion_question": "Koju emociju želiš predložiti?",
-  "request_emotion_description": "Emocije su složene kao i ljudi. Mnoge se preklapaju i prelaze jedna u drugu. Pixy drži popis kratkim i jasnim kako bi svaku emociju brzo pronašao i jasno je razumio kad se osvrneš. Reci mi koja ti nedostaje, a ja ću vidjeti gdje pripada.",
-  "request_emotion_placeholder": "Često se osjećam…"
+  "request_emotion_description": "Emocije su složene kao i ljudi. Mnoge se preklapaju i prelaze jedna u drugu. Pixy drži popis kratkim i jasnim kako bi svaku emociju brzo pronašao i jasno je razumio kad se osvrneš.",
+  "request_emotion_placeholder": "Osjećam se…",
+  "request_emotion_tile": "Nedostaje li neka?",
+  "request_emotion_subtitle": "Koja emocija nedostaje na tvom popisu?",
+  "request_emotion_mood_good": "Dobro",
+  "request_emotion_mood_mixed": "Mješovito",
+  "request_emotion_mood_hard": "Teško",
+  "request_emotion_why": "Zašto ovdje nisu sve emocije?",
+  "request_emotion_reply": "Želiš odgovor?",
+  "request_emotion_send": "Pošalji prijedlog",
+  "request_emotion_sending": "Slanje…",
+  "request_emotion_success_title": "Hvala!",
+  "request_emotion_success_message": "Zabilježeno. Čitam svaki prijedlog.",
+  "request_emotion_error": "Prijedlog nije poslan. Provjeri vezu i pokušaj ponovno."
 }

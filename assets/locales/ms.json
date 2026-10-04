@@ -693,7 +693,18 @@
   "feedback_modal_message_placeholder_idea": "Alangkah baiknya jika…",
   "request_emotion": "Cadangkan emosi",
   "request_emotion_title": "Cadangkan Emosi",
-  "request_emotion_question": "Emosi apa yang ingin anda cadangkan?",
-  "request_emotion_description": "Emosi sama kompleks seperti manusia. Banyak yang bertindih dan bercampur antara satu sama lain. Pixy mengekalkan senarai yang ringkas dan jelas, supaya setiap emosi mudah dicari dan jelas apabila anda melihat semula. Beritahu saya emosi yang tiada, dan saya akan lihat di mana ia sesuai.",
-  "request_emotion_placeholder": "Saya sering berasa…"
+  "request_emotion_description": "Emosi sama kompleks seperti manusia. Banyak yang bertindih dan bercampur antara satu sama lain. Pixy mengekalkan senarai yang ringkas dan jelas, supaya setiap emosi mudah dicari dan jelas apabila anda melihat semula.",
+  "request_emotion_placeholder": "Saya berasa…",
+  "request_emotion_tile": "Ada yang tiada?",
+  "request_emotion_subtitle": "Emosi apa yang tiada dalam senarai anda?",
+  "request_emotion_mood_good": "Baik",
+  "request_emotion_mood_mixed": "Bercampur",
+  "request_emotion_mood_hard": "Berat",
+  "request_emotion_why": "Kenapa tidak semua emosi ada di sini?",
+  "request_emotion_reply": "Mahu balasan?",
+  "request_emotion_send": "Hantar Cadangan",
+  "request_emotion_sending": "Menghantar…",
+  "request_emotion_success_title": "Terima kasih!",
+  "request_emotion_success_message": "Dicatat. Saya membaca setiap cadangan.",
+  "request_emotion_error": "Cadangan tidak dihantar. Semak sambungan anda dan cuba lagi."
 }

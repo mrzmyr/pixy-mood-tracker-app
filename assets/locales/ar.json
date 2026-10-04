@@ -692,8 +692,19 @@
   "rate_pixy_google_play": "قيّم Pixy على Google Play",
   "feedback_modal_message_placeholder_idea": "سيكون رائعًا لو…",
   "request_emotion": "اقترح شعورًا",
-  "request_emotion_title": "اقتراح شعور",
-  "request_emotion_question": "ما الشعور الذي تودّ اقتراحه؟",
-  "request_emotion_description": "المشاعر معقّدة بقدر تعقيد البشر. كثير منها يتداخل ويمتزج ببعضه. يحافظ Pixy على قائمة قصيرة ومميّزة، لتجد كل شعور بسرعة ويبقى واضحًا عندما تنظر إلى الوراء. أخبرني بالشعور الذي ينقصك، وسأرى أين يناسب.",
-  "request_emotion_placeholder": "أشعر غالبًا بـ…"
+  "request_emotion_title": "اقترح شعورًا",
+  "request_emotion_description": "المشاعر معقّدة بقدر تعقيد البشر. كثير منها يتداخل ويمتزج ببعضه. يحافظ Pixy على قائمة قصيرة ومميّزة، لتجد كل شعور بسرعة ويبقى واضحًا عندما تنظر إلى الوراء.",
+  "request_emotion_placeholder": "أشعر بـ…",
+  "request_emotion_tile": "هل ينقص شعور؟",
+  "request_emotion_subtitle": "ما الشعور الناقص في قائمتك؟",
+  "request_emotion_mood_good": "جيد",
+  "request_emotion_mood_mixed": "مختلط",
+  "request_emotion_mood_hard": "صعب",
+  "request_emotion_why": "لماذا لا توجد كل المشاعر هنا؟",
+  "request_emotion_reply": "هل تريد ردًا؟",
+  "request_emotion_send": "إرسال الطلب",
+  "request_emotion_sending": "جارٍ الإرسال…",
+  "request_emotion_success_title": "شكرًا!",
+  "request_emotion_success_message": "تم التسجيل. أقرأ كل طلب.",
+  "request_emotion_error": "لم يُرسل الطلب. تحقق من اتصالك وحاول مرة أخرى."
 }
