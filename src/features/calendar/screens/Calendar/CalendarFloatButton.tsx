@@ -59,33 +59,40 @@ const useBarStyle = (
 
 /**
  * Floating button of the calendar. Away from today it is a tertiary chevron
- * that scrolls to the end. At the end it turns into a primary plus that adds
- * an entry. The color fades fast; the chevron morphs into the plus.
+ * that scrolls to the end. At the end it turns into a plus that adds an
+ * entry: primary while today has no entry, tertiary after. The color fades
+ * fast; the chevron morphs into the plus.
  */
 export const CalendarFloatButton = ({
   isAtBottom,
+  hasTodayEntry,
   onScrollToBottom,
   onAdd,
 }: {
   isAtBottom: boolean;
+  hasTodayEntry: boolean;
   onScrollToBottom: () => void;
   onAdd: () => void;
 }) => {
   const colors = useColors();
   const insets = useSafeAreaInsets();
-  const target = isAtBottom ? 1 : 0;
-  const morph = useSharedValue(target);
-  const color = useSharedValue(target);
+  const morphTarget = isAtBottom ? 1 : 0;
+  const colorTarget = isAtBottom && !hasTodayEntry ? 1 : 0;
+  const morph = useSharedValue(morphTarget);
+  const color = useSharedValue(colorTarget);
 
   useEffect(() => {
-    morph.set(withSpring(target, { damping: 16, stiffness: 220 }));
+    morph.set(withSpring(morphTarget, { damping: 16, stiffness: 220 }));
+  }, [morphTarget, morph]);
+
+  useEffect(() => {
     color.set(
-      withTiming(target, {
+      withTiming(colorTarget, {
         duration: 150,
         easing: Easing.out(Easing.quad),
       })
     );
-  }, [target, morph, color]);
+  }, [colorTarget, color]);
 
   const backgroundStyle = useAnimatedStyle(() => ({
     backgroundColor: interpolateColor(
@@ -114,7 +121,9 @@ export const CalendarFloatButton = ({
       testID={isAtBottom ? "calendar-add-entry" : "scroll-to-bottom"}
       accessibilityRole="button"
       accessibilityLabel={
-        isAtBottom ? t("add_today_entry") : t("back_to_today")
+        isAtBottom
+          ? t(hasTodayEntry ? "add_today_another_entry" : "add_today_entry")
+          : t("back_to_today")
       }
       onPress={isAtBottom ? onAdd : onScrollToBottom}
       style={({ pressed }) => ({

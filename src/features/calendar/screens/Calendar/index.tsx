@@ -14,7 +14,7 @@ import { useAnalytics } from "@/state/analytics";
 import Calendar from "./Calendar";
 import { CalendarBottomSheet } from "./CalendarBottomSheet";
 import { Body } from "./CalendarBottomSheet/Body";
-import { CalendarFooter } from "./CalendarFooter";
+import { PromoCards } from "./PromoCards";
 import CalendarHeader from "./CalendarHeader";
 import { CalendarFloatButton } from "./CalendarFloatButton";
 import { t } from "@/lib/translation";
@@ -40,18 +40,27 @@ const CalendarScreenComponent = () => {
   const logState = useLogState();
   const calendarFilters = useCalendarFilters();
   const [isAwayFromToday, setIsAwayFromToday] = useState(false);
+  // Footer (news card, foot note) sits below today, so the chevron waits
+  // for one screen plus the footer.
+  const footerHeight = useRef(0);
   const scrollRef = useRef<FlashListRef<Month>>(null);
   const headerHeight = useContext(HeaderHeightContext) ?? 0;
   const [weekdayHeight, setWeekdayHeight] = useState(0);
   // A floating header overlaps the list, so the list starts below it.
   const topInset = HAS_FLOATING_HEADER ? headerHeight + weekdayHeight : 0;
   const showFloatButton = !calendarFilters.isOpen;
+  const today = dayjs().format(DATE_FORMAT);
+  const hasTodayEntry = logState.items.some(
+    (item) => getItemDate(item) === today
+  );
   const onScroll = useCallback(
     (event: NativeSyntheticEvent<NativeScrollEvent>) => {
       const { contentOffset, contentSize, layoutMeasurement } =
         event.nativeEvent;
+      const distanceFromEnd =
+        contentSize.height - contentOffset.y - layoutMeasurement.height;
       setIsAwayFromToday(
-        contentSize.height - contentOffset.y - layoutMeasurement.height > 100
+        distanceFromEnd > layoutMeasurement.height + footerHeight.current
       );
     },
     []
@@ -75,9 +84,13 @@ const CalendarScreenComponent = () => {
           Platform.OS === "web" && calendarFilters.isOpen ? <Body /> : null
         }
         footer={
-          <>
+          <View
+            onLayout={(event) => {
+              footerHeight.current = event.nativeEvent.layout.height;
+            }}
+          >
             <View style={{ paddingBottom: 32 }}>
-              <CalendarFooter />
+              <PromoCards />
             </View>
             <View style={{}}>
               <Text
@@ -92,7 +105,7 @@ const CalendarScreenComponent = () => {
                 🙏 {t("calendar_foot_note")}
               </Text>
             </View>
-          </>
+          </View>
         }
       />
     </View>
@@ -119,16 +132,14 @@ const CalendarScreenComponent = () => {
       {showFloatButton && (
         <CalendarFloatButton
           isAtBottom={!isAwayFromToday}
+          hasTodayEntry={hasTodayEntry}
           onScrollToBottom={() => {
             analytics.track("calendar:today_tapped");
             scrollRef.current?.scrollToEnd({ animated: true });
           }}
           onAdd={() => {
-            const today = dayjs().format(DATE_FORMAT);
             analytics.track("calendar:add_today_tapped", {
-              has_entries: logState.items.some(
-                (item) => getItemDate(item) === today
-              ),
+              has_entries: hasTodayEntry,
             });
             router.push({
               pathname: "/logs/create/[dateTime]",
