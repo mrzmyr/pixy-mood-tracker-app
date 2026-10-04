@@ -22,6 +22,7 @@ import type {
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { t } from "@/lib/translation";
 import { useAnalytics } from "@/state/analytics";
+import { usePhotoZoom } from "../hooks/usePhotoZoom";
 import { AXIS_LOCK_DISTANCE, useSwipeToClose } from "../hooks/useSwipeToClose";
 import type { PhotoViewerItem } from "../viewerItem";
 
@@ -32,15 +33,29 @@ const FOREGROUND_MUTED = "rgba(255, 255, 255, 0.4)";
 const REMOVE_BUTTON_BACKGROUND = "rgba(255, 255, 255, 0.16)";
 const REMOVE_BUTTON_HEIGHT = 44;
 const BOTTOM_GAP = 16;
-// Horizontal drags page, vertical drags close (`useSwipeToClose`).
+// Horizontal drags page, vertical drags close (`useSwipeToClose`). Two
+// fingers pinch (`usePhotoZoom`).
 const configureCarouselPan = (gesture: CarouselPanGesture) => {
   gesture
+    .maxPointers(1)
     .activeOffsetX([-AXIS_LOCK_DISTANCE, AXIS_LOCK_DISTANCE])
     .failOffsetY([-AXIS_LOCK_DISTANCE, AXIS_LOCK_DISTANCE]);
 };
 
-const ViewerPhoto = ({ item }: { item: PhotoViewerItem }) => {
+const ViewerPhoto = ({
+  item,
+  onZoomChange,
+}: {
+  item: PhotoViewerItem;
+  onZoomChange: (isZoomed: boolean) => void;
+}) => {
+  const { width, height } = useWindowDimensions();
   const [hasLoadError, setHasLoadError] = useState(false);
+  const [photoSize, setPhotoSize] = useState<{
+    width: number;
+    height: number;
+  }>();
+  const zoom = usePhotoZoom({ width, height, photoSize, onZoomChange });
 
   if (hasLoadError) {
     return (
@@ -54,18 +69,23 @@ const ViewerPhoto = ({ item }: { item: PhotoViewerItem }) => {
   }
 
   return (
-    <Image
-      source={{ uri: item.uri }}
-      style={{ flex: 1 }}
-      contentFit="contain"
-      recyclingKey={item.key}
-      // Decodes at screen size on iOS. Picked originals can have 48 MP.
-      // https://docs.expo.dev/versions/latest/sdk/image/#enforceearlyresizing
-      enforceEarlyResizing
-      cachePolicy="memory"
-      accessibilityIgnoresInvertColors
-      onError={() => setHasLoadError(true)}
-    />
+    <GestureDetector gesture={zoom.gesture}>
+      <Animated.View style={[{ flex: 1 }, zoom.photoStyle]}>
+        <Image
+          source={{ uri: item.uri }}
+          style={{ flex: 1 }}
+          contentFit="contain"
+          recyclingKey={item.key}
+          // Decodes at screen size on iOS. Picked originals can have 48 MP.
+          // https://docs.expo.dev/versions/latest/sdk/image/#enforceearlyresizing
+          enforceEarlyResizing
+          cachePolicy="memory"
+          accessibilityIgnoresInvertColors
+          onLoad={(event) => setPhotoSize(event.source)}
+          onError={() => setHasLoadError(true)}
+        />
+      </Animated.View>
+    </GestureDetector>
   );
 };
 
@@ -74,12 +94,14 @@ export type PhotoViewerContext = "logger" | "day";
 
 /**
  * Full-screen photo pager: swipe between photos, page dots, counter, close
- * button. Swipe up or down closes: the photo follows the finger and the
- * backdrop fades to the screen below. With reduce motion the photo stays
- * and the screen fades out. Screen readers page with the adjustable
- * actions and close with the escape gesture. Works for stored entries and
- * drafts: the caller passes the pages. Present it transparent, so the
- * screen below shows through the fading backdrop.
+ * button. Pinch or double tap zooms a photo; while zoomed, drags pan the
+ * photo instead of paging or closing. Swipe up or down closes: the photo
+ * follows the finger and the backdrop fades to the screen below. With
+ * reduce motion the photo stays and the screen fades out. Screen readers
+ * page with the adjustable actions and close with the escape gesture.
+ * Works for stored entries and drafts: the caller passes the pages.
+ * Present it transparent, so the screen below shows through the fading
+ * backdrop.
  *
  * View only. With `onRemove`, a bottom "Remove" button calls it with the
  * current page. The caller owns the photos: it removes the page from
@@ -104,12 +126,19 @@ export const PhotoViewer = ({
   const analytics = useAnalytics();
   const insets = useSafeAreaInsets();
   const { width, height } = useWindowDimensions();
-  const swipeToClose = useSwipeToClose({ screenHeight: height, onClose });
+  // Key of the zoomed page. A removed page cannot leave the viewer stuck.
+  const [zoomedKey, setZoomedKey] = useState<string>();
   const startIndex = Math.min(Math.max(initialIndex, 0), items.length - 1);
   const [index, setIndex] = useState(startIndex);
   const viewedKeys = useRef(new Set<string>());
   const carousel = useRef<CarouselRef>(null);
   const current = items[index];
+  const isZoomed = zoomedKey !== undefined && zoomedKey === current?.key;
+  const swipeToClose = useSwipeToClose({
+    screenHeight: height,
+    isEnabled: !isZoomed,
+    onClose,
+  });
   const hasRemoveButton = onRemove !== undefined && !!current;
   const dotsBottom =
     insets.bottom +
@@ -180,13 +209,22 @@ export const PhotoViewer = ({
               data={items}
               itemSize={width}
               defaultIndex={startIndex}
+              scrollEnabled={!isZoomed}
               onConfigurePanGesture={configureCarouselPan}
               onSnapToItem={(nextIndex) => {
                 markViewed(nextIndex);
                 setIndex(nextIndex);
               }}
               style={{ flex: 1, width }}
-              renderItem={({ item }) => <ViewerPhoto item={item} />}
+              renderItem={({ item }) => (
+                <ViewerPhoto
+                  key={item.key}
+                  item={item}
+                  onZoomChange={(isPhotoZoomed) =>
+                    setZoomedKey(isPhotoZoomed ? item.key : undefined)
+                  }
+                />
+              )}
             />
           </Animated.View>
         </GestureDetector>
