@@ -4,7 +4,7 @@ import { t } from "@/lib/translation";
 import type { Emotion } from "@/types";
 import { Text, View } from "react-native";
 
-/** Emotion chip with its category dot, used in entries and statistics. */
+/** Emotion chip with its category marker, used in entries and statistics. */
 export const EmotionItem = ({
   emotion,
 }: {
@@ -27,7 +27,7 @@ export const EmotionItem = ({
           alignItems: "center",
         }}
       >
-        <EmotionIndicator category={emotion.category} />
+        <EmotionIndicator emotion={emotion} />
         <Text
           style={{
             color: colors.text,
