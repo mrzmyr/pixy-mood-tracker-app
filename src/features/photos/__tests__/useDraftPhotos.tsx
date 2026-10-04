@@ -8,7 +8,11 @@ import { useState } from "react";
 import { Alert } from "react-native";
 import { createStructuredError } from "@/lib/errors";
 import { AnalyticsProvider } from "@/state/analytics";
-import { SettingsProvider, useSettings } from "@/state/settings";
+import {
+  SettingsProvider,
+  useSettings,
+  useSettingsLoad,
+} from "@/state/settings";
 import type { LogPhoto } from "@/types";
 import { useDraftPhotos } from "../hooks/useDraftPhotos";
 import { setPhotoSourceOverride } from "../photoSource";
@@ -104,12 +108,13 @@ const renderDraft = async ({
           isActive: active,
         }),
         settings: useSettings().settings,
+        settingsLoad: useSettingsLoad(),
       };
     },
     { wrapper, initialProps: { active: isActive } }
   );
   await waitFor(() => {
-    expect(hook.result.current.settings.loaded).toBe(true);
+    expect(hook.result.current.settingsLoad.status).toBe("ready");
   });
   if (isActive) {
     await waitFor(() => {

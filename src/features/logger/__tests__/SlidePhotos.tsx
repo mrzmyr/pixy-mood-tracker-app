@@ -14,7 +14,7 @@ import Colors from "@/constants/Colors";
 import { setPhotoSourceOverride } from "@/features/photos";
 import type { LibraryPermission, PhotoSource } from "@/features/photos";
 import { AnalyticsProvider } from "@/state/analytics";
-import { SettingsProvider, useSettings } from "@/state/settings";
+import { SettingsProvider, useSettingsLoad } from "@/state/settings";
 import { SlidePhotos } from "../slides/SlidePhotos";
 import { TemporaryLogProvider, useTemporaryLog } from "../temporaryLog";
 
@@ -58,8 +58,8 @@ const source: PhotoSource = {
 
 const Step = () => {
   const tempLog = useTemporaryLog(_generateItem({ photos: [] }));
-  const { settings } = useSettings();
-  if (!tempLog.isInitialized || !settings.loaded) {
+  const { status } = useSettingsLoad();
+  if (!tempLog.isInitialized || status !== "ready") {
     return null;
   }
   return (

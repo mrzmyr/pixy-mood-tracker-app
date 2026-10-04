@@ -18,7 +18,7 @@ import { ToastHost } from "@/components/Toast";
 import { SENTRY_DSN } from "@/constants/API";
 import { APP_VARIANT, HAS_APP_VARIANT } from "@/constants/AppVariant";
 import Colors from "@/constants/Colors";
-import { useSettings } from "@/state/settings";
+import { useSettings, useSettingsLoad } from "@/state/settings";
 import { useUsageSummarySync } from "@/shell/usageSummary";
 import { useScreenTracking } from "@/shell/screenTracking";
 import { LaunchSplash } from "@/shell/LaunchSplash";
@@ -33,7 +33,8 @@ enableScreens();
 Observe.configure({ dispatchingEnabled: false });
 
 const AppShell = () => {
-  const { settings, hasActionDone } = useSettings();
+  const { hasActionDone } = useSettings();
+  const isSettingsReady = useSettingsLoad().status === "ready";
   const router = useRouter();
   const pathname = usePathname();
   const rootState = useRootNavigationState();
@@ -55,10 +56,10 @@ const AppShell = () => {
   });
 
   useEffect(() => {
-    if (settings.loaded && rootState?.key) {
+    if (isSettingsReady && rootState?.key) {
       onSettingsLoaded();
     }
-  }, [settings.loaded, rootState?.key]);
+  }, [isSettingsReady, rootState?.key]);
 
   return <Stack screenOptions={{ headerShown: false }} />;
 };

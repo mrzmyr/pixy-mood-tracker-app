@@ -9,8 +9,8 @@ import { useCalendarFilters } from "../../filters";
 import { HAS_FLOATING_HEADER } from "../../floatingHeader";
 import useColors from "@/hooks/useColors";
 import { ForYouToday } from "@/features/interventions";
-import { useLogState } from "@/features/logs";
-import { useSetting } from "@/state/settings";
+import { useLogLoad, useLogState } from "@/features/logs";
+import { useSettingsLoad } from "@/state/settings";
 import { useAnalytics } from "@/state/analytics";
 import Calendar from "./Calendar";
 import { CalendarBottomSheet } from "./CalendarBottomSheet";
@@ -41,7 +41,8 @@ const CalendarScreenComponent = () => {
   const colors = useColors();
   const router = useRouter();
   const insets = useSafeAreaInsets();
-  const isSettingsLoaded = useSetting("loaded");
+  const isSettingsLoaded = useSettingsLoad().status === "ready";
+  const isLogsLoaded = useLogLoad().status === "ready";
   const analytics = useAnalytics();
   const logState = useLogState();
   const calendarFilters = useCalendarFilters();
@@ -74,7 +75,7 @@ const CalendarScreenComponent = () => {
     [onFootNoteOverscroll]
   );
 
-  if (!isSettingsLoaded || !logState.loaded) {
+  if (!isSettingsLoaded || !isLogsLoaded) {
     return (
       <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
         <ActivityIndicator size="small" color={colors.text} />

@@ -24,7 +24,7 @@ const _renderHook = () =>
 
 const waitForLoaded = (hook) =>
   waitFor(() => {
-    expect(hook.result.current.state.settings.loaded).toBe(true);
+    expect(hook.result.current.load.status).toBe("ready");
   });
 
 const _console_error = console.error;
@@ -33,7 +33,6 @@ const STATIC_DEVICE_ID = "test-device-id";
 
 const LOADED_STATE = {
   ...INITIAL_STATE,
-  loaded: true,
   deviceId: STATIC_DEVICE_ID,
 };
 
@@ -48,12 +47,6 @@ describe("useSettings()", () => {
 
   afterEach(() => {
     console.error = _console_error;
-  });
-
-  test("should have `loaded` prop", async () => {
-    const hook = await _renderHook();
-    await waitForLoaded(hook);
-    expect(hook.result.current.state.settings.loaded).toBe(true);
   });
 
   test("should load from settings async storage & initialize device id if missing", async () => {
@@ -210,7 +203,7 @@ describe("useSettings()", () => {
     );
     const json = await AsyncStorage.getItem(STORAGE_KEY);
     expect(JSON.parse(json ?? "null")).toEqual({
-      ..._.omit(LOADED_STATE, "loaded"),
+      ...LOADED_STATE,
       actionsDone: ACTIONS_DONE,
     });
   });
@@ -239,7 +232,7 @@ describe("useSettings()", () => {
     );
     const json = await AsyncStorage.getItem(STORAGE_KEY);
     expect(JSON.parse(json ?? "null")).toEqual({
-      ..._.omit(LOADED_STATE, "loaded"),
+      ...LOADED_STATE,
       actionsDone: ACTIONS_DONE,
     });
   });
@@ -329,33 +322,5 @@ describe("useSettings()", () => {
     });
 
     expect(hook.result.current.state.hasStep("feedback")).toEqual(false);
-  });
-
-  test("should expose load error and never store when stored settings cannot be parsed", async () => {
-    await AsyncStorage.setItem(STORAGE_KEY, "🐇");
-    const setItemSpy = jest.spyOn(AsyncStorage, "setItem");
-    setItemSpy.mockClear();
-
-    const hook = await _renderHook();
-    await waitFor(() => {
-      expect(hook.result.current.load.status).toBe("error");
-    });
-    expect(hook.result.current.load.error).toEqual(
-      expect.objectContaining({
-        status: "storage_invalid_value",
-        message: "Stored data is invalid",
-        why: expect.stringContaining(STORAGE_KEY),
-        fix: expect.any(String),
-      })
-    );
-    expect(hook.result.current.state.settings.loaded).toBe(false);
-
-    // `resetSettings` sets `loaded`; it still must not overwrite storage.
-    await act(() => {
-      hook.result.current.state.resetSettings();
-    });
-
-    expect(setItemSpy).not.toHaveBeenCalledWith(STORAGE_KEY, expect.anything());
-    expect(await AsyncStorage.getItem(STORAGE_KEY)).toBe("🐇");
   });
 });

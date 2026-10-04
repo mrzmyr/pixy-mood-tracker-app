@@ -12,7 +12,12 @@ import {
   useFeatureFlag,
   useFeatureFlagState,
 } from "@/state/featureFlags";
-import { SettingsProvider, STORAGE_KEY, useSettings } from "@/state/settings";
+import {
+  SettingsProvider,
+  STORAGE_KEY,
+  useSettings,
+  useSettingsLoad,
+} from "@/state/settings";
 
 // jest.setup.js replaces posthog-react-native with one shared fake client.
 const mockReload = jest.mocked(getPostHogTestClient().reloadFeatureFlagsAsync);
@@ -46,11 +51,15 @@ const renderFlag = async ({
     })
   );
   const hook = await renderHook(
-    () => ({ isOn: useFeatureFlag("photos"), settings: useSettings() }),
+    () => ({
+      isOn: useFeatureFlag("photos"),
+      settings: useSettings(),
+      settingsLoad: useSettingsLoad(),
+    }),
     { wrapper }
   );
   await waitFor(() => {
-    expect(hook.result.current.settings.settings.loaded).toBe(true);
+    expect(hook.result.current.settingsLoad.status).toBe("ready");
   });
   return hook;
 };

@@ -1,31 +1,18 @@
 import isBoolean from "lodash/isBoolean";
-import omit from "lodash/omit";
 import uniq from "lodash/uniq";
-import {
-  createContext,
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
+import { useEffect, useMemo } from "react";
 import "react-native-get-random-values";
 import { v4 as uuidv4 } from "uuid";
 import { STEP_OPTIONS } from "@/constants/LoggerSteps";
 import type { ConfigurableLoggerStep } from "@/constants/LoggerSteps";
 
-import { load, store } from "@/state/persisted";
-import { useStorageLoad } from "@/state/persisted/useStorageLoad";
-import type { StorageLoad } from "@/state/persisted/useStorageLoad";
+import { createPersistedStore } from "@/state/persisted/createPersistedStore";
+import type { Load } from "@/state/persisted/createPersistedStore";
 
 // oxlint-disable-next-line eslint/no-restricted-imports -- Persisted feature types stay in their modules until storage refactor.
 import type { Tag } from "@/features/tags";
-import {
-  createMissingProviderError,
-  createStructuredError,
-} from "@/lib/errors";
+import { createStructuredError } from "@/lib/errors";
 import { INITIAL_STATE } from "@/constants/Settings";
-import { useContentStableValue } from "@/hooks/useContentStableValue";
 import { applyColorScheme, ColorSchemeSettingSchema } from "./colorScheme";
 import type { ColorSchemeSetting } from "./colorScheme";
 
@@ -52,7 +39,6 @@ const SCALE_TYPES = [
  * store on load. `trackBehaviour` is legacy and unused.
  */
 export interface SettingsState {
-  loaded: boolean;
   deviceId: string | null;
   scaleType: (typeof SCALE_TYPES)[number];
   reminderEnabled: boolean;
@@ -87,7 +73,6 @@ export interface SettingsState {
  */
 export type ExportSettings = Omit<
   SettingsState,
-  | "loaded"
   | "deviceId"
   | "storeReviewPromptedAt"
   | "storeReviewPromptedAppVersion"
@@ -102,9 +87,7 @@ interface IAction {
 
 interface Value {
   settings: SettingsState;
-  setSettings: (
-    settings: SettingsState | ((settings: SettingsState) => SettingsState)
-  ) => void;
+  setSettings: (update: (settings: SettingsState) => SettingsState) => void;
   resetSettings: () => void;
   importSettings: (settings: ExportSettings) => void;
   addActionDone: (action: IAction["title"]) => void;
@@ -113,11 +96,6 @@ interface Value {
   toggleStep: (step: ConfigurableLoggerStep, value?: boolean) => void;
   hasStep: (step: KnownSettingsStep) => boolean;
 }
-
-// SAFETY: every consumer renders inside SettingsProvider, which provides the full Value.
-const SettingsStateContext = createContext({} as Value);
-// SAFETY: every consumer renders inside SettingsProvider, which supplies the value; the default is never read.
-const SettingsLoadContext = createContext<StorageLoad>(undefined as never);
 
 const isConfigurableLoggerStep = (
   step: unknown
@@ -131,213 +109,159 @@ const sanitizeSteps = (
     isConfigurableLoggerStep
   );
 
-const SettingsProvider = ({ children }: { children: React.ReactNode }) => {
-  const [settings, setSettings] = useState<SettingsState>(INITIAL_STATE);
-  const {
-    load: storageLoad,
-    markReady,
-    markFailed,
-  } = useStorageLoad(STORAGE_KEY);
-  const storageStatus = storageLoad.status;
+type SettingsAction =
+  | { type: "set"; payload: (settings: SettingsState) => SettingsState }
+  | { type: "import"; payload: ExportSettings }
+  | { type: "reset" };
 
-  const resetSettings = useCallback(() => {
-    setSettings({
-      ...INITIAL_STATE,
-      deviceId: uuidv4(),
-      loaded: true,
-    });
-  }, []);
-
-  const importSettings = useCallback((importedSettings: ExportSettings) => {
-    setSettings((currentSettings) => ({
-      ...INITIAL_STATE,
-      ...importedSettings,
-      steps: sanitizeSteps(importedSettings.steps),
-      storeReviewPromptedAt: currentSettings.storeReviewPromptedAt,
-      storeReviewPromptedAppVersion:
-        currentSettings.storeReviewPromptedAppVersion,
-      photosDayAccessDismissed: currentSettings.photosDayAccessDismissed,
-      colorScheme: currentSettings.colorScheme,
-      loaded: true,
-    }));
-  }, []);
-
-  useEffect(() => {
-    (async () => {
-      let json: SettingsState | null;
-      try {
-        json = await load<SettingsState>(STORAGE_KEY);
-      } catch (error) {
-        // Keep `loaded: false` so the persist effect below stays disabled;
-        // falling back to the initial state would overwrite stored settings.
-        markFailed(error);
-        return;
-      }
-      if (json === null) {
-        setSettings({
-          ...INITIAL_STATE,
-          deviceId: uuidv4(),
-          loaded: true,
-        });
-      } else {
-        if (!json.deviceId) {
-          json.deviceId = uuidv4();
-        }
-        setSettings({
-          ...INITIAL_STATE,
-          ...json,
-          steps: sanitizeSteps(json.steps),
-          photosDayAccessDismissed: json.photosDayAccessDismissed === true,
-          colorScheme:
-            ColorSchemeSettingSchema.safeParse(json.colorScheme).data ??
-            "system",
-          loaded: true,
-        });
-      }
-      markReady();
-    })();
-  }, [markReady, markFailed]);
-
-  useEffect(() => {
-    applyColorScheme(settings.colorScheme);
-  }, [settings.colorScheme]);
-
-  // Persist only content changes, not equal copies of the settings object.
-  const stableSettings = useContentStableValue(settings);
-
-  // Never persist after a failed read: `importSettings` or `resetSettings`
-  // set `loaded`, so also require a successful load.
-  useEffect(() => {
-    if (storageStatus === "ready" && stableSettings.loaded) {
-      store(STORAGE_KEY, omit(stableSettings, "loaded"));
+const reducer = (
+  state: SettingsState,
+  action: SettingsAction
+): SettingsState => {
+  switch (action.type) {
+    case "set": {
+      return action.payload(state);
     }
-  }, [stableSettings, storageStatus]);
-
-  const hasActionDone = useCallback(
-    (actionTitle: IAction["title"]) =>
-      settings.actionsDone.some((action) => action.title === actionTitle),
-    [settings.actionsDone]
-  );
-
-  const addActionDone = useCallback(
-    (actionTitle: IAction["title"]) => {
-      if (hasActionDone(actionTitle)) {
-        return;
-      }
-
-      setSettings((currentSettings) => ({
-        ...currentSettings,
-        actionsDone: [
-          ...currentSettings.actionsDone,
-          {
-            title: actionTitle,
-            date: new Date().toISOString(),
-          },
-        ],
-      }));
-    },
-    [hasActionDone]
-  );
-
-  const removeActionDone = useCallback((actionTitle: IAction["title"]) => {
-    setSettings((currentSettings) => ({
-      ...currentSettings,
-      actionsDone: currentSettings.actionsDone.filter(
-        (action) => action.title !== actionTitle
-      ),
-    }));
-  }, []);
-
-  const toggleStep = useCallback(
-    (step: ConfigurableLoggerStep, value: boolean) => {
-      setSettings((currentSettings) => {
-        const shouldAdd = isBoolean(value)
-          ? value
-          : !currentSettings.steps.includes(step);
-
-        if (!STEP_OPTIONS.includes(step)) {
-          throw createStructuredError({
-            status: "invalid_logger_step",
-            message: `Step ${step} is not a valid step`,
-            why: `Step ${step} is not one of STEP_OPTIONS`,
-            fix: "Pass a step listed in STEP_OPTIONS",
-          });
-        }
-
-        if (shouldAdd) {
-          return {
-            ...currentSettings,
-            steps: uniq([...currentSettings.steps, step]),
-          };
-        }
-        return {
-          ...currentSettings,
-          steps: currentSettings.steps.filter((s) => s !== step),
-        };
-      });
-    },
-    []
-  );
-
-  const hasStep = useCallback(
-    (step: KnownSettingsStep) =>
-      settings.steps.some((configuredStep) => configuredStep === step),
-    [settings.steps]
-  );
-
-  const value = useMemo(
-    () => ({
-      settings,
-      setSettings,
-      resetSettings,
-      importSettings,
-      addActionDone,
-      hasActionDone,
-      removeActionDone,
-      toggleStep,
-      hasStep,
-    }),
-    [
-      settings,
-      resetSettings,
-      importSettings,
-      addActionDone,
-      hasActionDone,
-      removeActionDone,
-      toggleStep,
-      hasStep,
-    ]
-  );
-
-  return (
-    <SettingsStateContext.Provider value={value}>
-      <SettingsLoadContext.Provider value={storageLoad}>
-        {children}
-      </SettingsLoadContext.Provider>
-    </SettingsStateContext.Provider>
-  );
+    // Store review prompt state, photo library access, and theme belong to this
+    // device, so imports keep the current values.
+    case "import": {
+      return {
+        ...INITIAL_STATE,
+        ...action.payload,
+        steps: sanitizeSteps(action.payload.steps),
+        storeReviewPromptedAt: state.storeReviewPromptedAt,
+        storeReviewPromptedAppVersion: state.storeReviewPromptedAppVersion,
+        photosDayAccessDismissed: state.photosDayAccessDismissed,
+        colorScheme: state.colorScheme,
+      };
+    }
+    case "reset": {
+      return { ...INITIAL_STATE, deviceId: uuidv4() };
+    }
+    default: {
+      return state;
+    }
+  }
 };
 
+const hydrate = (stored: SettingsState | null): SettingsState =>
+  stored === null
+    ? { ...INITIAL_STATE, deviceId: uuidv4() }
+    : {
+        ...INITIAL_STATE,
+        ...stored,
+        deviceId: stored.deviceId || uuidv4(),
+        steps: sanitizeSteps(stored.steps),
+        photosDayAccessDismissed: stored.photosDayAccessDismissed === true,
+        colorScheme:
+          ColorSchemeSettingSchema.safeParse(stored.colorScheme).data ??
+          "system",
+      };
+
+const settingsStore = createPersistedStore<SettingsState, SettingsAction>({
+  key: STORAGE_KEY,
+  name: "Settings",
+  initial: () => INITIAL_STATE,
+  hydrate,
+  reducer,
+});
+
+const ColorSchemeSync = () => {
+  const { colorScheme } = settingsStore.useState();
+  useEffect(() => {
+    applyColorScheme(colorScheme);
+  }, [colorScheme]);
+  return null;
+};
+
+/** Settings store. Renders above every other persisted store. */
+const SettingsProvider = ({ children }: { children: React.ReactNode }) => (
+  <settingsStore.Provider>
+    <ColorSchemeSync />
+    {children}
+  </settingsStore.Provider>
+);
+
 const useSettings = (): Value => {
-  const context = useContext(SettingsStateContext);
-  if (context === undefined) {
-    throw createMissingProviderError("useSettings", "SettingsProvider");
-  }
-  return context;
+  const settings = settingsStore.useState();
+  const dispatch = settingsStore.useDispatch();
+
+  return useMemo(() => {
+    const hasActionDone = (actionTitle: IAction["title"]) =>
+      settings.actionsDone.some((action) => action.title === actionTitle);
+
+    return {
+      settings,
+      setSettings: (payload) => dispatch({ type: "set", payload }),
+      resetSettings: () => dispatch({ type: "reset" }),
+      importSettings: (payload) => dispatch({ type: "import", payload }),
+      hasActionDone,
+      addActionDone: (actionTitle) => {
+        if (hasActionDone(actionTitle)) {
+          return;
+        }
+        dispatch({
+          type: "set",
+          payload: (currentSettings) => ({
+            ...currentSettings,
+            actionsDone: [
+              ...currentSettings.actionsDone,
+              { title: actionTitle, date: new Date().toISOString() },
+            ],
+          }),
+        });
+      },
+      removeActionDone: (actionTitle) =>
+        dispatch({
+          type: "set",
+          payload: (currentSettings) => ({
+            ...currentSettings,
+            actionsDone: currentSettings.actionsDone.filter(
+              (action) => action.title !== actionTitle
+            ),
+          }),
+        }),
+      toggleStep: (step, value) =>
+        dispatch({
+          type: "set",
+          payload: (currentSettings) => {
+            const shouldAdd = isBoolean(value)
+              ? value
+              : !currentSettings.steps.includes(step);
+
+            if (!STEP_OPTIONS.includes(step)) {
+              throw createStructuredError({
+                status: "invalid_logger_step",
+                message: `Step ${step} is not a valid step`,
+                why: `Step ${step} is not one of STEP_OPTIONS`,
+                fix: "Pass a step listed in STEP_OPTIONS",
+              });
+            }
+
+            if (shouldAdd) {
+              return {
+                ...currentSettings,
+                steps: uniq([...currentSettings.steps, step]),
+              };
+            }
+            return {
+              ...currentSettings,
+              steps: currentSettings.steps.filter((s) => s !== step),
+            };
+          },
+        }),
+      hasStep: (step) =>
+        settings.steps.some((configuredStep) => configuredStep === step),
+    };
+  }, [settings, dispatch]);
 };
 
 /** Read one setting through the existing context; all context changes still rerender subscribers. */
 const useSetting = <Key extends keyof SettingsState>(
   key: Key
-): SettingsState[Key] => useSettings().settings[key];
+): SettingsState[Key] => settingsStore.useState()[key];
 
 /** Load status of the settings store; `error` means stored settings exist but could not be read. */
-const useSettingsLoad = (): StorageLoad => {
-  const context = useContext(SettingsLoadContext);
-  if (context === undefined) {
-    throw createMissingProviderError("useSettingsLoad", "SettingsProvider");
-  }
-  return context;
-};
+const useSettingsLoad = (): Load => settingsStore.useLoad();
 
 export { SettingsProvider, useSetting, useSettings, useSettingsLoad };

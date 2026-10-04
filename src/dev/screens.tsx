@@ -32,7 +32,7 @@ import {
 } from "@/dev/featureFlagOverrides";
 import type { FeatureFlagOverride } from "@/dev/featureFlagOverrides";
 import { FEATURE_FLAGS, isFeatureFlag } from "@/state/featureFlags/keys";
-import { useSettings } from "@/state/settings";
+import { useSettings, useSettingsLoad } from "@/state/settings";
 import { fakePhotoSource } from "@/dev/fakePhotoSource";
 import { useLoadFixture, writeStorageFixture } from "@/dev/useLoadFixture";
 
@@ -316,7 +316,8 @@ export const DevFeatureFlagsScreen = () => {
 export const DevFeatureFlagLinkScreen = () => {
   const router = useRouter();
   const colors = useColors();
-  const { settings, hasActionDone } = useSettings();
+  const { hasActionDone } = useSettings();
+  const isSettingsReady = useSettingsLoad().status === "ready";
   const { key, value } = useLocalSearchParams<{
     key: string;
     value: string;
@@ -326,13 +327,13 @@ export const DevFeatureFlagLinkScreen = () => {
 
   // Waits for settings: a cold start through the link has not read them yet.
   useEffect(() => {
-    if (!isFeatureFlag(key) || !isOverride(value) || !settings.loaded) {
+    if (!isFeatureFlag(key) || !isOverride(value) || !isSettingsReady) {
       return;
     }
     setOverride({ key, value });
     router.dismissAll();
     router.replace(isOnboarded ? "/calendar" : "/onboarding");
-  }, [key, value, settings.loaded, isOnboarded, router]);
+  }, [key, value, isSettingsReady, isOnboarded, router]);
 
   if (isValid) {
     return <ActivityIndicator testID="dev-feature-flag-link" />;

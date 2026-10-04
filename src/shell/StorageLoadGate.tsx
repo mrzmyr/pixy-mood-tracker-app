@@ -172,9 +172,11 @@ export const StorageLoadGate = ({
   const peopleLoad = usePeopleLoad();
   const loads = [settingsLoad, logLoad, tagsLoad, peopleLoad];
 
-  const error = loads
-    .map((load) => load.error)
-    .find((loadError) => loadError !== null);
+  const failed = loads.find((load) => load.status === "error");
 
-  return error ? <StorageLoadErrorScreen error={error} /> : children;
+  return failed?.status === "error" ? (
+    <StorageLoadErrorScreen error={failed.error} />
+  ) : (
+    children
+  );
 };

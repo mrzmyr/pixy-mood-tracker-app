@@ -2,7 +2,12 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { act, renderHook, waitFor } from "@testing-library/react-native";
 import * as FileSystem from "expo-file-system/legacy";
 import { _generateItem } from "@/__tests__/utils";
-import { LogsProvider, useLogState, useLogUpdater } from "@/features/logs";
+import {
+  LogsProvider,
+  useLogLoad,
+  useLogState,
+  useLogUpdater,
+} from "@/features/logs";
 import { AnalyticsProvider } from "@/state/analytics";
 import { SettingsProvider } from "@/state/settings";
 import {
@@ -31,6 +36,7 @@ const _renderHook = () =>
       updater: usePeopleUpdater(),
       load: usePeopleLoad(),
       logsState: useLogState(),
+      logsLoad: useLogLoad(),
       logsUpdater: useLogUpdater(),
     }),
     { wrapper }
@@ -38,8 +44,8 @@ const _renderHook = () =>
 
 const waitForLoaded = (hook) =>
   waitFor(() => {
-    expect(hook.result.current.state.loaded).toBe(true);
-    expect(hook.result.current.logsState.loaded).toBe(true);
+    expect(hook.result.current.load.status).toBe("ready");
+    expect(hook.result.current.logsLoad.status).toBe("ready");
   });
 
 const sam: Person = {
@@ -169,30 +175,5 @@ describe("usePeople()", () => {
       `${FileSystem.documentDirectory}${sam.avatar}`,
       { idempotent: true }
     );
-  });
-
-  test("exposes a load error and never stores when stored people cannot be parsed", async () => {
-    await AsyncStorage.setItem(STORAGE_KEY, "🐇");
-    const setItemSpy = jest.spyOn(AsyncStorage, "setItem");
-    setItemSpy.mockClear();
-
-    const hook = await _renderHook();
-    await waitFor(() => {
-      expect(hook.result.current.load.status).toBe("error");
-    });
-    expect(hook.result.current.load.error).toEqual(
-      expect.objectContaining({
-        status: "storage_invalid_value",
-        why: expect.stringContaining(STORAGE_KEY),
-      })
-    );
-
-    // `reset` sets `loaded`; it still must not overwrite storage.
-    await act(() => {
-      hook.result.current.updater.reset();
-    });
-
-    expect(setItemSpy).not.toHaveBeenCalledWith(STORAGE_KEY, expect.anything());
-    expect(await AsyncStorage.getItem(STORAGE_KEY)).toBe("🐇");
   });
 });

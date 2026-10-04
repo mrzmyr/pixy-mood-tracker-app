@@ -7,7 +7,12 @@ import {
 import { AnalyticsProvider, useAnalytics } from "@/state/analytics";
 import { INITIAL_STATE } from "@/constants/Settings";
 import { DEFAULT_ANALYTICS_ENABLED } from "@/state/analytics/consent";
-import { SettingsProvider, STORAGE_KEY, useSettings } from "@/state/settings";
+import {
+  SettingsProvider,
+  STORAGE_KEY,
+  useSettings,
+  useSettingsLoad,
+} from "@/state/settings";
 
 const wrapper = ({ children }) => (
   <SettingsProvider>
@@ -36,13 +41,14 @@ const _renderHook = () =>
     () => ({
       state: useAnalytics(),
       settingsState: useSettings(),
+      settingsLoad: useSettingsLoad(),
     }),
     { wrapper }
   );
 
 const waitForLoaded = (hook) =>
   waitFor(() => {
-    expect(hook.result.current.settingsState.settings.loaded).toBe(true);
+    expect(hook.result.current.settingsLoad.status).toBe("ready");
   });
 
 const _console_error = console.error;
@@ -116,10 +122,10 @@ describe("useAnalytics()", () => {
     await waitForLoaded(hook);
 
     await act(() => {
-      hook.result.current.settingsState.setSettings({
-        ...hook.result.current.settingsState.settings,
+      hook.result.current.settingsState.setSettings((settings) => ({
+        ...settings,
         analyticsEnabled: false,
-      });
+      }));
     });
 
     expect(hook.result.current.state.isEnabled).toBe(false);

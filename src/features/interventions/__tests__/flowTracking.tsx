@@ -3,14 +3,18 @@ import { act, renderHook, waitFor } from "@testing-library/react-native";
 import { usePostHog as getPostHogTestClient } from "posthog-react-native";
 import { INITIAL_STATE } from "@/constants/Settings";
 import { AnalyticsProvider } from "@/state/analytics";
-import { SettingsProvider, STORAGE_KEY, useSettings } from "@/state/settings";
+import {
+  SettingsProvider,
+  STORAGE_KEY,
+  useSettingsLoad,
+} from "@/state/settings";
 import { useFlowTracking } from "../screens/Flow/useFlowTracking";
 
 // jest.setup.js replaces posthog-react-native with one shared fake client.
 const { capture: mockCapture } = getPostHogTestClient();
 
 const SettingsLoaded = ({ children }) =>
-  useSettings().settings.loaded ? children : null;
+  useSettingsLoad().status === "ready" ? children : null;
 
 const wrapper = ({ children }) => (
   <SettingsProvider>

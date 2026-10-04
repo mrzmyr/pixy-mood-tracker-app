@@ -11,7 +11,7 @@ import { AnalyticsProvider } from "@/state/analytics";
 import {
   SettingsProvider,
   STORAGE_KEY as SETTINGS_KEY,
-  useSettings,
+  useSettingsLoad,
 } from "@/state/settings";
 import type { SettingsState } from "@/state/settings";
 import { Entry } from "../screens/LogList/Entry";
@@ -22,8 +22,8 @@ jest.mock("@/state/featureFlags", () => ({
 }));
 
 const Loaded = ({ children }: { children: React.ReactNode }) => {
-  const { settings } = useSettings();
-  return settings.loaded ? children : null;
+  const { status } = useSettingsLoad();
+  return status === "ready" ? children : null;
 };
 
 const renderEntry = async ({
