@@ -5,7 +5,7 @@
   "add": "Ajouter",
   "cancel": "Annuler",
   "delete_all_data_button": "Supprimer toutes mes données",
-  "delete_all_data_description": "Supprime toutes les entrées, tous les mots clés et tous les réglages. Exportez d'abord vos données pour en garder une copie.",
+  "delete_all_data_description": "Supprime toutes les entrées, toutes les photos, tous les mots clés, toutes les personnes et tous les réglages. Exportez d'abord vos données pour en garder une copie.",
   "delete_all_data_confirm_title": "Supprimer toutes mes données",
   "delete_all_data_confirm_message": "Voulez-vous vraiment supprimer toutes les entrées, toutes les photos, tous les mots clés, toutes les personnes et tous les réglages ? Cette action est irréversible.",
   "delete_all_data_success_title": "Données supprimées",

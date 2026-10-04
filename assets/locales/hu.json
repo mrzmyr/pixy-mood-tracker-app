@@ -5,7 +5,7 @@
   "add": "Hozzáadás",
   "cancel": "Mégsem",
   "delete_all_data_button": "Összes adatom törlése",
-  "delete_all_data_description": "Törli az összes bejegyzést, címkét és beállítást. Előbb exportáld az adataidat, ha meg akarsz tartani egy másolatot.",
+  "delete_all_data_description": "Törli az összes bejegyzést, fotót, címkét, személyt és beállítást. Előbb exportáld az adataidat, ha meg akarsz tartani egy másolatot.",
   "delete_all_data_confirm_title": "Összes adatom törlése",
   "delete_all_data_confirm_message": "Biztosan törlöd az összes bejegyzést, fotót, címkét, személyt és beállítást? Ez nem vonható vissza.",
   "delete_all_data_success_title": "Adatok törölve",
