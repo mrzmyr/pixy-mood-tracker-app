@@ -147,19 +147,21 @@ const SheetContent = ({
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState<"idle" | "sending" | "failed">("idle");
 
+  const replyTo = wantsReply && email.trim() ? email.trim() : undefined;
+
   const send = async () => {
     setStatus("sending");
     await feedback.send({
       type: "emotion",
       source,
       message: word.trim(),
-      email: wantsReply && email.trim() ? email.trim() : undefined,
+      email: replyTo,
       onOk: () => {
         haptics.success();
         onClose();
         showToast({
-          title: t("request_emotion_success_title"),
-          message: t("request_emotion_success_message"),
+          title: t("request_emotion_sent"),
+          message: replyTo ? t("request_emotion_sent_reply") : undefined,
         });
       },
       onCancel: () => setStatus("failed"),

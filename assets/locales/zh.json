@@ -704,7 +704,7 @@
   "request_emotion_reply": "需要回复吗？",
   "request_emotion_send": "发送申请",
   "request_emotion_sending": "正在发送…",
-  "request_emotion_success_title": "谢谢！",
-  "request_emotion_success_message": "已记下。我会阅读每一条申请。",
+  "request_emotion_sent": "请求已发送",
+  "request_emotion_sent_reply": "我会通过邮件回复。",
   "request_emotion_error": "申请未发送。请检查网络连接后重试。"
 }

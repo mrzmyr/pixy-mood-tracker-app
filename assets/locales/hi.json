@@ -704,7 +704,7 @@
   "request_emotion_reply": "जवाब चाहिए?",
   "request_emotion_send": "अनुरोध भेजें",
   "request_emotion_sending": "भेजा जा रहा है…",
-  "request_emotion_success_title": "धन्यवाद!",
-  "request_emotion_success_message": "नोट कर लिया। मैं हर अनुरोध पढ़ता हूँ।",
+  "request_emotion_sent": "अनुरोध भेजा गया",
+  "request_emotion_sent_reply": "मैं ईमेल से जवाब दूँगा।",
   "request_emotion_error": "अनुरोध नहीं भेजा गया। अपना कनेक्शन जाँचें और फिर कोशिश करें।"
 }

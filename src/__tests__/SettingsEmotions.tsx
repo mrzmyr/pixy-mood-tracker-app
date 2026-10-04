@@ -93,7 +93,9 @@ describe("Settings > Check-in > Emotions", () => {
     );
     await userEvent.press(screen.getByTestId("request-emotion-send"));
 
-    expect(await screen.findByTestId("toast")).toHaveTextContent(/Thank You!/u);
+    expect(await screen.findByTestId("toast")).toHaveTextContent(
+      "Request sent"
+    );
     expect(screen.queryByTestId("request-emotion-word")).toBeNull();
     const [[, request]] = jest.mocked(global.fetch).mock.calls;
     expect(JSON.parse(String(request?.body))).toMatchObject({
@@ -114,6 +116,25 @@ describe("Settings > Check-in > Emotions", () => {
     await screen.findByTestId("toast");
     const [[, request]] = jest.mocked(global.fetch).mock.calls;
     expect(JSON.parse(String(request?.body)).email).toBeUndefined();
+  });
+
+  test("user who wants a reply learns it comes by email", async () => {
+    const screen = await renderEmotions();
+
+    await userEvent.press(await screen.findByTestId("request-emotion"));
+    await userEvent.type(screen.getByTestId("request-emotion-word"), "Cozy");
+    fireEvent(screen.getByTestId("request-emotion-reply"), "valueChange", true);
+    await userEvent.type(
+      await screen.findByTestId("request-emotion-email"),
+      "me@example.com"
+    );
+    await userEvent.press(screen.getByTestId("request-emotion-send"));
+
+    expect(await screen.findByTestId("toast")).toHaveTextContent(
+      "Request sentI’ll reply by email."
+    );
+    const [[, request]] = jest.mocked(global.fetch).mock.calls;
+    expect(JSON.parse(String(request?.body)).email).toBe("me@example.com");
   });
 
   test("user keeps the request when sending fails", async () => {

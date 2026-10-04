@@ -704,7 +704,7 @@
   "request_emotion_reply": "Хочете відповідь?",
   "request_emotion_send": "Надіслати запит",
   "request_emotion_sending": "Надсилання…",
-  "request_emotion_success_title": "Дякую!",
-  "request_emotion_success_message": "Записав. Я читаю кожен запит.",
+  "request_emotion_sent": "Запит надіслано",
+  "request_emotion_sent_reply": "Я відповім електронною поштою.",
   "request_emotion_error": "Запит не надіслано. Перевірте з’єднання і спробуйте ще раз."
 }

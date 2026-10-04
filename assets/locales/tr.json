@@ -704,7 +704,7 @@
   "request_emotion_reply": "Yanıt ister misin?",
   "request_emotion_send": "Öneriyi gönder",
   "request_emotion_sending": "Gönderiliyor…",
-  "request_emotion_success_title": "Teşekkürler!",
-  "request_emotion_success_message": "Not aldım. Her öneriyi okuyorum.",
+  "request_emotion_sent": "İstek gönderildi",
+  "request_emotion_sent_reply": "E-postayla yanıt vereceğim.",
   "request_emotion_error": "Öneri gönderilemedi. Bağlantını kontrol edip tekrar dene."
 }

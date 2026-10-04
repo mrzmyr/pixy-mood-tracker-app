@@ -704,7 +704,7 @@
   "request_emotion_reply": "Quer uma resposta?",
   "request_emotion_send": "Enviar pedido",
   "request_emotion_sending": "Enviando…",
-  "request_emotion_success_title": "Obrigado!",
-  "request_emotion_success_message": "Anotado. Leio todos os pedidos.",
+  "request_emotion_sent": "Pedido enviado",
+  "request_emotion_sent_reply": "Vou responder por e-mail.",
   "request_emotion_error": "Pedido não enviado. Verifique sua conexão e tente de novo."
 }

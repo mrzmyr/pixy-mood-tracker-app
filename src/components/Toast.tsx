@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { Platform, Text, View } from "react-native";
-import { CheckCircle } from "react-native-feather";
+import { Check } from "react-native-feather";
 import Animated, { FadeInUp, FadeOutUp } from "react-native-reanimated";
 import { FullWindowOverlay } from "react-native-screens";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -30,42 +30,38 @@ const ToastCard = ({ toast }: { toast: Toast }) => {
       style={{
         position: "absolute",
         top: insets.top + 8,
-        left: 16,
-        right: 16,
-        alignItems: "center",
+        left: 12,
+        right: 12,
+        flexDirection: "row",
+        alignItems: toast.message ? "flex-start" : "center",
+        gap: 10,
+        paddingVertical: 14,
+        paddingHorizontal: 16,
+        borderRadius: 12,
+        borderWidth: 1,
+        borderColor: colors.cardBorder,
+        backgroundColor: colors.cardBackground,
+        boxShadow: "0 4px 12px rgba(0,0,0,0.08)",
       }}
     >
-      <View
-        style={{
-          flexDirection: "row",
-          alignItems: "center",
-          gap: 12,
-          maxWidth: 400,
-          paddingVertical: 12,
-          paddingLeft: 14,
-          paddingRight: 20,
-          borderRadius: 16,
-          backgroundColor: colors.cardBackground,
-          boxShadow: "0 4px 16px rgba(0,0,0,0.12)",
-        }}
-      >
-        <CheckCircle width={22} height={22} color={colors.tint} />
-        <View style={{ flexShrink: 1 }}>
-          <Text style={{ fontSize: 15, fontWeight: "600", color: colors.text }}>
-            {toast.title}
+      <Check
+        width={18}
+        height={18}
+        strokeWidth={2.5}
+        color={colors.toastSuccessIcon}
+        style={{ marginTop: toast.message ? 1 : 0 }}
+      />
+      <View style={{ flex: 1 }}>
+        <Text style={{ fontSize: 15, fontWeight: "600", color: colors.text }}>
+          {toast.title}
+        </Text>
+        {toast.message && (
+          <Text
+            style={{ marginTop: 2, fontSize: 15, color: colors.textSecondary }}
+          >
+            {toast.message}
           </Text>
-          {toast.message && (
-            <Text
-              style={{
-                marginTop: 2,
-                fontSize: 13,
-                color: colors.textSecondary,
-              }}
-            >
-              {toast.message}
-            </Text>
-          )}
-        </View>
+        )}
       </View>
     </Animated.View>
   );

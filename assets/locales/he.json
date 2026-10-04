@@ -704,7 +704,7 @@
   "request_emotion_reply": "רוצה תשובה?",
   "request_emotion_send": "שליחת בקשה",
   "request_emotion_sending": "שולח…",
-  "request_emotion_success_title": "תודה!",
-  "request_emotion_success_message": "נרשם. אני קורא כל בקשה.",
+  "request_emotion_sent": "הבקשה נשלחה",
+  "request_emotion_sent_reply": "אענה במייל.",
   "request_emotion_error": "הבקשה לא נשלחה. בדוק את החיבור ונסה שוב."
 }

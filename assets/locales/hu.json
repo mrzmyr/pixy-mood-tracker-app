@@ -704,7 +704,7 @@
   "request_emotion_reply": "Szeretnél választ?",
   "request_emotion_send": "Javaslat küldése",
   "request_emotion_sending": "Küldés…",
-  "request_emotion_success_title": "Köszönöm!",
-  "request_emotion_success_message": "Feljegyeztem. Minden javaslatot elolvasok.",
+  "request_emotion_sent": "Kérés elküldve",
+  "request_emotion_sent_reply": "E-mailben válaszolok.",
   "request_emotion_error": "A javaslat nem ment el. Ellenőrizd a kapcsolatot, és próbáld újra."
 }

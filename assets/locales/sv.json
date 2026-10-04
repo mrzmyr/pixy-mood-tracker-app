@@ -704,7 +704,7 @@
   "request_emotion_reply": "Vill du ha svar?",
   "request_emotion_send": "Skicka förslag",
   "request_emotion_sending": "Skickar…",
-  "request_emotion_success_title": "Tack!",
-  "request_emotion_success_message": "Noterat. Jag läser varje förslag.",
+  "request_emotion_sent": "Förfrågan skickad",
+  "request_emotion_sent_reply": "Jag svarar via e-post.",
   "request_emotion_error": "Förslaget skickades inte. Kontrollera anslutningen och försök igen."
 }

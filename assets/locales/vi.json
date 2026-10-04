@@ -704,7 +704,7 @@
   "request_emotion_reply": "Muốn được trả lời?",
   "request_emotion_send": "Gửi đề xuất",
   "request_emotion_sending": "Đang gửi…",
-  "request_emotion_success_title": "Cảm ơn bạn!",
-  "request_emotion_success_message": "Đã ghi nhận. Mình đọc mọi đề xuất.",
+  "request_emotion_sent": "Đã gửi yêu cầu",
+  "request_emotion_sent_reply": "Mình sẽ trả lời qua email.",
   "request_emotion_error": "Chưa gửi được. Hãy kiểm tra kết nối rồi thử lại."
 }

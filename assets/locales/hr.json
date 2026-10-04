@@ -704,7 +704,7 @@
   "request_emotion_reply": "Želiš odgovor?",
   "request_emotion_send": "Pošalji prijedlog",
   "request_emotion_sending": "Slanje…",
-  "request_emotion_success_title": "Hvala!",
-  "request_emotion_success_message": "Zabilježeno. Čitam svaki prijedlog.",
+  "request_emotion_sent": "Zahtjev poslan",
+  "request_emotion_sent_reply": "Odgovorit ću e-poštom.",
   "request_emotion_error": "Prijedlog nije poslan. Provjeri vezu i pokušaj ponovno."
 }

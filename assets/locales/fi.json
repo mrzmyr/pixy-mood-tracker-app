@@ -704,7 +704,7 @@
   "request_emotion_reply": "Haluatko vastauksen?",
   "request_emotion_send": "Lähetä ehdotus",
   "request_emotion_sending": "Lähetetään…",
-  "request_emotion_success_title": "Kiitos!",
-  "request_emotion_success_message": "Kirjattu. Luen jokaisen ehdotuksen.",
+  "request_emotion_sent": "Pyyntö lähetetty",
+  "request_emotion_sent_reply": "Vastaan sähköpostitse.",
   "request_emotion_error": "Ehdotusta ei lähetetty. Tarkista yhteys ja yritä uudelleen."
 }

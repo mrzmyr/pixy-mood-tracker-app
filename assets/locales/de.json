@@ -706,7 +706,7 @@
   "request_emotion_reply": "Antwort gewünscht?",
   "request_emotion_send": "Vorschlag senden",
   "request_emotion_sending": "Wird gesendet…",
-  "request_emotion_success_title": "Danke!",
-  "request_emotion_success_message": "Notiert. Ich lese jeden Vorschlag.",
+  "request_emotion_sent": "Anfrage gesendet",
+  "request_emotion_sent_reply": "Ich antworte per E-Mail.",
   "request_emotion_error": "Vorschlag nicht gesendet. Prüfe deine Verbindung und versuche es erneut."
 }

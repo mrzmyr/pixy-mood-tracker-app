@@ -704,7 +704,7 @@
   "request_emotion_reply": "Vuoi una risposta?",
   "request_emotion_send": "Invia richiesta",
   "request_emotion_sending": "Invio…",
-  "request_emotion_success_title": "Grazie!",
-  "request_emotion_success_message": "Annotato. Leggo ogni richiesta.",
+  "request_emotion_sent": "Richiesta inviata",
+  "request_emotion_sent_reply": "Risponderò via email.",
   "request_emotion_error": "Richiesta non inviata. Controlla la connessione e riprova."
 }

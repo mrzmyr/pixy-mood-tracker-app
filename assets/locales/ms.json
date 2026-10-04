@@ -704,7 +704,7 @@
   "request_emotion_reply": "Mahu balasan?",
   "request_emotion_send": "Hantar Cadangan",
   "request_emotion_sending": "Menghantar…",
-  "request_emotion_success_title": "Terima kasih!",
-  "request_emotion_success_message": "Dicatat. Saya membaca setiap cadangan.",
+  "request_emotion_sent": "Permintaan dihantar",
+  "request_emotion_sent_reply": "Saya akan membalas melalui e-mel.",
   "request_emotion_error": "Cadangan tidak dihantar. Semak sambungan anda dan cuba lagi."
 }

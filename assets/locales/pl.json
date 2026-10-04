@@ -704,7 +704,7 @@
   "request_emotion_reply": "Chcesz odpowiedź?",
   "request_emotion_send": "Wyślij prośbę",
   "request_emotion_sending": "Wysyłanie…",
-  "request_emotion_success_title": "Dziękuję!",
-  "request_emotion_success_message": "Zapisane. Czytam każdą prośbę.",
+  "request_emotion_sent": "Prośba wysłana",
+  "request_emotion_sent_reply": "Odpowiem e-mailem.",
   "request_emotion_error": "Nie wysłano. Sprawdź połączenie i spróbuj ponownie."
 }

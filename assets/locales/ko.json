@@ -704,7 +704,7 @@
   "request_emotion_reply": "답장을 원하시나요?",
   "request_emotion_send": "요청 보내기",
   "request_emotion_sending": "보내는 중…",
-  "request_emotion_success_title": "감사합니다!",
-  "request_emotion_success_message": "확인했어요. 모든 요청을 읽어요.",
+  "request_emotion_sent": "요청을 보냈습니다",
+  "request_emotion_sent_reply": "이메일로 답장드릴게요.",
   "request_emotion_error": "요청을 보내지 못했어요. 연결을 확인하고 다시 시도하세요."
 }

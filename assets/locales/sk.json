@@ -704,7 +704,7 @@
   "request_emotion_reply": "Chcete odpoveď?",
   "request_emotion_send": "Odoslať návrh",
   "request_emotion_sending": "Odosiela sa…",
-  "request_emotion_success_title": "Ďakujem!",
-  "request_emotion_success_message": "Zaznamenané. Čítam každý návrh.",
+  "request_emotion_sent": "Žiadosť odoslaná",
+  "request_emotion_sent_reply": "Odpoviem e-mailom.",
   "request_emotion_error": "Návrh sa neodoslal. Skontrolujte pripojenie a skúste to znova."
 }

@@ -707,7 +707,7 @@
   "request_emotion_reply": "Wil je een antwoord?",
   "request_emotion_send": "Verzoek versturen",
   "request_emotion_sending": "Versturen…",
-  "request_emotion_success_title": "Bedankt!",
-  "request_emotion_success_message": "Genoteerd. Ik lees elk verzoek.",
+  "request_emotion_sent": "Verzoek verstuurd",
+  "request_emotion_sent_reply": "Ik antwoord per e-mail.",
   "request_emotion_error": "Verzoek niet verstuurd. Controleer je verbinding en probeer het opnieuw."
 }

@@ -704,7 +704,7 @@
   "request_emotion_reply": "Θέλεις απάντηση;",
   "request_emotion_send": "Αποστολή αιτήματος",
   "request_emotion_sending": "Αποστολή…",
-  "request_emotion_success_title": "Ευχαριστώ!",
-  "request_emotion_success_message": "Σημειώθηκε. Διαβάζω κάθε αίτημα.",
+  "request_emotion_sent": "Το αίτημα στάλθηκε",
+  "request_emotion_sent_reply": "Θα απαντήσω μέσω email.",
   "request_emotion_error": "Το αίτημα δεν στάλθηκε. Έλεγξε τη σύνδεσή σου και δοκίμασε ξανά."
 }

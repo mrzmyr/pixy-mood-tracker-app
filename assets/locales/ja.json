@@ -704,7 +704,7 @@
   "request_emotion_reply": "返信を希望しますか？",
   "request_emotion_send": "リクエストを送信",
   "request_emotion_sending": "送信中…",
-  "request_emotion_success_title": "ありがとう！",
-  "request_emotion_success_message": "受け取りました。すべてのリクエストに目を通します。",
+  "request_emotion_sent": "リクエストを送信しました",
+  "request_emotion_sent_reply": "メールで返信します。",
   "request_emotion_error": "送信できませんでした。接続を確認して、もう一度お試しください。"
 }

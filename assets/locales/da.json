@@ -704,7 +704,7 @@
   "request_emotion_reply": "Vil du have svar?",
   "request_emotion_send": "Send forslag",
   "request_emotion_sending": "Sender…",
-  "request_emotion_success_title": "Tak!",
-  "request_emotion_success_message": "Noteret. Jeg læser hvert forslag.",
+  "request_emotion_sent": "Anmodning sendt",
+  "request_emotion_sent_reply": "Jeg svarer på e-mail.",
   "request_emotion_error": "Forslaget blev ikke sendt. Tjek din forbindelse, og prøv igen."
 }

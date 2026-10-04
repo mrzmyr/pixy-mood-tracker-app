@@ -704,7 +704,7 @@
   "request_emotion_reply": "อยากได้คำตอบไหม?",
   "request_emotion_send": "ส่งคำขอ",
   "request_emotion_sending": "กำลังส่ง…",
-  "request_emotion_success_title": "ขอบคุณ!",
-  "request_emotion_success_message": "รับทราบแล้ว เราอ่านทุกคำขอ",
+  "request_emotion_sent": "ส่งคำขอแล้ว",
+  "request_emotion_sent_reply": "ฉันจะตอบกลับทางอีเมล",
   "request_emotion_error": "ส่งคำขอไม่สำเร็จ ตรวจสอบการเชื่อมต่อแล้วลองอีกครั้ง"
 }

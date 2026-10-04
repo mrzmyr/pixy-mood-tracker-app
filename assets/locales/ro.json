@@ -704,7 +704,7 @@
   "request_emotion_reply": "Vrei un răspuns?",
   "request_emotion_send": "Trimite cererea",
   "request_emotion_sending": "Se trimite…",
-  "request_emotion_success_title": "Mulțumesc!",
-  "request_emotion_success_message": "Notat. Citesc fiecare cerere.",
+  "request_emotion_sent": "Cerere trimisă",
+  "request_emotion_sent_reply": "Voi răspunde prin e-mail.",
   "request_emotion_error": "Cererea nu a fost trimisă. Verifică conexiunea și încearcă din nou."
 }

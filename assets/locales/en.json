@@ -715,7 +715,7 @@
   "request_emotion_reply": "Want a reply?",
   "request_emotion_send": "Send Request",
   "request_emotion_sending": "Sending…",
-  "request_emotion_success_title": "Thank You!",
-  "request_emotion_success_message": "Noted. I read every request.",
+  "request_emotion_sent": "Request sent",
+  "request_emotion_sent_reply": "I’ll reply by email.",
   "request_emotion_error": "Request not sent. Check your connection and try again."
 }

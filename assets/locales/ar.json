@@ -704,7 +704,7 @@
   "request_emotion_reply": "هل تريد ردًا؟",
   "request_emotion_send": "إرسال الطلب",
   "request_emotion_sending": "جارٍ الإرسال…",
-  "request_emotion_success_title": "شكرًا!",
-  "request_emotion_success_message": "تم التسجيل. أقرأ كل طلب.",
+  "request_emotion_sent": "تم إرسال الطلب",
+  "request_emotion_sent_reply": "سأرد عبر البريد الإلكتروني.",
   "request_emotion_error": "لم يُرسل الطلب. تحقق من اتصالك وحاول مرة أخرى."
 }

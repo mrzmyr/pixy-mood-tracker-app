@@ -704,7 +704,7 @@
   "request_emotion_reply": "Mau dibalas?",
   "request_emotion_send": "Kirim Usulan",
   "request_emotion_sending": "Mengirim…",
-  "request_emotion_success_title": "Terima kasih!",
-  "request_emotion_success_message": "Dicatat. Aku membaca setiap usulan.",
+  "request_emotion_sent": "Permintaan terkirim",
+  "request_emotion_sent_reply": "Saya akan membalas lewat email.",
   "request_emotion_error": "Usulan tidak terkirim. Periksa koneksi lalu coba lagi."
 }
