@@ -50,6 +50,7 @@ const getScreenName = (pathname: string): string | null => {
       "/settings/colors": "Colors",
       "/settings/licenses": "Licenses",
       "/settings/steps": "Steps",
+      "/settings/steps/emotions": "SettingsEmotions",
       "/settings/data": "Data",
       "/settings/reminder": "Reminder",
       "/settings/privacy": "Privacy",

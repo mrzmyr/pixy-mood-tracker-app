@@ -231,7 +231,6 @@
   "words_written_per_day": "平均。每天的话",
   "entries_feedback_title": "您喜欢新条目视图吗？",
   "entries_feedback_body": "我们正在研究一种添加条目的新方法。让我们知道您的想法。",
-  "give_feedback": "给予反馈",
   "logger_step_rating": "情绪",
   "logger_step_emotions": "情绪",
   "logger_step_tags": "标签",
@@ -239,6 +238,10 @@
   "logger_step_feedback": "产品问题",
   "steps": "脚步",
   "steps_introduction": "在这里您可以决定要为每个条目跟踪什么。您以后可以随时添加更多步骤。",
+  "step_status_on": "开",
+  "step_status_off": "关",
+  "step_track_emotions": "记录情绪",
+  "step_track_description": "签到时显示此步骤。",
   "disable_step_confirm_title": "禁用步骤？",
   "disable_step_confirm_message": "您可以稍后在设置中重新启用它。",
   "log_tags_disable": "我不使用标签",
@@ -687,5 +690,10 @@
   "report_a_bug": "报告错误",
   "rate_pixy_app_store": "在 App Store 为 Pixy 评分",
   "rate_pixy_google_play": "在 Google Play 为 Pixy 评分",
-  "feedback_modal_message_placeholder_idea": "如果能……就太好了"
+  "feedback_modal_message_placeholder_idea": "如果能……就太好了",
+  "request_emotion": "申请添加情绪",
+  "request_emotion_title": "申请情绪",
+  "request_emotion_question": "你想申请添加哪种情绪？",
+  "request_emotion_description": "情绪和人一样复杂。很多情绪彼此重叠、相互交融。Pixy 让列表保持精简且彼此分明，这样你能快速找到每种情绪，回顾时也一目了然。告诉我你觉得缺少哪一种，我会看看它适合放在哪里。",
+  "request_emotion_placeholder": "我经常感到…"
 }

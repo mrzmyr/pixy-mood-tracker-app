@@ -231,7 +231,6 @@
   "words_written_per_day": "Trung bình từ mỗi ngày",
   "entries_feedback_title": "Làm thế nào để bạn thích xem các mục mới?",
   "entries_feedback_body": "Chúng tôi đang làm việc trên một cách mới để thêm các mục. Cho chúng tôi biết bạn nghĩ gì.",
-  "give_feedback": "Đưa ra phản hồi",
   "logger_step_rating": "Khí sắc",
   "logger_step_emotions": "Những cảm xúc",
   "logger_step_tags": "thẻ",
@@ -239,6 +238,10 @@
   "logger_step_feedback": "câu hỏi về sản phẩm",
   "steps": "bước",
   "steps_introduction": "Tại đây, bạn có thể quyết định những gì bạn muốn theo dõi cho mỗi mục nhập. Bạn luôn có thể thêm các bước sau.",
+  "step_status_on": "Bật",
+  "step_status_off": "Tắt",
+  "step_track_emotions": "Ghi nhận cảm xúc",
+  "step_track_description": "Hiển thị bước này khi bạn ghi nhận.",
   "disable_step_confirm_title": "Vô hiệu hóa bước?",
   "disable_step_confirm_message": "Bạn có thể kích hoạt lại nó sau trong cài đặt.",
   "log_tags_disable": "tôi không sử dụng thẻ",
@@ -687,5 +690,10 @@
   "report_a_bug": "Báo lỗi",
   "rate_pixy_app_store": "Đánh giá Pixy trên App Store",
   "rate_pixy_google_play": "Đánh giá Pixy trên Google Play",
-  "feedback_modal_message_placeholder_idea": "Sẽ thật tuyệt nếu…"
+  "feedback_modal_message_placeholder_idea": "Sẽ thật tuyệt nếu…",
+  "request_emotion": "Đề xuất cảm xúc",
+  "request_emotion_title": "Đề xuất cảm xúc",
+  "request_emotion_question": "Bạn muốn đề xuất cảm xúc nào?",
+  "request_emotion_description": "Cảm xúc cũng phức tạp như con người. Nhiều cảm xúc chồng lên nhau và hòa lẫn vào nhau. Pixy giữ danh sách ngắn gọn và rõ ràng, để bạn tìm thấy mỗi cảm xúc thật nhanh và hiểu rõ khi nhìn lại. Hãy cho mình biết bạn thiếu cảm xúc nào, mình sẽ xem nó hợp ở đâu.",
+  "request_emotion_placeholder": "Mình thường cảm thấy…"
 }

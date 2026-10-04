@@ -83,7 +83,6 @@
   "feedback_modal_title": "Feedback geben",
   "feedback_success_message": "Dein Feedback wurde erfolgreich gesendet.",
   "feedback_success_title": "Rückmeldung gesendet",
-  "give_feedback": "Feedback geben",
   "good": "Gut",
   "idea": "Idee",
   "import_confirm_message": "Bist du sicher, dass du die Daten importieren möchtest? Dadurch werden alle bestehenden Einträge und Einstellungen überschrieben.",
@@ -565,6 +564,10 @@
   "statistics_worst_month": "Schlechtester Monat",
   "statistics": "Statistiken",
   "steps_introduction": "Wähle hier deine Check-in-Schritte aus.",
+  "step_status_on": "An",
+  "step_status_off": "Aus",
+  "step_track_emotions": "Emotionen erfassen",
+  "step_track_description": "Zeigt diesen Schritt beim Check-in.",
   "steps": "Check-in",
   "tags_add_placeholder": "#großertag",
   "tags_add": "Schlagwort hinzufügen",
@@ -689,5 +692,10 @@
   "report_a_bug": "Fehler melden",
   "rate_pixy_app_store": "Pixy im App Store bewerten",
   "rate_pixy_google_play": "Pixy bei Google Play bewerten",
-  "feedback_modal_message_placeholder_idea": "Es wäre toll, wenn…"
+  "feedback_modal_message_placeholder_idea": "Es wäre toll, wenn…",
+  "request_emotion": "Emotion vorschlagen",
+  "request_emotion_title": "Emotion vorschlagen",
+  "request_emotion_question": "Welche Emotion möchtest du vorschlagen?",
+  "request_emotion_description": "Emotionen sind so vielschichtig wie wir Menschen. Viele überschneiden sich und gehen ineinander über. Pixy hält die Liste klein und klar unterscheidbar, damit du jede Emotion schnell findest und sie beim Zurückblicken eindeutig bleibt. Sag mir, welche dir fehlt, und ich schaue, wo sie passt.",
+  "request_emotion_placeholder": "Ich fühle mich oft…"
 }

@@ -231,7 +231,6 @@
   "words_written_per_day": "Prům. slov za den",
   "entries_feedback_title": "Jak se vám líbí zobrazení nových záznamů?",
   "entries_feedback_body": "Pracujeme na novém způsobu přidávání záznamů. Dejte nám vědět, co si myslíte.",
-  "give_feedback": "Dát zpětnou vazbu",
   "logger_step_rating": "Nálada",
   "logger_step_emotions": "Emoce",
   "logger_step_tags": "Tagy",
@@ -239,6 +238,10 @@
   "logger_step_feedback": "Otázky k produktu",
   "steps": "Kroky",
   "steps_introduction": "Zde se můžete rozhodnout, co chcete u každého záznamu sledovat. Vždy můžete přidat další kroky později.",
+  "step_status_on": "Zapnuto",
+  "step_status_off": "Vypnuto",
+  "step_track_emotions": "Sledovat emoce",
+  "step_track_description": "Zobrazí tento krok při zápisu.",
   "disable_step_confirm_title": "Zakázat krok?",
   "disable_step_confirm_message": "Později jej můžete znovu povolit v nastavení.",
   "log_tags_disable": "Tagy nepoužívám",
@@ -687,5 +690,10 @@
   "report_a_bug": "Nahlásit chybu",
   "rate_pixy_app_store": "Ohodnoťte Pixy v App Store",
   "rate_pixy_google_play": "Ohodnoťte Pixy na Google Play",
-  "feedback_modal_message_placeholder_idea": "Bylo by skvělé, kdyby…"
+  "feedback_modal_message_placeholder_idea": "Bylo by skvělé, kdyby…",
+  "request_emotion": "Navrhnout emoci",
+  "request_emotion_title": "Navrhnout emoci",
+  "request_emotion_question": "Jakou emoci chcete navrhnout?",
+  "request_emotion_description": "Emoce jsou stejně složité jako lidé. Mnohé se překrývají a prolínají. Pixy drží seznam krátký a přehledný, abyste každou emoci rychle našli a při ohlédnutí jí jasně rozuměli. Napište mi, která vám chybí, a podívám se, kam patří.",
+  "request_emotion_placeholder": "Často se cítím…"
 }

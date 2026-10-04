@@ -231,7 +231,6 @@
   "words_written_per_day": "Purata perkataan setiap hari",
   "entries_feedback_title": "Bagaimanakah anda menyukai paparan entri baharu?",
   "entries_feedback_body": "Kami sedang mengusahakan cara baharu untuk menambah entri. Beritahu kami pendapat anda.",
-  "give_feedback": "Beri Maklum Balas",
   "logger_step_rating": "Mood",
   "logger_step_emotions": "Emosi",
   "logger_step_tags": "Tag",
@@ -239,6 +238,10 @@
   "logger_step_feedback": "Soalan Produk",
   "steps": "Langkah-langkah",
   "steps_introduction": "Di sini anda boleh memutuskan perkara yang anda mahu jejak untuk setiap entri. Anda sentiasa boleh menambah lebih banyak langkah kemudian.",
+  "step_status_on": "Hidup",
+  "step_status_off": "Mati",
+  "step_track_emotions": "Jejak emosi",
+  "step_track_description": "Menunjukkan langkah ini semasa daftar masuk.",
   "disable_step_confirm_title": "Lumpuhkan Langkah?",
   "disable_step_confirm_message": "Anda boleh mendayakannya semula kemudian dalam tetapan.",
   "log_tags_disable": "Saya tidak menggunakan tag",
@@ -687,5 +690,10 @@
   "report_a_bug": "Laporkan pepijat",
   "rate_pixy_app_store": "Nilaikan Pixy di App Store",
   "rate_pixy_google_play": "Nilaikan Pixy di Google Play",
-  "feedback_modal_message_placeholder_idea": "Alangkah baiknya jika…"
+  "feedback_modal_message_placeholder_idea": "Alangkah baiknya jika…",
+  "request_emotion": "Cadangkan emosi",
+  "request_emotion_title": "Cadangkan Emosi",
+  "request_emotion_question": "Emosi apa yang ingin anda cadangkan?",
+  "request_emotion_description": "Emosi sama kompleks seperti manusia. Banyak yang bertindih dan bercampur antara satu sama lain. Pixy mengekalkan senarai yang ringkas dan jelas, supaya setiap emosi mudah dicari dan jelas apabila anda melihat semula. Beritahu saya emosi yang tiada, dan saya akan lihat di mana ia sesuai.",
+  "request_emotion_placeholder": "Saya sering berasa…"
 }

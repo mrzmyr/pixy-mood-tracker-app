@@ -231,7 +231,6 @@
   "words_written_per_day": "Середнє слів на день",
   "entries_feedback_title": "Як вам перегляд нових записів?",
   "entries_feedback_body": "Ми працюємо над новим способом додавання записів. Дайте нам знати, що ви думаєте.",
-  "give_feedback": "Надішліть відгук",
   "logger_step_rating": "Настрій",
   "logger_step_emotions": "емоції",
   "logger_step_tags": "Теги",
@@ -239,6 +238,10 @@
   "logger_step_feedback": "Запитання про продукт",
   "steps": "Кроки",
   "steps_introduction": "Тут ви можете вирішити, що ви хочете відстежувати для кожного запису. Ви завжди можете додати більше кроків пізніше.",
+  "step_status_on": "Увімк.",
+  "step_status_off": "Вимк.",
+  "step_track_emotions": "Відстежувати емоції",
+  "step_track_description": "Показує цей крок під час запису.",
   "disable_step_confirm_title": "Вимкнути крок?",
   "disable_step_confirm_message": "Ви можете повторно ввімкнути його пізніше в налаштуваннях.",
   "log_tags_disable": "Я не використовую теги",
@@ -687,5 +690,10 @@
   "report_a_bug": "Повідомити про помилку",
   "rate_pixy_app_store": "Оцініть Pixy в App Store",
   "rate_pixy_google_play": "Оцініть Pixy в Google Play",
-  "feedback_modal_message_placeholder_idea": "Було б чудово, якби…"
+  "feedback_modal_message_placeholder_idea": "Було б чудово, якби…",
+  "request_emotion": "Запропонувати емоцію",
+  "request_emotion_title": "Запропонувати емоцію",
+  "request_emotion_question": "Яку емоцію ви хочете запропонувати?",
+  "request_emotion_description": "Емоції такі ж складні, як люди. Багато з них перетинаються та переходять одна в одну. Pixy тримає список коротким і чітким, щоб кожну емоцію було легко знайти й зрозуміти, озираючись назад. Напишіть, якої вам бракує, і я подивлюся, де їй місце.",
+  "request_emotion_placeholder": "Я часто відчуваю…"
 }

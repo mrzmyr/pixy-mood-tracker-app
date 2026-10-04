@@ -231,7 +231,6 @@
   "words_written_per_day": "평균 하루에 단어",
   "entries_feedback_title": "새 항목 보기가 마음에 드십니까?",
   "entries_feedback_body": "항목을 추가하는 새로운 방법을 연구 중입니다. 당신의 생각을 알려주세요.",
-  "give_feedback": "피드백 제공",
   "logger_step_rating": "분위기",
   "logger_step_emotions": "감정",
   "logger_step_tags": "태그",
@@ -239,6 +238,10 @@
   "logger_step_feedback": "제품 질문",
   "steps": "단계",
   "steps_introduction": "여기에서 각 항목에 대해 추적할 항목을 결정할 수 있습니다. 나중에 언제든지 더 많은 단계를 추가할 수 있습니다.",
+  "step_status_on": "켜짐",
+  "step_status_off": "꺼짐",
+  "step_track_emotions": "감정 기록",
+  "step_track_description": "체크인할 때 이 단계를 표시합니다.",
   "disable_step_confirm_title": "단계를 비활성화하시겠습니까?",
   "disable_step_confirm_message": "나중에 설정에서 다시 활성화할 수 있습니다.",
   "log_tags_disable": "나는 태그를 사용하지 않습니다",
@@ -687,5 +690,10 @@
   "report_a_bug": "버그 신고",
   "rate_pixy_app_store": "App Store에서 Pixy 평가하기",
   "rate_pixy_google_play": "Google Play에서 Pixy 평가하기",
-  "feedback_modal_message_placeholder_idea": "이런 기능이 있으면 좋겠어요…"
+  "feedback_modal_message_placeholder_idea": "이런 기능이 있으면 좋겠어요…",
+  "request_emotion": "감정 추가 요청",
+  "request_emotion_title": "감정 요청",
+  "request_emotion_question": "어떤 감정을 요청하고 싶으세요?",
+  "request_emotion_description": "감정은 사람만큼 복잡합니다. 많은 감정이 서로 겹치고 섞입니다. Pixy는 목록을 짧고 뚜렷하게 유지해 각 감정을 빨리 찾고, 돌아볼 때도 분명하게 이해할 수 있도록 합니다. 빠진 감정을 알려주시면 어디에 맞을지 살펴볼게요.",
+  "request_emotion_placeholder": "자주 느끼는 감정은…"
 }

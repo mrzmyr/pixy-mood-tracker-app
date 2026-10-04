@@ -234,7 +234,6 @@
   "words_written_per_day": "Gem. woorden per dag",
   "entries_feedback_title": "Wat vind je van de weergave van nieuwe items?",
   "entries_feedback_body": "We werken aan een nieuwe manier om items toe te voegen. Laat ons weten wat je denkt.",
-  "give_feedback": "Geef feedback",
   "logger_step_rating": "Stemming",
   "logger_step_emotions": "Emoties",
   "logger_step_tags": "Labels",
@@ -242,6 +241,10 @@
   "logger_step_feedback": "Productvragen",
   "steps": "Stappen",
   "steps_introduction": "Hier kunt u beslissen wat u voor elk item wilt bijhouden. U kunt later altijd meer stappen toevoegen.",
+  "step_status_on": "Aan",
+  "step_status_off": "Uit",
+  "step_track_emotions": "Emoties bijhouden",
+  "step_track_description": "Toont deze stap bij het inchecken.",
   "disable_step_confirm_title": "Stap uitschakelen?",
   "disable_step_confirm_message": "Je kunt het later weer inschakelen in de instellingen.",
   "log_tags_disable": "Ik gebruik geen tags",
@@ -690,5 +693,10 @@
   "report_a_bug": "Bug melden",
   "rate_pixy_app_store": "Beoordeel Pixy in de App Store",
   "rate_pixy_google_play": "Beoordeel Pixy op Google Play",
-  "feedback_modal_message_placeholder_idea": "Het zou fijn zijn als…"
+  "feedback_modal_message_placeholder_idea": "Het zou fijn zijn als…",
+  "request_emotion": "Emotie voorstellen",
+  "request_emotion_title": "Emotie voorstellen",
+  "request_emotion_question": "Welke emotie wil je voorstellen?",
+  "request_emotion_description": "Emoties zijn net zo complex als mensen. Veel ervan overlappen en lopen in elkaar over. Pixy houdt de lijst klein en duidelijk, zodat je elke emotie snel vindt en die helder blijft als je terugkijkt. Vertel me welke je mist, dan kijk ik waar die past.",
+  "request_emotion_placeholder": "Ik voel me vaak…"
 }

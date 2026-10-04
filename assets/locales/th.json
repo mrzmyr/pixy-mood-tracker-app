@@ -231,7 +231,6 @@
   "words_written_per_day": "เฉลี่ย คำต่อวัน",
   "entries_feedback_title": "คุณชอบมุมมองรายการใหม่อย่างไร",
   "entries_feedback_body": "เรากำลังดำเนินการด้วยวิธีใหม่ในการเพิ่มรายการ แจ้งให้เราทราบสิ่งที่คุณคิด.",
-  "give_feedback": "ให้ข้อเสนอแนะ",
   "logger_step_rating": "อารมณ์",
   "logger_step_emotions": "อารมณ์",
   "logger_step_tags": "แท็ก",
@@ -239,6 +238,10 @@
   "logger_step_feedback": "คำถามเกี่ยวกับผลิตภัณฑ์",
   "steps": "ขั้นตอน",
   "steps_introduction": "คุณสามารถเลือกสิ่งที่คุณต้องการติดตามสำหรับแต่ละรายการได้ที่นี่ คุณสามารถเพิ่มขั้นตอนในภายหลังได้เสมอ",
+  "step_status_on": "เปิด",
+  "step_status_off": "ปิด",
+  "step_track_emotions": "บันทึกอารมณ์",
+  "step_track_description": "แสดงขั้นตอนนี้เมื่อคุณเช็กอิน",
   "disable_step_confirm_title": "ปิดการใช้งานขั้นตอน?",
   "disable_step_confirm_message": "คุณสามารถเปิดใช้งานได้อีกครั้งในภายหลังในการตั้งค่า",
   "log_tags_disable": "ฉันไม่ใช้แท็ก",
@@ -687,5 +690,10 @@
   "report_a_bug": "รายงานข้อผิดพลาด",
   "rate_pixy_app_store": "ให้คะแนน Pixy ใน App Store",
   "rate_pixy_google_play": "ให้คะแนน Pixy ใน Google Play",
-  "feedback_modal_message_placeholder_idea": "จะดีมากถ้า…"
+  "feedback_modal_message_placeholder_idea": "จะดีมากถ้า…",
+  "request_emotion": "เสนออารมณ์ใหม่",
+  "request_emotion_title": "เสนออารมณ์",
+  "request_emotion_question": "คุณอยากเสนออารมณ์อะไร?",
+  "request_emotion_description": "อารมณ์ซับซ้อนพอ ๆ กับมนุษย์ หลายอารมณ์ซ้อนทับและผสมกัน Pixy จึงเก็บรายการให้สั้นและแยกชัด เพื่อให้คุณหาแต่ละอารมณ์ได้เร็วและเข้าใจชัดเมื่อย้อนดู บอกเราว่าอารมณ์ไหนที่ยังขาด แล้วเราจะดูว่าเหมาะกับตรงไหน",
+  "request_emotion_placeholder": "ฉันมักรู้สึก…"
 }

@@ -81,7 +81,6 @@
   "feedback_modal_title": "Send Feedback",
   "feedback_success_message": "Your feedback was successfully sent. Thank you! <3",
   "feedback_success_title": "Feedback sent",
-  "give_feedback": "Give Feedback",
   "good": "Good",
   "idea": "Idea",
   "import_confirm_message": "Are you sure you want to import data? This will overwrite all you existing entries and settings.",
@@ -568,6 +567,10 @@
   "statistics_worst_month": "Worst Month",
   "statistics": "Statistics",
   "steps_introduction": "Select your check-in steps below.",
+  "step_status_on": "On",
+  "step_status_off": "Off",
+  "step_track_emotions": "Track Emotions",
+  "step_track_description": "Shows this step when you check in.",
   "steps": "Check-in",
   "storage_load_error_advice": "Close and reopen the app. If this keeps happening, export your data and contact support at care@pixy.day.",
   "storage_load_error_body": "Your data is still stored on this device. Nothing was deleted.",
@@ -698,5 +701,10 @@
   "report_a_bug": "Report a bug",
   "rate_pixy_app_store": "Rate Pixy in the App Store",
   "rate_pixy_google_play": "Rate Pixy on Google Play",
-  "feedback_modal_message_placeholder_idea": "It would be great if…"
+  "feedback_modal_message_placeholder_idea": "It would be great if…",
+  "request_emotion": "Ask to Add Emotion",
+  "request_emotion_title": "Request Emotion",
+  "request_emotion_question": "What emotion would you like to request?",
+  "request_emotion_description": "Emotions are as complex as people. Many overlap and blend into each other. Pixy keeps its list small and distinct, so each emotion is quick to find and clear when you look back. Tell me which one you miss, and I’ll see where it fits.",
+  "request_emotion_placeholder": "I often feel…"
 }

@@ -20,6 +20,7 @@ import { EmotionBasicSelection } from "./EmotionBasicSelection";
 import { ExpandButton } from "./ExpandButton";
 import { Tooltip } from "./Tooltip";
 import { useAnalytics } from "@/state/analytics";
+import { useFeedbackModal } from "@/features/feedback";
 import noop from "lodash/noop";
 
 type Mode = "basic" | "advanced";
@@ -65,6 +66,7 @@ export const SlideEmotions = ({
   const tempLog = useTemporaryLog();
   const logState = useLogState();
   const analytics = useAnalytics();
+  const { Modal: FeedbackModal, show: showFeedbackModal } = useFeedbackModal();
 
   const EMOTIONS_BY_KEY = keyBy(EMOTIONS, "key");
 
@@ -220,6 +222,7 @@ export const SlideEmotions = ({
             />
           )}
         </View>
+        <FeedbackModal />
         <Footer
           style={{
             marginHorizontal: 16,
@@ -231,11 +234,23 @@ export const SlideEmotions = ({
               onPress={onDisableStep}
               style={{
                 fontWeight: "400",
+                flexShrink: 1,
               }}
             >
               {t("log_emotions_disable")}
             </LinkButton>
           )}
+          <LinkButton
+            type="secondary"
+            testID="request-emotion"
+            onPress={() => showFeedbackModal({ type: "emotion" })}
+            style={{
+              fontWeight: "400",
+              flexShrink: 1,
+            }}
+          >
+            {t("request_emotion")}
+          </LinkButton>
         </Footer>
       </View>
     </View>

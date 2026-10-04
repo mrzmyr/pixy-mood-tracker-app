@@ -231,7 +231,6 @@
   "words_written_per_day": "متوسط كلمات في اليوم",
   "entries_feedback_title": "كيف تحب مشاهدة المداخل الجديدة؟",
   "entries_feedback_body": "نحن نعمل على طريقة جديدة لإضافة إدخالات. اسمحوا لنا أن نعرف ما هو رأيك.",
-  "give_feedback": "إعطاء ردود الفعل",
   "logger_step_rating": "مزاج",
   "logger_step_emotions": "العواطف",
   "logger_step_tags": "العلامات",
@@ -239,6 +238,10 @@
   "logger_step_feedback": "أسئلة المنتج",
   "steps": "خطوات",
   "steps_introduction": "هنا يمكنك تحديد ما تريد تتبعه لكل إدخال. يمكنك دائمًا إضافة المزيد من الخطوات لاحقًا.",
+  "step_status_on": "مُفعّل",
+  "step_status_off": "مُعطّل",
+  "step_track_emotions": "تتبّع المشاعر",
+  "step_track_description": "يعرض هذه الخطوة عند تسجيل الحالة.",
   "disable_step_confirm_title": "تعطيل الخطوة؟",
   "disable_step_confirm_message": "يمكنك إعادة تمكينه لاحقًا في الإعدادات.",
   "log_tags_disable": "أنا لا أستخدم العلامات",
@@ -687,5 +690,10 @@
   "report_a_bug": "الإبلاغ عن خطأ",
   "rate_pixy_app_store": "قيّم Pixy في App Store",
   "rate_pixy_google_play": "قيّم Pixy على Google Play",
-  "feedback_modal_message_placeholder_idea": "سيكون رائعًا لو…"
+  "feedback_modal_message_placeholder_idea": "سيكون رائعًا لو…",
+  "request_emotion": "اقترح شعورًا",
+  "request_emotion_title": "اقتراح شعور",
+  "request_emotion_question": "ما الشعور الذي تودّ اقتراحه؟",
+  "request_emotion_description": "المشاعر معقّدة بقدر تعقيد البشر. كثير منها يتداخل ويمتزج ببعضه. يحافظ Pixy على قائمة قصيرة ومميّزة، لتجد كل شعور بسرعة ويبقى واضحًا عندما تنظر إلى الوراء. أخبرني بالشعور الذي ينقصك، وسأرى أين يناسب.",
+  "request_emotion_placeholder": "أشعر غالبًا بـ…"
 }

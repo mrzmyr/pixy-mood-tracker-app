@@ -231,7 +231,6 @@
   "words_written_per_day": "Gns. ord om dagen",
   "entries_feedback_title": "Hvordan kan du lide at se nye indlæg?",
   "entries_feedback_body": "Vi arbejder på en ny måde at tilføje poster på. Fortæl os, hvad du synes.",
-  "give_feedback": "Give tilbagemelding",
   "logger_step_rating": "Humør",
   "logger_step_emotions": "Følelser",
   "logger_step_tags": "Tags",
@@ -239,6 +238,10 @@
   "logger_step_feedback": "Produkt spørgsmål",
   "steps": "Trin",
   "steps_introduction": "Her kan du bestemme, hvad du vil spore for hver post. Du kan altid tilføje flere trin senere.",
+  "step_status_on": "Til",
+  "step_status_off": "Fra",
+  "step_track_emotions": "Registrér følelser",
+  "step_track_description": "Viser dette trin, når du tjekker ind.",
   "disable_step_confirm_title": "Deaktiver trin?",
   "disable_step_confirm_message": "Du kan genaktivere den senere i indstillingerne.",
   "log_tags_disable": "Jeg bruger ikke tags",
@@ -687,5 +690,10 @@
   "report_a_bug": "Rapportér en fejl",
   "rate_pixy_app_store": "Bedøm Pixy i App Store",
   "rate_pixy_google_play": "Bedøm Pixy på Google Play",
-  "feedback_modal_message_placeholder_idea": "Det ville være fedt, hvis…"
+  "feedback_modal_message_placeholder_idea": "Det ville være fedt, hvis…",
+  "request_emotion": "Foreslå en følelse",
+  "request_emotion_title": "Foreslå følelse",
+  "request_emotion_question": "Hvilken følelse vil du foreslå?",
+  "request_emotion_description": "Følelser er lige så komplekse som mennesker. Mange overlapper og glider over i hinanden. Pixy holder listen kort og tydelig, så du hurtigt finder hver følelse, og den er klar, når du ser tilbage. Fortæl mig, hvilken du savner, så ser jeg, hvor den passer ind.",
+  "request_emotion_placeholder": "Jeg føler mig ofte…"
 }

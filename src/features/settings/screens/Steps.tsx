@@ -1,5 +1,8 @@
 import { STEP_OPTIONS } from "@/constants/LoggerSteps";
-import type { LoggerStep } from "@/constants/LoggerSteps";
+import type {
+  ConfigurableLoggerStep,
+  LoggerStep,
+} from "@/constants/LoggerSteps";
 
 import MenuList from "@/components/MenuList";
 import MenuListItem from "@/components/MenuListItem";
@@ -14,13 +17,83 @@ import {
   Sun,
   Tag,
 } from "react-native-feather";
+import { useRouter } from "expo-router";
 import useColors from "@/hooks/useColors";
-import { useSettings } from "@/state/settings";
-import { useAnalytics } from "@/state/analytics";
+import { useStepEnabled } from "../useStepEnabled";
+
+/** Steps with their own settings page; the list links there instead of a switch. */
+const STEP_PAGES = {
+  emotions: "/settings/steps/emotions",
+} as const;
+
+const hasStepPage = (
+  step: ConfigurableLoggerStep
+): step is keyof typeof STEP_PAGES => step in STEP_PAGES;
+
+/** One step in the Check-in list: a switch, or a link with On/Off for steps with a page. */
+const StepRow = ({
+  step,
+  icon,
+}: {
+  step: ConfigurableLoggerStep;
+  icon: ReactElement;
+}) => {
+  const colors = useColors();
+  const router = useRouter();
+  const { enabled, setEnabled } = useStepEnabled(step);
+  const page = hasStepPage(step) ? STEP_PAGES[step] : null;
+
+  let iconRight: ReactElement | undefined;
+  if (page === null && step !== "rating") {
+    iconRight = (
+      <Switch
+        accessibilityLabel={t(`logger_step_${step}`)}
+        testID={`step-${step}-enabled`}
+        onValueChange={setEnabled}
+        value={enabled}
+      />
+    );
+  }
+
+  return (
+    <MenuListItem
+      title={
+        <View
+          style={{
+            flex: 1,
+            minWidth: 0,
+            flexDirection: "row",
+            alignItems: "center",
+          }}
+        >
+          <Text style={{ flex: 1, fontSize: 17, color: colors.text }}>
+            {t(`logger_step_${step}`)}
+          </Text>
+          {page !== null && (
+            <Text
+              style={{
+                fontSize: 17,
+                color: colors.textSecondary,
+                marginRight: 8,
+              }}
+            >
+              {enabled ? t("step_status_on") : t("step_status_off")}
+            </Text>
+          )}
+        </View>
+      }
+      iconLeft={icon}
+      iconRight={iconRight}
+      isLink={page !== null}
+      onPress={page === null ? null : () => router.push(page)}
+      testID={page === null ? undefined : `step-${step}`}
+    />
+  );
+};
 
 /**
- * Settings > Steps: toggle optional logger steps. `rating` cannot be
- * turned off.
+ * Settings > Check-in: the logger steps in order. `rating` cannot be turned
+ * off. Emotions opens its own page with the switch and the request form.
  */
 export const StepsScreen = () => {
   const colors = useColors();
@@ -33,9 +106,6 @@ export const StepsScreen = () => {
     feedback: <MessageSquare width={20} height={20} color={colors.text} />,
     reminder: <Bell width={20} height={20} color={colors.text} />,
   };
-
-  const { settings, setSettings } = useSettings();
-  const analytics = useAnalytics();
 
   return (
     <View
@@ -69,51 +139,7 @@ export const StepsScreen = () => {
         </View>
         <MenuList style={{ marginTop: 16 }}>
           {STEP_OPTIONS.map((option) => (
-            <MenuListItem
-              key={option}
-              title={
-                <View
-                  style={{
-                    flex: 1,
-                    minWidth: 0,
-                    flexDirection: "row",
-                    alignItems: "center",
-                  }}
-                >
-                  <Text
-                    style={{
-                      flexShrink: 1,
-                      fontSize: 17,
-                      color: colors.text,
-                    }}
-                  >
-                    {t(`logger_step_${option}`)}
-                  </Text>
-                </View>
-              }
-              iconLeft={ICONS_MAP[option]}
-              iconRight={
-                option === "rating" ? undefined : (
-                  <Switch
-                    accessibilityLabel={t(`logger_step_${option}`)}
-                    testID={`step-${option}-enabled`}
-                    onValueChange={(enabled) => {
-                      analytics.track("settings:step_toggled", {
-                        step: option,
-                        enabled,
-                      });
-                      setSettings((currentSettings) => ({
-                        ...currentSettings,
-                        steps: currentSettings.steps.includes(option)
-                          ? currentSettings.steps.filter((s) => s !== option)
-                          : [...currentSettings.steps, option],
-                      }));
-                    }}
-                    value={settings.steps.includes(option)}
-                  />
-                )
-              }
-            />
+            <StepRow key={option} step={option} icon={ICONS_MAP[option]} />
           ))}
         </MenuList>
       </ScrollView>

@@ -1,6 +1,3 @@
-import LinkButton from "@/components/LinkButton";
-import { t } from "@/lib/translation";
-import { useFeedbackModal } from "@/features/feedback";
 import type { Emotion } from "@/types";
 import chunk from "lodash/chunk";
 import orderBy from "lodash/orderBy";
@@ -28,8 +25,6 @@ export const EmotionBasicSelection = ({
   onPress: (emotion: Emotion) => void;
   style?: ViewStyle;
 }) => {
-  const { Modal, show } = useFeedbackModal();
-
   const rows = chunk(
     orderBy(
       emotions,
@@ -53,8 +48,6 @@ export const EmotionBasicSelection = ({
         ...style,
       }}
     >
-      <Modal />
-
       {rows.map((row) => (
         <View
           key={`basic-emotion-row-${row[0].key}`}
@@ -89,16 +82,6 @@ export const EmotionBasicSelection = ({
           )}
         </View>
       ))}
-
-      <LinkButton
-        type="secondary"
-        onPress={() => show({ type: "idea" })}
-        style={{
-          marginTop: 20,
-        }}
-      >
-        {t("give_feedback")}
-      </LinkButton>
     </View>
   );
 };

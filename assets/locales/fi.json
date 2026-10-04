@@ -231,7 +231,6 @@
   "words_written_per_day": "Keskim. sanaa päivässä",
   "entries_feedback_title": "Mitä pidät uusien merkintöjen näkymästä?",
   "entries_feedback_body": "Työstämme uutta tapaa lisätä merkintöjä. Kerro meille mielipiteesi.",
-  "give_feedback": "Antaa palautetta",
   "logger_step_rating": "Mieliala",
   "logger_step_emotions": "Tunteet",
   "logger_step_tags": "Tunnisteet",
@@ -239,6 +238,10 @@
   "logger_step_feedback": "Tuotekysymykset",
   "steps": "Askeleet",
   "steps_introduction": "Täällä voit päättää, mitä haluat seurata kunkin merkinnän kohdalla. Voit aina lisätä vaiheita myöhemmin.",
+  "step_status_on": "Päällä",
+  "step_status_off": "Pois",
+  "step_track_emotions": "Kirjaa tunteet",
+  "step_track_description": "Näyttää tämän vaiheen kirjauksessa.",
   "disable_step_confirm_title": "Poistetaanko vaihe käytöstä?",
   "disable_step_confirm_message": "Voit ottaa sen uudelleen käyttöön myöhemmin asetuksista.",
   "log_tags_disable": "En käytä tageja",
@@ -687,5 +690,10 @@
   "report_a_bug": "Ilmoita virheestä",
   "rate_pixy_app_store": "Arvostele Pixy App Storessa",
   "rate_pixy_google_play": "Arvostele Pixy Google Playssa",
-  "feedback_modal_message_placeholder_idea": "Olisi hienoa, jos…"
+  "feedback_modal_message_placeholder_idea": "Olisi hienoa, jos…",
+  "request_emotion": "Ehdota tunnetta",
+  "request_emotion_title": "Ehdota tunnetta",
+  "request_emotion_question": "Mitä tunnetta haluaisit ehdottaa?",
+  "request_emotion_description": "Tunteet ovat yhtä monimutkaisia kuin ihmiset. Monet menevät päällekkäin ja sekoittuvat toisiinsa. Pixy pitää listan lyhyenä ja selkeänä, jotta löydät jokaisen tunteen nopeasti ja se on selvä, kun katsot taaksepäin. Kerro, mikä puuttuu, niin katson, mihin se sopii.",
+  "request_emotion_placeholder": "Tunnen itseni usein…"
 }

@@ -231,7 +231,6 @@
   "words_written_per_day": "Μέσος όρος λέξεις την ημέρα",
   "entries_feedback_title": "Πώς σας φαίνεται η προβολή νέων καταχωρήσεων;",
   "entries_feedback_body": "Εργαζόμαστε πάνω σε έναν νέο τρόπο προσθήκης καταχωρίσεων. Πείτε μας τη γνώμη σας.",
-  "give_feedback": "Δώστε σχόλια",
   "logger_step_rating": "Διάθεση",
   "logger_step_emotions": "Συναισθήματα",
   "logger_step_tags": "Ετικέτες",
@@ -239,6 +238,10 @@
   "logger_step_feedback": "Ερωτήσεις προϊόντος",
   "steps": "Βήματα",
   "steps_introduction": "Εδώ μπορείτε να αποφασίσετε τι θέλετε να παρακολουθείτε για κάθε καταχώριση. Μπορείτε πάντα να προσθέσετε περισσότερα βήματα αργότερα.",
+  "step_status_on": "Ενεργό",
+  "step_status_off": "Ανενεργό",
+  "step_track_emotions": "Καταγραφή συναισθημάτων",
+  "step_track_description": "Εμφανίζει αυτό το βήμα όταν κάνεις check-in.",
   "disable_step_confirm_title": "Απενεργοποίηση Βήματος;",
   "disable_step_confirm_message": "Μπορείτε να το ενεργοποιήσετε ξανά αργότερα στις ρυθμίσεις.",
   "log_tags_disable": "Δεν χρησιμοποιώ ετικέτες",
@@ -687,5 +690,10 @@
   "report_a_bug": "Αναφορά σφάλματος",
   "rate_pixy_app_store": "Βαθμολόγησε το Pixy στο App Store",
   "rate_pixy_google_play": "Βαθμολόγησε το Pixy στο Google Play",
-  "feedback_modal_message_placeholder_idea": "Θα ήταν υπέροχο αν…"
+  "feedback_modal_message_placeholder_idea": "Θα ήταν υπέροχο αν…",
+  "request_emotion": "Πρότεινε ένα συναίσθημα",
+  "request_emotion_title": "Πρόταση συναισθήματος",
+  "request_emotion_question": "Ποιο συναίσθημα θα ήθελες να προτείνεις;",
+  "request_emotion_description": "Τα συναισθήματα είναι τόσο σύνθετα όσο οι άνθρωποι. Πολλά επικαλύπτονται και αναμειγνύονται μεταξύ τους. Το Pixy κρατά τη λίστα μικρή και ξεκάθαρη, ώστε να βρίσκεις γρήγορα κάθε συναίσθημα και να είναι σαφές όταν κοιτάς πίσω. Πες μου ποιο σου λείπει και θα δω πού ταιριάζει.",
+  "request_emotion_placeholder": "Συχνά νιώθω…"
 }

@@ -231,7 +231,6 @@
   "words_written_per_day": "Átl. szó naponta",
   "entries_feedback_title": "Hogy tetszik az új bejegyzések nézete?",
   "entries_feedback_body": "A bejegyzések hozzáadásának új módján dolgozunk. Osszd meg velünk véleményed.",
-  "give_feedback": "Adj visszajelzést",
   "logger_step_rating": "Hangulat",
   "logger_step_emotions": "Érzelmek",
   "logger_step_tags": "Címkék",
@@ -239,6 +238,10 @@
   "logger_step_feedback": "Termékkérdések",
   "steps": "Naplózás lépései",
   "steps_introduction": "Itt döntheted el, hogy mit szeretnél nyomon követni az egyes bejegyzéseknél. Később bármikor módosíthatod.",
+  "step_status_on": "Be",
+  "step_status_off": "Ki",
+  "step_track_emotions": "Érzelmek rögzítése",
+  "step_track_description": "Megjeleníti ezt a lépést a bejegyzésnél.",
   "disable_step_confirm_title": "Letiltod ezt a lépést?",
   "disable_step_confirm_message": "Később a beállításokban újra engedélyezheted.",
   "log_tags_disable": "Nem használok címkéket",
@@ -687,5 +690,10 @@
   "report_a_bug": "Hiba bejelentése",
   "rate_pixy_app_store": "Értékeld a Pixyt az App Store-ban",
   "rate_pixy_google_play": "Értékeld a Pixyt a Google Playen",
-  "feedback_modal_message_placeholder_idea": "Jó lenne, ha…"
+  "feedback_modal_message_placeholder_idea": "Jó lenne, ha…",
+  "request_emotion": "Érzelem javaslása",
+  "request_emotion_title": "Érzelem javaslása",
+  "request_emotion_question": "Milyen érzelmet szeretnél javasolni?",
+  "request_emotion_description": "Az érzelmek ugyanolyan összetettek, mint az emberek. Sok közülük átfedi egymást és egymásba olvad. A Pixy rövid és jól elkülönülő listát tart, hogy minden érzelmet gyorsan megtalálj, és visszatekintve is egyértelmű legyen. Írd meg, melyik hiányzik, és megnézem, hová illik.",
+  "request_emotion_placeholder": "Gyakran érzem magam…"
 }

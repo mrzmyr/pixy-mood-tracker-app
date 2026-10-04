@@ -231,7 +231,6 @@
   "words_written_per_day": "Ort. günlük kelime",
   "entries_feedback_title": "Yeni girişlerin görünümünü nasıl buldunuz?",
   "entries_feedback_body": "Giriş eklemenin yeni bir yolu üzerinde çalışıyoruz. Haydi ne düşündüğünü söyle.",
-  "give_feedback": "Geri Bildirim Ver",
   "logger_step_rating": "Mod",
   "logger_step_emotions": "duygular",
   "logger_step_tags": "Etiketler",
@@ -239,6 +238,10 @@
   "logger_step_feedback": "Ürün Soruları",
   "steps": "Adımlar",
   "steps_introduction": "Burada, her giriş için neyi izlemek istediğinize karar verebilirsiniz. Daha sonra istediğiniz zaman daha fazla adım ekleyebilirsiniz.",
+  "step_status_on": "Açık",
+  "step_status_off": "Kapalı",
+  "step_track_emotions": "Duyguları kaydet",
+  "step_track_description": "Giriş yaparken bu adımı gösterir.",
   "disable_step_confirm_title": "Adım devre dışı bırakılsın mı?",
   "disable_step_confirm_message": "Daha sonra ayarlardan yeniden etkinleştirebilirsiniz.",
   "log_tags_disable": "etiket kullanmıyorum",
@@ -687,5 +690,10 @@
   "report_a_bug": "Hata bildir",
   "rate_pixy_app_store": "Pixy'yi App Store'da değerlendir",
   "rate_pixy_google_play": "Pixy'yi Google Play'de değerlendir",
-  "feedback_modal_message_placeholder_idea": "Şöyle olsa harika olurdu…"
+  "feedback_modal_message_placeholder_idea": "Şöyle olsa harika olurdu…",
+  "request_emotion": "Duygu öner",
+  "request_emotion_title": "Duygu öner",
+  "request_emotion_question": "Hangi duyguyu önermek istersin?",
+  "request_emotion_description": "Duygular insanlar kadar karmaşıktır. Birçoğu örtüşür ve birbirine karışır. Pixy listeyi kısa ve belirgin tutar; böylece her duyguyu hızlıca bulur, geriye baktığında da net anlarsın. Hangisinin eksik olduğunu söyle, nereye uyduğuna bakayım.",
+  "request_emotion_placeholder": "Sık sık hissettiğim…"
 }

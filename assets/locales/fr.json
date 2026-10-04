@@ -231,7 +231,6 @@
   "words_written_per_day": "Moy. mots par jour",
   "entries_feedback_title": "Aimez-vous la vue des nouvelles entrées ?",
   "entries_feedback_body": "Nous travaillons sur une nouvelle façon d'ajouter des entrées. Dites-nous ce que vous en pensez.",
-  "give_feedback": "Donnez votre avis",
   "logger_step_rating": "Ambiance",
   "logger_step_emotions": "Émotions",
   "logger_step_tags": "Mots clés",
@@ -239,6 +238,10 @@
   "logger_step_feedback": "Questions sur le produit",
   "steps": "Pas",
   "steps_introduction": "Ici, vous pouvez décider ce que vous voulez suivre pour chaque entrée. Vous pouvez toujours ajouter d'autres étapes ultérieurement.",
+  "step_status_on": "Activé",
+  "step_status_off": "Désactivé",
+  "step_track_emotions": "Suivre les émotions",
+  "step_track_description": "Affiche cette étape lors de ton check-in.",
   "disable_step_confirm_title": "Désactiver l'étape ?",
   "disable_step_confirm_message": "Vous pourrez le réactiver plus tard dans les paramètres.",
   "log_tags_disable": "je n'utilise pas de balises",
@@ -688,5 +691,10 @@
   "report_a_bug": "Signaler un bug",
   "rate_pixy_app_store": "Noter Pixy sur l'App Store",
   "rate_pixy_google_play": "Noter Pixy sur Google Play",
-  "feedback_modal_message_placeholder_idea": "Ce serait génial si…"
+  "feedback_modal_message_placeholder_idea": "Ce serait génial si…",
+  "request_emotion": "Proposer une émotion",
+  "request_emotion_title": "Proposer une émotion",
+  "request_emotion_question": "Quelle émotion aimeriez-vous proposer ?",
+  "request_emotion_description": "Les émotions sont aussi complexes que les êtres humains. Beaucoup se chevauchent et se mêlent les unes aux autres. Pixy garde une liste courte et distincte, pour que chaque émotion soit rapide à trouver et claire quand vous regardez en arrière. Dites-moi laquelle vous manque, et je verrai où elle trouve sa place.",
+  "request_emotion_placeholder": "Je me sens souvent…"
 }
