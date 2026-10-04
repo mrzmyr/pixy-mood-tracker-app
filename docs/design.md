@@ -2,6 +2,14 @@
 
 - Use defined components, if you think a custom component is needed, ask the user to create a new component or create it right away but flag it
 
+## Close Button
+
+- Page close (modal, sheet, full-screen page): top right, use [`CloseButton`](../src/components/CloseButton.tsx)
+- Never build own close icon. Need other color on media: pass `color`
+- Push-stack pages keep back arrow top left. Back is not close
+- Form modals with Save keep text Cancel top left
+- Card and toast dismiss icons are not page close
+
 # Copywriting
 
 - Headings & buttons use Title Case (Chicago)
