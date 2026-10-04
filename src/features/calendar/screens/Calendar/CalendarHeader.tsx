@@ -1,4 +1,5 @@
 import chroma from "chroma-js";
+import { useWeekLocale } from "@/hooks/useWeekLocale";
 import dayjs from "dayjs";
 import { LinearGradient } from "expo-linear-gradient";
 import { useState } from "react";
@@ -8,7 +9,13 @@ import useColors from "@/hooks/useColors";
 // Height of the fade below the floating weekday row.
 const FADE_HEIGHT = 24;
 
-const HeaderDay = ({ children }: { children: string }) => {
+const HeaderDay = ({
+  children,
+  index,
+}: {
+  children: string;
+  index: number;
+}) => {
   const colors = useColors();
   return (
     <View
@@ -19,6 +26,7 @@ const HeaderDay = ({ children }: { children: string }) => {
       }}
     >
       <Text
+        testID={`calendar-weekday-${index}`}
         style={{
           fontSize: 12,
           fontWeight: "bold",
@@ -32,24 +40,31 @@ const HeaderDay = ({ children }: { children: string }) => {
   );
 };
 
-const WeekdayRow = () => (
-  <View
-    style={{
-      flexDirection: "row",
-      justifyContent: "space-around",
-      marginLeft: -3,
-      marginRight: -3,
-      paddingTop: 8,
-      paddingBottom: 8,
-    }}
-  >
-    {[0, 1, 2, 3, 4, 5, 6].map((offset) => (
-      <HeaderDay key={offset}>
-        {dayjs().startOf("week").add(offset, "day").format("ddd")}
-      </HeaderDay>
-    ))}
-  </View>
-);
+const WeekdayRow = () => {
+  const locale = useWeekLocale();
+  return (
+    <View
+      style={{
+        flexDirection: "row",
+        justifyContent: "space-around",
+        marginLeft: -3,
+        marginRight: -3,
+        paddingTop: 8,
+        paddingBottom: 8,
+      }}
+    >
+      {[0, 1, 2, 3, 4, 5, 6].map((index) => (
+        <HeaderDay key={index} index={index}>
+          {dayjs()
+            .locale(locale)
+            .startOf("week")
+            .add(index, "day")
+            .format("ddd")}
+        </HeaderDay>
+      ))}
+    </View>
+  );
+};
 
 /**
  * Weekday names above the calendar.

@@ -15,6 +15,7 @@ import type { TemporaryLogState } from "./temporaryLog";
 import type { Emotion, TagReference } from "@/types";
 import dayjs from "dayjs";
 import { useEffect, useEffectEvent, useMemo, useRef, useState } from "react";
+import { useRouter } from "expo-router";
 import type { ReactElement } from "react";
 
 import { Dimensions, Keyboard, Platform, Text, View } from "react-native";
@@ -35,6 +36,9 @@ import { SlideMood } from "./slides/SlideMood";
 import { SlideReminder } from "./slides/SlideReminder";
 import { SlideTags } from "./slides/SlideTags";
 import { useLoggerActions } from "./hooks/useLoggerActions";
+import { useLoggerTracking } from "./hooks/useLoggerTracking";
+import type { SavedEntry } from "./hooks/useLoggerActions";
+import { Confirmation } from "./confirmation/Confirmation";
 
 /** Whether the logger creates a new entry or edits an existing one. */
 export type LoggerMode = "create" | "edit";
@@ -129,12 +133,14 @@ export const Logger = ({
   avaliableSteps,
   mode,
   question,
+  onCreated,
 }: {
   initialItem: TemporaryLogState;
   initialStep?: LoggerStep;
   avaliableSteps: LoggerStep[];
   mode: LoggerMode;
   question?: IQuestion | null;
+  onCreated?: (saved: SavedEntry) => void;
 }) => {
   const colors = useColors();
   const insets = useSafeAreaInsets();
@@ -156,7 +162,11 @@ export const Logger = ({
   const initialIndex = indexFound === -1 ? 0 : indexFound;
   const [slideIndex, setSlideIndex] = useState(initialIndex);
 
-  const { save, remove, cancel } = useLoggerActions({ mode, tempLog });
+  const { save, remove, cancel } = useLoggerActions({
+    mode,
+    tempLog,
+    onCreated,
+  });
 
   const _carousel = useRef<CarouselRef>(null);
 
@@ -328,30 +338,9 @@ export const Logger = ({
     hasMessageSlide && mode === "create" ? messageSlideIndex : null
   );
 
-  // Effect event: reads the latest slides without re-running the effects
-  // below; only mount and slide changes should send events.
-  const trackFlowStarted = useEffectEvent(() => {
-    analytics.track("logger:flow_started", {
-      mode,
-      steps_count: slideKeys.length,
-    });
-  });
-  const trackStepViewed = useEffectEvent(() => {
-    analytics.track("logger:step_viewed", {
-      mode,
-      step: slideKeys[slideIndex],
-      index: slideIndex,
-      steps_count: slideKeys.length,
-    });
-  });
+  useLoggerTracking({ mode, slideKeys, slideIndex });
 
   useEffect(() => {
-    trackFlowStarted();
-  }, []);
-
-  useEffect(() => {
-    trackStepViewed();
-
     if (isMounted.current) {
       Keyboard.dismiss();
 
@@ -379,7 +368,6 @@ export const Logger = ({
           carouselRef={_carousel}
           slideCount={content.length}
           slideIndex={slideIndex}
-          setSlideIndex={setSlideIndex}
           isEditing={isEditing}
           tempLog={tempLog}
           onCancel={cancel}
@@ -464,7 +452,8 @@ export const LoggerEdit = ({
  *
  * Without `avaliableSteps`, the slides follow the user's enabled steps. The
  * reminder slide shows only when exactly one entry exists and reminders are
- * off; the feedback slide needs 3+ entries and an available question.
+ * off; the feedback slide needs 3+ entries and an available question. After
+ * saving, the slides make way for the confirmation.
  */
 export const LoggerCreate = ({
   dateTime,
@@ -483,6 +472,8 @@ export const LoggerCreate = ({
   const questioner = useQuestioner();
   const { hasStep, settings } = useSettings();
   const logState = useLogState();
+  const router = useRouter();
+  const [saved, setSaved] = useState<SavedEntry | null>(null);
 
   const initialItem = {
     id,
@@ -509,9 +500,26 @@ export const LoggerCreate = ({
       itemsCount: logState.items.length,
     });
 
+  if (saved !== null) {
+    return (
+      <Confirmation
+        item={saved.item}
+        entriesCount={logState.items.length}
+        onClose={() => {
+          if (saved.closeTo === "calendar") {
+            router.dismissTo("/calendar");
+            return;
+          }
+          router.back();
+        }}
+      />
+    );
+  }
+
   return (
     <Logger
       mode="create"
+      onCreated={setSaved}
       initialItem={initialItem}
       initialStep={initialStep}
       avaliableSteps={steps}

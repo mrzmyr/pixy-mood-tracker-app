@@ -186,7 +186,7 @@ describe("useLogs()", () => {
     });
 
     await act(async () => {
-      await hook.result.current.datagate.openExportDialog();
+      await hook.result.current.datagate.openExportDialog({ format: "json" });
     });
 
     const [calledUri, calledJson = ""] =
@@ -210,7 +210,10 @@ describe("useLogs()", () => {
       )
     );
     expect(JSON.parse(calledJson)).toEqual(expectedJson);
-    expect(Sharing.shareAsync).toBeCalledWith(calledUri);
+    expect(Sharing.shareAsync).toBeCalledWith(calledUri, {
+      mimeType: "application/json",
+      UTI: "public.json",
+    });
   });
 
   test("`openExportDialog` uses the file transfer override", async () => {
@@ -224,7 +227,7 @@ describe("useLogs()", () => {
 
     await waitForLoaded(hook);
     await act(async () => {
-      await hook.result.current.datagate.openExportDialog();
+      await hook.result.current.datagate.openExportDialog({ format: "json" });
     });
     setFileTransferOverride(null);
 
@@ -232,7 +235,56 @@ describe("useLogs()", () => {
     expect(Sharing.shareAsync).not.toBeCalled();
   });
 
-  test("should `openResetDialog` with type `factory`", async () => {
+  test("exports CSV entries with the spreadsheet MIME type", async () => {
+    const hook = await _renderHook();
+    jest.spyOn(FileSystem, "writeAsStringAsync").mockResolvedValue();
+    jest.spyOn(FileSystem, "readDirectoryAsync").mockResolvedValue([]);
+    jest.spyOn(FileSystem, "deleteAsync").mockResolvedValue();
+
+    await waitForLoaded(hook);
+    await act(() => {
+      hook.result.current.logUpdater.import({ items: testItems });
+    });
+    await act(async () => {
+      await hook.result.current.datagate.openExportDialog({ format: "csv" });
+    });
+
+    const [[uri, contents]] = jest.mocked(FileSystem.writeAsStringAsync).mock
+      .calls;
+    expect(uri).toMatch(/\.csv$/u);
+    expect(contents).toContain('"note","sleep_quality"');
+    expect(contents).toContain('"test message"');
+    expect(contents).toContain('"🦄"');
+    expect(Sharing.shareAsync).toHaveBeenCalledWith(uri, {
+      mimeType: "text/csv",
+      UTI: "public.comma-separated-values-text",
+    });
+  });
+
+  test("shows recovery guidance when sharing is unavailable", async () => {
+    const hook = await _renderHook();
+    setFileTransferOverride({
+      share: () => Promise.resolve(false),
+      pickJson: () => Promise.resolve(null),
+    });
+    jest.spyOn(FileSystem, "writeAsStringAsync").mockResolvedValue();
+    jest.spyOn(FileSystem, "readDirectoryAsync").mockResolvedValue([]);
+    jest.spyOn(FileSystem, "deleteAsync").mockResolvedValue();
+    const alert = jest.spyOn(Alert, "alert");
+
+    await waitForLoaded(hook);
+    await act(async () => {
+      await hook.result.current.datagate.openExportDialog({ format: "csv" });
+    });
+    setFileTransferOverride(null);
+
+    expect(alert).toHaveBeenCalledWith(
+      "Export failed",
+      "Check available device storage and try exporting again."
+    );
+  });
+
+  test("should `openResetDialog` delete entries, tags, and settings", async () => {
     const hook = await _renderHook();
 
     jest.spyOn(Alert, "alert");
@@ -246,7 +298,7 @@ describe("useLogs()", () => {
     });
 
     await act(() => {
-      hook.result.current.datagate.openResetDialog("factory");
+      hook.result.current.datagate.openResetDialog();
     });
 
     jest.mocked(Alert.alert).mock.calls[0]?.[2]?.[0]?.onPress?.();
@@ -271,50 +323,6 @@ describe("useLogs()", () => {
     expect(hook.result.current.settingsState.settings).toEqual({
       ...INITIAL_STATE,
       deviceId: expect.any(String),
-      loaded: true,
-    });
-  });
-
-  test("should `openResetDialog` with type `data`", async () => {
-    const hook = await _renderHook();
-
-    jest.spyOn(Alert, "alert");
-
-    await waitForLoaded(hook);
-
-    await act(() => {
-      hook.result.current.tagsUpdater.import({ tags: testTags });
-      hook.result.current.logUpdater.import({ items: testItems });
-      hook.result.current.settingsState.importSettings(testSettings);
-    });
-
-    await act(() => {
-      hook.result.current.datagate.openResetDialog("data");
-    });
-
-    jest.mocked(Alert.alert).mock.calls[0]?.[2]?.[0]?.onPress?.();
-
-    await waitFor(() => {
-      expect(hook.result.current.logState.items).toEqual([]);
-      expect(hook.result.current.tagsState.tags).toHaveLength(18);
-    });
-
-    expect(Alert.alert).toBeCalled();
-    expect(hook.result.current.logState).toEqual({
-      loaded: true,
-      items: [],
-    });
-
-    expect(hook.result.current.tagsState).toEqual({
-      loaded: true,
-      tags: expect.arrayContaining([
-        expect.objectContaining({ id: "1" }),
-        expect.objectContaining({ id: "18" }),
-      ]),
-    });
-
-    expect(hook.result.current.settingsState.settings).toEqual({
-      ...testSettings,
       loaded: true,
     });
   });

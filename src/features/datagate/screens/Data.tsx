@@ -1,6 +1,7 @@
 import { ScrollView, View } from "react-native";
 import { Download, Trash, Upload } from "react-native-feather";
 import MenuList from "@/components/MenuList";
+import MenuListHeadline from "@/components/MenuListHeadline";
 import MenuListItem from "@/components/MenuListItem";
 import TextInfo from "@/components/TextInfo";
 import { t } from "@/lib/translation";
@@ -8,7 +9,7 @@ import useColors from "@/hooks/useColors";
 import { useDatagate } from "../DataGate";
 
 /**
- * Settings > Data: import, export, and reset of all user data via
+ * Settings > Data: import, export, and deletion of all user data via
  * `useDatagate`. The direct AsyncStorage import is development-only.
  */
 export const DataScreen = () => {
@@ -33,6 +34,7 @@ export const DataScreen = () => {
             title={t("import")}
             onPress={() => datagate.openImportDialog()}
             iconLeft={<Download width={18} color={colors.menuListItemIcon} />}
+            isLast={!__DEV__}
           />
           {__DEV__ && (
             <MenuListItem
@@ -41,38 +43,34 @@ export const DataScreen = () => {
                 datagate.openDangerousImportDirectlyToAsyncStorageDialog()
               }
               iconLeft={<Download width={18} color={colors.menuListItemIcon} />}
+              isLast
             />
           )}
+        </MenuList>
+        <MenuListHeadline>{t("export")}</MenuListHeadline>
+        <MenuList>
           <MenuListItem
-            title={t("export")}
-            onPress={() => datagate.openExportDialog()}
+            testID="export-json"
+            title="JSON"
+            onPress={() => datagate.openExportDialog({ format: "json" })}
+            iconLeft={<Upload width={18} color={colors.menuListItemIcon} />}
+          />
+          <MenuListItem
+            testID="export-csv"
+            title="CSV"
+            onPress={() => datagate.openExportDialog({ format: "csv" })}
             iconLeft={<Upload width={18} color={colors.menuListItemIcon} />}
             isLast
           />
         </MenuList>
-        <TextInfo>{t("export_help")}</TextInfo>
+        <TextInfo>{`${t("export_help")}\n${t("export_csv_help")}`}</TextInfo>
         <MenuList style={{ marginTop: 16 }}>
           <MenuListItem
-            testID="reset-data"
-            title={t("reset_data_button")}
+            testID="delete-all-data"
+            title={t("delete_all_data_button")}
             onPress={async () => {
               try {
-                await datagate.openResetDialog("data");
-              } catch (error) {
-                console.log(error);
-              }
-            }}
-            iconLeft={<Trash width={18} color="red" />}
-            style={{
-              color: "red",
-            }}
-          />
-          <MenuListItem
-            testID="reset-factory"
-            title={t("reset_factory_button")}
-            onPress={async () => {
-              try {
-                await datagate.openResetDialog("factory");
+                await datagate.openResetDialog();
               } catch (error) {
                 console.log(error);
               }
@@ -84,7 +82,7 @@ export const DataScreen = () => {
             isLast
           />
         </MenuList>
-        <TextInfo>{t("reset_factory_description")}</TextInfo>
+        <TextInfo>{t("delete_all_data_description")}</TextInfo>
       </ScrollView>
     </View>
   );

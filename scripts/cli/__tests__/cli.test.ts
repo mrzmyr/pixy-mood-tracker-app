@@ -53,6 +53,9 @@ describe("CLI options", () => {
       ],
       [["app", "install", "--device=x"], 2, "invalid_option"],
       [["app", "seed", "--platform=ios"], 2, "missing_option"],
+      [["app", "dev"], 2, "missing_option"],
+      [["app", "dev", "--target=x"], 2, "invalid_option"],
+      [["app", "dev", "--platform=windows"], 2, "invalid_platform"],
       [
         ["app", "seed", "--platform=ios", "--fixture=nope"],
         2,
@@ -83,8 +86,12 @@ describe("CLI options", () => {
       cases.map(async ([args, code, status]) => {
         const result = await call(...args);
         expect(result.status).toBe(code);
-        expect(result.stderr.split("\n")[0]).toContain(`error [${status}]:`);
-        expect(result.stderr.trimEnd().split("\n")).toHaveLength(3);
+        const errorLines = result.stderr
+          .slice(result.stderr.indexOf("error ["))
+          .trimEnd()
+          .split("\n");
+        expect(errorLines[0]).toContain(`error [${status}]:`);
+        expect(errorLines).toHaveLength(3);
       })
     );
   });

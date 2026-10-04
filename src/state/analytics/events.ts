@@ -1,14 +1,16 @@
 import type { FeedackType, FeedbackSource } from "@/types/Feedback";
 import type { LoggerStep } from "@/constants/LoggerSteps";
 import type { SettingsState } from "@/state/settings";
+import type { z } from "zod";
+import type { LogItemSchema } from "@/types";
 
 /**
  * Every analytics event the app sends, keyed by name, with its properties.
  *
  * - Name: `<area>:<object>_<verb>`, verb in past tense
  * - Properties: snake_case, JSON values only
- * - Never send entry content (rating, emotions, sleep, text) or user text.
- *   Send counts, lengths, and booleans instead.
+ * - Never send free text (notes, custom tag names). Send counts and lengths
+ *   instead. Fixed values (rating, emotion keys, sleep quality) are fine.
  * - `undefined`: the event has no properties
  */
 export interface AnalyticsEvents {
@@ -43,6 +45,12 @@ export interface AnalyticsEvents {
   "logger:emotions_tooltip_closed": undefined;
   "logger:reminder_enabled": undefined;
   "logger:reminder_postponed": undefined;
+  "logger:confirmation_viewed": SavedEntryProperties;
+  "logger:confirmation_answered": SavedEntryProperties & {
+    answer: ConfirmationAnswer;
+    answer_ms: number;
+  };
+  "logger:confirmation_skipped": SavedEntryProperties & { skip_ms: number };
   "logger:store_review_requested": {
     trigger: "entries_7";
     entries_count: number;
@@ -120,9 +128,9 @@ export interface AnalyticsEvents {
   };
   "reminders:time_changed": { time: string };
 
-  "data:export_started": undefined;
-  "data:export_completed": undefined;
-  "data:export_failed": undefined;
+  "data:export_started": { format: "json" | "csv" };
+  "data:export_completed": { format: "json" | "csv" };
+  "data:export_failed": { format: "json" | "csv" };
   "data:import_started": undefined;
   "data:import_completed": undefined;
   "data:import_failed": {
@@ -153,7 +161,67 @@ export type TrackArgs<Event extends AnalyticsEvent> =
     ? [event: Event]
     : [event: Event, properties: AnalyticsEvents[Event]];
 
-type ResetKind = "factory" | "data";
+/** `data` (entries and tags only) was last sent before the merged "Delete all my data" item. */
+type ResetKind = "factory";
+
+/**
+ * Usage summary: anonymous usage counts of one install.
+ *
+ * Counts, shares, and booleans only. Never entry content (rating, emotions,
+ * text) or tag titles.
+ */
+// oxlint-disable-next-line typescript/consistent-type-definitions -- PostHog takes index-signature objects; interfaces have no index signature.
+export type UsageSummary = {
+  entries_count: number;
+  entries_30d: number;
+  logged_days_7d: number;
+  logged_days_30d: number;
+  days_since_first_entry: number | null;
+  days_since_last_entry: number | null;
+  current_streak: number;
+  longest_streak: number;
+  /** Share of entries in the last 30 days with a note, 0 to 100. */
+  notes_pct_30d: number | null;
+  tags_pct_30d: number | null;
+  emotions_pct_30d: number | null;
+  statistics_unlocked: boolean;
+  tags_count: number;
+  archived_tags_count: number;
+  reminder_enabled: boolean;
+  reminder_hour: number | null;
+  scale_type: SettingsState["scaleType"];
+  steps: SettingsState["steps"];
+  onboarding_done: boolean;
+  questions_answered_count: number;
+};
+
+/** Usage summary fields written once, on the first send. */
+// oxlint-disable-next-line typescript/consistent-type-definitions -- PostHog takes index-signature objects; interfaces have no index signature.
+export type UsageSummaryOnce = {
+  first_app_version: string;
+};
+
+type LogItem = z.infer<typeof LogItemSchema>;
+
+/** Answer to "How are you feeling now?" after saving a new entry. */
+export type ConfirmationAnswer = "worse" | "same" | "better";
+
+/**
+ * Saved entry metadata sent with the confirmation events. Holds no free
+ * text: notes and tag names are sent as counts only.
+ */
+export interface SavedEntryProperties {
+  rating: LogItem["rating"];
+  emotions: LogItem["emotions"];
+  emotions_count: number;
+  tags_count: number;
+  message_length: number;
+  /** Whitespace-separated words; Chinese, Japanese, and Thai notes count as 1. */
+  message_word_count: number;
+  sleep_quality: LogItem["sleep"]["quality"] | null;
+  /** All entries, including the saved one. */
+  entries_count: number;
+}
 
 /** Properties of the statistics highlight events: shown cards and item counts. */
 export type HighlightsProperties =

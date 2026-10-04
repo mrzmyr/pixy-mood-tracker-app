@@ -1,4 +1,3 @@
-import { getSlideMarginTop } from "./marginTop";
 import { t } from "@/lib/translation";
 import useColors from "@/hooks/useColors";
 import type { LogItem } from "@/features/logs";
@@ -20,6 +19,7 @@ import TextArea from "@/components/TextArea";
 import { Footer } from "./Footer";
 
 const MAX_LENGTH = 10 * 1000;
+const SLIDE_MARGIN_TOP = 8;
 
 // Keeps the last lines above the floating next/save button while typing.
 const INPUT_BOTTOM_PADDING_TYPING = 72;
@@ -66,7 +66,6 @@ const SlideMessageComponent = (
   const insets = useSafeAreaInsets();
   const colors = useColors();
   const tempLog = useTemporaryLog();
-  const marginTop = getSlideMarginTop();
   const keyboardVisible = useKeyboardVisible();
 
   // The footer only exists while the disable link shows and the keyboard is
@@ -75,7 +74,7 @@ const SlideMessageComponent = (
 
   return (
     <KeyboardAvoidingView
-      keyboardVerticalOffset={marginTop + insets.top + 16}
+      keyboardVerticalOffset={SLIDE_MARGIN_TOP + insets.top + 16}
       behavior={Platform.OS === "ios" ? "padding" : "height"}
       style={{
         flex: 1,
@@ -94,7 +93,7 @@ const SlideMessageComponent = (
           <View
             style={{
               flex: 1,
-              marginTop: 8,
+              marginTop: SLIDE_MARGIN_TOP,
             }}
           >
             <TextArea

@@ -11,6 +11,7 @@ import {
   CheckCircle,
   Database,
   Droplet,
+  Flag,
   Github,
   PieChart,
   Shield,
@@ -27,6 +28,7 @@ import { CHANGELOG_URL, FEEDBACK_FEATURES_URL } from "@/constants/Config";
 import { DEV_TOOLS } from "@/dev";
 import { t } from "@/lib/translation";
 import { useAnalytics } from "@/state/analytics";
+import { useFeatureFlag } from "@/state/featureFlags";
 import useColors from "@/hooks/useColors";
 import { useFeedbackModal } from "@/features/feedback";
 import pkg from "../../../../../package.json";
@@ -34,13 +36,14 @@ import { Bug, Lightbulb, Tag } from "lucide-react-native";
 import { useSupport } from "@/support";
 
 /**
- * Settings screen, opened from the calendar header. The support card shows only when a support client is enabled.
+ * Settings screen, opened from the calendar header. The support card needs its feature flag and an enabled client.
  */
 export const SettingsScreen = () => {
   const router = useRouter();
   const colors = useColors();
   const analytics = useAnalytics();
   const support = useSupport();
+  const isSupportEnabled = useFeatureFlag("support-pixy");
 
   const { show: showFeedbackModal, Modal: FeedbackModal } = useFeedbackModal();
 
@@ -113,6 +116,17 @@ export const SettingsScreen = () => {
             testID="request_a_feature"
           />
           <MenuListItem
+            title={t("vote_features")}
+            onPress={async () => {
+              analytics.track("settings:vote_features_tapped");
+              await WebBrowser.openBrowserAsync(FEEDBACK_FEATURES_URL);
+            }}
+            iconLeft={
+              <ArrowUpCircle width={18} color={colors.menuListItemIcon} />
+            }
+            testID="vote_features"
+          />
+          <MenuListItem
             title={t("report_a_bug")}
             onPress={() => showFeedbackModal({ type: "issue" })}
             iconLeft={<Bug width={18} color={colors.menuListItemIcon} />}
@@ -135,17 +149,6 @@ export const SettingsScreen = () => {
         <MenuListHeadline>{t("settings_about")}</MenuListHeadline>
         <MenuList style={{}}>
           <MenuListItem
-            title={t("vote_features")}
-            onPress={async () => {
-              analytics.track("settings:vote_features_tapped");
-              await WebBrowser.openBrowserAsync(FEEDBACK_FEATURES_URL);
-            }}
-            iconLeft={
-              <ArrowUpCircle width={18} color={colors.menuListItemIcon} />
-            }
-            testID="vote_features"
-          />
-          <MenuListItem
             title={t("changelog")}
             onPress={async () => {
               analytics.track("settings:changelog_tapped");
@@ -160,20 +163,30 @@ export const SettingsScreen = () => {
             iconLeft={<Shield width={18} color={colors.menuListItemIcon} />}
             isLink
           />
+          <MenuListItem
+            title={t("licenses")}
+            iconLeft={<Award width={18} color={colors.menuListItemIcon} />}
+            onPress={() => router.push("/settings/licenses")}
+            isLink
+          />
+          <MenuListItem
+            title={t("app_is_open_source")}
+            onPress={() => {
+              Linking.openURL(
+                "https://github.com/mrzmyr/pixy-mood-tracker-app"
+              );
+            }}
+            iconLeft={<Github width={18} color={colors.menuListItemIcon} />}
+            isLast
+          />
         </MenuList>
 
         <MenuListHeadline>{t("settings_development")}</MenuListHeadline>
         <MenuList style={{}}>
           <MenuListItem
-            title={`${t("onboarding")}`}
+            title={t("onboarding")}
             iconLeft={<Smartphone width={18} color={colors.menuListItemIcon} />}
             onPress={() => router.push("/onboarding")}
-          />
-          <MenuListItem
-            title={`${t("settings_development_statistics")}`}
-            iconLeft={<PieChart width={18} color={colors.menuListItemIcon} />}
-            onPress={() => router.push("/settings/development-tools")}
-            isLink
           />
           {DEV_TOOLS && (
             <MenuListItem
@@ -184,24 +197,24 @@ export const SettingsScreen = () => {
               testID="dev-fixtures"
             />
           )}
+          {DEV_TOOLS && (
+            <MenuListItem
+              title="Feature flags"
+              iconLeft={<Flag width={18} color={colors.menuListItemIcon} />}
+              onPress={() => router.push("/dev/feature-flags")}
+              isLink
+              testID="dev-feature-flags"
+            />
+          )}
           <MenuListItem
-            title={t("app_is_open_source")}
-            onPress={() => {
-              Linking.openURL(
-                "https://github.com/mrzmyr/pixy-mood-tracker-app"
-              );
-            }}
-            iconLeft={<Github width={18} color={colors.menuListItemIcon} />}
-          />
-          <MenuListItem
-            title={t("licenses")}
-            iconLeft={<Award width={18} color={colors.menuListItemIcon} />}
-            onPress={() => router.push("/settings/licenses")}
+            title={t("settings_development_statistics")}
+            iconLeft={<PieChart width={18} color={colors.menuListItemIcon} />}
+            onPress={() => router.push("/settings/development-tools")}
             isLink
             isLast
           />
         </MenuList>
-        {support.enabled && <SupportCard />}
+        {isSupportEnabled && support.enabled && <SupportCard />}
         <View
           testID="settings-version"
           style={{

@@ -10,6 +10,11 @@ const haptics = {
       await Haptics.selectionAsync();
     }
   },
+  success: async () => {
+    if (Platform.OS === "ios") {
+      await Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+    }
+  },
 };
 
 const useHaptics = () => haptics;

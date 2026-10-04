@@ -11,6 +11,8 @@ jest.mock("posthog-react-native", () => {
     reset: jest.fn(),
     screen: jest.fn(),
     register: jest.fn(),
+    reloadFeatureFlagsAsync: jest.fn(),
+    setPersonProperties: jest.fn(),
   };
 
   return {

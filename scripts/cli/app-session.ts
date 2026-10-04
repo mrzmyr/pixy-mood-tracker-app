@@ -30,6 +30,7 @@ import {
 import { isRunnerStartFailure } from "./runner-error.ts";
 import { deviceFlag, findDevice, resolveDevice } from "./device.ts";
 import type { Device } from "./device.ts";
+import { stopMetro } from "./metro.ts";
 import { getPlatform } from "./options.ts";
 import { CliError, getStateDir, note } from "./shared.ts";
 import type { Platform } from "./shared.ts";
@@ -543,6 +544,7 @@ const close = async (platform: Platform, selected?: Device) => {
   if (device) {
     await (platform === "android" ? closeAndroid(device) : closeIos(device));
   }
+  stopMetro();
   await pruneBuilds();
   note("Closed device session");
 };

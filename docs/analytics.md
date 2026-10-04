@@ -1,15 +1,22 @@
 # Analytics
 
 - Event catalog: [`src/state/analytics/events.ts`](../src/state/analytics/events.ts)
-- Screens: `$screen` with the route name, from [`src/navigation/screenTracking.ts`](../src/navigation/screenTracking.ts)
+- Usage summary and behaviour signals: [product-analytics.md](product-analytics.md)
+- Screens: `$screen` with the route name, from [`src/shell/screenTracking.ts`](../src/shell/screenTracking.ts)
 - Super properties on every event: `scale_type`, `reminder_enabled`, `steps` ([`src/state/analytics/index.tsx`](../src/state/analytics/index.tsx))
 - Privacy rule: [AGENTS.md footguns](../AGENTS.md#footguns)
-- Default: on for all users. Onboarding privacy slide says so. Factory reset turns it back on ([`src/constants/Settings.ts`](../src/constants/Settings.ts))
+- Default: off in consent regions and when region is unknown; on elsewhere. Factory reset restores the device-region default ([`src/state/analytics/consent.ts`](../src/state/analytics/consent.ts))
+- Onboarding skip: consent regions land on the privacy slide before completion.
 - Off switch: Settings > Privacy > Behavioral Data
+- Feature flags load only with consent ([development.md](development.md#feature-flags))
+- Data exports: `data:export_started`, `data:export_completed`, `data:export_failed` send `format: "json" | "csv"`.
 - Store review prompt: `logger:store_review_requested` ([`src/features/review`](../src/features/review))
   - Fires once per install, after the save that reaches 7 entries
   - Properties: `trigger`, `entries_count`
   - OS decides whether prompt shows
+- Confirmation after a new entry: `logger:confirmation_viewed`, `logger:confirmation_answered`, `logger:confirmation_skipped` ([`src/features/logger/confirmation`](../src/features/logger/confirmation))
+  - Answer: `worse`, `same`, `better`. Asked only after create, not edit
+  - Entry metadata: `rating`, `emotions`, counts, `message_word_count`, `sleep_quality`, `entries_count`
 
 ## Event history
 
@@ -31,6 +38,7 @@ Use this section to join old and new events in PostHog, for example with an Acti
 **Changed meaning**
 
 - `data_import_success` fired twice per import: once when a file was picked, once after the import. `data:import_completed` fires only after the import
+- `data:reset_*`: Settings > Data has one "Delete all my data" item since the first release after `v1.88.0`. It sends only `kind: "factory"`. `kind: "data"` (entries and tags only) is no longer sent
 
 **Removed properties** (never sent under the new names)
 

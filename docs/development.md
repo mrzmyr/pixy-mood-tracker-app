@@ -14,22 +14,19 @@ $ git clone https://github.com/mrzmyr/pixy-mood-tracker.git
 $ bun install
 ```
 
-3. Start local server
+3. Run the dev client with Metro on this checkout's simulator or emulator
 
 ```shell
-$ bun start
+$ bun app dev --platform=ios
+$ bun app dev --platform=android
 ```
 
-4. Install and run on a device
-
-```shell
-$ bun ios --device <device-id>
-$ bun android --device <device-name>
-```
+- Installs the cached dev client (Pixy Dev), starts Metro for this checkout, opens the app. Edits reload in the app.
+- Dev client cache key is the native fingerprint only. Worktrees with the same native dependencies share one binary. Native compile runs only on a cache miss.
+- Never search `ios/build` or `~/Library/Developer/Xcode/DerivedData` for builds. `bun builds list` shows every cached build.
+- Phones: `bun ios --device <device-id>` or `bun android --device <device-name>` build and run the dev client with Metro in the foreground.
 
 Android builds need Android SDK packages and JDK 17+. `bun android` resolves `ANDROID_HOME`, `ANDROID_SDK_ROOT`, the standard macOS SDK path, or Homebrew's Android command line tools, plus Homebrew's JDK 17. Set `ANDROID_HOME` or `JAVA_HOME` when using another install location.
-
-Run `bun ios` or `bun android` without `--device` to select a simulator or emulator.
 
 ### App variants
 
@@ -49,22 +46,34 @@ Three variants install side by side, each with its own name, icon, bundle ID, an
 - TestFlight builds are production builds. Apple promotes the tested TestFlight binary to the App Store.
 - `ios/` and `android/` are generated ([Continuous Native Generation](https://docs.expo.dev/workflow/continuous-native-generation/)). [`scripts/run-native.ts`](../scripts/run-native.ts) reruns `expo prebuild --clean` when the variant or native fingerprint changed since the last prebuild. Never edit these folders.
 
+### Feature flags
+
+- PostHog feature flags. Keys live in [`src/state/featureFlags/keys.ts`](../src/state/featureFlags/keys.ts). Read one with `useFeatureFlag(key)` ([`src/state/featureFlags/index.tsx`](../src/state/featureFlags/index.tsx))
+- Each key needs a boolean flag with the same key in the PostHog project of every variant
+- Flags load only with consent: onboarding done and Settings > Privacy > Behavioral Data on. No flag request at startup (`preloadFeatureFlags: false`, [`src/shell/posthogOptions.ts`](../src/shell/posthogOptions.ts))
+- Without consent, or until flags load, every flag is off. Turning consent off turns flags off. Flags cached in an earlier session are never read
+- Development and preview builds override flags in Settings > Development > Feature flags, or with `<scheme>://dev/feature-flag?key=<key>&value=on|off|remote`. Overrides work without consent and end when the app restarts. Production builds ignore them
+
 ### App CLI
 
+- Commands report host RAM on stderr before and after execution ([measurement](../scripts/cli/memory.ts)). Help and usage errors skip measurement.
+- RAM feedback shows free RAM, available estimate, and budget above recommended **4 GiB headroom**. Low headroom advises waiting before another session.
+- macOS estimate adds free, inactive, and speculative pages. Inactive pages may need writeback. Linux uses `MemAvailable`.
 - Every device command takes exactly one device option:
   - `--platform=<ios|android>`: simulator or emulator that the CLI manages for this checkout
   - `--target=<target>`: one connected phone
 - `bun devices list` prints the option to copy for every device, plus state and problem. `--platform=<ios|android>` filters by OS.
+- `bun app dev` installs the cached dev client, starts this checkout's Metro, and opens the app on it. Rerun to reload. Simulator and emulator only.
 - `bun app build` compiles a preview release with embedded JavaScript into the shared cache.
 - `bun app install` installs the cached preview binary directly, no prebuild. Builds first when cache has no match.
 - `bun app seed --fixture=<id>` loads `fresh`, `empty`, `seed`, or `year` data and prints a screenshot path.
 - `bun app open` launches by app ID, waits for onboarding or calendar, then prints a screenshot path.
-- `bun app close` ends the session and resets app data. See [Phones](#phones) for phone behavior.
+- `bun app close` ends the session, resets app data, and stops this checkout's Metro. See [Phones](#phones) for phone behavior.
 - `bun e2e run [--paths=<path,...>]` closes the session, reinstalls the app, then runs Maestro flows. Default path: `e2e/flows`.
 - `bun e2e run --video` records each flow attempt to `recording.mp4` in its artifacts folder and prints the paths.
 - `bun builds list` lists cached builds. `bun builds rm --build=<id>` removes one. `bun builds prune` removes old builds and deleted checkout state.
 - Commands take options only, no positional arguments. `bun <noun> <command> --help` lists options, examples, and errors.
-- The CLI selects the preview variant. Metro stays off.
+- The CLI selects the preview variant. Metro stays off. `bun app dev` is the exception: development variant with Metro.
 
 ```shell
 bun devices list
@@ -81,7 +90,7 @@ bun e2e run --target=pixel-8-09yw --paths=e2e/flows/entry-full.yaml
 - `bun app close` on a phone never shuts down or erases the phone. Android: stops the app and clears its data. iPhone: stops and uninstalls the preview app.
 - One device per command. Start one command per phone to run phones in parallel.
 - Reserve a phone for a whole task: `bun devices reserve --target=<target>`. Other checkouts then fail with `device_reserved`. Release with `bun devices release --target=<target>`. Reservations expire after 60 minutes (`--minutes=<n>`) or when their checkout is deleted.
-- Humans can still use `bun ios --device <udid>` for development builds.
+- `bun app dev` has no phone support. Use `bun ios --device <udid>` or `bun android --device <name>` for the dev client on a phone.
 
 Known limits. A phone run fails with `flows_unsupported_on_phone` before it changes anything on the phone, and names every blocked flow plus the command to run it elsewhere:
 
@@ -108,8 +117,10 @@ Known limits. A phone run fails with `flows_unsupported_on_phone` before it chan
 
 ### Build cache
 
-- Shared builds live under `~/.cache/pixy-mood-tracker/build-cache/`.
+- Shared builds live under `~/.cache/pixy-mood-tracker/build-cache/`. `bun builds list` shows them with app variant and source.
 - Preview build keys include native fingerprint, app source, and `EXPO_PUBLIC_*` values.
+- Dev client keys include the native fingerprint only (`ios-<fingerprint>-unknown`, `android-<fingerprint>-debug`). JavaScript comes from Metro. One dev client serves every worktree with the same native dependencies.
+- `bun ios` and `bun android` use the same cache through Expo CLI.
 - An exact cache hit skips native compilation and JavaScript bundling.
 - `bun builds prune` keeps one build per OS, target, and variant, plus builds used within two days.
 
@@ -120,12 +131,14 @@ The cache provider lives in [`scripts/build-cache-provider.cjs`](../scripts/buil
 - Checkout state lives under `~/.cache/pixy-mood-tracker/checkouts/<hash>/`. `checkout.txt` records its worktree path.
 - `e2e/<device>/` contains test artifacts, `junit.xml`, and `--video` recordings. `screenshots/<device>/` contains app screenshots. `<device>` is `ios`, `android`, or the phone target.
 - `build/` contains Expo build output. Logs stay in the checkout state dir.
+- `metro.log` and `metro.pid` belong to the Metro that `bun app dev` started.
 - CLI state stays outside the worktree. Expo owns generated `ios/` and `android/` folders.
 
 ### Parallel runs
 
 - Each worktree gets one iPhone 17 Pro simulator named `pixy-mood-tracker-<hash>`. The CLI boots it with `simctl`.
 - Two worktrees can build, install, open, and run iOS e2e flows at the same time. Device claims keep their sessions separate.
+- Each checkout's Metro runs on its own port (8082-8181, from the checkout hash). 8081 stays free for a manual `bun start`.
 - Android uses one `pixy-mood-tracker` AVD per machine. Android runs serialize through device claims.
 - Phones are shared by all worktrees. A second command on a busy phone fails with `device_in_use`.
 - Reservations live under `~/.cache/pixy-mood-tracker/reservations/`, one file per phone. See [Phones](#phones).
@@ -138,6 +151,8 @@ The cache provider lives in [`scripts/build-cache-provider.cjs`](../scripts/buil
 - CLI failures report `status`, `message`, `why`, and `fix`. Failed steps stop without another strategy.
 
 ### Preview Support Pixy
+
+- Enable `support-pixy` in Settings > Development > Feature flags to show support card. Remote flag stays disabled.
 
 Configured native builds use `EXPO_PUBLIC_SUPERWALL_IOS_API_KEY` and `EXPO_PUBLIC_SUPERWALL_ANDROID_API_KEY`. Development builds can expose the support card without Superwall by setting `EXPO_PUBLIC_PIXY_SUPPORT_FAKE_MODE` to `available` or `failed`. Restart Expo after changing configuration. Production builds ignore fake mode.
 

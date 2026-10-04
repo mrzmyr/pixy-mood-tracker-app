@@ -186,9 +186,9 @@ const light = {
   onboardingPaginationDotInactive: colors.neutral[300],
 
   onboardingListItemDot: colors.neutral[500],
-  onboardingListItemText: colors.neutral[700],
+  onboardingListItemText: colors.neutral[800],
 
-  onboardingPrivacyBadgeBackground: colors.black,
+  onboardingPrivacyBadgeBackground: tintColorLight,
   onboardingPrivacyBadgeVector: colors.white,
 
   sharingLogoBackground: colors.white,
@@ -372,8 +372,8 @@ const dark: IColors & {
   onboardingPaginationDotActive: colors.neutral[300],
   onboardingPaginationDotInactive: colors.neutral[700],
 
-  onboardingPrivacyBadgeBackground: colors.white,
-  onboardingPrivacyBadgeVector: colors.neutral[900],
+  onboardingPrivacyBadgeBackground: tintColorDark,
+  onboardingPrivacyBadgeVector: colors.white,
   onboardingListItemDot: colors.neutral[700],
   onboardingListItemText: colors.neutral[300],
 

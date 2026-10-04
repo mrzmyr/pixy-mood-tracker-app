@@ -15,7 +15,7 @@ tags: [p0, onboarding]
 - assertVisible: "Daily Reminder"
 - tapOn: "Maybe later"
 - assertVisible: "We take privacy serious and handle your data with care."
-- tapOn: "Understood"
+- runFlow: ../subflows/finish-privacy-slide.yaml
 - assertVisible:
     id: "calendar-list"
 

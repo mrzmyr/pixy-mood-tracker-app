@@ -1,3 +1,6 @@
+import * as Sentry from "@sentry/react-native";
+import { createStructuredError } from "@/lib/errors";
+import { createCsv } from "./csv";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import dayjs from "dayjs";
 import * as FileSystem from "expo-file-system/legacy";
@@ -37,8 +40,6 @@ import {
   useTagsUpdater,
 } from "@/features/tags";
 import type { Tag } from "@/features/tags";
-
-type ResetType = "factory" | "data";
 
 interface ExportData {
   version: string;
@@ -81,11 +82,11 @@ const openDangerousImportDirectlyToAsyncStorageDialog = async () => {
 };
 
 interface DatagateValue {
-  openExportDialog: () => Promise<void>;
+  openExportDialog: (options: { format: "json" | "csv" }) => Promise<void>;
   openImportDialog: () => Promise<void>;
   import: (data: ImportData, options: { muted: boolean }) => void;
   openDangerousImportDirectlyToAsyncStorageDialog: () => Promise<void>;
-  openResetDialog: (type: ResetType) => Promise<void>;
+  openResetDialog: () => Promise<void>;
 }
 
 /**
@@ -136,10 +137,6 @@ export const useDatagate = (): DatagateValue => {
   const reset = () => {
     logUpdater.reset();
     tagsUpdater.reset();
-  };
-
-  const factoryReset = () => {
-    reset();
     resetSettings();
     analytics.reset();
   };
@@ -166,28 +163,27 @@ export const useDatagate = (): DatagateValue => {
     }
   };
 
-  const openResetDialog = async (type: ResetType) => {
-    analytics.track("data:reset_requested", { kind: type });
-    const resetFn = type === "factory" ? factoryReset : reset;
+  const openResetDialog = async () => {
+    analytics.track("data:reset_requested", { kind: "factory" });
 
     if (Platform.OS === "web") {
-      resetFn();
+      reset();
       // oxlint-disable-next-line eslint/no-alert -- web-only branch: react-native-web's Alert.alert is a no-op, so the browser dialog is the only way to confirm the reset.
-      alert(t("reset_data_success_message"));
+      alert(t("delete_all_data_success_message"));
       return;
     }
 
     try {
-      await askToReset<ResetType>(type);
-      resetFn();
-      analytics.track("data:reset_completed", { kind: type });
-      showResetSuccess<ResetType>(type);
+      await askToReset();
+      reset();
+      analytics.track("data:reset_completed", { kind: "factory" });
+      showResetSuccess();
     } catch {
-      analytics.track("data:reset_cancelled", { kind: type });
+      analytics.track("data:reset_cancelled", { kind: "factory" });
     }
   };
 
-  const openExportDialog = async () => {
+  const openExportDialog = async ({ format }: { format: "json" | "csv" }) => {
     const data: ExportData = {
       version: pkg.version,
       items: logState.items,
@@ -203,22 +199,37 @@ export const useDatagate = (): DatagateValue => {
       },
     };
 
-    analytics.track("data:export_started");
+    analytics.track("data:export_started", { format });
 
     if (Platform.OS === "web") {
       return Alert.alert("Not supported on web");
     }
 
-    const filename = `pixy-mood-tracker-${dayjs().format("YYYY-MM-DD")}${__DEV__ ? "-DEV" : ""}.json`;
-
-    const isShared = await shareExportFile(filename, JSON.stringify(data));
+    const filename = `pixy-mood-tracker-${dayjs().format("YYYY-MM-DD")}${__DEV__ ? "-DEV" : ""}.${format}`;
+    let isShared = false;
+    try {
+      const contents =
+        format === "csv"
+          ? createCsv({ items: logState.items, tags })
+          : JSON.stringify(data);
+      isShared = await shareExportFile(filename, contents);
+    } catch {
+      Sentry.captureException(
+        createStructuredError({
+          status: "data_export_failed",
+          message: "Data could not be exported",
+          why: "Creating or sharing the export file failed",
+          fix: "Check available device storage and export again",
+        })
+      );
+    }
     if (!isShared) {
-      analytics.track("data:export_failed");
-      Alert.alert("Alert", t("export_failed_title"));
+      analytics.track("data:export_failed", { format });
+      Alert.alert(t("export_failed_title"), t("export_failed_message"));
       return;
     }
 
-    analytics.track("data:export_completed");
+    analytics.track("data:export_completed", { format });
   };
 
   return {
