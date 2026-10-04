@@ -65,12 +65,11 @@ tags: [p0, entry]
 - tapOn:
     id: "logger-save"
 
-# Saving shows the confirmation.
+# Saving shows the confirmation with a summary of the day.
 - assertVisible:
-    id: "confirmation"
-- assertVisible: "How are you feeling now?"
+    id: "confirmation-summary"
 - tapOn:
-    id: "confirmation-better"
+    id: "confirmation-done"
 - assertVisible: "Add another entry for today"
 
 - stopApp

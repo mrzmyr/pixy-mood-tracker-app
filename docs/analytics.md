@@ -14,8 +14,8 @@
   - Fires once per install, after the save that reaches 7 entries
   - Properties: `trigger`, `entries_count`
   - OS decides whether prompt shows
-- Confirmation after a new entry: `logger:confirmation_viewed`, `logger:confirmation_answered`, `logger:confirmation_skipped` ([`src/features/logger/confirmation`](../src/features/logger/confirmation))
-  - Answer: `worse`, `same`, `better`. Asked only after create, not edit
+- Confirmation after a new entry: `logger:confirmation_viewed` ([`src/features/logger/confirmation`](../src/features/logger/confirmation))
+  - Shown only after create, not edit
   - Entry metadata: `rating`, `emotions`, counts, `message_word_count`, `sleep_quality`, `entries_count`
 - Reminder taps: `reminders:notification_opened` ([`src/features/notifications/reminderTaps.ts`](../src/features/notifications/reminderTaps.ts))
   - One event per tap on reminder body. Dismisses and other actions not sent
@@ -44,6 +44,10 @@ Use this section to join old and new events in PostHog, for example with an Acti
 
 - `data_import_success` fired twice per import: once when a file was picked, once after the import. `data:import_completed` fires only after the import
 - `data:reset_*`: Settings > Data has one "Delete all my data" item since the first release after `v1.88.0`. It sends only `kind: "factory"`. `kind: "data"` (entries and tags only) is no longer sent
+
+**Removed events**
+
+- `logger:confirmation_answered`, `logger:confirmation_skipped`: the "How are you feeling now?" question left the confirmation. `logger:confirmation_viewed` stays
 
 **Removed properties** (never sent under the new names)
 
