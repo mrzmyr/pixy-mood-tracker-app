@@ -9,17 +9,17 @@ const ICONS =
     ? ({
         filters: "line.3.horizontal.decrease",
         statistics: "chart.pie",
-        settings: "person.crop.circle",
+        settings: "gearshape",
       } as const)
     : {
         filters: require("../../assets/images/icons/filter.png"),
         statistics: require("../../assets/images/icons/statistics.png"),
-        settings: require("../../assets/images/icons/profile.png"),
+        settings: require("../../assets/images/icons/settings.png"),
       };
 
 /**
  * Calendar header buttons: Statistics on the left; Filters and Settings
- * (profile icon) on the right.
+ * (cog icon) on the right.
  *
  * Native header items: Liquid Glass buttons on iOS 26 (floating over the
  * calendar, see `HAS_FLOATING_HEADER`), Material icon buttons on Android.

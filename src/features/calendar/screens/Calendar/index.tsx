@@ -16,9 +16,13 @@ import { CalendarBottomSheet } from "./CalendarBottomSheet";
 import { Body } from "./CalendarBottomSheet/Body";
 import { CalendarFooter } from "./CalendarFooter";
 import CalendarHeader from "./CalendarHeader";
-import { ScrollToBottomButton } from "./ScrollToBottomButton";
+import { CalendarFloatButton } from "./CalendarFloatButton";
 import { t } from "@/lib/translation";
 import { ObserveInteractiveMarker } from "expo-observe";
+import { useRouter } from "expo-router";
+import dayjs from "dayjs";
+import { DATE_FORMAT } from "@/constants/Config";
+import { getItemDate } from "@/lib/logDates";
 
 const CalendarScreenComponent = () => {
   /*
@@ -30,6 +34,7 @@ const CalendarScreenComponent = () => {
    */
   "use no memo";
   const colors = useColors();
+  const router = useRouter();
   const isSettingsLoaded = useSetting("loaded");
   const analytics = useAnalytics();
   const logState = useLogState();
@@ -40,7 +45,7 @@ const CalendarScreenComponent = () => {
   const [weekdayHeight, setWeekdayHeight] = useState(0);
   // A floating header overlaps the list, so the list starts below it.
   const topInset = HAS_FLOATING_HEADER ? headerHeight + weekdayHeight : 0;
-  const showScrollTopButton = isAwayFromToday && !calendarFilters.isOpen;
+  const showFloatButton = !calendarFilters.isOpen;
   const onScroll = useCallback(
     (event: NativeSyntheticEvent<NativeScrollEvent>) => {
       const { contentOffset, contentSize, layoutMeasurement } =
@@ -111,11 +116,24 @@ const CalendarScreenComponent = () => {
           {calendarList}
         </>
       )}
-      {showScrollTopButton && (
-        <ScrollToBottomButton
-          onPress={() => {
+      {showFloatButton && (
+        <CalendarFloatButton
+          isAtBottom={!isAwayFromToday}
+          onScrollToBottom={() => {
             analytics.track("calendar:today_tapped");
             scrollRef.current?.scrollToEnd({ animated: true });
+          }}
+          onAdd={() => {
+            const today = dayjs().format(DATE_FORMAT);
+            analytics.track("calendar:add_today_tapped", {
+              has_entries: logState.items.some(
+                (item) => getItemDate(item) === today
+              ),
+            });
+            router.push({
+              pathname: "/logs/create/[dateTime]",
+              params: { dateTime: dayjs().toISOString() },
+            });
           }}
         />
       )}
