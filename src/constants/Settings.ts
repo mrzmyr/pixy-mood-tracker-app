@@ -26,4 +26,5 @@ export const INITIAL_STATE: SettingsState = {
   photosDayAccessDismissed: false,
   colorScheme: "system",
   locationEnabled: false,
+  calendarLayout: "calendar",
 };
