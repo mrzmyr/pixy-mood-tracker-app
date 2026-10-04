@@ -6,7 +6,7 @@ export const FEATURE_FLAGS = [
   "photos",
   "support-pixy",
   "people",
-  "calendar-view",
+  "calendar-view-all-moods",
 ] as const;
 
 /** One key of {@link FEATURE_FLAGS}. */

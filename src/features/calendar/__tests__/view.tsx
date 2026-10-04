@@ -27,7 +27,7 @@ const wrapper = ({ children }: { children: React.ReactNode }) => (
 
 /** Renders the hook with consent given, so remote flags load. */
 const renderCalendarView = async ({ isFlagOn }: { isFlagOn: boolean }) => {
-  mockReload.mockResolvedValue({ "calendar-view": isFlagOn });
+  mockReload.mockResolvedValue({ "calendar-view-all-moods": isFlagOn });
   await AsyncStorage.setItem(
     STORAGE_KEY,
     JSON.stringify({

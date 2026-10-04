@@ -13,12 +13,13 @@ export const getCalendarViewLabel = (view: CalendarView) =>
   t(view === "all" ? "calendar_view_all" : "calendar_view_average");
 
 /**
- * Current calendar view. Behind the `calendar-view` flag: with the flag off,
- * the view is always `average` and the stored choice stays untouched.
+ * Current calendar view. Behind the `calendar-view-all-moods` flag: with the
+ * flag off, the view is always `average` and the stored choice stays
+ * untouched.
  * Unknown stored values fall back to `average`.
  */
 export const useCalendarView = () => {
-  const isEnabled = useFeatureFlag("calendar-view");
+  const isEnabled = useFeatureFlag("calendar-view-all-moods");
   const { settings, setSettings } = useSettings();
   const analytics = useAnalytics();
   const view: CalendarView =

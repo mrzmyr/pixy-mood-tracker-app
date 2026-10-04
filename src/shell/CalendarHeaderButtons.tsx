@@ -24,9 +24,10 @@ const ICONS =
 
 /**
  * Calendar header buttons: Statistics on the left; Filters menu and Settings
- * (cog icon) on the right. With the `calendar-view` flag on, Filters is a
- * menu: it opens the filter sheet and holds the calendar view picker
- * (Average Mood, All Moods). With the flag off, Filters opens the sheet.
+ * (cog icon) on the right. With the `calendar-view-all-moods` flag on,
+ * Filters is a menu: it opens the filter sheet and holds the calendar view
+ * picker (Average Mood, All Moods). With the flag off, Filters opens the
+ * sheet.
  *
  * Native header items: Liquid Glass buttons on iOS 26 (floating over the
  * calendar, see `HAS_FLOATING_HEADER`), Material icon buttons on Android.

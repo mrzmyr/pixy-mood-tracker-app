@@ -1,9 +1,9 @@
 appId: ${APP_ID}
 tags: [p1, calendar]
 ---
-# Behind the `calendar-view` flag. The View section of the Filters menu
-# switches calendar days from average mood color to a bar of all moods of the
-# day. The choice survives a restart.
+# Behind the `calendar-view-all-moods` flag. The View section of the Filters
+# menu switches calendar days from average mood color to a bar of all moods of
+# the day. The choice survives a restart.
 - runFlow:
     file: ../subflows/load-fixture.yaml
     env:
