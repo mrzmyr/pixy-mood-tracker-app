@@ -223,6 +223,12 @@ export const SlidePeople = ({
                     person={person}
                     selected={selectedIds.has(person.id)}
                     onPress={() => toggle(person.id)}
+                    onLongPress={() =>
+                      router.push({
+                        pathname: "/people/[id]",
+                        params: { id: person.id },
+                      })
+                    }
                     testID={`log-person-${person.id}`}
                   />
                 </View>

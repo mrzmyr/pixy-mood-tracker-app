@@ -4,6 +4,7 @@ import type { ViewStyle } from "react-native";
 import useColors from "@/hooks/useColors";
 import useHaptics from "@/hooks/useHaptics";
 import type { TAG_COLOR_NAMES } from "@/constants/Config";
+import { t } from "@/lib/translation";
 
 const DEFAULT_STYLE = {};
 
@@ -12,12 +13,15 @@ const Tag = ({
   selected = false,
   colorName,
   onPress,
+  onLongPress,
   style = DEFAULT_STYLE,
 }: {
   title: string;
   selected?: boolean;
   colorName: (typeof TAG_COLOR_NAMES)[number];
   onPress?: () => void;
+  /** Opens the tag editor; also offered as the "edit" accessibility action. */
+  onLongPress?: () => void;
   style?: ViewStyle;
 }) => {
   const colors = useColors();
@@ -51,6 +55,22 @@ const Tag = ({
         }
         await haptics.selection();
         onPress?.();
+      }}
+      onLongPress={
+        onLongPress
+          ? async () => {
+              await haptics.impact();
+              onLongPress();
+            }
+          : undefined
+      }
+      accessibilityActions={
+        onLongPress ? [{ name: "edit", label: t("edit") }] : undefined
+      }
+      onAccessibilityAction={({ nativeEvent }) => {
+        if (nativeEvent.actionName === "edit") {
+          onLongPress?.();
+        }
       }}
     >
       <View

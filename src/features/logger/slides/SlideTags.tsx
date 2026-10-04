@@ -113,6 +113,12 @@ export const SlideTags = ({
                     : [...(tempLog?.data.tags || []), tag];
                   onChange(newTags);
                 }}
+                onLongPress={() =>
+                  router.push({
+                    pathname: "/tags/[id]",
+                    params: { id: tag.id },
+                  })
+                }
                 title={tag.title}
                 colorName={tag.color}
                 selected={tempLogTagIds?.has(tag.id)}
