@@ -5,11 +5,8 @@ import type { Emotion } from "@/types";
 import chunk from "lodash/chunk";
 import orderBy from "lodash/orderBy";
 import { View } from "react-native";
-import type { ViewStyle } from "react-native";
 
 import { EmotionButtonBasic } from "./EmotionButtonBasic";
-
-const DEFAULT_STYLE = {};
 
 /**
  * Two-column emotion grid, good first, then neutral, then bad.
@@ -21,12 +18,10 @@ export const EmotionBasicSelection = ({
   emotions,
   selectedEmotions,
   onPress,
-  style = DEFAULT_STYLE,
 }: {
   emotions: Emotion[];
   selectedEmotions: Emotion[];
   onPress: (emotion: Emotion) => void;
-  style?: ViewStyle;
 }) => {
   const { Modal, show } = useFeedbackModal();
 
@@ -50,7 +45,6 @@ export const EmotionBasicSelection = ({
         paddingVertical: 12,
         paddingHorizontal: 20,
         marginBottom: 120,
-        ...style,
       }}
     >
       <Modal />
