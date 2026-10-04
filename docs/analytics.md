@@ -121,7 +121,7 @@ Use this section to join old and new events in PostHog, for example with an Acti
   - `statistics_feedback_store_review_done`
   - `statistics_feedback_store_review_error`
 - New names never shipped in a release: `statistics:card_feedback_submitted`, `statistics:store_review_requested`, `statistics:store_review_completed`, `statistics:store_review_failed`
-- `feedback:type_changed`: feedback modal lost its type selector. Settings opens it as "Request a feature" (`type: "idea"`) or "Report a bug" (`type: "issue"`). Use `type` on `feedback:modal_opened`
+- `feedback:type_changed`: feedback modal lost its type selector. Settings opens it as "Request Feature" (`type: "idea"`) or "Report Bug" (`type: "issue"`). Use `type` on `feedback:modal_opened`
 
 **Renames**
 

@@ -213,11 +213,11 @@ describe("Feedback in Settings", () => {
 
   test.each([
     {
-      item: "Request a feature",
+      item: "Request Feature",
       placeholder: "It would be great if…",
       type: "idea",
     },
-    { item: "Report a bug", placeholder: "I noticed that…", type: "issue" },
+    { item: "Report Bug", placeholder: "I noticed that…", type: "issue" },
   ])(
     "user sends $type feedback from $item without picking a type",
     async ({ item, placeholder, type }) => {
