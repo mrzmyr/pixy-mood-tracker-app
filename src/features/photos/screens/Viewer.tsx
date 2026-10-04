@@ -1,5 +1,5 @@
 import { Image } from "expo-image";
-import { ImageOff, Trash2, X } from "lucide-react-native";
+import { ImageOff, Trash2 } from "lucide-react-native";
 import { useEffect, useEffectEvent, useRef, useState } from "react";
 import {
   Modal,
@@ -20,6 +20,7 @@ import type {
   CarouselRef,
 } from "react-native-reanimated-carousel";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { CloseButton } from "@/components/CloseButton";
 import { t } from "@/lib/translation";
 import { useAnalytics } from "@/state/analytics";
 import { usePhotoZoom } from "../hooks/usePhotoZoom";
@@ -246,22 +247,12 @@ export const PhotoViewer = ({
             height: 44,
           }}
         >
-          <Pressable
-            onPress={onClose}
-            accessibilityRole="button"
-            accessibilityLabel={t("photos_viewer_close")}
+          <CloseButton
             testID="photo-viewer-close"
-            style={{
-              position: "absolute",
-              left: 8,
-              width: 44,
-              height: 44,
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <X color={FOREGROUND} size={26} />
-          </Pressable>
+            color={FOREGROUND}
+            onPress={onClose}
+            style={{ position: "absolute", right: 8 }}
+          />
           {items.length > 1 && (
             <Text
               accessibilityLabel={t("photos_thumbnail_label", {

@@ -2,15 +2,14 @@ import { useState } from "react";
 import {
   Modal,
   Platform,
-  Pressable,
   ScrollView,
   Switch,
   Text,
   TextInput,
   View,
 } from "react-native";
-import { X } from "react-native-feather";
 import Button from "@/components/Button";
+import { CloseButton } from "@/components/CloseButton";
 import LinkButton from "@/components/LinkButton";
 import MenuList from "@/components/MenuList";
 import MenuListItem from "@/components/MenuListItem";
@@ -53,24 +52,11 @@ const SheetHeader = ({ onClose }: { onClose: () => void }) => {
           {t("request_emotion_subtitle")}
         </Text>
       </View>
-      <Pressable
-        accessibilityRole="button"
-        accessibilityLabel={t("cancel")}
+      <CloseButton
         testID="request-emotion-close"
         onPress={onClose}
-        hitSlop={12}
-        style={({ pressed }) => ({
-          width: 30,
-          height: 30,
-          borderRadius: 15,
-          alignItems: "center",
-          justifyContent: "center",
-          backgroundColor: colors.textInputBackground,
-          opacity: pressed ? 0.6 : 1,
-        })}
-      >
-        <X width={18} height={18} color={colors.textSecondary} />
-      </Pressable>
+        style={{ marginTop: -8, marginRight: -10 }}
+      />
     </View>
   );
 };

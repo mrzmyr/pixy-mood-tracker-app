@@ -1,6 +1,5 @@
 import { useState } from "react";
-import { Pressable, View } from "react-native";
-import { X } from "react-native-feather";
+import { View } from "react-native";
 import Animated, {
   FadeIn,
   LinearTransition,
@@ -10,10 +9,10 @@ import Animated, {
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import Button from "@/components/Button";
+import { CloseButton } from "@/components/CloseButton";
 import { PageModalLayout } from "@/components/PageModalLayout";
 import { Secondary, Title } from "@/components/Type";
 import useColors from "@/hooks/useColors";
-import useHaptics from "@/hooks/useHaptics";
 import { t } from "@/lib/translation";
 
 /** Inactive dots are circles. The active mark is this many times as wide. */
@@ -39,8 +38,6 @@ export interface DemoLabels {
   readonly next: string;
   /** Shown on the last step. */
   readonly done: string;
-  /** Dismisses the demo. */
-  readonly close: string;
 }
 
 const StepDot = ({ active }: { active: boolean }) => {
@@ -87,45 +84,6 @@ const StepDots = ({ step, count }: { step: number; count: number }) => (
     </View>
   </View>
 );
-
-const CloseButton = ({
-  label,
-  testID,
-  onPress,
-}: {
-  label: string;
-  testID?: string;
-  onPress: () => void;
-}) => {
-  const colors = useColors();
-  const haptics = useHaptics();
-
-  return (
-    <Pressable
-      accessibilityRole="button"
-      accessibilityLabel={label}
-      testID={testID}
-      onPress={async () => {
-        await haptics.selection();
-        onPress();
-      }}
-      style={({ pressed }) => ({
-        position: "absolute",
-        right: 0,
-        top: 0,
-        width: 44,
-        height: 44,
-        alignItems: "center",
-        justifyContent: "center",
-        opacity: pressed ? 0.7 : 1,
-        backgroundColor: colors.tertiaryButtonBackground,
-        borderRadius: 22,
-      })}
-    >
-      <X width={22} height={22} color={colors.text} />
-    </Pressable>
-  );
-};
 
 const getTestId = ({ prefix, name }: { prefix?: string; name: string }) => {
   if (!prefix) {
@@ -208,9 +166,9 @@ export const Demo = ({
             <StepDots step={step} count={steps.length} />
           </View>
           <CloseButton
-            label={labels.close}
             testID={getTestId({ prefix: testID, name: "close" })}
             onPress={() => onDismiss({ step })}
+            style={{ position: "absolute", right: 0, top: 0 }}
           />
         </View>
       </View>

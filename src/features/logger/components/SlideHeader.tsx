@@ -1,4 +1,5 @@
 import Button from "@/components/Button";
+import { CloseButton } from "@/components/CloseButton";
 import { locale, t } from "@/lib/translation";
 import useColors from "@/hooks/useColors";
 import { useFeedbackModal } from "@/features/feedback";
@@ -8,7 +9,7 @@ import { getItemDateTitle } from "@/lib/utils";
 import dayjs from "dayjs";
 import { useState } from "react";
 import { Platform, Pressable, Text, View } from "react-native";
-import { ArrowLeft, Trash, X } from "react-native-feather";
+import { ArrowLeft, Trash } from "react-native-feather";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { Stepper } from "./Stepper";
 
@@ -259,23 +260,7 @@ export const SlideHeader = ({
               <Trash color={colors.logHeaderText} width={24} height={24} />
             </Pressable>
           )}
-          <Pressable
-            accessibilityRole="button"
-            accessibilityLabel={t("logger_close")}
-            testID="logger-close"
-            style={{
-              height: 44,
-              width: 44,
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-            onPress={async () => {
-              await haptics.selection();
-              onClose?.();
-            }}
-          >
-            <X color={colors.logHeaderText} width={24} height={24} />
-          </Pressable>
+          <CloseButton testID="logger-close" onPress={() => onClose?.()} />
         </View>
       </View>
     </View>
