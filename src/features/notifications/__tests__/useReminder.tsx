@@ -1,7 +1,11 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { act, renderHook, waitFor } from "@testing-library/react-native";
 import { INITIAL_STATE } from "@/constants/Settings";
-import { SettingsProvider, STORAGE_KEY, useSettings } from "@/state/settings";
+import {
+  SettingsProvider,
+  STORAGE_KEY,
+  useSettingsLoad,
+} from "@/state/settings";
 import type { ReminderScheduler } from "../reminderScheduler";
 import { useReminder } from "../useReminder";
 
@@ -40,11 +44,11 @@ const wrapper = ({ children }: { children: React.ReactNode }) => (
 
 const renderReminder = async (scheduler: ReminderScheduler) => {
   const hook = await renderHook(
-    () => ({ reminder: useReminder(scheduler), settings: useSettings() }),
+    () => ({ reminder: useReminder(scheduler), load: useSettingsLoad() }),
     { wrapper }
   );
   await waitFor(() => {
-    expect(hook.result.current.settings.settings.loaded).toBe(true);
+    expect(hook.result.current.load.status).toBe("ready");
   });
   return hook;
 };
