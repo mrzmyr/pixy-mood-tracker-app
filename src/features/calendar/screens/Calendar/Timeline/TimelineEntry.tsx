@@ -29,6 +29,8 @@ const TimelineEntryComponent = ({
   });
   const message = item.message.trim();
   const dateLabel = dayjs(item.dateTime).format("llll");
+  const hasBody = emotions.length > 0 || message !== "";
+  const hasContent = hasBody || photos.length > 0;
 
   return (
     <Pressable
@@ -61,7 +63,7 @@ const TimelineEntryComponent = ({
           ))}
         </View>
       )}
-      {(emotions.length > 0 || message !== "") && (
+      {hasBody && (
         <View style={{ paddingHorizontal: 16, paddingTop: 16, gap: 12 }}>
           {emotions.length > 0 && (
             <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 8 }}>
@@ -85,11 +87,14 @@ const TimelineEntryComponent = ({
           flexDirection: "row",
           alignItems: "center",
           gap: 12,
-          marginTop: 16,
           marginHorizontal: 16,
           paddingVertical: 12,
-          borderTopWidth: StyleSheet.hairlineWidth,
-          borderTopColor: colors.logCardBorder,
+          // Rating and date alone need no divider.
+          ...(hasContent && {
+            marginTop: hasBody ? 16 : 6,
+            borderTopWidth: StyleSheet.hairlineWidth,
+            borderTopColor: colors.logCardBorder,
+          }),
         }}
       >
         <RatingDot rating={item.rating} />
