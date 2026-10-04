@@ -7,7 +7,7 @@
   "delete_all_data_button": "Odstrániť všetky moje údaje",
   "delete_all_data_description": "Odstráni všetky záznamy, tagy a nastavenia. Najprv údaje exportujte, aby ste si ponechali kópiu.",
   "delete_all_data_confirm_title": "Odstrániť všetky moje údaje",
-  "delete_all_data_confirm_message": "Naozaj chcete odstrániť všetky záznamy, tagy a nastavenia? Túto akciu nie je možné vrátiť späť.",
+  "delete_all_data_confirm_message": "Naozaj chcete odstrániť všetky záznamy, fotky, tagy, ľudí a nastavenia? Túto akciu nie je možné vrátiť späť.",
   "delete_all_data_success_title": "Údaje odstránené",
   "delete_all_data_success_message": "Všetky vaše údaje boli odstránené.",
   "delete": "Odstrániť",

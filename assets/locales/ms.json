@@ -7,7 +7,7 @@
   "delete_all_data_button": "Padam semua data saya",
   "delete_all_data_description": "Memadam semua entri, tag dan tetapan. Eksport data anda dahulu untuk menyimpan salinan.",
   "delete_all_data_confirm_title": "Padam semua data saya",
-  "delete_all_data_confirm_message": "Adakah anda pasti mahu memadam semua entri, tag dan tetapan? Tindakan ini tidak boleh dibuat asal.",
+  "delete_all_data_confirm_message": "Adakah anda pasti mahu memadam semua entri, foto, tag, orang dan tetapan? Tindakan ini tidak boleh dibuat asal.",
   "delete_all_data_success_title": "Data dipadam",
   "delete_all_data_success_message": "Semua data anda telah dipadam.",
   "delete": "Padam",

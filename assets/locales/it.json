@@ -7,7 +7,7 @@
   "delete_all_data_button": "Elimina tutti i miei dati",
   "delete_all_data_description": "Elimina tutti gli inserimenti, i tag e le impostazioni. Esporta prima i tuoi dati per conservarne una copia.",
   "delete_all_data_confirm_title": "Elimina tutti i miei dati",
-  "delete_all_data_confirm_message": "Sei sicuro di voler eliminare tutti gli inserimenti, i tag e le impostazioni? L'operazione non può essere annullata.",
+  "delete_all_data_confirm_message": "Sei sicuro di voler eliminare tutti gli inserimenti, le foto, i tag, le persone e le impostazioni? L'operazione non può essere annullata.",
   "delete_all_data_success_title": "Dati eliminati",
   "delete_all_data_success_message": "Tutti i tuoi dati sono stati eliminati.",
   "delete": "Eliminare",

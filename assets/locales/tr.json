@@ -7,7 +7,7 @@
   "delete_all_data_button": "Tüm verilerimi sil",
   "delete_all_data_description": "Tüm girdileri, etiketleri ve ayarları siler. Bir kopyasını saklamak için önce verilerinizi dışa aktarın.",
   "delete_all_data_confirm_title": "Tüm verilerimi sil",
-  "delete_all_data_confirm_message": "Tüm girdileri, etiketleri ve ayarları silmek istediğinizden emin misiniz? Bu işlem geri alınamaz.",
+  "delete_all_data_confirm_message": "Tüm girdileri, fotoğrafları, etiketleri, kişileri ve ayarları silmek istediğinizden emin misiniz? Bu işlem geri alınamaz.",
   "delete_all_data_success_title": "Veriler silindi",
   "delete_all_data_success_message": "Tüm verileriniz silindi.",
   "delete": "Silmek",

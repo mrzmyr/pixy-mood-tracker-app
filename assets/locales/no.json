@@ -7,7 +7,7 @@
   "delete_all_data_button": "Slett alle dataene mine",
   "delete_all_data_description": "Sletter alle oppføringer, tagger og innstillinger. Eksporter dataene dine først for å beholde en kopi.",
   "delete_all_data_confirm_title": "Slett alle dataene mine",
-  "delete_all_data_confirm_message": "Er du sikker på at du vil slette alle oppføringer, tagger og innstillinger? Dette kan ikke angres.",
+  "delete_all_data_confirm_message": "Er du sikker på at du vil slette alle oppføringer, bilder, tagger, personer og innstillinger? Dette kan ikke angres.",
   "delete_all_data_success_title": "Data slettet",
   "delete_all_data_success_message": "Alle dataene dine er slettet.",
   "delete": "Slett",

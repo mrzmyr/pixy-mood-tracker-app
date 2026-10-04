@@ -7,7 +7,7 @@
   "delete_all_data_button": "Xóa tất cả dữ liệu của tôi",
   "delete_all_data_description": "Xóa tất cả mục, thẻ và cài đặt. Hãy xuất dữ liệu trước để giữ một bản sao.",
   "delete_all_data_confirm_title": "Xóa tất cả dữ liệu của tôi",
-  "delete_all_data_confirm_message": "Bạn có chắc chắn muốn xóa tất cả mục, thẻ và cài đặt không? Không thể hoàn tác thao tác này.",
+  "delete_all_data_confirm_message": "Bạn có chắc chắn muốn xóa tất cả mục, ảnh, thẻ, người và cài đặt không? Không thể hoàn tác thao tác này.",
   "delete_all_data_success_title": "Đã xóa dữ liệu",
   "delete_all_data_success_message": "Tất cả dữ liệu của bạn đã bị xóa.",
   "delete": "Xóa bỏ",

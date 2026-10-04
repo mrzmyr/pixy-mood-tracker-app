@@ -6,7 +6,7 @@
   "delete_all_data_button": "Удалить все мои данные",
   "delete_all_data_description": "Удаляет все записи, теги и настройки. Сначала экспортируйте данные, чтобы сохранить копию.",
   "delete_all_data_confirm_title": "Удалить все мои данные",
-  "delete_all_data_confirm_message": "Вы уверены, что хотите удалить все записи, теги и настройки? Это действие нельзя отменить.",
+  "delete_all_data_confirm_message": "Вы уверены, что хотите удалить все записи, фото, теги, людей и настройки? Это действие нельзя отменить.",
   "delete_all_data_success_title": "Данные удалены",
   "delete_all_data_success_message": "Все ваши данные удалены.",
   "delete": "Удалить",

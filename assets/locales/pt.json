@@ -7,7 +7,7 @@
   "delete_all_data_button": "Excluir todos os meus dados",
   "delete_all_data_description": "Exclui todas as entradas, tags e configurações. Exporte seus dados antes para manter uma cópia.",
   "delete_all_data_confirm_title": "Excluir todos os meus dados",
-  "delete_all_data_confirm_message": "Tem certeza de que deseja excluir todas as entradas, tags e configurações? Isso não pode ser desfeito.",
+  "delete_all_data_confirm_message": "Tem certeza de que deseja excluir todas as entradas, fotos, tags, pessoas e configurações? Isso não pode ser desfeito.",
   "delete_all_data_success_title": "Dados excluídos",
   "delete_all_data_success_message": "Todos os seus dados foram excluídos.",
   "delete": "Excluir",

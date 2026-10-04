@@ -7,7 +7,7 @@
   "delete_all_data_button": "Izbriši sve moje podatke",
   "delete_all_data_description": "Briše sve upise, oznake i postavke. Najprije izvezite podatke kako biste zadržali kopiju.",
   "delete_all_data_confirm_title": "Izbriši sve moje podatke",
-  "delete_all_data_confirm_message": "Jeste li sigurni da želite izbrisati sve upise, oznake i postavke? Ovo se ne može poništiti.",
+  "delete_all_data_confirm_message": "Jeste li sigurni da želite izbrisati sve upise, fotografije, oznake, osobe i postavke? Ovo se ne može poništiti.",
   "delete_all_data_success_title": "Podaci izbrisani",
   "delete_all_data_success_message": "Svi vaši podaci su izbrisani.",
   "delete": "Izbrisati",

@@ -7,7 +7,7 @@
   "delete_all_data_button": "내 데이터 모두 삭제",
   "delete_all_data_description": "모든 항목, 태그, 설정을 삭제합니다. 사본을 보관하려면 먼저 데이터를 내보내세요.",
   "delete_all_data_confirm_title": "내 데이터 모두 삭제",
-  "delete_all_data_confirm_message": "모든 항목, 태그, 설정을 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다.",
+  "delete_all_data_confirm_message": "모든 항목, 사진, 태그, 사람, 설정을 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다.",
   "delete_all_data_success_title": "데이터 삭제됨",
   "delete_all_data_success_message": "모든 데이터가 삭제되었습니다.",
   "delete": "삭제",

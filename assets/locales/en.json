@@ -33,7 +33,7 @@
   "delete_all_data_button": "Delete all my data",
   "delete_all_data_description": "Deletes all entries, tags, and settings. Export your data first to keep a copy.",
   "delete_all_data_confirm_title": "Delete all my data",
-  "delete_all_data_confirm_message": "Are you sure you want to delete all entries, tags, and settings? This cannot be undone.",
+  "delete_all_data_confirm_message": "Are you sure you want to delete all entries, photos, tags, people, and settings? This cannot be undone.",
   "delete_all_data_success_title": "Data deleted",
   "delete_all_data_success_message": "All your data has been deleted.",
   "delete": "Delete",

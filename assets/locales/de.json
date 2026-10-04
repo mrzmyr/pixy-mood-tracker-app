@@ -33,7 +33,7 @@
   "delete_all_data_button": "Alle meine Daten löschen",
   "delete_all_data_description": "Löscht alle Einträge, Schlagwörter und Einstellungen. Exportiere deine Daten vorher, um eine Kopie zu behalten.",
   "delete_all_data_confirm_title": "Alle meine Daten löschen",
-  "delete_all_data_confirm_message": "Willst du wirklich alle Einträge, Schlagwörter und Einstellungen löschen? Das kann nicht rückgängig gemacht werden.",
+  "delete_all_data_confirm_message": "Willst du wirklich alle Einträge, Fotos, Schlagwörter, Personen und Einstellungen löschen? Das kann nicht rückgängig gemacht werden.",
   "delete_all_data_success_title": "Daten gelöscht",
   "delete_all_data_success_message": "Alle deine Daten wurden gelöscht.",
   "delete": "Löschen",

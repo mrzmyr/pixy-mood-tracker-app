@@ -7,7 +7,7 @@
   "delete_all_data_button": "Slet alle mine data",
   "delete_all_data_description": "Sletter alle poster, tags og indstillinger. Eksportér dine data først for at beholde en kopi.",
   "delete_all_data_confirm_title": "Slet alle mine data",
-  "delete_all_data_confirm_message": "Er du sikker på, at du vil slette alle poster, tags og indstillinger? Dette kan ikke fortrydes.",
+  "delete_all_data_confirm_message": "Er du sikker på, at du vil slette alle poster, billeder, tags, personer og indstillinger? Dette kan ikke fortrydes.",
   "delete_all_data_success_title": "Data slettet",
   "delete_all_data_success_message": "Alle dine data er blevet slettet.",
   "delete": "Slet",
