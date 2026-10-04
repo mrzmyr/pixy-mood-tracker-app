@@ -1,9 +1,10 @@
-import chroma from "chroma-js";
+import chroma, { contrast, mix } from "chroma-js";
 import { useEffect, useMemo, useState } from "react";
-import { Platform, Pressable, Text, View } from "react-native";
+import { Platform, Pressable, Text, useColorScheme, View } from "react-native";
 import Animated, { useReducedMotion } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Button from "@/components/Button";
+import tailwind from "@/constants/Colors/TailwindColors";
 import { useLogState } from "@/features/logs";
 import type { LogItem } from "@/features/logs";
 import { TagComponent, useTagsState } from "@/features/tags";
@@ -25,6 +26,27 @@ import { useConfirmation } from "./useConfirmation";
 
 const emotionLabel = (key: string) =>
   EMOTIONS.find((emotion) => emotion.key === key)?.label ?? key;
+
+/** WCAG AA contrast for normal text. */
+const MIN_CONTRAST = 4.5;
+
+/** `color`, brightened until it reads on `background`. */
+const readableOn = (color: string, background: string) => {
+  let readable = chroma(color);
+  for (
+    let step = 0;
+    step < 8 && contrast(readable, background) < MIN_CONTRAST;
+    step += 1
+  ) {
+    readable = readable.brighten(0.5);
+  }
+  return readable.hex();
+};
+
+interface MarkColors {
+  background: string;
+  text: string;
+}
 
 /**
  * Last logger step after a new entry: Pixy and a summary of the whole day
@@ -51,6 +73,7 @@ export const Confirmation = ({
   const { tags } = useTagsState();
   const { settings } = useSettings();
   const isReducedMotion = useReducedMotion();
+  const isDark = useColorScheme() === "dark";
   // Each tap on Pixy remounts it, so the jump plays again.
   const [jumps, setJumps] = useState(0);
   useConfirmation({ item, entriesCount });
@@ -67,15 +90,34 @@ export const Confirmation = ({
 
   const scaleColor =
     colors.scales[settings.scaleType][summary.rating].background;
-  const marks: Record<NonNullable<SummarySegment["mark"]>, string> = {
-    mood: chroma(scaleColor).alpha(0.7).css(),
-    // Hard days: emotions get a neutral tint. Naming feelings is good;
-    // coloring them as bad is not.
-    emotion:
-      summary.tone === "bad"
-        ? chroma(colors.textSecondary).alpha(0.16).css()
-        : chroma(scaleColor).alpha(0.35).css(),
+  const darkMark = (color: string, amount: number): MarkColors => {
+    const background = mix(colors.logBackground, color, amount, "rgb").hex();
+    return { background, text: readableOn(color, background) };
   };
+  // Hard days: emotions get a neutral tint. Naming feelings is good;
+  // coloring them as bad is not.
+  const isNeutralEmotion = summary.tone === "bad";
+  // Dark mode: light scale colors behind white text do not read. Use a deep
+  // tint of the scale color and color the text instead.
+  const marks: Record<NonNullable<SummarySegment["mark"]>, MarkColors> = isDark
+    ? {
+        mood: darkMark(scaleColor, 0.16),
+        emotion: isNeutralEmotion
+          ? { background: tailwind.neutral[800], text: colors.text }
+          : darkMark(scaleColor, 0.1),
+      }
+    : {
+        mood: {
+          background: chroma(scaleColor).alpha(0.7).css(),
+          text: colors.text,
+        },
+        emotion: {
+          background: isNeutralEmotion
+            ? chroma(colors.textSecondary).alpha(0.16).css()
+            : chroma(scaleColor).alpha(0.35).css(),
+          text: colors.text,
+        },
+      };
 
   const jump = useMemo(
     () => createJump({ isReducedMotion }),
@@ -161,8 +203,8 @@ export const Confirmation = ({
                   // Marked texts are unique: one mood, distinct emotions.
                   key={`${segment.mark}:${segment.text}`}
                   style={{
-                    color: colors.text,
-                    backgroundColor: marks[segment.mark],
+                    color: marks[segment.mark].text,
+                    backgroundColor: marks[segment.mark].background,
                   }}
                 >
                   {segment.text}
