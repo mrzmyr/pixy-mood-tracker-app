@@ -96,7 +96,11 @@ export const TagList = ({
           {tags.map((tag) => (
             <SwipeActions
               key={tag.id}
-              modifiers={[listRowBackground(colors.menuListItemBackground)]}
+              modifiers={[
+                listRowBackground(colors.menuListItemBackground),
+                // Match MenuListItem: 34 pt content plus 8 pt padding per edge.
+                listRowInsets({ top: 8, bottom: 8, leading: 16, trailing: 16 }),
+              ]}
             >
               <Button
                 onPress={() =>
