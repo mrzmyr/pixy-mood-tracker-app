@@ -20,7 +20,15 @@ import {
   SUMMARY_TAGS_MAX,
 } from "./daySummary";
 import type { SummarySegment } from "./daySummary";
-import { createFadeIn, createJump, LAND_MS } from "./motion";
+import {
+  createConfettiBurst,
+  createFadeIn,
+  createHappyJump,
+  createJump,
+  HAPPY_JUMP_MS,
+  HAPPY_LAND_MS,
+  LAND_MS,
+} from "./motion";
 import { Pixy } from "./Pixy";
 import { useConfirmation } from "./useConfirmation";
 
@@ -42,6 +50,24 @@ const readableOn = (color: string, background: string) => {
   }
   return readable.hex();
 };
+
+const PIXY_SIZE = 56;
+const CONFETTI_SIZE = 7;
+const CONFETTI_COUNT = 12;
+
+/**
+ * Confetti pixels around Pixy: even angles, alternating distance, biased
+ * upward so the burst reads as a cheer.
+ */
+const CONFETTI = Array.from({ length: CONFETTI_COUNT }, (_, index) => {
+  const angle = (index / CONFETTI_COUNT) * Math.PI * 2;
+  const distance = index % 2 === 0 ? 62 : 44;
+  return {
+    x: Math.cos(angle) * distance,
+    y: Math.sin(angle) * distance * 0.8 - 18,
+    rotate: (index % 3) * 120 + 90,
+  };
+});
 
 interface MarkColors {
   background: string;
@@ -74,8 +100,11 @@ export const Confirmation = ({
   const { settings } = useSettings();
   const isReducedMotion = useReducedMotion();
   const isDark = useColorScheme() === "dark";
-  // Each tap on Pixy remounts it, so the jump plays again.
+  // Each tap on Pixy remounts it, so the happy jump plays again.
   const [jumps, setJumps] = useState(0);
+  // Tap that still laughs; 0 once the laugh is over.
+  const [joyfulJump, setJoyfulJump] = useState(0);
+  const isJoyful = joyfulJump > 0 && joyfulJump === jumps;
   useConfirmation({ item, entriesCount });
 
   const summary = useMemo(
@@ -123,6 +152,18 @@ export const Confirmation = ({
     () => createJump({ isReducedMotion }),
     [isReducedMotion]
   );
+  const happyJump = useMemo(
+    () => createHappyJump({ isReducedMotion }),
+    [isReducedMotion]
+  );
+  // Hard days: Pixy still jumps on tap, but keeps its caring face and skips
+  // the confetti. Celebrate only good and neutral days.
+  const isCelebrating = summary.tone !== "bad";
+  const confettiColors = [scaleColor, "#FFC23D", "#FB6B0F", "#ff8fa3"];
+  const confetti = useMemo(
+    () => CONFETTI.map((pixel) => createConfettiBurst(pixel)),
+    []
+  );
   // Title, sentence, and tags fade in one after the other.
   const titleEntering = useMemo(
     () => createFadeIn({ delay: 450, isReducedMotion }),
@@ -137,16 +178,26 @@ export const Confirmation = ({
     [isReducedMotion]
   );
 
+  const landMs = jumps === 0 ? LAND_MS : HAPPY_LAND_MS;
   // Haptic on the frame Pixy lands: success after saving, a bump on replay.
   useEffect(() => {
     const timeout = setTimeout(
       () => {
         void (jumps === 0 ? haptics.success() : haptics.impact());
       },
-      isReducedMotion ? 0 : LAND_MS
+      isReducedMotion ? 0 : landMs
     );
     return () => clearTimeout(timeout);
-  }, [haptics, isReducedMotion, jumps]);
+  }, [haptics, isReducedMotion, jumps, landMs]);
+
+  // The laugh lasts as long as the happy jump.
+  useEffect(() => {
+    if (joyfulJump === 0) {
+      return;
+    }
+    const timeout = setTimeout(() => setJoyfulJump(0), HAPPY_JUMP_MS);
+    return () => clearTimeout(timeout);
+  }, [joyfulJump]);
 
   return (
     <View
@@ -170,11 +221,41 @@ export const Confirmation = ({
             hitSlop={8}
             onPress={() => {
               void haptics.selection();
-              setJumps((count) => count + 1);
+              setJumps(jumps + 1);
+              setJoyfulJump(isCelebrating ? jumps + 1 : 0);
             }}
           >
-            <Animated.View key={jumps} entering={jump}>
-              <Pixy size={56} tone={summary.tone} />
+            {jumps > 0 && isCelebrating && !isReducedMotion && (
+              <View
+                key={`confetti-${jumps}`}
+                pointerEvents="none"
+                style={{
+                  position: "absolute",
+                  left: (PIXY_SIZE - CONFETTI_SIZE) / 2,
+                  top: (PIXY_SIZE - CONFETTI_SIZE) / 2,
+                }}
+              >
+                {confetti.map((burst, index) => (
+                  <Animated.View
+                    key={index}
+                    entering={burst}
+                    style={{
+                      position: "absolute",
+                      width: CONFETTI_SIZE,
+                      height: CONFETTI_SIZE,
+                      borderRadius: 2,
+                      backgroundColor:
+                        confettiColors[index % confettiColors.length],
+                    }}
+                  />
+                ))}
+              </View>
+            )}
+            <Animated.View
+              key={`pixy-${jumps}`}
+              entering={jumps === 0 ? jump : happyJump}
+            >
+              <Pixy size={PIXY_SIZE} tone={summary.tone} isJoyful={isJoyful} />
             </Animated.View>
           </Pressable>
           <Animated.View entering={titleEntering} style={{ flex: 1 }}>
