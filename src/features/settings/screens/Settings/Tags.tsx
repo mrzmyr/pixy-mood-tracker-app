@@ -88,7 +88,6 @@ export const SettingsTags = () => {
               title={t("archive_tag")}
               iconLeft={<Archive size={20} color={colors.text} />}
               isLink
-              isLast
               onPress={() => {
                 router.push("/settings/tags/archive");
               }}
@@ -165,13 +164,8 @@ export const SettingsTagsArchive = () => {
               marginBottom: 40,
             }}
           >
-            {_tags.map((tag, index) => (
-              <TagListItem
-                key={tag.id}
-                tag={tag}
-                isLast={index === _tags.length - 1}
-                onPress={() => onEdit(tag)}
-              />
+            {_tags.map((tag) => (
+              <TagListItem key={tag.id} tag={tag} onPress={() => onEdit(tag)} />
             ))}
           </MenuList>
         </View>

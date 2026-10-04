@@ -7,17 +7,15 @@ import type { Tag } from "../TagsProvider";
 /** Row for one tag in {@link TagList}, showing its color dot and title. */
 export const TagListItem = ({
   tag,
-  isLast,
   onPress,
 }: {
   tag: Tag;
-  isLast: boolean;
   onPress: () => void;
 }) => {
   const colors = useColors();
 
   return (
-    <MenuListItem onPress={onPress} isLast={isLast}>
+    <MenuListItem onPress={onPress}>
       <View
         style={{
           flexDirection: "row",

@@ -99,7 +99,6 @@ export const PrivacyScreen = () => {
                   testID="behavioral-data-enabled"
                 />
               }
-              isLast
             />
           </MenuList>
           <TextInfo>{t("behavioral_data_help")}</TextInfo>

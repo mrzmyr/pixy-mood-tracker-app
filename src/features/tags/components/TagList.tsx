@@ -78,13 +78,8 @@ export const TagList = ({ tags }: { tags: Tag[] }) => {
             marginBottom: 40,
           }}
         >
-          {tags.map((tag, index) => (
-            <TagListItem
-              key={tag.id}
-              tag={tag}
-              isLast={index === tags.length - 1}
-              onPress={() => onEdit(tag)}
-            />
+          {tags.map((tag) => (
+            <TagListItem key={tag.id} tag={tag} onPress={() => onEdit(tag)} />
           ))}
         </MenuList>
       </View>
