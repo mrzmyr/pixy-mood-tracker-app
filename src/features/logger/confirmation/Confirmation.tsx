@@ -1,6 +1,6 @@
 import chroma from "chroma-js";
-import { useEffect, useMemo } from "react";
-import { Platform, Text, View } from "react-native";
+import { useEffect, useMemo, useState } from "react";
+import { Platform, Pressable, Text, View } from "react-native";
 import Animated, { useReducedMotion } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Button from "@/components/Button";
@@ -51,6 +51,8 @@ export const Confirmation = ({
   const { tags } = useTagsState();
   const { settings } = useSettings();
   const isReducedMotion = useReducedMotion();
+  // Each tap on Pixy remounts it, so the jump plays again.
+  const [jumps, setJumps] = useState(0);
   useConfirmation({ item, entriesCount });
 
   const summary = useMemo(
@@ -93,16 +95,16 @@ export const Confirmation = ({
     [isReducedMotion]
   );
 
-  // Success haptic on the frame Pixy lands.
+  // Haptic on the frame Pixy lands: success after saving, a bump on replay.
   useEffect(() => {
     const timeout = setTimeout(
       () => {
-        void haptics.success();
+        void (jumps === 0 ? haptics.success() : haptics.impact());
       },
       isReducedMotion ? 0 : LAND_MS
     );
     return () => clearTimeout(timeout);
-  }, [haptics, isReducedMotion]);
+  }, [haptics, isReducedMotion, jumps]);
 
   return (
     <View
@@ -118,9 +120,21 @@ export const Confirmation = ({
     >
       <View style={{ flex: 1, justifyContent: "center", paddingHorizontal: 4 }}>
         <View style={{ flexDirection: "row", alignItems: "center", gap: 12 }}>
-          <Animated.View entering={jump}>
-            <Pixy size={56} tone={summary.tone} />
-          </Animated.View>
+          <Pressable
+            testID="confirmation-pixy"
+            // Decorative: replaying the jump adds nothing for screen readers.
+            accessibilityElementsHidden
+            importantForAccessibility="no-hide-descendants"
+            hitSlop={8}
+            onPress={() => {
+              void haptics.selection();
+              setJumps((count) => count + 1);
+            }}
+          >
+            <Animated.View key={jumps} entering={jump}>
+              <Pixy size={56} tone={summary.tone} />
+            </Animated.View>
+          </Pressable>
           <Animated.View entering={titleEntering} style={{ flex: 1 }}>
             <Text
               accessibilityRole="header"
