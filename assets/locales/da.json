@@ -1,5 +1,6 @@
 {
   "ok": "Okay",
+  "reset": "Nulstil",
   "save": "Gemme",
   "add": "Tilføje",
   "cancel": "Afbestille",
@@ -720,7 +721,6 @@
   "privacy_people_content": "### Personer\n\nFor at importere personer fra dine kontakter viser Pixy navnene i din adressebog på din enhed. Pixy gemmer kun de kontakter, du vælger: navn og foto. Begge bliver på din enhed og er en del af din eksportfil. Pixy sender aldrig navne eller fotos til os.",
   "log_people_question": "Hvem var du sammen med?",
   "log_people_disable": "Jeg registrerer ikke personer",
-  "people_manage": "Administrer personer",
   "people_slide_empty": "Tilføj de personer, du bruger tid med, for at se, hvordan dit humør er sammen med dem.",
   "view_log_people_empty": "Ingen personer endnu.",
   "statistics_people_distribution_title": "Personer, du har set mest de sidste 14 dage.",

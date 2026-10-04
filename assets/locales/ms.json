@@ -1,5 +1,6 @@
 {
   "ok": "Okey",
+  "reset": "Tetapkan semula",
   "save": "Jimat",
   "add": "Tambah",
   "cancel": "Batal",
@@ -720,7 +721,6 @@
   "privacy_people_content": "### Orang\n\nUntuk mengimport orang daripada kenalan anda, Pixy menyenaraikan nama dalam buku alamat anda pada peranti anda. Pixy hanya menyimpan kenalan yang anda pilih: nama dan foto. Kedua-duanya kekal pada peranti anda dan menjadi sebahagian daripada fail eksport anda. Pixy tidak pernah menghantar nama atau foto kepada kami.",
   "log_people_question": "Anda bersama siapa?",
   "log_people_disable": "Saya tidak menjejak orang",
-  "people_manage": "Urus orang",
   "people_slide_empty": "Tambah orang yang meluangkan masa bersama anda untuk melihat bagaimana mood anda bersama mereka.",
   "view_log_people_empty": "Belum ada orang.",
   "statistics_people_distribution_title": "Orang yang paling kerap ditemui dalam 14 hari lepas.",

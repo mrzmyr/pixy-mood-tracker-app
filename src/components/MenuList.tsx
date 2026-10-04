@@ -21,11 +21,13 @@ const MenuList = ({
         {
           backgroundColor: colors.menuListItemBackground,
           borderRadius: 8,
+          overflow: "hidden",
         },
         style,
       ]}
     >
-      {children}
+      {/* Items draw a top divider; the shift clips the first one. */}
+      <View style={{ marginTop: -1 }}>{children}</View>
     </View>
   );
 };

@@ -1,9 +1,11 @@
-import chroma from "chroma-js";
-import { useEffect, useMemo } from "react";
-import { Platform, Text, View } from "react-native";
+import chroma, { contrast, mix } from "chroma-js";
+import { useEffect, useMemo, useState } from "react";
+import { Platform, Pressable, Text, useColorScheme, View } from "react-native";
 import Animated, { useReducedMotion } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Button from "@/components/Button";
+import tailwind from "@/constants/Colors/TailwindColors";
+import { ConfirmationOffer } from "@/features/interventions";
 import { useLogState } from "@/features/logs";
 import type { LogItem } from "@/features/logs";
 import { TagComponent, useTagsState } from "@/features/tags";
@@ -19,12 +21,59 @@ import {
   SUMMARY_TAGS_MAX,
 } from "./daySummary";
 import type { SummarySegment } from "./daySummary";
-import { createFadeIn, createJump, LAND_MS } from "./motion";
+import {
+  createConfettiBurst,
+  createFadeIn,
+  createHappyJump,
+  createJump,
+  HAPPY_JUMP_MS,
+  HAPPY_LAND_MS,
+  LAND_MS,
+} from "./motion";
 import { Pixy } from "./Pixy";
 import { useConfirmation } from "./useConfirmation";
 
 const emotionLabel = (key: string) =>
   EMOTIONS.find((emotion) => emotion.key === key)?.label ?? key;
+
+/** WCAG AA contrast for normal text. */
+const MIN_CONTRAST = 4.5;
+
+/** `color`, brightened until it reads on `background`. */
+const readableOn = (color: string, background: string) => {
+  let readable = chroma(color);
+  for (
+    let step = 0;
+    step < 8 && contrast(readable, background) < MIN_CONTRAST;
+    step += 1
+  ) {
+    readable = readable.brighten(0.5);
+  }
+  return readable.hex();
+};
+
+const PIXY_SIZE = 56;
+const CONFETTI_SIZE = 7;
+const CONFETTI_COUNT = 12;
+
+/**
+ * Confetti pixels around Pixy: even angles, alternating distance, biased
+ * upward so the burst reads as a cheer.
+ */
+const CONFETTI = Array.from({ length: CONFETTI_COUNT }, (_, index) => {
+  const angle = (index / CONFETTI_COUNT) * Math.PI * 2;
+  const distance = index % 2 === 0 ? 62 : 44;
+  return {
+    x: Math.cos(angle) * distance,
+    y: Math.sin(angle) * distance * 0.8 - 18,
+    rotate: (index % 3) * 120 + 90,
+  };
+});
+
+interface MarkColors {
+  background: string;
+  text: string;
+}
 
 /**
  * Last logger step after a new entry: Pixy and a summary of the whole day
@@ -51,6 +100,12 @@ export const Confirmation = ({
   const { tags } = useTagsState();
   const { settings } = useSettings();
   const isReducedMotion = useReducedMotion();
+  const isDark = useColorScheme() === "dark";
+  // Each tap on Pixy remounts it, so the happy jump plays again.
+  const [jumps, setJumps] = useState(0);
+  // Tap that still laughs; 0 once the laugh is over.
+  const [joyfulJump, setJoyfulJump] = useState(0);
+  const isJoyful = joyfulJump > 0 && joyfulJump === jumps;
   useConfirmation({ item, entriesCount });
 
   const summary = useMemo(
@@ -65,19 +120,50 @@ export const Confirmation = ({
 
   const scaleColor =
     colors.scales[settings.scaleType][summary.rating].background;
-  const marks: Record<NonNullable<SummarySegment["mark"]>, string> = {
-    mood: chroma(scaleColor).alpha(0.7).css(),
-    // Hard days: emotions get a neutral tint. Naming feelings is good;
-    // coloring them as bad is not.
-    emotion:
-      summary.tone === "bad"
-        ? chroma(colors.textSecondary).alpha(0.16).css()
-        : chroma(scaleColor).alpha(0.35).css(),
+  const darkMark = (color: string, amount: number): MarkColors => {
+    const background = mix(colors.logBackground, color, amount, "rgb").hex();
+    return { background, text: readableOn(color, background) };
   };
+  // Hard days: emotions get a neutral tint. Naming feelings is good;
+  // coloring them as bad is not.
+  const isNeutralEmotion = summary.tone === "bad";
+  // Dark mode: light scale colors behind white text do not read. Use a deep
+  // tint of the scale color and color the text instead.
+  const marks: Record<NonNullable<SummarySegment["mark"]>, MarkColors> = isDark
+    ? {
+        mood: darkMark(scaleColor, 0.16),
+        emotion: isNeutralEmotion
+          ? { background: tailwind.neutral[800], text: colors.text }
+          : darkMark(scaleColor, 0.1),
+      }
+    : {
+        mood: {
+          background: chroma(scaleColor).alpha(0.7).css(),
+          text: colors.text,
+        },
+        emotion: {
+          background: isNeutralEmotion
+            ? chroma(colors.textSecondary).alpha(0.16).css()
+            : chroma(scaleColor).alpha(0.35).css(),
+          text: colors.text,
+        },
+      };
 
   const jump = useMemo(
     () => createJump({ isReducedMotion }),
     [isReducedMotion]
+  );
+  const happyJump = useMemo(
+    () => createHappyJump({ isReducedMotion }),
+    [isReducedMotion]
+  );
+  // Hard days: Pixy still jumps on tap, but keeps its caring face and skips
+  // the confetti. Celebrate only good and neutral days.
+  const isCelebrating = summary.tone !== "bad";
+  const confettiColors = [scaleColor, "#FFC23D", "#FB6B0F", "#ff8fa3"];
+  const confetti = useMemo(
+    () => CONFETTI.map((pixel) => createConfettiBurst(pixel)),
+    []
   );
   // Title, sentence, and tags fade in one after the other.
   const titleEntering = useMemo(
@@ -93,16 +179,26 @@ export const Confirmation = ({
     [isReducedMotion]
   );
 
-  // Success haptic on the frame Pixy lands.
+  const landMs = jumps === 0 ? LAND_MS : HAPPY_LAND_MS;
+  // Haptic on the frame Pixy lands: success after saving, a bump on replay.
   useEffect(() => {
     const timeout = setTimeout(
       () => {
-        void haptics.success();
+        void (jumps === 0 ? haptics.success() : haptics.impact());
       },
-      isReducedMotion ? 0 : LAND_MS
+      isReducedMotion ? 0 : landMs
     );
     return () => clearTimeout(timeout);
-  }, [haptics, isReducedMotion]);
+  }, [haptics, isReducedMotion, jumps, landMs]);
+
+  // The laugh lasts as long as the happy jump.
+  useEffect(() => {
+    if (joyfulJump === 0) {
+      return;
+    }
+    const timeout = setTimeout(() => setJoyfulJump(0), HAPPY_JUMP_MS);
+    return () => clearTimeout(timeout);
+  }, [joyfulJump]);
 
   return (
     <View
@@ -118,9 +214,51 @@ export const Confirmation = ({
     >
       <View style={{ flex: 1, justifyContent: "center", paddingHorizontal: 4 }}>
         <View style={{ flexDirection: "row", alignItems: "center", gap: 12 }}>
-          <Animated.View entering={jump}>
-            <Pixy size={56} tone={summary.tone} />
-          </Animated.View>
+          <Pressable
+            testID="confirmation-pixy"
+            // Decorative: replaying the jump adds nothing for screen readers.
+            accessibilityElementsHidden
+            importantForAccessibility="no-hide-descendants"
+            hitSlop={8}
+            onPress={() => {
+              void haptics.selection();
+              setJumps(jumps + 1);
+              setJoyfulJump(isCelebrating ? jumps + 1 : 0);
+            }}
+          >
+            {jumps > 0 && isCelebrating && !isReducedMotion && (
+              <View
+                key={`confetti-${jumps}`}
+                pointerEvents="none"
+                style={{
+                  position: "absolute",
+                  left: (PIXY_SIZE - CONFETTI_SIZE) / 2,
+                  top: (PIXY_SIZE - CONFETTI_SIZE) / 2,
+                }}
+              >
+                {confetti.map((burst, index) => (
+                  <Animated.View
+                    key={index}
+                    entering={burst}
+                    style={{
+                      position: "absolute",
+                      width: CONFETTI_SIZE,
+                      height: CONFETTI_SIZE,
+                      borderRadius: 2,
+                      backgroundColor:
+                        confettiColors[index % confettiColors.length],
+                    }}
+                  />
+                ))}
+              </View>
+            )}
+            <Animated.View
+              key={`pixy-${jumps}`}
+              entering={jumps === 0 ? jump : happyJump}
+            >
+              <Pixy size={PIXY_SIZE} tone={summary.tone} isJoyful={isJoyful} />
+            </Animated.View>
+          </Pressable>
           <Animated.View entering={titleEntering} style={{ flex: 1 }}>
             <Text
               accessibilityRole="header"
@@ -147,8 +285,8 @@ export const Confirmation = ({
                   // Marked texts are unique: one mood, distinct emotions.
                   key={`${segment.mark}:${segment.text}`}
                   style={{
-                    color: colors.text,
-                    backgroundColor: marks[segment.mark],
+                    color: marks[segment.mark].text,
+                    backgroundColor: marks[segment.mark].background,
                   }}
                 >
                   {segment.text}
@@ -176,7 +314,7 @@ export const Confirmation = ({
         )}
       </View>
 
-      {/* Interventions will sit here, between the summary and Done. */}
+      <ConfirmationOffer item={item} />
       <Button testID="confirmation-done" onPress={onClose}>
         {t("done")}
       </Button>

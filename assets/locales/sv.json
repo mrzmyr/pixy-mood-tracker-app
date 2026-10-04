@@ -1,5 +1,6 @@
 {
   "ok": "Ok",
+  "reset": "Återställa",
   "save": "Spara",
   "add": "Lägg till",
   "cancel": "Annullera",
@@ -720,7 +721,6 @@
   "privacy_people_content": "### Personer\n\nFör att importera personer från dina kontakter visar Pixy namnen i din adressbok på din enhet. Pixy sparar bara kontakterna du väljer: namn och foto. Båda stannar på din enhet och ingår i din exportfil. Pixy skickar aldrig namn eller foton till oss.",
   "log_people_question": "Vem var du med?",
   "log_people_disable": "Jag spårar inte personer",
-  "people_manage": "Hantera personer",
   "people_slide_empty": "Lägg till personer du umgås med för att se hur ditt mående är med dem.",
   "view_log_people_empty": "Inga personer ännu.",
   "statistics_people_distribution_title": "Personer du träffat mest de senaste 14 dagarna.",

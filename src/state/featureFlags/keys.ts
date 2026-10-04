@@ -3,9 +3,12 @@
  * PostHog project of every app variant.
  */
 export const FEATURE_FLAGS = [
+  "app-icons",
+  "interventions",
   "photos",
   "support-pixy",
   "people",
+  "ios-widget",
   "calendar-view-all-moods",
 ] as const;
 

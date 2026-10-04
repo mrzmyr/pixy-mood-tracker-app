@@ -1,5 +1,6 @@
 {
   "ok": "O.K",
+  "reset": "Resetați",
   "save": "salva",
   "add": "Adăuga",
   "cancel": "Anulare",
@@ -720,7 +721,6 @@
   "privacy_people_content": "### Persoane\n\nPentru a importa persoane din contactele tale, Pixy afișează pe dispozitivul tău numele din agenda ta. Pixy salvează doar contactele pe care le alegi: nume și fotografie. Ambele rămân pe dispozitivul tău și fac parte din fișierul tău de export. Pixy nu ne trimite niciodată nume sau fotografii.",
   "log_people_question": "Cu cine ai fost?",
   "log_people_disable": "Nu urmăresc persoane",
-  "people_manage": "Gestionează persoanele",
   "people_slide_empty": "Adaugă persoanele cu care petreci timp pentru a vedea cum îți este starea cu ele.",
   "view_log_people_empty": "Nicio persoană încă.",
   "statistics_people_distribution_title": "Persoanele văzute cel mai des în ultimele 14 zile.",

@@ -1,5 +1,6 @@
 {
   "ok": "Ok",
+  "reset": "Ripristina",
   "save": "Salva",
   "add": "Aggiungere",
   "cancel": "Annulla",
@@ -720,7 +721,6 @@
   "privacy_people_content": "### Persone\n\nPer importare persone dai tuoi contatti, Pixy mostra i nomi della tua rubrica sul tuo dispositivo. Pixy salva solo i contatti che scegli: nome e foto. Entrambi restano sul tuo dispositivo e fanno parte del tuo file di esportazione. Pixy non ci invia mai nomi o foto.",
   "log_people_question": "Con chi eri?",
   "log_people_disable": "Non registro le persone",
-  "people_manage": "Gestisci persone",
   "people_slide_empty": "Aggiungi le persone con cui passi il tempo per vedere come va il tuo umore con loro.",
   "view_log_people_empty": "Ancora nessuna persona.",
   "statistics_people_distribution_title": "Persone viste più spesso negli ultimi 14 giorni.",

@@ -6,6 +6,7 @@ import { StorageLoadGate } from "@/shell/StorageLoadGate";
 import { t } from "@/lib/translation";
 import useColors from "@/hooks/useColors";
 import { DEV_TOOLS } from "@/dev";
+import { WidgetSync } from "@/features/widget";
 import { HAS_FLOATING_HEADER } from "@/features/calendar";
 
 const renderHeaderLeft = () =>
@@ -28,6 +29,7 @@ const AppLayout = () => {
 
   return (
     <StorageLoadGate>
+      <WidgetSync />
       <View style={{ flex: 1, backgroundColor: colors.background }}>
         <Stack screenOptions={{ navigationBarColor: colors.tabsBackground }}>
           <Stack.Screen name="index" options={{ headerShown: false }} />
@@ -72,6 +74,11 @@ const AppLayout = () => {
             options={{ ...modalOptions, gestureEnabled: false }}
           />
           <Stack.Screen name="days/[date]" options={modalOptions} />
+          <Stack.Screen name="widget" options={modalOptions} />
+          <Stack.Screen
+            name="interventions/[id]"
+            options={{ ...modalOptions, gestureEnabled: false }}
+          />
           <Stack.Screen
             name="logs/[id]/edit"
             options={{ ...modalOptions, gestureEnabled: false }}
@@ -89,7 +96,6 @@ const AppLayout = () => {
           <Stack.Screen name="tags/index" options={modalOptions} />
           <Stack.Screen name="tags/create" options={modalOptions} />
           <Stack.Screen name="tags/[id]" options={modalOptions} />
-          <Stack.Screen name="people/index" options={modalOptions} />
           <Stack.Screen name="people/create" options={modalOptions} />
           <Stack.Screen name="people/import" options={modalOptions} />
           <Stack.Screen name="people/[id]" options={modalOptions} />
@@ -116,6 +122,10 @@ const AppLayout = () => {
           <Stack.Screen
             name="settings/colors"
             options={{ ...pageOptions, title: t("colors") }}
+          />
+          <Stack.Screen
+            name="settings/app-icon"
+            options={{ ...pageOptions, title: t("app_icon") }}
           />
           <Stack.Screen
             name="settings/licenses"

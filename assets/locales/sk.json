@@ -1,5 +1,6 @@
 {
   "ok": "Dobre",
+  "reset": "Resetovať",
   "save": "Uložiť",
   "add": "Pridať",
   "cancel": "Zrušiť",
@@ -720,7 +721,6 @@
   "privacy_people_content": "### Ľudia\n\nAby mohol Pixy importovať ľudí z tvojich kontaktov, zobrazí na tvojom zariadení mená z tvojho adresára. Pixy uloží iba kontakty, ktoré vyberieš: meno a fotku. Oboje zostáva na tvojom zariadení a je súčasťou tvojho exportného súboru. Pixy nám nikdy neposiela mená ani fotky.",
   "log_people_question": "S kým si bol(a)?",
   "log_people_disable": "Ľudí nesledujem",
-  "people_manage": "Spravovať ľudí",
   "people_slide_empty": "Pridaj ľudí, s ktorými tráviš čas, a uvidíš, akú máš s nimi náladu.",
   "view_log_people_empty": "Zatiaľ žiadni ľudia.",
   "statistics_people_distribution_title": "Najčastejšie videné osoby za posledných 14 dní.",

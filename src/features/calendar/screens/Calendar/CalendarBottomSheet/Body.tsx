@@ -2,7 +2,6 @@ import type { DebouncedFunc } from "lodash";
 import debounce from "lodash/debounce";
 import { useEffect, useRef, useState } from "react";
 import { View } from "react-native";
-import { RotateCcw } from "react-native-feather";
 import LinkButton from "@/components/LinkButton";
 import { t } from "@/lib/translation";
 import { useCalendarFilters } from "../../../filters";
@@ -130,18 +129,15 @@ export const Body = () => {
         <View
           style={{
             flexDirection: "row",
-            justifyContent: "center",
+            justifyContent: "space-between",
             alignItems: "center",
-            gap: 16,
+            marginTop: 16,
           }}
         >
-          {calendarFilters.data.filteredItems.length !== 0 && (
-            <ResultsSection count={calendarFilters.data.filteredItems.length} />
-          )}
           <LinkButton
             type="secondary"
-            icon={RotateCcw}
             testID="calendar-filter-reset"
+            style={{ marginLeft: -8 }}
             onPress={() => {
               debouncedTextChangeRef.current?.cancel();
               setSearchText("");
@@ -150,6 +146,9 @@ export const Body = () => {
           >
             {t("reset")}
           </LinkButton>
+          {calendarFilters.data.filteredItems.length !== 0 && (
+            <ResultsSection count={calendarFilters.data.filteredItems.length} />
+          )}
         </View>
       )}
     </View>

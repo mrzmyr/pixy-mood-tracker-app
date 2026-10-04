@@ -20,7 +20,29 @@ const EYE_Y = 38;
 const EYE_R = 13;
 const EYES_X = [33.5, 66.5];
 
-const Eye = ({ cx, tone }: { cx: number; tone: MoodTone }) => {
+const Eye = ({
+  cx,
+  tone,
+  isJoyful,
+}: {
+  cx: number;
+  tone: MoodTone;
+  isJoyful: boolean;
+}) => {
+  // Joy: squeezed happy eyes, arcs bent up.
+  if (isJoyful) {
+    return (
+      <Path
+        d={`M${cx - EYE_R * 0.75} ${EYE_Y + EYE_R * 0.3} Q${cx} ${EYE_Y - EYE_R * 0.9} ${cx + EYE_R * 0.75} ${EYE_Y + EYE_R * 0.3}`}
+        stroke="#fff"
+        strokeWidth={6.5}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        fill="none"
+      />
+    );
+  }
+
   // Hard day: calm closed eyes. Pixy comforts, it never mirrors the mood.
   if (tone === "bad") {
     return (
@@ -57,12 +79,26 @@ const MOUTHS: Record<MoodTone, string> = {
   bad: "M45 66 Q50 70.5 55 66",
 };
 
+// Joy: wide open laugh with a tongue.
+const JOY_MOUTH = "M37 60 Q50 60 63 60 Q62 80 50 80 Q38 80 37 60 Z";
+const JOY_TONGUE =
+  "M42.5 73.5 Q50 67 57.5 73.5 Q54.5 80 50 80 Q45.5 80 42.5 73.5 Z";
+
 /**
  * Pixy, the app's mascot, drawn on the Tangerine app icon: squircle,
  * tangerine gradient, eyes on the icon's dot grid. `tone` only changes the
- * face; the color stays the brand color.
+ * face; the color stays the brand color. `isJoyful` overrides the face
+ * with a laugh while Pixy celebrates a tap.
  */
-export const Pixy = ({ size, tone }: { size: number; tone: MoodTone }) => {
+export const Pixy = ({
+  size,
+  tone,
+  isJoyful = false,
+}: {
+  size: number;
+  tone: MoodTone;
+  isJoyful?: boolean;
+}) => {
   const id = useId().replaceAll(":", "");
 
   return (
@@ -90,9 +126,9 @@ export const Pixy = ({ size, tone }: { size: number; tone: MoodTone }) => {
         <Rect width={100} height={100} fill={`url(#${id}b)`} />
         <Rect width={100} height={100} fill={`url(#${id}c)`} />
         {EYES_X.map((cx) => (
-          <Eye key={cx} cx={cx} tone={tone} />
+          <Eye key={cx} cx={cx} tone={tone} isJoyful={isJoyful} />
         ))}
-        {tone !== "neutral" &&
+        {(isJoyful || tone !== "neutral") &&
           [19, 81].map((cx) => (
             <Ellipse
               key={cx}
@@ -101,16 +137,23 @@ export const Pixy = ({ size, tone }: { size: number; tone: MoodTone }) => {
               rx={6.5}
               ry={3.6}
               fill={CHEEK}
-              opacity={0.55}
+              opacity={isJoyful ? 0.85 : 0.55}
             />
           ))}
-        <Path
-          d={MOUTHS[tone]}
-          stroke={INK}
-          strokeWidth={4}
-          strokeLinecap="round"
-          fill="none"
-        />
+        {isJoyful ? (
+          <G>
+            <Path d={JOY_MOUTH} fill={INK} />
+            <Path d={JOY_TONGUE} fill={CHEEK} />
+          </G>
+        ) : (
+          <Path
+            d={MOUTHS[tone]}
+            stroke={INK}
+            strokeWidth={4}
+            strokeLinecap="round"
+            fill="none"
+          />
+        )}
       </G>
     </Svg>
   );

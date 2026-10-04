@@ -13,6 +13,7 @@ import {
   Droplet,
   Flag,
   Github,
+  Grid,
   PieChart,
   Shield,
   Smartphone,
@@ -31,8 +32,9 @@ import { useAnalytics } from "@/state/analytics";
 import { useFeatureFlag } from "@/state/featureFlags";
 import useColors from "@/hooks/useColors";
 import { useFeedbackModal } from "@/features/feedback";
+import { useIsWidgetEnabled } from "@/features/widget";
 import pkg from "../../../../../package.json";
-import { Bug, Lightbulb } from "lucide-react-native";
+import { Bug, LayoutGrid, Lightbulb } from "lucide-react-native";
 import { useSupport } from "@/support";
 
 /**
@@ -42,6 +44,7 @@ export const SettingsScreen = () => {
   const router = useRouter();
   const colors = useColors();
   const analytics = useAnalytics();
+  const isWidgetEnabled = useIsWidgetEnabled();
   const support = useSupport();
   const isSupportEnabled = useFeatureFlag("support-pixy");
 
@@ -91,6 +94,13 @@ export const SettingsScreen = () => {
             isLink
           />
           <MenuListItem
+            title={t("app_icon")}
+            iconLeft={<LayoutGrid size={18} color={colors.menuListItemIcon} />}
+            onPress={() => router.push("/settings/app-icon")}
+            testID="app-icon"
+            isLink
+          />
+          <MenuListItem
             title={t("steps")}
             iconLeft={
               <CheckCircle width={18} color={colors.menuListItemIcon} />
@@ -98,6 +108,15 @@ export const SettingsScreen = () => {
             onPress={() => router.push("/settings/steps")}
             isLink
           />
+          {isWidgetEnabled && (
+            <MenuListItem
+              title={t("widget")}
+              iconLeft={<Grid width={18} color={colors.menuListItemIcon} />}
+              onPress={() => router.push("/widget")}
+              testID="widget"
+              isLink
+            />
+          )}
         </MenuList>
 
         <MenuListHeadline>{t("settings_feedback")}</MenuListHeadline>

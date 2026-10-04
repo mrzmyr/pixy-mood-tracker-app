@@ -1,3 +1,4 @@
+export { AppIconScreen } from "./screens/AppIcon";
 export { ColorsScreen } from "./screens/Colors";
 export { DevelopmentTools } from "./screens/DevelopmentTools";
 export { LicensesScreen } from "./screens/Licenses";

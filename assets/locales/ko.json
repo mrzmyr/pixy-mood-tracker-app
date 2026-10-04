@@ -1,5 +1,6 @@
 {
   "ok": "확인",
+  "reset": "초기화",
   "save": "구하다",
   "add": "추가하다",
   "cancel": "취소",
@@ -720,7 +721,6 @@
   "privacy_people_content": "### 사람\n\n연락처에서 사람을 가져오기 위해 Pixy는 기기에서 주소록의 이름을 표시합니다. Pixy는 선택한 연락처의 이름과 사진만 저장합니다. 둘 다 기기에 남아 있으며 내보내기 파일에 포함됩니다. Pixy는 이름이나 사진을 절대 저희에게 보내지 않습니다.",
   "log_people_question": "누구와 함께 있었나요?",
   "log_people_disable": "사람을 기록하지 않아요",
-  "people_manage": "사람 관리",
   "people_slide_empty": "함께 시간을 보내는 사람을 추가하고 그들과 함께할 때의 기분을 확인하세요.",
   "view_log_people_empty": "아직 사람이 없습니다.",
   "statistics_people_distribution_title": "최근 14일 동안 가장 많이 만난 사람.",

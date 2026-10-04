@@ -53,6 +53,7 @@ Three variants install side by side, each with its own name, icon, bundle ID, an
 - Flags load only with consent: onboarding done and Settings > Privacy > Behavioral Data on. No flag request at startup (`preloadFeatureFlags: false`, [`src/shell/posthogOptions.ts`](../src/shell/posthogOptions.ts))
 - Without consent, or until flags load, every flag is off. Turning consent off turns flags off. Flags cached in an earlier session are never read
 - Development and preview builds override flags in Settings > Development > Feature flags, or with `<scheme>://dev/feature-flag?key=<key>&value=on|off|remote`. Overrides work without consent and end when the app restarts. Production builds ignore them
+- Enable `interventions` to show exercises after entries with anxious-type emotions ([`src/features/interventions`](../src/features/interventions))
 
 ### Photos
 
@@ -165,6 +166,11 @@ The cache provider lives in [`scripts/build-cache-provider.cjs`](../scripts/buil
 - `bun app close` resets app data and runs prune.
 - CLI failures report `status`, `message`, `why`, and `fix`. Failed steps stop without another strategy.
 
+### Preview App Icon
+
+- Enable `app-icons` in Settings > Development > Feature flags to unlock new icons in Settings > App Icon. Remote flag stays disabled.
+- Icons need a native build: [`expo-alternate-app-icons`](https://github.com/pchalupa/expo-alternate-app-icons) plugin config in [`app.json`](../app.json), catalog in [`src/constants/AppIcons.ts`](../src/constants/AppIcons.ts), sources (SVG or 1024 px PNG) in [`assets/images/app-icons/`](../assets/images/app-icons/)
+
 ### Preview Support Pixy
 
 - Enable `support-pixy` in Settings > Development > Feature flags to show support card. Remote flag stays disabled.
@@ -201,8 +207,8 @@ On Macs using Homebrew CocoaPods with RVM, clear RVM's gem paths if `pod` fails 
 
 ## Releasing
 
-Merging a Release Please PR creates the GitHub release, builds the production iOS app with EAS, and submits it to TestFlight. TestFlight submission does not release the app publicly. Promote the tested build manually in App Store Connect.
+- Merging a Release Please PR creates the GitHub release and builds production iOS and Android apps with EAS
+- iOS goes to TestFlight, Android to the Google Play internal track
+- Neither is a public release. Promote tested builds manually in App Store Connect and Play Console
 
-See [TestFlight release workflow](./testflight-release-workflow.md) for prerequisites, operation, and verification criteria.
-
-Android store submissions remain manual: run `bun run eas:android:prod`, then `bunx eas-cli submit --platform android --path <path-to-aab>`.
+See [store release workflow](./store-release-workflow.md) for prerequisites, operation, and verification criteria.

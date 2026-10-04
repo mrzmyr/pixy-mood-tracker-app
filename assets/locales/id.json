@@ -1,5 +1,6 @@
 {
   "ok": "Baik",
+  "reset": "Mengatur ulang",
   "save": "Menyimpan",
   "add": "Menambahkan",
   "cancel": "Membatalkan",
@@ -720,7 +721,6 @@
   "privacy_people_content": "### Orang\n\nUntuk mengimpor orang dari kontakmu, Pixy menampilkan nama-nama di buku alamatmu di perangkatmu. Pixy hanya menyimpan kontak yang kamu pilih: nama dan fotonya. Keduanya tetap di perangkatmu dan menjadi bagian dari file ekspormu. Pixy tidak pernah mengirim nama atau foto kepada kami.",
   "log_people_question": "Kamu bersama siapa?",
   "log_people_disable": "Aku tidak mencatat orang",
-  "people_manage": "Kelola orang",
   "people_slide_empty": "Tambahkan orang yang menghabiskan waktu bersamamu untuk melihat bagaimana suasana hatimu bersama mereka.",
   "view_log_people_empty": "Belum ada orang.",
   "statistics_people_distribution_title": "Orang yang paling sering ditemui dalam 14 hari terakhir.",

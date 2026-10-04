@@ -1,5 +1,6 @@
 {
   "ok": "U redu",
+  "reset": "Resetiraj",
   "save": "Uštedjeti",
   "add": "Dodati",
   "cancel": "Otkazati",
@@ -720,7 +721,6 @@
   "privacy_people_content": "### Osobe\n\nDa bi uvezao osobe iz tvojih kontakata, Pixy na tvom uređaju prikazuje imena iz tvog imenika. Pixy sprema samo kontakte koje odabereš: ime i fotografiju. Oboje ostaje na tvom uređaju i dio je tvoje izvozne datoteke. Pixy nam nikada ne šalje imena ni fotografije.",
   "log_people_question": "S kim si bio/bila?",
   "log_people_disable": "Ne pratim ljude",
-  "people_manage": "Upravljaj ljudima",
   "people_slide_empty": "Dodaj ljude s kojima provodiš vrijeme da vidiš kakvo ti je raspoloženje s njima.",
   "view_log_people_empty": "Još nema ljudi.",
   "statistics_people_distribution_title": "Najčešće viđene osobe u zadnjih 14 dana.",

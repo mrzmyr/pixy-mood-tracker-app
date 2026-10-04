@@ -76,7 +76,7 @@ const Button = ({
         alignItems: "center",
         justifyContent: "center",
         flexDirection: "row",
-        borderRadius: 12,
+        borderRadius: 36,
         opacity: getPressableOpacity(disabled, pressed),
         backgroundColor: disabled
           ? buttonColors.disabledBackground

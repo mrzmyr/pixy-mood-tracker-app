@@ -1,5 +1,6 @@
 {
   "ok": "OK",
+  "reset": "Redefinir",
   "save": "Salve",
   "add": "Adicionar",
   "cancel": "Cancelar",
@@ -720,7 +721,6 @@
   "privacy_people_content": "### Pessoas\n\nPara importar pessoas dos seus contatos, o Pixy mostra os nomes da sua agenda no seu dispositivo. O Pixy salva apenas os contatos que você escolhe: nome e foto. Ambos ficam no seu dispositivo e fazem parte do seu arquivo de exportação. O Pixy nunca nos envia nomes ou fotos.",
   "log_people_question": "Com quem você estava?",
   "log_people_disable": "Não registro pessoas",
-  "people_manage": "Gerenciar pessoas",
   "people_slide_empty": "Adicione as pessoas com quem você passa tempo para ver como seu humor fica com elas.",
   "view_log_people_empty": "Nenhuma pessoa ainda.",
   "statistics_people_distribution_title": "Pessoas mais vistas nos últimos 14 dias.",
