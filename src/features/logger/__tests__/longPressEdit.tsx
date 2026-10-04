@@ -14,12 +14,12 @@ import { LogsProvider } from "@/features/logs";
 import {
   PeopleProvider,
   STORAGE_KEY as PEOPLE_KEY,
-  usePeopleState,
+  usePeopleLoad,
 } from "@/features/people";
 import {
   TagsProvider,
   STORAGE_KEY as TAGS_KEY,
-  useTagsState,
+  useTagsLoad,
 } from "@/features/tags";
 import { AnalyticsProvider } from "@/state/analytics";
 import { SettingsProvider } from "@/state/settings";
@@ -50,9 +50,13 @@ const Editor = ({ kind }: { kind: string }) => {
 
 const Slides = () => {
   const tempLog = useTemporaryLog(_generateItem({ tags: [], people: [] }));
-  const { loaded: tagsLoaded } = useTagsState();
-  const { loaded: peopleLoaded } = usePeopleState();
-  if (!tempLog.isInitialized || !tagsLoaded || !peopleLoaded) {
+  const tagsLoad = useTagsLoad();
+  const peopleLoad = usePeopleLoad();
+  if (
+    !tempLog.isInitialized ||
+    tagsLoad.status !== "ready" ||
+    peopleLoad.status !== "ready"
+  ) {
     return null;
   }
   return (
