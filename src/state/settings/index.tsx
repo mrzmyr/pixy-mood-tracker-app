@@ -34,7 +34,7 @@ const SCALE_TYPES = [
 /**
  * Persisted user settings.
  *
- * When changing this shape, update the export data in `useDatagate` too.
+ * When adding a field, decide in `toExportSettings` (`exportSettings.ts`) whether backups carry it.
  * `tags` exists only in legacy data; `TagsProvider` moves it into the tags
  * store on load. `trackBehaviour` is legacy and unused.
  */

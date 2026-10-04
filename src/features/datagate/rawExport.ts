@@ -3,7 +3,7 @@ import { createStructuredError } from "@/lib/errors";
 import { asyncStorage } from "@/state/persisted";
 import pkg from "../../../package.json";
 import { PERSISTED_STORES } from "./appData";
-import { shareExportFile } from "./exportFile";
+import { getFileTransfer } from "./fileTransfer";
 
 /**
  * Shares a backup file with the stored values as AsyncStorage holds them,
@@ -20,7 +20,7 @@ export const exportRawStorage = async () => {
     const entries = await asyncStorage.multiGet(
       PERSISTED_STORES.map((store) => store.key)
     );
-    isShared = await shareExportFile(
+    isShared = await getFileTransfer().share(
       filename,
       JSON.stringify({
         version: pkg.version,

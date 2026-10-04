@@ -6,10 +6,13 @@ import {
   userEvent,
   waitFor,
 } from "@testing-library/react-native";
-import * as FileSystem from "expo-file-system/legacy";
 import { Linking, Text } from "react-native";
 import Colors from "@/constants/Colors";
-import { PERSISTED_STORES, setFileTransferOverride } from "@/features/datagate";
+import {
+  createMemoryFileTransfer,
+  PERSISTED_STORES,
+  setFileTransferOverride,
+} from "@/features/datagate";
 import { PeopleProvider } from "@/features/people";
 import { LogsProvider, STORAGE_KEY as LOGS_KEY } from "@/features/logs";
 import { TagsProvider } from "@/features/tags";
@@ -139,23 +142,21 @@ describe("StorageLoadGate", () => {
 
   test("user can export stored data from the error screen", async () => {
     await AsyncStorage.setItem(LOGS_KEY, "🐇");
-    const share = jest.fn().mockResolvedValue(true);
-    setFileTransferOverride({ share, pickJson: jest.fn() });
-    const writeSpy = jest
-      .spyOn(FileSystem, "writeAsStringAsync")
-      .mockResolvedValue();
+    const fileTransfer = createMemoryFileTransfer();
+    setFileTransferOverride(fileTransfer);
     const user = userEvent.setup();
 
     await renderApp();
     await user.press(await screen.findByText("Export data"));
 
-    await waitFor(() => expect(share).toHaveBeenCalledTimes(1));
-    expect(JSON.parse(writeSpy.mock.calls[0][1]).storage[LOGS_KEY]).toBe("🐇");
+    await waitFor(() => expect(fileTransfer.shared).toHaveLength(1));
+    expect(JSON.parse(fileTransfer.shared[0].contents).storage[LOGS_KEY]).toBe(
+      "🐇"
+    );
     expect(screen.getByTestId("storage-load-error")).toBeOnTheScreen();
     expect(await AsyncStorage.getItem(LOGS_KEY)).toBe("🐇");
 
     setFileTransferOverride(null);
-    writeSpy.mockRestore();
   });
 
   test("user can mail support with the error code and no stored data", async () => {
