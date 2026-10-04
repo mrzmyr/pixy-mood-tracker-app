@@ -157,6 +157,39 @@ describe("useSettings()", () => {
     });
   });
 
+  test("keeps the photo access dismissal of this device on import", async () => {
+    await AsyncStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify({ ...INITIAL_STATE, photosDayAccessDismissed: true })
+    );
+    const hook = await _renderHook();
+    await waitForLoaded(hook);
+    expect(hook.result.current.state.settings.photosDayAccessDismissed).toBe(
+      true
+    );
+
+    await act(() => {
+      hook.result.current.state.importSettings({ ...INITIAL_STATE });
+    });
+
+    expect(hook.result.current.state.settings.photosDayAccessDismissed).toBe(
+      true
+    );
+  });
+
+  test("reads a missing or invalid photo access dismissal as false", async () => {
+    await AsyncStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify({ ...INITIAL_STATE, photosDayAccessDismissed: "yes" })
+    );
+    const hook = await _renderHook();
+    await waitForLoaded(hook);
+
+    expect(hook.result.current.state.settings.photosDayAccessDismissed).toBe(
+      false
+    );
+  });
+
   test("should addActionDone", async () => {
     const hook = await _renderHook();
     await waitForLoaded(hook);
