@@ -4,16 +4,12 @@ import { Alert, Linking, Platform, ScrollView, Text, View } from "react-native";
 import { AlertCircle } from "react-native-feather";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Button from "@/components/Button";
-import { exportRawStorage } from "@/features/datagate";
+import { exportRawStorage, useAppData } from "@/features/datagate";
 import { useFeedbackModal } from "@/features/feedback";
-import { useLogLoad } from "@/features/logs";
-import { usePeopleLoad } from "@/features/people";
-import { useTagsLoad } from "@/features/tags";
 import { t } from "@/lib/translation";
 import useColors from "@/hooks/useColors";
 import type { StructuredError } from "@/lib/errors";
 import { useAnalytics } from "@/state/analytics";
-import { useSettingsLoad } from "@/state/settings";
 import pkg from "../../package.json";
 
 const SUPPORT_EMAIL = "care@pixy.day";
@@ -154,8 +150,8 @@ const StorageLoadErrorScreen = ({ error }: { error: StructuredError }) => {
 };
 
 /**
- * Renders a blocking error screen instead of the app while stored logs,
- * tags, or settings could not be read.
+ * Renders a blocking error screen instead of the app while any gated store
+ * in `PERSISTED_STORES` could not be read.
  *
  * Stores never persist after a failed read, so the stored data stays intact.
  * Blocking the app keeps users from resetting or importing over data they
@@ -166,16 +162,10 @@ export const StorageLoadGate = ({
 }: {
   children: React.ReactNode;
 }) => {
-  const settingsLoad = useSettingsLoad();
-  const logLoad = useLogLoad();
-  const tagsLoad = useTagsLoad();
-  const peopleLoad = usePeopleLoad();
-  const loads = [settingsLoad, logLoad, tagsLoad, peopleLoad];
+  const { load } = useAppData();
 
-  const failed = loads.find((load) => load.status === "error");
-
-  return failed?.status === "error" ? (
-    <StorageLoadErrorScreen error={failed.error} />
+  return load.status === "error" ? (
+    <StorageLoadErrorScreen error={load.error} />
   ) : (
     children
   );

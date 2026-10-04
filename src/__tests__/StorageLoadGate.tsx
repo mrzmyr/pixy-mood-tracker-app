@@ -9,9 +9,9 @@ import {
 import * as FileSystem from "expo-file-system/legacy";
 import { Linking, Text } from "react-native";
 import Colors from "@/constants/Colors";
-import { setFileTransferOverride } from "@/features/datagate";
+import { PERSISTED_STORES, setFileTransferOverride } from "@/features/datagate";
+import { PeopleProvider } from "@/features/people";
 import { LogsProvider, STORAGE_KEY as LOGS_KEY } from "@/features/logs";
-import { PeopleProvider, STORAGE_KEY as PEOPLE_KEY } from "@/features/people";
 import { TagsProvider } from "@/features/tags";
 import { StorageLoadGate } from "@/shell/StorageLoadGate";
 import { AnalyticsProvider } from "@/state/analytics";
@@ -98,17 +98,24 @@ describe("StorageLoadGate", () => {
     expect(await AsyncStorage.getItem(LOGS_KEY)).toBe("🐇");
   }, 15_000);
 
-  test("user sees an error screen instead of an empty app when stored people cannot be read", async () => {
-    await AsyncStorage.setItem(PEOPLE_KEY, "🐇");
+  test.each(
+    PERSISTED_STORES.filter((store) => store.gated).map((store) => [
+      store.name,
+      store.key,
+    ])
+  )(
+    "user sees the error screen when stored %s cannot be read",
+    async (_name, key) => {
+      await AsyncStorage.setItem(key, "🐇");
 
-    await renderApp();
+      await renderApp();
 
-    expect(
-      await screen.findByText("Error code: storage_invalid_value")
-    ).toBeOnTheScreen();
-    expect(screen.queryByText("Calendar")).toBeNull();
-    expect(await AsyncStorage.getItem(PEOPLE_KEY)).toBe("🐇");
-  }, 15_000);
+      expect(await screen.findByTestId("storage-load-error")).toBeOnTheScreen();
+      expect(screen.queryByText("Calendar")).toBeNull();
+      expect(await AsyncStorage.getItem(key)).toBe("🐇");
+    },
+    15_000
+  );
 
   test("load failure code goes to analytics when the user opted in", async () => {
     // jest.setup.js replaces posthog-react-native with one shared fake client.
@@ -163,7 +170,7 @@ describe("StorageLoadGate", () => {
     expect(url).toContain("mailto:care@pixy.day");
     expect(url).toContain("Error code: storage_invalid_value");
     expect(url).not.toContain("🐇");
-    expect(screen.queryByText("Report Bug")).toBeNull();
+    expect(screen.queryByText("Report a bug")).toBeNull();
 
     openURLSpy.mockRestore();
   });
@@ -178,7 +185,7 @@ describe("StorageLoadGate", () => {
     await renderApp();
     await user.press(await screen.findByText("Contact support"));
 
-    expect(await screen.findByText("Report Bug")).toBeOnTheScreen();
+    expect(await screen.findByText("Report a bug")).toBeOnTheScreen();
 
     openURLSpy.mockRestore();
   });

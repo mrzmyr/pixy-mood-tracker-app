@@ -7,16 +7,17 @@ import { getItemDate } from "@/lib/logDates";
 import { useAnalytics } from "@/state/analytics";
 import { useFeatureFlag } from "@/state/featureFlags";
 import type { UsageSummary } from "@/state/analytics/events";
-import { useSettings, useSettingsLoad } from "@/state/settings";
+import { useSettings } from "@/state/settings";
 import type { SettingsState } from "@/state/settings";
-import { useLogLoad, useLogState } from "@/features/logs";
+import { useLogState } from "@/features/logs";
+import { useAppData } from "@/features/datagate";
 import type { LogItem } from "@/features/logs";
 import { countPhotosBySource, getPhotoSource } from "@/features/photos";
 import type { LibraryPermission } from "@/features/photos";
 import { getCurrentStreak, getLongestStreak } from "@/features/statistics";
-import { usePeopleLoad, usePeopleState } from "@/features/people";
+import { usePeopleState } from "@/features/people";
 import type { Person } from "@/features/people";
-import { useTagsLoad, useTagsState } from "@/features/tags";
+import { useTagsState } from "@/features/tags";
 import type { Tag } from "@/features/tags";
 
 const QUESTION_ACTION_PREFIX = "question_slide_";
@@ -184,12 +185,7 @@ export const useUsageSummarySync = () => {
   const logState = useLogState();
   const { tags } = useTagsState();
   const { people } = usePeopleState();
-  const isStoresReady = [
-    useSettingsLoad(),
-    useLogLoad(),
-    useTagsLoad(),
-    usePeopleLoad(),
-  ].every((load) => load.status === "ready");
+  const isStoresReady = useAppData().load.status === "ready";
   const lastSent = useRef<string | null>(null);
   const isPhotosEnabled = useFeatureFlag("photos");
   const [libraryAccess, setLibraryAccess] = useState<LibraryPermission | null>(

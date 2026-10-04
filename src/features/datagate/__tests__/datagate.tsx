@@ -7,34 +7,20 @@ import * as Sharing from "expo-sharing";
 import { Alert } from "react-native";
 import { AnalyticsProvider } from "@/state/analytics";
 import { useDatagate } from "../DataGate";
+import { useAppData } from "../appData";
 
 import _ from "lodash";
-import {
-  LogsProvider,
-  useLogLoad,
-  useLogState,
-  useLogUpdater,
-} from "@/features/logs";
+import { LogsProvider, useLogState, useLogUpdater } from "@/features/logs";
 import type { LogsState } from "@/features/logs";
 
-import {
-  SettingsProvider,
-  useSettings,
-  useSettingsLoad,
-} from "@/state/settings";
+import { SettingsProvider, useSettings } from "@/state/settings";
 import type { ExportSettings } from "@/state/settings";
 import { INITIAL_STATE } from "@/constants/Settings";
 
-import {
-  TagsProvider,
-  useTagsLoad,
-  useTagsState,
-  useTagsUpdater,
-} from "@/features/tags";
+import { TagsProvider, useTagsState, useTagsUpdater } from "@/features/tags";
 import type { Tag } from "@/features/tags";
 import {
   PeopleProvider,
-  usePeopleLoad,
   usePeopleState,
   usePeopleUpdater,
 } from "@/features/people";
@@ -129,16 +115,14 @@ const _renderHook = () =>
       peopleState: usePeopleState(),
       peopleUpdater: usePeopleUpdater(),
       settingsState: useSettings(),
-      loads: [useLogLoad(), useTagsLoad(), usePeopleLoad(), useSettingsLoad()],
+      appData: useAppData(),
     }),
     { wrapper }
   );
 
 const waitForLoaded = (hook) =>
   waitFor(() => {
-    for (const load of hook.result.current.loads) {
-      expect(load.status).toBe("ready");
-    }
+    expect(hook.result.current.appData.load.status).toBe("ready");
   });
 
 const testPeople: Person[] = [
