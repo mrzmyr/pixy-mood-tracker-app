@@ -1,5 +1,6 @@
 import type { FeedackType, FeedbackSource } from "@/types/Feedback";
 import type { LoggerStep } from "@/constants/LoggerSteps";
+import type { AppIconId } from "@/constants/AppIcons";
 import type { SettingsState } from "@/state/settings";
 import type { z } from "zod";
 import type { LogItemSchema, PhotoSourceKind } from "@/types";
@@ -40,6 +41,7 @@ export interface AnalyticsEvents {
     has_rating: boolean;
     message_length: number;
     tags_count: number;
+    people_count: number;
     emotions_count: number;
     photos_count: number;
     /** Photos by origin. The two counts add up to `photos_count`. */
@@ -123,6 +125,7 @@ export interface AnalyticsEvents {
     text_length: number;
     ratings_count: number;
     tags_count: number;
+    people_count: number;
   };
   "calendar:filters_reset": undefined;
   "calendar:filters_closed": undefined;
@@ -145,6 +148,10 @@ export interface AnalyticsEvents {
     emotions_distribution_show?: boolean;
     emotions_distribution_item_count?: number;
     sleep_quality_distribution_show?: boolean;
+    people_distribution_show?: boolean;
+    people_distribution_count?: number;
+    people_peaks_show?: boolean;
+    people_peaks_count?: number;
   };
   "statistics:all_highlights_viewed": AnalyticsEvents["statistics:highlights_viewed"];
   "statistics:card_shared": { card: string };
@@ -164,6 +171,21 @@ export interface AnalyticsEvents {
   "tags:tag_deleted": AnalyticsEvents["tags:tag_created"];
   "tags:delete_cancelled": undefined;
 
+  "people:person_added": { source: "manual"; has_avatar: boolean };
+  "people:contacts_imported": {
+    count: number;
+    avatars_count: number;
+    is_limited: boolean;
+  };
+  "people:person_updated": {
+    name_changed: boolean;
+    avatar_changed: boolean;
+    is_archived: boolean;
+  };
+  "people:delete_requested": { entries_count: number };
+  "people:person_deleted": { entries_count: number };
+  "people:delete_cancelled": undefined;
+
   "settings:rate_app_tapped": undefined;
   "settings:vote_features_tapped": undefined;
   "settings:changelog_tapped": undefined;
@@ -171,6 +193,7 @@ export interface AnalyticsEvents {
   "settings:step_toggled": { step: LoggerStep; enabled: boolean };
   "settings:privacy_policy_opened": undefined;
   "settings:analytics_toggled": { enabled: boolean };
+  "settings:app_icon_changed": { icon: AppIconId };
 
   "reminders:reminder_toggled": {
     enabled: boolean;
@@ -296,6 +319,8 @@ export type UsageSummary = {
   statistics_unlocked: boolean;
   tags_count: number;
   archived_tags_count: number;
+  people_count: number;
+  archived_people_count: number;
   reminder_enabled: boolean;
   reminder_hour: number | null;
   scale_type: SettingsState["scaleType"];
@@ -357,6 +382,7 @@ export interface SavedEntryProperties {
   emotions: LogItem["emotions"];
   emotions_count: number;
   tags_count: number;
+  people_count: number;
   message_length: number;
   /** Whitespace-separated words; Chinese, Japanese, and Thai notes count as 1. */
   message_word_count: number;

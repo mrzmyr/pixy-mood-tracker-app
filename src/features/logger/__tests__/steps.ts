@@ -26,6 +26,7 @@ const getCreateSteps = ({ isPhotosEnabled }: { isPhotosEnabled: boolean }) =>
     hasStep,
     reminderEnabled: true,
     itemsCount: 5,
+    hasPeople: false,
     isPhotosEnabled,
   });
 
@@ -51,6 +52,7 @@ describe("logger steps and the photos flag", () => {
       getAvailableStepsForEdit({
         item,
         hasStep: () => false,
+        hasPeople: false,
         isPhotosEnabled: true,
       })
     ).toContain("photos");
@@ -63,8 +65,37 @@ describe("logger steps and the photos flag", () => {
       getAvailableStepsForEdit({
         item,
         hasStep: () => true,
+        hasPeople: false,
         isPhotosEnabled: false,
       })
     ).not.toContain("photos");
+  });
+});
+
+describe("logger steps and the people flag", () => {
+  test("flag off: create hides the people step even when enabled", () => {
+    expect(
+      getAvailableStepsForCreate({
+        question: null,
+        hasStep: () => true,
+        reminderEnabled: true,
+        itemsCount: 5,
+        hasPeople: false,
+        isPhotosEnabled: false,
+      })
+    ).not.toContain("people");
+  });
+
+  test("flag off: edit keeps the people step for an entry with people", () => {
+    const item = _generateItem({ people: [{ id: "p1" }] });
+
+    expect(
+      getAvailableStepsForEdit({
+        item,
+        hasStep: () => false,
+        hasPeople: false,
+        isPhotosEnabled: false,
+      })
+    ).toContain("people");
   });
 });

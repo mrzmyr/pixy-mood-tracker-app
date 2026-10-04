@@ -2,7 +2,7 @@
   "expo": {
     "name": "Pixy",
     "slug": "pixy-mood-tracker",
-    "version": "1.88.0",
+    "version": "1.90.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "pixy",
@@ -78,13 +78,14 @@
       [
         "expo-splash-screen",
         {
-          "image": "./assets/images/splash.png",
+          "image": "./assets/images/splash-sunburst.png",
           "resizeMode": "contain",
           "backgroundColor": "#ffffff",
           "dark": {
-            "image": "./assets/images/splash.png",
+            "image": "./assets/images/splash-sunburst-white.png",
             "backgroundColor": "#171717"
-          }
+          },
+          "imageWidth": 96
         }
       ],
       "@react-native-community/datetimepicker",
@@ -113,11 +114,86 @@
           "appleTeamId": "8VVNC4724B"
         }
       ],
+      [
+        "expo-alternate-app-icons",
+        [
+          {
+            "name": "Sunburst",
+            "ios": "./assets/images/app-icons/sunburst.png",
+            "android": {
+              "foregroundImage": "./assets/images/app-icons/sunburst-foreground.png",
+              "backgroundColor": "#FFFFFF"
+            }
+          },
+          {
+            "name": "SunburstInverse",
+            "ios": "./assets/images/app-icons/sunburst-inverse.png",
+            "android": {
+              "foregroundImage": "./assets/images/app-icons/sunburst-inverse-foreground.png",
+              "backgroundColor": "#F97316"
+            }
+          },
+          {
+            "name": "SunburstBlack",
+            "ios": "./assets/images/app-icons/sunburst-black.png",
+            "android": {
+              "foregroundImage": "./assets/images/app-icons/sunburst-black-foreground.png",
+              "backgroundColor": "#FFFFFF"
+            }
+          },
+          {
+            "name": "SunburstBlackInverse",
+            "ios": "./assets/images/app-icons/sunburst-black-inverse.png",
+            "android": {
+              "foregroundImage": "./assets/images/app-icons/sunburst-inverse-foreground.png",
+              "backgroundColor": "#000000"
+            }
+          },
+          {
+            "name": "Dither",
+            "ios": "./assets/images/app-icons/dither.png",
+            "android": {
+              "foregroundImage": "./assets/images/app-icons/dither-foreground.png",
+              "backgroundImage": "./assets/images/app-icons/dither-background.png"
+            }
+          },
+          {
+            "name": "DitherInverse",
+            "ios": "./assets/images/app-icons/dither-inverse.png",
+            "android": {
+              "foregroundImage": "./assets/images/app-icons/dither-inverse-foreground.png",
+              "backgroundColor": "#FFFFFF"
+            }
+          },
+          {
+            "name": "Tangerine",
+            "ios": "./assets/images/app-icons/tangerine.png",
+            "android": {
+              "foregroundImage": "./assets/images/app-icons/tangerine-foreground.png",
+              "backgroundImage": "./assets/images/app-icons/tangerine-background.png"
+            }
+          },
+          {
+            "name": "TangerineInverse",
+            "ios": "./assets/images/app-icons/tangerine-inverse.png",
+            "android": {
+              "foregroundImage": "./assets/images/app-icons/tangerine-inverse-foreground.png",
+              "backgroundColor": "#FFFFFF"
+            }
+          }
+        ]
+      ],
+      [
+        "expo-contacts",
+        {
+          "contactsPermission": "Pixy lists your contacts so you can add people. Only the people you pick are saved, with name and photo, on your device."
+        }
+      ],
       "expo-image",
       [
         "expo-image-picker",
         {
-          "photosPermission": "Pixy adds photos you choose to your entries. Photos stay on your device.",
+          "photosPermission": "Pixy adds photos you choose to your entries and people. Photos stay on your device.",
           "cameraPermission": false,
           "microphonePermission": false
         }
@@ -125,7 +201,7 @@
       [
         "expo-media-library",
         {
-          "photosPermission": "Pixy adds photos you choose to your entries. Photos stay on your device.",
+          "photosPermission": "Pixy adds photos you choose to your entries and people. Photos stay on your device.",
           "savePhotosPermission": false,
           "isAccessMediaLocationEnabled": false,
           "preventAutomaticLimitedAccessAlert": true,

@@ -9,13 +9,15 @@ tags: [p0, upgrade]
       FIXTURE: legacy-1.68
 - runFlow: ../subflows/verify-upgrade.yaml
 
-# Tags keep titles and archive state.
+# Tags keep titles and archive state. They live under Check-in > Tags.
 - runFlow: ../subflows/open-settings.yaml
 - scrollUntilVisible:
     element:
-      text: "Tags"
+      text: "Check-in"
     direction: UP
-- tapOn: "Tags"
+- tapOn: "Check-in"
+- tapOn:
+    id: "step-tags"
 - assertVisible: "Legacy custom"
 - assertVisible: "Work 💼"
 - assertVisible: "Legacy archived"

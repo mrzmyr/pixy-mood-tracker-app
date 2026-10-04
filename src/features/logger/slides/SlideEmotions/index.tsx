@@ -182,40 +182,41 @@ export const SlideEmotions = ({
             }}
           />
           <ScrollView>
-            <EmotionBasicSelection
-              emotions={basicEmotions}
-              onPress={(emotion) => {
-                if (selectedEmotions.map((d) => d.key).includes(emotion.key)) {
-                  _setSelectedEmotions(
-                    selectedEmotions.filter((e) => e.key !== emotion.key)
-                  );
-                } else {
-                  _setSelectedEmotions([...selectedEmotions, emotion]);
-                }
-              }}
-              selectedEmotions={selectedEmotions}
-              onRequestEmotion={openRequest}
-              style={{
-                display: mode === "basic" ? "flex" : "none",
-              }}
-            />
-            <EmotionAdvancedSelection
-              defaultIndex={defaultIndex}
-              onPress={(emotion) => {
-                if (selectedEmotions.map((d) => d.key).includes(emotion.key)) {
-                  _setSelectedEmotions(
-                    selectedEmotions.filter((e) => e.key !== emotion.key)
-                  );
-                } else {
-                  _setSelectedEmotions([...selectedEmotions, emotion]);
-                }
-              }}
-              selectedEmotions={selectedEmotions}
-              onRequestEmotion={openRequest}
-              style={{
-                display: mode === "advanced" ? "flex" : "none",
-              }}
-            />
+            {mode === "basic" ? (
+              <EmotionBasicSelection
+                emotions={basicEmotions}
+                onPress={(emotion) => {
+                  if (
+                    selectedEmotions.map((d) => d.key).includes(emotion.key)
+                  ) {
+                    _setSelectedEmotions(
+                      selectedEmotions.filter((e) => e.key !== emotion.key)
+                    );
+                  } else {
+                    _setSelectedEmotions([...selectedEmotions, emotion]);
+                  }
+                }}
+                selectedEmotions={selectedEmotions}
+                onRequestEmotion={openRequest}
+              />
+            ) : (
+              <EmotionAdvancedSelection
+                defaultIndex={defaultIndex}
+                onPress={(emotion) => {
+                  if (
+                    selectedEmotions.map((d) => d.key).includes(emotion.key)
+                  ) {
+                    _setSelectedEmotions(
+                      selectedEmotions.filter((e) => e.key !== emotion.key)
+                    );
+                  } else {
+                    _setSelectedEmotions([...selectedEmotions, emotion]);
+                  }
+                }}
+                selectedEmotions={selectedEmotions}
+                onRequestEmotion={openRequest}
+              />
+            )}
           </ScrollView>
           {mode === "basic" && <EmotionBasicGradients />}
           {mode === "advanced" && <EmotionAdvancedGradients />}

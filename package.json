@@ -1,6 +1,6 @@
 {
   "name": "pixel-tracker",
-  "version": "1.88.0",
+  "version": "1.90.0",
   "private": true,
   "main": "expo-router/entry",
   "scripts": {
@@ -50,10 +50,12 @@
     "chroma-js": "^3.2.0",
     "dayjs": "^1.11.7",
     "expo": "~57.0.25",
+    "expo-alternate-app-icons": "^8.0.0",
     "expo-application": "~57.0.3",
     "expo-asset": "~57.0.18",
     "expo-build-properties": "~57.0.22",
     "expo-constants": "~57.0.19",
+    "expo-contacts": "~57.0.6",
     "expo-dev-client": "~57.0.19",
     "expo-device": "~57.0.2",
     "expo-document-picker": "~57.0.2",

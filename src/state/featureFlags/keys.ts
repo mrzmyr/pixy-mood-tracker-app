@@ -3,9 +3,11 @@
  * PostHog project of every app variant.
  */
 export const FEATURE_FLAGS = [
+  "app-icons",
   "interventions",
   "photos",
   "support-pixy",
+  "people",
 ] as const;
 
 /** One key of {@link FEATURE_FLAGS}. */

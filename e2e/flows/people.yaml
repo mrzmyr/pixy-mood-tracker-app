@@ -1,0 +1,104 @@
+appId: ${APP_ID}
+tags: [p1, people]
+---
+# People behind the `people` flag: import several contacts at once, mark
+# contacts that are already people, archive, delete with the entry count,
+# and keep the rest. The address book and photo library are system data, so the flow swaps
+# them for fakes (src/dev/fakePeopleSources.ts). Check the real pickers by
+# hand before a release.
+- runFlow:
+    file: ../subflows/load-fixture.yaml
+    env:
+      FIXTURE: people
+- openLink: ${APP_SCHEME}://dev/feature-flag?key=people&value=on
+- extendedWaitUntil:
+    visible:
+      id: "calendar"
+    timeout: 10000
+- openLink: ${APP_SCHEME}://dev/fake-files
+- extendedWaitUntil:
+    visible:
+      id: "calendar"
+    timeout: 10000
+
+# Check-in > People lists active people; archived Mia sits behind the Archive link.
+- tapOn:
+    id: "settings"
+- tapOn: "Check-in"
+- tapOn:
+    id: "step-people"
+# The list shows only while the step is on; it is off by default.
+- tapOn:
+    id: "step-people-enabled"
+- assertVisible: "Sam"
+- assertVisible: "Alex"
+- assertNotVisible: "Mia"
+- tapOn:
+    id: "people-archive"
+- assertVisible: "Mia"
+- back
+
+# Import from contacts: the fake address book holds Sam, Kim, and Lee Fake.
+# Pick two at once.
+- tapOn:
+    id: "people-add"
+- assertVisible: "Add Person"
+- tapOn:
+    id: "person-from-contacts"
+- tapOn:
+    id: "contact-import-fake-contact-sam"
+- tapOn:
+    id: "contact-import-fake-contact-kim"
+- tapOn:
+    id: "contact-import-save"
+- assertVisible: "Sam Fake"
+- assertVisible: "Kim Fake"
+
+# Contacts that are already people show as added; search narrows the list.
+- tapOn:
+    id: "people-add"
+- tapOn:
+    id: "person-from-contacts"
+- assertVisible: "Added"
+- tapOn:
+    id: "contact-import-search"
+- inputText: "lee"
+- assertVisible: "Lee Fake"
+- assertNotVisible: "Kim Fake"
+- tapOn: "Cancel"
+
+# Manual add with a typed name.
+- tapOn:
+    id: "people-add"
+- tapOn:
+    id: "person-name"
+- inputText: "Jo"
+- runFlow: ../subflows/dismiss-keyboard.yaml
+- tapOn:
+    id: "person-save"
+- assertVisible: "Jo"
+
+# Archive Alex: gone from the list, still in the archive.
+- tapOn: "Alex"
+- assertVisible: "Edit Person"
+- tapOn:
+    id: "person-archived"
+- tapOn:
+    id: "person-save"
+- assertNotVisible: "Alex"
+- tapOn:
+    id: "people-archive"
+- assertVisible: "Alex"
+- back
+
+# Delete Sam: the confirm names the entry count (every 3rd of 365 entries).
+- tapOn: "Sam"
+- tapOn:
+    id: "person-delete"
+- assertVisible: "The person will be removed from 122 entries.*"
+- tapOn:
+    text: "Delete"
+    below: "The person will be removed from 122 entries.*"
+- assertNotVisible: "Sam"
+- assertVisible: "Jo"
+- assertVisible: "Sam Fake"

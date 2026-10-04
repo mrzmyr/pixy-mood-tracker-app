@@ -12,11 +12,11 @@ import { useAnalytics } from "@/state/analytics";
 import { useTemporaryLog } from "./temporaryLog";
 import type { TemporaryLogState } from "./temporaryLog";
 
-import type { Emotion, TagReference } from "@/types";
+import type { Emotion, PersonReference, TagReference } from "@/types";
 import dayjs from "dayjs";
 import { useEffect, useEffectEvent, useMemo, useRef, useState } from "react";
 import { useRouter } from "expo-router";
-import type { ReactElement } from "react";
+import type { ReactElement, RefObject } from "react";
 
 import { Dimensions, Keyboard, Platform, Text, View } from "react-native";
 import type { TextInput } from "react-native";
@@ -35,6 +35,7 @@ import { SlideMessage } from "./slides/SlideMessage";
 import { SlideMood } from "./slides/SlideMood";
 import { SlidePhotos } from "./slides/SlidePhotos";
 import { SlideReminder } from "./slides/SlideReminder";
+import { SlidePeople } from "./slides/SlidePeople";
 import { SlideTags } from "./slides/SlideTags";
 import { useLoggerActions } from "./hooks/useLoggerActions";
 import { useLoggerTracking } from "./hooks/useLoggerTracking";
@@ -50,6 +51,7 @@ const SLIDE_ORDER: LoggerStep[] = [
   "rating",
   "emotions",
   "tags",
+  "people",
   "message",
   "photos",
   "reminder",
@@ -64,6 +66,98 @@ const EMOTIONS_INDEX_MAPPING = {
   good: 3,
   very_good: 3,
   extremely_good: 4,
+};
+
+interface SlideContent {
+  key: string;
+  slide: ReactElement;
+  action?: ReactElement;
+}
+
+/** Slides of the steps the user can turn off from the logger, in order. */
+const useStepSlides = ({
+  slideKeys,
+  isPhotosSlideActive,
+  mode,
+  tempLog,
+  showDisable,
+  texAreaRef,
+  disableStep,
+}: {
+  slideKeys: LoggerStep[];
+  isPhotosSlideActive: boolean;
+  mode: LoggerMode;
+  tempLog: ReturnType<typeof useTemporaryLog>;
+  showDisable: boolean;
+  texAreaRef: RefObject<TextInput | null>;
+  disableStep: (
+    step: "tags" | "people" | "message" | "photos"
+  ) => Promise<void>;
+}) => {
+  const slides: SlideContent[] = [];
+
+  if (slideKeys.includes("tags")) {
+    slides.push({
+      key: "tags",
+      slide: (
+        <SlideTags
+          onChange={(tags: TagReference[]) => {
+            tempLog.update({ tags });
+          }}
+          onDisableStep={() => disableStep("tags")}
+          showDisable={showDisable}
+        />
+      ),
+    });
+  }
+
+  if (slideKeys.includes("people")) {
+    slides.push({
+      key: "people",
+      slide: (
+        <SlidePeople
+          onChange={(people: PersonReference[]) => {
+            tempLog.update({ people });
+          }}
+          onDisableStep={() => disableStep("people")}
+          showDisable={showDisable}
+        />
+      ),
+    });
+  }
+
+  if (slideKeys.includes("message")) {
+    slides.push({
+      key: "message",
+      slide: (
+        <SlideMessage
+          onChange={(message) => {
+            tempLog.update({ message });
+          }}
+          onDisableStep={() => disableStep("message")}
+          ref={texAreaRef}
+          showDisable={showDisable}
+        />
+      ),
+    });
+  }
+
+  if (slideKeys.includes("photos")) {
+    slides.push({
+      key: "photos",
+      slide: (
+        <SlidePhotos
+          mode={mode}
+          isActive={isPhotosSlideActive}
+          onChange={(photos) => tempLog.update({ photos })}
+          onDisableStep={() => disableStep("photos")}
+          showDisable={showDisable}
+        />
+      ),
+    });
+  }
+
+  return slides;
 };
 
 /**
@@ -135,18 +229,27 @@ export const Logger = ({
     }
   };
 
-  const disableStep = async (step: "tags" | "message" | "photos") => {
+  // Shared by the optional slides: confirm, turn the step off, move on.
+  const disableStep = async (
+    step: "tags" | "people" | "message" | "photos"
+  ) => {
     await askToDisableStep();
     analytics.track("logger:step_disabled", { step });
     toggleStep(step);
     next();
   };
 
-  const content: {
-    key: string;
-    slide: ReactElement;
-    action?: ReactElement;
-  }[] = [];
+  const stepSlides = useStepSlides({
+    slideKeys,
+    isPhotosSlideActive: slideKeys[slideIndex] === "photos",
+    mode,
+    tempLog,
+    showDisable,
+    texAreaRef,
+    disableStep,
+  });
+
+  const content: SlideContent[] = [];
 
   const isRatingActionVisible = slideIndex !== 0 || touched || mode === "edit";
   const ratingActionType = content.length === 1 ? "save" : "next";
@@ -205,51 +308,7 @@ export const Logger = ({
     });
   }
 
-  if (slideKeys.includes("tags")) {
-    content.push({
-      key: "tags",
-      slide: (
-        <SlideTags
-          onChange={(tags: TagReference[]) => {
-            tempLog.update({ tags });
-          }}
-          onDisableStep={() => disableStep("tags")}
-          showDisable={showDisable}
-        />
-      ),
-    });
-  }
-
-  if (slideKeys.includes("message")) {
-    content.push({
-      key: "message",
-      slide: (
-        <SlideMessage
-          onChange={(message) => {
-            tempLog.update({ message });
-          }}
-          onDisableStep={() => disableStep("message")}
-          ref={texAreaRef}
-          showDisable={showDisable}
-        />
-      ),
-    });
-  }
-
-  if (slideKeys.includes("photos")) {
-    content.push({
-      key: "photos",
-      slide: (
-        <SlidePhotos
-          mode={mode}
-          isActive={slideKeys[slideIndex] === "photos"}
-          onChange={(photos) => tempLog.update({ photos })}
-          onDisableStep={() => disableStep("photos")}
-          showDisable={showDisable}
-        />
-      ),
-    });
-  }
+  content.push(...stepSlides);
 
   if (slideKeys.includes("reminder")) {
     content.push({
@@ -381,6 +440,7 @@ export const LoggerEdit = ({
 }) => {
   const logState = useLogState();
   const { hasStep } = useSettings();
+  const hasPeople = useFeatureFlag("people");
   const isPhotosEnabled = useFeatureFlag("photos");
   const initialItem = logState?.items.find((item) => item.id === id);
 
@@ -395,6 +455,7 @@ export const LoggerEdit = ({
   const avaliableSteps = getAvailableStepsForEdit({
     item: initialItem,
     hasStep,
+    hasPeople,
     isPhotosEnabled,
   });
 
@@ -432,6 +493,7 @@ export const LoggerCreate = ({
   );
   const questioner = useQuestioner();
   const { hasStep, settings } = useSettings();
+  const hasPeople = useFeatureFlag("people");
   const isPhotosEnabled = useFeatureFlag("photos");
   const logState = useLogState();
   const router = useRouter();
@@ -447,6 +509,7 @@ export const LoggerCreate = ({
     message: "",
     emotions: [],
     tags: [],
+    people: [],
     photos: [],
     sleep: {
       quality: null,
@@ -459,6 +522,7 @@ export const LoggerCreate = ({
     getAvailableStepsForCreate({
       question: questioner.question,
       hasStep,
+      hasPeople,
       reminderEnabled: settings.reminderEnabled,
       itemsCount: logState.items.length,
       isPhotosEnabled,

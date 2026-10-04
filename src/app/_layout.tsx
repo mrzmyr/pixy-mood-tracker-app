@@ -21,6 +21,7 @@ import Colors from "@/constants/Colors";
 import { useSettings } from "@/state/settings";
 import { useUsageSummarySync } from "@/shell/usageSummary";
 import { useScreenTracking } from "@/shell/screenTracking";
+import { LaunchSplash } from "@/shell/LaunchSplash";
 import { useReminderTapTracking } from "@/features/notifications";
 
 // Configure before first render; each app variant reports to its own project.
@@ -46,6 +47,7 @@ const AppShell = () => {
       !hasActionDone("onboarding") &&
       pathname !== "/dev/fixture" &&
       pathname !== "/dev/fake-files" &&
+      pathname !== "/dev/fake-contacts" &&
       pathname !== "/dev/feature-flag"
     ) {
       router.replace("/onboarding");
@@ -87,6 +89,7 @@ const RootLayout = () => {
           <StatusBar />
         </Providers>
       </ThemeProvider>
+      <LaunchSplash />
     </GestureHandlerRootView>
   );
 };
