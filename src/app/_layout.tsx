@@ -14,6 +14,7 @@ import { useColorScheme } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { enableScreens } from "react-native-screens";
 import Providers from "@/shell/Providers";
+import { ToastHost } from "@/components/Toast";
 import { SENTRY_DSN } from "@/constants/API";
 import { APP_VARIANT, HAS_APP_VARIANT } from "@/constants/AppVariant";
 import Colors from "@/constants/Colors";
@@ -82,6 +83,7 @@ const RootLayout = () => {
       <ThemeProvider value={theme}>
         <Providers>
           <AppShell />
+          <ToastHost />
           <StatusBar />
         </Providers>
       </ThemeProvider>

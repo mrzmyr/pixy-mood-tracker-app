@@ -7,6 +7,7 @@ import {
   waitFor,
 } from "@testing-library/react-native";
 import Providers from "@/shell/Providers";
+import { ToastHost } from "@/components/Toast";
 import Colors from "@/constants/Colors";
 import { INITIAL_STATE } from "@/constants/Settings";
 import { STORAGE_KEY } from "@/state/settings";
@@ -57,6 +58,7 @@ const renderEmotions = () =>
         supportClient={{ enabled: false, openSupport: () => Promise.resolve() }}
       >
         <SettingsEmotions />
+        <ToastHost />
       </Providers>
     </ThemeProvider>
   );
@@ -81,7 +83,7 @@ afterEach(() => {
 });
 
 describe("Settings > Check-in > Emotions", () => {
-  test("user requests a missing emotion with its mood", async () => {
+  test("user requests a missing emotion", async () => {
     const screen = await renderEmotions();
 
     await userEvent.press(await screen.findByTestId("request-emotion"));
@@ -89,16 +91,15 @@ describe("Settings > Check-in > Emotions", () => {
       screen.getByTestId("request-emotion-word"),
       "Nostalgic"
     );
-    await userEvent.press(screen.getByRole("radio", { name: "Hard" }));
     await userEvent.press(screen.getByTestId("request-emotion-send"));
 
-    expect(await screen.findByTestId("request-emotion-sent")).toBeOnTheScreen();
+    expect(await screen.findByTestId("toast")).toHaveTextContent(/Thank You!/u);
+    expect(screen.queryByTestId("request-emotion-word")).toBeNull();
     const [[, request]] = jest.mocked(global.fetch).mock.calls;
     expect(JSON.parse(String(request?.body))).toMatchObject({
       type: "emotion",
       source: "settings",
       message: "Nostalgic",
-      mood: "hard",
     });
   });
 
@@ -110,7 +111,7 @@ describe("Settings > Check-in > Emotions", () => {
     await userEvent.type(screen.getByTestId("request-emotion-word"), "Cozy");
     await userEvent.press(screen.getByTestId("request-emotion-send"));
 
-    await screen.findByTestId("request-emotion-sent");
+    await screen.findByTestId("toast");
     const [[, request]] = jest.mocked(global.fetch).mock.calls;
     expect(JSON.parse(String(request?.body)).email).toBeUndefined();
   });

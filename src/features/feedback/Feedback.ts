@@ -14,9 +14,7 @@ export type { FeedackType, FeedbackSource } from "@/types/Feedback";
  * Send feedback with device metadata (locale, app version, OS, device id)
  * to {@link FEEDBACK_URL}.
  *
- * `details` adds fixed extra fields to the body, for example the mood of a
- * requested emotion. Without `onOk`/`onCancel`, `send` shows a success or
- * error alert itself.
+ * Without `onOk`/`onCancel`, `send` shows a success or error alert itself.
  * Network and HTTP errors never reject.
  */
 export const useFeedback = () => {
@@ -28,7 +26,6 @@ export const useFeedback = () => {
     message,
     email,
     source,
-    details,
     onOk,
     onCancel,
   }: {
@@ -36,7 +33,6 @@ export const useFeedback = () => {
     source: FeedbackSource;
     email?: string;
     message: string;
-    details?: Record<string, string>;
     onOk?: () => void;
     onCancel?: () => void;
   }) => {
@@ -51,7 +47,6 @@ export const useFeedback = () => {
     };
 
     const body = {
-      ...details,
       ...metaData,
       type,
       message,
