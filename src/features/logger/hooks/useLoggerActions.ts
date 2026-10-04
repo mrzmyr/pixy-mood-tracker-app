@@ -5,6 +5,7 @@ import { useEffect, useRef } from "react";
 import { useAnalytics } from "@/state/analytics";
 import { useLogState, useLogUpdater } from "@/features/logs";
 import type { LogItem } from "@/features/logs";
+import { countPhotosBySource } from "@/features/photos";
 import { useStoreReviewPrompt } from "@/features/review";
 
 import type { TemporaryLogState, TemporaryLogValue } from "../temporaryLog";
@@ -52,6 +53,7 @@ export const useLoggerActions = ({
   };
 
   const save = (data: TemporaryLogState) => {
+    const photoCounts = countPhotosBySource({ photos: data.photos });
     analytics.track("logger:log_saved", {
       mode,
       duration_ms: Date.now() - startedAt.current,
@@ -59,6 +61,9 @@ export const useLoggerActions = ({
       message_length: data.message.length,
       tags_count: data.tags.length,
       emotions_count: data.emotions.length,
+      photos_count: data.photos.length,
+      photos_day_count: photoCounts.day,
+      photos_library_count: photoCounts.library,
     });
 
     if (data.rating === null) {
