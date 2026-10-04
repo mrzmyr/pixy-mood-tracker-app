@@ -1,3 +1,4 @@
+import { useWeekLocale } from "@/hooks/useWeekLocale";
 import { useSetting } from "@/state/settings";
 import { Card } from "../../components/Card";
 import { DATE_FORMAT } from "@/constants/Config";
@@ -128,8 +129,9 @@ export const MoodPeaksContent = ({
   startDate: string;
   endDate: string;
 }) => {
-  const _endDate = dayjs(endDate).endOf("week");
-  const _startDate = dayjs(startDate).startOf("week");
+  const locale = useWeekLocale();
+  const _endDate = dayjs(endDate).locale(locale).endOf("week");
+  const _startDate = dayjs(startDate).locale(locale).startOf("week");
   const weekCount = dayjs(_endDate).diff(dayjs(_startDate), "week") + 1;
 
   return (

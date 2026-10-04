@@ -17,7 +17,6 @@ import Providers from "@/shell/Providers";
 import { SENTRY_DSN } from "@/constants/API";
 import { APP_VARIANT, HAS_APP_VARIANT } from "@/constants/AppVariant";
 import Colors from "@/constants/Colors";
-import { initializeDayjs } from "@/lib/translation";
 import { useSettings } from "@/state/settings";
 import { useUsageSummarySync } from "@/shell/usageSummary";
 import { useScreenTracking } from "@/shell/screenTracking";
@@ -51,7 +50,6 @@ const AppShell = () => {
   });
 
   useEffect(() => {
-    initializeDayjs();
     if (settings.loaded && rootState?.key) {
       onSettingsLoaded();
     }
