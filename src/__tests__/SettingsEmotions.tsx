@@ -131,6 +131,17 @@ describe("Settings > Check-in > Emotions", () => {
     );
   });
 
+  test("user closes the request sheet without sending", async () => {
+    const screen = await renderEmotions();
+
+    await userEvent.press(await screen.findByTestId("request-emotion"));
+    await userEvent.type(screen.getByTestId("request-emotion-word"), "Numb");
+    await userEvent.press(screen.getByTestId("request-emotion-close"));
+
+    expect(screen.queryByTestId("request-emotion-word")).toBeNull();
+    expect(global.fetch).not.toHaveBeenCalled();
+  });
+
   test("user turns off the emotions step", async () => {
     const screen = await renderEmotions();
     expect(await storedSteps()).toContain("emotions");

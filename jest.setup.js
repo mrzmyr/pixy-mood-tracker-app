@@ -27,12 +27,7 @@ jest.mock("react-native-reanimated-carousel", () => ({ Carousel: () => null }));
 // oxlint-disable-next-line anti-slop/no-module-mocking -- feature entry files load animated UI during provider tests; native worklets are unavailable in Jest.
 jest.mock("react-native-reanimated", () => {
   const { View } = require("react-native");
-  const animation = {
-    duration: () => animation,
-    delay: () => animation,
-    springify: () => animation,
-    damping: () => animation,
-  };
+  const animation = { duration: () => animation, delay: () => animation };
   return {
     __esModule: true,
     default: { View },
@@ -41,8 +36,10 @@ jest.mock("react-native-reanimated", () => {
     FadeInRight: animation,
     FadeInUp: animation,
     FadeOut: animation,
-    SlideInDown: animation,
     useReducedMotion: () => true,
+    useSharedValue: (value) => ({ get: () => value, set: jest.fn() }),
+    useAnimatedStyle: () => ({}),
+    withSpring: (value) => value,
   };
 });
 
