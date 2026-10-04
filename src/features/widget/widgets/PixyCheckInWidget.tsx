@@ -23,8 +23,9 @@ import type { CheckInWidgetProps } from "../widgetProps";
 
 /**
  * Seven rating pixels, worst to best, that log a mood without opening the
- * app. A tap runs `onPress` in the widget extension: it appends the tap to
- * `taps` and moves the check mark; the app imports `taps` as entries on its
+ * app. No rating words: colors carry the scale. A tap runs `onPress` in the
+ * widget extension: it appends the tap to `taps`, moves the check mark, and
+ * shows a success line; the app imports `taps` as entries on its
  * next start or foreground. Runs in the widget runtime: no hooks, no
  * imports besides `@expo/ui`, and no module-scope values.
  */
@@ -89,6 +90,11 @@ const PixyCheckInWidget = (
     // A second tap this soon replaces the first: fixes a mis-tap without a
     // second entry.
     const replaceWindowMs = 10 * 60 * 1000;
+    // Success shows after a tap. The widget renders only on reload, so it
+    // stays until the next one; a reload after this window clears it.
+    const savedWindowMs = 60 * 1000;
+    const isSaved =
+      props.savedAt > 0 && Date.now() - props.savedAt < savedWindowMs;
 
     const logRating = (rating: (typeof ratings)[number]) => {
       const now = Date.now();
@@ -97,16 +103,12 @@ const PixyCheckInWidget = (
         last !== undefined && now - last.at < replaceWindowMs
           ? props.taps.slice(0, -1)
           : props.taps;
-      return { selected: rating, taps: [...kept, { rating, at: now }] };
+      return {
+        selected: rating,
+        savedAt: now,
+        taps: [...kept, { rating, at: now }],
+      };
     };
-
-    const label = (text: string) => (
-      <Text
-        modifiers={[font({ size: 12 }), foregroundStyle(scheme.textSecondary)]}
-      >
-        {text}
-      </Text>
-    );
 
     return (
       <VStack
@@ -118,23 +120,52 @@ const PixyCheckInWidget = (
           widgetURL(props.url),
         ]}
       >
-        <HStack spacing={4}>
-          <Text
-            modifiers={[
-              font({ size: 15, weight: "semibold" }),
-              foregroundStyle(scheme.text),
-            ]}
-          >
-            {props.title}
-          </Text>
-          <Spacer />
-          {props.reminderTime === "" ? null : (
-            <HStack spacing={3}>
-              <Image systemName="bell" size={11} color={scheme.textSecondary} />
-              {label(props.reminderTime)}
-            </HStack>
-          )}
-        </HStack>
+        {isSaved ? (
+          <HStack spacing={6}>
+            <Image
+              systemName="checkmark.circle.fill"
+              size={15}
+              color={scheme.today}
+            />
+            <Text
+              modifiers={[
+                font({ size: 15, weight: "semibold" }),
+                foregroundStyle(scheme.text),
+              ]}
+            >
+              {props.savedText}
+            </Text>
+          </HStack>
+        ) : (
+          <HStack spacing={4}>
+            <Text
+              modifiers={[
+                font({ size: 15, weight: "semibold" }),
+                foregroundStyle(scheme.text),
+              ]}
+            >
+              {props.title}
+            </Text>
+            <Spacer />
+            {props.reminderTime === "" ? null : (
+              <HStack spacing={3}>
+                <Image
+                  systemName="bell"
+                  size={11}
+                  color={scheme.textSecondary}
+                />
+                <Text
+                  modifiers={[
+                    font({ size: 12 }),
+                    foregroundStyle(scheme.textSecondary),
+                  ]}
+                >
+                  {props.reminderTime}
+                </Text>
+              </HStack>
+            )}
+          </HStack>
+        )}
         <Spacer />
         <HStack spacing={6}>
           {ratings.map((rating) => (
@@ -146,7 +177,7 @@ const PixyCheckInWidget = (
                 accessibilityLabel(props.ratingLabels[rating]),
               ]}
             >
-              <ZStack modifiers={[frame({ maxWidth: Infinity, height: 40 })]}>
+              <ZStack modifiers={[frame({ maxWidth: Infinity, height: 52 })]}>
                 <RoundedRectangle
                   cornerRadius={10}
                   modifiers={[foregroundStyle(scheme.ratings[rating])]}
@@ -161,14 +192,6 @@ const PixyCheckInWidget = (
               </ZStack>
             </Button>
           ))}
-        </HStack>
-        <Spacer />
-        <HStack>
-          {label(props.ratingLabels.extremely_bad)}
-          <Spacer />
-          {label(props.ratingLabels.neutral)}
-          <Spacer />
-          {label(props.ratingLabels.extremely_good)}
         </HStack>
       </VStack>
     );

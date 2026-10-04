@@ -536,16 +536,16 @@
   "statistics_mood_peaks_title_singular": "Deine Stimmung hat einmal ihren {{rating_word}} Höhepunkt erreicht.",
   "statistics_most_used_tags_description": "Deine Schlagwörter im {{date}}",
   "statistics_most_used_tags": "Häufigste Schlagwörter",
-  "statistics_no_data": "Füge innerhalb der letzten zwei Wochen {{count}} weitere Tage hinzu, um deine ersten Statistiken freizuschalten.",
+  "statistics_no_data": "Füge innerhalb der letzten zwei Wochen {{total}} weitere Tage hinzu, um deine ersten Statistiken freizuschalten.",
   "statistics_no_highlights": "Derzeit sind keine Highlights relevant, aber du kannst jederzeit „Alle Highlights anzeigen“.",
-  "statistics_not_enough_data_subtitle_plural": "Fügen {{count}} weitere Einträge hinzu, um dieses Diagramm freizuschalten.",
+  "statistics_not_enough_data_subtitle_plural": "Fügen {{total}} weitere Einträge hinzu, um dieses Diagramm freizuschalten.",
   "statistics_not_enough_data_subtitle_singular": "Fügen einen weiteren Eintrag hinzu, um dieses Diagramm zu entsperren",
   "statistics_not_enough_data_subtitle_without_count": "Fügen weitere Einträge hinzu, um dieses Diagramm zu entsperren.",
   "statistics_not_enough_data_title": "Nicht genug Daten.",
   "statistics_subtitle": "Deine letzten zwei Wochen",
   "statistics_tag_peaks_title": {
     "one": "wurde an einem Tag getaggt.",
-    "other": "wurde an {{count}} Tagen getaggt."
+    "other": "wurde an {{total}} Tagen getaggt."
   },
   "statistics_tags_distribution_last_month": "Im vergangenen Monat",
   "statistics_tags_distribution_this_month": "Diesen Monat",
@@ -638,6 +638,8 @@
   "feedback_modal_message_placeholder_idea": "Es wäre toll, wenn…",
   "widget": "Widgets",
   "widget_week_title": "4 Wochen",
+  "widget_check_in_rating_label": "Stimmung {{value}} von {{total}}",
+  "widget_check_in_saved": "Gespeichert. Danke fürs Eintragen.",
   "widget_check_in_title": "Wie geht es dir gerade?",
   "widget_guide_back": "Zurück",
   "widget_guide_step_1_title": "Home-Bildschirm halten",

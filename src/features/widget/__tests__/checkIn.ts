@@ -123,6 +123,12 @@ describe("getCheckInWidgetProps()", () => {
     ).not.toBe("");
   });
 
+  test("clears the success line: the app sync ends it", () => {
+    expect(getCheckInWidgetProps({ ...input, taps: [TAP_TODAY] }).savedAt).toBe(
+      0
+    );
+  });
+
   test("never contains null: the widget store rejects it", () => {
     const props = getCheckInWidgetProps({ ...input, taps: [TAP_TODAY] });
     expect(JSON.stringify(props)).not.toContain("null");

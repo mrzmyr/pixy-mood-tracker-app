@@ -127,6 +127,10 @@ export interface CheckInWidgetProps extends WidgetBaseProps {
   taps: CheckInTap[];
   /** Reminder time like `20:30`; `""` when reminders are off. */
   reminderTime: string;
-  /** Name per rating: accessibility labels, and the scale ends under the buttons. */
+  /** Accessibility label per rating, like "Mood 3 of 7". Never a rating word. */
   ratingLabels: Record<WidgetRating, string>;
+  /** Tap time in epoch milliseconds while the success line shows; `0` otherwise. */
+  savedAt: number;
+  /** Success line after a tap, the same for every rating. */
+  savedText: string;
 }

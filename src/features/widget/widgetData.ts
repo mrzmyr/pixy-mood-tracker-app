@@ -1,7 +1,7 @@
 import dayjs from "dayjs";
 import Colors from "@/constants/Colors";
 import scales from "@/constants/Colors/Scales";
-import { RATING_KEYS } from "@/constants/Ratings";
+import { RATING_KEYS, RATING_MAPPING } from "@/constants/Ratings";
 import { DATE_FORMAT } from "@/constants/Config";
 import type { LogItem } from "@/features/logs";
 import { getItemDate } from "@/lib/logDates";
@@ -312,10 +312,19 @@ export const getCheckInWidgetProps = (
       input.reminderTime === null
         ? ""
         : dayjs(`2000-01-01T${input.reminderTime}`).format("LT"),
+    // Numbers, not rating words: the widget never names a mood as bad.
     // SAFETY: RATING_KEYS lists every WidgetRating exactly once.
     ratingLabels: Object.fromEntries(
-      RATING_KEYS.map((rating) => [rating, t(rating)])
+      RATING_KEYS.map((rating) => [
+        rating,
+        t("widget_check_in_rating_label", {
+          value: RATING_MAPPING[rating] + 1,
+          total: RATING_KEYS.length,
+        }),
+      ])
     ) as Record<WidgetRating, string>,
+    savedAt: 0,
+    savedText: t("widget_check_in_saved"),
   };
 };
 
