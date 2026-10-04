@@ -11,6 +11,7 @@ import { Linking, Text } from "react-native";
 import Colors from "@/constants/Colors";
 import { setFileTransferOverride } from "@/features/datagate";
 import { LogsProvider, STORAGE_KEY as LOGS_KEY } from "@/features/logs";
+import { PeopleProvider, STORAGE_KEY as PEOPLE_KEY } from "@/features/people";
 import { TagsProvider } from "@/features/tags";
 import { StorageLoadGate } from "@/shell/StorageLoadGate";
 import { AnalyticsProvider } from "@/state/analytics";
@@ -45,9 +46,11 @@ const renderApp = ({ isTrackingEnabled = false } = {}) =>
         <AnalyticsProvider options={{ enabled: isTrackingEnabled }}>
           <LogsProvider>
             <TagsProvider>
-              <StorageLoadGate>
-                <Text>Calendar</Text>
-              </StorageLoadGate>
+              <PeopleProvider>
+                <StorageLoadGate>
+                  <Text>Calendar</Text>
+                </StorageLoadGate>
+              </PeopleProvider>
             </TagsProvider>
           </LogsProvider>
         </AnalyticsProvider>
@@ -93,6 +96,18 @@ describe("StorageLoadGate", () => {
     expect(screen.getByText("Contact support")).toBeOnTheScreen();
     expect(screen.queryByText("Calendar")).toBeNull();
     expect(await AsyncStorage.getItem(LOGS_KEY)).toBe("🐇");
+  }, 15_000);
+
+  test("user sees an error screen instead of an empty app when stored people cannot be read", async () => {
+    await AsyncStorage.setItem(PEOPLE_KEY, "🐇");
+
+    await renderApp();
+
+    expect(
+      await screen.findByText("Error code: storage_invalid_value")
+    ).toBeOnTheScreen();
+    expect(screen.queryByText("Calendar")).toBeNull();
+    expect(await AsyncStorage.getItem(PEOPLE_KEY)).toBe("🐇");
   }, 15_000);
 
   test("load failure code goes to analytics when the user opted in", async () => {
