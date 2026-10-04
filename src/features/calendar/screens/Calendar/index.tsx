@@ -17,7 +17,7 @@ import { Body } from "./CalendarBottomSheet/Body";
 import { PromoCards } from "./PromoCards";
 import CalendarHeader from "./CalendarHeader";
 import { CalendarFloatButton } from "./CalendarFloatButton";
-import { t } from "@/lib/translation";
+import { useFootNote } from "./footNote";
 import { ObserveInteractiveMarker } from "expo-observe";
 import { useRouter } from "expo-router";
 import dayjs from "dayjs";
@@ -39,6 +39,7 @@ const CalendarScreenComponent = () => {
   const analytics = useAnalytics();
   const logState = useLogState();
   const calendarFilters = useCalendarFilters();
+  const { text: footNote, onOverscroll: onFootNoteOverscroll } = useFootNote();
   const [isAwayFromToday, setIsAwayFromToday] = useState(false);
   // Footer (news card, foot note) sits below today, so the chevron waits
   // for one screen plus the footer.
@@ -57,13 +58,14 @@ const CalendarScreenComponent = () => {
     (event: NativeSyntheticEvent<NativeScrollEvent>) => {
       const { contentOffset, contentSize, layoutMeasurement } =
         event.nativeEvent;
-      const distanceFromEnd =
+      const distanceToEnd =
         contentSize.height - contentOffset.y - layoutMeasurement.height;
       setIsAwayFromToday(
-        distanceFromEnd > layoutMeasurement.height + footerHeight.current
+        distanceToEnd > layoutMeasurement.height + footerHeight.current
       );
+      onFootNoteOverscroll(-distanceToEnd);
     },
-    []
+    [onFootNoteOverscroll]
   );
 
   if (!isSettingsLoaded || !logState.loaded) {
@@ -102,7 +104,7 @@ const CalendarScreenComponent = () => {
                   marginBottom: -60,
                 }}
               >
-                🙏 {t("calendar_foot_note")}
+                {footNote}
               </Text>
             </View>
           </View>

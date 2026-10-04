@@ -113,7 +113,6 @@ export const StepsScreen = () => {
                   />
                 )
               }
-              isLast={option === STEP_OPTIONS.at(-1)}
             />
           ))}
         </MenuList>

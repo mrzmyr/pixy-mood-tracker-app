@@ -159,7 +159,6 @@ export const StatisticsScreen = () => {
                   />
                 }
                 isLink
-                isLast
               />
             </MenuList>
           </>

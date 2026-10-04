@@ -103,7 +103,6 @@ export const SettingsScreen = () => {
             }
             onPress={() => router.push("/settings/steps")}
             isLink
-            isLast
           />
         </MenuList>
 
@@ -141,7 +140,6 @@ export const SettingsScreen = () => {
             onPress={() => askToRateApp()}
             iconLeft={<Star width={18} color={colors.menuListItemIcon} />}
             testID="rate_pixy"
-            isLast
           />
         </MenuList>
         <TextInfo>{t("feedback_help")}</TextInfo>
@@ -177,7 +175,6 @@ export const SettingsScreen = () => {
               );
             }}
             iconLeft={<Github width={18} color={colors.menuListItemIcon} />}
-            isLast
           />
         </MenuList>
 
@@ -211,7 +208,6 @@ export const SettingsScreen = () => {
             iconLeft={<PieChart width={18} color={colors.menuListItemIcon} />}
             onPress={() => router.push("/settings/development-tools")}
             isLink
-            isLast
           />
         </MenuList>
         {isSupportEnabled && support.enabled && <SupportCard />}

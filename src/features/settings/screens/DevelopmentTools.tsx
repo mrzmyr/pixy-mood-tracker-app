@@ -127,7 +127,7 @@ export const DevelopmentTools = () => {
         </View>
         <MenuListHeadline>Device Information</MenuListHeadline>
         <MenuList>
-          <MenuListItem isLast>
+          <MenuListItem>
             <View>
               <Text
                 style={{
@@ -152,13 +152,12 @@ export const DevelopmentTools = () => {
         </MenuList>
         <MenuListHeadline>Actions Done</MenuListHeadline>
         <MenuList style={{}}>
-          {settings.actionsDone.map((action, i) => (
+          {settings.actionsDone.map((action) => (
             <MenuListItem
               style={{
                 flexDirection: "column",
               }}
               key={`${action.title}-${action.date}`}
-              isLast={i === settings.actionsDone.length - 1}
             >
               <View
                 style={{
