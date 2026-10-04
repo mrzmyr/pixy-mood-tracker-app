@@ -1,5 +1,6 @@
 import { usePanGesture } from "react-native-gesture-handler";
 import {
+  Easing,
   Extrapolation,
   cancelAnimation,
   interpolate,
@@ -23,6 +24,9 @@ export const AXIS_LOCK_DISTANCE = 10;
 const BACKDROP_FADE_RATIO = 0.5;
 const CONTROLS_FADE_RATIO = 0.1;
 const CLOSE_DURATION = 200;
+// Snap-back carries the release velocity and may overshoot a little,
+// because the finger gave it momentum.
+const SNAP_BACK_SPRING = { duration: 400, dampingRatio: 0.8 };
 
 /**
  * Vertical swipe to close for the photo viewer, up or down.
@@ -80,7 +84,9 @@ export const useSwipeToClose = ({
           screenHeight,
         });
       if (!isDismissed) {
-        offsetY.set(withSpring(0, { velocity: event.velocityY }));
+        offsetY.set(
+          withSpring(0, { ...SNAP_BACK_SPRING, velocity: event.velocityY })
+        );
         return;
       }
       isClosing.set(true);
@@ -92,7 +98,7 @@ export const useSwipeToClose = ({
       offsetY.set(
         withTiming(
           direction * screenHeight,
-          { duration: CLOSE_DURATION },
+          { duration: CLOSE_DURATION, easing: Easing.bezier(0.23, 1, 0.32, 1) },
           (isFinished) => {
             if (isFinished) {
               scheduleOnRN(onClose);

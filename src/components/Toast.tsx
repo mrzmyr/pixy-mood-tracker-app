@@ -7,6 +7,7 @@ import {
   usePanGesture,
 } from "react-native-gesture-handler";
 import Animated, {
+  Easing,
   FadeInUp,
   FadeOutUp,
   useAnimatedStyle,
@@ -26,6 +27,13 @@ const TOAST_MS = 2600;
 /** Upward drag distance or speed that dismisses the toast. */
 const DISMISS_DISTANCE = 40;
 const DISMISS_VELOCITY = 500;
+/** Strong ease-out for entering and leaving. */
+const EASE_OUT = Easing.bezier(0.23, 1, 0.32, 1);
+/** Snap-back after a drag: keeps the release velocity, small overshoot. */
+const SNAP_BACK_SPRING = { duration: 400, dampingRatio: 0.8 };
+// Builders at module scope; exit is faster than entry.
+const TOAST_ENTER = FadeInUp.duration(250).easing(EASE_OUT);
+const TOAST_EXIT = FadeOutUp.duration(200).easing(EASE_OUT);
 
 const ToastCard = ({ toast }: { toast: Toast }) => {
   const colors = useColors();
@@ -56,11 +64,15 @@ const ToastCard = ({ toast }: { toast: Toast }) => {
         event.velocityY < -DISMISS_VELOCITY
       ) {
         offset.set(
-          withTiming(-200, { duration: 180 }, () => scheduleOnRN(hideToast))
+          withTiming(-200, { duration: 180, easing: EASE_OUT }, () =>
+            scheduleOnRN(hideToast)
+          )
         );
         return;
       }
-      offset.set(withSpring(0, { damping: 20 }));
+      offset.set(
+        withSpring(0, { ...SNAP_BACK_SPRING, velocity: event.velocityY })
+      );
     },
     onFinalize: () => {
       scheduleOnRN(setIsHeld, false);
@@ -72,10 +84,7 @@ const ToastCard = ({ toast }: { toast: Toast }) => {
   }));
 
   return (
-    <Animated.View
-      entering={FadeInUp.duration(250)}
-      exiting={FadeOutUp.duration(200)}
-    >
+    <Animated.View entering={TOAST_ENTER} exiting={TOAST_EXIT}>
       <GestureDetector gesture={pan}>
         <Animated.View
           testID="toast"

@@ -41,7 +41,9 @@ export const LaunchSplash = () => {
 
   useEffect(() => {
     const fadeDelay = reduceMotion ? REDUCED_DELAY_MS : SPIN_MS - 100;
-    const fade = { duration: FADE_MS, easing: Easing.in(Easing.quad) };
+    // Exit eases out: ease-in would hold the splash still at the moment the
+    // user waits for the app.
+    const fade = { duration: FADE_MS, easing: Easing.bezier(0.23, 1, 0.32, 1) };
     if (!reduceMotion) {
       rotation.set(
         withTiming(360, {

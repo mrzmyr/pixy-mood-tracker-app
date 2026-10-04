@@ -5,6 +5,7 @@ import {
   useTapGesture,
 } from "react-native-gesture-handler";
 import {
+  Easing,
   cancelAnimation,
   useAnimatedReaction,
   useAnimatedStyle,
@@ -27,6 +28,9 @@ import {
 // A pinch may go this far past the limits, then springs back on release.
 const PINCH_OVERSHOOT = 0.25;
 const DOUBLE_TAP_DURATION = 250;
+// Release settles without overshoot: a pinch carries no momentum worth
+// bouncing.
+const SETTLE_SPRING = { duration: 400, dampingRatio: 1 };
 
 /**
  * Pinch, pan, and double tap zoom for one photo of the viewer.
@@ -92,8 +96,12 @@ export const usePhotoZoom = ({
     const clamped = clampZoomOffset({ offset, zoom: nextZoom, view, photo });
     const animate = (value: number) =>
       isTap
-        ? withTiming(value, { duration: DOUBLE_TAP_DURATION })
-        : withSpring(value);
+        ? withTiming(value, {
+            duration: DOUBLE_TAP_DURATION,
+            // On-screen movement eases in and out.
+            easing: Easing.bezier(0.77, 0, 0.175, 1),
+          })
+        : withSpring(value, SETTLE_SPRING);
     zoom.set(animate(nextZoom));
     offsetX.set(animate(clamped.x));
     offsetY.set(animate(clamped.y));
