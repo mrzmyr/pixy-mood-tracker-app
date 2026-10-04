@@ -3,7 +3,6 @@ import type { Emotion } from "@/types";
 
 import { useRef } from "react";
 import { Dimensions } from "react-native";
-import type { ViewStyle } from "react-native";
 
 import { Carousel } from "react-native-reanimated-carousel";
 import type { CarouselRef } from "react-native-reanimated-carousel";
@@ -11,8 +10,6 @@ import type { CarouselRef } from "react-native-reanimated-carousel";
 import { EMOTIONS } from "../../config";
 import { EMOTION_BUTTON_HEIGHT } from "./constants";
 import { EmotionPage } from "./EmotionPage";
-
-const DEFAULT_STYLE = {};
 
 const WINDOW_WIDTH = Dimensions.get("window").width;
 
@@ -26,13 +23,11 @@ export const EmotionAdvancedSelection = ({
   selectedEmotions,
   onPress,
   onRequestEmotion,
-  style = DEFAULT_STYLE,
 }: {
   defaultIndex?: number;
   selectedEmotions: Emotion[];
   onPress: (emotion: Emotion) => void;
   onRequestEmotion: () => void;
-  style?: ViewStyle;
 }) => {
   const _carousel = useRef<CarouselRef>(null);
 
@@ -66,7 +61,6 @@ export const EmotionAdvancedSelection = ({
         width: WINDOW_WIDTH,
         justifyContent: "center",
         alignItems: "center",
-        ...style,
       }}
     />
   );
