@@ -183,11 +183,17 @@
           }
         ]
       ],
+      [
+        "expo-contacts",
+        {
+          "contactsPermission": "Pixy lists your contacts so you can add people. Only the people you pick are saved, with name and photo, on your device."
+        }
+      ],
       "expo-image",
       [
         "expo-image-picker",
         {
-          "photosPermission": "Pixy adds photos you choose to your entries. Photos stay on your device.",
+          "photosPermission": "Pixy adds photos you choose to your entries and people. Photos stay on your device.",
           "cameraPermission": false,
           "microphonePermission": false
         }
@@ -195,7 +201,7 @@
       [
         "expo-media-library",
         {
-          "photosPermission": "Pixy adds photos you choose to your entries. Photos stay on your device.",
+          "photosPermission": "Pixy adds photos you choose to your entries and people. Photos stay on your device.",
           "savePhotosPermission": false,
           "isAccessMediaLocationEnabled": false,
           "preventAutomaticLimitedAccessAlert": true,

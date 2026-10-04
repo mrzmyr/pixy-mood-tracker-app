@@ -12,7 +12,7 @@ import { Entry } from "../screens/LogList/Entry";
 let mockIsPhotosEnabled = true;
 // oxlint-disable-next-line anti-slop/no-module-mocking -- the photos flag comes from PostHog after consent; each test picks on or off.
 jest.mock("@/state/featureFlags", () => ({
-  useFeatureFlag: () => mockIsPhotosEnabled,
+  useFeatureFlag: (flag: string) => flag === "photos" && mockIsPhotosEnabled,
 }));
 
 const photo: LogPhoto = {

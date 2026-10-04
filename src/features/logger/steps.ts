@@ -6,20 +6,23 @@ import type { useSettings } from "@/state/settings";
 /**
  * Steps of the create logger: enabled optional steps, plus the reminder
  * slide on the first entry while reminders are off, and the feedback slide
- * from the third entry when a question is available. `photos` needs the
- * `photos` feature flag.
+ * from the third entry when a question is available. `people` needs the
+ * `people` feature flag, `photos` the `photos` feature flag.
  */
 export const getAvailableStepsForCreate = ({
   question,
   hasStep,
   reminderEnabled,
   itemsCount,
+  hasPeople,
   isPhotosEnabled,
 }: {
   question: IQuestion | null;
   hasStep: ReturnType<typeof useSettings>["hasStep"];
   reminderEnabled: boolean;
   itemsCount: number;
+  /** The `people` feature flag; off hides the slide even with the step on. */
+  hasPeople: boolean;
   /** Value of the `photos` feature flag. */
   isPhotosEnabled: boolean;
 }) => {
@@ -30,6 +33,9 @@ export const getAvailableStepsForCreate = ({
   }
   if (hasStep("tags")) {
     slides.push("tags");
+  }
+  if (hasPeople && hasStep("people")) {
+    slides.push("people");
   }
   if (hasStep("message")) {
     slides.push("message");
@@ -51,16 +57,20 @@ export const getAvailableStepsForCreate = ({
 
 /**
  * Steps of the edit logger: enabled optional steps, plus every step that
- * holds content on the entry. `photos` needs the `photos` feature flag,
+ * holds content on the entry. Entries with people keep the `people` step,
+ * also without the `people` flag. `photos` needs the `photos` feature flag,
  * also when the entry has photos: the day view still shows them.
  */
 export const getAvailableStepsForEdit = ({
   item,
   hasStep,
+  hasPeople,
   isPhotosEnabled,
 }: {
   item: LogItem;
   hasStep: ReturnType<typeof useSettings>["hasStep"];
+  /** The `people` feature flag. */
+  hasPeople: boolean;
   /** Value of the `photos` feature flag. */
   isPhotosEnabled: boolean;
 }) => {
@@ -71,6 +81,9 @@ export const getAvailableStepsForEdit = ({
   }
   if (hasStep("tags") || item.tags.length > 0) {
     slides.push("tags");
+  }
+  if ((hasPeople && hasStep("people")) || item.people.length > 0) {
+    slides.push("people");
   }
   if (hasStep("message") || item.message.length > 0) {
     slides.push("message");

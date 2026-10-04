@@ -47,6 +47,7 @@ const AppShell = () => {
       !hasActionDone("onboarding") &&
       pathname !== "/dev/fixture" &&
       pathname !== "/dev/fake-files" &&
+      pathname !== "/dev/fake-contacts" &&
       pathname !== "/dev/feature-flag"
     ) {
       router.replace("/onboarding");

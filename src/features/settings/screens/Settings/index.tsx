@@ -32,7 +32,7 @@ import { useFeatureFlag } from "@/state/featureFlags";
 import useColors from "@/hooks/useColors";
 import { useFeedbackModal } from "@/features/feedback";
 import pkg from "../../../../../package.json";
-import { Bug, LayoutGrid, Lightbulb, Tag } from "lucide-react-native";
+import { Bug, LayoutGrid, Lightbulb } from "lucide-react-native";
 import { useSupport } from "@/support";
 
 /**
@@ -95,12 +95,6 @@ export const SettingsScreen = () => {
             iconLeft={<LayoutGrid size={18} color={colors.menuListItemIcon} />}
             onPress={() => router.push("/settings/app-icon")}
             testID="app-icon"
-            isLink
-          />
-          <MenuListItem
-            title={t("tags")}
-            iconLeft={<Tag width={18} color={colors.menuListItemIcon} />}
-            onPress={() => router.push("/settings/tags")}
             isLink
           />
           <MenuListItem

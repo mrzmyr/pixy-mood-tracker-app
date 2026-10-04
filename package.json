@@ -55,6 +55,7 @@
     "expo-asset": "~57.0.18",
     "expo-build-properties": "~57.0.22",
     "expo-constants": "~57.0.19",
+    "expo-contacts": "~57.0.6",
     "expo-dev-client": "~57.0.19",
     "expo-device": "~57.0.2",
     "expo-document-picker": "~57.0.2",

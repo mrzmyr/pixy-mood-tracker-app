@@ -5,6 +5,8 @@ export const MAX_TAG_LENGTH = 30;
 
 /** Tag limit; the tag screens hide the create action once it is reached. */
 export const MAX_TAGS = 50;
+/** People limit; the people screens hide the add action once it is reached. */
+export const MAX_PEOPLE = 50;
 /**
  * Entries required to unlock statistics. The Statistics tab counts only the
  * last 14 days; the calendar report promos count all entries.
