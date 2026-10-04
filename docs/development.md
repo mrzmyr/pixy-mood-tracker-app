@@ -53,9 +53,24 @@ Three variants install side by side, each with its own name, icon, bundle ID, an
 - Flags load only with consent: onboarding done and Settings > Privacy > Behavioral Data on. No flag request at startup (`preloadFeatureFlags: false`, [`src/shell/posthogOptions.ts`](../src/shell/posthogOptions.ts))
 - Without consent, or until flags load, every flag is off. Turning consent off turns flags off. Flags cached in an earlier session are never read
 - Development and preview builds override flags in Settings > Development > Feature flags, or with `<scheme>://dev/feature-flag?key=<key>&value=on|off|remote`. Overrides work without consent and end when the app restarts. Production builds ignore them
+- Enable `interventions` to show exercises after entries with anxious-type emotions ([`src/features/interventions`](../src/features/interventions))
+
+### Photos
+
+- Code: [`src/features/photos`](../src/features/photos). Files: `Documents/photos/<id>.jpg`, 1600 px longest edge, JPEG 0.75
+- Entries store file names, never paths. Unreferenced files go after logger close, entry delete, and app start. Never right after a data import
+- Photos of the entry's day: iOS only. Android uses the system Photo Picker only. `app.json` blocks `READ_MEDIA_IMAGES` and related permissions (Google Play photo policy)
+- No camera. `expo-image-picker` plugin sets `cameraPermission: false`: Android blocks `android.permission.CAMERA`, iOS drops `NSCameraUsageDescription`
+- Export JSON holds photo metadata only, no files
+- Backups: iOS iCloud and Finder backups include `Documents/photos`, restored with entries
+- Android backups never include photos. #480 backs up the `database` domain only. Keep photos out: Android stops the whole app backup above 25 MB
+- Preview builds: `<scheme>://dev/fake-files` swaps picker and library for [`fakePhotoSource`](../src/dev/fakePhotoSource.ts). Library access starts `undetermined`
 
 ### App CLI
 
+- Commands report host RAM on stderr before and after execution ([measurement](../scripts/cli/memory.ts)). Help and usage errors skip measurement.
+- RAM feedback shows free RAM, available estimate, and budget above recommended **4 GiB headroom**. Low headroom advises waiting before another session.
+- macOS estimate adds free, inactive, and speculative pages. Inactive pages may need writeback. Linux uses `MemAvailable`.
 - Every device command takes exactly one device option:
   - `--platform=<ios|android>`: simulator or emulator that the CLI manages for this checkout
   - `--target=<target>`: one connected phone
@@ -63,7 +78,7 @@ Three variants install side by side, each with its own name, icon, bundle ID, an
 - `bun app dev` installs the cached dev client, starts this checkout's Metro, and opens the app on it. Rerun to reload. Simulator and emulator only.
 - `bun app build` compiles a preview release with embedded JavaScript into the shared cache.
 - `bun app install` installs the cached preview binary directly, no prebuild. Builds first when cache has no match.
-- `bun app seed --fixture=<id>` loads `fresh`, `empty`, `seed`, or `year` data and prints a screenshot path.
+- `bun app seed --fixture=<id>` loads `fresh`, `empty`, `seed`, `year`, or `people` data and prints a screenshot path.
 - `bun app open` launches by app ID, waits for onboarding or calendar, then prints a screenshot path.
 - `bun app close` ends the session, resets app data, and stops this checkout's Metro. See [Phones](#phones) for phone behavior.
 - `bun e2e run [--paths=<path,...>]` closes the session, reinstalls the app, then runs Maestro flows. Default path: `e2e/flows`.
@@ -86,7 +101,8 @@ bun e2e run --target=pixel-8-09yw --paths=e2e/flows/entry-full.yaml
 - Android phones use the same build as the emulator.
 - `bun app close` on a phone never shuts down or erases the phone. Android: stops the app and clears its data. iPhone: stops and uninstalls the preview app.
 - One device per command. Start one command per phone to run phones in parallel.
-- Reserve a phone for a whole task: `bun devices reserve --target=<target>`. Other checkouts then fail with `device_reserved`. Release with `bun devices release --target=<target>`. Reservations expire after 60 minutes (`--minutes=<n>`) or when their checkout is deleted.
+- Reserve a phone for a whole task: `bun devices reserve --target=<target> --goal=<goal>`. Other checkouts then fail with `device_reserved`, which names the goal. Release with `bun devices release --target=<target>`. Reservations expire after 60 minutes (`--minutes=<n>`) or when their checkout is deleted.
+- See reservations in the macOS menu bar: `bun devices menubar` ([source](../tools/devices-menu-bar/main.swift)).
 - `bun app dev` has no phone support. Use `bun ios --device <udid>` or `bun android --device <name>` for the dev client on a phone.
 
 Known limits. A phone run fails with `flows_unsupported_on_phone` before it changes anything on the phone, and names every blocked flow plus the command to run it elsewhere:
@@ -104,6 +120,9 @@ Known limits. A phone run fails with `flows_unsupported_on_phone` before it chan
   - `p2`: smoke check. Run before release.
 - Pick severity from usage in the "Pixy App - Production" PostHog project, then raise it for data risk.
 - Flows start from a fixture (`load-fixture.yaml`) unless they test first launch.
+- `<scheme>://dev/fake-files` swaps every system picker for a fake: share sheet and document picker ([`src/dev/fakeFileTransfer.ts`](../src/dev/fakeFileTransfer.ts)), address book and person photos ([`src/dev/fakePeopleSources.ts`](../src/dev/fakePeopleSources.ts)), entry photo picker and photo library ([`src/dev/fakePhotoSource.ts`](../src/dev/fakePhotoSource.ts)). Fakes end when the app restarts.
+- `<scheme>://dev/fake-contacts?count=<n>` writes `n` fake contacts (company "Pixy Test Contact", every fifth with a photo) into the real device address book. `count=0` deletes exactly those. Synced accounts (iCloud, Google) sync them too, so delete them after testing.
+- Fixtures count as consent, so preview builds load flags from "Pixy App - Preview". Shared flows expect every flag off there. A flow that needs a flag turns it on with [`enable-feature-flag.yaml`](../e2e/subflows/enable-feature-flag.yaml) (not on iPhones)
 - Each flow asserts a result. Opening a screen is not a test.
 
 ### Upgrade tests
@@ -147,6 +166,11 @@ The cache provider lives in [`scripts/build-cache-provider.cjs`](../scripts/buil
 - `bun app close` resets app data and runs prune.
 - CLI failures report `status`, `message`, `why`, and `fix`. Failed steps stop without another strategy.
 
+### Preview App Icon
+
+- Enable `app-icons` in Settings > Development > Feature flags to unlock new icons in Settings > App Icon. Remote flag stays disabled.
+- Icons need a native build: [`expo-alternate-app-icons`](https://github.com/pchalupa/expo-alternate-app-icons) plugin config in [`app.json`](../app.json), catalog in [`src/constants/AppIcons.ts`](../src/constants/AppIcons.ts), sources (SVG or 1024 px PNG) in [`assets/images/app-icons/`](../assets/images/app-icons/)
+
 ### Preview Support Pixy
 
 - Enable `support-pixy` in Settings > Development > Feature flags to show support card. Remote flag stays disabled.
@@ -183,8 +207,8 @@ On Macs using Homebrew CocoaPods with RVM, clear RVM's gem paths if `pod` fails 
 
 ## Releasing
 
-Merging a Release Please PR creates the GitHub release, builds the production iOS app with EAS, and submits it to TestFlight. TestFlight submission does not release the app publicly. Promote the tested build manually in App Store Connect.
+- Merging a Release Please PR creates the GitHub release and builds production iOS and Android apps with EAS
+- iOS goes to TestFlight, Android to the Google Play internal track
+- Neither is a public release. Promote tested builds manually in App Store Connect and Play Console
 
-See [TestFlight release workflow](./testflight-release-workflow.md) for prerequisites, operation, and verification criteria.
-
-Android store submissions remain manual: run `bun run eas:android:prod`, then `bunx eas-cli submit --platform android --path <path-to-aab>`.
+See [store release workflow](./store-release-workflow.md) for prerequisites, operation, and verification criteria.

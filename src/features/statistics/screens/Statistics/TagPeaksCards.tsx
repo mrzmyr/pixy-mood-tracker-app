@@ -1,3 +1,4 @@
+import { useWeekLocale } from "@/hooks/useWeekLocale";
 import dayjs from "dayjs";
 import type { Dayjs } from "dayjs";
 
@@ -134,8 +135,9 @@ const BodyWeek = ({
 export const TagPeaksCard = ({ tag }: { tag: TagsPeakData["tags"][0] }) => {
   const colors = useColors();
 
-  const startDate = dayjs().subtract(14, "days").startOf("week");
-  const endDate = dayjs().endOf("week");
+  const locale = useWeekLocale();
+  const startDate = dayjs().locale(locale).subtract(14, "days").startOf("week");
+  const endDate = dayjs().locale(locale).endOf("week");
   const weekCount = dayjs(endDate).diff(dayjs(startDate), "week") + 1;
 
   const daysCount = keys(groupBy(tag.items, getItemDate)).length;

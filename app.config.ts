@@ -267,6 +267,19 @@ const appConfig = ({ config }: ConfigContext): ExpoConfig => {
           ...config.android?.adaptiveIcon,
           foregroundImage: variant.adaptiveIcon,
         },
+        intentFilters: [
+          ...(config.android?.intentFilters ?? []),
+          // Alternate app icons disable MainActivity and launch an
+          // activity-alias. expo-alternate-app-icons copies only
+          // `android.intentFilters` into each alias, not the scheme filter
+          // Expo adds to MainActivity. Without this entry, scheme links stop
+          // opening the app while an alternate icon is active.
+          {
+            action: "VIEW",
+            category: ["BROWSABLE", "DEFAULT"],
+            data: [{ scheme: variant.scheme }],
+          },
+        ],
       },
       plugins: [
         ...(config.plugins ?? []),

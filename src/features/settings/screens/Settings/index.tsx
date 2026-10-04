@@ -19,7 +19,6 @@ import {
   Smartphone,
   Star,
 } from "react-native-feather";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 import MenuList from "@/components/MenuList";
 import MenuListHeadline from "@/components/MenuListHeadline";
 import MenuListItem from "@/components/MenuListItem";
@@ -35,15 +34,14 @@ import useColors from "@/hooks/useColors";
 import { useFeedbackModal } from "@/features/feedback";
 import { useIsWidgetEnabled } from "@/features/widget";
 import pkg from "../../../../../package.json";
-import { Bug, Lightbulb, Tag } from "lucide-react-native";
+import { Bug, LayoutGrid, Lightbulb } from "lucide-react-native";
 import { useSupport } from "@/support";
 
 /**
- * Settings tab. The support card needs its feature flag and an enabled client.
+ * Settings screen, opened from the calendar header. The support card needs its feature flag and an enabled client.
  */
 export const SettingsScreen = () => {
   const router = useRouter();
-  const insets = useSafeAreaInsets();
   const colors = useColors();
   const analytics = useAnalytics();
   const isWidgetEnabled = useIsWidgetEnabled();
@@ -64,7 +62,6 @@ export const SettingsScreen = () => {
   return (
     <View
       style={{
-        paddingTop: insets.top,
         flex: 1,
         backgroundColor: colors.background,
       }}
@@ -75,17 +72,6 @@ export const SettingsScreen = () => {
         }}
       >
         <FeedbackModal />
-        <Text
-          style={{
-            fontSize: 32,
-            color: colors.text,
-            fontWeight: "bold",
-            marginTop: 32,
-            marginBottom: 18,
-          }}
-        >
-          {t("settings")}
-        </Text>
         <MenuList>
           <MenuListItem
             title={t("data")}
@@ -108,9 +94,10 @@ export const SettingsScreen = () => {
             isLink
           />
           <MenuListItem
-            title={t("tags")}
-            iconLeft={<Tag width={18} color={colors.menuListItemIcon} />}
-            onPress={() => router.push("/settings/tags")}
+            title={t("app_icon")}
+            iconLeft={<LayoutGrid size={18} color={colors.menuListItemIcon} />}
+            onPress={() => router.push("/settings/app-icon")}
+            testID="app-icon"
             isLink
           />
           <MenuListItem
@@ -120,7 +107,6 @@ export const SettingsScreen = () => {
             }
             onPress={() => router.push("/settings/steps")}
             isLink
-            isLast={!isWidgetEnabled}
           />
           {isWidgetEnabled && (
             <MenuListItem
@@ -129,7 +115,6 @@ export const SettingsScreen = () => {
               onPress={() => router.push("/widget")}
               testID="widget"
               isLink
-              isLast
             />
           )}
         </MenuList>
@@ -168,7 +153,6 @@ export const SettingsScreen = () => {
             onPress={() => askToRateApp()}
             iconLeft={<Star width={18} color={colors.menuListItemIcon} />}
             testID="rate_pixy"
-            isLast
           />
         </MenuList>
         <TextInfo>{t("feedback_help")}</TextInfo>
@@ -204,7 +188,6 @@ export const SettingsScreen = () => {
               );
             }}
             iconLeft={<Github width={18} color={colors.menuListItemIcon} />}
-            isLast
           />
         </MenuList>
 
@@ -238,7 +221,6 @@ export const SettingsScreen = () => {
             iconLeft={<PieChart width={18} color={colors.menuListItemIcon} />}
             onPress={() => router.push("/settings/development-tools")}
             isLink
-            isLast
           />
         </MenuList>
         {isSupportEnabled && support.enabled && <SupportCard />}

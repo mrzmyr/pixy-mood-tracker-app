@@ -11,6 +11,14 @@ import { useLogState } from "@/features/logs";
 import type { LogItem } from "@/features/logs";
 
 import { useTagsState } from "@/features/tags";
+import { usePeopleState } from "@/features/people";
+import {
+  defaultPeopleDistributionData,
+  getPeopleDistributionData,
+} from "./PeopleDistribution";
+import type { PeopleDistributionData } from "./PeopleDistribution";
+import { defaultPeoplePeaksData, getPeoplePeaksData } from "./PeoplePeaks";
+import type { PeoplePeaksData } from "./PeoplePeaks";
 import { defaultMoodAvgData, getMoodAvgData } from "./MoodAvg";
 import type { MoodAvgData } from "./MoodAvg";
 
@@ -62,6 +70,8 @@ const STATISTIC_TYPES = [
   "mood_peaks_positive",
   "tags_peaks",
   "tags_distribution",
+  "people_peaks",
+  "people_distribution",
 ];
 
 type StatisticType = (typeof STATISTIC_TYPES)[number];
@@ -75,6 +85,8 @@ interface StatisticsState {
   emotionsDistributionData: EmotionsDistributionData;
   tagsPeaksData: TagsPeakData;
   tagsDistributionData: TagsDistributionData;
+  peopleDistributionData: PeopleDistributionData;
+  peoplePeaksData: PeoplePeaksData;
   sleepQualityDistributionData: SleepQualityDistributionData;
   streaks: StreaksData;
 }
@@ -95,7 +107,7 @@ const StatisticsContext = createContext({} as Value);
  *
  * Nothing is computed until a consumer calls `load`, which skips the work
  * when log items are unchanged unless `force` is set. Highlights cover the
- * last 14 days. Must render inside the logs and tags providers.
+ * last 14 days. Must render inside the logs, tags, and people providers.
  */
 export const StatisticsProvider = ({
   children,
@@ -104,6 +116,7 @@ export const StatisticsProvider = ({
 }) => {
   const logState = useLogState();
   const { tags } = useTagsState();
+  const { people } = usePeopleState();
   const [isLoading, setIsLoading] = useState(false);
   const [prevHighlightItems, setPrevHighlightItems] = useState<LogItem[]>([]);
   const [prevTrendsItems, setPrevTrendsItems] = useState<LogItem[]>([]);
@@ -116,6 +129,8 @@ export const StatisticsProvider = ({
     moodPeaksNegativeData: defaultMoodPeaksNegativeData,
     emotionsDistributionData: defaultEmotionsDistributionData,
     tagsDistributionData: defaultTagsDistributionData,
+    peopleDistributionData: defaultPeopleDistributionData,
+    peoplePeaksData: defaultPeoplePeaksData,
     sleepQualityDistributionData: defaultSleepQualityDistributionDataForXDays(),
     streaks: defaultStreaksData,
     tagsPeaksData: {
@@ -152,6 +167,12 @@ export const StatisticsProvider = ({
         tags
       );
 
+      const peopleDistributionData = getPeopleDistributionData(
+        highlightItems,
+        people
+      );
+      const peoplePeaksData = getPeoplePeaksData(highlightItems, people);
+
       const emotionsDistributionData =
         getEmotionsDistributionData(highlightItems);
 
@@ -169,6 +190,8 @@ export const StatisticsProvider = ({
         moodPeaksNegativeData,
         tagsPeaksData,
         tagsDistributionData,
+        peopleDistributionData,
+        peoplePeaksData,
         emotionsDistributionData,
         sleepQualityDistributionData,
         streaks: {
@@ -187,7 +210,7 @@ export const StatisticsProvider = ({
 
       return newState;
     },
-    [logState.items, prevHighlightItems, prevTrendsItems, tags]
+    [logState.items, prevHighlightItems, prevTrendsItems, tags, people]
   );
 
   const isAvailable = useCallback(
@@ -206,6 +229,12 @@ export const StatisticsProvider = ({
       }
       if (type === "tags_distribution") {
         return state.tagsDistributionData?.tags.length > 0;
+      }
+      if (type === "people_distribution") {
+        return state.peopleDistributionData.people.length > 0;
+      }
+      if (type === "people_peaks") {
+        return state.peoplePeaksData.people.length > 0;
       }
       if (type === "emotions_distribution") {
         return state.emotionsDistributionData?.emotions.length > 3;
@@ -247,8 +276,18 @@ export const StatisticsProvider = ({
         );
       }
 
-      if (type === "tags_distribution") {
+      if (type === "tags_distribution" || type === "people_distribution") {
         return isAvailable(type);
+      }
+
+      // A person needs a visible difference to make the short list.
+      if (type === "people_peaks") {
+        return (
+          isAvailable(type) &&
+          state.peoplePeaksData.people.some(
+            (entry) => Math.abs(entry.delta) >= 0.5
+          )
+        );
       }
 
       if (type === "emotions_distribution") {
