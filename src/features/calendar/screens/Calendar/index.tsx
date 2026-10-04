@@ -8,6 +8,7 @@ import type { Month } from "./layout";
 import { useCalendarFilters } from "../../filters";
 import { HAS_FLOATING_HEADER } from "../../floatingHeader";
 import useColors from "@/hooks/useColors";
+import { ForYouToday } from "@/features/interventions";
 import { useLogState } from "@/features/logs";
 import { useSetting } from "@/state/settings";
 import { useAnalytics } from "@/state/analytics";
@@ -20,9 +21,13 @@ import { CalendarFloatButton } from "./CalendarFloatButton";
 import { useFootNote } from "./footNote";
 import { ObserveInteractiveMarker } from "expo-observe";
 import { useRouter } from "expo-router";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import dayjs from "dayjs";
 import { DATE_FORMAT } from "@/constants/Config";
 import { getItemDate } from "@/lib/logDates";
+
+// Space between the list end and the foot note, revealed on overscroll.
+const FOOT_NOTE_GAP = 20;
 
 const CalendarScreenComponent = () => {
   /*
@@ -35,6 +40,7 @@ const CalendarScreenComponent = () => {
   "use no memo";
   const colors = useColors();
   const router = useRouter();
+  const insets = useSafeAreaInsets();
   const isSettingsLoaded = useSetting("loaded");
   const analytics = useAnalytics();
   const logState = useLogState();
@@ -91,17 +97,22 @@ const CalendarScreenComponent = () => {
               footerHeight.current = event.nativeEvent.layout.height;
             }}
           >
+            <ForYouToday />
             <View style={{ paddingBottom: 32 }}>
               <PromoCards />
             </View>
-            <View style={{}}>
+            {/* Zero height: the note sits below the list end, under the
+                bottom safe area padding, and shows only on overscroll. */}
+            <View style={{ height: 0 }}>
               <Text
                 style={{
+                  position: "absolute",
+                  top: insets.bottom + FOOT_NOTE_GAP,
+                  left: 0,
+                  right: 0,
                   fontSize: 14,
                   color: colors.textSecondary,
-                  marginTop: 20,
                   textAlign: "center",
-                  marginBottom: -60,
                 }}
               >
                 {footNote}

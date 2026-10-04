@@ -53,6 +53,7 @@ Three variants install side by side, each with its own name, icon, bundle ID, an
 - Flags load only with consent: onboarding done and Settings > Privacy > Behavioral Data on. No flag request at startup (`preloadFeatureFlags: false`, [`src/shell/posthogOptions.ts`](../src/shell/posthogOptions.ts))
 - Without consent, or until flags load, every flag is off. Turning consent off turns flags off. Flags cached in an earlier session are never read
 - Development and preview builds override flags in Settings > Development > Feature flags, or with `<scheme>://dev/feature-flag?key=<key>&value=on|off|remote`. Overrides work without consent and end when the app restarts. Production builds ignore them
+- Enable `interventions` to show exercises after entries with anxious-type emotions ([`src/features/interventions`](../src/features/interventions))
 
 ### Photos
 
@@ -164,6 +165,11 @@ The cache provider lives in [`scripts/build-cache-provider.cjs`](../scripts/buil
 - Prune deletes its simulator, agent-device sessions and claims, checkout logs, artifacts, and state. Prune never changes a phone.
 - `bun app close` resets app data and runs prune.
 - CLI failures report `status`, `message`, `why`, and `fix`. Failed steps stop without another strategy.
+
+### Preview App Icon
+
+- Enable `app-icons` in Settings > Development > Feature flags to unlock new icons in Settings > App Icon. Remote flag stays disabled.
+- Icons need a native build: [`expo-alternate-app-icons`](https://github.com/pchalupa/expo-alternate-app-icons) plugin config in [`app.json`](../app.json), catalog in [`src/constants/AppIcons.ts`](../src/constants/AppIcons.ts), sources (SVG or 1024 px PNG) in [`assets/images/app-icons/`](../assets/images/app-icons/)
 
 ### Preview Support Pixy
 

@@ -1,4 +1,5 @@
-import { Pressable, Text, useColorScheme } from "react-native";
+import { Check } from "lucide-react-native";
+import { Pressable, Text, View, useColorScheme } from "react-native";
 import type { ViewStyle } from "react-native";
 import useColors from "@/hooks/useColors";
 import useHaptics from "@/hooks/useHaptics";
@@ -6,6 +7,86 @@ import type { Person } from "../PeopleProvider";
 import { PersonAvatar } from "./PersonAvatar";
 
 const DEFAULT_STYLE = {};
+/** Space between avatar and selection ring of the `tile` variant. */
+export const TILE_RING_GAP = 3;
+/** Selection ring of the `tile` variant; adds to the tile's outer size. */
+export const TILE_RING_WIDTH = 3;
+
+/** `tile` variant of {@link PersonChip}; `onPress` already plays haptics. */
+const PersonTile = ({
+  person,
+  selected,
+  onPress,
+  style,
+  testID,
+  size,
+}: {
+  person: Pick<Person, "id" | "name" | "avatar" | "updatedAt">;
+  selected: boolean;
+  onPress?: () => void;
+  style: ViewStyle;
+  testID?: string;
+  size: number;
+}) => {
+  const colors = useColors();
+
+  return (
+    <Pressable
+      onPress={onPress}
+      accessibilityRole={onPress ? "button" : undefined}
+      accessibilityState={onPress ? { selected } : undefined}
+      accessibilityLabel={person.name}
+      testID={testID}
+      style={({ pressed }) => ({
+        alignItems: "center",
+        opacity: pressed && onPress ? 0.8 : 1,
+        ...style,
+      })}
+    >
+      <View
+        style={{
+          padding: TILE_RING_GAP,
+          borderRadius: size,
+          borderWidth: TILE_RING_WIDTH,
+          borderColor: selected ? colors.tint : "transparent",
+        }}
+      >
+        <PersonAvatar person={person} size={size} />
+      </View>
+      {selected && (
+        <View
+          style={{
+            position: "absolute",
+            top: size + 2 * (TILE_RING_GAP + TILE_RING_WIDTH) - 28,
+            right: 0,
+            width: 28,
+            height: 28,
+            borderRadius: 14,
+            backgroundColor: colors.primaryButtonBackground,
+            borderWidth: 2,
+            borderColor: colors.logBackground,
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <Check size={16} color={colors.primaryButtonText} strokeWidth={3} />
+        </View>
+      )}
+      <Text
+        numberOfLines={1}
+        style={{
+          marginTop: 6,
+          maxWidth: size + 2 * (TILE_RING_GAP + TILE_RING_WIDTH),
+          fontSize: 15,
+          fontWeight: selected ? "600" : "400",
+          color: colors.text,
+        }}
+      >
+        {person.name}
+      </Text>
+    </Pressable>
+  );
+};
 
 /**
  * Chip for one person, shared by the logger slide, entry cards, filters,
@@ -13,6 +94,8 @@ const DEFAULT_STYLE = {};
  *
  * - `chip`: avatar plus name, like a tag pill
  * - `large`: big avatar with the name below, for the person screen
+ * - `tile`: grid cell for the logger slide; selection shows a ring and a
+ *   check badge, so it reads without relying on color alone
  */
 export const PersonChip = ({
   person,
@@ -22,15 +105,18 @@ export const PersonChip = ({
   style = DEFAULT_STYLE,
   testID,
   previewUri = null,
+  size = 88,
 }: {
   person: Pick<Person, "id" | "name" | "avatar" | "updatedAt">;
   selected?: boolean;
-  variant?: "chip" | "large";
+  variant?: "chip" | "large" | "tile";
   onPress?: () => void;
   style?: ViewStyle;
   testID?: string;
   /** Picked image not stored yet; only the `large` variant shows it. */
   previewUri?: string | null;
+  /** Avatar diameter of the `tile` variant. */
+  size?: number;
 }) => {
   const colors = useColors();
   const haptics = useHaptics();
@@ -72,6 +158,19 @@ export const PersonChip = ({
           {person.name}
         </Text>
       </Pressable>
+    );
+  }
+
+  if (variant === "tile") {
+    return (
+      <PersonTile
+        person={person}
+        selected={selected}
+        onPress={onPress ? press : undefined}
+        style={style}
+        testID={testID}
+        size={size}
+      />
     );
   }
 

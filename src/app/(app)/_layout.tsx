@@ -73,6 +73,10 @@ const AppLayout = () => {
           />
           <Stack.Screen name="days/[date]" options={modalOptions} />
           <Stack.Screen
+            name="interventions/[id]"
+            options={{ ...modalOptions, gestureEnabled: false }}
+          />
+          <Stack.Screen
             name="logs/[id]/edit"
             options={{ ...modalOptions, gestureEnabled: false }}
           />
@@ -89,7 +93,6 @@ const AppLayout = () => {
           <Stack.Screen name="tags/index" options={modalOptions} />
           <Stack.Screen name="tags/create" options={modalOptions} />
           <Stack.Screen name="tags/[id]" options={modalOptions} />
-          <Stack.Screen name="people/index" options={modalOptions} />
           <Stack.Screen name="people/create" options={modalOptions} />
           <Stack.Screen name="people/import" options={modalOptions} />
           <Stack.Screen name="people/[id]" options={modalOptions} />
@@ -116,6 +119,10 @@ const AppLayout = () => {
           <Stack.Screen
             name="settings/colors"
             options={{ ...pageOptions, title: t("colors") }}
+          />
+          <Stack.Screen
+            name="settings/app-icon"
+            options={{ ...pageOptions, title: t("app_icon") }}
           />
           <Stack.Screen
             name="settings/licenses"

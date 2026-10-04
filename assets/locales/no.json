@@ -716,7 +716,6 @@
   "privacy_people_content": "### Personer\n\nFor å importere personer fra kontaktene dine viser Pixy navnene i adresseboken din på enheten. Pixy lagrer bare kontaktene du velger: navn og bilde. Begge blir på enheten din og er en del av eksportfilen din. Pixy sender aldri navn eller bilder til oss.",
   "log_people_question": "Hvem var du med?",
   "log_people_disable": "Jeg registrerer ikke personer",
-  "people_manage": "Administrer personer",
   "people_slide_empty": "Legg til personene du bruker tid med for å se hvordan humøret ditt er med dem.",
   "view_log_people_empty": "Ingen personer enda.",
   "statistics_people_distribution_title": "Personer du har sett mest de siste 14 dagene.",

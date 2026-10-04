@@ -716,7 +716,6 @@
   "privacy_people_content": "### Personas\n\nPara importar personas de tus contactos, Pixy muestra los nombres de tu agenda en tu dispositivo. Pixy guarda solo los contactos que eliges: su nombre y su foto. Ambos se quedan en tu dispositivo y forman parte de tu archivo de exportación. Pixy nunca nos envía nombres ni fotos.",
   "log_people_question": "¿Con quién estuviste?",
   "log_people_disable": "No registro personas",
-  "people_manage": "Gestionar personas",
   "people_slide_empty": "Añade a las personas con las que pasas tiempo para ver cómo va tu ánimo con ellas.",
   "view_log_people_empty": "Aún no hay personas.",
   "statistics_people_distribution_title": "Personas más vistas en los últimos 14 días.",

@@ -5,6 +5,7 @@ import Animated, { useReducedMotion } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Button from "@/components/Button";
 import tailwind from "@/constants/Colors/TailwindColors";
+import { ConfirmationOffer } from "@/features/interventions";
 import { useLogState } from "@/features/logs";
 import type { LogItem } from "@/features/logs";
 import { TagComponent, useTagsState } from "@/features/tags";
@@ -313,7 +314,7 @@ export const Confirmation = ({
         )}
       </View>
 
-      {/* Interventions will sit here, between the summary and Done. */}
+      <ConfirmationOffer item={item} />
       <Button testID="confirmation-done" onPress={onClose}>
         {t("done")}
       </Button>

@@ -716,7 +716,6 @@
   "privacy_people_content": "### Mọi người\n\nĐể nhập mọi người từ danh bạ, Pixy hiển thị các tên trong sổ địa chỉ trên thiết bị của bạn. Pixy chỉ lưu những liên hệ bạn chọn: tên và ảnh. Cả hai đều ở trên thiết bị của bạn và nằm trong tệp xuất của bạn. Pixy không bao giờ gửi tên hoặc ảnh cho chúng tôi.",
   "log_people_question": "Bạn đã ở cùng ai?",
   "log_people_disable": "Tôi không theo dõi mọi người",
-  "people_manage": "Quản lý mọi người",
   "people_slide_empty": "Thêm những người bạn dành thời gian cùng để xem tâm trạng của bạn với họ thế nào.",
   "view_log_people_empty": "Chưa có người nào.",
   "statistics_people_distribution_title": "Những người gặp nhiều nhất trong 14 ngày qua.",

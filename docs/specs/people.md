@@ -99,16 +99,17 @@ people: Array<
 - One component for slide, log detail, logs list, filters, stats. Consistent everywhere
 - Pill like [`Tag`](../../src/features/tags/components/Tag.tsx): 1px border, radius 100, selected = `tagBackgroundActive` + tint border
 - Left: 24px circle avatar or gray user icon. Right: name 17px
-- Variants: `chip` (default), `large` (detail screen)
+- Variants: `chip` (default), `large` (detail screen), `tile` (logger grid)
 
 ### Logger slide `SlidePeople`
 
 - Position after tags
 - Headline: "Who were you with?"
-- Tap chip = toggle select. Archived hidden unless already on draft (copy `SlideTags` filter)
-- "Manage people" `MiniButton` pushes `/people`
-- Chip order: most used in last 90 days first, then alphabetical
-- Step enabled and `people.length === 0`: simple empty state, one "Add people" button pushes `/people`. No skip
+- 3-column grid of `tile` chips. Tap = toggle select. Selected = tint ring + check badge. Archived hidden unless already on draft (copy `SlideTags` filter)
+- Last cell: "Add Person" tile pushes `/people/create`. Hidden at `MAX_PEOPLE`
+- Order: most used in last 90 days first, then alphabetical
+- Step enabled and `people.length === 0`: simple empty state, one "Add Person" button pushes `/people/create`. No skip
+- Edit and archive live in Settings > Check-in > People
 - Disable link like tags
 
 ### Settings > Check-in > People (`/settings/steps/people`)

@@ -716,7 +716,6 @@
   "privacy_people_content": "### Személyek\n\nHogy személyeket importálhass a névjegyeidből, a Pixy megjeleníti a címjegyzéked neveit az eszközödön. A Pixy csak a kiválasztott névjegyeket menti: a nevet és a fotót. Mindkettő az eszközödön marad, és része az exportfájlodnak. A Pixy soha nem küld nekünk neveket vagy fotókat.",
   "log_people_question": "Kivel voltál?",
   "log_people_disable": "Nem követem az embereket",
-  "people_manage": "Emberek kezelése",
   "people_slide_empty": "Add hozzá azokat, akikkel időt töltesz, hogy lásd, milyen a hangulatod velük.",
   "view_log_people_empty": "Még nincsenek emberek.",
   "statistics_people_distribution_title": "A leggyakrabban látott emberek az utóbbi 14 napban.",

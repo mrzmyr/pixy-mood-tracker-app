@@ -716,7 +716,6 @@
   "privacy_people_content": "### 人\n\n連絡先から人を読み込むために、Pixy はデバイス上でアドレス帳の名前を一覧表示します。Pixy が保存するのは選んだ連絡先の名前と写真だけです。どちらもデバイス内に残り、エクスポートファイルに含まれます。Pixy が名前や写真を私たちに送ることはありません。",
   "log_people_question": "誰と一緒にいましたか？",
   "log_people_disable": "人を記録しない",
-  "people_manage": "人を管理",
   "people_slide_empty": "一緒に時間を過ごす人を追加して、その人といるときの気分を見てみましょう。",
   "view_log_people_empty": "まだ人がいません。",
   "statistics_people_distribution_title": "過去14日間に最も多く会った人。",

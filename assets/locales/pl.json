@@ -716,7 +716,6 @@
   "privacy_people_content": "### Osoby\n\nAby zaimportować osoby z kontaktów, Pixy wyświetla na Twoim urządzeniu imiona z Twojej książki adresowej. Pixy zapisuje tylko wybrane kontakty: imię i zdjęcie. Oba zostają na Twoim urządzeniu i są częścią Twojego pliku eksportu. Pixy nigdy nie wysyła nam imion ani zdjęć.",
   "log_people_question": "Z kim byłeś/aś?",
   "log_people_disable": "Nie zapisuję osób",
-  "people_manage": "Zarządzaj osobami",
   "people_slide_empty": "Dodaj osoby, z którymi spędzasz czas, aby zobaczyć, jaki masz z nimi nastrój.",
   "view_log_people_empty": "Brak osób.",
   "statistics_people_distribution_title": "Najczęściej widziane osoby w ostatnich 14 dniach.",
