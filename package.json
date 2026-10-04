@@ -40,6 +40,7 @@
   },
   "dependencies": {
     "@expo/ui": "~57.0.21",
+    "@hugeicons/core-free-icons": "4.3.5",
     "@react-native-async-storage/async-storage": "2.2.0",
     "@react-native-community/datetimepicker": "9.1.0",
     "@react-navigation/bottom-tabs": "^7.19.2",
