@@ -142,6 +142,38 @@
               "foregroundImage": "./assets/images/app-icons/sunburst-inverse-foreground.png",
               "backgroundColor": "#000000"
             }
+          },
+          {
+            "name": "Dither",
+            "ios": "./assets/images/app-icons/dither.png",
+            "android": {
+              "foregroundImage": "./assets/images/app-icons/dither-foreground.png",
+              "backgroundImage": "./assets/images/app-icons/dither-background.png"
+            }
+          },
+          {
+            "name": "DitherInverse",
+            "ios": "./assets/images/app-icons/dither-inverse.png",
+            "android": {
+              "foregroundImage": "./assets/images/app-icons/dither-inverse-foreground.png",
+              "backgroundColor": "#FFFFFF"
+            }
+          },
+          {
+            "name": "Tangerine",
+            "ios": "./assets/images/app-icons/tangerine.png",
+            "android": {
+              "foregroundImage": "./assets/images/app-icons/tangerine-foreground.png",
+              "backgroundImage": "./assets/images/app-icons/tangerine-background.png"
+            }
+          },
+          {
+            "name": "TangerineInverse",
+            "ios": "./assets/images/app-icons/tangerine-inverse.png",
+            "android": {
+              "foregroundImage": "./assets/images/app-icons/tangerine-inverse-foreground.png",
+              "backgroundColor": "#FFFFFF"
+            }
           }
         ]
       ]

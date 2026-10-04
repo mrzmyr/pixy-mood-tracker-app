@@ -6,7 +6,11 @@ export type AppIconId =
   | "sunburst"
   | "sunburst-inverse"
   | "sunburst-black"
-  | "sunburst-black-inverse";
+  | "sunburst-black-inverse"
+  | "dither"
+  | "dither-inverse"
+  | "tangerine"
+  | "tangerine-inverse";
 
 /** One selectable app icon in Settings > App Icon. */
 export interface AppIcon {
@@ -55,5 +59,29 @@ export const APP_ICONS: readonly AppIcon[] = [
     nativeName: "SunburstBlackInverse",
     isFlagged: true,
     preview: require("../../assets/images/app-icons/preview-sunburst-black-inverse.png"),
+  },
+  {
+    id: "dither",
+    nativeName: "Dither",
+    isFlagged: true,
+    preview: require("../../assets/images/app-icons/preview-dither.png"),
+  },
+  {
+    id: "dither-inverse",
+    nativeName: "DitherInverse",
+    isFlagged: true,
+    preview: require("../../assets/images/app-icons/preview-dither-inverse.png"),
+  },
+  {
+    id: "tangerine",
+    nativeName: "Tangerine",
+    isFlagged: true,
+    preview: require("../../assets/images/app-icons/preview-tangerine.png"),
+  },
+  {
+    id: "tangerine-inverse",
+    nativeName: "TangerineInverse",
+    isFlagged: true,
+    preview: require("../../assets/images/app-icons/preview-tangerine-inverse.png"),
   },
 ];

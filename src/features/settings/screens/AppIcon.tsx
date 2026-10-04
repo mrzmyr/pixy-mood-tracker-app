@@ -49,6 +49,22 @@ const LABELS: Record<AppIconId, { title: string; description: string }> = {
     title: "app_icon_sunburst_black_inverse",
     description: "app_icon_sunburst_black_inverse_description",
   },
+  dither: {
+    title: "app_icon_dither",
+    description: "app_icon_dither_description",
+  },
+  "dither-inverse": {
+    title: "app_icon_dither_inverse",
+    description: "app_icon_dither_inverse_description",
+  },
+  tangerine: {
+    title: "app_icon_tangerine",
+    description: "app_icon_tangerine_description",
+  },
+  "tangerine-inverse": {
+    title: "app_icon_tangerine_inverse",
+    description: "app_icon_tangerine_inverse_description",
+  },
 };
 
 /**
