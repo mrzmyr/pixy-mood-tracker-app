@@ -57,6 +57,13 @@
 - Type safety and translation tooling catch label collisions at build time
 - Write tests for behavior, logic, and user-facing outcomes, not for checking static data structures
 
+## Notifications
+
+- Toasts: `showToast` from [`src/lib/toast.ts`](src/lib/toast.ts). Reference: [shadcn Sonner](https://ui.shadcn.com/docs/components/radix/sonner)
+- Title states the consequence: "Feedback sent", "Entry deleted". Never "Thank you" or "Success"
+- One line by default. Add a subtitle only when the user needs context: what happens next or what it means. Example: "Request sent" + "I’ll reply by email."
+- Past tense, sentence case, no exclamation mark, no trailing period in the title
+
 ## Releases
 
 - MUST run `app-store-review` skill before App Store release
