@@ -922,5 +922,10 @@
   "photos_from_day": "From {{day}}",
   "view_log_photos_edit": "Edit Photos",
   "view_log_photos_empty": "No photos yet.",
-  "data_export_photos_note": "Photos stay on this device. Backups contain entries without photos."
+  "data_export_photos_note": "Photos stay on this device. Backups contain entries without photos.",
+  "settings_appearance": "Appearance",
+  "theme": "Theme",
+  "theme_system": "System",
+  "theme_light": "Light",
+  "theme_dark": "Dark"
 }

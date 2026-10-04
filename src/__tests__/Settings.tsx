@@ -2,7 +2,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { usePostHog as getPostHogTestClient } from "posthog-react-native";
 import { DefaultTheme, ThemeProvider } from "expo-router";
 import { act, render, userEvent, waitFor } from "@testing-library/react-native";
-import { Alert } from "react-native";
+import { Alert, Appearance } from "react-native";
 import Providers from "@/shell/Providers";
 import Colors from "@/constants/Colors";
 import { INITIAL_STATE } from "@/constants/Settings";
@@ -272,5 +272,47 @@ describe("Feedback in Settings", () => {
     expect(screen.getByText("What's new")).toBeOnTheScreen();
     expect(screen.getByText("Statistics for Nerds")).toBeOnTheScreen();
     expect(screen.getByText("Licenses")).toBeOnTheScreen();
+  });
+});
+
+describe("Theme in Settings", () => {
+  afterEach(() => {
+    jest.restoreAllMocks();
+  });
+
+  test("user cycles theme through light, dark, and system", async () => {
+    const setColorScheme = jest.spyOn(Appearance, "setColorScheme");
+    const screen = await renderSettings(createFakeSupportClient());
+    const theme = await screen.findByRole("button", { name: "Theme" });
+
+    expect(theme).toHaveAccessibilityValue({ text: "System" });
+
+    await userEvent.press(theme);
+    expect(theme).toHaveAccessibilityValue({ text: "Light" });
+    expect(setColorScheme).toHaveBeenLastCalledWith("light");
+
+    await userEvent.press(theme);
+    expect(theme).toHaveAccessibilityValue({ text: "Dark" });
+    expect(setColorScheme).toHaveBeenLastCalledWith("dark");
+
+    await userEvent.press(theme);
+    expect(theme).toHaveAccessibilityValue({ text: "System" });
+    expect(setColorScheme).toHaveBeenLastCalledWith("unspecified");
+  });
+
+  test("stored theme applies on launch", async () => {
+    await AsyncStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify({ ...INITIAL_STATE, colorScheme: "dark" })
+    );
+    const setColorScheme = jest.spyOn(Appearance, "setColorScheme");
+    const screen = await renderSettings(createFakeSupportClient());
+
+    await waitFor(() =>
+      expect(
+        screen.getByRole("button", { name: "Theme" })
+      ).toHaveAccessibilityValue({ text: "Dark" })
+    );
+    expect(setColorScheme).toHaveBeenLastCalledWith("dark");
   });
 });

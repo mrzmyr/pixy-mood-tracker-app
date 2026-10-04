@@ -20,7 +20,7 @@ const MenuList = ({
       style={[
         {
           backgroundColor: colors.menuListItemBackground,
-          borderRadius: 8,
+          borderRadius: 12,
           overflow: "hidden",
         },
         style,
