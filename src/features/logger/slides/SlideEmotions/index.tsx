@@ -2,7 +2,7 @@ import { getSlideMarginTop } from "../marginTop";
 import { t } from "@/lib/translation";
 import useColors from "@/hooks/useColors";
 import { useLogState } from "@/features/logs";
-import { useTemporaryLog } from "../../temporaryLog";
+import { useLogDraft } from "../../logDraft";
 import { getMostUsedEmotions } from "@/lib/utils";
 import type { Emotion } from "@/types";
 import { LinearGradient } from "expo-linear-gradient";
@@ -48,22 +48,20 @@ const appendMissingEmotions = (
  *
  * Basic mode shows up to 36 emotions: the draft's picks, then the 20 most
  * used, then the predefined basic set. Must render inside
- * `TemporaryLogProvider` and `LogsProvider`.
+ * `LogDraftProvider` and `LogsProvider`.
  */
 export const SlideEmotions = ({
   defaultIndex,
   onDisableStep = noop,
-  onChange,
   showDisable,
 }: {
   defaultIndex?: number;
   onDisableStep?: () => void;
-  onChange: (emotions: Emotion[]) => void;
   showDisable: boolean;
 }) => {
   const colors = useColors();
   const marginTop = getSlideMarginTop();
-  const tempLog = useTemporaryLog();
+  const { draft, setEmotions } = useLogDraft();
   const logState = useLogState();
   const analytics = useAnalytics();
   const [isRequestOpen, setIsRequestOpen] = useState(false);
@@ -77,9 +75,9 @@ export const SlideEmotions = ({
 
   const [initialSelectedEmotions, setInitialSelectedEmotions] = useState<
     Emotion[]
-  >(() => tempLog.data?.emotions?.map((d) => EMOTIONS_BY_KEY[d]) || []);
+  >(() => draft.emotions.map((d) => EMOTIONS_BY_KEY[d]));
   const [selectedEmotions, setSelectedEmotions] = useState<Emotion[]>(() =>
-    EMOTIONS.filter((d) => tempLog.data?.emotions?.includes(d.key))
+    EMOTIONS.filter((d) => draft.emotions.includes(d.key))
   );
   const [showTooltip, setShowTooltip] = useState(false);
 
@@ -90,7 +88,7 @@ export const SlideEmotions = ({
       setShowTooltip(false);
     }
     setSelectedEmotions(emotions);
-    onChange(emotions);
+    setEmotions(emotions.map((emotion) => emotion.key));
   };
 
   const [mode, setMode] = useState<Mode>("basic");

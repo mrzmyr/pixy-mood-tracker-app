@@ -5,7 +5,6 @@ import { ScrollView, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Button from "@/components/Button";
 import LinkButton from "@/components/LinkButton";
-import { DATE_FORMAT } from "@/constants/Config";
 import {
   AddPhotoTile,
   MAX_PHOTOS_PER_ENTRY,
@@ -17,10 +16,10 @@ import {
   useDraftPhotos,
 } from "@/features/photos";
 import useColors from "@/hooks/useColors";
+import { toLogDate } from "@/lib/logDates";
 import { t } from "@/lib/translation";
-import type { LogPhoto } from "@/types";
 import { SlideHeadline } from "../components/SlideHeadline";
-import { useTemporaryLog } from "../temporaryLog";
+import { useLogDraft } from "../logDraft";
 import { Footer } from "./Footer";
 import { PhotosDayState } from "./PhotosDayState";
 import { getSlideMarginTop } from "./marginTop";
@@ -68,27 +67,24 @@ const formatDayLabel = ({
 export const SlidePhotos = ({
   mode,
   isActive,
-  onChange,
   onDisableStep,
   showDisable,
 }: {
   mode: "create" | "edit";
   /** The step is on screen. */
   isActive: boolean;
-  onChange: (photos: LogPhoto[]) => void;
   onDisableStep: () => void;
   showDisable: boolean;
 }) => {
   const colors = useColors();
   const insets = useSafeAreaInsets();
-  const tempLog = useTemporaryLog();
-  const storedPhotos = tempLog.data.photos ?? [];
-  const date = dayjs(tempLog.data.dateTime).format(DATE_FORMAT);
+  const { draft: logDraft, setPhotos } = useLogDraft();
+  const date = toLogDate(logDraft.dateTime);
   const dayTitle = formatDayLabel({ date, isTitleCase: true });
   const draft = useDraftPhotos({
     date,
-    photos: storedPhotos,
-    onChange,
+    photos: logDraft.photos,
+    onChange: setPhotos,
     mode,
     isActive,
   });
