@@ -1,4 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import * as Sentry from "@sentry/react-native";
 import { act, renderHook, waitFor } from "@testing-library/react-native";
 import { usePostHog as getPostHogTestClient } from "posthog-react-native";
 import { Alert } from "react-native";
@@ -37,6 +38,11 @@ jest.mock("../cloud", () => ({
   readBackupFile: jest.fn(() => Promise.resolve(null)),
   writeBackupFile: jest.fn(() => Promise.resolve()),
   deleteBackupFile: jest.fn(() => Promise.resolve()),
+}));
+
+// oxlint-disable-next-line anti-slop/no-module-mocking -- BackupProvider reports through the Sentry SDK imported directly; the test asserts on captureException
+jest.mock("@sentry/react-native", () => ({
+  captureException: jest.fn(),
 }));
 
 // jest.setup.js replaces posthog-react-native with one shared fake client.
@@ -101,9 +107,18 @@ const remoteFile = (deviceId: string, itemCount: number): BackupFile =>
       ),
       tags: [],
       people: [],
-      settings: { ...INITIAL_STATE },
+      // Onboarding done, like every real backup: restoring it keeps consent.
+      settings: { ...INITIAL_STATE, actionsDone: ONBOARDED },
     },
   });
+
+/** Sentry reports from the backup, ignoring reports of other providers. */
+const backupReports = () =>
+  jest
+    .mocked(Sentry.captureException)
+    .mock.calls.filter(
+      ([error]) => error instanceof Error && error.message === "Backup failed"
+    );
 
 const renderBackup = async () => {
   const hook = await renderHook(
@@ -227,6 +242,82 @@ describe("BackupProvider", () => {
     await runConfirmed(() => hook.result.current.backup.restore());
 
     await waitFor(() => expect(hook.result.current.logs.items).toHaveLength(5));
+  });
+
+  test("after restore, the first write holds the restored data, never the old local data", async () => {
+    await seed({ itemCount: 1 });
+    jest
+      .mocked(cloud.readBackupFile)
+      .mockResolvedValue(JSON.stringify(remoteFile("old-phone", 5)));
+    const hook = await renderBackup();
+    await waitFor(() =>
+      expect(hook.result.current.backup.canRestore).toBe(true)
+    );
+
+    await runConfirmed(() => hook.result.current.backup.restore());
+    await waitForAutoBackup();
+
+    await waitFor(() => expect(cloud.writeBackupFile).toHaveBeenCalled());
+    const itemCounts = jest
+      .mocked(cloud.writeBackupFile)
+      .mock.calls.map(([contents]) => JSON.parse(contents).data.items.length);
+    expect(itemCounts).not.toContain(1);
+    expect(itemCounts.at(-1)).toBe(5);
+    expect(hook.result.current.backup.canRestore).toBe(false);
+  });
+
+  test("never replaces a cloud file it cannot parse", async () => {
+    await seed({ itemCount: 2 });
+    jest
+      .mocked(cloud.readBackupFile)
+      .mockResolvedValue(JSON.stringify({ pixyBackup: 2, deviceId: "x" }));
+    const hook = await renderBackup();
+    await waitFor(() =>
+      expect(hook.result.current.backup.status).toBe("incompatible")
+    );
+
+    await waitForAutoBackup();
+
+    expect(cloud.writeBackupFile).not.toHaveBeenCalled();
+    expect(hook.result.current.backup.canRestore).toBe(false);
+    expect(backupReports()).toHaveLength(0);
+  });
+
+  test("offline pauses backup without a Sentry report", async () => {
+    await seed({ itemCount: 2 });
+    jest
+      .mocked(cloud.resume)
+      .mockRejectedValue(
+        Object.assign(new Error("No connection"), { status: "backup_offline" })
+      );
+    const hook = await renderBackup();
+
+    await waitFor(() =>
+      expect(hook.result.current.backup.status).toBe("unavailable")
+    );
+    expect(backupReports()).toHaveLength(0);
+  });
+
+  test("reports the same failure to Sentry once per session", async () => {
+    await seed({ itemCount: 2 });
+    jest.mocked(cloud.writeBackupFile).mockRejectedValue(new Error("disk"));
+    const hook = await renderBackup();
+    await waitFor(() => expect(hook.result.current.backup.status).toBe("idle"));
+
+    await waitForAutoBackup();
+    await waitFor(() =>
+      expect(hook.result.current.backup.status).toBe("error")
+    );
+    await act(() =>
+      hook.result.current.settings.setSettings((current) => ({
+        ...current,
+        steps: current.steps.filter((step) => step !== "sleep"),
+      }))
+    );
+    await waitForAutoBackup();
+
+    await waitFor(() => expect(cloud.writeBackupFile).toHaveBeenCalledTimes(2));
+    expect(backupReports()).toHaveLength(1);
   });
 
   test("turning off asks, deletes the backup, and stores the switch", async () => {

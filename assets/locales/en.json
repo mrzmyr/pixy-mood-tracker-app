@@ -9,6 +9,7 @@
   "backup_last_sync": "Last Sync",
   "backup_last_sync_never": "Not yet",
   "backup_failed": "Backup failed. Pixy tries again after your next change.",
+  "backup_incompatible": "The backup in the cloud comes from a newer Pixy. Update Pixy to use it.",
   "backup_off_confirm_message": "Pixy deletes the backup from the cloud. Entries on this phone stay.",
   "backup_off_confirm_ok": "Turn Off",
   "backup_off_confirm_title": "Turn Off Backup?",

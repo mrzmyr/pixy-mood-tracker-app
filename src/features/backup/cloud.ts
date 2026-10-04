@@ -2,10 +2,17 @@ import {
   GoogleSignin,
   isNoSavedCredentialFoundResponse,
   isSuccessResponse,
+  statusCodes,
 } from "@react-native-google-signin/google-signin";
 import { Platform } from "react-native";
 import { CloudStorage, CloudStorageProvider } from "react-native-cloud-storage";
 import { createStructuredError } from "@/lib/errors";
+import {
+  cloudFailureSchema,
+  isOfflineFailure,
+  OFFLINE_STATUS,
+} from "./failure";
+import type { CloudFailure } from "./failure";
 
 /** Backup file in the hidden app folder of iCloud or Google Drive. */
 export const BACKUP_FILE = "pixy-mood-tracker-backup.json";
@@ -32,6 +39,34 @@ const configureGoogle = () => {
   }
 };
 
+/** Error for a failed cloud call without internet. Never sent to Sentry. */
+const createOfflineError = (failure: CloudFailure) =>
+  createStructuredError({
+    status: OFFLINE_STATUS,
+    message: "No connection to the cloud",
+    why: failure.message ?? "The cloud call failed without a message",
+    fix: "Pixy retries when the phone is online again.",
+  });
+
+/**
+ * Error for a failed cloud call: `backup_offline` without internet, else the
+ * given status. Every cloud function throws through this, so callers see one
+ * error shape.
+ */
+const createCloudError = (
+  failure: CloudFailure,
+  status: string,
+  message: string
+) =>
+  isOfflineFailure(failure)
+    ? createOfflineError(failure)
+    : createStructuredError({
+        status,
+        message,
+        why: failure.message ?? "The cloud call failed without a message",
+        fix: "Check the internet connection and iCloud or Google Drive settings. Pixy retries on the next change.",
+      });
+
 const applyGoogleToken = async () => {
   const { accessToken } = await GoogleSignin.getTokens();
   CloudStorage.setProviderOptions({ accessToken });
@@ -55,12 +90,11 @@ const systemConnect = async (): Promise<boolean> => {
     await applyGoogleToken();
     return true;
   } catch (error) {
-    throw createStructuredError({
-      status: "backup_sign_in_failed",
-      message: "Could not sign in to Google Drive",
-      why: String(error),
-      fix: "Check the internet connection and Google Play services, then turn backup on again.",
-    });
+    throw createCloudError(
+      cloudFailureSchema.parse(error),
+      "backup_sign_in_failed",
+      "Could not sign in to Google Drive"
+    );
   }
 };
 
@@ -73,12 +107,26 @@ const systemResume = async (): Promise<boolean> => {
     return true;
   }
   configureGoogle();
-  const response = await GoogleSignin.signInSilently();
-  if (isNoSavedCredentialFoundResponse(response)) {
-    return false;
+  try {
+    const response = await GoogleSignin.signInSilently();
+    if (isNoSavedCredentialFoundResponse(response)) {
+      return false;
+    }
+    await applyGoogleToken();
+    return true;
+  } catch (error) {
+    const failure = cloudFailureSchema.parse(error);
+    // Access revoked in the Google account, or the account was removed from
+    // the phone: the user must sign in again.
+    if (failure.code === statusCodes.SIGN_IN_REQUIRED) {
+      return false;
+    }
+    throw createCloudError(
+      failure,
+      "backup_resume_failed",
+      "Could not restore the Google Drive session"
+    );
   }
-  await applyGoogleToken();
-  return true;
 };
 
 /** Signs out of Google Drive. No-op on iCloud. */
@@ -95,19 +143,45 @@ const systemIsAvailable = (): Promise<boolean> =>
   CloudStorage.isCloudAvailable();
 
 /** Writes the backup file. Replaces an existing one. */
-const systemWriteBackupFile = (contents: string): Promise<void> =>
-  CloudStorage.writeFile(BACKUP_FILE, contents);
+const systemWriteBackupFile = async (contents: string): Promise<void> => {
+  try {
+    await CloudStorage.writeFile(BACKUP_FILE, contents);
+  } catch (error) {
+    throw createCloudError(
+      cloudFailureSchema.parse(error),
+      "backup_write_failed",
+      "Could not write the backup file"
+    );
+  }
+};
 
 /** Reads the backup file, or `null` when there is none. */
-const systemReadBackupFile = async (): Promise<string | null> =>
-  (await CloudStorage.exists(BACKUP_FILE))
-    ? CloudStorage.readFile(BACKUP_FILE)
-    : null;
+const systemReadBackupFile = async (): Promise<string | null> => {
+  try {
+    return (await CloudStorage.exists(BACKUP_FILE))
+      ? await CloudStorage.readFile(BACKUP_FILE)
+      : null;
+  } catch (error) {
+    throw createCloudError(
+      cloudFailureSchema.parse(error),
+      "backup_read_failed",
+      "Could not read the backup file"
+    );
+  }
+};
 
 /** Deletes the backup file. No-op when there is none. */
 const systemDeleteBackupFile = async (): Promise<void> => {
-  if (await CloudStorage.exists(BACKUP_FILE)) {
-    await CloudStorage.unlink(BACKUP_FILE);
+  try {
+    if (await CloudStorage.exists(BACKUP_FILE)) {
+      await CloudStorage.unlink(BACKUP_FILE);
+    }
+  } catch (error) {
+    throw createCloudError(
+      cloudFailureSchema.parse(error),
+      "backup_delete_failed",
+      "Could not delete the backup file"
+    );
   }
 };
 

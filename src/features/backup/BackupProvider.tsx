@@ -42,6 +42,8 @@ import {
   writeBackupFile,
 } from "./cloud";
 import type { BackupProvider as Provider } from "./cloud";
+import { cloudFailureSchema, isOfflineFailure } from "./failure";
+import type { CloudFailure } from "./failure";
 
 /** Wait after the last change before writing, so typing does not upload. */
 export const AUTO_BACKUP_DELAY_MS = 3000;
@@ -52,6 +54,7 @@ export const AUTO_BACKUP_DELAY_MS = 3000;
  * - `syncing`: writing the backup file
  * - `unavailable`: iCloud Drive off or no internet
  * - `signedOut`: Google Drive session gone, user must turn backup on again
+ * - `incompatible`: the cloud file comes from a newer Pixy; never overwritten
  * - `error`: last read or write failed (details in Sentry)
  */
 export type BackupStatus =
@@ -60,6 +63,7 @@ export type BackupStatus =
   | "syncing"
   | "unavailable"
   | "signedOut"
+  | "incompatible"
   | "error";
 
 /** Backup state and actions for the Backup screen. */
@@ -99,7 +103,7 @@ const BackupContext = createContext<BackupValue>(undefined as never);
  */
 export const BackupProvider = ({ children }: { children: React.ReactNode }) => {
   const { settings, setSettings } = useSettings();
-  const { items } = useLogState();
+  const { items, loaded: isLogsLoaded = false } = useLogState();
   const { tags } = useTagsState();
   const { people } = usePeopleState();
   const datagate = useDatagate();
@@ -113,24 +117,39 @@ export const BackupProvider = ({ children }: { children: React.ReactNode }) => {
   const [remote, setRemote] = useState<BackupFile | null>(null);
   const [isReady, setIsReady] = useState(false);
   const lastWritten = useRef<string | null>(null);
+  /** Failure codes already sent to Sentry this session: one report each. */
+  const reported = useRef(new Set<string>());
 
+  /**
+   * Records a failed cloud call. Offline failures only pause backup: no
+   * Sentry report, status `unavailable`. Other failures reach Sentry once
+   * per code and session, so a phone without connection does not flood it.
+   */
   const fail = useCallback(
-    (why: string, failure: string) => {
-      Sentry.captureException(
-        createStructuredError({
-          status: failure,
-          message: "Backup failed",
-          why,
-          fix: "Check the internet connection and iCloud or Google Drive settings. Pixy retries on the next change.",
-        })
-      );
-      analytics.track("backup:failed", { status: failure });
+    (failure: CloudFailure, code: string) => {
+      if (isOfflineFailure(failure)) {
+        analytics.track("backup:failed", { status: "backup_offline" });
+        setStatus("unavailable");
+        return;
+      }
+      if (!reported.current.has(code)) {
+        reported.current.add(code);
+        Sentry.captureException(
+          createStructuredError({
+            status: code,
+            message: "Backup failed",
+            why: failure.message ?? "The cloud call failed without a message",
+            fix: "Check the internet connection and iCloud or Google Drive settings. Pixy retries on the next change.",
+          })
+        );
+      }
+      analytics.track("backup:failed", { status: code });
       setStatus("error");
     },
     [analytics]
   );
-  const failInEffect = useEffectEvent((why: string, failure: string) =>
-    fail(why, failure)
+  const failInEffect = useEffectEvent((failure: CloudFailure, code: string) =>
+    fail(failure, code)
   );
 
   /** Reads the cloud backup. `isStopped` drops results after unmount. */
@@ -153,12 +172,21 @@ export const BackupProvider = ({ children }: { children: React.ReactNode }) => {
         if (isStopped()) {
           return;
         }
-        setRemote(text === null ? null : parseBackupFile(text));
+        const file = text === null ? null : parseBackupFile(text);
+        if (text !== null && file === null) {
+          // A newer Pixy wrote the file, or it is damaged. Never replace it:
+          // this version would drop data it does not understand.
+          setRemote(null);
+          setIsReady(false);
+          setStatus("incompatible");
+          return;
+        }
+        setRemote(file);
         setStatus("idle");
         setIsReady(true);
       } catch (error) {
         if (!isStopped()) {
-          fail(String(error), "backup_read_failed");
+          fail(cloudFailureSchema.parse(error), "backup_read_failed");
         }
       }
     },
@@ -196,6 +224,7 @@ export const BackupProvider = ({ children }: { children: React.ReactNode }) => {
     if (
       !enabled ||
       !isReady ||
+      !isLogsLoaded ||
       deviceId === null ||
       dataKey === lastWritten.current
     ) {
@@ -221,13 +250,14 @@ export const BackupProvider = ({ children }: { children: React.ReactNode }) => {
         setRemote(file);
         setStatus("idle");
       } catch (error) {
-        failInEffect(String(error), "backup_write_failed");
+        failInEffect(cloudFailureSchema.parse(error), "backup_write_failed");
       }
     }, AUTO_BACKUP_DELAY_MS);
     return () => clearTimeout(timer);
   }, [
     enabled,
     isReady,
+    isLogsLoaded,
     deviceId,
     dataKey,
     items,
@@ -245,7 +275,7 @@ export const BackupProvider = ({ children }: { children: React.ReactNode }) => {
             return;
           }
         } catch (error) {
-          fail(String(error), "backup_sign_in_failed");
+          fail(cloudFailureSchema.parse(error), "backup_sign_in_failed");
           return;
         }
       } else {
@@ -262,7 +292,7 @@ export const BackupProvider = ({ children }: { children: React.ReactNode }) => {
           await deleteBackupFile();
           await disconnect();
         } catch (error) {
-          fail(String(error), "backup_delete_failed");
+          fail(cloudFailureSchema.parse(error), "backup_delete_failed");
           return;
         }
         setIsReady(false);
@@ -282,7 +312,7 @@ export const BackupProvider = ({ children }: { children: React.ReactNode }) => {
         await load(() => false);
       }
     } catch (error) {
-      fail(String(error), "backup_sign_in_failed");
+      fail(cloudFailureSchema.parse(error), "backup_sign_in_failed");
     }
   }, [fail, load]);
 
@@ -295,11 +325,18 @@ export const BackupProvider = ({ children }: { children: React.ReactNode }) => {
     } catch {
       return;
     }
-    datagate.import(remote.data, { muted: false });
+    try {
+      // Wait for every store: until then local data is still the old data,
+      // and claiming the backup now would let the next write replace it.
+      await datagate.import(remote.data, { muted: false });
+    } catch (error) {
+      fail(cloudFailureSchema.parse(error), "backup_restore_failed");
+      return;
+    }
     analytics.track("backup:restored");
     // Local data now matches the backup, so this phone may replace it.
     setRemote({ ...remote, deviceId });
-  }, [remote, deviceId, datagate, analytics]);
+  }, [remote, deviceId, datagate, analytics, fail]);
 
   const value = useMemo<BackupValue>(
     () => ({
@@ -310,6 +347,7 @@ export const BackupProvider = ({ children }: { children: React.ReactNode }) => {
       canRestore:
         remote !== null &&
         deviceId !== null &&
+        isLogsLoaded &&
         !canReplaceBackup({
           existing: remote,
           deviceId,
@@ -325,6 +363,7 @@ export const BackupProvider = ({ children }: { children: React.ReactNode }) => {
       status,
       remote,
       deviceId,
+      isLogsLoaded,
       items.length,
       setEnabled,
       restore,

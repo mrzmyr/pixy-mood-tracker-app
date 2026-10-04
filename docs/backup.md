@@ -17,6 +17,10 @@ Pixy has no server. Data leaves the phone only through the cloud backup or a man
 ### Rules
 
 - Never write a backup with 0 entries
+- Never write before the logs store loaded. Before that the entry count is 0 and "Restore" would show for a moment
+- Never replace a cloud file this version cannot parse (newer `pixyBackup`, unknown export field, damaged JSON). Status `incompatible`, backup pauses until the app updates
+- Restore waits for the import to finish before this phone claims the backup. Until then the next write would replace the backup with the old local data
+- Offline failures (`backup_offline` in [`cloud.ts`](../src/features/backup/cloud.ts)) pause backup with status `unavailable`. Other failures reach Sentry once per failure code and session
 - Replace another phone's backup only when this phone has at least as many entries ([`canReplaceBackup`](../src/features/backup/backupFile.ts)). A fresh install must not wipe the backup before the user restores
 - Switch off deletes the cloud file after a confirmation. On Android it also signs out of Google
 - `settings.backupEnabled` is a device setting: not exported, kept on import. Default on for iOS, off for Android (needs Google sign-in)
@@ -41,6 +45,7 @@ Pixy has no server. Data leaves the phone only through the cloud backup or a man
 - OAuth consent screen with scope `https://www.googleapis.com/auth/drive.appdata`. It is non-sensitive: basic verification only
 - One Android OAuth client per package (`com.devmood.pixymoodtracker`, `.preview`, `.dev`) with the SHA-1 of each signing key: Play app signing, upload key, local debug key
 - Missing client: sign-in fails with `DEVELOPER_ERROR`
+- Access revoked in the Google account, or account removed from the phone: `SIGN_IN_REQUIRED`, shown as "sign-in expired" with a Sign In link
 - No `@react-native-google-signin/google-signin` config plugin: it needs an iOS client, and iOS uses iCloud
 
 ### Fake cloud (development and preview builds)

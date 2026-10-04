@@ -56,6 +56,7 @@ const getProblemText = ({
         ? t("backup_unavailable_ios")
         : t("backup_unavailable_android"),
     signedOut: t("backup_signed_out"),
+    incompatible: t("backup_incompatible"),
     error: t("backup_failed"),
   };
   return problems[status] ?? null;
