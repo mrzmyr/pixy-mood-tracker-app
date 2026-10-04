@@ -34,7 +34,6 @@ export const DataScreen = () => {
             title={t("import")}
             onPress={() => datagate.openImportDialog()}
             iconLeft={<Download width={18} color={colors.menuListItemIcon} />}
-            isLast={!__DEV__}
           />
           {__DEV__ && (
             <MenuListItem
@@ -43,7 +42,6 @@ export const DataScreen = () => {
                 datagate.openDangerousImportDirectlyToAsyncStorageDialog()
               }
               iconLeft={<Download width={18} color={colors.menuListItemIcon} />}
-              isLast
             />
           )}
         </MenuList>
@@ -60,10 +58,12 @@ export const DataScreen = () => {
             title="CSV"
             onPress={() => datagate.openExportDialog({ format: "csv" })}
             iconLeft={<Upload width={18} color={colors.menuListItemIcon} />}
-            isLast
           />
         </MenuList>
         <TextInfo>{`${t("export_help")}\n${t("export_csv_help")}`}</TextInfo>
+        <TextInfo style={{ paddingTop: 0 }}>
+          {t("data_export_photos_note")}
+        </TextInfo>
         <MenuList style={{ marginTop: 16 }}>
           <MenuListItem
             testID="delete-all-data"
@@ -79,7 +79,6 @@ export const DataScreen = () => {
             style={{
               color: "red",
             }}
-            isLast
           />
         </MenuList>
         <TextInfo>{t("delete_all_data_description")}</TextInfo>

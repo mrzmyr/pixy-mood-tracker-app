@@ -5,9 +5,19 @@ import { askToCancel, askToRemove } from "@/helpers/prompts";
 import type { TemporaryLogValue } from "../temporaryLog";
 import { SlideHeader } from "./SlideHeader";
 
+/** Header padding. Keeps the 44pt header buttons near the screen edge. */
+export const LOGGER_HEADER_INSET = 12;
+
+/**
+ * Visible edge of the back and close icons: half the gap between the 44pt
+ * button and the 24pt icon, plus the icon's 4pt inner margin. Text without a
+ * box of its own lines up with this edge.
+ */
+export const LOGGER_HEADER_ICON_INSET = LOGGER_HEADER_INSET + 10 + 4;
+
 /**
  * Logger stepper and header controls.
- * Closing a dirty log and deleting a log with message or tags ask for confirmation first.
+ * Closing a dirty log and deleting a log with message, tags, or people ask for confirmation first.
  */
 export const LoggerHeader = ({
   carouselRef,
@@ -28,7 +38,7 @@ export const LoggerHeader = ({
 }) => (
   <View
     style={{
-      paddingHorizontal: 20,
+      paddingHorizontal: LOGGER_HEADER_INSET,
       paddingTop: 12,
     }}
   >
@@ -53,7 +63,11 @@ export const LoggerHeader = ({
         }
       }}
       onDelete={async () => {
-        if (tempLog.data.message.length > 0 || tempLog.data.tags.length > 0) {
+        if (
+          tempLog.data.message.length > 0 ||
+          tempLog.data.tags.length > 0 ||
+          tempLog.data.people.length > 0
+        ) {
           await askToRemove();
         }
         onRemove();

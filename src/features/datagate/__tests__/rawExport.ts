@@ -3,6 +3,7 @@ import * as FileSystem from "expo-file-system/legacy";
 import { setFileTransferOverride } from "../fileTransfer";
 import { exportRawStorage } from "../rawExport";
 import { STORAGE_KEY as STORAGE_KEY_LOGS } from "@/features/logs";
+import { STORAGE_KEY as STORAGE_KEY_PEOPLE } from "@/features/people";
 import { STORAGE_KEY as STORAGE_KEY_TAGS } from "@/features/tags";
 import { STORAGE_KEY as STORAGE_KEY_SETTINGS } from "@/state/settings";
 
@@ -37,6 +38,7 @@ describe("exportRawStorage()", () => {
       [STORAGE_KEY_LOGS]: "🐇",
       [STORAGE_KEY_SETTINGS]: '{"loaded":true}',
       [STORAGE_KEY_TAGS]: null,
+      [STORAGE_KEY_PEOPLE]: null,
     });
     expect(share).toHaveBeenCalledWith(uri);
     expect(setItemSpy).not.toHaveBeenCalled();

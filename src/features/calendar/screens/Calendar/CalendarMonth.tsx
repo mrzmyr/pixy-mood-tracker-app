@@ -1,3 +1,4 @@
+import { useWeekLocale } from "@/hooks/useWeekLocale";
 import { DATE_FORMAT } from "@/constants/Config";
 import dayjs from "dayjs";
 import type { Dayjs } from "dayjs";
@@ -37,7 +38,8 @@ const CalendarMonthComponent = ({
 }) => {
   const colors = useColors();
   const { getMappingKey } = useMappingHelper();
-  const date = dayjs(dateString);
+  const locale = useWeekLocale();
+  const date = dayjs(dateString).locale(locale);
   const monthStart = date.startOf("month");
   const monthEnd = date.endOf("month");
   const weekStart = monthStart.startOf("week");

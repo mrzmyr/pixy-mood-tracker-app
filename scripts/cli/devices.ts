@@ -2,14 +2,41 @@ import { getAndroidBuildEnv } from "../run-native.ts";
 import { agentDevice } from "./agent-device.ts";
 import { readManagedDevices } from "./device.ts";
 import { PLATFORM_OPTION_SPEC, TARGET_OPTION_SPEC } from "./options.ts";
-import { readPhones } from "./phone.ts";
-import { readForeignReservation, release, reserve } from "./reservation.ts";
+import { openMenuBar } from "./menu-bar.ts";
+import { readIosPhoneStates, readPhones } from "./phone.ts";
+import {
+  readForeignReservation,
+  release,
+  reserve,
+  writePhones,
+} from "./reservation.ts";
+import type { PhoneInfo } from "./reservation.ts";
 import { CliError, defineCommand, note, printTable } from "./shared.ts";
 import type { Noun } from "./shared.ts";
-import type { AgentPhone, TargetInput } from "./target.ts";
-import { buildRows, findPhone, toToken } from "./target.ts";
+import type { AgentPhone, IosState, TargetInput } from "./target.ts";
+import {
+  buildRows,
+  findPhone,
+  phoneProblem,
+  toPhoneType,
+  toToken,
+} from "./target.ts";
 
 const DEFAULT_MINUTES = 60;
+const MAX_GOAL_LENGTH = 120;
+
+const isPhone = (device: AgentPhone) =>
+  device.kind === "device" && device.target === "mobile";
+
+const toPhoneInfo = (
+  phone: AgentPhone,
+  iosDevices?: IosState[]
+): PhoneInfo => ({
+  id: phone.id,
+  target: toToken(phone.name, phone.id),
+  name: phone.name,
+  type: toPhoneType(phone, iosDevices),
+});
 
 const list = async (platform?: string) => {
   try {
@@ -44,6 +71,15 @@ const list = async (platform?: string) => {
   if (platform === "ios" || platform === "android") {
     input.platform = platform;
   }
+  // Unreachable phones do not count as known. Locked phones do.
+  writePhones(
+    phoneData.phones
+      .filter(
+        (phone) =>
+          isPhone(phone) && phoneProblem(phone, input)?.[0] !== "phone_offline"
+      )
+      .map((phone) => toPhoneInfo(phone, phoneData.iosDevices))
+  );
   const rows = buildRows(input);
   printTable(
     ["OPTION", "KIND", "OS", "NAME", "STATE", "PROBLEM"],
@@ -56,11 +92,7 @@ const list = async (platform?: string) => {
       row.problem,
     ])
   );
-  if (
-    !phoneData.phones.some(
-      (phone) => phone.kind === "device" && phone.target === "mobile"
-    )
-  ) {
+  if (!phoneData.phones.some(isPhone)) {
     note("No phone connected. Connect a phone by cable and unlock it.");
   }
 };
@@ -70,13 +102,30 @@ const findTarget = async (target = "") => {
   const { devices = [] } = await agentDevice<{ devices?: AgentPhone[] }>([
     "devices",
   ]);
-  const phone = findPhone(
-    devices.filter(
-      (device) => device.kind === "device" && device.target === "mobile"
-    ),
-    target
-  );
-  return { id: phone.id, token: toToken(phone.name, phone.id) };
+  const phone = findPhone(devices.filter(isPhone), target);
+  let iosDevices: IosState[] = [];
+  if (phone.platform === "ios") {
+    try {
+      iosDevices = readIosPhoneStates();
+    } catch {
+      // Type falls back to iPhone. A stuck device service must not block reserve.
+    }
+  }
+  return toPhoneInfo(phone, iosDevices);
+};
+
+const getGoal = (value = "") => {
+  const goal = value.trim().replaceAll(/\s+/gu, " ");
+  if (!goal || goal.length > MAX_GOAL_LENGTH) {
+    throw new CliError({
+      exitCode: 2,
+      status: "invalid_goal",
+      message: "Invalid value for --goal",
+      why: `--goal needs 1 to ${MAX_GOAL_LENGTH} characters. Got ${goal.length}.`,
+      fix: 'Say what you use the phone for, for example --goal="Proof video for tag swipes".',
+    });
+  }
+  return goal;
 };
 
 const getMinutes = (value = String(DEFAULT_MINUTES)) => {
@@ -97,7 +146,7 @@ const TARGET_OPTION = { ...TARGET_OPTION_SPEC, isRequired: true };
 
 const DEVICES: Noun = {
   summary: "List and reserve devices that can run the preview app.",
-  commandOrder: ["list", "reserve", "release"],
+  commandOrder: ["list", "reserve", "release", "menubar"],
   helpTail: ["Run `bun devices <command> --help` for details."],
   commands: {
     list: defineCommand({
@@ -135,11 +184,19 @@ const DEVICES: Noun = {
     }),
     reserve: defineCommand({
       usage:
-        "Usage: bun devices reserve --target=<target> [--minutes=<minutes>]",
+        "Usage: bun devices reserve --target=<target> --goal=<goal> [--minutes=<minutes>]",
       summary:
         "Reserve one phone for this checkout. Other checkouts cannot use it until release or expiry.",
       options: {
         target: TARGET_OPTION,
+        goal: {
+          value: "<goal>",
+          isRequired: true,
+          description: [
+            `What you use the phone for. 1 to ${MAX_GOAL_LENGTH} characters.`,
+            "Other agents and the menu bar app show it.",
+          ],
+        },
         minutes: {
           value: "<minutes>",
           description: [
@@ -149,7 +206,8 @@ const DEVICES: Noun = {
         },
       },
       errors: {
-        missing_option: "--target not passed",
+        missing_option: "--target or --goal not passed",
+        invalid_goal: "--goal is empty or too long",
         invalid_value: "--minutes is not a whole number of 1 or more",
         target_not_found: "No connected phone has this target",
         device_reserved: "Another checkout reserved this phone",
@@ -169,16 +227,18 @@ const DEVICES: Noun = {
         {
           title: "Examples",
           lines: [
-            "bun devices reserve --target=pixel-8-09yw",
-            "bun devices reserve --target=pixel-8-09yw --minutes=120",
+            'bun devices reserve --target=pixel-8-09yw --goal="Proof video for tag swipes"',
+            'bun devices reserve --target=pixel-8-09yw --goal="e2e run" --minutes=120',
           ],
         },
       ],
       run: async (values) => {
+        const goal = getGoal(values.goal);
         const minutes = getMinutes(values.minutes);
         const phone = await findTarget(values.target);
-        const reservation = reserve(phone.id, phone.token, minutes);
-        console.log(`${phone.token} ${reservation.expiresAt}`);
+        const reservation = reserve(phone, goal, minutes);
+        writePhones([phone], true);
+        console.log(`${phone.target} ${reservation.expiresAt}`);
       },
     }),
     release: defineCommand({
@@ -199,9 +259,32 @@ const DEVICES: Noun = {
       run: async (values) => {
         const phone = await findTarget(values.target);
         if (!release(phone.id)) {
-          note(`note: ${phone.token} had no reservation`);
+          note(`note: ${phone.target} had no reservation`);
         }
       },
+    }),
+    menubar: defineCommand({
+      usage: "Usage: bun devices menubar",
+      summary: "Open the macOS menu bar app that shows phone reservations.",
+      errors: {
+        menu_bar_build_failed: "swiftc could not build the app",
+      },
+      sections: [
+        {
+          title: "Behavior",
+          lines: [
+            "Menu bar shows <reserved>/<known> phones.",
+            "Click it for one row per phone: type, goal, status.",
+            "Known phones: reachable phones of the last `bun devices list`, plus every reserved phone.",
+            "Builds the app on first run and after source changes.",
+          ],
+        },
+        {
+          title: "Requires",
+          lines: ["Xcode command line tools (swiftc)."],
+        },
+      ],
+      run: () => openMenuBar(),
     }),
   },
 };

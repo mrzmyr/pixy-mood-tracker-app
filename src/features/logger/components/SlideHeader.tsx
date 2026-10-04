@@ -204,6 +204,8 @@ export const SlideHeader = ({
                 alignItems: "center",
                 minHeight: 44,
                 flexShrink: 1,
+                // Lines the pill up with the 20pt slide content.
+                marginLeft: 8,
                 paddingVertical: 6,
                 paddingHorizontal: 12,
                 backgroundColor: colors.logHeaderHighlight,

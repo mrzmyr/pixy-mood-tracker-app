@@ -18,8 +18,16 @@ import { INITIAL_STATE } from "@/constants/Settings";
 
 import { TagsProvider, useTagsState, useTagsUpdater } from "@/features/tags";
 import type { Tag } from "@/features/tags";
+import {
+  PeopleProvider,
+  usePeopleState,
+  usePeopleUpdater,
+} from "@/features/people";
+import type { Person } from "@/features/people";
 
 import { _generateItem } from "@/__tests__/utils";
+import { File } from "expo-file-system";
+import { getPhotosDirectory } from "@/features/photos";
 import pkg from "../../../../package.json";
 
 // oxlint-disable-next-line anti-slop/no-module-mocking -- expo-sharing is a native module unavailable in Jest; the export test asserts on shareAsync
@@ -32,11 +40,22 @@ const wrapper = ({ children }) => (
   <SettingsProvider>
     <AnalyticsProvider>
       <LogsProvider>
-        <TagsProvider>{children}</TagsProvider>
+        <TagsProvider>
+          <PeopleProvider>{children}</PeopleProvider>
+        </TagsProvider>
       </LogsProvider>
     </AnalyticsProvider>
   </SettingsProvider>
 );
+
+const testPhoto = {
+  id: "8f8a7d3e-6c1f-4f59-9a52-2c9a5d1e7b10",
+  fileName: "8f8a7d3e-6c1f-4f59-9a52-2c9a5d1e7b10.jpg",
+  width: 1536,
+  height: 2048,
+  createdAt: "2022-01-02T10:00:00.000Z",
+  source: "library" as const,
+};
 
 const testItems: LogsState["items"] = [
   _generateItem({
@@ -57,6 +76,7 @@ const testItems: LogsState["items"] = [
         id: "bb65f208-4e4c-11ed-bdc3-0242ac120002",
       },
     ],
+    photos: [testPhoto],
   }),
 ];
 
@@ -91,6 +111,8 @@ const _renderHook = () =>
       logUpdater: useLogUpdater(),
       tagsState: useTagsState(),
       tagsUpdater: useTagsUpdater(),
+      peopleState: usePeopleState(),
+      peopleUpdater: usePeopleUpdater(),
       settingsState: useSettings(),
     }),
     { wrapper }
@@ -100,8 +122,25 @@ const waitForLoaded = (hook) =>
   waitFor(() => {
     expect(hook.result.current.logState.loaded).toBe(true);
     expect(hook.result.current.tagsState.loaded).toBe(true);
+    expect(hook.result.current.peopleState.loaded).toBe(true);
     expect(hook.result.current.settingsState.settings.loaded).toBe(true);
   });
+
+const testPeople: Person[] = [
+  {
+    id: "4b4b4b4b-0000-4000-8000-000000000001",
+    name: "Sam",
+    avatar: "people/4b4b4b4b-0000-4000-8000-000000000001.jpg",
+    createdAt: "2026-01-01T00:00:00.000Z",
+  },
+  {
+    id: "4b4b4b4b-0000-4000-8000-000000000002",
+    name: "Alex",
+    avatar: null,
+    isArchived: true,
+    createdAt: "2026-01-02T00:00:00.000Z",
+  },
+];
 
 const _console_error = console.error;
 
@@ -158,6 +197,7 @@ describe("useLogs()", () => {
       loaded: true,
       items: testItems,
     });
+    expect(hook.result.current.logState.items[1].photos).toEqual([testPhoto]);
     expect(hook.result.current.tagsState).toEqual({
       loaded: true,
       tags: testTags,
@@ -199,8 +239,10 @@ describe("useLogs()", () => {
         "deviceId",
         "storeReviewPromptedAt",
         "storeReviewPromptedAppVersion",
+        "photosDayAccessDismissed",
       ]) satisfies ExportSettings,
       tags: testTags,
+      people: [],
     };
 
     expect(calledUri).toMatch(
@@ -210,6 +252,8 @@ describe("useLogs()", () => {
       )
     );
     expect(JSON.parse(calledJson)).toEqual(expectedJson);
+    // Metadata only: export files never contain photo files.
+    expect(JSON.parse(calledJson).items[1].photos).toEqual([testPhoto]);
     expect(Sharing.shareAsync).toBeCalledWith(calledUri, {
       mimeType: "application/json",
       UTI: "public.json",
@@ -284,15 +328,17 @@ describe("useLogs()", () => {
     );
   });
 
-  test("should `openResetDialog` delete entries, tags, and settings", async () => {
+  test("should `openResetDialog` delete entries, tags, people, and settings", async () => {
     const hook = await _renderHook();
 
     jest.spyOn(Alert, "alert");
+    jest.spyOn(FileSystem, "deleteAsync").mockResolvedValue();
 
     await waitForLoaded(hook);
 
     await act(() => {
       hook.result.current.tagsUpdater.import({ tags: testTags });
+      hook.result.current.peopleUpdater.import({ people: testPeople });
       hook.result.current.logUpdater.import({ items: testItems });
       hook.result.current.settingsState.importSettings(testSettings);
     });
@@ -306,7 +352,12 @@ describe("useLogs()", () => {
     await waitFor(() => {
       expect(hook.result.current.logState.items).toEqual([]);
       expect(hook.result.current.tagsState.tags).toHaveLength(18);
+      expect(hook.result.current.peopleState.people).toEqual([]);
     });
+    expect(FileSystem.deleteAsync).toHaveBeenCalledWith(
+      `${FileSystem.documentDirectory}people/`,
+      { idempotent: true }
+    );
 
     expect(Alert.alert).toBeCalled();
     expect(hook.result.current.logState).toEqual({
@@ -327,13 +378,101 @@ describe("useLogs()", () => {
     });
   });
 
+  test("should export people with avatars inline and import them back", async () => {
+    const hook = await _renderHook();
+    const base64 = "/9j/4AAQSkZJRgABAQAASABIAAD/2wBDAP//////////";
+
+    jest.spyOn(FileSystem, "writeAsStringAsync").mockResolvedValue();
+    jest.spyOn(FileSystem, "readDirectoryAsync").mockResolvedValue([]);
+    jest.spyOn(FileSystem, "deleteAsync").mockResolvedValue();
+    jest.spyOn(FileSystem, "makeDirectoryAsync").mockResolvedValue();
+    jest.spyOn(FileSystem, "getInfoAsync").mockResolvedValue({
+      exists: true,
+      isDirectory: true,
+      uri: "",
+      size: 0,
+      modificationTime: 0,
+    });
+    jest.spyOn(FileSystem, "readAsStringAsync").mockResolvedValue(base64);
+    jest.mocked(Sharing.shareAsync).mockClear();
+
+    await waitForLoaded(hook);
+    await act(() => {
+      hook.result.current.peopleUpdater.import({ people: testPeople });
+      hook.result.current.logUpdater.import({ items: testItems });
+    });
+    await act(async () => {
+      await hook.result.current.datagate.openExportDialog({ format: "json" });
+    });
+
+    const exportCall = jest
+      .mocked(FileSystem.writeAsStringAsync)
+      .mock.calls.find(([uri]) => uri.endsWith(".json"));
+    const exported = JSON.parse(exportCall?.[1] ?? "{}");
+    expect(exported.people).toEqual([
+      { ...testPeople[0], avatar: { base64, mime: "image/jpeg" } },
+      { ...testPeople[1], avatar: null },
+    ]);
+
+    // Import on a device without the avatar file writes it from the export.
+    await act(async () => {
+      hook.result.current.peopleUpdater.reset();
+      await hook.result.current.datagate.import(exported, { muted: true });
+    });
+
+    expect(hook.result.current.peopleState.people).toEqual(testPeople);
+    expect(FileSystem.writeAsStringAsync).toHaveBeenCalledWith(
+      `${FileSystem.documentDirectory}${testPeople[0].avatar}`,
+      base64,
+      { encoding: FileSystem.EncodingType.Base64 }
+    );
+  });
+
+  test("should import people without avatar when the file cannot be written", async () => {
+    const hook = await _renderHook();
+    jest.spyOn(FileSystem, "makeDirectoryAsync").mockResolvedValue();
+    jest.spyOn(FileSystem, "getInfoAsync").mockResolvedValue({
+      exists: true,
+      isDirectory: true,
+      uri: "",
+      size: 0,
+      modificationTime: 0,
+    });
+    jest
+      .spyOn(FileSystem, "writeAsStringAsync")
+      .mockRejectedValue(new Error("disk full"));
+
+    await waitForLoaded(hook);
+    await act(async () => {
+      await hook.result.current.datagate.import(
+        {
+          version: "1.0.0",
+          items: testItems,
+          settings: testSettings,
+          tags: testTags,
+          people: [
+            {
+              ...testPeople[0],
+              avatar: { base64: "AAAA", mime: "image/jpeg" },
+            },
+          ],
+        },
+        { muted: true }
+      );
+    });
+
+    expect(hook.result.current.peopleState.people).toEqual([
+      { ...testPeople[0], avatar: null },
+    ]);
+  });
+
   test("should `import`", async () => {
     const hook = await _renderHook();
 
     await waitForLoaded(hook);
 
-    await act(() => {
-      hook.result.current.datagate.import(
+    await act(async () => {
+      await hook.result.current.datagate.import(
         {
           version: "1.0.0",
           items: testItems,
@@ -358,5 +497,33 @@ describe("useLogs()", () => {
       ...testSettings,
       loaded: true,
     });
+  });
+
+  test("keeps photo files of entries missing from the backup after `import`", async () => {
+    const hook = await _renderHook();
+    await waitForLoaded(hook);
+    // After the sweep on load, which would delete it first.
+    await act(async () => {});
+    const directory = getPhotosDirectory();
+    directory.create({ idempotent: true, intermediates: true });
+    const photoFile = new File(directory, "not-in-backup.jpg");
+    photoFile.create();
+
+    await act(() => {
+      hook.result.current.datagate.import(
+        {
+          version: "1.0.0",
+          items: testItems,
+          settings: testSettings,
+          tags: testTags,
+        },
+        { muted: true }
+      );
+    });
+
+    await act(async () => {});
+    expect(hook.result.current.logState.items).toEqual(testItems);
+    expect(photoFile.exists).toBe(true);
+    photoFile.delete();
   });
 });

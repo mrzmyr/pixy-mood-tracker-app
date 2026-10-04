@@ -46,7 +46,7 @@
 - Never write storage after a failed read. A read error must keep the stored data, not replace it with defaults (commits 1a1ddd8, f165aad).
 - Hermes lacks some modern array methods. `pixy-standards/no-hermes-missing-array-methods` enforces the safe forms.
 - Keep all `@react-navigation/*` packages on the same major version. Mixing v6 and v7 breaks native navigation.
-- React Compiler plus `freezeOnBlur` tabs can leave FlashList headers or footers stale after the tab unfreezes. `src/features/calendar/screens/Calendar/index.tsx` opts out with `"use no memo"`. Run the e2e suite after enabling the compiler for more code.
+- React Compiler plus frozen screens (`freezeOnBlur`) can leave FlashList headers or footers stale after the screen unfreezes. No screen freezes today. `src/features/calendar/screens/Calendar/index.tsx` still opts out with `"use no memo"`. Run the e2e suite after enabling the compiler for more code.
 - Initialize Sentry once, at module load in `src/app/_layout.tsx`, before the first render.
 - Native builds live in `~/.cache/pixy-mood-tracker/build-cache`, shared by all worktrees. Check `bun builds list` before any compile. `ios/build` and Xcode DerivedData say nothing about cached builds. Dev client with Metro: `bun app dev --platform=<ios|android>` ([run-app skill](.agents/skills/run-app/SKILL.md)). Never create simulators by hand.
 
@@ -56,6 +56,13 @@
 - Never add tests that only assert static content matches expected values (translation keys, UI copy, enum labels)
 - Type safety and translation tooling catch label collisions at build time
 - Write tests for behavior, logic, and user-facing outcomes, not for checking static data structures
+
+## Notifications
+
+- Toasts: `showToast` from [`src/lib/toast.ts`](src/lib/toast.ts). Reference: [shadcn Sonner](https://ui.shadcn.com/docs/components/radix/sonner)
+- Title states the consequence: "Feedback sent", "Entry deleted". Never "Thank you" or "Success"
+- One line by default. Add a subtitle only when the user needs context: what happens next or what it means. Example: "Request sent" + "I’ll reply by email."
+- Past tense, sentence case, no exclamation mark, no trailing period in the title
 
 ## Releases
 

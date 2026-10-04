@@ -2,7 +2,7 @@ import type { FeedackType, FeedbackSource } from "@/types/Feedback";
 import type { LoggerStep } from "@/constants/LoggerSteps";
 import type { SettingsState } from "@/state/settings";
 import type { z } from "zod";
-import type { LogItemSchema } from "@/types";
+import type { LogItemSchema, PhotoSourceKind } from "@/types";
 
 /**
  * Every analytics event the app sends, keyed by name, with its properties.
@@ -11,6 +11,8 @@ import type { LogItemSchema } from "@/types";
  * - Properties: snake_case, JSON values only
  * - Never send free text (notes, custom tag names). Send counts and lengths
  *   instead. Fixed values (rating, emotion keys, sleep quality) are fine.
+ * - Photo events never carry file names, URIs, dimensions, EXIF, location,
+ *   photo timestamps, or library ids.
  * - `undefined`: the event has no properties
  */
 export interface AnalyticsEvents {
@@ -38,7 +40,12 @@ export interface AnalyticsEvents {
     has_rating: boolean;
     message_length: number;
     tags_count: number;
+    people_count: number;
     emotions_count: number;
+    photos_count: number;
+    /** Photos by origin. The two counts add up to `photos_count`. */
+    photos_day_count: number;
+    photos_library_count: number;
   };
   "logger:log_deleted": undefined;
   "logger:flow_cancelled": { mode: "create" | "edit" };
@@ -46,11 +53,6 @@ export interface AnalyticsEvents {
   "logger:reminder_enabled": undefined;
   "logger:reminder_postponed": undefined;
   "logger:confirmation_viewed": SavedEntryProperties;
-  "logger:confirmation_answered": SavedEntryProperties & {
-    answer: ConfirmationAnswer;
-    answer_ms: number;
-  };
-  "logger:confirmation_skipped": SavedEntryProperties & { skip_ms: number };
   "logger:store_review_requested": {
     trigger: "entries_7";
     entries_count: number;
@@ -60,6 +62,55 @@ export interface AnalyticsEvents {
   "day:edit_tapped": undefined;
   "day:delete_tapped": undefined;
   "day:closed": undefined;
+
+  /** `entry_days_ago`: 0 for today, like `calendar:day_opened.days_ago`. */
+  "photos:day_access_prompt_shown": {
+    mode: "create" | "edit";
+    entry_days_ago: number;
+  };
+  "photos:day_access_prompt_dismissed": { mode: "create" | "edit" };
+  /** `source`: the permission card or the "Show Photos from …" button after "Not Now". */
+  "photos:day_access_answered": {
+    status: "granted" | "limited" | "denied";
+    source: "card" | "button";
+  };
+  /** `count`: library photos of the entry's day, 0 to 20. */
+  "photos:day_photos_loaded": {
+    count: number;
+    access: "granted" | "limited";
+    entry_days_ago: number;
+  };
+  /** `remaining`: photos the entry can still take. */
+  "photos:picker_opened": {
+    remaining: number;
+  };
+  "photos:picker_closed": {
+    picked_count: number;
+    is_cancelled: boolean;
+  };
+  /**
+   * `count`: photos attached to the entry after the change, imports still
+   * running included.
+   */
+  "photos:photo_added": {
+    source: PhotoSourceKind;
+    count: number;
+    mode: "create" | "edit";
+  };
+  "photos:photo_removed": {
+    source: PhotoSourceKind;
+    count: number;
+    mode: "create" | "edit";
+  };
+  "photos:limit_reached": { mode: "create" | "edit" };
+  /** `status`: structured error status, for example `photo_import_failed`. */
+  "photos:import_failed": { source: PhotoSourceKind; status: string };
+  /** `viewed_count`: distinct photos shown before close. */
+  "photos:viewer_closed": {
+    context: "logger" | "day";
+    photos_count: number;
+    viewed_count: number;
+  };
 
   "calendar:day_opened": {
     source: "calendar" | "mood_peaks" | "tag_peaks";
@@ -73,6 +124,7 @@ export interface AnalyticsEvents {
     text_length: number;
     ratings_count: number;
     tags_count: number;
+    people_count: number;
   };
   "calendar:filters_reset": undefined;
   "calendar:filters_closed": undefined;
@@ -95,6 +147,10 @@ export interface AnalyticsEvents {
     emotions_distribution_show?: boolean;
     emotions_distribution_item_count?: number;
     sleep_quality_distribution_show?: boolean;
+    people_distribution_show?: boolean;
+    people_distribution_count?: number;
+    people_peaks_show?: boolean;
+    people_peaks_count?: number;
   };
   "statistics:all_highlights_viewed": AnalyticsEvents["statistics:highlights_viewed"];
   "statistics:card_shared": { card: string };
@@ -114,6 +170,21 @@ export interface AnalyticsEvents {
   "tags:tag_deleted": AnalyticsEvents["tags:tag_created"];
   "tags:delete_cancelled": undefined;
 
+  "people:person_added": { source: "manual"; has_avatar: boolean };
+  "people:contacts_imported": {
+    count: number;
+    avatars_count: number;
+    is_limited: boolean;
+  };
+  "people:person_updated": {
+    name_changed: boolean;
+    avatar_changed: boolean;
+    is_archived: boolean;
+  };
+  "people:delete_requested": { entries_count: number };
+  "people:person_deleted": { entries_count: number };
+  "people:delete_cancelled": undefined;
+
   "settings:rate_app_tapped": undefined;
   "settings:vote_features_tapped": undefined;
   "settings:changelog_tapped": undefined;
@@ -127,6 +198,12 @@ export interface AnalyticsEvents {
     permission_granted: boolean;
   };
   "reminders:time_changed": { time: string };
+  "reminders:notification_opened": {
+    /** App launched from the tap, not resumed from background. */
+    cold_start: boolean;
+    /** Minutes from delivery to tap. */
+    minutes_since_delivered: number;
+  };
 
   "data:export_started": { format: "json" | "csv" };
   "data:export_completed": { format: "json" | "csv" };
@@ -187,12 +264,29 @@ export type UsageSummary = {
   statistics_unlocked: boolean;
   tags_count: number;
   archived_tags_count: number;
+  people_count: number;
+  archived_people_count: number;
   reminder_enabled: boolean;
   reminder_hour: number | null;
   scale_type: SettingsState["scaleType"];
   steps: SettingsState["steps"];
   onboarding_done: boolean;
   questions_answered_count: number;
+  /** Value of the `photos` feature flag on this install. */
+  photos_enabled: boolean;
+  /** Share of entries in the last 30 days with at least 1 photo, 0 to 100. */
+  photos_pct_30d: number | null;
+  /** Photos on all entries. */
+  photos_count: number;
+  /** Share of stored photos with `source: "day"`, 0 to 100. */
+  photos_day_pct: number | null;
+  /** Photo library read access. `unavailable`: Android, or photos off. */
+  photo_library_access:
+    | "undetermined"
+    | "granted"
+    | "limited"
+    | "denied"
+    | "unavailable";
 };
 
 /** Usage summary fields written once, on the first send. */
@@ -203,9 +297,6 @@ export type UsageSummaryOnce = {
 
 type LogItem = z.infer<typeof LogItemSchema>;
 
-/** Answer to "How are you feeling now?" after saving a new entry. */
-export type ConfirmationAnswer = "worse" | "same" | "better";
-
 /**
  * Saved entry metadata sent with the confirmation events. Holds no free
  * text: notes and tag names are sent as counts only.
@@ -215,6 +306,7 @@ export interface SavedEntryProperties {
   emotions: LogItem["emotions"];
   emotions_count: number;
   tags_count: number;
+  people_count: number;
   message_length: number;
   /** Whitespace-separated words; Chinese, Japanese, and Thai notes count as 1. */
   message_word_count: number;

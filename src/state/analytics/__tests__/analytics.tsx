@@ -74,12 +74,19 @@ const USAGE_SUMMARY = {
   statistics_unlocked: false,
   tags_count: 2,
   archived_tags_count: 0,
+  people_count: 0,
+  archived_people_count: 0,
   reminder_enabled: true,
   reminder_hour: 20,
   scale_type: INITIAL_STATE.scaleType,
   steps: INITIAL_STATE.steps,
   onboarding_done: true,
   questions_answered_count: 1,
+  photos_enabled: true,
+  photos_pct_30d: 10,
+  photos_count: 4,
+  photos_day_pct: 50,
+  photo_library_access: "limited" as const,
 };
 
 describe("useAnalytics()", () => {
