@@ -30,7 +30,13 @@ describe("parseCalendarParams", () => {
   });
 
   it("drops unknown views and invalid or future dates", () => {
-    for (const date of ["2026-02-30", "2026-10-05", "yesterday", undefined]) {
+    for (const date of [
+      "2026-02-30",
+      "2026-10-05",
+      "yesterday",
+      "",
+      undefined,
+    ]) {
       expect(
         parseCalendarParams({
           params: { view: "decade", date },

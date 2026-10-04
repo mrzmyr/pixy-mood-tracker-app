@@ -19,7 +19,8 @@ tags: [p1, calendar]
             - tapOn: "Open"
 
 # Year view: a month opens in the month view.
-- tapOn: "View"
+- tapOn:
+    id: "calendar-view-menu"
 - tapOn: "Year"
 - assertVisible:
     id: "calendar-year-${output.year}"
@@ -33,7 +34,8 @@ tags: [p1, calendar]
     id: "calendar-day-${output.pastMonthFirstDay}"
 
 # Week view: opens on this week, goes back one week, returns with Today.
-- tapOn: "View"
+- tapOn:
+    id: "calendar-view-menu"
 - tapOn: "Week"
 - assertVisible:
     id: "calendar-week-day-${output.today}"

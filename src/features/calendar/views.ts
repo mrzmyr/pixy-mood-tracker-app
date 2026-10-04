@@ -67,7 +67,8 @@ export const useCalendarView = () => {
 
   const show = useCallback(
     (next: { view: CalendarView; date?: string | null }) => {
-      router.setParams({ view: next.view, date: next.date ?? undefined });
+      // `undefined` keeps the old param, so an empty string clears it.
+      router.setParams({ view: next.view, date: next.date ?? "" });
     },
     [router]
   );
