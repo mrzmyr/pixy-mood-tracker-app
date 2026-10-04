@@ -2,6 +2,7 @@ import { ImagePlus } from "lucide-react-native";
 import { Pressable, Text } from "react-native";
 import useColors from "@/hooks/useColors";
 import { t } from "@/lib/translation";
+import { RADIUS } from "@/constants/Radius";
 
 /**
  * Square dashed tile that starts adding a photo, usually the system photo
@@ -34,7 +35,7 @@ export const AddPhotoTile = ({
         width: size ?? "100%",
         height: size,
         aspectRatio: 1,
-        borderRadius: 12,
+        borderRadius: RADIUS.md,
         borderWidth: 1.5,
         borderStyle: "dashed",
         borderColor: colors.textSecondary,

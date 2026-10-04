@@ -7,6 +7,7 @@ import { t } from "@/lib/translation";
 import { INTERVENTIONS } from "../catalog";
 import type { InterventionId } from "../catalog";
 import { Duration } from "./Duration";
+import { RADIUS } from "@/constants/Radius";
 
 /** Tappable intervention: title, one-line purpose, length or done state. */
 export const OptionTile = ({
@@ -40,7 +41,7 @@ export const OptionTile = ({
       style={({ pressed }) => [
         {
           backgroundColor,
-          borderRadius: 16,
+          borderRadius: RADIUS.md,
           padding: 14,
           minHeight: 104,
           justifyContent: "space-between",

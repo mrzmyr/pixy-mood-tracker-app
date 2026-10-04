@@ -3,6 +3,7 @@ import useColors from "@/hooks/useColors";
 import { tDynamic } from "@/lib/translation";
 import type { Emotion } from "@/types";
 import { Text, View } from "react-native";
+import { RADIUS } from "@/constants/Radius";
 
 /** Emotion chip with its category marker, used in entries and statistics. */
 export const EmotionItem = ({
@@ -18,7 +19,7 @@ export const EmotionItem = ({
         style={{
           paddingVertical: 6,
           paddingHorizontal: 12,
-          borderRadius: 8,
+          borderRadius: RADIUS.sm,
           backgroundColor: colors.logCardBackground,
           borderWidth: 1,
           borderColor: colors.logCardBorder,

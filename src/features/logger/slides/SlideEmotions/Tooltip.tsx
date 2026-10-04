@@ -4,6 +4,7 @@ import type { Emotion } from "@/types";
 import { Pressable, Text, View } from "react-native";
 import { X } from "react-native-feather";
 import Animated, { FadeInDown } from "react-native-reanimated";
+import { RADIUS } from "@/constants/Radius";
 
 /**
  * Bottom tooltip with the description of the last selected emotion. With
@@ -33,7 +34,7 @@ export const Tooltip = ({
         zIndex: 1,
         right: 16,
         left: 16,
-        borderRadius: 12,
+        borderRadius: RADIUS.md,
       }}
     >
       {emotion && (

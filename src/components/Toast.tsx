@@ -20,6 +20,7 @@ import { scheduleOnRN } from "react-native-worklets";
 import useColors from "@/hooks/useColors";
 import { hideToast, useToast } from "@/lib/toast";
 import type { Toast } from "@/lib/toast";
+import { RADIUS } from "@/constants/Radius";
 
 /** How long a toast stays on screen. Restarts after a drag. */
 const TOAST_MS = 2600;
@@ -87,7 +88,7 @@ const ToastCard = ({ toast }: { toast: Toast }) => {
               gap: 10,
               paddingVertical: 14,
               paddingHorizontal: 16,
-              borderRadius: 12,
+              borderRadius: RADIUS.md,
               borderWidth: 1,
               borderColor: colors.cardBorder,
               backgroundColor: colors.cardBackground,

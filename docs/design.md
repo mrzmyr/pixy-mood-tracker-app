@@ -92,6 +92,7 @@
 - **Swap keeps size.** Replacing a component's implementation keeps its measured width, height, and padding. Measure before and after.
 - **Narrowest spacing scope.** Spacing request for one element changes that element only, not shared component or theme token.
 - **Deliberate alignment.** Every element aligns to a grid, baseline, edge, or optical center. No accidental positioning; no magic numbers without a token.
+- **Corner radius from scale.** Use `RADIUS` from [`src/constants/Radius.ts`](../src/constants/Radius.ts). Pick step by role, not size. Nested surface radius never exceeds parent radius.
 - **Balance contrast in lockups.** When icon & text sit together, match stroke weight to font weight; `lucide-react-native` / `expo-symbols` stroke width adjusted, not default.
 - **Responsive coverage.** Verify on small phone (iPhone SE / 360 dp Android), large phone, tablet (split view & multitasking), foldables (`useWindowDimensions`, not `Dimensions.get` at module scope), landscape, and RN Web if targeted. Breakpoints by width, not by `Platform.isPad`.
 - **Respect safe areas.** `react-native-safe-area-context` (`SafeAreaView` or `useSafeAreaInsets`) for notch, Dynamic Island, home indicator, Android gesture nav & status bar. Never hardcode 44/20 pt. Account for `edge-to-edge` on Android 15+ (`react-native-edge-to-edge`).

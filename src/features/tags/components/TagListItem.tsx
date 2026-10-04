@@ -2,6 +2,7 @@ import { Text, View } from "react-native";
 import MenuListItem from "@/components/MenuListItem";
 import useColors from "@/hooks/useColors";
 import type { Tag } from "../TagsProvider";
+import { RADIUS } from "@/constants/Radius";
 
 /** Row for one tag in {@link TagList}, showing its color dot and title. */
 export const TagListItem = ({
@@ -34,7 +35,7 @@ export const TagListItem = ({
             style={{
               width: 10,
               height: 10,
-              borderRadius: 100,
+              borderRadius: RADIUS.full,
               backgroundColor: colors.tags[tag?.color]?.dot,
               marginRight: 16,
               marginLeft: 4,

@@ -19,9 +19,10 @@ import { showToast } from "@/lib/toast";
 import { t } from "@/lib/translation";
 import type { FeedbackSource } from "@/types/Feedback";
 import { useFeedback } from "../Feedback";
+import { RADIUS } from "@/constants/Radius";
 
 const INPUT_STYLE = {
-  borderRadius: 10,
+  borderRadius: RADIUS.sm,
   paddingHorizontal: 14,
   paddingVertical: 12,
   fontSize: 17,

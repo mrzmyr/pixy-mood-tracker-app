@@ -6,6 +6,7 @@ import useHaptics from "@/hooks/useHaptics";
 import { t } from "@/lib/translation";
 import type { Person } from "../PeopleProvider";
 import { PersonAvatar } from "./PersonAvatar";
+import { RADIUS } from "@/constants/Radius";
 
 const DEFAULT_STYLE = {};
 /** Space between avatar and selection ring of the `tile` variant. */
@@ -70,7 +71,7 @@ const PersonTile = ({
             right: 0,
             width: 28,
             height: 28,
-            borderRadius: 14,
+            borderRadius: RADIUS.full,
             backgroundColor: colors.primaryButtonBackground,
             borderWidth: 2,
             borderColor: colors.logBackground,
@@ -214,7 +215,7 @@ export const PersonChip = ({
         justifyContent: "center",
         alignItems: "center",
         flexDirection: "row",
-        borderRadius: 100,
+        borderRadius: RADIUS.full,
         marginRight: 8,
         marginBottom: 8,
         backgroundColor: selected

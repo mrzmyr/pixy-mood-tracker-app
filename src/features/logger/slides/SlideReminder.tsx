@@ -17,6 +17,7 @@ import { useAnalytics } from "@/state/analytics";
 import { SlideHeadline } from "../components/SlideHeadline";
 import { getSlideMarginTop } from "./marginTop";
 import { t } from "@/lib/translation";
+import { RADIUS } from "@/constants/Radius";
 
 /**
  * Reminder opt-in slide shown to new users. Enabling replaces all
@@ -69,7 +70,7 @@ export const SlideReminder = ({ onPress }: { onPress?: () => void }) => {
             width: 48,
             height: 48,
             backgroundColor: colors.palette.amber[500],
-            borderRadius: 100,
+            borderRadius: RADIUS.full,
             marginTop: 16,
             marginBottom: 16,
             justifyContent: "center",

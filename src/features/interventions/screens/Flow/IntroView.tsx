@@ -3,6 +3,7 @@ import useColors from "@/hooks/useColors";
 import { t, tDynamic } from "@/lib/translation";
 import type { Intervention } from "../../catalog";
 import { Duration } from "../../components/Duration";
+import { RADIUS } from "@/constants/Radius";
 
 /** What the exercise is, its steps, and why it helps. */
 export const IntroView = ({ intervention }: { intervention: Intervention }) => {
@@ -40,7 +41,7 @@ export const IntroView = ({ intervention }: { intervention: Intervention }) => {
               style={{
                 width: 24,
                 height: 24,
-                borderRadius: 12,
+                borderRadius: RADIUS.full,
                 backgroundColor: colors.logCardBackground,
                 alignItems: "center",
                 justifyContent: "center",

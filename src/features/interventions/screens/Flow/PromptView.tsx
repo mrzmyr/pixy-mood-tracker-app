@@ -2,6 +2,7 @@ import { Text, View } from "react-native";
 import useColors from "@/hooks/useColors";
 import { t, tDynamic } from "@/lib/translation";
 import type { InterventionId, PromptStep } from "../../catalog";
+import { RADIUS } from "@/constants/Radius";
 
 /** Thinking prompt with an example. Nothing is typed or saved. */
 export const PromptView = ({
@@ -41,7 +42,7 @@ export const PromptView = ({
       <View
         style={{
           backgroundColor: colors.logCardBackground,
-          borderRadius: 14,
+          borderRadius: RADIUS.md,
           padding: 14,
           gap: 4,
         }}

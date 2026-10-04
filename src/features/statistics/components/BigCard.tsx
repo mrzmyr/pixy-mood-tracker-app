@@ -8,6 +8,7 @@ import type { ViewStyle } from "react-native";
 import { Share } from "react-native-feather";
 import { captureRef } from "react-native-view-shot";
 import LinkButton from "@/components/LinkButton";
+import { RADIUS } from "@/constants/Radius";
 
 const LOGO = require("../../../../assets/images/icon.png");
 
@@ -59,7 +60,7 @@ const Container = ({
       style={{
         width: "100%",
         backgroundColor: colors.cardBackground,
-        borderRadius: 8,
+        borderRadius: RADIUS.md,
         paddingHorizontal: 20,
         paddingVertical: 16,
         marginTop: 16,
@@ -199,7 +200,7 @@ export const BigCard = ({
           >
             <View
               style={{
-                borderRadius: 8,
+                borderRadius: RADIUS.sm,
                 backgroundColor: colors.sharingLogoBackground,
                 marginRight: 8,
                 padding: 2,

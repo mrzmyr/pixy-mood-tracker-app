@@ -8,6 +8,7 @@ import useColors from "@/hooks/useColors";
 import useHaptics from "@/hooks/useHaptics";
 import type { LogItem } from "@/features/logs";
 import { useSetting } from "@/state/settings";
+import { RADIUS } from "@/constants/Radius";
 
 const styles = StyleSheet.create({
   container: {
@@ -15,7 +16,7 @@ const styles = StyleSheet.create({
     justifyContent: "flex-end",
     alignItems: "center",
     padding: 4,
-    borderRadius: 8,
+    borderRadius: RADIUS.sm,
     width: "100%",
     aspectRatio: 1,
   },
@@ -34,7 +35,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     minWidth: 20,
-    borderRadius: 100,
+    borderRadius: RADIUS.full,
   },
 });
 

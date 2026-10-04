@@ -18,6 +18,7 @@ import { useAnalytics } from "@/state/analytics";
 import useColors from "@/hooks/useColors";
 import { useFeedback } from "../Feedback";
 import type { FeedackType } from "../Feedback";
+import { RADIUS } from "@/constants/Radius";
 
 const TITLE_KEYS: Partial<Record<FeedackType, TranslationKey>> = {
   issue: "report_a_bug",
@@ -171,7 +172,7 @@ const FeedbackModalContent = ({
                 style={{
                   marginTop: 8,
                   backgroundColor: colors.textInputBackground,
-                  borderRadius: 8,
+                  borderRadius: RADIUS.sm,
                   padding: 16,
                   color: colors.text,
                   fontSize: 17,

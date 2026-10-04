@@ -10,6 +10,7 @@ import useColors from "@/hooks/useColors";
 import useHaptics from "@/hooks/useHaptics";
 import { t } from "@/lib/translation";
 import type { InterventionFeedback } from "@/state/analytics/events";
+import { RADIUS } from "@/constants/Radius";
 
 const ANSWERS: { value: InterventionFeedback; Icon: LucideIcon }[] = [
   { value: "worse", Icon: ArrowDownRight },
@@ -86,7 +87,7 @@ export const EndCheckView = ({
               style={({ pressed }) => ({
                 flex: 1,
                 height: 96,
-                borderRadius: 20,
+                borderRadius: RADIUS.md,
                 backgroundColor: isSelected
                   ? colors.text
                   : colors.logCardBackground,

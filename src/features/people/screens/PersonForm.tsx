@@ -18,6 +18,7 @@ import { PersonChip } from "../components/PersonChip";
 import { usePersonDraft } from "../hooks/usePersonDraft";
 import { usePersonEntryCount } from "../hooks/usePersonEntryCount";
 import { usePeopleUpdater } from "../PeopleProvider";
+import { RADIUS } from "@/constants/Radius";
 
 /** Archive switch and delete button of the edit form. */
 const EditActions = ({
@@ -173,7 +174,7 @@ const PersonForm = ({ mode }: { mode: "create" | "edit" }) => {
               backgroundColor: colors.textInputBackground,
               width: "100%",
               padding: 16,
-              borderRadius: 8,
+              borderRadius: RADIUS.sm,
               marginBottom: 16,
             }}
             placeholder={t("people_name_placeholder")}
