@@ -686,7 +686,6 @@
   "feedback_modal_message_placeholder_idea": "Es wäre toll, wenn…",
   "widget": "Widgets",
   "widget_week_title": "4 Wochen",
-  "widget_guide_back": "Zurück",
   "widget_guide_step_1_title": "Home-Bildschirm halten",
   "widget_guide_step_1_body": "Halte eine freie Stelle auf dem Home-Bildschirm gedrückt, bis die Apps wackeln.",
   "widget_guide_step_2_title": "Bearbeiten → Widget hinzufügen",
@@ -763,5 +762,10 @@
   "log_summary_list_comma": ", ",
   "log_summary_more": "{{count}} weitere",
   "log_summary_tags_count": "Hinzugefügte Tags: {{count}}.",
-  "log_summary_check_in": "Check-in #{{count}} heute. Kurz und knackig."
+  "log_summary_check_in": "Check-in #{{count}} heute. Kurz und knackig.",
+  "settings_appearance": "Darstellung",
+  "theme": "Design",
+  "theme_system": "System",
+  "theme_light": "Hell",
+  "theme_dark": "Dunkel"
 }

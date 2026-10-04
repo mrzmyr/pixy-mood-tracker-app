@@ -8,9 +8,17 @@ import { SectionHeader } from "./SectionHeader";
 
 /**
  * People section of an entry card; editing opens the logger at the people
- * step. References without a matching person are skipped.
+ * step. References without a matching person are skipped. Stored people
+ * always show, also with the pencil off.
  */
-export const People = ({ item }: { item: LogItem }) => {
+export const People = ({
+  item,
+  canEdit,
+}: {
+  item: LogItem;
+  /** Shows the pencil; off when the edit logger has no people step. */
+  canEdit: boolean;
+}) => {
   const colors = useColors();
   const { people } = usePeopleState();
   const router = useRouter();
@@ -24,12 +32,17 @@ export const People = ({ item }: { item: LogItem }) => {
     <View>
       <SectionHeader
         title={t("people")}
-        onEdit={() => {
-          router.push({
-            pathname: "/logs/[id]/edit",
-            params: { id: item.id, step: "people" },
-          });
-        }}
+        editTestID="log-list-people-edit"
+        onEdit={
+          canEdit
+            ? () => {
+                router.push({
+                  pathname: "/logs/[id]/edit",
+                  params: { id: item.id, step: "people" },
+                });
+              }
+            : undefined
+        }
       />
       <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
         {known.length > 0 ? (

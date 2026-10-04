@@ -14,7 +14,6 @@ import {
   Droplet,
   Flag,
   Github,
-  Grid,
   PieChart,
   Shield,
   Smartphone,
@@ -31,11 +30,19 @@ import { DEV_TOOLS } from "@/dev";
 import { t } from "@/lib/translation";
 import { useAnalytics } from "@/state/analytics";
 import { useFeatureFlag } from "@/state/featureFlags";
+import { useSettings } from "@/state/settings";
+import { COLOR_SCHEMES } from "@/state/settings/colorScheme";
 import useColors from "@/hooks/useColors";
 import { useFeedbackModal } from "@/features/feedback";
 import { useIsWidgetEnabled } from "@/features/widget";
 import pkg from "../../../../../package.json";
-import { Bug, LayoutGrid, Lightbulb } from "lucide-react-native";
+import {
+  Bug,
+  LayoutDashboard,
+  Lightbulb,
+  Squircle,
+  SunMoon,
+} from "lucide-react-native";
 import { useSupport } from "@/support";
 
 const DEVELOPMENT_UNLOCK_TAPS = 20;
@@ -58,8 +65,20 @@ export const SettingsScreen = () => {
     DEV_TOOLS !== null ||
     isDevelopmentFlagOn ||
     versionTaps >= DEVELOPMENT_UNLOCK_TAPS;
+  const { settings, setSettings } = useSettings();
+  const { colorScheme } = settings;
 
   const { show: showFeedbackModal, Modal: FeedbackModal } = useFeedbackModal();
+
+  /** Cycles System, Light, Dark. */
+  const cycleColorScheme = () => {
+    const next =
+      COLOR_SCHEMES[
+        (COLOR_SCHEMES.indexOf(colorScheme) + 1) % COLOR_SCHEMES.length
+      ];
+    setSettings((current) => ({ ...current, colorScheme: next }));
+    analytics.track("settings:theme_changed", { color_scheme: next });
+  };
 
   const askToRateApp = () => {
     analytics.track("settings:rate_app_tapped");
@@ -99,19 +118,6 @@ export const SettingsScreen = () => {
             isLink
           />
           <MenuListItem
-            title={t("colors")}
-            iconLeft={<Droplet width={18} color={colors.menuListItemIcon} />}
-            onPress={() => router.push("/settings/colors")}
-            isLink
-          />
-          <MenuListItem
-            title={t("app_icon")}
-            iconLeft={<LayoutGrid size={18} color={colors.menuListItemIcon} />}
-            onPress={() => router.push("/settings/app-icon")}
-            testID="app-icon"
-            isLink
-          />
-          <MenuListItem
             title={t("steps")}
             iconLeft={
               <CheckCircle width={18} color={colors.menuListItemIcon} />
@@ -122,12 +128,43 @@ export const SettingsScreen = () => {
           {isWidgetEnabled && (
             <MenuListItem
               title={t("widget")}
-              iconLeft={<Grid width={18} color={colors.menuListItemIcon} />}
+              iconLeft={
+                <LayoutDashboard size={18} color={colors.menuListItemIcon} />
+              }
               onPress={() => router.push("/widget")}
               testID="widget"
               isLink
             />
           )}
+        </MenuList>
+
+        <MenuListHeadline>{t("settings_appearance")}</MenuListHeadline>
+        <MenuList>
+          <MenuListItem
+            title={t("theme")}
+            iconLeft={<SunMoon size={18} color={colors.menuListItemIcon} />}
+            iconRight={
+              <Text style={{ fontSize: 17, color: colors.textSecondary }}>
+                {t(`theme_${colorScheme}`)}
+              </Text>
+            }
+            accessibilityValue={{ text: t(`theme_${colorScheme}`) }}
+            onPress={cycleColorScheme}
+            testID="theme"
+          />
+          <MenuListItem
+            title={t("app_icon")}
+            iconLeft={<Squircle size={18} color={colors.menuListItemIcon} />}
+            onPress={() => router.push("/settings/app-icon")}
+            testID="app-icon"
+            isLink
+          />
+          <MenuListItem
+            title={t("colors")}
+            iconLeft={<Droplet width={18} color={colors.menuListItemIcon} />}
+            onPress={() => router.push("/settings/colors")}
+            isLink
+          />
         </MenuList>
 
         <MenuListHeadline>{t("settings_feedback")}</MenuListHeadline>

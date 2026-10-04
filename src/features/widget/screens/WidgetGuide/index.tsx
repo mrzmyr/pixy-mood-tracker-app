@@ -40,7 +40,6 @@ export const WidgetGuide = () => {
       testID="widget-guide"
       labels={{
         next: t("onboarding_next"),
-        back: t("widget_guide_back"),
         done: t("done"),
         close: t("close"),
       }}

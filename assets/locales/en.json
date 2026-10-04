@@ -698,7 +698,6 @@
   "feedback_modal_message_placeholder_idea": "It would be great if…",
   "widget": "Widgets",
   "widget_week_title": "4 weeks",
-  "widget_guide_back": "Back",
   "widget_guide_step_1_title": "Hold Home Screen",
   "widget_guide_step_1_body": "Press an empty area on your Home Screen until the apps start to jiggle.",
   "widget_guide_step_2_title": "Tap Edit → Add Widget",
@@ -923,5 +922,10 @@
   "photos_from_day": "From {{day}}",
   "view_log_photos_edit": "Edit Photos",
   "view_log_photos_empty": "No photos yet.",
-  "data_export_photos_note": "Photos stay on this device. Backups contain entries without photos."
+  "data_export_photos_note": "Photos stay on this device. Backups contain entries without photos.",
+  "settings_appearance": "Appearance",
+  "theme": "Theme",
+  "theme_system": "System",
+  "theme_light": "Light",
+  "theme_dark": "Dark"
 }
