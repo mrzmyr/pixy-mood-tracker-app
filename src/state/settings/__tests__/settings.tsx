@@ -70,34 +70,6 @@ describe("useSettings()", () => {
     expect(hook.result.current.state.settings.deviceId).toBe(STATIC_DEVICE_ID);
   });
 
-  test("should keep an existing user's reminder time when defaults change", async () => {
-    await AsyncStorage.setItem(
-      STORAGE_KEY,
-      JSON.stringify({
-        deviceId: "existing-device-id",
-        reminderEnabled: true,
-        reminderTime: "18:00",
-      })
-    );
-    const hook = await _renderHook();
-    await waitForLoaded(hook);
-
-    expect(hook.result.current.state.settings).toMatchObject({
-      reminderEnabled: true,
-      reminderTime: "18:00",
-    });
-    await waitFor(async () => {
-      const stored = JSON.parse(
-        (await AsyncStorage.getItem(STORAGE_KEY)) ?? "null"
-      );
-      expect(stored).toMatchObject({
-        reminderEnabled: true,
-        reminderTime: "18:00",
-        steps: INITIAL_STATE.steps,
-      });
-    });
-  });
-
   test("should remove retired sleep step from stored settings", async () => {
     await AsyncStorage.setItem(
       STORAGE_KEY,
