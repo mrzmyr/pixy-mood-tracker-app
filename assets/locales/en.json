@@ -924,5 +924,20 @@
   "theme": "Theme",
   "theme_system": "System",
   "theme_light": "Light",
-  "theme_dark": "Dark"
+  "theme_dark": "Dark",
+  "logger_date_hint": "Changes the time of this entry.",
+  "location_setting": "Location",
+  "location_setting_description": "New check-ins add your current place. You can change or remove it before saving. Your location stays on your device.",
+  "location_add": "Add Location",
+  "location_hint": "Changes the place of this entry.",
+  "location_locating": "Locating…",
+  "location_picker_title": "Location",
+  "location_search_placeholder": "Search for a place…",
+  "location_current": "Use Current Location",
+  "location_remove": "Remove Location",
+  "location_searching": "Searching…",
+  "location_no_results": "No places found. Check the spelling or search for a nearby city.",
+  "location_denied_title": "Location Access Off",
+  "location_denied_message": "Allow Pixy to use your location in the system settings to add places to your check-ins.",
+  "location_open_settings": "Open Settings"
 }

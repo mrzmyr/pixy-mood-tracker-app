@@ -27,6 +27,13 @@ export interface LogDraftValue {
   setPeople: (people: LogItem["people"]) => void;
   setMessage: (message: string) => void;
   setPhotos: (photos: LogItem["photos"]) => void;
+  /** User pick: sets or removes (`undefined`) the location. */
+  setLocation: (location: LogItem["location"]) => void;
+  /**
+   * Passive location: fills an empty location without making the draft
+   * dirty. No-op after the user picked or removed a location.
+   */
+  prefillLocation: (location: NonNullable<LogItem["location"]>) => void;
   /**
    * Finalize the latest draft, including setter calls of the same event.
    * See `finalizeDraft`.
@@ -54,6 +61,7 @@ export const LogDraftProvider = ({
   // Latest draft for verbs called in the same event as a setter, before
   // React renders the new state.
   const latest = useRef(initialDraft);
+  const isLocationPicked = useRef(false);
 
   const patch = useCallback((next: Partial<LogDraft>) => {
     latest.current = { ...latest.current, ...next };
@@ -72,12 +80,24 @@ export const LogDraftProvider = ({
       setPeople: (people) => patch({ people }),
       setMessage: (message) => patch({ message }),
       setPhotos: (photos) => patch({ photos }),
+      setLocation: (location) => {
+        isLocationPicked.current = true;
+        patch({ location });
+      },
+      prefillLocation: (location) => {
+        if (isLocationPicked.current || latest.current.location !== undefined) {
+          return;
+        }
+        latest.current = { ...latest.current, location };
+        setState((current) => ({ ...current, draft: latest.current }));
+      },
       commit: (existingItems) => {
         const finalized = finalizeDraft(latest.current, existingItems);
         setState({ draft: latest.current, isDirty: false });
         return finalized;
       },
       discard: () => {
+        isLocationPicked.current = false;
         latest.current = initial.current;
         setState({ draft: initial.current, isDirty: false });
       },

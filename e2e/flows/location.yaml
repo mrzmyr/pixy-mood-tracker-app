@@ -1,0 +1,66 @@
+appId: ${APP_ID}
+tags: [p1, location]
+---
+# With the `location` flag and setting on, a new entry gets the current place.
+# The user changes it to another place before saving.
+# Place names come from the system geocoder and need a network.
+- runFlow:
+    file: ../subflows/load-fixture.yaml
+    env:
+      FIXTURE: empty
+- setPermissions:
+    appId: ${APP_ID}
+    permissions:
+      location: allow
+- setLocation:
+    latitude: 52.5163
+    longitude: 13.3777
+- openLink: ${APP_SCHEME}://dev/feature-flag?key=location&value=on
+- extendedWaitUntil:
+    visible:
+      id: "calendar"
+    timeout: 10000
+
+# Turn location on in Settings > Check-in. It is off by default.
+- runFlow: ../subflows/open-settings.yaml
+- tapOn: "Check-in"
+- scrollUntilVisible:
+    element:
+      id: "location-enabled"
+    direction: DOWN
+- tapOn:
+    id: "location-enabled"
+- back
+- tapOn:
+    id: "calendar"
+
+# The new entry shows the time bottom left and the current place bottom right.
+- tapOn: "Add New Entry"
+- waitForAnimationToEnd
+- assertVisible:
+    id: "logger-date"
+- extendedWaitUntil:
+    visible: ".*Berlin.*"
+    timeout: 15000
+
+# Change the place to Hamburg.
+- tapOn:
+    id: "logger-location"
+- tapOn:
+    id: "location-search"
+- inputText: "Hamburg"
+- extendedWaitUntil:
+    visible:
+      id: "location-result-0"
+    timeout: 15000
+- tapOn:
+    id: "location-result-0"
+- extendedWaitUntil:
+    visible: ".*Hamburg.*"
+    timeout: 5000
+- assertNotVisible: ".*Berlin.*"
+
+- tapOn:
+    id: "mood-good"
+- runFlow: ../subflows/finish-logger.yaml
+- runFlow: ../subflows/close-confirmation.yaml

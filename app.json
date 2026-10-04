@@ -209,6 +209,15 @@
           "preventAutomaticLimitedAccessAlert": true,
           "granularPermissions": []
         }
+      ],
+      [
+        "expo-location",
+        {
+          "locationWhenInUsePermission": "Pixy adds the place where you check in to your entry. Your location stays on your device.",
+          "locationAlwaysAndWhenInUsePermission": false,
+          "locationAlwaysPermission": false,
+          "motionUsagePermission": false
+        }
       ]
     ],
     "buildCacheProvider": {

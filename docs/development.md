@@ -67,6 +67,17 @@ Three variants install side by side, each with its own name, icon, bundle ID, an
 - Android backups never include photos. #480 backs up the `database` domain only. Keep photos out: Android stops the whole app backup above 25 MB
 - Preview builds: `<scheme>://dev/fake-files` swaps picker and library for [`fakePhotoSource`](../src/dev/fakePhotoSource.ts). Library access starts `undetermined`
 
+### Location
+
+- Code: [`src/features/location`](../src/features/location). Flag `location`, switch in Settings > Check-in
+- Switch on asks for location access while in use. Denied access keeps switch off
+- New entries get current place passively: never asks, never marks draft dirty ([`usePassiveLocation`](../src/features/logger/hooks/usePassiveLocation.ts)). Edits keep stored place
+- Rating slide: time bottom left, place bottom right. Place opens picker: search, current location, remove
+- Entries store coordinates plus district and city. Name `null` when reverse geocoding fails offline
+- Location stays on device and in JSON exports. Never in analytics: `logger:log_saved` sends `has_location` only
+- Setting is device-bound, not in exports
+- Simulator: `xcrun simctl location <udid> set <lat>,<lon>`. e2e: [`location.yaml`](../e2e/flows/location.yaml), needs network for place names
+
 ### App CLI
 
 - Commands report host RAM on stderr before and after execution ([measurement](../scripts/cli/memory.ts)). Help and usage errors skip measurement.

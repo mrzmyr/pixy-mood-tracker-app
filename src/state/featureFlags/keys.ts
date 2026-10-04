@@ -11,6 +11,7 @@ export const FEATURE_FLAGS = [
   "ios-widget",
   "development",
   "emotion-icons",
+  "location",
 ] as const;
 
 /** One key of {@link FEATURE_FLAGS}. */

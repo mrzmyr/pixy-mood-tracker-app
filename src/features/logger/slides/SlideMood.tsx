@@ -1,7 +1,4 @@
-import { useRouter } from "expo-router";
-import { useState } from "react";
-import { Platform, View } from "react-native";
-import DateTimePickerModal from "react-native-modal-datetime-picker";
+import { View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { getSlideMarginTop } from "./marginTop";
 import { t } from "@/lib/translation";
@@ -10,24 +7,30 @@ import { RATING_KEYS } from "@/constants/Ratings";
 import { useLogDraft } from "../logDraft";
 import { SlideHeadline } from "../components/SlideHeadline";
 import { SlideMoodButton } from "../components/SlideMoodButton";
+import { SlideMoodFooter } from "../components/SlideMoodFooter";
 
 /**
  * Rating slide, always the first logger slide. Must render inside
  * `LogDraftProvider`. Picking a rating stores it in the draft;
- * `onRatingChanged` runs after a pick that changed the rating.
+ * `onRatingChanged` runs after a pick that changed the rating. The bottom
+ * row holds the entry time and location, see `SlideMoodFooter`.
  */
 export const SlideMood = ({
   onRatingChanged,
+  isLocationVisible,
+  isLocating,
+  isActionVisible,
 }: {
   onRatingChanged: () => void;
+  isLocationVisible: boolean;
+  isLocating: boolean;
+  isActionVisible: boolean;
 }) => {
   const colors = useColors();
-  const { draft, setRating, setDateTime } = useLogDraft();
-  const router = useRouter();
+  const { draft, setRating } = useLogDraft();
   const insets = useSafeAreaInsets();
 
   const marginTop = getSlideMarginTop();
-  const [isDatePickerVisible, setIsDatePickerVisible] = useState(false);
 
   return (
     <View
@@ -46,19 +49,6 @@ export const SlideMood = ({
           marginTop,
         }}
       >
-        {Platform.OS !== "web" && (
-          <DateTimePickerModal
-            isVisible={isDatePickerVisible}
-            date={draft.dateTime ? new Date(draft.dateTime) : new Date()}
-            mode="datetime"
-            onConfirm={(date) => {
-              setIsDatePickerVisible(false);
-              setDateTime(date.toISOString());
-              router.setParams({ dateTime: date.toISOString() });
-            }}
-            onCancel={() => setIsDatePickerVisible(false)}
-          />
-        )}
         <SlideHeadline
           style={{
             justifyContent: "center",
@@ -92,6 +82,11 @@ export const SlideMood = ({
           ))}
         </View>
       </View>
+      <SlideMoodFooter
+        isLocationVisible={isLocationVisible}
+        isLocating={isLocating}
+        isActionVisible={isActionVisible}
+      />
     </View>
   );
 };
