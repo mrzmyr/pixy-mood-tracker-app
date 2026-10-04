@@ -206,8 +206,8 @@ On Macs using Homebrew CocoaPods with RVM, clear RVM's gem paths if `pod` fails 
 
 ## Releasing
 
-Merging a Release Please PR creates the GitHub release, builds the production iOS app with EAS, and submits it to TestFlight. TestFlight submission does not release the app publicly. Promote the tested build manually in App Store Connect.
+- Merging a Release Please PR creates the GitHub release and builds production iOS and Android apps with EAS
+- iOS goes to TestFlight, Android to the Google Play internal track
+- Neither is a public release. Promote tested builds manually in App Store Connect and Play Console
 
-See [TestFlight release workflow](./testflight-release-workflow.md) for prerequisites, operation, and verification criteria.
-
-Android store submissions remain manual: run `bun run eas:android:prod`, then `bunx eas-cli submit --platform android --path <path-to-aab>`.
+See [store release workflow](./store-release-workflow.md) for prerequisites, operation, and verification criteria.
