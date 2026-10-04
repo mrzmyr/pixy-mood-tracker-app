@@ -41,7 +41,6 @@ export const WidgetGuide = () => {
       labels={{
         next: t("onboarding_next"),
         done: t("done"),
-        close: t("close"),
       }}
       onStepChange={({ step }) => {
         analytics.track("widget:guide_step_viewed", { step });
