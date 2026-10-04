@@ -8,6 +8,7 @@ import { BackupProvider } from "@/features/backup";
 import { FeatureFlagsProvider } from "@/state/featureFlags";
 import { CalendarFiltersProvider } from "@/features/calendar";
 import { LogsProvider } from "@/features/logs";
+import { PeopleProvider } from "@/features/people";
 import { SettingsProvider } from "@/state/settings";
 import { StatisticsProvider } from "@/features/statistics";
 import { TagsProvider } from "@/features/tags";
@@ -34,13 +35,15 @@ const Providers = ({
     <SupportProvider client={injectedSupportClient}>
       <LogsProvider>
         <TagsProvider>
-          <BackupProvider>
-            <TemporaryLogProvider>
-              <CalendarFiltersProvider>
-                <StatisticsProvider>{children}</StatisticsProvider>
-              </CalendarFiltersProvider>
-            </TemporaryLogProvider>
-          </BackupProvider>
+          <PeopleProvider>
+            <BackupProvider>
+              <TemporaryLogProvider>
+                <CalendarFiltersProvider>
+                  <StatisticsProvider>{children}</StatisticsProvider>
+                </CalendarFiltersProvider>
+              </TemporaryLogProvider>
+            </BackupProvider>
+          </PeopleProvider>
         </TagsProvider>
       </LogsProvider>
     </SupportProvider>
@@ -48,13 +51,15 @@ const Providers = ({
     <ConfiguredSupportProvider>
       <LogsProvider>
         <TagsProvider>
-          <BackupProvider>
-            <TemporaryLogProvider>
-              <CalendarFiltersProvider>
-                <StatisticsProvider>{children}</StatisticsProvider>
-              </CalendarFiltersProvider>
-            </TemporaryLogProvider>
-          </BackupProvider>
+          <PeopleProvider>
+            <BackupProvider>
+              <TemporaryLogProvider>
+                <CalendarFiltersProvider>
+                  <StatisticsProvider>{children}</StatisticsProvider>
+                </CalendarFiltersProvider>
+              </TemporaryLogProvider>
+            </BackupProvider>
+          </PeopleProvider>
         </TagsProvider>
       </LogsProvider>
     </ConfiguredSupportProvider>

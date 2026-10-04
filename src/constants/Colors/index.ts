@@ -85,6 +85,7 @@ const light = {
 
   cardBackground: "#fff",
   cardBorder: colors.neutral[200],
+  toastSuccessIcon: colors.green[600],
 
   headerBorder: colors.neutral[300],
 
@@ -173,6 +174,11 @@ const light = {
   statisticsTagsTrendMutedText: colors.neutral[800],
 
   yearPixelsEmptyDot: colors.neutral[200],
+
+  widgetBackground: colors.white,
+  widgetText: colors.neutral[900],
+  widgetTextSecondary: colors.neutral[500],
+  widgetGuideImageBackground: colors.neutral[200],
   yearPixelsLegendText: colors.neutral[400],
 
   onboardingTitle: colors.black,
@@ -272,6 +278,7 @@ const dark: IColors & {
 
   cardBackground: colors.neutral[900],
   cardBorder: colors.neutral[800],
+  toastSuccessIcon: colors.green[400],
 
   headerBorder: colors.neutral[800],
 
@@ -360,6 +367,11 @@ const dark: IColors & {
   statisticsNotEnoughDataBackdrop: "rgba(0, 0, 0, 0.7)",
 
   yearPixelsEmptyDot: colors.neutral[800],
+
+  widgetBackground: colors.neutral[900],
+  widgetText: colors.white,
+  widgetTextSecondary: colors.neutral[400],
+  widgetGuideImageBackground: colors.neutral[800],
   yearPixelsLegendText: colors.neutral[500],
 
   onboardingTitle: colors.white,

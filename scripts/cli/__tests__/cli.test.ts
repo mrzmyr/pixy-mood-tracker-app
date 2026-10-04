@@ -81,13 +81,24 @@ describe("CLI options", () => {
       [["builds", "rm"], 2, "missing_option"],
       [["builds", "rm", "some-id"], 2, "unexpected_argument"],
       [["builds", "rm", "--build=no-such-build-id"], 2, "build_not_found"],
+      [["devices", "reserve", "--target=x"], 2, "missing_option"],
+      [["devices", "reserve", "--target=x", "--goal=  "], 2, "invalid_goal"],
+      [
+        ["devices", "reserve", "--target=x", `--goal=${"x".repeat(121)}`],
+        2,
+        "invalid_goal",
+      ],
     ];
     await Promise.all(
       cases.map(async ([args, code, status]) => {
         const result = await call(...args);
         expect(result.status).toBe(code);
-        expect(result.stderr.split("\n")[0]).toContain(`error [${status}]:`);
-        expect(result.stderr.trimEnd().split("\n")).toHaveLength(3);
+        const errorLines = result.stderr
+          .slice(result.stderr.indexOf("error ["))
+          .trimEnd()
+          .split("\n");
+        expect(errorLines[0]).toContain(`error [${status}]:`);
+        expect(errorLines).toHaveLength(3);
       })
     );
   });

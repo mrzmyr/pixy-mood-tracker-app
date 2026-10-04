@@ -25,6 +25,12 @@ export const DevFeatureFlagLinkScreen = () => {
   return Screen ? <Screen /> : <Redirect href="/calendar" />;
 };
 
+/** Fake contacts deep link is reachable only in development and preview builds. */
+export const DevFakeContactsLinkScreen = () => {
+  const Screen = DEV_TOOLS?.DevFakeContactsLinkScreen;
+  return Screen ? <Screen /> : <Redirect href="/calendar" />;
+};
+
 /** Fake file-transfer deep link is reachable only in development and preview builds. */
 export const DevFakeFilesLinkScreen = () => {
   const Screen = DEV_TOOLS?.DevFakeFilesLinkScreen;

@@ -10,6 +10,7 @@ import { useState } from "react";
 import { Platform, Pressable, Text, View } from "react-native";
 import { ArrowLeft, Trash, X } from "react-native-feather";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
+import { Stepper } from "./Stepper";
 
 const DatePickerHeader = ({ onChange }: { onChange: (date: Date) => void }) => {
   const colors = useColors();
@@ -85,12 +86,16 @@ const DatePickerHeader = ({ onChange }: { onChange: (date: Date) => void }) => {
  */
 export const SlideHeader = ({
   isDeleteable,
+  slideCount,
+  slideIndex,
   backVisible,
   onBack,
   onClose,
   onDelete,
 }: {
   isDeleteable: boolean;
+  slideCount: number;
+  slideIndex: number;
   backVisible?: boolean;
   onBack?: () => void;
   onClose?: () => void;
@@ -116,8 +121,9 @@ export const SlideHeader = ({
       style={{
         flexDirection: "row",
         justifyContent: "space-between",
-        marginTop: -8,
+        alignItems: "center",
         width: "100%",
+        gap: 8,
       }}
     >
       {Platform.OS !== "web" && (
@@ -160,10 +166,14 @@ export const SlideHeader = ({
             flexDirection: "row",
             alignItems: "center",
             flex: 1,
+            width: "100%",
           }}
         >
           {backVisible ? (
             <Pressable
+              accessibilityRole="button"
+              accessibilityLabel={t("logger_back")}
+              testID="logger-back"
               onPress={() => {
                 haptics.selection();
                 onBack?.();
@@ -173,14 +183,17 @@ export const SlideHeader = ({
                 flexDirection: "row",
                 alignItems: "center",
                 justifyContent: "center",
-                height: 42,
-                width: 42,
+                height: 44,
+                width: 44,
               })}
             >
               <ArrowLeft color={colors.logHeaderText} width={24} />
             </Pressable>
           ) : (
             <Pressable
+              accessibilityRole="button"
+              accessibilityLabel={dateTimeTitle}
+              testID="logger-date"
               onPress={() => {
                 haptics.selection();
                 setIsDatePickerVisible(true);
@@ -189,6 +202,10 @@ export const SlideHeader = ({
                 opacity: pressed ? 0.8 : 1,
                 flexDirection: "row",
                 alignItems: "center",
+                minHeight: 44,
+                flexShrink: 1,
+                // Lines the pill up with the 20pt slide content.
+                marginLeft: 8,
                 paddingVertical: 6,
                 paddingHorizontal: 12,
                 backgroundColor: colors.logHeaderHighlight,
@@ -201,6 +218,7 @@ export const SlideHeader = ({
                   fontSize: 17,
                   fontWeight: "600",
                   color: colors.logHeaderText,
+                  flexShrink: 1,
                 }}
               >
                 {dateTimeTitle}
@@ -209,10 +227,12 @@ export const SlideHeader = ({
           )}
         </View>
       </View>
+      {slideCount > 1 && <Stepper count={slideCount} index={slideIndex} />}
       <View
         style={{
           alignItems: "flex-end",
           justifyContent: "center",
+          flex: 1,
         }}
       >
         <View
@@ -223,10 +243,11 @@ export const SlideHeader = ({
           {isDeleteable && (
             <Pressable
               accessibilityRole="button"
+              accessibilityLabel={t("delete")}
               testID="logger-delete"
               style={{
-                height: 42,
-                width: 42,
+                height: 44,
+                width: 44,
                 justifyContent: "center",
                 alignItems: "center",
               }}
@@ -240,10 +261,11 @@ export const SlideHeader = ({
           )}
           <Pressable
             accessibilityRole="button"
+            accessibilityLabel={t("logger_close")}
             testID="logger-close"
             style={{
-              height: 42,
-              width: 42,
+              height: 44,
+              width: 44,
               justifyContent: "center",
               alignItems: "center",
             }}

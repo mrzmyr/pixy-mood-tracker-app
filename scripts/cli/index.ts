@@ -3,6 +3,7 @@ import { APP } from "./app.ts";
 import { BUILDS } from "./builds.ts";
 import { E2E } from "./e2e.ts";
 import { DEVICES } from "./devices.ts";
+import { reportMemory } from "./memory.ts";
 import { CliError } from "./shared.ts";
 import type { CommandSpec, Noun, OptionSpec } from "./shared.ts";
 
@@ -311,7 +312,12 @@ const runCommand = async ({
     positionals: parsed.positionals,
     values,
   });
-  await spec.run(values);
+  reportMemory("before");
+  try {
+    await spec.run(values);
+  } finally {
+    reportMemory("after");
+  }
 };
 
 const main = async () => {

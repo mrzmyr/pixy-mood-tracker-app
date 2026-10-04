@@ -1,0 +1,17 @@
+Open the macOS menu bar app that shows phone reservations.
+
+Usage: bun devices menubar
+
+Behavior:
+  Menu bar shows <reserved>/<known> phones.
+  Click it for one row per phone: type, goal, status.
+  Known phones: reachable phones of the last `bun devices list`, plus every reserved phone.
+  Builds the app on first run and after source changes.
+
+Requires:
+  Xcode command line tools (swiftc).
+
+Errors:
+  menu_bar_build_failed  swiftc could not build the app
+
+Exit codes: 0 ok, 1 failure, 2 usage error

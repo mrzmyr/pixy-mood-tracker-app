@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-import type { ImportData } from "@/features/datagate";
+import type { ExportPerson, ImportData } from "@/features/datagate";
 import empty from "@/dev/fixtures/empty.json";
 import fresh from "@/dev/fixtures/fresh.json";
 import legacy168 from "@/dev/fixtures/legacy-1.68.json";
@@ -15,6 +15,61 @@ const asExport = (file: FixtureFile) =>
   // SAFETY: fixture files are Pixy exports; src/__tests__/dev-fixtures.ts checks each against pixySchema.
   // oxlint-disable-next-line anti-slop/no-chained-type-assertions -- see comment above.
   file as unknown as ImportData;
+
+/** Fixed ids so e2e flows and tests can reference fixture people. */
+export const FIXTURE_PEOPLE_IDS = {
+  sam: "7f1d6a3e-0001-4a3e-8f6e-0f0000000001",
+  alex: "7f1d6a3e-0002-4a3e-8f6e-0f0000000002",
+  mia: "7f1d6a3e-0003-4a3e-8f6e-0f0000000003",
+} as const;
+
+/** 64x64 blue to orange gradient JPEG; gives one fixture person a photo. */
+const FIXTURE_AVATAR_BASE64 =
+  "/9j/4AAQSkZJRgABAQAASABIAAD/4QBMRXhpZgAATU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAQKADAAQAAAABAAAAQAAAAAD/7QA4UGhvdG9zaG9wIDMuMAA4QklNBAQAAAAAAAA4QklNBCUAAAAAABDUHYzZjwCyBOmACZjs+EJ+/8AAEQgAQABAAwEiAAIRAQMRAf/EAB8AAAEFAQEBAQEBAAAAAAAAAAABAgMEBQYHCAkKC//EALUQAAIBAwMCBAMFBQQEAAABfQECAwAEEQUSITFBBhNRYQcicRQygZGhCCNCscEVUtHwJDNicoIJChYXGBkaJSYnKCkqNDU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6g4SFhoeIiYqSk5SVlpeYmZqio6Slpqeoqaqys7S1tre4ubrCw8TFxsfIycrS09TV1tfY2drh4uPk5ebn6Onq8fLz9PX29/j5+v/EAB8BAAMBAQEBAQEBAQEAAAAAAAABAgMEBQYHCAkKC//EALURAAIBAgQEAwQHBQQEAAECdwABAgMRBAUhMQYSQVEHYXETIjKBCBRCkaGxwQkjM1LwFWJy0QoWJDThJfEXGBkaJicoKSo1Njc4OTpDREVGR0hJSlNUVVZXWFlaY2RlZmdoaWpzdHV2d3h5eoKDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uLj5OXm5+jp6vLz9PX29/j5+v/bAEMAAgICAgICBAICBAYEBAQGCAYGBgYICggICAgICgwKCgoKCgoMDAwMDAwMDA4ODg4ODhAQEBAQEhISEhISEhISEv/bAEMBAwMDBQQFCAQECBMNCw0TExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTE//dAAQABP/aAAwDAQACEQMRAD8Ay9lGyrmyjZX9Hf235n5d/ZHkU9lGyrmyjZR/bfmH9keRT2UbKubKNlH9t+Yf2R5FPZRsq5so2Uf235h/ZHkf/9B2yjZVzYKNgr7H+2/MP7I8inso2Vc2CjYKP7b8w/sjyKeyjZVzYKNgo/tvzD+yPIp7KNlXNgo2Cj+2/MP7I8j/0djZRsq7so2V8j/bfmfqH9k+RS2UbKu7KNlH9t+Yf2T5FLZRsq7so2Uf235h/ZPkUtlGyruyjZR/bfmH9k+R/9LsNho2Grfl0eXX85/235n9Q/2R5FTYaNhq35dHl0f235h/ZHkVNho2Grfl0eXR/bfmH9keRU2GjYat+XR5dH9t+Yf2R5H/2Q==";
+
+const FIXTURE_PEOPLE: ExportPerson[] = [
+  {
+    id: FIXTURE_PEOPLE_IDS.sam,
+    name: "Sam",
+    avatar: { base64: FIXTURE_AVATAR_BASE64, mime: "image/jpeg" },
+    createdAt: "2026-01-01T00:00:00.000Z",
+  },
+  {
+    id: FIXTURE_PEOPLE_IDS.alex,
+    name: "Alex",
+    avatar: null,
+    createdAt: "2026-01-02T00:00:00.000Z",
+  },
+  {
+    id: FIXTURE_PEOPLE_IDS.mia,
+    name: "Mia",
+    avatar: null,
+    isArchived: true,
+    createdAt: "2026-01-03T00:00:00.000Z",
+  },
+];
+
+/**
+ * Adds three people to an export and references them on a fixed share of
+ * entries: Sam on every 3rd, Alex on every 4th, Mia (archived) on every 7th.
+ */
+const withPeople = (data: ImportData): ImportData => {
+  const items = Array.isArray(data.items)
+    ? data.items
+    : Object.values(data.items);
+  return {
+    ...data,
+    people: FIXTURE_PEOPLE,
+    items: items.map((item, index) => ({
+      ...item,
+      people: [
+        ...(index % 3 === 0 ? [{ id: FIXTURE_PEOPLE_IDS.sam }] : []),
+        ...(index % 4 === 0 ? [{ id: FIXTURE_PEOPLE_IDS.alex }] : []),
+        ...(index % 7 === 0 ? [{ id: FIXTURE_PEOPLE_IDS.mia }] : []),
+      ],
+    })),
+  };
+};
 
 /**
  * Named test data set in the Pixy export format. To add one, export data
@@ -60,6 +115,14 @@ export const FIXTURES: Fixture[] = [
       "365 entries ending today, with notes, emotions, sleep, and 5 tags.",
     endsToday: true,
     data: asExport(year),
+  },
+  {
+    id: "people",
+    title: "One year with people",
+    description:
+      "The `year` fixture plus 3 people (one with photo, one archived) on a fixed share of entries.",
+    endsToday: true,
+    data: withPeople(asExport(year)),
   },
 ];
 

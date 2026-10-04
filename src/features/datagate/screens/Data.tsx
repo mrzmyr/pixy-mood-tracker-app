@@ -2,6 +2,7 @@ import { useRouter } from "expo-router";
 import { ScrollView, View } from "react-native";
 import { Cloud, Download, Trash, Upload } from "react-native-feather";
 import MenuList from "@/components/MenuList";
+import MenuListHeadline from "@/components/MenuListHeadline";
 import MenuListItem from "@/components/MenuListItem";
 import TextInfo from "@/components/TextInfo";
 import { t } from "@/lib/translation";
@@ -41,7 +42,6 @@ export const DataScreen = () => {
               iconLeft={<Cloud width={18} color={colors.menuListItemIcon} />}
               testID="backup"
               isLink
-              isLast
             />
           </MenuList>
         )}
@@ -60,14 +60,26 @@ export const DataScreen = () => {
               iconLeft={<Download width={18} color={colors.menuListItemIcon} />}
             />
           )}
+        </MenuList>
+        <MenuListHeadline>{t("export")}</MenuListHeadline>
+        <MenuList>
           <MenuListItem
-            title={t("export")}
-            onPress={() => datagate.openExportDialog()}
+            testID="export-json"
+            title="JSON"
+            onPress={() => datagate.openExportDialog({ format: "json" })}
             iconLeft={<Upload width={18} color={colors.menuListItemIcon} />}
-            isLast
+          />
+          <MenuListItem
+            testID="export-csv"
+            title="CSV"
+            onPress={() => datagate.openExportDialog({ format: "csv" })}
+            iconLeft={<Upload width={18} color={colors.menuListItemIcon} />}
           />
         </MenuList>
-        <TextInfo>{t("export_help")}</TextInfo>
+        <TextInfo>{`${t("export_help")}\n${t("export_csv_help")}`}</TextInfo>
+        <TextInfo style={{ paddingTop: 0 }}>
+          {t("data_export_photos_note")}
+        </TextInfo>
         <MenuList style={{ marginTop: 16 }}>
           <MenuListItem
             testID="delete-all-data"
@@ -83,7 +95,6 @@ export const DataScreen = () => {
             style={{
               color: "red",
             }}
-            isLast
           />
         </MenuList>
         <TextInfo>{t("delete_all_data_description")}</TextInfo>

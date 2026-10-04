@@ -9,6 +9,7 @@ import { AnalyticsProvider } from "@/state/analytics";
 import { FeatureFlagsProvider } from "@/state/featureFlags";
 import { LogsProvider } from "@/features/logs";
 import { SettingsProvider, STORAGE_KEY } from "@/state/settings";
+import { PeopleProvider } from "@/features/people";
 import { TagsProvider } from "@/features/tags";
 import { DataScreen } from "../screens/Data";
 
@@ -23,7 +24,9 @@ const Layout = () => (
       <FeatureFlagsProvider options={{ enabled: true }}>
         <LogsProvider>
           <TagsProvider>
-            <Stack />
+            <PeopleProvider>
+              <Stack />
+            </PeopleProvider>
           </TagsProvider>
         </LogsProvider>
       </FeatureFlagsProvider>

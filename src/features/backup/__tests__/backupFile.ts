@@ -13,6 +13,7 @@ const data = (itemCount: number): BackupFile["data"] => ({
     _generateItem({ date: "2026-09-01" })
   ),
   tags: [],
+  people: [],
   settings: { ...INITIAL_STATE },
 });
 

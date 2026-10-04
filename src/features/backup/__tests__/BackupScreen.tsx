@@ -8,8 +8,8 @@ import { DataScreen } from "@/features/datagate";
 import { INITIAL_STATE } from "@/constants/Settings";
 import { LogsProvider, STORAGE_KEY as LOGS_KEY } from "@/features/logs";
 import { BackupScreen } from "@/features/settings";
+import { PeopleProvider } from "@/features/people";
 import { TagsProvider } from "@/features/tags";
-import { initializeDayjs } from "@/lib/translation";
 import { AnalyticsProvider } from "@/state/analytics";
 import { FeatureFlagsProvider } from "@/state/featureFlags";
 import {
@@ -46,9 +46,11 @@ const Layout = () => (
       <FeatureFlagsProvider options={{ enabled: true }}>
         <LogsProvider>
           <TagsProvider>
-            <BackupProvider>
-              <Stack />
-            </BackupProvider>
+            <PeopleProvider>
+              <BackupProvider>
+                <Stack />
+              </BackupProvider>
+            </PeopleProvider>
           </TagsProvider>
         </LogsProvider>
       </FeatureFlagsProvider>
@@ -97,10 +99,6 @@ const isSwitchOn = (element: { props: { value?: boolean; on?: boolean } }) =>
   element.props.value ?? element.props.on;
 
 describe("BackupScreen", () => {
-  beforeAll(() => {
-    initializeDayjs();
-  });
-
   beforeEach(async () => {
     jest.clearAllMocks();
     jest.mocked(cloud.getBackupProvider).mockReturnValue("icloud");
@@ -161,6 +159,7 @@ describe("BackupScreen", () => {
               _generateItem({ date: "2025-01-02" }),
             ],
             tags: [],
+            people: [],
             settings: { ...INITIAL_STATE },
           },
         })
@@ -195,6 +194,7 @@ describe("BackupScreen", () => {
             version: "1.88.0",
             items: [_generateItem({ date: "2026-10-01" })],
             tags: [],
+            people: [],
             settings: { ...INITIAL_STATE },
           },
         })
@@ -218,6 +218,7 @@ describe("BackupScreen", () => {
             version: "1.88.0",
             items: [_generateItem({ date: "2026-10-01" })],
             tags: [],
+            people: [],
             settings: { ...INITIAL_STATE },
           },
         })

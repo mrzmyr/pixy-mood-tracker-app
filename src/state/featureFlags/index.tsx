@@ -4,6 +4,7 @@ import {
   createContext,
   useContext,
   useEffect,
+  useMemo,
   useState,
   useSyncExternalStore,
 } from "react";
@@ -14,11 +15,18 @@ import { DEV_OVERRIDES } from "@/state/featureFlags/overrides";
 
 type RemoteFlags = Record<string, boolean | string>;
 
-/**
- * Flags fetched after consent in this app session; `null` means none. Outside
- * {@link FeatureFlagsProvider} every flag is off.
- */
-const FeatureFlagsContext = createContext<RemoteFlags | null>(null);
+interface FeatureFlagsValue {
+  /** Flags fetched after consent in this app session; `null` means none. */
+  flags: RemoteFlags | null;
+  /** Settings or the first flag request after consent are still pending. */
+  isLoading: boolean;
+}
+
+/** Outside {@link FeatureFlagsProvider} every flag is off and nothing loads. */
+const FeatureFlagsContext = createContext<FeatureFlagsValue>({
+  flags: null,
+  isLoading: false,
+});
 
 const EMPTY_OVERRIDES = {};
 const subscribeNothing = () => noop;
@@ -63,10 +71,14 @@ export const FeatureFlagsProvider = ({
       try {
         const flags = await posthog.reloadFeatureFlagsAsync();
         // A failed request resolves `undefined`; every flag stays off.
-        if (isCurrent && flags) {
-          setRemoteFlags(flags);
+        if (isCurrent) {
+          setRemoteFlags(flags ?? {});
         }
       } catch (error) {
+        // Stop loading: every flag stays off.
+        if (isCurrent) {
+          setRemoteFlags({});
+        }
         console.warn(
           createStructuredError({
             status: "feature_flags_load_failed",
@@ -86,11 +98,46 @@ export const FeatureFlagsProvider = ({
     };
   }, [hasConsent, posthog]);
 
+  const isLoading =
+    options.enabled &&
+    (!settings.loaded || (hasConsent && remoteFlags === null));
+  const value = useMemo(
+    () => ({ flags: remoteFlags, isLoading }),
+    [remoteFlags, isLoading]
+  );
+
   return (
-    <FeatureFlagsContext.Provider value={remoteFlags}>
+    <FeatureFlagsContext.Provider value={value}>
       {children}
     </FeatureFlagsContext.Provider>
   );
+};
+
+/** Feature state: `loading` while settings or the first flag request after consent are pending. */
+export type FeatureFlagState = "on" | "off" | "loading";
+
+/**
+ * Like {@link useFeatureFlag}, but tells `loading` apart from `off`. Use it
+ * when showing "off" too early would flash, for example widget content.
+ */
+export const useFeatureFlagState = (key: FeatureFlag): FeatureFlagState => {
+  const { flags: remoteFlags, isLoading } = useContext(FeatureFlagsContext);
+  const overrides = useSyncExternalStore(
+    DEV_OVERRIDES?.subscribe ?? subscribeNothing,
+    DEV_OVERRIDES?.getOverrides ?? getEmptyOverrides
+  );
+  const override = overrides[key];
+
+  if (override === "on") {
+    return "on";
+  }
+  if (override === "off") {
+    return "off";
+  }
+  if (isLoading) {
+    return "loading";
+  }
+  return remoteFlags?.[key] === true ? "on" : "off";
 };
 
 /**
@@ -100,19 +147,5 @@ export const FeatureFlagsProvider = ({
  * Until then, and without consent, the feature is off.
  */
 // oxlint-disable-next-line pixy-standards/boolean-function-prefix -- React hooks must start with `use`.
-export const useFeatureFlag = (key: FeatureFlag): boolean => {
-  const remoteFlags = useContext(FeatureFlagsContext);
-  const overrides = useSyncExternalStore(
-    DEV_OVERRIDES?.subscribe ?? subscribeNothing,
-    DEV_OVERRIDES?.getOverrides ?? getEmptyOverrides
-  );
-  const override = overrides[key];
-
-  if (override === "on") {
-    return true;
-  }
-  if (override === "off") {
-    return false;
-  }
-  return remoteFlags?.[key] === true;
-};
+export const useFeatureFlag = (key: FeatureFlag): boolean =>
+  useFeatureFlagState(key) === "on";

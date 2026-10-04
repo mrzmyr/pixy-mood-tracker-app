@@ -44,7 +44,6 @@ const MenuListItem = ({
   onPress = null,
   iconLeft = null,
   iconRight = null,
-  isLast,
   isLink,
   deactivated,
   style = DEFAULT_STYLE,
@@ -58,7 +57,6 @@ const MenuListItem = ({
   iconLeft?: React.ReactElement | null;
   iconRight?: React.ReactElement | null;
   children?: React.ReactNode;
-  isLast?: boolean | null;
   isLink?: boolean | null;
   deactivated?: boolean;
   style?: ViewStyle & TextStyle;
@@ -84,8 +82,8 @@ const MenuListItem = ({
   return (
     <View
       style={{
-        borderBottomWidth: isLast ? 0 : 1,
-        borderBottomColor: colors.menuListItemBorder,
+        borderTopWidth: 1,
+        borderTopColor: colors.menuListItemBorder,
         marginRight: 16,
         marginLeft: 16,
         opacity: deactivated ? 0.5 : 1,

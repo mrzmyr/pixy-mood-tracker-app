@@ -4,6 +4,7 @@ import { BackHandler, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import useColors from "@/hooks/useColors";
 import { useAnalytics } from "@/state/analytics";
+import { DEVICE_REQUIRES_CONSENT } from "@/state/analytics/consent";
 import { useSettings } from "@/state/settings";
 import { ExplainerSlide } from "./ExplainerSlide";
 import { IndexSlide } from "./IndexSlide";
@@ -26,11 +27,19 @@ const FiltersSlide = ({ ...props }: SlideProps) => (
   <ExplainerSlide {...props} />
 );
 
+const PRIVACY_SLIDE_INDEX = 5;
+
 /**
  * Onboarding flow, shown on start until the `onboarding` action is done.
- * Finishing or skipping records that action and returns to the root.
+ * Finishing or skipping records that action and returns to the root. In
+ * consent regions, skipping jumps to the privacy slide first, so the user
+ * always answers the analytics question.
  */
-export const Onboarding = () => {
+export const Onboarding = ({
+  needsConsent = DEVICE_REQUIRES_CONSENT,
+}: {
+  needsConsent?: boolean;
+} = {}) => {
   const router = useRouter();
   const { addActionDone } = useSettings();
   const colors = useColors();
@@ -69,9 +78,14 @@ export const Onboarding = () => {
   };
 
   const skip = () => {
+    analytics.track("onboarding:flow_skipped", { index });
+    // Consent regions must see the analytics question, so skip lands there.
+    if (needsConsent) {
+      goToSlide(PRIVACY_SLIDE_INDEX);
+      return;
+    }
     addActionDone("onboarding");
     router.replace("/calendar");
-    analytics.track("onboarding:flow_skipped", { index });
   };
 
   const slides = [
@@ -95,7 +109,7 @@ export const Onboarding = () => {
       index={4}
       setIndex={goToSlide}
     />,
-    <PrivacySlide key="privacy" onPress={finish} />,
+    <PrivacySlide key="privacy" onPress={finish} needsConsent={needsConsent} />,
   ];
 
   return (

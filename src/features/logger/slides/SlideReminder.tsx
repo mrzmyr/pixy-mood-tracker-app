@@ -8,7 +8,9 @@ import {
   Clock,
   useNotification,
   createDailyTrigger,
+  reminderTimeToDate,
 } from "@/features/notifications";
+import { DEFAULT_REMINDER_TIME } from "@/constants/Settings";
 import LinkButton from "@/components/LinkButton";
 import useColors from "@/hooks/useColors";
 
@@ -36,7 +38,7 @@ export const SlideReminder = ({ onPress }: { onPress?: () => void }) => {
     useNotification();
 
   const [time, setTime] = useState(() =>
-    dayjs().hour(20).minute(0).second(0).toDate()
+    reminderTimeToDate(DEFAULT_REMINDER_TIME)
   );
 
   const enable = async () => {

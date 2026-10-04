@@ -61,7 +61,11 @@ describe("shareExportFile()", () => {
   test("deletes leftover exports but leaves other files alone", async () => {
     jest
       .mocked(FileSystem.readDirectoryAsync)
-      .mockResolvedValueOnce(["pixy-mood-tracker-2025-01-01.json"])
+      .mockResolvedValueOnce([
+        "pixy-mood-tracker-2025-01-01.json",
+        "pixy-mood-tracker-2025-01-02.csv",
+        "unrelated.csv",
+      ])
       .mockResolvedValueOnce([
         "pixy-mood-tracker-2024-12-24.json",
         "pixy-mood-tracker-raw-2024-12-24.json",
@@ -76,6 +80,7 @@ describe("shareExportFile()", () => {
       .mock.calls.map(([uri]) => uri);
     expect(deleted).toEqual([
       `${FileSystem.cacheDirectory}pixy-mood-tracker-2025-01-01.json`,
+      `${FileSystem.cacheDirectory}pixy-mood-tracker-2025-01-02.csv`,
       `${FileSystem.documentDirectory}pixy-mood-tracker-2024-12-24.json`,
       `${FileSystem.documentDirectory}pixy-mood-tracker-raw-2024-12-24.json`,
     ]);

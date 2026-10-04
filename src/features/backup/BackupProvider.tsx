@@ -9,8 +9,13 @@ import {
   useRef,
   useState,
 } from "react";
-import { buildExportData, useDatagate } from "@/features/datagate";
+import {
+  buildExportData,
+  toExportSettings,
+  useDatagate,
+} from "@/features/datagate";
 import { useLogState } from "@/features/logs";
+import { usePeopleState } from "@/features/people";
 import { useTagsState } from "@/features/tags";
 import { askToRestoreBackup, askToTurnOffBackup } from "@/helpers/prompts";
 import {
@@ -83,19 +88,20 @@ export interface BackupValue {
 const BackupContext = createContext<BackupValue>(undefined as never);
 
 /**
- * Keeps one backup file of all entries, tags, and settings in the hidden
+ * Keeps one backup file of all entries, tags, people, and settings in the hidden
  * app folder of iCloud (iOS) or Google Drive (Android). See docs/backup.md.
  *
  * Off while the `backup` feature flag is off: no cloud read or write, even
  * when `backupEnabled` is on.
  *
- * Must render inside the settings, analytics, feature flags, logs, and tags
- * providers.
+ * Must render inside the settings, analytics, feature flags, logs, tags, and
+ * people providers.
  */
 export const BackupProvider = ({ children }: { children: React.ReactNode }) => {
   const { settings, setSettings } = useSettings();
   const { items } = useLogState();
   const { tags } = useTagsState();
+  const { people } = usePeopleState();
   const datagate = useDatagate();
   const analytics = useAnalytics();
   const isFeatureOn = useFeatureFlag("backup");
@@ -172,11 +178,17 @@ export const BackupProvider = ({ children }: { children: React.ReactNode }) => {
     };
   }, [enabled, load]);
 
-  const data = useMemo(
-    () => buildExportData({ items, tags, settings }),
-    [items, tags, settings]
+  // Avatars are files, so the key compares avatar paths. The write inlines them.
+  const dataKey = useMemo(
+    () =>
+      JSON.stringify({
+        items,
+        tags,
+        people,
+        settings: toExportSettings(settings),
+      }),
+    [items, tags, people, settings]
   );
-  const dataKey = useMemo(() => JSON.stringify(data), [data]);
 
   // Write the backup a short time after local data changes. `enabled` stops
   // writes when the feature flag turns off during the session.
@@ -193,7 +205,7 @@ export const BackupProvider = ({ children }: { children: React.ReactNode }) => {
       !canReplaceBackup({
         existing: remote,
         deviceId,
-        localItemCount: data.items.length,
+        localItemCount: items.length,
       })
     ) {
       return;
@@ -202,6 +214,7 @@ export const BackupProvider = ({ children }: { children: React.ReactNode }) => {
       setStatus("syncing");
       try {
         await resume();
+        const data = await buildExportData({ items, tags, people, settings });
         const file = createBackupFile({ data, deviceId });
         await writeBackupFile(JSON.stringify(file));
         lastWritten.current = dataKey;
@@ -212,7 +225,17 @@ export const BackupProvider = ({ children }: { children: React.ReactNode }) => {
       }
     }, AUTO_BACKUP_DELAY_MS);
     return () => clearTimeout(timer);
-  }, [enabled, isReady, deviceId, dataKey, data, remote]);
+  }, [
+    enabled,
+    isReady,
+    deviceId,
+    dataKey,
+    items,
+    tags,
+    people,
+    settings,
+    remote,
+  ]);
 
   const setEnabled = useCallback(
     async (value: boolean) => {
@@ -290,7 +313,7 @@ export const BackupProvider = ({ children }: { children: React.ReactNode }) => {
         !canReplaceBackup({
           existing: remote,
           deviceId,
-          localItemCount: data.items.length,
+          localItemCount: items.length,
         }),
       setEnabled,
       restore,
@@ -302,7 +325,7 @@ export const BackupProvider = ({ children }: { children: React.ReactNode }) => {
       status,
       remote,
       deviceId,
-      data.items.length,
+      items.length,
       setEnabled,
       restore,
       reconnect,

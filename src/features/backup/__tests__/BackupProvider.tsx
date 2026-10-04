@@ -9,6 +9,7 @@ import {
   STORAGE_KEY as LOGS_KEY,
   useLogState,
 } from "@/features/logs";
+import { PeopleProvider } from "@/features/people";
 import { TagsProvider } from "@/features/tags";
 import { AnalyticsProvider } from "@/state/analytics";
 import { FeatureFlagsProvider } from "@/state/featureFlags";
@@ -53,7 +54,9 @@ const wrapper = ({ children }: { children: React.ReactNode }) => (
       <FeatureFlagsProvider options={{ enabled: true }}>
         <LogsProvider>
           <TagsProvider>
-            <BackupProvider>{children}</BackupProvider>
+            <PeopleProvider>
+              <BackupProvider>{children}</BackupProvider>
+            </PeopleProvider>
           </TagsProvider>
         </LogsProvider>
       </FeatureFlagsProvider>
@@ -97,6 +100,7 @@ const remoteFile = (deviceId: string, itemCount: number): BackupFile =>
         _generateItem({ date: `2025-01-${String(index + 1).padStart(2, "0")}` })
       ),
       tags: [],
+      people: [],
       settings: { ...INITIAL_STATE },
     },
   });

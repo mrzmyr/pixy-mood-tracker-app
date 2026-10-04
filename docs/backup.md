@@ -10,7 +10,7 @@ Pixy has no server. Data leaves the phone only through the cloud backup or a man
 - Code: [`src/features/backup/`](../src/features/backup/)
 - Screen: Settings > Data > Backup ([`src/features/settings/screens/Backup.tsx`](../src/features/settings/screens/Backup.tsx))
 - File = normal export ([`buildExportData`](../src/features/datagate/DataGate.ts)) plus `deviceId` and `createdAt`. "Last sync" shows `createdAt`
-- Writes 3 seconds after the last change of entries, tags, or exported settings
+- Writes 3 seconds after the last change of entries, tags, people, or exported settings
 - Restore uses the import flow. It replaces local data after a confirmation
 - "Restore from Backup…" shows only while auto-backup is paused: no local entries, or a bigger backup from another phone. Restore can never discard newer local changes
 

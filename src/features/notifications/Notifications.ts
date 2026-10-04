@@ -6,6 +6,7 @@ import type {
 } from "expo-notifications";
 import { Alert, Platform } from "react-native";
 import { t } from "@/lib/translation";
+import { REMINDER_NOTIFICATION_DATA } from "./reminderTaps";
 
 const isWeb = Platform.OS === "web";
 
@@ -69,6 +70,7 @@ const schedule = async (options: {
     content: {
       title: t("notification_reminder_title"),
       body: t("notification_reminder_body"),
+      data: REMINDER_NOTIFICATION_DATA,
     },
     ...options,
   });

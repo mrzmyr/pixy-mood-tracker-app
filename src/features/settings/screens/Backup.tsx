@@ -118,7 +118,6 @@ export const BackupScreen = () => {
                 testID="backup-enabled"
               />
             }
-            isLast={!showLastSync && !showRestore}
           />
           {showLastSync && (
             <MenuListItem
@@ -128,7 +127,6 @@ export const BackupScreen = () => {
                 isSynced ? <Check width={18} color={SUCCESS_GREEN} /> : null
               }
               testID="backup-last-sync"
-              isLast={!showRestore}
             />
           )}
           {showRestore && (
@@ -139,7 +137,6 @@ export const BackupScreen = () => {
               }
               onPress={() => backup.restore()}
               testID="backup-restore"
-              isLast
             />
           )}
         </MenuList>
