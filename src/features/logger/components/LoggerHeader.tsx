@@ -2,7 +2,7 @@ import type { RefObject } from "react";
 import { View } from "react-native";
 import type { CarouselRef } from "react-native-reanimated-carousel";
 import { askToCancel, askToRemove } from "@/helpers/prompts";
-import type { TemporaryLogValue } from "../temporaryLog";
+import { useLogDraft } from "../logDraft";
 import { SlideHeader } from "./SlideHeader";
 
 /** Header padding. Keeps the 44pt header buttons near the screen edge. */
@@ -24,7 +24,6 @@ export const LoggerHeader = ({
   slideCount,
   slideIndex,
   isEditing,
-  tempLog,
   onCancel,
   onRemove,
 }: {
@@ -32,46 +31,49 @@ export const LoggerHeader = ({
   slideCount: number;
   slideIndex: number;
   isEditing: boolean;
-  tempLog: TemporaryLogValue;
   onCancel: () => void;
   onRemove: () => void;
-}) => (
-  <View
-    style={{
-      paddingHorizontal: LOGGER_HEADER_INSET,
-      paddingTop: 12,
-    }}
-  >
-    <SlideHeader
-      slideCount={slideCount}
-      slideIndex={slideIndex}
-      onBack={() => {
-        carouselRef.current?.prev();
+}) => {
+  const { draft, isDirty } = useLogDraft();
+
+  return (
+    <View
+      style={{
+        paddingHorizontal: LOGGER_HEADER_INSET,
+        paddingTop: 12,
       }}
-      backVisible={slideIndex > 0}
-      isDeleteable={isEditing}
-      onClose={async () => {
-        if (tempLog.isDirty) {
-          try {
-            await askToCancel();
+    >
+      <SlideHeader
+        slideCount={slideCount}
+        slideIndex={slideIndex}
+        onBack={() => {
+          carouselRef.current?.prev();
+        }}
+        backVisible={slideIndex > 0}
+        isDeleteable={isEditing}
+        onClose={async () => {
+          if (isDirty) {
+            try {
+              await askToCancel();
+              onCancel();
+            } catch {
+              // Keep editing when the user dismisses the prompt.
+            }
+          } else {
             onCancel();
-          } catch {
-            // Keep editing when the user dismisses the prompt.
           }
-        } else {
-          onCancel();
-        }
-      }}
-      onDelete={async () => {
-        if (
-          tempLog.data.message.length > 0 ||
-          tempLog.data.tags.length > 0 ||
-          tempLog.data.people.length > 0
-        ) {
-          await askToRemove();
-        }
-        onRemove();
-      }}
-    />
-  </View>
-);
+        }}
+        onDelete={async () => {
+          if (
+            draft.message.length > 0 ||
+            draft.tags.length > 0 ||
+            draft.people.length > 0
+          ) {
+            await askToRemove();
+          }
+          onRemove();
+        }}
+      />
+    </View>
+  );
+};

@@ -2,8 +2,7 @@ import { getSlideMarginTop } from "./marginTop";
 import { t } from "@/lib/translation";
 import useColors from "@/hooks/useColors";
 import { useTagsState, TagComponent as Tag } from "@/features/tags";
-import { useTemporaryLog } from "../temporaryLog";
-import type { TagReference } from "@/types";
+import { useLogDraft } from "../logDraft";
 import { useRouter } from "expo-router";
 import { LinearGradient } from "expo-linear-gradient";
 import { ScrollView, View } from "react-native";
@@ -19,31 +18,27 @@ import noop from "lodash/noop";
  * them.
  */
 export const SlideTags = ({
-  onChange,
   onDisableStep = noop,
   showDisable,
 }: {
-  onChange: (tags: TagReference[]) => void;
   onDisableStep?: () => void;
   showDisable: boolean;
 }) => {
-  const tempLog = useTemporaryLog();
+  const { draft, setTags } = useLogDraft();
   const router = useRouter();
   const insets = useSafeAreaInsets();
   const colors = useColors();
   const { tags } = useTagsState();
 
-  const tempLogTagIds = tempLog?.data?.tags
-    ? new Set(tempLog.data.tags.map((d) => d.id))
-    : undefined;
+  const selectedTagIds = new Set(draft.tags.map((d) => d.id));
 
   const _tags = tags.filter((tag) => {
-    const inTempLog = tempLogTagIds?.has(tag.id);
+    const isSelected = selectedTagIds.has(tag.id);
 
     return (
-      (!inTempLog && !tag.isArchived) ||
-      (inTempLog && tag.isArchived) ||
-      (inTempLog && !tag.isArchived)
+      (!isSelected && !tag.isArchived) ||
+      (isSelected && tag.isArchived) ||
+      (isSelected && !tag.isArchived)
     );
   });
 
@@ -106,12 +101,13 @@ export const SlideTags = ({
             {_tags?.map((tag) => (
               <Tag
                 onPress={() => {
-                  const newTags = tempLogTagIds?.has(tag.id)
-                    ? tempLog?.data?.tags.filter(
-                        (selectedTag) => selectedTag.id !== tag.id
-                      )
-                    : [...(tempLog?.data.tags || []), tag];
-                  onChange(newTags);
+                  setTags(
+                    selectedTagIds.has(tag.id)
+                      ? draft.tags.filter(
+                          (selectedTag) => selectedTag.id !== tag.id
+                        )
+                      : [...draft.tags, tag]
+                  );
                 }}
                 onLongPress={() =>
                   router.push({
@@ -121,7 +117,7 @@ export const SlideTags = ({
                 }
                 title={tag.title}
                 colorName={tag.color}
-                selected={tempLogTagIds?.has(tag.id)}
+                selected={selectedTagIds.has(tag.id)}
                 key={tag.id}
               />
             ))}

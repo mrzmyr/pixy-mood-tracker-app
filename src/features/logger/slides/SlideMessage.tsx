@@ -1,7 +1,6 @@
 import { t } from "@/lib/translation";
 import useColors from "@/hooks/useColors";
-import type { LogItem } from "@/features/logs";
-import { useTemporaryLog } from "../temporaryLog";
+import { useLogDraft } from "../logDraft";
 import { forwardRef, useEffect, useState } from "react";
 import { Keyboard, KeyboardAvoidingView, Platform, View } from "react-native";
 import type { TextInput } from "react-native";
@@ -48,11 +47,9 @@ const useKeyboardVisible = () => {
 
 const SlideMessageComponent = (
   {
-    onChange,
     onDisableStep,
     showDisable,
   }: {
-    onChange: (text: LogItem["message"]) => void;
     onDisableStep: () => void;
     showDisable: boolean;
   },
@@ -60,7 +57,7 @@ const SlideMessageComponent = (
 ) => {
   const insets = useSafeAreaInsets();
   const colors = useColors();
-  const tempLog = useTemporaryLog();
+  const { draft, setMessage } = useLogDraft();
   const keyboardVisible = useKeyboardVisible();
 
   // The footer only exists while the disable link shows and the keyboard is
@@ -96,8 +93,8 @@ const SlideMessageComponent = (
               accessibilityLabel={t("log_note_question")}
               testID="log-message"
               placeholder={t("log_note_question")}
-              value={tempLog?.data?.message}
-              onChange={onChange}
+              value={draft.message}
+              onChange={setMessage}
               maxLength={MAX_LENGTH}
               style={{
                 flex: 1,
