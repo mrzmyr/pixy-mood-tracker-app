@@ -21,6 +21,7 @@ import { useSettings } from "@/state/settings";
 import { useUsageSummarySync } from "@/shell/usageSummary";
 import { useScreenTracking } from "@/shell/screenTracking";
 import { useReminderTapTracking } from "@/features/notifications";
+import { useLogMoodShortcut } from "@/features/logger";
 
 // Configure before first render; each app variant reports to its own project.
 if (HAS_APP_VARIANT) {
@@ -38,6 +39,9 @@ const AppShell = () => {
   useScreenTracking();
   useUsageSummarySync();
   useReminderTapTracking();
+  useLogMoodShortcut({
+    isReady: settings.loaded && hasActionDone("onboarding") && !!rootState?.key,
+  });
 
   const onSettingsLoaded = useEffectEvent(() => {
     // Fixture links replace fresh state, and dev links pick their own route.

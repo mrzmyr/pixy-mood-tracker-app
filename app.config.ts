@@ -1,5 +1,13 @@
 import type { ConfigContext, ExpoConfig } from "@expo/config";
-import { withGradleProperties, withMainApplication } from "expo/config-plugins";
+import {
+  IOSConfig,
+  withDangerousMod,
+  withGradleProperties,
+  withMainApplication,
+  withXcodeProject,
+} from "expo/config-plugins";
+import { copyFileSync } from "node:fs";
+import path from "node:path";
 
 /**
  * App variants, installable side by side on one device.
@@ -220,29 +228,72 @@ const withShadowNodeLookupFix = (config: ExpoConfig) =>
     return mainApplication;
   });
 
+/** Swift source of the "Log Mood" App Intent, relative to the project root. */
+const LOG_MOOD_INTENT_SOURCE = "plugins/LogMoodIntent.swift";
+
+/**
+ * iOS "Log Mood" App Intent. Shortcuts, Siri, Spotlight, and the Action
+ * Button list it without user setup.
+ *
+ * - Copies `plugins/LogMoodIntent.swift` into the app target folder.
+ * - Adds the file to the app target. Xcode extracts App Intents metadata only
+ *   from app and extension targets, not from CocoaPods libraries.
+ */
+const withLogMoodShortcut = (config: ExpoConfig) =>
+  withXcodeProject(
+    withDangerousMod(config, [
+      "ios",
+      (modConfig) => {
+        const { platformProjectRoot, projectRoot } = modConfig.modRequest;
+        const projectName = IOSConfig.XcodeUtils.getProjectName(projectRoot);
+        copyFileSync(
+          path.join(projectRoot, LOG_MOOD_INTENT_SOURCE),
+          path.join(platformProjectRoot, projectName, "LogMoodIntent.swift")
+        );
+        return modConfig;
+      },
+    ]),
+    (modConfig) => {
+      const projectName = IOSConfig.XcodeUtils.getProjectName(
+        modConfig.modRequest.projectRoot
+      );
+      const filepath = `${projectName}/LogMoodIntent.swift`;
+      if (!modConfig.modResults.hasFile(filepath)) {
+        IOSConfig.XcodeUtils.addBuildSourceFileToGroup({
+          filepath,
+          groupName: projectName,
+          project: modConfig.modResults,
+        });
+      }
+      return modConfig;
+    }
+  );
+
 const appConfig = ({ config }: ConfigContext): ExpoConfig => {
   const variant = APP_VARIANTS[getAppVariant()];
-  return withShadowNodeLookupFix(
-    withGradleMemory({
-      ...config,
-      name: variant.name,
-      slug: config.slug ?? "pixy-mood-tracker",
-      icon: variant.icon,
-      scheme: variant.scheme,
-      ios: {
-        ...config.ios,
-        bundleIdentifier: variant.appId,
-      },
-      android: {
-        ...config.android,
-        package: variant.appId,
+  return withLogMoodShortcut(
+    withShadowNodeLookupFix(
+      withGradleMemory({
+        ...config,
+        name: variant.name,
+        slug: config.slug ?? "pixy-mood-tracker",
         icon: variant.icon,
-        adaptiveIcon: {
-          ...config.android?.adaptiveIcon,
-          foregroundImage: variant.adaptiveIcon,
+        scheme: variant.scheme,
+        ios: {
+          ...config.ios,
+          bundleIdentifier: variant.appId,
         },
-      },
-    })
+        android: {
+          ...config.android,
+          package: variant.appId,
+          icon: variant.icon,
+          adaptiveIcon: {
+            ...config.android?.adaptiveIcon,
+            foregroundImage: variant.adaptiveIcon,
+          },
+        },
+      })
+    )
   );
 };
 
