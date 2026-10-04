@@ -2,9 +2,7 @@ import type { DebouncedFunc } from "lodash";
 import debounce from "lodash/debounce";
 import { useEffect, useRef, useState } from "react";
 import { View } from "react-native";
-import { RotateCcw } from "react-native-feather";
-import Button from "@/components/Button";
-import useColors from "@/hooks/useColors";
+import LinkButton from "@/components/LinkButton";
 import { t } from "@/lib/translation";
 import { useCalendarFilters } from "../../../filters";
 import { useTagsState } from "@/features/tags";
@@ -24,7 +22,6 @@ import { TagsSection } from "./TagsSection";
  * Must render inside `CalendarFiltersProvider`.
  */
 export const Body = () => {
-  const colors = useColors();
   const calendarFilters = useCalendarFilters();
   const { tags } = useTagsState();
   const { people } = usePeopleState();
@@ -132,25 +129,15 @@ export const Body = () => {
         <View
           style={{
             flexDirection: "row",
-            justifyContent: "center",
+            justifyContent: "space-between",
             alignItems: "center",
-            gap: 16,
+            marginTop: 16,
           }}
         >
-          {calendarFilters.data.filteredItems.length !== 0 && (
-            <ResultsSection count={calendarFilters.data.filteredItems.length} />
-          )}
-          <Button
+          <LinkButton
             type="secondary"
-            size="small"
-            icon={
-              <RotateCcw
-                width={16}
-                height={16}
-                color={colors.secondaryButtonText}
-              />
-            }
             testID="calendar-filter-reset"
+            style={{ marginLeft: -8 }}
             onPress={() => {
               debouncedTextChangeRef.current?.cancel();
               setSearchText("");
@@ -158,7 +145,10 @@ export const Body = () => {
             }}
           >
             {t("reset")}
-          </Button>
+          </LinkButton>
+          {calendarFilters.data.filteredItems.length !== 0 && (
+            <ResultsSection count={calendarFilters.data.filteredItems.length} />
+          )}
         </View>
       )}
     </View>
