@@ -11,8 +11,17 @@ import { useRouter } from "expo-router";
  * Tag list for the tag settings screens; rows open the tag editor. Shows a
  * notice once {@link MAX_TAGS} is reached.
  */
-export const TagList = ({ tags }: { tags: Tag[] }) => {
+export const TagList = ({
+  tags,
+  header,
+  emptyMessage,
+}: {
+  tags: Tag[];
+  header?: React.ReactElement;
+  emptyMessage?: string;
+}) => {
   const colors = useColors();
+  const message = emptyMessage ?? `${t("tags_empty")}. 👻`;
   const router = useRouter();
 
   const onEdit = (tag: Tag) => {
@@ -25,6 +34,7 @@ export const TagList = ({ tags }: { tags: Tag[] }) => {
         backgroundColor: colors.background,
       }}
     >
+      {header}
       {tags.length >= MAX_TAGS && (
         <View
           style={{
@@ -69,7 +79,7 @@ export const TagList = ({ tags }: { tags: Tag[] }) => {
                 color: colors.text,
               }}
             >
-              {t("tags_empty")}. 👻
+              {message}
             </Text>
           </View>
         )}

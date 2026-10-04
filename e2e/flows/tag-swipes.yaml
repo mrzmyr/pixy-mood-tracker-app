@@ -1,0 +1,61 @@
+appId: ${APP_ID}
+tags: [p1, tags, ios]
+---
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - runFlow:
+          file: ../subflows/load-fixture.yaml
+          env:
+            FIXTURE: year
+      - tapOn:
+          id: "settings"
+      - tapOn: "Tags"
+      # Tapping blank row space still opens the editor.
+      - tapOn: "Sport"
+      - assertVisible: "Edit Tag"
+      - tapOn: "Cancel"
+      - waitForAnimationToEnd
+      # Archive directly, then verify tag still exists in Archive.
+      - swipe:
+          from:
+            text: "Work"
+          direction: RIGHT
+      - tapOn:
+          id: "tag-archive-ad3d979b-4bf1-5bd8-8fcf-407b2606649c"
+      - assertNotVisible: "Work"
+      - tapOn: "Archive"
+      - assertVisible: "Work"
+      - back
+      # Cancel deletion: tag must remain, including after closing swipe actions.
+      - swipe:
+          from:
+            text: "Family"
+          direction: LEFT
+      - tapOn:
+          id: "tag-delete-8d7098f9-52b8-5d78-ae86-36265f183635"
+      - assertVisible: "The tag will be removed from all entries.*"
+      - tapOn: "Cancel"
+      - assertVisible: "Family"
+      # Confirm deletion: tag must disappear.
+      - swipe:
+          from:
+            text: "Family"
+          direction: LEFT
+      - tapOn:
+          id: "tag-delete-8d7098f9-52b8-5d78-ae86-36265f183635"
+      - tapOn:
+          text: "Delete"
+          index: 0
+      - assertNotVisible: "Family"
+      # Relaunch: archived/deleted state persists.
+      - stopApp
+      - launchApp
+      - tapOn:
+          id: "settings"
+      - tapOn: "Tags"
+      - assertNotVisible: "Work"
+      - assertNotVisible: "Family"
+      - tapOn: "Archive"
+      - assertVisible: "Work"
