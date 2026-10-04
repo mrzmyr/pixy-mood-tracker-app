@@ -1,164 +1,123 @@
-import {
-  Button,
-  Circle,
-  Host,
-  HStack,
-  List,
-  RNHostView,
-  Group,
-  Section,
-  SwipeActions,
-  Text,
-} from "@expo/ui/swift-ui";
-import {
-  accessibilityHidden,
-  accessibilityLabel,
-  foregroundStyle,
-  frame,
-  listRowBackground,
-  listRowInsets,
-  listRowSeparator,
-  listStyle,
-  scrollContentBackground,
-  tint,
-} from "@expo/ui/swift-ui/modifiers";
-import { useTheme, useRouter } from "expo-router";
+import { useState } from "react";
+import { ScrollView, Text, View } from "react-native";
+import { RectButton } from "react-native-gesture-handler";
+import Swipeable, {
+  SwipeDirection,
+} from "react-native-gesture-handler/ReanimatedSwipeable";
+import { Archive, Trash2 } from "lucide-react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import useColors from "@/hooks/useColors";
-import { MAX_TAGS } from "@/constants/Config";
+import useHaptics from "@/hooks/useHaptics";
 import { t } from "@/lib/translation";
-import type { Tag } from "../TagsProvider";
+import { TagListContent } from "./TagListContent";
+import { TagListItem } from "./TagListItem";
 import { useTagActions } from "../useTagActions";
 
-/** Native scrolling tag list; swipe delete waits for confirmation, archive runs immediately. */
-export const TagList = ({
-  tags,
-  header,
-  emptyMessage,
-}: {
-  tags: Tag[];
-  header?: React.ReactElement;
-  emptyMessage?: string;
-}) => {
+const SwipeableTag = (props: React.ComponentProps<typeof TagListItem>) => {
   const colors = useColors();
-  const message = emptyMessage ?? `${t("tags_empty")}. 👻`;
-  const { dark } = useTheme();
-  const router = useRouter();
-  const insets = useSafeAreaInsets();
   const { confirmDelete, archive } = useTagActions();
+  const haptics = useHaptics();
+  const [openDirection, setOpenDirection] = useState<SwipeDirection | null>(
+    null
+  );
 
   return (
-    <Host
-      style={{ flex: 1, backgroundColor: colors.background }}
-      colorScheme={dark ? "dark" : "light"}
-      ignoreSafeArea="container"
-    >
-      <List
-        modifiers={[
-          listStyle("insetGrouped"),
-          scrollContentBackground("hidden"),
-        ]}
-      >
-        {header && (
-          <Group
-            modifiers={[
-              frame({ maxWidth: Infinity, height: 50 }),
-              listRowInsets({ top: 0, bottom: 0, leading: 0, trailing: 0 }),
-              listRowBackground(colors.background),
-              listRowSeparator("hidden"),
-            ]}
-          >
-            <RNHostView>{header}</RNHostView>
-          </Group>
-        )}
-        {tags.length >= MAX_TAGS && (
-          <Text modifiers={[foregroundStyle(colors.text)]}>
-            {t("tags_reached_max", { max_count: MAX_TAGS })}
-          </Text>
-        )}
-        <Section
-          footer={
-            <Text
-              modifiers={[
-                frame({ height: insets.bottom + 72 }),
-                accessibilityHidden(),
-              ]}
-            >
-              {" "}
-            </Text>
-          }
-        >
-          {tags.length === 0 && (
-            <Text modifiers={[foregroundStyle(colors.textSecondary)]}>
-              {message}
-            </Text>
-          )}
-          {tags.map((tag) => (
-            <SwipeActions
-              key={tag.id}
-              modifiers={[
-                listRowBackground(colors.menuListItemBackground),
-                // Match MenuListItem: 34 pt content plus 8 pt padding per edge.
-                listRowInsets({ top: 8, bottom: 8, leading: 16, trailing: 16 }),
-              ]}
-            >
-              <Button
-                onPress={() =>
-                  router.push({
-                    pathname: "/tags/[id]",
-                    params: { id: tag.id },
-                  })
+    <Swipeable
+      overshootLeft={false}
+      overshootRight={false}
+      onSwipeableOpen={setOpenDirection}
+      onSwipeableWillClose={() => setOpenDirection(null)}
+      childrenContainerStyle={{
+        backgroundColor: colors.menuListItemBackground,
+      }}
+      renderLeftActions={
+        props.tag.isArchived
+          ? undefined
+          : (_progress, _translation, actions) => (
+              <RectButton
+                testID={`tag-archive-${props.tag.id}`}
+                accessibilityRole="button"
+                accessibilityLabel={t("archive_tag")}
+                accessible={openDirection === SwipeDirection.RIGHT}
+                accessibilityElementsHidden={
+                  openDirection !== SwipeDirection.RIGHT
                 }
-                modifiers={[accessibilityLabel(tag.title)]}
+                onPress={() => {
+                  actions.close();
+                  archive(props.tag);
+                }}
+                style={{
+                  width: 88,
+                  backgroundColor: colors.tint,
+                  alignItems: "center",
+                  justifyContent: "center",
+                  gap: 2,
+                }}
               >
-                <HStack
-                  spacing={16}
-                  modifiers={[
-                    frame({
-                      maxWidth: Infinity,
-                      minHeight: 34,
-                      alignment: "leading",
-                    }),
-                  ]}
-                >
-                  <Circle
-                    modifiers={[
-                      frame({ width: 10, height: 10 }),
-                      foregroundStyle(colors.tags[tag.color].dot),
-                    ]}
-                  />
-                  <Text modifiers={[foregroundStyle(colors.text)]}>
-                    {tag.title}
-                  </Text>
-                </HStack>
-              </Button>
-              {!tag.isArchived && (
-                <SwipeActions.Actions edge="leading">
-                  <Button
-                    testID={`tag-archive-${tag.id}`}
-                    label={t("archive_tag")}
-                    systemImage="archivebox"
-                    modifiers={[tint(colors.tint)]}
-                    onPress={() => archive(tag)}
-                  />
-                </SwipeActions.Actions>
-              )}
-              <SwipeActions.Actions edge="trailing" allowsFullSwipe={false}>
-                {/* A destructive role removes SwiftUI rows before confirmation; red tint keeps the row until confirmed. */}
-                <Button
-                  testID={`tag-delete-${tag.id}`}
-                  label={t("delete")}
-                  systemImage="trash"
-                  modifiers={[tint(colors.palette.red[500])]}
-                  onPress={() => {
-                    void confirmDelete(tag);
-                  }}
-                />
-              </SwipeActions.Actions>
-            </SwipeActions>
-          ))}
-        </Section>
-      </List>
-    </Host>
+                <Archive size={18} color={colors.palette.white} />
+                <Text style={{ color: colors.palette.white, fontSize: 12 }}>
+                  {t("archive_tag")}
+                </Text>
+              </RectButton>
+            )
+      }
+      renderRightActions={(_progress, _translation, actions) => (
+        <RectButton
+          testID={`tag-delete-${props.tag.id}`}
+          accessibilityRole="button"
+          accessibilityLabel={t("delete")}
+          accessible={openDirection === SwipeDirection.LEFT}
+          accessibilityElementsHidden={openDirection !== SwipeDirection.LEFT}
+          onPress={() => {
+            actions.close();
+            void confirmDelete(props.tag);
+          }}
+          style={{
+            width: 88,
+            backgroundColor: colors.palette.red[500],
+            alignItems: "center",
+            justifyContent: "center",
+            gap: 2,
+          }}
+        >
+          <Trash2 size={18} color={colors.palette.white} />
+          <Text style={{ color: colors.palette.white, fontSize: 12 }}>
+            {t("delete")}
+          </Text>
+        </RectButton>
+      )}
+    >
+      <RectButton
+        testID={`tag-row-${props.tag.id}`}
+        accessible
+        accessibilityRole="button"
+        accessibilityLabel={props.tag.title}
+        onPress={() => {
+          void haptics.selection();
+          props.onPress();
+        }}
+      >
+        {/* Native gesture buttons keep hit testing aligned with animated rows. */}
+        <View pointerEvents="none" accessibilityElementsHidden>
+          <TagListItem {...props} />
+        </View>
+      </RectButton>
+    </Swipeable>
+  );
+};
+
+/** Native gesture swipes keep existing menu rows; SwiftUI List enforces taller rows on iOS 26. */
+export const TagList = (
+  props: Omit<React.ComponentProps<typeof TagListContent>, "ItemComponent">
+) => {
+  const insets = useSafeAreaInsets();
+
+  return (
+    <ScrollView
+      style={{ flex: 1 }}
+      contentContainerStyle={{ paddingBottom: insets.bottom + 56 }}
+    >
+      <TagListContent {...props} ItemComponent={SwipeableTag} />
+    </ScrollView>
   );
 };

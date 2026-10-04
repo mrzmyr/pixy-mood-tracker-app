@@ -84,8 +84,8 @@ export const SettingsTags = () => {
           header={
             <View
               style={{
-                marginTop: Platform.OS === "ios" ? 0 : 16,
-                marginHorizontal: Platform.OS === "ios" ? 0 : 16,
+                marginTop: 16,
+                marginHorizontal: 16,
               }}
             >
               <MenuList style={{}}>
