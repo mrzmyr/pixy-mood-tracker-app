@@ -3,11 +3,13 @@ import type { LoggerStep } from "@/constants/LoggerSteps";
 
 import MenuList from "@/components/MenuList";
 import MenuListItem from "@/components/MenuListItem";
+import TextInfo from "@/components/TextInfo";
 import { t } from "@/lib/translation";
 import type { ReactElement } from "react";
 import { ScrollView, Switch, Text, View } from "react-native";
 import {
   Bell,
+  CheckCircle,
   FileText,
   Heart,
   MessageSquare,
@@ -19,8 +21,8 @@ import { useSettings } from "@/state/settings";
 import { useAnalytics } from "@/state/analytics";
 
 /**
- * Settings > Steps: toggle optional logger steps. `rating` cannot be
- * turned off.
+ * Settings > Steps: toggle optional logger steps and the confirmation after
+ * a new entry. `rating` cannot be turned off.
  */
 export const StepsScreen = () => {
   const colors = useColors();
@@ -117,6 +119,32 @@ export const StepsScreen = () => {
             />
           ))}
         </MenuList>
+        <MenuList style={{ marginTop: 32 }}>
+          <MenuListItem
+            title={t("steps_confirmation")}
+            iconLeft={
+              <CheckCircle width={20} height={20} color={colors.text} />
+            }
+            iconRight={
+              <Switch
+                accessibilityLabel={t("steps_confirmation")}
+                testID="step-confirmation-enabled"
+                onValueChange={(enabled) => {
+                  analytics.track("settings:confirmation_toggled", {
+                    enabled,
+                  });
+                  setSettings((currentSettings) => ({
+                    ...currentSettings,
+                    confirmationEnabled: enabled,
+                  }));
+                }}
+                value={settings.confirmationEnabled}
+              />
+            }
+            isLast
+          />
+        </MenuList>
+        <TextInfo>{t("steps_confirmation_info")}</TextInfo>
       </ScrollView>
     </View>
   );

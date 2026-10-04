@@ -239,6 +239,8 @@
   "logger_step_feedback": "câu hỏi về sản phẩm",
   "steps": "bước",
   "steps_introduction": "Tại đây, bạn có thể quyết định những gì bạn muốn theo dõi cho mỗi mục nhập. Bạn luôn có thể thêm các bước sau.",
+  "steps_confirmation": "Xác nhận",
+  "steps_confirmation_info": "Hiển thị một thông điệp ngắn và hỏi bạn cảm thấy thế nào sau mỗi mục mới.",
   "disable_step_confirm_title": "Vô hiệu hóa bước?",
   "disable_step_confirm_message": "Bạn có thể kích hoạt lại nó sau trong cài đặt.",
   "log_tags_disable": "tôi không sử dụng thẻ",

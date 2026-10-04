@@ -1,0 +1,42 @@
+appId: ${APP_ID}
+tags: [p1, entry]
+---
+# Confirmation turned off in Settings: saving a new entry returns straight to
+# the calendar.
+- runFlow:
+    file: ../subflows/load-fixture.yaml
+    env:
+      FIXTURE: empty
+
+- tapOn:
+    id: "settings"
+- tapOn: "Check-in"
+- assertVisible: "Confirmation"
+- tapOn:
+    id: "step-confirmation-enabled"
+- back
+- tapOn:
+    id: "calendar"
+
+- tapOn: "Add New Entry"
+- assertVisible: "How was your day?"
+# A tap during the logger's slide-in animation is lost.
+- waitForAnimationToEnd
+- tapOn:
+    id: "mood-good"
+- runFlow: ../subflows/finish-logger.yaml
+- assertNotVisible: "How are you feeling now?"
+- assertVisible: "Add another entry for today"
+
+# The setting survives a restart.
+- stopApp
+- launchApp
+- extendedWaitUntil:
+    visible: "Add another entry for today"
+    timeout: 10000
+- tapOn:
+    id: "settings"
+- tapOn: "Check-in"
+- assertVisible:
+    id: "step-confirmation-enabled"
+    checked: false

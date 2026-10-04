@@ -239,6 +239,8 @@
   "logger_step_feedback": "Pytania dotyczące produktów",
   "steps": "Kroki",
   "steps_introduction": "Tutaj możesz zdecydować, co chcesz śledzić dla każdego wpisu. Zawsze możesz dodać więcej kroków później.",
+  "steps_confirmation": "Potwierdzenie",
+  "steps_confirmation_info": "Po każdym nowym wpisie pokazuje krótką wiadomość i pyta, jak się czujesz.",
   "disable_step_confirm_title": "Wyłączyć krok?",
   "disable_step_confirm_message": "Możesz ją ponownie włączyć później w ustawieniach.",
   "log_tags_disable": "Nie używam tagów",

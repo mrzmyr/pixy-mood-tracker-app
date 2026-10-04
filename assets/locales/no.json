@@ -239,6 +239,8 @@
   "logger_step_feedback": "Produktspørsmål",
   "steps": "Trinn",
   "steps_introduction": "Her kan du bestemme hva du vil spore for hver oppføring. Du kan alltid legge til flere trinn senere.",
+  "steps_confirmation": "Bekreftelse",
+  "steps_confirmation_info": "Viser en kort melding og spør hvordan du har det etter hver nye registrering.",
   "disable_step_confirm_title": "Deaktiver trinn?",
   "disable_step_confirm_message": "Du kan aktivere den på nytt senere i innstillingene.",
   "log_tags_disable": "Jeg bruker ikke tagger",

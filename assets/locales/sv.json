@@ -239,6 +239,8 @@
   "logger_step_feedback": "Produktfrågor",
   "steps": "Steg",
   "steps_introduction": "Här kan du bestämma vad du vill spåra för varje post. Du kan alltid lägga till fler steg senare.",
+  "steps_confirmation": "Bekräftelse",
+  "steps_confirmation_info": "Visar ett kort meddelande och frågar hur du mår efter varje ny anteckning.",
   "disable_step_confirm_title": "Inaktivera steg?",
   "disable_step_confirm_message": "Du kan återaktivera det senare i inställningarna.",
   "log_tags_disable": "Jag använder inte taggar",

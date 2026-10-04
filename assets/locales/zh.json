@@ -239,6 +239,8 @@
   "logger_step_feedback": "产品问题",
   "steps": "脚步",
   "steps_introduction": "在这里您可以决定要为每个条目跟踪什么。您以后可以随时添加更多步骤。",
+  "steps_confirmation": "确认页",
+  "steps_confirmation_info": "每次新增记录后显示一条简短消息，并询问你现在的感受。",
   "disable_step_confirm_title": "禁用步骤？",
   "disable_step_confirm_message": "您可以稍后在设置中重新启用它。",
   "log_tags_disable": "我不使用标签",

@@ -239,6 +239,8 @@
   "logger_step_feedback": "שאלות מוצר",
   "steps": "שלבים",
   "steps_introduction": "כאן אתה יכול להחליט על מה אתה רוצה לעקוב עבור כל ערך. תמיד תוכל להוסיף שלבים נוספים מאוחר יותר.",
+  "steps_confirmation": "אישור",
+  "steps_confirmation_info": "מציג הודעה קצרה ושואל איך אתה מרגיש אחרי כל רשומה חדשה.",
   "disable_step_confirm_title": "להשבית את השלב?",
   "disable_step_confirm_message": "אתה יכול להפעיל אותו מחדש מאוחר יותר בהגדרות.",
   "log_tags_disable": "אני לא משתמש בתגיות",

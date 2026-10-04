@@ -239,6 +239,8 @@
   "logger_step_feedback": "Termékkérdések",
   "steps": "Naplózás lépései",
   "steps_introduction": "Itt döntheted el, hogy mit szeretnél nyomon követni az egyes bejegyzéseknél. Később bármikor módosíthatod.",
+  "steps_confirmation": "Megerősítés",
+  "steps_confirmation_info": "Minden új bejegyzés után rövid üzenetet mutat, és megkérdezi, hogy érzed magad.",
   "disable_step_confirm_title": "Letiltod ezt a lépést?",
   "disable_step_confirm_message": "Később a beállításokban újra engedélyezheted.",
   "log_tags_disable": "Nem használok címkéket",

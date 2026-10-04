@@ -58,6 +58,8 @@ export interface SettingsState {
   analyticsEnabled: boolean;
   actionsDone: IAction[];
   steps: KnownSettingsStep[];
+  /** Show the confirmation after saving a new entry. */
+  confirmationEnabled: boolean;
   /** ISO date of the automatic store review prompt; `null` until shown once. */
   storeReviewPromptedAt: string | null;
   /** App version that showed the automatic store review prompt. */

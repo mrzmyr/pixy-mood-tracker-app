@@ -239,6 +239,8 @@
   "logger_step_feedback": "Domande sui prodotti",
   "steps": "Passi",
   "steps_introduction": "Qui puoi decidere cosa vuoi monitorare per ogni voce. Puoi sempre aggiungere altri passaggi in un secondo momento.",
+  "steps_confirmation": "Conferma",
+  "steps_confirmation_info": "Mostra un breve messaggio e ti chiede come ti senti dopo ogni nuova voce.",
   "disable_step_confirm_title": "Disattivare il passaggio?",
   "disable_step_confirm_message": "Puoi riattivarlo in seguito nelle impostazioni.",
   "log_tags_disable": "Non uso tag",

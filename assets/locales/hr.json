@@ -239,6 +239,8 @@
   "logger_step_feedback": "Pitanja o proizvodu",
   "steps": "Koraci",
   "steps_introduction": "Ovdje možete odlučiti što želite pratiti za svaki unos. Uvijek možete kasnije dodati više koraka.",
+  "steps_confirmation": "Potvrda",
+  "steps_confirmation_info": "Nakon svakog novog unosa prikazuje kratku poruku i pita kako se osjećaš.",
   "disable_step_confirm_title": "Onemogućiti korak?",
   "disable_step_confirm_message": "Kasnije ga možete ponovno omogućiti u postavkama.",
   "log_tags_disable": "Ne koristim oznake",

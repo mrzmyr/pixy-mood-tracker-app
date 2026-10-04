@@ -239,6 +239,8 @@
   "logger_step_feedback": "Otázky k produktu",
   "steps": "Kroky",
   "steps_introduction": "Zde se můžete rozhodnout, co chcete u každého záznamu sledovat. Vždy můžete přidat další kroky později.",
+  "steps_confirmation": "Potvrzení",
+  "steps_confirmation_info": "Po každém novém záznamu zobrazí krátkou zprávu a zeptá se, jak se cítíš.",
   "disable_step_confirm_title": "Zakázat krok?",
   "disable_step_confirm_message": "Později jej můžete znovu povolit v nastavení.",
   "log_tags_disable": "Tagy nepoužívám",

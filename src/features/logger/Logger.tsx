@@ -453,7 +453,8 @@ export const LoggerEdit = ({
  * Without `avaliableSteps`, the slides follow the user's enabled steps. The
  * reminder slide shows only when exactly one entry exists and reminders are
  * off; the feedback slide needs 3+ entries and an available question. After
- * saving, the slides make way for the confirmation.
+ * saving, the slides make way for the confirmation, unless the user turned it
+ * off in Settings > Steps.
  */
 export const LoggerCreate = ({
   dateTime,
@@ -519,7 +520,7 @@ export const LoggerCreate = ({
   return (
     <Logger
       mode="create"
-      onCreated={setSaved}
+      onCreated={settings.confirmationEnabled ? setSaved : undefined}
       initialItem={initialItem}
       initialStep={initialStep}
       avaliableSteps={steps}

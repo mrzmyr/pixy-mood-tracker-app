@@ -239,6 +239,8 @@
   "logger_step_feedback": "Ürün Soruları",
   "steps": "Adımlar",
   "steps_introduction": "Burada, her giriş için neyi izlemek istediğinize karar verebilirsiniz. Daha sonra istediğiniz zaman daha fazla adım ekleyebilirsiniz.",
+  "steps_confirmation": "Onay",
+  "steps_confirmation_info": "Her yeni kayıttan sonra kısa bir mesaj gösterir ve nasıl hissettiğini sorar.",
   "disable_step_confirm_title": "Adım devre dışı bırakılsın mı?",
   "disable_step_confirm_message": "Daha sonra ayarlardan yeniden etkinleştirebilirsiniz.",
   "log_tags_disable": "etiket kullanmıyorum",

@@ -239,6 +239,8 @@
   "logger_step_feedback": "Tuotekysymykset",
   "steps": "Askeleet",
   "steps_introduction": "Täällä voit päättää, mitä haluat seurata kunkin merkinnän kohdalla. Voit aina lisätä vaiheita myöhemmin.",
+  "steps_confirmation": "Vahvistus",
+  "steps_confirmation_info": "Näyttää lyhyen viestin ja kysyy, miltä sinusta tuntuu, jokaisen uuden merkinnän jälkeen.",
   "disable_step_confirm_title": "Poistetaanko vaihe käytöstä?",
   "disable_step_confirm_message": "Voit ottaa sen uudelleen käyttöön myöhemmin asetuksista.",
   "log_tags_disable": "En käytä tageja",

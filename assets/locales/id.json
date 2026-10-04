@@ -239,6 +239,8 @@
   "logger_step_feedback": "Pertanyaan Produk",
   "steps": "Langkah",
   "steps_introduction": "Di sini Anda dapat memutuskan apa yang ingin Anda lacak untuk setiap entri. Anda selalu dapat menambahkan lebih banyak langkah nanti.",
+  "steps_confirmation": "Konfirmasi",
+  "steps_confirmation_info": "Menampilkan pesan singkat dan menanyakan perasaanmu setelah setiap entri baru.",
   "disable_step_confirm_title": "Nonaktifkan Langkah?",
   "disable_step_confirm_message": "Anda dapat mengaktifkannya kembali nanti di pengaturan.",
   "log_tags_disable": "Saya tidak menggunakan tag",

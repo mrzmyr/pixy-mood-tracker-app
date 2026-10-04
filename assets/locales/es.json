@@ -630,6 +630,8 @@
   "statistics_worst_month": "peor mes",
   "statistics": "Estadísticas",
   "steps_introduction": "Aquí puede decidir qué desea rastrear para cada entrada. Siempre puede agregar más pasos más adelante.",
+  "steps_confirmation": "Confirmación",
+  "steps_confirmation_info": "Muestra un mensaje breve y te pregunta cómo te sientes después de cada nueva entrada.",
   "steps": "Pasos",
   "tags_add_placeholder": "#gran día",
   "tags_add": "Añadir etiqueta",

@@ -239,6 +239,8 @@
   "logger_step_feedback": "Întrebări despre produse",
   "steps": "Pași",
   "steps_introduction": "Aici puteți decide ce doriți să urmăriți pentru fiecare intrare. Puteți adăuga oricând mai mulți pași mai târziu.",
+  "steps_confirmation": "Confirmare",
+  "steps_confirmation_info": "Afișează un mesaj scurt și te întreabă cum te simți după fiecare intrare nouă.",
   "disable_step_confirm_title": "Dezactivați Step?",
   "disable_step_confirm_message": "Îl puteți reactiva mai târziu în setări.",
   "log_tags_disable": "Nu folosesc etichete",

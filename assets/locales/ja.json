@@ -239,6 +239,8 @@
   "logger_step_feedback": "製品に関する質問",
   "steps": "手順",
   "steps_introduction": "ここで、各エントリで何を追跡するかを決定できます。後でいつでもステップを追加できます。",
+  "steps_confirmation": "確認画面",
+  "steps_confirmation_info": "新しい記録のたびに短いメッセージを表示し、今の気分をたずねます。",
   "disable_step_confirm_title": "ステップを無効にしますか?",
   "disable_step_confirm_message": "後で設定で再度有効にすることができます。",
   "log_tags_disable": "タグは使いません",

@@ -239,6 +239,8 @@
   "logger_step_feedback": "Perguntas sobre produtos",
   "steps": "Passos",
   "steps_introduction": "Aqui você pode decidir o que deseja rastrear para cada entrada. Você sempre pode adicionar mais etapas posteriormente.",
+  "steps_confirmation": "Confirmação",
+  "steps_confirmation_info": "Mostra uma mensagem curta e pergunta como você se sente após cada novo registro.",
   "disable_step_confirm_title": "Desativar etapa?",
   "disable_step_confirm_message": "Você pode reativá-lo mais tarde nas configurações.",
   "log_tags_disable": "não uso tags",

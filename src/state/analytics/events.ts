@@ -119,6 +119,7 @@ export interface AnalyticsEvents {
   "settings:changelog_tapped": undefined;
   "settings:scale_changed": { scale_type: SettingsState["scaleType"] };
   "settings:step_toggled": { step: LoggerStep; enabled: boolean };
+  "settings:confirmation_toggled": { enabled: boolean };
   "settings:privacy_policy_opened": undefined;
   "settings:analytics_toggled": { enabled: boolean };
 

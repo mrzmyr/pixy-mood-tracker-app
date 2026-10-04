@@ -565,6 +565,8 @@
   "statistics_worst_month": "Schlechtester Monat",
   "statistics": "Statistiken",
   "steps_introduction": "Wähle hier deine Check-in-Schritte aus.",
+  "steps_confirmation": "Bestätigung",
+  "steps_confirmation_info": "Zeigt nach jedem neuen Eintrag eine kurze Nachricht und fragt, wie du dich fühlst.",
   "steps": "Check-in",
   "tags_add_placeholder": "#großertag",
   "tags_add": "Schlagwort hinzufügen",

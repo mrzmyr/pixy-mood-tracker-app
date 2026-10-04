@@ -239,6 +239,8 @@
   "logger_step_feedback": "제품 질문",
   "steps": "단계",
   "steps_introduction": "여기에서 각 항목에 대해 추적할 항목을 결정할 수 있습니다. 나중에 언제든지 더 많은 단계를 추가할 수 있습니다.",
+  "steps_confirmation": "확인 화면",
+  "steps_confirmation_info": "새 기록을 남길 때마다 짧은 메시지를 보여 주고 지금 기분을 물어봅니다.",
   "disable_step_confirm_title": "단계를 비활성화하시겠습니까?",
   "disable_step_confirm_message": "나중에 설정에서 다시 활성화할 수 있습니다.",
   "log_tags_disable": "나는 태그를 사용하지 않습니다",

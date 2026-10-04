@@ -239,6 +239,8 @@
   "logger_step_feedback": "Questions sur le produit",
   "steps": "Pas",
   "steps_introduction": "Ici, vous pouvez décider ce que vous voulez suivre pour chaque entrée. Vous pouvez toujours ajouter d'autres étapes ultérieurement.",
+  "steps_confirmation": "Confirmation",
+  "steps_confirmation_info": "Affiche un court message et te demande comment tu te sens après chaque nouvelle entrée.",
   "disable_step_confirm_title": "Désactiver l'étape ?",
   "disable_step_confirm_message": "Vous pourrez le réactiver plus tard dans les paramètres.",
   "log_tags_disable": "je n'utilise pas de balises",

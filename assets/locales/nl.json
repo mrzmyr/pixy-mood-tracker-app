@@ -242,6 +242,8 @@
   "logger_step_feedback": "Productvragen",
   "steps": "Stappen",
   "steps_introduction": "Hier kunt u beslissen wat u voor elk item wilt bijhouden. U kunt later altijd meer stappen toevoegen.",
+  "steps_confirmation": "Bevestiging",
+  "steps_confirmation_info": "Toont na elke nieuwe invoer een kort bericht en vraagt hoe je je voelt.",
   "disable_step_confirm_title": "Stap uitschakelen?",
   "disable_step_confirm_message": "Je kunt het later weer inschakelen in de instellingen.",
   "log_tags_disable": "Ik gebruik geen tags",

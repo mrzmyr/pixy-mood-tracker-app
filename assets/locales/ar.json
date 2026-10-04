@@ -239,6 +239,8 @@
   "logger_step_feedback": "أسئلة المنتج",
   "steps": "خطوات",
   "steps_introduction": "هنا يمكنك تحديد ما تريد تتبعه لكل إدخال. يمكنك دائمًا إضافة المزيد من الخطوات لاحقًا.",
+  "steps_confirmation": "التأكيد",
+  "steps_confirmation_info": "يعرض رسالة قصيرة ويسألك عن شعورك بعد كل إدخال جديد.",
   "disable_step_confirm_title": "تعطيل الخطوة؟",
   "disable_step_confirm_message": "يمكنك إعادة تمكينه لاحقًا في الإعدادات.",
   "log_tags_disable": "أنا لا أستخدم العلامات",

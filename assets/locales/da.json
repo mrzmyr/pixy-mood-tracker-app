@@ -239,6 +239,8 @@
   "logger_step_feedback": "Produkt spørgsmål",
   "steps": "Trin",
   "steps_introduction": "Her kan du bestemme, hvad du vil spore for hver post. Du kan altid tilføje flere trin senere.",
+  "steps_confirmation": "Bekræftelse",
+  "steps_confirmation_info": "Viser en kort besked og spørger, hvordan du har det, efter hver ny registrering.",
   "disable_step_confirm_title": "Deaktiver trin?",
   "disable_step_confirm_message": "Du kan genaktivere den senere i indstillingerne.",
   "log_tags_disable": "Jeg bruger ikke tags",
