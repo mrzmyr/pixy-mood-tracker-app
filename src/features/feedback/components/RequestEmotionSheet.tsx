@@ -12,6 +12,8 @@ import {
 import { X } from "react-native-feather";
 import Button from "@/components/Button";
 import LinkButton from "@/components/LinkButton";
+import MenuList from "@/components/MenuList";
+import MenuListItem from "@/components/MenuListItem";
 import useColors from "@/hooks/useColors";
 import useHaptics from "@/hooks/useHaptics";
 import { showToast } from "@/lib/toast";
@@ -88,25 +90,21 @@ const ReplyFields = ({
 
   return (
     <>
-      <View
-        style={{
-          flexDirection: "row",
-          alignItems: "center",
-          justifyContent: "space-between",
-          marginTop: 12,
-          minHeight: 44,
-        }}
+      <MenuList
+        style={{ marginTop: 12, backgroundColor: colors.textInputBackground }}
       >
-        <Text style={{ fontSize: 17, color: colors.text }}>
-          {t("request_emotion_reply")}
-        </Text>
-        <Switch
-          testID="request-emotion-reply"
-          accessibilityLabel={t("request_emotion_reply")}
-          value={wantsReply}
-          onValueChange={onWantsReplyChange}
+        <MenuListItem
+          title={t("request_emotion_reply")}
+          iconRight={
+            <Switch
+              testID="request-emotion-reply"
+              accessibilityLabel={t("request_emotion_reply")}
+              value={wantsReply}
+              onValueChange={onWantsReplyChange}
+            />
+          }
         />
-      </View>
+      </MenuList>
       {wantsReply && (
         <TextInput
           testID="request-emotion-email"
