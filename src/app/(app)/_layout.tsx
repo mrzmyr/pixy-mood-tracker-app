@@ -6,6 +6,7 @@ import { StorageLoadGate } from "@/shell/StorageLoadGate";
 import { t } from "@/lib/translation";
 import useColors from "@/hooks/useColors";
 import { DEV_TOOLS } from "@/dev";
+import { useCanOverrideFeatureFlags } from "@/state/featureFlags";
 import { WidgetSync } from "@/features/widget";
 import { HAS_FLOATING_HEADER } from "@/features/calendar";
 
@@ -17,6 +18,7 @@ const modalOptions = { presentation: "modal" as const, headerShown: false };
 /** Root app stack keeps prior modal presentation and header titles. */
 const AppLayout = () => {
   const colors = useColors();
+  const canOverrideFeatureFlags = useCanOverrideFeatureFlags();
   const defaultOptions = {
     headerTintColor: colors.text,
     headerBackTitle: "",
@@ -170,6 +172,12 @@ const AppLayout = () => {
             name="settings/steps/people/archive"
             options={{ ...pageOptions, title: t("people_archive") }}
           />
+          <Stack.Protected guard={canOverrideFeatureFlags}>
+            <Stack.Screen
+              name="settings/feature-flags"
+              options={{ ...pageOptions, title: "Feature flags" }}
+            />
+          </Stack.Protected>
           <Stack.Protected guard={DEV_TOOLS !== null}>
             <Stack.Screen
               name="dev/fixtures"
@@ -186,10 +194,6 @@ const AppLayout = () => {
             <Stack.Screen
               name="dev/fake-contacts"
               options={{ ...pageOptions, headerShown: false }}
-            />
-            <Stack.Screen
-              name="dev/feature-flags"
-              options={{ ...pageOptions, title: "Feature flags" }}
             />
             <Stack.Screen
               name="dev/feature-flag"

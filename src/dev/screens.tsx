@@ -1,7 +1,6 @@
 import { useLocalSearchParams, useRouter } from "expo-router";
 import * as Linking from "expo-linking";
-import { Check } from "lucide-react-native";
-import { useEffect, useRef, useState, useSyncExternalStore } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ActivityIndicator, Alert, ScrollView, Text, View } from "react-native";
 import MenuList from "@/components/MenuList";
 import MenuListHeadline from "@/components/MenuListHeadline";
@@ -24,13 +23,7 @@ import { fakeFileTransfer } from "@/dev/fakeFileTransfer";
 import { fakePeopleSources } from "@/dev/fakePeopleSources";
 import { addFakeContacts, removeFakeContacts } from "@/dev/fakeContacts";
 import { setPeopleSourcesOverride } from "@/features/people";
-import {
-  getOverrides,
-  isOverride,
-  setOverride,
-  subscribe,
-} from "@/dev/featureFlagOverrides";
-import type { FeatureFlagOverride } from "@/dev/featureFlagOverrides";
+import { isOverride, setOverride } from "@/state/featureFlags/overrides";
 import { FEATURE_FLAGS, isFeatureFlag } from "@/state/featureFlags/keys";
 import { useSettings, useSettingsLoad } from "@/state/settings";
 import { fakePhotoSource } from "@/dev/fakePhotoSource";
@@ -260,52 +253,6 @@ export const DevFakeContactsLinkScreen = () => {
         <ActivityIndicator />
       )}
     </View>
-  );
-};
-
-const OVERRIDE_OPTIONS: { value: FeatureFlagOverride; title: string }[] = [
-  { value: "remote", title: "PostHog (needs consent)" },
-  { value: "on", title: "On" },
-  { value: "off", title: "Off" },
-];
-
-/**
- * Settings > Development > Feature flags: override PostHog flags on this device until the
- * app restarts. Overrides work without analytics consent.
- */
-export const DevFeatureFlagsScreen = () => {
-  const colors = useColors();
-  const overrides = useSyncExternalStore(subscribe, getOverrides);
-
-  return (
-    <ScrollView
-      style={{ backgroundColor: colors.background, flex: 1, padding: 16 }}
-    >
-      {FEATURE_FLAGS.map((key) => (
-        <View key={key}>
-          <MenuListHeadline>{key}</MenuListHeadline>
-          <MenuList>
-            {OVERRIDE_OPTIONS.map((option) => (
-              <MenuListItem
-                key={option.value}
-                title={option.title}
-                onPress={() => setOverride({ key, value: option.value })}
-                iconRight={
-                  (overrides[key] ?? "remote") === option.value ? (
-                    <Check size={18} color={colors.tint} />
-                  ) : null
-                }
-                testID={`feature-flag-${key}-${option.value}`}
-              />
-            ))}
-          </MenuList>
-        </View>
-      ))}
-      <TextInfo>
-        {`Overrides end when the app restarts. Tests set one with ${Linking.createURL("dev/feature-flag")}?key=<key>&value=on|off|remote.`}
-      </TextInfo>
-      <View style={{ height: 100 }} />
-    </ScrollView>
   );
 };
 
