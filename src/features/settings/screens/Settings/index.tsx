@@ -2,7 +2,8 @@ import { useRouter } from "expo-router";
 import * as Linking from "expo-linking";
 import * as StoreReview from "expo-store-review";
 import * as WebBrowser from "expo-web-browser";
-import { Platform, ScrollView, Text, View } from "react-native";
+import { useState } from "react";
+import { Platform, Pressable, ScrollView, Text, View } from "react-native";
 import {
   ArrowUpCircle,
   Award,
@@ -37,8 +38,12 @@ import pkg from "../../../../../package.json";
 import { Bug, LayoutGrid, Lightbulb } from "lucide-react-native";
 import { useSupport } from "@/support";
 
+const DEVELOPMENT_UNLOCK_TAPS = 20;
+
 /**
  * Settings screen, opened from the calendar header. The support card needs its feature flag and an enabled client.
+ * The Development section shows in development and preview builds, with the
+ * `development` feature flag, or after 20 taps on the version in this session.
  */
 export const SettingsScreen = () => {
   const router = useRouter();
@@ -47,6 +52,12 @@ export const SettingsScreen = () => {
   const isWidgetEnabled = useIsWidgetEnabled();
   const support = useSupport();
   const isSupportEnabled = useFeatureFlag("support-pixy");
+  const isDevelopmentFlagOn = useFeatureFlag("development");
+  const [versionTaps, setVersionTaps] = useState(0);
+  const isDevelopmentVisible =
+    DEV_TOOLS !== null ||
+    isDevelopmentFlagOn ||
+    versionTaps >= DEVELOPMENT_UNLOCK_TAPS;
 
   const { show: showFeedbackModal, Modal: FeedbackModal } = useFeedbackModal();
 
@@ -191,41 +202,53 @@ export const SettingsScreen = () => {
           />
         </MenuList>
 
-        <MenuListHeadline>{t("settings_development")}</MenuListHeadline>
-        <MenuList style={{}}>
-          <MenuListItem
-            title={t("onboarding")}
-            iconLeft={<Smartphone width={18} color={colors.menuListItemIcon} />}
-            onPress={() => router.push("/onboarding")}
-          />
-          {DEV_TOOLS && (
-            <MenuListItem
-              title="Test data"
-              iconLeft={<Database width={18} color={colors.menuListItemIcon} />}
-              onPress={() => router.push("/dev/fixtures")}
-              isLink
-              testID="dev-fixtures"
-            />
-          )}
-          {DEV_TOOLS && (
-            <MenuListItem
-              title="Feature flags"
-              iconLeft={<Flag width={18} color={colors.menuListItemIcon} />}
-              onPress={() => router.push("/dev/feature-flags")}
-              isLink
-              testID="dev-feature-flags"
-            />
-          )}
-          <MenuListItem
-            title={t("settings_development_statistics")}
-            iconLeft={<PieChart width={18} color={colors.menuListItemIcon} />}
-            onPress={() => router.push("/settings/development-tools")}
-            isLink
-          />
-        </MenuList>
+        {isDevelopmentVisible && (
+          <>
+            <MenuListHeadline>{t("settings_development")}</MenuListHeadline>
+            <MenuList style={{}}>
+              <MenuListItem
+                title={t("onboarding")}
+                iconLeft={
+                  <Smartphone width={18} color={colors.menuListItemIcon} />
+                }
+                onPress={() => router.push("/onboarding")}
+              />
+              {DEV_TOOLS && (
+                <MenuListItem
+                  title="Test data"
+                  iconLeft={
+                    <Database width={18} color={colors.menuListItemIcon} />
+                  }
+                  onPress={() => router.push("/dev/fixtures")}
+                  isLink
+                  testID="dev-fixtures"
+                />
+              )}
+              {DEV_TOOLS && (
+                <MenuListItem
+                  title="Feature flags"
+                  iconLeft={<Flag width={18} color={colors.menuListItemIcon} />}
+                  onPress={() => router.push("/dev/feature-flags")}
+                  isLink
+                  testID="dev-feature-flags"
+                />
+              )}
+              <MenuListItem
+                title={t("settings_development_statistics")}
+                iconLeft={
+                  <PieChart width={18} color={colors.menuListItemIcon} />
+                }
+                onPress={() => router.push("/settings/development-tools")}
+                isLink
+              />
+            </MenuList>
+          </>
+        )}
         {isSupportEnabled && support.enabled && <SupportCard />}
-        <View
+        <Pressable
           testID="settings-version"
+          accessible={false}
+          onPress={() => setVersionTaps((taps) => taps + 1)}
           style={{
             marginTop: 20,
             flex: 1,
@@ -250,7 +273,7 @@ export const SettingsScreen = () => {
               {APP_VARIANT}
             </Text>
           )}
-        </View>
+        </Pressable>
       </ScrollView>
     </View>
   );

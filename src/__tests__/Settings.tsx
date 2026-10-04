@@ -1,7 +1,13 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { usePostHog as getPostHogTestClient } from "posthog-react-native";
 import { DefaultTheme, ThemeProvider } from "expo-router";
-import { act, render, userEvent, waitFor } from "@testing-library/react-native";
+import {
+  act,
+  fireEvent,
+  render,
+  userEvent,
+  waitFor,
+} from "@testing-library/react-native";
 import { Alert } from "react-native";
 import Providers from "@/shell/Providers";
 import Colors from "@/constants/Colors";
@@ -259,10 +265,12 @@ describe("Feedback in Settings", () => {
   });
 
   test("user finds feedback, about and development items in their sections", async () => {
+    mockReload.mockResolvedValue({ development: true });
     const screen = await renderSettings({
       enabled: false,
       openSupport: () => Promise.resolve(),
     });
+    await screen.findByText("Development");
 
     expect(screen.getByText("Feedback")).toBeOnTheScreen();
     expect(screen.getByText("About")).toBeOnTheScreen();
@@ -272,5 +280,49 @@ describe("Feedback in Settings", () => {
     expect(screen.getByText("What's new")).toBeOnTheScreen();
     expect(screen.getByText("Statistics for Nerds")).toBeOnTheScreen();
     expect(screen.getByText("Licenses")).toBeOnTheScreen();
+  });
+});
+
+const renderWithoutFlags = async () => {
+  mockReload.mockResolvedValue({});
+  const screen = await renderSettings({
+    enabled: false,
+    openSupport: () => Promise.resolve(),
+  });
+  await waitFor(() => expect(mockReload).toHaveBeenCalledTimes(1));
+  return screen;
+};
+
+describe("Development section in Settings", () => {
+  test("user does not see development items by default", async () => {
+    const screen = await renderWithoutFlags();
+
+    expect(screen.queryByText("Development")).toBeNull();
+    expect(screen.queryByText("Statistics for Nerds")).toBeNull();
+  });
+
+  test("user sees development items when the flag is on", async () => {
+    mockReload.mockResolvedValue({ development: true });
+    const screen = await renderSettings({
+      enabled: false,
+      openSupport: () => Promise.resolve(),
+    });
+
+    expect(await screen.findByText("Development")).toBeOnTheScreen();
+  });
+
+  test("user unlocks development items with 20 taps on the version", async () => {
+    const screen = await renderWithoutFlags();
+    const version = screen.getByTestId("settings-version");
+
+    for (const _tap of Array.from({ length: 19 })) {
+      fireEvent.press(version);
+    }
+    expect(screen.queryByText("Development")).toBeNull();
+
+    fireEvent.press(version);
+
+    expect(await screen.findByText("Development")).toBeOnTheScreen();
+    expect(screen.getByText("Statistics for Nerds")).toBeOnTheScreen();
   });
 });
