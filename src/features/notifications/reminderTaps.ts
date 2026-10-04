@@ -4,7 +4,7 @@ import { useEffect, useEffectEvent, useLayoutEffect, useRef } from "react";
 import { Platform } from "react-native";
 import { useAnalytics } from "@/state/analytics";
 import type { AnalyticsEvents } from "@/state/analytics/events";
-import { useSettings } from "@/state/settings";
+import { useSettingsLoad } from "@/state/settings";
 
 /** `content.data` of every scheduled reminder. Marks taps as reminder taps. */
 export const REMINDER_NOTIFICATION_DATA = { kind: "reminder" } as const;
@@ -89,14 +89,14 @@ export const useReminderTapTracking = (
   source: NotificationResponseSource = defaultSource
 ) => {
   const analytics = useAnalytics();
-  const { settings } = useSettings();
+  const isSettingsReady = useSettingsLoad().status === "ready";
   const pending = useRef<
     { response: NotificationResponse; coldStart: boolean }[]
   >([]);
   const seen = useRef(new Set<string>());
 
   const flush = useEffectEvent(() => {
-    if (!settings.loaded) {
+    if (!isSettingsReady) {
       return;
     }
 
@@ -145,8 +145,8 @@ export const useReminderTapTracking = (
   }, [source]);
 
   useEffect(() => {
-    if (settings.loaded) {
+    if (isSettingsReady) {
       flush();
     }
-  }, [settings.loaded]);
+  }, [isSettingsReady]);
 };

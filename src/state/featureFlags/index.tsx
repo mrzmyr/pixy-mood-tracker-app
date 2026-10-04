@@ -9,7 +9,7 @@ import {
   useSyncExternalStore,
 } from "react";
 import { createStructuredError } from "@/lib/errors";
-import { useSettings } from "@/state/settings";
+import { useSettings, useSettingsLoad } from "@/state/settings";
 import type { FeatureFlag } from "@/state/featureFlags/keys";
 import { DEV_OVERRIDES } from "@/state/featureFlags/overrides";
 
@@ -53,11 +53,12 @@ export const FeatureFlagsProvider = ({
 }) => {
   const posthog = usePostHog();
   const { settings, hasActionDone } = useSettings();
+  const isSettingsReady = useSettingsLoad().status === "ready";
   const [remoteFlags, setRemoteFlags] = useState<RemoteFlags | null>(null);
 
   const hasConsent =
     options.enabled &&
-    settings.loaded &&
+    isSettingsReady &&
     hasActionDone("onboarding") &&
     settings.analyticsEnabled;
 
@@ -100,7 +101,7 @@ export const FeatureFlagsProvider = ({
 
   const isLoading =
     options.enabled &&
-    (!settings.loaded || (hasConsent && remoteFlags === null));
+    (!isSettingsReady || (hasConsent && remoteFlags === null));
   const value = useMemo(
     () => ({ flags: remoteFlags, isLoading }),
     [remoteFlags, isLoading]

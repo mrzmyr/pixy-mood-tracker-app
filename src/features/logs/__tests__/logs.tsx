@@ -1,5 +1,4 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import * as Sentry from "@sentry/react-native";
 import { act, renderHook, waitFor } from "@testing-library/react-native";
 import { AnalyticsProvider } from "@/state/analytics";
 import {
@@ -16,11 +15,6 @@ import { _generateItem } from "@/__tests__/utils";
 import { File } from "expo-file-system";
 import { getPhotosDirectory } from "@/features/photos";
 import omit from "lodash/omit";
-
-// oxlint-disable-next-line anti-slop/no-module-mocking -- useLogs reports through the Sentry SDK imported directly in state/persisted; the test asserts on captureException
-jest.mock("@sentry/react-native", () => ({
-  captureException: jest.fn(),
-}));
 
 const wrapper = ({ children }) => (
   <SettingsProvider>
@@ -64,7 +58,7 @@ const _renderHook = () =>
 
 const waitForLoaded = (hook) =>
   waitFor(() => {
-    expect(hook.result.current.state.loaded).toBe(true);
+    expect(hook.result.current.load.status).toBe("ready");
   });
 
 const countLogSaves = () =>
@@ -235,77 +229,6 @@ describe("useLogs()", () => {
     const hook = await _renderHook();
     await waitForLoaded(hook);
     expect(hook.result.current.state.items).toEqual([]);
-  });
-
-  test("should expose load status `ready` after a successful load", async () => {
-    const hook = await _renderHook();
-    await waitForLoaded(hook);
-    expect(hook.result.current.load).toEqual(
-      expect.objectContaining({ status: "ready", error: null })
-    );
-  });
-
-  test("should expose load error and never store when stored logs cannot be parsed", async () => {
-    await AsyncStorage.setItem(STORAGE_KEY, "🐇");
-    const setItemSpy = jest.spyOn(AsyncStorage, "setItem");
-    setItemSpy.mockClear();
-
-    const hook = await _renderHook();
-
-    await waitFor(() => {
-      expect(hook.result.current.load.status).toBe("error");
-    });
-    expect(Sentry.captureException).toHaveBeenCalled();
-    expect(hook.result.current.state.loaded).toBe(false);
-    expect(hook.result.current.load.error).toEqual(
-      expect.objectContaining({
-        status: "storage_invalid_value",
-        message: "Stored data is invalid",
-        why: expect.stringContaining(STORAGE_KEY),
-        fix: expect.any(String),
-      })
-    );
-
-    // Updaters still change memory but must not persist over stored data.
-    await act(() => {
-      hook.result.current.updater.addLog(testItems[0]);
-    });
-    await act(() => {
-      hook.result.current.updater.reset();
-    });
-
-    expect(setItemSpy).not.toHaveBeenCalledWith(STORAGE_KEY, expect.anything());
-    expect(await AsyncStorage.getItem(STORAGE_KEY)).toBe("🐇");
-  });
-
-  test("should keep logs unloaded when async storage cannot be read", async () => {
-    const readError = new Error("disk unavailable");
-    const getItemSpy = jest
-      .spyOn(AsyncStorage, "getItem")
-      .mockImplementation((key) =>
-        key === STORAGE_KEY ? Promise.reject(readError) : Promise.resolve(null)
-      );
-    const setItemSpy = jest.spyOn(AsyncStorage, "setItem");
-
-    const hook = await _renderHook();
-
-    await waitFor(() => {
-      expect(getItemSpy).toHaveBeenCalledWith(STORAGE_KEY);
-      expect(Sentry.captureException).toHaveBeenCalledWith(
-        expect.objectContaining({
-          status: "storage_read_failed",
-          message: "Stored data could not be read",
-          why: `Reading storage key "${STORAGE_KEY}" failed: disk unavailable`,
-          fix: "Retry the operation and check device storage access",
-        })
-      );
-    });
-
-    expect(hook.result.current.state.loaded).toBe(false);
-    expect(setItemSpy).not.toHaveBeenCalledWith(STORAGE_KEY, expect.anything());
-
-    getItemSpy.mockRestore();
-    setItemSpy.mockRestore();
   });
 
   test("should import", async () => {

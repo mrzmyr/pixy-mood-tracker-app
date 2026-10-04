@@ -9,17 +9,32 @@ import { AnalyticsProvider } from "@/state/analytics";
 import { useDatagate } from "../DataGate";
 
 import _ from "lodash";
-import { LogsProvider, useLogState, useLogUpdater } from "@/features/logs";
+import {
+  LogsProvider,
+  useLogLoad,
+  useLogState,
+  useLogUpdater,
+} from "@/features/logs";
 import type { LogsState } from "@/features/logs";
 
-import { SettingsProvider, useSettings } from "@/state/settings";
+import {
+  SettingsProvider,
+  useSettings,
+  useSettingsLoad,
+} from "@/state/settings";
 import type { ExportSettings } from "@/state/settings";
 import { INITIAL_STATE } from "@/constants/Settings";
 
-import { TagsProvider, useTagsState, useTagsUpdater } from "@/features/tags";
+import {
+  TagsProvider,
+  useTagsLoad,
+  useTagsState,
+  useTagsUpdater,
+} from "@/features/tags";
 import type { Tag } from "@/features/tags";
 import {
   PeopleProvider,
+  usePeopleLoad,
   usePeopleState,
   usePeopleUpdater,
 } from "@/features/people";
@@ -114,16 +129,16 @@ const _renderHook = () =>
       peopleState: usePeopleState(),
       peopleUpdater: usePeopleUpdater(),
       settingsState: useSettings(),
+      loads: [useLogLoad(), useTagsLoad(), usePeopleLoad(), useSettingsLoad()],
     }),
     { wrapper }
   );
 
 const waitForLoaded = (hook) =>
   waitFor(() => {
-    expect(hook.result.current.logState.loaded).toBe(true);
-    expect(hook.result.current.tagsState.loaded).toBe(true);
-    expect(hook.result.current.peopleState.loaded).toBe(true);
-    expect(hook.result.current.settingsState.settings.loaded).toBe(true);
+    for (const load of hook.result.current.loads) {
+      expect(load.status).toBe("ready");
+    }
   });
 
 const testPeople: Person[] = [
@@ -194,17 +209,14 @@ describe("useLogs()", () => {
 
     expect(Alert.alert).toBeCalled();
     expect(hook.result.current.logState).toEqual({
-      loaded: true,
       items: testItems,
     });
     expect(hook.result.current.logState.items[1].photos).toEqual([testPhoto]);
     expect(hook.result.current.tagsState).toEqual({
-      loaded: true,
       tags: testTags,
     });
     expect(hook.result.current.settingsState.settings).toEqual({
       ...testSettings,
-      loaded: true,
     });
   });
 
@@ -235,7 +247,6 @@ describe("useLogs()", () => {
       version: pkg.version,
       items: testItems,
       settings: _.omit(testSettings, [
-        "loaded",
         "deviceId",
         "storeReviewPromptedAt",
         "storeReviewPromptedAppVersion",
@@ -362,11 +373,9 @@ describe("useLogs()", () => {
 
     expect(Alert.alert).toBeCalled();
     expect(hook.result.current.logState).toEqual({
-      loaded: true,
       items: [],
     });
     expect(hook.result.current.tagsState).toEqual({
-      loaded: true,
       tags: expect.arrayContaining([
         expect.objectContaining({ id: "1" }),
         expect.objectContaining({ id: "18" }),
@@ -375,7 +384,6 @@ describe("useLogs()", () => {
     expect(hook.result.current.settingsState.settings).toEqual({
       ...INITIAL_STATE,
       deviceId: expect.any(String),
-      loaded: true,
     });
   });
 
@@ -485,18 +493,15 @@ describe("useLogs()", () => {
     });
 
     expect(hook.result.current.logState).toEqual({
-      loaded: true,
       items: testItems,
     });
 
     expect(hook.result.current.tagsState).toEqual({
-      loaded: true,
       tags: testTags,
     });
 
     expect(hook.result.current.settingsState.settings).toEqual({
       ...testSettings,
-      loaded: true,
     });
   });
 

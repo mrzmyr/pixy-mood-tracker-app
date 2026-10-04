@@ -5,7 +5,7 @@ import Colors from "@/constants/Colors";
 import { LogsProvider } from "@/features/logs";
 import { TagsProvider } from "@/features/tags";
 import { AnalyticsProvider } from "@/state/analytics";
-import { SettingsProvider, useSettings } from "@/state/settings";
+import { SettingsProvider, useSettingsLoad } from "@/state/settings";
 import type { LogPhoto } from "@/types";
 import { Entry } from "../screens/LogList/Entry";
 
@@ -26,8 +26,8 @@ const photo: LogPhoto = {
 };
 
 const Loaded = ({ children }: { children: React.ReactNode }) => {
-  const { settings } = useSettings();
-  return settings.loaded ? children : null;
+  const { status } = useSettingsLoad();
+  return status === "ready" ? children : null;
 };
 
 const renderEntry = ({ photos }: { photos: LogPhoto[] }) =>

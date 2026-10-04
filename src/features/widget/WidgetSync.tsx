@@ -4,7 +4,7 @@ import * as FileSystem from "expo-file-system/legacy";
 import { useEffect, useMemo, useRef } from "react";
 import { AppState, View } from "react-native";
 import { captureRef } from "react-native-view-shot";
-import { useLogState } from "@/features/logs";
+import { useLogLoad, useLogState } from "@/features/logs";
 import { createStructuredError } from "@/lib/errors";
 import { useFeatureFlagState } from "@/state/featureFlags";
 import { useSetting } from "@/state/settings";
@@ -48,7 +48,8 @@ const captureYearImage = async (view: View, name: string) => {
  * installed.
  */
 export const WidgetSync = () => {
-  const { items, loaded } = useLogState();
+  const { items } = useLogState();
+  const loaded = useLogLoad().status === "ready";
   const scaleType = useSetting("scaleType") ?? DEFAULT_SCALE;
   const flagState = useFeatureFlagState("ios-widget");
   // One view per captured row: [scheme][layout][row].

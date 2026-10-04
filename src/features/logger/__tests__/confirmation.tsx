@@ -5,7 +5,11 @@ import { _generateItem } from "@/__tests__/utils";
 import { t } from "@/lib/translation";
 import { INITIAL_STATE } from "@/constants/Settings";
 import { AnalyticsProvider } from "@/state/analytics";
-import { SettingsProvider, STORAGE_KEY, useSettings } from "@/state/settings";
+import {
+  SettingsProvider,
+  STORAGE_KEY,
+  useSettingsLoad,
+} from "@/state/settings";
 import {
   countWords,
   getEntryProperties,
@@ -23,7 +27,7 @@ const { capture: mockCapture } = getPostHogTestClient();
 
 // The app mounts the logger only after settings load, like this gate.
 const SettingsLoaded = ({ children }) =>
-  useSettings().settings.loaded ? children : null;
+  useSettingsLoad().status === "ready" ? children : null;
 
 const wrapper = ({ children }) => (
   <SettingsProvider>
