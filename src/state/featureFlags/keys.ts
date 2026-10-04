@@ -9,6 +9,7 @@ export const FEATURE_FLAGS = [
   "support-pixy",
   "people",
   "ios-widget",
+  "development",
 ] as const;
 
 /** One key of {@link FEATURE_FLAGS}. */
