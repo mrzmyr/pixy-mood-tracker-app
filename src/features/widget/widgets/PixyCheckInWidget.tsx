@@ -10,8 +10,6 @@ import {
 } from "@expo/ui/swift-ui";
 import {
   accessibilityLabel,
-  Animation,
-  animation,
   aspectRatio,
   buttonStyle,
   containerBackground,
@@ -20,7 +18,6 @@ import {
   foregroundStyle,
   frame,
   opacity,
-  scaleEffect,
   widgetURL,
 } from "@expo/ui/swift-ui/modifiers";
 import { createWidget } from "expo-widgets";
@@ -31,7 +28,7 @@ import type { CheckInWidgetProps } from "../widgetProps";
  * Seven rating pixels, worst to best, that log a mood without opening the
  * app. No rating words: colors carry the scale. A tap runs `onPress` in the
  * widget extension: it appends the tap to `taps`, moves the check mark, and
- * swaps the buttons for an animated success card; the app imports `taps` as entries on its
+ * swaps the buttons for a success card; the app imports `taps` as entries on its
  * next start or foreground. Runs in the widget runtime: no hooks, no
  * imports besides `@expo/ui`, and no module-scope values.
  */
@@ -116,12 +113,8 @@ const PixyCheckInWidget = (
       };
     };
 
-    // Both layers stay mounted so WidgetKit keeps their identity and
-    // animates opacity and scale between renders.
-    const swap = animation(
-      Animation.spring({ duration: 0.5, bounce: 0.35 }),
-      isSaved
-    );
+    // No animation between states: expo-widgets wraps every view in
+    // `.transition(.identity)` and rebuilds it on each render.
 
     const checkIn = (
       <VStack
@@ -130,9 +123,7 @@ const PixyCheckInWidget = (
         modifiers={[
           frame({ maxWidth: Infinity, maxHeight: Infinity }),
           opacity(isSaved ? 0 : 1),
-          scaleEffect(isSaved ? 0.9 : 1),
           disabled(isSaved),
-          swap,
         ]}
       >
         <HStack spacing={4}>
@@ -199,8 +190,6 @@ const PixyCheckInWidget = (
           buttonStyle("plain"),
           disabled(!isSaved),
           opacity(isSaved ? 1 : 0),
-          scaleEffect(isSaved ? 1 : 0.6),
-          swap,
         ]}
       >
         <VStack
