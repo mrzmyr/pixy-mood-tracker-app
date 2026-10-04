@@ -15,7 +15,7 @@ tags: [p1, photos]
 - openLink: ${APP_SCHEME}://dev/fake-files
 - extendedWaitUntil:
     visible:
-      id: "calendar"
+      id: "calendar-list"
     timeout: 10000
 - runFlow:
     file: ../subflows/enable-feature-flag.yaml
