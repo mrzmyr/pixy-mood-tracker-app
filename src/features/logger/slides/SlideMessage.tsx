@@ -16,6 +16,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import DismissKeyboard from "@/components/DismisKeyboard";
 import LinkButton from "@/components/LinkButton";
 import TextArea from "@/components/TextArea";
+import { LOGGER_HEADER_ICON_INSET } from "../components/LoggerHeader";
 import { Footer } from "./Footer";
 
 const MAX_LENGTH = 10 * 1000;
@@ -86,7 +87,7 @@ const SlideMessageComponent = (
             flex: 1,
             backgroundColor: colors.logBackground,
             width: "100%",
-            paddingHorizontal: 20,
+            paddingHorizontal: LOGGER_HEADER_ICON_INSET,
             paddingBottom: keyboardVisible ? 8 : insets.bottom + 16,
           }}
         >
