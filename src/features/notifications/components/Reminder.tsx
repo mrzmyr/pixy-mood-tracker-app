@@ -105,9 +105,12 @@ const Reminder = () => {
           <View
             style={{
               padding: 16,
+              marginHorizontal: 16,
+              paddingHorizontal: 0,
+              borderTopWidth: 1,
+              borderTopColor: colors.menuListItemBorder,
               flexDirection: "row",
               alignItems: "center",
-              width: "100%",
             }}
           >
             <View
