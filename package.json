@@ -14,6 +14,7 @@
     "e2e": "bun scripts/cli/index.ts e2e",
     "devices": "bun scripts/cli/index.ts devices",
     "builds": "bun scripts/cli/index.ts builds",
+    "worktree": "bun scripts/cli/index.ts worktree",
     "test:cli": "bun test scripts/cli",
     "web": "EXPO_PUBLIC_APP_VARIANT=development expo start --web",
     "test": "jest --watchAll --env=jsdom",

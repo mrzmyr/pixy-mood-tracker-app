@@ -13,6 +13,12 @@ interface OptionSpec {
   choices?: readonly string[];
   invalidStatus?: string;
 }
+/** One positional argument. Its value lands in `values[name]`. Always required. */
+interface PositionalSpec {
+  name: string;
+  value: string;
+  description: string[];
+}
 interface HelpSection {
   title: "Behavior" | "Requires" | "Output" | "Examples";
   lines: string[];
@@ -20,6 +26,7 @@ interface HelpSection {
 interface CommandSpec {
   summary: string;
   usage?: string;
+  positional?: PositionalSpec;
   options?: Record<string, OptionSpec>;
   exactlyOne?: string[];
   sections?: HelpSection[];

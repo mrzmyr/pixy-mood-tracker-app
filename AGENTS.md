@@ -8,6 +8,7 @@
 
 - the project is called `pixy-mood-tracker`, use that slug always when creating folders, exeutables etc (not `pixy`, `pixy-app` etc)
 - remove worktree when branch merged
+- Start code changes with `bun worktree new <slug>`. Never edit the main checkout. Never use `--no-verify`.
 - Do not document anything that an agent can easily find with code search
 
 ## Feature Flags
