@@ -4,6 +4,7 @@
   "save": "salva",
   "add": "Adăuga",
   "cancel": "Anulare",
+  "clear": "Șterge",
   "delete_all_data_button": "Șterge toate datele mele",
   "delete_all_data_description": "Șterge toate intrările, fotografiile, etichetele, persoanele și setările. Exportați mai întâi datele pentru a păstra o copie.",
   "delete_all_data_confirm_title": "Șterge toate datele mele",

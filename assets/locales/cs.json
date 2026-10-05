@@ -4,6 +4,7 @@
   "save": "Uložit",
   "add": "Přidat",
   "cancel": "zrušení",
+  "clear": "Vymazat",
   "delete_all_data_button": "Smazat všechna moje data",
   "delete_all_data_description": "Smaže všechny záznamy, fotky, tagy, lidi a nastavení. Nejdřív data exportujte, abyste si ponechali kopii.",
   "delete_all_data_confirm_title": "Smazat všechna moje data",

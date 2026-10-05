@@ -4,6 +4,7 @@
   "save": "Mentés",
   "add": "Hozzáadás",
   "cancel": "Mégsem",
+  "clear": "Törlés",
   "delete_all_data_button": "Összes adatom törlése",
   "delete_all_data_description": "Törli az összes bejegyzést, fotót, címkét, személyt és beállítást. Előbb exportáld az adataidat, ha meg akarsz tartani egy másolatot.",
   "delete_all_data_confirm_title": "Összes adatom törlése",

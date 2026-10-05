@@ -4,6 +4,7 @@
   "save": "Tallentaa",
   "add": "Lisätä",
   "cancel": "Peruuttaa",
+  "clear": "Tyhjennä",
   "delete_all_data_button": "Poista kaikki tietoni",
   "delete_all_data_description": "Poistaa kaikki merkinnät, kuvat, tunnisteet, henkilöt ja asetukset. Vie tietosi ensin, jos haluat säilyttää kopion.",
   "delete_all_data_confirm_title": "Poista kaikki tietoni",

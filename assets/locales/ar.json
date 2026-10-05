@@ -4,6 +4,7 @@
   "save": "يحفظ",
   "add": "يضيف",
   "cancel": "يلغي",
+  "clear": "مسح",
   "delete_all_data_button": "حذف جميع بياناتي",
   "delete_all_data_description": "يحذف جميع الإدخالات والصور والعلامات والأشخاص والإعدادات. صدّر بياناتك أولاً للاحتفاظ بنسخة.",
   "delete_all_data_confirm_title": "حذف جميع بياناتي",

@@ -4,6 +4,7 @@
   "save": "Lagre",
   "add": "Legg til",
   "cancel": "Avbryt",
+  "clear": "Tøm",
   "delete_all_data_button": "Slett alle dataene mine",
   "delete_all_data_description": "Sletter alle oppføringer, bilder, tagger, personer og innstillinger. Eksporter dataene dine først for å beholde en kopi.",
   "delete_all_data_confirm_title": "Slett alle dataene mine",

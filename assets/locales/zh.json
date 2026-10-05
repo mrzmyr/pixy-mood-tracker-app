@@ -3,6 +3,7 @@
   "reset": "重置",
   "save": "拯救",
   "cancel": "取消",
+  "clear": "清除",
   "delete_all_data_button": "删除我的所有数据",
   "delete_all_data_description": "删除所有条目、照片、标签、人物和设置。如需保留副本，请先导出数据。",
   "delete_all_data_confirm_title": "删除我的所有数据",
