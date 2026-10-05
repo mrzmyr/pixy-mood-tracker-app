@@ -89,9 +89,12 @@ export default defineConfig({
       rules: { "oxc/no-barrel-file": "off" },
     },
     {
-      // App code runs on Hermes; scripts run on Bun and Node.
+      // App code runs on Hermes and Fabric; scripts run on Bun and Node.
       files: ["src/**"],
-      rules: { "pixy-standards/no-hermes-missing-array-methods": "error" },
+      rules: {
+        "pixy-standards/no-hermes-missing-array-methods": "error",
+        "pixy-standards/no-layout-animation": "error",
+      },
     },
   ],
 });
