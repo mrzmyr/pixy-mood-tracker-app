@@ -8,6 +8,7 @@ import {
   STORAGE_FIXTURES,
 } from "@/dev/fixtures";
 import { decodeBackupData } from "@/features/datagate";
+import { EMOTIONS } from "@/features/logger";
 import { MAX_PHOTOS_PER_ENTRY } from "@/features/photos";
 
 const requireFixture = (id: string) => {
@@ -104,6 +105,16 @@ describe("stress fixture", () => {
     for (const { title } of data.tags ?? []) {
       expect(title.length).toBeLessThanOrEqual(MAX_TAG_LENGTH);
     }
+  });
+
+  it("uses every emotion the logger knows, and only those", () => {
+    const keys = new Set(items.flatMap((item) => item.emotions ?? []));
+    expect([...keys].sort()).toEqual(EMOTIONS.map(({ key }) => key).sort());
+  });
+
+  it("fills an entry with the photo limit", () => {
+    const counts = items.map((item) => item.photos?.length ?? 0);
+    expect(Math.max(...counts)).toBe(MAX_PHOTOS_PER_ENTRY);
   });
 
   it("ships a file for every photo except the missing-file entry", () => {

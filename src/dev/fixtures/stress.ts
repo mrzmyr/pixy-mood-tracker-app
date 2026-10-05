@@ -1,11 +1,10 @@
 import dayjs from "dayjs";
 import { MAX_PEOPLE, MAX_TAGS, TAG_COLOR_NAMES } from "@/constants/Config";
 import type { ExportPerson, ImportData } from "@/features/datagate";
-import { EMOTIONS } from "@/features/logger";
 import type { LogItem } from "@/features/logs";
-import { MAX_PHOTOS_PER_ENTRY } from "@/features/photos";
 import type { Tag } from "@/features/tags";
 import type { LogPhoto } from "@/types";
+import en from "../../../assets/locales/en.json";
 
 // Small JPEGs made with ffmpeg (`gradients`, `testsrc2`, `color` sources).
 // One per aspect ratio, so layouts meet wide, tall, square, and tiny photos.
@@ -47,6 +46,15 @@ const IMAGES = [
       "/9j/4AAQSkZJRgABAgAAAQABAAD//gAQTGF2YzYxLjE5LjEwMQD/2wBDAAgQEBMQExYWFhYWFhoYGhsbGxoaGhobGxsdHR0iIiIdHR0bGx0dICAiIiUmJSMjIiMmJigoKDAwLi44ODpFRVP/xABMAAEBAAAAAAAAAAAAAAAAAAAABwEBAQAAAAAAAAAAAAAAAAAABQYQAQAAAAAAAAAAAAAAAAAAAAARAQAAAAAAAAAAAAAAAAAAAAD/wAARCAAIAAgDASIAAhEAAxEA/9oADAMBAAIRAxEAPwCigGlS/9k=",
   },
 ];
+
+// The CLI reads the fixture list with Bun, so this file imports no React
+// Native code. src/__tests__/dev-fixtures.ts checks both values against the
+// app: MAX_PHOTOS_PER_ENTRY and the EMOTIONS keys.
+const MAX_PHOTOS_PER_ENTRY = 6;
+const EMOTION_KEYS = Object.keys(en).flatMap((key) => {
+  const emotion = /^log_emotion_(?<key>.+)$/u.exec(key)?.groups?.key;
+  return emotion && !emotion.endsWith("_description") ? [emotion] : [];
+});
 
 // Longest note the logger accepts (SlideMessage MAX_LENGTH).
 const MAX_MESSAGE_LENGTH = 10_000;
@@ -157,7 +165,7 @@ const makePhotos = (count: number, dateTime: string, isMissing = false) =>
 
 const ALL_TAGS = TAGS.map(({ id }) => ({ id }));
 const ALL_PEOPLE = PEOPLE.map(({ id }) => ({ id }));
-const ALL_EMOTIONS = EMOTIONS.map(({ key }) => key);
+const ALL_EMOTIONS = EMOTION_KEYS;
 
 let itemIndex = 0;
 const makeItem = ({
