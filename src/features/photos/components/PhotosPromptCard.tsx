@@ -2,6 +2,7 @@ import { Text, View } from "react-native";
 import Button from "@/components/Button";
 import LinkButton from "@/components/LinkButton";
 import useColors from "@/hooks/useColors";
+import { RADIUS } from "@/constants/Radius";
 
 const PREVIEW_TILES = 3;
 const PREVIEW_GAP = 8;
@@ -40,7 +41,7 @@ export const PhotosPromptCard = ({
         alignItems: "center",
         gap: 8,
         padding: 16,
-        borderRadius: 18,
+        borderRadius: RADIUS.lg,
         borderWidth: 1,
         borderColor: colors.cardBorder,
         backgroundColor: colors.cardBackground,
@@ -63,7 +64,7 @@ export const PhotosPromptCard = ({
               style={{
                 flex: 1,
                 aspectRatio: 1,
-                borderRadius: 12,
+                borderRadius: RADIUS.md,
                 backgroundColor: colors.backgroundSecondary,
               }}
             />

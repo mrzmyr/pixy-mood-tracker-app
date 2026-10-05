@@ -2,6 +2,7 @@ import isString from "lodash/isString";
 import type { ReactNode } from "react";
 import { Text, View } from "react-native";
 import useColors from "@/hooks/useColors";
+import { RADIUS } from "@/constants/Radius";
 
 /**
  * Plain statistics card with a title and optional subtitle; unlike
@@ -25,7 +26,7 @@ export const Card = ({
         paddingBottom: 16,
         paddingLeft: 16,
         paddingRight: 16,
-        borderRadius: 8,
+        borderRadius: RADIUS.md,
         backgroundColor: colors.cardBackground,
         marginTop: 16,
       }}

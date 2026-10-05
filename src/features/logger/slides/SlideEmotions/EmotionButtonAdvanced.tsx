@@ -6,6 +6,7 @@ import type { ViewStyle } from "react-native";
 
 import { RectButton } from "react-native-gesture-handler";
 import { EmotionIndicator } from "./EmotionsIndicator";
+import { RADIUS } from "@/constants/Radius";
 
 const DEFAULT_STYLE = {};
 
@@ -47,7 +48,7 @@ export const EmotionButtonAdvanced = ({
           width: "100%",
           // backgroundColor: colors.cardBackground,
           backgroundColor: colors.logCardBackground,
-          borderRadius: 8,
+          borderRadius: RADIUS.sm,
           borderWidth: selected ? 2 : 1,
           borderColor: selected ? colors.tint : unselectedBorderColor,
           flexDirection: "row",

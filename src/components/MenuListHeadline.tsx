@@ -21,7 +21,6 @@ const MenuListHeadline = ({
         textTransform: "uppercase",
         color: colors.textSecondary,
         padding: 0,
-        borderRadius: 8,
         width: "100%",
         marginTop: 32,
         paddingLeft: 16,

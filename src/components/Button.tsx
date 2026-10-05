@@ -5,6 +5,7 @@ import type { ViewStyle } from "react-native";
 import useColors from "@/hooks/useColors";
 import useHaptics from "@/hooks/useHaptics";
 import { PressableScale } from "@/components/PressableScale";
+import { RADIUS } from "@/constants/Radius";
 
 const DEFAULT_STYLE = {};
 
@@ -67,7 +68,7 @@ const Button = ({
         alignItems: "center",
         justifyContent: "center",
         flexDirection: "row",
-        borderRadius: 36,
+        borderRadius: RADIUS.full,
         opacity: disabled ? 0.5 : 1,
         backgroundColor: disabled
           ? buttonColors.disabledBackground

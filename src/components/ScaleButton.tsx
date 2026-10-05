@@ -1,6 +1,7 @@
 import chroma from "chroma-js";
 import { Pressable, Text, useColorScheme } from "react-native";
 import { Check } from "react-native-feather";
+import { RADIUS } from "@/constants/Radius";
 
 const ScaleButton = ({
   backgroundColor,
@@ -33,7 +34,7 @@ const ScaleButton = ({
           backgroundColor,
           opacity: pressed ? 0.8 : 1,
           flex: 7,
-          borderRadius: 8,
+          borderRadius: RADIUS.sm,
           width: "100%",
           aspectRatio: 1,
           marginLeft: isFirst ? 0 : 4,

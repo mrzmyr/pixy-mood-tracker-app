@@ -4,6 +4,7 @@ import type { ViewStyle } from "react-native";
 import useColors from "@/hooks/useColors";
 import useHaptics from "@/hooks/useHaptics";
 import { t } from "@/lib/translation";
+import { RADIUS } from "@/constants/Radius";
 
 const DEFAULT_STYLE = {};
 
@@ -39,7 +40,7 @@ export const MissingEmotionTile = ({
         alignItems: "center",
         justifyContent: "center",
         gap: 6,
-        borderRadius: 8,
+        borderRadius: RADIUS.sm,
         borderWidth: 1.5,
         borderStyle: "dashed",
         borderColor,

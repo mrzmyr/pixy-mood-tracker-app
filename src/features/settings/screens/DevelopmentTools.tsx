@@ -17,6 +17,7 @@ import { IS_WIDGET_SUPPORTED, getWidgetSyncStatus } from "@/features/widget";
 import { Trash } from "lucide-react-native";
 import { getWordCount } from "@/lib/utils";
 import { usePostHog } from "posthog-react-native";
+import { RADIUS } from "@/constants/Radius";
 
 const Card = ({
   title,
@@ -33,7 +34,7 @@ const Card = ({
     <View
       style={{
         backgroundColor: colors.cardBackground,
-        borderRadius: 8,
+        borderRadius: RADIUS.md,
         padding: 16,
         flex: 1,
         height: "100%",

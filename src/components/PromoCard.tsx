@@ -5,6 +5,7 @@ import { Pressable, Text, View } from "react-native";
 import { X } from "react-native-feather";
 import Indicator from "@/components/Indicator";
 import { PressableScale } from "@/components/PressableScale";
+import { RADIUS } from "@/constants/Radius";
 
 /**
  * Dismissible promo card on the calendar screen.
@@ -47,7 +48,7 @@ export const PromoCard = ({
     <PressableScale
       style={{
         backgroundColor: colors.promoCardBackground,
-        borderRadius: 12,
+        borderRadius: RADIUS.md,
         overflow: "hidden",
         paddingVertical: 16,
         paddingHorizontal: 16,

@@ -12,6 +12,7 @@ import { Platform, Pressable, Text, View } from "react-native";
 import { ArrowLeft, Trash } from "react-native-feather";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { Stepper } from "./Stepper";
+import { RADIUS } from "@/constants/Radius";
 
 const DatePickerHeader = ({ onChange }: { onChange: (date: Date) => void }) => {
   const colors = useColors();
@@ -35,7 +36,7 @@ const DatePickerHeader = ({ onChange }: { onChange: (date: Date) => void }) => {
           padding: 12,
           maxWidth: 240,
           marginBottom: 8,
-          borderRadius: 8,
+          borderRadius: RADIUS.sm,
         }}
       >
         <Text style={{ fontSize: 17, color: colors.tertiaryButtonText }}>
@@ -52,7 +53,7 @@ const DatePickerHeader = ({ onChange }: { onChange: (date: Date) => void }) => {
           maxWidth: 240,
           padding: 12,
           marginBottom: 8,
-          borderRadius: 8,
+          borderRadius: RADIUS.sm,
         }}
       >
         <Text style={{ fontSize: 17, color: colors.tertiaryButtonText }}>
@@ -68,7 +69,7 @@ const DatePickerHeader = ({ onChange }: { onChange: (date: Date) => void }) => {
           width: "100%",
           maxWidth: 240,
           padding: 12,
-          borderRadius: 8,
+          borderRadius: RADIUS.sm,
         }}
       >
         <Text style={{ fontSize: 17, color: colors.tertiaryButtonText }}>
@@ -202,7 +203,7 @@ export const SlideHeader = ({
                 paddingVertical: 6,
                 paddingHorizontal: 12,
                 backgroundColor: colors.logHeaderHighlight,
-                borderRadius: 8,
+                borderRadius: RADIUS.sm,
               })}
             >
               <Text

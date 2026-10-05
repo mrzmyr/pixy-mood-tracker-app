@@ -4,6 +4,7 @@ import { t } from "@/lib/translation";
 import type { LogPhoto } from "@/types";
 import { getPhotoFile } from "../storage";
 import { TileImage } from "./TileImage";
+import { RADIUS } from "@/constants/Radius";
 
 /**
  * Square photo tile of a stored entry photo, radius 12. Shows a
@@ -42,7 +43,7 @@ export const PhotoThumbnail = ({
         testID={`photo-thumbnail-${position}`}
         style={{
           flex: 1,
-          borderRadius: 12,
+          borderRadius: RADIUS.md,
           overflow: "hidden",
           backgroundColor: colors.backgroundSecondary,
         }}

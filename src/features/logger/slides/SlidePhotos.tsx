@@ -23,6 +23,7 @@ import { useLogDraft } from "../logDraft";
 import { Footer } from "./Footer";
 import { PhotosDayState } from "./PhotosDayState";
 import { getSlideMarginTop } from "./marginTop";
+import { RADIUS } from "@/constants/Radius";
 
 /**
  * "today", "yesterday", or a short date such as "Wed, Sep 30". With
@@ -191,7 +192,7 @@ export const SlidePhotos = ({
           style={{
             paddingVertical: 6,
             paddingHorizontal: 12,
-            borderRadius: 999,
+            borderRadius: RADIUS.full,
             minHeight: 44,
           }}
         >

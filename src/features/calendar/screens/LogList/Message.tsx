@@ -4,6 +4,7 @@ import { useRouter } from "expo-router";
 import { t } from "@/lib/translation";
 import { Text, View } from "react-native";
 import { SectionHeader } from "./SectionHeader";
+import { RADIUS } from "@/constants/Radius";
 
 /**
  * Message section of an entry card; editing opens the logger at the
@@ -52,7 +53,7 @@ export const Message = ({
           >
             <View
               style={{
-                borderRadius: 8,
+                borderRadius: RADIUS.sm,
                 paddingHorizontal: 8,
                 width: "100%",
               }}

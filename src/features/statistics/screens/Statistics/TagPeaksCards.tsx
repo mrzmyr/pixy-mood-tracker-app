@@ -17,6 +17,7 @@ import keys from "lodash/keys";
 import range from "lodash/range";
 import { useCalendarNavigation } from "@/features/calendar";
 import { getItemDate } from "@/lib/logDates";
+import { RADIUS } from "@/constants/Radius";
 
 const DayDot = ({
   date,
@@ -48,7 +49,7 @@ const DayDot = ({
         aspectRatio: 1,
         justifyContent: "center",
         alignItems: "center",
-        borderRadius: 100,
+        borderRadius: RADIUS.full,
         backgroundColor: color?.background,
         maxWidth: 32,
         maxHeight: 32,

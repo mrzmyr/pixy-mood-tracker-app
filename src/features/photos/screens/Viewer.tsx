@@ -26,6 +26,7 @@ import { useAnalytics } from "@/state/analytics";
 import { usePhotoZoom } from "../hooks/usePhotoZoom";
 import { AXIS_LOCK_DISTANCE, useSwipeToClose } from "../hooks/useSwipeToClose";
 import type { PhotoViewerItem } from "../viewerItem";
+import { RADIUS } from "@/constants/Radius";
 
 // The viewer is black in both color schemes, like the system photo viewers.
 const BACKGROUND = "black";
@@ -295,7 +296,7 @@ export const PhotoViewer = ({
                 style={{
                   width: 8,
                   height: 8,
-                  borderRadius: 4,
+                  borderRadius: RADIUS.full,
                   backgroundColor:
                     dotIndex === index ? FOREGROUND : FOREGROUND_MUTED,
                 }}
