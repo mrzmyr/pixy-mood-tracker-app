@@ -1,7 +1,17 @@
 ---
 name: test-pr
-description: Run e2e tests for a pull request and attach video proof (only if user explicitly asks for it)
+description: Run changed e2e flows for a pull request and note the result. Attach video proof only if user explicitly asks for it
 ---
+
+## Changed flows: always
+
+- PR adds or changes `e2e/flows/*.yaml`: run each changed flow once before opening the PR, also without a video request
+  - `bun e2e run --platform=<ios|android> --paths=e2e/flows/<flow>.yaml`
+  - Add one line per flow to the PR body: `E2E: <flow> passed <platform>`
+  - Flow fails: fix it first. Never open the PR with a flow that never ran
+- `bun run test:cli` checks flow file paths and `id` selectors. It never proves the flow passes
+
+## Video proof: only on request
 
 - Run e2e tests, see skill `run-app`
 - Upload video of them in PR desc with [pr-proof skill](../pr-proof/SKILL.md)

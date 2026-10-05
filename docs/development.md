@@ -151,6 +151,8 @@ Known limits. A phone run fails with `flows_unsupported_on_phone` before it chan
 - Flows share app state. [`load-storage-fixture.yaml`](../e2e/subflows/load-storage-fixture.yaml) waits for `calendar-list`, so it fails before onboarding. After `pm clear` or a failed `storage-load-error.yaml`, run `first-launch.yaml` first.
 - Native header buttons (`Stack.Toolbar.Button`) have `accessibilityLabel` only, no testID. Tap them by label. On iOS the navigation bar has the same label: in raw agent-device, run `snapshot -i`, then press the button ref.
 - A run across midnight fails `load-fixture.yaml`, because the ID of today changes. Rerun.
+- `bun run test:cli` checks flows statically ([`flow-lint.ts`](../scripts/cli/flow-lint.ts)): every `runFlow` and `runScript` file exists, every `id` selector matches a `testID` in `src/`. Tap header buttons through `open-*.yaml` subflows: native header items have no testIDs.
+- Known failures: [`e2e/known-failures.json`](../e2e/known-failures.json), entries `{ "flow", "reason", "since" }`. `since` is a `YYYY-MM-DD` date. `bun e2e run` names new failures apart from known ones. Add a flow that fails on `main` with its cause. Remove it with the fix.
 
 ### Upgrade tests
 
