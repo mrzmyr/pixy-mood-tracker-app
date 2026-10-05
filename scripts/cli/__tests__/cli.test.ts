@@ -95,6 +95,14 @@ describe("CLI options", () => {
       [["builds", "prune", "--older-than=soon"], 2, "invalid_value"],
       [["builds", "reclaim", "--older-than=0"], 2, "invalid_value"],
       [["builds", "reclaim", "--dry-run=yes"], 2, "unexpected_value"],
+      [["app", "drive", "--", "snapshot"], 2, "missing_option"],
+      [["app", "drive", "--platform=ios"], 2, "missing_argument"],
+      [["app", "drive", "--platform=ios", "--"], 2, "missing_argument"],
+      [
+        ["app", "drive", "--platform=ios", "--", "snapshot", "--udid", "x"],
+        2,
+        "conflicting_options",
+      ],
       [["devices", "reserve", "--target=x"], 2, "missing_option"],
       [["devices", "reserve", "--target=x", "--goal=  "], 2, "invalid_goal"],
       [

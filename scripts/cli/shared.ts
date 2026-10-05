@@ -32,7 +32,12 @@ interface CommandSpec {
   sections?: HelpSection[];
   errors?: Record<string, string>;
   successWord?: "ok" | "pass";
-  run: (values: Record<string, string | undefined>) => Promise<void> | void;
+  /** Pass every argument after `--` to `run` unchanged. */
+  isPassthrough?: boolean;
+  run: (
+    values: Record<string, string | undefined>,
+    rest: string[]
+  ) => Promise<void> | void;
 }
 
 interface CliErrorFields {

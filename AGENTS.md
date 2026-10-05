@@ -54,6 +54,7 @@
 - Initialize Sentry once, at module load in `src/app/_layout.tsx`, before the first render.
 - Native builds live in `~/.cache/pixy-mood-tracker/build-cache`, shared by all worktrees. Check `bun builds list` before any compile. `ios/build` and Xcode DerivedData say nothing about cached builds. Dev client with Metro: `bun app dev --platform=<ios|android>` ([run-app skill](.agents/skills/run-app/SKILL.md)). Never create simulators by hand.
 - Free disk only with `bun builds reclaim` (`--dry-run` first). Never delete all of `ios/build`: it holds React Native codegen output, and a delete forces full rebuilds.
+- Device availability comes from `bun devices list` only. Not `adb devices`, not other device tools. A shut-down emulator is free: the CLI boots it.
 
 ### Testing
 

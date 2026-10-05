@@ -2,6 +2,7 @@
 import { FIXTURES } from "../../src/dev/fixtures/index.ts";
 import { buildFor } from "./app-build.ts";
 import { devFor } from "./app-dev.ts";
+import { driveFor } from "./app-drive.ts";
 import { installFor } from "./app-install.ts";
 import { closeFor, openFor, seedFor } from "./app-session.ts";
 import {
@@ -188,6 +189,57 @@ const APP: Noun = {
       run: (values) => closeFor(values),
       summary: "Stop the preview app and reset its data.",
     }),
+    drive: defineCommand({
+      options: {
+        ...DEVICE_OPTIONS,
+        platform: {
+          ...PLATFORM_OPTION_SPEC,
+          description: [
+            "Simulator (ios) or emulator (android) of this checkout.",
+          ],
+        },
+      },
+      exactlyOne: ["platform", "target"],
+      isPassthrough: true,
+      usage:
+        "Usage: bun app drive (--platform=<ios|android> | --target=<target>) -- <agent-device args>",
+      sections: [
+        {
+          title: "Behavior",
+          lines: [
+            "Runs agent-device with the args after `--` unchanged, no shell.",
+            "Adds --platform, --udid or --serial, and --session for this device.",
+            "Adds signing and Android SDK environment. Phones: fails on device_reserved.",
+            "Does not create or boot a simulator or emulator. Run `bun app open` first.",
+          ],
+        },
+        {
+          title: "Output",
+          lines: [
+            "agent-device output and exit code. Commands: `bunx agent-device help workflow`.",
+          ],
+        },
+        {
+          title: "Examples",
+          lines: [
+            "bun app drive --platform=ios -- snapshot -i",
+            "bun app drive --target=pixel-8-09yw -- press 'label=\"Start\"' --settle",
+          ],
+        },
+      ],
+      errors: {
+        missing_option: "Neither --platform nor --target passed",
+        conflicting_options:
+          "Both --platform and --target passed, or args after `--` select a device",
+        invalid_platform: "--platform is not ios or android",
+        missing_argument: "No agent-device command after `--`",
+        target_not_found: "No connected phone has this target",
+        device_reserved: "Another checkout reserved this phone",
+        device_not_running: "Simulator not created or emulator not booted",
+      },
+      run: (values, rest) => driveFor(values, rest),
+      summary: "Run one agent-device command on the selected device.",
+    }),
     dev: defineCommand({
       options: {
         platform: {
@@ -268,7 +320,7 @@ const APP: Noun = {
   },
   summary:
     "Build, install, seed, open, and close the preview app. Run the dev client with Metro.",
-  commandOrder: ["build", "install", "seed", "open", "close", "dev"],
+  commandOrder: ["build", "install", "seed", "open", "drive", "close", "dev"],
   helpTail: [
     "Every command needs one device. Pass exactly one:\n  --platform=<ios|android>  Simulator or emulator of this checkout\n  --target=<target>         One phone from `bun devices list`",
     "Run `bun app <command> --help` for details.",

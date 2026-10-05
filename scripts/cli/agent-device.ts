@@ -276,6 +276,7 @@ export {
   getRunnerBundleId,
   readSigningTeams,
   redactSigningTeam,
+  STATE_DIR,
   stopStaleDaemon,
   setPhoneSession,
 };
