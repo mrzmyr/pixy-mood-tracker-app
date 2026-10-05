@@ -39,6 +39,10 @@ export default defineConfig({
     // Hermes has no Array#toSorted or Array#toReversed; copy with spread first.
     "unicorn/no-array-sort": "off",
     "unicorn/no-array-reverse": "off",
+    // Autofix turns string `.includes` into `new Set(string).has`, which never matches a phrase.
+    "unicorn/prefer-set-has": "off",
+    // Autofix renames to `error` even when that shadows an outer `error`, changing which value code reads.
+    "unicorn/catch-error-name": "off",
   },
   overrides: [
     {
@@ -89,9 +93,12 @@ export default defineConfig({
       rules: { "oxc/no-barrel-file": "off" },
     },
     {
-      // App code runs on Hermes; scripts run on Bun and Node.
+      // App code runs on Hermes and Fabric; scripts run on Bun and Node.
       files: ["src/**"],
-      rules: { "pixy-standards/no-hermes-missing-array-methods": "error" },
+      rules: {
+        "pixy-standards/no-hermes-missing-array-methods": "error",
+        "pixy-standards/no-layout-animation": "error",
+      },
     },
   ],
 });

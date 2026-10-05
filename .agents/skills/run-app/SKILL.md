@@ -34,3 +34,9 @@ Rules:
 - Never create simulators by hand. The CLI owns one simulator per checkout.
 - Dev client is shared across worktrees with the same native dependencies. A cache miss means native dependencies changed. Compile then, not before.
 - Phones: `bun ios --device <udid>`.
+
+# Shell (zsh)
+
+- Never put several flags in one variable (`$FLAGS`). zsh does not split words, so the command gets one argument. Use an array: `flags=(--platform ios); bunx agent-device snapshot "${flags[@]}"`
+- Write `${VAR}:path`, not `$VAR:path`. zsh reads `:r`, `:h`, `:t` after `$VAR` as modifiers.
+- Quote globs in arguments (`--include='*.ts'`). zsh fails the command on an unmatched glob: `no matches found`.
