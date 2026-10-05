@@ -29,6 +29,7 @@ import {
 import { deviceFlag, isDeviceBooted, resolveDevice } from "./device.ts";
 import { getAdb, listPackagesArgs, listsPackage } from "./adb.ts";
 import { DEVICE_ERRORS, DEVICE_OPTIONS } from "./options.ts";
+import { appendRunLog, setResultPath, step } from "./run-log.ts";
 import {
   clearPhoneAppData,
   isPhoneAppInstalled,
@@ -209,10 +210,12 @@ const runTest = async (
   const stdoutWriter = createRedactingWriter(signingTeam, (text) => {
     output += text;
     process.stdout.write(text);
+    appendRunLog(text);
   });
   const stderrWriter = createRedactingWriter(signingTeam, (text) => {
     output += text;
     process.stderr.write(text);
+    appendRunLog(text);
   });
   child.stdout.on("data", (chunk: Buffer) => {
     stdoutWriter.push(chunk.toString());
@@ -393,6 +396,7 @@ const run = async (device: Device, paths: string[], isVideo: boolean) => {
     assertFlowsSupported(REPO_ROOT, device, selectedPaths);
     await preflightPhone(device);
   }
+  step("Reset app");
   const selector = ["--platform", platform, deviceFlag(platform), device.id];
   try {
     await agentDevice(["close", ...selector]);
@@ -408,10 +412,13 @@ const run = async (device: Device, paths: string[], isVideo: boolean) => {
   }
   resetBeforeRun(device);
   await installBuild(device);
+  step("Start runner");
   await stopStaleDaemon();
   await preparePhoneRunner(device);
   const artifactsDir = path.join(getStateDir("e2e"), device.key);
   fs.mkdirSync(artifactsDir, { recursive: true });
+  setResultPath(artifactsDir);
+  step("Run flows");
   note(`Running agent-device test on ${device.name}`);
   const options = { artifactsDir, isVideo };
   const startedAt = Date.now();
@@ -477,6 +484,7 @@ const runAndShutdown = async (
     platform === "ios" || platform === "android"
       ? isDeviceBooted(platform)
       : true;
+  step("Resolve device");
   const device = await resolveDevice(values);
   if (wasBooted) {
     return run(device, paths, isVideo);
@@ -518,6 +526,15 @@ const E2E: Noun = {
       },
       exactlyOne: ["platform", "target"],
       successWord: "pass",
+      steps: [
+        "Resolve device",
+        "Reset app",
+        "Fingerprint",
+        "Build",
+        "Install",
+        "Start runner",
+        "Run flows",
+      ],
       sections: [
         {
           title: "Behavior",

@@ -28,6 +28,7 @@ import { assertHostReady } from "./disk.ts";
 import { startMetro } from "./metro.ts";
 import type { Metro } from "./metro.ts";
 import { getPlatform } from "./options.ts";
+import { setResultPath, step } from "./run-log.ts";
 import { CliError, getStateDir, note } from "./shared.ts";
 import type { Platform } from "./shared.ts";
 
@@ -233,6 +234,7 @@ interface DevLinks {
 }
 
 const dev = async (platform: Platform, links: DevLinks) => {
+  step("Resolve device");
   const device = await resolveDevice({ platform });
   const build = await getCachedBuild(platform, "development");
   if (!build.file) {
@@ -244,12 +246,16 @@ const dev = async (platform: Platform, links: DevLinks) => {
     });
   }
   note(`Dev client ${toBuildId(build.key)}`);
+  step("Install");
   installFile(device, build.file, "development");
   hideDevMenu(device);
+  step("Start Metro");
   const metro = await startMetro();
   const logOffset = fs.statSync(metro.log).size;
+  step("Open app");
   const url = openDevClient(device, metro);
   note(`Opened ${url}`);
+  step("Wait for bundle");
   await waitForBundle(platform, metro, logOffset, () => screenshot(device));
   // The splash screen stays up until the first screen has rendered.
   await sleep(3000);
@@ -271,7 +277,9 @@ const dev = async (platform: Platform, links: DevLinks) => {
   note(
     `Edits reload in the app. Rerun \`bun app dev --platform=${platform}\` to reload by hand. Metro log: ${metro.log}`
   );
-  console.log(screenshot(device));
+  const file = screenshot(device);
+  setResultPath(file);
+  console.log(file);
 };
 
 export { approveIosScheme };

@@ -11,6 +11,11 @@ Examples:
   bun app install --platform=android
   bun app install --target=pixel-8-09yw
 
+Progress:
+  First stderr line: Log: <path>. New log file per run.
+  Step lines: Step N/4: <name>. Steps: Resolve device, Fingerprint, Build, Install.
+  Last stdout line: PIXY_RESULT status=<ok|error> command=app-install [code=<status>] [path=<artifact>]
+
 Errors:
   missing_option           Neither --platform nor --target passed
   conflicting_options      Both --platform and --target passed

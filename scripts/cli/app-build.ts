@@ -3,7 +3,6 @@ import { once } from "node:events";
 import fs from "node:fs";
 import { createRequire } from "node:module";
 import path from "node:path";
-import { finished } from "node:stream/promises";
 
 import { createFingerprintAsync } from "@expo/fingerprint";
 
@@ -14,6 +13,7 @@ import { assertHostReady } from "./disk.ts";
 import { buildIosPhone } from "./ios-phone-build.ts";
 import { resolveDevice } from "./device.ts";
 import { getPlatform } from "./options.ts";
+import { openOutputLog, setResultPath, step } from "./run-log.ts";
 import { CliError, getStateDir, note, withLogsOnStderr } from "./shared.ts";
 import type { Platform } from "./shared.ts";
 
@@ -56,6 +56,7 @@ const RUN_OPTIONS: Record<
 };
 
 const getCache = async (platform: Platform, variant: BuildVariant) => {
+  step("Fingerprint");
   process.env.EXPO_PUBLIC_APP_VARIANT = variant;
   const { hash } = await createFingerprintAsync(REPO_ROOT);
   const props: CacheProps = {
@@ -73,46 +74,44 @@ const getCache = async (platform: Platform, variant: BuildVariant) => {
   return { file, key, props };
 };
 
-// Streams native output into an external log while leaving stdout for build IDs.
+// Streams native output into the run log while leaving stdout for build IDs.
 const runLogged = async (
   command: string,
   args: string[],
   options: {
     cwd: string;
     env: NodeJS.ProcessEnv;
-    logFile: string;
+    logName: string;
   }
 ) => {
-  const log = fs.createWriteStream(options.logFile);
-  note(`Log: ${options.logFile}`);
+  const log = openOutputLog(getStateDir("logs"), options.logName);
   const child = spawn(command, args, {
     cwd: options.cwd,
     env: options.env,
     stdio: ["ignore", "pipe", "pipe"],
   });
-  child.stdout.on("data", (chunk: Buffer) => log.write(chunk));
-  child.stderr.on("data", (chunk: Buffer) => log.write(chunk));
+  child.stdout.on("data", log.write);
+  child.stderr.on("data", log.write);
   let code: number | null;
   try {
     // SAFETY: ChildProcess close passes exit code as its first value.
     [code] = (await once(child, "close")) as [number | null];
   } catch (error) {
-    log.end();
     throw new CliError({
       status: "native_build_failed",
       message: `Could not start ${command}`,
       why: error instanceof Error ? error.message : String(error),
-      fix: `Read ${options.logFile}, then retry.`,
+      fix: `Read ${log.file}, then retry.`,
     });
+  } finally {
+    log.close();
   }
-  log.end();
-  await finished(log);
   if (code !== 0) {
     throw new CliError({
       status: "native_build_failed",
       message: `${command} failed`,
       why: `Process exited with ${code}.`,
-      fix: `Read ${options.logFile}, fix the cause, then retry.`,
+      fix: `Read ${log.file}, fix the cause, then retry.`,
     });
   }
 };
@@ -122,6 +121,7 @@ const ensureBuild = async (
   variant: BuildVariant = "preview"
 ) => {
   const cache = await getCache(platform, variant);
+  step("Build");
   if (fs.existsSync(cache.file)) {
     note("Cached build found");
     return cache;
@@ -145,10 +145,7 @@ const ensureBuild = async (
         {
           cwd: REPO_ROOT,
           env: { ...process.env, EXPO_PUBLIC_APP_VARIANT: variant },
-          logFile: path.join(
-            path.dirname(getStateDir("build")),
-            "ios-build.log"
-          ),
+          logName: "ios-build",
         }
       );
     } else {
@@ -170,10 +167,7 @@ const ensureBuild = async (
         {
           cwd: path.join(REPO_ROOT, "android"),
           env,
-          logFile: path.join(
-            path.dirname(getStateDir("build")),
-            "android-build.log"
-          ),
+          logName: "android-build",
         }
       );
       const apk = path.join(
@@ -208,7 +202,8 @@ const ensureBuild = async (
 };
 
 const build = async (platform: Platform) => {
-  const { key } = await ensureBuild(platform);
+  const { key, file } = await ensureBuild(platform);
+  setResultPath(file);
   console.log(toBuildId(key));
 };
 
@@ -235,9 +230,12 @@ export const buildFor = async (values: Record<string, string | undefined>) => {
   if (!values.target) {
     return build(getPlatform(values.platform));
   }
+  step("Resolve device");
   const device = await resolveDevice({ target: values.target });
   if (device.platform === "ios") {
-    console.log(toBuildId(await buildIosPhone(device)));
+    const key = await buildIosPhone(device);
+    setResultPath(path.join(getBuildCacheDir(), `${key}.app`));
+    console.log(toBuildId(key));
     return;
   }
   return build("android");

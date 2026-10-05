@@ -19,6 +19,17 @@ Run in order. Relay each `Step N` line. Do not pick variants; the CLI owns them.
 e2e: `bun e2e run <device> [--paths=<path,...>]`. One device per command. Start one command per phone for parallel runs.
 Help and errors: `bun <noun> <command> --help`. devicectl hangs or "Device is busy": `bun devices doctor`. Limits on phones: [development.md](../../../docs/development.md#phones).
 
+# Waiting
+
+`app build`, `app install`, `app dev`, and `e2e run` take minutes. First stderr line: `Log: <path>`, new file per run. Last stdout line: `PIXY_RESULT status=<ok|error> command=<name> [code=<status>] [path=<artifact>]`.
+
+1. Start the command with `run_in_background`.
+2. Wait for the exit notification. Read `PIXY_RESULT` for the result.
+3. To watch progress, Monitor `tail -n 0 -F <Log path> | grep -E --line-buffered 'Step |PIXY_RESULT|error:|BUILD FAILED'`. Take the path from the `Log:` line of this run only.
+
+- Never poll with `sleep N; tail`. Never reuse old `/tmp` or log files.
+- Never switch verification surface (web, Playwright, other device) while you wait, unless the user asks.
+
 # Development with Metro (hot reload)
 
 Use when the user edits code and wants to see changes without a native build.

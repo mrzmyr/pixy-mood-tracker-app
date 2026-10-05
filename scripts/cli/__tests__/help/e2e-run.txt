@@ -29,6 +29,11 @@ Examples:
   bun e2e run --platform=ios --paths=e2e/flows/first-launch.yaml,e2e/flows/entry-cancel.yaml
   bun e2e run --platform=android --paths=e2e/flows/tags.yaml --video
 
+Progress:
+  First stderr line: Log: <path>. New log file per run.
+  Step lines: Step N/7: <name>. Steps: Resolve device, Reset app, Fingerprint, Build, Install, Start runner, Run flows.
+  Last stdout line: PIXY_RESULT status=<ok|error> command=e2e-run [code=<status>] [path=<artifact>]
+
 Errors:
   missing_option              Neither --platform nor --target passed
   conflicting_options         Both --platform and --target passed

@@ -184,7 +184,8 @@ The cache provider lives in [`scripts/build-cache-provider.cjs`](../scripts/buil
 
 - Checkout state lives under `~/.cache/pixy-mood-tracker/checkouts/<hash>/`. `checkout.txt` records its worktree path.
 - `e2e/<device>/` contains test artifacts, `junit.xml`, and `--video` recordings. `screenshots/<device>/` contains app screenshots. `<device>` is `ios`, `android`, or the phone target.
-- `build/` contains Expo build output. Logs stay in the checkout state dir.
+- `build/` contains Expo build output.
+- `logs/` contains one log per long command run (`app build`, `app install`, `app dev`, `e2e run`). Newest 30 stay. Format: `bun <noun> <command> --help`, section `Progress`.
 - `metro.log` and `metro.pid` belong to the Metro that `bun app dev` started.
 - CLI state stays outside the worktree. Expo owns generated `ios/` and `android/` folders.
 

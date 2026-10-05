@@ -58,6 +58,7 @@ const APP: Noun = {
         build_slot_timeout: "Two other native builds held all slots 90 minutes",
         disk_low: "Less than 10 GiB free disk, run `bun builds reclaim`",
       },
+      steps: ["Resolve device", "Fingerprint", "Build"],
       run: (values) => buildFor(values),
       summary: "Build the preview app into the shared cache.",
     }),
@@ -79,6 +80,7 @@ const APP: Noun = {
         install_failed: "Device refused the build",
         disk_low: "Less than 10 GiB free disk, run `bun builds reclaim`",
       },
+      steps: ["Resolve device", "Fingerprint", "Build", "Install"],
       run: (values) => installFor(values),
       summary:
         "Install the preview app on one device. Builds first when cache has no match.",
@@ -313,6 +315,15 @@ const APP: Noun = {
         bundle_timeout: "App did not load its bundle in 180 seconds",
         dev_link_failed: "Fixture or flag deep link failed",
       },
+      steps: [
+        "Resolve device",
+        "Fingerprint",
+        "Build",
+        "Install",
+        "Start Metro",
+        "Open app",
+        "Wait for bundle",
+      ],
       run: (values) => devFor(values),
       summary:
         "Run the dev client with Metro. Installs the cached dev client, starts this checkout's Metro, opens the app.",
