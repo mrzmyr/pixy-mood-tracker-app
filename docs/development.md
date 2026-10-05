@@ -71,7 +71,7 @@ Three variants install side by side, each with its own name, icon, bundle ID, an
 
 - Code: [`src/features/location`](../src/features/location). Flag `location`, switch in Settings > Check-in
 - Switch on asks for location access while in use. Denied access keeps switch off
-- New entries get current place passively: never asks, never marks draft dirty ([`usePassiveLocation`](../src/features/logger/hooks/usePassiveLocation.ts)). Edits keep stored place
+- New entries for today get current place passively: never asks, never marks draft dirty ([`usePassiveLocation`](../src/features/logger/hooks/usePassiveLocation.ts)). Other days start with "Add Location". Moving the time to another day drops the passive place. Edits keep stored place
 - Rating slide: time bottom left, place bottom right. Place opens picker: search, current location, remove
 - Picker map: iOS only, Apple Maps via `expo-maps`. Tap map to pin a place. Android has no map: Google Maps needs an API key, so `package.json` excludes `expo-maps` from Android autolinking ([`PlaceMap.tsx`](../src/features/location/components/PlaceMap.tsx))
 - Entries store coordinates plus district and city. Name `null` when reverse geocoding fails offline

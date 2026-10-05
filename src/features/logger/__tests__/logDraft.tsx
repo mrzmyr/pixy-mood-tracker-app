@@ -198,4 +198,31 @@ describe("useLogDraft()", () => {
 
     expect(hook.result.current.draft.location).toEqual(HAMBURG);
   });
+
+  test("dropping a passive location keeps a picked one", async () => {
+    const hook = await renderDraft(createDraft());
+
+    await act(() => {
+      hook.result.current.prefillLocation(BERLIN);
+      hook.result.current.dropPrefilledLocation();
+    });
+    expect(hook.result.current.draft.location).toBeUndefined();
+    expect(hook.result.current.isDirty).toBe(false);
+
+    await act(() => {
+      hook.result.current.setLocation(HAMBURG);
+      hook.result.current.dropPrefilledLocation();
+    });
+    expect(hook.result.current.draft.location).toEqual(HAMBURG);
+  });
+
+  test("dropping keeps the stored location of an edit", async () => {
+    const hook = await renderDraft(createDraft({ location: HAMBURG }));
+
+    await act(() => {
+      hook.result.current.dropPrefilledLocation();
+    });
+
+    expect(hook.result.current.draft.location).toEqual(HAMBURG);
+  });
 });

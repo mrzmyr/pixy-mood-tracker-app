@@ -35,6 +35,11 @@ export interface LogDraftValue {
    */
   prefillLocation: (location: NonNullable<LogItem["location"]>) => void;
   /**
+   * Removes a passive location without making the draft dirty, for example
+   * after the time moved to another day. Keeps a location the user picked.
+   */
+  dropPrefilledLocation: () => void;
+  /**
    * Finalize the latest draft, including setter calls of the same event.
    * See `finalizeDraft`.
    */
@@ -62,6 +67,7 @@ export const LogDraftProvider = ({
   // React renders the new state.
   const latest = useRef(initialDraft);
   const isLocationPicked = useRef(false);
+  const isLocationPrefilled = useRef(false);
 
   const patch = useCallback((next: Partial<LogDraft>) => {
     latest.current = { ...latest.current, ...next };
@@ -88,7 +94,16 @@ export const LogDraftProvider = ({
         if (isLocationPicked.current || latest.current.location !== undefined) {
           return;
         }
+        isLocationPrefilled.current = true;
         latest.current = { ...latest.current, location };
+        setState((current) => ({ ...current, draft: latest.current }));
+      },
+      dropPrefilledLocation: () => {
+        if (isLocationPicked.current || !isLocationPrefilled.current) {
+          return;
+        }
+        isLocationPrefilled.current = false;
+        latest.current = { ...latest.current, location: undefined };
         setState((current) => ({ ...current, draft: latest.current }));
       },
       commit: (existingItems) => {
@@ -98,6 +113,7 @@ export const LogDraftProvider = ({
       },
       discard: () => {
         isLocationPicked.current = false;
+        isLocationPrefilled.current = false;
         latest.current = initial.current;
         setState({ draft: initial.current, isDirty: false });
       },
