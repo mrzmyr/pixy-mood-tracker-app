@@ -30,5 +30,6 @@ Errors:
   device_reserved          Another checkout reserved this phone
   signing_profile_missing  Provisioning profile lacks this iPhone
   install_failed           Device refused the build
+  disk_low                 Less than 10 GiB free disk, run `bun builds reclaim`
 
 Exit codes: 0 ok, 1 failure, 2 usage error

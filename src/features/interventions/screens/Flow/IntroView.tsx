@@ -1,6 +1,6 @@
 import { Text, View } from "react-native";
 import useColors from "@/hooks/useColors";
-import { t } from "@/lib/translation";
+import { t, tDynamic } from "@/lib/translation";
 import type { Intervention } from "../../catalog";
 import { Duration } from "../../components/Duration";
 
@@ -60,7 +60,7 @@ export const IntroView = ({ intervention }: { intervention: Intervention }) => {
                 color: colors.text,
               }}
             >
-              {t(key)}
+              {tDynamic(key)}
             </Text>
           </View>
         ))}

@@ -57,6 +57,17 @@ describe("CLI options", () => {
       [["app", "dev", "--target=x"], 2, "invalid_option"],
       [["app", "dev", "--platform=windows"], 2, "invalid_platform"],
       [
+        ["app", "dev", "--platform=ios", "--fixture=nope"],
+        2,
+        "fixture_not_found",
+      ],
+      [["app", "dev", "--platform=ios", "--flag=nope=on"], 2, "invalid_flag"],
+      [
+        ["app", "seed", "--platform=ios", "--fixture=year", "--variant=prod"],
+        2,
+        "invalid_value",
+      ],
+      [
         ["app", "seed", "--platform=ios", "--fixture=nope"],
         2,
         "fixture_not_found",
@@ -81,6 +92,17 @@ describe("CLI options", () => {
       [["builds", "rm"], 2, "missing_option"],
       [["builds", "rm", "some-id"], 2, "unexpected_argument"],
       [["builds", "rm", "--build=no-such-build-id"], 2, "build_not_found"],
+      [["builds", "prune", "--older-than=soon"], 2, "invalid_value"],
+      [["builds", "reclaim", "--older-than=0"], 2, "invalid_value"],
+      [["builds", "reclaim", "--dry-run=yes"], 2, "unexpected_value"],
+      [["app", "drive", "--", "snapshot"], 2, "missing_option"],
+      [["app", "drive", "--platform=ios"], 2, "missing_argument"],
+      [["app", "drive", "--platform=ios", "--"], 2, "missing_argument"],
+      [
+        ["app", "drive", "--platform=ios", "--", "snapshot", "--udid", "x"],
+        2,
+        "conflicting_options",
+      ],
       [["devices", "reserve", "--target=x"], 2, "missing_option"],
       [["devices", "reserve", "--target=x", "--goal=  "], 2, "invalid_goal"],
       [
@@ -88,6 +110,11 @@ describe("CLI options", () => {
         2,
         "invalid_goal",
       ],
+      [["worktree", "new"], 2, "missing_argument"],
+      [["worktree", "new", "Tag/Swipes"], 2, "invalid_slug"],
+      [["worktree", "new", "a", "b"], 2, "unexpected_argument"],
+      [["worktree", "rm"], 2, "missing_argument"],
+      [["worktree", "rm", "../old"], 2, "invalid_target"],
     ];
     await Promise.all(
       cases.map(async ([args, code, status]) => {

@@ -16,6 +16,12 @@ interface OptionSpec {
   choices?: readonly string[];
   invalidStatus?: string;
 }
+/** One positional argument. Its value lands in `values[name]`. Always required. */
+interface PositionalSpec {
+  name: string;
+  value: string;
+  description: string[];
+}
 interface HelpSection {
   title: "Behavior" | "Requires" | "Output" | "Examples";
   lines: string[];
@@ -23,6 +29,7 @@ interface HelpSection {
 interface CommandSpec {
   summary: string;
   usage?: string;
+  positional?: PositionalSpec;
   options?: Record<string, OptionSpec>;
   exactlyOne?: string[];
   sections?: HelpSection[];
@@ -30,7 +37,12 @@ interface CommandSpec {
   successWord?: "ok" | "pass";
   /** Long command: gets a run log, `Step N/M` lines, and a final `PIXY_RESULT` line. */
   steps?: readonly string[];
-  run: (values: Record<string, string | undefined>) => Promise<void> | void;
+  /** Pass every argument after `--` to `run` unchanged. */
+  isPassthrough?: boolean;
+  run: (
+    values: Record<string, string | undefined>,
+    rest: string[]
+  ) => Promise<void> | void;
 }
 
 interface CliErrorFields {
@@ -119,22 +131,17 @@ const printTable = (columns: string[], rows: string[][]) => {
   }
 };
 
-const CHECKOUTS_DIR = path.join(
-  os.homedir(),
-  ".cache",
-  "pixy-mood-tracker",
-  "checkouts"
-);
+const CACHE_DIR = path.join(os.homedir(), ".cache", "pixy-mood-tracker");
+const CHECKOUTS_DIR = path.join(CACHE_DIR, "checkouts");
 const CHECKOUT_FILE = "checkout.txt";
+
+/** Name of the state directory of one checkout, from its real path. */
+const hashCheckout = (checkout: string) =>
+  crypto.createHash("sha256").update(checkout).digest("hex").slice(0, 12);
 
 const getCheckoutDir = (root: string) => {
   const checkout = fs.realpathSync(root);
-  const hash = crypto
-    .createHash("sha256")
-    .update(checkout)
-    .digest("hex")
-    .slice(0, 12);
-  const dir = path.join(CHECKOUTS_DIR, hash);
+  const dir = path.join(CHECKOUTS_DIR, hashCheckout(checkout));
   fs.mkdirSync(dir, { recursive: true });
   fs.writeFileSync(path.join(dir, CHECKOUT_FILE), `${checkout}\n`);
   return dir;
@@ -178,6 +185,7 @@ interface Noun {
 }
 
 export {
+  CACHE_DIR,
   CHECKOUTS_DIR,
   CHECKOUT_FILE,
   CliError,
@@ -185,6 +193,7 @@ export {
   formatAge,
   getCheckoutDir,
   getStateDir,
+  hashCheckout,
   isProcessAlive,
   note,
   withLogsOnStderr,

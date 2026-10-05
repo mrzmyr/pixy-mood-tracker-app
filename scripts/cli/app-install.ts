@@ -6,6 +6,7 @@ import { getAdb } from "./adb.ts";
 import { getBuildCacheDir, getCachedBuild } from "./app-build.ts";
 import type { BuildVariant } from "./app-build.ts";
 import type { Device } from "./device.ts";
+import { assertHostReady } from "./disk.ts";
 import { resolveDevice } from "./device.ts";
 import { preflightPhone, installPhoneApp } from "./phone.ts";
 import { setResultPath, step } from "./run-log.ts";
@@ -78,6 +79,7 @@ export const installBuild = async (device: Device) => {
 export const installFor = async (
   values: Record<string, string | undefined>
 ) => {
+  assertHostReady();
   step("Resolve device");
   const device = await resolveDevice({
     platform: values.platform,

@@ -13,17 +13,16 @@ tags: [p1, people]
 - openLink: ${APP_SCHEME}://dev/feature-flag?key=people&value=on
 - extendedWaitUntil:
     visible:
-      id: "calendar"
+      id: "calendar-list"
     timeout: 10000
 - openLink: ${APP_SCHEME}://dev/fake-files
 - extendedWaitUntil:
     visible:
-      id: "calendar"
+      id: "calendar-list"
     timeout: 10000
 
 # Check-in > People lists active people; archived Mia sits behind the Archive link.
-- tapOn:
-    id: "settings"
+- runFlow: ../subflows/open-settings.yaml
 - tapOn: "Check-in"
 - tapOn:
     id: "step-people"

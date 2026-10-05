@@ -1,6 +1,6 @@
 import { useCallback, useState } from "react";
 
-import { t } from "@/lib/translation";
+import { tDynamic } from "@/lib/translation";
 
 /** Must match the `calendar_foot_note_<n>` keys in every locale file. */
 export const FOOT_NOTE_COUNT = 50;
@@ -46,5 +46,8 @@ export const useFootNote = () => {
     setState((current) => updateFootNote(current, overscroll));
   }, []);
 
-  return { text: t(`calendar_foot_note_${state.index + 1}`), onOverscroll };
+  return {
+    text: tDynamic(`calendar_foot_note_${state.index + 1}`),
+    onOverscroll,
+  };
 };

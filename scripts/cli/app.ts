@@ -2,6 +2,7 @@
 import { FIXTURES } from "../../src/dev/fixtures/index.ts";
 import { buildFor } from "./app-build.ts";
 import { devFor } from "./app-dev.ts";
+import { driveFor } from "./app-drive.ts";
 import { installFor } from "./app-install.ts";
 import { closeFor, openFor, seedFor } from "./app-session.ts";
 import {
@@ -12,6 +13,8 @@ import {
 } from "./options.ts";
 import { defineCommand } from "./shared.ts";
 import type { Noun } from "./shared.ts";
+
+const FIXTURE_IDS = FIXTURES.map((fixture) => fixture.id);
 
 // app-session builds phone runner commands with prepareRunnerArgs.
 export { prepareIosRunner } from "./app-session.ts";
@@ -52,6 +55,8 @@ const APP: Noun = {
         signing_profile_missing: "Provisioning profile lacks this iPhone",
         native_build_failed: "Compiler failed, read the log",
         build_lock_timeout: "Another build held the cache lock 30 minutes",
+        build_slot_timeout: "Two other native builds held all slots 90 minutes",
+        disk_low: "Less than 10 GiB free disk, run `bun builds reclaim`",
       },
       steps: ["Resolve device", "Fingerprint", "Build"],
       run: (values) => buildFor(values),
@@ -73,6 +78,7 @@ const APP: Noun = {
         ...DEVICE_ERRORS,
         signing_profile_missing: "Provisioning profile lacks this iPhone",
         install_failed: "Device refused the build",
+        disk_low: "Less than 10 GiB free disk, run `bun builds reclaim`",
       },
       steps: ["Resolve device", "Fingerprint", "Build", "Install"],
       run: (values) => installFor(values),
@@ -111,12 +117,18 @@ const APP: Noun = {
         ...DEVICE_OPTIONS,
         fixture: {
           value: "<id>",
-          description: [
-            `Required. One of: ${FIXTURES.map((fixture) => fixture.id).join(", ")}.`,
-          ],
+          description: [`Required. One of: ${FIXTURE_IDS.join(", ")}.`],
           isRequired: true,
-          choices: FIXTURES.map((fixture) => fixture.id),
+          choices: FIXTURE_IDS,
           invalidStatus: "fixture_not_found",
+        },
+        variant: {
+          value: "<dev|preview>",
+          description: [
+            "App to seed. Default: dev while this checkout's `bun app dev` runs,",
+            "else preview. Phones: preview only.",
+          ],
+          choices: ["dev", "preview"],
         },
       },
       exactlyOne: ["platform", "target"],
@@ -124,7 +136,8 @@ const APP: Noun = {
         {
           title: "Requires",
           lines: [
-            "Preview app installed. Run `bun app install` with the same device option first.",
+            "preview: run `bun app install` with the same device option first.",
+            "dev: run `bun app dev --platform=<ios|android>` first.",
           ],
         },
         { title: "Output", lines: ["Screenshot path on stdout."] },
@@ -141,6 +154,8 @@ const APP: Noun = {
         missing_option:
           "Neither --platform nor --target passed, or no --fixture",
         fixture_not_found: "--fixture has no match",
+        variant_unsupported: "--variant=dev passed with --target",
+        dev_session_missing: "--variant=dev passed, but Metro is not running",
         app_not_ready: "First screen did not appear in 120 seconds",
       },
       run: (values) => seedFor(values),
@@ -176,6 +191,57 @@ const APP: Noun = {
       run: (values) => closeFor(values),
       summary: "Stop the preview app and reset its data.",
     }),
+    drive: defineCommand({
+      options: {
+        ...DEVICE_OPTIONS,
+        platform: {
+          ...PLATFORM_OPTION_SPEC,
+          description: [
+            "Simulator (ios) or emulator (android) of this checkout.",
+          ],
+        },
+      },
+      exactlyOne: ["platform", "target"],
+      isPassthrough: true,
+      usage:
+        "Usage: bun app drive (--platform=<ios|android> | --target=<target>) -- <agent-device args>",
+      sections: [
+        {
+          title: "Behavior",
+          lines: [
+            "Runs agent-device with the args after `--` unchanged, no shell.",
+            "Adds --platform, --udid or --serial, and --session for this device.",
+            "Adds signing and Android SDK environment. Phones: fails on device_reserved.",
+            "Does not create or boot a simulator or emulator. Run `bun app open` first.",
+          ],
+        },
+        {
+          title: "Output",
+          lines: [
+            "agent-device output and exit code. Commands: `bunx agent-device help workflow`.",
+          ],
+        },
+        {
+          title: "Examples",
+          lines: [
+            "bun app drive --platform=ios -- snapshot -i",
+            "bun app drive --target=pixel-8-09yw -- press 'label=\"Start\"' --settle",
+          ],
+        },
+      ],
+      errors: {
+        missing_option: "Neither --platform nor --target passed",
+        conflicting_options:
+          "Both --platform and --target passed, or args after `--` select a device",
+        invalid_platform: "--platform is not ios or android",
+        missing_argument: "No agent-device command after `--`",
+        target_not_found: "No connected phone has this target",
+        device_reserved: "Another checkout reserved this phone",
+        device_not_running: "Simulator not created or emulator not booted",
+      },
+      run: (values, rest) => driveFor(values, rest),
+      summary: "Run one agent-device command on the selected device.",
+    }),
     dev: defineCommand({
       options: {
         platform: {
@@ -186,8 +252,23 @@ const APP: Noun = {
           ],
           isRequired: true,
         },
+        fixture: {
+          value: "<id>",
+          description: [
+            `Load a fixture after launch. One of: ${FIXTURE_IDS.join(", ")}.`,
+          ],
+          choices: FIXTURE_IDS,
+          invalidStatus: "fixture_not_found",
+        },
+        flag: {
+          value: "<key>=<on|off>,...",
+          description: [
+            "Override feature flags after launch, until the app restarts.",
+          ],
+        },
       },
-      usage: "Usage: bun app dev --platform=<ios|android>",
+      usage:
+        "Usage: bun app dev --platform=<ios|android> [--fixture=<id>] [--flag=<key>=<on|off>,...]",
       sections: [
         {
           title: "Behavior",
@@ -196,8 +277,10 @@ const APP: Noun = {
             "       with the same native dependencies share it. Builds only on a miss.",
             "Metro  Starts `bun start` for this checkout on its own port (8082-8181),",
             "       detached. Reuses it when it already runs. `bun app close` stops it.",
+            "Menu   Hides the dev menu onboarding, launch menu, and floating button.",
             "Open   Deep links the dev client to this Metro and waits for the first bundle.",
             "       Edits reload in the app. Rerun the command to reload by hand.",
+            "Links  Opens --fixture, then --flag deep links in the running app.",
           ],
         },
         {
@@ -210,15 +293,19 @@ const APP: Noun = {
           title: "Examples",
           lines: [
             "bun app dev --platform=ios",
-            "bun app dev --platform=android",
+            "bun app dev --platform=android --fixture=year --flag=people=on,photos=off",
           ],
         },
       ],
       errors: {
         missing_option: "No --platform passed",
         invalid_platform: "--platform is not ios or android",
+        fixture_not_found: "--fixture has no match",
+        invalid_flag: "--flag has an unknown key or a value other than on, off",
         native_build_failed: "Compiler failed, read the log",
         build_lock_timeout: "Another build held the cache lock 30 minutes",
+        build_slot_timeout: "Two other native builds held all slots 90 minutes",
+        disk_low: "Less than 10 GiB free disk, run `bun builds reclaim`",
         install_failed: "Device refused the build",
         metro_port_taken:
           "Another process answers on this checkout's Metro port",
@@ -226,6 +313,7 @@ const APP: Noun = {
         dev_client_open_failed: "Deep link to the dev client failed",
         bundle_failed: "Metro could not bundle the app",
         bundle_timeout: "App did not load its bundle in 180 seconds",
+        dev_link_failed: "Fixture or flag deep link failed",
       },
       steps: [
         "Resolve device",
@@ -243,7 +331,7 @@ const APP: Noun = {
   },
   summary:
     "Build, install, seed, open, and close the preview app. Run the dev client with Metro.",
-  commandOrder: ["build", "install", "seed", "open", "close", "dev"],
+  commandOrder: ["build", "install", "seed", "open", "drive", "close", "dev"],
   helpTail: [
     "Every command needs one device. Pass exactly one:\n  --platform=<ios|android>  Simulator or emulator of this checkout\n  --target=<target>         One phone from `bun devices list`",
     "Run `bun app <command> --help` for details.",

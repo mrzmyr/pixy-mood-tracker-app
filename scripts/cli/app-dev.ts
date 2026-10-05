@@ -16,6 +16,15 @@ import { installFile } from "./app-install.ts";
 import { toBuildId } from "./builds.ts";
 import { resolveDevice } from "./device.ts";
 import type { Device } from "./device.ts";
+import {
+  ANDROID_DEV_MENU_PREFS_FILE,
+  devLinks,
+  iosDevMenuCommands,
+  mergeAndroidDevMenuPrefs,
+  parseFlagOverrides,
+} from "./dev-client.ts";
+import type { FlagValue } from "./dev-client.ts";
+import { assertHostReady } from "./disk.ts";
 import { startMetro } from "./metro.ts";
 import type { Metro } from "./metro.ts";
 import { getPlatform } from "./options.ts";
@@ -74,29 +83,35 @@ const approveIosScheme = (udid: string) => {
   }
 };
 
+// Opens a dev client link. iOS links skip the "Open in Pixy Dev?" prompt.
+const openLink = (device: Device, url: string) => {
+  if (device.platform === "ios") {
+    approveIosScheme(device.id);
+    run("xcrun", ["simctl", "openurl", device.id, url]);
+  } else {
+    run(getAdb(), [
+      "-s",
+      device.id,
+      "shell",
+      `am start -a android.intent.action.VIEW -d '${url}' ${DEV.appId}`,
+    ]);
+  }
+};
+
 const openDevClient = (device: Device, metro: Metro) => {
   const url = devClientUrl(metro);
   try {
-    if (device.platform === "ios") {
-      approveIosScheme(device.id);
-      run("xcrun", ["simctl", "openurl", device.id, url]);
-    } else {
-      const adb = getAdb();
+    if (device.platform === "android") {
       // The emulator reaches the Mac's localhost through adb reverse.
-      run(adb, [
+      run(getAdb(), [
         "-s",
         device.id,
         "reverse",
         `tcp:${metro.port}`,
         `tcp:${metro.port}`,
       ]);
-      run(adb, [
-        "-s",
-        device.id,
-        "shell",
-        `am start -a android.intent.action.VIEW -d '${url}' ${DEV.appId}`,
-      ]);
     }
+    openLink(device, url);
   } catch (error) {
     throw new CliError({
       status: "dev_client_open_failed",
@@ -106,6 +121,57 @@ const openDevClient = (device: Device, metro: Metro) => {
     });
   }
   return url;
+};
+
+// Android: run-as reads and writes app data of debuggable builds, such as the
+// dev client. The app reads shared preferences once, so it stops first.
+const writeAndroidDevMenuPrefs = (id: string) => {
+  const adb = getAdb();
+  let existing: string | undefined;
+  try {
+    existing = run(adb, [
+      "-s",
+      id,
+      "shell",
+      `run-as ${DEV.appId} cat ${ANDROID_DEV_MENU_PREFS_FILE}`,
+    ]);
+  } catch {
+    // First launch: no preferences file yet.
+  }
+  const { changed, xml } = mergeAndroidDevMenuPrefs(existing);
+  if (!changed) {
+    return;
+  }
+  run(adb, ["-s", id, "shell", `am force-stop ${DEV.appId}`]);
+  execFileSync(
+    adb,
+    [
+      "-s",
+      id,
+      "shell",
+      `run-as ${DEV.appId} sh -c 'mkdir -p shared_prefs && cat > ${ANDROID_DEV_MENU_PREFS_FILE}'`,
+    ],
+    { input: xml, stdio: ["pipe", "pipe", "pipe"] }
+  );
+};
+
+// Hides the dev menu onboarding, launch menu, and floating button, so they do
+// not cover the app in screenshots and taps. Best effort: the app still runs
+// without it.
+const hideDevMenu = (device: Device) => {
+  try {
+    if (device.platform === "ios") {
+      for (const args of iosDevMenuCommands(device.id, DEV.appId)) {
+        run("xcrun", args);
+      }
+    } else {
+      writeAndroidDevMenuPrefs(device.id);
+    }
+  } catch (error) {
+    note(
+      `note: could not hide the dev menu: ${error instanceof Error ? describeError(error) : String(error)}. Close it in the app.`
+    );
+  }
 };
 
 const screenshot = (device: Device) => {
@@ -162,7 +228,12 @@ const waitForBundle = async (
   });
 };
 
-const dev = async (platform: Platform) => {
+interface DevLinks {
+  fixture?: string;
+  flags: { key: string; value: FlagValue }[];
+}
+
+const dev = async (platform: Platform, links: DevLinks) => {
   step("Resolve device");
   const device = await resolveDevice({ platform });
   const build = await getCachedBuild(platform, "development");
@@ -177,6 +248,7 @@ const dev = async (platform: Platform) => {
   note(`Dev client ${toBuildId(build.key)}`);
   step("Install");
   installFile(device, build.file, "development");
+  hideDevMenu(device);
   step("Start Metro");
   const metro = await startMetro();
   const logOffset = fs.statSync(metro.log).size;
@@ -187,6 +259,21 @@ const dev = async (platform: Platform) => {
   await waitForBundle(platform, metro, logOffset, () => screenshot(device));
   // The splash screen stays up until the first screen has rendered.
   await sleep(3000);
+  for (const link of devLinks(DEV.scheme, links)) {
+    try {
+      openLink(device, link);
+    } catch (error) {
+      throw new CliError({
+        status: "dev_link_failed",
+        message: `Could not open ${link}`,
+        why: error instanceof Error ? describeError(error) : String(error),
+        fix: "Check that the app shows on the device, then rerun `bun app dev`.",
+      });
+    }
+    note(`Opened ${link}`);
+    // oxlint-disable-next-line no-await-in-loop -- links apply one at a time
+    await sleep(2000);
+  }
   note(
     `Edits reload in the app. Rerun \`bun app dev --platform=${platform}\` to reload by hand. Metro log: ${metro.log}`
   );
@@ -194,6 +281,8 @@ const dev = async (platform: Platform) => {
   setResultPath(file);
   console.log(file);
 };
+
+export { approveIosScheme };
 
 /** Run the dev client with Metro on this checkout's simulator or emulator. */
 export const devFor = async (values: Record<string, string | undefined>) => {
@@ -207,5 +296,9 @@ export const devFor = async (values: Record<string, string | undefined>) => {
       fix: "Pass --platform=ios or --platform=android.",
     });
   }
-  await dev(platform);
+  assertHostReady();
+  await dev(platform, {
+    fixture: values.fixture,
+    flags: parseFlagOverrides(values.flag),
+  });
 };

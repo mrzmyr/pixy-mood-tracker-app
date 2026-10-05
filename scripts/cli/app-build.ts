@@ -9,6 +9,7 @@ import { createFingerprintAsync } from "@expo/fingerprint";
 import { ensurePrebuild, getAndroidBuildEnv } from "../run-native.ts";
 import { withCacheLock } from "./cache-lock.ts";
 import { toBuildId } from "./builds.ts";
+import { assertHostReady } from "./disk.ts";
 import { buildIosPhone } from "./ios-phone-build.ts";
 import { resolveDevice } from "./device.ts";
 import { getPlatform } from "./options.ts";
@@ -225,6 +226,7 @@ export const getBuildCacheDir = () => buildCacheProvider.resolveCacheDir();
 
 /** Build the preview app for a platform or signed phone target. */
 export const buildFor = async (values: Record<string, string | undefined>) => {
+  assertHostReady();
   if (!values.target) {
     return build(getPlatform(values.platform));
   }

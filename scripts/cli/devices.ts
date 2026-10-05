@@ -1,9 +1,10 @@
 import { getAndroidBuildEnv } from "../run-native.ts";
 import { agentDevice } from "./agent-device.ts";
-import { readManagedDevices } from "./device.ts";
+import { deviceFlag, readManagedDevices } from "./device.ts";
+import { doctor } from "./doctor.ts";
 import { PLATFORM_OPTION_SPEC, TARGET_OPTION_SPEC } from "./options.ts";
 import { openMenuBar } from "./menu-bar.ts";
-import { readIosPhoneStates, readPhones } from "./phone.ts";
+import { findConnectedPhone, readIosPhoneStates, readPhones } from "./phone.ts";
 import {
   readForeignReservation,
   release,
@@ -14,13 +15,7 @@ import type { PhoneInfo } from "./reservation.ts";
 import { CliError, defineCommand, note, printTable } from "./shared.ts";
 import type { Noun } from "./shared.ts";
 import type { AgentPhone, IosState, TargetInput } from "./target.ts";
-import {
-  buildRows,
-  findPhone,
-  phoneProblem,
-  toPhoneType,
-  toToken,
-} from "./target.ts";
+import { buildRows, phoneProblem, toPhoneType, toToken } from "./target.ts";
 
 const DEFAULT_MINUTES = 60;
 const MAX_GOAL_LENGTH = 120;
@@ -99,10 +94,7 @@ const list = async (platform?: string) => {
 
 /** Find one connected phone without preflight. A locked phone can be reserved. */
 const findTarget = async (target = "") => {
-  const { devices = [] } = await agentDevice<{ devices?: AgentPhone[] }>([
-    "devices",
-  ]);
-  const phone = findPhone(devices.filter(isPhone), target);
+  const phone = await findConnectedPhone(target);
   let iosDevices: IosState[] = [];
   if (phone.platform === "ios") {
     try {
@@ -112,6 +104,33 @@ const findTarget = async (target = "") => {
     }
   }
   return toPhoneInfo(phone, iosDevices);
+};
+
+// agent-device keeps its claim on a phone while a session is open. A phone
+// session is named after the target, see setPhoneSession.
+const closeSession = async (phone: AgentPhone, session: string) => {
+  try {
+    await agentDevice(
+      [
+        "close",
+        "--platform",
+        phone.platform,
+        deviceFlag(phone.platform),
+        phone.id,
+        "--session",
+        session,
+      ],
+      { timeoutMs: 30_000 }
+    );
+    note(`Closed agent-device session ${session}`);
+  } catch (error) {
+    const isMissing =
+      error instanceof CliError &&
+      ["session_not_found", "no_open_session"].includes(error.status);
+    if (!isMissing) {
+      throw error;
+    }
+  }
 };
 
 const getGoal = (value = "") => {
@@ -146,7 +165,7 @@ const TARGET_OPTION = { ...TARGET_OPTION_SPEC, isRequired: true };
 
 const DEVICES: Noun = {
   summary: "List and reserve devices that can run the preview app.",
-  commandOrder: ["list", "reserve", "release", "menubar"],
+  commandOrder: ["list", "reserve", "release", "doctor", "menubar"],
   helpTail: ["Run `bun devices <command> --help` for details."],
   commands: {
     list: defineCommand({
@@ -252,16 +271,47 @@ const DEVICES: Noun = {
       },
       sections: [
         {
+          title: "Behavior",
+          lines: [
+            "Also closes this phone's agent-device session, so agent-device frees the phone.",
+          ],
+        },
+        {
           title: "Examples",
           lines: ["bun devices release --target=pixel-8-09yw"],
         },
       ],
       run: async (values) => {
-        const phone = await findTarget(values.target);
-        if (!release(phone.id)) {
-          note(`note: ${phone.target} had no reservation`);
+        const phone = await findConnectedPhone(values.target ?? "");
+        const target = toToken(phone.name, phone.id);
+        const reservation = release(phone.id);
+        await closeSession(phone, target);
+        if (!reservation) {
+          note(`note: ${target} had no reservation`);
         }
       },
+    }),
+    doctor: defineCommand({
+      usage: "Usage: bun devices doctor",
+      summary: "Check that Apple's device service answers. Never restarts it.",
+      sections: [
+        {
+          title: "Behavior",
+          lines: [
+            "Runs `xcrun devicectl list devices` with a 20 second limit.",
+            "On a hang, prints the restart command. Restart interrupts other sessions.",
+          ],
+        },
+        {
+          title: "Output",
+          lines: ["One line on stdout: devicectl ok in <seconds>s."],
+        },
+      ],
+      errors: {
+        core_device_service_wedged: "devicectl did not answer in 20 seconds",
+        devicectl_failed: "devicectl exited with an error",
+      },
+      run: () => doctor(),
     }),
     menubar: defineCommand({
       usage: "Usage: bun devices menubar",
