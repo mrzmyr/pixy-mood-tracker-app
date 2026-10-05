@@ -34,6 +34,7 @@ const ids = (stdout: string) =>
   stdout.split("\n").map((line) => line.split(/\s+/u)[0]);
 
 describe("CLI options", () => {
+  // Spawns one CLI process per case at once; 2-core CI runners need more than the 5 s default.
   test("rejects invalid commands in parse order", async () => {
     const cases: [string[], number, string][] = [
       [["app", "install", "ios"], 2, "unexpected_argument"],
@@ -128,7 +129,7 @@ describe("CLI options", () => {
         expect(errorLines).toHaveLength(3);
       })
     );
-  });
+  }, 30_000);
 
   test("help wins over invalid values and matches golden output", async () => {
     const result = await call("app", "install", "--platform=windows", "--help");
