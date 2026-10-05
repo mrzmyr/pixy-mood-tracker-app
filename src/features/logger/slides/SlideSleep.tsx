@@ -63,7 +63,9 @@ export const SlideSleep = ({
                 return;
               }
               setSleepQuality(key);
-              onSelect();
+              // Moving the carousel in the same press as the draft update
+              // leaves it on this slide. Advance on the next frame.
+              requestAnimationFrame(onSelect);
             }}
           />
         ))}
