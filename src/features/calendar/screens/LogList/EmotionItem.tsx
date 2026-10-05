@@ -1,6 +1,6 @@
 import { EmotionIndicator } from "@/features/logger";
 import useColors from "@/hooks/useColors";
-import { t } from "@/lib/translation";
+import { tDynamic } from "@/lib/translation";
 import type { Emotion } from "@/types";
 import { Text, View } from "react-native";
 
@@ -34,7 +34,7 @@ export const EmotionItem = ({
             fontSize: 17,
           }}
         >
-          {t(`log_emotion_${emotion.key}`)}
+          {tDynamic(`log_emotion_${emotion.key}`)}
         </Text>
       </View>
     </View>
