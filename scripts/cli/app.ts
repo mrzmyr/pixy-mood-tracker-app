@@ -54,6 +54,8 @@ const APP: Noun = {
         signing_profile_missing: "Provisioning profile lacks this iPhone",
         native_build_failed: "Compiler failed, read the log",
         build_lock_timeout: "Another build held the cache lock 30 minutes",
+        build_slot_timeout: "Two other native builds held all slots 90 minutes",
+        disk_low: "Less than 10 GiB free disk, run `bun builds reclaim`",
       },
       run: (values) => buildFor(values),
       summary: "Build the preview app into the shared cache.",
@@ -74,6 +76,7 @@ const APP: Noun = {
         ...DEVICE_ERRORS,
         signing_profile_missing: "Provisioning profile lacks this iPhone",
         install_failed: "Device refused the build",
+        disk_low: "Less than 10 GiB free disk, run `bun builds reclaim`",
       },
       run: (values) => installFor(values),
       summary:
@@ -247,6 +250,8 @@ const APP: Noun = {
         invalid_flag: "--flag has an unknown key or a value other than on, off",
         native_build_failed: "Compiler failed, read the log",
         build_lock_timeout: "Another build held the cache lock 30 minutes",
+        build_slot_timeout: "Two other native builds held all slots 90 minutes",
+        disk_low: "Less than 10 GiB free disk, run `bun builds reclaim`",
         install_failed: "Device refused the build",
         metro_port_taken:
           "Another process answers on this checkout's Metro port",

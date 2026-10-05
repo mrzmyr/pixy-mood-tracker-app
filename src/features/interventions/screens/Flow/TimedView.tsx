@@ -1,7 +1,7 @@
 import { Text, View } from "react-native";
 import Svg, { Circle } from "react-native-svg";
 import useColors from "@/hooks/useColors";
-import { t } from "@/lib/translation";
+import { t, tDynamic } from "@/lib/translation";
 import type { InterventionId, TimedStep } from "../../catalog";
 
 const SIZE = 200;
@@ -88,7 +88,7 @@ export const TimedView = ({
             textAlign: "center",
           }}
         >
-          {t(`interventions_${id}_${step.key}_part`)}
+          {tDynamic(`interventions_${id}_${step.key}_part`)}
         </Text>
         <Text
           style={{
@@ -98,7 +98,7 @@ export const TimedView = ({
             textAlign: "center",
           }}
         >
-          {t(`interventions_${id}_${step.key}_text`)}
+          {tDynamic(`interventions_${id}_${step.key}_text`)}
         </Text>
       </View>
     </View>

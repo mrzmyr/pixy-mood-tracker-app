@@ -24,6 +24,7 @@ import {
   parseFlagOverrides,
 } from "./dev-client.ts";
 import type { FlagValue } from "./dev-client.ts";
+import { assertHostReady } from "./disk.ts";
 import { startMetro } from "./metro.ts";
 import type { Metro } from "./metro.ts";
 import { getPlatform } from "./options.ts";
@@ -287,6 +288,7 @@ export const devFor = async (values: Record<string, string | undefined>) => {
       fix: "Pass --platform=ios or --platform=android.",
     });
   }
+  assertHostReady();
   await dev(platform, {
     fixture: values.fixture,
     flags: parseFlagOverrides(values.flag),
