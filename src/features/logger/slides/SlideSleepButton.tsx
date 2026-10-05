@@ -5,6 +5,7 @@ import { Pressable, View, useColorScheme } from "react-native";
 import type { ViewStyle } from "react-native";
 
 import useHaptics from "@/hooks/useHaptics";
+import { RADIUS } from "@/constants/Radius";
 
 const DEFAULT_STYLE = {};
 
@@ -43,7 +44,7 @@ export const SlideSleepButton = ({
           backgroundColor: colors.logCardBackground,
           borderColor,
           borderWidth: 1,
-          borderRadius: 8,
+          borderRadius: RADIUS.sm,
           paddingHorizontal: 8,
           paddingVertical: 16,
           height: HEIGHT + 32,
@@ -64,7 +65,7 @@ export const SlideSleepButton = ({
             alignItems: "center",
             height: HEIGHT,
             width: 16,
-            borderRadius: 8,
+            borderRadius: RADIUS.sm,
             overflow: "hidden",
           }}
         >

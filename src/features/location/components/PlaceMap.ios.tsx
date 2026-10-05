@@ -4,6 +4,7 @@ import { View } from "react-native";
 import useColors from "@/hooks/useColors";
 import { t } from "@/lib/translation";
 import type { PlaceMapProps } from "./placeMapProps";
+import { RADIUS } from "@/constants/Radius";
 
 /** Street level, close enough to tell neighborhoods apart. */
 const ZOOM = 14;
@@ -34,7 +35,7 @@ export const PlaceMap = ({ center, pin, onPick }: PlaceMapProps) => {
       accessibilityHint={t("location_map_hint")}
       style={{
         height: HEIGHT,
-        borderRadius: 12,
+        borderRadius: RADIUS.md,
         overflow: "hidden",
         backgroundColor: colors.textInputBackground,
       }}

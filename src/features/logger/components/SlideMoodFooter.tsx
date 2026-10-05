@@ -12,6 +12,7 @@ import { Platform, Pressable, Text, View } from "react-native";
 import { Clock, MapPin } from "react-native-feather";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { useLogDraft } from "../logDraft";
+import { RADIUS } from "@/constants/Radius";
 
 /** Height of a pill. Matches the 44pt minimum hit target. */
 const PILL_HEIGHT = 44;
@@ -53,7 +54,7 @@ const DatePickerHeader = ({ onChange }: { onChange: (date: Date) => void }) => {
             maxWidth: 240,
             padding: 12,
             marginBottom: index === all.length - 1 ? 0 : 8,
-            borderRadius: 8,
+            borderRadius: RADIUS.sm,
           }}
         >
           <Text style={{ fontSize: 17, color: colors.tertiaryButtonText }}>
@@ -107,7 +108,7 @@ const Pill = ({
         paddingVertical: 6,
         paddingHorizontal: 12,
         backgroundColor: colors.logHeaderHighlight,
-        borderRadius: 8,
+        borderRadius: RADIUS.sm,
       })}
     >
       {icon}

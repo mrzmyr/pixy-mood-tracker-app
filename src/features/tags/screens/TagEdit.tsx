@@ -30,6 +30,7 @@ import type { Tag as ITag } from "../TagsProvider";
 import MenuList from "@/components/MenuList";
 import MenuListItem from "@/components/MenuListItem";
 import TextInfo from "@/components/TextInfo";
+import { RADIUS } from "@/constants/Radius";
 
 const REGEX_EMOJI = /\p{Emoji}/u;
 
@@ -108,7 +109,7 @@ export const TagEdit = () => {
               backgroundColor: colors.textInputBackground,
               width: "100%",
               padding: 16,
-              borderRadius: 8,
+              borderRadius: RADIUS.sm,
               marginBottom: 16,
             }}
             placeholder={t("tags_add_placeholder")}
@@ -142,7 +143,7 @@ export const TagEdit = () => {
                   flexBasis: `${100 / 7 - 2}%`,
                   maxWidth: `${100 / 7 - 2}%`,
                   aspectRatio: 1,
-                  borderRadius: 100,
+                  borderRadius: RADIUS.full,
                   backgroundColor: colors.tags[colorName].dot,
                   justifyContent: "center",
                   alignItems: "center",

@@ -29,7 +29,10 @@ import { CHANGELOG_URL, FEEDBACK_FEATURES_URL } from "@/constants/Config";
 import { DEV_TOOLS } from "@/dev";
 import { t } from "@/lib/translation";
 import { useAnalytics } from "@/state/analytics";
-import { useFeatureFlag } from "@/state/featureFlags";
+import {
+  useCanOverrideFeatureFlags,
+  useFeatureFlag,
+} from "@/state/featureFlags";
 import { useSettings } from "@/state/settings";
 import { COLOR_SCHEMES } from "@/state/settings/colorScheme";
 import useColors from "@/hooks/useColors";
@@ -50,7 +53,8 @@ const DEVELOPMENT_UNLOCK_TAPS = 20;
 /**
  * Settings screen, opened from the calendar header. The support card needs its feature flag and an enabled client.
  * The Development section shows in development and preview builds, with the
- * `development` feature flag, or after 20 taps on the version in this session.
+ * `development` or `feature-flag-overrides` feature flag, or after 20 taps on
+ * the version in this session.
  */
 export const SettingsScreen = () => {
   const router = useRouter();
@@ -60,10 +64,12 @@ export const SettingsScreen = () => {
   const support = useSupport();
   const isSupportEnabled = useFeatureFlag("support-pixy");
   const isDevelopmentFlagOn = useFeatureFlag("development");
+  const canOverrideFeatureFlags = useCanOverrideFeatureFlags();
   const [versionTaps, setVersionTaps] = useState(0);
   const isDevelopmentVisible =
     DEV_TOOLS !== null ||
     isDevelopmentFlagOn ||
+    canOverrideFeatureFlags ||
     versionTaps >= DEVELOPMENT_UNLOCK_TAPS;
   const { settings, setSettings } = useSettings();
   const { colorScheme } = settings;
@@ -261,11 +267,11 @@ export const SettingsScreen = () => {
                   testID="dev-fixtures"
                 />
               )}
-              {DEV_TOOLS && (
+              {canOverrideFeatureFlags && (
                 <MenuListItem
                   title="Feature flags"
                   iconLeft={<Flag width={18} color={colors.menuListItemIcon} />}
-                  onPress={() => router.push("/dev/feature-flags")}
+                  onPress={() => router.push("/settings/feature-flags")}
                   isLink
                   testID="dev-feature-flags"
                 />

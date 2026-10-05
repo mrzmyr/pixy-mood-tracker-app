@@ -30,7 +30,10 @@ import {
 import { isRunnerStartFailure } from "./runner-error.ts";
 import { deviceFlag, findDevice, resolveDevice } from "./device.ts";
 import type { Device } from "./device.ts";
-import { stopMetro } from "./metro.ts";
+import { approveIosScheme } from "./app-dev.ts";
+import { devLinks, pickSeedVariant } from "./dev-client.ts";
+import type { SeedVariant } from "./dev-client.ts";
+import { isOwnMetroRunning, stopMetro } from "./metro.ts";
 import { getPlatform } from "./options.ts";
 import { CliError, getStateDir, note } from "./shared.ts";
 import type { Platform } from "./shared.ts";
@@ -260,8 +263,13 @@ const open = async (device: Device) => {
   await screenshot(platform, device.id, "open.png", device.key);
 };
 
-const seed = async (device: Device, fixtureId: string) => {
+const seed = async (
+  device: Device,
+  fixtureId: string,
+  variant: SeedVariant
+) => {
   const { platform } = device;
+  const app = variant === "dev" ? APP_VARIANTS.development : PREVIEW;
   const fixture = FIXTURES.find((candidate) => candidate.id === fixtureId);
   if (!fixture) {
     throw new CliError({
@@ -276,24 +284,31 @@ const seed = async (device: Device, fixtureId: string) => {
     preflightPhone(device);
     await prepareIosRunner(device);
   }
-  const url = `${PREVIEW.scheme}://dev/fixture?id=${fixtureId}`;
-  // iOS asks "Open in ...?" before a link launches the app. The CLI can
-  // answer it only while the app runs, so the app starts first.
-  if (device.kind === "phone" || platform === "ios") {
+  const [url] = devLinks(app.scheme, { fixture: fixtureId });
+  if (variant === "dev") {
+    // `bun app dev` already runs the dev client. A relaunch would drop its
+    // Metro connection, so the link goes to the running app.
+    note(`Seeding the dev client (${app.appId})`);
+    if (platform === "ios") {
+      approveIosScheme(device.id);
+    }
+  } else if (device.kind === "phone" || platform === "ios") {
+    // iOS asks "Open in ...?" before a link launches the app. The CLI can
+    // answer it only while the app runs, so the app starts first.
     await agentDevice([
       "open",
-      PREVIEW.appId,
+      app.appId,
       ...getDeviceArgs(platform, device.id),
       "--relaunch",
     ]);
     await waitReady(platform, device.id, device.key);
   }
   if (device.kind === "phone" && platform === "ios") {
-    openIosPhoneLink(device, PREVIEW.appId, url);
+    openIosPhoneLink(device, app.appId, url);
   } else {
     await agentDevice([
       "open",
-      ...(device.kind === "phone" ? [url] : [PREVIEW.appId, url]),
+      ...(device.kind === "phone" ? [url] : [app.appId, url]),
       ...getDeviceArgs(platform, device.id),
     ]);
     await acceptPreviewAlert(platform, device.id);
@@ -564,7 +579,21 @@ export const seedFor = async (values: Record<string, string | undefined>) => {
     platform: values.platform,
     target: values.target,
   });
-  return seed(device, values.fixture ?? "");
+  const isDevSessionRunning = isOwnMetroRunning();
+  const variant = pickSeedVariant({
+    variant: values.variant,
+    isPhone: device.kind === "phone",
+    isDevSessionRunning,
+  });
+  if (variant === "dev" && !isDevSessionRunning) {
+    throw new CliError({
+      status: "dev_session_missing",
+      message: "No dev client session in this checkout",
+      why: "--variant=dev seeds the running dev client, but this checkout's Metro is not running.",
+      fix: `Run \`bun app dev --platform=${device.platform}\` first.`,
+    });
+  }
+  return seed(device, values.fixture ?? "", variant);
 };
 
 /** Close the preview app on the selected platform or phone target. */

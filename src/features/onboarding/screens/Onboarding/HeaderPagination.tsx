@@ -1,5 +1,6 @@
 import { View } from "react-native";
 import useColors from "@/hooks/useColors";
+import { RADIUS } from "@/constants/Radius";
 
 const HeaderPaginationDot = ({ active }: { active: boolean }) => {
   const colors = useColors();
@@ -9,7 +10,7 @@ const HeaderPaginationDot = ({ active }: { active: boolean }) => {
       style={{
         width: 8,
         height: 8,
-        borderRadius: 4,
+        borderRadius: RADIUS.full,
         backgroundColor: active
           ? colors.onboardingPaginationDotActive
           : colors.onboardingPaginationDotInactive,

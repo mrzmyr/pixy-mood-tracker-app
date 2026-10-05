@@ -5,6 +5,9 @@ Usage: bun devices release --target=<target>
 Options:
   --target=<target>  One phone. Copy the value from `bun devices list`.
 
+Behavior:
+  Also closes this phone's agent-device session, so agent-device frees the phone.
+
 Examples:
   bun devices release --target=pixel-8-09yw
 

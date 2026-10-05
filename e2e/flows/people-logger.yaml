@@ -11,12 +11,11 @@ tags: [p1, people]
 - openLink: ${APP_SCHEME}://dev/feature-flag?key=people&value=on
 - extendedWaitUntil:
     visible:
-      id: "calendar"
+      id: "calendar-list"
     timeout: 10000
 
 # Enable the step on Check-in > People. It is off by default.
-- tapOn:
-    id: "settings"
+- runFlow: ../subflows/open-settings.yaml
 - tapOn: "Check-in"
 - tapOn:
     id: "step-people"
@@ -26,8 +25,8 @@ tags: [p1, people]
 - back
 
 # New entry: mood, emotions, tags, then people.
-- tapOn:
-    id: "calendar"
+- assertVisible:
+    id: "calendar-list"
 - tapOn: "Add another entry for today"
 - waitForAnimationToEnd
 - tapOn:
@@ -42,7 +41,7 @@ tags: [p1, people]
     id: "logger-next"
 - tapOn:
     id: "logger-save"
-- runFlow: ../subflows/answer-confirmation.yaml
+- runFlow: ../subflows/close-confirmation.yaml
 
 # The entry card lists Alex under People.
 - runScript: ../scripts/set-output-date.js
@@ -53,8 +52,7 @@ tags: [p1, people]
 - back
 
 # Filter by Alex: every 4th of 365 fixture entries plus the new one.
-- tapOn:
-    id: "filters"
+- runFlow: ../subflows/open-filters.yaml
 - scrollUntilVisible:
     element:
       text: "People"

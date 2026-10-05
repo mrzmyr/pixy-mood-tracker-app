@@ -7,6 +7,7 @@ import { Text, View, useColorScheme } from "react-native";
 import type { ViewStyle } from "react-native";
 
 import { SectionHeader } from "./SectionHeader";
+import { RADIUS } from "@/constants/Radius";
 
 const DEFAULT_STYLE = {};
 
@@ -28,7 +29,7 @@ const Tag = ({
         justifyContent: "center",
         alignItems: "center",
         flexDirection: "row",
-        borderRadius: 100,
+        borderRadius: RADIUS.full,
         marginRight: 8,
         marginBottom: 8,
         backgroundColor: colors.tagBackground,
@@ -44,7 +45,7 @@ const Tag = ({
         style={{
           width: 8,
           height: 8,
-          borderRadius: 8,
+          borderRadius: RADIUS.sm,
           marginRight: 10,
           backgroundColor: colors.tags[colorName]?.dot,
         }}

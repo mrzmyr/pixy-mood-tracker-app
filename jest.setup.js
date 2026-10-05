@@ -38,6 +38,9 @@ jest.mock("react-native-reanimated", () => {
   return {
     __esModule: true,
     default: { View },
+    createAnimatedComponent: (component) => component,
+    css: { create: (styles) => styles },
+    cubicBezier: () => "ease-out",
     FadeIn: animation,
     FadeInDown: animation,
     FadeInRight: animation,

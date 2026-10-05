@@ -15,6 +15,7 @@ import { useSettings } from "@/state/settings";
 import { RatingDot } from "./RatingDot";
 import { Sleep } from "./Sleep";
 import { Tags } from "./Tags";
+import { RADIUS } from "@/constants/Radius";
 
 const EntryHeader = ({
   item,
@@ -147,7 +148,7 @@ export const Entry = ({
           flex: 1,
           paddingTop: 16,
           paddingHorizontal: 16,
-          borderRadius: 12,
+          borderRadius: RADIUS.md,
           borderWidth: 1,
           borderColor: colors.logCardBorder,
           backgroundColor: colors.logCardBackground,

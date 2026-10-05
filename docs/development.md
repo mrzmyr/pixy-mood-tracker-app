@@ -50,10 +50,17 @@ Three variants install side by side, each with its own name, icon, bundle ID, an
 
 - PostHog feature flags. Keys live in [`src/state/featureFlags/keys.ts`](../src/state/featureFlags/keys.ts). Read one with `useFeatureFlag(key)` ([`src/state/featureFlags/index.tsx`](../src/state/featureFlags/index.tsx))
 - Each key needs a boolean flag with the same key in the PostHog project of every variant
+- New key in `keys.ts`: create the PostHog flag in the same task. Do not ask first
+  - Create it in all 3 app projects: Production `7630`, Preview `14574`, Development `628970`
+  - Development and Preview: disabled
+  - Production: disabled, or release condition limited to internal testers. Never roll out to users without request
+  - Run `switch-project` before each create. The MCP keeps the last active project
+- Never replace or delete existing release conditions or rollout percentages. Add a separate condition group instead
 - Flags load only with consent: onboarding done and Settings > Privacy > Behavioral Data on. No flag request at startup (`preloadFeatureFlags: false`, [`src/shell/posthogOptions.ts`](../src/shell/posthogOptions.ts))
 - Without consent, or until flags load, every flag is off. Turning consent off turns flags off. Flags cached in an earlier session are never read
-- Development and preview builds override flags in Settings > Development > Feature flags, or with `<scheme>://dev/feature-flag?key=<key>&value=on|off|remote`. Overrides work without consent and end when the app restarts. Production builds ignore them
-- Settings > Development is hidden in production builds. Flag `development` or 20 taps on the version in Settings show it ([Settings screen](../src/features/settings/screens/Settings/index.tsx)). Taps last until app restart. Development and preview builds always show it
+- Development and preview builds override flags in Settings > Development > Feature flags, or with `<scheme>://dev/feature-flag?key=<key>&value=on|off|remote`. Overrides work without consent and end when the app restarts
+- Production builds apply overrides only while flag `feature-flag-overrides` is on. That flag also shows Settings > Development > Feature flags. It needs consent, so testers agreed to the privacy policy. It is never overridable itself ([`src/state/featureFlags/overrides.ts`](../src/state/featureFlags/overrides.ts))
+- Settings > Development is hidden in production builds. Flag `development`, flag `feature-flag-overrides`, or 20 taps on the version in Settings show it ([Settings screen](../src/features/settings/screens/Settings/index.tsx)). Taps last until app restart. Development and preview builds always show it
 - Enable `interventions` to show exercises after entries with anxious-type emotions ([`src/features/interventions`](../src/features/interventions))
 
 ### Photos
@@ -89,9 +96,11 @@ Three variants install side by side, each with its own name, icon, bundle ID, an
   - `--target=<target>`: one connected phone
 - `bun devices list` prints the option to copy for every device, plus state and problem. `--platform=<ios|android>` filters by OS.
 - `bun app dev` installs the cached dev client, starts this checkout's Metro, and opens the app on it. Rerun to reload. Simulator and emulator only.
+  - Hides the dev menu onboarding, launch menu, and floating button ([`scripts/cli/dev-client.ts`](../scripts/cli/dev-client.ts))
+  - `--fixture=<id>` and `--flag=<key>=<on|off>,...` open the dev deep links after launch
 - `bun app build` compiles a preview release with embedded JavaScript into the shared cache.
 - `bun app install` installs the cached preview binary directly, no prebuild. Builds first when cache has no match.
-- `bun app seed --fixture=<id>` loads `fresh`, `empty`, `seed`, `year`, or `people` data and prints a screenshot path.
+- `bun app seed --fixture=<id>` loads `fresh`, `empty`, `seed`, `year`, or `people` data and prints a screenshot path. Seeds the dev client while this checkout's `bun app dev` runs, else the preview app. `--variant=<dev|preview>` overrides.
 - `bun app open` launches by app ID, waits for onboarding or calendar, then prints a screenshot path.
 - `bun app close` ends the session, resets app data, and stops this checkout's Metro. See [Phones](#phones) for phone behavior.
 - `bun e2e run [--paths=<path,...>]` closes the session, reinstalls the app, then runs Maestro flows. Default path: `e2e/flows`.
@@ -117,12 +126,27 @@ bun e2e run --target=pixel-8-09yw --paths=e2e/flows/entry-full.yaml
 - Reserve a phone for a whole task: `bun devices reserve --target=<target> --goal=<goal>`. Other checkouts then fail with `device_reserved`, which names the goal. Release with `bun devices release --target=<target>`. Reservations expire after 60 minutes (`--minutes=<n>`) or when their checkout is deleted.
 - See reservations in the macOS menu bar: `bun devices menubar` ([source](../tools/devices-menu-bar/main.swift)).
 - `bun app dev` has no phone support. Use `bun ios --device <udid>` or `bun android --device <name>` for the dev client on a phone.
+- Open a deep link on an iPhone: `xcrun devicectl device process launch --device <id> --terminate-existing --payload-url "<url>" <bundle-id>`. `--payload-url` goes before the bundle ID. `agent-device open` with a URL fails on iPhones.
+- `agent-device record` on an iPhone can restart the iOS runner ("iOS runner session restarted during recording"). Every later command then fails. Take screenshots on the phone. Record video on the simulator: `xcrun simctl io <udid> recordVideo --codec=h264 --force <file>.mp4`, stop with `kill -INT`.
+- `agent-device settings appearance` works on simulators only. On a phone, switch dark mode in Settings > Display & Brightness.
 
 Known limits. A phone run fails with `flows_unsupported_on_phone` before it changes anything on the phone, and names every blocked flow plus the command to run it elsewhere:
 
 - Android phone: flows with `eraseText`. Non-ASCII `inputText` fails during the run with `android_phone_text_input_unsupported`. Cause: agent-device 0.21.15 enables its test keyboard on phones only through `open --test-ime` ([agent-device#2997](https://github.com/callstack/agent-device/issues/2997)).
 - iPhone: flows with `openLink` outside [`load-fixture.yaml`](../e2e/subflows/load-fixture.yaml) ([agent-device#2998](https://github.com/callstack/agent-device/issues/2998)). For `load-fixture.yaml`, `bun e2e run` loads the fixture with `devicectl` before each flow and runs flows one at a time.
 - iPhone: flows with `clearState`. agent-device clears app state on simulators only.
+
+### Widgets (iOS)
+
+- Code: [`src/features/widget`](../src/features/widget). Extension bundle ID `<appId>.widgets`, app group `group.<appId>` ([`app.config.ts`](../app.config.ts))
+- iPhone builds need an extension provisioning profile with App Groups. `bun app install --target=<target>` signs with `xcodebuild -allowProvisioningUpdates`. Xcode without a signed-in Apple account cannot create that profile.
+- Fallback: `bunx eas-cli build -p ios --local --profile=preview --output <file>.ipa`. Run it once interactively: eas-cli creates the extension profile only then. Later runs accept `--non-interactive`.
+- Unset `CI` before eas-cli. An empty `CI` fails with `GetEnv.NoBoolean`.
+- Install the IPA: `xcrun devicectl device install app --device <id> <file>.ipa`
+- Extension memory limit: 30 MB. Too many SwiftUI nodes crash the widget, then WidgetKit shows a stale archive. Render big grids in the app as one image ([`WidgetSync.tsx`](../src/features/widget/WidgetSync.tsx)).
+- WidgetKit holds timeline reloads while the app is in the foreground. Send the app home and wait about 10 seconds. Remove and add the widget again to force a fresh timeline.
+- Logs: `idevicesyslog -u <udid>` (Homebrew `libimobiledevice`). Grep `[ExpoWidgets]` for the extension, `PixyPreview(React)` for app `console.error`. Release builds print both.
+- Home Screen on a phone: `agent-device open com.apple.springboard`, `longpress` on empty space, then tap by coordinates from screenshots. `snapshot` shows no accessibility tree there.
 
 ### E2E flows
 
@@ -137,12 +161,25 @@ Known limits. A phone run fails with `flows_unsupported_on_phone` before it chan
 - `<scheme>://dev/fake-contacts?count=<n>` writes `n` fake contacts (company "Pixy Test Contact", every fifth with a photo) into the real device address book. `count=0` deletes exactly those. Synced accounts (iCloud, Google) sync them too, so delete them after testing.
 - Fixtures count as consent, so preview builds load flags from "Pixy App - Preview". Shared flows expect every flag off there. A flow that needs a flag turns it on with [`enable-feature-flag.yaml`](../e2e/subflows/enable-feature-flag.yaml) (not on iPhones)
 - Each flow asserts a result. Opening a screen is not a test.
+- `bun e2e run` replays flows with `agent-device test --maestro` ([`scripts/cli/e2e.ts`](../scripts/cli/e2e.ts)). Maestro commands without agent-device support fail, for example `setLocation`. Set GPS before the run: `xcrun simctl location <udid> set <lat>,<lon>`.
+- Flows share app state. [`load-storage-fixture.yaml`](../e2e/subflows/load-storage-fixture.yaml) waits for `calendar-list`, so it fails before onboarding. After `pm clear` or a failed `storage-load-error.yaml`, run `first-launch.yaml` first.
+- Native header buttons (`Stack.Toolbar.Button`) have `accessibilityLabel` only, no testID. Tap them by label. On iOS the navigation bar has the same label: in raw agent-device, run `snapshot -i`, then press the button ref.
+- A run across midnight fails `load-fixture.yaml`, because the ID of today changes. Rerun.
+- `bun run test:cli` checks flows statically ([`flow-lint.ts`](../scripts/cli/flow-lint.ts)): every `runFlow` and `runScript` file exists, every `id` selector matches a `testID` in `src/`. Tap header buttons through `open-*.yaml` subflows: native header items have no testIDs.
+- Known failures: [`e2e/known-failures.json`](../e2e/known-failures.json), entries `{ "flow", "reason", "since" }`. `since` is a `YYYY-MM-DD` date. `bun e2e run` names new failures apart from known ones. Add a flow that fails on `main` with its cause. Remove it with the fix.
 
 ### Upgrade tests
 
 - Storage fixtures (`legacy-1.81.1`, `legacy-1.68`) hold raw AsyncStorage as those versions wrote it ([`src/dev/fixtures/index.ts`](../src/dev/fixtures/index.ts)).
 - `upgrade-from-*.yaml` flows (`p0`) write them, restart the app, and check entries, tags, and a first new entry.
 - `storage-load-error.yaml` writes `corrupt-logs` (unreadable logs) and checks the load error screen and its export ([`src/navigation/StorageLoadGate.tsx`](../src/navigation/StorageLoadGate.tsx)). It ends with `clearState`, so it runs on simulators and emulators only.
+
+### Jest
+
+- `bun run test` runs in watch mode and never exits. Use `bun run test:ci` or `bunx jest <paths>`.
+- Suites that import `expo-router/testing-library` get an empty `react-native-reanimated` mock: every export is `undefined`. Its re-mock fails against the `react-native-worklets` mock in [`jest.setup.js`](../jest.setup.js) and falls back to `{}`.
+- Never call reanimated at module scope (`Easing.bezier`, `createAnimatedComponent`, `new Keyframe`). Create the value inside the component or hook.
+- Factory mocks that spread `jest.requireActual` need `__esModule: true`. Without it, Babel gives each importer its own namespace copy, so `jest.spyOn` in a test misses calls from `src`.
 
 ### Build cache
 
@@ -159,7 +196,8 @@ The cache provider lives in [`scripts/build-cache-provider.cjs`](../scripts/buil
 
 - Checkout state lives under `~/.cache/pixy-mood-tracker/checkouts/<hash>/`. `checkout.txt` records its worktree path.
 - `e2e/<device>/` contains test artifacts, `junit.xml`, and `--video` recordings. `screenshots/<device>/` contains app screenshots. `<device>` is `ios`, `android`, or the phone target.
-- `build/` contains Expo build output. Logs stay in the checkout state dir.
+- `build/` contains Expo build output.
+- `logs/` contains one log per long command run (`app build`, `app install`, `app dev`, `e2e run`). Newest 30 stay. Format: `bun <noun> <command> --help`, section `Progress`.
 - `metro.log` and `metro.pid` belong to the Metro that `bun app dev` started.
 - CLI state stays outside the worktree. Expo owns generated `ios/` and `android/` folders.
 
@@ -171,6 +209,8 @@ The cache provider lives in [`scripts/build-cache-provider.cjs`](../scripts/buil
 - Android uses one `pixy-mood-tracker` AVD per machine. Android runs serialize through device claims.
 - Phones are shared by all worktrees. A second command on a busy phone fails with `device_in_use`.
 - Reservations live under `~/.cache/pixy-mood-tracker/reservations/`, one file per phone. See [Phones](#phones).
+- Check `uptime` before device work. Above load average ~100, simulators, emulators, and agent-device time out. Android ANR dialogs and Watchdog restarts of `system_server` are then not app bugs.
+- An Android build can lose its Gradle daemon ("Gradle build daemon disappeared unexpectedly") while an iOS build runs. Run the Android build alone.
 
 ### Disk cleanup and errors
 

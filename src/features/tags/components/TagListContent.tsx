@@ -6,6 +6,7 @@ import useColors from "@/hooks/useColors";
 import type { Tag } from "../TagsProvider";
 import { TagListItem } from "./TagListItem";
 import { useRouter } from "expo-router";
+import { RADIUS } from "@/constants/Radius";
 
 /**
  * Tag list for the tag settings screens; rows open the tag editor. Shows a
@@ -47,7 +48,7 @@ export const TagListContent = ({
             padding: 16,
             marginTop: 16,
             marginHorizontal: 16,
-            borderRadius: 8,
+            borderRadius: RADIUS.md,
           }}
         >
           <Text

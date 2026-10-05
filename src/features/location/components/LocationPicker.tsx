@@ -25,6 +25,7 @@ import {
 import { showLocationDenied } from "../useLocationSetting";
 import { PlaceMap } from "./PlaceMap";
 import type { MapCoordinates } from "./placeMapProps";
+import { RADIUS } from "@/constants/Radius";
 
 /** Wait after the last keystroke before asking the geocoder. */
 const SEARCH_DELAY_MS = 400;
@@ -194,7 +195,7 @@ const SheetContent = ({
         placeholderTextColor={colors.textInputPlaceholder}
         style={{
           marginTop: 20,
-          borderRadius: 10,
+          borderRadius: RADIUS.sm,
           paddingHorizontal: 14,
           paddingVertical: 12,
           fontSize: 17,
