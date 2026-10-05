@@ -5,6 +5,7 @@ import fresh from "@/dev/fixtures/fresh.json";
 import legacy168 from "@/dev/fixtures/legacy-1.68.json";
 import legacy181 from "@/dev/fixtures/legacy-1.81.1.json";
 import seed from "@/dev/fixtures/seed.json";
+import { STRESS_FIXTURE } from "@/dev/fixtures/stress";
 import year from "@/dev/fixtures/year.json";
 
 type FixtureFile = typeof fresh | typeof empty | typeof seed | typeof year;
@@ -85,6 +86,11 @@ export interface Fixture {
   /** Shifts every date so the newest entry lands on today. */
   endsToday?: boolean;
   data: ImportData;
+  /**
+   * Photo files by `fileName`, as base64 JPEG. Written to the photos
+   * directory on load, because exports never hold photo files.
+   */
+  photoFiles?: Record<string, string>;
 }
 
 /** Every fixture, in the order the Test data screen lists them. */
@@ -123,6 +129,15 @@ export const FIXTURES: Fixture[] = [
       "The `year` fixture plus 3 people (one with photo, one archived) on a fixed share of entries.",
     endsToday: true,
     data: withPeople(asExport(year)),
+  },
+  {
+    id: "stress",
+    title: "Stress test",
+    description:
+      "5 years ending today. Most tags, people, emotions, and photos allowed; notes from empty to 10,000 characters; 21 entries today.",
+    endsToday: true,
+    data: STRESS_FIXTURE.data,
+    photoFiles: STRESS_FIXTURE.photoFiles,
   },
 ];
 

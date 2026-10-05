@@ -1,4 +1,5 @@
 import dayjs from "dayjs";
+import { MAX_PEOPLE, MAX_TAG_LENGTH, MAX_TAGS } from "@/constants/Config";
 import {
   FIXTURES,
   getFixture,
@@ -7,6 +8,7 @@ import {
   STORAGE_FIXTURES,
 } from "@/dev/fixtures";
 import { decodeBackupData } from "@/features/datagate";
+import { MAX_PHOTOS_PER_ENTRY } from "@/features/photos";
 
 const requireFixture = (id: string) => {
   const fixture = getFixture(id);
@@ -83,5 +85,31 @@ describe("dev fixtures", () => {
     expect(() => JSON.parse(entries[0][1])).toThrow(SyntaxError);
     expect(() => JSON.parse(entries[1][1])).not.toThrow();
     expect(() => JSON.parse(entries[2][1])).not.toThrow();
+  });
+});
+
+describe("stress fixture", () => {
+  const { data, photoFiles = {} } = requireFixture("stress");
+  const items = Array.isArray(data.items) ? data.items : [];
+
+  it("stays within the app limits", () => {
+    expect(data.tags).toHaveLength(MAX_TAGS);
+    expect(data.people).toHaveLength(MAX_PEOPLE);
+    for (const item of items) {
+      expect(item.photos?.length ?? 0).toBeLessThanOrEqual(
+        MAX_PHOTOS_PER_ENTRY
+      );
+      expect(item.message.length).toBeLessThanOrEqual(10_000);
+    }
+    for (const { title } of data.tags ?? []) {
+      expect(title.length).toBeLessThanOrEqual(MAX_TAG_LENGTH);
+    }
+  });
+
+  it("ships a file for every photo except the missing-file entry", () => {
+    const missing = items.flatMap((item) =>
+      (item.photos ?? []).filter((photo) => !(photo.fileName in photoFiles))
+    );
+    expect(missing).toHaveLength(MAX_PHOTOS_PER_ENTRY);
   });
 });
