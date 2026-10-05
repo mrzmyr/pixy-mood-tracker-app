@@ -11,6 +11,7 @@ Goal: keep watching the current PR until review comments and CI are handled.
 - refresh live state each pass (`gh pr view`, `gh pr checks`, review comments)
 - wait for multiple review agent post comments -> fix then → when done, resolve them
 - conflicts -> resolve them
+- push triggers no CI run -> check `mergeable` first (`gh pr view --json mergeable`); conflicts block `pull_request` runs
 - build failing -> investigate -> fix
 - test failing -> investigate -> fix
 - if checks are still running and there is nothing to fix, wait (`gh pr checks --watch`) instead of polling in a tight loop

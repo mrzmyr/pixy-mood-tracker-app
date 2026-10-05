@@ -1,0 +1,59 @@
+name: stack-guard
+
+# Stacked PRs: a child PR targets its parent's branch, not main.
+# Once the parent merges, that branch is dead. Merging the child there
+# never reaches main. This workflow fails the child and asks for a retarget.
+on:
+  pull_request:
+    types: [opened, edited, synchronize, reopened, closed]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+permissions: {}
+
+jobs:
+  # Fail a PR whose base branch belongs to a merged or closed PR.
+  base-alive:
+    name: base branch alive
+    if: github.event.action != 'closed' && github.base_ref != 'main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      pull-requests: read # list PRs to find the parent
+    steps:
+      - name: Check parent PR state
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          BASE: ${{ github.base_ref }}
+          PR: ${{ github.event.pull_request.number }}
+        run: |
+          states=$(gh pr list --repo "$REPO" --head "$BASE" --state all --json state --jq '.[].state')
+          if [ -z "$states" ] || printf '%s\n' "$states" | grep -qx OPEN; then
+            echo "Base branch $BASE has no merged or closed parent PR."
+            exit 0
+          fi
+          echo "::error title=stack_base_merged::Base branch $BASE was merged/closed; retarget this PR to main. Why: the parent PR of $BASE is merged or closed, so merging here never reaches main. Fix: gh pr edit $PR --base main"
+          exit 1
+
+  # On merge, tell open child PRs to retarget before someone merges them.
+  notify-children:
+    name: notify child PRs
+    if: github.event.action == 'closed' && github.event.pull_request.merged && github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      pull-requests: write # comment on child PRs
+    steps:
+      - name: Comment on child PRs
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          HEAD: ${{ github.event.pull_request.head.ref }}
+          PARENT: ${{ github.event.pull_request.number }}
+        run: |
+          for child in $(gh pr list --repo "$REPO" --base "$HEAD" --state open --json number --jq '.[].number'); do
+            gh pr comment "$child" --repo "$REPO" --body "Parent PR #$PARENT merged. Base branch \`$HEAD\` is now dead: merging here never reaches main. Retarget this PR to main: \`gh pr edit $child --base main\`"
+          done
