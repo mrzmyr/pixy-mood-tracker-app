@@ -3,6 +3,7 @@ import { DATE_FORMAT } from "@/constants/Config";
 import type { LogItem } from "@/features/logs";
 import { getItemDate, getItemTime } from "@/lib/logDates";
 import { t } from "@/lib/translation";
+import type { TranslationKey } from "@/lib/translation";
 import { getAverageMood } from "@/lib/utils";
 
 /** Mood group that picks the tone of the confirmation. */
@@ -89,7 +90,7 @@ const SPLIT = "⁣";
 
 /** Translate `key` and replace each `{{name}}` with its segments. */
 const template = (
-  key: string,
+  key: TranslationKey,
   values: Record<string, SummarySegment[]>
 ): SummarySegment[] => {
   const markers = Object.fromEntries(

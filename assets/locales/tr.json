@@ -4,6 +4,7 @@
   "save": "Kayıt etmek",
   "add": "Eklemek",
   "cancel": "İptal etmek",
+  "clear": "Temizle",
   "delete_all_data_button": "Tüm verilerimi sil",
   "delete_all_data_description": "Tüm girdileri, fotoğrafları, etiketleri, kişileri ve ayarları siler. Bir kopyasını saklamak için önce verilerinizi dışa aktarın.",
   "delete_all_data_confirm_title": "Tüm verilerimi sil",

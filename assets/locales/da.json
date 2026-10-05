@@ -4,6 +4,7 @@
   "save": "Gemme",
   "add": "Tilføje",
   "cancel": "Afbestille",
+  "clear": "Ryd",
   "delete_all_data_button": "Slet alle mine data",
   "delete_all_data_description": "Sletter alle poster, billeder, tags, personer og indstillinger. Eksportér dine data først for at beholde en kopi.",
   "delete_all_data_confirm_title": "Slet alle mine data",

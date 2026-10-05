@@ -4,6 +4,7 @@
   "save": "Zapisać",
   "add": "Dodać",
   "cancel": "Anuluj",
+  "clear": "Wyczyść",
   "delete_all_data_button": "Usuń wszystkie moje dane",
   "delete_all_data_description": "Usuwa wszystkie wpisy, zdjęcia, tagi, osoby i ustawienia. Najpierw wyeksportuj dane, aby zachować kopię.",
   "delete_all_data_confirm_title": "Usuń wszystkie moje dane",

@@ -3,6 +3,7 @@
   "reset": "リセット",
   "save": "保存する",
   "cancel": "キャンセル",
+  "clear": "クリア",
   "delete_all_data_button": "すべてのデータを削除",
   "delete_all_data_description": "すべてのエントリー、写真、タグ、人物、設定を削除します。コピーを残すには、先にデータをエクスポートしてください。",
   "delete_all_data_confirm_title": "すべてのデータを削除",
