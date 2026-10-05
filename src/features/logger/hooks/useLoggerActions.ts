@@ -63,6 +63,7 @@ export const useLoggerActions = ({
       photos_count: item.photos.length,
       photos_day_count: photoCounts.day,
       photos_library_count: photoCounts.library,
+      has_location: item.location !== undefined,
     });
 
     if (mode === "edit") {

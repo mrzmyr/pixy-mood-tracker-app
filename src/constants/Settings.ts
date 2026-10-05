@@ -33,4 +33,5 @@ export const INITIAL_STATE: SettingsState = {
   storeReviewPromptedAppVersion: null,
   photosDayAccessDismissed: false,
   colorScheme: "system",
+  locationEnabled: false,
 };

@@ -244,6 +244,7 @@ describe("useLogs()", () => {
         "storeReviewPromptedAppVersion",
         "photosDayAccessDismissed",
         "colorScheme",
+        "locationEnabled",
       ]) satisfies ExportSettings,
       tags: testTags,
       people: [],

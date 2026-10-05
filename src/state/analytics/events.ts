@@ -47,6 +47,8 @@ export interface AnalyticsEvents {
     /** Photos by origin. The two counts add up to `photos_count`. */
     photos_day_count: number;
     photos_library_count: number;
+    /** Never the place itself. */
+    has_location: boolean;
   };
   "logger:log_deleted": undefined;
   "logger:flow_cancelled": { mode: "create" | "edit" };
@@ -196,6 +198,7 @@ export interface AnalyticsEvents {
   "settings:changelog_tapped": undefined;
   "settings:scale_changed": { scale_type: SettingsState["scaleType"] };
   "settings:step_toggled": { step: LoggerStep; enabled: boolean };
+  "settings:location_toggled": { enabled: boolean };
   "settings:privacy_policy_opened": undefined;
   "settings:analytics_toggled": { enabled: boolean };
   "settings:app_icon_changed": { icon: AppIconId };

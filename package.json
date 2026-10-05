@@ -74,6 +74,8 @@
     "expo-linear-gradient": "~57.0.2",
     "expo-linking": "~57.0.11",
     "expo-localization": "~57.0.2",
+    "expo-location": "~57.0.20",
+    "expo-maps": "~57.0.3",
     "expo-media-library": "~57.0.5",
     "expo-notifications": "~57.0.21",
     "expo-observe": "~57.0.24",
@@ -163,5 +165,14 @@
   "engines": {
     "node": ">=22.13 <27"
   },
-  "packageManager": "bun@1.3.5"
+  "packageManager": "bun@1.3.5",
+  "expo": {
+    "autolinking": {
+      "android": {
+        "exclude": [
+          "expo-maps"
+        ]
+      }
+    }
+  }
 }

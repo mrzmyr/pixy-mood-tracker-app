@@ -15,6 +15,7 @@ import {
   FileText,
   Heart,
   Image as ImageIcon,
+  MapPin,
   MessageSquare,
   Sun,
   Tag,
@@ -23,6 +24,7 @@ import {
 import { useRouter } from "expo-router";
 import useColors from "@/hooks/useColors";
 import { useFeatureFlag } from "@/state/featureFlags";
+import { useLocationSetting } from "@/features/location";
 import { useStepEnabled } from "../useStepEnabled";
 
 /** Steps with their own settings page; the list links there instead of a switch. */
@@ -96,15 +98,52 @@ const StepRow = ({
   );
 };
 
+/** Switch that adds the current place to new check-ins. */
+const LocationRow = () => {
+  const colors = useColors();
+  const { isEnabled, setEnabled } = useLocationSetting();
+
+  return (
+    <>
+      <MenuList style={{ marginTop: 24 }}>
+        <MenuListItem
+          title={t("location_setting")}
+          iconLeft={<MapPin width={20} height={20} color={colors.text} />}
+          iconRight={
+            <Switch
+              accessibilityLabel={t("location_setting")}
+              testID="location-enabled"
+              onValueChange={setEnabled}
+              value={isEnabled}
+            />
+          }
+        />
+      </MenuList>
+      <Text
+        style={{
+          marginTop: 8,
+          paddingHorizontal: 16,
+          fontSize: 13,
+          color: colors.textSecondary,
+        }}
+      >
+        {t("location_setting_description")}
+      </Text>
+    </>
+  );
+};
+
 /**
  * Settings > Check-in: the logger steps in order. `rating` cannot be turned
  * off. Tags and People open their own page with the switch and their list.
- * `people` and `photos` show only behind their feature flags.
+ * `people` and `photos` show only behind their feature flags. The location
+ * switch shows behind the `location` feature flag.
  */
 export const StepsScreen = () => {
   const colors = useColors();
   const hasPeople = useFeatureFlag("people");
   const isPhotosEnabled = useFeatureFlag("photos");
+  const { isAvailable: isLocationAvailable } = useLocationSetting();
   const options = STEP_OPTIONS.filter(
     (option) =>
       (option !== "people" || hasPeople) &&
@@ -158,6 +197,7 @@ export const StepsScreen = () => {
             <StepRow key={option} step={option} icon={ICONS_MAP[option]} />
           ))}
         </MenuList>
+        {isLocationAvailable && <LocationRow />}
       </ScrollView>
     </View>
   );

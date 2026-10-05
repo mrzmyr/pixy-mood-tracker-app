@@ -9,6 +9,7 @@ export const FEATURE_FLAGS = [
   "feature-flag-overrides",
   "interventions",
   "ios-widget",
+  "location",
   "people",
   "photos",
   "support-pixy",

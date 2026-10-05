@@ -1,7 +1,7 @@
 import { Dimensions } from "react-native";
 import dayjs from "dayjs";
 import groupBy from "lodash/groupBy";
-import { t } from "@/lib/translation";
+import { locale, t } from "@/lib/translation";
 // oxlint-disable-next-line eslint/no-restricted-imports -- Persisted feature types stay in their modules until storage refactor.
 import type { LogDay, LogItem } from "@/features/logs";
 import {
@@ -12,6 +12,20 @@ import {
 import { getItemDate } from "@/lib/logDates";
 
 const SCREEN_WIDTH = Dimensions.get("window").width;
+
+const SHORT_DAY_FORMAT = new Intl.DateTimeFormat(locale, {
+  month: "short",
+  day: "numeric",
+});
+const SHORT_DAY_YEAR_FORMAT = new Intl.DateTimeFormat(locale, {
+  month: "short",
+  day: "numeric",
+  year: "numeric",
+});
+const SHORT_TIME_FORMAT = new Intl.DateTimeFormat(locale, {
+  hour: "numeric",
+  minute: "2-digit",
+});
 
 /**
  * Rounded mean rating on the {@link RATING_MAPPING} scale, or `null` for
@@ -112,6 +126,29 @@ export const getItemDateTitle = (dateTime: LogItem["dateTime"]) => {
   return isSmallScreen
     ? dayjs(dateTime).format("l - LT")
     : dayjs(dateTime).format("ddd, L - LT");
+};
+
+/**
+ * Compact entry time for tight rows: "Today, 20:00", "Yesterday, 20:00",
+ * else short day and time ("Sep 28, 8:00 PM"). The year shows only outside
+ * the current year.
+ */
+export const getShortItemDateTitle = (dateTime: LogItem["dateTime"]) => {
+  const date = dayjs(dateTime);
+
+  if (date.isSame(dayjs(), "day")) {
+    return `${t("today")}, ${date.format("HH:mm")}`;
+  }
+
+  if (date.isSame(dayjs().subtract(1, "day"), "day")) {
+    return `${t("yesterday")}, ${date.format("HH:mm")}`;
+  }
+
+  // Date and time apart: a combined format adds words like "at".
+  const dayFormat = date.isSame(dayjs(), "year")
+    ? SHORT_DAY_FORMAT
+    : SHORT_DAY_YEAR_FORMAT;
+  return `${dayFormat.format(date.toDate())}, ${SHORT_TIME_FORMAT.format(date.toDate())}`;
 };
 
 /** Localized day title: "Today", "Yesterday", or the full weekday and date. */

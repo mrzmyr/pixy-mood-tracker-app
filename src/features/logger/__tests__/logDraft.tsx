@@ -7,6 +7,9 @@ import { LogDraftProvider, useLogDraft } from "../logDraft";
 
 const DAY = "2026-10-02";
 
+const BERLIN = { latitude: 52.52, longitude: 13.405, name: "Mitte, Berlin" };
+const HAMBURG = { latitude: 53.551, longitude: 9.993, name: "Hamburg" };
+
 const createDraft = (overrides: Partial<LogDraft> = {}): LogDraft => ({
   ..._generateItem({ dateTime: `${DAY}T12:00:00`, message: "" }),
   rating: null,
@@ -173,5 +176,71 @@ describe("useLogDraft()", () => {
     });
     expect(committed?.item.sleep.quality).toBeNull();
     expect(hook.result.current.hasContent).toBe(false);
+  });
+
+  test("a passive location fills the draft without making it dirty", async () => {
+    const hook = await renderDraft(createDraft());
+
+    await act(() => {
+      hook.result.current.prefillLocation(BERLIN);
+    });
+
+    expect(hook.result.current.draft.location).toEqual(BERLIN);
+    expect(hook.result.current.isDirty).toBe(false);
+    expect(hook.result.current.commit([]).item.location).toEqual(BERLIN);
+  });
+
+  test("a passive location never replaces the user's pick", async () => {
+    const hook = await renderDraft(createDraft());
+
+    await act(() => {
+      hook.result.current.setLocation(HAMBURG);
+      hook.result.current.prefillLocation(BERLIN);
+    });
+    expect(hook.result.current.draft.location).toEqual(HAMBURG);
+
+    await act(() => {
+      hook.result.current.setLocation(undefined);
+      hook.result.current.prefillLocation(BERLIN);
+    });
+    expect(hook.result.current.draft.location).toBeUndefined();
+    expect(hook.result.current.isDirty).toBe(true);
+  });
+
+  test("a passive location keeps the stored location of an edit", async () => {
+    const hook = await renderDraft(createDraft({ location: HAMBURG }));
+
+    await act(() => {
+      hook.result.current.prefillLocation(BERLIN);
+    });
+
+    expect(hook.result.current.draft.location).toEqual(HAMBURG);
+  });
+
+  test("dropping a passive location keeps a picked one", async () => {
+    const hook = await renderDraft(createDraft());
+
+    await act(() => {
+      hook.result.current.prefillLocation(BERLIN);
+      hook.result.current.dropPrefilledLocation();
+    });
+    expect(hook.result.current.draft.location).toBeUndefined();
+    expect(hook.result.current.isDirty).toBe(false);
+
+    await act(() => {
+      hook.result.current.setLocation(HAMBURG);
+      hook.result.current.dropPrefilledLocation();
+    });
+    expect(hook.result.current.draft.location).toEqual(HAMBURG);
+  });
+
+  test("dropping keeps the stored location of an edit", async () => {
+    const hook = await renderDraft(createDraft({ location: HAMBURG }));
+
+    await act(() => {
+      hook.result.current.dropPrefilledLocation();
+    });
+
+    expect(hook.result.current.draft.location).toEqual(HAMBURG);
   });
 });
