@@ -93,5 +93,10 @@ export default defineConfig({
       files: ["src/**"],
       rules: { "pixy-standards/no-hermes-missing-array-methods": "error" },
     },
+    {
+      // Append-only lists conflict on every merge; sorted lists do not.
+      files: ["src/state/featureFlags/keys.ts"],
+      rules: { "pixy-standards/sorted-string-arrays": "error" },
+    },
   ],
 });

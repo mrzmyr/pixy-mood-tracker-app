@@ -190,6 +190,62 @@ const noHermesMissingArrayMethods = {
   },
 };
 
+// String literals are the only literals whose raw source starts with a quote.
+const getStringValue = (element) =>
+  element?.type === "Literal" && /^["']/u.test(element.raw)
+    ? element.value
+    : undefined;
+
+// Sorted lists put new items at different lines, so parallel branches stop
+// conflicting at the list end.
+const sortedStringArrays = {
+  meta: {
+    type: "suggestion",
+    docs: {
+      description: "Require string literal arrays in code point order",
+    },
+    fixable: "code",
+    messages: {
+      unsorted:
+        "Sort this list: {{previous}} comes after {{current}}. `bun run fix` sorts it.",
+    },
+    schema: [],
+  },
+  create(context) {
+    return {
+      ArrayExpression(node) {
+        const values = node.elements.map(getStringValue);
+        if (values.length < 2 || values.includes(undefined)) {
+          return;
+        }
+        const index = values.findIndex(
+          (value, position) => position > 0 && values[position - 1] > value
+        );
+        if (index === -1) {
+          return;
+        }
+        const { sourceCode } = context;
+        const sortedTexts = node.elements
+          .map((element) => ({
+            text: sourceCode.getText(element),
+            value: element.value,
+          }))
+          .sort((a, b) => (a.value < b.value ? -1 : 1))
+          .map(({ text }) => text);
+        context.report({
+          messageId: "unsorted",
+          node: node.elements[index],
+          data: { previous: values[index - 1], current: values[index] },
+          fix: (fixer) =>
+            node.elements.map((element, position) =>
+              fixer.replaceText(element, sortedTexts[position])
+            ),
+        });
+      },
+    };
+  },
+};
+
 module.exports = {
   meta: { name: "pixy-standards" },
   rules: {
@@ -197,5 +253,6 @@ module.exports = {
     "require-exported-jsdoc": requireExportedJsDoc,
     "boolean-function-prefix": booleanFunctionPrefix,
     "structured-thrown-errors": structuredThrownErrors,
+    "sorted-string-arrays": sortedStringArrays,
   },
 };
