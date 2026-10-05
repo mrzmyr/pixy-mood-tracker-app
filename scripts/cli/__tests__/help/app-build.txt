@@ -23,5 +23,7 @@ Errors:
   signing_profile_missing  Provisioning profile lacks this iPhone
   native_build_failed      Compiler failed, read the log
   build_lock_timeout       Another build held the cache lock 30 minutes
+  build_slot_timeout       Two other native builds held all slots 90 minutes
+  disk_low                 Less than 10 GiB free disk, run `bun builds reclaim`
 
 Exit codes: 0 ok, 1 failure, 2 usage error
