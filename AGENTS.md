@@ -16,6 +16,7 @@
 - We use Posthog for feature flags
 - User MUST agree to the privacy policy to be able to test features using feature flags
 - Setup, consent gate, and dev overrides: [docs/development.md](docs/development.md#feature-flags)
+- New key in `keys.ts`: create PostHog flag in same task, never ask. Never replace existing release conditions. Rules: [docs/development.md](docs/development.md#feature-flags)
 
 ## PRs
 
@@ -37,7 +38,8 @@
 ## Tools
 
 - Posthog for product analytics (MCP installed)
-  - Accessible projects: `Pixy App`, `Pixy Website`, and `Pixy App Test`.
+  - Project IDs: App Production `7630`, App Preview `14574`, App Development `628970`, Website `12793`
+  - MCP keeps the last active project, often not the one you need. Run `switch-project` first
 - CodeRabbit for PR reviews (MCP installed)
 - Sentry for error logging (MCP installed)
 - FeatureOS User Feedback (MCP installed)
