@@ -50,6 +50,12 @@ Three variants install side by side, each with its own name, icon, bundle ID, an
 
 - PostHog feature flags. Keys live in [`src/state/featureFlags/keys.ts`](../src/state/featureFlags/keys.ts). Read one with `useFeatureFlag(key)` ([`src/state/featureFlags/index.tsx`](../src/state/featureFlags/index.tsx))
 - Each key needs a boolean flag with the same key in the PostHog project of every variant
+- New key in `keys.ts`: create the PostHog flag in the same task. Do not ask first
+  - Create it in all 3 app projects: Production `7630`, Preview `14574`, Development `628970`
+  - Development and Preview: disabled
+  - Production: disabled, or release condition limited to internal testers. Never roll out to users without request
+  - Run `switch-project` before each create. The MCP keeps the last active project
+- Never replace or delete existing release conditions or rollout percentages. Add a separate condition group instead
 - Flags load only with consent: onboarding done and Settings > Privacy > Behavioral Data on. No flag request at startup (`preloadFeatureFlags: false`, [`src/shell/posthogOptions.ts`](../src/shell/posthogOptions.ts))
 - Without consent, or until flags load, every flag is off. Turning consent off turns flags off. Flags cached in an earlier session are never read
 - Development and preview builds override flags in Settings > Development > Feature flags, or with `<scheme>://dev/feature-flag?key=<key>&value=on|off|remote`. Overrides work without consent and end when the app restarts
