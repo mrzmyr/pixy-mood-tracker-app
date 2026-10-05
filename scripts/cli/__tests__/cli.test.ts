@@ -91,6 +91,11 @@ describe("CLI options", () => {
         2,
         "invalid_goal",
       ],
+      [["worktree", "new"], 2, "missing_argument"],
+      [["worktree", "new", "Tag/Swipes"], 2, "invalid_slug"],
+      [["worktree", "new", "a", "b"], 2, "unexpected_argument"],
+      [["worktree", "rm"], 2, "missing_argument"],
+      [["worktree", "rm", "../old"], 2, "invalid_target"],
     ];
     await Promise.all(
       cases.map(async ([args, code, status]) => {
