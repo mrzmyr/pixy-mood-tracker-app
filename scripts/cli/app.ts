@@ -13,6 +13,8 @@ import {
 import { defineCommand } from "./shared.ts";
 import type { Noun } from "./shared.ts";
 
+const FIXTURE_IDS = FIXTURES.map((fixture) => fixture.id);
+
 // app-session builds phone runner commands with prepareRunnerArgs.
 export { prepareIosRunner } from "./app-session.ts";
 
@@ -109,12 +111,18 @@ const APP: Noun = {
         ...DEVICE_OPTIONS,
         fixture: {
           value: "<id>",
-          description: [
-            `Required. One of: ${FIXTURES.map((fixture) => fixture.id).join(", ")}.`,
-          ],
+          description: [`Required. One of: ${FIXTURE_IDS.join(", ")}.`],
           isRequired: true,
-          choices: FIXTURES.map((fixture) => fixture.id),
+          choices: FIXTURE_IDS,
           invalidStatus: "fixture_not_found",
+        },
+        variant: {
+          value: "<dev|preview>",
+          description: [
+            "App to seed. Default: dev while this checkout's `bun app dev` runs,",
+            "else preview. Phones: preview only.",
+          ],
+          choices: ["dev", "preview"],
         },
       },
       exactlyOne: ["platform", "target"],
@@ -122,7 +130,8 @@ const APP: Noun = {
         {
           title: "Requires",
           lines: [
-            "Preview app installed. Run `bun app install` with the same device option first.",
+            "preview: run `bun app install` with the same device option first.",
+            "dev: run `bun app dev --platform=<ios|android>` first.",
           ],
         },
         { title: "Output", lines: ["Screenshot path on stdout."] },
@@ -139,6 +148,8 @@ const APP: Noun = {
         missing_option:
           "Neither --platform nor --target passed, or no --fixture",
         fixture_not_found: "--fixture has no match",
+        variant_unsupported: "--variant=dev passed with --target",
+        dev_session_missing: "--variant=dev passed, but Metro is not running",
         app_not_ready: "First screen did not appear in 120 seconds",
       },
       run: (values) => seedFor(values),
@@ -184,8 +195,23 @@ const APP: Noun = {
           ],
           isRequired: true,
         },
+        fixture: {
+          value: "<id>",
+          description: [
+            `Load a fixture after launch. One of: ${FIXTURE_IDS.join(", ")}.`,
+          ],
+          choices: FIXTURE_IDS,
+          invalidStatus: "fixture_not_found",
+        },
+        flag: {
+          value: "<key>=<on|off>,...",
+          description: [
+            "Override feature flags after launch, until the app restarts.",
+          ],
+        },
       },
-      usage: "Usage: bun app dev --platform=<ios|android>",
+      usage:
+        "Usage: bun app dev --platform=<ios|android> [--fixture=<id>] [--flag=<key>=<on|off>,...]",
       sections: [
         {
           title: "Behavior",
@@ -194,8 +220,10 @@ const APP: Noun = {
             "       with the same native dependencies share it. Builds only on a miss.",
             "Metro  Starts `bun start` for this checkout on its own port (8082-8181),",
             "       detached. Reuses it when it already runs. `bun app close` stops it.",
+            "Menu   Hides the dev menu onboarding, launch menu, and floating button.",
             "Open   Deep links the dev client to this Metro and waits for the first bundle.",
             "       Edits reload in the app. Rerun the command to reload by hand.",
+            "Links  Opens --fixture, then --flag deep links in the running app.",
           ],
         },
         {
@@ -208,13 +236,15 @@ const APP: Noun = {
           title: "Examples",
           lines: [
             "bun app dev --platform=ios",
-            "bun app dev --platform=android",
+            "bun app dev --platform=android --fixture=year --flag=people=on,photos=off",
           ],
         },
       ],
       errors: {
         missing_option: "No --platform passed",
         invalid_platform: "--platform is not ios or android",
+        fixture_not_found: "--fixture has no match",
+        invalid_flag: "--flag has an unknown key or a value other than on, off",
         native_build_failed: "Compiler failed, read the log",
         build_lock_timeout: "Another build held the cache lock 30 minutes",
         install_failed: "Device refused the build",
@@ -224,6 +254,7 @@ const APP: Noun = {
         dev_client_open_failed: "Deep link to the dev client failed",
         bundle_failed: "Metro could not bundle the app",
         bundle_timeout: "App did not load its bundle in 180 seconds",
+        dev_link_failed: "Fixture or flag deep link failed",
       },
       run: (values) => devFor(values),
       summary:

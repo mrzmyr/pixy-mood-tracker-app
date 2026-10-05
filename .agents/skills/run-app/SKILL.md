@@ -24,6 +24,7 @@ Help and errors: `bun <noun> <command> --help`. Limits on phones: [development.m
 Use when the user edits code and wants to see changes without a native build.
 
 1. `bun app dev --platform=<ios|android>`. Installs the cached dev client, starts this checkout's Metro, opens the app, prints a screenshot path.
+   Data and flags in one go: `bun app dev --platform=ios --fixture=year --flag=people=on,photos=off`. Dev menu stays hidden.
 2. Edit code. The app reloads. Rerun step 1 to reload by hand.
 3. Drive the app: `bunx agent-device ... --platform <ios|android> --udid <id>` or `xcrun simctl`. App ID `com.devmood.pixymoodtracker.dev`.
 4. `bun app close --platform=<ios|android>` stops Metro and the device.
