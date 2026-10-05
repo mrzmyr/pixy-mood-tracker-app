@@ -9,8 +9,10 @@ import useColors from "@/hooks/useColors";
 import { EmotionItem } from "../../LogList/EmotionItem";
 import { RatingDot } from "../../LogList/RatingDot";
 
-// Apple Journal shows up to three photos per card.
+// Apple Journal shows up to three photos per card. A single photo is a wide
+// banner; a full-width square would fill most of the screen.
 const MAX_PHOTOS = 3;
+const SINGLE_PHOTO_ASPECT_RATIO = 2;
 // Entries can hold every emotion (161); more chips make the card screens tall.
 const MAX_EMOTIONS = 3;
 const EMOTIONS_BY_KEY = keyBy(EMOTIONS, "key");
@@ -62,6 +64,9 @@ const TimelineEntryComponent = ({
                 photo={photo}
                 index={index}
                 count={item.photos.length}
+                aspectRatio={
+                  photos.length === 1 ? SINGLE_PHOTO_ASPECT_RATIO : 1
+                }
               />
             </View>
           ))}
