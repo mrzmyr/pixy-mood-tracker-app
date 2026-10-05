@@ -24,6 +24,7 @@ Help and errors: `bun <noun> <command> --help`. devicectl hangs or "Device is bu
 Use when the user edits code and wants to see changes without a native build.
 
 1. `bun app dev --platform=<ios|android>`. Installs the cached dev client, starts this checkout's Metro, opens the app, prints a screenshot path.
+   Data and flags in one go: `bun app dev --platform=ios --fixture=year --flag=people=on,photos=off`. Dev menu stays hidden.
 2. Edit code. The app reloads. Rerun step 1 to reload by hand.
 3. Drive the app: `bun app drive --platform=<ios|android> -- <agent-device args>`. App ID `com.devmood.pixymoodtracker.dev`.
 4. `bun app close --platform=<ios|android>` stops Metro and the device.
@@ -34,3 +35,9 @@ Rules:
 - Never create simulators by hand. The CLI owns one simulator per checkout.
 - Dev client is shared across worktrees with the same native dependencies. A cache miss means native dependencies changed. Compile then, not before.
 - Phones: `bun ios --device <udid>`.
+
+# Shell (zsh)
+
+- Never put several flags in one variable (`$FLAGS`). zsh does not split words, so the command gets one argument. Use an array: `flags=(--platform=ios); bun app drive "${flags[@]}" -- snapshot`
+- Write `${VAR}:path`, not `$VAR:path`. zsh reads `:r`, `:h`, `:t` after `$VAR` as modifiers.
+- Quote globs in arguments (`--include='*.ts'`). zsh fails the command on an unmatched glob: `no matches found`.

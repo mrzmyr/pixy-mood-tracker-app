@@ -3,6 +3,7 @@ import { APP } from "./app.ts";
 import { BUILDS } from "./builds.ts";
 import { E2E } from "./e2e.ts";
 import { DEVICES } from "./devices.ts";
+import { WORKTREE } from "./worktree.ts";
 import { reportMemory } from "./memory.ts";
 import { CliError } from "./shared.ts";
 import type { CommandSpec, Noun, OptionSpec } from "./shared.ts";
@@ -12,6 +13,7 @@ const NOUNS = new Map<string, Noun>([
   ["builds", BUILDS],
   ["e2e", E2E],
   ["devices", DEVICES],
+  ["worktree", WORKTREE],
 ]);
 const ALIASES = new Map([
   ["ls", "list"],
@@ -28,6 +30,12 @@ const helpText = (noun: string, verb: string, spec: CommandSpec) => {
     spec.usage ??
       `Usage: bun ${noun} ${verb}${spec.exactlyOne ? " (--platform=<ios|android> | --target=<target>)" : ""}${spec.options?.fixture ? " --fixture=<id>" : ""}${spec.options?.paths ? " [--paths=<path,...>]" : ""}${spec.options?.video ? " [--video]" : ""}${spec.options?.build ? " --build=<id>" : ""}`,
   ];
+  if (spec.positional) {
+    const { value, description } = spec.positional;
+    sections.push(
+      `Arguments:\n${description.map((line, i) => `  ${i ? " ".repeat(value.length) : value}  ${line}`).join("\n")}`
+    );
+  }
   if (options.length) {
     const width = Math.max(
       ...options.map(([name, option]) => optionLabel(name, option).length)
@@ -175,7 +183,7 @@ const validateTokens = ({
       );
     }
   }
-  const [positional] = positionals;
+  const positional = positionals[spec.positional ? 1 : 0];
   if (positional !== undefined) {
     const choiceName = Object.entries(spec.options ?? {}).find(([, value]) =>
       value.choices?.includes(positional)
@@ -185,7 +193,9 @@ const validateTokens = ({
       commandName,
       "unexpected_argument",
       `Unexpected argument "${positional}"`,
-      `bun ${noun} ${commandName} takes options only, no positional arguments.`,
+      spec.positional
+        ? `bun ${noun} ${commandName} takes one argument: ${spec.positional.value}.`
+        : `bun ${noun} ${commandName} takes options only, no positional arguments.`,
       choiceName
         ? `Pass --${choiceName}=${positional}.`
         : `Run \`bun ${noun} ${commandName} --help\`.`
@@ -199,6 +209,16 @@ const validateValues = ({
   spec,
   values,
 }: ParsedInvocation) => {
+  if (spec.positional && values[spec.positional.name] === undefined) {
+    throw usage(
+      noun,
+      commandName,
+      "missing_argument",
+      `Missing ${spec.positional.value}`,
+      `bun ${noun} ${commandName} requires ${spec.positional.value}.`,
+      `Run \`bun ${noun} ${commandName} --help\`.`
+    );
+  }
   // SAFETY: parser definitions include every declared string option.
   for (const [name, option] of Object.entries(spec.options ?? {})) {
     const value = values[name];
@@ -297,6 +317,9 @@ const runCommand = async ({
       value === true ? "true" : value,
     ])
   ) as Record<string, string | undefined>;
+  if (spec.positional) {
+    [values[spec.positional.name]] = parsed.positionals;
+  }
   validateTokens({
     noun,
     commandName,
@@ -332,8 +355,8 @@ const main = async () => {
       "",
       "unknown_cli",
       `Unknown CLI "${noun}"`,
-      "The first argument must be app, builds, devices, or e2e.",
-      "Run `bun app --help`, `bun builds --help`, `bun devices --help`, or `bun e2e --help`."
+      "The first argument must be app, builds, devices, e2e, or worktree.",
+      "Run `bun app --help`, `bun builds --help`, `bun devices --help`, `bun e2e --help`, or `bun worktree --help`."
     );
   }
   if (!verb || ["--help", "-h", "help"].includes(verb)) {

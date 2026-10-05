@@ -13,17 +13,18 @@ import LinkButton from "@/components/LinkButton";
 import ModalHeader from "@/components/ModalHeader";
 import TextArea from "@/components/TextArea";
 import { t } from "@/lib/translation";
+import type { TranslationKey } from "@/lib/translation";
 import { useAnalytics } from "@/state/analytics";
 import useColors from "@/hooks/useColors";
 import { useFeedback } from "../Feedback";
 import type { FeedackType } from "../Feedback";
 
-const TITLE_KEYS: Partial<Record<FeedackType, string>> = {
+const TITLE_KEYS: Partial<Record<FeedackType, TranslationKey>> = {
   issue: "report_a_bug",
   idea: "request_a_feature",
 };
 
-const PLACEHOLDER_KEYS: Partial<Record<FeedackType, string>> = {
+const PLACEHOLDER_KEYS: Partial<Record<FeedackType, TranslationKey>> = {
   idea: "feedback_modal_message_placeholder_idea",
 };
 
