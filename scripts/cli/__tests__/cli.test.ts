@@ -81,6 +81,14 @@ describe("CLI options", () => {
       [["builds", "rm"], 2, "missing_option"],
       [["builds", "rm", "some-id"], 2, "unexpected_argument"],
       [["builds", "rm", "--build=no-such-build-id"], 2, "build_not_found"],
+      [["app", "drive", "--", "snapshot"], 2, "missing_option"],
+      [["app", "drive", "--platform=ios"], 2, "missing_argument"],
+      [["app", "drive", "--platform=ios", "--"], 2, "missing_argument"],
+      [
+        ["app", "drive", "--platform=ios", "--", "snapshot", "--udid", "x"],
+        2,
+        "conflicting_options",
+      ],
       [["devices", "reserve", "--target=x"], 2, "missing_option"],
       [["devices", "reserve", "--target=x", "--goal=  "], 2, "invalid_goal"],
       [

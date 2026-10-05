@@ -272,6 +272,9 @@ const runCommand = async ({
   spec: CommandSpec;
   argv: string[];
 }) => {
+  const split = spec.isPassthrough ? argv.indexOf("--") : -1;
+  const own = split === -1 ? argv : argv.slice(0, split);
+  const rest = split === -1 ? [] : argv.slice(split + 1);
   const definitions = Object.fromEntries(
     Object.entries(spec.options ?? {}).map(([key, option]) => [
       key,
@@ -279,7 +282,7 @@ const runCommand = async ({
     ])
   );
   const parsed = parseArgs({
-    args: argv,
+    args: own,
     options: definitions,
     strict: false,
     tokens: true,
@@ -314,7 +317,7 @@ const runCommand = async ({
   });
   reportMemory("before");
   try {
-    await spec.run(values);
+    await spec.run(values, rest);
   } finally {
     reportMemory("after");
   }
@@ -349,7 +352,9 @@ const main = async () => {
       `Run \`bun ${noun} --help\` to see all commands.`
     );
   }
-  if (argv.includes("--help") || argv.includes("-h")) {
+  const end = argv.indexOf("--");
+  const own = spec.isPassthrough && end !== -1 ? argv.slice(0, end) : argv;
+  if (own.includes("--help") || own.includes("-h")) {
     console.log(helpText(noun, commandName, spec));
     return;
   }
