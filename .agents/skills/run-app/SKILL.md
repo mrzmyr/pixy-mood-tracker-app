@@ -12,12 +12,12 @@ Run in order. Relay each `Step N` line. Do not pick variants; the CLI owns them.
 2. `bun app install <device>`
 3. `bun app seed <device> --fixture=<id>` (ids: fresh, empty, seed, year)
 4. `bun app open <device>`
-5. Use the app: `bunx agent-device help workflow`
+5. Use the app: `bun app drive <device> -- <agent-device args>`. Commands: `bunx agent-device help workflow`. Never call `bunx agent-device` directly: it skips reservations and picks its own session.
 6. `bun app close <device>`
 7. Phone: `bun devices release <device>`
 
 e2e: `bun e2e run <device> [--paths=<path,...>]`. One device per command. Start one command per phone for parallel runs.
-Help and errors: `bun <noun> <command> --help`. Limits on phones: [development.md](../../../docs/development.md#phones).
+Help and errors: `bun <noun> <command> --help`. devicectl hangs or "Device is busy": `bun devices doctor`. Limits on phones: [development.md](../../../docs/development.md#phones).
 
 # Development with Metro (hot reload)
 
@@ -25,7 +25,7 @@ Use when the user edits code and wants to see changes without a native build.
 
 1. `bun app dev --platform=<ios|android>`. Installs the cached dev client, starts this checkout's Metro, opens the app, prints a screenshot path.
 2. Edit code. The app reloads. Rerun step 1 to reload by hand.
-3. Drive the app: `bunx agent-device ... --platform <ios|android> --udid <id>` or `xcrun simctl`. App ID `com.devmood.pixymoodtracker.dev`.
+3. Drive the app: `bun app drive --platform=<ios|android> -- <agent-device args>`. App ID `com.devmood.pixymoodtracker.dev`.
 4. `bun app close --platform=<ios|android>` stops Metro and the device.
 
 Rules:
