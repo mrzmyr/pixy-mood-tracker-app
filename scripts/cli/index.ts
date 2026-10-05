@@ -4,7 +4,8 @@ import { BUILDS } from "./builds.ts";
 import { E2E } from "./e2e.ts";
 import { DEVICES } from "./devices.ts";
 import { reportMemory } from "./memory.ts";
-import { CliError } from "./shared.ts";
+import { finishRunLog, startRunLog } from "./run-log.ts";
+import { CliError, getStateDir, note } from "./shared.ts";
 import type { CommandSpec, Noun, OptionSpec } from "./shared.ts";
 
 const NOUNS = new Map<string, Noun>([
@@ -39,6 +40,16 @@ const helpText = (noun: string, verb: string, spec: CommandSpec) => {
   for (const section of spec.sections ?? []) {
     sections.push(
       `${section.title}:\n${section.lines.map((line) => `  ${line}`).join("\n")}`
+    );
+  }
+  if (spec.steps) {
+    sections.push(
+      [
+        "Progress:",
+        "  First stderr line: Log: <path>. New log file per run.",
+        `  Step lines: Step N/${spec.steps.length}: <name>. Steps: ${spec.steps.join(", ")}.`,
+        `  Last stdout line: PIXY_RESULT status=<ok|error> command=${noun}-${verb} [code=<status>] [path=<artifact>]`,
+      ].join("\n")
     );
   }
   if (spec.errors) {
@@ -312,6 +323,13 @@ const runCommand = async ({
     positionals: parsed.positionals,
     values,
   });
+  if (spec.steps) {
+    startRunLog({
+      dir: getStateDir("logs"),
+      command: `${noun}-${commandName}`,
+      steps: spec.steps,
+    });
+  }
   reportMemory("before");
   try {
     await spec.run(values);
@@ -319,6 +337,10 @@ const runCommand = async ({
     reportMemory("after");
   }
 };
+
+// Long command of this invocation, set once noun and verb resolve. Its final
+// `PIXY_RESULT` line also follows usage errors.
+let longCommand: string | null = null;
 
 const main = async () => {
   const [noun = "", verb, ...argv] = process.argv.slice(2);
@@ -353,10 +375,16 @@ const main = async () => {
     console.log(helpText(noun, commandName, spec));
     return;
   }
+  if (spec.steps) {
+    longCommand = `${noun}-${commandName}`;
+  }
   await runCommand({ noun, commandName, spec, argv });
 };
 try {
   await main();
+  if (longCommand) {
+    finishRunLog(longCommand);
+  }
 } catch (error) {
   const fields =
     error instanceof CliError
@@ -367,8 +395,11 @@ try {
           why: "Command failed unexpectedly.",
           fix: "Rerun the command and inspect the error.",
         });
-  console.error(
+  note(
     `error [${fields.status}]: ${fields.message}\n  why: ${fields.why}\n  fix: ${fields.fix}`
   );
+  if (longCommand) {
+    finishRunLog(longCommand, fields);
+  }
   process.exitCode = fields.exitCode;
 }

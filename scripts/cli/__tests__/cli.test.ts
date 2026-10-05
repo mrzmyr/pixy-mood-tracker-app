@@ -136,6 +136,16 @@ describe("CLI options", () => {
     );
   });
 
+  test("long commands end with a result line on usage errors", async () => {
+    const result = await call("e2e", "run", "--platform=windows");
+    expect(result.status).toBe(2);
+    expect(result.stdout.trimEnd().split("\n").at(-1)).toBe(
+      "PIXY_RESULT status=error command=e2e-run code=invalid_platform"
+    );
+    const short = await call("app", "seed", "--platform=windows");
+    expect(short.stdout).not.toContain("PIXY_RESULT");
+  });
+
   test("build aliases list same table", async () => {
     const alias = await call("builds", "ls");
     const canonical = await call("builds", "list");

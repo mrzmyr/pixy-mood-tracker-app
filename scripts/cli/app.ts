@@ -53,6 +53,7 @@ const APP: Noun = {
         native_build_failed: "Compiler failed, read the log",
         build_lock_timeout: "Another build held the cache lock 30 minutes",
       },
+      steps: ["Resolve device", "Fingerprint", "Build"],
       run: (values) => buildFor(values),
       summary: "Build the preview app into the shared cache.",
     }),
@@ -73,6 +74,7 @@ const APP: Noun = {
         signing_profile_missing: "Provisioning profile lacks this iPhone",
         install_failed: "Device refused the build",
       },
+      steps: ["Resolve device", "Fingerprint", "Build", "Install"],
       run: (values) => installFor(values),
       summary:
         "Install the preview app on one device. Builds first when cache has no match.",
@@ -225,6 +227,15 @@ const APP: Noun = {
         bundle_failed: "Metro could not bundle the app",
         bundle_timeout: "App did not load its bundle in 180 seconds",
       },
+      steps: [
+        "Resolve device",
+        "Fingerprint",
+        "Build",
+        "Install",
+        "Start Metro",
+        "Open app",
+        "Wait for bundle",
+      ],
       run: (values) => devFor(values),
       summary:
         "Run the dev client with Metro. Installs the cached dev client, starts this checkout's Metro, opens the app.",

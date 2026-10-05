@@ -21,6 +21,11 @@ Examples:
   bun app dev --platform=ios
   bun app dev --platform=android
 
+Progress:
+  First stderr line: Log: <path>. New log file per run.
+  Step lines: Step N/7: <name>. Steps: Resolve device, Fingerprint, Build, Install, Start Metro, Open app, Wait for bundle.
+  Last stdout line: PIXY_RESULT status=<ok|error> command=app-dev [code=<status>] [path=<artifact>]
+
 Errors:
   missing_option          No --platform passed
   invalid_platform        --platform is not ios or android

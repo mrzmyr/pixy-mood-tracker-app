@@ -8,6 +8,7 @@ import type { BuildVariant } from "./app-build.ts";
 import type { Device } from "./device.ts";
 import { resolveDevice } from "./device.ts";
 import { preflightPhone, installPhoneApp } from "./phone.ts";
+import { setResultPath, step } from "./run-log.ts";
 import { CliError, note } from "./shared.ts";
 
 /** Install one app file on a simulator or emulator. */
@@ -62,6 +63,8 @@ export const installBuild = async (device: Device) => {
       fix: "Check build cache state, then retry install.",
     });
   }
+  step("Install");
+  setResultPath(file);
   if (device.kind === "phone") {
     preflightPhone(device);
     installPhoneApp(device, file);
@@ -75,6 +78,7 @@ export const installBuild = async (device: Device) => {
 export const installFor = async (
   values: Record<string, string | undefined>
 ) => {
+  step("Resolve device");
   const device = await resolveDevice({
     platform: values.platform,
     target: values.target,

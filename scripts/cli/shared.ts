@@ -3,6 +3,9 @@ import crypto from "node:crypto";
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
+import { format } from "node:util";
+
+import { appendRunLog } from "./run-log.ts";
 
 type Platform = "ios" | "android";
 interface OptionSpec {
@@ -25,6 +28,8 @@ interface CommandSpec {
   sections?: HelpSection[];
   errors?: Record<string, string>;
   successWord?: "ok" | "pass";
+  /** Long command: gets a run log, `Step N/M` lines, and a final `PIXY_RESULT` line. */
+  steps?: readonly string[];
   run: (values: Record<string, string | undefined>) => Promise<void> | void;
 }
 
@@ -135,7 +140,7 @@ const getCheckoutDir = (root: string) => {
   return dir;
 };
 
-const getStateDir = (kind: "e2e" | "build" | "screenshots") => {
+const getStateDir = (kind: "e2e" | "build" | "screenshots" | "logs") => {
   const dir = path.join(
     getCheckoutDir(path.resolve(import.meta.dir, "../..")),
     kind
@@ -144,13 +149,17 @@ const getStateDir = (kind: "e2e" | "build" | "screenshots") => {
   return dir;
 };
 
-const note = (message: string) => console.error(message);
+// Notes also land in the run log, so `tail -F` on it shows them.
+const note = (message: string) => {
+  process.stderr.write(`${message}\n`);
+  appendRunLog(`${message}\n`);
+};
 
 // The build cache provider logs with console.log, as Expo CLI expects.
 // CLI stdout carries results only, so its lines go to stderr here.
 const withLogsOnStderr = async <T>(work: () => Promise<T>): Promise<T> => {
   const { log } = console;
-  console.log = console.error;
+  console.log = (...args: unknown[]) => note(format(...args));
   try {
     return await work();
   } finally {

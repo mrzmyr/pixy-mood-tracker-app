@@ -19,6 +19,7 @@ import type { Device } from "./device.ts";
 import { startMetro } from "./metro.ts";
 import type { Metro } from "./metro.ts";
 import { getPlatform } from "./options.ts";
+import { setResultPath, step } from "./run-log.ts";
 import { CliError, getStateDir, note } from "./shared.ts";
 import type { Platform } from "./shared.ts";
 
@@ -162,6 +163,7 @@ const waitForBundle = async (
 };
 
 const dev = async (platform: Platform) => {
+  step("Resolve device");
   const device = await resolveDevice({ platform });
   const build = await getCachedBuild(platform, "development");
   if (!build.file) {
@@ -173,18 +175,24 @@ const dev = async (platform: Platform) => {
     });
   }
   note(`Dev client ${toBuildId(build.key)}`);
+  step("Install");
   installFile(device, build.file, "development");
+  step("Start Metro");
   const metro = await startMetro();
   const logOffset = fs.statSync(metro.log).size;
+  step("Open app");
   const url = openDevClient(device, metro);
   note(`Opened ${url}`);
+  step("Wait for bundle");
   await waitForBundle(platform, metro, logOffset, () => screenshot(device));
   // The splash screen stays up until the first screen has rendered.
   await sleep(3000);
   note(
     `Edits reload in the app. Rerun \`bun app dev --platform=${platform}\` to reload by hand. Metro log: ${metro.log}`
   );
-  console.log(screenshot(device));
+  const file = screenshot(device);
+  setResultPath(file);
+  console.log(file);
 };
 
 /** Run the dev client with Metro on this checkout's simulator or emulator. */
