@@ -2,6 +2,7 @@
   "extends": "expo/tsconfig.base",
   "noImplicitAny": false,
   "compilerOptions": {
+    "noEmit": true,
     "strictNullChecks": true,
     "strict": false,
     "module": "esnext",

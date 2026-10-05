@@ -25,6 +25,7 @@ $ bun app dev --platform=android
 - Dev client cache key is the native fingerprint only. Worktrees with the same native dependencies share one binary. Native compile runs only on a cache miss.
 - Never search `ios/build` or `~/Library/Developer/Xcode/DerivedData` for builds. `bun builds list` shows every cached build.
 - Phones: `bun ios --device <device-id>` or `bun android --device <device-name>` build and run the dev client with Metro in the foreground.
+- `bun run type-check` regenerates typed routes (`.expo/types/router.d.ts`) before `tsc` ([`scripts/typegen.ts`](../scripts/typegen.ts)). No dev server needed. Never edit or delete the file by hand.
 
 Android builds need Android SDK packages and JDK 17+. `bun android` resolves `ANDROID_HOME`, `ANDROID_SDK_ROOT`, the standard macOS SDK path, or Homebrew's Android command line tools, plus Homebrew's JDK 17. Set `ANDROID_HOME` or `JAVA_HOME` when using another install location.
 

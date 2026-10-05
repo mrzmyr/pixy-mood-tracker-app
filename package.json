@@ -31,7 +31,7 @@
     "eas:prod": "bun run eas:ios:prod && bun run eas:android:prod",
     "translate-app": "bun scripts/generate-translations-app.js",
     "reviews": "node scripts/store-reviews.mjs",
-    "type-check": "tsc",
+    "type-check": "bun scripts/typegen.ts && tsc",
     "lint": "oxlint",
     "format": "oxfmt",
     "format:check": "oxfmt --check",
