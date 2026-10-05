@@ -133,6 +133,16 @@ export const getWeekLocale = ({
   return `${dayjsLanguage}-week-${weekStart}`;
 };
 
+/** Key in `assets/locales/en.json`. */
+export type TranslationKey = keyof typeof en;
+
 /** Translate `key` for the device locale, falling back to English. */
-export const t = (key: keyof typeof en | string, options?: TranslateOptions) =>
+export const t = (key: TranslationKey, options?: TranslateOptions) =>
+  i18n.t(key, options);
+
+/**
+ * Translate a key built at runtime, such as `` `log_emotion_${key}` ``.
+ * Type-check cannot prove the key exists. Prefer {@link t} with a literal key.
+ */
+export const tDynamic = (key: string, options?: TranslateOptions) =>
   i18n.t(key, options);

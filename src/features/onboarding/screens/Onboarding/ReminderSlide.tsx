@@ -15,7 +15,7 @@ import { useState } from "react";
 
 import { useAnalytics } from "@/state/analytics";
 import LinkButton from "@/components/LinkButton";
-import { t } from "@/lib/translation";
+import { t, tDynamic } from "@/lib/translation";
 
 const Body = ({ index }: { index: number }) => {
   const colors = useColors();
@@ -35,7 +35,7 @@ const Body = ({ index }: { index: number }) => {
           marginBottom: 8,
         }}
       >
-        {t(`onboarding_step_${index}_title`)}
+        {tDynamic(`onboarding_step_${index}_title`)}
       </Text>
       <Text
         style={{
@@ -44,7 +44,7 @@ const Body = ({ index }: { index: number }) => {
           lineHeight: 24,
         }}
       >
-        {t(`onboarding_step_${index}_body`)}
+        {tDynamic(`onboarding_step_${index}_body`)}
       </Text>
     </View>
   );

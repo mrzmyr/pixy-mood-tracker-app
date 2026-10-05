@@ -45,5 +45,6 @@ Errors:
   app_reset_failed            Preview app was not removed before the run
   ios_runner_not_ready        agent-device runner did not start on iPhone
   e2e_failed                  One or more flows failed, read artifacts
+  disk_low                    Less than 10 GiB free disk, run `bun builds reclaim`
 
 Exit codes: 0 pass, 1 failure, 2 usage error

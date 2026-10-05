@@ -25,6 +25,7 @@ jobs:
           - lint
           - "format:check"
           - type-check
+          - "check:locales"
           - "i18n:sort:check"
           - "test:ci"
           - "test:cli"

@@ -23,12 +23,16 @@ import useHaptics from "@/hooks/useHaptics";
 import Alert from "@/lib/Alert";
 import { createStructuredError } from "@/lib/errors";
 import { t } from "@/lib/translation";
+import type { TranslationKey } from "@/lib/translation";
 import { useAnalytics } from "@/state/analytics";
 import { useFeatureFlag } from "@/state/featureFlags";
 
 const PREVIEW_SIZE = 56;
 
-const LABELS: Record<AppIconId, { title: string; description: string }> = {
+const LABELS: Record<
+  AppIconId,
+  { title: TranslationKey; description: TranslationKey }
+> = {
   default: {
     title: "app_icon_default",
     description: "app_icon_default_description",

@@ -1,5 +1,11 @@
 - Do not write unit tests for cli commands
 
+## UI Review
+
+- New in-app setting: PR cites platform guideline and 2-3 reference apps ([design](docs/design.md#settings))
+- Component swap: PR shows measured size unchanged ([design](docs/design.md#layout))
+- New sheet or modal: native `pageSheet`, no custom slide-in ([design](docs/design.md#sheets-and-modals))
+
 ## Commits
 
 - Use [Conventional Commits](https://www.conventionalcommits.org/) for every commit.

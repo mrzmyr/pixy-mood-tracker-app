@@ -42,6 +42,7 @@ import {
 } from "./shared.ts";
 import type { Noun, Platform } from "./shared.ts";
 import type { Device } from "./device.ts";
+import { assertHostReady } from "./disk.ts";
 
 const REPO_ROOT = path.resolve(import.meta.dir, "../..");
 const createRedactingWriter = (
@@ -430,6 +431,7 @@ const runAndShutdown = async (
   paths: string[],
   isVideo: boolean
 ) => {
+  assertHostReady();
   await warnOnFailure(() => withLogsOnStderr(pruneCheckouts));
   const { platform } = values;
   const wasBooted =
@@ -514,6 +516,7 @@ const E2E: Noun = {
         app_reset_failed: "Preview app was not removed before the run",
         ios_runner_not_ready: "agent-device runner did not start on iPhone",
         e2e_failed: "One or more flows failed, read artifacts",
+        disk_low: "Less than 10 GiB free disk, run `bun builds reclaim`",
       },
       run: (values) => {
         const paths =

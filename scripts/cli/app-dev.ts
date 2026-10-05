@@ -16,6 +16,7 @@ import { installFile } from "./app-install.ts";
 import { toBuildId } from "./builds.ts";
 import { resolveDevice } from "./device.ts";
 import type { Device } from "./device.ts";
+import { assertHostReady } from "./disk.ts";
 import { startMetro } from "./metro.ts";
 import type { Metro } from "./metro.ts";
 import { getPlatform } from "./options.ts";
@@ -199,5 +200,6 @@ export const devFor = async (values: Record<string, string | undefined>) => {
       fix: "Pass --platform=ios or --platform=android.",
     });
   }
+  assertHostReady();
   await dev(platform);
 };

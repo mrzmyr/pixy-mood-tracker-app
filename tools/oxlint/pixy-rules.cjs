@@ -190,6 +190,54 @@ const noHermesMissingArrayMethods = {
   },
 };
 
+// LayoutAnimation.configureNext is global: it animates every pending layout
+// change, including unrelated screen teardown, and crashed Fabric (#610).
+const noLayoutAnimation = {
+  meta: {
+    type: "problem",
+    docs: {
+      description: "Disallow LayoutAnimation from react-native",
+    },
+    messages: {
+      banned:
+        "LayoutAnimation is global and crashed Fabric on screen close (#610). Use Reanimated `entering`, `exiting`, or `layout` props instead.",
+    },
+    schema: [],
+  },
+  create(context) {
+    const reactNativeNames = new Set();
+
+    return {
+      ImportDeclaration(node) {
+        if (node.source.value !== "react-native") {
+          return;
+        }
+        for (const specifier of node.specifiers) {
+          if (specifier.type !== "ImportSpecifier") {
+            reactNativeNames.add(specifier.local.name);
+          } else if (
+            (specifier.imported.name ?? specifier.imported.value) ===
+            "LayoutAnimation"
+          ) {
+            context.report({ messageId: "banned", node: specifier });
+          }
+        }
+      },
+      MemberExpression(node) {
+        if (
+          !node.computed &&
+          node.object.type === "Identifier" &&
+          reactNativeNames.has(node.object.name) &&
+          node.property.type === "Identifier" &&
+          node.property.name === "LayoutAnimation"
+        ) {
+          context.report({ messageId: "banned", node: node.property });
+        }
+      },
+    };
+  },
+};
+
 // String literals are the only literals whose raw source starts with a quote.
 const getStringValue = (element) =>
   element?.type === "Literal" && /^["']/u.test(element.raw)
@@ -250,6 +298,7 @@ module.exports = {
   meta: { name: "pixy-standards" },
   rules: {
     "no-hermes-missing-array-methods": noHermesMissingArrayMethods,
+    "no-layout-animation": noLayoutAnimation,
     "require-exported-jsdoc": requireExportedJsDoc,
     "boolean-function-prefix": booleanFunctionPrefix,
     "structured-thrown-errors": structuredThrownErrors,
