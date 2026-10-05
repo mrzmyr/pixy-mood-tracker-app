@@ -4,7 +4,7 @@ import { LocationPicker, getLocationLabel } from "@/features/location";
 import { locale, t } from "@/lib/translation";
 import useColors from "@/hooks/useColors";
 import useHaptics from "@/hooks/useHaptics";
-import { getItemDateTitle } from "@/lib/utils";
+import { getShortItemDateTitle } from "@/lib/utils";
 import dayjs from "dayjs";
 import type { ReactElement } from "react";
 import { useState } from "react";
@@ -167,7 +167,7 @@ export const SlideMoodFooter = ({
   const [isLocationPickerVisible, setIsLocationPickerVisible] = useState(false);
 
   const dateTimeTitle =
-    draft.dateTime === null ? "?" : getItemDateTitle(draft.dateTime);
+    draft.dateTime === null ? "?" : getShortItemDateTitle(draft.dateTime);
   const locationText = getLocationText({
     location: draft.location,
     isLocating,
