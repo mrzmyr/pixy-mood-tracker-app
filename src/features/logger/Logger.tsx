@@ -38,6 +38,7 @@ import { SlidePeople } from "./slides/SlidePeople";
 import { SlideTags } from "./slides/SlideTags";
 import { useLoggerActions } from "./hooks/useLoggerActions";
 import { useLoggerTracking } from "./hooks/useLoggerTracking";
+import { usePassiveLocation } from "./hooks/usePassiveLocation";
 import type { SavedEntry } from "./hooks/useLoggerActions";
 import { Confirmation } from "./confirmation/Confirmation";
 import {
@@ -188,6 +189,7 @@ const LoggerSlides = ({
   const [slideIndex, setSlideIndex] = useState(initialIndex);
 
   const { save, remove, cancel } = useLoggerActions({ mode, onCreated });
+  const { isLocationVisible, isLocating } = usePassiveLocation({ mode });
 
   const _carousel = useRef<CarouselRef>(null);
 
@@ -228,12 +230,22 @@ const LoggerSlides = ({
     disableStep,
   });
 
+  const ratingActionType = getRatingActionType({
+    slideCount: slideKeys.length,
+    slideIndex,
+    isTouched: touched,
+    mode,
+  });
+
   const content: SlideContent[] = [];
 
   content.push({
     key: "rating",
     slide: (
       <SlideMood
+        isLocationVisible={isLocationVisible}
+        isLocating={isLocating}
+        isActionVisible={ratingActionType !== "hidden"}
         onRatingChanged={() => {
           if (slideKeys.length === 1) {
             save();
@@ -243,17 +255,7 @@ const LoggerSlides = ({
         }}
       />
     ),
-    action: (
-      <SlideAction
-        type={getRatingActionType({
-          slideCount: slideKeys.length,
-          slideIndex,
-          isTouched: touched,
-          mode,
-        })}
-        onPress={next}
-      />
-    ),
+    action: <SlideAction type={ratingActionType} onPress={next} />,
   });
 
   if (slideKeys.includes("emotions")) {
@@ -333,7 +335,9 @@ const LoggerSlides = ({
         texAreaRef.current?.focus();
       }
     }
-  }, [slideIndex]);
+    // `texAreaRef` is stable; listed because the rating slide now reads the
+    // slide index and the lint rule can no longer tell.
+  }, [slideIndex, texAreaRef]);
 
   return (
     <View

@@ -57,6 +57,11 @@ export interface SettingsState {
   photosDayAccessDismissed: boolean;
   /** Theme for this device. */
   colorScheme: ColorSchemeSetting;
+  /**
+   * New entries get the current location. Needs location access, which
+   * belongs to the device.
+   */
+  locationEnabled: boolean;
 
   // removed in previous version
   // replaced with analyticsEnabled
@@ -68,8 +73,8 @@ export interface SettingsState {
 /**
  * Settings included in data exports. The device id is excluded so an import
  * never clones another device's identity. Store review prompt state belongs
- * to the device and store account, and photo library access and theme to the
- * device, so imports keep the current values.
+ * to the device and store account, and photo library access, theme, and
+ * location to the device, so imports keep the current values.
  */
 export type ExportSettings = Omit<
   SettingsState,
@@ -78,6 +83,7 @@ export type ExportSettings = Omit<
   | "storeReviewPromptedAppVersion"
   | "photosDayAccessDismissed"
   | "colorScheme"
+  | "locationEnabled"
 >;
 
 interface IAction {
@@ -122,8 +128,8 @@ const reducer = (
     case "set": {
       return action.payload(state);
     }
-    // Store review prompt state, photo library access, and theme belong to this
-    // device, so imports keep the current values.
+    // Store review prompt state, photo library access, theme, and location
+    // belong to this device, so imports keep the current values.
     case "import": {
       return {
         ...INITIAL_STATE,
@@ -133,6 +139,7 @@ const reducer = (
         storeReviewPromptedAppVersion: state.storeReviewPromptedAppVersion,
         photosDayAccessDismissed: state.photosDayAccessDismissed,
         colorScheme: state.colorScheme,
+        locationEnabled: state.locationEnabled,
       };
     }
     case "reset": {
@@ -153,6 +160,7 @@ const hydrate = (stored: SettingsState | null): SettingsState =>
         deviceId: stored.deviceId || uuidv4(),
         steps: sanitizeSteps(stored.steps),
         photosDayAccessDismissed: stored.photosDayAccessDismissed === true,
+        locationEnabled: stored.locationEnabled === true,
         colorScheme:
           ColorSchemeSettingSchema.safeParse(stored.colorScheme).data ??
           "system",

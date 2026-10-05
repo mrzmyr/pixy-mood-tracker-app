@@ -91,6 +91,20 @@ export const LogPhotoSchema = z.object({
 export type LogPhoto = z.infer<typeof LogPhotoSchema>;
 
 /**
+ * Place attached to a log entry. Stays on the device; never sent to
+ * analytics. `name` is the reverse geocoded place, `null` when the lookup
+ * failed (for example offline).
+ */
+export const LogLocationSchema = z.object({
+  latitude: z.number(),
+  longitude: z.number(),
+  name: z.string().nullable(),
+});
+
+/** Place stored on a log entry. */
+export type LogLocation = z.infer<typeof LogLocationSchema>;
+
+/**
  * Shape of a persisted log entry.
  *
  * Used for type inference only; stored data is not parsed with it. `date`
@@ -118,6 +132,8 @@ export const LogItemSchema = z.object({
   people: z.array(PersonReferenceSchema),
   emotions: z.array(EmotionKeySchema),
   photos: z.array(LogPhotoSchema),
+  /** Missing on entries logged without location. */
+  location: LogLocationSchema.optional(),
 });
 
 /** Partial value with required identifying keys. */
