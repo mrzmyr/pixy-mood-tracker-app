@@ -84,9 +84,11 @@ Three variants install side by side, each with its own name, icon, bundle ID, an
   - `--target=<target>`: one connected phone
 - `bun devices list` prints the option to copy for every device, plus state and problem. `--platform=<ios|android>` filters by OS.
 - `bun app dev` installs the cached dev client, starts this checkout's Metro, and opens the app on it. Rerun to reload. Simulator and emulator only.
+  - Hides the dev menu onboarding, launch menu, and floating button ([`scripts/cli/dev-client.ts`](../scripts/cli/dev-client.ts))
+  - `--fixture=<id>` and `--flag=<key>=<on|off>,...` open the dev deep links after launch
 - `bun app build` compiles a preview release with embedded JavaScript into the shared cache.
 - `bun app install` installs the cached preview binary directly, no prebuild. Builds first when cache has no match.
-- `bun app seed --fixture=<id>` loads `fresh`, `empty`, `seed`, `year`, or `people` data and prints a screenshot path.
+- `bun app seed --fixture=<id>` loads `fresh`, `empty`, `seed`, `year`, or `people` data and prints a screenshot path. Seeds the dev client while this checkout's `bun app dev` runs, else the preview app. `--variant=<dev|preview>` overrides.
 - `bun app open` launches by app ID, waits for onboarding or calendar, then prints a screenshot path.
 - `bun app close` ends the session, resets app data, and stops this checkout's Metro. See [Phones](#phones) for phone behavior.
 - `bun e2e run [--paths=<path,...>]` closes the session, reinstalls the app, then runs Maestro flows. Default path: `e2e/flows`.

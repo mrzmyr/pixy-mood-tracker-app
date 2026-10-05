@@ -57,6 +57,17 @@ describe("CLI options", () => {
       [["app", "dev", "--target=x"], 2, "invalid_option"],
       [["app", "dev", "--platform=windows"], 2, "invalid_platform"],
       [
+        ["app", "dev", "--platform=ios", "--fixture=nope"],
+        2,
+        "fixture_not_found",
+      ],
+      [["app", "dev", "--platform=ios", "--flag=nope=on"], 2, "invalid_flag"],
+      [
+        ["app", "seed", "--platform=ios", "--fixture=year", "--variant=prod"],
+        2,
+        "invalid_value",
+      ],
+      [
         ["app", "seed", "--platform=ios", "--fixture=nope"],
         2,
         "fixture_not_found",
