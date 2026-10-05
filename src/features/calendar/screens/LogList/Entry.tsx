@@ -1,10 +1,12 @@
 import LinkButton from "@/components/LinkButton";
 import useColors from "@/hooks/useColors";
+import { useLogState } from "@/features/logs";
 import type { LogItem } from "@/features/logs";
 import dayjs from "dayjs";
 import { LinearGradient } from "expo-linear-gradient";
 import { Edit, Trash } from "lucide-react-native";
-import { getAvailableStepsForEdit } from "@/features/logger";
+import { getAvailableStepsForEdit, hasSleepOnDate } from "@/features/logger";
+import { getItemDate } from "@/lib/logDates";
 import { useFeatureFlag } from "@/state/featureFlags";
 import { ScrollView, Text, View } from "react-native";
 import { Emotions } from "./Emotions";
@@ -126,11 +128,13 @@ export const Entry = ({
   const hasPeople = useFeatureFlag("people");
   const { hasStep } = useSettings();
   const isPhotosEnabled = useFeatureFlag("photos");
+  const logState = useLogState();
   // Same steps as the edit logger. A pencil for a missing step would open
   // the logger at the rating step instead.
   const editSteps = getAvailableStepsForEdit({
     item,
     hasStep,
+    hasSleepOnDay: hasSleepOnDate(logState.items, getItemDate(item)),
     hasPeople,
     isPhotosEnabled,
   });
@@ -167,7 +171,7 @@ export const Entry = ({
                 marginTop: 8,
               }}
             >
-              <Sleep item={item} />
+              <Sleep item={item} canEdit={canEdit("sleep")} />
             </View>
             <View
               style={{

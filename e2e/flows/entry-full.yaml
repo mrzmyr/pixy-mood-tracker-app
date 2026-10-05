@@ -1,7 +1,8 @@
 appId: ${APP_ID}
 tags: [p0, entry]
 ---
-# Entry with mood, emotions, new tag, and note. All parts survive a cold start.
+# Entry with mood, sleep, emotions, new tag, and note. All parts survive a
+# cold start.
 - runFlow:
     file: ../subflows/load-fixture.yaml
     env:
@@ -14,7 +15,10 @@ tags: [p0, entry]
 - tapOn:
     id: "mood-good"
 
-# Mood auto-advances to emotions.
+# Mood auto-advances to sleep. Picking a sleep quality advances to emotions.
+- assertVisible: "How did you sleep?"
+- tapOn:
+    id: "sleep-quality-good"
 - assertVisible: "How did you feel?"
 - tapOn: "Happy"
 - tapOn: "Calm"
@@ -80,6 +84,7 @@ tags: [p0, entry]
     timeout: 10000
 - tapOn:
     id: "calendar-day-${output.today}"
+- assertVisible: "Sleep"
 - assertVisible: "Happy"
 - assertVisible: "Calm"
 - assertVisible: "e2e-tag-${output.runId}"

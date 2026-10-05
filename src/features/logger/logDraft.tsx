@@ -27,6 +27,8 @@ export interface LogDraftValue {
   setPeople: (people: LogItem["people"]) => void;
   setMessage: (message: string) => void;
   setPhotos: (photos: LogItem["photos"]) => void;
+  /** `null` clears the sleep quality. */
+  setSleepQuality: (quality: LogDraft["sleep"]["quality"]) => void;
   /**
    * Finalize the latest draft, including setter calls of the same event.
    * See `finalizeDraft`.
@@ -72,6 +74,7 @@ export const LogDraftProvider = ({
       setPeople: (people) => patch({ people }),
       setMessage: (message) => patch({ message }),
       setPhotos: (photos) => patch({ photos }),
+      setSleepQuality: (quality) => patch({ sleep: { quality } }),
       commit: (existingItems) => {
         const finalized = finalizeDraft(latest.current, existingItems);
         setState({ draft: latest.current, isDirty: false });

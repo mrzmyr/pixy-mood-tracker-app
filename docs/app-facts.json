@@ -140,7 +140,7 @@
       "label": "Choose your check-in steps",
       "status": "available",
       "group": "logging",
-      "description": "Turn each check-in step on or off: mood, tags, emotions, note, feedback.",
+      "description": "Turn each check-in step on or off: sleep, tags, emotions, note, feedback.",
       "evidence": [
         "src/constants/LoggerSteps.ts",
         "src/app/(app)/settings/steps/index.tsx"
@@ -149,11 +149,12 @@
     {
       "id": "sleep",
       "label": "Sleep quality",
-      "status": "legacy",
+      "status": "available",
       "group": "logging",
-      "description": "Sleep quality cannot be logged anymore. Entries and the sleep chart only show ratings saved by older versions.",
+      "description": "Rate how you slept on a 5-step scale, once per day. Entries show it, and the sleep chart tracks it over time.",
       "competitorKey": "health",
       "evidence": [
+        "src/features/logger/slides/SlideSleep.tsx",
         "src/features/calendar/screens/LogList/Sleep.tsx",
         "src/features/statistics/screens/Statistics/SleepQualityGraph.tsx"
       ]

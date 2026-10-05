@@ -16,8 +16,6 @@ import { INITIAL_STATE } from "@/constants/Settings";
 import { applyColorScheme, ColorSchemeSettingSchema } from "./colorScheme";
 import type { ColorSchemeSetting } from "./colorScheme";
 
-type KnownSettingsStep = ConfigurableLoggerStep | "sleep";
-
 /**
  * AsyncStorage key for settings. Keep the legacy name; changing it resets
  * every user's settings.
@@ -45,7 +43,7 @@ export interface SettingsState {
   reminderTime: string;
   analyticsEnabled: boolean;
   actionsDone: IAction[];
-  steps: KnownSettingsStep[];
+  steps: ConfigurableLoggerStep[];
   /** ISO date of the automatic store review prompt; `null` until shown once. */
   storeReviewPromptedAt: string | null;
   /** App version that showed the automatic store review prompt. */
@@ -94,7 +92,7 @@ interface Value {
   hasActionDone: (actionTitle: IAction["title"]) => boolean;
   removeActionDone: (actionTitle: IAction["title"]) => void;
   toggleStep: (step: ConfigurableLoggerStep, value?: boolean) => void;
-  hasStep: (step: KnownSettingsStep) => boolean;
+  hasStep: (step: ConfigurableLoggerStep) => boolean;
 }
 
 const isConfigurableLoggerStep = (
