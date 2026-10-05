@@ -100,5 +100,10 @@ export default defineConfig({
         "pixy-standards/no-layout-animation": "error",
       },
     },
+    {
+      // Append-only lists conflict on every merge; sorted lists do not.
+      files: ["src/state/featureFlags/keys.ts"],
+      rules: { "pixy-standards/sorted-string-arrays": "error" },
+    },
   ],
 });

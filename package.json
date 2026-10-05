@@ -15,7 +15,7 @@
     "devices": "bun scripts/cli/index.ts devices",
     "builds": "bun scripts/cli/index.ts builds",
     "worktree": "bun scripts/cli/index.ts worktree",
-    "test:cli": "bun test scripts/cli scripts/check-locales",
+    "test:cli": "bun test scripts/cli scripts/check-locales scripts/sort-locales",
     "web": "EXPO_PUBLIC_APP_VARIANT=development expo start --web",
     "test": "jest --watchAll --env=jsdom",
     "test:ci": "jest --env=jsdom",
@@ -36,9 +36,11 @@
     "lint": "oxlint",
     "format": "oxfmt",
     "format:check": "oxfmt --check",
-    "check": "bun run lint && bun run format:check && bun run type-check && bun run check:locales",
+    "check": "bun run lint && bun run format:check && bun run type-check && bun run check:locales && bun run i18n:sort:check",
     "check:locales": "bun scripts/check-locales.ts",
-    "fix": "oxlint --fix && oxfmt"
+    "fix": "bun run i18n:sort && oxlint --fix && oxfmt",
+    "i18n:sort": "bun scripts/sort-locales.ts",
+    "i18n:sort:check": "bun scripts/sort-locales.ts --check"
   },
   "dependencies": {
     "@expo/ui": "~57.0.21",
