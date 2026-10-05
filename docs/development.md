@@ -126,6 +126,8 @@ Known limits. A phone run fails with `flows_unsupported_on_phone` before it chan
 - `<scheme>://dev/fake-contacts?count=<n>` writes `n` fake contacts (company "Pixy Test Contact", every fifth with a photo) into the real device address book. `count=0` deletes exactly those. Synced accounts (iCloud, Google) sync them too, so delete them after testing.
 - Fixtures count as consent, so preview builds load flags from "Pixy App - Preview". Shared flows expect every flag off there. A flow that needs a flag turns it on with [`enable-feature-flag.yaml`](../e2e/subflows/enable-feature-flag.yaml) (not on iPhones)
 - Each flow asserts a result. Opening a screen is not a test.
+- `bun run test:cli` checks flows statically ([`flow-lint.ts`](../scripts/cli/flow-lint.ts)): every `runFlow` and `runScript` file exists, every `id` selector matches a `testID` in `src/`. Tap header buttons through `open-*.yaml` subflows: native header items have no testIDs.
+- Known failures: [`e2e/known-failures.json`](../e2e/known-failures.json), entries `{ "flow", "reason", "since" }`. `since` is a `YYYY-MM-DD` date. `bun e2e run` names new failures apart from known ones. Add a flow that fails on `main` with its cause. Remove it with the fix.
 
 ### Upgrade tests
 
