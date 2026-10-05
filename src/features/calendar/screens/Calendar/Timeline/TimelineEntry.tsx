@@ -11,6 +11,8 @@ import { RatingDot } from "../../LogList/RatingDot";
 
 // Apple Journal shows up to three photos per card.
 const MAX_PHOTOS = 3;
+// Entries can hold every emotion (161); more chips make the card screens tall.
+const MAX_EMOTIONS = 3;
 const EMOTIONS_BY_KEY = keyBy(EMOTIONS, "key");
 
 const TimelineEntryComponent = ({
@@ -27,6 +29,8 @@ const TimelineEntryComponent = ({
     const emotion = EMOTIONS_BY_KEY[key];
     return emotion ? [emotion] : [];
   });
+  const shownEmotions = emotions.slice(0, MAX_EMOTIONS);
+  const hiddenEmotionCount = emotions.length - shownEmotions.length;
   const message = item.message.trim();
   const dateLabel = dayjs(item.dateTime).format("llll");
   const hasBody = emotions.length > 0 || message !== "";
@@ -67,9 +71,25 @@ const TimelineEntryComponent = ({
         <View style={{ paddingHorizontal: 16, paddingTop: 16, gap: 12 }}>
           {emotions.length > 0 && (
             <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 8 }}>
-              {emotions.map((emotion) => (
+              {shownEmotions.map((emotion) => (
                 <EmotionItem key={emotion.key} emotion={emotion} />
               ))}
+              {hiddenEmotionCount > 0 && (
+                <View
+                  style={{
+                    justifyContent: "center",
+                    paddingVertical: 6,
+                    paddingHorizontal: 12,
+                    borderRadius: 8,
+                    borderWidth: 1,
+                    borderColor: colors.logCardBorder,
+                  }}
+                >
+                  <Text style={{ fontSize: 17, color: colors.textSecondary }}>
+                    {`+${hiddenEmotionCount}`}
+                  </Text>
+                </View>
+              )}
             </View>
           )}
           {message !== "" && (
