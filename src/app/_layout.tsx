@@ -22,7 +22,10 @@ import { useSettings, useSettingsLoad } from "@/state/settings";
 import { useUsageSummarySync } from "@/shell/usageSummary";
 import { useScreenTracking } from "@/shell/screenTracking";
 import { LaunchSplash } from "@/shell/LaunchSplash";
-import { useReminderTapTracking } from "@/features/notifications";
+import {
+  useReminderSync,
+  useReminderTapTracking,
+} from "@/features/notifications";
 
 // Configure before first render; each app variant reports to its own project.
 if (HAS_APP_VARIANT) {
@@ -41,6 +44,7 @@ const AppShell = () => {
   useScreenTracking();
   useUsageSummarySync();
   useReminderTapTracking();
+  useReminderSync();
 
   const onSettingsLoaded = useEffectEvent(() => {
     // Fixture links replace fresh state, and dev links pick their own route.

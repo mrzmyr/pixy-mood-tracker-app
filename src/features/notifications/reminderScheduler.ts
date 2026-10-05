@@ -15,13 +15,13 @@ Notifications.setNotificationHandler({
     }),
 });
 
-/** Daily reminder notification API. Tests pass an in-memory fake. */
+/** Reminder notification API. Tests pass an in-memory fake. */
 export interface ReminderScheduler {
   hasPermission: () => Promise<boolean>;
   /** Ask the user when permission is not granted yet. */
   requestPermission: () => Promise<boolean>;
-  /** Replace all scheduled notifications with one daily reminder. */
-  replaceDaily: (hour: number, minute: number) => Promise<void>;
+  /** Replace all scheduled notifications with one reminder per date. */
+  replace: (dates: Date[]) => Promise<void>;
   cancelAll: () => Promise<void>;
 }
 
@@ -51,35 +51,61 @@ const requestNativePermission = async () => {
   return status === "granted";
 };
 
+const scheduleReminder = (date: Date) =>
+  Notifications.scheduleNotificationAsync({
+    content: {
+      title: t("notification_reminder_title"),
+      body: t("notification_reminder_body"),
+      data: REMINDER_NOTIFICATION_DATA,
+    },
+    // One-shot date triggers, not a repeating daily trigger: days with an
+    // entry get no reminder. Works on Android and iOS.
+    // See https://docs.expo.dev/versions/latest/sdk/notifications/#datetriggerinput
+    trigger: {
+      type: Notifications.SchedulableTriggerInputTypes.DATE,
+      date,
+    },
+  });
+
+const replaceNative = async (dates: Date[]) => {
+  await Notifications.cancelAllScheduledNotificationsAsync();
+  await Promise.all(dates.map(scheduleReminder));
+};
+
+// Runs one change at a time: overlapping replace calls would interleave
+// cancel and schedule, and leave duplicate reminders.
+let pending: Promise<void> = Promise.resolve();
+
+const settle = async (change: Promise<void>) => {
+  try {
+    await change;
+  } catch {
+    // A failed change must not block later ones; its caller saw the error.
+  }
+};
+
+const serialize = (change: () => Promise<void>) => {
+  const previous = pending;
+  const next = (async () => {
+    await settle(previous);
+    await change();
+  })();
+  pending = next;
+  return next;
+};
+
 const nativeScheduler: ReminderScheduler = {
   hasPermission: getNativePermission,
   requestPermission: requestNativePermission,
-  replaceDaily: async (hour, minute) => {
-    await Notifications.cancelAllScheduledNotificationsAsync();
-    await Notifications.scheduleNotificationAsync({
-      content: {
-        title: t("notification_reminder_title"),
-        body: t("notification_reminder_body"),
-        data: REMINDER_NOTIFICATION_DATA,
-      },
-      // Daily triggers work on Android and iOS. Calendar triggers are iOS-only.
-      // See https://docs.expo.dev/versions/latest/sdk/notifications/#dailytriggerinput
-      trigger: {
-        type: Notifications.SchedulableTriggerInputTypes.DAILY,
-        hour,
-        minute,
-      },
-    });
-  },
-  cancelAll: async () => {
-    await Notifications.cancelAllScheduledNotificationsAsync();
-  },
+  replace: (dates) => serialize(() => replaceNative(dates)),
+  cancelAll: () =>
+    serialize(() => Notifications.cancelAllScheduledNotificationsAsync()),
 };
 
 const webScheduler: ReminderScheduler = {
   hasPermission: () => Promise.resolve(true),
   requestPermission: () => Promise.resolve(true),
-  replaceDaily: () => Promise.resolve(),
+  replace: () => Promise.resolve(),
   cancelAll: () => Promise.resolve(),
 };
 
