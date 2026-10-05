@@ -200,6 +200,7 @@ export interface AnalyticsEvents {
   "settings:privacy_policy_opened": undefined;
   "settings:analytics_toggled": { enabled: boolean };
   "settings:app_icon_changed": { icon: AppIconId };
+  "settings:theme_changed": { color_scheme: SettingsState["colorScheme"] };
 
   "reminders:reminder_toggled": {
     enabled: boolean;

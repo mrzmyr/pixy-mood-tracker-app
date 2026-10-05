@@ -248,7 +248,7 @@
       "group": "reminders",
       "description": "One daily notification at a time you choose.",
       "competitorKey": "reminders",
-      "evidence": ["src/features/notifications/Notifications.ts"]
+      "evidence": ["src/features/notifications/reminderScheduler.ts"]
     },
     {
       "id": "color-scales",

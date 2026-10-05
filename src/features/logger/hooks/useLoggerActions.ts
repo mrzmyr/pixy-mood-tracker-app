@@ -1,37 +1,32 @@
-import { DATE_FORMAT } from "@/constants/Config";
 import { useRouter } from "expo-router";
-import dayjs from "dayjs";
 import { useEffect, useRef } from "react";
 import { useAnalytics } from "@/state/analytics";
 import { useLogState, useLogUpdater } from "@/features/logs";
-import type { LogItem } from "@/features/logs";
 import { countPhotosBySource } from "@/features/photos";
 import { useStoreReviewPrompt } from "@/features/review";
 
-import type { TemporaryLogState, TemporaryLogValue } from "../temporaryLog";
+import { useLogDraft } from "../logDraft";
+import type { FinalizedDraft } from "../finalizeDraft";
 import type { LoggerMode } from "../Logger";
-import { getItemDate } from "@/lib/logDates";
 
 /** New entry plus where the logger closes to once the user is done. */
-export interface SavedEntry {
-  item: LogItem;
-  /** `calendar` also closes the day list; `back` returns to the previous screen. */
-  closeTo: "calendar" | "back";
-}
+export type SavedEntry = Pick<FinalizedDraft, "item" | "closeTo">;
 
 /**
- * Save, remove and cancel handlers for the logger.
- * Every handler closes the logger, resets the temporary log, and sweeps
- * photo files no stored entry references (draft photos after cancel,
- * removed photos after save). `save` stores unrated logs as "neutral".
+ * Save, remove and cancel handlers for the logger. Store writes, navigation,
+ * analytics, and the photo sweep live here; save rules live in
+ * `finalizeDraft`.
+ *
+ * Every handler except a create save closes the logger and sweeps photo
+ * files no stored entry references (draft photos after cancel, removed
+ * photos after save). A create save hands the entry to `onCreated` for the
+ * confirmation; without `onCreated` it closes the logger.
  */
 export const useLoggerActions = ({
   mode,
-  tempLog,
   onCreated,
 }: {
   mode: LoggerMode;
-  tempLog: TemporaryLogValue;
   /** Called after a new entry is stored, instead of closing the logger. */
   onCreated?: (saved: SavedEntry) => void;
 }) => {
@@ -45,69 +40,51 @@ export const useLoggerActions = ({
   const logState = useLogState();
   const logUpdater = useLogUpdater();
   const requestStoreReviewPrompt = useStoreReviewPrompt();
+  const logDraft = useLogDraft();
 
   const close = () => {
-    tempLog.reset();
+    logDraft.discard();
     logUpdater.sweepPhotos();
     router.back();
   };
 
-  const save = (data: TemporaryLogState) => {
-    const photoCounts = countPhotosBySource({ photos: data.photos });
+  /** Store the latest draft, including a rating set in the same event. */
+  const save = () => {
+    const { item, hasRating, closeTo } = logDraft.commit(logState.items);
+    const photoCounts = countPhotosBySource({ photos: item.photos });
     analytics.track("logger:log_saved", {
       mode,
       duration_ms: Date.now() - startedAt.current,
-      has_rating: data.rating !== null,
-      message_length: data.message.length,
-      tags_count: data.tags.length,
-      people_count: data.people.length,
-      emotions_count: data.emotions.length,
-      photos_count: data.photos.length,
+      has_rating: hasRating,
+      message_length: item.message.length,
+      tags_count: item.tags.length,
+      people_count: item.people.length,
+      emotions_count: item.emotions.length,
+      photos_count: item.photos.length,
       photos_day_count: photoCounts.day,
       photos_library_count: photoCounts.library,
     });
 
-    if (data.rating === null) {
-      data.rating = "neutral";
-    }
-
     if (mode === "edit") {
-      // SAFETY: rating is non-null after the fallback above; a null sleep.quality is stored as-is and statistics treat it as missing.
-      logUpdater.editLog(data as LogItem);
-    } else {
-      // SAFETY: rating is non-null after the fallback above; a null sleep.quality is stored as-is and statistics treat it as missing.
-      logUpdater.addLog(data as LogItem);
-      // `logState` predates this save, so count the new entry.
-      requestStoreReviewPrompt(logState.items.length + 1);
-
-      const date = dayjs(data.dateTime).format(DATE_FORMAT);
-      const itemsOnDate = logState.items.filter(
-        (item) => getItemDate(item) === date
-      );
-
-      const closeTo = itemsOnDate.length === 1 ? "calendar" : "back";
-
-      if (onCreated) {
-        tempLog.reset();
-        // SAFETY: rating is non-null after the fallback above.
-        onCreated({ item: data as LogItem, closeTo });
-        return;
-      }
-
-      if (closeTo === "calendar") {
-        router.dismissTo("/calendar");
-        tempLog.reset();
-        logUpdater.sweepPhotos();
-        return;
-      }
+      logUpdater.editLog(item);
+      close();
+      return;
     }
 
+    logUpdater.addLog(item);
+    // `logState` predates this save, so count the new entry.
+    requestStoreReviewPrompt(logState.items.length + 1);
+
+    if (onCreated) {
+      onCreated({ item, closeTo });
+      return;
+    }
     close();
   };
 
   const remove = () => {
     analytics.track("logger:log_deleted");
-    logUpdater.deleteLog(tempLog.data.id);
+    logUpdater.deleteLog(logDraft.draft.id);
     close();
   };
 

@@ -1,7 +1,6 @@
-import { Pressable, Text, View } from "react-native";
-import { X } from "react-native-feather";
+import { Text, View } from "react-native";
+import { CloseButton } from "@/components/CloseButton";
 import useColors from "@/hooks/useColors";
-import useHaptics from "@/hooks/useHaptics";
 
 /** Modal header of the day entry list with the day title and close action. */
 export const Header = ({
@@ -11,7 +10,6 @@ export const Header = ({
   title: string;
   onClose?: () => void;
 }) => {
-  const haptics = useHaptics();
   const colors = useColors();
 
   return (
@@ -61,19 +59,7 @@ export const Header = ({
             marginRight: -8,
           }}
         >
-          <Pressable
-            accessibilityRole="button"
-            testID="log-list-close"
-            style={{
-              padding: 12,
-            }}
-            onPress={async () => {
-              await haptics.selection();
-              onClose?.();
-            }}
-          >
-            <X color={colors.logHeaderText} width={22} height={22} />
-          </Pressable>
+          <CloseButton testID="log-list-close" onPress={() => onClose?.()} />
         </View>
       </View>
     </View>

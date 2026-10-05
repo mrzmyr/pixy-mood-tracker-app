@@ -34,12 +34,17 @@ const CLOSE_DURATION = 200;
  *
  * With reduce motion the photo stays in place. The same release decision
  * calls `onClose`, and the screen fades out with its own transition.
+ *
+ * `isEnabled: false` turns the swipe off, for example while a zoomed photo
+ * pans.
  */
 export const useSwipeToClose = ({
   screenHeight,
+  isEnabled = true,
   onClose,
 }: {
   screenHeight: number;
+  isEnabled?: boolean;
   onClose: () => void;
 }) => {
   const isReducedMotion = useReducedMotion();
@@ -48,6 +53,8 @@ export const useSwipeToClose = ({
   const isClosing = useSharedValue(false);
 
   const gesture = usePanGesture({
+    enabled: isEnabled,
+    maxPointers: 1,
     activeOffsetY: [-AXIS_LOCK_DISTANCE, AXIS_LOCK_DISTANCE],
     failOffsetX: [-AXIS_LOCK_DISTANCE, AXIS_LOCK_DISTANCE],
     onActivate: () => {

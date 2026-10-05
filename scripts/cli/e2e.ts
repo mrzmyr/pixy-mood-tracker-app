@@ -14,6 +14,11 @@ import {
   findFixture,
   listFlows,
 } from "./flow-support.ts";
+import {
+  readFailedFlows,
+  readKnownFailures,
+  toFailedFlowsError,
+} from "./known-failures.ts";
 import { prepareIosRunner } from "./app.ts";
 import {
   AGENT_DEVICE,
@@ -24,6 +29,7 @@ import {
 import { deviceFlag, isDeviceBooted, resolveDevice } from "./device.ts";
 import { getAdb, listPackagesArgs, listsPackage } from "./adb.ts";
 import { DEVICE_ERRORS, DEVICE_OPTIONS } from "./options.ts";
+import { appendRunLog, setResultPath, step } from "./run-log.ts";
 import {
   clearPhoneAppData,
   isPhoneAppInstalled,
@@ -42,6 +48,7 @@ import {
 } from "./shared.ts";
 import type { Noun, Platform } from "./shared.ts";
 import type { Device } from "./device.ts";
+import { assertHostReady } from "./disk.ts";
 
 const REPO_ROOT = path.resolve(import.meta.dir, "../..");
 const createRedactingWriter = (
@@ -203,10 +210,12 @@ const runTest = async (
   const stdoutWriter = createRedactingWriter(signingTeam, (text) => {
     output += text;
     process.stdout.write(text);
+    appendRunLog(text);
   });
   const stderrWriter = createRedactingWriter(signingTeam, (text) => {
     output += text;
     process.stderr.write(text);
+    appendRunLog(text);
   });
   child.stdout.on("data", (chunk: Buffer) => {
     stdoutWriter.push(chunk.toString());
@@ -329,13 +338,42 @@ const runIosPhoneFlows = async (
     }
   }
   if (failed.length) {
-    throw new CliError({
-      status: "e2e_failed",
-      message: `${failed.length} of ${flows.length} flows failed`,
-      why: `Failed: ${failed.join(", ")}.`,
-      fix: `Read artifacts in ${artifactsDir}, then retry: bun e2e run --target=${device.key} --paths=${failed.join(",")}.`,
+    throw toFailedFlowsError({
+      failed,
+      known: readKnownFailures(REPO_ROOT),
+      total: flows.length,
+      retry: `bun e2e run --target=${device.key} --paths=`,
+      artifactsDir,
     });
   }
+};
+
+// agent-device writes junit.xml at the end of a run. A run that crashed
+// before leaves an older report, so this ignores reports from before the run.
+const toFlowsError = (
+  device: Device,
+  artifactsDir: string,
+  startedAt: number,
+  error: CliError
+) => {
+  const junit = path.join(artifactsDir, "junit.xml");
+  if (
+    error.status !== "e2e_failed" ||
+    !fs.existsSync(junit) ||
+    fs.statSync(junit).mtimeMs < startedAt
+  ) {
+    return error;
+  }
+  const failed = readFailedFlows(REPO_ROOT, junit);
+  if (!failed.length) {
+    return error;
+  }
+  return toFailedFlowsError({
+    failed,
+    known: readKnownFailures(REPO_ROOT),
+    retry: `bun e2e run ${device.kind === "phone" ? `--target=${device.key}` : `--platform=${device.platform}`} --paths=`,
+    artifactsDir,
+  });
 };
 
 /** Print recordings of this run, oldest first. */
@@ -358,6 +396,7 @@ const run = async (device: Device, paths: string[], isVideo: boolean) => {
     assertFlowsSupported(REPO_ROOT, device, selectedPaths);
     await preflightPhone(device);
   }
+  step("Reset app");
   const selector = ["--platform", platform, deviceFlag(platform), device.id];
   try {
     await agentDevice(["close", ...selector]);
@@ -373,10 +412,13 @@ const run = async (device: Device, paths: string[], isVideo: boolean) => {
   }
   resetBeforeRun(device);
   await installBuild(device);
+  step("Start runner");
   await stopStaleDaemon();
   await preparePhoneRunner(device);
   const artifactsDir = path.join(getStateDir("e2e"), device.key);
   fs.mkdirSync(artifactsDir, { recursive: true });
+  setResultPath(artifactsDir);
+  step("Run flows");
   note(`Running agent-device test on ${device.name}`);
   const options = { artifactsDir, isVideo };
   const startedAt = Date.now();
@@ -392,7 +434,12 @@ const run = async (device: Device, paths: string[], isVideo: boolean) => {
       "junit.xml"
     );
     if (code !== 0) {
-      throw toRunError(device, code, output);
+      throw toFlowsError(
+        device,
+        artifactsDir,
+        startedAt,
+        toRunError(device, code, output)
+      );
     }
   } finally {
     if (isVideo) {
@@ -430,12 +477,14 @@ const runAndShutdown = async (
   paths: string[],
   isVideo: boolean
 ) => {
+  assertHostReady();
   await warnOnFailure(() => withLogsOnStderr(pruneCheckouts));
   const { platform } = values;
   const wasBooted =
     platform === "ios" || platform === "android"
       ? isDeviceBooted(platform)
       : true;
+  step("Resolve device");
   const device = await resolveDevice(values);
   if (wasBooted) {
     return run(device, paths, isVideo);
@@ -477,6 +526,15 @@ const E2E: Noun = {
       },
       exactlyOne: ["platform", "target"],
       successWord: "pass",
+      steps: [
+        "Resolve device",
+        "Reset app",
+        "Fingerprint",
+        "Build",
+        "Install",
+        "Start runner",
+        "Run flows",
+      ],
       sections: [
         {
           title: "Behavior",
@@ -494,6 +552,7 @@ const E2E: Noun = {
             "Artifacts folder includes junit.xml.",
             "iPhone: one junit-<flow>.xml per flow.",
             "--video: video paths on stdout after the run, also when flows fail.",
+            "Failures: e2e_failed names new flows apart from flows in e2e/known-failures.json.",
           ],
         },
         {
@@ -514,6 +573,8 @@ const E2E: Noun = {
         app_reset_failed: "Preview app was not removed before the run",
         ios_runner_not_ready: "agent-device runner did not start on iPhone",
         e2e_failed: "One or more flows failed, read artifacts",
+        known_failures_invalid: "e2e/known-failures.json is not valid",
+        disk_low: "Less than 10 GiB free disk, run `bun builds reclaim`",
       },
       run: (values) => {
         const paths =

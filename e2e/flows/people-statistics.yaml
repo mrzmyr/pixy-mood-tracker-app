@@ -10,11 +10,10 @@ tags: [p1, people]
 - openLink: ${APP_SCHEME}://dev/feature-flag?key=people&value=on
 - extendedWaitUntil:
     visible:
-      id: "calendar"
+      id: "calendar-list"
     timeout: 10000
 
-- tapOn:
-    id: "statistics"
+- runFlow: ../subflows/open-statistics.yaml
 - assertVisible: "Highlights"
 - scrollUntilVisible:
     element:
@@ -27,6 +26,6 @@ tags: [p1, people]
     id: "statistics-person-7f1d6a3e-0001-4a3e-8f6e-0f0000000001"
 - extendedWaitUntil:
     visible:
-      id: "calendar"
+      id: "calendar-list"
     timeout: 10000
 - assertVisible: "Filters \\(1\\)"

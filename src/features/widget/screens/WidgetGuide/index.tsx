@@ -1,7 +1,7 @@
 import { useRouter } from "expo-router";
 import { useEffect, useEffectEvent } from "react";
 import { Demo } from "@/components/Demo";
-import { t } from "@/lib/translation";
+import { t, tDynamic } from "@/lib/translation";
 import { useAnalytics } from "@/state/analytics";
 import { GuideImage } from "./GuideImage";
 
@@ -28,8 +28,8 @@ export const WidgetGuide = () => {
     const step = index + 1;
 
     return {
-      title: t(`widget_guide_step_${step}_title`),
-      body: t(`widget_guide_step_${step}_body`),
+      title: tDynamic(`widget_guide_step_${step}_title`),
+      body: tDynamic(`widget_guide_step_${step}_body`),
       content: <GuideImage step={step} />,
     };
   });
@@ -40,9 +40,7 @@ export const WidgetGuide = () => {
       testID="widget-guide"
       labels={{
         next: t("onboarding_next"),
-        back: t("widget_guide_back"),
         done: t("done"),
-        close: t("close"),
       }}
       onStepChange={({ step }) => {
         analytics.track("widget:guide_step_viewed", { step });

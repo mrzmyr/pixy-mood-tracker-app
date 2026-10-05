@@ -2,6 +2,7 @@ import useColors from "@/hooks/useColors";
 import type { LogItem } from "@/features/logs";
 import { useSetting } from "@/state/settings";
 import { View } from "react-native";
+import { RADIUS } from "@/constants/Radius";
 
 /** Rating color dot for an entry, using the user's selected scale. */
 export const RatingDot = ({ rating }: { rating: LogItem["rating"] }) => {
@@ -17,7 +18,7 @@ export const RatingDot = ({ rating }: { rating: LogItem["rating"] }) => {
         justifyContent: "center",
         alignItems: "center",
         padding: 4,
-        borderRadius: 6,
+        borderRadius: RADIUS.sm,
         backgroundColor,
         width: 32,
         aspectRatio: 1,

@@ -1,19 +1,8 @@
-import omit from "lodash/omit";
 import { z } from "zod";
-import {
-  createContext,
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-  useReducer,
-} from "react";
+import { useMemo } from "react";
 import { useLogUpdater } from "@/features/logs";
-import { useContentStableValue } from "@/hooks/useContentStableValue";
-import { createMissingProviderError } from "@/lib/errors";
-import { load, store } from "@/state/persisted";
-import { useStorageLoad } from "@/state/persisted/useStorageLoad";
-import type { StorageLoad } from "@/state/persisted/useStorageLoad";
+import { createPersistedStore } from "@/state/persisted/createPersistedStore";
+import type { Load } from "@/state/persisted/createPersistedStore";
 import { deleteAllAvatars, deleteAvatar, removeOrphanAvatars } from "./avatars";
 
 /** AsyncStorage key for people. Changing it orphans all stored people. */
@@ -41,9 +30,8 @@ export interface Person {
   updatedAt?: string;
 }
 
-/** People store state. Nothing is persisted while `loaded` is `false`. */
+/** People store state. Readiness lives in `usePeopleLoad()`. */
 export interface PeopleState {
-  loaded?: boolean;
   people: Person[];
 }
 
@@ -52,7 +40,7 @@ type StateAction =
   | { type: "edit"; payload: Person }
   | { type: "delete"; payload: Person["id"] }
   | { type: "import"; payload: PeopleState }
-  | { type: "reset"; payload: PeopleState };
+  | { type: "reset" };
 
 interface UpdaterValue {
   createPerson: (person: Person) => void;
@@ -63,15 +51,6 @@ interface UpdaterValue {
   reset: () => void;
   import: (data: PeopleState) => void;
 }
-
-// SAFETY: every consumer renders inside PeopleProvider, which supplies the value; the default is never read.
-const PeopleStateContext = createContext<PeopleState>(undefined as never);
-// SAFETY: every consumer renders inside PeopleProvider, which supplies the value; the default is never read.
-const PeopleUpdaterContext = createContext<UpdaterValue>(undefined as never);
-// SAFETY: every consumer renders inside PeopleProvider, which supplies the value; the default is never read.
-const PeopleLoadContext = createContext<StorageLoad>(undefined as never);
-
-const INITIAL_STATE: PeopleState = { loaded: false, people: [] };
 
 /**
  * Shape of a stored or imported person. A person without `id` or `name` is
@@ -93,7 +72,6 @@ const StoredPersonSchema = z.object({
 const sanitize = (data: PeopleState): PeopleState => {
   const list = z.array(z.unknown()).safeParse(data.people);
   return {
-    ...data,
     people: list.success
       ? list.data.flatMap((value) => {
           const result = StoredPersonSchema.safeParse(value);
@@ -106,7 +84,7 @@ const sanitize = (data: PeopleState): PeopleState => {
 const reducer = (state: PeopleState, action: StateAction): PeopleState => {
   switch (action.type) {
     case "import": {
-      return sanitize({ ...action.payload, loaded: true });
+      return sanitize(action.payload);
     }
     case "add": {
       return { ...state, people: [...state.people, action.payload] };
@@ -126,7 +104,7 @@ const reducer = (state: PeopleState, action: StateAction): PeopleState => {
       };
     }
     case "reset": {
-      return { ...action.payload, loaded: true };
+      return { people: [] };
     }
     default: {
       return state;
@@ -134,128 +112,60 @@ const reducer = (state: PeopleState, action: StateAction): PeopleState => {
   }
 };
 
+const peopleStore = createPersistedStore<PeopleState, StateAction>({
+  key: STORAGE_KEY,
+  name: "People",
+  initial: () => ({ people: [] }),
+  hydrate: (stored) => sanitize(stored ?? { people: [] }),
+  reducer,
+});
+
+// Files without a person are leftovers of an interrupted write.
+const removeOrphans = (_stored: PeopleState | null, state: PeopleState) => {
+  void removeOrphanAvatars(state.people.map((person) => person.avatar));
+};
+
 /**
  * People store. Must render inside `LogsProvider`: deleting a person strips
  * their references from every entry.
  */
-const PeopleProvider = ({ children }: { children: React.ReactNode }) => {
-  const logsUpdater = useLogUpdater();
-  const [state, dispatch] = useReducer(reducer, INITIAL_STATE);
-  const {
-    load: storageLoad,
-    markReady,
-    markFailed,
-  } = useStorageLoad(STORAGE_KEY);
-  const storageStatus = storageLoad.status;
-  // Reducer updates can produce equal copies; only content changes should
-  // persist or notify consumers.
-  const stableState = useContentStableValue(state);
+const PeopleProvider = ({ children }: { children: React.ReactNode }) => (
+  <peopleStore.Provider onLoad={removeOrphans}>{children}</peopleStore.Provider>
+);
 
-  const createPerson = useCallback(
-    (person: Person) => dispatch({ type: "add", payload: person }),
-    []
-  );
-  const updatePerson = useCallback(
-    (person: Person) => dispatch({ type: "edit", payload: person }),
-    []
-  );
-  const deletePerson = useCallback(
-    (personId: Person["id"]) => {
-      const person = state.people.find((item) => item.id === personId);
-      dispatch({ type: "delete", payload: personId });
-      logsUpdater.removePersonFromLogs(personId);
-      if (person?.avatar) {
-        void deleteAvatar(person.avatar);
-      }
-    },
-    [logsUpdater, state.people]
-  );
-  const reset = useCallback(() => {
-    dispatch({ type: "reset", payload: { people: [] } });
-    void deleteAllAvatars();
-  }, []);
-  const importData = useCallback(
-    (data: PeopleState) => dispatch({ type: "import", payload: data }),
-    []
-  );
-
-  const updaterValue: UpdaterValue = useMemo(
-    () => ({
-      createPerson,
-      updatePerson,
-      deletePerson,
-      reset,
-      import: importData,
-    }),
-    [createPerson, updatePerson, deletePerson, reset, importData]
-  );
-
-  useEffect(() => {
-    (async () => {
-      let json: PeopleState | null;
-      try {
-        json = await load<PeopleState>(STORAGE_KEY);
-      } catch (error) {
-        // Keep `loaded: false` so the persist effect stays disabled;
-        // resetting would overwrite the stored people.
-        markFailed(error);
-        return;
-      }
-      const next = json === null ? { people: [] } : json;
-      dispatch({ type: "import", payload: next });
-      markReady();
-      // Files without a person are leftovers of an interrupted write.
-      void removeOrphanAvatars(
-        sanitize(next).people.map((person) => person.avatar)
-      );
-    })();
-  }, [markReady, markFailed]);
-
-  // Never persist after a failed read: `import` and `reset` set `loaded`, so
-  // also require a successful load.
-  useEffect(() => {
-    if (storageStatus === "ready" && stableState.loaded) {
-      store<Omit<PeopleState, "loaded">>(
-        STORAGE_KEY,
-        omit(stableState, "loaded")
-      );
-    }
-  }, [stableState, storageStatus]);
-
-  return (
-    <PeopleStateContext.Provider value={stableState}>
-      <PeopleUpdaterContext.Provider value={updaterValue}>
-        <PeopleLoadContext.Provider value={storageLoad}>
-          {children}
-        </PeopleLoadContext.Provider>
-      </PeopleUpdaterContext.Provider>
-    </PeopleStateContext.Provider>
-  );
-};
-
-const usePeopleState = (): PeopleState => {
-  const context = useContext(PeopleStateContext);
-  if (context === undefined) {
-    throw createMissingProviderError("usePeopleState", "PeopleProvider");
-  }
-  return context;
-};
+const usePeopleState = (): PeopleState => peopleStore.useState();
 
 const usePeopleUpdater = (): UpdaterValue => {
-  const context = useContext(PeopleUpdaterContext);
-  if (context === undefined) {
-    throw createMissingProviderError("usePeopleUpdater", "PeopleProvider");
-  }
-  return context;
+  const dispatch = peopleStore.useDispatch();
+  const { people } = peopleStore.useState();
+  const logsUpdater = useLogUpdater();
+
+  return useMemo(
+    () => ({
+      createPerson: (person: Person) =>
+        dispatch({ type: "add", payload: person }),
+      updatePerson: (person: Person) =>
+        dispatch({ type: "edit", payload: person }),
+      deletePerson: (personId: Person["id"]) => {
+        const person = people.find((item) => item.id === personId);
+        dispatch({ type: "delete", payload: personId });
+        logsUpdater.removePersonFromLogs(personId);
+        if (person?.avatar) {
+          void deleteAvatar(person.avatar);
+        }
+      },
+      reset: () => {
+        dispatch({ type: "reset" });
+        void deleteAllAvatars();
+      },
+      import: (data: PeopleState) =>
+        dispatch({ type: "import", payload: data }),
+    }),
+    [dispatch, logsUpdater, people]
+  );
 };
 
 /** Load status of the people store; `error` means stored people exist but could not be read. */
-const usePeopleLoad = (): StorageLoad => {
-  const context = useContext(PeopleLoadContext);
-  if (context === undefined) {
-    throw createMissingProviderError("usePeopleLoad", "PeopleProvider");
-  }
-  return context;
-};
+const usePeopleLoad = (): Load => peopleStore.useLoad();
 
 export { PeopleProvider, usePeopleLoad, usePeopleState, usePeopleUpdater };

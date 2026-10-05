@@ -6,7 +6,7 @@ import {
   getStorageFixtureEntries,
   STORAGE_FIXTURES,
 } from "@/dev/fixtures";
-import { getJSONSchemaType, migrateImportData } from "@/features/datagate";
+import { decodeBackupData } from "@/features/datagate";
 
 const requireFixture = (id: string) => {
   const fixture = getFixture(id);
@@ -24,7 +24,7 @@ describe("dev fixtures", () => {
   it.each(FIXTURES.map((fixture) => [fixture.id, fixture]))(
     "%s is a valid Pixy export",
     (_id, fixture) => {
-      expect(getJSONSchemaType(migrateImportData(fixture.data))).toBe("pixy");
+      expect(decodeBackupData(fixture.data).ok).toBe(true);
     }
   );
 

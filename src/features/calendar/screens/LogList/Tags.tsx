@@ -7,6 +7,7 @@ import { Text, View, useColorScheme } from "react-native";
 import type { ViewStyle } from "react-native";
 
 import { SectionHeader } from "./SectionHeader";
+import { RADIUS } from "@/constants/Radius";
 
 const DEFAULT_STYLE = {};
 
@@ -28,7 +29,7 @@ const Tag = ({
         justifyContent: "center",
         alignItems: "center",
         flexDirection: "row",
-        borderRadius: 100,
+        borderRadius: RADIUS.full,
         marginRight: 8,
         marginBottom: 8,
         backgroundColor: colors.tagBackground,
@@ -44,7 +45,7 @@ const Tag = ({
         style={{
           width: 8,
           height: 8,
-          borderRadius: 8,
+          borderRadius: RADIUS.sm,
           marginRight: 10,
           backgroundColor: colors.tags[colorName]?.dot,
         }}
@@ -63,9 +64,17 @@ const Tag = ({
 
 /**
  * Tags section of an entry card; editing opens the logger at the tags
- * step. Tag references without a matching tag are skipped.
+ * step. Tag references without a matching tag are skipped. Stored tags
+ * always show, also with the pencil off.
  */
-export const Tags = ({ item }: { item: LogItem }) => {
+export const Tags = ({
+  item,
+  canEdit,
+}: {
+  item: LogItem;
+  /** Shows the pencil; off when the edit logger has no tags step. */
+  canEdit: boolean;
+}) => {
   const colors = useColors();
   const { tags } = useTagsState();
   const router = useRouter();
@@ -74,15 +83,20 @@ export const Tags = ({ item }: { item: LogItem }) => {
     <View style={{}}>
       <SectionHeader
         title={t("tags")}
-        onEdit={() => {
-          router.push({
-            pathname: "/logs/[id]/edit",
-            params: {
-              id: item.id,
-              step: "tags",
-            },
-          });
-        }}
+        editTestID="log-list-tags-edit"
+        onEdit={
+          canEdit
+            ? () => {
+                router.push({
+                  pathname: "/logs/[id]/edit",
+                  params: {
+                    id: item.id,
+                    step: "tags",
+                  },
+                });
+              }
+            : undefined
+        }
       />
       <View
         style={{

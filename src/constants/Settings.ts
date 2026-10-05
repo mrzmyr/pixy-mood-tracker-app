@@ -8,13 +8,10 @@ import type { SettingsState } from "@/state/settings";
 export const DEFAULT_REMINDER_TIME = "20:00";
 
 /**
- * Settings used before storage loads and for fresh installs.
- *
- * `loaded: false` keeps the persist effect in `SettingsProvider` disabled
- * until stored settings are read, so defaults never overwrite them.
+ * Settings used before storage loads and for fresh installs. The settings
+ * store never writes them before stored settings are read.
  */
 export const INITIAL_STATE: SettingsState = {
-  loaded: false,
   deviceId: null,
   scaleType: "ColorBrew-RdYlGn",
   reminderEnabled: false,
@@ -28,4 +25,5 @@ export const INITIAL_STATE: SettingsState = {
   storeReviewPromptedAt: null,
   storeReviewPromptedAppVersion: null,
   photosDayAccessDismissed: false,
+  colorScheme: "system",
 };

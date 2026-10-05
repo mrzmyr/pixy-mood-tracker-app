@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.91.0](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.90.0...v1.91.0) (2026-10-04)
+
+
+### Features
+
+* Add iOS widgets ([#506](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/506)) ([08060ee](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/08060eee86b9cd2cc4f2b1a13cd42e3ac12646cc))
+* interventions ([#573](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/573)) ([dcaa037](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/dcaa037576517ef2339c13c8dbfa5bc0c284e49c))
+* **logger:** super happy Pixy jump with confetti on tap ([#585](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/585)) ([004564d](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/004564dc60dd0a13c8e75b52a07525fde1de7656))
+* **people:** avatar grid with add tile on the logger slide ([#574](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/574)) ([c5600a6](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/c5600a6598d40fc9fa0387129f6769b9c459d93e))
+* **settings:** app icons ([#551](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/551)) ([b78b2b2](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/b78b2b284ebd69126e535a575a97105b4b90e048))
+
+
+### Bug Fixes
+
+* **calendar:** hide foot note until bottom overscroll ([#584](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/584)) ([edc0506](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/edc050649489b4974290f997fecdd0583e70b581))
+* **calendar:** keep add button primary after today has an entry ([#587](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/587)) ([2042723](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/2042723e29aa6dd6b861b0289b4e05840704bb26))
+* **calendar:** restore reset translation and align filter footer ([#583](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/583)) ([09dac1c](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/09dac1cac99c1ce62c9d00b93275ef2aba339b05))
+* **emotions:** carousel stuck on yellow page after tapping More ([#552](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/552)) ([20ac5a9](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/20ac5a996e555ee18e7451bd754c2e69cf609b7f))
+* **menu:** show dividers between menu items only ([#581](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/581)) ([128a689](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/128a6893dc882816cb5334a11c85a187d12f3c42))
+
 ## [1.90.0](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.88.0...v1.90.0) (2026-10-04)
 
 

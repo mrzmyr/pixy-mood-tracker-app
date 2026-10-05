@@ -4,7 +4,7 @@ import { useTagsState } from "../../TagsProvider";
 import type { Tag } from "../../TagsProvider";
 
 import Button from "@/components/Button";
-import LinkButton from "@/components/LinkButton";
+import { CloseButton } from "@/components/CloseButton";
 import ModalHeader from "@/components/ModalHeader";
 import { TagList } from "../../components/TagList";
 import { MAX_TAGS } from "@/constants/Config";
@@ -40,14 +40,7 @@ export const Tags = () => {
       <ModalHeader
         title={t("tags")}
         right={
-          <LinkButton
-            onPress={() => {
-              router.back();
-            }}
-            type="primary"
-          >
-            {t("done")}
-          </LinkButton>
+          <CloseButton testID="tags-close" onPress={() => router.back()} />
         }
       />
       {tags.length < MAX_TAGS && (

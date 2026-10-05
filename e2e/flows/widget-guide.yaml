@@ -17,8 +17,7 @@ tags: [p1, widget]
             visible: "Open"
           commands:
             - tapOn: "Open"
-      - tapOn:
-          id: "settings"
+      - runFlow: ../subflows/open-settings.yaml
       - tapOn:
           id: "widget"
       - assertVisible: "Hold Home Screen"

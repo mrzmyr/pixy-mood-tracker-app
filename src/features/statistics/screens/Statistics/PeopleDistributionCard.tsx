@@ -7,6 +7,7 @@ import { PersonChip } from "@/features/people";
 import useColors from "@/hooks/useColors";
 import useHaptics from "@/hooks/useHaptics";
 import type { PeopleDistributionData } from "../../PeopleDistribution";
+import { RADIUS } from "@/constants/Radius";
 
 const LIMIT = 5;
 
@@ -57,7 +58,7 @@ export const PeopleDistributionCard = ({
               style={{
                 flex: 1,
                 height: 8,
-                borderRadius: 4,
+                borderRadius: RADIUS.xs,
                 backgroundColor: colors.tagBackgroundActive,
                 marginRight: 12,
               }}
@@ -66,7 +67,7 @@ export const PeopleDistributionCard = ({
                 style={{
                   width: `${(entry.count / max) * 100}%`,
                   height: 8,
-                  borderRadius: 4,
+                  borderRadius: RADIUS.xs,
                   backgroundColor: colors.tint,
                 }}
               />

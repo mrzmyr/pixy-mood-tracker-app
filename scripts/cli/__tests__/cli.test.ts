@@ -34,6 +34,7 @@ const ids = (stdout: string) =>
   stdout.split("\n").map((line) => line.split(/\s+/u)[0]);
 
 describe("CLI options", () => {
+  // Spawns one CLI process per case at once; 2-core CI runners need more than the 5 s default.
   test("rejects invalid commands in parse order", async () => {
     const cases: [string[], number, string][] = [
       [["app", "install", "ios"], 2, "unexpected_argument"],
@@ -56,6 +57,17 @@ describe("CLI options", () => {
       [["app", "dev"], 2, "missing_option"],
       [["app", "dev", "--target=x"], 2, "invalid_option"],
       [["app", "dev", "--platform=windows"], 2, "invalid_platform"],
+      [
+        ["app", "dev", "--platform=ios", "--fixture=nope"],
+        2,
+        "fixture_not_found",
+      ],
+      [["app", "dev", "--platform=ios", "--flag=nope=on"], 2, "invalid_flag"],
+      [
+        ["app", "seed", "--platform=ios", "--fixture=year", "--variant=prod"],
+        2,
+        "invalid_value",
+      ],
       [
         ["app", "seed", "--platform=ios", "--fixture=nope"],
         2,
@@ -81,6 +93,17 @@ describe("CLI options", () => {
       [["builds", "rm"], 2, "missing_option"],
       [["builds", "rm", "some-id"], 2, "unexpected_argument"],
       [["builds", "rm", "--build=no-such-build-id"], 2, "build_not_found"],
+      [["builds", "prune", "--older-than=soon"], 2, "invalid_value"],
+      [["builds", "reclaim", "--older-than=0"], 2, "invalid_value"],
+      [["builds", "reclaim", "--dry-run=yes"], 2, "unexpected_value"],
+      [["app", "drive", "--", "snapshot"], 2, "missing_option"],
+      [["app", "drive", "--platform=ios"], 2, "missing_argument"],
+      [["app", "drive", "--platform=ios", "--"], 2, "missing_argument"],
+      [
+        ["app", "drive", "--platform=ios", "--", "snapshot", "--udid", "x"],
+        2,
+        "conflicting_options",
+      ],
       [["devices", "reserve", "--target=x"], 2, "missing_option"],
       [["devices", "reserve", "--target=x", "--goal=  "], 2, "invalid_goal"],
       [
@@ -88,6 +111,11 @@ describe("CLI options", () => {
         2,
         "invalid_goal",
       ],
+      [["worktree", "new"], 2, "missing_argument"],
+      [["worktree", "new", "Tag/Swipes"], 2, "invalid_slug"],
+      [["worktree", "new", "a", "b"], 2, "unexpected_argument"],
+      [["worktree", "rm"], 2, "missing_argument"],
+      [["worktree", "rm", "../old"], 2, "invalid_target"],
     ];
     await Promise.all(
       cases.map(async ([args, code, status]) => {
@@ -101,7 +129,7 @@ describe("CLI options", () => {
         expect(errorLines).toHaveLength(3);
       })
     );
-  });
+  }, 30_000);
 
   test("help wins over invalid values and matches golden output", async () => {
     const result = await call("app", "install", "--platform=windows", "--help");
@@ -134,6 +162,16 @@ describe("CLI options", () => {
         );
       })
     );
+  });
+
+  test("long commands end with a result line on usage errors", async () => {
+    const result = await call("e2e", "run", "--platform=windows");
+    expect(result.status).toBe(2);
+    expect(result.stdout.trimEnd().split("\n").at(-1)).toBe(
+      "PIXY_RESULT status=error command=e2e-run code=invalid_platform"
+    );
+    const short = await call("app", "seed", "--platform=windows");
+    expect(short.stdout).not.toContain("PIXY_RESULT");
   });
 
   test("build aliases list same table", async () => {

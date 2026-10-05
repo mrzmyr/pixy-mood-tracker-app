@@ -1,7 +1,8 @@
 import { Text, View } from "react-native";
 import useColors from "@/hooks/useColors";
-import { t } from "@/lib/translation";
+import { t, tDynamic } from "@/lib/translation";
 import type { InterventionId, PromptStep } from "../../catalog";
+import { RADIUS } from "@/constants/Radius";
 
 /** Thinking prompt with an example. Nothing is typed or saved. */
 export const PromptView = ({
@@ -33,15 +34,15 @@ export const PromptView = ({
           color: colors.text,
         }}
       >
-        {t(`${prefix}_title`)}
+        {tDynamic(`${prefix}_title`)}
       </Text>
       <Text style={{ fontSize: 17, lineHeight: 25, color: colors.text }}>
-        {t(`${prefix}_body`)}
+        {tDynamic(`${prefix}_body`)}
       </Text>
       <View
         style={{
           backgroundColor: colors.logCardBackground,
-          borderRadius: 14,
+          borderRadius: RADIUS.md,
           padding: 14,
           gap: 4,
         }}
@@ -56,7 +57,7 @@ export const PromptView = ({
           {t("interventions_for_example")}
         </Text>
         <Text style={{ fontSize: 15, lineHeight: 21, color: colors.text }}>
-          {t(`${prefix}_example`)}
+          {tDynamic(`${prefix}_example`)}
         </Text>
       </View>
       <Text style={{ fontSize: 14, color: colors.textSecondary }}>

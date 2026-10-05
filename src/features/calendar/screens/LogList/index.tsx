@@ -10,7 +10,7 @@ import type { LogItem } from "@/features/logs";
 
 import { getDayDateTitle } from "@/lib/utils";
 import dayjs from "dayjs";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { Dimensions, View } from "react-native";
 import { Carousel } from "react-native-reanimated-carousel";
 import type { CarouselRef } from "react-native-reanimated-carousel";
@@ -28,6 +28,11 @@ const WINDOW_WIDTH = Dimensions.get("window").width;
  * `date` is a local `YYYY-MM-DD` day; entries are matched by `dateTime` and
  * shown oldest first. New entries from here use the current time on that
  * day.
+ *
+ * The carousel gets the measured page area height. Without it, carousel
+ * pages keep their first measured height. iOS modals first lay out at full
+ * window height, so pages stay too tall and the button hides the end of
+ * each entry.
  */
 export const LogList = () => {
   const router = useRouter();
@@ -83,6 +88,7 @@ export const LogList = () => {
   ));
 
   const PAGE_WIDTH = WINDOW_WIDTH * 0.9;
+  const [pagesHeight, setPagesHeight] = useState<number>();
 
   return (
     <PageModalLayout
@@ -94,11 +100,14 @@ export const LogList = () => {
     >
       <Header title={getDayDateTitle(date)} onClose={close} />
       <View
+        testID="log-list-pages"
         style={{
           flex: 1,
         }}
+        onLayout={(event) => setPagesHeight(event.nativeEvent.layout.height)}
       >
         <Carousel
+          testID="log-list-carousel"
           loop={false}
           ref={_carouselRef}
           data={pages}
@@ -111,6 +120,7 @@ export const LogList = () => {
           itemSize={PAGE_WIDTH}
           style={{
             flex: 1,
+            height: pagesHeight,
             marginLeft: "2.5%",
             width: "100%",
           }}

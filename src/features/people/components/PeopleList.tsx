@@ -6,6 +6,7 @@ import useColors from "@/hooks/useColors";
 import { t } from "@/lib/translation";
 import type { Person } from "../PeopleProvider";
 import { PersonListItem } from "./PersonListItem";
+import { RADIUS } from "@/constants/Radius";
 
 /**
  * People list for the people screens; rows open the person editor. Shows a
@@ -33,7 +34,7 @@ export const PeopleList = ({
             padding: 16,
             marginTop: 16,
             marginHorizontal: 16,
-            borderRadius: 8,
+            borderRadius: RADIUS.md,
           }}
         >
           <Text style={{ color: colors.text, fontSize: 17 }}>

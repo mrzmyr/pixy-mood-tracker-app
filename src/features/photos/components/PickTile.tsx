@@ -2,8 +2,8 @@ import { ActivityIndicator, Pressable, Text, View } from "react-native";
 import useColors from "@/hooks/useColors";
 import { t } from "@/lib/translation";
 import { TileImage } from "./TileImage";
+import { RADIUS } from "@/constants/Radius";
 
-const RADIUS = 12;
 const BADGE_SIZE = 24;
 const BADGE_INSET = 6;
 const SELECTED_BORDER = 3;
@@ -85,7 +85,7 @@ export const PickTile = ({
       style={({ pressed }) => ({
         width: size,
         height: size,
-        borderRadius: RADIUS,
+        borderRadius: RADIUS.md,
         overflow: "hidden",
         backgroundColor: colors.backgroundSecondary,
         opacity:
@@ -120,7 +120,7 @@ export const PickTile = ({
             right: 0,
             bottom: 0,
             left: 0,
-            borderRadius: RADIUS,
+            borderRadius: RADIUS.md,
             borderWidth: SELECTED_BORDER,
             borderColor: colors.tint,
           }}
@@ -138,7 +138,7 @@ export const PickTile = ({
             maxWidth: size - BADGE_INSET * 2,
             paddingHorizontal: 6,
             paddingVertical: 2,
-            borderRadius: 6,
+            borderRadius: RADIUS.sm,
             overflow: "hidden",
             backgroundColor: TAG_BACKGROUND,
             color: ON_PHOTO,

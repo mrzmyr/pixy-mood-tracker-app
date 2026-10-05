@@ -18,7 +18,7 @@ export const Photos = ({
   canEdit,
 }: {
   item: LogItem;
-  /** Shows the pencil; off while the `photos` feature flag is off. */
+  /** Shows the pencil; off when the edit logger has no photos step. */
   canEdit: boolean;
 }) => {
   const colors = useColors();

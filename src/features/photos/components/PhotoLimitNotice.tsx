@@ -3,6 +3,7 @@ import { Pressable, Text } from "react-native";
 import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
 import { t } from "@/lib/translation";
 import { MAX_PHOTOS_PER_ENTRY } from "../storage";
+import { RADIUS } from "@/constants/Radius";
 
 const VISIBLE_MS = 4000;
 // Dark bar on any background, like the system snackbar, in both schemes.
@@ -57,7 +58,7 @@ export const PhotoLimitNotice = ({
         paddingLeft: 16,
         paddingRight: 4,
         paddingVertical: 4,
-        borderRadius: 14,
+        borderRadius: RADIUS.md,
         backgroundColor: BACKGROUND,
       }}
     >

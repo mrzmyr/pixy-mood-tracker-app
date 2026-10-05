@@ -4,12 +4,15 @@
  */
 export const FEATURE_FLAGS = [
   "app-icons",
+  "calendar-view-all-moods",
+  "development",
+  "emotion-icons",
+  "feature-flag-overrides",
   "interventions",
+  "ios-widget",
+  "people",
   "photos",
   "support-pixy",
-  "people",
-  "ios-widget",
-  "calendar-view-all-moods",
 ] as const;
 
 /** One key of {@link FEATURE_FLAGS}. */

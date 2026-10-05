@@ -1,20 +1,22 @@
 import Button from "@/components/Button";
+import { CloseButton } from "@/components/CloseButton";
 import { locale, t } from "@/lib/translation";
 import useColors from "@/hooks/useColors";
 import { useFeedbackModal } from "@/features/feedback";
 import useHaptics from "@/hooks/useHaptics";
-import { useTemporaryLog } from "../temporaryLog";
+import { useLogDraft } from "../logDraft";
 import { getItemDateTitle } from "@/lib/utils";
 import dayjs from "dayjs";
 import { useState } from "react";
 import { Platform, Pressable, Text, View } from "react-native";
-import { ArrowLeft, Trash, X } from "react-native-feather";
+import { ArrowLeft, Trash } from "react-native-feather";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { Stepper } from "./Stepper";
+import { RADIUS } from "@/constants/Radius";
 
 const DatePickerHeader = ({ onChange }: { onChange: (date: Date) => void }) => {
   const colors = useColors();
-  const tempLog = useTemporaryLog();
+  const { draft } = useLogDraft();
 
   return (
     <View
@@ -27,14 +29,14 @@ const DatePickerHeader = ({ onChange }: { onChange: (date: Date) => void }) => {
       <Button
         type="tertiary"
         onPress={() => {
-          onChange(dayjs(tempLog.data.dateTime).hour(8).minute(0).toDate());
+          onChange(dayjs(draft.dateTime).hour(8).minute(0).toDate());
         }}
         style={{
           width: "100%",
           padding: 12,
           maxWidth: 240,
           marginBottom: 8,
-          borderRadius: 8,
+          borderRadius: RADIUS.sm,
         }}
       >
         <Text style={{ fontSize: 17, color: colors.tertiaryButtonText }}>
@@ -44,14 +46,14 @@ const DatePickerHeader = ({ onChange }: { onChange: (date: Date) => void }) => {
       <Button
         type="tertiary"
         onPress={() => {
-          onChange(dayjs(tempLog.data.dateTime).hour(13).minute(0).toDate());
+          onChange(dayjs(draft.dateTime).hour(13).minute(0).toDate());
         }}
         style={{
           width: "100%",
           maxWidth: 240,
           padding: 12,
           marginBottom: 8,
-          borderRadius: 8,
+          borderRadius: RADIUS.sm,
         }}
       >
         <Text style={{ fontSize: 17, color: colors.tertiaryButtonText }}>
@@ -61,13 +63,13 @@ const DatePickerHeader = ({ onChange }: { onChange: (date: Date) => void }) => {
       <Button
         type="tertiary"
         onPress={() => {
-          onChange(dayjs(tempLog.data.dateTime).hour(20).minute(0).toDate());
+          onChange(dayjs(draft.dateTime).hour(20).minute(0).toDate());
         }}
         style={{
           width: "100%",
           maxWidth: 240,
           padding: 12,
-          borderRadius: 8,
+          borderRadius: RADIUS.sm,
         }}
       >
         <Text style={{ fontSize: 17, color: colors.tertiaryButtonText }}>
@@ -81,8 +83,8 @@ const DatePickerHeader = ({ onChange }: { onChange: (date: Date) => void }) => {
 /**
  * Logger header with the entry time, close, back, and delete actions.
  *
- * Must render inside `TemporaryLogProvider`. Changing the time updates only
- * the draft's `dateTime`; `date` keeps the day the draft started with.
+ * Must render inside `LogDraftProvider`. Changing the time updates the
+ * draft's `dateTime` and `date`.
  */
 export const SlideHeader = ({
   isDeleteable,
@@ -104,17 +106,13 @@ export const SlideHeader = ({
   const { Modal } = useFeedbackModal();
   const haptics = useHaptics();
   const colors = useColors();
-  const tempLog = useTemporaryLog();
+  const { draft, setDateTime } = useLogDraft();
 
   const [isDatePickerVisible, setIsDatePickerVisible] = useState(false);
 
-  const dateTime = tempLog.data.dateTime
-    ? new Date(tempLog.data.dateTime)
-    : new Date();
+  const dateTime = draft.dateTime ? new Date(draft.dateTime) : new Date();
   const dateTimeTitle =
-    tempLog.data.dateTime === null
-      ? "?"
-      : getItemDateTitle(tempLog.data.dateTime);
+    draft.dateTime === null ? "?" : getItemDateTitle(draft.dateTime);
 
   return (
     <View
@@ -133,9 +131,7 @@ export const SlideHeader = ({
             <DatePickerHeader
               onChange={(date) => {
                 setIsDatePickerVisible(false);
-                tempLog.update({
-                  dateTime: dayjs(date).toISOString(),
-                });
+                setDateTime(date.toISOString());
               }}
             />
           )}
@@ -146,9 +142,7 @@ export const SlideHeader = ({
           minuteInterval={10}
           onConfirm={(date) => {
             setIsDatePickerVisible(false);
-            tempLog.update({
-              dateTime: dayjs(date).toISOString(),
-            });
+            setDateTime(date.toISOString());
           }}
           onCancel={() => setIsDatePickerVisible(false)}
         />
@@ -209,7 +203,7 @@ export const SlideHeader = ({
                 paddingVertical: 6,
                 paddingHorizontal: 12,
                 backgroundColor: colors.logHeaderHighlight,
-                borderRadius: 8,
+                borderRadius: RADIUS.sm,
               })}
             >
               <Text
@@ -259,23 +253,7 @@ export const SlideHeader = ({
               <Trash color={colors.logHeaderText} width={24} height={24} />
             </Pressable>
           )}
-          <Pressable
-            accessibilityRole="button"
-            accessibilityLabel={t("logger_close")}
-            testID="logger-close"
-            style={{
-              height: 44,
-              width: 44,
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-            onPress={async () => {
-              await haptics.selection();
-              onClose?.();
-            }}
-          >
-            <X color={colors.logHeaderText} width={24} height={24} />
-          </Pressable>
+          <CloseButton testID="logger-close" onPress={() => onClose?.()} />
         </View>
       </View>
     </View>

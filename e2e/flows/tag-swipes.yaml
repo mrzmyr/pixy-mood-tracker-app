@@ -9,8 +9,7 @@ tags: [p1, tags, ios]
           file: ../subflows/load-fixture.yaml
           env:
             FIXTURE: year
-      - tapOn:
-          id: "settings"
+      - runFlow: ../subflows/open-settings.yaml
       - tapOn: "Tags"
       # Tapping blank row space still opens the editor.
       - tapOn:
@@ -56,8 +55,7 @@ tags: [p1, tags, ios]
       # Relaunch: archived/deleted state persists.
       - stopApp
       - launchApp
-      - tapOn:
-          id: "settings"
+      - runFlow: ../subflows/open-settings.yaml
       - tapOn: "Tags"
       - assertNotVisible: "Work"
       - assertNotVisible: "Family"

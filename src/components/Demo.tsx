@@ -1,6 +1,5 @@
 import { useState } from "react";
-import { Pressable, View } from "react-native";
-import { X } from "react-native-feather";
+import { View } from "react-native";
 import Animated, {
   FadeIn,
   LinearTransition,
@@ -10,10 +9,10 @@ import Animated, {
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import Button from "@/components/Button";
+import { CloseButton } from "@/components/CloseButton";
 import { PageModalLayout } from "@/components/PageModalLayout";
 import { Secondary, Title } from "@/components/Type";
 import useColors from "@/hooks/useColors";
-import useHaptics from "@/hooks/useHaptics";
 import { t } from "@/lib/translation";
 
 /** Inactive dots are circles. The active mark is this many times as wide. */
@@ -39,10 +38,6 @@ export interface DemoLabels {
   readonly next: string;
   /** Shown on the last step. */
   readonly done: string;
-  /** Returns to the previous step. */
-  readonly back: string;
-  /** Dismisses the demo. */
-  readonly close: string;
 }
 
 const StepDot = ({ active }: { active: boolean }) => {
@@ -90,45 +85,6 @@ const StepDots = ({ step, count }: { step: number; count: number }) => (
   </View>
 );
 
-const CloseButton = ({
-  label,
-  testID,
-  onPress,
-}: {
-  label: string;
-  testID?: string;
-  onPress: () => void;
-}) => {
-  const colors = useColors();
-  const haptics = useHaptics();
-
-  return (
-    <Pressable
-      accessibilityRole="button"
-      accessibilityLabel={label}
-      testID={testID}
-      onPress={async () => {
-        await haptics.selection();
-        onPress();
-      }}
-      style={({ pressed }) => ({
-        position: "absolute",
-        right: 0,
-        top: 0,
-        width: 44,
-        height: 44,
-        alignItems: "center",
-        justifyContent: "center",
-        opacity: pressed ? 0.7 : 1,
-        backgroundColor: colors.tertiaryButtonBackground,
-        borderRadius: 22,
-      })}
-    >
-      <X width={22} height={22} color={colors.text} />
-    </Pressable>
-  );
-};
-
 const getTestId = ({ prefix, name }: { prefix?: string; name: string }) => {
   if (!prefix) {
     return;
@@ -149,8 +105,7 @@ const getEntering = ({ isReducedMotion }: { isReducedMotion: boolean }) => {
  * Full-screen demo. Close sits top right, step dots stay centered, and the
  * title, body, and visual share one horizontal inset.
  *
- * Step numbers are 1-based. On step 1 the back action stays mounted and
- * hidden so the visual does not grow.
+ * Step numbers are 1-based. Close is the only way out before the last step.
  */
 export const Demo = ({
   steps,
@@ -162,7 +117,7 @@ export const Demo = ({
 }: {
   steps: readonly DemoStep[];
   labels: DemoLabels;
-  /** Prefix for close, title, next, and back test IDs. */
+  /** Prefix for close, title, and next test IDs. */
   testID?: string;
   onDismiss: ({ step }: { step: number }) => void;
   onComplete: () => void;
@@ -173,21 +128,11 @@ export const Demo = ({
   const isReducedMotion = useReducedMotion();
   const [step, setStep] = useState(1);
   const current = steps[step - 1];
-  const isFirst = step === 1;
   const isLast = step === steps.length;
 
   if (!current) {
     return null;
   }
-
-  const goTo = ({ step: nextStep }: { step: number }) => {
-    if (nextStep < 1 || nextStep > steps.length) {
-      return;
-    }
-
-    setStep(nextStep);
-    onStepChange?.({ step: nextStep });
-  };
 
   const goNext = () => {
     if (isLast) {
@@ -195,7 +140,9 @@ export const Demo = ({
       return;
     }
 
-    goTo({ step: step + 1 });
+    const nextStep = step + 1;
+    setStep(nextStep);
+    onStepChange?.({ step: nextStep });
   };
 
   return (
@@ -219,9 +166,9 @@ export const Demo = ({
             <StepDots step={step} count={steps.length} />
           </View>
           <CloseButton
-            label={labels.close}
             testID={getTestId({ prefix: testID, name: "close" })}
             onPress={() => onDismiss({ step })}
+            style={{ position: "absolute", right: 0, top: 0 }}
           />
         </View>
       </View>
@@ -263,7 +210,6 @@ export const Demo = ({
           style={{
             paddingTop: 24,
             paddingBottom: insets.bottom + 16,
-            gap: 8,
           }}
         >
           <Button
@@ -272,21 +218,6 @@ export const Demo = ({
           >
             {isLast ? labels.done : labels.next}
           </Button>
-          <View
-            pointerEvents={isFirst ? "none" : "auto"}
-            accessibilityElementsHidden={isFirst}
-            importantForAccessibility={isFirst ? "no-hide-descendants" : "auto"}
-            style={{ opacity: isFirst ? 0 : 1 }}
-          >
-            <Button
-              type="tertiary"
-              disabled={isFirst}
-              testID={getTestId({ prefix: testID, name: "back" })}
-              onPress={() => goTo({ step: step - 1 })}
-            >
-              {labels.back}
-            </Button>
-          </View>
         </View>
       </View>
     </PageModalLayout>
