@@ -81,6 +81,9 @@ describe("CLI options", () => {
       [["builds", "rm"], 2, "missing_option"],
       [["builds", "rm", "some-id"], 2, "unexpected_argument"],
       [["builds", "rm", "--build=no-such-build-id"], 2, "build_not_found"],
+      [["builds", "prune", "--older-than=soon"], 2, "invalid_value"],
+      [["builds", "reclaim", "--older-than=0"], 2, "invalid_value"],
+      [["builds", "reclaim", "--dry-run=yes"], 2, "unexpected_value"],
       [["devices", "reserve", "--target=x"], 2, "missing_option"],
       [["devices", "reserve", "--target=x", "--goal=  "], 2, "invalid_goal"],
       [
