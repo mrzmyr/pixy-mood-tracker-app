@@ -939,5 +939,7 @@
   "location_no_results": "No places found. Check the spelling or search for a nearby city.",
   "location_denied_title": "Location Access Off",
   "location_denied_message": "Allow Pixy to use your location in the system settings to add places to your check-ins.",
-  "location_open_settings": "Open Settings"
+  "location_open_settings": "Open Settings",
+  "location_use_place": "Use %{place}",
+  "location_map_hint": "Tap the map to pick a place."
 }

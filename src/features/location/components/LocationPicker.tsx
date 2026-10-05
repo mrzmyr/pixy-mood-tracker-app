@@ -17,11 +17,14 @@ import type { LogLocation } from "@/types";
 import {
   getCurrentPlace,
   getLocationLabel,
+  getPlaceAt,
   hasLocationAccess,
   requestLocationAccess,
   searchPlaces,
 } from "../places";
 import { showLocationDenied } from "../useLocationSetting";
+import { PlaceMap } from "./PlaceMap";
+import type { MapCoordinates } from "./placeMapProps";
 
 /** Wait after the last keystroke before asking the geocoder. */
 const SEARCH_DELAY_MS = 400;
@@ -67,6 +70,55 @@ const useSearch = (query: string): SearchState => {
   return { status: "done", results: found.results };
 };
 
+/**
+ * Device position for the map camera when the entry has no place yet. Never
+ * asks for access. `null` until known or without access.
+ */
+const useCurrentPosition = (isNeeded: boolean): MapCoordinates | null => {
+  const [position, setPosition] = useState<MapCoordinates | null>(null);
+
+  useEffect(() => {
+    if (!isNeeded) {
+      return;
+    }
+    let isCurrent = true;
+    const locate = async () => {
+      const place = await getCurrentPlace();
+      if (isCurrent && place !== null) {
+        setPosition({ latitude: place.latitude, longitude: place.longitude });
+      }
+    };
+    void locate();
+    return () => {
+      isCurrent = false;
+    };
+  }, [isNeeded]);
+
+  return position;
+};
+
+interface Pinned {
+  coordinates: MapCoordinates;
+  /** `null` while the name lookup runs. */
+  place: LogLocation | null;
+}
+
+/** Place the user tapped on the map, named once the lookup returns. */
+const usePinnedPlace = () => {
+  const [pinned, setPinned] = useState<Pinned | null>(null);
+
+  const pinAt = async (coordinates: MapCoordinates) => {
+    setPinned({ coordinates, place: null });
+    const place = await getPlaceAt(coordinates);
+    // A later tap wins over a slower earlier lookup.
+    setPinned((current) =>
+      current?.coordinates === coordinates ? { coordinates, place } : current
+    );
+  };
+
+  return { pinned, pinAt };
+};
+
 const SheetContent = ({
   value,
   onChange,
@@ -80,6 +132,8 @@ const SheetContent = ({
   const [query, setQuery] = useState("");
   const [isLocating, setIsLocating] = useState(false);
   const search = useSearch(query);
+  const here = useCurrentPosition(value === undefined);
+  const { pinned, pinAt } = usePinnedPlace();
 
   /** Sets the location, or removes it without `location`, and closes. */
   const pick = (location?: LogLocation) => {
@@ -149,7 +203,36 @@ const SheetContent = ({
         }}
       />
       {search.status === "idle" && (
+        <View style={{ marginTop: 16 }}>
+          <PlaceMap
+            // The map stays put on taps; only the pin moves.
+            center={value ?? here}
+            pin={pinned?.coordinates ?? value ?? null}
+            onPick={pinAt}
+          />
+        </View>
+      )}
+      {search.status === "idle" && (
         <MenuList style={{ marginTop: 16 }}>
+          {pinned !== null && (
+            <MenuListItem
+              testID="location-pinned"
+              title={
+                pinned.place === null
+                  ? t("location_locating")
+                  : t("location_use_place", {
+                      place: getLocationLabel(pinned.place),
+                    })
+              }
+              iconLeft={<MapPin {...iconProps} />}
+              deactivated={pinned.place === null}
+              onPress={() => {
+                if (pinned.place !== null) {
+                  pick(pinned.place);
+                }
+              }}
+            />
+          )}
           <MenuListItem
             testID="location-current"
             title={isLocating ? t("location_locating") : t("location_current")}
@@ -201,8 +284,8 @@ const SheetContent = ({
 };
 
 /**
- * Page sheet to change an entry's location: search a place, take the current
- * location, or remove it. Picking closes the sheet. Every opening starts with
+ * Page sheet to change an entry's location: search a place, tap the map
+ * (iOS), take the current location, or remove it. Picking closes the sheet. Every opening starts with
  * an empty search.
  */
 export const LocationPicker = ({

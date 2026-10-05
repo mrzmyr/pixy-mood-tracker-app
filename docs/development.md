@@ -73,6 +73,7 @@ Three variants install side by side, each with its own name, icon, bundle ID, an
 - Switch on asks for location access while in use. Denied access keeps switch off
 - New entries get current place passively: never asks, never marks draft dirty ([`usePassiveLocation`](../src/features/logger/hooks/usePassiveLocation.ts)). Edits keep stored place
 - Rating slide: time bottom left, place bottom right. Place opens picker: search, current location, remove
+- Picker map: iOS only, Apple Maps via `expo-maps`. Tap map to pin a place. Android has no map: Google Maps needs an API key, so `package.json` excludes `expo-maps` from Android autolinking ([`PlaceMap.tsx`](../src/features/location/components/PlaceMap.tsx))
 - Entries store coordinates plus district and city. Name `null` when reverse geocoding fails offline
 - Location stays on device and in JSON exports. Never in analytics: `logger:log_saved` sends `has_location` only
 - Setting is device-bound, not in exports

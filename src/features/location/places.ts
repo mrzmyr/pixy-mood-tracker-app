@@ -32,7 +32,11 @@ export const getLocationLabel = (location: LogLocation): string =>
   location.name ??
   `${location.latitude.toFixed(3)}, ${location.longitude.toFixed(3)}`;
 
-const toLogLocation = async ({
+/**
+ * Place at the given coordinates, named by reverse geocoding. Name is `null`
+ * when the lookup fails, for example offline.
+ */
+export const getPlaceAt = async ({
   latitude,
   longitude,
 }: {
@@ -85,7 +89,7 @@ export const getCurrentPlace = async (): Promise<LogLocation | null> => {
       (await Location.getCurrentPositionAsync({
         accuracy: Location.Accuracy.Balanced,
       }));
-    return await toLogLocation(position.coords);
+    return await getPlaceAt(position.coords);
   } catch {
     // Location services off or no fix. The entry stays without location.
     return null;
@@ -108,6 +112,6 @@ export const searchPlaces = async (query: string): Promise<LogLocation[]> => {
   }
 
   return Promise.all(
-    matches.slice(0, SEARCH_RESULT_LIMIT).map((match) => toLogLocation(match))
+    matches.slice(0, SEARCH_RESULT_LIMIT).map((match) => getPlaceAt(match))
   );
 };
