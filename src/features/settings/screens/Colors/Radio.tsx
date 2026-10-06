@@ -1,61 +1,48 @@
 import { useCallback } from "react";
 import { Pressable, View } from "react-native";
 import { Circle } from "react-native-feather";
+import Bezel from "@/components/Bezel";
 import useColors from "@/hooks/useColors";
 import useHaptics from "@/hooks/useHaptics";
 import { RADIUS } from "@/constants/Radius";
 
-const getPressableOpacity = (
-  isDisabled: boolean | undefined,
-  isPressed: boolean
-) => {
-  if (isDisabled) {
-    return 0.5;
-  }
-  return isPressed ? 0.8 : 1;
-};
-
-/**
- * Selectable row on the color scale screen. Disabled rows are dimmed and
- * ignore presses.
- */
+/** Selectable row on the color scale screen, in a bezel. */
 export const Radio = ({
   onPress,
   children,
   isSelected = false,
-  isDisabled = false,
 }: {
   onPress: () => void;
   children: React.ReactNode;
   isSelected?: boolean;
-  isDisabled?: boolean;
 }) => {
   const colors = useColors();
   const haptics = useHaptics();
 
   const _onPress = useCallback(() => {
-    if (!isDisabled) {
-      haptics.selection();
-      onPress();
-    }
-  }, [onPress, isDisabled, haptics]);
+    haptics.selection();
+    onPress();
+  }, [onPress, haptics]);
 
   return (
     <Pressable
       onPress={_onPress}
-      style={({ pressed }) => [
-        {
+      accessibilityRole="radio"
+      accessibilityState={{ checked: isSelected }}
+      style={({ pressed }) => ({
+        marginBottom: 12,
+        opacity: pressed ? 0.8 : 1,
+      })}
+    >
+      <Bezel
+        radius={RADIUS.md}
+        innerStyle={{
           flexDirection: "row",
           alignItems: "center",
-          marginBottom: 10,
-          backgroundColor: colors.menuListItemBackground,
           padding: 16,
-          borderRadius: RADIUS.md,
-          opacity: getPressableOpacity(isDisabled, pressed),
-        },
-      ]}
-    >
-      <>
+          backgroundColor: colors.menuListItemBackground,
+        }}
+      >
         <View
           style={{
             justifyContent: "center",
@@ -65,18 +52,13 @@ export const Radio = ({
             marginLeft: 8,
           }}
         >
-          <Circle
-            width={24}
-            color={isDisabled ? colors.textSecondary : colors.text}
-          />
+          <Circle width={24} color={colors.text} />
           {isSelected && (
             <View
               style={{
                 width: 10,
                 height: 10,
-                backgroundColor: isDisabled
-                  ? colors.textSecondary
-                  : colors.text,
+                backgroundColor: colors.text,
                 position: "absolute",
                 borderRadius: RADIUS.full,
                 top: 7,
@@ -84,14 +66,8 @@ export const Radio = ({
             />
           )}
         </View>
-        <View
-          style={{
-            flex: 1,
-          }}
-        >
-          {children}
-        </View>
-      </>
+        <View style={{ flex: 1 }}>{children}</View>
+      </Bezel>
     </Pressable>
   );
 };

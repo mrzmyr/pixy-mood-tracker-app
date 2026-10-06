@@ -6,7 +6,6 @@ import {
   useState,
 } from "react";
 import { ScrollView, View } from "react-native";
-import MenuListHeadline from "@/components/MenuListHeadline";
 import TextInfo from "@/components/TextInfo";
 import { t } from "@/lib/translation";
 import { useAnalytics } from "@/state/analytics";
@@ -15,27 +14,10 @@ import { useSettings } from "@/state/settings";
 import { Radio } from "./Radio";
 import { Scale } from "./Scale";
 
-const typesNames = [
-  {
-    id: `ColorBrew-RdYlGn`,
-    disabled: false,
-  },
-  {
-    id: `ColorBrew-PuOr`,
-    disabled: true,
-  },
-  {
-    id: `ColorBrew-BrBG`,
-    disabled: true,
-  },
-  {
-    id: `ColorBrew-RdYG`,
-    disabled: false,
-  },
-  {
-    id: `ColorBrew-RdYlGn-old`,
-    disabled: false,
-  },
+const SCALE_IDS = [
+  "ColorBrew-RdYlGn",
+  "ColorBrew-RdYG",
+  "ColorBrew-RdYlGn-old",
 ];
 
 /**
@@ -82,50 +64,22 @@ export const ColorsScreen = () => {
           padding: 20,
         }}
       >
-        {typesNames
-          .filter((d) => !d.disabled)
-          .map((type) => (
-            <Fragment key={type.id}>
-              <Radio
-                isSelected={type.id === scaleType}
-                onPress={() => onSelect(type.id)}
-                isDisabled={type.disabled}
+        {SCALE_IDS.map((id) => (
+          <Fragment key={id}>
+            <Radio isSelected={id === scaleType} onPress={() => onSelect(id)}>
+              <Scale type={id} />
+            </Radio>
+            {id === "ColorBrew-RdYlGn-old" && (
+              <TextInfo
+                style={{
+                  marginTop: 0,
+                }}
               >
-                <Scale type={type.id} />
-              </Radio>
-              {type.id === "ColorBrew-RdYlGn-old" && (
-                <TextInfo
-                  style={{
-                    marginTop: 0,
-                  }}
-                >
-                  {t("colorblind_disclaimer")}
-                </TextInfo>
-              )}
-            </Fragment>
-          ))}
-        <MenuListHeadline>Coming Soon…</MenuListHeadline>
-        <View style={{}}>
-          {typesNames
-            .filter((d) => d.disabled)
-            .map((type) => (
-              <Radio
-                key={type.id}
-                isSelected={type.id === scaleType}
-                onPress={() => onSelect(type.id)}
-                isDisabled={type.disabled}
-              >
-                <Scale type={type.id} />
-              </Radio>
-            ))}
-        </View>
-        <View
-          style={{
-            marginBottom: 8,
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        />
+                {t("colorblind_disclaimer")}
+              </TextInfo>
+            )}
+          </Fragment>
+        ))}
       </ScrollView>
     </View>
   );
