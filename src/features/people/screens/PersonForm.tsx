@@ -45,6 +45,11 @@ const EditActions = ({
       t("people_delete_confirm_message", { count: entryCount }),
       [
         {
+          text: t("cancel"),
+          style: "cancel",
+          onPress: () => analytics.track("people:delete_cancelled"),
+        },
+        {
           text: t("delete"),
           style: "destructive",
           onPress: () => {
@@ -54,11 +59,6 @@ const EditActions = ({
             peopleUpdater.deletePerson(personId);
             router.back();
           },
-        },
-        {
-          text: t("cancel"),
-          style: "cancel",
-          onPress: () => analytics.track("people:delete_cancelled"),
         },
       ],
       { cancelable: true }
