@@ -89,6 +89,17 @@ Three variants install side by side, each with its own name, icon, bundle ID, an
 - Setting is device-bound, not in exports
 - Simulator: `xcrun simctl location <udid> set <lat>,<lon>`. e2e: [`location.yaml`](../e2e/flows/location.yaml), needs network for place names
 
+### Apple Health
+
+- Code: [`src/features/health`](../src/features/health). Flag `apple-health`, iOS only. Settings > Check-in > Sleep shows switch "Fill From Apple Health"
+- Library: [`@kingstinct/react-native-healthkit`](https://github.com/kingstinct/react-native-healthkit). Read sleep only. Plugin drops `NSHealthUpdateUsageDescription` and background delivery
+- Apple Sleep Score has no API. Pixy computes own score from sleep samples ([`sleepScore.ts`](../src/features/health/sleepScore.ts)). Score bands map to the 5 sleep qualities
+- Switch on shows the Health access sheet. HealthKit hides read denial: switch stays on, slide stays empty. Settings text points to Health app > Apps > Pixy
+- New entries only. Sleep slide preselects quality once and shows asleep time and wake-ups. Tap on preselected quality confirms and moves on. Edits keep stored quality
+- Entries store quality only. No Health values in entries, exports, or analytics
+- Setting is device-bound, not in exports
+- Simulator holds no watch sleep. Preview builds: `<scheme>://dev/fake-files` swaps Apple Health for [`fakeHealthSource`](../src/dev/fakeHealthSource.ts)
+
 ### App CLI
 
 - Commands report host RAM on stderr before and after execution ([measurement](../scripts/cli/memory.ts)). Help and usage errors skip measurement.
@@ -160,7 +171,7 @@ Known limits. A phone run fails with `flows_unsupported_on_phone` before it chan
   - `p2`: smoke check. Run before release.
 - Pick severity from usage in the "Pixy App - Production" PostHog project, then raise it for data risk.
 - Flows start from a fixture (`load-fixture.yaml`) unless they test first launch.
-- `<scheme>://dev/fake-files` swaps every system picker for a fake: share sheet and document picker ([`src/dev/fakeFileTransfer.ts`](../src/dev/fakeFileTransfer.ts)), address book and person photos ([`src/dev/fakePeopleSources.ts`](../src/dev/fakePeopleSources.ts)), entry photo picker and photo library ([`src/dev/fakePhotoSource.ts`](../src/dev/fakePhotoSource.ts)). Fakes end when the app restarts.
+- `<scheme>://dev/fake-files` swaps every system picker for a fake: share sheet and document picker ([`src/dev/fakeFileTransfer.ts`](../src/dev/fakeFileTransfer.ts)), address book and person photos ([`src/dev/fakePeopleSources.ts`](../src/dev/fakePeopleSources.ts)), entry photo picker and photo library ([`src/dev/fakePhotoSource.ts`](../src/dev/fakePhotoSource.ts)), Apple Health sleep ([`src/dev/fakeHealthSource.ts`](../src/dev/fakeHealthSource.ts)). Fakes end when the app restarts.
 - `<scheme>://dev/fake-contacts?count=<n>` writes `n` fake contacts (company "Pixy Test Contact", every fifth with a photo) into the real device address book. `count=0` deletes exactly those. Synced accounts (iCloud, Google) sync them too, so delete them after testing.
 - Fixtures count as consent, so preview builds load flags from "Pixy App - Preview". Shared flows expect every flag off there. A flow that needs a flag turns it on with [`enable-feature-flag.yaml`](../e2e/subflows/enable-feature-flag.yaml) (not on iPhones)
 - Each flow asserts a result. Opening a screen is not a test.

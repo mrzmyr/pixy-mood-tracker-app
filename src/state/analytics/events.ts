@@ -50,6 +50,17 @@ export interface AnalyticsEvents {
     /** Never the place itself. */
     has_location: boolean;
   };
+  /** Sleep step opened with a quality from Apple Health. */
+  "logger:health_sleep_filled": {
+    quality: LogItem["sleep"]["quality"];
+    has_bedtime: boolean;
+    has_interruptions: boolean;
+  };
+  /** User picked another quality than the one from Apple Health. */
+  "logger:health_sleep_changed": {
+    from: LogItem["sleep"]["quality"];
+    to: LogItem["sleep"]["quality"] | null;
+  };
   "logger:log_deleted": undefined;
   "logger:flow_cancelled": { mode: "create" | "edit" };
   "logger:emotions_tooltip_closed": undefined;
@@ -200,6 +211,7 @@ export interface AnalyticsEvents {
   "settings:scale_changed": { scale_type: SettingsState["scaleType"] };
   "settings:step_toggled": { step: LoggerStep; enabled: boolean };
   "settings:location_toggled": { enabled: boolean };
+  "settings:health_sleep_toggled": { enabled: boolean };
   "settings:privacy_policy_opened": undefined;
   "settings:analytics_toggled": { enabled: boolean };
   "settings:app_icon_changed": { icon: AppIconId };

@@ -6,10 +6,10 @@ import { t } from "@/lib/translation";
 import { useStepEnabled } from "../useStepEnabled";
 
 /**
- * "Track Tags" / "Track People" switch on top of the step's settings page.
+ * "Track Tags" / "Track People" / "Track Sleep" switch on top of the step's settings page.
  * Turning it off hides the step in the logger and the list on this page.
  */
-export const StepSwitch = ({ step }: { step: "tags" | "people" }) => {
+export const StepSwitch = ({ step }: { step: "tags" | "people" | "sleep" }) => {
   const { enabled, setEnabled } = useStepEnabled(step);
 
   return (

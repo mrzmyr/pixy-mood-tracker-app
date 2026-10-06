@@ -190,6 +190,29 @@ describe("useLogDraft()", () => {
     expect(hook.result.current.commit([]).item.location).toEqual(BERLIN);
   });
 
+  test("Apple Health sleep fills an empty quality and keeps the draft clean", async () => {
+    const hook = await renderDraft(createDraft());
+
+    await act(() => {
+      hook.result.current.prefillSleepQuality("good");
+    });
+
+    expect(hook.result.current.draft.sleep.quality).toBe("good");
+    expect(hook.result.current.isDirty).toBe(false);
+    expect(hook.result.current.commit([]).item.sleep.quality).toBe("good");
+  });
+
+  test("Apple Health sleep never replaces a picked quality", async () => {
+    const hook = await renderDraft(createDraft());
+
+    await act(() => {
+      hook.result.current.setSleepQuality("bad");
+      hook.result.current.prefillSleepQuality("good");
+    });
+
+    expect(hook.result.current.draft.sleep.quality).toBe("bad");
+  });
+
   test("a passive location never replaces the user's pick", async () => {
     const hook = await renderDraft(createDraft());
 

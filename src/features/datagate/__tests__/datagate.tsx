@@ -245,6 +245,7 @@ describe("useLogs()", () => {
         "photosDayAccessDismissed",
         "colorScheme",
         "locationEnabled",
+        "healthSleepEnabled",
         "calendarLayout",
       ]) satisfies ExportSettings,
       tags: testTags,

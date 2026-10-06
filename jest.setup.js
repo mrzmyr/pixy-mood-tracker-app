@@ -123,6 +123,21 @@ jest.mock("expo-contacts", () => ({
   requestPermissionsAsync: jest.fn(),
 }));
 
+// oxlint-disable-next-line anti-slop/no-module-mocking -- HealthKit loads a Nitro native module at import time, which is unavailable in Jest; health tests use the source override.
+jest.mock("@kingstinct/react-native-healthkit", () => ({
+  CategoryValueSleepAnalysis: {
+    inBed: 0,
+    asleep: 1,
+    awake: 2,
+    asleepCore: 3,
+    asleepDeep: 4,
+    asleepREM: 5,
+  },
+  isHealthDataAvailable: () => false,
+  queryCategorySamples: () => Promise.resolve([]),
+  requestAuthorization: () => Promise.resolve(true),
+}));
+
 // oxlint-disable-next-line anti-slop/no-module-mocking -- the native module reports no directories in Jest; avatar paths and export files need stable roots.
 jest.mock("expo-file-system/legacy", () => ({
   __esModule: true,

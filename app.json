@@ -218,6 +218,14 @@
           "locationAlwaysPermission": false,
           "motionUsagePermission": "Pixy does not use motion data. Our location tool includes this permission, but Pixy never asks for it."
         }
+      ],
+      [
+        "@kingstinct/react-native-healthkit",
+        {
+          "NSHealthShareUsageDescription": "Pixy reads your sleep to suggest how well you slept when you check in. Your sleep data stays on your iPhone.",
+          "NSHealthUpdateUsageDescription": false,
+          "background": false
+        }
       ]
     ],
     "buildCacheProvider": {

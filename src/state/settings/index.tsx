@@ -70,6 +70,11 @@ export interface SettingsState {
    * belongs to the device.
    */
   locationEnabled: boolean;
+  /**
+   * The sleep step starts with a quality scored from Apple Health. Health
+   * access belongs to the device.
+   */
+  healthSleepEnabled: boolean;
   /** Calendar screen layout for this device. */
   calendarLayout: CalendarLayout;
 
@@ -84,7 +89,7 @@ export interface SettingsState {
  * Settings included in data exports. The device id is excluded so an import
  * never clones another device's identity. Store review prompt state belongs
  * to the device and store account, and photo library access, theme,
- * location, and calendar layout to the device, so imports keep the current
+ * location, Apple Health, and calendar layout to the device, so imports keep the current
  * values.
  */
 export type ExportSettings = Omit<
@@ -95,6 +100,7 @@ export type ExportSettings = Omit<
   | "photosDayAccessDismissed"
   | "colorScheme"
   | "locationEnabled"
+  | "healthSleepEnabled"
   | "calendarLayout"
 >;
 
@@ -140,8 +146,8 @@ const reducer = (
     case "set": {
       return action.payload(state);
     }
-    // Store review prompt state, photo library access, theme, location, and
-    // calendar layout belong to this device, so imports keep the current
+    // Store review prompt state, photo library access, theme, location, Apple
+    // Health, and calendar layout belong to this device, so imports keep the current
     // values.
     case "import": {
       return {
@@ -153,6 +159,7 @@ const reducer = (
         photosDayAccessDismissed: state.photosDayAccessDismissed,
         colorScheme: state.colorScheme,
         locationEnabled: state.locationEnabled,
+        healthSleepEnabled: state.healthSleepEnabled,
         calendarLayout: state.calendarLayout,
       };
     }
@@ -175,6 +182,7 @@ const hydrate = (stored: SettingsState | null): SettingsState =>
         steps: sanitizeSteps(stored.steps),
         photosDayAccessDismissed: stored.photosDayAccessDismissed === true,
         locationEnabled: stored.locationEnabled === true,
+        healthSleepEnabled: stored.healthSleepEnabled === true,
         colorScheme:
           ColorSchemeSettingSchema.safeParse(stored.colorScheme).data ??
           "system",

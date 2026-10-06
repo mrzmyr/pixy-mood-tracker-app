@@ -169,6 +169,10 @@ const AppLayout = () => {
             options={{ ...pageOptions, title: t("people") }}
           />
           <Stack.Screen
+            name="settings/steps/sleep/index"
+            options={{ ...pageOptions, title: t("logger_step_sleep") }}
+          />
+          <Stack.Screen
             name="settings/steps/people/archive"
             options={{ ...pageOptions, title: t("people_archive") }}
           />

@@ -23,6 +23,8 @@ import { fakeFileTransfer } from "@/dev/fakeFileTransfer";
 import { fakePeopleSources } from "@/dev/fakePeopleSources";
 import { addFakeContacts, removeFakeContacts } from "@/dev/fakeContacts";
 import { setPeopleSourcesOverride } from "@/features/people";
+import { setHealthSourceOverride } from "@/features/health";
+import { fakeHealthSource } from "@/dev/fakeHealthSource";
 import { isOverride, setOverride } from "@/state/featureFlags/overrides";
 import { FEATURE_FLAGS, isFeatureFlag } from "@/state/featureFlags/keys";
 import { useSettings, useSettingsLoad } from "@/state/settings";
@@ -168,8 +170,9 @@ export const DevFixtureLinkScreen = () => {
 /**
  * Target of `<scheme>://dev/fake-files`. Swaps the share sheet and document
  * picker for `fakeFileTransfer`, the contact picker and person photo
- * library for `fakePeopleSources`, and the photo picker and photo library
- * for `fakePhotoSource`, until the app restarts. Then opens the app.
+ * library for `fakePeopleSources`, the photo picker and photo library for
+ * `fakePhotoSource`, and Apple Health for `fakeHealthSource`, until the app
+ * restarts. Then opens the app.
  */
 export const DevFakeFilesLinkScreen = () => {
   const router = useRouter();
@@ -177,6 +180,7 @@ export const DevFakeFilesLinkScreen = () => {
     setFileTransferOverride(fakeFileTransfer);
     setPeopleSourcesOverride(fakePeopleSources);
     setPhotoSourceOverride(fakePhotoSource);
+    setHealthSourceOverride(fakeHealthSource);
     router.dismissAll();
     router.replace("/calendar");
   }, [router]);

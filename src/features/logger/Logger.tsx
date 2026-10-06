@@ -274,6 +274,7 @@ const LoggerSlides = ({
           onSelect={next}
           onDisableStep={() => disableStep("sleep")}
           showDisable={showDisable}
+          canFillFromHealth={mode === "create"}
         />
       ),
     });

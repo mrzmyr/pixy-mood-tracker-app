@@ -29,6 +29,11 @@ export interface LogDraftValue {
   setPhotos: (photos: LogItem["photos"]) => void;
   /** `null` clears the sleep quality. */
   setSleepQuality: (quality: LogDraft["sleep"]["quality"]) => void;
+  /**
+   * Quality from Apple Health: fills an empty sleep quality without making
+   * the draft dirty. No-op when the draft holds a quality.
+   */
+  prefillSleepQuality: (quality: LogItem["sleep"]["quality"]) => void;
   /** User pick: sets or removes (`undefined`) the location. */
   setLocation: (location: LogItem["location"]) => void;
   /**
@@ -89,6 +94,13 @@ export const LogDraftProvider = ({
       setMessage: (message) => patch({ message }),
       setPhotos: (photos) => patch({ photos }),
       setSleepQuality: (quality) => patch({ sleep: { quality } }),
+      prefillSleepQuality: (quality) => {
+        if (latest.current.sleep?.quality) {
+          return;
+        }
+        latest.current = { ...latest.current, sleep: { quality } };
+        setState((current) => ({ ...current, draft: latest.current }));
+      },
       setLocation: (location) => {
         isLocationPicked.current = true;
         patch({ location });
