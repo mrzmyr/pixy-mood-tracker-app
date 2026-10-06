@@ -2,8 +2,9 @@ import chroma from "chroma-js";
 import dayjs from "dayjs";
 import { LinearGradient } from "expo-linear-gradient";
 import { Image, Text, View } from "react-native";
-import { locale, t } from "@/lib/translation";
+import { t } from "@/lib/translation";
 import useColors from "@/hooks/useColors";
+import { formatReminderTime } from "../reminderTime";
 
 const BEZEL_WIDTH = 6;
 const SCREEN_RADIUS = 44;
@@ -19,10 +20,7 @@ const NotificationPreview = ({
 }) => {
   const colors = useColors();
 
-  const clock = time.toLocaleTimeString(locale, {
-    hour: "numeric",
-    minute: "2-digit",
-  });
+  const clock = formatReminderTime(time);
   const date = dayjs(time).format("dddd, D MMMM");
   const title = t("notification_reminder_title");
   const body = t("notification_reminder_body");
