@@ -1,3 +1,4 @@
+import Bezel from "@/components/Bezel";
 import FlagHighlight from "@/components/FlagHighlight";
 import LinkButton from "@/components/LinkButton";
 import useColors from "@/hooks/useColors";
@@ -36,9 +37,10 @@ const EntryHeader = ({
       style={{
         flexDirection: "row",
         alignItems: "center",
-        borderBottomColor: colors.logCardBorder,
-        borderBottomWidth: 1,
-        paddingBottom: 12,
+        // Sits in the bezel shell; the shell gap adds to this padding.
+        paddingTop: 6,
+        paddingHorizontal: 6,
+        paddingBottom: 10,
       }}
     >
       <RatingDot rating={item.rating} />
@@ -148,22 +150,20 @@ export const Entry = ({
         flex: 1,
       }}
     >
-      <View
-        style={{
+      <Bezel
+        radius={RADIUS.md}
+        style={{ flex: 1 }}
+        innerStyle={{
           flex: 1,
-          paddingTop: 16,
           paddingHorizontal: 16,
-          borderRadius: RADIUS.md,
-          borderWidth: 1,
-          borderColor: colors.logCardBorder,
           backgroundColor: colors.logCardBackground,
-          position: "relative",
         }}
+        header={<EntryHeader item={item} onEdit={onEdit} onDelete={onDelete} />}
       >
-        <EntryHeader item={item} onEdit={onEdit} onDelete={onDelete} />
         <ScrollView>
           <View
             style={{
+              paddingTop: 8,
               paddingBottom: 24,
             }}
           >
@@ -216,7 +216,7 @@ export const Entry = ({
           style={{
             position: "absolute",
             height: 24,
-            top: 67,
+            top: 0,
             left: 16,
             right: 16,
             zIndex: 999,
@@ -238,7 +238,7 @@ export const Entry = ({
           }}
           pointerEvents="none"
         />
-      </View>
+      </Bezel>
     </View>
   );
 };

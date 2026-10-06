@@ -19,6 +19,13 @@
 - One text color per row. No colored title or value for emphasis
 - Title and value fit one line. Text too long: shorten text, never wrap or shrink font
 
+## Surfaces
+
+- Cards, list groups, and calendar days sit in a bezel: shell, gap, inner surface. Component: [`Bezel`](../src/components/Bezel.tsx)
+- Gaps and shell radius: [`src/constants/Bezel.ts`](../src/constants/Bezel.ts). Shell radius comes from `getBezelRadius`, never picked by hand
+- Colors: `bezelBackground`, `bezelBorder`, `bezelInnerBorder`, `bezelShadow`
+- Calendar days build the shell in [`CalendarDay`](../src/features/calendar/screens/Calendar/CalendarDay/index.tsx). Future and filtered-out days have no shell
+
 ## Sheets and Modals
 
 - Native presentation first: `Modal` with `presentationStyle="pageSheet"` and `animationType="slide"`. Pattern: [`useFeedbackModal`](../src/features/feedback/hooks/useFeedbackModal.tsx)

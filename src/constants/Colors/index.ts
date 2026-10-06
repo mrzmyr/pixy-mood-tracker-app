@@ -204,6 +204,12 @@ const light = {
   entryBackground: colors.white,
   entryItemBorder: colors.neutral[200],
 
+  // Bezel: outer shell around cards, list groups, and calendar days.
+  bezelBackground: colors.white,
+  bezelBorder: colors.neutral[200],
+  bezelInnerBorder: colors.neutral[200],
+  bezelShadow: "0 1px 2px rgba(0,0,0,0.04), 0 2px 8px rgba(0,0,0,0.035)",
+
   tooltipBackground: "rgba(0, 0, 0, 0.8)",
   tooltipText: colors.white,
   tooltipTextSecondary: colors.neutral[400],
@@ -396,6 +402,12 @@ const dark: IColors & {
 
   entryBackground: colors.neutral[800],
   entryItemBorder: colors.neutral[700],
+
+  // Darker than the inner surfaces, lighter than the black background.
+  bezelBackground: "#0f0f0f",
+  bezelBorder: colors.neutral[800],
+  bezelInnerBorder: colors.neutral[700],
+  bezelShadow: "0 1px 2px rgba(0,0,0,0.5)",
 
   feedbackBoxBackground: colors.neutral[900],
 
