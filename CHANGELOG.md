@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.94.0](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.93.0...v1.94.0) (2026-10-06)
+
+
+### Features
+
+* **calendar:** add map layout with 30-day card row behind calendar-map flag ([#650](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/650)) ([78db684](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/78db6846739cfe89d4a9234d9fb93f2851d549e3))
+* **logger:** put mood buttons in a bezel ([#654](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/654)) ([ea88e1a](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/ea88e1a7a939158d0c0efb89f6ecf68306bbf98e))
+
 ## [1.93.0](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.92.1...v1.93.0) (2026-10-06)
 
 

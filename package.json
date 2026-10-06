@@ -1,6 +1,6 @@
 {
   "name": "pixel-tracker",
-  "version": "1.93.0",
+  "version": "1.94.0",
   "private": true,
   "main": "expo-router/entry",
   "scripts": {
