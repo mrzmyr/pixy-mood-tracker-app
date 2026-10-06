@@ -25,10 +25,13 @@ const EditActions = ({
   personId,
   isArchived,
   onToggleArchived,
+  onLeave,
 }: {
   personId: string;
   isArchived: boolean;
   onToggleArchived: () => void;
+  /** Called before the screen closes itself, so the discard guard stays quiet. */
+  onLeave: () => void;
 }) => {
   const router = useRouter();
   const colors = useColors();
@@ -57,6 +60,7 @@ const EditActions = ({
               entries_count: entryCount,
             });
             peopleUpdater.deletePerson(personId);
+            onLeave();
             router.back();
           },
         },
@@ -113,6 +117,7 @@ const PersonForm = ({ mode }: { mode: "create" | "edit" }) => {
     toggleArchived: handleToggleArchived,
     fromLibrary: handlePickPhoto,
     removePhoto: handleRemovePhoto,
+    allowLeave: handleAllowLeave,
   } = draft;
 
   return (
@@ -198,6 +203,7 @@ const PersonForm = ({ mode }: { mode: "create" | "edit" }) => {
               personId={draft.person.id}
               isArchived={Boolean(draft.person.isArchived)}
               onToggleArchived={handleToggleArchived}
+              onLeave={handleAllowLeave}
             />
           )}
         </View>
