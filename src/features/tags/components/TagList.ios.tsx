@@ -74,7 +74,7 @@ const SwipeableTag = (props: React.ComponentProps<typeof TagListItem>) => {
           }}
           style={{
             width: 88,
-            backgroundColor: colors.palette.red[500],
+            backgroundColor: colors.danger,
             alignItems: "center",
             justifyContent: "center",
             gap: 2,
