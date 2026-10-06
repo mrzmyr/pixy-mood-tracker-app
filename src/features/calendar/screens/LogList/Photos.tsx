@@ -1,29 +1,35 @@
 import { useRouter } from "expo-router";
-import { ScrollView, Text, View } from "react-native";
+import { Image } from "react-native-feather";
+import { Pressable, ScrollView } from "react-native";
 import type { LogItem } from "@/features/logs";
 import { PhotoThumbnail } from "@/features/photos";
 import useColors from "@/hooks/useColors";
 import { t } from "@/lib/translation";
-import { SectionHeader } from "./SectionHeader";
+import { RADIUS } from "@/constants/Radius";
+import { INSET } from "./layout";
 
 const THUMBNAIL_SIZE = 96;
 
 /**
- * Photos section of an entry card, like emotions and tags: the pencil opens
- * the logger at the photos step, the only way to add photos here. Each
- * thumbnail opens the viewer. Without photos: an empty line.
+ * Photos of an entry card as one scrollable row. Each thumbnail opens the
+ * viewer. With `onEdit`, a dashed tile at the end opens the logger at the
+ * photos step. Without photos it renders nothing; the add pills offer the
+ * step instead.
  */
 export const Photos = ({
   item,
-  canEdit,
+  onEdit,
 }: {
   item: LogItem;
-  /** Shows the pencil; off when the edit logger has no photos step. */
-  canEdit: boolean;
+  onEdit?: () => void;
 }) => {
   const colors = useColors();
   const router = useRouter();
   const { photos } = item;
+
+  if (photos.length === 0) {
+    return null;
+  }
 
   const open = (index: number) => {
     router.push({
@@ -33,46 +39,45 @@ export const Photos = ({
   };
 
   return (
-    <View testID="log-list-photos">
-      <SectionHeader
-        title={t("view_log_photos")}
-        editTestID="log-list-photos-edit"
-        editLabel={t("view_log_photos_edit")}
-        onEdit={
-          canEdit
-            ? () => {
-                router.push({
-                  pathname: "/logs/[id]/edit",
-                  params: { id: item.id, step: "photos" },
-                });
-              }
-            : undefined
-        }
-      />
-      {photos.length > 0 ? (
-        <ScrollView
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          contentContainerStyle={{ gap: 8, paddingTop: 4, paddingBottom: 8 }}
+    <ScrollView
+      testID="log-list-photos"
+      horizontal
+      showsHorizontalScrollIndicator={false}
+      contentContainerStyle={{ gap: 8, paddingHorizontal: INSET }}
+    >
+      {photos.map((photo, index) => (
+        <PhotoThumbnail
+          key={photo.id}
+          photo={photo}
+          index={index}
+          count={photos.length}
+          size={THUMBNAIL_SIZE}
+          onPress={() => open(index)}
+        />
+      ))}
+      {onEdit && (
+        <Pressable
+          testID="log-list-photos-edit"
+          accessibilityRole="button"
+          accessibilityLabel={t("view_log_edit", {
+            module: t("logger_step_photos"),
+          })}
+          onPress={onEdit}
+          style={({ pressed }) => ({
+            width: THUMBNAIL_SIZE,
+            height: THUMBNAIL_SIZE,
+            borderRadius: RADIUS.sm,
+            borderWidth: 1.5,
+            borderStyle: "dashed",
+            borderColor: colors.logCardBorder,
+            alignItems: "center",
+            justifyContent: "center",
+            opacity: pressed ? 0.6 : 1,
+          })}
         >
-          {photos.map((photo, index) => (
-            <PhotoThumbnail
-              key={photo.id}
-              photo={photo}
-              index={index}
-              count={photos.length}
-              size={THUMBNAIL_SIZE}
-              onPress={() => open(index)}
-            />
-          ))}
-        </ScrollView>
-      ) : (
-        <View style={{ paddingTop: 4, paddingBottom: 8, paddingHorizontal: 8 }}>
-          <Text style={{ color: colors.textSecondary, fontSize: 17 }}>
-            {t("view_log_photos_empty")}
-          </Text>
-        </View>
+          <Image width={20} height={20} color={colors.textSecondary} />
+        </Pressable>
       )}
-    </View>
+    </ScrollView>
   );
 };

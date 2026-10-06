@@ -5,23 +5,29 @@ import { Pressable, ScrollView, View } from "react-native";
 import useColors from "@/hooks/useColors";
 
 /** Card padding; chips line up with the note above. */
-const INSET = 16;
+const DEFAULT_INSET = 16;
 const FADE_WIDTH = 40;
 // Scroll positions within this distance of an edge count as the edge.
 const END_TOLERANCE = 1;
 
 /**
- * One line of compact chips on a timeline card. Chips past the card edge
- * fade out and scroll sideways; scrolled chips also fade at the left edge. A tap on the row calls `onPress`, like a tap
- * on the card.
+ * One line of compact chips on a card. Chips past the card edge fade out
+ * and scroll sideways; scrolled chips also fade at the left edge. A tap on
+ * the row calls `onPress`. With `accessibilityLabel`, screen readers get
+ * the row as one button; without it, the row is not focusable.
  */
 export const ChipRow = ({
   children,
   onPress,
+  inset = DEFAULT_INSET,
+  accessibilityLabel,
   testID,
 }: {
   children: ReactNode[];
-  onPress: () => void;
+  onPress?: () => void;
+  /** Card padding before the first chip; the row bleeds to the card edge. */
+  inset?: number;
+  accessibilityLabel?: string;
   testID?: string;
 }) => {
   const colors = useColors();
@@ -40,7 +46,7 @@ export const ChipRow = ({
       <ScrollView
         horizontal
         showsHorizontalScrollIndicator={false}
-        contentContainerStyle={{ paddingHorizontal: INSET }}
+        contentContainerStyle={{ paddingHorizontal: inset }}
         onLayout={(event) => setViewWidth(event.nativeEvent.layout.width)}
         onContentSizeChange={(width) => setContentWidth(width)}
         scrollEventThrottle={32}
@@ -59,7 +65,13 @@ export const ChipRow = ({
       >
         {/* Own press handler inside the scroll view: a drag cancels it and
             scrolls. Left to the card's Pressable, a drag opens the entry. */}
-        <Pressable accessible={false} onPress={onPress}>
+        <Pressable
+          accessible={accessibilityLabel !== undefined}
+          accessibilityRole={accessibilityLabel ? "button" : undefined}
+          accessibilityLabel={accessibilityLabel}
+          disabled={!onPress}
+          onPress={onPress}
+        >
           {/* Chips are pressable elsewhere; here they must not catch taps. */}
           <View pointerEvents="none" style={{ flexDirection: "row", gap: 8 }}>
             {children}
@@ -80,7 +92,7 @@ export const ChipRow = ({
             top: 0,
             left: 0,
             bottom: 0,
-            width: INSET,
+            width: inset,
           }}
         />
       )}

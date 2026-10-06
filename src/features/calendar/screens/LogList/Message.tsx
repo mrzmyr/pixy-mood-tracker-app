@@ -1,96 +1,47 @@
 import useColors from "@/hooks/useColors";
 import type { LogItem } from "@/features/logs";
-import { useRouter } from "expo-router";
 import { t } from "@/lib/translation";
-import { Text, View } from "react-native";
-import { SectionHeader } from "./SectionHeader";
-import { RADIUS } from "@/constants/Radius";
+import { Pressable, Text } from "react-native";
+import { INSET } from "./layout";
 
 /**
- * Message section of an entry card; editing opens the logger at the
- * message step. A stored message always shows, also with the pencil off.
+ * Note of an entry card. It comes last: notes can run to thousands of
+ * characters, and everything above stays visible. A tap opens the logger at
+ * the note step when `onEdit` is given. Without a note it renders nothing.
  */
 export const Message = ({
   item,
-  canEdit,
+  onEdit,
 }: {
   item: LogItem;
-  /** Shows the pencil; off when the edit logger has no message step. */
-  canEdit: boolean;
+  onEdit?: () => void;
 }) => {
-  const router = useRouter();
   const colors = useColors();
+  const message = item.message.trim();
+
+  if (message === "") {
+    return null;
+  }
 
   return (
-    <View style={{}}>
-      <SectionHeader
-        title={t("view_log_message")}
-        editTestID="log-list-message-edit"
-        onEdit={
-          canEdit
-            ? () => {
-                router.push({
-                  pathname: "/logs/[id]/edit",
-                  params: {
-                    id: item.id,
-                    step: "message",
-                  },
-                });
-              }
-            : undefined
-        }
-      />
-      <View
-        style={{
-          flexDirection: "row",
-        }}
-      >
-        {item?.message?.length > 0 ? (
-          <View
-            style={{
-              width: "100%",
-            }}
-          >
-            <View
-              style={{
-                borderRadius: RADIUS.sm,
-                paddingHorizontal: 8,
-                width: "100%",
-              }}
-            >
-              <Text
-                style={{
-                  fontSize: 17,
-                  color: colors.text,
-                  lineHeight: 23,
-                  width: "100%",
-                }}
-              >
-                {item.message}
-              </Text>
-            </View>
-          </View>
-        ) : (
-          <View
-            style={{
-              paddingTop: 4,
-              paddingBottom: 8,
-              paddingHorizontal: 8,
-              width: "100%",
-            }}
-          >
-            <Text
-              style={{
-                color: colors.textSecondary,
-                fontSize: 17,
-                lineHeight: 24,
-              }}
-            >
-              {t("view_log_message_empty")}
-            </Text>
-          </View>
-        )}
-      </View>
-    </View>
+    <Pressable
+      testID={onEdit ? "log-list-message-edit" : undefined}
+      disabled={!onEdit}
+      onPress={onEdit}
+      accessibilityRole={onEdit ? "button" : "text"}
+      accessibilityHint={
+        onEdit
+          ? t("view_log_edit", { module: t("logger_step_message") })
+          : undefined
+      }
+      style={({ pressed }) => ({
+        paddingHorizontal: INSET,
+        opacity: pressed ? 0.6 : 1,
+      })}
+    >
+      <Text style={{ fontSize: 17, lineHeight: 24, color: colors.text }}>
+        {message}
+      </Text>
+    </Pressable>
   );
 };
