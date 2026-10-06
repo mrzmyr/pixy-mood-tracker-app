@@ -130,7 +130,7 @@ describe("SlideSleep with Apple Health", () => {
     });
     expect(
       screen.getByTestId("health-sleep-summary").props.accessibilityLabel
-    ).toBe("Apple Health, 6h 55m asleep, Awake 15m, Core 6h 55m");
+    ).toBe("6h 55m asleep, 11:00 PM – 6:10 AM, Awake 15m, Core 6h 55m");
   });
 
   test("tap on the preselected quality keeps it and moves on", async () => {

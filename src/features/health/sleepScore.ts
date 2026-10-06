@@ -23,6 +23,13 @@ export interface StageMinutes {
   minutes: number;
 }
 
+/** One stretch of the night, for the timeline. */
+export interface StageSegment {
+  stage: SleepStage;
+  start: Date;
+  end: Date;
+}
+
 const ASLEEP_STAGES = new Set<SleepStage>(["asleep", "core", "deep", "rem"]);
 /** Stage chart order, as in Apple Health. */
 const STAGED: SleepStage[] = ["rem", "core", "deep"];
@@ -31,6 +38,8 @@ const STAGED: SleepStage[] = ["rem", "core", "deep"];
 export interface NightSummary {
   /** Fall-asleep time. */
   onset: Date;
+  /** Wake time: end of the main sleep. */
+  wake: Date;
   /** Minutes asleep. Time in bed when the night holds only `inBed` samples. */
   asleepMinutes: number;
   /** Awake gaps of at least `MIN_WAKE_UP_MINUTES` between onset and wake. */
@@ -48,6 +57,11 @@ export interface NightSummary {
    * 0 minutes are left out.
    */
   stages: StageMinutes[];
+  /**
+   * Timeline from onset to wake, sorted by start. Awake parts are the gaps
+   * between sleep, so wake-ups show where they happened.
+   */
+  segments: StageSegment[];
 }
 
 /** Points per part, as in Apple's Sleep Score. */
@@ -201,9 +215,11 @@ export const summarizeNight = (samples: SleepSample[]): NightSummary | null => {
 
   let wakeUps = 0;
   let awakeMinutes = 0;
+  const gaps: Interval[] = [];
   for (let index = 1; index < main.length; index += 1) {
     const gap = minutes(main[index].start - main[index - 1].end);
     awakeMinutes += gap;
+    gaps.push({ start: main[index - 1].end, end: main[index].start });
     if (gap >= MIN_WAKE_UP_MINUTES) {
       wakeUps += 1;
     }
@@ -213,6 +229,26 @@ export const summarizeNight = (samples: SleepSample[]): NightSummary | null => {
   const [{ start }] = main;
   const end = Math.max(...main.map((interval) => interval.end));
   const hasStages = samples.some((sample) => STAGED.includes(sample.stage));
+  const toSegments = (stage: SleepStage, intervals: Interval[]) =>
+    intervals.map((interval) => ({
+      stage,
+      start: new Date(Math.max(start, interval.start)),
+      end: new Date(Math.min(end, interval.end)),
+    }));
+  let sleepSegments: StageSegment[];
+  if (asleep.length === 0) {
+    sleepSegments = toSegments("inBed", main);
+  } else if (hasStages) {
+    sleepSegments = STAGED.flatMap((stage) =>
+      toSegments(stage, intervalsOf(samples, stage))
+    );
+  } else {
+    sleepSegments = toSegments("asleep", main);
+  }
+  const segments = [...sleepSegments, ...toSegments("awake", gaps)]
+    .filter((segment) => segment.end > segment.start)
+    .sort((a, b) => a.start.getTime() - b.start.getTime());
+
   let stages: StageMinutes[];
   if (asleep.length === 0) {
     stages = [{ stage: "inBed", minutes: asleepMinutes }];
@@ -235,6 +271,7 @@ export const summarizeNight = (samples: SleepSample[]): NightSummary | null => {
 
   return {
     onset: new Date(start),
+    wake: new Date(end),
     asleepMinutes,
     wakeUps,
     awakeMinutes: Math.round(awakeMinutes),
@@ -242,6 +279,7 @@ export const summarizeNight = (samples: SleepSample[]): NightSummary | null => {
       asleep.length > 0 &&
       (hasStages || samples.some((sample) => sample.stage === "awake")),
     stages: stages.filter((part) => part.minutes > 0),
+    segments,
   };
 };
 

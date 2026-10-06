@@ -1,10 +1,10 @@
+import dayjs from "dayjs";
 import { Text, View } from "react-native";
 import { RADIUS } from "@/constants/Radius";
 import useColors from "@/hooks/useColors";
 import { t } from "@/lib/translation";
 import type { HealthSleep } from "../sleepFromHealth";
-import type { SleepStage } from "../sleepScore";
-import { AppleHealthIcon } from "./AppleHealthIcon";
+import type { SleepStage, StageSegment } from "../sleepScore";
 import { formatSleepMinutes } from "../formatSleepMinutes";
 
 /** Stage colors close to Apple Health, so the chart reads the same. */
@@ -26,10 +26,24 @@ const STAGE_LABELS: Record<SleepStage, () => string> = {
   inBed: () => t("health_stage_in_bed"),
 };
 
+/** Lane order, top to bottom, as in Apple Health. */
+const LANE_ORDER: SleepStage[] = [
+  "awake",
+  "rem",
+  "core",
+  "deep",
+  "asleep",
+  "inBed",
+];
+const LANE_HEIGHT = 14;
+/** Keeps short wake-ups visible. */
+const MIN_SEGMENT_WIDTH = 2;
+
 /**
- * Last night from Apple Health: total sleep, a stacked bar of the sleep
- * stages, and a legend with minutes per stage. Without a watch the night
- * holds only time in bed: one bar, total "in bed".
+ * Last night from Apple Health: total sleep, a timeline with one lane per
+ * stage from falling asleep to waking up, and a legend with minutes per
+ * stage. Wake-ups show in the awake lane where they happened. Without a
+ * watch the night holds only time in bed: one lane, total "in bed".
  */
 export const SleepStagesCard = ({ sleep }: { sleep: HealthSleep }) => {
   const colors = useColors();
@@ -39,16 +53,29 @@ export const SleepStagesCard = ({ sleep }: { sleep: HealthSleep }) => {
   const total = isInBed
     ? t("health_sleep_total_in_bed", { duration })
     : t("health_sleep_total_asleep", { duration });
+  const onset = dayjs(night.onset).format("LT");
+  const wake = dayjs(night.wake).format("LT");
   const legend = night.stages.map(
     (part) =>
       `${STAGE_LABELS[part.stage]()} ${formatSleepMinutes(part.minutes)}`
+  );
+  const span = Math.max(1, night.wake.getTime() - night.onset.getTime());
+  const byStage = new Map<SleepStage, StageSegment[]>();
+  for (const segment of night.segments) {
+    byStage.set(segment.stage, [
+      ...(byStage.get(segment.stage) ?? []),
+      segment,
+    ]);
+  }
+  const lanes = LANE_ORDER.filter((stage) =>
+    night.stages.some((part) => part.stage === stage)
   );
 
   return (
     <View
       testID="health-sleep-summary"
       accessible
-      accessibilityLabel={[t("health_section"), total, ...legend].join(", ")}
+      accessibilityLabel={[total, `${onset} – ${wake}`, ...legend].join(", ")}
       style={{
         backgroundColor: colors.cardBackground,
         borderRadius: RADIUS.md,
@@ -56,34 +83,55 @@ export const SleepStagesCard = ({ sleep }: { sleep: HealthSleep }) => {
         paddingVertical: 12,
       }}
     >
-      <View style={{ flexDirection: "row", alignItems: "center", gap: 6 }}>
-        <AppleHealthIcon size={16} />
-        <Text style={{ flex: 1, fontSize: 13, color: colors.textSecondary }}>
-          {t("health_section")}
-        </Text>
-        <Text style={{ fontSize: 13, fontWeight: "600", color: colors.text }}>
-          {total}
-        </Text>
+      <Text style={{ fontSize: 15, fontWeight: "600", color: colors.text }}>
+        {total}
+      </Text>
+      <View style={{ marginTop: 10, gap: 2 }}>
+        {lanes.map((stage) => (
+          <View key={stage} style={{ height: LANE_HEIGHT }}>
+            {(byStage.get(stage) ?? []).map((segment) => (
+              <View
+                key={segment.start.getTime()}
+                style={{
+                  position: "absolute",
+                  top: 0,
+                  bottom: 0,
+                  left: `${((segment.start.getTime() - night.onset.getTime()) / span) * 100}%`,
+                  width: `${((segment.end.getTime() - segment.start.getTime()) / span) * 100}%`,
+                  minWidth: MIN_SEGMENT_WIDTH,
+                  borderRadius: RADIUS.xs,
+                  backgroundColor: STAGE_COLORS[stage],
+                }}
+              />
+            ))}
+          </View>
+        ))}
       </View>
       <View
         style={{
           flexDirection: "row",
-          height: 10,
-          marginTop: 10,
-          gap: 2,
-          borderRadius: RADIUS.full,
-          overflow: "hidden",
+          justifyContent: "space-between",
+          marginTop: 4,
         }}
       >
-        {night.stages.map((part) => (
-          <View
-            key={part.stage}
-            style={{
-              flex: part.minutes,
-              backgroundColor: STAGE_COLORS[part.stage],
-            }}
-          />
-        ))}
+        <Text
+          style={{
+            fontSize: 12,
+            color: colors.textSecondary,
+            fontVariant: ["tabular-nums"],
+          }}
+        >
+          {onset}
+        </Text>
+        <Text
+          style={{
+            fontSize: 12,
+            color: colors.textSecondary,
+            fontVariant: ["tabular-nums"],
+          }}
+        >
+          {wake}
+        </Text>
       </View>
       <View style={{ flexDirection: "row", marginTop: 10, gap: 4 }}>
         {night.stages.map((part) => (

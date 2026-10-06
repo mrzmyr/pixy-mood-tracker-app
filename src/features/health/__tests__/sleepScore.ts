@@ -20,6 +20,8 @@ const night = (overrides: Partial<NightSummary> = {}): NightSummary => ({
   awakeMinutes: 0,
   hasInterruptions: true,
   stages: [{ stage: "core", minutes: 480 }],
+  wake: at(6, 7),
+  segments: [],
   ...overrides,
 });
 
@@ -44,6 +46,12 @@ describe("summarizeNight()", () => {
       stages: [
         { stage: "awake", minutes: 20 },
         { stage: "core", minutes: 460 },
+      ],
+      wake: at(6, 7),
+      segments: [
+        { stage: "core", start: at(5, 23), end: at(6, 2) },
+        { stage: "awake", start: at(6, 2), end: at(6, 2, 20) },
+        { stage: "core", start: at(6, 2, 20), end: at(6, 7) },
       ],
     });
   });
@@ -97,6 +105,25 @@ describe("summarizeNight()", () => {
       { stage: "core", minutes: 360 },
       { stage: "deep", minutes: 60 },
     ]);
+  });
+
+  test("puts each stage and wake-up on the timeline where it happened", () => {
+    const summary = summarizeNight([
+      sample("inBed", at(5, 22, 50), at(6, 7, 10)),
+      sample("deep", at(6, 1), at(6, 2)),
+      sample("core", at(5, 23), at(6, 1)),
+      sample("rem", at(6, 2, 10), at(6, 3)),
+    ]);
+
+    expect(
+      summary?.segments.map(({ stage, start }) => [stage, start.getHours()])
+    ).toEqual([
+      ["core", 23],
+      ["deep", 1],
+      ["awake", 2],
+      ["rem", 2],
+    ]);
+    expect(summary?.wake).toEqual(at(6, 3));
   });
 
   test("shows sleep without stages as one part next to awake time", () => {
