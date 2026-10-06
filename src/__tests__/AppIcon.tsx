@@ -86,22 +86,22 @@ describe("Settings > App Icon", () => {
     await waitFor(() => expect(mockReload).toHaveBeenCalledTimes(1));
 
     expect(screen.getByTestId("app-icon-default")).toBeSelected();
-    expect(screen.getByTestId("app-icon-sunburst")).toBeDisabled();
-    expect(screen.getByTestId("app-icon-sunburst-inverse")).toBeDisabled();
+    expect(screen.getByTestId("app-icon-tangerine")).toBeDisabled();
+    expect(screen.getByTestId("app-icon-tangerine-inverse")).toBeDisabled();
     expect(screen.getByTestId("app-icon-locked-info")).toBeOnTheScreen();
 
-    await userEvent.press(screen.getByTestId("app-icon-sunburst"));
+    await userEvent.press(screen.getByTestId("app-icon-tangerine"));
     expect(mockSetIcon).not.toHaveBeenCalled();
   });
 
   test("user still sees the active new icon and can go back when the flag is off", async () => {
     mockReload.mockResolvedValue({ "app-icons": false });
-    mockGetIconName.mockReturnValueOnce("SunburstInverse");
+    mockGetIconName.mockReturnValueOnce("TangerineInverse");
     const screen = await renderAppIcon();
     await waitFor(() => expect(mockReload).toHaveBeenCalledTimes(1));
 
-    expect(screen.getByTestId("app-icon-sunburst-inverse")).toBeSelected();
-    expect(screen.getByTestId("app-icon-sunburst")).toBeDisabled();
+    expect(screen.getByTestId("app-icon-tangerine-inverse")).toBeSelected();
+    expect(screen.getByTestId("app-icon-tangerine")).toBeDisabled();
 
     await userEvent.press(screen.getByTestId("app-icon-default"));
 
@@ -109,18 +109,18 @@ describe("Settings > App Icon", () => {
     expect(screen.getByTestId("app-icon-default")).toBeSelected();
   });
 
-  test("user selects the sunburst icon when the flag is on", async () => {
+  test("user selects the tangerine icon when the flag is on", async () => {
     mockReload.mockResolvedValue({ "app-icons": true });
     const screen = await renderAppIcon();
     await waitFor(() =>
-      expect(screen.getByTestId("app-icon-sunburst")).toBeEnabled()
+      expect(screen.getByTestId("app-icon-tangerine")).toBeEnabled()
     );
     expect(screen.queryByTestId("app-icon-locked-info")).toBeNull();
 
-    await userEvent.press(screen.getByTestId("app-icon-sunburst"));
+    await userEvent.press(screen.getByTestId("app-icon-tangerine"));
 
-    expect(mockSetIcon).toHaveBeenCalledWith("Sunburst");
-    expect(screen.getByTestId("app-icon-sunburst")).toBeSelected();
+    expect(mockSetIcon).toHaveBeenCalledWith("Tangerine");
+    expect(screen.getByTestId("app-icon-tangerine")).toBeSelected();
     expect(screen.getByTestId("app-icon-default")).not.toBeSelected();
   });
 
@@ -134,10 +134,10 @@ describe("Settings > App Icon", () => {
       });
     const screen = await renderAppIcon();
     await waitFor(() =>
-      expect(screen.getByTestId("app-icon-sunburst")).toBeEnabled()
+      expect(screen.getByTestId("app-icon-tangerine")).toBeEnabled()
     );
 
-    await userEvent.press(screen.getByTestId("app-icon-sunburst"));
+    await userEvent.press(screen.getByTestId("app-icon-tangerine"));
 
     expect(alert).toHaveBeenCalledWith(
       "Change App Icon?",
@@ -158,12 +158,12 @@ describe("Settings > App Icon", () => {
       });
     const screen = await renderAppIcon();
     await waitFor(() =>
-      expect(screen.getByTestId("app-icon-sunburst")).toBeEnabled()
+      expect(screen.getByTestId("app-icon-tangerine")).toBeEnabled()
     );
 
-    await userEvent.press(screen.getByTestId("app-icon-sunburst"));
+    await userEvent.press(screen.getByTestId("app-icon-tangerine"));
 
-    expect(mockSetIcon).toHaveBeenCalledWith("Sunburst");
+    expect(mockSetIcon).toHaveBeenCalledWith("Tangerine");
   });
 
   test("user keeps the old icon and sees an alert when the change fails", async () => {
@@ -173,10 +173,10 @@ describe("Settings > App Icon", () => {
     jest.spyOn(console, "error").mockImplementation(() => {});
     const screen = await renderAppIcon();
     await waitFor(() =>
-      expect(screen.getByTestId("app-icon-sunburst-inverse")).toBeEnabled()
+      expect(screen.getByTestId("app-icon-tangerine-inverse")).toBeEnabled()
     );
 
-    await userEvent.press(screen.getByTestId("app-icon-sunburst-inverse"));
+    await userEvent.press(screen.getByTestId("app-icon-tangerine-inverse"));
 
     expect(alert).toHaveBeenCalledWith(
       "Icon Not Changed",
