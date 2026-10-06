@@ -86,7 +86,10 @@ State (2026-10-06), Google Cloud project `pixy-mood-tracker` (4218331782):
 
 - Mood, emotions, and notes are health data (GDPR Article 9)
 - Apple can read the iCloud file unless the user turns on Advanced Data Protection. Google can read the Drive file. Privacy bullets on the Backup screen say so
-- Data in the user's own cloud that Pixy cannot read is not collection by Pixy. Still disclose it in the privacy policy at pixy.day/privacy, the App Store privacy label, and the Google Play Data safety form
+- Privacy policy: section "Optional cloud backup" at [pixy.day/privacy](https://pixy.day/privacy)
+- App Store privacy label: no change. Apple counts data as collected only when the developer or its partners can access it ([App privacy details](https://developer.apple.com/app-store/app-privacy-details/)). Pixy cannot read the user's private iCloud container
+- Google Play Data safety form: no change. Google exempts user-initiated backups to the user's own cloud account that the developer never accesses ([Data safety](https://support.google.com/googleplay/android-developer/answer/10787469))
+- Recheck both if backup ever goes through a Pixy server or a shared container
 - Account takeover = backup takeover. Pixy has no app lock
 
 ## Export files
