@@ -8,12 +8,12 @@ import type { Person } from "../PeopleProvider";
 import { PersonAvatar } from "./PersonAvatar";
 import { RADIUS } from "@/constants/Radius";
 import { COMPACT_CHIP } from "@/constants/Chip";
+import { BEZEL } from "@/constants/Bezel";
+import { TILE_RING_GAP, TILE_RING_WIDTH } from "../tile";
 
 const DEFAULT_STYLE = {};
-/** Space between avatar and selection ring of the `tile` variant. */
-export const TILE_RING_GAP = 3;
-/** Selection ring of the `tile` variant; adds to the tile's outer size. */
-export const TILE_RING_WIDTH = 3;
+/** Selected shell border. Padding shrinks by the same amount, so size holds. */
+const TILE_SELECTED_RING_WIDTH = 2;
 /** Measurements of the `chip` variant, regular and compact. */
 const CHIP_SIZES = {
   regular: {
@@ -59,6 +59,8 @@ const PersonTile = ({
   size: number;
 }) => {
   const colors = useColors();
+  const outer = size + 2 * (TILE_RING_GAP + TILE_RING_WIDTH);
+  const ringWidth = selected ? TILE_SELECTED_RING_WIDTH : TILE_RING_WIDTH;
 
   return (
     <Pressable
@@ -74,21 +76,36 @@ const PersonTile = ({
         ...style,
       })}
     >
+      {/* Bezel shell: hairline border and shadow, gap, then the avatar with
+          its inner border. Both are circles, so they stay concentric. */}
       <View
         style={{
-          padding: TILE_RING_GAP,
-          borderRadius: size,
-          borderWidth: TILE_RING_WIDTH,
-          borderColor: selected ? colors.tint : "transparent",
+          width: outer,
+          height: outer,
+          padding: BEZEL.gap + TILE_RING_WIDTH - ringWidth,
+          borderRadius: outer / 2,
+          borderWidth: ringWidth,
+          borderColor: selected ? colors.tint : colors.bezelBorder,
+          backgroundColor: colors.bezelBackground,
+          boxShadow: colors.bezelShadow,
         }}
       >
-        <PersonAvatar person={person} size={size} />
+        <View
+          style={{
+            borderRadius: RADIUS.full,
+            borderWidth: BEZEL.borderWidth,
+            borderColor: colors.bezelInnerBorder,
+            overflow: "hidden",
+          }}
+        >
+          <PersonAvatar person={person} size={size} />
+        </View>
       </View>
       {selected && (
         <View
           style={{
             position: "absolute",
-            top: size + 2 * (TILE_RING_GAP + TILE_RING_WIDTH) - 28,
+            top: outer - 28,
             right: 0,
             width: 28,
             height: 28,
@@ -107,7 +124,7 @@ const PersonTile = ({
         numberOfLines={1}
         style={{
           marginTop: 6,
-          maxWidth: size + 2 * (TILE_RING_GAP + TILE_RING_WIDTH),
+          maxWidth: outer,
           fontSize: 15,
           fontWeight: selected ? "600" : "400",
           color: colors.text,
@@ -125,8 +142,9 @@ const PersonTile = ({
  *
  * - `chip`: avatar plus name, like a tag pill
  * - `large`: big avatar with the name below, for the person screen
- * - `tile`: grid cell for the logger slide; selection shows a ring and a
- *   check badge, so it reads without relying on color alone
+ * - `tile`: grid cell for the logger slide; avatar sits in a bezel.
+ *   Selection tints the shell border and adds a check badge, so it reads
+ *   without relying on color alone
  *
  * `onLongPress` opens the person editor in `chip` and `tile`; screen readers
  * get it as the "edit" action.

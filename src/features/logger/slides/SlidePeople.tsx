@@ -33,10 +33,15 @@ const SLIDE_PADDING = 20;
 const COLUMN_GAP = 12;
 const MAX_AVATAR_SIZE = 96;
 
-/** Last grid cell: opens the person form, hidden at {@link MAX_PEOPLE}. */
+/**
+ * Last grid cell: opens the person form, hidden at {@link MAX_PEOPLE}.
+ * Border, icon, and label share one placeholder gray so the tile reads as an
+ * empty slot, quieter than the people around it.
+ */
 const AddPersonTile = ({ size }: { size: number }) => {
   const router = useRouter();
   const colors = useColors();
+  const quiet = colors.textInputPlaceholder;
   const outer = size + 2 * (TILE_RING_GAP + TILE_RING_WIDTH);
 
   return (
@@ -65,14 +70,14 @@ const AddPersonTile = ({ size }: { size: number }) => {
             borderRadius: size / 2,
             borderWidth: 2,
             borderStyle: "dashed",
-            borderColor: colors.textSecondary,
+            borderColor: quiet,
             alignItems: "center",
             justifyContent: "center",
           }}
         >
           <Plus
             size={Math.round(size * 0.35)}
-            color={colors.textSecondary}
+            color={quiet}
             strokeWidth={1.5}
           />
         </View>
@@ -83,7 +88,7 @@ const AddPersonTile = ({ size }: { size: number }) => {
           marginTop: 6,
           maxWidth: outer,
           fontSize: 15,
-          color: colors.text,
+          color: quiet,
         }}
       >
         {t("people_add")}
@@ -93,7 +98,7 @@ const AddPersonTile = ({ size }: { size: number }) => {
 };
 
 /**
- * People picker slide: "Who were you with?". Archived people are hidden
+ * People picker slide: "Who played a part?". Archived people are hidden
  * unless the draft already has them. Chips show the most used people of the
  * last 90 days first, in a grid of avatars that ends with an add tile.
  * Without people it offers one way out: add some.
