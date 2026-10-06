@@ -26,6 +26,11 @@ jest.mock("react-native-reanimated-carousel", () => {
   };
 });
 
+// oxlint-disable-next-line anti-slop/no-module-mocking -- expo-router's Jest setup replaces reanimated with an empty mock, so the animated press feedback cannot render; a plain Pressable keeps the button tappable.
+jest.mock("@/components/PressableScale", () => ({
+  PressableScale: jest.requireActual("react-native").Pressable,
+}));
+
 const day = dayjs().subtract(1, "day").format(DATE_FORMAT);
 
 const layout = (height: number) => ({
