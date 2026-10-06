@@ -20,6 +20,10 @@ tags: [p0, entry]
 - waitForAnimationToEnd
 - tapOn:
     id: "mood-bad"
+# The basic entry skipped sleep, so the edit logger asks for it.
+- assertVisible: "How did you sleep?"
+- tapOn:
+    id: "logger-next"
 - assertVisible: "How did you feel?"
 - scrollUntilVisible:
     element:
@@ -44,11 +48,15 @@ tags: [p0, entry]
 - assertVisible: "e2e edited ${output.runId}"
 
 # Second entry from the day list. The second-ever entry adds the reminder slide.
+# No entry of the day holds a sleep quality, so the logger asks for sleep.
 - tapOn: "Add Entry"
 - assertVisible: "How was your day?"
 - waitForAnimationToEnd
 - tapOn:
     id: "mood-very_good"
+- assertVisible: "How did you sleep?"
+- tapOn:
+    id: "logger-next"
 - tapOn:
     id: "logger-next"
 - tapOn:

@@ -1,7 +1,11 @@
 import type { FeedackType, FeedbackSource } from "@/types/Feedback";
 import type { LoggerStep } from "@/constants/LoggerSteps";
 import type { AppIconId } from "@/constants/AppIcons";
-import type { CalendarView, SettingsState } from "@/state/settings";
+import type {
+  CalendarLayout,
+  CalendarView,
+  SettingsState,
+} from "@/state/settings";
 import type { z } from "zod";
 import type { LogItemSchema, PhotoSourceKind } from "@/types";
 
@@ -47,6 +51,8 @@ export interface AnalyticsEvents {
     /** Photos by origin. The two counts add up to `photos_count`. */
     photos_day_count: number;
     photos_library_count: number;
+    /** Never the place itself. */
+    has_location: boolean;
   };
   "logger:log_deleted": undefined;
   "logger:flow_cancelled": { mode: "create" | "edit" };
@@ -119,7 +125,7 @@ export interface AnalyticsEvents {
   };
 
   "calendar:day_opened": {
-    source: "calendar" | "mood_peaks" | "tag_peaks";
+    source: "calendar" | "timeline" | "mood_peaks" | "tag_peaks";
     entries_count: number;
     days_ago: number;
   };
@@ -134,6 +140,7 @@ export interface AnalyticsEvents {
   };
   "calendar:filters_reset": undefined;
   "calendar:filters_closed": undefined;
+  "calendar:layout_changed": { layout: CalendarLayout };
   "calendar:view_changed": { view: CalendarView };
   "calendar:promo_tapped": { card: "changelog" };
 
@@ -197,6 +204,7 @@ export interface AnalyticsEvents {
   "settings:changelog_tapped": undefined;
   "settings:scale_changed": { scale_type: SettingsState["scaleType"] };
   "settings:step_toggled": { step: LoggerStep; enabled: boolean };
+  "settings:location_toggled": { enabled: boolean };
   "settings:privacy_policy_opened": undefined;
   "settings:analytics_toggled": { enabled: boolean };
   "settings:app_icon_changed": { icon: AppIconId };

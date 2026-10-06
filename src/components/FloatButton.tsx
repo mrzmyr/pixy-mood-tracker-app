@@ -10,6 +10,7 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 import useColors from "@/hooks/useColors";
+import { FLOAT_BUTTON_SIZE } from "@/constants/FloatButton";
 
 // Press feedback: 0.97 scale in 120 ms, strong ease-out. Same as the
 // calendar float button.
@@ -20,7 +21,7 @@ const PRESS_SCALE = 0.97;
 const HAS_GLASS = Platform.OS === "ios" && isGlassEffectAPIAvailable();
 // Android: Material 3 FAB, 56 dp, 16 dp corners, elevation 6, ripple.
 const IS_ANDROID = Platform.OS === "android";
-const SIZE = IS_ANDROID ? 56 : 54;
+const SIZE = FLOAT_BUTTON_SIZE;
 const RADIUS = IS_ANDROID ? 16 : SIZE / 2;
 
 /**

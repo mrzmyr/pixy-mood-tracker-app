@@ -24,7 +24,8 @@ tags: [p1, people]
 - back
 - back
 
-# New entry: mood, emotions, tags, then people.
+# New entry: mood, emotions, tags, then people. Today's fixture entry holds
+# a sleep quality, so the logger skips sleep.
 - assertVisible:
     id: "calendar-list"
 - tapOn: "Add another entry for today"

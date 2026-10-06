@@ -5,7 +5,7 @@ import {
   supportsAlternateIcons,
 } from "expo-alternate-app-icons";
 import { Circle, CircleCheck, Lock } from "lucide-react-native";
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import {
   Image,
   Platform,
@@ -14,6 +14,7 @@ import {
   Text,
   View,
 } from "react-native";
+import FlagHighlight from "@/components/FlagHighlight";
 import MenuList from "@/components/MenuList";
 import TextInfo from "@/components/TextInfo";
 import { APP_ICONS } from "@/constants/AppIcons";
@@ -264,18 +265,26 @@ export const AppIconScreen = () => {
         accessibilityRole="radiogroup"
       >
         <MenuList>
-          {APP_ICONS.map((icon, index) => (
-            <AppIconRow
-              key={icon.id}
-              icon={icon}
-              isSelected={icon.id === activeId}
-              // The active icon stays selected after the flag turns off, so
-              // the user sees it and can switch back to Default.
-              isLocked={isLocked(icon) && icon.id !== activeId}
-              isLast={index === APP_ICONS.length - 1}
-              onSelect={selectIcon}
-            />
-          ))}
+          {APP_ICONS.map((icon, index) => {
+            const row = (
+              <AppIconRow
+                icon={icon}
+                isSelected={icon.id === activeId}
+                // The active icon stays selected after the flag turns off, so
+                // the user sees it and can switch back to Default.
+                isLocked={isLocked(icon) && icon.id !== activeId}
+                isLast={index === APP_ICONS.length - 1}
+                onSelect={selectIcon}
+              />
+            );
+            return icon.isFlagged ? (
+              <FlagHighlight key={icon.id} flag="app-icons">
+                {row}
+              </FlagHighlight>
+            ) : (
+              <Fragment key={icon.id}>{row}</Fragment>
+            );
+          })}
         </MenuList>
         {hasLockedIcons && (
           <View testID="app-icon-locked-info">

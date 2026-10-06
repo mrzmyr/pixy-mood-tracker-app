@@ -47,6 +47,14 @@ jest.mock("react-native-reanimated", () => {
     FadeInUp: animation,
     FadeOut: animation,
     FadeOutUp: animation,
+    Keyframe: class {
+      delay() {
+        return this;
+      }
+      duration() {
+        return this;
+      }
+    },
     Extrapolation: { CLAMP: "clamp" },
     Easing: { cubic: (t) => t, quad: (t) => t, in: (f) => f, inOut: (f) => f },
     cancelAnimation: jest.fn(),

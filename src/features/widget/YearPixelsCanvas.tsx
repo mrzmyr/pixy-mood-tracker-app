@@ -67,7 +67,9 @@ const Cell = ({
 );
 
 /**
- * One row of the year grid, captured as one image. The widget stacks the
+ * One row of the year grid, captured as one image. The row has no
+ * background: the transparent PNG shows the widget's own background, so the
+ * image never draws a mismatched box in dark, tinted, or clear modes. The widget stacks the
  * rows with flexible spacers between them: each row spans the full width,
  * the spacers fill the height, and cells stay square.
  *
@@ -105,7 +107,6 @@ export const YearPixelsCanvas = ({
         style={{
           width: YEAR_IMAGE_WIDTH,
           flexDirection: "row",
-          backgroundColor: colors.background,
         }}
       >
         {columns.map((column, offset) => (
@@ -139,7 +140,6 @@ export const YearPixelsCanvas = ({
       style={{
         width: YEAR_IMAGE_WIDTH,
         flexDirection: "row",
-        backgroundColor: colors.background,
       }}
     >
       {months.map((month, column) => (

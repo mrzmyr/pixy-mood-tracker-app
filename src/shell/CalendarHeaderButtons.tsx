@@ -1,9 +1,12 @@
 import { Stack, useRouter } from "expo-router";
 import { Platform } from "react-native";
 import {
+  CALENDAR_LAYOUTS,
   CALENDAR_VIEWS,
+  getCalendarLayoutLabel,
   getCalendarViewLabel,
   useCalendarFilters,
+  useCalendarLayout,
   useCalendarView,
 } from "@/features/calendar";
 import { t } from "@/lib/translation";
@@ -22,11 +25,67 @@ const ICONS =
         settings: require("../../assets/images/icons/settings.png"),
       };
 
+interface ViewOption {
+  key: string;
+  label: string;
+  isOn: boolean;
+  handleSelect: () => void;
+}
+
 /**
- * Calendar header buttons: Statistics on the left; Filters menu and Settings
- * (cog icon) on the right. With the `calendar-view-all-moods` flag on,
- * Filters is a menu: it opens the filter sheet and holds the calendar view
- * picker (Average Mood, All Moods). With the flag off, Filters opens the
+ * One View section for both flags. `calendar-view-all-moods` splits the
+ * Calendar layout into Average Mood and All Moods; `calendar-timeline` adds
+ * Timeline. Empty when both flags are off.
+ */
+const getViewOptions = (
+  calendarLayout: ReturnType<typeof useCalendarLayout>,
+  calendarView: ReturnType<typeof useCalendarView>
+): ViewOption[] => {
+  const isCalendar = calendarLayout.layout === "calendar";
+  const showCalendar = () => {
+    if (!isCalendar) {
+      calendarLayout.setLayout("calendar");
+    }
+  };
+  const calendarOptions: ViewOption[] = calendarView.isEnabled
+    ? CALENDAR_VIEWS.map((view) => ({
+        key: view,
+        label: getCalendarViewLabel(view),
+        isOn: isCalendar && calendarView.view === view,
+        handleSelect: () => {
+          showCalendar();
+          if (calendarView.view !== view) {
+            calendarView.setView(view);
+          }
+        },
+      }))
+    : [
+        {
+          key: "calendar",
+          label: getCalendarLayoutLabel("calendar"),
+          isOn: isCalendar,
+          handleSelect: showCalendar,
+        },
+      ];
+  if (!calendarLayout.isEnabled) {
+    return calendarView.isEnabled ? calendarOptions : [];
+  }
+  return [
+    ...calendarOptions,
+    ...CALENDAR_LAYOUTS.slice(1).map((layout) => ({
+      key: layout,
+      label: getCalendarLayoutLabel(layout),
+      isOn: calendarLayout.layout === layout,
+      handleSelect: () => calendarLayout.setLayout(layout),
+    })),
+  ];
+};
+
+/**
+ * Calendar header buttons: Statistics on the left; Filters and Settings
+ * (cog icon) on the right. With the `calendar-timeline` or
+ * `calendar-view-all-moods` flag on, Filters is a menu: it opens the filter
+ * sheet and holds the view picker. With both flags off, Filters opens the
  * sheet.
  *
  * Native header items: Liquid Glass buttons on iOS 26 (floating over the
@@ -40,7 +99,9 @@ export const CalendarHeaderButtons = () => {
   const router = useRouter();
   const calendarFilters = useCalendarFilters();
   const { filterCount, isFiltering } = calendarFilters.data;
+  const calendarLayout = useCalendarLayout();
   const calendarView = useCalendarView();
+  const viewOptions = getViewOptions(calendarLayout, calendarView);
 
   return (
     <>
@@ -52,7 +113,7 @@ export const CalendarHeaderButtons = () => {
         />
       </Stack.Toolbar>
       <Stack.Toolbar placement="right">
-        {calendarView.isEnabled ? (
+        {viewOptions.length > 0 ? (
           <Stack.Toolbar.Menu
             icon={ICONS.filters}
             accessibilityLabel={t("calendar_filters")}
@@ -69,13 +130,13 @@ export const CalendarHeaderButtons = () => {
                 : t("calendar_filters_open")}
             </Stack.Toolbar.MenuAction>
             <Stack.Toolbar.Menu inline title={t("calendar_view")}>
-              {CALENDAR_VIEWS.map((view) => (
+              {viewOptions.map((option) => (
                 <Stack.Toolbar.MenuAction
-                  key={view}
-                  isOn={calendarView.view === view}
-                  onPress={() => calendarView.setView(view)}
+                  key={option.key}
+                  isOn={option.isOn}
+                  onPress={option.handleSelect}
                 >
-                  {getCalendarViewLabel(view)}
+                  {option.label}
                 </Stack.Toolbar.MenuAction>
               ))}
             </Stack.Toolbar.Menu>

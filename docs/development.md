@@ -48,7 +48,10 @@ Three variants install side by side, each with its own name, icon, bundle ID, an
 
 ### Feature flags
 
-- PostHog feature flags. Keys live in [`src/state/featureFlags/keys.ts`](../src/state/featureFlags/keys.ts). Read one with `useFeatureFlag(key)` ([`src/state/featureFlags/index.tsx`](../src/state/featureFlags/index.tsx))
+- PostHog feature flags. Keys, descriptions, and locations live in [`src/state/featureFlags/keys.ts`](../src/state/featureFlags/keys.ts)
+- Read a flag with `useFeatureFlag(key)` ([`src/state/featureFlags/index.tsx`](../src/state/featureFlags/index.tsx))
+- Wrap flagged UI in `<FlagHighlight flag="<key>">` ([`src/components/FlagHighlight.tsx`](../src/components/FlagHighlight.tsx)) inside the `useFeatureFlag` condition. It never gates
+- Settings > Development > Feature flags > Highlight flagged features outlines every `<FlagHighlight>` with its key. Same access as overrides. Ends when the app restarts
 - Each key needs a boolean flag with the same key in the PostHog project of every variant
 - New key in `keys.ts`: create the PostHog flag in the same task. Do not ask first
   - Create it in all 3 app projects: Production `7630`, Preview `14574`, Development `628970`
@@ -73,6 +76,18 @@ Three variants install side by side, each with its own name, icon, bundle ID, an
 - Backups: iOS iCloud and Finder backups include `Documents/photos`, restored with entries
 - Android backups never include photos. #480 backs up the `database` domain only. Keep photos out: Android stops the whole app backup above 25 MB
 - Preview builds: `<scheme>://dev/fake-files` swaps picker and library for [`fakePhotoSource`](../src/dev/fakePhotoSource.ts). Library access starts `undetermined`
+
+### Location
+
+- Code: [`src/features/location`](../src/features/location). Flag `location`, switch in Settings > Check-in
+- Switch on asks for location access while in use. Denied access keeps switch off
+- New entries for today get current place passively: never asks, never marks draft dirty ([`usePassiveLocation`](../src/features/logger/hooks/usePassiveLocation.ts)). Other days start with "Add Location". Moving the time to another day drops the passive place. Edits keep stored place
+- Rating slide: time bottom left, place bottom right. Place opens picker: search, current location, remove
+- Picker map: iOS only, Apple Maps via `expo-maps`. Tap map to pin a place. Android has no map: Google Maps needs an API key, so `package.json` excludes `expo-maps` from Android autolinking ([`PlaceMap.tsx`](../src/features/location/components/PlaceMap.tsx))
+- Entries store coordinates plus district and city. Name `null` when reverse geocoding fails offline
+- Location stays on device and in JSON exports. Never in analytics: `logger:log_saved` sends `has_location` only
+- Setting is device-bound, not in exports
+- Simulator: `xcrun simctl location <udid> set <lat>,<lon>`. e2e: [`location.yaml`](../e2e/flows/location.yaml), needs network for place names
 
 ### App CLI
 

@@ -4,16 +4,20 @@ import type {
   LoggerStep,
 } from "@/constants/LoggerSteps";
 
+import FlagHighlight from "@/components/FlagHighlight";
 import MenuList from "@/components/MenuList";
 import MenuListItem from "@/components/MenuListItem";
 import { t } from "@/lib/translation";
+import { Fragment } from "react";
 import type { ReactElement } from "react";
+import { BedDouble } from "lucide-react-native";
 import { ScrollView, Switch, Text, View } from "react-native";
 import {
   Bell,
   FileText,
   Heart,
   Image as ImageIcon,
+  MapPin,
   MessageSquare,
   Sun,
   Tag,
@@ -22,6 +26,8 @@ import {
 import { useRouter } from "expo-router";
 import useColors from "@/hooks/useColors";
 import { useFeatureFlag } from "@/state/featureFlags";
+import type { FeatureFlag } from "@/state/featureFlags/keys";
+import { useLocationSetting } from "@/features/location";
 import { useStepEnabled } from "../useStepEnabled";
 
 /** Steps with their own settings page; the list links there instead of a switch. */
@@ -95,15 +101,60 @@ const StepRow = ({
   );
 };
 
+/** Steps that show only behind a feature flag. */
+const STEP_FLAGS: Partial<Record<LoggerStep, FeatureFlag>> = {
+  people: "people",
+  photos: "photos",
+};
+
+/** Switch that adds the current place to new check-ins. */
+const LocationRow = () => {
+  const colors = useColors();
+  const { isEnabled, setEnabled } = useLocationSetting();
+
+  return (
+    <>
+      <FlagHighlight flag="location" style={{ marginTop: 24 }}>
+        <MenuList>
+          <MenuListItem
+            title={t("location_setting")}
+            iconLeft={<MapPin width={20} height={20} color={colors.text} />}
+            iconRight={
+              <Switch
+                accessibilityLabel={t("location_setting")}
+                testID="location-enabled"
+                onValueChange={setEnabled}
+                value={isEnabled}
+              />
+            }
+          />
+        </MenuList>
+      </FlagHighlight>
+      <Text
+        style={{
+          marginTop: 8,
+          paddingHorizontal: 16,
+          fontSize: 13,
+          color: colors.textSecondary,
+        }}
+      >
+        {t("location_setting_description")}
+      </Text>
+    </>
+  );
+};
+
 /**
  * Settings > Check-in: the logger steps in order. `rating` cannot be turned
  * off. Tags and People open their own page with the switch and their list.
- * `people` and `photos` show only behind their feature flags.
+ * `people` and `photos` show only behind their feature flags. The location
+ * switch shows behind the `location` feature flag.
  */
 export const StepsScreen = () => {
   const colors = useColors();
   const hasPeople = useFeatureFlag("people");
   const isPhotosEnabled = useFeatureFlag("photos");
+  const { isAvailable: isLocationAvailable } = useLocationSetting();
   const options = STEP_OPTIONS.filter(
     (option) =>
       (option !== "people" || hasPeople) &&
@@ -116,6 +167,7 @@ export const StepsScreen = () => {
     photos: <ImageIcon width={20} height={20} color={colors.text} />,
     tags: <Tag width={20} height={20} color={colors.text} />,
     people: <Users width={20} height={20} color={colors.text} />,
+    sleep: <BedDouble size={20} color={colors.text} />,
     emotions: <Heart width={20} height={20} color={colors.text} />,
     feedback: <MessageSquare width={20} height={20} color={colors.text} />,
     reminder: <Bell width={20} height={20} color={colors.text} />,
@@ -152,10 +204,19 @@ export const StepsScreen = () => {
           </Text>
         </View>
         <MenuList style={{ marginTop: 16 }}>
-          {options.map((option) => (
-            <StepRow key={option} step={option} icon={ICONS_MAP[option]} />
-          ))}
+          {options.map((option) => {
+            const flag = STEP_FLAGS[option];
+            const row = <StepRow step={option} icon={ICONS_MAP[option]} />;
+            return flag === undefined ? (
+              <Fragment key={option}>{row}</Fragment>
+            ) : (
+              <FlagHighlight key={option} flag={flag}>
+                {row}
+              </FlagHighlight>
+            );
+          })}
         </MenuList>
+        {isLocationAvailable && <LocationRow />}
       </ScrollView>
     </View>
   );

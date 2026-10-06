@@ -7,6 +7,7 @@ import { HeaderHeightContext } from "expo-router/react-navigation";
 import type { Month } from "./layout";
 import { useCalendarFilters } from "../../filters";
 import { HAS_FLOATING_HEADER } from "../../floatingHeader";
+import { useCalendarLayout } from "../../calendarLayout";
 import useColors from "@/hooks/useColors";
 import { ForYouToday } from "@/features/interventions";
 import { useLogLoad, useLogState } from "@/features/logs";
@@ -19,6 +20,7 @@ import { PromoCards } from "./PromoCards";
 import CalendarHeader from "./CalendarHeader";
 import { CalendarFloatButton } from "./CalendarFloatButton";
 import { useFootNote } from "./footNote";
+import { Timeline } from "./Timeline";
 import { ObserveInteractiveMarker } from "expo-observe";
 import { useRouter } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -46,6 +48,7 @@ const CalendarScreenComponent = () => {
   const analytics = useAnalytics();
   const logState = useLogState();
   const calendarFilters = useCalendarFilters();
+  const isTimeline = useCalendarLayout().layout === "timeline";
   const { text: footNote, onOverscroll: onFootNoteOverscroll } = useFootNote();
   const [isAwayFromToday, setIsAwayFromToday] = useState(false);
   // Footer (news card, foot note) sits below today, so the chevron waits
@@ -54,8 +57,11 @@ const CalendarScreenComponent = () => {
   const scrollRef = useRef<FlashListRef<Month>>(null);
   const headerHeight = useContext(HeaderHeightContext) ?? 0;
   const [weekdayHeight, setWeekdayHeight] = useState(0);
-  // A floating header overlaps the list, so the list starts below it.
-  const topInset = HAS_FLOATING_HEADER ? headerHeight + weekdayHeight : 0;
+  // A floating header overlaps the list, so the list starts below it. The
+  // timeline has no weekday row.
+  const topInset = HAS_FLOATING_HEADER
+    ? headerHeight + (isTimeline ? 0 : weekdayHeight)
+    : 0;
   const showFloatButton = !calendarFilters.isOpen;
   const today = dayjs().format(DATE_FORMAT);
   const hasTodayEntry = logState.items.some(
@@ -83,15 +89,20 @@ const CalendarScreenComponent = () => {
     );
   }
 
-  const calendarList = (
+  const filtersBody =
+    Platform.OS === "web" && calendarFilters.isOpen ? <Body /> : null;
+
+  const calendarList = isTimeline ? (
+    <View style={{ flex: 1, backgroundColor: colors.calendarBackground }}>
+      <Timeline header={filtersBody} topInset={topInset} />
+    </View>
+  ) : (
     <View style={{ flex: 1, backgroundColor: colors.calendarBackground }}>
       <Calendar
         listRef={scrollRef}
         onScroll={onScroll}
         topInset={topInset}
-        header={
-          Platform.OS === "web" && calendarFilters.isOpen ? <Body /> : null
-        }
+        header={filtersBody}
         footer={
           <View
             onLayout={(event) => {
@@ -125,27 +136,33 @@ const CalendarScreenComponent = () => {
     </View>
   );
 
+  let content = calendarList;
+  if (!isTimeline) {
+    content = HAS_FLOATING_HEADER ? (
+      <>
+        {/* List first: iOS applies the scroll edge effect only to a scroll
+            view in the first-child chain of the screen. */}
+        {calendarList}
+        <CalendarHeader
+          floatingTop={headerHeight}
+          onHeightChange={setWeekdayHeight}
+        />
+      </>
+    ) : (
+      <>
+        <CalendarHeader />
+        {calendarList}
+      </>
+    );
+  }
+
   return (
     <View style={{ flex: 1, backgroundColor: colors.calendarBackground }}>
-      {HAS_FLOATING_HEADER ? (
-        <>
-          {/* List first: iOS applies the scroll edge effect only to a scroll
-              view in the first-child chain of the screen. */}
-          {calendarList}
-          <CalendarHeader
-            floatingTop={headerHeight}
-            onHeightChange={setWeekdayHeight}
-          />
-        </>
-      ) : (
-        <>
-          <CalendarHeader />
-          {calendarList}
-        </>
-      )}
+      {content}
       {showFloatButton && (
         <CalendarFloatButton
-          isAtBottom={!isAwayFromToday}
+          // Newest entries sit at the timeline top: it always shows add.
+          isAtBottom={isTimeline || !isAwayFromToday}
           hasTodayEntry={hasTodayEntry}
           onScrollToBottom={() => {
             analytics.track("calendar:today_tapped");

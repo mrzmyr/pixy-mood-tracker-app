@@ -28,6 +28,9 @@ tags: [p1, photos]
 - waitForAnimationToEnd
 - tapOn:
     id: "mood-good"
+- assertVisible: "How did you sleep?"
+- tapOn:
+    id: "logger-next"
 - assertVisible: "How did you feel?"
 - tapOn:
     id: "logger-next"
