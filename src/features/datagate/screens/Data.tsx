@@ -75,9 +75,9 @@ export const DataScreen = () => {
                 console.log(error);
               }
             }}
-            iconLeft={<Trash width={18} color="red" />}
+            iconLeft={<Trash width={18} color={colors.danger} />}
             style={{
-              color: "red",
+              color: colors.danger,
             }}
           />
         </MenuList>

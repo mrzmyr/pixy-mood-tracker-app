@@ -17,6 +17,7 @@
 - Status (`On`, `Off`, last backup date) goes in value slot (`iconRight`). Empty value slot is fine
 - Warnings and alerts are [`TextInfo`](../src/components/TextInfo.tsx) under list, never a menu row
 - One text color per row. No colored title or value for emphasis
+- Exception: destructive rows use `colors.danger` for icon and title
 - Title and value fit one line. Text too long: shorten text, never wrap or shrink font
 
 ## Surfaces

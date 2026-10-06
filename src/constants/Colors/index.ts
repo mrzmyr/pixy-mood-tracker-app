@@ -1,3 +1,5 @@
+import { Platform } from "react-native";
+
 import colors from "@/constants/Colors/TailwindColors";
 
 import { TAG_COLOR_NAMES } from "@/constants/Config";
@@ -36,6 +38,10 @@ for (const color of tagColorNames) {
     border: colors[color]["400"],
   };
 }
+
+// iOS systemRed, Android Material 3 error
+const dangerLight = Platform.OS === "android" ? "#BA1A1A" : "#FF3B30";
+const dangerDark = Platform.OS === "android" ? "#FFB4AB" : "#FF453A";
 
 const tintColorLight = "#007aff";
 const tintColorDark = "#0a84ff";
@@ -136,8 +142,9 @@ const light = {
   tertiaryButtonBorder: colors.neutral[200],
   tertiaryButtonBorderDisabled: colors.neutral[300],
 
+  danger: dangerLight,
   dangerButtonBackground: colors.neutral[200],
-  dangerButtonText: colors.red[500],
+  dangerButtonText: dangerLight,
   dangerButtonBorder: colors.neutral[200],
 
   textInputBackground: colors.neutral[200],
@@ -338,8 +345,9 @@ const dark: IColors & {
   tertiaryButtonBorder: colors.neutral[800],
   tertiaryButtonBorderDisabled: colors.neutral[800],
 
+  danger: dangerDark,
   dangerButtonBackground: colors.neutral[800],
-  dangerButtonText: colors.red[500],
+  dangerButtonText: dangerDark,
   dangerButtonBorder: colors.neutral[800],
 
   textInputBackground: colors.neutral[800],
