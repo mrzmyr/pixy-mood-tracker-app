@@ -102,6 +102,8 @@ const light = {
   menuListItemIcon: "#000",
   menuListItemBorder: colors.neutral[100],
 
+  pressRipple: "rgba(0, 0, 0, 0.12)",
+
   notificationBackground: "#FFF",
 
   calendarBackground: colors.neutral[50],
@@ -301,6 +303,8 @@ const dark: IColors & {
   menuListItemText: colors.neutral[50],
   menuListItemIcon: colors.neutral[200],
   menuListItemBorder: colors.neutral[800],
+
+  pressRipple: "rgba(255, 255, 255, 0.16)",
 
   notificationBackground: colors.neutral[900],
 
