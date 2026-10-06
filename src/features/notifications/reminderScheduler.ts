@@ -26,7 +26,10 @@ export interface ReminderScheduler {
 }
 
 const alertNoDevice = () => {
-  Alert.alert("Alert", "Must use physical device for Push Notifications");
+  Alert.alert(
+    t("reminder_device_required_title"),
+    t("reminder_device_required_message")
+  );
 };
 
 const getNativePermission = async () => {
