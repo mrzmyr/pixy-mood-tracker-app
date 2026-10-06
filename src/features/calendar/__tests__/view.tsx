@@ -9,7 +9,10 @@ import { INITIAL_STATE } from "@/constants/Settings";
 import { AnalyticsProvider } from "@/state/analytics";
 import { FeatureFlagsProvider } from "@/state/featureFlags";
 import { SettingsProvider, STORAGE_KEY, useSettings } from "@/state/settings";
-import { getMoodBarSegments } from "../screens/Calendar/CalendarDay/moodBar";
+import {
+  getAverageMoodBarSegments,
+  getMoodBarSegments,
+} from "../screens/Calendar/CalendarDay/moodBar";
 import { useCalendarView } from "../view";
 
 // jest.setup.js replaces posthog-react-native with one shared fake client.
@@ -104,5 +107,23 @@ describe("getMoodBarSegments", () => {
       "neutral",
       "good",
     ]);
+  });
+});
+
+describe("getAverageMoodBarSegments", () => {
+  it("returns one segment in the average mood of the day", () => {
+    const items = [
+      _generateItem({ rating: "extremely_good" }),
+      _generateItem({ rating: "extremely_bad" }),
+      _generateItem({ rating: "neutral" }),
+    ];
+
+    expect(
+      getAverageMoodBarSegments("2026-10-01", items).map(({ rating }) => rating)
+    ).toEqual(["neutral"]);
+  });
+
+  it("returns no segment for a day without entries", () => {
+    expect(getAverageMoodBarSegments("2026-10-01", [])).toEqual([]);
   });
 });

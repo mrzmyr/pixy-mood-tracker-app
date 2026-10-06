@@ -6,6 +6,7 @@ import useColors from "@/hooks/useColors";
 import useHaptics from "@/hooks/useHaptics";
 import type { LogItem } from "@/features/logs";
 import { useSetting } from "@/state/settings";
+import type { CalendarView } from "@/state/settings";
 
 const styles = StyleSheet.create({
   container: {
@@ -36,17 +37,21 @@ const styles = StyleSheet.create({
 });
 
 /**
- * Calendar day for the "All Moods" view: day number above a bar with one
- * segment per entry, in the order the entries happened.
+ * Calendar day while the `calendar-view-all-moods` flag is on: day number
+ * above a bar. "All Moods" passes one segment per entry, in the order the
+ * entries happened; "Average Mood" passes one segment in the average mood.
  */
 const AllMoodsDayComponent = ({
   dateString,
+  view,
   segments,
   isFiltered,
   isFiltering,
   onPress,
 }: {
   dateString: string;
+  /** Only names the bar test ID, so e2e flows can tell the views apart. */
+  view: CalendarView;
   segments: Pick<LogItem, "id" | "rating">[];
   isFiltering: boolean;
   isFiltered: boolean;
@@ -90,7 +95,7 @@ const AllMoodsDayComponent = ({
         </Text>
       </View>
       <View
-        testID={`calendar-day-bar-${dateString}`}
+        testID={`calendar-day-bar-${view}-${dateString}`}
         style={[
           styles.bar,
           segments.length === 0 && {

@@ -11,7 +11,10 @@ import { getAverageMood } from "@/lib/utils";
 import { useCalendarView } from "../../view";
 import CalendarDay from "./CalendarDay";
 import AllMoodsDay from "./CalendarDay/AllMoodsDay";
-import { getMoodBarSegments } from "./CalendarDay/moodBar";
+import {
+  getAverageMoodBarSegments,
+  getMoodBarSegments,
+} from "./CalendarDay/moodBar";
 import { useCalendarNavigation } from "../../navigation";
 
 dayjs.extend(isSameOrBefore);
@@ -53,7 +56,7 @@ const CalendarWeekComponent = ({
   const { getMappingKey } = useMappingHelper();
   const calendarNavigation = useCalendarNavigation();
   const calendarFilters = useCalendarFilters();
-  const isAllMoods = useCalendarView().view === "all";
+  const calendarView = useCalendarView();
 
   const days = useMemo(() => {
     const weekDays: string[] = [];
@@ -97,11 +100,18 @@ const CalendarWeekComponent = ({
     const items = itemMap[date] || [];
     const isFiltered = items.some((item) => filteredItemIds.has(item.id));
 
-    if (isAllMoods) {
+    // With the flag on, both views use the bar day: one segment per entry,
+    // or one segment in the average mood.
+    if (calendarView.isEnabled) {
       return (
         <AllMoodsDay
           dateString={date}
-          segments={getMoodBarSegments(items)}
+          view={calendarView.view}
+          segments={
+            calendarView.view === "all"
+              ? getMoodBarSegments(items)
+              : getAverageMoodBarSegments(date, items)
+          }
           isFiltered={isFiltered}
           isFiltering={calendarFilters.data.isFiltering}
           onPress={() => onPressDay(date)}
