@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import {
   ActivityIndicator,
   KeyboardAvoidingView,
@@ -46,6 +46,7 @@ const FeedbackModalContent = ({
   const [message, setMessage] = useState("");
   const [email, setEmail] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const messageRef = useRef<TextInput>(null);
 
   const setMessageProxy = (nextMessage: string) => {
     setMessage(nextMessage);
@@ -77,6 +78,9 @@ const FeedbackModalContent = ({
       animationType={Platform.OS === "web" ? "none" : "slide"}
       presentationStyle="pageSheet"
       onRequestClose={() => hide()}
+      // Focus once the sheet finished sliding in: `autoFocus` during the
+      // presentation animation is flaky on iOS.
+      onShow={() => messageRef.current?.focus()}
       visible={visible}
       style={{
         position: "relative",
@@ -156,6 +160,7 @@ const FeedbackModalContent = ({
                 {t("feedback_modal_description")}
               </Text>
               <TextArea
+                ref={messageRef}
                 testID="feedback-modal-message"
                 style={{
                   height: 200,
