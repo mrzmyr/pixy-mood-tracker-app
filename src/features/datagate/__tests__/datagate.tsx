@@ -144,6 +144,12 @@ const confirmPrompt = () => {
   buttons.find((button) => button.style === "destructive")?.onPress?.();
 };
 
+// Presses the cancelling button of the latest prompt.
+const cancelPrompt = () => {
+  const buttons = jest.mocked(Alert.alert).mock.lastCall?.[2] ?? [];
+  buttons.find((button) => button.style === "cancel")?.onPress?.();
+};
+
 describe("useLogs()", () => {
   beforeEach(() => {
     console.error = jest.fn();
@@ -194,6 +200,52 @@ describe("useLogs()", () => {
     expect(hook.result.current.settingsState.settings).toEqual({
       ...testSettings,
     });
+  });
+
+  test("resolves and keeps data when the import prompt is cancelled", async () => {
+    const hook = await _renderHook();
+    jest.spyOn(Alert, "alert");
+    const fileTransfer = createMemoryFileTransfer({ picked: "{}" });
+    const pickJsonText = jest.spyOn(fileTransfer, "pickJsonText");
+    setFileTransferOverride(fileTransfer);
+
+    await waitForLoaded(hook);
+    await act(() => {
+      hook.result.current.logUpdater.import({ items: testItems });
+    });
+
+    let dialog: Promise<void> | undefined;
+    await act(() => {
+      dialog = hook.result.current.datagate.openImportDialog();
+    });
+    await act(() => {
+      cancelPrompt();
+    });
+
+    await expect(dialog).resolves.toBeUndefined();
+    expect(pickJsonText).not.toHaveBeenCalled();
+    expect(hook.result.current.logState.items).toEqual(testItems);
+  });
+
+  test("resolves and keeps data when the reset prompt is cancelled", async () => {
+    const hook = await _renderHook();
+    jest.spyOn(Alert, "alert");
+
+    await waitForLoaded(hook);
+    await act(() => {
+      hook.result.current.logUpdater.import({ items: testItems });
+    });
+
+    let dialog: Promise<void> | undefined;
+    await act(() => {
+      dialog = hook.result.current.datagate.openResetDialog();
+    });
+    await act(() => {
+      cancelPrompt();
+    });
+
+    await expect(dialog).resolves.toBeUndefined();
+    expect(hook.result.current.logState.items).toEqual(testItems);
   });
 
   test("keeps data when the picked file is not a Pixy export", async () => {

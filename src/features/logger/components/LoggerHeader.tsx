@@ -1,6 +1,7 @@
 import type { RefObject } from "react";
 import { View } from "react-native";
 import type { CarouselRef } from "react-native-reanimated-carousel";
+import { isConfirmed } from "@/helpers/promptCancel";
 import { askToCancel, askToRemove } from "@/helpers/prompts";
 import { useLogDraft } from "../logDraft";
 import { SlideHeader } from "./SlideHeader";
@@ -65,8 +66,8 @@ export const LoggerHeader = ({
           }
         }}
         onDelete={async () => {
-          if (hasContent) {
-            await askToRemove();
+          if (hasContent && !(await isConfirmed(askToRemove()))) {
+            return;
           }
           onRemove();
         }}
