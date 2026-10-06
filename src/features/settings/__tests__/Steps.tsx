@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from "@testing-library/react-native";
+import { render, screen, waitFor, within } from "@testing-library/react-native";
 import { DefaultTheme, ThemeProvider } from "expo-router";
 import Colors from "@/constants/Colors";
 import { AnalyticsProvider } from "@/state/analytics";
@@ -48,5 +48,15 @@ describe("Settings > Check-in", () => {
 
     expect(screen.queryByTestId("step-photos-enabled")).toBeNull();
     expect(screen.getByTestId("step-emotions-enabled")).toBeTruthy();
+  });
+
+  test("steps with a page show their status in the same row as the title", async () => {
+    await renderSteps();
+
+    const row = screen.getByTestId("step-tags");
+    await waitFor(() => {
+      expect(within(row).getByText(/^(?:On|Off)$/u)).toBeTruthy();
+    });
+    expect(within(row).getByText("Tags")).toBeTruthy();
   });
 });

@@ -7,6 +7,7 @@ import type {
 import FlagHighlight from "@/components/FlagHighlight";
 import MenuList from "@/components/MenuList";
 import MenuListItem from "@/components/MenuListItem";
+import TextInfo from "@/components/TextInfo";
 import { t } from "@/lib/translation";
 import { Fragment } from "react";
 import type { ReactElement } from "react";
@@ -14,6 +15,7 @@ import { BedDouble } from "lucide-react-native";
 import { ScrollView, Switch, Text, View } from "react-native";
 import {
   Bell,
+  ChevronRight,
   FileText,
   Heart,
   Image as ImageIcon,
@@ -65,36 +67,22 @@ const StepRow = ({
     );
   }
 
+  if (page !== null) {
+    iconRight = (
+      <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
+        <Text style={{ fontSize: 17, color: colors.textSecondary }}>
+          {enabled ? t("step_status_on") : t("step_status_off")}
+        </Text>
+        <ChevronRight width={18} color={colors.menuListItemIcon} />
+      </View>
+    );
+  }
+
   return (
     <MenuListItem
-      title={
-        <View
-          style={{
-            flex: 1,
-            minWidth: 0,
-            flexDirection: "row",
-            alignItems: "center",
-          }}
-        >
-          <Text style={{ flex: 1, fontSize: 17, color: colors.text }}>
-            {t(`logger_step_${step}`)}
-          </Text>
-          {page !== null && (
-            <Text
-              style={{
-                fontSize: 17,
-                color: colors.textSecondary,
-                marginRight: 8,
-              }}
-            >
-              {enabled ? t("step_status_on") : t("step_status_off")}
-            </Text>
-          )}
-        </View>
-      }
+      title={t(`logger_step_${step}`)}
       iconLeft={icon}
       iconRight={iconRight}
-      isLink={page !== null}
       onPress={page === null ? null : () => router.push(page)}
       testID={page === null ? undefined : `step-${step}`}
     />
@@ -133,16 +121,7 @@ const LocationRow = () => {
           </MenuList>
         </FlagHighlight>
       </View>
-      <Text
-        style={{
-          marginTop: 8,
-          paddingHorizontal: 16,
-          fontSize: 13,
-          color: colors.textSecondary,
-        }}
-      >
-        {t("location_setting_description")}
-      </Text>
+      <TextInfo>{t("location_setting_description")}</TextInfo>
     </>
   );
 };
