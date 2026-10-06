@@ -1,4 +1,5 @@
 import dayjs from "dayjs";
+import { locale } from "@/lib/translation";
 
 /** Stored reminder time format. */
 const REMINDER_TIME_FORMAT = "HH:mm";
@@ -22,3 +23,7 @@ export const parseReminderTime = (time: string) => {
   const date = reminderTimeToDate(time);
   return { hour: date.getHours(), minute: date.getMinutes() };
 };
+
+/** Reminder time for display, in the device locale (`20:00`, `8:00 PM`). */
+export const formatReminderTime = (date: Date): string =>
+  date.toLocaleTimeString(locale, { hour: "numeric", minute: "2-digit" });
