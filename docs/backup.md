@@ -58,7 +58,7 @@ State (2026-10-06):
 - OAuth consent screen with scope `https://www.googleapis.com/auth/drive.appdata`. It is non-sensitive: basic verification only
 - One Android OAuth client per package (`com.devmood.pixymoodtracker`, `.preview`, `.dev`) with the SHA-1 of each signing key: Play app signing, upload key, local debug key
 - Missing client: sign-in fails with `DEVELOPER_ERROR`
-- Consent status Testing: Google shows "Google hasn't verified this app" and only test users can sign in. Publish the consent screen before rollout
+- Consent status Testing: Google shows "Google hasn't verified this app", only test users can sign in, and sign-ins expire after 7 days. Keep the consent screen published
 - Access revoked in the Google account, or account removed from the phone: `SIGN_IN_REQUIRED`, shown as "sign-in expired" with a Sign In link
 - Drive rejects a revoked token with `ERR_AUTHENTICATION_FAILED` while Play services still hands out the cached one. Pixy clears the cached token and shows the same Sign In link (`backup_signed_out`, no Sentry report)
 - No `@react-native-google-signin/google-signin` config plugin: it needs an iOS client, and iOS uses iCloud
@@ -66,7 +66,8 @@ State (2026-10-06):
 State (2026-10-06), Google Cloud project `pixy-mood-tracker` (4218331782):
 
 - Drive API on
-- Consent screen: app name Pixy, audience External, status Testing. Scope `drive.appdata`. Test user: Android test account. Publish before rollout, else only test users can sign in
+- Consent screen: app name Pixy Mood Tracker, audience External, status In production, brand verified. Scope `drive.appdata` (non-sensitive, no scope review). Support and developer contact `team@pixy.day`. Authorized domain `pixy.day`. Branding changes trigger brand verification again
+- `team@pixy.day` is project Owner, so Pixy access does not depend on a private account
 - Android OAuth clients:
 
 | Client | Package | SHA-1 | Client ID |
