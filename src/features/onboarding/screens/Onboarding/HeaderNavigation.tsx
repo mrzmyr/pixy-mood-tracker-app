@@ -2,7 +2,6 @@ import { Pressable, Text, View } from "react-native";
 import { ArrowLeft } from "react-native-feather";
 import { t } from "@/lib/translation";
 import useColors from "@/hooks/useColors";
-import useHaptics from "@/hooks/useHaptics";
 import { HeaderPagination } from "./HeaderPagination";
 
 /** Back, pagination, and skip controls above onboarding slides. */
@@ -15,7 +14,6 @@ export const HeaderNavigation = ({
   setIndex: (index: number) => void;
   onSkip: () => void;
 }) => {
-  const haptics = useHaptics();
   const colors = useColors();
 
   return (
@@ -40,8 +38,7 @@ export const HeaderNavigation = ({
           marginLeft: -10,
           justifyContent: "center",
         }}
-        onPress={async () => {
-          await haptics.selection();
+        onPress={() => {
           setIndex(index - 1);
         }}
       >
@@ -56,8 +53,7 @@ export const HeaderNavigation = ({
         testID="onboarding-skip"
         accessibilityRole="button"
         accessibilityLabel={t("onboarding_skip")}
-        onPress={async () => {
-          await haptics.selection();
+        onPress={() => {
           onSkip();
         }}
         style={{

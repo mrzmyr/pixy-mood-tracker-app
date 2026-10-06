@@ -7,7 +7,6 @@ import { Card } from "../../components/Card";
 import { DATE_FORMAT } from "@/constants/Config";
 import { t } from "@/lib/translation";
 import useColors from "@/hooks/useColors";
-import useHaptics from "@/hooks/useHaptics";
 import type { LogItem } from "@/features/logs";
 import type { TagsPeakData } from "../../TagsPeaks";
 import type { Tag as ITag } from "@/features/tags";
@@ -31,7 +30,6 @@ const DayDot = ({
   item: LogItem | undefined;
 }) => {
   const colors = useColors();
-  const haptics = useHaptics();
   const calendarNavigation = useCalendarNavigation();
 
   const color = isHighlighted
@@ -57,12 +55,11 @@ const DayDot = ({
         borderWidth: date.isSame(dayjs(), "day") ? 2 : 0,
         opacity: pressed ? 0.8 : 1,
       })}
-      onPress={async () => {
+      onPress={() => {
         if (!item) {
           return;
         }
 
-        await haptics.selection();
         calendarNavigation.openDay({
           date: dayjs(date).format(DATE_FORMAT),
           source: "tag_peaks",

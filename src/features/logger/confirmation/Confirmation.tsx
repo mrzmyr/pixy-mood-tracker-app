@@ -221,7 +221,6 @@ export const Confirmation = ({
             importantForAccessibility="no-hide-descendants"
             hitSlop={8}
             onPress={() => {
-              void haptics.selection();
               setJumps(jumps + 1);
               setJoyfulJump(isCelebrating ? jumps + 1 : 0);
             }}

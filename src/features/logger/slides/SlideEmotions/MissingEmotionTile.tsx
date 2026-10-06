@@ -2,7 +2,6 @@ import { Plus } from "lucide-react-native";
 import { Pressable, Text, useColorScheme } from "react-native";
 import type { ViewStyle } from "react-native";
 import useColors from "@/hooks/useColors";
-import useHaptics from "@/hooks/useHaptics";
 import { t } from "@/lib/translation";
 import { RADIUS } from "@/constants/Radius";
 
@@ -20,7 +19,6 @@ export const MissingEmotionTile = ({
   style?: ViewStyle;
 }) => {
   const colors = useColors();
-  const haptics = useHaptics();
   const colorScheme = useColorScheme();
   const borderColor =
     colorScheme === "light" ? "rgba(0,0,0,0.25)" : "rgba(255,255,255,0.25)";
@@ -30,10 +28,7 @@ export const MissingEmotionTile = ({
       accessibilityRole="button"
       accessibilityLabel={t("request_emotion_title")}
       testID="request-emotion"
-      onPress={() => {
-        haptics.selection();
-        onPress();
-      }}
+      onPress={onPress}
       style={({ pressed }) => ({
         flex: 1,
         flexDirection: "row",
