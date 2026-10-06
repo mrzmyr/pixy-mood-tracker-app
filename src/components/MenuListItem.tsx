@@ -50,6 +50,17 @@ const getRowStyle = (
   flexDirection: ViewStyle["flexDirection"]
 ) => (flexDirection === "column" ? platform.tallRow : platform.row);
 
+/** Android shows a ripple instead of the fade. */
+const getPressedOpacity = ({
+  pressed,
+  hasPress,
+  isAndroid,
+}: {
+  pressed: boolean;
+  hasPress: boolean;
+  isAndroid: boolean;
+}) => (pressed && hasPress && !isAndroid ? 0.7 : 1);
+
 const getRightIcon = ({
   showChevron,
   iconRight,
@@ -121,9 +132,7 @@ const MenuListItem = ({
         android_ripple={onPress ? ripple : undefined}
         accessible={Boolean(onPress)}
         accessibilityRole={onPress ? "button" : undefined}
-        accessibilityLabel={
-          onPress && titleText !== undefined ? titleText : undefined
-        }
+        accessibilityLabel={onPress ? titleText : undefined}
         style={({ pressed }) => [
           {
             flexDirection: "row",
@@ -132,8 +141,11 @@ const MenuListItem = ({
             paddingBottom: 8,
             ...rowStyle,
             width: "100%",
-            // Android shows a ripple instead of the fade.
-            opacity: pressed && onPress && Platform.OS !== "android" ? 0.7 : 1,
+            opacity: getPressedOpacity({
+              pressed,
+              hasPress: Boolean(onPress),
+              isAndroid,
+            }),
             ...style,
           },
         ]}
