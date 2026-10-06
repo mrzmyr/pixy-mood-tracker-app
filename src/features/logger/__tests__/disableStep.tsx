@@ -55,6 +55,12 @@ jest.mock("react-native-reanimated-carousel", () => ({
   }) => data[defaultIndex] && renderItem({ index: defaultIndex }),
 }));
 
+// oxlint-disable-next-line anti-slop/no-module-mocking -- the discard guard needs a navigator (covered in useDiscardGuard tests); this suite renders the logger without one
+jest.mock("@/hooks/useDiscardGuard", () => ({
+  __esModule: true,
+  useDiscardGuard: () => ({ allowLeave: jest.fn() }),
+}));
+
 const EmotionsStepState = () => {
   const { hasStep } = useSettings();
   return (
@@ -85,10 +91,10 @@ const renderLogger = () =>
     </ThemeProvider>
   );
 
-// Presses the confirm (first) or cancel (second) button of the open alert.
-const answerAlert = (index: 0 | 1) => {
-  const call = jest.mocked(Alert.alert).mock.lastCall;
-  call?.[2]?.[index]?.onPress?.();
+// Presses the confirm (destructive) or cancel button of the open alert.
+const answerAlert = (style: "destructive" | "cancel") => {
+  const buttons = jest.mocked(Alert.alert).mock.lastCall?.[2] ?? [];
+  buttons.find((button) => button.style === style)?.onPress?.();
 };
 
 beforeEach(async () => {
@@ -117,7 +123,7 @@ describe("Logger > emotions > Disable Emotions link", () => {
 
     await userEvent.press(await screen.findByText("I don't track emotions"));
     expect(Alert.alert).toHaveBeenCalledTimes(1);
-    answerAlert(0);
+    answerAlert("destructive");
 
     await waitFor(() =>
       expect(screen.getByTestId("emotions-step")).toHaveTextContent("off")
@@ -127,7 +133,7 @@ describe("Logger > emotions > Disable Emotions link", () => {
   test("user who cancels keeps the emotions step on", async () => {
     const screen = await renderLogger();
     await userEvent.press(await screen.findByText("I don't track emotions"));
-    answerAlert(1);
+    answerAlert("cancel");
 
     await waitFor(() => expect(Alert.alert).toHaveBeenCalledTimes(1));
     expect(screen.getByTestId("emotions-step")).toHaveTextContent("on");
