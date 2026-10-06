@@ -13,6 +13,7 @@
   "app_lock_method_android": "odcisk palca, twarz lub blokada ekranu",
   "app_lock_method_passcode": "kod urządzenia",
   "app_lock_prompt": "Odblokuj Pixy",
+  "app_lock_support": "Nie możesz odblokować? Wyślij ten kod na %{email}:",
   "app_lock_unavailable": "Ustaw kod lub blokadę ekranu na tym urządzeniu, aby używać blokady aplikacji.",
   "app_lock_unlock": "Odblokuj",
   "archive_tag": "Archiwum",

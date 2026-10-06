@@ -13,6 +13,7 @@
   "app_lock_method_android": "vân tay, khuôn mặt hoặc khóa màn hình",
   "app_lock_method_passcode": "mật mã thiết bị",
   "app_lock_prompt": "Mở khóa Pixy",
+  "app_lock_support": "Không mở khóa được? Gửi mã này tới %{email}:",
   "app_lock_unavailable": "Đặt mật mã hoặc khóa màn hình trên thiết bị này để dùng Khóa ứng dụng.",
   "app_lock_unlock": "Mở khóa",
   "archive_tag": "Lưu trữ",

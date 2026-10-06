@@ -13,6 +13,7 @@ jest.mock("posthog-react-native", () => {
     register: jest.fn(),
     reloadFeatureFlagsAsync: jest.fn(),
     setPersonProperties: jest.fn(),
+    getDistinctId: jest.fn(() => "test-distinct-id"),
   };
 
   return {

@@ -13,6 +13,7 @@
   "app_lock_method_android": "fingeravtrykket, ansiktet eller skjermlåsen din",
   "app_lock_method_passcode": "enhetskoden din",
   "app_lock_prompt": "Lås opp Pixy",
+  "app_lock_support": "Får du ikke låst opp? Send denne koden til %{email}:",
   "app_lock_unavailable": "Angi en kode eller skjermlås på denne enheten for å bruke applås.",
   "app_lock_unlock": "Lås opp",
   "archive_tag": "Arkiv",

@@ -13,6 +13,7 @@
   "app_lock_method_android": "بصمتك أو وجهك أو قفل الشاشة",
   "app_lock_method_passcode": "رمز مرور جهازك",
   "app_lock_prompt": "فتح قفل Pixy",
+  "app_lock_support": "لا يمكنك فتح القفل؟ أرسل هذا الرمز إلى %{email}:",
   "app_lock_unavailable": "عيّن رمز مرور أو قفل شاشة على هذا الجهاز لاستخدام قفل التطبيق.",
   "app_lock_unlock": "فتح القفل",
   "archive_tag": "أرشيف",

@@ -13,6 +13,7 @@
   "app_lock_method_android": "tu huella, tu rostro o el bloqueo de pantalla",
   "app_lock_method_passcode": "el código de tu dispositivo",
   "app_lock_prompt": "Desbloquear Pixy",
+  "app_lock_support": "¿No puedes desbloquear? Envía este código a %{email}:",
   "app_lock_unavailable": "Configura un código o bloqueo de pantalla en este dispositivo para usar el bloqueo de la app.",
   "app_lock_unlock": "Desbloquear",
   "archive_tag": "Archivo",

@@ -28,6 +28,7 @@
   "app_lock_method_android": "your fingerprint, face, or screen lock",
   "app_lock_method_passcode": "your device passcode",
   "app_lock_prompt": "Unlock Pixy",
+  "app_lock_support": "Can’t unlock? Send this code to %{email}:",
   "app_lock_unavailable": "Set a passcode or screen lock on this device to use App Lock.",
   "app_lock_unlock": "Unlock",
   "archive_tag": "Archive",

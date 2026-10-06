@@ -11,11 +11,14 @@ import { DefaultTheme, ThemeProvider } from "expo-router";
 import { AppState } from "react-native";
 import type { AppStateStatus } from "react-native";
 import Providers from "@/shell/Providers";
+import { AnalyticsProvider } from "@/state/analytics";
+import { FeatureFlagsContext } from "@/state/featureFlags/context";
 import Colors from "@/constants/Colors";
 import { INITIAL_STATE } from "@/constants/Settings";
-import { STORAGE_KEY } from "@/state/settings";
+import { SettingsProvider, STORAGE_KEY } from "@/state/settings";
 import { createFakeSupportClient } from "@/support/clients";
-import { AppLockScreen, AppLockSetting } from "..";
+import { AppLockProvider, AppLockScreen } from "..";
+import { AppLockSetting } from "../AppLockSetting";
 import { LOCK_AFTER_MS } from "../lockTiming";
 
 // oxlint-disable-next-line anti-slop/no-module-mocking -- expo-superwall is a native module imported transitively by Providers; the support client itself is injected
@@ -58,12 +61,13 @@ const changeAppState = (state: AppStateStatus) => {
   }
 };
 
-const storeSettings = (appLockEnabled: boolean) =>
+const storeSettings = (appLockEnabled: boolean, analyticsEnabled = false) =>
   AsyncStorage.setItem(
     STORAGE_KEY,
     JSON.stringify({
       ...INITIAL_STATE,
       appLockEnabled,
+      analyticsEnabled,
       actionsDone: [{ title: "onboarding", date: "2026-10-03T00:00:00.000Z" }],
     })
   );
@@ -84,6 +88,32 @@ const renderApp = async () =>
         <AppLockSetting />
         <AppLockScreen />
       </Providers>
+    </ThemeProvider>
+  );
+
+const THEME = {
+  ...DefaultTheme,
+  dark: false,
+  colors: { ...DefaultTheme.colors, ...Colors.light },
+};
+
+/** PostHog flags as loaded after consent. */
+const BYPASS_ON = { flags: { "app-lock-bypass": true }, isLoading: false };
+const NO_FLAGS = { flags: {}, isLoading: false };
+
+/** Lock screen with fixed PostHog flags. */
+const renderWithFlags = async (flags: typeof NO_FLAGS) =>
+  await render(
+    <ThemeProvider value={THEME}>
+      <SettingsProvider>
+        <AnalyticsProvider options={{ enabled: true }}>
+          <FeatureFlagsContext.Provider value={flags}>
+            <AppLockProvider>
+              <AppLockScreen />
+            </AppLockProvider>
+          </FeatureFlagsContext.Provider>
+        </AnalyticsProvider>
+      </SettingsProvider>
     </ThemeProvider>
   );
 
@@ -274,6 +304,39 @@ describe("App Lock", () => {
     Object.assign(AppState, { currentState: "active" });
     await act(() => changeAppState("active"));
     expect(screen.queryByTestId("app-lock-screen")).toBeNull();
+  });
+
+  test("bypass flag opens a locked app without the OS prompt", async () => {
+    await storeSettings(true);
+    const screen = await renderWithFlags(BYPASS_ON);
+
+    await waitFor(() => expect(getEnrolledLevelAsync).toHaveBeenCalled());
+    expect(screen.queryByTestId("app-lock-screen")).toBeNull();
+    expect(authenticateAsync).not.toHaveBeenCalled();
+    expect(await readStoredLock()).toBe(true);
+  });
+
+  test("lock screen shows the support code only with analytics consent", async () => {
+    await storeSettings(true);
+    authenticateAsync.mockResolvedValueOnce({
+      success: false,
+      error: "user_cancel",
+    });
+    const withoutConsent = await renderWithFlags(NO_FLAGS);
+    await withoutConsent.findByTestId("app-lock-unlock");
+    expect(withoutConsent.queryByTestId("app-lock-support-code")).toBeNull();
+    withoutConsent.unmount();
+
+    await storeSettings(true, true);
+    authenticateAsync.mockResolvedValueOnce({
+      success: false,
+      error: "user_cancel",
+    });
+    const screen = await renderWithFlags(NO_FLAGS);
+
+    expect(
+      await screen.findByTestId("app-lock-support-code")
+    ).toHaveTextContent("test-distinct-id");
   });
 
   test("switch is off limits without a device passcode", async () => {

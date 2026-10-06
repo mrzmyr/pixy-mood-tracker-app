@@ -2,7 +2,6 @@ import * as WebBrowser from "expo-web-browser";
 import { ScrollView, Switch, View } from "react-native";
 import { Shield } from "react-native-feather";
 import Markdown from "react-native-markdown-display";
-import FlagHighlight from "@/components/FlagHighlight";
 import LinkButton from "@/components/LinkButton";
 import useColors from "@/hooks/useColors";
 import { useAnalytics } from "@/state/analytics";
@@ -11,22 +10,16 @@ import { useFeatureFlag } from "@/state/featureFlags";
 import MenuList from "@/components/MenuList";
 import MenuListItem from "@/components/MenuListItem";
 import TextInfo from "@/components/TextInfo";
-import { AppLockSetting, useAppLock } from "@/features/applock";
 
 /**
- * Settings > Privacy: App Lock on top, privacy summary, link to the full
- * policy, and the analytics opt-in switch. The people section shows only
- * behind the `people` feature flag. The App Lock switch shows behind the
- * `app-lock` flag, and stays while the lock is on so the user can turn it
- * off.
+ * Settings > Privacy: privacy summary, link to the full policy, and the
+ * analytics opt-in switch. The people section shows only behind the
+ * `people` feature flag.
  */
 export const PrivacyScreen = () => {
   const colors = useColors();
   const analytics = useAnalytics();
   const hasPeople = useFeatureFlag("people");
-  const hasAppLockFlag = useFeatureFlag("app-lock");
-  const appLock = useAppLock();
-  const isAppLockVisible = hasAppLockFlag || appLock.isEnabled;
   const content = hasPeople
     ? `${t("privacy_content")}\n\n${t("privacy_people_content")}`
     : t("privacy_content");
@@ -55,11 +48,6 @@ export const PrivacyScreen = () => {
             paddingBottom: 80,
           }}
         >
-          {isAppLockVisible && (
-            <FlagHighlight flag="app-lock">
-              <AppLockSetting />
-            </FlagHighlight>
-          )}
           <View
             style={{
               justifyContent: "center",

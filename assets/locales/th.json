@@ -13,6 +13,7 @@
   "app_lock_method_android": "ลายนิ้วมือ ใบหน้า หรือการล็อกหน้าจอ",
   "app_lock_method_passcode": "รหัสผ่านของอุปกรณ์",
   "app_lock_prompt": "ปลดล็อก Pixy",
+  "app_lock_support": "ปลดล็อกไม่ได้ใช่ไหม ส่งรหัสนี้ไปที่ %{email}:",
   "app_lock_unavailable": "ตั้งรหัสผ่านหรือการล็อกหน้าจอบนอุปกรณ์นี้เพื่อใช้ล็อกแอป",
   "app_lock_unlock": "ปลดล็อก",
   "archive_tag": "คลังเก็บเอกสารสำคัญ",

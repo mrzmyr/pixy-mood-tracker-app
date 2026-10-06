@@ -13,6 +13,7 @@
   "app_lock_method_android": "指纹、面容或屏幕锁定",
   "app_lock_method_passcode": "设备密码",
   "app_lock_prompt": "解锁 Pixy",
+  "app_lock_support": "无法解锁？请将此代码发送至 %{email}：",
   "app_lock_unavailable": "请在此设备上设置密码或屏幕锁定以使用应用锁。",
   "app_lock_unlock": "解锁",
   "archive_tag": "档案",

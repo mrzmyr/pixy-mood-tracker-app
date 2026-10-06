@@ -22,6 +22,8 @@ export interface AnalyticsEvents {
   "app:storage_recovery_tapped": { action: "export" | "contact" };
   /** `status`: error code of the OS prompt, for example `lockout`. */
   "app:unlock_failed": { status: string };
+  /** Flag `app-lock-bypass` opened a locked app. */
+  "app:app_lock_bypassed": undefined;
 
   "onboarding:slide_viewed": { index: number };
   "onboarding:reminder_enabled": undefined;

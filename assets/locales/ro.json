@@ -13,6 +13,7 @@
   "app_lock_method_android": "amprenta, fața sau blocarea ecranului",
   "app_lock_method_passcode": "codul dispozitivului",
   "app_lock_prompt": "Deblochează Pixy",
+  "app_lock_support": "Nu poți debloca? Trimite acest cod la %{email}:",
   "app_lock_unavailable": "Setează un cod sau o blocare a ecranului pe acest dispozitiv pentru a folosi blocarea aplicației.",
   "app_lock_unlock": "Deblochează",
   "archive_tag": "Arhiva",

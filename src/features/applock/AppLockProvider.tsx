@@ -13,6 +13,7 @@ import type { AppStateStatus } from "react-native";
 import { createMissingProviderError } from "@/lib/errors";
 import { t } from "@/lib/translation";
 import { useAnalytics } from "@/state/analytics";
+import { useRemoteFeatureFlag } from "@/state/featureFlags";
 import { useSettings, useSettingsLoad } from "@/state/settings";
 import { authenticate, getUnlockMethod } from "./deviceAuth";
 import type { UnlockMethod, UnlockResult } from "./deviceAuth";
@@ -47,7 +48,8 @@ const NO_AUTH_ERRORS = new Set([
  * App lock state. Locks on launch and after `LOCK_AFTER_MS` away when
  * `appLockEnabled` is on, and asks for the OS prompt once per lock. Works
  * without the `app-lock` feature flag, so turning the flag off never opens a
- * locked app. Render `AppLockScreen` once at the root.
+ * locked app. The PostHog flag `app-lock-bypass` opens it for a targeted
+ * person, for support. Render `AppLockScreen` once at the root.
  */
 export const AppLockProvider = ({
   children,
@@ -69,9 +71,13 @@ export const AppLockProvider = ({
   // Guards against a second prompt before React renders `isAuthenticating`.
   const isPrompting = useRef(false);
 
+  // Support backdoor: PostHog flag targeted at one person. The stored
+  // setting stays, so the lock comes back when the flag goes off.
+  const isBypassed = useRemoteFeatureFlag("app-lock-bypass");
   const isEnabled = isSettingsReady && settings.appLockEnabled;
-  const isLocked = isEnabled && !isUnlocked;
-  const isCovered = isEnabled && appState !== "active" && !isAuthenticating;
+  const isLocked = isEnabled && !isUnlocked && !isBypassed;
+  const isCovered =
+    isEnabled && !isBypassed && appState !== "active" && !isAuthenticating;
 
   // `authenticate` never throws, so the flags always reset.
   const runPrompt = useCallback(async (): Promise<UnlockResult> => {
@@ -187,6 +193,16 @@ export const AppLockProvider = ({
       onLocked();
     }
   }, [isLocked, appState]);
+
+  const onBypassed = useEffectEvent(() => {
+    analytics.track("app:app_lock_bypassed");
+  });
+
+  useEffect(() => {
+    if (isEnabled && isBypassed) {
+      onBypassed();
+    }
+  }, [isEnabled, isBypassed]);
 
   // Android back would navigate the screens under the lock screen.
   useEffect(() => {

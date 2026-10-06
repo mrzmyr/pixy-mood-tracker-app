@@ -126,6 +126,10 @@ const AppLayout = () => {
             options={{ ...pageOptions, title: t("colors") }}
           />
           <Stack.Screen
+            name="settings/app-lock"
+            options={{ ...pageOptions, title: t("app_lock") }}
+          />
+          <Stack.Screen
             name="settings/app-icon"
             options={{ ...pageOptions, title: t("app_icon") }}
           />

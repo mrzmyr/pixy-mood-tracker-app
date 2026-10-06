@@ -5,6 +5,7 @@
 export const FEATURE_FLAGS = [
   "app-icons",
   "app-lock",
+  "app-lock-bypass",
   "calendar-map",
   "calendar-timeline",
   "development",
@@ -35,7 +36,12 @@ export const FEATURE_FLAG_DETAILS: Record<
   },
   "app-lock": {
     description: "Face ID, Touch ID, or passcode lock",
-    location: "Settings > Privacy",
+    location: "Settings > App Lock",
+  },
+  "app-lock-bypass": {
+    description:
+      "Opens a locked app for a targeted person. PostHog only, local overrides never apply",
+    location: "Lock screen",
   },
   "calendar-map": {
     description: "Map layout for the calendar, iOS only",

@@ -13,6 +13,7 @@
   "app_lock_method_android": "parmak iziniz, yüzünüz veya ekran kilidiniz",
   "app_lock_method_passcode": "cihaz parolanız",
   "app_lock_prompt": "Pixy’nin Kilidini Aç",
+  "app_lock_support": "Kilidi açamıyor musunuz? Bu kodu %{email} adresine gönderin:",
   "app_lock_unavailable": "Uygulama Kilidi’ni kullanmak için bu cihazda bir parola veya ekran kilidi ayarlayın.",
   "app_lock_unlock": "Kilidi Aç",
   "archive_tag": "Arşiv",

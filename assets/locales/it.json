@@ -13,6 +13,7 @@
   "app_lock_method_android": "impronta, volto o blocco schermo",
   "app_lock_method_passcode": "il codice del dispositivo",
   "app_lock_prompt": "Sblocca Pixy",
+  "app_lock_support": "Non riesci a sbloccare? Invia questo codice a %{email}:",
   "app_lock_unavailable": "Imposta un codice o un blocco schermo su questo dispositivo per usare il blocco app.",
   "app_lock_unlock": "Sblocca",
   "archive_tag": "Archivio",

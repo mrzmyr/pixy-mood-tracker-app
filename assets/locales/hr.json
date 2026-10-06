@@ -13,6 +13,7 @@
   "app_lock_method_android": "otisak prsta, lice ili zaključavanje zaslona",
   "app_lock_method_passcode": "šifra uređaja",
   "app_lock_prompt": "Otključaj Pixy",
+  "app_lock_support": "Ne možeš otključati? Pošalji ovaj kod na %{email}:",
   "app_lock_unavailable": "Postavi šifru ili zaključavanje zaslona na ovom uređaju za zaključavanje aplikacije.",
   "app_lock_unlock": "Otključaj",
   "archive_tag": "Arhiva",

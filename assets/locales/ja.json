@@ -13,6 +13,7 @@
   "app_lock_method_android": "指紋、顔、または画面ロック",
   "app_lock_method_passcode": "デバイスのパスコード",
   "app_lock_prompt": "Pixyのロックを解除",
+  "app_lock_support": "ロックを解除できない場合は、このコードを%{email}に送ってください：",
   "app_lock_unavailable": "アプリロックを使うには、このデバイスにパスコードまたは画面ロックを設定してください。",
   "app_lock_unlock": "ロック解除",
   "archive_tag": "記録",

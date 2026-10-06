@@ -13,6 +13,7 @@
   "app_lock_method_android": "지문, 얼굴 또는 화면 잠금",
   "app_lock_method_passcode": "기기 암호",
   "app_lock_prompt": "Pixy 잠금 해제",
+  "app_lock_support": "잠금을 해제할 수 없나요? 이 코드를 %{email}(으)로 보내세요:",
   "app_lock_unavailable": "앱 잠금을 사용하려면 이 기기에 암호나 화면 잠금을 설정하세요.",
   "app_lock_unlock": "잠금 해제",
   "archive_tag": "보관소",

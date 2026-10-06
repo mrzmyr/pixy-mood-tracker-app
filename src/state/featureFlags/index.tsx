@@ -129,3 +129,13 @@ export const useFeatureFlagState = (key: FeatureFlag): FeatureFlagState => {
 // oxlint-disable-next-line pixy-standards/boolean-function-prefix -- React hooks must start with `use`.
 export const useFeatureFlag = (key: FeatureFlag): boolean =>
   useFeatureFlagState(key) === "on";
+
+/**
+ * PostHog value of `key`, ignoring local overrides. Use it where an override
+ * would be a security hole, for example the App Lock bypass: dev and preview
+ * builds accept overrides by deep link, also on a locked phone. Off without
+ * consent.
+ */
+// oxlint-disable-next-line pixy-standards/boolean-function-prefix -- React hooks must start with `use`.
+export const useRemoteFeatureFlag = (key: FeatureFlag): boolean =>
+  useContext(FeatureFlagsContext).flags?.[key] === true;

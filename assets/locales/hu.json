@@ -13,6 +13,7 @@
   "app_lock_method_android": "ujjlenyomat, arc vagy képernyőzár",
   "app_lock_method_passcode": "az eszköz jelkódja",
   "app_lock_prompt": "Pixy feloldása",
+  "app_lock_support": "Nem sikerül feloldani? Küldd el ezt a kódot ide: %{email}",
   "app_lock_unavailable": "Állíts be jelkódot vagy képernyőzárat ezen az eszközön az alkalmazászár használatához.",
   "app_lock_unlock": "Feloldás",
   "archive_tag": "Archívum",

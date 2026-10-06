@@ -13,6 +13,7 @@
   "app_lock_method_android": "cap jari, wajah atau kunci skrin",
   "app_lock_method_passcode": "kod laluan peranti",
   "app_lock_prompt": "Buka Kunci Pixy",
+  "app_lock_support": "Tidak dapat membuka kunci? Hantar kod ini ke %{email}:",
   "app_lock_unavailable": "Tetapkan kod laluan atau kunci skrin pada peranti ini untuk menggunakan Kunci Apl.",
   "app_lock_unlock": "Buka Kunci",
   "archive_tag": "Arkib",

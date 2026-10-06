@@ -13,6 +13,7 @@
   "app_lock_method_android": "deinem Fingerabdruck, Gesicht oder deiner Displaysperre",
   "app_lock_method_passcode": "deinem Gerätecode",
   "app_lock_prompt": "Pixy entsperren",
+  "app_lock_support": "Entsperren klappt nicht? Schicke diesen Code an %{email}:",
   "app_lock_unavailable": "Lege einen Code oder eine Displaysperre auf diesem Gerät fest, um die App-Sperre zu nutzen.",
   "app_lock_unlock": "Entsperren",
   "archive_tag": "Archiv",
