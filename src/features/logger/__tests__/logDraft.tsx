@@ -160,6 +160,24 @@ describe("useLogDraft()", () => {
     expect(hook.result.current.hasContent).toBe(true);
   });
 
+  test("a sleep quality counts as content and clears with null", async () => {
+    const hook = await renderDraft(createDraft());
+
+    await act(() => {
+      hook.result.current.setSleepQuality("good");
+    });
+    expect(hook.result.current.draft.sleep.quality).toBe("good");
+    expect(hook.result.current.hasContent).toBe(true);
+
+    let committed: ReturnType<typeof finalizeDraft> | undefined;
+    await act(() => {
+      hook.result.current.setSleepQuality(null);
+      committed = hook.result.current.commit([]);
+    });
+    expect(committed?.item.sleep.quality).toBeNull();
+    expect(hook.result.current.hasContent).toBe(false);
+  });
+
   test("a passive location fills the draft without making it dirty", async () => {
     const hook = await renderDraft(createDraft());
 

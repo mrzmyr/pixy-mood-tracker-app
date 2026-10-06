@@ -38,7 +38,7 @@ export const finalizeDraft = (
   const item: LogItem = {
     ...draft,
     rating: draft.rating ?? "neutral",
-    // SAFETY: the logger has no sleep step; new entries keep a null quality as before and statistics treat it as missing.
+    // SAFETY: a skipped sleep step keeps a null quality, as stored since the first sleep release; statistics and the day view treat it as missing.
     sleep: draft.sleep as LogItem["sleep"],
   };
   const day = toLogDate(draft.dateTime);
@@ -59,4 +59,5 @@ export const hasDraftContent = (draft: LogDraft): boolean =>
   draft.tags.length > 0 ||
   draft.people.length > 0 ||
   draft.emotions.length > 0 ||
-  draft.photos.length > 0;
+  draft.photos.length > 0 ||
+  !!draft.sleep?.quality;

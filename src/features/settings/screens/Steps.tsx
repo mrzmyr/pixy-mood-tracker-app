@@ -10,6 +10,7 @@ import MenuListItem from "@/components/MenuListItem";
 import { t } from "@/lib/translation";
 import { Fragment } from "react";
 import type { ReactElement } from "react";
+import { BedDouble } from "lucide-react-native";
 import { ScrollView, Switch, Text, View } from "react-native";
 import {
   Bell,
@@ -166,6 +167,7 @@ export const StepsScreen = () => {
     photos: <ImageIcon width={20} height={20} color={colors.text} />,
     tags: <Tag width={20} height={20} color={colors.text} />,
     people: <Users width={20} height={20} color={colors.text} />,
+    sleep: <BedDouble size={20} color={colors.text} />,
     emotions: <Heart width={20} height={20} color={colors.text} />,
     feedback: <MessageSquare width={20} height={20} color={colors.text} />,
     reminder: <Bell width={20} height={20} color={colors.text} />,

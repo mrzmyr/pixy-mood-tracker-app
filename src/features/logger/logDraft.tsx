@@ -27,6 +27,8 @@ export interface LogDraftValue {
   setPeople: (people: LogItem["people"]) => void;
   setMessage: (message: string) => void;
   setPhotos: (photos: LogItem["photos"]) => void;
+  /** `null` clears the sleep quality. */
+  setSleepQuality: (quality: LogDraft["sleep"]["quality"]) => void;
   /** User pick: sets or removes (`undefined`) the location. */
   setLocation: (location: LogItem["location"]) => void;
   /**
@@ -86,6 +88,7 @@ export const LogDraftProvider = ({
       setPeople: (people) => patch({ people }),
       setMessage: (message) => patch({ message }),
       setPhotos: (photos) => patch({ photos }),
+      setSleepQuality: (quality) => patch({ sleep: { quality } }),
       setLocation: (location) => {
         isLocationPicked.current = true;
         patch({ location });

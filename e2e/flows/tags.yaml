@@ -71,7 +71,8 @@ tags: [p1, tags]
 - back
 - back
 
-# Logger offers the new tag, not the archived or deleted ones.
+# Logger offers the new tag, not the archived or deleted ones. Today's
+# fixture entry holds a sleep quality, so the logger skips sleep.
 - tapOn: "Add another entry for today"
 - waitForAnimationToEnd
 - tapOn:
