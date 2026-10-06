@@ -5,6 +5,7 @@
 ## Close Button
 
 - Page close (modal, sheet, full-screen page): top right, use [`CloseButton`](../src/components/CloseButton.tsx)
+- Android full-screen dialogs: close top left, title after it (Material 3). Day view does this ([`Header`](../src/features/calendar/screens/LogList/Header.tsx))
 - Never build own close icon. Need other color on media: pass `color`
 - Push-stack pages keep back arrow top left. Back is not close
 - Form modals with Save keep text Cancel top left
