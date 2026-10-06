@@ -7,7 +7,7 @@ import {
 } from "expo-router";
 import { renderRouter, screen } from "expo-router/testing-library";
 import { fireEvent, waitFor } from "@testing-library/react-native";
-import { ActionSheetIOS, Text } from "react-native";
+import { Text } from "react-native";
 import { _generateItem } from "@/__tests__/utils";
 import Colors from "@/constants/Colors";
 import { INITIAL_STATE } from "@/constants/Settings";
@@ -121,18 +121,15 @@ describe("day view entry card", () => {
   });
 
   test.each([
-    [0, "edit"],
-    [1, "delete"],
-  ] as const)("menu choice %i calls %s", async (index, action) => {
+    ["log-list-edit", "edit"],
+    ["log-list-delete", "delete"],
+  ] as const)("%s calls %s", async (testID, action) => {
     const item = _generateItem({});
     const onEdit = jest.fn();
     const onDelete = jest.fn();
-    jest
-      .spyOn(ActionSheetIOS, "showActionSheetWithOptions")
-      .mockImplementation((_options, onChoice) => onChoice(index));
     await renderEntry({ item, onEdit, onDelete });
 
-    fireEvent.press(await screen.findByTestId("log-list-more"));
+    fireEvent.press(await screen.findByTestId(testID));
 
     await waitFor(() => {
       expect(action === "edit" ? onEdit : onDelete).toHaveBeenCalledWith(item);

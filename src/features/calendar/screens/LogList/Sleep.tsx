@@ -8,7 +8,8 @@ import { Pressable, Text, View } from "react-native";
 const METER_HEIGHT = 12;
 
 /**
- * Sleep quality in the entry header: a small bar and the word "Sleep". A
+ * Sleep quality in the entry header: a small gray bar and the word "Sleep".
+ * Gray like the time of day next to it, so the mood bar stays the only color. A
  * tap opens the logger at the sleep step when `onEdit` is given. Renders
  * nothing without a sleep rating.
  */
@@ -57,13 +58,13 @@ export const Sleep = ({
           borderRadius: RADIUS.full,
           overflow: "hidden",
           justifyContent: "flex-end",
-          backgroundColor: colors.sleepQualityEmpty,
+          backgroundColor: colors.logCardBorder,
         }}
       >
         <View
           style={{
             height: (value / 4) * METER_HEIGHT,
-            backgroundColor: colors.sleepQualityFull,
+            backgroundColor: colors.textSecondary,
           }}
         />
       </View>

@@ -1,17 +1,15 @@
 import Bezel from "@/components/Bezel";
 import FlagHighlight from "@/components/FlagHighlight";
-import LinkButton from "@/components/LinkButton";
 import useColors from "@/hooks/useColors";
-import useHaptics from "@/hooks/useHaptics";
 import { useLogState } from "@/features/logs";
 import type { LogItem } from "@/features/logs";
 import dayjs from "dayjs";
+import type { ReactNode } from "react";
 import { useRouter } from "expo-router";
 import { LinearGradient } from "expo-linear-gradient";
 import {
-  Edit,
-  Ellipsis,
   Moon,
+  Pencil,
   Sun,
   SunMedium,
   Sunrise,
@@ -20,19 +18,11 @@ import {
 } from "lucide-react-native";
 import type { LoggerStep } from "@/constants/LoggerSteps";
 import { getAvailableStepsForEdit, hasSleepOnDate } from "@/features/logger";
-import Alert from "@/lib/Alert";
 import { getItemDate } from "@/lib/logDates";
 import { t } from "@/lib/translation";
 import { useFeatureFlag } from "@/state/featureFlags";
 import { useSetting, useSettings } from "@/state/settings";
-import {
-  ActionSheetIOS,
-  Platform,
-  Pressable,
-  ScrollView,
-  Text,
-  View,
-} from "react-native";
+import { Pressable, ScrollView, Text, View } from "react-native";
 import { AddPills } from "./AddPills";
 import type { AddableStep } from "./AddPills";
 import { Emotions } from "./Emotions";
@@ -54,10 +44,36 @@ const TIME_OF_DAY_ICONS: Record<TimeOfDay, typeof Sun> = {
   night: Moon,
 };
 
-/**
- * Edit and Delete for one entry. Native platforms open a menu from one
- * button; web has no menu with three choices, so it keeps two buttons.
- */
+/** Gray icon button in the entry header with a 44 pt target. */
+const HeaderIconButton = ({
+  testID,
+  label,
+  onPress,
+  children,
+}: {
+  testID: string;
+  label: string;
+  onPress: () => void;
+  children: ReactNode;
+}) => (
+  <Pressable
+    testID={testID}
+    accessibilityRole="button"
+    accessibilityLabel={label}
+    onPress={onPress}
+    style={({ pressed }) => ({
+      width: 44,
+      height: 44,
+      alignItems: "center",
+      justifyContent: "center",
+      opacity: pressed ? 0.5 : 1,
+    })}
+  >
+    {children}
+  </Pressable>
+);
+
+/** Edit and Delete for one entry: two quiet icons, one tap each. */
 const EntryActions = ({
   item,
   onEdit,
@@ -68,79 +84,24 @@ const EntryActions = ({
   onDelete: (item: LogItem) => void;
 }) => {
   const colors = useColors();
-  const haptics = useHaptics();
-
-  if (Platform.OS === "web") {
-    return (
-      <View style={{ flexDirection: "row", marginRight: -8 }}>
-        <LinkButton
-          testID="log-list-edit"
-          accessibilityLabel={t("edit")}
-          onPress={() => onEdit(item)}
-          style={{ padding: 11 }}
-        >
-          <Edit color={colors.textSecondary} size={22} />
-        </LinkButton>
-        <LinkButton
-          testID="log-list-delete"
-          accessibilityLabel={t("delete")}
-          onPress={() => onDelete(item)}
-          style={{ padding: 11 }}
-        >
-          <Trash color={colors.textSecondary} size={22} />
-        </LinkButton>
-      </View>
-    );
-  }
-
-  const open = async () => {
-    await haptics.selection();
-    if (Platform.OS === "ios") {
-      ActionSheetIOS.showActionSheetWithOptions(
-        {
-          options: [t("edit"), t("delete"), t("cancel")],
-          destructiveButtonIndex: 1,
-          cancelButtonIndex: 2,
-        },
-        (index) => {
-          if (index === 0) {
-            onEdit(item);
-          }
-          if (index === 1) {
-            onDelete(item);
-          }
-        }
-      );
-      return;
-    }
-    Alert.alert(dayjs(item.dateTime).format("LT"), undefined, [
-      { text: t("cancel"), style: "cancel" },
-      {
-        text: t("delete"),
-        style: "destructive",
-        onPress: () => onDelete(item),
-      },
-      { text: t("edit"), onPress: () => onEdit(item) },
-    ]);
-  };
 
   return (
-    <Pressable
-      testID="log-list-more"
-      accessibilityRole="button"
-      accessibilityLabel={t("more")}
-      onPress={open}
-      style={({ pressed }) => ({
-        width: 44,
-        height: 44,
-        marginRight: -10,
-        alignItems: "center",
-        justifyContent: "center",
-        opacity: pressed ? 0.6 : 1,
-      })}
-    >
-      <Ellipsis color={colors.textSecondary} size={22} />
-    </Pressable>
+    <View style={{ flexDirection: "row", marginRight: -10 }}>
+      <HeaderIconButton
+        testID="log-list-edit"
+        label={t("edit")}
+        onPress={() => onEdit(item)}
+      >
+        <Pencil color={colors.textSecondary} size={20} />
+      </HeaderIconButton>
+      <HeaderIconButton
+        testID="log-list-delete"
+        label={t("delete")}
+        onPress={() => onDelete(item)}
+      >
+        <Trash color={colors.textSecondary} size={20} />
+      </HeaderIconButton>
+    </View>
   );
 };
 
