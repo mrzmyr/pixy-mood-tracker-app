@@ -20,6 +20,7 @@
   "backup_off_confirm_message": "Pixy poistaa varmuuskopion pilvestä. Tämän puhelimen merkinnät säilyvät.",
   "backup_off_confirm_ok": "Laita pois",
   "backup_off_confirm_title": "Laitetaanko varmuuskopio pois päältä?",
+  "backup_paused_no_entries": "Tässä puhelimessa ei ole vielä merkintöjä. Palauta varmuuskopio, niin varmuuskopiointi jatkuu.",
   "backup_paused_other_phone": "Toinen puhelin on kirjoittanut varmuuskopion äskettäin. Pixy keskeyttää varmuuskopioinnin täällä, kunnes palautat.",
   "backup_privacy_android": "- Tallennetaan piilotettuun Drive-kansioon, jonka vain Pixy voi avata.\n- Sisältää merkinnät, tunnisteet, ihmiset ja asetukset. Kuvat pysyvät tässä puhelimessa.\n- Pixyllä ei ole palvelinta, eikä se koskaan näe merkintöjäsi.\n- Google voi lukea sen. Se ei ole päästä päähän salattu.\n- Käytä varmuuskopiota yhdessä puhelimessa. Pixy ei synkronoi puhelinten välillä.\n- Varmuuskopion poistaminen käytöstä poistaa kopion Drivesta.",
   "backup_privacy_ios": "- Tallennetaan piilotettuun iCloud-kansioon, jonka vain Pixy voi avata.\n- Sisältää merkinnät, tunnisteet, ihmiset ja asetukset. Kuvat pysyvät tässä puhelimessa.\n- Pixyllä ei ole palvelinta, eikä se koskaan näe merkintöjäsi.\n- Apple voi lukea sen ilman Edistynyttä tietosuojaa.\n- Käytä varmuuskopiota yhdessä puhelimessa. Pixy ei synkronoi puhelinten välillä.\n- Varmuuskopion poistaminen käytöstä poistaa kopion iCloudista.",

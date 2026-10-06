@@ -93,6 +93,12 @@ export interface BackupValue {
    * restoring cannot discard newer local changes.
    */
   canRestore: boolean;
+  /**
+   * Why restore is offered: this phone has no entries (new phone or
+   * reinstall), or another phone wrote a bigger or newer backup. `null`
+   * when restore is not offered.
+   */
+  restoreReason: "noEntries" | "otherPhone" | null;
   /** Turns backup on (signs in on Android) or off (deletes the backup). */
   setEnabled: (enabled: boolean) => Promise<void>;
   /** Replaces local data with the cloud backup after confirmation. */
@@ -325,22 +331,29 @@ export const BackupProvider = ({ children }: { children: React.ReactNode }) => {
     setRemote,
   ]);
 
+  const canRestore =
+    remote !== null &&
+    deviceId !== null &&
+    isLogsLoaded &&
+    !canReplaceBackup({
+      existing: remote,
+      deviceId,
+      localItemCount: items.length,
+      lastWrittenAt: backupWrittenAt,
+    });
+  let restoreReason: BackupValue["restoreReason"] = null;
+  if (canRestore) {
+    restoreReason = items.length === 0 ? "noEntries" : "otherPhone";
+  }
+
   const value = useMemo<BackupValue>(
     () => ({
       provider,
       enabled,
       status,
       lastBackupAt: remote?.createdAt ?? null,
-      canRestore:
-        remote !== null &&
-        deviceId !== null &&
-        isLogsLoaded &&
-        !canReplaceBackup({
-          existing: remote,
-          deviceId,
-          localItemCount: items.length,
-          lastWrittenAt: backupWrittenAt,
-        }),
+      canRestore,
+      restoreReason,
       setEnabled,
       restore,
       reconnect,
@@ -350,10 +363,8 @@ export const BackupProvider = ({ children }: { children: React.ReactNode }) => {
       enabled,
       status,
       remote,
-      deviceId,
-      backupWrittenAt,
-      isLogsLoaded,
-      items.length,
+      canRestore,
+      restoreReason,
       setEnabled,
       restore,
       reconnect,

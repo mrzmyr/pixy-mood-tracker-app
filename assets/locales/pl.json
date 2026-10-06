@@ -20,6 +20,7 @@
   "backup_off_confirm_message": "Pixy usunie kopię zapasową z chmury. Wpisy na tym telefonie pozostaną.",
   "backup_off_confirm_ok": "Wyłącz",
   "backup_off_confirm_title": "Wyłączyć kopię zapasową?",
+  "backup_paused_no_entries": "Na tym telefonie nie ma jeszcze wpisów. Przywróć kopię zapasową, aby kontynuować tworzenie kopii.",
   "backup_paused_other_phone": "Inny telefon zapisał nowszą kopię zapasową. Pixy wstrzymuje tu kopię zapasową, dopóki jej nie przywrócisz.",
   "backup_privacy_android": "- Zapisywana w ukrytym folderze na Drive, który może otworzyć tylko Pixy.\n- Zawiera wpisy, tagi, osoby i ustawienia. Zdjęcia zostają na tym telefonie.\n- Pixy nie ma serwera i nigdy nie widzi Twoich wpisów.\n- Google może ją odczytać. Nie jest szyfrowana end-to-end.\n- Używaj kopii zapasowej tylko na jednym telefonie. Pixy nie synchronizuje danych między telefonami.\n- Wyłączenie kopii zapasowej usuwa kopię z Drive.",
   "backup_privacy_ios": "- Zapisywana w ukrytym folderze iCloud, który może otworzyć tylko Pixy.\n- Zawiera wpisy, tagi, osoby i ustawienia. Zdjęcia zostają na tym telefonie.\n- Pixy nie ma serwera i nigdy nie widzi Twoich wpisów.\n- Bez Zaawansowanej ochrony danych Apple może ją odczytać.\n- Używaj kopii zapasowej tylko na jednym telefonie. Pixy nie synchronizuje danych między telefonami.\n- Wyłączenie kopii zapasowej usuwa kopię z iCloud.",

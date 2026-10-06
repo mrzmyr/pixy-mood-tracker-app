@@ -20,6 +20,7 @@
   "backup_off_confirm_message": "O Pixy exclui o backup da nuvem. As entradas neste celular continuam aqui.",
   "backup_off_confirm_ok": "Desativar",
   "backup_off_confirm_title": "Desativar backup?",
+  "backup_paused_no_entries": "Este celular ainda não tem registros. Restaure o backup para continuar fazendo backup.",
   "backup_paused_other_phone": "Outro celular salvou o backup mais recentemente. O Pixy pausa o backup aqui até você restaurar.",
   "backup_privacy_android": "- Salvo em uma pasta oculta do Drive que só o Pixy pode abrir.\n- Contém entradas, tags, pessoas e configurações. As fotos ficam neste celular.\n- O Pixy não tem servidor e nunca vê suas entradas.\n- O Google pode lê-lo. Não tem criptografia de ponta a ponta.\n- Use o backup em um só celular. O Pixy não sincroniza entre celulares.\n- Desativar o backup exclui a cópia no Drive.",
   "backup_privacy_ios": "- Salvo em uma pasta oculta do iCloud que só o Pixy pode abrir.\n- Contém entradas, tags, pessoas e configurações. As fotos ficam neste celular.\n- O Pixy não tem servidor e nunca vê suas entradas.\n- A Apple pode lê-lo sem a Proteção Avançada de Dados.\n- Use o backup em um só celular. O Pixy não sincroniza entre celulares.\n- Desativar o backup exclui a cópia no iCloud.",

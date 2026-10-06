@@ -58,7 +58,7 @@ const Layout = () => (
   </SettingsProvider>
 );
 
-const seed = async (backupEnabled: boolean) => {
+const seed = async (backupEnabled: boolean, itemCount = 1) => {
   await AsyncStorage.setItem(
     SETTINGS_KEY,
     JSON.stringify({
@@ -70,7 +70,11 @@ const seed = async (backupEnabled: boolean) => {
   );
   await AsyncStorage.setItem(
     LOGS_KEY,
-    JSON.stringify({ items: [_generateItem({ date: "2026-10-01" })] })
+    JSON.stringify({
+      items: Array.from({ length: itemCount }, () =>
+        _generateItem({ date: "2026-10-01" })
+      ),
+    })
   );
 };
 
@@ -170,6 +174,35 @@ describe("BackupScreen", () => {
 
     expect(await result.findByText("Restore from Backup…")).toBeTruthy();
     expect(result.getByText("2 hours ago")).toBeTruthy();
+    expect(result.getByText(/Another phone wrote the backup/u)).toBeTruthy();
+  });
+
+  test("reinstall with no entries: Restore says this phone has no entries", async () => {
+    await seed(true, 0);
+    jest.mocked(cloud.readBackupFile).mockResolvedValue(
+      JSON.stringify(
+        createBackupFile({
+          deviceId: "this-phone-before-reinstall",
+          data: {
+            version: "1.88.0",
+            items: [_generateItem({ date: "2025-01-01" })],
+            tags: [],
+            people: [],
+            settings: { ...INITIAL_STATE },
+          },
+        })
+      )
+    );
+
+    const result = await renderScreen();
+
+    expect(await result.findByText("Restore from Backup…")).toBeTruthy();
+    expect(
+      result.getByText(
+        "This phone has no entries yet. Restore the backup to keep backing up."
+      )
+    ).toBeTruthy();
+    expect(result.queryByText(/Another phone/u)).toBeNull();
   });
 
   test("iCloud Drive off: note instead of Last Sync", async () => {

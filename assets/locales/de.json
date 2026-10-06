@@ -20,6 +20,7 @@
   "backup_off_confirm_message": "Pixy löscht das Backup aus der Cloud. Die Einträge auf diesem Handy bleiben erhalten.",
   "backup_off_confirm_ok": "Ausschalten",
   "backup_off_confirm_title": "Backup ausschalten?",
+  "backup_paused_no_entries": "Auf diesem Handy gibt es noch keine Einträge. Stelle das Backup wieder her, um weiter zu sichern.",
   "backup_paused_other_phone": "Ein anderes Handy hat das Backup zuletzt geschrieben. Pixy pausiert das Backup hier, bis du es wiederherstellst.",
   "backup_privacy_android": "- Gespeichert in einem versteckten Drive-Ordner, den nur Pixy öffnen kann.\n- Enthält Einträge, Tags, Personen und Einstellungen. Fotos bleiben auf diesem Handy.\n- Pixy hat keinen Server und sieht deine Einträge nie.\n- Google kann es lesen. Es ist nicht Ende-zu-Ende-verschlüsselt.\n- Nutze das Backup auf nur einem Handy. Pixy synchronisiert nicht zwischen Handys.\n- Wenn du das Backup ausschaltest, wird die Kopie in Drive gelöscht.",
   "backup_privacy_ios": "- Gespeichert in einem versteckten iCloud-Ordner, den nur Pixy öffnen kann.\n- Enthält Einträge, Tags, Personen und Einstellungen. Fotos bleiben auf diesem Handy.\n- Pixy hat keinen Server und sieht deine Einträge nie.\n- Ohne Erweiterten Datenschutz kann Apple es lesen.\n- Nutze das Backup auf nur einem Handy. Pixy synchronisiert nicht zwischen Handys.\n- Wenn du das Backup ausschaltest, wird die Kopie in iCloud gelöscht.",

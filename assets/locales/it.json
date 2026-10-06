@@ -20,6 +20,7 @@
   "backup_off_confirm_message": "Pixy elimina il backup dal cloud. Gli inserimenti su questo telefono restano.",
   "backup_off_confirm_ok": "Disattiva",
   "backup_off_confirm_title": "Disattivare il backup?",
+  "backup_paused_no_entries": "Questo telefono non ha ancora voci. Ripristina il backup per continuare a eseguire il backup.",
   "backup_paused_other_phone": "Un altro telefono ha scritto il backup più di recente. Pixy mette in pausa il backup qui finché non esegui il ripristino.",
   "backup_privacy_android": "- Salvato in una cartella nascosta di Drive che solo Pixy può aprire.\n- Contiene inserimenti, tag, persone e impostazioni. Le foto restano su questo telefono.\n- Pixy non ha un server e non vede mai i tuoi inserimenti.\n- Google può leggerlo. Non è crittografato end-to-end.\n- Usa il backup su un solo telefono. Pixy non sincronizza tra telefoni.\n- Disattivando il backup elimini la copia su Drive.",
   "backup_privacy_ios": "- Salvato in una cartella nascosta di iCloud che solo Pixy può aprire.\n- Contiene inserimenti, tag, persone e impostazioni. Le foto restano su questo telefono.\n- Pixy non ha un server e non vede mai i tuoi inserimenti.\n- Apple può leggerlo senza Protezione avanzata dati.\n- Usa il backup su un solo telefono. Pixy non sincronizza tra telefoni.\n- Disattivando il backup elimini la copia su iCloud.",

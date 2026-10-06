@@ -20,6 +20,7 @@
   "backup_off_confirm_message": "Pixy vymaže zálohu z cloudu. Príspevky v tomto telefóne zostanú.",
   "backup_off_confirm_ok": "Vypnúť",
   "backup_off_confirm_title": "Vypnúť zálohovanie?",
+  "backup_paused_no_entries": "V tomto telefóne zatiaľ nie sú žiadne záznamy. Obnovte zálohu, aby zálohovanie pokračovalo.",
   "backup_paused_other_phone": "Iný telefón zapísal zálohu neskôr. Pixy tu pozastaví zálohovanie, kým ju neobnovíte.",
   "backup_privacy_android": "- Uložené v skrytom priečinku na Drive, ktorý môže otvoriť iba Pixy.\n- Obsahuje príspevky, tagy, ľudí a nastavenia. Fotky zostávajú v tomto telefóne.\n- Pixy nemá server a nikdy nevidí vaše príspevky.\n- Google ich môže čítať. Nie sú šifrované end-to-end.\n- Zálohu používajte iba v jednom telefóne. Pixy nesynchronizuje medzi telefónmi.\n- Vypnutím zálohovania sa vymaže kópia na Drive.",
   "backup_privacy_ios": "- Uložené v skrytom priečinku na iCloude, ktorý môže otvoriť iba Pixy.\n- Obsahuje príspevky, tagy, ľudí a nastavenia. Fotky zostávajú v tomto telefóne.\n- Pixy nemá server a nikdy nevidí vaše príspevky.\n- Apple ich môže čítať bez Pokročilej ochrany údajov.\n- Zálohu používajte iba v jednom telefóne. Pixy nesynchronizuje medzi telefónmi.\n- Vypnutím zálohovania sa vymaže kópia na iCloude.",

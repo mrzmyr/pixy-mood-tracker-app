@@ -20,6 +20,7 @@
   "backup_off_confirm_message": "Pixy memadam sandaran daripada awan. Entri pada telefon ini kekal.",
   "backup_off_confirm_ok": "Matikan",
   "backup_off_confirm_title": "Matikan Sandaran?",
+  "backup_paused_no_entries": "Telefon ini belum ada entri. Pulihkan sandaran untuk terus membuat sandaran.",
   "backup_paused_other_phone": "Telefon lain menulis sandaran yang lebih baharu. Pixy menjeda sandaran di sini sehingga anda memulihkannya.",
   "backup_privacy_android": "- Disimpan dalam folder Drive tersembunyi yang hanya boleh dibuka oleh Pixy.\n- Mengandungi entri, tag, orang dan tetapan. Foto kekal pada telefon ini.\n- Pixy tiada pelayan dan tidak pernah melihat entri anda.\n- Google boleh membacanya. Ia tidak disulitkan hujung ke hujung.\n- Gunakan sandaran pada satu telefon sahaja. Pixy tidak menyegerakkan antara telefon.\n- Mematikan sandaran akan memadam salinan dalam Drive.",
   "backup_privacy_ios": "- Disimpan dalam folder iCloud tersembunyi yang hanya boleh dibuka oleh Pixy.\n- Mengandungi entri, tag, orang dan tetapan. Foto kekal pada telefon ini.\n- Pixy tiada pelayan dan tidak pernah melihat entri anda.\n- Apple boleh membacanya tanpa Perlindungan Data Lanjutan.\n- Gunakan sandaran pada satu telefon sahaja. Pixy tidak menyegerakkan antara telefon.\n- Mematikan sandaran akan memadam salinan dalam iCloud.",

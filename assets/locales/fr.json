@@ -20,6 +20,7 @@
   "backup_off_confirm_message": "Pixy supprime la sauvegarde du cloud. Les entrées sur ce téléphone sont conservées.",
   "backup_off_confirm_ok": "Désactiver",
   "backup_off_confirm_title": "Désactiver la sauvegarde ?",
+  "backup_paused_no_entries": "Ce téléphone n’a encore aucune entrée. Restaure la sauvegarde pour continuer à sauvegarder.",
   "backup_paused_other_phone": "Un autre téléphone a écrit la sauvegarde plus récemment. Pixy met la sauvegarde en pause ici jusqu’à ce que tu restaures.",
   "backup_privacy_android": "- Enregistrée dans un dossier Drive caché que seul Pixy peut ouvrir.\n- Contient les entrées, tags, personnes et réglages. Les photos restent sur ce téléphone.\n- Pixy n’a pas de serveur et ne voit jamais tes entrées.\n- Google peut la lire. Elle n’est pas chiffrée de bout en bout.\n- Utilise la sauvegarde sur un seul téléphone. Pixy ne synchronise pas entre téléphones.\n- Désactiver la sauvegarde supprime la copie dans Drive.",
   "backup_privacy_ios": "- Enregistrée dans un dossier iCloud caché que seul Pixy peut ouvrir.\n- Contient les entrées, tags, personnes et réglages. Les photos restent sur ce téléphone.\n- Pixy n’a pas de serveur et ne voit jamais tes entrées.\n- Apple peut la lire sans la Protection avancée des données.\n- Utilise la sauvegarde sur un seul téléphone. Pixy ne synchronise pas entre téléphones.\n- Désactiver la sauvegarde supprime la copie dans iCloud.",

@@ -20,6 +20,7 @@
   "backup_off_confirm_message": "Pixy borra la copia de la nube. Las entradas de este teléfono se quedan.",
   "backup_off_confirm_ok": "Desactivar",
   "backup_off_confirm_title": "¿Desactivar la copia de seguridad?",
+  "backup_paused_no_entries": "Este teléfono aún no tiene entradas. Restaura la copia para seguir haciendo copias.",
   "backup_paused_other_phone": "Otro teléfono guardó la copia más recientemente. Pixy pausa la copia aquí hasta que restaures.",
   "backup_privacy_android": "- Se guarda en una carpeta oculta de Drive que solo Pixy puede abrir.\n- Incluye entradas, etiquetas, personas y configuración. Las fotos se quedan en este teléfono.\n- Pixy no tiene servidor y nunca ve tus entradas.\n- Google puede leerla. No tiene cifrado de extremo a extremo.\n- Usa la copia en un solo teléfono. Pixy no sincroniza entre teléfonos.\n- Al desactivar la copia se borra la copia de Drive.",
   "backup_privacy_ios": "- Se guarda en una carpeta oculta de iCloud que solo Pixy puede abrir.\n- Incluye entradas, etiquetas, personas y configuración. Las fotos se quedan en este teléfono.\n- Pixy no tiene servidor y nunca ve tus entradas.\n- Apple puede leerla sin la protección de datos avanzada.\n- Usa la copia en un solo teléfono. Pixy no sincroniza entre teléfonos.\n- Al desactivar la copia se borra la copia de iCloud.",

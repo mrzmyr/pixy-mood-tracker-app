@@ -20,6 +20,7 @@
   "backup_off_confirm_message": "Pixy verwijdert de back-up uit de cloud. Items op deze telefoon blijven bewaard.",
   "backup_off_confirm_ok": "Uitzetten",
   "backup_off_confirm_title": "Back-up uitzetten?",
+  "backup_paused_no_entries": "Deze telefoon heeft nog geen items. Herstel de back-up om verder te gaan met back-uppen.",
   "backup_paused_other_phone": "Een andere telefoon heeft de back-up recenter geschreven. Pixy pauzeert de back-up hier tot je herstelt.",
   "backup_privacy_android": "- Opgeslagen in een verborgen Drive-map die alleen Pixy kan openen.\n- Bevat items, tags, mensen en instellingen. Foto's blijven op deze telefoon.\n- Pixy heeft geen server en ziet je items nooit.\n- Google kan hem lezen. Hij is niet end-to-end versleuteld.\n- Gebruik de back-up op één telefoon. Pixy synchroniseert niet tussen telefoons.\n- Als je de back-up uitzet, wordt de kopie in Drive verwijderd.",
   "backup_privacy_ios": "- Opgeslagen in een verborgen iCloud-map die alleen Pixy kan openen.\n- Bevat items, tags, mensen en instellingen. Foto's blijven op deze telefoon.\n- Pixy heeft geen server en ziet je items nooit.\n- Apple kan hem lezen zonder Geavanceerde gegevensbescherming.\n- Gebruik de back-up op één telefoon. Pixy synchroniseert niet tussen telefoons.\n- Als je de back-up uitzet, wordt de kopie in iCloud verwijderd.",

@@ -20,6 +20,7 @@
   "backup_off_confirm_message": "Pixy sletter sikkerhetskopien fra skyen. Oppføringene på denne telefonen blir værende.",
   "backup_off_confirm_ok": "Slå av",
   "backup_off_confirm_title": "Slå av sikkerhetskopi?",
+  "backup_paused_no_entries": "Denne telefonen har ingen oppføringer ennå. Gjenopprett sikkerhetskopien for å fortsette sikkerhetskopieringen.",
   "backup_paused_other_phone": "En annen telefon har skrevet sikkerhetskopien senere. Pixy setter sikkerhetskopiering på pause her til du gjenoppretter.",
   "backup_privacy_android": "- Lagres i en skjult Drive-mappe som bare Pixy kan åpne.\n- Inneholder oppføringer, tagger, personer og innstillinger. Bilder blir på denne telefonen.\n- Pixy har ingen server og ser aldri oppføringene dine.\n- Google kan lese den. Den er ikke ende-til-ende-kryptert.\n- Bruk sikkerhetskopi på bare én telefon. Pixy synkroniserer ikke mellom telefoner.\n- Når du slår av sikkerhetskopi, slettes kopien i Drive.",
   "backup_privacy_ios": "- Lagres i en skjult iCloud-mappe som bare Pixy kan åpne.\n- Inneholder oppføringer, tagger, personer og innstillinger. Bilder blir på denne telefonen.\n- Pixy har ingen server og ser aldri oppføringene dine.\n- Apple kan lese den uten Avansert databeskyttelse.\n- Bruk sikkerhetskopi på bare én telefon. Pixy synkroniserer ikke mellom telefoner.\n- Når du slår av sikkerhetskopi, slettes kopien i iCloud.",

@@ -20,6 +20,7 @@
   "backup_off_confirm_message": "Pixy 会删除云端备份。此手机上的记录会保留。",
   "backup_off_confirm_ok": "关闭",
   "backup_off_confirm_title": "关闭备份？",
+  "backup_paused_no_entries": "这部手机上还没有记录。恢复备份即可继续备份。",
   "backup_paused_other_phone": "另一部手机最近写入了备份。在你恢复之前，Pixy 会暂停此处的备份。",
   "backup_privacy_android": "- 保存在只有 Pixy 能打开的隐藏 Drive 文件夹中。\n- 包含记录、标签、人物和设置。照片保留在此手机上。\n- Pixy 没有服务器，永远看不到你的记录。\n- Google 可以读取它。它没有端到端加密。\n- 只在一部手机上使用备份。Pixy 不会在手机之间同步。\n- 关闭备份会删除 Drive 中的副本。",
   "backup_privacy_ios": "- 保存在只有 Pixy 能打开的隐藏 iCloud 文件夹中。\n- 包含记录、标签、人物和设置。照片保留在此手机上。\n- Pixy 没有服务器，永远看不到你的记录。\n- 未开启高级数据保护时，Apple 可以读取它。\n- 只在一部手机上使用备份。Pixy 不会在手机之间同步。\n- 关闭备份会删除 iCloud 中的副本。",

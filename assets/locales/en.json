@@ -47,6 +47,7 @@
   "backup_off_confirm_message": "Pixy deletes the backup from the cloud. Entries on this phone stay.",
   "backup_off_confirm_ok": "Turn Off",
   "backup_off_confirm_title": "Turn Off Backup?",
+  "backup_paused_no_entries": "This phone has no entries yet. Restore the backup to keep backing up.",
   "backup_paused_other_phone": "Another phone wrote the backup more recently. Pixy pauses backup here until you restore.",
   "backup_privacy_android": "- Saved in a hidden Drive folder only Pixy can open.\n- Holds entries, tags, people, and settings. Photos stay on this phone.\n- Pixy has no server and never sees your entries.\n- Google can read it. It’s not end-to-end encrypted.\n- Use backup on one phone. Pixy does not sync between phones.\n- Turning backup off deletes the copy in Drive.",
   "backup_privacy_ios": "- Saved in a hidden iCloud folder only Pixy can open.\n- Holds entries, tags, people, and settings. Photos stay on this phone.\n- Pixy has no server and never sees your entries.\n- Apple can read it without Advanced Data Protection.\n- Use backup on one phone. Pixy does not sync between phones.\n- Turning backup off deletes the copy in iCloud.",

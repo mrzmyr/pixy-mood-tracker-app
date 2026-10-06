@@ -20,6 +20,7 @@
   "backup_off_confirm_message": "Pixy raderar säkerhetskopian från molnet. Inläggen på den här telefonen finns kvar.",
   "backup_off_confirm_ok": "Stäng av",
   "backup_off_confirm_title": "Stäng av säkerhetskopiering?",
+  "backup_paused_no_entries": "Den här telefonen har inga inlägg än. Återställ säkerhetskopian för att fortsätta säkerhetskopiera.",
   "backup_paused_other_phone": "En annan telefon skrev säkerhetskopian senare. Pixy pausar säkerhetskopieringen här tills du återställer.",
   "backup_privacy_android": "- Sparas i en dold Drive-mapp som bara Pixy kan öppna.\n- Innehåller inlägg, taggar, personer och inställningar. Foton stannar på den här telefonen.\n- Pixy har ingen server och ser aldrig dina inlägg.\n- Google kan läsa den. Den är inte end-to-end-krypterad.\n- Använd säkerhetskopiering på en telefon. Pixy synkar inte mellan telefoner.\n- Om du stänger av säkerhetskopieringen raderas kopian i Drive.",
   "backup_privacy_ios": "- Sparas i en dold iCloud-mapp som bara Pixy kan öppna.\n- Innehåller inlägg, taggar, personer och inställningar. Foton stannar på den här telefonen.\n- Pixy har ingen server och ser aldrig dina inlägg.\n- Apple kan läsa den utan Avancerat dataskydd.\n- Använd säkerhetskopiering på en telefon. Pixy synkar inte mellan telefoner.\n- Om du stänger av säkerhetskopieringen raderas kopian i iCloud.",

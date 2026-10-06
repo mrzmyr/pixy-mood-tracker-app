@@ -20,6 +20,7 @@
   "backup_off_confirm_message": "A Pixy törli a mentést a felhőből. A bejegyzések ezen a telefonon megmaradnak.",
   "backup_off_confirm_ok": "Kikapcsolás",
   "backup_off_confirm_title": "Kikapcsolod a biztonsági mentést?",
+  "backup_paused_no_entries": "Ezen a telefonon még nincsenek bejegyzések. Állítsd vissza a mentést, hogy a mentés folytatódjon.",
   "backup_paused_other_phone": "Egy másik telefon frissebb mentést készített. A Pixy itt szünetelteti a mentést, amíg vissza nem állítod.",
   "backup_privacy_android": "- Egy rejtett Drive-mappába kerül, amelyet csak a Pixy tud megnyitni.\n- Bejegyzéseket, címkéket, személyeket és beállításokat tartalmaz. A fotók ezen a telefonon maradnak.\n- A Pixynek nincs szervere, és soha nem látja a bejegyzéseidet.\n- A Google el tudja olvasni. Nincs végponttól végpontig titkosítva.\n- A mentést csak egy telefonon használd. A Pixy nem szinkronizál a telefonok között.\n- A mentés kikapcsolása törli a Drive-ban lévő másolatot.",
   "backup_privacy_ios": "- Egy rejtett iCloud-mappába kerül, amelyet csak a Pixy tud megnyitni.\n- Bejegyzéseket, címkéket, személyeket és beállításokat tartalmaz. A fotók ezen a telefonon maradnak.\n- A Pixynek nincs szervere, és soha nem látja a bejegyzéseidet.\n- Speciális adatvédelem nélkül az Apple el tudja olvasni.\n- A mentést csak egy telefonon használd. A Pixy nem szinkronizál a telefonok között.\n- A mentés kikapcsolása törli az iCloudban lévő másolatot.",

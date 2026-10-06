@@ -88,7 +88,8 @@ const getLastSyncText = ({
 export const BackupScreen = () => {
   const colors = useColors();
   const backup = useBackup();
-  const { provider, enabled, status, lastBackupAt, canRestore } = backup;
+  const { provider, enabled, status, lastBackupAt, canRestore, restoreReason } =
+    backup;
   const now = useNow(RELATIVE_TIME_REFRESH_MS);
   const problem = enabled ? getProblemText({ provider, status }) : null;
   const showLastSync = enabled && problem === null;
@@ -146,7 +147,9 @@ export const BackupScreen = () => {
         )}
         {showRestore && (
           <TextInfo style={{ marginTop: 8 }}>
-            {t("backup_paused_other_phone")}
+            {restoreReason === "noEntries"
+              ? t("backup_paused_no_entries")
+              : t("backup_paused_other_phone")}
           </TextInfo>
         )}
         {enabled && status === "signedOut" && (
