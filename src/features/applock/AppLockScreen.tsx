@@ -171,7 +171,7 @@ export const AppLockScreen = () => {
         </>
       )}
       {/* The lock covers the root toast host, so it brings its own. */}
-      <ToastHost />
+      <ToastHost inline />
     </GestureHandlerRootView>
   );
 

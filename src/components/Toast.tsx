@@ -131,9 +131,10 @@ const ToastCard = ({ toast }: { toast: Toast }) => {
  * Renders toasts from `showToast`. Mount once at the root. On iOS the
  * overlay window keeps toasts above native modals. Swipe up dismisses.
  * The wrapper is only as tall as the toast, so touches elsewhere pass
- * through.
+ * through. `inline` skips the overlay window, for a host inside another
+ * full window overlay, such as the lock screen: a nested overlay never shows.
  */
-export const ToastHost = () => {
+export const ToastHost = ({ inline = false }: { inline?: boolean }) => {
   const toast = useToast();
   const insets = useSafeAreaInsets();
 
@@ -145,7 +146,7 @@ export const ToastHost = () => {
       {toast && <ToastCard key={toast.id} toast={toast} />}
     </GestureHandlerRootView>
   );
-  return Platform.OS === "ios" ? (
+  return Platform.OS === "ios" && !inline ? (
     <FullWindowOverlay>{host}</FullWindowOverlay>
   ) : (
     host
