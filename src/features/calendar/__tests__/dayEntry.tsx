@@ -120,6 +120,21 @@ describe("day view entry card", () => {
     expect(screen.queryByLabelText("Add Emotions")).toBeNull();
   });
 
+  test("few emotions show as one chip each and open the logger", async () => {
+    const item = _generateItem({
+      emotions: ["happy", "joyful"],
+      message: "",
+    });
+    await renderEntry({ item });
+
+    expect(await screen.findByText("Happy")).toBeTruthy();
+    expect(screen.getByText("Joyful")).toBeTruthy();
+
+    fireEvent.press(screen.getByHintText("Edit Emotions"));
+
+    expect(await screen.findByText(`edit ${item.id} emotions`)).toBeTruthy();
+  });
+
   test.each([
     ["Edit", "edit"],
     ["Delete", "delete"],
