@@ -41,3 +41,6 @@ expo-env.d.ts
 # PR proof: upload with gh pr edit --attach, never commit
 /output/
 /screens/
+
+# Apple artwork: license forbids redistribution. Prebuild downloads it.
+/assets/third-party/

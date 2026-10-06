@@ -4,6 +4,7 @@
  */
 export const FEATURE_FLAGS = [
   "app-icons",
+  "apple-health",
   "calendar-map",
   "calendar-timeline",
   "development",
@@ -31,6 +32,10 @@ export const FEATURE_FLAG_DETAILS: Record<
   "app-icons": {
     description: "Flagged alternate app icons",
     location: "Settings > App icon",
+  },
+  "apple-health": {
+    description: "Sleep quality filled from Apple Health",
+    location: "Settings > Check-in > Sleep, Check-in > Sleep step",
   },
   "calendar-map": {
     description: "Map layout for the calendar, iOS only",

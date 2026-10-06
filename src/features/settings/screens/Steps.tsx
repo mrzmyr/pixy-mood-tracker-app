@@ -34,6 +34,7 @@ import { useStepEnabled } from "../useStepEnabled";
 const STEP_PAGES = {
   tags: "/settings/steps/tags",
   people: "/settings/steps/people",
+  sleep: "/settings/steps/sleep",
 } as const;
 
 const hasStepPage = (
@@ -150,6 +151,8 @@ const LocationRow = () => {
 /**
  * Settings > Check-in: the logger steps in order. `rating` cannot be turned
  * off. Tags and People open their own page with the switch and their list.
+ * Sleep opens its page too; the Apple Health switch there sits behind the
+ * `apple-health` feature flag.
  * `people` and `photos` show only behind their feature flags. The location
  * switch shows behind the `location` feature flag.
  */
