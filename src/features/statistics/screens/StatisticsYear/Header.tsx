@@ -1,34 +1,33 @@
-import { useRouter } from "expo-router";
 import { LinearGradient } from "expo-linear-gradient";
-import { Dimensions, Text, View } from "react-native";
-import { ArrowLeft, Star } from "react-native-feather";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
-import LinkButton from "@/components/LinkButton";
+import { Text, View } from "react-native";
+import { Star } from "react-native-feather";
 import useColors from "@/hooks/useColors";
 import { t } from "@/lib/translation";
 
-/** Gradient header with back button for the year report. */
+/** Gradient banner under the native header for the year report. */
 export const Header = ({
   title,
   subtitle,
   gradientColors,
+  bannerHeight,
+  headerHeight,
 }: {
   title: string;
   subtitle: string;
   gradientColors: [string, string, string];
+  bannerHeight: number;
+  headerHeight: number;
 }) => {
-  const insets = useSafeAreaInsets();
   const colors = useColors();
-  const router = useRouter();
 
   return (
     <View
       style={{
         width: "100%",
-        height: Dimensions.get("window").height * 0.25,
+        height: bannerHeight,
         paddingHorizontal: 20,
-        paddingVertical: 24,
-        paddingTop: insets.top + 24,
+        paddingBottom: 24,
+        paddingTop: headerHeight + 8,
         position: "relative",
         overflow: "hidden",
       }}
@@ -61,33 +60,6 @@ export const Header = ({
           fill={gradientColors[0]}
           color={gradientColors[0]}
         />
-      </View>
-      <View
-        style={{
-          justifyContent: "flex-end",
-          flexWrap: "wrap",
-        }}
-      >
-        <View
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-          }}
-        >
-          <LinkButton
-            testID="statistics-back"
-            accessibilityLabel={t("logger_back")}
-            style={{
-              padding: 16,
-              margin: -16,
-            }}
-            onPress={() => {
-              router.back();
-            }}
-          >
-            <ArrowLeft width={24} height={24} color={colors.palette.white} />
-          </LinkButton>
-        </View>
       </View>
       <View
         style={{
