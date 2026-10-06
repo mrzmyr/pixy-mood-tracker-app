@@ -14,10 +14,11 @@ import TextInfo from "@/components/TextInfo";
 import { AppLockSetting, useAppLock } from "@/features/applock";
 
 /**
- * Settings > Privacy: privacy summary, link to the full policy, and the
- * analytics opt-in switch. The people section shows only behind the
- * `people` feature flag. The App Lock switch shows behind the `app-lock`
- * flag, and stays while the lock is on so the user can turn it off.
+ * Settings > Privacy: App Lock on top, privacy summary, link to the full
+ * policy, and the analytics opt-in switch. The people section shows only
+ * behind the `people` feature flag. The App Lock switch shows behind the
+ * `app-lock` flag, and stays while the lock is on so the user can turn it
+ * off.
  */
 export const PrivacyScreen = () => {
   const colors = useColors();
@@ -54,6 +55,11 @@ export const PrivacyScreen = () => {
             paddingBottom: 80,
           }}
         >
+          {isAppLockVisible && (
+            <FlagHighlight flag="app-lock">
+              <AppLockSetting />
+            </FlagHighlight>
+          )}
           <View
             style={{
               justifyContent: "center",
@@ -86,12 +92,6 @@ export const PrivacyScreen = () => {
           >
             {content}
           </Markdown>
-
-          {isAppLockVisible && (
-            <FlagHighlight flag="app-lock">
-              <AppLockSetting />
-            </FlagHighlight>
-          )}
 
           <MenuList
             style={{

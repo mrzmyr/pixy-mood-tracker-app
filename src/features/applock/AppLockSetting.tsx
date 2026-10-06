@@ -43,7 +43,7 @@ export const AppLockSetting = () => {
 
   return (
     <View>
-      <MenuList style={{ marginTop: 16 }}>
+      <MenuList>
         <MenuListItem
           title={t("app_lock")}
           deactivated={isUnavailable && !isEnabled}
