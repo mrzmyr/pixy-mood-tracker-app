@@ -151,6 +151,28 @@ export const getShortItemDateTitle = (dateTime: LogItem["dateTime"]) => {
   return `${dayFormat.format(date.toDate())}, ${SHORT_TIME_FORMAT.format(date.toDate())}`;
 };
 
+/**
+ * Weekday, month and day in the phone locale ("Tuesday, September 29" in
+ * en-US, "Dienstag, 29. September" in de-DE). The year shows only outside
+ * the current year. Display only, never a storage key.
+ */
+export const formatLocalizedDay = (
+  date: string | Date,
+  weekdayStyle: "long" | "short",
+  localeTag: string = locale
+) => {
+  const day = dayjs(date);
+  const options: Intl.DateTimeFormatOptions = {
+    weekday: weekdayStyle,
+    month: weekdayStyle === "long" ? "long" : "short",
+    day: "numeric",
+  };
+  if (!day.isSame(dayjs(), "year")) {
+    options.year = "numeric";
+  }
+  return new Intl.DateTimeFormat(localeTag, options).format(day.toDate());
+};
+
 /** Localized day title: "Today", "Yesterday", or the full weekday and date. */
 export const getDayDateTitle = (date: LogDay["date"]) => {
   if (dayjs(date).isSame(dayjs(), "day")) {
@@ -161,7 +183,7 @@ export const getDayDateTitle = (date: LogDay["date"]) => {
     return t("yesterday");
   }
 
-  return dayjs(date).format("dddd, L");
+  return formatLocalizedDay(date, "long");
 };
 
 const isoDateRegExp =

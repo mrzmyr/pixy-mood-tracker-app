@@ -18,6 +18,7 @@ import {
 import useColors from "@/hooks/useColors";
 import { toLogDate } from "@/lib/logDates";
 import { t } from "@/lib/translation";
+import { formatLocalizedDay } from "@/lib/utils";
 import { SlideHeadline } from "../components/SlideHeadline";
 import { useLogDraft } from "../logDraft";
 import { Footer } from "./Footer";
@@ -45,7 +46,7 @@ const formatDayLabel = ({
       isTitleCase ? "photos_day_yesterday_title" : "photos_day_yesterday"
     );
   }
-  return day.format("ddd, MMM D");
+  return formatLocalizedDay(date, "short");
 };
 
 /**
