@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.93.0](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.92.1...v1.93.0) (2026-10-06)
+
+
+### Features
+
+* **calendar:** compact chip rows and place map on timeline cards ([#649](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/649)) ([1b73e9d](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/1b73e9dbf939a907528ac57065054882e396c419))
+* **reminder:** preview reminder on lock screen cut-out ([#645](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/645)) ([920ae59](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/920ae5977ee840df337c8eeb06c18e685cb91b22))
+* **ui:** put cards, list groups, and calendar days in a bezel ([#651](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/651)) ([44ec258](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/44ec2586db28d5709413021ffae3be42403ebb70))
+
+
+### Bug Fixes
+
+* **settings:** keep gap above the location switch in Check-in ([#648](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/648)) ([537c6b4](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/537c6b495ace82e88a8fe17f6c753bf24204f80b))
+
 ## [1.92.1](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.92.0...v1.92.1) (2026-10-06)
 
 
