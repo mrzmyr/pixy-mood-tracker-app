@@ -226,7 +226,8 @@
           "NSHealthUpdateUsageDescription": false,
           "background": false
         }
-      ]
+      ],
+      "./tools/expo-plugins/withAppleHealthIcon.cjs"
     ],
     "buildCacheProvider": {
       "plugin": "./scripts/build-cache-provider.cjs"

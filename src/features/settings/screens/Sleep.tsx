@@ -4,7 +4,7 @@ import MenuList from "@/components/MenuList";
 import MenuListHeadline from "@/components/MenuListHeadline";
 import MenuListItem from "@/components/MenuListItem";
 import TextInfo from "@/components/TextInfo";
-import { useHealthSleepSetting } from "@/features/health";
+import { AppleHealthIcon, useHealthSleepSetting } from "@/features/health";
 import useColors from "@/hooks/useColors";
 import { t } from "@/lib/translation";
 import { StepSwitch } from "../components/StepSwitch";
@@ -32,6 +32,9 @@ export const SettingsSleepScreen = () => {
             <MenuList>
               <MenuListItem
                 title={t("health_sleep_setting")}
+                // Apple's rules: "Apple Health" sits close to the icon,
+                // here in the headline right above.
+                iconLeft={<AppleHealthIcon size={29} />}
                 iconRight={
                   <Switch
                     accessibilityLabel={t("health_sleep_setting")}

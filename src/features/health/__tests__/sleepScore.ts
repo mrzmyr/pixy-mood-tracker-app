@@ -8,11 +8,10 @@ const at = (day: number, hour: number, minute = 0) =>
   new Date(2026, 9, day, hour, minute);
 
 const sample = (
-  kind: SleepSample["kind"],
+  stage: SleepSample["stage"],
   start: Date,
-  end: Date,
-  isStaged = kind === "asleep"
-): SleepSample => ({ kind, isStaged, start, end });
+  end: Date
+): SleepSample => ({ stage, start, end });
 
 const night = (overrides: Partial<NightSummary> = {}): NightSummary => ({
   onset: at(5, 23),
@@ -20,6 +19,7 @@ const night = (overrides: Partial<NightSummary> = {}): NightSummary => ({
   wakeUps: 0,
   awakeMinutes: 0,
   hasInterruptions: true,
+  stages: [{ stage: "core", minutes: 480 }],
   ...overrides,
 });
 
@@ -30,9 +30,9 @@ const onsets = (count: number, hour = 23, minute = 0) =>
 describe("summarizeNight()", () => {
   test("adds up sleep stages and counts the awake gap between them", () => {
     const summary = summarizeNight([
-      sample("asleep", at(5, 23), at(6, 2)),
-      sample("awake", at(6, 2), at(6, 2, 20), false),
-      sample("asleep", at(6, 2, 20), at(6, 7)),
+      sample("core", at(5, 23), at(6, 2)),
+      sample("awake", at(6, 2), at(6, 2, 20)),
+      sample("core", at(6, 2, 20), at(6, 7)),
     ]);
 
     expect(summary).toEqual({
@@ -41,6 +41,10 @@ describe("summarizeNight()", () => {
       wakeUps: 1,
       awakeMinutes: 20,
       hasInterruptions: true,
+      stages: [
+        { stage: "awake", minutes: 20 },
+        { stage: "core", minutes: 460 },
+      ],
     });
   });
 
@@ -73,7 +77,38 @@ describe("summarizeNight()", () => {
     expect(summary).toMatchObject({
       asleepMinutes: 420,
       hasInterruptions: false,
+      stages: [{ stage: "inBed", minutes: 420 }],
     });
+  });
+
+  test("splits watch sleep into stages in Apple Health order", () => {
+    const summary = summarizeNight([
+      sample("inBed", at(5, 22, 50), at(6, 7, 10)),
+      sample("core", at(5, 23), at(6, 1)),
+      sample("deep", at(6, 1), at(6, 2)),
+      sample("awake", at(6, 2), at(6, 2, 10)),
+      sample("rem", at(6, 2, 10), at(6, 3)),
+      sample("core", at(6, 3), at(6, 7)),
+    ]);
+
+    expect(summary?.stages).toEqual([
+      { stage: "awake", minutes: 10 },
+      { stage: "rem", minutes: 50 },
+      { stage: "core", minutes: 360 },
+      { stage: "deep", minutes: 60 },
+    ]);
+  });
+
+  test("shows sleep without stages as one part next to awake time", () => {
+    const summary = summarizeNight([
+      sample("asleep", at(5, 23), at(6, 3)),
+      sample("asleep", at(6, 3, 30), at(6, 7)),
+    ]);
+
+    expect(summary?.stages).toEqual([
+      { stage: "awake", minutes: 30 },
+      { stage: "asleep", minutes: 450 },
+    ]);
   });
 
   test("returns null without sleep", () => {

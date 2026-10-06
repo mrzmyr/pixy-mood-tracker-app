@@ -2,7 +2,11 @@ import { useEffect, useRef } from "react";
 import { getSlideMarginTop } from "./marginTop";
 import { t } from "@/lib/translation";
 import useColors from "@/hooks/useColors";
-import { useHealthSleep, useHealthSleepSetting } from "@/features/health";
+import {
+  SleepStagesCard,
+  useHealthSleep,
+  useHealthSleepSetting,
+} from "@/features/health";
 import type { HealthSleep } from "@/features/health";
 import { useAnalytics } from "@/state/analytics";
 import { SLEEP_QUALITY_KEYS } from "@/constants/Ratings";
@@ -17,24 +21,14 @@ import { SlideSleepButton } from "./SlideSleepButton";
 // Worst to best, so "Not at all" sits left and "Great" right.
 const SLEEP_QUALITIES = [...SLEEP_QUALITY_KEYS].reverse();
 
-/** "7h 20m asleep" line under the scale, with wake-ups when known. */
-const formatHealthSummary = ({ night }: HealthSleep) => {
-  const duration = t("health_sleep_duration", {
-    hours: Math.floor(night.asleepMinutes / 60),
-    minutes: night.asleepMinutes % 60,
-  });
-  return night.hasInterruptions
-    ? t("health_sleep_summary_wake_ups", { duration, count: night.wakeUps })
-    : t("health_sleep_summary", { duration });
-};
-
 /**
  * Sleep quality slide. Picking a quality calls `onSelect`; picking the
  * selected quality again clears it and stays on the slide.
  *
  * With `canFillFromHealth` and the Apple Health setting on, the slide
- * preselects the quality scored from last night once and shows the sleep
- * summary. Tapping the preselected quality confirms it and moves on.
+ * preselects the quality scored from last night once and shows last
+ * night's sleep stages above the scale. Tapping the preselected quality
+ * confirms it and moves on.
  */
 export const SlideSleep = ({
   onSelect,
@@ -89,12 +83,18 @@ export const SlideSleep = ({
       }}
     >
       <SlideHeadline>{t("log_sleep_question")}</SlideHeadline>
+      {health !== null && (
+        // Buttons carry a 4 pt margin; the card lines up with their edges.
+        <View style={{ marginTop: 20, marginHorizontal: 4 }}>
+          <SleepStagesCard sleep={health} />
+        </View>
+      )}
       <View
         style={{
           flexDirection: "row",
           alignItems: "center",
           justifyContent: "center",
-          marginTop: 32,
+          marginTop: health === null ? 32 : 16,
         }}
       >
         {SLEEP_QUALITIES.map((key) => (
@@ -157,19 +157,6 @@ export const SlideSleep = ({
           {t("logger_step_sleep_high")}
         </Text>
       </View>
-      {health !== null && (
-        <Text
-          testID="health-sleep-summary"
-          style={{
-            marginTop: 24,
-            fontSize: 14,
-            color: colors.textSecondary,
-            textAlign: "center",
-          }}
-        >
-          {formatHealthSummary(health)}
-        </Text>
-      )}
       <View style={{ flex: 1 }} />
       <Footer>
         {showDisable && (

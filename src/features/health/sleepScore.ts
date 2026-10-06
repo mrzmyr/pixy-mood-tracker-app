@@ -5,17 +5,27 @@ import type { SLEEP_QUALITY_MAPPING } from "@/constants/Ratings";
 export type SleepQuality = keyof typeof SLEEP_QUALITY_MAPPING;
 
 /**
- * One sleep analysis sample from Apple Health, reduced to what the score
- * needs. `asleep` covers unspecified, core, deep, and REM sleep. `inBed`
- * comes from the iPhone sleep schedule without a watch.
+ * Sleep analysis value from Apple Health. `asleep` is sleep without a
+ * stage. `inBed` comes from the iPhone sleep schedule without a watch.
  */
+export type SleepStage = "inBed" | "asleep" | "awake" | "core" | "deep" | "rem";
+
+/** One sleep analysis sample from Apple Health. */
 export interface SleepSample {
-  kind: "inBed" | "asleep" | "awake";
-  /** `true` for core, deep, and REM: a tracker wrote sleep stages. */
-  isStaged: boolean;
+  stage: SleepStage;
   start: Date;
   end: Date;
 }
+
+/** Minutes of one stage in the main sleep, for the stage chart. */
+export interface StageMinutes {
+  stage: SleepStage;
+  minutes: number;
+}
+
+const ASLEEP_STAGES = new Set<SleepStage>(["asleep", "core", "deep", "rem"]);
+/** Stage chart order, as in Apple Health. */
+const STAGED: SleepStage[] = ["rem", "core", "deep"];
 
 /** Main sleep of one night. */
 export interface NightSummary {
@@ -32,6 +42,12 @@ export interface NightSummary {
    * real. Time in bed and unspecified sleep say nothing about wake-ups.
    */
   hasInterruptions: boolean;
+  /**
+   * Stage chart, in Apple Health order: awake, REM, core, deep. Without
+   * stages one `asleep` part, without a watch one `inBed` part. Parts with
+   * 0 minutes are left out.
+   */
+  stages: StageMinutes[];
 }
 
 /** Points per part, as in Apple's Sleep Score. */
@@ -116,6 +132,18 @@ const toSessions = (intervals: Interval[]): Interval[][] => {
   return sessions;
 };
 
+/** Minutes of `intervals` between `start` and `end`. */
+const clippedMinutes = (intervals: Interval[], start: number, end: number) =>
+  mergeIntervals(intervals).reduce(
+    (sum, interval) =>
+      sum +
+      Math.max(
+        0,
+        minutes(Math.min(end, interval.end) - Math.max(start, interval.start))
+      ),
+    0
+  );
+
 const sessionMinutes = (session: Interval[]) =>
   session.reduce(
     (sum, interval) => sum + minutes(interval.end - interval.start),
@@ -131,6 +159,20 @@ export const getNightWindow = (date: string) => {
   return { start: end.subtract(1, "day").toDate(), end: end.toDate() };
 };
 
+/** Intervals of the samples in `stage`. */
+const intervalsOf = (samples: SleepSample[], stage: SleepStage) => {
+  const intervals: Interval[] = [];
+  for (const sample of samples) {
+    if (sample.stage === stage) {
+      intervals.push({
+        start: sample.start.getTime(),
+        end: sample.end.getTime(),
+      });
+    }
+  }
+  return intervals;
+};
+
 /**
  * Main sleep in `samples`: the longest session. Naps and a second short
  * sleep do not count. Returns `null` without sleep.
@@ -140,12 +182,12 @@ export const summarizeNight = (samples: SleepSample[]): NightSummary | null => {
     start: sample.start.getTime(),
     end: sample.end.getTime(),
   });
-  const asleep = samples.filter((sample) => sample.kind === "asleep");
+  const asleep = samples.filter((sample) => ASLEEP_STAGES.has(sample.stage));
   // Without a watch the iPhone writes only time in bed.
   const source =
     asleep.length > 0
       ? asleep
-      : samples.filter((sample) => sample.kind === "inBed");
+      : samples.filter((sample) => sample.stage === "inBed");
   const sessions = toSessions(mergeIntervals(source.map(toInterval)));
   if (sessions.length === 0) {
     return null;
@@ -167,14 +209,39 @@ export const summarizeNight = (samples: SleepSample[]): NightSummary | null => {
     }
   }
 
+  const asleepMinutes = Math.round(sessionMinutes(main));
+  const [{ start }] = main;
+  const end = Math.max(...main.map((interval) => interval.end));
+  const hasStages = samples.some((sample) => STAGED.includes(sample.stage));
+  let stages: StageMinutes[];
+  if (asleep.length === 0) {
+    stages = [{ stage: "inBed", minutes: asleepMinutes }];
+  } else if (hasStages) {
+    stages = [
+      { stage: "awake", minutes: Math.round(awakeMinutes) },
+      ...STAGED.map((stage) => ({
+        stage,
+        minutes: Math.round(
+          clippedMinutes(intervalsOf(samples, stage), start, end)
+        ),
+      })),
+    ];
+  } else {
+    stages = [
+      { stage: "awake", minutes: Math.round(awakeMinutes) },
+      { stage: "asleep", minutes: asleepMinutes },
+    ];
+  }
+
   return {
-    onset: new Date(main[0].start),
-    asleepMinutes: Math.round(sessionMinutes(main)),
+    onset: new Date(start),
+    asleepMinutes,
     wakeUps,
     awakeMinutes: Math.round(awakeMinutes),
     hasInterruptions:
       asleep.length > 0 &&
-      samples.some((sample) => sample.isStaged || sample.kind === "awake"),
+      (hasStages || samples.some((sample) => sample.stage === "awake")),
+    stages: stages.filter((part) => part.minutes > 0),
   };
 };
 

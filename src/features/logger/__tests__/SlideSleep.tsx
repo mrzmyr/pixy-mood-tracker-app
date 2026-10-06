@@ -35,20 +35,17 @@ jest.mock("@/state/featureFlags", () => ({
 // wake-up. 415 minutes asleep without bedtime history scores 86: "good".
 const NIGHT: SleepSample[] = [
   {
-    kind: "asleep",
-    isStaged: true,
+    stage: "core",
     start: new Date(2026, 9, 5, 23),
     end: new Date(2026, 9, 6, 2),
   },
   {
-    kind: "awake",
-    isStaged: false,
+    stage: "awake",
     start: new Date(2026, 9, 6, 2),
     end: new Date(2026, 9, 6, 2, 15),
   },
   {
-    kind: "asleep",
-    isStaged: true,
+    stage: "core",
     start: new Date(2026, 9, 6, 2, 15),
     end: new Date(2026, 9, 6, 6, 10),
   },
@@ -124,16 +121,16 @@ describe("SlideSleep with Apple Health", () => {
     setHealthSourceOverride(null);
   });
 
-  test("preselects the scored quality and shows last night", async () => {
+  test("preselects the scored quality and shows last night's stages", async () => {
     await storeHealthSetting(true);
     await renderStep();
 
     await waitFor(() => {
       expect(isSelected("good")).toBe(true);
     });
-    expect(screen.getByTestId("health-sleep-summary")).toHaveTextContent(
-      "From Apple Health: 6h 55m asleep, wake-ups: 1"
-    );
+    expect(
+      screen.getByTestId("health-sleep-summary").props.accessibilityLabel
+    ).toBe("Apple Health, 6h 55m asleep, Awake 15m, Core 6h 55m");
   });
 
   test("tap on the preselected quality keeps it and moves on", async () => {

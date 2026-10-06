@@ -6,24 +6,31 @@ import {
 } from "@kingstinct/react-native-healthkit";
 import type { HealthSource } from "./healthSource";
 import { createHealthError } from "./healthError";
-import type { SleepSample } from "./sleepScore";
+import type { SleepStage } from "./sleepScore";
 
 const SLEEP = "HKCategoryTypeIdentifierSleepAnalysis";
 
-const STAGED = new Set<number>([
-  CategoryValueSleepAnalysis.asleepCore,
-  CategoryValueSleepAnalysis.asleepDeep,
-  CategoryValueSleepAnalysis.asleepREM,
-]);
-
-const toKind = (value: number): SleepSample["kind"] => {
-  if (value === CategoryValueSleepAnalysis.inBed) {
-    return "inBed";
+const toStage = (value: number): SleepStage => {
+  switch (value) {
+    case CategoryValueSleepAnalysis.inBed: {
+      return "inBed";
+    }
+    case CategoryValueSleepAnalysis.awake: {
+      return "awake";
+    }
+    case CategoryValueSleepAnalysis.asleepCore: {
+      return "core";
+    }
+    case CategoryValueSleepAnalysis.asleepDeep: {
+      return "deep";
+    }
+    case CategoryValueSleepAnalysis.asleepREM: {
+      return "rem";
+    }
+    default: {
+      return "asleep";
+    }
   }
-  if (value === CategoryValueSleepAnalysis.awake) {
-    return "awake";
-  }
-  return "asleep";
 };
 
 /** Apple Health through HealthKit. Pixy only reads sleep, never writes. */
@@ -46,8 +53,7 @@ export const systemHealthSource: HealthSource = {
         filter: { date: { startDate: start, endDate: end } },
       });
       return samples.map((sample) => ({
-        kind: toKind(sample.value),
-        isStaged: STAGED.has(sample.value),
+        stage: toStage(sample.value),
         start: sample.startDate,
         end: sample.endDate,
       }));

@@ -7,26 +7,29 @@ const BEDTIME_DRIFT = [0, 5, -10, 10, -5, 0, 15, -15, 5, -5, 10, 0, -10, 5];
 
 /**
  * One night with watch stages from 23:00 (+ `drift` minutes) on the day
- * before `date`: 7 h 05 min asleep, two wake-ups of 8 and 7 minutes.
+ * before `date`: 7 h 05 min asleep (core 4 h, deep 1 h 05 min, REM 2 h),
+ * two wake-ups of 8 and 7 minutes.
  */
 const night = (date: dayjs.Dayjs, drift: number): SleepSample[] => {
   const onset = date.subtract(1, "day").hour(23).minute(0).add(drift, "minute");
-  const parts: [SleepSample["kind"], number][] = [
-    ["asleep", 150],
+  const parts: [SleepSample["stage"], number][] = [
+    ["core", 40],
+    ["deep", 35],
+    ["core", 45],
+    ["rem", 30],
     ["awake", 8],
-    ["asleep", 180],
+    ["core", 60],
+    ["deep", 30],
+    ["core", 50],
+    ["rem", 40],
     ["awake", 7],
-    ["asleep", 95],
+    ["core", 45],
+    ["rem", 50],
   ];
   let start = onset;
-  return parts.map(([kind, minutes]) => {
+  return parts.map(([stage, minutes]) => {
     const end = start.add(minutes, "minute");
-    const sample = {
-      kind,
-      isStaged: true,
-      start: start.toDate(),
-      end: end.toDate(),
-    };
+    const sample = { stage, start: start.toDate(), end: end.toDate() };
     start = end;
     return sample;
   });

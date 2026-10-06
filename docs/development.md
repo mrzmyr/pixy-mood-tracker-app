@@ -95,7 +95,9 @@ Three variants install side by side, each with its own name, icon, bundle ID, an
 - Library: [`@kingstinct/react-native-healthkit`](https://github.com/kingstinct/react-native-healthkit). Read sleep only. Plugin drops `NSHealthUpdateUsageDescription` and background delivery
 - Apple Sleep Score has no API. Pixy computes own score from sleep samples ([`sleepScore.ts`](../src/features/health/sleepScore.ts)). Score bands map to the 5 sleep qualities
 - Switch on shows the Health access sheet. HealthKit hides read denial: switch stays on, slide stays empty. Settings text points to Health app > Apps > Pixy
-- New entries only. Sleep slide preselects quality once and shows asleep time and wake-ups. Tap on preselected quality confirms and moves on. Edits keep stored quality
+- New entries only. Sleep slide preselects quality once. Card above the scale shows total sleep and a stacked bar of stages (awake, REM, core, deep), colors close to Apple Health. Without a watch: one "In Bed" bar. Tap on preselected quality confirms and moves on. Edits keep stored quality
+- Apple Health icon: Apple's artwork license forbids redistribution, so the repository never holds it. Config plugin [`withAppleHealthIcon.cjs`](../tools/expo-plugins/withAppleHealthIcon.cjs) adds it to the iOS asset catalog at prebuild from gitignored `assets/third-party/apple-health/`, or downloads Apple's disk image on macOS. Missing icon: build continues, rows show no icon
+- Icon rules ([HIG HealthKit](https://developer.apple.com/design/human-interface-guidelines/healthkit)): "Apple Health" close to the icon, never a button, never altered
 - Entries store quality only. No Health values in entries, exports, or analytics
 - Setting is device-bound, not in exports
 - Simulator holds no watch sleep. Preview builds: `<scheme>://dev/fake-files` swaps Apple Health for [`fakeHealthSource`](../src/dev/fakeHealthSource.ts)
