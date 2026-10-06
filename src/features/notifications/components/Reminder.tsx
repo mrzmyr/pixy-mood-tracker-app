@@ -1,7 +1,8 @@
 import type { DateTimePickerEvent } from "@react-native-community/datetimepicker";
 import dayjs from "dayjs";
 import { useEffect, useEffectEvent } from "react";
-import { Linking, Switch, Text, View } from "react-native";
+import { Linking, Text, View } from "react-native";
+import Toggle from "@/components/Toggle";
 import Clock from "./Clock";
 import MenuList from "@/components/MenuList";
 import MenuListItem from "@/components/MenuListItem";
@@ -66,7 +67,7 @@ const Reminder = () => {
         <MenuListItem
           title={t("reminder")}
           iconRight={
-            <Switch
+            <Toggle
               onValueChange={() => onEnabledChange(!reminderEnabled)}
               value={reminderEnabled}
               testID="reminder-enabled"

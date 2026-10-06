@@ -12,7 +12,8 @@ import { t } from "@/lib/translation";
 import { Fragment } from "react";
 import type { ReactElement } from "react";
 import { BedDouble } from "lucide-react-native";
-import { ScrollView, Switch, Text, View } from "react-native";
+import { ScrollView, Text, View } from "react-native";
+import Toggle from "@/components/Toggle";
 import {
   Bell,
   ChevronRight,
@@ -58,7 +59,7 @@ const StepRow = ({
   let iconRight: ReactElement | undefined;
   if (page === null && step !== "rating") {
     iconRight = (
-      <Switch
+      <Toggle
         accessibilityLabel={t(`logger_step_${step}`)}
         testID={`step-${step}-enabled`}
         onValueChange={setEnabled}
@@ -110,7 +111,7 @@ const LocationRow = () => {
               title={t("location_setting")}
               iconLeft={<MapPin width={20} height={20} color={colors.text} />}
               iconRight={
-                <Switch
+                <Toggle
                   accessibilityLabel={t("location_setting")}
                   testID="location-enabled"
                   onValueChange={setEnabled}

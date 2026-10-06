@@ -1,7 +1,8 @@
 import * as Linking from "expo-linking";
 import { Check } from "lucide-react-native";
 import { useSyncExternalStore } from "react";
-import { ScrollView, Switch, View } from "react-native";
+import { ScrollView, View } from "react-native";
+import Toggle from "@/components/Toggle";
 import MenuList from "@/components/MenuList";
 import MenuListHeadline from "@/components/MenuListHeadline";
 import MenuListItem from "@/components/MenuListItem";
@@ -91,8 +92,7 @@ export const FeatureFlagsScreen = () => {
         <MenuListItem
           title="Highlight flagged features"
           iconRight={
-            <Switch
-              ios_backgroundColor={colors.backgroundSecondary}
+            <Toggle
               onValueChange={setHighlight}
               value={isHighlighting}
               testID="feature-flag-highlight"

@@ -3,7 +3,6 @@ import {
   Modal,
   Platform,
   ScrollView,
-  Switch,
   Text,
   TextInput,
   View,
@@ -13,6 +12,7 @@ import { CloseButton } from "@/components/CloseButton";
 import LinkButton from "@/components/LinkButton";
 import MenuList from "@/components/MenuList";
 import MenuListItem from "@/components/MenuListItem";
+import Toggle from "@/components/Toggle";
 import useColors from "@/hooks/useColors";
 import useHaptics from "@/hooks/useHaptics";
 import { showToast } from "@/lib/toast";
@@ -83,7 +83,7 @@ const ReplyFields = ({
         <MenuListItem
           title={t("request_emotion_reply")}
           iconRight={
-            <Switch
+            <Toggle
               testID="request-emotion-reply"
               accessibilityLabel={t("request_emotion_reply")}
               value={wantsReply}

@@ -1,6 +1,6 @@
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useState } from "react";
-import { Platform, Switch, Text, View } from "react-native";
+import { Platform, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { v4 as uuidv4 } from "uuid";
 import { useTagActions } from "../useTagActions";
@@ -18,6 +18,7 @@ import type { Tag as ITag } from "../TagsProvider";
 
 import MenuList from "@/components/MenuList";
 import MenuListItem from "@/components/MenuListItem";
+import Toggle from "@/components/Toggle";
 import TextInfo from "@/components/TextInfo";
 
 const REGEX_EMOJI = /\p{Emoji}/u;
@@ -123,10 +124,9 @@ export const TagEdit = () => {
             <MenuListItem
               title={t("archive_tag_enabled")}
               iconRight={
-                <Switch
+                <Toggle
                   accessibilityLabel={t("archive_tag_enabled")}
                   testID="tag-archived"
-                  ios_backgroundColor={colors.backgroundSecondary}
                   onValueChange={() => {
                     setTag((currentTag) => ({
                       ...currentTag,

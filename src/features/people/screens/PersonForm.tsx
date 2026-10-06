@@ -1,5 +1,6 @@
 import { useLocalSearchParams, useRouter } from "expo-router";
-import { Platform, Switch, TextInput, View } from "react-native";
+import { Platform, TextInput, View } from "react-native";
+import Toggle from "@/components/Toggle";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Button from "@/components/Button";
 import DismissKeyboard from "@/components/DismisKeyboard";
@@ -34,7 +35,6 @@ const EditActions = ({
   onLeave: () => void;
 }) => {
   const router = useRouter();
-  const colors = useColors();
   const haptics = useHaptics();
   const analytics = useAnalytics();
   const peopleUpdater = usePeopleUpdater();
@@ -75,10 +75,9 @@ const EditActions = ({
         <MenuListItem
           title={t("people_archive")}
           iconRight={
-            <Switch
+            <Toggle
               accessibilityLabel={t("people_archive")}
               testID="person-archived"
-              ios_backgroundColor={colors.backgroundSecondary}
               onValueChange={onToggleArchived}
               value={isArchived}
             />
