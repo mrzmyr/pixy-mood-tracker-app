@@ -15,6 +15,14 @@ import {
 
 const renderHeaderLeft = () => <BackButton testID="settings-back-button" />;
 
+// Report screens draw a gradient banner under the header and refine these
+// options while scrolling (see `useReportHeader`).
+const reportHeaderOptions = {
+  headerTransparent: true,
+  headerTitle: "",
+  headerShadowVisible: false,
+};
+
 const modalOptions = { presentation: "modal" as const, headerShown: false };
 
 /** Root app stack keeps prior modal presentation and header titles. */
@@ -117,7 +125,7 @@ const AppLayout = () => {
             options={{
               ...pageOptions,
               title: t("month_report"),
-              headerShown: false,
+              ...reportHeaderOptions,
             }}
           />
           <Stack.Screen
@@ -125,7 +133,7 @@ const AppLayout = () => {
             options={{
               ...pageOptions,
               title: dayjs().format("YYYY"),
-              headerShown: false,
+              ...reportHeaderOptions,
             }}
           />
           <Stack.Screen
