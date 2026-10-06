@@ -31,6 +31,10 @@ export const FEATURE_FLAG_DETAILS: Record<
     description: "Flagged alternate app icons",
     location: "Settings > App icon",
   },
+  "calendar-timeline": {
+    description: "Timeline layout for the calendar",
+    location: "Calendar > Filters menu",
+  },
   development: {
     description: "Development section in production builds",
     location: "Settings > Development",
