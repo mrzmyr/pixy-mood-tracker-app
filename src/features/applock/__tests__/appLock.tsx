@@ -1,4 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import * as Clipboard from "expo-clipboard";
 import * as LocalAuthentication from "expo-local-authentication";
 import {
   act,
@@ -317,7 +318,7 @@ describe("App Lock", () => {
     expect(await readStoredLock()).toBe(true);
   });
 
-  test("lock screen shows the support code only with analytics consent", async () => {
+  test("Help shows the support code only with analytics consent, a tap copies it", async () => {
     await storeSettings(true);
     authenticateAsync.mockResolvedValueOnce({
       success: false,
@@ -325,7 +326,7 @@ describe("App Lock", () => {
     });
     const withoutConsent = await renderWithFlags(NO_FLAGS);
     await withoutConsent.findByTestId("app-lock-unlock");
-    expect(withoutConsent.queryByTestId("app-lock-support-code")).toBeNull();
+    expect(withoutConsent.queryByTestId("app-lock-help")).toBeNull();
     withoutConsent.unmount();
 
     await storeSettings(true, true);
@@ -334,10 +335,15 @@ describe("App Lock", () => {
       error: "user_cancel",
     });
     const screen = await renderWithFlags(NO_FLAGS);
+    expect(screen.queryByTestId("app-lock-support-code")).toBeNull();
 
-    expect(
-      await screen.findByTestId("app-lock-support-code")
-    ).toHaveTextContent("test-distinct-id");
+    await userEvent.press(await screen.findByTestId("app-lock-help"));
+    const code = screen.getByTestId("app-lock-support-code");
+    expect(code).toHaveTextContent("test-distinct-id");
+
+    await userEvent.press(code);
+    expect(Clipboard.setStringAsync).toHaveBeenCalledWith("test-distinct-id");
+    expect(await screen.findByText("Code Copied")).toBeOnTheScreen();
   });
 
   test("settings row hides without the flag, stays while the lock is on", async () => {

@@ -141,3 +141,9 @@ jest.mock("expo-local-authentication", () => ({
   supportedAuthenticationTypesAsync: jest.fn(() => Promise.resolve([])),
   authenticateAsync: jest.fn(() => Promise.resolve({ success: true })),
 }));
+
+// oxlint-disable-next-line anti-slop/no-module-mocking -- expo-clipboard is a native module; the lock screen copies the support code.
+jest.mock("expo-clipboard", () => ({
+  __esModule: true,
+  setStringAsync: jest.fn(() => Promise.resolve(true)),
+}));
