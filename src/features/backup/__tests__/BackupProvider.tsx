@@ -404,6 +404,10 @@ describe("BackupProvider", () => {
 
     await waitFor(() => expect(cloud.writeBackupFile).toHaveBeenCalledTimes(2));
     expect(backupReports()).toHaveLength(1);
+    // Sentry drops custom error properties, so the status travels as a tag.
+    expect(backupReports()[0][1]).toMatchObject({
+      tags: { status: "backup_write_failed" },
+    });
   });
 
   test("turning off asks, deletes the backup, and stores the switch", async () => {
@@ -419,6 +423,51 @@ describe("BackupProvider", () => {
       expect(hook.result.current.settings.settings.backupEnabled).toBe(false)
     );
     expect(hook.result.current.backup.status).toBe("off");
+  });
+
+  test("turning off still turns off when the cloud copy cannot be deleted", async () => {
+    await seed({ itemCount: 2 });
+    jest
+      .mocked(cloud.deleteBackupFile)
+      .mockRejectedValue(new Error("The user has not granted access"));
+    const hook = await renderBackup();
+    await waitFor(() => expect(hook.result.current.backup.status).toBe("idle"));
+
+    await runConfirmed(() => hook.result.current.backup.setEnabled(false));
+
+    await waitFor(() =>
+      expect(hook.result.current.settings.settings.backupEnabled).toBe(false)
+    );
+    expect(hook.result.current.backup.status).toBe("off");
+    expect(Alert.alert).toHaveBeenLastCalledWith(
+      "Backup Is Off",
+      expect.stringContaining("Manage Account Storage"),
+      expect.any(Array),
+      expect.any(Object)
+    );
+  });
+
+  test("turning off while signed out still turns off when sign-in is cancelled", async () => {
+    await seed({ itemCount: 2 });
+    jest.mocked(cloud.resume).mockResolvedValue(false);
+    jest.mocked(cloud.connect).mockResolvedValue(false);
+    const hook = await renderBackup();
+    await waitFor(() =>
+      expect(hook.result.current.backup.status).toBe("signedOut")
+    );
+
+    await runConfirmed(() => hook.result.current.backup.setEnabled(false));
+
+    expect(cloud.deleteBackupFile).not.toHaveBeenCalled();
+    await waitFor(() =>
+      expect(hook.result.current.settings.settings.backupEnabled).toBe(false)
+    );
+    expect(Alert.alert).toHaveBeenLastCalledWith(
+      "Backup Is Off",
+      expect.any(String),
+      expect.any(Array),
+      expect.any(Object)
+    );
   });
 
   test("turning on stays off when sign-in is cancelled", async () => {

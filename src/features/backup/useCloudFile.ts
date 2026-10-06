@@ -67,14 +67,17 @@ export const useCloudFile = ({
       }
       if (!reported.current.has(code)) {
         reported.current.add(code);
-        Sentry.captureException(
-          createStructuredError({
-            status: code,
-            message: "Backup failed",
-            why: failure.message ?? "The cloud call failed without a message",
-            fix: "Check the internet connection and iCloud or Google Drive settings. Pixy retries on the next change.",
-          })
-        );
+        const error = createStructuredError({
+          status: code,
+          message: "Backup failed",
+          why: failure.message ?? "The cloud call failed without a message",
+          fix: "Check the internet connection and iCloud or Google Drive settings. Pixy retries on the next change.",
+        });
+        // Sentry drops custom error properties: send them as tag and extra.
+        Sentry.captureException(error, {
+          tags: { status: error.status },
+          extra: { why: error.why, fix: error.fix, code: failure.code },
+        });
       }
       analytics.track("backup:failed", { status: code });
       setStatus("error");

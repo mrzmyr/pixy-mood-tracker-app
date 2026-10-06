@@ -158,6 +158,21 @@ export const showImportError = () => {
   );
 };
 
+/**
+ * Show that backup is off but the cloud copy may remain, with the steps to
+ * delete it in iCloud or Google Drive.
+ */
+export const showBackupNotDeleted = (provider: "icloud" | "googledrive") => {
+  Alert.alert(
+    t("backup_off_not_deleted_title"),
+    provider === "icloud"
+      ? t("backup_off_not_deleted_ios")
+      : t("backup_off_not_deleted_android"),
+    [{ text: t("ok"), onPress: noop }],
+    { cancelable: false }
+  );
+};
+
 /** Show the "all data deleted" alert. */
 export const showResetSuccess = () => {
   Alert.alert(

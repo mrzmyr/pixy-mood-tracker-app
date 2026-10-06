@@ -67,6 +67,10 @@ const createCloudError = (
         fix: "Check the internet connection and iCloud or Google Drive settings. Pixy retries on the next change.",
       });
 
+/** Whether the user granted Drive access, not only the sign-in. */
+const hasDriveScope = (scopes: readonly string[]) =>
+  scopes.some((scope) => scope === DRIVE_APPDATA_SCOPE);
+
 const applyGoogleToken = async () => {
   const { accessToken } = await GoogleSignin.getTokens();
   CloudStorage.setProviderOptions({ accessToken });
@@ -74,7 +78,8 @@ const applyGoogleToken = async () => {
 
 /**
  * Signs in to Google Drive with a sign-in sheet. Resolves `false` when the
- * user cancels. iCloud needs no sign-in and resolves `true`.
+ * user cancels or does not allow Drive access. iCloud needs no sign-in and
+ * resolves `true`.
  */
 const systemConnect = async (): Promise<boolean> => {
   if (!isGoogleDrive()) {
@@ -85,6 +90,22 @@ const systemConnect = async (): Promise<boolean> => {
     await GoogleSignin.hasPlayServices();
     const response = await GoogleSignin.signIn();
     if (!isSuccessResponse(response)) {
+      return false;
+    }
+    let { scopes } = response.data;
+    if (!hasDriveScope(scopes)) {
+      // Google's consent screen leaves the Drive checkbox unticked. A user who
+      // only taps Continue signs in without Drive access: ask once more.
+      const added = await GoogleSignin.addScopes({
+        scopes: [DRIVE_APPDATA_SCOPE],
+      });
+      if (added !== null && isSuccessResponse(added)) {
+        ({ scopes } = added.data);
+      }
+    }
+    if (!hasDriveScope(scopes)) {
+      // Without Drive access every write fails: stay off instead.
+      await GoogleSignin.signOut();
       return false;
     }
     await applyGoogleToken();
@@ -109,7 +130,11 @@ const systemResume = async (): Promise<boolean> => {
   configureGoogle();
   try {
     const response = await GoogleSignin.signInSilently();
-    if (isNoSavedCredentialFoundResponse(response)) {
+    // No session, or Drive access withdrawn: the user must sign in again.
+    if (
+      isNoSavedCredentialFoundResponse(response) ||
+      !hasDriveScope(response.data.scopes)
+    ) {
       return false;
     }
     await applyGoogleToken();

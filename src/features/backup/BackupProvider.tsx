@@ -13,7 +13,11 @@ import { useAppData, useDatagate } from "@/features/datagate";
 import { useLogLoad, useLogState } from "@/features/logs";
 import { usePeopleState } from "@/features/people";
 import { useTagsState } from "@/features/tags";
-import { askToRestoreBackup, askToTurnOffBackup } from "@/helpers/prompts";
+import {
+  askToRestoreBackup,
+  askToTurnOffBackup,
+  showBackupNotDeleted,
+} from "@/helpers/prompts";
 import { createMissingProviderError } from "@/lib/errors";
 import { useAnalytics } from "@/state/analytics";
 import { useFeatureFlag } from "@/state/featureFlags";
@@ -262,16 +266,26 @@ export const BackupProvider = ({ children }: { children: React.ReactNode }) => {
         } catch {
           return;
         }
+        // Turning off always works on this phone. Only deleting the cloud copy
+        // can fail (offline, no Drive access): then the user learns where to
+        // delete it by hand.
+        let isDeleted = false;
         try {
           // Deleting needs a session. Without it the file would stay behind.
-          if (status === "signedOut" && !(await connect())) {
-            return;
+          if (status !== "signedOut" || (await connect())) {
+            await deleteBackupFile();
+            isDeleted = true;
           }
-          await deleteBackupFile();
-          await disconnect();
         } catch (error) {
           fail(cloudFailureSchema.parse(error), "backup_delete_failed");
-          return;
+        }
+        try {
+          await disconnect();
+        } catch {
+          // Signing out only ends the Google session; backup is off either way.
+        }
+        if (!isDeleted) {
+          showBackupNotDeleted(provider);
         }
         setIsReady(false);
         setRemote(null);
@@ -281,7 +295,16 @@ export const BackupProvider = ({ children }: { children: React.ReactNode }) => {
       analytics.track("settings:backup_toggled", { enabled: value });
       setSettings((current) => ({ ...current, backupEnabled: value }));
     },
-    [analytics, fail, setSettings, status, setStatus, setRemote, setIsReady]
+    [
+      analytics,
+      fail,
+      provider,
+      setSettings,
+      status,
+      setStatus,
+      setRemote,
+      setIsReady,
+    ]
   );
 
   const reconnect = useCallback(async () => {

@@ -28,6 +28,8 @@ Pixy has no server. Data leaves the phone only through the cloud backup or a man
 - Restore confirmation names both entry counts and the backup age
 - Photos are not in the backup (metadata only, like the export). Copy says so
 - Switch off deletes the cloud file after a confirmation. On Android it also signs out of Google
+- Switch off always turns backup off on this phone. Delete failed (offline, no Drive access, sign-in cancelled): alert names the steps to delete the copy in iCloud or Google Drive
+- Google consent screen leaves the Drive checkbox unticked. Sign-in without Drive access asks once more (`addScopes`), then signs out and keeps the switch off. Silent sign-in without Drive access counts as signed out
 - `settings.backupEnabled` and `settings.backupWrittenAt` are device settings: not exported, kept on import. `backupEnabled` defaults off on both platforms. User turns it on in Settings > Data > Backup
 - Backup needs the `backup` feature flag, so it needs analytics consent ([`FeatureFlagsProvider`](../src/state/featureFlags/index.tsx)). Settings > Privacy says so. Remove the flag after rollout so backup no longer depends on consent
 
@@ -56,6 +58,7 @@ State (2026-10-06):
 - OAuth consent screen with scope `https://www.googleapis.com/auth/drive.appdata`. It is non-sensitive: basic verification only
 - One Android OAuth client per package (`com.devmood.pixymoodtracker`, `.preview`, `.dev`) with the SHA-1 of each signing key: Play app signing, upload key, local debug key
 - Missing client: sign-in fails with `DEVELOPER_ERROR`
+- Consent status Testing: Google shows "Google hasn't verified this app" and only test users can sign in. Publish the consent screen before rollout
 - Access revoked in the Google account, or account removed from the phone: `SIGN_IN_REQUIRED`, shown as "sign-in expired" with a Sign In link
 - No `@react-native-google-signin/google-signin` config plugin: it needs an iOS client, and iOS uses iCloud
 
