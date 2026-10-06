@@ -86,6 +86,9 @@ const light = {
   cardBackground: "#fff",
   cardBorder: colors.neutral[200],
   toastSuccessIcon: colors.green[600],
+  snackbarBackground: colors.neutral[800],
+  snackbarText: colors.neutral[50],
+  snackbarAction: colors.blue[300],
 
   headerBorder: colors.neutral[300],
 
@@ -286,6 +289,9 @@ const dark: IColors & {
   cardBackground: colors.neutral[900],
   cardBorder: colors.neutral[800],
   toastSuccessIcon: colors.green[400],
+  snackbarBackground: colors.neutral[200],
+  snackbarText: colors.neutral[900],
+  snackbarAction: colors.blue[700],
 
   headerBorder: colors.neutral[800],
 
