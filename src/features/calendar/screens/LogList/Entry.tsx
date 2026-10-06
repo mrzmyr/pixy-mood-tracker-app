@@ -129,16 +129,19 @@ const EntryHeader = ({
  * content for it. People show behind the `people` flag or when the entry has
  * people. Stored photos always show, so turning the `photos` flag or consent
  * off never hides user data. Delete calls `onDelete` without asking, so the
- * caller must confirm.
+ * caller must confirm. `contentBottomInset` is the space below the last
+ * block, so it can scroll above a float button over the card.
  */
 export const Entry = ({
   item,
   onEdit,
   onDelete,
+  contentBottomInset = 32,
 }: {
   item: LogItem;
   onEdit: (item: LogItem) => void;
   onDelete: (item: LogItem) => void;
+  contentBottomInset?: number;
 }) => {
   const colors = useColors();
   const router = useRouter();
@@ -203,7 +206,7 @@ export const Entry = ({
         <ScrollView
           contentContainerStyle={{
             paddingTop: 20,
-            paddingBottom: 32,
+            paddingBottom: contentBottomInset,
             gap: BLOCK_GAP,
           }}
         >
