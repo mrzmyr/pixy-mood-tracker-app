@@ -666,6 +666,7 @@
   "reminder_modal_body": "Ustaw codzienne powiadomienie o przypomnieniu, aby nigdy nie przegapić śledzonego piksela.",
   "reminder_modal_footer": "Nie jesteś jeszcze przekonany? Nie martw się, możesz później skonfigurować przypomnienie w ustawieniach aplikacji.",
   "reminder_modal_title": "Czy to rutyna?",
+  "reminder_permission_denied": "Powiadomienia są wyłączone dla Pixy.",
   "report_a_bug": "Zgłoś błąd",
   "request_a_feature": "Zaproponuj funkcję",
   "request_emotion_description": "Emocje są tak złożone jak ludzie. Wiele z nich się nakłada i przenika. Pixy utrzymuje krótką i wyraźną listę, aby każdą emocję łatwo było znaleźć i jasno zrozumieć, gdy patrzysz wstecz.",

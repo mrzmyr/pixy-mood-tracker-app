@@ -665,6 +665,7 @@
   "reminder_modal_body": "Richte eine tägliche Benachrichtigung als Erinnerung ein.",
   "reminder_modal_footer": "Noch nicht überzeugt? Keine Sorge, du kannst die Erinnerung später in den Einstellungen einrichten.",
   "reminder_modal_title": "Lass es uns zur Routine machen!",
+  "reminder_permission_denied": "Benachrichtigungen sind für Pixy aus.",
   "report_a_bug": "Fehler melden",
   "request_a_feature": "Funktion wünschen",
   "request_emotion_description": "Emotionen sind so vielschichtig wie wir Menschen. Viele überschneiden sich und gehen ineinander über. Pixy hält die Liste klein und klar unterscheidbar, damit du jede Emotion schnell findest und sie beim Zurückblicken eindeutig bleibt.",

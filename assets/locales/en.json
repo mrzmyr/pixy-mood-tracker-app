@@ -796,6 +796,7 @@
   "reminder_modal_body": "Set up a daily reminder notification, so you never miss your tracked pixel.",
   "reminder_modal_footer": "Not convinced yet? No worries, you can set up the reminder in the app settings later.",
   "reminder_modal_title": "Make it a routine?",
+  "reminder_permission_denied": "Notifications are off for Pixy.",
   "report_a_bug": "Report Bug",
   "request_a_feature": "Request Feature",
   "request_emotion_description": "Emotions are as complex as people. Many overlap and blend into each other. Pixy keeps its list small and distinct, so each emotion is quick to find and clear when you look back.",

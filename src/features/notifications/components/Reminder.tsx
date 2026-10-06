@@ -1,19 +1,24 @@
 import type { DateTimePickerEvent } from "@react-native-community/datetimepicker";
 import dayjs from "dayjs";
 import { useEffect, useEffectEvent } from "react";
-import { Switch, View } from "react-native";
+import { Linking, Switch, Text, View } from "react-native";
 import Clock from "./Clock";
 import MenuList from "@/components/MenuList";
 import MenuListItem from "@/components/MenuListItem";
 import NotificationPreview from "./NotificationPreview";
+import TextInfo from "@/components/TextInfo";
+import useColors from "@/hooks/useColors";
 import { t } from "@/lib/translation";
 import { useAnalytics } from "@/state/analytics";
 import { reminderTimeToDate } from "../reminderTime";
+import { useNotificationPermissionDenied } from "../useNotificationPermissionDenied";
 import { useReminder } from "../useReminder";
 
 const Reminder = () => {
   const reminder = useReminder();
   const analytics = useAnalytics();
+  const colors = useColors();
+  const { denied, refresh } = useNotificationPermissionDenied();
 
   const reminderEnabled = reminder.enabled;
   const timeDate = reminderTimeToDate(reminder.time);
@@ -36,6 +41,7 @@ const Reminder = () => {
       const result = await reminder.disable();
       ({ permissionGranted } = result);
     }
+    void refresh();
     analytics.track("reminders:reminder_toggled", {
       enabled: value,
       permission_granted: permissionGranted,
@@ -74,6 +80,20 @@ const Reminder = () => {
           />
         )}
       </MenuList>
+      {denied && (
+        <TextInfo>
+          {t("reminder_permission_denied")}{" "}
+          <Text
+            accessibilityRole="link"
+            style={{ color: colors.link }}
+            onPress={() => {
+              void Linking.openSettings();
+            }}
+          >
+            {t("location_open_settings")}
+          </Text>
+        </TextInfo>
+      )}
     </View>
   );
 };

@@ -666,6 +666,7 @@
   "reminder_modal_body": "Állítson be napi emlékeztetőt, hogy soha ne maradjon le a követett pixelről.",
   "reminder_modal_footer": "Még nem győzött meg? Ne aggódjon, később beállíthatja az emlékeztetőt az alkalmazás beállításaiban.",
   "reminder_modal_title": "Rutinná tenni?",
+  "reminder_permission_denied": "Az értesítések ki vannak kapcsolva a Pixy számára.",
   "report_a_bug": "Hiba bejelentése",
   "request_a_feature": "Funkció kérése",
   "request_emotion_description": "Az érzelmek ugyanolyan összetettek, mint az emberek. Sok közülük átfedi egymást és egymásba olvad. A Pixy rövid és jól elkülönülő listát tart, hogy minden érzelmet gyorsan megtalálj, és visszatekintve is egyértelmű legyen.",

@@ -666,6 +666,7 @@
   "reminder_modal_body": "Siapkan pemberitahuan pengingat harian, sehingga Anda tidak akan pernah melewatkan piksel yang dilacak.",
   "reminder_modal_footer": "Belum yakin? Jangan khawatir Anda dapat mengatur pengingat di pengaturan aplikasi nanti.",
   "reminder_modal_title": "Jadikan rutinitas?",
+  "reminder_permission_denied": "Notifikasi mati untuk Pixy.",
   "report_a_bug": "Laporkan bug",
   "request_a_feature": "Minta fitur",
   "request_emotion_description": "Emosi sama rumitnya dengan manusia. Banyak yang saling tumpang tindih dan berbaur. Pixy menjaga daftarnya tetap singkat dan jelas, agar setiap emosi cepat ditemukan dan tetap jelas saat kamu melihat ke belakang.",

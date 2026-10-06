@@ -666,6 +666,7 @@
   "reminder_modal_body": "Nastavte si denné upozornenie, aby ste nikdy nezmeškali svoj sledovaný pixel.",
   "reminder_modal_footer": "Ešte nie ste presvedčení? Bez obáv môžete pripomienku nastaviť v nastaveniach aplikácie neskôr.",
   "reminder_modal_title": "Urobiť z toho rutinu?",
+  "reminder_permission_denied": "Upozornenia pre Pixy sú vypnuté.",
   "report_a_bug": "Nahlásiť chybu",
   "request_a_feature": "Navrhnúť funkciu",
   "request_emotion_description": "Emócie sú rovnako zložité ako ľudia. Mnohé sa prekrývajú a prelínajú. Pixy drží zoznam krátky a prehľadný, aby ste každú emóciu rýchlo našli a pri pohľade späť jej jasne rozumeli.",

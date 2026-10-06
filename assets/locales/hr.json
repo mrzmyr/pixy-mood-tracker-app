@@ -666,6 +666,7 @@
   "reminder_modal_body": "Postavite dnevnu obavijest o podsjetniku kako nikada ne biste propustili svoj praćeni piksel.",
   "reminder_modal_footer": "Još niste uvjereni? Bez brige, možete kasnije postaviti podsjetnik u postavkama aplikacije.",
   "reminder_modal_title": "Učiniti to rutinom?",
+  "reminder_permission_denied": "Obavijesti su isključene za Pixy.",
   "report_a_bug": "Prijavi grešku",
   "request_a_feature": "Zatraži značajku",
   "request_emotion_description": "Emocije su složene kao i ljudi. Mnoge se preklapaju i prelaze jedna u drugu. Pixy drži popis kratkim i jasnim kako bi svaku emociju brzo pronašao i jasno je razumio kad se osvrneš.",

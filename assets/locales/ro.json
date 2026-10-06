@@ -666,6 +666,7 @@
   "reminder_modal_body": "Configurați o notificare zilnică de memento, astfel încât să nu pierdeți niciodată pixelul urmărit.",
   "reminder_modal_footer": "Nu esti inca convins? Nu vă faceți griji, puteți configura mai târziu mementoul în setările aplicației.",
   "reminder_modal_title": "Să faci din asta o rutină?",
+  "reminder_permission_denied": "Notificările sunt dezactivate pentru Pixy.",
   "report_a_bug": "Raportează o eroare",
   "request_a_feature": "Solicită o funcție",
   "request_emotion_description": "Emoțiile sunt la fel de complexe ca oamenii. Multe se suprapun și se amestecă între ele. Pixy păstrează lista scurtă și clară, ca să găsești repede fiecare emoție și să fie limpede când privești înapoi.",
