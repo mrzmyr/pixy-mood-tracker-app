@@ -37,13 +37,13 @@ const getCreateSteps = ({ isPhotosEnabled }: { isPhotosEnabled: boolean }) =>
   });
 
 describe("logger steps and the photos flag", () => {
-  test("flag on: create shows the photos step after the message", () => {
+  test("flag on: create shows the photos step before the message", () => {
     expect(getCreateSteps({ isPhotosEnabled: true })).toEqual([
       "rating",
       "emotions",
       "tags",
-      "message",
       "photos",
+      "message",
     ]);
   });
 
@@ -63,6 +63,20 @@ describe("logger steps and the photos flag", () => {
         isPhotosEnabled: true,
       })
     ).toContain("photos");
+  });
+
+  test("edit shows the photos step before the message", () => {
+    const item = _generateItem({ photos: [PHOTO], message: "Lunch" });
+
+    const steps = getAvailableStepsForEdit({
+      item,
+      hasStep: () => false,
+      hasSleepOnDay: false,
+      hasPeople: false,
+      isPhotosEnabled: true,
+    });
+
+    expect(steps.slice(-2)).toEqual(["photos", "message"]);
   });
 
   test("flag off: edit hides the photos step, also with photos", () => {

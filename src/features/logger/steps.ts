@@ -52,11 +52,11 @@ export const getAvailableStepsForCreate = ({
   if (hasPeople && hasStep("people")) {
     slides.push("people");
   }
-  if (hasStep("message")) {
-    slides.push("message");
-  }
   if (isPhotosEnabled && hasStep("photos")) {
     slides.push("photos");
+  }
+  if (hasStep("message")) {
+    slides.push("message");
   }
 
   if (itemsCount === 1 && !reminderEnabled) {
@@ -108,11 +108,11 @@ export const getAvailableStepsForEdit = ({
   if ((hasPeople && hasStep("people")) || item.people.length > 0) {
     slides.push("people");
   }
-  if (hasStep("message") || item.message.length > 0) {
-    slides.push("message");
-  }
   if (isPhotosEnabled && (hasStep("photos") || item.photos.length > 0)) {
     slides.push("photos");
+  }
+  if (hasStep("message") || item.message.length > 0) {
+    slides.push("message");
   }
 
   return slides;

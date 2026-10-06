@@ -279,7 +279,7 @@ describe("useSettings()", () => {
       hook.result.current.state.toggleStep("feedback");
     });
 
-    expect(hook.result.current.state.settings.steps[4]).toEqual("message");
+    expect(hook.result.current.state.settings.steps[4]).toEqual("photos");
   });
 
   test("should `toggleStep` with value", async () => {
@@ -296,8 +296,8 @@ describe("useSettings()", () => {
       "rating",
       "sleep",
       "emotions",
-      "message",
       "photos",
+      "message",
       "feedback",
       "tags",
     ]);

@@ -23,7 +23,7 @@ export const STEP_OPTIONS: ConfigurableLoggerStep[] = [
   "people",
   "sleep",
   "emotions",
-  "message",
   "photos",
+  "message",
   "feedback",
 ];
