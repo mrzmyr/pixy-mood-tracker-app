@@ -79,7 +79,11 @@ export const AppLockProvider = ({
     setIsAuthenticating(true);
     const result = await authenticate(t("app_lock_prompt"));
     isPrompting.current = false;
-    setIsAuthenticating(false);
+    // The OS prompt leaves the app `inactive` while it fades out. Keep the
+    // cover off until the app is back in front, else it flashes.
+    if (AppState.currentState === "active") {
+      setIsAuthenticating(false);
+    }
     return result;
   }, []);
 
@@ -139,6 +143,9 @@ export const AppLockProvider = ({
     }
     if (next !== "active") {
       return;
+    }
+    if (!isPrompting.current) {
+      setIsAuthenticating(false);
     }
     void refreshUnlockMethod();
     if (isLockDue(leftAt.current, Date.now())) {

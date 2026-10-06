@@ -254,6 +254,28 @@ describe("App Lock", () => {
     expect(screen.queryByTestId("app-lock-screen")).toBeNull();
   });
 
+  test("no cover flashes while the OS prompt fades out", async () => {
+    await storeSettings(false);
+    // The prompt leaves the app `inactive` until it is gone.
+    authenticateAsync.mockImplementationOnce(() => {
+      Object.assign(AppState, { currentState: "inactive" });
+      changeAppState("inactive");
+      return Promise.resolve({ success: true });
+    });
+    const screen = await renderApp();
+    const toggle = await screen.findByTestId("app-lock-enabled");
+
+    await act(() => fireEvent(toggle, "valueChange", true));
+    await waitFor(() =>
+      expect(screen.getByTestId("app-lock-enabled").props.value).toBe(true)
+    );
+    expect(screen.queryByTestId("app-lock-screen")).toBeNull();
+
+    Object.assign(AppState, { currentState: "active" });
+    await act(() => changeAppState("active"));
+    expect(screen.queryByTestId("app-lock-screen")).toBeNull();
+  });
+
   test("switch is off limits without a device passcode", async () => {
     await storeSettings(false);
     getEnrolledLevelAsync.mockResolvedValue(
