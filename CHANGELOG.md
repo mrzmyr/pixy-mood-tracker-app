@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.92.1](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.92.0...v1.92.1) (2026-10-06)
+
+
+### Bug Fixes
+
+* **ios:** add motion purpose string required by App Store Connect ([#643](https://github.com/mrzmyr/pixy-mood-tracker-app/issues/643)) ([2662211](https://github.com/mrzmyr/pixy-mood-tracker-app/commit/2662211a0b9fbf514501f07032b277aa43c62589))
+
 ## [1.92.0](https://github.com/mrzmyr/pixy-mood-tracker-app/compare/v1.91.0...v1.92.0) (2026-10-06)
 
 
