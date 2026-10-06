@@ -7,7 +7,6 @@ import Swipeable, {
 import { Archive, Trash2 } from "lucide-react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import useColors from "@/hooks/useColors";
-import useHaptics from "@/hooks/useHaptics";
 import { t } from "@/lib/translation";
 import { TagListContent } from "./TagListContent";
 import { TagListItem } from "./TagListItem";
@@ -16,7 +15,6 @@ import { useTagActions } from "../useTagActions";
 const SwipeableTag = (props: React.ComponentProps<typeof TagListItem>) => {
   const colors = useColors();
   const { confirmDelete, archive } = useTagActions();
-  const haptics = useHaptics();
   const [openDirection, setOpenDirection] = useState<SwipeDirection | null>(
     null
   );
@@ -93,7 +91,6 @@ const SwipeableTag = (props: React.ComponentProps<typeof TagListItem>) => {
         accessibilityRole="button"
         accessibilityLabel={props.tag.title}
         onPress={() => {
-          void haptics.selection();
           props.onPress();
         }}
       >

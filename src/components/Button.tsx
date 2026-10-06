@@ -3,7 +3,6 @@ import { Text, View } from "react-native";
 import type { ViewStyle } from "react-native";
 
 import useColors from "@/hooks/useColors";
-import useHaptics from "@/hooks/useHaptics";
 import { PressableScale } from "@/components/PressableScale";
 import { RADIUS } from "@/constants/Radius";
 
@@ -30,7 +29,6 @@ const Button = ({
   onPress?: () => void;
 }) => {
   const colors = useColors();
-  const haptics = useHaptics();
 
   const buttonColors = {
     primary: {
@@ -83,7 +81,6 @@ const Button = ({
         ...style,
       }}
       onPress={() => {
-        void haptics.selection();
         if (!disabled) {
           onPress?.();
         }

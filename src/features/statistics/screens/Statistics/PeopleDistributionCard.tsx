@@ -5,7 +5,6 @@ import { t } from "@/lib/translation";
 import { useCalendarFilters } from "@/features/calendar";
 import { PersonChip } from "@/features/people";
 import useColors from "@/hooks/useColors";
-import useHaptics from "@/hooks/useHaptics";
 import type { PeopleDistributionData } from "../../PeopleDistribution";
 import { RADIUS } from "@/constants/Radius";
 
@@ -21,13 +20,11 @@ export const PeopleDistributionCard = ({
   data: PeopleDistributionData;
 }) => {
   const colors = useColors();
-  const haptics = useHaptics();
   const calendarFilters = useCalendarFilters();
   const router = useRouter();
   const max = data.people[0]?.count ?? 1;
 
   const onPress = (personId: string) => {
-    haptics.selection();
     calendarFilters.set({ ...calendarFilters.data, personIds: [personId] });
     router.dismissTo("/calendar");
   };

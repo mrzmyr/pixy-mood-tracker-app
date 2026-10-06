@@ -4,7 +4,6 @@ import type { AccessibilityValue, TextStyle, ViewStyle } from "react-native";
 
 import { ChevronRight } from "react-native-feather";
 import useColors from "@/hooks/useColors";
-import useHaptics from "@/hooks/useHaptics";
 import usePressRipple from "@/hooks/usePressRipple";
 
 const DEFAULT_STYLE = {};
@@ -96,7 +95,6 @@ const MenuListItem = ({
   accessibilityValue?: AccessibilityValue;
 }) => {
   const colors = useColors();
-  const haptics = useHaptics();
   const ripple = usePressRipple({ foreground: true });
   const titleText = isValidElement(title) ? undefined : title;
 
@@ -110,12 +108,11 @@ const MenuListItem = ({
     color: colors.menuListItemIcon,
   });
 
-  const _onPress = useCallback(async () => {
+  const _onPress = useCallback(() => {
     if (onPress !== null && !deactivated) {
-      await haptics.selection();
       onPress();
     }
-  }, [onPress, deactivated, haptics]);
+  }, [onPress, deactivated]);
 
   return (
     <View

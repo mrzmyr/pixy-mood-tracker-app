@@ -5,7 +5,6 @@ import type { TextStyle, ViewStyle } from "react-native";
 
 import type { SvgProps } from "react-native-svg";
 import useColors from "@/hooks/useColors";
-import useHaptics from "@/hooks/useHaptics";
 import usePressRipple from "@/hooks/usePressRipple";
 
 const DEFAULT_STYLE = {};
@@ -67,7 +66,6 @@ const LinkButton = ({
   hitSlop?: number;
 }) => {
   const colors = useColors();
-  const haptics = useHaptics();
   const isIconOnly = !children;
   const ripple = usePressRipple(
     isIconOnly ? { borderless: true, radius: 24 } : { foreground: true }
@@ -84,7 +82,6 @@ const LinkButton = ({
 
   const _onPress = () => {
     if (!disabled) {
-      haptics.selection();
       onPress();
     }
   };

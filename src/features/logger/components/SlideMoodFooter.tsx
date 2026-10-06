@@ -3,7 +3,6 @@ import { FLOAT_BUTTON_SIZE } from "@/constants/FloatButton";
 import { LocationPicker, getLocationLabel } from "@/features/location";
 import { locale, t } from "@/lib/translation";
 import useColors from "@/hooks/useColors";
-import useHaptics from "@/hooks/useHaptics";
 import { getShortItemDateTitle } from "@/lib/utils";
 import dayjs from "dayjs";
 import type { ReactElement } from "react";
@@ -86,7 +85,6 @@ const Pill = ({
   onPress: () => void;
 }) => {
   const colors = useColors();
-  const haptics = useHaptics();
 
   return (
     <Pressable
@@ -94,10 +92,7 @@ const Pill = ({
       accessibilityLabel={accessibilityLabel}
       accessibilityHint={accessibilityHint}
       testID={testID}
-      onPress={() => {
-        haptics.selection();
-        onPress();
-      }}
+      onPress={onPress}
       style={({ pressed }) => ({
         opacity: pressed ? 0.8 : 1,
         flexDirection: "row",

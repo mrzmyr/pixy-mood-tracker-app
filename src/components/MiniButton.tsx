@@ -1,9 +1,8 @@
 import useColors from "@/hooks/useColors";
-import useHaptics from "@/hooks/useHaptics";
 import { Pressable, Text } from "react-native";
 import { RADIUS } from "@/constants/Radius";
 
-/** Small pill button that plays selection haptics before `onPress`. */
+/** Small pill button that calls `onPress`. */
 export const MiniButton = ({
   onPress,
   children,
@@ -12,7 +11,6 @@ export const MiniButton = ({
   children: React.ReactNode;
 }) => {
   const colors = useColors();
-  const haptics = useHaptics();
 
   return (
     <Pressable
@@ -32,10 +30,7 @@ export const MiniButton = ({
           marginBottom: 8,
         },
       ]}
-      onPress={async () => {
-        await haptics.selection();
-        onPress?.();
-      }}
+      onPress={onPress}
       testID="log-tags-edit"
       accessibilityRole="button"
     >

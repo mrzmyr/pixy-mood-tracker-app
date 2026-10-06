@@ -5,7 +5,6 @@ import { Card } from "../../components/Card";
 import { t } from "@/lib/translation";
 import { useCalendarFilters } from "@/features/calendar";
 import useColors from "@/hooks/useColors";
-import useHaptics from "@/hooks/useHaptics";
 import type { TagsDistributionData } from "../../TagsDistribution";
 import type { Tag } from "@/features/tags";
 import { RADIUS } from "@/constants/Radius";
@@ -22,12 +21,10 @@ export const TagDistributionContent = ({
   limit?: number;
 }) => {
   const colors = useColors();
-  const haptic = useHaptics();
   const calendarFilters = useCalendarFilters();
   const router = useRouter();
 
   const onPress = (tagId: Tag["id"]) => {
-    haptic.selection();
     calendarFilters.set({
       ...calendarFilters.data,
       tagIds: [tagId],

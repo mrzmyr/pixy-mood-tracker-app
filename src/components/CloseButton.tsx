@@ -2,7 +2,6 @@ import { Pressable } from "react-native";
 import type { ViewStyle } from "react-native";
 import { X } from "react-native-feather";
 import useColors from "@/hooks/useColors";
-import useHaptics from "@/hooks/useHaptics";
 import { t } from "@/lib/translation";
 
 /** Visible button size; meets the 44 pt minimum touch target. */
@@ -28,7 +27,6 @@ export const CloseButton = ({
   style?: ViewStyle;
 }) => {
   const colors = useColors();
-  const haptics = useHaptics();
 
   return (
     <Pressable
@@ -36,10 +34,7 @@ export const CloseButton = ({
       accessibilityLabel={t("close")}
       testID={testID}
       hitSlop={HIT_SLOP}
-      onPress={async () => {
-        await haptics.selection();
-        onPress();
-      }}
+      onPress={onPress}
       style={({ pressed }) => [
         {
           width: SIZE,

@@ -40,8 +40,7 @@ const EditActions = ({
   const peopleUpdater = usePeopleUpdater();
   const entryCount = usePersonEntryCount(personId);
 
-  const askToDelete = async () => {
-    await haptics.selection();
+  const askToDelete = () => {
     analytics.track("people:delete_requested", { entries_count: entryCount });
     Alert.alert(
       t("people_delete_confirm_title"),
@@ -56,6 +55,7 @@ const EditActions = ({
           text: t("delete"),
           style: "destructive",
           onPress: () => {
+            void haptics.impact();
             analytics.track("people:person_deleted", {
               entries_count: entryCount,
             });
