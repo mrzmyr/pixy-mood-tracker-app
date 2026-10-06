@@ -12,6 +12,9 @@ import { useSetting } from "@/state/settings";
 import { BEZEL, getBezelEdgeColor, getBezelRadius } from "@/constants/Bezel";
 import { RADIUS } from "@/constants/Radius";
 
+/** Diameter of the today circle behind the day number. */
+const DAY_NUMBER_SIZE = 20;
+
 const styles = StyleSheet.create({
   shell: {
     width: "100%",
@@ -38,11 +41,15 @@ const styles = StyleSheet.create({
     height: "50%",
     flexDirection: "row",
     justifyContent: "flex-end",
+    // No stretch: the bezel shrinks this row below the circle size, and a
+    // stretched circle turns into an oval.
+    alignItems: "center",
   },
   dayNumberParent2: {
     justifyContent: "center",
     alignItems: "center",
-    minWidth: 20,
+    minWidth: DAY_NUMBER_SIZE,
+    height: DAY_NUMBER_SIZE,
     borderRadius: RADIUS.full,
   },
 });
