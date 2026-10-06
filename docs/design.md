@@ -26,6 +26,7 @@
 - Colors: `bezelBackground`, `bezelBorder`, `bezelInnerBorder`, `bezelShadow`
 - Calendar days build the shell in [`CalendarDay`](../src/features/calendar/screens/Calendar/CalendarDay/index.tsx). Future and filtered-out days have no shell
 - Mood buttons build the shell in [`SlideMoodButton`](../src/features/logger/components/SlideMoodButton.tsx). Colored inner surfaces get `getBezelEdgeColor`
+- Person tiles build a round shell in [`PersonChip`](../src/features/people/components/PersonChip.tsx). Selected tile: tint shell border
 
 ## Sheets and Modals
 
