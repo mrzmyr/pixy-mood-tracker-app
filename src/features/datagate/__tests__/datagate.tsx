@@ -28,6 +28,8 @@ import {
 import type { Person } from "@/features/people";
 
 import { _generateItem } from "@/__tests__/utils";
+import { hideToast, useToast } from "@/lib/toast";
+
 import { File } from "expo-file-system";
 import { getPhotosDirectory } from "@/features/photos";
 import pkg from "../../../../package.json";
@@ -111,6 +113,7 @@ const _renderHook = () =>
       peopleUpdater: usePeopleUpdater(),
       settingsState: useSettings(),
       appData: useAppData(),
+      toast: useToast(),
     }),
     { wrapper }
   );
@@ -154,6 +157,7 @@ describe("useLogs()", () => {
   beforeEach(() => {
     console.error = jest.fn();
     jest.clearAllMocks();
+    hideToast();
   });
 
   afterEach(async () => {
@@ -200,6 +204,9 @@ describe("useLogs()", () => {
     expect(hook.result.current.settingsState.settings).toEqual({
       ...testSettings,
     });
+    // Success confirms with a toast; only the confirmation prompt is an alert.
+    expect(hook.result.current.toast?.title).toBe("Import successful");
+    expect(Alert.alert).toHaveBeenCalledTimes(1);
   });
 
   test("resolves and keeps data when the import prompt is cancelled", async () => {
@@ -265,6 +272,13 @@ describe("useLogs()", () => {
     await act(() => Promise.resolve(confirmPrompt()));
 
     expect(hook.result.current.logState.items).toEqual(testItems);
+    expect(hook.result.current.toast).toBeNull();
+    expect(Alert.alert).toHaveBeenLastCalledWith(
+      "Import failed",
+      expect.any(String),
+      expect.any(Array),
+      expect.anything()
+    );
   });
 
   test("should `openExportDialog`", async () => {
@@ -375,7 +389,9 @@ describe("useLogs()", () => {
       { idempotent: true }
     );
 
-    expect(Alert.alert).toBeCalled();
+    // Success confirms with a toast; only the confirmation prompt is an alert.
+    expect(hook.result.current.toast?.title).toBe("Data deleted");
+    expect(Alert.alert).toHaveBeenCalledTimes(1);
     expect(hook.result.current.logState).toEqual({
       items: [],
     });
