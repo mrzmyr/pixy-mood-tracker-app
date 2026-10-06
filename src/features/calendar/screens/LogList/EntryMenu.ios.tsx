@@ -2,6 +2,10 @@ import { Button, Host, Menu } from "@expo/ui/swift-ui";
 import {
   accessibilityIdentifier,
   accessibilityLabel,
+  // oxlint-disable-next-line anti-slop/no-shape-in-symbol-names -- SwiftUI modifier name from @expo/ui.
+  buttonBorderShape as buttonBorder,
+  buttonStyle,
+  controlSize,
   frame,
   labelStyle,
   tint,
@@ -11,7 +15,8 @@ import type { EntryMenuProps } from "./entryMenuTypes";
 
 /**
  * Entry "…" menu on iOS: native SwiftUI `Menu` with Edit and a destructive
- * Delete. The trigger is a 44 pt icon-only button.
+ * Delete. The trigger is a bordered circle button, large control size, in a
+ * 44 pt frame: visible as a button, never a bare glyph.
  */
 export const EntryMenu = ({
   label,
@@ -24,14 +29,17 @@ export const EntryMenu = ({
   const colors = useColors();
 
   return (
-    <Host matchContents style={{ marginRight: -10 }}>
+    <Host matchContents style={{ marginRight: -4 }}>
       <Menu
         label={label}
         systemImage="ellipsis"
         modifiers={[
           labelStyle("iconOnly"),
-          frame({ width: 44, height: 44 }),
-          tint(colors.textSecondary),
+          buttonStyle("bordered"),
+          buttonBorder("circle"),
+          controlSize("large"),
+          frame({ minWidth: 44, minHeight: 44 }),
+          tint(colors.text),
           accessibilityLabel(label),
           accessibilityIdentifier(testID),
         ]}
