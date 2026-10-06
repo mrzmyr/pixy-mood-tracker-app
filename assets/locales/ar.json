@@ -785,6 +785,8 @@
   "tags_feedback_placeholder": "تفاصيل حول ملاحظاتك ... (اختياري)",
   "tags_feedback_question": "كيف تحب ميزة العلامات الجديدة؟",
   "tags_feedback_title": "تقديم: العلامات",
+  "tags_name_error": "استخدم من {{min}} إلى {{max}} حرفًا.",
+  "tags_name_label": "الاسم",
   "tags_per_day": "متوسط العلامات في اليوم",
   "tags_reached_max": "لقد وصلت إلى الحد الأقصى من العلامات وهو {{max_count}}. يرجى حذف بعض العلامات لإضافة أخرى جديدة.",
   "tags_used": "العلامات المستخدمة",

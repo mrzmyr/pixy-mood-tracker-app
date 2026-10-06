@@ -785,6 +785,8 @@
   "tags_feedback_placeholder": "Detaljer om din feedback... (valgfrit)",
   "tags_feedback_question": "Hvordan kan du lide den nye tags-funktion?",
   "tags_feedback_title": "Introduktion: Tags",
+  "tags_name_error": "Brug {{min}} til {{max}} tegn.",
+  "tags_name_label": "Navn",
   "tags_per_day": "Gns. tags om dagen",
   "tags_reached_max": "Du har nået det maksimale antal af {{max_count}} tags. Slet venligst nogle tags for at tilføje nye.",
   "tags_used": "Tags brugt",

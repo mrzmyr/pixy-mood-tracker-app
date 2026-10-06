@@ -785,6 +785,8 @@
   "tags_feedback_placeholder": "פרטים על המשוב שלך... (אופציונלי)",
   "tags_feedback_question": "איך אתה אוהב את תכונת התגים החדשה?",
   "tags_feedback_title": "היכרות עם: תגיות",
+  "tags_name_error": "השתמשו ב-{{min}} עד {{max}} תווים.",
+  "tags_name_label": "שם",
   "tags_per_day": "ממוצע תגים ליום",
   "tags_reached_max": "הגעת למקסימום של {{max_count}} תגים. אנא מחק כמה תגים כדי להוסיף חדשים.",
   "tags_used": "נעשה שימוש בתגים",

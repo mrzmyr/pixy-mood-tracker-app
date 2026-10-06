@@ -930,6 +930,8 @@
   "tags_feedback_placeholder": "Details about your feedback… (optional)",
   "tags_feedback_question": "How do you like the new tags feature?",
   "tags_feedback_title": "Introducing: Tags",
+  "tags_name_error": "Use {{min}} to {{max}} characters.",
+  "tags_name_label": "Name",
   "tags_per_day": "Avg. tags per day",
   "tags_reached_max": "You reached the maximum of {{max_count}} tags. Please delete some tags to add new ones.",
   "tags_used": "Tags used",

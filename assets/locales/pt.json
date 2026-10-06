@@ -785,6 +785,8 @@
   "tags_feedback_placeholder": "Detalhes sobre seu feedback… (opcional)",
   "tags_feedback_question": "Como você gosta do novo recurso de tags?",
   "tags_feedback_title": "Apresentando: Tags",
+  "tags_name_error": "Use de {{min}} a {{max}} caracteres.",
+  "tags_name_label": "Nome",
   "tags_per_day": "média tags por dia",
   "tags_reached_max": "Você atingiu o máximo de {{max_count}} tags. Exclua algumas tags para adicionar novas.",
   "tags_used": "Tags usadas",

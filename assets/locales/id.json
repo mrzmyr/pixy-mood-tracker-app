@@ -785,6 +785,8 @@
   "tags_feedback_placeholder": "Detail tentang umpan balik Anda… (opsional)",
   "tags_feedback_question": "Bagaimana Anda menyukai fitur tag baru?",
   "tags_feedback_title": "Memperkenalkan: Tag",
+  "tags_name_error": "Gunakan {{min}} hingga {{max}} karakter.",
+  "tags_name_label": "Nama",
   "tags_per_day": "Rata-rata tag per hari",
   "tags_reached_max": "Anda mencapai maksimum {{max_count}} tag. Hapus beberapa tag untuk menambahkan yang baru.",
   "tags_used": "Tag digunakan",

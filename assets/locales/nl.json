@@ -788,6 +788,8 @@
   "tags_feedback_placeholder": "Details over uw feedback... (optioneel)",
   "tags_feedback_question": "Wat vind je van de nieuwe functie voor tags?",
   "tags_feedback_title": "Even voorstellen: Tags",
+  "tags_name_error": "Gebruik {{min}} tot {{max}} tekens.",
+  "tags_name_label": "Naam",
   "tags_per_day": "Gem. labels per dag",
   "tags_reached_max": "Je hebt het maximum van {{max_count}} tags bereikt. Verwijder enkele tags om nieuwe toe te voegen.",
   "tags_used": "Labels gebruikt",

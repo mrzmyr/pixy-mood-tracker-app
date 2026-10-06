@@ -785,6 +785,8 @@
   "tags_feedback_placeholder": "有关您的反馈的详细信息……（可选）",
   "tags_feedback_question": "您觉得新标签功能如何？",
   "tags_feedback_title": "介绍：标签",
+  "tags_name_error": "请输入 {{min}} 到 {{max}} 个字符。",
+  "tags_name_label": "名称",
   "tags_per_day": "平均。每天标签",
   "tags_reached_max": "您已达到 {{max_count}} 个标签的上限。请删除一些标签以添加新标签。",
   "tags_used": "使用的标签",

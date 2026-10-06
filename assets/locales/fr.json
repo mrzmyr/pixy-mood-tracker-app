@@ -786,6 +786,8 @@
   "tags_feedback_placeholder": "Détails sur vos commentaires… (facultatif)",
   "tags_feedback_question": "Aimez-vous la nouvelle fonctionnalité de balises ?",
   "tags_feedback_title": "Présentation : Balises",
+  "tags_name_error": "Utilisez de {{min}} à {{max}} caractères.",
+  "tags_name_label": "Nom",
   "tags_per_day": "Moy. balises par jour",
   "tags_reached_max": "Vous avez atteint le maximum de {{max_count}} balises. Veuillez supprimer certaines balises pour en ajouter de nouvelles.",
   "tags_used": "Balises utilisées",

@@ -788,6 +788,8 @@
   "tags_feedback_placeholder": "Details zu deinem Feedback… (optional)",
   "tags_feedback_question": "Wie gefällt dir die neue Tag-Funktion?",
   "tags_feedback_title": "Wir stellen vor: Schlagwörter",
+  "tags_name_error": "Verwende {{min}} bis {{max}} Zeichen.",
+  "tags_name_label": "Name",
   "tags_per_day": "Durchschn. Schlagwörter pro Tag",
   "tags_reached_max": "Du hast das Maximum von {{max_count}} Schlagwörter erreicht. Bitte lösche einige Schlagwörter, um neue hinzuzufügen.",
   "tags_used": "Schlagwörter verwendet",

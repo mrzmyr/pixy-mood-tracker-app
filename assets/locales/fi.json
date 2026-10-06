@@ -785,6 +785,8 @@
   "tags_feedback_placeholder": "Lisätietoja palautteestasi… (valinnainen)",
   "tags_feedback_question": "Mitä pidät uudesta tunnisteominaisuudesta?",
   "tags_feedback_title": "Esittelyssä: Tunnisteet",
+  "tags_name_error": "Käytä {{min}}–{{max}} merkkiä.",
+  "tags_name_label": "Nimi",
   "tags_per_day": "Keskim. tunnisteita päivässä",
   "tags_reached_max": "Olet saavuttanut enimmäismäärän {{max_count}} tagia. Poista joitakin tunnisteita lisätäksesi uusia.",
   "tags_used": "Tunnisteita käytetty",

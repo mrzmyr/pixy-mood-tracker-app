@@ -785,6 +785,8 @@
   "tags_feedback_placeholder": "A visszajelzés részletei… (nem kötelező)",
   "tags_feedback_question": "Hogy tetszik az új címkék funkció?",
   "tags_feedback_title": "Bemutatjuk: Címkék",
+  "tags_name_error": "{{min}} és {{max}} karakter között adj meg.",
+  "tags_name_label": "Név",
   "tags_per_day": "Átl. címkék naponta",
   "tags_reached_max": "Elérted a maximális {{max_count}} címkét. Kérlek, törölj néhány címkét újak hozzáadásához.",
   "tags_used": "Használt címkék",

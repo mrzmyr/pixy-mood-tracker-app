@@ -785,6 +785,8 @@
   "tags_feedback_placeholder": "Pojedinosti o vašim povratnim informacijama... (nije obavezno)",
   "tags_feedback_question": "Kako vam se sviđaju nove značajke oznaka?",
   "tags_feedback_title": "Predstavljamo: oznake",
+  "tags_name_error": "Upotrijebite {{min}} do {{max}} znakova.",
+  "tags_name_label": "Naziv",
   "tags_per_day": "Prosj. oznaka po danu",
   "tags_reached_max": "Dosegli ste maksimum od {{max_count}} oznaka. Molimo izbrišite neke oznake da dodate nove.",
   "tags_used": "Korištene oznake",

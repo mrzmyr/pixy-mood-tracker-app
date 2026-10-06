@@ -785,6 +785,8 @@
   "tags_feedback_placeholder": "フィードバックの詳細…（オプション）",
   "tags_feedback_question": "新しいタグ機能はどうですか？",
   "tags_feedback_title": "紹介：タグ",
+  "tags_name_error": "{{min}}〜{{max}}文字で入力してください。",
+  "tags_name_label": "名前",
   "tags_per_day": "平均1 日あたりのタグ",
   "tags_reached_max": "最大 {{max_count}} タグに達しました。新しいタグを追加するには、いくつかのタグを削除してください。",
   "tags_used": "使用したタグ",

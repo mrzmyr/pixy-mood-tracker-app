@@ -785,6 +785,8 @@
   "tags_feedback_placeholder": "Thông tin chi tiết về phản hồi của bạn… (tùy chọn)",
   "tags_feedback_question": "Bạn thích tính năng thẻ mới như thế nào?",
   "tags_feedback_title": "Giới thiệu: Thẻ",
+  "tags_name_error": "Dùng từ {{min}} đến {{max}} ký tự.",
+  "tags_name_label": "Tên",
   "tags_per_day": "Trung bình thẻ mỗi ngày",
   "tags_reached_max": "Bạn đã đạt đến tối đa {{max_count}} thẻ. Vui lòng xóa một số thẻ để thêm thẻ mới.",
   "tags_used": "Thẻ đã sử dụng",
