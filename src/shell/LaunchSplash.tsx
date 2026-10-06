@@ -24,8 +24,10 @@ const SHRINK_MS = 280;
 const FADE_DELAY_MS = 140;
 const FADE_MS = 200;
 
-// Same as the native splash in app.json, so the hand-off has no jump.
+// Same as the native splash in app.json, so the hand-off has no jump: the
+// square starts in the color and size of `assets/images/splash-standby.png`.
 const SPLASH_BACKGROUND = { light: "#ffffff", dark: "#171717" };
+const SPLASH_SQUARE = "#fdba74";
 
 /** One keyframe per color, held until the next: a blink, not a blend. */
 const createColorSteps = (palette: string[]): CSSAnimationKeyframes =>
@@ -51,8 +53,8 @@ const createShrink = () =>
   }).duration(SHRINK_MS);
 
 /**
- * Takes over from the native splash: same background. A rounded square
- * blinks through the user's mood scale, hardest day to best, while stored
+ * Takes over from the native splash: same background, same square. The
+ * square blinks through the user's mood scale, worst to best, while stored
  * data loads. Once every gated store is ready, or failed, the square
  * shrinks away and the background fades out. Reduced motion skips the
  * blink and the shrink. Never blocks touches; hidden from screen readers.
@@ -67,11 +69,16 @@ export const LaunchSplash = () => {
   const [isDone, setIsDone] = useState(false);
 
   const moodScale = colors.scales[settings.scaleType];
-  // RATING_KEYS runs best to worst; the standby climbs the other way.
+  // First color is the native splash square. Then the user's scale, worst to
+  // best, skipping the red of `extremely_bad`: a launch should not flash red.
   const { palette, colorSteps } = useMemo(() => {
-    const steps = [...RATING_KEYS]
-      .reverse()
-      .map((key) => moodScale[key].background);
+    const steps = [SPLASH_SQUARE];
+    for (const key of [...RATING_KEYS].reverse()) {
+      const color = moodScale[key].background;
+      if (key !== "extremely_bad" && color !== steps.at(-1)) {
+        steps.push(color);
+      }
+    }
     return { palette: steps, colorSteps: createColorSteps(steps) };
   }, [moodScale]);
   const shrink = useMemo(
