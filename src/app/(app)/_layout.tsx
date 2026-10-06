@@ -10,8 +10,7 @@ import { useCanOverrideFeatureFlags } from "@/state/featureFlags";
 import { WidgetSync } from "@/features/widget";
 import { HAS_FLOATING_HEADER } from "@/features/calendar";
 
-const renderHeaderLeft = () =>
-  Platform.OS === "ios" ? null : <BackButton testID="settings-back-button" />;
+const renderHeaderLeft = () => <BackButton testID="settings-back-button" />;
 
 const modalOptions = { presentation: "modal" as const, headerShown: false };
 
@@ -27,7 +26,11 @@ const AppLayout = () => {
     headerStyle: { backgroundColor: colors.background },
     headerShadowVisible: Platform.OS !== "web",
   };
-  const pageOptions = { ...defaultOptions, headerLeft: renderHeaderLeft };
+  // iOS and Android render the native back button. Web has none.
+  const pageOptions =
+    Platform.OS === "web"
+      ? { ...defaultOptions, headerLeft: renderHeaderLeft }
+      : defaultOptions;
 
   return (
     <StorageLoadGate>

@@ -24,6 +24,7 @@
   "archive_tag": "Archive",
   "archive_tag_description": "Hides the tag in your check-in. It's still visible in your past entries. This will also exclude this tag from any statistical analysis in the future.",
   "archive_tag_enabled": "Archived",
+  "back": "Back",
   "back_to_today": "Back to today",
   "bad": "not so good",
   "behavioral_data": "Behavioral Data",

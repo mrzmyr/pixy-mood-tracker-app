@@ -9,6 +9,7 @@
   "archive_tag": "Arkisto",
   "archive_tag_description": "Piilottaa tunnisteen sisäänkirjautumisen yhteydessä. Se näkyy edelleen aiemmissa merkinnöissäsi. Tämä myös sulkee tämän tunnisteen pois kaikista tilastoanalyysistä tulevaisuudessa.",
   "archive_tag_enabled": "Arkistoitu",
+  "back": "Takaisin",
   "back_to_today": "Takaisin tähän päivään",
   "bad": "Huono",
   "behavioral_data": "Käyttäytymistiedot",
