@@ -11,7 +11,7 @@
 - Feature flags load only with consent ([development.md](development.md#feature-flags))
 - People ([spec](specs/people.md#analytics)): `people:person_added`, `people:contacts_imported` (count, avatars count, limited access), `people:person_updated`, `people:delete_requested`, `people:person_deleted`, `people:delete_cancelled`. Counts and booleans only, never names or photos. `logger:log_saved`, confirmation events, and `calendar:filters_applied` add `people_count`. Usage summary adds `people_count` and `archived_people_count`. Highlights events add `people_distribution_show`, `people_distribution_count`, `people_peaks_show`, `people_peaks_count` while the flag is on
 - Location ([development.md](development.md#location)): `settings:location_toggled` (`enabled`). `logger:log_saved` adds `has_location`. Never coordinates or place names
-- Calendar layout menu (Calendar, Timeline): `calendar:layout_changed` with `layout`
+- Calendar layout menu (Calendar, Timeline, Map): `calendar:layout_changed` with `layout`
 - Data exports: `data:export_started`, `data:export_completed`, `data:export_failed` send `format: "json" | "csv"`.
 - Store review prompt: `logger:store_review_requested` ([`src/features/review`](../src/features/review))
   - Fires once per install, after the save that reaches 7 entries

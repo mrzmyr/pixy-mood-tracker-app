@@ -28,13 +28,18 @@ const wrapper = ({ children }: { children: React.ReactNode }) => (
 /** Renders the hook with consent given, so remote flags load. */
 const renderCalendarLayout = async ({
   isFlagOn,
+  isMapFlagOn = false,
   storedLayout = "calendar",
 }: {
   isFlagOn: boolean;
+  isMapFlagOn?: boolean;
   /** Raw stored value, also invalid ones from old or broken storage. */
   storedLayout?: string;
 }) => {
-  mockReload.mockResolvedValue({ "calendar-timeline": isFlagOn });
+  mockReload.mockResolvedValue({
+    "calendar-timeline": isFlagOn,
+    "calendar-map": isMapFlagOn,
+  });
   await AsyncStorage.setItem(
     STORAGE_KEY,
     JSON.stringify({
@@ -50,7 +55,9 @@ const renderCalendarLayout = async ({
     { wrapper }
   );
   await waitFor(() => {
-    expect(hook.result.current.calendarLayout.isEnabled).toBe(isFlagOn);
+    expect(hook.result.current.calendarLayout.isEnabled).toBe(
+      isFlagOn || isMapFlagOn
+    );
   });
   return hook;
 };
@@ -88,6 +95,32 @@ describe("useCalendarLayout", () => {
 
     expect(result.current.calendarLayout.layout).toBe("calendar");
     expect(result.current.settings.settings.calendarLayout).toBe("timeline");
+  });
+
+  it("switches to the map with only the map flag on", async () => {
+    const { result } = await renderCalendarLayout({
+      isFlagOn: false,
+      isMapFlagOn: true,
+    });
+
+    expect(result.current.calendarLayout.availableLayouts).toEqual([
+      "calendar",
+      "map",
+    ]);
+
+    await act(() => result.current.calendarLayout.setLayout("map"));
+
+    expect(result.current.calendarLayout.layout).toBe("map");
+  });
+
+  it("shows the calendar with the map flag off and keeps the stored map", async () => {
+    const { result } = await renderCalendarLayout({
+      isFlagOn: true,
+      storedLayout: "map",
+    });
+
+    expect(result.current.calendarLayout.layout).toBe("calendar");
+    expect(result.current.settings.settings.calendarLayout).toBe("map");
   });
 
   it("keeps the device layout when importing settings", async () => {

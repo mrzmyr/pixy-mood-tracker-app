@@ -121,7 +121,7 @@ export interface AnalyticsEvents {
   };
 
   "calendar:day_opened": {
-    source: "calendar" | "timeline" | "mood_peaks" | "tag_peaks";
+    source: "calendar" | "timeline" | "map" | "mood_peaks" | "tag_peaks";
     entries_count: number;
     days_ago: number;
   };
