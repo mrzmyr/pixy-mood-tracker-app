@@ -6,6 +6,7 @@ import type { ViewStyle } from "react-native";
 
 import useHaptics from "@/hooks/useHaptics";
 import { RADIUS } from "@/constants/Radius";
+import { getSelectionStyle } from "@/constants/Selection";
 import { t } from "@/lib/translation";
 
 const DEFAULT_STYLE = {};
@@ -55,11 +56,10 @@ export const SlideSleepButton = ({
           alignItems: "center",
           justifyContent: "center",
           backgroundColor: colors.logCardBackground,
-          borderColor: selected ? colors.tint : idleBorderColor,
-          borderWidth: selected ? 2 : 1,
+          borderWidth: 1,
+          ...getSelectionStyle(colors, selected, idleBorderColor),
           borderRadius: RADIUS.sm,
-          // Keeps the content in place when the border grows.
-          paddingHorizontal: selected ? 7 : 8,
+          paddingHorizontal: 8,
           paddingVertical: 16,
           height: HEIGHT + 32,
           margin: 4,

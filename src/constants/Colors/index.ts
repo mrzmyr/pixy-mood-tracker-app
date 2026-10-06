@@ -69,7 +69,10 @@ const light = {
   tagBackground: colors.white,
   tagText: colors.neutral[800],
   tagBackgroundActive: colors.blue[100],
-  tagTextActive: colors.blue[600],
+
+  // Selected chips, tiles, and buttons: tint border plus a light ring outside.
+  selectionBorder: tintColorLight,
+  selectionRing: "rgba(0,122,255,0.22)",
 
   stepperBackground: colors.neutral[300],
   stepperBackgroundActive: colors.neutral[700],
@@ -269,7 +272,10 @@ const dark: IColors & {
   tagBackground: colors.neutral[900],
   tagText: colors.neutral[200],
   tagBackgroundActive: colors.blue[900],
-  tagTextActive: colors.blue[100],
+
+  // Dim blue: a light blue ring glows on dark surfaces and beats the border.
+  selectionBorder: tintColorDark,
+  selectionRing: "rgba(10,132,255,0.40)",
 
   stepperBackground: colors.neutral[800],
   stepperBackgroundActive: colors.neutral[600],

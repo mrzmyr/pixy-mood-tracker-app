@@ -7,6 +7,7 @@ import type { TAG_COLOR_NAMES } from "@/constants/Config";
 import { t } from "@/lib/translation";
 import { RADIUS } from "@/constants/Radius";
 import { COMPACT_CHIP } from "@/constants/Chip";
+import { getSelectionStyle } from "@/constants/Selection";
 
 const DEFAULT_STYLE = {};
 
@@ -37,6 +38,7 @@ const Tag = ({
 
   return (
     <Pressable
+      accessibilityState={onPress ? { selected } : undefined}
       style={({ pressed }) => ({
         justifyContent: "center",
         alignItems: "center",
@@ -44,11 +46,9 @@ const Tag = ({
         borderRadius: RADIUS.full,
         marginRight: 8,
         marginBottom: 8,
-        backgroundColor: selected
-          ? colors.tagBackgroundActive
-          : colors.tagBackground,
-        borderColor: selected ? colors.tint : unselectedBorderColor,
+        backgroundColor: colors.tagBackground,
         borderWidth: 1,
+        ...getSelectionStyle(colors, selected, unselectedBorderColor),
         ...(compact
           ? {
               height: COMPACT_CHIP.height,
@@ -93,7 +93,7 @@ const Tag = ({
       />
       <Text
         style={{
-          color: selected ? colors.tagTextActive : colors.tagText,
+          color: colors.tagText,
           fontSize: compact ? COMPACT_CHIP.fontSize : 17,
         }}
       >

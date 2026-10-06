@@ -8,12 +8,17 @@ import type { Person } from "../PeopleProvider";
 import { PersonAvatar } from "./PersonAvatar";
 import { RADIUS } from "@/constants/Radius";
 import { COMPACT_CHIP } from "@/constants/Chip";
+import {
+  getSelectionRingShadow,
+  getSelectionStyle,
+} from "@/constants/Selection";
 
 const DEFAULT_STYLE = {};
-/** Space between avatar and selection ring of the `tile` variant. */
-export const TILE_RING_GAP = 3;
-/** Selection ring of the `tile` variant; adds to the tile's outer size. */
-export const TILE_RING_WIDTH = 3;
+/**
+ * Space around the avatar of the `tile` variant. Holds the selection ring and
+ * adds to the tile's outer size, so selecting never moves the grid.
+ */
+export const TILE_RING_SPACE = 6;
 /** Measurements of the `chip` variant, regular and compact. */
 const CHIP_SIZES = {
   regular: {
@@ -76,10 +81,9 @@ const PersonTile = ({
     >
       <View
         style={{
-          padding: TILE_RING_GAP,
+          margin: TILE_RING_SPACE,
           borderRadius: size,
-          borderWidth: TILE_RING_WIDTH,
-          borderColor: selected ? colors.tint : "transparent",
+          boxShadow: selected ? getSelectionRingShadow(colors) : undefined,
         }}
       >
         <PersonAvatar person={person} size={size} />
@@ -88,7 +92,7 @@ const PersonTile = ({
         <View
           style={{
             position: "absolute",
-            top: size + 2 * (TILE_RING_GAP + TILE_RING_WIDTH) - 28,
+            top: size + 2 * TILE_RING_SPACE - 28,
             right: 0,
             width: 28,
             height: 28,
@@ -107,7 +111,7 @@ const PersonTile = ({
         numberOfLines={1}
         style={{
           marginTop: 6,
-          maxWidth: size + 2 * (TILE_RING_GAP + TILE_RING_WIDTH),
+          maxWidth: size + 2 * TILE_RING_SPACE,
           fontSize: 15,
           fontWeight: selected ? "600" : "400",
           color: colors.text,
@@ -243,11 +247,9 @@ export const PersonChip = ({
         borderRadius: RADIUS.full,
         marginRight: 8,
         marginBottom: 8,
-        backgroundColor: selected
-          ? colors.tagBackgroundActive
-          : colors.tagBackground,
-        borderColor: selected ? colors.tint : unselectedBorderColor,
+        backgroundColor: colors.tagBackground,
         borderWidth: 1,
+        ...getSelectionStyle(colors, selected, unselectedBorderColor),
         paddingLeft: chipSize.paddingLeft,
         paddingRight: chipSize.paddingRight,
         paddingVertical: chipSize.paddingVertical,
@@ -263,7 +265,7 @@ export const PersonChip = ({
         numberOfLines={1}
         style={{
           marginLeft: chipSize.gap,
-          color: selected ? colors.tagTextActive : colors.tagText,
+          color: colors.tagText,
           fontSize: chipSize.fontSize,
         }}
       >

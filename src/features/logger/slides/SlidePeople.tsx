@@ -18,8 +18,7 @@ import { t } from "@/lib/translation";
 import { useLogState } from "@/features/logs";
 import {
   PersonChip,
-  TILE_RING_GAP,
-  TILE_RING_WIDTH,
+  TILE_RING_SPACE,
   sortPeopleByUsage,
   usePeopleState,
 } from "@/features/people";
@@ -37,7 +36,7 @@ const MAX_AVATAR_SIZE = 96;
 const AddPersonTile = ({ size }: { size: number }) => {
   const router = useRouter();
   const colors = useColors();
-  const outer = size + 2 * (TILE_RING_GAP + TILE_RING_WIDTH);
+  const outer = size + 2 * TILE_RING_SPACE;
 
   return (
     <Pressable
@@ -116,7 +115,7 @@ export const SlidePeople = ({
     (width - 2 * SLIDE_PADDING - (COLUMNS - 1) * COLUMN_GAP) / COLUMNS;
   const avatarSize = Math.min(
     MAX_AVATAR_SIZE,
-    Math.floor(columnWidth - 2 * (TILE_RING_GAP + TILE_RING_WIDTH))
+    Math.floor(columnWidth - 2 * TILE_RING_SPACE)
   );
 
   const selectedIds = new Set(draft.people.map((person) => person.id));

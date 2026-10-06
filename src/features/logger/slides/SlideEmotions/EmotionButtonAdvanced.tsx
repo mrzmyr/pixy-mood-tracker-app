@@ -7,6 +7,7 @@ import type { ViewStyle } from "react-native";
 import { RectButton } from "react-native-gesture-handler";
 import { EmotionIndicator } from "./EmotionsIndicator";
 import { RADIUS } from "@/constants/Radius";
+import { getSelectionStyle } from "@/constants/Selection";
 
 const DEFAULT_STYLE = {};
 
@@ -30,6 +31,7 @@ export const EmotionButtonAdvanced = ({
 
   return (
     <RectButton
+      accessibilityState={{ selected }}
       onPress={() => {
         haptics.selection();
         onPress(emotion);
@@ -46,16 +48,14 @@ export const EmotionButtonAdvanced = ({
       <View
         style={{
           width: "100%",
-          // backgroundColor: colors.cardBackground,
           backgroundColor: colors.logCardBackground,
           borderRadius: RADIUS.sm,
-          borderWidth: selected ? 2 : 1,
-          borderColor: selected ? colors.tint : unselectedBorderColor,
+          borderWidth: 1,
+          ...getSelectionStyle(colors, selected, unselectedBorderColor),
           flexDirection: "row",
           alignItems: "center",
-          paddingVertical: selected ? 11 : 12,
-          paddingRight: selected ? 13 : 14,
-          paddingLeft: selected ? 13 : 14,
+          paddingVertical: 12,
+          paddingHorizontal: 14,
         }}
       >
         <EmotionIndicator emotion={emotion} />

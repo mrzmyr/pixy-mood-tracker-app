@@ -97,7 +97,7 @@ people: Array<
 
 - Path `src/features/people/components/PersonChip.tsx`
 - One component for slide, log detail, logs list, filters, stats. Consistent everywhere
-- Pill like [`Tag`](../../src/features/tags/components/Tag.tsx): 1px border, radius 100, selected = `tagBackgroundActive` + tint border
+- Pill like [`Tag`](../../src/features/tags/components/Tag.tsx): 1px border, radius 100, selected per [design](../design.md#selected-state)
 - Left: 24px circle avatar or gray user icon. Right: name 17px
 - Variants: `chip` (default), `large` (detail screen), `tile` (logger grid)
 
@@ -105,7 +105,7 @@ people: Array<
 
 - Position after tags
 - Headline: "Who were you with?"
-- 3-column grid of `tile` chips. Tap = toggle select. Selected = tint ring + check badge. Archived hidden unless already on draft (copy `SlideTags` filter)
+- 3-column grid of `tile` chips. Tap = toggle select. Selected = [selection ring](../design.md#selected-state) + check badge. Archived hidden unless already on draft (copy `SlideTags` filter)
 - Last cell: "Add Person" tile pushes `/people/create`. Hidden at `MAX_PEOPLE`
 - Order: most used in last 90 days first, then alphabetical
 - Step enabled and `people.length === 0`: simple empty state, one "Add Person" button pushes `/people/create`. No skip

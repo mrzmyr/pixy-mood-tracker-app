@@ -27,6 +27,16 @@
 - Calendar days build the shell in [`CalendarDay`](../src/features/calendar/screens/Calendar/CalendarDay/index.tsx). Future and filtered-out days have no shell
 - Mood buttons build the shell in [`SlideMoodButton`](../src/features/logger/components/SlideMoodButton.tsx). Colored inner surfaces get `getBezelEdgeColor`
 
+## Selected State
+
+- One look for every selectable chip, tile, and button: emotions, tags, people, sleep
+- Selected: 1px `selectionBorder` plus 2px `selectionRing` outside. Fill and text color stay unchanged
+- Helpers: [`getSelectionStyle`](../src/constants/Selection.ts), avatars use `getSelectionRingShadow`
+- Ring is `boxShadow`, so selecting never moves layout. Keep 1px border in both states
+- Dark ring is dim blue. Light blue glows on dark surfaces
+- Person tile keeps check badge. Selection never relies on color alone there
+- Set `accessibilityState={{ selected }}`
+
 ## Sheets and Modals
 
 - Native presentation first: `Modal` with `presentationStyle="pageSheet"` and `animationType="slide"`. Pattern: [`useFeedbackModal`](../src/features/feedback/hooks/useFeedbackModal.tsx)
