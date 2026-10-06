@@ -14,6 +14,7 @@ import { useDatagate } from "../DataGate";
  */
 export const DataScreen = () => {
   const colors = useColors();
+  const iconProps = { width: 20, height: 20, color: colors.menuListItemIcon };
   const datagate = useDatagate();
 
   return (
@@ -33,7 +34,7 @@ export const DataScreen = () => {
           <MenuListItem
             title={t("import")}
             onPress={() => datagate.openImportDialog()}
-            iconLeft={<Download width={18} color={colors.menuListItemIcon} />}
+            iconLeft={<Download {...iconProps} />}
           />
           {__DEV__ && (
             <MenuListItem
@@ -41,7 +42,7 @@ export const DataScreen = () => {
               onPress={() =>
                 datagate.openDangerousImportDirectlyToAsyncStorageDialog()
               }
-              iconLeft={<Download width={18} color={colors.menuListItemIcon} />}
+              iconLeft={<Download {...iconProps} />}
             />
           )}
         </MenuList>
@@ -51,13 +52,13 @@ export const DataScreen = () => {
             testID="export-json"
             title="JSON"
             onPress={() => datagate.openExportDialog({ format: "json" })}
-            iconLeft={<Upload width={18} color={colors.menuListItemIcon} />}
+            iconLeft={<Upload {...iconProps} />}
           />
           <MenuListItem
             testID="export-csv"
             title="CSV"
             onPress={() => datagate.openExportDialog({ format: "csv" })}
-            iconLeft={<Upload width={18} color={colors.menuListItemIcon} />}
+            iconLeft={<Upload {...iconProps} />}
           />
         </MenuList>
         <TextInfo>{`${t("export_help")}\n${t("export_csv_help")}`}</TextInfo>
@@ -75,7 +76,7 @@ export const DataScreen = () => {
                 console.log(error);
               }
             }}
-            iconLeft={<Trash width={18} color={colors.danger} />}
+            iconLeft={<Trash width={20} height={20} color={colors.danger} />}
             style={{
               color: colors.danger,
             }}
