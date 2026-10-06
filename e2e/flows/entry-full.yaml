@@ -43,7 +43,8 @@ tags: [p0, entry]
     commands:
       - tapOn: "Continue"
 - runFlow: ../subflows/dismiss-keyboard.yaml
-- tapOn: "Create"
+- tapOn:
+    id: "tag-save"
 - waitForAnimationToEnd
 - assertNotVisible:
     id: "tag-name"

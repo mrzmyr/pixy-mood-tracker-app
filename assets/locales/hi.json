@@ -760,6 +760,8 @@
   "tags_feedback_placeholder": "आपके फ़ीडबैक के बारे में विवरण... (वैकल्पिक)",
   "tags_feedback_question": "आपको नई टैग सुविधा कैसी लगी?",
   "tags_feedback_title": "परिचय: टैग",
+  "tags_name_error": "{{min}} से {{max}} अक्षर इस्तेमाल करें।",
+  "tags_name_label": "नाम",
   "tags_per_day": "औसत प्रति दिन टैग",
   "tags_reached_max": "आप अधिकतम {{max_count}} टैग तक पहुंच गए हैं। नए जोड़ने के लिए कृपया कुछ टैग हटाएं।",
   "tags_used": "टैग का इस्तेमाल किया",

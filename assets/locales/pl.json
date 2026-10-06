@@ -760,6 +760,8 @@
   "tags_feedback_placeholder": "Szczegóły Twojej opinii… (opcjonalnie)",
   "tags_feedback_question": "Jak podoba Ci się nowa funkcja tagów?",
   "tags_feedback_title": "Przedstawiamy: Tagi",
+  "tags_name_error": "Użyj od {{min}} do {{max}} znaków.",
+  "tags_name_label": "Nazwa",
   "tags_per_day": "Śr. tagów dziennie",
   "tags_reached_max": "Osiągnięto maksymalną liczbę {{max_count}} tagów. Usuń niektóre tagi, aby dodać nowe.",
   "tags_used": "Używane tagi",

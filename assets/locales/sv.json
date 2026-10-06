@@ -760,6 +760,8 @@
   "tags_feedback_placeholder": "Detaljer om din feedback... (valfritt)",
   "tags_feedback_question": "Vad tycker du om den nya taggarfunktionen?",
   "tags_feedback_title": "Introduktion: Taggar",
+  "tags_name_error": "Använd {{min}} till {{max}} tecken.",
+  "tags_name_label": "Namn",
   "tags_per_day": "Genomsnittlig taggar per dag",
   "tags_reached_max": "Du nådde det maximala antalet {{max_count}} taggar. Ta bort några taggar för att lägga till nya.",
   "tags_used": "Taggar används",

@@ -760,6 +760,8 @@
   "tags_feedback_placeholder": "Detalles sobre sus comentarios... (opcional)",
   "tags_feedback_question": "¿Qué te parece la nueva función de etiquetas?",
   "tags_feedback_title": "Presentamos: Etiquetas",
+  "tags_name_error": "Usa de {{min}} a {{max}} caracteres.",
+  "tags_name_label": "Nombre",
   "tags_per_day": "Promedio etiquetas por día",
   "tags_reached_max": "Alcanzaste el máximo de {{max_count}} etiquetas. Elimine algunas etiquetas para agregar otras nuevas.",
   "tags_used": "Etiquetas utilizadas",

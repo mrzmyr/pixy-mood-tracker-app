@@ -760,6 +760,8 @@
   "tags_feedback_placeholder": "รายละเอียดเกี่ยวกับความคิดเห็นของคุณ... (ไม่บังคับ)",
   "tags_feedback_question": "คุณชอบคุณสมบัติแท็กใหม่อย่างไร?",
   "tags_feedback_title": "แนะนำ: แท็ก",
+  "tags_name_error": "ใช้ {{min}} ถึง {{max}} ตัวอักษร",
+  "tags_name_label": "ชื่อ",
   "tags_per_day": "เฉลี่ย แท็กต่อวัน",
   "tags_reached_max": "คุณมีแท็กถึงจำนวนสูงสุด {{max_count}} แท็กแล้ว โปรดลบบางแท็กเพื่อเพิ่มแท็กใหม่",
   "tags_used": "แท็กที่ใช้",

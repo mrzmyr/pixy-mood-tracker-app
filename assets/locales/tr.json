@@ -760,6 +760,8 @@
   "tags_feedback_placeholder": "Geri bildiriminizle ilgili ayrıntılar… (isteğe bağlı)",
   "tags_feedback_question": "Yeni etiketler özelliğini beğendiniz mi?",
   "tags_feedback_title": "Tanıtımı: Etiketler",
+  "tags_name_error": "{{min}} ile {{max}} karakter arasında girin.",
+  "tags_name_label": "Ad",
   "tags_per_day": "Ort. günlük etiket sayısı",
   "tags_reached_max": "Maksimum {{max_count}} etikete ulaştınız. Yenilerini eklemek için lütfen bazı etiketleri silin.",
   "tags_used": "Kullanılan etiketler",

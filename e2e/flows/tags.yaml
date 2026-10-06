@@ -63,7 +63,8 @@ tags: [p1, tags]
     id: "tag-name"
 - inputText: "e2e-${output.runId}"
 - runFlow: ../subflows/dismiss-keyboard.yaml
-- tapOn: "Create"
+- tapOn:
+    id: "tag-save"
 - scrollUntilVisible:
     element:
       text: "e2e-${output.runId}"

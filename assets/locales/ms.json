@@ -760,6 +760,8 @@
   "tags_feedback_placeholder": "Butiran tentang maklum balas anda… (pilihan)",
   "tags_feedback_question": "Bagaimanakah anda menyukai ciri teg baharu?",
   "tags_feedback_title": "Memperkenalkan: Tag",
+  "tags_name_error": "Gunakan {{min}} hingga {{max}} aksara.",
+  "tags_name_label": "Nama",
   "tags_per_day": "Purata tag setiap hari",
   "tags_reached_max": "Anda mencapai maksimum {{max_count}} teg. Sila padamkan beberapa teg untuk menambah yang baharu.",
   "tags_used": "Tag digunakan",

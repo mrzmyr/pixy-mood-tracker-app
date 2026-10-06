@@ -760,6 +760,8 @@
   "tags_feedback_placeholder": "Podrobnosti o vašej spätnej väzbe... (voliteľné)",
   "tags_feedback_question": "Ako sa vám páči nová funkcia značiek?",
   "tags_feedback_title": "Predstavujeme: Tagy",
+  "tags_name_error": "Použite {{min}} až {{max}} znakov.",
+  "tags_name_label": "Názov",
   "tags_per_day": "Priem. tagov za deň",
   "tags_reached_max": "Dosiahli ste maximálny počet {{max_count}} značiek. Ak chcete pridať nové, odstráňte niektoré značky.",
   "tags_used": "Použité značky",
