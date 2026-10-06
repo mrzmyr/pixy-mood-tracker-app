@@ -1,20 +1,18 @@
 import type { DateTimePickerEvent } from "@react-native-community/datetimepicker";
 import dayjs from "dayjs";
 import { useEffect, useEffectEvent } from "react";
-import { Platform, Switch, Text, View } from "react-native";
+import { Switch, View } from "react-native";
 import Clock from "./Clock";
 import MenuList from "@/components/MenuList";
 import MenuListItem from "@/components/MenuListItem";
 import NotificationPreview from "./NotificationPreview";
 import { t } from "@/lib/translation";
 import { useAnalytics } from "@/state/analytics";
-import useColors from "@/hooks/useColors";
 import { reminderTimeToDate } from "../reminderTime";
 import { useReminder } from "../useReminder";
 
 const Reminder = () => {
   const reminder = useReminder();
-  const colors = useColors();
   const analytics = useAnalytics();
 
   const reminderEnabled = reminder.enabled;
@@ -52,13 +50,8 @@ const Reminder = () => {
 
   return (
     <View>
-      <View
-        style={{
-          opacity: reminderEnabled ? 1 : 0.5,
-          marginBottom: 20,
-        }}
-      >
-        <NotificationPreview />
+      <View style={{ marginBottom: 20 }}>
+        <NotificationPreview time={timeDate} enabled={reminderEnabled} />
       </View>
       <MenuList>
         <MenuListItem
@@ -72,39 +65,10 @@ const Reminder = () => {
           }
         />
         {reminderEnabled && (
-          <View
-            style={{
-              padding: 16,
-              marginHorizontal: 16,
-              paddingHorizontal: 0,
-              borderTopWidth: 1,
-              borderTopColor: colors.menuListItemBorder,
-              flexDirection: "row",
-              alignItems: "center",
-            }}
-          >
-            <View
-              style={{
-                flex: 1,
-              }}
-            >
-              <Text
-                style={{
-                  color: colors.text,
-                  fontSize: 17,
-                }}
-              >
-                {t("time")}
-              </Text>
-            </View>
-            <View
-              style={{
-                flex: Platform.OS === "ios" ? 1 : 0,
-              }}
-            >
-              <Clock onChange={onTimeChange} timeDate={timeDate} />
-            </View>
-          </View>
+          <MenuListItem
+            title={t("time")}
+            iconRight={<Clock onChange={onTimeChange} timeDate={timeDate} />}
+          />
         )}
       </MenuList>
     </View>

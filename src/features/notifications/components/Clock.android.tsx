@@ -15,7 +15,7 @@ const Clock = ({
 }: {
   timeDate: Date;
   onChange: (event: DateTimePickerEvent, date?: Date) => void;
-  style: ViewStyle;
+  style?: ViewStyle;
 }) => {
   const colors = useColors();
 
