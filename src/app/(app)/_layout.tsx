@@ -8,7 +8,10 @@ import useColors from "@/hooks/useColors";
 import { DEV_TOOLS } from "@/dev";
 import { useCanOverrideFeatureFlags } from "@/state/featureFlags";
 import { WidgetSync } from "@/features/widget";
-import { HAS_FLOATING_HEADER } from "@/features/calendar";
+import {
+  CalendarScreenReaderTitle,
+  HAS_FLOATING_HEADER,
+} from "@/features/calendar";
 
 const renderHeaderLeft = () => <BackButton testID="settings-back-button" />;
 
@@ -41,9 +44,10 @@ const AppLayout = () => {
           <Stack.Screen
             name="calendar"
             options={{
-              // Title stays the iOS back button label. The header shows none.
+              // Title stays the iOS back button label. The header shows none
+              // but exposes the screen name to screen readers.
               title: t("calendar"),
-              headerTitle: "",
+              headerTitle: CalendarScreenReaderTitle,
               headerTintColor: colors.text,
               headerShadowVisible: false,
               ...(HAS_FLOATING_HEADER
