@@ -7,12 +7,33 @@ import { t } from "@/lib/translation";
 import type { Person } from "../PeopleProvider";
 import { PersonAvatar } from "./PersonAvatar";
 import { RADIUS } from "@/constants/Radius";
+import { COMPACT_CHIP } from "@/constants/Chip";
 
 const DEFAULT_STYLE = {};
 /** Space between avatar and selection ring of the `tile` variant. */
 export const TILE_RING_GAP = 3;
 /** Selection ring of the `tile` variant; adds to the tile's outer size. */
 export const TILE_RING_WIDTH = 3;
+/** Measurements of the `chip` variant, regular and compact. */
+const CHIP_SIZES = {
+  regular: {
+    paddingLeft: 8,
+    paddingRight: 16,
+    paddingVertical: 6,
+    avatar: 24,
+    gap: 8,
+    fontSize: 17,
+  },
+  compact: {
+    paddingLeft: COMPACT_CHIP.paddingLeftAvatar,
+    paddingRight: COMPACT_CHIP.paddingHorizontal,
+    paddingVertical: 0,
+    height: COMPACT_CHIP.height,
+    avatar: COMPACT_CHIP.avatarSize,
+    gap: COMPACT_CHIP.gap,
+    fontSize: COMPACT_CHIP.fontSize,
+  },
+};
 
 type LongPressProps = Pick<
   PressableProps,
@@ -120,6 +141,7 @@ export const PersonChip = ({
   testID,
   previewUri = null,
   size = 88,
+  compact = false,
 }: {
   person: Pick<Person, "id" | "name" | "avatar" | "updatedAt">;
   selected?: boolean;
@@ -132,12 +154,15 @@ export const PersonChip = ({
   previewUri?: string | null;
   /** Avatar diameter of the `tile` variant. */
   size?: number;
+  /** Small `chip` for dense rows, like timeline cards. */
+  compact?: boolean;
 }) => {
   const colors = useColors();
   const haptics = useHaptics();
   const colorScheme = useColorScheme();
   const unselectedBorderColor =
     colorScheme === "light" ? "rgba(0,0,0,0.1)" : "rgba(255,255,255,0.1)";
+  const chipSize = CHIP_SIZES[compact ? "compact" : "regular"];
 
   const press = async () => {
     if (!onPress) {
@@ -223,22 +248,23 @@ export const PersonChip = ({
           : colors.tagBackground,
         borderColor: selected ? colors.tint : unselectedBorderColor,
         borderWidth: 1,
-        paddingLeft: 8,
-        paddingRight: 16,
-        paddingVertical: 6,
+        paddingLeft: chipSize.paddingLeft,
+        paddingRight: chipSize.paddingRight,
+        paddingVertical: chipSize.paddingVertical,
+        height: "height" in chipSize ? chipSize.height : undefined,
         opacity: pressed && onPress ? 0.8 : 1,
         ...style,
       })}
       onPress={onPress ? press : undefined}
       {...longPressProps}
     >
-      <PersonAvatar person={person} size={24} />
+      <PersonAvatar person={person} size={chipSize.avatar} />
       <Text
         numberOfLines={1}
         style={{
-          marginLeft: 8,
+          marginLeft: chipSize.gap,
           color: selected ? colors.tagTextActive : colors.tagText,
-          fontSize: 17,
+          fontSize: chipSize.fontSize,
         }}
       >
         {person.name}

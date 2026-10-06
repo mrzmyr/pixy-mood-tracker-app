@@ -10,7 +10,7 @@ Run in order. Relay each `Step N` line. Do not pick variants; the CLI owns them.
 1. `bun devices list`. Copy one value of column `OPTION`: `--platform=<ios|android>` for simulator or emulator, `--target=<target>` for a phone. Use it as `<device>` below.
    Phone: `bun devices reserve <device> --goal="<what you do>"` first, so other agents cannot take it. Pick another phone on `device_reserved`.
 2. `bun app install <device>`
-3. `bun app seed <device> --fixture=<id>` (ids: fresh, empty, seed, year)
+3. `bun app seed <device> --fixture=<id>` (ids: `bun app seed --help`)
 4. `bun app open <device>`
 5. Use the app: `bun app drive <device> -- <agent-device args>`. Commands: `bunx agent-device help workflow`. Never call `bunx agent-device` directly: it skips reservations and picks its own session.
 6. `bun app close <device>`

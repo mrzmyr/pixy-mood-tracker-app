@@ -6,7 +6,7 @@ Options:
   --platform=<ios|android>  Simulator (ios) or emulator (android) of this checkout.
                             CLI creates and boots it.
   --target=<target>         One phone. Copy the value from `bun devices list`.
-  --fixture=<id>            Required. One of: fresh, empty, seed, year, people.
+  --fixture=<id>            Required. One of: fresh, empty, seed, year, people, timeline.
   --variant=<dev|preview>   App to seed. Default: dev while this checkout's `bun app dev` runs,
                             else preview. Phones: preview only.
 
