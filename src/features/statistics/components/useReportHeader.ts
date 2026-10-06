@@ -1,5 +1,5 @@
 import { useFocusEffect, useNavigation } from "expo-router";
-import { useHeaderHeight } from "@react-navigation/elements";
+import { useHeaderHeight } from "expo-router/react-navigation";
 import { setStatusBarStyle } from "expo-status-bar";
 import { useCallback, useLayoutEffect, useState } from "react";
 import type { NativeScrollEvent, NativeSyntheticEvent } from "react-native";
