@@ -4,7 +4,6 @@ import MenuList from "@/components/MenuList";
 import MenuListItem from "@/components/MenuListItem";
 import TextInfo from "@/components/TextInfo";
 import Toggle from "@/components/Toggle";
-import useColors from "@/hooks/useColors";
 import { t } from "@/lib/translation";
 import { useAppLock } from "./AppLockProvider";
 import type { UnlockMethod } from "./deviceAuth";
@@ -28,7 +27,6 @@ const methodLabel = (method: UnlockMethod | null): string => {
  * passcode.
  */
 export const AppLockSetting = () => {
-  const colors = useColors();
   const { isEnabled, unlockMethod, setEnabled } = useAppLock();
   const [hasFailed, setHasFailed] = useState(false);
   const isUnavailable = unlockMethod === "none";
