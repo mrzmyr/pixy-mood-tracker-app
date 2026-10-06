@@ -14,6 +14,7 @@ import {
   Droplet,
   Flag,
   Github,
+  Layout,
   PieChart,
   Shield,
   Smartphone,
@@ -41,13 +42,7 @@ import { useFeedbackModal } from "@/features/feedback";
 import { useIsWidgetEnabled } from "@/features/widget";
 import { AppLockMenuItem } from "@/features/applock";
 import pkg from "../../../../../package.json";
-import {
-  Bug,
-  LayoutDashboard,
-  Lightbulb,
-  Squircle,
-  SunMoon,
-} from "lucide-react-native";
+import { Bug, Lightbulb, Squircle, SunMoon } from "lucide-react-native";
 import { useSupport } from "@/support";
 
 const DEVELOPMENT_UNLOCK_TAPS = 20;
@@ -62,6 +57,7 @@ const DEVELOPMENT_UNLOCK_TAPS = 20;
 export const SettingsScreen = () => {
   const router = useRouter();
   const colors = useColors();
+  const iconProps = { width: 20, height: 20, color: colors.menuListItemIcon };
   const analytics = useAnalytics();
   const isWidgetEnabled = useIsWidgetEnabled();
   const support = useSupport();
@@ -114,23 +110,21 @@ export const SettingsScreen = () => {
         <MenuList>
           <MenuListItem
             title={t("data")}
-            iconLeft={<Database width={18} color={colors.menuListItemIcon} />}
+            iconLeft={<Database {...iconProps} />}
             onPress={() => router.push("/settings/data")}
             testID="data"
             isLink
           />
           <MenuListItem
             title={t("reminder")}
-            iconLeft={<Bell width={18} color={colors.menuListItemIcon} />}
+            iconLeft={<Bell {...iconProps} />}
             onPress={() => router.push("/settings/reminder")}
             testID="reminder"
             isLink
           />
           <MenuListItem
             title={t("steps")}
-            iconLeft={
-              <CheckCircle width={18} color={colors.menuListItemIcon} />
-            }
+            iconLeft={<CheckCircle {...iconProps} />}
             onPress={() => router.push("/settings/steps")}
             isLink
           />
@@ -139,9 +133,7 @@ export const SettingsScreen = () => {
             <FlagHighlight flag="ios-widget">
               <MenuListItem
                 title={t("widget")}
-                iconLeft={
-                  <LayoutDashboard size={18} color={colors.menuListItemIcon} />
-                }
+                iconLeft={<Layout {...iconProps} />}
                 onPress={() => router.push("/widget")}
                 testID="widget"
                 isLink
@@ -154,7 +146,7 @@ export const SettingsScreen = () => {
         <MenuList>
           <MenuListItem
             title={t("theme")}
-            iconLeft={<SunMoon size={18} color={colors.menuListItemIcon} />}
+            iconLeft={<SunMoon {...iconProps} />}
             iconRight={
               <Text style={{ fontSize: 17, color: colors.textSecondary }}>
                 {t(`theme_${colorScheme}`)}
@@ -166,14 +158,14 @@ export const SettingsScreen = () => {
           />
           <MenuListItem
             title={t("app_icon")}
-            iconLeft={<Squircle size={18} color={colors.menuListItemIcon} />}
+            iconLeft={<Squircle {...iconProps} />}
             onPress={() => router.push("/settings/app-icon")}
             testID="app-icon"
             isLink
           />
           <MenuListItem
             title={t("colors")}
-            iconLeft={<Droplet width={18} color={colors.menuListItemIcon} />}
+            iconLeft={<Droplet {...iconProps} />}
             onPress={() => router.push("/settings/colors")}
             isLink
           />
@@ -184,7 +176,7 @@ export const SettingsScreen = () => {
           <MenuListItem
             title={t("request_a_feature")}
             onPress={() => showFeedbackModal({ type: "idea" })}
-            iconLeft={<Lightbulb width={18} color={colors.menuListItemIcon} />}
+            iconLeft={<Lightbulb {...iconProps} />}
             testID="request_a_feature"
           />
           <MenuListItem
@@ -193,15 +185,13 @@ export const SettingsScreen = () => {
               analytics.track("settings:vote_features_tapped");
               await WebBrowser.openBrowserAsync(FEEDBACK_FEATURES_URL);
             }}
-            iconLeft={
-              <ArrowUpCircle width={18} color={colors.menuListItemIcon} />
-            }
+            iconLeft={<ArrowUpCircle {...iconProps} />}
             testID="vote_features"
           />
           <MenuListItem
             title={t("report_a_bug")}
             onPress={() => showFeedbackModal({ type: "issue" })}
-            iconLeft={<Bug width={18} color={colors.menuListItemIcon} />}
+            iconLeft={<Bug {...iconProps} />}
             testID="report_a_bug"
           />
           <MenuListItem
@@ -211,7 +201,7 @@ export const SettingsScreen = () => {
                 : "rate_pixy_google_play"
             )}
             onPress={() => askToRateApp()}
-            iconLeft={<Star width={18} color={colors.menuListItemIcon} />}
+            iconLeft={<Star {...iconProps} />}
             testID="rate_pixy"
           />
         </MenuList>
@@ -225,18 +215,18 @@ export const SettingsScreen = () => {
               analytics.track("settings:changelog_tapped");
               await WebBrowser.openBrowserAsync(CHANGELOG_URL);
             }}
-            iconLeft={<BookOpen width={18} color={colors.menuListItemIcon} />}
+            iconLeft={<BookOpen {...iconProps} />}
             testID="changelog"
           />
           <MenuListItem
             title={t("privacy")}
             onPress={() => router.push("/settings/privacy")}
-            iconLeft={<Shield width={18} color={colors.menuListItemIcon} />}
+            iconLeft={<Shield {...iconProps} />}
             isLink
           />
           <MenuListItem
             title={t("licenses")}
-            iconLeft={<Award width={18} color={colors.menuListItemIcon} />}
+            iconLeft={<Award {...iconProps} />}
             onPress={() => router.push("/settings/licenses")}
             isLink
           />
@@ -247,7 +237,7 @@ export const SettingsScreen = () => {
                 "https://github.com/mrzmyr/pixy-mood-tracker-app"
               );
             }}
-            iconLeft={<Github width={18} color={colors.menuListItemIcon} />}
+            iconLeft={<Github {...iconProps} />}
           />
         </MenuList>
 
@@ -257,17 +247,13 @@ export const SettingsScreen = () => {
             <MenuList style={{}}>
               <MenuListItem
                 title={t("onboarding")}
-                iconLeft={
-                  <Smartphone width={18} color={colors.menuListItemIcon} />
-                }
+                iconLeft={<Smartphone {...iconProps} />}
                 onPress={() => router.push("/onboarding")}
               />
               {DEV_TOOLS && (
                 <MenuListItem
                   title="Test data"
-                  iconLeft={
-                    <Database width={18} color={colors.menuListItemIcon} />
-                  }
+                  iconLeft={<Database {...iconProps} />}
                   onPress={() => router.push("/dev/fixtures")}
                   isLink
                   testID="dev-fixtures"
@@ -276,7 +262,7 @@ export const SettingsScreen = () => {
               {canOverrideFeatureFlags && (
                 <MenuListItem
                   title="Feature flags"
-                  iconLeft={<Flag width={18} color={colors.menuListItemIcon} />}
+                  iconLeft={<Flag {...iconProps} />}
                   onPress={() => router.push("/settings/feature-flags")}
                   isLink
                   testID="dev-feature-flags"
@@ -284,9 +270,7 @@ export const SettingsScreen = () => {
               )}
               <MenuListItem
                 title={t("settings_development_statistics")}
-                iconLeft={
-                  <PieChart width={18} color={colors.menuListItemIcon} />
-                }
+                iconLeft={<PieChart {...iconProps} />}
                 onPress={() => router.push("/settings/development-tools")}
                 isLink
               />
