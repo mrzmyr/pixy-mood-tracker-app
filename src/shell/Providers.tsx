@@ -4,6 +4,7 @@ import { POSTHOG_API_KEY } from "@/constants/API";
 import { TRACKING_ENABLED } from "@/constants/Config";
 import { POSTHOG_OPTIONS } from "@/shell/posthogOptions";
 import { AnalyticsProvider } from "@/state/analytics";
+import { BackupProvider } from "@/features/backup";
 import { FeatureFlagsProvider } from "@/state/featureFlags";
 import { CalendarFiltersProvider } from "@/features/calendar";
 import { LogsProvider } from "@/features/logs";
@@ -34,9 +35,11 @@ const Providers = ({
       <LogsProvider>
         <TagsProvider>
           <PeopleProvider>
-            <CalendarFiltersProvider>
-              <StatisticsProvider>{children}</StatisticsProvider>
-            </CalendarFiltersProvider>
+            <BackupProvider>
+              <CalendarFiltersProvider>
+                <StatisticsProvider>{children}</StatisticsProvider>
+              </CalendarFiltersProvider>
+            </BackupProvider>
           </PeopleProvider>
         </TagsProvider>
       </LogsProvider>
@@ -46,9 +49,11 @@ const Providers = ({
       <LogsProvider>
         <TagsProvider>
           <PeopleProvider>
-            <CalendarFiltersProvider>
-              <StatisticsProvider>{children}</StatisticsProvider>
-            </CalendarFiltersProvider>
+            <BackupProvider>
+              <CalendarFiltersProvider>
+                <StatisticsProvider>{children}</StatisticsProvider>
+              </CalendarFiltersProvider>
+            </BackupProvider>
           </PeopleProvider>
         </TagsProvider>
       </LogsProvider>

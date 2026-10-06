@@ -283,9 +283,9 @@
       "label": "Data stays on your device",
       "status": "available",
       "group": "data",
-      "description": "Entries are stored only on the device by default. No account or sign-up.",
+      "description": "Entries are stored on the device. No account or sign-up. Optional backup to the user's own iCloud or Google Drive.",
       "competitorKey": "local",
-      "evidence": ["src/features/datagate/", "assets/locales/en.json"]
+      "evidence": ["src/features/datagate/", "docs/backup.md"]
     },
     {
       "id": "export",
@@ -321,18 +321,23 @@
       "label": "Cloud backup and sync",
       "status": "unavailable",
       "group": "data",
-      "description": "No automatic backup, no sync between devices.",
+      "description": "No sync between devices. See automatic-backup for the iCloud and Google Drive backup.",
       "competitorKey": "sync",
       "evidence": []
     },
     {
       "id": "automatic-backup",
       "label": "Automatic backup",
-      "status": "unavailable",
+      "status": "available",
       "group": "data",
-      "description": "No automatic copy of entries off the device. Export is manual.",
+      "description": "Optional backup file in a hidden folder of iCloud (iPhone) or Google Drive (Android). Updates after each change, shows the last sync, restores entries, tags, people, and settings on a new phone. Photos stay on the phone. Pixy never sees the data.",
       "competitorKey": "backup",
-      "evidence": []
+      "evidence": [
+        "src/features/backup/",
+        "src/features/settings/screens/Backup.tsx",
+        "docs/backup.md"
+      ],
+      "note": "New in source after 1.88.0. Not in the store version. On by default on iPhone; Android needs Google sign-in."
     },
     {
       "id": "app-lock",

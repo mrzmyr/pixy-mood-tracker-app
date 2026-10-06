@@ -178,7 +178,6 @@ const light = {
   widgetBackground: colors.white,
   widgetText: colors.neutral[900],
   widgetTextSecondary: colors.neutral[500],
-  widgetFutureDay: colors.neutral[100],
   widgetGuideImageBackground: colors.neutral[200],
   yearPixelsLegendText: colors.neutral[400],
 
@@ -372,7 +371,6 @@ const dark: IColors & {
   widgetBackground: colors.neutral[900],
   widgetText: colors.white,
   widgetTextSecondary: colors.neutral[400],
-  widgetFutureDay: colors.neutral[700],
   widgetGuideImageBackground: colors.neutral[800],
   yearPixelsLegendText: colors.neutral[500],
 

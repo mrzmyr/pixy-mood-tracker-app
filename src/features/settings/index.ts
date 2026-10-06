@@ -1,4 +1,5 @@
 export { AppIconScreen } from "./screens/AppIcon";
+export { BackupScreen } from "./screens/Backup";
 export { ColorsScreen } from "./screens/Colors";
 export { DevelopmentTools } from "./screens/DevelopmentTools";
 export { FeatureFlagsScreen } from "./screens/FeatureFlags";
@@ -14,5 +15,6 @@ export {
   DevFixtureLinkScreen,
   DevFakeContactsLinkScreen,
   DevFakeFilesLinkScreen,
+  DevFakeCloudLinkScreen,
   DevFeatureFlagLinkScreen,
 } from "./DevRoutes";

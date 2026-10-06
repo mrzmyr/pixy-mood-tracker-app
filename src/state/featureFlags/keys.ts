@@ -4,6 +4,7 @@
  */
 export const FEATURE_FLAGS = [
   "app-icons",
+  "backup",
   "development",
   "emotion-icons",
   "feature-flag-overrides",

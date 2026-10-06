@@ -47,6 +47,7 @@
     "@hugeicons/core-free-icons": "4.3.5",
     "@react-native-async-storage/async-storage": "2.2.0",
     "@react-native-community/datetimepicker": "9.1.0",
+    "@react-native-google-signin/google-signin": "^16.1.5",
     "@react-navigation/bottom-tabs": "^7.19.2",
     "@react-navigation/native": "^7.4.1",
     "@react-navigation/native-stack": "^7.19.2",
@@ -85,6 +86,7 @@
     "expo-status-bar": "~57.0.1",
     "expo-store-review": "~57.0.3",
     "expo-superwall": "1.2.0",
+    "expo-symbols": "~57.0.3",
     "expo-system-ui": "~57.0.4",
     "expo-web-browser": "~57.0.3",
     "expo-widgets": "~57.0.22",
@@ -96,6 +98,7 @@
     "react": "19.2.8",
     "react-dom": "19.2.8",
     "react-native": "0.86.3",
+    "react-native-cloud-storage": "^3.1.1",
     "react-native-feather": "^1.1.2",
     "react-native-gesture-handler": "~3.1.0",
     "react-native-get-random-values": "~1.11.0",
@@ -150,7 +153,8 @@
       "./node_modules/react-native-gesture-handler/jestSetup.js"
     ],
     "setupFilesAfterEnv": [
-      "<rootDir>/jest.setup.js"
+      "<rootDir>/jest.setup.js",
+      "<rootDir>/node_modules/@react-native-google-signin/google-signin/jest/build/jest/setup.js"
     ],
     "testPathIgnorePatterns": [
       "./__tests__/utils.ts",

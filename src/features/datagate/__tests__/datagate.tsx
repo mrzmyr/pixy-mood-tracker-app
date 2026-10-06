@@ -193,6 +193,8 @@ describe("useLogs()", () => {
     });
     expect(hook.result.current.settingsState.settings).toEqual({
       ...testSettings,
+      // Imports keep this phone's identity.
+      deviceId: expect.any(String),
     });
   });
 
@@ -240,6 +242,8 @@ describe("useLogs()", () => {
       items: testItems,
       settings: _.omit(testSettings, [
         "deviceId",
+        "backupEnabled",
+        "backupWrittenAt",
         "storeReviewPromptedAt",
         "storeReviewPromptedAppVersion",
         "photosDayAccessDismissed",
@@ -450,6 +454,8 @@ describe("useLogs()", () => {
 
     expect(hook.result.current.settingsState.settings).toEqual({
       ...testSettings,
+      // Imports keep this phone's identity.
+      deviceId: expect.any(String),
     });
   });
 

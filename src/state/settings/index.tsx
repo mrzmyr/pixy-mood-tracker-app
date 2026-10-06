@@ -44,6 +44,14 @@ export interface SettingsState {
   reminderEnabled: boolean;
   reminderTime: string;
   analyticsEnabled: boolean;
+  /** Keep a backup file in iCloud (iOS) or Google Drive (Android). Device setting. */
+  backupEnabled: boolean;
+  /**
+   * `createdAt` of the last backup this phone wrote, or `null` before the
+   * first write. A backup from another phone that is newer than this pauses
+   * writes. Device setting.
+   */
+  backupWrittenAt: string | null;
   actionsDone: IAction[];
   steps: KnownSettingsStep[];
   /** ISO date of the automatic store review prompt; `null` until shown once. */
@@ -73,12 +81,15 @@ export interface SettingsState {
 /**
  * Settings included in data exports. The device id is excluded so an import
  * never clones another device's identity. Store review prompt state belongs
- * to the device and store account, and photo library access, theme, and
- * location to the device, so imports keep the current values.
+ * to the device and store account, and photo library access, theme,
+ * location, and the backup switch to the device, so imports keep the current
+ * values.
  */
 export type ExportSettings = Omit<
   SettingsState,
   | "deviceId"
+  | "backupEnabled"
+  | "backupWrittenAt"
   | "storeReviewPromptedAt"
   | "storeReviewPromptedAppVersion"
   | "photosDayAccessDismissed"
@@ -128,13 +139,17 @@ const reducer = (
     case "set": {
       return action.payload(state);
     }
-    // Store review prompt state, photo library access, theme, and location
-    // belong to this device, so imports keep the current values.
+    // The device id, backup switch, store review prompt state, photo library
+    // access, theme, and location belong to this device, so imports keep the
+    // current values.
     case "import": {
       return {
         ...INITIAL_STATE,
         ...action.payload,
         steps: sanitizeSteps(action.payload.steps),
+        deviceId: state.deviceId,
+        backupEnabled: state.backupEnabled,
+        backupWrittenAt: state.backupWrittenAt,
         storeReviewPromptedAt: state.storeReviewPromptedAt,
         storeReviewPromptedAppVersion: state.storeReviewPromptedAppVersion,
         photosDayAccessDismissed: state.photosDayAccessDismissed,

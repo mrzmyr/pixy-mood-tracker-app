@@ -150,6 +150,34 @@ describe("useSettings()", () => {
     });
   });
 
+  test("should keep device id and backup switch on import", async () => {
+    await AsyncStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify({
+        ...INITIAL_STATE,
+        deviceId: "this-phone",
+        backupEnabled: false,
+        backupWrittenAt: "2026-10-01T10:00:00.000Z",
+      })
+    );
+    const hook = await _renderHook();
+    await waitForLoaded(hook);
+
+    await act(() => {
+      hook.result.current.state.importSettings({
+        ...INITIAL_STATE,
+        reminderTime: "12:00",
+      });
+    });
+
+    expect(hook.result.current.state.settings).toMatchObject({
+      reminderTime: "12:00",
+      deviceId: "this-phone",
+      backupEnabled: false,
+      backupWrittenAt: "2026-10-01T10:00:00.000Z",
+    });
+  });
+
   test("keeps the photo access dismissal of this device on import", async () => {
     await AsyncStorage.setItem(
       STORAGE_KEY,

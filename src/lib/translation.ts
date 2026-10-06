@@ -4,6 +4,7 @@ import type { TranslateOptions } from "i18n-js";
 
 import dayjs from "dayjs";
 import localizedFormat from "dayjs/plugin/localizedFormat";
+import relativeTime from "dayjs/plugin/relativeTime";
 import weekOfYear from "dayjs/plugin/weekOfYear";
 
 import type en from "../../assets/locales/en.json";
@@ -117,6 +118,7 @@ for (let weekStart = 0; weekStart < 7; weekStart += 1) {
 dayjs.locale(dayjsLanguage);
 dayjs.extend(weekOfYear);
 dayjs.extend(localizedFormat);
+dayjs.extend(relativeTime);
 
 /**
  * Day.js uses Sunday=0. A missing browser calendar preference retains
