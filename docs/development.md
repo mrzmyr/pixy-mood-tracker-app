@@ -48,7 +48,10 @@ Three variants install side by side, each with its own name, icon, bundle ID, an
 
 ### Feature flags
 
-- PostHog feature flags. Keys live in [`src/state/featureFlags/keys.ts`](../src/state/featureFlags/keys.ts). Read one with `useFeatureFlag(key)` ([`src/state/featureFlags/index.tsx`](../src/state/featureFlags/index.tsx))
+- PostHog feature flags. Keys, descriptions, and locations live in [`src/state/featureFlags/keys.ts`](../src/state/featureFlags/keys.ts)
+- Read a flag with `useFeatureFlag(key)` ([`src/state/featureFlags/index.tsx`](../src/state/featureFlags/index.tsx))
+- Wrap flagged UI in `<FlagHighlight flag="<key>">` ([`src/components/FlagHighlight.tsx`](../src/components/FlagHighlight.tsx)) inside the `useFeatureFlag` condition. It never gates
+- Settings > Development > Feature flags > Highlight flagged features outlines every `<FlagHighlight>` with its key. Same access as overrides. Ends when the app restarts
 - Each key needs a boolean flag with the same key in the PostHog project of every variant
 - New key in `keys.ts`: create the PostHog flag in the same task. Do not ask first
   - Create it in all 3 app projects: Production `7630`, Preview `14574`, Development `628970`

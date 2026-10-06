@@ -1,3 +1,4 @@
+import FlagHighlight from "@/components/FlagHighlight";
 import LinkButton from "@/components/LinkButton";
 import useColors from "@/hooks/useColors";
 import type { LogItem } from "@/features/logs";
@@ -184,19 +185,15 @@ export const Entry = ({
               <Tags item={item} canEdit={canEdit("tags")} />
             </View>
             {(hasPeople || item.people.length > 0) && (
-              <View style={{ marginTop: 8 }}>
+              <FlagHighlight flag="people" style={{ marginTop: 8 }}>
                 <People item={item} canEdit={canEdit("people")} />
-              </View>
+              </FlagHighlight>
             )}
             {(item.photos.length > 0 ||
               (isPhotosEnabled && hasStep("photos"))) && (
-              <View
-                style={{
-                  marginTop: 8,
-                }}
-              >
+              <FlagHighlight flag="photos" style={{ marginTop: 8 }}>
                 <Photos item={item} canEdit={canEdit("photos")} />
-              </View>
+              </FlagHighlight>
             )}
             <View
               style={{

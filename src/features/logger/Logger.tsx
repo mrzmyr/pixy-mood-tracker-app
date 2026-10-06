@@ -32,6 +32,7 @@ import { SlideEmotions } from "./slides/SlideEmotions";
 import { SlideFeedback } from "./slides/SlideFeedback";
 import { SlideMessage } from "./slides/SlideMessage";
 import { SlideMood } from "./slides/SlideMood";
+import FlagHighlight from "@/components/FlagHighlight";
 import { SlidePhotos } from "./slides/SlidePhotos";
 import { SlideReminder } from "./slides/SlideReminder";
 import { SlidePeople } from "./slides/SlidePeople";
@@ -114,10 +115,12 @@ const useStepSlides = ({
     slides.push({
       key: "people",
       slide: (
-        <SlidePeople
-          onDisableStep={() => disableStep("people")}
-          showDisable={showDisable}
-        />
+        <FlagHighlight flag="people" pillOnly style={{ flex: 1 }}>
+          <SlidePeople
+            onDisableStep={() => disableStep("people")}
+            showDisable={showDisable}
+          />
+        </FlagHighlight>
       ),
     });
   }
@@ -139,12 +142,14 @@ const useStepSlides = ({
     slides.push({
       key: "photos",
       slide: (
-        <SlidePhotos
-          mode={mode}
-          isActive={isPhotosSlideActive}
-          onDisableStep={() => disableStep("photos")}
-          showDisable={showDisable}
-        />
+        <FlagHighlight flag="photos" pillOnly style={{ flex: 1 }}>
+          <SlidePhotos
+            mode={mode}
+            isActive={isPhotosSlideActive}
+            onDisableStep={() => disableStep("photos")}
+            showDisable={showDisable}
+          />
+        </FlagHighlight>
       ),
     });
   }

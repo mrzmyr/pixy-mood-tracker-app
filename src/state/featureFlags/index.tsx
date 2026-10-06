@@ -1,36 +1,18 @@
 import { usePostHog } from "posthog-react-native";
-import {
-  createContext,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-  useSyncExternalStore,
-} from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import { createStructuredError } from "@/lib/errors";
 import { useSettings, useSettingsLoad } from "@/state/settings";
 import type { FeatureFlag } from "@/state/featureFlags/keys";
 import {
-  getOverrides,
-  IS_OVERRIDE_BUILD,
-  OVERRIDE_ACCESS_FLAG,
-  subscribe,
-} from "@/state/featureFlags/overrides";
+  FeatureFlagsContext,
+  useAppliedOverride,
+} from "@/state/featureFlags/context";
+import type { RemoteFlags } from "@/state/featureFlags/context";
 
-type RemoteFlags = Record<string, boolean | string>;
-
-interface FeatureFlagsValue {
-  /** Flags fetched after consent in this app session; `null` means none. */
-  flags: RemoteFlags | null;
-  /** Settings or the first flag request after consent are still pending. */
-  isLoading: boolean;
-}
-
-/** Outside {@link FeatureFlagsProvider} every flag is off and nothing loads. */
-const FeatureFlagsContext = createContext<FeatureFlagsValue>({
-  flags: null,
-  isLoading: false,
-});
+export {
+  useCanOverrideFeatureFlags,
+  useFeatureFlagSource,
+} from "@/state/featureFlags/context";
 
 /**
  * Loads PostHog feature flags only after the user agreed to share data:
@@ -114,17 +96,6 @@ export const FeatureFlagsProvider = ({
   );
 };
 
-/**
- * Whether this device may override flags: always in development and preview
- * builds, in production only while the PostHog flag
- * `feature-flag-overrides` is on. That flag needs consent.
- */
-// oxlint-disable-next-line pixy-standards/boolean-function-prefix -- React hooks must start with `use`.
-export const useCanOverrideFeatureFlags = (): boolean => {
-  const { flags: remoteFlags } = useContext(FeatureFlagsContext);
-  return IS_OVERRIDE_BUILD || remoteFlags?.[OVERRIDE_ACCESS_FLAG] === true;
-};
-
 /** Feature state: `loading` while settings or the first flag request after consent are pending. */
 export type FeatureFlagState = "on" | "off" | "loading";
 
@@ -134,10 +105,7 @@ export type FeatureFlagState = "on" | "off" | "loading";
  */
 export const useFeatureFlagState = (key: FeatureFlag): FeatureFlagState => {
   const { flags: remoteFlags, isLoading } = useContext(FeatureFlagsContext);
-  const overrides = useSyncExternalStore(subscribe, getOverrides);
-  const canOverride = useCanOverrideFeatureFlags();
-  const override =
-    canOverride && key !== OVERRIDE_ACCESS_FLAG ? overrides[key] : undefined;
+  const override = useAppliedOverride(key);
 
   if (override === "on") {
     return "on";
