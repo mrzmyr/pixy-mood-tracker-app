@@ -6,6 +6,7 @@ import legacy168 from "@/dev/fixtures/legacy-1.68.json";
 import legacy181 from "@/dev/fixtures/legacy-1.81.1.json";
 import seed from "@/dev/fixtures/seed.json";
 import year from "@/dev/fixtures/year.json";
+import { withTimeline } from "@/dev/fixtures/timeline";
 
 type FixtureFile = typeof fresh | typeof empty | typeof seed | typeof year;
 
@@ -123,6 +124,14 @@ export const FIXTURES: Fixture[] = [
       "The `year` fixture plus 3 people (one with photo, one archived) on a fixed share of entries.",
     endsToday: true,
     data: withPeople(asExport(year)),
+  },
+  {
+    id: "timeline",
+    title: "Timeline",
+    description:
+      "One week ending today: several entries a day, places, photos, both together, long notes, and many chips.",
+    endsToday: true,
+    data: withTimeline(withPeople(asExport(empty))),
   },
 ];
 
