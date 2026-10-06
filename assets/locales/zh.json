@@ -642,6 +642,7 @@
   "reminder_modal_body": "设置每日提醒通知，这样您就不会错过跟踪的像素。",
   "reminder_modal_footer": "还不相信？不用担心，您可以稍后在应用程序设置中设置提醒。",
   "reminder_modal_title": "让它成为例行公事？",
+  "reminder_permission_denied": "Pixy 的通知已关闭。",
   "report_a_bug": "报告错误",
   "request_a_feature": "请求新功能",
   "request_emotion_description": "情绪和人一样复杂。很多情绪彼此重叠、相互交融。Pixy 让列表保持精简且彼此分明，这样你能快速找到每种情绪，回顾时也一目了然。",

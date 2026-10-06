@@ -642,6 +642,7 @@
   "reminder_modal_body": "추적된 픽셀을 놓치지 않도록 일일 알림 알림을 설정하세요.",
   "reminder_modal_footer": "아직 확신하지 못하셨나요? 나중에 앱 설정에서 미리 알림을 설정할 수 있으니 걱정하지 마세요.",
   "reminder_modal_title": "일상으로 만들까?",
+  "reminder_permission_denied": "Pixy 알림이 꺼져 있습니다.",
   "report_a_bug": "버그 신고",
   "request_a_feature": "기능 요청",
   "request_emotion_description": "감정은 사람만큼 복잡합니다. 많은 감정이 서로 겹치고 섞입니다. Pixy는 목록을 짧고 뚜렷하게 유지해 각 감정을 빨리 찾고, 돌아볼 때도 분명하게 이해할 수 있도록 합니다.",

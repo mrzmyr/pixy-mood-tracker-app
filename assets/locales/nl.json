@@ -642,6 +642,7 @@
   "reminder_modal_body": "Stel een dagelijkse herinneringsmelding in, zodat je nooit je bijgehouden pixel mist.",
   "reminder_modal_footer": "Nog niet overtuigd? Geen zorgen, je kunt de herinnering later instellen in de app-instellingen.",
   "reminder_modal_title": "Maak er een routine van?",
+  "reminder_permission_denied": "Meldingen staan uit voor Pixy.",
   "report_a_bug": "Bug melden",
   "request_a_feature": "Functie aanvragen",
   "request_emotion_description": "Emoties zijn net zo complex als mensen. Veel ervan overlappen en lopen in elkaar over. Pixy houdt de lijst klein en duidelijk, zodat je elke emotie snel vindt en die helder blijft als je terugkijkt.",

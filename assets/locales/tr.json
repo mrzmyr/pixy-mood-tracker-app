@@ -642,6 +642,7 @@
   "reminder_modal_body": "Günlük bir hatırlatıcı bildirimi ayarlayın, böylece izlenen pikselinizi asla kaçırmazsınız.",
   "reminder_modal_footer": "Henüz ikna olmadınız mı? Endişelenmeyin, hatırlatıcıyı daha sonra uygulama ayarlarından ayarlayabilirsiniz.",
   "reminder_modal_title": "Bunu bir rutin haline getirmek mi?",
+  "reminder_permission_denied": "Pixy için bildirimler kapalı.",
   "report_a_bug": "Hata bildir",
   "request_a_feature": "Özellik iste",
   "request_emotion_description": "Duygular insanlar kadar karmaşıktır. Birçoğu örtüşür ve birbirine karışır. Pixy listeyi kısa ve belirgin tutar; böylece her duyguyu hızlıca bulur, geriye baktığında da net anlarsın.",

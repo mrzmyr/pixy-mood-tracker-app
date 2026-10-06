@@ -642,6 +642,7 @@
   "reminder_modal_body": "Imposta una notifica di promemoria giornaliera, così non perderai mai il tuo pixel tracciato.",
   "reminder_modal_footer": "Non sei ancora convinto? Nessun problema, puoi impostare il promemoria nelle impostazioni dell'app in un secondo momento.",
   "reminder_modal_title": "Farne una routine?",
+  "reminder_permission_denied": "Le notifiche sono disattivate per Pixy.",
   "report_a_bug": "Segnala un bug",
   "request_a_feature": "Richiedi una funzione",
   "request_emotion_description": "Le emozioni sono complesse quanto le persone. Molte si sovrappongono e si mescolano tra loro. Pixy tiene l’elenco breve e distinto, così trovi ogni emozione in fretta e resta chiara quando guardi indietro.",

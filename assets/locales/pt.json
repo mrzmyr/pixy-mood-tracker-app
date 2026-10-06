@@ -642,6 +642,7 @@
   "reminder_modal_body": "Configure uma notificação de lembrete diária, para que você nunca perca seu pixel rastreado.",
   "reminder_modal_footer": "Ainda não está convencido? Não se preocupe, você pode configurar o lembrete nas configurações do aplicativo mais tarde.",
   "reminder_modal_title": "Fazer disso uma rotina?",
+  "reminder_permission_denied": "As notificações estão desativadas para o Pixy.",
   "report_a_bug": "Relatar um bug",
   "request_a_feature": "Pedir um recurso",
   "request_emotion_description": "As emoções são tão complexas quanto as pessoas. Muitas se sobrepõem e se misturam. O Pixy mantém a lista pequena e distinta, para que cada emoção seja fácil de encontrar e clara quando você olhar para trás.",

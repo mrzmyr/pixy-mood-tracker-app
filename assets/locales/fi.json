@@ -642,6 +642,7 @@
   "reminder_modal_body": "Aseta päivittäinen muistutusilmoitus, jotta et koskaan menetä seurattua pikseliä.",
   "reminder_modal_footer": "Etkö ole vielä vakuuttunut? Ei hätää, voit määrittää muistutuksen myöhemmin sovelluksen asetuksista.",
   "reminder_modal_title": "Tee siitä rutiini?",
+  "reminder_permission_denied": "Ilmoitukset ovat pois päältä Pixyssä.",
   "report_a_bug": "Ilmoita virheestä",
   "request_a_feature": "Ehdota ominaisuutta",
   "request_emotion_description": "Tunteet ovat yhtä monimutkaisia kuin ihmiset. Monet menevät päällekkäin ja sekoittuvat toisiinsa. Pixy pitää listan lyhyenä ja selkeänä, jotta löydät jokaisen tunteen nopeasti ja se on selvä, kun katsot taaksepäin.",

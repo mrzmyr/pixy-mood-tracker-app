@@ -643,6 +643,7 @@
   "reminder_modal_body": "Configurez une notification de rappel quotidienne pour ne jamais manquer votre pixel suivi.",
   "reminder_modal_footer": "Pas encore convaincu ? Pas de soucis, vous pouvez configurer le rappel dans les paramètres de l'application plus tard.",
   "reminder_modal_title": "En faire une routine ?",
+  "reminder_permission_denied": "Les notifications sont désactivées pour Pixy.",
   "report_a_bug": "Signaler un bug",
   "request_a_feature": "Proposer une fonctionnalité",
   "request_emotion_description": "Les émotions sont aussi complexes que les êtres humains. Beaucoup se chevauchent et se mêlent les unes aux autres. Pixy garde une liste courte et distincte, pour que chaque émotion soit rapide à trouver et claire quand vous regardez en arrière.",

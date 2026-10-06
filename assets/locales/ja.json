@@ -642,6 +642,7 @@
   "reminder_modal_body": "追跡されたピクセルを見逃さないように、毎日のリマインダー通知を設定します。",
   "reminder_modal_footer": "まだ納得していませんか？後でアプリの設定でリマインダーを設定できる心配はありません。",
   "reminder_modal_title": "それをルーチンにしますか？",
+  "reminder_permission_denied": "Pixyの通知はオフです。",
   "report_a_bug": "バグを報告",
   "request_a_feature": "機能をリクエスト",
   "request_emotion_description": "感情は人と同じくらい複雑です。多くの感情は重なり合い、混ざり合っています。Pixyはリストを少なく、はっきり区別できるように保っています。そのため、どの感情もすぐに見つかり、振り返ったときにもわかりやすくなります。",

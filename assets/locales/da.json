@@ -642,6 +642,7 @@
   "reminder_modal_body": "Konfigurer en daglig påmindelse, så du aldrig går glip af din sporede pixel.",
   "reminder_modal_footer": "Ikke overbevist endnu? Ingen bekymringer, du kan konfigurere påmindelsen i appindstillingerne senere.",
   "reminder_modal_title": "Gøre det til en rutine?",
+  "reminder_permission_denied": "Notifikationer er slået fra for Pixy.",
   "report_a_bug": "Rapportér en fejl",
   "request_a_feature": "Foreslå en funktion",
   "request_emotion_description": "Følelser er lige så komplekse som mennesker. Mange overlapper og glider over i hinanden. Pixy holder listen kort og tydelig, så du hurtigt finder hver følelse, og den er klar, når du ser tilbage.",

@@ -642,6 +642,7 @@
   "reminder_modal_body": "Ställ in en daglig påminnelse så att du aldrig missar din spårade pixel.",
   "reminder_modal_footer": "Inte övertygad än? Inga bekymmer, du kan ställa in påminnelsen i appinställningarna senare.",
   "reminder_modal_title": "Göra det till en rutin?",
+  "reminder_permission_denied": "Aviseringar är avstängda för Pixy.",
   "report_a_bug": "Rapportera en bugg",
   "request_a_feature": "Föreslå en funktion",
   "request_emotion_description": "Känslor är lika komplexa som människor. Många överlappar och går in i varandra. Pixy håller listan kort och tydlig, så att du snabbt hittar varje känsla och den är klar när du ser tillbaka.",
