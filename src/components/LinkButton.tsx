@@ -1,11 +1,12 @@
 import isArray from "lodash/isArray";
 import isStringValue from "lodash/isString";
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { Platform, Pressable, StyleSheet, Text, View } from "react-native";
 import type { TextStyle, ViewStyle } from "react-native";
 
 import type { SvgProps } from "react-native-svg";
 import useColors from "@/hooks/useColors";
 import useHaptics from "@/hooks/useHaptics";
+import usePressRipple from "@/hooks/usePressRipple";
 
 const DEFAULT_STYLE = {};
 
@@ -38,7 +39,8 @@ const getPressableOpacity = (
   if (isDisabled) {
     return 0.5;
   }
-  return isPressed ? 0.8 : 1;
+  // Android shows a ripple instead of the fade.
+  return isPressed && Platform.OS !== "android" ? 0.8 : 1;
 };
 
 const LinkButton = ({
@@ -66,6 +68,10 @@ const LinkButton = ({
 }) => {
   const colors = useColors();
   const haptics = useHaptics();
+  const isIconOnly = !children;
+  const ripple = usePressRipple(
+    isIconOnly ? { borderless: true, radius: 24 } : { foreground: true }
+  );
 
   const color = {
     primary: disabled
@@ -89,6 +95,7 @@ const LinkButton = ({
       accessibilityLabel={accessibilityLabel}
       accessibilityState={{ disabled: Boolean(disabled) }}
       hitSlop={hitSlop}
+      android_ripple={ripple}
       style={({ pressed }) => [
         {
           flexDirection: "row",
@@ -96,6 +103,8 @@ const LinkButton = ({
           justifyContent: "center",
           padding: 8,
           opacity: getPressableOpacity(disabled, pressed),
+          overflow:
+            Platform.OS === "android" && !isIconOnly ? "hidden" : "visible",
           ...style,
         },
       ]}

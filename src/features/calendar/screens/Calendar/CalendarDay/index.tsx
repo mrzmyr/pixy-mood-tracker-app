@@ -1,12 +1,13 @@
 import chroma from "chroma-js";
 import dayjs from "dayjs";
 import { memo, useCallback, useMemo } from "react";
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { Platform, Pressable, StyleSheet, Text, View } from "react-native";
 import type { ViewStyle } from "react-native";
 import { useStyle } from "react-native-style-utilities";
 import { DATE_FORMAT } from "@/constants/Config";
 import useColors from "@/hooks/useColors";
 import useHaptics from "@/hooks/useHaptics";
+import usePressRipple from "@/hooks/usePressRipple";
 import type { LogItem } from "@/features/logs";
 import { useSetting } from "@/state/settings";
 import { BEZEL, getBezelEdgeColor, getBezelRadius } from "@/constants/Bezel";
@@ -22,6 +23,8 @@ const styles = StyleSheet.create({
     padding: BEZEL.dayGap,
     borderRadius: getBezelRadius(RADIUS.sm, BEZEL.dayGap),
     borderWidth: BEZEL.borderWidth,
+    // Clips the Android ripple to the rounded shell.
+    ...Platform.select({ android: { overflow: "hidden" as const } }),
   },
   container: {
     flex: 1,
@@ -70,6 +73,7 @@ const CalendarDayComponent = ({
   const scaleType = useSetting("scaleType");
   const colors = useColors();
   const haptics = useHaptics();
+  const ripple = usePressRipple({ foreground: true });
 
   const _isFiltered = !isFiltered && isFiltering;
 
@@ -214,6 +218,7 @@ const CalendarDayComponent = ({
       testID={`calendar-day-${dateString}`}
       disabled={isFuture}
       onPress={_onPress}
+      android_ripple={ripple}
       style={shellStyles}
     >
       <View style={containerStyles}>

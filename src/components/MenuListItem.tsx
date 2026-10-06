@@ -1,10 +1,11 @@
 import React, { isValidElement, useCallback } from "react";
-import { Pressable, Text, View } from "react-native";
+import { Platform, Pressable, Text, View } from "react-native";
 import type { AccessibilityValue, TextStyle, ViewStyle } from "react-native";
 
 import { ChevronRight } from "react-native-feather";
 import useColors from "@/hooks/useColors";
 import useHaptics from "@/hooks/useHaptics";
+import usePressRipple from "@/hooks/usePressRipple";
 
 const DEFAULT_STYLE = {};
 
@@ -34,6 +35,7 @@ const MenuListItem = ({
 }) => {
   const colors = useColors();
   const haptics = useHaptics();
+  const ripple = usePressRipple({ foreground: true });
   const titleText = isValidElement(title) ? undefined : title;
 
   const rightIcon = isLink ? (
@@ -63,6 +65,7 @@ const MenuListItem = ({
     >
       <Pressable
         onPress={onPress ? _onPress : undefined}
+        android_ripple={onPress ? ripple : undefined}
         accessible={Boolean(onPress)}
         accessibilityRole={onPress ? "button" : undefined}
         accessibilityLabel={
@@ -76,7 +79,8 @@ const MenuListItem = ({
             paddingBottom: 8,
             minHeight: 50,
             width: "100%",
-            opacity: pressed && onPress ? 0.7 : 1,
+            // Android shows a ripple instead of the fade.
+            opacity: pressed && onPress && Platform.OS !== "android" ? 0.7 : 1,
             ...style,
           },
         ]}
