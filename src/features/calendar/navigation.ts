@@ -18,7 +18,7 @@ export const useCalendarNavigation = () => {
     source,
   }: {
     date: string;
-    source: "calendar" | "mood_peaks" | "tag_peaks";
+    source: "calendar" | "timeline" | "mood_peaks" | "tag_peaks";
   }) => {
     const items = logsState.items.filter((log) => getItemDate(log) === date);
 

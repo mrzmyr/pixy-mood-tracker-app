@@ -4,4 +4,4 @@ export { LogCreate } from "./screens/Log/Create";
 export { LogEdit } from "./screens/Log/Edit";
 export { SlideSleepButton } from "./slides/SlideSleepButton";
 export * from "./Logger";
-export { getAvailableStepsForEdit } from "./steps";
+export { getAvailableStepsForEdit, hasSleepOnDate } from "./steps";

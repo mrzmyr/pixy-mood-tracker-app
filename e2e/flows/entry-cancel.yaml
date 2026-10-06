@@ -14,6 +14,9 @@ tags: [p0, entry]
 - waitForAnimationToEnd
 - tapOn:
     id: "mood-good"
+- assertVisible: "How did you sleep?"
+- tapOn:
+    id: "logger-next"
 - assertVisible: "How did you feel?"
 - tapOn: "Happy"
 - tapOn:
@@ -37,6 +40,10 @@ tags: [p0, entry]
 - waitForAnimationToEnd
 - tapOn:
     id: "mood-bad"
+# The basic entry skipped sleep, so the edit logger asks for it.
+- assertVisible: "How did you sleep?"
+- tapOn:
+    id: "logger-next"
 - assertVisible: "How did you feel?"
 - tapOn:
     id: "logger-next"

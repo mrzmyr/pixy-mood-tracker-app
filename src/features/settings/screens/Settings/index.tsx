@@ -19,6 +19,7 @@ import {
   Smartphone,
   Star,
 } from "react-native-feather";
+import FlagHighlight from "@/components/FlagHighlight";
 import MenuList from "@/components/MenuList";
 import MenuListHeadline from "@/components/MenuListHeadline";
 import MenuListItem from "@/components/MenuListItem";
@@ -132,15 +133,17 @@ export const SettingsScreen = () => {
             isLink
           />
           {isWidgetEnabled && (
-            <MenuListItem
-              title={t("widget")}
-              iconLeft={
-                <LayoutDashboard size={18} color={colors.menuListItemIcon} />
-              }
-              onPress={() => router.push("/widget")}
-              testID="widget"
-              isLink
-            />
+            <FlagHighlight flag="ios-widget">
+              <MenuListItem
+                title={t("widget")}
+                iconLeft={
+                  <LayoutDashboard size={18} color={colors.menuListItemIcon} />
+                }
+                onPress={() => router.push("/widget")}
+                testID="widget"
+                isLink
+              />
+            </FlagHighlight>
           )}
         </MenuList>
 
@@ -287,7 +290,11 @@ export const SettingsScreen = () => {
             </MenuList>
           </>
         )}
-        {isSupportEnabled && support.enabled && <SupportCard />}
+        {isSupportEnabled && support.enabled && (
+          <FlagHighlight flag="support-pixy">
+            <SupportCard />
+          </FlagHighlight>
+        )}
         <Pressable
           testID="settings-version"
           accessible={false}

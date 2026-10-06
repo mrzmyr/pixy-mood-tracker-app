@@ -1,3 +1,4 @@
+import FlagHighlight from "@/components/FlagHighlight";
 import type { PeopleDistributionData } from "../../PeopleDistribution";
 import type { PeoplePeaksData } from "../../PeoplePeaks";
 import { PeopleDistributionCard } from "./PeopleDistributionCard";
@@ -15,7 +16,15 @@ export const PeopleHighlights = ({
   peaks: PeoplePeaksData;
 }) => (
   <>
-    {state.showPeaks && <PeoplePeaksCard data={peaks} />}
-    {state.showDistribution && <PeopleDistributionCard data={distribution} />}
+    {state.showPeaks && (
+      <FlagHighlight flag="people">
+        <PeoplePeaksCard data={peaks} />
+      </FlagHighlight>
+    )}
+    {state.showDistribution && (
+      <FlagHighlight flag="people">
+        <PeopleDistributionCard data={distribution} />
+      </FlagHighlight>
+    )}
   </>
 );

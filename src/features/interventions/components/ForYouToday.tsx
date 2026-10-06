@@ -1,3 +1,4 @@
+import FlagHighlight from "@/components/FlagHighlight";
 import dayjs from "dayjs";
 import { ScrollView, Text, View } from "react-native";
 import useColors from "@/hooks/useColors";
@@ -47,51 +48,53 @@ export const ForYouToday = () => {
   }
 
   return (
-    <View
-      testID="for-you-today"
-      style={{ marginTop: 24, gap: 10, marginHorizontal: -LIST_PADDING }}
-    >
-      <View style={{ paddingHorizontal: LIST_PADDING, gap: 2 }}>
-        <Text
-          accessibilityRole="header"
-          style={{ fontSize: 15, fontWeight: "600", color: colors.text }}
-        >
-          {t("interventions_for_you_today")}
-        </Text>
-        <Text style={{ fontSize: 13, color: colors.textSecondary }}>
-          {t(`interventions_because_${match.cluster}`, {
-            time: dayjs(match.item.dateTime).format("LT"),
-          })}
-        </Text>
-      </View>
-      <ScrollView
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        contentContainerStyle={{
-          paddingHorizontal: LIST_PADDING,
-          paddingVertical: 8,
-          gap: 10,
-        }}
+    <FlagHighlight flag="interventions">
+      <View
+        testID="for-you-today"
+        style={{ marginTop: 24, gap: 10, marginHorizontal: -LIST_PADDING }}
       >
-        {options.map((id, position) => (
-          <OptionTile
-            key={id}
-            id={id}
-            isDone={done.has(id)}
-            backgroundColor={colors.cardBackground}
-            style={{ width: TILE_WIDTH }}
-            onPress={() =>
-              open({
-                id,
-                surface: "calendar",
-                position,
-                completedToday,
-                navigation: "push",
-              })
-            }
-          />
-        ))}
-      </ScrollView>
-    </View>
+        <View style={{ paddingHorizontal: LIST_PADDING, gap: 2 }}>
+          <Text
+            accessibilityRole="header"
+            style={{ fontSize: 15, fontWeight: "600", color: colors.text }}
+          >
+            {t("interventions_for_you_today")}
+          </Text>
+          <Text style={{ fontSize: 13, color: colors.textSecondary }}>
+            {t(`interventions_because_${match.cluster}`, {
+              time: dayjs(match.item.dateTime).format("LT"),
+            })}
+          </Text>
+        </View>
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={{
+            paddingHorizontal: LIST_PADDING,
+            paddingVertical: 8,
+            gap: 10,
+          }}
+        >
+          {options.map((id, position) => (
+            <OptionTile
+              key={id}
+              id={id}
+              isDone={done.has(id)}
+              backgroundColor={colors.cardBackground}
+              style={{ width: TILE_WIDTH }}
+              onPress={() =>
+                open({
+                  id,
+                  surface: "calendar",
+                  position,
+                  completedToday,
+                  navigation: "push",
+                })
+              }
+            />
+          ))}
+        </ScrollView>
+      </View>
+    </FlagHighlight>
   );
 };

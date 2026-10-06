@@ -10,7 +10,7 @@ import { useFeatureFlag } from "@/state/featureFlags";
 import { useAnalytics } from "@/state/analytics";
 import { LogDraftProvider, useLogDraft } from "./logDraft";
 import type { LogDraft } from "./finalizeDraft";
-import { toLogDate } from "@/lib/logDates";
+import { getItemDate, toLogDate } from "@/lib/logDates";
 
 import dayjs from "dayjs";
 import { useEffect, useEffectEvent, useMemo, useRef, useState } from "react";
@@ -32,9 +32,11 @@ import { SlideEmotions } from "./slides/SlideEmotions";
 import { SlideFeedback } from "./slides/SlideFeedback";
 import { SlideMessage } from "./slides/SlideMessage";
 import { SlideMood } from "./slides/SlideMood";
+import FlagHighlight from "@/components/FlagHighlight";
 import { SlidePhotos } from "./slides/SlidePhotos";
 import { SlideReminder } from "./slides/SlideReminder";
 import { SlidePeople } from "./slides/SlidePeople";
+import { SlideSleep } from "./slides/SlideSleep";
 import { SlideTags } from "./slides/SlideTags";
 import { useLoggerActions } from "./hooks/useLoggerActions";
 import { useLoggerTracking } from "./hooks/useLoggerTracking";
@@ -45,6 +47,7 @@ import {
   getAvailableStepsForCreate,
   getAvailableStepsForEdit,
   getRatingActionType,
+  hasSleepOnDate,
 } from "./steps";
 
 /** Whether the logger creates a new entry or edits an existing one. */
@@ -53,6 +56,7 @@ export type LoggerMode = "create" | "edit";
 // Slide order in the carousel; `rating` is always shown.
 const SLIDE_ORDER: LoggerStep[] = [
   "rating",
+  "sleep",
   "emotions",
   "tags",
   "people",
@@ -114,10 +118,12 @@ const useStepSlides = ({
     slides.push({
       key: "people",
       slide: (
-        <SlidePeople
-          onDisableStep={() => disableStep("people")}
-          showDisable={showDisable}
-        />
+        <FlagHighlight flag="people" pillOnly style={{ flex: 1 }}>
+          <SlidePeople
+            onDisableStep={() => disableStep("people")}
+            showDisable={showDisable}
+          />
+        </FlagHighlight>
       ),
     });
   }
@@ -139,12 +145,14 @@ const useStepSlides = ({
     slides.push({
       key: "photos",
       slide: (
-        <SlidePhotos
-          mode={mode}
-          isActive={isPhotosSlideActive}
-          onDisableStep={() => disableStep("photos")}
-          showDisable={showDisable}
-        />
+        <FlagHighlight flag="photos" pillOnly style={{ flex: 1 }}>
+          <SlidePhotos
+            mode={mode}
+            isActive={isPhotosSlideActive}
+            onDisableStep={() => disableStep("photos")}
+            showDisable={showDisable}
+          />
+        </FlagHighlight>
       ),
     });
   }
@@ -213,7 +221,7 @@ const LoggerSlides = ({
 
   // Shared by the optional slides: confirm, turn the step off, move on.
   const disableStep = async (
-    step: "tags" | "people" | "message" | "photos"
+    step: "sleep" | "tags" | "people" | "message" | "photos"
   ) => {
     await askToDisableStep();
     analytics.track("logger:step_disabled", { step });
@@ -257,6 +265,19 @@ const LoggerSlides = ({
     ),
     action: <SlideAction type={ratingActionType} onPress={next} />,
   });
+
+  if (slideKeys.includes("sleep")) {
+    content.push({
+      key: "sleep",
+      slide: (
+        <SlideSleep
+          onSelect={next}
+          onDisableStep={() => disableStep("sleep")}
+          showDisable={showDisable}
+        />
+      ),
+    });
+  }
 
   if (slideKeys.includes("emotions")) {
     content.push({
@@ -440,6 +461,7 @@ export const LoggerEdit = ({
   const avaliableSteps = getAvailableStepsForEdit({
     item: initialItem,
     hasStep,
+    hasSleepOnDay: hasSleepOnDate(logState.items, getItemDate(initialItem)),
     hasPeople,
     isPhotosEnabled,
   });
@@ -508,6 +530,7 @@ export const LoggerCreate = ({
       hasPeople,
       reminderEnabled: settings.reminderEnabled,
       itemsCount: logState.items.length,
+      hasSleepOnDay: hasSleepOnDate(logState.items, initialItem.date),
       isPhotosEnabled,
     });
 

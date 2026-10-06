@@ -57,7 +57,23 @@ export const setOverride = ({
   }
 };
 
-/** Subscribe to override changes; returns the unsubscribe function. */
+let highlight = false;
+
+/**
+ * Whether flagged UI shows its flag key in a dashed outline. Lives in memory
+ * like overrides, so screenshots and e2e flows start without it.
+ */
+export const isHighlightOn = (): boolean => highlight;
+
+/** Turn the flag highlight on or off until the app restarts. */
+export const setHighlight = (value: boolean) => {
+  highlight = value;
+  for (const listener of listeners) {
+    listener();
+  }
+};
+
+/** Subscribe to override and highlight changes; returns the unsubscribe function. */
 export const subscribe = (listener: () => void) => {
   listeners.add(listener);
   return () => {

@@ -1,6 +1,11 @@
 import { Stack, useRouter } from "expo-router";
 import { Platform } from "react-native";
-import { useCalendarFilters } from "@/features/calendar";
+import {
+  CALENDAR_LAYOUTS,
+  getCalendarLayoutLabel,
+  useCalendarFilters,
+  useCalendarLayout,
+} from "@/features/calendar";
 import { t } from "@/lib/translation";
 
 // Android renders only image icons in the header; iOS uses SF Symbols.
@@ -19,7 +24,9 @@ const ICONS =
 
 /**
  * Calendar header buttons: Statistics on the left; Filters and Settings
- * (cog icon) on the right.
+ * (cog icon) on the right. With the `calendar-timeline` flag on, Filters is
+ * a menu: it opens the filter sheet and holds the layout picker (Calendar,
+ * Timeline). With the flag off, Filters opens the sheet.
  *
  * Native header items: Liquid Glass buttons on iOS 26 (floating over the
  * calendar, see `HAS_FLOATING_HEADER`), Material icon buttons on Android.
@@ -32,6 +39,7 @@ export const CalendarHeaderButtons = () => {
   const router = useRouter();
   const calendarFilters = useCalendarFilters();
   const { filterCount, isFiltering } = calendarFilters.data;
+  const calendarLayout = useCalendarLayout();
 
   return (
     <>
@@ -43,15 +51,45 @@ export const CalendarHeaderButtons = () => {
         />
       </Stack.Toolbar>
       <Stack.Toolbar placement="right">
-        <Stack.Toolbar.Button
-          icon={ICONS.filters}
-          accessibilityLabel={t("calendar_filters")}
-          onPress={() => calendarFilters.open()}
-        >
-          {isFiltering && (
-            <Stack.Toolbar.Badge>{`${filterCount}`}</Stack.Toolbar.Badge>
-          )}
-        </Stack.Toolbar.Button>
+        {calendarLayout.isEnabled ? (
+          <Stack.Toolbar.Menu
+            icon={ICONS.filters}
+            accessibilityLabel={t("calendar_filters")}
+          >
+            {isFiltering && (
+              <Stack.Toolbar.Badge>{`${filterCount}`}</Stack.Toolbar.Badge>
+            )}
+            <Stack.Toolbar.MenuAction
+              icon={ICONS.filters}
+              onPress={() => calendarFilters.open()}
+            >
+              {isFiltering
+                ? `${t("calendar_filters_open")} (${filterCount})`
+                : t("calendar_filters_open")}
+            </Stack.Toolbar.MenuAction>
+            <Stack.Toolbar.Menu inline title={t("calendar_view")}>
+              {CALENDAR_LAYOUTS.map((layout) => (
+                <Stack.Toolbar.MenuAction
+                  key={layout}
+                  isOn={calendarLayout.layout === layout}
+                  onPress={() => calendarLayout.setLayout(layout)}
+                >
+                  {getCalendarLayoutLabel(layout)}
+                </Stack.Toolbar.MenuAction>
+              ))}
+            </Stack.Toolbar.Menu>
+          </Stack.Toolbar.Menu>
+        ) : (
+          <Stack.Toolbar.Button
+            icon={ICONS.filters}
+            accessibilityLabel={t("calendar_filters")}
+            onPress={() => calendarFilters.open()}
+          >
+            {isFiltering && (
+              <Stack.Toolbar.Badge>{`${filterCount}`}</Stack.Toolbar.Badge>
+            )}
+          </Stack.Toolbar.Button>
+        )}
         <Stack.Toolbar.Button
           icon={ICONS.settings}
           accessibilityLabel={t("settings")}
