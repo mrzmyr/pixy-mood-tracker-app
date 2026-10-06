@@ -1,6 +1,6 @@
 import { GoogleSignin } from "@react-native-google-signin/google-signin";
 import { CloudStorage, CloudStorageProvider } from "react-native-cloud-storage";
-import { connect, resume } from "../cloud";
+import { connect, readBackupFile, resume } from "../cloud";
 
 const DRIVE_APPDATA_SCOPE = "https://www.googleapis.com/auth/drive.appdata";
 
@@ -81,5 +81,24 @@ describe("Google Drive connect", () => {
       .mockResolvedValue({ type: "success", data: user([]) });
 
     await expect(resume()).resolves.toBe(false);
+  });
+
+  test("revoked Drive access drops the cached token and reads as signed out", async () => {
+    jest.spyOn(GoogleSignin, "signIn").mockResolvedValue({
+      type: "success",
+      data: user([DRIVE_APPDATA_SCOPE]),
+    });
+    jest.spyOn(GoogleSignin, "clearCachedAccessToken").mockResolvedValue(null);
+    jest.spyOn(CloudStorage, "exists").mockRejectedValue(
+      Object.assign(new Error("Could not authenticate with Google Drive"), {
+        code: "ERR_AUTHENTICATION_FAILED",
+      })
+    );
+    await connect();
+
+    await expect(readBackupFile()).rejects.toMatchObject({
+      status: "backup_signed_out",
+    });
+    expect(GoogleSignin.clearCachedAccessToken).toHaveBeenCalledWith("token");
   });
 });

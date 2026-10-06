@@ -60,6 +60,7 @@ State (2026-10-06):
 - Missing client: sign-in fails with `DEVELOPER_ERROR`
 - Consent status Testing: Google shows "Google hasn't verified this app" and only test users can sign in. Publish the consent screen before rollout
 - Access revoked in the Google account, or account removed from the phone: `SIGN_IN_REQUIRED`, shown as "sign-in expired" with a Sign In link
+- Drive rejects a revoked token with `ERR_AUTHENTICATION_FAILED` while Play services still hands out the cached one. Pixy clears the cached token and shows the same Sign In link (`backup_signed_out`, no Sentry report)
 - No `@react-native-google-signin/google-signin` config plugin: it needs an iOS client, and iOS uses iCloud
 
 State (2026-10-06), Google Cloud project `pixy-mood-tracker` (4218331782):

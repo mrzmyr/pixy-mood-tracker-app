@@ -4,6 +4,12 @@ import { z } from "zod";
 export const OFFLINE_STATUS = "backup_offline";
 
 /**
+ * Status of a cloud call that Google Drive rejected: access revoked in the
+ * Google account, or the token expired for good. The user must sign in again.
+ */
+export const SIGNED_OUT_STATUS = "backup_signed_out";
+
+/**
  * What a failed cloud call left behind: a Google Sign-In or cloud library
  * error with `code`, a structured error with `status`, or a bare message.
  * Parse with {@link cloudFailureSchema} right in the `catch`.
@@ -12,6 +18,8 @@ export interface CloudFailure {
   code?: string;
   status?: string;
   message?: string;
+  /** Cause kept by a wrapping structured error. */
+  why?: string;
 }
 
 const codeSchema = z.union([z.string(), z.number()]).transform(String);
@@ -20,6 +28,7 @@ const failureObjectSchema = z.object({
   code: codeSchema.optional(),
   status: z.string().optional(),
   message: z.string().optional(),
+  why: z.string().optional(),
 });
 
 /**

@@ -12,7 +12,11 @@ import type { useAnalytics } from "@/state/analytics";
 import { parseBackupFile } from "./backupFile";
 import type { BackupFile } from "./backupFile";
 import { isAvailable, readBackupFile, resume } from "./cloud";
-import { cloudFailureSchema, isOfflineFailure } from "./failure";
+import {
+  cloudFailureSchema,
+  isOfflineFailure,
+  SIGNED_OUT_STATUS,
+} from "./failure";
 import type { CloudFailure } from "./failure";
 
 /**
@@ -65,12 +69,21 @@ export const useCloudFile = ({
         setStatus("unavailable");
         return;
       }
+      // Revoked Google access needs a new sign-in, not a bug report.
+      if (failure.status === SIGNED_OUT_STATUS) {
+        analytics.track("backup:failed", { status: SIGNED_OUT_STATUS });
+        setStatus("signedOut");
+        return;
+      }
       if (!reported.current.has(code)) {
         reported.current.add(code);
         const error = createStructuredError({
           status: code,
           message: "Backup failed",
-          why: failure.message ?? "The cloud call failed without a message",
+          why:
+            failure.why ??
+            failure.message ??
+            "The cloud call failed without a message",
           fix: "Check the internet connection and iCloud or Google Drive settings. Pixy retries on the next change.",
         });
         // Sentry drops custom error properties: send them as tag and extra.

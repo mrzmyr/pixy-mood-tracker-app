@@ -384,6 +384,22 @@ describe("BackupProvider", () => {
     expect(backupReports()).toHaveLength(0);
   });
 
+  test("revoked Google access asks to sign in again, without a Sentry report", async () => {
+    await seed({ itemCount: 2 });
+    jest.mocked(cloud.readBackupFile).mockRejectedValue(
+      Object.assign(new Error("Google Drive rejected the sign-in"), {
+        status: "backup_signed_out",
+        code: "ERR_AUTHENTICATION_FAILED",
+      })
+    );
+    const hook = await renderBackup();
+
+    await waitFor(() =>
+      expect(hook.result.current.backup.status).toBe("signedOut")
+    );
+    expect(backupReports()).toHaveLength(0);
+  });
+
   test("reports the same failure to Sentry once per session", async () => {
     await seed({ itemCount: 2 });
     jest.mocked(cloud.writeBackupFile).mockRejectedValue(new Error("disk"));

@@ -77,7 +77,7 @@ Use this section to join old and new events in PostHog, for example with an Acti
 
 - Cloud backup, first release with backup ([`src/features/backup`](../src/features/backup))
   - `settings:backup_toggled`: `enabled`
-  - `backup:failed`: `status` (`backup_read_failed`, `backup_write_failed`, `backup_sign_in_failed`, `backup_delete_failed`, `backup_restore_failed`, `backup_offline`). Sent on every failure; Sentry gets one report per status and session
+  - `backup:failed`: `status` (`backup_read_failed`, `backup_write_failed`, `backup_sign_in_failed`, `backup_delete_failed`, `backup_restore_failed`, `backup_offline`, `backup_signed_out`). Sent on every failure; Sentry gets one report per status and session
   - `backup:restored`: no properties
 
 - Photo attachments, first release with photos ([`src/features/photos`](../src/features/photos))

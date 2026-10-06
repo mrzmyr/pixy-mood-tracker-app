@@ -11,11 +11,18 @@ import {
   cloudFailureSchema,
   isOfflineFailure,
   OFFLINE_STATUS,
+  SIGNED_OUT_STATUS,
 } from "./failure";
 import type { CloudFailure } from "./failure";
 
 /** Backup file in the hidden app folder of iCloud or Google Drive. */
 export const BACKUP_FILE = "pixy-mood-tracker-backup.json";
+
+/**
+ * `react-native-cloud-storage` code when Google Drive rejects the token:
+ * access revoked in the Google account, or the token expired for good.
+ */
+const DRIVE_SIGN_IN_REJECTED = "ERR_AUTHENTICATION_FAILED";
 
 /** Hidden Google Drive folder that only Pixy can open. */
 const DRIVE_APPDATA_SCOPE = "https://www.googleapis.com/auth/drive.appdata";
@@ -57,23 +64,61 @@ const createCloudError = (
   failure: CloudFailure,
   status: string,
   message: string
-) =>
-  isOfflineFailure(failure)
-    ? createOfflineError(failure)
-    : createStructuredError({
-        status,
-        message,
-        why: failure.message ?? "The cloud call failed without a message",
-        fix: "Check the internet connection and iCloud or Google Drive settings. Pixy retries on the next change.",
-      });
+) => {
+  if (isOfflineFailure(failure)) {
+    return createOfflineError(failure);
+  }
+  if (failure.code === DRIVE_SIGN_IN_REJECTED) {
+    return Object.assign(
+      createStructuredError({
+        status: SIGNED_OUT_STATUS,
+        message: "Google Drive rejected the sign-in",
+        why: failure.message ?? "Access was revoked or the token expired",
+        fix: "Sign in to Google Drive again from Settings > Data > Backup.",
+      }),
+      { code: failure.code }
+    );
+  }
+  // Keep the library code: callers and Sentry need the original cause.
+  return Object.assign(
+    createStructuredError({
+      status,
+      message,
+      why: failure.message ?? "The cloud call failed without a message",
+      fix: "Check the internet connection and iCloud or Google Drive settings. Pixy retries on the next change.",
+    }),
+    { code: failure.code }
+  );
+};
 
 /** Whether the user granted Drive access, not only the sign-in. */
 const hasDriveScope = (scopes: readonly string[]) =>
   scopes.some((scope) => scope === DRIVE_APPDATA_SCOPE);
 
+let googleToken: string | null = null;
+
 const applyGoogleToken = async () => {
   const { accessToken } = await GoogleSignin.getTokens();
+  googleToken = accessToken;
   CloudStorage.setProviderOptions({ accessToken });
+};
+
+/**
+ * Runs a Google Drive call. When Drive rejects the token, drops it from the
+ * Play services cache, so the next sign-in fetches a new one instead of
+ * reusing the rejected token.
+ */
+const withGoogleToken = async <T>(call: () => Promise<T>): Promise<T> => {
+  try {
+    return await call();
+  } catch (error) {
+    const failure = cloudFailureSchema.parse(error);
+    if (failure.code === DRIVE_SIGN_IN_REJECTED && googleToken !== null) {
+      await GoogleSignin.clearCachedAccessToken(googleToken);
+      googleToken = null;
+    }
+    throw error;
+  }
 };
 
 /**
@@ -160,6 +205,7 @@ const systemDisconnect = async (): Promise<void> => {
     configureGoogle();
     await GoogleSignin.signOut();
     CloudStorage.setProviderOptions({ accessToken: null });
+    googleToken = null;
   }
 };
 
@@ -170,7 +216,7 @@ const systemIsAvailable = (): Promise<boolean> =>
 /** Writes the backup file. Replaces an existing one. */
 const systemWriteBackupFile = async (contents: string): Promise<void> => {
   try {
-    await CloudStorage.writeFile(BACKUP_FILE, contents);
+    await withGoogleToken(() => CloudStorage.writeFile(BACKUP_FILE, contents));
   } catch (error) {
     throw createCloudError(
       cloudFailureSchema.parse(error),
@@ -183,9 +229,11 @@ const systemWriteBackupFile = async (contents: string): Promise<void> => {
 /** Reads the backup file, or `null` when there is none. */
 const systemReadBackupFile = async (): Promise<string | null> => {
   try {
-    return (await CloudStorage.exists(BACKUP_FILE))
-      ? await CloudStorage.readFile(BACKUP_FILE)
-      : null;
+    return await withGoogleToken(async () =>
+      (await CloudStorage.exists(BACKUP_FILE))
+        ? CloudStorage.readFile(BACKUP_FILE)
+        : null
+    );
   } catch (error) {
     throw createCloudError(
       cloudFailureSchema.parse(error),
@@ -198,9 +246,11 @@ const systemReadBackupFile = async (): Promise<string | null> => {
 /** Deletes the backup file. No-op when there is none. */
 const systemDeleteBackupFile = async (): Promise<void> => {
   try {
-    if (await CloudStorage.exists(BACKUP_FILE)) {
-      await CloudStorage.unlink(BACKUP_FILE);
-    }
+    await withGoogleToken(async () => {
+      if (await CloudStorage.exists(BACKUP_FILE)) {
+        await CloudStorage.unlink(BACKUP_FILE);
+      }
+    });
   } catch (error) {
     throw createCloudError(
       cloudFailureSchema.parse(error),
