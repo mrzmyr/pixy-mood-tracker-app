@@ -1,5 +1,6 @@
 import { Platform } from "react-native";
 
+import { getAccent } from "@/constants/Colors/accent";
 import colors from "@/constants/Colors/TailwindColors";
 
 import { TAG_COLOR_NAMES } from "@/constants/Config";
@@ -43,8 +44,10 @@ for (const color of tagColorNames) {
 const dangerLight = Platform.OS === "android" ? "#BA1A1A" : "#FF3B30";
 const dangerDark = Platform.OS === "android" ? "#FFB4AB" : "#FF453A";
 
-const tintColorLight = "#007aff";
-const tintColorDark = "#0a84ff";
+const accent = getAccent(Platform.OS);
+const tintColorLight = accent.tintLight;
+const tintColorDark = accent.tintDark;
+const buttonColorDark = accent.buttonDark;
 
 const light = {
   text: "#000",
@@ -331,9 +334,9 @@ const dark: IColors & {
   linkButtonTextSecondary: colors.neutral[500],
   linkButtonTextSecondaryDisabled: colors.neutral[400],
 
-  primaryButtonBackground: tintColorDark,
+  primaryButtonBackground: buttonColorDark,
   primaryButtonText: colors.white,
-  primaryButtonBorder: tintColorDark,
+  primaryButtonBorder: buttonColorDark,
 
   primaryButtonBackgroundDisabled: colors.neutral[800],
   primaryButtonTextDisabled: colors.neutral[400],
@@ -364,8 +367,8 @@ const dark: IColors & {
 
   checkboxBackground: colors.neutral[800],
   checkboxBorder: colors.neutral[700],
-  checkboxCheckedBackground: tintColorDark,
-  checkboxCheckedBorder: tintColorDark,
+  checkboxCheckedBackground: buttonColorDark,
+  checkboxCheckedBorder: buttonColorDark,
   checkboxCheckedText: "#FFF",
 
   statisticsBackground: "#000",
@@ -410,7 +413,7 @@ const dark: IColors & {
   onboardingPaginationDotActive: colors.neutral[300],
   onboardingPaginationDotInactive: colors.neutral[700],
 
-  onboardingPrivacyBadgeBackground: tintColorDark,
+  onboardingPrivacyBadgeBackground: buttonColorDark,
   onboardingPrivacyBadgeVector: colors.white,
   onboardingListItemDot: colors.neutral[700],
   onboardingListItemText: colors.neutral[300],
