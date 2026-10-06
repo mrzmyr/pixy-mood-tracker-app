@@ -102,6 +102,28 @@ jest.mock("@expo/ui", () => ({
   RNHostView: () => null,
 }));
 
+// oxlint-disable-next-line anti-slop/no-module-mocking -- the SwiftUI menu has no Jest view; the stand-in renders menu items as pressable buttons.
+jest.mock("@expo/ui/swift-ui", () => {
+  const { Pressable, View } = require("react-native");
+  return {
+    Host: ({ children }) => children,
+    Menu: ({ children }) => <View>{children}</View>,
+    Button: ({ label, onPress }) => (
+      <Pressable
+        accessibilityRole="menuitem"
+        accessibilityLabel={label}
+        onPress={onPress}
+      />
+    ),
+  };
+});
+
+// oxlint-disable-next-line anti-slop/no-module-mocking -- SwiftUI modifiers build native view config; Jest ignores them.
+jest.mock(
+  "@expo/ui/swift-ui/modifiers",
+  () => new Proxy({}, { get: () => () => ({}) })
+);
+
 // oxlint-disable-next-line anti-slop/no-module-mocking -- feature entry files load the widget sync; the ExpoWidgets native module does not exist in Jest.
 jest.mock("expo-widgets", () => ({
   createWidget: () => ({

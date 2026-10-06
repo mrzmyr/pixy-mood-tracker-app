@@ -4,28 +4,20 @@ import useColors from "@/hooks/useColors";
 import { useLogState } from "@/features/logs";
 import type { LogItem } from "@/features/logs";
 import dayjs from "dayjs";
-import type { ReactNode } from "react";
 import { useRouter } from "expo-router";
 import { LinearGradient } from "expo-linear-gradient";
-import {
-  Moon,
-  Pencil,
-  Sun,
-  SunMedium,
-  Sunrise,
-  Sunset,
-  Trash,
-} from "lucide-react-native";
+import { Moon, Sun, SunMedium, Sunrise, Sunset } from "lucide-react-native";
 import type { LoggerStep } from "@/constants/LoggerSteps";
 import { getAvailableStepsForEdit, hasSleepOnDate } from "@/features/logger";
 import { getItemDate } from "@/lib/logDates";
 import { t } from "@/lib/translation";
 import { useFeatureFlag } from "@/state/featureFlags";
 import { useSetting, useSettings } from "@/state/settings";
-import { Pressable, ScrollView, Text, View } from "react-native";
+import { ScrollView, Text, View } from "react-native";
 import { AddPills } from "./AddPills";
 import type { AddableStep } from "./AddPills";
 import { Emotions } from "./Emotions";
+import { EntryMenu } from "./EntryMenu";
 import { BLOCK_GAP } from "./layout";
 import { Message } from "./Message";
 import { People, useKnownPeople } from "./People";
@@ -44,36 +36,7 @@ const TIME_OF_DAY_ICONS: Record<TimeOfDay, typeof Sun> = {
   night: Moon,
 };
 
-/** Gray icon button in the entry header with a 44 pt target. */
-const HeaderIconButton = ({
-  testID,
-  label,
-  onPress,
-  children,
-}: {
-  testID: string;
-  label: string;
-  onPress: () => void;
-  children: ReactNode;
-}) => (
-  <Pressable
-    testID={testID}
-    accessibilityRole="button"
-    accessibilityLabel={label}
-    onPress={onPress}
-    style={({ pressed }) => ({
-      width: 44,
-      height: 44,
-      alignItems: "center",
-      justifyContent: "center",
-      opacity: pressed ? 0.5 : 1,
-    })}
-  >
-    {children}
-  </Pressable>
-);
-
-/** Edit and Delete for one entry: two quiet icons, one tap each. */
+/** Edit and Delete for one entry behind one "…" menu with a 44 pt target. */
 const EntryActions = ({
   item,
   onEdit,
@@ -82,28 +45,16 @@ const EntryActions = ({
   item: LogItem;
   onEdit: (item: LogItem) => void;
   onDelete: (item: LogItem) => void;
-}) => {
-  const colors = useColors();
-
-  return (
-    <View style={{ flexDirection: "row", marginRight: -10 }}>
-      <HeaderIconButton
-        testID="log-list-edit"
-        label={t("edit")}
-        onPress={() => onEdit(item)}
-      >
-        <Pencil color={colors.textSecondary} size={20} />
-      </HeaderIconButton>
-      <HeaderIconButton
-        testID="log-list-delete"
-        label={t("delete")}
-        onPress={() => onDelete(item)}
-      >
-        <Trash color={colors.textSecondary} size={20} />
-      </HeaderIconButton>
-    </View>
-  );
-};
+}) => (
+  <EntryMenu
+    testID="log-list-menu"
+    label={t("more")}
+    editLabel={t("edit")}
+    deleteLabel={t("delete")}
+    onEdit={() => onEdit(item)}
+    onDelete={() => onDelete(item)}
+  />
+);
 
 const EntryHeader = ({
   item,
