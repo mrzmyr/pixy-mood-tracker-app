@@ -1,5 +1,6 @@
 import * as WebBrowser from "expo-web-browser";
-import { ScrollView, Switch, View } from "react-native";
+import { ScrollView, View } from "react-native";
+import Toggle from "@/components/Toggle";
 import { Shield } from "react-native-feather";
 import Markdown from "react-native-markdown-display";
 import LinkButton from "@/components/LinkButton";
@@ -89,8 +90,7 @@ export const PrivacyScreen = () => {
             <MenuListItem
               title={t("behavioral_data")}
               iconRight={
-                <Switch
-                  ios_backgroundColor={colors.backgroundSecondary}
+                <Toggle
                   onValueChange={() => {
                     analytics.track("settings:analytics_toggled", {
                       enabled: !analytics.isEnabled,

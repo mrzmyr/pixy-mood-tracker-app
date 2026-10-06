@@ -1,8 +1,9 @@
 import { useState } from "react";
-import { Platform, Switch, View } from "react-native";
+import { Platform, View } from "react-native";
 import MenuList from "@/components/MenuList";
 import MenuListItem from "@/components/MenuListItem";
 import TextInfo from "@/components/TextInfo";
+import Toggle from "@/components/Toggle";
 import useColors from "@/hooks/useColors";
 import { t } from "@/lib/translation";
 import { useAppLock } from "./AppLockProvider";
@@ -48,8 +49,7 @@ export const AppLockSetting = () => {
           title={t("app_lock")}
           deactivated={isUnavailable && !isEnabled}
           iconRight={
-            <Switch
-              ios_backgroundColor={colors.backgroundSecondary}
+            <Toggle
               disabled={isUnavailable && !isEnabled}
               onValueChange={toggle}
               value={isEnabled}

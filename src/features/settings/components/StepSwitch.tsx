@@ -1,4 +1,5 @@
-import { Switch, View } from "react-native";
+import { View } from "react-native";
+import Toggle from "@/components/Toggle";
 import MenuList from "@/components/MenuList";
 import MenuListItem from "@/components/MenuListItem";
 import TextInfo from "@/components/TextInfo";
@@ -18,7 +19,7 @@ export const StepSwitch = ({ step }: { step: "tags" | "people" }) => {
         <MenuListItem
           title={t(`step_track_${step}`)}
           iconRight={
-            <Switch
+            <Toggle
               accessibilityLabel={t(`step_track_${step}`)}
               testID={`step-${step}-enabled`}
               onValueChange={setEnabled}
