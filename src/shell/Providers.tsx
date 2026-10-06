@@ -12,7 +12,6 @@ import { PeopleProvider } from "@/features/people";
 import { SettingsProvider } from "@/state/settings";
 import { StatisticsProvider } from "@/features/statistics";
 import { TagsProvider } from "@/features/tags";
-import { TemporaryLogProvider } from "@/features/logger";
 import { SupportProvider } from "@/support";
 import type { SupportClient } from "@/support";
 
@@ -37,11 +36,9 @@ const Providers = ({
         <TagsProvider>
           <PeopleProvider>
             <BackupProvider>
-              <TemporaryLogProvider>
-                <CalendarFiltersProvider>
-                  <StatisticsProvider>{children}</StatisticsProvider>
-                </CalendarFiltersProvider>
-              </TemporaryLogProvider>
+              <CalendarFiltersProvider>
+                <StatisticsProvider>{children}</StatisticsProvider>
+              </CalendarFiltersProvider>
             </BackupProvider>
           </PeopleProvider>
         </TagsProvider>
@@ -53,11 +50,9 @@ const Providers = ({
         <TagsProvider>
           <PeopleProvider>
             <BackupProvider>
-              <TemporaryLogProvider>
-                <CalendarFiltersProvider>
-                  <StatisticsProvider>{children}</StatisticsProvider>
-                </CalendarFiltersProvider>
-              </TemporaryLogProvider>
+              <CalendarFiltersProvider>
+                <StatisticsProvider>{children}</StatisticsProvider>
+              </CalendarFiltersProvider>
             </BackupProvider>
           </PeopleProvider>
         </TagsProvider>

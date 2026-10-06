@@ -1,6 +1,7 @@
 import useColors from "@/hooks/useColors";
 import useHaptics from "@/hooks/useHaptics";
 import { Pressable, Text } from "react-native";
+import { RADIUS } from "@/constants/Radius";
 
 /** Small pill button that plays selection haptics before `onPress`. */
 export const MiniButton = ({
@@ -24,7 +25,7 @@ export const MiniButton = ({
           justifyContent: "center",
           alignItems: "center",
           flexDirection: "row",
-          borderRadius: 100,
+          borderRadius: RADIUS.full,
           backgroundColor: colors.primaryButtonBackground,
           opacity: pressed ? 0.8 : 1,
           marginRight: 8,

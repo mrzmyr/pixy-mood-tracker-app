@@ -5,17 +5,16 @@ const FILE = `${FileSystem.documentDirectory}fake-file-transfer.json`;
 
 /**
  * Stands in for the share sheet and document picker in e2e runs: sharing
- * keeps the exported file, picking returns it. Export and import then round
- * trip without system screens.
+ * keeps the exported contents, picking returns them. Export and import then
+ * round trip without system screens.
  */
 export const fakeFileTransfer: FileTransfer = {
-  share: async (uri) => {
-    await FileSystem.deleteAsync(FILE, { idempotent: true });
-    await FileSystem.copyAsync({ from: uri, to: FILE });
+  share: async (_filename, contents) => {
+    await FileSystem.writeAsStringAsync(FILE, contents);
     return true;
   },
-  pickJson: async () => {
+  pickJsonText: async () => {
     const info = await FileSystem.getInfoAsync(FILE);
-    return info.exists ? FILE : null;
+    return info.exists ? await FileSystem.readAsStringAsync(FILE) : null;
   },
 };

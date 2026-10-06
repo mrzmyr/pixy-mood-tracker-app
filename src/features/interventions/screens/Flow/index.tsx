@@ -1,9 +1,9 @@
 import { useRouter } from "expo-router";
-import { X } from "lucide-react-native";
 import { useEffect, useState } from "react";
-import { Platform, Pressable, ScrollView, Text, View } from "react-native";
+import { Platform, ScrollView, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Button from "@/components/Button";
+import { CloseButton } from "@/components/CloseButton";
 import useColors from "@/hooks/useColors";
 import { t } from "@/lib/translation";
 import type {
@@ -94,20 +94,7 @@ export const InterventionFlow = ({
           marginHorizontal: -12,
         }}
       >
-        <Pressable
-          testID="intervention-close"
-          accessibilityRole="button"
-          accessibilityLabel={t("interventions_close")}
-          onPress={() => close("close")}
-          style={{
-            width: 44,
-            height: 44,
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <X size={24} color={colors.text} />
-        </Pressable>
+        <View style={{ width: 44 }} />
         <Text
           numberOfLines={1}
           style={{
@@ -120,7 +107,10 @@ export const InterventionFlow = ({
         >
           {stage.kind === "step" ? t(`interventions_${id}_title`) : ""}
         </Text>
-        <View style={{ width: 44 }} />
+        <CloseButton
+          testID="intervention-close"
+          onPress={() => close("close")}
+        />
       </View>
 
       {stage.kind === "intro" && (

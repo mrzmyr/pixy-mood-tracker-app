@@ -10,6 +10,7 @@ import type { UsageSummary } from "@/state/analytics/events";
 import { useSettings } from "@/state/settings";
 import type { SettingsState } from "@/state/settings";
 import { useLogState } from "@/features/logs";
+import { useAppData } from "@/features/datagate";
 import type { LogItem } from "@/features/logs";
 import { countPhotosBySource, getPhotoSource } from "@/features/photos";
 import type { LibraryPermission } from "@/features/photos";
@@ -182,8 +183,9 @@ export const useUsageSummarySync = () => {
   const analytics = useAnalytics();
   const { settings } = useSettings();
   const logState = useLogState();
-  const { tags, loaded: tagsLoaded } = useTagsState();
-  const { people, loaded: peopleLoaded } = usePeopleState();
+  const { tags } = useTagsState();
+  const { people } = usePeopleState();
+  const isStoresReady = useAppData().load.status === "ready";
   const lastSent = useRef<string | null>(null);
   const isPhotosEnabled = useFeatureFlag("photos");
   const [libraryAccess, setLibraryAccess] = useState<LibraryPermission | null>(
@@ -212,12 +214,7 @@ export const useUsageSummarySync = () => {
 
   const { reminderEnabled, reminderTime, scaleType, steps, actionsDone } =
     settings;
-  const isReady =
-    settings.loaded &&
-    logState.loaded &&
-    tagsLoaded === true &&
-    peopleLoaded === true &&
-    photoLibraryAccess !== null;
+  const isReady = isStoresReady && photoLibraryAccess !== null;
 
   useEffect(() => {
     if (!isReady || !analytics.isEnabled || photoLibraryAccess === null) {

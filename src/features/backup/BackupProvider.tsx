@@ -9,19 +9,16 @@ import {
   useRef,
 } from "react";
 import { useContentStableValue } from "@/hooks/useContentStableValue";
-import {
-  buildExportData,
-  toExportSettings,
-  useDatagate,
-} from "@/features/datagate";
-import { useLogState } from "@/features/logs";
+import { useAppData, useDatagate } from "@/features/datagate";
+import { useLogLoad, useLogState } from "@/features/logs";
 import { usePeopleState } from "@/features/people";
 import { useTagsState } from "@/features/tags";
 import { askToRestoreBackup, askToTurnOffBackup } from "@/helpers/prompts";
 import { createMissingProviderError } from "@/lib/errors";
 import { useAnalytics } from "@/state/analytics";
 import { useFeatureFlag } from "@/state/featureFlags";
-import { useSettings } from "@/state/settings";
+import { useSettings, useSettingsLoad } from "@/state/settings";
+import { toExportSettings } from "@/state/settings/exportSettings";
 import type { SettingsState } from "@/state/settings";
 import {
   canReplaceBackup,
@@ -42,6 +39,7 @@ import type { BackupProvider as Provider } from "./cloud";
 import { cloudFailureSchema } from "./failure";
 import type { CloudFailure } from "./failure";
 import { useCloudFile } from "./useCloudFile";
+import pkg from "../../../package.json";
 import type { BackupStatus } from "./useCloudFile";
 
 export type { BackupStatus } from "./useCloudFile";
@@ -118,14 +116,17 @@ const BackupContext = createContext<BackupValue>(undefined as never);
  */
 export const BackupProvider = ({ children }: { children: React.ReactNode }) => {
   const { settings, setSettings } = useSettings();
-  const { items, loaded: isLogsLoaded = false } = useLogState();
+  const isSettingsLoaded = useSettingsLoad().status === "ready";
+  const { items } = useLogState();
+  const isLogsLoaded = useLogLoad().status === "ready";
   const { tags } = useTagsState();
   const { people } = usePeopleState();
   const datagate = useDatagate();
+  const appData = useAppData();
   const analytics = useAnalytics();
   const isFeatureOn = useFeatureFlag("backup");
   const provider = getBackupProvider();
-  const enabled = isFeatureOn && settings.loaded && settings.backupEnabled;
+  const enabled = isFeatureOn && isSettingsLoaded && settings.backupEnabled;
   const { deviceId, backupWrittenAt } = settings;
 
   const {
@@ -142,6 +143,8 @@ export const BackupProvider = ({ children }: { children: React.ReactNode }) => {
   const failInEffect = useEffectEvent((failure: CloudFailure, code: string) =>
     fail(failure, code)
   );
+  // Reads the data of the latest render when the timer fires.
+  const snapshotInEffect = useEffectEvent(() => appData.snapshot());
   const setSettingsInEffect = useEffectEvent(
     (update: (current: SettingsState) => SettingsState) => setSettings(update)
   );
@@ -204,7 +207,10 @@ export const BackupProvider = ({ children }: { children: React.ReactNode }) => {
           setStatus("idle");
           return;
         }
-        const data = await buildExportData({ items, tags, people, settings });
+        const data = {
+          version: pkg.version,
+          ...(await snapshotInEffect()),
+        };
         const file = createBackupFile({ data, deviceId });
         await writeBackupFile(JSON.stringify(file));
         lastWritten.current = dataKey;
@@ -227,9 +233,6 @@ export const BackupProvider = ({ children }: { children: React.ReactNode }) => {
     backupWrittenAt,
     dataKey,
     items,
-    tags,
-    people,
-    settings,
     remote,
     setStatus,
     setRemote,

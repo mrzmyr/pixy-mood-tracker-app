@@ -2,6 +2,7 @@ import { Pressable, TextInput, View } from "react-native";
 import useColors from "@/hooks/useColors";
 import { Search, XCircle } from "react-native-feather";
 import { t } from "@/lib/translation";
+import { RADIUS } from "@/constants/Radius";
 
 /** Controlled text input for the calendar filters' message search. */
 export const SearchInputSection = ({
@@ -26,7 +27,7 @@ export const SearchInputSection = ({
           borderWidth: 1,
           borderColor: colors.textInputBorder,
           backgroundColor: colors.textInputBackground,
-          borderRadius: 8,
+          borderRadius: RADIUS.sm,
           padding: 8,
         }}
       >
@@ -49,7 +50,7 @@ export const SearchInputSection = ({
             marginLeft: 12,
             fontSize: 17,
             width: "100%",
-            borderRadius: 8,
+            borderRadius: RADIUS.sm,
           }}
           onChangeText={onChange}
         />

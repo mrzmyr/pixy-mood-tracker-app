@@ -23,9 +23,8 @@ import {
   sortPeopleByUsage,
   usePeopleState,
 } from "@/features/people";
-import type { PersonReference } from "@/types";
 import { SlideHeadline } from "../components/SlideHeadline";
-import { useTemporaryLog } from "../temporaryLog";
+import { useLogDraft } from "../logDraft";
 import { Footer } from "./Footer";
 import { getSlideMarginTop } from "./marginTop";
 
@@ -100,15 +99,13 @@ const AddPersonTile = ({ size }: { size: number }) => {
  * Without people it offers one way out: add some.
  */
 export const SlidePeople = ({
-  onChange,
   onDisableStep = noop,
   showDisable,
 }: {
-  onChange: (people: PersonReference[]) => void;
   onDisableStep?: () => void;
   showDisable: boolean;
 }) => {
-  const tempLog = useTemporaryLog();
+  const { draft, setPeople } = useLogDraft();
   const router = useRouter();
   const insets = useSafeAreaInsets();
   const colors = useColors();
@@ -122,9 +119,7 @@ export const SlidePeople = ({
     Math.floor(columnWidth - 2 * (TILE_RING_GAP + TILE_RING_WIDTH))
   );
 
-  const selectedIds = new Set(
-    (tempLog?.data?.people ?? []).map((person) => person.id)
-  );
+  const selectedIds = new Set(draft.people.map((person) => person.id));
   const visible = sortPeopleByUsage(
     people.filter((person) => !person.isArchived || selectedIds.has(person.id)),
     items
@@ -132,11 +127,10 @@ export const SlidePeople = ({
   const marginTop = getSlideMarginTop();
 
   const toggle = (id: string) => {
-    const current = tempLog?.data?.people ?? [];
-    onChange(
+    setPeople(
       selectedIds.has(id)
-        ? current.filter((person) => person.id !== id)
-        : [...current, { id }]
+        ? draft.people.filter((person) => person.id !== id)
+        : [...draft.people, { id }]
     );
   };
 
@@ -223,6 +217,12 @@ export const SlidePeople = ({
                     person={person}
                     selected={selectedIds.has(person.id)}
                     onPress={() => toggle(person.id)}
+                    onLongPress={() =>
+                      router.push({
+                        pathname: "/people/[id]",
+                        params: { id: person.id },
+                      })
+                    }
                     testID={`log-person-${person.id}`}
                   />
                 </View>

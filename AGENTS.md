@@ -8,6 +8,7 @@
 
 - the project is called `pixy-mood-tracker`, use that slug always when creating folders, exeutables etc (not `pixy`, `pixy-app` etc)
 - remove worktree when branch merged
+- Start code changes with `bun worktree new <slug>`. Never edit the main checkout. Never use `--no-verify`.
 - Do not document anything that an agent can easily find with code search
 
 ## Feature Flags
@@ -15,10 +16,12 @@
 - We use Posthog for feature flags
 - User MUST agree to the privacy policy to be able to test features using feature flags
 - Setup, consent gate, and dev overrides: [docs/development.md](docs/development.md#feature-flags)
+- New key in `keys.ts`: create PostHog flag in same task, never ask. Never replace existing release conditions. Rules: [docs/development.md](docs/development.md#feature-flags)
 
 ## PRs
 
 - When multiple things have beend worked on in one go you want to create PR, suggest the user to create multiple PRs by topics for easier reviews; If you are sure, just go ahead and create multiple PRs even when the user said "create PR"
+- Screenshots and videos: upload to PR body with [pr-proof skill](.agents/skills/pr-proof/SKILL.md). Proof files stay outside git
 
 ## Public repository security
 
@@ -35,7 +38,8 @@
 ## Tools
 
 - Posthog for product analytics (MCP installed)
-  - Accessible projects: `Pixy App`, `Pixy Website`, and `Pixy App Test`.
+  - Project IDs: App Production `7630`, App Preview `14574`, App Development `628970`, Website `12793`
+  - MCP keeps the last active project, often not the one you need. Run `switch-project` first
 - CodeRabbit for PR reviews (MCP installed)
 - Sentry for error logging (MCP installed)
 - FeatureOS User Feedback (MCP installed)
@@ -50,6 +54,8 @@
 - Initialize Sentry once, at module load in `src/app/_layout.tsx`, before the first render.
 - Cloud backup replaces the cloud file. Keep [`canReplaceBackup`](src/features/backup/backupFile.ts) in every write path, or a fresh install wipes the user's backup. See [docs/backup.md](docs/backup.md).
 - Native builds live in `~/.cache/pixy-mood-tracker/build-cache`, shared by all worktrees. Check `bun builds list` before any compile. `ios/build` and Xcode DerivedData say nothing about cached builds. Dev client with Metro: `bun app dev --platform=<ios|android>` ([run-app skill](.agents/skills/run-app/SKILL.md)). Never create simulators by hand.
+- Free disk only with `bun builds reclaim` (`--dry-run` first). Never delete all of `ios/build`: it holds React Native codegen output, and a delete forces full rebuilds.
+- Device availability comes from `bun devices list` only. Not `adb devices`, not other device tools. A shut-down emulator is free: the CLI boots it.
 
 ### Testing
 

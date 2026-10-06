@@ -8,6 +8,7 @@ import useColors from "@/hooks/useColors";
 import useHaptics from "@/hooks/useHaptics";
 import type { TagsDistributionData } from "../../TagsDistribution";
 import type { Tag } from "@/features/tags";
+import { RADIUS } from "@/constants/Radius";
 
 /**
  * Tag bars for the top `limit` tags. Tapping a bar filters the calendar to
@@ -56,7 +57,7 @@ export const TagDistributionContent = ({
               backgroundColor: colors.tags[tag?.details?.color]?.background,
               height: 32,
               width: `${(tag.count / data.tags[0].count) * 100}%` as const,
-              borderRadius: 4,
+              borderRadius: RADIUS.xs,
               position: "absolute",
             }}
           />

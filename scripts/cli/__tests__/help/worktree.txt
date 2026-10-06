@@ -1,0 +1,10 @@
+Create, list, and remove worktrees for code changes.
+
+Usage: bun worktree <command> [options]
+
+Commands:
+  new   Create a worktree with installed dependencies
+  list  List worktrees with branch, uncommitted changes, and state
+  rm    Remove one worktree
+
+Run `bun worktree <command> --help` for details. Aliases: ls = list, remove = rm.

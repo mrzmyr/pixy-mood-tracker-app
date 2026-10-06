@@ -6,18 +6,15 @@ import useColors from "@/hooks/useColors";
 import { useAnalytics } from "@/state/analytics";
 import type { HighlightsProperties } from "@/state/analytics/events";
 import { useStatistics } from "../../../StatisticsProvider";
+import type { HighlightsReport } from "../../../highlightsReport";
 import { MoodAvgCard } from "../MoodAvgCard";
 import { MoodPeaksCard } from "../MoodPeaksCards";
 import { TagPeaksCard } from "../TagPeaksCards";
 import { TagsDistributionCard } from "../TagsDistributionCard";
 import { Title } from "../Title";
 import { t } from "@/lib/translation";
-import dayjs from "dayjs";
-import { DATE_FORMAT } from "@/constants/Config";
 import { MoodChart } from "../MoodChart";
-import { useLogState } from "@/features/logs";
 import { SleepQualityChartCard } from "../SleepQualityGraph";
-import { getItemTime } from "@/lib/logDates";
 import { useFeatureFlag } from "@/state/featureFlags";
 import { PeopleHighlights } from "../PeopleHighlights";
 import {
@@ -25,10 +22,83 @@ import {
   getPeopleHighlightsState,
 } from "../peopleHighlightsState";
 
+const ReportCards = ({
+  report,
+  hasPeople,
+}: {
+  report: HighlightsReport;
+  hasPeople: boolean;
+}) => {
+  const { cards, data, window } = report;
+  const peopleHighlights = getPeopleHighlightsState({
+    hasPeople,
+    highlightedOnly: false,
+    cards,
+  });
+
+  return (
+    <>
+      {cards.mood_chart.available && (
+        <MoodChart
+          title={t("statistics_mood_chart_highlights_title")}
+          startDate={window.start}
+        />
+      )}
+
+      {cards.sleep_quality_distribution.available && (
+        <SleepQualityChartCard
+          title={t("statistics_sleep_quality_chart_highlights_title")}
+          startDate={window.start}
+        />
+      )}
+
+      {cards.mood_avg.available && <MoodAvgCard data={data.moodAvgData} />}
+
+      {cards.mood_peaks_positive.available && (
+        <MoodPeaksCard
+          data={data.moodPeaksPositiveData}
+          type="positive"
+          startDate={window.start}
+          endDate={window.end}
+        />
+      )}
+
+      {cards.mood_peaks_negative.available && (
+        <MoodPeaksCard
+          data={data.moodPeaksNegativeData}
+          type="negative"
+          startDate={window.start}
+          endDate={window.end}
+        />
+      )}
+
+      {cards.tags_distribution.available && (
+        <TagsDistributionCard data={data.tagsDistributionData} />
+      )}
+
+      {cards.tags_peaks.available &&
+        data.tagsPeaksData.tags.map((tag) => (
+          <TagPeaksCard
+            key={tag.id}
+            tag={tag}
+            startDate={window.start}
+            endDate={window.end}
+          />
+        ))}
+
+      <PeopleHighlights
+        state={peopleHighlights}
+        distribution={data.peopleDistributionData}
+        peaks={data.peoplePeaksData}
+      />
+    </>
+  );
+};
+
 /**
- * Full highlights screen with every available statistics card for the
- * last 14 days. Must render inside `StatisticsProvider`; cards appear once
- * statistics are loaded.
+ * Full highlights screen with every available card of the highlights
+ * report. Must render inside `StatisticsProvider`; cards appear once the
+ * report is built.
  */
 export const StatisticsHighlights = () => {
   const insets = useSafeAreaInsets();
@@ -36,85 +106,70 @@ export const StatisticsHighlights = () => {
   const analytics = useAnalytics();
   const statistics = useStatistics();
 
-  const showMoodAvg = statistics.isAvailable("mood_avg");
-  const showMoodPeaksPositve = statistics.isAvailable("mood_peaks_positive");
-  const showMoodPeaksNegative = statistics.isAvailable("mood_peaks_negative");
-  const showTagPeaks = statistics.isAvailable("tags_peaks");
-  const showTagsDistribution = statistics.isAvailable("tags_distribution");
   const hasPeople = useFeatureFlag("people");
-  const peopleHighlights = getPeopleHighlightsState({
-    hasPeople,
-    highlightedOnly: false,
-    isAvailable: statistics.isAvailable,
-    isHighlighted: statistics.isHighlighted,
-  });
-
-  const logState = useLogState();
-
-  const showSleepQualityChart = statistics.isAvailable(
-    "sleep_quality_distribution"
-  );
-  const highlightsStartTime = dayjs().subtract(14, "day").valueOf();
-  const highlightsItemCount = logState.items.filter(
-    (item) => getItemTime(item) > highlightsStartTime
-  ).length;
-  const showMoodChart = highlightsItemCount >= 4;
+  const { report } = statistics;
 
   // Effect event: tracks with the latest visibility flags and analytics, but
-  // only when the statistics content changes (see the effect below).
-  const trackHighlights = useEffectEvent(() => {
+  // only when the report content changes (see the effect below).
+  const trackHighlights = useEffectEvent((loaded: HighlightsReport) => {
+    const { cards, data } = loaded;
     const highlights: HighlightsProperties = {
-      items_count: statistics.state.itemsCount,
-      mood_avg_show: showMoodAvg,
-      mood_peaks_positive_show: showMoodPeaksPositve,
-      mood_peaks_negative_show: showMoodPeaksNegative,
-      tags_peaks_show: showTagPeaks,
-      tags_distribution_show: showTagsDistribution,
-      mood_chart_show: showMoodChart,
-      sleep_quality_distribution_show: showSleepQualityChart,
+      items_count: loaded.itemsCount,
+      mood_avg_show: cards.mood_avg.available,
+      mood_peaks_positive_show: cards.mood_peaks_positive.available,
+      mood_peaks_negative_show: cards.mood_peaks_negative.available,
+      tags_peaks_show: cards.tags_peaks.available,
+      tags_distribution_show: cards.tags_distribution.available,
+      mood_chart_show: cards.mood_chart.available,
+      sleep_quality_distribution_show:
+        cards.sleep_quality_distribution.available,
     };
 
-    if (showMoodPeaksPositve) {
+    if (cards.mood_peaks_positive.available) {
       highlights.mood_peaks_positive_count =
-        statistics.state.moodPeaksPositiveData.days.length;
+        data.moodPeaksPositiveData.days.length;
     }
-    if (showMoodPeaksNegative) {
+    if (cards.mood_peaks_negative.available) {
       highlights.mood_peaks_negative_count =
-        statistics.state.moodPeaksNegativeData.days.length;
+        data.moodPeaksNegativeData.days.length;
     }
-    if (showTagPeaks) {
-      highlights.tags_peaks_count = statistics.state.tagsPeaksData.tags.length;
+    if (cards.tags_peaks.available) {
+      highlights.tags_peaks_count = data.tagsPeaksData.tags.length;
     }
-    if (showTagsDistribution) {
+    if (cards.tags_distribution.available) {
       highlights.tags_distribution_tag_count =
-        statistics.state.tagsDistributionData.tags.length;
+        data.tagsDistributionData.tags.length;
     }
-    if (showMoodChart) {
-      highlights.mood_chart_item_count = highlightsItemCount;
+    if (cards.mood_chart.available) {
+      highlights.mood_chart_item_count = loaded.itemsCount;
     }
     Object.assign(
       highlights,
       getPeopleHighlightProperties({
         hasPeople,
-        state: peopleHighlights,
-        distribution: statistics.state.peopleDistributionData,
-        peaks: statistics.state.peoplePeaksData,
+        state: getPeopleHighlightsState({
+          hasPeople,
+          highlightedOnly: false,
+          cards,
+        }),
+        distribution: data.peopleDistributionData,
+        peaks: data.peoplePeaksData,
       })
     );
 
     analytics.track("statistics:all_highlights_viewed", highlights);
   });
 
-  // Stays referentially equal while the statistics content is unchanged.
-  const stableStatisticsState = useContentStableValue(statistics.state);
+  // Stays referentially equal while the report content is unchanged.
+  const stableReport = useContentStableValue(report);
 
   useEffect(() => {
-    if (!stableStatisticsState.loaded) {
+    if (stableReport === null) {
       return;
     }
 
-    trackHighlights();
-  }, [stableStatisticsState]);
+    trackHighlights(stableReport);
+  }, [stableReport]);
 
   return (
     <View
@@ -148,63 +203,9 @@ export const StatisticsHighlights = () => {
               <ActivityIndicator color={colors.loadingIndicator} />
             </View>
           ) : (
-            <>
-              {showMoodChart && (
-                <MoodChart
-                  title={t("statistics_mood_chart_highlights_title")}
-                  startDate={dayjs().subtract(14, "days").format(DATE_FORMAT)}
-                />
-              )}
-
-              {showSleepQualityChart && (
-                <SleepQualityChartCard
-                  title={t("statistics_sleep_quality_chart_highlights_title")}
-                  startDate={dayjs().subtract(14, "days").format(DATE_FORMAT)}
-                />
-              )}
-
-              {statistics.isAvailable("mood_avg") && (
-                <MoodAvgCard data={statistics.state.moodAvgData} />
-              )}
-
-              {statistics.isAvailable("mood_peaks_positive") && (
-                <MoodPeaksCard
-                  data={statistics.state.moodPeaksPositiveData}
-                  type="positive"
-                  startDate={dayjs().subtract(14, "day").format(DATE_FORMAT)}
-                  endDate={dayjs().format(DATE_FORMAT)}
-                />
-              )}
-
-              {statistics.isAvailable("mood_peaks_negative") && (
-                <MoodPeaksCard
-                  data={statistics.state.moodPeaksNegativeData}
-                  type="negative"
-                  startDate={dayjs().subtract(14, "day").format(DATE_FORMAT)}
-                  endDate={dayjs().format(DATE_FORMAT)}
-                />
-              )}
-
-              {statistics.isAvailable("tags_distribution") && (
-                <TagsDistributionCard
-                  data={statistics.state.tagsDistributionData}
-                />
-              )}
-
-              {statistics.isAvailable("tags_peaks") && (
-                <>
-                  {statistics.state.tagsPeaksData.tags.map((tag) => (
-                    <TagPeaksCard key={tag.id} tag={tag} />
-                  ))}
-                </>
-              )}
-
-              <PeopleHighlights
-                state={peopleHighlights}
-                distribution={statistics.state.peopleDistributionData}
-                peaks={statistics.state.peoplePeaksData}
-              />
-            </>
+            report !== null && (
+              <ReportCards report={report} hasPeople={hasPeople} />
+            )
           )}
         </View>
       </ScrollView>

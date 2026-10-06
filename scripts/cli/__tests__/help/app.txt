@@ -7,6 +7,7 @@ Commands:
   install  Install the preview app on one device
   seed     Load a fixture and capture its first screen
   open     Open the preview app and capture its first screen
+  drive    Run one agent-device command on the selected device
   close    Stop the preview app and reset its data
   dev      Run the dev client with Metro
 

@@ -10,6 +10,7 @@ import { Check } from "react-native-feather";
 import useHaptics from "@/hooks/useHaptics";
 import type { LogItem } from "@/features/logs";
 import useScale from "@/hooks/useScale";
+import { RADIUS } from "@/constants/Radius";
 
 const SCREEN_HEIGHT = Dimensions.get("screen").height;
 
@@ -47,7 +48,7 @@ export const SlideMoodButton = ({
           Platform.OS === "android" && colorScheme === "dark" ? 0 : 1,
         borderColor:
           colorScheme === "light" ? "rgba(0,0,0,0.1)" : "rgba(255,255,255,0.2)",
-        borderRadius: 12,
+        borderRadius: RADIUS.md,
         marginBottom: 8,
         width,
         height,

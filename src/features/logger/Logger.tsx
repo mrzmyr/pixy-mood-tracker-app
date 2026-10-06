@@ -1,4 +1,3 @@
-import { DATE_FORMAT } from "@/constants/Config";
 import { askToDisableFeedbackStep, askToDisableStep } from "@/helpers/prompts";
 import useColors from "@/hooks/useColors";
 import { useLogState } from "@/features/logs";
@@ -9,10 +8,10 @@ import type { IQuestion } from "@/features/questioner";
 import { useSettings } from "@/state/settings";
 import { useFeatureFlag } from "@/state/featureFlags";
 import { useAnalytics } from "@/state/analytics";
-import { useTemporaryLog } from "./temporaryLog";
-import type { TemporaryLogState } from "./temporaryLog";
+import { LogDraftProvider, useLogDraft } from "./logDraft";
+import type { LogDraft } from "./finalizeDraft";
+import { toLogDate } from "@/lib/logDates";
 
-import type { Emotion, PersonReference, TagReference } from "@/types";
 import dayjs from "dayjs";
 import { useEffect, useEffectEvent, useMemo, useRef, useState } from "react";
 import { useRouter } from "expo-router";
@@ -39,9 +38,14 @@ import { SlidePeople } from "./slides/SlidePeople";
 import { SlideTags } from "./slides/SlideTags";
 import { useLoggerActions } from "./hooks/useLoggerActions";
 import { useLoggerTracking } from "./hooks/useLoggerTracking";
+import { usePassiveLocation } from "./hooks/usePassiveLocation";
 import type { SavedEntry } from "./hooks/useLoggerActions";
 import { Confirmation } from "./confirmation/Confirmation";
-import { getAvailableStepsForCreate, getAvailableStepsForEdit } from "./steps";
+import {
+  getAvailableStepsForCreate,
+  getAvailableStepsForEdit,
+  getRatingActionType,
+} from "./steps";
 
 /** Whether the logger creates a new entry or edits an existing one. */
 export type LoggerMode = "create" | "edit";
@@ -79,7 +83,6 @@ const useStepSlides = ({
   slideKeys,
   isPhotosSlideActive,
   mode,
-  tempLog,
   showDisable,
   texAreaRef,
   disableStep,
@@ -87,7 +90,6 @@ const useStepSlides = ({
   slideKeys: LoggerStep[];
   isPhotosSlideActive: boolean;
   mode: LoggerMode;
-  tempLog: ReturnType<typeof useTemporaryLog>;
   showDisable: boolean;
   texAreaRef: RefObject<TextInput | null>;
   disableStep: (
@@ -101,9 +103,6 @@ const useStepSlides = ({
       key: "tags",
       slide: (
         <SlideTags
-          onChange={(tags: TagReference[]) => {
-            tempLog.update({ tags });
-          }}
           onDisableStep={() => disableStep("tags")}
           showDisable={showDisable}
         />
@@ -116,9 +115,6 @@ const useStepSlides = ({
       key: "people",
       slide: (
         <SlidePeople
-          onChange={(people: PersonReference[]) => {
-            tempLog.update({ people });
-          }}
           onDisableStep={() => disableStep("people")}
           showDisable={showDisable}
         />
@@ -131,9 +127,6 @@ const useStepSlides = ({
       key: "message",
       slide: (
         <SlideMessage
-          onChange={(message) => {
-            tempLog.update({ message });
-          }}
           onDisableStep={() => disableStep("message")}
           ref={texAreaRef}
           showDisable={showDisable}
@@ -149,7 +142,6 @@ const useStepSlides = ({
         <SlidePhotos
           mode={mode}
           isActive={isPhotosSlideActive}
-          onChange={(photos) => tempLog.update({ photos })}
           onDisableStep={() => disableStep("photos")}
           showDisable={showDisable}
         />
@@ -160,29 +152,22 @@ const useStepSlides = ({
   return slides;
 };
 
-/**
- * Slide-based entry editor shared by create and edit.
- *
- * Must render inside `TemporaryLogProvider`, which holds the draft. Slides
- * outside `avaliableSteps` are skipped; `rating` always shows, and
- * `feedback` also needs a `question`. With rating as the only slide,
- * picking a rating saves at once.
- */
-export const Logger = ({
-  initialItem,
-  initialStep,
-  avaliableSteps,
-  mode,
-  question,
-  onCreated,
-}: {
-  initialItem: TemporaryLogState;
+interface LoggerProps {
+  initialItem: LogDraft;
   initialStep?: LoggerStep;
   avaliableSteps: LoggerStep[];
   mode: LoggerMode;
   question?: IQuestion | null;
   onCreated?: (saved: SavedEntry) => void;
-}) => {
+}
+
+const LoggerSlides = ({
+  initialStep,
+  avaliableSteps,
+  mode,
+  question,
+  onCreated,
+}: Omit<LoggerProps, "initialItem">) => {
   const colors = useColors();
   const insets = useSafeAreaInsets();
 
@@ -191,7 +176,7 @@ export const Logger = ({
   const { toggleStep } = useSettings();
   const analytics = useAnalytics();
 
-  const tempLog = useTemporaryLog(initialItem);
+  const { draft } = useLogDraft();
 
   const texAreaRef = useRef<TextInput>(null);
   const isEditing = mode === "edit";
@@ -203,11 +188,8 @@ export const Logger = ({
   const initialIndex = indexFound === -1 ? 0 : indexFound;
   const [slideIndex, setSlideIndex] = useState(initialIndex);
 
-  const { save, remove, cancel } = useLoggerActions({
-    mode,
-    tempLog,
-    onCreated,
-  });
+  const { save, remove, cancel } = useLoggerActions({ mode, onCreated });
+  const { isLocationVisible, isLocating } = usePassiveLocation({ mode });
 
   const _carousel = useRef<CarouselRef>(null);
 
@@ -223,7 +205,7 @@ export const Logger = ({
     }
 
     if (slideIndex + 1 === slideKeys.length) {
-      save(tempLog.data);
+      save();
     } else if (_carousel.current) {
       _carousel.current.next();
     }
@@ -243,43 +225,37 @@ export const Logger = ({
     slideKeys,
     isPhotosSlideActive: slideKeys[slideIndex] === "photos",
     mode,
-    tempLog,
     showDisable,
     texAreaRef,
     disableStep,
   });
 
-  const content: SlideContent[] = [];
+  const ratingActionType = getRatingActionType({
+    slideCount: slideKeys.length,
+    slideIndex,
+    isTouched: touched,
+    mode,
+  });
 
-  const isRatingActionVisible = slideIndex !== 0 || touched || mode === "edit";
-  const ratingActionType = content.length === 1 ? "save" : "next";
+  const content: SlideContent[] = [];
 
   content.push({
     key: "rating",
     slide: (
       <SlideMood
-        onChange={(rating) => {
-          if (tempLog.data.rating !== rating) {
-            if (slideKeys.length === 1) {
-              save({
-                ...tempLog.data,
-                rating,
-              });
-            } else {
-              // oxlint-disable-next-line node/callback-return -- `next` advances the carousel, it is not a Node-style callback; `tempLog.update` must still run afterwards
-              next();
-            }
+        isLocationVisible={isLocationVisible}
+        isLocating={isLocating}
+        isActionVisible={ratingActionType !== "hidden"}
+        onRatingChanged={() => {
+          if (slideKeys.length === 1) {
+            save();
+            return;
           }
-          tempLog.update({ rating });
+          next();
         }}
       />
     ),
-    action: (
-      <SlideAction
-        type={isRatingActionVisible ? ratingActionType : "hidden"}
-        onPress={next}
-      />
-    ),
+    action: <SlideAction type={ratingActionType} onPress={next} />,
   });
 
   if (slideKeys.includes("emotions")) {
@@ -293,14 +269,7 @@ export const Logger = ({
           }}
         >
           <SlideEmotions
-            defaultIndex={
-              EMOTIONS_INDEX_MAPPING[tempLog.data.rating || "neutral"]
-            }
-            onChange={(emotions: Emotion[]) => {
-              tempLog.update({
-                emotions: emotions.map((emotion) => emotion.key),
-              });
-            }}
+            defaultIndex={EMOTIONS_INDEX_MAPPING[draft.rating ?? "neutral"]}
             showDisable={showDisable}
           />
         </View>
@@ -366,7 +335,9 @@ export const Logger = ({
         texAreaRef.current?.focus();
       }
     }
-  }, [slideIndex]);
+    // `texAreaRef` is stable; listed because the rating slide now reads the
+    // slide index and the lint rule can no longer tell.
+  }, [slideIndex, texAreaRef]);
 
   return (
     <View
@@ -387,7 +358,6 @@ export const Logger = ({
           slideCount={content.length}
           slideIndex={slideIndex}
           isEditing={isEditing}
-          tempLog={tempLog}
           onCancel={cancel}
           onRemove={remove}
         />
@@ -426,6 +396,21 @@ export const Logger = ({
     </View>
   );
 };
+
+/**
+ * Slide-based entry editor shared by create and edit.
+ *
+ * Holds its own draft, which starts at `initialItem`. Slides read and write
+ * the draft through `useLogDraft`; the logger passes them only flow
+ * callbacks. Slides outside `avaliableSteps` are skipped; `rating` always
+ * shows, and `feedback` also needs a `question`. With rating as the only
+ * slide, picking a new rating saves at once.
+ */
+export const Logger = ({ initialItem, ...props }: LoggerProps) => (
+  <LogDraftProvider initialDraft={initialItem}>
+    <LoggerSlides {...props} />
+  </LogDraftProvider>
+);
 
 /**
  * Logger for an existing entry. Shows a "Log not found" message when `id`
@@ -499,11 +484,9 @@ export const LoggerCreate = ({
   const router = useRouter();
   const [saved, setSaved] = useState<SavedEntry | null>(null);
 
-  const initialItem = {
+  const initialItem: LogDraft = {
     id,
-    date: dateTime
-      ? dayjs(dateTime).format(DATE_FORMAT)
-      : dayjs().format(DATE_FORMAT),
+    date: toLogDate(dateTime || dayjs().toISOString()),
     dateTime,
     rating: null,
     message: "",

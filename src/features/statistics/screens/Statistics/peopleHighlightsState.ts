@@ -1,4 +1,5 @@
 import type { HighlightsProperties } from "@/state/analytics/events";
+import type { HighlightsReport } from "../../highlightsReport";
 import type { PeopleDistributionData } from "../../PeopleDistribution";
 import type { PeoplePeaksData } from "../../PeoplePeaks";
 
@@ -16,22 +17,20 @@ export interface PeopleHighlightsState {
 export const getPeopleHighlightsState = ({
   hasPeople,
   highlightedOnly,
-  isAvailable,
-  isHighlighted,
+  cards,
 }: {
   hasPeople: boolean;
   highlightedOnly: boolean;
-  isAvailable: (type: string) => boolean;
-  isHighlighted: (type: string) => boolean;
+  cards: HighlightsReport["cards"];
 }): PeopleHighlightsState => {
   if (!hasPeople) {
     return { showDistribution: false, showPeaks: false };
   }
   return {
-    showDistribution: isAvailable("people_distribution"),
+    showDistribution: cards.people_distribution.available,
     showPeaks: highlightedOnly
-      ? isHighlighted("people_peaks")
-      : isAvailable("people_peaks"),
+      ? cards.people_peaks.highlighted
+      : cards.people_peaks.available,
   };
 };
 

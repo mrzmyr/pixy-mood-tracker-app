@@ -6,6 +6,10 @@ import { View } from "react-native";
 import { EmotionButtonBasic } from "./EmotionButtonBasic";
 import { MissingEmotionTile } from "./MissingEmotionTile";
 
+// Shared by grid cells and the spacer after a lone last cell, so every
+// cell keeps the same width.
+const CELL_STYLE = { marginRight: 8, flex: 1 };
+
 /**
  * Two-column emotion grid, good first, then neutral, then bad.
  *
@@ -61,10 +65,7 @@ export const EmotionBasicSelection = ({
           {row.map((emotion) => (
             <View
               key={`basic-emotion-container-${emotion?.key ?? "missing"}`}
-              style={{
-                marginRight: 8,
-                flex: 1,
-              }}
+              style={CELL_STYLE}
             >
               {emotion === null ? (
                 <MissingEmotionTile onPress={onRequestEmotion} />
@@ -79,13 +80,7 @@ export const EmotionBasicSelection = ({
               )}
             </View>
           ))}
-          {row.length === 1 && (
-            <View
-              style={{
-                flex: 1,
-              }}
-            />
-          )}
+          {row.length === 1 && <View style={CELL_STYLE} />}
         </View>
       ))}
     </View>

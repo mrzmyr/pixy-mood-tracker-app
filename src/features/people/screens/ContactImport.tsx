@@ -22,6 +22,7 @@ import { PersonAvatar } from "../components/PersonAvatar";
 import type { ContactRow as Row } from "../contactImport";
 import { useContactImport } from "../hooks/useContactImport";
 import { useContactThumbnail } from "../hooks/useContactThumbnail";
+import { RADIUS } from "@/constants/Radius";
 
 const ROW_HEIGHT = 56;
 
@@ -144,7 +145,7 @@ export const ContactImport = () => {
             color: colors.textInputText,
             backgroundColor: colors.textInputBackground,
             padding: 12,
-            borderRadius: 8,
+            borderRadius: RADIUS.sm,
           }}
           placeholder={t("people_import_search")}
           placeholderTextColor={colors.textInputPlaceholder}

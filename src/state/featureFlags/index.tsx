@@ -1,4 +1,3 @@
-import noop from "lodash/noop";
 import { usePostHog } from "posthog-react-native";
 import {
   createContext,
@@ -9,9 +8,14 @@ import {
   useSyncExternalStore,
 } from "react";
 import { createStructuredError } from "@/lib/errors";
-import { useSettings } from "@/state/settings";
+import { useSettings, useSettingsLoad } from "@/state/settings";
 import type { FeatureFlag } from "@/state/featureFlags/keys";
-import { DEV_OVERRIDES } from "@/state/featureFlags/overrides";
+import {
+  getOverrides,
+  IS_OVERRIDE_BUILD,
+  OVERRIDE_ACCESS_FLAG,
+  subscribe,
+} from "@/state/featureFlags/overrides";
 
 type RemoteFlags = Record<string, boolean | string>;
 
@@ -27,10 +31,6 @@ const FeatureFlagsContext = createContext<FeatureFlagsValue>({
   flags: null,
   isLoading: false,
 });
-
-const EMPTY_OVERRIDES = {};
-const subscribeNothing = () => noop;
-const getEmptyOverrides = () => EMPTY_OVERRIDES;
 
 /**
  * Loads PostHog feature flags only after the user agreed to share data:
@@ -53,11 +53,12 @@ export const FeatureFlagsProvider = ({
 }) => {
   const posthog = usePostHog();
   const { settings, hasActionDone } = useSettings();
+  const isSettingsReady = useSettingsLoad().status === "ready";
   const [remoteFlags, setRemoteFlags] = useState<RemoteFlags | null>(null);
 
   const hasConsent =
     options.enabled &&
-    settings.loaded &&
+    isSettingsReady &&
     hasActionDone("onboarding") &&
     settings.analyticsEnabled;
 
@@ -100,7 +101,7 @@ export const FeatureFlagsProvider = ({
 
   const isLoading =
     options.enabled &&
-    (!settings.loaded || (hasConsent && remoteFlags === null));
+    (!isSettingsReady || (hasConsent && remoteFlags === null));
   const value = useMemo(
     () => ({ flags: remoteFlags, isLoading }),
     [remoteFlags, isLoading]
@@ -113,6 +114,17 @@ export const FeatureFlagsProvider = ({
   );
 };
 
+/**
+ * Whether this device may override flags: always in development and preview
+ * builds, in production only while the PostHog flag
+ * `feature-flag-overrides` is on. That flag needs consent.
+ */
+// oxlint-disable-next-line pixy-standards/boolean-function-prefix -- React hooks must start with `use`.
+export const useCanOverrideFeatureFlags = (): boolean => {
+  const { flags: remoteFlags } = useContext(FeatureFlagsContext);
+  return IS_OVERRIDE_BUILD || remoteFlags?.[OVERRIDE_ACCESS_FLAG] === true;
+};
+
 /** Feature state: `loading` while settings or the first flag request after consent are pending. */
 export type FeatureFlagState = "on" | "off" | "loading";
 
@@ -122,11 +134,10 @@ export type FeatureFlagState = "on" | "off" | "loading";
  */
 export const useFeatureFlagState = (key: FeatureFlag): FeatureFlagState => {
   const { flags: remoteFlags, isLoading } = useContext(FeatureFlagsContext);
-  const overrides = useSyncExternalStore(
-    DEV_OVERRIDES?.subscribe ?? subscribeNothing,
-    DEV_OVERRIDES?.getOverrides ?? getEmptyOverrides
-  );
-  const override = overrides[key];
+  const overrides = useSyncExternalStore(subscribe, getOverrides);
+  const canOverride = useCanOverrideFeatureFlags();
+  const override =
+    canOverride && key !== OVERRIDE_ACCESS_FLAG ? overrides[key] : undefined;
 
   if (override === "on") {
     return "on";
@@ -143,7 +154,8 @@ export const useFeatureFlagState = (key: FeatureFlag): FeatureFlagState => {
 /**
  * Whether a feature is on. A local override from Settings > Development >
  * Feature flags wins in development and preview builds, also without
- * consent. Otherwise the PostHog flag decides once it loaded after consent.
+ * consent. Production builds apply it only while
+ * {@link useCanOverrideFeatureFlags} is true. Otherwise the PostHog flag decides once it loaded after consent.
  * Until then, and without consent, the feature is off.
  */
 // oxlint-disable-next-line pixy-standards/boolean-function-prefix -- React hooks must start with `use`.

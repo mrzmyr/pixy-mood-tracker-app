@@ -4,12 +4,16 @@
  */
 export const FEATURE_FLAGS = [
   "app-icons",
+  "backup",
+  "development",
+  "emotion-icons",
+  "feature-flag-overrides",
   "interventions",
+  "ios-widget",
+  "location",
+  "people",
   "photos",
   "support-pixy",
-  "people",
-  "ios-widget",
-  "backup",
 ] as const;
 
 /** One key of {@link FEATURE_FLAGS}. */

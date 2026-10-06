@@ -123,18 +123,23 @@ export const useCloudFile = ({
     [fail]
   );
 
-  // Load the cloud backup whenever backup turns on.
+  // Load the cloud backup whenever backup turns on. Only then: `load`
+  // changes with every settings change (through `analytics`), and a read
+  // after each write would replace the file just written.
+  const loadOnEnable = useEffectEvent((isStopped: () => boolean) =>
+    load(isStopped)
+  );
   useEffect(() => {
     if (!enabled) {
       return;
     }
     let isCancelled = false;
     // oxlint-disable-next-line react/set-state-in-effect -- load awaits iCloud or Google Drive before any setState; this effect syncs with that external system
-    load(() => isCancelled);
+    loadOnEnable(() => isCancelled);
     return () => {
       isCancelled = true;
     };
-  }, [enabled, load]);
+  }, [enabled]);
 
   // Coming back to the app: read the cloud again. Another phone may have
   // written since, and a failed or unavailable cloud may work again now.

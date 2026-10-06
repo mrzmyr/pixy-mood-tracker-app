@@ -1,4 +1,3 @@
-import dayjs from "dayjs";
 import isEqual from "lodash/isEqual";
 import {
   createContext,
@@ -8,311 +7,75 @@ import {
   useState,
 } from "react";
 import { useLogState } from "@/features/logs";
-import type { LogItem } from "@/features/logs";
-
 import { useTagsState } from "@/features/tags";
 import { usePeopleState } from "@/features/people";
-import {
-  defaultPeopleDistributionData,
-  getPeopleDistributionData,
-} from "./PeopleDistribution";
-import type { PeopleDistributionData } from "./PeopleDistribution";
-import { defaultPeoplePeaksData, getPeoplePeaksData } from "./PeoplePeaks";
-import type { PeoplePeaksData } from "./PeoplePeaks";
-import { defaultMoodAvgData, getMoodAvgData } from "./MoodAvg";
-import type { MoodAvgData } from "./MoodAvg";
-
-import {
-  defaultMoodPeaksNegativeData,
-  defaultMoodPeaksPositiveData,
-  getMoodPeaksNegativeData,
-  getMoodPeaksPositiveData,
-} from "./MoodPeaks";
-import type { MoodPeaksNegativeData, MoodPeaksPositiveData } from "./MoodPeaks";
-
-import {
-  defaultStreaksData,
-  getCurrentStreak,
-  getLongestStreak,
-} from "./Streaks";
-import type { StreaksData } from "./Streaks";
-
-import {
-  defaultTagsDistributionData,
-  getTagsDistributionData,
-} from "./TagsDistribution";
-import type { TagsDistributionData } from "./TagsDistribution";
-
-import { getTagsPeaksData } from "./TagsPeaks";
-import type { TagsPeakData } from "./TagsPeaks";
-
-import {
-  defaultEmotionsDistributionData,
-  getEmotionsDistributionData,
-} from "./EmotionsDistributuon";
-import type { EmotionsDistributionData } from "./EmotionsDistributuon";
-
-import {
-  defaultSleepQualityDistributionDataForXDays,
-  getSleepQualityDistributionForXDays,
-} from "./SleepQualityDistribution";
-import type { SleepQualityDistributionData } from "./SleepQualityDistribution";
-
-import { DATE_FORMAT } from "@/constants/Config";
 import { createMissingProviderError } from "@/lib/errors";
-import { getItemTime } from "@/lib/logDates";
+import { buildHighlightsReport } from "./highlightsReport";
+import type { HighlightsReport } from "./highlightsReport";
 
 const DELAY_LOADING = 1 * 1000;
 
-const STATISTIC_TYPES = [
-  "mood_avg",
-  "mood_peaks_negative",
-  "mood_peaks_positive",
-  "tags_peaks",
-  "tags_distribution",
-  "people_peaks",
-  "people_distribution",
-];
-
-type StatisticType = (typeof STATISTIC_TYPES)[number];
-
-interface StatisticsState {
-  loaded: boolean;
-  itemsCount: number;
-  moodAvgData: MoodAvgData;
-  moodPeaksPositiveData: MoodPeaksPositiveData;
-  moodPeaksNegativeData: MoodPeaksNegativeData;
-  emotionsDistributionData: EmotionsDistributionData;
-  tagsPeaksData: TagsPeakData;
-  tagsDistributionData: TagsDistributionData;
-  peopleDistributionData: PeopleDistributionData;
-  peoplePeaksData: PeoplePeaksData;
-  sleepQualityDistributionData: SleepQualityDistributionData;
-  streaks: StreaksData;
-}
-
 interface Value {
-  load: ({ force }: { force: boolean }) => void;
-  isAvailable: (type: StatisticType) => boolean;
-  isHighlighted: (type: StatisticType) => boolean;
+  /** `null` until the first {@link Value.refresh}. */
+  report: HighlightsReport | null;
   isLoading: boolean;
-  state: StatisticsState;
+  /**
+   * Rebuild the report for the current time. Skips the loading state when
+   * the report is unchanged, unless `force` is set.
+   */
+  refresh: (options?: { force?: boolean }) => void;
 }
 
 // SAFETY: every consumer renders inside StatisticsProvider, which supplies the full Value.
 const StatisticsContext = createContext({} as Value);
 
 /**
- * Computes statistics for the statistics tab.
+ * Caches the highlights report for the statistics tab.
  *
- * Nothing is computed until a consumer calls `load`, which skips the work
- * when log items are unchanged unless `force` is set. Highlights cover the
- * last 14 days. Must render inside the logs, tags, and people providers.
+ * Nothing is computed until a consumer calls `refresh`. Must render inside
+ * the logs, tags, and people providers.
  */
 export const StatisticsProvider = ({
   children,
 }: {
   children: React.ReactNode;
 }) => {
-  const logState = useLogState();
+  const { items } = useLogState();
   const { tags } = useTagsState();
   const { people } = usePeopleState();
   const [isLoading, setIsLoading] = useState(false);
-  const [prevHighlightItems, setPrevHighlightItems] = useState<LogItem[]>([]);
-  const [prevTrendsItems, setPrevTrendsItems] = useState<LogItem[]>([]);
+  const [report, setReport] = useState<HighlightsReport | null>(null);
 
-  const [state, setState] = useState<StatisticsState>({
-    loaded: false,
-    itemsCount: 0,
-    moodAvgData: defaultMoodAvgData,
-    moodPeaksPositiveData: defaultMoodPeaksPositiveData,
-    moodPeaksNegativeData: defaultMoodPeaksNegativeData,
-    emotionsDistributionData: defaultEmotionsDistributionData,
-    tagsDistributionData: defaultTagsDistributionData,
-    peopleDistributionData: defaultPeopleDistributionData,
-    peoplePeaksData: defaultPeoplePeaksData,
-    sleepQualityDistributionData: defaultSleepQualityDistributionDataForXDays(),
-    streaks: defaultStreaksData,
-    tagsPeaksData: {
-      tags: [],
-    },
-  });
+  const refresh = useCallback(
+    ({ force = false }: { force?: boolean } = {}) => {
+      const next = buildHighlightsReport({
+        items,
+        tags,
+        people,
+        now: new Date(),
+      });
 
-  const load = useCallback(
-    ({ force = false }: { force?: boolean }) => {
-      const highlightsStartTime = dayjs().subtract(14, "day").valueOf();
-      const highlightItems = logState.items.filter(
-        (item) => getItemTime(item) > highlightsStartTime
-      );
-      const trendsItems = logState.items;
+      if (!force && isEqual(report, next)) {
+        return;
+      }
 
-      const highlightItemsChanged = !isEqual(
-        prevHighlightItems,
-        highlightItems
-      );
-      const trendsItemsChanged = !isEqual(prevTrendsItems, trendsItems);
+      setReport(next);
 
-      if (!highlightItemsChanged && !trendsItemsChanged && !force) {
+      if (!next.unlocked) {
         return;
       }
 
       setIsLoading(true);
-
-      const moodAvgData = getMoodAvgData(highlightItems);
-      const moodPeaksPositiveData = getMoodPeaksPositiveData(highlightItems);
-      const moodPeaksNegativeData = getMoodPeaksNegativeData(highlightItems);
-      const tagsPeaksData = getTagsPeaksData(highlightItems, tags);
-      const tagsDistributionData = getTagsDistributionData(
-        highlightItems,
-        tags
-      );
-
-      const peopleDistributionData = getPeopleDistributionData(
-        highlightItems,
-        people
-      );
-      const peoplePeaksData = getPeoplePeaksData(highlightItems, people);
-
-      const emotionsDistributionData =
-        getEmotionsDistributionData(highlightItems);
-
-      const sleepQualityDistributionData = getSleepQualityDistributionForXDays(
-        highlightItems,
-        dayjs().subtract(14, "day").format(DATE_FORMAT),
-        30
-      );
-
-      const newState = {
-        loaded: true,
-        itemsCount: highlightItems.length,
-        moodAvgData,
-        moodPeaksPositiveData,
-        moodPeaksNegativeData,
-        tagsPeaksData,
-        tagsDistributionData,
-        peopleDistributionData,
-        peoplePeaksData,
-        emotionsDistributionData,
-        sleepQualityDistributionData,
-        streaks: {
-          longest: getLongestStreak(logState.items),
-          current: getCurrentStreak(logState.items),
-        },
-      };
-
-      setPrevHighlightItems(highlightItems);
-      setPrevTrendsItems(trendsItems);
-      setState(newState);
-
       setTimeout(() => {
         setIsLoading(false);
       }, DELAY_LOADING);
-
-      return newState;
     },
-    [logState.items, prevHighlightItems, prevTrendsItems, tags, people]
-  );
-
-  const isAvailable = useCallback(
-    (type: (typeof STATISTIC_TYPES)[number]) => {
-      if (type === "mood_avg") {
-        return state.moodAvgData?.itemsCount > 0;
-      }
-      if (type === "mood_peaks_positive") {
-        return state.moodPeaksPositiveData?.days.length > 0;
-      }
-      if (type === "mood_peaks_negative") {
-        return state.moodPeaksNegativeData?.days.length > 0;
-      }
-      if (type === "tags_peaks") {
-        return state.tagsPeaksData?.tags.length > 0;
-      }
-      if (type === "tags_distribution") {
-        return state.tagsDistributionData?.tags.length > 0;
-      }
-      if (type === "people_distribution") {
-        return state.peopleDistributionData.people.length > 0;
-      }
-      if (type === "people_peaks") {
-        return state.peoplePeaksData.people.length > 0;
-      }
-      if (type === "emotions_distribution") {
-        return state.emotionsDistributionData?.emotions.length > 3;
-      }
-      if (type === "sleep_quality_distribution") {
-        return state.sleepQualityDistributionData?.some(
-          (item) => item.value !== null
-        );
-      }
-      return false;
-    },
-    [state]
-  );
-
-  const isHighlighted = useCallback(
-    (type: (typeof STATISTIC_TYPES)[number]) => {
-      if (type === "mood_avg") {
-        return (
-          isAvailable(type) && state.moodAvgData.ratingHighestPercentage > 60
-        );
-      }
-
-      if (type === "mood_peaks_positive") {
-        return (
-          isAvailable(type) && state.moodPeaksPositiveData.days.length >= 2
-        );
-      }
-
-      if (type === "mood_peaks_negative") {
-        return (
-          isAvailable(type) && state.moodPeaksNegativeData.days.length >= 2
-        );
-      }
-
-      if (type === "tags_peaks") {
-        return (
-          isAvailable(type) &&
-          state.tagsPeaksData.tags.some((tag) => tag.items.length > 5)
-        );
-      }
-
-      if (type === "tags_distribution" || type === "people_distribution") {
-        return isAvailable(type);
-      }
-
-      // A person needs a visible difference to make the short list.
-      if (type === "people_peaks") {
-        return (
-          isAvailable(type) &&
-          state.peoplePeaksData.people.some(
-            (entry) => Math.abs(entry.delta) >= 0.5
-          )
-        );
-      }
-
-      if (type === "emotions_distribution") {
-        return (
-          isAvailable(type) &&
-          state.emotionsDistributionData.emotions.some(
-            (emotion) => emotion.count > 5
-          )
-        );
-      }
-
-      return false;
-    },
-    [isAvailable, state]
+    [items, tags, people, report]
   );
 
   const value: Value = useMemo(
-    () => ({
-      load,
-      isAvailable,
-      isHighlighted,
-      isLoading,
-      state,
-    }),
-    [load, isAvailable, isHighlighted, isLoading, state]
+    () => ({ report, isLoading, refresh }),
+    [report, isLoading, refresh]
   );
 
   return (
@@ -323,7 +86,7 @@ export const StatisticsProvider = ({
 };
 
 /**
- * Statistics state and loader. Must render inside {@link StatisticsProvider}.
+ * Highlights report and refresh. Must render inside {@link StatisticsProvider}.
  */
 export const useStatistics = (): Value => {
   const context = useContext(StatisticsContext);

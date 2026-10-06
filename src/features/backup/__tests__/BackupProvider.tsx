@@ -8,6 +8,7 @@ import { INITIAL_STATE } from "@/constants/Settings";
 import {
   LogsProvider,
   STORAGE_KEY as LOGS_KEY,
+  useLogLoad,
   useLogState,
 } from "@/features/logs";
 import { PeopleProvider } from "@/features/people";
@@ -126,10 +127,13 @@ const renderBackup = async () => {
       backup: useBackup(),
       settings: useSettings(),
       logs: useLogState(),
+      logsLoad: useLogLoad(),
     }),
     { wrapper }
   );
-  await waitFor(() => expect(hook.result.current.logs.loaded).toBe(true));
+  await waitFor(() =>
+    expect(hook.result.current.logsLoad.status).toBe("ready")
+  );
   return hook;
 };
 
@@ -290,7 +294,7 @@ describe("BackupProvider", () => {
     await act(() =>
       hook.result.current.settings.setSettings((current) => ({
         ...current,
-        steps: current.steps.filter((step) => step !== "sleep"),
+        steps: current.steps.filter((step) => step !== "feedback"),
       }))
     );
     await waitForAutoBackup();
@@ -393,7 +397,7 @@ describe("BackupProvider", () => {
     await act(() =>
       hook.result.current.settings.setSettings((current) => ({
         ...current,
-        steps: current.steps.filter((step) => step !== "sleep"),
+        steps: current.steps.filter((step) => step !== "feedback"),
       }))
     );
     await waitForAutoBackup();

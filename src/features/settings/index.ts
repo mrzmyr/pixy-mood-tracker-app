@@ -2,6 +2,7 @@ export { AppIconScreen } from "./screens/AppIcon";
 export { BackupScreen } from "./screens/Backup";
 export { ColorsScreen } from "./screens/Colors";
 export { DevelopmentTools } from "./screens/DevelopmentTools";
+export { FeatureFlagsScreen } from "./screens/FeatureFlags";
 export { LicensesScreen } from "./screens/Licenses";
 export { PrivacyScreen } from "./screens/Privacy";
 export { SettingsScreen } from "./screens/Settings";
@@ -15,6 +16,5 @@ export {
   DevFakeContactsLinkScreen,
   DevFakeFilesLinkScreen,
   DevFakeCloudLinkScreen,
-  DevFeatureFlagsScreen,
   DevFeatureFlagLinkScreen,
 } from "./DevRoutes";

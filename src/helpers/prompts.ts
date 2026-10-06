@@ -121,7 +121,7 @@ export const askToTurnOffBackup = () =>
   });
 
 /**
- * Ask before deleting all entries, tags, and settings.
+ * Ask before deleting all entries, photos, tags, people, and settings.
  *
  * @returns Resolves when the user confirms; rejects with a `prompt_cancelled`
  *   error on cancel.

@@ -3,6 +3,7 @@ import { View } from "react-native";
 import type { ViewStyle } from "react-native";
 
 import useColors from "@/hooks/useColors";
+import { RADIUS } from "@/constants/Radius";
 
 const DEFAULT_STYLE = {};
 
@@ -20,7 +21,7 @@ const MenuList = ({
       style={[
         {
           backgroundColor: colors.menuListItemBackground,
-          borderRadius: 8,
+          borderRadius: RADIUS.md,
           overflow: "hidden",
         },
         style,

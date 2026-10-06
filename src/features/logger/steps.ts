@@ -94,3 +94,26 @@ export const getAvailableStepsForEdit = ({
 
   return slides;
 };
+
+/**
+ * Floating button on the rating slide. Hidden on a fresh create logger until
+ * the user moves the carousel. With rating as the only slide, the button
+ * saves, so it shows `save`; otherwise it shows `next`.
+ */
+export const getRatingActionType = ({
+  slideCount,
+  slideIndex,
+  isTouched,
+  mode,
+}: {
+  slideCount: number;
+  slideIndex: number;
+  isTouched: boolean;
+  mode: "create" | "edit";
+}): "next" | "save" | "hidden" => {
+  const isVisible = slideIndex !== 0 || isTouched || mode === "edit";
+  if (!isVisible) {
+    return "hidden";
+  }
+  return slideCount === 1 ? "save" : "next";
+};

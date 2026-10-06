@@ -1,6 +1,6 @@
 import React, { isValidElement, useCallback } from "react";
 import { Pressable, Text, View } from "react-native";
-import type { TextStyle, ViewStyle } from "react-native";
+import type { AccessibilityValue, TextStyle, ViewStyle } from "react-native";
 
 import { ChevronRight } from "react-native-feather";
 import useColors from "@/hooks/useColors";
@@ -49,6 +49,7 @@ const MenuListItem = ({
   style = DEFAULT_STYLE,
   children,
   testID,
+  accessibilityValue,
 }: {
   title?: string | React.ReactElement;
   /** Current value or status, shown in gray before the right icon. */
@@ -61,6 +62,8 @@ const MenuListItem = ({
   deactivated?: boolean;
   style?: ViewStyle & TextStyle;
   testID?: string;
+  /** Current value, read after the title, for example a selected option. */
+  accessibilityValue?: AccessibilityValue;
 }) => {
   const colors = useColors();
   const haptics = useHaptics();
@@ -108,6 +111,7 @@ const MenuListItem = ({
             ...style,
           },
         ]}
+        accessibilityValue={accessibilityValue}
         testID={testID}
       >
         {(iconLeft || title) && (

@@ -18,6 +18,7 @@ import type {
   MoodPeaksPositiveData,
 } from "../../MoodPeaks";
 import { HeaderWeek } from "./HeaderWeek";
+import { RADIUS } from "@/constants/Radius";
 
 const getDayDotOpacity = (isPressed: boolean, isFuture: boolean) => {
   if (isPressed) {
@@ -54,7 +55,7 @@ const DayDot = ({ date, day }: { date: Date; day: LogDay | undefined }) => {
         aspectRatio: 1,
         justifyContent: "center",
         alignItems: "center",
-        borderRadius: 100,
+        borderRadius: RADIUS.full,
         backgroundColor: color.bg,
         maxWidth: 32,
         maxHeight: 32,

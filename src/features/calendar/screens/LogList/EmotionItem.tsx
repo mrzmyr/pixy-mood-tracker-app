@@ -1,10 +1,11 @@
 import { EmotionIndicator } from "@/features/logger";
 import useColors from "@/hooks/useColors";
-import { t } from "@/lib/translation";
+import { tDynamic } from "@/lib/translation";
 import type { Emotion } from "@/types";
 import { Text, View } from "react-native";
+import { RADIUS } from "@/constants/Radius";
 
-/** Emotion chip with its category dot, used in entries and statistics. */
+/** Emotion chip with its category marker, used in entries and statistics. */
 export const EmotionItem = ({
   emotion,
 }: {
@@ -18,7 +19,7 @@ export const EmotionItem = ({
         style={{
           paddingVertical: 6,
           paddingHorizontal: 12,
-          borderRadius: 8,
+          borderRadius: RADIUS.sm,
           backgroundColor: colors.logCardBackground,
           borderWidth: 1,
           borderColor: colors.logCardBorder,
@@ -27,14 +28,14 @@ export const EmotionItem = ({
           alignItems: "center",
         }}
       >
-        <EmotionIndicator category={emotion.category} />
+        <EmotionIndicator emotion={emotion} />
         <Text
           style={{
             color: colors.text,
             fontSize: 17,
           }}
         >
-          {t(`log_emotion_${emotion.key}`)}
+          {tDynamic(`log_emotion_${emotion.key}`)}
         </Text>
       </View>
     </View>

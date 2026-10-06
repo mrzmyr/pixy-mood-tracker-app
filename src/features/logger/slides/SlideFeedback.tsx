@@ -10,6 +10,7 @@ import type { IQuestion } from "@/features/questioner";
 import LinkButton from "@/components/LinkButton";
 import { SlideHeadline } from "../components/SlideHeadline";
 import { Footer } from "./Footer";
+import { RADIUS } from "@/constants/Radius";
 
 const AnswerSelector = ({
   answer,
@@ -31,7 +32,7 @@ const AnswerSelector = ({
     <Pressable
       style={({ pressed }) => ({
         opacity: pressed ? 0.8 : 1,
-        borderRadius: 8,
+        borderRadius: RADIUS.sm,
         backgroundColor: colors.logActionBackground,
         alignItems: "center",
         justifyContent: "center",

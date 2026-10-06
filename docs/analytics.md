@@ -10,6 +10,7 @@
 - Off switch: Settings > Privacy > Behavioral Data
 - Feature flags load only with consent ([development.md](development.md#feature-flags))
 - People ([spec](specs/people.md#analytics)): `people:person_added`, `people:contacts_imported` (count, avatars count, limited access), `people:person_updated`, `people:delete_requested`, `people:person_deleted`, `people:delete_cancelled`. Counts and booleans only, never names or photos. `logger:log_saved`, confirmation events, and `calendar:filters_applied` add `people_count`. Usage summary adds `people_count` and `archived_people_count`. Highlights events add `people_distribution_show`, `people_distribution_count`, `people_peaks_show`, `people_peaks_count` while the flag is on
+- Location ([development.md](development.md#location)): `settings:location_toggled` (`enabled`). `logger:log_saved` adds `has_location`. Never coordinates or place names
 - Data exports: `data:export_started`, `data:export_completed`, `data:export_failed` send `format: "json" | "csv"`.
 - Store review prompt: `logger:store_review_requested` ([`src/features/review`](../src/features/review))
   - Fires once per install, after the save that reaches 7 entries
@@ -126,7 +127,7 @@ Use this section to join old and new events in PostHog, for example with an Acti
   - `statistics_feedback_store_review_done`
   - `statistics_feedback_store_review_error`
 - New names never shipped in a release: `statistics:card_feedback_submitted`, `statistics:store_review_requested`, `statistics:store_review_completed`, `statistics:store_review_failed`
-- `feedback:type_changed`: feedback modal lost its type selector. Settings opens it as "Request a feature" (`type: "idea"`) or "Report a bug" (`type: "issue"`). Use `type` on `feedback:modal_opened`
+- `feedback:type_changed`: feedback modal lost its type selector. Settings opens it as "Request Feature" (`type: "idea"`) or "Report Bug" (`type: "issue"`). Use `type` on `feedback:modal_opened`
 
 **Renames**
 

@@ -1,6 +1,9 @@
 import { z } from "zod";
 import { pixySchema } from "@/features/datagate";
-import type { ExportData } from "@/features/datagate";
+import type { Backup } from "@/features/datagate";
+
+/** Contents of an export file. Backups reuse this format. */
+export type ExportData = Backup & { version: string };
 
 /**
  * Backup file contents: the normal export plus where and when it was made.
