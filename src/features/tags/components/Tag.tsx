@@ -15,6 +15,7 @@ const Tag = ({
   colorName,
   onPress,
   onLongPress,
+  compact = false,
   style = DEFAULT_STYLE,
 }: {
   title: string;
@@ -23,6 +24,8 @@ const Tag = ({
   onPress?: () => void;
   /** Opens the tag editor; also offered as the "edit" accessibility action. */
   onLongPress?: () => void;
+  /** Small read-only pill for dense rows, like timeline cards. */
+  compact?: boolean;
   style?: ViewStyle;
 }) => {
   const colors = useColors();
@@ -45,8 +48,8 @@ const Tag = ({
           : colors.tagBackground,
         borderColor: selected ? colors.tint : unselectedBorderColor,
         borderWidth: 1,
-        paddingHorizontal: 16,
-        paddingVertical: 8,
+        paddingHorizontal: compact ? 10 : 16,
+        paddingVertical: compact ? 4 : 8,
         opacity: pressed && onPress ? 0.8 : 1,
         ...style,
       })}
@@ -76,17 +79,17 @@ const Tag = ({
     >
       <View
         style={{
-          width: 8,
-          height: 8,
+          width: compact ? 6 : 8,
+          height: compact ? 6 : 8,
           borderRadius: RADIUS.sm,
-          marginRight: 10,
+          marginRight: compact ? 6 : 10,
           backgroundColor: colors.tags[colorName]?.dot,
         }}
       />
       <Text
         style={{
           color: selected ? colors.tagTextActive : colors.tagText,
-          fontSize: 17,
+          fontSize: compact ? 13 : 17,
         }}
       >
         {title}

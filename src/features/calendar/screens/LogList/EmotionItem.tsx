@@ -8,8 +8,11 @@ import { RADIUS } from "@/constants/Radius";
 /** Emotion chip with its category marker, used in entries and statistics. */
 export const EmotionItem = ({
   emotion,
+  compact = false,
 }: {
   emotion: Pick<Emotion, "key" | "category">;
+  /** Small chip for dense rows, like timeline cards. */
+  compact?: boolean;
 }) => {
   const colors = useColors();
 
@@ -17,8 +20,8 @@ export const EmotionItem = ({
     <View>
       <View
         style={{
-          paddingVertical: 6,
-          paddingHorizontal: 12,
+          paddingVertical: compact ? 4 : 6,
+          paddingHorizontal: compact ? 8 : 12,
           borderRadius: RADIUS.sm,
           backgroundColor: colors.logCardBackground,
           borderWidth: 1,
@@ -28,11 +31,11 @@ export const EmotionItem = ({
           alignItems: "center",
         }}
       >
-        <EmotionIndicator emotion={emotion} />
+        <EmotionIndicator emotion={emotion} compact={compact} />
         <Text
           style={{
             color: colors.text,
-            fontSize: 17,
+            fontSize: compact ? 13 : 17,
           }}
         >
           {tDynamic(`log_emotion_${emotion.key}`)}

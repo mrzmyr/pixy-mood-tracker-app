@@ -18,8 +18,11 @@ import { RADIUS } from "@/constants/Radius";
  */
 export const EmotionIndicator = ({
   emotion,
+  compact = false,
 }: {
   emotion: Pick<Emotion, "key" | "category">;
+  /** Smaller icon or dot for compact chips. */
+  compact?: boolean;
 }) => {
   const scaleType = useSetting("scaleType");
   const scale = useScale(scaleType);
@@ -38,9 +41,13 @@ export const EmotionIndicator = ({
 
   if (isIconsEnabled && icon) {
     return (
-      <View testID={`emotion-icon-${emotion.key}`} style={{ marginRight: 8 }}>
+      <View
+        testID={`emotion-icon-${emotion.key}`}
+        style={{ marginRight: compact ? 4 : 8 }}
+      >
         <EmotionIcon
           icon={icon}
+          size={compact ? 14 : 20}
           tint={color.background}
           stroke={
             // Light category colors are too pale for a thin outline on white.
@@ -56,11 +63,11 @@ export const EmotionIndicator = ({
   return (
     <View
       style={{
-        width: 8,
-        height: 8,
+        width: compact ? 6 : 8,
+        height: compact ? 6 : 8,
         backgroundColor: color.background,
         borderRadius: RADIUS.full,
-        marginRight: 10,
+        marginRight: compact ? 6 : 10,
         paddingRight: 8,
       }}
     />

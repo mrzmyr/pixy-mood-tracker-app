@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Text, View } from "react-native";
 import useColors from "@/hooks/useColors";
 
-const LINE_HEIGHT = 26;
+const LINE_HEIGHT = 22;
 const MAX_LINES = 4;
 // Text past this never shows; skipping it keeps layout cheap for 10,000
 // character notes.
@@ -31,7 +31,7 @@ export const FadingNote = ({ message }: { message: string }) => {
               visible.length < message.length
           );
         }}
-        style={{ fontSize: 20, lineHeight: LINE_HEIGHT, color: colors.text }}
+        style={{ fontSize: 17, lineHeight: LINE_HEIGHT, color: colors.text }}
       >
         {visible}
       </Text>
