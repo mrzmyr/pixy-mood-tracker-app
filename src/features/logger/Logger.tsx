@@ -60,8 +60,8 @@ const SLIDE_ORDER: LoggerStep[] = [
   "emotions",
   "tags",
   "people",
-  "message",
   "photos",
+  "message",
   "reminder",
   "feedback",
 ];
@@ -128,19 +128,6 @@ const useStepSlides = ({
     });
   }
 
-  if (slideKeys.includes("message")) {
-    slides.push({
-      key: "message",
-      slide: (
-        <SlideMessage
-          onDisableStep={() => disableStep("message")}
-          ref={texAreaRef}
-          showDisable={showDisable}
-        />
-      ),
-    });
-  }
-
   if (slideKeys.includes("photos")) {
     slides.push({
       key: "photos",
@@ -153,6 +140,19 @@ const useStepSlides = ({
             showDisable={showDisable}
           />
         </FlagHighlight>
+      ),
+    });
+  }
+
+  if (slideKeys.includes("message")) {
+    slides.push({
+      key: "message",
+      slide: (
+        <SlideMessage
+          onDisableStep={() => disableStep("message")}
+          ref={texAreaRef}
+          showDisable={showDisable}
+        />
       ),
     });
   }

@@ -38,10 +38,6 @@ tags: [p1, photos]
 - tapOn:
     id: "logger-next"
 - assertVisible:
-    id: "log-message"
-- tapOn:
-    id: "logger-next"
-- assertVisible:
     id: "slide-photos"
 
 # One grid, photos check in place. The counter shows the limit up front.
@@ -149,6 +145,11 @@ tags: [p1, photos]
 - assertNotVisible:
     id: "photo-viewer"
 
+# The message step follows photos.
+- tapOn:
+    id: "logger-next"
+- assertVisible:
+    id: "log-message"
 - runFlow: ../subflows/save-past-feedback.yaml
 - runFlow: ../subflows/close-confirmation.yaml
 - tapOn:
