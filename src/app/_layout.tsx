@@ -92,9 +92,9 @@ const RootLayout = () => {
           <AppShell />
           <ToastHost />
           <StatusBar />
+          <LaunchSplash />
         </Providers>
       </ThemeProvider>
-      <LaunchSplash />
     </GestureHandlerRootView>
   );
 };
