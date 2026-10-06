@@ -21,6 +21,7 @@ import CalendarHeader from "./CalendarHeader";
 import { CalendarFloatButton } from "./CalendarFloatButton";
 import { useFootNote } from "./footNote";
 import { Timeline } from "./Timeline";
+import { CalendarMap } from "./Map";
 import { ObserveInteractiveMarker } from "expo-observe";
 import { useRouter } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -48,7 +49,9 @@ const CalendarScreenComponent = () => {
   const analytics = useAnalytics();
   const logState = useLogState();
   const calendarFilters = useCalendarFilters();
-  const isTimeline = useCalendarLayout().layout === "timeline";
+  const { layout } = useCalendarLayout();
+  // Timeline and map: no weekday row, no scroll to today.
+  const isCalendar = layout === "calendar";
   const { text: footNote, onOverscroll: onFootNoteOverscroll } = useFootNote();
   const [isAwayFromToday, setIsAwayFromToday] = useState(false);
   // Footer (news card, foot note) sits below today, so the chevron waits
@@ -58,9 +61,9 @@ const CalendarScreenComponent = () => {
   const headerHeight = useContext(HeaderHeightContext) ?? 0;
   const [weekdayHeight, setWeekdayHeight] = useState(0);
   // A floating header overlaps the list, so the list starts below it. The
-  // timeline has no weekday row.
+  // timeline and the map have no weekday row.
   const topInset = HAS_FLOATING_HEADER
-    ? headerHeight + (isTimeline ? 0 : weekdayHeight)
+    ? headerHeight + (isCalendar ? weekdayHeight : 0)
     : 0;
   const showFloatButton = !calendarFilters.isOpen;
   const today = dayjs().format(DATE_FORMAT);
@@ -92,11 +95,7 @@ const CalendarScreenComponent = () => {
   const filtersBody =
     Platform.OS === "web" && calendarFilters.isOpen ? <Body /> : null;
 
-  const calendarList = isTimeline ? (
-    <View style={{ flex: 1, backgroundColor: colors.calendarBackground }}>
-      <Timeline header={filtersBody} topInset={topInset} />
-    </View>
-  ) : (
+  const calendarList = isCalendar ? (
     <View style={{ flex: 1, backgroundColor: colors.calendarBackground }}>
       <Calendar
         listRef={scrollRef}
@@ -134,10 +133,19 @@ const CalendarScreenComponent = () => {
         }
       />
     </View>
+  ) : (
+    <View style={{ flex: 1, backgroundColor: colors.calendarBackground }}>
+      {/* The map fills the screen, under the floating header. */}
+      {layout === "map" ? (
+        <CalendarMap />
+      ) : (
+        <Timeline header={filtersBody} topInset={topInset} />
+      )}
+    </View>
   );
 
   let content = calendarList;
-  if (!isTimeline) {
+  if (isCalendar) {
     content = HAS_FLOATING_HEADER ? (
       <>
         {/* List first: iOS applies the scroll edge effect only to a scroll
@@ -161,8 +169,9 @@ const CalendarScreenComponent = () => {
       {content}
       {showFloatButton && (
         <CalendarFloatButton
-          // Newest entries sit at the timeline top: it always shows add.
-          isAtBottom={isTimeline || !isAwayFromToday}
+          // Newest entries sit at the timeline top, and the map does not
+          // scroll: both always show add.
+          isAtBottom={!isCalendar || !isAwayFromToday}
           hasTodayEntry={hasTodayEntry}
           onScrollToBottom={() => {
             analytics.track("calendar:today_tapped");

@@ -4,6 +4,7 @@
  */
 export const FEATURE_FLAGS = [
   "app-icons",
+  "calendar-map",
   "calendar-timeline",
   "development",
   "emotion-icons",
@@ -30,6 +31,10 @@ export const FEATURE_FLAG_DETAILS: Record<
   "app-icons": {
     description: "Flagged alternate app icons",
     location: "Settings > App icon",
+  },
+  "calendar-map": {
+    description: "Map layout for the calendar, iOS only",
+    location: "Calendar > Filters menu",
   },
   "calendar-timeline": {
     description: "Timeline layout for the calendar",

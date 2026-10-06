@@ -1,7 +1,6 @@
 import { Stack, useRouter } from "expo-router";
 import { Platform } from "react-native";
 import {
-  CALENDAR_LAYOUTS,
   getCalendarLayoutLabel,
   useCalendarFilters,
   useCalendarLayout,
@@ -24,9 +23,10 @@ const ICONS =
 
 /**
  * Calendar header buttons: Statistics on the left; Filters and Settings
- * (cog icon) on the right. With the `calendar-timeline` flag on, Filters is
- * a menu: it opens the filter sheet and holds the layout picker (Calendar,
- * Timeline). With the flag off, Filters opens the sheet.
+ * (cog icon) on the right. With the `calendar-timeline` or `calendar-map`
+ * flag on, Filters is a menu: it opens the filter sheet and holds the layout
+ * picker (Calendar, Timeline, Map). With both flags off, Filters opens the
+ * sheet.
  *
  * Native header items: Liquid Glass buttons on iOS 26 (floating over the
  * calendar, see `HAS_FLOATING_HEADER`), Material icon buttons on Android.
@@ -68,7 +68,7 @@ export const CalendarHeaderButtons = () => {
                 : t("calendar_filters_open")}
             </Stack.Toolbar.MenuAction>
             <Stack.Toolbar.Menu inline title={t("calendar_view")}>
-              {CALENDAR_LAYOUTS.map((layout) => (
+              {calendarLayout.availableLayouts.map((layout) => (
                 <Stack.Toolbar.MenuAction
                   key={layout}
                   isOn={calendarLayout.layout === layout}

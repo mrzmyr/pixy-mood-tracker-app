@@ -6,8 +6,4 @@ export { default as CalendarScreen } from "./screens/Calendar";
 export { useCalendarFilters } from "./filters";
 export { useCalendarNavigation } from "./navigation";
 export { HAS_FLOATING_HEADER } from "./floatingHeader";
-export {
-  CALENDAR_LAYOUTS,
-  getCalendarLayoutLabel,
-  useCalendarLayout,
-} from "./calendarLayout";
+export { getCalendarLayoutLabel, useCalendarLayout } from "./calendarLayout";
