@@ -2,7 +2,6 @@ import chroma from "chroma-js";
 import dayjs from "dayjs";
 import { memo, useCallback, useMemo } from "react";
 import { Platform, Pressable, StyleSheet, Text, View } from "react-native";
-import type { ViewStyle } from "react-native";
 import { useStyle } from "react-native-style-utilities";
 import { DATE_FORMAT } from "@/constants/Config";
 import useColors from "@/hooks/useColors";
@@ -11,29 +10,22 @@ import type { LogItem } from "@/features/logs";
 import { useSetting } from "@/state/settings";
 import { getRatingLabel } from "@/lib/ratingLabel";
 import { locale, t } from "@/lib/translation";
-import { BEZEL, getBezelEdgeColor, getBezelRadius } from "@/constants/Bezel";
 import { RADIUS } from "@/constants/Radius";
 
 /** Diameter of the today circle behind the day number. */
 const DAY_NUMBER_SIZE = 20;
 
 const styles = StyleSheet.create({
-  shell: {
-    width: "100%",
-    aspectRatio: 1,
-    padding: BEZEL.dayGap,
-    borderRadius: getBezelRadius(RADIUS.sm, BEZEL.dayGap),
-    borderWidth: BEZEL.borderWidth,
-    // Clips the Android ripple to the rounded shell.
-    ...Platform.select({ android: { overflow: "hidden" as const } }),
-  },
   container: {
-    flex: 1,
     flexDirection: "column",
     justifyContent: "flex-end",
     alignItems: "center",
     padding: 4,
     borderRadius: RADIUS.sm,
+    width: "100%",
+    aspectRatio: 1,
+    // Clips the Android ripple to the rounded day.
+    ...Platform.select({ android: { overflow: "hidden" as const } }),
   },
   textIndicatorParent2: {
     width: "30%",
@@ -45,8 +37,7 @@ const styles = StyleSheet.create({
     height: "50%",
     flexDirection: "row",
     justifyContent: "flex-end",
-    // No stretch: the bezel shrinks this row below the circle size, and a
-    // stretched circle turns into an oval.
+    // No stretch: a stretched today circle turns into an oval.
     alignItems: "center",
   },
   dayNumberParent2: {
@@ -104,51 +95,21 @@ const CalendarDayComponent = ({
       : colors.scales[scaleType].empty.background;
   }, [colors, isFuture, _isFiltered, isFiltering, rating, scaleType]);
 
-  // Future and filtered-out days stay flat, so logged days stand out.
-  const hasShell = !isFuture && !_isFiltered && !(!rating && isFiltering);
-
-  const shellStyles = useStyle(
+  const containerStyles = useStyle(
     () => [
-      styles.shell,
-      hasShell
-        ? {
-            borderColor: colors.bezelBorder,
-            backgroundColor: colors.bezelBackground,
-            boxShadow: colors.bezelShadow,
-          }
-        : { borderColor: "transparent" },
+      styles.container,
+      {
+        backgroundColor,
+        borderWidth: rating === null && !isFuture ? 2 : 0,
+        borderStyle: !isFuture && !rating && !isFiltering ? "dotted" : "solid",
+        borderColor:
+          !isFiltering && !rating
+            ? colors.scales[scaleType].empty.border
+            : "transparent",
+      },
     ],
-    [hasShell, colors]
+    [rating, isFuture, isFiltering, scaleType, backgroundColor, colors]
   );
-
-  const containerStyles = useStyle(() => {
-    const isEmpty = rating === null && !isFuture;
-    let border: ViewStyle = { borderWidth: 0 };
-    if (isEmpty) {
-      border = {
-        borderWidth: 2,
-        borderStyle: isFiltering ? "solid" : "dotted",
-        borderColor: isFiltering
-          ? "transparent"
-          : colors.scales[scaleType].empty.border,
-      };
-    } else if (rating && hasShell) {
-      // Same hue, a bit darker: the edge of the mood color.
-      border = {
-        borderWidth: 1,
-        borderColor: getBezelEdgeColor(backgroundColor),
-      };
-    }
-    return [styles.container, { backgroundColor }, border];
-  }, [
-    rating,
-    isFuture,
-    isFiltering,
-    hasShell,
-    scaleType,
-    backgroundColor,
-    colors,
-  ]);
 
   const textColor = useMemo(() => {
     if (_isFiltered) {
@@ -238,13 +199,11 @@ const CalendarDayComponent = ({
       disabled={isFuture}
       onPress={_onPress}
       android_ripple={ripple}
-      style={shellStyles}
+      style={containerStyles}
     >
-      <View style={containerStyles}>
-        <View style={styles.dayNumberParent1}>
-          <View style={dayNumberParent2Styles}>
-            <Text style={dayNumberTextStyles}>{day}</Text>
-          </View>
+      <View style={styles.dayNumberParent1}>
+        <View style={dayNumberParent2Styles}>
+          <Text style={dayNumberTextStyles}>{day}</Text>
         </View>
       </View>
     </Pressable>

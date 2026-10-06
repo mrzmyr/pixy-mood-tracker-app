@@ -3,9 +3,7 @@ import keyBy from "lodash/keyBy";
 import { memo } from "react";
 import type { ReactElement } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
-import Bezel from "@/components/Bezel";
 import { COMPACT_CHIP } from "@/constants/Chip";
-import { RADIUS } from "@/constants/Radius";
 import { getLocationLabel, PlacePreview } from "@/features/location";
 import { EMOTIONS } from "@/features/logger";
 import type { LogItem } from "@/features/logs";
@@ -150,96 +148,96 @@ const TimelineEntryComponent = ({
       onPress={open}
       style={({ pressed }) => ({
         marginBottom: 16,
+        borderRadius: 16,
+        borderWidth: StyleSheet.hairlineWidth,
+        borderColor: colors.logCardBorder,
+        backgroundColor: colors.logCardBackground,
+        overflow: "hidden",
         opacity: pressed ? 0.8 : 1,
       })}
     >
-      <Bezel
-        radius={RADIUS.md}
-        innerStyle={{ backgroundColor: colors.logCardBackground }}
-      >
-        {tileCount > 0 && (
-          <View style={{ flexDirection: "row", gap: 6, padding: 6 }}>
-            {photos.map((photo, index) => (
-              <View key={photo.id} style={{ flex: 1 }}>
-                <PhotoThumbnail
-                  photo={photo}
-                  index={index}
-                  count={item.photos.length}
-                  aspectRatio={tileAspectRatio}
-                />
-              </View>
-            ))}
-            {placeTile !== undefined && (
-              <View style={{ flex: 1 }}>
-                <PlacePreview
-                  location={placeTile}
-                  aspectRatio={tileAspectRatio}
-                />
-              </View>
-            )}
-          </View>
-        )}
-        {hasBody && (
-          <View style={{ paddingTop: 20, gap: 10 }}>
-            {message !== "" && (
-              // Room around the note, so it reads as text, not as another row.
-              <View style={{ paddingHorizontal: 16, paddingBottom: 8 }}>
-                <FadingNote message={message} />
-              </View>
-            )}
-            {/* Keyed by entry: FlashList recycles cards, and a reused row
+      {tileCount > 0 && (
+        <View style={{ flexDirection: "row", gap: 6, padding: 6 }}>
+          {photos.map((photo, index) => (
+            <View key={photo.id} style={{ flex: 1 }}>
+              <PhotoThumbnail
+                photo={photo}
+                index={index}
+                count={item.photos.length}
+                aspectRatio={tileAspectRatio}
+              />
+            </View>
+          ))}
+          {placeTile !== undefined && (
+            <View style={{ flex: 1 }}>
+              <PlacePreview
+                location={placeTile}
+                aspectRatio={tileAspectRatio}
+              />
+            </View>
+          )}
+        </View>
+      )}
+      {hasBody && (
+        <View style={{ paddingTop: 20, gap: 10 }}>
+          {message !== "" && (
+            // Room around the note, so it reads as text, not as another row.
+            <View style={{ paddingHorizontal: 16, paddingBottom: 8 }}>
+              <FadingNote message={message} />
+            </View>
+          )}
+          {/* Keyed by entry: FlashList recycles cards, and a reused row
               would keep the old scroll position. */}
-            <ChipRow
-              key={`emotions-${item.id}`}
-              testID="timeline-entry-emotions"
-              onPress={open}
-            >
-              {emotionChips}
-            </ChipRow>
-            <ChipRow
-              key={`tags-${item.id}`}
-              testID="timeline-entry-tags"
-              onPress={open}
-            >
-              {tagChips}
-            </ChipRow>
-            <ChipRow
-              key={`people-${item.id}`}
-              testID="timeline-entry-people"
-              onPress={open}
-            >
-              {personChips}
-            </ChipRow>
-          </View>
-        )}
-        <View
+          <ChipRow
+            key={`emotions-${item.id}`}
+            testID="timeline-entry-emotions"
+            onPress={open}
+          >
+            {emotionChips}
+          </ChipRow>
+          <ChipRow
+            key={`tags-${item.id}`}
+            testID="timeline-entry-tags"
+            onPress={open}
+          >
+            {tagChips}
+          </ChipRow>
+          <ChipRow
+            key={`people-${item.id}`}
+            testID="timeline-entry-people"
+            onPress={open}
+          >
+            {personChips}
+          </ChipRow>
+        </View>
+      )}
+      <View
+        style={{
+          flexDirection: "row",
+          alignItems: "center",
+          gap: 8,
+          marginHorizontal: 16,
+          paddingVertical: 10,
+          // Rating and date alone need no divider.
+          ...(hasContent && {
+            marginTop: hasBody ? 16 : 6,
+            borderTopWidth: StyleSheet.hairlineWidth,
+            borderTopColor: colors.logCardBorder,
+          }),
+        }}
+      >
+        <RatingDot rating={item.rating} size={20} />
+        <Text
           style={{
-            flexDirection: "row",
-            alignItems: "center",
-            gap: 8,
-            marginHorizontal: 16,
-            paddingVertical: 10,
-            // Rating and date alone need no divider.
-            ...(hasContent && {
-              marginTop: hasBody ? 16 : 6,
-              borderTopWidth: StyleSheet.hairlineWidth,
-              borderTopColor: colors.logCardBorder,
-            }),
+            flex: 1,
+            fontSize: 13,
+            color: colors.textSecondary,
+            fontVariant: ["tabular-nums"],
           }}
         >
-          <RatingDot rating={item.rating} size={20} />
-          <Text
-            style={{
-              flex: 1,
-              fontSize: 13,
-              color: colors.textSecondary,
-              fontVariant: ["tabular-nums"],
-            }}
-          >
-            {dateLabel}
-          </Text>
-        </View>
-      </Bezel>
+          {dateLabel}
+        </Text>
+      </View>
     </Pressable>
   );
 };
