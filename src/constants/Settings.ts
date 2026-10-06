@@ -35,4 +35,5 @@ export const INITIAL_STATE: SettingsState = {
   colorScheme: "system",
   locationEnabled: false,
   calendarLayout: "calendar",
+  appLockEnabled: false,
 };

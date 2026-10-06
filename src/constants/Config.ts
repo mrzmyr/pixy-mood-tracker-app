@@ -58,3 +58,6 @@ export const CHANGELOG_URL = "https://pixy.hellonext.co/embed/c?no_header=true";
 /** Feature request board opened in the in-app browser from Settings. */
 export const FEEDBACK_FEATURES_URL =
   "https://pixy.featureos.app/embed/b/feedback?no_header=true";
+
+/** Support inbox, also in `docs/app-facts.json` (`links.supportEmail`). */
+export const SUPPORT_EMAIL = "team@pixy.day";

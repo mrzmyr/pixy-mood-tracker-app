@@ -72,6 +72,11 @@ export interface SettingsState {
   locationEnabled: boolean;
   /** Calendar screen layout for this device. */
   calendarLayout: CalendarLayout;
+  /**
+   * Pixy asks for Face ID, Touch ID, fingerprint, or the device passcode on
+   * launch and after time away. Device auth belongs to the device.
+   */
+  appLockEnabled: boolean;
 
   // removed in previous version
   // replaced with analyticsEnabled
@@ -84,8 +89,8 @@ export interface SettingsState {
  * Settings included in data exports. The device id is excluded so an import
  * never clones another device's identity. Store review prompt state belongs
  * to the device and store account, and photo library access, theme,
- * location, and calendar layout to the device, so imports keep the current
- * values.
+ * location, calendar layout, and app lock to the device, so imports keep the
+ * current values.
  */
 export type ExportSettings = Omit<
   SettingsState,
@@ -96,6 +101,7 @@ export type ExportSettings = Omit<
   | "colorScheme"
   | "locationEnabled"
   | "calendarLayout"
+  | "appLockEnabled"
 >;
 
 interface IAction {
@@ -140,9 +146,9 @@ const reducer = (
     case "set": {
       return action.payload(state);
     }
-    // Store review prompt state, photo library access, theme, location, and
-    // calendar layout belong to this device, so imports keep the current
-    // values.
+    // Store review prompt state, photo library access, theme, location,
+    // calendar layout, and app lock belong to this device, so imports keep
+    // the current values.
     case "import": {
       return {
         ...INITIAL_STATE,
@@ -154,6 +160,7 @@ const reducer = (
         colorScheme: state.colorScheme,
         locationEnabled: state.locationEnabled,
         calendarLayout: state.calendarLayout,
+        appLockEnabled: state.appLockEnabled,
       };
     }
     case "reset": {
@@ -181,6 +188,7 @@ const hydrate = (stored: SettingsState | null): SettingsState =>
         calendarLayout: isCalendarLayout(stored.calendarLayout)
           ? stored.calendarLayout
           : "calendar",
+        appLockEnabled: stored.appLockEnabled === true,
       };
 
 const settingsStore = createPersistedStore<SettingsState, SettingsAction>({

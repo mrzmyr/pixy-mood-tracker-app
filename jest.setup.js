@@ -13,6 +13,7 @@ jest.mock("posthog-react-native", () => {
     register: jest.fn(),
     reloadFeatureFlagsAsync: jest.fn(),
     setPersonProperties: jest.fn(),
+    getDistinctId: jest.fn(() => "test-distinct-id"),
   };
 
   return {
@@ -129,4 +130,20 @@ jest.mock("expo-file-system/legacy", () => ({
   ...jest.requireActual("expo-file-system/legacy"),
   documentDirectory: "file:///documents/",
   cacheDirectory: "file:///cache/",
+}));
+
+// oxlint-disable-next-line anti-slop/no-module-mocking -- expo-local-authentication is a native module; every provider test mounts AppLockProvider. Default: no device passcode.
+jest.mock("expo-local-authentication", () => ({
+  __esModule: true,
+  SecurityLevel: { NONE: 0, SECRET: 1, BIOMETRIC_WEAK: 2, BIOMETRIC_STRONG: 3 },
+  AuthenticationType: { FINGERPRINT: 1, FACIAL_RECOGNITION: 2, IRIS: 3 },
+  getEnrolledLevelAsync: jest.fn(() => Promise.resolve(0)),
+  supportedAuthenticationTypesAsync: jest.fn(() => Promise.resolve([])),
+  authenticateAsync: jest.fn(() => Promise.resolve({ success: true })),
+}));
+
+// oxlint-disable-next-line anti-slop/no-module-mocking -- expo-clipboard is a native module; the lock screen copies the support code.
+jest.mock("expo-clipboard", () => ({
+  __esModule: true,
+  setStringAsync: jest.fn(() => Promise.resolve(true)),
 }));

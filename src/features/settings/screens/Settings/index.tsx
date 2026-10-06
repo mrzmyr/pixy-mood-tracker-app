@@ -39,6 +39,7 @@ import { COLOR_SCHEMES } from "@/state/settings/colorScheme";
 import useColors from "@/hooks/useColors";
 import { useFeedbackModal } from "@/features/feedback";
 import { useIsWidgetEnabled } from "@/features/widget";
+import { AppLockMenuItem } from "@/features/applock";
 import pkg from "../../../../../package.json";
 import {
   Bug,
@@ -53,6 +54,7 @@ const DEVELOPMENT_UNLOCK_TAPS = 20;
 
 /**
  * Settings screen, opened from the calendar header. The support card needs its feature flag and an enabled client.
+ * The App Lock row needs the `app-lock` flag, or the lock being on.
  * The Development section shows in development and preview builds, with the
  * `development` or `feature-flag-overrides` feature flag, or after 20 taps on
  * the version in this session.
@@ -132,6 +134,7 @@ export const SettingsScreen = () => {
             onPress={() => router.push("/settings/steps")}
             isLink
           />
+          <AppLockMenuItem />
           {isWidgetEnabled && (
             <FlagHighlight flag="ios-widget">
               <MenuListItem

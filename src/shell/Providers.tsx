@@ -5,6 +5,7 @@ import { TRACKING_ENABLED } from "@/constants/Config";
 import { POSTHOG_OPTIONS } from "@/shell/posthogOptions";
 import { AnalyticsProvider } from "@/state/analytics";
 import { FeatureFlagsProvider } from "@/state/featureFlags";
+import { AppLockProvider } from "@/features/applock";
 import { CalendarFiltersProvider } from "@/features/calendar";
 import { LogsProvider } from "@/features/logs";
 import { PeopleProvider } from "@/features/people";
@@ -65,7 +66,7 @@ const Providers = ({
         >
           <AnalyticsProvider options={{ enabled: TRACKING_ENABLED }}>
             <FeatureFlagsProvider options={{ enabled: TRACKING_ENABLED }}>
-              {supportContent}
+              <AppLockProvider>{supportContent}</AppLockProvider>
             </FeatureFlagsProvider>
           </AnalyticsProvider>
         </PostHogProvider>
