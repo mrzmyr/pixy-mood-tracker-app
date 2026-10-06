@@ -222,7 +222,7 @@ const LoggerSlides = ({
 
   // Shared by the optional slides: confirm, turn the step off, move on.
   const disableStep = async (
-    step: "sleep" | "tags" | "people" | "message" | "photos"
+    step: "sleep" | "emotions" | "tags" | "people" | "message" | "photos"
   ) => {
     if (!(await isConfirmed(askToDisableStep()))) {
       return;
@@ -294,6 +294,7 @@ const LoggerSlides = ({
         >
           <SlideEmotions
             defaultIndex={EMOTIONS_INDEX_MAPPING[draft.rating ?? "neutral"]}
+            onDisableStep={() => disableStep("emotions")}
             showDisable={showDisable}
           />
         </View>
