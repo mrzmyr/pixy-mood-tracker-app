@@ -34,8 +34,9 @@ tags: [p0, entry]
 - tapOn:
     id: "calendar-day-${output.today}"
 - tapOn:
-    id: "log-list-edit"
+    id: "log-list-menu"
     index: 0
+- tapOn: "Edit"
 - assertVisible: "How was your day?"
 - waitForAnimationToEnd
 - tapOn:

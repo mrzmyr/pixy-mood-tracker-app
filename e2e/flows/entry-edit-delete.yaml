@@ -14,8 +14,9 @@ tags: [p0, entry]
 - tapOn:
     id: "calendar-day-${output.today}"
 - tapOn:
-    id: "log-list-edit"
+    id: "log-list-menu"
     index: 0
+- tapOn: "Edit"
 - assertVisible: "How was your day?"
 - waitForAnimationToEnd
 - tapOn:
@@ -84,7 +85,8 @@ tags: [p0, entry]
           end: 20%, 50%
 - assertVisible: "e2e edited ${output.runId}"
 - tapOn:
-    id: "log-list-delete"
+    id: "log-list-menu"
+- tapOn: "Delete"
 - assertVisible: "Are you sure you want to delete this entry?"
 - tapOn:
     text: "Delete"

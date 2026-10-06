@@ -121,15 +121,15 @@ describe("day view entry card", () => {
   });
 
   test.each([
-    ["log-list-edit", "edit"],
-    ["log-list-delete", "delete"],
-  ] as const)("%s calls %s", async (testID, action) => {
+    ["Edit", "edit"],
+    ["Delete", "delete"],
+  ] as const)("menu item %s calls %s", async (label, action) => {
     const item = _generateItem({});
     const onEdit = jest.fn();
     const onDelete = jest.fn();
     await renderEntry({ item, onEdit, onDelete });
 
-    fireEvent.press(await screen.findByTestId(testID));
+    fireEvent.press(await screen.findByLabelText(label));
 
     await waitFor(() => {
       expect(action === "edit" ? onEdit : onDelete).toHaveBeenCalledWith(item);
