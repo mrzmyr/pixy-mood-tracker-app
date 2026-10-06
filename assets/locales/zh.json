@@ -22,6 +22,7 @@
   "archive_tag": "档案",
   "archive_tag_description": "在您的签到中隐藏标签。它在您过去的条目中仍然可见。这也将从将来的任何统计分析中排除此标签。",
   "archive_tag_enabled": "存档",
+  "back": "返回",
   "back_to_today": "回到今天",
   "bad": "坏的",
   "behavioral_data": "行为数据",

@@ -22,6 +22,7 @@
   "archive_tag": "記録",
   "archive_tag_description": "チェックイン時にタグを非表示にします。過去のエントリには引き続き表示されます。これにより、このタグは今後の統計分析からも除外されます。",
   "archive_tag_enabled": "アーカイブ済み",
+  "back": "戻る",
   "back_to_today": "今日に戻る",
   "bad": "悪い",
   "behavioral_data": "行動データ",

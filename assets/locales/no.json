@@ -22,6 +22,7 @@
   "archive_tag": "Arkiv",
   "archive_tag_description": "Skjuler taggen i innsjekkingen. Det er fortsatt synlig i tidligere oppføringer. Dette vil også ekskludere denne taggen fra enhver statistisk analyse i fremtiden.",
   "archive_tag_enabled": "Arkivert",
+  "back": "Tilbake",
   "back_to_today": "Tilbake til i dag",
   "bad": "Dårlig",
   "behavioral_data": "Atferdsdata",

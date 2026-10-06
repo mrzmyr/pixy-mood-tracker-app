@@ -2,9 +2,10 @@ import { useRouter } from "expo-router";
 import { Pressable } from "react-native";
 import { ArrowLeft } from "react-native-feather";
 import useColors from "@/hooks/useColors";
+import { t } from "@/lib/translation";
 
 /**
- * Header back button for Android and web stack screens; iOS uses the native
+ * Header back button for web stack screens. iOS and Android use the native
  * back button.
  */
 export const BackButton = ({ testID }: { testID?: string }) => {
@@ -18,6 +19,8 @@ export const BackButton = ({ testID }: { testID?: string }) => {
         marginLeft: 5,
       }}
       onPress={() => router.back()}
+      accessibilityRole="button"
+      accessibilityLabel={t("back")}
       testID={testID}
     >
       <ArrowLeft width={24} color={colors.text} />

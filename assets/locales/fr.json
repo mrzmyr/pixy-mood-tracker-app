@@ -22,6 +22,7 @@
   "archive_tag": "Archive",
   "archive_tag_description": "Masque la balise dans votre check-in. Il est toujours visible dans vos entrées passées. Cela exclura également cette balise de toute analyse statistique à l'avenir.",
   "archive_tag_enabled": "Archivé",
+  "back": "Retour",
   "back_to_today": "Retour à aujourd'hui",
   "bad": "Mal",
   "behavioral_data": "Données comportementales",
