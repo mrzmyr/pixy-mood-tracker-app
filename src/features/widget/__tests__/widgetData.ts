@@ -1,4 +1,6 @@
+import chroma, { contrast } from "chroma-js";
 import dayjs from "dayjs";
+import scales from "@/constants/Colors/Scales";
 import { _generateItem } from "@/__tests__/utils";
 import {
   WEEK_WIDGET_WEEKS,
@@ -8,6 +10,7 @@ import {
   getWeekWidgetProps,
   getWidgetTimeline,
   getYearGrid,
+  getSchemeColors,
   getYearWidgetProps,
 } from "../widgetData";
 
@@ -124,6 +127,37 @@ describe("availability", () => {
     expect(getWeekWidgetProps(INPUT).isAvailable).toBe(true);
     const off = getMonthWidgetProps({ ...INPUT, isAvailable: false });
     expect(off.isAvailable).toBe(false);
+  });
+});
+
+const luminance = (color: string) => chroma(color).luminance();
+
+describe("getSchemeColors()", () => {
+  const cases = (["light", "dark"] as const).flatMap((theme) =>
+    Object.keys(scales[theme]).map((scaleType) => ({ theme, scaleType }))
+  );
+
+  test.each(cases)(
+    "$theme $scaleType: future days sit between background and empty days",
+    ({ theme, scaleType }) => {
+      const colors = getSchemeColors(theme, scaleType);
+      const [low, high] = [
+        luminance(colors.background),
+        luminance(colors.empty),
+      ].sort((a, b) => a - b);
+      expect(luminance(colors.future)).toBeGreaterThan(low);
+      expect(luminance(colors.future)).toBeLessThan(high);
+    }
+  );
+
+  test("dark future days stay visible on the dark widget background", () => {
+    for (const scaleType of Object.keys(scales.dark)) {
+      const colors = getSchemeColors("dark", scaleType);
+      // Small cells on a dark home screen need more than a faint step.
+      expect(contrast(colors.future, colors.background)).toBeGreaterThanOrEqual(
+        1.5
+      );
+    }
   });
 });
 
