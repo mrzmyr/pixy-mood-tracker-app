@@ -1,6 +1,7 @@
 import { useRouter } from "expo-router";
 import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
+import { useDiscardGuard } from "@/hooks/useDiscardGuard";
 import Alert from "@/lib/Alert";
 import { t } from "@/lib/translation";
 import { useAnalytics } from "@/state/analytics";
@@ -53,6 +54,14 @@ export const usePersonDraft = ({
     removeAvatar: false,
   }));
   const [isSaving, setIsSaving] = useState(false);
+
+  const isDirty =
+    draft.pendingImageUri !== null ||
+    draft.removeAvatar ||
+    draft.person.name !== (existing?.name ?? "") ||
+    Boolean(draft.person.isArchived) !== Boolean(existing?.isArchived);
+  // Back, the back gesture, and Cancel ask before dropping edits.
+  const { allowLeave } = useDiscardGuard({ isDirty });
 
   const hasPhoto =
     draft.pendingImageUri !== null ||
@@ -142,6 +151,7 @@ export const usePersonDraft = ({
       });
       peopleUpdater.updatePerson(person);
     }
+    allowLeave();
     router.back();
   };
 
@@ -151,6 +161,7 @@ export const usePersonDraft = ({
     previewAvatar: draft.removeAvatar ? null : draft.person.avatar,
     hasPhoto,
     canSave,
+    allowLeave,
     setName,
     toggleArchived,
     fromLibrary,
