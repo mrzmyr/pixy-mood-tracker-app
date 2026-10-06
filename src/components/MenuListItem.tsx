@@ -9,6 +9,57 @@ import usePressRipple from "@/hooks/usePressRipple";
 
 const DEFAULT_STYLE = {};
 
+/** Android: Material 3 list rows. Full width, 56dp, no dividers, no chevron. */
+interface Metrics {
+  frame: ViewStyle;
+  row: ViewStyle;
+  tallRow: ViewStyle;
+  icon: ViewStyle;
+  titleSize: number;
+}
+
+const ANDROID: Metrics = {
+  frame: {},
+  row: { minHeight: 56, paddingHorizontal: 16 },
+  tallRow: { minHeight: 72, paddingHorizontal: 16 },
+  icon: {
+    width: 24,
+    height: 24,
+    marginRight: 16,
+    flexShrink: 0,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  titleSize: 16,
+};
+
+const IOS: Metrics = {
+  frame: {
+    borderTopWidth: 1,
+    marginRight: 16,
+    marginLeft: 16,
+  },
+  row: { minHeight: 50 },
+  tallRow: { minHeight: 50 },
+  icon: { marginRight: 15, flexShrink: 0 },
+  titleSize: 17,
+};
+
+const getRowStyle = (
+  platform: Metrics,
+  flexDirection: ViewStyle["flexDirection"]
+) => (flexDirection === "column" ? platform.tallRow : platform.row);
+
+const getRightIcon = ({
+  showChevron,
+  iconRight,
+  color,
+}: {
+  showChevron: boolean;
+  iconRight: React.ReactElement | null;
+  color: string;
+}) => (showChevron ? <ChevronRight width={18} color={color} /> : iconRight);
+
 const MenuListItem = ({
   title,
   onPress = null,
@@ -38,11 +89,15 @@ const MenuListItem = ({
   const ripple = usePressRipple({ foreground: true });
   const titleText = isValidElement(title) ? undefined : title;
 
-  const rightIcon = isLink ? (
-    <ChevronRight width={18} color={colors.menuListItemIcon} />
-  ) : (
-    iconRight
-  );
+  const isAndroid = Platform.OS === "android";
+  const platform = isAndroid ? ANDROID : IOS;
+  const rowStyle = getRowStyle(platform, style.flexDirection);
+
+  const rightIcon = getRightIcon({
+    showChevron: Boolean(isLink) && !isAndroid,
+    iconRight,
+    color: colors.menuListItemIcon,
+  });
 
   const _onPress = useCallback(async () => {
     if (onPress !== null && !deactivated) {
@@ -54,10 +109,8 @@ const MenuListItem = ({
   return (
     <View
       style={{
-        borderTopWidth: 1,
+        ...platform.frame,
         borderTopColor: colors.menuListItemBorder,
-        marginRight: 16,
-        marginLeft: 16,
         opacity: deactivated ? 0.5 : 1,
         justifyContent: "center",
         alignItems: "center",
@@ -77,7 +130,7 @@ const MenuListItem = ({
             alignItems: "center",
             paddingTop: 8,
             paddingBottom: 8,
-            minHeight: 50,
+            ...rowStyle,
             width: "100%",
             // Android shows a ripple instead of the fade.
             opacity: pressed && onPress && Platform.OS !== "android" ? 0.7 : 1,
@@ -96,9 +149,7 @@ const MenuListItem = ({
               alignItems: "center",
             }}
           >
-            {iconLeft && (
-              <View style={{ marginRight: 15, flexShrink: 0 }}>{iconLeft}</View>
-            )}
+            {iconLeft && <View style={platform.icon}>{iconLeft}</View>}
             {titleText === undefined ? (
               <View style={{ flex: 1, minWidth: 0 }}>{title}</View>
             ) : (
@@ -106,7 +157,7 @@ const MenuListItem = ({
                 style={{
                   flex: 1,
                   minWidth: 0,
-                  fontSize: 17,
+                  fontSize: platform.titleSize,
                   color: style.color || colors.menuListItemText,
                 }}
                 numberOfLines={1}
