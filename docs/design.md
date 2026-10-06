@@ -41,6 +41,18 @@
 - **Avoid ambiguity.** Labels are clear & specific.
   - Instead of the button label _“Continue”_ say _“Save API Key”_.
 
+## Core Modules
+
+- Term defined in [GLOSSARY.md](../GLOSSARY.md). Each Core Module uses its icon everywhere: Steps settings, Check-in, filters, statistics
+- Icons: `react-native-feather`, 20 px in lists, stroke `colors.text`
+- Mood: `Sun` ([Steps settings](../src/features/settings/screens/Steps.tsx))
+- Emotions: `Heart`
+- Tags: `Tag`
+- People: `Users`
+- Photos: `Image`
+- Note: `FileText`
+- Labels: Mood, Emotions, Tags, People, Photos, Note. Single noun, no verb ("Note", not "Write About Your Day")
+
 ## Interactions
 
 - **Screen reader + keyboard work everywhere.** All flows operable with VoiceOver/TalkBack and hardware keyboards (iPad, Android w/ keyboard). Every interactive element has `accessibilityRole`, `accessibilityLabel`, `accessibilityState`. Use `Pressable`, never bare `View` + `onTouchEnd`.
