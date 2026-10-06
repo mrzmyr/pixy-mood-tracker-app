@@ -6,7 +6,17 @@ import {
   getStorageFixtureEntries,
   STORAGE_FIXTURES,
 } from "@/dev/fixtures";
+import { withChaos } from "@/dev/fixtures/chaos";
+import {
+  MAX_MESSAGE_LENGTH,
+  MAX_PEOPLE,
+  MAX_TAG_LENGTH,
+  MAX_TAGS,
+  MIN_TAG_LENGTH,
+} from "@/constants/Config";
 import { decodeBackupData } from "@/features/datagate";
+import { EMOTIONS } from "@/features/logger";
+import { MAX_PHOTOS_PER_ENTRY } from "@/features/photos";
 
 const requireFixture = (id: string) => {
   const fixture = getFixture(id);
@@ -43,6 +53,41 @@ describe("dev fixtures", () => {
       : [];
     expect(dates.at(-1)).toBe("2030-01-15");
     expect(dates[0]).toBe("2029-01-16");
+  });
+
+  it("chaos fills every limit on its newest entry", () => {
+    const { items, tags = [], people = [] } = requireFixture("chaos").data;
+    const entries = Array.isArray(items) ? items : [];
+    const [maxEntry] = entries;
+    const enabledEmotions = EMOTIONS.filter((emotion) => !emotion.disabled);
+
+    expect(tags).toHaveLength(MAX_TAGS);
+    expect(people).toHaveLength(MAX_PEOPLE);
+    expect(maxEntry.tags).toHaveLength(MAX_TAGS);
+    expect(maxEntry.people).toHaveLength(MAX_PEOPLE);
+    expect(maxEntry.photos).toHaveLength(MAX_PHOTOS_PER_ENTRY);
+    expect(maxEntry.message).toHaveLength(MAX_MESSAGE_LENGTH);
+    expect(new Set(maxEntry.emotions)).toEqual(
+      new Set(enabledEmotions.map((emotion) => emotion.key))
+    );
+  });
+
+  it("chaos names fit the tag and person name limits", () => {
+    const { tags = [], people = [] } = requireFixture("chaos").data;
+    const lengths = [
+      ...tags.map((tag) => tag.title.length),
+      ...people.map((person) => person.name.length),
+    ];
+    expect(Math.min(...lengths)).toBeGreaterThanOrEqual(1);
+    expect(Math.max(...lengths)).toBeLessThanOrEqual(MAX_TAG_LENGTH);
+    expect(
+      Math.min(...tags.map((tag) => tag.title.length))
+    ).toBeGreaterThanOrEqual(MIN_TAG_LENGTH);
+  });
+
+  it("chaos builds the same data on every load", () => {
+    const empty = requireFixture("empty").data;
+    expect(withChaos(empty)).toEqual(withChaos(empty));
   });
 
   it("keeps fixed dates for other fixtures", () => {
