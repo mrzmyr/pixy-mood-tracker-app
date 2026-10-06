@@ -14,7 +14,6 @@ import {
   Droplet,
   Flag,
   Github,
-  Lock,
   PieChart,
   Shield,
   Smartphone,
@@ -40,7 +39,7 @@ import { COLOR_SCHEMES } from "@/state/settings/colorScheme";
 import useColors from "@/hooks/useColors";
 import { useFeedbackModal } from "@/features/feedback";
 import { useIsWidgetEnabled } from "@/features/widget";
-import { useAppLock } from "@/features/applock";
+import { AppLockMenuItem } from "@/features/applock";
 import pkg from "../../../../../package.json";
 import {
   Bug,
@@ -67,12 +66,6 @@ export const SettingsScreen = () => {
   const isWidgetEnabled = useIsWidgetEnabled();
   const support = useSupport();
   const isSupportEnabled = useFeatureFlag("support-pixy");
-  const appLock = useAppLock();
-  // Stays while the lock is on, so the user can turn it off without the flag.
-  const isAppLockVisible = useFeatureFlag("app-lock") || appLock.isEnabled;
-  const appLockStatus = t(
-    appLock.isEnabled ? "step_status_on" : "step_status_off"
-  );
   const isDevelopmentFlagOn = useFeatureFlag("development");
   const canOverrideFeatureFlags = useCanOverrideFeatureFlags();
   const [versionTaps, setVersionTaps] = useState(0);
@@ -141,23 +134,7 @@ export const SettingsScreen = () => {
             onPress={() => router.push("/settings/steps")}
             isLink
           />
-          {isAppLockVisible && (
-            <FlagHighlight flag="app-lock">
-              <MenuListItem
-                title={t("app_lock")}
-                iconLeft={<Lock width={18} color={colors.menuListItemIcon} />}
-                iconRight={
-                  <Text style={{ fontSize: 17, color: colors.textSecondary }}>
-                    {appLockStatus}
-                  </Text>
-                }
-                accessibilityValue={{ text: appLockStatus }}
-                onPress={() => router.push("/settings/app-lock")}
-                testID="app-lock"
-                isLink
-              />
-            </FlagHighlight>
-          )}
+          <AppLockMenuItem />
           {isWidgetEnabled && (
             <FlagHighlight flag="ios-widget">
               <MenuListItem

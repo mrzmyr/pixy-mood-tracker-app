@@ -17,7 +17,7 @@ import Colors from "@/constants/Colors";
 import { INITIAL_STATE } from "@/constants/Settings";
 import { SettingsProvider, STORAGE_KEY } from "@/state/settings";
 import { createFakeSupportClient } from "@/support/clients";
-import { AppLockProvider, AppLockScreen } from "..";
+import { AppLockMenuItem, AppLockProvider, AppLockScreen } from "..";
 import { AppLockSetting } from "../AppLockSetting";
 import { LOCK_AFTER_MS } from "../lockTiming";
 
@@ -85,6 +85,7 @@ const renderApp = async () =>
       }}
     >
       <Providers supportClient={createFakeSupportClient()}>
+        <AppLockMenuItem />
         <AppLockSetting />
         <AppLockScreen />
       </Providers>
@@ -337,6 +338,20 @@ describe("App Lock", () => {
     expect(
       await screen.findByTestId("app-lock-support-code")
     ).toHaveTextContent("test-distinct-id");
+  });
+
+  test("settings row hides without the flag, stays while the lock is on", async () => {
+    await storeSettings(false);
+    const unlocked = await renderApp();
+    await unlocked.findByTestId("app-lock-enabled");
+    expect(unlocked.queryByTestId("app-lock")).toBeNull();
+    unlocked.unmount();
+
+    await storeSettings(true);
+    const locked = await renderApp();
+    expect(await locked.findByTestId("app-lock")).toHaveAccessibilityValue({
+      text: "On",
+    });
   });
 
   test("switch is off limits without a device passcode", async () => {
