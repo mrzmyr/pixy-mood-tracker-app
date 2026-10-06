@@ -22,6 +22,7 @@
 ## Surfaces
 
 - Cards, list groups, calendar days, and mood buttons sit in a bezel: shell, gap, inner surface. Component: [`Bezel`](../src/components/Bezel.tsx)
+- Android list groups: Material 3 full-width list. No bezel, no chevron, no dividers. Rows 56dp ([`MenuList`](../src/components/MenuList.tsx), [`MenuListItem`](../src/components/MenuListItem.tsx))
 - Gaps and shell radius: [`src/constants/Bezel.ts`](../src/constants/Bezel.ts). Shell radius comes from `getBezelRadius`, never picked by hand
 - Colors: `bezelBackground`, `bezelBorder`, `bezelInnerBorder`, `bezelShadow`
 - Calendar days build the shell in [`CalendarDay`](../src/features/calendar/screens/Calendar/CalendarDay/index.tsx). Future and filtered-out days have no shell
