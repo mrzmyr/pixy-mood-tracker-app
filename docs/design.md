@@ -21,10 +21,11 @@
 
 ## Surfaces
 
-- Cards, list groups, and calendar days sit in a bezel: shell, gap, inner surface. Component: [`Bezel`](../src/components/Bezel.tsx)
+- Cards, list groups, calendar days, and mood buttons sit in a bezel: shell, gap, inner surface. Component: [`Bezel`](../src/components/Bezel.tsx)
 - Gaps and shell radius: [`src/constants/Bezel.ts`](../src/constants/Bezel.ts). Shell radius comes from `getBezelRadius`, never picked by hand
 - Colors: `bezelBackground`, `bezelBorder`, `bezelInnerBorder`, `bezelShadow`
 - Calendar days build the shell in [`CalendarDay`](../src/features/calendar/screens/Calendar/CalendarDay/index.tsx). Future and filtered-out days have no shell
+- Mood buttons build the shell in [`SlideMoodButton`](../src/features/logger/components/SlideMoodButton.tsx). Colored inner surfaces get `getBezelEdgeColor`
 
 ## Sheets and Modals
 
