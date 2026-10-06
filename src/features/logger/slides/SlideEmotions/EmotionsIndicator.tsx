@@ -8,6 +8,7 @@ import { useColorScheme, View } from "react-native";
 import { EMOTION_ICONS } from "../../emotionIcons";
 import { EmotionIcon } from "./EmotionIcon";
 import { RADIUS } from "@/constants/Radius";
+import { COMPACT_CHIP } from "@/constants/Chip";
 
 /**
  * Category marker for an emotion. Uses only the scale's `very_good`,
@@ -43,7 +44,7 @@ export const EmotionIndicator = ({
     return (
       <View
         testID={`emotion-icon-${emotion.key}`}
-        style={{ marginRight: compact ? 4 : 8 }}
+        style={{ marginRight: compact ? COMPACT_CHIP.gap : 8 }}
       >
         <EmotionIcon
           icon={icon}
@@ -67,7 +68,7 @@ export const EmotionIndicator = ({
         height: compact ? 7 : 8,
         backgroundColor: color.background,
         borderRadius: RADIUS.full,
-        marginRight: compact ? 8 : 10,
+        marginRight: compact ? COMPACT_CHIP.gap : 10,
         paddingRight: 8,
       }}
     />

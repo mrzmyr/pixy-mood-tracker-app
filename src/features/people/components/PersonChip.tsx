@@ -7,6 +7,7 @@ import { t } from "@/lib/translation";
 import type { Person } from "../PeopleProvider";
 import { PersonAvatar } from "./PersonAvatar";
 import { RADIUS } from "@/constants/Radius";
+import { COMPACT_CHIP } from "@/constants/Chip";
 
 const DEFAULT_STYLE = {};
 /** Space between avatar and selection ring of the `tile` variant. */
@@ -24,12 +25,13 @@ const CHIP_SIZES = {
     fontSize: 17,
   },
   compact: {
-    paddingLeft: 4,
-    paddingRight: 12,
-    paddingVertical: 4,
-    avatar: 20,
-    gap: 6,
-    fontSize: 15,
+    paddingLeft: COMPACT_CHIP.paddingLeftAvatar,
+    paddingRight: COMPACT_CHIP.paddingHorizontal,
+    paddingVertical: 0,
+    height: COMPACT_CHIP.height,
+    avatar: COMPACT_CHIP.avatarSize,
+    gap: COMPACT_CHIP.gap,
+    fontSize: COMPACT_CHIP.fontSize,
   },
 };
 
@@ -249,6 +251,7 @@ export const PersonChip = ({
         paddingLeft: chipSize.paddingLeft,
         paddingRight: chipSize.paddingRight,
         paddingVertical: chipSize.paddingVertical,
+        height: "height" in chipSize ? chipSize.height : undefined,
         opacity: pressed && onPress ? 0.8 : 1,
         ...style,
       })}

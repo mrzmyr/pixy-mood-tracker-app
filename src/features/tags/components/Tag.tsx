@@ -6,6 +6,7 @@ import useHaptics from "@/hooks/useHaptics";
 import type { TAG_COLOR_NAMES } from "@/constants/Config";
 import { t } from "@/lib/translation";
 import { RADIUS } from "@/constants/Radius";
+import { COMPACT_CHIP } from "@/constants/Chip";
 
 const DEFAULT_STYLE = {};
 
@@ -48,8 +49,12 @@ const Tag = ({
           : colors.tagBackground,
         borderColor: selected ? colors.tint : unselectedBorderColor,
         borderWidth: 1,
-        paddingHorizontal: compact ? 12 : 16,
-        paddingVertical: compact ? 6 : 8,
+        ...(compact
+          ? {
+              height: COMPACT_CHIP.height,
+              paddingHorizontal: COMPACT_CHIP.paddingHorizontal,
+            }
+          : { paddingHorizontal: 16, paddingVertical: 8 }),
         opacity: pressed && onPress ? 0.8 : 1,
         ...style,
       })}
@@ -82,14 +87,14 @@ const Tag = ({
           width: compact ? 7 : 8,
           height: compact ? 7 : 8,
           borderRadius: RADIUS.sm,
-          marginRight: compact ? 8 : 10,
+          marginRight: compact ? COMPACT_CHIP.gap : 10,
           backgroundColor: colors.tags[colorName]?.dot,
         }}
       />
       <Text
         style={{
           color: selected ? colors.tagTextActive : colors.tagText,
-          fontSize: compact ? 15 : 17,
+          fontSize: compact ? COMPACT_CHIP.fontSize : 17,
         }}
       >
         {title}

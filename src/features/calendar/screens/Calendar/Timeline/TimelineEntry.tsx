@@ -3,7 +3,7 @@ import keyBy from "lodash/keyBy";
 import { memo } from "react";
 import type { ReactElement } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
-import { RADIUS } from "@/constants/Radius";
+import { COMPACT_CHIP } from "@/constants/Chip";
 import { getLocationLabel, PlacePreview } from "@/features/location";
 import { EMOTIONS } from "@/features/logger";
 import type { LogItem } from "@/features/logs";
@@ -35,15 +35,16 @@ const MoreChip = ({ count }: { count: number }) => {
     <View
       style={{
         justifyContent: "center",
-        paddingHorizontal: 8,
-        borderRadius: RADIUS.full,
+        height: COMPACT_CHIP.height,
+        paddingHorizontal: COMPACT_CHIP.paddingHorizontal,
+        borderRadius: COMPACT_CHIP.borderRadius,
         borderWidth: 1,
         borderColor: colors.entryItemBorder,
       }}
     >
       <Text
         style={{
-          fontSize: 13,
+          fontSize: COMPACT_CHIP.fontSize,
           color: colors.textSecondary,
           fontVariant: ["tabular-nums"],
         }}
@@ -171,7 +172,7 @@ const TimelineEntryComponent = ({
         </View>
       )}
       {hasBody && (
-        <View style={{ paddingTop: 20, gap: 8 }}>
+        <View style={{ paddingTop: 20, gap: 10 }}>
           {message !== "" && (
             // Room around the note, so it reads as text, not as another row.
             <View style={{ paddingHorizontal: 16, paddingBottom: 8 }}>

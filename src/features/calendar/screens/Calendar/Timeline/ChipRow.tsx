@@ -61,7 +61,7 @@ export const ChipRow = ({
             scrolls. Left to the card's Pressable, a drag opens the entry. */}
         <Pressable accessible={false} onPress={onPress}>
           {/* Chips are pressable elsewhere; here they must not catch taps. */}
-          <View pointerEvents="none" style={{ flexDirection: "row", gap: 6 }}>
+          <View pointerEvents="none" style={{ flexDirection: "row", gap: 8 }}>
             {children}
           </View>
         </Pressable>
