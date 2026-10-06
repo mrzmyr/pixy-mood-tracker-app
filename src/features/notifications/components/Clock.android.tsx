@@ -24,7 +24,6 @@ const Clock = ({
       onPress={() => {
         DateTimePickerAndroid.open({
           value: timeDate,
-          is24Hour: true,
           mode: "time",
           onChange,
         });

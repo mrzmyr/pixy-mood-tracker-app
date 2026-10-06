@@ -43,6 +43,9 @@ const Reminder = () => {
   };
 
   const onTimeChange = (event: DateTimePickerEvent, selectedDate?: Date) => {
+    if (event.type !== "set" || !selectedDate) {
+      return;
+    }
     const time = dayjs(selectedDate).format("HH:mm");
     analytics.track("reminders:time_changed", { time });
     void reminder.setTime(time);
