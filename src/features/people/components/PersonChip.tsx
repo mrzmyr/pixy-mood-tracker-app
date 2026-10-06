@@ -25,11 +25,11 @@ const CHIP_SIZES = {
   },
   compact: {
     paddingLeft: 4,
-    paddingRight: 10,
-    paddingVertical: 3,
-    avatar: 16,
+    paddingRight: 12,
+    paddingVertical: 4,
+    avatar: 20,
     gap: 6,
-    fontSize: 13,
+    fontSize: 15,
   },
 };
 

@@ -171,9 +171,10 @@ const TimelineEntryComponent = ({
         </View>
       )}
       {hasBody && (
-        <View style={{ paddingTop: 12, gap: 8 }}>
+        <View style={{ paddingTop: 20, gap: 8 }}>
           {message !== "" && (
-            <View style={{ paddingHorizontal: 16 }}>
+            // Room around the note, so it reads as text, not as another row.
+            <View style={{ paddingHorizontal: 16, paddingBottom: 8 }}>
               <FadingNote message={message} />
             </View>
           )}
@@ -211,7 +212,7 @@ const TimelineEntryComponent = ({
           paddingVertical: 10,
           // Rating and date alone need no divider.
           ...(hasContent && {
-            marginTop: hasBody ? 12 : 6,
+            marginTop: hasBody ? 16 : 6,
             borderTopWidth: StyleSheet.hairlineWidth,
             borderTopColor: colors.logCardBorder,
           }),

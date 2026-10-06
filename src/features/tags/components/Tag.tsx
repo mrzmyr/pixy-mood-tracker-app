@@ -48,8 +48,8 @@ const Tag = ({
           : colors.tagBackground,
         borderColor: selected ? colors.tint : unselectedBorderColor,
         borderWidth: 1,
-        paddingHorizontal: compact ? 10 : 16,
-        paddingVertical: compact ? 4 : 8,
+        paddingHorizontal: compact ? 12 : 16,
+        paddingVertical: compact ? 6 : 8,
         opacity: pressed && onPress ? 0.8 : 1,
         ...style,
       })}
@@ -79,17 +79,17 @@ const Tag = ({
     >
       <View
         style={{
-          width: compact ? 6 : 8,
-          height: compact ? 6 : 8,
+          width: compact ? 7 : 8,
+          height: compact ? 7 : 8,
           borderRadius: RADIUS.sm,
-          marginRight: compact ? 6 : 10,
+          marginRight: compact ? 8 : 10,
           backgroundColor: colors.tags[colorName]?.dot,
         }}
       />
       <Text
         style={{
           color: selected ? colors.tagTextActive : colors.tagText,
-          fontSize: compact ? 13 : 17,
+          fontSize: compact ? 15 : 17,
         }}
       >
         {title}

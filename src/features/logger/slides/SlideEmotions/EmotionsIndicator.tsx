@@ -47,7 +47,7 @@ export const EmotionIndicator = ({
       >
         <EmotionIcon
           icon={icon}
-          size={compact ? 14 : 20}
+          size={compact ? 16 : 20}
           tint={color.background}
           stroke={
             // Light category colors are too pale for a thin outline on white.
@@ -63,11 +63,11 @@ export const EmotionIndicator = ({
   return (
     <View
       style={{
-        width: compact ? 6 : 8,
-        height: compact ? 6 : 8,
+        width: compact ? 7 : 8,
+        height: compact ? 7 : 8,
         backgroundColor: color.background,
         borderRadius: RADIUS.full,
-        marginRight: compact ? 6 : 10,
+        marginRight: compact ? 8 : 10,
         paddingRight: 8,
       }}
     />

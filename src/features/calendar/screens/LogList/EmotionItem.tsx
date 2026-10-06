@@ -20,8 +20,8 @@ export const EmotionItem = ({
     <View>
       <View
         style={{
-          paddingVertical: compact ? 4 : 6,
-          paddingHorizontal: compact ? 8 : 12,
+          paddingVertical: compact ? 5 : 6,
+          paddingHorizontal: compact ? 10 : 12,
           borderRadius: RADIUS.sm,
           backgroundColor: colors.logCardBackground,
           borderWidth: 1,
@@ -35,7 +35,7 @@ export const EmotionItem = ({
         <Text
           style={{
             color: colors.text,
-            fontSize: compact ? 13 : 17,
+            fontSize: compact ? 15 : 17,
           }}
         >
           {tDynamic(`log_emotion_${emotion.key}`)}
