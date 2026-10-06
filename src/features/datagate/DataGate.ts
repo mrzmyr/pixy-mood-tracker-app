@@ -159,7 +159,7 @@ export const useDatagate = (): DatagateValue => {
     analytics.track("data:export_started", { format });
 
     if (Platform.OS === "web") {
-      return Alert.alert("Not supported on web");
+      return Alert.alert(t("export_web_unsupported_title"));
     }
 
     const filename = `pixy-mood-tracker-${dayjs().format("YYYY-MM-DD")}${__DEV__ ? "-DEV" : ""}.${format}`;
