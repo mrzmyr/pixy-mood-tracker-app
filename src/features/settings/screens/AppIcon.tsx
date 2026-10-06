@@ -38,30 +38,6 @@ const LABELS: Record<
     title: "app_icon_default",
     description: "app_icon_default_description",
   },
-  sunburst: {
-    title: "app_icon_sunburst",
-    description: "app_icon_sunburst_description",
-  },
-  "sunburst-inverse": {
-    title: "app_icon_sunburst_inverse",
-    description: "app_icon_sunburst_inverse_description",
-  },
-  "sunburst-black": {
-    title: "app_icon_sunburst_black",
-    description: "app_icon_sunburst_black_description",
-  },
-  "sunburst-black-inverse": {
-    title: "app_icon_sunburst_black_inverse",
-    description: "app_icon_sunburst_black_inverse_description",
-  },
-  dither: {
-    title: "app_icon_dither",
-    description: "app_icon_dither_description",
-  },
-  "dither-inverse": {
-    title: "app_icon_dither_inverse",
-    description: "app_icon_dither_inverse_description",
-  },
   tangerine: {
     title: "app_icon_tangerine",
     description: "app_icon_tangerine_description",
