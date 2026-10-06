@@ -2,7 +2,6 @@ import { LinearGradient } from "expo-linear-gradient";
 import { Text, View } from "react-native";
 import { Moon } from "react-native-feather";
 import useColors from "@/hooks/useColors";
-import { t } from "@/lib/translation";
 
 /** Gradient banner under the native header for the month report. */
 export const Header = ({

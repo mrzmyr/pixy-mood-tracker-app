@@ -8,13 +8,7 @@ import { t } from "@/lib/translation";
  * Header back button for web stack screens. iOS and Android use the native
  * back button.
  */
-export const BackButton = ({
-  testID,
-  color,
-}: {
-  testID?: string;
-  color?: string;
-}) => {
+export const BackButton = ({ testID }: { testID?: string }) => {
   const router = useRouter();
   const colors = useColors();
 
@@ -29,7 +23,7 @@ export const BackButton = ({
       accessibilityLabel={t("back")}
       testID={testID}
     >
-      <ArrowLeft width={24} color={color ?? colors.text} />
+      <ArrowLeft width={24} color={colors.text} />
     </Pressable>
   );
 };

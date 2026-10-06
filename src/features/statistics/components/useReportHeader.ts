@@ -1,10 +1,9 @@
 import { useFocusEffect, useNavigation } from "expo-router";
 import { useHeaderHeight } from "@react-navigation/elements";
 import { setStatusBarStyle } from "expo-status-bar";
-import { createElement, useCallback, useLayoutEffect, useState } from "react";
+import { useCallback, useLayoutEffect, useState } from "react";
 import type { NativeScrollEvent, NativeSyntheticEvent } from "react-native";
-import { Platform, useWindowDimensions } from "react-native";
-import { BackButton } from "@/shell/BackButton";
+import { useWindowDimensions } from "react-native";
 import useColors from "@/hooks/useColors";
 
 const BANNER_HEIGHT_RATIO = 0.25;
@@ -41,8 +40,9 @@ export const getReportHeaderOptions = ({
 });
 
 /**
- * Native header over the report banner. The back button stays pinned while
- * the content scrolls. Light status bar icons while focused.
+ * Native header over the report banner. The native back button (white via
+ * `headerTintColor`) stays pinned while the content scrolls. Light status bar
+ * icons while focused.
  */
 export const useReportHeader = ({
   title,
@@ -73,16 +73,6 @@ export const useReportHeader = ({
       })
     );
   }, [navigation, covered, title, headerColor, white]);
-
-  useLayoutEffect(() => {
-    if (Platform.OS === "ios") {
-      return;
-    }
-    navigation.setOptions({
-      headerLeft: () =>
-        createElement(BackButton, { testID: "statistics-back", color: white }),
-    });
-  }, [navigation, white]);
 
   useFocusEffect(
     useCallback(() => {
