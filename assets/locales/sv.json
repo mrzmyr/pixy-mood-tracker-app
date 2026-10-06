@@ -1,4 +1,10 @@
 {
+  "a11y_mood": "humör {{mood}}",
+  "a11y_next": "Nästa",
+  "a11y_next_month": "Nästa månad: {{month}}",
+  "a11y_previous_month": "Föregående månad: {{month}}",
+  "a11y_share": "Dela",
+  "a11y_today": "idag",
   "add": "Lägg till",
   "add_entry": "Lägg till post",
   "add_entry_for": "Lägg till {{dayTime}}",

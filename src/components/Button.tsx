@@ -13,6 +13,7 @@ const Button = ({
   type = "primary",
   icon,
   testID,
+  accessibilityLabel,
   onPress,
   disabled = false,
   children,
@@ -21,6 +22,8 @@ const Button = ({
   type?: "primary" | "secondary" | "danger" | "tertiary";
   icon?: React.ReactNode;
   testID?: string;
+  /** Name for icon-only buttons. */
+  accessibilityLabel?: string;
   disabled?: boolean;
   children: React.ReactNode;
   style?: ViewStyle;
@@ -88,6 +91,7 @@ const Button = ({
       disabled={disabled}
       testID={testID}
       accessibilityRole="button"
+      accessibilityLabel={accessibilityLabel}
     >
       {icon && <View style={{ marginRight: children ? 8 : 0 }}>{icon}</View>}
       {isString(children) ? (

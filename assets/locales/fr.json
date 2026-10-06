@@ -1,4 +1,10 @@
 {
+  "a11y_mood": "humeur {{mood}}",
+  "a11y_next": "Suivant",
+  "a11y_next_month": "Mois suivant : {{month}}",
+  "a11y_previous_month": "Mois précédent : {{month}}",
+  "a11y_share": "Partager",
+  "a11y_today": "aujourd'hui",
   "add": "Ajouter",
   "add_entry": "Ajouter une entrée",
   "add_entry_for": "Ajouter {{dayTime}}",

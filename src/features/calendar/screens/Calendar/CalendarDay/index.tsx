@@ -10,6 +10,8 @@ import useHaptics from "@/hooks/useHaptics";
 import usePressRipple from "@/hooks/usePressRipple";
 import type { LogItem } from "@/features/logs";
 import { useSetting } from "@/state/settings";
+import { getRatingLabel } from "@/lib/ratingLabel";
+import { locale, t } from "@/lib/translation";
 import { BEZEL, getBezelEdgeColor, getBezelRadius } from "@/constants/Bezel";
 import { RADIUS } from "@/constants/Radius";
 
@@ -213,9 +215,29 @@ const CalendarDayComponent = ({
     }
   }, [haptics, isFuture, onPress]);
 
+  const accessibilityLabel = useMemo(() => {
+    const date = new Intl.DateTimeFormat(locale, {
+      weekday: "long",
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    }).format(dayjs(dateString).toDate());
+    const parts = [date];
+    if (rating) {
+      parts.push(t("a11y_mood", { mood: getRatingLabel(rating) }));
+    }
+    if (isToday) {
+      parts.push(t("a11y_today"));
+    }
+    return parts.join(", ");
+  }, [dateString, rating, isToday]);
+
   return (
     <Pressable
       testID={`calendar-day-${dateString}`}
+      accessibilityRole="button"
+      accessibilityLabel={accessibilityLabel}
+      accessibilityState={{ disabled: isFuture, selected: isToday }}
       disabled={isFuture}
       onPress={_onPress}
       android_ripple={ripple}

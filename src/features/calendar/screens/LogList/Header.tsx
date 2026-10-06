@@ -36,6 +36,7 @@ export const Header = ({
           }}
         >
           <Text
+            accessibilityRole="header"
             style={{
               fontSize: 17,
               fontWeight: "600",

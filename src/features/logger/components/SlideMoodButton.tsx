@@ -6,6 +6,7 @@ import useHaptics from "@/hooks/useHaptics";
 import type { LogItem } from "@/features/logs";
 import useScale from "@/hooks/useScale";
 import { BEZEL, getBezelEdgeColor, getBezelRadius } from "@/constants/Bezel";
+import { getRatingLabel } from "@/lib/ratingLabel";
 import { RADIUS } from "@/constants/Radius";
 
 const SCREEN_HEIGHT = Dimensions.get("screen").height;
@@ -35,6 +36,9 @@ export const SlideMoodButton = ({
   return (
     <Pressable
       testID={`mood-${rating}`}
+      accessibilityRole="radio"
+      accessibilityLabel={getRatingLabel(rating)}
+      accessibilityState={{ selected }}
       onPress={async () => {
         await haptics.selection();
         onPress();

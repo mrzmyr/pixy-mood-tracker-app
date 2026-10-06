@@ -1,4 +1,10 @@
 {
+  "a11y_mood": "nálada {{mood}}",
+  "a11y_next": "Další",
+  "a11y_next_month": "Další měsíc: {{month}}",
+  "a11y_previous_month": "Předchozí měsíc: {{month}}",
+  "a11y_share": "Sdílet",
+  "a11y_today": "dnes",
   "add": "Přidat",
   "add_entry": "Přidat položku",
   "add_entry_for": "Přidat {{dayTime}}",

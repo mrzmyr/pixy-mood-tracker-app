@@ -1,4 +1,10 @@
 {
+  "a11y_mood": "tâm trạng {{mood}}",
+  "a11y_next": "Tiếp",
+  "a11y_next_month": "Tháng sau: {{month}}",
+  "a11y_previous_month": "Tháng trước: {{month}}",
+  "a11y_share": "Chia sẻ",
+  "a11y_today": "hôm nay",
   "add": "cộng",
   "add_entry": "Thêm mục nhập",
   "add_entry_for": "Thêm {{dayTime}}",

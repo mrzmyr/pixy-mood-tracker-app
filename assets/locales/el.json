@@ -1,4 +1,10 @@
 {
+  "a11y_mood": "διάθεση {{mood}}",
+  "a11y_next": "Επόμενο",
+  "a11y_next_month": "Επόμενος μήνας: {{month}}",
+  "a11y_previous_month": "Προηγούμενος μήνας: {{month}}",
+  "a11y_share": "Κοινοποίηση",
+  "a11y_today": "σήμερα",
   "add": "Προσθήκη",
   "add_entry": "Προσθήκη Καταχώρισης",
   "add_entry_for": "Προσθήκη {{dayTime}}",

@@ -1,4 +1,10 @@
 {
+  "a11y_mood": "suasana hati {{mood}}",
+  "a11y_next": "Berikutnya",
+  "a11y_next_month": "Bulan berikutnya: {{month}}",
+  "a11y_previous_month": "Bulan sebelumnya: {{month}}",
+  "a11y_share": "Bagikan",
+  "a11y_today": "hari ini",
   "add": "Menambahkan",
   "add_entry": "Tambahkan Entri",
   "add_entry_for": "Tambahkan {{dayTime}}",

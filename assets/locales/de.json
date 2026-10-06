@@ -1,4 +1,10 @@
 {
+  "a11y_mood": "Stimmung {{mood}}",
+  "a11y_next": "Weiter",
+  "a11y_next_month": "Nächster Monat: {{month}}",
+  "a11y_previous_month": "Vorheriger Monat: {{month}}",
+  "a11y_share": "Teilen",
+  "a11y_today": "heute",
   "add": "Hinzufügen",
   "add_entry": "Eintrag hinzufügen",
   "add_entry_for": "{{dayTime}} hinzufügen",

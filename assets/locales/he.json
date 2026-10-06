@@ -1,4 +1,10 @@
 {
+  "a11y_mood": "מצב רוח {{mood}}",
+  "a11y_next": "הבא",
+  "a11y_next_month": "החודש הבא: {{month}}",
+  "a11y_previous_month": "החודש הקודם: {{month}}",
+  "a11y_share": "שיתוף",
+  "a11y_today": "היום",
   "add": "לְהוֹסִיף",
   "add_entry": "הוסף ערך",
   "add_entry_for": "הוסף {{dayTime}}",

@@ -1,4 +1,10 @@
 {
+  "a11y_mood": "気分は{{mood}}",
+  "a11y_next": "次へ",
+  "a11y_next_month": "次の月：{{month}}",
+  "a11y_previous_month": "前の月：{{month}}",
+  "a11y_share": "共有",
+  "a11y_today": "今日",
   "add": "追加",
   "add_entry": "エントリを追加",
   "add_entry_for": "{{dayTime}}を追加",
