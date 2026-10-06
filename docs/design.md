@@ -31,12 +31,11 @@
 
 ## Surfaces
 
-- Cards, list groups, calendar days, and mood buttons sit in a bezel: shell, gap, inner surface. Component: [`Bezel`](../src/components/Bezel.tsx)
-- Android list groups: Material 3 full-width list. No bezel, no chevron, no dividers. Rows 56dp ([`MenuList`](../src/components/MenuList.tsx), [`MenuListItem`](../src/components/MenuListItem.tsx))
+- Statistics cards and person tiles sit in a bezel: shell, gap, inner surface. Component: [`Bezel`](../src/components/Bezel.tsx)
+- Calendar days, mood buttons, day view and timeline cards, and list groups have no bezel
+- Android list groups: Material 3 full-width list. No chevron, no dividers. Rows 56dp ([`MenuList`](../src/components/MenuList.tsx), [`MenuListItem`](../src/components/MenuListItem.tsx))
 - Gaps and shell radius: [`src/constants/Bezel.ts`](../src/constants/Bezel.ts). Shell radius comes from `getBezelRadius`, never picked by hand
 - Colors: `bezelBackground`, `bezelBorder`, `bezelInnerBorder`, `bezelShadow`
-- Calendar days build the shell in [`CalendarDay`](../src/features/calendar/screens/Calendar/CalendarDay/index.tsx). Future and filtered-out days have no shell
-- Mood buttons build the shell in [`SlideMoodButton`](../src/features/logger/components/SlideMoodButton.tsx). Colored inner surfaces get `getBezelEdgeColor`
 - Person tiles build a round shell in [`PersonChip`](../src/features/people/components/PersonChip.tsx). Selected tile: tint shell border
 
 ## Sheets and Modals

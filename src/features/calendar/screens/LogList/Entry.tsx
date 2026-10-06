@@ -1,4 +1,3 @@
-import Bezel from "@/components/Bezel";
 import FlagHighlight from "@/components/FlagHighlight";
 import useColors from "@/hooks/useColors";
 import { useLogState } from "@/features/logs";
@@ -18,7 +17,7 @@ import { AddPills } from "./AddPills";
 import type { AddableStep } from "./AddPills";
 import { Emotions } from "./Emotions";
 import { EntryMenu } from "./EntryMenu";
-import { BLOCK_GAP } from "./layout";
+import { BLOCK_GAP, INSET } from "./layout";
 import { Message } from "./Message";
 import { People, useKnownPeople } from "./People";
 import { Photos } from "./Photos";
@@ -78,10 +77,11 @@ const EntryHeader = ({
         flexDirection: "row",
         alignItems: "center",
         gap: 12,
-        // Sits in the bezel shell; the shell gap adds to this padding.
-        paddingTop: 6,
-        paddingHorizontal: 10,
-        paddingBottom: 10,
+        marginHorizontal: INSET,
+        paddingTop: 16,
+        paddingBottom: 12,
+        borderBottomColor: colors.logCardBorder,
+        borderBottomWidth: 1,
       }}
     >
       <View
@@ -184,22 +184,22 @@ export const Entry = ({
         flex: 1,
       }}
     >
-      <Bezel
-        radius={RADIUS.md}
-        style={{ flex: 1 }}
-        innerStyle={{
+      <View
+        style={{
           flex: 1,
+          borderRadius: RADIUS.md,
+          borderWidth: 1,
+          borderColor: colors.logCardBorder,
           backgroundColor: colors.logCardBackground,
+          overflow: "hidden",
         }}
-        header={
-          <EntryHeader
-            item={item}
-            onEdit={onEdit}
-            onDelete={onDelete}
-            onEditSleep={editStep("sleep")}
-          />
-        }
       >
+        <EntryHeader
+          item={item}
+          onEdit={onEdit}
+          onDelete={onDelete}
+          onEditSleep={editStep("sleep")}
+        />
         <ScrollView
           contentContainerStyle={{
             paddingTop: 20,
@@ -236,7 +236,7 @@ export const Entry = ({
           }}
           pointerEvents="none"
         />
-      </Bezel>
+      </View>
     </View>
   );
 };

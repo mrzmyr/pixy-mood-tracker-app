@@ -1,15 +1,11 @@
-import chroma from "chroma-js";
-
 /**
  * Bezel: an outer shell with a hairline border and a soft shadow, a small
- * gap, then the inner surface with its own border. Used for cards, list
- * groups, calendar days, and mood buttons.
+ * gap, then the inner surface with its own border. Used for statistics
+ * cards and person tiles.
  */
 export const BEZEL = {
-  /** Space between shell and inner surface on cards and list groups. */
+  /** Space between shell and inner surface. */
   gap: 5,
-  /** Space between shell and inner surface on calendar days. */
-  dayGap: 3,
   borderWidth: 1,
 } as const;
 
@@ -19,7 +15,3 @@ export const BEZEL = {
  */
 export const getBezelRadius = (innerRadius: number, gap: number) =>
   innerRadius + gap + BEZEL.borderWidth;
-
-/** Inner border for a colored surface: same hue, a bit darker. */
-export const getBezelEdgeColor = (color: string) =>
-  chroma(color).darken(0.3).hex();

@@ -45,7 +45,7 @@ describe("MenuList", () => {
     });
   });
 
-  it("keeps the bezel list on iOS", async () => {
+  it("keeps the grouped list on iOS", async () => {
     await withPlatform("ios", async () => {
       await renderList();
       expect(screen.queryByTestId("menu-list-flat")).toBeNull();

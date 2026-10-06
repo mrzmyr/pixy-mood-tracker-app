@@ -2,7 +2,6 @@ import React, { useCallback, useState } from "react";
 import type { LayoutChangeEvent, ViewStyle } from "react-native";
 import { Platform, View, useWindowDimensions } from "react-native";
 
-import Bezel from "@/components/Bezel";
 import useColors from "@/hooks/useColors";
 import { RADIUS } from "@/constants/Radius";
 
@@ -57,14 +56,19 @@ const MenuList = ({
   }
 
   return (
-    <Bezel
-      radius={RADIUS.md}
-      style={style}
-      innerStyle={{ backgroundColor: colors.menuListItemBackground }}
+    <View
+      style={[
+        {
+          backgroundColor: colors.menuListItemBackground,
+          borderRadius: RADIUS.md,
+          overflow: "hidden",
+        },
+        style,
+      ]}
     >
       {/* Items draw a top divider; the shift clips the first one. */}
       <View style={{ marginTop: -1 }}>{children}</View>
-    </Bezel>
+    </View>
   );
 };
 
