@@ -79,3 +79,4 @@
 - MUST read [CODING_STANDARDS.md](CODING_STANDARDS.md)
 - MUST read [docs/documentation.md](docs/documentation.md)
 - MUST read [docs/design.md](docs/design.md) for UI, copy, layout, forms, and interaction guidelines
+- Use domain terms from [GLOSSARY.md](GLOSSARY.md) in code, copy, and docs
