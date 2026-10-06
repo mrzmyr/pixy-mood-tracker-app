@@ -4,6 +4,7 @@
  */
 export const FEATURE_FLAGS = [
   "app-icons",
+  "calendar-timeline",
   "development",
   "emotion-icons",
   "feature-flag-overrides",

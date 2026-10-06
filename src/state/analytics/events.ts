@@ -1,7 +1,7 @@
 import type { FeedackType, FeedbackSource } from "@/types/Feedback";
 import type { LoggerStep } from "@/constants/LoggerSteps";
 import type { AppIconId } from "@/constants/AppIcons";
-import type { SettingsState } from "@/state/settings";
+import type { CalendarLayout, SettingsState } from "@/state/settings";
 import type { z } from "zod";
 import type { LogItemSchema, PhotoSourceKind } from "@/types";
 
@@ -121,7 +121,7 @@ export interface AnalyticsEvents {
   };
 
   "calendar:day_opened": {
-    source: "calendar" | "mood_peaks" | "tag_peaks";
+    source: "calendar" | "timeline" | "mood_peaks" | "tag_peaks";
     entries_count: number;
     days_ago: number;
   };
@@ -136,6 +136,7 @@ export interface AnalyticsEvents {
   };
   "calendar:filters_reset": undefined;
   "calendar:filters_closed": undefined;
+  "calendar:layout_changed": { layout: CalendarLayout };
   "calendar:promo_tapped": { card: "changelog" };
 
   "statistics:highlights_viewed": {

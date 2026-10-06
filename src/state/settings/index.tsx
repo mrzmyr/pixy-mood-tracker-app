@@ -32,6 +32,16 @@ const SCALE_TYPES = [
 ];
 
 /**
+ * Calendar screen layout: `calendar` shows month grids, `timeline` a list of
+ * entry cards. Read through `useCalendarLayout`, which applies the
+ * `calendar-timeline` flag.
+ */
+export type CalendarLayout = "calendar" | "timeline";
+
+const isCalendarLayout = (value: unknown): value is CalendarLayout =>
+  value === "calendar" || value === "timeline";
+
+/**
  * Persisted user settings.
  *
  * When adding a field, decide in `toExportSettings` (`exportSettings.ts`) whether backups carry it.
@@ -62,6 +72,8 @@ export interface SettingsState {
    * belongs to the device.
    */
   locationEnabled: boolean;
+  /** Calendar screen layout for this device. */
+  calendarLayout: CalendarLayout;
 
   // removed in previous version
   // replaced with analyticsEnabled
@@ -73,8 +85,9 @@ export interface SettingsState {
 /**
  * Settings included in data exports. The device id is excluded so an import
  * never clones another device's identity. Store review prompt state belongs
- * to the device and store account, and photo library access, theme, and
- * location to the device, so imports keep the current values.
+ * to the device and store account, and photo library access, theme,
+ * location, and calendar layout to the device, so imports keep the current
+ * values.
  */
 export type ExportSettings = Omit<
   SettingsState,
@@ -84,6 +97,7 @@ export type ExportSettings = Omit<
   | "photosDayAccessDismissed"
   | "colorScheme"
   | "locationEnabled"
+  | "calendarLayout"
 >;
 
 interface IAction {
@@ -128,8 +142,9 @@ const reducer = (
     case "set": {
       return action.payload(state);
     }
-    // Store review prompt state, photo library access, theme, and location
-    // belong to this device, so imports keep the current values.
+    // Store review prompt state, photo library access, theme, location, and
+    // calendar layout belong to this device, so imports keep the current
+    // values.
     case "import": {
       return {
         ...INITIAL_STATE,
@@ -140,6 +155,7 @@ const reducer = (
         photosDayAccessDismissed: state.photosDayAccessDismissed,
         colorScheme: state.colorScheme,
         locationEnabled: state.locationEnabled,
+        calendarLayout: state.calendarLayout,
       };
     }
     case "reset": {
@@ -164,6 +180,9 @@ const hydrate = (stored: SettingsState | null): SettingsState =>
         colorScheme:
           ColorSchemeSettingSchema.safeParse(stored.colorScheme).data ??
           "system",
+        calendarLayout: isCalendarLayout(stored.calendarLayout)
+          ? stored.calendarLayout
+          : "calendar",
       };
 
 const settingsStore = createPersistedStore<SettingsState, SettingsAction>({
