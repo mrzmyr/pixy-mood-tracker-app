@@ -114,22 +114,25 @@ const LocationRow = () => {
 
   return (
     <>
-      <FlagHighlight flag="location" style={{ marginTop: 24 }}>
-        <MenuList>
-          <MenuListItem
-            title={t("location_setting")}
-            iconLeft={<MapPin width={20} height={20} color={colors.text} />}
-            iconRight={
-              <Switch
-                accessibilityLabel={t("location_setting")}
-                testID="location-enabled"
-                onValueChange={setEnabled}
-                value={isEnabled}
-              />
-            }
-          />
-        </MenuList>
-      </FlagHighlight>
+      {/* The margin sits outside: FlagHighlight drops its style when highlight is off. */}
+      <View style={{ marginTop: 24 }}>
+        <FlagHighlight flag="location">
+          <MenuList>
+            <MenuListItem
+              title={t("location_setting")}
+              iconLeft={<MapPin width={20} height={20} color={colors.text} />}
+              iconRight={
+                <Switch
+                  accessibilityLabel={t("location_setting")}
+                  testID="location-enabled"
+                  onValueChange={setEnabled}
+                  value={isEnabled}
+                />
+              }
+            />
+          </MenuList>
+        </FlagHighlight>
+      </View>
       <Text
         style={{
           marginTop: 8,
