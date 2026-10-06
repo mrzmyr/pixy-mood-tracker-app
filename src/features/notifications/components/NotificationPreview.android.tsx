@@ -1,9 +1,8 @@
 import chroma from "chroma-js";
 import dayjs from "dayjs";
 import { LinearGradient } from "expo-linear-gradient";
-import { useMemo } from "react";
 import { Image, Text, View } from "react-native";
-import { locale, t } from "@/lib/translation";
+import { t } from "@/lib/translation";
 import useColors from "@/hooks/useColors";
 import { formatLockScreenTime, formatReminderTime } from "../reminderTime";
 
@@ -34,15 +33,8 @@ const NotificationPreview = ({
   const date = dayjs(time).format("ddd, MMM D");
   const title = t("notification_reminder_title");
   const body = t("notification_reminder_body");
-  // Localized "now" without a locale key.
-  const now = useMemo(
-    () =>
-      new Intl.RelativeTimeFormat(locale, { numeric: "auto" }).format(
-        0,
-        "second"
-      ),
-    []
-  );
+  // Locale key, not Intl.RelativeTimeFormat: Hermes lacks it and the screen crashed.
+  const now = t("notification_preview_now");
 
   return (
     <View
