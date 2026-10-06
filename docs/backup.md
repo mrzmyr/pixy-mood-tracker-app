@@ -45,6 +45,11 @@ Pixy has no server. Data leaves the phone only through the cloud backup or a man
 - Run the first `eas build --local` per variant with Apple login. EAS capability sync then registers the container and adds it to the profile. The App Store Connect API cannot do this ([EAS iOS capabilities](https://docs.expo.dev/build-reference/ios-capabilities/))
 - Simulators without an Apple Account show "Turn on iCloud Drive in the Settings app to back up Pixy."
 
+State (2026-10-06):
+
+- `iCloud.com.devmood.pixymoodtracker` registered and in App Store profile `YLU4PAZU4P`. CI builds with `--freeze-credentials`, so sync capability changes locally first
+- `iCloud.com.devmood.pixymoodtracker.preview` in the preview ad hoc profile
+
 ### Google (Drive, Android)
 
 - Google Cloud project: enable the Google Drive API
@@ -53,6 +58,19 @@ Pixy has no server. Data leaves the phone only through the cloud backup or a man
 - Missing client: sign-in fails with `DEVELOPER_ERROR`
 - Access revoked in the Google account, or account removed from the phone: `SIGN_IN_REQUIRED`, shown as "sign-in expired" with a Sign In link
 - No `@react-native-google-signin/google-signin` config plugin: it needs an iOS client, and iOS uses iCloud
+
+State (2026-10-06), Google Cloud project `pixy-mood-tracker` (4218331782):
+
+- Drive API on
+- Consent screen: app name Pixy, audience External, status Testing. Scope `drive.appdata`. Test user: Android test account. Publish before rollout, else only test users can sign in
+- Android OAuth clients:
+
+| Client | Package | SHA-1 | Client ID |
+| --- | --- | --- | --- |
+| Pixy Preview (Android) | `com.devmood.pixymoodtracker.preview` | `5E:8F:16:06:2E:A3:CD:2C:4A:0D:54:78:76:BA:A6:F3:8C:AB:F6:25` (local debug keystore) | `4218331782-t8qte9joje3fpj4vp9ej7ii727n397v4.apps.googleusercontent.com` |
+| Pixy (Android, Play) | `com.devmood.pixymoodtracker` | `F7:CD:85:34:FB:39:D3:24:7A:CD:E6:AF:DA:9C:0A:6B:72:BD:62:83` (Play app signing) | `4218331782-u1dkrhi2lf7pbiecul367atepqrhn9f6.apps.googleusercontent.com` |
+
+- Missing: `com.devmood.pixymoodtracker` with upload key `76:7F:4F:D6:E3:95:3C:A6:30:06:21:F4:26:FD:F4:62:4E:CE:75:DA` (only for builds installed outside Play), `.dev` client
 
 ### Fake cloud (development and preview builds)
 
