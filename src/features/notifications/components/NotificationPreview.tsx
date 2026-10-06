@@ -4,7 +4,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import { Image, Text, View } from "react-native";
 import { t } from "@/lib/translation";
 import useColors from "@/hooks/useColors";
-import { formatReminderTime } from "../reminderTime";
+import { formatLockScreenTime, formatReminderTime } from "../reminderTime";
 
 const BEZEL_WIDTH = 6;
 const SCREEN_RADIUS = 44;
@@ -20,7 +20,9 @@ const NotificationPreview = ({
 }) => {
   const colors = useColors();
 
-  const clock = formatReminderTime(time);
+  const clock = formatLockScreenTime(time);
+  // Screen readers get the day period the lock screen clock leaves out.
+  const spokenTime = formatReminderTime(time);
   const date = dayjs(time).format("dddd, D MMMM");
   const title = t("notification_reminder_title");
   const body = t("notification_reminder_body");
@@ -28,7 +30,7 @@ const NotificationPreview = ({
   return (
     <View
       accessible
-      accessibilityLabel={`${clock}. ${title}. ${body}`}
+      accessibilityLabel={`${spokenTime}. ${title}. ${body}`}
       style={{ height: 260, overflow: "hidden", opacity: enabled ? 1 : 0.5 }}
       testID="reminder-preview"
     >
