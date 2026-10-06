@@ -33,9 +33,11 @@ tags: [p0, entry]
 - runFlow: ../subflows/create-basic-entry.yaml
 - tapOn:
     id: "calendar-day-${output.today}"
+# Edit and Delete live in the entry's ⋯ menu.
 - tapOn:
-    id: "log-list-edit"
+    id: "log-list-more"
     index: 0
+- tapOn: "Edit"
 - assertVisible: "How was your day?"
 - waitForAnimationToEnd
 - tapOn:
