@@ -16,6 +16,7 @@ import {
   showImportSuccess,
   showResetSuccess,
 } from "@/helpers/prompts";
+import { isConfirmed } from "@/helpers/promptCancel";
 import { t } from "@/lib/translation";
 import pkg from "../../../package.json";
 import { useAnalytics } from "@/state/analytics";
@@ -112,7 +113,9 @@ export const useDatagate = (): DatagateValue => {
   ) => finishImport(decodeBackupData(data), muted);
 
   const openImportDialog = async (): Promise<void> => {
-    await askToImport();
+    if (!(await isConfirmed(askToImport()))) {
+      return;
+    }
 
     try {
       analytics.track("data:import_started");
@@ -140,14 +143,14 @@ export const useDatagate = (): DatagateValue => {
       return;
     }
 
-    try {
-      await askToReset();
-      appData.resetAll();
-      analytics.track("data:reset_completed", { kind: "factory" });
-      showResetSuccess();
-    } catch {
+    if (!(await isConfirmed(askToReset()))) {
       analytics.track("data:reset_cancelled", { kind: "factory" });
+      return;
     }
+
+    appData.resetAll();
+    analytics.track("data:reset_completed", { kind: "factory" });
+    showResetSuccess();
   };
 
   const openExportDialog = async ({ format }: { format: "json" | "csv" }) => {

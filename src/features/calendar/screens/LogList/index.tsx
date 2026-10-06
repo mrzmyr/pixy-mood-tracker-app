@@ -1,6 +1,7 @@
 import { useLocalSearchParams, useRouter } from "expo-router";
 import Button from "@/components/Button";
 import { PageModalLayout } from "@/components/PageModalLayout";
+import { isConfirmed } from "@/helpers/promptCancel";
 import { askToRemove } from "@/helpers/prompts";
 import { t } from "@/lib/translation";
 import { useAnalytics } from "@/state/analytics";
@@ -78,8 +79,9 @@ export const LogList = () => {
   };
 
   const _delete = async (item: LogItem) => {
-    await askToRemove();
-    remove(item);
+    if (await isConfirmed(askToRemove())) {
+      remove(item);
+    }
   };
 
   const _carouselRef = useRef<CarouselRef>(null);

@@ -1,3 +1,4 @@
+import { isConfirmed } from "@/helpers/promptCancel";
 import { askToDisableFeedbackStep, askToDisableStep } from "@/helpers/prompts";
 import useColors from "@/hooks/useColors";
 import { useLogState } from "@/features/logs";
@@ -223,7 +224,9 @@ const LoggerSlides = ({
   const disableStep = async (
     step: "sleep" | "tags" | "people" | "message" | "photos"
   ) => {
-    await askToDisableStep();
+    if (!(await isConfirmed(askToDisableStep()))) {
+      return;
+    }
     analytics.track("logger:step_disabled", { step });
     toggleStep(step);
     next();
@@ -316,7 +319,9 @@ const LoggerSlides = ({
           question={question}
           onPress={next}
           onDisableStep={async () => {
-            await askToDisableFeedbackStep();
+            if (!(await isConfirmed(askToDisableFeedbackStep()))) {
+              return;
+            }
             analytics.track("logger:step_disabled", { step: "feedback" });
             toggleStep("feedback");
             next();
