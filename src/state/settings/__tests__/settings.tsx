@@ -175,6 +175,23 @@ describe("useSettings()", () => {
     );
   });
 
+  test("keeps the app lock of this device on import", async () => {
+    await AsyncStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify({ ...INITIAL_STATE, appLockEnabled: true })
+    );
+    const hook = await _renderHook();
+    await waitForLoaded(hook);
+
+    // Backups never carry the lock; an old or edited file still must not change it.
+    const backup = { ...INITIAL_STATE, appLockEnabled: false };
+    await act(() => {
+      hook.result.current.state.importSettings(backup);
+    });
+
+    expect(hook.result.current.state.settings.appLockEnabled).toBe(true);
+  });
+
   test("reads a missing or invalid photo access dismissal as false", async () => {
     await AsyncStorage.setItem(
       STORAGE_KEY,

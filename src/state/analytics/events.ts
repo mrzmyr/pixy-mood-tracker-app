@@ -20,6 +20,8 @@ export interface AnalyticsEvents {
   "app:logs_loaded": { size_mb: number };
   "app:storage_load_failed": { status: string | number };
   "app:storage_recovery_tapped": { action: "export" | "contact" };
+  /** `status`: error code of the OS prompt, for example `lockout`. */
+  "app:unlock_failed": { status: string };
 
   "onboarding:slide_viewed": { index: number };
   "onboarding:reminder_enabled": undefined;
@@ -202,6 +204,7 @@ export interface AnalyticsEvents {
   "settings:location_toggled": { enabled: boolean };
   "settings:privacy_policy_opened": undefined;
   "settings:analytics_toggled": { enabled: boolean };
+  "settings:app_lock_toggled": { enabled: boolean };
   "settings:app_icon_changed": { icon: AppIconId };
   "settings:theme_changed": { color_scheme: SettingsState["colorScheme"] };
 

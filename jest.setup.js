@@ -130,3 +130,13 @@ jest.mock("expo-file-system/legacy", () => ({
   documentDirectory: "file:///documents/",
   cacheDirectory: "file:///cache/",
 }));
+
+// oxlint-disable-next-line anti-slop/no-module-mocking -- expo-local-authentication is a native module; every provider test mounts AppLockProvider. Default: no device passcode.
+jest.mock("expo-local-authentication", () => ({
+  __esModule: true,
+  SecurityLevel: { NONE: 0, SECRET: 1, BIOMETRIC_WEAK: 2, BIOMETRIC_STRONG: 3 },
+  AuthenticationType: { FINGERPRINT: 1, FACIAL_RECOGNITION: 2, IRIS: 3 },
+  getEnrolledLevelAsync: jest.fn(() => Promise.resolve(0)),
+  supportedAuthenticationTypesAsync: jest.fn(() => Promise.resolve([])),
+  authenticateAsync: jest.fn(() => Promise.resolve({ success: true })),
+}));

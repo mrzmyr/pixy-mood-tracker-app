@@ -22,6 +22,7 @@ import { useSettings, useSettingsLoad } from "@/state/settings";
 import { useUsageSummarySync } from "@/shell/usageSummary";
 import { useScreenTracking } from "@/shell/screenTracking";
 import { LaunchSplash } from "@/shell/LaunchSplash";
+import { AppLockScreen } from "@/features/applock";
 import {
   useReminderSync,
   useReminderTapTracking,
@@ -93,6 +94,7 @@ const RootLayout = () => {
           <ToastHost />
           <StatusBar />
           <LaunchSplash />
+          <AppLockScreen />
         </Providers>
       </ThemeProvider>
     </GestureHandlerRootView>

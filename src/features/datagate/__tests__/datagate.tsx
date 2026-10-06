@@ -246,6 +246,7 @@ describe("useLogs()", () => {
         "colorScheme",
         "locationEnabled",
         "calendarLayout",
+        "appLockEnabled",
       ]) satisfies ExportSettings,
       tags: testTags,
       people: [],

@@ -4,6 +4,7 @@
  */
 export const FEATURE_FLAGS = [
   "app-icons",
+  "app-lock",
   "calendar-map",
   "calendar-timeline",
   "development",
@@ -31,6 +32,10 @@ export const FEATURE_FLAG_DETAILS: Record<
   "app-icons": {
     description: "Flagged alternate app icons",
     location: "Settings > App icon",
+  },
+  "app-lock": {
+    description: "Face ID, Touch ID, or passcode lock",
+    location: "Settings > Privacy",
   },
   "calendar-map": {
     description: "Map layout for the calendar, iOS only",
