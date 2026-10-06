@@ -1,4 +1,10 @@
 {
+  "a11y_mood": "настрій {{mood}}",
+  "a11y_next": "Далі",
+  "a11y_next_month": "Наступний місяць: {{month}}",
+  "a11y_previous_month": "Попередній місяць: {{month}}",
+  "a11y_share": "Поділитися",
+  "a11y_today": "сьогодні",
   "add": "Додати",
   "add_entry": "Додати запис",
   "add_entry_for": "Додати {{dayTime}}",

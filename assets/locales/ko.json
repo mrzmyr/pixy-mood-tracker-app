@@ -1,4 +1,10 @@
 {
+  "a11y_mood": "기분 {{mood}}",
+  "a11y_next": "다음",
+  "a11y_next_month": "다음 달: {{month}}",
+  "a11y_previous_month": "이전 달: {{month}}",
+  "a11y_share": "공유",
+  "a11y_today": "오늘",
   "add": "추가하다",
   "add_entry": "항목 추가",
   "add_entry_for": "{{dayTime}} 추가",

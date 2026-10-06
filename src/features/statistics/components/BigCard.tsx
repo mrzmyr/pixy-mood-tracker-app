@@ -9,6 +9,7 @@ import { Share } from "react-native-feather";
 import { captureRef } from "react-native-view-shot";
 import LinkButton from "@/components/LinkButton";
 import { RADIUS } from "@/constants/Radius";
+import { t } from "@/lib/translation";
 
 const LOGO = require("../../../../assets/images/icon.png");
 
@@ -161,7 +162,11 @@ export const BigCard = ({
               <ActivityIndicator size="small" color={colors.textSecondary} />
             )}
             {!shareLoading && isShareable && (
-              <LinkButton onPress={() => share()} style={{}}>
+              <LinkButton
+                accessibilityLabel={t("a11y_share")}
+                onPress={() => share()}
+                style={{}}
+              >
                 <Share stroke={colors.tint} width={20} />
               </LinkButton>
             )}

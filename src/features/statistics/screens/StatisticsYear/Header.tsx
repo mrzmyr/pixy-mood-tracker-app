@@ -5,6 +5,7 @@ import { ArrowLeft, Star } from "react-native-feather";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import LinkButton from "@/components/LinkButton";
 import useColors from "@/hooks/useColors";
+import { t } from "@/lib/translation";
 
 /** Gradient header with back button for the year report. */
 export const Header = ({
@@ -75,6 +76,7 @@ export const Header = ({
         >
           <LinkButton
             testID="statistics-back"
+            accessibilityLabel={t("logger_back")}
             style={{
               padding: 16,
               margin: -16,
@@ -103,6 +105,7 @@ export const Header = ({
           {subtitle}
         </Text>
         <Text
+          accessibilityRole="header"
           style={{
             color: colors.palette.white,
             fontSize: 27,

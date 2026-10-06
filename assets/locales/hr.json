@@ -1,4 +1,10 @@
 {
+  "a11y_mood": "raspoloženje {{mood}}",
+  "a11y_next": "Dalje",
+  "a11y_next_month": "Sljedeći mjesec: {{month}}",
+  "a11y_previous_month": "Prethodni mjesec: {{month}}",
+  "a11y_share": "Podijeli",
+  "a11y_today": "danas",
   "add": "Dodati",
   "add_entry": "Dodaj unos",
   "add_entry_for": "Dodaj {{dayTime}}",

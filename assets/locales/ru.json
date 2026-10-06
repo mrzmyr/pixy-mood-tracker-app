@@ -1,4 +1,10 @@
 {
+  "a11y_mood": "настроение {{mood}}",
+  "a11y_next": "Далее",
+  "a11y_next_month": "Следующий месяц: {{month}}",
+  "a11y_previous_month": "Предыдущий месяц: {{month}}",
+  "a11y_share": "Поделиться",
+  "a11y_today": "сегодня",
   "add": "Добавлять",
   "add_entry": "Добавить запись",
   "add_entry_for": "Добавить {{dayTime}}",

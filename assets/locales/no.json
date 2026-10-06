@@ -1,4 +1,10 @@
 {
+  "a11y_mood": "humør {{mood}}",
+  "a11y_next": "Neste",
+  "a11y_next_month": "Neste måned: {{month}}",
+  "a11y_previous_month": "Forrige måned: {{month}}",
+  "a11y_share": "Del",
+  "a11y_today": "i dag",
   "add": "Legg til",
   "add_entry": "Legg til oppføring",
   "add_entry_for": "Legg til {{dayTime}}",

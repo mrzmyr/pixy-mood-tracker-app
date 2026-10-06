@@ -1,4 +1,10 @@
 {
+  "a11y_mood": "stemming {{mood}}",
+  "a11y_next": "Volgende",
+  "a11y_next_month": "Volgende maand: {{month}}",
+  "a11y_previous_month": "Vorige maand: {{month}}",
+  "a11y_share": "Delen",
+  "a11y_today": "vandaag",
   "add": "Toevoegen",
   "add_entry": "Invoer toevoegen",
   "add_entry_for": "{{dayTime}} toevoegen",

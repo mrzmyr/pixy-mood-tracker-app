@@ -1,4 +1,10 @@
 {
+  "a11y_mood": "मूड {{mood}}",
+  "a11y_next": "अगला",
+  "a11y_next_month": "अगला महीना: {{month}}",
+  "a11y_previous_month": "पिछला महीना: {{month}}",
+  "a11y_share": "साझा करें",
+  "a11y_today": "आज",
   "add": "जोड़ें",
   "add_entry": "प्रविष्टि जोड़ें",
   "add_entry_for": "{{dayTime}} जोड़ें",

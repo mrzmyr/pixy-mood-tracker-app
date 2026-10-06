@@ -79,7 +79,7 @@ const CalendarMonthComponent = ({
       }}
     >
       <View style={{ height: geometry.titleHeight }}>
-        <Text numberOfLines={1} style={textStyles}>
+        <Text accessibilityRole="header" numberOfLines={1} style={textStyles}>
           {date.format("MMMM YYYY")}
         </Text>
       </View>

@@ -1,4 +1,10 @@
 {
+  "a11y_mood": "hangulat {{mood}}",
+  "a11y_next": "Tovább",
+  "a11y_next_month": "Következő hónap: {{month}}",
+  "a11y_previous_month": "Előző hónap: {{month}}",
+  "a11y_share": "Megosztás",
+  "a11y_today": "ma",
   "add": "Hozzáadás",
   "add_entry": "Bejegyzés hozzáadása",
   "add_entry_for": "{{dayTime}} hozzáadása",

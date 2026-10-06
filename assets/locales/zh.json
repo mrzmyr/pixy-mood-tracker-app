@@ -1,4 +1,10 @@
 {
+  "a11y_mood": "心情{{mood}}",
+  "a11y_next": "下一步",
+  "a11y_next_month": "下个月：{{month}}",
+  "a11y_previous_month": "上个月：{{month}}",
+  "a11y_share": "分享",
+  "a11y_today": "今天",
   "add": "添加",
   "add_entry": "添加条目",
   "add_entry_for": "添加 {{dayTime}}",

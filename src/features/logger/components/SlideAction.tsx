@@ -3,6 +3,7 @@ import { Keyboard, Platform, View } from "react-native";
 import { ArrowRight, Check } from "react-native-feather";
 import useColors from "@/hooks/useColors";
 import useHaptics from "@/hooks/useHaptics";
+import { t } from "@/lib/translation";
 import { FloatButton } from "@/components/FloatButton";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
@@ -66,6 +67,7 @@ export const SlideAction = ({
     >
       <FloatButton
         testID={`logger-${type}`}
+        accessibilityLabel={type === "save" ? t("save") : t("a11y_next")}
         onPress={async () => {
           if (disabled) {
             return;

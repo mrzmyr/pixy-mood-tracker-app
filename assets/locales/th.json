@@ -1,4 +1,10 @@
 {
+  "a11y_mood": "อารมณ์{{mood}}",
+  "a11y_next": "ถัดไป",
+  "a11y_next_month": "เดือนถัดไป: {{month}}",
+  "a11y_previous_month": "เดือนก่อนหน้า: {{month}}",
+  "a11y_share": "แชร์",
+  "a11y_today": "วันนี้",
   "add": "เพิ่ม",
   "add_entry": "เพิ่มรายการ",
   "add_entry_for": "เพิ่ม {{dayTime}}",
