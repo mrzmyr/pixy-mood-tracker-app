@@ -33,10 +33,15 @@ const SLIDE_PADDING = 20;
 const COLUMN_GAP = 12;
 const MAX_AVATAR_SIZE = 96;
 
-/** Last grid cell: opens the person form, hidden at {@link MAX_PEOPLE}. */
+/**
+ * Last grid cell: opens the person form, hidden at {@link MAX_PEOPLE}.
+ * Border, icon, and label share one placeholder gray so the tile reads as an
+ * empty slot, quieter than the people around it.
+ */
 const AddPersonTile = ({ size }: { size: number }) => {
   const router = useRouter();
   const colors = useColors();
+  const quiet = colors.textInputPlaceholder;
   const outer = size + 2 * (TILE_RING_GAP + TILE_RING_WIDTH);
 
   return (
@@ -65,14 +70,14 @@ const AddPersonTile = ({ size }: { size: number }) => {
             borderRadius: size / 2,
             borderWidth: 2,
             borderStyle: "dashed",
-            borderColor: colors.textSecondary,
+            borderColor: quiet,
             alignItems: "center",
             justifyContent: "center",
           }}
         >
           <Plus
             size={Math.round(size * 0.35)}
-            color={colors.textSecondary}
+            color={quiet}
             strokeWidth={1.5}
           />
         </View>
@@ -83,7 +88,7 @@ const AddPersonTile = ({ size }: { size: number }) => {
           marginTop: 6,
           maxWidth: outer,
           fontSize: 15,
-          color: colors.text,
+          color: quiet,
         }}
       >
         {t("people_add")}
