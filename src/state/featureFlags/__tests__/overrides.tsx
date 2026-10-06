@@ -17,7 +17,13 @@ import {
   useCanOverrideFeatureFlags,
   useFeatureFlag,
 } from "@/state/featureFlags";
-import { setHighlight, setOverride } from "@/state/featureFlags/overrides";
+import { FEATURE_FLAGS } from "@/state/featureFlags/keys";
+import {
+  setHighlight,
+  setOverride,
+  setOverrides,
+  subscribe,
+} from "@/state/featureFlags/overrides";
 import {
   SettingsProvider,
   STORAGE_KEY,
@@ -53,6 +59,7 @@ const renderFlags = async () => {
     () => ({
       canOverride: useCanOverrideFeatureFlags(),
       isPhotosOn: useFeatureFlag("photos"),
+      isPeopleOn: useFeatureFlag("people"),
       isAccessOn: useFeatureFlag("feature-flag-overrides"),
       settings: useSettings(),
       settingsLoad: useSettingsLoad(),
@@ -70,8 +77,7 @@ describe("feature flag overrides in production builds", () => {
     mockReload.mockReset();
     await AsyncStorage.clear();
     // Overrides live in memory; drop the ones of the last test.
-    setOverride({ key: "photos", value: "remote" });
-    setOverride({ key: "feature-flag-overrides", value: "remote" });
+    setOverrides({ keys: FEATURE_FLAGS, value: "remote" });
     setHighlight(false);
   });
 
@@ -99,6 +105,47 @@ describe("feature flag overrides in production builds", () => {
     });
 
     expect(hook.result.current.isPhotosOn).toBe(true);
+  });
+
+  test("sets many flags in one update", async () => {
+    mockReload.mockResolvedValue({ "feature-flag-overrides": true });
+    const hook = await renderFlags();
+    await waitFor(() => {
+      expect(hook.result.current.canOverride).toBe(true);
+    });
+    const listener = jest.fn();
+    const unsubscribe = subscribe(listener);
+
+    await act(() => {
+      setOverrides({ keys: ["photos", "people"], value: "on" });
+    });
+    unsubscribe();
+
+    expect(listener).toHaveBeenCalledTimes(1);
+    expect(hook.result.current.isPhotosOn).toBe(true);
+    expect(hook.result.current.isPeopleOn).toBe(true);
+  });
+
+  test("returns many flags to PostHog in one update", async () => {
+    mockReload.mockResolvedValue({
+      "feature-flag-overrides": true,
+      people: true,
+    });
+    const hook = await renderFlags();
+    await waitFor(() => {
+      expect(hook.result.current.canOverride).toBe(true);
+    });
+    await act(() => {
+      setOverrides({ keys: ["photos", "people"], value: "off" });
+    });
+    expect(hook.result.current.isPeopleOn).toBe(false);
+
+    await act(() => {
+      setOverrides({ keys: ["photos", "people"], value: "remote" });
+    });
+
+    expect(hook.result.current.isPhotosOn).toBe(false);
+    expect(hook.result.current.isPeopleOn).toBe(true);
   });
 
   test("never overrides the access flag itself", async () => {

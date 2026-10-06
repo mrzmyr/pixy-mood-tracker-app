@@ -1,3 +1,4 @@
+import { FEATURE_FLAGS } from "@/state/featureFlags/keys";
 import type { FeatureFlag } from "@/state/featureFlags/keys";
 
 /**
@@ -52,6 +53,31 @@ export const setOverride = ({
 }) => {
   const { [key]: _removed, ...others } = overrides;
   overrides = value === "remote" ? others : { ...others, [key]: value };
+  for (const listener of listeners) {
+    listener();
+  }
+};
+
+/**
+ * Set the same override on many flags in one store update, so subscribers
+ * render once. `remote` removes the override of every key.
+ */
+export const setOverrides = ({
+  keys,
+  value,
+}: {
+  keys: readonly FeatureFlag[];
+  value: FeatureFlagOverride;
+}) => {
+  const next: Overrides = {};
+  for (const key of FEATURE_FLAGS) {
+    const isChanged = keys.some((changed) => changed === key);
+    const current = isChanged ? value : overrides[key];
+    if (current === "on" || current === "off") {
+      next[key] = current;
+    }
+  }
+  overrides = next;
   for (const listener of listeners) {
     listener();
   }

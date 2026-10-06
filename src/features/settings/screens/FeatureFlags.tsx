@@ -21,6 +21,7 @@ import {
   OVERRIDE_ACCESS_FLAG,
   setHighlight,
   setOverride,
+  setOverrides,
   subscribe,
 } from "@/state/featureFlags/overrides";
 import type { FeatureFlagOverride } from "@/state/featureFlags/overrides";
@@ -34,6 +35,52 @@ const OVERRIDE_OPTIONS: { value: FeatureFlagOverride; title: string }[] = [
 const OVERRIDABLE_FLAGS = FEATURE_FLAGS.filter(
   (key) => key !== OVERRIDE_ACCESS_FLAG
 );
+
+/**
+ * The override every flag shares, or `undefined` when flags differ. Drives
+ * the check mark of the "All Flags" rows.
+ */
+const getSharedOverride = (
+  overrides: ReturnType<typeof getOverrides>
+): FeatureFlagOverride | undefined => {
+  const values = new Set(
+    OVERRIDABLE_FLAGS.map((flag) => overrides[flag] ?? "remote")
+  );
+  return values.size === 1 ? [...values][0] : undefined;
+};
+
+/** Set every flag to one option in one tap. */
+const AllFlagsSection = ({
+  shared,
+}: {
+  shared: FeatureFlagOverride | undefined;
+}) => {
+  const colors = useColors();
+
+  return (
+    <View>
+      <MenuListHeadline style={{ marginTop: 8 }}>All Flags</MenuListHeadline>
+      <MenuList>
+        {OVERRIDE_OPTIONS.map((option) => (
+          <MenuListItem
+            key={option.value}
+            title={option.title}
+            onPress={() =>
+              setOverrides({ keys: OVERRIDABLE_FLAGS, value: option.value })
+            }
+            iconRight={
+              shared === option.value ? (
+                <Check size={18} color={colors.tint} />
+              ) : null
+            }
+            testID={`feature-flag-all-${option.value}`}
+          />
+        ))}
+      </MenuList>
+      <TextInfo>Sets every flag below. No check mark: flags differ.</TextInfo>
+    </View>
+  );
+};
 
 /** One flag: override options, then what it gates and its state now. */
 const FeatureFlagSection = ({
@@ -88,6 +135,7 @@ export const FeatureFlagsScreen = () => {
     <ScrollView
       style={{ backgroundColor: colors.background, flex: 1, padding: 16 }}
     >
+      <AllFlagsSection shared={getSharedOverride(overrides)} />
       <MenuList>
         <MenuListItem
           title="Highlight flagged features"
