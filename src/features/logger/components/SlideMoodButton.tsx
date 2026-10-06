@@ -1,15 +1,11 @@
 import { useSetting } from "@/state/settings";
-import {
-  Dimensions,
-  Platform,
-  Pressable,
-  useColorScheme,
-  View,
-} from "react-native";
+import { Dimensions, Pressable, View } from "react-native";
 import { Check } from "react-native-feather";
+import useColors from "@/hooks/useColors";
 import useHaptics from "@/hooks/useHaptics";
 import type { LogItem } from "@/features/logs";
 import useScale from "@/hooks/useScale";
+import { BEZEL, getBezelEdgeColor, getBezelRadius } from "@/constants/Bezel";
 import { RADIUS } from "@/constants/Radius";
 
 const SCREEN_HEIGHT = Dimensions.get("screen").height;
@@ -30,7 +26,8 @@ export const SlideMoodButton = ({
   const haptics = useHaptics();
   const scaleType = useSetting("scaleType");
   const scale = useScale(scaleType);
-  const colorScheme = useColorScheme();
+  const colors = useColors();
+  const { background } = scale.colors[rating];
 
   const height = Math.max(40, (SCREEN_HEIGHT * 0.48) / 7);
   const width = height * 2.4;
@@ -42,19 +39,19 @@ export const SlideMoodButton = ({
         await haptics.selection();
         onPress();
       }}
+      // Bezel shell keeps the button size; the mood color is the inner
+      // surface.
       style={({ pressed }) => ({
-        backgroundColor: scale.colors[rating].background,
-        borderWidth:
-          Platform.OS === "android" && colorScheme === "dark" ? 0 : 1,
-        borderColor:
-          colorScheme === "light" ? "rgba(0,0,0,0.1)" : "rgba(255,255,255,0.2)",
-        borderRadius: RADIUS.md,
+        padding: BEZEL.gap,
+        borderRadius: getBezelRadius(RADIUS.sm, BEZEL.gap),
+        borderWidth: BEZEL.borderWidth,
+        borderColor: colors.bezelBorder,
+        backgroundColor: colors.bezelBackground,
+        boxShadow: colors.bezelShadow,
         marginBottom: 8,
         width,
         height,
         opacity: pressed ? 0.8 : 1,
-        alignItems: "center",
-        justifyContent: "center",
       })}
     >
       <View
@@ -62,6 +59,10 @@ export const SlideMoodButton = ({
           flex: 1,
           alignItems: "center",
           justifyContent: "center",
+          borderRadius: RADIUS.sm,
+          borderWidth: BEZEL.borderWidth,
+          borderColor: getBezelEdgeColor(background),
+          backgroundColor: background,
         }}
       >
         <Check

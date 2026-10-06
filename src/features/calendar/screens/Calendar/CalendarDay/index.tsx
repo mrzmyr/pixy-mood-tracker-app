@@ -9,7 +9,7 @@ import useColors from "@/hooks/useColors";
 import useHaptics from "@/hooks/useHaptics";
 import type { LogItem } from "@/features/logs";
 import { useSetting } from "@/state/settings";
-import { BEZEL, getBezelRadius } from "@/constants/Bezel";
+import { BEZEL, getBezelEdgeColor, getBezelRadius } from "@/constants/Bezel";
 import { RADIUS } from "@/constants/Radius";
 
 const styles = StyleSheet.create({
@@ -125,7 +125,7 @@ const CalendarDayComponent = ({
       // Same hue, a bit darker: the edge of the mood color.
       border = {
         borderWidth: 1,
-        borderColor: chroma(backgroundColor).darken(0.3).hex(),
+        borderColor: getBezelEdgeColor(backgroundColor),
       };
     }
     return [styles.container, { backgroundColor }, border];
