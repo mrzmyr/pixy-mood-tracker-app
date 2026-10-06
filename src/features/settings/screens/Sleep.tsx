@@ -12,18 +12,19 @@ import { useStepEnabled } from "../useStepEnabled";
 
 /**
  * Settings > Check-in > Sleep: the step switch, and while the step is on,
- * the switch that fills the sleep quality from Apple Health. Opens only
- * while the `apple-health` flag is on and the device has Apple Health.
+ * the switch that fills the sleep quality from Apple Health. The Apple
+ * Health switch needs the `apple-health` flag and a device with Apple
+ * Health; without them the page holds only the step switch.
  */
 export const SettingsSleepScreen = () => {
   const colors = useColors();
   const { enabled } = useStepEnabled("sleep");
-  const { isEnabled, setEnabled } = useHealthSleepSetting();
+  const { isAvailable, isEnabled, setEnabled } = useHealthSleepSetting();
 
   return (
     <ScrollView style={{ flex: 1, backgroundColor: colors.background }}>
       <StepSwitch step="sleep" />
-      {enabled && (
+      {enabled && isAvailable && (
         <View style={{ marginHorizontal: 16 }}>
           <MenuListHeadline style={{ marginTop: 16 }}>
             {t("health_section")}

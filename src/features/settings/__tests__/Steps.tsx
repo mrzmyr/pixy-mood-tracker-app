@@ -3,7 +3,6 @@ import { DefaultTheme, ThemeProvider } from "expo-router";
 import Colors from "@/constants/Colors";
 import { AnalyticsProvider } from "@/state/analytics";
 import { SettingsProvider } from "@/state/settings";
-import { setHealthSourceOverride } from "@/features/health";
 import { StepsScreen } from "../screens/Steps";
 
 let mockIsPhotosEnabled = true;
@@ -36,7 +35,6 @@ describe("Settings > Check-in", () => {
   afterEach(() => {
     mockIsPhotosEnabled = true;
     mockIsHealthFlagOn = false;
-    setHealthSourceOverride(null);
   });
 
   test("flag on: shows the Photos toggle, on for new installs", async () => {
@@ -56,23 +54,14 @@ describe("Settings > Check-in", () => {
     expect(screen.getByTestId("step-emotions-enabled")).toBeTruthy();
   });
 
-  test("apple-health flag on: Sleep opens its page instead of a switch", async () => {
-    mockIsHealthFlagOn = true;
-    setHealthSourceOverride({
-      isAvailable: () => true,
-      requestSleepAccess: () => Promise.resolve(),
-      getSleepSamples: () => Promise.resolve([]),
-    });
-    await renderSteps();
+  test.each([true, false])(
+    "apple-health flag %s: Sleep opens its page instead of a switch",
+    async (isFlagOn) => {
+      mockIsHealthFlagOn = isFlagOn;
+      await renderSteps();
 
-    expect(screen.getByTestId("step-sleep")).toBeTruthy();
-    expect(screen.queryByTestId("step-sleep-enabled")).toBeNull();
-  });
-
-  test("apple-health flag off: Sleep keeps its switch", async () => {
-    await renderSteps();
-
-    expect(screen.getByTestId("step-sleep-enabled")).toBeTruthy();
-    expect(screen.queryByTestId("step-sleep")).toBeNull();
-  });
+      expect(screen.getByTestId("step-sleep")).toBeTruthy();
+      expect(screen.queryByTestId("step-sleep-enabled")).toBeNull();
+    }
+  );
 });

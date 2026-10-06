@@ -13,7 +13,8 @@ import { getHealthSource } from "./healthSource";
  *   Apple Health
  * - `isEnabled`: available and switched on
  * - `setEnabled(true)` shows the Health access sheet first. HealthKit hides
- *   whether the user allowed reading, so the switch turns on either way
+ *   whether the user allowed reading, so the switch turns on either way.
+ *   Does nothing while unavailable
  */
 export const useHealthSleepSetting = () => {
   const isFlagOn = useFeatureFlag("apple-health");
@@ -22,6 +23,9 @@ export const useHealthSleepSetting = () => {
   const isAvailable = isFlagOn && getHealthSource().isAvailable();
 
   const setEnabled = async (next: boolean) => {
+    if (!isAvailable) {
+      return;
+    }
     if (next) {
       try {
         await getHealthSource().requestSleepAccess();

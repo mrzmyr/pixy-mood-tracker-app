@@ -27,7 +27,6 @@ import { useRouter } from "expo-router";
 import useColors from "@/hooks/useColors";
 import { useFeatureFlag } from "@/state/featureFlags";
 import type { FeatureFlag } from "@/state/featureFlags/keys";
-import { useHealthSleepSetting } from "@/features/health";
 import { useLocationSetting } from "@/features/location";
 import { useStepEnabled } from "../useStepEnabled";
 
@@ -38,16 +37,9 @@ const STEP_PAGES = {
   sleep: "/settings/steps/sleep",
 } as const;
 
-/**
- * Settings page of `step`, or `null` for a plain switch. Sleep has a page
- * only for the Apple Health switch.
- */
-const getStepPage = (step: ConfigurableLoggerStep, hasHealth: boolean) => {
-  if (step === "tags" || step === "people") {
-    return STEP_PAGES[step];
-  }
-  return step === "sleep" && hasHealth ? STEP_PAGES.sleep : null;
-};
+const hasStepPage = (
+  step: ConfigurableLoggerStep
+): step is keyof typeof STEP_PAGES => step in STEP_PAGES;
 
 /** One step in the Check-in list: a switch, or a link with On/Off for steps with a page. */
 const StepRow = ({
@@ -60,8 +52,7 @@ const StepRow = ({
   const colors = useColors();
   const router = useRouter();
   const { enabled, setEnabled } = useStepEnabled(step);
-  const { isAvailable: hasHealth } = useHealthSleepSetting();
-  const page = getStepPage(step, hasHealth);
+  const page = hasStepPage(step) ? STEP_PAGES[step] : null;
 
   let iconRight: ReactElement | undefined;
   if (page === null && step !== "rating") {
@@ -160,7 +151,7 @@ const LocationRow = () => {
 /**
  * Settings > Check-in: the logger steps in order. `rating` cannot be turned
  * off. Tags and People open their own page with the switch and their list.
- * Sleep opens its page with the Apple Health switch behind the
+ * Sleep opens its page too; the Apple Health switch there sits behind the
  * `apple-health` feature flag.
  * `people` and `photos` show only behind their feature flags. The location
  * switch shows behind the `location` feature flag.
