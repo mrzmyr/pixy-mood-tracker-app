@@ -26,7 +26,7 @@ import {
 import type { FeatureFlagOverride } from "@/state/featureFlags/overrides";
 
 const OVERRIDE_OPTIONS: { value: FeatureFlagOverride; title: string }[] = [
-  { value: "remote", title: "PostHog (needs consent)" },
+  { value: "remote", title: "PostHog" },
   { value: "on", title: "On" },
   { value: "off", title: "Off" },
 ];
