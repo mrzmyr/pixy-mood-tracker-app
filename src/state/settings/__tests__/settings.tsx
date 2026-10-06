@@ -156,7 +156,7 @@ describe("useSettings()", () => {
       JSON.stringify({
         ...INITIAL_STATE,
         deviceId: "this-phone",
-        backupEnabled: false,
+        backupEnabled: true,
         backupWrittenAt: "2026-10-01T10:00:00.000Z",
       })
     );
@@ -173,7 +173,7 @@ describe("useSettings()", () => {
     expect(hook.result.current.state.settings).toMatchObject({
       reminderTime: "12:00",
       deviceId: "this-phone",
-      backupEnabled: false,
+      backupEnabled: true,
       backupWrittenAt: "2026-10-01T10:00:00.000Z",
     });
   });

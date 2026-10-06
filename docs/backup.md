@@ -28,7 +28,7 @@ Pixy has no server. Data leaves the phone only through the cloud backup or a man
 - Restore confirmation names both entry counts and the backup age
 - Photos are not in the backup (metadata only, like the export). Copy says so
 - Switch off deletes the cloud file after a confirmation. On Android it also signs out of Google
-- `settings.backupEnabled` and `settings.backupWrittenAt` are device settings: not exported, kept on import. `backupEnabled` defaults on for iOS, off for Android (needs Google sign-in)
+- `settings.backupEnabled` and `settings.backupWrittenAt` are device settings: not exported, kept on import. `backupEnabled` defaults off on both platforms. User turns it on in Settings > Data > Backup
 - Backup needs the `backup` feature flag, so it needs analytics consent ([`FeatureFlagsProvider`](../src/state/featureFlags/index.tsx)). Settings > Privacy says so. Remove the flag after rollout so backup no longer depends on consent
 
 ### Phone backup

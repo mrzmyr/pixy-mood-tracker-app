@@ -337,7 +337,7 @@
         "src/features/settings/screens/Backup.tsx",
         "docs/backup.md"
       ],
-      "note": "New in source after 1.88.0. Not in the store version. On by default on iPhone; Android needs Google sign-in."
+      "note": "New in source after 1.88.0. Not in the store version. Off by default; the user turns it on. Android needs Google sign-in."
     },
     {
       "id": "app-lock",
