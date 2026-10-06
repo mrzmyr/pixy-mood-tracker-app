@@ -1,7 +1,7 @@
 appId: ${APP_ID}
 tags: [p1, people]
 ---
-# With the `people` flag and step on, a new entry asks "Who were you with?".
+# With the `people` flag and step on, a new entry asks "Who played a part?".
 # The picked person shows on the entry card, and the people filter narrows
 # the calendar to entries with that person.
 - runFlow:
@@ -36,7 +36,7 @@ tags: [p1, people]
     id: "logger-next"
 - tapOn:
     id: "logger-next"
-- assertVisible: "Who were you with?"
+- assertVisible: "Who played a part?"
 - tapOn: "Alex"
 - tapOn:
     id: "logger-next"

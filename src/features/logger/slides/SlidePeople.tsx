@@ -93,7 +93,7 @@ const AddPersonTile = ({ size }: { size: number }) => {
 };
 
 /**
- * People picker slide: "Who were you with?". Archived people are hidden
+ * People picker slide: "Who played a part?". Archived people are hidden
  * unless the draft already has them. Chips show the most used people of the
  * last 90 days first, in a grid of avatars that ends with an add tile.
  * Without people it offers one way out: add some.
