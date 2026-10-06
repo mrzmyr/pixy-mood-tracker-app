@@ -16,30 +16,30 @@ const askToConfirm = ({
 }) =>
   // oxlint-disable-next-line promise/avoid-new -- Alert.alert only reports the choice through button callbacks, so a Promise adapter is required
   new Promise((resolve, reject) => {
+    // Android maps the LAST button to the positive (right) slot, so Cancel
+    // goes first. iOS places `style: "cancel"` itself.
+    const cancel = () =>
+      reject(
+        createStructuredError({
+          status: "prompt_cancelled",
+          message: "Confirmation prompt cancelled",
+          why: `The user dismissed the "${title}" prompt without confirming`,
+          fix: "No action needed; the user chose not to continue",
+        })
+      );
     Alert.alert(
       title,
       message,
       [
+        { text: cancelText, onPress: cancel, style: "cancel" },
         {
           text: confirmText,
           onPress: () => resolve({}),
           style: "destructive",
         },
-        {
-          text: cancelText,
-          onPress: () =>
-            reject(
-              createStructuredError({
-                status: "prompt_cancelled",
-                message: "Confirmation prompt cancelled",
-                why: `The user pressed "${cancelText}" in the "${title}" prompt`,
-                fix: "No action needed; the user chose not to continue",
-              })
-            ),
-          style: "cancel",
-        },
       ],
-      { cancelable: true }
+      // Android fires onDismiss, not the cancel button, on a tap outside.
+      { cancelable: true, onDismiss: cancel }
     );
   });
 

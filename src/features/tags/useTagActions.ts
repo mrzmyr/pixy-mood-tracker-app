@@ -29,6 +29,13 @@ export const useTagActions = ({
       t("delete_tag_confirm_message"),
       [
         {
+          text: t("cancel"),
+          onPress: () => {
+            analytics.track("tags:delete_cancelled");
+          },
+          style: "cancel",
+        },
+        {
           text: t("delete"),
           onPress: () => {
             analytics.track("tags:tag_deleted", {
@@ -40,13 +47,6 @@ export const useTagActions = ({
             onDeleted?.();
           },
           style: "destructive",
-        },
-        {
-          text: t("cancel"),
-          onPress: () => {
-            analytics.track("tags:delete_cancelled");
-          },
-          style: "cancel",
         },
       ],
       { cancelable: true }
