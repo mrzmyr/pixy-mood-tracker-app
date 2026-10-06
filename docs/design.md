@@ -11,6 +11,14 @@
 - Form modals with Save keep text Cancel top left
 - Card and toast dismiss icons are not page close
 
+## Toasts
+
+- Call `showToast` ([`src/lib/toast.ts`](../src/lib/toast.ts)), rendered by [`ToastHost`](../src/components/Toast.tsx)
+- iOS: card at top, swipe up dismisses
+- Android: Material 3 snackbar at bottom above system bar, inverse surface, 4dp corners, 4s (8s with action), swipe down dismisses
+- Optional `action` ({ label, onPress }) for Undo. Never the only way to do something
+- Both platforms announce the message to screen readers
+
 ## Menu Rows
 
 - Row component: [`MenuListItem`](../src/components/MenuListItem.tsx)
